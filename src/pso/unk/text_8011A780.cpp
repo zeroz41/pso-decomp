@@ -59,6 +59,8 @@ struct Pkt_8011ADF4 {
     u8 item[20];
 };
 
+struct BoxRec_8011A868 { f32 f0; u32 w1; u32 w2; u32 w3; };
+
 struct Req_8011AD1C {
     u8 cmd; u8 size; u16 pad2; s8 client; u8 area; s16 source;
     f32 x; f32 z; s16 room; s16 x12; s8 slot;
@@ -68,7 +70,8 @@ extern s32 item_sync_counter_table;
 extern s32 item_id_counter_table;
 extern "C" {
 s32 bswap_6xa2_fields__6TLobbyFv();
-s32 handle_box_drop_directive(void *);
+void handle_box_drop_directive(void *);
+void drop_meseta_from_slot__10TObjPlayerFll(long, long);
 void set_boss_buf_entry__6TLobbyFii(s32 v, u16 idx);
 void handle_6x5A_pick_up_item_request(Msg_8011A9D8 *msg);
 int is_quest_active(void);
@@ -108,6 +111,54 @@ void observe_item_id(s32 item_id) {
                 set_boss_buf_entry__6TLobbyFii(id + 1, idx);
             }
         }
+    }
+}
+
+void handle_box_drop_directive(void *arg0) {
+    u8 blob_8011A868[0x3C];
+    Delivery_8011AA68 delivery;
+    Item_8011AA68 item;
+    u8 b0;
+    u8 b1;
+    u32 id;
+    s16 source = *(s16 *)((s8 *)arg0 + 6);
+    Source_8011AA68 row;
+    if (source == -1) {
+        return;
+    }
+    *(u32 *)&row = ((u32 *)quest_object_entries)[source];
+    if (row.claim == 0xFFFF) {
+        return;
+    }
+    id = build_item_id(row.claim);
+    row.claim = 0xFFFF;
+    TLobby::apply_table_entry(source, &row);
+    ((BoxRec_8011A868 *)(blob_8011A868 + 0x2C))->f0 = ((BoxRec_8011A868 *)((s8 *)arg0 + 0x18))->f0;
+    ((BoxRec_8011A868 *)(blob_8011A868 + 0x2C))->w1 = ((BoxRec_8011A868 *)((s8 *)arg0 + 0x18))->w1;
+    ((BoxRec_8011A868 *)(blob_8011A868 + 0x2C))->w2 = ((BoxRec_8011A868 *)((s8 *)arg0 + 0x18))->w2;
+    ((BoxRec_8011A868 *)(blob_8011A868 + 0x2C))->w3 = ((BoxRec_8011A868 *)((s8 *)arg0 + 0x18))->w3;
+    ((TItemData *)&item)->unpack_from_item(blob_8011A868);
+    if (0.0f == ((BoxRec_8011A868 *)(blob_8011A868 + 0x2C))->f0) {
+        b0 = ((u8 *)&item)[0];
+        b1 = ((u8 *)&item)[1];
+        init__9TItemDataFv(&item);
+        ((u8 *)&item)[0] = b0;
+        ((u8 *)&item)[1] = b1;
+        s8 ms = *(s8 *)((s8 *)arg0 + 0x14);
+        drop_meseta_from_slot__10TObjPlayerFll((long)ms, (long)&item);
+    }
+    item.id = id;
+    if (((TItemData *)&item)->isValidGroundDrop() != 0) {
+        ((TItemData *)&item)->encode_for_network();
+        ((TLobby *)&delivery)->init_header_packet();
+        delivery.client = *(u8 *)((s8 *)arg0 + 4);
+        delivery.kind = 2;
+        delivery.source = source;
+        delivery.x = *(f32 *)((s8 *)arg0 + 8);
+        delivery.z = *(f32 *)((s8 *)arg0 + 0xC);
+        delivery.room = (s16)(*(s16 *)((s8 *)arg0 + 0x10));
+        ((TItemData *)delivery.item)->copy_from((TItemData *)&item);
+        ((TLobby *)&delivery)->send_item_packet();
     }
 }
 

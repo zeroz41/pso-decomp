@@ -1028,7 +1028,7 @@ extern int com_card_entry_count;
 #define selected_guild_card_record (*(RecoveredGlobal_8024287C_lbl_80517EE0 *)selected_guild_card_record)
 #define lbl_80517F9C (*(RecoveredGlobal_802426E8_lbl_80517F9C *)lbl_80517F9C)
 u32 find_card_by_id__17TWindowSubComCardFUl();
-int fn_80077AA4(void*);
+int construct_guild_card_tag_array(void*);
 s32 get_com_card_list__6TLobbyFPv();
 
 extern s32 lbl_805D63D8;
@@ -1106,7 +1106,7 @@ void construct_entry_arrays__6TLobbyFv(void) {
     ((s32 (*)(s32 *, void *(*)(void *), s32, s32, s32))__construct_array)(&(*(RecoveredGlobal_8024287C_lbl_80517F9C *)&lbl_80517F9C).value, TLobby__sub_802428C4, 0, 0xBC, 8);
 }
 
-void* TLobby__sub_802428C4(void* p) { fn_80077AA4((char*)p + 0x58); return p; }
+void* TLobby__sub_802428C4(void* p) { construct_guild_card_tag_array((char*)p + 0x58); return p; }
 s32 TLobby__sub_802428F8(void* p) { return *(s32*)((char*)p + 0x4); }
 
 int get_com_card_data__6TLobbyFv(void) {  return com_card_entry_count; }

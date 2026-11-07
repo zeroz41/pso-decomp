@@ -156,7 +156,7 @@ void handle_6x87_shrink_player(const PlayerShrinkPacket* input);
 TObjPlayer* get_player_by_client_id(int);
 int check_camera_mode__10TObjPlayerFv();
 void restore_shrunken_font__10TObjPlayerFv(PlayerRestoreSizePacket*, const PlayerRestoreSizePacket*);
-int TFontSmallLobby__sub_801C01BC(void *p);
+int bswap_g_client_id_header(void *p);
 int validate_6x88_restore_shrunken_player(PlayerRestoreSizePacket*);
 int clear_shrink_flag__10TObjPlayerFPv(void* p);
 void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
@@ -801,7 +801,7 @@ void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input) {
     PlayerRestoreSizePacket packet;
     ((TObjPlayer *)(&packet))->init_6x88_packet();
     restore_shrunken_font__10TObjPlayerFv(&packet, input);
-    TFontSmallLobby__sub_801C01BC(&packet);
+    bswap_g_client_id_header(&packet);
     if (validate_6x88_restore_shrunken_player(&packet)) {
         TObjPlayer* player = get_player_by_client_id(packet.actor_id);
         if (player && check_camera_mode__10TObjPlayerFv())

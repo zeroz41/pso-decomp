@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void fn_803516F8(void);
+void load_lobby_butterfly_bml_resource(void);
 }
 
 // --- C functions defined in text_803516F8.cpp ---
 extern "C" {
-void fn_803516F8(void);
+void load_lobby_butterfly_bml_resource(void);
 }
 // --- end of C functions
 

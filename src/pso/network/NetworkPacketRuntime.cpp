@@ -113,7 +113,7 @@ extern u8 lbl_805CF240[0xA0];
 extern u8 TLobby__pppoe_message_queue[0xA0];
 extern u8 lbl_805CF380[0x48];
 extern "C" {
-extern u32 lbl_805D7BA8;
+extern u32 network_packet_mutex;
 void TAdSinglePlyChrSelectGC__sub_8042DDE4(int, int);
 extern u8 lobby_net_channel_table[];
 extern u8 lbl_805CF380[];
@@ -655,9 +655,9 @@ static inline NetworkPacketBufferDescriptor *find_804253F8(u32 arg0) {
 void TLobby::clear_message_entry(s32 a) {
     R_804253A0 *r;
     u8 unused[8];
-    TLobby::lock_mutex((int)((void *)lbl_805D7BA8));
+    TLobby::lock_mutex((int)((void *)network_packet_mutex));
     r = (R_804253A0 *)TLobby::find_entry_by_address(a);
-    TUdpSocket::unlock_mutex((int)((void *)lbl_805D7BA8));
+    TUdpSocket::unlock_mutex((int)((void *)network_packet_mutex));
     if (r != 0) {
         r->a = 0;
         r->b = 0;
@@ -693,9 +693,9 @@ static inline u8 *alloc_packet_buffer(u32 size) {
 
 u8 *TLobby__sub_8042558C(u32 size) {
     u8 *buf;
-    TLobby::lock_mutex((int)((void *)lbl_805D7BA8));
+    TLobby::lock_mutex((int)((void *)network_packet_mutex));
     buf = alloc_packet_buffer(size);
-    TUdpSocket::unlock_mutex((int)((void *)lbl_805D7BA8));
+    TUdpSocket::unlock_mutex((int)((void *)network_packet_mutex));
     return buf;
 }
 
@@ -720,9 +720,9 @@ u8 *TLobby__sub_80425640(u32 size) {
 
 NetworkPacketBufferDescriptor *TLobby__sub_804256B8(u32 addr) {
     NetworkPacketBufferDescriptor *e;
-    TLobby::lock_mutex((int)((void *)lbl_805D7BA8));
+    TLobby::lock_mutex((int)((void *)network_packet_mutex));
     e = find_804253F8(addr);
-    TUdpSocket::unlock_mutex((int)((void *)lbl_805D7BA8));
+    TUdpSocket::unlock_mutex((int)((void *)network_packet_mutex));
     return e;
 }
 #pragma pop
@@ -741,12 +741,12 @@ u8 *TLobby::find_entry_by_address(s32 arg0) {
 }
 
 void TLobby::cancel_alarm_a() {
-    NetReleaseMutex(lbl_805D7BA8);
+    NetReleaseMutex(network_packet_mutex);
 }
 }
 s32 initialize_network_packet_pool(void) {
     s32 i;
-    if (TLobby__sub_803F96AC(&lbl_805D7BA8) < 0) {
+    if (TLobby__sub_803F96AC(&network_packet_mutex) < 0) {
         return -1;
     } else {
     for (i = 0; (0x20) > (i); i++) {

@@ -35,7 +35,7 @@ struct Pkt_801D2964 { u8 hdr[4]; Pos_801D2964 pos; };
 extern "C" {
 s32 TFontSmallLobby__sub_801C0228(void *, void *);
 #define TFontSmallLobby__sub_801C0228 ((int (*)(void*))TFontSmallLobby__sub_801C0228)
-int TFontSmallLobby__sub_801C01BC(void*);
+int bswap_g_client_id_header(void*);
 
 extern const f32 TObjPlayer__data_805DC278;
 
@@ -71,13 +71,13 @@ typedef char RecoveredGlobal_801D2CF4_lbl_804C43D8_size[sizeof(RecoveredGlobal_8
 void TObjPlayer::set_code_12_3() { *(u8*)((char*)this + 0x0) = 12; *(u8*)((char*)this + 0x1) = 3; }
 void TObjPlayer::reinit_update_sub4_and_send() { apply_status_effect__10TObjPlayerFPv(this); send_subcommand((u8 *)this); }
 void TObjPlayer::set_code_161_1() { *(u8*)((char*)this + 0x0) = 161; *(u8*)((char*)this + 0x1) = 1; }
-void TObjPlayer::update_font() { TFontSmallLobby__sub_801C01BC(this); send_subcommand((u8 *)this); }
-void TObjPlayer::send_font_state() { TFontSmallLobby__sub_801C01BC(this); send_subcommand((u8 *)this); }
+void TObjPlayer::update_font() { bswap_g_client_id_header(this); send_subcommand((u8 *)this); }
+void TObjPlayer::send_font_state() { bswap_g_client_id_header(this); send_subcommand((u8 *)this); }
 void TObjPlayer::set_code_50_1() { *(u8*)((char*)this + 0x0) = 50; *(u8*)((char*)this + 0x1) = 1; }
 void TObjPlayer::set_code_49_1() { *(u8*)((char*)this + 0x0) = 49; *(u8*)((char*)this + 0x1) = 1; }
-void TObjPlayer::bswap_font_lobby() { TFontSmallLobby__sub_801C01BC(this); send_subcommand((u8 *)this); }
+void TObjPlayer::bswap_font_lobby() { bswap_g_client_id_header(this); send_subcommand((u8 *)this); }
 void TObjPlayer::set_code_45_1() { *(u8*)((char*)this + 0x0) = 45; *(u8*)((char*)this + 0x1) = 1; }
-void TObjPlayer::send_lobby_update_font() { TFontSmallLobby__sub_801C01BC(this); send_subcommand((u8 *)this); }
+void TObjPlayer::send_lobby_update_font() { bswap_g_client_id_header(this); send_subcommand((u8 *)this); }
 void bswap_pkt_u16x2_u32__10TObjPlayerFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); bswap_32((u32 *)((char*)p + 0x10)); ((VectorXZF *)((char*)p + 0x8))->bswap(); }
 void TObjPlayer::build_6x2C_impose_hold_packet() {
     this->m_flags = 0;

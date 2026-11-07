@@ -7,13 +7,13 @@ struct RecoveredGlobal_801E0C08_meet_user_settings {
 };
 
 extern "C" {
-s32 fn_80077AA4(s32);
+s32 construct_guild_card_tag_array(s32);
 extern RecoveredGlobal_801E0C08_meet_user_settings meet_user_settings;
 typedef char RecoveredGlobal_801E0C08_meet_user_settings_size[sizeof(RecoveredGlobal_801E0C08_meet_user_settings) == 0x64 ? 1 : -1];
-void fn_801E0C08(void) {
-    fn_80077AA4((s32) &meet_user_settings.value);
+void construct_meet_user_settings(void) {
+    construct_guild_card_tag_array((s32) &meet_user_settings.value);
 }
 
 }
 
-__declspec(section ".ctors") static void *const __sinit_text_801E0C08_cpp_ref = (void *)fn_801E0C08;
+__declspec(section ".ctors") static void *const __sinit_text_801E0C08_cpp_ref = (void *)construct_meet_user_settings;

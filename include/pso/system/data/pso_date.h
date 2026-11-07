@@ -5,7 +5,7 @@
 #include "pso/system/NinjaTypes.h"
 
 extern "C" {
-void fn_801E2C50(void);
+void noop_after_system_reset(void);
 }
 void reset_system(void);
 extern "C" {

@@ -691,7 +691,7 @@ void qst_op_check_for_keyword(void) {
 
 extern "C" {
 void qst_op_prepare_statistic(void);
-s32 fn_801D9FA0(int, int, int, int, void *);
+s32 send_statistic_aa(int, int, int, int, void *);
 }
 extern s32 TLobby__protocol_instance;
 void qst_op_arg_pushw(u16 a0);
@@ -708,7 +708,7 @@ void qst_op_prepare_statistic(void) {
 }
 
 void qst_op_send_statistic() {
-    fn_801D9FA0(TLobby__protocol_instance, qst_statistic_id, qst_statistic_arg1, qst_statistic_arg2, (void *) qst_args);
+    send_statistic_aa(TLobby__protocol_instance, qst_statistic_id, qst_statistic_arg1, qst_statistic_arg2, (void *) qst_args);
 }
 }
 
@@ -1528,7 +1528,7 @@ Vec_801ECFDC * TObjPlayer__sub_801C6FDC(void *);
 void * set_mode_and_refresh_object__10TObjPlayerFPvi(void *, Item_801EE77C *);
 void * start_inventory_update__10TObjPlayerFi(void *, s32);
 void * get_owner_if_alive__10TObjPlayerFv(void *);
-s32 fn_801DA140(int, int, int);
+s32 send_download_head_d7(int, int, int);
 void* __ct__13TQuestBgmCtrlFP7TObject(void*, TObject *);
 void qst_op_item_create_multi_cm(u8 i);
 void qst_op_chat_bubble(void);
@@ -3055,7 +3055,7 @@ void qst_op_get_dl_status(s32 arg0) {
 }
 
 void qst_op_file_dl_req(void) {
-    fn_801DA140(TLobby__protocol_instance, (int) ((u8) qst_args[0]), (int) (qst_args[1]));
+    send_download_head_d7(TLobby__protocol_instance, (int) ((u8) qst_args[0]), (int) (qst_args[1]));
     TLobby__sub_801F3614();
     TLobby__sub_8032CDEC();
 }

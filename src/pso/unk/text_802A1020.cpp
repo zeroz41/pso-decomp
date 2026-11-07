@@ -53,7 +53,7 @@ void process_async_file_reads(void);
 void update_sound_request_slots(void);
 extern u8 opening_movie_purpose;
 
-// File size and CRC-32 of the files checked by fn_802A1020 (crc 0: size check only).
+// File size and CRC-32 of the files checked by verify_game_file_integrity (crc 0: size check only).
 Entry_802A1020 file_integrity_table[11] = {
     {lbl_80466240, 0x75C7800, 0},
     {lbl_80466254, 0x35FC7D8, 0},
@@ -75,7 +75,7 @@ const char *opening_movie_path_table[10] = {
 };
 
 extern "C" {
-s32 fn_802A1020(void) {
+s32 verify_game_file_integrity(void) {
     s32 i;
     u32 size;
     u8 *buf;

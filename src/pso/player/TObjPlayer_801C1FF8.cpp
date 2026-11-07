@@ -125,7 +125,7 @@ void*TObjPlayer::get_char_data() { return (char*)this + 0xc; }
 s32 TObjPlayer__sub_801C22B4(void* p) { return *(s32*)((char*)p + 0x0); }
 void*TObjPlayer::init_char_data() { ((TObjPlayer *)((char*)this + 0x4))->clear_header_struct(); __ct__12TPlyCharDataFv((s32)((char*)this + 0xc)); __ct__8FlagWordFv(((char*)this + 0x428)); *(int*)(this) = 0; return this; }
 
-void *fn_801C2308(void *arg0, s16 arg1) {
+void *destroy_photon_blast_array(void *arg0, s16 arg1) {
     if (arg0 != 0) {
         __destroy_arr(arg0, (void *)TObjPlayer__sub_801AA528, 0x18, 4);
         if (arg1 > 0) {
@@ -134,7 +134,7 @@ void *fn_801C2308(void *arg0, s16 arg1) {
     }
     return arg0;
 }
-void *fn_801C2360(void *arg0) {
+void *construct_photon_blast_array(void *arg0) {
     __construct_array(arg0, (void *)init_arrays__10TObjPlayerFv, (void *)TObjPlayer__sub_801AA528, 0x18, 4);
     return arg0;
 }

@@ -1,0 +1,81 @@
+ORIG  TLobby__sub_803C0238                                    match=98.4127 size=1008
+OURS  TLobby__sub_803C0238                                    match=98.4127 size=1008
+rows: orig 252 ours 252
+  slot  4 O: mr r31, r3                                 N: mr r27, r3                                
+  slot  5 O: lwz r27, 0x4(r3)                           N: lwz r31, 0x4(r3)                          
+  slot  6 O: mr r3, r27                                 N: mr r3, r31                                
+  slot 10 O: lbz r0, 0x3(r31)                           N: lbz r0, 0x3(r27)                          
+  slot 11 O: lwz r29, 0x4(r31)                          N: lwz r28, 0x4(r27)                         
+  slot 13 O: lwz r30, 0x8(r31)                          N: lwz r30, 0x8(r27)                         
+  slot 24 O: stb r0, 0x1(r31)                           N: stb r0, 0x1(r27)                          
+  slot 29 O: addi r6, r31, 0x14                         N: addi r6, r27, 0x14                        
+  slot 35 O: mr r3, r29                                 N: mr r3, r28                                
+  slot 39 O: lwz r0, 0x18(r31)                          N: lwz r0, 0x18(r27)                         
+  slot 42 O: lwz r3, 0x14(r31)                          N: lwz r3, 0x14(r27)                         
+  slot 49 O: stb r0, 0x1(r31)                           N: stb r0, 0x1(r27)                          
+  slot 50 O: addi r5, r31, 0x14                         N: addi r5, r27, 0x14                        
+  slot 57 O: lwz r3, 0x4(r31)                           N: lwz r3, 0x4(r27)                          
+  slot 59 O: lwz r0, 0x34(r31)                          N: lwz r0, 0x34(r27)                         
+  slot 64 O: stb r0, 0x1(r31)                           N: stb r0, 0x1(r27)                          
+  slot 65 O: addi r5, r31, 0x14                         N: addi r5, r27, 0x14                        
+  slot 72 O: lwz r3, 0x4(r31)                           N: lwz r3, 0x4(r27)                          
+  slot 74 O: lwz r6, 0xc(r31)                           N: lwz r6, 0xc(r27)                          
+  slot 75 O: mr r28, r3                                 N: mr r29, r3                                
+  slot 85 O: cmpw r0, r28                               N: cmpw r0, r29                              
+  slot 89 O: addi r5, r31, 0x14                         N: addi r5, r27, 0x14                        
+  slot 95 O: mr r3, r29                                 N: mr r3, r28                                
+  slot101 O: addi r5, r31, 0x14                         N: addi r5, r27, 0x14                        
+  slot106 O: lwz r4, 0x14(r31)                          N: lwz r4, 0x14(r27)                         
+  slot107 O: mr r3, r29                                 N: mr r3, r28                                
+  slot108 O: lwz r5, 0x18(r31)                          N: lwz r5, 0x18(r27)                         
+  slot110 O: mr r3, r29                                 N: mr r3, r28                                
+  slot112 O: mr r3, r27                                 N: mr r3, r31                                
+  slot114 O: mr r3, r27                                 N: mr r3, r31                                
+  slot118 O: lwz r30, 0x4(r31)                          N: lwz r30, 0x4(r27)                         
+  slot119 O: lwz r26, 0x8(r31)                          N: lwz r26, 0x8(r27)                         
+  slot122 O: mr r28, r3                                 N: mr r29, r3                                
+  slot125 O: mr r29, r3                                 N: mr r31, r3                                
+  slot128 O: lwz r0, 0x34(r31)                          N: lwz r0, 0x34(r27)                         
+  slot129 O: subf r28, r0, r28                          N: subf r29, r0, r29                         
+  slot130 O: cmpw r3, r28                               N: cmpw r3, r29                              
+  slot132 O: mr r28, r3                                 N: mr r29, r3                                
+  slot133 O: mr r4, r29                                 N: mr r4, r31                                
+  slot134 O: addi r3, r31, 0x14                         N: addi r3, r27, 0x14                        
+  slot152 O: mr r25, r31                                N: mr r25, r27                               
+  slot153 O: mr r24, r31                                N: mr r24, r27                               
+  slot154 O: slwi r23, r28, 1                           N: slwi r23, r29, 1                          
+  slot162 O: lwz r12, 0x50(r31)                         N: lwz r12, 0x50(r27)                        
+  slot166 O: lwz r3, 0x54(r31)                          N: lwz r3, 0x54(r27)                         
+  slot188 O: lwz r3, 0x4(r31)                           N: lwz r3, 0x4(r27)                          
+  slot192 O: lwz r0, 0x2c(r31)                          N: lwz r0, 0x2c(r27)                         
+  slot193 O: add r0, r0, r28                            N: add r0, r0, r29                           
+  slot194 O: stw r0, 0x2c(r31)                          N: stw r0, 0x2c(r27)                         
+  slot195 O: lwz r0, 0x30(r31)                          N: lwz r0, 0x30(r27)                         
+  slot196 O: add r0, r0, r29                            N: add r0, r0, r31                           
+  slot197 O: stw r0, 0x30(r31)                          N: stw r0, 0x30(r27)                         
+  slot198 O: lwz r0, 0x34(r31)                          N: lwz r0, 0x34(r27)                         
+  slot199 O: add r0, r0, r28                            N: add r0, r0, r29                           
+  slot200 O: stw r0, 0x34(r31)                          N: stw r0, 0x34(r27)                         
+  slot201 O: lwz r0, 0x40(r31)                          N: lwz r0, 0x40(r27)                         
+  slot202 O: add r0, r0, r28                            N: add r0, r0, r29                           
+  slot203 O: stw r0, 0x40(r31)                          N: stw r0, 0x40(r27)                         
+  slot204 O: lwz r0, 0x44(r31)                          N: lwz r0, 0x44(r27)                         
+  slot205 O: add r0, r0, r29                            N: add r0, r0, r31                           
+  slot206 O: stw r0, 0x44(r31)                          N: stw r0, 0x44(r27)                         
+  slot207 O: lwz r3, 0x3c(r31)                          N: lwz r3, 0x3c(r27)                         
+  slot210 O: lwz r0, 0x40(r31)                          N: lwz r0, 0x40(r27)                         
+  slot213 O: lwz r12, 0x48(r31)                         N: lwz r12, 0x48(r27)                        
+  slot216 O: lwz r3, 0x4c(r31)                          N: lwz r3, 0x4c(r27)                         
+  slot221 O: lha r0, 0xa8(r27)                          N: lha r0, 0xa8(r28)                         
+  slot224 O: lwz r26, 0x4(r31)                          N: lwz r26, 0x4(r27)                         
+  slot227 O: mr r28, r3                                 N: mr r29, r3                                
+  slot230 O: mr r27, r3                                 N: mr r28, r3                                
+  slot233 O: lwz r0, 0x34(r31)                          N: lwz r0, 0x34(r27)                         
+  slot234 O: subf r4, r0, r28                           N: subf r4, r0, r29                          
+  slot238 O: lwz r0, 0x2c(r31)                          N: lwz r0, 0x2c(r27)                         
+  slot240 O: stw r0, 0x2c(r31)                          N: stw r0, 0x2c(r27)                         
+  slot241 O: lwz r0, 0x30(r31)                          N: lwz r0, 0x30(r27)                         
+  slot242 O: add r0, r0, r27                            N: add r0, r0, r28                           
+  slot243 O: stw r0, 0x30(r31)                          N: stw r0, 0x30(r27)                         
+  slot244 O: lwz r0, 0x34(r31)                          N: lwz r0, 0x34(r27)                         
+  slot246 O: stw r0, 0x34(r31)                          N: stw r0, 0x34(r27)                         

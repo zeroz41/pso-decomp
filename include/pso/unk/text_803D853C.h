@@ -16,7 +16,7 @@ struct DebugTextRecord {
 
 extern "C" {
 // Sets up the debug text buffer: n records at p, the text pool after them; 16-pixel glyphs, white text.
-void fn_803D8030(DebugTextRecord *p, s32 n, s32 x);
+void init_debug_text_buffer(DebugTextRecord *p, s32 n, s32 x);
 }
 
 void get_current_matrix(void *m);

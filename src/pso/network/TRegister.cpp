@@ -19,7 +19,7 @@ int bswap__16TPlyGuildCardTagFv(void*);
 
 void bswap__9TRegisterFv(s32 arg0) {
     bswap__13packet_headerFv();
-    fn_801E0900((void *)(arg0 + 4));
+    bswap_ply_smth_pair((void *)(arg0 + 4));
     bswap_32((u32 *)(arg0 + 0xC));
 }
 
@@ -52,11 +52,11 @@ public:
 void TMenuList<QuestListEntry, 30, 0>::bswap() {
     header.bswap();
     for (int i = 0; i < 30; i++) {
-        fn_801E0018(entries[i]);
+        bswap_quest_list_entry(entries[i]);
     }
 }
 
-int fn_801E0018(void* p) { return bswap__16TPlyGuildCardTagFv(p); }
+int bswap_quest_list_entry(void* p) { return bswap__16TPlyGuildCardTagFv(p); }
 
 struct PacketHeaderCopy_801E0038 { u8 bytes[sizeof(packet_header)]; };
 struct QuestListEntryRaw_801E0038 { u8 bytes[sizeof(QuestListEntry)]; };

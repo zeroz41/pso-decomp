@@ -48,7 +48,7 @@ void create_dead_spot__10TObjPlayerFiiif(s32 arg0, s32 arg1, s32 arg2, f32 farg0
     }
 }
 
-void fn_800D911C(Vec *position) {
+void spawn_effect_pair_e8_ec(Vec *position) {
     create_timed_particle_emitter(position, 232, 10, 1);
     create_timed_particle_emitter(position, 236, 10, 1);
 }

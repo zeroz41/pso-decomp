@@ -2287,26 +2287,26 @@ s32 forward_801C210C__10TObjPlayerFv(int, int);
 s32 is_action_id_none(s32);
 u8 TObjPlayer__sub_801C0124(void *, s16);
 int TFontSmallLobby__sub_801C013C(void *p);
-int TFontSmallLobby__sub_801C01BC(void *p);
+int bswap_g_client_id_header(void *p);
 void *TFontSmallLobby__sub_801C01DC(void *arg0, void *arg1);
 s32 TFontSmallLobby__sub_801C0228();
-void TFontSmallLobby__sub_801C029C(void *);
+void send_6x9B_level_up_all_techniques(void *);
 void TFontSmallLobby__sub_801C030C(Pkt_801B01AC *, s32);
-void TFontSmallLobby__sub_801C0378(void *p);
+void send_6x8F_add_battle_damage_scores(void *p);
 s32 TFontSmallLobby__sub_801C03E0(void *, void *);
-s32 TFontSmallLobby__sub_801C041C(void *);
-void TFontSmallLobby__sub_801C0438(void *p);
-void TFontSmallLobby__sub_801C044C(void *p);
-void TFontSmallLobby__sub_801C0480(void *p);
-void TFontSmallLobby__sub_801C04C8(void *p);
-void fn_801C04DC(void *p);
-void fn_801C0510(void *p);
-void fn_801C0558(void *p);
-void fn_801C056C(void *p);
-void fn_801C05A0(void *p);
-void fn_801C05B4(void *p);
-void fn_801C05E8(void *p);
-void fn_801C05FC(void *p);
+s32 init_packet_6x90_set_player_battle_team(void *);
+void init_packet_6x82_enable_drop_weapon_on_death(void *p);
+void send_6x82_enable_drop_weapon_on_death(void *p);
+void init_packet_6x81_disable_drop_weapon_on_death(void *p);
+void init_packet_6x7B_disable_stealth_suit_effect(void *p);
+void send_6x7B_disable_stealth_suit_effect(void *p);
+void init_packet_6x7A_enable_stealth_suit_effect(void *p);
+void init_packet_6x1C_disable_pk_mode_for_player(void *p);
+void send_6x1C_disable_pk_mode_for_player(void *p);
+void init_packet_6x1B_enable_pk_mode_for_player(void *p);
+void send_6x1B_enable_pk_mode_for_player(void *p);
+void init_packet_6x23_set_player_visible(void *p);
+void send_6x23_set_player_visible(void *p);
 void fn_801C0630(void *p);
 void fn_801C0644(void *p);
 void TObjPlayer__sub_801C06BC(Pkt_801B1D8C *, s32);
@@ -2327,10 +2327,10 @@ f32 fn_801C19A4(void *);
 s32 TWindowDuelResult__sub_801C19AC(void *);
 void TObjPlayer__sub_801C19C8(void *p, f32 v);
 s32 TLobby__sub_801C19D0(void *p);
-void fn_801C19D8(void *p, s32 v);
+void set_player_team_id(void *p, s32 v);
 void fn_801C19E0(void *, s32);
 void fn_801C19E8(void *p);
-void fn_801C19F4(void *p);
+void set_player_pk_mode_flag(void *p);
 void *TObjPlayer__sub_801C1A00(void *p);
 s32 TObjPlayer__sub_801C1AC8(void *);
 s32 TObjPlayer__sub_801C1B0C(void *, int);
@@ -2341,13 +2341,13 @@ s32 fn_801C1BA0();
 s32 is_action_channel_active(s32, s32);
 u8 *TWindowActionPalette__sub_801C1D7C(s32 arg0, s32 i, s32 arg2);
 s32 get_entry_by_index__20TWindowActionPaletteFPll(s32, s32);
-s32 fn_801C1E44(s32);
-s32 fn_801C1E48(s32);
+s32 ref_primary_action_palette(s32);
+s32 ref_secondary_action_palette(s32);
 s32 test_photon_blast_modifier(s32);
-s32 fn_801C1E74(s32);
-s32 fn_801C1EA4(s32);
-s32 fn_801C1EC4(s32);
-s32 fn_801C1EF4(s32);
+s32 clear_secondary_action_palette_bank(s32);
+s32 clear_primary_action_palette_bank(s32);
+s32 set_secondary_action_palette_bank(s32);
+s32 set_primary_action_palette_bank(s32);
 void set_photon_blast_kind(void *, s16);
 s32 fn_801C1F1C(s32);
 s32 TObjPlayer__sub_801C1F50(s32);
@@ -2623,7 +2623,7 @@ void handle_6x9B_level_up_all_techniques(void *arg0) {
     u8 *p;
     ((TFontSmallLobby *)(&m))->init_packet_6x9b_level_up();
     TFontSmallLobby__sub_801C01DC(&m, arg0);
-    TFontSmallLobby__sub_801C01BC(&m);
+    bswap_g_client_id_header(&m);
     if (validate_6x9B_level_up_all_techniques((G_ClientIDHeader *)&m) != 0) {
         p = ((u8 * (*)(u16))get_player_by_client_id)(m.id);
         if (p != NULL) {
@@ -2638,7 +2638,7 @@ void TObjPlayer__sub_801AF554(void *arg0, s8 arg1) {
         ((TFontSmallLobby *)(&sp8))->init_packet_6x9b_level_up();
         sp8.f2 = get_entity_id(arg0);
         sp8.f4 = arg1;
-        TFontSmallLobby__sub_801C029C(&sp8);
+        send_6x9B_level_up_all_techniques(&sp8);
     }
 }
 
@@ -3092,7 +3092,7 @@ void record_damage_stats__10TOMineTrapFUiUis(u32 arg0, u32 arg1, s16 arg2) {
         pkt.a = ((u16 (*)(u32))get_entity_id)(obj);
         pkt.b = ((u16 (*)(u32))get_entity_id)(arg0);
         pkt.c = arg2;
-        TFontSmallLobby__sub_801C0378(&pkt);
+        send_6x8F_add_battle_damage_scores(&pkt);
       }
     }
   }
@@ -3146,7 +3146,7 @@ void handle_6x90_set_player_battle_team(s32 arg0) {
     struct Cmd_801B0690 cmd;
     u8 *p;
     s32 team;
-    TFontSmallLobby__sub_801C041C(&cmd);
+    init_packet_6x90_set_player_battle_team(&cmd);
     TFontSmallLobby__sub_801C03E0(&cmd, (void *) arg0);
     ((TFontSmallLobby *)(&cmd))->bswap_6x90_set_player_battle_team();
     if (validate_6x90_set_player_battle_team((G_ClientIDHeader *)&cmd) == 0) {
@@ -3157,7 +3157,7 @@ void handle_6x90_set_player_battle_team(s32 arg0) {
         return;
     }
     team = cmd.team;
-    fn_801C19D8(p + 0x828, team);
+    set_player_team_id(p + 0x828, team);
     if (team == 1) {
         TMainCursor__sub_801540B8((int) p, *(s32 *)((s8 *)p + 0xA4), 0);
     } else {
@@ -3175,9 +3175,9 @@ void TObjPlayer::set_flag_drop_weapon_on_death() {
 
 void handle_6x82_enable_drop_weapon_on_death(void *arg0) {
     struct pkt_801B1674 pkt;
-    TFontSmallLobby__sub_801C0438(&pkt);
+    init_packet_6x82_enable_drop_weapon_on_death(&pkt);
     TLobby__sub_801B07E0((s32)((s32)((s32) &pkt)), arg0);
-    TFontSmallLobby__sub_801C01BC(&pkt);
+    bswap_g_client_id_header(&pkt);
     if (validate_6x82_enable_drop_weapon_on_death((G_ClientIDHeader *)&pkt) != 0) {
         u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.player_id);
         if (p != NULL) {
@@ -3195,9 +3195,9 @@ void TLobby::send_field1c_packet(s32 arg0) {
     s8 sp8[8];
 
     if ((arg0 == 0) || (obj_isState2_324__9TObjCharaFv() == 0)) {
-        TFontSmallLobby__sub_801C0438((s32 *)&sp8);
+        init_packet_6x82_enable_drop_weapon_on_death((s32 *)&sp8);
         *(s16 *)((s8 *)&sp8 + 2) = ((s16 (*)(s32))get_entity_id)(arg0);
-        TFontSmallLobby__sub_801C044C((s32 *)&sp8);
+        send_6x82_enable_drop_weapon_on_death((s32 *)&sp8);
     }
 }
 
@@ -3207,9 +3207,9 @@ void TObjPlayer::disable_drop_weapon_on_death(void *arg0) {
 
 void handle_6x81_disable_drop_weapon_on_death(void *arg0) {
     struct pkt_801B1674 pkt;
-    TFontSmallLobby__sub_801C0480(&pkt);
+    init_packet_6x81_disable_drop_weapon_on_death(&pkt);
     TLobby__sub_801B08F0((s32)((s32)((s32) &pkt)), arg0);
-    TFontSmallLobby__sub_801C01BC(&pkt);
+    bswap_g_client_id_header(&pkt);
     if (validate_6x81_disable_drop_weapon_on_death((G_ClientIDHeader *)&pkt) != 0) {
         u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.player_id);
         if (p != NULL) {
@@ -3227,7 +3227,7 @@ void TLobby::send_font_state(s32 arg0) {
     s8 sp8[8];
 
     if ((arg0 == 0) || (obj_isState2_324__9TObjCharaFv() == 0)) {
-        TFontSmallLobby__sub_801C0480((s32 *)&sp8);
+        init_packet_6x81_disable_drop_weapon_on_death((s32 *)&sp8);
         *(s16 *)((s8 *)&sp8 + 2) = ((s16 (*)(s32))get_entity_id)(arg0);
         ((TFontSmallLobby *)((s32 *)&sp8))->send_font_state_msg();
     }
@@ -3460,9 +3460,9 @@ void TObjPlayer::clear_stealth_suit_flags() {
 
 void handle_6x7B_disable_stealth_suit_effect(void *arg0) {
     struct pkt_801B1674 pkt;
-    TFontSmallLobby__sub_801C04C8(&pkt);
+    init_packet_6x7B_disable_stealth_suit_effect(&pkt);
     TFontSmallLobby::disable_stealth_suit_effect((s32)((s32)((s32) &pkt)), arg0);
-    TFontSmallLobby__sub_801C01BC(&pkt);
+    bswap_g_client_id_header(&pkt);
     if (validate_6x7B_disable_stealth_suit_effect((G_ClientIDHeader *)&pkt) != 0) {
         u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.player_id);
         if (p != NULL) {
@@ -3480,9 +3480,9 @@ void draw_small_label__15TFontSmallLobbyFi(s32 arg0) {
     s8 sp8[8];
 
     if ((arg0 == 0) || (obj_isState2_324__9TObjCharaFv() == 0)) {
-        TFontSmallLobby__sub_801C04C8((s32 *)&sp8);
+        init_packet_6x7B_disable_stealth_suit_effect((s32 *)&sp8);
         *(s16 *)((s8 *)&sp8 + 2) = ((s16 (*)(s32))get_entity_id)(arg0);
-        fn_801C04DC((s32 *)&sp8);
+        send_6x7B_disable_stealth_suit_effect((s32 *)&sp8);
     }
 }
 
@@ -3493,9 +3493,9 @@ void TObjPlayer::set_stealth_suit_flags() {
 
 void handle_6x7A_enable_stealth_suit_effect(void *arg0) {
     struct pkt_801B1674 pkt;
-    fn_801C0510(&pkt);
+    init_packet_6x7A_enable_stealth_suit_effect(&pkt);
     TFontSmallLobby__sub_801B1224((s32)((s32)((s32) &pkt)), arg0);
-    TFontSmallLobby__sub_801C01BC(&pkt);
+    bswap_g_client_id_header(&pkt);
     if (validate_6x7A_enable_stealth_suit_effect((G_ClientIDHeader *)&pkt) != 0) {
         u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.player_id);
         if (p != NULL) {
@@ -3513,7 +3513,7 @@ void TLobby__sub_801B1254(s32 arg0) {
     s8 sp8[8];
 
     if ((arg0 == 0) || (obj_isState2_324__9TObjCharaFv() == 0)) {
-        fn_801C0510((s32 *)&sp8);
+        init_packet_6x7A_enable_stealth_suit_effect((s32 *)&sp8);
         *(s16 *)((s8 *)&sp8 + 2) = ((s16 (*)(s32))get_entity_id)(arg0);
         ((TLobby *)((s32 *)&sp8))->cleanup_small_font();
     }
@@ -3617,9 +3617,9 @@ void TObjPlayer::set_state_flag_604B() {
 
 void handle_6x1C_disable_pk_mode_for_player(void *arg0) {
     struct pkt_801B1674 pkt;
-    fn_801C0558(&pkt);
+    init_packet_6x1C_disable_pk_mode_for_player(&pkt);
     TObjPlayer::update_small_font((s32)((s32) &pkt), arg0);
-    TFontSmallLobby__sub_801C01BC(&pkt);
+    bswap_g_client_id_header(&pkt);
     if (validate_6x1C_disable_pk_mode_for_player((G_ClientIDHeader *)&pkt) != 0) {
         u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.player_id);
         if (p != NULL) {
@@ -3637,9 +3637,9 @@ void TObjPlayer::send_item_pickup_request(s32 arg0) {
     s8 sp8[8];
 
     if ((arg0 == 0) || (obj_isState2_324__9TObjCharaFv() == 0)) {
-        fn_801C0558((s32 *)&sp8);
+        init_packet_6x1C_disable_pk_mode_for_player((s32 *)&sp8);
         *(s16 *)((s8 *)&sp8 + 2) = ((s16 (*)(s32))get_entity_id)(arg0);
-        fn_801C056C((s32 *)&sp8);
+        send_6x1C_disable_pk_mode_for_player((s32 *)&sp8);
     }
 }
 
@@ -3649,14 +3649,14 @@ void TObjPlayer::set_state_flag_6043() {
     } else {
         this->m_698 = 0x2003;
     }
-    fn_801C19F4(((u8 *)this) + 0x828);
+    set_player_pk_mode_flag(((u8 *)this) + 0x828);
 }
 
 void handle_6x1B_enable_pk_mode_for_player(void *arg0) {
     struct pkt_801B1674 pkt;
-    fn_801C05A0(&pkt);
+    init_packet_6x1B_enable_pk_mode_for_player(&pkt);
     ((s32 (*)(s32, void *))draw_font__10TObjPlayerFPv)((s32)((s32) &pkt), arg0);
-    TFontSmallLobby__sub_801C01BC(&pkt);
+    bswap_g_client_id_header(&pkt);
     if (validate_6x1B_enable_pk_mode_for_player((G_ClientIDHeader *)&pkt) != 0) {
         u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.player_id);
         if (p != NULL) {
@@ -3671,9 +3671,9 @@ void TObjPlayer::notify_field1c(s32 arg0) {
     s8 sp8[8];
 
     if ((arg0 == 0) || (obj_isState2_324__9TObjCharaFv() == 0)) {
-        fn_801C05A0((s32 *)&sp8);
+        init_packet_6x1B_enable_pk_mode_for_player((s32 *)&sp8);
         *(s16 *)((s8 *)&sp8 + 2) = ((s16 (*)(s32))get_entity_id)(arg0);
-        fn_801C05B4((s32 *)&sp8);
+        send_6x1B_enable_pk_mode_for_player((s32 *)&sp8);
     }
 }
 
@@ -3783,9 +3783,9 @@ extern "C" {
 
 void handle_6x23_set_player_visible(void *arg0) {
     Pkt_801B1B08 pkt;
-    fn_801C05E8((Ctx_801B1BA4 *)&pkt);
+    init_packet_6x23_set_player_visible((Ctx_801B1BA4 *)&pkt);
     ((s32 (*)(Pkt_801B1B08 *, void *))handle_set_visible__10TObjPlayerFi)(&pkt, arg0);
-    TFontSmallLobby__sub_801C01BC(&pkt);
+    bswap_g_client_id_header(&pkt);
     if (validate_6x23_set_player_visible((G_ClientIDHeader *)&pkt) != 0) {
         u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.client);
         if (p != NULL) {
@@ -3802,11 +3802,11 @@ s32 handle_set_visible__10TObjPlayerFi(s32 arg0) {
 void TObjPlayer__sub_801B1BA4(void) {
     Ctx_801B1BA4 ctx;
     void *p;
-    fn_801C05E8(&ctx);
+    init_packet_6x23_set_player_visible(&ctx);
     p = update_battle_controller__10TObjPlayerFv();
     if (p != NULL && (p == NULL || obj_isState2_324__9TObjCharaFv() == 0)) {
         ctx.f2 = ((s16 (*)(void *))get_entity_id)(p);
-        fn_801C05FC(&ctx);
+        send_6x23_set_player_visible(&ctx);
     }
 }
 }
@@ -3820,7 +3820,7 @@ void handle_6x22_set_player_invisible(void *arg0) {
     Pkt_801B1C00 pkt;
     fn_801C0630((Ctx_801B1C8C *)&pkt);
     set_invisible__10TObjPlayerFv(&pkt, arg0);
-    TFontSmallLobby__sub_801C01BC(&pkt);
+    bswap_g_client_id_header(&pkt);
     if (validate_6x22_set_player_invisible((G_ClientIDHeader *)&pkt) != 0) {
         u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.client);
         if (p != NULL && check_flag_4__10TObjPlayerFv(p) == 0) {
@@ -4251,7 +4251,7 @@ void handle_6x0E_clear_negative_status_effects(s32 arg0) {
     Eff_801B2CE4 e;
     ((TObjPlayer *)(&e))->set_code_14_1();
     ((void (*)(void *, s32))clear_negative_status_effects__10TObjPlayerFi)(&e, arg0);
-    TFontSmallLobby__sub_801C01BC(&e);
+    bswap_g_client_id_header(&e);
     if (validate_6x0E_clear_negative_status_effects((G_ClientIDHeader *)&e) != 0) {
         VObj_801B2CE4 *p = (VObj_801B2CE4 *)((u32 (*)(s32))get_player_by_client_id)(e.f2);
         if (p != 0) {
@@ -4836,7 +4836,7 @@ void handle_6xA1_revive_player_v3(void *arg0) {
     struct pkt_801B1674 pkt;
     ((TObjPlayer *)(&pkt))->set_code_161_1();
     TObjPlayer::revive_6xA1((s32)((s32)((s32) &pkt)), arg0);
-    TFontSmallLobby__sub_801C01BC(&pkt);
+    bswap_g_client_id_header(&pkt);
     if (validate_6xA1_revive_player_v3((G_ClientIDHeader *)&pkt) != 0) {
         u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.player_id);
         if (p != NULL) {
@@ -4894,7 +4894,7 @@ void handle_6x31_use_medical_center(void *arg0) {
     struct pkt_801B1674 pkt;
     ((TObjPlayer *)(&pkt))->set_code_49_1();
     TObjPlayer::update_medical_font((s32)((s32)((s32) &pkt)), arg0);
-    TFontSmallLobby__sub_801C01BC(&pkt);
+    bswap_g_client_id_header(&pkt);
     if (validate_6x31_use_medical_center((G_ClientIDHeader *)&pkt) != 0) {
         u8 *p = (u8 *) ((u32 (*)(int))get_player_by_client_id)(pkt.player_id);
         if (p != NULL) {
@@ -5210,7 +5210,7 @@ void handle_6x2D_release_hold(void *arg0) {
     struct pkt_801B5164 pkt;
     ((TObjPlayer *)(&pkt))->set_code_45_1();
     TObjPlayer::draw_small_font((s32)((s32) &pkt), arg0);
-    TFontSmallLobby__sub_801C01BC(&pkt);
+    bswap_g_client_id_header(&pkt);
     if (validate_6x2D_release_hold((G_ClientIDHeader *)&pkt) != 0) {
         u8 *p = (u8 *) ((s32 (*)(s32))get_player_by_client_id)(pkt.player_id);
         if (p != NULL) {
@@ -5494,20 +5494,20 @@ void TObjPlayer__sub_801B5AF8(s32 arg0, s32 arg1) {
 #pragma pop
 TObjPlayer::ActionPalette* TObjPlayer::select_action_palette(int secondary) {
     if (secondary == 1) {
-        return (ActionPalette*)fn_801C1E48((s32)action_palettes);
+        return (ActionPalette*)ref_secondary_action_palette((s32)action_palettes);
     }
-    return (ActionPalette*)fn_801C1E44((s32)action_palettes);
+    return (ActionPalette*)ref_primary_action_palette((s32)action_palettes);
 }
 
 s32 TObjPlayer::refresh_effect() {
     s32 arg0 = (s32)this;
     if (TObjPlayer__sub_801C1F50(arg0 + 0x4AC) != 0) {
         if (test_photon_blast_modifier(arg0 + 0x500) != 0) {
-            return fn_801C1E44(arg0 + 0x500);
+            return ref_primary_action_palette(arg0 + 0x500);
         }
-        return fn_801C1E48(arg0 + 0x500);
+        return ref_secondary_action_palette(arg0 + 0x500);
     }
-    return fn_801C1E44(arg0 + 0x500);
+    return ref_primary_action_palette(arg0 + 0x500);
 }
 
 void TObjPlayer::select_contextual_pickup_action() {
@@ -5558,14 +5558,14 @@ void TObjPlayer::update_ground_contact() {
     s32 arg0 = (s32)this;
     if (((s32 (*)(void))is_locally_controlled__10TObjPlayerFPv)() != 0) {
         if (((TObjPlayer *)(arg0 + 0x550))->try_ground_action(fn_8002AE08(((s32 (*)(s32))get_entity_id)(arg0))) != 0) {
-            fn_801C1EF4(arg0 + 0x500);
+            set_primary_action_palette_bank(arg0 + 0x500);
             if (TObjPlayer__sub_801C1F50(arg0 + 0x4AC) != 0) {
-                fn_801C1EC4(arg0 + 0x500);
+                set_secondary_action_palette_bank(arg0 + 0x500);
             }
         } else {
-            fn_801C1EA4(arg0 + 0x500);
+            clear_primary_action_palette_bank(arg0 + 0x500);
             if (TObjPlayer__sub_801C1F50(arg0 + 0x4AC) != 0) {
-                fn_801C1E74(arg0 + 0x500);
+                clear_secondary_action_palette_bank(arg0 + 0x500);
             }
         }
         TObjPlayer::refresh_party_cursors(arg0);

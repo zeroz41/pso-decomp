@@ -103,17 +103,17 @@ typedef struct Tbl_804267F0 {
 extern u8 lbl_805CF240[];
 s32 TLobby__sub_803F97E8(int);
 extern void *lbl_805C18A0[];
-extern s16 lbl_805D7A86;
-extern s16 lbl_805D7A8A;
+extern s16 lobby_modem_abort_flag;
+extern s16 lobby_modem_connect_state;
 s16 modem_script_next_token(u8 *src, u8 *dst, u8 **next);
 s16 TLobby__sub_804293B0(u8 *buf, s16 len);
 s16 TLobby__sub_804036FC(u16 *avail);
 s16 TLobby__sub_80403730(u8 *dst, u16 n);
 s16 TLobby__sub_804037B0(void *src, u16 len);
-extern u32 lbl_805D7BD0;
-extern u32 lbl_805D7BD4;
+extern u32 lobby_modem_wait_start_ms;
+extern u32 lobby_modem_wait_timeout_ms;
 extern s32 lbl_805D7BD8;
-extern s32 lbl_805D7BDC;
+extern s32 lobby_modem_reply_value;
 s32 NetCompareStringsCaseInsensitiveN(u8 *a, u8 *b, u32 n);
 
 #pragma push
@@ -222,12 +222,12 @@ static inline s16 modem_read_line(u8 **src, u8 *dst) {
 
 static inline s16 modem_wait_connect(void) {
     s16 ret = 0;
-    lbl_805D7A8A = 9;
+    lobby_modem_connect_state = 9;
     for (;;) {
-        if (lbl_805D7A8A == 2) {
+        if (lobby_modem_connect_state == 2) {
             break;
         }
-        if (lbl_805D7A86 != 0 || lbl_805D7A8A != 9) {
+        if (lobby_modem_abort_flag != 0 || lobby_modem_connect_state != 9) {
             ret = 4;
             break;
         }
@@ -325,7 +325,7 @@ s16 TLobby::wait_timeout_loop() {
         limit = *p * 1000;
     }
     for (;;) {
-        if (lbl_805D7A86 != 0) {
+        if (lobby_modem_abort_flag != 0) {
             ret = 4;
             break;
         }
@@ -341,8 +341,8 @@ s16 TLobby::wait_timeout_loop() {
 }
 
 inline s16 modem_wait_for_string(u8 *s, s16 n, s16 timeout) {
-    TLobby::get_time_ms((s32 *)&lbl_805D7BD0);
-    lbl_805D7BD4 = timeout * 1000;
+    TLobby::get_time_ms((s32 *)&lobby_modem_wait_start_ms);
+    lobby_modem_wait_timeout_ms = timeout * 1000;
     if (n > lobby_net_session_state.window_len) {
         n = lobby_net_session_state.window_len;
     }
@@ -625,11 +625,11 @@ s16 TLobby__sub_804290D4(s16 timeout) {
     if (cfg == NULL) {
         return 1;
     }
-    TLobby::get_time_ms((s32 *)&lbl_805D7BD0);
+    TLobby::get_time_ms((s32 *)&lobby_modem_wait_start_ms);
     if (timeout == 0x7FFF) {
-        lbl_805D7BD4 = 0xFFFFFFFF;
+        lobby_modem_wait_timeout_ms = 0xFFFFFFFF;
     } else {
-        lbl_805D7BD4 = timeout * 1000;
+        lobby_modem_wait_timeout_ms = timeout * 1000;
     }
     NetMemset(lobby_net_session_state.rxbuf, 0, lobby_net_session_state.rxlen);
     for (;;) {
@@ -663,7 +663,7 @@ s16 TLobby__sub_804290D4(s16 timeout) {
         }
     }
     if (cfg->numeric_result != 0) {
-        lbl_805D7BDC = 0;
+        lobby_modem_reply_value = 0;
         for (i = 0; i < lobby_net_session_state.rxlen - 1; i++) {
             if (TLobby__sub_804293B0(lobby_net_session_state.rxbuf + i, 1) != 0) {
                 return 4;
@@ -679,10 +679,10 @@ s16 TLobby__sub_804290D4(s16 timeout) {
             if (c < '0' || c > '9') {
                 break;
             }
-            lbl_805D7BDC = lbl_805D7BDC * 10 + (c - '0');
+            lobby_modem_reply_value = lobby_modem_reply_value * 10 + (c - '0');
         }
     }
-    lbl_805D7BD8 = lbl_805D7BDC;
+    lbl_805D7BD8 = lobby_modem_reply_value;
     return 0;
 }
 
@@ -707,12 +707,12 @@ s16 TLobby__sub_804293B0(u8 *buf, s16 len) {
             }
         }
         TLobby::get_time_ms(&now);
-        if (lbl_805D7A86 != 0 || lbl_805D7BD4 == 0) {
-            lbl_805D7BD4 = 0;
+        if (lobby_modem_abort_flag != 0 || lobby_modem_wait_timeout_ms == 0) {
+            lobby_modem_wait_timeout_ms = 0;
             return -1;
         }
-        if (lbl_805D7BD4 != 0xFFFFFFFF && (u32)(now - lbl_805D7BD0) > lbl_805D7BD4) {
-            lbl_805D7BD4 = 0;
+        if (lobby_modem_wait_timeout_ms != 0xFFFFFFFF && (u32)(now - lobby_modem_wait_start_ms) > lobby_modem_wait_timeout_ms) {
+            lobby_modem_wait_timeout_ms = 0;
             return -1;
         }
         TUdpSocket::unlock_mutex((int)lbl_805C18A0[0]);

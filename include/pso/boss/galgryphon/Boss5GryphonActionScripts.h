@@ -4,7 +4,7 @@
 
 // One step of a TBoss5Gryphon action script. TBoss5Gryphon::m_778 points at the
 // script list and m_774 walks a script 0x48 bytes at a time; command indexes the
-// action table in TBoss8Dragon::fn_8005EE04 (0x21 picks the next script).
+// action table in TBoss8Dragon::run_action_script_step (0x21 picks the next script).
 struct Boss5GryphonActionStep {
     s32 command;
     s16 base;    // rand_scaled_offset(base, spread)

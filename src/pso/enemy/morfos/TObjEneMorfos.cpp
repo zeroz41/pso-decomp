@@ -1077,7 +1077,7 @@ void TObjEneMorfos::state_death(s32 arg1) {
             ((TObjMotion *)arg0)->advance_animation();
             temp_r30 = ((VObj_14_c1c33b *)(arg0 + (1032)))->m4();
             if ((((s32 (*)(void *))get_flag_b4__9TObjEneDDFv)(arg0) != 0) && (temp_r30 != 0)) {
-                fn_800D911C((Vec *)(arg0 + 0x38));
+                spawn_effect_pair_e8_ec((Vec *)(arg0 + 0x38));
                 play_sound_effect(0x4003A830, (u32)(arg0 + 0x38), 0, 0);
                 TObjPlayer__sub_800A04F0((u8 *)&this->m_408);
                 *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) | 2);

@@ -31,7 +31,7 @@ void TObjPlayer::init_game_resources() {
     ((FlagWord *)(&lbl_805D5440))->reset();
 }
 
-void fn_801058E8(void* p) { *(u8*)((char*)p + 0x7) |= 0x1; }
+void set_flag_07__FPv(void* p) { *(u8*)((char*)p + 0x7) |= 0x1; }
 
 u8 TObjPlayer::is_script_controlled() {
     return (u8) (this->control_state == 6);

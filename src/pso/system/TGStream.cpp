@@ -19,7 +19,7 @@ s32 strcmp(void *, void *);
 s32 strlen(char *);
 s32 strncpy(char *, char *, s32);
 u32 adxf_open__6TLobbyFUii(char *, s32);
-s32 TLobby__sub_803CC578(s32, s32, s32);
+s32 adxf_seek__6TLobbyFPvii(s32, s32, s32);
 extern u8 gstream_sector_buffer[];
 extern GslArchiveEntry gsl_archive_entries[256];
 extern char gsl_archive_filename[32];
@@ -365,7 +365,7 @@ TGStream::TGStream(void *file, s32 direct_read_mode) {
     archive_entry = find_gsl_entry(file, 1);
     if (archive_entry != NULL) {
         adxf_handle = (s32)TItemDrop__gsl_adxf_handle;
-        TLobby__sub_803CC578(adxf_handle, archive_entry->archive_offset, 0);
+        adxf_seek__6TLobbyFPvii(adxf_handle, archive_entry->archive_offset, 0);
         gstream_file_size = archive_entry->file_size;
         strncpy(name, archive_entry->name, 0x20);
     } else {

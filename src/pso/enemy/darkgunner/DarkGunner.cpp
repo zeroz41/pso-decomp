@@ -1116,7 +1116,7 @@ void TObjPlayer__sub_800A1C84(TObjPlayer *enemy) {
         enemy->refresh_lobby_state();
         ((TObjEnemy *)enemy)->send_entity_set_flags();
         TObjPlayer__sub_800A04F0((u8 *)enemy + 0x408);
-        fn_800D911C((Vec *)((u8 *)enemy + 0x2FC));
+        spawn_effect_pair_e8_ec((Vec *)((u8 *)enemy + 0x2FC));
         *(s32 *)((s8 *)enemy + 0x388) |= 4;
         play_sound_effect(0x4003AD37, (u8 *)enemy + 0x38, 0, 0);
         enemy->m_37c = 1;

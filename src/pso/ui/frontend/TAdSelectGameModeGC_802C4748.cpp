@@ -11,7 +11,9 @@ TAdSelectGameModeGC::~TAdSelectGameModeGC() {}
 #include "types.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/ui/window/TWindowActionPalette.h"
+#include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -29,6 +31,8 @@ struct S16_802C4944 { S8_802C4944 x[2]; };
 struct T12_802C4944 { s32 a, b, c; };
 
 struct S24_802C4944 { T12_802C4944 t[2]; };
+
+struct Desc_802C4B64 { f32 *pos; u8 *col; s32 a; s32 n; };
 
 extern "C" {
 int enable_camera__19TAdSelectGameModeGCFv(void);
@@ -55,6 +59,8 @@ extern S16_802C4944 select_game_mode_button_rect;
 extern s32 __vt__19TAdSelectGameModeGC[];
 extern void *TAdSelectGameModeGC__name;
 extern const f32 lbl_805DE538;
+extern const f32 lbl_805DE540;
+extern const f32 lbl_805DE544;
 int sync_char_select_state__10TObjPlayerFv(void*);
 
 int fn_802C4748(void* p) { return sync_char_select_state__10TObjPlayerFv(p); }
@@ -156,5 +162,35 @@ u8 *__ct__19TAdSelectGameModeGCFv(u8 *arg0, void *parent) {
     create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)arg0, 0xA, (f32)lbl_805DE538);
     return arg0;
 }
+
+#pragma push
+#pragma fp_contract on
+void TAdEnterSerialAccessGC__sub_802C4B64(void *arg0, f32 *arg1, void *arg2, u32 arg3) {
+    f32 p1;
+    f32 p0;
+    f32 pos[8];
+    Desc_802C4B64 desc;
+    u8 col[16];
+    p0 = arg1[0];
+    p1 = arg1[1];
+    desc.col = col;
+    desc.pos = pos;
+    desc.a = 0;
+    desc.n = 4;
+    desc.pos[0] = p0;
+    desc.pos[1] = p1;
+    ((TAdChrMoveEffectGC *)desc.col)->copy4(arg2);
+    desc.pos[2] = desc.pos[0];
+    desc.pos[3] = desc.pos[1] + *(f32 *)((s8 *)arg0 + 0x220);
+    ((TAdChrMoveEffectGC *)(desc.col + 4))->copy4(arg2);
+    desc.pos[4] = desc.pos[0] + *(f32 *)((s8 *)arg0 + 0x21c);
+    desc.pos[5] = desc.pos[1] + *(f32 *)((s8 *)arg0 + 0x220);
+    ((TAdChrMoveEffectGC *)(desc.col + 8))->copy4(arg2);
+    desc.pos[6] = desc.pos[0] + *(f32 *)((s8 *)arg0 + 0x21c);
+    desc.pos[7] = desc.pos[1];
+    ((TAdChrMoveEffectGC *)(desc.col + 12))->copy4(arg2);
+    ((TObjCMHairMenu *)&desc)->draw_tri_fan_2d(4, 7, lbl_805DE544 * (f32)arg3 + lbl_805DE540);
+}
+#pragma pop
 
 }

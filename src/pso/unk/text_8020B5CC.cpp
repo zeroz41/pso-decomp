@@ -16,7 +16,21 @@ struct Tbl_8020B970 { s32 count; s32 count2; u8 pad8[8]; Dst_8020B970 *list; Dst
 
 struct Slot_8020B970 { void *entry; void *entry2; };
 
+struct Hdr_8020B5CC { u32 f0; u32 f4; u32 f8; u32 fC; };
+
+struct Row8_8020B5CC { u8 pad0[2]; s16 f2; u8 pad4[4]; };
+
+struct Row44_8020B5CC { u8 pad0[2]; s16 f2; u8 pad4[0x44 - 4]; };
+
+struct Row48_8020B5CC { u8 pad0[2]; s16 f2; u8 pad4[0x48 - 4]; };
+
 extern "C" {
+s32 get_current_floor(void);
+void bswap_16__FPUs(u16 *);
+extern u32 TLobby__data_805D610C;
+extern u32 TLobby__data_805D6114;
+s32 bswap_4_words__6TLobbyFv(void *);
+s32 TLobby__sub_8020BF88(s32);
 void destroy_child_recursive__6TLobbyFPvPv(int, int);
 extern Ent_8020BB18 *TLobby__data_805D611C;
 extern s32 TLobby__data_805D6120;
@@ -34,6 +48,124 @@ extern u32 TLobby__data_805D6104;
 extern u32 TLobby__data_805D6108;
 s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32 idx, Src_8020B970 *src, u32 size);
 s32 init_quest_floor_enemies(s32 idx, Src_8020B7C4 *src, u32 size);
+
+#pragma push
+#pragma opt_propagation off
+s32 TLobby__sub_8020B5CC(void *self)
+{
+  struct Hdr_8020B5CC *h = (struct Hdr_8020B5CC *) self;
+  s32 total2;
+  void *new_var3;
+  u16 *out = (u16 *) (((char *) self) - (-0x10));
+  s32 j;
+  volatile int pad;
+  int new_var4;
+  void *new_var;
+  struct Dst_8020B970 *new_var2;
+  s32 i;
+  s32 total = 0;
+  s32 n;
+  h->f0 = 0x10;
+  new_var4 = 0x10;
+  new_var3 = (new_var = self);
+  for (i = 0; i < (18 & 0xFF); i++)
+  {
+    struct Tbl_8020B970 *t = &TLobby__floor_enemy_group_table[i];
+    if (((!t->count) && (!t->count)) && (!t->count))
+    {
+    }
+    n = t->count;
+    if (n <= 0)
+    {
+      s32 j;
+      continue;
+    }
+    struct Row8_8020B5CC *p = (struct Row8_8020B5CC *) t->list;
+    if (get_current_floor() == i)
+    {
+      p = (struct Row8_8020B5CC *) TLobby__data_805D610C;
+      if (TLobby__data_805D610C == 0)
+      {
+        continue;
+      }
+      for (j = 0; (j < n) & 0xFFFFFFFFFFFFFFFF; j++)
+      {
+        s16 tmp = p->f2 & (~2);
+        bswap_16__FPUs((u16 *) (&tmp));
+        *(out++) = tmp;
+        p = (struct Row8_8020B5CC *) (((char *) p) + 0x44);
+        total++;
+      }
+
+    }
+    else
+    {
+      for (j = 0; j < n; j++)
+      {
+        s16 tmp = p->f2 & (~2);
+        bswap_16__FPUs((u16 *) (&tmp));
+        *(out++) = tmp;
+        p++;
+        total++;
+      }
+
+    }
+  }
+
+  ((struct Hdr_8020B5CC *) new_var)->f4 = total;
+  total2 = 0;
+  ((struct Hdr_8020B5CC *) new_var)->f8 = (((((((0xFFFFFFFFFFFFFFFFu & (((((((struct Hdr_8020B5CC *) new_var)->f4 * 2) + new_var4) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu)) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu;
+  for (i = 0; i < 18; i++)
+  {
+    struct Tbl_8020B970 *t = &TLobby__floor_enemy_group_table[i];
+    n = t->count2;
+    if (n <= 0)
+    {
+      continue;
+    }
+    new_var2 = t->list2;
+    struct Row8_8020B5CC *p = (struct Row8_8020B5CC *) new_var2;
+    if (get_current_floor() == i)
+    {
+      p = (struct Row8_8020B5CC *) TLobby__data_805D6114;
+      if (TLobby__data_805D6114 == 0)
+      {
+        continue;
+      }
+      s32 j;
+      for (j = 0; j < n; j++)
+      {
+        s16 tmp = p->f2 & (~2);
+        bswap_16__FPUs((u16 *) (&tmp));
+        *(out++) = tmp;
+        p = (struct Row8_8020B5CC *) (0x48 + ((char *) p));
+        total2++;
+      }
+
+    }
+    else
+    {
+      s32 j;
+      for (j = 0; j < n; j++)
+      {
+        s16 tmp = p->f2 & (~2);
+        do
+        {
+          bswap_16__FPUs((u16 *) (&tmp));
+          *(out++) = tmp;
+          p++;
+          total2++;
+        }
+        while (0);
+      }
+
+    }
+  }
+
+  ((struct Hdr_8020B5CC *) new_var)->fC = total2;
+  return TLobby__sub_8020BF88(bswap_4_words__6TLobbyFv(new_var3));
+}
+#pragma pop
 
 #pragma push
 #pragma opt_propagation off

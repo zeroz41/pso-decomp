@@ -20,7 +20,7 @@ void fill_memory(void *p, u8 c, u32 n) {
 #pragma scheduling off
 #pragma peephole off
 
-void fn_803DE804(u8 *start, s32 size) {
+void init_system_heap_and_global_allocator(u8 *start, s32 size) {
     sys_heap_handle = OSCreateHeap(start, start + size);
     global_allocator = sys_allocator_func_table;
 }

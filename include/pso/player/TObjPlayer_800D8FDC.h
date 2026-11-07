@@ -19,6 +19,6 @@ void spawn_dead_spot_scale15(s32 point, s32 delay);
 void spawn_landing_dead_spot(s32 point, s32 delay);
 
 #include <dolphin/mtx.h>
-extern "C" void fn_800D911C(Vec *position);
+extern "C" void spawn_effect_pair_e8_ec(Vec *position);
 
 #endif

@@ -1300,7 +1300,7 @@ void TObjEneRe4Sorcerer::handle_death_state(s32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x3C8) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C8) | 6);
         ((TObjEnemy *)arg0)->refresh_and_send_entity_flags();
         *(s32 *)((s8 *)arg0 + 0x4E4) = 0;
-        fn_800D911C((Vec *)(arg0 + 0x2FC));
+        spawn_effect_pair_e8_ec((Vec *)(arg0 + 0x2FC));
         TObjPlayer__sub_800A04F0(arg0 + 0x3FC);
         *(f32 *)((s8 *)arg0 + 0x3F8) = (f32) TObjEneRe4Sorcerer__data_805DA790;
         play_sound_effect((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003AD19)))), arg0 + 0x38, 0, 0);

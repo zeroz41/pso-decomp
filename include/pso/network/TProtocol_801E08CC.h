@@ -5,15 +5,15 @@
 
 extern "C" {
 void __dl__9TProtocolFPv(s32 arg0);
-void fn_801E08F4(void);
-void fn_801E0900(void *p);
+void set_lobby_count_value(void);
+void bswap_ply_smth_pair(void *p);
 }
 
 // --- C functions defined in TProtocol_801E08CC.cpp ---
 extern "C" {
 void __dl__9TProtocolFPv(s32 arg0);
-void fn_801E08F4(void);
-void fn_801E0900(void *p);
+void set_lobby_count_value(void);
+void bswap_ply_smth_pair(void *p);
 }
 // --- end of C functions
 

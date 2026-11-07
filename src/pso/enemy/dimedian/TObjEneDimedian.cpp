@@ -201,7 +201,7 @@ void TObjEneDimedian::vfunc_94() {
     s32 arg0 = (s32)this;
     s32 area;
     TObjPlayer::apply_effect_variant_a(arg0 + 0x38, 0);
-    fn_800D911C((Vec *)(arg0 + 0x2FC));
+    spawn_effect_pair_e8_ec((Vec *)(arg0 + 0x2FC));
     area = get_current_floor_area();
     if ((area == AREA_VR_TEMPLE_ALPHA) || (area == AREA_VR_TEMPLE_BETA)) {
         play_sound_effect(0x3AD3F, arg0 + 0x38, 0, 0);

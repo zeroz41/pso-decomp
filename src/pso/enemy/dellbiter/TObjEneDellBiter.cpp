@@ -1447,7 +1447,7 @@ void TObjEneDellBiter::state_death(s32 reason) {
         switch (state_timer) {
         case 0:
             if (this->get_flag_b4() != 0) {
-                fn_800D911C((Vec *)(&m_2fc));
+                spawn_effect_pair_e8_ec((Vec *)(&m_2fc));
                 play_sound_effect(0x4003A830, &m_2fc, 0, 0);
                 state_timer = 1;
                 return;

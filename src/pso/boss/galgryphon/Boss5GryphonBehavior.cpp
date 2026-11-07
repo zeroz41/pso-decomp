@@ -590,7 +590,7 @@ Obj_80065658 * __dt__13TBoss5GryphonFv(Obj_80065658 *o, s16 flag);
 void TBoss8Dragon__sub_800660A4(void *);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 s32 __ct__17TBoss5GryphonDemoFP7TObjectlf(void *, s32, void *, f32);
-s32 fn_800666C4(s32);
+s32 init_motion_record(s32);
 void TBoss8Dragon__sub_80067074(s32 arg0, s32 arg1);
 void TCameraCtrl__sub_8006A044(s32 id, f32 v);
 void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0);
@@ -1701,7 +1701,7 @@ void TBoss8Dragon::calc_attack_params(void *arg1, s32 arg2) {
     *(s32 *)((s8 *)arg1 + 4) = ((s32 (*)(void *, void *, int, int))calc_product__12TBoss8DragonFiiii)((void *)this, (void *)arg2, 0, 1);
 }
 
-void TBoss8Dragon::fn_8005EBDC(u8 *arg1, u8 *arg2) {
+void TBoss8Dragon::calc_angle_offset(u8 *arg1, u8 *arg2) {
     f32 temp_f31;
     s32 temp_r31;
     s32 temp_r3;
@@ -1742,40 +1742,40 @@ typedef void (TBoss5Gryphon::*StateAction)(int);
 #pragma inline on
 static inline StateAction *dispatch_state_actions() {
 static StateAction actions[35] = {
-    (StateAction)&TBoss5Gryphon::fn_80063714,
+    (StateAction)&TBoss5Gryphon::state_action_noop,
     (StateAction)&TBoss5Gryphon::update_idle_state,
     (StateAction)&TBoss5Gryphon::update_ground_pursuit,
     (StateAction)&TBoss5Gryphon::wait_for_players,
-    (StateAction)&TBoss5Gryphon::fn_800627E4,
-    (StateAction)&TBoss5Gryphon::fn_80062BA0,
-    (StateAction)&TBoss5Gryphon::fn_80063320,
-    (StateAction)&TBoss5Gryphon::fn_80063088,
-    (StateAction)&TBoss5Gryphon::fn_80062660,
+    (StateAction)&TBoss5Gryphon::update_appearance_state,
+    (StateAction)&TBoss5Gryphon::update_death_state,
+    (StateAction)&TBoss5Gryphon::update_run_off_takeoff,
+    (StateAction)&TBoss5Gryphon::update_shockwave_attack,
+    (StateAction)&TBoss5Gryphon::update_motion_circle_flight,
     (StateAction)&TBoss5Gryphon::circle_arena,
     (StateAction)&TBoss5Gryphon::move_to_motion_destination,
     (StateAction)&TBoss5Gryphon::update_landing_attack,
-    (StateAction)&TBoss5Gryphon::fn_80062114,
-    (StateAction)&TBoss5Gryphon::fn_80062018,
-    (StateAction)&TBoss5Gryphon::fn_80061D34,
-    (StateAction)&TBoss5Gryphon::fn_80061B8C,
+    (StateAction)&TBoss5Gryphon::update_bob_climb_lowflight_6,
+    (StateAction)&TBoss5Gryphon::update_ancient_trap_low_flight,
+    (StateAction)&TBoss5Gryphon::update_ancient_trap_circle,
+    (StateAction)&TBoss5Gryphon::update_bezier_descent,
     (StateAction)&TBoss5Gryphon::update_dive_motion,
-    (StateAction)&TBoss5Gryphon::fn_800615FC,
+    (StateAction)&TBoss5Gryphon::update_bob_climb_lowflight_13,
     (StateAction)&TBoss5Gryphon::handle_descend_state,
     (StateAction)&TBoss5Gryphon::handle_takeoff_state,
-    (StateAction)&TBoss5Gryphon::fn_800610D0,
+    (StateAction)&TBoss5Gryphon::update_advance_gate_a,
     (StateAction)&TBoss5Gryphon::state_move,
-    (StateAction)&TBoss5Gryphon::fn_80060D9C,
-    (StateAction)&TBoss5Gryphon::fn_80060CA4,
-    (StateAction)&TBoss5Gryphon::fn_80060BF8,
-    (StateAction)&TBoss5Gryphon::fn_80060B18,
-    (StateAction)&TBoss5Gryphon::fn_80060A58,
+    (StateAction)&TBoss5Gryphon::update_scale_slam_state_c,
+    (StateAction)&TBoss5Gryphon::update_demo_link_state_d,
+    (StateAction)&TBoss5Gryphon::update_demo_link_state_e,
+    (StateAction)&TBoss5Gryphon::update_demo_link_state_f,
+    (StateAction)&TBoss5Gryphon::update_charge_state_10,
     (StateAction)&TBoss5Gryphon::update_ground_lightning_attack,
-    (StateAction)&TBoss5Gryphon::fn_80060788,
-    (StateAction)&TBoss5Gryphon::fn_800605E8,
-    (StateAction)&TBoss5Gryphon::fn_80060020,
+    (StateAction)&TBoss5Gryphon::update_ground_cry_12,
+    (StateAction)&TBoss5Gryphon::update_offscreen_climb,
+    (StateAction)&TBoss5Gryphon::update_dive_attack,
     (StateAction)&TBoss5Gryphon::update_roar_state,
-    (StateAction)&TBoss5Gryphon::fn_8005FE18,
-    (StateAction)&TBoss5Gryphon::fn_8005FD34,
+    (StateAction)&TBoss5Gryphon::update_cry_state,
+    (StateAction)&TBoss5Gryphon::select_action_by_flag_4e4,
     (StateAction)&TBoss5Gryphon::handle_message,
 };
     return actions;
@@ -1808,14 +1808,14 @@ void TBoss8Dragon::copy_angle_state(void *arg0, void *dst, void *src) {
     *(s16 *)((s8 *)dst + 2) = ((s16 (*)(void *, s16, s16))rand_scaled_offset__12TBoss8DragonFiii)(arg0, *(s16 *)((s8 *)src + 4), *(s16 *)((s8 *)src + 6));
 }
 
-s32 TBoss8Dragon::fn_8005EE04(s16 *out, u32 *entry) {
+s32 TBoss8Dragon::run_action_script_step(s16 *out, u32 *entry) {
     TBoss8Dragon *self = this;
     typedef void (TBoss8Dragon::*Action)(void *, void *);
     static Action actions[35] = {
         0, 0, 0, 0, 0, 0, 0, 0,
         (Action)&TBoss8Dragon::calc_product_and_ratio,
         (Action)&TBoss8Dragon::calc_params,
-        (Action)&TBoss8Dragon::fn_8005EBDC,
+        (Action)&TBoss8Dragon::calc_angle_offset,
         0, 0, 0,
         (Action)&TBoss8Dragon::calc_attack_params,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -2047,7 +2047,7 @@ void TBoss8Dragon__sub_8005F684(TBoss8Dragon *self, void *params) {
             choose_next_action__13TBoss5GryphonFPvPv((u8 *)self, entry);
             continue;
         }
-        if (self->fn_8005EE04((s16 *)out, entry) != 0) {
+        if (self->run_action_script_step((s16 *)out, entry) != 0) {
             break;
         }
         i++;
@@ -2057,7 +2057,7 @@ void TBoss8Dragon__sub_8005F684(TBoss8Dragon *self, void *params) {
 }
 
 void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1) {
-    fn_800666C4(arg1 + 0x14);
+    init_motion_record(arg1 + 0x14);
 }
 
 void TBoss8Dragon::flush_pending_effect() {
@@ -2202,7 +2202,7 @@ void TBoss5Gryphon::handle_message(s32 msg) {
     }
 }
 
-void TBoss5Gryphon::fn_8005FD34(s32 event) {
+void TBoss5Gryphon::select_action_by_flag_4e4(s32 event) {
     TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
@@ -2240,7 +2240,7 @@ void TBoss5Gryphon::fn_8005FD34(s32 event) {
     }
 }
 
-void TBoss5Gryphon::fn_8005FE18(s32 event) {
+void TBoss5Gryphon::update_cry_state(s32 event) {
     TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
@@ -2318,7 +2318,7 @@ extern const f32 lbl_805D8DF0;
 
 #pragma push
 #pragma fp_contract on
-void TBoss5Gryphon::fn_80060020(u32 arg1) {
+void TBoss5Gryphon::update_dive_attack(u32 arg1) {
     Dragon_80060020 *self = (Dragon_80060020 *)this;
     Vec_80060020 w;
     Vec_80060020 v;
@@ -2359,7 +2359,7 @@ void TBoss5Gryphon::fn_80060020(u32 arg1) {
             self->f64 += 0x3311;
             if (self->f6E8 >= self->f6E0) {
                 self->fB8 = 0x16;
-                fn_800660B8((u8 *)self);
+                set_flag_b0__FPUc((u8 *)self);
                 self->f6DC = 1;
             }
             found = 0;
@@ -2464,7 +2464,7 @@ void TBoss5Gryphon::fn_80060020(u32 arg1) {
 }
 #pragma pop
 
-void TBoss5Gryphon::fn_800605E8(s32 event) {
+void TBoss5Gryphon::update_offscreen_climb(s32 event) {
     TBoss5Gryphon *self = this;
     f32 speed;
 
@@ -2519,7 +2519,7 @@ void TBoss5Gryphon::fn_800605E8(s32 event) {
     }
 }
 
-void TBoss5Gryphon::fn_80060788(s32 event) {
+void TBoss5Gryphon::update_ground_cry_12(s32 event) {
     TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
@@ -2603,7 +2603,7 @@ void TBoss5Gryphon::update_ground_lightning_attack(s32 event) {
 
 extern const f32 lbl_805D8DFC;
 
-void TBoss5Gryphon::fn_80060A58(s32 event) {
+void TBoss5Gryphon::update_charge_state_10(s32 event) {
     TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
@@ -2630,7 +2630,7 @@ void TBoss5Gryphon::fn_80060A58(s32 event) {
     }
 }
 
-void TBoss5Gryphon::fn_80060B18(s32 event) {
+void TBoss5Gryphon::update_demo_link_state_f(s32 event) {
     TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
@@ -2660,7 +2660,7 @@ void TBoss5Gryphon::fn_80060B18(s32 event) {
     }
 }
 
-void TBoss5Gryphon::fn_80060BF8(s32 event) {
+void TBoss5Gryphon::update_demo_link_state_e(s32 event) {
     TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
@@ -2684,7 +2684,7 @@ void TBoss5Gryphon::fn_80060BF8(s32 event) {
     }
 }
 
-void TBoss5Gryphon::fn_80060CA4(s32 event) {
+void TBoss5Gryphon::update_demo_link_state_d(s32 event) {
     TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
@@ -2716,7 +2716,7 @@ void TBoss5Gryphon::fn_80060CA4(s32 event) {
     }
 }
 
-void TBoss5Gryphon::fn_80060D9C(s32 event) {
+void TBoss5Gryphon::update_scale_slam_state_c(s32 event) {
     TBoss5Gryphon *self = this;
     Vec at;
     f32 v;
@@ -2827,7 +2827,7 @@ void TBoss5Gryphon::state_move(s32 arg1) {
     }
 }
 
-void TBoss5Gryphon::fn_800610D0(s32 event) {
+void TBoss5Gryphon::update_advance_gate_a(s32 event) {
     TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
@@ -3006,7 +3006,7 @@ extern const f32 lbl_805D8E44;
 
 #pragma push
 #pragma fp_contract on
-void TBoss5Gryphon::fn_800615FC(s32 event) {
+void TBoss5Gryphon::update_bob_climb_lowflight_13(s32 event) {
     TBoss5Gryphon *self = this;
     f32 speed;
     f32 f;
@@ -3164,7 +3164,7 @@ void TBoss5Gryphon::update_dive_motion(s32 arg1) {
 
 #pragma pop
 
-void TBoss5Gryphon::fn_80061B8C(s32 event) {
+void TBoss5Gryphon::update_bezier_descent(s32 event) {
     TBoss5Gryphon *self = this;
     Vec out;
     Vec at;
@@ -3221,7 +3221,7 @@ extern const f32 lbl_805D8E54;
 
 #pragma push
 #pragma fp_contract on
-void TBoss5Gryphon::fn_80061D34(s32 event) {
+void TBoss5Gryphon::update_ancient_trap_circle(s32 event) {
     s32 ofs;
     s32 a;
     s32 d;
@@ -3294,7 +3294,7 @@ void TBoss5Gryphon::fn_80061D34(s32 event) {
 
 extern const f32 lbl_805D8E58;
 
-void TBoss5Gryphon::fn_80062018(s32 event) {
+void TBoss5Gryphon::update_ancient_trap_low_flight(s32 event) {
     TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
@@ -3335,7 +3335,7 @@ extern const f32 lbl_805D8E5C;
 
 #pragma push
 #pragma fp_contract on
-void TBoss5Gryphon::fn_80062114(s32 event) {
+void TBoss5Gryphon::update_bob_climb_lowflight_6(s32 event) {
     TBoss5Gryphon *self = this;
     f32 speed;
     f32 f;
@@ -3510,7 +3510,7 @@ void TBoss5Gryphon::circle_arena(s32 arg1) {
     }
 }
 
-void TBoss5Gryphon::fn_80062660(s32 event) {
+void TBoss5Gryphon::update_motion_circle_flight(s32 event) {
     TBoss5Gryphon *self = this;
     switch (event) {
     case ENEMY_STATE_ENTER:
@@ -3619,7 +3619,7 @@ void TBoss5Gryphon::wait_for_players(s32 arg1) {
 #pragma fp_contract on
 #pragma pop
 
-void TBoss5Gryphon::fn_800627E4(u32 arg1) {
+void TBoss5Gryphon::update_appearance_state(u32 arg1) {
     s32 *p = (s32 *)((u8 *)this + 0x6E8);
     u8 sp8[0xC];
     void *obj;
@@ -3724,7 +3724,7 @@ void TBoss5Gryphon::fn_800627E4(u32 arg1) {
 
 #pragma push
 #pragma fp_contract on
-void TBoss5Gryphon::fn_80062BA0(u32 arg1) {
+void TBoss5Gryphon::update_death_state(u32 arg1) {
     u8 *arg0 = (u8 *)this;
     Cam_80062BA0 cam;
     Vec_80062BA0 v;
@@ -3883,7 +3883,7 @@ void TBoss5Gryphon::update_landing_attack(u32 arg1) {
     }
 }
 
-void TBoss5Gryphon::fn_80063088(u32 arg1) {
+void TBoss5Gryphon::update_shockwave_attack(u32 arg1) {
     Obj_80063088 *self = (Obj_80063088 *)this;
     Vec_80063088 pos;
     Vec_80063088 vel;
@@ -3972,7 +3972,7 @@ void TBoss5Gryphon::fn_80063088(u32 arg1) {
 
 #pragma push
 #pragma fp_contract on
-void TBoss5Gryphon::fn_80063320(u32 arg1) {
+void TBoss5Gryphon::update_run_off_takeoff(u32 arg1) {
     u8 *arg0 = (u8 *)this;
     f32 d;
     switch (arg1) {
@@ -4114,7 +4114,7 @@ void TBoss5Gryphon::update_idle_state(u32 arg1) {
     }
 }
 
-void TBoss5Gryphon::fn_80063714() {  }
+void TBoss5Gryphon::state_action_noop() {  }
 
 void TBoss5Gryphon::dispatch_action(u32 state, s32 event) {
     TBoss5Gryphon *self = this;
@@ -5024,7 +5024,7 @@ TBoss5Gryphon *TBoss5Gryphon__ct(TBoss5Gryphon *self, void *parent, void *data) 
     ((Obj_80065658 *)self)->f484[1] = lbl_805D8D5C;
     ((Obj_80065658 *)self)->f484[2] = lbl_805D8D5C;
     for (i = 0; i < 2; i++) {
-        fn_800666C4((s32)&((Obj_80065658 *)self)->motions[i]);
+        init_motion_record((s32)&((Obj_80065658 *)self)->motions[i]);
     }
     self->motion = ((Obj_80065658 *)self)->motions;
     self->m_4e4 = 0;
@@ -5263,7 +5263,7 @@ extern "C" {
 
 void TBoss8Dragon__sub_800660A4(void* p) { *(u8*)((char*)p + 0x0) = 159; *(u8*)((char*)p + 0x1) = 4; }
 
-void fn_800660B8(u8 *arg0) {
+void set_flag_b0__FPUc(u8 *arg0) {
     *(s32 *)((s8 *)arg0 + 0xB0) = (s32) (*(s32 *)((s8 *)arg0 + 0xB0) & 0xFFFFFFFB);
     *(s32 *)((s8 *)arg0 + 0xB0) = (s32) (*(s32 *)((s8 *)arg0 + 0xB0) | 1);
 }

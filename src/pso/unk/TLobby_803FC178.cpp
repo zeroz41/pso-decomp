@@ -546,7 +546,7 @@ s16 TLobby__sub_803FD5A4(s16 h, s16 v);
 s32 TLobby__sub_80406328(s32, s16);
 s16 TLobby__sub_804098B4(void *);
 s32 TLobby__sub_80409908(void *, void *);
-extern s16 lbl_805D7A8A;
+extern s16 lobby_modem_connect_state;
 s32 TLobby__sub_803FD21C(s16 arg0, s32 arg1, s32 arg2, u8 *arg3);
 s32 TLobby__sub_803FD310(s16 arg0, s32 arg1, u8 *arg2);
 s32 TLobby__sub_803FD490(s16 arg0);
@@ -646,7 +646,7 @@ s16 TLobby__sub_803FC1CC(Conn_804004DC *c, s32 timeout) {
             } else {
                 lbl_805D7A82 = 5;
             }
-            lbl_805D7A8A = 8;
+            lobby_modem_connect_state = 8;
             return -1;
         }
         if (TLobby::get_remaining(timeout) != 0) {
@@ -1195,7 +1195,7 @@ s32 TLobby__sub_803FD21C(s16 arg0, s32 arg1, s32 arg2, u8 *arg3) {
         return -0x112;
     }
     TLobby::lock_mutex((int)((void *) (((s32 *)&lbl_805C18A0)[0])));
-    if ((s16) lbl_805D7A8A == 4) {
+    if ((s16) lobby_modem_connect_state == 4) {
         *(s32 *)((s8 *)temp_r31 + 0) = (s32) ((u8 *)(*(u8 **)((s8 *)((s32 *)&lbl_805C04A8) + 0x14)) + ((*(s32 *)((s8 *)((s32 *)&lbl_805C04A8) + 0) + 0x83) & 0xFFFFFFFC));
         *(s16 *)((s8 *)temp_r31 + 4) = temp_r3;
         TLobby__sub_80409908((void *)(*(s32 *)((s8 *)temp_r31 + 0)), (void *)(arg3));
@@ -1222,7 +1222,7 @@ s32 TLobby__sub_803FD310(s16 arg0, s32 arg1, u8 *arg2) {
         return -0x112;
     }
     TLobby::lock_mutex((int)((void *) (((s32 *)&lbl_805C18A0)[0])));
-    if ((s16) lbl_805D7A8A == 4) {
+    if ((s16) lobby_modem_connect_state == 4) {
         *(s32 *)((s8 *)temp_r31 + 0) = (s32) ((u8 *)(*(u8 **)((s8 *)((s32 *)&lbl_805C04A8) + 0x14)) + ((*(s32 *)((s8 *)((s32 *)&lbl_805C04A8) + 0) + 0x83) & 0xFFFFFFFC));
         *(s16 *)((s8 *)temp_r31 + 4) = temp_r3;
         TLobby__sub_80409908((void *)(*(s32 *)((s8 *)temp_r31 + 0)), (void *)(arg2));
@@ -3736,7 +3736,7 @@ s16 TLobby__sub_80402BB4(u8 *arg0, s32 timeout) {
             } else {
                 lbl_805D7A82 = 5;
             }
-            lbl_805D7A8A = 8;
+            lobby_modem_connect_state = 8;
             return -1;
         }
         if (TLobby::get_remaining(timeout) != 0) {
