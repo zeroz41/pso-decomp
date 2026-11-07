@@ -7484,21 +7484,21 @@ force_active:
   - lbl_8043EE18
   - lbl_8043EE20
   - lbl_8043EE28
-  - lbl_8043EE30
-  - lbl_8043EE48
+  - lobby_debug_udp_open_format
+  - lobby_debug_make_player_format
   - lbl_8043EE58
-  - lbl_8043EE68
+  - lobby_debug_duplicate_player_format
   - lbl_8043EE7C
   - lbl_8043EE90
   - lbl_8043EEA4
   - lbl_8043EEC0
   - lbl_8043EEDC
   - lbl_8043EEF8
-  - lbl_8043EF04
+  - lobby_debug_player_exit_format
   - lbl_8043EF14
   - lbl_8043EF4C
   - lbl_8043EF64
-  - lbl_8043EF80
+  - lobby_debug_my_player_format
   - lbl_8043EF90
   - lbl_8043EF9C
   - lbl_8043EFB4
