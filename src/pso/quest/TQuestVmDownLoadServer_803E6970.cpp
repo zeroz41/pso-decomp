@@ -470,6 +470,8 @@ extern const u8 (*const lbl_8047FBD4[27])[11];
 Ent_803E9DE0 *find_longest_match_entry__22TQuestVmDownLoadServerFPviPv(u8 *arg0, s32 arg1, s32 *arg2);
 void build_message_packet__22TQuestVmDownLoadServerFPviPvUc(u8 *arg0, s32 arg1, Msg_803E9190 *arg2, u8 arg3);
 s32 lookup_name_entry__22TQuestVmDownLoadServerFPvsPv(char *arg0, s16 arg1, Out_803E8B1C *arg2);
+void invalidate_entries_by_id__22TQuestVmDownLoadServerFl(s32);
+void TQuestVmDownLoadServer__sub_803E95BC();
 extern u8 lbl_8047E898[];
 extern u16 lbl_8047E8A4[];
 void TQuestVmDownLoadServer__sub_803EFCB4(u8 *data, s32 a1, s32 a2, s32 *cnt, s32 *total, u8 *buf, s32 flags);
@@ -1673,6 +1675,90 @@ s32 TQuestVmDownLoadServer::calc_sjis_string_width(u8 *arg0) {
 void TQuestVmDownLoadServer__sub_803E8918(void) {
     lbl_805D7868 = 1;
 }
+
+#pragma push
+#pragma opt_propagation off
+void TQuestVmDownLoadServer__sub_803E8924(s32 id) {
+    u8 buf[0x50];
+    s16 page;
+    u8 *p;
+    u8 *q;
+    u32 a;
+    u32 b;
+    s32 len;
+    u32 entry;
+    u8 sp2;
+    s32 nlen;
+    u32 c;
+    u32 idx;
+    u32 node;
+    u32 rec;
+    u8 rlen;
+    s32 r;
+    u32 n;
+    u8 t;
+
+    page = (s16)(id >> 12);
+    if (lbl_805D7874 == page) {
+        return;
+    }
+    a = (u32)lbl_805D786C;
+    b = (u32)lbl_805D7870;
+    p = (u8 *)&(*(RecoveredGlobal_803E9594_lbl_80591EC8 *)&lbl_80591EC8).value + (page << 10) + (s16)(id & 0xFFF);
+    q = p;
+    len = (u16)((p[1] << 8) + p[0]);
+    if (b > a - len - 2) {
+        TQuestVmDownLoadServer__sub_803E95BC();
+    }
+    entry = (u32)lbl_805D7870;
+    lbl_805D7870 = (s32)(entry + len);
+    *(u8 *)(u32)lbl_805D7870 = 0;
+    *(u8 *)((u32)lbl_805D7870 + 1) = 0;
+    if (page == lbl_805D7874) {
+        return;
+    }
+    sp2 = p[2];
+    strncpy((char *)buf, (char *)(p + 3), (s16)sp2);
+    c = (s16)sp2;
+    buf[c] = 0;
+    c = buf[0];
+    if (c >= 0xa0 && c < 0xf0) {
+        idx = c - 0xa0;
+    } else {
+        idx = 0;
+    }
+    node = (u32)lbl_80593EC8[idx];
+    nlen = (s16)sp2;
+    while (node != 0) {
+        rec = *(u32 *)node;
+        rlen = *(u8 *)(rec + 2);
+        r = strncmp((char *)buf, (char *)(rec + 3), (s16)rlen);
+        if (r == 0) {
+            if (nlen == (s16)rlen) {
+                break;
+            }
+        } else if (r > 0) {
+            break;
+        }
+        node = *(u32 *)(node + 4);
+    }
+    if (*(u32 *)node == (u32)p) {
+        *(u32 *)node = entry;
+        if (len != 0) {
+            n = len;
+            while (n != 0) {
+                t = *p;
+                p += 1;
+                *(u8 *)entry = t;
+                entry += 1;
+                n -= 1;
+            }
+        }
+        q[2] = 0;
+        invalidate_entries_by_id__22TQuestVmDownLoadServerFl(id);
+    }
+}
+#pragma pop
 
 typedef char RecoveredGlobal_803E9764_lbl_80591EC8_size[sizeof(RecoveredGlobal_803E9764_lbl_80591EC8) == 0x2000 ? 1 : -1];
 
