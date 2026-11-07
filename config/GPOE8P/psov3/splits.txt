@@ -240,7 +240,7 @@ pso/boss/derolle/TBoss2DeRolLe.cpp:
 	.rodata     start:0x804359F0 end:0x80435A10
 	.data       start:0x804820D8 end:0x80482A38
 	.bss        start:0x804FE268 end:0x804FE590
-	.sdata2     start:0x805D8278 end:0x805D8434
+	.sdata2     start:0x805D8278 end:0x805D8450
 
 pso/boss/derolle/TBoss2Fin.cpp:
 	.text       start:0x800363B4 end:0x80036824
