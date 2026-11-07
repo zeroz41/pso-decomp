@@ -35,4 +35,7 @@ struct TechniqueBoostTable {
 // Stores a technique boost of an item in slot `index` of player `client`'s table.
 void set_technique_boost(TechniqueBoost *boost, u16 client, s32 index);
 
+// The sum of the boosts player `client`'s items give `technique`.
+f32 calc_technique_boost(s32 technique, u16 client);
+
 #endif

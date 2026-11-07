@@ -594,6 +594,11 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/TObjChip.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # Deferred: the vtables come out in reverse key-function order.
     "pso/technique/TTecAnti.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # -fp_contract on: calc_technique_parameters fuses tp_cost += level * (percent / 100.0f) into fmadds;
+    # the unit's other functions have no float arithmetic. -inline auto: its 17 per-level pad_12 updates
+    # read the global after the inner clamp only through the inlined lowered_pad_12; the other
+    # functions compile the same either way.
+    "pso/technique/TTecCtrl.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-inline auto")},
     "pso/technique/TTecResta.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/technique/TTecReverser.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/object/ambient/TObjEnvSoundGlobal.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},

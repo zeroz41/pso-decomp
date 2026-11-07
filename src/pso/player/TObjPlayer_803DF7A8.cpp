@@ -110,8 +110,53 @@ extern const f64 lbl_805E1008, lbl_805E1010;
 #pragma use_lmw_stmw off
 struct Point2_803E0CC8 { f32 u, v; };
 s32 TObjPlayer__sub_803DF9D0(Point2_803E0CC8 *a, Point2_803E0CC8 *b);
-f32 TObjPlayer__sub_803DF840(Point2_803E0CC8 *p, Point2_803E0CC8 *a, Point2_803E0CC8 *b);
-extern const f32 lbl_805E0FFC;
+extern const f32 lbl_805E0FD8, lbl_805E0FDC, lbl_805E0FE0, lbl_805E0FF8, lbl_805E0FFC;
+extern const f64 lbl_805E0FE8, lbl_805E0FF0;
+
+// The area of the triangle a, b, c: half of |a - b| times the distance of c from the line through a and b.
+f32 TObjPlayer__sub_803DF840(Point2_803E0CC8 *a, Point2_803E0CC8 *b, Point2_803E0CC8 *c) {
+    f32 nx;
+    f32 ny;
+    f32 off;
+    f32 height;
+    f32 len;
+    f32 base;
+    f32 r;
+    if ((f32)__fabs(a->u - b->u) < lbl_805E0FD8) {
+        nx = lbl_805E0FDC;
+        ny = lbl_805E0FE0;
+        off = -a->u;
+    } else {
+        nx = b->v - a->v;
+        ny = -(b->u - a->u);
+        off = -a->u * nx - a->v * ny;
+    }
+    height = (f32)__fabs(off + (nx * c->u + ny * c->v));
+    len = nx * nx + ny * ny;
+    if (len > lbl_805E0FE0) {
+        volatile f32 y;
+        f64 g = __frsqrte(len);
+        g = lbl_805E0FE8 * g * (lbl_805E0FF0 - len * (g * g));
+        g = lbl_805E0FE8 * g * (lbl_805E0FF0 - len * (g * g));
+        g = lbl_805E0FE8 * g * (lbl_805E0FF0 - len * (g * g));
+        y = (f32)(len * g);
+        len = y;
+    }
+    height = height / len;
+    base = (a->u - b->u) * (a->u - b->u) + (a->v - b->v) * (a->v - b->v);
+    if (base > lbl_805E0FE0) {
+        volatile f32 y;
+        f64 g = __frsqrte(base);
+        g = lbl_805E0FE8 * g * (lbl_805E0FF0 - base * (g * g));
+        g = lbl_805E0FE8 * g * (lbl_805E0FF0 - base * (g * g));
+        g = lbl_805E0FE8 * g * (lbl_805E0FF0 - base * (g * g));
+        y = (f32)(base * g);
+        r = y;
+    } else {
+        r = base;
+    }
+    return lbl_805E0FF8 * (height * r);
+}
 
 s32 TObjPlayer__sub_803DF9D0(Point2_803E0CC8 *a, Point2_803E0CC8 *b) {
     Point2_803E0CC8 *p;
