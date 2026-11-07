@@ -8851,7 +8851,10 @@ pso/object/ambient/TObjMistCtrl.cpp:
 
 pso/player/TPlayerFootStamp.cpp:
 	.text       start:0x802AF968 end:0x802B01D8
-	.data       start:0x804DE4F8 end:0x804DE510
+	.rodata     start:0x804707F8 end:0x80470908
+	.data       start:0x804DE4F8 end:0x804DE540
+	.sdata      start:0x805D3E88 end:0x805D3E8C
+	.sdata2     start:0x805DE1FC end:0x805DE214
 
 pso/player/TPlayerFootStamp_802B01D8.cpp:
 	.text       start:0x802B01D8 end:0x802B0228

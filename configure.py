@@ -601,6 +601,11 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # __vt__8TTecCtrl before the four switch jump tables (0x804CC5F4 < 0x804CC60C), which only
     # deferred code generation emits.
     "pso/technique/TTecCtrl.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-inline on,deferred")},
+    # -fp_contract on: the ctor fuses its scale and corner math into fmadds; the unit's other
+    # functions have no float math. deferred: the original .data holds __vt__16TPlayerFootStamp
+    # (0x804DE4F8) before the ctor's switch jump table (0x804DE510), which only deferred code
+    # generation emits. readonly: the class name string sits in .rodata (0x804708E8).
+    "pso/player/TPlayerFootStamp.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-inline off,deferred", "-str reuse,readonly")},
     "pso/technique/TTecResta.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/technique/TTecReverser.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/object/ambient/TObjEnvSoundGlobal.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},

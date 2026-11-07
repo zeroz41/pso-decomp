@@ -36,7 +36,7 @@ void PSMTXMultVec(const GC_Mtx m, const Vec* src, Vec* dst);
 
 void PSMTXMultVec(const GC_Mtx, const Vec*, Vec*);
 void PSMTXMultVecSR(const GC_Mtx, const Vec*, Vec*);
-void PSMTXMultVecArraySR(const GC_Mtx, f32*, f32*, f32*);
+void PSMTXMultVecArraySR(const GC_Mtx m, const Vec* srcBase, Vec* dstBase, u32 count);
 
 void PSMTX44Copy(Mtx44 src, Mtx44 dest);
 void C_MTXPerspective(Mtx44 mtx, f32 fovY, f32 aspect, f32 n, f32 f);
