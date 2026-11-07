@@ -12208,7 +12208,7 @@ pso/unk/text_803C5AA0.cpp:
 pso/audio/AdxEncoder.cpp:
 	.text       start:0x803C5E78 end:0x803C84D0
 	.bss        start:0x80573100 end:0x80575140
-	.sdata2     start:0x805E0D40 end:0x805E0D48
+	.sdata2     start:0x805E0D40 end:0x805E0D50
 
 pso/audio/AdxStreamRuntime.cpp:
 	.text       start:0x803C84D0 end:0x803CBCA0

@@ -3,6 +3,7 @@
 #include "pso/unk/TLobby_803CC0B4.h"
 #include "pso/unk/text_803D31A4.h"
 #include "pso/audio/AdxStreamRuntime.h"
+#include "pso/audio/AdxEncoder.h"
 #include "pso/system/RefCountedWorkBuffer.h"
 #include "pso/audio/SjMemoryBuffer.h"
 #include "pso/audio/SjRingBuffer.h"
@@ -57,7 +58,6 @@ extern const s32 adx_signed_nibbles[16] = {
     0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, -1,
 };
 f64 cos(f64);
-void calc_adx_predictor_coeffs(s32 cutoff, s32 rate, s16 *k0, s16 *k1);
 s32 set_callback_params__6TLobbyFll();
 
 extern s32 TLobby__init_ref_count;
