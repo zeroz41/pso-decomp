@@ -570,7 +570,7 @@ s32 TLobby__sub_8040C9E0(u8 *arg0, u8 *arg1);
 u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 arg2, u8 *arg3, s16 arg4);
 s32 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1);
 s32 TLobby__sub_8040FDA0(u32, s16);
-s32 is_addr_unspecified__6TLobbyFPv(u8 *arg0);
+s16 is_addr_unspecified__6TLobbyFPv(u8 *arg0);
 extern RecoveredGlobal_8040EF00_lbl_805C1B60 ipv4_address_routing_state;
 struct Ipv4Route;
 Ipv4Route *TLobby__sub_8040F76C(u32, u32);
@@ -581,7 +581,7 @@ s32 TLobby__sub_80413230(u8 *arg0, s32 arg1);
 void TLobby__sub_804136AC(s16 arg0);
 void TLobby__sub_804136CC(s16 arg0);
 s16 NetIPv6IsLoopback(u8 *arg0);
-s32 NetIPv6IsUnspecified(u8 *arg0);
+s16 NetIPv6IsUnspecified(u8 *arg0);
 s16 NetIPv6CompareAddresses(s32 arg0, s32 arg1);
 s16 TLobby__sub_8041510C(void);
 void TLobby__sub_804150EC(void);
@@ -591,7 +591,7 @@ void NetIPv6TickNeighborDiscovery(void);
 s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(s32 arg0, s32 arg1);
 extern NetworkDispatchState network_dispatch_state;
 void TLobby__sub_80419A00(void);
-s32 TLobby__sub_8041D368(u8 *arg0);
+s16 TLobby__sub_8041D368(u8 *arg0);
 u8 * TLobby__sub_8041B5C0(void *);
 extern RecoveredGlobal_8041E178_lbl_805C1D48 tcp_protocol_state;
 s32 TLobby__sub_804112B8(s32 arg0, s32 arg1, s16 arg2);
@@ -663,10 +663,22 @@ s32 TLobby__sub_80409AD8(void);
 Pkt_804081C0 *alloc_packet_with_header__6TLobbyFPvPv(Out_804081C0 *arg0, u8 *arg1);
 s32 init_ipv6_all_routers_multicast_address(u8 *arg0, s8 arg1);
 bool init_ipv6_all_nodes_multicast_address(u8 *arg0, s8 arg1);
-s32 TLobby__sub_8041A9AC(int);
+s16 TLobby__sub_8041A9AC(int);
+struct Tcb_8041D460;
+struct Tcb_8041A9AC;
+void TLobby__sub_8041D398(Tcb_8041D460 *tp, s32 start, s32 end);
+s32 TLobby__sub_8041D460(Tcb_8041D460 *tp, s32 *start, s32 *end);
+s32 TLobby__sub_80420410(s32 off, s32 len, NetPacket *m, Tcb_8041A9AC *tp);
+struct Tcb_8041B974;
+struct TcpHeader_8041B3D4;
+void TLobby__sub_8041D0C8(Tcb_8041B974 *tp, u8 *optp, s16 optlen, TcpHeader_8041B3D4 *ti);
+void TLobby__sub_8041F204(NetPacket *m, u16 off, Tcb_8041B974 *tp);
+void TLobby__sub_8041F914(NetPacket *m, u16 off, Tcb_8041B974 *tp, TcpHeader_8041B3D4 *ti);
+void TLobby__sub_8041F11C(Tcb_8041B974 *tp);
+void TLobby__sub_80422AB8(s16 listener, s32 arg1, s16 idx, u8 *faddr, u16 lport, u16 fport);
 s32 TLobby__sub_8041FFF8(int, int);
 s32 TLobby__sub_80420BD0(void *, void *, s32);
-s32 tcp_start_send(s16 arg0, u8 *arg1, void (*completion)(s16, s16), u8 arg3);
+s16 tcp_start_send(s16 arg0, u8 *arg1, void (*completion)(s16, s16), u8 arg3);
 void TLobby__sub_80406EB8(NetBufferRef *ref, s32 n);
 void TLobby__sub_80406FD8(void *, void *, s32);
 s16 TLobby__sub_80416F58(u8 *, s32, void *, void *);
@@ -5392,7 +5404,7 @@ s32 TLobby::is_multicast_address(s16 arg1) {
     }
 }
 
-s32 is_addr_unspecified__6TLobbyFPv(u8 *arg0) {
+s16 is_addr_unspecified__6TLobbyFPv(u8 *arg0) {
     struct Fields_arg0 { s32 field_0; u32 field_4; };
     switch (((Fields_arg0*)arg0)->field_0) {
     case 0:
@@ -6210,7 +6222,7 @@ s32 TLobby__sub_8040FDA0(u32 arg0, s16 arg1) {
     return 0;
 }
 
-s32 NetIPv4IsUnspecified(u32 arg0) {
+s16 NetIPv4IsUnspecified(u32 arg0) {
     if (arg0 == 0U) {
         return 1;
     }
@@ -8085,7 +8097,7 @@ s32 NetIPv6IsMulticast(u8 *arg0) {
     return 0;
 }
 
-s32 NetIPv6IsUnspecified(u8 *arg0) {
+s16 NetIPv6IsUnspecified(u8 *arg0) {
     struct Fields_arg0 { u8 field_0; u8 field_1; u8 field_2; u8 field_3; u8 field_4; u8 field_5; u8 field_6; u8 field_7; u8 field_8; u8 field_9; u8 field_A; u8 field_B; u8 field_C; u8 field_D; u8 field_E; u8 field_F; };
     if ((u8) ((Fields_arg0*)arg0)->field_0 != 0) {
         return 0;
@@ -10973,6 +10985,768 @@ s32 NetUnregisterTimer(void *fn) {
     return -0x100;
 }
 
+struct TcpHeader_8041B3D4 {
+    u16 src_port;
+    u16 dst_port;
+    s32 seq;
+    s32 ack;
+    u8 data_offset;
+    u8 flags;
+    u16 window;
+    u16 checksum;
+    u16 urgent;
+};
+
+struct E_8041A498;
+struct Tcb_8041B774;
+void TLobby__sub_8041A498(E_8041A498 *arg0, s16 arg1);
+s16 TLobby__sub_8041B3D4(u8 *dst, u8 *src, u16 src_port, u16 dst_port, s32 seq, s32 ack, u8 flags);
+s16 TLobby__sub_8041B724(u8 *tcb);
+Tcb_8041B774 *TLobby__sub_8041B774(Tcb_8041B774 *lst, u16 *port, u8 *local, u8 *remote);
+void set_slot_state_and_resume__6TLobbyFv(s16, s32, s16);
+void set_thread_state_and_resume__6TLobbyFv(s16, s32, s16);
+
+struct Tcb_8041B974 {
+    u8 pad0[4];
+    u16 f4;
+    s16 t_state;
+    u8 pad8[2];
+    u8 fA;
+    u8 flags;
+    u8 padC;
+    u8 dupacks;
+    u8 padE[0xCA];
+    u32 fD8;
+    u8 padDC[0x120];
+    s32 f1FC;
+    s32 f200;
+    u8 pad204[4];
+    u32 snd_una;
+    u32 snd_nxt;
+    u32 snd_up;
+    u32 snd_wl1;
+    u32 snd_wl2;
+    u32 iss;
+    u32 snd_wnd;
+    u32 rcv_wnd;
+    u32 rcv_nxt;
+    u32 rcv_up;
+    u32 irs;
+    u32 rcv_adv;
+    u32 snd_max;
+    u32 snd_cwnd;
+    u32 snd_ssthresh;
+    s16 idle;
+    s16 rtt;
+    u32 rtseq;
+    s16 srtt;
+    s16 rttvar;
+    u32 max_sndwnd;
+    u16 rxtcur;
+    u8 pad256[2];
+    u32 rxtshift;
+    s16 timers[4];
+    u16 maxseg;
+    u8 pad266[2];
+    u16 lport;
+    u16 fport;
+    u8 pad26C[0x10];
+    u8 faddr[0x14];
+    u8 laddr[0x14];
+    u8 pad2A4[0x24];
+    s32 f2C8;
+    s32 f2CC;
+    s32 f2D0;
+    s16 f2D4;
+    u8 pad2D6[0x1A];
+    s32 f2F0;
+    u32 f2F4;
+    u8 pad2F8[0x2C];
+    u32 f324;
+    u8 pad328[0x210];
+    s16 f538;
+    u8 pad53A[2];
+    u32 f53C;
+    s32 f540;
+};
+struct G_8041B974 {
+    Tcb_8041B974 *tcbs;
+    s16 count;
+    u8 pad6[0x12];
+    u32 iss;
+    u8 pad1C[2];
+    s16 rexmtthresh;
+    u8 pad20[4];
+    s16 maxidle;
+    u8 pad26[0x7A];
+    s16 fA0;
+};
+
+struct Seg_8041B974 {
+    TcpHeader_8041B3D4 th;
+    u32 swap;
+    s16 flags;
+};
+
+#pragma push
+#pragma opt_common_subs on
+s32 TLobby__sub_8041B974(NetPacket *m, u8 *src, u8 *dst) {
+    Seg_8041B974 seg;
+    NetPacketFragment *frag;
+    TcpHeader_8041B3D4 *ti;
+    u8 *p;
+    u8 *optp;
+    s16 optlen;
+    u16 off;
+    u16 tlen;
+    s16 tiflags;
+    Tcb_8041B974 *tp;
+    Tcb_8041B974 *cur;
+    Tcb_8041B974 *newtp;
+    s16 i;
+    s32 todrop;
+    s32 dropped;
+    s32 needoutput;
+    u32 iss;
+    s32 ack;
+    s32 acked;
+    s32 ourfinisacked;
+    s32 n;
+    u32 onxt;
+    u32 win;
+    u16 mss;
+    u32 cw;
+    u16 incr;
+    s16 delta;
+
+    frag = &m->fragments[1];
+    needoutput = 0;
+    iss = 0;
+    dropped = 0;
+    m->total_bytes -= m->fragments[0].length;
+    m->fragments[0].length = 0;
+    p = TLobby__sub_80406F0C(&frag->buffer);
+    NetMemcpy(&seg.th.src_port, p, 2);
+    NetMemcpy(&seg.th.dst_port, p + 2, 2);
+    NetMemcpy(&seg.th.seq, p + 4, 4);
+    NetMemcpy(&seg.th.ack, p + 8, 4);
+    NetMemcpy(&seg.th.data_offset, p + 12, 1);
+    NetMemcpy(&seg.th.flags, p + 13, 1);
+    NetMemcpy(&seg.th.window, p + 14, 2);
+    NetMemcpy(&seg.th.checksum, p + 16, 2);
+    NetMemcpy(&seg.th.urgent, p + 18, 2);
+    ti = &seg.th;
+    tiflags = seg.th.flags;
+    seg.flags = tiflags;
+    off = seg.th.data_offset >> 2;
+    if (m->total_bytes < 20) {
+        return -1;
+    }
+    if (TLobby__sub_8040D8F0(src, dst, 6, (u8 *)m, 0) != 0) {
+        goto drop;
+    }
+    optlen = off - 20;
+    if (optlen) {
+        optp = TLobby__sub_80406F0C(&frag->buffer) + 20;
+    } else {
+        optp = NULL;
+    }
+    if (off < 20 || (u16)m->total_bytes < off) {
+        goto drop;
+    }
+    NetMemcpy(&seg.swap, &ti->seq, 4);
+    NetMemcpy(&ti->seq, &seg.swap, 4);
+    NetMemcpy(&seg.swap, &ti->ack, 4);
+    NetMemcpy(&ti->ack, &seg.swap, 4);
+    tlen = m->total_bytes - off;
+
+findpcb:
+    cur = (Tcb_8041B974 *)tcp_protocol_state.p;
+    tp = NULL;
+    for (i = 0; i < tcp_protocol_state.n; cur++, i++) {
+        if (cur->f4 != 0 && cur->t_state != 1 && cur->t_state != -1 &&
+            ((TLobby *)cur->faddr)->compare_sockaddr(src) == 0 && cur->fport == seg.th.src_port &&
+            cur->lport == seg.th.dst_port) {
+            tp = cur;
+            break;
+        }
+    }
+    if (tp == NULL) {
+        cur = (Tcb_8041B974 *)tcp_protocol_state.p;
+        for (i = 0; i < tcp_protocol_state.n; cur++, i++) {
+            if (cur->f4 != 0 && cur->t_state == 1 && cur->lport == seg.th.dst_port &&
+                (((TLobby *)cur->faddr)->compare_sockaddr(src) == 0 || is_addr_unspecified__6TLobbyFPv(cur->faddr)) &&
+                (cur->fport == seg.th.src_port || cur->fport == 0)) {
+                tp = cur;
+                break;
+            }
+        }
+    }
+    if (tp == NULL) {
+        goto dropwithreset;
+    }
+    if (!tp->t_state) {
+        if (tp->flags & 0x80) {
+            goto drop;
+        }
+        if (tp->fA & 4) {
+            goto drop;
+        }
+    }
+    if (tp->t_state != 1) {
+        tp->idle = 0;
+        tp->timers[2] = tp->f2D4;
+    }
+    if (optp != NULL && tp->t_state != 1) {
+        TLobby__sub_8041D0C8(tp, optp, optlen, ti);
+    }
+    tp->rcv_wnd = (u16)(tp->rcv_adv - tp->rcv_nxt);
+
+    switch (tp->t_state) {
+    case 1:
+        if (tiflags & 4) {
+            NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 0xA);
+            goto drop;
+        }
+        if (tiflags & 0x10) {
+            goto dropwithreset;
+        }
+        if (!(tiflags & 2)) {
+            goto drop;
+        }
+        if ((s16)((TLobby *)dst)->is_multicast_address(0) == 1) {
+            goto drop;
+        }
+        newtp = (Tcb_8041B974 *)TLobby__sub_8041B774((Tcb_8041B774 *)tp, (u16 *)ti, src, dst);
+        if (newtp == NULL) {
+            goto drop;
+        }
+        if (optp != NULL) {
+            TLobby__sub_8041D0C8(newtp, optp, optlen, ti);
+        }
+        if (iss != 0) {
+            newtp->iss = iss;
+        } else {
+            newtp->iss = ((G_8041B974 *)&tcp_protocol_state)->iss;
+        }
+        ((G_8041B974 *)&tcp_protocol_state)->iss += 0xFA00;
+        newtp->irs = seg.th.seq;
+        newtp->snd_una = newtp->snd_nxt = newtp->snd_max = newtp->snd_up = newtp->f2F4 = newtp->f324 = newtp->iss;
+        newtp->rcv_adv = newtp->rcv_nxt = newtp->irs + 1;
+        newtp->flags |= 1;
+        newtp->t_state = 3;
+        newtp->timers[2] = 150;
+        switch (newtp->f540) {
+        case 1:
+            newtp->snd_cwnd = newtp->maxseg;
+            break;
+        case 2:
+            newtp->snd_cwnd = newtp->maxseg * 2;
+            break;
+        case 3:
+            newtp->snd_cwnd = newtp->maxseg * 4 < (newtp->maxseg * 2 > 4380 ? newtp->maxseg * 2 : 4380)
+                                  ? newtp->maxseg * 4
+                                  : (newtp->maxseg * 2 > 4380 ? newtp->maxseg * 2 : 4380);
+            break;
+        default:
+            newtp->snd_cwnd = get_adjusted_slot_count__6TLobbyFPv((u8 *)newtp);
+            break;
+        }
+        newtp->f2D0 = tp->f2CC;
+        tp->f2CC = 0;
+        TLobby__sub_80422AB8((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2C8, (s16)(newtp - (Tcb_8041B974 *)tcp_protocol_state.p), newtp->faddr, newtp->lport,
+                             newtp->fport);
+        tp = newtp;
+        goto trimthenstep6;
+
+    case 2:
+        if ((ack = tiflags & 0x10) && ((s32)(seg.th.ack - tp->iss) <= 0 || (s32)(seg.th.ack - tp->snd_max) > 0)) {
+            NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 0xE);
+            goto dropwithreset;
+        }
+        if (tiflags & 4) {
+            NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 0xA);
+            if (ack) {
+                TLobby__sub_8041A498((E_8041A498 *)tp, 1);
+            }
+            goto drop;
+        }
+        if (!(tiflags & 2)) {
+            goto drop;
+        }
+        if (ack) {
+            tp->snd_una = seg.th.ack;
+            tp->f2F4 = seg.th.ack;
+            if ((s32)(tp->snd_nxt - tp->snd_una) < 0) {
+                tp->snd_nxt = tp->snd_una;
+            }
+        }
+        tp->timers[0] = 0;
+        tp->irs = seg.th.seq;
+        tp->rcv_adv = tp->rcv_nxt = tp->irs + 1;
+        tp->flags |= 1;
+        if (ack && (s32)(tp->snd_una - tp->iss) > 0) {
+            NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 1);
+            tp->t_state = 4;
+            tp->maxseg = TLobby__sub_8041B724((u8 *)tp);
+            switch (tp->f540) {
+            case 1:
+                tp->snd_cwnd = tp->maxseg;
+                break;
+            case 2:
+                tp->snd_cwnd = tp->maxseg * 2;
+                break;
+            case 3:
+                tp->snd_cwnd = tp->maxseg * 4 < (tp->maxseg * 2 > 4380 ? tp->maxseg * 2 : 4380)
+                                   ? tp->maxseg * 4
+                                   : (tp->maxseg * 2 > 4380 ? tp->maxseg * 2 : 4380);
+                break;
+            default:
+                tp->snd_cwnd = get_adjusted_slot_count__6TLobbyFPv((u8 *)tp);
+                break;
+            }
+            if (tp->rtt != 0) {
+                tp->srtt = tp->rtt << 3;
+                tp->rttvar = tp->rtt << 1;
+                tp->rxtcur = (tp->srtt >> 3) + tp->rttvar;
+                if (tp->rxtcur < 2) {
+                    tp->rxtcur = 2;
+                } else if (tp->rxtcur > 0x80) {
+                    tp->rxtcur = 0x80;
+                }
+                tp->rtt = 0;
+            }
+        } else {
+            tp->t_state = 3;
+        }
+    trimthenstep6:
+        seg.th.seq++;
+        if (tlen > tp->rcv_wnd) {
+            tlen = tp->rcv_wnd;
+            tiflags &= ~1;
+        }
+        tp->snd_wl1 = seg.th.seq - 1;
+        tp->rcv_up = seg.th.seq;
+        goto step6;
+    }
+
+    todrop = tp->rcv_nxt - seg.th.seq;
+    if (todrop > 0) {
+        if (tiflags & 2) {
+            tiflags &= ~2;
+            seg.th.seq++;
+            if (seg.th.urgent > 1) {
+                seg.th.urgent--;
+            } else {
+                tiflags &= ~0x20;
+            }
+            todrop--;
+        }
+        if (todrop > tlen || (todrop == tlen && !(tiflags & 1))) {
+            if ((tiflags & 1) && todrop == tlen + 1) {
+                todrop = tlen;
+                tiflags &= ~1;
+                tp->flags |= 1;
+            } else {
+                goto dropafterack;
+            }
+        }
+        dropped += todrop;
+        seg.th.seq += todrop;
+        tlen -= todrop;
+        if (seg.th.urgent > (u16)todrop) {
+            seg.th.urgent -= todrop;
+        } else {
+            seg.th.urgent = 0;
+            tiflags &= ~0x20;
+        }
+    }
+
+    todrop = (seg.th.seq + tlen) - (tp->rcv_nxt + tp->rcv_wnd);
+    if (todrop > 0) {
+        if (todrop >= tlen) {
+            if ((tiflags & 2) && tp->t_state == 10 && tp->fD8 == 0 && (s32)(seg.th.seq - tp->rcv_nxt) > 0) {
+                iss = tp->rcv_nxt + 0x1F400;
+                NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 4);
+                tp->flags |= 0x80;
+                TLobby__sub_8041B5C0(tp);
+                goto findpcb;
+            }
+            if (tp->rcv_wnd == 0 && seg.th.seq == tp->rcv_nxt) {
+                tp->flags |= 1;
+            } else {
+                goto dropafterack;
+            }
+        }
+        tlen -= todrop;
+        tiflags &= ~9;
+    }
+
+    if (tiflags & 4) {
+        NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 0xA);
+        switch (tp->t_state) {
+        case 3:
+        case 4:
+        case 6:
+        case 9:
+        case 5:
+            tp->t_state = 0;
+            NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 4);
+            set_thread_state_and_resume__6TLobbyFv((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f1FC, -5);
+            set_slot_state_and_resume__6TLobbyFv((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f200, -5);
+            if (TLobby__sub_8041B5C0(tp) != NULL) {
+                tp->t_state = -1;
+            }
+            goto drop;
+        case 7:
+        case 8:
+        case 10:
+            NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 4);
+            tp->flags |= 0x80;
+            TLobby__sub_8041B5C0(tp);
+            goto drop;
+        }
+    }
+    if (tiflags & 2) {
+        goto dropafterack;
+    }
+    if (!(tiflags & 0x10)) {
+        goto drop;
+    }
+
+    switch (tp->t_state) {
+    case 3:
+        if ((s32)(tp->snd_una - seg.th.ack) > 0 || (s32)(seg.th.ack - tp->snd_max) > 0) {
+            goto dropwithreset;
+        }
+        NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 1);
+        tp->t_state = 4;
+        tp->maxseg = TLobby__sub_8041B724((u8 *)tp);
+        switch (tp->f540) {
+        case 1:
+            tp->snd_cwnd = tp->maxseg;
+            break;
+        case 2:
+            tp->snd_cwnd = tp->maxseg * 2;
+            break;
+        case 3:
+            tp->snd_cwnd = tp->maxseg * 4 < (tp->maxseg * 2 > 4380 ? tp->maxseg * 2 : 4380)
+                               ? tp->maxseg * 4
+                               : (tp->maxseg * 2 > 4380 ? tp->maxseg * 2 : 4380);
+            break;
+        default:
+            tp->snd_cwnd = get_adjusted_slot_count__6TLobbyFPv((u8 *)tp);
+            break;
+        }
+        tp->snd_cwnd -= tp->maxseg;
+        tp->snd_wl1 = seg.th.seq - 1;
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+        if ((s32)(seg.th.ack - tp->snd_una) <= 0 && tp->snd_una == tp->f2F4) {
+            if (tlen == 0 && seg.th.window == tp->snd_wnd) {
+                if (tp->timers[0] == 0 || seg.th.ack != tp->snd_una) {
+                    tp->dupacks = 0;
+                } else if (++tp->dupacks == (u8)((G_8041B974 *)&tcp_protocol_state)->rexmtthresh) {
+                    onxt = tp->snd_nxt;
+                    win = (tp->snd_wnd < tp->snd_cwnd ? tp->snd_wnd : tp->snd_cwnd) / 2 / tp->maxseg;
+                    if (TLobby__sub_8041D368((u8 *)tp) == 0) {
+                        tp->f2F4 = tp->snd_nxt;
+                        tp->dupacks--;
+                        goto recover;
+                    }
+                    if (win < 2) {
+                        win = 2;
+                    }
+                    tp->snd_ssthresh = win * tp->maxseg;
+                    tp->timers[0] = 0;
+                    tp->rtt = 0;
+                    tp->snd_nxt = seg.th.ack;
+                    tp->snd_cwnd = tp->maxseg;
+                    TLobby__sub_8041A9AC((int)tp);
+                    tp->snd_cwnd = tp->snd_ssthresh + tp->maxseg * tp->dupacks;
+                    if ((s32)(onxt - tp->snd_nxt) > 0) {
+                        tp->snd_nxt = onxt;
+                    }
+                    goto drop;
+                } else if (tp->dupacks > (u8)((G_8041B974 *)&tcp_protocol_state)->rexmtthresh) {
+                    tp->snd_cwnd += tp->maxseg;
+                    TLobby__sub_8041A9AC((int)tp);
+                    goto drop;
+                }
+            } else {
+                tp->dupacks = 0;
+            }
+            break;
+        }
+    recover:
+        if ((s32)(tp->snd_una - tp->f2F4) < 0 && (s32)(seg.th.ack - tp->f2F4) < 0) {
+            if (tlen == 0 && seg.th.window <= tp->snd_wnd) {
+                if (seg.th.ack != tp->snd_una) {
+                    acked = seg.th.ack - tp->snd_una;
+                    TLobby__sub_8041FFF8(acked, (int)tp);
+                    tp->snd_wnd -= acked;
+                    if (seg.th.window > tp->snd_wnd) {
+                        tp->snd_wnd = seg.th.window;
+                    }
+                    tp->snd_una = seg.th.ack;
+                }
+                if (++tp->dupacks == (u8)((G_8041B974 *)&tcp_protocol_state)->rexmtthresh) {
+                    mss = tp->maxseg;
+                    win = (tp->snd_wnd < tp->snd_cwnd ? tp->snd_wnd : tp->snd_cwnd) / 2 / mss;
+                    tp->f2F0 = tp->snd_nxt - tp->snd_una - mss * tp->dupacks - mss;
+                    if (tp->f2F0 < 0) {
+                        tp->f2F0 = 0;
+                    }
+                    if (win < 2) {
+                        win = 2;
+                    }
+                    tp->snd_ssthresh = win * tp->maxseg;
+                    tp->timers[0] = 0;
+                    tp->rtt = 0;
+                    tp->snd_cwnd = tp->f2F0 + tp->maxseg;
+                    TLobby__sub_8041A9AC((int)tp);
+                    tp->snd_cwnd = tp->snd_ssthresh;
+                    goto drop;
+                } else if (tp->dupacks > (u8)((G_8041B974 *)&tcp_protocol_state)->rexmtthresh) {
+                    tp->f2F0 -= tp->maxseg;
+                    TLobby__sub_8041A9AC((int)tp);
+                    goto drop;
+                }
+                break;
+            }
+            if (seg.th.window > tp->snd_wnd) {
+                tp->snd_wnd = seg.th.window;
+            } else {
+                tp->dupacks = 0;
+            }
+            break;
+        }
+        ((TLobby *)tp)->reset_slot_index();
+        tp->f2F0 = 0;
+        tp->f2F4 = seg.th.ack;
+        if (tp->dupacks > ((G_8041B974 *)&tcp_protocol_state)->rexmtthresh && tp->snd_cwnd > tp->snd_ssthresh) {
+            tp->snd_cwnd = tp->snd_ssthresh;
+        }
+        tp->dupacks = 0;
+        if ((s32)(seg.th.ack - tp->snd_max) > 0) {
+            goto dropafterack;
+        }
+        acked = seg.th.ack - tp->snd_una;
+        if (tp->rtt && (s32)(seg.th.ack - tp->rtseq) > 0) {
+            if (tp->srtt) {
+                delta = tp->rtt - 1 - (tp->srtt >> 3);
+                if ((tp->srtt += delta) <= 0) {
+                    tp->srtt = 1;
+                }
+                if (delta < 0) {
+                    delta = -delta;
+                }
+                delta -= tp->rttvar >> 2;
+                if ((tp->rttvar += delta) <= 0) {
+                    tp->rttvar = 1;
+                }
+            } else {
+                tp->srtt = tp->rtt << 3;
+                tp->rttvar = tp->rtt << 1;
+            }
+            tp->rtt = 0;
+        }
+        if (acked > 0 && tp->rxtshift != 0) {
+            tp->rxtshift = 0;
+            tp->rxtcur = (tp->srtt >> 3) + tp->rttvar;
+            if (tp->rxtcur < 2) {
+                tp->rxtcur = 2;
+            } else if (tp->rxtcur > 0x80) {
+                tp->rxtcur = 0x80;
+            }
+        }
+        if (seg.th.ack == tp->snd_max) {
+            if (tp->timers[0] != 0) {
+                tp->timers[0] = 0;
+                tp->rxtshift = 0;
+            }
+            needoutput = 1;
+        } else if (tp->timers[1] == 0) {
+            tp->timers[0] = tp->rxtcur;
+        }
+        if (acked == 0) {
+            break;
+        }
+        cw = tp->snd_cwnd;
+        incr = tp->maxseg;
+        if (cw > tp->snd_ssthresh) {
+            incr = (u32)(incr * incr) / cw > 1 ? (u32)(incr * incr) / cw : 1;
+        }
+        tp->snd_cwnd = (u16)((s32)(cw + incr) < 0xFFFF ? cw + incr : 0xFFFF);
+        n = ((TLobby *)tp)->get_score();
+        if (acked > n) {
+            ourfinisacked = 1;
+        } else {
+            n = acked;
+            ourfinisacked = 0;
+        }
+        TLobby__sub_8041FFF8(n, (int)tp);
+        tp->snd_wnd -= (u16)n;
+        tp->snd_una = seg.th.ack;
+        if ((s32)(tp->snd_nxt - tp->snd_una) < 0) {
+            tp->snd_nxt = tp->snd_una;
+        }
+        switch (tp->t_state) {
+        case 6:
+            if (ourfinisacked) {
+                if (tp->fA & 4) {
+                    tp->timers[3] = ((G_8041B974 *)&tcp_protocol_state)->maxidle;
+                }
+                tp->t_state = 9;
+            }
+            break;
+        case 7:
+            if (ourfinisacked) {
+                tp->t_state = 10;
+                if ((u32)((TLobby *)tp)->get_score() == 0) {
+                    ((TLobby *)tp)->close_if_open();
+                }
+                if ((u32)((TLobby *)tp)->get_field_d8() == 0) {
+                    TLobby__sub_8041EB74((u8 *)tp);
+                }
+                ((TLobby *)tp)->clear_position();
+                tp->timers[3] = 120;
+            }
+            break;
+        case 8:
+            if (ourfinisacked) {
+                NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 4);
+                TLobby__sub_8041B5C0(tp);
+                goto drop;
+            }
+            break;
+        case 10:
+            tp->timers[3] = 120;
+            goto dropafterack;
+        }
+    }
+
+step6:
+    if ((tiflags & 0x10) && ((s32)(tp->snd_wl1 - seg.th.seq) < 0 ||
+                             (tp->snd_wl1 == seg.th.seq &&
+                              ((s32)(tp->snd_wl2 - seg.th.ack) < 0 || (tp->snd_wl2 == seg.th.ack && seg.th.window > tp->snd_wnd))))) {
+        tp->snd_wnd = seg.th.window;
+        tp->snd_wl1 = seg.th.seq;
+        tp->snd_wl2 = seg.th.ack;
+        if (tp->snd_wnd > tp->max_sndwnd) {
+            tp->max_sndwnd = tp->snd_wnd;
+        }
+        needoutput = 1;
+    }
+    if ((tiflags & 0x20) && seg.th.urgent != 0 && !(tp->flags & 8)) {
+        if (seg.th.urgent + ((TLobby *)tp)->get_queue_diff() > 0x10000) {
+            seg.th.urgent = 0;
+            tiflags &= ~0x20;
+        } else if ((s32)(seg.th.seq + seg.th.urgent - tp->rcv_up) > 0) {
+            tp->rcv_up = seg.th.seq + seg.th.urgent;
+        }
+    } else if (tp->rcv_nxt != tp->rcv_up) {
+        tp->rcv_up = tp->rcv_nxt;
+    }
+
+    if ((tlen != 0 || (tiflags & 1)) && !(tp->flags & 8)) {
+        if (seg.th.seq == tp->rcv_nxt && (tp->t_state == 4 || (tp->fA & 0xC))) {
+            tiflags = seg.flags & 1;
+            tp->rcv_nxt += tlen;
+            if (!(tp->fA & 4)) {
+                TLobby__sub_8041F204(m, (u16)(off + dropped), tp);
+            }
+            if (tp->f53C == 0) {
+                if (tp->f538 == 0) {
+                    tp->f538 = ((G_8041B974 *)&tcp_protocol_state)->fA0 / 100;
+                }
+            } else {
+                tp->flags |= 1;
+            }
+        } else {
+            if ((s32)(seg.th.seq - tp->rcv_nxt) > 0) {
+                TLobby__sub_8041F914(m, (u16)(off + dropped), tp, ti);
+            }
+            tiflags &= ~1;
+            tp->flags |= 1;
+        }
+    } else {
+        tiflags &= ~1;
+    }
+
+    if (tiflags & 1) {
+        NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 2);
+        if (!(tp->flags & 8)) {
+            TLobby__sub_8041F11C(tp);
+            tp->flags |= 1;
+            tp->rcv_nxt++;
+        }
+        tp->flags |= 8;
+        switch (tp->t_state) {
+        case 3:
+        case 4:
+            tp->t_state = 5;
+            break;
+        case 6:
+            tp->t_state = 7;
+            break;
+        case 9:
+            tp->t_state = 10;
+            if ((u32)((TLobby *)tp)->get_score() == 0) {
+                ((TLobby *)tp)->close_if_open();
+            }
+            if ((u32)((TLobby *)tp)->get_field_d8() == 0) {
+                TLobby__sub_8041EB74((u8 *)tp);
+            }
+            ((TLobby *)tp)->clear_position();
+            tp->timers[3] = 120;
+            break;
+        case 10:
+            tp->timers[3] = 120;
+            break;
+        }
+    }
+    if (needoutput || (tp->flags & 1)) {
+        TLobby__sub_8041A9AC((int)tp);
+    }
+    return 0;
+
+dropafterack:
+    if (tiflags & 4) {
+        goto drop;
+    }
+    tp->flags |= 1;
+    TLobby__sub_8041A9AC((int)tp);
+    return 0;
+
+dropwithreset:
+    if ((tiflags & 4) || (s16)((TLobby *)dst)->is_multicast_address(0) == 1) {
+        goto drop;
+    }
+    if (tiflags & 0x10) {
+        if (TLobby__sub_8041B3D4(src, dst, seg.th.dst_port, seg.th.src_port, seg.th.ack, 0, 4) < 0) {
+            return -1;
+        }
+    } else {
+        if (tiflags & 2) {
+            tlen++;
+        }
+        if (TLobby__sub_8041B3D4(src, dst, seg.th.dst_port, seg.th.src_port, 0, tlen + seg.th.seq, 0x14) < 0) {
+            return -1;
+        }
+    }
+    return 0;
+
+drop:
+    return 0;
+}
+#pragma pop
+
 #pragma push
 #pragma opt_common_subs on
 #pragma push
@@ -11314,8 +12088,6 @@ void TLobby__sub_8041A5B4(void) {
 }
 
 struct E_8041A498 { u8 pad0[6]; s16 f6; u8 pad8[6]; u8 fE; u8 padF[0x1ED]; s32 f1FC; s32 f200; u8 pad204[0xCC]; s32 f2D0; u8 pad2D4[0x270]; };
-void set_slot_state_and_resume__6TLobbyFv(s16, s32, s16);
-void set_thread_state_and_resume__6TLobbyFv(s16, s32, s16);
 void TLobby__sub_8041A498(E_8041A498 *arg0, s16 arg1) {
     s16 idx = arg0 - (E_8041A498 *)tcp_protocol_state.p;
 
@@ -11341,21 +12113,10 @@ void TLobby__sub_8041A498(E_8041A498 *arg0, s16 arg1) {
     }
 }
 
-struct TcpHeader_8041B3D4 {
-    u16 src_port;
-    u16 dst_port;
-    s32 seq;
-    s32 ack;
-    u8 data_offset;
-    u8 flags;
-    u16 window;
-    u16 checksum;
-    u16 urgent;
-};
 
 #pragma push
 #pragma opt_common_subs on
-s32 TLobby__sub_8041B3D4(u8 *dst, u8 *src, u16 src_port, u16 dst_port, s32 seq, s32 ack, u8 flags) {
+s16 TLobby__sub_8041B3D4(u8 *dst, u8 *src, u16 src_port, u16 dst_port, s32 seq, s32 ack, u8 flags) {
     s16 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1);
     s16 dispatch_by_addr_family__6TLobbyFlPUcPUcPUcPvPv(NetPacket *, u8 *, u8 *, u8 *, u8 *, s32);
     TcpHeader_8041B3D4 hdr;
@@ -11496,6 +12257,413 @@ s32 TLobby__sub_8041A6A4(Tcb_8041A3CC *tcb, s16 timer) {
 }
 #pragma pop
 
+struct SackBlock_8041A9AC {
+    u32 start;
+    u32 end;
+};
+/* BSD tcpcb view used by tcp_output (inferred: 0x8041A9AC follows the 4.4BSD tcp_output shape). */
+struct Tcb_8041A9AC {
+    u8 pad0[6];
+    s16 t_state;
+    u8 pad8[3];
+    u8 flags;
+    u8 force;
+    u8 padD[0x1F7];
+    u8 f204 : 1;
+    u8 f204_bits : 7;
+    u8 pad205[3];
+    u32 snd_una;
+    u32 snd_nxt;
+    u32 snd_up;
+    u8 pad214[0xC];
+    u32 snd_wnd;
+    u8 pad224[4];
+    u32 rcv_nxt;
+    u8 pad22C[8];
+    u32 rcv_adv;
+    u32 snd_max;
+    u32 snd_cwnd;
+    u32 snd_ssthresh;
+    s16 idle;
+    s16 rtt;
+    u32 rtseq;
+    s16 srtt;
+    s16 rttvar;
+    u32 max_sndwnd;
+    s16 rxtcur;
+    u8 pad256[2];
+    u32 rxtshift;
+    s16 timers[4];
+    u16 maxseg;
+    u8 pad266[2];
+    TcpHeader_8041B3D4 tmpl;
+    u8 remote[0x14];
+    u8 local[0x14];
+    u8 pad2A4[0x2C];
+    s32 f2D0;
+    u8 pad2D4[2];
+    u8 f2D6[3];
+    u8 pad2D9[3];
+    u8 f2DC[0xC];
+    u8 f2E8;
+    u8 pad2E9[3];
+    s32 f2EC;
+    s32 f2F0;
+    u32 f2F4;
+    SackBlock_8041A9AC sack[5];
+    u8 pad320[0x210];
+    u32 f530;
+    u32 f534;
+    s16 ack_delay;
+    u8 pad53A[6];
+    s32 f540;
+};
+struct G_8041A9AC {
+    Tcb_8041A9AC *tcbs;
+    u8 pad4[0x24];
+    u8 opt[0x28];
+    u8 pad50;
+    u8 outflags[0xB];
+    s16 backoff[13];
+    u8 pad76[0x32];
+};
+
+#pragma push
+#pragma opt_common_subs on
+s16 TLobby__sub_8041A9AC(int arg0) {
+    Tcb_8041A9AC *tp = (Tcb_8041A9AC *)arg0;
+    TcpHeader_8041B3D4 *ti = &tp->tmpl;
+    u8 *opt;
+    s32 len;
+    s32 off;
+    s32 flags;
+    s32 win;
+    s32 sendalot;
+    s16 mss;
+    G_8041A9AC *g = (G_8041A9AC *)&tcp_protocol_state;
+    s32 fin;
+    u8 *optp;
+    u16 optlen;
+    u16 lenidx;
+    u16 i;
+    s32 sndwin;
+    s32 idle;
+    NetPacket *m;
+    s32 avail;
+    s32 adv;
+    s32 sack_start;
+    s32 sack_end;
+    u16 mssopt;
+    u32 blk_start;
+    u32 blk_end;
+    u32 cc;
+    u32 startseq;
+    u8 sacklen;
+    s16 error;
+
+    if (tp->t_state < 0) {
+        return -1;
+    }
+    if (TLobby__sub_8040DA54(tp->remote, tp->local) == 0) {
+        NetDispatchSocketEvent((s16)(tp - g->tcbs), tp->f2D0, 3, 0xC);
+        return -6;
+    }
+    mss = TLobby__sub_8040DC8C(tp->remote, tp->local);
+    mss = (tp->maxseg < mss) ? tp->maxseg : mss;
+    if (mss < 0) {
+        return mss;
+    }
+    idle = (tp->snd_max == tp->snd_una);
+    if (tp->snd_max == tp->snd_una && tp->idle >= (u16)tp->rxtcur) {
+        switch (tp->f540) {
+        case 1:
+            tp->snd_cwnd = tp->maxseg;
+            break;
+        case 2:
+            tp->snd_cwnd = tp->maxseg * 2;
+            break;
+        case 3:
+            tp->snd_cwnd = (tp->maxseg * 4 < ((tp->maxseg * 2 > 4380) ? tp->maxseg * 2 : 4380))
+                               ? tp->maxseg * 4
+                               : ((tp->maxseg * 2 > 4380) ? tp->maxseg * 2 : 4380);
+            break;
+        default:
+            tp->snd_cwnd = get_adjusted_slot_count__6TLobbyFPv((u8 *)tp);
+            break;
+        }
+    }
+    opt = g->opt;
+again:
+    sendalot = 0;
+    len = 0;
+    if (tp->f2F4 != tp->snd_una) {
+        len = TLobby__sub_8041D460((Tcb_8041D460 *)tp, &sack_start, &sack_end);
+        if (len != 0) {
+            sendalot = 1;
+            off = sack_start - tp->snd_una;
+        } else {
+            off = tp->snd_nxt - tp->snd_una;
+        }
+    } else {
+        off = tp->snd_nxt - tp->snd_una;
+    }
+    sndwin = tp->snd_wnd;
+    flags = g->outflags[tp->t_state];
+    if (tp->force) {
+        if (sndwin == 0) {
+            sndwin = 1;
+        } else {
+            tp->timers[1] = 0;
+            tp->rxtshift = 0;
+        }
+    }
+    if (len == 0) {
+        len = (((u32)((TLobby *)tp)->get_score() < (u32)sndwin) ? ((TLobby *)tp)->get_score() : sndwin) - off;
+    }
+    avail = tp->snd_cwnd - tp->f2F0;
+    if (tp->f2F4 == tp->snd_una) {
+        avail -= tp->snd_nxt - tp->snd_una;
+    }
+    if (avail < 0) {
+        avail = 0;
+    }
+    if (len > avail) {
+        len = avail;
+        sendalot = 0;
+    }
+    if (off + len < ((TLobby *)tp)->get_score()) {
+        flags &= ~1;
+    }
+    if (len < 0) {
+        len = 0;
+        if (sndwin == 0) {
+            tp->timers[0] = 0;
+            tp->snd_nxt = tp->snd_una;
+        }
+    }
+    if ((u32)len > tp->maxseg) {
+        len = tp->maxseg;
+        sendalot = 1;
+    }
+    if ((s32)((tp->snd_nxt + len) - (tp->snd_una + ((TLobby *)tp)->get_score())) < 0) {
+        flags &= ~1;
+    }
+    win = ((TLobby *)tp)->get_queue_diff();
+    fin = flags & 1;
+    if (fin && (!(tp->flags & 0x10) || tp->snd_nxt == tp->snd_una)) {
+        goto send;
+    }
+    if (tp->flags & 1) {
+        goto send;
+    }
+    if (flags & 6) {
+        goto send;
+    }
+    if ((s32)(tp->snd_up - tp->snd_una) > 0) {
+        goto send;
+    }
+    if (len != 0) {
+        if ((u32)len == tp->maxseg) {
+            goto send;
+        }
+        if (sendalot) {
+            goto send;
+        }
+        if (tp->f204 == 1) {
+            cc = ((TLobby *)tp)->get_score();
+        } else {
+            cc = ((u32)((TLobby *)tp)->get_score() < tp->f530) ? ((TLobby *)tp)->get_score() : tp->f530;
+        }
+        if ((idle || (tp->flags & 4)) && len + off >= (s32)cc) {
+            goto send;
+        }
+        if (tp->force) {
+            goto send;
+        }
+        if ((u32)len >= tp->max_sndwnd / 2) {
+            goto send;
+        }
+        if ((s32)(tp->snd_nxt - tp->snd_max) < 0) {
+            goto send;
+        }
+    }
+    if (win > 0) {
+        adv = win - (s32)(tp->rcv_adv - tp->rcv_nxt);
+        if (adv < 0) {
+            adv = -adv;
+        }
+        if ((u32)adv >= (u32)(((tp->maxseg > 40) ? tp->maxseg - 40 : 1) * 2)) {
+            goto send;
+        }
+        if (adv * 2 >= ((TLobby *)tp)->get_field_534()) {
+            goto send;
+        }
+    }
+    if ((u32)((TLobby *)tp)->get_score() != 0 && tp->timers[0] == 0 && tp->timers[1] == 0) {
+        tp->rxtshift = 0;
+        tp->timers[1] = (((tp->srtt >> 2) + tp->rttvar) >> 1) * g->backoff[tp->rxtshift];
+        if (tp->timers[1] < 10) {
+            tp->timers[1] = 10;
+        } else if (tp->timers[1] > 120) {
+            tp->timers[1] = 120;
+        }
+        if (tp->rxtshift < 12) {
+            tp->rxtshift++;
+        }
+    }
+    return 0;
+
+send:
+    if (fin && (tp->flags & 0x10) && tp->snd_nxt == tp->snd_max) {
+        tp->snd_nxt--;
+        off--;
+    }
+    optp = NULL;
+    ti->seq = tp->snd_una + off;
+    optlen = 0;
+    ti->ack = tp->rcv_nxt;
+    if (flags & 2) {
+        tp->f2EC = 0;
+        ((TLobby *)tp)->reset_slot_index();
+        opt[0] = 2;
+        optp = opt;
+        opt[1] = 4;
+        mssopt = (tp->f534 < mss) ? tp->f534 : mss;
+        NetMemcpy(optp + 2, &mssopt, 2);
+        optlen = 4;
+        if (tp->f2E8 & 1) {
+            opt[4] = 4;
+            opt[5] = 2;
+            optlen = 8;
+            opt[6] = 1;
+            opt[7] = 1;
+        }
+    }
+    if ((tp->f2E8 & 2) && tp->sack[0].start != tp->sack[0].end) {
+        opt[optlen++] = 1;
+        opt[optlen++] = 1;
+        opt[optlen] = 5;
+        lenidx = optlen + 1;
+        optp = opt;
+        sacklen = 2;
+        optlen += 2;
+        for (i = 0; i < 5 && tp->sack[i].start != tp->sack[i].end && optlen + 8 <= 40; i++) {
+            blk_start = tp->sack[i].start;
+            blk_end = tp->sack[i].end;
+            NetMemcpy(optp + optlen, &blk_start, 4);
+            optlen += 4;
+            NetMemcpy(optp + optlen, &blk_end, 4);
+            optlen += 4;
+            sacklen += 8;
+        }
+        opt[lenidx] = sacklen;
+    }
+    while (optlen % 4 != 0) {
+        optp[optlen++] = 1;
+    }
+    if (len > tp->maxseg - optlen) {
+        len = tp->maxseg - optlen;
+        flags &= ~1;
+        sendalot = 1;
+    }
+    ti->flags = flags;
+    if ((u32)win < (u32)((TLobby *)tp)->get_field_534() / 4 && (u32)win < tp->maxseg) {
+        win = 0;
+    }
+    if (win < (s32)(tp->rcv_adv - tp->rcv_nxt)) {
+        win = tp->rcv_adv - tp->rcv_nxt;
+    }
+    if ((u32)win > tp->f534) {
+        win = tp->f534;
+    }
+    ti->window = win;
+    if ((s32)(tp->snd_up - tp->snd_nxt) > 0) {
+        ti->urgent = tp->snd_up - tp->snd_nxt;
+        flags |= 0x20;
+    } else {
+        tp->snd_up = tp->snd_una;
+    }
+    if (len != 0 && off + len == ((TLobby *)tp)->get_score()) {
+        flags |= 8;
+    }
+    ti->checksum = 0;
+    ti->flags = flags;
+    ti->data_offset = ((optlen + 20) >> 2) << 4;
+    m = (NetPacket *)TLobby::alloc_free_entry();
+    if (m == NULL) {
+        return -0x101;
+    }
+    m->fragment_count = 0;
+    m->total_bytes = 0;
+    if (TLobby__sub_80420410(off, len, m, tp) < 0) {
+        m->fragment_count = 0;
+        m->total_bytes = 0;
+    }
+    if (optlen != 0) {
+        m->total_bytes += optlen;
+        m->fragments[m->fragment_count].length = optlen;
+        ((TLobby *)&m->fragments[m->fragment_count].buffer)->set_value_and_enable((s32)optp);
+        m->fragment_count++;
+    }
+    m->total_bytes += sizeof(TcpHeader_8041B3D4);
+    m->fragments[m->fragment_count].length = sizeof(TcpHeader_8041B3D4);
+    ((TLobby *)&m->fragments[m->fragment_count].buffer)->set_value_and_enable((s32)ti);
+    m->fragment_count++;
+    ti->checksum = TLobby__sub_8040D8F0(tp->local, tp->remote, 6, (u8 *)m, 1);
+    if (!tp->force || tp->timers[1] == 0) {
+        startseq = tp->snd_nxt;
+        if (flags & 2) {
+            tp->snd_nxt++;
+        }
+        if (flags & 1) {
+            tp->snd_nxt++;
+            tp->flags |= 0x10;
+        }
+        if (tp->snd_una != tp->f2F4) {
+            tp->f2F0 += len;
+        }
+        if (len > 0) {
+            if ((s32)(len + (off + tp->snd_una) - tp->snd_nxt) > 0) {
+                tp->snd_nxt += len;
+            } else {
+                TLobby__sub_8041D398((Tcb_8041D460 *)tp, off + tp->snd_una, len + (off + tp->snd_una));
+            }
+        }
+        if ((s32)(tp->snd_nxt - tp->snd_max) > 0) {
+            tp->snd_max = tp->snd_nxt;
+            if (tp->rtt == 0) {
+                tp->rtt = 1;
+                tp->rtseq = startseq;
+            }
+        }
+        if (tp->timers[0] == 0 && tp->snd_nxt != tp->snd_una) {
+            tp->timers[0] = tp->rxtcur;
+            if (tp->timers[1] != 0) {
+                tp->timers[1] = 0;
+                tp->rxtshift = 0;
+            }
+        }
+    } else if ((s32)(tp->snd_nxt + len - tp->snd_max) > 0) {
+        tp->snd_max = tp->snd_nxt + len;
+    }
+    error = TLobby::dispatch_by_addr_family((s32)m, tp->remote, tp->local, tp->f2D6, tp->f2DC, (void *)6);
+    ((TUdpSocket *)m)->release_entry();
+    if (error < 0) {
+        return error;
+    }
+    if (win > 0 && (s32)(tp->rcv_nxt + win - tp->rcv_adv) > 0) {
+        tp->rcv_adv = tp->rcv_nxt + win;
+    }
+    tp->flags &= ~1;
+    tp->ack_delay = 0;
+    if (sendalot) {
+        NetYieldOutsideDispatcherThread();
+        goto again;
+    }
+    return 0;
+}
+#pragma pop
+
 struct Tcb_8041B724 { u8 pad0[0x264]; u16 maxseg; u8 pad266[0x16]; u8 remote[0x14]; u8 local[0x14]; };
 
 s16 TLobby__sub_8041B724(u8 *tcb) {
@@ -11628,7 +12796,7 @@ void TLobby::insert_item_at(s16 idx, s32 a, s32 b) {
     o->n++;
 }
 
-s32 TLobby__sub_8041D368(u8 *arg0) {
+s16 TLobby__sub_8041D368(u8 *arg0) {
     struct Fields_arg0 { u8 pad_0[800]; s16 field_320; };
     if ((s16) ((Fields_arg0*)arg0)->field_320 == -1) {
         return 1;
@@ -11959,10 +13127,10 @@ s32 TLobby__sub_8041DBD4(s16 arg0, s32 arg1, s32 len, s32 arg3) {
 #pragma opt_propagation off
 #pragma push
 #pragma pool_data off
-s32 tcp_start_send(s16 arg0, u8 *arg1, void (*completion)(s16, s16), u8 arg3) {
+s16 tcp_start_send(s16 arg0, u8 *arg1, void (*completion)(s16, s16), u8 arg3) {
     s16 r;
     s16 v;
-    s32 ret;
+    s16 ret;
     E_805C1D48 *e;
     if (arg0 < 0 || arg0 >= tcp_protocol_state.n) {
         r = -4;
@@ -11990,7 +13158,7 @@ s32 tcp_start_send(s16 arg0, u8 *arg1, void (*completion)(s16, s16), u8 arg3) {
     if (arg3 != 0) {
         *(s32 *)((s8 *)e + 0x210) = *(s32 *)((s8 *)e + 0x20C) + *(s32 *)((s8 *)arg1 + 8);
     }
-    ret = ((s32)TLobby__sub_8041A9AC((int)e));
+    ret = TLobby__sub_8041A9AC((int)e);
     TLobby__sub_8041FFF8(0, (int)e);
     return ret;
 }
