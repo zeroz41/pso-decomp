@@ -44,7 +44,7 @@ s32 lbl_805D5CB4; // actor_frame_tick of the last UV scroll (inferred)
 void *warp_jung_beam_mesh_node;
 s32 warp_jung_beam_entry_index; // texture entry "ts064_beam_aka"
 s32 warp_jung_beam_blue_tex_entry;               // texture entry "ts064_beam_ao"
-s32 lbl_805D5CC4;               // texture entry "ts032_warp_nakalight"
+s32 warp_jung_nakalight_tex_entry;               // texture entry "ts032_warp_nakalight"
 void *warp_jung_beam_models[6];
 // The texture entry names load_warp_beam_resources looks up.
 extern const char lbl_80446718[];
@@ -112,8 +112,8 @@ void TObjWarpJungMain::render() {
     if (update_object_view_visibility(550.0f, 40.0f) != 0) {
         if (actor_frame_tick != lbl_805D5CB4) {
             lbl_805D5CB4 = actor_frame_tick;
-            if (lbl_805D5CC4 >= 0) {
-                scroll_ginja_mesh_uvs(warp_jung_beam_mesh_node, 0, 5, lbl_805D5CC4, 1);
+            if (warp_jung_nakalight_tex_entry >= 0) {
+                scroll_ginja_mesh_uvs(warp_jung_beam_mesh_node, 0, 5, warp_jung_nakalight_tex_entry, 1);
             }
             PPCSync();
         }
@@ -334,8 +334,8 @@ s32 TObjWarpJung__sub_801A0404(s32 arg0) {
 s32 TObjWarpJung::update_warp_display() {
     if (actor_frame_tick != lbl_805D5CB4) {
         lbl_805D5CB4 = actor_frame_tick;
-        if (lbl_805D5CC4 >= 0) {
-            scroll_ginja_mesh_uvs(warp_jung_beam_mesh_node, 0, 5, lbl_805D5CC4, 1);
+        if (warp_jung_nakalight_tex_entry >= 0) {
+            scroll_ginja_mesh_uvs(warp_jung_beam_mesh_node, 0, 5, warp_jung_nakalight_tex_entry, 1);
             return 1;
         }
     }
@@ -373,5 +373,5 @@ void load_warp_beam_resources(void) {
     lbl_805D5CB4 = 0;
     warp_jung_beam_entry_index = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name(lbl_80446718);
     warp_jung_beam_blue_tex_entry = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name(lbl_80446728);
-    lbl_805D5CC4 = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name(lbl_80446738);
+    warp_jung_nakalight_tex_entry = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name(lbl_80446738);
 }
