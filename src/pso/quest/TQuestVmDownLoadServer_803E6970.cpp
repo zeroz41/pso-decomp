@@ -349,7 +349,7 @@ struct Elem_803ED9AC {
     u16 base;
     Elem_803ED9AC *next;
 };
-struct Slot_803ED9AC { u8 pad[8]; Elem_803ED9AC *head; u8 pad2[0x10]; };
+struct Slot_803ED9AC { u8 pad[8]; Elem_803ED9AC *head; Node_803EB794 *chain; u8 pad10[0xC]; };
 extern Slot_803ED9AC quest_download_slot_chain_table[];
 extern const u8 lbl_8047F8B8[0x100];
 extern RecoveredGlobal_803E721C_lbl_8047E698 single_byte_to_jis_table;
@@ -3887,6 +3887,125 @@ s32 TQuestVmDownLoadServer::sum_entry_sizes(s32 start, s32 n) {
     return sum;
 }
 
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(1)
+inline s32 entry_text_width(Ent_803E6B70 *end) {
+    Ent_803E6B70 *it;
+    s32 width = 0;
+    for (it = (Ent_803E6B70 *)&quest_download_entry_table; it < end; it++) {
+        if (it->ch & 0xFF00) {
+            width += 2;
+        } else {
+            width += 1;
+        }
+    }
+    return width;
+}
+s32 TQuestVmDownLoadServer__sub_803EDC20(u8 *text) {
+    Ent_803E6B70 *e;
+    u8 *attr;
+    s32 count;
+    u8 *p;
+    u16 hi;
+    s32 width;
+    hi = 0;
+    p = text;
+    e = (Ent_803E6B70 *)lbl_805D78C8;
+    attr = (u8 *)lbl_805D78BC;
+    count = lbl_805D78C0;
+    width = entry_text_width((Ent_803E6B70 *)lbl_805D78C8);
+    for (; *p != 0; p++) {
+        if (hi != 0) {
+            u16 code = TQuestVmDownLoadServer__sub_803EC69C((hi << 8) | *p);
+            if (code != 0) {
+                if (count >= 36 || width >= 78) {
+                    return -1;
+                }
+                e->ch = code;
+                e->len = 2;
+                e++;
+                *attr++ = TQuestVmDownLoadServer__sub_803EC8D8(code);
+                count++;
+                width += 2;
+            }
+            hi = 0;
+        } else if (TQuestVmDownLoadServer::is_sjis_lead_byte(*p)) {
+            hi = *p;
+        } else if ((*p >= 0x20 && *p < 0x7F) || (*p >= 0xA0 && *p < 0xE0)) {
+            if (count >= 36 || width >= 79) {
+                return -1;
+            }
+            e->ch = *p;
+            e->len = 1;
+            hi = 0;
+            count++;
+            width++;
+            *attr++ = 0;
+            e++;
+        }
+    }
+    lbl_805D78C8 = (s32 *)e;
+    lbl_805D78C4 = (s32 *)e;
+    lbl_805D78BC = (s32 *)attr;
+    lbl_805D78B8 = (s32 *)attr;
+    lbl_805D78C0 = count;
+    return count;
+}
+#pragma pop
+
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(4)
+// Upper-cases an ASCII letter (name inferred).
+inline u8 ascii_to_upper(u8 c) {
+    if (c >= 0x61U && c <= 0x7AU) {
+        c -= 0x20;
+    }
+    return c;
+}
+
+// Looks up a one- or two-letter key: lbl_8047FBD4 holds, per initial
+// letter, the first 11-byte row of lbl_8047F9B8 (second letter, then text).
+const u8 *TQuestVmDownLoadServer__sub_803EDDA4(u16 *start, u16 *end) {
+    s32 len;
+    s32 c;
+    s32 idx;
+    s32 c2;
+    const u8 (*const *grp)[11];
+    const u8 (*row)[11];
+    const u8 (*next)[11];
+    len = end - start;
+    if (len == 0) {
+        return &lbl_8047F9B8[0][1];
+    }
+    if (len == 1 || len == 2) {
+        c = start[0] & 0xFF;
+        if (c >= 'a' && c <= 'z') {
+            idx = c - 'a';
+        } else if (c >= 'A' && c <= 'Z') {
+            idx = c - 'A';
+        } else {
+            return NULL;
+        }
+        grp = &lbl_8047FBD4[idx];
+        row = *grp;
+        if (len == 1) {
+            return &(*row)[1];
+        }
+        while ((next = *++grp) == NULL) {
+        }
+        c2 = ascii_to_upper(start[1] & 0xFF);
+        for (row++; row < next; row++) {
+            if ((*row)[0] == c2) {
+                return &(*row)[1];
+            }
+        }
+    }
+    return NULL;
+}
+#pragma pop
+
 u8 *TQuestVmDownLoadServer::find_keyword_entry(u16 *start, u16 *end) {
     u8 c;
     u8 *p;
@@ -3957,6 +4076,29 @@ u16 *TQuestVmDownLoadServer__sub_803EE718(s32 i, s32 len) {
 u8 *TQuestVmDownLoadServer__sub_803EE828(void) {
     TQuestVmDownLoadServer__sub_803EC71C((u16 *)(((u8 *)&lbl_805A0340)), (u8 *)(((u8 *)&lbl_805A02A8)), (s32)(TQuestVmDownLoadServer__sub_803EE934()));
     return ((u8 *)&lbl_805A02A8);
+}
+
+// Drops the node chain of a slot; in mode 1 the nodes before the current
+// position are first returned to the download entry pool.
+void TQuestVmDownLoadServer__sub_803EE870(s32 slot, s32 mode) {
+    Node_803EB794 *p;
+    Node_803EB794 *end;
+    Node_803EB794 *next;
+    if ((p = quest_download_slot_chain_table[slot].chain) != NULL) {
+        if (mode == 1 && (lbl_805D78E8 == 1 || lbl_805D7834 >= 3)) {
+            end = advance_nodes__22TQuestVmDownLoadServerFPvi(lbl_805D78A0, lbl_805D7898);
+            while (p != NULL) {
+                if (p == end) {
+                    break;
+                }
+                next = (Node_803EB794 *)TQuestVmDownLoadServer__sub_803EB878((Node_803EB878 *)p);
+                TQuestVmDownLoadServer::push_download_entry((s32 *)p);
+                p = next;
+            }
+            quest_download_slot_chain_table[slot].chain = p;
+        }
+        ((TQuestVmDownLoadServer *)detach_node_chain__22TQuestVmDownLoadServerFPv((Node_803EB894 *)p))->free_node_list();
+    }
 }
 
 s32 TQuestVmDownLoadServer__sub_803EE934(void) {
@@ -4697,6 +4839,61 @@ s32 TQuestVmDownLoadServer__sub_803F0268(const char *name, s16 len, Out_803F0268
     }
     return 1;
 }
+
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(1)
+inline s32 merge_duplicate_entry(Ent_803F03B4 *begin, Ent_803F03B4 *e) {
+    Ent_803F03B4 *q;
+    for (q = begin; q < e; q++) {
+        if (q->a == e->a && q->b == e->b) {
+            if (q->key < e->key) {
+                q->key = e->key;
+            }
+            return 1;
+        }
+    }
+    return 0;
+}
+inline u8 *skip_record_args(u8 *p, u8 *end) {
+    for (; p < end; p += 2) {
+        if (*p <= 0x38) {
+            break;
+        }
+    }
+    return p;
+}
+s32 TQuestVmDownLoadServer__sub_803F03B4(u8 *data, Ent_803F03B4 *e, s32 n, s32 *max) {
+    Ent_803F03B4 *ents = e;
+    u8 *end = data + (u16)(data[0] + (data[1] << 8));
+    u8 *p = data + 3 + data[2];
+    e = e + n;
+    while (p < end) {
+        u8 key;
+        e->a = *p++;
+        key = *p++;
+        if ((e->key = key) > *max) {
+            *max = e->key;
+        }
+        if (*p <= 0xB) {
+            e->b = *p;
+            p++;
+        } else {
+            e->b = 0;
+        }
+        e->c = 0;
+        if (!merge_duplicate_entry(ents, e)) {
+            n++;
+            e++;
+            if (n >= 32) {
+                break;
+            }
+        }
+        p = skip_record_args(p, end);
+    }
+    return n;
+}
+#pragma pop
 
 s32 TQuestVmDownLoadServer__sub_803F0500(u8 *name, s16 len, Out_803E8C2C *out) {
     s16 blen;
