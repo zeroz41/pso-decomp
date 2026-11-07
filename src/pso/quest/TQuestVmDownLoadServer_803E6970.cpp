@@ -322,6 +322,7 @@ extern RecoveredGlobal_803EE2E4_lbl_8058DC98 lbl_8058DC98;
 extern RecoveredGlobal_803E6ACC_lbl_805A0470 lbl_805A0470;
 extern RecoveredGlobal_803E6ACC_lbl_805A0498 quest_download_entry_table;
 extern RecoveredGlobal_803E6ACC_lbl_805A05D0 lbl_805A05D0;
+extern s32 quest_download_state;
 extern s32 lbl_805D7848;
 extern s32 *lbl_805D78B8;
 extern s32 *lbl_805D78BC;
