@@ -61,7 +61,7 @@ struct TWindowDD
     u32 m_100;
     u32 m_104;
     void draw_transformed_primitive(void* a1, void* a2, void* a3);
-    void reset_entries(f32 v);
+    void reset_entries(f32 z, s32 color);
     void set_quad_corners_scaled(f32 farg0, f32 farg1, f32 farg2);
     static s32 apply_both_choices(s32 arg0, s32 arg1);
     void set_clamped_page(s32 arg1);

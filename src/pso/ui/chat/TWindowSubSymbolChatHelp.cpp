@@ -64,7 +64,6 @@ int TWindowSubSymbolChatHelp__sub_80247EE8(int);
 void apply_context_transform_to_rect(void *, void *);
 void draw_help_icon__24TWindowSubSymbolChatHelpFiPvii(s32 arg0, Win_802845EC *arg1, s32 arg2, s32 arg3);
 void __dl__7TObjectFPv(void *);
-s32 begin_render__20TWindowSubStatusDispFl();
 int initialize_subwindow__9TWindowDDFv(void*);
 
 extern s32 lbl_805D63F0;
@@ -189,7 +188,7 @@ void TWindowSubSymbolChatHelp::draw_help_entries(void *arg1) {
         draw_color_palette((Win_8028429C *)(arg1));
         TWindowSubStatusDisp::get_player();
         begin_screen_draw(1);
-        begin_render__20TWindowSubStatusDispFl();
+        TWindowSubStatusDisp::begin_render();
         set_draw_texture_and_color(1, -1);
         draw_help_entry((Win_802844C8 *)(arg1), 0, -1);
         draw_help_entry((Win_802844C8 *)(arg1), 1, -1);
