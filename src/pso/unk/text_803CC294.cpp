@@ -71,7 +71,7 @@ struct LogHdr_803CCE9C { u8 pad[0x6]; u16 seq; };
 extern "C" {
 extern RecoveredGlobal_803CC500_lbl_8047C910 lbl_8047C910;
 extern RecoveredGlobal_803CC53C_lbl_8047C93C lbl_8047C93C;
-s32 TLobby__sub_803CCB98();
+s32 adxf_read_nw32__6TLobbyFPvil();
 extern RecoveredGlobal_803CCB5C_lbl_8047CA28 lbl_8047CA28;
 extern char lbl_8047C88C[];
 s32 TLobby__sub_803CC4C0(Obj_803CC4C0 *p);
@@ -285,7 +285,7 @@ s32 TLobby::read_checked_align(s32 arg0, s32 arg1, s32 arg2) {
         TLobby::notify_error((const char *)(&lbl_8047CA28.value));
         return -3;
     }
-    return TLobby__sub_803CCB98();
+    return adxf_read_nw32__6TLobbyFPvil();
 }
 #define LE32_803CD5C4(p) ((p)[0] | ((p)[1] << 8) | ((p)[2] << 16) | ((p)[3] << 24))
 #pragma push
@@ -646,7 +646,7 @@ s32 TLobby::read_afs_toc(s32 arg0) {
         }
     }
     if (i >= 0x200) {
-        if (((s32 (*)(void *, int, void *))TLobby__sub_803CCB98)(lobby_adxf_open_file_handle, 1, lbl_805D75EC) < 0) {
+        if (((s32 (*)(void *, int, void *))adxf_read_nw32__6TLobbyFPvil)(lobby_adxf_open_file_handle, 1, lbl_805D75EC) < 0) {
             st = 4;
             TLobby__sub_803CD804();
         } else {

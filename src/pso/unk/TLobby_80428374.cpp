@@ -103,8 +103,8 @@ typedef struct Tbl_804267F0 {
 extern u8 lbl_805CF240[];
 s32 TLobby__sub_803F97E8(int);
 extern void *lbl_805C18A0[];
-extern s16 lbl_805D7A86;
-extern s16 lbl_805D7A8A;
+extern s16 lobby_modem_abort_flag;
+extern s16 lobby_modem_connect_state;
 s16 modem_script_next_token(u8 *src, u8 *dst, u8 **next);
 s16 TLobby__sub_804293B0(u8 *buf, s16 len);
 s16 TLobby__sub_804036FC(u16 *avail);
@@ -134,8 +134,8 @@ s32 NetCompareStringsCaseInsensitiveN(u8 *a, u8 *b, u32 n);
 
 typedef char RecoveredGlobal_80427D0C_lbl_805CFC20_size[sizeof(RecoveredGlobal_80427D0C_lbl_805CFC20) == 0xE20 ? 1 : -1];
 
-extern u32 lbl_805D7C04;
-extern s32 lbl_805D7C08;
+extern u32 lobby_g_pool_base;
+extern s32 lobby_g_pool_size;
 extern s32 lbl_805D7C0C;
 extern u32 lbl_805D7C10;
 extern u32 lbl_805D7C14;
@@ -222,12 +222,12 @@ static inline s16 modem_read_line(u8 **src, u8 *dst) {
 
 static inline s16 modem_wait_connect(void) {
     s16 ret = 0;
-    lbl_805D7A8A = 9;
+    lobby_modem_connect_state = 9;
     for (;;) {
-        if (lbl_805D7A8A == 2) {
+        if (lobby_modem_connect_state == 2) {
             break;
         }
-        if (lbl_805D7A86 != 0 || lbl_805D7A8A != 9) {
+        if (lobby_modem_abort_flag != 0 || lobby_modem_connect_state != 9) {
             ret = 4;
             break;
         }
@@ -325,7 +325,7 @@ s16 TLobby::wait_timeout_loop() {
         limit = *p * 1000;
     }
     for (;;) {
-        if (lbl_805D7A86 != 0) {
+        if (lobby_modem_abort_flag != 0) {
             ret = 4;
             break;
         }
@@ -707,7 +707,7 @@ s16 TLobby__sub_804293B0(u8 *buf, s16 len) {
             }
         }
         TLobby::get_time_ms(&now);
-        if (lbl_805D7A86 != 0 || lbl_805D7BD4 == 0) {
+        if (lobby_modem_abort_flag != 0 || lbl_805D7BD4 == 0) {
             lbl_805D7BD4 = 0;
             return -1;
         }
@@ -743,12 +743,12 @@ void TLobby::reset_buffer_pool() {
     lbl_805D7C0C = 0;
     lbl_805D7C24 = 0;
     lobby_buffer_pool_state = 0;
-    if ((u32) lbl_805D7C04 != 0U) {
-        lbl_805D7C10 = lbl_805D7C04;
-        lbl_805D7C14 = lbl_805D7C04;
-        TLobby__buffer_pool_start = lbl_805D7C04;
-        TLobby__buffer_pool_limit = lbl_805D7C04 + lbl_805D7C08;
-        lbl_805D7C20 = lbl_805D7C08;
+    if ((u32) lobby_g_pool_base != 0U) {
+        lbl_805D7C10 = lobby_g_pool_base;
+        lbl_805D7C14 = lobby_g_pool_base;
+        TLobby__buffer_pool_start = lobby_g_pool_base;
+        TLobby__buffer_pool_limit = lobby_g_pool_base + lobby_g_pool_size;
+        lbl_805D7C20 = lobby_g_pool_size;
         return;
     }
     lbl_805D7C10 = 0U;
