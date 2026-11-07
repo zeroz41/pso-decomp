@@ -1360,6 +1360,7 @@ pso/technique/TSlicerHistory_8023BDD0.cpp
 pso/object/switch/TSwitch.cpp
 pso/technique/TTecAnti.cpp
 pso/technique/TTecBarta.cpp
+pso/technique/TTecCtrl.cpp
 pso/technique/TTecDeband.cpp
 pso/technique/TTecFoie.cpp
 pso/technique/TTecFoie_802301EC.cpp
@@ -2064,7 +2065,6 @@ pso/player/TObjPlayer_801D9E10.cpp
 pso/player/TObjPlayer_801E2D1C.cpp
 pso/player/TObjPlayer_801E483C.cpp
 pso/player/TObjPlayer_8022602C.cpp
-pso/player/TObjPlayer_8022C6C4.cpp
 pso/player/TObjPlayer_8023355C.cpp
 pso/player/TObjPlayer_8023C024.cpp
 pso/player/TObjPlayer_8023E480.cpp
@@ -2572,7 +2572,6 @@ pso/unk/text_80225CD8.cpp
 pso/unk/text_80228C54.cpp
 pso/unk/text_80228E98.cpp
 pso/unk/text_8022BE64.cpp
-pso/unk/text_8022F164.cpp
 pso/unk/text_8022F258.cpp
 pso/technique/TTecFoie_8022FB70.cpp
 pso/technique/TTecFoie_8022FC94.cpp

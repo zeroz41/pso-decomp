@@ -28,6 +28,7 @@ struct TechniqueBoostParam {
 struct TechniqueBoostTable {
     TechniqueBoost boosts[6];
 
+    TechniqueBoostTable();
     void set(s32 index, TechniqueBoost *boost);
     void clear();
 };
