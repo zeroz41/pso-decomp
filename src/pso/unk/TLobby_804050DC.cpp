@@ -1628,13 +1628,15 @@ inline Peer_8040799C *Find_8040799C(Tbl_8040799C *t, u8 k, void *name) {
 
 inline Ent_8040799C *FindEnt_80407640(Tbl_8040799C *t, s16 id, s16 type) {
     s16 i;
+    s16 n;
     Ent_8040799C *e;
 
     if (id < 0) {
         return NULL;
     }
     e = t->ents;
-    for (i = 0; i < t->h2; i++, e++) {
+    n = t->h2;
+    for (i = 0; i < n; i++, e++) {
         if (e->f0 == 1 && e->f2 == id && e->f6 == type) {
             return e;
         }
@@ -1651,6 +1653,8 @@ inline s16 Check_80407640(Arp_8040799C *pkt, Ent_8040799C *e) {
 
 s16 TLobby__sub_804082AC(Ent_8040799C *e, Out_8040799C *o, void *out);
 
+#pragma push
+#pragma opt_common_subs on
 s32 TLobby__sub_80407640(void *data, s16 len, s16 id, s32 type) {
     Tbl_8040799C *t = TBL;
     Arp_8040799C *pkt;
@@ -1703,6 +1707,7 @@ s32 TLobby__sub_80407640(void *data, s16 len, s16 id, s32 type) {
     }
     return 0;
 }
+#pragma pop
 
 #pragma push
 #pragma dont_inline off
@@ -12824,6 +12829,8 @@ struct Tcb_8041D460 {
     Seg_8041D460 items[32];
 };
 
+#pragma push
+#pragma opt_common_subs on
 void TLobby__sub_8041D398(Tcb_8041D460 *tp, s32 start, s32 end) {
     s16 i;
     s32 seg;
@@ -12856,6 +12863,7 @@ void TLobby__sub_8041D398(Tcb_8041D460 *tp, s32 start, s32 end) {
         }
     }
 }
+#pragma pop
 
 s32 TLobby__sub_8041D460(Tcb_8041D460 *tp, s32 *start, s32 *end) {
     s16 n = tp->n;
