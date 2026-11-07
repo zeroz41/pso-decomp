@@ -37,7 +37,7 @@ s32 get_screen_height__11TCameraCtrlFv(void);
 s32 get_screen_width__11TCameraCtrlFv(void);
 }
 
-void TWindowSubStatusDisp::render_forward(void *context) {
+void TWindowSubStatusDisp::render_forward() {
     begin_render();
 }
 

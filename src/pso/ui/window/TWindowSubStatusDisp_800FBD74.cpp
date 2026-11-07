@@ -105,7 +105,6 @@ struct Quad_800FC24C { f32 x0; f32 y0; f32 x1; f32 y1; f32 u0; f32 v0; f32 u1; f
 extern "C" {
 
 void build_small_font_glyph_quad(u8 c, Quad_800FC310 *q);
-s32 render_forward__20TWindowSubStatusDispFPv();
 
 #pragma push
 #pragma inline_depth(1)
@@ -126,7 +125,7 @@ void TWindowSubStatusDisp__sub_800FBD74(s32 arg0, f32 farg0, f32 farg1, f32 farg
     f32 temp_f8;
     set_default_alpha_blend();
     begin_screen_draw(1);
-    render_forward__20TWindowSubStatusDispFPv();
+    TWindowSubStatusDisp::render_forward();
     set_draw_texture_and_color(0, (arg0));
     stack.sp8 = farg0;
     stack.spC = farg1;
@@ -155,7 +154,7 @@ void TWindowSubStatusDisp::draw_number_digits(void *color, s16 value, u16 digits
     s32 i;
     set_default_alpha_blend();
     begin_screen_draw(1);
-    render_forward__20TWindowSubStatusDispFPv();
+    TWindowSubStatusDisp::render_forward();
     set_draw_texture_and_color(0, (s32)color);
     for (i = 0; i < digits; i++) {
         id = ((s32 (*)(s32))TWindowSubStatusDisp__sub_800FC248)((u8)(value % 10) + '0');
@@ -174,7 +173,7 @@ void draw_small_font_text(void *color, const char *s, f32 x, f32 y, f32 scale) {
     s32 id;
     set_default_alpha_blend();
     begin_screen_draw(1);
-    render_forward__20TWindowSubStatusDispFPv();
+    TWindowSubStatusDisp::render_forward();
     set_draw_texture_and_color(0, (s32)color);
     while (*s != 0) {
         u8 c = *s++;

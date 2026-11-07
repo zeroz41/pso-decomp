@@ -93,7 +93,6 @@ extern "C" {
 u32 calc_text_width(char *s);
 u32 TWindowSubStatusDisp__sub_80144E9C(char *s);
 u8 calc_gauge_scale__20TWindowSubStatusDispFPvPvi(void *arg0, void *arg1, s32 arg2);
-int end_render_forward__20TWindowSubStatusDispFPv(void* p);
 extern const f32 lbl_805DB1A0;
 extern const f32 lbl_805DB1A4;
 void draw_menu_font_string(const char *s, s32 arg1, u32 flags, f32 x, f32 y, f32 scale);
@@ -460,7 +459,7 @@ typedef char RecoveredGlobal_8000F91C_lbl_804FE120_size[sizeof(RecoveredGlobal_8
 typedef char RecoveredGlobal_8000F9E4_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F9E4_lbl_804FE120) == 0x18 ? 1 : -1];
 typedef char RecoveredGlobal_8000F9CC_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F9CC_lbl_804FE120) == 0x18 ? 1 : -1];
 
-int end_render_forward__20TWindowSubStatusDispFPv(void* p) { return get_player__20TWindowSubStatusDispFv(p); }
+void TWindowSubStatusDisp::end_render_forward() { get_player(); }
 void TWindowSubStatusDisp::reset_gauge(void* p) { begin_screen_draw((s32)((void*)1)); TWindowSubStatusDisp::set_gauge_param((s32)p); set_draw_texture_and_color((s32)((void*)0), (s32)((void*)-1)); }
 typedef struct Pos_8014556C Pos_8014556C;
 void draw_menu_font_string(const char *s, s32 arg1, u32 flags, f32 x, f32 y, f32 scale) {
@@ -531,5 +530,5 @@ void draw_menu_font_string(const char *s, s32 arg1, u32 flags, f32 x, f32 y, f32
       pos.x += (f32) w;
     }
   }
-  ((int (*)(void)) end_render_forward__20TWindowSubStatusDispFPv)();
+  TWindowSubStatusDisp::end_render_forward();
 }
