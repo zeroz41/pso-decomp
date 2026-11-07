@@ -7812,14 +7812,14 @@ force_active:
   - hair_bone_rotation_bone_list_29
   - hair_bone_rotation_bone_list_30
   - hair_bone_rotation_bone_list_31
-  - lbl_8049D478
-  - lbl_8049D4B8
-  - lbl_8049D518
-  - lbl_8049D558
-  - lbl_8049D588
-  - lbl_8049D5A8
-  - lbl_8049D5E8
-  - lbl_8049D638
+  - hair_bone_rotation_bone_list_32
+  - hair_bone_rotation_bone_list_33
+  - hair_bone_rotation_bone_list_34
+  - hair_bone_rotation_bone_list_35
+  - hair_bone_rotation_bone_list_36
+  - hair_bone_rotation_bone_list_37
+  - hair_bone_rotation_bone_list_38
+  - hair_bone_rotation_bone_list_39
   - hair_bone_rotation_desc_00
   - hair_bone_rotation_desc_01
   - hair_bone_rotation_desc_02
@@ -7852,14 +7852,14 @@ force_active:
   - hair_bone_rotation_desc_29
   - hair_bone_rotation_desc_30
   - hair_bone_rotation_desc_31
-  - lbl_8049D8F8
-  - lbl_8049D90C
-  - lbl_8049D920
-  - lbl_8049D934
-  - lbl_8049D948
-  - lbl_8049D95C
-  - lbl_8049D970
-  - lbl_8049D984
+  - hair_bone_rotation_desc_32
+  - hair_bone_rotation_desc_33
+  - hair_bone_rotation_desc_34
+  - hair_bone_rotation_desc_35
+  - hair_bone_rotation_desc_36
+  - hair_bone_rotation_desc_37
+  - hair_bone_rotation_desc_38
+  - hair_bone_rotation_desc_39
   - hair_bone_rotation_bone_list_of_descriptor
   - lbl_804A0440
   - lbl_804A044C
