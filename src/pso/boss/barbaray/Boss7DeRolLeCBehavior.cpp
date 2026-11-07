@@ -28,6 +28,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
+#include "pso/boss/barbaray/TBoss7Crawfish_8030908C.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
 #include "pso/boss/barbaray/TBoss7PhotonBullet_802EF26C.h"
@@ -625,6 +626,70 @@ s16 TObjFish__sub_802E7CC4(TBoss7DeRolLeC *self) {
         }
     }
     return -1;
+}
+
+// The set entry a crawfish spawned by De Rol Le C is built from (layout from
+// the stores below; position and rotation as TObjMotion reads them).
+struct Boss7CrawfishSetData {
+    s16 set_index;
+    s16 unk_02;
+    s16 unk_04;
+    u16 entity_id;
+    s16 room;
+    s16 unk_0A;
+    s16 unk_0C;
+    s16 unk_0E;
+    Vec position;
+    Ang_802E7888 rotation;
+    f32 unk_28;
+    f32 unk_2C;
+    f32 unk_30;
+    f32 unk_34;
+    f32 unk_38;
+    s16 unk_3C;
+    s16 unk_3E;
+};
+
+// Spawns a crawfish in child slot `slot` unless one with that entity id is
+// already alive.
+void TObjFish__sub_802E7D70(TBoss7DeRolLeC *self, s16 slot, const Vec *position, Ang_802E7888 *angle, s32 flags) {
+    s16 offset;
+    if (self->crawfish_parent != NULL && slot > 0) {
+        offset = slot + 11;
+        u16 id = offset + get_entity_id(self);
+        TObject *child;
+        for (child = self->crawfish_parent->m_down; child != NULL; child = child->m_next) {
+            if (id == get_entity_id(child)) {
+                return;
+            }
+        }
+        Boss7CrawfishSetData set;
+        set.set_index = self->set_index + offset;
+        set.unk_02 = 1;
+        set.unk_04 = 0;
+        set.entity_id = id;
+        set.room = self->room;
+        set.unk_0A = 0;
+        set.unk_0C = 0;
+        set.unk_0E = 0;
+        VecCopy(&set.position, position);
+        copy_xyz(&set.rotation, angle);
+        if (flags & 1) {
+            set.unk_28 = 0.0f;
+        } else {
+            set.unk_28 = 1.0f;
+        }
+        set.unk_3C = 0;
+        set.unk_2C = 0.0f;
+        set.unk_30 = 0.0f;
+        set.unk_34 = 0.0f;
+        set.unk_38 = 0.0f;
+        set.unk_3E = 0;
+        void *crawfish = TObject::operator new(0x3D0);
+        if (crawfish != NULL) {
+            TBoss7Crawfish__ct((u8 *)crawfish, (s32)self->crawfish_parent, (s32)&set);
+        }
+    }
 }
 
 
