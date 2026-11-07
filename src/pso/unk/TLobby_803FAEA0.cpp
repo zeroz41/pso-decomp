@@ -433,7 +433,7 @@ extern u32 lbl_805BFF68[];
 extern s16 lbl_805D7A82;
 extern s16 lbl_805D7A84;
 extern s16 lbl_805D7A88;
-extern s16 lbl_805D7A8A;
+extern s16 lobby_modem_connect_state;
 extern s32 lbl_805D7A8C;
 s16 NetApplyConnectionConfig(u8 *arg0);
 extern "C" {
@@ -594,7 +594,7 @@ void TLobby__sub_803F7A90(void);
 s16 TLobby__sub_803FD10C(void);
 void TLobby__sub_804061FC(int);
 extern s16 lbl_805D7A7E;
-extern s16 lbl_805D7A86;
+extern s16 lobby_modem_abort_flag;
 struct Sess_803FB01C { u8 pad[0x1C]; u8 buf[0x60]; u8 rest[0x54]; };
 
 s16 TLobby::init_net_session() {
@@ -620,9 +620,9 @@ s16 TLobby::init_net_session() {
         i++;
         p++;
     }
-    lbl_805D7A8A = 0;
+    lobby_modem_connect_state = 0;
     lbl_805D7A88 = 0;
-    lbl_805D7A86 = 0;
+    lobby_modem_abort_flag = 0;
     lbl_805D7A84 = 0;
     lbl_805D7A82 = 0;
     lbl_805D7A7E = 0;
@@ -659,11 +659,11 @@ s32 NetLinkDisconnect(NetWaitParam *param) {
     TLobby::lock_mutex(lbl_805C18A0.value);
     lbl_805D7A8C = 0;
     if (lbl_805D7A84 != 0) {
-        lbl_805D7A86 = 1;
-        lbl_805D7A8A = 6;
+        lobby_modem_abort_flag = 1;
+        lobby_modem_connect_state = 6;
     } else {
         lbl_805D7A88 = 0;
-        lbl_805D7A8A = 0;
+        lobby_modem_connect_state = 0;
     }
     TUdpSocket::unlock_mutex(((s32 *)&lbl_805C18A0)[0]);
     if (param == NULL || param->wait == 0) {
@@ -738,7 +738,7 @@ s16 NetApplyConnectionConfig(u8 *arg0) {
     NetMemcpy(g + 0xC0, arg0 + 0x5C, 8);
     NetMemcpy(g + 0xC8, arg0 + 0x64, 8);
     lbl_805D7A82 = 0;
-    lbl_805D7A8A = 1;
+    lobby_modem_connect_state = 1;
     lbl_805D7A88 = 1;
     lbl_805D7A90 = (s32) (*((u16 *) (((s8 *) g) + 0)));
     lbl_805D7A8C = *((s32 *) (((s8 *) g) + 0x18));
@@ -767,7 +767,7 @@ s32 TLobby::is_timed_out() {
     G_803FB634 *g = (G_803FB634 *)&lbl_805BFF68;
     s32 now;
     TLobby::get_time_ms(&now);
-    if (lbl_805D7A8A == 5 || lbl_805D7A86 != 0 || (u32)(now - g->t8) > 60000) {
+    if (lobby_modem_connect_state == 5 || lobby_modem_abort_flag != 0 || (u32)(now - g->t8) > 60000) {
         return 1;
     }
     return 0;
@@ -796,8 +796,8 @@ s32 TLobby__sub_803FB6A0(void) {
             TLobby::lock_mutex(((Sock_803FB6A0 *)&lbl_805C18A0)->sock);
         }
     }
-    lbl_805D7A86 = 0;
-    lbl_805D7A8A = 7;
+    lobby_modem_abort_flag = 0;
+    lobby_modem_connect_state = 7;
     TLobby__sub_804037F0();
     if (sess->h22 != 0 && sess->w60 != 0 && NetStringLength((const char*)sess->w60) != 0) {
         modem_run_script(sess->w60, sess);
@@ -808,8 +808,8 @@ s32 TLobby__sub_803FB6A0(void) {
     }
     lbl_805D7A84 = 0;
     lbl_805D7A88 = 0;
-    lbl_805D7A86 = 0;
-    lbl_805D7A8A = 0;
+    lobby_modem_abort_flag = 0;
+    lobby_modem_connect_state = 0;
     return 0;
 }
 
@@ -853,17 +853,17 @@ s32 TLobby__sub_803FB7A4(void) {
     u16 proto;
 
     lbl_805D7A88 = 0;
-    lbl_805D7A8A = 2;
+    lobby_modem_connect_state = 2;
     TLobby::get_time_ms(&lbl_805D7A94);
     lbl_805D7A84 = 1;
     ret = TLobby__sub_80403D28(0, 0, cfg->h80, cfg->h7E, cfg->h7C, 1, cfg->w64, cfg->flags & 4);
-    if (ret != 0 || lbl_805D7A86 != 0) {
-        if (lbl_805D7A86 != 0) {
+    if (ret != 0 || lobby_modem_abort_flag != 0) {
+        if (lobby_modem_abort_flag != 0) {
             lbl_805D7A82 = 13;
         } else {
             lbl_805D7A82 = 1;
         }
-        lbl_805D7A8A = 8;
+        lobby_modem_connect_state = 8;
         if (cfg->callback != NULL) {
             TUdpSocket::unlock_mutex(lbl_805C18A0.value);
             cfg->callback(lbl_805D7A82, 0);
@@ -876,7 +876,7 @@ s32 TLobby__sub_803FB7A4(void) {
             ret = TLobby::send_atx_command_mode(0);
             if (ret != 0) {
                 lbl_805D7A82 = 1;
-                lbl_805D7A8A = 8;
+                lobby_modem_connect_state = 8;
                 if (cfg->callback != NULL) {
                     TUdpSocket::unlock_mutex(lbl_805C18A0.value);
                     cfg->callback(lbl_805D7A82, 0);
@@ -892,7 +892,7 @@ s32 TLobby__sub_803FB7A4(void) {
         }
         if (ret != 0) {
             lbl_805D7A82 = 1;
-            lbl_805D7A8A = 8;
+            lobby_modem_connect_state = 8;
             if (cfg->callback != NULL) {
                 TUdpSocket::unlock_mutex(lbl_805C18A0.value);
                 cfg->callback(lbl_805D7A82, 0);
@@ -901,14 +901,14 @@ s32 TLobby__sub_803FB7A4(void) {
             return 0;
         }
         if (cfg->flags & 2) {
-            lbl_805D7A8A = 10;
+            lobby_modem_connect_state = 10;
             goto wait_answer;
         }
         if (cfg->h1E != 0) {
             ret = TLobby__sub_803FAEDC(cfg);
             if (ret != 0) {
                 lbl_805D7A82 = ret;
-                lbl_805D7A8A = 8;
+                lobby_modem_connect_state = 8;
                 if (cfg->callback != NULL) {
                     TUdpSocket::unlock_mutex(lbl_805C18A0.value);
                     cfg->callback(lbl_805D7A82, 0);
@@ -930,7 +930,7 @@ s32 TLobby__sub_803FB7A4(void) {
                 if (ret >= 0) {
                     if (ret != 0) {
                         lbl_805D7A82 = ret;
-                        lbl_805D7A8A = 8;
+                        lobby_modem_connect_state = 8;
                         if (cfg->callback != NULL) {
                             TUdpSocket::unlock_mutex(lbl_805C18A0.value);
                             cfg->callback(lbl_805D7A82, 0);
@@ -942,13 +942,13 @@ s32 TLobby__sub_803FB7A4(void) {
                 }
             }
             TLobby::get_time_ms(&now);
-            if ((ret = lbl_805D7A86) != 0 || (u32)(now - start) > timeout) {
+            if ((ret = lobby_modem_abort_flag) != 0 || (u32)(now - start) > timeout) {
                 if (ret != 0) {
                     lbl_805D7A82 = 13;
                 } else {
                     lbl_805D7A82 = 12;
                 }
-                lbl_805D7A8A = 8;
+                lobby_modem_connect_state = 8;
                 if (cfg->callback != NULL) {
                     TUdpSocket::unlock_mutex(lbl_805C18A0.value);
                     cfg->callback(lbl_805D7A82, 0);
@@ -963,14 +963,14 @@ s32 TLobby__sub_803FB7A4(void) {
     }
 wait_answer:
     if (cfg->flags & 2) {
-        lbl_805D7A8A = 10;
-        while (lbl_805D7A8A == 10) {
+        lobby_modem_connect_state = 10;
+        while (lobby_modem_connect_state == 10) {
             TUdpSocket::unlock_mutex(lbl_805C18A0.value);
             TLobby__sub_803F97E8(100);
             TLobby::process_expired_timers();
             TLobby::lock_mutex(lbl_805C18A0.value);
         }
-        if (lbl_805D7A8A != 1) {
+        if (lobby_modem_connect_state != 1) {
             if (cfg->callback != NULL) {
                 TUdpSocket::unlock_mutex(lbl_805C18A0.value);
                 lbl_805D7A82 = 1;
@@ -983,7 +983,7 @@ wait_answer:
     TUdpSocket::unlock_mutex(lbl_805C18A0.value);
     TLobby__sub_803F97E8(500);
     TLobby::lock_mutex(lbl_805C18A0.value);
-    lbl_805D7A8A = 3;
+    lobby_modem_connect_state = 3;
     lbl_805D7A80 = 0;
     TLobby::get_time_ms(&cfg->start_time);
     lbl_805D7A78 = 0;
@@ -1006,7 +1006,7 @@ wait_answer:
     params.w14 = cfg->w10;
     if (TLobby__sub_80403C60((u8 *)&params) != 0) {
         lbl_805D7A82 = 5;
-        lbl_805D7A8A = 8;
+        lobby_modem_connect_state = 8;
         if (cfg->callback != NULL) {
             TUdpSocket::unlock_mutex(lbl_805C18A0.value);
             cfg->callback(lbl_805D7A82, 0);
@@ -1085,7 +1085,7 @@ wait_answer:
                 }
             } else {
                 lbl_805D7A82 = 6;
-                lbl_805D7A8A = 8;
+                lobby_modem_connect_state = 8;
                 if (cfg->callback != NULL) {
                     TUdpSocket::unlock_mutex(lbl_805C18A0.value);
                     cfg->callback(lbl_805D7A82, 0);
@@ -1095,7 +1095,7 @@ wait_answer:
             }
             if (TLobby::wait_for_connection(conn) != 0) {
                 lbl_805D7A82 = 12;
-                lbl_805D7A8A = 8;
+                lobby_modem_connect_state = 8;
                 if (cfg->callback != NULL) {
                     TUdpSocket::unlock_mutex(lbl_805C18A0.value);
                     cfg->callback(lbl_805D7A82, 0);
@@ -1108,7 +1108,7 @@ wait_answer:
     }
     if (ok == 0) {
         lbl_805D7A82 = 6;
-        lbl_805D7A8A = 8;
+        lobby_modem_connect_state = 8;
         if (cfg->callback != NULL) {
             TUdpSocket::unlock_mutex(lbl_805C18A0.value);
             cfg->callback(lbl_805D7A82, 0);
@@ -1118,7 +1118,7 @@ wait_answer:
     }
     if (TLobby__sub_80403864() != 0) {
         lbl_805D7A82 = 7;
-        lbl_805D7A8A = 8;
+        lobby_modem_connect_state = 8;
         if (cfg->callback != NULL) {
             TUdpSocket::unlock_mutex(lbl_805C18A0.value);
             cfg->callback(lbl_805D7A82, 0);
@@ -1126,7 +1126,7 @@ wait_answer:
         }
         return 0;
     }
-    lbl_805D7A8A = 4;
+    lobby_modem_connect_state = 4;
     if (cfg->callback != NULL) {
         TUdpSocket::unlock_mutex(lbl_805C18A0.value);
         cfg->callback(0, lbl_805D7BD8);

@@ -55,7 +55,7 @@ s32 TLobby::alloc_download_quest(s32 arg1, s32 *arg2) {
 u8 *set_stream_and_load_file__6TLobbyFi(s32);
 s32 update_lobby_scene__6TSceneFv();
 s32 read_disc_file(s32, s32);
-extern s32 lbl_80499A40[];
+extern s32 load_file_prc_buffer_tag[];
 
 struct Sel_800F979C { u8 data[240]; };
 
@@ -72,10 +72,10 @@ s32 load_encrypted_text_archive(char *name, s32 *arg1) {
         return 0;
     }
     if ((size <= 0x40000) && (TLobby::tmp_buf_is_free() != 0)) {
-        buf = (u8 *)TLobby::tmp_buf_use_req((const char *)lbl_80499A40);
+        buf = (u8 *)TLobby::tmp_buf_use_req((const char *)load_file_prc_buffer_tag);
         read_disc_file((s32)name, (s32)buf);
         ret = ((TLobby *)buf)->alloc_download_quest(size, &sp8);
-        TLobby::tmp_buf_release((const char *)lbl_80499A40);
+        TLobby::tmp_buf_release((const char *)load_file_prc_buffer_tag);
     } else {
         TGStream st(name, 1);
         buf = (u8 *)TQuestVmDownLoadServer::alloc(0x800);
