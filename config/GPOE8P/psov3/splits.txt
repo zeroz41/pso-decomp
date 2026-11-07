@@ -1890,6 +1890,7 @@ pso/enemy/shinowa/TObjEneMe3ShinowaReal.cpp:
 pso/enemy/shinowa/TObjEneMe3Shinowa.cpp:
 	.text       start:0x800E47DC end:0x800E80A4
 	.data       start:0x80495BE0 end:0x80495F3C
+	.bss        start:0x80500FC0 end:0x80501010
 	.sdata2     start:0x805DA5D8 end:0x805DA634
 
 pso/player/TObjPlayer_800E80A4.cpp:
