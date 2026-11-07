@@ -53,6 +53,21 @@ and the language files the game loads. Code that is not decompiled yet still com
 build does not mean the decompilation is complete. The same goes for the functions Nintendo and Metrowerks wrote
 in assembly: `tools/orig_asm.py` rebuilds their bodies from your disc before anything is compiled.
 
+### The European version
+
+The source also builds Phantasy Star Online Episode I & II for Europe (`GPOP8P`, disc SHA-1
+`da74531ed5bd62af29af4afe8ac33d97b0d21d4c`, `files/PsoV3.dol` SHA-1 `cc97d526d286339fc5c44620198c89a567c4675b`).
+Put that disc image in `orig/GPOP8P/` and run:
+
+    python configure.py --version GPOP8P
+    ninja
+
+`config/GPOP8P/psov3/` places the same units and symbols at the European addresses. Units whose code is the same
+in both versions are linked from source there too (`config/GPOP8P/psov3/linked_units.txt`, kept with
+`python tools/link_units.py --version GPOP8P scan --write`); the rest, including the code only one version has,
+still comes from the disc. The build checks `PsoV3.dol` only: the data files are checked for the USA version.
+`objdiff.json` follows the version you configured last.
+
 ## Objdiff and the progress page
 
 `ninja` also writes `objdiff.json` in the repository folder and the objdiff progress report,

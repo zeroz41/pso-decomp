@@ -1,0 +1,2 @@
+# Linked in the USA version only: its opcode table names qst_op_has_ep3_save_file, which this version lacks.
+pso/quest/QuestOpcodeTables.cpp
