@@ -6304,8 +6304,8 @@ force_active:
   - fn_800BC758
   - fn_800E322C
   - fn_800E3374
-  - fn_800E3428
-  - fn_800E35C8
+  - sweep_beam_collisions
+  - check_radius_collisions
   - fn_800E9238
   - fn_800EB778
   - fn_8010EF14

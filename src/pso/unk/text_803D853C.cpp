@@ -34,7 +34,7 @@ s32 debug_text_global_count;
 
 #pragma push
 #pragma scheduling off
-void fn_803D8030(DebugTextRecord *p, s32 n, s32 x) {
+void init_debug_text_buffer(DebugTextRecord *p, s32 n, s32 x) {
     lbl_805D76D4 = p;
     lbl_805D76D0 = (char *)(p + n);
     lbl_805D76CC = n;
@@ -46,7 +46,7 @@ void fn_803D8030(DebugTextRecord *p, s32 n, s32 x) {
 }
 #pragma pop
 
-void fn_803D8064(u16 arg0) {
+void set_debug_text_scale(u16 arg0) {
     debug_text_scale = (f32)arg0;
 }
 }

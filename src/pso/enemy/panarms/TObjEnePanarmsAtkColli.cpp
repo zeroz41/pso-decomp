@@ -107,7 +107,7 @@ extern Pair_800E3374 lbl_8043CDF0[];
 void fn_800E3374(Obj_800E3374 *arg0, V_800E3374 *arg1);
 f32 horizontal_distance_squared(void *, void *);
 extern s32 registered_player_count;
-void fn_800E35C8(Obj_800E35C8 *arg0);
+void check_radius_collisions(Obj_800E35C8 *arg0);
 u16 find_nearest_hittable_enemy__10TObjPlayerFiPvf(void *, s32, f32);
 u8 *get_enemy_entity(u16 arg0);
 void fn_800E322C(void *p, void *t);
@@ -170,7 +170,7 @@ void fn_800E3374(Obj_800E3374 *target, V_800E3374 *arg1) {
 }
 #pragma push
 #pragma opt_loop_invariants off
-void fn_800E3428(Obj_800E3428 *self) {
+void sweep_beam_collisions(Obj_800E3428 *self) {
     Vec_800E3428 d;
     f32 len;
     f32 lim;
@@ -215,7 +215,7 @@ void fn_800E3428(Obj_800E3428 *self) {
 
 #pragma pop
 
-void fn_800E35C8(Obj_800E35C8 *arg0) {
+void check_radius_collisions(Obj_800E35C8 *arg0) {
     s32 i;
     Player_800E35C8 *p;
     f32 lim = arg0->f378 * arg0->f378;
@@ -372,11 +372,11 @@ void TObjEnePanarmsAtkColli::run_task() {
     *(f32 *)&this->unk_378 = (f32) (*(f32 *)&this->unk_378 + this->m_37c);
     switch (*(s32 *)&this->m_374) {
     case 0:
-        ((void (*)(void *))fn_800E35C8)(arg0);
+        ((void (*)(void *))check_radius_collisions)(arg0);
         return;
     case 1:
         play_persistent_sound((s32)(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003BA2A))), (s32)arg0, (u32)&this->position, 0, 0);
-        ((void (*)(void *))fn_800E3428)(arg0);
+        ((void (*)(void *))sweep_beam_collisions)(arg0);
         return;
     }
 }
