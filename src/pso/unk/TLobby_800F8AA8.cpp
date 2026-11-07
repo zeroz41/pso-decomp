@@ -35,7 +35,7 @@ extern "C" u8 lbl_8043D9D0[];
 extern "C" u8 lbl_8043D9DC[];
 extern "C" u8 lbl_8043D9E8[];
 extern void *lbl_8049C5E0[15];
-char lbl_80499A40[] = "MallocLoadFilePrc";
+char load_file_prc_buffer_tag[] = "MallocLoadFilePrc";
 void *TLobby__disk_error_msg_table[15] = {
     (void *)&lbl_8043D7A8, (void *)0x42a00000, (void *)0x43660000, (void *)&lbl_8043D820,
     (void *)0x42a00000, (void *)0x43660000, (void *)&lbl_8043D854, (void *)0x42a00000,
