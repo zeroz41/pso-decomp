@@ -35,7 +35,7 @@ s32 lbl_805D7480;
 s32 *lbl_805D7484;
 void *lbl_805D7488;
 DSPvoice_803B5500 *lbl_805D748C;
-s32 (*lbl_805D7490)(s32, s32);
+s32 (*salMessageCallback)(s32, s32);
 
 #define dspStudio lbl_805663D8
 #define salNumVoices lbl_805D74C5
@@ -1627,10 +1627,10 @@ void salBuildCommandList(s16 *dest, u32 nsDelay) {
 
 s32 salSynthSendMessage(u8 *arg0, s32 arg1) {
     struct Fields_arg0 { u8 pad_0[24]; s32 field_18; };
-    if (((s32 (*)(s32, s32)) lbl_805D7490) == NULL) {
+    if (((s32 (*)(s32, s32)) salMessageCallback) == NULL) {
         return 0;
     }
-    return lbl_805D7490(arg1, ((Fields_arg0*)arg0)->field_18);
+    return salMessageCallback(arg1, ((Fields_arg0*)arg0)->field_18);
 }
 #pragma push
 #pragma opt_common_subs on

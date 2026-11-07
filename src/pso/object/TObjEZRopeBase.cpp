@@ -44,6 +44,6 @@ void *TObjEZRopeBase__ct(void *obj_ez_rope_base) {
     return obj_ez_rope_base;
 }
 
-extern char lbl_8043DF18[];
-void *TObjEZRopeBase__name = lbl_8043DF18;
+extern char TObjEZRopeBase__class_name_string[];
+void *TObjEZRopeBase__name = TObjEZRopeBase__class_name_string;
 }

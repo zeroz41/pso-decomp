@@ -49,7 +49,7 @@ s32 TObjBoss2DustCtrl_dust_counter;
 void __ct__7TObjectFP7TObject(void *);
 void* __nw__7TObjectFUl(s32);
 extern s32 __vt__17TObjBoss2DustCtrl[];
-extern void *lbl_805D26F8;
+extern void *TObjBoss2DustCtrl__name;
 extern s32 tl_05;
 
 extern "C" {
@@ -135,7 +135,7 @@ TObjBoss2DustCtrl::~TObjBoss2DustCtrl() {}
 void *TObjBoss2DustCtrl__ct(void *boss2_dust_ctrl) {
     __ct__7TObjectFP7TObject(boss2_dust_ctrl);
     *(s32 **)((s8 *)boss2_dust_ctrl + 0x18) = __vt__17TObjBoss2DustCtrl;
-    *(void * *)&((TObjBoss2DustCtrl *)boss2_dust_ctrl)->m_name = lbl_805D26F8;
+    *(void * *)&((TObjBoss2DustCtrl *)boss2_dust_ctrl)->m_name = TObjBoss2DustCtrl__name;
     return boss2_dust_ctrl;
 }
 

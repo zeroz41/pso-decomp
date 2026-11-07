@@ -2449,7 +2449,7 @@ __declspec(section ".data") Info_800E6F0C *TObjEneMe3ShinowaMirage__mirage_info_
 __declspec(section ".data") NJS_TEXLIST lbl_80500FEC;
 Vec lbl_80500FF4;
 s32 *lbl_80501000[4];
-extern void *lbl_805D2AC8;
+extern void *TObjEneMe3Shinowa__name;
 extern s32 TObjEneMe3ShinowaMirage__render_node_index;
 extern s32 saved_model_render_flags;
 extern const f32 lbl_805D9E84;
@@ -4300,7 +4300,7 @@ void *TObjEneMe3Shinowa__ct(void *ene_me3_shinowa, void *parent) {
     __ct__12TObjEneDD_STFP7TObject(ene_me3_shinowa, parent);
     *(s32 **)((s8 *)ene_me3_shinowa + 0x18) = __vt__17TObjEneMe3Shinowa;
     __ct__13TUnk_80494938Fv(((char *)ene_me3_shinowa + 1000));
-    *(void * *)&((TObjEneMe3Shinowa *)ene_me3_shinowa)->m_name = lbl_805D2AC8;
+    *(void * *)&((TObjEneMe3Shinowa *)ene_me3_shinowa)->m_name = TObjEneMe3Shinowa__name;
     return ene_me3_shinowa;
 }
 }

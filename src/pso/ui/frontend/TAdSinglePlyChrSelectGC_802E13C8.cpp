@@ -121,12 +121,12 @@ void *__dt__18T_ATS_DrawCalendarFv(void *arg0, s16 arg1) {
 }
 
 extern s32 lbl_804E3050[];
-extern void *lbl_805D3F84;
+extern void *T_ATS_DrawCalendar__name;
 
 void *T_ATS_DrawCalendar::init_object(void *) {
     __ct__7TObjectFP7TObject(this);
     *(s32 **)((s8 *)this + 0x18) = lbl_804E34FC;
-    *(void * *)&this->m_name = lbl_805D3F84;
+    *(void * *)&this->m_name = T_ATS_DrawCalendar__name;
     *(u32 *)((s8 *)this + 0x1C) = 0;
     ((TWindowSubSymbolChatPartsSet *)((char *)this + 32))->copy_vec2(lbl_804E3050);
     return this;

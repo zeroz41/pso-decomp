@@ -21,7 +21,7 @@
 #pragma readonly_strings on
 
 extern "C" {
-const char *lbl_805D34A8 = "TObjLuker";
+const char *TObjLuker__name = "TObjLuker";
 }
 
 
@@ -95,7 +95,7 @@ void __dl__7TObjectFPv(void *);
 extern u8 __vt__9TObjLuker[];
 Luker_801A16D8 *__dt__9TObjLukerFv(Luker_801A16D8 *arg0, s16 arg1);
 void __ct__8TObjBaseFP7TObject(void *, void *);
-extern const char *lbl_805D34A8;
+extern const char *TObjLuker__name;
 void *TObjLuker__ct(void *arg0, void *arg1, void *arg2);
 f32 horizontal_distance_squared(void *, void *);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
@@ -494,7 +494,7 @@ void *TObjLuker__ct(void *arg0, void *parent, void *arg2) {
     s32 i;
     __ct__8TObjBaseFP7TObject(self, parent);
     self->f18 = __vt__9TObjLuker;
-    self->f0 = ((s32)lbl_805D34A8);
+    self->f0 = ((s32)TObjLuker__name);
     ((TObjBase *)self)->apply_object_set_data(arg2);
     self->fB0 = 0;
     self->fAA = 0xFFFF;

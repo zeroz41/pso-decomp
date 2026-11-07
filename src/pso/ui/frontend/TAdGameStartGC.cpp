@@ -239,8 +239,8 @@ void destroy_instance__17TAdGameStartSubGCFv(void) {
 void register_texture_f512_multiplay(void) { multiplay_texture_f512_handle = (int)texture_f512_multiplay_descriptor; TLobby__sub_8023E4B4((s32)lbl_80472C28, (s32)texture_f512_multiplay_descriptor); }
 extern "C" {
 __declspec(section ".rodata") extern const unsigned char lbl_80472C28[] = "f512_multiplay";
-__declspec(section ".rodata") extern const char lbl_80472C38[] = "TAdGameStartGC";
-__declspec(section ".rodata") extern const char lbl_80472C48[] = "TAdGameStartSubGC";
+__declspec(section ".rodata") extern const char TAdGameStartGC__class_name_string[] = "TAdGameStartGC";
+__declspec(section ".rodata") extern const char TAdGameStartSubGC__class_name_string[] = "TAdGameStartSubGC";
 
 #pragma push
 #pragma fp_contract on
@@ -359,5 +359,5 @@ s32 __vt__17TAdGameStartSubGC[] = {
     (s32)render__17TAdGameStartSubGCFv,
     (s32)render_shadows__7TObjectFv,
 };
-void *ad_game_start_name_ptr[2] = {(void *)lbl_80472C38, 0};
-void *lbl_805D3FB0[2] = {(void *)lbl_80472C48, 0};
+void *ad_game_start_name_ptr[2] = {(void *)TAdGameStartGC__class_name_string, 0};
+void *lbl_805D3FB0[2] = {(void *)TAdGameStartSubGC__class_name_string, 0};

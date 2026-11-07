@@ -90,13 +90,13 @@ void TObjBagWarnWin4P::create_window() {
 }
 
 extern s32 __vt__16TObjBagWarnWin4P[];
-extern void *lbl_805D284C;
+extern void *TObjBagWarnWin4P__name;
 
 TObjBagWarnWin4P::~TObjBagWarnWin4P() {}
 void *__ct__16TObjBagWarnWin4PFv(void *bag_warn_win4_p) {
     __ct__7TObjectFP7TObject(bag_warn_win4_p);
     *(s32 **)((s8 *)bag_warn_win4_p + 0x18) = __vt__16TObjBagWarnWin4P;
-    *(void * *)&((TObjBagWarnWin4P *)bag_warn_win4_p)->m_name = lbl_805D284C;
+    *(void * *)&((TObjBagWarnWin4P *)bag_warn_win4_p)->m_name = TObjBagWarnWin4P__name;
     *(u32 *)((s8 *)bag_warn_win4_p + 0x1C) = 0;
     *(u32 *)((s8 *)bag_warn_win4_p + 0xA0) = 0;
     return bag_warn_win4_p;

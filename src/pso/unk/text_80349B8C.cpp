@@ -39,7 +39,7 @@ static const f32 lbl_804788A8[4] = { 410.0f, 1.0f, 214.0f, 1.0f };
 static const f32 quest_line_color_quad_coordinates[8] = { 212.0f, 55.0f, 212.0f, 56.0f, 229.0f, 25.0f, 229.0f, 24.0f };
 static const f32 quest_line_quad_vertices[8] = { 409.0f, 456.0f, 409.0f, 457.0f, 426.0f, 426.0f, 426.0f, 425.0f };
 // TAdLoadQuestLineGC::m_name (lbl_805D4300 in TAdLoadQuestLineGC.cpp) points here.
-extern const char lbl_804788F8[] = "TAdLoadQuestLineGC";
+extern const char TAdLoadQuestLineGC__class_name_string[] = "TAdLoadQuestLineGC";
 
 // Each function copies its rectangle list to the stack before drawing it.
 struct QuestLineRects6 { Item_80349C54 items[6]; };

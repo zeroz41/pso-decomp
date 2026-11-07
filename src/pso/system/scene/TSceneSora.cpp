@@ -60,7 +60,7 @@ s32 get_bml_motion(int, int);
 s32 TObjFish__sub_8001EDB0(int, int);
 s32 get_bml_model(int, int);
 s32 __ct__8TObjBaseFP7TObject(void *);
-extern s32 lbl_805D3624;
+extern s32 TSceneSora__name;
 extern s32 TSceneSora__has_sky_motion;
 u8 *TSceneSora__ct(TSceneSora *arg0, s32 _w1);
 s32 draw_ginja_model_with_motion(int, int, f32);
@@ -131,7 +131,7 @@ typedef char RecoveredGlobal_80207340___vt__10TSceneSora_size[sizeof(RecoveredGl
 u8 *TSceneSora__ct(TSceneSora *scene_sora, s32 _w1) {
     __ct__8TObjBaseFP7TObject(scene_sora);
     *(s32 **)((s8 *)scene_sora + 0x18) = &(*(RecoveredGlobal_80207340___vt__10TSceneSora *)&__vt__10TSceneSora).value;
-    *(s32 *)((s8 *)scene_sora + 0) = lbl_805D3624;
+    *(s32 *)((s8 *)scene_sora + 0) = TSceneSora__name;
     scene_sora->m_90 = get_bml_model((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);
     if (TSceneSora__has_sky_motion != 0) {
         scene_sora->m_94 = get_bml_motion((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);

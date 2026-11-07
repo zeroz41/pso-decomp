@@ -264,7 +264,7 @@ const T_802C8F68 chainsaw_area_table_values = { { { 0x4D01F, 0x4C122, 0x4BC21 },
 const char *TOTrapChainSawDamage_class_name = "TOTrapChainSawDamage";
 const s32 lbl_80471F28[2] = { 0, 1 };
 const s32 lbl_80471F30[2] = { 0, 1 };
-const char *lbl_805D3F08 = "TOTrapChainSawKey";
+const char *TOTrapChainSawKey__name = "TOTrapChainSawKey";
 const s32 lbl_80471F4C[2] = { 3, 4 };
 const s32 lbl_80471F54[2] = { 3, 4 };
 const char *TOTrapChainSawEdge_class_name = "TOTrapChainSawEdge";
@@ -508,7 +508,7 @@ void *__dt__17TOTrapChainSawKeyFv(void *arg0, s16 arg1) {
 u8 *TOTrapChainSawKey__ct(u8 *arg0, void * _w1, void * _w2) {
     ((s32 (*)(void))__ct__14TOTrapChainSawFP7TObjectPv)();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TOTrapChainSawKey;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D3F08;
+    *(s32 *)((s8 *)arg0 + 0) = (s32) TOTrapChainSawKey__name;
     ((TOTrapChainSawKey *)(arg0))->decode_params();
     ((TOTrapChainSawKey *)(arg0))->vfunc_16();
     init_collision_body_parts(arg0, (int) ((u8 *)(&((RecoveredGlobal_802C8910_lbl_804E0CC0 *)chain_saw_collision_body_part_table)->value) + (*(s32 *)((s8 *)arg0 + 0xF8) * 0x58)), 2);

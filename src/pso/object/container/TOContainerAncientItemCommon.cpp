@@ -38,14 +38,14 @@ void *__dt__26TOContainerAncientItemRareFv(void *arg0, s16 arg1) {
 
 }
 
-extern s32 lbl_805D2F00;
+extern s32 TOContainerAncientItemRare__name;
 struct Ids_8015C234 { s32 f0; s32 a; s32 b; };
 
 extern Ids_8015C234 *ancient_container_fragment_texture_lists;
 u8 *TOContainerAncientItemRare__ct(u8 *container_ancient_item_rare, s32 arg1) {
     init_ancient_container(container_ancient_item_rare, arg1);
     *(s32 **)((s8 *)container_ancient_item_rare + 0x18) = __vt__26TOContainerAncientItemRare;
-    *(s32 *)((s8 *)container_ancient_item_rare + 0) = (s32) lbl_805D2F00;
+    *(s32 *)((s8 *)container_ancient_item_rare + 0) = (s32) TOContainerAncientItemRare__name;
     ((TOContainerAncientItemRare *)container_ancient_item_rare)->texlist = ancient_container_fragment_texture_lists->f0;
     return container_ancient_item_rare;
 }
@@ -161,12 +161,12 @@ void *__dt__28TOContainerAncientItemCommonFv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-extern void *lbl_805D2EFC;
+extern void *TOContainerAncientItemCommon__name;
 
 void *TOContainerAncientItemCommon__ct(void *container_ancient_item_common, void * _w1) {
     init_ancient_container((u8 *)container_ancient_item_common, (s32)_w1);
     *(s32 **)((s8 *)container_ancient_item_common + 0x18) = __vt__28TOContainerAncientItemCommon;
-    *(void * *)&((TOContainerAncientItemCommon *)container_ancient_item_common)->m_name = lbl_805D2EFC;
+    *(void * *)&((TOContainerAncientItemCommon *)container_ancient_item_common)->m_name = TOContainerAncientItemCommon__name;
     return container_ancient_item_common;
 }
 void TUnk_804B08BC::vfunc_79() {
@@ -189,7 +189,7 @@ void TUnk_804B08BC::vfunc_79() {
     b.y2 = b.y;
     b.a = get_bml_model((void *)ancient_container_resource_bundle, 2);
     b.b = TObjFish__sub_8001EDB0((void *)ancient_container_resource_bundle, 2);
-    if (check_value_equals__13TUnk_804B6C24Fl(self, lbl_805D2F00) != 0) {
+    if (check_value_equals__13TUnk_804B6C24Fl(self, TOContainerAncientItemRare__name) != 0) {
         a.b = ancient_container_fragment_texture_lists->a;
         b.b = ancient_container_fragment_texture_lists->b;
     }

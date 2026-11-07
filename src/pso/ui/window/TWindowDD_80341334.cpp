@@ -106,12 +106,12 @@ s32 TWindowDD__sub_8034146C(s32 arg0, s32 arg1, s32 str, s32 arg3, f32 farg0) {
     return var_r0;
 }
 
-void TWindowDD__sub_803414DC(void) {
+void __sinit_TWindowDD_80341334_cpp(void) {
     *(s32 *)((s8 *)&lbl_804EFC00.value + 0x18) = (s32) TWindowDD__data_805DFC14;
     *(f32 *)((s8 *)(&(*(RecoveredGlobal_803414DC_TWindowDD__data_804EFC24 *)&TWindowDD__data_804EFC24).value) + 8) = 50038.0f;
 }
 
-static void (*s_ctor_defaults)(void) __attribute__((section(".ctors"))) = TWindowDD__sub_803414DC;
+static void (*s_ctor_defaults)(void) __attribute__((section(".ctors"))) = __sinit_TWindowDD_80341334_cpp;
 
 
 }

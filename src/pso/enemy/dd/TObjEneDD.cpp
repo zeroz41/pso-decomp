@@ -63,7 +63,7 @@ extern const f32 TObjEneDD__data_805D9E8C;
 }
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 extern "C" void enemy_clear_target__12TObjEneDD_STFUs(void *);
-extern "C" void *lbl_805D2A34;
+extern "C" void *TObjEneDD_ST__name;
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_800B9AF8.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -683,7 +683,7 @@ s32 subtractive_rng_seed(void *, int);
 s32 vfunc_79__9TObjEnemyFPl();
 int fn_800FD8A0(void*);
 extern s32 area_random_seed;
-extern void *lbl_805D2A30;
+extern void *TObjEneDD__name;
 struct Base_800BBDD4 { char pad[0x18]; };
 struct VObj_800BBDD4 : Base_800BBDD4 {
     virtual void m0(int);
@@ -726,7 +726,7 @@ void TObjEneDD::release_resource() {
 }
 
 TObjEneDD::TObjEneDD(TObject *parent) : TObjEnemy(parent) {
-    m_name = (const char *)lbl_805D2A30;
+    m_name = (const char *)TObjEneDD__name;
     *(u32 *)((s8 *)this + 0x374) = 0;
     *(u32 *)((s8 *)this + 0x378) = 0;
     *(f32 *)((s8 *)this + 0x37C) = 5.0f;
@@ -1657,7 +1657,7 @@ void TObjEneDD::init_lights() { TObjLight__sub_801337F8((void*)current_scene_lig
 }
 
 TObjEneDD_ST::TObjEneDD_ST(TObject *parent) : TObjEneDD(parent) {
-    m_name = (const char *)lbl_805D2A34;
+    m_name = (const char *)TObjEneDD_ST__name;
     enemy_clear_target__12TObjEneDD_STFUs(this);
     init_float_params();
     enemy_init_acquire_period(30);

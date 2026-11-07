@@ -8,7 +8,7 @@ u8 lbl_804FF9C0[0x380];
 u8 lbl_804FFD40[0x400];
 __declspec(section ".data") u8 lbl_80500140[8];
 u8 csn_query_map_object[0x10];
-void fn_8007A6C8(void) {
+void __sinit_text_8007A6C8_cpp(void) {
     __construct_array(lbl_804FF9C0, TObjPlayer__sub_8007A7B8, 0, 0x1C, 0x20);
     TObjMapCsn::init_and_return((s32)lbl_80500140);
     ((TObjMapCsn *)csn_query_map_object)->init();
@@ -16,4 +16,4 @@ void fn_8007A6C8(void) {
 
 }
 
-__declspec(section ".ctors") static void *const __sinit_text_8007A6C8_cpp_ref = (void *)fn_8007A6C8;
+__declspec(section ".ctors") static void *const __sinit_text_8007A6C8_cpp_ref = (void *)__sinit_text_8007A6C8_cpp;

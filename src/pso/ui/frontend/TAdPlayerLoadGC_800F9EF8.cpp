@@ -20,11 +20,11 @@ extern s32 TLoadCtrl__fade_task;
 s32 TLoadCtrl__sub_800F9F00(void) {
     return TLoadCtrl__fade_task;
 }
-void TLobby__sub_800F9F08(void) {
+void __sinit_TAdPlayerLoadGC_800F9EF8_cpp(void) {
     __register_global_object(((TUnk_8049C658 *)resource_load_task_root)->construct(), (void *)destroy__13TUnk_8049C658Fs, resource_load_task_root_dtor_registration);
     disc_read_filename = lbl_805D2B10;
 }
 
 }
 
-__declspec(section ".ctors") static void *const __sinit_TAdPlayerLoadGC_800F9EF8_cpp_ref = (void *)TLobby__sub_800F9F08;
+__declspec(section ".ctors") static void *const __sinit_TAdPlayerLoadGC_800F9EF8_cpp_ref = (void *)__sinit_TAdPlayerLoadGC_800F9EF8_cpp;

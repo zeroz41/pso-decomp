@@ -8,8 +8,8 @@ void *memset(void *, int, size_t);
 void mem_free(void *);
 void *mem_alloc(u32 size);
 TOChatSensorCapture *TOChatSensorCapture__instance;
-extern const char lbl_8044049C[];
-const char *TOChatSensorCapture__class_name = lbl_8044049C;
+extern const char TOChatSensorCapture__class_name_string[];
+const char *TOChatSensorCapture__class_name = TOChatSensorCapture__class_name_string;
 }
 
 s32 TOChatSensorCapture::check_keyword(u16 client, const char *keyword) {

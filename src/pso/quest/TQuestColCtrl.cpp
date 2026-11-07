@@ -21,7 +21,7 @@ void __ct__7TObjectFP7TObject(void *);
 
 void TQuestColCtrl::render() {  }
 
-extern void *lbl_805D3404;
+extern void *TQuestColCtrl__name;
 
 void TQuestColCtrl::run_task() {
     TQuestColCtrl__sub_80196EC0();
@@ -42,7 +42,7 @@ TQuestColCtrl::~TQuestColCtrl() {
 void *TQuestColCtrl__ct(void *quest_col_ctrl) {
     __ct__7TObjectFP7TObject(quest_col_ctrl);
     *(s32 **)((s8 *)quest_col_ctrl + 0x18) = __vt__13TQuestColCtrl;
-    *(void * *)&((TQuestColCtrl *)quest_col_ctrl)->m_name = lbl_805D3404;
+    *(void * *)&((TQuestColCtrl *)quest_col_ctrl)->m_name = TQuestColCtrl__name;
     return quest_col_ctrl;
 }
 Obj_8019601C *create_quest_col_apc_inw__6TLobbyFPvPv(void *arg, s32 *out_id) {

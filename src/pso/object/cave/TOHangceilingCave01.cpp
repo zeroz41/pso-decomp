@@ -229,8 +229,8 @@ extern const char lbl_80441798[] = "fe_obj_gc_turiten_moto.gj";
 extern const char lbl_804417B4[] = "fe_obj_gc_turiten_moto.njm";
 extern const char lbl_804417D0[] = "bm_obj_ruins_turiten.bml";
 __declspec(section ".rodata") extern Q_801681D0 hang_ceiling_cave_scale_params = { 1.0f, 2.0f, 3.0f, 6.0f };
-extern const char lbl_804417FC[] = "TOHangceilingCave01Normal";
-extern const char lbl_80441818[] = "TOHangceilingCave01Key";
+extern const char TOHangceilingCave01Normal__class_name_string[] = "TOHangceilingCave01Normal";
+extern const char TOHangceilingCave01Key__class_name_string[] = "TOHangceilingCave01Key";
 extern const char TOHangceilingCave01KeyQuick__class_name_string[] = "TOHangceilingCave01KeyQuick";
 
 const char *fe_obj_turiten_moto_model_names[] = {lbl_804416F8, lbl_80441710, lbl_80441730, NULL};
@@ -243,8 +243,8 @@ BmlResourceDescriptor turiten_singo_resource_descriptor = {
     lbl_804417D0, bm_obj_ruins_turiten_model_names, bm_obj_ruins_turiten_motion_names, 1, 1};
 CollisionBody lbl_804B2174 = {{0.0f, 80.0f, 0.0f}, 17.0f, 17.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
-const char *TOHangceilingCave01Normal__class_name = lbl_804417FC;
-const char *TOHangceilingCave01Key__class_name = lbl_80441818;
+const char *TOHangceilingCave01Normal__class_name = TOHangceilingCave01Normal__class_name_string;
+const char *TOHangceilingCave01Key__class_name = TOHangceilingCave01Key__class_name_string;
 const char *TOHangceilingCave01KeyQuick__class_name = TOHangceilingCave01KeyQuick__class_name_string;
 
 void TOHangceilingCave01KeyQuick::vfunc_79() {

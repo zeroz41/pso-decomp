@@ -13,7 +13,7 @@
 #pragma readonly_strings on
 
 extern "C" {
-const char *lbl_805D3830 = "TTecZarua";
+const char *TTecZarua__name = "TTecZarua";
 }
 
 
@@ -139,7 +139,7 @@ extern "C" {
 void *find_entity_by_id(u16 id);
 void run_task__9TTecZaruaFv(struct Self_8023C1B8 *self);
 void construct_area_technique_base(void *);
-extern const char *lbl_805D3830;
+extern const char *TTecZarua__name;
 extern s32 __vt__9TTecZarua[];
 s32 play_sound_effect(int, void *, int, int);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
@@ -219,7 +219,7 @@ Zarua_8023C2D0 *TTecZarua__ct(Zarua_8023C2D0 *self, void *_w1, void *_w2, void *
     __ct__13TUnk_804CC148Flll(self, _w1, _w2, _w4);
     self->vt = __vt__9TTecZarua;
     ((TObjPlayer *)(self->sub))->construct_target_cursor_records();
-    self->f0 = ((s32)lbl_805D3830);
+    self->f0 = ((s32)TTecZarua__name);
     self->fec = 1;
     copy_technique_target_list(self->sub, _w3);
     ((TTecZarua *)self)->calc_range();
@@ -258,7 +258,7 @@ Zarua_8023C420 *init_instance__9TTecZaruaFPviiii(Zarua_8023C420 *self, s32 _w1, 
     construct_area_technique_base(self);
     self->vt = ((s32 *)&__vt__9TTecZarua);
     ((TObjPlayer *)(self->sub))->construct_target_cursor_records();
-    self->f0 = ((s32)lbl_805D3830);
+    self->f0 = ((s32)TTecZarua__name);
     self->fec = 0;
     ((TTecZarua *)self)->calc_range();
     VecCopy((Vec *)&self->pos, (const Vec *)&self->src_pos);

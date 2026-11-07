@@ -136,7 +136,7 @@ extern s32 lbl_805D6948;
 extern const f32 lbl_80474070[3];
 extern const s32 TBoss7Tentacle__target_angle_table[4];
 extern const s32 boss7_tentacle_angle_table[4];
-extern const char *lbl_805D3FD8;
+extern const char *TBoss7Tentacle__name;
 extern const char *boss7_tentacle_needle_name_ptr;
 
 struct Ten_802F01D0 { u8 pad0[0x50]; V_802F0A5C v[14]; };
@@ -191,7 +191,7 @@ void TObjPlayer__sub_802F0D30(void) {
 void TObjPlayer__sub_802F0D2C(void) {  }
 
 TBoss7Tentacle::TBoss7Tentacle(TObject *object, s32 arg2, s32 arg3) : TObject(object) {
-    m_name = lbl_805D3FD8;
+    m_name = TBoss7Tentacle__name;
     (*(s32 *)((s8 *)(this) + (0x1C))) = ((s32 (*)(s32))queue_boss_effect__10TObjPlayerFPv)(1);
     (*(Anim_802F0BE8 * *)((s8 *)(this) + (0x20))) = ((Anim_802F0BE8 * (*)(s32))notify_fish_obj__10TObjPlayerFPv)(0x11);
     (*(s32 *)((s8 *)(this) + (0x130))) = arg2;

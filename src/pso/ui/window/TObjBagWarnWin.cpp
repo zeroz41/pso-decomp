@@ -110,12 +110,12 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 
 extern s32 __vt__14TObjBagWarnWin[];
-extern void *lbl_805D2848;
+extern void *TObjBagWarnWin__name;
 
 void *__ct__14TObjBagWarnWinFv(void *bag_warn_win, void *parent) {
     __ct__7TObjectFP7TObject(bag_warn_win, parent);
     *(s32 **)((s8 *)bag_warn_win + 0x18) = __vt__14TObjBagWarnWin;
-    *(void * *)&((TObjBagWarnWin *)bag_warn_win)->m_name = lbl_805D2848;
+    *(void * *)&((TObjBagWarnWin *)bag_warn_win)->m_name = TObjBagWarnWin__name;
     *(u32 *)((s8 *)bag_warn_win + 0x1C) = 0;
     *(u32 *)((s8 *)bag_warn_win + 0xA0) = 0;
     return bag_warn_win;

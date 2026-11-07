@@ -430,11 +430,11 @@ extern RecoveredGlobal_80298F08_lbl_8050E3B8 controller_physical_port_bank;
 extern RecoveredGlobal_80298DD4_lbl_8051C07C character_creation_name_buffer;
 extern f32 ui_sprite_scale;
 extern const char *lbl_805D3CD0;
-extern const char *lbl_805D3CDC;
-extern s32 lbl_805D3CE0;
-extern s32 lbl_805D3CE4;
-extern void *lbl_805D3CE8;
-extern void *lbl_805D3CEC;
+extern const char *TObjCMAssignMenu__name;
+extern s32 TObjCMHairMenu__name;
+extern s32 TObjCMAutoMkData__name;
+extern void *TObjCMProportion__name;
+extern void *TObjCMName__name;
 extern void *creation_player_character;
 extern s32 creation_dressing_room_mode_flag;
 extern int creation_figure_rotation_y;
@@ -623,7 +623,7 @@ void TObjCMName::render()
 void *__ct__10TObjCMNameFv(void *obj_cm_name) {
     __ct__7TObjectFP7TObject(obj_cm_name);
     *(s32 **)((s8 *)obj_cm_name + 0x18) = __vt__10TObjCMName;
-    *(void * *)&((TObjCMName *)obj_cm_name)->m_name = lbl_805D3CEC;
+    *(void * *)&((TObjCMName *)obj_cm_name)->m_name = TObjCMName__name;
     *(void **)((s8 *)obj_cm_name + 0x1C) = creation_player_character;
     *(u32 *)((s8 *)obj_cm_name + 0x20) = 0;
     *(u32 *)((s8 *)obj_cm_name + 0x28) = 0;
@@ -801,7 +801,7 @@ void *__dt__16TObjCMProportionFv(void *arg0, s16 arg1) {
 void *TObjCMProportion__ct(TObjCMProportion *obj_cm_proportion) {
     __ct__7TObjectFP7TObject(obj_cm_proportion);
     *(s32 **)((s8 *)obj_cm_proportion + 0x18) = __vt__16TObjCMProportion;
-    *(void * *)&obj_cm_proportion->m_name = lbl_805D3CE8;
+    *(void * *)&obj_cm_proportion->m_name = TObjCMProportion__name;
     *(void * *)&obj_cm_proportion->appearance = creation_player_character;
     *(u32 *)((s8 *)obj_cm_proportion + 0x20) = 0;
     *(u32 *)((s8 *)obj_cm_proportion + 0x24) = 1;
@@ -975,7 +975,7 @@ void *__dt__16TObjCMAutoMkDataFv(void *arg0, s16 arg1) {
 u8 *TObjCMAutoMkData__ct(u8 *arg0) {
     ((s32 (*)(void))__ct__7TObjectFP7TObject)();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjCMAutoMkData;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D3CE4;
+    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjCMAutoMkData__name;
     *(s32 *)((s8 *)arg0 + 0x1C) = (s32) (*(s32 *)&creation_player_character);
     ((TWindowSubSymbolChatPartsSet *)(arg0 + 0x30))->copy_vec2((void*)(*(s32 *)((s8 *)arg0 + 0x1C) + 0x48));
     *(f32 *)((s8 *)arg0 + 0x38) = (f32) lbl_805DDA90;
@@ -1277,7 +1277,7 @@ Hair_802964B0 *__ct__14TObjCMHairMenuFv(Hair_802964B0 *arg0, void *arg1) {
     s32 i;
     ((void * (*)(void *, void *))__ct__7TObjectFP7TObject)(arg0, arg1);
     arg0->vt = __vt__14TObjCMHairMenu;
-    arg0->f0 = lbl_805D3CE0;
+    arg0->f0 = TObjCMHairMenu__name;
     arg0->f1c = (*(s32 *)&creation_player_character);
     arg0->f20 = 0;
     arg0->f24 = 0;
@@ -1695,7 +1695,7 @@ void *__ct__16TObjCMAssignMenuFv(void *obj_cm_assign_menu, void *parent, void *k
     s32 i;
     ((void (*)(void *, void *))__ct__7TObjectFP7TObject)(obj_cm_assign_menu, parent);
     ((Menu_80297128 *)obj_cm_assign_menu)->vt = __vt__16TObjCMAssignMenu;
-    ((Menu_80297128 *)obj_cm_assign_menu)->name = lbl_805D3CDC;
+    ((Menu_80297128 *)obj_cm_assign_menu)->name = TObjCMAssignMenu__name;
     ((Menu_80297128 *)obj_cm_assign_menu)->chara = (*(Chara_80297128 * *)&creation_player_character);
     ((Menu_80297128 *)obj_cm_assign_menu)->f20 = 0;
     ((Menu_80297128 *)obj_cm_assign_menu)->kind = (s32)kind;

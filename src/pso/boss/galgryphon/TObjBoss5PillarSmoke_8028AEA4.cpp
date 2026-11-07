@@ -6,7 +6,7 @@
 #pragma readonly_strings on
 
 extern "C" {
-const char *lbl_805D3B30 = "TObjBoss5PillarSmoke";
+const char *TObjBoss5PillarSmoke__name = "TObjBoss5PillarSmoke";
 }
 
 struct Smoke_8028AEA4 {
@@ -34,7 +34,7 @@ extern s32 __vt__20TObjBoss5PillarSmoke[];
 void *mem_alloc(u32 size);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern u8 lbl_80450CD0[];
-extern const char *lbl_805D3B30;
+extern const char *TObjBoss5PillarSmoke__name;
 Smoke_8028AF6C *TObjBoss5PillarSmoke__ct(Smoke_8028AF6C *arg0, void *arg1, Node_8028AF6C *arg2);
 }
 TObjBoss5PillarSmoke::~TObjBoss5PillarSmoke() {
@@ -57,7 +57,7 @@ Smoke_8028AF6C *TObjBoss5PillarSmoke__ct(Smoke_8028AF6C *arg0, void *arg1, Node_
     s32 i;
     __ct__7TObjectFP7TObject(arg0, arg1);
     arg0->vt = __vt__20TObjBoss5PillarSmoke;
-    arg0->f0 = ((s32)lbl_805D3B30);
+    arg0->f0 = ((s32)TObjBoss5PillarSmoke__name);
     arg0->count = 0;
     arg0->a = NULL;
     arg0->b = NULL;

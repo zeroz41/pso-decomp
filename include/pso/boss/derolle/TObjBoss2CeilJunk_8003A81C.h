@@ -5,14 +5,14 @@
 
 extern "C" {
 void TLobby__sub_8003A874(void);
-void TObjBoss2CeilJunk__sub_8003A868(void);
+void __sinit_TObjBoss2CeilJunk_8003A81C_cpp(void);
 }
 
 // --- C functions defined in TObjBoss2CeilJunk_8003A81C.cpp ---
 extern "C" {
 void TLobby__sub_8003A874(void);
 void TLobby__sub_8003A8D0(void);
-void TObjBoss2CeilJunk__sub_8003A868(void);
+void __sinit_TObjBoss2CeilJunk_8003A81C_cpp(void);
 }
 // --- end of C functions
 

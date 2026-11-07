@@ -981,13 +981,13 @@ void TObjDFTenchuFuru::transform_node_tree() {
 }
 }
 
-extern char lbl_8043748C[];
-extern char lbl_8043749C[];
-extern char lbl_804374AC[];
-extern char lbl_804374C0[];
-extern char lbl_804374CC[];
-const char *TObjDFRecover__name = lbl_8043748C;
-s32 TObjDFRecBall__name = (s32)lbl_8043749C;
-void *TObjDFBeamCursor__name = lbl_804374AC;
-s32 TObjDFJisin__name = (s32)lbl_804374C0;
-s32 TObjDFHorming__name = (s32)lbl_804374CC;
+extern char TObjDFRecover__class_name_string[];
+extern char TObjDFRecBall__class_name_string[];
+extern char TObjDFBeamCursor__class_name_string[];
+extern char TObjDFJisin__class_name_string[];
+extern char TObjDFHorming__class_name_string[];
+const char *TObjDFRecover__name = TObjDFRecover__class_name_string;
+s32 TObjDFRecBall__name = (s32)TObjDFRecBall__class_name_string;
+void *TObjDFBeamCursor__name = TObjDFBeamCursor__class_name_string;
+s32 TObjDFJisin__name = (s32)TObjDFJisin__class_name_string;
+s32 TObjDFHorming__name = (s32)TObjDFHorming__class_name_string;

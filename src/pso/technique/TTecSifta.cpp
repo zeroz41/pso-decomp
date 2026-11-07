@@ -11,7 +11,7 @@
 #pragma readonly_strings on
 
 extern "C" {
-const char *lbl_805D3820 = "TTecSifta";
+const char *TTecSifta__name = "TTecSifta";
 }
 
 
@@ -73,7 +73,7 @@ s32 get_entity_id(int);
 s32 TTecPlayerInfluence__ct(void *, void *, void *, void *);
 int TTecSifta__sub_8023AC88(void* p);
 extern s32 __vt__9TTecSifta[];
-extern const char *lbl_805D3820;
+extern const char *TTecSifta__name;
 u8 *TTecSifta__sub_8023B17C(TTecSifta *arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(int, void *, int, int);
@@ -202,7 +202,7 @@ void *TTecSifta__ct(void *arg0_, void *owner, void *pos, void *arg3, void *level
     TTecPlayerInfluence__ct(arg0, owner, pos, level);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecSifta;
     ((TObjPlayer *)(arg0 + 0xE0))->construct_target_cursor_records();
-    *(s32 *)((s8 *)arg0 + 0) = ((s32)lbl_805D3820);
+    *(s32 *)((s8 *)arg0 + 0) = ((s32)TTecSifta__name);
     *(s32 *)&((TTecSifta *)arg0)->m_13c = 1;
     copy_technique_target_list(arg0 + 0xE0, arg3);
     ((TTecSifta *)arg0)->update_effect_params();
@@ -229,7 +229,7 @@ u8 *TTecSifta__sub_8023B17C(TTecSifta *arg0, s32 owner, s32 pos, s32 level) {
     TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8023B17C___vt__9TTecSifta *)&__vt__9TTecSifta).value;
     ((TObjPlayer *)((u8 *)arg0 + 0xE0))->construct_target_cursor_records();
-    *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)lbl_805D3820);
+    *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)TTecSifta__name);
     arg0->m_13c = 0;
     arg0->update_effect_params();
     temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xDC));

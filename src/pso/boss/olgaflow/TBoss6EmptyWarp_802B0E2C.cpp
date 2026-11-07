@@ -11,7 +11,7 @@
 #include "pso/system/SoundEffect.h"
 
 
-const char *lbl_805D3E90 = "TBoss6EmptyWarp";
+const char *TBoss6EmptyWarp__name = "TBoss6EmptyWarp";
 
 // Full-screen quad drawn over the view by TBoss6EmptyWarp::render.
 f32 empty_warp_overlay_vertices[8] = {
@@ -77,7 +77,7 @@ void __ct__7TObjectFP7TObject(void *);
 void *TBoss6EmptyWarp__ct(void *boss6_empty_warp) {
     __ct__7TObjectFP7TObject(boss6_empty_warp);
     *(s32 **)((s8 *)boss6_empty_warp + 0x18) = __vt__15TBoss6EmptyWarp;
-    ((TBoss6EmptyWarp *)boss6_empty_warp)->m_name = lbl_805D3E90;
+    ((TBoss6EmptyWarp *)boss6_empty_warp)->m_name = TBoss6EmptyWarp__name;
     TBoss6PlotFalz::freeze_all_players();
     *(u32 *)((s8 *)boss6_empty_warp + 0x1C) = 0;
     return boss6_empty_warp;

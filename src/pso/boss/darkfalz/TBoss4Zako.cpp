@@ -154,7 +154,7 @@ s32 TBoss4Zako__ct(s32, s32, s32);
 void normalize_vector(void *);
 extern V2_8005BF68 TBoss4Bishi_spawn_offsets[];
 extern s32 __vt__11TBoss4Bishi[];
-extern const char *lbl_805D27F0;
+extern const char *TBoss4Bishi__name;
 extern const f32 lbl_805D8CDC;
 extern const f32 lbl_805D8CE0;
 s32 TBoss4Bishi__ct(s32 arg0, s32 arg1, s32 arg2);
@@ -243,7 +243,7 @@ struct Obj_8005C858 {
 
 extern const f32 lbl_805D8D00;
 extern s32 __vt__9TBoss4Uro[];
-extern const char *lbl_805D27EC;
+extern const char *TBoss4Uro__name;
 extern const f32 lbl_805D8D04;
 extern const f32 lbl_805D8D08;
 s32 TBoss4Uro__ct(s32 a0, s32 a1, s32 a2);
@@ -304,12 +304,12 @@ void render__9TBoss4UroFv(void);
 #pragma readonly_strings on
 
 extern "C" {
-static const char lbl_80437898[] = "TBoss4Zako";
-static const char lbl_804378A4[] = "TBoss4Uro";
-static const char lbl_804378B0[] = "TBoss4Bishi";
-const char *lbl_805D27E8 = lbl_80437898;
-const char *lbl_805D27EC = lbl_804378A4;
-const char *lbl_805D27F0 = lbl_804378B0;
+static const char TBoss4Zako__class_name_string[] = "TBoss4Zako";
+static const char TBoss4Uro__class_name_string[] = "TBoss4Uro";
+static const char TBoss4Bishi__class_name_string[] = "TBoss4Bishi";
+const char *TBoss4Zako__name = TBoss4Zako__class_name_string;
+const char *TBoss4Uro__name = TBoss4Uro__class_name_string;
+const char *TBoss4Bishi__name = TBoss4Bishi__class_name_string;
 }
 
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
@@ -322,7 +322,7 @@ s32 get_instance_count__9TBoss4UroFv();
 s32 init_collision_body_parts(void *, void *, int);
 extern u32 TBoss4Zako_collision_body_parts[];
 extern s32 __vt__10TBoss4Zako[];
-extern const char *lbl_805D27E8;
+extern const char *TBoss4Zako__name;
 extern const f32 lbl_805D8D30;
 extern const f32 lbl_805D8D34;
 extern const f32 lbl_805D8D38;
@@ -392,7 +392,7 @@ s32 TBoss4Zako__ct(s32 arg0, s32 parent, s32 arg2) {
     self = (u8 *)arg0;
     __ct__9TObjEnemyFP7TObject((TObjEnemy *)arg0, (void*)parent);
     *(s32 **)((s8 *)THIS + 0x18) = __vt__10TBoss4Zako;
-    *(s32 *)((s8 *)THIS + 0) = ((s32)lbl_805D27E8);
+    *(s32 *)((s8 *)THIS + 0) = ((s32)TBoss4Zako__name);
     ((TObjChara *)THIS)->add_flags_2e4(8);
     *(s32 *)((s8 *)THIS + 0x378) = ((s32 *)arg2)[0];
     fn_8005D6E4((u8 *)*(s32 *)((s8 *)THIS + 0x378));
@@ -734,7 +734,7 @@ s32 TBoss4Uro__ct(s32 a0, s32 a1, s32 a2) {
     Obj_8005C858 *o = (Obj_8005C858 *)a0;
     TBoss4Zako__ct(a0, a1, a2);
     o->vt = __vt__9TBoss4Uro;
-    o->f0 = ((s32)lbl_805D27EC);
+    o->f0 = ((s32)TBoss4Uro__name);
     o->dir.x = -o->pos.x;
     o->dir.y = lbl_805D8CBC;
     o->dir.z = -o->pos.z;
@@ -982,7 +982,7 @@ s32 TBoss4Bishi__ct(s32 arg0, s32 parent, s32 arg2) {
     s32 pl;
     TBoss4Zako__ct(arg0, parent, arg2);
     o->vt = __vt__11TBoss4Bishi;
-    o->f0 = ((s32)lbl_805D27F0);
+    o->f0 = ((s32)TBoss4Bishi__name);
     if ((id = find_nearest_visible_player(o, 0, lbl_805D8CDC)) == 0xFFFF ||
         (pl = (s32)get_player_by_client_id(id)) == 0) {
         o->vel.x = o->vel.z = lbl_805D8CBC;

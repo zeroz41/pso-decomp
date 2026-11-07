@@ -14,7 +14,7 @@
 #pragma readonly_strings on
 
 extern "C" {
-const char *lbl_805D4350 = "TItemEffPG";
+const char *TItemEffPG__name = "TItemEffPG";
 }
 
 extern "C" {
@@ -59,7 +59,7 @@ typedef char RecoveredGlobal_8035007C___vt__10TItemEffPG_size[sizeof(RecoveredGl
 extern "C" {
 void *__nw__7TObjectFUl(int);
 extern s32 __vt__10TItemEffPG[];
-extern const char *lbl_805D4350;
+extern const char *TItemEffPG__name;
 extern const float lbl_805DFE14;
 extern const f32 lbl_805DFE18;
 int TObjPlayer__sub_802E451C(void);
@@ -117,7 +117,7 @@ u8 *TItemEffPG__ct(u8 *item_eff_pg, s32 arg1, u8 *arg2) {
     s32 var_r0;
     construct_attack_collision((item_eff_pg), (arg1), (arg2));
     *(s32 **)((s8 *)item_eff_pg + 0x18) = &(*(RecoveredGlobal_8035007C___vt__10TItemEffPG *)&__vt__10TItemEffPG).value;
-    *(s32 *)((s8 *)item_eff_pg + 0) = (s32) ((s32)lbl_805D4350);
+    *(s32 *)((s8 *)item_eff_pg + 0) = (s32) ((s32)TItemEffPG__name);
     *(f32 *)((s8 *)item_eff_pg + 0xC4) = (f32) *(f32 *)((s8 *)arg2 + 0x28);
     if ((*(const f32 *)&lbl_805DFE14) < *(f32 *)((s8 *)item_eff_pg + 0xC4)) {
         *(f32 *)((s8 *)item_eff_pg + 0xC4) = (f32) (*(const f32 *)&lbl_805DFE14);
