@@ -1061,9 +1061,9 @@ pso/unk/TLobby_803D4B68.cpp
 pso/unk/TLobby_803DE778.cpp
 pso/unk/TLobby_803DF1FC.cpp
 pso/unk/TLobby_803E2D50.cpp
-pso/unk/TLobby_803F8794.cpp
-pso/unk/TLobby_804048E8.cpp
-pso/unk/TLobby_80428374.cpp
+pso/network/TLobby_803F86BC.c
+pso/network/TLobby_804048E8.c
+pso/network/TLobby_80428374.c
 pso/ui/hud/TLockOnCursor.cpp
 pso/ui/TLogo.cpp
 pso/ui/TLogo_8001C134.cpp
@@ -1743,9 +1743,9 @@ pso/system/data/pso_const_ids7.cpp
 pso/system/data/pso_date.cpp
 pso/network/NetworkInfoCodec.cpp
 pso/network/NetworkInfoLoader.cpp
-pso/network/NetworkMessageTransport.cpp
-pso/network/NetworkPacketRuntime.cpp
-pso/network/NetworkTransport.cpp
+pso/network/NetworkMessageTransport.c
+pso/network/NetworkPacketRuntime.c
+pso/network/NetworkTransport.c
 pso/network/TGameProtocol.cpp
 pso/network/TProtocol.cpp
 pso/network/TProtocol_801DB1B4.cpp

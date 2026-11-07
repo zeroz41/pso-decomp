@@ -1,15 +1,13 @@
+/* The network stack's packet buffers and DHCP client (a C library, built with GC/1.2.5n): the pool of 0x600-byte
+ * packet buffers shared by the receive path, and the DHCP state machine's option table, lease times and replies. */
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/NetworkPacketPool.h"
 #include <stddef.h>
 #include "pso/network/NetworkTransport.h"
-#include "pso/network/NetworkDispatch.h"
 
 #include "types.h"
-#include "pso/unk/TLobby.h"
-#include "pso/network/TUdpSocket.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-struct Pkt_804249F0 {
+typedef struct Pkt_804249F0 {
     u8 f0;
     u8 f1;
     u8 f2;
@@ -21,53 +19,60 @@ struct Pkt_804249F0 {
     u8 f1C[6];
     u8 pad22[0xEC - 0x22];
     u8 opts[4];
-};
+} Pkt_804249F0;
 
-struct G_804249F0 {
+typedef struct G_804249F0 {
     u8 pad0[0x5DC];
     u8 buf[0xBB8 - 0x5DC];
     Pkt_804249F0 pkt;
-};
+} G_804249F0;
 
-struct Arg_804249F0 {
+typedef struct Arg_804249F0 {
     u8 pad0[2];
     s16 len;
     void *p;
-};
+} Arg_804249F0;
 
-struct RecoveredGlobal_80428374_lbl_805D0A40 {
+typedef struct Req_804250A8 {
+    s32 a;
+    s32 b;
+    s32 c;
+    s32 d;
+} Req_804250A8;
+
+typedef struct RecoveredGlobal_80428374_lbl_805D0A40 {
     s32 value;
     u8 remaining[0x5C];
-};
+} RecoveredGlobal_80428374_lbl_805D0A40;
 
-struct RecoveredGlobal_8042839C_lbl_805D0A40 {
+typedef struct RecoveredGlobal_8042839C_lbl_805D0A40 {
     s32 value;
     u8 remaining[0x5C];
-};
+} RecoveredGlobal_8042839C_lbl_805D0A40;
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
 
-struct RecoveredGlobal_8042E768_lbl_805D1D20 {
+typedef struct RecoveredGlobal_8042E768_lbl_805D1D20 {
     s32 value;
     u8 remaining[0x18];
-};
+} RecoveredGlobal_8042E768_lbl_805D1D20;
 
-struct RecoveredGlobal_80427D0C_lbl_805CFC20 {
+typedef struct RecoveredGlobal_80427D0C_lbl_805CFC20 {
     s32 value;
     u8 remaining[0xE1C];
-};
+} RecoveredGlobal_80427D0C_lbl_805CFC20;
 
-struct RecoveredGlobal_80428360_lbl_805CFC20 {
+typedef struct RecoveredGlobal_80428360_lbl_805CFC20 {
     s16 value;
     u8 remaining[0xE1E];
-};
+} RecoveredGlobal_80428360_lbl_805CFC20;
 
-struct RecoveredGlobal_8042DD70_lbl_805D1D20 {
+typedef struct RecoveredGlobal_8042DD70_lbl_805D1D20 {
     s32 value;
     u8 remaining[0x18];
-};
+} RecoveredGlobal_8042DD70_lbl_805D1D20;
 
 typedef struct Names_8042E57C {
     char *name[6];
@@ -101,23 +106,12 @@ typedef struct Ent_80427C6C {
     u8 rest[0xE10];
 } Ent_80427C6C;
 
-struct R_804253A0 { s32 a; s32 b; };
-
-struct Rec_80426998 { u16 a; u16 b; };
-
-struct Obj_80426998 { u8 pad[0x36]; s16 count; Rec_80426998 recs[5]; };
+typedef struct R_804253A0 { s32 a; s32 b; } R_804253A0;
 
 NetworkPacketBufferDescriptor network_packet_buffer_descriptors[NETWORK_PACKET_BUFFER_COUNT];
 u8 network_packet_buffers[NETWORK_PACKET_BUFFER_COUNT][NETWORK_PACKET_BUFFER_BYTES];
-extern u8 lbl_805CF240[0xA0];
-extern u8 TLobby__pppoe_message_queue[0xA0];
-extern u8 lbl_805CF380[0x48];
-extern "C" {
 extern u32 lbl_805D7BA8;
 void TAdSinglePlyChrSelectGC__sub_8042DDE4(int, int);
-extern u8 lobby_net_channel_table[];
-extern u8 lbl_805CF380[];
-extern u8 TLobby__pppoe_message_queue[];
 typedef struct Ent_804267F0 {
     s16 count;
     u8 id[6];
@@ -129,19 +123,13 @@ typedef struct Tbl_804267F0 {
 } Tbl_804267F0;
 
 s16 TLobby__sub_804262CC(void *);
-u8 find_dhcp_option__6TLobbyFPvUcPv(u8 *p, u8 tag, u8 **out);
 void NetUnregisterTimer(void *);
 s32 TLobby__sub_80421B3C(s32);
 s32 TLobby__sub_804250A8(s32);
-s16 TLobby__sub_80422F70(s16 iface, void *buf, s32 len, void *out);
-s16 TLobby__sub_8042315C(s16 iface, void *req);
-s16 TLobby__sub_80423064(s16 iface, s32 mode);
-extern s16 dhcp_iface;
-void TLobby__sub_80423298(void);
+extern u8 TLobby__sub_80423298[];
 extern s32 lbl_805D7B14;
 extern s16 dhcp_socket;
 void TLobby__sub_80424CA8(void);
-extern u8 lbl_805CF240[];
 s32 TLobby__sub_804251C0(s16, void *);
 extern s32 dhcp_state;
 extern volatile s32 dhcp_error;
@@ -151,24 +139,21 @@ extern s32 dhcp_step;
 extern s32 dhcp_reply_received;
 extern u8 lbl_805D7B1C[6];
 extern u32 lbl_805D7B28;
-extern u32 lbl_805D7B4C;
-extern u32 lbl_805D7B50;
-extern u8 dhcp_hostname[0x2C];
-extern u32 dhcp_elapsed_ms;
-extern u32 dhcp_last_tick_ms;
-extern u32 dhcp_lease_elapsed;
+extern u8 lbl_805D7B4C[4];
+extern u8 lbl_805D7B50[4];
 s16 TLobby__sub_803F96AC(u32*);
-struct DhcpOption_804FD948 {
+typedef struct DhcpOption_804FD948 {
     s16 id;
     s16 present;
     s16 kind;
     s16 size;
     void *data;
-};
+} DhcpOption_804FD948;
 extern DhcpOption_804FD948 lbl_804FD948[12];
 void TLobby__sub_803F97E8(s32);
-s16 TUdpSocket__sub_80421DEC(void *, int, void *, int, int, s32 (*)(s16, void *));
+s16 TUdpSocket__sub_80421DEC(void *, int, void *, int, int, s32 (*)(s16, Arg_804249F0 *));
 s32 TLobby__sub_80424DCC(s16, s32, s32, void *, void *, void *, void *, s32);
+s32 dhcp_handle_reply(s16 arg0, Arg_804249F0 *arg1);
 extern void *lbl_805D7B40;
 extern void *lbl_805D7B44;
 extern void *lbl_805D7B48;
@@ -176,33 +161,31 @@ extern s32 lbl_805D7B54;
 extern s32 lbl_805D7B58;
 extern s32 dhcp_max_retries;
 
-s32 TLobby::get_task_count() {
+s32 get_task_count(void) {
     return dhcp_state;
 }
 
 s32 TLobby__sub_80425288(s16, s16, void *);
-// DHCP lease (RFC 2131 names, inferred): lease = option 0x33, renewal T1 = option 0x3A (default lease/2),
-// rebinding T2 = option 0x3B (default 7/8 lease), start/expiry in seconds from get_time_seconds.
 extern u32 dhcp_lease_time;
 extern u32 dhcp_renewal_time;
 extern u32 dhcp_rebinding_time;
 extern u32 dhcp_lease_start;
 extern u32 dhcp_lease_expiry;
 
-void TLobby::parse_dhcp_lease_times() {
-    u8 *arg0 = (u8 *)this;
-    s32 find_dhcp_option__6TLobbyFPvUcPv(u8 *p, u8 tag, u8 **out);
+void parse_dhcp_lease_times(u8 *packet) {
+    u8 *arg0 = packet;
+    s32 find_dhcp_option(u8 *p, u8 tag, u8 **out);
     u8 *p;
     s32 v;
     s32 w;
 
-    if (find_dhcp_option__6TLobbyFPvUcPv(arg0, 0x33, &p) == 4) {
+    if (find_dhcp_option(arg0, 0x33, &p) == 4) {
         NetMemcpy(&v, p, 4);
         w = v;
         TLobby__sub_80425288(7, 4, &w);
-        TLobby::get_time_seconds((s32 *)&dhcp_lease_start);
+        get_time_seconds((s32 *)&dhcp_lease_start);
         dhcp_lease_expiry = dhcp_lease_start + dhcp_lease_time;
-        if (find_dhcp_option__6TLobbyFPvUcPv(arg0, 0x3A, &p) == 4) {
+        if (find_dhcp_option(arg0, 0x3A, &p) == 4) {
             NetMemcpy(&v, p, 4);
             w = v;
             TLobby__sub_80425288(8, 4, &w);
@@ -210,7 +193,7 @@ void TLobby::parse_dhcp_lease_times() {
             TLobby__sub_80425288(8, 0, NULL);
             dhcp_renewal_time = dhcp_lease_time >> 1;
         }
-        if (find_dhcp_option__6TLobbyFPvUcPv(arg0, 0x3B, &p) == 4) {
+        if (find_dhcp_option(arg0, 0x3B, &p) == 4) {
             NetMemcpy(&v, p, 4);
             w = v;
             TLobby__sub_80425288(9, 4, &w);
@@ -242,7 +225,7 @@ s32 TLobby__sub_8042474C(void *lease, void *renew, void *rebind) {
     return -1;
 }
 
-u8 find_dhcp_option__6TLobbyFPvUcPv(u8 *p, u8 tag, u8 **out) {
+u8 find_dhcp_option(u8 *p, u8 tag, u8 **out) {
     u8 *base = p;
     u8 t;
     u8 len;
@@ -278,7 +261,7 @@ s32 TLobby__sub_8042489C(void *, void *out) {
     return 0;
 }
 
-s32 TLobby::validate_slot_buffers(s32 arg0, void *arg1, void *arg2, void *arg3) {
+s16 validate_slot_buffers(s32 arg0, void *arg1, void *arg2, void *arg3) {
     dhcp_error = 0;
     if ((*(volatile s32 *)&dhcp_state) != 3 && (*(volatile s32 *)&dhcp_state) != 4 && (*(volatile s32 *)&dhcp_state) != 5) {
         dhcp_error = 2;
@@ -298,9 +281,8 @@ s32 TLobby::validate_slot_buffers(s32 arg0, void *arg1, void *arg2, void *arg3) 
 
 #pragma push
 #pragma opt_propagation off
-s32 TLobby::dhcp_handle_reply(s16 arg0, void *arg) {
-    Arg_804249F0 *arg1 = (Arg_804249F0 *)arg;
-    s32 find_dhcp_option__6TLobbyFPvUcPv(u8 *p, u8 tag, u8 **out);
+s32 dhcp_handle_reply(s16 arg0, Arg_804249F0 *arg1) {
+    s32 find_dhcp_option(u8 *p, u8 tag, u8 **out);
     G_804249F0 *g = &lbl_805C1E00;
     Pkt_804249F0 *pk;
     u8 *q;
@@ -315,13 +297,13 @@ s32 TLobby::dhcp_handle_reply(s16 arg0, void *arg) {
     if (pk->f0 != 2 || pk->f1 != 1 || pk->f2 != 6) {
         return 0;
     }
-    if (NetMemcmp(pk->f4, &lbl_805D7B50, 4) != 0) {
+    if (NetMemcmp(pk->f4, lbl_805D7B50, 4) != 0) {
         return 0;
     }
     if (NetMemcmp(pk->f1C, lbl_805D7B1C, 6) != 0) {
         return 0;
     }
-    if (NetMemcmp(q, &lbl_805D7B4C, 4) != 0) {
+    if (NetMemcmp(q, lbl_805D7B4C, 4) != 0) {
         return 0;
     }
     if (dhcp_step != 2) {
@@ -331,28 +313,28 @@ s32 TLobby::dhcp_handle_reply(s16 arg0, void *arg) {
     case 3:
         break;
     case 1:
-        if (dhcp_reply_received == 0 && find_dhcp_option__6TLobbyFPvUcPv(q, 0x35, &p) == 1 && *p == 2 &&
-            find_dhcp_option__6TLobbyFPvUcPv(q, 0x36, &p) == 4) {
+        if (dhcp_reply_received == 0 && find_dhcp_option(q, 0x35, &p) == 1 && *p == 2 &&
+            find_dhcp_option(q, 0x36, &p) == 4) {
             TLobby__sub_80425288(0xE, 4, p);
             lbl_805D7B28 = pk->f10;
             dhcp_reply_received = 1;
         }
         break;
     case 2:
-        if (dhcp_reply_received == 0 && find_dhcp_option__6TLobbyFPvUcPv(q, 0x35, &p) == 1 && *p == 5) {
+        if (dhcp_reply_received == 0 && find_dhcp_option(q, 0x35, &p) == 1 && *p == 5) {
             NetMemcpy(g->buf, pk, arg1->len);
             dhcp_reply_received = 1;
         }
         break;
     case 4:
-        if (dhcp_reply_received == 0 && find_dhcp_option__6TLobbyFPvUcPv(q, 0x35, &p) == 1 && *p == 5 &&
+        if (dhcp_reply_received == 0 && find_dhcp_option(q, 0x35, &p) == 1 && *p == 5 &&
             lbl_805D7B28 == pk->f10) {
             NetMemcpy(g->buf, pk, arg1->len);
             dhcp_reply_received = 1;
         }
         break;
     case 5:
-        if (dhcp_reply_received == 0 && find_dhcp_option__6TLobbyFPvUcPv(q, 0x35, &p) == 1 && *p == 5 &&
+        if (dhcp_reply_received == 0 && find_dhcp_option(q, 0x35, &p) == 1 && *p == 5 &&
             lbl_805D7B28 == pk->f10) {
             NetMemcpy(g->buf, pk, arg1->len);
             dhcp_reply_received = 1;
@@ -364,7 +346,7 @@ s32 TLobby::dhcp_handle_reply(s16 arg0, void *arg) {
 #pragma pop
 
 void TLobby__sub_80424CA8(void) {
-    NetUnregisterTimer((void *)TLobby__sub_80423298);
+    NetUnregisterTimer(TLobby__sub_80423298);
     if (dhcp_socket != -1) {
         TLobby__sub_80421B3C(dhcp_socket);
         dhcp_socket = -1;
@@ -427,7 +409,17 @@ s32 TLobby__sub_80424DCC(s16, s32 a1, s32 a2, void *, void *a4, void *a5, void *
     return 0;
 }
 
-// Inferred name: clears the DHCP client state (lease timers, option table, hostname) and records the interface.
+extern s16 dhcp_iface;
+extern s32 dhcp_elapsed_ms;
+extern s32 dhcp_last_tick_ms;
+extern s32 dhcp_lease_elapsed;
+extern u8 dhcp_hostname[];
+s32 NetRegisterTimer(s32 period, s16 locked, void *fn);
+s16 TLobby__sub_80422F70(s16, void *, s32, void *);
+s16 TLobby__sub_80423064(s16, s32);
+s16 TLobby__sub_8042315C(s16, void *);
+s32 NetRegisterTimer(s32, s16, void *);
+/* Clears the DHCP client state (lease timers, option table, hostname) and records the interface. */
 static inline void dhcp_reset_state(s16 iface) {
     u32 i;
 
@@ -443,8 +435,8 @@ static inline void dhcp_reset_state(s16 iface) {
     lbl_805D7B40 = 0;
     lbl_805D7B44 = 0;
     lbl_805D7B48 = 0;
-    lbl_805D7B4C = 0x63825363;
-    lbl_805D7B50 = 0;
+    *(u32 *)lbl_805D7B4C = 0x63825363;
+    *(s32 *)lbl_805D7B50 = 0;
     lbl_805D7B54 = 0;
     lbl_805D7B58 = 0;
     NetMemset(dhcp_hostname, 0, 0x20);
@@ -461,7 +453,7 @@ static inline void dhcp_reset_state(s16 iface) {
     dhcp_iface = iface;
 }
 
-// Inferred name: brings the interface up (mode-4 request, then reads its 0x1C-byte info and 6-byte hardware address into lbl_805D7B1C).
+/* Brings the interface up (mode-4 request), then reads its 0x1C-byte info into lbl_805D7B1C. */
 static inline s32 dhcp_open_interface(s16 iface) {
     s32 addr[7];
     addr[0] = 4;
@@ -489,26 +481,16 @@ s32 TLobby__sub_80424E44(s16 iface) {
     return 0;
 }
 
-// Opens the DHCP client UDP socket (port 68 to server port 67; names inferred); returns the handle or an error.
-// Same helper as in text_80421620.cpp (dhcp_discover_step expands it too).
-static inline s16 dhcp_open_socket(u32 *addr) {
-    s16 r;
-    addr[0] = 4;
-    addr[1] = 0;
-    r = TUdpSocket__sub_80421DEC(0, 0x44, addr, 0x43, 0, TLobby::dhcp_handle_reply);
-    dhcp_socket = r;
-    return r;
-}
-
 s32 TLobby__sub_80424FE0(void) {
-    s16 sock;
-    u32 addr[5];
+    s32 addr[7];
+    u8 unused[4];
     if ((*(volatile s32 *)&dhcp_state) == 4 || (*(volatile s32 *)&dhcp_state) == 5 || (*(volatile s32 *)&dhcp_state) == 6) {
         if (dhcp_socket > -1) {
             TLobby__sub_80421B3C(dhcp_socket);
         }
-        sock = dhcp_open_socket(addr);
-        if (sock < 0) {
+        addr[0] = 4;
+        addr[1] = 0;
+        if ((dhcp_socket = TUdpSocket__sub_80421DEC(0, 0x44, addr, 0x43, 0, dhcp_handle_reply)) < 0) {
             if (*(volatile s32 *)&dhcp_state == 6) {
                 lbl_805D7B14 = TLobby__sub_804250A8(0);
             }
@@ -521,58 +503,55 @@ s32 TLobby__sub_80424FE0(void) {
     return 0;
 }
 
-struct P_8042315C {
-    s32 type;
-    s32 a;
-    s32 b;
-    s32 c;
-    s32 pad10;
-    s16 n;
-    s16 m;
-    s32 d;
-    s32 pad1C;
-};
-
-static inline s16 request_iface_mode4(s16 iface) {
-    P_8042315C req;
-    req.type = 4;
-    req.a = 0;
-    req.b = -1;
-    req.c = -1;
-    return TLobby__sub_8042315C(iface, &req);
-}
-
+extern s16 dhcp_iface;
+s16 TLobby__sub_80422F70(s16, void *, s32, void *);
+s16 TLobby__sub_80423064(s16, s32);
+s16 TLobby__sub_8042315C(s16, void *);
+#pragma dont_inline on
+#pragma use_lmw_stmw off
 s32 TLobby__sub_804250A8(s32 mode) {
-    u8 mac[6];
-    u8 info[0x1C];
-    s32 cur;
-    cur = TLobby__sub_80422F70(dhcp_iface, info, sizeof(info), mac) < 0 ? 0 : 1;
-    if (cur != mode) {
+    u8 pad0[4];
+    u8 buf[0x1c];
+    s32 buf2[3];
+    struct Req_804250A8 req;
+    u8 pad[0x10];
+    struct Req_804250A8 req2;
+    s32 ret;
+    s32 r;
+
+    ret = (s16)TLobby__sub_80422F70(dhcp_iface, buf, 0x1c, (u8 *)buf2 + 0x28) < 0 ? 0 : 1;
+    r = ret;
+    if (ret != mode) {
         switch (mode) {
-        case 1: {
-            s32 req[7];
-            req[0] = 4;
-            req[1] = 0;
-            req[2] = -1;
-            req[3] = -1;
-            if (TLobby__sub_8042315C(dhcp_iface, req) != 0) {
+        case 1:
+            req.a = 4;
+            req.b = 0;
+            req.c = -1;
+            req.d = -1;
+            if (TLobby__sub_8042315C(dhcp_iface, &req) != 0) {
                 TLobby__sub_80423064(dhcp_iface, 4);
-                if (request_iface_mode4(dhcp_iface) != 0) {
+                req2.a = 4;
+                req2.b = 0;
+                req2.c = -1;
+                req2.d = -1;
+                if (TLobby__sub_8042315C(dhcp_iface, &req2) != 0) {
                     dhcp_error = 3;
+                    r = 0;
                     *(volatile s32 *)&dhcp_step = -1;
-                    *(volatile s32 *)&dhcp_state = -2;
-                    return 0;
+                    dhcp_state = -2;
+                    return r;
                 }
             }
             return 1;
-        }
         case 0:
             TLobby__sub_80423064(dhcp_iface, 4);
             return 0;
         }
     }
-    return cur;
+    return r;
 }
+#pragma use_lmw_stmw reset
+#pragma dont_inline off
 
 s32 TLobby__sub_804251C0(s16 id, void *out) {
     DhcpOption_804FD948 *tbl = lbl_804FD948;
@@ -652,19 +631,19 @@ static inline NetworkPacketBufferDescriptor *find_804253F8(u32 arg0) {
     return &network_packet_buffer_descriptors[i];
 }
 
-void TLobby::clear_message_entry(s32 a) {
+void clear_message_entry(s32 a) {
     R_804253A0 *r;
     u8 unused[8];
-    TLobby::lock_mutex((int)((void *)lbl_805D7BA8));
-    r = (R_804253A0 *)TLobby::find_entry_by_address(a);
-    TUdpSocket::unlock_mutex((int)((void *)lbl_805D7BA8));
+    lock_mutex((int)((void *)lbl_805D7BA8));
+    r = (R_804253A0 *)find_entry_by_address(a);
+    unlock_mutex((int)((void *)lbl_805D7BA8));
     if (r != 0) {
         r->a = 0;
         r->b = 0;
     }
 }
 
-void TLobby::release_entry_by_id(u32 arg0) {
+void release_entry_by_id(u32 arg0) {
     NetworkPacketBufferDescriptor *e = find_804253F8(arg0);
     if (e != NULL) {
         e->in_use = 0;
@@ -693,9 +672,9 @@ static inline u8 *alloc_packet_buffer(u32 size) {
 
 u8 *TLobby__sub_8042558C(u32 size) {
     u8 *buf;
-    TLobby::lock_mutex((int)((void *)lbl_805D7BA8));
+    lock_mutex((int)((void *)lbl_805D7BA8));
     buf = alloc_packet_buffer(size);
-    TUdpSocket::unlock_mutex((int)((void *)lbl_805D7BA8));
+    unlock_mutex((int)((void *)lbl_805D7BA8));
     return buf;
 }
 
@@ -720,14 +699,14 @@ u8 *TLobby__sub_80425640(u32 size) {
 
 NetworkPacketBufferDescriptor *TLobby__sub_804256B8(u32 addr) {
     NetworkPacketBufferDescriptor *e;
-    TLobby::lock_mutex((int)((void *)lbl_805D7BA8));
+    lock_mutex((int)((void *)lbl_805D7BA8));
     e = find_804253F8(addr);
-    TUdpSocket::unlock_mutex((int)((void *)lbl_805D7BA8));
+    unlock_mutex((int)((void *)lbl_805D7BA8));
     return e;
 }
 #pragma pop
 
-u8 *TLobby::find_entry_by_address(s32 arg0) {
+u8 *find_entry_by_address(s32 arg0) {
     s32 i;
     for (i = 0; i < 32; i++) {
         if (((NetworkPacketBufferDescriptor *)&network_packet_buffer_descriptors)[i].in_use != 0 && (u32)((NetworkPacketBufferDescriptor *)&network_packet_buffer_descriptors)[i].data <= (u32)arg0 && (u32)arg0 < (u32)((NetworkPacketBufferDescriptor *)&network_packet_buffer_descriptors)[i].data + 0x600) {
@@ -740,10 +719,10 @@ u8 *TLobby::find_entry_by_address(s32 arg0) {
     return (u8 *)&((NetworkPacketBufferDescriptor *)&network_packet_buffer_descriptors)[i];
 }
 
-void TLobby::cancel_alarm_a() {
+void cancel_alarm_a(void) {
     NetReleaseMutex(lbl_805D7BA8);
 }
-}
+
 s32 initialize_network_packet_pool(void) {
     s32 i;
     if (TLobby__sub_803F96AC(&lbl_805D7BA8) < 0) {
@@ -758,34 +737,6 @@ s32 initialize_network_packet_pool(void) {
     return 0;
 }
 
-#define arg0 ((s32)argp)
-extern "C" {
-s16 TLobby__sub_804262CC(void *argp);
-#undef arg0
-
-#pragma push
-#pragma dont_inline on
-#pragma pop
-
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
-static inline s16 remove_rec_80426998(u16 key) {
-    s32 i;
-    Obj_80426998 *o = ((Obj_80426998 *)&lobby_net_channel_table);
-    Rec_80426998 *p = o->recs;
-    for (i = 5; i != 0; i--, p++) {
-        if (p->a != 0 && p->b == key) {
-            p->a = 0;
-            p->b = 0;
-            o->count--;
-            return 0;
-        }
-    }
-    return -1;
-}
-#pragma pop
-
 typedef char RecoveredGlobal_80427D0C_lbl_805CFC20_size[sizeof(RecoveredGlobal_80427D0C_lbl_805CFC20) == 0xE20 ? 1 : -1];
 
 typedef char RecoveredGlobal_80428374_lbl_805D0A40_size[sizeof(RecoveredGlobal_80428374_lbl_805D0A40) == 0x60 ? 1 : -1];
@@ -799,8 +750,6 @@ typedef char RecoveredGlobal_8042839C_lbl_805D0A40_size[sizeof(RecoveredGlobal_8
 typedef char RecoveredGlobal_8042DD70_lbl_805D1D20_size[sizeof(RecoveredGlobal_8042DD70_lbl_805D1D20) == 0x1C ? 1 : -1];
 #pragma pop
 
-void TAdSinglePlyChrSelectGC__sub_8042DDE4(int _w0, int _w1);
-}
 
 typedef char RecoveredGlobal_8042E768_lbl_805D1D20_size[sizeof(RecoveredGlobal_8042E768_lbl_805D1D20) == 0x1C ? 1 : -1];
 

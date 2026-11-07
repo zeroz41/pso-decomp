@@ -1,9 +1,9 @@
-#ifndef PSO_UNK_TLOBBY_80428374_H
-#define PSO_UNK_TLOBBY_80428374_H
+#ifndef PSO_NETWORK_TLOBBY_80428374_H
+#define PSO_NETWORK_TLOBBY_80428374_H
 
 #include "types.h"
 
-struct ModemSessionState {
+typedef struct ModemSessionState {
     char **subst;
     u8 pad04[4];
     char *strbuf;
@@ -24,17 +24,17 @@ struct ModemSessionState {
     s16 window_len;
     s16 rxlen;
     u8 pad4A[0x16];
-};
+} ModemSessionState;
 
-struct ModemRequest {
+typedef struct ModemRequest {
     s16 type;
     s16 has_arg;
     s16 timeout;
     u8 pad06[6];
     char *arg;
-};
+} ModemRequest;
 
-struct ModemConfig {
+typedef struct ModemConfig {
     s16 h0;
     s16 h2;
     s16 h4;
@@ -63,29 +63,37 @@ struct ModemConfig {
     s32 w54;
     s32 init_count;
     char *init_command; /* "AT+MS=V34\r" by default (connect_modem) */
-};
+} ModemConfig;
 
 // Modem dial-script session; the script substitutes %t, %u and %p with
 // these strings (field names inferred from the substitution keys).
-struct ModemScriptSession {
+typedef struct ModemScriptSession {
     u8 pad00[0xC];
     char *user;
     char *password;
     char *phone_number;
     u8 pad18[0x70];
     ModemRequest req;
-};
+} ModemScriptSession;
 
+/* TLobby_80428374.c: the modem session (dial-script expansion, timed waits) and the buffer pool's bounds. */
+#ifdef __cplusplus
 extern "C" {
-extern ModemSessionState lobby_net_session_state;
+#endif
+s32 init_modem_session_config(void);
 s16 modem_run_script(u8 *script, ModemScriptSession *sess);
 s16 modem_script_wait(ModemRequest *req);
-s16 modem_script_send(void);
-s16 modem_script_dial(ModemRequest *req);
-void modem_script_store_field(s16 type, s16 index, char *src, s16 *nstr, s16 *nint);
-s16 TLobby__sub_804290D4(s16 timeout);
+s32 modem_script_send(void);
+s32 modem_script_dial(u8 *request);
+void modem_script_store_field(s16 type, s16 index, u8 *src, s16 *nstr, s16 *nint);
+s32 TLobby__sub_804290D4(s32 idx);
+void reset_boot_state(void);
+s32 wait_timeout_loop(void *params);
+void cancel_alarm_b(void);
+s32 init_buffer_pool(void);
+void reset_buffer_pool(void);
+#ifdef __cplusplus
 }
-
-s32 init_modem_session_config(void);
+#endif
 
 #endif

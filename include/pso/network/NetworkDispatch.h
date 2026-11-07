@@ -6,26 +6,30 @@
 
 typedef void (*NetTimerCallback)(void);
 
+#ifdef __cplusplus
 extern "C" {
+#endif
 s32 NetRegisterTimer(s32 period, s16 locked, NetTimerCallback fn);
+#ifdef __cplusplus
 }
+#endif
 
-struct NetProtocolHandlerEntry {
+typedef struct NetProtocolHandlerEntry {
     s16 used;
     u16 type;
     void (*fn)(s32, s16, s16, s16);
-};
+} NetProtocolHandlerEntry;
 
-struct NetTimerRecord {
+typedef struct NetTimerRecord {
     s16 active;
     s16 lock_callback;
     s32 period;
     u32 last;
     u32 next;
     NetTimerCallback fn;
-};
+} NetTimerRecord;
 
-struct NetworkDispatchState {
+typedef struct NetworkDispatchState {
     s32 lock_handle;
     s32 queue_handle;
     u8 unknown_08[8];
@@ -33,15 +37,15 @@ struct NetworkDispatchState {
     NetProtocolHandlerEntry handlers[3];
     NetTimerRecord timers[10];
     u8 unknown_F4[4];
-};
+} NetworkDispatchState;
 
-struct NetProtocolMessage {
+typedef struct NetProtocolMessage {
     s16 first;
     s16 second;
     u16 protocol;
     s16 detail;
     s32 payload;
-};
+} NetProtocolMessage;
 
 #define NET_DISPATCH_OFFSET(type, member, value) \
     typedef char type##_##member##_offset[(offsetof(type, member) == value) ? 1 : -1]

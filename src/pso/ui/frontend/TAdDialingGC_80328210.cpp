@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/unk/TLobby_803FAEA0.h"
+#include "pso/network/TLobby_803FAEA0.h"
 #include "pso/ui/frontend/TAdDialingGC_80328210.h"
 #include "pso/ui/frontend/TAdDialingGC.h"
 #include "pso/unk/TLobby_8013AD38.h"

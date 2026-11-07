@@ -1,39 +1,50 @@
+/* The network stack's modem session (a C library, built with GC/1.2.5n): the session record, the dial-script
+ * expansion and its quoted-string parser, timed waits on the modem, and the buffer pool's bounds. */
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/NetworkTransport.h"
-#include "pso/unk/TLobby_80428374.h"
+#include "pso/network/TLobby_80428374.h"
 #include "pso/network/ModemRuntime.h"
 #include "pso/network/NetworkMessageTransport.h"
 
 #include "types.h"
-#include "pso/unk/TLobby.h"
-#include "pso/network/TUdpSocket.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TLobby_803FAEA0.h"
+#include "pso/network/NetStackTypes.h"
 
+/* The script strings are read-only: the short ones are in .sdata2. */
 #pragma readonly_strings on
+
+typedef struct RecoveredGlobal_80428374_lbl_805D0A40 {
+    s32 value;
+    u8 remaining[0x5C];
+} RecoveredGlobal_80428374_lbl_805D0A40;
+
+typedef struct RecoveredGlobal_8042839C_lbl_805D0A40 {
+    s32 value;
+    u8 remaining[0x5C];
+} RecoveredGlobal_8042839C_lbl_805D0A40;
+
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
 
-struct RecoveredGlobal_8042E768_lbl_805D1D20 {
+typedef struct RecoveredGlobal_8042E768_lbl_805D1D20 {
     s32 value;
     u8 remaining[0x18];
-};
+} RecoveredGlobal_8042E768_lbl_805D1D20;
 
-struct RecoveredGlobal_80427D0C_lbl_805CFC20 {
+typedef struct RecoveredGlobal_80427D0C_lbl_805CFC20 {
     s32 value;
     u8 remaining[0xE1C];
-};
+} RecoveredGlobal_80427D0C_lbl_805CFC20;
 
-struct RecoveredGlobal_80428360_lbl_805CFC20 {
+typedef struct RecoveredGlobal_80428360_lbl_805CFC20 {
     s16 value;
     u8 remaining[0xE1E];
-};
+} RecoveredGlobal_80428360_lbl_805CFC20;
 
-struct RecoveredGlobal_8042DD70_lbl_805D1D20 {
+typedef struct RecoveredGlobal_8042DD70_lbl_805D1D20 {
     s32 value;
     u8 remaining[0x18];
-};
+} RecoveredGlobal_8042DD70_lbl_805D1D20;
 
 typedef struct Names_8042E57C {
     char *name[6];
@@ -73,10 +84,6 @@ typedef struct Ent_80427C6C {
     u8 rest[0xE10];
 } Ent_80427C6C;
 
-extern u8 lbl_805CF240[0xA0];
-extern u8 TLobby__pppoe_message_queue[0xA0];
-extern u8 lbl_805CF380[0x48];
-extern "C" {
 s32 TLobby__sub_803F77E0(void *);
 ModemSessionState lobby_net_session_state;
 extern u32 lobby_buffer_pool_alarm_handle;
@@ -88,8 +95,6 @@ extern s32 lbl_805D7BF0;
 extern s32 lbl_805D7BF4;
 extern s32 lobby_buffer_pool_end;
 extern s32 lbl_805D7BFC;
-extern u8 lbl_805CF380[];
-extern u8 TLobby__pppoe_message_queue[];
 typedef struct Ent_804267F0 {
     s16 count;
     u8 id[6];
@@ -100,21 +105,17 @@ typedef struct Tbl_804267F0 {
     Ent_804267F0 ent[6];
 } Tbl_804267F0;
 
-extern u8 lbl_805CF240[];
 s32 TLobby__sub_803F97E8(int);
 extern void *lbl_805C18A0[];
 extern s16 lobby_modem_abort_flag;
-extern s16 lobby_modem_connect_state;
-s16 modem_script_next_token(u8 *src, u8 *dst, u8 **next);
+s32 modem_script_next_token(u8 *src, u8 *dst, u8 **next);
 s16 TLobby__sub_804293B0(u8 *buf, s16 len);
 s16 TLobby__sub_804036FC(u16 *avail);
 s16 TLobby__sub_80403730(u8 *dst, u16 n);
-s16 TLobby__sub_804037B0(void *src, u16 len);
 extern u32 lbl_805D7BD0;
 extern u32 lbl_805D7BD4;
-extern s32 lbl_805D7BD8;
-extern s32 lbl_805D7BDC;
-s32 NetCompareStringsCaseInsensitiveN(u8 *a, u8 *b, u32 n);
+u8 *TLobby__sub_803FB110(void);
+s16 TLobby__sub_804037B0(void *, s32);
 
 #pragma push
 #pragma opt_propagation off
@@ -145,42 +146,44 @@ extern s32 lbl_805D7C20;
 extern s32 lbl_805D7C24;
 extern s32 lobby_buffer_pool_state;
 
-typedef char ModemSessionState_size[sizeof(ModemSessionState) == 0x60 ? 1 : -1];
+typedef char RecoveredGlobal_80428374_lbl_805D0A40_size[sizeof(RecoveredGlobal_80428374_lbl_805D0A40) == 0x60 ? 1 : -1];
 
 typedef char RecoveredGlobal_80428360_lbl_805CFC20_size[sizeof(RecoveredGlobal_80428360_lbl_805CFC20) == 0xE20 ? 1 : -1];
 
-void TLobby::reset_boot_state() {
-    TLobby__sub_803F77E0(&lobby_net_session_state);
-}
+void reset_boot_state(void) {
+    TLobby__sub_803F77E0((s32 *)&lobby_net_session_state);
 }
 
+typedef char RecoveredGlobal_8042839C_lbl_805D0A40_size[sizeof(RecoveredGlobal_8042839C_lbl_805D0A40) == 0x60 ? 1 : -1];
 s32 init_modem_session_config(void) {
-    init_modem_buffer_config(&lobby_net_session_state);
+    init_modem_buffer_config((void *) (&(*(RecoveredGlobal_8042839C_lbl_805D0A40 *)&lobby_net_session_state).value));
     return 0;
 }
 
-// Per script command: how many fields it has, then each field's kind
-// (0 a string, 1 a decimal number).
-struct ModemFieldLayout {
+/* Per script command: its field count, then each field's kind (0 a string, 1 a decimal number). */
+typedef struct ModemFieldLayout {
     s32 count;
     s32 kind[4];
-};
-
-static const ModemFieldLayout modem_command_layouts[5] = {
+} ModemFieldLayout;
+const ModemFieldLayout modem_command_layouts[5] = {
     {1, {0, 0, 0, 0}},
     {1, {0, 0, 0, 0}},
     {2, {0, 1, 0, 0}},
     {1, {1, 0, 0, 0}},
     {0, {0, 0, 0, 0}},
 };
-
-// Script command names, upper and lower case per command.
+static const char modem_cmd_TERMINAL[] = "TERMINAL";
+static const char modem_cmd_terminal[] = "terminal";
+/* Script command names, upper and lower case per command. */
 static const char *const modem_command_names[] = {
-    "DIAL", "dial", "SEND", "send", "WAIT", "wait", "DELAY", "delay", "TERMINAL", "terminal", NULL,
+    "DIAL", "dial", "SEND", "send", "WAIT", "wait", "DELAY", "delay", modem_cmd_TERMINAL, modem_cmd_terminal, NULL,
 };
-
-// Substitution keys of a script line (ModemSessionState::subst holds the values).
-static const char *const modem_subst_keys[] = {"%t", "%u", "%p", "%i", "%%", NULL};
+/* The dial script's substitutions: %t phone number, %u user, %p password, %i, and %% for a percent sign. */
+const char *const modem_subst_keys[] = {
+    "%t", "%u", "%p", "%i", "%%", NULL,
+};
+extern s16 lobby_modem_connect_state;
+s32 wait_timeout_loop(void *params);
 
 static inline void modem_flush_input(void) {
     u16 avail;
@@ -189,7 +192,13 @@ static inline void modem_flush_input(void) {
     }
 }
 
-static inline s16 modem_find_command(u8 *word) {
+typedef struct ModemPoolView {
+    ModemFieldLayout layouts[5];
+    u8 pad64[0x18];
+    char *names[11];
+} ModemPoolView;
+
+static inline s16 modem_find_command(u8 *word, ModemFieldLayout *tbl) {
     s16 k;
     for (k = 0; modem_command_names[k] != NULL; k++) {
         if (NetCompareStrings((const char *)word, modem_command_names[k]) == 0) {
@@ -231,15 +240,19 @@ static inline s16 modem_wait_connect(void) {
             ret = 4;
             break;
         }
-        TUdpSocket::unlock_mutex((int)lbl_805C18A0[0]);
+        unlock_mutex((s32)lbl_805C18A0[0]);
         TLobby__sub_803F97E8(100);
-        TLobby::lock_mutex((int)lbl_805C18A0[0]);
+        lock_mutex((s32)lbl_805C18A0[0]);
     }
     return ret;
 }
 
-// Runs a modem script line by line (the commands of modem_command_names).
+/* Runs a modem script line by line (DIAL, SEND, WAIT, DELAY, TERMINAL). */
 s16 modem_run_script(u8 *script, ModemScriptSession *sess) {
+    s16 modem_script_next_token(u8 *, u8 *, u8 **);
+    s16 modem_script_send(void);
+    s16 modem_script_dial(u8 *);
+    s16 wait_timeout_loop(void *);
     u8 *p;
     s16 nstr;
     s16 nint;
@@ -268,7 +281,7 @@ s16 modem_run_script(u8 *script, ModemScriptSession *sess) {
         if (modem_script_next_token(next, lobby_net_session_state.token, &next) == 0) {
             continue;
         }
-        if ((cmd = modem_find_command(lobby_net_session_state.token)) == -1) {
+        if ((cmd = modem_find_command(lobby_net_session_state.token, modem_command_layouts)) == -1) {
             modem_flush_input();
             return 4;
         }
@@ -278,11 +291,11 @@ s16 modem_run_script(u8 *script, ModemScriptSession *sess) {
             if (modem_script_next_token(next, lobby_net_session_state.token, &next) == 0) {
                 break;
             }
-            modem_script_store_field(cmd, i, (char *)lobby_net_session_state.token, &nstr, &nint);
+            modem_script_store_field(cmd, i, lobby_net_session_state.token, &nstr, &nint);
         }
         switch (cmd) {
         case 0:
-            ret = modem_script_dial(&sess->req);
+            ret = modem_script_dial((u8 *)&sess->req);
             break;
         case 1:
             ret = modem_script_send();
@@ -291,7 +304,7 @@ s16 modem_run_script(u8 *script, ModemScriptSession *sess) {
             ret = modem_script_wait(&sess->req);
             break;
         case 3:
-            ret = ((TLobby *)&sess->req)->wait_timeout_loop();
+            ret = wait_timeout_loop(&sess->req);
             break;
         case 4:
             ret = modem_wait_connect();
@@ -308,19 +321,18 @@ s16 modem_run_script(u8 *script, ModemScriptSession *sess) {
     modem_flush_input();
     return 0;
 }
-
-s16 TLobby::wait_timeout_loop() {
-    u8 *arg0 = (u8 *)this;
+s32 wait_timeout_loop(void *params) {
+    u8 *params_u8 = (u8 *)params;
     s32 start;
     s32 now;
     s16 *p;
     u32 limit;
-    s16 ret;
+    s32 ret;
     ret = 0;
-    TLobby::get_time_ms(&start);
-    p = (s16 *)lobby_net_session_state.fields[0];
+    get_time_ms(&start);
+    p = **(s16 ***)((s8 *)&lobby_net_session_state + 0x10);
     if (p == NULL) {
-        limit = *(s16 *)(arg0 + 4) * 1000;
+        limit = *(s16 *)(params_u8 + 4) * 1000;
     } else {
         limit = *p * 1000;
     }
@@ -329,19 +341,21 @@ s16 TLobby::wait_timeout_loop() {
             ret = 4;
             break;
         }
-        TLobby::get_time_ms(&now);
+        get_time_ms(&now);
         if ((u32)(now - start) > limit) {
             break;
         }
-        TUdpSocket::unlock_mutex((int)lbl_805C18A0[0]);
+        unlock_mutex((int)lbl_805C18A0[0]);
         TLobby__sub_803F97E8(100);
-        TLobby::lock_mutex((int)lbl_805C18A0[0]);
+        lock_mutex((int)lbl_805C18A0[0]);
     }
     return ret;
 }
 
+s32 NetCompareStringsCaseInsensitiveN(u8 *a, u8 *b, u32 n);
+
 inline s16 modem_wait_for_string(u8 *s, s16 n, s16 timeout) {
-    TLobby::get_time_ms((s32 *)&lbl_805D7BD0);
+    get_time_ms((s32 *)&lbl_805D7BD0);
     lbl_805D7BD4 = timeout * 1000;
     if (n > lobby_net_session_state.window_len) {
         n = lobby_net_session_state.window_len;
@@ -358,7 +372,7 @@ inline s16 modem_wait_for_string(u8 *s, s16 n, s16 timeout) {
     return 0;
 }
 
-// The script's "wait" command (index 2 of modem_command_names).
+/* The script's "wait" command (index 2 of the command names). */
 s16 modem_script_wait(ModemRequest *req) {
     s32 len;
     s32 pos;
@@ -371,7 +385,7 @@ s16 modem_script_wait(ModemRequest *req) {
     while (lobby_net_session_state.fields[0][pos] != 0) {
         for (k = 0; modem_subst_keys[k] != NULL; k++) {
             if (NetCompareStringsN(modem_subst_keys[k], (const char *)lobby_net_session_state.fields[0] + pos,
-                                     NetStringLength(modem_subst_keys[k])) == 0) {
+                                   NetStringLength(modem_subst_keys[k])) == 0) {
                 break;
             }
         }
@@ -396,113 +410,154 @@ s16 modem_script_wait(ModemRequest *req) {
     }
     return 0;
 }
-
-// The script's "send" command (index 1 of modem_command_names).
-s16 modem_script_send(void) {
-    s32 out;
-    s32 pos;
-    s32 k;
-    u8 discard[4];
+s32 modem_script_send(void) {
+    u8 *base;
+    u8 ***pp;
+    u8 **out;
+    u8 **keys;
+    s32 di;
+    s32 si;
+    s32 j;
+    s32 len;
+    s16 r;
+    u8 c[4];
     u16 avail;
 
-    out = 0;
-    pos = 0;
-    lobby_net_session_state.out[0] = 0;
-    while (lobby_net_session_state.fields[0][pos] != 0) {
-        for (k = 0; modem_subst_keys[k] != NULL; k++) {
-            if (NetCompareStringsN(modem_subst_keys[k], (const char *)lobby_net_session_state.fields[0] + pos,
-                                     NetStringLength(modem_subst_keys[k])) == 0) {
+    base = (u8 *)&lobby_net_session_state;
+    out = (u8 **)(base + 0x2c);
+    **out = 0;
+    keys = (u8 **)modem_subst_keys;
+    pp = (u8 ***)(base + 0x10);
+    di = 0;
+    si = 0;
+    while ((*pp)[0][si] != 0) {
+        for (j = 0; keys[j] != NULL; j++) {
+            len = NetStringLength((char *)keys[j]);
+            if (NetCompareStringsN((char *)keys[j], (char *)((*pp)[0] + si), len) == 0) {
                 break;
             }
         }
-        if (modem_subst_keys[k] == NULL) {
-            lobby_net_session_state.out[out] = lobby_net_session_state.fields[0][pos];
-            pos++;
-            out++;
+        if (keys[j] == NULL) {
+            (*out)[di] = (*pp)[0][si];
+            si++;
+            di++;
         } else {
-            NetAppendString((char *)lobby_net_session_state.out + out, lobby_net_session_state.subst[k]);
-            out += NetStringLength(lobby_net_session_state.subst[k]);
-            pos += NetStringLength(modem_subst_keys[k]);
+            NetAppendString((char *)(*out + di), (char *)(*(u8 ***)base)[j]);
+            di += NetStringLength((char *)(*(u8 ***)base)[j]);
+            si += NetStringLength((char *)keys[j]);
         }
     }
-    lobby_net_session_state.out[out] = 0;
-    while (TLobby__sub_804036FC(&avail) == 0 && avail != 0 && TLobby__sub_80403730(discard, 1) == 0) {
-    }
-    if (TLobby__sub_804037B0(lobby_net_session_state.out, NetStringLength((char *)lobby_net_session_state.out)) != 0) {
+    (*out)[di] = 0;
+    do {
+        r = TLobby__sub_804036FC(&avail);
+        if (r != 0 || avail == 0) {
+            break;
+        }
+        r = TLobby__sub_80403730(c, 1);
+    } while (r == 0);
+    if (TLobby__sub_804037B0(*out, (u16)NetStringLength((char *)*out)) != 0) {
         return 4;
     }
     return 0;
 }
 
-// The script's "dial" command (index 0 of modem_command_names).
-s16 modem_script_dial(ModemRequest *req) {
-    ModemConfig *cfg;
-    s32 len;
-    s32 pos;
+u8 *TLobby__sub_803FB110(void);
+s32 TLobby__sub_804290D4(s32 idx);
+/* Builds the dial string from the session settings (prefix, number from the profile, optional suffix) and starts the call; request: s16 +0 = use second number, s16 +2 = has suffix, s16 +4 = script index, +0xC = suffix string (layout partly guessed). */
+s32 modem_script_dial(u8 *request) {
+    u8 *p;
+    u8 *base;
+    char **out;
+    char **keys;
+    char ***pp;
+    s32 dlen;
     s32 k;
-    u8 discard[4];
+    s32 j;
+    s32 len;
+    s16 r;
+    u8 c[4];
     u16 avail;
 
-    cfg = (ModemConfig *)TLobby__sub_803FB110();
-    if (cfg == NULL) {
+    base = (u8 *)&lobby_net_session_state;
+    p = TLobby__sub_803FB110();
+    if (p == NULL) {
         return -3;
     }
-    lobby_net_session_state.cmd[0] = 0;
-    if (req->type == 0) {
-        if (cfg->prefix0 != NULL) {
-            NetCopyString((char *)lobby_net_session_state.cmd, cfg->prefix0);
+    out = &((char **)base)[10];
+    **out = 0;
+    if (*(s16 *)request == 0) {
+        if (*(void **)(p + 0xc) != NULL) {
+            NetCopyString(*out, (const char *)(*(void **)(p + 0xc)));
         }
-    } else if (cfg->prefix1 != NULL) {
-        NetCopyString((char *)lobby_net_session_state.cmd, cfg->prefix1);
+    } else {
+        if (*(void **)(p + 0x10) != NULL) {
+            NetCopyString(*out, (const char *)(*(void **)(p + 0x10)));
+        }
     }
-    if (req->has_arg != 0) {
-        NetAppendString((char *)lobby_net_session_state.cmd, req->arg);
+    if (*(s16 *)(request + 2) != 0) {
+        NetAppendString(*out, *(const char **)(request + 0xc));
     }
-    len = NetStringLength((char *)lobby_net_session_state.cmd);
-    pos = 0;
-    while (lobby_net_session_state.fields[0][pos] != 0) {
-        for (k = 0; modem_subst_keys[k] != NULL; k++) {
-            if (NetCompareStringsN(modem_subst_keys[k], (const char *)lobby_net_session_state.fields[0] + pos,
-                                     NetStringLength(modem_subst_keys[k])) == 0) {
+    dlen = NetStringLength((const char *)*out);
+    keys = (char **)modem_subst_keys;
+    pp = (char ***)(base + 0x10);
+    k = 0;
+    while ((u8)(*pp)[0][k] != 0) {
+        for (j = 0; keys[j] != NULL; j++) {
+            len = NetStringLength((const char *)keys[j]);
+            if (NetCompareStringsN(keys[j], (*pp)[0] + k, len) == 0) {
                 break;
             }
         }
-        if (modem_subst_keys[k] == NULL) {
-            lobby_net_session_state.cmd[len] = lobby_net_session_state.fields[0][pos];
-            pos++;
-            len++;
+        if (keys[j] == NULL) {
+            (*out)[dlen] = (*pp)[0][k];
+            k++;
+            dlen++;
         } else {
-            NetAppendString((char *)lobby_net_session_state.cmd + len, lobby_net_session_state.subst[k]);
-            len += NetStringLength(lobby_net_session_state.subst[k]);
-            pos += NetStringLength(modem_subst_keys[k]);
+            NetAppendString(*out + dlen, (*(char ***)base)[j]);
+            dlen += NetStringLength((const char *)(*(char ***)base)[j]);
+            k += NetStringLength((const char *)keys[j]);
         }
     }
-    if (len > 0 && cfg->terminator != lobby_net_session_state.cmd[len - 1]) {
-        lobby_net_session_state.cmd[len++] = cfg->terminator;
+    if (dlen > 0 && *(u8 *)(p + 0x38) != (u8)(*out)[dlen - 1]) {
+        (*out)[dlen++] = *(u8 *)(p + 0x38);
     }
-    lobby_net_session_state.cmd[len] = 0;
-    while (TLobby__sub_804036FC(&avail) == 0 && avail != 0 && TLobby__sub_80403730(discard, 1) == 0) {
-    }
-    if (TLobby__sub_804037B0(lobby_net_session_state.cmd, NetStringLength((char *)lobby_net_session_state.cmd)) != 0) {
+    (*out)[dlen] = 0;
+    do {
+        r = TLobby__sub_804036FC(&avail);
+        if (r != 0 || avail == 0) {
+            break;
+        }
+        r = TLobby__sub_80403730(c, 1);
+    } while (r == 0);
+    if (TLobby__sub_804037B0(*out, (u16)NetStringLength((const char *)*out)) != 0) {
         return 4;
     }
-    return TLobby__sub_804290D4(req->timeout);
+    return TLobby__sub_804290D4(*(s16 *)(request + 4));
 }
 
-// Stores a parsed argument as a string or number field by the command's layout;
-// name inferred from that behaviour.
-void modem_script_store_field(s16 type, s16 index, char *src, s16 *nstr, s16 *nint) {
+char* NetCopyString(char* destination, const char* source);
+#pragma push
+#pragma cplusplus off
+#pragma pop
+#pragma push
+#pragma cplusplus off
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+#pragma dont_inline off
+void modem_script_store_field(s16 type, s16 index, u8 *src, s16 *nstr, s16 *nint) {
+    void NetCopyString(void *, u8 *);
     s32 n;
-    char *dst;
+    u8 *dst;
     s16 i;
     s16 value;
     u8 c;
 
     if (modem_command_layouts[type].kind[index] == 0) {
         n = *nstr;
-        dst = lobby_net_session_state.strbuf + n * lobby_net_session_state.strstride;
+        dst = (u8 *)lobby_net_session_state.strbuf + n * lobby_net_session_state.strstride;
         NetCopyString(dst, src);
-        lobby_net_session_state.fields[index] = (u8 *)dst;
+        lobby_net_session_state.fields[index] = dst;
         *nstr = n + 1;
     }
     if (modem_command_layouts[type].kind[index] == 1) {
@@ -519,10 +574,9 @@ void modem_script_store_field(s16 type, s16 index, char *src, s16 *nstr, s16 *ni
         *nint = n + 1;
     }
 }
+#pragma pop
 
-// Copies the next argument of a script line (a quoted string with \r \n \\ \" \x
-// escapes, or a bare word) to dst; name inferred from that behaviour.
-s16 modem_script_next_token(u8 *src, u8 *dst, u8 **next) {
+s32 modem_script_next_token(u8 *src, u8 *dst, u8 **next) {
     s16 n;
     u8 *p;
     u8 c;
@@ -605,83 +659,96 @@ s16 modem_script_next_token(u8 *src, u8 *dst, u8 **next) {
     return 1;
 }
 
-inline u8 *modem_skip_spaces(u8 *s) {
-    s16 n = 0;
-    u8 *p = s;
-    while (*p++ == 0x20U) {
-        n++;
-    }
-    return s + n;
-}
-
-s16 TLobby__sub_804290D4(s16 timeout) {
-    ModemConfig *cfg;
-    s32 i;
+extern s32 lbl_805D7BDC;
+extern s32 lbl_805D7BD8;
+s32 NetCompareStringsCaseInsensitiveN(u8 *a, u8 *b, u32 n);
+s32 TLobby__sub_804290D4(s32 idx) {
+    s16 *lenp;
+    u8 **bufp;
+    u8 *base;
+    u8 *sym;
+    s32 c;
     u8 *q;
-    u8 c;
-    s32 len;
+    u8 *p;
+    u8 *buf;
+    s32 n;
+    u8 ch;
 
-    cfg = (ModemConfig *)TLobby__sub_803FB110();
-    if (cfg == NULL) {
+    base = TLobby__sub_803FB110();
+    if (base == NULL) {
         return 1;
     }
-    TLobby::get_time_ms((s32 *)&lbl_805D7BD0);
-    if (timeout == 0x7FFF) {
-        lbl_805D7BD4 = 0xFFFFFFFF;
+    get_time_ms((s32 *)&lbl_805D7BD0);
+    if ((s16)idx == 0x7fff) {
+        lbl_805D7BD4 = -1;
     } else {
-        lbl_805D7BD4 = timeout * 1000;
+        lbl_805D7BD4 = (s16)idx * 1000;
     }
-    NetMemset(lobby_net_session_state.rxbuf, 0, lobby_net_session_state.rxlen);
+    sym = (u8 *)&lobby_net_session_state;
+    bufp = (u8 **)(sym + 0x38);
+    lenp = (s16 *)(sym + 0x48);
+    NetMemset(*bufp, 0, *lenp);
     for (;;) {
-        NetMemmove(lobby_net_session_state.rxbuf, lobby_net_session_state.rxbuf + 1, lobby_net_session_state.rxlen - 1);
-        if (TLobby__sub_804293B0(lobby_net_session_state.rxbuf + lobby_net_session_state.rxlen - 1, 1) != 0) {
+        NetMemmove(*bufp, *bufp + 1, *lenp - 1);
+        if (TLobby__sub_804293B0(*bufp + *lenp - 1, 1) != 0) {
             return 4;
         }
-        len = NetStringLength(cfg->result_ok);
-        if (NetCompareStringsCaseInsensitiveN(lobby_net_session_state.rxbuf + lobby_net_session_state.rxlen - len, (u8 *)cfg->result_ok, len) == 0) {
+        n = NetStringLength((const char *)*(u8 **)(base + 0x1c));
+        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, *(u8 **)(base + 0x1c), n) == 0) {
+            goto L122;
+        }
+        n = NetStringLength((const char *)*(u8 **)(base + 0x20));
+        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, *(u8 **)(base + 0x20), n) == 0) {
+            return 2;
+        }
+        n = NetStringLength((const char *)*(u8 **)(base + 0x24));
+        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, *(u8 **)(base + 0x24), n) == 0) {
+            return 2;
+        }
+        n = NetStringLength((const char *)*(u8 **)(base + 0x28));
+        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, *(u8 **)(base + 0x28), n) == 0) {
+            return 2;
+        }
+        n = NetStringLength((const char *)*(u8 **)(base + 0x2c));
+        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, *(u8 **)(base + 0x2c), n) == 0) {
+            return 3;
+        }
+        n = NetStringLength((const char *)*(u8 **)(base + 0x30));
+        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, *(u8 **)(base + 0x30), n) == 0) {
+            return 3;
+        }
+    }
+
+L122:
+    if (*(s16 *)(base + 8) == 0) {
+        goto done;
+    }
+    lbl_805D7BDC = 0;
+    for (idx = 0; idx < *lenp - 1; idx++) {
+        if (TLobby__sub_804293B0(*bufp + idx, 1) != 0) {
+            return 4;
+        }
+        if ((*bufp)[idx] == base[0x38]) {
             break;
         }
-        len = NetStringLength(cfg->result_error);
-        if (NetCompareStringsCaseInsensitiveN(lobby_net_session_state.rxbuf + lobby_net_session_state.rxlen - len, (u8 *)cfg->result_error, len) == 0) {
-            return 2;
-        }
-        len = NetStringLength(cfg->result_busy);
-        if (NetCompareStringsCaseInsensitiveN(lobby_net_session_state.rxbuf + lobby_net_session_state.rxlen - len, (u8 *)cfg->result_busy, len) == 0) {
-            return 2;
-        }
-        len = NetStringLength(cfg->result_no_dialtone);
-        if (NetCompareStringsCaseInsensitiveN(lobby_net_session_state.rxbuf + lobby_net_session_state.rxlen - len, (u8 *)cfg->result_no_dialtone, len) == 0) {
-            return 2;
-        }
-        len = NetStringLength(cfg->result_no_carrier);
-        if (NetCompareStringsCaseInsensitiveN(lobby_net_session_state.rxbuf + lobby_net_session_state.rxlen - len, (u8 *)cfg->result_no_carrier, len) == 0) {
-            return 3;
-        }
-        len = NetStringLength(cfg->result_no_answer);
-        if (NetCompareStringsCaseInsensitiveN(lobby_net_session_state.rxbuf + lobby_net_session_state.rxlen - len, (u8 *)cfg->result_no_answer, len) == 0) {
-            return 3;
-        }
     }
-    if (cfg->numeric_result != 0) {
-        lbl_805D7BDC = 0;
-        for (i = 0; i < lobby_net_session_state.rxlen - 1; i++) {
-            if (TLobby__sub_804293B0(lobby_net_session_state.rxbuf + i, 1) != 0) {
-                return 4;
-            }
-            if (cfg->terminator == lobby_net_session_state.rxbuf[i]) {
-                break;
-            }
-        }
-        lobby_net_session_state.rxbuf[i] = 0;
-        q = modem_skip_spaces(lobby_net_session_state.rxbuf);
-        for (;;) {
-            c = *q++;
-            if (c < '0' || c > '9') {
-                break;
-            }
-            lbl_805D7BDC = lbl_805D7BDC * 10 + (c - '0');
-        }
+
+    (*bufp)[idx] = 0;
+    p = buf = *bufp;
+    n = 0;
+    while ((ch = *p++) == (u8)' ') {
+        n++;
     }
+    q = buf + (s16)n;
+    for (;;) {
+        c = *q++;
+        if (c < '0' || c > '9') {
+            break;
+        }
+        lbl_805D7BDC = c - '0' + lbl_805D7BDC * 10;
+    }
+
+done:
     lbl_805D7BD8 = lbl_805D7BDC;
     return 0;
 }
@@ -706,7 +773,7 @@ s16 TLobby__sub_804293B0(u8 *buf, s16 len) {
                 continue;
             }
         }
-        TLobby::get_time_ms(&now);
+        get_time_ms(&now);
         if (lobby_modem_abort_flag != 0 || lbl_805D7BD4 == 0) {
             lbl_805D7BD4 = 0;
             return -1;
@@ -715,18 +782,18 @@ s16 TLobby__sub_804293B0(u8 *buf, s16 len) {
             lbl_805D7BD4 = 0;
             return -1;
         }
-        TUdpSocket::unlock_mutex((int)lbl_805C18A0[0]);
+        unlock_mutex((int)lbl_805C18A0[0]);
         TLobby__sub_803F97E8(100);
-        TLobby::lock_mutex((int)lbl_805C18A0[0]);
+        lock_mutex((int)lbl_805C18A0[0]);
     }
     return 0;
 }
 
-void TLobby::cancel_alarm_b() {
+void cancel_alarm_b(void) {
     NetReleaseMutex(lobby_buffer_pool_alarm_handle);
 }
 
-s32 TLobby::init_buffer_pool() {
+s32 init_buffer_pool(void) {
     lbl_805D7BEC = lobby_buffer_pool_base;
     lbl_805D7BF0 = lobby_buffer_pool_base;
     lbl_805D7BF4 = lobby_buffer_pool_base;
@@ -735,11 +802,11 @@ s32 TLobby::init_buffer_pool() {
     if (TLobby__sub_803F96AC(&lobby_buffer_pool_alarm_handle, (void *)lobby_buffer_pool_base, (void *)lobby_buffer_pool_size) < 0) {
         return -1;
     }
-    TLobby::reset_buffer_pool();
+    reset_buffer_pool();
     return 0;
 }
 
-void TLobby::reset_buffer_pool() {
+void reset_buffer_pool(void) {
     lbl_805D7C0C = 0;
     lbl_805D7C24 = 0;
     lobby_buffer_pool_state = 0;

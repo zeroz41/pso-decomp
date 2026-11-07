@@ -132,9 +132,6 @@ typedef struct Ent_80427C6C {
 } Ent_80427C6C;
 
 extern "C" {
-extern u8 lbl_805CF240[0xA0];
-extern u8 TLobby__pppoe_message_queue[0xA0];
-extern u8 lbl_805CF380[0x48];
 extern OSThreadQueue lbl_805D7CA0;
 void TAdSinglePlyChrSelectGC__sub_8042DE20(void);
 static RecoveredGlobal_8042E768_lbl_805D1D20 modem_connection_info;
@@ -146,8 +143,6 @@ int sscanf(const char *, const char *, ...);
 extern s32 lbl_805D7C98;
 void TAdSinglePlyChrSelectGC__sub_8042D6A4(char *str);
 extern s32 lbl_805D4918;
-extern u8 lbl_805CF380[];
-extern u8 TLobby__pppoe_message_queue[];
 typedef struct Ent_804267F0 {
     s16 count;
     u8 id[6];
@@ -158,7 +153,6 @@ typedef struct Tbl_804267F0 {
     Ent_804267F0 ent[6];
 } Tbl_804267F0;
 
-extern u8 lbl_805CF240[];
 char *strcat(char *, const char *);
 char *strcpy(char *, const char *);
 s32 TAdSinglePlyChrSelectGC__sub_8042D49C(char *cmd);

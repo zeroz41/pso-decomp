@@ -904,11 +904,17 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
     # ACCESS AVE-TCP ("avetcp.a Ver.1.16.1 Oct 23 2002"); its PPP files were
     # built without common subexpression elimination.
     ("avetcp", 0x803F7678, "GC/1.2.5n", cflags_middleware, {
-        "pso/network/NetworkRuntime.cpp": {"cflags": _switch(cflags_middleware, "-opt nocse")},
-        "pso/unk/TLobby_803FAEA0.cpp": {"cflags": _switch(cflags_middleware, "-opt nocse")},
-        "pso/unk/TLobby_803FC178.cpp": {"cflags": _switch(cflags_middleware, "-opt nocse")},
-        "pso/unk/TLobby_804048E8.cpp": {"cflags": _switch(cflags_middleware, "-opt nocse")},
-        "pso/unk/TLobby_804050DC.cpp": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        "pso/network/TLobby_803F86BC.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        "pso/network/NetworkRuntime.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        "pso/network/NetworkThreadRuntime.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        "pso/network/TLobby_803FAEA0.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        "pso/network/TLobby_803FC178.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        "pso/network/TLobby_803FCF44.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        "pso/network/TLobby_804048E8.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        "pso/network/TLobby_804050DC.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        "pso/network/TLobby_8041112C.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        "pso/network/NetDispatcher.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        "pso/network/NetTcp.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
     }),
     # The modem driver (AT command strings).
     ("modem", 0x8042BF48, "GC/1.2.5", cflags_middleware, {}),

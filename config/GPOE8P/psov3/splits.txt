@@ -12714,70 +12714,91 @@ pso/network/NetworkInfoCodec.cpp:
 	.sdata      start:0x805D4710 end:0x805D47F0
 	.sbss       start:0x805D79E8 end:0x805D79F8
 
-pso/network/NetworkTransport.cpp:
-	.text       start:0x803F7678 end:0x803F8794
+pso/network/NetworkTransport.c:
+	.text       start:0x803F7678 end:0x803F86BC
 	.rodata     start:0x8047FD38 end:0x8047FDE0
 	.data       start:0x804FD360 end:0x804FD380
 	.bss        start:0x805A9008 end:0x805AEEB0
 	.sdata2     start:0x805E1108 end:0x805E1150
 
-pso/unk/TLobby_803F8794.cpp:
-	.text       start:0x803F8794 end:0x803F8E08
+pso/network/TLobby_803F86BC.c:
+	.text       start:0x803F86BC end:0x803F8E08
 	.bss        start:0x805AEEB0 end:0x805BE070
 	.sbss       start:0x805D7A58 end:0x805D7A5C
 
-pso/network/NetworkRuntime.cpp:
-	.text       start:0x803F8E08 end:0x803FAEA0
-	.bss        start:0x805BE070 end:0x805BFF68
+pso/network/NetworkRuntime.c:
+	.text       start:0x803F8E08 end:0x803F97B8
+	.bss        start:0x805BE070 end:0x805BFEC0
 
-pso/unk/TLobby_803FAEA0.cpp:
+pso/network/NetworkThreadRuntime.c:
+	.text       start:0x803F97B8 end:0x803FAEA0
+	.bss        start:0x805BFEC0 end:0x805BFF68
+
+pso/network/TLobby_803FAEA0.c:
 	.text       start:0x803FAEA0 end:0x803FC178
 	.bss        start:0x805BFF68 end:0x805C0180
 
-pso/unk/TLobby_803FC178.cpp:
-	.text       start:0x803FC178 end:0x804048E8
+pso/network/TLobby_803FC178.c:
+	.text       start:0x803FC178 end:0x803FCF44
+	.bss        start:0x805C0180 end:0x805C0310
+
+pso/network/TLobby_803FCF44.c:
+	.text       start:0x803FCF44 end:0x804048E8
 	.data       start:0x804FD5A8 end:0x804FD650
-	.bss        start:0x805C0180 end:0x805C06D8
+	.bss        start:0x805C0310 end:0x805C06D8
 	.sdata2     start:0x805E1158 end:0x805E1160
 
-pso/unk/TLobby_804048E8.cpp:
+pso/network/TLobby_804048E8.c:
 	.text       start:0x804048E8 end:0x804050DC
 	.data       start:0x804FD650 end:0x804FD690
 	.bss        start:0x805C06D8 end:0x805C1AD8
 
-pso/unk/TLobby_804050DC.cpp:
-	.text       start:0x804050DC end:0x8041ED8C
-	.data       start:0x804FD7D8 end:0x804FD890
-	.bss        start:0x805C1AD8 end:0x805C1DF0
+pso/network/TLobby_804050DC.c:
+	.text       start:0x804050DC end:0x8041112C
+	.data       start:0x804FD690 end:0x804FD7D8
+	.bss        start:0x805C1AD8 end:0x805C1BB8
 
-pso/network/SocketProtocolRuntime.cpp:
+pso/network/TLobby_8041112C.c:
+	.text       start:0x8041112C end:0x80419A00
+	.data       start:0x804FD7D8 end:0x804FD890
+	.bss        start:0x805C1BB8 end:0x805C1C50
+
+pso/network/NetDispatcher.c:
+	.text       start:0x80419A00 end:0x8041A1D8
+	.bss        start:0x805C1C50 end:0x805C1D48
+
+pso/network/NetTcp.c:
+	.text       start:0x8041A1D8 end:0x8041ED8C
+	.bss        start:0x805C1D48 end:0x805C1DF0
+
+pso/network/SocketProtocolRuntime.c:
 	.text       start:0x8041ED8C end:0x80421620
-	.data       start:0x804FD890 end:0x804FD8F0
+	.data       start:0x804FD890 end:0x804FD948
 	.bss        start:0x805C1DF0 end:0x805C1E00
 
-pso/unk/text_80421620.cpp:
+pso/network/text_80421620.c:
 	.text       start:0x80421620 end:0x804245DC
 	.bss        start:0x805C1E00 end:0x805C30C0
 
-pso/network/NetworkPacketRuntime.cpp:
+pso/network/NetworkPacketRuntime.c:
 	.text       start:0x804245DC end:0x80425B70
 	.bss        start:0x805C30C0 end:0x805CF240
 
-pso/network/NetworkMessageTransport.cpp:
+pso/network/NetworkMessageTransport.c:
 	.text       start:0x80425B70 end:0x80426CAC
 	.bss        start:0x805CF240 end:0x805CFC20
 
-pso/unk/TLobby_80426CAC.cpp:
+pso/network/TLobby_80426CAC.c:
 	.text       start:0x80426CAC end:0x80428374
 	.bss        start:0x805CFC20 end:0x805D0A40
 
-pso/unk/TLobby_80428374.cpp:
+pso/network/TLobby_80428374.c:
 	.text       start:0x80428374 end:0x80429598
 	.rodata     start:0x80480138 end:0x804801F8
 	.bss        start:0x805D0A40 end:0x805D0AA0
 	.sdata2     start:0x805E1198 end:0x805E11F0
 
-pso/unk/TLobby_80429598.cpp:
+pso/network/TLobby_80429598.c:
 	.text       start:0x80429598 end:0x8042BF48
 	.data       start:0x804FD9D8 end:0x804FDA20
 	.bss        start:0x805D0AA0 end:0x805D1D20

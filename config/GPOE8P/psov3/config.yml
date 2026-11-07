@@ -576,7 +576,6 @@ force_active:
   - TLobby__pending_member_count
   - TLobby__player_names
   - TLobby__player_setup_pending
-  - TLobby__pppoe_message_queue
   - TLobby__state_handler_pmf_table
   - TLobby__sub_8001D9E8
   - TLobby__sub_8001DBD8

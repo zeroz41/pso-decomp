@@ -1,11 +1,11 @@
-#ifndef PSO_UNK_TLOBBY_803FAEA0_H
-#define PSO_UNK_TLOBBY_803FAEA0_H
+#ifndef PSO_NETWORK_TLOBBY_803FAEA0_H
+#define PSO_NETWORK_TLOBBY_803FAEA0_H
 
 #include "types.h"
 
 /* Connection request of NetLinkConnect (copied field by field into the lbl_805BFF68 request by
    NetApplyConnectionConfig). */
-struct NetConnectCfg {
+typedef struct NetConnectCfg {
     u16 flags;
     s16 h2;
     s16 wait;
@@ -42,10 +42,10 @@ struct NetConnectCfg {
     s32 w58;
     u8 b5C[8];
     u8 b64[8];
-};
+} NetConnectCfg;
 
 /* Link state filled by NetGetLinkStatus (state 0 down, 4 up, 5/8 failed, 6 disconnecting). */
-struct NetLinkStatus {
+typedef struct NetLinkStatus {
     s16 link_up;
     s16 ppp_up;
     s16 state;
@@ -60,23 +60,33 @@ struct NetLinkStatus {
     u32 w20;
     u32 w24;
     u8 addr[4][4];
-};
+} NetLinkStatus;
 
 /* Parameter block of NetLinkDisconnect (wait != 0: poll until the link is down). */
-struct NetWaitParam {
+typedef struct NetWaitParam {
     s16 wait;
-};
+} NetWaitParam;
 
-// --- C functions defined in TLobby_803FAEA0.cpp ---
+/* TLobby_803FAEA0.c: session control (stack up/down, login name, connection configuration, timeout). */
+#ifdef __cplusplus
 extern "C" {
+#endif
 s32 NetControl(s32 cmd, s32 arg);
 s32 TLobby__sub_803FAFDC(void);
+s16 init_net_session(void);
 u8 *TLobby__sub_803FB110(void);
+s16 TLobby__sub_803FB358(NetLinkStatus *status);
+u8 *copy_name_buffer(void *src);
 s16 NetGetLinkStatus(NetLinkStatus *status);
 s32 NetLinkDisconnect(NetWaitParam *param);
 s32 NetLinkConnect(NetConnectCfg *cfg);
+s16 NetApplyConnectionConfig(u8 *config);
+s32 get_remaining(s32 arg0);
+s32 is_timed_out(void);
 s32 TLobby__sub_803FB6A0(void);
+void set_ppp_auth_protocol(u16 protocol);
+#ifdef __cplusplus
 }
-// --- end of C functions
+#endif
 
 #endif
