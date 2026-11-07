@@ -873,6 +873,9 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         # Epilogue order (mtlr before the restores) only 1.2.5n produces.
         "pso/ui/keyboard/TKeyBoardControl_803F0C50.cpp": {"mw_version": "GC/1.2.5n"},
         "pso/unk/text_803F1804.cpp": {"mw_version": "GC/1.2.5n"},
+        # Its loops keep base + index offsets instead of walking pointers
+        # (0x803F2F1C, 0x803F31D8); the rest of the file is the same either way.
+        "pso/ui/frontend/TAdPlayerLoadGC_803F18B8.cpp": {"cflags": _switch(cflags_middleware, "-opt nostrength")},
     }),
     # ntInf ("Ver 1.17.00 Build:Jul 9 2002").
     ("ntinf", 0x803F3CF4, "GC/2.6", cflags_middleware, {
