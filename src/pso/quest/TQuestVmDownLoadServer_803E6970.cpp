@@ -1744,15 +1744,13 @@ void TQuestVmDownLoadServer__sub_803E8924(s32 id) {
     }
     if (*(u32 *)node == (u32)p) {
         *(u32 *)node = entry;
-        if (len != 0) {
-            n = len;
-            while (n != 0) {
-                t = *p;
-                p += 1;
-                *(u8 *)entry = t;
-                entry += 1;
-                n -= 1;
-            }
+        n = len;
+        while (n != 0) {
+            t = *p;
+            p += 1;
+            *(u8 *)entry = t;
+            entry += 1;
+            n -= 1;
         }
         q[2] = 0;
         invalidate_entries_by_id__22TQuestVmDownLoadServerFl(id);
