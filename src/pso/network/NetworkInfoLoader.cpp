@@ -67,9 +67,9 @@ extern char lbl_804FCEE4[];
 extern char default_network_entry_name[];
 extern char lbl_804FCF04[];
 extern char lbl_804FCF18[];
-extern u32 lbl_805D7980;
+extern u32 lobby_net_config_mode;
 extern Big_803F47BC *lobby_net_config_buffer;
-extern void *lbl_805D79E0;
+extern void *lobby_net_config_card_base;
 void *OSAllocFromHeap(s32 heap, u32 size);
 void OSFreeToHeap(s32 heap, void *p);
 }
@@ -211,14 +211,14 @@ void update_network_info_load(void) {
                             network_info_load_state.result = -33;
                             s->phase = 27;
                         } else {
-                            if (lbl_805D7980 != 4) {
+                            if (lobby_net_config_mode != 4) {
                                 (*(s16 * *)&lobby_net_config_buffer)[1] = (*(s16 * *)&lobby_net_config_buffer)[2];
                             } else {
                                 (*(s16 * *)&lobby_net_config_buffer)[1] = (*(s16 * *)&lobby_net_config_buffer)[3];
                             }
                             memcpy(network_info_trailer_buffer, TAdPlayerLoadGC__network_config_buffer->tail, 0x400);
                             if (get_network_config_backup_mode() == 1) {
-                                memcpy(lbl_805D79E0, (*(s16 * *)&lobby_net_config_buffer), 0x19D4);
+                                memcpy(lobby_net_config_card_base, (*(s16 * *)&lobby_net_config_buffer), 0x19D4);
                                 memcpy(network_info_trailer_backup, network_info_trailer_buffer, 0x400);
                             }
                             network_info_load_state.result = 0;
@@ -394,13 +394,13 @@ void init_network_config_defaults(void) {
     lobby_net_config_buffer->rec[5].kind = 4;
     lobby_net_config_buffer->x4 = 1;
     lobby_net_config_buffer->x6 = 4;
-    if (lbl_805D7980 != 4) {
+    if (lobby_net_config_mode != 4) {
         lobby_net_config_buffer->cur = lobby_net_config_buffer->x4;
     } else {
         lobby_net_config_buffer->cur = lobby_net_config_buffer->x6;
     }
     if (get_network_config_backup_mode() == 1) {
-        memcpy(lbl_805D79E0, lobby_net_config_buffer, 0x19D4);
+        memcpy(lobby_net_config_card_base, lobby_net_config_buffer, 0x19D4);
     }
 }
 

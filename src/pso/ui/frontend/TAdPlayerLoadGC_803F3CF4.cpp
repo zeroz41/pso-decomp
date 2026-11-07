@@ -26,14 +26,14 @@ s32 update_network_info_request(void) {
 extern "C" {
 s32 OSFreeToHeap(int, void *);
 extern s32 __OSCurrHeap;
-extern s32 lbl_805D79B0;
+extern s32 lobby_net_config_load_state;
 extern u32 lobby_net_config_buffer;
 
 s32 TLobby__sub_803F3D60(void) {
     if (get_network_config_mode() == 0) {
         return -1;
     }
-    if (((s32) lbl_805D79B0 == 1) && ((u32) lobby_net_config_buffer != 0U)) {
+    if (((s32) lobby_net_config_load_state == 1) && ((u32) lobby_net_config_buffer != 0U)) {
         OSFreeToHeap((int)__OSCurrHeap, (void *)lobby_net_config_buffer);
         lobby_net_config_buffer = 0U;
     }
