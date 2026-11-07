@@ -7441,6 +7441,10 @@ s16 TLobby__sub_80412210(s16 idx) {
 #pragma opt_common_subs on
 s16 NetIPv6GetAddressScopeClass(u8 *arg0);
 
+inline Ipv6NdState *nd_state(void) {
+    return (Ipv6NdState *)&ipv6_address_routing_state;
+}
+
 inline s16 get_first_iface_addr_80412618(s16 *count, Ipv6NdIface **ifaces, u8 *out) {
     if (*count <= 0) {
         return 0;
@@ -7470,11 +7474,12 @@ s16 TLobby__sub_80412618(Ipv6NdPrefixInfo *info, s16 idx) {
     u8 addr[16];
     u8 router[16];
     u8 mcast[16];
+    s16 *max_addrs;
 
-    if (idx <= 0 || idx >= g->count) {
+    if (idx <= 0 || idx >= nd_state()->count) {
         return -0x10A;
     }
-    ifc = g->ifaces;
+    ifc = nd_state()->ifaces;
     ifc += idx;
     if (ifc->state != 1) {
         return -2;
@@ -7521,14 +7526,15 @@ s16 TLobby__sub_80412618(Ipv6NdPrefixInfo *info, s16 idx) {
             return 0;
         }
     }
+    max_addrs = &g->max_addrs;
     a = g->addr_pool;
-    for (i = 0; i < g->max_addrs; i++, a++) {
+    for (i = 0; i < *max_addrs; i++, a++) {
         if (a->in_use == 0) {
             a->in_use = 1;
             break;
         }
     }
-    if (i >= g->max_addrs) {
+    if (i >= *max_addrs) {
         return -0x10A;
     }
     ret = TLobby__sub_80409D7C(idx, ifc->f2, 1, (s32)addr);
@@ -7559,7 +7565,7 @@ s16 TLobby__sub_80412618(Ipv6NdPrefixInfo *info, s16 idx) {
     if (ifc->addrs == NULL) {
         ifc->addrs = a;
     } else {
-        for (last = ifc->addrs; i < g->max_addrs; i++) {
+        for (last = ifc->addrs; i < *max_addrs; i++) {
             if (last->next == NULL) {
                 break;
             }
@@ -7569,7 +7575,7 @@ s16 TLobby__sub_80412618(Ipv6NdPrefixInfo *info, s16 idx) {
             last->next = a;
         }
     }
-    if (get_first_iface_addr_80412618(&g->count, &g->ifaces, router) &&
+    if (get_first_iface_addr_80412618(&nd_state()->count, &nd_state()->ifaces, router) &&
         (ret = TLobby__sub_8041347C(addr, 0x80, router, 0, 3, 1)) < 0) {
         goto cleanup;
     }
@@ -7616,10 +7622,10 @@ s16 TLobby__sub_80412CA4(u8 *addr_in, s16 prefix_len, s16 f1A, s16 idx, s32 call
     u8 router[16];
     u8 mcast[16];
 
-    if (idx < 0 || idx >= g->count) {
+    if (idx < 0 || idx >= nd_state()->count) {
         return -0x10A;
     }
-    ifc = g->ifaces;
+    ifc = nd_state()->ifaces;
     ifc += idx;
     if (ifc->state == 1) {
         return -2;
@@ -7681,7 +7687,7 @@ s16 TLobby__sub_80412CA4(u8 *addr_in, s16 prefix_len, s16 f1A, s16 idx, s32 call
     ifc->f28 = (void *)callback;
     ifc->addrs = NULL;
     if (TLobby::is_socket_flag_set(idx) == 0) {
-        if (get_first_iface_addr_80412618(&g->count, &g->ifaces, router) &&
+        if (get_first_iface_addr_80412618(&nd_state()->count, &nd_state()->ifaces, router) &&
             (ret = TLobby__sub_8041347C(addr, 0x80, router, 0, 3, 1)) < 0) {
             goto cleanup;
         }
