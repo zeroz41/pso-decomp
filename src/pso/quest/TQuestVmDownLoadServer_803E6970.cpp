@@ -1940,6 +1940,130 @@ void TQuestVmDownLoadServer__sub_803E9764(void) {
     }
 }
 
+extern "C" s32 TQuestVmDownLoadServer__sub_803E93DC(void);
+extern u8 *lbl_805D7870;
+extern u8 *lbl_805D786C;
+extern u8 *lbl_805D7878;
+
+void __VIRetraceHandler(void) {
+    u8 *base = (u8 *)&lbl_80591EC8;
+    u8 *p = base + 0x2140;
+    u8 *end = base + 0x3138;
+    s32 zero = 0;
+    s32 pad[4];
+
+    while (p < end) {
+        *(u8 **)(p + 4) = p + 8;
+        p += 8;
+    }
+    *(s32 *)(p + 4) = zero;
+    lbl_805D7878 = base + 0x2140;
+    *(s32 *)(base + 0x2000) = zero;
+    *(s32 *)(base + 0x2004) = zero;
+    *(s32 *)(base + 0x2008) = zero;
+    *(s32 *)(base + 0x200c) = zero;
+    *(s32 *)(base + 0x2010) = zero;
+    *(s32 *)(base + 0x2014) = zero;
+    *(s32 *)(base + 0x2018) = zero;
+    *(s32 *)(base + 0x201c) = zero;
+    *(s32 *)(base + 0x2020) = zero;
+    *(s32 *)(base + 0x2024) = zero;
+    *(s32 *)(base + 0x2028) = zero;
+    *(s32 *)(base + 0x202c) = zero;
+    *(s32 *)(base + 0x2030) = zero;
+    *(s32 *)(base + 0x2034) = zero;
+    *(s32 *)(base + 0x2038) = zero;
+    *(s32 *)(base + 0x203c) = zero;
+    *(s32 *)(base + 0x2040) = zero;
+    *(s32 *)(base + 0x2044) = zero;
+    *(s32 *)(base + 0x2048) = zero;
+    *(s32 *)(base + 0x204c) = zero;
+    *(s32 *)(base + 0x2050) = zero;
+    *(s32 *)(base + 0x2054) = zero;
+    *(s32 *)(base + 0x2058) = zero;
+    *(s32 *)(base + 0x205c) = zero;
+    *(s32 *)(base + 0x2060) = zero;
+    *(s32 *)(base + 0x2064) = zero;
+    *(s32 *)(base + 0x2068) = zero;
+    *(s32 *)(base + 0x206c) = zero;
+    *(s32 *)(base + 0x2070) = zero;
+    *(s32 *)(base + 0x2074) = zero;
+    *(s32 *)(base + 0x2078) = zero;
+    *(s32 *)(base + 0x207c) = zero;
+    *(s32 *)(base + 0x2080) = zero;
+    *(s32 *)(base + 0x2084) = zero;
+    *(s32 *)(base + 0x2088) = zero;
+    *(s32 *)(base + 0x208c) = zero;
+    *(s32 *)(base + 0x2090) = zero;
+    *(s32 *)(base + 0x2094) = zero;
+    *(s32 *)(base + 0x2098) = zero;
+    *(s32 *)(base + 0x209c) = zero;
+    *(s32 *)(base + 0x20a0) = zero;
+    *(s32 *)(base + 0x20a4) = zero;
+    *(s32 *)(base + 0x20a8) = zero;
+    *(s32 *)(base + 0x20ac) = zero;
+    *(s32 *)(base + 0x20b0) = zero;
+    *(s32 *)(base + 0x20b4) = zero;
+    *(s32 *)(base + 0x20b8) = zero;
+    *(s32 *)(base + 0x20bc) = zero;
+    *(s32 *)(base + 0x20c0) = zero;
+    *(s32 *)(base + 0x20c4) = zero;
+    *(s32 *)(base + 0x20c8) = zero;
+    *(s32 *)(base + 0x20cc) = zero;
+    *(s32 *)(base + 0x20d0) = zero;
+    *(s32 *)(base + 0x20d4) = zero;
+    *(s32 *)(base + 0x20d8) = zero;
+    *(s32 *)(base + 0x20dc) = zero;
+    *(s32 *)(base + 0x20e0) = zero;
+    *(s32 *)(base + 0x20e4) = zero;
+    *(s32 *)(base + 0x20e8) = zero;
+    *(s32 *)(base + 0x20ec) = zero;
+    *(s32 *)(base + 0x20f0) = zero;
+    *(s32 *)(base + 0x20f4) = zero;
+    *(s32 *)(base + 0x20f8) = zero;
+    *(s32 *)(base + 0x20fc) = zero;
+    *(s32 *)(base + 0x2100) = zero;
+    *(s32 *)(base + 0x2104) = zero;
+    *(s32 *)(base + 0x2108) = zero;
+    *(s32 *)(base + 0x210c) = zero;
+    *(s32 *)(base + 0x2110) = zero;
+    *(s32 *)(base + 0x2114) = zero;
+    *(s32 *)(base + 0x2118) = zero;
+    *(s32 *)(base + 0x211c) = zero;
+    *(s32 *)(base + 0x2120) = zero;
+    *(s32 *)(base + 0x2124) = zero;
+    *(s32 *)(base + 0x2128) = zero;
+    *(s32 *)(base + 0x212c) = zero;
+    *(s32 *)(base + 0x2130) = zero;
+    *(s32 *)(base + 0x2134) = zero;
+    *(s32 *)(base + 0x2138) = zero;
+    *(s32 *)(base + 0x213c) = zero;
+
+    if (TQuestVmDownLoadServer__sub_803E93DC() == -1) {
+        u8 *q = base + 0x400;
+        base[1] = 0;
+        base[0] = 0;
+        q[1] = 0;
+        q[0] = 0;
+        base[0x801] = 0;
+        base[0x800] = 0;
+        base[0xC01] = 0;
+        base[0xC00] = 0;
+        base[0x1001] = 0;
+        base[0x1000] = 0;
+        base[0x1401] = 0;
+        base[0x1400] = 0;
+        base[0x1801] = 0;
+        base[0x1800] = 0;
+        base[0x1C01] = 0;
+        base[0x1C00] = 0;
+        lbl_805D7874 = zero;
+        lbl_805D7870 = base;
+        lbl_805D786C = base + 0x400;
+    }
+    lbl_805D7868 = 0;
+}
+
 typedef char RecoveredGlobal_803E9F20_lbl_80595998_size[sizeof(RecoveredGlobal_803E9F20_lbl_80595998) == 0x8C0 ? 1 : -1];
 
 s32 TQuestVmDownLoadServer::is_download_cmd_allowed(u8 arg0) {
@@ -3111,6 +3235,72 @@ s32 TQuestVmDownLoadServer__sub_803EC69C(u32 arg0) {
     }
     return (ld << 8) | (u8)tr;
 }
+
+static inline s32 is_jis_byte(u8 c) {
+    s32 r = 0;
+    if (c >= 0x21 && c <= 0x7E) {
+        r = 1;
+    }
+    return r;
+}
+
+static inline s32 is_jis_code(u16 code) {
+    s32 ok = 0;
+    u8 hi = code >> 8;
+    u8 lo = code;
+    if (is_jis_byte(hi) && is_jis_byte(lo)) {
+        ok = 1;
+    }
+    return ok;
+}
+
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(4)
+s32 TQuestVmDownLoadServer__sub_803EC71C(u16 *src, u8 *dst, s32 n) {
+    u16 nib;
+    u16 next;
+    u16 code;
+    u16 v;
+    s32 i = 0;
+    int hi;
+    u8 *out = dst;
+    u16 c;
+    while (i < n) {
+        c = (v = *src);
+        nib = (v >> 8) & 0xF;
+        if (nib == 0) {
+            *out = (s8)c;
+            src++;
+            out++;
+            i++;
+            continue;
+        }
+        if ((nib & 1) == 0) {
+            /* As in the game: src and i are not advanced, so this never exits. */
+            continue;
+        }
+        next = *(++src);
+        hi = (v & 0xFF) << 8;
+        i++;
+        if (((next >> 8) & 0xF) != (nib + 1)) {
+            continue;
+        }
+        code = hi | (next & 0xFF);
+        src++;
+        i++;
+        if (is_jis_code(code)) {
+            code = TQuestVmDownLoadServer::jis_to_sjis(code);
+        }
+        out[0] = (s8)(code >> 8);
+        out[1] = (s8)code;
+        out += 2;
+    }
+
+    *out = 0;
+    return out - dst;
+}
+#pragma pop
 
 s32 TQuestVmDownLoadServer::is_valid_sjis_code(u16 arg0) {
     s32 var_r0;
