@@ -12296,6 +12296,7 @@ pso/unk/TLobby_803CE478.cpp:
 
 pso/unk/text_803CE568.cpp:
 	.text       start:0x803CE568 end:0x803CFE68
+	.rodata     start:0x8047CF30 end:0x8047DAB8
 	.bss        start:0x80581A30 end:0x80581EA8
 
 pso/unk/TLobby_803CFE68.cpp:
