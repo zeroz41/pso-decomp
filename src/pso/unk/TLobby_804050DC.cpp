@@ -3836,6 +3836,56 @@ void TLobby__sub_8040AFE0(void) {
 #pragma pop
 
 
+// Same scan as find_next_active_record (0x8040B33C), inlined here.
+inline Rec_8040B33C *next_active_record_8040B1C4(F_8040A45C *req) {
+    G_8040A45C *g = &dns_resolver_state;
+    s16 t, n, i;
+    for (i = 0; i < (n = g->nb); i++) {
+        Rec_8040B33C *r = &g->b[(req->f14 + (t = req->f10)) % n];
+        if (r->f0 != 0) {
+            if (t < g->lim) {
+                return r;
+            }
+            break;
+        }
+        req->f10 = t + 1;
+    }
+    return 0;
+}
+
+inline s16 send_query_8040B1C4(F_8040A45C *req, Rec_8040B33C *rec) {
+    UdpBuf_8040AFE0 buf;
+
+    buf.len = req->f18->len;
+    buf.data = req->f18->data;
+    return TUdpSocket__sub_80421BAC(req->f4, NULL, (u32 *)rec, 0, NULL, 1, &buf);
+}
+
+void TLobby__sub_8040B1C4(F_8040A45C *req) {
+    G_8040A45C *g = &dns_resolver_state;
+    Rec_8040B33C *rec;
+    s16 r;
+    s16 *nb;
+
+    if ((rec = next_active_record_8040B1C4(req)) == NULL) {
+        TLobby__sub_8040BE40(req, -0x44, 0);
+        return;
+    }
+    nb = &g->nb;
+    g->f18 = req->f10 % *nb;
+    req->fA = g->fC[req->f10 / *nb];
+    r = send_query_8040B1C4(req, rec);
+    if (r < 0) {
+        req->fA = 1;
+        req->f10++;
+    } else if (req->f8 == 1 && req->f20 == 0) {
+        req->fA = 2;
+        req->f12 = 1;
+    } else {
+        req->f10++;
+    }
+}
+
 Rec_8040B33C *find_next_active_record__6TLobbyFPv(A_8040B33C *a) {
     G_8040A45C *g = &dns_resolver_state;
     s16 n, t, i;
