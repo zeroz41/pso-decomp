@@ -203,9 +203,9 @@ void inpResetMidiCtrl(u8 arg0, u8 arg1, u32 arg2) {
     s32 i;
 
     if (arg1 != 0xFF) {
-        dst = lbl_80567A18[arg1][arg0];
+        dst = midi_ctrl[arg1][arg0];
     } else {
-        dst = lbl_8056BD18[arg0];
+        dst = fx_ctrl[arg0];
     }
     if (arg2 != 0) {
         memcpy(dst, src, 0x86);
@@ -321,17 +321,17 @@ void inpFXCopyCtrl(u8 ctrl, SynthVoice_803BADF8 *dvoice, SynthVoice_803BADF8 *sv
 
 void inpSetMidiLastNote(u8 arg0, u8 arg1, u8 arg2) {
     if (arg1 != 0xFF) {
-        *(s8 *)((s8 *)((u8 *)(((u8 *)(lbl_80567958) + (arg1 * 0x10))) + arg0) + 0) = arg2;
+        *(s8 *)((s8 *)((u8 *)(((u8 *)(midi_lastNote) + (arg1 * 0x10))) + arg0) + 0) = arg2;
         return;
     }
-    *(s8 *)((s8 *)((u8 *)(lbl_805679D8) + arg0) + 0) = arg2;
+    *(s8 *)((s8 *)((u8 *)(fx_lastNote) + arg0) + 0) = arg2;
 }
 
 u8 inpGetMidiLastNote(u8 arg0, u8 arg1) {
     if (arg1 != 0xFF) {
-        return *(u8 *)((s8 *)((u8 *)(((u8 *)(lbl_80567958) + (arg1 * 0x10))) + arg0) + 0);
+        return *(u8 *)((s8 *)((u8 *)(((u8 *)(midi_lastNote) + (arg1 * 0x10))) + arg0) + 0);
     }
-    return *(u8 *)((s8 *)((u8 *)(lbl_805679D8) + arg0) + 0);
+    return *(u8 *)((s8 *)((u8 *)(fx_lastNote) + arg0) + 0);
 }
 
 #define CLAMP(value, min, max) ((value) > (max) ? (max) : (value) < (min) ? (min) : (value))

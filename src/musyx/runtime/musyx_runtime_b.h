@@ -409,11 +409,11 @@ typedef struct Voice_803BBB30 {
 struct Vec_803BAD1C { f32 x; f32 y; f32 z; };
 
 extern "C" {
-extern s8 lbl_805D74B8;
+extern s8 salTimeOffset;
 void hwSetTimeOffset(s8 arg0);
-extern s8 lbl_805D74B8;
+extern s8 salTimeOffset;
 u8 hwGetTimeOffset(void);
-extern s32 lbl_805D7490;
+extern s32 salMessageCallback;
 void hwSetMesgCallback(s32 arg0);
 extern s32 lbl_805D748C;
 void hwSetSRCType(s32 index, u8 entry);
@@ -533,10 +533,6 @@ struct SynthVoice_803BADF8 {
 extern SynthVoice_803BADF8 *synthVoice;
 void synthKeyStateUpdate(SynthVoice_803BADF8 *svoice);
 void inpFXCopyCtrl(u8 ctrl, SynthVoice_803BADF8 *dvoice, SynthVoice_803BADF8 *svoice);
-#define lbl_80567958 midi_lastNote
-#define lbl_805679D8 fx_lastNote
-#define lbl_80567A18 midi_ctrl
-#define lbl_8056BD18 fx_ctrl
 #define lbl_8056DE98 inpGlobalMIDIDirtyFlags
 #define lbl_8056E098 ((u8 (*)[16])inpChannelDefaults)
 #define lbl_8056E118 ((u8 *)inpFXChannelDefaults)
@@ -564,7 +560,7 @@ void hwSetVirtualSampleLoopBuffer(s32 i, s32 a, s32 b);
 extern s32 lbl_805D748C;
 u8 hwGetVirtualSampleState(s32 i);
 extern s32 lbl_805D748C;
-extern s8 lbl_805D74B8;
+extern s8 salTimeOffset;
 void hwKeyOff(s32 i);
 void salActivateStudio(u8 i, s32 a, s32 b);
 void hwActivateStudio(u8 i, s32 a, s32 b);
@@ -591,7 +587,7 @@ u32 aramGetStreamBufferAddress(u8 i, u32 *out);
 void AIStartDMA(void);
 void salStartAi(void);
 extern s32 lbl_805D748C;
-extern s8 lbl_805D74B8; void salActivateVoice(Slot_803BD138 *s, s32 x);
+extern s8 salTimeOffset; void salActivateVoice(Slot_803BD138 *s, s32 x);
 void hwStart(s32 i, s32 x);
 extern SoundStudioMixView lbl_805663D8[];
 void salAddStudioInput(Rec_803BD62C *r, void *p);
@@ -620,10 +616,10 @@ s16 sndSin(s32 arg0);
 u32 synthGetTicksPerSecond(void *);
 void sndConvertTicks(u32 *arg0, s32 arg1);
 extern s32 lbl_805D748C;
-extern s8 lbl_805D74B8;
+extern s8 salTimeOffset;
 void hwBreak(s32 i);
 extern s32 lbl_805D748C;
-extern s8 lbl_805D74B8;
+extern s8 salTimeOffset;
 void hwSetPitch(s32 i, u16 v);
 s32 PPCSync();
 u32 DSPCheckMailToDSP();
@@ -667,7 +663,7 @@ u32 salInitAi(void (*callback)(void), u32 unk, u32 *outFreq);
 u32 salInitDspCtrl(u8 arg0, u8 arg1, bool arg2);
 u32 salInitDsp(u32 arg0);
 void snd_handle_irq(void);
-extern s32 lbl_805D7490;
+extern s32 salMessageCallback;
 extern u8 lbl_805D74C6;
 extern u8 lbl_805D74C7;
 extern u8 lbl_805D74C5;
@@ -696,7 +692,7 @@ void *aramAllocateStreamBuffer(u32 arg0);
 void hwSetSRCType(s32 index, u8 entry);
 void hwSetPolyPhaseFilter(s32 index, u8 entry);
 void hwSetITDMode(s32 i, u8 mode);
-extern s8 lbl_805D74B8;
+extern s8 salTimeOffset;
 void hwInitSamplePlayback(s32 n, s16 arg1, Blk_803BCD1C *arg2, u32 arg3, s32 arg4, s32 arg5, u32 arg6, u8 arg7);
 u16 adsrConvertTimeCents(s32);
 extern u8 lbl_804F68DC[];
