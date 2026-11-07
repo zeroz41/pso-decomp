@@ -12729,7 +12729,7 @@ pso/unk/TLobby_803FAEA0.cpp:
 
 pso/unk/TLobby_803FC178.cpp:
 	.text       start:0x803FC178 end:0x804048E8
-	.data       start:0x804FD628 end:0x804FD650
+	.data       start:0x804FD5A8 end:0x804FD650
 	.bss        start:0x805C0180 end:0x805C06D8
 	.sdata2     start:0x805E1158 end:0x805E1160
 
