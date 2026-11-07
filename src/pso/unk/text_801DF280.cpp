@@ -105,7 +105,7 @@ s32 *copy_entry_table(s32 *arg0, s32 *arg1) {
   ((RecoveredFields_801DF394_arg0 *) arg0)->field_0 = ((RecoveredFields_801DF394_arg1 *) arg1)->field_0;
   do
   {
-    fn_801DF3F0((void*)((int) var_r30), (void*)((int) var_r29));
+    copy_cmd_88_marker_record((void*)((int) var_r30), (void*)((int) var_r29));
     var_r30 += 0xC;
     var_r29 += 0xC;
   }
@@ -113,16 +113,16 @@ s32 *copy_entry_table(s32 *arg0, s32 *arg1) {
   return arg0;
 }
 
-void* fn_801DF3F0(void* p, void* a1) { __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(p); *(void**)((char*)p + 0x8) = *(void**)((char*)a1 + 0x8); return p; }
-void fn_801DF42C(void* p) { bswap__13packet_headerFv(p); { int i; for (i = 0; i < 32; i++) { fn_801DF47C((void *)((char*)p + 0x4 + i * 212)); } } }
+void* copy_cmd_88_marker_record(void* p, void* a1) { __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(p); *(void**)((char*)p + 0x8) = *(void**)((char*)a1 + 0x8); return p; }
+void bswap_cmd_c4_body(void* p) { bswap__13packet_headerFv(p); { int i; for (i = 0; i < 32; i++) { bswap_cmd_c4_entry((void *)((char*)p + 0x4 + i * 212)); } } }
 
-void fn_801DF47C(void *arg0) {
+void bswap_cmd_c4_entry(void *arg0) {
     bswap_32__FPUl(arg0);
-    fn_801DF4B8((s32)((s32)((void *)((char *)arg0 + 100))));
+    bswap_cmd_c4_entry_record((s32)((s32)((void *)((char *)arg0 + 100))));
     bswap__21TPlyMeetUserExtensionFv((s32)((char *)arg0 + 112));
 }
 
-void fn_801DF4B8(s32 arg0) {
+void bswap_cmd_c4_entry_record(s32 arg0) {
     ((s32)bswap__13packet_headerFv((void*)arg0));
     ((s32)bswap_32__FPUl((void*)(arg0 + 4)));
     bswap_16__FPUs(arg0 + 8);
@@ -131,7 +131,7 @@ void fn_801DF4B8(s32 arg0) {
 
 typedef struct RecoveredFields_801DF4FC_arg0 RecoveredFields_801DF4FC_arg0;
 typedef struct RecoveredFields_801DF4FC_arg1 RecoveredFields_801DF4FC_arg1;
-s32 *fn_801DF4FC(s32 *arg0, s32 *arg1) {
+s32 *copy_cmd_c4_entry_table(s32 *arg0, s32 *arg1) {
   u32 var_r30;
   s32 var_r29;
   var_r30 = (unsigned long) (((u8 *) arg0) + 4);
@@ -139,7 +139,7 @@ s32 *fn_801DF4FC(s32 *arg0, s32 *arg1) {
   ((RecoveredFields_801DF4FC_arg0 *) arg0)->field_0 = ((RecoveredFields_801DF4FC_arg1 *) arg1)->field_0;
   do
   {
-    fn_801DF558((int)((int)((int) var_r30)), (int)((int)((int) var_r29)));
+    copy_cmd_c4_entry((int)((int)((int) var_r30)), (int)((int)((int) var_r29)));
     var_r30 += 0xD4;
     var_r29 += 0xD4;
   }
@@ -148,7 +148,7 @@ s32 *fn_801DF4FC(s32 *arg0, s32 *arg1) {
 }
 
 struct Obj_801DF61C;
-int fn_801DF558(int arg0, int arg1) {
+int copy_cmd_c4_entry(int arg0, int arg1) {
     Entry_801DF558 *d = (Entry_801DF558 *)arg0;
     Entry_801DF558 *s = (Entry_801DF558 *)arg1;
     d->a = s->a;
