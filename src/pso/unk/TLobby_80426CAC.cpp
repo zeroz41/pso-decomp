@@ -107,7 +107,9 @@ typedef struct Ent_80427D40 {
     PppoeNames names;
     u8 frame[0x5EA];
     u16 frame_len;
-    u8 rest[0xE14 - 0x826];
+    u8 rx_frame[0x5EA];
+    u16 rx_frame_len;
+    u8 padE12[0xE14 - 0xE12];
 } Ent_80427D40;
 
 extern "C" {
@@ -130,8 +132,8 @@ typedef struct Tbl_804267F0 {
 extern u8 lbl_805CF240[];
 
 Ent_80427C6C *TLobby__sub_80427C6C(s32 arg0, u16 arg1);
-s32 TLobby__sub_8042787C(Ent_80427D40 *e, u8 *p, u16 len);
-s32 TLobby__sub_80427F48(s16 slot, u8 *frame, u16 len);
+s16 TLobby__sub_8042787C(Ent_80427D40 *e, u8 *p, u16 len);
+s16 TLobby__sub_80427F48(s16 slot, u8 *frame, u16 len);
 s16 TLobby__sub_80426D80(Ent_80427D40 *e);
 s32 TLobby__sub_80426574(s32);
 s16 TLobby__sub_80426EB8(Ent_80427D40 *e);
@@ -140,6 +142,7 @@ s16 TLobby__sub_80426660(u8 *arg0);
 Ent_80427D40 *TLobby__sub_80427B6C(u8 *p, u16 len);
 void TLobby__sub_80427378(Ent_80427D40 *e);
 s16 TLobby__sub_804275B0(s32, u16);
+s16 TLobby__sub_80427988(Ent_80427D40 *e, u8 *p, u16 len);
 
 #pragma push
 #pragma opt_propagation off
@@ -505,10 +508,94 @@ void TLobby__sub_80427378(Ent_80427D40 *e) {
 }
 
 
+inline s16 send_frame(Ent_80427D40 *e, u16 len) {
+    return ((TLobby *)e->frame)->post_send_message(len);
+}
+
+// PPPoE discovery receive: PADO (7) / PADS (0x65) / PADT (0xA7) by the code byte of the header.
+s16 TLobby__sub_804275B0(s32 pkt, u16 len) {
+    u8 code;
+    u16 tag_len;
+    u16 session;
+    s16 ret;
+    u8 *hdr = (u8 *)pkt + 0xE;
+    u8 *payload = hdr + 6;
+    Ent_80427D40 *e;
+    ret = -1;
+    NetMemcpy(&tag_len, hdr + 4, 2);
+    NetMemcpy(&code, hdr + 1, 1);
+    switch (code) {
+    case 7:
+        e = TLobby__sub_80427B6C(payload, tag_len);
+        if (e == NULL) {
+            ret = 0;
+        } else if (e->state != 1) {
+            ret = -1;
+        } else {
+            e->timeout = 0;
+            NetMemcpy(e->rx_frame, (void *)pkt, len);
+            e->rx_frame_len = len;
+            ret = TLobby__sub_80427988(e, e->rx_frame + 0x14, tag_len);
+            if (ret > 0) {
+                e->m_20 = e->rx_frame + 6;
+                e->state = 2;
+                ret = TLobby__sub_80426D80(e);
+                if (ret >= 0) {
+                    ret = send_frame(e, e->frame_len);
+                    if (ret == 0) {
+                        e->state = 3;
+                        restart_timer(e, 2, 3000);
+                    }
+                }
+            }
+        }
+        break;
+    case 0x65:
+        e = TLobby__sub_80427B6C(payload, tag_len);
+        if (e == NULL) {
+            ret = 0;
+        } else if (e->state != 3) {
+            ret = -1;
+        } else {
+            e->timeout = 0;
+            ret = TLobby__sub_8042787C(e, payload, tag_len);
+            if (ret > 0) {
+                NetMemcpy(&session, hdr + 2, 2);
+                e->id = session;
+                e->state = 4;
+            }
+        }
+        break;
+    case 0xA7:
+        e = (Ent_80427D40 *)TLobby__sub_80427C6C(pkt, len);
+        if (e == NULL) {
+            ret = 0;
+        } else {
+            e->timeout = 0;
+            TLobby::parse_tlv_records((s32)e, payload, tag_len);
+            if (e->state == 4) {
+                e->state = 5;
+                ret = TLobby__sub_80426D80(e);
+                if (ret >= 0) {
+                    ret = send_frame(e, e->frame_len);
+                }
+            } else {
+                if (e->state != -1) {
+                    TLobby__sub_80426574(0);
+                }
+                e->state = -1;
+                ret = 0;
+            }
+        }
+        break;
+    }
+    return ret;
+}
+
 typedef char RecoveredGlobal_80427D0C_lbl_805CFC20_size[sizeof(RecoveredGlobal_80427D0C_lbl_805CFC20) == 0xE20 ? 1 : -1];
 
-s32 TLobby__sub_8042787C(Ent_80427D40 *e, u8 *p, u16 len) {
-    s32 result = 1;
+s16 TLobby__sub_8042787C(Ent_80427D40 *e, u8 *p, u16 len) {
+    s16 result = 1;
     u8 *cur = p;
     u16 type;
     u16 tag_len;
@@ -770,7 +857,7 @@ s16 TLobby::pppoe_recv_packet(u16 bufLen, u16 *outLen) {
 }
 #pragma pop
 
-s32 TLobby__sub_80427F48(s16 slot, u8 *frame, u16 len) {
+s16 TLobby__sub_80427F48(s16 slot, u8 *frame, u16 len) {
     Ent_80427D40 *e;
     u8 *hdr;
     u16 type;

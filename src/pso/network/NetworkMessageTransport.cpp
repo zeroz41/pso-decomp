@@ -420,7 +420,7 @@ s16 TLobby__sub_80426440(void) {
     return 0;
 }
 
-s32 TLobby::post_send_message(u16 arg1) {
+s16 TLobby::post_send_message(u16 arg1) {
     s32 temp_r3;
     u8 *msg;
     u8 pad[8];

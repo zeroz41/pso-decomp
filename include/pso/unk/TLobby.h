@@ -1168,7 +1168,7 @@ struct TLobby : public TObject {
     static void destroy_download_server(void* _w0);
     void send_compressed_packet_6c();
     void send_cmd_6B();
-    s32 post_send_message(u16 arg1);
+    s16 post_send_message(u16 arg1);
     u8 *create_new_floor_windows();
 };
 
