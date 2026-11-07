@@ -13,6 +13,10 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/unk/TUnk_804C3248.h"
 #include "pso/map/FloorArea.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/render/render_util.h"
+#include "pso/effect/particle/TParticleCtrl_800867E4.h"
 extern "C" { void setup_photon_blast_camera__13TUnk_804C3248Fv(u8 *); }
 #pragma push
 
@@ -146,7 +150,7 @@ void TUnk_804C3248::begin_photon_summon_camera(s8 arg1) {
 #pragma dont_inline off
 struct ByteBlock_C { u8 bytes[0xc]; };
 
-typedef struct Vec_801A73B0 { f32 x, y, z; } Vec_801A73B0;
+typedef Vec Vec_801A73B0;
 
 struct PbCamera_801A73B0 {
     u8 pad0[0x104];
@@ -201,7 +205,6 @@ struct Obj_801A7428 {
 
 extern "C" {
 void set_active_camera_pose_from_params(u8 *arg0);
-void approach_vector_fixed_distance(Vec_801A73B0 *, Vec_801A73B0 *, Vec_801A73B0 *, f32);
 void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self);
 void get_camera_ctrl__9TObjEneDDFv(Vec_801A7578 *, Vec_801A7578 *);
 extern Vec_801A7578 lbl_80446A44;
@@ -214,7 +217,6 @@ void rotate_matrix_y(s32, s32);
 s32 push_matrix_from(void *src);
 s32 pop_matrices(s32 arg0);
 extern Group_801A7428 photon_blast_attachment_table[];
-extern u8 identity_matrix[];
 void update_photon_blast_camera_pose(struct PbCamera_801A73B0 *self) {
     struct PbCameraParams_801A73B0 parameters;
     approach_vector_fixed_distance(&self->position, &self->destination_position, &self->position, 0.48f);
@@ -294,22 +296,25 @@ struct Eff_801A7680 {
     void *obj;
     Vec_801A7680 pos;
     s32 flag;
-    u8 pad[0x20 - 0x14];
+    s32 angles[3];
 };
 
 struct Self_801A7680 {
     u8 pad0[0x38];
     Vec_801A7680 pos;
-    u8 pad1[0x100 - 0x44];
+    u8 pad1[0x60 - 0x44];
+    s32 rotation_y;
+    u8 pad2[0x100 - 0x64];
     u32 count;
-    u8 pad2[0x148 - 0x104];
+    u8 pad3[0x148 - 0x104];
     struct Eff_801A7680 *effects;
 };
 
 extern "C" {
 
-void mem_free(void *p);
 int update_all__8TFogCtrlFl(void*);
+// Unit direction rotated into each attachment's heading.
+extern Vec_801A7428 lbl_80446A38;
 
 void TObjPlayer::clear_render_context() { set_chunk_model_node_callback(0); }
 
@@ -341,6 +346,57 @@ void TUnk_804C3248::update_photon_blast_attachments() {
 }
 
 void TUnk_804C3248::free_photon() { void* m = *(void* *)&this->m_148; if (m) mem_free(m); }
+
+void spawn_photon_blast_attachment_effects(struct Self_801A7680 *self, s32 kind) {
+    s32 b;
+    s32 id;
+    s32 a;
+    PhotonAttachmentDef_801A7748 *def;
+    PhotonAttachmentDef_801A7748 *defs;
+    u32 i;
+    s32 flags;
+    Group_801A7428 *group;
+
+    group = &photon_blast_attachment_table[kind];
+    self->count = group->attachment_count;
+    if (self->count != 0) {
+        self->effects = (struct Eff_801A7680 *)mem_alloc(self->count * sizeof(struct Eff_801A7680));
+        defs = group->attachments;
+        for (i = 0; i < self->count; i++) {
+            s32 angles[3];
+            s32 rot[3];
+            def = &defs[i];
+            a = def->unk4;
+            b = def->unk8;
+            id = def->unk0;
+            copy_xyz(angles, def->unk10);
+            flags = def->unk1C;
+            Vec_801A7428 dir = lbl_80446A38;
+            if (angles[2] != 0 || angles[0] != 0 || angles[1] != 0) {
+                push_matrix_from(identity_matrix);
+                rotate_matrix_z(0, angles[2]);
+                rotate_matrix_x(0, angles[0]);
+                rotate_matrix_y(0, angles[1]);
+                matrix_mult_vec(0, &dir, &dir);
+                pop_matrices(1);
+                push_matrix_from(identity_matrix);
+                rotate_matrix_y(0, self->rotation_y);
+                matrix_mult_vec(0, &dir, &dir);
+                pop_matrices(1);
+                direction_to_rotation_xz((u8 *)&dir, &rot[0], &rot[2]);
+                rot[1] = 0;
+            } else {
+                rot[0] = 0;
+                rot[1] = 0;
+                rot[2] = 0;
+            }
+            self->effects[i].obj = create_timed_particle_emitter_with_angles(&self->pos, rot, id, a, b, (u16)flags);
+            self->effects[i].flag = def->unkC;
+            copy_xyz(self->effects[i].angles, angles);
+        }
+    }
+}
+
 
 int update_all_default__8TFogCtrlFv(void) { return update_all__8TFogCtrlFl((void*)(0)); }
 void apply_all_default__8TFogCtrlFv(void) { TFogCtrl::apply_all((s32)((void*)63), (s32)((void*)0)); }
