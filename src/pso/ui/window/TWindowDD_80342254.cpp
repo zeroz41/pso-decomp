@@ -117,7 +117,7 @@ s32 TWindowDD__sub_80342384(s32 arg0, s32 arg1) {
     return var_r0;
 }
 
-void TWindowDD__sub_803423E0(void) {
+void __sinit_TWindowDD_80342254_cpp(void) {
     *(s32 *)((s8 *)&TWindowDD__data_804EFC50.value + 0x18) = TWindowDD__data_805DFC14;
     ((f32 *)lbl_804EFC74)[0] = TWindowDD__data_805DFB6C;
     ((f32 *)lbl_804EFC74)[1] = lbl_805DFB70;
@@ -159,4 +159,4 @@ void TWindowDD__sub_80342428(u8 *window_dd) {
 
 }
 
-__declspec(section ".ctors") static void *const __sinit_TWindowDD_80342254_cpp_ref = (void *)TWindowDD__sub_803423E0;
+__declspec(section ".ctors") static void *const __sinit_TWindowDD_80342254_cpp_ref = (void *)__sinit_TWindowDD_80342254_cpp;

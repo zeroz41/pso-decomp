@@ -45,7 +45,7 @@ f32 TBoss8DragonDemo__sub_802F2CB4(void* p) { return *(f32*)((char*)p + 0x5c); }
 f32 TBoss8DragonDemo__sub_802F2CBC(void* p) { return *(f32*)((char*)p + 0x54); }
 
 typedef char RecoveredGlobal_802F2CC4_lbl_804E4A44_size[sizeof(RecoveredGlobal_802F2CC4_lbl_804E4A44) == 0x90 ? 1 : -1];
-void TBoss8DragonDemo__sub_802F2CC4(void) {
+void __sinit_TBoss8DragonDemo_cpp(void) {
     *(f32 *)((s8 *)&lbl_804E4A44.value + 4) = (f32) lbl_805DE9F4;
     *(f32 *)((s8 *)&lbl_804E4A44.value + 0x10) = (f32) lbl_805DE9F4;
 }
@@ -93,7 +93,7 @@ void TBoss8Dragon::update_colli_parts() {
 
 }
 
-__declspec(section ".ctors") static void *const __sinit_TBoss8DragonDemo_cpp_ref = (void *)TBoss8DragonDemo__sub_802F2CC4;
+__declspec(section ".ctors") static void *const __sinit_TBoss8DragonDemo_cpp_ref = (void *)__sinit_TBoss8DragonDemo_cpp;
 
 extern "C" {
 const char *TBoss8DragonDemo__name = "TBoss8DragonDemo";

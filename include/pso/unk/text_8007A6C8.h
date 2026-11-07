@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void fn_8007A6C8(void);
+void __sinit_text_8007A6C8_cpp(void);
 }
 
 // --- C functions defined in text_8007A6C8.cpp ---
 extern "C" {
-void fn_8007A6C8(void);
+void __sinit_text_8007A6C8_cpp(void);
 }
 // --- end of C functions
 

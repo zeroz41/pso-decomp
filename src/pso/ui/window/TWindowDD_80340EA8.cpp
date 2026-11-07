@@ -106,7 +106,7 @@ extern f32 lbl_805D6DF8;
 extern f32 lbl_805D6DFC;
 extern f32 lbl_805D6E00;
 
-void TWindowDD__sub_80340FA8(void) {
+void __sinit_TWindowDD_80340EA8_cpp(void) {
     lbl_805D6DC0 = lbl_805DFC74 + lbl_805DFBCC;
     lbl_805D6DC4 = lbl_805DFC64 + (lbl_805DFC74 + lbl_805DFBCC);
     lbl_805D6DC8 = TWindowDD__data_805DFB18;
@@ -130,7 +130,7 @@ void TWindowDD__sub_80340FA8(void) {
     ((f32 *)lbl_804EFBD0)[1] = lbl_805DFBC0;
     ((f32 *)lbl_804EFBD0)[2] = lbl_805DFC24;
 }
-__declspec(section ".ctors") static void *const __sinit_TWindowDD_80340EA8_cpp_ref = (void *)TWindowDD__sub_80340FA8;
+__declspec(section ".ctors") static void *const __sinit_TWindowDD_80340EA8_cpp_ref = (void *)__sinit_TWindowDD_80340EA8_cpp;
 
 extern f32 lbl_805DFC90;
 

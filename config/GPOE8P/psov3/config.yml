@@ -384,7 +384,7 @@ force_active:
   - TBoss7Tentacle__sub_802F0A14
   - TBoss7Tentacle__sub_802F0A2C
   - TBoss7Tentacle__sub_802F0A44
-  - TBoss8DragonDemo__sub_802F2CC4
+  - __sinit_TBoss8DragonDemo_cpp
   - TBoss8Dragon__sub_8005D9BC
   - TBoss8Dragon__sub_8005DC0C
   - TBoss8Dragon__sub_8005DF60
@@ -411,7 +411,7 @@ force_active:
   - TBoss8Dragon__sub_800BB650
   - TBoss8Dragon__sub_802F3C94
   - TBoss8Dragon__sub_802F3F20
-  - TBoss8Dragon__sub_802FDF10
+  - __sinit_TBoss8Dragon_802FDDD4_cpp
   - TBoss8Dragon__sub_8030B80C
   - TBoss8Dragon__sub_8036AF50
   - TCameraCtrl__sub_800677D4
@@ -596,8 +596,8 @@ force_active:
   - TLobby__sub_80072AB8
   - TLobby__sub_800F8BD8
   - TLobby__sub_800F8DD8
-  - TLobby__sub_800F9F08
-  - TLobby__sub_80104350
+  - __sinit_TAdPlayerLoadGC_800F9EF8_cpp
+  - __sinit_TLobby_80103F5C_cpp
   - TLobby__sub_80135198
   - TLobby__sub_80135DE4
   - TLobby__sub_80135FFC
@@ -861,7 +861,7 @@ force_active:
   - TObjBgmCol__name
   - TObjBigTuitate__ct
   - TObjBoss2CeilJunk__name
-  - TObjBoss2CeilJunk__sub_8003A868
+  - __sinit_TObjBoss2CeilJunk_8003A81C_cpp
   - TObjBoss2DustCtrl__ct
   - TObjBoss2DustCtrl_dust_counter
   - TObjBoss2Tunnel__ct
@@ -1508,7 +1508,7 @@ force_active:
   - TObjPlayer__sub_801AA61C
   - TObjPlayer__sub_801AA6E4
   - TObjPlayer__sub_801BD384
-  - TObjPlayer__sub_801BE104
+  - __sinit_TObjPlayer_801BDF5C_cpp
   - TObjPlayer__sub_801BF31C
   - TObjPlayer__sub_801BF5F0
   - TObjPlayer__sub_801BF5F8
@@ -1551,7 +1551,7 @@ force_active:
   - TObjPlayer__sub_80313010
   - TObjPlayer__sub_803268D8
   - TObjPlayer__sub_803519D8
-  - TObjPlayer__sub_80354EEC
+  - __sinit_TObjPlayer_80354EC8_cpp
   - TObjPlayer__sub_80355098
   - TObjPlayer__sub_80363C5C
   - TObjPlayer__sub_803D6C1C
@@ -1728,11 +1728,11 @@ force_active:
   - TWindowCtrlSub__name
   - TWindowCtrl__sub_8024DAAC
   - TWindowCtrl__sub_8026D4E8
-  - TWindowDD__sub_80340FA8
+  - __sinit_TWindowDD_80340EA8_cpp
   - TWindowDD__sub_8034138C
-  - TWindowDD__sub_803414DC
+  - __sinit_TWindowDD_80341334_cpp
   - TWindowDD__sub_803422F0
-  - TWindowDD__sub_803423E0
+  - __sinit_TWindowDD_80342254_cpp
   - TWindowDD__sub_80346F30
   - TWindowDD__sub_80346FC0
   - TWindowDuelResult__layout_entries
@@ -6294,7 +6294,7 @@ force_active:
   - fn_80063714__13TBoss5GryphonFv
   - fn_80074E04
   - fn_800779FC
-  - fn_8007A6C8
+  - __sinit_text_8007A6C8_cpp
   - fn_8007F560
   - fn_8007FE78
   - fn_8009BD00
@@ -6318,12 +6318,12 @@ force_active:
   - fn_8019B480
   - fn_8019F9AC
   - fn_801A210C
-  - fn_801A3BB8
+  - __sinit_text_801A3BB8_cpp
   - fn_801C1E98
   - fn_801C1EE8
   - fn_801C1F40
   - fn_801C4CE0
-  - fn_801D34E0
+  - __sinit_text_801D34E0_cpp
   - fn_801D371C
   - fn_801D6AB4
   - fn_801DF3F0
@@ -6333,7 +6333,7 @@ force_active:
   - fn_801DF740
   - fn_801DF7F8
   - fn_801E0018
-  - fn_801E0C08
+  - __sinit_text_801E0C08_cpp
   - fn_801F6520
   - fn_801F9030
   - fn_80214058
