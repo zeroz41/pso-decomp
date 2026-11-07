@@ -16,7 +16,7 @@ u8 lbl_80543984[0x24];
 
 void TObjPlayer::finish_quest_thread() { TQuestThread::create_in_root(((int (*)())get_quest_thread_id__10TObjPlayerFPv)()); }
 
-void TObjPlayer__sub_80354EEC(void) {
+void __sinit_TObjPlayer_80354EC8_cpp(void) {
     __construct_array(lbl_80543984, (void *)init_and_reset_forward__10TObjPlayerFPv, (void *)TObjPlayer__sub_80355098, 8, 4);
     __register_global_object(0, (void *)TObjPlayer::destroy_static_array, lbl_80543978);
 }
@@ -27,7 +27,7 @@ void TObjPlayer::destroy_static_array() {
 
 }
 
-__declspec(section ".ctors") static void *const __sinit_TObjPlayer_80354EC8_80354EC8_cpp_ref = (void *)TObjPlayer__sub_80354EEC;
+__declspec(section ".ctors") static void *const __sinit_TObjPlayer_80354EC8_cpp_ref = (void *)__sinit_TObjPlayer_80354EC8_cpp;
 
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 
