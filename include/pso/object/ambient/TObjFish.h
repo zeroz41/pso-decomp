@@ -4,6 +4,22 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
+// One fish of a school (0x44 bytes; init_fish_school allocates m_94 of them at m_a0).
+struct TObjFishEntry {
+    Vec pos;         // relative to the school's position
+    Vec target;
+    Vec velocity;
+    s32 yaw;
+    f32 frame;
+    s16 angle;
+    s16 target_angle;
+    s16 anim;
+    s16 timer;
+    s32 seen;        // render sets it when it retargets the fish at the camera; run_task clears it
+    s32 mode;        // 1 while it swims back to its target
+    u8 pad_3c[0x8];
+};
+
 struct TObjFish : public TObjBase {
     virtual ~TObjFish();
     s32 init_fish_school(void *, s32, s32);
@@ -12,10 +28,10 @@ struct TObjFish : public TObjBase {
     virtual void run_task();
     u8 unk_90[0x2];
     s16 m_92;
-    u32 m_94;
-    u32 m_98;
+    u32 m_94;              // fish count
+    u32 m_98;              // frame counter
     u8 _pad9C[0x4];
-    u32 m_a0;
+    TObjFishEntry *m_a0;   // the fish
     void sync_position_vectors();
     static void *alloc(void *arg0);
     static void reset_fish_globals();
