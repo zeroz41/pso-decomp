@@ -294,7 +294,6 @@ u8 *TLobby__sub_803C61C4(s32 nch, Strm_803C5B50 **src, Strm_803C5B50 *dst) {
     AdxEncoder *enc;
     s32 len;
     s32 i;
-    s32 n;
 
     len = strlen(lbl_805D4664);
     for (i = 0; i < 8; i++) {
@@ -318,8 +317,7 @@ u8 *TLobby__sub_803C61C4(s32 nch, Strm_803C5B50 **src, Strm_803C5B50 *dst) {
     enc->pad_34 = 0x7FFF0000;
     enc->data_offset = len + 0x20;
     enc->data_offset = (enc->data_offset + 3) / 4 * 4;
-    n = enc->data_offset - 4;
-    enc->data_offset = (n > 14) ? n : 14;
+    enc->data_offset = (enc->data_offset - 4 > 14) ? enc->data_offset - 4 : 14;
     enc->encoding_type = 3;
     enc->channels = nch;
     enc->sample_rate = 44100;
