@@ -752,7 +752,7 @@ typedef char RecoveredGlobal_803FB110_lbl_805BFF68_size[sizeof(RecoveredGlobal_8
 
 typedef char RecoveredGlobal_803FC178_lbl_805C02D0_size[sizeof(RecoveredGlobal_803FC178_lbl_805C02D0) == 0x40 ? 1 : -1];
 
-extern s16 lbl_805D7A86;
+extern s16 lobby_modem_abort_flag;
 
 typedef char RecoveredGlobal_803FC1A0_lbl_805C02D0_size[sizeof(RecoveredGlobal_803FC1A0_lbl_805C02D0) == 0x40 ? 1 : -1];
 
@@ -956,7 +956,7 @@ void TLobby__sub_803FB7A4(void);
 void TLobby::run_net_thread_loop() {
     G_80405150 *g = (G_80405150 *)&lbl_805C18A0;
     for (;;) {
-        if (lbl_805D7A86 != 0) {
+        if (lobby_modem_abort_flag != 0) {
             TLobby::lock_mutex(g->p0);
             TLobby__sub_803FB6A0();
             TUdpSocket::unlock_mutex(g->p0);
