@@ -63,7 +63,7 @@ f32 *dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 void fn_80356E30(s32 *p);
 extern RecoveredGlobal_80356B18___vt__15TBoss6SwordWave __vt__15TBoss6SwordWave;
-extern s32 lbl_805D43A8;
+extern s32 TBoss6SwordWave__name;
 u8 *__ct__15TBoss6SwordWaveFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void queue_destruction__7TObjectFv(void *arg0);
 s32 query_teammate_state__9TObjEneDDFv();
@@ -173,7 +173,7 @@ struct Shot_80356374 {
 
 extern "C" {
 u8 *fn_8035648C(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
-extern s32 lbl_805D43AC;
+extern s32 TBoss6SwordShot__name;
 u8 *TBoss6SwordShot__ct(void *arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0);
 
 #pragma push
@@ -185,7 +185,7 @@ u8 *TBoss6SwordShot__ct(void *arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
     void *p;
     __ct__7TObjectFP7TObject(arg0, (void *)arg1);
     self->vt18 = (s32 *)__vt__15TBoss6SwordShot;
-    self->f0 = lbl_805D43AC;
+    self->f0 = TBoss6SwordShot__name;
     self->owner = arg1;
     VecCopy((Vec *)&self->pos, (const Vec *)arg2);
     self->speed = farg0;
@@ -399,7 +399,7 @@ u8 *__ct__15TBoss6SwordWaveFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, 
     f32 temp_f2;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__15TBoss6SwordWave.value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D43A8;
+    *(s32 *)((s8 *)arg0 + 0) = (s32) TBoss6SwordWave__name;
     *(s32 *)((s8 *)arg0 + 0x1C) = arg1;
     VecCopy((Vec *)(arg0 + 0x20), (const Vec *)(arg2));
     *(f32 *)((s8 *)arg0 + 0x24) = (f32) 0.0f;

@@ -13,7 +13,7 @@
 extern char lbl_80465938[];
 extern char lbl_80465950[];
 extern char lbl_80465964[];
-extern char lbl_8046597C[];
+extern char TOGrassJungle__class_name_string[];
 extern const char *bm_o_grass_jungle_model_names[3];
 extern BmlResourceDescriptor ograss_jungle_resource_descriptor;
 extern const char *bm_o_grass_jungle_motion_names[1];
@@ -75,7 +75,7 @@ void TOGrassJungle::load_resources() {
 __declspec(section ".data") const char *bm_o_grass_jungle_model_names[3] = { lbl_80465938, lbl_80465950, NULL };
 BmlResourceDescriptor ograss_jungle_resource_descriptor = { lbl_80465964, bm_o_grass_jungle_model_names, bm_o_grass_jungle_motion_names, 2, 0 };
 __declspec(section ".sdata") const char *bm_o_grass_jungle_motion_names[1] = { NULL };
-const char *grass_jungle_class_name = lbl_8046597C;
+const char *grass_jungle_class_name = TOGrassJungle__class_name_string;
 
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__13TOGrassJungle[];

@@ -20,7 +20,7 @@
 #pragma readonly_strings on
 
 extern "C" {
-const char *lbl_805D4198 = "TObjEneMe1GiGueBarrier";
+const char *TObjEneMe1GiGueBarrier__name = "TObjEneMe1GiGueBarrier";
 s32 TObjEneMe1GiGueBarrier__barrier_resource_object;
 TObjMotionAction TObjEneMe1GiGueBarrier__animation_definitions[3] = {
     { MOTION_MODE_ONCE, 0, 6, 1.0f, 0x1 },
@@ -51,7 +51,7 @@ extern "C" {
 s32 is_active_state__22TObjEneMe1GiGueBarrierFv(int);
 u16 get_entity_id(void *);
 void TObjEneMe1GiGueBarrier__sub_802CABF4(void *p);
-extern const char *lbl_805D4198;
+extern const char *TObjEneMe1GiGueBarrier__name;
 extern s32 TObjEneMe1GiGueBarrier__barrier_resource_object;
 s32 defer_render__7TObjectFv(void *);
 s32 push_matrix();
@@ -134,7 +134,7 @@ TObjEneMe1GiGueBarrier::~TObjEneMe1GiGueBarrier() {
 
 TObjEneMe1GiGueBarrier::TObjEneMe1GiGueBarrier(TObject *parent, void *owner) : TObjMotion(parent) {
     u8 *resource;
-    m_name = lbl_805D4198;
+    m_name = TObjEneMe1GiGueBarrier__name;
     m_fc = (u32)owner;
     m_100 = get_entity_id((void *)m_fc);
     VecCopy(&position, (const Vec *)((TObjEneMe1GiGueBarrier *)m_fc)->update_and_get_pos());

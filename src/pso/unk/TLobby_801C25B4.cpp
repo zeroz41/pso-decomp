@@ -65,7 +65,7 @@ void build_6x7D_set_battle_mode_data(void *p);
 s32 obj_testFlags30__14TObjCollidableFUl(u32, s32);
 
 extern "C" {
-__declspec(section ".rodata") char lbl_80446F80[] = "TPlayerBattleCtrl";
+__declspec(section ".rodata") char TPlayerBattleCtrl__class_name_string[] = "TPlayerBattleCtrl";
 __declspec(section ".rodata") u32 lbl_80446F94[2] = { 0x43A40000, 0x43260000 };
 __declspec(section ".rodata") u32 lbl_80446F9C[2] = { 0, 0 };
 __declspec(section ".rodata") u32 lbl_80446FA4[2] = { 0x43580000, 0x42A80000 };

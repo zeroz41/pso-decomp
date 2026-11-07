@@ -543,7 +543,7 @@ s32 DCFlushRangeNoSync(void *, int);
 s32 memset(void *, int, int);
 extern s32 lbl_805D7480;
 void salInitHRTFBuffer(void);
-extern s32 (*lbl_805D7490)(s32, s32);
+extern s32 (*salMessageCallback)(s32, s32);
 s32 salSynthSendMessage(u8 *arg0, s32 arg1);
 extern s8 lbl_805D7498;
 extern s32 lbl_805D749C;

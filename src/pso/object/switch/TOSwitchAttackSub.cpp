@@ -55,7 +55,7 @@ void __ct__7TObjectFP7TObject(void *, void *);
 extern Tbl_80177608 switch_attack_sub_id_table;
 extern Tbl_80177608 switch_attack_sub_init_table;
 extern s32 __vt__17TOSwitchAttackSub[];
-extern s32 lbl_805D317C;
+extern s32 TOSwitchAttackSub__name;
 
 u8 *TOSwitchAttackSub__ct(u8 *object, u8 *arg1, s32 arg2, s32 arg3, u32 arg4, f32 farg0) {
     Parm_80177608 p;
@@ -63,7 +63,7 @@ u8 *TOSwitchAttackSub__ct(u8 *object, u8 *arg1, s32 arg2, s32 arg3, u32 arg4, f3
     Tbl_80177608 b;
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)(object + 0x18) = __vt__17TOSwitchAttackSub;
-    *(s32 *)(object + 0) = lbl_805D317C;
+    *(s32 *)(object + 0) = TOSwitchAttackSub__name;
     disallow_rendering__7TObjectFv((TObject *)object);
     *(s16 *)(object + 0x1C) = arg2;
     *(s16 *)(object + 0x1E) = arg3;

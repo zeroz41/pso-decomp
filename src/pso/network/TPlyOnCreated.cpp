@@ -36,6 +36,6 @@ u8 *__ct__13TPlyOnCreatedFv(u8 *object, s16 arg1, s32 arg2) {
     return object;
 }
 
-extern char lbl_804470F0[];
-s32 TPlyOnCreated__name = (s32)lbl_804470F0;
+extern char TPlyOnCreated__class_name_string[];
+s32 TPlyOnCreated__name = (s32)TPlyOnCreated__class_name_string;
 }

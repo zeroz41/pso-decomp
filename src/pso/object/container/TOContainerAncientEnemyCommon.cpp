@@ -22,12 +22,12 @@ void *__dt__29TOContainerAncientEnemyCommonFv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-extern void *lbl_805D2F0C;
+extern void *TOContainerAncientEnemyCommon__name;
 
 void *TOContainerAncientEnemyCommon__ct(void *container_ancient_enemy_common) {
     TOContainerAncientEnemy__ct(container_ancient_enemy_common);
     *(s32 **)((s8 *)container_ancient_enemy_common + 0x18) = __vt__29TOContainerAncientEnemyCommon;
-    *(void * *)&((TOContainerAncientEnemyCommon *)container_ancient_enemy_common)->m_name = lbl_805D2F0C;
+    *(void * *)&((TOContainerAncientEnemyCommon *)container_ancient_enemy_common)->m_name = TOContainerAncientEnemyCommon__name;
     return container_ancient_enemy_common;
 }
 

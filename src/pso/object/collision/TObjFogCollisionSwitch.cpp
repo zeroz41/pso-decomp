@@ -53,7 +53,7 @@ s32 init_base__22TObjFogCollisionPoisonFPUcs(void *, void *, u16);
 void *__nw__7TObjectFUl(int);
 extern s32 __vt__22TObjFogCollisionPoison[];
 extern s32 __vt__22TObjFogCollisionSwitch[];
-extern s32 lbl_805D2E80;
+extern s32 TObjFogCollisionPoison__name;
 extern s32 local_client_id;
 void vfunc_14__16TObjFogCollisionFv(O_801538D4 *);
 s32 vfunc_13__16TObjFogCollisionFl();
@@ -68,7 +68,7 @@ extern s32 game_difficulty_selection;
 
 void TObjFogCollision__ct(void *);
 
-extern void *lbl_805D2E7C;
+extern void *TObjFogCollisionSwitch__name;
 
 s32 scale_matrix(int, f32, f32, f32);
 s32 push_matrix();
@@ -220,7 +220,7 @@ void *TObjFogCollisionSwitch__create(void *arg0) {
 void *TObjFogCollisionSwitch__ct(void *fog_collision_switch, void *parent, void *set) {
     TObjFogCollision__ct(fog_collision_switch);
     *(s32 **)((s8 *)fog_collision_switch + 0x18) = __vt__22TObjFogCollisionSwitch;
-    *(void * *)&((TObjFogCollisionSwitch *)fog_collision_switch)->m_name = lbl_805D2E7C;
+    *(void * *)&((TObjFogCollisionSwitch *)fog_collision_switch)->m_name = TObjFogCollisionSwitch__name;
     return fog_collision_switch;
 }
 
@@ -289,7 +289,7 @@ void *TObjFogCollisionPoison__ct(void *arg0, void *arg1, void *arg2) {
     void *o;
     TObjFogCollisionSwitch__ct(arg0, arg1, arg2);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__22TObjFogCollisionPoison;
-    *(s32 *)((s8 *)arg0 + 0) = lbl_805D2E80;
+    *(s32 *)((s8 *)arg0 + 0) = TObjFogCollisionPoison__name;
     ((VObj_801537CC *)arg0)->m11();
     if (is_split_screen() != 0) {
         for (i = 0; i != 4; i++) {

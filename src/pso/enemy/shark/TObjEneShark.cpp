@@ -660,7 +660,7 @@ extern "C" __declspec(section ".rodata") u8 lbl_8043AE48[] = "stund_bm1_s_wala_b
 extern "C" __declspec(section ".rodata") u8 lbl_8043AE64[] = "wakeup_bm1_s_wala_body.njm";
 extern "C" __declspec(section ".rodata") u8 lbl_8043AE80[] = "walk_bm1_s_wala_body.njm";
 extern "C" __declspec(section ".rodata") u8 lbl_8043AE9C[] = "bm_ene_bm1_shark.bml";
-extern "C" __declspec(section ".rodata") u8 lbl_8043AEB4[] = "TObjEneShark";
+extern "C" __declspec(section ".rodata") u8 TObjEneShark__class_name_string[] = "TObjEneShark";
 extern "C" void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
 extern "C" void receive_physical_attack__9TObjCharaFPvf();
 extern "C" void receive_weapon_special_attack__9TObjCharaFPvPv();

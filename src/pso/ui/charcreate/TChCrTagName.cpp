@@ -81,8 +81,8 @@ struct TChCrTagName_802A208C : VBase_802A208C {
 
 extern "C" {
 extern void *__vt__12TChCrTagName[];
-__declspec(section ".rodata") extern const char lbl_804663F8[] = "TChCrTagName";
-const char *TChCrTagName__class_name = lbl_804663F8;
+__declspec(section ".rodata") extern const char TChCrTagName__class_name_string[] = "TChCrTagName";
+const char *TChCrTagName__class_name = TChCrTagName__class_name_string;
 f32 cos_table_lookup(s32);
 f32 calc_highlight_scale__12TChCrTagNameFPv(Tag_802A265C *arg0);
 extern vec2f lbl_80466408[];

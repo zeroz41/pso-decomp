@@ -64,7 +64,7 @@ void *TObjBoss2CeilJunk::create(void *arg0) {
 
     extern float lbl_805D4BE0;
     extern const float lbl_805D8258;
-void TObjBoss2CeilJunk__sub_8003A868(void) { lbl_805D4BE0 = lbl_805D8258; }
+void __sinit_TObjBoss2CeilJunk_8003A81C_cpp(void) { lbl_805D4BE0 = lbl_805D8258; }
 void TLobby__sub_8003A874(void) {
     s32 i;
     for (i = 0; i < 7; i++) {
@@ -91,4 +91,4 @@ void TLobby__sub_8003A8D0(void) {
 
 }
 
-__declspec(section ".ctors") static void *const __sinit_TObjBoss2CeilJunk_8003A81C_cpp_ref = (void *)TObjBoss2CeilJunk__sub_8003A868;
+__declspec(section ".ctors") static void *const __sinit_TObjBoss2CeilJunk_8003A81C_cpp_ref = (void *)__sinit_TObjBoss2CeilJunk_8003A81C_cpp;

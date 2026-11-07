@@ -15,7 +15,7 @@ void TObjQuestColBase__ct(void *);
 int TObjQuestColApcIN::vfunc_16() { TQuestThreadBoard::destroy_board(); TQuestThread::create(this->m_b0); }
 
 extern s32 __vt__17TObjQuestColApcIN[];
-extern void *lbl_805D33FC;
+extern void *TObjQuestColApcIN__name;
 
 int TObjQuestColApcIN::vfunc_15() {
     Col_801962B4 *arg0 = (Col_801962B4 *)this;
@@ -41,7 +41,7 @@ int TObjQuestColApcIN::vfunc_15() {
 void *TObjQuestColApcIN__ct(void *quest_col_apc_in) {
     TObjQuestColBase__ct(quest_col_apc_in);
     *(s32 **)((s8 *)quest_col_apc_in + 0x18) = __vt__17TObjQuestColApcIN;
-    *(void * *)&((TObjQuestColApcIN *)quest_col_apc_in)->m_name = lbl_805D33FC;
+    *(void * *)&((TObjQuestColApcIN *)quest_col_apc_in)->m_name = TObjQuestColApcIN__name;
     *(f32 *)((s8 *)quest_col_apc_in + 0xBC) = ((TObjQuestColApcIN *)quest_col_apc_in)->scale.y;
     return quest_col_apc_in;
 }

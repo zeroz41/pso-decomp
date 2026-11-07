@@ -76,22 +76,22 @@ const char *bm_fe_obj_rb3_liwa_motion_names[1] = { NULL };
 // Class names of the rock family (each constructor stores its own).
 const char *TORockCave__class_name = "TORockCave";
 const char *TORockCaveSimple__class_name = "TORockCaveSimple";
-const char *lbl_805D3100 = "TORockCaveBrakable";
-const char *lbl_805D3104 = "TORockCaveS01";
-const char *lbl_805D3108 = "TORockCaveS02";
-const char *lbl_805D310C = "TORockCaveSS02";
-const char *lbl_805D3110 = "TORockCaveS03";
-const char *lbl_805D3114 = "TORockCaveM01";
-const char *lbl_805D3118 = "TORockCaveM02";
+const char *TORockCaveBrakable__name = "TORockCaveBrakable";
+const char *TORockCaveS01__name = "TORockCaveS01";
+const char *TORockCaveS02__name = "TORockCaveS02";
+const char *TORockCaveSS02__name = "TORockCaveSS02";
+const char *TORockCaveS03__name = "TORockCaveS03";
+const char *TORockCaveM01__name = "TORockCaveM01";
+const char *TORockCaveM02__name = "TORockCaveM02";
 const char *TORockCaveSM02__class_name = "TORockCaveSM02";
-const char *lbl_805D3120 = "TORockCaveM03";
+const char *TORockCaveM03__name = "TORockCaveM03";
 const char *TORockCaveL01_class_name = "TORockCaveL01";
-const char *lbl_805D3128 = "TORockCaveL02";
-const char *lbl_805D312C = "TORockCaveSL02";
-const char *lbl_805D3130 = "TORockCaveL03";
-const char *lbl_805D3134 = "TORockCaveBL01";
-const char *lbl_805D3138 = "TORockCaveBL02";
-const char *lbl_805D313C = "TORockCaveBL03";
+const char *TORockCaveL02__name = "TORockCaveL02";
+const char *TORockCaveSL02__name = "TORockCaveSL02";
+const char *TORockCaveL03__name = "TORockCaveL03";
+const char *TORockCaveBL01__name = "TORockCaveBL01";
+const char *TORockCaveBL02__name = "TORockCaveBL02";
+const char *TORockCaveBL03__name = "TORockCaveBL03";
 
 // One sphere each for the small, middle and large rocks (S, M and L models).
 CollisionBody cave_rock_collision_body_templates[3] = {
@@ -204,7 +204,7 @@ void TORockCaveSimple::render() {
 }
 
 TORockCaveBrakable::TORockCaveBrakable() {
-    m_name = lbl_805D3100;
+    m_name = TORockCaveBrakable__name;
     m_b4 = 0;
     m_b8 = -1;
 }
@@ -277,7 +277,7 @@ void TORockCaveBrakable::vfunc_18() {
 void TORockCaveBrakable::vfunc_19() {}
 
 TORockCaveS01::TORockCaveS01(void *set_data) {
-    m_name = lbl_805D3104;
+    m_name = TORockCaveS01__name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(cave_rock_resource_bundle, 2);
     texlist = TObjFish__sub_8001EDB0(cave_rock_resource_bundle, 2);
@@ -297,7 +297,7 @@ void *TORockCaveS01__create(void *set_data) {
 }
 
 TORockCaveM01::TORockCaveM01(void *set_data) {
-    m_name = lbl_805D3114;
+    m_name = TORockCaveM01__name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(cave_rock_resource_bundle, 1);
     texlist = TObjFish__sub_8001EDB0(cave_rock_resource_bundle, 1);
@@ -337,7 +337,7 @@ void *TORockCaveL01__create(void *set_data) {
 }
 
 TORockCaveS02::TORockCaveS02(void *set_data) {
-    m_name = lbl_805D3108;
+    m_name = TORockCaveS02__name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(cave_rock_resource_bundle, 2);
     texlist = TObjFish__sub_8001EDB0(cave_rock_resource_bundle, 2);
@@ -357,7 +357,7 @@ void *TORockCaveS02__create(void *set_data) {
 }
 
 TORockCaveM02::TORockCaveM02(void *set_data) {
-    m_name = lbl_805D3118;
+    m_name = TORockCaveM02__name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(cave_rock_resource_bundle, 1);
     texlist = TObjFish__sub_8001EDB0(cave_rock_resource_bundle, 1);
@@ -377,7 +377,7 @@ void *TORockCaveM02__create(void *set_data) {
 }
 
 TORockCaveL02::TORockCaveL02(void *set_data) {
-    m_name = lbl_805D3128;
+    m_name = TORockCaveL02__name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(cave_rock_resource_bundle, 0);
     texlist = TObjFish__sub_8001EDB0(cave_rock_resource_bundle, 0);
@@ -397,7 +397,7 @@ void *TORockCaveL02__create(void *set_data) {
 }
 
 TORockCaveSS02::TORockCaveSS02(void *set_data) {
-    m_name = lbl_805D310C;
+    m_name = TORockCaveSS02__name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(cave_rock_resource_bundle, 5);
     texlist = TObjFish__sub_8001EDB0(cave_rock_resource_bundle, 5);
@@ -437,7 +437,7 @@ void *TORockCaveSM02__create(void *set_data) {
 }
 
 TORockCaveSL02::TORockCaveSL02(void *set_data) {
-    m_name = lbl_805D312C;
+    m_name = TORockCaveSL02__name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(cave_rock_resource_bundle, 3);
     texlist = TObjFish__sub_8001EDB0(cave_rock_resource_bundle, 3);
@@ -457,7 +457,7 @@ void *TORockCaveSL02__create(void *set_data) {
 }
 
 TORockCaveS03::TORockCaveS03(void *set_data) {
-    m_name = lbl_805D3110;
+    m_name = TORockCaveS03__name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(cave_rock_resource_bundle, 2);
     texlist = TObjFish__sub_8001EDB0(cave_rock_resource_bundle, 2);
@@ -477,7 +477,7 @@ void *TORockCaveS03__create(void *set_data) {
 }
 
 TORockCaveM03::TORockCaveM03(void *set_data) {
-    m_name = lbl_805D3120;
+    m_name = TORockCaveM03__name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(cave_rock_resource_bundle, 1);
     texlist = TObjFish__sub_8001EDB0(cave_rock_resource_bundle, 1);
@@ -497,7 +497,7 @@ void *TORockCaveM03__create(void *set_data) {
 }
 
 TORockCaveL03::TORockCaveL03(void *set_data) {
-    m_name = lbl_805D3130;
+    m_name = TORockCaveL03__name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(cave_rock_resource_bundle, 0);
     texlist = TObjFish__sub_8001EDB0(cave_rock_resource_bundle, 0);
@@ -517,7 +517,7 @@ void *TORockCaveL03__create(void *set_data) {
 }
 
 TORockCaveBL01::TORockCaveBL01(void *set_data) {
-    m_name = lbl_805D3134;
+    m_name = TORockCaveBL01__name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(cave_rock_resource_bundle, 0);
     texlist = TObjFish__sub_8001EDB0(cave_rock_resource_bundle, 0);
@@ -541,7 +541,7 @@ void *TORockCaveBL01__create(void *set_data) {
 }
 
 TORockCaveBL02::TORockCaveBL02(void *set_data) {
-    m_name = lbl_805D3138;
+    m_name = TORockCaveBL02__name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(cave_rock_resource_bundle, 0);
     texlist = TObjFish__sub_8001EDB0(cave_rock_resource_bundle, 0);
@@ -565,7 +565,7 @@ void *TORockCaveBL02__create(void *set_data) {
 }
 
 TORockCaveBL03::TORockCaveBL03(void *set_data) {
-    m_name = lbl_805D313C;
+    m_name = TORockCaveBL03__name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(cave_rock_resource_bundle, 0);
     texlist = TObjFish__sub_8001EDB0(cave_rock_resource_bundle, 0);

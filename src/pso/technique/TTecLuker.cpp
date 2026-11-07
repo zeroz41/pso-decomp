@@ -219,7 +219,7 @@ s32 pop_matrices(int);
 extern Vec_80234D50 lbl_8044D72C;
 extern void* __vt__9TTecLuker[];
 extern u8 identity_matrix[];
-extern s32 lbl_805D37E4;
+extern s32 TTecLuker__name;
 void *TTecLuker__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 s32 mark_area_change_pending();
 s32 obj_isState3_324__9TObjCharaFv(void *);
@@ -905,7 +905,7 @@ void *TTecLuker__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) 
     void *p;
     construct_area_technique_base(arg0, arg1, arg2);
     L->vt = __vt__9TTecLuker;
-    L->f0 = lbl_805D37E4;
+    L->f0 = TTecLuker__name;
     L->f108 = 0;
     L->f10C = 0;
     L->fF0 = 0;

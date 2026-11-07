@@ -15,7 +15,7 @@ public:
 #pragma readonly_strings on
 
 extern "C" {
-const char *lbl_805D3CC8 = "TObjCMHexTile";
+const char *TObjCMHexTile__name = "TObjCMHexTile";
 }
 
 
@@ -107,7 +107,7 @@ struct Hex_80294578 {
 void __ct__7TObjectFP7TObject(void *, void *);
 int rand(void);
 extern void *__vt__13TObjCMHexTile[];
-extern const char *lbl_805D3CC8;
+extern const char *TObjCMHexTile__name;
 
 #pragma push
 #pragma opt_lifetimes off
@@ -116,7 +116,7 @@ Hex_80294578 *__ct__13TObjCMHexTileFv(Hex_80294578 *self, void *parent, void *po
 
     __ct__7TObjectFP7TObject(self, parent);
     self->vt = __vt__13TObjCMHexTile;
-    self->name = lbl_805D3CC8;
+    self->name = TObjCMHexTile__name;
     self->f20 = v = 22.0f * (0.000030517578f * (f32)rand()) + 7.0f;
     self->f24 = v = (f32)v + (7.0f * (0.000030517578f * (f32)rand()) + 22.0f);
     v = (f32)v + (45.0f * (0.000030517578f * (f32)rand()) + 30.0f);

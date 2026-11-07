@@ -138,7 +138,7 @@ s32 __ct__9TObjEnemyFP7TObject(void *);
 s32 init_collision_body_parts(void *, void *, int);
 extern RecoveredGlobal_8015D3CC_lbl_804B0A20 TOCtrlDubchik__collision_body;
 extern s32 __vt__13TOCtrlDubchik[];
-extern s32 lbl_805D2F1C;
+extern s32 TOCtrlDubchik__name;
 u8 *TOCtrlDubchik__ct(TOCtrlDubchik *arg0, s32 arg1, s32 arg2);
 s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
@@ -428,7 +428,7 @@ typedef char RecoveredGlobal_8015D3CC___vt__13TOCtrlDubchik_size[sizeof(Recovere
 u8 *TOCtrlDubchik__ct(TOCtrlDubchik *ctrl_dubchik, s32 arg1, s32 arg2) {
     __ct__9TObjEnemyFP7TObject(ctrl_dubchik);
     *(s32 **)((s8 *)ctrl_dubchik + 0x18) = &(*(RecoveredGlobal_8015D3CC___vt__13TOCtrlDubchik *)&__vt__13TOCtrlDubchik).value;
-    *(s32 *)((s8 *)ctrl_dubchik + 0) = (s32) lbl_805D2F1C;
+    *(s32 *)((s8 *)ctrl_dubchik + 0) = (s32) TOCtrlDubchik__name;
     ((TOCtrlDubchik *)(ctrl_dubchik))->apply_set_data((void *)arg2);
     ((TObjPlayer *)ctrl_dubchik)->init_position_vectors();
     ctrl_dubchik->model = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOCtrlDubchik__shared_resource) + 0x42C)) + 8));

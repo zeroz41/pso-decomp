@@ -11,7 +11,7 @@ s32 __ct__7TObjectFP7TObject();
 
 struct TWMT;
 extern void* __vt__15TWindowMakeTeam[];
-extern s32 lbl_805D3958;
+extern s32 TWindowMakeTeam__name;
 
 void *TWindowMakeTeam__ct(void *arg0, void *arg1, s32 arg2) {
     s32 temp_r0;
@@ -21,7 +21,7 @@ void *TWindowMakeTeam__ct(void *arg0, void *arg1, s32 arg2) {
     __ct__7TObjectFP7TObject();
     self = (struct TWMT *) arg0;
     *(void **)((s8 *)self + 0x18) = (void *) __vt__15TWindowMakeTeam;
-    v = lbl_805D3958;
+    v = TWindowMakeTeam__name;
     *(s32 *)((s8 *)self + 0) = v;
     ((TWindowMakeTeam *)self)->m_1c = 0;
     ((TWindowMakeTeam *)self)->m_1d = 0;

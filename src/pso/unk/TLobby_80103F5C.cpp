@@ -107,7 +107,7 @@ void TLobby__sub_801041BC(void *arg0);
 void TLobby__sub_801041D8(void);
 void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header);
 void bswap__9TItemDataFv(s32 arg0);
-void TLobby__sub_80104350(void);
+void __sinit_TLobby_80103F5C_cpp(void);
     extern int* item_sync_counter_table;
 s32 get_item_icon_index();
     extern int lobby_drop_flag;
@@ -559,11 +559,11 @@ void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header) {
     }
 }
 
-void TLobby__sub_80104350(void) {
+void __sinit_TLobby_80103F5C_cpp(void) {
     __ct__8FlagWordFv((&lbl_805D5430));
 }
 
-__declspec(section ".ctors") static void *const __sinit_TLobby_80103F5C_cpp_ref = (void *)TLobby__sub_80104350;
+__declspec(section ".ctors") static void *const __sinit_TLobby_80103F5C_cpp_ref = (void *)__sinit_TLobby_80103F5C_cpp;
 
 void TLobby::set_boss_buf_entry(int a0, int a1) { item_sync_counter_table[(unsigned short)(a1)] = a0; }
 int TLobby::get_sync_counter(int a0) {  return item_sync_counter_table[(unsigned short)(a0)]; }

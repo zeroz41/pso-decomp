@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void TBoss8Dragon__sub_802FDF10(void);
+void __sinit_TBoss8Dragon_802FDDD4_cpp(void);
 }
 
 // --- C functions defined in TBoss8Dragon_802FDDD4.cpp ---
 extern "C" {
-void TBoss8Dragon__sub_802FDF10(void);
+void __sinit_TBoss8Dragon_802FDDD4_cpp(void);
 }
 // --- end of C functions
 

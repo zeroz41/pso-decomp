@@ -335,15 +335,15 @@ extern const char lbl_8043D1A0[] = "wait_bm4_ps_mb_body.njm";
 extern const char lbl_8043D1B8[] = "wait_bm4_ps_mb_body.njs";
 extern const char lbl_8043D1D0[] = "wait2_bm4_ps_ma_body.njm";
 extern const char lbl_8043D1EC[] = "bm4_ps_ma_body.bml";
-extern const char lbl_8043D200[] = "TObjEneSlime";
+extern const char TObjEneSlime__class_name_string[] = "TObjEneSlime";
 extern const char lbl_8043D210[] = "BLUE";
 // Debug label strings; slime_debug_label_table points at them.
 extern const char lbl_805DA668[] = "RED";
 extern const s32 lbl_8043D218[2] = {0, 0};
-extern const char lbl_8043D220[] = "TObjEneSlimeOne";
+extern const char TObjEneSlimeOne__class_name_string[] = "TObjEneSlimeOne";
 extern const RecoveredGlobal_800EA678_lbl_8043D230 lbl_8043D230 = {0x40200000, {0x00, 0x00, 0x00, 0x00, 0x40, 0x20, 0x00, 0x00}};
 extern const RecoveredGlobal_800EA678_lbl_8043D23C lbl_8043D23C = {0x3F800000, {0x3F, 0x80, 0x00, 0x00, 0x3F, 0x80, 0x00, 0x00}};
-extern const char lbl_8043D248[] = "TObjEneSlimeWaterBomb";
+extern const char TObjEneSlimeWaterBomb__class_name_string[] = "TObjEneSlimeWaterBomb";
 extern s32 __vt__15TObjEneSlimeOne[];
 extern s32 __vt__21TObjEneSlimeWaterBomb[];
 RecoveredGlobal_800E8128_lbl_80501010 lbl_80501010;
@@ -608,12 +608,12 @@ void *__vt__22TObjEneSlimeTailAttack[83] = {
 #define __vt__22TObjEneSlimeTailAttack ((s32 *)__vt__22TObjEneSlimeTailAttack)
 
 
-extern const char lbl_8043D268[];
+extern const char TObjEneSlimeTailAttack__class_name_string[];
 // .sdata: the class-name pointers the constructors store in TObject's name field.
-const char *lbl_805D2AD8 = lbl_8043D200;
-const char *TObjEneSlimeOne_class_name = lbl_8043D220;
-const char *lbl_805D2AE0 = lbl_8043D248;
-const char *TObjEneSlimeTailAttack__name = lbl_8043D268;
+const char *TObjEneSlime__name = TObjEneSlime__class_name_string;
+const char *TObjEneSlimeOne_class_name = TObjEneSlimeOne__class_name_string;
+const char *TObjEneSlimeWaterBomb__name = TObjEneSlimeWaterBomb__class_name_string;
+const char *TObjEneSlimeTailAttack__name = TObjEneSlimeTailAttack__class_name_string;
 
 
 f32 fabs_float(f32);
@@ -914,7 +914,7 @@ u8 *TObjEneSlime__ct(TObjEneSlime *ene_slime, s32 arg1, u8 *arg2) {
     s32 temp_r0;
     __ct__9TObjEnemyFP7TObject(ene_slime);
     *(s32 **)((s8 *)ene_slime + 0x18) = &(*(RecoveredGlobal_800EBC28___vt__12TObjEneSlime *)&__vt__12TObjEneSlime).value;
-    *(s32 *)((s8 *)ene_slime + 0) = (s32) lbl_805D2AD8;
+    *(s32 *)((s8 *)ene_slime + 0) = (s32) TObjEneSlime__name;
     ((TObjEneSlime *)(ene_slime))->apply_set_data(arg2);
     ((TObjEneSlime *)(ene_slime))->clear_lobby_object_state();
     ((TBoss3Volopt *)ene_slime)->reset_photon_effect();
@@ -1993,7 +1993,7 @@ void *TObjEneSlimeWaterBomb__ct(TObjEneSlimeWaterBomb *ene_slime_water_bomb, voi
     f32 c;
     ((s32 (*)(void *, void *))__ct__9TObjEnemyFP7TObject)(ene_slime_water_bomb, arg1);
     *(s32 **)((s8 *)ene_slime_water_bomb + 0x18) = __vt__21TObjEneSlimeWaterBomb;
-    *(s32 *)((s8 *)ene_slime_water_bomb + 0) = (s32) lbl_805D2AE0;
+    *(s32 *)((s8 *)ene_slime_water_bomb + 0) = (s32) TObjEneSlimeWaterBomb__name;
     *(void **)((s8 *)ene_slime_water_bomb + 0x38C) = arg2;
     ene_slime_water_bomb->rotation_y = *(s32 *)((s8 *)(*(u8 * *)&ene_slime_water_bomb->m_up) + 0x60);
     VecCopy((Vec *)((u8 *) ene_slime_water_bomb + 0x38), (const Vec *)(*(u8 * *)&ene_slime_water_bomb->m_up + 0x38));
@@ -2123,7 +2123,7 @@ s32 water_bomb_hit_nearby(u8 *target) {
     }
     return hit;
 }
-extern "C" const char lbl_8043D268[] = "TObjEneSlimeTailAttack";
+extern "C" const char TObjEneSlimeTailAttack__class_name_string[] = "TObjEneSlimeTailAttack";
 void *TObjEneSlimeTailAttack__ct(TObjEneSlimeTailAttack *ene_slime_tail_attack, void *arg1, s32 arg2, s32 arg3, s32 arg4) {
   unsigned int id;
   u8 *inst;

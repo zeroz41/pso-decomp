@@ -81,14 +81,14 @@ extern "C" {
 s32 __ct__7TObjectFP7TObject();
 
 extern s32 __vt__14TSlicerHistory[];
-extern s32 lbl_805D382C;
+extern s32 TSlicerHistory__name;
 extern const f32 lbl_805DC948;
 extern const f32 lbl_805DC950;
 
 u8 *__ct__14TSlicerHistoryFv(u8 *arg0, s32 arg1, s32 arg2, u32 arg3, s32 arg4) {
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TSlicerHistory;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D382C;
+    *(s32 *)((s8 *)arg0 + 0) = (s32) TSlicerHistory__name;
     copy_xyz(arg0 + 0x1C, (void *)(arg1 + 0x5C));
     VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(arg1 + 0x38));
     *(s32 *)((s8 *)arg0 + 0x38) = arg2;

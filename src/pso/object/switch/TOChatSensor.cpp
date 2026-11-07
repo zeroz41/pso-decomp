@@ -11,7 +11,7 @@ extern s32 tl_05;
 u32 TOChatSensor__create(s32 arg0);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__12TOChatSensor[];
-extern s32 lbl_805D2ED8;
+extern s32 TOChatSensor__name;
 extern u32 chat_sensor_table;
 u32 TOChatSensor__ct(int arg0, void *arg1, void *arg2);
 void *__dt__12TOChatSensorFv(void *arg0, s16 arg1);
@@ -28,7 +28,7 @@ u32 TOChatSensor__ct(int arg0, void *parent, void *arg2) {
     s32 *t;
     __ct__8TObjBaseFP7TObject((void *) arg0, parent);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOChatSensor;
-    *(s32 *)((s8 *)arg0 + 0) = lbl_805D2ED8;
+    *(s32 *)((s8 *)arg0 + 0) = TOChatSensor__name;
     ((TOChatSensor *)arg0)->apply_object_set_data(arg2);
     ((TOChatSensor *)arg0)->m_c4 = 0;
     ((TOChatSensor *)arg0)->m_a0 = 0;

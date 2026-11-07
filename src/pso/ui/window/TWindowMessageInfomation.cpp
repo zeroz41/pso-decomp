@@ -4,7 +4,7 @@
 #pragma readonly_strings on
 
 extern "C" {
-const char *lbl_805D3988 = "TWindowMessageInfomation";
+const char *TWindowMessageInfomation__name = "TWindowMessageInfomation";
 }
 
 
@@ -17,7 +17,7 @@ struct RecoveredGlobal_8026A100___vt__24TWindowMessageInfomation {
 extern "C" {
 u8 * TWindowMessage__ct(void *, s32, u32, s16);
 extern s32 __vt__24TWindowMessageInfomation[];
-extern const char *lbl_805D3988;
+extern const char *TWindowMessageInfomation__name;
 u8 *TWindowMessageInfomation__ct(u8 *arg0, s32 arg1, s16 arg2);
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(s32, s32, s32);
@@ -37,7 +37,7 @@ typedef char RecoveredGlobal_8026A100___vt__24TWindowMessageInfomation_size[size
 u8 *TWindowMessageInfomation__ct(u8 *arg0, s32 arg1, s16 arg2) {
     TWindowMessage__ct(arg0, arg1, 0x10U, arg2);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8026A100___vt__24TWindowMessageInfomation *)&__vt__24TWindowMessageInfomation).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)lbl_805D3988);
+    *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)TWindowMessageInfomation__name);
     return arg0;
 }
 

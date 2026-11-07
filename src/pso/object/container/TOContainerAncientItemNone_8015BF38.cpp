@@ -25,12 +25,12 @@ extern "C" {
 void TOContainerAncientItemRare__ct(void *);
 
 extern s32 __vt__26TOContainerAncientItemNone[];
-extern void *lbl_805D2F04;
+extern void *TOContainerAncientItemNone__name;
 
 void *TOContainerAncientItemNone__ct(void *container_ancient_item_none) {
     TOContainerAncientItemRare__ct(container_ancient_item_none);
     *(s32 **)((s8 *)container_ancient_item_none + 0x18) = __vt__26TOContainerAncientItemNone;
-    *(void * *)&((TOContainerAncientItemNone *)container_ancient_item_none)->m_name = lbl_805D2F04;
+    *(void * *)&((TOContainerAncientItemNone *)container_ancient_item_none)->m_name = TOContainerAncientItemNone__name;
     return container_ancient_item_none;
 }
 

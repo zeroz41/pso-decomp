@@ -7,7 +7,7 @@
 
 #pragma push
 #pragma readonly_strings on
-const char *lbl_805D3B60 = "TChCrLoadReq";
+const char *TChCrLoadReq__name = "TChCrLoadReq";
 #pragma pop
 
 struct RecoveredGlobal_8028D360___vt__12TChCrLoadReq { s32 value; u8 remaining[0x14]; };
@@ -93,7 +93,7 @@ void TChCrLoadReq::reset_request() {
 }
 
 TChCrLoadReq::TChCrLoadReq(TObject *object, void *arg2) : TObject(object) {
-    m_name = lbl_805D3B60;
+    m_name = TChCrLoadReq__name;
     ((TChCrLoadReq *)((char *)this + 56))->copy(arg2);
     this->reset_request();
 }
@@ -103,7 +103,7 @@ void TChCrLoadReq::copy(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x
 u8 *TChCrLoadReq__sub_8028D360(TChCrLoadReq *ch_cr_load_req, s32 arg1) {
     __ct__7TObjectFP7TObject((void *)ch_cr_load_req, (void *)arg1);
     *(s32 **)((s8 *)ch_cr_load_req + 0x18) = &(*(RecoveredGlobal_8028D360___vt__12TChCrLoadReq *)&__vt__12TChCrLoadReq).value;
-    ch_cr_load_req->m_name = lbl_805D3B60;
+    ch_cr_load_req->m_name = TChCrLoadReq__name;
     ch_cr_load_req->m_38 = (arg1 + 0x85C);
     *(s32 *)((s8 *)ch_cr_load_req + 0x3C) = (arg1 + 0xCFC);
     ch_cr_load_req->m_40 = (s32) get_entity_id((void *)arg1);

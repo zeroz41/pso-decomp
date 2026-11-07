@@ -752,7 +752,7 @@ s16 TLobby__sub_803FB358(NetLinkStatus *status) {
     b = ipcp->addr[3];
     NetMemcpy(status->addr[2], &a, 4);
     NetMemcpy(status->addr[3], &b, 4);
-    status->state = lbl_805D7A8A;
+    status->state = lobby_modem_connect_state;
     status->w8 = lbl_805D7BDC;
     status->h6 = lbl_805D7A82;
     status->hC = lbl_805D7A84;

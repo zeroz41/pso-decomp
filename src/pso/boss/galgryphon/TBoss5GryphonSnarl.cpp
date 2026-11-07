@@ -15,7 +15,7 @@
 
 extern "C" {
 __declspec(section ".rodata") s32 boss5_gryphon_snarl_effect_id_table[4] = { 521, 539, 540, 538 };
-const char *lbl_805D2820 = "TBoss5GryphonSnarl";
+const char *TBoss5GryphonSnarl__name = "TBoss5GryphonSnarl";
 s32 * TBoss5GryphonSnarl__effect_table;
 }
 
@@ -23,7 +23,7 @@ s32 * TBoss5GryphonSnarl__effect_table;
 extern "C" {
 extern s32 boss5_gryphon_snarl_effect_id_table[4];
 extern s32 *TBoss5GryphonSnarl__effect_table;
-extern const char *lbl_805D2820;
+extern const char *TBoss5GryphonSnarl__name;
 extern s32 boss5_gryphon_bml_resource;
 extern s32 boss5_gryphon_texture_list;
 void TBoss8Dragon__sub_8006402C(s32 instance, Vec *pos, f32 radius, f32 scale);
@@ -122,7 +122,7 @@ TBoss5GryphonSnarl::~TBoss5GryphonSnarl() {
 #pragma opt_common_subs off
 TBoss5GryphonSnarl::TBoss5GryphonSnarl(TObject *parent, void *arg2) : TObject(parent) {
     s32 i;
-    m_name = lbl_805D2820;
+    m_name = TBoss5GryphonSnarl__name;
     VecCopy(&position, (const Vec *)arg2);
     position.y = 2.0f;
     frame = 0;

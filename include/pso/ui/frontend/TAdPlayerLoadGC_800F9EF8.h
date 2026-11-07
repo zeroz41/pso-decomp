@@ -5,13 +5,13 @@
 
 extern "C" {
 s32 TLoadCtrl__sub_800F9F00(void);
-void TLobby__sub_800F9F08(void);
+void __sinit_TAdPlayerLoadGC_800F9EF8_cpp(void);
 }
 
 // --- C functions defined in TAdPlayerLoadGC_800F9EF8.cpp ---
 extern "C" {
 s32 TLoadCtrl__sub_800F9F00(void);
-void TLobby__sub_800F9F08(void);
+void __sinit_TAdPlayerLoadGC_800F9EF8_cpp(void);
 }
 // --- end of C functions
 

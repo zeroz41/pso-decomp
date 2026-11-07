@@ -92,7 +92,7 @@ extern const f32 lbl_805E03E4;
 s32 get_bml_model(int, int);
 int TBoss6Rock__sub_80353A04(void);
 int TBoss6Rock__sub_80353A0C(void);
-__declspec(section ".rodata") char lbl_8047ACD8[] = "TBoss6RockChase";
+__declspec(section ".rodata") char TBoss6RockChase__class_name_string[] = "TBoss6RockChase";
 __declspec(section ".rodata") RecoveredGlobal_8036D4E0_lbl_8047ACE8 boss6_rock_chase_model_radius_table = {
     4, { 0x41, 0xA0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x41, 0xF0, 0x00, 0x00 }
 };

@@ -13,7 +13,7 @@ struct RecoveredGlobal_802F119C___vt__13TObjBoss7Dust {
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_802F119C___vt__13TObjBoss7Dust __vt__13TObjBoss7Dust;
-extern s32 lbl_805D3FE4;
+extern s32 TObjBoss7Dust__name;
 void TObjBoss2Tunnel__sub_802F2C4C(void);
 void TObjBoss2Tunnel__sub_802F2C50(void);
 void TObjBoss2Tunnel__sub_802F2C84(void);
@@ -43,7 +43,7 @@ TObjBoss7Dust::~TObjBoss7Dust() {}
 u8 *__ct__13TObjBoss7DustFv(u8 *object, s32 arg1, s32 arg2) {
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__13TObjBoss7Dust.value;
-    *(s32 *)((s8 *)object + 0) = (s32) lbl_805D3FE4;
+    *(s32 *)((s8 *)object + 0) = (s32) TObjBoss7Dust__name;
     VecCopy((Vec *)(object + 0x24), (const Vec *)(arg2));
     *(s32 *)((s8 *)object + 0x1C) = 0;
     *(s32 *)((s8 *)object + 0x20) = TObjBoss7DustCtrl__sub_802F125C();

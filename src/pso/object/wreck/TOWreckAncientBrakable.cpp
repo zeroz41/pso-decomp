@@ -41,7 +41,7 @@ void *TOWreckAncientBrakable__name = (char *)"TOWreckAncientBrakable";
 }
 
 // Class name of TOWreckAncientBrakable05 (TOWreckAncientBrakable05__name points here).
-extern const char lbl_80443540[] = "TOWreckAncientBrakable05";
+extern const char TOWreckAncientBrakable05__class_name_string[] = "TOWreckAncientBrakable05";
 
 const Arr_8017D448 TOWreckAncientBrakable__debris_table = {
     {

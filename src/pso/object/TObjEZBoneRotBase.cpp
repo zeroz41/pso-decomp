@@ -172,7 +172,7 @@ TObjEZBoneRotBase::~TObjEZBoneRotBase() {}
 extern "C" {
 void __ct__7TObjectFP7TObject(TObject *self, TObject *parent);
 extern void *__vt__17TObjEZBoneRotBase[];
-extern const char *lbl_805D2B48;
+extern const char *TObjEZBoneRotBase__name;
 
 TObjEZBoneRotBase *TObjEZBoneRotBase__ct(TObjEZBoneRotBase *self, TObject *parent, void *root, EZBoneRotDesc *desc) {
     EZBoneRotState *state = (EZBoneRotState *)self;
@@ -182,7 +182,7 @@ TObjEZBoneRotBase *TObjEZBoneRotBase__ct(TObjEZBoneRotBase *self, TObject *paren
     __ct__7TObjectFP7TObject(self, parent);
     base = (TObjEZBoneRotBase *)(TObject *)self;
     state->vtable = __vt__17TObjEZBoneRotBase;
-    self->m_name = lbl_805D2B48;
+    self->m_name = TObjEZBoneRotBase__name;
     state->root = root;
     state->desc = desc;
     key = state->desc->keys;

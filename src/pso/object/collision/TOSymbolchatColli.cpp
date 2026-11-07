@@ -64,7 +64,7 @@ CollisionBody lbl_804B4550[1] = {
     { { 0.0f, 80.0f, 0.0f }, 1.0f, 1.0f, 0, 0x10002, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 extern s32 __vt__17TOSymbolchatColli[];
-extern s32 lbl_805D3194;
+extern s32 TOSymbolchatColli__name;
 Obj_80178AD4 *__ct__17TOSymbolchatColliFP7TObjectl(Obj_80178AD4 *arg0, void *arg1, s32 arg2);
 s32 is_locally_controlled__10TObjPlayerFPv();
 void *find_entity_by_id(u16 id);
@@ -211,7 +211,7 @@ TOSymbolchatColli::~TOSymbolchatColli() {
 }
 TOSymbolchatColli::TOSymbolchatColli(TObject *arg1, s32 arg2) : TObjChara(arg1) {
     s32 i;
-    *(s32 *)this = lbl_805D3194;
+    *(s32 *)this = TOSymbolchatColli__name;
     ((Obj_80178AD4 *)this)->v5(arg2);
     init_collision_body_parts(((Obj_80178AD4 *)this), lbl_804B4550, 1);
     ((TObjPlayer *)this)->register_object_by_id();
