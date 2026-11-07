@@ -2199,7 +2199,7 @@ s32 TLobby__sub_80408F2C(s16 id, u8 *pkt);
 s32 TLobby__sub_80409130(s16 arg0, s16 arg1, s32 arg2);
 s32 TLobby__sub_80408FD8(s16 idx, s16 op, u8 *addr);
 s32 TLobby__sub_8040920C(s16 idx, u8 *mac);
-void TLobby__sub_804092FC(void);
+s32 TLobby__sub_804092FC(s16 idx);
 s32 TLobby__sub_8040939C(s16 idx);
 s32 TLobby__sub_804093EC(s16 idx);
 void TLobby__sub_804094B8(void);
@@ -2246,7 +2246,7 @@ s16 TLobby::init_net_sockets() {
     fns[1] = TLobby__sub_804094B8;
     fns[2] = (Fn_8040881C)TLobby__sub_804093EC;
     fns[3] = (Fn_8040881C)TLobby__sub_8040939C;
-    fns[4] = TLobby__sub_804092FC;
+    fns[4] = (Fn_8040881C)TLobby__sub_804092FC;
     fns[5] = (Fn_8040881C)TLobby__sub_8040920C;
     fns[6] = (Fn_8040881C)TLobby__sub_80409130;
     fns[7] = (Fn_8040881C)TLobby__sub_80408FD8;
@@ -2420,8 +2420,10 @@ struct Tbl_80408F2C;
 #pragma dont_inline off
 #pragma inline_depth(4)
 inline Conn_80408C24 *find_conn_80408C24(Glob_80408C24 *g, s16 id) {
-    Conn_80408C24 *c = g->conns;
-    s16 n = g->nconn;
+    s16 n;
+    Conn_80408C24 *c;
+    c = g->conns;
+    n = g->nconn;
     for (; n > 0; n--, c++) {
         if (c->used != 0 && c->id == id) {
             return c;
@@ -2708,6 +2710,24 @@ s32 TLobby__sub_8040920C(s16 idx, u8 *mac) {
         return -0x111;
     }
     return 0;
+}
+
+s32 TLobby__sub_804092FC(s16 idx) {
+    Glob_80408C24 *g = (Glob_80408C24 *)&lbl_805C1AD8;
+    Ent_80408C24 *e;
+
+    if (idx < 0 || idx >= g->nent) {
+        return -0x111;
+    }
+    e = g->ents;
+    e += idx;
+    if (e->used == 0) {
+        return -2;
+    }
+    if (find_conn_80408C24(g, e->id) == NULL) {
+        return -2;
+    }
+    return 6;
 }
 #pragma pop
 
