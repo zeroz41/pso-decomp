@@ -20,7 +20,7 @@ struct DateStamp_801E283C {
 
 extern "C" {
 extern const Tbl_801E283C lbl_80449700[];
-u8 fn_801E2AC8(u16 year, u8 month, u8 day);
+u8 calc_day_of_week(u16 year, u8 month, u8 day);
 }
 
 #pragma push
@@ -29,7 +29,7 @@ static inline int inline_fn2(u32 arg0)
 {
   return arg0 / 86400;
 }
-extern "C" void fn_801E283C(u32 seconds, DateStamp_801E283C *out) {
+extern "C" void fill_date_from_seconds(u32 seconds, DateStamp_801E283C *out) {
   unsigned int new_var;
   int new_var4;
   int new_var3;
@@ -121,7 +121,7 @@ extern "C" void fn_801E283C(u32 seconds, DateStamp_801E283C *out) {
       }
     }
   }
-  out->weekday = fn_801E2AC8(out->year, out->month, out->day);
+  out->weekday = calc_day_of_week(out->year, out->month, out->day);
   out->day_in_cycle = calc_day_in_cycle((s32 *) new_var2);
 }
 #pragma pop

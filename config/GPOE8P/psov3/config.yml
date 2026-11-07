@@ -6326,10 +6326,10 @@ force_active:
   - fn_801D34E0
   - fn_801D371C
   - fn_801D6AB4
-  - fn_801DF3F0
-  - fn_801DF47C
-  - fn_801DF4B8
-  - fn_801DF558
+  - copy_cmd_88_marker_record
+  - bswap_cmd_c4_entry
+  - bswap_cmd_c4_entry_record
+  - copy_cmd_c4_entry
   - bswap_u16_pair_field
   - bswap_c0_lobby_entry
   - bswap_quest_list_entry
@@ -7956,7 +7956,7 @@ force_active:
   - lbl_804C4794
   - lbl_804C4878
   - lbl_804C6900
-  - lbl_804C8934
+  - memory_card_system_dir_name
   - lbl_804C8A44
   - lbl_804C8C60
   - lbl_804C8C68

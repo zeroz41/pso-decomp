@@ -4415,7 +4415,7 @@ void TQuestVmDownLoadServer__sub_803EE2F4(s32 arg0, s32 arg1) {
     while (i < end && (n = TQuestVmDownLoadServer__sub_803E9F54(i)) != 0) {
         slot = tab + i * 0x1C;
         if (i == lbl_805D78F0) {
-            if (lbl_805D78E8 == 1 || lbl_805D7834 >= 3) {
+            if (lbl_805D78E8 == 1 || quest_download_state >= 3) {
                 node = advance_nodes__22TQuestVmDownLoadServerFPvi(lbl_805D78A0, lbl_805D7898);
             } else {
                 node = advance_nodes__22TQuestVmDownLoadServerFPvi(*(Node_803EB794 **)(slot + 0xC), 0);
@@ -4423,7 +4423,7 @@ void TQuestVmDownLoadServer__sub_803EE2F4(s32 arg0, s32 arg1) {
         } else {
             node = advance_nodes__22TQuestVmDownLoadServerFPvi(*(Node_803EB794 **)(slot + 0xC), 0);
         }
-        if (lbl_805D7848 == 3 || lbl_805D7834 > 2) {
+        if (lbl_805D7848 == 3 || quest_download_state > 2) {
             if ((s8)slot[0x16] != 0 && (s8)slot[0x16] != (s8)slot[0x15]) {
                 poolA = lbl_805A0340;
                 poolB = lbl_805A0340;
@@ -4582,7 +4582,7 @@ void TQuestVmDownLoadServer__sub_803EE870(s32 slot, s32 mode) {
     Node_803EB794 *end;
     Node_803EB794 *next;
     if ((p = quest_download_slot_chain_table[slot].chain) != NULL) {
-        if (mode == 1 && (lbl_805D78E8 == 1 || lbl_805D7834 >= 3)) {
+        if (mode == 1 && (lbl_805D78E8 == 1 || quest_download_state >= 3)) {
             end = advance_nodes__22TQuestVmDownLoadServerFPvi(lbl_805D78A0, lbl_805D7898);
             while (p != NULL) {
                 if (p == end) {

@@ -714,7 +714,7 @@ struct LcpOpts_803FB358 { u8 pad[8]; u32 w8; u32 wC; u8 pad10[8]; u32 w18; u32 w
 struct IpcpOpts_803FB358 { u8 pad[8]; u32 addr[4]; };
 struct Fsm_803FB358 { u8 state; u8 pad1[0x2F]; void *opts; };
 struct Ppp_803FB358 { u8 pad[4]; Fsm_803FB358 fsm[5]; };
-extern s32 lbl_805D7BDC;
+extern s32 lobby_modem_reply_value;
 s16 TLobby__sub_803FB358(NetLinkStatus *status) {
     Ppp_803FB358 *ppp;
     Fsm_803FB358 *ipcp_fsm;
@@ -752,8 +752,8 @@ s16 TLobby__sub_803FB358(NetLinkStatus *status) {
     b = ipcp->addr[3];
     NetMemcpy(status->addr[2], &a, 4);
     NetMemcpy(status->addr[3], &b, 4);
-    status->state = lbl_805D7A8A;
-    status->w8 = lbl_805D7BDC;
+    status->state = lobby_modem_connect_state;
+    status->w8 = lobby_modem_reply_value;
     status->h6 = lbl_805D7A82;
     status->hC = lbl_805D7A84;
     TUdpSocket::unlock_mutex(lbl_805C18A0.value);
