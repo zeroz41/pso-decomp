@@ -234,16 +234,15 @@ static inline u8 bba_cmd_in8(u32 reg) {
     return val;
 }
 
-// Selects the adapter and sends a write command word.
-static inline void bba_cmd_write(u32 req) {
-    u16 cmd = req;
+// `req` keeps the full command word in the stack slot the original frames have for it.
+static inline void bba_cmd_out8(u32 reg, u8 val) {
+    u32 req;
+    u16 cmd;
+    req = (reg << 8) | 0x4000;
+    cmd = req;
     EXISelect(0, 2, 5);
     EXIImm(0, &cmd, 2, 1, 0);
     EXISync(0);
-}
-
-static inline void bba_cmd_out8(u32 reg, u8 val) {
-    bba_cmd_write((reg << 8) | 0x4000);
     EXIImm(0, &val, 1, 1, 0);
     EXISync(0);
     EXIDeselect(0);
@@ -260,7 +259,13 @@ static inline void bba_cmd_ins(u32 reg, void *buf, s32 len) {
 }
 
 static inline void bba_cmd_outs(u32 reg, void *buf, s32 len) {
-    bba_cmd_write((reg << 8) | 0x4000);
+    u32 req;
+    u16 cmd;
+    req = (reg << 8) | 0x4000;
+    cmd = req;
+    EXISelect(0, 2, 5);
+    EXIImm(0, &cmd, 2, 1, 0);
+    EXISync(0);
     EXIImmEx(0, buf, len, 1);
     EXIDeselect(0);
 }
