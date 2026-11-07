@@ -376,7 +376,7 @@ s32 is_dragon_trail_damaging(u8 *arg0) {
     return *(f32 *)((s8 *)arg0 + 0x34) >= lbl_805D81D0;
 }
 
-void TBoss8Dragon::set_field_3c() { set_field_1c(); *(int *)&this->unk_3C = 1; }
+void TBoss8Dragon::set_field_3c() { set_field_1c(); *(int *)&this->m_3c = 1; }
 void TBoss8Dragon::set_field_1c() { *(s32 *)&this->unk_1C = 1; }
 
 void TBoss8Dragon::spawn_child_object() {
@@ -388,7 +388,7 @@ void TBoss8Dragon::spawn_child_object() {
     if (o != NULL) {
         TObjBoss1MokoHill_Solo__ct(o, (void *)(*(void * *)&this->m_10), 30);
     }
-    *(u32 *)&this->unk_3C = 0;
+    *(u32 *)&this->m_3c = 0;
 }
 TObjBoss1MokoHill_SoloM::~TObjBoss1MokoHill_SoloM() {
 

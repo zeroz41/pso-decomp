@@ -69,15 +69,15 @@ void TBoss8Dragon::set_mode_params(s8 arg1) {
     *(s32 *)((s8 *)arg0 + 0x3E8) = (s32) arg1;
     switch (*(s32 *)((s8 *)arg0 + 0x3E8)) {
     case 0:
-        *(s32 *)&this->unk_75C = 1;
+        this->m_75c = 1;
         this->m_760 = &boss8_dragon_mode_params.value;
         return;
     case 1:
-        *(s32 *)&this->unk_75C = 2;
+        this->m_75c = 2;
         this->m_760 = &dragon_mode_params_a.value;
         return;
     case 2:
-        *(s32 *)&this->unk_75C = 3;
+        this->m_75c = 3;
         this->m_760 = &dragon_mode_params_b.value;
         return;
     }
