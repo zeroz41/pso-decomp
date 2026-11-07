@@ -248,6 +248,7 @@ pso/boss/derolle/TObjBoss2RaftSplash.cpp
 pso/boss/derolle/TObjBoss2RaftSplash_8003B0A0.cpp
 pso/boss/derolle/TObjBoss2Tunnel_8003B138.cpp
 pso/boss/derolle/TObjBoss2Tunnel_802F1A58.cpp
+pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.cpp
 pso/boss/derolle/TObjBoss2Tunnel_803E2BAC.cpp
 pso/boss/dragon/ObjBoss1CommonJResource.cpp
 pso/boss/dragon/ObjBoss1CommonResource.cpp
@@ -1349,6 +1350,7 @@ pso/system/scene/TSceneSora.cpp
 pso/system/scene/TSceneSora_8029F428.cpp
 pso/system/scene/TScene_800F9D80.cpp
 pso/system/scene/TScene_801A7E40.cpp
+pso/system/scene/TScene_801FBA20.cpp
 pso/system/scene/TScene_8029F5B0.cpp
 pso/system/scene/TScene_80327B00.cpp
 pso/system/task/TMainTask_8001A430.cpp
@@ -1492,6 +1494,7 @@ pso/ui/city/THunterGuildWarning_80211700.cpp
 pso/ui/city/THunterGuildWarning_8021170C.cpp
 pso/ui/city/TJudgmentSequence.cpp
 pso/ui/city/TJudgmentSequence_8021E4C4.cpp
+pso/ui/city/TMedicalCenterSequence.cpp
 pso/ui/city/TShopArmorListWindow.cpp
 pso/ui/city/TShopArmorListWindow_80266CF8.cpp
 pso/ui/city/TShopArmorListWindow_802785FC.cpp
@@ -1671,6 +1674,7 @@ pso/ui/hud/TRaderMapCore_801F3710.cpp
 pso/ui/hud/TRaderMapCore_801FB2B8.cpp
 pso/ui/hud/TRaderMapCore_801FB6A8.cpp
 pso/ui/hud/TRaderMapCore_801FB8AC.cpp
+pso/ui/hud/TRaderMapCore_801FB964.cpp
 pso/ui/hud/TRaderMapCore_8030A808.cpp
 pso/ui/keyboard/KeyboardCharacterMaps.cpp
 pso/ui/keyboard/TKeyBoardControl.cpp
@@ -1813,6 +1817,7 @@ pso/ui/window/TWindowLockOn_800F5DD8.cpp
 pso/ui/window/TWindowLockOn_80262C3C.cpp
 pso/ui/window/TWindowLockOn_8026CB80.cpp
 pso/ui/window/TWindowMainMenu.cpp
+pso/ui/window/TWindowMainMenu1P.cpp
 pso/ui/window/TWindowMainMenu4P.cpp
 pso/ui/window/TWindowMainMenu_8024E3CC.cpp
 pso/ui/window/TWindowMainMenu_802AD538.cpp

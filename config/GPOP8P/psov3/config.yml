@@ -14,6 +14,7 @@ detect_strings: true
 mw_comment_version: 10
 # --- force_active (BEGIN) ---
 force_active:
+  - "@28@__dt__17TMedicalCenterMesFv"
   - "@28@__dt__22TQuestVmDownLoadServerFv"
   - AIGetDSPSampleRate
   - AIGetStreamPlayState
@@ -680,6 +681,7 @@ force_active:
   - TMainCursor__sub_801540FC
   - TMainCursor__sub_80154288
   - TMainTask_name
+  - TMedicalCenterMes__slot_flags
   - TMemberCheck__previous_member_count
   - TMotorcycle__collision_parts
   - TMotorcycle__ct
@@ -3048,6 +3050,7 @@ force_active:
   - __dt__17TItemEffNeedlePosFv
   - __dt__17TItemEffectWeaponFv
   - __dt__17TMCFormatSequenceFv
+  - __dt__17TMedicalCenterMesFv
   - __dt__17TOBarrierEnergy01Fv
   - __dt__17TODragonflyCave01Fv
   - __dt__17TOHangerMachine01Fv
@@ -3958,6 +3961,7 @@ force_active:
   - __vt__17TItemEffNeedlePos
   - __vt__17TItemEffectWeapon
   - __vt__17TMCFormatSequence
+  - __vt__17TMedicalCenterMes
   - __vt__17TOBarrierEnergy01
   - __vt__17TODragonflyCave01
   - __vt__17TOHangerMachine01
@@ -6300,6 +6304,7 @@ force_active:
   - dispatch_state__19TBoss3VoloptMonitorFv
   - dispatch_state__20TBoss3VoloptHiraisinFv
   - dispatch_state_handler__19TObjEneBm9MericarolFiUii
+  - display_copy_filter_enabled
   - display_exp_gain__FlUlll
   - display_message__19TShopKeepItemWindowFPCcl
   - distribute_part_damage__15TBoss3VoloptP02Fv
@@ -6702,6 +6707,7 @@ force_active:
   - evict_lowest_key_floor_item__Fl
   - exec__16TObjEneMe3StelthFPvi
   - exec__17TObjEneDf2BringerFl
+  - exec_heal__22TMedicalCenterSequenceFv
   - exec_item_command__14TWindowSubItemFll
   - execute_action__13TObjEneBm3FlyFl
   - exit__22TShopEquipmentSequenceFPv
@@ -7427,6 +7433,7 @@ force_active:
   - handle_close_input__17TJudgmentSequenceFv
   - handle_confirm__17TJudgmentSequenceFv
   - handle_confirm__19TWindowMenuMainMenuFv
+  - handle_confirm__22TMedicalCenterSequenceFv
   - handle_confirm__22TShopEquipmentSequenceFv
   - handle_confirm__24TShopEquipmentListWindowFv
   - handle_confirm__26TShopEquipmentGearSequenceFv
@@ -7530,6 +7537,8 @@ force_active:
   - handle_trade_state_cancel__6TLobbyFPv
   - handle_type3__9TItemDropFPvPv
   - handle_warp_state__19TObjEneEpsilonGuardFl
+  - handle_window_input__22TMedicalCenterSequenceFv
+  - handle_window_result__22TMedicalCenterSequenceFv
   - handle_withdraw_choice__18TCheckRoomSequenceFv
   - handle_withdraw_confirm__18TShopGetItemWindowFv
   - handle_withdraw_list_input__18TShopGetItemWindowFv
@@ -9667,6 +9676,7 @@ force_active:
   - open_greeting__22THunterGuildSeqOfflineFv
   - open_greeting__22TShopEquipmentSequenceFv
   - open_greeting__26TShopEquipmentGearSequenceFv
+  - open_greeting_window__22TMedicalCenterSequenceFv
   - open_intro_window__19TPlayerBattleCtrl4PFv
   - open_item_list_window__20TShopItemTecSequenceFv
   - open_judgment_window__17TJudgmentSequenceFv
@@ -15446,6 +15456,7 @@ force_active:
   - run_task__17TDuelEffectStringFv
   - run_task__17TItemEffectWeaponFv
   - run_task__17TMCFormatSequenceFv
+  - run_task__17TMedicalCenterMesFv
   - run_task__17TOHangerMachine01Fv
   - run_task__17TOSwitchAttackSubFv
   - run_task__17TOSymbolchatColliFv
@@ -16057,6 +16068,9 @@ force_active:
   - should_show_warning__14TObjBagWarnWinFPv
   - show__5TItemFv
   - show_active_window__11TWindowCtrlFv
+  - show_already_healthy__22TMedicalCenterSequenceFv
+  - show_declined__22TMedicalCenterSequenceFv
+  - show_fee_prompt__22TMedicalCenterSequenceFv
   - show_guide_button__12TAdDialingGCFv
   - show_info_window__16TQuestListOnlineFv
   - show_intro_text__19TPlayerBattleCtrl4PFv
@@ -17157,6 +17171,7 @@ force_active:
   - update_attack_timer__11TBoss6Type1Fv
   - update_attacking__12TObjEneLappyFv
   - update_auto__14CreationCameraFv
+  - update_backdrop_transition__17TWindowMainMenu1PFv
   - update_battle__10TObjPlayerFi
   - update_battle_control_on_unlock__10TObjPlayerFPvPvPvl
   - update_battle_intro__6TLobbyFPv

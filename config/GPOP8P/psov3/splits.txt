@@ -6035,6 +6035,12 @@ pso/ui/hud/TRaderMapCore_801FB6A8.cpp:
 pso/ui/hud/TRaderMapCore_801FB8AC.cpp:
 	.text       start:0x801FBE28 end:0x801FBEE0
 
+pso/ui/hud/TRaderMapCore_801FB964.cpp:
+	.text       start:0x801FBEE0 end:0x801FBF9C
+
+pso/system/scene/TScene_801FBA20.cpp:
+	.text       start:0x801FBF9C end:0x801FBFA4
+
 pso/ui/window/TWindowCtrl_801FBA28.cpp:
 	.text       start:0x801FBFA4 end:0x801FBFC4
 
@@ -6394,6 +6400,12 @@ pso/ui/city/TJudgmentSequence.cpp:
 	.bss        start:0x80514EA0 end:0x80514EB0
 	.sbss       start:0x805D2410 end:0x805D2414
 	.sdata2     start:0x805D88C0 end:0x805D88C8
+
+pso/ui/city/TMedicalCenterSequence.cpp:
+	.text       start:0x80215A4C end:0x8021650C
+	.data       start:0x804C9CD8 end:0x804C9D28
+	.bss        start:0x80514EB0 end:0x80514ED0
+	.sdata2     start:0x805D88C8 end:0x805D88D0
 
 pso/ui/window/TWindow.cpp:
 	.text       start:0x8021650C end:0x80216B84
@@ -8057,6 +8069,10 @@ pso/ui/window/TWindowSubStatusDisp_80288030.cpp:
 
 pso/ui/window/TWindowUserSort.cpp:
 	.text       start:0x80287A9C end:0x80287D24
+
+pso/ui/window/TWindowMainMenu1P.cpp:
+	.text       start:0x80287D24 end:0x80288144
+	.rodata     start:0x80450588 end:0x80450590
 
 pso/ui/window/TWindowMainMenu4P.cpp:
 	.text       start:0x80288144 end:0x80288308
@@ -11273,8 +11289,9 @@ pso/boss/olgaflow/TBoss6Type2_8036DC80.cpp:
 pso/unk/text_8036F764.cpp:
 	.text       start:0x8036E300 end:0x8036E300
 
-pso/unk/TLobby_8036F81C.cpp:
+pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.cpp:
 	.text       start:0x8036E300 end:0x8036E378
+	.sdata      start:0x805D06F8 end:0x805D0700
 
 base/PPCArch.c:
 	.text       start:0x8036E378 end:0x8036E414
