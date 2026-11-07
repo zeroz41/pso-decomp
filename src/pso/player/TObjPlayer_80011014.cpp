@@ -3519,11 +3519,11 @@ int TObjChara::calc_distance_accuracy_penalty(void *attacker, void *body_arg, vo
 #undef show_miss_popup__9TObjCharaFPCf
 #pragma pop
 
-const char lbl_805D7DA8[] = "EXP";
+const char player_exp_gain_label[] = "EXP";
 
 void display_exp_gain(s32 arg0, u32 arg1, s32 arg2, s32 arg3) {
     if ((((s32 (*)(s32, u32))obj_testFlags30__14TObjCollidableFUl)(arg0, 0x02000000) == 0) && (((s32 (*)(s32))is_locally_controlled__10TObjPlayerFPv)(arg0) == 0) && (arg1 != 0U)) {
-        create_font_small_task(arg1, 0xFFFF00FF, 0x14, arg2, (s32 *)lbl_805D7DA8, arg3, ((s32 (*)(s32))get_entity_id)(arg0));
+        create_font_small_task(arg1, 0xFFFF00FF, 0x14, arg2, (s32 *)player_exp_gain_label, arg3, ((s32 (*)(s32))get_entity_id)(arg0));
     }
 }
 
@@ -3538,19 +3538,19 @@ void show_meseta_label(s32 arg0, u32 arg1, s32 arg2, s32 arg3) {
     }
 }
 
-const char lbl_805D7DAC[] = "TP";
+const char player_tp_label[] = "TP";
 
 void show_tp_font(s32 arg0, u32 arg1, s32 arg2, s32 arg3) {
     if ((((s32 (*)(s32, s32))obj_testFlags30__14TObjCollidableFUl)(arg0, 0x02000000) == 0) && (((s32 (*)(s32))is_locally_controlled__10TObjPlayerFPv)(arg0) == 0) && (arg1 != 0U)) {
-        create_font_small_task_default_color(arg1, 0xFF00B2FF, 0x14, arg2, (s32 *)lbl_805D7DAC, arg3);
+        create_font_small_task_default_color(arg1, 0xFF00B2FF, 0x14, arg2, (s32 *)player_tp_label, arg3);
     }
 }
 
-const char lbl_805D7DB0[] = "HP";
+const char player_hp_label[] = "HP";
 
 void draw_hp_label(void *arg0, u32 arg1, s32 arg2, s16 arg3) {
     if ((((s32 (*)(void *, s32))obj_testFlags30__14TObjCollidableFUl)(arg0, 0x02000000) == 0) && (((s32 (*)(void *))is_locally_controlled__10TObjPlayerFPv)(arg0) == 0) && (arg1 != 0U)) {
-        create_font_small_task_default_color(arg1, 0xFF00FF00, 0x14, arg2, (s32 *)lbl_805D7DB0, (s16)arg3);
+        create_font_small_task_default_color(arg1, 0xFF00FF00, 0x14, arg2, (s32 *)player_hp_label, (s16)arg3);
     }
 }
 
