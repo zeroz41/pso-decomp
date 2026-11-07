@@ -7820,14 +7820,14 @@ force_active:
   - lbl_8049D5A8
   - lbl_8049D5E8
   - lbl_8049D638
-  - lbl_8049D678
-  - lbl_8049D68C
-  - lbl_8049D6A0
-  - lbl_8049D6B4
-  - lbl_8049D6C8
-  - lbl_8049D6DC
-  - lbl_8049D6F0
-  - lbl_8049D704
+  - hair_bone_rotation_desc_00
+  - hair_bone_rotation_desc_01
+  - hair_bone_rotation_desc_02
+  - hair_bone_rotation_desc_03
+  - hair_bone_rotation_desc_04
+  - hair_bone_rotation_desc_05
+  - hair_bone_rotation_desc_06
+  - hair_bone_rotation_desc_07
   - lbl_8049D718
   - lbl_8049D72C
   - lbl_8049D740
