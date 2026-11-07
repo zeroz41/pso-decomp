@@ -25,7 +25,7 @@ extern u8 chr_select_rng_state[];
 extern s32 chr_select_serial_seeds[];
 char *strncpy(char *, const char *, u32);
 void *memcpy(void *, const void *, u32);
-extern char lbl_804C8954[];
+extern char memory_card_character_dir_name[];
 extern s32 lbl_805D49B4;
 void poll_load_status__15TAdPlayerLoadGCFl(s32, void *);
 extern char lbl_804C88C0[];
@@ -129,11 +129,11 @@ u8 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
     u8 *data;
     s32 saved;
     buf = (u8 *)TQuestVmDownLoadServer::alloc(0x214B0);
-    res = TAdPlayerLoadGC::find_card_file(0, lbl_804C8954);
+    res = TAdPlayerLoadGC::find_card_file(0, memory_card_character_dir_name);
     if (res == 0) {
         lbl_805D49B4 = 1;
         TAdSinglePlyChrSelectGC::set_card_disk_id(0);
-        res = TAdSinglePlyChrSelectGC::load_player_slot(0, lbl_804C8954, buf);
+        res = TAdSinglePlyChrSelectGC::load_player_slot(0, memory_card_character_dir_name, buf);
         TAdSinglePlyChrSelectGC::wait_for_card_load(0);
         TAdSinglePlyChrSelectGC::copy_name(0);
     }

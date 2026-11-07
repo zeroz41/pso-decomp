@@ -43,8 +43,8 @@ CardFileInfo_804C88C0 lbl_804C88C0 = {
     { 0x35, 0x04, 0x08, 0x1A, 0x0A, 0x07, 'T', 'T', 'T', 'U' },
 };
 char pso_system_card_filename[0x20] = "PSO_SYSTEM";
-char lbl_804C8934[0x20] = "PSO3_SYSTEM";
-char lbl_804C8954[0x20] = "PSO3_CHARACTER";
+char memory_card_system_dir_name[0x20] = "PSO3_SYSTEM";
+char memory_card_character_dir_name[0x20] = "PSO3_CHARACTER";
 CardFileComment_804C8974 lbl_804C8974 = {
     "EPISODE I & II", "SYSTEM_FILE", 0,
     { 0x35, 0x04, 0x08, 0x1A, 0x0A, 0x07, 'U', 'T', 'T', 'T' },
@@ -185,14 +185,14 @@ s32 load_system_file__23TAdSinglePlyChrSelectGCFiPv(s32 chan, s32 *arg1) {
     if (TAdPlayerLoadGC__sub_801E1B50((void *)chan) != 0) {
         return 0;
     }
-    if (TAdPlayerLoadGC::find_card_file(chan, (const char *)lbl_804C8934) != 0) {
+    if (TAdPlayerLoadGC::find_card_file(chan, (const char *)memory_card_system_dir_name) != 0) {
         return 0;
     }
     lbl_805D49B4 = 1;
     TAdSinglePlyChrSelectGC::set_card_disk_id(chan);
     ok = 0;
     buf = (Buf_801FBFD0 *)TQuestVmDownLoadServer::alloc(0x6000);
-    if (TAdSinglePlyChrSelectGC::load_player_slot(chan, lbl_804C8934, buf) == 0 &&
+    if (TAdSinglePlyChrSelectGC::load_player_slot(chan, memory_card_system_dir_name, buf) == 0 &&
         TAdSinglePlyChrSelectGC::wait_for_card_load(chan) == 1) {
         h = &buf->hdr;
         v = h->f118;
