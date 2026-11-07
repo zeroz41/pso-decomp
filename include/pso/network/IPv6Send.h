@@ -14,7 +14,7 @@ struct NetPacketFragment {
 struct NetPacket {
     s16 in_use;
     u8 padding_02[2];
-    s32 fragment_count;
+    u32 fragment_count;
     u32 total_bytes;
     NetPacketFragment fragments[12];
 };

@@ -42,6 +42,7 @@ struct Obj_8041ED8C {
     u32 fDC;
     u8 padE0[4];
     u8 fE4[4];
+
     u8 fE8;
     u8 padE9[3];
     u32 fEC;
@@ -102,7 +103,7 @@ struct SendRecord_8041FFF8 { s32 arg; u8 pad4[4]; s16 len; s16 off; void (*cb)(s
 
 struct Sock_8041FFF8 {
     u8 pad0[0x10]; NetBufferRef buf; u8 pad18[8];
-    u32 f20; u32 f24; u32 f28; u8 pad2C[4]; u32 f30; u32 f34; NetPacketFragment items[32];
+    u32 f20; u32 f24; u32 f28; s16 f2C; u8 pad2E[2]; u32 f30; u32 f34; NetPacketFragment items[32];
     u8 pad1B8[0x1FC - 0x1B8]; s32 f1FC; u8 pad200[4];
     u8 flag : 1; u8 rest : 7;
     u8 pad205[0x530 - 0x205]; u32 f530; u8 pad534[0x544 - 0x534];
@@ -623,6 +624,241 @@ s32 TLobby__sub_8041FFF8(u32 len, Sock_8041FFF8 *s) {
         set_thread_state_and_resume__6TLobbyFv(idx, s->f1FC, 0);
     } else if (s->f34 == 0) {
         set_thread_state_and_resume__6TLobbyFv(idx, s->f1FC, 0);
+    }
+    return 0;
+}
+
+s32 TLobby__sub_80420410(u32 off, u32 len, NetPacket *pkt, Sock_8041FFF8 *s) {
+    s32 ring;
+    u32 rem;
+    s32 start;
+    u16 o;
+    s32 idx;
+    s32 n;
+    s32 i;
+    s32 j;
+    s32 first;
+    s32 cnt;
+    s32 k;
+    s32 m;
+    s32 l;
+    NetPacketFragment *e;
+    NetPacketFragment *it;
+    SendRecord_8041FFF8 rec;
+    NetBufferRef a;
+    NetBufferRef c;
+    NetBufferRef b;
+    NetBufferRef tmp;
+    if (s->flag == 1) {
+        a.kind = 1;
+        rem = len;
+        c.kind = 1;
+        b.kind = 1;
+        if (rem != 0 && s->f20 != 0) {
+            ((TLobby *)&b)->set_value_and_enable((s32)&rec);
+            ring = s->f24;
+            NetMemcpy(&a, &s->buf, sizeof(NetBufferRef));
+            if (ring != 0) {
+                TLobby__sub_80406EB8(&a, ring * sizeof(SendRecord_8041FFF8));
+            }
+            TLobby__sub_80406FD8(&b, &a, sizeof(SendRecord_8041FFF8));
+            if (off != 0) {
+                while (rec.len <= off) {
+                    off -= rec.len;
+                    if (ring < 64) {
+                        ring++;
+                    } else {
+                        ring = 0;
+                    }
+                    NetMemcpy(&a, &s->buf, sizeof(NetBufferRef));
+                    if (ring != 0) {
+                        TLobby__sub_80406EB8(&a, ring * sizeof(SendRecord_8041FFF8));
+                    }
+                    TLobby__sub_80406FD8(&b, &a, sizeof(SendRecord_8041FFF8));
+                }
+                NetMemcpy(&c, &rec, sizeof(NetBufferRef));
+                rec.len -= (s16)off;
+                TLobby__sub_80406EB8(&c, rec.off);
+                TLobby__sub_80406EB8(&c, off);
+            } else {
+                NetMemcpy(&c, &rec, sizeof(NetBufferRef));
+                TLobby__sub_80406EB8(&c, rec.off);
+            }
+            first = pkt->fragment_count;
+            while (rem != 0) {
+                it = &pkt->fragments[pkt->fragment_count];
+                if (rem >= rec.len) {
+                    pkt->total_bytes += it->length = rec.len;
+                    rem -= rec.len;
+                } else {
+                    it->length = rem;
+                    pkt->total_bytes += rem;
+                    rem = 0;
+                }
+                NetMemcpy(&it->buffer, &c, sizeof(NetBufferRef));
+                pkt->fragment_count++;
+                if (rem != 0) {
+                    if (ring < 64) {
+                        ring++;
+                    } else {
+                        ring = 0;
+                    }
+                    NetMemcpy(&a, &s->buf, sizeof(NetBufferRef));
+                    if (ring != 0) {
+                        TLobby__sub_80406EB8(&a, ring * sizeof(SendRecord_8041FFF8));
+                    }
+                    TLobby__sub_80406FD8(&b, &a, sizeof(SendRecord_8041FFF8));
+                    NetMemcpy(&c, &rec, sizeof(NetBufferRef));
+                }
+            }
+            cnt = pkt->fragment_count - first;
+            i = (cnt - 2) / 2;
+            j = (cnt + 1) / 2;
+            for (; i >= 0 && j < cnt; i--, j++) {
+                NetMemcpy(&tmp, &pkt->fragments[j].buffer, sizeof(NetBufferRef));
+                NetMemcpy(&pkt->fragments[j].buffer, &pkt->fragments[i].buffer, sizeof(NetBufferRef));
+                NetMemcpy(&pkt->fragments[i].buffer, &tmp, 4);
+                k = pkt->fragments[j].length;
+                pkt->fragments[j].length = pkt->fragments[i].length;
+                pkt->fragments[i].length = k;
+            }
+            return 0;
+        }
+        return -1;
+    }
+    /* idx is never set to a slot here, but the original keeps it in a register and tests it below */
+    idx = -1;
+    o = off;
+    start = o + s->f24;
+    n = 0;
+    if (off >= s->f20 + s->f34) {
+        return -1;
+    }
+    if (off < s->f20) {
+        if (len + off <= s->f20) {
+            if (s->f24 + off < s->f530) {
+                if (len + (s->f24 + off) <= s->f530) {
+                    pkt->fragment_count = 1;
+                    NetMemcpy(&pkt->fragments[0].buffer, &s->buf, sizeof(NetBufferRef));
+                    TLobby__sub_80406EB8(&pkt->fragments[0].buffer, start);
+                    pkt->fragments[0].length = len;
+                } else {
+                    pkt->fragment_count = 2;
+                    NetMemcpy(&pkt->fragments[0].buffer, &s->buf, sizeof(NetBufferRef));
+                    NetMemcpy(&pkt->fragments[1].buffer, &s->buf, sizeof(NetBufferRef));
+                    TLobby__sub_80406EB8(&pkt->fragments[1].buffer, start);
+                    k = s->f530 - start;
+                    pkt->fragments[1].length = k;
+                    pkt->fragments[0].length = len - k;
+                }
+            } else {
+                pkt->fragment_count = 1;
+                NetMemcpy(&pkt->fragments[0].buffer, &s->buf, sizeof(NetBufferRef));
+                TLobby__sub_80406EB8(&pkt->fragments[0].buffer, start - s->f530);
+                pkt->fragments[0].length = len;
+            }
+            pkt->total_bytes = len;
+            return 0;
+        }
+        len -= s->f20 - o;
+    } else {
+        off -= s->f20;
+        e = s->items;
+        for (n = 0; n < s->f30; n++) {
+            if (off < e->length) {
+                pkt->fragment_count = 1;
+                first = n;
+                o = off;
+                NetMemcpy(&pkt->fragments[0].buffer, &e->buffer, sizeof(NetBufferRef));
+                TLobby__sub_80406EB8(&pkt->fragments[0].buffer, o);
+                pkt->total_bytes = len;
+                pkt->fragments[0].length = len;
+                if (len + off <= e->length) {
+                    pkt->total_bytes = len;
+                    pkt->fragments[0].length = len;
+                    return 0;
+                }
+                k = e->length - o;
+                pkt->total_bytes = k;
+                pkt->fragments[0].length = k;
+                for (n++; n < s->f30; n++) {
+                    m = n - first;
+                    for (l = m - 1; m > 0; m--, l--) {
+                        NetMemcpy(&pkt->fragments[m].buffer, &pkt->fragments[l].buffer, sizeof(NetBufferRef));
+                        pkt->fragments[m].length = pkt->fragments[l].length;
+                    }
+                    len -= k;
+                    pkt->fragment_count++;
+                    e++;
+                    NetMemcpy(&pkt->fragments[0].buffer, &e->buffer, sizeof(NetBufferRef));
+                    if ((s32)len <= e->length) {
+                        pkt->fragments[0].length = len;
+                        pkt->total_bytes += len;
+                        return 0;
+                    }
+                    pkt->fragments[0].length = e->length;
+                    pkt->total_bytes += e->length;
+                    k = e->length;
+                }
+                pkt->total_bytes = 0;
+                pkt->fragments[0].length = 0;
+                pkt->fragments[1].length = 0;
+                break;
+            }
+            off -= e->length;
+            e++;
+        }
+        return 0;
+    }
+    e = &s->items[i = 0];
+    for (; i < s->f30; i++) {
+        if (len <= e->length) {
+            pkt->fragment_count = 1;
+            NetMemcpy(&pkt->fragments[0].buffer, &e->buffer, sizeof(NetBufferRef));
+            pkt->total_bytes = len;
+            n = 1;
+            pkt->fragments[0].length = len;
+            break;
+        }
+        len -= e->length;
+        e++;
+    }
+    e--;
+    for (i--; i > -1; i--) {
+        pkt->fragment_count++;
+        NetMemcpy(&pkt->fragments[n].buffer, &e->buffer, sizeof(NetBufferRef));
+        pkt->total_bytes += pkt->fragments[n].length = e->length;
+        n++;
+        e--;
+    }
+    it = &pkt->fragments[n];
+    if (idx < 0) {
+        k = o + s->f24;
+        if (k < s->f530) {
+            if (s->f24 + s->f20 <= s->f530) {
+                pkt->fragment_count += 1;
+                NetMemcpy(&it->buffer, &s->buf, sizeof(NetBufferRef));
+                TLobby__sub_80406EB8(&it->buffer, k);
+                it->length = s->f20 - o;
+            } else {
+                pkt->fragment_count += 2;
+                NetMemcpy(&it->buffer, &s->buf, sizeof(NetBufferRef));
+                NetMemcpy(&it[1].buffer, &s->buf, sizeof(NetBufferRef));
+                TLobby__sub_80406EB8(&it[1].buffer, k);
+                it->length = s->f20 - o - (it[1].length = s->f530 - k);
+            }
+        } else {
+            pkt->fragment_count += 1;
+            NetMemcpy(&it->buffer, &s->buf, sizeof(NetBufferRef));
+            TLobby__sub_80406EB8(&it->buffer, k - s->f530);
+            it->length = s->f20 - o;
+        }
+        pkt->total_bytes += s->f20 - o;
+    } else {
+        pkt->fragment_count++;
+        NetMemcpy(&it->buffer, &s->items[idx].buffer, 4);
+        TLobby__sub_80406EB8(&it->buffer, o);
+        pkt->total_bytes += it->length = s->f2C - o;
     }
     return 0;
 }
