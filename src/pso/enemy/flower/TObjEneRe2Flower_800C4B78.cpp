@@ -87,8 +87,8 @@ void mem_free(void *);
 s32 is_alive__8TObjBaseFv(s32);
 extern u8 *camera_ctrl_instance;
 
-extern const char lbl_8043BC48[0x1C] = "TObjEneRe2Flower_EffCurse3";
-s32 lbl_805D2A58 = (s32)lbl_8043BC48;
+extern const char TObjEneRe2Flower_EffCurse3__class_name_string[0x1C] = "TObjEneRe2Flower_EffCurse3";
+s32 TObjEneRe2Flower_EffCurse3__name = (s32)TObjEneRe2Flower_EffCurse3__class_name_string;
 extern void *__vt__26TObjEneRe2Flower_EffCurse3[];
 #define __vt__26TObjEneRe2Flower_EffCurse3 ((s32 *)__vt__26TObjEneRe2Flower_EffCurse3)
 #pragma push
@@ -121,7 +121,7 @@ TObjEneRe2Flower_EffCurse3::~TObjEneRe2Flower_EffCurse3() {
     if (*(void * *)&this->unk_24 != NULL) { queue_destruction__7TObjectFv((*(void * *)&this->unk_24)); *(s32 *)&this->unk_24 = 0; }
 }
 TObjEneRe2Flower_EffCurse3::TObjEneRe2Flower_EffCurse3(s32 arg1, s32 arg2) : TObject((TObject *)arg1) {
-    *(s32 *)&this->m_name = (s32) lbl_805D2A58;
+    *(s32 *)&this->m_name = (s32) TObjEneRe2Flower_EffCurse3__name;
     *(s32 *)((s8 *)this + 0x1C) = 0;
     (this->m_20) = arg2;
     if (is_alive__8TObjBaseFv((this->m_20)) != 0) {

@@ -88,7 +88,7 @@ s32 is_state_1f__14TBoss6PlotFalzFUi(u32 arg0);
 void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0);
 
 }
-extern "C" const char lbl_80478088[] = "TBoss6Demo21_TYPE2_DEAD";
+extern "C" const char TBoss6Demo21_TYPE2_DEAD__class_name_string[] = "TBoss6Demo21_TYPE2_DEAD";
 extern "C" const u32 lbl_804780A0[3] = {0xc61c4000, 0x0, 0x0};
 extern "C" const u32 lbl_804780AC[3] = {0x0, 0x0, 0xc30e0000};
 extern "C" const u32 lbl_804780B8[3] = {0x0, 0xc0000000, 0x40cccccd};
@@ -99,7 +99,7 @@ extern "C" const u32 lbl_80478134[3] = {0x0, 0x0, 0x0};
 extern "C" const u32 lbl_80478140[3] = {0x1010000, 0x0, 0x3f333333};
 extern "C" const u32 boss6_type2_death_emitter_ranges[12] = {0x0, 0x8e, 0x228, 0xfa, 0x13a, 0x22a, 0x11d, 0x1ac, 0x22e, 0xf2, 0x13a, 0x179};
 extern "C" const u32 lbl_8047817C[3] = {0xffff4000, 0xffffff60, 0xffff4000};
-extern "C" const char *TBoss6Demo21_TYPE2_DEAD__name = lbl_80478088;
+extern "C" const char *TBoss6Demo21_TYPE2_DEAD__name = TBoss6Demo21_TYPE2_DEAD__class_name_string;
 #define lbl_804780A0 ((u8 *)lbl_804780A0)
 #define lbl_804780AC ((Vec_8033E0F0 *)lbl_804780AC)
 #define lbl_804780B8 ((Vec_8033E0F0 *)lbl_804780B8)

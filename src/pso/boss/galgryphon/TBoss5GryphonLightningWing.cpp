@@ -21,7 +21,7 @@ struct Stack_80351DA8 {
 #pragma readonly_strings on
 
 extern "C" {
-const char *lbl_805D4368 = "TBoss5GryphonLightningWing";
+const char *TBoss5GryphonLightningWing__name = "TBoss5GryphonLightningWing";
 }
 
 
@@ -53,7 +53,7 @@ s32 __nw__7TObjectFUl(int);
 extern const f32 lbl_805D8D48;
 s32 TBoss5GryphonLightning__ct(f32);
 extern u8 __vt__26TBoss5GryphonLightningWing[];
-extern const char *lbl_805D4368;
+extern const char *TBoss5GryphonLightningWing__name;
 s32 TBoss8Dragon__sub_80063FB8(s32, s32 *, f32);
 
 
@@ -101,7 +101,7 @@ s32 __ct__26TBoss5GryphonLightningWingFv(int arg0, void *arg1, void *a, void *mi
     s32 i;
     TBoss5GryphonLightning__ct(20.0f);
     ((Wing_80351C18 *)arg0)->vt = __vt__26TBoss5GryphonLightningWing;
-    ((Wing_80351C18 *)arg0)->x0 = ((s32)lbl_805D4368);
+    ((Wing_80351C18 *)arg0)->x0 = ((s32)TBoss5GryphonLightningWing__name);
     ((Wing_80351C18 *)arg0)->n = 3;
     ((Wing_80351C18 *)arg0)->x98 = (s32)arg5;
     ((Wing_80351C18 *)arg0)->x9C = (s32)arg5 + (s32)arg6;

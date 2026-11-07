@@ -15,7 +15,7 @@
 #pragma readonly_strings on
 
 extern "C" {
-const char *lbl_805D3810 = "TTecResta";
+const char *TTecResta__name = "TTecResta";
 }
 
 
@@ -117,7 +117,7 @@ extern "C" {
 s32 get_entity_id(int);
 s32 TTecPlayerInfluence__ct(void *, void *, void *, void *);
 extern s32 __vt__9TTecResta[];
-extern const char *lbl_805D3810;
+extern const char *TTecResta__name;
 u8 *TTecResta__sub_80239C48(TTecResta *arg0, s32 arg1, s32 arg2, s32 arg3);
 f32 *calc_technique_parameters(s32, s32, s32);
 s32 is_technique_ready__8TTecCtrlFv(int);
@@ -194,7 +194,7 @@ u8 *TTecResta__sub_80239C48(TTecResta *arg0, s32 owner, s32 pos, s32 level) {
     TTecPlayerInfluence__ct((void *)arg0, (void *)owner, (void *)pos, (void *)level);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80239C48___vt__9TTecResta *)&__vt__9TTecResta).value;
     ((TObjPlayer *)((u8 *)arg0 + 0xE0))->construct_target_cursor_records();
-    *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)lbl_805D3810);
+    *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)TTecResta__name);
     arg0->m_13c = 0;
     arg0->init_parameters();
     temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xDC));
@@ -220,7 +220,7 @@ void *TTecResta__ct(TTecResta *arg0, void *owner, void *pos, void *arg3, void *l
     TTecPlayerInfluence__ct(arg0, owner, pos, level);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecResta;
     ((TObjPlayer *)((u8 *)arg0 + 0xE0))->construct_target_cursor_records();
-    *(s32 *)((s8 *)arg0 + 0) = ((s32)lbl_805D3810);
+    *(s32 *)((s8 *)arg0 + 0) = ((s32)TTecResta__name);
     *(s32 *)&arg0->m_13c = 1;
     copy_technique_target_list((u8 *)arg0 + 0xE0, arg3);
     arg0->init_parameters();

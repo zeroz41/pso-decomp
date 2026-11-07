@@ -293,7 +293,7 @@ static TObjChipParams forest_box_break_params[4] = {
 };
 
 // TObjContainerBase's name (init_container_base and TObjContainerBase__ct install it)
-const char *lbl_805D32E8 = "TObjContainerBase";
+const char *TObjContainerBase__name = "TObjContainerBase";
 const char *TObjContainerItem__name = "TObjContainerItem";
 const char *TObjContainerEnemy__name = "TObjContainerEnemy";
 const char *TObjContainerNoItem__name = "TObjContainerNoItem";
@@ -751,7 +751,7 @@ typedef char RecoveredGlobal_80188DC0___vt__17TObjContainerBase_size[sizeof(Reco
 u8 *TObjContainerBase__ct(u8 *arg0, s32 arg1, s32 arg2) {
     init_container_base(arg0, arg1, arg2);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80188DC0___vt__17TObjContainerBase *)&__vt__17TObjContainerBase).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D32E8;
+    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjContainerBase__name;
     ((TObjContainerBase *)arg0)->mode = 0;
     ((TObjContainerBase *)arg0)->actorFlags = (s32) (((TObjContainerBase *)arg0)->actorFlags | 0x60000000);
     init_collision_body_parts(arg0, &forest_box_collision_body_parts, 1);
@@ -1433,7 +1433,7 @@ u8 *init_container_base(u8 *arg0, s32 arg1, s32 arg2) {
     __ct__9TObjCharaFP7TObject(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804B6C24.value;
     __ct__18CameraDistanceFadeFv(arg0 + 0x340);
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D32E8;
+    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjContainerBase__name;
     ((TUnk_804B6C24 *)(arg0))->apply_object_set_data((void *)arg2);
     *(f32 *)((s8 *)arg0 + 0x334) = (f32) lbl_805DBD00;
     ((TUnk_804B6C24 *)arg0)->m_338 = (f32) lbl_805DBD04;

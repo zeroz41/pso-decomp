@@ -11,7 +11,7 @@ struct RecoveredGlobal_80153FD0___vt__16TObjFogCollision {
 extern "C" {
 s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__16TObjFogCollision[];
-extern s32 lbl_805D2E78;
+extern s32 TObjFogCollision__name;
 u8 *TObjFogCollision__ct(u8 *arg0, s32 arg1, s32 arg2);
 void *TObjFogCollision__create(void *arg0);
 void *__dt__16TObjFogCollisionFv(void *arg0, s16 arg1);
@@ -30,7 +30,7 @@ typedef char RecoveredGlobal_80153FD0___vt__16TObjFogCollision_size[sizeof(Recov
 u8 *TObjFogCollision__ct(u8 *fog_collision, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(fog_collision);
     *(s32 **)((s8 *)fog_collision + 0x18) = &(*(RecoveredGlobal_80153FD0___vt__16TObjFogCollision *)&__vt__16TObjFogCollision).value;
-    *(s32 *)((s8 *)fog_collision + 0) = (s32) lbl_805D2E78;
+    *(s32 *)((s8 *)fog_collision + 0) = (s32) TObjFogCollision__name;
     ((TObjFogCollision *)(fog_collision))->apply_object_set_data((void *)arg2);
     ((TObjFogCollision *)fog_collision)->m_90 = 0;
     ((TObjFogCollision *)fog_collision)->m_94 = 0;

@@ -51,7 +51,7 @@ Challenge4PItemCode TChallenge4PItemSelect__item_table[8] = {
     { 0, 0x2B, 0 }, { 0, 0x48, 0 }, { 0, 0x64, 0 }, { 0, 0x28, 0 },
     { 0, 0x35, 0 }, { 0, 0x52, 0 }, { 0, 0x2A, 0 }, { 0, 0x59, 0 },
 };
-extern void *lbl_805D433C;
+extern void *TChallenge4PItemSelect__name;
 
 extern "C" { s32 TChallenge4PResult__slot_entries[4]; }
 
@@ -409,7 +409,7 @@ void resume_challenge_result_processing(void *arg0) {
 }
 
 TChallenge4PItemSelect::TChallenge4PItemSelect(TObject *parent, TChallenge4PResult *resultOwner) : TObject(parent) {
-    m_name = (const char *)lbl_805D433C;
+    m_name = (const char *)TChallenge4PItemSelect__name;
     result = resultOwner;
     state = 0;
     onClosed = 0;

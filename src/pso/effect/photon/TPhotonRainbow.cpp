@@ -56,7 +56,7 @@ extern "C" {
 #pragma readonly_strings on
 
 extern "C" {
-const char *lbl_805D3520 = "TPhotonRainbow";
+const char *TPhotonRainbow__name = "TPhotonRainbow";
 }
 
 
@@ -65,13 +65,13 @@ extern "C" {
 s32 __ct__8TObjBaseFP7TObject();
 
 extern void *__vt__14TPhotonRainbow[];
-extern const char *lbl_805D3520;
+extern const char *TPhotonRainbow__name;
 extern u8 *photon_blast_shared_resource;
 
 u8 *TPhotonRainbow__ct(u8 *photon_rainbow, s32 arg1_unused, s32 arg2) {
     __ct__8TObjBaseFP7TObject();
     *(s32 **)((s8 *)photon_rainbow + 0x18) = (s32 *)&__vt__14TPhotonRainbow;
-    *(s32 *)((s8 *)photon_rainbow + 0) = (s32) ((s32)lbl_805D3520);
+    *(s32 *)((s8 *)photon_rainbow + 0) = (s32) ((s32)TPhotonRainbow__name);
     if ((s32) ((TPhotonRainbow *)photon_rainbow)->m_a8 == 1) {
         ((TPhotonRainbow *)photon_rainbow)->m_90 = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x6C);
         ((TPhotonRainbow *)photon_rainbow)->m_94 = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x8C);

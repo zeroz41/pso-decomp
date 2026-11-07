@@ -149,8 +149,8 @@ void set_target_index__11TMainCursorFs(void *, s32);
 s32 reset_nearest_target_record(void *);
 extern Pl_8013B0F0 *player_slot_table[12];
 
-extern const char *lbl_805D2CC0;
-void*TLOC_End::init_vtable() { init__13TUnk_804A7260FPvPv(); *(int*)((char*)this + 0x18) = (int)lbl_804A7278; this->m_name = lbl_805D2CC0; return this; }
+extern const char *TLOC_End__name;
+void*TLOC_End::init_vtable() { init__13TUnk_804A7260FPvPv(); *(int*)((char*)this + 0x18) = (int)lbl_804A7278; this->m_name = TLOC_End__name; return this; }
 void TLOC_Start::run_task() {
     s32 arg0 = (s32)this;
     Pl_8013B0F0 *pl;
@@ -221,8 +221,8 @@ Ent_8013B2C8 *get_index__11TMainCursorFv(void *);
 void TMainCursor__sub_8013E2B0(void *);
 void TMainCursor__sub_8013B2A4(u16 *arg0);
 
-extern const char *lbl_805D2CBC;
-void*TLOC_Start::init() { init__13TUnk_804A7260FPvPv(); *(int*)((char*)this + 0x18) = (int)lbl_804A7290; this->m_name = lbl_805D2CBC; return this; }
+extern const char *TLOC_Start__name;
+void*TLOC_Start::init() { init__13TUnk_804A7260FPvPv(); *(int*)((char*)this + 0x18) = (int)lbl_804A7290; this->m_name = TLOC_Start__name; return this; }
 
 void TMainCursor__sub_8013B2A4(u16 *arg0) {
     get_player_by_client_id(*arg0);
@@ -420,8 +420,8 @@ void *target_cursor_resource_descriptor[4] = {
 };
 const char *lock_on_cursor_class_name = "TLockOnCursor";
 const char *main_cursor_class_name = "TMainCursor";
-const char *lbl_805D2CBC = "TLOC_Start";
-const char *lbl_805D2CC0 = "TLOC_End";
+const char *TLOC_Start__name = "TLOC_Start";
+const char *TLOC_End__name = "TLOC_End";
 const char *lockon_list_clear_task_name = "TLOC_ListClear";
 u8 cursor_action_priority_table[20] = {
     3, 8, 11, 5, 10, 13, 4, 9, 12, 7, 21, 22, 19, 20, 0, 16, 17, 14, 6, 0,

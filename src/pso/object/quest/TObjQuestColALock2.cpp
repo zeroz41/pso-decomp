@@ -42,7 +42,7 @@ u32 init_collision_body_parts(void *, s32, s32);
 u8 * TObjQuestColBase__ct(void *, s32);
 extern RecoveredGlobal_80195BEC_lbl_80445E84 TObjQuestColALock__collision_desc;
 extern s32 __vt__18TObjQuestColALock2[];
-extern s32 lbl_805D3408;
+extern s32 TObjQuestColALock2__name;
 extern s32 quest_mission_manager;
 extern s32 quest_area_manager;
 u8 *TObjQuestColALock2__ct(TObjQuestColALock2 *arg0, s32 arg1, s32 _w2);
@@ -149,7 +149,7 @@ u8 *TObjQuestColALock2__ct(TObjQuestColALock2 *quest_col_a_lock2, s32 arg1, s32 
     u8 *temp_r4;
     TObjQuestColBase__ct(quest_col_a_lock2, arg1);
     *(s32 **)((s8 *)quest_col_a_lock2 + 0x18) = &(*(RecoveredGlobal_80195BEC___vt__18TObjQuestColALock2 *)&__vt__18TObjQuestColALock2).value;
-    *(s32 *)((s8 *)quest_col_a_lock2 + 0) = (s32) lbl_805D3408;
+    *(s32 *)((s8 *)quest_col_a_lock2 + 0) = (s32) TObjQuestColALock2__name;
     init_collision_body_parts(quest_col_a_lock2, (s32) &TObjQuestColALock__collision_desc.value, 1);
     ((TObjCollidable *)quest_col_a_lock2)->set_indexed_flags(0, 0xF0);
     temp_r4 = (u8 *)quest_col_a_lock2->bodies;

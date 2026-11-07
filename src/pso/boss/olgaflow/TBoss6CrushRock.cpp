@@ -100,7 +100,7 @@ s32 TBoss6PlotFalz::get_hp() {
     return TBoss6PlotFalz__instance;
 }
 
-extern char lbl_804796A0[];
-s32 TBoss6CrushRock__name = (s32)lbl_804796A0;
+extern char TBoss6CrushRock__class_name_string[];
+s32 TBoss6CrushRock__name = (s32)TBoss6CrushRock__class_name_string;
 
 }

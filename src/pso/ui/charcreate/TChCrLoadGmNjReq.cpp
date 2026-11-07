@@ -6,7 +6,7 @@ extern "C" void TLobby__sub_8001FE7C(void*, int);
 
 #pragma push
 #pragma readonly_strings on
-const char *lbl_805D3B58 = "TChCrLoadGmNjReq";
+const char *TChCrLoadGmNjReq__name = "TChCrLoadGmNjReq";
 #pragma pop
 
 extern "C" {
@@ -50,7 +50,7 @@ void *TChCrLoadGmNjReq__ct(void *ch_cr_load_gm_nj_req, void *arg1, void *arg2) {
     struct VOff_8028C7BC_arg0_8028C6EC *self = (struct VOff_8028C7BC_arg0_8028C6EC *)ch_cr_load_gm_nj_req;
     __ct__7TObjectFP7TObject(ch_cr_load_gm_nj_req);
     *(s32 **)((s8 *)ch_cr_load_gm_nj_req + 0x18) = __vt__16TChCrLoadGmNjReq;
-    ((TChCrLoadGmNjReq *)ch_cr_load_gm_nj_req)->m_name = lbl_805D3B58;
+    ((TChCrLoadGmNjReq *)ch_cr_load_gm_nj_req)->m_name = TChCrLoadGmNjReq__name;
     *(void **)((s8 *)ch_cr_load_gm_nj_req + 0x24) = *(void **)((s8 *)arg2 + 0x8);
     ((TChCrLoadGmNjReq *)ch_cr_load_gm_nj_req)->m_28 = *(void **)((s8 *)arg2 + 0x10);
     *(void **)((s8 *)ch_cr_load_gm_nj_req + 0x1C) = *(void **)((s8 *)arg2 + 0x4);

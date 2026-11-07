@@ -515,7 +515,7 @@ extern "C" const QLCStage_80289200 quest_list_battle_stage_table[8] = {
     {18, 19, 20, lbl_80450A00},
     {21, 22, 23, lbl_80450A10},
 };
-extern "C" const char lbl_80450AA0[] = "TQuestListChallenge";
-extern "C" const char *TQuestListChallenge__name = lbl_80450AA0;
+extern "C" const char TQuestListChallenge__class_name_string[] = "TQuestListChallenge";
+extern "C" const char *TQuestListChallenge__name = TQuestListChallenge__class_name_string;
 
 extern "C" const PairPad_80288DA4 lbl_80450AB4[1] = {{0x43A60000, 0x43520000, 0}};

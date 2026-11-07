@@ -58,7 +58,7 @@ s32 init_collision_body_parts(void *, void *, int);
 u8 *init_container_base(u8 *arg0, s32 arg1, s32 arg2);
 extern RecoveredGlobal_8015BD68_lbl_804B00C8 TOContainerAncientEnemy__collision_body_params;
 extern s32 __vt__23TOContainerAncientEnemy[];
-extern s32 lbl_805D2F08;
+extern s32 TOContainerAncientEnemy__name;
 extern s32 tl_05;
 u8 *TOContainerAncientEnemy__ct(u8 *arg0, s32 arg1);
 extern char lbl_80440830[];
@@ -221,7 +221,7 @@ u8 *TOContainerAncientEnemy__ct(u8 *arg0, s32 arg1) {
     extern u32 ancient_container_resource_bundle;
     init_container_base((arg0), (tl_05), (arg1));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8015BD68___vt__23TOContainerAncientEnemy *)&__vt__23TOContainerAncientEnemy).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2F08;
+    *(s32 *)((s8 *)arg0 + 0) = (s32) TOContainerAncientEnemy__name;
     ((TOContainerAncientEnemy *)arg0)->mode = 0;
     ((TOContainerAncientEnemy *)arg0)->actorFlags = (s32) (((TOContainerAncientEnemy *)arg0)->actorFlags | 0x60000000);
     init_collision_body_parts(arg0, (void *)&TOContainerAncientEnemy__collision_body_params.value, 1);

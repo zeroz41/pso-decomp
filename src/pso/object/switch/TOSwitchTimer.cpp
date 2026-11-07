@@ -10,7 +10,7 @@
 #pragma readonly_strings on
 
 extern "C" {
-const char *lbl_805D3188 = "TOSwitchTimer";
+const char *TOSwitchTimer__name = "TOSwitchTimer";
 }
 
 
@@ -28,7 +28,7 @@ extern "C" {
 void __dl__7TObjectFPv(s32);
 extern RecoveredGlobal_8017858C___vt__13TOSwitchTimer __vt__13TOSwitchTimer;
 s32 __ct__8TObjBaseFP7TObject(void *);
-extern const char *lbl_805D3188;
+extern const char *TOSwitchTimer__name;
 u8 is_current_floor_switch_set(u16);
 void *__nw__7TObjectFUl(int);
 
@@ -110,7 +110,7 @@ typedef char RecoveredGlobal_80178604___vt__13TOSwitchTimer_size[sizeof(Recovere
 u8 *TOSwitchTimer__ct(u8 *switch_timer, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(switch_timer);
     *(s32 **)((s8 *)switch_timer + 0x18) = &(*(RecoveredGlobal_80178604___vt__13TOSwitchTimer *)&__vt__13TOSwitchTimer).value;
-    *(s32 *)((s8 *)switch_timer + 0) = (s32) ((s32)lbl_805D3188);
+    *(s32 *)((s8 *)switch_timer + 0) = (s32) ((s32)TOSwitchTimer__name);
     ((TOSwitchTimer *)(switch_timer))->apply_object_set_data((void *)arg2);
     ((TOSwitchTimer *)switch_timer)->sub_801782A0();
     return switch_timer;

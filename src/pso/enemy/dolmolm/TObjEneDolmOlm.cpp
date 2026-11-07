@@ -875,8 +875,8 @@ extern const u8 lbl_8047506C[0x18];
 __declspec(section ".rodata") const u8 lbl_8047506C[0x18] ATTRIBUTE_ALIGN(4) = "lo_abgc01l_wola_body.nj";
 extern const u8 lbl_80475084[0x20];
 __declspec(section ".rodata") const u8 lbl_80475084[0x20] ATTRIBUTE_ALIGN(4) = "bm_ene_abgc01_wola_body_low.bml";
-extern const u8 lbl_804750A4[0xF];
-__declspec(section ".rodata") const u8 lbl_804750A4[0xF] ATTRIBUTE_ALIGN(4) = "TObjEneDolmOlm";
+extern const u8 TObjEneDolmOlm__class_name_string[0xF];
+__declspec(section ".rodata") const u8 TObjEneDolmOlm__class_name_string[0xF] ATTRIBUTE_ALIGN(4) = "TObjEneDolmOlm";
 
 void TObjEneDolmOlm::load_params_from_table(s32 i) {
     O_80302D80 *self = (O_80302D80 *)this;

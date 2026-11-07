@@ -18,7 +18,7 @@ struct TShopKeepItemWindow;
 #pragma readonly_strings on
 
 extern "C" {
-const char *lbl_805D3640 = "TCheckRoomSequence";
+const char *TCheckRoomSequence__name = "TCheckRoomSequence";
 s32 lbl_805D6160;
 s32 TCheckRoomSequence__error_return_text_id;
 s32 TCheckRoomSequence__error_return_state;
@@ -252,7 +252,7 @@ s32 create_meseta_window(u16);
 void open_bank__18TCheckRoomSequenceFv(u8 *arg0);
 u8 *TShopSequence__ct(u8 *arg0);
 extern u8 __vt__18TCheckRoomSequence[];
-extern const char *lbl_805D3640;
+extern const char *TCheckRoomSequence__name;
 void *TCheckRoomSequence__ct(void *arg0, s32 arg1, s32 arg2_);
 void remove_bank_item_amount__18TCheckRoomSequenceFiii(s32 idx, s32 amount, s32 slot);
 void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
@@ -839,7 +839,7 @@ void *TCheckRoomSequence__ct(void *arg0, s32 arg1, s32 arg2_) {
     s32 arg2 = arg2_;
     TShopSequence__ct((u8 *)arg0);
     self->vt = __vt__18TCheckRoomSequence;
-    self->f0 = ((s32)lbl_805D3640);
+    self->f0 = ((s32)TCheckRoomSequence__name);
     self->f24 = arg2;
     self->f34 = 0;
     self->f38 = 0;

@@ -33,7 +33,7 @@ void *__nw__7TObjectFUl(int);
 
 extern void *tl_05;
 extern s32 __vt__16TObjRaderHideCol[];
-extern s32 lbl_805D3414;
+extern s32 TObjRaderHideCol__name;
 void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
 }
@@ -49,7 +49,7 @@ extern "C" {
 u8 *TObjRaderHideCol__ct(u8 *rader_hide_col, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(rader_hide_col);
     *(s32 **)((s8 *)rader_hide_col + 0x18) = &(*(RecoveredGlobal_80197490___vt__16TObjRaderHideCol *)&__vt__16TObjRaderHideCol).value;
-    *(s32 *)((s8 *)rader_hide_col + 0) = (s32) lbl_805D3414;
+    *(s32 *)((s8 *)rader_hide_col + 0) = (s32) TObjRaderHideCol__name;
     ((TObjRaderHideCol *)(rader_hide_col))->apply_object_set_data((void *)arg2);
     *(f32 *)((s8 *)rader_hide_col + 0x90) = (f32) ((TObjRaderHideCol *)rader_hide_col)->scale.x;
     ((TObjRaderHideCol *)rader_hide_col)->m_94 = 0;

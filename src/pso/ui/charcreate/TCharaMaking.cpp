@@ -45,7 +45,7 @@ const char *charamakingmot_motion_names[50] = {
 BmlResourceDescriptor creation_menu_resource_descriptor = {
     "charamakingmot.bml", charamakingmot_model_names, charamakingmot_motion_names, 0, 49,
 };
-const char *lbl_805D3B6C = "TCharaMaking";
+const char *TCharaMaking__name = "TCharaMaking";
 // Per-class value passed with each player_class_texture_archive_table entry
 // (19 entries, like the class tables).
 const s32 lbl_8045122C[19] = {

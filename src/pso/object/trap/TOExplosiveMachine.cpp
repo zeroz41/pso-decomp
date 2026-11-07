@@ -36,10 +36,10 @@ __declspec(section ".rodata") const char lbl_804412E8[] = "fs_obj_batank.gj";
 __declspec(section ".rodata") const char lbl_804412FC[] = "fs_obj_batank_a.gj";
 __declspec(section ".rodata") const char lbl_80441310[] = "fs_obj_batank_b.gj";
 __declspec(section ".rodata") const char lbl_80441324[] = "bm_o_explosive_machine.bml";
-__declspec(section ".rodata") const char lbl_80441340[] = "TOExplosiveMachine";
-__declspec(section ".rodata") const char lbl_80441354[] = "TOExplosiveMachine01";
-__declspec(section ".rodata") const char lbl_8044136C[] = "TOExplosiveMachine02";
-__declspec(section ".rodata") const char lbl_80441384[] = "TOExplosiveMachine03";
+__declspec(section ".rodata") const char TOExplosiveMachine__class_name_string[] = "TOExplosiveMachine";
+__declspec(section ".rodata") const char TOExplosiveMachine01__class_name_string[] = "TOExplosiveMachine01";
+__declspec(section ".rodata") const char TOExplosiveMachine02__class_name_string[] = "TOExplosiveMachine02";
+__declspec(section ".rodata") const char TOExplosiveMachine03__class_name_string[] = "TOExplosiveMachine03";
 
 const char *bm_o_explosive_machine_model_names[] = {
     lbl_80441268, lbl_8044127C, lbl_80441290,
@@ -51,10 +51,10 @@ BmlResourceDescriptor explosive_machine_resource_desc = {
     lbl_80441324, bm_o_explosive_machine_model_names,
     bm_o_explosive_machine_motion_names, 9, 0
 };
-const char *TOExplosiveMachine__class_name = lbl_80441340;
-const char *TOExplosiveMachine01__class_name = lbl_80441354;
-const char *TOExplosiveMachine02__class_name = lbl_8044136C;
-const char *TOExplosiveMachine03__class_name = lbl_80441384;
+const char *TOExplosiveMachine__class_name = TOExplosiveMachine__class_name_string;
+const char *TOExplosiveMachine01__class_name = TOExplosiveMachine01__class_name_string;
+const char *TOExplosiveMachine02__class_name = TOExplosiveMachine02__class_name_string;
+const char *TOExplosiveMachine03__class_name = TOExplosiveMachine03__class_name_string;
 void *explosive_machine_model_archive;
 
 }

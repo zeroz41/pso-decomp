@@ -123,7 +123,7 @@ extern const char lbl_80465D58[] = "bm_sakana_obj_seabed2.bml";
 // Per area stage and fish kind: animation frame step, then the motion's frame count.
 extern const f32 lbl_80465D74[5][3] = { { 1.0f, 1.0f, 1.0f }, { 0.4f, 0.4f, 0.4f }, { 0.4f, 0.4f, 0.4f }, { 0.4f, 0.4f, 0.4f }, { 0.0f, 0.0f, 0.0f } };
 extern const f32 lbl_80465DB0[5][3] = { { 30.0f, 30.0f, 30.0f }, { 5.0f, 20.0f, 30.0f }, { 5.0f, 5.0f, 5.0f }, { 30.0f, 30.0f, 30.0f }, { 30.0f, 30.0f, 30.0f } };
-extern const char lbl_80465DEC[] = "TObjFish";
+extern const char TObjFish__class_name_string[] = "TObjFish";
 #pragma pop
 }
 

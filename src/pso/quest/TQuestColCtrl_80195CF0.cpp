@@ -13,8 +13,8 @@ extern s32 TObjQuestCol__class_name;
 extern s32 TObjQuestColA__class_name;
 extern s32 obj_quest_col_alock_class_name;
 extern s32 obj_quest_col_apc_class_name;
-extern s32 lbl_805D33FC;
-extern s32 lbl_805D3400;
+extern s32 TObjQuestColApcIN__name;
+extern s32 TObjQuestColApcINW__name;
 extern u32 quest_collision_task_root;
 Obj_80195CF0 *find_by_id__13TQuestColCtrlFUs(u16 arg0);
 s32 TQuestColCtrl__ct(s32, s32);
@@ -34,8 +34,8 @@ Obj_80195CF0 *find_by_id__13TQuestColCtrlFUs(u16 arg0) {
              || check_value_equals__13TUnk_804B6C24Fl(cur, TObjQuestColA__class_name) != 0
              || check_value_equals__13TUnk_804B6C24Fl(cur, obj_quest_col_alock_class_name) != 0
              || check_value_equals__13TUnk_804B6C24Fl(cur, obj_quest_col_apc_class_name) != 0
-             || check_value_equals__13TUnk_804B6C24Fl(cur, lbl_805D33FC) != 0
-             || check_value_equals__13TUnk_804B6C24Fl(cur, lbl_805D3400) != 0)
+             || check_value_equals__13TUnk_804B6C24Fl(cur, TObjQuestColApcIN__name) != 0
+             || check_value_equals__13TUnk_804B6C24Fl(cur, TObjQuestColApcINW__name) != 0)
             && arg0 == get_entity_id(cur)) {
             return cur;
         }
@@ -57,8 +57,8 @@ void TQuestColCtrl::delete_by_param(s32 arg0) {
              || check_value_equals__13TUnk_804B6C24Fl(cur, TObjQuestColA__class_name) != 0
              || check_value_equals__13TUnk_804B6C24Fl(cur, obj_quest_col_alock_class_name) != 0
              || check_value_equals__13TUnk_804B6C24Fl(cur, obj_quest_col_apc_class_name) != 0
-             || check_value_equals__13TUnk_804B6C24Fl(cur, lbl_805D33FC) != 0
-             || check_value_equals__13TUnk_804B6C24Fl(cur, lbl_805D3400) != 0)
+             || check_value_equals__13TUnk_804B6C24Fl(cur, TObjQuestColApcIN__name) != 0
+             || check_value_equals__13TUnk_804B6C24Fl(cur, TObjQuestColApcINW__name) != 0)
             && cur->f6 == arg0) {
             queue_destruction__7TObjectFv(cur);
             return;

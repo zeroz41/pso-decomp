@@ -70,7 +70,7 @@ extern "C" {
 s32 __nw__7TObjectFUl(int);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern void *__vt__17TBoss8DragonColli[];
-extern s32 lbl_805D4004;
+extern s32 TBoss8DragonColli__name;
 u8 *TBoss8DragonColli__ct(u8 *arg0, s32 arg1);
 void render__19TBoss8DragonColli_CFv(void);
 void TBoss8DragonColli__sub_802F3074(void* p);
@@ -97,7 +97,7 @@ u8 *TBoss8DragonColli__ct(u8 *object, s32 arg1) {
     s32 var_r0_3;
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__17TBoss8DragonColli;
-    *(s32 *)((s8 *)object + 0) = (s32) lbl_805D4004;
+    *(s32 *)((s8 *)object + 0) = (s32) TBoss8DragonColli__name;
     stack.sp8 = 0.0f;
     stack.spC = 0.0f;
     stack.sp10 = 0.0f;

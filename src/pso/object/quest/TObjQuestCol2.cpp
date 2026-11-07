@@ -12,7 +12,7 @@ int TObjQuestCol2::vfunc_15() {
 }
 
 extern s32 __vt__13TObjQuestCol2[];
-extern s32 lbl_805D340C;
+extern s32 TObjQuestCol2__name;
 extern s32 quest_mission_manager;
 extern s32 quest_area_manager;
 
@@ -20,7 +20,7 @@ void *TObjQuestCol2__ct(TObjQuestCol2 *quest_col2) {
 
     TObjQuestColBase__ct();
     *(s32 **)((s8 *)quest_col2 + 0x18) = __vt__13TObjQuestCol2;
-    *(s32 *)((s8 *)quest_col2 + 0) = (s32) lbl_805D340C;
+    *(s32 *)((s8 *)quest_col2 + 0) = (s32) TObjQuestCol2__name;
     quest_col2->m_c0 = (s32) *(s32 *)((s8 *)quest_col2 + 0x88);
     if ((s32) quest_col2->m_c0 < 0) {
         quest_col2->m_c0 = 0;
