@@ -6330,8 +6330,8 @@ force_active:
   - fn_801DF47C
   - fn_801DF4B8
   - fn_801DF558
-  - fn_801DF740
-  - fn_801DF7F8
+  - bswap_u16_pair_field
+  - bswap_c0_lobby_entry
   - fn_801E0018
   - fn_801E0C08
   - fn_801F6520

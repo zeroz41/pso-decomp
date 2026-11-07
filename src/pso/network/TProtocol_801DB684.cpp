@@ -45,12 +45,12 @@ void TProtocol::send_block_list_request() {
     ChangeShipOrBlockPacket packet;
     u8 pad[8];
     if (m_connected != 0) {
-        fn_801DF8A8((s32)&packet);
+        construct_change_ship_block_packet((s32)&packet);
         memset(&packet, 0, sizeof(packet));
         packet.header.command = 0xA1;
         packet.header.size = sizeof(packet);
         __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&packet.payload, &m_guildcard_tag);
-        fn_801DF874(&packet);
+        bswap_change_ship_block_packet(&packet);
         send((u8 *)&packet, sizeof(packet));
     }
 }
@@ -59,12 +59,12 @@ void TProtocol::send_ship_list_request() {
     ChangeShipOrBlockPacket packet;
     u8 pad[8];
     if (m_connected != 0) {
-        fn_801DF8A8((s32)&packet);
+        construct_change_ship_block_packet((s32)&packet);
         memset(&packet, 0, sizeof(packet));
         packet.header.command = 0xA0;
         packet.header.size = sizeof(packet);
         __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&packet.payload, &m_guildcard_tag);
-        fn_801DF874(&packet);
+        bswap_change_ship_block_packet(&packet);
         send((u8 *)&packet, sizeof(packet));
     }
 }

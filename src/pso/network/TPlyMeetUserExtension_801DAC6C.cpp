@@ -100,7 +100,7 @@ void handle_cmd_9B__9TProtocolFR6packet(u8 *arg0, Regist_801DAD38 *arg1) {
         reset__18PSOV3EncryptionTCPFUl(arg0 + 0x10BC, r.key0);
         reset__18PSOV3EncryptionTCPFUl(arg0 + 0x884, r.key1);
         *(s32 *)(arg0 + 0x18F4) = 1;
-        fn_801DF2BC((s32)&pkt);
+        construct_cmd_db_regist_connect_reply((s32)&pkt);
         memset((void *)&pkt, 0, 0xE0);
         pkt.cmd = 0xDB;
         pkt.size = 0xE0;
@@ -113,7 +113,7 @@ void handle_cmd_9B__9TProtocolFR6packet(u8 *arg0, Regist_801DAD38 *arg1) {
         strncpy(pkt.e, (s32)((s32)(arg0 + 0x3EDA)), 0x30);
         strncpy(pkt.f, (s32)((s32)(arg0 + 0x3F0A)), 0x30);
         strncpy(pkt.g, (s32)((s32)(arg0 + 0x3F3A)), 0x30);
-        fn_801DF280((packet_header *)&pkt);
+        bswap_cmd_db_regist_connect_reply((packet_header *)&pkt);
         ((VObjDAD38 *)arg0)->m8(&pkt, 0xE0);
     } else {
         ((VObjDAD38 *)arg0)->m5();
