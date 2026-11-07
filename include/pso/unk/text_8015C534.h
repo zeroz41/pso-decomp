@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void fn_8015C5F8(void);
+void free_ancient_container_resources(void);
 }
 u8 *init_ancient_container(u8 *arg0, s32 arg1);
 

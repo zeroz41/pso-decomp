@@ -172,7 +172,7 @@ extern void *tl_05;
 
 }
 
-void fn_8019B09C(void) {
+void free_tuitate_bml_resource(void) {
     if ((u32) TObjTuitate__bml_resource != 0U) {
         TLobby__sub_8001FE7C((void*)TObjTuitate__bml_resource, 1);
         TObjTuitate__bml_resource = 0U;
@@ -256,7 +256,7 @@ void TObjTuitate::render() {
     set_cull_none();
 }
 
-void fn_8019AD50(void) {
+void load_bigtuitate_bml_resource(void) {
     s32 temp_r3;
     s32 var_r0;
     temp_r3 = (int)::operator new(0x440);

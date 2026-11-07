@@ -18,7 +18,7 @@ extern "C" {
 void *TObjTuitate__create(void *arg0);
 void *TObjTuitate__ct(void *arg0, void *arg1, void *arg2);
 void *__dt__11TObjTuitateFv(void *arg0, s16 arg1);
-void fn_8019B09C(void);
+void free_tuitate_bml_resource(void);
 }
 
 #endif
