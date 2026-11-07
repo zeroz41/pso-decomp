@@ -3346,101 +3346,16 @@ pso/unk/text_8013ADE4.cpp:
 pso/unk/TLobby_8013ADF0.cpp:
 	.text       start:0x8013ADF0 end:0x8013AE18
 
-pso/ui/hud/TMainCursor_8013AE18.cpp:
-	.text       start:0x8013AE18 end:0x8013AF0C
-
-pso/ui/hud/TMainCursor_8013AF0C.cpp:
-	.text       start:0x8013AF0C end:0x8013B018
-
-pso/ui/hud/TMainCursor_8013B018.cpp:
-	.text       start:0x8013B018 end:0x8013B0AC
-
-pso/ui/hud/TMainCursor_8013B0AC.cpp:
-	.text       start:0x8013B0AC end:0x8013B1CC
-
-pso/ui/hud/TMainCursor_8013B1CC.cpp:
-	.text       start:0x8013B1CC end:0x8013B260
-
-pso/ui/hud/TMainCursor_8013B260.cpp:
-	.text       start:0x8013B260 end:0x8013B4B8
-
-pso/ui/hud/TMainCursor_8013B4B8.cpp:
-	.text       start:0x8013B4B8 end:0x8013B524
+pso/ui/hud/TMainCursor.cpp:
+	.text       start:0x8013AE18 end:0x8013D91C
+	.rodata     start:0x8043F090 end:0x8043F130
+	.data       start:0x804A7130 end:0x804A7248
+	.sdata      start:0x805D2CB0 end:0x805D2CC8
 	.sdata2     start:0x805DB0C8 end:0x805DB0CC
 
-pso/ui/hud/TMainCursor_8013B524.cpp:
-	.text       start:0x8013B524 end:0x8013B690
-
-pso/ui/hud/TMainCursor.cpp:
-	.text       start:0x8013B690 end:0x8013D91C
-	.data       start:0x804A7130 end:0x804A7248
-
-pso/ui/hud/TLockOnCursor_8013D91C.cpp:
-	.text       start:0x8013D91C end:0x8013DEF8
-	.data       start:0x804A72C0 end:0x804A72D8
-
-pso/ui/hud/TMainCursor_8013DEF8.cpp:
-	.text       start:0x8013DEF8 end:0x8013DF4C
-
-pso/ui/window/TWindowActionPalette_8013DF4C.cpp:
-	.text       start:0x8013DF4C end:0x8013DF5C
-
-pso/ui/hud/TMainCursor_8013DF5C.cpp:
-	.text       start:0x8013DF5C end:0x8013E134
-
-pso/ui/hud/TMainCursor_8013E17C.cpp:
-	.text       start:0x8013E134 end:0x8013E1C8
-
-pso/ui/hud/TMainCursor_8013E1C8.cpp:
-	.text       start:0x8013E1C8 end:0x8013E2E4
-
-pso/ui/hud/TMainCursor_8013E2E4.cpp:
-	.text       start:0x8013E2E4 end:0x8013E378
-
-pso/ui/hud/TMainCursor_8013E44C.cpp:
-	.text       start:0x8013E378 end:0x8013E47C
-
-pso/ui/hud/TMainCursor_8013E47C.cpp:
-	.text       start:0x8013E47C end:0x8013E5E8
-
-pso/ui/hud/TMainCursor_8013E624.cpp:
-	.text       start:0x8013E5E8 end:0x8013E72C
-
-pso/ui/hud/TMainCursor_8013E754.cpp:
-	.text       start:0x8013E72C end:0x8013E75C
-
-pso/ui/hud/TMainCursor_8013E780.cpp:
-	.text       start:0x8013E75C end:0x8013E7B8
-
-pso/ui/hud/TMainCursor_8013E7B8.cpp:
-	.text       start:0x8013E7B8 end:0x8013EA08
-
-pso/ui/hud/TLockOnCursor_8013EA08.cpp:
-	.text       start:0x8013EA08 end:0x8013EB80
-
-pso/ui/hud/TLockOnCursor_8013EB80.cpp:
-	.text       start:0x8013EB80 end:0x8013EC94
-
 pso/ui/hud/TLockOnCursor.cpp:
-	.text       start:0x8013EC94 end:0x8013ED0C
-
-pso/ui/hud/TLockOnCursor_8013ED0C.cpp:
-	.text       start:0x8013ED0C end:0x8013EDC4
-
-pso/ui/hud/TLockOnCursor_8013EDC4.cpp:
-	.text       start:0x8013EDC4 end:0x8013EE00
-
-pso/ui/hud/TLockOnCursor_8013EE00.cpp:
-	.text       start:0x8013EE00 end:0x8013EE68
-
-pso/ui/hud/TLockOnCursor_8013EE68.cpp:
-	.text       start:0x8013EE68 end:0x8013F104
-
-pso/ui/hud/TMainCursor_8013F104.cpp:
-	.text       start:0x8013F104 end:0x8013F25C
-
-pso/camera/TCameraCtrl_8013F25C.cpp:
-	.text       start:0x8013F25C end:0x8013F264
+	.text       start:0x8013D91C end:0x8013F264
+	.data       start:0x804A72C0 end:0x804A72D8
 
 pso/ui/TLogo.cpp:
 	.text       start:0x8013F264 end:0x8013F810
