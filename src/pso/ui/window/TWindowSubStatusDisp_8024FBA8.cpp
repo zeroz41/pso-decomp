@@ -39,7 +39,6 @@ u8 get_small_font_glyph_width(s32);
 s32 TWindowSubStatusDisp__sub_800FC248(s32);
 void calc_plain_glyph_quad(s32, void *);
 void build_small_font_glyph_quad(s32, void *);
-void render_forward__20TWindowSubStatusDispFPv();
 void apply_context_transform_to_rect(s32, void *);
 s32 clip_textured_quad__19TWindowKeyBoardSoftFPvPv(s32, void *);
 void begin_screen_draw(s32);
@@ -50,7 +49,6 @@ void set_glyph_quad_extents(s32, void *);
 s32 get_font_char_advance(s32);
 s32 map_char_to_font_code(s32);
 void calc_gauge_scale__20TWindowSubStatusDispFPvPvi(s32, void *, s32);
-void end_render_forward__20TWindowSubStatusDispFPv();
 void TWindowSubStatusDisp::set_input_mode(u8 v) { *(u8*)((char*)this + 0x64) = v; }
 }
 s32 draw_small_font_string_clipped(f32 *pos, const char *s, u32 color, f32 width);
@@ -73,7 +71,7 @@ s32 draw_small_font_string_clipped(f32 *pos, const char *s, u32 color, f32 width
     x = pos[0];
     y = pos[1];
     begin_screen_draw(1);
-    render_forward__20TWindowSubStatusDispFPv();
+    TWindowSubStatusDisp::render_forward();
     set_draw_texture_and_color(0, color);
     while (*s != 0) {
         c = (u8)*s++;
@@ -200,7 +198,7 @@ s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width) {
         x += (f32)(u8)adv;
         width -= (f32)(u8)adv;
     }
-    end_render_forward__20TWindowSubStatusDispFPv();
+    TWindowSubStatusDisp::end_render_forward();
     return ok;
 }
 

@@ -36,7 +36,7 @@ void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 int update_fade__11TWindowBaseFv(void*);
 
-void TWindowDD::reset_entries(f32 v) {
+void TWindowDD::reset_entries(f32 v, s32) {
     E_803403F8 *p = (E_803403F8 *)this;
     s32 i;
     for (i = 0; i < 8; i++) {

@@ -111,7 +111,6 @@ struct Item_802AD7F0 {
 
 s32 is_split_screen();
 int copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *, void *);
-void begin_render__20TWindowSubStatusDispFl(void);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(int, int);
 s32 apply_choice__20TWindowChoiceSettingFllll(void *, int, int, int);
@@ -157,7 +156,7 @@ void draw_item_labels__15TWindowMainMenuFv(Item_802AD538 *p, Win_802AD538 *w) {
     if (((TWindowMainMenu *)p)->is_item_active() != 0 && p->x10 > 0) {
         scale = -1.0f / (0.299f + w->x38);
         uv = &main_menu_label_uv_table[p->x11];
-        begin_render__20TWindowSubStatusDispFl();
+        TWindowSubStatusDisp::begin_render();
         switch (p->x12) {
         case 0:
             rgb = 0xFFFFFF;

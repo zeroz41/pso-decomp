@@ -570,7 +570,7 @@ s32 TLobby__sub_8040C9E0(u8 *arg0, u8 *arg1);
 u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 arg2, u8 *arg3, s16 arg4);
 s32 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1);
 s32 TLobby__sub_8040FDA0(u32, s16);
-s32 is_addr_unspecified__6TLobbyFPv(u8 *arg0);
+s16 is_addr_unspecified__6TLobbyFPv(u8 *arg0);
 extern RecoveredGlobal_8040EF00_lbl_805C1B60 ipv4_address_routing_state;
 struct Ipv4Route;
 Ipv4Route *TLobby__sub_8040F76C(u32, u32);
@@ -581,7 +581,7 @@ s32 TLobby__sub_80413230(u8 *arg0, s32 arg1);
 void TLobby__sub_804136AC(s16 arg0);
 void TLobby__sub_804136CC(s16 arg0);
 s16 NetIPv6IsLoopback(u8 *arg0);
-s32 NetIPv6IsUnspecified(u8 *arg0);
+s16 NetIPv6IsUnspecified(u8 *arg0);
 s16 NetIPv6CompareAddresses(s32 arg0, s32 arg1);
 s16 TLobby__sub_8041510C(void);
 void TLobby__sub_804150EC(void);
@@ -591,7 +591,7 @@ void NetIPv6TickNeighborDiscovery(void);
 s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(s32 arg0, s32 arg1);
 extern NetworkDispatchState network_dispatch_state;
 void TLobby__sub_80419A00(void);
-s32 TLobby__sub_8041D368(u8 *arg0);
+s16 TLobby__sub_8041D368(u8 *arg0);
 u8 * TLobby__sub_8041B5C0(void *);
 extern RecoveredGlobal_8041E178_lbl_805C1D48 tcp_protocol_state;
 s32 TLobby__sub_804112B8(s32 arg0, s32 arg1, s16 arg2);
@@ -637,7 +637,7 @@ void TLobby__sub_803F97E8(int);
 s32 TLobby__sub_803FC684(u8 *, u8 *, u8 *);
 extern u8 lbl_805C0038[];
 extern s16 lbl_805D7A7C;
-s32 TLobby__sub_8040B838(u8 *dst, u8 *src, s16 len);
+s16 TLobby__sub_8040B838(u8 *dst, u8 *src, s16 len);
 s16 TLobby__sub_8040DC8C(u8 *arg0, u8 *arg1);
 s32 TLobby__sub_804217E4(void);
 s32 TLobby__sub_80421814(void);
@@ -654,8 +654,8 @@ s32 TLobby__sub_804060B8(u8 *, s32, int);
 extern u8 lobby_ppp_read_buf;
 extern u8 ppp_input_byte;
 void ppp_input_packet__6TLobbyFPv(Strm_80405A74 *arg0);
-s32 NetCompareBitsBackward(u8 *arg0, u8 *arg1, s16 arg2);
-s32 NetCompareBitPrefix(u8 *a, u8 *b, s16 bits);
+s16 NetCompareBitsBackward(u8 *arg0, u8 *arg1, s16 arg2);
+s16 NetCompareBitPrefix(u8 *a, u8 *b, s16 bits);
 s32 NetIPv6MakeSolicitedNodeMulticastAddress(u8 *arg0, u8 *arg1);
 void TLobby__sub_803F8B78(void *);
 s32 TLobby__sub_8041509C(void);
@@ -663,10 +663,22 @@ s32 TLobby__sub_80409AD8(void);
 Pkt_804081C0 *alloc_packet_with_header__6TLobbyFPvPv(Out_804081C0 *arg0, u8 *arg1);
 s32 init_ipv6_all_routers_multicast_address(u8 *arg0, s8 arg1);
 bool init_ipv6_all_nodes_multicast_address(u8 *arg0, s8 arg1);
-s32 TLobby__sub_8041A9AC(int);
+s16 TLobby__sub_8041A9AC(int);
+struct Tcb_8041D460;
+struct Tcb_8041A9AC;
+void TLobby__sub_8041D398(Tcb_8041D460 *tp, s32 start, s32 end);
+s32 TLobby__sub_8041D460(Tcb_8041D460 *tp, s32 *start, s32 *end);
+s32 TLobby__sub_80420410(s32 off, s32 len, NetPacket *m, Tcb_8041A9AC *tp);
+struct Tcb_8041B974;
+struct TcpHeader_8041B3D4;
+void TLobby__sub_8041D0C8(Tcb_8041B974 *tp, u8 *optp, s16 optlen, TcpHeader_8041B3D4 *ti);
+void TLobby__sub_8041F204(NetPacket *m, u16 off, Tcb_8041B974 *tp);
+void TLobby__sub_8041F914(NetPacket *m, u16 off, Tcb_8041B974 *tp, TcpHeader_8041B3D4 *ti);
+void TLobby__sub_8041F11C(Tcb_8041B974 *tp);
+void TLobby__sub_80422AB8(s16 listener, s32 arg1, s16 idx, u8 *faddr, u16 lport, u16 fport);
 s32 TLobby__sub_8041FFF8(int, int);
 s32 TLobby__sub_80420BD0(void *, void *, s32);
-s32 tcp_start_send(s16 arg0, u8 *arg1, void (*completion)(s16, s16), u8 arg3);
+s16 tcp_start_send(s16 arg0, u8 *arg1, void (*completion)(s16, s16), u8 arg3);
 void TLobby__sub_80406EB8(NetBufferRef *ref, s32 n);
 void TLobby__sub_80406FD8(void *, void *, s32);
 s16 TLobby__sub_80416F58(u8 *, s32, void *, void *);
@@ -1364,6 +1376,43 @@ s32 TLobby::reset_socket_table() {
     }
     return 0;
 }
+
+struct Lobby_80406624 { u8 state; u8 pad[0x121]; s16 f122; s16 f124; };
+s32 TLobby__sub_804066D8(Strm_80405A74 *s);
+
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(4)
+inline void put_ppp_header_80406624(u8 *p, u16 proto) {
+    *p++ = 0xFF;
+    *p++ = 3;
+    write_network_u16_be(p, proto);
+}
+
+inline Strm_80405A74 *add_ppp_header_80406624(Strm_80405A74 *pkt, u16 proto) {
+    Strm_80405A74 *s;
+
+    s = (Strm_80405A74 *)((TLobby *)pkt)->alloc_from_buffer(4);
+    put_ppp_header_80406624(s->p, proto);
+    return s;
+}
+
+s32 TLobby__sub_80406624(s32 arg0, s32 arg1, u16 proto, Strm_80405A74 *pkt) {
+    Lobby_80406624 *l = (Lobby_80406624 *)lbl_805C0038;
+    Strm_80405A74 *s;
+
+    if (l->state == 0) {
+        l->f122++;
+        return -1;
+    }
+    s = add_ppp_header_80406624(pkt, proto);
+    if (s == NULL) {
+        l->f124++;
+        return -1;
+    }
+    return TLobby__sub_804066D8(s);
+}
+#pragma pop
 #pragma pop
 
 struct O_80406B6C { u32 w0; u8 b4; };
@@ -1516,7 +1565,9 @@ struct Conn_8040799C { Peer_8040799C *a; s16 f4; s16 f6; s16 f8; u8 padA[2]; u8 
 struct Peer_8040799C { s16 st; s16 f2; u8 pad4; u8 f5; u8 pad6[2]; Conn_8040799C *conn; u8 addr[6]; u8 name[6]; };
 struct Ent_8040799C { s16 f0; s16 f2; s16 f4; s16 f6; s16 f8; s16 fA; s16 fC; u8 fE; u8 fF; s16 f10; u8 a12[6]; u8 a18[4]; Node_80407C60 *head; };
 struct Tbl_8040799C { s16 count; s16 h2; s16 h4; s16 h6; s16 h8; s16 hA; s16 hC; u8 padE[2]; Peer_8040799C *list; Ent_8040799C *ents; Node_80407C60 *nodes; Conn_8040799C *bufs; u8 *pool; };
-struct Out_8040799C { Conn_8040799C *a; void *b; void *c; void *d; void *e; };
+/* ARP header (ethertype 0x806): hardware/protocol type and lengths, then the opcode and the addresses. */
+struct Arp_8040799C { u8 hdr[6]; u16 op; u8 body[1]; };
+struct Out_8040799C { Arp_8040799C *a; void *b; void *c; void *d; void *e; };
 void TLobby__sub_80408060(Peer_8040799C *peer, NetPacket *pkt);
 struct Ent_80408428;
 struct Ent_80408428 *find_or_add_peer_entry__6TLobbyFsiUcPvUcPvs(s16, s32, u8, void *, u8, void *, s16);
@@ -1525,7 +1576,7 @@ struct Ent_80408428 *find_or_add_peer_entry__6TLobbyFsiUcPvUcPvs(s16, s32, u8, v
 
 typedef void (*Handler_8041A130)(s32, s16, s16, s16);
 s32 register_protocol_handler__6TLobbyFUsi(u16 type, Handler_8041A130 fn);
-void TLobby__sub_80407640(void);
+s32 TLobby__sub_80407640(void *data, s16 len, s16 id, s32 type);
 
 s32 TUdpSocket__sub_80407508(void) {
     s16 n4;
@@ -1563,6 +1614,100 @@ s32 TUdpSocket__sub_80407508(void) {
     NetRegisterTimer(60000, 1, (NetTimerCallback)TLobby__sub_804078B4);
     return 0;
 }
+
+inline Peer_8040799C *Find_8040799C(Tbl_8040799C *t, u8 k, void *name) {
+    s16 n = t->count;
+    Peer_8040799C *p = t->list;
+    for (; n > 0; n--, p++) {
+        if (p->f5 == k && p->st != 0 && NetMemcmp(p->name, name, p->f5) == 0) {
+            return p;
+        }
+    }
+    return NULL;
+}
+
+inline Ent_8040799C *FindEnt_80407640(Tbl_8040799C *t, s16 id, s16 type) {
+    s16 i;
+    s16 n;
+    Ent_8040799C *e;
+
+    if (id < 0) {
+        return NULL;
+    }
+    e = t->ents;
+    n = t->h2;
+    for (i = 0; i < n; i++, e++) {
+        if (e->f0 == 1 && e->f2 == id && e->f6 == type) {
+            return e;
+        }
+    }
+    return NULL;
+}
+
+inline s16 Check_80407640(Arp_8040799C *pkt, Ent_8040799C *e) {
+    if (NetMemcmp(pkt, &e->fA, 6) == 0 && (pkt->op == 1 || pkt->op == 2)) {
+        return 1;
+    }
+    return -1;
+}
+
+s16 TLobby__sub_804082AC(Ent_8040799C *e, Out_8040799C *o, void *out);
+
+#pragma push
+#pragma opt_common_subs on
+s32 TLobby__sub_80407640(void *data, s16 len, s16 id, s32 type) {
+    Tbl_8040799C *t = TBL;
+    Arp_8040799C *pkt;
+    Ent_8040799C *e;
+    Out_8040799C o;
+    u8 buf[8];
+    Out_8040799C r;
+    u8 *q;
+    void *s;
+
+    if (len < 8) {
+        return -1;
+    }
+    if (id < 0) {
+        return -1;
+    }
+    e = FindEnt_80407640(t, id, type);
+    if (e == NULL) {
+        return -1;
+    }
+    pkt = (Arp_8040799C *)data;
+    if (Check_80407640(pkt, e) < 0) {
+        return -1;
+    }
+    o.a = pkt;
+    q = pkt->body;
+    o.b = q;
+    q += e->fE;
+    o.c = q;
+    q += e->fF;
+    o.d = q;
+    q += e->fE;
+    o.e = q;
+    if (Find_8040799C(t, e->fF, o.c) != NULL) {
+        find_or_add_peer_entry__6TLobbyFsiUcPvUcPvs(e->f2, e->f4, e->fF, o.c, e->fE, o.b, 2);
+    }
+    if (pkt->op == 1 && TLobby__sub_804082AC(e, &o, buf) > 0) {
+        s = alloc_packet_with_header__6TLobbyFPvPv((Out_804081C0 *)&r, (u8 *)e);
+        if (s != NULL) {
+            r.a->op = 2;
+            NetMemcpy(r.b, buf, e->fE);
+            NetMemcpy(r.d, o.b, e->fE);
+            NetMemcpy(r.c, o.e, e->fF);
+            NetMemcpy(r.e, o.c, e->fF);
+            TLobby::call_handler_by_index(e->f2, type, 0, (s32)o.b, (s32)s);
+            if (s != NULL) {
+                ((TUdpSocket *)s)->release_entry();
+            }
+        }
+    }
+    return 0;
+}
+#pragma pop
 
 #pragma push
 #pragma dont_inline off
@@ -1620,17 +1765,6 @@ inline Ent_8040799C *Lookup_8040799C(Tbl_8040799C *t, s16 idx) {
     return NULL;
 }
 
-inline Peer_8040799C *Find_8040799C(Tbl_8040799C *t, u8 k, void *name) {
-    s16 n = t->count;
-    Peer_8040799C *p = t->list;
-    for (; n > 0; n--, p++) {
-        if (p->f5 == k && p->st != 0 && NetMemcmp(p->name, name, p->f5) == 0) {
-            return p;
-        }
-    }
-    return NULL;
-}
-
 inline void Clear_8040799C(Peer_8040799C *p) {
     if (p->conn != NULL) {
         p->conn->a = 0;
@@ -1643,7 +1777,7 @@ inline void Send_8040799C(Ent_8040799C *e, void *name) {
     Out_8040799C o;
     void *r = alloc_packet_with_header__6TLobbyFPvPv((Out_804081C0 *)(&o), (u8 *)e);
     if (r != NULL) {
-        o.a->f6 = 1;
+        o.a->op = 1;
         NetMemcpy(o.b, e->a12, e->fE);
         NetMemcpy(o.c, e->a18, e->fF);
         NetMemset(o.d, 0, e->fE);
@@ -1886,9 +2020,6 @@ void TLobby__sub_80408060(Peer_8040799C *peer, NetPacket *pkt) {
 #pragma pop
 #undef TBL
 
-typedef struct Node_804082AC { struct Node_804082AC *next; u8 pad4[2]; u8 f6[0x10]; } Node_804082AC;
-typedef struct Ent_804082AC { u8 pad0[0xE]; u8 fE; u8 fF; u8 pad10[2]; u8 f12[6]; u8 f18[4]; Node_804082AC *f1C; } Ent_804082AC;
-typedef struct Key_804082AC { u8 pad0[0x10]; void *f10; } Key_804082AC;
 typedef struct Pool_804082AC { u8 pad0[8]; s16 f8; } Pool_804082AC;
 
 struct Tbl_80408718;
@@ -1928,24 +2059,24 @@ Pkt_804081C0 *alloc_packet_with_header__6TLobbyFPvPv(Out_804081C0 *arg0, u8 *arg
     return pkt;
 }
 
-s32 TLobby__sub_804082AC(Ent_804082AC *arg0, Key_804082AC *arg1, void *arg2) {
+s16 TLobby__sub_804082AC(Ent_8040799C *e, Out_8040799C *o, void *out) {
     s16 i;
-    Node_804082AC *p;
+    Node_80407C60 *p;
 
-    if (NetMemcmp(arg0->f18, arg1->f10, arg0->fF) == 0) {
-        NetMemcpy(arg2, arg0->f12, arg0->fE);
+    if (NetMemcmp(e->a18, o->e, e->fF) == 0) {
+        NetMemcpy(out, e->a12, e->fE);
         return 1;
     }
-    if (arg0->f1C != NULL) {
-        p = arg0->f1C;
+    if (e->head != NULL) {
+        p = e->head;
         i = 0;
         while (p != NULL) {
             i++;
             if (lbl_805C1AB0.h8 <= i) {
                 return -1;
             }
-            if (NetMemcmp(p->f6, arg1->f10, arg0->fF) == 0) {
-                NetMemcpy(arg2, arg0->f12, arg0->fE);
+            if (NetMemcmp(p->addr, o->e, e->fF) == 0) {
+                NetMemcpy(out, e->a12, e->fE);
                 return 1;
             }
             p = p->next;
@@ -2199,7 +2330,7 @@ s32 TLobby__sub_80408F2C(s16 id, u8 *pkt);
 s32 TLobby__sub_80409130(s16 arg0, s16 arg1, s32 arg2);
 s32 TLobby__sub_80408FD8(s16 idx, s16 op, u8 *addr);
 s32 TLobby__sub_8040920C(s16 idx, u8 *mac);
-void TLobby__sub_804092FC(void);
+s32 TLobby__sub_804092FC(s16 idx);
 s32 TLobby__sub_8040939C(s16 idx);
 s32 TLobby__sub_804093EC(s16 idx);
 void TLobby__sub_804094B8(void);
@@ -2246,7 +2377,7 @@ s16 TLobby::init_net_sockets() {
     fns[1] = TLobby__sub_804094B8;
     fns[2] = (Fn_8040881C)TLobby__sub_804093EC;
     fns[3] = (Fn_8040881C)TLobby__sub_8040939C;
-    fns[4] = TLobby__sub_804092FC;
+    fns[4] = (Fn_8040881C)TLobby__sub_804092FC;
     fns[5] = (Fn_8040881C)TLobby__sub_8040920C;
     fns[6] = (Fn_8040881C)TLobby__sub_80409130;
     fns[7] = (Fn_8040881C)TLobby__sub_80408FD8;
@@ -2420,8 +2551,10 @@ struct Tbl_80408F2C;
 #pragma dont_inline off
 #pragma inline_depth(4)
 inline Conn_80408C24 *find_conn_80408C24(Glob_80408C24 *g, s16 id) {
-    Conn_80408C24 *c = g->conns;
-    s16 n = g->nconn;
+    s16 n;
+    Conn_80408C24 *c;
+    c = g->conns;
+    n = g->nconn;
     for (; n > 0; n--, c++) {
         if (c->used != 0 && c->id == id) {
             return c;
@@ -2708,6 +2841,24 @@ s32 TLobby__sub_8040920C(s16 idx, u8 *mac) {
         return -0x111;
     }
     return 0;
+}
+
+s32 TLobby__sub_804092FC(s16 idx) {
+    Glob_80408C24 *g = (Glob_80408C24 *)&lbl_805C1AD8;
+    Ent_80408C24 *e;
+
+    if (idx < 0 || idx >= g->nent) {
+        return -0x111;
+    }
+    e = g->ents;
+    e += idx;
+    if (e->used == 0) {
+        return -2;
+    }
+    if (find_conn_80408C24(g, e->id) == NULL) {
+        return -2;
+    }
+    return 6;
 }
 #pragma pop
 
@@ -3055,7 +3206,7 @@ typedef struct Ent_80409CE0 {
     s16 active;
     s16 flags;
     u8 pad[0x1C];
-    s32 (*fn)(s32, s32, s32);
+    s16 (*fn)(s32, s32, s32);
     u8 pad2[0xC];
 } Ent_80409CE0;
 
@@ -3066,8 +3217,8 @@ typedef struct Tbl_80409CE0 {
 
 #define TBL_80409CE0 (*(Tbl_80409CE0 *)&lobby_handler_table_desc)
 
-s32 TLobby__sub_80409CE0(s16 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 (*fn)(s32, s32, s32);
+s16 TLobby__sub_80409CE0(s16 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    s16 (*fn)(s32, s32, s32);
 
     if (arg0 < 0 || arg0 > TBL_80409CE0.count) {
         return -0x10F;
@@ -3091,7 +3242,7 @@ typedef struct Ent_80409D7C {
     s16 active;
     s16 flags;
     u8 pad[0x18];
-    s32 (*fn)(s32, s32, s32);
+    s16 (*fn)(s32, s32, s32);
     u8 pad2[0x10];
 } Ent_80409D7C;
 
@@ -3102,8 +3253,8 @@ typedef struct Tbl_80409D7C {
 
 #define TBL_80409D7C (*(Tbl_80409D7C *)&lobby_handler_table_desc)
 
-s32 TLobby__sub_80409D7C(s16 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 (*fn)(s32, s32, s32);
+s16 TLobby__sub_80409D7C(s16 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    s16 (*fn)(s32, s32, s32);
 
     if (arg0 < 0 || arg0 > TBL_80409D7C.count) {
         return -0x10F;
@@ -3254,7 +3405,7 @@ s32 TLobby::call_entry_callback(s16 i, s16 arg) {
 typedef struct Ent_8040A044 {
     s16 st;
     s16 f2;
-    s32 (*f4)(s16, u8 *);
+    s16 (*f4)(s16, u8 *);
     s16 (*f8)(s16, s32, s16, u8 *);
     u8 padC[0x30 - 0xC];
 } Ent_8040A044;
@@ -3279,9 +3430,9 @@ s16 TLobby__sub_8040A044(s16 i, s32 type, s16 len, u8 *addr) {
     return fn(i, type, len, addr);
 }
 
-s32 TLobby__sub_8040A0C0(s16 i, u8 *buf) {
+s16 TLobby__sub_8040A0C0(s16 i, u8 *buf) {
     Ent_8040A044 *e;
-    s32 (*fn)(s16, u8 *);
+    s16 (*fn)(s16, u8 *);
     if (i < 0 || i > (*(Tbl_8040A044 *)&lobby_handler_table_desc).count) {
         return -0x10F;
     }
@@ -3816,6 +3967,56 @@ void TLobby__sub_8040AFE0(void) {
 #pragma pop
 
 
+// Same scan as find_next_active_record (0x8040B33C), inlined here.
+inline Rec_8040B33C *next_active_record_8040B1C4(F_8040A45C *req) {
+    G_8040A45C *g = &dns_resolver_state;
+    s16 t, n, i;
+    for (i = 0; i < (n = g->nb); i++) {
+        Rec_8040B33C *r = &g->b[(req->f14 + (t = req->f10)) % n];
+        if (r->f0 != 0) {
+            if (t < g->lim) {
+                return r;
+            }
+            break;
+        }
+        req->f10 = t + 1;
+    }
+    return 0;
+}
+
+inline s16 send_query_8040B1C4(F_8040A45C *req, Rec_8040B33C *rec) {
+    UdpBuf_8040AFE0 buf;
+
+    buf.len = req->f18->len;
+    buf.data = req->f18->data;
+    return TUdpSocket__sub_80421BAC(req->f4, NULL, (u32 *)rec, 0, NULL, 1, &buf);
+}
+
+void TLobby__sub_8040B1C4(F_8040A45C *req) {
+    G_8040A45C *g = &dns_resolver_state;
+    Rec_8040B33C *rec;
+    s16 r;
+    s16 *nb;
+
+    if ((rec = next_active_record_8040B1C4(req)) == NULL) {
+        TLobby__sub_8040BE40(req, -0x44, 0);
+        return;
+    }
+    nb = &g->nb;
+    g->f18 = req->f10 % *nb;
+    req->fA = g->fC[req->f10 / *nb];
+    r = send_query_8040B1C4(req, rec);
+    if (r < 0) {
+        req->fA = 1;
+        req->f10++;
+    } else if (req->f8 == 1 && req->f20 == 0) {
+        req->fA = 2;
+        req->f12 = 1;
+    } else {
+        req->f10++;
+    }
+}
+
 Rec_8040B33C *find_next_active_record__6TLobbyFPv(A_8040B33C *a) {
     G_8040A45C *g = &dns_resolver_state;
     s16 n, t, i;
@@ -4012,7 +4213,7 @@ s32 TLobby::build_dns_query_aaaa(u8 *name, s16 len) {
     Q_8040B6E4 *q = (Q_8040B6E4 *)this;
     Hdr_8040B6E4 *h;
     u8 *body;
-    s32 n;
+    s16 n;
     s16 total;
     QT_8040B6E4 qt;
     h = q->pkt->hdr;
@@ -4026,7 +4227,7 @@ s32 TLobby::build_dns_query_aaaa(u8 *name, s16 len) {
     h->ar = 0;
     n = TLobby__sub_8040B838(body, name, len);
     qt.type = 0x1C;
-    body += (s16)n;
+    body += n;
     qt.cls = 1;
     total = n + 0xC;
     NetMemcpy(body, &qt, 4);
@@ -4041,7 +4242,7 @@ s32 TLobby::build_dns_query_a(u8 *name, s16 len) {
     Q_8040B790 *q = (Q_8040B790 *)this;
     Hdr_8040B790 *h;
     u8 *body;
-    s32 n;
+    s16 n;
     s16 total;
     QT_8040B790 qt;
     h = q->pkt->hdr;
@@ -4055,7 +4256,7 @@ s32 TLobby::build_dns_query_a(u8 *name, s16 len) {
     h->ar = 0;
     n = TLobby__sub_8040B838(body, name, len);
     qt.type = 1;
-    body += (s16)n;
+    body += n;
     qt.cls = 1;
     total = n + 0xC;
     NetMemcpy(body, &qt, 4);
@@ -4517,6 +4718,93 @@ void TLobby__sub_8040C74C(SubA_8040C540 *a) {
     a->f8 = cnt;
 }
 #pragma pop
+
+s16 TLobby__sub_8040B838(u8 *dst, u8 *src, s16 len) {
+    u8 *label;
+    s16 i;
+    u8 n;
+    u8 c;
+    s16 ret;
+
+    label = dst++;
+    n = 0;
+    for (i = 0; i < len; i++, dst++, src++) {
+        c = *src;
+        if (c == '.') {
+            *label = n;
+            label = dst;
+            n = 0;
+        } else {
+            *dst = c;
+            n++;
+        }
+    }
+    if (n != 0) {
+        *label = n;
+        ret = len + 2;
+        *dst = 0;
+    } else {
+        dst[-1] = 0;
+        ret = len + 1;
+    }
+    return ret;
+}
+
+inline s32 compare_rec(Rec_8040B33C *a, Rec_8040B33C *b) {
+    switch (a->f0) {
+    case 4:
+        if (b->f0 != 4) {
+            return -1;
+        }
+        return NetMemcmp(a->addr, b->addr, 4);
+    case 6:
+        if (b->f0 != 6) {
+            return -1;
+        }
+        return NetMemcmp(a->addr, b->addr, 0x10);
+    default:
+    case 0:
+        return -1;
+    }
+}
+
+s16 TLobby__sub_8040C340(D_8040A45C *q, C_8040A45C *node) {
+    s16 i;
+    G_8040A45C *g;
+    C_8040A45C *prev;
+    C_8040A45C *p;
+
+    if (node == NULL) {
+        return -1;
+    }
+    if (q == NULL) {
+        return -1;
+    }
+    if (q->f0 == 0 || q->f208 == NULL) {
+        return -1;
+    }
+    g = &dns_resolver_state;
+    p = q->f208;
+    prev = NULL;
+    for (i = 0; p != NULL && i < g->nc; i++) {
+        if (compare_rec(&p->f4, &node->f4) != 0) {
+            prev = p;
+        } else {
+            q->f204--;
+            if (prev == NULL) {
+                q->f208 = p->f20;
+            } else {
+                prev->f20 = p->f20;
+            }
+            p->f0 = 0;
+            p->f20 = NULL;
+            return 0;
+        }
+        p = p->f20;
+    }
+    return -1;
+}
+
 
 #pragma push
 #pragma optimization_level 2
@@ -5121,7 +5409,7 @@ s32 TLobby::is_multicast_address(s16 arg1) {
     }
 }
 
-s32 is_addr_unspecified__6TLobbyFPv(u8 *arg0) {
+s16 is_addr_unspecified__6TLobbyFPv(u8 *arg0) {
     struct Fields_arg0 { s32 field_0; u32 field_4; };
     switch (((Fields_arg0*)arg0)->field_0) {
     case 0:
@@ -5939,7 +6227,7 @@ s32 TLobby__sub_8040FDA0(u32 arg0, s16 arg1) {
     return 0;
 }
 
-s32 NetIPv4IsUnspecified(u32 arg0) {
+s16 NetIPv4IsUnspecified(u32 arg0) {
     if (arg0 == 0U) {
         return 1;
     }
@@ -6385,16 +6673,17 @@ s32 TLobby__sub_804112B8(s32 arg0, s32 arg1, s16 arg2) {
 #pragma pop
 
 struct Ipv6NdAddr {
-    s16 f0;
+    s16 in_use;
     u8 addr[16];
     s16 prefix_len;
     s16 state;
     s16 f16;
-    u8 pad18[4];
+    s16 f18;
+    s16 scope;
     s16 dad_count;
     s16 dad_timer;
-    u32 f20;
-    u32 f24;
+    u32 valid_lifetime;
+    u32 preferred_lifetime;
     Ipv6NdAddr *next;
 };
 struct Ipv6NdIface {
@@ -6404,7 +6693,8 @@ struct Ipv6NdIface {
     s16 prefix_len;
     s16 dad_state;
     s16 f18;
-    u8 pad1A[4];
+    s16 f1A;
+    s16 scope;
     s16 dad_count;
     s16 dad_timer;
     s16 rs_count;
@@ -6418,13 +6708,17 @@ struct Ipv6NdState {
     s16 route_count;
     s16 count;
     s16 max_addrs;
-    u8 pad6[4];
+    s16 dad_timer_init;
+    s16 dad_count_init;
     s16 dad_interval;
-    u8 padC[4];
+    s16 rs_timer_init;
+    s16 rs_count_init;
     s16 rs_interval;
-    u8 pad12[6];
+    s16 min_mtu;
+    u8 pad14[4];
     Ipv6NdRoute *routes;
     Ipv6NdIface *ifaces;
+    Ipv6NdAddr *addr_pool;
 };
 struct Ipv6NdEvent {
     u8 *addr;
@@ -6503,23 +6797,23 @@ void TLobby__sub_80411334(void) {
                 }
                 break;
             case 3:
-                if (a->f24 != 0xFFFFFFFF && a->f24 != 0) {
-                    a->f24--;
-                    if (a->f24 == 0) {
+                if (a->preferred_lifetime != 0xFFFFFFFF && a->preferred_lifetime != 0) {
+                    a->preferred_lifetime--;
+                    if (a->preferred_lifetime == 0) {
                         a->state = 2;
                     }
                 }
-                if (a->f20 != 0xFFFFFFFF && a->f20 != 0) {
-                    a->f20--;
-                    if (a->f20 == 0) {
+                if (a->valid_lifetime != 0xFFFFFFFF && a->valid_lifetime != 0) {
+                    a->valid_lifetime--;
+                    if (a->valid_lifetime == 0) {
                         a->state = 0;
                     }
                 }
                 break;
             case 2:
-                if (a->f20 != 0xFFFFFFFF && a->f20 != 0) {
-                    a->f20--;
-                    if (a->f20 == 0) {
+                if (a->valid_lifetime != 0xFFFFFFFF && a->valid_lifetime != 0) {
+                    a->valid_lifetime--;
+                    if (a->valid_lifetime == 0) {
                         a->state = 0;
                     }
                 }
@@ -6541,6 +6835,166 @@ struct Ipv6NdRoute {
     u8 gateway[16];
     s16 prefix_len;
 };
+struct Ipv6NdRouteEvent {
+    u8 *addr;
+    u8 *router;
+};
+struct Ipv6NdByteEvent {
+    u8 pad0[4];
+    u8 value;
+};
+struct Ipv6NdValueEvent {
+    u8 *addr;
+    s32 value;
+};
+struct Ipv6NdPrefixEvent {
+    u8 *prefix;
+    s16 prefix_len;
+    u8 *gateway;
+    u8 *router;
+};
+
+s32 TLobby__sub_8042325C(s32 a, s32 b, s32 c, s32 (*fn)(s32, s32, s32));
+// Prefix information handed to 80412618 (lifetimes per RFC 4862: valid is clamped to 7200 s).
+struct Ipv6NdPrefixInfo {
+    u8 *prefix;
+    s16 prefix_len;
+    u32 preferred_lifetime;
+    u32 valid_lifetime;
+};
+
+s16 TLobby__sub_80412618(Ipv6NdPrefixInfo *info, s16 idx);
+s16 TLobby__sub_8041347C(u8 *prefix, s16 bits, u8 *addr, s16 idx, s16 kind, s16 mode);
+void TLobby__sub_80414B98(u8 *, s16, u8 *);
+
+#pragma push
+#pragma dont_inline off
+inline s16 compare_addr_80411604(u8 *a, u8 *b) {
+    s32 r = NetMemcmp(a, b, 16);
+
+    if (r < 0) {
+        return -1;
+    } else if (r > 0) {
+        return 1;
+    }
+    return 0;
+}
+
+inline void remove_route_80411604(Ipv6NdState *g, u8 *prefix, s16 len, u8 *gateway) {
+    u8 masked[16];
+    s16 n;
+    Ipv6NdRoute *rt;
+
+    TLobby__sub_80414B98(masked, len, prefix);
+    n = g->route_count;
+    rt = g->routes;
+    for (; n > 0; n--, rt++) {
+        if (rt->state == 1 && rt->prefix_len == len) {
+            if (compare_addr_80411604(rt->prefix, masked) == 0 && compare_addr_80411604(rt->gateway, gateway) == 0) {
+                rt->state = 0;
+                return;
+            }
+        }
+    }
+}
+
+s32 TLobby__sub_80411604(s16 idx, int kind, void *arg) {
+    Ipv6NdState *g = (Ipv6NdState *)&ipv6_address_routing_state;
+    Ipv6NdIface *ifc;
+    s16 ok;
+    s16 i;
+    Ipv6NdRoute *rt;
+    u8 unspec[16];
+
+    if (idx < 0 || idx >= g->count) {
+        return -0x10A;
+    }
+    ifc = g->ifaces;
+    ifc += idx;
+    if (ifc->state != 1) {
+        return -2;
+    }
+    ok = 1;
+    if (ifc->f28 != NULL) {
+        ok = TLobby__sub_8042325C(idx, kind, (s32)arg, (s32 (*)(s32, s32, s32))ifc->f28);
+    }
+    switch (kind) {
+    case 0: {
+        Ipv6NdEvent *ev = (Ipv6NdEvent *)arg;
+        rt = g->routes;
+        for (i = 0; i < g->route_count; i++, rt++) {
+            if (rt->state == 1 && rt->type == 0) {
+                if (rt->prefix_len == ev->prefix_len) {
+                    if (compare_addr_80411604(rt->gateway, ev->addr) == 0) {
+                        rt->type = 1;
+                    }
+                } else if (rt->prefix_len == 128) {
+                    if (compare_addr_80411604(rt->prefix, ev->addr) == 0) {
+                        rt->type = 1;
+                    }
+                }
+            }
+        }
+        break;
+    }
+    case 1:
+        if (ifc->dad_timer > 0) {
+            ifc->dad_timer = 0;
+        }
+        break;
+    case 2:
+        if (ok == 1) {
+            TLobby__sub_80412618((Ipv6NdPrefixInfo *)arg, idx);
+        }
+        break;
+    case 3:
+        ipv6_protocol_state.f14 = ((Ipv6NdByteEvent *)arg)->value;
+        break;
+    case 4:
+        ifc->mtu = ((Ipv6NdValueEvent *)arg)->value;
+        break;
+    case 5:
+        if (ok == 1) {
+            NetMemset(unspec, 0, 16);
+            TLobby__sub_8041347C(unspec, 0, ((Ipv6NdRouteEvent *)arg)->addr, idx, 2, 4);
+        }
+        break;
+    case 6:
+        if (ok == 1) {
+            NetMemset(unspec, 0, 16);
+            remove_route_80411604(g, unspec, 0, ((Ipv6NdRouteEvent *)arg)->addr);
+        }
+        break;
+    case 7:
+        if (ok == 1) {
+            NetMemset(unspec, 0, 16);
+            remove_route_80411604(g, unspec, 0, ((Ipv6NdRouteEvent *)arg)->addr);
+            TLobby__sub_8041347C(unspec, 0, ((Ipv6NdRouteEvent *)arg)->router, idx, 2, 4);
+        }
+        break;
+    case 8:
+        break;
+    case 9:
+        if (ok == 1) {
+            NetMemset(unspec, 0, 16);
+            remove_route_80411604(g, unspec, 0, ((Ipv6NdRouteEvent *)arg)->addr);
+        }
+        break;
+    case 10:
+        if (ok == 1) {
+            Ipv6NdPrefixEvent *ev = (Ipv6NdPrefixEvent *)arg;
+            remove_route_80411604(g, ev->prefix, ev->prefix_len, ev->gateway);
+            TLobby__sub_8041347C(ev->prefix, 0x80, ev->router, idx, 3, 4);
+        }
+        break;
+    case 11:
+    case 12:
+        break;
+    }
+    return 0;
+}
+#pragma pop
+
 #pragma push
 #pragma opt_common_subs on
 struct Ent_80411BE8 { s16 f0; u8 pad[0x12]; s16 f14; };
@@ -6982,6 +7436,300 @@ s16 TLobby__sub_80412210(s16 idx) {
 #pragma pop
 #undef G
 
+#pragma push
+#pragma dont_inline off
+#pragma opt_common_subs on
+s16 NetIPv6GetAddressScopeClass(u8 *arg0);
+
+inline Ipv6NdState *nd_state(void) {
+    return (Ipv6NdState *)&ipv6_address_routing_state;
+}
+
+inline s16 get_first_iface_addr_80412618(s16 *count, Ipv6NdIface **ifaces, u8 *out) {
+    if (*count <= 0) {
+        return 0;
+    }
+    if ((*ifaces)->state != 1) {
+        return 0;
+    }
+    NetMemcpy(out, (*ifaces)->addr, 16);
+    return 1;
+}
+
+s16 TLobby__sub_80412618(Ipv6NdPrefixInfo *info, s16 idx) {
+    Ipv6NdState *g = (Ipv6NdState *)&ipv6_address_routing_state;
+    Ipv6NdIface *ifc;
+    Ipv6NdAddr *a;
+    Ipv6NdAddr *last;
+    Ipv6NdRoute *rt;
+    s16 ret;
+    s16 i;
+    s16 found;
+    s16 kind;
+    s16 len;
+    s16 n;
+    s16 rem;
+    u8 *prefix;
+    u8 mask;
+    u8 addr[16];
+    u8 router[16];
+    u8 mcast[16];
+    s16 *max_addrs;
+
+    if (idx <= 0 || idx >= nd_state()->count) {
+        return -0x10A;
+    }
+    ifc = nd_state()->ifaces;
+    ifc += idx;
+    if (ifc->state != 1) {
+        return -2;
+    }
+    NetMemset(addr, 0, 8);
+    ret = TLobby__sub_8040A0C0(idx, addr + 8);
+    if (ret < 0) {
+        return ret;
+    }
+    len = info->prefix_len;
+    prefix = info->prefix;
+    if (len > 0) {
+        n = len / 8;
+        NetMemcpy(addr, prefix, n);
+        rem = len % 8;
+        if (rem != 0) {
+            mask = 0xFF >> rem;
+            addr[n] = (mask & addr[n]) | (prefix[n] & ~mask);
+        }
+    }
+    if (compare_addr_80411604(addr, ifc->addr) == 0) {
+        return 0;
+    }
+    if (ifc->addrs != NULL) {
+        found = 0;
+        for (a = ifc->addrs, i = 0; a != NULL && i < g->max_addrs; i++) {
+            if (a->f16 == 0) {
+                if (compare_addr_80411604(addr, a->addr) == 0) {
+                    found = 1;
+                }
+            } else if (info->prefix_len == a->prefix_len &&
+                       NetCompareBitPrefix(info->prefix, a->addr, info->prefix_len) == 0) {
+                found = 1;
+                if (info->valid_lifetime > 7200 || info->valid_lifetime > a->valid_lifetime) {
+                    a->valid_lifetime = info->valid_lifetime;
+                    a->preferred_lifetime = info->preferred_lifetime;
+                } else if (a->valid_lifetime > 7200 || info->valid_lifetime > a->valid_lifetime) {
+                    a->valid_lifetime = 7200;
+                }
+            }
+            a = a->next;
+        }
+        if (found) {
+            return 0;
+        }
+    }
+    max_addrs = &g->max_addrs;
+    a = g->addr_pool;
+    for (i = 0; i < *max_addrs; i++, a++) {
+        if (a->in_use == 0) {
+            a->in_use = 1;
+            break;
+        }
+    }
+    if (i >= *max_addrs) {
+        return -0x10A;
+    }
+    ret = TLobby__sub_80409D7C(idx, ifc->f2, 1, (s32)addr);
+    if (ret < 0) {
+        a->in_use = 0;
+        return ret;
+    }
+    NetMemcpy(a->addr, addr, 16);
+    a->prefix_len = info->prefix_len;
+    a->f16 = 1;
+    a->f18 = 0;
+    a->scope = NetIPv6GetAddressScopeClass(addr);
+    if (TLobby::is_entry_flag10_set(idx)) {
+        a->state = 1;
+        kind = 0;
+        a->dad_count = g->dad_count_init;
+        a->dad_timer = g->dad_timer_init;
+    } else {
+        a->state = 3;
+        kind = 1;
+        a->dad_count = 0;
+        a->dad_timer = 0;
+    }
+    i = 0;
+    a->valid_lifetime = info->valid_lifetime;
+    a->preferred_lifetime = info->preferred_lifetime;
+    a->next = NULL;
+    if (ifc->addrs == NULL) {
+        ifc->addrs = a;
+    } else {
+        for (last = ifc->addrs; i < *max_addrs; i++) {
+            if (last->next == NULL) {
+                break;
+            }
+            last = last->next;
+        }
+        if (last->next == NULL) {
+            last->next = a;
+        }
+    }
+    if (get_first_iface_addr_80412618(&nd_state()->count, &nd_state()->ifaces, router) &&
+        (ret = TLobby__sub_8041347C(addr, 0x80, router, 0, 3, 1)) < 0) {
+        goto cleanup;
+    }
+    rt = (Ipv6NdRoute *)TLobby__sub_80413264(addr, (s32)addr);
+    if (rt != NULL && rt->prefix_len == info->prefix_len) {
+        if (rt->iface != idx) {
+            goto remove_default;
+        }
+    } else {
+        ret = TLobby__sub_8041347C(addr, info->prefix_len, addr, idx, kind, 1);
+        if (ret < 0) {
+            goto remove_default;
+        }
+    }
+    NetIPv6MakeSolicitedNodeMulticastAddress(mcast, addr);
+    ret = TLobby__sub_80409CE0(idx, ifc->f2, 1, (s32)mcast);
+    if (ret >= 0) {
+        return 0;
+    }
+    remove_route_80411604(g, addr, info->prefix_len, addr);
+remove_default:
+    if (TLobby::is_socket_flag_set(idx) == 0) {
+        remove_route_80411604(g, addr, 0x80, router);
+    }
+cleanup:
+    TLobby__sub_80409D7C(idx, ifc->f2, 2, (s32)addr);
+    if (ifc->addrs == a) {
+        ifc->addrs = NULL;
+    } else {
+        last->next = NULL;
+    }
+    return ret;
+}
+s16 TLobby__sub_80412CA4(u8 *addr_in, s16 prefix_len, s16 f1A, s16 idx, s32 callback) {
+    Ipv6NdState *g = (Ipv6NdState *)&ipv6_address_routing_state;
+    Ipv6NdIface *ifc;
+    s16 ret;
+    s16 kind;
+    s16 mtu;
+    s16 n;
+    s16 rem;
+    u8 mask;
+    u8 addr[16];
+    u8 router[16];
+    u8 mcast[16];
+
+    if (idx < 0 || idx >= nd_state()->count) {
+        return -0x10A;
+    }
+    ifc = nd_state()->ifaces;
+    ifc += idx;
+    if (ifc->state == 1) {
+        return -2;
+    }
+    ifc->state = 1;
+    NetMemset(addr, 0, 16);
+    if (NetCompareBitsBackward(&addr[15], &addr_in[15], 128 - prefix_len) != 0) {
+        NetMemcpy(addr, addr_in, 16);
+    } else {
+        ret = TLobby__sub_8040A0C0(idx, addr + 8);
+        if (ret < 0) {
+            ifc->state = 0;
+            return ret;
+        }
+        if (prefix_len > 0) {
+            n = prefix_len / 8;
+            NetMemcpy(addr, addr_in, n);
+            rem = prefix_len % 8;
+            if (rem != 0) {
+                mask = 0xFF >> rem;
+                addr[n] = (mask & addr[n]) | (addr_in[n] & ~mask);
+            }
+        }
+    }
+    ifc->f2 = TLobby__sub_8040A044(idx, 0x86DD, 16, addr);
+    if (ifc->f2 < 0) {
+        ifc->state = 0;
+        return ifc->f2;
+    }
+    mtu = TLobby::invoke_socket_callback(idx, ifc->f2);
+    if (mtu < g->min_mtu) {
+        ifc->state = 0;
+        return -6;
+    }
+    ifc->mtu = mtu;
+    NetMemcpy(ifc->addr, addr, 16);
+    ifc->prefix_len = prefix_len;
+    ifc->f18 = 0;
+    ifc->f1A = f1A;
+    ifc->scope = NetIPv6GetAddressScopeClass(addr);
+    if (TLobby::is_entry_flag10_set(idx)) {
+        ifc->dad_state = 1;
+        kind = 0;
+        ifc->dad_count = g->dad_count_init;
+        ifc->dad_timer = g->dad_timer_init;
+    } else {
+        ifc->dad_state = 4;
+        kind = 1;
+        ifc->dad_count = 0;
+        ifc->dad_timer = 0;
+    }
+    if (TLobby::is_slot_flag_0x40_set(idx)) {
+        ifc->rs_count = g->rs_count_init;
+        ifc->rs_timer = g->rs_timer_init;
+    } else {
+        ifc->rs_count = 0;
+        ifc->rs_timer = 0;
+    }
+    ifc->f28 = (void *)callback;
+    ifc->addrs = NULL;
+    if (TLobby::is_socket_flag_set(idx) == 0) {
+        if (get_first_iface_addr_80412618(&nd_state()->count, &nd_state()->ifaces, router) &&
+            (ret = TLobby__sub_8041347C(addr, 0x80, router, 0, 3, 1)) < 0) {
+            goto cleanup;
+        }
+        ret = TLobby__sub_8041347C(addr, prefix_len, addr, idx, kind, 1);
+        if (ret < 0) {
+            goto remove_default;
+        }
+    } else {
+        ret = TLobby__sub_8041347C(addr, prefix_len, addr, idx, kind, 1);
+        if (ret < 0) {
+            goto remove_default;
+        }
+    }
+    init_ipv6_all_nodes_multicast_address(mcast, 1);
+    ret = TLobby__sub_80409CE0(idx, ifc->f2, 1, (s32)mcast);
+    if (ret >= 0) {
+        init_ipv6_all_nodes_multicast_address(mcast, 2);
+        ret = TLobby__sub_80409CE0(idx, ifc->f2, 1, (s32)mcast);
+        if (ret >= 0) {
+            NetIPv6MakeSolicitedNodeMulticastAddress(mcast, addr);
+            ret = TLobby__sub_80409CE0(idx, ifc->f2, 1, (s32)mcast);
+            if (ret >= 0) {
+                return 0;
+            }
+        }
+    }
+    remove_route_80411604(g, addr, prefix_len, addr);
+remove_default:
+    if (TLobby::is_socket_flag_set(idx) == 0) {
+        remove_route_80411604(g, addr, 0x80, router);
+    }
+cleanup:
+    TLobby::call_entry_callback(idx, ifc->f2);
+    ifc->state = 0;
+    ifc->f2 = 0;
+    ifc->mtu = 0;
+    NetMemset(ifc->addr, 0, 16);
+    ifc->prefix_len = 0;
+    return ret;
+}
+#pragma pop
+
 s32 TLobby__sub_80413230(u8 *arg0, s32 arg1) {
     if (TLobby__sub_80413264(arg0, arg1) != NULL) {
         return 1;
@@ -7097,7 +7845,7 @@ inline s16 is_link_local_8041347C(u8 *a) {
     return 1;
 }
 
-s32 TLobby__sub_8041347C(u8 *prefix, s16 bits, u8 *addr, s16 idx, s16 kind, s16 mode) {
+s16 TLobby__sub_8041347C(u8 *prefix, s16 bits, u8 *addr, s16 idx, s16 kind, s16 mode) {
     s16 len;
     G_80412210 *g = (G_80412210 *)&ipv6_address_routing_state;
     s16 i;
@@ -7506,7 +8254,7 @@ typedef char RecoveredFields_804143BC_arg0_0_offset[offsetof(RecoveredFields_804
 typedef char RecoveredFields_804143BC_arg0_1_offset[offsetof(RecoveredFields_804143BC_arg0, field_1) == 0x1 ? 1 : -1];
 #pragma push
 #pragma scheduling off
-s32 NetIPv6GetAddressScopeClass(u8 *arg0) {
+s16 NetIPv6GetAddressScopeClass(u8 *arg0) {
     s16 var_r0;
     s16 var_r0_2;
     s16 var_r0_3;
@@ -7814,7 +8562,7 @@ s32 NetIPv6IsMulticast(u8 *arg0) {
     return 0;
 }
 
-s32 NetIPv6IsUnspecified(u8 *arg0) {
+s16 NetIPv6IsUnspecified(u8 *arg0) {
     struct Fields_arg0 { u8 field_0; u8 field_1; u8 field_2; u8 field_3; u8 field_4; u8 field_5; u8 field_6; u8 field_7; u8 field_8; u8 field_9; u8 field_A; u8 field_B; u8 field_C; u8 field_D; u8 field_E; u8 field_F; };
     if ((u8) ((Fields_arg0*)arg0)->field_0 != 0) {
         return 0;
@@ -7928,7 +8676,7 @@ void TLobby__sub_80414B98(u8 *dst, s16 bits, u8 *src) {
     }
 }
 
-s32 NetCompareBitsBackward(u8 *arg0, u8 *arg1, s16 arg2) {
+s16 NetCompareBitsBackward(u8 *arg0, u8 *arg1, s16 arg2) {
     s16 n;
     s16 rem;
     s32 a;
@@ -8000,7 +8748,7 @@ s32 NetCompareBitsBackward(u8 *arg0, u8 *arg1, s16 arg2) {
     return 0;
 }
 
-s32 NetCompareBitPrefix(u8 *a, u8 *b, s16 bits) {
+s16 NetCompareBitPrefix(u8 *a, u8 *b, s16 bits) {
     s16 n;
     s16 rem;
     if (bits <= 0) {
@@ -8418,7 +9166,7 @@ void NetIPv6ShutdownNeighborDiscovery(void) {
 
 struct Arg2_80415B38 { u8 *addr; u8 *val; };
 typedef struct Ent_80418670 { u8 pad0[3]; u8 f3; u8 pad4[2]; s16 f6; u8 pad8[0xC]; u8 f14[0x10]; } Ent_80418670;
-s32 TLobby__sub_80411604(int, int, void *);
+s32 TLobby__sub_80411604(s16, int, void *);
 Ent_80418670 *NetIPv6SelectDefaultRouter(void *arg0);
 
 s32 NetIPv6InitNeighborDiscovery(void) {
@@ -9406,8 +10154,8 @@ typedef struct Hdr_804177A0 {
     u8 pad[2];
     u8 data[8];
 } Hdr_804177A0;
-s16 NetIPv6HandleRouterSolicitation(u8 *o, s32 arg1, s32 arg2, s32 arg3) {
-    s16 TLobby__sub_80417868(void *, u32, s32, s32);
+s16 NetIPv6HandleRouterSolicitation(u8 *o, s32 arg1, s32 arg2, s16 arg3) {
+    s16 TLobby__sub_80417868(void *, u32, s32, s16);
     u8 b[8];
     u8 a[8];
     s32 pad;
@@ -9494,7 +10242,7 @@ s16 NetIPv6SendNeighborAdvertisement(Pkt_804179A4 *arg0, u8 *address, u8 arg2, S
     s32 TLobby__sub_80406FD8(void *, void *, int);
     s16 TLobby__sub_80410BA8(void *, void *, s16, void *);
     s16 TLobby__sub_80411040(void *, void *, int, void *, int);
-    s32 TLobby__sub_80411604(int, int, void *);
+    s32 TLobby__sub_80411604(s16, int, void *);
     s16 TLobby__sub_804136AC(s16 arg0);
     s16 TLobby__sub_80413934(void *, s16);
     s16 TLobby__sub_804145D4(void *, s16);
@@ -10702,6 +11450,768 @@ s32 NetUnregisterTimer(void *fn) {
     return -0x100;
 }
 
+struct TcpHeader_8041B3D4 {
+    u16 src_port;
+    u16 dst_port;
+    s32 seq;
+    s32 ack;
+    u8 data_offset;
+    u8 flags;
+    u16 window;
+    u16 checksum;
+    u16 urgent;
+};
+
+struct E_8041A498;
+struct Tcb_8041B774;
+void TLobby__sub_8041A498(E_8041A498 *arg0, s16 arg1);
+s16 TLobby__sub_8041B3D4(u8 *dst, u8 *src, u16 src_port, u16 dst_port, s32 seq, s32 ack, u8 flags);
+s16 TLobby__sub_8041B724(u8 *tcb);
+Tcb_8041B774 *TLobby__sub_8041B774(Tcb_8041B774 *lst, u16 *port, u8 *local, u8 *remote);
+void set_slot_state_and_resume__6TLobbyFv(s16, s32, s16);
+void set_thread_state_and_resume__6TLobbyFv(s16, s32, s16);
+
+struct Tcb_8041B974 {
+    u8 pad0[4];
+    u16 f4;
+    s16 t_state;
+    u8 pad8[2];
+    u8 fA;
+    u8 flags;
+    u8 padC;
+    u8 dupacks;
+    u8 padE[0xCA];
+    u32 fD8;
+    u8 padDC[0x120];
+    s32 f1FC;
+    s32 f200;
+    u8 pad204[4];
+    u32 snd_una;
+    u32 snd_nxt;
+    u32 snd_up;
+    u32 snd_wl1;
+    u32 snd_wl2;
+    u32 iss;
+    u32 snd_wnd;
+    u32 rcv_wnd;
+    u32 rcv_nxt;
+    u32 rcv_up;
+    u32 irs;
+    u32 rcv_adv;
+    u32 snd_max;
+    u32 snd_cwnd;
+    u32 snd_ssthresh;
+    s16 idle;
+    s16 rtt;
+    u32 rtseq;
+    s16 srtt;
+    s16 rttvar;
+    u32 max_sndwnd;
+    u16 rxtcur;
+    u8 pad256[2];
+    u32 rxtshift;
+    s16 timers[4];
+    u16 maxseg;
+    u8 pad266[2];
+    u16 lport;
+    u16 fport;
+    u8 pad26C[0x10];
+    u8 faddr[0x14];
+    u8 laddr[0x14];
+    u8 pad2A4[0x24];
+    s32 f2C8;
+    s32 f2CC;
+    s32 f2D0;
+    s16 f2D4;
+    u8 pad2D6[0x1A];
+    s32 f2F0;
+    u32 f2F4;
+    u8 pad2F8[0x2C];
+    u32 f324;
+    u8 pad328[0x210];
+    s16 f538;
+    u8 pad53A[2];
+    u32 f53C;
+    s32 f540;
+};
+struct G_8041B974 {
+    Tcb_8041B974 *tcbs;
+    s16 count;
+    u8 pad6[0x12];
+    u32 iss;
+    u8 pad1C[2];
+    s16 rexmtthresh;
+    u8 pad20[4];
+    s16 maxidle;
+    u8 pad26[0x7A];
+    s16 fA0;
+};
+
+struct Seg_8041B974 {
+    TcpHeader_8041B3D4 th;
+    u32 swap;
+    s16 flags;
+};
+
+#pragma push
+#pragma opt_common_subs on
+s32 TLobby__sub_8041B974(NetPacket *m, u8 *src, u8 *dst) {
+    Seg_8041B974 seg;
+    NetPacketFragment *frag;
+    TcpHeader_8041B3D4 *ti;
+    u8 *p;
+    u8 *optp;
+    s16 optlen;
+    u16 off;
+    u16 tlen;
+    s16 tiflags;
+    Tcb_8041B974 *tp;
+    Tcb_8041B974 *cur;
+    Tcb_8041B974 *newtp;
+    s16 i;
+    s32 todrop;
+    s32 dropped;
+    s32 needoutput;
+    u32 iss;
+    s32 ack;
+    s32 acked;
+    s32 ourfinisacked;
+    s32 n;
+    u32 onxt;
+    u32 win;
+    u16 mss;
+    u32 cw;
+    u16 incr;
+    s16 delta;
+
+    frag = &m->fragments[1];
+    needoutput = 0;
+    iss = 0;
+    dropped = 0;
+    m->total_bytes -= m->fragments[0].length;
+    m->fragments[0].length = 0;
+    p = TLobby__sub_80406F0C(&frag->buffer);
+    NetMemcpy(&seg.th.src_port, p, 2);
+    NetMemcpy(&seg.th.dst_port, p + 2, 2);
+    NetMemcpy(&seg.th.seq, p + 4, 4);
+    NetMemcpy(&seg.th.ack, p + 8, 4);
+    NetMemcpy(&seg.th.data_offset, p + 12, 1);
+    NetMemcpy(&seg.th.flags, p + 13, 1);
+    NetMemcpy(&seg.th.window, p + 14, 2);
+    NetMemcpy(&seg.th.checksum, p + 16, 2);
+    NetMemcpy(&seg.th.urgent, p + 18, 2);
+    ti = &seg.th;
+    tiflags = seg.th.flags;
+    seg.flags = tiflags;
+    off = seg.th.data_offset >> 2;
+    if (m->total_bytes < 20) {
+        return -1;
+    }
+    if (TLobby__sub_8040D8F0(src, dst, 6, (u8 *)m, 0) != 0) {
+        goto drop;
+    }
+    optlen = off - 20;
+    if (optlen) {
+        optp = TLobby__sub_80406F0C(&frag->buffer) + 20;
+    } else {
+        optp = NULL;
+    }
+    if (off < 20 || (u16)m->total_bytes < off) {
+        goto drop;
+    }
+    NetMemcpy(&seg.swap, &ti->seq, 4);
+    NetMemcpy(&ti->seq, &seg.swap, 4);
+    NetMemcpy(&seg.swap, &ti->ack, 4);
+    NetMemcpy(&ti->ack, &seg.swap, 4);
+    tlen = m->total_bytes - off;
+
+findpcb:
+    cur = (Tcb_8041B974 *)tcp_protocol_state.p;
+    tp = NULL;
+    for (i = 0; i < tcp_protocol_state.n; cur++, i++) {
+        if (cur->f4 != 0 && cur->t_state != 1 && cur->t_state != -1 &&
+            ((TLobby *)cur->faddr)->compare_sockaddr(src) == 0 && cur->fport == seg.th.src_port &&
+            cur->lport == seg.th.dst_port) {
+            tp = cur;
+            break;
+        }
+    }
+    if (tp == NULL) {
+        cur = (Tcb_8041B974 *)tcp_protocol_state.p;
+        for (i = 0; i < tcp_protocol_state.n; cur++, i++) {
+            if (cur->f4 != 0 && cur->t_state == 1 && cur->lport == seg.th.dst_port &&
+                (((TLobby *)cur->faddr)->compare_sockaddr(src) == 0 || is_addr_unspecified__6TLobbyFPv(cur->faddr)) &&
+                (cur->fport == seg.th.src_port || cur->fport == 0)) {
+                tp = cur;
+                break;
+            }
+        }
+    }
+    if (tp == NULL) {
+        goto dropwithreset;
+    }
+    if (!tp->t_state) {
+        if (tp->flags & 0x80) {
+            goto drop;
+        }
+        if (tp->fA & 4) {
+            goto drop;
+        }
+    }
+    if (tp->t_state != 1) {
+        tp->idle = 0;
+        tp->timers[2] = tp->f2D4;
+    }
+    if (optp != NULL && tp->t_state != 1) {
+        TLobby__sub_8041D0C8(tp, optp, optlen, ti);
+    }
+    tp->rcv_wnd = (u16)(tp->rcv_adv - tp->rcv_nxt);
+
+    switch (tp->t_state) {
+    case 1:
+        if (tiflags & 4) {
+            NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 0xA);
+            goto drop;
+        }
+        if (tiflags & 0x10) {
+            goto dropwithreset;
+        }
+        if (!(tiflags & 2)) {
+            goto drop;
+        }
+        if ((s16)((TLobby *)dst)->is_multicast_address(0) == 1) {
+            goto drop;
+        }
+        newtp = (Tcb_8041B974 *)TLobby__sub_8041B774((Tcb_8041B774 *)tp, (u16 *)ti, src, dst);
+        if (newtp == NULL) {
+            goto drop;
+        }
+        if (optp != NULL) {
+            TLobby__sub_8041D0C8(newtp, optp, optlen, ti);
+        }
+        if (iss != 0) {
+            newtp->iss = iss;
+        } else {
+            newtp->iss = ((G_8041B974 *)&tcp_protocol_state)->iss;
+        }
+        ((G_8041B974 *)&tcp_protocol_state)->iss += 0xFA00;
+        newtp->irs = seg.th.seq;
+        newtp->snd_una = newtp->snd_nxt = newtp->snd_max = newtp->snd_up = newtp->f2F4 = newtp->f324 = newtp->iss;
+        newtp->rcv_adv = newtp->rcv_nxt = newtp->irs + 1;
+        newtp->flags |= 1;
+        newtp->t_state = 3;
+        newtp->timers[2] = 150;
+        switch (newtp->f540) {
+        case 1:
+            newtp->snd_cwnd = newtp->maxseg;
+            break;
+        case 2:
+            newtp->snd_cwnd = newtp->maxseg * 2;
+            break;
+        case 3:
+            newtp->snd_cwnd = newtp->maxseg * 4 < (newtp->maxseg * 2 > 4380 ? newtp->maxseg * 2 : 4380)
+                                  ? newtp->maxseg * 4
+                                  : (newtp->maxseg * 2 > 4380 ? newtp->maxseg * 2 : 4380);
+            break;
+        default:
+            newtp->snd_cwnd = get_adjusted_slot_count__6TLobbyFPv((u8 *)newtp);
+            break;
+        }
+        newtp->f2D0 = tp->f2CC;
+        tp->f2CC = 0;
+        TLobby__sub_80422AB8((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2C8, (s16)(newtp - (Tcb_8041B974 *)tcp_protocol_state.p), newtp->faddr, newtp->lport,
+                             newtp->fport);
+        tp = newtp;
+        goto trimthenstep6;
+
+    case 2:
+        if ((ack = tiflags & 0x10) && ((s32)(seg.th.ack - tp->iss) <= 0 || (s32)(seg.th.ack - tp->snd_max) > 0)) {
+            NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 0xE);
+            goto dropwithreset;
+        }
+        if (tiflags & 4) {
+            NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 0xA);
+            if (ack) {
+                TLobby__sub_8041A498((E_8041A498 *)tp, 1);
+            }
+            goto drop;
+        }
+        if (!(tiflags & 2)) {
+            goto drop;
+        }
+        if (ack) {
+            tp->snd_una = seg.th.ack;
+            tp->f2F4 = seg.th.ack;
+            if ((s32)(tp->snd_nxt - tp->snd_una) < 0) {
+                tp->snd_nxt = tp->snd_una;
+            }
+        }
+        tp->timers[0] = 0;
+        tp->irs = seg.th.seq;
+        tp->rcv_adv = tp->rcv_nxt = tp->irs + 1;
+        tp->flags |= 1;
+        if (ack && (s32)(tp->snd_una - tp->iss) > 0) {
+            NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 1);
+            tp->t_state = 4;
+            tp->maxseg = TLobby__sub_8041B724((u8 *)tp);
+            switch (tp->f540) {
+            case 1:
+                tp->snd_cwnd = tp->maxseg;
+                break;
+            case 2:
+                tp->snd_cwnd = tp->maxseg * 2;
+                break;
+            case 3:
+                tp->snd_cwnd = tp->maxseg * 4 < (tp->maxseg * 2 > 4380 ? tp->maxseg * 2 : 4380)
+                                   ? tp->maxseg * 4
+                                   : (tp->maxseg * 2 > 4380 ? tp->maxseg * 2 : 4380);
+                break;
+            default:
+                tp->snd_cwnd = get_adjusted_slot_count__6TLobbyFPv((u8 *)tp);
+                break;
+            }
+            if (tp->rtt != 0) {
+                tp->srtt = tp->rtt << 3;
+                tp->rttvar = tp->rtt << 1;
+                tp->rxtcur = (tp->srtt >> 3) + tp->rttvar;
+                if (tp->rxtcur < 2) {
+                    tp->rxtcur = 2;
+                } else if (tp->rxtcur > 0x80) {
+                    tp->rxtcur = 0x80;
+                }
+                tp->rtt = 0;
+            }
+        } else {
+            tp->t_state = 3;
+        }
+    trimthenstep6:
+        seg.th.seq++;
+        if (tlen > tp->rcv_wnd) {
+            tlen = tp->rcv_wnd;
+            tiflags &= ~1;
+        }
+        tp->snd_wl1 = seg.th.seq - 1;
+        tp->rcv_up = seg.th.seq;
+        goto step6;
+    }
+
+    todrop = tp->rcv_nxt - seg.th.seq;
+    if (todrop > 0) {
+        if (tiflags & 2) {
+            tiflags &= ~2;
+            seg.th.seq++;
+            if (seg.th.urgent > 1) {
+                seg.th.urgent--;
+            } else {
+                tiflags &= ~0x20;
+            }
+            todrop--;
+        }
+        if (todrop > tlen || (todrop == tlen && !(tiflags & 1))) {
+            if ((tiflags & 1) && todrop == tlen + 1) {
+                todrop = tlen;
+                tiflags &= ~1;
+                tp->flags |= 1;
+            } else {
+                goto dropafterack;
+            }
+        }
+        dropped += todrop;
+        seg.th.seq += todrop;
+        tlen -= todrop;
+        if (seg.th.urgent > (u16)todrop) {
+            seg.th.urgent -= todrop;
+        } else {
+            seg.th.urgent = 0;
+            tiflags &= ~0x20;
+        }
+    }
+
+    todrop = (seg.th.seq + tlen) - (tp->rcv_nxt + tp->rcv_wnd);
+    if (todrop > 0) {
+        if (todrop >= tlen) {
+            if ((tiflags & 2) && tp->t_state == 10 && tp->fD8 == 0 && (s32)(seg.th.seq - tp->rcv_nxt) > 0) {
+                iss = tp->rcv_nxt + 0x1F400;
+                NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 4);
+                tp->flags |= 0x80;
+                TLobby__sub_8041B5C0(tp);
+                goto findpcb;
+            }
+            if (tp->rcv_wnd == 0 && seg.th.seq == tp->rcv_nxt) {
+                tp->flags |= 1;
+            } else {
+                goto dropafterack;
+            }
+        }
+        tlen -= todrop;
+        tiflags &= ~9;
+    }
+
+    if (tiflags & 4) {
+        NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 0xA);
+        switch (tp->t_state) {
+        case 3:
+        case 4:
+        case 6:
+        case 9:
+        case 5:
+            tp->t_state = 0;
+            NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 4);
+            set_thread_state_and_resume__6TLobbyFv((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f1FC, -5);
+            set_slot_state_and_resume__6TLobbyFv((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f200, -5);
+            if (TLobby__sub_8041B5C0(tp) != NULL) {
+                tp->t_state = -1;
+            }
+            goto drop;
+        case 7:
+        case 8:
+        case 10:
+            NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 4);
+            tp->flags |= 0x80;
+            TLobby__sub_8041B5C0(tp);
+            goto drop;
+        }
+    }
+    if (tiflags & 2) {
+        goto dropafterack;
+    }
+    if (!(tiflags & 0x10)) {
+        goto drop;
+    }
+
+    switch (tp->t_state) {
+    case 3:
+        if ((s32)(tp->snd_una - seg.th.ack) > 0 || (s32)(seg.th.ack - tp->snd_max) > 0) {
+            goto dropwithreset;
+        }
+        NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 1);
+        tp->t_state = 4;
+        tp->maxseg = TLobby__sub_8041B724((u8 *)tp);
+        switch (tp->f540) {
+        case 1:
+            tp->snd_cwnd = tp->maxseg;
+            break;
+        case 2:
+            tp->snd_cwnd = tp->maxseg * 2;
+            break;
+        case 3:
+            tp->snd_cwnd = tp->maxseg * 4 < (tp->maxseg * 2 > 4380 ? tp->maxseg * 2 : 4380)
+                               ? tp->maxseg * 4
+                               : (tp->maxseg * 2 > 4380 ? tp->maxseg * 2 : 4380);
+            break;
+        default:
+            tp->snd_cwnd = get_adjusted_slot_count__6TLobbyFPv((u8 *)tp);
+            break;
+        }
+        tp->snd_cwnd -= tp->maxseg;
+        tp->snd_wl1 = seg.th.seq - 1;
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+        if ((s32)(seg.th.ack - tp->snd_una) <= 0 && tp->snd_una == tp->f2F4) {
+            if (tlen == 0 && seg.th.window == tp->snd_wnd) {
+                if (tp->timers[0] == 0 || seg.th.ack != tp->snd_una) {
+                    tp->dupacks = 0;
+                } else if (++tp->dupacks == (u8)((G_8041B974 *)&tcp_protocol_state)->rexmtthresh) {
+                    onxt = tp->snd_nxt;
+                    win = (tp->snd_wnd < tp->snd_cwnd ? tp->snd_wnd : tp->snd_cwnd) / 2 / tp->maxseg;
+                    if (TLobby__sub_8041D368((u8 *)tp) == 0) {
+                        tp->f2F4 = tp->snd_nxt;
+                        tp->dupacks--;
+                        goto recover;
+                    }
+                    if (win < 2) {
+                        win = 2;
+                    }
+                    tp->snd_ssthresh = win * tp->maxseg;
+                    tp->timers[0] = 0;
+                    tp->rtt = 0;
+                    tp->snd_nxt = seg.th.ack;
+                    tp->snd_cwnd = tp->maxseg;
+                    TLobby__sub_8041A9AC((int)tp);
+                    tp->snd_cwnd = tp->snd_ssthresh + tp->maxseg * tp->dupacks;
+                    if ((s32)(onxt - tp->snd_nxt) > 0) {
+                        tp->snd_nxt = onxt;
+                    }
+                    goto drop;
+                } else if (tp->dupacks > (u8)((G_8041B974 *)&tcp_protocol_state)->rexmtthresh) {
+                    tp->snd_cwnd += tp->maxseg;
+                    TLobby__sub_8041A9AC((int)tp);
+                    goto drop;
+                }
+            } else {
+                tp->dupacks = 0;
+            }
+            break;
+        }
+    recover:
+        if ((s32)(tp->snd_una - tp->f2F4) < 0 && (s32)(seg.th.ack - tp->f2F4) < 0) {
+            if (tlen == 0 && seg.th.window <= tp->snd_wnd) {
+                if (seg.th.ack != tp->snd_una) {
+                    acked = seg.th.ack - tp->snd_una;
+                    TLobby__sub_8041FFF8(acked, (int)tp);
+                    tp->snd_wnd -= acked;
+                    if (seg.th.window > tp->snd_wnd) {
+                        tp->snd_wnd = seg.th.window;
+                    }
+                    tp->snd_una = seg.th.ack;
+                }
+                if (++tp->dupacks == (u8)((G_8041B974 *)&tcp_protocol_state)->rexmtthresh) {
+                    mss = tp->maxseg;
+                    win = (tp->snd_wnd < tp->snd_cwnd ? tp->snd_wnd : tp->snd_cwnd) / 2 / mss;
+                    tp->f2F0 = tp->snd_nxt - tp->snd_una - mss * tp->dupacks - mss;
+                    if (tp->f2F0 < 0) {
+                        tp->f2F0 = 0;
+                    }
+                    if (win < 2) {
+                        win = 2;
+                    }
+                    tp->snd_ssthresh = win * tp->maxseg;
+                    tp->timers[0] = 0;
+                    tp->rtt = 0;
+                    tp->snd_cwnd = tp->f2F0 + tp->maxseg;
+                    TLobby__sub_8041A9AC((int)tp);
+                    tp->snd_cwnd = tp->snd_ssthresh;
+                    goto drop;
+                } else if (tp->dupacks > (u8)((G_8041B974 *)&tcp_protocol_state)->rexmtthresh) {
+                    tp->f2F0 -= tp->maxseg;
+                    TLobby__sub_8041A9AC((int)tp);
+                    goto drop;
+                }
+                break;
+            }
+            if (seg.th.window > tp->snd_wnd) {
+                tp->snd_wnd = seg.th.window;
+            } else {
+                tp->dupacks = 0;
+            }
+            break;
+        }
+        ((TLobby *)tp)->reset_slot_index();
+        tp->f2F0 = 0;
+        tp->f2F4 = seg.th.ack;
+        if (tp->dupacks > ((G_8041B974 *)&tcp_protocol_state)->rexmtthresh && tp->snd_cwnd > tp->snd_ssthresh) {
+            tp->snd_cwnd = tp->snd_ssthresh;
+        }
+        tp->dupacks = 0;
+        if ((s32)(seg.th.ack - tp->snd_max) > 0) {
+            goto dropafterack;
+        }
+        acked = seg.th.ack - tp->snd_una;
+        if (tp->rtt && (s32)(seg.th.ack - tp->rtseq) > 0) {
+            if (tp->srtt) {
+                delta = tp->rtt - 1 - (tp->srtt >> 3);
+                if ((tp->srtt += delta) <= 0) {
+                    tp->srtt = 1;
+                }
+                if (delta < 0) {
+                    delta = -delta;
+                }
+                delta -= tp->rttvar >> 2;
+                if ((tp->rttvar += delta) <= 0) {
+                    tp->rttvar = 1;
+                }
+            } else {
+                tp->srtt = tp->rtt << 3;
+                tp->rttvar = tp->rtt << 1;
+            }
+            tp->rtt = 0;
+        }
+        if (acked > 0 && tp->rxtshift != 0) {
+            tp->rxtshift = 0;
+            tp->rxtcur = (tp->srtt >> 3) + tp->rttvar;
+            if (tp->rxtcur < 2) {
+                tp->rxtcur = 2;
+            } else if (tp->rxtcur > 0x80) {
+                tp->rxtcur = 0x80;
+            }
+        }
+        if (seg.th.ack == tp->snd_max) {
+            if (tp->timers[0] != 0) {
+                tp->timers[0] = 0;
+                tp->rxtshift = 0;
+            }
+            needoutput = 1;
+        } else if (tp->timers[1] == 0) {
+            tp->timers[0] = tp->rxtcur;
+        }
+        if (acked == 0) {
+            break;
+        }
+        cw = tp->snd_cwnd;
+        incr = tp->maxseg;
+        if (cw > tp->snd_ssthresh) {
+            incr = (u32)(incr * incr) / cw > 1 ? (u32)(incr * incr) / cw : 1;
+        }
+        tp->snd_cwnd = (u16)((s32)(cw + incr) < 0xFFFF ? cw + incr : 0xFFFF);
+        n = ((TLobby *)tp)->get_score();
+        if (acked > n) {
+            ourfinisacked = 1;
+        } else {
+            n = acked;
+            ourfinisacked = 0;
+        }
+        TLobby__sub_8041FFF8(n, (int)tp);
+        tp->snd_wnd -= (u16)n;
+        tp->snd_una = seg.th.ack;
+        if ((s32)(tp->snd_nxt - tp->snd_una) < 0) {
+            tp->snd_nxt = tp->snd_una;
+        }
+        switch (tp->t_state) {
+        case 6:
+            if (ourfinisacked) {
+                if (tp->fA & 4) {
+                    tp->timers[3] = ((G_8041B974 *)&tcp_protocol_state)->maxidle;
+                }
+                tp->t_state = 9;
+            }
+            break;
+        case 7:
+            if (ourfinisacked) {
+                tp->t_state = 10;
+                if ((u32)((TLobby *)tp)->get_score() == 0) {
+                    ((TLobby *)tp)->close_if_open();
+                }
+                if ((u32)((TLobby *)tp)->get_field_d8() == 0) {
+                    TLobby__sub_8041EB74((u8 *)tp);
+                }
+                ((TLobby *)tp)->clear_position();
+                tp->timers[3] = 120;
+            }
+            break;
+        case 8:
+            if (ourfinisacked) {
+                NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 4);
+                TLobby__sub_8041B5C0(tp);
+                goto drop;
+            }
+            break;
+        case 10:
+            tp->timers[3] = 120;
+            goto dropafterack;
+        }
+    }
+
+step6:
+    if ((tiflags & 0x10) && ((s32)(tp->snd_wl1 - seg.th.seq) < 0 ||
+                             (tp->snd_wl1 == seg.th.seq &&
+                              ((s32)(tp->snd_wl2 - seg.th.ack) < 0 || (tp->snd_wl2 == seg.th.ack && seg.th.window > tp->snd_wnd))))) {
+        tp->snd_wnd = seg.th.window;
+        tp->snd_wl1 = seg.th.seq;
+        tp->snd_wl2 = seg.th.ack;
+        if (tp->snd_wnd > tp->max_sndwnd) {
+            tp->max_sndwnd = tp->snd_wnd;
+        }
+        needoutput = 1;
+    }
+    if ((tiflags & 0x20) && seg.th.urgent != 0 && !(tp->flags & 8)) {
+        if (seg.th.urgent + ((TLobby *)tp)->get_queue_diff() > 0x10000) {
+            seg.th.urgent = 0;
+            tiflags &= ~0x20;
+        } else if ((s32)(seg.th.seq + seg.th.urgent - tp->rcv_up) > 0) {
+            tp->rcv_up = seg.th.seq + seg.th.urgent;
+        }
+    } else if (tp->rcv_nxt != tp->rcv_up) {
+        tp->rcv_up = tp->rcv_nxt;
+    }
+
+    if ((tlen != 0 || (tiflags & 1)) && !(tp->flags & 8)) {
+        if (seg.th.seq == tp->rcv_nxt && (tp->t_state == 4 || (tp->fA & 0xC))) {
+            tiflags = seg.flags & 1;
+            tp->rcv_nxt += tlen;
+            if (!(tp->fA & 4)) {
+                TLobby__sub_8041F204(m, (u16)(off + dropped), tp);
+            }
+            if (tp->f53C == 0) {
+                if (tp->f538 == 0) {
+                    tp->f538 = ((G_8041B974 *)&tcp_protocol_state)->fA0 / 100;
+                }
+            } else {
+                tp->flags |= 1;
+            }
+        } else {
+            if ((s32)(seg.th.seq - tp->rcv_nxt) > 0) {
+                TLobby__sub_8041F914(m, (u16)(off + dropped), tp, ti);
+            }
+            tiflags &= ~1;
+            tp->flags |= 1;
+        }
+    } else {
+        tiflags &= ~1;
+    }
+
+    if (tiflags & 1) {
+        NetDispatchSocketEvent((s16)(tp - (Tcb_8041B974 *)tcp_protocol_state.p), tp->f2D0, 3, 2);
+        if (!(tp->flags & 8)) {
+            TLobby__sub_8041F11C(tp);
+            tp->flags |= 1;
+            tp->rcv_nxt++;
+        }
+        tp->flags |= 8;
+        switch (tp->t_state) {
+        case 3:
+        case 4:
+            tp->t_state = 5;
+            break;
+        case 6:
+            tp->t_state = 7;
+            break;
+        case 9:
+            tp->t_state = 10;
+            if ((u32)((TLobby *)tp)->get_score() == 0) {
+                ((TLobby *)tp)->close_if_open();
+            }
+            if ((u32)((TLobby *)tp)->get_field_d8() == 0) {
+                TLobby__sub_8041EB74((u8 *)tp);
+            }
+            ((TLobby *)tp)->clear_position();
+            tp->timers[3] = 120;
+            break;
+        case 10:
+            tp->timers[3] = 120;
+            break;
+        }
+    }
+    if (needoutput || (tp->flags & 1)) {
+        TLobby__sub_8041A9AC((int)tp);
+    }
+    return 0;
+
+dropafterack:
+    if (tiflags & 4) {
+        goto drop;
+    }
+    tp->flags |= 1;
+    TLobby__sub_8041A9AC((int)tp);
+    return 0;
+
+dropwithreset:
+    if ((tiflags & 4) || (s16)((TLobby *)dst)->is_multicast_address(0) == 1) {
+        goto drop;
+    }
+    if (tiflags & 0x10) {
+        if (TLobby__sub_8041B3D4(src, dst, seg.th.dst_port, seg.th.src_port, seg.th.ack, 0, 4) < 0) {
+            return -1;
+        }
+    } else {
+        if (tiflags & 2) {
+            tlen++;
+        }
+        if (TLobby__sub_8041B3D4(src, dst, seg.th.dst_port, seg.th.src_port, 0, tlen + seg.th.seq, 0x14) < 0) {
+            return -1;
+        }
+    }
+    return 0;
+
+drop:
+    return 0;
+}
+#pragma pop
+
 #pragma push
 #pragma opt_common_subs on
 #pragma push
@@ -11043,8 +12553,6 @@ void TLobby__sub_8041A5B4(void) {
 }
 
 struct E_8041A498 { u8 pad0[6]; s16 f6; u8 pad8[6]; u8 fE; u8 padF[0x1ED]; s32 f1FC; s32 f200; u8 pad204[0xCC]; s32 f2D0; u8 pad2D4[0x270]; };
-void set_slot_state_and_resume__6TLobbyFv(s16, s32, s16);
-void set_thread_state_and_resume__6TLobbyFv(s16, s32, s16);
 void TLobby__sub_8041A498(E_8041A498 *arg0, s16 arg1) {
     s16 idx = arg0 - (E_8041A498 *)tcp_protocol_state.p;
 
@@ -11070,21 +12578,10 @@ void TLobby__sub_8041A498(E_8041A498 *arg0, s16 arg1) {
     }
 }
 
-struct TcpHeader_8041B3D4 {
-    u16 src_port;
-    u16 dst_port;
-    s32 seq;
-    s32 ack;
-    u8 data_offset;
-    u8 flags;
-    u16 window;
-    u16 checksum;
-    u16 urgent;
-};
 
 #pragma push
 #pragma opt_common_subs on
-s32 TLobby__sub_8041B3D4(u8 *dst, u8 *src, u16 src_port, u16 dst_port, s32 seq, s32 ack, u8 flags) {
+s16 TLobby__sub_8041B3D4(u8 *dst, u8 *src, u16 src_port, u16 dst_port, s32 seq, s32 ack, u8 flags) {
     s16 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1);
     s16 dispatch_by_addr_family__6TLobbyFlPUcPUcPUcPvPv(NetPacket *, u8 *, u8 *, u8 *, u8 *, s32);
     TcpHeader_8041B3D4 hdr;
@@ -11225,6 +12722,413 @@ s32 TLobby__sub_8041A6A4(Tcb_8041A3CC *tcb, s16 timer) {
 }
 #pragma pop
 
+struct SackBlock_8041A9AC {
+    u32 start;
+    u32 end;
+};
+/* BSD tcpcb view used by tcp_output (inferred: 0x8041A9AC follows the 4.4BSD tcp_output shape). */
+struct Tcb_8041A9AC {
+    u8 pad0[6];
+    s16 t_state;
+    u8 pad8[3];
+    u8 flags;
+    u8 force;
+    u8 padD[0x1F7];
+    u8 f204 : 1;
+    u8 f204_bits : 7;
+    u8 pad205[3];
+    u32 snd_una;
+    u32 snd_nxt;
+    u32 snd_up;
+    u8 pad214[0xC];
+    u32 snd_wnd;
+    u8 pad224[4];
+    u32 rcv_nxt;
+    u8 pad22C[8];
+    u32 rcv_adv;
+    u32 snd_max;
+    u32 snd_cwnd;
+    u32 snd_ssthresh;
+    s16 idle;
+    s16 rtt;
+    u32 rtseq;
+    s16 srtt;
+    s16 rttvar;
+    u32 max_sndwnd;
+    s16 rxtcur;
+    u8 pad256[2];
+    u32 rxtshift;
+    s16 timers[4];
+    u16 maxseg;
+    u8 pad266[2];
+    TcpHeader_8041B3D4 tmpl;
+    u8 remote[0x14];
+    u8 local[0x14];
+    u8 pad2A4[0x2C];
+    s32 f2D0;
+    u8 pad2D4[2];
+    u8 f2D6[3];
+    u8 pad2D9[3];
+    u8 f2DC[0xC];
+    u8 f2E8;
+    u8 pad2E9[3];
+    s32 f2EC;
+    s32 f2F0;
+    u32 f2F4;
+    SackBlock_8041A9AC sack[5];
+    u8 pad320[0x210];
+    u32 f530;
+    u32 f534;
+    s16 ack_delay;
+    u8 pad53A[6];
+    s32 f540;
+};
+struct G_8041A9AC {
+    Tcb_8041A9AC *tcbs;
+    u8 pad4[0x24];
+    u8 opt[0x28];
+    u8 pad50;
+    u8 outflags[0xB];
+    s16 backoff[13];
+    u8 pad76[0x32];
+};
+
+#pragma push
+#pragma opt_common_subs on
+s16 TLobby__sub_8041A9AC(int arg0) {
+    Tcb_8041A9AC *tp = (Tcb_8041A9AC *)arg0;
+    TcpHeader_8041B3D4 *ti = &tp->tmpl;
+    u8 *opt;
+    s32 len;
+    s32 off;
+    s32 flags;
+    s32 win;
+    s32 sendalot;
+    s16 mss;
+    G_8041A9AC *g = (G_8041A9AC *)&tcp_protocol_state;
+    s32 fin;
+    u8 *optp;
+    u16 optlen;
+    u16 lenidx;
+    u16 i;
+    s32 sndwin;
+    s32 idle;
+    NetPacket *m;
+    s32 avail;
+    s32 adv;
+    s32 sack_start;
+    s32 sack_end;
+    u16 mssopt;
+    u32 blk_start;
+    u32 blk_end;
+    u32 cc;
+    u32 startseq;
+    u8 sacklen;
+    s16 error;
+
+    if (tp->t_state < 0) {
+        return -1;
+    }
+    if (TLobby__sub_8040DA54(tp->remote, tp->local) == 0) {
+        NetDispatchSocketEvent((s16)(tp - g->tcbs), tp->f2D0, 3, 0xC);
+        return -6;
+    }
+    mss = TLobby__sub_8040DC8C(tp->remote, tp->local);
+    mss = (tp->maxseg < mss) ? tp->maxseg : mss;
+    if (mss < 0) {
+        return mss;
+    }
+    idle = (tp->snd_max == tp->snd_una);
+    if (tp->snd_max == tp->snd_una && tp->idle >= (u16)tp->rxtcur) {
+        switch (tp->f540) {
+        case 1:
+            tp->snd_cwnd = tp->maxseg;
+            break;
+        case 2:
+            tp->snd_cwnd = tp->maxseg * 2;
+            break;
+        case 3:
+            tp->snd_cwnd = (tp->maxseg * 4 < ((tp->maxseg * 2 > 4380) ? tp->maxseg * 2 : 4380))
+                               ? tp->maxseg * 4
+                               : ((tp->maxseg * 2 > 4380) ? tp->maxseg * 2 : 4380);
+            break;
+        default:
+            tp->snd_cwnd = get_adjusted_slot_count__6TLobbyFPv((u8 *)tp);
+            break;
+        }
+    }
+    opt = g->opt;
+again:
+    sendalot = 0;
+    len = 0;
+    if (tp->f2F4 != tp->snd_una) {
+        len = TLobby__sub_8041D460((Tcb_8041D460 *)tp, &sack_start, &sack_end);
+        if (len != 0) {
+            sendalot = 1;
+            off = sack_start - tp->snd_una;
+        } else {
+            off = tp->snd_nxt - tp->snd_una;
+        }
+    } else {
+        off = tp->snd_nxt - tp->snd_una;
+    }
+    sndwin = tp->snd_wnd;
+    flags = g->outflags[tp->t_state];
+    if (tp->force) {
+        if (sndwin == 0) {
+            sndwin = 1;
+        } else {
+            tp->timers[1] = 0;
+            tp->rxtshift = 0;
+        }
+    }
+    if (len == 0) {
+        len = (((u32)((TLobby *)tp)->get_score() < (u32)sndwin) ? ((TLobby *)tp)->get_score() : sndwin) - off;
+    }
+    avail = tp->snd_cwnd - tp->f2F0;
+    if (tp->f2F4 == tp->snd_una) {
+        avail -= tp->snd_nxt - tp->snd_una;
+    }
+    if (avail < 0) {
+        avail = 0;
+    }
+    if (len > avail) {
+        len = avail;
+        sendalot = 0;
+    }
+    if (off + len < ((TLobby *)tp)->get_score()) {
+        flags &= ~1;
+    }
+    if (len < 0) {
+        len = 0;
+        if (sndwin == 0) {
+            tp->timers[0] = 0;
+            tp->snd_nxt = tp->snd_una;
+        }
+    }
+    if ((u32)len > tp->maxseg) {
+        len = tp->maxseg;
+        sendalot = 1;
+    }
+    if ((s32)((tp->snd_nxt + len) - (tp->snd_una + ((TLobby *)tp)->get_score())) < 0) {
+        flags &= ~1;
+    }
+    win = ((TLobby *)tp)->get_queue_diff();
+    fin = flags & 1;
+    if (fin && (!(tp->flags & 0x10) || tp->snd_nxt == tp->snd_una)) {
+        goto send;
+    }
+    if (tp->flags & 1) {
+        goto send;
+    }
+    if (flags & 6) {
+        goto send;
+    }
+    if ((s32)(tp->snd_up - tp->snd_una) > 0) {
+        goto send;
+    }
+    if (len != 0) {
+        if ((u32)len == tp->maxseg) {
+            goto send;
+        }
+        if (sendalot) {
+            goto send;
+        }
+        if (tp->f204 == 1) {
+            cc = ((TLobby *)tp)->get_score();
+        } else {
+            cc = ((u32)((TLobby *)tp)->get_score() < tp->f530) ? ((TLobby *)tp)->get_score() : tp->f530;
+        }
+        if ((idle || (tp->flags & 4)) && len + off >= (s32)cc) {
+            goto send;
+        }
+        if (tp->force) {
+            goto send;
+        }
+        if ((u32)len >= tp->max_sndwnd / 2) {
+            goto send;
+        }
+        if ((s32)(tp->snd_nxt - tp->snd_max) < 0) {
+            goto send;
+        }
+    }
+    if (win > 0) {
+        adv = win - (s32)(tp->rcv_adv - tp->rcv_nxt);
+        if (adv < 0) {
+            adv = -adv;
+        }
+        if ((u32)adv >= (u32)(((tp->maxseg > 40) ? tp->maxseg - 40 : 1) * 2)) {
+            goto send;
+        }
+        if (adv * 2 >= ((TLobby *)tp)->get_field_534()) {
+            goto send;
+        }
+    }
+    if ((u32)((TLobby *)tp)->get_score() != 0 && tp->timers[0] == 0 && tp->timers[1] == 0) {
+        tp->rxtshift = 0;
+        tp->timers[1] = (((tp->srtt >> 2) + tp->rttvar) >> 1) * g->backoff[tp->rxtshift];
+        if (tp->timers[1] < 10) {
+            tp->timers[1] = 10;
+        } else if (tp->timers[1] > 120) {
+            tp->timers[1] = 120;
+        }
+        if (tp->rxtshift < 12) {
+            tp->rxtshift++;
+        }
+    }
+    return 0;
+
+send:
+    if (fin && (tp->flags & 0x10) && tp->snd_nxt == tp->snd_max) {
+        tp->snd_nxt--;
+        off--;
+    }
+    optp = NULL;
+    ti->seq = tp->snd_una + off;
+    optlen = 0;
+    ti->ack = tp->rcv_nxt;
+    if (flags & 2) {
+        tp->f2EC = 0;
+        ((TLobby *)tp)->reset_slot_index();
+        opt[0] = 2;
+        optp = opt;
+        opt[1] = 4;
+        mssopt = (tp->f534 < mss) ? tp->f534 : mss;
+        NetMemcpy(optp + 2, &mssopt, 2);
+        optlen = 4;
+        if (tp->f2E8 & 1) {
+            opt[4] = 4;
+            opt[5] = 2;
+            optlen = 8;
+            opt[6] = 1;
+            opt[7] = 1;
+        }
+    }
+    if ((tp->f2E8 & 2) && tp->sack[0].start != tp->sack[0].end) {
+        opt[optlen++] = 1;
+        opt[optlen++] = 1;
+        opt[optlen] = 5;
+        lenidx = optlen + 1;
+        optp = opt;
+        sacklen = 2;
+        optlen += 2;
+        for (i = 0; i < 5 && tp->sack[i].start != tp->sack[i].end && optlen + 8 <= 40; i++) {
+            blk_start = tp->sack[i].start;
+            blk_end = tp->sack[i].end;
+            NetMemcpy(optp + optlen, &blk_start, 4);
+            optlen += 4;
+            NetMemcpy(optp + optlen, &blk_end, 4);
+            optlen += 4;
+            sacklen += 8;
+        }
+        opt[lenidx] = sacklen;
+    }
+    while (optlen % 4 != 0) {
+        optp[optlen++] = 1;
+    }
+    if (len > tp->maxseg - optlen) {
+        len = tp->maxseg - optlen;
+        flags &= ~1;
+        sendalot = 1;
+    }
+    ti->flags = flags;
+    if ((u32)win < (u32)((TLobby *)tp)->get_field_534() / 4 && (u32)win < tp->maxseg) {
+        win = 0;
+    }
+    if (win < (s32)(tp->rcv_adv - tp->rcv_nxt)) {
+        win = tp->rcv_adv - tp->rcv_nxt;
+    }
+    if ((u32)win > tp->f534) {
+        win = tp->f534;
+    }
+    ti->window = win;
+    if ((s32)(tp->snd_up - tp->snd_nxt) > 0) {
+        ti->urgent = tp->snd_up - tp->snd_nxt;
+        flags |= 0x20;
+    } else {
+        tp->snd_up = tp->snd_una;
+    }
+    if (len != 0 && off + len == ((TLobby *)tp)->get_score()) {
+        flags |= 8;
+    }
+    ti->checksum = 0;
+    ti->flags = flags;
+    ti->data_offset = ((optlen + 20) >> 2) << 4;
+    m = (NetPacket *)TLobby::alloc_free_entry();
+    if (m == NULL) {
+        return -0x101;
+    }
+    m->fragment_count = 0;
+    m->total_bytes = 0;
+    if (TLobby__sub_80420410(off, len, m, tp) < 0) {
+        m->fragment_count = 0;
+        m->total_bytes = 0;
+    }
+    if (optlen != 0) {
+        m->total_bytes += optlen;
+        m->fragments[m->fragment_count].length = optlen;
+        ((TLobby *)&m->fragments[m->fragment_count].buffer)->set_value_and_enable((s32)optp);
+        m->fragment_count++;
+    }
+    m->total_bytes += sizeof(TcpHeader_8041B3D4);
+    m->fragments[m->fragment_count].length = sizeof(TcpHeader_8041B3D4);
+    ((TLobby *)&m->fragments[m->fragment_count].buffer)->set_value_and_enable((s32)ti);
+    m->fragment_count++;
+    ti->checksum = TLobby__sub_8040D8F0(tp->local, tp->remote, 6, (u8 *)m, 1);
+    if (!tp->force || tp->timers[1] == 0) {
+        startseq = tp->snd_nxt;
+        if (flags & 2) {
+            tp->snd_nxt++;
+        }
+        if (flags & 1) {
+            tp->snd_nxt++;
+            tp->flags |= 0x10;
+        }
+        if (tp->snd_una != tp->f2F4) {
+            tp->f2F0 += len;
+        }
+        if (len > 0) {
+            if ((s32)(len + (off + tp->snd_una) - tp->snd_nxt) > 0) {
+                tp->snd_nxt += len;
+            } else {
+                TLobby__sub_8041D398((Tcb_8041D460 *)tp, off + tp->snd_una, len + (off + tp->snd_una));
+            }
+        }
+        if ((s32)(tp->snd_nxt - tp->snd_max) > 0) {
+            tp->snd_max = tp->snd_nxt;
+            if (tp->rtt == 0) {
+                tp->rtt = 1;
+                tp->rtseq = startseq;
+            }
+        }
+        if (tp->timers[0] == 0 && tp->snd_nxt != tp->snd_una) {
+            tp->timers[0] = tp->rxtcur;
+            if (tp->timers[1] != 0) {
+                tp->timers[1] = 0;
+                tp->rxtshift = 0;
+            }
+        }
+    } else if ((s32)(tp->snd_nxt + len - tp->snd_max) > 0) {
+        tp->snd_max = tp->snd_nxt + len;
+    }
+    error = TLobby::dispatch_by_addr_family((s32)m, tp->remote, tp->local, tp->f2D6, tp->f2DC, (void *)6);
+    ((TUdpSocket *)m)->release_entry();
+    if (error < 0) {
+        return error;
+    }
+    if (win > 0 && (s32)(tp->rcv_nxt + win - tp->rcv_adv) > 0) {
+        tp->rcv_adv = tp->rcv_nxt + win;
+    }
+    tp->flags &= ~1;
+    tp->ack_delay = 0;
+    if (sendalot) {
+        NetYieldOutsideDispatcherThread();
+        goto again;
+    }
+    return 0;
+}
+#pragma pop
+
 struct Tcb_8041B724 { u8 pad0[0x264]; u16 maxseg; u8 pad266[0x16]; u8 remote[0x14]; u8 local[0x14]; };
 
 s16 TLobby__sub_8041B724(u8 *tcb) {
@@ -11357,7 +13261,7 @@ void TLobby::insert_item_at(s16 idx, s32 a, s32 b) {
     o->n++;
 }
 
-s32 TLobby__sub_8041D368(u8 *arg0) {
+s16 TLobby__sub_8041D368(u8 *arg0) {
     struct Fields_arg0 { u8 pad_0[800]; s16 field_320; };
     if ((s16) ((Fields_arg0*)arg0)->field_320 == -1) {
         return 1;
@@ -11384,6 +13288,42 @@ struct Tcb_8041D460 {
     s32 stamp;
     Seg_8041D460 items[32];
 };
+
+#pragma push
+#pragma opt_common_subs on
+void TLobby__sub_8041D398(Tcb_8041D460 *tp, s32 start, s32 end) {
+    s16 i;
+    s32 seg;
+
+    tp->f2EC += end - start;
+    for (i = 0; i <= tp->n; i++) {
+        seg = tp->items[i].start;
+        if (start - seg < 0) {
+            if (i == 0) {
+                if (end - seg <= 0) {
+                    if (end - tp->edge >= 0) {
+                        tp->edge = end;
+                        tp->stamp = tp->now;
+                    }
+                    return;
+                }
+                tp->edge = seg;
+                tp->stamp = tp->now;
+            } else {
+                if (end - seg <= 0) {
+                    if (end - tp->items[i - 1].edge >= 0) {
+                        tp->items[i - 1].edge = end;
+                        tp->items[i - 1].stamp = tp->now;
+                    }
+                    return;
+                }
+                tp->items[i - 1].edge = seg;
+                tp->items[i - 1].stamp = tp->now;
+            }
+        }
+    }
+}
+#pragma pop
 
 s32 TLobby__sub_8041D460(Tcb_8041D460 *tp, s32 *start, s32 *end) {
     s16 n = tp->n;
@@ -11655,10 +13595,10 @@ s32 TLobby__sub_8041DBD4(s16 arg0, s32 arg1, s32 len, s32 arg3) {
 #pragma opt_propagation off
 #pragma push
 #pragma pool_data off
-s32 tcp_start_send(s16 arg0, u8 *arg1, void (*completion)(s16, s16), u8 arg3) {
+s16 tcp_start_send(s16 arg0, u8 *arg1, void (*completion)(s16, s16), u8 arg3) {
     s16 r;
     s16 v;
-    s32 ret;
+    s16 ret;
     E_805C1D48 *e;
     if (arg0 < 0 || arg0 >= tcp_protocol_state.n) {
         r = -4;
@@ -11686,7 +13626,7 @@ s32 tcp_start_send(s16 arg0, u8 *arg1, void (*completion)(s16, s16), u8 arg3) {
     if (arg3 != 0) {
         *(s32 *)((s8 *)e + 0x210) = *(s32 *)((s8 *)e + 0x20C) + *(s32 *)((s8 *)arg1 + 8);
     }
-    ret = ((s32)TLobby__sub_8041A9AC((int)e));
+    ret = TLobby__sub_8041A9AC((int)e);
     TLobby__sub_8041FFF8(0, (int)e);
     return ret;
 }

@@ -8,10 +8,9 @@ u32 TWindowSubStatusDisp__sub_80144E9C(char *s);
 }
 s32 calc_ci4_tile_offset(u32 arg0, u32 arg1);
 extern "C" {
-u8 calc_gauge_scale__20TWindowSubStatusDispFPvPvi(void *arg0, void *arg1, s32 arg2);
+u8 calc_gauge_scale__20TWindowSubStatusDispFPvPvi(u16 glyph, void *quad, s32 color);
 u32 calc_text_width(char *s);
 void draw_menu_font_string(const char *s, s32 arg1, u32 flags, f32 x, f32 y, f32 scale);
-int end_render_forward__20TWindowSubStatusDispFPv(void *p);
 void *find_cached_glyph__20TWindowSubStatusDispFUs(u16 code);
 u32 get_font_char_advance(u16 arg0);
 u16 map_char_to_font_code(u16 c);

@@ -17,6 +17,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void set_state_and_send(s32);
     u8 sub_802ECB10();
     void sub_802ECAA4();
+    void sub_802EB270(u32 event, s32 mode, s32 next_mode);
     void advance_action_sequence();
     void sub_802E8234();
     void set_flag_800();
@@ -35,10 +36,12 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void vfunc_28();
     u8 pad_374[0x18];
     u16 unk_38C;
-    u8 pad_38E[0x29A];
+    u8 pad_38E[0x17E];
+    u8 unk_50C[0x24];             // effect source passed to TObjFish::set_effect_target_position
+    u8 pad_530[0xF8];
     s32 unk_628;                  // state flags (0x4, 0x8, 0x40, 0x80, 0x8000 tested)
     u8 pad_62C[0x4];
-    TUnk_80036250 motion_x;       // drives position.x (TObjFish__sub_802EB270)
+    TUnk_80036250 motion_x;       // drives position.x (sub_802EB270)
     TUnk_80036250 motion_y;       // drives position.y
     TUnk_80036250 motion_z;       // drives position.z
     TObject unk_690;              // embedded task group: the ctor builds it with TObject(TObject *), run_task/render walk it
@@ -46,9 +49,12 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     u8 pad_6B0[0x4];
     s32 action_index;             // step in lbl_804E3C2C[difficulty][], advanced by advance_action_sequence
     s32 unk_6B8;
-    u8 pad_6BC[0x8];
-    s32 unk_6C4;
-    u8 pad_6C8[0xC];
+    u8 pad_6BC[0x4];
+    s32 unk_6C0;                  // index into lbl_80472D04 (sub_802EB270: from)
+    s32 unk_6C4;                  // index into lbl_80472D04 (sub_802EB270: to)
+    s32 unk_6C8;
+    s32 unk_6CC;
+    s32 unk_6D0;
     s32 unk_6D4;                  // mem_alloc'd buffer (freed by the destructor)
     s32 unk_6D8;                  // mem_alloc'd buffer (freed by the destructor)
     u8 pad_6DC[0x10];             // TObject *[4], released by the destructor
@@ -56,7 +62,17 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     u8 pad_6F8[0x4];
     s32 unk_6FC;
     s32 unk_700;
-    u8 pad_704[0xA0];             // 0x708/0x71C/0x720/0x784/0x788[6] TObject *, 0x718 AreaAttackHistory * (destructor)
+    u8 pad_704[0x24];             // 0x708/0x71C/0x720 TObject *, 0x718 AreaAttackHistory * (destructor)
+    s32 unk_728;                  // state step (sub_802EB270: 1 = arrived)
+    s32 unk_72C;
+    u8 pad_730[0x14];
+    f32 unk_744;
+    f32 unk_748;
+    f32 unk_74C;
+    f32 unk_750;
+    f32 unk_754;
+    f32 unk_758;
+    u8 pad_75C[0x48];             // 0x784/0x788[6] TObject * (destructor)
     TObject *crawfish_parent;     // the group spawned crawfish are children of
     u8 pad_7A8[0x4];
     u32 unk_7AC;
@@ -129,7 +145,7 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1);
 void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
 void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1);
 void TObjFish__sub_802EBE50(void *o, u32 k);
-void TObjFish__sub_802EC32C(void);
+void TObjFish__sub_802EC32C(TBoss7DeRolLeC *self);
 void TObjFish__sub_802EC468(s32 arg0, f32 farg0, f32 farg1);
 f32 TObjFish__sub_802ED3E4(u8 *arg0);
 void TObjFish__sub_802ED4AC(u8 *arg0, s32 arg1);

@@ -12,6 +12,8 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
+#include "pso/boss/olgaflow/TBoss6Mine.h"
+#include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/TObjMapCsn.h"
@@ -2038,6 +2040,98 @@ void TBoss6Type1::spawn_grav_ball() {
     TBoss6Type1::create_grav_ball(this, &v);
 }
 #pragma pop
+
+// The zero vector TBoss6Type1__sub_802B6504 starts the mine offsets from.
+extern const Vec lbl_80470F84;
+
+// Spreads the mines over rings around node 0 in a shuffled order (inferred: the mine attack). The
+// spawn data starts as a copy of the mag mine's set entry; each mine gets its ring offset, a heading
+// and the next seed.
+void TBoss6Type1__sub_802B6504(TBoss6Type1 *boss) {
+    s32 seed = boss->m_41c;
+    TBoss6MineSetData set;
+    boss->reset_fields_4e0();
+    TBoss4DarkFalz__sub_8004B4F0(&set, ((TBoss6Type1 *)boss->m_3f8)->get_mag_mine_ptr());
+    set.owner = boss;
+    VecCopy(&set.origin, &boss->node_points[0]);
+    VecCopy(&set.offset, &lbl_80470F84);
+    set.unk_08 = 0;
+    VecCopy(&set.position, &set.origin);
+    s32 heading = 0;
+    s32 count = TBoss6PlotFalz::get_phase() == 0 ? 18 : 36;
+    s32 total = 1;
+    s32 rings = 0;
+    s32 step = 3;
+    while (count > total) {
+        total += step;
+        step += 3;
+        rings++;
+    }
+    Vec *points = (Vec *)mem_alloc(total * sizeof(Vec));
+    VecCopy(&points[0], &lbl_80470F84);
+    if (total > 1 && rings > 0) {
+        f32 spacing = 95.0f / rings;
+        f32 radius = spacing;
+        s32 k = 1;
+        s32 angle = 0;
+        s32 angle_step = 0x10000 / 3;
+        s32 ring = 1;
+        while (true) {
+            points[k].x = radius * sin_table_lookup(angle);
+            points[k].y = 0.0f;
+            points[k].z = radius * cos_table_lookup(angle);
+            if (++k >= total) {
+                break;
+            }
+            angle += angle_step;
+            if (angle > 0x10000 - angle_step / 2) {
+                ring++;
+                angle_step = 0x10000 / (ring * 3);
+                radius += spacing;
+                angle = 0;
+                if (ring & 1) {
+                    angle = angle_step / 2;
+                }
+            }
+        }
+    }
+    s32 swaps = total / 2;
+    if (swaps > 1) {
+        for (s32 j = 0; j < swaps; j++) {
+            s32 r = TBoss6Type1__sub_802ABDEC(seed);
+            seed = TBoss6Type1__sub_802ABDEC(r);
+            s32 a = r % total;
+            s32 b = seed % total;
+            if (a == b) {
+                b = (j + 1 + b) % total;
+            }
+            Vec tmp = points[a];
+            VecCopy(&points[a], &points[b]);
+            VecCopy(&points[b], &tmp);
+        }
+    }
+    boss->m_4e0 = 0;
+    s32 i = 0;
+    while (i < count) {
+        VecCopy(&set.offset, &points[i]);
+        set.heading = heading;
+        seed = TBoss6Type1__sub_802ABDEC(seed);
+        set.seed = seed;
+        if (((TBoss6PlotFalz *)boss->m_3f8)->get_next_point(&set.set_index, &set.entity_id) == 0) {
+            break;
+        }
+        if (TBoss6Mine::create(&set) == NULL) {
+            break;
+        }
+        i++;
+        heading = (i << 16) / count;
+        boss->m_4e0++;
+    }
+    mem_free(points);
+    if (boss->m_4e0 > 0) {
+        play_sound_effect(0x4003B51B, &boss->position, 0, 0);
+    }
+}
 
 #pragma push
 void TBoss6Type1::increase_field_clamped_max() {

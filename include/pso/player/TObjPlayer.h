@@ -315,7 +315,7 @@ struct TObjPlayer : public TObjChara {
     static void*get_item_pmt_record(int type, int id);
     static void*get_pmt_record_by_type_id(int type, int id);
     static void*get_pmt_record_by_index(int i);
-    static bool is_hit_receivable_target(s32 arg0, u32 arg1);
+    static s32 is_hit_receivable_target(s32 arg0, u32 arg1);
     static s32 is_player_in_range(s32 arg0, s32 arg1, f32 farg0);
     void refresh_lobby_state();
     int query_lobby_state();

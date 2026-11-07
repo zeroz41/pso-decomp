@@ -5,16 +5,18 @@
 
 struct AdxStreamFile;
 
+// One ADX stream player slot (adx_stream_player_pool).
+typedef struct Ent_803C9608 {
+    char state;
+    u8 pad[0xA7];
+} Ent_803C9608;
+
 extern "C" {
 AdxStreamFile *TLobby__sub_803C8BAC(const char *name, s32 arg);
 void TLobby__sub_803C5D00(u8 *arg0);
 void TLobby__sub_803C5D24(u8 *arg0);
 void TLobby__sub_803C5E58(void);
 void TLobby__sub_803C5E68(void);
-void TLobby__sub_803C5E78(void);
-void TLobby__sub_803C60F0(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
-void TLobby__sub_803C610C(u8 *arg0);
-void TLobby__sub_803C6118(u8 *arg0);
 void TLobby__sub_803C8514(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C8578(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C8594(u8 *arg0, s32 *arg1, s32 *arg2);
@@ -45,7 +47,6 @@ void TLobby__sub_803CBA18(void);
 void TLobby__sub_803CBA38(void);
 void TLobby__sub_803CBB14(void);
 s32 adx_get_data_start_offset(u16 *arg0, s32 arg1, s32 *arg2);
-void adx_process_encoder_output(u8 *arg0p);
 }
 void append_music_stream_segment(u8 *arg0, s32 arg1, s32 arg2);
 extern "C" {
@@ -61,10 +62,6 @@ void TLobby__sub_803C5D00(u8 *arg0);
 void TLobby__sub_803C5D24(u8 *lobby);
 void TLobby__sub_803C5E58(void);
 void TLobby__sub_803C5E68(void);
-void TLobby__sub_803C5E78(void);
-void TLobby__sub_803C60F0(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
-void TLobby__sub_803C610C(u8 *arg0);
-void TLobby__sub_803C6118(u8 *arg0);
 void TLobby__sub_803C8514(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C8578(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C8594(u8 *arg0, s32 *arg1, s32 *arg2);
@@ -95,7 +92,6 @@ void TLobby__sub_803CBA18(void);
 void TLobby__sub_803CBA38(void);
 void TLobby__sub_803CBB14(void);
 s32 adx_get_data_start_offset(u16 *arg0, s32 arg1, s32 *arg2);
-void adx_process_encoder_output(u8 *arg0p);
 void inl_803C9608(void);
 s32 set_range__6TLobbyFPvii(u8 *arg0, s32 arg1, s32 arg2);
 }

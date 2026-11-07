@@ -37,11 +37,11 @@ s32 get_screen_height__11TCameraCtrlFv(void);
 s32 get_screen_width__11TCameraCtrlFv(void);
 }
 
-void TWindowSubStatusDisp::render_forward(void *context) {
-    begin_render((s32)context);
+void TWindowSubStatusDisp::render_forward() {
+    begin_render();
 }
 
-void TWindowSubStatusDisp::begin_render(s32) {
+void TWindowSubStatusDisp::begin_render() {
     TObjFish::set_global_param(localized_alphabet_list);
 }
 

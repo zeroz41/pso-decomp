@@ -605,9 +605,6 @@ struct TLobby : public TObject {
     static s32 clear_socket_slot(s16 i);
     static void update_connection_state(int arg0);
     s32 read_2_bytes(void *src);
-    void free_field_98();
-    void free_field_98_and_clear();
-    void reset_connection_slot();
     static void queue_command_81();
     s32 configure_mode_by_type(s16 type);
     static void init_net_state_c();
@@ -1084,7 +1081,6 @@ struct TLobby : public TObject {
     static void init_player_forward();
     static void release_indexed_entry(s32 arg0);
     static s32 destroy_ep3_exist(s32 arg0, s16 arg1);
-    void save_timer_state();
     static s16 parse_lcp_option(s32 arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4);
     s16 build_ethernet_frame_header(void *src, void *mac, u16 type, u8 flag, u16 a, u16 len);
     s16 pppoe_recv_packet(u16 bufLen, u16 *outLen);
@@ -1172,7 +1168,7 @@ struct TLobby : public TObject {
     static void destroy_download_server(void* _w0);
     void send_compressed_packet_6c();
     void send_cmd_6B();
-    s32 post_send_message(u16 arg1);
+    s16 post_send_message(u16 arg1);
     u8 *create_new_floor_windows();
 };
 

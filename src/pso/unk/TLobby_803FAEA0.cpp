@@ -706,6 +706,59 @@ s32 NetLinkConnect(NetConnectCfg *cfg) {
     }
     return -1;
 }
+
+
+/* PPP control-protocol automata at lbl_805C0038 + 4 + n * 0x34 (TLobby__sub_803FD85C resets all five);
+   automaton 2 (0x6C) and 4 (0xD4) report "opened" (state 5) here. */
+struct LcpOpts_803FB358 { u8 pad[8]; u32 w8; u32 wC; u8 pad10[8]; u32 w18; u32 w1C; u8 pad20[0x44]; u32 w64; u32 w68; };
+struct IpcpOpts_803FB358 { u8 pad[8]; u32 addr[4]; };
+struct Fsm_803FB358 { u8 state; u8 pad1[0x2F]; void *opts; };
+struct Ppp_803FB358 { u8 pad[4]; Fsm_803FB358 fsm[5]; };
+extern s32 lbl_805D7BDC;
+s16 TLobby__sub_803FB358(NetLinkStatus *status) {
+    Ppp_803FB358 *ppp;
+    Fsm_803FB358 *ipcp_fsm;
+    IpcpOpts_803FB358 *ipcp;
+    LcpOpts_803FB358 *lcp;
+    u32 a;
+    u32 b;
+
+    TLobby::lock_mutex(lbl_805C18A0.value);
+    ppp = (Ppp_803FB358 *)lbl_805C0038;
+    ipcp_fsm = &ppp->fsm[4];
+    ipcp = (IpcpOpts_803FB358 *)ipcp_fsm->opts;
+    lcp = (LcpOpts_803FB358 *)ppp->fsm[2].opts;
+    if (ppp->fsm[2].state == 5) {
+        status->link_up = 1;
+    } else {
+        status->link_up = 0;
+    }
+    status->w10 = lcp->w8;
+    status->w14 = lcp->wC;
+    status->w18 = lcp->w18;
+    status->w1C = lcp->w1C;
+    status->w20 = lcp->w64;
+    status->w24 = lcp->w68;
+    if (ipcp_fsm->state == 5) {
+        status->ppp_up = 1;
+    } else {
+        status->ppp_up = 0;
+    }
+    a = ipcp->addr[0];
+    b = ipcp->addr[1];
+    NetMemcpy(status->addr[0], &a, 4);
+    NetMemcpy(status->addr[1], &b, 4);
+    a = ipcp->addr[2];
+    b = ipcp->addr[3];
+    NetMemcpy(status->addr[2], &a, 4);
+    NetMemcpy(status->addr[3], &b, 4);
+    status->state = lbl_805D7A8A;
+    status->w8 = lbl_805D7BDC;
+    status->h6 = lbl_805D7A82;
+    status->hC = lbl_805D7A84;
+    TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+    return 0;
+}
 }
 
 s16 NetApplyConnectionConfig(u8 *arg0) {

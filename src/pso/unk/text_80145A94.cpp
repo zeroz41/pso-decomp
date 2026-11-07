@@ -16,8 +16,6 @@ struct Ids_80145A94 { s32 v[2]; };
 struct Buf_80145A94 { s32 hdr; s8 name[0xA0]; s8 x[0x270 - 0xA4]; };
 
 extern "C" {
-s32 TAdPlayerLoadGC__sub_803F2F1C();
-s32 TAdPlayerLoadGC__sub_803F31D8();
 s32 TLobby__sub_803F3BF8(int, s32, u32);
 s32 request_network_info_load(s32, void *);
 s32 memset(void *, int, int);
@@ -55,8 +53,7 @@ s32 TLobby__sub_80145A94(void) {
     }
     TLobby__sub_803F3BF8(0, lbl_805D56C8, status);
     lbl_805D56CE = 1;
-    TLobby::get_global_63e0();
-    TAdPlayerLoadGC__sub_803F31D8();
+    TAdPlayerLoadGC__sub_803F31D8((void *)TLobby::get_global_63e0());
     start = 0;
     end = 2;
     switch (disc_error_code) {

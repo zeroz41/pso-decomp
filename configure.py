@@ -479,6 +479,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/player/TPlyItem.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # -sdata 4: the 8-byte kind tables 0x80542FBC-0x80542FDC sit in .bss, not .sbss.
     "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.cpp": {"cflags": _switch(cflags_pso, "-inline on,deferred", "-str reuse,readonly", "-sdata 4")},
+    "pso/enemy/shinowa/TObjEneMe3Shinowa.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/derolle/TObjBoss2Tunnel.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-opt nopropagation", "-pool off", "-sdata 4")},
     "pso/enemy/gigue/TObjEneMe1GiGue_802CDB1C.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/enemy/mericarol/TObjEneBm9Mericarol_Bomb.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -593,6 +594,18 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/TObjChip.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # Deferred: the vtables come out in reverse key-function order.
     "pso/technique/TTecAnti.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # -fp_contract on: calc_technique_parameters fuses tp_cost += level * (percent / 100.0f) into fmadds;
+    # the unit's other functions compile the same either way. -inline on: its 17 per-level pad_12
+    # updates read the global after the inner clamp only through the inlined lowered_pad_12 (auto
+    # would also inline calc_technique_boost into it). deferred: the original .data holds
+    # __vt__8TTecCtrl before the four switch jump tables (0x804CC5F4 < 0x804CC60C), which only
+    # deferred code generation emits.
+    "pso/technique/TTecCtrl.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-inline on,deferred")},
+    # -fp_contract on: the ctor fuses its scale and corner math into fmadds; the unit's other
+    # functions have no float math. deferred: the original .data holds __vt__16TPlayerFootStamp
+    # (0x804DE4F8) before the ctor's switch jump table (0x804DE510), which only deferred code
+    # generation emits. readonly: the class name string sits in .rodata (0x804708E8).
+    "pso/player/TPlayerFootStamp.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-inline off,deferred", "-str reuse,readonly")},
     "pso/technique/TTecResta.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/technique/TTecReverser.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/object/ambient/TObjEnvSoundGlobal.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
@@ -631,6 +644,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/camera/TCameraCtrl.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/window/TWindowKeyBoardHard.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdMultiOkGC.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # TLobby_80228154: its sprite draw keeps the frame size and flag tests only under 1.3.2.
+    "pso/unk/TLobby_80228154.cpp": {"mw_version": "GC/1.3.2"},
+    "pso/boss/barbaray/TBoss7Crawfish_80308E0C.cpp": {"mw_version": "GC/1.3.2"},
     "pso/unk/TLobby_802A5120.cpp": {"mw_version": "GC/1.3.2"},
     "pso/unk/text_8032B318.cpp": {"mw_version": "GC/1.3.2"},
     # GC/1.3: the compiler-generated TMenuList<> copy constructor.
@@ -817,6 +833,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/key/TOKeyCol.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly", "-pool off")},
     "pso/object/key/TOKeyMachine01.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly", "-pool off")},
     "pso/object/key/TOKeyJungleMain.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly", "-pool off")},
+    # TObjFish::run_task reaches its .rodata frame tables, the int->float magic and 10430.38 with a lis/addi each
+    # (no shared .rodata base): built -pool off.
+    "pso/object/ambient/TObjFish.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     # The sensor base: its vtable comes before its jump tables.
     "pso/object/switch/TOSensor.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/object/switch/TOSwitchItem.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
@@ -860,6 +879,7 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
     ("musyx_hw", 0x803BAC70, "GC/1.2.5n", _switch(cflags_musyx, "-inline auto"), {}),
     # CRI ADX, LSC, SJ, MFCI and GCRNA ("Build:Jun 13 2002").
     ("cri", 0x803BFE50, "GC/2.6", cflags_middleware, {
+        "pso/unk/text_803CE568.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
         "pso/unk/text_803CFEA0.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
         "pso/unk/text_803D31A4.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
     }),
@@ -873,6 +893,9 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         # Epilogue order (mtlr before the restores) only 1.2.5n produces.
         "pso/ui/keyboard/TKeyBoardControl_803F0C50.cpp": {"mw_version": "GC/1.2.5n"},
         "pso/unk/text_803F1804.cpp": {"mw_version": "GC/1.2.5n"},
+        # Its loops keep base + index offsets instead of walking pointers
+        # (0x803F2F1C, 0x803F31D8); the rest of the file is the same either way.
+        "pso/ui/frontend/TAdPlayerLoadGC_803F18B8.cpp": {"cflags": _switch(cflags_middleware, "-opt nostrength")},
     }),
     # ntInf ("Ver 1.17.00 Build:Jul 9 2002").
     ("ntinf", 0x803F3CF4, "GC/2.6", cflags_middleware, {

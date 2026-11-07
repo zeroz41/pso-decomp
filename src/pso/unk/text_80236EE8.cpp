@@ -3,6 +3,7 @@
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/technique/TTecCtrl.h"
 
 struct VBase_18_1a504b { char pad[0x18]; };
 
@@ -46,13 +47,12 @@ List_802370D8 *gather_contacts_for_self__10TObjPlayerFl(void *, u32);
 void deliver_technique_to_party_targets(Obj_802370D8 *arg0);
 void *spawn_particle_effect(void *pos, s32 id);
 void *get_player_by_client_id(s32 i);
-u32 classify_distance_band__8TTecCtrlFlll(s16, s16, u16);
 extern s32 support_tec_range_effect_id_table[];
 extern Arr_80236EE8 lbl_8044D908;
 void spawn_support_tec_range_effect(Tec_80236EE8 *self);
 
 void spawn_support_tec_range_effect(Tec_80236EE8 *self) {
-    s32 kind;
+    s16 kind;
     Vec_80236EE8 pos;
     s32 i;
     u32 band;
@@ -87,7 +87,7 @@ void spawn_support_tec_range_effect(Tec_80236EE8 *self) {
             kind = 0xA;
             break;
         }
-        band = classify_distance_band__8TTecCtrlFlll(kind, self->level, self->slot);
+        band = TTecCtrl::classify_distance_band(kind, self->level, self->slot);
         {
             Arr_80236EE8 fx = lbl_8044D908;
             fx.w[0] = (u32)spawn_particle_effect(&pos, support_tec_range_effect_id_table[band]);

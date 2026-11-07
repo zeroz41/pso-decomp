@@ -13,6 +13,7 @@ struct RecoveredGlobal_802A3CD8___vt__14TObjNpcKenkyuW {
 };
 
 #include "pso/technique/TechniqueContact.h"
+#include "pso/enemy/TNeedleShoot.h"
 #include "pso/unk/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
@@ -90,6 +91,7 @@ TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src);
 void *find_entity_by_id(u16 id);
 TechniqueContactList *TObjPlayer__sub_802A3FDC(Obj_802A3FDC *self, void *src);
 void TLobby__sub_8001FE7C(void*, int);
+void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1);
 
 void TObjNpcKenkyuW::destroy_instance() {
     if ((u32) TObjNpcKenkyuW__model_resource != 0U) {
@@ -134,11 +136,11 @@ void clear_technique_contacts__10TObjPlayerFv() {
     technique_contact_list.count=0;
 }
 
-bool TObjPlayer::is_hit_receivable_target(s32 arg0, u32 arg1) {
+s32 TObjPlayer::is_hit_receivable_target(s32 arg0, u32 arg1) {
     if (arg1 == 0U) {
-        return 0;
+        return FALSE;
     }
-    return obj_is_hit_receivable((void *)arg1) != 0;
+    return obj_is_hit_receivable((void *)arg1) ? TRUE : FALSE;
 }
 #define L_802A3DE8 technique_contact_list
 TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src) {
@@ -287,4 +289,34 @@ TechniqueContactList *TObjPlayer::collect_technique_contacts(void *src) {
     return &L_802A41CC;
 }
 
+}
+
+void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1) {
+    TechniqueContactList *list;
+    if (self->m_68 == 0) {
+        self->TObject::queue_destruction();
+        return;
+    }
+    switch (self->m_b0) {
+    case 1:
+        list = ((TObjPlayer *)self)->collect_technique_contacts((void *)self->m_1c);
+        break;
+    case 2:
+        list = TObjPlayer__sub_802A3FDC((Obj_802A3FDC *)self, (void *)self->m_1c);
+        break;
+    default:
+        list = TObjPlayer__sub_802A3DE8((Obj_802A3DE8 *)self, (void *)self->m_1c);
+        break;
+    }
+    if (list == NULL) {
+        self->vfunc_6();
+        return;
+    }
+    if (TObjPlayer::is_hit_receivable_target((s32)self, (u32)list->actors[0])) {
+        TechniqueContactActor *target = list->actors[0];
+        if (target != NULL) {
+            self->m_38 = list->bodies[0];
+            self->vfunc_9(target);
+        }
+    }
 }

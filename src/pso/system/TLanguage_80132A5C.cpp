@@ -118,7 +118,7 @@ void TLanguage::load_fonts(s32 language) {
             break;
     }
 
-    TWindowSubStatusDisp::begin_render((s32)alphabet);
+    TWindowSubStatusDisp::begin_render();
 
     TLanguage::set_entry_index(LANGUAGE_JAPANESE, 0x48);
     TLanguage::set_entry_index(LANGUAGE_GERMAN, 0x4B);

@@ -38,7 +38,10 @@ void fn_801E3F44(f32 farg0, f32 farg1) {
     *(f32 *)0xCC008000 = farg1;
 }
 
-void TObjCMHairMenu__sub_801E3F54(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
+void *TObjCMHairMenu__sub_801E3F54(void *p, void *q) {
+    *(u32 *)p = *(u32 *)q;
+    return p;
+}
 }
 
 void handle_6x9E_player_camera_shutter_sound(void) {

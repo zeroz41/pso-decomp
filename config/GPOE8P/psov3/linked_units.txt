@@ -295,6 +295,7 @@ pso/boss/olgaflow/TBoss6Type2_8036DC80.cpp
 pso/boss/barbaray/TBoss7Crawfish.cpp
 pso/boss/barbaray/TBoss7Crawfish_80308C10.cpp
 pso/boss/barbaray/TBoss7Crawfish_80308C84.cpp
+pso/boss/barbaray/TBoss7Crawfish_80308E0C.cpp
 pso/boss/barbaray/TBoss7Crawfish_8030908C.cpp
 pso/boss/barbaray/TBoss7DeRolLeC_8035A628.cpp
 pso/boss/barbaray/TBoss7DeRolLeC_802EE4E0.cpp
@@ -451,7 +452,7 @@ pso/enemy/gigue/TObjEneMe1GiGueBarrier.cpp
 pso/enemy/gigue/TObjEneMe1GiGueMissile.cpp
 pso/enemy/gigue/TObjEneMe1GiGueMissile_802A4628.cpp
 pso/enemy/gigue/TObjEneMe1GiGue_802CDB1C.cpp
-pso/enemy/shinowa/TObjEneMe3ShinowaReal.cpp
+pso/enemy/shinowa/TObjEneMe3Shinowa.cpp
 pso/enemy/sinowzoa/TObjEneMe3SinowZoa.cpp
 pso/enemy/sinowzoa/TObjEneMe3SinowZoa_800D72A4.cpp
 pso/enemy/stelth/TObjEneMe3Stelth.cpp
@@ -832,6 +833,7 @@ pso/ui/city/THunterGuildWarning_80211700.cpp
 pso/ui/city/THunterGuildWarning_8021170C.cpp
 pso/ui/city/TJudgmentSequence.cpp
 pso/ui/city/TJudgmentSequence_8021E4C4.cpp
+pso/ui/keyboard/TKeyBoardControl.cpp
 pso/ui/keyboard/TKeyBoardControl_8000F764.cpp
 pso/ui/keyboard/TKeyBoardControl_80131C58.cpp
 pso/ui/keyboard/TKeyBoardControl_801A57C4.cpp
@@ -850,6 +852,7 @@ pso/ui/TLevelSelect.cpp
 pso/system/TLoadCtrl.cpp
 pso/unk/TLobby_80227A2C.cpp
 pso/unk/TLobby_80227AA0.cpp
+pso/unk/TLobby_80228154.cpp
 pso/unk/TLobby_80228818.cpp
 pso/ui/hud/TLoadingCur.cpp
 pso/ui/hud/TLoadingCur_801A6DE0.cpp
@@ -1244,6 +1247,7 @@ pso/effect/photon/TPhotonRainbow.cpp
 pso/effect/photon/TPhotonYoulla.cpp
 pso/player/TPlayerBattleCtrl4P.cpp
 pso/player/TPlayerBattleCtrl4P_801C4F70.cpp
+pso/player/TPlayerFootStamp.cpp
 pso/player/TPlayerFootStamp_802B01D8.cpp
 pso/player/TPlyCharData.cpp
 pso/player/TPlyCharData_8007214C.cpp
@@ -1358,6 +1362,7 @@ pso/technique/TSlicerHistory_8023BDD0.cpp
 pso/object/switch/TSwitch.cpp
 pso/technique/TTecAnti.cpp
 pso/technique/TTecBarta.cpp
+pso/technique/TTecCtrl.cpp
 pso/technique/TTecDeband.cpp
 pso/technique/TTecFoie.cpp
 pso/technique/TTecFoie_802301EC.cpp
@@ -1508,7 +1513,6 @@ pso/ui/window/TWindowKeyBoardSoft_80080798.cpp
 pso/ui/window/TWindowKeyBoardSoft_80228BEC.cpp
 pso/ui/window/TWindowKeyBoardSoft_8024E68C.cpp
 pso/ui/window/TWindowKeyBoardSoft_8025B85C.cpp
-pso/ui/window/TWindowKeyBoardSoft_80261440.cpp
 pso/ui/window/TWindowKeyBoardSoft_803E6610.cpp
 pso/ui/window/TWindowLoadItemTexture.cpp
 pso/ui/window/TWindowLockOn_800F5DD8.cpp
@@ -2062,7 +2066,6 @@ pso/player/TObjPlayer_801D9E10.cpp
 pso/player/TObjPlayer_801E2D1C.cpp
 pso/player/TObjPlayer_801E483C.cpp
 pso/player/TObjPlayer_8022602C.cpp
-pso/player/TObjPlayer_8022C6C4.cpp
 pso/player/TObjPlayer_8023355C.cpp
 pso/player/TObjPlayer_8023C024.cpp
 pso/player/TObjPlayer_8023E480.cpp
@@ -2570,7 +2573,6 @@ pso/unk/text_80225CD8.cpp
 pso/unk/text_80228C54.cpp
 pso/unk/text_80228E98.cpp
 pso/unk/text_8022BE64.cpp
-pso/unk/text_8022F164.cpp
 pso/unk/text_8022F258.cpp
 pso/technique/TTecFoie_8022FB70.cpp
 pso/technique/TTecFoie_8022FC94.cpp

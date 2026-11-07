@@ -10,7 +10,13 @@ public:
     void *init_random_particle(void *, void *, void *, void *);
     void retire_orbit_particle();
     virtual void render();
-    u8 unk_C0[0x1C];
+    f32 unk_C0;                // 0xC0, motion frame step
+    f32 orbit_center_x;        // 0xC4
+    f32 orbit_center_z;        // 0xC8
+    u8 pad_cc[0x4];
+    f32 orbit_radius;          // 0xD0
+    f32 orbit_height;          // 0xD4
+    s32 orbit_angle;           // 0xD8
     s32 m_dc;
 };
 

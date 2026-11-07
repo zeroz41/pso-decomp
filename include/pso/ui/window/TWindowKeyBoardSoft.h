@@ -14,6 +14,7 @@ struct TWindowKeyBoardSoft
     int get_flag_bit5();
     int get_flag_bit6();
     int is_cursor_locked();
+    static int is_alnum(u16 code);
     void render();
     f32 x;
     f32 y;
@@ -47,7 +48,7 @@ struct TWindowKeyBoardSoft
     void update_focus_flags();
     void close();
     s32 hit_test_relative(u8 *arg1, u8 *arg2);
-    static void draw_key_frame(void *self, f32 *rect, u32 color, s32 idx, f32 x0, f32 y, f32 w, f32 scale);
+    static void draw_key_frame(void *self, f32 *rect, f32 x0, f32 y, f32 w, f32 scale, u32 color, s32 idx);
     void insert_string(char *src);
     void update_input(void* a1);
     void append_text_entry(u8 *arg1);

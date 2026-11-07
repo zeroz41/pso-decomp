@@ -9,7 +9,7 @@ public:
     virtual void run_task();
     void check_radial_particle_retire();
     virtual void render();
-    u8 unk_C0[0x4];
+    f32 unk_C0;                // 0xC0, motion frame step
 };
 
 #endif

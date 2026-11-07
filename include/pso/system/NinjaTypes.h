@@ -81,6 +81,20 @@ struct NJS_OBJECT {
 
 typedef char NJS_OBJECT_size[sizeof(NJS_OBJECT) == 0x38 ? 1 : -1];
 
+// Ninja byte colour; on this big-endian target the bytes of the ARGB word are a, r, g, b.
+struct NJS_BGRA {
+    u8 a;
+    u8 r;
+    u8 g;
+    u8 b;
+};
+
+// Ninja colour: one packed ARGB word or its bytes.
+union NJS_COLOR {
+    u32 color;
+    NJS_BGRA argb;
+};
+
 // Ninja motion: per-node key data played over nbFrame frames.
 struct NJS_MOTION {
     void *mdata;

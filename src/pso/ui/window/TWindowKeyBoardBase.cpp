@@ -132,7 +132,6 @@ struct Quad_8025E350 {
 };
 
 u8 calc_gauge_scale__20TWindowSubStatusDispFPvPvi(s32, void *, s32);
-s32 end_render_forward__20TWindowSubStatusDispFPv();
 s32 fn_8025CE00(void *, u8 *);
 void TWindowKeyBoardSoft__sub_8025CF50(void *, int, int);
 void TWindowKeyBoardSoft__sub_8025CFA8(void *, s32 *);
@@ -1003,7 +1002,7 @@ void TWindowKeyBoardBase::sub_8025E6DC(u8 *arg1) {
         if (temp_r7_2 != 0) {
             TWindowSubStatusDisp__sub_8025E530(this, ctx, &stack.sp10, this->m_6c + temp_r3_4, temp_r7_2, 1);
         }
-        end_render_forward__20TWindowSubStatusDispFPv();
+        TWindowSubStatusDisp::end_render_forward();
         if ((var_r31 != 0) && !(this->m_2c & 2)) {
             fn_8025DE10(ctx, &stack.sp8);
         }
