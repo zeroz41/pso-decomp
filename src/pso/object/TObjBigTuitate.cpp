@@ -78,7 +78,7 @@ CollisionBody big_tuitate_collision_body[1] = {
     {{0.0f, 0.0f, 0.0f}, 6.0f, 16.0f, 1, 0x10003},
 };
 extern s32 __vt__14TObjBigTuitate[];
-extern s32 lbl_805D3454;
+extern s32 TObjBigTuitate__name;
 
 void TLobby__sub_8001FE7C(void*, int);
 void free_collision_body_parts(void *);
@@ -290,7 +290,7 @@ void *TObjBigTuitate__ct(void *arg0, void *arg1, void *arg2) {
     __ct__14TObjCollidableFP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TObjBigTuitate;
     __ct__15RenderFadeStateFv(((void *)((u8 *)arg0 + 0xAC)));
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D3454;
+    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjBigTuitate__name;
     ((TObjBigTuitate *)(arg0))->apply_object_set_data((void *)((s32)arg2));
     init_collision_body_parts(arg0, big_tuitate_collision_body, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();

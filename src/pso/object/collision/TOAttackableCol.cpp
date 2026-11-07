@@ -15,7 +15,7 @@
 #pragma readonly_strings on
 
 CollisionBody TOAttackableCol__collision_parts = {{0.0f, 0.0f, 0.0f}, 5.0f, 0.0f, 0, 0x38003, {0.0f, 0.0f, 0.0f}, 0.0f};
-const char *lbl_805D2E98 = "TOAttackableCol";
+const char *TOAttackableCol__name = "TOAttackableCol";
 
 void set_floor_switch_flag(u32 id, s16 floor);
 
@@ -134,7 +134,7 @@ void handle_6x91_update_attackable_col_state(Msg_801575AC *msg) {
         if (msg->room != 0xFFFF && msg->room >= 0x4000) {
             col = (TOAttackableCol *)find_entity_by_id(msg->room);
             if (col != NULL) {
-                if (check_value_equals__13TUnk_804B6C24Fl(col, (s32)lbl_805D2E98) != 0) {
+                if (check_value_equals__13TUnk_804B6C24Fl(col, (s32)TOAttackableCol__name) != 0) {
                     SetEntry_80157454 saved;
                     switch (msg->state) {
                     case 0:
@@ -333,7 +333,7 @@ typedef char RecoveredGlobal_80157AD8___vt__15TOAttackableCol_size[sizeof(Recove
 u8 *TOAttackableCol__ct(u8 *arg0, s32 arg1) {
     __ct__9TObjCharaFP7TObject(arg0, tl_05);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80157AD8___vt__15TOAttackableCol *)&__vt__15TOAttackableCol).value;
-    ((TObject *)arg0)->m_name = lbl_805D2E98;
+    ((TObject *)arg0)->m_name = TOAttackableCol__name;
     ((TOAttackableCol *)(arg0))->apply_object_set_data((void *)arg1);
     ((TObjChara *)arg0)->calc_attach_pos();
     obj_setFlags30(arg0, 0x60000000);

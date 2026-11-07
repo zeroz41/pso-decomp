@@ -21,7 +21,7 @@
 #pragma readonly_strings on
 
 extern "C" {
-const char *lbl_805D3528 = "TPhotonYoulla";
+const char *TPhotonYoulla__name = "TPhotonYoulla";
 int lbl_805D5D60;
 }
 
@@ -60,7 +60,7 @@ void *find_entity_by_id(u16 id);
 s32 spawn_photon_blast_attachment_effects(void *, s32);
 extern u8 photon_blast_youlla_params[];
 extern s32 __vt__13TPhotonYoulla[];
-extern const char *lbl_805D3528;
+extern const char *TPhotonYoulla__name;
 extern u8 *photon_blast_shared_resource;
 void __dl__7TObjectFPv(void *);
 
@@ -144,7 +144,7 @@ u8 *TPhotonYoulla__ct(TPhotonYoulla *photon_youlla, u8 *arg1) {
     u8 *temp_r3;
     __ct__13TUnk_804C3248Fv(photon_youlla);
     *(s32 **)((s8 *)photon_youlla + 0x18) = __vt__13TPhotonYoulla;
-    *(s32 *)((s8 *)photon_youlla + 0) = (s32) ((s32)lbl_805D3528);
+    *(s32 *)((s8 *)photon_youlla + 0) = (s32) ((s32)TPhotonYoulla__name);
     *(s32 *)((s8 *)photon_youlla + 0x138) = 5;
     VecCopy((Vec *)((u8 *)photon_youlla + 0x38), (const Vec *)(arg1));
     photon_youlla->m_17c = (u16) *(u16 *)((s8 *)arg1 + 0xC);

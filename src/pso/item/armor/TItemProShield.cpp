@@ -38,7 +38,7 @@ void TObjPlayer__sub_80364198(void);
 // at 0x80117E50: TObjPlayer_80117DD8.cpp's last two functions (the nearby
 // player checks, whose doubles follow these strings in .rodata) belong here
 // and are not folded until the first of them matches.
-extern const char *lbl_805D2C38;
+extern const char *TItemProShield__name;
 extern const char *lbl_805D2C3C;
 // The timer events a shield starts. Their classes are still written as C
 // functions on the raw object (TItemTimerEvent has no real constructor).
@@ -94,7 +94,7 @@ TItem *TItemProShield::create(u8 *item) {
 }
 
 TItemProShield::TItemProShield(TObject *parent, u8 *item) : TItemEquipBase(parent, item) {
-    m_name = lbl_805D2C38;
+    m_name = TItemProShield__name;
     set_attach_slot(3);
     pmt = (ShieldPmtEntry *)lookup_item_pmt_record(item);
     effect_entry = &shield_table[pmt->block_effect];

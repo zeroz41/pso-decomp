@@ -354,7 +354,7 @@ s32 post_translate_matrix(void *);
 
 extern u32 TOTrapAncient02__shared_resource;
 extern s32 __vt__15TOTrapAncient02[];
-extern u32 lbl_805D31B4;
+extern u32 TOTrapAncient02__name;
 extern s32 lbl_805D31B8;
 extern s32 actor_frame_tick;
 extern s32 game_difficulty_selection;
@@ -1233,7 +1233,7 @@ void *__dt__15TOTrapAncient02Fv(void *trap, s16 arg1) {
 void *TOTrapAncient02__ct(void *arg0, void *arg1, void *arg2) {
     TOTrap__ct(((Trap_8017B6D8 *)arg0), arg1, arg2);
     ((Trap_8017B6D8 *)arg0)->vt = (void *)__vt__15TOTrapAncient02;
-    ((Trap_8017B6D8 *)arg0)->id = lbl_805D31B4;
+    ((Trap_8017B6D8 *)arg0)->id = TOTrapAncient02__name;
     ((V_8017B6D8 *)((Trap_8017B6D8 *)arg0))->init(arg2);
     ((TObjPlayer *)arg0)->init_position_vectors();
     ((TObjChara *)arg0)->calc_attach_pos();

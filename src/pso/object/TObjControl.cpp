@@ -457,7 +457,7 @@ void init_6x9C_enemy_low_game_flags_packet(u8 *arg0);
 extern Hdr_800F6464 *TLobby__data_805D6144;
 extern s32 __vt__11TObjControl[];
 extern u8 lobby_rule_settings[];
-extern void *lbl_805D2B04;
+extern void *TObjControl__name;
 extern s32 area_random_seed;
 extern s32 game_difficulty_selection;
 extern const f32 lbl_805DA8C0;
@@ -553,7 +553,7 @@ TObjControl::~TObjControl() {}
 void *__ct__11TObjControlFP7TObject(void *control) {
     __ct__7TObjectFP7TObject(control);
     *(s32 **)((s8 *)control + 0x18) = __vt__11TObjControl;
-    *(void * *)&((TObjControl *)control)->m_name = lbl_805D2B04;
+    *(void * *)&((TObjControl *)control)->m_name = TObjControl__name;
     ((TObjControl *)control)->m_decision_mode = 2;
     ((TObjControl *)control)->m_reserved = 0;
     return control;

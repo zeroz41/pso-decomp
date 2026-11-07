@@ -64,7 +64,7 @@ typedef Entry_802C0CAC Ent_802C0F3C;
 typedef struct { f32 x, y, z; } Vec_802C17FC;
 
 // TObjPathObj's class name.
-const char *lbl_805D3EC0 = "TObjPathObj";
+const char *TObjPathObj__name = "TObjPathObj";
 
 // Path profiles: {motion, pathSpeed, animationSpeed, lookAhead, turnStep}
 // (PigeonMovement's fields); turnStep 182 is one degree in 0x10000 units.
@@ -1602,7 +1602,7 @@ typedef char RecoveredGlobal_802C320C___vt__11TObjPathObj_size[sizeof(RecoveredG
 u8 *TObjPathObj__ct(u8 *path_obj, s32 parent, s32 arg2) {
     __ct__8TObjBaseFP7TObject((void *) (path_obj), (void *) (parent));
     *(s32 **)((s8 *)path_obj + 0x18) = &(*(RecoveredGlobal_802C320C___vt__11TObjPathObj *)&__vt__11TObjPathObj).value;
-    *(s32 *)((s8 *)path_obj + 0) = (s32) lbl_805D3EC0;
+    *(s32 *)((s8 *)path_obj + 0) = (s32) TObjPathObj__name;
     ((TObjPathObj *)(path_obj))->apply_object_set_data((void *)arg2);
     *(f32 *)((s8 *)path_obj + 0x90) = (f32) (5e+02f);
     ((TObjPathObj *)path_obj)->m_94 = (f32) (1.5e+02f);

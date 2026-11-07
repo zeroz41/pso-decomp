@@ -34,10 +34,10 @@ struct EffectNodeDesc {
 
 extern s32 lbl_804DF614[]; // model ids, defined in TBoss6Type1.cpp
 
-const char lbl_80477E48[] = "TBoss6Demo11_TYPE1_DEAD";
+const char TBoss6Demo11_TYPE1_DEAD__class_name_string[] = "TBoss6Demo11_TYPE1_DEAD";
 static s32 lbl_804EF9D8[2] = {4, 5};          // motion ids
 static Vec lbl_804EF9E0 = {0.0f, 0.0f, 70.0f}; // start position
-const char *lbl_805D42A0 = lbl_80477E48;
+const char *TBoss6Demo11_TYPE1_DEAD__name = TBoss6Demo11_TYPE1_DEAD__class_name_string;
 
 void *TBoss6PlotFalz::create(void *parent, void *arg) {
     return new TBoss6Demo11_TYPE1_DEAD((TObject *)parent, arg);
@@ -56,7 +56,7 @@ TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TObject *parent, void *arg) : T
     static const CameraPlayback lbl_80477ECC = {1, 0, 0, 0.0f, 0.7f};
     BmlResource *resource;
     s32 i;
-    m_name = lbl_805D42A0;
+    m_name = TBoss6Demo11_TYPE1_DEAD__name;
     owner = (TObjFish *)parent;
     VecCopy(&position, &lbl_804EF9E0);
     resource = (BmlResource *)TObjFish::get_fish_count();

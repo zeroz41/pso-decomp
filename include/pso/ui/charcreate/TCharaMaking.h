@@ -10,7 +10,7 @@ struct BmlResourceDescriptor;
 extern const char *charamakingmot_model_names[1];
 extern const char *charamakingmot_motion_names[50];
 extern BmlResourceDescriptor creation_menu_resource_descriptor;
-extern const char *lbl_805D3B6C;
+extern const char *TCharaMaking__name;
 extern const s32 lbl_8045122C[19];
 
 struct TCharaMaking : public TObject {

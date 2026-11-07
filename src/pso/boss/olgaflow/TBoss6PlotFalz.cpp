@@ -120,7 +120,7 @@ const char *boss06_plotfalz_dat_motion_names[63] = {
     NULL,
 };
 BmlResourceDescriptor boss6_plot_falz_resource_descriptor = { "boss06_plotfalz_dat.bml", boss06_plotfalz_dat_model_names, boss06_plotfalz_dat_motion_names, 14, 62 };
-const char *lbl_805D3E50 = "TBoss6PlotFalz";
+const char *TBoss6PlotFalz__name = "TBoss6PlotFalz";
 f32 TBoss6PlotFalz__fade_amount = -1.0f;
 #pragma pop
 const Vec lbl_8047059C = { -10000.0f, 0.0f, 0.0f };
@@ -1478,7 +1478,7 @@ s32 TBoss6PlotFalz__ct(s32 self, s32 arg1, s32 arg2) {
 
     __ct__9TObjEnemyFP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__14TBoss6PlotFalz.value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D3E50;
+    *(s32 *)((s8 *)arg0 + 0) = (s32) TBoss6PlotFalz__name;
     ((TBoss6PlotFalz *)arg0)->sub_802AAC98();
     TBoss6PlotFalz__instance = self;
     ((TBoss6PlotFalz *)(arg0))->apply_set_data((void *)arg2);

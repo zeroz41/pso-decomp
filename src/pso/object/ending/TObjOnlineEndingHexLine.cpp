@@ -41,7 +41,7 @@ extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 void TObjOnlineEndingHexLine__sub_802E55A4(void *arg0, void *arg1);
 extern void *__vt__23TObjOnlineEndingHexLine[];
-extern s32 lbl_805D3FA4;
+extern s32 TObjOnlineEndingHexLine__name;
 Hex_802E57E0 *__ct__23TObjOnlineEndingHexLineFv(Hex_802E57E0 *arg0, s32 arg1, Pos_802E57E0 *arg2);
 Param_802E5CB0 lbl_804E3A98 = { 0.25f, 1.0f, 0, 10.0f };
 Param_802E5CB0 TObjOnlineEndingHexLine__hex_line_params = lbl_804E3A98;
@@ -72,7 +72,7 @@ extern Param_802E5CB0 online_ending_hex_line_state;
 extern V2_802E5B0C lbl_80472C00[];
 extern u8 controller_input_state[];
 extern s32 local_client_id;
-extern s32 lbl_805D3FA0;
+extern s32 TObjOnlineEndingHexMove__name;
 extern s32 __vt__23TObjOnlineEndingHexMove[];
 
 s32 bswap_6x92__14TAdGameStartGCFPv(void *);
@@ -230,7 +230,7 @@ Hex_802E57E0 *__ct__23TObjOnlineEndingHexLineFv(Hex_802E57E0 *arg0, s32 arg1, Po
     s32 i;
     ((void (*)(void *))__ct__7TObjectFP7TObject)(arg0);
     arg0->vt = __vt__23TObjOnlineEndingHexLine;
-    arg0->f0 = lbl_805D3FA4;
+    arg0->f0 = TObjOnlineEndingHexLine__name;
     Pos_802E57E0 pos = *arg2;
     if (pos.y & 1) {
         if (pos.x % 3 == 2) {
@@ -486,7 +486,7 @@ u8 *TObjOnlineEndingHexMove__ct(u8 *object, void *origin) {
     s32 i;
     __ct__7TObjectFP7TObject(object, origin);
     *(s32 **)((s8 *)object + 0x18) = __vt__23TObjOnlineEndingHexMove;
-    *(s32 *)((s8 *)object + 0) = lbl_805D3FA0;
+    *(s32 *)((s8 *)object + 0) = TObjOnlineEndingHexMove__name;
     for (i = 0; i < 4; i++) {
         TObjOnlineEndingHexLine::create(origin, &TObjOnlineEndingHexLine_corner_offsets[i]);
     }

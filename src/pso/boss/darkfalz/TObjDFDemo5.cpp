@@ -32,7 +32,7 @@ extern "C" {
 // Dark Falz's three body models (TBoss4Type3's table).
 extern s32 lbl_80486FB0[3];
 
-const char *lbl_805D27A0 = "TObjDFDemo5";
+const char *TObjDFDemo5__name = "TObjDFDemo5";
 TObjFishNodeEntry lbl_80485798[3] = {{0x38}, {0x39}, {-1}};
 TObjFishNodeEntry lbl_804857C8[2] = {{0}, {-1}};
 // The motions of the three body models.
@@ -47,7 +47,7 @@ TObjDFDemo5::TObjDFDemo5(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     BmlResource *res;
     int id;
     s32 i;
-    m_name = lbl_805D27A0;
+    m_name = TObjDFDemo5__name;
     VecCopy(&this->pos, pos);
     this->angle = angle;
     res = (BmlResource *)TBoss4Uro::get_instance_count();

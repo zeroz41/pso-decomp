@@ -17,7 +17,7 @@ extern const char *bm_fe_obj_tank_hikari_model_names[2];
 const char *bm_fe_obj_tank_hikari_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_fe_obj_tank_hikari_model_names[2] = { "fe_obj_tank_hikari.gj", NULL };
 BmlResourceDescriptor bm_fe_obj_tank_hikari_resource_descriptor = { "bm_fe_obj_tank_hikari.bml", bm_fe_obj_tank_hikari_model_names, bm_fe_obj_tank_hikari_motion_names, 1, 0 };
-const char *lbl_805D3174 = "TOSparkMachine01";
+const char *TOSparkMachine01__name = "TOSparkMachine01";
 u32 TOSparkMachine01__static_resource;
 }
 
@@ -92,7 +92,7 @@ extern BmlResourceDescriptor bm_fe_obj_tank_hikari_resource_descriptor;
 extern u32 TOSparkMachine01__static_resource;
 void __ct__8TObjBaseFP7TObject(void *, s32);
 extern s32 __vt__16TOSparkMachine01[];
-extern const char *lbl_805D3174;
+extern const char *TOSparkMachine01__name;
 extern s32 tl_05;
 void begin_effect_render__13TParticleCtrlFv(void *);
 void rotate_matrix_y(int, int);
@@ -203,7 +203,7 @@ void *TOSparkMachine01__ct(void *arg0, void *arg1) {
     s32 i;
     __ct__8TObjBaseFP7TObject(self, tl_05);
     *(void **)((u8 *)self + 0x18) = ((s32 *)&__vt__16TOSparkMachine01);
-    *(s32 *)self = ((s32)lbl_805D3174);
+    *(s32 *)self = ((s32)TOSparkMachine01__name);
     self->m5(arg1);
     self->unk34 = ((Res_801773D8 *)TOSparkMachine01__static_resource)->model->a;
     self->unk24 = ((Res_801773D8 *)TOSparkMachine01__static_resource)->model->b;

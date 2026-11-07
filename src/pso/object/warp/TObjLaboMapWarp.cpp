@@ -231,10 +231,10 @@ extern const char lbl_80444A00[];
 extern const char lbl_80444A10[];
 extern RecoveredGlobal_80185514_lbl_804B600C bm_obj_warp_labo_resource_descriptor;
 extern const char *labo_map_warp_dest_name_table_a[];
-extern s32 lbl_805D32A8;
-extern void *lbl_805D32AC;
-extern void *lbl_805D32B0;
-extern void *lbl_805D32B4;
+extern s32 TObjCityMainWarp__name;
+extern void *TObjCityAreaWarp__name;
+extern void *TObjCityMapWarp__name;
+extern void *TObjLaboMapWarp__name;
 extern u8 *city_common_model_archive;
 extern s32 city_common_texture_list;
 extern const f32 lbl_805DBC80;
@@ -355,7 +355,7 @@ void *__dt__15TObjLaboMapWarpFv(void *arg0, s16 arg1) {
 void *TObjLaboMapWarp__ct(void *labo_map_warp) {
     TObjMapWarp__ct(labo_map_warp);
     *(s32 **)((s8 *)labo_map_warp + 0x18) = __vt__15TObjLaboMapWarp;
-    *(void * *)&((TObjLaboMapWarp *)labo_map_warp)->m_name = lbl_805D32B4;
+    *(void * *)&((TObjLaboMapWarp *)labo_map_warp)->m_name = TObjLaboMapWarp__name;
     ((TObjLaboMapWarp *)labo_map_warp)->clamp_index();
     *(f32 *)((s8 *)labo_map_warp + 0xAC) = lbl_805DBC8C;
     *(f32 *)((s8 *)labo_map_warp + 0xFC) = lbl_805DBC90;
@@ -462,7 +462,7 @@ void *__dt__15TObjCityMapWarpFv(void *arg0, s16 arg1) {
 void *TObjCityMapWarp__ct(void *city_map_warp) {
     TObjMapWarp__ct(city_map_warp);
     *(s32 **)((s8 *)city_map_warp + 0x18) = __vt__15TObjCityMapWarp;
-    *(void * *)&((TObjCityMapWarp *)city_map_warp)->m_name = lbl_805D32B0;
+    *(void * *)&((TObjCityMapWarp *)city_map_warp)->m_name = TObjCityMapWarp__name;
     ((TObjCityMapWarp *)city_map_warp)->clamp_destination_index();
     *(f32 *)((s8 *)city_map_warp + 0xAC) = lbl_805DBC8C;
     *(f32 *)((s8 *)city_map_warp + 0xFC) = lbl_805DBC90;
@@ -539,7 +539,7 @@ void *__dt__16TObjCityAreaWarpFv(void *arg0, s16 arg1) {
 void *TObjCityAreaWarp__ct(TObjCityAreaWarp *city_area_warp) {
     TObjAreaWarp__ct(city_area_warp);
     *(s32 **)((s8 *)city_area_warp + 0x18) = __vt__16TObjCityAreaWarp;
-    *(void * *)&city_area_warp->m_name = lbl_805D32AC;
+    *(void * *)&city_area_warp->m_name = TObjCityAreaWarp__name;
     *(f32 *)((s8 *)city_area_warp + 0xAC) = lbl_805DBC8C;
     city_area_warp->m_c4 = lbl_805DBC90;
     city_area_warp->m_bc = 15;
@@ -739,7 +739,7 @@ void *TObjCityMainWarp__ct(void *arg0, void *arg1, void *arg2) {
     void *p;
     ((void (*)(void *, void *, void *))TObjAreaWarp__ct)(self, arg1, arg2);
     *(s32 **)((u8 *)self + 0x18) = __vt__16TObjCityMainWarp;
-    *(s32 *)self = lbl_805D32A8;
+    *(s32 *)self = TObjCityMainWarp__name;
     self->xac = lbl_805DBCA4;
     self->xc4 = lbl_805DBC90;
     for (i = 0; i < 17; i++) {

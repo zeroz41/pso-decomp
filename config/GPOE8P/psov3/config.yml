@@ -7443,7 +7443,7 @@ force_active:
   - lbl_8043B398
   - lbl_8043BC10
   - lbl_8043BC24
-  - lbl_8043BC48
+  - TObjEneRe2Flower_EffCurse3__class_name_string
   - lbl_8043C920
   - lbl_8043D008
   - lbl_8043D01C
@@ -7466,14 +7466,14 @@ force_active:
   - lbl_8043D1B8
   - lbl_8043D1D0
   - lbl_8043D1EC
-  - lbl_8043D200
+  - TObjEneSlime__class_name_string
   - lbl_8043D210
   - lbl_8043D218
-  - lbl_8043D220
+  - TObjEneSlimeOne__class_name_string
   - lbl_8043D230
   - lbl_8043D23C
-  - lbl_8043D248
-  - lbl_8043D268
+  - TObjEneSlimeWaterBomb__class_name_string
+  - TObjEneSlimeTailAttack__class_name_string
   - lbl_8043ED80
   - lbl_8043EDE8
   - lbl_8043EDF0
@@ -7525,8 +7525,8 @@ force_active:
   - lbl_80441798
   - lbl_804417B4
   - lbl_804417D0
-  - lbl_804417FC
-  - lbl_80441818
+  - TOHangceilingCave01Normal__class_name_string
+  - TOHangceilingCave01Key__class_name_string
   - lbl_80441858
   - lbl_80441874
   - lbl_80443BA8
@@ -7640,9 +7640,9 @@ force_active:
   - lbl_804509F0
   - lbl_80450A00
   - lbl_80450A10
-  - lbl_80450AA0
+  - TQuestListChallenge__class_name_string
   - lbl_80450AB4
-  - lbl_804663F8
+  - TChCrTagName__class_name_string
   - lbl_80466408
   - lbl_80466410
   - lbl_80466418
@@ -7657,14 +7657,14 @@ force_active:
   - lbl_80466748
   - lbl_80466750
   - lbl_80466758
-  - lbl_8046FC68
-  - lbl_8046FC78
+  - TBGLightning__class_name_string
+  - TBGLightningCtrl__class_name_string
   - lbl_8046FC8C
   - lbl_8046FCA0
-  - lbl_80471D70
+  - TAdFadeGC__class_name_string
   - lbl_80472C28
-  - lbl_80472C38
-  - lbl_80472C48
+  - TAdGameStartGC__class_name_string
+  - TAdGameStartSubGC__class_name_string
   - lbl_80472C68
   - lbl_80472C80
   - lbl_80472C90
@@ -7685,8 +7685,8 @@ force_active:
   - lbl_8047506C
   - lbl_80475084
   - lbl_804750C8
-  - lbl_80475D5C
-  - lbl_80475DBC
+  - TObjEneDelDepth__class_name_string
+  - TObjEneDelDepthBomb__class_name_string
   - lbl_804773DC
   - lbl_804773FC
   - lbl_80477444
@@ -7694,7 +7694,7 @@ force_active:
   - lbl_80477DEC
   - lbl_80477E30
   - lbl_80477E3C
-  - lbl_80478088
+  - TBoss6Demo21_TYPE2_DEAD__class_name_string
   - lbl_804780A0
   - lbl_804780AC
   - lbl_804780B8
@@ -8229,72 +8229,72 @@ force_active:
   - lbl_805C1890
   - lbl_805CF240
   - lbl_805CF380
-  - lbl_805D2780
-  - lbl_805D27A0
-  - lbl_805D27E8
-  - lbl_805D27EC
-  - lbl_805D27F0
+  - TObjDFDemo1__name
+  - TObjDFDemo5__name
+  - TBoss4Zako__name
+  - TBoss4Uro__name
+  - TBoss4Bishi__name
   - lbl_805D2808
-  - lbl_805D280C
-  - lbl_805D2810
-  - lbl_805D2820
+  - TBoss5GryphonColli__name
+  - TBoss5GryphonDemo__name
+  - TBoss5GryphonSnarl__name
   - lbl_805D283C
-  - lbl_805D2990
+  - TObjEneRe7BeruraPunch__name
   - lbl_805D2A50
-  - lbl_805D2A58
-  - lbl_805D2AD8
-  - lbl_805D2AE0
+  - TObjEneRe2Flower_EffCurse3__name
+  - TObjEneSlime__name
+  - TObjEneSlimeWaterBomb__name
   - lbl_805D2E70
-  - lbl_805D2E98
-  - lbl_805D3100
-  - lbl_805D3104
-  - lbl_805D3108
-  - lbl_805D310C
-  - lbl_805D3110
-  - lbl_805D3114
-  - lbl_805D3118
-  - lbl_805D3120
-  - lbl_805D3128
-  - lbl_805D312C
-  - lbl_805D3130
-  - lbl_805D3134
-  - lbl_805D3138
-  - lbl_805D313C
-  - lbl_805D3174
-  - lbl_805D3188
-  - lbl_805D32E8
-  - lbl_805D34A0
-  - lbl_805D34A8
+  - TOAttackableCol__name
+  - TORockCaveBrakable__name
+  - TORockCaveS01__name
+  - TORockCaveS02__name
+  - TORockCaveSS02__name
+  - TORockCaveS03__name
+  - TORockCaveM01__name
+  - TORockCaveM02__name
+  - TORockCaveM03__name
+  - TORockCaveL02__name
+  - TORockCaveSL02__name
+  - TORockCaveL03__name
+  - TORockCaveBL01__name
+  - TORockCaveBL02__name
+  - TORockCaveBL03__name
+  - TOSparkMachine01__name
+  - TOSwitchTimer__name
+  - TObjContainerBase__name
+  - TObjWarpLobby__name
+  - TObjLuker__name
   - lbl_805D34C8
-  - lbl_805D34F0
-  - lbl_805D3520
-  - lbl_805D3528
-  - lbl_805D3640
-  - lbl_805D3810
-  - lbl_805D3820
-  - lbl_805D3830
-  - lbl_805D3890
+  - TPhotonLaser__name
+  - TPhotonRainbow__name
+  - TPhotonYoulla__name
+  - TCheckRoomSequence__name
+  - TTecResta__name
+  - TTecSifta__name
+  - TTecZarua__name
+  - TWindowBreakIn__name
   - lbl_805D3898
   - lbl_805D38B0
-  - lbl_805D3988
-  - lbl_805D3990
-  - lbl_805D3998
-  - lbl_805D3B30
-  - lbl_805D3B38
-  - lbl_805D3B58
-  - lbl_805D3B60
-  - lbl_805D3CC8
-  - lbl_805D3E50
-  - lbl_805D3E90
-  - lbl_805D3F08
+  - TWindowMessageInfomation__name
+  - TWindowMessageLog__name
+  - TWindowMessagePage__name
+  - TObjBoss5PillarSmoke__name
+  - TObjBoss5PillarCtrl__name
+  - TChCrLoadGmNjReq__name
+  - TChCrLoadReq__name
+  - TObjCMHexTile__name
+  - TBoss6PlotFalz__name
+  - TBoss6EmptyWarp__name
+  - TOTrapChainSawKey__name
   - lbl_805D3FB0
-  - lbl_805D3FF8
-  - lbl_805D4198
-  - lbl_805D41B0
+  - TBoss8DragonDemo__name
+  - TObjEneMe1GiGueBarrier__name
+  - TAdDialingGC__name
   - lbl_805D4220
   - lbl_805D42D8
-  - lbl_805D4350
-  - lbl_805D4368
+  - TItemEffPG__name
+  - TBoss5GryphonLightningWing__name
   - lbl_805D4630
   - lbl_805D4638
   - lbl_805D4640

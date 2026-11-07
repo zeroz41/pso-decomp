@@ -107,7 +107,7 @@ u8 *TCharaMaking__ct(u8 *arg0, s32 arg1) {
     u32 motion;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__12TCharaMaking.value;
-    ((TCharaMaking *)arg0)->m_name = lbl_805D3B6C;
+    ((TCharaMaking *)arg0)->m_name = TCharaMaking__name;
     motion = ((u32)__nw__7TObjectFUl(0x10C));
     if (motion != 0U) {
         TCMCharacter__ct((void *)motion, (arg0));

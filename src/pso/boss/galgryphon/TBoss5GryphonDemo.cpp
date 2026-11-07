@@ -10,7 +10,7 @@
 #pragma readonly_strings on
 
 extern "C" {
-const char *lbl_805D2810 = "TBoss5GryphonDemo";
+const char *TBoss5GryphonDemo__name = "TBoss5GryphonDemo";
 }
 
 
@@ -26,7 +26,7 @@ u8 *get_scripted_camera_playback();
 
 int TBoss8Dragon__sub_8005D700(void);
 s32 activate_camera_mode(s32 arg0);
-extern const char *lbl_805D2810;
+extern const char *TBoss5GryphonDemo__name;
 
 void TBoss5GryphonDemo::render() {  }
 
@@ -44,7 +44,7 @@ TBoss5GryphonDemo::~TBoss5GryphonDemo() {}
 }
 TBoss5GryphonDemo::TBoss5GryphonDemo(TObject *parent, s32 arg2, f32 farg0) : TObject(parent) {
     Cam_800665FC c;
-    ((Obj_800665FC *)this)->f0 = ((s32)lbl_805D2810);
+    ((Obj_800665FC *)this)->f0 = ((s32)TBoss5GryphonDemo__name);
     ((Obj_800665FC *)this)->f1c = farg0;
     ((Obj_800665FC *)this)->f20 = 0.0f;
     ((Obj_800665FC *)this)->f24 = arg2;

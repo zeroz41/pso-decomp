@@ -50,19 +50,19 @@ u8 *__dt__12TAdDialingGCFv(u8 *arg0, s16 arg1) {
 #pragma readonly_strings on
 
 extern "C" {
-const char *lbl_805D41B0 = "TAdDialingGC";
+const char *TAdDialingGC__name = "TAdDialingGC";
 }
 
 extern "C" {
 
 s32 __ct__7TObjectFP7TObject();
 
-extern const char *lbl_805D41B0;
+extern const char *TAdDialingGC__name;
 
 void *TAdDialingGC__ct(TAdDialingGC *ad_dialing_gc, TObject *parent) {
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)ad_dialing_gc + 0x18) = __vt__12TAdDialingGC;
-    *(s32 *)((s8 *)ad_dialing_gc + 0) = (s32) ((s32)lbl_805D41B0);
+    *(s32 *)((s8 *)ad_dialing_gc + 0) = (s32) ((s32)TAdDialingGC__name);
     TAdDialingGC__instance = ad_dialing_gc;
     if (TLobby::is_state_active() != 0) {
         ad_dialing_gc->m_1c = 1;

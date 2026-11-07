@@ -11,7 +11,7 @@
 #pragma readonly_strings on
 
 extern "C" {
-const char *lbl_805D34F0 = "TPhotonLaser";
+const char *TPhotonLaser__name = "TPhotonLaser";
 }
 
 
@@ -64,7 +64,7 @@ extern "C" {
 void __ct__9TObjCharaFP7TObject(void *, void *);
 void *create_particle_emitter(void *pos, s32 id);
 extern s32 __vt__12TPhotonLaser[];
-extern const char *lbl_805D34F0;
+extern const char *TPhotonLaser__name;
 Laser_801AC36C *TPhotonLaser__ct(Laser_801AC36C *self, Params_801AC36C *p, void *parent, s16 arg3);
 void queue_destruction__7TObjectFv(void *arg0);
 void *spawn_particle_effect(void *pos, s32 id);
@@ -135,7 +135,7 @@ extern "C" {
 Laser_801AC36C *TPhotonLaser__ct(Laser_801AC36C *self, Params_801AC36C *p, void *parent, s16 arg3) {
     __ct__9TObjCharaFP7TObject(self, parent);
     self->vt18 = ((s32 *)&__vt__12TPhotonLaser);
-    self->f0 = ((s32)lbl_805D34F0);
+    self->f0 = ((s32)TPhotonLaser__name);
     VecCopy((Vec *)&self->f334, (const Vec *)(VecCopy((Vec *)((Vec *)&self->f340), (const Vec *)((const Vec *)&p->pos))));
     self->f370 = arg3;
     VecCopy((Vec *)&self->f34C, (const Vec *)&p->dir);

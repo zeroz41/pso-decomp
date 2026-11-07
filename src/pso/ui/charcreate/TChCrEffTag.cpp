@@ -117,8 +117,8 @@ void *__ct__11TChCrEffTagFv(void *ch_cr_eff_tag, void *parent) {
     return ch_cr_eff_tag;
 }
 
-extern char lbl_80465298[];
-void *TChCrEffTag__name = lbl_80465298;
+extern char TChCrEffTag__class_name_string[];
+void *TChCrEffTag__name = TChCrEffTag__class_name_string;
 s32 TChCrEffTag__selected_heading = -1;
 }
 

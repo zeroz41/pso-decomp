@@ -213,7 +213,7 @@ void fn_8023B590(void *, s32, s32);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 f32 vector_length(void *);
-extern s32 lbl_805D3828;
+extern s32 TTecSlicer__name;
 extern s32 tl_05;
 extern const f32 lbl_805DC950;
 extern const f32 lbl_805DC964;
@@ -426,7 +426,7 @@ s32 TTecSlicer__ct(void *arg0, void *arg1, void *arg2, void *arg3, int arg4) {
     __ct__8FlagWordFv((self->fwd));
     ((TTecSlicer *)(self->fc8))->reset_fields_1e();
     ((TTecSlicer *)(self->fe8))->reset_fields_1e();
-    self->f0 = lbl_805D3828;
+    self->f0 = TTecSlicer__name;
     disallow_rendering__7TObjectFv((TObject *)self);
     ((TObjBase *)self)->set_entity_id(pop_free_entity_id());
     self->f110 = init->f8;

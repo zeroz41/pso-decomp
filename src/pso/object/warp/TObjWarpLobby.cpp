@@ -32,7 +32,7 @@ __declspec(section ".data") const char *bm_obj_lobby_warp_motion_names[2] = {"de
 BmlResourceDescriptor warp_lobby_resource_descriptor = {
     "bm_obj_lobby_warp.bml", bm_obj_lobby_warp_model_names, bm_obj_lobby_warp_motion_names, 1, 1,
 };
-const char *lbl_805D34A0 = "TObjWarpLobby";
+const char *TObjWarpLobby__name = "TObjWarpLobby";
 extern "C" s32 TObjWarpLobby__instance;
 
 extern "C" {
@@ -173,7 +173,7 @@ void *TObjWarpLobby__ct(TObjWarpLobby *warp_lobby) {
 
     TObjAreaWarp__ct();
     *(s32 **)((s8 *)warp_lobby + 0x18) = __vt__13TObjWarpLobby;
-    *(s32 *)((s8 *)warp_lobby + 0) = (s32) lbl_805D34A0;
+    *(s32 *)((s8 *)warp_lobby + 0) = (s32) TObjWarpLobby__name;
     warp_lobby->m_c8 = (f32) 0.0f;
     *(f32 *)((s8 *)warp_lobby + 0xC4) = (f32) 0.0f;
     warp_lobby->m_cc = 0;
