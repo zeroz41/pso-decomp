@@ -4,6 +4,10 @@
 #include "pso/network/NetworkMessageTransport.h"
 
 #include "types.h"
+#include <string.h>
+#include <dolphin/exi.h>
+#include <dolphin/hw_regs.h>
+#include <dolphin/os.h>
 #include "pso/unk/TLobby.h"
 #include "pso/network/TUdpSocket.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -93,32 +97,44 @@ extern u8 lbl_805CF240[0xA0];
 extern u8 TLobby__pppoe_message_queue[0xA0];
 extern u8 lbl_805CF380[0x48];
 extern RecoveredGlobal_80427D0C_lbl_805CFC20 lobby_pppoe_slot_table;
-u8 lbl_805D0AA0[0x80];
+// Adapter state: the receive message queue and the interrupt statistics counters (inferred from
+// TLobby__sub_80429B8C, which bumps one counter per BBA interrupt cause).
+typedef struct EthState_805D0AA0 {
+    OSMessageQueue queue;
+    OSMessage queue_msgs[10];
+    s32 pad_48; // receive interrupts
+    s32 pad_4C; // receive error interrupts
+    u16 pad_50;
+    u16 pad_52; // transmit error interrupts
+    u16 pad_54; // transmit interrupts
+    u16 pad_56;
+    u16 pad_58;
+    u16 pad_5A;
+    u16 pad_5C;
+    u16 pad_5E;
+    u16 pad_60;
+    u16 pad_62;
+    u16 pad_64;
+    u16 pad_66;
+    u16 pad_68;
+    u16 pad_6A;
+    u8 pad_6C[0x14];
+} EthState_805D0AA0;
+
+EthState_805D0AA0 lbl_805D0AA0;
 u8 exi_dma_buffer[0x600];
 u8 exi_dma_write_buffer[0xC00];
 extern "C" {
-s32 OSWakeupThread(void *);
-extern s32 network_thread_queue;
-s32 EXIDeselect(s32);
-s32 EXIImm(s32, void *, s32, u32, u32);
-s32 EXISelect(s32, u32, s32);
-s32 EXISync(s32);
-s32 EXIImmEx(s32, s32, s32, s32);
+extern OSThreadQueue network_thread_queue;
 extern s32 exi_send_started_flag;
 extern s32 lbl_805D7C54;
 extern s32 lbl_805D7C7C;
 extern s32 exi_send_size;
-s32 memcpy(void *, void *, int);
 extern s32 exi_mac_address;
-s32 OSDisableInterrupts();
-s32 OSRestoreInterrupts(s32);
-s32 OSSleepThread(void *);
 extern u32 lbl_805D7C4C;
 extern s32 exi_receive_callback;
-extern s32 lbl_805D7C44;
+extern u16 *lbl_805D7C44; // accepted ethertypes (lbl_805D7C48 entries)
 extern s32 lbl_805D7C48;
-s32 EXILock(s32, u32, u32);
-s32 EXIUnlock(s32);
 extern u8 lbl_805CF380[];
 extern u8 TLobby__pppoe_message_queue[];
 typedef struct Ent_804267F0 {
@@ -132,20 +148,30 @@ typedef struct Tbl_804267F0 {
 } Tbl_804267F0;
 
 extern u8 lbl_805CF240[];
-s32 EXIDma(s32, void *, s32, u32, void *);
 extern s32 exi_dma_read_length;
 extern u32 exi_dma_write_length;
-void DCStoreRange(void *, u32);
 void TLobby__sub_8042B434(s32, void *);
 extern s32 lbl_805D7C84;
 extern s32 lbl_805D7C88;
 
-void DCInvalidateRange(void *, u32);
-void TLobby__sub_80429648(void);
-extern u16 lbl_805D7C6C[2];
+
+// BBA receive descriptor: the 4-byte header of a receive-ring page (12-bit next page, 12-bit length, status),
+// unpacked by TLobby__sub_80429648.
+typedef struct RecvDescriptor {
+    u16 next;
+    u16 length;
+    u8 status;
+} RecvDescriptor;
+
+extern RecvDescriptor lbl_805D7C5C;
+extern RecvDescriptor lbl_805D7C6C;
 extern u8 *lbl_805D7C74;
-extern u16 lbl_805D7C7A;
-int memcmp(const void *, const void *, unsigned long);
+extern u16 lbl_805D7C78; // receive ring write page
+extern u16 lbl_805D7C7A; // receive ring read page
+extern s32 lbl_805D7C58;
+extern u8 lbl_805D7C36; // adapter revision id
+extern u16 lbl_805D4836;
+extern u8 lbl_805D4838;
 u32 TLobby__sub_8042BA8C(void *);
 extern s32 lbl_805D4830;
 
@@ -189,9 +215,185 @@ void TLobby::exi_write(s32 arg0, s32 arg1, s32 arg2) {
     EXISelect(0, 2U, 5);
     EXIImm(0, &sp14, 4, 1U, 0U);
     EXISync(0);
-    EXIImmEx(0, arg1, arg2, 0);
+    EXIImmEx(0, (void *)arg1, arg2, 0);
     EXIDeselect(0);
 }
+
+#pragma push
+#pragma inline_depth(4)
+static inline u8 bba_cmd_in8(u32 reg) {
+    u16 cmd;
+    u8 val;
+    cmd = reg << 8;
+    EXISelect(0, 2, 5);
+    EXIImm(0, &cmd, 2, 1, 0);
+    EXISync(0);
+    EXIImm(0, &val, 1, 0, 0);
+    EXISync(0);
+    EXIDeselect(0);
+    return val;
+}
+
+// Selects the adapter and sends a write command word.
+static inline void bba_cmd_write(u32 req) {
+    u16 cmd = req;
+    EXISelect(0, 2, 5);
+    EXIImm(0, &cmd, 2, 1, 0);
+    EXISync(0);
+}
+
+static inline void bba_cmd_out8(u32 reg, u8 val) {
+    bba_cmd_write((reg << 8) | 0x4000);
+    EXIImm(0, &val, 1, 1, 0);
+    EXISync(0);
+    EXIDeselect(0);
+}
+
+static inline void bba_cmd_ins(u32 reg, void *buf, s32 len) {
+    u16 cmd;
+    cmd = reg << 8;
+    EXISelect(0, 2, 5);
+    EXIImm(0, &cmd, 2, 1, 0);
+    EXISync(0);
+    EXIImmEx(0, buf, len, 0);
+    EXIDeselect(0);
+}
+
+static inline void bba_cmd_outs(u32 reg, void *buf, s32 len) {
+    bba_cmd_write((reg << 8) | 0x4000);
+    EXIImmEx(0, buf, len, 1);
+    EXIDeselect(0);
+}
+
+static inline void bba_ins(u32 reg, void *buf, s32 len) {
+    u32 cmd;
+    cmd = ((reg << 8) & 0xFFFF00) | 0x80000000;
+    EXISelect(0, 2, 5);
+    EXIImm(0, &cmd, 4, 1, 0);
+    EXISync(0);
+    EXIImmEx(0, buf, len, 0);
+    EXIDeselect(0);
+}
+
+static inline void bba_outs(u32 reg, void *buf, s32 len) {
+    u32 cmd;
+    cmd = ((reg << 8) & 0xFFFF00) | 0xC0000000;
+    EXISelect(0, 2, 5);
+    EXIImm(0, &cmd, 4, 1, 0);
+    EXISync(0);
+    EXIImmEx(0, buf, len, 1);
+    EXIDeselect(0);
+}
+
+static inline u8 bba_in8(u32 reg) {
+    u8 val;
+    bba_ins(reg, &val, 1);
+    return val;
+}
+
+static inline void bba_out8(u32 reg, u8 val) {
+    bba_outs(reg, &val, 1);
+}
+
+static inline u16 bba_swap16(u16 val) {
+    u16 swapped;
+    swapped = __lhbrx(&val, 0);
+    return swapped;
+}
+
+static inline u16 bba_in16(u32 reg) {
+    u16 val;
+    bba_ins(reg, &val, 2);
+    return bba_swap16(val);
+}
+
+static inline u32 bba_calc_response(u32 val) {
+    u8 c0;
+    u8 c1;
+    u8 c2;
+    u8 c3;
+    u8 i[4];
+    u8 devid[2];
+    memcpy(i, &val, 4);
+    memcpy(devid, &lbl_805D4836, 2);
+    c0 = (i[0] + i[1] * 0xC1 + 0x18 + lbl_805D7C36) ^ (i[3] * i[2] + 0x90);
+    c1 = (i[1] + i[2] + 0x90) ^ (i[0] + (c0 - 0xC1));
+    c2 = (i[2] + 0xC8) ^ (c0 + ((devid[0] + lbl_805D7C36 * 0x23) ^ 0x19));
+    c3 = (i[0] + 0xC1) ^ (i[3] + ((devid[1] + 0xC8) ^ 0x90));
+    return (c0 << 24) | (c1 << 16) | (c2 << 8) | c3;
+}
+
+static inline void bba_challenge(void) {
+    u32 challenge;
+    u32 response;
+    bba_cmd_out8(0x05, lbl_805D4838);
+    bba_cmd_ins(0x08, &challenge, 4);
+    response = bba_calc_response(challenge);
+    bba_cmd_outs(0x09, &response, 4);
+}
+
+static inline void bba_out16(u32 reg, u16 val) {
+    u16 le;
+    le = bba_swap16(val);
+    bba_outs(reg, &le, 2);
+}
+
+static inline RecvDescriptor bba_read_descriptor(u16 addr) {
+    u8 hdr[4];
+    bba_ins(addr, hdr, 4);
+    lbl_805D7C5C.next = ((hdr[1] << 8) & 0xF00) | hdr[0];
+    lbl_805D7C5C.length = (hdr[2] << 4) | ((hdr[1] & 0xF0) >> 4);
+    lbl_805D7C5C.status = hdr[3];
+    return lbl_805D7C5C;
+}
+
+void TLobby__sub_80429648(void) {
+    u16 addr;
+    u16 type;
+    s32 i;
+    u16 len;
+
+    exi_dma_write_length = 0;
+    exi_dma_read_length = 0;
+    while (lbl_805D7C7A != lbl_805D7C78) {
+        addr = lbl_805D7C7A << 8;
+        lbl_805D7C6C = bba_read_descriptor(addr);
+        bba_ins(addr + 0x10, &type, 2);
+        if (lbl_805D7C48 > 0) {
+            for (i = 0; i < lbl_805D7C48; i++) {
+                if (type == lbl_805D7C44[i]) {
+                    break;
+                }
+            }
+            if (i == lbl_805D7C48) {
+                goto next;
+            }
+        }
+        if (lbl_805D7C4C != 0) {
+            lbl_805D7C74 = ((u8 *(*)(u16, u16, u8))lbl_805D7C4C)(type, lbl_805D7C6C.length, lbl_805D7C6C.status);
+            if (lbl_805D7C74 != 0) {
+                len = lbl_805D7C6C.length;
+                if (addr + 4 + len > 0x1000U) {
+                    exi_dma_write_length = addr + 4 + len - 0x1000;
+                    exi_dma_read_length = len - exi_dma_write_length;
+                } else {
+                    exi_dma_read_length = len;
+                    exi_dma_write_length = 0;
+                }
+                TLobby::start_exi_dma_read(addr + 4);
+                return;
+            }
+        }
+    next:
+        lbl_805D7C7A = lbl_805D7C6C.next;
+    }
+    bba_out16(0x18, lbl_805D7C78);
+    bba_out8(0x09, 2);
+    bba_cmd_out8(0x02, 0xF8);
+    EXIUnlock(0);
+}
+#pragma pop
+
 
 void TLobby::start_exi_dma_read(u16 arg0) {
     u32 len;
@@ -201,7 +403,7 @@ void TLobby::start_exi_dma_read(u16 arg0) {
     EXISelect(0, 2, 5);
     EXIImm(0, &cmd, 4, 1, 0);
     EXISync(0);
-    EXIDma(0, exi_dma_buffer, len, 0, exi_dma_write_length != 0 ? (void *)TLobby::start_exi_dma_write : (void *)TLobby__sub_80429AC8);
+    EXIDma(0, exi_dma_buffer, len, 0, exi_dma_write_length != 0 ? (EXICallback)TLobby::start_exi_dma_write : (EXICallback)TLobby__sub_80429AC8);
 }
 
 void TLobby::start_exi_dma_write(s32 chan, void *ctx) {
@@ -213,7 +415,7 @@ void TLobby::start_exi_dma_write(s32 chan, void *ctx) {
     EXISelect(0, 2, 5);
     EXIImm(0, &cmd, 4, 1, 0);
     EXISync(0);
-    EXIDma(0, exi_dma_write_buffer, len, 0, (void *)TLobby__sub_80429AC8);
+    EXIDma(0, exi_dma_write_buffer, len, 0, (EXICallback)TLobby__sub_80429AC8);
 }
 
 void TLobby__sub_80429AC8(void) {
@@ -228,11 +430,243 @@ void TLobby__sub_80429AC8(void) {
         if (exi_dma_write_length != 0) {
             memcpy(lbl_805D7C74 + exi_dma_read_length, exi_dma_write_buffer, exi_dma_write_length);
         }
-        ((void (*)(u8 *, u16))exi_receive_callback)(lbl_805D7C74, lbl_805D7C6C[1]);
+        ((void (*)(u8 *, u16))exi_receive_callback)(lbl_805D7C74, lbl_805D7C6C.length);
     }
-    lbl_805D7C7A = lbl_805D7C6C[0];
+    lbl_805D7C7A = lbl_805D7C6C.next;
     TLobby__sub_80429648();
 }
+#pragma push
+#pragma inline_depth(4)
+static inline void bba_recv(void) {
+    lbl_805D0AA0.pad_48++;
+    lbl_805D7C78 = bba_in16(0x16);
+    lbl_805D7C7A = bba_in16(0x18);
+    TLobby__sub_80429648();
+}
+
+void TLobby__sub_80429B8C(s32 chan, OSContext *ctx) {
+    u8 ir;
+    s32 notify;
+    u8 status;
+    u8 err;
+    void (*callback)(u8);
+
+    notify = 0;
+    if (EXILock(0, 2, TLobby__sub_80429B8C) == 0) {
+        return;
+    }
+    ir = bba_cmd_in8(0x03);
+    bba_cmd_out8(0x02, 0);
+    switch (__cntlzw(ir)) {
+    case 24:
+        bba_cmd_out8(0x03, 0x80);
+        break;
+    case 26:
+        bba_cmd_out8(0x03, 0x20);
+        bba_cmd_out8(0x02, 0xF8);
+        EXIUnlock(0);
+        return;
+    case 25:
+        bba_cmd_out8(0x03, 0x40);
+        bba_cmd_out8(0x02, 0xF8);
+        EXIUnlock(0);
+        return;
+    case 27:
+        bba_challenge();
+        bba_cmd_out8(0x03, 0x10);
+        bba_cmd_out8(0x02, 0xF8);
+        EXIUnlock(0);
+        return;
+    case 28:
+        bba_cmd_in8(0x0B);
+        bba_cmd_out8(0x03, 0x08);
+        bba_cmd_out8(0x02, 0xF8);
+        EXIUnlock(0);
+        return;
+    }
+
+    ir = bba_in8(0x09);
+    if (lbl_805D7C58 == 1 && (ir & 0x02)) {
+        bba_recv();
+        return;
+    }
+    switch (__cntlzw(ir)) {
+    case 24:
+        lbl_805D0AA0.pad_58++;
+        bba_out8(0x09, 0x80);
+        break;
+    case 25:
+        bba_out8(0x09, 0x40);
+        break;
+    case 26:
+        lbl_805D0AA0.pad_56++;
+        bba_out8(0x09, 0x20);
+        break;
+    case 27:
+        lbl_805D0AA0.pad_54++;
+        exi_send_started_flag = 0;
+        status = bba_in8(0x04);
+        if (status & 0x10) {
+            lbl_805D0AA0.pad_66++;
+        }
+        if (status & 0x20) {
+            lbl_805D0AA0.pad_68++;
+        }
+        if (status & 0x40) {
+            lbl_805D0AA0.pad_6A++;
+        }
+        notify = 1;
+        bba_out8(0x09, 0x10);
+        break;
+    case 28:
+        lbl_805D0AA0.pad_52++;
+        err = bba_in8(0x05);
+        if (err & 0x01) {
+            lbl_805D0AA0.pad_5A++;
+        }
+        if (err & 0x02) {
+            lbl_805D0AA0.pad_5C++;
+        }
+        if (err & 0x04) {
+            lbl_805D0AA0.pad_5E++;
+        }
+        if (err & 0x08) {
+            lbl_805D0AA0.pad_60++;
+        }
+        if (err & 0x10) {
+            lbl_805D0AA0.pad_62++;
+        }
+        if (err & 0x40) {
+            lbl_805D0AA0.pad_64++;
+        }
+        bba_out8(0x09, 0x08);
+        break;
+    case 29:
+        lbl_805D0AA0.pad_4C++;
+        notify = 1;
+        exi_send_started_flag = 0;
+        status = bba_in8(0x04);
+        bba_out8(0x09, 0x04);
+        break;
+    case 30:
+        bba_recv();
+        return;
+    case 31:
+        lbl_805D0AA0.pad_50++;
+        bba_out8(0x09, 0x01);
+        break;
+    }
+    bba_cmd_out8(0x02, 0xF8);
+    EXIUnlock(0);
+    if (notify != 0) {
+        callback = (void (*)(u8))lbl_805D7C54;
+        lbl_805D7C54 = 0;
+        callback(status);
+    }
+}
+
+static inline void bba_udelay(u32 usec) {
+    u32 start;
+    u32 ticks;
+    start = OSGetTick();
+    ticks = OSMicrosecondsToTicks(usec);
+    while (OSGetTick() - start < ticks) {
+    }
+}
+
+static inline u32 bba_cmd_in32(u32 reg) {
+    u32 req;
+    u32 val;
+    u16 cmd;
+    req = reg << 8;
+    cmd = req;
+    EXISelect(0, 2, 5);
+    EXIImm(0, &cmd, 2, 1, 0);
+    EXISync(0);
+    EXIImm(0, &val, 4, 0, 0);
+    EXISync(0);
+    EXIDeselect(0);
+    return val;
+}
+
+static inline u8 bba_cmd_in8_slow(u32 reg) {
+    u16 cmd;
+    u8 val;
+    cmd = reg << 8;
+    EXISelect(0, 2, 5);
+    EXIImm(0, &cmd, 2, 1, 0);
+    EXISync(0);
+    EXIImm(0, &val, 1, 0, 0);
+    EXISync(0);
+    bba_udelay(200);
+    EXIDeselect(0);
+    return val;
+}
+
+static inline void bba_reset(void) {
+    bba_out8(0x60, 0);
+    bba_udelay(10000);
+    bba_cmd_in8_slow(0x0F);
+    bba_udelay(10000);
+    bba_out8(0x00, 1);
+    bba_out8(0x00, 0);
+}
+
+s32 TLobby__sub_8042AAA0(void *) {
+    s32 level;
+    u32 cid;
+    u8 val;
+
+    OSInitThreadQueue(&network_thread_queue);
+    OSInitMessageQueue(&lbl_805D0AA0.queue, lbl_805D0AA0.queue_msgs, 10);
+    __SIRegs[15] &= ~0x80000000;
+    level = OSDisableInterrupts();
+    for (;;) {
+        if (EXILock(0, 2, (EXICallback)TLobby::wake_network_thread) == 1) {
+            OSRestoreInterrupts(level);
+            break;
+        }
+        OSSleepThread(&network_thread_queue);
+        OSRestoreInterrupts(level);
+    }
+    exi_send_started_flag = 0;
+    memset(&lbl_805D0AA0.pad_48, 0, 0x24);
+    lbl_805D7C44 = 0;
+    lbl_805D7C48 = 0;
+    lbl_805D7C4C = 0;
+    exi_receive_callback = 0;
+    cid = bba_cmd_in32(0x00);
+    if (cid != 0x04020200) {
+        EXIUnlock(0);
+        OSReport("cid = %08x\n", cid);
+        return -1;
+    }
+    bba_reset();
+    bba_ins(0x20, &exi_mac_address, 6);
+    if (memcmp(&exi_mac_address, &lbl_805D4830, 6) == 0) {
+        OSReport("MAC ADDRESS is 0xffffff\n");
+        return -2;
+    }
+    lbl_805D7C36 = bba_cmd_in8(0x01);
+    bba_cmd_outs(0x04, &lbl_805D4836, 2);
+    bba_cmd_out8(0x05, lbl_805D4838);
+    val = bba_in8(0x5B);
+    val &= ~0x80;
+    bba_out8(0x5B, val);
+    bba_out8(0x5E, 1);
+    val = bba_in8(0x5C);
+    val |= 0x04;
+    bba_out8(0x5C, val);
+    bba_out8(0x01, 0);
+    bba_out8(0x50, 0x80);
+    bba_out8(0x08, 0);
+    bba_cmd_out8(0x02, 0xF8);
+    EXISetExiCallback(2, TLobby__sub_80429B8C);
+    EXIUnlock(0);
+    return 1;
+}
+#pragma pop
+
 
 void TLobby::start_exi_send(s32 arg0, s32 arg1, s32 arg2) {
     s32 var_r3;
@@ -249,7 +683,7 @@ void TLobby::start_exi_send(s32 arg0, s32 arg1, s32 arg2) {
 s32 TLobby::exi_start_send_dma(int, int) {
     u8 pad[4];
     s32 cmd;
-    if (EXILock(0, 2, (u32)TLobby::exi_start_send_dma) != 0) {
+    if (EXILock(0, 2, (EXICallback)TLobby::exi_start_send_dma) != 0) {
         if (exi_send_size < 0x3C) {
             exi_send_size = 0x3C;
         }
@@ -260,7 +694,7 @@ s32 TLobby::exi_start_send_dma(int, int) {
         EXISelect(0, 2, 5);
         EXIImm(0, &cmd, 4, 1, 0);
         EXISync(0);
-        EXIDma(0, (void *)lbl_805D7C7C, lbl_805D7C84, 1, (void *)TLobby__sub_8042B434);
+        EXIDma(0, (void *)lbl_805D7C7C, lbl_805D7C84, 1, (EXICallback)TLobby__sub_8042B434);
     }
 }
 
@@ -272,14 +706,14 @@ void TLobby__sub_8042B434(s32 chan, void *ctx) {
     u8 pad[4];
     s32 bits;
     if (lbl_805D7C88 != 0) {
-        EXIImmEx(0, lbl_805D7C7C + lbl_805D7C84, lbl_805D7C88, 1);
+        EXIImmEx(0, (void *)(lbl_805D7C7C + lbl_805D7C84), lbl_805D7C88, 1);
     }
     EXIDeselect(0);
     cmd0 = 0x80000000;
     EXISelect(0, 2, 5);
     EXIImm(0, &cmd0, 4, 1, 0);
     EXISync(0);
-    EXIImmEx(0, (s32)&val, 1, 0);
+    EXIImmEx(0, &val, 1, 0);
     EXIDeselect(0);
     bits = val;
     bits |= 4;
@@ -288,7 +722,7 @@ void TLobby__sub_8042B434(s32 chan, void *ctx) {
     EXISelect(0, 2, 5);
     EXIImm(0, &cmd1, 4, 1, 0);
     EXISync(0);
-    EXIImmEx(0, (s32)&out, 1, 1);
+    EXIImmEx(0, &out, 1, 1);
     EXIDeselect(0);
     EXIUnlock(0);
 }
@@ -325,7 +759,7 @@ void TLobby__sub_8042B58C(u32 arg0, s32 arg1) {
 
     e = OSDisableInterrupts();
     for (;;) {
-        if (EXILock(0, 2, (u32)TLobby::wake_network_thread) == 1) {
+        if (EXILock(0, 2, (EXICallback)TLobby::wake_network_thread) == 1) {
             OSRestoreInterrupts(e);
             break;
         }
@@ -340,7 +774,7 @@ void TLobby__sub_8042B58C(u32 arg0, s32 arg1) {
         EXISelect(0, 2, 5);
         EXIImm(0, &sp3C, 4, 1, 0);
         EXISync(0);
-        EXIImmEx(0, (s32)&sp43, 1, 1);
+        EXIImmEx(0, &sp43, 1, 1);
         EXIDeselect(0);
     } else {
         sp42 = 0xFF;
@@ -348,39 +782,39 @@ void TLobby__sub_8042B58C(u32 arg0, s32 arg1) {
         EXISelect(0, 2, 5);
         EXIImm(0, &sp38, 4, 1, 0);
         EXISync(0);
-        EXIImmEx(0, (s32)&sp42, 1, 1);
+        EXIImmEx(0, &sp42, 1, 1);
         EXIDeselect(0);
         sp40 = 0x100;
         sp34 = 0xC0000A00;
         EXISelect(0, 2, 5);
         EXIImm(0, &sp34, 4, 1, 0);
         EXISync(0);
-        EXIImmEx(0, (s32)&sp40, 2, 1);
+        EXIImmEx(0, &sp40, 2, 1);
         EXIDeselect(0);
         sp30 = 0xC0001600;
         EXISelect(0, 2, 5);
         EXIImm(0, &sp30, 4, 1, 0);
         EXISync(0);
-        EXIImmEx(0, (s32)&sp40, 2, 1);
+        EXIImmEx(0, &sp40, 2, 1);
         EXIDeselect(0);
         sp2C = 0xC0001800;
         EXISelect(0, 2, 5);
         EXIImm(0, &sp2C, 4, 1, 0);
         EXISync(0);
-        EXIImmEx(0, (s32)&sp40, 2, 1);
+        EXIImmEx(0, &sp40, 2, 1);
         EXIDeselect(0);
         sp40 = 0xF00;
         sp28 = 0xC0001A00;
         EXISelect(0, 2, 5);
         EXIImm(0, &sp28, 4, 1, 0);
         EXISync(0);
-        EXIImmEx(0, (s32)&sp40, 2, 1);
+        EXIImmEx(0, &sp40, 2, 1);
         EXIDeselect(0);
         sp20 = 0x80000100;
         EXISelect(0, 2, 5);
         EXIImm(0, &sp20, 4, 1, 0);
         EXISync(0);
-        EXIImmEx(0, (s32)&sp27, 1, 0);
+        EXIImmEx(0, &sp27, 1, 0);
         EXIDeselect(0);
         e = sp27;
         e &= ~1;
@@ -390,21 +824,21 @@ void TLobby__sub_8042B58C(u32 arg0, s32 arg1) {
         EXISelect(0, 2, 5);
         EXIImm(0, &sp1C, 4, 1, 0);
         EXISync(0);
-        EXIImmEx(0, (s32)&sp26, 1, 1);
+        EXIImmEx(0, &sp26, 1, 1);
         EXIDeselect(0);
         sp18 = 0xC0000000;
         sp25 = 8;
         EXISelect(0, 2, 5);
         EXIImm(0, &sp18, 4, 1, 0);
         EXISync(0);
-        EXIImmEx(0, (s32)&sp25, 1, 1);
+        EXIImmEx(0, &sp25, 1, 1);
         EXIDeselect(0);
         sp24 = 8;
         sp14 = 0xC0003200;
         EXISelect(0, 2, 5);
         EXIImm(0, &sp14, 4, 1, 0);
         EXISync(0);
-        EXIImmEx(0, (s32)&sp24, 1, 1);
+        EXIImmEx(0, &sp24, 1, 1);
         EXIDeselect(0);
     }
     EXIUnlock(0);
@@ -430,7 +864,7 @@ s32 TLobby::poll_exi_status() {
 
 void TLobby__sub_8042BA48(s32 arg0, s32 arg1) {
     s32 e = OSDisableInterrupts();
-    lbl_805D7C44 = arg0;
+    lbl_805D7C44 = (u16 *)arg0;
     lbl_805D7C48 = arg1;
     OSRestoreInterrupts(e);
 }
@@ -487,7 +921,7 @@ void enable_network_multicast_address(void *arg0) {
   enabled = OSDisableInterrupts();
   while (1)
   {
-    if (EXILock(0, 2, (u32) TLobby::wake_network_thread) == 1)
+    if (EXILock(0, 2, (EXICallback)TLobby::wake_network_thread) == 1)
     {
       OSRestoreInterrupts(enabled);
       break;
@@ -501,14 +935,14 @@ void enable_network_multicast_address(void *arg0) {
     EXISelect(0, 2, 5);
     EXIImm(0, &cmd0, 4, 1, 0);
     EXISync(0);
-    EXIImmEx(0, (s32)&val0, 1, 0);
+    EXIImmEx(0, &val0, 1, 0);
     EXIDeselect(0);
     val1 = val0 | 4;
     cmd1 = 0xC0000100;
     EXISelect(0, 2, 5);
     EXIImm(0, &cmd1, 4, 1, 0);
     EXISync(0);
-    EXIImmEx(0, (s32)&val1, 1, 1);
+    EXIImmEx(0, &val1, 1, 1);
     EXIDeselect(0);
   }
   else
@@ -520,7 +954,7 @@ void enable_network_multicast_address(void *arg0) {
     EXISelect(0, 2, 5);
     EXIImm(0, &cmd2, 4, 1, 0);
     EXISync(0);
-    EXIImmEx(0, (s32)&val2, 1, 0);
+    EXIImmEx(0, &val2, 1, 0);
     EXIDeselect(0);
     filter_bits = val2;
     filter_bits = filter_bits | (1 << ((u8) (bit % 8)));
@@ -529,7 +963,7 @@ void enable_network_multicast_address(void *arg0) {
     EXISelect(0, 2, 5);
     EXIImm(0, &cmd3, 4, 1, 0);
     EXISync(0);
-    EXIImmEx(0, (s32)&val3, 1, 1);
+    EXIImmEx(0, &val3, 1, 1);
     EXIDeselect(0);
   }
   EXIUnlock(0);
@@ -543,7 +977,7 @@ u8 TLobby::exi_read_status_byte() {
     u8 ret;
     enabled = OSDisableInterrupts();
     while (1) {
-        if (EXILock(0, 2, (u32)TLobby::wake_network_thread) == 1) {
+        if (EXILock(0, 2, (EXICallback)TLobby::wake_network_thread) == 1) {
             OSRestoreInterrupts(enabled);
             break;
         }

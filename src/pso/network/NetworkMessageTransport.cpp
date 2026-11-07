@@ -94,7 +94,6 @@ extern "C" {
 s32 OSInitMessageQueue(void *, void *, int);
 s16 TLobby__sub_803F9B94(void *, void *);
 void NetRegisterTimer(int, int, void (*)(void));
-s32 TLobby__sub_8042AAA0(void *);
 u8 lbl_805CF240[0xA0];
 u8 TLobby__pppoe_message_queue[0xA0];
 u8 lbl_805CF380[0x48];
