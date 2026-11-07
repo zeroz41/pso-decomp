@@ -27,7 +27,7 @@ typedef volatile f64 vf64;
 typedef char *Ptr;
 typedef unsigned int uintptr_t;
 typedef unsigned int uint;
-#ifndef __cplusplus
+#if !defined(__cplusplus) && !defined(nullptr)
 #define nullptr 0
 #endif
 
