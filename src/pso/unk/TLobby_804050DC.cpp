@@ -1364,6 +1364,43 @@ s32 TLobby::reset_socket_table() {
     }
     return 0;
 }
+
+struct Lobby_80406624 { u8 state; u8 pad[0x121]; s16 f122; s16 f124; };
+s32 TLobby__sub_804066D8(Strm_80405A74 *s);
+
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(4)
+inline void put_ppp_header_80406624(u8 *p, u16 proto) {
+    *p++ = 0xFF;
+    *p++ = 3;
+    write_network_u16_be(p, proto);
+}
+
+inline Strm_80405A74 *add_ppp_header_80406624(Strm_80405A74 *pkt, u16 proto) {
+    Strm_80405A74 *s;
+
+    s = (Strm_80405A74 *)((TLobby *)pkt)->alloc_from_buffer(4);
+    put_ppp_header_80406624(s->p, proto);
+    return s;
+}
+
+s32 TLobby__sub_80406624(s32 arg0, s32 arg1, u16 proto, Strm_80405A74 *pkt) {
+    Lobby_80406624 *l = (Lobby_80406624 *)lbl_805C0038;
+    Strm_80405A74 *s;
+
+    if (l->state == 0) {
+        l->f122++;
+        return -1;
+    }
+    s = add_ppp_header_80406624(pkt, proto);
+    if (s == NULL) {
+        l->f124++;
+        return -1;
+    }
+    return TLobby__sub_804066D8(s);
+}
+#pragma pop
 #pragma pop
 
 struct O_80406B6C { u32 w0; u8 b4; };
@@ -1516,7 +1553,9 @@ struct Conn_8040799C { Peer_8040799C *a; s16 f4; s16 f6; s16 f8; u8 padA[2]; u8 
 struct Peer_8040799C { s16 st; s16 f2; u8 pad4; u8 f5; u8 pad6[2]; Conn_8040799C *conn; u8 addr[6]; u8 name[6]; };
 struct Ent_8040799C { s16 f0; s16 f2; s16 f4; s16 f6; s16 f8; s16 fA; s16 fC; u8 fE; u8 fF; s16 f10; u8 a12[6]; u8 a18[4]; Node_80407C60 *head; };
 struct Tbl_8040799C { s16 count; s16 h2; s16 h4; s16 h6; s16 h8; s16 hA; s16 hC; u8 padE[2]; Peer_8040799C *list; Ent_8040799C *ents; Node_80407C60 *nodes; Conn_8040799C *bufs; u8 *pool; };
-struct Out_8040799C { Conn_8040799C *a; void *b; void *c; void *d; void *e; };
+/* ARP header (ethertype 0x806): hardware/protocol type and lengths, then the opcode and the addresses. */
+struct Arp_8040799C { u8 hdr[6]; u16 op; u8 body[1]; };
+struct Out_8040799C { Arp_8040799C *a; void *b; void *c; void *d; void *e; };
 void TLobby__sub_80408060(Peer_8040799C *peer, NetPacket *pkt);
 struct Ent_80408428;
 struct Ent_80408428 *find_or_add_peer_entry__6TLobbyFsiUcPvUcPvs(s16, s32, u8, void *, u8, void *, s16);
@@ -1525,7 +1564,7 @@ struct Ent_80408428 *find_or_add_peer_entry__6TLobbyFsiUcPvUcPvs(s16, s32, u8, v
 
 typedef void (*Handler_8041A130)(s32, s16, s16, s16);
 s32 register_protocol_handler__6TLobbyFUsi(u16 type, Handler_8041A130 fn);
-void TLobby__sub_80407640(void);
+s32 TLobby__sub_80407640(void *data, s16 len, s16 id, s32 type);
 
 s32 TUdpSocket__sub_80407508(void) {
     s16 n4;
@@ -1561,6 +1600,95 @@ s32 TUdpSocket__sub_80407508(void) {
     }
     register_protocol_handler__6TLobbyFUsi(0x806, (Handler_8041A130)TLobby__sub_80407640);
     NetRegisterTimer(60000, 1, (NetTimerCallback)TLobby__sub_804078B4);
+    return 0;
+}
+
+inline Peer_8040799C *Find_8040799C(Tbl_8040799C *t, u8 k, void *name) {
+    s16 n = t->count;
+    Peer_8040799C *p = t->list;
+    for (; n > 0; n--, p++) {
+        if (p->f5 == k && p->st != 0 && NetMemcmp(p->name, name, p->f5) == 0) {
+            return p;
+        }
+    }
+    return NULL;
+}
+
+inline Ent_8040799C *FindEnt_80407640(Tbl_8040799C *t, s16 id, s16 type) {
+    s16 i;
+    Ent_8040799C *e;
+
+    if (id < 0) {
+        return NULL;
+    }
+    e = t->ents;
+    for (i = 0; i < t->h2; i++, e++) {
+        if (e->f0 == 1 && e->f2 == id && e->f6 == type) {
+            return e;
+        }
+    }
+    return NULL;
+}
+
+inline s16 Check_80407640(Arp_8040799C *pkt, Ent_8040799C *e) {
+    if (NetMemcmp(pkt, &e->fA, 6) == 0 && (pkt->op == 1 || pkt->op == 2)) {
+        return 1;
+    }
+    return -1;
+}
+
+s16 TLobby__sub_804082AC(Ent_8040799C *e, Out_8040799C *o, void *out);
+
+s32 TLobby__sub_80407640(void *data, s16 len, s16 id, s32 type) {
+    Tbl_8040799C *t = TBL;
+    Arp_8040799C *pkt;
+    Ent_8040799C *e;
+    Out_8040799C o;
+    u8 buf[8];
+    Out_8040799C r;
+    u8 *q;
+    void *s;
+
+    if (len < 8) {
+        return -1;
+    }
+    if (id < 0) {
+        return -1;
+    }
+    e = FindEnt_80407640(t, id, type);
+    if (e == NULL) {
+        return -1;
+    }
+    pkt = (Arp_8040799C *)data;
+    if (Check_80407640(pkt, e) < 0) {
+        return -1;
+    }
+    o.a = pkt;
+    q = pkt->body;
+    o.b = q;
+    q += e->fE;
+    o.c = q;
+    q += e->fF;
+    o.d = q;
+    q += e->fE;
+    o.e = q;
+    if (Find_8040799C(t, e->fF, o.c) != NULL) {
+        find_or_add_peer_entry__6TLobbyFsiUcPvUcPvs(e->f2, e->f4, e->fF, o.c, e->fE, o.b, 2);
+    }
+    if (pkt->op == 1 && TLobby__sub_804082AC(e, &o, buf) > 0) {
+        s = alloc_packet_with_header__6TLobbyFPvPv((Out_804081C0 *)&r, (u8 *)e);
+        if (s != NULL) {
+            r.a->op = 2;
+            NetMemcpy(r.b, buf, e->fE);
+            NetMemcpy(r.d, o.b, e->fE);
+            NetMemcpy(r.c, o.e, e->fF);
+            NetMemcpy(r.e, o.c, e->fF);
+            TLobby::call_handler_by_index(e->f2, type, 0, (s32)o.b, (s32)s);
+            if (s != NULL) {
+                ((TUdpSocket *)s)->release_entry();
+            }
+        }
+    }
     return 0;
 }
 
@@ -1620,17 +1748,6 @@ inline Ent_8040799C *Lookup_8040799C(Tbl_8040799C *t, s16 idx) {
     return NULL;
 }
 
-inline Peer_8040799C *Find_8040799C(Tbl_8040799C *t, u8 k, void *name) {
-    s16 n = t->count;
-    Peer_8040799C *p = t->list;
-    for (; n > 0; n--, p++) {
-        if (p->f5 == k && p->st != 0 && NetMemcmp(p->name, name, p->f5) == 0) {
-            return p;
-        }
-    }
-    return NULL;
-}
-
 inline void Clear_8040799C(Peer_8040799C *p) {
     if (p->conn != NULL) {
         p->conn->a = 0;
@@ -1643,7 +1760,7 @@ inline void Send_8040799C(Ent_8040799C *e, void *name) {
     Out_8040799C o;
     void *r = alloc_packet_with_header__6TLobbyFPvPv((Out_804081C0 *)(&o), (u8 *)e);
     if (r != NULL) {
-        o.a->f6 = 1;
+        o.a->op = 1;
         NetMemcpy(o.b, e->a12, e->fE);
         NetMemcpy(o.c, e->a18, e->fF);
         NetMemset(o.d, 0, e->fE);
@@ -1886,9 +2003,6 @@ void TLobby__sub_80408060(Peer_8040799C *peer, NetPacket *pkt) {
 #pragma pop
 #undef TBL
 
-typedef struct Node_804082AC { struct Node_804082AC *next; u8 pad4[2]; u8 f6[0x10]; } Node_804082AC;
-typedef struct Ent_804082AC { u8 pad0[0xE]; u8 fE; u8 fF; u8 pad10[2]; u8 f12[6]; u8 f18[4]; Node_804082AC *f1C; } Ent_804082AC;
-typedef struct Key_804082AC { u8 pad0[0x10]; void *f10; } Key_804082AC;
 typedef struct Pool_804082AC { u8 pad0[8]; s16 f8; } Pool_804082AC;
 
 struct Tbl_80408718;
@@ -1928,24 +2042,24 @@ Pkt_804081C0 *alloc_packet_with_header__6TLobbyFPvPv(Out_804081C0 *arg0, u8 *arg
     return pkt;
 }
 
-s32 TLobby__sub_804082AC(Ent_804082AC *arg0, Key_804082AC *arg1, void *arg2) {
+s16 TLobby__sub_804082AC(Ent_8040799C *e, Out_8040799C *o, void *out) {
     s16 i;
-    Node_804082AC *p;
+    Node_80407C60 *p;
 
-    if (NetMemcmp(arg0->f18, arg1->f10, arg0->fF) == 0) {
-        NetMemcpy(arg2, arg0->f12, arg0->fE);
+    if (NetMemcmp(e->a18, o->e, e->fF) == 0) {
+        NetMemcpy(out, e->a12, e->fE);
         return 1;
     }
-    if (arg0->f1C != NULL) {
-        p = arg0->f1C;
+    if (e->head != NULL) {
+        p = e->head;
         i = 0;
         while (p != NULL) {
             i++;
             if (lbl_805C1AB0.h8 <= i) {
                 return -1;
             }
-            if (NetMemcmp(p->f6, arg1->f10, arg0->fF) == 0) {
-                NetMemcpy(arg2, arg0->f12, arg0->fE);
+            if (NetMemcmp(p->addr, o->e, e->fF) == 0) {
+                NetMemcpy(out, e->a12, e->fE);
                 return 1;
             }
             p = p->next;
@@ -4587,6 +4701,93 @@ void TLobby__sub_8040C74C(SubA_8040C540 *a) {
     a->f8 = cnt;
 }
 #pragma pop
+
+s32 TLobby__sub_8040B838(u8 *dst, u8 *src, s16 len) {
+    u8 *label;
+    s16 i;
+    u8 n;
+    u8 c;
+    s32 ret;
+
+    label = dst++;
+    n = 0;
+    for (i = 0; i < len; i++, dst++, src++) {
+        c = *src;
+        if (c == '.') {
+            *label = n;
+            label = dst;
+            n = 0;
+        } else {
+            *dst = c;
+            n++;
+        }
+    }
+    if (n != 0) {
+        *label = n;
+        ret = len + 2;
+        *dst = 0;
+    } else {
+        dst[-1] = 0;
+        ret = len + 1;
+    }
+    return ret;
+}
+
+inline s32 compare_rec(Rec_8040B33C *a, Rec_8040B33C *b) {
+    switch (a->f0) {
+    case 4:
+        if (b->f0 != 4) {
+            return -1;
+        }
+        return NetMemcmp(a->addr, b->addr, 4);
+    case 6:
+        if (b->f0 != 6) {
+            return -1;
+        }
+        return NetMemcmp(a->addr, b->addr, 0x10);
+    default:
+    case 0:
+        return -1;
+    }
+}
+
+s16 TLobby__sub_8040C340(D_8040A45C *q, C_8040A45C *node) {
+    s16 i;
+    G_8040A45C *g;
+    C_8040A45C *prev;
+    C_8040A45C *p;
+
+    if (node == NULL) {
+        return -1;
+    }
+    if (q == NULL) {
+        return -1;
+    }
+    if (q->f0 == 0 || q->f208 == NULL) {
+        return -1;
+    }
+    g = &dns_resolver_state;
+    p = q->f208;
+    prev = NULL;
+    for (i = 0; p != NULL && i < g->nc; i++) {
+        if (compare_rec(&p->f4, &node->f4) != 0) {
+            prev = p;
+        } else {
+            q->f204--;
+            if (prev == NULL) {
+                q->f208 = p->f20;
+            } else {
+                prev->f20 = p->f20;
+            }
+            p->f0 = 0;
+            p->f20 = NULL;
+            return 0;
+        }
+        p = p->f20;
+    }
+    return -1;
+}
+
 
 #pragma push
 #pragma optimization_level 2
@@ -11454,6 +11655,39 @@ struct Tcb_8041D460 {
     s32 stamp;
     Seg_8041D460 items[32];
 };
+
+void TLobby__sub_8041D398(Tcb_8041D460 *tp, s32 start, s32 end) {
+    s16 i;
+    s32 seg;
+
+    tp->f2EC += end - start;
+    for (i = 0; i <= tp->n; i++) {
+        seg = tp->items[i].start;
+        if (start - seg < 0) {
+            if (i == 0) {
+                if (end - seg <= 0) {
+                    if (end - tp->edge >= 0) {
+                        tp->edge = end;
+                        tp->stamp = tp->now;
+                    }
+                    return;
+                }
+                tp->edge = seg;
+                tp->stamp = tp->now;
+            } else {
+                if (end - seg <= 0) {
+                    if (end - tp->items[i - 1].edge >= 0) {
+                        tp->items[i - 1].edge = end;
+                        tp->items[i - 1].stamp = tp->now;
+                    }
+                    return;
+                }
+                tp->items[i - 1].edge = seg;
+                tp->items[i - 1].stamp = tp->now;
+            }
+        }
+    }
+}
 
 s32 TLobby__sub_8041D460(Tcb_8041D460 *tp, s32 *start, s32 *end) {
     s16 n = tp->n;
