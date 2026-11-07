@@ -45,7 +45,7 @@ s32 TWindowKeyBoardSoft__sub_8025D7FC();
 void export_keyboard_text(Base_8025C974 *base, char *out);
 int set_text_from_string__19TWindowKeyBoardSoftFPc(void*);
 
-bool is_alnum__19TWindowKeyBoardSoftFUs(u16 arg0) {
+int TWindowKeyBoardSoft::is_alnum(u16 arg0) {
     if ((s32) arg0 < 0x30) {
         return 0;
     }
@@ -61,7 +61,10 @@ bool is_alnum__19TWindowKeyBoardSoftFUs(u16 arg0) {
     if ((s32) arg0 < 0x61) {
         return 0;
     }
-    return (s32) arg0 <= 0x7A;
+    if ((s32) arg0 <= 0x7A) {
+        return 1;
+    }
+    return 0;
 }
 
 s32 TWindowKeyBoardSoft::get_state() { return *(s32*)((char*)this + 0x70); }
@@ -553,7 +556,7 @@ void TWindowKeyBoardBase::insert_character(u16 arg1) {
     if ((f & 0x80) && !((s32)arg1 >= 0x41 && (s32)arg1 <= 0x5A)) {
         return;
     }
-    if ((f & 0x100) && ((s32 (*)(u16))is_alnum__19TWindowKeyBoardSoftFUs)(arg1) == 0) {
+    if ((f & 0x100) && TWindowKeyBoardSoft::is_alnum(arg1) == 0) {
         return;
     }
     f = *(s32 *)((s8 *)((u8 *)this) + 0xB4);

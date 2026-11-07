@@ -14,6 +14,7 @@ struct TWindowKeyBoardSoft
     int get_flag_bit5();
     int get_flag_bit6();
     int is_cursor_locked();
+    static int is_alnum(u16 code);
     void render();
     f32 x;
     f32 y;
