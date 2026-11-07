@@ -295,6 +295,7 @@ pso/boss/olgaflow/TBoss6Type2_8036DC80.cpp
 pso/boss/barbaray/TBoss7Crawfish.cpp
 pso/boss/barbaray/TBoss7Crawfish_80308C10.cpp
 pso/boss/barbaray/TBoss7Crawfish_80308C84.cpp
+pso/boss/barbaray/TBoss7Crawfish_80308E0C.cpp
 pso/boss/barbaray/TBoss7Crawfish_8030908C.cpp
 pso/boss/barbaray/TBoss7DeRolLeC_8035A628.cpp
 pso/boss/barbaray/TBoss7DeRolLeC_802EE4E0.cpp
