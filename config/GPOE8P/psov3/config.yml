@@ -7804,14 +7804,14 @@ force_active:
   - hair_bone_rotation_bone_list_21
   - hair_bone_rotation_bone_list_22
   - hair_bone_rotation_bone_list_23
-  - lbl_8049D2B8
-  - lbl_8049D308
-  - lbl_8049D358
-  - lbl_8049D378
-  - lbl_8049D398
-  - lbl_8049D3C8
-  - lbl_8049D418
-  - lbl_8049D458
+  - hair_bone_rotation_bone_list_24
+  - hair_bone_rotation_bone_list_25
+  - hair_bone_rotation_bone_list_26
+  - hair_bone_rotation_bone_list_27
+  - hair_bone_rotation_bone_list_28
+  - hair_bone_rotation_bone_list_29
+  - hair_bone_rotation_bone_list_30
+  - hair_bone_rotation_bone_list_31
   - lbl_8049D478
   - lbl_8049D4B8
   - lbl_8049D518
@@ -7844,14 +7844,14 @@ force_active:
   - hair_bone_rotation_desc_21
   - hair_bone_rotation_desc_22
   - hair_bone_rotation_desc_23
-  - lbl_8049D858
-  - lbl_8049D86C
-  - lbl_8049D880
-  - lbl_8049D894
-  - lbl_8049D8A8
-  - lbl_8049D8BC
-  - lbl_8049D8D0
-  - lbl_8049D8E4
+  - hair_bone_rotation_desc_24
+  - hair_bone_rotation_desc_25
+  - hair_bone_rotation_desc_26
+  - hair_bone_rotation_desc_27
+  - hair_bone_rotation_desc_28
+  - hair_bone_rotation_desc_29
+  - hair_bone_rotation_desc_30
+  - hair_bone_rotation_desc_31
   - lbl_8049D8F8
   - lbl_8049D90C
   - lbl_8049D920
@@ -7860,7 +7860,7 @@ force_active:
   - lbl_8049D95C
   - lbl_8049D970
   - lbl_8049D984
-  - lbl_8049DC28
+  - hair_bone_rotation_bone_list_of_descriptor
   - lbl_804A0440
   - lbl_804A044C
   - lbl_804A0458
