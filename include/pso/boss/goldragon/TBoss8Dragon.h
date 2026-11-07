@@ -187,7 +187,7 @@ struct TBoss8Dragon
     void calc_params(void *arg1, s32 arg2);
     void calc_product_and_ratio(void *arg1, s32 arg2);
     void calc_attack_params(void *arg1, s32 arg2);
-    void fn_8005EBDC(u8 *arg1, u8 *arg2);
+    void calc_angle_offset(u8 *arg1, u8 *arg2);
     s32 run_action_script_step(s16 *out, u32 *entry);
     static void copy_angle_state(void *arg0, void *dst, void *src);
     void update_target_from_state();

@@ -6268,29 +6268,29 @@ force_active:
   - fn_8004D9A8
   - fn_8005586C
   - fn_8005D6E4
-  - fn_8005EBDC__12TBoss8DragonFPUcPUc
+  - calc_angle_offset__12TBoss8DragonFPUcPUc
   - run_action_script_step__12TBoss8DragonFPsPUl
-  - fn_8005FD34__13TBoss5GryphonFl
-  - fn_8005FE18__13TBoss5GryphonFl
+  - select_action_by_flag_4e4__13TBoss5GryphonFl
+  - update_cry_state__13TBoss5GryphonFl
   - update_dive_attack__13TBoss5GryphonFUl
-  - fn_800605E8__13TBoss5GryphonFl
-  - fn_80060788__13TBoss5GryphonFl
-  - fn_80060A58__13TBoss5GryphonFl
-  - fn_80060B18__13TBoss5GryphonFl
-  - fn_80060BF8__13TBoss5GryphonFl
-  - fn_80060CA4__13TBoss5GryphonFl
-  - fn_80060D9C__13TBoss5GryphonFl
-  - fn_800610D0__13TBoss5GryphonFl
-  - fn_800615FC__13TBoss5GryphonFl
+  - update_offscreen_climb__13TBoss5GryphonFl
+  - update_ground_cry_12__13TBoss5GryphonFl
+  - update_charge_state_10__13TBoss5GryphonFl
+  - update_demo_link_state_f__13TBoss5GryphonFl
+  - update_demo_link_state_e__13TBoss5GryphonFl
+  - update_demo_link_state_d__13TBoss5GryphonFl
+  - update_scale_slam_state_c__13TBoss5GryphonFl
+  - update_advance_gate_a__13TBoss5GryphonFl
+  - update_bob_climb_lowflight_13__13TBoss5GryphonFl
   - update_bezier_descent__13TBoss5GryphonFl
   - update_ancient_trap_circle__13TBoss5GryphonFl
-  - fn_80062018__13TBoss5GryphonFl
-  - fn_80062114__13TBoss5GryphonFl
-  - fn_80062660__13TBoss5GryphonFl
+  - update_ancient_trap_low_flight__13TBoss5GryphonFl
+  - update_bob_climb_lowflight_6__13TBoss5GryphonFl
+  - update_motion_circle_flight__13TBoss5GryphonFl
   - update_appearance_state__13TBoss5GryphonFUl
   - update_death_state__13TBoss5GryphonFUl
   - update_shockwave_attack__13TBoss5GryphonFUl
-  - fn_80063320__13TBoss5GryphonFUl
+  - update_run_off_takeoff__13TBoss5GryphonFUl
   - state_action_noop__13TBoss5GryphonFv
   - fn_80074E04
   - fn_800779FC
