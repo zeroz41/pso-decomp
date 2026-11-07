@@ -811,7 +811,7 @@ void send_battle_mode_state__6TLobbyFPv(Lobby_801C484C *);
 void update_timed_wait__6TLobbyFPv(Lobby_801C484C *self);
 u32 get_player_by_client_id(u16);
 s32 update_battle_controller__10TObjPlayerFv();
-s32 fn_801C19D8(void *, int);
+s32 set_player_team_id(void *, int);
 s32 fn_801D6D8C(void *, int, int);
 s32 fn_801D726C(void *, int);
 s32 fn_801D72B0(void *, int);
@@ -1370,7 +1370,7 @@ void apply_game_settings__6TLobbyFii(s32 arg0, s32 arg1) {
                         v = 1;
                     }
                     battle_intro_value_table[i] = v;
-                    fn_801C19D8((void *)(p + 0x828), battle_intro_value_table[i]);
+                    set_player_team_id((void *)(p + 0x828), battle_intro_value_table[i]);
                 } else {
                     battle_intro_value_table[i] = -1;
                 }

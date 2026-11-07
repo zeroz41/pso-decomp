@@ -2327,10 +2327,10 @@ f32 fn_801C19A4(void *);
 s32 TWindowDuelResult__sub_801C19AC(void *);
 void TObjPlayer__sub_801C19C8(void *p, f32 v);
 s32 TLobby__sub_801C19D0(void *p);
-void fn_801C19D8(void *p, s32 v);
+void set_player_team_id(void *p, s32 v);
 void fn_801C19E0(void *, s32);
 void fn_801C19E8(void *p);
-void fn_801C19F4(void *p);
+void set_player_pk_mode_flag(void *p);
 void *TObjPlayer__sub_801C1A00(void *p);
 s32 TObjPlayer__sub_801C1AC8(void *);
 s32 TObjPlayer__sub_801C1B0C(void *, int);
@@ -2341,13 +2341,13 @@ s32 fn_801C1BA0();
 s32 is_action_channel_active(s32, s32);
 u8 *TWindowActionPalette__sub_801C1D7C(s32 arg0, s32 i, s32 arg2);
 s32 get_entry_by_index__20TWindowActionPaletteFPll(s32, s32);
-s32 fn_801C1E44(s32);
-s32 fn_801C1E48(s32);
+s32 ref_primary_action_palette(s32);
+s32 ref_secondary_action_palette(s32);
 s32 test_photon_blast_modifier(s32);
-s32 fn_801C1E74(s32);
-s32 fn_801C1EA4(s32);
-s32 fn_801C1EC4(s32);
-s32 fn_801C1EF4(s32);
+s32 clear_secondary_action_palette_bank(s32);
+s32 clear_primary_action_palette_bank(s32);
+s32 set_secondary_action_palette_bank(s32);
+s32 set_primary_action_palette_bank(s32);
 void set_photon_blast_kind(void *, s16);
 s32 fn_801C1F1C(s32);
 s32 TObjPlayer__sub_801C1F50(s32);
@@ -3157,7 +3157,7 @@ void handle_6x90_set_player_battle_team(s32 arg0) {
         return;
     }
     team = cmd.team;
-    fn_801C19D8(p + 0x828, team);
+    set_player_team_id(p + 0x828, team);
     if (team == 1) {
         TMainCursor__sub_801540B8((int) p, *(s32 *)((s8 *)p + 0xA4), 0);
     } else {
@@ -3649,7 +3649,7 @@ void TObjPlayer::set_state_flag_6043() {
     } else {
         this->m_698 = 0x2003;
     }
-    fn_801C19F4(((u8 *)this) + 0x828);
+    set_player_pk_mode_flag(((u8 *)this) + 0x828);
 }
 
 void handle_6x1B_enable_pk_mode_for_player(void *arg0) {
@@ -5494,20 +5494,20 @@ void TObjPlayer__sub_801B5AF8(s32 arg0, s32 arg1) {
 #pragma pop
 TObjPlayer::ActionPalette* TObjPlayer::select_action_palette(int secondary) {
     if (secondary == 1) {
-        return (ActionPalette*)fn_801C1E48((s32)action_palettes);
+        return (ActionPalette*)ref_secondary_action_palette((s32)action_palettes);
     }
-    return (ActionPalette*)fn_801C1E44((s32)action_palettes);
+    return (ActionPalette*)ref_primary_action_palette((s32)action_palettes);
 }
 
 s32 TObjPlayer::refresh_effect() {
     s32 arg0 = (s32)this;
     if (TObjPlayer__sub_801C1F50(arg0 + 0x4AC) != 0) {
         if (test_photon_blast_modifier(arg0 + 0x500) != 0) {
-            return fn_801C1E44(arg0 + 0x500);
+            return ref_primary_action_palette(arg0 + 0x500);
         }
-        return fn_801C1E48(arg0 + 0x500);
+        return ref_secondary_action_palette(arg0 + 0x500);
     }
-    return fn_801C1E44(arg0 + 0x500);
+    return ref_primary_action_palette(arg0 + 0x500);
 }
 
 void TObjPlayer::select_contextual_pickup_action() {
@@ -5558,14 +5558,14 @@ void TObjPlayer::update_ground_contact() {
     s32 arg0 = (s32)this;
     if (((s32 (*)(void))is_locally_controlled__10TObjPlayerFPv)() != 0) {
         if (((TObjPlayer *)(arg0 + 0x550))->try_ground_action(fn_8002AE08(((s32 (*)(s32))get_entity_id)(arg0))) != 0) {
-            fn_801C1EF4(arg0 + 0x500);
+            set_primary_action_palette_bank(arg0 + 0x500);
             if (TObjPlayer__sub_801C1F50(arg0 + 0x4AC) != 0) {
-                fn_801C1EC4(arg0 + 0x500);
+                set_secondary_action_palette_bank(arg0 + 0x500);
             }
         } else {
-            fn_801C1EA4(arg0 + 0x500);
+            clear_primary_action_palette_bank(arg0 + 0x500);
             if (TObjPlayer__sub_801C1F50(arg0 + 0x4AC) != 0) {
-                fn_801C1E74(arg0 + 0x500);
+                clear_secondary_action_palette_bank(arg0 + 0x500);
             }
         }
         TObjPlayer::refresh_party_cursors(arg0);

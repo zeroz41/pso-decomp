@@ -145,7 +145,7 @@ extern char lbl_80475BB8[];
 extern s32 TLobby__battle_ctrl_default_value;
 s32 rand();
 
-s32 fn_801C19D8(void *, int);
+s32 set_player_team_id(void *, int);
 s32 fn_801D6D8C(void *, u8, int);
 s32 fn_801D726C(void *, void *);
 s32 fn_801D72B0(void *, s32);
@@ -672,7 +672,7 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 arg1) {
             w = 1;
           }
           o->team[j] = w;
-          fn_801C19D8((void *)(p + 0x828), o->team[(((((((((((j & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu]);
+          set_player_team_id((void *)(p + 0x828), o->team[(((((((((((j & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu]);
         }
         else
         {

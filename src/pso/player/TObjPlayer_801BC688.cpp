@@ -77,7 +77,7 @@ void TObjPlayer::init_action_provider() {
     ((TObjPlayer *)arg0)->reset_state();
     set_flag_400000__10TObjPlayerFi((s32)arg0);
     if (TObjPlayer::get_player_count() == 1) {
-        fn_801C19F4(((u8 *)&this->m_828));
+        set_player_pk_mode_flag(((u8 *)&this->m_828));
     }
 }
 #pragma pop

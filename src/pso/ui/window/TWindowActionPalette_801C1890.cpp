@@ -76,13 +76,13 @@ void TObjPlayer__sub_801C19C8(void* p, f32 v) { *(f32*)((char*)p + 0x0) = v; }
 
 s32 TLobby__sub_801C19D0(void* p) { return *(s32*)((char*)p + 0x4); }
 
-void fn_801C19D8(void* p, s32 v) { *(s32*)((char*)p + 0x4) = v; }
+void set_player_team_id(void* p, s32 v) { *(s32*)((char*)p + 0x4) = v; }
 
 void fn_801C19E0(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
 
 void fn_801C19E8(void* p) { *(s32*)((char*)p + 0x0) = 0; }
 
-void fn_801C19F4(void* p) { *(s32*)((char*)p + 0x0) = 1; }
+void set_player_pk_mode_flag(void* p) { *(s32*)((char*)p + 0x0) = 1; }
 
 void* TObjPlayer__sub_801C1A00(void* p) { TObjPlayer__sub_801C1A30(p); return p; }
 
@@ -196,23 +196,23 @@ void TWindowActionPalette::get_slot_type_for_index(s32 *arg0, s32 arg1) {
     TWindowActionPalette::get_slot_type((s32)((s32) arg0), (s32)(*arg0), arg1);
 }
 
-void* fn_801C1E44(void* p) { return p; }
+void* ref_primary_action_palette(void* p) { return p; }
 
-void* fn_801C1E48(void* p) { return (char*)p + 0x24; }
+void* ref_secondary_action_palette(void* p) { return (char*)p + 0x24; }
 
 int test_photon_blast_modifier(void* p) { return TWindowActionPalette__sub_801C1C20((char*)p + 0x24); }
 
-void fn_801C1E74(void* p) { fn_801C1E98((void*)((char*)p + 0x24)); }
+void clear_secondary_action_palette_bank(void* p) { fn_801C1E98((void*)((char*)p + 0x24)); }
 
 void fn_801C1E98(void* p) { *(s32*)((char*)p + 0x0) = 0; }
 
-void fn_801C1EA4(void* p) { fn_801C1E98(p); }
+void clear_primary_action_palette_bank(void* p) { fn_801C1E98(p); }
 
-void fn_801C1EC4(void* p) { fn_801C1EE8((void*)((char*)p + 0x24)); }
+void set_secondary_action_palette_bank(void* p) { fn_801C1EE8((void*)((char*)p + 0x24)); }
 
 void fn_801C1EE8(void* p) { *(s32*)((char*)p + 0x0) = 1; }
 
-void fn_801C1EF4(void* p) { fn_801C1EE8(p); }
+void set_primary_action_palette_bank(void* p) { fn_801C1EE8(p); }
 
 void set_photon_blast_kind(void* p, s16 v) { *(s16*)((char*)p + 0x2) = v; }
 
