@@ -18,8 +18,13 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D8DE0.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/render/model_render_state.h"
+#include "pso/unk/text_803DA798.h"
+#include "pso/unk/text_803E29B0.h"
 
-TPlayerFootStamp::~TPlayerFootStamp() {}
+extern TCameraCtrl *camera_ctrl_instance;
 
 // Per player class (in the order of the switch below): the footprint's
 // length, width and offset along the facing, before the height scaling.
@@ -43,6 +48,20 @@ const FootStampHeightScale lbl_80470888[12] = {
 };
 
 const char *TPlayerFootStamp::class_name = "TPlayerFootStamp";
+
+extern u32 player_footstamp_texture_gvm_handle;
+
+void TPlayerFootStamp::free_instance() {
+    if ((u32) player_footstamp_texture_gvm_handle != 0U) {
+        release_texture_list((GinjaTextureList *)player_footstamp_texture_gvm_handle);
+        TAdSinglePlyChrSelectGC::safe_free(player_footstamp_texture_gvm_handle);
+        player_footstamp_texture_gvm_handle = 0U;
+    }
+}
+
+void *TPlayerFootStamp::create(void *player, void *side) {
+    return new TPlayerFootStamp((TObjPlayer *)player, (s32)side);
+}
 
 TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07) {
     f32 scale;
@@ -245,16 +264,41 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
     }
 }
 
-void *TPlayerFootStamp::create(void *player, void *side) {
-    return new TPlayerFootStamp((TObjPlayer *)player, (s32)side);
+TPlayerFootStamp::~TPlayerFootStamp() {}
+
+void TPlayerFootStamp::run_task() {
+    s32 i;
+    FootStampVertex *v;
+    timer = timer - 1;
+    if (timer <= 0) {
+        queue_destruction();
+        return;
+    }
+    f32 bx = position.x;
+    f32 by = position.y;
+    f32 bz = position.z;
+    v = verts;
+    for (i = 0; i < 4; i++) {
+        if (timer < 0x40) {
+            v->color = color - ((0x40 - timer) << 26);
+        }
+        v->pos.x = bx + corners[i].x;
+        v->pos.y = by + corners[i].y;
+        v->pos.z = bz + corners[i].z;
+        v++;
+    }
 }
 
-extern u32 player_footstamp_texture_gvm_handle;
-
-void TPlayerFootStamp::free_instance() {
-    if ((u32) player_footstamp_texture_gvm_handle != 0U) {
-        release_texture_list((GinjaTextureList *)player_footstamp_texture_gvm_handle);
-        TAdSinglePlyChrSelectGC::safe_free(player_footstamp_texture_gvm_handle);
-        player_footstamp_texture_gvm_handle = 0U;
+// Draws the footprint while it is within 150 units of the camera.
+void TPlayerFootStamp::render() {
+    if (horizontal_distance_squared(&position, (const Vec *)&camera_ctrl_instance->pos_x) < 22500.0f) {
+        saved_model_render_flags = model_render_flags;
+        set_default_alpha_blend();
+        TObjFish::set_global_param(player_footstamp_texture_gvm_handle);
+        set_texture_num(texture);
+        set_depth_buffer_settings_1();
+        draw_particle_strip(verts, (void *)4, (void *)1);
+        restore_saved_depth_alpha_state();
+        model_render_flags = saved_model_render_flags;
     }
 }
