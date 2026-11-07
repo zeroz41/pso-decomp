@@ -426,6 +426,8 @@ extern s32 lbl_805D7898;
 extern Node_803EB794 *lbl_805D78A0;
 extern s32 lbl_805D78E8;
 extern s32 lbl_805D78F0;
+extern u8 lbl_8058DC48[0x50];
+void TQuestVmDownLoadServer__sub_803EE580(s32 a, s16 b, Head_803EE580 *c, Node_803EB794 *d);
 u8 *get_cached_page__22TQuestVmDownLoadServerFi(s32 page);
 s32 find_symbol_entry__22TQuestVmDownLoadServerFPvsPv(const char *name, s16 len, Info_803F0138 *out);
 void DCInvalidateRange(void *, u32);
@@ -4373,6 +4375,105 @@ loop_bad:
 
 void TQuestVmDownLoadServer__sub_803EE2E4(void) {
     lbl_8058DC98.value = 0;
+}
+
+void TQuestVmDownLoadServer__sub_803EE2F4(s32 arg0, s32 arg1) {
+    u8 *cursor;
+    u8 *str2;
+    u16 *volatile poolA;
+    u16 *volatile poolB;
+    s32 i;
+    s32 end;
+    u8 *base98;
+    u8 *dst21;
+    u8 *str2b;
+    u8 *src;
+    u8 *tab;
+    s32 n;
+    s32 step;
+    Node_803EB794 *node;
+    u8 *slot;
+    u8 zero;
+    u8 *dst;
+    u8 *tail;
+    u8 m;
+    s32 r;
+    Req_803EEF2C req;
+    u32 *d;
+
+    cursor = (u8 *)&lbl_8058DC98;
+    str2 = lbl_8058DC48;
+    i = arg0;
+    end = arg1;
+    base98 = cursor;
+    dst21 = cursor;
+    str2b = str2;
+    src = (u8 *)&lbl_805A0470;
+    tab = (u8 *)quest_download_slot_chain_table;
+    while (i < end && (n = TQuestVmDownLoadServer__sub_803E9F54(i)) != 0) {
+        slot = tab + i * 0x1C;
+        if (i == lbl_805D78F0) {
+            if (lbl_805D78E8 == 1 || lbl_805D7834 >= 3) {
+                node = advance_nodes__22TQuestVmDownLoadServerFPvi(lbl_805D78A0, lbl_805D7898);
+            } else {
+                node = advance_nodes__22TQuestVmDownLoadServerFPvi(*(Node_803EB794 **)(slot + 0xC), 0);
+            }
+        } else {
+            node = advance_nodes__22TQuestVmDownLoadServerFPvi(*(Node_803EB794 **)(slot + 0xC), 0);
+        }
+        if (lbl_805D7848 == 3 || lbl_805D7834 > 2) {
+            if ((s8)slot[0x16] != 0 && (s8)slot[0x16] != (s8)slot[0x15]) {
+                poolA = lbl_805A0340;
+                poolB = lbl_805A0340;
+                step = n;
+                strncpy((char *)dst21, (char *)src + i, step);
+                zero = 0;
+                cursor[step] = zero;
+                if (strlen((char *)dst21) == (u32)step) {
+                    r = TQuestVmDownLoadServer__sub_803EB420(i, step, (Node_803EB420 *)node, poolA);
+                    TQuestVmDownLoadServer__sub_803EC71C(poolB, str2b, r);
+                } else {
+                    *cursor = zero;
+                }
+                TQuestVmDownLoadServer__sub_803EE580(i, n, (Head_803EE580 *)node, (Node_803EB794 *)*(Elem_803ED9AC **)(slot + 8));
+            } else {
+                if (*cursor != 0) {
+                    dst = cursor + strlen((char *)base98);
+                    tail = str2 + strlen((char *)str2);
+                    m = ((u8 *)node)[6];
+                    strncpy((char *)dst, (char *)src + i, m);
+                    zero = 0;
+                    dst[m] = zero;
+                    if (strlen((char *)dst) != (u32)m) {
+                        *cursor = zero;
+                    } else {
+                        r = TQuestVmDownLoadServer__sub_803EB420(i, m, (Node_803EB420 *)node, lbl_805A0340);
+                        TQuestVmDownLoadServer__sub_803EC71C(lbl_805A0340, tail, r);
+                    }
+                    if (*cursor != 0) {
+                        req.name = (char *)cursor;
+                        req.len = (s16)strlen((char *)cursor);
+                        req.pad6 = 0;
+                        if (node != 0 && (d = *(u32 **)((u8 *)node + 8)) != 0) {
+                            req.x7 = ((u8 *)d)[2];
+                            req.x8 = ((u8 *)d)[3];
+                        } else {
+                            req.x7 = 0x28;
+                            req.x8 = 0;
+                        }
+                        req.text = str2;
+                        TQuestVmDownLoadServer__sub_803EEF2C(&req);
+                    }
+                    *cursor = 0;
+                } else {
+                    TQuestVmDownLoadServer__sub_803EE580(i, n, (Head_803EE580 *)node, (Node_803EB794 *)*(Elem_803ED9AC **)(slot + 8));
+                }
+            }
+        } else {
+            TQuestVmDownLoadServer__sub_803EE580(i, n, (Head_803EE580 *)node, (Node_803EB794 *)*(Elem_803ED9AC **)(slot + 8));
+        }
+        i += n;
+    }
 }
 
 #pragma push
