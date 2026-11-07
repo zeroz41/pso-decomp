@@ -1,6 +1,13 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/ParticleOrbit.h"
 #include "pso/render/render_util.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TUnk_8048E778.h"
 #include "pso/unk/TUnk_8048E7A8.h"
@@ -130,8 +137,7 @@ struct Vec_8008AC24 { f32 x, y, z; };
 
 struct IVec_8008AC24 { s32 x, y, z; };
 
-struct RecoveredGlobal_8008C21C_TParticleCtrl__data_80511F70;
-extern RecoveredGlobal_8008C21C_TParticleCtrl__data_80511F70 TParticleCtrl__data_80511F70;
+extern ParticleTexture *TParticleCtrl__data_80511F70[];
 struct OObj_8008B060 {
     u8 pad_0[0x18]; s32 *f18; u16 f1C; u8 pad_1E[6]; u16 f24; s16 f26;
     f32 f28; f32 f2C; f32 f30; f32 f34; f32 f38; f32 f3C; f32 f40; u8 pad_44[0x18];
@@ -156,20 +162,12 @@ void queue_destruction__7TObjectFv(void *arg0);
 extern const f32 TParticleCtrl__data_805D9528;
 extern s32 TParticleCtrl__data_8048E790[];
 s32 rand(void);
-s32 is_split_screen();
 s32 is_particle_sprite_additive__13TUnk_8048E728Fv(void *, s32);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
-f32 cos_table_lookup(s32);
-s32 scale_matrix(s32, f32, f32, f32);
 s32 rotate_matrix_y(s32, s32);
-s32 rotate_matrix_z(s32, s32);
-s32 rotate_matrix_x(s32, s32);
-s32 push_matrix(f32);
-s32 pop_matrix();
-s32 post_translate_matrix(void *);
 s32 draw_ginja_object(u32);
-s32 draw_ginja_model_with_motion(u32, u32, f32);
+s32 draw_ginja_model_with_motion(u32, NJS_MOTION *, f32);
 extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -274,10 +272,179 @@ void *TParticleCtrl::alloc_child_particle(void *arg1, void *arg2, void *arg3) {
 }
 void TUnk_8048E790::retire_orbit_particle() {
     u8 *arg0 = (u8 *)this;
-    if (this->m_58 >= TParticleCtrl__data_805D9528) {
+    if (this->age >= TParticleCtrl__data_805D9528) {
         queue_destruction__7TObjectFv((arg0));
     }
 }
+
+// Colour channel scaled by the fade alpha; nothing below zero, at most alpha.
+inline f32 fade_particle_channel(f32 c, f32 alpha) {
+    if (c < 0.0f) {
+        return 0.0f;
+    }
+    return alpha * ((c < 1.0f) ? c : 1.0f);
+}
+
+inline f32 clamp_particle_channel(f32 c) {
+    if (c < 0.0f) {
+        return 0.0f;
+    }
+    return (c < 1.0f) ? c : 1.0f;
+}
+
+#pragma push
+#pragma fp_contract on
+void TUnk_8048E790::run_task() {
+    NJS_COLOR col;
+    Vec lift;
+    Vec ring;
+    Vec follow_lift;
+    ParticleParam *p;
+    f32 t;
+    f32 fade_in;
+    f32 fade_out;
+    f32 alpha;
+    f32 r;
+    f32 g;
+    f32 b;
+    f32 a;
+    f32 tilt;
+    s32 frames;
+
+    orbit_angle += (s32)(182.04445f * step.x);
+    if (flags & 0x10) {
+        TObjCollidable *target_obj = find_entity_by_id(target_id);
+        if (target_obj == NULL) {
+            queue_destruction();
+            return;
+        }
+        Vec *center = (Vec *)target_obj->get_center();
+        if (unk_98 != 0 && m_9c != 0 && unk_A0 != 0) {
+            attach.x = orbit_center_x - origin.x;
+            attach.z = orbit_center_z - origin.z;
+            pos.x = orbit_radius * cos_table_lookup(orbit_angle) + center->x;
+            pos.z = orbit_radius * sin_table_lookup(orbit_angle) + center->z;
+        } else {
+            attach.x = orbit_center_x - origin.x;
+            attach.z = orbit_center_z - origin.z;
+            pos.x = orbit_radius * cos_table_lookup(orbit_angle) + center->x;
+            pos.z = orbit_radius * sin_table_lookup(orbit_angle) + center->z;
+            pos.y = center->y;
+            orbit_height += step.y;
+            follow_lift.x = 0.0f;
+            follow_lift.z = 0.0f;
+            follow_lift.y = orbit_height;
+            push_matrix_from(&identity_matrix);
+            rotate_matrix_x(0, unk_98);
+            rotate_matrix_y(0, m_9c);
+            rotate_matrix_z(0, unk_A0);
+            rotate_vector_by_current_matrix(&follow_lift, &follow_lift);
+            pop_matrix();
+            pos.x += follow_lift.x;
+            pos.y += follow_lift.y;
+            pos.z += follow_lift.z;
+        }
+    } else if (unk_98 != 0 && m_9c != 0 && unk_A0 != 0) {
+        pos.x = orbit_radius * cos_table_lookup(orbit_angle) + orbit_center_x;
+        pos.z = orbit_radius * sin_table_lookup(orbit_angle) + orbit_center_z;
+    } else {
+        ring.x = orbit_radius * cos_table_lookup(orbit_angle);
+        ring.y = 0.0f;
+        ring.z = orbit_radius * sin_table_lookup(orbit_angle);
+        orbit_height += step.y;
+        lift.x = 0.0f;
+        lift.z = 0.0f;
+        lift.y = orbit_height;
+        push_matrix_from(&identity_matrix);
+        rotate_matrix_x(0, unk_98);
+        rotate_matrix_y(0, m_9c);
+        rotate_matrix_z(0, unk_A0);
+        rotate_vector_by_current_matrix(&ring, &ring);
+        rotate_vector_by_current_matrix(&lift, &lift);
+        pop_matrix();
+        pos.x = lift.x + (orbit_center_x + ring.x);
+        pos.z = lift.z + (orbit_center_z + ring.z);
+        pos.y = lift.y + (origin.y + ring.y);
+    }
+    if (unk_98 != 0 && m_9c != 0 && unk_A0 != 0) {
+        pos.y += step.y;
+    }
+    m_28 *= param->scale_decay;
+    unk_2C *= param->scale_decay;
+    p = param;
+    t = age;
+    fade_in = 1.0f;
+    fade_out = 1.0f;
+    if (p->fade_in_end > t) {
+        fade_in = t * fade_in_scale;
+    }
+    if (1.0f - t < p->fade_out_start) {
+        fade_out = (1.0f - t) * fade_out_scale;
+    }
+    if (fade_in < fade_out) {
+        alpha = fade_in;
+    } else {
+        alpha = fade_out;
+    }
+    if (TParticleCtrl__data_80511F70[sprite_index]->sprites->flags & 1) {
+        if (flags & 0x100) {
+            r = fade_particle_channel(p->orbit_red_rate * t + color_base[0], alpha);
+            g = fade_particle_channel(p->unk_38 * t + color_base[1], alpha);
+            b = fade_particle_channel(p->unk_3C * t + color_base[2], alpha);
+        } else {
+            r = fade_particle_channel(p->orbit_red_rate * t + p->color_base[0], alpha);
+            g = fade_particle_channel(p->unk_38 * t + p->color_base[1], alpha);
+            b = fade_particle_channel(p->unk_3C * t + p->color_base[2], alpha);
+        }
+        a = 1.0f;
+    } else {
+        if (flags & 0x100) {
+            r = clamp_particle_channel(p->orbit_red_rate * t + color_base[0]);
+            g = clamp_particle_channel(p->unk_38 * t + color_base[1]);
+            b = clamp_particle_channel(p->unk_3C * t + color_base[2]);
+        } else {
+            r = clamp_particle_channel(p->orbit_red_rate * t + p->color_base[0]);
+            g = clamp_particle_channel(p->unk_38 * t + p->color_base[1]);
+            b = clamp_particle_channel(p->unk_3C * t + p->color_base[2]);
+        }
+        a = alpha;
+    }
+    col.argb.a = 254.0f * a;
+    col.argb.r = 254.0f * r;
+    col.argb.g = 254.0f * g;
+    col.argb.b = 254.0f * b;
+    color = col.color;
+    m_dc += (s32)(182.04445f * param->orbit_spin_rate);
+    age += age_rate;
+    tilt = 8.0f * step.x * step.y;
+    if (fabs_float(tilt) > 10.0f) {
+        tilt = 10.0f;
+    }
+    if (speed < 0.0f) {
+        m_96 += (s32)(182.04445f * tilt);
+    } else {
+        m_96 -= (s32)(182.04445f * tilt);
+    }
+    frames = TParticleCtrl__data_80511F70[sprite_index]->sprites->frame_count;
+    if (param->flags & 0x10) {
+        frame = age * (frames - 1);
+    } else {
+        frame++;
+        if (frames <= frame) {
+            frame = 0;
+        }
+    }
+    m_28 *= m_a4;
+    unk_2C *= unk_A8;
+    if (motion != NULL) {
+        motion_frame += unk_C0;
+        if ((f32)(motion->nbFrame - 1) <= motion_frame) {
+            motion_frame = motion->nbFrame - 1;
+        }
+    }
+    retire_orbit_particle();
+}
+#pragma pop
 
 void TUnk_8048E790::render() {
     u8 *arg0 = (u8 *)this;
@@ -288,7 +455,7 @@ void TUnk_8048E790::render() {
     s32 temp_r4;
     u16 temp_r3;
     if (all_parents_unqueued_for_destruction__7TObjectFv() != 0) {
-        temp_f3 = *(f32 *)((s8 *)this->m_20 + 0x70) * cos_table_lookup(this->m_dc);
+        temp_f3 = *(f32 *)((s8 *)this->param + 0x70) * cos_table_lookup(this->m_dc);
         this->m_88 = (f32) (this->m_28 * (TParticleCtrl__data_805D9528 + temp_f3));
         *(f32 *)((s8 *)arg0 + 0x8C) = (f32) (*(f32 *)&this->unk_2C * (TParticleCtrl__data_805D9528 - temp_f3));
         this->m_88 = (f32) (this->m_88 * this->m_a4);
@@ -296,11 +463,11 @@ void TUnk_8048E790::render() {
         temp_r3 = *(u16 *)((s8 *)arg0 + 0x24);
         if (temp_r3 & 0x200) {
             if (((is_split_screen() == 0) || !(*(u16 *)((s8 *)arg0 + 0x24) & 0x400)) && ((u32) *(u32 *)&this->unk_B4 != 0U) && ((u32) this->m_b0 != 0U)) {
-                sp8.x = this->m_70 + *(f32 *)&this->unk_7C;
-                sp8.y = *(f32 *)&this->unk_74 + this->m_80;
-                sp8.z = this->m_78 + *(f32 *)&this->unk_84;
-                push_matrix(this->m_78);
-                post_translate_matrix(&sp8);
+                sp8.x = this->pos.x + this->attach.x;
+                sp8.y = this->pos.y + this->attach.y;
+                sp8.z = this->pos.z + this->attach.z;
+                push_matrix();
+                post_translate_matrix(&sp8.x);
                 temp_f1_2 = this->m_88;
                 scale_matrix(0, temp_f1_2, temp_f1_2, temp_f1_2);
                 rotate_matrix_z(0, *(s32 *)&this->unk_A0);
@@ -330,8 +497,8 @@ void TUnk_8048E790::render() {
                 }
                 TObjFish::set_global_param(*(u32 *)&this->unk_B4);
                 set_draw_list_mask(3);
-                if ((u32) this->m_b8 != 0U) {
-                    draw_ginja_model_with_motion(this->m_b0, this->m_b8, *(f32 *)&this->unk_BC);
+                if ((u32) this->motion != 0U) {
+                    draw_ginja_model_with_motion(this->m_b0, this->motion, this->motion_frame);
                 } else {
                     draw_ginja_object(this->m_b0);
                 }
@@ -347,7 +514,7 @@ void TUnk_8048E790::render() {
                 ((TUnk_8048E728 *)arg0)->draw_particle_refraction_quad();
                 return;
             }
-            if (*(u8 *)((s8 *)this->m_20 + 0x88) & 0x20) {
+            if (*(u8 *)((s8 *)this->param + 0x88) & 0x20) {
                 append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)((u8 *)&TParticleCtrl__data_80511F70 + 0xD8))[*(u16 *)((s8 *)arg0 + 0x1C)], arg0 + 0x6C);
                 return;
             }
@@ -395,7 +562,7 @@ u8 *init_orbit_sprite_particle(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg
     o->f2C = o->f28;
     temp_r0 = (s32)((f32)d->f4C * (lbl_805D9548 * (f32)rand()) + (f32)d->f48);
     if (d->f88 & 1) {
-        o->f5C = TParticleCtrl__data_805D9528 / (f32)*(s32 *)((s8 *)(*(void **)((s8 *)(*(s32 *)((s8 *)&TParticleCtrl__data_80511F70.value + (o->f1C * 4))) + 0x28)) + 0xC);
+        o->f5C = TParticleCtrl__data_805D9528 / (f32)*(s32 *)((s8 *)(*(void **)((s8 *)(*(s32 *)((s8 *)TParticleCtrl__data_80511F70 + (o->f1C * 4))) + 0x28)) + 0xC);
     } else {
         o->f5C = TParticleCtrl__data_805D9528 / (f32)temp_r0;
     }

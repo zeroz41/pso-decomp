@@ -2,6 +2,13 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/effect/particle/ParticleBallistic.h"
 #include "pso/render/render_util.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/camera/CameraHelpers.h"
+#include "pso/unk/text_8023601C.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TUnk_8048E790.h"
 #include "pso/unk/TUnk_8048E7A8.h"
@@ -145,24 +152,20 @@ extern const f32 TParticleCtrl__data_805D94F8;
 extern const f32 TParticleCtrl__data_805D94FC;
 extern s32 TParticleCtrl__data_8048E778[];
 s32 rand(void);
-extern RecoveredGlobal_8008C21C_TParticleCtrl__data_80511F70 TParticleCtrl__data_80511F70;
-s32 is_split_screen();
+s32 rotate_matrix_y(s32, s32);
+void project_world_to_screen(int, void *, void *);
+s32 push_matrix(f32);
+s32 post_translate_matrix(void *);
+void rotate_vector_by_current_matrix(void *, void *);
+extern ParticleTexture *TParticleCtrl__data_80511F70[];
 s32 is_particle_sprite_additive__13TUnk_8048E728Fv(void *, s32);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
-s32 scale_matrix(s32, f32, f32, f32);
-s32 rotate_matrix_y(s32, s32);
-s32 rotate_matrix_z(s32, s32);
-s32 rotate_matrix_x(s32, s32);
-s32 push_matrix(f32);
-s32 pop_matrix();
-s32 post_translate_matrix(void *);
 s32 draw_ginja_object(u32);
 s32 draw_ginja_model_with_motion(u32, u32, f32);
 extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-f64 atan2_float(f32, f32);
 f32 vector_length(void *);
 extern const f32 TParticleCtrl__data_805D9500;
 extern const f32 TParticleCtrl__data_805D9504;
@@ -170,15 +173,11 @@ extern const f32 TParticleCtrl__data_805D950C;
 extern const f32 lbl_805D9520;
 void restore_saved_depth_alpha_state();
 f32 vec3_dot(void *, void *);
-void project_world_to_screen(int, void *, void *);
-void push_matrix_from(void *);
-void rotate_vector_by_current_matrix(void *, void *);
 extern Vec_800890F4 lbl_804394E8;
 extern Vec_800890F4 lbl_804394F4;
 extern Vec_800890F4 lbl_80439500;
 extern Ang_800890F4 lbl_8043950C;
 extern const f64 lbl_80439528;
-extern u8 identity_matrix[];
 extern const f32 lbl_805D951C;
 void __ct__7TObjectFP7TObject(void *, void *);
 }
@@ -273,19 +272,182 @@ void *TParticleCtrl::create_random_spread(void *arg0, void *arg1, void *arg2) {
 void TUnk_8048E778::retire_ballistic_particle_if_done() {
     u8 *arg0 = (u8 *)this;
     Stack_80088844 stack;
-    if (*(u8 *)((s8 *)this->m_20 + 0x88) & 8) {
-        stack.sp8 = this->m_70 - this->m_30;
-        stack.spC = *(f32 *)&this->unk_74 - *(f32 *)((s8 *)arg0 + 0x34);
-        stack.sp10 = this->m_78 - this->m_38;
+    if (*(u8 *)((s8 *)this->param + 0x88) & 8) {
+        stack.sp8 = this->pos.x - this->origin.x;
+        stack.spC = this->pos.y - *(f32 *)((s8 *)arg0 + 0x34);
+        stack.sp10 = this->pos.z - this->origin.z;
         if (TParticleCtrl__data_805D94F8 == vec_squared_length((u8 *)&stack.sp8)) {
             queue_destruction__7TObjectFv((arg0));
             return;
         }
     }
-    if (this->m_58 >= TParticleCtrl__data_805D94FC) {
+    if (this->age >= TParticleCtrl__data_805D94FC) {
         queue_destruction__7TObjectFv((arg0));
     }
 }
+
+// Colour channel scaled by the fade alpha; nothing below zero, at most alpha.
+inline f32 fade_particle_channel(f32 c, f32 alpha) {
+    if (c < 0.0f) {
+        return 0.0f;
+    }
+    return alpha * ((c < 1.0f) ? c : 1.0f);
+}
+
+inline f32 clamp_particle_channel(f32 c) {
+    if (c < 0.0f) {
+        return 0.0f;
+    }
+    return (c < 1.0f) ? c : 1.0f;
+}
+
+#pragma push
+#pragma fp_contract on
+void TUnk_8048E778::run_task() {
+    NJS_COLOR col;
+    Vec toward_camera;
+    ParticleParam *p;
+    f32 t;
+    f32 fade_in;
+    f32 fade_out;
+    f32 alpha;
+    f32 r;
+    f32 g;
+    f32 b;
+    f32 a;
+    f32 tilt;
+    s32 frames;
+
+    if (param->flags & 8) {
+        if (age >= 0.5f) {
+            approach_camera_vector(&pos, &origin, fabs_float(step.y));
+        } else {
+            vec3_add_to(&pos, &step);
+            VecCopy(&velocity, &step);
+        }
+    } else {
+        if (flags & 2) {
+            push_matrix_from(&identity_matrix);
+            rotate_matrix_x(0, unk_98);
+            rotate_matrix_y(0, m_9c);
+            rotate_matrix_z(0, unk_A0);
+            rotate_vector_by_current_matrix(&step, &velocity);
+            pop_matrix();
+        } else if (unk_98 == 0 && m_9c == 0 && unk_A0 == 0) {
+            VecCopy(&velocity, &step);
+        } else {
+            push_matrix_from(&identity_matrix);
+            rotate_matrix_z(0, unk_A0);
+            rotate_matrix_x(0, unk_98);
+            rotate_matrix_y(0, m_9c);
+            rotate_vector_by_current_matrix(&step, &velocity);
+            pop_matrix();
+        }
+        vec3_add_to(&pos, &velocity);
+    }
+    p = param;
+    if ((p->flags & 2) && origin.y > pos.y) {
+        step.y = p->unk_60 * (p->unk_3C * (3.0517578e-05f * rand()) + p->unk_34);
+    }
+    step.x *= param->speed_decay;
+    step.z *= param->speed_decay;
+    step.y += param->gravity;
+    m_28 *= param->scale_decay;
+    unk_2C *= param->scale_decay;
+    age += age_rate;
+    p = param;
+    t = age;
+    fade_in = 1.0f;
+    fade_out = 1.0f;
+    if (p->fade_in_end > t) {
+        fade_in = t * fade_in_scale;
+    }
+    if (1.0f - t < p->fade_out_start) {
+        fade_out = (1.0f - t) * fade_out_scale;
+    }
+    if (fade_in < fade_out) {
+        alpha = fade_in;
+    } else {
+        alpha = fade_out;
+    }
+    if (TParticleCtrl__data_80511F70[sprite_index]->sprites->flags & 1) {
+        if (flags & 0x100) {
+            r = fade_particle_channel(p->color_rate[0] * t + color_base[0], alpha);
+            g = fade_particle_channel(p->color_rate[1] * t + color_base[1], alpha);
+            b = fade_particle_channel(p->color_rate[2] * t + color_base[2], alpha);
+        } else {
+            r = fade_particle_channel(p->color_rate[0] * t + p->color_base[0], alpha);
+            g = fade_particle_channel(p->color_rate[1] * t + p->color_base[1], alpha);
+            b = fade_particle_channel(p->color_rate[2] * t + p->color_base[2], alpha);
+        }
+        a = 1.0f;
+    } else {
+        if (flags & 0x100) {
+            r = clamp_particle_channel(p->color_rate[0] * t + color_base[0]);
+            g = clamp_particle_channel(p->color_rate[1] * t + color_base[1]);
+            b = clamp_particle_channel(p->color_rate[2] * t + color_base[2]);
+        } else {
+            r = clamp_particle_channel(p->color_rate[0] * t + p->color_base[0]);
+            g = clamp_particle_channel(p->color_rate[1] * t + p->color_base[1]);
+            b = clamp_particle_channel(p->color_rate[2] * t + p->color_base[2]);
+        }
+        a = alpha;
+    }
+    col.argb.a = 254.0f * a;
+    col.argb.r = 254.0f * r;
+    col.argb.g = 254.0f * g;
+    col.argb.b = 254.0f * b;
+    color = col.color;
+    p = param;
+    if (0.0f == p->gravity && 0.0f == p->unk_34 && 0.0f == p->unk_30) {
+        m_96 += (s32)(182.04445f * p->unk_60);
+    } else if (!(p->flags & 4)) {
+        tilt = step.y * (p->unk_64 * step.x);
+        if (fabs_float(tilt) > 20.0f) {
+            tilt = 20.0f;
+        }
+        if (speed < 0.0f) {
+            m_96 += (s32)(182.04445f * tilt);
+        } else {
+            m_96 -= (s32)(182.04445f * tilt);
+        }
+    }
+    frames = TParticleCtrl__data_80511F70[sprite_index]->sprites->frame_count;
+    if (param->flags & 0x10) {
+        frame = age * (frames - 1);
+    } else {
+        frame++;
+        if (frames <= frame) {
+            frame = 0;
+        }
+    }
+    if (flags & 0x10) {
+        TObjCollidable *target_obj = find_entity_by_id(target_id);
+        if (target_obj == NULL) {
+            queue_destruction();
+            return;
+        }
+        Vec *center = (Vec *)target_obj->get_center();
+        if (center != NULL) {
+            if (flags & 0x20) {
+                offset_point_toward_camera((u8 *)center, (u8 *)&toward_camera, 8.0f);
+                attach.x = toward_camera.x - origin.x;
+                attach.y = toward_camera.y - origin.y;
+                attach.z = toward_camera.z - origin.z;
+            } else {
+                attach.x = center->x - origin.x;
+                attach.y = center->y - origin.y;
+                attach.z = center->z - origin.z;
+            }
+        }
+    }
+    motion_frame += unk_C0;
+    if (motion != NULL && (f32)(motion->nbFrame - 1) <= motion_frame) {
+        motion_frame = motion->nbFrame - 1;
+    }
+    retire_ballistic_particle_if_done();
+}
+#pragma pop
 
 void TUnk_8048E778::render() {
     Part_800890F4 *p = (Part_800890F4 *)this;
