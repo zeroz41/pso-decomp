@@ -496,7 +496,7 @@ f32 xyz_distance(Vec_8014E3B0 *, Vec_8014E3B0 *);
 
 extern int registered_entity_count;
 extern Text_8014E250 npc_partner_dialogue_state[];
-extern u32 lbl_805D5860;
+extern u32 npc_player_char_data_buffer;
 extern void *tl_05;
 
 void copy_player_visual_record(void *, void *);
@@ -1902,8 +1902,8 @@ void __sinit_TNpcPlayer_cpp() {
 }
 
 void TNpcPlayer::ensure_rock_singleton() {
-    if ((u32) lbl_805D5860 == 0U) {
-        lbl_805D5860 = (u32)mem_alloc(0x1400);
+    if ((u32) npc_player_char_data_buffer == 0U) {
+        npc_player_char_data_buffer = (u32)mem_alloc(0x1400);
     }
 }
 
@@ -1917,12 +1917,12 @@ u8 *TNpcPlayer::build_npc_player_record(s32 arg0) {
         TNpcPlayer__data_805D5864 = 0;
         copy_player_visual_record(lbl_8050CF68, lbl_8050D3E0);
     } else {
-        copy_player_visual_record(lbl_8050CF68, (u8 *)lbl_805D5860 + arg0 * 0x50);
+        copy_player_visual_record(lbl_8050CF68, (u8 *)npc_player_char_data_buffer + arg0 * 0x50);
     }
     bswap__15disp_data_part2Fv((s32)lbl_8050CF68);
-    mem_free((void *)lbl_805D5860);
+    mem_free((void *)npc_player_char_data_buffer);
     mode = game_difficulty_selection;
-    lbl_805D5860 = 0;
+    npc_player_char_data_buffer = 0;
     if (mode >= 0 && mode <= 2) {
         diff = mode;
     } else {
@@ -1963,21 +1963,21 @@ u8 *load_npc_player_template(s32 index) {
     s32 lvl;
     u16 base;
 
-    if (lbl_805D5860 != 0U) {
+    if (npc_player_char_data_buffer != 0U) {
         return NULL;
     }
-    lbl_805D5860 = (u32)mem_alloc(0x1400);
+    npc_player_char_data_buffer = (u32)mem_alloc(0x1400);
     if (TNpcPlayer__data_805D5864 != 0) {
         TNpcPlayer__data_805D5864 = 0;
         copy_player_visual_record(lbl_8050CF68, lbl_8050D3E0);
     } else {
-        read_disc_file(lbl_805D2E70, (void *)lbl_805D5860);
-        copy_player_visual_record(lbl_8050CF68, (u8 *)lbl_805D5860 + index * 0x50);
+        read_disc_file(lbl_805D2E70, (void *)npc_player_char_data_buffer);
+        copy_player_visual_record(lbl_8050CF68, (u8 *)npc_player_char_data_buffer + index * 0x50);
     }
     bswap__15disp_data_part2Fv((s32)lbl_8050CF68);
-    mem_free((void *)lbl_805D5860);
+    mem_free((void *)npc_player_char_data_buffer);
     mode = game_difficulty_selection;
-    lbl_805D5860 = 0;
+    npc_player_char_data_buffer = 0;
     if (mode >= 0 && mode <= 2) {
         diff = mode;
     } else {
