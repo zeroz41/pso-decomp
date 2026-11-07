@@ -21,7 +21,7 @@ import bisect
 import re
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 from tools.pso_assets import add_build_steps as add_data_build_steps
 
 from tools.project import (
@@ -39,13 +39,23 @@ from tools.project import (
 # A unit is LINKED into the DOL from its compiled object when every function
 # and data section in it matches. linked_units.txt is the only authority for
 # that; tools/link_units.py maintains it.
-_LINKED_UNITS_FILE = Path(__file__).resolve().parent / "config" / "GPOE8P" / "psov3" / "linked_units.txt"
+# Both files are per version (config/<version>/psov3/); _load_linked_units() reads
+# the list once the version is known.
+_ROOT = Path(__file__).resolve().parent
+_USA_PSOV3_CONFIG = _ROOT / "config" / "GPOE8P" / "psov3"
+_PSOV3_CONFIG = _USA_PSOV3_CONFIG
 _LINKED_UNITS = set()
-if _LINKED_UNITS_FILE.exists():
-    for _line in _LINKED_UNITS_FILE.read_text().splitlines():
-        _line = _line.split("#", 1)[0].strip()
-        if _line:
-            _LINKED_UNITS.add(_line)
+
+
+def _load_linked_units(version: str) -> None:
+    global _PSOV3_CONFIG
+    _PSOV3_CONFIG = _ROOT / "config" / version / "psov3"
+    path = _PSOV3_CONFIG / "linked_units.txt"
+    _LINKED_UNITS.clear()
+    for line in path.read_text().splitlines() if path.exists() else []:
+        line = line.split("#", 1)[0].strip()
+        if line:
+            _LINKED_UNITS.add(line)
 
 
 def Unit(name: str, **kwargs: Any) -> Object:
@@ -53,10 +63,10 @@ def Unit(name: str, **kwargs: Any) -> Object:
     return Object(name in _LINKED_UNITS, name, **kwargs)
 
 
-def _units_from_splits(prefix: str) -> List[Tuple[str, int]]:
+def _units_from_splits(prefix: str, config_dir: Optional[Path] = None) -> List[Tuple[str, int]]:
     """(unit, link address) of every `prefix` unit in splits.txt, in link order.
     A unit without .text takes the address of the last .text before it."""
-    path = Path(__file__).resolve().parent / "config" / "GPOE8P" / "psov3" / "splits.txt"
+    path = (config_dir or _PSOV3_CONFIG) / "splits.txt"
     out: List[Tuple[str, int]] = []
     unit, addr = None, 0
     for line in path.read_text().splitlines() if path.exists() else []:
@@ -89,6 +99,7 @@ def _switch(flags: List[str], *switches: str, drop: Tuple[str, ...] = ()) -> Lis
 DEFAULT_VERSION = "GPOE8P"
 VERSIONS = [
     "GPOE8P",  # USA v1.02
+    "GPOP8P",  # Europe (Episode I & II)
 ]
 
 # ===================================================================
@@ -186,12 +197,17 @@ parser.add_argument(
 parser.add_argument("--data-replacements", type=Path, metavar="DIR",
                     help="verify exact runtime data replacements under DIR/files/")
 args = parser.parse_args()
+if args.target == "main" and args.version != "GPOE8P":
+    parser.error("--target main (the boot loader) is set up for GPOE8P only")
+if args.data_replacements and args.version != "GPOE8P":
+    parser.error("--data-replacements checks the USA disc's data files: use it with GPOE8P")
 
 # ===================================================================
 # Project Configuration
 # ===================================================================
 config = ProjectConfig()
 config.version = str(args.version)
+_load_linked_units(config.version)
 config.build_dir = args.build_dir
 config.non_matching = args.non_matching
 config.generate_map = args.map
@@ -931,7 +947,12 @@ def _game_and_middleware_libs() -> List[Dict[str, Any]]:
     libs = [{"lib": name, "mw_version": mw, "cflags": flags, "progress_category": "game",
              "src_dir": "src", "objects": []} for name, _, mw, flags, _ in MIDDLEWARE]
     starts = [start for _, start, _, _, _ in MIDDLEWARE]
-    for unit, addr in _units_from_splits(""):
+    # The library ranges are USA addresses: a unit is sorted by its USA address in
+    # every version, and a unit only another version has goes with the one before it.
+    usa = None if config.version == "GPOE8P" else dict(_units_from_splits("", _USA_PSOV3_CONFIG))
+    addr = 0
+    for unit, own in _units_from_splits(""):
+        addr = own if usa is None else usa.get(unit, addr)
         if not unit.startswith(("pso/", "musyx/")):
             continue
         i = bisect.bisect_right(starts, addr) - 1
@@ -1009,8 +1030,11 @@ def TRKLib(lib_name: str, objects: list) -> dict:
 
 if args.target == "psov3":
     config.reconfig_deps = [
-        Path("config/GPOE8P/psov3/splits.txt"),
-        _LINKED_UNITS_FILE.relative_to(Path(__file__).resolve().parent),
+        (_PSOV3_CONFIG / "splits.txt").relative_to(_ROOT),
+        (_PSOV3_CONFIG / "linked_units.txt").relative_to(_ROOT),
+        # _game_and_middleware_libs() sorts units by their USA address.
+        *([(_USA_PSOV3_CONFIG / "splits.txt").relative_to(_ROOT)]
+          if _PSOV3_CONFIG != _USA_PSOV3_CONFIG else []),
     ]
     config.libs = [
         *_game_and_middleware_libs(),
@@ -1368,10 +1392,12 @@ def add_orig_asm_steps(config: ProjectConfig) -> None:
 if args.target == "psov3":
     add_orig_asm_steps(config)
     # A disc image in orig/GPOE8P/, or the disc extracted there by wit.
+    # config/GPOE8P/data.json describes the USA disc's data files only.
     _disc_root = Path("orig/GPOE8P/P-GPOE")
     if not _disc_root.is_dir():
         _disc_root = Path("orig/GPOE8P")
-    add_data_build_steps(config, _disc_root, replacements=args.data_replacements)
+    if args.version == "GPOE8P":
+        add_data_build_steps(config, _disc_root, replacements=args.data_replacements)
 
 if args.mode == "configure":
     generate_build(config)

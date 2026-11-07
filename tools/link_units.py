@@ -5,9 +5,9 @@ The build links a unit's *compiled* object into the DOL only when its Object
 is marked completed (``Matching``). Every other unit is compiled for objdiff
 alone and the original split object is linked in its place.
 
-``config/GPOE8P/psov3/linked_units.txt`` lists the units whose compiled object
+``config/<version>/psov3/linked_units.txt`` lists the units whose compiled object
 is linked; ``configure.py`` reads it. Membership is earned from
-``build/GPOE8P/report.json``: every function and every section of the unit
+``build/<version>/report.json``: every function and every section of the unit
 must be 100% (a code-only unit whose .ctors/.rodata differ stays out), and
 its compiled object must pass the link checks below.
 
@@ -17,6 +17,7 @@ Usage:
   link_units.py scan --write    # add candidates, drop regressions, write list
   link_units.py bisect          # after a build.sha1 failure: find the culprit
   link_units.py force-active --write   # list unreferenced symbols of linked units in config.yml
+  link_units.py --version GPOP8P scan  # the same for another version (default GPOE8P)
 
 ``scan`` also writes ``linked_units_blocked.json`` next to the list: units
 whose functions all match but whose object fails a link check, with every
@@ -52,12 +53,29 @@ except ImportError:  # direct tools/link_units.py invocation
     from mwcc_parts import mwcat_discarded_text_bytes
 
 ROOT = Path(__file__).resolve().parent.parent
-REPORT = ROOT / "build" / "GPOE8P" / "report.json"
-CFG_DIR = ROOT / "config" / "GPOE8P" / "psov3"
-LINKED = CFG_DIR / "linked_units.txt"
-SKIP = CFG_DIR / "linked_units_skip.txt"
-SHA_FILE = CFG_DIR / "build.sha1"
-DOL = ROOT / "build" / "GPOE8P" / "psov3.dol"
+
+
+def use_version(version: str) -> None:
+    """Point every path at config/<version>/ and build/<version>/."""
+    global VERSION, REPORT, CFG_DIR, LINKED, SKIP, SHA_FILE, DOL, OBJ_DIR, SPLIT_OBJ_DIR, SPLIT_CONFIG
+    global SYMBOLS, SPLITS, CONFIG_YML
+    VERSION = version
+    REPORT = ROOT / "build" / version / "report.json"
+    CFG_DIR = ROOT / "config" / version / "psov3"
+    LINKED = CFG_DIR / "linked_units.txt"
+    SKIP = CFG_DIR / "linked_units_skip.txt"
+    SHA_FILE = CFG_DIR / "build.sha1"
+    DOL = ROOT / "build" / version / "psov3.dol"
+    OBJ_DIR = ROOT / "build" / version / "src"
+    SPLIT_OBJ_DIR = ROOT / "build" / version / "obj"
+    SPLIT_CONFIG = ROOT / "build" / version / "config.json"
+    SYMBOLS = CFG_DIR / "symbols.txt"
+    SPLITS = CFG_DIR / "splits.txt"
+    CONFIG_YML = CFG_DIR / "config.yml"
+
+
+use_version("GPOE8P")
+
 PY = ROOT / ".venv" / "bin" / "python"
 if not PY.exists():
     PY = Path(sys.executable)
@@ -88,13 +106,12 @@ def unit_name(report_unit: dict) -> str:
         name = name[len(UNIT_PREFIX):]
     meta = report_unit.get("metadata") or {}
     src = meta.get("source_path")
-    for prefix in ("libs/dolphin/src/", "libs/", "src/", "build/GPOE8P/orig_asm/"):
+    for prefix in ("libs/dolphin/src/", "libs/", "src/", f"build/{VERSION}/orig_asm/"):
         if src and src.startswith(prefix):
             return src[len(prefix):]
     return name
 
 
-OBJ_DIR = ROOT / "build" / "GPOE8P" / "src"
 SHF_ALLOC = 0x2
 
 
@@ -257,13 +274,9 @@ def _dol_symbol_names() -> set[str]:
     return _DOL_NAMES
 
 
-SPLIT_OBJ_DIR = ROOT / "build" / "GPOE8P" / "obj"
-SPLIT_CONFIG = ROOT / "build" / "GPOE8P" / "config.json"
-
-
 def _split_objects() -> list[Path]:
     """The split objects of the current split, as dtk lists them in
-    build/GPOE8P/config.json. SPLIT_OBJ_DIR also keeps the objects of retired
+    build/<version>/config.json. SPLIT_OBJ_DIR also keeps the objects of retired
     splits, and their references would make the result depend on the history
     of the build directory instead of on the checked-in configuration."""
     if not SPLIT_CONFIG.exists():
@@ -705,7 +718,7 @@ def scan(write: bool) -> int:
         if meta.get("module_name") not in (None, "psov3"):
             continue
         source = meta.get("source_path") or ""
-        if not source.startswith(("src/pso/", "src/musyx/", "libs/", "build/GPOE8P/orig_asm/")):
+        if not source.startswith(("src/pso/", "src/musyx/", "libs/", f"build/{VERSION}/orig_asm/")):
             continue
         n = unit_name(u)
         exact[n] = unit_is_exact(u) or (n in linked and _proven_by_dol(u))
@@ -746,7 +759,7 @@ def scan(write: bool) -> int:
         print(f"exact-by-objdiff but NOT linkable ({len(blocked)}): compiled object emits "
               f"sections/symbols the split does not own -> " + ", ".join(f"{k}:{v}" for k, v in c.most_common(6)))
         (CFG_DIR / "linked_units_blocked.json").write_text(json.dumps(blocked, indent=1, sort_keys=True))
-        print("  details: config/GPOE8P/psov3/linked_units_blocked.json "
+        print(f"  details: config/{VERSION}/psov3/linked_units_blocked.json "
               "(section: claim the data range into the unit's split; "
               "missing: tools/localize_split_globals.py)")
     code = sum(1 for _ in add)
@@ -765,8 +778,6 @@ def scan(write: bool) -> int:
     return 0
 
 
-SYMBOLS = CFG_DIR / "symbols.txt"
-SPLITS = CFG_DIR / "splits.txt"
 _SYM_RE = __import__("re").compile(r"^(\S+) = (\.\w+):0x([0-9A-Fa-f]+); // (.*)$")
 
 
@@ -834,7 +845,6 @@ def _unit_ranges(names: set[str]) -> list[tuple[int, int, str]]:
     return out
 
 
-CONFIG_YML = CFG_DIR / "config.yml"
 _FA_BEGIN = "# --- force_active (BEGIN) ---"
 _FA_END = "# --- force_active (END) ---"
 
@@ -945,7 +955,7 @@ def _dol_ok() -> bool:
 
 def _relink(names: list[str]) -> bool:
     _write_list(LINKED, names, "bisect probe — will be rewritten")
-    subprocess.run([str(PY), "configure.py", "--target", "psov3"], cwd=ROOT,
+    subprocess.run([str(PY), "configure.py", "--target", "psov3", "--version", VERSION], cwd=ROOT,
                    check=True, stdout=subprocess.DEVNULL)
     r = subprocess.run(["ninja", str(DOL.relative_to(ROOT))], cwd=ROOT,
                        stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True)
@@ -996,6 +1006,8 @@ def bisect() -> int:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--version", default="GPOE8P", choices=["GPOE8P", "GPOP8P"],
+                    help="game version (default: GPOE8P)")
     sub = ap.add_subparsers(dest="cmd", required=True)
     s = sub.add_parser("scan")
     s.add_argument("--write", action="store_true")
@@ -1004,6 +1016,7 @@ def main() -> int:
     f = sub.add_parser("force-active", help="tag unreferenced symbols of linked units in symbols.txt")
     f.add_argument("--write", action="store_true")
     a = ap.parse_args()
+    use_version(a.version)
     if a.cmd == "scan":
         return scan(a.write)
     if a.cmd == "check":

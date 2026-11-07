@@ -133,6 +133,24 @@ def whole_unit(asm: str, symbols: str) -> str:
     return asm.rstrip("\n") + "\n" + "".join(f".sym {name}, global\n" for name in extra)
 
 
+GAP = re.compile(r"pad_(\d\d)_[0-9A-Fa-f]{8}_(\w+)$")
+
+
+def gap_aliases(asm: str, wanted: set) -> dict:
+    """decomp-toolkit names a gap function after its address (pad_<section>_<address>_<name>), which differs
+    between versions: a wanted gap name the unit doesn't have stands for the unit's only gap in that section."""
+    have = {m.group(1) for m in map(FN.match, asm.splitlines()) if m}
+    out = {}
+    for name in wanted - have:
+        m = GAP.match(name)
+        if not m:
+            continue
+        same = [h for h in have if (g := GAP.match(h)) and g.groups() == m.groups()]
+        if len(same) == 1:
+            out[name] = same[0]
+    return out
+
+
 def main(argv) -> int:
     if len(argv) < 3:
         print(__doc__.strip(), file=sys.stderr)
@@ -149,9 +167,11 @@ def main(argv) -> int:
         unit = "/".join(parts[parts.index("orig_asm") + 1:-1])
         by_unit.setdefault(unit, []).append(out)
     for unit, outs in by_unit.items():
-        found = bodies((asm_dir / f"{unit}.s").read_text(encoding="utf-8"), {o.stem for o in outs})
+        asm = (asm_dir / f"{unit}.s").read_text(encoding="utf-8")
+        alias = gap_aliases(asm, {o.stem for o in outs})
+        found = bodies(asm, {alias.get(o.stem, o.stem) for o in outs})
         for out in outs:
-            body = found.get(out.stem)
+            body = found.get(alias.get(out.stem, out.stem))
             if body is None:
                 raise SystemExit(f"{out.stem} is not in {asm_dir / unit}.s")
             if isinstance(body, str):
