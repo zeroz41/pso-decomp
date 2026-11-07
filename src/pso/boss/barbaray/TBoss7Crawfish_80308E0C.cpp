@@ -48,6 +48,28 @@ void TBoss7Crawfish::update_attack_state() {
         register_attack_hits();
     }
 }
+// Moves by delta when the new position is free and still inside the arena (names inferred); returns 1 if moved.
+s32 TBoss7Crawfish__sub_80308ED8(TBoss7Crawfish *self, const Vec *delta) {
+    Vec pos;
+    s32 moved;
+
+    pos.x = self->position.x + delta->x;
+    pos.y = self->position.y + delta->y;
+    pos.z = self->position.z + delta->z;
+    if (self->vfunc_18((u8 *)&pos) != 0) {
+        if (self->sub_80308688() != 0) {
+            moved = 1;
+            self->position.x = pos.x;
+            self->position.z = pos.z;
+        } else {
+            moved = 0;
+        }
+    } else {
+        moved = 0;
+    }
+    self->update_prev_position();
+    return moved;
+}
 void TBoss7Crawfish::change_state(s32 state) {
     Craw_80308F8C *o = (Craw_80308F8C *)this;
     s32 i;
