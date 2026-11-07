@@ -80,7 +80,7 @@ int bswap_32__FPUl(void* a0 = 0);
 
 void bswap_cmd_db_regist_connect_reply(packet_header *arg0) {
     bswap__13packet_headerFv(arg0);
-    fn_801E0900(((void *)((char *)arg0 + 68)));
+    bswap_ply_smth_pair(((void *)((char *)arg0 + 68)));
     bswap_32__FPUl((void*)((void *)((char *)arg0 + 76)));
 }
 

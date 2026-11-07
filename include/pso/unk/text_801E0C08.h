@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void fn_801E0C08(void);
+void construct_meet_user_settings(void);
 }
 
 // --- C functions defined in text_801E0C08.cpp ---
 extern "C" {
-void fn_801E0C08(void);
+void construct_meet_user_settings(void);
 }
 // --- end of C functions
 

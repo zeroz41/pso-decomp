@@ -6332,8 +6332,8 @@ force_active:
   - fn_801DF558
   - bswap_u16_pair_field
   - bswap_c0_lobby_entry
-  - fn_801E0018
-  - fn_801E0C08
+  - bswap_quest_list_entry
+  - construct_meet_user_settings
   - fn_801F6520
   - fn_801F9030
   - fn_80214058
