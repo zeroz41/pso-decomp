@@ -679,6 +679,50 @@ void TAdSinglePlyChrSelectGC__sub_8042DDE4(int _w0, int _w1) {
     }
 }
 
+void TAdSinglePlyChrSelectGC__sub_8042DE20(void) {
+    s32 length;
+    u8 *data;
+    u8 *body;
+    u8 *tail;
+    s32 max;
+    u32 cmd;
+
+    data = modem_send_state.data;
+    max = 0x201 - lbl_805D7C90.f2;
+    length = modem_send_state.remaining;
+    if (length >= max) {
+        length = max;
+    }
+    modem_send_state.remaining -= length;
+    modem_send_state.tail = NULL;
+    modem_send_state.body = NULL;
+    modem_send_state.head = NULL;
+    modem_send_state.tail_length = 0;
+    modem_send_state.body_length = 0;
+    modem_send_state.head_length = 0;
+    body = (u8 *)OSRoundUp32B(data);
+    tail = (u8 *)OSRoundDown32B(data + length);
+    if (body >= tail) {
+        modem_send_state.head = data;
+        modem_send_state.head_length = length;
+    } else {
+        if (data != body) {
+            modem_send_state.head = data;
+            modem_send_state.head_length = body - data;
+        }
+        modem_send_state.body = body;
+        modem_send_state.body_length = tail - body;
+        DCStoreRange(modem_send_state.body, modem_send_state.body_length);
+        if (tail < data + length) {
+            modem_send_state.tail = tail;
+            modem_send_state.tail_length = (data + length) - tail;
+        }
+    }
+    EXISelect(0, 2, 4);
+    cmd = 0x68000000 | ((u16)length << 8);
+    EXIImm(0, &cmd, 4, EXI_WRITE, TAdSinglePlyChrSelectGC__sub_8042DF4C);
+}
+
 void TAdSinglePlyChrSelectGC__sub_8042DF4C(s32 chan, OSContext *context) {
     s32 offset;
     s32 count;
