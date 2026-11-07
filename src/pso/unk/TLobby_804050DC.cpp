@@ -4265,6 +4265,141 @@ s32 TLobby::build_dns_query_a(u8 *name, s16 len) {
 }
 #pragma pop
 
+struct N_8040C4B0;
+struct O_8040C4B0;
+
+s16 TLobby__sub_8040BD40(F_8040A45C *req, u8 *pkt, s16 len, void *dst);
+s32 append_to_list__6TLobbyFPvPv(O_8040C4B0 *o, N_8040C4B0 *n);
+C_8040A45C *TLobby__sub_8040C248(D_8040A45C *q);
+
+s16 TLobby__sub_8040BA38(F_8040A45C *req, u8 *pkt, s16 len) {
+    struct Hdr_8040BA38 { u16 op; u16 type; u32 id; u16 dlen; };
+    struct EntView_8040BA38 {
+        s16 f0; u8 pad2[2]; u32 size; u8 addr[0x10];
+        u16 tag; u16 pad1A; s32 id; C_8040A45C *next; D_8040A45C *owner;
+    };
+    struct Key_8040BA38 { u32 pad0; u32 size; u8 addr[0x10]; u16 tag; };
+    Hdr_8040BA38 hdr;
+    Key_8040BA38 key;
+    G_8040A45C *g;
+    D_8040A45C *q;
+    EntView_8040BA38 *e;
+    s16 i;
+    s16 n;
+
+    n = TLobby__sub_8040BD40(req, pkt, len, 0);
+    if (len < n + 10) {
+        return len;
+    }
+    pkt += n;
+    NetMemcpy(&hdr, pkt, 10);
+    n += 10;
+    if (len < n + (s16)hdr.dlen) {
+        return len;
+    }
+    n += hdr.dlen;
+    if (hdr.type == 1) {
+        switch (hdr.op) {
+        case 1:
+            q = (D_8040A45C *)req->f38;
+            if (q == NULL) {
+                break;
+            }
+            key.tag = 1;
+            key.size = 4;
+            NetMemcpy(key.addr, pkt + 10, 4);
+            if (q == NULL || (u32)&key == 0) {
+                e = NULL;
+            } else {
+                g = &dns_resolver_state;
+                e = (EntView_8040BA38 *)q->f208;
+                i = 0;
+                for (;;) {
+                    if (e == NULL || i >= g->nc) {
+                        e = NULL;
+                        break;
+                    }
+                    if (TLobby__sub_8040C9E0((u8 *)e, (u8 *)&key) == 0) {
+                        break;
+                    }
+                    e = (EntView_8040BA38 *)e->next;
+                    i++;
+                }
+            }
+            if (e == NULL) {
+                e = (EntView_8040BA38 *)TLobby__sub_8040C248(q);
+                if (e == NULL) {
+                    break;
+                }
+                e->f0 = 1;
+                e->tag = 1;
+                e->size = 4;
+                NetMemcpy(e->addr, pkt + 10, 4);
+                e->owner = q;
+                append_to_list__6TLobbyFPvPv((O_8040C4B0 *)q, (N_8040C4B0 *)e);
+            }
+            e->id = hdr.id;
+            break;
+        case 5:
+            q = (D_8040A45C *)req->f38;
+            if (q != NULL && q->f104 == 0) {
+                TLobby__sub_8040BD40(req, pkt + 10, hdr.dlen, &q->f104);
+            }
+            break;
+        case 0x1c:
+            q = (D_8040A45C *)req->f38;
+            if (q == NULL) {
+                break;
+            }
+            key.tag = 0x1c;
+            key.size = 6;
+            NetMemcpy(key.addr, pkt + 10, 0x10);
+            if (q == NULL || (u32)&key == 0) {
+                e = NULL;
+            } else {
+                g = &dns_resolver_state;
+                e = (EntView_8040BA38 *)q->f208;
+                i = 0;
+                for (;;) {
+                    if (e == NULL || i >= g->nc) {
+                        e = NULL;
+                        break;
+                    }
+                    if (TLobby__sub_8040C9E0((u8 *)e, (u8 *)&key) == 0) {
+                        break;
+                    }
+                    e = (EntView_8040BA38 *)e->next;
+                    i++;
+                }
+            }
+            if (e == NULL) {
+                e = (EntView_8040BA38 *)TLobby__sub_8040C248(q);
+                if (e == NULL) {
+                    break;
+                }
+                e->f0 = 1;
+                e->tag = 0x1c;
+                e->size = 6;
+                NetMemcpy(e->addr, pkt + 10, 0x10);
+                e->owner = q;
+                append_to_list__6TLobbyFPvPv((O_8040C4B0 *)q, (N_8040C4B0 *)e);
+            }
+            e->id = hdr.id;
+            break;
+        case 0xc: {
+            struct Conn_8040BA38 { u8 pad[0x18]; s32 f18; u8 f1C[4]; };
+            Conn_8040BA38 *c = (Conn_8040BA38 *)req->f2C;
+            if (c != NULL) {
+                c->f18 = hdr.id;
+                TLobby__sub_8040BD40(req, pkt + 10, hdr.dlen, c->f1C);
+            }
+            break;
+        }
+        }
+    }
+    return n;
+}
+
 void TLobby__sub_8040BE40(F_8040A45C *req, s16 err, s16 arg);
 
 
