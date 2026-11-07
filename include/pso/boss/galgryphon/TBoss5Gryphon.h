@@ -20,22 +20,22 @@ struct Boss5GryphonMotionEntry {
 struct TBoss5Gryphon : public TObjEneDD_ST {
     virtual ~TBoss5Gryphon();
     virtual void dispatch_action(u32 state, s32 event);
-    void fn_80063714();
+    void state_action_noop();
     void update_idle_state(u32);
     void update_ground_pursuit(s32);
     void wait_for_players(s32);
-    void fn_800627E4(u32);
-    void fn_80062BA0(u32);
+    void update_appearance_state(u32);
+    void update_death_state(u32);
     void fn_80063320(u32);
-    void fn_80063088(u32);
+    void update_shockwave_attack(u32);
     void fn_80062660(s32);
     void circle_arena(s32);
     void move_to_motion_destination(s32);
     void update_landing_attack(u32);
     void fn_80062114(s32);
     void fn_80062018(s32);
-    void fn_80061D34(s32);
-    void fn_80061B8C(s32);
+    void update_ancient_trap_circle(s32);
+    void update_bezier_descent(s32);
     void update_dive_motion(s32);
     void fn_800615FC(s32);
     void handle_descend_state(s32);
@@ -50,7 +50,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     void update_ground_lightning_attack(s32);
     void fn_80060788(s32);
     void fn_800605E8(s32);
-    void fn_80060020(u32);
+    void update_dive_attack(u32);
     void update_roar_state(s32);
     void fn_8005FE18(s32);
     void fn_8005FD34(s32);

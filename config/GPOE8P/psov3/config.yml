@@ -6269,10 +6269,10 @@ force_active:
   - fn_8005586C
   - fn_8005D6E4
   - fn_8005EBDC__12TBoss8DragonFPUcPUc
-  - fn_8005EE04__12TBoss8DragonFPsPUl
+  - run_action_script_step__12TBoss8DragonFPsPUl
   - fn_8005FD34__13TBoss5GryphonFl
   - fn_8005FE18__13TBoss5GryphonFl
-  - fn_80060020__13TBoss5GryphonFUl
+  - update_dive_attack__13TBoss5GryphonFUl
   - fn_800605E8__13TBoss5GryphonFl
   - fn_80060788__13TBoss5GryphonFl
   - fn_80060A58__13TBoss5GryphonFl
@@ -6282,16 +6282,16 @@ force_active:
   - fn_80060D9C__13TBoss5GryphonFl
   - fn_800610D0__13TBoss5GryphonFl
   - fn_800615FC__13TBoss5GryphonFl
-  - fn_80061B8C__13TBoss5GryphonFl
-  - fn_80061D34__13TBoss5GryphonFl
+  - update_bezier_descent__13TBoss5GryphonFl
+  - update_ancient_trap_circle__13TBoss5GryphonFl
   - fn_80062018__13TBoss5GryphonFl
   - fn_80062114__13TBoss5GryphonFl
   - fn_80062660__13TBoss5GryphonFl
-  - fn_800627E4__13TBoss5GryphonFUl
-  - fn_80062BA0__13TBoss5GryphonFUl
-  - fn_80063088__13TBoss5GryphonFUl
+  - update_appearance_state__13TBoss5GryphonFUl
+  - update_death_state__13TBoss5GryphonFUl
+  - update_shockwave_attack__13TBoss5GryphonFUl
   - fn_80063320__13TBoss5GryphonFUl
-  - fn_80063714__13TBoss5GryphonFv
+  - state_action_noop__13TBoss5GryphonFv
   - fn_80074E04
   - fn_800779FC
   - fn_8007A6C8
