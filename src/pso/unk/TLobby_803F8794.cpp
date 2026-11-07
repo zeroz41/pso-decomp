@@ -457,7 +457,7 @@ s32 TLobby__sub_8040FDA0(u32, s16);
 extern RecoveredGlobal_8041123C_lbl_805C1BB8 ipv6_address_routing_state;
 void NetMemset(void * _w0, int _w1, int _w2);
 void TLobby__sub_803F8930(u8 *arg0);
-s32 lbl_805D7A58;
+s32 lobby_net_recv_desc_up_cell;
 s32 TLobby__sub_803FE6CC(void *, int, int, void *);
 s16 TLobby__sub_8040FCEC(u32);
 void TLobby__sub_803F892C(void *);
@@ -480,10 +480,10 @@ s32 TLobby__sub_80426B88(s16 arg0);
 void NetMemcpy(void * _w0, void * _w1, int _w2);
 s32 TLobby__sub_803FC684(u8 *, u8 *, u8 *);
 extern u8 *lobby_buffer_pool_base;
-extern u8 *lbl_805D7BE4;
+extern u8 *lobby_second_buffer_pool_base;
 extern u32 lobby_buffer_pool_size;
-extern u8 *lbl_805D7C04;
-extern u32 lbl_805D7C08;
+extern u8 *lobby_g_pool_base;
+extern u32 lobby_g_pool_size;
 s16 TLobby__sub_80401BCC(void *, void *, int);
 extern u8 lcp_read_value_buffer[4];
 extern u8 lobby_read_byte_buffer[1];
@@ -751,7 +751,7 @@ void TLobby::init_net_recv_desc() {
     u8 *arg0 = (u8 *)this;
     *(s16 *)((s8 *)arg0 + 0xA) = 0x500;
     *(s16 *)&this->m_next = 2;
-    *(s32 * *)&this->m_up = &lbl_805D7A58;
+    *(s32 * *)&this->m_up = &lobby_net_recv_desc_up_cell;
     *(s32 * *)&this->m_down = &lobby_net_recv_desc.value;
 }
 
@@ -804,7 +804,7 @@ u8 *TLobby::layout_buffers(u8 *p, u8 *end) {
         if (p > end) {
             return NULL;
         }
-        lbl_805D7BE4 = p;
+        lobby_second_buffer_pool_base = p;
         p += h->f;
         if (p > end) {
             return NULL;
@@ -812,12 +812,12 @@ u8 *TLobby::layout_buffers(u8 *p, u8 *end) {
         lobby_buffer_pool_size = h->f;
     }
     if (h->g != 0) {
-        lbl_805D7C04 = p;
+        lobby_g_pool_base = p;
         p += h->g;
         if (p > end) {
             return NULL;
         }
-        lbl_805D7C08 = h->g;
+        lobby_g_pool_size = h->g;
     }
     return p;
 }

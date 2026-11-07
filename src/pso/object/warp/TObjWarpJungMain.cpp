@@ -40,7 +40,7 @@ s32 jungle_warp_destination_ids[3] = { 6, 8, 9 };
 BmlResource *TObjWarpJung__beam_bml_resource;
 AnimationMotion *warp_jung_beam_motion;
 s32 warp_jung_model_handle;
-s32 lbl_805D5CB4; // actor_frame_tick of the last UV scroll (inferred)
+s32 warp_jung_last_scroll_tick; // actor_frame_tick of the last UV scroll (inferred)
 void *warp_jung_beam_mesh_node;
 s32 warp_jung_beam_entry_index; // texture entry "ts064_beam_aka"
 s32 warp_jung_beam_blue_tex_entry;               // texture entry "ts064_beam_ao"
@@ -110,8 +110,8 @@ extern void *tl_05;
 void TObjWarpJungMain::render() {
     s32 i;
     if (update_object_view_visibility(550.0f, 40.0f) != 0) {
-        if (actor_frame_tick != lbl_805D5CB4) {
-            lbl_805D5CB4 = actor_frame_tick;
+        if (actor_frame_tick != warp_jung_last_scroll_tick) {
+            warp_jung_last_scroll_tick = actor_frame_tick;
             if (warp_jung_nakalight_tex_entry >= 0) {
                 scroll_ginja_mesh_uvs(warp_jung_beam_mesh_node, 0, 5, warp_jung_nakalight_tex_entry, 1);
             }
@@ -332,8 +332,8 @@ s32 TObjWarpJung__sub_801A0404(s32 arg0) {
 }
 
 s32 TObjWarpJung::update_warp_display() {
-    if (actor_frame_tick != lbl_805D5CB4) {
-        lbl_805D5CB4 = actor_frame_tick;
+    if (actor_frame_tick != warp_jung_last_scroll_tick) {
+        warp_jung_last_scroll_tick = actor_frame_tick;
         if (warp_jung_nakalight_tex_entry >= 0) {
             scroll_ginja_mesh_uvs(warp_jung_beam_mesh_node, 0, 5, warp_jung_nakalight_tex_entry, 1);
             return 1;
@@ -370,7 +370,7 @@ void load_warp_beam_resources(void) {
     warp_jung_beam_models[4] = root->child->sibling->sibling->sibling->sibling->model;
     warp_jung_beam_models[5] = root->sibling->model;
     warp_jung_beam_mesh_node = root->sibling->sibling->sibling->model;
-    lbl_805D5CB4 = 0;
+    warp_jung_last_scroll_tick = 0;
     warp_jung_beam_entry_index = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name(lbl_80446718);
     warp_jung_beam_blue_tex_entry = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name(lbl_80446728);
     warp_jung_nakalight_tex_entry = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name(lbl_80446738);

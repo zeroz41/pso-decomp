@@ -51,8 +51,8 @@ extern s32 quest_text_entry_len;
 extern s32 quest_text_cursor_pos;
 s32 TQuestVmDownLoadServer__sub_803EB0D8(s32 arg0, s32 arg1);
 s32 TQuestVmDownLoadServer__sub_803EB208(int, int);
-extern s32 lbl_805D789C;
-extern s32 lbl_805D7898;
+extern s32 quest_node_count;
+extern s32 quest_node_index;
 s32 TQuestVmDownLoadServer__sub_803E9F54(s32 arg0);
 s32 TQuestVmDownLoadServer__sub_803EA9E8(int, int, int, int);
 s32 TQuestVmDownLoadServer__sub_803EDC20(u32);
@@ -384,14 +384,14 @@ s32 TQuestVmDownLoadServer__sub_803E5F5C(s32 *arg0) {
         return -1;
     }
     n = arg0[0];
-    if (n <= 0 || n > lbl_805D789C) {
+    if (n <= 0 || n > quest_node_count) {
         return 0;
     }
     b = arg0[1];
     a = (s8 *)arg0[2];
     c = (s8 *)arg0[3];
     d = (s16 *)arg0[4];
-    lbl_805D7898 = n - 1;
+    quest_node_index = n - 1;
     strcpy(b, TQuestVmDownLoadServer__sub_803EE718((void *)quest_text_cursor_pos, (void *)quest_text_entry_len));
     TQuestVmDownLoadServer__sub_803EE870((void *)quest_text_cursor_pos, 1);
     ret = TQuestVmDownLoadServer::sum_entry_sizes((s32)((void *)quest_text_cursor_pos), (s32)((void *)quest_text_entry_len));
@@ -448,7 +448,7 @@ s32 TQuestVmDownLoadServer__sub_803E6134(s32 *arg0) {
     if (err != 0) {
         return 0;
     }
-    return lbl_805D789C;
+    return quest_node_count;
 }
 s32 TQuestVmDownLoadServer::handle_list_scroll() {
     s32 *arg0 = (s32 *)this;
@@ -463,22 +463,22 @@ s32 TQuestVmDownLoadServer::handle_list_scroll() {
     b = arg0[1];
     switch (arg0[-1]) {
     case 20:
-        if (lbl_805D7898 > 0) {
-            lbl_805D7898--;
+        if (quest_node_index > 0) {
+            quest_node_index--;
         } else if (TQuestVmDownLoadServer__sub_803EB0D8(0, 0) == 0) {
             TQuestVmDownLoadServer__sub_803EC284(0, 1);
-            n = lbl_805D789C;
+            n = quest_node_count;
             while (TQuestVmDownLoadServer__sub_803EB208(0, 0) != 0) {
-                n += lbl_805D789C;
+                n += quest_node_count;
             }
             TQuestVmDownLoadServer__sub_803EC284(n - 1, 1);
         } else {
-            lbl_805D7898 = lbl_805D789C - 1;
+            quest_node_index = quest_node_count - 1;
         }
         break;
     case 21:
-        if (lbl_805D7898 < lbl_805D789C - 1) {
-            lbl_805D7898++;
+        if (quest_node_index < quest_node_count - 1) {
+            quest_node_index++;
         } else if (TQuestVmDownLoadServer__sub_803EB208(0, 0) == 0) {
             TQuestVmDownLoadServer__sub_803EC284(0, 1);
         }
@@ -486,7 +486,7 @@ s32 TQuestVmDownLoadServer::handle_list_scroll() {
     }
     strcpy(a, TQuestVmDownLoadServer__sub_803EE718((void *)quest_text_cursor_pos, (void *)quest_text_entry_len));
     strcpy(b, TQuestVmDownLoadServer__sub_803EE718((void *)(quest_text_cursor_pos + quest_text_entry_len), (void *)((quest_text_end - quest_text_cursor_pos) - quest_text_entry_len)));
-    return lbl_805D7898 + 1;
+    return quest_node_index + 1;
 }
 s32 OSFillFPUContext(s32 *arg0) {
     u32 id;
