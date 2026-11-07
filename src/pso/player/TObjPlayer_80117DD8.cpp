@@ -14,10 +14,10 @@ extern const f64 lbl_8043E648[];
 s32 TObjPlayer__sub_80117E50(u16 idx) {
     TObjPlayer *me;
     s32 mask;
+    s32 found = 0;
     s32 floor;
     u16 i;
     TObjPlayer *other;
-    s32 found = 0;
     me = (TObjPlayer *)get_player_by_client_id(idx);
     if (me != NULL) {
         mask = (me->class_flags & 1) + 1;
