@@ -119,7 +119,9 @@ struct RecoveredGlobal_803FC178_lbl_805C02D0 {
     char *p20;
     u8 pad24[4];
     s16 f28;
-    u8 pad2A[0xC];
+    u8 pad2A[8];
+    s16 pad_32;
+    u8 pad34[2];
     u8 f36;
     u8 f37;
     u16 f38;
@@ -326,7 +328,9 @@ typedef struct Conn_804004DC {
     u8 id;
     u8 pad2_[1];
     u8 retries;
-    u8 pad4[4];
+    u8 pad4[2];
+    u8 f6;
+    u8 pad7;
     s16 abort;
     u8 pad2[2];
     u8 *sub;
@@ -510,6 +514,7 @@ extern s16 lbl_805D7A7C;
 s32 TLobby__sub_80403B04(u8 *arg0, u8 *arg1, s32 arg2);
 s16 TLobby__sub_80402BB4(u8 *, s32);
 extern s32 lbl_805D7A90;
+extern s32 lbl_805D7AA0;
 extern s16 lbl_805D7A80;
 extern s16 lbl_805D7A82;
 s32 TLobby__sub_80403BA8(u8 *arg0, u8 *arg1, s32 arg2);
@@ -748,9 +753,9 @@ s32 TLobby::mark_sub_ready() {
     return 0;
 }
 
-s32 TLobby__sub_803FCC10(void *, void *, int);
 s16 TLobby__sub_803FE8BC(u8 *, void *);
 typedef struct Hdr_803FC4B4 { u8 type; u8 flag; s16 len; } Hdr_803FC4B4;
+void TLobby__sub_803FCC10(Conn_804004DC *c, Hdr_803FC4B4 *hdr, B_803FADA0 *src);
 extern "C" s16 TLobby__sub_803FC820(Conn_804004DC *c, Hdr_803FC4B4 *hdr, B_803FADA0 *src);
 struct O_80400ACC;
 void TLobby__sub_80400ACC(O_80400ACC *);
@@ -774,7 +779,7 @@ void TLobby::dispatch_received_packet(s32 arg1) {
         TLobby__sub_80401CAC((Outer_80401CAC *)&arg1, hdr.len);
         switch (hdr.type) {
         case 1:
-            TLobby__sub_803FCC10((void *) (arg0), (void *)&hdr, (int) (arg1));
+            TLobby__sub_803FCC10((Conn_804004DC *)arg0, &hdr, (B_803FADA0 *)arg1);
             return;
         case 2:
             if (TLobby__sub_803FC820((Conn_804004DC *)arg0, &hdr, (B_803FADA0 *)arg1) == 0) {
@@ -1007,6 +1012,66 @@ s16 TLobby__sub_803FC820(Conn_804004DC *c, Hdr_803FC4B4 *hdr, B_803FADA0 *src) {
     reply = TLobby__sub_80401B20(lbl_805C02D0.p20, NetStringLength(lbl_805C02D0.p20));
     TLobby__sub_803FE6CC(c, code, hdr->flag, reply);
     return ret;
+}
+
+void TLobby__sub_803FCC10(Conn_804004DC *c, Hdr_803FC4B4 *hdr, B_803FADA0 *src) {
+    s16 total = hdr->len;
+    u8 *value = NULL;
+    Chap_803FC728 *chap = (Chap_803FC728 *)c->opts;
+    u8 *p;
+    s16 n;
+    s32 i;
+    u16 m;
+    u8 *q;
+    s32 j;
+    u16 secretLen;
+    s32 off;
+    u16 nameLen;
+    Md5Ctx_80401EB8 ctx;
+    u8 *sub;
+
+    n = chap_read_byte_slow(&src);
+    if (n != -1) {
+        value = lbl_805C02D0.pC;
+        for (i = 0, p = value; i < n; i++) {
+            *p++ = chap_read_byte(&src);
+        }
+    }
+    m = total - n - 1;
+    if (m >= 0x80) {
+        m = 0x7F;
+    }
+    if (m != 0) {
+        q = lbl_805C02D0.p0;
+        for (j = 0; j < m; j++) {
+            *q++ = chap_read_byte(&src);
+        }
+        *q = 0;
+    }
+    *lbl_805C02D0.p14 = hdr->flag;
+    NetCopyString((char *)lbl_805C02D0.p14 + 1, chap->secret);
+    secretLen = NetStringLength(chap->secret);
+    nameLen = NetStringLength(chap->name);
+    off = secretLen + 1;
+    NetMemcpy(lbl_805C02D0.p14 + off, value, n);
+    NetMemset(lbl_805C02D0.p1C, 0, lbl_805C02D0.pad_32);
+    *lbl_805C02D0.p1C = 0x10;
+    ((TLobby *)&ctx)->init_md5_state();
+    TLobby__sub_80401EB8(&ctx, lbl_805C02D0.p14, off + n);
+    TLobby__sub_80401D2C(lbl_805C02D0.p1C + 1, &ctx);
+    NetMemcpy(lbl_805C02D0.p1C + 17, (void *)chap->name, nameLen);
+    chap->id = hdr->flag;
+    chap->len = nameLen + 17;
+    TLobby__sub_803FE6CC(c, 2, chap->id, TLobby__sub_80401B20(lbl_805C02D0.p1C, chap->len));
+    TLobby__sub_80405328((u8 *)c + 0x10);
+    c->retries--;
+    if (c->f6 != 0) {
+        c->f6--;
+        return;
+    }
+    sub = c->sub;
+    TLobby::update_connection_state((int)(sub + 0xA0));
+    TLobby::update_connection_state((int)(sub + 4));
 }
 
 B_803FADA0 *TLobby__sub_803FCF44(Self_803FD74C *fsm) {
@@ -1671,7 +1736,6 @@ u32 TLobby__sub_803FEA88(A_80403F4C *out, Strm_80405A74 **src) {
     return hl;
 }
 
-extern s32 lbl_805D7AA0;
 
 s16 TLobby__sub_803FED78(u8 *conn) {
     Conn_804004DC *v6;
