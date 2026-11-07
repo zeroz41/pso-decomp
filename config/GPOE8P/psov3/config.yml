@@ -178,7 +178,7 @@ force_active:
   - TAdPlayerLoadGC__sub_801E26DC
   - TAdPlyPltAnimCtrlGC__ct
   - TAdPlyPltAnimCtrlGC__sub_80355168
-  - TAdPlyPltAnimGC__ct
+  - __ct__15TAdPlyPltAnimGCFP7TObjectl
   - TAdPlyStatusGC__is_shown
   - TAdPlyStatusGC__status_window_box
   - TAdPlyStatusGC__sub_8033F8B0
@@ -15368,7 +15368,7 @@ force_active:
   - set_anim_by_state__16TObjEneBm5GibonUFv
   - set_anim_state__11TBoss4Type3Fl
   - set_anim_state__14TObjEneBm5WolfFv
-  - set_anim_state__19TAdPlyPltAnimCtrlGCFl
+  - set_anim_state__15TAdPlyPltAnimGCFl
   - set_animation_by_state__12TBoss8DragonFPv
   - set_attack_flag__14TObjEneBm5WolfFv
   - set_attack_flag__23TObjEneMe1CanadinLeaderFv

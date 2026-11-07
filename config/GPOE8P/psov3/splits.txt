@@ -9820,25 +9820,14 @@ pso/ui/frontend/TAdChrSelASlotGC.cpp:
 	.sbss       start:0x805D6A98 end:0x805D6AA0
 	.sdata2     start:0x805DF208 end:0x805DF21C
 
-pso/ui/frontend/TAdChrSelBSlotGC_8030E354.cpp:
-	.text       start:0x8030E354 end:0x8030ED88
+pso/ui/frontend/TAdChrSelBSlotGC.cpp:
+	.text       start:0x8030E354 end:0x8031012C
+	.rodata     start:0x804758D8 end:0x80475930
+	.data       start:0x804E7A48 end:0x804E7D30
 	.bss        start:0x80542E78 end:0x80542E8C
-
-pso/ui/frontend/TAdChrSelBSlotGC_8030ED88.cpp:
-	.text       start:0x8030ED88 end:0x8030FD54
-	.data       start:0x804E7A48 end:0x804E7D18
+	.sdata      start:0x805D4108 end:0x805D410C
 	.sbss       start:0x805D6AA0 end:0x805D6AA8
 	.sdata2     start:0x805DF220 end:0x805DF224
-
-pso/ui/frontend/TAdChrSelBSlotGC.cpp:
-	.text       start:0x8030FD54 end:0x8030FE74
-
-pso/ui/frontend/TAdChrSelBSlotGC_8030FE74.cpp:
-	.text       start:0x8030FE74 end:0x803100A4
-	.data       start:0x804E7D18 end:0x804E7D30
-
-pso/ui/frontend/TAdChrSelBSlotGC_803100A4.cpp:
-	.text       start:0x803100A4 end:0x8031012C
 
 pso/player/TPlayerBattleCtrl4P.cpp:
 	.text       start:0x8031012C end:0x80312C50
@@ -10417,13 +10406,12 @@ pso/system/save/TSaveChCr.cpp:
 	.data       start:0x804EF5E0 end:0x804EF6E8
 
 pso/ui/frontend/TAdMultiPlayerNoGC.cpp:
-	.text       start:0x8033A54C end:0x8033A810
-	.rodata     start:0x80477D40 end:0x80477D48
-	.data       start:0x804EF710 end:0x804EF728
+	.text       start:0x8033A54C end:0x8033A8EC
+	.rodata     start:0x80477CE0 end:0x80477D48
+	.data       start:0x804EF6E8 end:0x804EF728
+	.sdata      start:0x805D4288 end:0x805D428C
+	.sbss       start:0x805D6D78 end:0x805D6D7C
 	.sdata2     start:0x805DFA10 end:0x805DFA30
-
-pso/unk/TLobby_8033A810.cpp:
-	.text       start:0x8033A810 end:0x8033A8EC
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8033A8EC.cpp:
 	.text       start:0x8033A8EC end:0x8033BAB4
@@ -10891,13 +10879,12 @@ pso/unk/text_80355C1C.cpp:
 	.text       start:0x80355C1C end:0x80355C74
 
 pso/ui/frontend/TAdPlyPltAnimGC.cpp:
-	.text       start:0x80355C74 end:0x80356190
-	.rodata     start:0x80479368 end:0x80479378
-	.data       start:0x804F1440 end:0x804F1458
+	.text       start:0x80355C74 end:0x803561C4
+	.rodata     start:0x80479300 end:0x80479378
+	.data       start:0x804F1418 end:0x804F1458
+	.sdata      start:0x805D43A0 end:0x805D43A4
+	.sbss       start:0x805D6F18 end:0x805D6F1C
 	.sdata2     start:0x805DFFC8 end:0x805DFFE4
-
-pso/ui/frontend/TAdPlyPltAnimGC_80356190.cpp:
-	.text       start:0x80356190 end:0x803561C4
 
 pso/boss/olgaflow/TBoss6SwordShot.cpp:
 	.text       start:0x803561C4 end:0x80356E30

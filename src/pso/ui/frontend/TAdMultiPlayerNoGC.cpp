@@ -1,80 +1,100 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
+#include "types.h"
 #include "pso/ui/frontend/TAdMultiPlayerNoGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/ModelDrawContext.h"
-
-#include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/unk/TLobby.h"
 
-struct Self_8033A668 {
-    s32 f0;
-    u8 pad4[0x14];
-    void *vt;
-    u32 f1C;
-    f32 f20;
-    f32 f24;
-    f32 f28;
-    f32 f2C;
-    f32 f30;
-    f32 f34;
-    f32 f38;
-    f32 f3C;
-    f32 f40;
-    f32 f44;
-};
+// The original reads current_language as const here (the load is scheduled
+// above the stores of the copied tables); the same view as six other units.
+extern "C" const s32 current_language;
 
-extern "C" {
-void __ct__7TObjectFP7TObject(void *, void *);
-extern void *__vt__18TAdMultiPlayerNoGC[];
-extern s32 TAdMultiPlayerNoGC__name;
-Self_8033A668 *__ct__18TAdMultiPlayerNoGCFv(Self_8033A668 *self, void *parent, s32 n, u32 idx, u32 arg);
+GinjaTextureEntry player_ad_texture_entry = { "f128_player_ad", 0, NULL };
+__declspec(section ".data") GinjaTextureList player_ad_texture_list = { &player_ad_texture_entry, 1 };
+GinjaTextureEntry player_ad_eng_texture_entry = { "f128_player_ad_eng", 0, NULL };
+__declspec(section ".data") GinjaTextureList player_ad_eng_texture_list = { &player_ad_eng_texture_entry, 1 };
+const char *TAdMultiPlayerNoGC__name = "TAdMultiPlayerNoGC";
+GinjaTextureList *player_ad_texture_list_ptr;
 
-extern s32 lbl_805D6D78;
+// Built with deferred inlining: functions are written in the reverse of
+// their address order.
+#pragma fp_contract on
 
-void TAdMultiPlayerNoGC::render_status() {
-    s32 arg0 = (s32)this;
-    begin_screen_draw(1);
-    TObjFish::set_global_param(lbl_805D6D78);
-    set_draw_texture_and_color(0, -1);
-    draw_textured_quad_at_depth((f32 *)(arg0 + 0x20), (0.25f));
-    TWindowSubStatusDisp::get_player();
+void TLobby::update_menu_cursor_selection() {
+    TLobby::update_menu_cursor();
+    const char *names[5] = {
+        "f128_player_ad", "f128_player_ad_eng", "f128_player_ad_eng",
+        "f128_player_ad_eng", "f128_player_ad_eng",
+    };
+    GinjaTextureList *lists[5] = {
+        &player_ad_texture_list, &player_ad_eng_texture_list, &player_ad_eng_texture_list,
+        &player_ad_eng_texture_list, &player_ad_eng_texture_list,
+    };
+    GinjaTextureList *list = lists[current_language];
+    player_ad_texture_list_ptr = list;
+    TLobby__sub_8023E4B4((s32)names[current_language], (s32)list);
 }
 
-void TAdMultiPlayerNoGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); render_status(); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }
-void TAdMultiPlayerNoGC::run_task() {  }
-#pragma fp_contract on
-TAdMultiPlayerNoGC::~TAdMultiPlayerNoGC() {}
-Self_8033A668 *__ct__18TAdMultiPlayerNoGCFv(Self_8033A668 *self, void *parent, s32 n, u32 idx, u32 arg) {
-    __ct__7TObjectFP7TObject(self, parent);
-    self->vt = __vt__18TAdMultiPlayerNoGC;
-    self->f0 = TAdMultiPlayerNoGC__name;
-    switch (n) {
+void TLobby::free_global_object() {
+    if (player_ad_texture_list_ptr != NULL) {
+        release_texture_list(player_ad_texture_list_ptr);
+        player_ad_texture_list_ptr = NULL;
+    }
+}
+
+TAdMultiPlayerNoGC::TAdMultiPlayerNoGC(TObject *parent, s32 player_count, u32 slot, u32 player_no)
+    : TObject(parent) {
+    m_name = TAdMultiPlayerNoGC__name;
+    switch (player_count) {
     case 2:
-        self->f40 = idx * 0x130 + 0x68;
+        x = slot * 0x130 + 0x68;
         break;
     case 3:
-        self->f40 = idx * 0xCB + 0x35;
+        x = slot * 0xCB + 0x35;
         break;
     case 4:
-        self->f40 = idx * 0x98 + 0x1C;
+        x = slot * 0x98 + 0x1C;
         break;
     default:
-        queue_destruction__7TObjectFv(self);
-        return self;
+        queue_destruction();
+        return;
     }
-    self->f44 = (112.0f);
-    self->f1C = arg;
-    self->f20 = self->f40;
-    self->f24 = self->f44;
-    self->f28 = (128.0f) + self->f40;
-    self->f2C = (22.0f) + self->f44;
-    self->f30 = (0.0f);
-    self->f34 = (22.0f) * self->f1C / 128.0f;
-    self->f38 = 1.0f;
-    self->f3C = ((22.0f) * self->f1C + (22.0f)) / 128.0f;
-    return self;
+    y = 112.0f;
+    this->player_no = player_no;
+    quad[0] = x;
+    quad[1] = y;
+    quad[2] = 128.0f + x;
+    quad[3] = 22.0f + y;
+    quad[4] = 0.0f;
+    quad[5] = 22.0f * this->player_no / 128.0f;
+    quad[6] = 1.0f;
+    quad[7] = (22.0f * this->player_no + 22.0f) / 128.0f;
 }
 
+TAdMultiPlayerNoGC::~TAdMultiPlayerNoGC() {}
+
+void TAdMultiPlayerNoGC::run_task() {}
+
+void TAdMultiPlayerNoGC::render() {
+    if (TMainTask::get_render_pass() != 1) {
+        set_color_blending_mode(0, 8);
+        set_color_blending_mode(1, 10);
+        render_status();
+        set_color_blending_mode(0, 8);
+        set_color_blending_mode(1, 6);
+    }
+}
+
+void TAdMultiPlayerNoGC::render_status() {
+    begin_screen_draw(1);
+    TObjFish::set_global_param((s32)player_ad_texture_list_ptr);
+    set_draw_texture_and_color(0, -1);
+    draw_textured_quad_at_depth(quad, 0.25f);
+    TWindowSubStatusDisp::get_player();
 }

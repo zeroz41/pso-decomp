@@ -1017,7 +1017,6 @@ pso/unk/TLobby_803360CC.cpp
 pso/unk/text_803369C8.cpp
 pso/unk/TLobby_803382E4.cpp
 pso/unk/TLobby_80338E9C.cpp
-pso/unk/TLobby_8033A810.cpp
 pso/unk/TLobby_8033ECB0.cpp
 pso/unk/TLobby_8034C18C.cpp
 pso/unk/TLobby_8034C23C.cpp
@@ -2161,10 +2160,6 @@ pso/ui/frontend/TAdChrMoveEffectGC.cpp
 pso/ui/frontend/TAdChrSelASlotGC.cpp
 pso/ui/frontend/TAdChrSelASlotGC_802A596C.cpp
 pso/ui/frontend/TAdChrSelBSlotGC.cpp
-pso/ui/frontend/TAdChrSelBSlotGC_8030E354.cpp
-pso/ui/frontend/TAdChrSelBSlotGC_8030ED88.cpp
-pso/ui/frontend/TAdChrSelBSlotGC_8030FE74.cpp
-pso/ui/frontend/TAdChrSelBSlotGC_803100A4.cpp
 pso/ui/frontend/TAdChrSelMovePlateGC.cpp
 pso/ui/frontend/TAdChrSelPlayerGC.cpp
 pso/ui/frontend/TAdChrSelPlyPlateGC.cpp
@@ -2253,7 +2248,6 @@ pso/system/save/TCheckMemoryCard_8033BB14.cpp
 pso/ui/frontend/TAdPlayerLoadGC_803F3CF4.cpp
 pso/ui/frontend/TAdPlyPltAnimCtrlGC.cpp
 pso/ui/frontend/TAdPlyPltAnimGC.cpp
-pso/ui/frontend/TAdPlyPltAnimGC_80356190.cpp
 pso/ui/frontend/TAdPlyStatusGC.cpp
 pso/ui/frontend/TAdPlyStatusGC_802E1128.cpp
 pso/ui/frontend/TAdPlyStatusGC_8033FD48.cpp

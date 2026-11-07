@@ -3,29 +3,46 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdPlyPltAnimCtrlGC.h"
 
-struct TAdPlyPltAnimGC : public TObject {
+// One textured screen quad: position rect, then texture-coordinate rect
+struct PlyPltAnimQuad {
+    f32 x0, y0, x1, y1;
+    f32 u0, v0, u1, v1;
+};
+
+// Flash of one player plate (0-4) on the player select screen
+class TAdPlyPltAnimGC : public TObject {
+public:
+    PlyPltAnimQuad quad;   // drawn by render(), position set by run_task()
+    PlyPltAnimQuad target; // position set by start_anim_rect
+    f32 center_x;          // centre of the target rect
+    f32 center_y;
+    f32 scale_x;           // size relative to the target rect
+    f32 scale_y;
+    u8 alpha;
+    u8 _pad6D[0x3];
+    s32 index;             // plate index (ctor argument)
+    s32 state;             // set_anim_state: 1 while animating, 0 stopped
+    s32 frame;             // animation frame, -1 when stopped
+
+    TAdPlyPltAnimGC(TObject *parent, s32 plate);
     virtual ~TAdPlyPltAnimGC();
     virtual void run_task();
     virtual void render();
-    u8 unk_1C[0x34];
-    u8 m_6c;
-    u8 _pad6D[0x3];
-    u32 m_70;
-    u32 m_74;
-    u32 m_78;
-    u8 unk_60[0x1C];
+    void set_anim_state(s32 new_state);
+    void sub_80355D38();
+    void start_anim_rect(PlyPltAnimVec2 *pos);
+    static TAdPlyPltAnimGC *get_or_create(TObject *parent, s32 index);
 };
 
 typedef char TAdPlyPltAnimGC_size[sizeof(TAdPlyPltAnimGC) == 0x7C ? 1 : -1];
 
-struct TAdPlyPltAnimCtrlGC;
+extern TAdPlyPltAnimGC *TAdPlyPltAnimGC__instances[5];
+
 extern "C" {
-void TAdPlyPltAnimCtrlGC__sub_80355D38(TAdPlyPltAnimCtrlGC *arg0);
-s32 TAdPlyPltAnimGC__ct(int arg0, void *arg1, void *arg2);
 void TAdPlyPltAnimGC__sub_8035615C(void);
-void *__dt__15TAdPlyPltAnimGCFv(void *arg0, s16 arg1);
-s32 get_or_create__15TAdPlyPltAnimGCFii(s32 arg0, s32 arg1);
 }
+void register_player_prate(void);
 
 #endif
