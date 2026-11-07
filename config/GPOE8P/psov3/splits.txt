@@ -12680,7 +12680,7 @@ pso/unk/text_803F1804.cpp:
 
 pso/ui/frontend/TAdPlayerLoadGC_803F18B8.cpp:
 	.text       start:0x803F18B8 end:0x803F339C
-	.data       start:0x804FCDAC end:0x804FCE38
+	.data       start:0x804FCD48 end:0x804FCE38
 	.bss        start:0x805A28C0 end:0x805A5F00
 
 pso/ui/frontend/TAdPlayerLoadGC_803F339C.cpp:
