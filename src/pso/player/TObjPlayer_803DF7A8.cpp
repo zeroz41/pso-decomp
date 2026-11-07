@@ -104,14 +104,10 @@ struct CollisionSphere { Vec_803E1B1C center; f32 radius; };
 struct EdgeOrder_803E112C { s32 v[5]; };
 extern const Faces_803E0ED4 box_face_vertex_index_table, box_edge_adjacent_face_table;
 extern const EdgeOrder_803E112C lbl_8047E558;
-extern const f32 lbl_805E1000, lbl_805E1018, lbl_805E101C;
-extern const f64 lbl_805E1008, lbl_805E1010;
 
 #pragma use_lmw_stmw off
 struct Point2_803E0CC8 { f32 u, v; };
 s32 TObjPlayer__sub_803DF9D0(Point2_803E0CC8 *a, Point2_803E0CC8 *b);
-extern const f32 lbl_805E0FD8, lbl_805E0FDC, lbl_805E0FE0, lbl_805E0FF8, lbl_805E0FFC;
-extern const f64 lbl_805E0FE8, lbl_805E0FF0;
 
 #pragma push
 #pragma dont_inline off
@@ -129,9 +125,9 @@ f32 TObjPlayer__sub_803DF840(Point2_803E0CC8 *a, Point2_803E0CC8 *b, Point2_803E
     f32 len;
     f32 base;
     f32 r;
-    if ((f32)fabs(a->u - b->u) < lbl_805E0FD8) {
-        nx = lbl_805E0FDC;
-        ny = lbl_805E0FE0;
+    if ((f32)fabs(a->u - b->u) < 0.025f) {
+        nx = 1.0f;
+        ny = 0.0f;
         off = -a->u;
     } else {
         nx = b->v - a->v;
@@ -140,29 +136,29 @@ f32 TObjPlayer__sub_803DF840(Point2_803E0CC8 *a, Point2_803E0CC8 *b, Point2_803E
     }
     cross = fabs(off + (nx * c->u + ny * c->v));
     len = nx * nx + ny * ny;
-    if (len > lbl_805E0FE0) {
+    if (len > 0.0f) {
         volatile f32 y;
         f64 g = __frsqrte(len);
-        g = lbl_805E0FE8 * g * (lbl_805E0FF0 - len * (g * g));
-        g = lbl_805E0FE8 * g * (lbl_805E0FF0 - len * (g * g));
-        g = lbl_805E0FE8 * g * (lbl_805E0FF0 - len * (g * g));
+        g = 0.5 * g * (3.0 - len * (g * g));
+        g = 0.5 * g * (3.0 - len * (g * g));
+        g = 0.5 * g * (3.0 - len * (g * g));
         y = (f32)(len * g);
         len = y;
     }
     height = cross / len;
     base = (a->u - b->u) * (a->u - b->u) + (a->v - b->v) * (a->v - b->v);
-    if (base > lbl_805E0FE0) {
+    if (base > 0.0f) {
         volatile f32 y;
         f64 g = __frsqrte(base);
-        g = lbl_805E0FE8 * g * (lbl_805E0FF0 - base * (g * g));
-        g = lbl_805E0FE8 * g * (lbl_805E0FF0 - base * (g * g));
-        g = lbl_805E0FE8 * g * (lbl_805E0FF0 - base * (g * g));
+        g = 0.5 * g * (3.0 - base * (g * g));
+        g = 0.5 * g * (3.0 - base * (g * g));
+        g = 0.5 * g * (3.0 - base * (g * g));
         y = (f32)(base * g);
         r = y;
     } else {
         r = base;
     }
-    return lbl_805E0FF8 * (height * r);
+    return 0.5f * (height * r);
 }
 
 s32 TObjPlayer__sub_803DF9D0(Point2_803E0CC8 *a, Point2_803E0CC8 *b) {
@@ -184,7 +180,7 @@ s32 TObjPlayer__sub_803DF9D0(Point2_803E0CC8 *a, Point2_803E0CC8 *b) {
         outer = a;
         limit = areaA;
     }
-    for (i = 0, p = inner, limit = lbl_805E0FFC * limit; i < 4; p++, i++) {
+    for (i = 0, p = inner, limit = 1.025f * limit; i < 4; p++, i++) {
         if (TObjPlayer__sub_803DF840(p, outer, outer + 1) + TObjPlayer__sub_803DF840(p, outer + 1, outer + 2) +
                 TObjPlayer__sub_803DF840(p, outer + 2, outer + 3) + TObjPlayer__sub_803DF840(p, outer + 3, outer) <
             limit) {
@@ -194,18 +190,15 @@ s32 TObjPlayer__sub_803DF9D0(Point2_803E0CC8 *a, Point2_803E0CC8 *b) {
     return 0;
 }
 
-// 0.025f (lbl_805E0FD8) is the coordinate and slope tolerance; written as a literal below.
-extern const f32 lbl_805E0FE0;
-extern const f64 lbl_805E0FE8;
-extern const f64 lbl_805E0FF0;
+// 0.025f is the coordinate and slope tolerance.
 
 static inline f32 sqrtf_803DFB1C(f32 x) {
     volatile f32 y;
-    if (x > lbl_805E0FE0) {
+    if (x > 0.0f) {
         f64 guess = __frsqrte(x);
-        guess = lbl_805E0FE8 * guess * (lbl_805E0FF0 - guess * guess * x);
-        guess = lbl_805E0FE8 * guess * (lbl_805E0FF0 - guess * guess * x);
-        guess = lbl_805E0FE8 * guess * (lbl_805E0FF0 - guess * guess * x);
+        guess = 0.5 * guess * (3.0 - guess * guess * x);
+        guess = 0.5 * guess * (3.0 - guess * guess * x);
+        guess = 0.5 * guess * (3.0 - guess * guess * x);
         y = (f32)(x * guess);
         return y;
     }
@@ -240,21 +233,22 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
         f32 prevAv;
         f32 curAu;
         f32 curAv;
-        f32 slopeA;
-        f32 interA;
         f32 lineAu;
+        f32 toPrev;
+        f32 toCur;
+        f32 length;
         f32 prevBu;
         f32 prevBv;
         f32 curBu;
         f32 curBv;
+        f32 lengthSqA;
+        f32 hitU;
+        f32 interA;
+        f32 slopeA;
+        f32 hitV;
         f32 slopeB;
         f32 interB;
         f32 lineBu;
-        f32 hitU;
-        f32 hitV;
-        f32 toPrev;
-        f32 toCur;
-        f32 length;
 
         prevAu = a[3].x;
         prevAv = a[3].y;
@@ -271,6 +265,7 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
             }
             prevBu = b[3].x;
             prevBv = b[3].y;
+            lengthSqA = (prevAu - curAu) * (prevAu - curAu) + (prevAv - curAv) * (prevAv - curAv);
             for (j = 0; j < 4; j++) {
                 parallel = 0;
                 curBu = b[j].x;
@@ -304,7 +299,7 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
                     onB = 0;
                     toPrev = sqrtf_803DFB1C((prevAu - hitU) * (prevAu - hitU) + (prevAv - hitV) * (prevAv - hitV));
                     toCur = sqrtf_803DFB1C((curAu - hitU) * (curAu - hitU) + (curAv - hitV) * (curAv - hitV));
-                    length = sqrtf_803DFB1C((prevAu - curAu) * (prevAu - curAu) + (prevAv - curAv) * (prevAv - curAv));
+                    length = sqrtf_803DFB1C(lengthSqA);
                     if (0.025f + length >= toPrev + toCur - 0.025f) {
                         onA = 1;
                     }
@@ -335,25 +330,26 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
         s32 parallel;
         s32 onA;
         s32 onB;
+        f32 prevBv;
         f32 prevAu;
         f32 prevAv;
         f32 curAu;
         f32 curAv;
-        f32 slopeA;
-        f32 interA;
         f32 lineAu;
-        f32 prevBu;
-        f32 prevBv;
-        f32 curBu;
-        f32 curBv;
-        f32 slopeB;
-        f32 interB;
-        f32 lineBu;
-        f32 hitU;
-        f32 hitV;
         f32 toPrev;
         f32 toCur;
         f32 length;
+        f32 prevBu;
+        f32 curBu;
+        f32 lengthSqA;
+        f32 curBv;
+        f32 slopeA;
+        f32 interA;
+        f32 hitU;
+        f32 hitV;
+        f32 slopeB;
+        f32 interB;
+        f32 lineBu;
 
         prevAu = a[3].x;
         prevAv = a[3].z;
@@ -370,6 +366,7 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
             }
             prevBu = b[3].x;
             prevBv = b[3].z;
+            lengthSqA = (prevAu - curAu) * (prevAu - curAu) + (prevAv - curAv) * (prevAv - curAv);
             for (j = 0; j < 4; j++) {
                 parallel = 0;
                 curBu = b[j].x;
@@ -403,7 +400,7 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
                     onB = 0;
                     toPrev = sqrtf_803DFB1C((prevAu - hitU) * (prevAu - hitU) + (prevAv - hitV) * (prevAv - hitV));
                     toCur = sqrtf_803DFB1C((curAu - hitU) * (curAu - hitU) + (curAv - hitV) * (curAv - hitV));
-                    length = sqrtf_803DFB1C((prevAu - curAu) * (prevAu - curAu) + (prevAv - curAv) * (prevAv - curAv));
+                    length = sqrtf_803DFB1C(lengthSqA);
                     if (0.025f + length >= toPrev + toCur - 0.025f) {
                         onA = 1;
                     }
@@ -434,25 +431,26 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
         s32 parallel;
         s32 onA;
         s32 onB;
+        f32 lengthSqA;
         f32 prevAu;
         f32 prevAv;
         f32 curAu;
         f32 curAv;
-        f32 slopeA;
-        f32 interA;
         f32 lineAu;
+        f32 toPrev;
+        f32 toCur;
+        f32 length;
         f32 prevBu;
         f32 prevBv;
         f32 curBu;
         f32 curBv;
+        f32 slopeA;
+        f32 interA;
+        f32 hitU;
+        f32 hitV;
         f32 slopeB;
         f32 interB;
         f32 lineBu;
-        f32 hitU;
-        f32 hitV;
-        f32 toPrev;
-        f32 toCur;
-        f32 length;
 
         prevAu = a[3].y;
         prevAv = a[3].z;
@@ -469,6 +467,7 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
             }
             prevBu = b[3].y;
             prevBv = b[3].z;
+            lengthSqA = (prevAu - curAu) * (prevAu - curAu) + (prevAv - curAv) * (prevAv - curAv);
             for (j = 0; j < 4; j++) {
                 parallel = 0;
                 curBu = b[j].y;
@@ -502,7 +501,7 @@ s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
                     onB = 0;
                     toPrev = sqrtf_803DFB1C((prevAu - hitU) * (prevAu - hitU) + (prevAv - hitV) * (prevAv - hitV));
                     toCur = sqrtf_803DFB1C((curAu - hitU) * (curAu - hitU) + (curAv - hitV) * (curAv - hitV));
-                    length = sqrtf_803DFB1C((prevAu - curAu) * (prevAu - curAu) + (prevAv - curAv) * (prevAv - curAv));
+                    length = sqrtf_803DFB1C(lengthSqA);
                     if (0.025f + length >= toPrev + toCur - 0.025f) {
                         onA = 1;
                     }
@@ -640,11 +639,11 @@ s32 test_box_overlap__10TObjPlayerFPvPv(Vec_803E1B1C *boxA, Vec_803E1B1C *boxB) 
 #pragma inline_depth(2)
 static inline f32 collisionRoot(f32 x) {
     volatile f32 y;
-    if (x > lbl_805E1000) {
+    if (x > 0.0f) {
         f64 guess = __frsqrte(x);
-        guess = lbl_805E1008 * guess * (lbl_805E1010 - guess * guess * x);
-        guess = lbl_805E1008 * guess * (lbl_805E1010 - guess * guess * x);
-        guess = lbl_805E1008 * guess * (lbl_805E1010 - guess * guess * x);
+        guess = 0.5 * guess * (3.0 - guess * guess * x);
+        guess = 0.5 * guess * (3.0 - guess * guess * x);
+        guess = 0.5 * guess * (3.0 - guess * guess * x);
         y = (f32)(x * guess);
         return y;
     }
@@ -666,18 +665,18 @@ s32 test_box_sphere_contact(Vec_803E1B1C *box, CollisionSphere *sphere) {
         s32 j;
         s32 inside = 1;
         for (i = 0; i < 6; i++) {
+            s32 *face = faces.v[i];
             Vec_803E1B1C *n = &normals[i];
             f32 scale;
-            n->x = -((box[faces.v[i][1]].y - box[faces.v[i][0]].y) * (box[faces.v[i][2]].z - box[faces.v[i][0]].z) - (box[faces.v[i][1]].z - box[faces.v[i][0]].z) * (box[faces.v[i][2]].y - box[faces.v[i][0]].y));
-            n->y = -((box[faces.v[i][1]].z - box[faces.v[i][0]].z) * (box[faces.v[i][2]].x - box[faces.v[i][0]].x) - (box[faces.v[i][1]].x - box[faces.v[i][0]].x) * (box[faces.v[i][2]].z - box[faces.v[i][0]].z));
-            n->z = -((box[faces.v[i][1]].x - box[faces.v[i][0]].x) * (box[faces.v[i][2]].y - box[faces.v[i][0]].y) - (box[faces.v[i][1]].y - box[faces.v[i][0]].y) * (box[faces.v[i][2]].x - box[faces.v[i][0]].x));
-            scale = lbl_805E1018 / collisionRoot(n->z * n->z + (n->x * n->x + n->y * n->y));
+            n->x = -((box[face[1]].y - box[face[0]].y) * (box[face[2]].z - box[face[0]].z) - (box[face[1]].z - box[face[0]].z) * (box[face[2]].y - box[face[0]].y));
+            n->y = -((box[face[1]].z - box[face[0]].z) * (box[face[2]].x - box[face[0]].x) - (box[face[1]].x - box[face[0]].x) * (box[face[2]].z - box[face[0]].z));
+            n->z = -((box[face[1]].x - box[face[0]].x) * (box[face[2]].y - box[face[0]].y) - (box[face[1]].y - box[face[0]].y) * (box[face[2]].x - box[face[0]].x));
+            scale = 1.0f / collisionRoot(n->z * n->z + (n->x * n->x + n->y * n->y));
             n->x *= scale;
             n->y *= scale;
             n->z *= scale;
         }
         for (i = 0; i < 6; i++) {
-            EdgeOrder_803E112C order = lbl_8047E558;
             s32 faceHit = 1;
             Vec_803E1B1C *n = &normals[i];
             s32 *face = faces.v[i];
@@ -691,6 +690,7 @@ s32 test_box_sphere_contact(Vec_803E1B1C *box, CollisionSphere *sphere) {
             f32 dist = collisionRoot((pz - center->z) * (pz - center->z) +
                                      ((px - center->x) * (px - center->x) + (py - center->y) * (py - center->y)));
             for (j = 0; j < 4; j++) {
+                EdgeOrder_803E112C order = lbl_8047E558;
                 s32 k = order.v[j];
                 Vec_803E1B1C *a = &box[face[k]];
                 Vec_803E1B1C *b = &box[face[order.v[j + 1]]];
@@ -704,13 +704,13 @@ s32 test_box_sphere_contact(Vec_803E1B1C *box, CollisionSphere *sphere) {
                 f32 dx = fx - px;
                 f32 dy = fy - py;
                 f32 dz = fz - pz;
-                f32 scale = lbl_805E1018 / collisionRoot(dz * dz + (dx * dx + dy * dy));
+                f32 scale = 1.0f / collisionRoot(dz * dz + (dx * dx + dy * dy));
                 dx *= scale;
                 dy *= scale;
                 dz *= scale;
-                if ((f32)__fabs(normals[adjacent.v[i][k]].x - dx) <= lbl_805E101C &&
-                    (f32)__fabs(normals[adjacent.v[i][k]].y - dy) <= lbl_805E101C &&
-                    (f32)__fabs(normals[adjacent.v[i][k]].z - dz) <= lbl_805E101C &&
+                if ((f32)__fabs(normals[adjacent.v[i][k]].x - dx) <= 0.025f &&
+                    (f32)__fabs(normals[adjacent.v[i][k]].y - dy) <= 0.025f &&
+                    (f32)__fabs(normals[adjacent.v[i][k]].z - dz) <= 0.025f &&
                     sphere->radius >= dist) {
                     faceHit &= 1;
                 } else if (dist <= sphere->radius) {
@@ -730,12 +730,12 @@ s32 test_box_sphere_contact(Vec_803E1B1C *box, CollisionSphere *sphere) {
             f32 dx = px - sphere->center.x;
             f32 dy = py - sphere->center.y;
             f32 dz = pz - sphere->center.z;
-            f32 scale = lbl_805E1018 / collisionRoot(dz * dz + (dx * dx + dy * dy));
+            f32 scale = 1.0f / collisionRoot(dz * dz + (dx * dx + dy * dy));
             dx *= scale;
             dy *= scale;
             dz *= scale;
-            if ((f32)__fabs(n->x - dx) <= lbl_805E101C && (f32)__fabs(n->y - dy) <= lbl_805E101C &&
-                      (f32)__fabs(n->z - dz) <= lbl_805E101C) inside &= 1; else inside = 0;
+            if ((f32)__fabs(n->x - dx) <= 0.025f && (f32)__fabs(n->y - dy) <= 0.025f &&
+                      (f32)__fabs(n->z - dz) <= 0.025f) inside &= 1; else inside = 0;
         }
         if (inside != 0) {
             return 1;
