@@ -3744,7 +3744,61 @@ void TQuestVmDownLoadServer::reset_slot_chain_timers(s32 arg0) {
 }
 #pragma pop
 
-s32 TQuestVmDownLoadServer__sub_803ED84C(void *, s32, s32);
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(1)
+inline Elem_803ED9AC *slot_chain_head(s32 i) {
+    return quest_download_slot_chain_table[i].head;
+}
+inline s32 is_special_entry(Elem_803ED9AC *e) {
+    if (e->sub != NULL && (e->sub->type == 0x28 || e->sub->type == 0x29)) {
+        return 1;
+    }
+    return 0;
+}
+inline s32 link_cost(Elem_803ED9AC *e, Elem_803ED9AC *q) {
+    s32 a;
+    s32 b;
+    s32 c;
+    if (q == NULL) {
+        b = e->len;
+        a = 0;
+        c = 1;
+    } else {
+        a = e->len;
+        c = 0;
+        b = q->len;
+    }
+    return a * 16 + b * 17 + e->base + calc_entry_cost__22TQuestVmDownLoadServerFPvPv((Arg_803ED63C *)e, (Arg_803ED63C *)q) + c * 50;
+}
+s32 TQuestVmDownLoadServer__sub_803ED84C(Elem_803ED9AC *e, s32 idx, s32 max) {
+    Elem_803ED9AC *q;
+    u16 best;
+    u16 v;
+    s16 n;
+    if (is_special_entry(e)) {
+        e->cost = 0;
+        return 0;
+    }
+    n = e->len;
+    if (e->kind == 0xFF || idx + n >= max) {
+        best = link_cost(e, NULL);
+    } else {
+        if ((q = slot_chain_head(idx + n)) == NULL && lbl_805D7888 >= 3) {
+            return -1;
+        }
+        best = 0;
+        for (; q != NULL; q = q->next) {
+            v = link_cost(e, q);
+            if (v > best) {
+                best = v;
+            }
+        }
+    }
+    e->cost = best;
+    return 0;
+}
+#pragma pop
 
 #pragma push
 #pragma opt_common_subs off
@@ -3786,7 +3840,7 @@ s16 TQuestVmDownLoadServer::select_best_slot_entry(s32 idx, s32 max, s32 want) {
     Elem_803ED9AC *q;
     for (e = slot->head; e != NULL; e = e->next) {
         if (want < 0 || e->len == want) {
-            if (TQuestVmDownLoadServer__sub_803ED84C((void *)e, idx, max) == -1) {
+            if (TQuestVmDownLoadServer__sub_803ED84C(e, idx, max) == -1) {
                 return -1;
             }
         }
