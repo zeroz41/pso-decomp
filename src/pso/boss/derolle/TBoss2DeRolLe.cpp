@@ -1176,7 +1176,7 @@ void fill_value_array(s32);
 int spawn_trap__13TBoss2DeRolLeFPvii(void* p, int a1, int a2);
 int play_sound(void* p, int a1);
 void pick_random_target__13TBoss2DeRolLeFi(s32 arg0);
-void free_laser__13TBoss2DeRolLeFPv(void *arg0, s32);
+void free_laser__13TBoss2DeRolLeFPv(void *arg0);
 void activate_laser_light__13TBoss2DeRolLeFPv(void *arg0);
 void calc_offset_position__13TBoss2DeRolLeFPv(u8 *arg0);
 void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
@@ -1934,7 +1934,8 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
         pick_random_target__13TBoss2DeRolLeFi((s32) self);
         break;
     case 5:
-        free_laser__13TBoss2DeRolLeFPv(self, (s32)(self->count++));
+        self->count++;
+        free_laser__13TBoss2DeRolLeFPv(self);
         if (self->ptcl != NULL) {
             queue_destruction__7TObjectFv(self->ptcl);
             self->ptcl = NULL;
@@ -3988,7 +3989,7 @@ void TBoss2LaserLight__sub_80037474(void *p);
 void TBoss2LaserLight__sub_80037480(void *p);
 f32 fabs_float(f32);
 
-void free_laser__13TBoss2DeRolLeFPv(void *arg0, s32 _w1) {
+void free_laser__13TBoss2DeRolLeFPv(void *arg0) {
     if ((u32) *(u32 *)((s8 *)arg0 + 0x6B8) != 0U) {
         TBoss2LaserLight__sub_80037474(*(void **)((s8 *)arg0 + 0x6B8));
     }
