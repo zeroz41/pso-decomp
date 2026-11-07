@@ -7,11 +7,13 @@
 #include "pso/enemy/sorcerer/TObjEneRe4Sorcerer.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/npc/TObjNpcBringer.h"
+#include "pso/npc/TObjNpcFemaleBase.h"
 #include "pso/npc/TObjNpcFemaleChild.h"
 #include "pso/npc/TObjNpcFemaleDwarf.h"
 #include "pso/npc/TObjNpcFemaleFat.h"
 #include "pso/npc/TObjNpcFemaleMacho.h"
 #include "pso/npc/TObjNpcFemaleOld.h"
+#include "pso/npc/TObjNpcFemaleTall.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/boss/volopt/TBoss3VoloptCore.h"
 #include "pso/boss/volopt/TBoss3VoloptP02.h"
@@ -47,8 +49,11 @@
 #include "pso/npc/TObjNpcSecretaryBase.h"
 #include "pso/npc/TObjNpcSoldierBase.h"
 #include "pso/ui/frontend/TAdSelectTxtSubGC.h"
-#include "pso/npc/TObjNpcGovernorBase_8014AB24.h"
-#include "pso/npc/TObjNpcMaleBase_8014B904.h"
+#include "pso/npc/TObjNpcMaleBase.h"
+#include "pso/npc/TObjNpcMaleTall.h"
+#include "pso/npc/TObjNpcNFM00.h"
+#include "pso/npc/TObjNpcLappy.h"
+#include "pso/npc/TObjNpcSoldierMacho.h"
 #include "pso/npc/TObjNpcKenkyu2_802FEA38.h"
 #include "pso/unk/text_80362264.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
@@ -95,11 +100,6 @@ void* create__12TObjEneSlimeFl(void* placement);
 void* create__18TObjEneRe4SorcererFv(void* placement);
 void* create_real__16TObjEneMe3StelthFv(void* placement);
 void* TObjNpcAHM01__create(void* placement);
-void* TObjNpcFemaleBase__create(void* placement);
-void* TObjNpcFemaleChild__create(void* placement);
-void* TObjNpcMaleChild__create(void* placement);
-void* TObjNpcNFM00__create(void* placement);
-void* TObjNpcNFM01__create(void* placement);
 void* create__14TBoss6PlotFalzFl(void* placement);
 void* TObjNpcEnemy__create(void* placement);
 void* create__15TObjEneDelDepthFPv(void* placement);

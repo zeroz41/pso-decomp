@@ -3,6 +3,7 @@
 
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdMultiPlayerNoGC.h"
 
 typedef struct Obj_802FF87C {
     u8 pad0[0x1C];
@@ -47,7 +48,6 @@ s32 is_multiplayer_character_slot_selected(u32);
 void *get_or_create_player__22TAdMultiPlyChrSelectGCFiiii(void *, u32, u32, s32);
 void fn_802FF7EC(void *);
 void *__ct__12TAdMultiOkGCFv(void *, void *, OkArg_802FFA3C *);
-void __ct__18TAdMultiPlayerNoGCFv(void *, void *, u32, u32, s32);
 extern s32 TAdMultiConfirmGC__name;
 extern u8 lbl_805DEF30;
 void fn_802FF760(void *);
@@ -142,9 +142,7 @@ TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
     arg.mask = 0;
     for (j = 0; j < (n = ((TAdMultiConfirmGC_802FFA3C *)this)->count); j++) {
         ((TAdMultiConfirmGC_802FFA3C *)this)->players[j] = get_or_create_player__22TAdMultiPlyChrSelectGCFiiii(((TAdMultiConfirmGC_802FFA3C *)this), n + 1, j, ((TAdMultiConfirmGC_802FFA3C *)this)->ids[j]);
-        if ((p = __nw__7TObjectFUl(0x48)) != 0) {
-            __ct__18TAdMultiPlayerNoGCFv(p, ((TAdMultiConfirmGC_802FFA3C *)this), ((TAdMultiConfirmGC_802FFA3C *)this)->count, j, ((TAdMultiConfirmGC_802FFA3C *)this)->ids[j]);
-        }
+        new TAdMultiPlayerNoGC(this, ((TAdMultiConfirmGC_802FFA3C *)this)->count, j, ((TAdMultiConfirmGC_802FFA3C *)this)->ids[j]);
         arg.mask |= 1 << ((TAdMultiConfirmGC_802FFA3C *)this)->ids[j];
     }
     p = __nw__7TObjectFUl(0x984);

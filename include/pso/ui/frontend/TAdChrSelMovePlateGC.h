@@ -11,6 +11,7 @@ public:
 public:
     void clear_entries();
     void init_plate_rects();
+    void draw_move_plate_quads();
 };
 
 #endif

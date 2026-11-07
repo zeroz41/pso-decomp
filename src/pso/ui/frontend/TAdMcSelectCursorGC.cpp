@@ -13,15 +13,14 @@
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
-extern char lbl_80477118[];
-GinjaTextureEntry lbl_804ED990 = { lbl_80477118, 0, NULL };
+GinjaTextureEntry lbl_804ED990 = { "f256_memorycard_select", 0, NULL };
 __declspec(section ".data") GinjaTextureList mc_select_cursor_texture_list = { &lbl_804ED990, 1 };
 }
 
 struct Ent_8032A574 { f32 a, b, c, d; u8 pad[0x10]; };
 
 struct Obj_8032A574 {
-    s32 f0; u8 pad[0x14]; void *vt; s32 f1C; s32 f20; s32 f24; u8 pad2[0x38 - 0x28];
+    const char *f0; u8 pad[0x14]; void *vt; s32 f1C; s32 f20; s32 f24; u8 pad2[0x38 - 0x28];
     Ent_8032A574 ents[8];
 };
 
@@ -41,7 +40,7 @@ struct Self_8032A2A4 {
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, s32);
 extern s32 __vt__19TAdMcSelectCursorGC[];
-extern s32 lbl_805D41D0;
+const char *TAdMcSelectCursorGC__class_name = "TAdMcSelectCursorGC";
 Obj_8032A574 *TAdMcSelectCursorGC__ct(Obj_8032A574 *arg0, s32 parent);
 void play_sound_effect(s32, s32, s32, s32);
 extern u8 controller_input_state[];
@@ -81,7 +80,7 @@ block_5:
     }
 }
 
-extern u32 TAdMcSelectCursorGC__instance;
+u32 TAdMcSelectCursorGC__instance;
 
 #pragma fp_contract on
 void TAdMcSelectCursorGC::run_task() {
@@ -145,7 +144,7 @@ Obj_8032A574 *TAdMcSelectCursorGC__ct(Obj_8032A574 *arg0, s32 parent) {
     s32 i;
     __ct__7TObjectFP7TObject(arg0, parent);
     arg0->vt = ((u8 *)&__vt__19TAdMcSelectCursorGC);
-    arg0->f0 = lbl_805D41D0;
+    arg0->f0 = TAdMcSelectCursorGC__class_name;
     ((Alt_8032A574 *)arg0)->f138 = 0;
     ((Alt_8032A574 *)arg0)->f12C = 0;
     ((Alt_8032A574 *)arg0)->f134 = 0;
@@ -194,7 +193,7 @@ void TAdMcSelectCursorGC::release_cursor_entry() {
     }
 }
 
-void TAdMcSelectCursorGC::init_resource() { TAdMcSelectCursorGC__texture_entry = (s32)&mc_select_cursor_texture_list; TLobby__sub_8023E4B4((s32)lbl_80477118, (s32)&mc_select_cursor_texture_list); }
+void TAdMcSelectCursorGC::init_resource() { TAdMcSelectCursorGC__texture_entry = (s32)&mc_select_cursor_texture_list; TLobby__sub_8023E4B4((s32)"f256_memorycard_select", (s32)&mc_select_cursor_texture_list); }
 
 s32 TAdMcSelectCursorGC__sub_8032A6D8(void* p) { return *(s32*)((char*)p + 0x1c); }
 

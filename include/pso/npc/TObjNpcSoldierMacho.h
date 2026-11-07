@@ -12,16 +12,11 @@ struct TObjNpcSoldierMacho : public TUnk_804A9F50 {
 
 typedef char TObjNpcSoldierMacho_size[sizeof(TObjNpcSoldierMacho) == 0x3B8 ? 1 : -1];
 
-extern "C" {
-u8 *TObjNpcSoldierMacho__ct(u8 *arg0, s32 arg1, s32 arg2);
-void *__dt__19TObjNpcSoldierMachoFv(void *arg0, s16 arg1);
-}
+class TObjControl;
 
-// --- C functions defined in TObjNpcSoldierMacho.cpp ---
 extern "C" {
-u8 *TObjNpcSoldierMacho__ct(u8 *player, s32 arg1, s32 arg2);
-void *__dt__19TObjNpcSoldierMachoFv(void *arg0, s16 arg1);
+void *TObjNpcSoldierMacho__create(void *set_data);
+TObjNpcSoldierMacho *TObjNpcSoldierMacho__ct(TObjNpcSoldierMacho *npc, TObjControl *control, void *set_data);
 }
-// --- end of C functions
 
 #endif

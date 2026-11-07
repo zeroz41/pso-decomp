@@ -7,185 +7,123 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/render_util.h"
+#include "pso/render/GinjaTexture.h"
 
-struct V2_80355D5C { f32 x, y; };
-struct Obj_80355D5C { u8 pad0[0x3C]; f32 a, b, c, d; u8 pad4C[0x10]; f32 e, f; };
-struct Pos_80355DE0 { f32 x, y; };
-struct Anim_80355DE0 {
-    u8 pad0[0x1C];
-    f32 x1c, x20, x24, x28;
-    u8 pad2c[0x3C - 0x2C];
-    f32 x3c, x40, x44, x48;
-    u8 pad4c[0x5C - 0x4C];
-    f32 x5c, x60, x64, x68;
-    u8 x6c;
-    u8 pad6d[3];
-    s32 idx;
-    s32 active;
-    s32 time;
+GinjaTextureEntry lbl_804F1418 = { "f256_player_prate", 0, NULL };
+__declspec(section ".data") GinjaTextureList player_prate_texture_list = { &lbl_804F1418, 1 };
+TAdPlyPltAnimGC *TAdPlyPltAnimGC__instances[5] = { NULL, NULL, NULL, NULL, NULL };
+const PlyPltAnimVec2 ply_plt_anim_target_position_table[5] = {
+    { 4.0f, 10.0f }, { 8.0f, 3.0f }, { 10.0f, 2.0f }, { 6.0f, 5.0f }, { 2.0f, 1.0f },
 };
-struct TAdPlyPltAnimGC_8035601C {
-    s32 x0;
-    u8 pad4[0x14];
-    void **vt;
-    u8 pad1c[0x10];
-    f32 x2c;
-    f32 x30;
-    f32 x34;
-    f32 x38;
-    u8 pad3c[0x30];
-    u8 x6c;
-    u8 pad6d[3];
-    s32 x70;
-    s32 x74;
-    s32 x78;
-};
-struct RecoveredGlobal_803560F0_lbl_804F142C {
-    s32 value;
-    u8 remaining[0x10];
-};
-
-extern "C" {
-extern s32 player_prate_texture_list_ptr;
-extern const f32 lbl_805DFFC8;
-extern const f32 lbl_805DFFCC;
-extern const V2_80355D5C lbl_80479350[];
-extern const f32 lbl_805DFFD0;
-void start_anim_rect__19TAdPlyPltAnimCtrlGCFPvPv(Obj_80355D5C *o, V2_80355D5C *p);
-extern Pos_80355DE0 ply_plt_anim_target_position_table[];
-extern u32 ply_plt_anim_duration_table[];
-extern const f32 lbl_805DFFD4;
-extern const f32 lbl_805DFFD8;
-extern RecoveredGlobal_803560F0_lbl_804F142C TAdPlyPltAnimGC__instances;
-extern void *__vt__15TAdPlyPltAnimGC[];
-void __ct__7TObjectFP7TObject(void *, void *);
-extern s32 lbl_805D43A0;
-extern const f32 lbl_805DFFDC;
-extern const f32 lbl_805DFFE0;
-s32 __nw__7TObjectFUl(int);
-void release_texture_list(void*);
+const u32 ply_plt_anim_duration_table[5] = { 16, 14, 12, 10, 14 };
+// plate size in pixels (width, height)
+static const PlyPltAnimVec2 lbl_80479350[1] = { { 180.0f, 38.0f } };
+const char *TAdPlyPltAnimGC__class_name = "TAdPlyPltAnimGC";
+GinjaTextureList *player_prate_texture_list_ptr;
 
 #pragma push
 #pragma fp_contract on
 void TAdPlyPltAnimGC::render() {
-    u8 *arg0 = (u8 *)this;
-    if (((s32) *(s32 *)((s8 *)arg0 + 0x74) != 0) && (TMainTask::get_render_pass() != 1)) {
+    if (state != 0 && TMainTask::get_render_pass() != 1) {
         set_additive_blend();
         begin_screen_draw(1);
-        TObjFish::set_global_param(player_prate_texture_list_ptr);
-        set_draw_texture_and_color(0, (*(u8 *)((s8 *)arg0 + 0x6C) << 0x18) | 0xFF0000 | 0xFFFF);
-        draw_textured_quad_at_depth((f32 *)(arg0 + 0x1C), (lbl_805DFFCC * (f32) *(s32 *)((s8 *)arg0 + 0x70)) + lbl_805DFFC8);
+        TObjFish::set_global_param((s32)player_prate_texture_list_ptr);
+        set_draw_texture_and_color(0, (alpha << 0x18) | 0xFF0000 | 0xFFFF);
+        draw_textured_quad_at_depth(&quad.x0, (0.001f * (f32)index) + 0.99f);
         TWindowSubStatusDisp::get_player();
         set_default_alpha_blend();
     }
 }
 #pragma pop
 
-void TAdPlyPltAnimCtrlGC::set_anim_state(s32 arg1) {
-    if (arg1 == 0) {
-        *(s32 *)((s8 *)this + 0x78) = -1;
+void TAdPlyPltAnimGC::set_anim_state(s32 new_state) {
+    if (new_state == 0) {
+        frame = -1;
     }
-    *(s32 *)((s8 *)this + 0x74) = arg1;
+    state = new_state;
 }
 
-void TAdPlyPltAnimCtrlGC__sub_80355D38(TAdPlyPltAnimCtrlGC *ad_ply_plt_anim_ctrl_gc) {
-    ad_ply_plt_anim_ctrl_gc->set_anim_state(0);
+void TAdPlyPltAnimGC::sub_80355D38() {
+    set_anim_state(0);
 }
+
 #pragma push
 #pragma fp_contract on
-void start_anim_rect__19TAdPlyPltAnimCtrlGCFPvPv(Obj_80355D5C *o, V2_80355D5C *p) {
-    o->a = p->x;
-    o->b = p->y;
-    o->c = p->x + lbl_80479350[0].x;
-    o->d = p->y + lbl_80479350[0].y;
-    o->e = lbl_805DFFD0 * (o->c - o->a) + o->a;
-    o->f = lbl_805DFFD0 * (o->d - o->b) + o->b;
-    ((TAdPlyPltAnimCtrlGC *)o)->set_anim_state(1);
+void TAdPlyPltAnimGC::start_anim_rect(PlyPltAnimVec2 *pos) {
+    target.x0 = pos->x;
+    target.y0 = pos->y;
+    target.x1 = pos->x + lbl_80479350[0].x;
+    target.y1 = pos->y + lbl_80479350[0].y;
+    center_x = 0.5f * (target.x1 - target.x0) + target.x0;
+    center_y = 0.5f * (target.y1 - target.y0) + target.y0;
+    set_anim_state(1);
 }
 #pragma pop
 
 #pragma push
 #pragma fp_contract on
 void TAdPlyPltAnimGC::run_task() {
-    Anim_80355DE0 *o = (Anim_80355DE0 *)this;
-    if (o->active != 0) {
-        o->time++;
-        if (o->time < ply_plt_anim_duration_table[o->idx] + 1) {
-            f32 dx = (ply_plt_anim_target_position_table[o->idx].x - lbl_805DFFD4) / (f32)ply_plt_anim_duration_table[o->idx];
-            f32 dy = (ply_plt_anim_target_position_table[o->idx].y - lbl_805DFFD4) / (f32)ply_plt_anim_duration_table[o->idx];
-            o->x64 = ply_plt_anim_target_position_table[o->idx].x - dx * (f32)o->time;
-            o->x68 = ply_plt_anim_target_position_table[o->idx].y - dy * (f32)o->time;
-            f32 r = lbl_805DFFD4 / (f32)ply_plt_anim_duration_table[o->idx];
-            o->x6c = lbl_805DFFD8 * (lbl_805DFFD4 - r * (f32)o->time);
+    if (state != 0) {
+        frame++;
+        if (frame < ply_plt_anim_duration_table[index] + 1) {
+            f32 dx = (ply_plt_anim_target_position_table[index].x - 1.0f) / (f32)ply_plt_anim_duration_table[index];
+            f32 dy = (ply_plt_anim_target_position_table[index].y - 1.0f) / (f32)ply_plt_anim_duration_table[index];
+            scale_x = ply_plt_anim_target_position_table[index].x - dx * (f32)frame;
+            scale_y = ply_plt_anim_target_position_table[index].y - dy * (f32)frame;
+            f32 r = 1.0f / (f32)ply_plt_anim_duration_table[index];
+            alpha = 255.0f * (1.0f - r * (f32)frame);
         } else {
-            o->x6c = 0;
+            alpha = 0;
         }
-        o->x1c = o->x64 * (o->x3c - o->x5c) + o->x5c;
-        o->x20 = o->x68 * (o->x40 - o->x60) + o->x60;
-        o->x24 = o->x64 * (o->x44 - o->x5c) + o->x5c;
-        o->x28 = o->x68 * (o->x48 - o->x60) + o->x60;
+        quad.x0 = scale_x * (target.x0 - center_x) + center_x;
+        quad.y0 = scale_y * (target.y0 - center_y) + center_y;
+        quad.x1 = scale_x * (target.x1 - center_x) + center_x;
+        quad.y1 = scale_y * (target.y1 - center_y) + center_y;
     }
 }
 #pragma pop
 
-}
 TAdPlyPltAnimGC::~TAdPlyPltAnimGC() {
     s32 i;
     for (i = 0; i < 5; i++) {
-        if ((u32)(&TAdPlyPltAnimGC__instances.value)[i] != 0U) {
-            (&TAdPlyPltAnimGC__instances.value)[i] = 0;
+        if (TAdPlyPltAnimGC__instances[i] != NULL) {
+            TAdPlyPltAnimGC__instances[i] = NULL;
         }
     }
 }
-
 
 #pragma push
 #pragma fp_contract on
-s32 TAdPlyPltAnimGC__ct(int arg0, void *arg1, void *arg2) {
-    __ct__7TObjectFP7TObject((void *)arg0, arg1);
-    ((TAdPlyPltAnimGC_8035601C *)arg0)->vt = __vt__15TAdPlyPltAnimGC;
-    ((TAdPlyPltAnimGC_8035601C *)arg0)->x0 = lbl_805D43A0;
-    ((TAdPlyPltAnimGC_8035601C *)arg0)->x78 = -1;
-    ((TAdPlyPltAnimGC_8035601C *)arg0)->x74 = 0;
-    ((TAdPlyPltAnimGC_8035601C *)arg0)->x2c = lbl_805DFFDC;
-    {
-        f32 y0 = (f32)(s32)arg2 * lbl_80479350[0].y;
-        ((TAdPlyPltAnimGC_8035601C *)arg0)->x30 = y0 * lbl_805DFFE0;
-    }
-    ((TAdPlyPltAnimGC_8035601C *)arg0)->x34 = lbl_80479350[0].x * lbl_805DFFE0;
-    {
-        f32 y1 = (f32)(s32)arg2 * lbl_80479350[0].y + lbl_80479350[0].y;
-        ((TAdPlyPltAnimGC_8035601C *)arg0)->x38 = y1 * lbl_805DFFE0;
-    }
-    ((TAdPlyPltAnimGC_8035601C *)arg0)->x6c = 0xFF;
-    ((TAdPlyPltAnimGC_8035601C *)arg0)->x70 = (s32)arg2;
-    return arg0;
+TAdPlyPltAnimGC::TAdPlyPltAnimGC(TObject *parent, s32 plate) : TObject(parent) {
+    m_name = TAdPlyPltAnimGC__class_name;
+    frame = -1;
+    state = 0;
+    quad.u0 = 0.0f;
+    quad.v0 = (f32)plate * lbl_80479350[0].y / 256.0f;
+    quad.u1 = lbl_80479350[0].x / 256.0f;
+    quad.v1 = ((f32)plate * lbl_80479350[0].y + lbl_80479350[0].y) / 256.0f;
+    alpha = 0xFF;
+    index = plate;
 }
-
 #pragma pop
 
-typedef char RecoveredGlobal_803560F0_lbl_804F142C_size[sizeof(RecoveredGlobal_803560F0_lbl_804F142C) == 0x14 ? 1 : -1];
-s32 get_or_create__15TAdPlyPltAnimGCFii(s32 arg0, s32 arg1) {
-    s32 temp_r30;
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r30 = arg1 * 4;
-    if ((u32) *(s32 *)((s8 *)(&TAdPlyPltAnimGC__instances.value) + temp_r30) == 0U) {
-        temp_r3 = __nw__7TObjectFUl(0x7C);
-        var_r0 = temp_r3;
-        if (var_r0 != 0) {
-            var_r0 = TAdPlyPltAnimGC__ct((int)temp_r3, (void *)arg0, (void *)arg1);
-        }
-        *(s32 *)((s8 *)(&TAdPlyPltAnimGC__instances.value) + temp_r30) = var_r0;
+TAdPlyPltAnimGC *TAdPlyPltAnimGC::get_or_create(TObject *parent, s32 index) {
+    if (TAdPlyPltAnimGC__instances[index] == NULL) {
+        TAdPlyPltAnimGC__instances[index] = new TAdPlyPltAnimGC(parent, index);
     }
-    return *(s32 *)((s8 *)(&TAdPlyPltAnimGC__instances.value) + temp_r30);
+    return TAdPlyPltAnimGC__instances[index];
 }
 
 void TAdPlyPltAnimGC__sub_8035615C(void) {
-    if ((u32) player_prate_texture_list_ptr != 0U) {
-        release_texture_list((void*)player_prate_texture_list_ptr);
-        player_prate_texture_list_ptr = 0U;
+    if (player_prate_texture_list_ptr != NULL) {
+        release_texture_list(player_prate_texture_list_ptr);
+        player_prate_texture_list_ptr = NULL;
     }
 }
 
+void register_player_prate(void) {
+    player_prate_texture_list_ptr = &player_prate_texture_list;
+    TLobby__sub_8023E4B4((s32)"f256_player_prate", (s32)&player_prate_texture_list);
+}

@@ -48,25 +48,12 @@ void *create__14TWindowMessageFPvll(void *, void *, s32);
 void *get_window_layout_position(s32);
 int sprintf(char *, const char *, ...);
 char *strcat(char *, const char *);
-extern char lbl_80438628[];
-extern char lbl_80438630[];
-extern char lbl_80438638[];
-extern u8 challenge_window_extent[];
+__declspec(section ".data") f32 challenge_window_extent[2] = {240.0f, 200.0f};
 char challenge_progress_text_buffer[0x100];
-extern char lbl_805D912C[2];
-extern const f32 lbl_805D9134;
-extern const f32 lbl_805D9138;
+const char *challenge_grade_letter_table[4] = {"", "B", "A", "S"};
 s32 *TWindowSubStatusDisp__sub_8006F0D8(void *, s32);
 Slot_80073428 *TWindowSubStatusDisp__sub_8006F134(void *, s32);
 s32 get_slot_clamped__6TLobbyFv(s32);
-extern char lbl_804385E0[];
-extern char lbl_804385EC[];
-extern char lbl_804385F4[];
-extern char lbl_80438604[];
-extern char lbl_80438618[];
-extern s32 challenge_grade_letter_table[];
-extern char lbl_805D9128[2];
-extern char lbl_805D9130[2];
 s32 TWindowCtrlMain__sub_8024CE58();
 int TWindowMenu::is_decided() { return (this->m_70 >> 1) & 0x1; }
 typedef char RecoveredGlobal_800739BC_lbl_8048C9D8_size[sizeof(RecoveredGlobal_800739BC_lbl_8048C9D8) == 0x748 ? 1 : -1];
@@ -98,21 +85,21 @@ void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 arg0, s32 arg1) {
         kind = 1;
         idx = arg1 - 0xC;
     }
-    sprintf(challenge_progress_text_buffer, lbl_804385E0, TQuestVmDownLoadServer__sub_8006EF6C(0x53), idx + 1, 0xFF);
+    sprintf(challenge_progress_text_buffer, "< %s%1d >\n", TQuestVmDownLoadServer__sub_8006EF6C(0x53), idx + 1, 0xFF);
     for (i = 0, rec = CHAL_80073428->recs; i < 4; i++, rec++) {
         if (rec->flag != 0) {
             strcat(challenge_progress_text_buffer, (char *)(get_player_by_client_id(i) + 0x85C));
-            strcat(challenge_progress_text_buffer, lbl_805D9128);
+            strcat(challenge_progress_text_buffer, "\n  ");
             data = rec->data;
             slot = TWindowSubStatusDisp__sub_8006F134(data, kind);
             t = TLobby::get_valid_slot(TWindowSubStatusDisp__sub_8006F0D8(data, kind)[idx]);
             if (t == 0) {
-                strcat(challenge_progress_text_buffer, lbl_804385EC);
+                strcat(challenge_progress_text_buffer, "      ");
                 strcat(challenge_progress_text_buffer, TQuestVmDownLoadServer__sub_8006EF6C(0x51));
-                strcat(challenge_progress_text_buffer, lbl_805D912C);
+                strcat(challenge_progress_text_buffer, "\n");
             } else {
                 if (get_slot_clamped__6TLobbyFv(slot->slot) == 0) {
-                    strcat(challenge_progress_text_buffer, lbl_804385F4);
+                    strcat(challenge_progress_text_buffer, "            ");
                 } else {
                     p = TWindowSubStatusDisp__sub_8006F0D8(data, kind);
                     sum = 0;
@@ -122,12 +109,12 @@ void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 arg0, s32 arg1) {
                     }
                     sl = get_slot_clamped__6TLobbyFv(slot->slot);
                     TQuestVmDownLoadServer::split_time_hms(sum, &h1, &m1, &s1);
-                    sprintf(buf2, lbl_80438604, h1, m1, s1, challenge_grade_letter_table[sl]);
+                    sprintf(buf2, "%02d'%02d\"%02d %s", h1, m1, s1, challenge_grade_letter_table[sl]);
                     strcat(challenge_progress_text_buffer, buf2);
                 }
-                strcat(challenge_progress_text_buffer, lbl_805D9130);
+                strcat(challenge_progress_text_buffer, "  ");
                 TQuestVmDownLoadServer::split_time_hms(t, &h2, &m2, &s2);
-                sprintf(buf1, lbl_80438618, h2, m2, s2);
+                sprintf(buf1, "%1d'%02d\"%02d\n", h2, m2, s2);
                 strcat(challenge_progress_text_buffer, buf1);
             }
         }
@@ -141,9 +128,9 @@ void TLobby::open_challenge_window(s32 arg0, s32 arg1) {
     if (win == NULL) {
         return;
     }
-    ((TWindowBase *)win)->set_depth(lbl_805D9134);
+    ((TWindowBase *)win)->set_depth(37000.0f);
     if (TCameraCtrl::get_camera_id() >= 2) {
-        ((TWindowAddition *)((*(Chal_8007369C *)&challenge_mode_state).window))->set_position_xy(lbl_805D9138, lbl_805D9138);
+        ((TWindowAddition *)((*(Chal_8007369C *)&challenge_mode_state).window))->set_position_xy(0.75f, 0.75f);
     }
     TAdSinglePlyChrSelectGC::format_challenge_stage_times(arg0, arg1);
     append_line__14TWindowMessageFii((*(Chal_8007369C *)&challenge_mode_state).window, challenge_progress_text_buffer, 0);
@@ -160,26 +147,26 @@ void TLobby::open_challenge_progress_window(void *arg1) {
     if (win == NULL) {
         return;
     }
-    ((TWindowBase *)win)->set_depth(lbl_805D9134);
+    ((TWindowBase *)win)->set_depth(37000.0f);
     if (TCameraCtrl::get_camera_id() >= 2) {
-        ((TWindowAddition *)(CHAL->window))->set_position_xy(lbl_805D9138, lbl_805D9138);
+        ((TWindowAddition *)(CHAL->window))->set_position_xy(0.75f, 0.75f);
     }
-    sprintf(challenge_progress_text_buffer, lbl_80438628, TQuestVmDownLoadServer__sub_8006EF6C(0x4F));
+    sprintf(challenge_progress_text_buffer, "< %s >\n", TQuestVmDownLoadServer__sub_8006EF6C(0x4F));
     rec = CHAL->recs;
     for (i = 0; i < 4; i++, rec++) {
         if (rec->flag != 0) {
             strcat(challenge_progress_text_buffer, (char *)(get_player_by_client_id(i) + 0x85C));
-            strcat(challenge_progress_text_buffer, lbl_80438630);
+            strcat(challenge_progress_text_buffer, "\n    ");
             n = fn_80071A9C(this, rec->data, arg1);
             if (n >= get_layout_id__20TWindowSubStatusDispFv(arg1)) {
                 strcat(challenge_progress_text_buffer, TQuestVmDownLoadServer__sub_8006EF6C(0x52));
             } else if (n == 0) {
                 strcat(challenge_progress_text_buffer, TQuestVmDownLoadServer__sub_8006EF6C(0x51));
             } else {
-                sprintf(tmp, lbl_80438638, TQuestVmDownLoadServer__sub_8006EF6C(0x50), n);
+                sprintf(tmp, "%s%02d", TQuestVmDownLoadServer__sub_8006EF6C(0x50), n);
                 strcat(challenge_progress_text_buffer, tmp);
             }
-            strcat(challenge_progress_text_buffer, lbl_805D912C);
+            strcat(challenge_progress_text_buffer, "\n");
         }
     }
     append_line__14TWindowMessageFii(CHAL->window, challenge_progress_text_buffer, 0);

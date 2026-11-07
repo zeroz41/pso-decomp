@@ -16,6 +16,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/network/TProtocol.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
+#include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -87,7 +88,7 @@ struct RecoveredGlobal_80213CCC_lbl_80513E70 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_80213CCC_lbl_80513E70_size[sizeof(RecoveredGlobal_80213CCC_lbl_80513E70) == 0x10 ? 1 : -1];
 
 struct Seq_80213D84 {
-    s32 f0; u8 pad4[0x14]; void *vt; s32 f1c; s32 f20; s32 f24; u8 pad28[4]; s32 f2c; s32 f30; s32 f34; s32 f38; s32 f3c;
+    const char *name; u8 pad4[0x14]; void *vt; s32 f1c; s32 f20; s32 f24; u8 pad28[4]; s32 f2c; s32 f30; s32 f34; s32 f38; s32 f3c;
 };
 
 struct VBase_18_80213BE0 { char pad[0x18]; };
@@ -143,7 +144,6 @@ u8 *TShopSequence__ct(u8 *);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 extern RecoveredGlobal_80213CCC_lbl_804C9740 __vt__28THunterGuildSeqOnline_Client;
 extern RecoveredGlobal_80213CCC_lbl_80513E70 lbl_80513E70;
-extern s32 THunterGuildSeqOnline_Client__name;
 extern s32 hunter_guild_seq_online_client_instance;
 Seq_80213D84 *THunterGuildSeqOnline_Client__ct(Seq_80213D84 *arg0, s32 arg1, s32 arg2);
 void THunterGuildSeqOffline__sub_80213BE0(Seq_80213BE0 *arg0);
@@ -313,7 +313,7 @@ Seq_80213D84 *THunterGuildSeqOnline_Client__ct(Seq_80213D84 *shop_window_base, s
     TShopSequence__ct((u8 *)shop_window_base);
     shop_window_base->vt = ((u8 *)&__vt__28THunterGuildSeqOnline_Client);
     one = 1;
-    shop_window_base->f0 = THunterGuildSeqOnline_Client__name;
+    shop_window_base->name = THunterGuildSeqOnline_Client__name;
     shop_window_base->f20 = 0;
     shop_window_base->f24 = arg2;
     shop_window_base->f2c = 0;
@@ -875,7 +875,7 @@ struct RecoveredGlobal_80214A84_lbl_80513E60 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_80214A84_lbl_80513E60_size[sizeof(RecoveredGlobal_80214A84_lbl_80513E60) == 0x10 ? 1 : -1];
 
 struct Seq_80214B3C {
-    s32 f0; u8 pad4[0x14]; void *vt; s32 f1c; s32 f20; s32 f24; u8 pad28[4]; s32 f2c; u8 pad30[4]; s32 f34; s32 f38; s32 f3c; s32 f40;
+    const char *name; u8 pad4[0x14]; void *vt; s32 f1c; s32 f20; s32 f24; u8 pad28[4]; s32 f2c; u8 pad30[4]; s32 f34; s32 f38; s32 f3c; s32 f40;
 };
 
 struct VBase_18_80214978 { char pad[0x18]; };
@@ -914,7 +914,6 @@ u8 *TShopSequence__ct(u8 *);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 extern RecoveredGlobal_80214A84_lbl_804C97F0 lbl_804C97F0;
 extern RecoveredGlobal_80214A84_lbl_80513E60 lbl_80513E60;
-extern s32 lbl_805D3664;
 extern s32 offline_quest_list_vm;
 Seq_80214B3C *THunterGuildSeqOffline__sub_80214B3C(Seq_80214B3C *arg0, s32 arg1, s32 arg2);
 void fn_80214058(void *);
@@ -984,7 +983,7 @@ Seq_80214B3C *THunterGuildSeqOffline__sub_80214B3C(Seq_80214B3C *shop_window_bas
     TShopSequence__ct((u8 *)shop_window_base);
     one = 1;
     shop_window_base->vt = ((u8 *)&lbl_804C97F0);
-    shop_window_base->f0 = lbl_805D3664;
+    shop_window_base->name = THunterGuildSeqOnline_Server__name;
     shop_window_base->f20 = 0;
     shop_window_base->f24 = arg2;
     shop_window_base->f2c = 0;

@@ -11,4 +11,12 @@ struct TObjNpcNFM00 : public TUnk_804A9F50 {
 };
 
 typedef char TObjNpcNFM00_size[sizeof(TObjNpcNFM00) == 0x3B8 ? 1 : -1];
+
+class TObjControl;
+
+extern "C" {
+void *TObjNpcNFM00__create(void *set_data);
+TObjNpcNFM00 *TObjNpcNFM00__ct(TObjNpcNFM00 *npc, TObjControl *control, void *set_data);
+}
+
 #endif

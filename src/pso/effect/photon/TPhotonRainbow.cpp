@@ -6,7 +6,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/effect/photon/TPhotonRainbow_801AE640.h"
 #include "pso/system/vector.h"
-#include "pso/effect/photon/TPhotonYoulla.h"
 
 extern "C" {
 
@@ -90,7 +89,5 @@ u8 *TPhotonRainbow__ct(u8 *photon_rainbow, s32 arg1_unused, s32 arg2) {
 
 void TObjPlayer__sub_801AE724(void) {  }
 void TObjPlayer__sub_801AE728(void) {  }
-
-void TPhotonYoulla::sub_801AE72C() { *(float *)&this->m_184 = 0.0f; *(float*)((char*)this + 0x188) = 0.0f; this->m_18c = 0.0f; *(float *)&this->unk_190 = 0.0f; }
 
 }

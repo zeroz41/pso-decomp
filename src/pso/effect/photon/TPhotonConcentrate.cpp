@@ -10,6 +10,8 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 
+const char *TPhotonConcentrate__class_name = "TPhotonConcentrate";
+
 extern "C" {
 
 void *create_particle_emitter(void *pos, s32 id);
@@ -17,7 +19,6 @@ s32 __ct__14TObjCollidableFP7TObject(s32, s32);
 s32 find_entity_by_id(s32, f32);
 void __dl__7TObjectFPv(void *);
 extern s32 __vt__18TPhotonConcentrate[];
-extern s32 lbl_805D34D0;
 
 void render__18TPhotonConcentrateFv(void) { TParticleCtrl::begin_effect_render(); TParticleCtrl::end_effect_render(); }
 
@@ -66,9 +67,6 @@ void rotate_matrix_z(void *, s32);
 void subtract_vector(void *, void *);
 f32 xyz_distance(void *, void *);
 extern u8 identity_matrix[];
-extern const f32 lbl_805DC0F8;
-extern const f32 lbl_805DC0FC;
-extern const f32 lbl_805DC100;
 extern const f32 lbl_805DC104;
 extern const f32 lbl_805DC108;
 extern const f32 lbl_805DC10C;
@@ -81,7 +79,7 @@ void run_task__18TPhotonConcentrateFv(PC_801A7E7C *self) {
   VecCopy((Vec *)&delta, (const Vec *)&self->pos);
   subtract_vector(&delta, &self->target);
   self->dist = vector_length(&delta);
-  if (self->dist < lbl_805DC0F8)
+  if (self->dist < 10.0f)
   {
     queue_destruction__7TObjectFv(self->emitter);
     self->emitter = 0;
@@ -99,18 +97,18 @@ void run_task__18TPhotonConcentrateFv(PC_801A7E7C *self) {
     Vec_801A7E7C d2 = self->target;
     subtract_vector(&d2, &self->origin);
     self->total = vector_length(&d2);
-    if (lbl_805DC0FC == self->total)
+    if (0.0f == self->total)
     {
-      self->total = lbl_805DC100;
+      self->total = 0.00001f;
     }
     a = lbl_805DC10C * (self->dist / self->total);
     sn = sin_table_lookup(lbl_805DC108 * ((f32) a));
     {
-      f32 scale = self->total / lbl_805DC0F8;
+      f32 scale = self->total / 10.0f;
       Vec_801A7E7C off;
       Vec_801A7E7C xf;
       new_var = lbl_805DC104 * scale;
-      off.y = (off.z = lbl_805DC0FC);
+      off.y = (off.z = 0.0f);
       off.x = new_var * sn;
       push_matrix_from(identity_matrix);
       rotate_matrix_z(0, lbl_805DC108 * ((f32) self->angle));
@@ -148,7 +146,7 @@ extern "C" {
 }
 TPhotonConcentrate::TPhotonConcentrate(u8 *arg1, s32 arg2, s32 arg3) : TObjCollidable((TObject *)arg2) {
     f32 temp_f1;
-    *(s32 *)((s8 *)this + 0) = (s32) lbl_805D34D0;
+    *(s32 *)((s8 *)this + 0) = (s32) TPhotonConcentrate__class_name;
     VecCopy((Vec *)(((u8 *)this) + 0xAC), (const Vec *)(VecCopy((Vec *)(((u8 *)this) + 0xB8), (const Vec *)((const Vec *)arg1))));
     VecCopy((Vec *)(((u8 *)this) + 0xD0), (const Vec *)(arg1 + 0xC));
     VecCopy((Vec *)(((u8 *)this) + 0xC4), (const Vec *)(arg1 + 0x18));

@@ -1,110 +1,57 @@
 #include "types.h"
 #include "pso/npc/TObjNpcMaleDwarf.h"
-#include "pso/unk/text_8014B8A4.h"
-#include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TObjNpcMaleFat.h"
-#include "pso/npc/TObjNpcBase.h"
-#include "pso/npc/TObjNpcLappy.h"
+#include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-
+#include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/BmlResourceLoader.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
-__declspec(section ".data") const char *bm_n_efsm_i_body_3_model_names[2] = {"n_efsm_i_body_3.nj", NULL};
-const char *bm_n_efsm_i_body_3_motion_names[] = {NULL};
-BmlResourceDescriptor bm_n_efsm_i_body_3_resource_descriptor = {
-    "bm_n_efsm_i_body_3.bml", bm_n_efsm_i_body_3_model_names, bm_n_efsm_i_body_3_motion_names, 1, 0,
-};
+const char *bm_n_efsm_i_body_3_motion_names[1] = { NULL };
+__declspec(section ".data") const char *bm_n_efsm_i_body_3_model_names[2] = { "n_efsm_i_body_3.nj", NULL };
+BmlResourceDescriptor bm_n_efsm_i_body_3_resource_descriptor = { "bm_n_efsm_i_body_3.bml", bm_n_efsm_i_body_3_model_names, bm_n_efsm_i_body_3_motion_names, 1, 0 };
 const char *TObjNpcMaleDwarf__name = "TObjNpcMaleDwarf";
-u32 TObjNpcMaleDwarf__shared_model_resource;
+BmlResource *TObjNpcMaleDwarf__shared_model_resource;
 
+extern "C" s32 __vt__16TObjNpcMaleDwarf[];
 
-struct RecoveredGlobal_8014BF2C_lbl_804AA580 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_8014BF2C_lbl_804AA580_size[sizeof(RecoveredGlobal_8014BF2C_lbl_804AA580) == 0x10 ? 1 : -1];
-
-struct RecoveredGlobal_8014BDFC___vt__16TObjNpcMaleDwarf {
-    s32 value;
-    u8 remaining[0x174];
-};
-
-extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern RecoveredGlobal_8014BF2C_lbl_804AA580 bm_n_efm_i_body_resource_descriptor;
-extern u32 TObjNpcMaleFat__static_model_resource;
-extern s32 __vt__16TObjNpcMaleDwarf[];
-void TLobby__sub_8001FE7C(void*, int);
-void *__ct__11TObjControlFP7TObject(void *, void *);
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
+void *TObjNpcMaleDwarf__create(void *set_data) {
+    TObjControl *control = new TObjControl(tl_04);
+    void *npc = TObject::operator new(sizeof(TObjNpcMaleDwarf));
+    if (npc != NULL) {
+        npc = TObjNpcMaleDwarf__ct((TObjNpcMaleDwarf *)npc, control, set_data);
+    }
+    return npc;
+}
 
 void TObjNpcMaleDwarf::unload_static_data() {
-    if ((u32) TObjNpcMaleDwarf__shared_model_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjNpcMaleDwarf__shared_model_resource, 1);
-        TObjNpcMaleDwarf__shared_model_resource = 0U;
+    if (TObjNpcMaleDwarf__shared_model_resource != NULL) {
+        TLobby__sub_8001FE7C(TObjNpcMaleDwarf__shared_model_resource, 1);
+        TObjNpcMaleDwarf__shared_model_resource = NULL;
     }
 }
 
 void TObjNpcMaleDwarf::load_shared_resource() {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_n_efsm_i_body_3_resource_descriptor, 0, 0, 0));
+    void *memory = ::operator new(0x440);
+    BmlResource *resource = (BmlResource *)memory;
+    if (memory != NULL) {
+        resource = load_resource_from_descriptor(memory, 1, &bm_n_efsm_i_body_3_resource_descriptor, 0, 0, 0);
     }
-    (*(s32 *)&TObjNpcMaleDwarf__shared_model_resource) = var_r0;
+    TObjNpcMaleDwarf__shared_model_resource = resource;
 }
 
-}
 TObjNpcMaleDwarf::~TObjNpcMaleDwarf() {}
-extern "C" {
 
-extern void *tl_04;
-
-typedef char RecoveredGlobal_8014BDFC___vt__16TObjNpcMaleDwarf_size[sizeof(RecoveredGlobal_8014BDFC___vt__16TObjNpcMaleDwarf) == 0x178 ? 1 : -1];
-u8 *TObjNpcMaleDwarf__ct(u8 *player, s32 arg1, s32 arg2) {
-    construct_male_npc_base((player));
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_8014BDFC___vt__16TObjNpcMaleDwarf *)&__vt__16TObjNpcMaleDwarf).value;
-    ((TObject *)player)->m_name = TObjNpcMaleDwarf__name;
-    ((TObjNpcMaleDwarf *)(player))->apply_set_data((void *)arg2);
-    ((TObjPlayer *)player)->init_position_vectors();
-    *(s32 *)((s8 *)player + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcMaleDwarf__shared_model_resource) + 0x42C)) + 8);
-    ((TObjNpcMaleDwarf *)player)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcMaleDwarf__shared_model_resource) + 0x42C)) + 0xC);
-    ((TObjNpcBase *)player)->setup_common();
-    return player;
-}
-
-void * TObjNpcMaleFat__create(void *arg0) {
-    void *o;
-    void *o2;
-    o = __nw__7TObjectFUl(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    o2 = __nw__7TObjectFUl(0x3B8);
-    if (o2 != NULL) {
-        o2 = TObjNpcMaleFat__ct((u8 *)o2, (s32)o, (s32)arg0);
-    }
-    return o2;
-}
-
-void TObjNpcMaleFat::free_static_model() {
-    if ((u32) TObjNpcMaleFat__static_model_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjNpcMaleFat__static_model_resource, 1);
-        TObjNpcMaleFat__static_model_resource = 0U;
-    }
-}
-void TObjNpcMaleFat::load_static_resource() {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_n_efm_i_body_resource_descriptor.value, 0, 0, 0));
-    }
-    (*(s32 *)&TObjNpcMaleFat__static_model_resource) = var_r0;
-}
-
+TObjNpcMaleDwarf *TObjNpcMaleDwarf__ct(TObjNpcMaleDwarf *npc, TObjControl *control, void *set_data) {
+    npc->construct_male_npc_base();
+    *(s32 **)((u8 *)npc + 0x18) = __vt__16TObjNpcMaleDwarf;
+    npc->m_name = TObjNpcMaleDwarf__name;
+    npc->apply_set_data(set_data);
+    ((TObjPlayer *)npc)->init_position_vectors();
+    npc->model = (void *)TObjNpcMaleDwarf__shared_model_resource->models->model;
+    npc->texlist = TObjNpcMaleDwarf__shared_model_resource->models->m_c;
+    npc->setup_common();
+    return npc;
 }

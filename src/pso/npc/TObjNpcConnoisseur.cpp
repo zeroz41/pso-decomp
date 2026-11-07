@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/npc/TObjNpcConnoisseur.h"
 #include "pso/npc/TObjNpcExpertBase.h"
-#include "pso/unk/text_8014B8A4.h"
+#include "pso/npc/TUnk_804A9F50.h"
 #include "pso/npc/TUnk_804A9F50.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/npc/TObjNpcBase.h"
@@ -89,7 +89,7 @@ extern void *tl_04;
 
 typedef char RecoveredGlobal_801499DC___vt__18TObjNpcConnoisseur_size[sizeof(RecoveredGlobal_801499DC___vt__18TObjNpcConnoisseur) == 0x178 ? 1 : -1];
 u8 *TObjNpcConnoisseur__ct(u8 *player, s32 arg1, s32 arg2) {
-    construct_male_npc_base((player));
+    ((TUnk_804A9F50 *)player)->construct_male_npc_base();
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_801499DC___vt__18TObjNpcConnoisseur *)&__vt__18TObjNpcConnoisseur).value;
     *(const char **)((s8 *)player + 0) = TObjNpcConnoisseur__name;
     ((TObjNpcConnoisseur *)(player))->apply_set_data((void *)arg2);

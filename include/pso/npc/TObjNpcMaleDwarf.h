@@ -12,18 +12,11 @@ struct TObjNpcMaleDwarf : public TUnk_804A9F50 {
 
 typedef char TObjNpcMaleDwarf_size[sizeof(TObjNpcMaleDwarf) == 0x3B8 ? 1 : -1];
 
-extern "C" {
-u8 *TObjNpcMaleDwarf__ct(u8 *arg0, s32 arg1, s32 arg2);
-void *TObjNpcMaleFat__create(void *arg0);
-void *__dt__16TObjNpcMaleDwarfFv(void *arg0, s16 arg1);
-}
+class TObjControl;
 
-// --- C functions defined in TObjNpcMaleDwarf.cpp ---
 extern "C" {
-u8 *TObjNpcMaleDwarf__ct(u8 *player, s32 arg1, s32 arg2);
-void *TObjNpcMaleFat__create(void *arg0);
-void *__dt__16TObjNpcMaleDwarfFv(void *arg0, s16 arg1);
+void *TObjNpcMaleDwarf__create(void *set_data);
+TObjNpcMaleDwarf *TObjNpcMaleDwarf__ct(TObjNpcMaleDwarf *npc, TObjControl *control, void *set_data);
 }
-// --- end of C functions
 
 #endif

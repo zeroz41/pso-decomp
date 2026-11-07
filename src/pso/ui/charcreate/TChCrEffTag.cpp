@@ -119,6 +119,7 @@ void *__ct__11TChCrEffTagFv(void *ch_cr_eff_tag, void *parent) {
 
 extern char lbl_80465298[];
 void *TChCrEffTag__name = lbl_80465298;
+s32 TChCrEffTag__selected_heading = -1;
 }
 
 extern "C" {

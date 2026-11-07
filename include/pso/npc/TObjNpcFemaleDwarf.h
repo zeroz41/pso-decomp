@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/npc/TUnk_804A8640.h"
 
+class TObjControl;
+
 struct TObjNpcFemaleDwarf : public TUnk_804A8640 {
     virtual ~TObjNpcFemaleDwarf();
     static void unload_static_data();
@@ -13,17 +15,8 @@ struct TObjNpcFemaleDwarf : public TUnk_804A8640 {
 typedef char TObjNpcFemaleDwarf_size[sizeof(TObjNpcFemaleDwarf) == 0x3B8 ? 1 : -1];
 
 extern "C" {
-u8 *TObjNpcFemaleDwarf__ct(u8 *arg0, s32 arg1, s32 arg2);
-void *TObjNpcFemaleFat__create(void *arg0);
-void *__dt__18TObjNpcFemaleDwarfFv(void *arg0, s16 arg1);
+void *TObjNpcFemaleDwarf__create(void *set_data);
+TObjNpcFemaleDwarf *TObjNpcFemaleDwarf__ct(TObjNpcFemaleDwarf *npc, TObjControl *control, void *set_data);
 }
-
-// --- C functions defined in TObjNpcFemaleDwarf.cpp ---
-extern "C" {
-u8 *TObjNpcFemaleDwarf__ct(u8 *arg0, s32 arg1, s32 arg2);
-void *TObjNpcFemaleFat__create(void *arg0);
-void *__dt__18TObjNpcFemaleDwarfFv(void *arg0, s16 arg1);
-}
-// --- end of C functions
 
 #endif

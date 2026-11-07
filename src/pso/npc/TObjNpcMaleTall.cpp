@@ -1,81 +1,57 @@
 #include "types.h"
 #include "pso/npc/TObjNpcMaleTall.h"
-#include "pso/unk/text_8014B8A4.h"
-#include "pso/npc/TObjNpcMoja.h"
-#include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TObjNpcBase.h"
-#include "pso/npc/TObjNpcLappy.h"
+#include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/BmlResourceLoader.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
-extern "C" {
-extern const char *bm_n_etm_i_body_motion_names[1];
-extern const char *bm_n_etm_i_body_model_names[2];
 const char *bm_n_etm_i_body_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_n_etm_i_body_model_names[2] = { "n_etm_i_body.nj", NULL };
 BmlResourceDescriptor bm_n_etm_i_body_resource_descriptor = { "bm_n_etm_i_body.bml", bm_n_etm_i_body_model_names, bm_n_etm_i_body_motion_names, 1, 0 };
 const char *TObjNpcMaleTall__name = "TObjNpcMaleTall";
-u32 TObjNpcMaleTall__shared_model_resource;
+BmlResource *TObjNpcMaleTall__shared_model_resource;
+
+extern "C" s32 __vt__15TObjNpcMaleTall[];
+
+void *TObjNpcMaleTall__create(void *set_data) {
+    TObjControl *control = new TObjControl(tl_04);
+    void *npc = TObject::operator new(sizeof(TObjNpcMaleTall));
+    if (npc != NULL) {
+        npc = TObjNpcMaleTall__ct((TObjNpcMaleTall *)npc, control, set_data);
+    }
+    return npc;
 }
 
-struct RecoveredGlobal_8014C4B4_lbl_804AAA30 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_8014C4B4_lbl_804AAA30_size[sizeof(RecoveredGlobal_8014C4B4_lbl_804AAA30) == 0x10 ? 1 : -1];
-
-struct RecoveredGlobal_8014C55C___vt__15TObjNpcMaleTall {
-    s32 value;
-    u8 remaining[0x174];
-};
-
-extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern s32 __vt__15TObjNpcMaleTall[];
-void TLobby__sub_8001FE7C(void*, int);
-void __dl__7TObjectFPv(void *);
-
 void TObjNpcMaleTall::destroy_instance() {
-    if ((u32) TObjNpcMaleTall__shared_model_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjNpcMaleTall__shared_model_resource, 1);
-        TObjNpcMaleTall__shared_model_resource = 0U;
+    if (TObjNpcMaleTall__shared_model_resource != NULL) {
+        TLobby__sub_8001FE7C(TObjNpcMaleTall__shared_model_resource, 1);
+        TObjNpcMaleTall__shared_model_resource = NULL;
     }
 }
 
 void TObjNpcMaleTall::load_resource_instance() {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_n_etm_i_body_resource_descriptor, 0, 0, 0));
+    void *memory = ::operator new(0x440);
+    BmlResource *resource = (BmlResource *)memory;
+    if (memory != NULL) {
+        resource = load_resource_from_descriptor(memory, 1, &bm_n_etm_i_body_resource_descriptor, 0, 0, 0);
     }
-    (*(s32 *)&TObjNpcMaleTall__shared_model_resource) = var_r0;
+    TObjNpcMaleTall__shared_model_resource = resource;
 }
 
-}
 TObjNpcMaleTall::~TObjNpcMaleTall() {}
-extern "C" {
 
-typedef char RecoveredGlobal_8014C55C___vt__15TObjNpcMaleTall_size[sizeof(RecoveredGlobal_8014C55C___vt__15TObjNpcMaleTall) == 0x178 ? 1 : -1];
-u8 *TObjNpcMaleTall__ct(u8 *player, s32 arg1, s32 arg2) {
-    construct_male_npc_base((player));
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_8014C55C___vt__15TObjNpcMaleTall *)&__vt__15TObjNpcMaleTall).value;
-    *(s32 *)((s8 *)player + 0) = (s32) TObjNpcMaleTall__name;
-    ((TObjNpcMaleTall *)(player))->apply_set_data((void *)arg2);
-    ((TObjPlayer *)player)->init_position_vectors();
-    *(s32 *)((s8 *)player + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcMaleTall__shared_model_resource) + 0x42C)) + 8);
-    ((TObjNpcMaleTall *)player)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcMaleTall__shared_model_resource) + 0x42C)) + 0xC);
-    ((TObjNpcBase *)player)->setup_common();
-    return player;
-}
-
-void TObjNpcMoja::request_action(s32) {
-    if ((s16) this->mode != 2) {
-        this->requested_action = 0;
-        return;
-    }
-    this->requested_action = 1;
-}
-
+TObjNpcMaleTall *TObjNpcMaleTall__ct(TObjNpcMaleTall *npc, TObjControl *control, void *set_data) {
+    npc->construct_male_npc_base();
+    *(s32 **)((u8 *)npc + 0x18) = __vt__15TObjNpcMaleTall;
+    npc->m_name = TObjNpcMaleTall__name;
+    npc->apply_set_data(set_data);
+    ((TObjPlayer *)npc)->init_position_vectors();
+    npc->model = (void *)TObjNpcMaleTall__shared_model_resource->models->model;
+    npc->texlist = TObjNpcMaleTall__shared_model_resource->models->m_c;
+    npc->setup_common();
+    return npc;
 }

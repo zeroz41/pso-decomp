@@ -6,6 +6,8 @@
 #include "pso/player/TObjPlayer_801AA664.h"
 #include "pso/effect/photon/TPhotonEstlla.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_800F5BC0.h"
+#include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/unk/TUnk_804C3248.h"
@@ -43,7 +45,13 @@ struct Stack_801AA930 {
 #pragma dont_inline off
 struct Vec_801AA710 { f32 x, y, z; };
 
-struct Packet_801AA710 { u32 w[8]; };
+// The TPhotonLine construction packet (TPhotonLine__ct reads pos, dir and scale).
+struct Packet_801AA710 {
+    Vec_801AA710 pos;
+    Vec_801AA710 dir;
+    f32 scale;
+    f32 pad_1C;
+};
 
 struct Self_801AA710 {
     u8 pad0[0x38];
@@ -89,7 +97,10 @@ s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix_from(void *);
 s32 pop_matrices(s32 arg0);
-extern const Packet_801AA710 photon_estlla_line_packet_init;
+const char *TPhotonEstlla__class_name = "TPhotonEstlla";
+extern const Packet_801AA710 photon_estlla_line_packet_init = {
+    { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f
+};
 extern u8 identity_matrix[];
 
 s32 scroll_strip_uvs(void *, s16, int);
@@ -103,7 +114,7 @@ extern Color_801AA818 model_material_color;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
-extern void *estlla_photon_blast_model;
+void *estlla_photon_blast_model;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -126,9 +137,9 @@ void TPhotonEstlla::spawn_line() {
     pop_matrices(1);
     {
         Packet_801AA710 packet = photon_estlla_line_packet_init;
-        *(Vec_801AA710 *)&packet.w[0] = self->pos;
-        *(Vec_801AA710 *)&packet.w[3] = direction;
-        *(f32 *)&packet.w[7] = this->m_150;
+        packet.pos = self->pos;
+        packet.dir = direction;
+        packet.pad_1C = this->m_150;
         line = __nw__7TObjectFUl(0x378);
         if (line) {
             TPhotonLine__ct((void *)line, &packet, self, this->m_17c);
@@ -258,7 +269,6 @@ extern "C" {
 
 extern u8 photon_estlla_param_table[];
 extern s32 __vt__13TPhotonEstlla[];
-extern s32 lbl_805D34D8;
 extern u8 *photon_blast_shared_resource;
 
 }
@@ -266,7 +276,7 @@ TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TUnk_804C3248() {
     Stack_801AAB74 pos;
     u8 *e;
     void *p;
-    *(s32 *)((s8 *)this + 0) = lbl_805D34D8;
+    m_name = TPhotonEstlla__class_name;
     *(s32 *)((s8 *)this + 0x138) = 1;
     VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)arg1);
     this->m_17c = *(u16 *)((s8 *)arg1 + 0xC);
@@ -330,4 +340,22 @@ TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TUnk_804C3248() {
         spawn_photon_blast_opening_effects(1, this->m_17c);
         play_cue_stream_file((s32)"estla.adx");
     }
+}
+
+void TObjPlayer::destroy_global_buffer() {
+    if (estlla_photon_blast_model != NULL) {
+        destroy_buffer_pair(estlla_photon_blast_model, 1);
+    }
+    estlla_photon_blast_model = NULL;
+}
+
+void create_estlla_photon_blast_model(void) {
+    s32 temp_r3;
+    s32 var_r0;
+    temp_r3 = (int)::operator new(0x14);
+    var_r0 = temp_r3;
+    if (var_r0 != 0) {
+        var_r0 = (long) (((TLobby *)temp_r3)->alloc_tables(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x98)) + 0x2C), 0));
+    }
+    estlla_photon_blast_model = (void *)var_r0;
 }

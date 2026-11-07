@@ -7,6 +7,7 @@
 class TAdSubPlyItemGC;
 
 struct TAdChrSelBSlotGC : public TObject {
+    TAdChrSelBSlotGC(TObject *parent);
     virtual ~TAdChrSelBSlotGC();
     void sub_8030FE04();
     virtual void render();

@@ -429,17 +429,13 @@ struct Vec_801A7B14
 s32 activate_camera_mode(s32 arg0);
 void *get_player_by_client_id(s32 i);
 
-extern Vec_801A7B14 lbl_80446A08;
-extern Vec_801A7B14 lbl_80446A14;
-extern Vec_801A7B14 lbl_80446A20;
-extern Vec_801A7B14 lbl_80446A2C;
 extern s32 local_client_id;
 void TUnk_804C3248::setup_photon_blast_camera() {
     u8 *arg0 = (u8 *)this;
-  Vec_801A7B14 a = lbl_80446A08;
-  Vec_801A7B14 b = lbl_80446A14;
-  Vec_801A7B14 c = lbl_80446A20;
-  Vec_801A7B14 d = lbl_80446A2C;
+  Vec_801A7B14 a = {-3.0f, 6.7f, 11.0f};
+  Vec_801A7B14 b = {-9.0f, 58.0f, 32.0f};
+  Vec_801A7B14 c = {0.0f, 8.0f, 0.0f};
+  Vec_801A7B14 d = {0.0f, 56.0f, 0.0f};
   u8 *p;
   if ((*((s32 *)(arg0 + 0x138))) == 0)
   {

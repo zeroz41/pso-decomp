@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/npc/TObjNpcKenkyu2.h"
 #include "pso/npc/TObjNpcHosa2.h"
-#include "pso/unk/text_8014B8A4.h"
+#include "pso/npc/TUnk_804A9F50.h"
 #include "pso/npc/TUnk_804A9F50.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/npc/TObjNpcBase.h"
@@ -61,7 +61,7 @@ extern void *tl_04;
 
 typedef char RecoveredGlobal_802FEB80___vt__14TObjNpcKenkyu2_size[sizeof(RecoveredGlobal_802FEB80___vt__14TObjNpcKenkyu2) == 0x178 ? 1 : -1];
 u8 *TObjNpcKenkyu2__ct(u8 *player, s32 arg1, s32 arg2) {
-    construct_male_npc_base((player));
+    ((TUnk_804A9F50 *)player)->construct_male_npc_base();
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_802FEB80___vt__14TObjNpcKenkyu2 *)&__vt__14TObjNpcKenkyu2).value;
     *(s32 *)((s8 *)player + 0) = (s32) TObjNpcKenkyu2__name;
     ((TObjNpcKenkyu2 *)(player))->apply_set_data((void *)arg2);

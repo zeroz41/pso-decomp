@@ -18,8 +18,6 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-struct V3_8013F5E8 { s32 x, y, z; };
-struct V3_8013F6C4 { s32 x, y, z; };
 extern "C" {
 s32 TKeyBoardControl__sub_8000F90C(int);
 s32 TCameraCtrl__ct(u32, void *);
@@ -30,8 +28,6 @@ s32 init_menu_scene_lights(void *, int);
 s32 reset_controller_input_state();
 s32 set_copy_clear_color_argb(int, int, int);
 s32 __ct__15TWindowCtrlMainFv(u32);
-extern V3_8013F6C4 lbl_8043F138;
-extern V3_8013F6C4 lbl_8043F144;
 extern u8 default_scene_light_config[];
 s32 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 void TKeyBoardControl__sub_8000F9CC(s32 arg0);
@@ -53,10 +49,8 @@ void process_async_file_reads(void);
 void update_sound_request_slots(void);
 extern "C" {
 void func_803DCDFC__Fv(void);
-extern V3_8013F5E8 lbl_8043F150;
-extern V3_8013F5E8 lbl_8043F15C;
 
-extern const char *TLogo__class_name;
+const char *TLogo__class_name = "TLogo";
 
 extern "C" {
 void reset_view_state__11TCameraCtrlFv(); void reset__11TCameraCtrlFv(); void TCameraCtrl::init_default_view(); void TCameraCtrl::reset_default_view();
@@ -109,8 +103,8 @@ void TLogo::init_logo_scene() {
     if (p != 0) {
         TCameraCtrl__ct(p, tl_camera);
     }
-    V3_8013F6C4 a = lbl_8043F138;
-    V3_8013F6C4 b = lbl_8043F144;
+    Vec a = {0.0f, 0.0f, 0.0f};
+    Vec b = {0.0f, 0.0f, -100.0f};
     TCameraCtrl::select_active_controller(9);
     set_active_camera_pose(&a, &b);
     TKeyBoardControl__sub_8000F90C(1);
@@ -133,8 +127,8 @@ void TLogo::init_logo_scene() {
 
 void TLogo::run_frame() {
     func_803DCDFC__Fv();
-    V3_8013F5E8 a = lbl_8043F150;
-    V3_8013F5E8 b = lbl_8043F15C;
+    Vec a = {0.0f, 0.0f, 0.0f};
+    Vec b = {0.0f, 0.0f, -100.0f};
     activate_camera_mode(9);
     set_active_camera_pose(&a, &b);
     controller_stuff();

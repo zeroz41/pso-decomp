@@ -14,14 +14,14 @@ typedef char TObjNpcGovernorBase_size[sizeof(TObjNpcGovernorBase) == 0x3B8 ? 1 :
 
 extern "C" {
 u8 *TObjNpcGovernorBase__ct(u8 *arg0, s32 arg1, s32 arg2);
-void *TObjNpcHFW00__create(void *arg0);
+void *TObjNpcGovernorBase__create(void *arg0);
 void *__dt__19TObjNpcGovernorBaseFv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TObjNpcGovernorBase.cpp ---
 extern "C" {
 u8 *TObjNpcGovernorBase__ct(u8 *player, s32 arg1, s32 arg2);
-void *TObjNpcHFW00__create(void *arg0);
+void *TObjNpcGovernorBase__create(void *arg0);
 void *__dt__19TObjNpcGovernorBaseFv(void *arg0, s16 arg1);
 }
 // --- end of C functions

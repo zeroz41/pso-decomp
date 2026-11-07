@@ -10,4 +10,10 @@ public:
     virtual void run_task();
 };
 
+// TObject::m_name strings of the online hunter-guild sequence classes (.sdata, defined in
+// THunterGuildSeqOnlineTask.cpp in this order).
+extern const char *THunterGuildSeqOnlineTask__name;
+extern const char *THunterGuildSeqOnline_Server__name;
+extern const char *THunterGuildSeqOnline_Client__name;
+
 #endif

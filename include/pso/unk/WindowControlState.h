@@ -4,8 +4,10 @@
 #include "types.h"
 #include <stddef.h>
 
+class TObject;
+
 struct WindowControlState {
-    s32 field00;
+    TObject *window_root; // per-viewport parent of the window tasks (TWindowCtrlMain ct; rendered by TWindowCtrlScreen)
     s32 field04;
     f32 field08;
     f32 field0C;

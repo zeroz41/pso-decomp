@@ -132,8 +132,6 @@ struct Obj_802A2F78 { u8 pad[0x20]; s32 f20; };
 extern "C" {
 void draw_ui_sprite_shaded(s32 sprite_id, const vec2f *position, const vec2f *scale,
                            f32 depth, f32 alpha, f32 brightness);
-extern vec2f lbl_80466474[];
-extern vec2f lbl_8046647C[];
 extern const f32 lbl_805DDED8;
 extern const f32 lbl_805DDEDC;
 extern const f32 lbl_805DDEE0;
@@ -146,7 +144,7 @@ extern const f32 lbl_805DDEF8;
 extern const f32 lbl_805DDEFC;
 extern void *__vt__18TChCrTagOccupation[];
 void *__dt__18TChCrTagOccupationFv(void *self, s16 m);
-extern s32 chcr_tag_occupation_class_name;
+const char *chcr_tag_occupation_class_name = "TChCrTagOccupation";
 extern const f32 lbl_805DDF00;
 extern const f32 lbl_805DDF04;
 extern const f32 lbl_805DDF08;
@@ -161,8 +159,8 @@ void TChCrTagOccupation::sub_802A2DF4() {
     f32 s;
     f32 depth;
     s32 id = ((Tag_802A2DF4 *)this)->f20 + 0x39;
-    vec2f pos = lbl_80466474[0];
-    vec2f scale = lbl_8046647C[0];
+    vec2f pos = {33.0f, 100.0f};
+    vec2f scale = {1.0f, 1.0f};
     if (((Tag_802A2DF4 *)this)->f24 > ((Tag_802A2DF4 *)this)->f3c) {
         t = (((Tag_802A2DF4 *)this)->f24 - ((Tag_802A2DF4 *)this)->f3c) / (((Tag_802A2DF4 *)this)->f40 - ((Tag_802A2DF4 *)this)->f3c);
     } else {
@@ -211,7 +209,7 @@ typedef char RecoveredGlobal_802A300C___vt__18TChCrTagOccupation_size[sizeof(Rec
 u8 *__ct__18TChCrTagOccupationFv(u8 *ch_cr_tag, TObject *parent, void *arg) {
     __ct__8TChCrTagFP7TObjectPv(ch_cr_tag, parent, arg);
     *(s32 **)((s8 *)ch_cr_tag + 0x18) = (s32 *)__vt__18TChCrTagOccupation;
-    *(s32 *)((s8 *)ch_cr_tag + 0) = (s32) chcr_tag_occupation_class_name;
+    ((TObject *)ch_cr_tag)->m_name = chcr_tag_occupation_class_name;
     *(f32 *)((s8 *)ch_cr_tag + 0x28) = (f32) lbl_805DDF00;
     *(f32 *)((s8 *)ch_cr_tag + 0x2C) = (f32) lbl_805DDF04;
     *(f32 *)((s8 *)ch_cr_tag + 0x34) = (f32) lbl_805DDF08;

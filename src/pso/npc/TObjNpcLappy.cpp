@@ -3,10 +3,14 @@
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcFemaleBase.h"
 #include "pso/npc/TObjNpcLappy.h"
+#include "pso/object/TObjControl.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
+
+#pragma readonly_strings on
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -154,8 +158,25 @@ void *__vt__12TObjNpcLappy[95] = {
     (void *)&request_action__12TObjNpcLappyFl, (void *)&debug_draw_talk__11TObjNpcBaseFv, (void *)&play_voice__11TObjNpcBaseFv, (void *)&vfunc_91__11TObjNpcBaseFv,
     (void *)&vfunc_92__11TObjNpcBaseFv, (void *)&draw_debug_info__11TObjNpcBaseFv, (void *)0x0,
 };
-extern s32 TObjNpcLappy__name;
+const char *TObjNpcLappy__name = "TObjNpcLappy";
 extern u8 *rappy_bml_resource;
+
+void TObjNpcLappy::request_action(s32) {
+    if ((s16) this->mode != 2) {
+        this->requested_action = 0;
+        return;
+    }
+    this->requested_action = 1;
+}
+
+void *TObjNpcLappy__create(void *set_data) {
+    TObjControl *control = new TObjControl(tl_04);
+    void *npc = TObject::operator new(sizeof(TObjNpcLappy));
+    if (npc != NULL) {
+        npc = TObjNpcLappy__ct((u8 *)npc, control, (s32)set_data);
+    }
+    return npc;
+}
 
 void *dt__12TObjNpcLappyFPvs(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
@@ -171,7 +192,7 @@ void *dt__12TObjNpcLappyFPvs(void *arg0, s16 arg1) {
 u8 *TObjNpcLappy__ct(u8 *self, void *parent, s32 arg2) {
     TObjNpcBase__ct(self, parent);
     *(u8 **)(self + 0x18) = (u8 *)__vt__12TObjNpcLappy;
-    *(s32 *)(self + 0) = TObjNpcLappy__name;
+    ((TObjNpcLappy *)self)->m_name = TObjNpcLappy__name;
     ((TObjNpcLappy *)self)->apply_set_data((void *)arg2);
     ((TObjPlayer *)self)->init_position_vectors();
     ((TObjNpcLappy *)self)->apply_set_params(0, 1);
@@ -185,14 +206,6 @@ u8 *TObjNpcLappy__ct(u8 *self, void *parent, s32 arg2) {
     ((TObjEnemy *)self)->update_prev_position();
     ((TBoss3VoloptHiraisin *)self)->copy_position();
     return self;
-}
-
-void TUnk_804A9F50::request_action(s32 action) {
-    if (action != 1) {
-        this->requested_action = 0;
-        return;
-    }
-    this->requested_action = 1;
 }
 
 }

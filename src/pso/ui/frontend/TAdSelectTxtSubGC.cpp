@@ -1,10 +1,23 @@
+#include "types.h"
 #include "pso/ui/frontend/TAdSelectTxtSubGC.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/object/ambient/TObjFish.h"
 #include "pso/npc/TObjNpcHosa.h"
 #include "pso/render/ModelDrawContext.h"
-
-#include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+
+const char *ad_select_txt_sub_gc_class_name = "TAdSelectTxtSubGC";
+s32 status_disp_texture_handle;
+
+void TAdSelectTxtSubGC::render_status() {
+    begin_screen_draw(1);
+    TObjFish::set_global_param(status_disp_texture_handle);
+    set_draw_texture_and_color((s32)(*(void * *)&(*(s16 *)((u8 *)this + 0x20))), (s32)(*(void **)((s8 *)this + 0x80)));
+    draw_textured_quad_at_depth((f32 *)((char *)this + 68), 0.25f);
+    TWindowSubStatusDisp::get_player();
+}
 
 struct Src_802A37A0 {
     s32 f0;
@@ -14,7 +27,7 @@ struct Src_802A37A0 {
 };
 
 struct Txt_802A37A0 {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x14];
     s32 *vt;
     s32 f1c;
@@ -31,17 +44,8 @@ struct Txt_802A37A0 {
 };
 
 extern "C" {
-extern const f32 lbl_805DDF3C;
-extern const f32 lbl_805DDF40;
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__17TAdSelectTxtSubGC[];
-extern s32 ad_select_txt_sub_gc_class_name;
-extern s32 status_disp_texture_handle;
-extern const f32 lbl_805DDF44;
-extern const f32 lbl_805DDF48;
-extern const f32 lbl_805DDF4C;
-extern const f32 lbl_805DDF54;
-extern const f32 lbl_805DDF58;
 Txt_802A37A0 *__ct__17TAdSelectTxtSubGCFv(Txt_802A37A0 *arg0, void *parent, Src_802A37A0 *src);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void *__nw__7TObjectFUl(int);
@@ -63,8 +67,8 @@ void TAdSelectTxtSubGC::run_task() {
     if (temp_r4 < 5) {
         *(s32 *)((s8 *)arg0 + 0x84) = (temp_r4 + 1);
     }
-    *(f32 *)((s8 *)arg0 + 0x74) = (f32) -((lbl_805DDF40 * (f32) *(s32 *)((s8 *)arg0 + 0x84)) - lbl_805DDF3C);
-    *(f32 *)((s8 *)arg0 + 0x78) = (f32) -((lbl_805DDF40 * (f32) *(s32 *)((s8 *)arg0 + 0x84)) - lbl_805DDF3C);
+    *(f32 *)((s8 *)arg0 + 0x74) = (2.0f - 0.2f * (f32) *(s32 *)((s8 *)arg0 + 0x84));
+    *(f32 *)((s8 *)arg0 + 0x78) = (2.0f - 0.2f * (f32) *(s32 *)((s8 *)arg0 + 0x84));
     temp_f2 = *(f32 *)((s8 *)arg0 + 0x6C);
     *(f32 *)((s8 *)arg0 + 0x44) = (f32) ((*(f32 *)((s8 *)arg0 + 0x74) * (*(f32 *)((s8 *)arg0 + 0x24) - temp_f2)) + temp_f2);
     temp_f2_2 = *(f32 *)((s8 *)arg0 + 0x70);
@@ -88,21 +92,21 @@ Txt_802A37A0 *__ct__17TAdSelectTxtSubGCFv(Txt_802A37A0 *arg0, void *parent, Src_
     ((TWindowSubSymbolChatPartsSet *)(&arg0->f64))->copy_vec2(src->v8);
     arg0->f80 = src->f10;
     arg0->f84 = -1;
-    arg0->f74 = lbl_805DDF3C;
-    arg0->f78 = lbl_805DDF3C;
+    arg0->f74 = 2.0f;
+    arg0->f78 = 2.0f;
     status_disp_texture_handle = TObjNpcHosa__sub_802A39B0();
     arg0->f20 = arg0->f7c > 8;
     arg0->f7c -= (arg0->f7c > 8) ? 9 : 0;
-    arg0->f24 = lbl_805DDF44 * (f32) arg0->f1c + arg0->f64;
+    arg0->f24 = 32.0f * (f32) arg0->f1c + arg0->f64;
     arg0->f28 = arg0->f68;
-    arg0->f2c = lbl_805DDF44 * (arg0->f1c + 1) + arg0->f64;
-    arg0->f30 = lbl_805DDF48 + arg0->f68;
-    arg0->f6c = lbl_805DDF4C * (arg0->f2c - arg0->f24) + arg0->f24;
-    arg0->f70 = lbl_805DDF4C * (arg0->f30 - arg0->f28) + arg0->f28;
-    arg0->f54 = (lbl_805DDF44 * (f32) arg0->f1c) / 256.0f;
-    arg0->f58 = (lbl_805DDF54 * (f32) arg0->f7c) / 256.0f;
-    arg0->f5c = (lbl_805DDF44 * (arg0->f1c + 1) - lbl_805DDF58) / 256.0f;
-    arg0->f60 = (lbl_805DDF54 * (arg0->f7c + 1) - lbl_805DDF58) / 256.0f;
+    arg0->f2c = 32.0f * (arg0->f1c + 1) + arg0->f64;
+    arg0->f30 = 27.0f + arg0->f68;
+    arg0->f6c = 0.5f * (arg0->f2c - arg0->f24) + arg0->f24;
+    arg0->f70 = 0.5f * (arg0->f30 - arg0->f28) + arg0->f28;
+    arg0->f54 = (32.0f * (f32) arg0->f1c) / 256.0f;
+    arg0->f58 = (28.0f * (f32) arg0->f7c) / 256.0f;
+    arg0->f5c = (32.0f * (arg0->f1c + 1) - 1.0f) / 256.0f;
+    arg0->f60 = (28.0f * (arg0->f7c + 1) - 1.0f) / 256.0f;
     return arg0;
 }
 #pragma pop

@@ -188,7 +188,6 @@ s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_8048E6A8[];
 extern s32 __vt__13TUnk_8048E6DC[];
 extern s32 lbl_805D2930;
-extern NJS_ARGB demo_mode_particle_color;
 void set_color_blend_mode(s32 a, s32 b, s32 c, s32 d);
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 GXSetNumTexGens(int);
@@ -225,7 +224,6 @@ f32 vec_squared_length(u8 *arg0);
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 normalize_vector(void *);
 s32 push_matrix_from(void *);
-extern Vec_80085CB0 lbl_804393D0;
 extern s32 identity_matrix[];
 void project_world_to_screen(s32, void *, void *);
 void *__dt__13TUnk_8048E6A8Fv(void *arg0, s16 arg1);
@@ -269,7 +267,7 @@ void TUnk_8048E6DC::run_task() {
             normalize_vector(&d);
         }
         push_matrix_from(identity_matrix);
-        Vec_80085CB0 t = lbl_804393D0;
+        Vec_80085CB0 t = { 0.0f, 0.0f, -1.0f };
         rotate_matrix_y(0, (s32)((*(Player_80085CB0 * *)&camera_ctrl_instance)->f194));
         rotate_vector_by_matrix(0, &t, &out);
         pop_matrix();
@@ -434,7 +432,7 @@ void TUnk_8048E6A8::run_task() {
 void TUnk_8048E6A8::render() {
     Obj_80085798 *self = (Obj_80085798 *)this;
     if (TObjPlayer::check_demo_mode() != 0) {
-        NJS_ARGB color = demo_mode_particle_color;
+        NJS_ARGB color = { 0.5f, 0.0f, 1.0f, 1.0f };
         debug_draw_sphere((const Vec *)self->target, &color, 40.0f);
     }
 }
