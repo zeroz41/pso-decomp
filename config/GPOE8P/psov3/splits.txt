@@ -12200,9 +12200,18 @@ pso/unk/TLobby_803C4698.cpp:
 	.bss        start:0x80572000 end:0x80572120
 	.sdata2     start:0x805E0CE8 end:0x805E0D28
 
+pso/unk/text_803C5AA0.cpp:
+	.text       start:0x803C5AA0 end:0x803C5E78
+	.bss        start:0x80572120 end:0x80573100
+
+pso/audio/AdxEncoder.cpp:
+	.text       start:0x803C5E78 end:0x803C84D0
+	.bss        start:0x80573100 end:0x80575140
+	.sdata2     start:0x805E0D40 end:0x805E0D48
+
 pso/audio/AdxStreamRuntime.cpp:
-	.text       start:0x803C5AA0 end:0x803CBCA0
-	.bss        start:0x80572120 end:0x8057B7B0
+	.text       start:0x803C84D0 end:0x803CBCA0
+	.bss        start:0x80575140 end:0x8057B7B0
 	.sdata2     start:0x805E0D50 end:0x805E0D70
 
 pso/unk/text_803CBCA0.cpp:
