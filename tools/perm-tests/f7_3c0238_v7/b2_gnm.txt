@@ -1,0 +1,76 @@
+00000d98 000003b0 T EXIGetID
+000001c8 0000005c T GXFlush
+00000008 00000024 T TLobby__sub_803BFE58
+00000098 00000024 T TLobby__sub_803BFEE8
+00000170 00000024 T TLobby__sub_803BFFC0
+000001ac 0000000c T TLobby__sub_803BFFFC
+000001c0 00000008 T TLobby__sub_803C0010
+000003e8 000003f0 T TLobby__sub_803C0238
+000007d8 000000f8 T TLobby__sub_803C0628
+00000908 00000040 T TLobby__sub_803C0758
+00000998 0000000c T TLobby__sub_803C07E8
+000009f8 00000290 T TLobby__sub_803C0848
+00000cec 0000004c T TLobby__sub_803C0B3C
+000014ec 0000032c T TLobby__sub_803C133C
+         U TLobby__sub_803C1A00
+         U TLobby__sub_803C34F4
+         U TLobby__sub_803C3984
+         U TLobby__sub_803C39CC
+         U TLobby__sub_803C3A04
+         U TLobby__sub_803C3ABC
+         U TLobby__sub_803C3AC4
+         U TLobby__sub_803C3B38
+         U TLobby__sub_803C3B44
+         U TLobby__sub_803C3B5C
+         U TLobby__sub_803C3B68
+         U TLobby__sub_803C406C
+         U TLobby__sub_803D3130
+         U alloc_record__6TLobbyFiiii
+         U clear_record__6TLobbyFv
+00000c88 00000030 T clear_session_buffer__6TLobbyFv
+00001148 000003a4 T convert_pcm_u8_to_s16__6TLobbyFv
+0000002c 00000024 T dispatch_field4_event__6TLobbyFv
+         U get_client_count__6TLobbyFv
+         U get_entry_id__6TLobbyFv
+         U get_field30__6TLobbyFv
+         U get_field_0x3c__6TLobbyFv
+         U get_field_0xa4__6TLobbyFv
+         U get_field_28__6TLobbyFv
+         U get_field_2c__6TLobbyFv
+         U get_field_34__6TLobbyFv
+         U get_field_a0__6TLobbyFv
+         U get_field_a8__6TLobbyFv
+00000000 00000008 T get_offset_58__6TLobbyFv
+         U get_packet_flag_for_state__6TLobbyFv
+         U get_slot__6TLobbyFv
+         U init_once__6TLobbyFv
+         U init_scroll__6TLobbyFll
+         U invoke_notify_callback__6TLobbyFv
+00000d38 00000060 T is_riff_wave__6TLobbyFv
+00000000 000009c0 B lbl_80570AC0
+         U lbl_805E0CB0
+         U lbl_805E0CB8
+         U memcmp
+         U memcpy
+         U memset
+00000074 00000024 T notify_client__6TLobbyFv
+0000014c 00000024 T notify_field_4__6TLobbyFv
+000000e0 00000024 T notify_field_4_alt__6TLobbyFv
+00000224 000001c4 T process_audio_stream_input
+         U release_ref__6TLobbyFv
+000009a4 00000054 T reset_entry__6TLobbyFv
+000008d0 00000038 T reset_flag__6TLobbyFv
+00000cb8 00000034 T reset_sound_buffers__6TLobbyFv
+00000104 00000024 T send_packet_by_id_2__6TLobbyFv
+000000bc 00000024 T send_packet_by_id__6TLobbyFv
+00000128 00000024 T send_with_offset4__6TLobbyFv
+00000050 00000024 T send_with_offset4_alt__6TLobbyFv
+000001b8 00000008 T set_count__6TLobbyFl
+000001a4 00000008 T set_field_3c__6TLobbyFl
+0000019c 00000008 T set_field_40__6TLobbyFl
+00000194 00000008 T set_field_44__6TLobbyFl
+00000948 00000028 T set_network_result__6TLobbyFl
+00000970 00000028 T set_param_and_notify__6TLobbyFl
+         U sj_ring_buffer_get_buffer
+         U sj_ring_buffer_get_buffer_size
+         U sj_ring_buffer_get_extra_buffer_size
