@@ -31,7 +31,7 @@ s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
 s32 damage_hp__10TObjPlayerFii(s32 arg0, s32 arg1);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 f32 fabs_float(f32 x);
-u16 fn_80010F4C(void *p);
+u16 obj_getU16_2D6(void *p);
 s16 get_attack_params_atp_max(void *p);
 s16 get_attack_params_atp_min(void *p);
 s32 get_current_floor(void);

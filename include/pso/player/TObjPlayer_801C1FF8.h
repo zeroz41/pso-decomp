@@ -21,8 +21,8 @@ u8 TObjPlayer__sub_801C2234(void *p);
 u8 TObjPlayer__sub_801C223C(void *p);
 void TObjPlayer__sub_801C2244(void *p, s16 v);
 s32 TObjPlayer__sub_801C22B4(void *p);
-void *fn_801C2308(void *arg0, s16 arg1);
-void *fn_801C2360(void *arg0);
+void *destroy_photon_blast_array(void *arg0, s16 arg1);
+void *construct_photon_blast_array(void *arg0);
 s32 get_level_row_exp_threshold(void *p);
 }
 

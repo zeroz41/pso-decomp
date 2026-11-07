@@ -388,7 +388,7 @@ void TObjEneSaver::update_collapse_and_destroy() {
     switch (((TObjEneSaver *)arg0)->phase) {
     case 0:
         ((TObjEneSaver *)arg0)->phase = 1;
-        fn_800D911C((Vec *)(arg0 + 0x38));
+        spawn_effect_pair_e8_ec((Vec *)(arg0 + 0x38));
         TObjPlayer__sub_800A04F0((u8 *)&this->m_3a4);
         apply_actor_gravity((TObjEnemy *)(arg0), (s32 *)(0), 0.0f);
         prev_r3 = ((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003B207));

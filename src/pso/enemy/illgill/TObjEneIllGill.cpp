@@ -573,7 +573,7 @@ void TObjEneIllGill::update_death_fall() {
     {
       play_sound_effect(0x4003A358, (u8 *)&this->position, 0, 0);
       TObjPlayer::apply_effect_variant_b((s32)(&position), 0xA);
-      fn_800D911C(&position);
+      spawn_effect_pair_e8_ec(&position);
       this->phase = 4;
       this->deathTimer = 0xA;
       return;

@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void fn_801058E8(void *p);
+void set_flag_07__FPv(void *p);
 }
 
 #endif

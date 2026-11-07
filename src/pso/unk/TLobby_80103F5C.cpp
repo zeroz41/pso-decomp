@@ -114,7 +114,7 @@ s32 get_item_icon_index();
 void TLobby__sub_80104464(void);
 int fn_80077788(void);
 int fn_80077790(void);
-s32 fn_801058E8();
+s32 set_flag_07__FPv();
 s32 get_char_index__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
 s32 is_locally_controlled__10TObjPlayerFPv();
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
@@ -602,7 +602,7 @@ void TLobby::handle_select_confirm() {
     if ((fn_80077790() == 1) || (fn_80077788() == 1)) {
         TLobby::mark_selected();
         if (get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF) != 0U) {
-            fn_801058E8();
+            set_flag_07__FPv();
         }
     }
 }

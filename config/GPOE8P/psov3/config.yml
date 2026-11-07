@@ -6253,7 +6253,7 @@ force_active:
   - flush_pending__6TLobbyFv
   - flush_pending_effect__12TBoss8DragonFv
   - fly_nest_vertex_table
-  - fn_80010F4C
+  - obj_getU16_2D6
   - fn_8003F468
   - fn_80042960__Fl
   - fn_80044680__15TBoss3VoloptP02Fv
@@ -6324,7 +6324,7 @@ force_active:
   - fn_801C1F40
   - fn_801C4CE0
   - fn_801D34E0
-  - fn_801D371C
+  - copy_drop_node_word0
   - fn_801D6AB4
   - copy_cmd_88_marker_record
   - bswap_cmd_c4_entry
@@ -6387,8 +6387,8 @@ force_active:
   - fn_80330240
   - fn_8033068C
   - fn_80339D78__9TSaveChCrFv
-  - fn_803519FC
-  - fn_80351A14
+  - test_flags_any_2
+  - test_flags_any_8
   - fn_8035D49C
   - fn_8036A3CC
   - fn_803DB15C

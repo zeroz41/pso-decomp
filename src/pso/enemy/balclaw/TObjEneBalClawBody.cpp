@@ -883,7 +883,7 @@ void TObjPlayer::run_death_sequence() {
         break;
     case 3:
         TObjPlayer__sub_800A04F0((u8 *)&this->unk_390);
-        fn_800D911C((Vec *)(arg0 + 0x2FC));
+        spawn_effect_pair_e8_ec((Vec *)(arg0 + 0x2FC));
         *(s32 *)((s8 *)arg0 + 0x388) |= 4;
         this->m_37c = 4;
     case 4:

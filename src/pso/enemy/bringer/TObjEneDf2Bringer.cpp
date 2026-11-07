@@ -2838,7 +2838,7 @@ void TObjEneDf2Bringer__sub_80097620(u8 *arg0, s32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) | 2);
         ((VObj_18_beae68 *)(arg0))->m92();
         ((TObjEnemy *)arg0)->refresh_and_send_entity_flags();
-        fn_800D911C((Vec *)(arg0 + 0x2FC));
+        spawn_effect_pair_e8_ec((Vec *)(arg0 + 0x2FC));
         TObjPlayer__sub_800A04F0(arg0 + 0x3C4);
         play_sound_effect((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003A511)))), arg0 + 0x38, 0, 0);
         play_effect_if_v2__10TObjPlayerFl(-0x200);

@@ -76,7 +76,7 @@ extern u32 player_shared_buffer_base;
 
 void TObjPlayer::free_shared_data() {
     if ((u32) TObjPlayer__shared_photon_blast_state != 0U) {
-        fn_801C2308((void *)TObjPlayer__shared_photon_blast_state, 1);
+        destroy_photon_blast_array((void *)TObjPlayer__shared_photon_blast_state, 1);
         TObjPlayer__shared_photon_blast_state = 0U;
     }
     if ((u32) player_shared_buffer_base != 0U) {
@@ -93,7 +93,7 @@ void TObjPlayer::free_shared_data() {
 
 extern "C" {
 void *mem_alloc(u32 size);
-void *fn_801C2360(void *arg0);
+void *construct_photon_blast_array(void *arg0);
 void TObjPlayer::alloc_shared_buffers() {
     s32 temp_r3;
     s32 var_r0;
@@ -107,7 +107,7 @@ void TObjPlayer::alloc_shared_buffers() {
         temp_r3 = (int)::operator new(0x60);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
-            var_r0 = (s32)fn_801C2360((void *)temp_r3);
+            var_r0 = (s32)construct_photon_blast_array((void *)temp_r3);
         }
         TObjPlayer__shared_photon_blast_state = (u32) var_r0;
     }

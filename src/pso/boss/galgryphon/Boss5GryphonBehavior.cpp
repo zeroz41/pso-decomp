@@ -590,7 +590,7 @@ Obj_80065658 * __dt__13TBoss5GryphonFv(Obj_80065658 *o, s16 flag);
 void TBoss8Dragon__sub_800660A4(void *);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 s32 __ct__17TBoss5GryphonDemoFP7TObjectlf(void *, s32, void *, f32);
-s32 fn_800666C4(s32);
+s32 init_motion_record(s32);
 void TBoss8Dragon__sub_80067074(s32 arg0, s32 arg1);
 void TCameraCtrl__sub_8006A044(s32 id, f32 v);
 void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0);
@@ -2057,7 +2057,7 @@ void TBoss8Dragon__sub_8005F684(TBoss8Dragon *self, void *params) {
 }
 
 void trigger_effect__12TBoss8DragonFPvi(void *arg0, s32 arg1) {
-    fn_800666C4(arg1 + 0x14);
+    init_motion_record(arg1 + 0x14);
 }
 
 void TBoss8Dragon::flush_pending_effect() {
@@ -5024,7 +5024,7 @@ TBoss5Gryphon *TBoss5Gryphon__ct(TBoss5Gryphon *self, void *parent, void *data) 
     ((Obj_80065658 *)self)->f484[1] = lbl_805D8D5C;
     ((Obj_80065658 *)self)->f484[2] = lbl_805D8D5C;
     for (i = 0; i < 2; i++) {
-        fn_800666C4((s32)&((Obj_80065658 *)self)->motions[i]);
+        init_motion_record((s32)&((Obj_80065658 *)self)->motions[i]);
     }
     self->motion = ((Obj_80065658 *)self)->motions;
     self->m_4e4 = 0;

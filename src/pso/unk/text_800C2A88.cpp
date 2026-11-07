@@ -225,7 +225,7 @@ void fn_800C2AC4(u8 *arg0, int arg1) {
         if (((TObjEneRe2Flower *)arg0)->get_flag_11() != 0)
         {
           TObjPlayer::apply_effect_variant_a((s32)&stack.sp8, 0x32);
-          fn_800D911C((Vec *)(&stack.sp8));
+          spawn_effect_pair_e8_ec((Vec *)(&stack.sp8));
           ((TObjEneMe3SinowZoa *)(arg0 + 0x3F4))->init_death_params();
         }
         else

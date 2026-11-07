@@ -382,7 +382,7 @@ void *TUnk_8048E5DC::dt(s16 arg1) {
 
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
-u8 *fn_800832EC(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0) {
+u8 *create_camera_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0) {
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_8048E5DC;
     ((TUnk_8048E5DC *)arg0)->m_38 = farg0;

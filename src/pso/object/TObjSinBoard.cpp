@@ -119,7 +119,7 @@ void fn_80197FD0(const void *image, u32 size) {
         signboard_texture_list.count = 1;
         ((TObjPlayer *)TObjSinBoard__texture_surface)->set_render_rect(TObjSinBoard__texture_buffer, 0, 0, 0);
         set_texture_name(&TObjSinBoard__texture_name, TObjSinBoard__texture_surface, 0, 0x40000000);
-        fn_8023E734((u32)&signboard_texture_list);
+        load_texture_if_valid((u32)&signboard_texture_list);
     }
 }
 

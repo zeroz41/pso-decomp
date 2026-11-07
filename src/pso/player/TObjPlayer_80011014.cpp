@@ -822,7 +822,7 @@ void vfunc_78__9TObjCharaFl(void);
 void vfunc_77__9TObjCharaFv(void);
 void vfunc_76__9TObjCharaFf(void);
 void vfunc_75__9TObjCharaFf(void);
-u16 fn_80010F4C(void* p);
+u16 obj_getU16_2D6(void* p);
 void record_attack_source(Obj_80010F54 *self, s32 id);
 void vfunc_28__9TObjCharaFv(void);
 s32 get_actor_level_index__9TObjCharaFv(void* p);
@@ -1451,12 +1451,12 @@ void assign_slots_from_list(void *arg0, s32 arg1) {
             return;
         }
         if (*(u16 *)((s8 *)arg0 + 0x2D6) == 0xFFFF) {
-            *(u16 *)((s8 *)arg0 + 0x2D6) = fn_80010F4C((void*)arg1);
+            *(u16 *)((s8 *)arg0 + 0x2D6) = obj_getU16_2D6((void*)arg1);
         }
     }
 }
 
-u16 fn_80010F4C(void* p) { return *(u16*)((char*)p + 0x2d6); }
+u16 obj_getU16_2D6(void* p) { return *(u16*)((char*)p + 0x2d6); }
 
 void record_attack_source(Obj_80010F54 *self, s32 id) {
     if ((u16)id != 0xFFFF) {

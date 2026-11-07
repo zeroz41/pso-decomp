@@ -8,7 +8,7 @@ extern "C" {
 s32 bind_gvm_texture_list(const char *name, GinjaTextureList *texlist);
 s32 TLobby__sub_8023E4B4(s32 arg0, s32 arg1);
 s32 TLobby__sub_8023E554(s32 arg0, s32 arg1);
-s32 fn_8023E734(u32 arg0);
+s32 load_texture_if_valid(u32 arg0);
 s32 free_texture_if_valid(u32 arg0);
 void init_buffers(void);
 }

@@ -615,7 +615,7 @@ void TObjEneRe7Berura::update_death_state(s32 mode) {
         self->f4D0 = self->f3CC;
         self->f4C4 = 0;
         self->f4C0 = 0;
-        fn_800D911C((Vec *)((u8 *)self + 0x2FC));
+        spawn_effect_pair_e8_ec((Vec *)((u8 *)self + 0x2FC));
         TObjPlayer__sub_800A04F0((u8 *)self + 0x3D8);
         self->f3C0 |= 2;
         play_sound_effect(((TObjEnemy *)(self))->remap_sound_for_area((s32)(0x4003AD25)), (u8 *)self + 0x38, 0, 0);
