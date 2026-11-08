@@ -38,6 +38,13 @@ typedef struct NetworkDispatchState {
     NetTimerRecord timers[10];
     u8 unknown_F4[4];
 } NetworkDispatchState;
+#ifdef __cplusplus
+extern "C" {
+#endif
+extern NetworkDispatchState network_dispatch_state;
+#ifdef __cplusplus
+}
+#endif
 
 typedef struct NetProtocolMessage {
     s16 first;

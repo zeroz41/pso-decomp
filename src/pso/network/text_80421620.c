@@ -4,6 +4,9 @@
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/UdpRuntime.h"
 #include "pso/network/SocketEvents.h"
+#include "pso/network/NetTcpState.h"
+#include "pso/network/NetworkDispatch.h"
+#include "pso/network/text_80421620.h"
 #include "types.h"
 s32 shutdown_network_handle(void);
 s32 reset_net_value(void);
@@ -11,19 +14,8 @@ u8 *alloc_free_entry(void);
 void release_entry(void *entry);
 void init_packet_header(void *header, s32 data);
 
-typedef struct RecoveredGlobal_804217E4_lbl_805C1C50 {
-    s32 value;
-    u8 remaining[0xF4];
-} RecoveredGlobal_804217E4_lbl_805C1C50;
-typedef struct RecoveredGlobal_80421814_lbl_805C1C50 {
-    s32 value;
-    u8 remaining[0xF4];
-} RecoveredGlobal_80421814_lbl_805C1C50;
-typedef struct RecoveredGlobal_80421844_lbl_805C1C50 {
-    s32 value;
-    u8 remaining[0xF4];
-} RecoveredGlobal_80421844_lbl_805C1C50;
 #include <stddef.h>
+#include "pso/network/BufferRef.h"
 typedef struct Stack_80421AD8 {
     s16 sp1C;
     s16 sp1E;
@@ -31,26 +23,6 @@ typedef struct Stack_80421AD8 {
     s32 sp24;
     s32 sp28;
 } Stack_80421AD8;
-typedef struct RecoveredGlobal_804218AC_lbl_805C1C50 {
-    s32 value;
-    u8 remaining[0xF4];
-} RecoveredGlobal_804218AC_lbl_805C1C50;
-typedef struct RecoveredGlobal_804219D0_lbl_805C1C50 {
-    s32 value;
-    u8 remaining[0xF4];
-} RecoveredGlobal_804219D0_lbl_805C1C50;
-typedef struct RecoveredGlobal_80421A50_lbl_805C1C50 {
-    s32 value;
-    u8 remaining[0xF4];
-} RecoveredGlobal_80421A50_lbl_805C1C50;
-typedef struct RecoveredGlobal_80422DE4_lbl_805C1C50 {
-    s32 value;
-    u8 remaining[0xF4];
-} RecoveredGlobal_80422DE4_lbl_805C1C50;
-typedef struct G_80421B3C { s32 f0; } G_80421B3C;
-typedef struct G_8042298C { s32 f0; } G_8042298C;
-typedef struct G_804228E8 { s32 f0; } G_804228E8;
-typedef struct G_804229F8 { s32 f0; } G_804229F8;
 
 typedef struct O_80421938 { u8 pad0[8]; s32 size; s16 used; } O_80421938;
 
@@ -60,51 +32,15 @@ typedef struct O_80421F10 { u8 pad0[8]; s32 size; s16 used; } O_80421F10;
 
 typedef struct Stack_80421F10 { s16 flags; s16 len; s32 zero; u8 src[0x14]; u8 dst[0x14]; s16 port; } Stack_80421F10;
 
-typedef struct S_804220A0 {
-    u8 pad0[0x1FC]; s32 f1FC; u8 pad200[0xAC]; u8 flags; u8 count; s16 f2AE; u8 pad2B0[4]; u8 flags2; u8 pad2B5[0x544 - 0x2B5];
-} S_804220A0;
-typedef struct T_8042213C {
-    u8 pad0[0xB]; u8 fB; u8 padC[0x2A4 - 0xC]; u8 f2A4; u8 pad2A5; s16 f2A6; u8 f2A8[0x544 - 0x2A8];
-} T_8042213C;
-typedef struct G_8042213C { s32 f0; } G_8042213C;
 typedef struct IpAddr_80422B8C { u32 family; u8 a[0xC]; } IpAddr_80422B8C;
 
-typedef struct G_80422B8C { s32 f0; } G_80422B8C;
-typedef struct G_80422CFC { s32 f0; } G_80422CFC;
-typedef struct T_80422E30 {
-    u8 pad0[0x2A4]; u8 fl1; u8 p1; s16 st1; s32 th1; u8 pad2AC[8]; u8 fl2; u8 p2; s16 st2; s32 th2; u8 pad2BC[0x544 - 0x2BC];
-} T_80422E30;
 typedef struct P_8042315C { s32 type; s32 a; s32 b; s32 c; s32 pad10; s16 n; s16 m; s32 d; s32 pad1C; } P_8042315C;
-typedef struct T_80422368 {
-  u8 pad0[0x200];
-  s32 callback;
-  u8 padA[0x2A4 - 0x204];
-  u8 flags;
-  u8 pad1;
-  s16 status;
-  s32 thread;
-  u8 padE[0x544 - 0x2AC];
-} T_80422368;
-typedef struct T_8042276C {
-  u8 pad0[0x1FC];
-  s32 callback;
-  u8 padA[0x2B4 - 0x200];
-  u8 flags;
-  u8 pad1;
-  s16 status;
-  s32 thread;
-  u8 padE[0x544 - 0x2BC];
-} T_8042276C;
 
 typedef struct send_buffs {
     short len;
     u8 *buff;
 } send_buffs;
 
-s32 tcp_start_send(s32 arg0, u8 *arg1, void (*completion)(s16, s16), u8 arg3);
-typedef struct T_tcp_send_sock {
-    u8 pad0[0xB]; u8 fB; u8 padC[0x2AD - 0xC]; u8 count; u8 pad2AE[0x2B4 - 0x2AE]; u8 flags2; u8 pad2B5; s16 f2B6; u8 f2B8[0x544 - 0x2B8];
-} T_tcp_send_sock;
 
 s32 TLobby__sub_80409AA8(void);
 s32 TLobby__sub_8040DD68(void);
@@ -116,18 +52,16 @@ s32 TLobby__sub_80418A7C(void);
 void TLobby__sub_80419A00(void);
 s32 TLobby__sub_80419A7C(void);
 s32 TLobby__sub_8041A1D8(void);
-extern RecoveredGlobal_804217E4_lbl_805C1C50 network_dispatch_state;
 s32 TLobby__sub_804217E4(void);
 s32 TLobby__sub_80421814(void);
 s32 NetUnregisterTimer(void *);
 s32 TLobby__sub_80421844(s32 arg0);
 void TLobby__sub_80421FB8(void *, void *, void *);
 s32 TLobby__sub_80421AD8(u8 *arg0, s32 arg1, s32 arg2, u32 arg3, s32 arg4);
-s32 NetRegisterTimer(void *, int, void *);
 s32 TLobby__sub_804218AC(s32 arg0, s32 arg1);
 s32 TLobby__sub_8040F9CC(void *, void *, void *, int);
 s32 TLobby__sub_804219D0(s32 arg0, s32 arg1, s32 arg2);
-s32 TRKValidMemory32(void *, void *, void *, int, int, int);
+s32 TRKValidMemory32(void *, void *, void *, s16, u8, u16); /* declared s32 here; the definition is s16 (u32, u32, u32, s16, u8, u16) */
 s32 TLobby__sub_80421A50(s32 arg0, s32 arg1, s32 arg2);
 s32 TLobby__sub_8041E780();
 s32 tcp_create(void);
@@ -137,7 +71,7 @@ s32 tcp_delete(s32 a);
 void TLobby__sub_80425288(s32, s32, void *);
 extern volatile s32 dhcp_error;
 s32 TLobby__sub_8042455C(void *a);
-s16 TLobby__sub_8041DE1C(s16, s16, u32 *);
+s16 TLobby__sub_8041DE1C(s16, s16, u32 *); /* declared s16 here; the definition returns s32 */
 void TLobby__sub_8041E590(s16);
 s32 get_tcp_stat(int, void *, void *, void *, void *);
 s16 validate_tcp_handle(int);
@@ -147,8 +81,6 @@ s32 abort_tcp_connection(int);
 s32 tcp_abort(s32 a);
 s32 TLobby__sub_80421938(O_80421938 *o, void *src, void *dst, void *cb, s32 flags);
 s32 TLobby__sub_80421F10(O_80421F10 *o, void *src, void *dst, s16 port, void *cb, s32 flags);
-extern S_804220A0 *tcp_protocol_state[];
-s32 complete_request_callback(s32 idx_, void (*cb)(s16, s16, s32), s16 arg2, s32 *arg3);
 void OSReport(const char *, ...);
 s16 reset_socket_table();
 s16 TLobby__sub_80409AD8();
@@ -167,7 +99,7 @@ extern u32 TLobby__network_stack_init_count;
 extern u8 *lbl_805E1188;
 s16 TLobby__sub_8041DBD4(int, void *, s16, void *);
 s16 tcp_receive(s32 a, void *cb, s32 len, void *buf);
-s32 TLobby__sub_8041E2EC(int, void *, void *);
+void TLobby__sub_8041E2EC(int, void *, void *); /* declared here with an s32 1st argument; the definition takes s16 */
 s32 tcp_connect_start(int, void *, u16);
 s32 tcp_connect(s32 a, IpAddr_80422B8C *addr, u16 port, IpAddr_80422B8C *opt);
 s32 TLobby__sub_8041E5E4(int, void *, u16);
@@ -194,8 +126,6 @@ extern u32 dhcp_last_tick_ms;
 extern volatile s32 dhcp_state;
 extern u8 dhcp_server_id[4];
 extern s32 lbl_805D7B28;
-s32 set_slot_state_and_resume(s32 idx, void (*cb)(s16, s16), s16 arg2);
-s32 set_thread_state_and_resume(s32 idx, void (*cb)(s16, s16), s16 arg2);
 s32 cleanup_subsystems(void) {
     TLobby__sub_80419A7C();
     TLobby__sub_80409AA8();
@@ -306,11 +236,11 @@ block_30:
 }
 
 s32 TLobby__sub_804217E4(void) {
-    unlock_mutex(network_dispatch_state.value);
+    unlock_mutex(network_dispatch_state.lock_handle);
     return 0;
 }
 s32 TLobby__sub_80421814(void) {
-    lock_mutex((int)((void *) ((*(RecoveredGlobal_80421814_lbl_805C1C50 *)&network_dispatch_state).value)));
+    lock_mutex(network_dispatch_state.lock_handle);
     return 0;
 }
 s32 TLobby__sub_80421844(s32 timer) {
@@ -318,9 +248,9 @@ s32 TLobby__sub_80421844(s32 timer) {
     if (timer == 0) {
         return -2;
     }
-    lock_mutex((int)((void *) ((*(RecoveredGlobal_80421844_lbl_805C1C50 *)&network_dispatch_state).value)));
+    lock_mutex(network_dispatch_state.lock_handle);
     result = NetUnregisterTimer((void *)timer);
-    unlock_mutex((int)((void *) ((*(RecoveredGlobal_80421844_lbl_805C1C50 *)&network_dispatch_state).value)));
+    unlock_mutex(network_dispatch_state.lock_handle);
     return result;
 }
 
@@ -332,9 +262,9 @@ s32 TLobby__sub_804218AC(s32 callback, s32 interval) {
     if (interval <= 0) {
         return -2;
     }
-    lock_mutex((int)((void *) ((*(RecoveredGlobal_804218AC_lbl_805C1C50 *)&network_dispatch_state).value)));
-    result = NetRegisterTimer((void *)interval, 0, (void *)callback);
-    unlock_mutex((int)((void *) ((*(RecoveredGlobal_804218AC_lbl_805C1C50 *)&network_dispatch_state).value)));
+    lock_mutex(network_dispatch_state.lock_handle);
+    result = NetRegisterTimer(interval, 0, (NetTimerCallback)callback);
+    unlock_mutex(network_dispatch_state.lock_handle);
     return result;
 }
 
@@ -353,17 +283,17 @@ s32 TLobby__sub_80421938(O_80421938 *o, void *src, void *dst, void *cb, s32 flag
 
 s32 TLobby__sub_804219D0(s32 arg0, s32 arg1, s32 arg2) {
     s32 result;
-    lock_mutex((int)((void *) ((*(RecoveredGlobal_804219D0_lbl_805C1C50 *)&network_dispatch_state).value)));
+    lock_mutex(network_dispatch_state.lock_handle);
     result = TLobby__sub_8040F9CC((void *)arg0, (void *)arg1, (void *)arg2, 0);
-    unlock_mutex((int)((void *) ((*(RecoveredGlobal_804219D0_lbl_805C1C50 *)&network_dispatch_state).value)));
+    unlock_mutex(network_dispatch_state.lock_handle);
     return result;
 }
 
 s32 TLobby__sub_80421A50(s32 arg0, s32 arg1, s32 arg2) {
     s32 result;
-    lock_mutex((int)((void *) ((*(RecoveredGlobal_80421A50_lbl_805C1C50 *)&network_dispatch_state).value)));
+    lock_mutex(network_dispatch_state.lock_handle);
     result = TRKValidMemory32((void *)arg0, (void *)arg1, (void *)arg2, 1, (int) (0U), (int) (0U));
-    unlock_mutex((int)((void *) ((*(RecoveredGlobal_80421A50_lbl_805C1C50 *)&network_dispatch_state).value)));
+    unlock_mutex(network_dispatch_state.lock_handle);
     return result;
 }
 
@@ -388,27 +318,25 @@ s32 TLobby__sub_80421AD8(u8 *sock, s32 src, s32 dst, u32 cb, s32 flags) {
 
 s32 TLobby__sub_80421B3C(s32 a) {
     s32 r;
-    G_80421B3C *g;
+    NetworkDispatchState *g;
     s16 m;
     if ((a & 0xC00) != 0x400) { return -4; }
-    g = ((G_80421B3C *)&network_dispatch_state);
+    g = &network_dispatch_state;
     m = a & 0xFFFFF3FF;
-    lock_mutex((int)((void *)g->f0));
+    lock_mutex(g->lock_handle);
     r = NetUdpClose(m);
-    unlock_mutex((int)((void *)g->f0));
+    unlock_mutex(g->lock_handle);
     return r;
 }
 
-typedef struct UdpItem_80421BAC { s16 len; u8 pad2[2]; u8 data[8]; } UdpItem_80421BAC;
-typedef struct UdpPkt_80421BAC { u8 pad0[4]; s32 count; u32 len; UdpItem_80421BAC items[4]; } UdpPkt_80421BAC;
 typedef struct UdpBuf_80421BAC { s16 len; u8 pad2[2]; s32 data; } UdpBuf_80421BAC;
-s16 udp_sendto(s32 id, void *pkt, void *src, void *dst, u16 port, s32 opt);
+s16 udp_sendto(s32 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, s32 opt); /* declared here with an s32 handle; the definition takes s16 */
 
 s16 TUdpSocket__sub_80421BAC(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n, UdpBuf_80421BAC *bufs) {
     u32 any_addr[5];
     u32 any_opt[4];
     u16 i;
-    UdpPkt_80421BAC *pkt;
+    NetPacket *pkt;
     s16 r;
     if ((h & 0xC00) != 0x400) {
         return -4;
@@ -433,42 +361,42 @@ s16 TUdpSocket__sub_80421BAC(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n
         NetMemset(any_opt, 0, 0x10);
         opt = any_opt;
     }
-    lock_mutex(network_dispatch_state.value);
+    lock_mutex(network_dispatch_state.lock_handle);
     if (n > 3) {
-        unlock_mutex(network_dispatch_state.value);
+        unlock_mutex(network_dispatch_state.lock_handle);
         return -2;
     }
-    pkt = (UdpPkt_80421BAC *)alloc_free_entry();
+    pkt = (NetPacket *)alloc_free_entry();
     if (pkt == NULL) {
-        unlock_mutex(network_dispatch_state.value);
+        unlock_mutex(network_dispatch_state.lock_handle);
         return -0x101;
     }
-    pkt->count = 0;
-    pkt->len = 0;
+    pkt->fragment_count = 0;
+    pkt->total_bytes = 0;
     for (i = n; i != 0; i--) {
         if (bufs[i - 1].len < 0) {
             release_entry((void *)pkt);
-            unlock_mutex(network_dispatch_state.value);
+            unlock_mutex(network_dispatch_state.lock_handle);
             return -2;
         }
-        pkt->len += bufs[i - 1].len;
-        pkt->items[pkt->count].len = bufs[i - 1].len;
-        init_packet_header((void *)pkt->items[pkt->count].data, bufs[i - 1].data);
-        pkt->count++;
+        pkt->total_bytes += bufs[i - 1].len;
+        pkt->fragments[pkt->fragment_count].length = bufs[i - 1].len;
+        init_packet_header((void *)&pkt->fragments[pkt->fragment_count].buffer, bufs[i - 1].data);
+        pkt->fragment_count++;
     }
-    if (pkt->len > 0x7FE3) {
+    if (pkt->total_bytes > 0x7FE3) {
         release_entry((void *)pkt);
-        unlock_mutex(network_dispatch_state.value);
+        unlock_mutex(network_dispatch_state.lock_handle);
         return -2;
     }
-    if (pkt->len == 0) {
+    if (pkt->total_bytes == 0) {
         release_entry((void *)pkt);
-        unlock_mutex(network_dispatch_state.value);
+        unlock_mutex(network_dispatch_state.lock_handle);
         return 0;
     }
-    r = udp_sendto(h, pkt, src, dst, port, (s32)opt);
+    r = udp_sendto(h, pkt, (NetworkAddress *)src, (NetworkAddress *)dst, port, (s32)opt);
     release_entry((void *)pkt);
-    unlock_mutex(network_dispatch_state.value);
+    unlock_mutex(network_dispatch_state.lock_handle);
     return r;
 }
 
@@ -486,26 +414,26 @@ s16 TUdpSocket__sub_80421DEC(void *src, s32 sport, void *dst, s32 dport, s32 arg
     if (dst == NULL) {
         dst = any;
     }
-    lock_mutex(network_dispatch_state.value);
+    lock_mutex(network_dispatch_state.lock_handle);
     h = NetUdpCreate();
     if (h < 0) {
-        unlock_mutex(network_dispatch_state.value);
+        unlock_mutex(network_dispatch_state.lock_handle);
         return h;
     }
     r = NetUdpBind(h, (NetworkAddress*)src, sport);
     if (r < 0) {
         NetUdpClose(h);
-        unlock_mutex(network_dispatch_state.value);
+        unlock_mutex(network_dispatch_state.lock_handle);
         return r;
     }
     r = NetUdpConnect(h, (NetworkAddress*)dst, dport, arg4, (u32)cb);
     if (r < 0) {
         NetUdpClose(h);
-        unlock_mutex(network_dispatch_state.value);
+        unlock_mutex(network_dispatch_state.lock_handle);
         return r;
     }
     h |= 0x400;
-    unlock_mutex(network_dispatch_state.value);
+    unlock_mutex(network_dispatch_state.lock_handle);
     return h;
 }
 
@@ -523,9 +451,7 @@ s32 TLobby__sub_80421F10(O_80421F10 *o, void *src, void *dst, s16 port, void *cb
     return 0;
 }
 
-typedef struct PktSeg_80421FB8 { s16 len; u8 pad2[2]; u8 data[8]; } PktSeg_80421FB8;
 typedef struct PktHdr_80421FB8 { s16 flags; s16 len; u8 *buf; } PktHdr_80421FB8;
-typedef struct PktBuf_80421FB8 { u8 pad0[0xC]; PktSeg_80421FB8 seg[8]; } PktBuf_80421FB8;
 typedef s16 (*PktCb_80421FB8)(s32, PktHdr_80421FB8 *);
 void TLobby__sub_80406FD8(void *, void *, s32);
 void TLobby__sub_80406EB8(void *, u32);
@@ -534,12 +460,12 @@ void TLobby__sub_80421FB8(void *cb, void *hdr_, void *o_) {
     s32 i;
     u8 *buf;
     s16 len;
-    s32 pkt[2];
+    NetBufferRef pkt;
     s16 chunk;
     PktHdr_80421FB8 *hdr;
-    PktBuf_80421FB8 *o;
+    NetPacket *o;
     hdr = (PktHdr_80421FB8 *)hdr_;
-    o = (PktBuf_80421FB8 *)o_;
+    o = (NetPacket *)o_;
     len = hdr->len;
     if (((PktCb_80421FB8)cb)(0, hdr) == 0) {
         if (hdr->len >= len) {
@@ -550,15 +476,15 @@ void TLobby__sub_80421FB8(void *cb, void *hdr_, void *o_) {
             return;
         }
         buf = hdr->buf;
-        init_packet_header((void *)pkt, (s32)buf);
+        init_packet_header(&pkt, (s32)buf);
         for (i = 1; len > 0; i++) {
-            if (len > o->seg[i].len) {
-                chunk = o->seg[i].len;
+            if (len > o->fragments[i].length) {
+                chunk = o->fragments[i].length;
             } else {
                 chunk = len;
             }
-            TLobby__sub_80406FD8(pkt, o->seg[i].data, chunk);
-            TLobby__sub_80406EB8(pkt, chunk);
+            TLobby__sub_80406FD8(&pkt, &o->fragments[i].buffer, chunk);
+            TLobby__sub_80406EB8(&pkt, (u32)chunk);
             len -= chunk;
         }
         ((PktCb_80421FB8)cb)(1, hdr);
@@ -567,117 +493,117 @@ void TLobby__sub_80421FB8(void *cb, void *hdr_, void *o_) {
 
 s32 complete_request_callback(s32 idx_, void (*cb)(s16, s16, s32), s16 code, s32 *extra) {
     s16 idx = idx_;
-    S_804220A0 *s = tcp_protocol_state[0];
+    TcpTcb *s = tcp_protocol_state.tcbs;
     s += idx;
-    if (cb != NULL && !(s->flags & 8)) {
+    if (cb != NULL && !(s->waits[1].flags & 8)) {
         cb(code, idx, *extra);
-    } else if (!(s->flags2 & 4)) {
-        s->f2AE = code;
-        s->flags2 |= 4;
-        s->f1FC = 0;
+    } else if (!(s->waits[2].flags & 4)) {
+        s->waits[1].status = code;
+        s->waits[2].flags |= 4;
+        s->send_done = 0;
     }
-    s->count--;
+    s->waits[1].count--;
     return 0;
 }
 
 s16 tcp_receive(s32 a, void *cb, s32 len, void *buf) {
     u8 hdr[8];
     s16 r;
-    G_8042213C *g;
-    T_8042213C *s;
+    NetworkDispatchState *g;
+    TcpTcb *s;
     if (a & 0xC00) {
         return -4;
     }
-    g = (G_8042213C *)&network_dispatch_state;
+    g = &network_dispatch_state;
     a = a & 0xFFFFF3FF;
-    lock_mutex((int)((void *)g->f0));
+    lock_mutex(g->lock_handle);
     if (validate_tcp_handle(a) < 0) {
-        unlock_mutex((int)((void *)g->f0));
+        unlock_mutex(g->lock_handle);
         return -4;
     }
     if (tcp_get_socket_handle(a) == 1) {
-        unlock_mutex((int)((void *)g->f0));
+        unlock_mutex(g->lock_handle);
         return -9;
     }
-    s = (T_8042213C *)tcp_protocol_state[0];
+    s = tcp_protocol_state.tcbs;
     s += (s16)a;
-    if (s->f2A4 & 3) {
-        unlock_mutex((int)((void *)g->f0));
+    if (s->waits[0].flags & 3) {
+        unlock_mutex(g->lock_handle);
         return -9;
     }
     init_packet_header((void *)hdr, (s32)buf);
-    NetMemset(&s->f2A4, 0, 8);
-    s->f2A4 |= 1;
-    if (s->fB & 0x40) {
-        s->f2A4 |= 8;
+    NetMemset(&s->waits[0].flags, 0, 8);
+    s->waits[0].flags |= 1;
+    if (s->flags & 0x40) {
+        s->waits[0].flags |= 8;
         r = TLobby__sub_8041DBD4(a, hdr, len, cb);
-        s->f2A4 &= ~8;
+        s->waits[0].flags &= ~8;
     } else {
         r = TLobby__sub_8041DBD4(a, hdr, len, cb);
     }
     if (r < 0) {
-        s->f2A4 &= ~1;
-        unlock_mutex((int)((void *)network_dispatch_state.value));
+        s->waits[0].flags &= ~1;
+        unlock_mutex(network_dispatch_state.lock_handle);
         return r;
     }
-    if (cb != NULL && (!(s->fB & 0x40) || !(s->f2A4 & 4))) {
-        unlock_mutex((int)((void *)network_dispatch_state.value));
+    if (cb != NULL && (!(s->flags & 0x40) || !(s->waits[0].flags & 4))) {
+        unlock_mutex(network_dispatch_state.lock_handle);
         return -1;
     }
-    if (s->f2A4 & 4) {
-        r = s->f2A6;
-        unlock_mutex((int)((void *)network_dispatch_state.value));
+    if (s->waits[0].flags & 4) {
+        r = s->waits[0].status;
+        unlock_mutex(network_dispatch_state.lock_handle);
         return r;
     }
-    NetStoreCurrentThread((s32 *)s->f2A8);
-    s->f2A4 |= 2;
-    unlock_mutex((int)((void *)network_dispatch_state.value));
+    NetStoreCurrentThread(&s->waits[0].thread);
+    s->waits[0].flags |= 2;
+    unlock_mutex(network_dispatch_state.lock_handle);
     NetSuspendCurrentThread();
-    lock_mutex((int)((void *)network_dispatch_state.value));
-    s->f2A4 &= ~2;
-    r = s->f2A6;
-    s->f2A4 &= ~1;
-    unlock_mutex((int)((void *)network_dispatch_state.value));
+    lock_mutex(network_dispatch_state.lock_handle);
+    s->waits[0].flags &= ~2;
+    r = s->waits[0].status;
+    s->waits[0].flags &= ~1;
+    unlock_mutex(network_dispatch_state.lock_handle);
     return r;
 }
 
 s32 set_slot_state_and_resume(s32 idx, void (*cb)(s16, s16), s16 state) {
-  T_80422368 *s = (T_80422368 *) tcp_protocol_state[0];
+  TcpTcb *s = tcp_protocol_state.tcbs;
   s16 new_var;
   s += (s16) idx;
-  if ((cb != 0) && (!(s->flags & 8)))
+  if ((cb != 0) && (!(s->waits[0].flags & 8)))
   {
     new_var = (s16) idx;
     cb(state, new_var);
-    s->status = state;
-    s->flags &= ~1;
-    s->flags |= 4;
-    s->callback = 0;
+    s->waits[0].status = state;
+    s->waits[0].flags &= ~1;
+    s->waits[0].flags |= 4;
+    s->recv_done = 0;
   }
   else
-    if ((s->flags & 1) && (!(s->flags & 4)))
+    if ((s->waits[0].flags & 1) && (!(s->waits[0].flags & 4)))
   {
-    if (s->flags & 2)
+    if (s->waits[0].flags & 2)
     {
-      resume_thread(s->thread);
+      resume_thread(s->waits[0].thread);
     }
-    s->status = state;
-    s->flags &= ~1;
-    s->flags |= 4;
-    s->callback = 0;
+    s->waits[0].status = state;
+    s->waits[0].flags &= ~1;
+    s->waits[0].flags |= 4;
+    s->recv_done = 0;
   }
   return 0;
 }
 
 s16 tcp_send(s32 a, void (*notify)(s16, s16), char bufnum, struct send_buffs *sb) {
-    T_tcp_send_sock *s;
+    TcpTcb *s;
     s32 *entry;
     struct send_buffs *p;
     u8 *cur;
     s16 r;
     s16 n;
     s16 ret;
-    s16 tcp_start_send(s32, u8 *, void (*)(s16, s16), u8);
+    s16 tcp_start_send(s32, NetPacket *, void (*)(s16, s16), u8); /* declared here with an s32 handle and an s16 return; the definition takes s16 and returns s32 */
     if (bufnum > 3) {
         return -2;
     }
@@ -685,25 +611,25 @@ s16 tcp_send(s32 a, void (*notify)(s16, s16), char bufnum, struct send_buffs *sb
         return -4;
     }
     a = a & 0xFFFFF3FF;
-    lock_mutex((int)((void *)network_dispatch_state.value));
+    lock_mutex(network_dispatch_state.lock_handle);
     if (validate_tcp_handle(a) < 0) {
-        unlock_mutex((int)((void *)network_dispatch_state.value));
+        unlock_mutex(network_dispatch_state.lock_handle);
         return -4;
     }
     r = tcp_get_socket_handle(a);
     if (r == -1 || r == 1) {
-        unlock_mutex((int)((void *)network_dispatch_state.value));
+        unlock_mutex(network_dispatch_state.lock_handle);
         return -9;
     }
-    s = (T_tcp_send_sock *)tcp_protocol_state[0];
+    s = tcp_protocol_state.tcbs;
     s += (s16)a;
-    if ((s->flags2 & 3) || s->count != 0) {
-        unlock_mutex((int)((void *)network_dispatch_state.value));
+    if ((s->waits[2].flags & 3) || s->waits[1].count != 0) {
+        unlock_mutex(network_dispatch_state.lock_handle);
         return -9;
     }
     entry = (s32 *)alloc_free_entry();
     if (entry == NULL) {
-        unlock_mutex((int)((void *)network_dispatch_state.value));
+        unlock_mutex(network_dispatch_state.lock_handle);
         return -0x101;
     }
     entry[1] = (u16)bufnum;
@@ -715,7 +641,7 @@ s16 tcp_send(s32 a, void (*notify)(s16, s16), char bufnum, struct send_buffs *sb
         n--;
         if (p->len < 0) {
             release_entry((void *)entry);
-            unlock_mutex((int)((void *)network_dispatch_state.value));
+            unlock_mutex(network_dispatch_state.lock_handle);
             return -2;
         }
         init_packet_header((void *)(cur + 0x10), (s32)p->buff);
@@ -725,69 +651,69 @@ s16 tcp_send(s32 a, void (*notify)(s16, s16), char bufnum, struct send_buffs *sb
     }
     if ((u32)entry[2] == 0) {
         release_entry((void *)entry);
-        unlock_mutex((int)((void *)network_dispatch_state.value));
+        unlock_mutex(network_dispatch_state.lock_handle);
         return -2;
     }
-    NetMemset(&s->flags2, 0, 8);
-    s->flags2 |= 1;
-    if (s->fB & 0x40) {
-        s->flags2 |= 8;
-        ret = tcp_start_send(a, (u8 *)entry, notify, 0);
-        s->flags2 &= ~8;
+    NetMemset(&s->waits[2].flags, 0, 8);
+    s->waits[2].flags |= 1;
+    if (s->flags & 0x40) {
+        s->waits[2].flags |= 8;
+        ret = tcp_start_send(a, (NetPacket *)entry, notify, 0);
+        s->waits[2].flags &= ~8;
     } else {
-        ret = tcp_start_send(a, (u8 *)entry, notify, 0);
+        ret = tcp_start_send(a, (NetPacket *)entry, notify, 0);
     }
     release_entry((void *)entry);
     if (ret < 0) {
-        s->flags2 &= ~1;
-        unlock_mutex((int)((void *)network_dispatch_state.value));
+        s->waits[2].flags &= ~1;
+        unlock_mutex(network_dispatch_state.lock_handle);
         return ret;
     }
-    if (notify != NULL && (!(s->fB & 0x40) || !(s->flags2 & 4))) {
-        unlock_mutex((int)((void *)network_dispatch_state.value));
+    if (notify != NULL && (!(s->flags & 0x40) || !(s->waits[2].flags & 4))) {
+        unlock_mutex(network_dispatch_state.lock_handle);
         return -1;
     }
-    if (s->flags2 & 4) {
-        r = s->f2B6;
-        unlock_mutex((int)((void *)network_dispatch_state.value));
+    if (s->waits[2].flags & 4) {
+        r = s->waits[2].status;
+        unlock_mutex(network_dispatch_state.lock_handle);
         return r;
     }
-    NetStoreCurrentThread((s32 *)s->f2B8);
-    s->flags2 |= 2;
-    unlock_mutex((int)((void *)network_dispatch_state.value));
+    NetStoreCurrentThread(&s->waits[2].thread);
+    s->waits[2].flags |= 2;
+    unlock_mutex(network_dispatch_state.lock_handle);
     NetSuspendCurrentThread();
-    lock_mutex((int)((void *)network_dispatch_state.value));
-    s->flags2 &= ~2;
-    r = s->f2B6;
-    s->flags2 &= ~1;
-    unlock_mutex((int)((void *)network_dispatch_state.value));
+    lock_mutex(network_dispatch_state.lock_handle);
+    s->waits[2].flags &= ~2;
+    r = s->waits[2].status;
+    s->waits[2].flags &= ~1;
+    unlock_mutex(network_dispatch_state.lock_handle);
     return r;
 }
 
 s32 set_thread_state_and_resume(s32 idx, void (*cb)(s16, s16), s16 state) {
-  T_8042276C *s = (T_8042276C *) tcp_protocol_state[0];
+  TcpTcb *s = tcp_protocol_state.tcbs;
   s16 new_var;
   s += (s16) idx;
-  if ((cb != 0) && (!(s->flags & 8)))
+  if ((cb != 0) && (!(s->waits[2].flags & 8)))
   {
     new_var = (s16) idx;
     cb(state, new_var);
-    s->status = state;
-    s->flags &= ~1;
-    s->flags |= 4;
-    s->callback = 0;
+    s->waits[2].status = state;
+    s->waits[2].flags &= ~1;
+    s->waits[2].flags |= 4;
+    s->send_done = 0;
   }
   else
-    if ((s->flags & 1) && (!(s->flags & 4)))
+    if ((s->waits[2].flags & 1) && (!(s->waits[2].flags & 4)))
   {
-    if (s->flags & 2)
+    if (s->waits[2].flags & 2)
     {
-      resume_thread(s->thread);
+      resume_thread(s->waits[2].thread);
     }
-    s->status = state;
-    s->flags &= ~1;
-    s->flags |= 4;
-    s->callback = 0;
+    s->waits[2].status = state;
+    s->waits[2].flags &= ~1;
+    s->waits[2].flags |= 4;
+    s->send_done = 0;
   }
   return 0;
 }
@@ -801,73 +727,70 @@ s16 tcp_get_opt(s16 nh, s16 type, u32 *opt) {
     if (opt == NULL) {
         return -2;
     }
-    lock_mutex(network_dispatch_state.value);
+    lock_mutex(network_dispatch_state.lock_handle);
     r = TLobby__sub_8041DE1C(nh, type, opt);
-    unlock_mutex(network_dispatch_state.value);
+    unlock_mutex(network_dispatch_state.lock_handle);
     return r;
 }
 
 s32 tcp_stat(s32 a, s16 *b, s16 *c, u32 *d, u32 *e) {
     s32 r;
-    G_804228E8 *g;
+    NetworkDispatchState *g;
     if (a & 0xC00) { return -4; }
-    g = ((G_804228E8 *)&network_dispatch_state);
+    g = &network_dispatch_state;
     a = a & 0xFFFFF3FF;
-    lock_mutex((int)((void *)g->f0));
+    lock_mutex(g->lock_handle);
     if (validate_tcp_handle(a) < 0) {
-        unlock_mutex((int)((void *)g->f0));
+        unlock_mutex(g->lock_handle);
         return -4;
     }
     r = get_tcp_stat(a, b, c, d, e);
-    unlock_mutex((int)((void *)g->f0));
+    unlock_mutex(g->lock_handle);
     return r;
 }
 
 s32 tcp_delete(s32 a) {
     s32 r;
-    G_8042298C *g;
+    NetworkDispatchState *g;
     s32 m;
     if (a & 0xC00) { return -4; }
-    g = ((G_8042298C *)&network_dispatch_state);
+    g = &network_dispatch_state;
     m = a & 0xFFFFF3FF;
-    lock_mutex((int)((void *)g->f0));
+    lock_mutex(g->lock_handle);
     r = mark_connection_closed(m);
-    unlock_mutex((int)((void *)g->f0));
+    unlock_mutex(g->lock_handle);
     return r;
 }
 
 s32 tcp_abort(s32 a) {
     s32 r;
-    G_804229F8 *g;
+    NetworkDispatchState *g;
     s32 m;
     s16 st;
     if (a & 0xC00) { return -4; }
-    g = ((G_804229F8 *)&network_dispatch_state);
+    g = &network_dispatch_state;
     m = a & 0xFFFFF3FF;
-    lock_mutex((int)((void *)g->f0));
+    lock_mutex(g->lock_handle);
     if (validate_tcp_handle(m) < 0) {
-        unlock_mutex((int)((void *)g->f0));
+        unlock_mutex(g->lock_handle);
         return -4;
     }
     st = tcp_get_socket_handle(m);
     if (st == -1 || st == 1) {
-        unlock_mutex((int)((void *)network_dispatch_state.value));
+        unlock_mutex(network_dispatch_state.lock_handle);
         return -9;
     }
     r = abort_tcp_connection(m);
-    unlock_mutex((int)((void *)g->f0));
+    unlock_mutex(g->lock_handle);
     return r;
 }
 
-typedef struct T_80422AB8 {
-    u8 pad0[0x2BC]; u8 flags; u8 pad2BD; s16 status; s32 thread; u8 pad2C4[4]; s32 callback; u8 pad2CC[0x544 - 0x2CC];
-} T_80422AB8;
 s32 TLobby__sub_80422AB8(s32 idx, void (*cb)(s16, s16, s32, s32), s16 code, s32 arg3, s32 arg4, s32 arg5) {
-    T_80422AB8 *s = (T_80422AB8 *)tcp_protocol_state[0];
+    TcpTcb *s = tcp_protocol_state.tcbs;
     s16 i2;
     s16 v;
     s += (s16)idx;
-    if (cb != NULL && !(s->flags & 8)) {
+    if (cb != NULL && !(s->waits[3].flags & 8)) {
         i2 = (s16)idx;
         if (code >= 0) {
             v = (s32)code;
@@ -876,22 +799,22 @@ s32 TLobby__sub_80422AB8(s32 idx, void (*cb)(s16, s16, s32, s32), s16 code, s32 
             v = code;
         }
         cb(v, i2, arg3, arg5);
-        s->callback = 0;
+        s->accept_cb = 0;
     } else {
-        s->status = code;
-        if (s->flags & 2) {
-            resume_thread(s->thread);
+        s->waits[3].status = code;
+        if (s->waits[3].flags & 2) {
+            resume_thread(s->waits[3].thread);
         }
     }
-    s->flags &= ~1;
-    s->flags |= 4;
+    s->waits[3].flags &= ~1;
+    s->waits[3].flags |= 4;
     return 0;
 }
 
 s32 tcp_connect(s32 a, IpAddr_80422B8C *addr, u16 port, IpAddr_80422B8C *opt) {
     IpAddr_80422B8C tmp;
     s32 r;
-    G_80422B8C *g;
+    NetworkDispatchState *g;
     void *p;
     if (a & 0xC00) {
         return -4;
@@ -925,58 +848,58 @@ s32 tcp_connect(s32 a, IpAddr_80422B8C *addr, u16 port, IpAddr_80422B8C *opt) {
     default:
         return -2;
     }
-    g = (G_80422B8C *)&network_dispatch_state;
-    lock_mutex((int)((void *)g->f0));
+    g = &network_dispatch_state;
+    lock_mutex(g->lock_handle);
     if (validate_tcp_handle(a) < 0) {
-        unlock_mutex((int)((void *)g->f0));
+        unlock_mutex(g->lock_handle);
         return -4;
     }
     if (tcp_get_socket_handle(a) != 0) {
-        unlock_mutex((int)((void *)g->f0));
+        unlock_mutex(g->lock_handle);
         return -9;
     }
     TLobby__sub_8041E2EC(a, p, opt);
     r = tcp_connect_start(a, addr, port);
-    unlock_mutex((int)((void *)g->f0));
+    unlock_mutex(g->lock_handle);
     return r;
 }
 
 s32 tcp_bind(s32 a, void *addr, u16 port) {
     u8 tmp[0x14];
     s32 r;
-    G_80422CFC *g;
+    NetworkDispatchState *g;
     if (a & 0xC00) { return -4; }
     a = a & 0xFFFFF3FF;
     if (addr == NULL) {
         NetMemset(tmp, 0, 0x14);
         addr = tmp;
     }
-    g = ((G_80422CFC *)&network_dispatch_state);
-    lock_mutex((int)((void *)g->f0));
+    g = &network_dispatch_state;
+    lock_mutex(g->lock_handle);
     if (validate_tcp_handle(a) < 0) {
-        unlock_mutex((int)((void *)g->f0));
+        unlock_mutex(g->lock_handle);
         return -4;
     }
     if (tcp_get_socket_handle(a) != 0) {
-        unlock_mutex((int)((void *)g->f0));
+        unlock_mutex(g->lock_handle);
         return -9;
     }
     r = TLobby__sub_8041E5E4(a, addr, port);
-    unlock_mutex((int)((void *)g->f0));
+    unlock_mutex(g->lock_handle);
     return r;
 }
 
 s32 tcp_create(void) {
     s32 handle;
-    lock_mutex((int)((void *) ((*(RecoveredGlobal_80422DE4_lbl_805C1C50 *)&network_dispatch_state).value)));
+    lock_mutex(network_dispatch_state.lock_handle);
     handle = TLobby__sub_8041E780();
-    unlock_mutex((int)((void *) ((*(RecoveredGlobal_80422DE4_lbl_805C1C50 *)&network_dispatch_state).value)));
+    unlock_mutex(network_dispatch_state.lock_handle);
     return handle;
 }
 
 void NetDispatchSocketEvent(s16 v, s32 cb_, s32 type, s16 code) {
     s16 validate_tcp_handle(s16 handle);
-    T_80422E30 *s;
+    TcpTcb *s;
     switch ((s16)type) {
     case 1:
         v |= 0x800;
@@ -991,18 +914,18 @@ void NetDispatchSocketEvent(s16 v, s32 cb_, s32 type, s16 code) {
         if (validate_tcp_handle(v) < 0) {
             return;
         }
-        s = (T_80422E30 *)tcp_protocol_state[0];
+        s = tcp_protocol_state.tcbs;
         s += (s16)v;
         if ((u16)(code - 10) <= 1 || code == 4) {
-            if (s->fl2 & 2) {
-                s->st2 = -5;
-                s->fl2 &= ~1;
-                resume_thread(s->th2);
+            if (s->waits[2].flags & 2) {
+                s->waits[2].status = -5;
+                s->waits[2].flags &= ~1;
+                resume_thread(s->waits[2].thread);
             }
-            if (s->fl1 & 2) {
-                s->st1 = -5;
-                s->fl1 &= ~1;
-                resume_thread(s->th1);
+            if (s->waits[0].flags & 2) {
+                s->waits[0].status = -5;
+                s->waits[0].flags &= ~1;
+                resume_thread(s->waits[0].thread);
             }
         }
         break;
@@ -1023,7 +946,7 @@ s16 TLobby__sub_80422F70(s16 iface, s32 hdr_src, s32 len, s32 buf) {
         return -2;
     }
     total = 0;
-    lock_mutex(network_dispatch_state.value);
+    lock_mutex(network_dispatch_state.lock_handle);
     init_packet_header((void *)(&sp18), hdr_src);
     first = TLobby__sub_8040F00C(iface, &sp18, (int)len, (void *)buf);
     if (first > 0) {
@@ -1034,7 +957,7 @@ s16 TLobby__sub_80422F70(s16 iface, s32 hdr_src, s32 len, s32 buf) {
     if (second > 0) {
         total += second;
     }
-    unlock_mutex(network_dispatch_state.value);
+    unlock_mutex(network_dispatch_state.lock_handle);
     if (total == 0) {
         if (first < second) {
             return first;
@@ -1052,7 +975,7 @@ s16 TLobby__sub_80423064(s16 idx, s32 op) {
     if (idx < 0) {
         return -2;
     }
-    lock_mutex(network_dispatch_state.value);
+    lock_mutex(network_dispatch_state.lock_handle);
     level = OSDisableInterrupts();
     switch (op) {
     case 0:
@@ -1077,7 +1000,7 @@ s16 TLobby__sub_80423064(s16 idx, s32 op) {
         break;
     }
     OSRestoreInterrupts(level);
-    unlock_mutex(network_dispatch_state.value);
+    unlock_mutex(network_dispatch_state.lock_handle);
     return result;
 }
 
@@ -1087,7 +1010,7 @@ s16 TLobby__sub_8042315C(s16 iface, P_8042315C *p) {
     if (iface < 0) {
         return -2;
     }
-    lock_mutex(network_dispatch_state.value);
+    lock_mutex(network_dispatch_state.lock_handle);
     intr = OSDisableInterrupts();
     switch (p->type) {
     case 4:
@@ -1106,7 +1029,7 @@ s16 TLobby__sub_8042315C(s16 iface, P_8042315C *p) {
         break;
     }
     OSRestoreInterrupts(intr);
-    unlock_mutex(network_dispatch_state.value);
+    unlock_mutex(network_dispatch_state.lock_handle);
     return result;
 }
 

@@ -222,36 +222,6 @@ typedef struct p8040EE4C_Unk805BDDF8 {
     u8* out;
     u32 cursor;
 } p8040EE4C_Unk805BDDF8;
-typedef struct p8040EE4C_Unk805BDF48Rec {
-    u8 pad0[4];
-    u16 flags;
-    s16 type;
-    u8 pad8[3];
-    u8 unkB;
-    u8 padC[0x244 - 0xC];
-    s16 unk244;
-    s16 unk246;
-    u8 pad248[0x25C - 0x248];
-    s16 timers[4];
-    u8 pad264[0x2C6 - 0x264];
-    s16 unk2C6;
-    u8 pad2C8[0x544 - 0x2C8];
-} p8040EE4C_Unk805BDF48Rec;
-typedef struct p8040EE4C_Unk805BDF48 {
-    p8040EE4C_Unk805BDF48Rec* entries;
-    s16 count;
-    s16 cur;
-    u8 pad8[8];
-    u16 unk10;
-    u16 unk12;
-    u16 unk14;
-    u8 pad16[2];
-    u32 unk18;
-    u8 pad1C[4];
-    s16 unk20;
-    u8 pad22[2];
-    s16 unk24;
-} p8040EE4C_Unk805BDF48;
 typedef void (*p8040EE4C_Unk8041900Cb)(void*, s32, s32, s32);
 typedef struct p8040EE4C_Unk805BDE38Entry {
     u8 pad0[4];
