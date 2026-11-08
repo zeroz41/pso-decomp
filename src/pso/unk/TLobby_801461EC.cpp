@@ -1,7 +1,13 @@
 #include "types.h"
 #include "pso/unk/TLobby.h"
-#include "pso/unk/TLobby_803FAEA0.h"
-#include "pso/unk/TLobby_80428374.h"
+#include "pso/network/TLobby_803FAEA0.h"
+#include "pso/network/TLobby_804050DC.h"
+#include "pso/network/text_80421620.h"
+#include "pso/network/NetworkRuntime.h"
+#include "pso/network/NetworkTransport.h"
+#include "pso/network/NetworkMessageTransport.h"
+#include "pso/network/NetworkPacketPool.h"
+#include "pso/network/TLobby_80428374.h"
 #include "pso/unk/text_80145A44.h"
 #include "pso/unk/text_803F4D84.h"
 #include <string.h>
@@ -64,19 +70,15 @@ s32 connect_pppoe(s32 *);
 s32 TLobby__sub_801465C0(s32 *);
 void fn_80147A68(void);
 void TLobby__sub_804073B8(void);
-s16 run_connect_step__6TLobbyFv(void);
 s16 TLobby__sub_804150EC(void);
 s16 TLobby__sub_8042315C(s16, void *);
 extern s32 lobby_net_session_id;
 extern s32 TLobby__connect_pending_flags;
 extern s32 lobby_connect_active_flag;
-s32 TLobby__sub_803F861C(void *info);
-s32 TLobby__sub_803F8470(u8 *data, s32 size);
 s32 TLobby__sub_801478C4(s32 arg0);
 s32 connect_modem(s32 idx, s16 id);
 extern s32 actor_frame_tick;
 }
-s32 NetSetDefaultThreadPriority(s32 priority);
 
 struct Sub_801465C0 {
     u8 pad0[0x1C];
@@ -140,7 +142,6 @@ void fn_80147A60(int a0);
 s16 TLobby__sub_8042455C(void *);
 s16 TLobby__sub_8042474C(void *, void *, void *);
 s16 TLobby__sub_8042489C(void *, void *);
-s16 validate_slot_buffers__6TLobbyFlPvPvPv(void *, void *, void *, void *);
 s16 TLobby__sub_80424D58(s16, s32, s32, void *, void *, s32 *, void *, s32);
 s16 TLobby__sub_80424E44(s16);
 extern s32 lbl_805D56E8;
@@ -197,7 +198,7 @@ loop_1:
     if (func_801A5E54() != 0) {
         return 1;
     }
-    if (TLobby::query_link_status() == 1) {
+    if (query_link_status() == 1) {
         return 2;
     }
     goto loop_1;
@@ -232,7 +233,7 @@ s32 connect_pppoe(s32 *out_value) {
     s32 cancel;
     s32 result;
 
-    id = TLobby::init_net_session();
+    id = init_net_session();
     TLobby__connect_pending_flags |= 4;
     lobby_net_session_id = id;
     if (id == -1) {
@@ -355,7 +356,7 @@ s32 TLobby__sub_801465C0(s32 *arg0) {
         return 0xC;
     }
     fn_80147A60(lbl_805D56EC);
-    return validate_slot_buffers__6TLobbyFlPvPvPv(lbl_8050C0C4, lbl_8050C684, &lobby_dns_server_addr, &lobby_dns_server_addr2) != 0 ? 0xC : 0;
+    return validate_slot_buffers((s32)lbl_8050C0C4, lbl_8050C684, &lobby_dns_server_addr, &lobby_dns_server_addr2) != 0 ? 0xC : 0;
 }
 
 s32 TLobby__sub_801466F4(u32 arg0) {
@@ -386,7 +387,7 @@ int TLobby__sub_80146740(void) { return 0; }
 
 s32 TLobby::query_task_active() {
     if ((s32) lobby_connect_active_flag != 0) {
-        return TLobby::get_task_count();
+        return get_task_count();
     }
     return 0;
 }
@@ -418,7 +419,7 @@ int get_link_status() {
         if (actor_frame_tick % 900 == 0 && (s16)TLobby::get_link_status_value() == 0) {
             return 0;
         }
-        if ((TLobby__connect_pending_flags & 1) && TLobby::query_link_status() == 0) {
+        if ((TLobby__connect_pending_flags & 1) && query_link_status() == 0) {
             return 0;
         }
     }
@@ -433,7 +434,7 @@ void TLobby::cleanup() {
         TLobby__sub_80147284();
     }
     if (TLobby__connect_pending_flags & 8) {
-        TLobby::cleanup_subsystems();
+        cleanup_subsystems();
         TLobby__connect_pending_flags &= 0xFFFFFFF7;
     }
     if ((u32) lbl_805D5700 != 0U) {
@@ -441,29 +442,27 @@ void TLobby::cleanup() {
         lbl_805D5700 = 0U;
     }
 }
-struct NetParams_80146908 { s16 a; s16 b; u16 c; u16 d; s32 e; s32 f; s32 g; s32 h; s32 i; };
-
 s32 TLobby__sub_80146908() {
-    NetParams_80146908 params;
+    NetTransportParams params;
     s32 size;
     NetSetDefaultThreadPriority(0x10);
-    size = TLobby__sub_803F861C(&params);
-    params.d = 1;
+    size = get_net_params_and_size(&params);
+    params.room_count = 1;
     params.e = 0x1000;
     params.f = 0x3000;
-    ((TLobby *)&params)->validate_and_store_net_params();
+    validate_and_store_net_params(&params);
     lbl_805D5700 = (u32)xmalloc(size);
     if (lbl_805D5700 != 0) {
-        TLobby__sub_803F8470((u8 *)lbl_805D5700, size);
+        layout_net_params_buffer((u8 *)lbl_805D5700, size);
     }
-    TLobby::init_network_stack();
+    init_network_stack();
     TLobby__connect_pending_flags |= 8;
     lobby_connect_active_flag = 0;
     lbl_805D570C = 0;
     if (TLobby__net_session_mode != 0) {
         return TLobby::run_connect_sequence();
     }
-    return TLobby__sub_801478C4(TLobby::init_net_session());
+    return TLobby__sub_801478C4(init_net_session());
 }
 void TLobby__sub_801469B8(void* p) { TLobby::flush_pending_flags(); }
 void TLobby::flush_pending_flags() {
@@ -499,7 +498,7 @@ void TLobby::flush_pending_flags() {
         TLobby__connect_pending_flags &= 0xFFFFFFDF;
     }
     if (TLobby__connect_pending_flags & 0x40) {
-        TLobby::flush_flags_step();
+        flush_flags_step();
         TLobby__connect_pending_flags &= 0xFFFFFFBF;
     }
     if (TLobby__connect_pending_flags & 0x80) {
@@ -518,7 +517,7 @@ s32 TLobby::run_connect_sequence() {
     if (*(s32 *)((u8 *)&lbl_8050CCE8 + 0x120) != 0) {
         TLobby__sub_804073B8();
         TLobby__connect_pending_flags |= 0x80;
-        id = run_connect_step__6TLobbyFv();
+        id = run_connect_step();
         TLobby__connect_pending_flags |= 0x40;
         r = TLobby::poll_connect();
         if (r == 0) {
@@ -528,7 +527,7 @@ s32 TLobby::run_connect_sequence() {
             return 0x11;
         }
         TLobby__connect_pending_flags |= 1;
-        TLobby::set_connect_mode(4);
+        set_connect_mode(4);
         ok = TLobby__sub_804150EC();
         TLobby__connect_pending_flags |= 0x20;
         lobby_connect_active_flag = 0;
@@ -673,7 +672,7 @@ void TLobby::load_network_configs() {
 void TLobby__sub_8014715C(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
 void TLobby::teardown_boss2() {
     if ((s32) lbl_805D570C != 0) {
-        TLobby::clear_all_used_records();
+        clear_all_used_records();
         TLobby__sub_8040A3C0();
         lbl_805D570C = 0;
     }
@@ -695,7 +694,6 @@ extern RecoveredGlobal_80147A74_lbl_804EF500 ppp_password_buffer;
 char *get_ppp_password_buffer(void);
 extern "C" {
 void OSReport(const char *, ...);
-s16 init_net_tables__6TLobbyFv();
 s16 TLobby__sub_8040ADE8(Req_801471A0 *);
 s32 TLobby__sub_80147284(void);
 void TLobby__sub_80147978(void);
@@ -705,7 +703,7 @@ s32 TLobby::set_dns_servers() {
     Req_801471A0 req;
     s16 r1;
     s16 r2;
-    if (init_net_tables__6TLobbyFv() == 0) {
+    if (init_net_tables() == 0) {
         lbl_805D570C = 1;
         req.type = 4;
         req.addr = lobby_dns_server_addr;
@@ -853,7 +851,7 @@ s32 connect_modem(s32 idx, s16 id) {
     modem.w4C = 2;
     modem.w50 = 0;
     modem.w54 = 0;
-    TLobby::copy_name_buffer(&modem);
+    copy_name_buffer(&modem);
     cfg.flags = 1;
     cfg.wait = 0;
     cfg.wC = lobby_account_entries[2].host;

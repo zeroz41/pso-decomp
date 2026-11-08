@@ -4,14 +4,14 @@
 #include "types.h"
 #include <stddef.h>
 
-struct IPv6Address {
+typedef struct IPv6Address {
     u8 bytes[16];
-};
+} IPv6Address;
 
-struct IPv6NeighborSolicitation {
+typedef struct IPv6NeighborSolicitation {
     u8 header[8];
     IPv6Address target;
-};
+} IPv6NeighborSolicitation;
 
 typedef char IPv6Address_size_check[(sizeof(IPv6Address) == 16) ? 1 : -1];
 typedef char IPv6NeighborSolicitation_size_check[

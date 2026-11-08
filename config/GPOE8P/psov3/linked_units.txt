@@ -391,6 +391,7 @@ pso/effect/TEffIndirectCtrl.cpp
 pso/effect/TEffStarLight2D_Base.cpp
 pso/effect/TEffect.cpp
 pso/effect/TUnk_804CCC68.cpp
+pso/network/NetDispatcher.c
 pso/network/PSOV3Encryption.cpp
 pso/network/PSOV3EncryptionTCP.cpp
 pso/enemy/AreaSoundRemap.cpp
@@ -1061,9 +1062,11 @@ pso/unk/TLobby_803D4B68.cpp
 pso/unk/TLobby_803DE778.cpp
 pso/unk/TLobby_803DF1FC.cpp
 pso/unk/TLobby_803E2D50.cpp
-pso/unk/TLobby_803F8794.cpp
-pso/unk/TLobby_804048E8.cpp
-pso/unk/TLobby_80428374.cpp
+pso/network/TLobby_803F86BC.c
+pso/network/TLobby_803FAEA0.c
+pso/network/TLobby_804048E8.c
+pso/network/TLobby_80426CAC.c
+pso/network/TLobby_80428374.c
 pso/ui/hud/TLockOnCursor.cpp
 pso/ui/TLogo.cpp
 pso/ui/TLogo_8001C134.cpp
@@ -1743,9 +1746,9 @@ pso/system/data/pso_const_ids7.cpp
 pso/system/data/pso_date.cpp
 pso/network/NetworkInfoCodec.cpp
 pso/network/NetworkInfoLoader.cpp
-pso/network/NetworkMessageTransport.cpp
-pso/network/NetworkPacketRuntime.cpp
-pso/network/NetworkTransport.cpp
+pso/network/NetworkMessageTransport.c
+pso/network/NetworkPacketRuntime.c
+pso/network/NetworkTransport.c
 pso/network/TGameProtocol.cpp
 pso/network/TProtocol.cpp
 pso/network/TProtocol_801DB1B4.cpp
@@ -2824,6 +2827,7 @@ pso/unk/text_803E4D8C.cpp
 pso/unk/text_803F1804.cpp
 pso/unk/text_803F4D10.cpp
 pso/unk/text_803F4D84.cpp
+pso/network/text_80421620.c
 pso/unk/text_8042E8C4.cpp
 pso/unk/text_8042EAD4.cpp
 pso/unk/text_8042EE4C.cpp
@@ -2864,3 +2868,5 @@ pso/weapon/TUnk_804A1760.cpp
 pso/weapon/TUnk_804A1858.cpp
 pso/weapon/TUnk_804A2C90.cpp
 pso/player/TUnk_804928CC.cpp
+pso/network/NetworkRuntime.c
+pso/network/NetworkThreadRuntime.c

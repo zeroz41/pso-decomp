@@ -1,8 +1,8 @@
 #include "types.h"
 #include "pso/unk/text_8042EE4C.h"
+#include "pso/network/TLobby_80429598.h"
 
 extern "C" {
-u32 exi_read_status_byte__6TLobbyFv();
 s32 EXIGetType(int, int, void *);
 u32 lbl_805D7CC8;
 
@@ -30,7 +30,7 @@ s32 TLobby__sub_8042EE4C(s32 *arg0) {
             lbl_805D7CC8 = 2U;
             break;
         case 67240448:
-            if (exi_read_status_byte__6TLobbyFv() == 0U) {
+            if (exi_read_status_byte() == 0U) {
                 *arg0 = 5;
                 lbl_805D7CC8 = 5U;
             } else {

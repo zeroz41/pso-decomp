@@ -1,4 +1,5 @@
 #include "pso/network/NetworkRuntime.h"
+#include "pso/network/TLobby_804050DC.h"
 #pragma readonly_strings on
 #include "types.h"
 #include "pso/system/byteswap.h"
@@ -270,6 +271,7 @@ void controller_stuff();
 char func_801A5E54();
 void render_tick();
 void func_803DCDFC();
+extern "C" {
 short tcp_abort(short nh);
 short tcp_bind(short nh, struct at_ip_addr *addr, u16 port);
 short tcp_connect(short nh, struct at_ip_addr *addr, u16 port, struct at_ip_option *option);
@@ -279,6 +281,7 @@ short tcp_get_opt(short nh, short type, u32 *opt);
 short tcp_send(short nh, void (*notify)(short size, short sock_fd), char bufnum, struct send_buffs *sb);
 int tcp_stat(short nh, short *stat, short *backlog, u32 *sendwin, u32 *recvwin);
 short tcp_receive(short nh, void (*notify)(short size, short sock_fd), short len, u8 *buf);
+}
 int get_link_status();
 char *get_sock_status_name(short code);
 
@@ -628,7 +631,7 @@ int TSocket::resolve_domain(char *domain) {
                 ret = 6;
                 break;
             }
-            TLobby::close_connection_by_index(handle);
+            close_connection_by_index(handle);
         } else {
             set_ip_address(0);
             ret = 4;
