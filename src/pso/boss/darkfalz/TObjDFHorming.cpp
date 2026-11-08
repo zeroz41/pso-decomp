@@ -26,132 +26,244 @@ struct Vec_8004AB90 { f32 x, y, z; };
 
 struct E_8004AB90 { Vec_8004AB90 pos; f32 r; Vec_8004AB90 v; f32 s; };
 
+// Model/motion/data filenames (rodata pool objects; era .rodata band 0x804367C8-0x804371E0)
+extern const char darkfalz_mesh_df_event_tower_nj[] = "df_event_tower.nj";
+extern const char darkfalz_mesh_df_rikomiraju_body_nj[] = "df_rikomiraju_body.nj";
+extern const char darkfalz_mesh_df1_anzen_nj[] = "df1_anzen.nj";
+extern const char darkfalz_mesh_df1_s_body_nj[] = "df1_s_body.nj";
+extern const char darkfalz_mesh_df1_s_da_heada_nj[] = "df1_s_da_heada.nj";
+extern const char darkfalz_mesh_df1_s_db_heada_nj[] = "df1_s_db_heada.nj";
+extern const char darkfalz_mesh_df1_s_dc_heada_nj[] = "df1_s_dc_heada.nj";
+extern const char darkfalz_mesh_df1_s_dodai_nj[] = "df1_s_dodai.nj";
+extern const char darkfalz_mesh_df1_s_simobe_nj[] = "df1_s_simobe.nj";
+extern const char darkfalz_mesh_df1_s_waist_nj[] = "df1_s_waist.nj";
+extern const char darkfalz_mesh_df2_s_body_nj[] = "df2_s_body.nj";
+extern const char darkfalz_mesh_df2_s_dodai1_nj[] = "df2_s_dodai1.nj";
+extern const char darkfalz_mesh_df3_s_body_nj[] = "df3_s_body.nj";
+extern const char darkfalz_mesh_df3_s_wing_nj[] = "df3_s_wing.nj";
+extern const char darkfalz_mesh_df3_sl_body_nj[] = "df3_sl_body.nj";
+extern const char darkfalz_mesh_df3_sl_wing_nj[] = "df3_sl_wing.nj";
+extern const char darkfalz_mesh_fd_obj813_face_nj[] = "fd_obj813_face.nj";
+extern const char darkfalz_mesh_fd_obj813_flower01_nj[] = "fd_obj813_flower01.nj";
+extern const char darkfalz_mesh_rico_ring3_rico_ring_nj[] = "rico_ring3_rico_ring.nj";
+extern const char darkfalz_motion_beaml_df1_s_body_njm[] = "beaml_df1_s_body.njm";
+extern const char darkfalz_motion_beaml_df1_s_root_njm[] = "beaml_df1_s_root.njm";
+extern const char darkfalz_motion_beaml_df2_s_body_njm[] = "beaml_df2_s_body.njm";
+extern const char darkfalz_motion_beaml_df2_s_dodai1_njm[] = "beaml_df2_s_dodai1.njm";
+extern const char darkfalz_motion_beamr_df1_s_body_njm[] = "beamr_df1_s_body.njm";
+extern const char darkfalz_motion_beamr_df1_s_root_njm[] = "beamr_df1_s_root.njm";
+extern const char darkfalz_motion_beamr_df2_s_body_njm[] = "beamr_df2_s_body.njm";
+extern const char darkfalz_motion_beamr_df2_s_dodai1_njm[] = "beamr_df2_s_dodai1.njm";
+extern const char darkfalz_motion_damage_df1_s_body_njm[] = "damage_df1_s_body.njm";
+extern const char darkfalz_motion_damage_df1_s_da_heada_njm[] = "damage_df1_s_da_heada.njm";
+extern const char darkfalz_motion_damage_df1_s_dodai_njm[] = "damage_df1_s_dodai.njm";
+extern const char darkfalz_motion_damage_df1_s_root_njm[] = "damage_df1_s_root.njm";
+extern const char darkfalz_motion_damage_df2_s_body_njm[] = "damage_df2_s_body.njm";
+extern const char darkfalz_motion_damage_df2_s_dodai1_njm[] = "damage_df2_s_dodai1.njm";
+extern const char darkfalz_motion_damage_df3_s_body_njm[] = "damage_df3_s_body.njm";
+extern const char darkfalz_motion_damage_df3_s_wing_njm[] = "damage_df3_s_wing.njm";
+extern const char darkfalz_motion_damage_df3_s1_wing_njm[] = "damage_df3_s1_wing.njm";
+extern const char darkfalz_motion_dead_df2_s_body_njm[] = "dead_df2_s_body.njm";
+extern const char darkfalz_motion_dead_df2_s_dodai1_njm[] = "dead_df2_s_dodai1.njm";
+extern const char darkfalz_motion_dead_df3_s_body_njm[] = "dead_df3_s_body.njm";
+extern const char darkfalz_motion_dead1_df1_s_body_njm[] = "dead1_df1_s_body.njm";
+extern const char darkfalz_motion_dead1_df1_s_da_heada_njm[] = "dead1_df1_s_da_heada.njm";
+extern const char darkfalz_motion_dead1_df1_s_root_njm[] = "dead1_df1_s_root.njm";
+extern const char darkfalz_motion_df_rikomiraju_body_njm[] = "df_rikomiraju_body.njm";
+extern const char darkfalz_motion_df1op_df1_s_body_njm[] = "df1op_df1_s_body.njm";
+extern const char darkfalz_motion_df1op_df1_s_da_heada_njm[] = "df1op_df1_s_da_heada.njm";
+extern const char darkfalz_motion_df2op_df1_s_body_njm[] = "df2op_df1_s_body.njm";
+extern const char darkfalz_motion_df2op_df1_s_da_heada_njm[] = "df2op_df1_s_da_heada.njm";
+extern const char darkfalz_motion_df2op_df2_s_body_njm[] = "df2op_df2_s_body.njm";
+extern const char darkfalz_motion_df2op_df2_s_dodai1_njm[] = "df2op_df2_s_dodai1.njm";
+extern const char darkfalz_motion_df3_op_df2_s_body_njm[] = "df3_op_df2_s_body.njm";
+extern const char darkfalz_motion_df3_op_df2_s_dodai1_njm[] = "df3_op_df2_s_dodai1.njm";
+extern const char darkfalz_motion_df3_op_df3_s_body_njm[] = "df3_op_df3_s_body.njm";
+extern const char darkfalz_motion_df3_op_df3_s_wing_njm[] = "df3_op_df3_s_wing.njm";
+extern const char darkfalz_motion_df3_op_df3_s1_wing_njm[] = "df3_op_df3_s1_wing.njm";
+extern const char darkfalz_motion_df3dead_df_rikomiraju_body_njm[] = "df3dead_df_rikomiraju_body.njm";
+extern const char darkfalz_motion_df3dead_df3_s_body_njm[] = "df3dead_df3_s_body.njm";
+extern const char darkfalz_motion_dwntec_df3_s_body_njm[] = "dwntec_df3_s_body.njm";
+extern const char darkfalz_motion_fd_obj813_face_njm[] = "fd_obj813_face.njm";
+extern const char darkfalz_motion_fd_obj813_flower01_njm[] = "fd_obj813_flower01.njm";
+extern const char darkfalz_motion_haki_df1_s_da_heada_njm[] = "haki_df1_s_da_heada.njm";
+extern const char darkfalz_motion_haki_df1_s_root_njm[] = "haki_df1_s_root.njm";
+extern const char darkfalz_motion_hakiin_df1_s_da_heada_njm[] = "hakiin_df1_s_da_heada.njm";
+extern const char darkfalz_motion_hakiin_df1_s_root_njm[] = "hakiin_df1_s_root.njm";
+extern const char darkfalz_motion_hakiout_df1_s_da_heada_njm[] = "hakiout_df1_s_da_heada.njm";
+extern const char darkfalz_motion_hakiout_df1_s_root_njm[] = "hakiout_df1_s_root.njm";
+extern const char darkfalz_motion_hoe_df1_s_body_njm[] = "hoe_df1_s_body.njm";
+extern const char darkfalz_motion_hoe_df1_s_da_heada_njm[] = "hoe_df1_s_da_heada.njm";
+extern const char darkfalz_motion_hoe_df2_s_body_njm[] = "hoe_df2_s_body.njm";
+extern const char darkfalz_motion_hoe_df2_s_dodai1_njm[] = "hoe_df2_s_dodai1.njm";
+extern const char darkfalz_motion_jisin_df2_s_body_njm[] = "jisin_df2_s_body.njm";
+extern const char darkfalz_motion_jisin_df2_s_dodai1_njm[] = "jisin_df2_s_dodai1.njm";
+extern const char darkfalz_motion_jyousyou_df3_s_body_njm[] = "jyousyou_df3_s_body.njm";
+extern const char darkfalz_motion_jyousyou_df3_s_wing_njm[] = "jyousyou_df3_s_wing.njm";
+extern const char darkfalz_motion_jyousyou_df3_s1_wing_njm[] = "jyousyou_df3_s1_wing.njm";
+extern const char darkfalz_motion_kakou_df3_s_body_njm[] = "kakou_df3_s_body.njm";
+extern const char darkfalz_motion_kakou_df3_s_wing_njm[] = "kakou_df3_s_wing.njm";
+extern const char darkfalz_motion_kakou_df3_s1_wing_njm[] = "kakou_df3_s1_wing.njm";
+extern const char darkfalz_motion_laser_df3_s_body_njm[] = "laser_df3_s_body.njm";
+extern const char darkfalz_motion_laser_df3_s_wing_njm[] = "laser_df3_s_wing.njm";
+extern const char darkfalz_motion_laser_df3_s1_wing_njm[] = "laser_df3_s1_wing.njm";
+extern const char darkfalz_motion_lhassya_df1_s_body_njm[] = "lhassya_df1_s_body.njm";
+extern const char darkfalz_motion_lhassya_df2_s_body_njm[] = "lhassya_df2_s_body.njm";
+extern const char darkfalz_motion_lhassya_df2_s_dodai1_njm[] = "lhassya_df2_s_dodai1.njm";
+extern const char darkfalz_motion_lkiri_df3_s_body_njm[] = "lkiri_df3_s_body.njm";
+extern const char darkfalz_motion_lkiri_df3_s_wing_njm[] = "lkiri_df3_s_wing.njm";
+extern const char darkfalz_motion_lkiri_df3_s1_wing_njm[] = "lkiri_df3_s1_wing.njm";
+extern const char darkfalz_motion_ltame_df1_s_body_njm[] = "ltame_df1_s_body.njm";
+extern const char darkfalz_motion_ltame_df2_s_body_njm[] = "ltame_df2_s_body.njm";
+extern const char darkfalz_motion_rico_ring3_rico_ring_njm[] = "rico_ring3_rico_ring.njm";
+extern const char darkfalz_motion_ricoult1_df_rikomiraju_body_njm[] = "ricoult1_df_rikomiraju_body.njm";
+extern const char darkfalz_motion_ricoult2_df_rikomiraju_body_njm[] = "ricoult2_df_rikomiraju_body.njm";
+extern const char darkfalz_motion_rkiri_df3_s_body_njm[] = "rkiri_df3_s_body.njm";
+extern const char darkfalz_motion_rkiri_df3_s_wing_njm[] = "rkiri_df3_s_wing.njm";
+extern const char darkfalz_motion_rkiri_df3_s1_wing_njm[] = "rkiri_df3_s1_wing.njm";
+extern const char darkfalz_motion_uptec_df3_s_body_njm[] = "uptec_df3_s_body.njm";
+extern const char darkfalz_motion_wait_df1_s_body_njm[] = "wait_df1_s_body.njm";
+extern const char darkfalz_motion_wait_df1_s_da_heada_njm[] = "wait_df1_s_da_heada.njm";
+extern const char darkfalz_motion_wait_df1_s_dodai_njm[] = "wait_df1_s_dodai.njm";
+extern const char darkfalz_motion_wait_df1_s_root_njm[] = "wait_df1_s_root.njm";
+extern const char darkfalz_motion_wait_df1_s_waist_njm[] = "wait_df1_s_waist.njm";
+extern const char darkfalz_motion_wait_df2_s_body_njm[] = "wait_df2_s_body.njm";
+extern const char darkfalz_motion_wait_df2_s_dodai1_njm[] = "wait_df2_s_dodai1.njm";
+extern const char darkfalz_motion_wait_df3_s_body_njm[] = "wait_df3_s_body.njm";
+extern const char darkfalz_motion_wait_df3_s_wing_njm[] = "wait_df3_s_wing.njm";
+extern const char darkfalz_motion_wait_df3_s1_wing_njm[] = "wait_df3_s1_wing.njm";
+extern const char darkfalz_motion_wing_df2_s_body_njm[] = "wing_df2_s_body.njm";
+extern const char darkfalz_motion_wing_df2_s_dodai1_njm[] = "wing_df2_s_dodai1.njm";
+extern const char darkfalz_motion_wing_wing_root_njm[] = "wing_wing_root.njm";
+extern const char darkfalz_motion_yubi_df3_s_body_njm[] = "yubi_df3_s_body.njm";
+extern const char darkfalz_dat_bml_filename[] = "darkfalz_dat.bml";
+
 const char *darkfalz_dat_model_names[] = {
-    "df_event_tower.nj",
-    "df_rikomiraju_body.nj",
-    "df1_anzen.nj",
-    "df1_s_body.nj",
-    "df1_s_da_heada.nj",
-    "df1_s_db_heada.nj",
-    "df1_s_dc_heada.nj",
-    "df1_s_dodai.nj",
-    "df1_s_simobe.nj",
-    "df1_s_waist.nj",
-    "df2_s_body.nj",
-    "df2_s_dodai1.nj",
-    "df3_s_body.nj",
-    "df3_s_wing.nj",
-    "df3_sl_body.nj",
-    "df3_sl_wing.nj",
-    "fd_obj813_face.nj",
-    "fd_obj813_flower01.nj",
-    "rico_ring3_rico_ring.nj",
+    darkfalz_mesh_df_event_tower_nj,
+    darkfalz_mesh_df_rikomiraju_body_nj,
+    darkfalz_mesh_df1_anzen_nj,
+    darkfalz_mesh_df1_s_body_nj,
+    darkfalz_mesh_df1_s_da_heada_nj,
+    darkfalz_mesh_df1_s_db_heada_nj,
+    darkfalz_mesh_df1_s_dc_heada_nj,
+    darkfalz_mesh_df1_s_dodai_nj,
+    darkfalz_mesh_df1_s_simobe_nj,
+    darkfalz_mesh_df1_s_waist_nj,
+    darkfalz_mesh_df2_s_body_nj,
+    darkfalz_mesh_df2_s_dodai1_nj,
+    darkfalz_mesh_df3_s_body_nj,
+    darkfalz_mesh_df3_s_wing_nj,
+    darkfalz_mesh_df3_sl_body_nj,
+    darkfalz_mesh_df3_sl_wing_nj,
+    darkfalz_mesh_fd_obj813_face_nj,
+    darkfalz_mesh_fd_obj813_flower01_nj,
+    darkfalz_mesh_rico_ring3_rico_ring_nj,
     NULL,
 };
 
 const char *darkfalz_dat_motion_names[] = {
-    "beaml_df1_s_body.njm",
-    "beaml_df1_s_root.njm",
-    "beaml_df2_s_body.njm",
-    "beaml_df2_s_dodai1.njm",
-    "beamr_df1_s_body.njm",
-    "beamr_df1_s_root.njm",
-    "beamr_df2_s_body.njm",
-    "beamr_df2_s_dodai1.njm",
-    "damage_df1_s_body.njm",
-    "damage_df1_s_da_heada.njm",
-    "damage_df1_s_dodai.njm",
-    "damage_df1_s_root.njm",
-    "damage_df2_s_body.njm",
-    "damage_df2_s_dodai1.njm",
-    "damage_df3_s_body.njm",
-    "damage_df3_s_wing.njm",
-    "damage_df3_s1_wing.njm",
-    "dead_df2_s_body.njm",
-    "dead_df2_s_dodai1.njm",
-    "dead_df3_s_body.njm",
-    "dead1_df1_s_body.njm",
-    "dead1_df1_s_da_heada.njm",
-    "dead1_df1_s_root.njm",
-    "df_rikomiraju_body.njm",
-    "df1op_df1_s_body.njm",
-    "df1op_df1_s_da_heada.njm",
-    "df2op_df1_s_body.njm",
-    "df2op_df1_s_da_heada.njm",
-    "df2op_df2_s_body.njm",
-    "df2op_df2_s_dodai1.njm",
-    "df3_op_df2_s_body.njm",
-    "df3_op_df2_s_dodai1.njm",
-    "df3_op_df3_s_body.njm",
-    "df3_op_df3_s_wing.njm",
-    "df3_op_df3_s1_wing.njm",
-    "df3dead_df_rikomiraju_body.njm",
-    "df3dead_df3_s_body.njm",
-    "dwntec_df3_s_body.njm",
-    "fd_obj813_face.njm",
-    "fd_obj813_flower01.njm",
-    "haki_df1_s_da_heada.njm",
-    "haki_df1_s_root.njm",
-    "hakiin_df1_s_da_heada.njm",
-    "hakiin_df1_s_root.njm",
-    "hakiout_df1_s_da_heada.njm",
-    "hakiout_df1_s_root.njm",
-    "hoe_df1_s_body.njm",
-    "hoe_df1_s_da_heada.njm",
-    "hoe_df2_s_body.njm",
-    "hoe_df2_s_dodai1.njm",
-    "jisin_df2_s_body.njm",
-    "jisin_df2_s_dodai1.njm",
-    "jyousyou_df3_s_body.njm",
-    "jyousyou_df3_s_wing.njm",
-    "jyousyou_df3_s1_wing.njm",
-    "kakou_df3_s_body.njm",
-    "kakou_df3_s_wing.njm",
-    "kakou_df3_s1_wing.njm",
-    "laser_df3_s_body.njm",
-    "laser_df3_s_wing.njm",
-    "laser_df3_s1_wing.njm",
-    "lhassya_df1_s_body.njm",
-    "lhassya_df2_s_body.njm",
-    "lhassya_df2_s_dodai1.njm",
-    "lkiri_df3_s_body.njm",
-    "lkiri_df3_s_wing.njm",
-    "lkiri_df3_s1_wing.njm",
-    "ltame_df1_s_body.njm",
-    "ltame_df2_s_body.njm",
-    "rico_ring3_rico_ring.njm",
-    "ricoult1_df_rikomiraju_body.njm",
-    "ricoult2_df_rikomiraju_body.njm",
-    "rkiri_df3_s_body.njm",
-    "rkiri_df3_s_wing.njm",
-    "rkiri_df3_s1_wing.njm",
-    "uptec_df3_s_body.njm",
-    "wait_df1_s_body.njm",
-    "wait_df1_s_da_heada.njm",
-    "wait_df1_s_dodai.njm",
-    "wait_df1_s_root.njm",
-    "wait_df1_s_waist.njm",
-    "wait_df2_s_body.njm",
-    "wait_df2_s_dodai1.njm",
-    "wait_df3_s_body.njm",
-    "wait_df3_s_wing.njm",
-    "wait_df3_s1_wing.njm",
-    "wing_df2_s_body.njm",
-    "wing_df2_s_dodai1.njm",
-    "wing_wing_root.njm",
-    "yubi_df3_s_body.njm",
+    darkfalz_motion_beaml_df1_s_body_njm,
+    darkfalz_motion_beaml_df1_s_root_njm,
+    darkfalz_motion_beaml_df2_s_body_njm,
+    darkfalz_motion_beaml_df2_s_dodai1_njm,
+    darkfalz_motion_beamr_df1_s_body_njm,
+    darkfalz_motion_beamr_df1_s_root_njm,
+    darkfalz_motion_beamr_df2_s_body_njm,
+    darkfalz_motion_beamr_df2_s_dodai1_njm,
+    darkfalz_motion_damage_df1_s_body_njm,
+    darkfalz_motion_damage_df1_s_da_heada_njm,
+    darkfalz_motion_damage_df1_s_dodai_njm,
+    darkfalz_motion_damage_df1_s_root_njm,
+    darkfalz_motion_damage_df2_s_body_njm,
+    darkfalz_motion_damage_df2_s_dodai1_njm,
+    darkfalz_motion_damage_df3_s_body_njm,
+    darkfalz_motion_damage_df3_s_wing_njm,
+    darkfalz_motion_damage_df3_s1_wing_njm,
+    darkfalz_motion_dead_df2_s_body_njm,
+    darkfalz_motion_dead_df2_s_dodai1_njm,
+    darkfalz_motion_dead_df3_s_body_njm,
+    darkfalz_motion_dead1_df1_s_body_njm,
+    darkfalz_motion_dead1_df1_s_da_heada_njm,
+    darkfalz_motion_dead1_df1_s_root_njm,
+    darkfalz_motion_df_rikomiraju_body_njm,
+    darkfalz_motion_df1op_df1_s_body_njm,
+    darkfalz_motion_df1op_df1_s_da_heada_njm,
+    darkfalz_motion_df2op_df1_s_body_njm,
+    darkfalz_motion_df2op_df1_s_da_heada_njm,
+    darkfalz_motion_df2op_df2_s_body_njm,
+    darkfalz_motion_df2op_df2_s_dodai1_njm,
+    darkfalz_motion_df3_op_df2_s_body_njm,
+    darkfalz_motion_df3_op_df2_s_dodai1_njm,
+    darkfalz_motion_df3_op_df3_s_body_njm,
+    darkfalz_motion_df3_op_df3_s_wing_njm,
+    darkfalz_motion_df3_op_df3_s1_wing_njm,
+    darkfalz_motion_df3dead_df_rikomiraju_body_njm,
+    darkfalz_motion_df3dead_df3_s_body_njm,
+    darkfalz_motion_dwntec_df3_s_body_njm,
+    darkfalz_motion_fd_obj813_face_njm,
+    darkfalz_motion_fd_obj813_flower01_njm,
+    darkfalz_motion_haki_df1_s_da_heada_njm,
+    darkfalz_motion_haki_df1_s_root_njm,
+    darkfalz_motion_hakiin_df1_s_da_heada_njm,
+    darkfalz_motion_hakiin_df1_s_root_njm,
+    darkfalz_motion_hakiout_df1_s_da_heada_njm,
+    darkfalz_motion_hakiout_df1_s_root_njm,
+    darkfalz_motion_hoe_df1_s_body_njm,
+    darkfalz_motion_hoe_df1_s_da_heada_njm,
+    darkfalz_motion_hoe_df2_s_body_njm,
+    darkfalz_motion_hoe_df2_s_dodai1_njm,
+    darkfalz_motion_jisin_df2_s_body_njm,
+    darkfalz_motion_jisin_df2_s_dodai1_njm,
+    darkfalz_motion_jyousyou_df3_s_body_njm,
+    darkfalz_motion_jyousyou_df3_s_wing_njm,
+    darkfalz_motion_jyousyou_df3_s1_wing_njm,
+    darkfalz_motion_kakou_df3_s_body_njm,
+    darkfalz_motion_kakou_df3_s_wing_njm,
+    darkfalz_motion_kakou_df3_s1_wing_njm,
+    darkfalz_motion_laser_df3_s_body_njm,
+    darkfalz_motion_laser_df3_s_wing_njm,
+    darkfalz_motion_laser_df3_s1_wing_njm,
+    darkfalz_motion_lhassya_df1_s_body_njm,
+    darkfalz_motion_lhassya_df2_s_body_njm,
+    darkfalz_motion_lhassya_df2_s_dodai1_njm,
+    darkfalz_motion_lkiri_df3_s_body_njm,
+    darkfalz_motion_lkiri_df3_s_wing_njm,
+    darkfalz_motion_lkiri_df3_s1_wing_njm,
+    darkfalz_motion_ltame_df1_s_body_njm,
+    darkfalz_motion_ltame_df2_s_body_njm,
+    darkfalz_motion_rico_ring3_rico_ring_njm,
+    darkfalz_motion_ricoult1_df_rikomiraju_body_njm,
+    darkfalz_motion_ricoult2_df_rikomiraju_body_njm,
+    darkfalz_motion_rkiri_df3_s_body_njm,
+    darkfalz_motion_rkiri_df3_s_wing_njm,
+    darkfalz_motion_rkiri_df3_s1_wing_njm,
+    darkfalz_motion_uptec_df3_s_body_njm,
+    darkfalz_motion_wait_df1_s_body_njm,
+    darkfalz_motion_wait_df1_s_da_heada_njm,
+    darkfalz_motion_wait_df1_s_dodai_njm,
+    darkfalz_motion_wait_df1_s_root_njm,
+    darkfalz_motion_wait_df1_s_waist_njm,
+    darkfalz_motion_wait_df2_s_body_njm,
+    darkfalz_motion_wait_df2_s_dodai1_njm,
+    darkfalz_motion_wait_df3_s_body_njm,
+    darkfalz_motion_wait_df3_s_wing_njm,
+    darkfalz_motion_wait_df3_s1_wing_njm,
+    darkfalz_motion_wing_df2_s_body_njm,
+    darkfalz_motion_wing_df2_s_dodai1_njm,
+    darkfalz_motion_wing_wing_root_njm,
+    darkfalz_motion_yubi_df3_s_body_njm,
     NULL,
 };
 
 BmlResourceDescriptor darkfalz_dat_resource_descriptor = {
-    "darkfalz_dat.bml", darkfalz_dat_model_names, darkfalz_dat_motion_names, 19, 90,
+    darkfalz_dat_bml_filename, darkfalz_dat_model_names, darkfalz_dat_motion_names, 19, 90,
 };
 
 const char *TBoss4DarkFalz__name = "TBoss4DarkFalz";
 
 // Read-only start positions (.rodata) of sub_8004B8F8 and sub_8004B7DC. Declared const, the visible
 // definition lets CodeWarrior hoist the copy above the stmw in both users, so they are placed explicitly.
-__declspec(section ".rodata") Vec lbl_804371BC = { 0.0f, 10.0f, 0.0f };
+__declspec(section ".rodata") Vec dark_falz_player_ring_center_origin = { 0.0f, 10.0f, 0.0f };
 __declspec(section ".rodata") Vec dark_falz_player_ring_center = { 10000.0f, 10.0f, 0.0f };
 
 Vec dark_falz_zako_ring_origin_vec = { 0.0f, -13.0f, 0.0f };
@@ -761,7 +873,7 @@ void TBoss4DarkFalz__sub_8004B7DC(TBoss4DarkFalz *boss4_dark_falz) {
 
 #pragma fp_contract on
 void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *boss4_dark_falz) {
-    Vec base = lbl_804371BC;
+    Vec base = dark_falz_player_ring_center_origin;
     s32 rate;
     s32 ang;
     s32 i;
