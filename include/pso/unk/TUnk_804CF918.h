@@ -7,7 +7,7 @@ class TWindowKeyBoardSoft;
 
 class TUnk_804CF918 {
 public:
-    u8 unk_0[2];
+    u16 flags;
     s16 m_2;
 
     virtual ~TUnk_804CF918();

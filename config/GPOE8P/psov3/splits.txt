@@ -7391,6 +7391,7 @@ pso/ui/window/TWindowInputNumber.cpp:
 
 pso/ui/window/TWindowSubStatusDisp_80256B94.cpp:
 	.text       start:0x80256B94 end:0x8025737C
+	.rodata     start:0x8044EE40 end:0x8044EE48
 	.sdata2     start:0x805DCE58 end:0x805DCED0
 
 pso/ui/window/TWindowSubStatusDisp_8025737C.cpp:
