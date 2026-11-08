@@ -238,7 +238,6 @@ s32 fill_reply_buffer(s16 h, u8 *p);
 s32 forward_net_op(s16 arg0, u8 *arg1, u8 *arg2);
 s32 forward_socket_op_by_handle(s16 id, u8 *a, u8 *b);
 s16 * get_active_entry_by_index(s16 arg0);
-s16 get_entry_field_26(s16 arg0);
 s16 get_slot_offset_or_default(s16 arg0);
 s16 * get_valid_entry(s16 arg0);
 s32 init_ipv4_interfaces(void);
@@ -7042,7 +7041,7 @@ s16 TLobby__sub_8040DC8C(u8 *arg0, u8 *arg1) {
         if (temp_r3_4 == NULL) {
             return -6;
         }
-        entry_field_26 = get_entry_field_26(*(s16 *)((s8 *)temp_r3_4 + 6));
+        entry_field_26 = get_iface_mtu(*(s16 *)((s8 *)temp_r3_4 + 6));
         if (entry_field_26 < 0x3C) {
             return -6;
         }
@@ -9068,7 +9067,7 @@ extern s32 TLobby__sub_804105E0(u8 *self, u8 *p, s16 lim, s16 ctx)
 
   }
 
-  if (lim > (h6 = get_entry_field_26(*((s16 *) (hit + 6)))))
+  if (lim > (h6 = get_iface_mtu(*((s16 *) (hit + 6)))))
   {
     if ((flag == 0) || (flags == 0))
     {
