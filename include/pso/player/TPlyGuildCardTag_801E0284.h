@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void *TPlyGuildCardTag__sub_801E0314(void *arg0, void *arg1);
+void *copy_lobby_entry(void *arg0, void *arg1);
 }
 
 // --- C functions defined in TPlyGuildCardTag_801E0284.cpp ---
 extern "C" {
-void *TPlyGuildCardTag__sub_801E0314(void *arg0, void *arg1);
+void *copy_lobby_entry(void *arg0, void *arg1);
 }
 // --- end of C functions
 

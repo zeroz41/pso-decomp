@@ -1614,7 +1614,7 @@ force_active:
   - TPlyFollowParticleCtrl__class_name
   - TPlyFollowParticleCtrl__sub_8030A694
   - TPlyGuildCardTag__sub_8013ACA4
-  - TPlyGuildCardTag__sub_801E0314
+  - copy_lobby_entry
   - TPlyOnCreated__name
   - TPlyPhotonChair__shared_model_resource
   - TPlyPhotonChair__sub_8035B56C

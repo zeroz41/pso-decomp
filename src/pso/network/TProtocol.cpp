@@ -262,7 +262,7 @@ struct List_801DC1E4 { u8 command; u8 flags; u16 size; u32 entries[30]; };
 struct Text_801DC1E4 { u8 command; u8 flags; u16 size; char text[0x200]; };
 struct Proto_801DC1E4 { u8 pad[0x1910]; s32 connected; u8 pad1914[0x74]; u8 char_data[0x41C]; };
 
-void TProtocol__sub_801DF774(void *, void *);
+void copy_choice_search_parameters(void *, void *);
 }
 s32 validate_player_visual_record(void *arg0);
 extern "C" {
@@ -280,7 +280,7 @@ void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC1E4 *self, u8 *ch
         tmp.size = sizeof(tmp);
         copy_player_data__9TProtocolFPvPv(tmp.char_data, self->char_data);
         ((TLobby *)(tmp.challenge))->copy_player_record((u8 *)challenge);
-        TProtocol__sub_801DF774(tmp.choice_search_config, choice_search_config);
+        copy_choice_search_parameters(tmp.choice_search_config, choice_search_config);
         strncpy(tmp.info_board, info_board, sizeof(tmp.info_board));
         for (int i = 0; i < blocked_senders->flags; ++i) {
             tmp.blocked_senders[i] = blocked_senders->entries[i];
@@ -325,7 +325,7 @@ void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC34C *self, u8 *ch
         tmp.size = sizeof(tmp);
         copy_player_data__9TProtocolFPvPv(tmp.char_data, self->char_data);
         ((TLobby *)(tmp.challenge))->copy_player_record((u8 *)challenge);
-        TProtocol__sub_801DF774(tmp.choice_search_config, choice_search_config);
+        copy_choice_search_parameters(tmp.choice_search_config, choice_search_config);
         strncpy(tmp.info_board, info_board, sizeof(tmp.info_board));
         for (int i = 0; i < blocked_senders->flags; ++i) {
             tmp.blocked_senders[i] = blocked_senders->entries[i];
