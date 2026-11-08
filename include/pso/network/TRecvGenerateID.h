@@ -4,13 +4,13 @@
 #include "types.h"
 
 extern "C" {
-void TRecvGenerateID__sub_801DFBC4(void *p);
+void bswap_generate_id_payload(void *p);
 void bswap__15TRecvGenerateIDFv(s32 arg0);
 }
 
 // --- C functions defined in TRecvGenerateID.cpp ---
 extern "C" {
-void TRecvGenerateID__sub_801DFBC4(void *p);
+void bswap_generate_id_payload(void *p);
 void bswap__15TRecvGenerateIDFv(s32 arg0);
 }
 // --- end of C functions

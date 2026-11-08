@@ -69,20 +69,20 @@ char * strncpy(char *, const char *, u32);
 s32 __dt__18TPlyJoinLobbyEntryFv(s32 arg0, s16 arg1);
 void TLobby__sub_8013AA64(void *, void *);
 void __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *, void *);
-void TLobby__sub_80139894(char *);
+void show_dialog_value_line(char *);
 void copy_member_record__6TLobbyFPvPv(void *, void *);
 void init_6x72_resume_packet(void *);
 void send_packet_60__6TLobbyFi(void *);
 extern const char TLobby__data_8043EF38[];
-extern const char lbl_8043EE58[];
-extern const char lbl_8043EF64[];
+extern const char lobby_debug_burst_player_format[];
+extern const char lobby_debug_udp_close_player_format[];
 extern s32 TLobby__designated_client_id;
 extern s32 local_client_id;
 void on_game_player_add__6TLobbyFiii(s32 arg0, s32 arg1, s32 arg2);
 s32 queue_destruction__7TObjectFv(void *);
 void set_menu_mode_2__6TLobbyFv();
 void * open_default__23TShopJudgmentItemWindowFl(void *);
-extern const char lbl_8043EFF8[];
+extern const char lobby_window_title_information[];
 void open_information_list__6TLobbyFiPv(s32 arg0, Ent_80136FA0 *arg1);
 s32 TLobby__sub_8013F810(void *, void *, s32, void *);
 void bswap_6x6E_sync_game_state__6TLobbyFPv(void *p);
@@ -334,7 +334,7 @@ void TLobby__sub_80077798(void *, void *);
 void set_ip_address__7TSocketFUl(void*, u32);
 int bswap_packet_header__6TLobbyFv(void *);
 void update_idle_timeout__6TLobbyFPv(u8 *arg0);
-u8 * TLobby__sub_80135198(u8 *arg0, s32 arg1);
+u8 * init_idle_timeout_timer(u8 *arg0, s32 arg1);
 void handle_6x70_sync_player_disp_and_inventory(Pkt_801354AC *arg0);
 void handle_6x6D_sync_game_state(Pkt_8013574C *arg0);
 void handle_6x6C_sync_game_state(Pkt_801357F8 *arg0);
@@ -425,24 +425,24 @@ extern const char TLobby__data_805DB0B0[4];
 extern u8 TLobby__sub_801371B0[];
 extern const Pair_80135E7C lbl_8043EE18[];
 extern const Pair_80135E7C lbl_8043EE20[];
-extern const char lbl_8043EFE4[];
+extern const char lobby_msg_information_counter[];
 void fn_80338D58(void *list, s32 flag, const char *name, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 index);
 extern Pair_80134F9C lbl_8043EE28[];
 extern const char lobby_debug_udp_open_format[];
 extern const char lobby_debug_make_player_format[];
-extern const char lbl_8043EE7C[];
-extern const char lbl_8043EEA4[];
-extern const char lbl_8043EEC0[];
-extern const char lbl_8043EEDC[];
-extern const char lbl_8043EEF8[];
+extern const char lobby_debug_create_player_format[];
+extern const char lobby_debug_rcv_item_condition_format[];
+extern const char lobby_debug_rcv_object_condition_format[];
+extern const char lobby_debug_rcv_enemy_condition_format[];
+extern const char lobby_window_title_download[];
 extern const char lobby_debug_player_exit_format[];
-extern const char lbl_8043EF14[];
-extern const char lbl_8043EF4C[];
-extern const char lbl_8043EFC4[];
-extern const char lbl_8043EFD4[];
-extern const char lbl_8043F004[];
-extern const char lbl_8043F010[];
-extern const char lbl_8043F020[];
+extern const char lobby_debug_burst_overwrite_format[];
+extern const char lobby_debug_udp_close_ip_format[];
+extern const char lobby_debug_lobby_start_format[];
+extern const char lobby_debug_game_start_format[];
+extern const char lobby_window_title_ship_select[];
+extern const char lobby_window_title_block_select[];
+extern const char lobby_list_header_block[];
 extern RecoveredGlobal_80135198_lbl_804A7008 lbl_804A7008;
 extern char lobby_idle_timeout_text_buffer[];
 extern RecoveredGlobal_80135974_lbl_805127F8 quest_story_flags_by_difficulty;
@@ -590,7 +590,7 @@ void update_idle_timeout__6TLobbyFPv(u8 *object) {
     }
 }
 
-u8 *TLobby__sub_80135198(u8 *arg0, s32 arg1) {
+u8 *init_idle_timeout_timer(u8 *arg0, s32 arg1) {
     s32 sp8;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804A7008.value;
@@ -622,7 +622,7 @@ void TLobby::open_udp_socket_for_player() {
 }
 void send_6x6F_quest_flags(s32 arg0);
 void restore_switch_table(s32 arg0, s32 arg1);
-extern const char lbl_8043EE90[];
+extern const char lobby_debug_rcv_set_flag_format[];
 extern s16 TLobby__data_805D5CE8;
 void set_world_section_id(void *, s32);
 void handle_6x6F_set_quest_flags_v2(s32 arg0);
@@ -660,7 +660,7 @@ void handle_6x71_unblock_game_join(void) {
                     ((TLobby *)(p + 0xDAC))->copy_header_struct(e);
                     ((VObj_18_9029aa *)p)->m6();
                     ((TLobby *)i)->open_udp_socket_for_player();
-                    lobby_debug_printf_stub(lbl_8043EE58, i);
+                    lobby_debug_printf_stub(lobby_debug_burst_player_format, i);
                 } else {
                     lobby_debug_printf_stub(lobby_debug_duplicate_player_format, i);
                 }
@@ -698,7 +698,7 @@ void handle_6x70_sync_player_disp_and_inventory(Pkt_801354AC *arg0) {
             plr = (Plr_801354AC *)create_remote_player_object(disp);
             strncpy(TLobby__player_names[get_entity_id(plr)], plr->m10(), 0x10);
             ((TLobby *)(disp->id))->open_udp_socket_for_player();
-            lobby_debug_printf_stub(lbl_8043EE7C, get_entity_id(plr));
+            lobby_debug_printf_stub(lobby_debug_create_player_format, get_entity_id(plr));
         }
     }
 }
@@ -739,7 +739,7 @@ void handle_6x6E_sync_game_state(Pkt_8013566C *arg0) {
   s32 n;
   if ((TLobby__data_805D5CE8 == 0) && ((TLobby__data_805D5594 == 0xE) || (TLobby__data_805D5594 == 0xF)))
   {
-    lobby_debug_printf_stub(lbl_8043EE90, arg0->len);
+    lobby_debug_printf_stub(lobby_debug_rcv_set_flag_format, arg0->len);
     buf = (Hdr_8013566C *) ::operator new(0x4008);
     if (buf != 0)
     {
@@ -772,7 +772,7 @@ void handle_6x6D_sync_game_state(Pkt_8013574C *arg0) {
     void *tmp;
     if (TLobby__data_805D5CE8 == 0 && (TLobby__data_805D5594 == 0xE || TLobby__data_805D5594 == 0xF)) {
         len = arg0->len - 8;
-        lobby_debug_printf_stub(lbl_8043EEA4, arg0->len);
+        lobby_debug_printf_stub(lobby_debug_rcv_item_condition_format, arg0->len);
         buf = mem_alloc(0x8000);
         if (buf != NULL) {
             tmp = ::operator new(0x7230);
@@ -793,7 +793,7 @@ void handle_6x6C_sync_game_state(Pkt_801357F8 *arg0) {
     s32 i;
     if (TLobby__data_805D5CE8 == 0 && (TLobby__data_805D5594 == 0xE || TLobby__data_805D5594 == 0xF)) {
         n = arg0->len - 8;
-        lobby_debug_printf_stub(lbl_8043EEC0, arg0->len);
+        lobby_debug_printf_stub(lobby_debug_rcv_object_condition_format, arg0->len);
         p = (u32 *)::operator new(0x7230);
         if (p != NULL) {
             r = ((u32)TLobby__sub_8013F810(p, arg0->data, n, quest_object_entries));
@@ -815,7 +815,7 @@ void handle_6x6B_sync_game_state(Pkt_801358B4 *arg0) {
     s32 i;
     if (TLobby__data_805D5CE8 == 0 && (TLobby__data_805D5594 == 0xE || TLobby__data_805D5594 == 0xF)) {
         n = arg0->len - 8;
-        lobby_debug_printf_stub(lbl_8043EEDC, arg0->len);
+        lobby_debug_printf_stub(lobby_debug_rcv_enemy_condition_format, arg0->len);
         p = (S12_801358B4 *)::operator new(0x7230);
         if (p != NULL) {
             r = ((u32)TLobby__sub_8013F810(p, arg0->data, n, TLobby__data_805D6144));
@@ -978,7 +978,7 @@ void TLobby::send_cmd_6B() {
     }
 }
 
-void TLobby__sub_80135DE4(void *msg) {
+void show_card_list_message(void *msg) {
     if (TLobby__card_list_window != 0) {
         ((TWindowBase *)TLobby__card_list_window)->close();
         TLobby__card_list_window = 0;
@@ -995,9 +995,9 @@ extern "C" {
 
 struct Rec_801378AC;
 extern const char lobby_debug_my_player_format[];
-extern const char lbl_8043EF90[];
-extern const char lbl_8043EF9C[];
-extern const char lbl_8043EFB4[];
+extern const char lobby_list_savedata_format[];
+extern const char lobby_list_duplicate_my_player_format[];
+extern const char lobby_list_block_range_format[];
 void close_all_windows__6TLobbyFv(void);
 void *__ct__11TWindowRoomFPc(void *self, char *title);
 void handle_chat_message__11TWindowCtrlFPc(char *);
@@ -1073,7 +1073,7 @@ extern "C" {
 void reset_state__6TLobbyFv(void);
 void TLobby__sub_801384E4(void);
 s32 __ct__13GameListEntryFv(s32 arg0);
-void TLobby__sub_801397E8(s32 arg0);
+void show_join_entry_message(s32 arg0);
 void show_seq_phase_message__6TLobbyFi(s32 arg0);
 }
 
@@ -1081,13 +1081,13 @@ struct Rec_801378AC { u8 b[0x43c]; };
 
 extern "C" {
 extern void *TLobby__protocol_instance;
-extern const char lbl_8043F038[];
-extern const char lbl_8043F044[];
+extern const char lobby_msg_registed[];
+extern const char lobby_msg_name_taken[];
 void lobby_debug_printf_stub(const char *fmt, ...);
 void send_login2__9TProtocolFi(void *proto, s32 opt);
 void handle_register_name_result__6TLobbyFi(s32 ok);
 extern void *TLobby__protocol_instance;
-extern const char lbl_8043F05C[];
+extern const char lobby_msg_regist_check_ok[];
 void lobby_debug_printf_stub(const char *fmt, ...);
 void send_login2__9TProtocolFi(void *proto, s32 opt);
 void send_regist__9TProtocolFv(void *proto);
@@ -1103,7 +1103,7 @@ void lobby_debug_printf_stub(const char *fmt, ...);
 void send_character_save_info__9TProtocolFii(void *, s32, s32);
 s32 increment_frame__23TAdSinglePlyChrSelectGCFv(void);
 s32 get_player_count__23TAdSinglePlyChrSelectGCFv(void);
-extern const char lbl_8043F028[];
+extern const char lobby_msg_login_success[];
 extern void *TLobby__protocol_instance;
 extern s32 TLobby__login_pending_flag;
 extern s32 lobby_login_result_flag;
@@ -1125,15 +1125,15 @@ void send_selected_character__6TLobbyFv(void);
 void lobby_debug_printf_stub(const char *fmt, ...);
 s32 send_login_9e_extended__6TLobbyFPvPvi(int, void *, int);
 void *get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
-extern const char lbl_8043F05C[];
+extern const char lobby_msg_regist_check_ok[];
 extern void *TLobby__protocol_instance;
 void handle_verify_result__6TLobbyFUi(u32 arg0);
 void lobby_debug_printf_stub(const char *fmt, ...);
 void *get_player_by_client_id(s32);
 s32 send_login_9e_extended__6TLobbyFPvPvi(int, void *, int);
 void *get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
-extern const char lbl_8043F038[];
-extern const char lbl_8043F044[];
+extern const char lobby_msg_registed[];
+extern const char lobby_msg_name_taken[];
 extern s32 local_client_id;
 extern void *TLobby__protocol_instance;
 void handle_register_result__6TLobbyFi(s32 arg0);
@@ -1332,7 +1332,7 @@ s32 send_game_list__9TProtocolFv(s32);
 
 extern s32 TLobby__data_805D5594;
 
-void TLobby__sub_80139894(s32 arg0);
+void show_dialog_value_line(s32 arg0);
 s32 get_seq_phase__6TLobbyFPv(s32);
 int sprintf(char *, const char *, ...);
 extern char lbl_80509D3C[];
@@ -1492,16 +1492,16 @@ extern s32 TLobby__join_lobby_idle_timer;
 void init__23TAdSinglePlyChrSelectGCFv(void);
 void TKeyBoardControl__sub_8000F91C(s32);
 void TKeyBoardControl__sub_8000F9CC(s32);
-void TLobby__sub_80139094(void *self);
+void queue_join_entry_exit_on_input(void *self);
 void close_and_set_state_12__6TLobbyFv();
 s32 get_cursor_value__19TWindowMenuIconLineFv(u32);
-extern const char lbl_8043F06C[];
+extern const char lobby_window_title_block_jump[];
 extern s8 controller_input_state[];
 extern u32 TLobby__list_window;
 void update_block_jump_list__6TLobbyFv(void);
 void close_and_set_state_12__6TLobbyFv();
 s32 get_cursor_value__19TWindowMenuIconLineFv(u32);
-extern const char lbl_8043F078[];
+extern const char lobby_window_title_ship_jump[];
 extern s8 controller_input_state[];
 extern u32 TLobby__list_window;
 void update_ship_select_window__6TLobbyFv(void);
@@ -1575,7 +1575,7 @@ extern const f32 lbl_805DB0B8;
 s32 get_window_layout_position(s32);
 u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
 int append_line__14TWindowMessageFii(u32 p, int a1, int a2);
-void TLobby__sub_80139894(s32 arg0);
+void show_dialog_value_line(s32 arg0);
 extern const Pair_8013990C lbl_8043EDE8[];
 extern const f32 lbl_805DB0B8;
 s32 get_window_layout_position(s32);
@@ -1583,7 +1583,7 @@ u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
 int append_line__14TWindowMessageFii(u32 p, int a1, int a2);
 s32 get_seq_phase__6TLobbyFPv(s32);
 s32 get_cursor_value__19TWindowMenuIconLineFv(u32);
-extern const char lbl_8043F084[];
+extern const char lobby_window_title_taisen_team[];
 extern s8 controller_input_state[];
 extern u32 TLobby__list_window;
 void handle_team_select__6TLobbyFv(void);
@@ -1644,7 +1644,7 @@ void show_seq_phase_message__6TLobbyFi(s32 arg0) {
     append_line__14TWindowMessageFii((*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))), get_seq_phase__6TLobbyFPv(arg0), 1);
 }
 
-void TLobby__sub_80139894(s32 arg0) {
+void show_dialog_value_line(s32 arg0) {
     if ((*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))) == 0) {
         Pair_80139894 tmp = lbl_8043EDF0[0];
         (*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))) = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0xc1), &tmp);
@@ -1660,7 +1660,7 @@ void close_com_card_window__6TLobbyFv(void) {
     }
 }
 
-void TLobby__sub_801397E8(s32 arg0) {
+void show_join_entry_message(s32 arg0) {
     if (TLobby__join_entry_window_obj == 0) {
         Pair_801397E8 tmp = lbl_8043EDF8[0];
         TLobby__join_entry_window_obj = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0xc2), &tmp);
@@ -1702,7 +1702,7 @@ void run_task__6TLobbyFv(void *self) {
         CALL_80139690(update_block_jump_list__6TLobbyFv);
         break;
     case 12:
-        CALL_80139690(TLobby__sub_80139094);
+        CALL_80139690(queue_join_entry_exit_on_input);
         return;
     case 13:
         CALL_80139690(update__6TLobbyFv);
@@ -1756,7 +1756,7 @@ void handle_team_select__6TLobbyFv(void) {
             idx = get_cursor_value__19TWindowMenuIconLineFv(TLobby__list_window);
             ((TWindowBase *)TLobby__list_window)->close();
             TLobby__list_window = 0U;
-            ((s32 (*)(void *, void *, s32 *, s32 *))send_action__9TProtocolFR13GameListEntryPcPc)((void *)((*(Lst_801395D8 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&TLobby__protocol_instance))))), (void *)(&(*(Lst_801395D8 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&TLobby__protocol_instance))))->e[idx]), (s32 *)lbl_8043F084, (s32 *)(&(*(s32 *)&(*(s32 *)&TLobby__data_805DB0B0))));
+            ((s32 (*)(void *, void *, s32 *, s32 *))send_action__9TProtocolFR13GameListEntryPcPc)((void *)((*(Lst_801395D8 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&TLobby__protocol_instance))))), (void *)(&(*(Lst_801395D8 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&(*(struct Root_80139538_80137188 * *)&TLobby__protocol_instance))))->e[idx]), (s32 *)lobby_window_title_taisen_team, (s32 *)(&(*(s32 *)&(*(s32 *)&TLobby__data_805DB0B0))));
             ((s32 (*)())close_and_set_state_12__6TLobbyFv)();
             return;
         }
@@ -1899,7 +1899,7 @@ void update_ship_select_window__6TLobbyFv(void) {
             idx = get_cursor_value__19TWindowMenuIconLineFv(TLobby__list_window);
             ((TWindowBase *)TLobby__list_window)->close();
             TLobby__list_window = 0U;
-            ((void (*)(void *, void *, const char *, char *))send_action__9TProtocolFR13GameListEntryPcPc)((*(Lst_801391BC * *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&TLobby__protocol_instance)))))), &(*(Lst_801391BC * *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&TLobby__protocol_instance))))))->e[idx], lbl_8043F078, &(*(char *)&(*(char *)&(*(char *)&TLobby__data_805DB0B0))));
+            ((void (*)(void *, void *, const char *, char *))send_action__9TProtocolFR13GameListEntryPcPc)((*(Lst_801391BC * *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&TLobby__protocol_instance)))))), &(*(Lst_801391BC * *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&TLobby__protocol_instance))))))->e[idx], lobby_window_title_ship_jump, &(*(char *)&(*(char *)&(*(char *)&TLobby__data_805DB0B0))));
             close_and_set_state_12__6TLobbyFv();
             return;
         }
@@ -1917,7 +1917,7 @@ void update_block_jump_list__6TLobbyFv(void) {
             idx = get_cursor_value__19TWindowMenuIconLineFv(TLobby__list_window);
             ((TWindowBase *)TLobby__list_window)->close();
             TLobby__list_window = 0U;
-            ((void (*)(void *, void *, const char *, char *))send_action__9TProtocolFR13GameListEntryPcPc)((*(Lst_80139104 * *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&TLobby__protocol_instance)))))), &(*(Lst_80139104 * *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&TLobby__protocol_instance))))))->e[idx], lbl_8043F06C, &(*(char *)&(*(char *)&(*(char *)&TLobby__data_805DB0B0))));
+            ((void (*)(void *, void *, const char *, char *))send_action__9TProtocolFR13GameListEntryPcPc)((*(Lst_80139104 * *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&TLobby__protocol_instance)))))), &(*(Lst_80139104 * *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&(*(s32 *)&TLobby__protocol_instance))))))->e[idx], lobby_window_title_block_jump, &(*(char *)&(*(char *)&(*(char *)&TLobby__data_805DB0B0))));
             close_and_set_state_12__6TLobbyFv();
             return;
         }
@@ -1928,7 +1928,7 @@ void update_block_jump_list__6TLobbyFv(void) {
     }
 }
 
-void TLobby__sub_80139094(void *self) {
+void queue_join_entry_exit_on_input(void *self) {
     if (((*(Pad_80139094 **)controller_input_state)->flags & 8) || TLobby__join_lobby_idle_timer++ > 0xe10) {
         init__23TAdSinglePlyChrSelectGCFv();
         TKeyBoardControl__sub_8000F91C(2);
@@ -2322,7 +2322,7 @@ void TLobby__sub_801384E4(void) {
         if ((s32) TLobby__player_setup_pending == 0) {
             if ((s32) TLobby__data_805D5594 != 0xC) {
                 sprintf(lobby_join_message_buffer, (const char *)get_seq_phase__6TLobbyFPv(7), lbl_80509D3C);
-                TLobby__sub_80139894((s32)lobby_join_message_buffer);
+                show_dialog_value_line((s32)lobby_join_message_buffer);
                 ((TWindowSubComCard *)TLobby__current_dialog_window)->reparent_to_main_ctrl();
                 ((s32 (*)())init_player_window_effect__6TLobbyFv)();
                 TLobby__join_lobby_idle_timer = 0;
@@ -2361,7 +2361,7 @@ void update_state__6TLobbyFv(void) {
 }
 
 void reset_state__6TLobbyFv(void) {
-    ((s32 (*)())TLobby__sub_801397E8)();
+    ((s32 (*)())show_join_entry_message)();
     ((s32 (*)())init_player_window_effect__6TLobbyFv)();
     TLobby__join_lobby_idle_timer = 0;
     TLobby__data_805D5594 = 0xC;
@@ -2369,7 +2369,7 @@ void reset_state__6TLobbyFv(void) {
 }
 
 void close_and_set_state_13__6TLobbyFv(void) {
-    ((s32 (*)())TLobby__sub_801397E8)();
+    ((s32 (*)())show_join_entry_message)();
     ((s32 (*)())init_player_window_effect__6TLobbyFv)();
     TLobby__data_805D5594 = 0xD;
 }
@@ -2726,7 +2726,7 @@ void add_lobby_members__6TLobbyFPvisi(Rec_801378AC *src, s32 n, s16 v, s32 w) {
 
 void handle_regist_check__6TLobbyFi(s32 ok) {
     if (ok) {
-        lobby_debug_printf_stub(lbl_8043F05C);
+        lobby_debug_printf_stub(lobby_msg_regist_check_ok);
         send_login2__9TProtocolFi(TLobby__protocol_instance, TLobby::get_option_state());
     } else {
         send_regist__9TProtocolFv(TLobby__protocol_instance);
@@ -2738,7 +2738,7 @@ void handle_verify_result__6TLobbyFUi(u32 arg0) {
     switch (arg0) {
     case 0:
     case 2:
-        lobby_debug_printf_stub(lbl_8043F05C);
+        lobby_debug_printf_stub(lobby_msg_regist_check_ok);
         TLobby::dispatch_by_index(1);
         option_state = TLobby::get_option_state();
         send_login_9e_extended__6TLobbyFPvPvi((int)TLobby__protocol_instance, (void *) (((s32)get_char_index__23TAdSinglePlyChrSelectGCFUi((u32)(0xFFFF))) + 0x370), (int)option_state);
@@ -2799,10 +2799,10 @@ void handle_verify_result__6TLobbyFUi(u32 arg0) {
 
 void handle_register_name_result__6TLobbyFi(s32 ok) {
     if (ok) {
-        lobby_debug_printf_stub(lbl_8043F038);
+        lobby_debug_printf_stub(lobby_msg_registed);
         send_login2__9TProtocolFi(TLobby__protocol_instance, TLobby::get_option_state());
     } else {
-        lobby_debug_printf_stub(lbl_8043F044);
+        lobby_debug_printf_stub(lobby_msg_name_taken);
         TLobby::dispatch_by_index(2);
         ((void (*)(s32))reset_state__6TLobbyFv)(0xd);
     }
@@ -2811,14 +2811,14 @@ void handle_register_name_result__6TLobbyFi(s32 ok) {
 void handle_register_result__6TLobbyFi(s32 arg0) {
     s32 opt;
     if (arg0 != 0) {
-        lobby_debug_printf_stub(lbl_8043F038);
+        lobby_debug_printf_stub(lobby_msg_registed);
         get_player_by_client_id(local_client_id);
         opt = TLobby::get_option_state();
         send_login_9e_extended__6TLobbyFPvPvi((int)TLobby__protocol_instance, (u8 *)get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF) + 0x370, opt);
         TLobby::dispatch_by_index(1);
         return;
     }
-    lobby_debug_printf_stub(lbl_8043F044);
+    lobby_debug_printf_stub(lobby_msg_name_taken);
     TLobby::dispatch_by_index(2);
     ((void (*)(s32))reset_state__6TLobbyFv)(0x50);
 }
@@ -2827,7 +2827,7 @@ void handle_login_result__6TLobbyFUi(u32 arg0) {
     s32 temp_r31;
     switch (arg0) {
     case 0:
-        lobby_debug_printf_stub(lbl_8043F028);
+        lobby_debug_printf_stub(lobby_msg_login_success);
         TAdEnterSerialAccessGC::store_serial_access_key((s32)((char *)TLobby__protocol_instance + 0x3F8A), (s32)((char *)TLobby__protocol_instance + 0x3F9B), (s32)((char *)TLobby__protocol_instance + 0x3F3A));
         if (TLobby__login_pending_flag != 0) {
             temp_r31 = increment_frame__23TAdSinglePlyChrSelectGCFv();
@@ -2962,13 +2962,13 @@ void disable_window_flags__6TLobbyFPv(void* a0) { ((TWindowCtrl *)local_client_i
 
 extern "C" {
 void open_ship_block_select_menu__6TLobbyFiPvPv(s32 arg0, Ent_8013703C *arg1, Ent_8013703C *arg2) {
-    static void *tblA = (void *)lbl_8043F004;
-    static void *tblB = (void *)lbl_8043F010;
+    static void *tblA = (void *)lobby_window_title_ship_select;
+    static void *tblB = (void *)lobby_window_title_block_select;
     void *tbl;
     s32 cmp;
     s32 i;
 
-    cmp = strncmp(arg1->name, lbl_8043F020, 5);
+    cmp = strncmp(arg1->name, lobby_list_header_block, 5);
     if (cmp == 0) {
         tbl = tblB;
     } else {
@@ -2988,7 +2988,7 @@ void open_ship_block_select_menu__6TLobbyFiPvPv(s32 arg0, Ent_8013703C *arg1, En
     } else {
         set_menu_mode_0__6TLobbyFv();
     }
-    if (strncmp(arg2->name, lbl_8043F020, 5) != 0) {
+    if (strncmp(arg2->name, lobby_list_header_block, 5) != 0) {
         memset(TLobby__data_8050AAAC, 0, 0x11);
         strncpy(TLobby__data_8050AAAC, arg2->name, 0x10);
     }
@@ -2996,7 +2996,7 @@ void open_ship_block_select_menu__6TLobbyFiPvPv(s32 arg0, Ent_8013703C *arg1, En
 }
 
 void open_information_list__6TLobbyFiPv(s32 arg0, Ent_80136FA0 *arg1) {
-    void *w = (void *)lbl_8043EFF8;
+    void *w = (void *)lobby_window_title_information;
     s32 i;
     void *old = TLobby__list_window;
     if (old != 0) {
@@ -3013,7 +3013,7 @@ void open_information_list__6TLobbyFiPv(s32 arg0, Ent_80136FA0 *arg1) {
 
 extern "C" {
 void TLobby__sub_80136E68(s32 count, Ent_80136E68 *entries, Ent_80136E68 *selected) {
-    static void *tbl = (void *)lbl_8043EFE4;
+    static void *tbl = (void *)lobby_msg_information_counter;
     void *w;
     s32 i;
 
@@ -3061,7 +3061,7 @@ void handle_game_join__6TLobbyFPv(Pkt_80136C94 *pkt) {
     bswap_32(&((Row_80136C94 *)&game_join_player_records)[2].ip);
     bswap_32(&((Row_80136C94 *)&game_join_player_records)[3].ip);
     destroy_all_objects__6TLobbyFv();
-    lobby_debug_printf_stub(lbl_8043EFD4, pkt->client_id);
+    lobby_debug_printf_stub(lobby_debug_game_start_format, pkt->client_id);
     local_client_id = pkt->client_id;
     TLobby__designated_client_id = pkt->leader_id;
     TLobby__join_state_flag = pkt->b106;
@@ -3140,7 +3140,7 @@ void handle_lobby_enter__6TLobbyFPviiiiiii(Ent_801368B0 *ents, s32 n, s32 client
     s32 j;
     Node_801361E8 *node;
     destroy_all_objects__6TLobbyFv();
-    lobby_debug_printf_stub(lbl_8043EFC4, client_id);
+    lobby_debug_printf_stub(lobby_debug_lobby_start_format, client_id);
     local_client_id = client_id;
     v4 = arg4;
     TLobby__lobby_entered_flag = 1;
@@ -3152,7 +3152,7 @@ void handle_lobby_enter__6TLobbyFPviiiiiii(Ent_801368B0 *ents, s32 n, s32 client
     TLobby__data_805D5588 = 0;
     TLobby__designated_client_id = leader;
     for (node = game_protocol_instance->head; node != NULL; node = node->next) {
-        lobby_debug_printf_stub(lbl_8043EF4C, node->b1c, node->b1d, node->b1e, node->b1f);
+        lobby_debug_printf_stub(lobby_debug_udp_close_ip_format, node->b1c, node->b1d, node->b1e, node->b1f);
         delete (Obj_801368B0 *)node;
     }
     for (j = 0; j < 12; j++) {
@@ -3190,9 +3190,9 @@ void construct_lobby_players(Rec_801378AC *records, s32 count, int self_id, s32 
                 ((TLobby *)(plr + 0xDAC))->copy_header_struct(&((Entry_8013634C *)records)[i]);
                 ((Plr_80136080 *)plr)->m6();
                 lobby_debug_printf_stub(lobby_debug_my_player_format, self_id);
-                lobby_debug_printf_stub(lbl_8043EF90, sizeof(((Entry_8013634C *)records)->char_data));
+                lobby_debug_printf_stub(lobby_list_savedata_format, sizeof(((Entry_8013634C *)records)->char_data));
             } else {
-                lobby_debug_printf_stub(lbl_8043EF9C, i);
+                lobby_debug_printf_stub(lobby_list_duplicate_my_player_format, i);
             }
         }
     }
@@ -3202,7 +3202,7 @@ void construct_lobby_players(Rec_801378AC *records, s32 count, int self_id, s32 
                 plr = create_player_object(((Entry_8013634C *)records)[j].client_id, 4, ((Entry_8013634C *)records)[j].char_data);
                 ((TLobby *)(plr + 0xDAC))->copy_header_struct(&((Entry_8013634C *)records)[j]);
                 ((Plr_80136080 *)plr)->m6();
-                lobby_debug_printf_stub(lbl_8043EE7C, ((Entry_8013634C *)records)[j].client_id);
+                lobby_debug_printf_stub(lobby_debug_create_player_format, ((Entry_8013634C *)records)[j].client_id);
             } else {
                 lobby_debug_printf_stub(lobby_debug_duplicate_player_format, ((Entry_8013634C *)records)[j].client_id);
             }
@@ -3213,7 +3213,7 @@ void construct_lobby_players(Rec_801378AC *records, s32 count, int self_id, s32 
         lobby_player_construction_window->queue_destruction();
         lobby_player_construction_window = NULL;
     }
-    sprintf((char *)lbl_80509D3C, lbl_8043EFB4, TLobby__data_8050AAAC, TLobby__data_805D55AC, TLobby__lobby_number + 1);
+    sprintf((char *)lbl_80509D3C, lobby_list_block_range_format, TLobby__data_8050AAAC, TLobby__data_805D55AC, TLobby__lobby_number + 1);
     room = __nw__7TObjectFUl(sizeof(TWindowRoom));
     if (room != NULL) {
         room = __ct__11TWindowRoomFPc(room, (char *)lbl_80509D3C);
@@ -3243,7 +3243,7 @@ void on_game_player_add__6TLobbyFiii(s32 arg0, s32 arg1, s32 arg2) {
     strncpy(game_join_player_records[e.client_id].name, e.name, 0x10);
     TLobby__join_state_flag = arg2;
     sprintf(player_joined_message, get_seq_phase__6TLobbyFPv(0x10), e.name);
-    TLobby__sub_80139894(player_joined_message);
+    show_dialog_value_line(player_joined_message);
     ((TWindowMessage *)TLobby__current_dialog_window)->complete_reveal();
     ((TWindowSubComCard *)TLobby__current_dialog_window)->reparent_to_main_ctrl();
     main_task.begin_frame();
@@ -3267,7 +3267,7 @@ void on_game_player_add__6TLobbyFiii(s32 arg0, s32 arg1, s32 arg2) {
     if (p != NULL) {
         for (n = game_protocol_instance->head; n != NULL; n = n->next) {
             if (n->id == e.client_id) {
-                lobby_debug_printf_stub(lbl_8043EF64, e.client_id, n->b1c, n->b1d, n->b1e, n->b1f);
+                lobby_debug_printf_stub(lobby_debug_udp_close_player_format, e.client_id, n->b1c, n->b1d, n->b1e, n->b1f);
                 delete (Obj_801361E8 *)n;
                 break;
             }
@@ -3290,7 +3290,7 @@ void on_game_player_add__6TLobbyFiii(s32 arg0, s32 arg1, s32 arg2) {
             ((TLobby *)(plr + 0xDAC))->copy_header_struct(&e);
             ((Plr_80136080 *)plr)->m6();
             ((TLobby *)(e.client_id))->open_udp_socket_for_player();
-            lobby_debug_printf_stub(lbl_8043EE58, e.client_id);
+            lobby_debug_printf_stub(lobby_debug_burst_player_format, e.client_id);
         }
     } else {
         game_join_pending_clients[e.client_id] = 1;
@@ -3320,7 +3320,7 @@ void remove_player__6TLobbyFUiii(u32 arg0, s32 arg1, s32 arg2) {
     if (p != NULL) {
         for (n = game_protocol_instance->head; n != NULL; n = n->next) {
             if (n->id == arg0) {
-                lobby_debug_printf_stub(lbl_8043EF4C, n->b1c, n->b1d, n->b1e, n->b1f);
+                lobby_debug_printf_stub(lobby_debug_udp_close_ip_format, n->b1c, n->b1d, n->b1e, n->b1f);
                 delete (Obj_801361E8 *)n;
                 break;
             }
@@ -3357,7 +3357,7 @@ void on_lobby_player_add__6TLobbyFii(s32 arg0, s32 arg1) {
     TLobby__sub_8013AA64(&e, (void *)arg0);
     TLobby__designated_client_id = arg1;
     if (e.client_id == local_client_id) {
-        lobby_debug_printf_stub(lbl_8043EF14, e.client_id);
+        lobby_debug_printf_stub(lobby_debug_burst_overwrite_format, e.client_id);
         ((void (*)(void *, s32))__dt__18TPlyJoinLobbyEntryFv)(&e, -1);
         return;
     }
@@ -3370,7 +3370,7 @@ void on_lobby_player_add__6TLobbyFii(s32 arg0, s32 arg1) {
     plr = create_player_object(e.client_id, 4, e.char_data);
     ((TLobby *)(plr + 0xDAC))->copy_header_struct(&e);
     ((Plr_80136080 *)plr)->m6();
-    lobby_debug_printf_stub(lbl_8043EE58, e.client_id);
+    lobby_debug_printf_stub(lobby_debug_burst_player_format, e.client_id);
     ((void (*)(void *, s32))__dt__18TPlyJoinLobbyEntryFv)(&e, -1);
 }
 
@@ -3389,7 +3389,7 @@ void TLobby__sub_80135FFC(void) {  }
 
 extern "C" {
 void open_download_list_window__6TLobbyFiPv(s32 arg0, Ent_80135E7C *arg1) {
-    static void *tbl = (void *)lbl_8043EEF8;
+    static void *tbl = (void *)lobby_window_title_download;
     s32 i;
     Ent_80135E7C *e;
     void *w;
@@ -3464,7 +3464,7 @@ typedef struct Date_801399B8 {
 
 s32 TKeyBoardControl__sub_8000F828(void);
 void queue_destruction__7TObjectFv(void *);
-void TLobby__sub_80135198(void *, s32);
+void init_idle_timeout_timer(void *, s32);
 void reset_state__6TLobbyFv(int);
 s32 get_access_key_input_buffer(void);
 s32 init_serial_access__6TLobbyFv(void);
@@ -3506,7 +3506,7 @@ void run_join_lobby_connect__6TLobbyFi(s32 arg0) {
         DateToSeconds((DateStamp *)&date, (int *)&TLobby__date_seconds);
         p = __nw__7TObjectFUl(0x2C);
         if (p != NULL) {
-            TLobby__sub_80135198(p, arg0);
+            init_idle_timeout_timer(p, arg0);
         }
         TLobby__join_state_flag = 1;
         win = TLobby::create_dialing_message_window((void *)(TAdDialingGC__sub_8013ADBC(7)), (void *)1);
@@ -3571,7 +3571,7 @@ void set_lobby_event_theme();
 void init_once__6TLobbyFPv();
 void TLobby__sub_80134DC8();
 void TLobby__sub_80134DE8();
-void TLobby__sub_80135DE4();
+void show_card_list_message();
 void open_download_list_window__6TLobbyFiPv();
 void TLobby__sub_80135FFC();
 void retire_lobby_player__6TLobbyFii();
@@ -3732,7 +3732,7 @@ u8 *TLobby__ct(u8 *object, void *arg1) {
     *(s32 **)((s8 *)TLobby__protocol_instance + 0xBC60) = (s32 *)&begin_file_download__16TQuestListOnlineFv;
     *(s32 **)((s8 *)TLobby__protocol_instance + 0xBC64) = (s32 *)&handle_quest_download_chunk__6TLobbyFv;
     *(s32 **)((s8 *)TLobby__protocol_instance + 0xBC68) = (s32 *)&open_download_list_window__6TLobbyFiPv;
-    *(s32 **)((s8 *)TLobby__protocol_instance + 0xBC6C) = (s32 *)&TLobby__sub_80135DE4;
+    *(s32 **)((s8 *)TLobby__protocol_instance + 0xBC6C) = (s32 *)&show_card_list_message;
     *(s32 **)((s8 *)TLobby__protocol_instance + 0xBC70) = (s32 *)&begin_file_download__22TQuestVmDownLoadServerFv;
     *(s32 **)((s8 *)TLobby__protocol_instance + 0xBC74) = (s32 *)&receive_file_chunk__22TQuestVmDownLoadServerFv;
     *(s32 **)((s8 *)TLobby__protocol_instance + 0xBC80) = (s32 *)&disable_window_flags__6TLobbyFPv;
@@ -4006,39 +4006,39 @@ __declspec(section ".rodata") const Pair_80135E7C lbl_8043EE20[1] = { { 332.0f, 
 __declspec(section ".rodata") Pair_80134F9C lbl_8043EE28[1] = { { 342.0f, 144.0f } };
 __declspec(section ".rodata") const char lobby_debug_udp_open_format[] = "udp open %d %d.%d.%d.%d";
 __declspec(section ".rodata") const char lobby_debug_make_player_format[] = "Make Player %d";
-__declspec(section ".rodata") const char lbl_8043EE58[] = "burst player %d";
+__declspec(section ".rodata") const char lobby_debug_burst_player_format[] = "burst player %d";
 __declspec(section ".rodata") const char lobby_debug_duplicate_player_format[] = "Duplicate player %d";
-__declspec(section ".rodata") const char lbl_8043EE7C[] = "create player %d";
-__declspec(section ".rodata") const char lbl_8043EE90[] = "RcvSetFlag size %d";
-__declspec(section ".rodata") const char lbl_8043EEA4[] = "RcvItemCondition size %d";
-__declspec(section ".rodata") const char lbl_8043EEC0[] = "RcvObjectCondition size %d";
-__declspec(section ".rodata") const char lbl_8043EEDC[] = "RcvEnemyCondition size %d";
-__declspec(section ".rodata") const char lbl_8043EEF8[] = "Down Load";
+__declspec(section ".rodata") const char lobby_debug_create_player_format[] = "create player %d";
+__declspec(section ".rodata") const char lobby_debug_rcv_set_flag_format[] = "RcvSetFlag size %d";
+__declspec(section ".rodata") const char lobby_debug_rcv_item_condition_format[] = "RcvItemCondition size %d";
+__declspec(section ".rodata") const char lobby_debug_rcv_object_condition_format[] = "RcvObjectCondition size %d";
+__declspec(section ".rodata") const char lobby_debug_rcv_enemy_condition_format[] = "RcvEnemyCondition size %d";
+__declspec(section ".rodata") const char lobby_window_title_download[] = "Down Load";
 __declspec(section ".rodata") const char lobby_debug_player_exit_format[] = "player %d exit";
-__declspec(section ".rodata") const char lbl_8043EF14[] = "OnBurstLobby over write player %d";
+__declspec(section ".rodata") const char lobby_debug_burst_overwrite_format[] = "OnBurstLobby over write player %d";
 __declspec(section ".rodata") const char TLobby__data_8043EF38[] = "delete player %d";
-__declspec(section ".rodata") const char lbl_8043EF4C[] = "udp close %d.%d.%d.%d";
-__declspec(section ".rodata") const char lbl_8043EF64[] = "udp close %d %d.%d.%d.%d";
+__declspec(section ".rodata") const char lobby_debug_udp_close_ip_format[] = "udp close %d.%d.%d.%d";
+__declspec(section ".rodata") const char lobby_debug_udp_close_player_format[] = "udp close %d %d.%d.%d.%d";
 __declspec(section ".rodata") const char lobby_debug_my_player_format[] = "My Player %d";
-__declspec(section ".rodata") const char lbl_8043EF90[] = "SaveData %d";
-__declspec(section ".rodata") const char lbl_8043EF9C[] = "Duplicate My player %d";
-__declspec(section ".rodata") const char lbl_8043EFB4[] = "%s:%02d-%02d";
-__declspec(section ".rodata") const char lbl_8043EFC4[] = "Lobby start %d";
-__declspec(section ".rodata") const char lbl_8043EFD4[] = "Game start %d";
-__declspec(section ".rodata") const char lbl_8043EFE4[] = "Information Counter";
-__declspec(section ".rodata") const char lbl_8043EFF8[] = "Information";
-__declspec(section ".rodata") const char lbl_8043F004[] = "Ship Select";
-__declspec(section ".rodata") const char lbl_8043F010[] = "Block Select";
-__declspec(section ".rodata") const char lbl_8043F020[] = "BLOCK";
+__declspec(section ".rodata") const char lobby_list_savedata_format[] = "SaveData %d";
+__declspec(section ".rodata") const char lobby_list_duplicate_my_player_format[] = "Duplicate My player %d";
+__declspec(section ".rodata") const char lobby_list_block_range_format[] = "%s:%02d-%02d";
+__declspec(section ".rodata") const char lobby_debug_lobby_start_format[] = "Lobby start %d";
+__declspec(section ".rodata") const char lobby_debug_game_start_format[] = "Game start %d";
+__declspec(section ".rodata") const char lobby_msg_information_counter[] = "Information Counter";
+__declspec(section ".rodata") const char lobby_window_title_information[] = "Information";
+__declspec(section ".rodata") const char lobby_window_title_ship_select[] = "Ship Select";
+__declspec(section ".rodata") const char lobby_window_title_block_select[] = "Block Select";
+__declspec(section ".rodata") const char lobby_list_header_block[] = "BLOCK";
 }
 namespace P3_80137360 {
 extern "C" {
-__declspec(section ".rodata") const char lbl_8043F028[] = "login success.";
-__declspec(section ".rodata") const char lbl_8043F038[] = "Registed.";
-__declspec(section ".rodata") const char lbl_8043F044[] = "already use this name.";
-__declspec(section ".rodata") const char lbl_8043F05C[] = "Regist check OK";
-__declspec(section ".rodata") const char lbl_8043F06C[] = "BlockJump";
-__declspec(section ".rodata") const char lbl_8043F078[] = "ShipJump";
-__declspec(section ".rodata") const char lbl_8043F084[] = "TAISEN TEAM";
+__declspec(section ".rodata") const char lobby_msg_login_success[] = "login success.";
+__declspec(section ".rodata") const char lobby_msg_registed[] = "Registed.";
+__declspec(section ".rodata") const char lobby_msg_name_taken[] = "already use this name.";
+__declspec(section ".rodata") const char lobby_msg_regist_check_ok[] = "Regist check OK";
+__declspec(section ".rodata") const char lobby_window_title_block_jump[] = "BlockJump";
+__declspec(section ".rodata") const char lobby_window_title_ship_jump[] = "ShipJump";
+__declspec(section ".rodata") const char lobby_window_title_taisen_team[] = "TAISEN TEAM";
 }
 }
