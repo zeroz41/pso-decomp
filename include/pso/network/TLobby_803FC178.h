@@ -68,7 +68,7 @@ void queue_command_81(void);
 s32 read_2_bytes(void *self, void *src);
 void reset_connection_slot(void *self);
 void reset_connection_state(void *self);
-void save_timer_state(void *self);
+void reset_lcp_options(void *self);
 void set_active(void *self);
 s32 set_active_flag(void *self);
 s32 set_flags_and_state(void *self);
