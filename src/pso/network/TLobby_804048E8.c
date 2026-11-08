@@ -1,6 +1,7 @@
 /* The network stack's connection list (a C library, built with GC/1.2.5n): the list header and its two pools of
  * 0x8C-byte nodes, the second chained into a free list. */
 #include "types.h"
+#include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_804048E8.h"
 
 typedef struct Node_80405008 {
@@ -32,7 +33,6 @@ u32 lbl_805C1890[4];
 s32 TLobby__sub_804053B8(B_80403F4C *, Strm_80405A74 **);
 u8 *TLobby__sub_8040555C(B_80403F4C *, u8 *, s32);
 u8 *GXLoadTexObjPreLoaded(A_80403F4C *, u8 *, s32);
-u8 *write_network_u16_be(u8 *p, u16 v);
 s32 NetMemcmp(void *, void *, int);
 void NetMemcpy(void *, void *, int);
 u8 *alloc_from_buffer(void *self, s16 arg1);

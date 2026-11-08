@@ -10,8 +10,9 @@
 #include "pso/network/IPv6.h"
 
 #include "types.h"
-typedef struct Buf_80408F2C Buf_80408F2C;
-typedef struct Tbl_80408F2C Tbl_80408F2C;
+#include "pso/network/TLobby_803FCF44.h"
+#include "pso/network/TLobby_804050DC.h"
+#include "pso/network/TLobby_8041112C.h"
 typedef struct Sub_804162A4 Sub_804162A4;
 typedef struct Ent_804162A4 Ent_804162A4;
 typedef struct Glob_804162A4 Glob_804162A4;
@@ -20,45 +21,16 @@ typedef struct Ent_80416678 Ent_80416678;
 typedef struct Hdr_804177A0 Hdr_804177A0;
 typedef struct Arg_80417D1C Arg_80417D1C;
 typedef struct Arg_80417E60 Arg_80417E60;
-typedef struct Self_803FD85C Self_803FD85C;
-typedef struct Tbl_803FD85C Tbl_803FD85C;
-typedef struct RecoveredGlobal_8041552C_lbl_805C1BE0 RecoveredGlobal_8041552C_lbl_805C1BE0;
 typedef struct Stack_80416008 Stack_80416008;
-typedef struct E_8040FF58 E_8040FF58;
-typedef struct RecoveredGlobal_8040FF0C_lbl_805C1B78 RecoveredGlobal_8040FF0C_lbl_805C1B78;
-typedef struct RecoveredGlobal_80415650_lbl_805C1BF8 RecoveredGlobal_80415650_lbl_805C1BF8;
-typedef struct Ent_80408718 Ent_80408718;
-typedef struct Tbl_80408718 Tbl_80408718;
 typedef struct G_8041509C G_8041509C;
-typedef struct Seg_804179A4 Seg_804179A4;
-typedef struct Pkt_804179A4 Pkt_804179A4;
 typedef struct Na_804179A4 Na_804179A4;
 typedef struct Cur_804179A4 Cur_804179A4;
-typedef struct Sock_804179A4 Sock_804179A4;
 typedef struct Q_804179A4 Q_804179A4;
 typedef struct E_804179A4 E_804179A4;
-typedef struct N_80405298 N_80405298;
-typedef struct Self_803FDA68 Self_803FDA68;
-typedef struct Tbl_803FDA68 Tbl_803FDA68;
-typedef struct V_803FE600 V_803FE600;
-typedef struct O_803FE600 O_803FE600;
-typedef struct O_80406B6C O_80406B6C;
-typedef struct Rec_8040B33C Rec_8040B33C;
-typedef struct A_8040A45C A_8040A45C;
-typedef struct C_8040A45C C_8040A45C;
-typedef struct D_8040A45C D_8040A45C;
-typedef struct E_8040A45C E_8040A45C;
-typedef struct F_8040A45C F_8040A45C;
-typedef struct G_8040A45C G_8040A45C;
-typedef struct RecoveredFields_804143BC_arg0 RecoveredFields_804143BC_arg0;
 typedef struct E_80415558 E_80415558;
 typedef struct G_80415558 G_80415558;
 typedef struct E_8041559C E_8041559C;
 typedef struct G_8041559C G_8041559C;
-typedef struct A_80415B38 A_80415B38;
-typedef struct C_80415B38 C_80415B38;
-typedef struct B_80415B38 B_80415B38;
-typedef struct G_80415B38 G_80415B38;
 typedef struct Arg2_80415B38 Arg2_80415B38;
 typedef struct Peer_80416994 Peer_80416994;
 typedef struct Sub_80416994 Sub_80416994;
@@ -78,59 +50,17 @@ typedef struct G_804188E4 G_804188E4;
 typedef struct A_80418ACC A_80418ACC;
 typedef struct B_80418ACC B_80418ACC;
 typedef struct G_80418ACC G_80418ACC;
-typedef struct E_80418BD8 E_80418BD8;
-typedef struct A_80418BD8 A_80418BD8;
 typedef struct N_80419258 N_80419258;
 typedef struct E_80419258 E_80419258;
 typedef struct G_80419258 G_80419258;
 typedef struct N_804196EC N_804196EC;
 typedef struct E_804196EC E_804196EC;
 typedef struct G_804196EC G_804196EC;
-typedef s16 (*Init_8040881C)(s16);
-s16 alloc_conn_slot(s16 h, s16 v);
-u8 * alloc_free_entry(void);
-s32 call_entry_callback(s16 i, s32 arg);
-s32 call_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-s32 clear_conn_slot(s16 i);
-s32 clear_table_entry_locked(s16 arg0);
 s32 compare_sockaddr(void *self, u8 *arg1);
-s32 fill_reply_buffer(s16 h, u8 *p);
-s16 get_slot_offset_or_default(s16 arg0);
-s16 * get_valid_entry(s16 arg0);
 s32 init_packet_fragment_pools(void);
-s32 invoke_socket_callback(s16 i, s32 arg);
-s32 is_entry_flag10_set(s16 i);
-s32 is_slot_flag_0x20_set(s16 i);
-s32 is_slot_flag_0x40_set(s16 i);
 void release_entry(void *self);
-s32 reset_net_value(void);
-s32 reset_other_connection_lists(void *obj);
-void set_value_and_enable(void *self, s32 arg1);
-void tick_entry_timers(void);
-void update_timeout_entries(void);
-s32 is_socket_flag_set(s16 i);
-
-extern s32 TLobby__sub_8040A044(s16, u32, s32, u32 *);
 
 struct Self_803FD85C;
-struct Tbl_803FD85C {
-    u8 pad[0x14];
-    void (*f14)(Self_803FD85C *, Tbl_803FD85C *);
-    u8 pad18[8];
-    void (*f20)(Self_803FD85C *, Tbl_803FD85C *);
-};
-struct Self_803FD85C {
-    u8 f0; u8 f1; u8 f2; u8 f3; u8 f4; u8 f5; u8 f6; u8 f7;
-    u8 pad8[8];
-    u8 f10[0x1C];
-    Tbl_803FD85C *tbl;
-    void *f30;
-};
-
-struct RecoveredGlobal_8041552C_lbl_805C1BE0 {
-    s32 value;
-    u8 remaining[0x14];
-};
 
 #include <stddef.h>
 struct Stack_80416008 {
@@ -140,222 +70,43 @@ struct Stack_80416008 {
     u8 trailing_storage[0x14];
 };
 
-typedef struct E_8040FF58 { u8 c0; u8 c1; u8 c2; u8 c3; s16 f4; u8 pad6[0x2E]; } E_8040FF58;
-struct RecoveredGlobal_8040FF0C_lbl_805C1B78 {
-    s16 value;
-    u8 pad2[2];
-    E_8040FF58 *ents;
-    s32 f8;
-    u8 padC[0x34];
-};
-
-struct RecoveredGlobal_80415650_lbl_805C1BF8 {
-    s16 value;
-    u8 remaining[0xE];
-};
-
-typedef struct Ent_80408718 { s16 f0; u8 pad[0x16]; } Ent_80408718;
-
-typedef struct Tbl_80408718 { s16 count; s16 h2; s16 h4; s16 h6; s16 h8; u8 pad[4]; Ent_80408718 *list; u8 tail[0x14]; } Tbl_80408718;
-
 typedef struct G_8041509C { s16 a; u8 pad[0xA]; s16 c; } G_8041509C;
 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
 
-typedef struct Seg_804179A4 { s16 len; s16 pad; u8 buf[8]; } Seg_804179A4;
-
-typedef struct Pkt_804179A4 { u8 pad0[4]; u32 n; s32 total; Seg_804179A4 seg[1]; } Pkt_804179A4;
-
 typedef struct Na_804179A4 { u8 type; u8 code; s16 cksum; u8 flags; u8 rsv[3]; u8 target[16]; } Na_804179A4;
 
 typedef struct Cur_804179A4 { u8 pad[8]; } Cur_804179A4;
-
-typedef struct Sock_804179A4 { u8 pad0[0x10]; u8 addr[0x10]; s32 f20; s16 f24; u8 f26; u8 f27; } Sock_804179A4;
 
 typedef struct Q_804179A4 { u8 pad0[3]; u8 f3; u8 pad4[0x2C]; s16 f30; u8 pad32[2]; u8 *f34; } Q_804179A4;
 
 typedef struct E_804179A4 { u8 pad0[3]; u8 f3; s16 f4; s16 f6; s16 f8; s16 fa; u8 fc; u8 pad[3]; Q_804179A4 *f10; s16 f14; u8 f16[0x10]; s16 f26; u8 f28[1]; } E_804179A4;
 
-extern RecoveredGlobal_8041552C_lbl_805C1BE0 network_loopback_state;
-void NetIPv6ApplyNeighborDiscoveryDefaults(u8 *arg0);
-extern s32 lobby_timer_list_head;
-extern s16 lobby_handler_table_desc;
 u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 arg2, u8 *arg3, s16 arg4);
 s32 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1);
 
-s32 TLobby__sub_80413230(u8 *arg0, s32 arg1);
-s32 TLobby__sub_804136AC(s16 i);
-void TLobby__sub_804136CC(s16 arg0);
-s16 NetIPv6IsLoopback(u8 *arg0);
-s32 NetIPv6IsUnspecified(u8 *arg0);
-s32 NetIPv6CompareAddresses(s32 arg0, s32 arg1);
-s16 TLobby__sub_8041510C(void);
-void TLobby__sub_804150EC(void);
-void TLobby__sub_8041615C(void);
-void NetIPv6TickNeighborCache(void);
-void NetIPv6TickNeighborDiscovery(void);
 s16 TLobby__sub_80413D78();
-s16 NetIPv6EmitNeighborSolicitation(int arg0, void *arg1, void *arg2, s16 arg3, int arg4);
-s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(s32 arg0, s16 arg1);
-s32 TLobby__sub_804112B8(s32 arg0, s32 arg1, s16 arg2);
-s32 TLobby__sub_8041123C(s32 arg0, s32 arg1, s16 arg2);
-s32 TLobby__sub_803FE6CC(void *, int, int, void *);
-s32 TLobby__sub_804136EC(void *);
-extern RecoveredGlobal_8040FF0C_lbl_805C1B78 ipv6_protocol_state;
-extern RecoveredGlobal_80415650_lbl_805C1BF8 network_buffer_pool_state;
-s16 TLobby__sub_8041579C(void *);
-s16 TLobby__sub_80409A3C(u8 *arg0, s16 arg1);
-s16 TLobby__sub_80415954(void *out_, int handle, s16 flag);
-u16 read_network_u16_be(u8 *p);
-u8 *write_network_u16_be(u8 *p, u16 v);
 extern Tbl_80408718 lbl_805C1AB0;
-s16 TLobby__sub_8040DC8C(u8 *arg0, u8 *arg1);
 s16 TLobby__sub_80401BCC(void *, void *, int);
-extern u8 lobby_ppp_read_buf;
-s32 NetCompareBitsBackward(u8 *arg0, u8 *arg1, s16 arg2);
-s32 NetCompareBitPrefix(u8 *a, u8 *b, s16 bits);
-s32 NetIPv6MakeSolicitedNodeMulticastAddress(u8 *arg0, u8 *arg1);
-s32 TLobby__sub_8041509C(void);
-s32 init_ipv6_all_routers_multicast_address(u8 *arg0, s8 arg1);
-u8 init_ipv6_all_nodes_multicast_address(u8 *arg0, s8 arg1);
-void TLobby__sub_80406FD8(void *, void *, s32);
 s16 TLobby__sub_80413F0C();
-s16 TLobby__sub_80416F58(u8 *self, s32 n, void *out, void *arg_);
-s16 TLobby__sub_80417028(void *, void *, void *, void *);
 s16 NetIPv6HandleNeighborSolicitation(u8 *arg0, void *arg1, void *arg2, void *arg3);
-s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d);
-u16 TLobby__sub_80411040(const struct IPv6Address * p_, const struct IPv6Address * q_, u8 c, const struct NetPacket * d_, s16 e);
-s32 NetIPv6EmitRouterSolicitation(NetPacket *arg0, NetIPv6SendParameters *arg1, s32 arg2);
-s16 NetIPv6GetInterfaceLinkLayerAddress(s32 arg0, s16 arg1, s16 arg2);
-extern struct G_80415B38 ipv6_neighbor_discovery_state;
-s16 NetIPv6SendNeighborAdvertisement(Pkt_804179A4 *arg0, u8 *arg1, u8 arg2, Sock_804179A4 *arg3, s16 arg4);
-s32 NetIPv6IsLinkLocal(u8 *arg0);
-s32 TLobby__sub_8041549C(s16 arg0);
-s32 TLobby__sub_804154C0(s16 arg0);
-s32 TLobby__sub_804154E4(s16 arg0);
-s32 TLobby__sub_80415508(s16 arg0);
 
 struct N_80405298;
 
 struct Self_803FDA68;
-struct Tbl_803FDA68 {
-    u8 pad[0x14];
-    void (*f14)(Self_803FDA68 *, Tbl_803FDA68 *);
-    u8 pad18[0xC];
-    void (*f24)(Self_803FDA68 *, Tbl_803FDA68 *);
-    void *(*f28)(Self_803FDA68 *, Tbl_803FDA68 *);
-};
-struct Self_803FDA68 {
-    u8 f0; u8 f1; u8 f2; u8 f3; u8 f4; u8 f5; u8 f6; u8 f7;
-    s16 f8; u8 padA[6];
-    u8 f10[0x1C];
-    Tbl_803FDA68 *tbl;
-    void *f30;
-};
 
 struct V_803FE600;
-struct O_803FE600 {
-    u8 b0; u8 b1; u8 b2; u8 b3; u8 b4; u8 b5; u8 b6; u8 b7;
-    u8 pad8[0x2C - 8];
-    V_803FE600 *p2C;
-};
-struct V_803FE600 {
-    u8 pad[0x14];
-    void (*fn)(O_803FE600 *, V_803FE600 *);
-};
 
-void TLobby__sub_80409818(s32, s16, s16, s16, u16);
-
-extern u32 lbl_805C1AD8[6];
-#define lbl_805C1AD8 (*(Tbl_80408F2C *)lbl_805C1AD8)
-
-typedef struct N_80405298 { N_80405298 *next; s32 f4; u8 pad8[0x18 - 8]; u8 b18; } N_80405298;
-
-typedef struct O_80406B6C { u32 w0; u8 b4; } O_80406B6C;
 s32 TLobby__sub_80406B6C(O_80406B6C *o);
 
 u16 TUdpSocket__sub_80419864();
-
-u8 *TLobby__sub_80406F0C(void *self);
 
 s32 NetUnregisterTimer(void* p);
 
 struct Tbl_80408718;
 
 struct Tbl_80408F2C;
-
-s16 TLobby__sub_804098B4(void *);
-s32 TLobby__sub_80409908(void *, void *);
-
-struct Buf_80408F2C {
-    s16 h0;
-    s16 h2;
-    s16 h4;
-    s16 h6;
-    s16 h8;
-    u8 data[0x5EE];
-};
-
-struct Tbl_80408F2C {
-    u8 pad0[4];
-    s16 count;
-    s16 nbufs;
-    u8 pad8[0xC];
-    Buf_80408F2C *bufs;
-};
-
-typedef struct Rec_8040B33C { u32 f0; u8 pad[0x10]; } Rec_8040B33C;
-struct A_8040A45C { s16 f0; u8 pad2[2]; s32 f4; };
-struct C_8040A45C { s16 f0; u8 pad2[0x1E]; s32 f20; u8 pad24[4]; };
-struct D_8040A45C { s16 f0; u8 pad2[0x102]; u8 f104; u8 pad105[0xFF]; s16 f204; u8 pad206[2]; s32 f208; };
-struct E_8040A45C { s16 f0; u8 pad2[0x16]; s32 f18; u8 f1C; u8 pad1D[0xFF]; };
-struct F_8040A45C {
-    s16 f0;
-    s16 f2;
-    s16 f4;
-    s16 f6;
-    u8 pad8[4];
-    s32 fC;
-    s16 f10;
-    s16 f12;
-    u8 pad14[4];
-    s32 f18;
-    s32 f1C;
-    u8 pad20[8];
-    s32 f28;
-    u8 pad2C[8];
-    s32 f34;
-    u8 pad38[4];
-};
-
-struct G_8040A45C {
-    s16 h0;
-    u8 pad2[0xE];
-    s16 nb;
-    u8 pad12[2];
-    Rec_8040B33C *b;
-    u8 pad18[2];
-    s16 lim;
-    s16 step;
-    u8 pad1E[2];
-    s32 base;
-    s16 na;
-    u8 pad26[2];
-    A_8040A45C *a;
-    s16 nc;
-    s16 nd;
-    s16 ne;
-    u8 pad32[2];
-    C_8040A45C *c;
-    D_8040A45C *d;
-    E_8040A45C *e;
-    s16 nf;
-    u8 pad42[2];
-    F_8040A45C *f;
-};
-
-extern G_8040A45C dns_resolver_state;
 
 s32 TLobby__sub_80409CE0(s16 arg0, s32 arg1, s32 arg2, s32 arg3);
 
@@ -380,12 +131,6 @@ s16 NetIPv6HandleRedirect(u8 *arg0, u8 *arg1, void *arg2, s32 arg3);
 extern s32 TLobby__sub_80411DEC(IPv6Address *addr, s32 mtu);
 
 s16 TLobby__sub_8040D510(void *a, u8 *src, s16 c, s16 flag);
-
-s32 TLobby__sub_80411F1C(void *arg0, void *arg1, s16 arg2);
-
-extern s16 TLobby__sub_80415D0C(Pkt_804179A4 *a, u8 *b, Sock_804179A4 *c, s16 d);
-
-s16 TLobby__sub_80411C44(u8 *self, s16 idx);
 
 void TLobby__sub_80411334(void);
 s32 TLobby__sub_8041112C(void) {
@@ -2166,10 +1911,6 @@ s16 TLobby__sub_80414218(void* p, void* q) {
     return n;
 }
 
-struct RecoveredFields_804143BC_arg0 {
-    u8 field_0;
-    u8 field_1;
-};
 s32 NetIPv6GetAddressScopeClass(u8 *arg0) {
     s16 var_r0;
     s16 var_r0_2;
@@ -3194,51 +2935,7 @@ s16 TLobby__sub_80415954(void *out_, int size, s16 owner) {
     return -1;
 }
 #pragma pop
-typedef struct A_80415B38 { s8 c0; s8 c1; s8 c2; s8 c3; u8 pad4[0x30]; s32 off; } A_80415B38;
-/* A default-router entry. */
-struct C_80415B38 {
-    s8 c0;
-    s8 c1;
-    s8 c2;
-    u8 c3; /* state */
-    s16 id;
-    s16 f6;
-    s16 lifetime;
-    u8 padA[0xA];
-    u8 addr[0x10];
-};
 typedef char C_80415B38_size_check[sizeof(C_80415B38) == 0x24 ? 1 : -1];
-struct B_80415B38 {
-    s8 c0;
-    s8 c1;
-    s8 c2;
-    s8 c3;
-    u8 pad4[4];
-    s16 id;
-    u8 padA[2];
-    u8 flags;
-    u8 padD[3];
-    A_80415B38 *link;
-    u8 pad14[2];
-    u8 addr[0x10];
-    s16 f26;
-    u8 pad28[0x20];
-};
-struct G_80415B38 {
-    s16 na;
-    s16 nb;
-    s16 nc;
-    u8 pad6[2];
-    A_80415B38 *a;
-    B_80415B38 *b;
-    C_80415B38 *c;
-    s16 stride;
-    u8 pad16[2];
-    s32 base;
-    u8 pad1C[8];
-    s16 maxage;
-    u8 pad26[0xA];
-};
 void NetIPv6ShutdownNeighborDiscovery(void) {
     G_80415B38 *g = &ipv6_neighbor_discovery_state;
     NetUnregisterTimer((void *)NetIPv6TickNeighborDiscovery);
@@ -5224,8 +4921,6 @@ s32 init_packet_fragment_pools(void) {
     return 0;
 }
 
-typedef struct E_80418BD8 { u8 pad[0xC]; } E_80418BD8;
-struct A_80418BD8 { u8 pad[4]; u32 n; u8 pad2[8]; E_80418BD8 e[1]; };
 s32 TUdpSocket__sub_80418BD8(A_80418BD8 *a) {
     u32 i;
     A_80418BD8 *b = a;

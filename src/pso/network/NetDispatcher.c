@@ -9,68 +9,24 @@
 #include "pso/network/IPv6.h"
 
 #include "types.h"
-typedef struct Self_803FD85C Self_803FD85C;
-typedef struct Tbl_803FD85C Tbl_803FD85C;
-typedef struct Self_803FDA68 Self_803FDA68;
-typedef struct Tbl_803FDA68 Tbl_803FDA68;
-typedef struct V_803FE600 V_803FE600;
-typedef struct O_803FE600 O_803FE600;
+#include "pso/network/TLobby_803FCF44.h"
 typedef struct E_8041A0C0 E_8041A0C0;
-s32 release_slot_by_id(u16 a);
 
 struct Self_803FD85C;
-struct Tbl_803FD85C {
-    u8 pad[0x14];
-    void (*f14)(Self_803FD85C *, Tbl_803FD85C *);
-    u8 pad18[8];
-    void (*f20)(Self_803FD85C *, Tbl_803FD85C *);
-};
-struct Self_803FD85C {
-    u8 f0; u8 f1; u8 f2; u8 f3; u8 f4; u8 f5; u8 f6; u8 f7;
-    u8 pad8[8];
-    u8 f10[0x1C];
-    Tbl_803FD85C *tbl;
-    void *f30;
-};
 
 #include <stddef.h>
 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
-void TLobby__sub_80419A00(void);
 s32 TLobby__sub_803F8E9C(void);
 s32 TLobby__sub_80419A34(void);
-s32 TLobby__sub_80419A7C(void);
 void TLobby__sub_803F97E8(int);
 void TLobby__sub_803F9344(s32, void *, s32);
 void NetEnqueueProtocolMessage(s32 payload, s16 detail, s16 first, s16 second, u16 protocol);
 
 struct Self_803FDA68;
-struct Tbl_803FDA68 {
-    u8 pad[0x14];
-    void (*f14)(Self_803FDA68 *, Tbl_803FDA68 *);
-    u8 pad18[0xC];
-    void (*f24)(Self_803FDA68 *, Tbl_803FDA68 *);
-    void *(*f28)(Self_803FDA68 *, Tbl_803FDA68 *);
-};
-struct Self_803FDA68 {
-    u8 f0; u8 f1; u8 f2; u8 f3; u8 f4; u8 f5; u8 f6; u8 f7;
-    s16 f8; u8 padA[6];
-    u8 f10[0x1C];
-    Tbl_803FDA68 *tbl;
-    void *f30;
-};
 
 struct V_803FE600;
-struct O_803FE600 {
-    u8 b0; u8 b1; u8 b2; u8 b3; u8 b4; u8 b5; u8 b6; u8 b7;
-    u8 pad8[0x2C - 8];
-    V_803FE600 *p2C;
-};
-struct V_803FE600 {
-    u8 pad[0x14];
-    void (*fn)(O_803FE600 *, V_803FE600 *);
-};
 
 NetworkDispatchState network_dispatch_state;
 

@@ -10,61 +10,15 @@
 #include "pso/network/EthernetReceiveFilter.h"
 #include "pso/network/TLobby_80429598.h"
 
-typedef struct RecoveredGlobal_80428374_lbl_805D0A40 {
-    s32 value;
-    u8 remaining[0x5C];
-} RecoveredGlobal_80428374_lbl_805D0A40;
-
-typedef struct RecoveredGlobal_8042839C_lbl_805D0A40 {
-    s32 value;
-    u8 remaining[0x5C];
-} RecoveredGlobal_8042839C_lbl_805D0A40;
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-
-typedef struct RecoveredGlobal_8042E768_lbl_805D1D20 {
-    s32 value;
-    u8 remaining[0x18];
-} RecoveredGlobal_8042E768_lbl_805D1D20;
-
-typedef struct RecoveredGlobal_80427D0C_lbl_805CFC20 {
-    s32 value;
-    u8 remaining[0xE1C];
-} RecoveredGlobal_80427D0C_lbl_805CFC20;
-
-typedef struct RecoveredGlobal_80428360_lbl_805CFC20 {
-    s16 value;
-    u8 remaining[0xE1E];
-} RecoveredGlobal_80428360_lbl_805CFC20;
-
-typedef struct RecoveredGlobal_8042DD70_lbl_805D1D20 {
-    s32 value;
-    u8 remaining[0x18];
-} RecoveredGlobal_8042DD70_lbl_805D1D20;
 
 typedef struct Rec_80426110 { u16 a; u16 b; } Rec_80426110;
 
 typedef struct Obj_80426110 { u8 pad[0x36]; s16 count; Rec_80426110 recs[5]; u16 out[5]; } Obj_80426110;
 
 typedef struct Msg_804264F4 { u32 f0; u32 f4; s32 f8; } Msg_804264F4;
-
-typedef struct Names_8042E57C {
-    char *name[6];
-} Names_8042E57C;
-
-typedef struct Names_8042E628 {
-    char *name[4];
-} Names_8042E628;
-
-typedef struct Names_8042E6C4 {
-    char *name[5];
-} Names_8042E6C4;
-
-typedef struct Names_8042E7B8 {
-    char *name[3];
-} Names_8042E7B8;
 
 typedef struct Ent_80426894 {
     s16 count;
@@ -76,22 +30,9 @@ typedef struct Tbl_80426894 {
     Ent_80426894 ent[6];
 } Tbl_80426894;
 
-typedef struct Ent_80425870 {
-    s32 used;
-    u32 f4;
-    u32 base;
-} Ent_80425870;
-
-typedef struct Ent_80427C6C {
-    u16 pad0;
-    u16 id;
-    u8 rest[0xE10];
-} Ent_80427C6C;
-
 typedef struct Rec_80426998 { u16 a; u16 b; } Rec_80426998;
 
 typedef struct Obj_80426998 { u8 pad[0x36]; s16 count; Rec_80426998 recs[5]; } Obj_80426998;
-
 
 s32 OSInitMessageQueue(void *, void *, int);
 s16 TLobby__sub_803F9B94(void *, void *);
@@ -132,16 +73,6 @@ extern u8 lbl_805E1190[6];
 s32 TLobby__sub_804089A8(s32, s32, void *, void *);
 s32 TLobby__sub_80425640(s32 len);
 s32 TLobby__sub_80426AAC(u16 key, s32 len);
-
-#pragma push
-#pragma opt_propagation off
-#pragma pop
-
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
-
-#pragma pop
 
 static u8 lobby_net_channel_table[0x858];
 
@@ -695,15 +626,3 @@ s32 set_connect_mode(s32 mode) {
     }
     return 0;
 }
-
-typedef char RecoveredGlobal_80427D0C_lbl_805CFC20_size[sizeof(RecoveredGlobal_80427D0C_lbl_805CFC20) == 0xE20 ? 1 : -1];
-
-typedef char RecoveredGlobal_80428374_lbl_805D0A40_size[sizeof(RecoveredGlobal_80428374_lbl_805D0A40) == 0x60 ? 1 : -1];
-
-typedef char RecoveredGlobal_80428360_lbl_805CFC20_size[sizeof(RecoveredGlobal_80428360_lbl_805CFC20) == 0xE20 ? 1 : -1];
-
-typedef char RecoveredGlobal_8042839C_lbl_805D0A40_size[sizeof(RecoveredGlobal_8042839C_lbl_805D0A40) == 0x60 ? 1 : -1];
-
-typedef char RecoveredGlobal_8042DD70_lbl_805D1D20_size[sizeof(RecoveredGlobal_8042DD70_lbl_805D1D20) == 0x1C ? 1 : -1];
-
-typedef char RecoveredGlobal_8042E768_lbl_805D1D20_size[sizeof(RecoveredGlobal_8042E768_lbl_805D1D20) == 0x1C ? 1 : -1];

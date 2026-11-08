@@ -1,6 +1,9 @@
 /* The network stack's configuration: the stack (a C library, built with GC/1.2.5n) calls these at start-up to
  * fill its configuration records with counts, sizes and the static buffers below. */
 #include "types.h"
+#include "pso/network/NetworkRuntime.h"
+#include "pso/network/NetworkTransport.h"
+#include "pso/network/TLobby_803F86BC.h"
 #include <stddef.h>
 #include "pso/network/netcfg.h"
 #include "pso/network/NetworkMessageTransport.h"
@@ -13,27 +16,10 @@ typedef struct Big_803F8AD8 {
     void *funcs[7];
 } Big_803F8AD8;
 
-typedef struct Ent_803F8DBC { s32 active; s32 size; s32 val; } Ent_803F8DBC;
 typedef struct Ent_803F8BA4 { u8 pad[0x31C]; s32 size; u8 *buf; u8 pad2[4]; } Ent_803F8BA4;
-typedef struct Ent_803F8D84 { s32 active; s32 unk4; u32 key; } Ent_803F8D84;
-typedef struct Ent_803F9B48 { s32 active; u32 key; u8 pad[0x328 - 8]; } Ent_803F9B48;
 
-extern s16 net_param_room_count;
-extern s32 lbl_805D4800;
-extern s32 net_transport_buffer_ptr_b;
-extern s16 net_param_player_count;
-extern s32 net_transport_buffer_ptr_a;
 s32 lbl_805D7A58;
-extern u16 lobby_buffer_slot_count;
-extern Ent_803F8D84 *lobby_buffer_slots;
-extern u16 lobby_thread_pool_count;
-extern Ent_803F9B48 *lobby_thread_pool_base;
-extern u8 *lobby_buffer_pool_base;
 extern u8 *lobby_second_buffer_pool_base;
-extern u32 lobby_buffer_pool_size;
-extern u8 *lbl_805D7C04;
-extern u32 lbl_805D7C08;
-
 
 static u32 lobby_net_config_block[4722];
 static NetIpv6IfParams ipv6_interface_config;
@@ -270,7 +256,7 @@ void init_net_recv_desc(NetRecvDescCfg *cfg) {
 }
 
 u8 *layout_buffers(NetBufferLayout *h, u8 *p, u8 *end) {
-    Ent_803F8DBC *e;
+    LobbyBufferSlot *e;
     Ent_803F8BA4 *f;
     s32 i;
     u16 n = h->n2;
@@ -282,16 +268,16 @@ u8 *layout_buffers(NetBufferLayout *h, u8 *p, u8 *end) {
     if (h->b != 0) {
         lobby_thread_pool_count += 2;
     }
-    *(u8 **)&lobby_buffer_slots = p;
+    lobby_buffer_slots = (LobbyBufferSlot *)p;
     p += lobby_buffer_slot_count * 12;
     if (p > end) {
         return NULL;
     }
-    e = *(Ent_803F8DBC **)&lobby_buffer_slots;
+    e = lobby_buffer_slots;
     for (i = 0; i < lobby_buffer_slot_count; i++, e++) {
         e->active = 0;
         e->size = h->c;
-        e->val = (s32)p;
+        e->addr = (u32)p;
         p += h->c;
         if (p > end) {
             return NULL;
@@ -352,10 +338,10 @@ s32 TLobby__sub_803F8D24(NetBufferLayout *h) {
 }
 
 void TLobby__sub_803F8D84(u32 key) {
-    Ent_803F8D84 *e = lobby_buffer_slots;
+    LobbyBufferSlot *e = lobby_buffer_slots;
     s32 i;
     for (i = 0; i < lobby_buffer_slot_count; i++) {
-        if (e->key == key) {
+        if (e->addr == key) {
             e->active = 0;
             return;
         }
@@ -364,13 +350,13 @@ void TLobby__sub_803F8D84(u32 key) {
 }
 
 s32 alloc_buffer_slot(s32 size) {
-    Ent_803F8DBC *e = *(Ent_803F8DBC **)&lobby_buffer_slots;
+    LobbyBufferSlot *e = lobby_buffer_slots;
     s32 i;
     s32 r = 0;
     for (i = 0; i < lobby_buffer_slot_count; i++) {
         if (e->active == 0 && e->size >= size) {
             e->active = size;
-            r = e->val;
+            r = e->addr;
             break;
         }
         e++;

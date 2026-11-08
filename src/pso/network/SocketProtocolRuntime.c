@@ -4,6 +4,7 @@
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/UdpRuntime.h"
 #include "types.h"
+#include "pso/network/TLobby_804050DC.h"
 #include "pso/network/BufferRef.h"
 #include "pso/network/NetTcpState.h"
 #include "pso/network/text_80421620.h"
@@ -21,8 +22,6 @@ typedef struct TcpSendEntry {
 } TcpSendEntry;
 typedef char TcpSendEntry_size_check[sizeof(TcpSendEntry) == 0x10 ? 1 : -1];
 
-void set_value_and_enable(void *self, s32 value);
-
 void TLobby__sub_803F87C8(u8 *arg0);
 s32 TLobby__sub_803F87C4(void *);
 void TLobby__sub_8041FDA0(TcpTcb *o, s16 idx, s32 a, s32 b);
@@ -35,7 +34,6 @@ s16 TLobby__sub_8040DA54(void *, void *);
 s16 is_addr_unspecified(void *);
 s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, s32 arg5);
 void TLobby__sub_8041F66C(TcpTcb *o);
-void TLobby__sub_80406FD8(void *a, void *b, s32 v);
 s16 compare_sockaddr(void *, void *);
 s16 is_multicast_address(void *, s32);
 s16 TLobby__sub_80421F10(void *, void *, void *, u16, s32, s16);

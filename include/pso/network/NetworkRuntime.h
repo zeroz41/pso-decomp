@@ -3,6 +3,32 @@
 
 #include "types.h"
 
+typedef struct Ent_803F9B48 Ent_803F9B48;
+typedef struct Ent_803F9C78 Ent_803F9C78;
+typedef struct Blk_803FA2A8 Blk_803FA2A8;
+typedef union U_803FA2A8 U_803FA2A8;
+typedef struct Q_803FA2A8 Q_803FA2A8;
+typedef struct P_803FA2A8 P_803FA2A8;
+typedef struct B_803FADA0 B_803FADA0;
+typedef struct A_803FADA0 A_803FADA0;
+typedef struct Msg_803FA664 Msg_803FA664;
+struct Ent_803F9B48 { s32 active; u32 key; u8 pad[0x328 - 8]; };
+struct Ent_803F9C78 { s32 active; u32 key; u8 pad[0x318 - 8]; void (*fn)(struct Ent_803F9C78 *); u8 pad2[0x328 - 0x31C]; };
+struct Blk_803FA2A8 { s32 w[6]; };
+union U_803FA2A8 { s16 h4; Blk_803FA2A8 src; };
+struct Q_803FA2A8 {
+    s16 h0; s16 h2;
+    U_803FA2A8 u;
+    Blk_803FA2A8 dst;
+    s16 h34; s16 h36; s16 h38; s16 h3A;
+    s32 w3C; s32 w40;
+    u8 pad44[0x50 - 0x44];
+    s16 h50;
+};
+struct P_803FA2A8 { u8 pad[0x30]; Q_803FA2A8 *q; };
+struct B_803FADA0 { u8 *buf; u16 len; };
+struct A_803FADA0 { u8 pad0[4]; u32 a; u32 b; };
+struct Msg_803FA664 { u8 pad0; u8 b1; s16 h2; };
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -50,6 +76,11 @@ void NetMemset(void* destination, int value, int size);
 void TLobby__sub_803FA234(void);
 void TLobby__sub_803FA238(u8* state);
 void TLobby__sub_803FA280(void);
+extern u8 lbl_805D7A70[1];
+extern u8 lbl_805D7A74[1];
+extern s32 lbl_805D4810;
+void TLobby__sub_803FA2A8(P_803FA2A8 *o);
+void TLobby__sub_803FADA0(B_803FADA0 **pbuf, A_803FADA0 *hdr, s32 type, s32 total_len, void *src);
 #ifdef __cplusplus
 }
 #endif

@@ -2,6 +2,9 @@
  * slot tables over the Dolphin OS, their setup and teardown, the time helpers. The thread helpers, sleeping on an
  * alarm, the string helpers and the IPv6CP option helpers are the next file, NetworkThreadRuntime.c. */
 #include "types.h"
+#include "pso/network/TLobby_803F86BC.h"
+#include "pso/network/TLobby_803FCF44.h"
+#include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_803FC178.h"
 #include "string.h"
 #include "dolphin/os/OSThread.h"
@@ -13,51 +16,10 @@
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/TLobby_80428374.h"
 #include "pso/network/TLobby_803FAEA0.h"
-typedef struct Ent_803F9B48 { s32 active; u32 key; u8 pad[0x328 - 8]; } Ent_803F9B48;
 
-typedef struct Ent_803F9C78 { s32 active; u32 key; u8 pad[0x318 - 8]; void (*fn)(struct Ent_803F9C78 *); u8 pad2[0x328 - 0x31C]; } Ent_803F9C78;
-
-typedef struct Blk_803FA2A8 { s32 w[6]; } Blk_803FA2A8;
-
-typedef union U_803FA2A8 { s16 h4; Blk_803FA2A8 src; } U_803FA2A8;
-
-typedef struct Q_803FA2A8 {
-    s16 h0; s16 h2;
-    U_803FA2A8 u;
-    Blk_803FA2A8 dst;
-    s16 h34; s16 h36; s16 h38; s16 h3A;
-    s32 w3C; s32 w40;
-    u8 pad44[0x50 - 0x44];
-    s16 h50;
-} Q_803FA2A8;
-
-typedef struct P_803FA2A8 { u8 pad[0x30]; Q_803FA2A8 *q; } P_803FA2A8;
-
-typedef struct B_803FADA0 { u8 *buf; u16 len; } B_803FADA0;
-
-typedef struct A_803FADA0 { u8 pad0[4]; u32 a; u32 b; } A_803FADA0;
-
-
-u8 *write_network_u16_be(u8 *p, u16 v);
-
-s32 TLobby__sub_80405304(void *arg0);
-extern u16 lobby_thread_pool_count;
-extern Ent_803F9B48 *lobby_thread_pool_base;
-void TLobby__sub_803FA2A8(P_803FA2A8 *o);
 s32 TLobby__sub_80428358(void);
 
 s16 TLobby__sub_80401BCC(void *, void *, int);
-
-extern u8 lbl_805D7A70[1];
-extern u8 lbl_805D7A74[1];
-u16 read_network_u16_be(u8 *p);
-u32 TLobby__sub_80402AFC(u8 *p);
-#define PCO_RD16(p) (TLobby__sub_80401BCC((p), lbl_805D7A70, 2) != 2 ? -1 : read_network_u16_be(lbl_805D7A70))
-#define PCO_RD32(p) (TLobby__sub_80401BCC((p), lbl_805D7A70, 4) != 4 ? 0 : TLobby__sub_80402AFC(lbl_805D7A70))
-#define PCO_RD8(p) (TLobby__sub_80401BCC((p), lbl_805D7A74, 1) != 1 ? -1 : (s16)lbl_805D7A74[0])
-void TLobby__sub_803FADA0(B_803FADA0 **arg0, A_803FADA0 *arg1, s32 arg2, s32 arg3, void *arg4);
-
-extern s32 lbl_805D4810;
 
 NetworkAlarmSlot lobby_alarm_slot_table[0x40];
 NetworkMutexSlot network_mutex_slot_table[8];
@@ -81,13 +43,11 @@ s32 cancel_pending_alarms(void) {
     return 0;
 }
 
-extern u8 *lobby_buffer_slots;
-extern u16 lobby_buffer_slot_count;
 s32 TLobby__sub_803F8E9C(void)
 {
-  s16 init_buffer_pool(void);
-  s16 initialize_network_packet_pool(void);
-  s16 TLobby__sub_80428360();
+  s16 init_buffer_pool(void); /* declared s16 here; the definition returns s32 */
+  s16 initialize_network_packet_pool(void); /* declared s16 here; the definition returns s32 */
+  s16 TLobby__sub_80428360(); /* declared s16 here; the definition returns s32 */
   s32 i;
   s32 off;
   s32 cnt;
@@ -153,7 +113,7 @@ s32 TLobby__sub_803F8E9C(void)
   q[1] = (s32) (q + 2);
   for (i = 0; i < lobby_buffer_slot_count; i++)
   {
-    *((s32 *) (lobby_buffer_slots + (i * 0xc))) = 0;
+    lobby_buffer_slots[i].active = 0;
   }
 
   if (init_buffer_pool() < 0)

@@ -1,72 +1,24 @@
 /* The network stack's session control (a C library, built with GC/1.2.5n): bringing the stack up and down, the
  * login name, the connection configuration record and its status, PPP authentication and the session timeout. */
 #include "types.h"
+#include "pso/network/TLobby_803FCF44.h"
+#include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_803FC178.h"
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/NetworkTransport.h"
 #include "pso/network/TLobby_80428374.h"
 #include "pso/network/TLobby_803FAEA0.h"
 
-typedef struct RecoveredGlobal_803FB110_lbl_805BFF68 {
-    s32 value;
-    u8 remaining[0xCC];
-} RecoveredGlobal_803FB110_lbl_805BFF68;
-
-typedef struct RecoveredGlobal_804050DC_lbl_805C18A0 {
-    s32 value;
-    u8 remaining[0xC];
-} RecoveredGlobal_804050DC_lbl_805C18A0;
-
-typedef struct RecoveredGlobal_803FD520_lbl_805C0310 {
-    s16 h0;
-    s16 h2;
-    s16 h4;
-    s16 h6;
-    s16 h8;
-    u8 padA[2];
-    s16 *buf;
-    u8 pad10[6];
-    s16 h16;
-} RecoveredGlobal_803FD520_lbl_805C0310;
-
-
-void init_net_block_18A0(void);
-s32 run_net_init_step(void);
-void process_expired_timers(void);
-
 extern RecoveredGlobal_804050DC_lbl_805C18A0 lbl_805C18A0;
-void TLobby__sub_804050DC(s16 arg0);
 extern RecoveredGlobal_803FD520_lbl_805C0310 lobby_net_buffer_desc_b;
-extern s16 lbl_805D7A7A;
-void TLobby__sub_803F7678(void);
-void TLobby__sub_803FD0C0(void);
 s16 TLobby__sub_803FB358(NetLinkStatus *status);
-s16 reset_network_timer_list(void);
 extern u16 ppp_auth_protocol;
 void TLobby__sub_803F97E8(int);
-extern s16 lbl_805D7A7C;
-extern s32 lbl_805D7A90;
-extern s16 lbl_805D7A82;
-extern s16 lbl_805D7A84;
-extern s16 lbl_805D7A88;
-extern s16 lobby_modem_connect_state;
-extern s32 lbl_805D7A8C;
 
 u32 lbl_805BFF68[52];
 u32 lbl_805C0038[82];
 #define lbl_805BFF68 (*(RecoveredGlobal_803FB110_lbl_805BFF68 *)lbl_805BFF68)
 #define lbl_805C0038 ((u8 *)lbl_805C0038)
-
-typedef struct TLobbyGlobal_805C0038 {
-    u8 pad0[0x6C];
-    u8 f6C;
-    u8 pad6D[0x9C - 0x6D];
-    u8 *f9C;
-    u8 padA0[0xD4 - 0xA0];
-    u8 fD4;
-    u8 padD5[0x104 - 0xD5];
-    u8 *f104;
-} TLobbyGlobal_805C0038;
 
 typedef struct LobbyCfg_803FB7A4 {
     u16 flags;
@@ -191,12 +143,8 @@ s32 TLobby__sub_803FAFDC(void) {
     return 0;
 }
 
-s32 TLobby__sub_803F767C(void);
-void start_network_thread(void);
 s16 TLobby__sub_803FD10C(void);
 void TLobby__sub_804061FC(int);
-extern s16 lbl_805D7A7E;
-extern s16 lobby_modem_abort_flag;
 typedef struct Sess_803FB01C { u8 pad[0x1C]; u8 buf[0x60]; u8 rest[0x54]; } Sess_803FB01C;
 
 s16 init_net_session(void) {
@@ -312,10 +260,6 @@ s32 NetLinkConnect(NetConnectCfg *cfg) {
 void lock_mutex(int mutex);
 void unlock_mutex(int mutex);
 void NetMemcpy(void* destination, void* source, int size);
-#pragma push
-#pragma cplusplus off
-extern s32 lobby_modem_reply_value;
-#pragma pop
 #pragma push
 #pragma cplusplus off
 #pragma dont_inline off
@@ -436,7 +380,6 @@ s32 is_timed_out(void) {
     return 0;
 }
 
-void close_network_transport(void);
 s32 TLobby__sub_804037F0(void);
 
 typedef struct Sess_803FB6A0 { u8 pad[0x22]; s16 h22; u8 pad2[0x3C]; u32 w60; u8 pad3[0x6C]; } Sess_803FB6A0;

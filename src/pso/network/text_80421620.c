@@ -8,11 +8,9 @@
 #include "pso/network/NetworkDispatch.h"
 #include "pso/network/text_80421620.h"
 #include "types.h"
-s32 shutdown_network_handle(void);
-s32 reset_net_value(void);
-u8 *alloc_free_entry(void);
+#include "pso/network/TLobby_804050DC.h"
+#include "pso/network/TLobby_8041112C.h"
 void release_entry(void *entry);
-void init_packet_header(void *header, s32 data);
 
 #include <stddef.h>
 #include "pso/network/BufferRef.h"
@@ -42,20 +40,11 @@ typedef struct send_buffs {
 } send_buffs;
 
 
-s32 TLobby__sub_80409AA8(void);
-s32 TLobby__sub_8040DD68(void);
-s32 TLobby__sub_8040ED28(void);
-s32 NetIPv6Shutdown(void);
 s32 TLobby__sub_8041112C(void);
 void NetIPv6ShutdownNeighborDiscovery(void);
 s32 TLobby__sub_80418A7C(void);
-void TLobby__sub_80419A00(void);
-s32 TLobby__sub_80419A7C(void);
 s32 TLobby__sub_8041A1D8(void);
-s32 TLobby__sub_804217E4(void);
-s32 TLobby__sub_80421814(void);
 s32 NetUnregisterTimer(void *);
-s32 TLobby__sub_80421844(s32 arg0);
 void TLobby__sub_80421FB8(void *, void *, void *);
 s32 TLobby__sub_80421AD8(u8 *arg0, s32 arg1, s32 arg2, u32 arg3, s32 arg4);
 s32 TLobby__sub_804218AC(s32 arg0, s32 arg1);
@@ -65,11 +54,9 @@ s32 TRKValidMemory32(void *, void *, void *, s16, u8, u16); /* declared s32 here
 s32 TLobby__sub_80421A50(s32 arg0, s32 arg1, s32 arg2);
 s32 TLobby__sub_8041E780();
 s32 tcp_create(void);
-s32 TLobby__sub_80421B3C(s32 a);
 s32 mark_connection_closed(s32);
 s32 tcp_delete(s32 a);
 void TLobby__sub_80425288(s32, s32, void *);
-extern volatile s32 dhcp_error;
 s32 TLobby__sub_8042455C(void *a);
 s16 TLobby__sub_8041DE1C(s16, s16, u32 *); /* declared s16 here; the definition returns s32 */
 void TLobby__sub_8041E590(s16);
@@ -111,21 +98,12 @@ s32 OSDisableInterrupts();
 s32 OSRestoreInterrupts(int);
 s16 TLobby__sub_8040F1A0(s16);
 s16 TLobby__sub_80412210(s16);
-s16 TLobby__sub_80423064(s16 arg0, s32 arg1);
 s16 TLobby__sub_8040F454(s32, s32, s32, s16);
 s16 TLobby__sub_80412CA4(void *, s16, s16, s16, s32);
 s16 TLobby__sub_8042315C(s16 arg0, P_8042315C *p);
 u8 lbl_805C1E00[0x1194];
 extern u8 lbl_805C2F94[0x100];
-extern u8 dhcp_hostname[0x2C];
-extern u8 lbl_805D7B1C[6];
-extern u32 lbl_805D7B4C;
-extern u32 lbl_805D7B50;
-extern u32 lbl_805D7B58;
-extern u32 dhcp_last_tick_ms;
-extern volatile s32 dhcp_state;
 extern u8 dhcp_server_id[4];
-extern s32 lbl_805D7B28;
 s32 cleanup_subsystems(void) {
     TLobby__sub_80419A7C();
     TLobby__sub_80409AA8();
@@ -453,7 +431,6 @@ s32 TLobby__sub_80421F10(O_80421F10 *o, void *src, void *dst, s16 port, void *cb
 
 typedef struct PktHdr_80421FB8 { s16 flags; s16 len; u8 *buf; } PktHdr_80421FB8;
 typedef s16 (*PktCb_80421FB8)(s32, PktHdr_80421FB8 *);
-void TLobby__sub_80406FD8(void *, void *, s32);
 
 void TLobby__sub_80421FB8(void *cb, void *hdr_, void *o_) {
     s32 i;
@@ -1040,13 +1017,6 @@ s32 TLobby__sub_8042325C(s32 a, s32 b, s32 c, s32 (*fn)(s32, s32, s32)) {
     return r;
 }
 
-extern s16 dhcp_socket;
-extern u32 dhcp_elapsed_ms;
-extern u32 dhcp_lease_time;
-extern u32 dhcp_renewal_time;
-extern u32 dhcp_rebinding_time;
-extern u32 dhcp_lease_elapsed;
-extern volatile s32 dhcp_step;
 s32 dhcp_discover_step(void);
 s32 dhcp_request_step(void);
 s32 dhcp_release_step(void);
@@ -1105,9 +1075,6 @@ void TLobby__sub_80423298(void) {
 
 extern s32 lbl_805D7B2C;
 extern s32 lbl_805D7B30;
-extern s32 *lbl_805D7B40;
-extern s32 *lbl_805D7B44;
-extern s32 *lbl_805D7B48;
 extern s32 lbl_805D7B80;
 s32 find_dhcp_option(u8 *p, u8 tag, u8 **out);
 void parse_dhcp_lease_times(u8 *packet);
@@ -1344,18 +1311,13 @@ s32 build_dhcp_discover_packet(u8 *packet) {
     return p - ((u8 *)packet);
 }
 
-extern s16 dhcp_iface;
-extern s32 lbl_805D7B14;
-extern s32 dhcp_max_retries;
 extern u32 lbl_805D7B98;
 extern s32 lbl_805D7B9C;
-extern u8 lbl_805C1E00[];
 s32 TLobby__sub_804250A8(s32);
 s32 TLobby__sub_80424FE0(void);
 
 extern s32 dhcp_retries_left;
 extern s32 dhcp_send_time;
-extern s32 dhcp_reply_received;
 
 s32 dhcp_release_step(void) {
     s32 now;

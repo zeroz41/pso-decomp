@@ -7,15 +7,13 @@
 #include "pso/network/NetworkMessageTransport.h"
 
 #include "types.h"
+#include "pso/network/TLobby_803F86BC.h"
+#include "pso/network/TLobby_803FAEA0.h"
+#include "pso/network/TLobby_803FC178.h"
 #include "pso/network/NetStackTypes.h"
 
 /* The script strings are read-only: the short ones are in .sdata2. */
 #pragma readonly_strings on
-
-typedef struct RecoveredGlobal_80428374_lbl_805D0A40 {
-    s32 value;
-    u8 remaining[0x5C];
-} RecoveredGlobal_80428374_lbl_805D0A40;
 
 typedef struct RecoveredGlobal_8042839C_lbl_805D0A40 {
     s32 value;
@@ -26,88 +24,18 @@ typedef struct RecoveredGlobal_8042839C_lbl_805D0A40 {
 #pragma auto_inline off
 #pragma dont_inline off
 
-typedef struct RecoveredGlobal_8042E768_lbl_805D1D20 {
-    s32 value;
-    u8 remaining[0x18];
-} RecoveredGlobal_8042E768_lbl_805D1D20;
-
-typedef struct RecoveredGlobal_80427D0C_lbl_805CFC20 {
-    s32 value;
-    u8 remaining[0xE1C];
-} RecoveredGlobal_80427D0C_lbl_805CFC20;
-
-typedef struct RecoveredGlobal_80428360_lbl_805CFC20 {
-    s16 value;
-    u8 remaining[0xE1E];
-} RecoveredGlobal_80428360_lbl_805CFC20;
-
-typedef struct RecoveredGlobal_8042DD70_lbl_805D1D20 {
-    s32 value;
-    u8 remaining[0x18];
-} RecoveredGlobal_8042DD70_lbl_805D1D20;
-
-typedef struct Names_8042E57C {
-    char *name[6];
-} Names_8042E57C;
-
-typedef struct Names_8042E628 {
-    char *name[4];
-} Names_8042E628;
-
-typedef struct Names_8042E6C4 {
-    char *name[5];
-} Names_8042E6C4;
-
-typedef struct Names_8042E7B8 {
-    char *name[3];
-} Names_8042E7B8;
-
-typedef struct Ent_80426894 {
-    s16 count;
-    u8 id[6];
-} Ent_80426894;
-
-typedef struct Tbl_80426894 {
-    u8 pad[6];
-    Ent_80426894 ent[6];
-} Tbl_80426894;
-
-typedef struct Ent_80425870 {
-    s32 used;
-    u32 f4;
-    u32 base;
-} Ent_80425870;
-
-typedef struct Ent_80427C6C {
-    u16 pad0;
-    u16 id;
-    u8 rest[0xE10];
-} Ent_80427C6C;
-
 s32 TLobby__sub_803F77E0(void *);
 ModemSessionState lobby_net_session_state;
 extern u32 lobby_buffer_pool_alarm_handle;
 s16 TLobby__sub_803F96AC(void *, void *, void *);
-extern s32 lobby_buffer_pool_base;
-extern s32 lobby_buffer_pool_size;
 extern s32 lbl_805D7BEC;
 extern s32 lbl_805D7BF0;
 extern s32 lbl_805D7BF4;
 extern s32 lobby_buffer_pool_end;
 extern s32 lbl_805D7BFC;
-typedef struct Ent_804267F0 {
-    s16 count;
-    u8 id[6];
-} Ent_804267F0;
-
-typedef struct Tbl_804267F0 {
-    u8 pad[6];
-    Ent_804267F0 ent[6];
-} Tbl_804267F0;
 
 s32 TLobby__sub_803F97E8(int);
 extern void *lbl_805C18A0[];
-extern s16 lobby_modem_abort_flag;
 s32 modem_script_next_token(u8 *src, u8 *dst, u8 **next);
 s16 TLobby__sub_804293B0(u8 *buf, s16 len);
 s16 TLobby__sub_804036FC(u16 *avail);
@@ -117,26 +45,6 @@ extern u32 lobby_modem_wait_timeout_ms;
 u8 *TLobby__sub_803FB110(void);
 s16 TLobby__sub_804037B0(void *, s32);
 
-#pragma push
-#pragma opt_propagation off
-#pragma pop
-
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
-#pragma pop
-
-#define arg0 ((s32)argp)
-#undef arg0
-
-#pragma push
-#pragma dont_inline on
-#pragma pop
-
-typedef char RecoveredGlobal_80427D0C_lbl_805CFC20_size[sizeof(RecoveredGlobal_80427D0C_lbl_805CFC20) == 0xE20 ? 1 : -1];
-
-extern u32 lbl_805D7C04;
-extern s32 lbl_805D7C08;
 extern s32 lbl_805D7C0C;
 extern u32 lbl_805D7C10;
 extern u32 lbl_805D7C14;
@@ -145,10 +53,6 @@ extern s32 TLobby__buffer_pool_limit;
 extern s32 lbl_805D7C20;
 extern s32 lbl_805D7C24;
 extern s32 lobby_buffer_pool_state;
-
-typedef char RecoveredGlobal_80428374_lbl_805D0A40_size[sizeof(RecoveredGlobal_80428374_lbl_805D0A40) == 0x60 ? 1 : -1];
-
-typedef char RecoveredGlobal_80428360_lbl_805CFC20_size[sizeof(RecoveredGlobal_80428360_lbl_805CFC20) == 0xE20 ? 1 : -1];
 
 void reset_boot_state(void) {
     TLobby__sub_803F77E0((s32 *)&lobby_net_session_state);
@@ -182,7 +86,6 @@ static const char *const modem_command_names[] = {
 const char *const modem_subst_keys[] = {
     "%t", "%u", "%p", "%i", "%%", NULL,
 };
-extern s16 lobby_modem_connect_state;
 s32 wait_timeout_loop(void *params);
 
 static inline void modem_flush_input(void) {
@@ -191,12 +94,6 @@ static inline void modem_flush_input(void) {
     while (TLobby__sub_804036FC(&avail) == 0 && avail != 0 && TLobby__sub_80403730(discard, 1) == 0) {
     }
 }
-
-typedef struct ModemPoolView {
-    ModemFieldLayout layouts[5];
-    u8 pad64[0x18];
-    char *names[11];
-} ModemPoolView;
 
 static inline s16 modem_find_command(u8 *word, ModemFieldLayout *tbl) {
     s16 k;
@@ -538,9 +435,6 @@ s32 modem_script_dial(u8 *request) {
 char* NetCopyString(char* destination, const char* source);
 #pragma push
 #pragma cplusplus off
-#pragma pop
-#pragma push
-#pragma cplusplus off
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -659,7 +553,6 @@ s32 modem_script_next_token(u8 *src, u8 *dst, u8 **next) {
     return 1;
 }
 
-extern s32 lobby_modem_reply_value;
 extern s32 lbl_805D7BD8;
 s32 NetCompareStringsCaseInsensitiveN(u8 *a, u8 *b, u32 n);
 s32 TLobby__sub_804290D4(s32 idx) {
@@ -794,12 +687,12 @@ void cancel_alarm_b(void) {
 }
 
 s32 init_buffer_pool(void) {
-    lbl_805D7BEC = lobby_buffer_pool_base;
-    lbl_805D7BF0 = lobby_buffer_pool_base;
-    lbl_805D7BF4 = lobby_buffer_pool_base;
-    lobby_buffer_pool_end = lobby_buffer_pool_base + lobby_buffer_pool_size;
+    lbl_805D7BEC = (s32)lobby_buffer_pool_base;
+    lbl_805D7BF0 = (s32)lobby_buffer_pool_base;
+    lbl_805D7BF4 = (s32)lobby_buffer_pool_base;
+    lobby_buffer_pool_end = (s32)(lobby_buffer_pool_base + lobby_buffer_pool_size);
     lbl_805D7BFC = lobby_buffer_pool_size;
-    if (TLobby__sub_803F96AC(&lobby_buffer_pool_alarm_handle, (void *)lobby_buffer_pool_base, (void *)lobby_buffer_pool_size) < 0) {
+    if (TLobby__sub_803F96AC(&lobby_buffer_pool_alarm_handle, lobby_buffer_pool_base, (void *)lobby_buffer_pool_size) < 0) {
         return -1;
     }
     reset_buffer_pool();
@@ -810,11 +703,11 @@ void reset_buffer_pool(void) {
     lbl_805D7C0C = 0;
     lbl_805D7C24 = 0;
     lobby_buffer_pool_state = 0;
-    if ((u32) lbl_805D7C04 != 0U) {
-        lbl_805D7C10 = lbl_805D7C04;
-        lbl_805D7C14 = lbl_805D7C04;
-        TLobby__buffer_pool_start = lbl_805D7C04;
-        TLobby__buffer_pool_limit = lbl_805D7C04 + lbl_805D7C08;
+    if (lbl_805D7C04 != NULL) {
+        lbl_805D7C10 = (u32)lbl_805D7C04;
+        lbl_805D7C14 = (u32)lbl_805D7C04;
+        TLobby__buffer_pool_start = (u32)lbl_805D7C04;
+        TLobby__buffer_pool_limit = (s32)(lbl_805D7C04 + lbl_805D7C08);
         lbl_805D7C20 = lbl_805D7C08;
         return;
     }
@@ -825,9 +718,3 @@ void reset_buffer_pool(void) {
     lbl_805D7C20 = 0;
 }
 
-#pragma push
-#pragma opt_common_subs off
-typedef char RecoveredGlobal_8042DD70_lbl_805D1D20_size[sizeof(RecoveredGlobal_8042DD70_lbl_805D1D20) == 0x1C ? 1 : -1];
-#pragma pop
-
-typedef char RecoveredGlobal_8042E768_lbl_805D1D20_size[sizeof(RecoveredGlobal_8042E768_lbl_805D1D20) == 0x1C ? 1 : -1];

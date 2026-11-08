@@ -9,17 +9,11 @@
 #include "pso/network/IPv6.h"
 
 #include "types.h"
-typedef struct Self_803FD85C Self_803FD85C;
-typedef struct Tbl_803FD85C Tbl_803FD85C;
-typedef struct Self_803FDA68 Self_803FDA68;
-typedef struct Tbl_803FDA68 Tbl_803FDA68;
-typedef struct V_803FE600 V_803FE600;
-typedef struct O_803FE600 O_803FE600;
-typedef struct In_8040D95C In_8040D95C;
-typedef struct Out_8040D95C Out_8040D95C;
+#include "pso/network/TLobby_803FCF44.h"
+#include "pso/network/TLobby_804050DC.h"
+#include "pso/network/TLobby_8041112C.h"
 /* This file's functions. */
 s32 abort_tcp_connection(s16 arg0);
-u8 * alloc_free_entry(void);
 void clear_position(void *self);
 s32 close_if_open(void *self);
 s32 compare_sockaddr(void *self, u8 *arg1);
@@ -29,13 +23,11 @@ s32 get_field_d8(void *self);
 s32 get_queue_diff(void *self);
 s32 get_score(void *self);
 s32 get_tcp_stat(s16 arg0, s16 *arg1, s16 *arg2, s32 *arg3, s32 *arg4);
-void init_msg(void *self, s32 arg1);
 void insert_item_at(void *self, s16 idx, s32 a, s32 b);
 s32 is_multicast_address(void *self, s16 arg1);
 s32 mark_connection_closed(s16 arg0);
 void release_entry(void *self);
 void reset_slot_index(void *self);
-void set_value_and_enable(void *self, s32 arg1);
 s16 tcp_connect_start(s16 arg0, s32 arg1, s16 arg2);
 s16 tcp_get_socket_handle(s16 i);
 s16 validate_tcp_handle(s16 i);
@@ -44,19 +36,6 @@ s32 is_addr_unspecified(u8 *arg0);
 s32 select_source_address(Out_8040D95C *arg0, In_8040D95C *arg1);
 
 struct Self_803FD85C;
-struct Tbl_803FD85C {
-    u8 pad[0x14];
-    void (*f14)(Self_803FD85C *, Tbl_803FD85C *);
-    u8 pad18[8];
-    void (*f20)(Self_803FD85C *, Tbl_803FD85C *);
-};
-struct Self_803FD85C {
-    u8 f0; u8 f1; u8 f2; u8 f3; u8 f4; u8 f5; u8 f6; u8 f7;
-    u8 pad8[8];
-    u8 f10[0x1C];
-    Tbl_803FD85C *tbl;
-    void *f30;
-};
 
 #include <stddef.h>
 
@@ -70,41 +49,15 @@ s16 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1);
 s32 TLobby__sub_8041D368(u8 *arg0);
 u8 * TLobby__sub_8041B5C0(void *);
 
-s16 TLobby__sub_8041579C(void *);
 s32 TLobby__sub_8041EB74(u8 *arg0);
-s16 TLobby__sub_80415954(void *out_, int handle, s16 flag);
 s32 TLobby__sub_8041ECA4(u8 *arg0);
-s16 TLobby__sub_8040DC8C(u8 *arg0, u8 *arg1);
 void TLobby__sub_8041A3CC(void);
 void TLobby__sub_8041A5B4(void);
 s32 NetTCPInit(void);
 
 struct Self_803FDA68;
-struct Tbl_803FDA68 {
-    u8 pad[0x14];
-    void (*f14)(Self_803FDA68 *, Tbl_803FDA68 *);
-    u8 pad18[0xC];
-    void (*f24)(Self_803FDA68 *, Tbl_803FDA68 *);
-    void *(*f28)(Self_803FDA68 *, Tbl_803FDA68 *);
-};
-struct Self_803FDA68 {
-    u8 f0; u8 f1; u8 f2; u8 f3; u8 f4; u8 f5; u8 f6; u8 f7;
-    s16 f8; u8 padA[6];
-    u8 f10[0x1C];
-    Tbl_803FDA68 *tbl;
-    void *f30;
-};
 
 struct V_803FE600;
-struct O_803FE600 {
-    u8 b0; u8 b1; u8 b2; u8 b3; u8 b4; u8 b5; u8 b6; u8 b7;
-    u8 pad8[0x2C - 8];
-    V_803FE600 *p2C;
-};
-struct V_803FE600 {
-    u8 pad[0x14];
-    void (*fn)(O_803FE600 *, V_803FE600 *);
-};
 
 TcpState tcp_protocol_state;
 
@@ -113,11 +66,6 @@ s32 NetUnregisterTimer(void* p);
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
 #pragma inline_depth(4)
-
-struct In_8040D95C { s32 type; s32 f4; };
-struct Out_8040D95C { s32 type; u32 f4; };
-
-u8 *TLobby__sub_80406F0C(void *);
 
 #pragma push
 #pragma opt_common_subs on

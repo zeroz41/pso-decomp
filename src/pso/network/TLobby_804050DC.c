@@ -11,6 +11,11 @@
 #include "pso/network/IPv6.h"
 
 #include "types.h"
+#include "pso/network/NetworkTransport.h"
+#include "pso/network/TLobby_803FAEA0.h"
+#include "pso/network/TLobby_803FCF44.h"
+#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/text_80421620.h"
 /* The object header the stack's records share (laid out like TObject's fields). */
 typedef struct TObjectFields {
     const char *m_name;
@@ -46,8 +51,6 @@ typedef struct Tbl_80408428 Tbl_80408428;
 typedef struct Pkt_80408428 Pkt_80408428;
 typedef struct Ent_80408E98 Ent_80408E98;
 typedef struct Tbl_80408E98 Tbl_80408E98;
-typedef struct Buf_80408F2C Buf_80408F2C;
-typedef struct Tbl_80408F2C Tbl_80408F2C;
 typedef struct Sock_80409130 Sock_80409130;
 typedef struct Ent_8040920C Ent_8040920C;
 typedef struct Rec_8040920C Rec_8040920C;
@@ -76,23 +79,7 @@ typedef struct PppRx PppRx;
 typedef struct DnsHdr_804050DC DnsHdr_804050DC;
 typedef struct DnsRec_804050DC DnsRec_804050DC;
 typedef struct DnsBase_804050DC DnsBase_804050DC;
-typedef struct Self_803FD85C Self_803FD85C;
-typedef struct Tbl_803FD85C Tbl_803FD85C;
-typedef struct RecoveredGlobal_8041552C_lbl_805C1BE0 RecoveredGlobal_8041552C_lbl_805C1BE0;
-typedef struct RecoveredGlobal_804050DC_lbl_805C18A0 RecoveredGlobal_804050DC_lbl_805C18A0;
-typedef struct RecoveredGlobal_804050EC_lbl_805C18A0 RecoveredGlobal_804050EC_lbl_805C18A0;
-typedef struct RecoveredGlobal_80405114_lbl_805C18A0 RecoveredGlobal_80405114_lbl_805C18A0;
 typedef struct RtEntry_8040F8A4 RtEntry_8040F8A4;
-typedef struct E_8040DDB0 E_8040DDB0;
-typedef struct RecoveredGlobal_8040DD68_lbl_805C1B38 RecoveredGlobal_8040DD68_lbl_805C1B38;
-typedef struct E_8040FF58 E_8040FF58;
-typedef struct RecoveredGlobal_8040FF0C_lbl_805C1B78 RecoveredGlobal_8040FF0C_lbl_805C1B78;
-typedef struct RecoveredGlobal_80415650_lbl_805C1BF8 RecoveredGlobal_80415650_lbl_805C1BF8;
-typedef struct RecoveredGlobal_80409A3C_lbl_805C1C50 RecoveredGlobal_80409A3C_lbl_805C1C50;
-typedef struct Inner_80401CAC Inner_80401CAC;
-typedef struct Outer_80401CAC Outer_80401CAC;
-typedef struct Ent_80408718 Ent_80408718;
-typedef struct Tbl_80408718 Tbl_80408718;
 typedef struct Obj_80405304 Obj_80405304;
 typedef struct Cfg_803F87E0 Cfg_803F87E0;
 typedef struct Obj_803F87E0 Obj_803F87E0;
@@ -116,22 +103,13 @@ typedef struct Ent_8040A19C Ent_8040A19C;
 typedef struct G_8040A19C G_8040A19C;
 typedef struct LobbyHandler LobbyHandler;
 typedef struct LobbyHandlerTable LobbyHandlerTable;
-typedef struct Seg_804179A4 Seg_804179A4;
-typedef struct Pkt_804179A4 Pkt_804179A4;
-typedef struct Sock_804179A4 Sock_804179A4;
 typedef struct NbPoolView NbPoolView;
-typedef struct N_80405298 N_80405298;
-typedef struct Self_803FDA68 Self_803FDA68;
-typedef struct Tbl_803FDA68 Tbl_803FDA68;
-typedef struct V_803FE600 V_803FE600;
-typedef struct O_803FE600 O_803FE600;
 typedef struct Ent_804089A8 Ent_804089A8;
 typedef struct Slot_804089A8 Slot_804089A8;
 typedef struct Tbl_804089A8 Tbl_804089A8;
 typedef struct G_80405150 G_80405150;
 typedef struct Ent_80406B14 Ent_80406B14;
 typedef struct Tbl_80406B14 Tbl_80406B14;
-typedef struct O_80406B6C O_80406B6C;
 typedef struct Ent_804072C4 Ent_804072C4;
 typedef struct Tbl_804072C4 Tbl_804072C4;
 typedef struct Ent_80407310 Ent_80407310;
@@ -141,7 +119,6 @@ typedef struct Peer_8040799C Peer_8040799C;
 typedef struct Ent_8040799C Ent_8040799C;
 typedef struct Tbl_8040799C Tbl_8040799C;
 typedef struct Out_8040799C Out_8040799C;
-typedef struct Ent_804086B4 Ent_804086B4;
 typedef struct Tbl_804086B4 Tbl_804086B4;
 typedef struct Desc_8040881C Desc_8040881C;
 typedef struct Ent_8040881C Ent_8040881C;
@@ -155,14 +132,7 @@ typedef struct Ent_80408C24 Ent_80408C24;
 typedef struct Glob_80408C24 Glob_80408C24;
 typedef struct Hdr_80408C24 Hdr_80408C24;
 typedef struct Ent_804094B8 Ent_804094B8;
-typedef struct Rec_8040B33C Rec_8040B33C;
 typedef struct A_8040B33C A_8040B33C;
-typedef struct A_8040A45C A_8040A45C;
-typedef struct C_8040A45C C_8040A45C;
-typedef struct D_8040A45C D_8040A45C;
-typedef struct E_8040A45C E_8040A45C;
-typedef struct F_8040A45C F_8040A45C;
-typedef struct G_8040A45C G_8040A45C;
 typedef struct Ent_8040A1FC Ent_8040A1FC;
 typedef struct G_8040A1FC G_8040A1FC;
 typedef struct Ent_8040A25C Ent_8040A25C;
@@ -182,8 +152,6 @@ typedef struct G_8040C00C G_8040C00C;
 typedef struct SubA_8040C540 SubA_8040C540;
 typedef struct SubB_8040C540 SubB_8040C540;
 typedef struct Ent_8040D95C Ent_8040D95C;
-typedef struct In_8040D95C In_8040D95C;
-typedef struct Out_8040D95C Out_8040D95C;
 typedef struct PH_8040EC38 PH_8040EC38;
 typedef struct P_8040EC38 P_8040EC38;
 typedef struct A_8040F1A0 A_8040F1A0;
@@ -193,23 +161,11 @@ typedef struct G_8040F1A0 G_8040F1A0;
 typedef struct A_RT A_RT;
 typedef struct E_RT E_RT;
 typedef struct Ent_8040FDA0 Ent_8040FDA0;
-typedef struct G_80415B38 G_80415B38;
-typedef struct A_80418BD8 A_80418BD8;
 typedef void (*Fn_8040881C)(void);
-typedef s16 (*Init_8040881C)(s16);
-typedef s32 (*SendFn_80408C24)(s16, u8 *, s16);
-typedef void (*CbA_8040C540)(s16, s32, s16, s32, s16);
-typedef void (*CbB_8040C540)(s16, u32, s16);
-s16 alloc_conn_slot(s16 h, s16 v);
-u8 * alloc_free_entry(void);
 s32 build_dns_query_a(void *self, u8 *name, s16 len);
 s32 build_dns_query_aaaa(void *self, u8 *name, s16 len);
 u16 calc_ip_checksum(void *self, s16 b);
 u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag);
-s32 call_entry_callback(s16 i, s32 arg);
-s32 call_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-s32 clear_conn_slot(s16 i);
-s32 clear_table_entry_locked(s16 arg0);
 s32 close_and_reset_connection(void *self);
 s32 compare_sockaddr(void *self, u8 *arg1);
 void complete_pending_request(s16 id);
@@ -219,38 +175,19 @@ s32 dispatch_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3);
 void dispatch_request_callback(void *self, s16 status);
 s32 dispatch_slot_a(s16 arg0, s32 arg1);
 s32 dispatch_slot_b(s16 arg0, s32 arg1);
-s32 fill_reply_buffer(s16 h, u8 *p);
 s32 forward_net_op(s16 arg0, u8 *arg1, u8 *arg2);
 s32 forward_socket_op_by_handle(s16 id, u8 *a, u8 *b);
 s16 * get_active_entry_by_index(s16 arg0);
-s16 get_slot_offset_or_default(s16 arg0);
-s16 * get_valid_entry(s16 arg0);
 s32 init_ipv4_interfaces(void);
-void init_msg(void *self, s32 arg1);
-void init_net_block_18A0(void);
 s16 init_net_sockets(void);
 s32 init_packet_fragment_pools(void);
-void init_packet_header(void *self, s32 arg1);
-s32 invoke_socket_callback(s16 i, s32 arg);
-s32 is_entry_flag10_set(s16 i);
 s32 is_lookup_found(u32 arg0, u32 arg1);
 s32 is_multicast_address(void *self, s16 arg1);
-s32 is_slot_flag_0x20_set(s16 i);
-s32 is_slot_flag_0x40_set(s16 i);
-void process_expired_timers(void);
 void release_entry(void *self);
-s32 release_slot_by_id(u16 a);
-s32 reset_net_value(void);
-s32 reset_other_connection_lists(void *obj);
 s32 reset_socket_table(void);
-s32 run_net_init_step(void);
 void run_net_thread_loop(void);
 s32 send_ethernet_frame(s16 idx, s16 mode, u8 *addr, void *pkt);
-void set_value_and_enable(void *self, s32 arg1);
-s32 shutdown_network_handle(void);
 void tick_connection_timeouts(void);
-void tick_entry_timers(void);
-void update_timeout_entries(void);
 Pkt_804081C0 *alloc_packet_with_header(Out_804081C0 *arg0, u8 *arg1);
 s32 append_to_list(O_8040C4B0 *o, N_8040C4B0 *n);
 Ent_80408718 *find_free_peer_entry(void);
@@ -258,15 +195,12 @@ Rec_8040B33C *find_next_active_record(A_8040B33C *a);
 Ent_804086B4 *find_oldest_peer_entry(s16 key);
 Ent_80408428 *find_or_add_peer_entry(s16 arg0, s32 arg1, u8 type, void *addr, u8 type2, void *addr2, s16 state);
 s32 is_addr_unspecified(u8 *arg0);
-s32 is_socket_flag_set(s16 i);
 void ppp_input_packet(Strm_80405A74 *arg0);
 void reset_connection_requests(Conn_8040AF48 *o_, s16 arg1);
 s32 select_source_address(Out_8040D95C *arg0, In_8040D95C *arg1);
 
 typedef struct PppRx { u8 *data; u16 len; } PppRx;
 extern PppRx *ppp_rx_frame_ptr;
-extern s16 lobby_modem_connect_state;
-extern s32 lbl_805D7A8C;
 extern s32 lbl_805D7A94;
 extern u8 *lbl_805D7ADC;
 extern u8 *lbl_805D7AE0;
@@ -274,11 +208,7 @@ extern u32 lbl_805D7AE4;
 extern u16 lbl_805D7AE8;
 extern u16 lbl_804FD3A8[];
 extern u8 lbl_805C18B0[];
-extern u8 lbl_805C04A8[];
-extern s32 recv_network_frame(u16 arg0, void *arg1, u16 *arg2);
-extern s32 is_transport_connected(void);
 extern s16 TLobby__sub_804290D4(s32 idx);
-extern s32 TLobby__sub_8040A044(s16, u32, s32, u32 *);
 s16 TRKValidMemory32(u32, u32, u32, s16, u8, u16);
 
 extern s32 TUdpSocket__sub_80421BAC(s16, s32, s32, s32, s32, s32, void *);
@@ -295,79 +225,10 @@ struct DnsBase_804050DC {
 };
 
 struct Self_803FD85C;
-struct Tbl_803FD85C {
-    u8 pad[0x14];
-    void (*f14)(Self_803FD85C *, Tbl_803FD85C *);
-    u8 pad18[8];
-    void (*f20)(Self_803FD85C *, Tbl_803FD85C *);
-};
-struct Self_803FD85C {
-    u8 f0; u8 f1; u8 f2; u8 f3; u8 f4; u8 f5; u8 f6; u8 f7;
-    u8 pad8[8];
-    u8 f10[0x1C];
-    Tbl_803FD85C *tbl;
-    void *f30;
-};
-
-struct RecoveredGlobal_8041552C_lbl_805C1BE0 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_804050DC_lbl_805C18A0 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_804050EC_lbl_805C18A0 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_80405114_lbl_805C18A0 {
-    s32 value;
-    u8 remaining[0xC];
-};
 
 #include <stddef.h>
 
 typedef struct RtEntry_8040F8A4 { u16 flags; u8 pad2[2]; u32 id; u32 mask; u32 owner; u8 pad10[4]; } RtEntry_8040F8A4;
-
-typedef struct E_8040DDB0 { u8 c0; u8 c1; u8 c2; u8 c3; s16 f4; u8 pad6[0x16]; } E_8040DDB0;
-struct RecoveredGlobal_8040DD68_lbl_805C1B38 {
-    s16 value;
-    u8 pad2[2];
-    E_8040DDB0 *ents;
-    s16 f8;
-    u8 padA[0x1E];
-};
-
-typedef struct E_8040FF58 { u8 c0; u8 c1; u8 c2; u8 c3; s16 f4; u8 pad6[0x2E]; } E_8040FF58;
-struct RecoveredGlobal_8040FF0C_lbl_805C1B78 {
-    s16 value;
-    u8 pad2[2];
-    E_8040FF58 *ents;
-    s32 f8;
-    u8 padC[0x34];
-};
-
-struct RecoveredGlobal_80415650_lbl_805C1BF8 {
-    s16 value;
-    u8 remaining[0xE];
-};
-
-struct RecoveredGlobal_80409A3C_lbl_805C1C50 {
-    s32 value;
-    u8 remaining[0xF4];
-};
-
-typedef struct Inner_80401CAC { u8 pad[4]; u16 f4; } Inner_80401CAC;
-
-typedef struct Outer_80401CAC { Inner_80401CAC *p; } Outer_80401CAC;
-
-typedef struct Ent_80408718 { s16 f0; u8 pad[0x16]; } Ent_80408718;
-
-typedef struct Tbl_80408718 { s16 count; s16 h2; s16 h4; s16 h6; s16 h8; u8 pad[4]; Ent_80408718 *list; u8 tail[0x14]; } Tbl_80408718;
 
 typedef struct Obj_80405304 { u8 pad[0x18]; u8 f18; } Obj_80405304;
 
@@ -480,37 +341,18 @@ typedef char LobbyHandlerTable_size_check[sizeof(LobbyHandlerTable) == 8 ? 1 : -
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
 
-typedef struct Seg_804179A4 { s16 len; s16 pad; u8 buf[8]; } Seg_804179A4;
-
-typedef struct Pkt_804179A4 { u8 pad0[4]; u32 n; s32 total; Seg_804179A4 seg[1]; } Pkt_804179A4;
-
-typedef struct Sock_804179A4 { u8 pad0[0x10]; u8 addr[0x10]; s32 f20; s16 f24; u8 f26; u8 f27; } Sock_804179A4;
-
-extern RecoveredGlobal_8041552C_lbl_805C1BE0 network_loopback_state;
 extern RecoveredGlobal_804050DC_lbl_805C18A0 lbl_805C18A0;
-void TLobby__sub_804050DC(s16 arg0);
-extern s16 lbl_805D7A7A;
-void NetIPv6ApplyNeighborDiscoveryDefaults(u8 *arg0);
-void TLobby__sub_803FD85C(void *);
-s32 TLobby__sub_804062A0(s16);
 s32 TLobby__sub_803F79AC(void *);
-void TLobby__sub_803F79B0(u8 *arg0);
-extern s32 lobby_timer_list_head;
-s16 reset_network_timer_list(void);
 extern s16 lobby_udp_socket_table;
 s32 TUdpSocket__sub_80407508(void);
 void TLobby__sub_804073B8(void);
 s32 TLobby__sub_80407C60(s16, s32);
 s32 TLobby__sub_80407D98(s16, s32);
-s32 TLobby__sub_8040799C(s16, void *, void *);
 s16 TLobby__sub_80407F20(s16 a, s16 b, s16 c, s16 d, s16 e, s32 f, s16 g, s32 h);
 s32 TLobby__sub_8040878C(void);
-extern s16 lobby_handler_table_desc;
-s32 TLobby__sub_80409AA8(void);
 s32 TLobby__sub_8040C9E0(u8 *arg0, u8 *arg1);
 u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 arg2, u8 *arg3, s16 arg4);
 s32 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1);
-s32 TLobby__sub_8040FDA0(u32, s16);
 /* ipv4_address_routing_state and its tables. */
 typedef struct Ipv4Alias Ipv4Alias;
 struct Ipv4Alias {
@@ -560,132 +402,44 @@ extern Ipv4RoutingState ipv4_address_routing_state;
 
 u8 * TLobby__sub_8040F76C(u32, u32);
 s32 TLobby__sub_8040FEE4(s32 arg0, s32 arg1);
-s32 TLobby__sub_80413230(u8 *arg0, s32 arg1);
-s32 TLobby__sub_804136AC(s16 i);
-void TLobby__sub_804136CC(s16 arg0);
-s16 NetIPv6IsLoopback(u8 *arg0);
-s32 NetIPv6IsUnspecified(u8 *arg0);
-s32 NetIPv6CompareAddresses(s32 arg0, s32 arg1);
-s16 TLobby__sub_8041510C(void);
-void TLobby__sub_804150EC(void);
-void TLobby__sub_8041615C(void);
-void NetIPv6TickNeighborCache(void);
-void NetIPv6TickNeighborDiscovery(void);
 s16 TLobby__sub_80413D78();
-s16 NetIPv6EmitNeighborSolicitation(int arg0, void *arg1, void *arg2, s16 arg3, int arg4);
-s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(s32 arg0, s16 arg1);
-s32 TLobby__sub_804112B8(s32 arg0, s32 arg1, s16 arg2);
-s32 TLobby__sub_8041123C(s32 arg0, s32 arg1, s16 arg2);
 s32 TLobby__sub_8040FE40(s16 arg0);
-s32 TLobby__sub_803FE6CC(void *, int, int, void *);
-void TLobby__sub_80405328(u8 *arg0);
-s16 TLobby__sub_8040FCEC(u32);
-s32 TLobby__sub_804136EC(void *);
 extern RecoveredGlobal_8040DD68_lbl_805C1B38 ipv4_protocol_state;
-s32 TLobby__sub_8040DD68(void);
-s32 TLobby__sub_8040ED28(void);
 s32 TLobby__sub_8040ED70(void);
-extern RecoveredGlobal_8040FF0C_lbl_805C1B78 ipv6_protocol_state;
-s32 NetIPv6Shutdown(void);
-extern RecoveredGlobal_80415650_lbl_805C1BF8 network_buffer_pool_state;
 struct NbPoolView {
     s16 count;
     u8 *ents;
 };
 #define NBP ((NbPoolView *)&network_buffer_pool_state)
-s16 TLobby__sub_8041579C(void *);
 s16 TLobby__sub_8040A2BC(Fn_8040881C *fns, s16 kind);
-s16 TLobby__sub_80409A3C(u8 *arg0, s16 arg1);
-s16 TLobby__sub_80415954(void *out_, int handle, s16 flag);
-void TLobby__sub_803FD958(u8 *arg0);
-void TLobby__sub_80401CAC(Outer_80401CAC *o, u16 v);
-u16 read_network_u16_be(u8 *p);
-u8 *write_network_u16_be(u8 *p, u16 v);
 extern Tbl_80408718 lbl_805C1AB0;
-s32 TLobby__sub_80405304(void *arg0);
 u16 TLobby__sub_80406BD8(const void *, s16);
 s32 OSDisableInterrupts(void);
 s32 OSRestoreInterrupts(s32);
 void TLobby__sub_803F97E8(int);
 extern u8 lbl_805C0038[];
-extern s32 lbl_805D7A90;
-extern s16 lbl_805D7A7C;
 s32 TLobby__sub_8040B838(u8 *dst, u8 *src, s32 max);
-s16 TLobby__sub_8040DC8C(u8 *arg0, u8 *arg1);
-s32 TLobby__sub_804217E4(void);
-s32 TLobby__sub_80421814(void);
-s32 TLobby__sub_80421B3C(s32);
 s16 TLobby__sub_80401BCC(void *, void *, int);
 s32 TLobby__sub_803FDBF8(void *, Strm_80405A74 *);
-void TLobby__sub_8040098C(Conn_804004DC *c);
 s32 PADRead(void *, Strm_80405A74 *);
-s16 TLobby__sub_80403F4C(void *, Strm_80405A74 **);
 s16 TLobby__sub_804040E0(void *, Strm_80405A74 **);
 s32 TLobby__sub_804060B8(u8 *, u16, int);
-extern u8 lobby_ppp_read_buf;
 extern u8 ppp_input_byte;
-s32 NetCompareBitsBackward(u8 *arg0, u8 *arg1, s16 arg2);
-s32 NetCompareBitPrefix(u8 *a, u8 *b, s16 bits);
-s32 NetIPv6MakeSolicitedNodeMulticastAddress(u8 *arg0, u8 *arg1);
-s32 TLobby__sub_8041509C(void);
 s32 TLobby__sub_80409AD8(void);
-s32 init_ipv6_all_routers_multicast_address(u8 *arg0, s8 arg1);
-u8 init_ipv6_all_nodes_multicast_address(u8 *arg0, s8 arg1);
-void TLobby__sub_80406FD8(void *, void *, s32);
 s16 TLobby__sub_80413F0C();
-s16 TLobby__sub_80416F58(u8 *self, s32 n, void *out, void *arg_);
-s16 TLobby__sub_80417028(void *, void *, void *, void *);
-s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d);
-u16 TLobby__sub_80411040(const struct IPv6Address * p_, const struct IPv6Address * q_, u8 c, const struct NetPacket * d_, s16 e);
-s32 NetIPv6EmitRouterSolicitation(NetPacket *arg0, NetIPv6SendParameters *arg1, s32 arg2);
-s16 NetIPv6GetInterfaceLinkLayerAddress(s32 arg0, s16 arg1, s16 arg2);
-extern struct G_80415B38 ipv6_neighbor_discovery_state;
-s16 NetIPv6SendNeighborAdvertisement(Pkt_804179A4 *arg0, u8 *arg1, u8 arg2, Sock_804179A4 *arg3, s16 arg4);
-s32 NetIPv6IsLinkLocal(u8 *arg0);
-s32 TLobby__sub_8041549C(s16 arg0);
-s32 TLobby__sub_804154C0(s16 arg0);
-s32 TLobby__sub_804154E4(s16 arg0);
-s32 TLobby__sub_80415508(s16 arg0);
 
-extern s16 lobby_modem_abort_flag;
 struct Outer_80401CAC;
 
 struct N_80405298;
-void TLobby__sub_80405298(N_80405298 *o, s32 v);
 
 struct Self_803FDA68;
-struct Tbl_803FDA68 {
-    u8 pad[0x14];
-    void (*f14)(Self_803FDA68 *, Tbl_803FDA68 *);
-    u8 pad18[0xC];
-    void (*f24)(Self_803FDA68 *, Tbl_803FDA68 *);
-    void *(*f28)(Self_803FDA68 *, Tbl_803FDA68 *);
-};
-struct Self_803FDA68 {
-    u8 f0; u8 f1; u8 f2; u8 f3; u8 f4; u8 f5; u8 f6; u8 f7;
-    s16 f8; u8 padA[6];
-    u8 f10[0x1C];
-    Tbl_803FDA68 *tbl;
-    void *f30;
-};
 
 struct V_803FE600;
-struct O_803FE600 {
-    u8 b0; u8 b1; u8 b2; u8 b3; u8 b4; u8 b5; u8 b6; u8 b7;
-    u8 pad8[0x2C - 8];
-    V_803FE600 *p2C;
-};
-struct V_803FE600 {
-    u8 pad[0x14];
-    void (*fn)(O_803FE600 *, V_803FE600 *);
-};
 
 typedef struct Ent_804089A8 { s16 used; s16 f2; s16 f4; u16 f6; s16 f8; u8 padA[2]; void *slot; } Ent_804089A8;
 struct Slot_804089A8 { s16 used; s16 x; s16 idx; s16 f2; s16 b; u8 pad[0xE]; u8 buf[1]; };
 struct Tbl_804089A8 { u8 pad0[4]; s16 n; s16 m; u8 pad8[8]; Ent_804089A8 *ents; Slot_804089A8 *slots; };
-void TLobby__sub_80409818(s32, s16, s16, s16, u16);
 
-extern u32 lbl_805C1AD8[6];
 #define lbl_805C1AD8 (*(Tbl_80408F2C *)lbl_805C1AD8)
 
 void TLobby__sub_804050DC(s16 arg0) {
@@ -705,8 +459,6 @@ s16 reset_network_timer_list(void) {
 }
 
 typedef struct G_80405150 { s32 p0; s32 p4; s16 h8; } G_80405150;
-extern s16 lbl_805D7A84;
-extern s16 lbl_805D7A88;
 s32 TLobby__sub_803FB6A0(void);
 void TLobby__sub_803FB7A4(void);
 void run_net_thread_loop(void) {
@@ -767,7 +519,6 @@ void process_expired_timers(void) {
     unlock_mutex(lbl_805C18A0.value);
 }
 
-typedef struct N_80405298 { N_80405298 *next; s32 f4; u8 pad8[0x18 - 8]; u8 b18; } N_80405298;
 #define HEAD_80405298 (*(N_80405298 **)&lobby_timer_list_head)
 void TLobby__sub_80405298(N_80405298 *o, s32 v) {
     N_80405298 *p, *n;
@@ -1008,7 +759,7 @@ s32 TLobby__sub_80405700()
   }
   if (lbl_805D7A7A != 0)
   {
-    u8 *base = lbl_805C04A8;
+    u8 *base = (u8 *)&lbl_805C04A8;
     for (;;)
     {
       new_var = (PppRx **) (base + 0x18);
@@ -1048,7 +799,7 @@ s32 TLobby__sub_80405700()
     lbl_805D7AE4 = 0;
     lbl_805D7AE0 = lbl_805C18B0;
   }
-  base = lbl_805C04A8;
+  base = (u8 *)&lbl_805C04A8;
   for (;;)
   {
     if (lbl_805D7ADC == lbl_805D7AE0)
@@ -1606,7 +1357,7 @@ s32 TLobby__sub_804066D8(u8 *p)
   }
   *out = tag;
   sz = *((s32 *) obj);
-  obj = *((u8 (*)[]) (&lbl_805C04A8));
+  obj = (u8 *)&lbl_805C04A8;
   q = *((u8 **) (obj + 0x10));
   *((u8 **) q) = q + ((sz + 3) & (~3));
   buf = *((u8 **) q);
@@ -1853,7 +1604,6 @@ s32 reset_socket_table(void) {
 }
 #pragma pop
 
-typedef struct O_80406B6C { u32 w0; u8 b4; } O_80406B6C;
 s32 TLobby__sub_80406B6C(O_80406B6C *o) {
     if (o != 0) {
         switch (o->b4) {
@@ -2156,8 +1906,6 @@ struct Tbl_80407418 {
     u8 pad4[0x10];
     Ent_80407418 *ents;
 };
-
-s32 TLobby__sub_80408388(s16);
 
 s32 TLobby__sub_80407418(s16 id) {
     Tbl_80407418 *t = (Tbl_80407418 *)&lbl_805C1AB0;
@@ -2988,7 +2736,6 @@ Ent_80408428 *find_or_add_peer_entry(s16 arg0, s32 arg1, u8 type, void *addr, u8
     return e;
 }
 
-struct Ent_804086B4 { s16 f0; s16 f2; u8 pad[0x14]; };
 struct Tbl_804086B4 { s16 count; u8 pad[0xE]; Ent_804086B4 *list; };
 Ent_804086B4 *find_oldest_peer_entry(s16 key) {
     Ent_804086B4 *best = 0;
@@ -3258,8 +3005,6 @@ struct Glob_80408C24 {
 };
 struct Hdr_80408C24 { u8 dst[6]; u8 src[6]; u16 type; };
 
-s16 TLobby__sub_804098B4(void *);
-s32 TLobby__sub_80409908(void *, void *);
 u8 *TLobby__sub_8042558C(u32 size);
 
 inline Conn_80408C24 *find_conn_80408C24(Glob_80408C24 *g, s16 id) {
@@ -3390,23 +3135,6 @@ s32 forward_socket_op_by_handle(s16 id, u8 *a, u8 *b) {
     }
 }
 #undef TBL_80408E98
-
-struct Buf_80408F2C {
-    s16 h0;
-    s16 h2;
-    s16 h4;
-    s16 h6;
-    s16 h8;
-    u8 data[0x5EE];
-};
-
-struct Tbl_80408F2C {
-    u8 pad0[4];
-    s16 count;
-    s16 nbufs;
-    u8 pad8[0xC];
-    Buf_80408F2C *bufs;
-};
 
 s32 TLobby__sub_80408F2C(s16 id, u8 *pkt) {
     Tbl_80408F2C *t = &lbl_805C1AD8;
@@ -3944,58 +3672,7 @@ s32 TLobby__sub_80409AA8(void) {
     return 0;
 }
 
-typedef struct Rec_8040B33C { u32 f0; u8 pad[0x10]; } Rec_8040B33C;
 struct A_8040B33C { u8 pad[0x10]; s16 idx; u8 pad2[2]; s16 off; };
-struct A_8040A45C { s16 f0; u8 pad2[2]; s32 f4; };
-struct C_8040A45C { s16 f0; u8 pad2[0x1E]; s32 f20; u8 pad24[4]; };
-struct D_8040A45C { s16 f0; u8 pad2[0x102]; u8 f104; u8 pad105[0xFF]; s16 f204; u8 pad206[2]; s32 f208; };
-struct E_8040A45C { s16 f0; u8 pad2[0x16]; s32 f18; u8 f1C; u8 pad1D[0xFF]; };
-struct F_8040A45C {
-    s16 f0;
-    s16 f2;
-    s16 f4;
-    s16 f6;
-    u8 pad8[4];
-    s32 fC;
-    s16 f10;
-    s16 f12;
-    u8 pad14[4];
-    s32 f18;
-    s32 f1C;
-    u8 pad20[8];
-    s32 f28;
-    u8 pad2C[8];
-    s32 f34;
-    u8 pad38[4];
-};
-
-struct G_8040A45C {
-    s16 h0;
-    u8 pad2[0xE];
-    s16 nb;
-    u8 pad12[2];
-    Rec_8040B33C *b;
-    u8 pad18[2];
-    s16 lim;
-    s16 step;
-    u8 pad1E[2];
-    s32 base;
-    s16 na;
-    u8 pad26[2];
-    A_8040A45C *a;
-    s16 nc;
-    s16 nd;
-    s16 ne;
-    u8 pad32[2];
-    C_8040A45C *c;
-    D_8040A45C *d;
-    E_8040A45C *e;
-    s16 nf;
-    u8 pad42[2];
-    F_8040A45C *f;
-};
-
-extern G_8040A45C dns_resolver_state;
 
 #define TBL_80409B48 (*(Tbl_80409B48 *)&lobby_handler_table_desc)
 
@@ -4244,8 +3921,6 @@ struct Mgr_8040A3C0 {
     u8 pad42[2];
     Ent_8040A3C0 *ents;
 };
-
-s32 TLobby__sub_80421844(s32 arg0);
 
 struct Ent_8040A630 { s16 f0; u8 pad[0x3A]; };
 struct G_8040A630 { u8 pad[0x40]; s16 n; u8 pad2[2]; Ent_8040A630 *p; };
@@ -6859,10 +6534,7 @@ u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 arg2, u8 *pkt, s16 flag) {
 }
 
 typedef struct Ent_8040D95C { u8 pad0[2]; s16 f2; u8 pad4[2]; s16 f6; u8 pad8[4]; s32 fC; } Ent_8040D95C;
-struct In_8040D95C { s32 type; s32 f4; };
-struct Out_8040D95C { s32 type; u32 f4; };
 s32 TLobby__sub_8040EF50(u32 *out, u32 mask, s16 c);
-s32 TLobby__sub_80411F1C(void *arg0, void *arg1, s16 arg2);
 s32 select_source_address(Out_8040D95C *arg0, In_8040D95C *arg1) {
     Ent_8040D95C *e;
     s16 ok;
@@ -9138,7 +8810,6 @@ s32 TLobby__sub_80410958(u8* p, s16 n, u8* self, s16 c, s16 d) {
     return 0;
 }
 
-extern s16 TLobby__sub_80415D0C(Pkt_804179A4 *a, u8 *b, Sock_804179A4 *c, s16 d);
 s32 TLobby__sub_80410A98(s32 arg0, void *arg1, void *arg2, void *arg3, void *arg4)
 {
     s32 TLobby__sub_80410BA8(void *, void *, s16, void *); /* declared s32 here; the definition returns s16 */
@@ -9190,7 +8861,6 @@ s32 TLobby__sub_80410A98(s32 arg0, void *arg1, void *arg2, void *arg3, void *arg
   return TLobby__sub_80410BA8((void *) arg0, buf1, p->iface, (void *) 0);
 }
 
-s16 TLobby__sub_80411C44(u8 *self, s16 idx);
 s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 a6, u32 len);
 s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d)
 {
