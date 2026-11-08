@@ -47,7 +47,6 @@ typedef struct A_80403F4C {
     u8 optlen;
     u8 opts[0x40 - 0x18];
 } A_80403F4C;
-
 typedef struct B_80403F4C {
     u16 src_port;
     u16 dst_port;
@@ -67,7 +66,6 @@ typedef struct B_80403F4C {
     u8 option_len;
     u8 options[0x28];
 } B_80403F4C;
-
 typedef struct Ent_80403F4C {
     u8 id;
     u8 pad1[3];
@@ -75,7 +73,6 @@ typedef struct Ent_80403F4C {
     A_80403F4C a;
     B_80403F4C b;
 } Ent_80403F4C;
-
 typedef struct Obj_80403F4C {
     Ent_80403F4C *tstate;
     Ent_80403F4C *ents;
@@ -96,9 +93,6 @@ typedef struct Obj_80403F4C {
     u8 pad2C[4];
     s32 n30;
 } Obj_80403F4C;
-
-#define o ((Obj_80403F4C *)ov)
-
 u32 TLobby__sub_803FEA88(A_80403F4C *out, Strm_80405A74 **src);
 s32 TLobby__sub_804053B8(B_80403F4C *, Strm_80405A74 **);
 u8 *TLobby__sub_8040555C(B_80403F4C *, u8 *, s32);
@@ -277,7 +271,6 @@ uncompressed:
     return 0x70;
 }
 #pragma pop
-
 
 void TLobby__sub_80405000(u32 mode) {
     if (mode == 0) {

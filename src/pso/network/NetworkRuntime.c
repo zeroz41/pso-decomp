@@ -48,7 +48,6 @@ s32 TLobby__sub_80428358(void);
 
 s16 TLobby__sub_80401BCC(void *, void *, int);
 
-B_803FADA0 *init_net_buffer_entry(s32);
 extern u8 lbl_805D7A70[1];
 extern u8 lbl_805D7A74[1];
 u16 read_network_u16_be(u8 *p);

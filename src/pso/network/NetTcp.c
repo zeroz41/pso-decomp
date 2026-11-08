@@ -22,10 +22,7 @@ typedef struct TObjectFields {
 typedef struct NetHdr_8041B974 NetHdr_8041B974;
 typedef struct Self_803FD85C Self_803FD85C;
 typedef struct Tbl_803FD85C Tbl_803FD85C;
-typedef struct E_805C1D48 E_805C1D48;
 typedef struct RecoveredGlobal_8041E178_lbl_805C1D48 RecoveredGlobal_8041E178_lbl_805C1D48;
-typedef struct P_8041D2B8 P_8041D2B8;
-typedef struct O_8041D2B8 O_8041D2B8;
 typedef struct E_8041A230 E_8041A230;
 typedef struct G_8041A230 G_8041A230;
 typedef struct Self_803FDA68 Self_803FDA68;
@@ -35,7 +32,6 @@ typedef struct O_803FE600 O_803FE600;
 typedef struct In_8040D95C In_8040D95C;
 typedef struct Out_8040D95C Out_8040D95C;
 typedef struct E_8041A498 E_8041A498;
-typedef struct G_8041A1D8 G_8041A1D8;
 typedef struct A_8041D524 A_8041D524;
 /* This file's functions. */
 s32 abort_tcp_connection(s16 arg0);
@@ -65,7 +61,6 @@ s32 select_source_address(Out_8040D95C *arg0, In_8040D95C *arg1);
 extern s32 TLobby__sub_8041F204(u8 *self, u16 a, u8 *b);
 extern s32 TLobby__sub_8041F914(u8 *self, u16 a, u8 *b, u8 *c);
 extern s32 TLobby__sub_8041F11C(u8 *self);
-
 typedef struct NetHdr_8041B974 { u16 a; u16 b; u32 c; u32 d; u8 e; u8 f; u16 g; u16 h; u16 i; } NetHdr_8041B974;
 
 struct Self_803FD85C;
@@ -91,11 +86,8 @@ struct RecoveredGlobal_8041E178_lbl_805C1D48 {
     s16 n;
     u8 remaining[0xA2];
 };
-
 typedef struct P_8041D2B8 { s32 a; s32 b; s32 c; s32 d; } P_8041D2B8;
-
 typedef struct O_8041D2B8 { u8 pad0[0x238]; s32 f238; u8 pad23C[0x320 - 0x23C]; s16 n; u8 pad322[0xE]; P_8041D2B8 items[32]; } O_8041D2B8;
-
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
 
@@ -109,7 +101,6 @@ struct E_8041A230 {
     s16 f8;
     u8 padA[0x544 - 0xA];
 };
-
 struct G_8041A230 {
     E_8041A230 *ents;
     s16 count;
@@ -163,15 +154,12 @@ s32 TLobby__sub_8041EB74(u8 *arg0);
 s16 TLobby__sub_80415954(void *out_, int handle, s16 flag);
 s32 TLobby__sub_8041ECA4(u8 *arg0);
 s16 TLobby__sub_8040DC8C(u8 *arg0, u8 *arg1);
-s32 TLobby__sub_8041A9AC(int);
 s32 TLobby__sub_8041FFF8(int, int);
 s32 TLobby__sub_80420BD0(void *, void *, s32);
 s32 tcp_start_send(s16 arg0, u8 *arg1, void (*completion)(s16, s16), u8 arg3);
-s32 NetRegisterTimer(s32 period, s16 locked, NetTimerCallback fn);
 void TLobby__sub_8041A3CC(void);
 void TLobby__sub_8041A5B4(void);
 s32 NetTCPInit(void);
-void TLobby__sub_803F8794(void *);
 
 struct Self_803FDA68;
 struct Tbl_803FDA68 {
@@ -200,9 +188,6 @@ struct V_803FE600 {
     void (*fn)(O_803FE600 *, V_803FE600 *);
 };
 
-#pragma opt_propagation off
-#pragma opt_propagation reset
-
 extern void NetMemcpy(void *_w0, void *_w1, int _w2);
 extern void NetMemcpy(void *_w0, void *_w1, int _w2);
 #pragma dont_inline off
@@ -211,30 +196,13 @@ RecoveredGlobal_8041E178_lbl_805C1D48 tcp_protocol_state;
 
 s32 NetUnregisterTimer(void* p);
 
-#pragma optimize_for_size off
-
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-
-void NetMemcpy(void *, void *, int);
-void NetMemcpy(void *, void *, int);
-void NetMemcpy(void *, void *, int);
 struct In_8040D95C { s32 type; s32 f4; };
 struct Out_8040D95C { s32 type; u32 f4; };
 
-extern void NetMemcpy(void *, void *, int);
-
 u8 *TLobby__sub_80406F0C(void *);
-
-extern u8 *TLobby__sub_80406F0C(void *);
-
-extern void NetMemcpy(void *, void *, int);
-
-extern u8 *TLobby__sub_80406F0C(void *);
-extern u8 *TLobby__sub_80406F0C(void *);
-extern u8 *TLobby__sub_80406F0C(void *);
-extern u8 *TLobby__sub_80406F0C(void *);
 
 #pragma push
 #pragma opt_common_subs on
@@ -328,7 +296,6 @@ s32 TLobby__sub_8041D460(u8 *self, s32 *p1, s32 *p2);
 s32 TLobby__sub_80420410(s32 a, s32 b, u8 *c, u8 *d);
 void TLobby__sub_8041D398();
 #pragma push
-#pragma opt_common_subs on
 #pragma opt_common_subs on
 #pragma opt_propagation off
 s32 TLobby__sub_8041A9AC(int arg0)
@@ -671,15 +638,6 @@ L316:
     return 0;
 }
 #pragma pop
-extern void NetMemcpy(void *_w0, void *_w1, int _w2);
-extern void NetMemset(void *_w0, int _w1, int _w2);
-extern u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 arg2, u8 *arg3, s16 arg4);
-extern void NetMemcpy(void *_w0, void *_w1, int _w2);
-extern void NetMemset(void *_w0, int _w1, int _w2);
-extern u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 arg2, u8 *arg3, s16 arg4);
-#pragma push
-#pragma cplusplus off
-#pragma dont_inline off
 s32 TLobby__sub_8041B3D4(void* a, void* b, s16 c, s16 d, s32 e, s32 f, u8 g_m) {
     struct {
         s16 s0;
@@ -714,7 +672,6 @@ s32 TLobby__sub_8041B3D4(void* a, void* b, s16 c, s16 d, s32 e, s32 f, u8 g_m) {
     void *ph;
     u8 *ctx;
     u8 buf[0x10];
-    void* alloc_free_entry(void);
     s16 dispatch_by_addr_family(void* a, void* b, void* c, void* d, void* e, u32 n);
 
     NetMemset((void *)(buf), (int)(0), (int)(0x10));
@@ -765,11 +722,7 @@ s32 TLobby__sub_8041B3D4(void* a, void* b, s16 c, s16 d, s32 e, s32 f, u8 g_m) {
     release_entry((void*)(ctx));
     return 0;
 }
-#pragma pop
 
-extern s32 TLobby__sub_8041EB74(u8 *arg0);
-extern s32 TLobby__sub_8041EB74(u8 *arg0);
-extern s32 TLobby__sub_8041EB74(u8 *arg0);
 extern u8 *TLobby__sub_8041B5C0(void *arg0) {
     u8 *self;
     p8040EE4C_Unk805BDF48 *g = (p8040EE4C_Unk805BDF48 *)&tcp_protocol_state;
@@ -812,7 +765,6 @@ extern u8 *TLobby__sub_8041B5C0(void *arg0) {
     return self;
 }
 
-extern s16 TLobby__sub_8040DC8C(u8 *arg0, u8 *arg1);
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -832,9 +784,6 @@ extern s16 TLobby__sub_8041B724(u8 * self_) {
 
 extern s32 TLobby__sub_8041E780(void);
 s32 TLobby__sub_8041EC14(u8 *arg0);
-extern s32 TLobby__sub_8041E780(void);
-s32 TLobby__sub_8041EC14(u8 *arg0);
-#pragma opt_propagation off
 extern s32 TLobby__sub_8041B774(u8 *self, u8 *src, u8 *a, u8 *b) {
     u16 v;
     u8 *dst;
@@ -901,7 +850,6 @@ extern s32 TLobby__sub_8041B774(u8 *self, u8 *src, u8 *a, u8 *b) {
     *(u16 *)(dst + 0x264) = *(u16 *)(self + 0x264);
     return (s32)dst;
 }
-#pragma opt_propagation reset
 extern s32 TLobby__sub_8041D0C8(u8* self, u8* data, s16 total, u8* p6);
 extern s32 TLobby__sub_8041D0C8(u8* self, u8* data, s16 total, u8* p6);
 struct E_8041A498;
@@ -912,8 +860,6 @@ void TLobby__sub_8041A498(E_8041A498 *arg0, s16 arg1);
 #define TCP_REXMTTHRESH (*(s16 *)((u8 *)&tcp_protocol_state + 0x1e))
 #pragma push
 #pragma pool_data off
-void set_slot_state_and_resume(s16, s32, s16);
-void set_thread_state_and_resume(s16, s32, s16);
 void set_slot_state_and_resume(s16, s32, s16);
 void set_thread_state_and_resume(s16, s32, s16);
 #pragma push
@@ -1636,10 +1582,8 @@ drop:
 #pragma pop
 #pragma pop
 
-void NetMemcpy(void* destination, void* source, int size);
 #pragma push
 #pragma cplusplus off
-extern s16 TLobby__sub_8041B724(u8 * self_);
 s32 TLobby__sub_8041D524(A_8041D524 *a, s32 x);
 #pragma pop
 #pragma push
@@ -1651,8 +1595,6 @@ s32 TLobby__sub_8041D524(A_8041D524 *a, s32 x);
 s32 TLobby__sub_8041D0C8(u8 *self, u8 *data, s16 total, u8 *p6)
 {
   void TLobby__sub_8041D584(u8 *self, u8 *p6, u8 *tbl, s16 n);
-  void NetMemcpy(void *, const void *, u32);
-  s32 TLobby__sub_8041B724(void *);
   s16 TLobby__sub_8041D524(u8 *, s32);
   s32 n;
   s16 done = 0;
@@ -1780,9 +1722,6 @@ void TLobby__sub_8041A498(E_8041A498 *arg0, s16 arg1) {
     }
 }
 
-extern RecoveredGlobal_8041E178_lbl_805C1D48 tcp_protocol_state;
-#pragma push
-#pragma dont_inline off
 extern void TLobby__sub_8041A5B4(void) {
     s32 TLobby__sub_8041A6A4(p8040EE4C_Unk805BDF48Rec* rec, s32 idx);
     s16* t;
@@ -1812,7 +1751,6 @@ extern void TLobby__sub_8041A5B4(void) {
     }
     g->unk18 += 0x10000 - 0x600;
 }
-#pragma pop
 
 #pragma push
 #pragma opt_common_subs on
@@ -2007,12 +1945,6 @@ void reset_slot_index(void *self) {
     *(s32 *)((s8 *)arg0 + 0x328) = (s32) *(s32 *)((s8 *)arg0 + 0x324);
 }
 
-#pragma push
-#pragma cplusplus off
-#pragma dont_inline off
-#pragma inline_depth(4)
-#pragma optimize_for_size off
-#pragma dont_inline off
 void TLobby__sub_8041D398(u8* self, s32 a, s32 b) {
     u8* p = self;
     u8* q = self;
@@ -2055,7 +1987,6 @@ void TLobby__sub_8041D398(u8* self, s32 a, s32 b) {
         }
     }
 }
-#pragma pop
 
 #pragma push
 #pragma cplusplus off
@@ -2111,7 +2042,6 @@ s32 TLobby__sub_8041D524(A_8041D524 *a, s32 x) {
 
 #pragma push
 #pragma opt_common_subs on
-#pragma dont_inline off
 typedef struct Th_8041D584 {
     u8 pad0[8];
     s32 ack;
@@ -2298,9 +2228,6 @@ s16 tcp_get_socket_handle(s16 i) {
 #pragma pop
 
 s32 TLobby__sub_8041ED8C(int, void *, void *, void *);
-
-#pragma push
-#pragma opt_propagation off
 #pragma push
 #pragma pool_data off
 s32 TLobby__sub_8041DBD4(s16 arg0, s32 arg1, s32 len, s32 arg3) {
@@ -2331,10 +2258,6 @@ s32 TLobby__sub_8041DBD4(s16 arg0, s32 arg1, s32 len, s32 arg3) {
 }
 #pragma pop
 
-#pragma pop
-
-#pragma push
-#pragma opt_propagation off
 #pragma push
 #pragma pool_data off
 s32 tcp_start_send(s16 arg0, u8 *arg1, void (*completion)(s16, s16), u8 arg3) {
@@ -2376,7 +2299,6 @@ s32 tcp_start_send(s16 arg0, u8 *arg1, void (*completion)(s16, s16), u8 arg3) {
 #pragma pop
 
 #pragma push
-#pragma opt_propagation off
 #pragma pool_data off
 typedef struct TcpRecord_805BDF48 {
     u8 pad0[4];
@@ -2515,7 +2437,6 @@ s32 TLobby__sub_8041DE1C(s16 idx, s16 cmd, u32 *arg)
   return 0;
 }
 #pragma pop
-#pragma pop
 
 #pragma push
 #pragma opt_propagation off
@@ -2625,10 +2546,6 @@ s32 abort_tcp_connection(s16 arg0) {
 }
 #pragma pop
 
-extern void NetMemcpy(void *_w0, void *_w1, int _w2);
-extern RecoveredGlobal_8041E178_lbl_805C1D48 tcp_protocol_state;
-extern void NetMemcpy(void *_w0, void *_w1, int _w2);
-extern RecoveredGlobal_8041E178_lbl_805C1D48 tcp_protocol_state;
 #pragma push
 #pragma dont_inline off
 extern void TLobby__sub_8041E2EC(s16 idx, void* a, void* b) {
@@ -2639,10 +2556,8 @@ NetMemcpy((void *)(e + 0x2d6), (void *)(a), (int)(3));
 NetMemcpy((void *)(e + 0x2dc), (void *)(b), (int)(0xc));
 }
 #pragma pop
-
 #pragma pop
 
-s16 TLobby__sub_8041B724(u8 *);
 u16 TLobby__sub_8041EA14(void);
 #pragma push
 #pragma opt_propagation off
@@ -2716,12 +2631,6 @@ s16 tcp_connect_start(s16 arg0, s32 arg1, s16 arg2) {
 }
 #pragma pop
 
-extern RecoveredGlobal_8041E178_lbl_805C1D48 tcp_protocol_state;
-extern RecoveredGlobal_8041E178_lbl_805C1D48 tcp_protocol_state;
-extern RecoveredGlobal_8041E178_lbl_805C1D48 tcp_protocol_state;
-extern RecoveredGlobal_8041E178_lbl_805C1D48 tcp_protocol_state;
-#pragma push
-#pragma dont_inline off
 extern s32 TLobby__sub_8041E590(s16 idx) {
   s16 new_var3;
   u8 *e = (*((u8 **) (&(*(u8(*)[])&tcp_protocol_state)))) + (idx * 0x544);
@@ -2742,10 +2651,7 @@ extern s32 TLobby__sub_8041E590(s16 idx) {
   *((s16 *) (e + 0x8)) = -1;
   return 0;
 }
-#pragma pop
 
-#pragma push
-#pragma opt_propagation off
 extern s32 TLobby__sub_8041E5E4(s16 idx, u8 *a, u16 id) {
     s16 is_addr_unspecified(u8 *);
     s16 compare_sockaddr(void *, u8 *);
@@ -2801,19 +2707,7 @@ extern s32 TLobby__sub_8041E5E4(s16 idx, u8 *a, u16 id) {
     NetMemcpy(e + 0x290, a, 0x14);
     return 0;
 }
-#pragma pop
 extern void TLobby__sub_8041E8A8(s16 idx);
-extern RecoveredGlobal_8041E178_lbl_805C1D48 tcp_protocol_state;
-extern void TLobby__sub_8041E8A8(s16 idx);
-extern RecoveredGlobal_8041E178_lbl_805C1D48 tcp_protocol_state;
-extern void TLobby__sub_8041E8A8(s16 idx);
-extern RecoveredGlobal_8041E178_lbl_805C1D48 tcp_protocol_state;
-extern void NetMemset(void *, int, int);
-extern u8 * TLobby__sub_8041B5C0(void *);
-extern void TLobby__sub_8041E8A8(s16 idx);
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 extern s32 TLobby__sub_8041E780(void)
 {
     void TLobby__sub_8041E8A8(s32);
@@ -2870,7 +2764,6 @@ extern s32 TLobby__sub_8041E780(void)
   }
   return -0x103;
 }
-#pragma pop
 
 #pragma pop
 

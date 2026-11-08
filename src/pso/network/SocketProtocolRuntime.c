@@ -25,8 +25,6 @@ typedef struct Pkt_80420FC8 { u8 pad0[4]; s32 count; s32 len; Item_80420FC8 item
 
 typedef struct P_8041F66C { s32 a; s32 b; } P_8041F66C;
 
-typedef struct T12_8041F914 { s32 a; s32 b; s16 len; u16 pad; } T12_8041F914;
-
 typedef struct O_8041F66C {
     u8 pad0[0xC8]; u8 fC8[8]; u8 padD0[0xD8 - 0xD0]; s32 fD8; u8 padDC[4]; u32 fE0; u8 padE4[0xF4 - 0xE4];
     s32 total; s16 n; s16 fFA; P_8041F66C items[32]; u8 pad1FC[0x228 - 0x1FC]; s32 now;
@@ -88,19 +86,14 @@ typedef struct Hdr_80420DE4 { u16 src; u16 dst; u16 len; u16 sum; } Hdr_80420DE4
 typedef struct O_80420DE4 { u8 pad0[8]; s32 f8; u8 padC[0xC]; s16 f18; u8 pad1A[2]; u8 f1C[4]; } O_80420DE4;
 
 typedef struct TcpSeqRange { u32 start; u32 end; } TcpSeqRange;
-
 typedef struct TcpSackView { u8 pad0[0xFA]; s16 last_reasm; TcpSeqRange reasm[32]; u8 pad1FC[0x2F8 - 0x1FC]; TcpSeqRange sack[5]; } TcpSackView;
-
 typedef struct Item_8041FFF8 { s16 len; u8 pad2[2]; u8 data[8]; } Item_8041FFF8;
-
 typedef struct Seg_8041FFF8 { u8 b[8]; s16 n; s16 m; void (*p)(s16, s16, s32); u8 e[8]; } Seg_8041FFF8;
-
 typedef struct Obj_8041FFF8 {
     u8 pad0[0x10]; u8 f10[8]; u8 pad18[8]; u32 f20; u32 f24; u32 f28; u8 pad2C[4];
     u32 f30; u32 f34; Item_8041FFF8 items[37]; u8 pad1F4[8]; void (*f1FC)(s16, s16); u8 pad200[4];
     u8 flag : 1; u8 rest204 : 7; u8 pad205[0x530 - 0x205]; u32 f530; u8 pad534[0x544 - 0x534];
 } Obj_8041FFF8;
-
 s32 complete_request_callback(s32 idx_, void (*cb)(s16, s16, s32), s16 arg2, s32 *arg3);
 s32 set_thread_state_and_resume(s32 idx, void (*cb)(s16, s16), s16 arg2);
 
@@ -242,17 +235,8 @@ s32 TLobby__sub_8041F11C(Obj_8041F11C *self) {
     return 0;
 }
 
-void NetMemcpy(void* destination, void* source, int size);
-#pragma push
-#pragma cplusplus off
-#pragma pop
-#pragma push
-#pragma cplusplus off
-#pragma dont_inline off
-#pragma dont_inline off
 s32 TLobby__sub_8041F204(u8* tbl, u16 x, u8* self)
 {
-    void NetMemcpy(void*, const void*, u32);
     s16 idx;
     s16 i;
     u32 n;
@@ -400,7 +384,6 @@ fin:
     }
     return -1;
 }
-#pragma pop
 
 void TLobby__sub_8041F66C(O_8041F66C *o) {
     s16 i;

@@ -38,12 +38,10 @@ struct Self_803FD85C {
 };
 
 #include <stddef.h>
-
 struct RecoveredGlobal_80419A34_lbl_805C1C50 {
     s32 value;
     u8 remaining[0xF4];
 };
-
 struct RecoveredGlobal_80419A7C_lbl_805C1C50 {
     s32 value;
     u8 remaining[0xF4];
@@ -51,13 +49,11 @@ struct RecoveredGlobal_80419A7C_lbl_805C1C50 {
 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
-extern NetworkDispatchState network_dispatch_state;
 void TLobby__sub_80419A00(void);
 s32 TLobby__sub_803F8E9C();
 void TLobby__sub_80419A34(void);
 s32 TLobby__sub_80419A7C(void);
 void TLobby__sub_803F97E8(int);
-s32 NetRegisterTimer(s32 period, s16 locked, NetTimerCallback fn);
 void TLobby__sub_803F9344(s32, void *, s32);
 void NetEnqueueProtocolMessage(s32 payload, s16 detail, s16 first, s16 second, u16 protocol);
 
@@ -88,23 +84,9 @@ struct V_803FE600 {
     void (*fn)(O_803FE600 *, V_803FE600 *);
 };
 
-#pragma opt_propagation off
-#pragma opt_propagation reset
-
-#pragma dont_inline off
-#pragma inline_depth(4)
 NetworkDispatchState network_dispatch_state;
 
 s32 NetUnregisterTimer(void* p);
-
-extern void NetStoreCurrentThread(s32 *arg0);
-extern void NetStoreCurrentThread(s32 *arg0);
-
-#pragma optimize_for_size off
-
-#pragma dont_inline off
-#pragma inline_depth(4)
-
 
 void TLobby__sub_80419A00(void) {
     NetMemset((void *) (&network_dispatch_state.lock_handle), 0, 0xF4);
@@ -130,11 +112,6 @@ s32 TLobby__sub_80419A7C(void) {
     return 0;
 }
 
-extern void NetRunProtocolDispatchLoop(void);
-extern void NetRunTimerDispatchLoop(void);
-extern s16 TLobby__sub_803F94F0(void *);
-extern s16 TLobby__sub_803F96AC(void *);
-extern s16 TLobby__sub_803F9B94(void *, void *);
 extern void NetRunProtocolDispatchLoop(void);
 extern void NetRunTimerDispatchLoop(void);
 extern s16 TLobby__sub_803F94F0(void *);
@@ -169,31 +146,6 @@ extern s32 NetInitializeDispatcher(void) {
     return 0;
 }
 
-extern void NetStoreCurrentThread(s32* thread);
-#pragma push
-#pragma cplusplus off
-void NetYieldThread(void);
-#pragma pop
-extern void NetStoreCurrentThread(s32* thread);
-extern NetworkDispatchState network_dispatch_state;
-#pragma push
-#pragma cplusplus off
-void NetYieldThread(void);
-#pragma pop
-extern void NetStoreCurrentThread(s32* thread);
-extern NetworkDispatchState network_dispatch_state;
-#pragma push
-#pragma cplusplus off
-void NetYieldThread(void);
-#pragma pop
-extern void NetStoreCurrentThread(s32* thread);
-extern NetworkDispatchState network_dispatch_state;
-#pragma push
-#pragma cplusplus off
-void NetYieldThread(void);
-#pragma pop
-#pragma push
-#pragma dont_inline off
 extern void NetYieldOutsideDispatcherThread(void) {
 u32 h;
 u8* base = (u8*)(*(u8(*)[])&network_dispatch_state);
@@ -204,7 +156,6 @@ NetYieldThread();
 lock_mutex((int)(*(void**)base));
 }
 }
-#pragma pop
 
 extern void NetRunTimerDispatchLoop(void) {
     s32 *pcnt;
@@ -263,7 +214,6 @@ extern void NetRunTimerDispatchLoop(void) {
     }
 }
 
-extern NetworkDispatchState network_dispatch_state;
 #pragma push
 #pragma dont_inline off
 extern s32 NetUnregisterTimer(void* p) {
@@ -292,7 +242,6 @@ extern s32 NetUnregisterTimer(void* p) {
     return -0x100;
 }
 #pragma pop
-
 #pragma pop
 
 #pragma push
@@ -361,23 +310,13 @@ void NetEnqueueProtocolMessage(s32 payload, s16 detail, s16 first, s16 second, u
     TLobby__sub_803F9344(network_dispatch_state.queue_handle, &message, 0xC);
 }
 
-void unlock_mutex(int mutex);
-void lock_mutex(int mutex);
-void NetReceiveMessage(u32 handle, void* destination, s32 size);
-#pragma push
-#pragma cplusplus off
 void dispatch_handler_by_id(s32 a, s32 b, void* e);
-#pragma pop
 #pragma push
-#pragma cplusplus off
 #pragma dont_inline off
 #pragma inline_depth(4)
-#pragma optimize_for_size off
-#pragma dont_inline off
 void NetRunProtocolDispatchLoop(void) {
     void unlock_mutex(void*);
     void lock_mutex(void*);
-    void NetReceiveMessage(u32, void*, u32);
     struct {
         s16 a;
         s16 b;
@@ -410,8 +349,6 @@ void NetRunProtocolDispatchLoop(void) {
 }
 #pragma pop
 
-extern void NetMemset(void *_w0, int _w1, int _w2);
-extern void NetMemset(void *_w0, int _w1, int _w2);
 struct E_8041A0C0 { u8 pad[0x14]; s16 f14; u16 f16; s32 f18; };
 s32 release_slot_by_id(u16 a) {
     E_8041A0C0 *g = (E_8041A0C0 *)&network_dispatch_state;
@@ -455,11 +392,4 @@ s32 register_protocol_handler(u16 type, Handler_8041A130 fn) {
     g->handlers[freei].fn = fn;
     return 0;
 }
-
-#pragma push
-#pragma opt_propagation off
-
-extern void NetMemset(void *, int, int);
-
-#pragma pop
 

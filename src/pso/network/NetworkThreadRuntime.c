@@ -38,7 +38,6 @@ typedef struct B_803FADA0 { u8 *buf; u16 len; } B_803FADA0;
 
 typedef struct A_803FADA0 { u8 pad0[4]; u32 a; u32 b; } A_803FADA0;
 
-
 u8 *write_network_u16_be(u8 *p, u16 v);
 
 s32 TLobby__sub_80405304(void *arg0);
@@ -300,15 +299,6 @@ s32 TLobby__sub_803FA4A4(u8 *self, u8 *src, s32 h);
 s32 TLobby__sub_803FA7B0(u8 *self, u8 *src, void *h);
 s32 TLobby__sub_803FA318(u8* self, u8* src, s32 n);
 void TLobby__sub_803FD694(u8 *arg0);
-void *TLobby__sub_803FABDC(void *);
-s32 TLobby__sub_803FA4A4(u8 *, u8 *, s32);
-s32 TLobby__sub_803FA7B0(u8 *self, u8 *src, void *h);
-s32 TLobby__sub_803FA318(u8* self, u8* src, s32 n);
-void TLobby__sub_803FA234();
-void TLobby__sub_803FA238();
-void TLobby__sub_803FA280();
-void TLobby__sub_803FD694(u8 *);
-void init_net_state_entry();
 s32 verify_message_sequence();
 void TLobby__sub_803F9FAC(u8 *ctx) {
     Blk_803FA2A8 *src = (Blk_803FA2A8 *)lbl_804FD380;
@@ -412,12 +402,7 @@ void TLobby__sub_803FA2A8(P_803FA2A8 *o) {
     q->h34 = q->h34 | q->h38;
 }
 
-s32 read_2_bytes(void *self, void *src);
 #pragma push
-#pragma cplusplus off
-#pragma pop
-#pragma push
-#pragma cplusplus off
 #pragma dont_inline off
 #pragma inline_depth(4)
 inline u32 optbit_803FA318(u32 bit) {
@@ -437,8 +422,6 @@ inline u32 optbit_803FA318(u32 bit) {
     return bit;
 }
 s32 TLobby__sub_803FA318(u8* self, u8* src, s32 h) {
-    s32 read_2_bytes(void*, void*);
-    s16 TLobby__sub_80401BCC();
     u8* m = *(u8**)(self + 0x30);
     s32 cnt = *(s16*)(src + 2);
     s16 k;
@@ -475,7 +458,6 @@ s32 TLobby__sub_803FA318(u8* self, u8* src, s32 h) {
 #pragma pop
 
 s32 NetIPv6CPParseConfigureOption(void *self, u8 *out, u8 *src, u8 *c, s16 flag);
-s32 read_2_bytes(void *self, void *src);
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -822,11 +804,5 @@ void TLobby__sub_803FADA0(B_803FADA0 **pbuf, A_803FADA0 *hdr, s32 type, s32 tota
     }
     b->len += total_len;
 }
-
-#pragma opt_propagation off
-#pragma opt_propagation reset
-
-#pragma dont_inline off
-#pragma inline_depth(4)
 
 u32 ppp_ipv6cp_protocol_state[0x2A];

@@ -15,17 +15,14 @@ typedef struct RecoveredGlobal_804217E4_lbl_805C1C50 {
     s32 value;
     u8 remaining[0xF4];
 } RecoveredGlobal_804217E4_lbl_805C1C50;
-
 typedef struct RecoveredGlobal_80421814_lbl_805C1C50 {
     s32 value;
     u8 remaining[0xF4];
 } RecoveredGlobal_80421814_lbl_805C1C50;
-
 typedef struct RecoveredGlobal_80421844_lbl_805C1C50 {
     s32 value;
     u8 remaining[0xF4];
 } RecoveredGlobal_80421844_lbl_805C1C50;
-
 #include <stddef.h>
 typedef struct Stack_80421AD8 {
     s16 sp1C;
@@ -34,33 +31,25 @@ typedef struct Stack_80421AD8 {
     s32 sp24;
     s32 sp28;
 } Stack_80421AD8;
-
 typedef struct RecoveredGlobal_804218AC_lbl_805C1C50 {
     s32 value;
     u8 remaining[0xF4];
 } RecoveredGlobal_804218AC_lbl_805C1C50;
-
 typedef struct RecoveredGlobal_804219D0_lbl_805C1C50 {
     s32 value;
     u8 remaining[0xF4];
 } RecoveredGlobal_804219D0_lbl_805C1C50;
-
 typedef struct RecoveredGlobal_80421A50_lbl_805C1C50 {
     s32 value;
     u8 remaining[0xF4];
 } RecoveredGlobal_80421A50_lbl_805C1C50;
-
 typedef struct RecoveredGlobal_80422DE4_lbl_805C1C50 {
     s32 value;
     u8 remaining[0xF4];
 } RecoveredGlobal_80422DE4_lbl_805C1C50;
-
 typedef struct G_80421B3C { s32 f0; } G_80421B3C;
-
 typedef struct G_8042298C { s32 f0; } G_8042298C;
-
 typedef struct G_804228E8 { s32 f0; } G_804228E8;
-
 typedef struct G_804229F8 { s32 f0; } G_804229F8;
 
 typedef struct O_80421938 { u8 pad0[8]; s32 size; s16 used; } O_80421938;
@@ -74,25 +63,18 @@ typedef struct Stack_80421F10 { s16 flags; s16 len; s32 zero; u8 src[0x14]; u8 d
 typedef struct S_804220A0 {
     u8 pad0[0x1FC]; s32 f1FC; u8 pad200[0xAC]; u8 flags; u8 count; s16 f2AE; u8 pad2B0[4]; u8 flags2; u8 pad2B5[0x544 - 0x2B5];
 } S_804220A0;
-
 typedef struct T_8042213C {
     u8 pad0[0xB]; u8 fB; u8 padC[0x2A4 - 0xC]; u8 f2A4; u8 pad2A5; s16 f2A6; u8 f2A8[0x544 - 0x2A8];
 } T_8042213C;
-
 typedef struct G_8042213C { s32 f0; } G_8042213C;
-
 typedef struct IpAddr_80422B8C { u32 family; u8 a[0xC]; } IpAddr_80422B8C;
 
 typedef struct G_80422B8C { s32 f0; } G_80422B8C;
-
 typedef struct G_80422CFC { s32 f0; } G_80422CFC;
-
 typedef struct T_80422E30 {
     u8 pad0[0x2A4]; u8 fl1; u8 p1; s16 st1; s32 th1; u8 pad2AC[8]; u8 fl2; u8 p2; s16 st2; s32 th2; u8 pad2BC[0x544 - 0x2BC];
 } T_80422E30;
-
 typedef struct P_8042315C { s32 type; s32 a; s32 b; s32 c; s32 pad10; s16 n; s16 m; s32 d; s32 pad1C; } P_8042315C;
-
 typedef struct T_80422368 {
   u8 pad0[0x200];
   s32 callback;
@@ -103,7 +85,6 @@ typedef struct T_80422368 {
   s32 thread;
   u8 padE[0x544 - 0x2AC];
 } T_80422368;
-
 typedef struct T_8042276C {
   u8 pad0[0x1FC];
   s32 callback;
@@ -121,7 +102,6 @@ typedef struct send_buffs {
 } send_buffs;
 
 s32 tcp_start_send(s32 arg0, u8 *arg1, void (*completion)(s16, s16), u8 arg3);
-
 typedef struct T_tcp_send_sock {
     u8 pad0[0xB]; u8 fB; u8 padC[0x2AD - 0xC]; u8 count; u8 pad2AE[0x2B4 - 0x2AE]; u8 flags2; u8 pad2B5; s16 f2B6; u8 f2B8[0x544 - 0x2B8];
 } T_tcp_send_sock;
@@ -165,7 +145,6 @@ s32 tcp_stat(s32 a, s16 *b, s16 *c, u32 *d, u32 *e);
 s16 tcp_get_socket_handle(int);
 s32 abort_tcp_connection(int);
 s32 tcp_abort(s32 a);
-void NetMemcpy(void *_w0, void *_w1, int _w2);
 s32 TLobby__sub_80421938(O_80421938 *o, void *src, void *dst, void *cb, s32 flags);
 s32 TLobby__sub_80421F10(O_80421F10 *o, void *src, void *dst, s16 port, void *cb, s32 flags);
 extern S_804220A0 *tcp_protocol_state[];
@@ -186,9 +165,6 @@ s16 NetTCPInit();
 extern char lbl_804800F0[];
 extern u32 TLobby__network_stack_init_count;
 extern u8 *lbl_805E1188;
-void NetStoreCurrentThread(s32 *arg0);
-void NetSuspendCurrentThread(void);
-void NetMemset(void *_w0, int _w1, int _w2);
 s16 TLobby__sub_8041DBD4(int, void *, s16, void *);
 s16 tcp_receive(s32 a, void *cb, s32 len, void *buf);
 s32 TLobby__sub_8041E2EC(int, void *, void *);
@@ -236,7 +212,6 @@ s32 cleanup_subsystems(void) {
     TLobby__sub_80419A00();
     return 0;
 }
-typedef char RecoveredGlobal_804217E4_lbl_805C1C50_size[sizeof(RecoveredGlobal_804217E4_lbl_805C1C50) == 0xF8 ? 1 : -1];
 
 /* Brings up the network stack subsystems in order, stopping at the first failure (result < 0). */
 s16 init_network_stack(void) {
@@ -334,12 +309,10 @@ s32 TLobby__sub_804217E4(void) {
     unlock_mutex(network_dispatch_state.value);
     return 0;
 }
-typedef char RecoveredGlobal_80421814_lbl_805C1C50_size[sizeof(RecoveredGlobal_80421814_lbl_805C1C50) == 0xF8 ? 1 : -1];
 s32 TLobby__sub_80421814(void) {
     lock_mutex((int)((void *) ((*(RecoveredGlobal_80421814_lbl_805C1C50 *)&network_dispatch_state).value)));
     return 0;
 }
-typedef char RecoveredGlobal_80421844_lbl_805C1C50_size[sizeof(RecoveredGlobal_80421844_lbl_805C1C50) == 0xF8 ? 1 : -1];
 s32 TLobby__sub_80421844(s32 timer) {
     s32 result;
     if (timer == 0) {
@@ -351,7 +324,6 @@ s32 TLobby__sub_80421844(s32 timer) {
     return result;
 }
 
-typedef char RecoveredGlobal_804218AC_lbl_805C1C50_size[sizeof(RecoveredGlobal_804218AC_lbl_805C1C50) == 0xF8 ? 1 : -1];
 s32 TLobby__sub_804218AC(s32 callback, s32 interval) {
     s32 result;
     if (callback == 0) {
@@ -365,10 +337,6 @@ s32 TLobby__sub_804218AC(s32 callback, s32 interval) {
     unlock_mutex((int)((void *) ((*(RecoveredGlobal_804218AC_lbl_805C1C50 *)&network_dispatch_state).value)));
     return result;
 }
-
-#pragma push
-#pragma opt_common_subs off
-typedef char RecoveredGlobal_804219D0_lbl_805C1C50_size[sizeof(RecoveredGlobal_804219D0_lbl_805C1C50) == 0xF8 ? 1 : -1];
 
 s32 TLobby__sub_80421938(O_80421938 *o, void *src, void *dst, void *cb, s32 flags) {
     Stack_80421938 s;
@@ -390,9 +358,7 @@ s32 TLobby__sub_804219D0(s32 arg0, s32 arg1, s32 arg2) {
     unlock_mutex((int)((void *) ((*(RecoveredGlobal_804219D0_lbl_805C1C50 *)&network_dispatch_state).value)));
     return result;
 }
-#pragma pop
 
-typedef char RecoveredGlobal_80421A50_lbl_805C1C50_size[sizeof(RecoveredGlobal_80421A50_lbl_805C1C50) == 0xF8 ? 1 : -1];
 s32 TLobby__sub_80421A50(s32 arg0, s32 arg1, s32 arg2) {
     s32 result;
     lock_mutex((int)((void *) ((*(RecoveredGlobal_80421A50_lbl_805C1C50 *)&network_dispatch_state).value)));
@@ -419,7 +385,6 @@ s32 TLobby__sub_80421AD8(u8 *sock, s32 src, s32 dst, u32 cb, s32 flags) {
     }
     return 0;
 }
-typedef char RecoveredGlobal_80422DE4_lbl_805C1C50_size[sizeof(RecoveredGlobal_80422DE4_lbl_805C1C50) == 0xF8 ? 1 : -1];
 
 s32 TLobby__sub_80421B3C(s32 a) {
     s32 r;
@@ -676,8 +641,6 @@ s16 tcp_receive(s32 a, void *cb, s32 len, void *buf) {
     return r;
 }
 
-typedef struct S_804220A0 S_804220A0;
-typedef struct T_80422368 T_80422368;
 s32 set_slot_state_and_resume(s32 idx, void (*cb)(s16, s16), s16 state) {
   T_80422368 *s = (T_80422368 *) tcp_protocol_state[0];
   s16 new_var;
@@ -801,7 +764,6 @@ s16 tcp_send(s32 a, void (*notify)(s16, s16), char bufnum, struct send_buffs *sb
     return r;
 }
 
-typedef struct T_8042276C T_8042276C;
 s32 set_thread_state_and_resume(s32 idx, void (*cb)(s16, s16), s16 state) {
   T_8042276C *s = (T_8042276C *) tcp_protocol_state[0];
   s16 new_var;
@@ -829,7 +791,6 @@ s32 set_thread_state_and_resume(s32 idx, void (*cb)(s16, s16), s16 state) {
   }
   return 0;
 }
-
 
 s16 tcp_get_opt(s16 nh, s16 type, u32 *opt) {
     s16 r;
@@ -901,7 +862,6 @@ s32 tcp_abort(s32 a) {
 typedef struct T_80422AB8 {
     u8 pad0[0x2BC]; u8 flags; u8 pad2BD; s16 status; s32 thread; u8 pad2C4[4]; s32 callback; u8 pad2CC[0x544 - 0x2CC];
 } T_80422AB8;
-
 s32 TLobby__sub_80422AB8(s32 idx, void (*cb)(s16, s16, s32, s32), s16 code, s32 arg3, s32 arg4, s32 arg5) {
     T_80422AB8 *s = (T_80422AB8 *)tcp_protocol_state[0];
     s16 i2;
@@ -1160,18 +1120,6 @@ s32 TLobby__sub_8042325C(s32 a, s32 b, s32 c, s32 (*fn)(s32, s32, s32)) {
 
 extern s16 dhcp_socket;
 extern u32 dhcp_elapsed_ms;
-extern u32 dhcp_last_tick_ms;
-extern u32 dhcp_lease_time;
-extern u32 dhcp_renewal_time;
-extern u32 dhcp_rebinding_time;
-extern u32 dhcp_lease_elapsed;
-extern volatile s32 dhcp_step;
-s32 dhcp_discover_step(void);
-s32 dhcp_request_step(void);
-s32 dhcp_release_step(void);
-extern s16 dhcp_socket;
-extern u32 dhcp_elapsed_ms;
-extern u32 dhcp_last_tick_ms;
 extern u32 dhcp_lease_time;
 extern u32 dhcp_renewal_time;
 extern u32 dhcp_rebinding_time;
@@ -1232,17 +1180,6 @@ void TLobby__sub_80423298(void) {
         dhcp_request_step();
     }
 }
-
-extern volatile s32 dhcp_step;
-extern s16 dhcp_socket;
-extern u32 dhcp_elapsed_ms;
-extern u32 dhcp_lease_time;
-extern u32 dhcp_renewal_time;
-extern u32 dhcp_rebinding_time;
-extern u32 dhcp_lease_elapsed;
-s32 dhcp_discover_step(void);
-s32 dhcp_request_step(void);
-s32 dhcp_release_step(void);
 
 extern s32 lbl_805D7B2C;
 extern s32 lbl_805D7B30;
@@ -1817,7 +1754,6 @@ s32 TLobby__sub_8042455C(void *a) {
     dhcp_error = 1;
     return -1;
 }
-
 
 u8 dhcp_hostname[0x2C];
 u8 lbl_805C2F94[0x100];
