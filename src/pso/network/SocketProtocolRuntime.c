@@ -250,155 +250,199 @@ void NetMemcpy(void* destination, void* source, int size);
 #pragma cplusplus off
 #pragma dont_inline off
 #pragma dont_inline off
-s32 TLobby__sub_8041F204(u8* tbl, u16 x, u8* self)
+s32 TLobby__sub_8041F204(u8 *tbl, u16 x, u8 *self)
 {
-    void NetMemcpy(void*, const void*, u32);
-    s16 idx;
-    s16 i;
-    u32 n;
-    u32 rem;
-    u32 n2;
-    u32 avail;
-    u32 cnt;
-    u8* p;
-    u8 buf1c[8];
-    u8 buf14[8];
-
-    idx = (s16)(((s32)self - (s32)*(u32*)(*(u8(*)[])&tcp_protocol_state)) / 1348);
-    if (!((self[0x204] >> 6) & 1)) {
-        cnt = *(u32*)(tbl + 4);
-        p = tbl + 0xc;
-        rem = 0;
-        i = 1;
-        while (i < cnt) {
-            if ((u16)*(s16*)(p + 0xc) > (u16)x) {
-                rem = x;
-                break;
-            }
-            x -= *(s16*)(p + 0xc);
-            p += 0xc;
-            i++;
-        }
-        if (i == cnt) {
-            return 0;
-        }
-        if (self[0xe8]) {
-            NetMemcpy(buf1c, self + 0xe4, 8);
-            p = tbl + (s16)i * 12;
-            while (i < *(u32*)(tbl + 4)) {
-                NetMemcpy(buf14, p + 0x10, 8);
-                if (rem != 0) {
-                    TLobby__sub_80406EB8(buf14, rem);
-                }
-                n2 = *(s16*)(p + 0xc);
-                n2 -= rem;
-                n = *(u32*)(self + 0xec);
-                n -= *(u32*)(self + 0xf0);
-                if (n >= n2) {
-                    n = n2;
-                    TLobby__sub_80406FD8(buf1c, buf14, n);
-                    *(u32*)(self + 0xf0) += n2;
-                    *(u32*)(self + 0xdc) += n2;
-                    if (*(u32*)(self + 0xdc) >= *(u32*)(self + 0x534)) {
-                        *(u32*)(self + 0xdc) -= *(u32*)(self + 0x534);
-                    }
-                    *(u32*)(self + 0xe0) += n2;
-                    if (*(u32*)(self + 0xe0) >= *(u32*)(self + 0x534)) {
-                        *(u32*)(self + 0xe0) -= *(u32*)(self + 0x534);
-                    }
-                    TLobby__sub_80406EB8(buf1c, n);
-                    rem = 0;
-                    p += 0xc;
-                    i++;
-                } else {
-                    TLobby__sub_80406FD8(buf1c, buf14, n);
-                    *(u32*)(self + 0xf0) += n;
-                    *(u32*)(self + 0xdc) += n;
-                    if (*(u32*)(self + 0xdc) >= *(u32*)(self + 0x534)) {
-                        *(u32*)(self + 0xdc) -= *(u32*)(self + 0x534);
-                    }
-                    *(u32*)(self + 0xe0) += n;
-                    if (*(u32*)(self + 0xe0) >= *(u32*)(self + 0x534)) {
-                        *(u32*)(self + 0xe0) -= *(u32*)(self + 0x534);
-                    }
-                    rem += n;
-                }
-                if (*(u32*)(self + 0xec) == *(u32*)(self + 0xf0)) {
-                    self[0xe8] = 0;
-                    set_slot_state_and_resume(idx, *(s32*)(self + 0x200), (s16)*(u32*)(self + 0xf0));
-                    if (!self[0xe8]) {
-                        goto zero;
-                    }
-                    NetMemcpy(buf1c, self + 0xe4, 8);
-                    if (i < *(u32*)(tbl + 4)) {
-                        continue;
-                    }
-                    switch (*(s16*)(self + 6)) {
-                    case 0:
-                    case 5:
-                    case 7:
-                    case 8:
-                    case 10:
-                        self[0xe8] = 0;
-                        set_slot_state_and_resume(idx, *(s32*)(self + 0x200), -7);
-                        break;
-                    }
-                    goto fin;
-                }
-            }
-            self[0xe8] = 0;
-            set_slot_state_and_resume(idx, *(s32*)(self + 0x200), (s16)*(u32*)(self + 0xf0));
-            while (self[0xe8] != 0) {
-                switch (*(s16*)(self + 6)) {
-                case 0:
-                case 5:
-                case 7:
-                case 8:
-                case 10:
-                    self[0xe8] = 0;
-                    set_slot_state_and_resume(idx, *(s32*)(self + 0x200), -7);
-                    break;
-                }
-                goto fin;
-            }
-            goto fin;
-        }
-zero:
-        NetMemcpy(buf1c, self + 0xc8, 8);
-        TLobby__sub_80406EB8(buf1c, *(u32*)(self + 0xe0));
-        p = tbl + (s16)i * 12;
-        while (i < *(u32*)(tbl + 4)) {
-            NetMemcpy(buf14, p + 0x10, 8);
-            if (rem != 0) {
-                TLobby__sub_80406EB8(buf14, rem);
-            }
-            n = *(s16*)(p + 0xc) - rem;
-            avail = *(u32*)(self + 0x534) - *(u32*)(self + 0xd8);
-            if (n > avail) {
-                n = avail;
-            }
-            *(u32*)(self + 0xd8) += n;
-            if (*(u32*)(self + 0xe0) + n >= *(u32*)(self + 0x534)) {
-                TLobby__sub_80406FD8(buf1c, buf14, *(u32*)(self + 0x534) - *(u32*)(self + 0xe0));
-                NetMemcpy(buf1c, self + 0xc8, 8);
-                TLobby__sub_80406EB8(buf14, *(u32*)(self + 0x534) - *(u32*)(self + 0xe0));
-                n -= *(u32*)(self + 0x534) - *(u32*)(self + 0xe0);
-                *(u32*)(self + 0xe0) = 0;
-            }
-            if (n != 0) {
-                TLobby__sub_80406FD8(buf1c, buf14, n);
-                *(u32*)(self + 0xe0) += n;
-                TLobby__sub_80406EB8(buf1c, n);
-            }
-            rem = 0;
-            p += 0xc;
-            i++;
-        }
-fin:
-        TLobby__sub_8041F66C((O_8041F66C *)self);
-        return 0;
+  void NetMemcpy(void *, const void *, u32);
+  s16 idx;
+  s16 i;
+  u32 n;
+  u32 rem;
+  u32 n2;
+  unsigned int new_var;
+  s16 new_var2;
+  u32 avail;
+  u32 cnt;
+  u8 *p;
+  u8 buf1c[8];
+  u8 buf14[8];
+  idx = (s16) ((((s32) self) - ((s32) (*((u32 *) (*((u8 (*)[]) (&tcp_protocol_state))))))) / 1348);
+  if (!((self[0x204] >> 6) & 1))
+  {
+    cnt = *((u32 *) (tbl + 4));
+    p = tbl + 0xc;
+    rem = 0;
+    i = 1;
+    while (i < cnt)
+    {
+      if (((u16) (new_var2 = *((s16 *) (p + 0xc)))) > ((u16) x))
+      {
+        rem = x;
+        break;
+      }
+      x -= new_var2;
+      p += 0xc;
+      i++;
     }
-    return -1;
+
+    if (i == cnt)
+    {
+      return 0;
+    }
+    if (self[0xe8])
+    {
+      NetMemcpy(buf1c, self + 0xe4, 8);
+      p = tbl + (((s16) i) * 12);
+      while (i < (*((u32 *) (tbl + 4))))
+      {
+        NetMemcpy(buf14, p + 0x10, 8);
+        if (rem != 0)
+        {
+          TLobby__sub_80406EB8(buf14, rem);
+        }
+        n2 = *((s16 *) (p + 0xc));
+        n2 -= rem;
+        n = (new_var = *((u32 *) (self + 0xec)));
+        n -= *((u32 *) (self + 0xf0));
+        if (n >= n2)
+        {
+          n = n2;
+          TLobby__sub_80406FD8(buf1c, buf14, n);
+          *((u32 *) (self + 0xf0)) += n2;
+          *((u32 *) (self + 0xdc)) += n2;
+          if ((*((u32 *) (self + 0xdc))) >= (*((u32 *) (self + 0x534))))
+          {
+            *((u32 *) (self + 0xdc)) -= *((u32 *) (self + 0x534));
+          }
+          *((u32 *) (self + 0xe0)) += n2;
+          if ((*((u32 *) (self + 0xe0))) >= (*((u32 *) (self + 0x534))))
+          {
+            *((u32 *) (self + 0xe0)) -= *((u32 *) (self + 0x534));
+          }
+          TLobby__sub_80406EB8(buf1c, n);
+          rem = 0;
+          p += 0xc;
+          i++;
+        }
+        else
+        {
+          TLobby__sub_80406FD8(buf1c, buf14, n);
+          *((u32 *) (self + 0xf0)) += n;
+          *((u32 *) (self + 0xdc)) += n;
+          if ((*((u32 *) (self + 0xdc))) >= (*((u32 *) (self + 0x534))))
+          {
+            *((u32 *) (self + 0xdc)) -= *((u32 *) (self + 0x534));
+          }
+          *((u32 *) (self + 0xe0)) += n;
+          if ((*((u32 *) (self + 0xe0))) >= (*((u32 *) (self + 0x534))))
+          {
+            *((u32 *) (self + 0xe0)) -= *((u32 *) (self + 0x534));
+          }
+          rem += n;
+        }
+        if ((*((u32 *) (self + 0xec))) == (*((u32 *) (self + 0xf0))))
+        {
+          self[0xe8] = 0;
+          set_slot_state_and_resume(idx, *((s32 *) (self + 0x200)), (s16) (*((u32 *) (self + 0xf0))));
+          if (!self[0xe8])
+          {
+            goto zero;
+          }
+          NetMemcpy(buf1c, self + 0xe4, 8);
+          if (i < (*((u32 *) (tbl + 4))))
+          {
+            continue;
+          }
+          switch (*((s16 *) (self + 6)))
+          {
+            case 0:
+
+            case 5:
+
+            case 7:
+
+            case 8:
+
+            case 10:
+              self[0xe8] = 0;
+              set_slot_state_and_resume(idx, *((s32 *) (self + 0x200)), -7);
+              break;
+
+          }
+
+          goto fin;
+        }
+      }
+
+      self[0xe8] = 0;
+      set_slot_state_and_resume(idx, *((s32 *) (self + 0x200)), (s16) (*((u32 *) (self + 0xf0))));
+      while (self[0xe8] != 0)
+      {
+        switch (*((s16 *) (self + 6)))
+        {
+          case 0:
+
+          case 5:
+
+          case 7:
+
+          case 8:
+
+          case 10:
+            self[0xe8] = 0;
+            set_slot_state_and_resume(idx, *((s32 *) (self + 0x200)), -7);
+            break;
+
+        }
+
+        goto fin;
+      }
+
+      goto fin;
+    }
+    zero:
+    NetMemcpy(buf1c, self + 0xc8, 8);
+
+    TLobby__sub_80406EB8(buf1c, *((u32 *) (self + 0xe0)));
+    p = tbl + (((s16) i) * 12);
+    while (i < (*((u32 *) (tbl + 4))))
+    {
+      NetMemcpy(buf14, p + 0x10, 8);
+      if (rem != 0)
+      {
+        TLobby__sub_80406EB8(buf14, rem);
+      }
+      n = (*((s16 *) (p + 0xc))) - rem;
+      avail = (*((u32 *) (self + 0x534))) - (*((u32 *) (self + 0xd8)));
+      if (n > avail)
+      {
+        n = avail;
+      }
+      *((u32 *) (self + 0xd8)) += n;
+      if (((*((u32 *) (self + 0xe0))) + n) >= (*((u32 *) (self + 0x534))))
+      {
+        TLobby__sub_80406FD8(buf1c, buf14, (*((u32 *) (self + 0x534))) - (*((u32 *) (self + 0xe0))));
+        NetMemcpy(buf1c, self + 0xc8, 8);
+        TLobby__sub_80406EB8(buf14, (*((u32 *) (self + 0x534))) - (*((u32 *) (self + 0xe0))));
+        n -= (*((u32 *) (self + 0x534))) - (*((u32 *) (self + 0xe0)));
+        *((u32 *) (self + 0xe0)) = 0;
+      }
+      if (n != 0)
+      {
+        TLobby__sub_80406FD8(buf1c, buf14, n);
+        *((u32 *) (self + 0xe0)) += n;
+        TLobby__sub_80406EB8(buf1c, n);
+      }
+      rem = 0;
+      p += 0xc;
+      i++;
+    }
+
+    fin:
+    TLobby__sub_8041F66C((O_8041F66C *) self);
+
+    return 0;
+  }
+  return -1;
 }
 #pragma pop
 
