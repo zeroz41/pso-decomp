@@ -6268,11 +6268,11 @@ force_active:
   - fn_8005586C
   - fn_8005D6E4
   - fn_8005EBDC__12TBoss8DragonFPUcPUc
-  - fn_8005EE04__12TBoss8DragonFPsPUl
+  - run_action_script_step__12TBoss8DragonFPsPUl
   - fn_8005FD34__13TBoss5GryphonFl
   - fn_8005FE18__13TBoss5GryphonFl
   - fn_80060020__13TBoss5GryphonFUl
-  - fn_800605E8__13TBoss5GryphonFl
+  - update_offscreen_climb__13TBoss5GryphonFl
   - fn_80060788__13TBoss5GryphonFl
   - fn_80060A58__13TBoss5GryphonFl
   - fn_80060B18__13TBoss5GryphonFl
@@ -6281,16 +6281,16 @@ force_active:
   - fn_80060D9C__13TBoss5GryphonFl
   - fn_800610D0__13TBoss5GryphonFl
   - fn_800615FC__13TBoss5GryphonFl
-  - fn_80061B8C__13TBoss5GryphonFl
-  - fn_80061D34__13TBoss5GryphonFl
-  - fn_80062018__13TBoss5GryphonFl
+  - update_bezier_descent__13TBoss5GryphonFl
+  - update_low_flight_circle__13TBoss5GryphonFl
+  - update_low_flight_straight__13TBoss5GryphonFl
   - fn_80062114__13TBoss5GryphonFl
   - fn_80062660__13TBoss5GryphonFl
-  - fn_800627E4__13TBoss5GryphonFUl
-  - fn_80062BA0__13TBoss5GryphonFUl
-  - fn_80063088__13TBoss5GryphonFUl
-  - fn_80063320__13TBoss5GryphonFUl
-  - fn_80063714__13TBoss5GryphonFv
+  - update_demo_state__13TBoss5GryphonFUl
+  - update_death_state__13TBoss5GryphonFUl
+  - update_shockwave_attack__13TBoss5GryphonFUl
+  - update_ground_takeoff__13TBoss5GryphonFUl
+  - state_action_noop__13TBoss5GryphonFv
   - fn_80074E04
   - fn_800779FC
   - __sinit_text_8007A6C8_cpp
@@ -6303,8 +6303,8 @@ force_active:
   - fn_800BC758
   - fn_800E322C
   - fn_800E3374
-  - fn_800E3428
-  - fn_800E35C8
+  - sweep_segment_collisions
+  - check_radius_collisions
   - fn_800E9238
   - fn_800EB778
   - fn_8010EF14
@@ -6325,13 +6325,13 @@ force_active:
   - __sinit_text_801D34E0_cpp
   - fn_801D371C
   - fn_801D6AB4
-  - fn_801DF3F0
-  - fn_801DF47C
-  - fn_801DF4B8
-  - fn_801DF558
-  - fn_801DF740
-  - fn_801DF7F8
-  - fn_801E0018
+  - copy_cmd_88_marker_record
+  - bswap_cmd_c4_entry
+  - bswap_cmd_c4_reconnect_command
+  - copy_cmd_c4_entry
+  - bswap_u16_pair_field
+  - bswap_c0_choice_search_entry
+  - bswap_quest_list_entry
   - __sinit_text_801E0C08_cpp
   - fn_801F6520
   - fn_801F9030
@@ -7483,21 +7483,21 @@ force_active:
   - lbl_8043EE18
   - lbl_8043EE20
   - lbl_8043EE28
-  - lbl_8043EE30
-  - lbl_8043EE48
+  - lobby_debug_udp_open_format
+  - lobby_debug_make_player_format
   - lbl_8043EE58
-  - lbl_8043EE68
+  - lobby_debug_duplicate_player_format
   - lbl_8043EE7C
   - lbl_8043EE90
   - lbl_8043EEA4
   - lbl_8043EEC0
   - lbl_8043EEDC
   - lbl_8043EEF8
-  - lbl_8043EF04
+  - lobby_debug_player_exit_format
   - lbl_8043EF14
   - lbl_8043EF4C
   - lbl_8043EF64
-  - lbl_8043EF80
+  - lobby_debug_my_player_format
   - lbl_8043EF90
   - lbl_8043EF9C
   - lbl_8043EFB4
@@ -7779,87 +7779,87 @@ force_active:
   - lbl_80497760
   - lbl_8049C5E0
   - lbl_8049C61C
-  - lbl_8049CBA8
-  - lbl_8049CBE8
-  - lbl_8049CC38
-  - lbl_8049CC78
-  - lbl_8049CD08
-  - lbl_8049CD68
-  - lbl_8049CD88
-  - lbl_8049CDC8
-  - lbl_8049CDE8
-  - lbl_8049CE28
-  - lbl_8049CE78
-  - lbl_8049CEE8
-  - lbl_8049CF38
-  - lbl_8049CF78
-  - lbl_8049CFD8
-  - lbl_8049D008
-  - lbl_8049D038
-  - lbl_8049D088
-  - lbl_8049D0C8
-  - lbl_8049D0F8
-  - lbl_8049D148
-  - lbl_8049D1C8
-  - lbl_8049D258
-  - lbl_8049D288
-  - lbl_8049D2B8
-  - lbl_8049D308
-  - lbl_8049D358
-  - lbl_8049D378
-  - lbl_8049D398
-  - lbl_8049D3C8
-  - lbl_8049D418
-  - lbl_8049D458
-  - lbl_8049D478
-  - lbl_8049D4B8
-  - lbl_8049D518
-  - lbl_8049D558
-  - lbl_8049D588
-  - lbl_8049D5A8
-  - lbl_8049D5E8
-  - lbl_8049D638
-  - lbl_8049D678
-  - lbl_8049D68C
-  - lbl_8049D6A0
-  - lbl_8049D6B4
-  - lbl_8049D6C8
-  - lbl_8049D6DC
-  - lbl_8049D6F0
-  - lbl_8049D704
-  - lbl_8049D718
-  - lbl_8049D72C
-  - lbl_8049D740
-  - lbl_8049D754
-  - lbl_8049D768
-  - lbl_8049D77C
-  - lbl_8049D790
-  - lbl_8049D7A4
-  - lbl_8049D7B8
-  - lbl_8049D7CC
-  - lbl_8049D7E0
-  - lbl_8049D7F4
-  - lbl_8049D808
-  - lbl_8049D81C
-  - lbl_8049D830
-  - lbl_8049D844
-  - lbl_8049D858
-  - lbl_8049D86C
-  - lbl_8049D880
-  - lbl_8049D894
-  - lbl_8049D8A8
-  - lbl_8049D8BC
-  - lbl_8049D8D0
-  - lbl_8049D8E4
-  - lbl_8049D8F8
-  - lbl_8049D90C
-  - lbl_8049D920
-  - lbl_8049D934
-  - lbl_8049D948
-  - lbl_8049D95C
-  - lbl_8049D970
-  - lbl_8049D984
-  - lbl_8049DC28
+  - hair_bone_rotation_bone_list_00
+  - hair_bone_rotation_bone_list_01
+  - hair_bone_rotation_bone_list_02
+  - hair_bone_rotation_bone_list_03
+  - hair_bone_rotation_bone_list_04
+  - hair_bone_rotation_bone_list_05
+  - hair_bone_rotation_bone_list_06
+  - hair_bone_rotation_bone_list_07
+  - hair_bone_rotation_bone_list_08
+  - hair_bone_rotation_bone_list_09
+  - hair_bone_rotation_bone_list_10
+  - hair_bone_rotation_bone_list_11
+  - hair_bone_rotation_bone_list_12
+  - hair_bone_rotation_bone_list_13
+  - hair_bone_rotation_bone_list_14
+  - hair_bone_rotation_bone_list_15
+  - hair_bone_rotation_bone_list_16
+  - hair_bone_rotation_bone_list_17
+  - hair_bone_rotation_bone_list_18
+  - hair_bone_rotation_bone_list_19
+  - hair_bone_rotation_bone_list_20
+  - hair_bone_rotation_bone_list_21
+  - hair_bone_rotation_bone_list_22
+  - hair_bone_rotation_bone_list_23
+  - hair_bone_rotation_bone_list_24
+  - hair_bone_rotation_bone_list_25
+  - hair_bone_rotation_bone_list_26
+  - hair_bone_rotation_bone_list_27
+  - hair_bone_rotation_bone_list_28
+  - hair_bone_rotation_bone_list_29
+  - hair_bone_rotation_bone_list_30
+  - hair_bone_rotation_bone_list_31
+  - hair_bone_rotation_bone_list_32
+  - hair_bone_rotation_bone_list_33
+  - hair_bone_rotation_bone_list_34
+  - hair_bone_rotation_bone_list_35
+  - hair_bone_rotation_bone_list_36
+  - hair_bone_rotation_bone_list_37
+  - hair_bone_rotation_bone_list_38
+  - hair_bone_rotation_bone_list_39
+  - hair_bone_rotation_desc_00
+  - hair_bone_rotation_desc_01
+  - hair_bone_rotation_desc_02
+  - hair_bone_rotation_desc_03
+  - hair_bone_rotation_desc_04
+  - hair_bone_rotation_desc_05
+  - hair_bone_rotation_desc_06
+  - hair_bone_rotation_desc_07
+  - hair_bone_rotation_desc_08
+  - hair_bone_rotation_desc_09
+  - hair_bone_rotation_desc_10
+  - hair_bone_rotation_desc_11
+  - hair_bone_rotation_desc_12
+  - hair_bone_rotation_desc_13
+  - hair_bone_rotation_desc_14
+  - hair_bone_rotation_desc_15
+  - hair_bone_rotation_desc_16
+  - hair_bone_rotation_desc_17
+  - hair_bone_rotation_desc_18
+  - hair_bone_rotation_desc_19
+  - hair_bone_rotation_desc_20
+  - hair_bone_rotation_desc_21
+  - hair_bone_rotation_desc_22
+  - hair_bone_rotation_desc_23
+  - hair_bone_rotation_desc_24
+  - hair_bone_rotation_desc_25
+  - hair_bone_rotation_desc_26
+  - hair_bone_rotation_desc_27
+  - hair_bone_rotation_desc_28
+  - hair_bone_rotation_desc_29
+  - hair_bone_rotation_desc_30
+  - hair_bone_rotation_desc_31
+  - hair_bone_rotation_desc_32
+  - hair_bone_rotation_desc_33
+  - hair_bone_rotation_desc_34
+  - hair_bone_rotation_desc_35
+  - hair_bone_rotation_desc_36
+  - hair_bone_rotation_desc_37
+  - hair_bone_rotation_desc_38
+  - hair_bone_rotation_desc_39
+  - hair_bone_rotation_bone_list_of_descriptor
   - lbl_804A0440
   - lbl_804A044C
   - lbl_804A0458
@@ -7955,7 +7955,7 @@ force_active:
   - lbl_804C4794
   - lbl_804C4878
   - lbl_804C6900
-  - lbl_804C8934
+  - memory_card_system_dir_name
   - lbl_804C8A44
   - lbl_804C8C60
   - lbl_804C8C68

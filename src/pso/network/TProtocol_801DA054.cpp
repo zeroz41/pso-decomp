@@ -24,7 +24,7 @@ extern "C" {
 s32 bswap_packet_header__9TProtocolFv(void *);
 s32 __as__16TPlyClientConfigFRC16TPlyClientConfig(void *, void *);
 s32 memset(void *, int, int);
-int fn_801E08F4(void*);
+int set_lobby_count_value(void*);
 
 void handle_cmd_9F__9TProtocolFR6packet(u8 *arg0) {
     struct Pkt_801DA054 pkt;
@@ -47,6 +47,6 @@ void handle_cmd_DA__9TProtocolFR6packet(u8 *arg0, s32 *arg1) {
     }
 }
 
-int handle_cmd_D7__9TProtocolFR6packet(void* p) { return fn_801E08F4(p); }
+int handle_cmd_D7__9TProtocolFR6packet(void* p) { return set_lobby_count_value(p); }
 
 }

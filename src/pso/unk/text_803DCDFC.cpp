@@ -298,7 +298,7 @@ struct Fmt_803DD3DC { u8 pad0[4]; u16 w; u16 pad6; u16 h; u8 rest[0x3A]; };
 
 extern "C" {
 E_803DD3C8 *fn_803DD3C8(s32 i);
-s32 fn_803DD3DC(Fmt_803DD3DC *arg0);
+s32 calc_framebuffer_size_bytes(Fmt_803DD3DC *arg0);
 #pragma push
 #pragma scheduling off
 #pragma peephole off
@@ -307,7 +307,7 @@ E_803DD3C8 *fn_803DD3C8(s32 i) {
 }
 #pragma pop
 
-s32 fn_803DD3DC(Fmt_803DD3DC *rmode) {
+s32 calc_framebuffer_size_bytes(Fmt_803DD3DC *rmode) {
     Fmt_803DD3DC sp8;
     if (rmode == 0) {
         get_render_mode_for_tv_format((GXRenderModeObj_803DD430 *)rmode, (GXRenderModeObj_803DD430 *)&sp8);

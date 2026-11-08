@@ -42,8 +42,8 @@ typedef struct A_803FADA0 { u8 pad0[4]; u32 a; u32 b; } A_803FADA0;
 u8 *write_network_u16_be(u8 *p, u16 v);
 
 s32 TLobby__sub_80405304(void *arg0);
-extern u16 lbl_805D7A68;
-extern Ent_803F9B48 *lbl_805D7A6C;
+extern u16 lobby_thread_pool_count;
+extern Ent_803F9B48 *lobby_thread_pool_base;
 void TLobby__sub_803FA2A8(P_803FA2A8 *o);
 s32 TLobby__sub_80428358(void);
 
@@ -138,8 +138,8 @@ void NetResumeThread(u32 thread) {
 
 void deactivate_entry_by_key(u32 key) {
     Ent_803F9B48 *p;
-    u16 n = lbl_805D7A68;
-    Ent_803F9B48 *base = lbl_805D7A6C;
+    u16 n = lobby_thread_pool_count;
+    Ent_803F9B48 *base = lobby_thread_pool_base;
     s32 i;
     p = base;
     for (i = 0; i < n; i++) {
@@ -152,8 +152,8 @@ void deactivate_entry_by_key(u32 key) {
 }
 
 s32 TLobby__sub_803F9B94(s32 fn, s32 *out_key) {
-    u16 n = lbl_805D7A68;
-    Ent_803F9B48 *tbl = lbl_805D7A6C;
+    u16 n = lobby_thread_pool_count;
+    Ent_803F9B48 *tbl = lobby_thread_pool_base;
     s32 i;
     for (i = 0; i < n; i++) {
         if (tbl[i].active == 0) {
@@ -167,10 +167,10 @@ s32 TLobby__sub_803F9B94(s32 fn, s32 *out_key) {
         s32 off = i * 0x328;
         u8 *e = (u8 *)tbl + off;
         *(s32 *)(e + 0x318) = fn;
-        e = (u8 *)lbl_805D7A6C + off;
-        if (OSCreateThread((OSThread *)((u8 *)lbl_805D7A6C + off + 8), (void *(*)(void *))run_current_thread_callback, 0, *(u8 **)(e + 0x320) + *(s32 *)(e + 0x31c), *(u32 *)(e + 0x31c), lbl_805D4810, 1) == 1) {
-            lbl_805D7A6C[i].active = 1;
-            *out_key = (s32)lbl_805D7A6C[i].key;
+        e = (u8 *)lobby_thread_pool_base + off;
+        if (OSCreateThread((OSThread *)((u8 *)lobby_thread_pool_base + off + 8), (void *(*)(void *))run_current_thread_callback, 0, *(u8 **)(e + 0x320) + *(s32 *)(e + 0x31c), *(u32 *)(e + 0x31c), lbl_805D4810, 1) == 1) {
+            lobby_thread_pool_base[i].active = 1;
+            *out_key = (s32)lobby_thread_pool_base[i].key;
             return 0;
         }
     }
@@ -180,8 +180,8 @@ s32 TLobby__sub_803F9B94(s32 fn, s32 *out_key) {
 s32 run_current_thread_callback(void) {
     u32 key = (u32)OSGetCurrentThread();
     Ent_803F9C78 *p;
-    u16 n = lbl_805D7A68;
-    Ent_803F9C78 *base = (*(Ent_803F9C78 * *)&lbl_805D7A6C);
+    u16 n = lobby_thread_pool_count;
+    Ent_803F9C78 *base = (*(Ent_803F9C78 * *)&lobby_thread_pool_base);
     s32 i;
     p = base;
     for (i = 0; i < n; i++) {

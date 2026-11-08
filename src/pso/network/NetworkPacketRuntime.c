@@ -110,7 +110,7 @@ typedef struct R_804253A0 { s32 a; s32 b; } R_804253A0;
 
 NetworkPacketBufferDescriptor network_packet_buffer_descriptors[NETWORK_PACKET_BUFFER_COUNT];
 u8 network_packet_buffers[NETWORK_PACKET_BUFFER_COUNT][NETWORK_PACKET_BUFFER_BYTES];
-extern u32 lbl_805D7BA8;
+extern u32 network_packet_mutex;
 void TAdSinglePlyChrSelectGC__sub_8042DDE4(int, int);
 typedef struct Ent_804267F0 {
     s16 count;
@@ -634,9 +634,9 @@ static inline NetworkPacketBufferDescriptor *find_804253F8(u32 arg0) {
 void clear_message_entry(s32 a) {
     R_804253A0 *r;
     u8 unused[8];
-    lock_mutex((int)((void *)lbl_805D7BA8));
+    lock_mutex((int)((void *)network_packet_mutex));
     r = (R_804253A0 *)find_entry_by_address(a);
-    unlock_mutex((int)((void *)lbl_805D7BA8));
+    unlock_mutex((int)((void *)network_packet_mutex));
     if (r != 0) {
         r->a = 0;
         r->b = 0;
@@ -672,9 +672,9 @@ static inline u8 *alloc_packet_buffer(u32 size) {
 
 u8 *TLobby__sub_8042558C(u32 size) {
     u8 *buf;
-    lock_mutex((int)((void *)lbl_805D7BA8));
+    lock_mutex((int)((void *)network_packet_mutex));
     buf = alloc_packet_buffer(size);
-    unlock_mutex((int)((void *)lbl_805D7BA8));
+    unlock_mutex((int)((void *)network_packet_mutex));
     return buf;
 }
 
@@ -699,9 +699,9 @@ u8 *TLobby__sub_80425640(u32 size) {
 
 NetworkPacketBufferDescriptor *TLobby__sub_804256B8(u32 addr) {
     NetworkPacketBufferDescriptor *e;
-    lock_mutex((int)((void *)lbl_805D7BA8));
+    lock_mutex((int)((void *)network_packet_mutex));
     e = find_804253F8(addr);
-    unlock_mutex((int)((void *)lbl_805D7BA8));
+    unlock_mutex((int)((void *)network_packet_mutex));
     return e;
 }
 #pragma pop
@@ -720,12 +720,12 @@ u8 *find_entry_by_address(s32 arg0) {
 }
 
 void cancel_alarm_a(void) {
-    NetReleaseMutex(lbl_805D7BA8);
+    NetReleaseMutex(network_packet_mutex);
 }
 
 s32 initialize_network_packet_pool(void) {
     s32 i;
-    if (TLobby__sub_803F96AC(&lbl_805D7BA8) < 0) {
+    if (TLobby__sub_803F96AC(&network_packet_mutex) < 0) {
         return -1;
     } else {
     for (i = 0; (0x20) > (i); i++) {

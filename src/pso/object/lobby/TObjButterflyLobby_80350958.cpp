@@ -354,7 +354,7 @@ void TObjButterflyLobby::destroy_instance() {
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void fn_803516F8(void) {
+void load_lobby_butterfly_bml_resource(void) {
     s32 temp_r3;
     s32 var_r0;
     temp_r3 = (int)::operator new(0x440);

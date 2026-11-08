@@ -104,9 +104,9 @@ static u8 lbl_805CF380[0x48];
 extern s32 lobby_message_thread_handle;
 extern u32 lbl_805D7BC4;
 extern s16 network_link_status_cache;
-extern s32 lbl_805D7BB8;
-extern u32 lbl_805D7BBC;
-extern u32 lbl_805D7BC0;
+extern s32 lobby_exi_prev_status;
+extern u32 lobby_exi_stable_count;
+extern u32 lobby_exi_stable_target;
 void TAdSinglePlyChrSelectGC__sub_8042DDE4(int, int);
 s32 OSSendMessage(void *mq, void *msg, s32 flags);
 extern s32 network_message_pending_count;
@@ -124,7 +124,7 @@ typedef struct Tbl_804267F0 {
 } Tbl_804267F0;
 
 extern s32 lbl_805D7BB0;
-extern s32 lbl_805D7BC8;
+extern s32 lobby_connect_mode;
 void NetUnregisterTimer(void *);
 u8 *TLobby__sub_804256B8(s32);
 s32 TLobby__sub_8042558C(void *);
@@ -153,28 +153,28 @@ void reset_message_thread(void) {
     }
     NetUnregisterTimer((void *)update_exi_status);
     network_link_status_cache = -1;
-    lbl_805D7BB8 = 0;
-    lbl_805D7BBC = 0;
+    lobby_exi_prev_status = 0;
+    lobby_exi_stable_count = 0;
     lbl_805D7BB0 = 0;
 }
 
 void update_exi_status(void) {
     s32 sp8;
     if (poll_exi_status(&sp8) == 1) {
-        if (sp8 != (s32) lbl_805D7BB8) {
-            lbl_805D7BB8 = sp8;
-            lbl_805D7BBC = 1U;
-        } else if ((u32) lbl_805D7BBC != 0U) {
-            lbl_805D7BBC += 1;
+        if (sp8 != (s32) lobby_exi_prev_status) {
+            lobby_exi_prev_status = sp8;
+            lobby_exi_stable_count = 1U;
+        } else if ((u32) lobby_exi_stable_count != 0U) {
+            lobby_exi_stable_count += 1;
         }
-        if ((u32) lbl_805D7BBC >= (u32) lbl_805D7BC0) {
-            if ((s32) lbl_805D7BB8 == 1) {
+        if ((u32) lobby_exi_stable_count >= (u32) lobby_exi_stable_target) {
+            if ((s32) lobby_exi_prev_status == 1) {
                 network_link_status_cache = 1;
             } else {
                 network_link_status_cache = 0;
             }
-            lbl_805D7BBC = 0U;
-            lbl_805D7BC0 = 0xAU;
+            lobby_exi_stable_count = 0U;
+            lobby_exi_stable_target = 0xAU;
         }
     }
 }
@@ -369,7 +369,7 @@ s16 TLobby__sub_804262CC(void *config) {
         return 0;
     }
     NetMemset((void *)config, 0, 0x56);
-    if (TLobby__sub_8042AAA0((void *)lbl_805D7BC8) != 1) {
+    if (TLobby__sub_8042AAA0((void *)lobby_connect_mode) != 1) {
         status = -1;
     } else {
         if ((u32) lbl_805D7BC4 != 0U) {
@@ -400,9 +400,9 @@ s16 TLobby__sub_804262CC(void *config) {
     NetResumeThread((u32)lobby_message_thread_handle);
     lbl_805D7BB0 = 1;
     network_link_status_cache = -1;
-    lbl_805D7BB8 = 0;
-    lbl_805D7BBC = 1;
-    lbl_805D7BC0 = 1;
+    lobby_exi_prev_status = 0;
+    lobby_exi_stable_count = 1;
+    lobby_exi_stable_target = 1;
     NetRegisterTimer(0x64, 0, update_exi_status);
     return 0;
 }
@@ -676,19 +676,19 @@ s16 query_link_status(void) {
 s32 set_connect_mode(s32 mode) {
     switch (mode) {
     case 1:
-        lbl_805D7BC8 = 1;
+        lobby_connect_mode = 1;
         break;
     case 2:
-        lbl_805D7BC8 = 2;
+        lobby_connect_mode = 2;
         break;
     case 3:
-        lbl_805D7BC8 = 3;
+        lobby_connect_mode = 3;
         break;
     case 4:
-        lbl_805D7BC8 = 4;
+        lobby_connect_mode = 4;
         break;
     case 0:
-        lbl_805D7BC8 = 0;
+        lobby_connect_mode = 0;
         break;
     default:
         return -1;

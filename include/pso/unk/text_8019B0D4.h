@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void fn_8019B0D4(void);
+void load_tuitate_bml_resource(void);
 }
 
 // --- C functions defined in text_8019B0D4.cpp ---
 extern "C" {
-void fn_8019B0D4(void);
+void load_tuitate_bml_resource(void);
 }
 // --- end of C functions
 

@@ -112,8 +112,8 @@ s32 modem_script_next_token(u8 *src, u8 *dst, u8 **next);
 s16 TLobby__sub_804293B0(u8 *buf, s16 len);
 s16 TLobby__sub_804036FC(u16 *avail);
 s16 TLobby__sub_80403730(u8 *dst, u16 n);
-extern u32 lbl_805D7BD0;
-extern u32 lbl_805D7BD4;
+extern u32 lobby_modem_wait_start_ms;
+extern u32 lobby_modem_wait_timeout_ms;
 u8 *TLobby__sub_803FB110(void);
 s16 TLobby__sub_804037B0(void *, s32);
 
@@ -355,8 +355,8 @@ s32 wait_timeout_loop(void *params) {
 s32 NetCompareStringsCaseInsensitiveN(u8 *a, u8 *b, u32 n);
 
 inline s16 modem_wait_for_string(u8 *s, s16 n, s16 timeout) {
-    get_time_ms((s32 *)&lbl_805D7BD0);
-    lbl_805D7BD4 = timeout * 1000;
+    get_time_ms((s32 *)&lobby_modem_wait_start_ms);
+    lobby_modem_wait_timeout_ms = timeout * 1000;
     if (n > lobby_net_session_state.window_len) {
         n = lobby_net_session_state.window_len;
     }
@@ -659,7 +659,7 @@ s32 modem_script_next_token(u8 *src, u8 *dst, u8 **next) {
     return 1;
 }
 
-extern s32 lbl_805D7BDC;
+extern s32 lobby_modem_reply_value;
 extern s32 lbl_805D7BD8;
 s32 NetCompareStringsCaseInsensitiveN(u8 *a, u8 *b, u32 n);
 s32 TLobby__sub_804290D4(s32 idx) {
@@ -678,11 +678,11 @@ s32 TLobby__sub_804290D4(s32 idx) {
     if (base == NULL) {
         return 1;
     }
-    get_time_ms((s32 *)&lbl_805D7BD0);
+    get_time_ms((s32 *)&lobby_modem_wait_start_ms);
     if ((s16)idx == 0x7fff) {
-        lbl_805D7BD4 = -1;
+        lobby_modem_wait_timeout_ms = -1;
     } else {
-        lbl_805D7BD4 = (s16)idx * 1000;
+        lobby_modem_wait_timeout_ms = (s16)idx * 1000;
     }
     sym = (u8 *)&lobby_net_session_state;
     bufp = (u8 **)(sym + 0x38);
@@ -723,7 +723,7 @@ L122:
     if (*(s16 *)(base + 8) == 0) {
         goto done;
     }
-    lbl_805D7BDC = 0;
+    lobby_modem_reply_value = 0;
     for (idx = 0; idx < *lenp - 1; idx++) {
         if (TLobby__sub_804293B0(*bufp + idx, 1) != 0) {
             return 4;
@@ -745,11 +745,11 @@ L122:
         if (c < '0' || c > '9') {
             break;
         }
-        lbl_805D7BDC = c - '0' + lbl_805D7BDC * 10;
+        lobby_modem_reply_value = c - '0' + lobby_modem_reply_value * 10;
     }
 
 done:
-    lbl_805D7BD8 = lbl_805D7BDC;
+    lbl_805D7BD8 = lobby_modem_reply_value;
     return 0;
 }
 
@@ -774,12 +774,12 @@ s16 TLobby__sub_804293B0(u8 *buf, s16 len) {
             }
         }
         get_time_ms(&now);
-        if (lobby_modem_abort_flag != 0 || lbl_805D7BD4 == 0) {
-            lbl_805D7BD4 = 0;
+        if (lobby_modem_abort_flag != 0 || lobby_modem_wait_timeout_ms == 0) {
+            lobby_modem_wait_timeout_ms = 0;
             return -1;
         }
-        if (lbl_805D7BD4 != 0xFFFFFFFF && (u32)(now - lbl_805D7BD0) > lbl_805D7BD4) {
-            lbl_805D7BD4 = 0;
+        if (lobby_modem_wait_timeout_ms != 0xFFFFFFFF && (u32)(now - lobby_modem_wait_start_ms) > lobby_modem_wait_timeout_ms) {
+            lobby_modem_wait_timeout_ms = 0;
             return -1;
         }
         unlock_mutex((int)lbl_805C18A0[0]);

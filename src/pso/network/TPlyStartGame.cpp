@@ -15,7 +15,7 @@ void bswap__13packet_headerFv(void *);
 void bswap__13TPlyStartGameFv(TPlyStartGame_801E0580 *self);
 void copy_game_list_entry(void *, const void *);
 int bswap__16TPlyGuildCardTagFv(void*);
-s32 fn_801DF61C(void *, void *);
+s32 copy_ply_meet_user_extension(void *, void *);
 
 void bswap__13TPlyStartGameFv(TPlyStartGame_801E0580 *self) {
     int i;
@@ -34,7 +34,7 @@ u8 *__ct__13TPlyStartGameFRC13TPlyStartGame(u8 *arg0, u8 *arg1) {
     fn_801E051C(arg0 + 0x24, arg1 + 0x24);
     fn_801E051C(arg0 + 0x44, arg1 + 0x44);
     fn_801E051C(arg0 + 0x64, arg1 + 0x64);
-    fn_801DF61C(arg0 + 0x84, arg1 + 0x84);
+    copy_ply_meet_user_extension(arg0 + 0x84, arg1 + 0x84);
     *(u8 *)((s8 *)arg0 + 0xE8) = (u8) *(u8 *)((s8 *)arg1 + 0xE8);
     *(u8 *)((s8 *)arg0 + 0xE9) = (u8) *(u8 *)((s8 *)arg1 + 0xE9);
     *(u8 *)((s8 *)arg0 + 0xEA) = (u8) *(u8 *)((s8 *)arg1 + 0xEA);

@@ -314,7 +314,7 @@ void unlock_mutex(int mutex);
 void NetMemcpy(void* destination, void* source, int size);
 #pragma push
 #pragma cplusplus off
-extern s32 lbl_805D7BDC;
+extern s32 lobby_modem_reply_value;
 #pragma pop
 #pragma push
 #pragma cplusplus off
@@ -369,7 +369,7 @@ s16 TLobby__sub_803FB358(NetLinkStatus *status)
   NetMemcpy(p + 0x30, &v0, 4);
   NetMemcpy(p + 0x34, &v1, 4);
   *((s16 *) (p + 4)) = *((s16 *) (&lobby_modem_connect_state));
-  *((s32 *) (p + 8)) = lbl_805D7BDC;
+  *((s32 *) (p + 8)) = lobby_modem_reply_value;
   *((s16 *) (p + 6)) = *((s16 *) (&lbl_805D7A82));
   *((s16 *) (p + 0xc)) = *((s16 *) (&lbl_805D7A84));
   unlock_mutex((*((s32 (*)[]) (&lbl_805C18A0)))[0]);

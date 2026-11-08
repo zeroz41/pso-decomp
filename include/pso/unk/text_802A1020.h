@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-s32 fn_802A1020(void);
+s32 verify_game_file_integrity(void);
 }
 
 // --- C functions defined in text_802A1020.cpp ---
 extern "C" {
-s32 fn_802A1020(void);
+s32 verify_game_file_integrity(void);
 }
 // --- end of C functions
 

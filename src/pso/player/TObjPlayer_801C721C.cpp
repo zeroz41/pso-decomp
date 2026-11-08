@@ -7,7 +7,7 @@
 
 extern "C" {
 
-int TFontSmallLobby__sub_801C01BC(void*);
+int bswap_g_client_id_header(void*);
 int TFontSmallLobby__sub_801C0228(void*);
 
 void TObjPlayer::set_flag_2000000_alt() { set_state_flags((u32)((void*)2097152)); }
@@ -16,7 +16,7 @@ void TObjPlayer::set_flag_0x8000() { sub_8011E204((s32)((void*)32768)); }
 void TObjPlayer::check_flag_0x8000() { check_flag((s32)((void*)32768)); }
 void*TObjPlayer::restore_shrunken_font() { TFontSmallLobby__sub_801C0228(this); return this; }
 void TObjPlayer::init_6x88_packet() { *(u8*)((char*)this + 0x0) = 136; *(u8*)((char*)this + 0x1) = 1; }
-void TObjPlayer::send_font_update_60() { TFontSmallLobby__sub_801C01BC(this); send_subcommand((u8 *)this); }
+void TObjPlayer::send_font_update_60() { bswap_g_client_id_header(this); send_subcommand((u8 *)this); }
 
 void TObjPlayer::bswap_shrink() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
 

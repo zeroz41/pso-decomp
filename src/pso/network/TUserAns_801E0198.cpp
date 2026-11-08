@@ -22,7 +22,7 @@ struct TUserAns_801E0198 {
 };
 
 extern "C" {
-void *fn_801DF61C(void *, void *);
+void *copy_ply_meet_user_extension(void *, void *);
 TUserAns_801E0198 *__ct__8TUserAnsFRC8TUserAns(TUserAns_801E0198 *dst, TUserAns_801E0198 *src);
 TUserAns_801E0198 *__ct__8TUserAnsFRC8TUserAns(TUserAns_801E0198 *dst, TUserAns_801E0198 *src) {
     dst->a = src->a;
@@ -30,7 +30,7 @@ TUserAns_801E0198 *__ct__8TUserAnsFRC8TUserAns(TUserAns_801E0198 *dst, TUserAns_
     dst->c = src->c;
     dst->p = src->p;
     dst->blk = src->blk;
-    fn_801DF61C(&dst->rest, &src->rest);
+    copy_ply_meet_user_extension(&dst->rest, &src->rest);
     return dst;
 }
 

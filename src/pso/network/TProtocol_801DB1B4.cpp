@@ -15,7 +15,7 @@ void TProtocol::send_choice_search(ChoiceSearchParameters &parameters) {
         packet.header.flags = 0;
         packet.header.size = sizeof(packet);
         TProtocol__sub_801DF774(&packet.parameters, &parameters);
-        fn_801DF6BC(&packet);
+        bswap_choice_search_packet(&packet);
         send((u8*)&packet, sizeof(packet));
     }
 }
@@ -28,7 +28,7 @@ void TProtocol::send_choice_search_parameters(ChoiceSearchParameters &parameters
         packet.header.flags = 0;
         packet.header.size = sizeof(packet);
         TProtocol__sub_801DF774(&packet.parameters, &parameters);
-        fn_801DF6BC(&packet);
+        bswap_choice_search_packet(&packet);
         send((u8*)&packet, sizeof(packet));
     }
 }

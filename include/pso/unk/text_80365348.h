@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void fn_803653A4(void);
+void load_labo_design_object_table(void);
 }
 
 // --- C functions defined in text_80365348.cpp ---
 extern "C" {
-void fn_803653A4(void);
+void load_labo_design_object_table(void);
 }
 // --- end of C functions
 

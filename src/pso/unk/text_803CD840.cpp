@@ -91,7 +91,7 @@ struct Obj_803CDB0C {
 extern "C" {
 char *strncpy(char *, const char *, u32);
 void *memset(void *, s32, u32);
-s32 TLobby__sub_803CCB98(void *, int, int);
+s32 adxf_read_nw32__6TLobbyFPviPv(void *, int, int);
 void *adxf_open__6TLobbyFUii(const char *, s32);
 extern char lbl_8047C818[];
 extern Ent_803CD840 *afs_archive_toc_table[256];
@@ -150,7 +150,7 @@ s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 arg2, Ent_803CD
     aligned = (s32)(adxf_open_file_buffer + 0x20) & ~0x1F;
     lbl_805D75F0 = aligned;
     lbl_805D75EC = aligned;
-    r = TLobby__sub_803CCB98(lobby_adxf_open_file_handle, 1, aligned);
+    r = adxf_read_nw32__6TLobbyFPviPv(lobby_adxf_open_file_handle, 1, aligned);
     if (r < 0) {
         ((TLobby *)lobby_adxf_open_file_handle)->close_adxf_handle();
         return r;

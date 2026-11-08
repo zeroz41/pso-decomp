@@ -41,8 +41,8 @@ typedef struct A_803FADA0 { u8 pad0[4]; u32 a; u32 b; } A_803FADA0;
 u8 *write_network_u16_be(u8 *p, u16 v);
 
 s32 TLobby__sub_80405304(void *arg0);
-extern u16 lbl_805D7A68;
-extern Ent_803F9B48 *lbl_805D7A6C;
+extern u16 lobby_thread_pool_count;
+extern Ent_803F9B48 *lobby_thread_pool_base;
 void TLobby__sub_803FA2A8(P_803FA2A8 *o);
 s32 TLobby__sub_80428358(void);
 
@@ -82,8 +82,8 @@ s32 cancel_pending_alarms(void) {
     return 0;
 }
 
-extern u8 *lbl_805D7A64;
-extern u16 lbl_805D7A60;
+extern u8 *lobby_buffer_slots;
+extern u16 lobby_buffer_slot_count;
 s32 TLobby__sub_803F8E9C(void)
 {
   s16 init_buffer_pool(void);
@@ -103,14 +103,14 @@ s32 TLobby__sub_803F8E9C(void)
   tbl = (u8 *) lobby_alarm_slot_table;
   new_var3 = tbl;
   new_var3 = new_var3 + 0x1700;
-  if ((lbl_805D7A6C == 0) || (lbl_805D7A64 == 0))
+  if ((lobby_thread_pool_base == 0) || (lobby_buffer_slots == 0))
   {
     return -1;
   }
-  for (i = 0; i < lbl_805D7A68; i++)
+  for (i = 0; i < lobby_thread_pool_count; i++)
   {
-    lbl_805D7A6C[i].active = 0;
-    q = (s32 *) (&lbl_805D7A6C[i]);
+    lobby_thread_pool_base[i].active = 0;
+    q = (s32 *) (&lobby_thread_pool_base[i]);
     q[1] = (s32) (q + 2);
   }
 
@@ -152,9 +152,9 @@ s32 TLobby__sub_803F8E9C(void)
   q = (s32 *) (tbl + 0x1aa8);
   q[0] = 0;
   q[1] = (s32) (q + 2);
-  for (i = 0; i < lbl_805D7A60; i++)
+  for (i = 0; i < lobby_buffer_slot_count; i++)
   {
-    *((s32 *) (lbl_805D7A64 + (i * 0xc))) = 0;
+    *((s32 *) (lobby_buffer_slots + (i * 0xc))) = 0;
   }
 
   if (init_buffer_pool() < 0)

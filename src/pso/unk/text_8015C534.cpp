@@ -48,7 +48,7 @@ u8 *init_ancient_container(u8 *arg0, s32 arg1) {
 #pragma push
 #pragma fp_contract on
 
-void fn_8015C5F8(void) {
+void free_ancient_container_resources(void) {
     s32 var_r31;
     s32 var_r30;
     u32 p;

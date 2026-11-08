@@ -428,14 +428,14 @@ extern const Pair_80135E7C lbl_8043EE20[];
 extern const char lbl_8043EFE4[];
 void fn_80338D58(void *list, s32 flag, const char *name, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 index);
 extern Pair_80134F9C lbl_8043EE28[];
-extern const char lbl_8043EE30[];
-extern const char lbl_8043EE48[];
+extern const char lobby_debug_udp_open_format[];
+extern const char lobby_debug_make_player_format[];
 extern const char lbl_8043EE7C[];
 extern const char lbl_8043EEA4[];
 extern const char lbl_8043EEC0[];
 extern const char lbl_8043EEDC[];
 extern const char lbl_8043EEF8[];
-extern const char lbl_8043EF04[];
+extern const char lobby_debug_player_exit_format[];
 extern const char lbl_8043EF14[];
 extern const char lbl_8043EF4C[];
 extern const char lbl_8043EFC4[];
@@ -467,7 +467,7 @@ struct VObj_18_9029aa : VBase_18_9029aa {
 
 struct LEntry_801352C0 { u8 hdr[0x20]; u8 body[0x41C]; };
 
-extern const char lbl_8043EE68[];
+extern const char lobby_debug_duplicate_player_format[];
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(int);
 namespace PD_data {
 extern "C" {
@@ -484,12 +484,12 @@ void render_shadows__7TObjectFv();
 const char *lobby_class_name = "TLobby";
 #pragma pop
 // Lobby server host names (each listed twice in its table).
-const char lbl_8043EDA0[] = "game04.st-pso.games.sega.net";
-const char lbl_8043EDC0[] = "ss702.sonicteam.com";
-const char lbl_8043EDD4[] = "ddplanet.sega.co.jp";
-Server_801399B8 join_lobby_server_table[2] = { { lbl_8043EDA0, 0x238F }, { lbl_8043EDA0, 0x238F } };
-Server_801399B8 lbl_804A6FE8[2] = { { lbl_8043EDC0, 0x238C }, { lbl_8043EDC0, 0x238C } };
-Server_801399B8 lbl_804A6FF8[2] = { { lbl_8043EDD4, 0x2329 }, { lbl_8043EDD4, 0x2329 } };
+const char join_lobby_game04_server_host[] = "game04.st-pso.games.sega.net";
+const char join_lobby_ss702_server_host[] = "ss702.sonicteam.com";
+const char join_lobby_ddplanet_server_host[] = "ddplanet.sega.co.jp";
+Server_801399B8 join_lobby_server_table[2] = { { join_lobby_game04_server_host, 0x238F }, { join_lobby_game04_server_host, 0x238F } };
+Server_801399B8 lbl_804A6FE8[2] = { { join_lobby_ss702_server_host, 0x238C }, { join_lobby_ss702_server_host, 0x238C } };
+Server_801399B8 lbl_804A6FF8[2] = { { join_lobby_ddplanet_server_host, 0x2329 }, { join_lobby_ddplanet_server_host, 0x2329 } };
 void *lbl_804A7008[6] = { 0, 0, (void *)__dt__13TUnk_804A7008Fv, (void *)update_idle_timeout__6TLobbyFPv, (void *)TLobby__sub_8013A2DC, (void *)render_shadows__7TObjectFv };
 }
 }
@@ -617,7 +617,7 @@ void TLobby::open_udp_socket_for_player() {
         *(s16 *)(p + 0x20) = local_client_id + 0xFA0;
         *(s16 *)(p + 0x22) = arg0 + 0xFA0;
         s32 v = o->m4();
-        lobby_debug_printf_stub(lbl_8043EE30, v, p[0x1C], p[0x1D], p[0x1E], p[0x1F]);
+        lobby_debug_printf_stub(lobby_debug_udp_open_format, v, p[0x1C], p[0x1D], p[0x1E], p[0x1F]);
     }
 }
 void send_6x6F_quest_flags(s32 arg0);
@@ -648,7 +648,7 @@ void handle_6x71_unblock_game_join(void) {
             s32 nm = (s32)TLobby__player_names;
             strncpy((char *)(nm + local_client_id * 16), (const char *)((VObj_18_9029aa *)p)->m10(), 0x10);
         }
-        lobby_debug_printf_stub(lbl_8043EE48, local_client_id);
+        lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
         pend = (s32 *)game_join_pending_clients;
         for (i = 0; i < 4; i++) {
             if (pend[i] != 0) {
@@ -662,7 +662,7 @@ void handle_6x71_unblock_game_join(void) {
                     ((TLobby *)i)->open_udp_socket_for_player();
                     lobby_debug_printf_stub(lbl_8043EE58, i);
                 } else {
-                    lobby_debug_printf_stub(lbl_8043EE68, i);
+                    lobby_debug_printf_stub(lobby_debug_duplicate_player_format, i);
                 }
             }
             pend[i] = 0;
@@ -994,7 +994,7 @@ void TLobby__sub_80135DE4(void *msg) {
 extern "C" {
 
 struct Rec_801378AC;
-extern const char lbl_8043EF80[];
+extern const char lobby_debug_my_player_format[];
 extern const char lbl_8043EF90[];
 extern const char lbl_8043EF9C[];
 extern const char lbl_8043EFB4[];
@@ -3103,7 +3103,7 @@ void TLobby::make_players() {
         ((TLobby *)((u8 *)p + 0xDAC))->copy_header_struct((u8 *)(*(void * *)&TLobby__protocol_instance) + 0x1900);
         p->m6();
         strncpy(TLobby__player_names[local_client_id], p->m10(), 0x10);
-        lobby_debug_printf_stub(lbl_8043EE48, local_client_id);
+        lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
         ((TLobby *)(*(void * *)&TLobby__protocol_instance))->send_6F_burst_done();
         TLobby__data_805D5594 = 0xF;
         p = (Ply_80136A8C *)create_player_object(1 - local_client_id, 4, get_char_index__23TAdSinglePlyChrSelectGCFUi(0));
@@ -3124,7 +3124,7 @@ void TLobby::make_players() {
         ((TLobby *)((u8 *)p + 0xDAC))->copy_header_struct((u8 *)(*(void * *)&TLobby__protocol_instance) + 0x1900);
         p->m6();
         strncpy(TLobby__player_names[local_client_id], p->m10(), 0x10);
-        lobby_debug_printf_stub(lbl_8043EE48, local_client_id);
+        lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
         ((TLobby *)(*(void * *)&TLobby__protocol_instance))->send_6F_burst_done();
         TLobby__data_805D5594 = 0xF;
     }
@@ -3189,7 +3189,7 @@ void construct_lobby_players(Rec_801378AC *records, s32 count, int self_id, s32 
                 plr = create_player_object(self_id, 0, get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF));
                 ((TLobby *)(plr + 0xDAC))->copy_header_struct(&((Entry_8013634C *)records)[i]);
                 ((Plr_80136080 *)plr)->m6();
-                lobby_debug_printf_stub(lbl_8043EF80, self_id);
+                lobby_debug_printf_stub(lobby_debug_my_player_format, self_id);
                 lobby_debug_printf_stub(lbl_8043EF90, sizeof(((Entry_8013634C *)records)->char_data));
             } else {
                 lobby_debug_printf_stub(lbl_8043EF9C, i);
@@ -3204,7 +3204,7 @@ void construct_lobby_players(Rec_801378AC *records, s32 count, int self_id, s32 
                 ((Plr_80136080 *)plr)->m6();
                 lobby_debug_printf_stub(lbl_8043EE7C, ((Entry_8013634C *)records)[j].client_id);
             } else {
-                lobby_debug_printf_stub(lbl_8043EE68, ((Entry_8013634C *)records)[j].client_id);
+                lobby_debug_printf_stub(lobby_debug_duplicate_player_format, ((Entry_8013634C *)records)[j].client_id);
             }
         }
     }
@@ -3380,7 +3380,7 @@ void retire_lobby_player__6TLobbyFii(s32 idx, s32 v) {
     p = (Obj_80136000 *)get_player_by_client_id((void *)idx);
     if (p) {
         delete p;
-        lobby_debug_printf_stub(lbl_8043EF04, idx);
+        lobby_debug_printf_stub(lobby_debug_player_exit_format, idx);
     }
     strncpy(TLobby__player_names[idx], TLobby__data_805DB0B0, 0x10);
 }
@@ -4004,22 +4004,22 @@ extern "C" {
 __declspec(section ".rodata") const Pair_80135E7C lbl_8043EE18[1] = { { 224.0f, 188.0f } };
 __declspec(section ".rodata") const Pair_80135E7C lbl_8043EE20[1] = { { 332.0f, 200.0f } };
 __declspec(section ".rodata") Pair_80134F9C lbl_8043EE28[1] = { { 342.0f, 144.0f } };
-__declspec(section ".rodata") const char lbl_8043EE30[] = "udp open %d %d.%d.%d.%d";
-__declspec(section ".rodata") const char lbl_8043EE48[] = "Make Player %d";
+__declspec(section ".rodata") const char lobby_debug_udp_open_format[] = "udp open %d %d.%d.%d.%d";
+__declspec(section ".rodata") const char lobby_debug_make_player_format[] = "Make Player %d";
 __declspec(section ".rodata") const char lbl_8043EE58[] = "burst player %d";
-__declspec(section ".rodata") const char lbl_8043EE68[] = "Duplicate player %d";
+__declspec(section ".rodata") const char lobby_debug_duplicate_player_format[] = "Duplicate player %d";
 __declspec(section ".rodata") const char lbl_8043EE7C[] = "create player %d";
 __declspec(section ".rodata") const char lbl_8043EE90[] = "RcvSetFlag size %d";
 __declspec(section ".rodata") const char lbl_8043EEA4[] = "RcvItemCondition size %d";
 __declspec(section ".rodata") const char lbl_8043EEC0[] = "RcvObjectCondition size %d";
 __declspec(section ".rodata") const char lbl_8043EEDC[] = "RcvEnemyCondition size %d";
 __declspec(section ".rodata") const char lbl_8043EEF8[] = "Down Load";
-__declspec(section ".rodata") const char lbl_8043EF04[] = "player %d exit";
+__declspec(section ".rodata") const char lobby_debug_player_exit_format[] = "player %d exit";
 __declspec(section ".rodata") const char lbl_8043EF14[] = "OnBurstLobby over write player %d";
 __declspec(section ".rodata") const char TLobby__data_8043EF38[] = "delete player %d";
 __declspec(section ".rodata") const char lbl_8043EF4C[] = "udp close %d.%d.%d.%d";
 __declspec(section ".rodata") const char lbl_8043EF64[] = "udp close %d %d.%d.%d.%d";
-__declspec(section ".rodata") const char lbl_8043EF80[] = "My Player %d";
+__declspec(section ".rodata") const char lobby_debug_my_player_format[] = "My Player %d";
 __declspec(section ".rodata") const char lbl_8043EF90[] = "SaveData %d";
 __declspec(section ".rodata") const char lbl_8043EF9C[] = "Duplicate My player %d";
 __declspec(section ".rodata") const char lbl_8043EFB4[] = "%s:%02d-%02d";

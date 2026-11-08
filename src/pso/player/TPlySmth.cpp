@@ -8,13 +8,13 @@ struct ByteBlock_8 { u8 bytes[0x8]; };
 #pragma dont_inline off
 extern "C" {
 int __ct__16TPlyGuildCardTagFv(void*);
-int fn_80077AA4(void*);
+int construct_guild_card_tag_array(void*);
 
 void __as__8TPlySmthFRC8TPlySmth(s32 arg0, s32 arg1) {
     *(ByteBlock_8 *)(arg0) = *(const ByteBlock_8 *)(arg1);
 }
 
-void*TPlySmth::construct() { __ct__16TPlyGuildCardTagFv((void*)((char*)this + 0x4)); __ct__8TPlySmthFv((void*)((char*)this + 0xc)); fn_80077AA4((char*)this + 0xec); return this; }
+void*TPlySmth::construct() { __ct__16TPlyGuildCardTagFv((void*)((char*)this + 0x4)); __ct__8TPlySmthFv((void*)((char*)this + 0xc)); construct_guild_card_tag_array((char*)this + 0xec); return this; }
 
 void __ct__8TPlySmthFv(void*) {
 

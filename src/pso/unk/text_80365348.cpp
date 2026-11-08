@@ -19,7 +19,7 @@ void free_object_table(void) {
     }
 }
 
-void fn_803653A4(void) {
+void load_labo_design_object_table(void) {
     s32 i;
     Ent_803653A4 *e;
     void *p;

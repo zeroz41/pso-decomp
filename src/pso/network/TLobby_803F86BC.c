@@ -24,12 +24,12 @@ extern s32 net_transport_buffer_ptr_b;
 extern s16 net_param_player_count;
 extern s32 net_transport_buffer_ptr_a;
 s32 lbl_805D7A58;
-extern u16 lbl_805D7A60;
-extern Ent_803F8D84 *lbl_805D7A64;
-extern u16 lbl_805D7A68;
-extern Ent_803F9B48 *lbl_805D7A6C;
+extern u16 lobby_buffer_slot_count;
+extern Ent_803F8D84 *lobby_buffer_slots;
+extern u16 lobby_thread_pool_count;
+extern Ent_803F9B48 *lobby_thread_pool_base;
 extern u8 *lobby_buffer_pool_base;
-extern u8 *lbl_805D7BE4;
+extern u8 *lobby_second_buffer_pool_base;
 extern u32 lobby_buffer_pool_size;
 extern u8 *lbl_805D7C04;
 extern u32 lbl_805D7C08;
@@ -274,21 +274,21 @@ u8 *layout_buffers(NetBufferLayout *h, u8 *p, u8 *end) {
     Ent_803F8BA4 *f;
     s32 i;
     u16 n = h->n2;
-    lbl_805D7A68 = 2;
-    lbl_805D7A60 = n * 2;
+    lobby_thread_pool_count = 2;
+    lobby_buffer_slot_count = n * 2;
     if (h->a != 0) {
-        lbl_805D7A68 += 1;
+        lobby_thread_pool_count += 1;
     }
     if (h->b != 0) {
-        lbl_805D7A68 += 2;
+        lobby_thread_pool_count += 2;
     }
-    *(u8 **)&lbl_805D7A64 = p;
-    p += lbl_805D7A60 * 12;
+    *(u8 **)&lobby_buffer_slots = p;
+    p += lobby_buffer_slot_count * 12;
     if (p > end) {
         return NULL;
     }
-    e = *(Ent_803F8DBC **)&lbl_805D7A64;
-    for (i = 0; i < lbl_805D7A60; i++, e++) {
+    e = *(Ent_803F8DBC **)&lobby_buffer_slots;
+    for (i = 0; i < lobby_buffer_slot_count; i++, e++) {
         e->active = 0;
         e->size = h->c;
         e->val = (s32)p;
@@ -297,13 +297,13 @@ u8 *layout_buffers(NetBufferLayout *h, u8 *p, u8 *end) {
             return NULL;
         }
     }
-    *(u8 **)&lbl_805D7A6C = p;
-    p += lbl_805D7A68 * 0x328;
+    *(u8 **)&lobby_thread_pool_base = p;
+    p += lobby_thread_pool_count * 0x328;
     if (p > end) {
         return NULL;
     }
-    f = *(Ent_803F8BA4 **)&lbl_805D7A6C;
-    for (i = 0; i < lbl_805D7A68; i++, f++) {
+    f = *(Ent_803F8BA4 **)&lobby_thread_pool_base;
+    for (i = 0; i < lobby_thread_pool_count; i++, f++) {
         f->size = h->d;
         f->buf = p;
         p += h->d;
@@ -317,7 +317,7 @@ u8 *layout_buffers(NetBufferLayout *h, u8 *p, u8 *end) {
         if (p > end) {
             return NULL;
         }
-        lbl_805D7BE4 = p;
+        lobby_second_buffer_pool_base = p;
         p += h->f;
         if (p > end) {
             return NULL;
@@ -352,9 +352,9 @@ s32 TLobby__sub_803F8D24(NetBufferLayout *h) {
 }
 
 void TLobby__sub_803F8D84(u32 key) {
-    Ent_803F8D84 *e = lbl_805D7A64;
+    Ent_803F8D84 *e = lobby_buffer_slots;
     s32 i;
-    for (i = 0; i < lbl_805D7A60; i++) {
+    for (i = 0; i < lobby_buffer_slot_count; i++) {
         if (e->key == key) {
             e->active = 0;
             return;
@@ -364,10 +364,10 @@ void TLobby__sub_803F8D84(u32 key) {
 }
 
 s32 alloc_buffer_slot(s32 size) {
-    Ent_803F8DBC *e = *(Ent_803F8DBC **)&lbl_805D7A64;
+    Ent_803F8DBC *e = *(Ent_803F8DBC **)&lobby_buffer_slots;
     s32 i;
     s32 r = 0;
-    for (i = 0; i < lbl_805D7A60; i++) {
+    for (i = 0; i < lobby_buffer_slot_count; i++) {
         if (e->active == 0 && e->size >= size) {
             e->active = size;
             r = e->val;

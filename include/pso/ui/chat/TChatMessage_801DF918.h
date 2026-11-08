@@ -4,14 +4,14 @@
 #include "types.h"
 
 extern "C" {
-void fn_801DF918(void *p);
-void *fn_801DF954(void *p);
+void bswap_cmd_9c_send_pso_regist(void *p);
+void *construct_cmd_9c_send_pso_regist(void *p);
 }
 
 // --- C functions defined in TChatMessage_801DF918.cpp ---
 extern "C" {
-void fn_801DF918(void *p);
-void *fn_801DF954(void *p);
+void bswap_cmd_9c_send_pso_regist(void *p);
+void *construct_cmd_9c_send_pso_regist(void *p);
 }
 // --- end of C functions
 
