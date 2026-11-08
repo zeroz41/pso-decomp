@@ -123,7 +123,7 @@ typedef struct Tbl_804267F0 {
 } Tbl_804267F0;
 
 s16 TLobby__sub_804262CC(void *);
-void NetUnregisterTimer(void *);
+s32 NetUnregisterTimer(void *fn);
 s32 TLobby__sub_80421B3C(s32);
 s32 TLobby__sub_804250A8(s32);
 extern u8 TLobby__sub_80423298[];

@@ -223,7 +223,6 @@ typedef struct p8040EE4C_Unk805BDDF8 {
     u8* out;
     u32 cursor;
 } p8040EE4C_Unk805BDDF8;
-typedef void (*p8040EE4C_Unk8041900Cb)(void*, s32, s32, s32);
 typedef struct p8040EE4C_Unk805BDE38Entry {
     u8 pad0[4];
     s16 flags;

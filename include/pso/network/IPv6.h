@@ -94,6 +94,8 @@ typedef char Ipv6State_size_check[sizeof(Ipv6State) == 0x28 ? 1 : -1];
 extern "C" {
 #endif
 extern Ipv6State ipv6_address_routing_state;
+/* The route for dst (src picks the interface), or NULL. */
+Ipv6Route *TLobby__sub_80413264(void *dst, void *src);
 /* The MTU of interface `iface`. */
 s16 get_iface_mtu(s16 iface);
 #ifdef __cplusplus

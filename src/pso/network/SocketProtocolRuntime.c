@@ -35,7 +35,6 @@ s16 TLobby__sub_8040DA54(void *, void *);
 s16 is_addr_unspecified(void *);
 s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, s32 arg5);
 void TLobby__sub_8041F66C(TcpTcb *o);
-void TLobby__sub_80406EB8(void *, u32);
 void TLobby__sub_80406FD8(void *a, void *b, s32 v);
 s16 compare_sockaddr(void *, void *);
 s16 is_multicast_address(void *, s32);

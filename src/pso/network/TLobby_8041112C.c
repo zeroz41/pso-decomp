@@ -184,7 +184,6 @@ extern s16 lobby_handler_table_desc;
 u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 arg2, u8 *arg3, s16 arg4);
 s32 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1);
 
-Ipv6Route *TLobby__sub_80413264(void *dst, void *src);
 s32 TLobby__sub_80413230(u8 *arg0, s32 arg1);
 s32 TLobby__sub_804136AC(s16 i);
 void TLobby__sub_804136CC(s16 arg0);
@@ -277,8 +276,6 @@ typedef struct O_80406B6C { u32 w0; u8 b4; } O_80406B6C;
 s32 TLobby__sub_80406B6C(O_80406B6C *o);
 
 u16 TUdpSocket__sub_80419864();
-
-void TLobby__sub_80406EB8(NetBufferRef *ref, s32 n);
 
 u8 *TLobby__sub_80406F0C(void *self);
 

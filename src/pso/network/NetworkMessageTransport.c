@@ -125,7 +125,7 @@ typedef struct Tbl_804267F0 {
 
 extern s32 lbl_805D7BB0;
 extern s32 lobby_connect_mode;
-void NetUnregisterTimer(void *);
+s32 NetUnregisterTimer(void *fn);
 u8 *TLobby__sub_804256B8(s32);
 s32 TLobby__sub_8042558C(void *);
 extern u8 lbl_805E1190[6];

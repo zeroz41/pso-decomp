@@ -14,10 +14,13 @@ s32 NetRegisterTimer(s32 period, s16 locked, NetTimerCallback fn);
 }
 #endif
 
+/* A protocol handler: NetRunProtocolDispatchLoop passes it a message's payload, detail, first and second fields. */
+typedef void (*NetProtocolHandler)(s32, s16, s16, s16);
+
 typedef struct NetProtocolHandlerEntry {
     s16 used;
     u16 type;
-    void (*fn)(s32, s16, s16, s16);
+    NetProtocolHandler fn;
 } NetProtocolHandlerEntry;
 
 typedef struct NetTimerRecord {
@@ -32,7 +35,7 @@ typedef struct NetTimerRecord {
 typedef struct NetworkDispatchState {
     s32 lock_handle;
     s32 queue_handle;
-    u8 unknown_08[8];
+    u32 thread_ids[2]; /* protocol and timer dispatch threads */
     s32 interval;
     NetProtocolHandlerEntry handlers[3];
     NetTimerRecord timers[10];
@@ -42,6 +45,7 @@ typedef struct NetworkDispatchState {
 extern "C" {
 #endif
 extern NetworkDispatchState network_dispatch_state;
+s32 register_protocol_handler(u16 type, NetProtocolHandler fn);
 #ifdef __cplusplus
 }
 #endif

@@ -91,7 +91,7 @@ s16 TUdpSocket__sub_8041118C();
 s16 TLobby__sub_80415690();
 s16 NetIPv6InitNeighborDiscovery();
 s16 init_packet_fragment_pools();
-s16 TLobby__sub_80419A34(int);
+s16 TLobby__sub_80419A34(int); /* declared here with an int argument and an s16 return; the definition takes no arguments and returns s32 */
 s16 NetInitializeDispatcher();
 s16 NetTCPInit();
 extern char lbl_804800F0[];
@@ -104,7 +104,7 @@ s32 tcp_connect_start(int, void *, u16);
 s32 tcp_connect(s32 a, IpAddr_80422B8C *addr, u16 port, IpAddr_80422B8C *opt);
 s32 TLobby__sub_8041E5E4(int, void *, u16);
 s32 tcp_bind(s32 a, void *addr, u16 port);
-s16 TLobby__sub_8040F00C(s16, void *, int, void *);
+s16 TLobby__sub_8040F00C(s16, void *, int, void *); /* declared s16 here; the definition is s32 (s16, NetBufferRef *, s16, s32) */
 s16 TLobby__sub_80412058(s16, void *, int, void *);
 s16 TLobby__sub_80422F70(s16 arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 OSDisableInterrupts();
@@ -454,7 +454,6 @@ s32 TLobby__sub_80421F10(O_80421F10 *o, void *src, void *dst, s16 port, void *cb
 typedef struct PktHdr_80421FB8 { s16 flags; s16 len; u8 *buf; } PktHdr_80421FB8;
 typedef s16 (*PktCb_80421FB8)(s32, PktHdr_80421FB8 *);
 void TLobby__sub_80406FD8(void *, void *, s32);
-void TLobby__sub_80406EB8(void *, u32);
 
 void TLobby__sub_80421FB8(void *cb, void *hdr_, void *o_) {
     s32 i;
