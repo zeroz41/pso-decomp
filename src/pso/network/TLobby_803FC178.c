@@ -7,9 +7,6 @@ typedef struct Tbl_803FD74C Tbl_803FD74C;
 typedef struct Self_803FD85C Self_803FD85C;
 typedef struct Tbl_803FD85C Tbl_803FD85C;
 typedef struct UnkSumBuf UnkSumBuf;
-typedef struct Info_8040098C Info_8040098C;
-typedef struct St_8040098C St_8040098C;
-typedef struct Self_8040098C Self_8040098C;
 typedef struct RecoveredGlobal_803F8AA0_lbl_805BA5C0 RecoveredGlobal_803F8AA0_lbl_805BA5C0;
 typedef struct RecoveredGlobal_803F8A0C_lbl_805B9534 RecoveredGlobal_803F8A0C_lbl_805B9534;
 typedef struct RecoveredGlobal_803FB110_lbl_805BFF68 RecoveredGlobal_803FB110_lbl_805BFF68;
@@ -22,8 +19,6 @@ typedef struct RecoveredGlobal_803F89DC_lbl_805B54BC RecoveredGlobal_803F89DC_lb
 typedef struct RecoveredGlobal_803F89DC_lbl_805B94BC RecoveredGlobal_803F89DC_lbl_805B94BC;
 typedef struct RecoveredGlobal_803F8A28_lbl_805AEEB0 RecoveredGlobal_803F8A28_lbl_805AEEB0;
 typedef struct RecoveredGlobal_803F94A0_lbl_805BF770 RecoveredGlobal_803F94A0_lbl_805BF770;
-typedef struct RecoveredGlobal_803FC178_lbl_805C02D0 RecoveredGlobal_803FC178_lbl_805C02D0;
-typedef struct RecoveredGlobal_803FC1A0_lbl_805C02D0 RecoveredGlobal_803FC1A0_lbl_805C02D0;
 typedef struct RecoveredGlobal_80401A68_lbl_805C04A8 RecoveredGlobal_80401A68_lbl_805C04A8;
 typedef struct RecoveredGlobal_80402B60_lbl_805C0620 RecoveredGlobal_80402B60_lbl_805C0620;
 typedef struct RecoveredGlobal_80403D28_lbl_805C0638 RecoveredGlobal_80403D28_lbl_805C0638;
@@ -120,10 +115,6 @@ extern u32 TLobby__sub_803FE9F8(u32 sum, UnkSumBuf* buf, u16 count);
 extern u8 lbl_805D7AC0[2];
 extern u8 lbl_805D7AC4[1];
 
-typedef struct Info_8040098C { u8 pad[0x1C]; s16 f1C; u8 pad1E[6]; u16 f24; u8 pad26[0x2A]; s16 f50; u8 pad52[6]; u16 f58; } Info_8040098C;
-struct St_8040098C { s8 f0; u8 f1; u8 f2; u8 pad3[0x69]; u8 f6C[0x9C]; s32 f108; s32 f10C; };
-struct Self_8040098C { u8 pad[0xC]; St_8040098C *st; u8 pad10[0x20]; Info_8040098C *info; };
-
 struct RecoveredGlobal_803F8AA0_lbl_805BA5C0 {
     s32 value;
     u8 remaining[0x30A8];
@@ -191,14 +182,6 @@ struct RecoveredGlobal_803F94A0_lbl_805BF770 {
     u8 remaining[0x74C];
 };
 
-struct RecoveredGlobal_803FC178_lbl_805C02D0 {
-    s32 value;
-    u8 remaining[0x3C];
-};
-struct RecoveredGlobal_803FC1A0_lbl_805C02D0 {
-    s32 value;
-    u8 remaining[0x3C];
-};
 struct RecoveredGlobal_80401A68_lbl_805C04A8 {
     s32 value;
     u8 remaining[0x2C];
@@ -264,20 +247,12 @@ typedef struct Ent_80408718 { s16 f0; u8 pad[0x16]; } Ent_80408718;
 
 typedef struct Tbl_80408718 { s16 count; s16 h2; s16 h4; s16 h6; s16 h8; u8 pad[4]; Ent_80408718 *list; } Tbl_80408718;
 
-typedef struct Conn_804004DC {
-    u8 state;
-    u8 pad[7];
-    s16 abort;
-    u8 pad2[2];
-    u8 *sub;
-} Conn_804004DC;
 typedef struct Names_80403168 {
     u8 pad[0x48];
     u8 a[0x80];
     u8 b[0x80];
 } Names_80403168;
 
-typedef struct Strm_80405A74 { u8 *p; u16 len; } Strm_80405A74;
 typedef struct B_803FADA0 { u8 *buf; u16 len; } B_803FADA0;
 
 typedef struct Sub_803FA664 { u8 pad0[0x28]; s16 h1C; } Sub_803FA664;
@@ -290,8 +265,7 @@ extern RecoveredGlobal_804050DC_lbl_805C18A0 lbl_805C18A0;
 extern RecoveredGlobal_803FD520_lbl_805C0310 lobby_net_buffer_desc_b;
 extern s16 lbl_805D7A7A;
 void TLobby__sub_803FD0C0(void);
-s32 TLobby__sub_803F76F0(void *);
-extern RecoveredGlobal_803FC178_lbl_805C02D0 lbl_805C02D0;
+void TLobby__sub_803F76F0(void *); /* declared with 1 parameter; the definition is void (void) */
 extern u8 lbl_8047FDE0[];
 extern u8 lbl_8047FDF0[];
 extern s16 lbl_805D7A7E;
@@ -342,7 +316,7 @@ void TLobby__sub_803F97E8(int);
 s32 wait_for_connection(Conn_804004DC *c);
 extern Names_80403168 lbl_805C04D8;
 s32 TLobby__sub_80403168(u8 *arg0, u8 *arg1, u8 *arg2);
-s16 TLobby__sub_803FC1CC(u8 *, s32);
+s16 TLobby__sub_803FC1CC(Conn_804004DC *c, s32 timeout);
 s32 TLobby__sub_803FC684(u8 *, u8 *, u8 *);
 extern u8 lbl_805C0038[];
 extern s16 lbl_805D7A7C;
@@ -354,7 +328,7 @@ s16 TLobby__sub_80401BCC(void *self, void *dst, u16 n);
 extern u8 lcp_read_value_buffer[4];
 extern u8 lbl_805D7AA8[4];
 extern u8 lobby_read_byte_buffer[1];
-void TLobby__sub_8040098C(Self_8040098C *self);
+void TLobby__sub_8040098C(Conn_804004DC *c);
 s16 TLobby__sub_80403F4C(void *, Strm_80405A74 **);
 B_803FADA0 *init_net_buffer_entry(u16);
 s32 recv_network_frame(u16 arg0, void *arg1, u16 *arg2);
@@ -414,32 +388,37 @@ typedef char RecoveredGlobal_803AA0C0_lbl_80556E88_size[sizeof(RecoveredGlobal_8
 typedef char RecoveredGlobal_803FB110_lbl_805BFF68_size[sizeof(RecoveredGlobal_803FB110_lbl_805BFF68) == 0xD0 ? 1 : -1];
 
 void init_net_state_a(void) {
-    TLobby__sub_803F76F0((void *) (&lbl_805C02D0.value));
+    TLobby__sub_803F76F0((void *)&lbl_805C02D0);
 }
 
 s32 init_net_state_b(void) {
-    init_net_buffer_table((void *)(&(*(RecoveredGlobal_803FC1A0_lbl_805C02D0 *)&lbl_805C02D0).value));
+    init_net_buffer_table((void *)&lbl_805C02D0);
     return 0;
 }
 
-extern void* TLobby__sub_803FCF44(u8* self_m);
+extern void *TLobby__sub_803FCF44(Conn_804004DC *c);
 extern s16 lbl_805D7A80;
 extern s16 lbl_805D7A82;
 extern s16 get_remaining(s32 x);
-extern s16 TLobby__sub_803FC1CC(u8 *obj, s32 arg) {
-    u8 *p = *(u8 **)(obj + 0xc);
-    u8 *blk = *(u8 **)(obj + 0x30);
+s16 TLobby__sub_803FC1CC(Conn_804004DC *c, s32 timeout) {
+    PppChap *auth;
+    u8 *sub;
+    RecoveredGlobal_804050DC_lbl_805C18A0 *g;
+
+    sub = c->sub;
+    auth = (PppChap *)c->opts;
     if (lbl_805D7A90 & 2) {
-        *(s16 *)(blk + 0xc) = 1;
-        TLobby__sub_803FE820((s32)obj);
-        TLobby__sub_803FE6CC(obj, 1, 0, TLobby__sub_803FCF44(obj));
+        auth->active = 1;
+        TLobby__sub_803FE820((s32)c);
+        TLobby__sub_803FE6CC(c, 1, 0, TLobby__sub_803FCF44(c));
     } else {
-        *(s16 *)(blk + 0xc) = 0;
+        auth->active = 0;
     }
-    *(s16 *)(obj + 0x8) = 0;
-    while (obj[0] != 5) {
-        if (is_timed_out() != 0 || *(s16 *)(obj + 0x8) != 0 || p[0] == 4) {
-            *(s16 *)(obj + 0x8) = 0;
+    g = &lbl_805C18A0;
+    c->abort = 0;
+    while (c->state != 5) {
+        if (is_timed_out() != 0 || c->abort != 0 || *sub == 4) {
+            c->abort = 0;
             if (lbl_805D7A80 != 0) {
                 lbl_805D7A82 = 6;
             } else {
@@ -448,15 +427,15 @@ extern s16 TLobby__sub_803FC1CC(u8 *obj, s32 arg) {
             lobby_modem_connect_state = 8;
             return -1;
         }
-        if (get_remaining(arg) != 0) {
-            return -18;
+        if (get_remaining(timeout) != 0) {
+            return -0x12;
         }
-        unlock_mutex((int)((s32 *)&lbl_805C18A0)[0]);
-        TLobby__sub_803F97E8(0x64);
+        unlock_mutex(g->value);
+        TLobby__sub_803F97E8(100);
         process_expired_timers();
-        lock_mutex((int)((s32 *)&lbl_805C18A0)[0]);
+        lock_mutex(g->value);
     }
-    *(s16 *)(obj + 0x8) = 0;
+    c->abort = 0;
     return 0;
 }
 
@@ -465,16 +444,10 @@ extern Buf_803FC684 lbl_805C0180;
 extern u8 lbl_805E1160;
 struct N_80405298;
 void TLobby__sub_80405298(N_80405298 *o, s32 v);
-extern void TLobby__sub_803FC728();
-struct Buf_803FC684;
-extern Buf_803FC684 lbl_805C0180;
-extern u8 lbl_805E1160;
-struct N_80405298;
-void TLobby__sub_80405298(N_80405298 *o, s32 v);
-extern void TLobby__sub_803FC728();
+void TLobby__sub_803FC728(Conn_804004DC *c);
 typedef struct Buf_803FC684 { char a[0x80]; char b[0x80]; u8 rest[0x50]; } Buf_803FC684;
 Buf_803FC684 lbl_805C0180;
-RecoveredGlobal_803FC178_lbl_805C02D0 lbl_805C02D0;
+PppAuthState lbl_805C02D0;
 typedef struct Proto3_803FC318 {
     const char *name;
     u16 proto;
@@ -497,7 +470,6 @@ typedef struct Proto3_803FC318 {
     void *f38;
 } Proto3_803FC318;
 typedef struct Buf3_803FC318 { char a[0x80]; char b[0x80]; u8 opts[0x14]; Proto3_803FC318 proto; } Buf3_803FC318;
-typedef struct G3_803FC318 { u8 pad0[0x36]; u8 f36; u8 f37; u16 f38; u8 pad3A[6]; } G3_803FC318;
 typedef struct Timer3_803FC318 {
     u8 pad0[0x10];
     void *callback;
@@ -513,7 +485,6 @@ typedef struct Self3_803FC318 {
     void *opts;
 } Self3_803FC318;
 #define BUF3_803FC318 (*(Buf3_803FC318 *)&lbl_805C0180)
-#define G3_803FC318 (*(G3_803FC318 *)&lbl_805C02D0)
 extern void TLobby__sub_803FC318(u8 *conn) {
     Self3_803FC318 *fsm = (Self3_803FC318 *)(conn + 0xA0);
     Timer3_803FC318 *timer;
@@ -525,9 +496,9 @@ extern void TLobby__sub_803FC318(u8 *conn) {
         BUF3_803FC318.proto.h6 = 0x70;
         BUF3_803FC318.proto.b8 = 3;
         BUF3_803FC318.proto.bB = 0;
-        BUF3_803FC318.proto.b9 = G3_803FC318.f36;
-        BUF3_803FC318.proto.bA = G3_803FC318.f37;
-        BUF3_803FC318.proto.timeout = G3_803FC318.f38 * 1000;
+        BUF3_803FC318.proto.b9 = lbl_805C02D0.f36;
+        BUF3_803FC318.proto.bA = lbl_805C02D0.f37;
+        BUF3_803FC318.proto.timeout = lbl_805C02D0.f38 * 1000;
         BUF3_803FC318.proto.f10 = (void *)TLobby__sub_803FE84C;
         BUF3_803FC318.proto.f14 = (void *)TLobby__sub_803FE84C;
         BUF3_803FC318.proto.f18 = (void *)TLobby__sub_803FE84C;
@@ -572,7 +543,7 @@ s32 mark_sub_ready(void *obj) {
     return 0;
 }
 
-s16 TLobby__sub_803FC820(u8 *self, u8 *m, int v);
+s16 TLobby__sub_803FC820(Conn_804004DC *c, u8 *hdr, int v);
 extern void TLobby__sub_803FCC10(void *, void *, int);
 s32 TLobby__sub_803FE8BC(u8 *, void *);
 typedef struct Hdr_803FC4B4 { u8 type; u8 flag; s16 len; } Hdr_803FC4B4;
@@ -667,32 +638,35 @@ s32 TLobby__sub_803FC684(u8 *arg0, u8 *arg1, u8 *arg2) {
 }
 
 Ent_80401B20 *TLobby__sub_80401B20(void *src, u16 n);
-void TLobby__sub_803FC728(u8 *self) {
-    s32 new_var;
-    u8 *p;
-    p = *(u8 **)(self + 0x30);
-    if (*(s16 *)(p + 0xc) != 0) {
-        if (self[0x3]) {
-            *(u8 **)(p + 0x8) = lbl_8047FDE0;
-            TLobby__sub_803FE658(self);
-        } else {
-            *(u8 **)(p + 0x8) = lbl_8047FDF0;
-            p = *(u8 **)(self + 0xc);
-            update_connection_state((int)(p + 0xa0));
-            update_connection_state((int)(p + 0x4));
-            *(s16 *)(self + 0x8) = 1;
+void TLobby__sub_803FC728(Conn_804004DC *c) {
+    B_803FADA0 *buf;
+    PppChap *chap = (PppChap *)c->opts;
+    u8 *sub;
+
+    if (chap->active != 0) {
+        if (c->retries != 0) {
+            chap->msg = (void *)(lbl_8047FDE0);
+            TLobby__sub_803FE658((u8 *)c);
+            return;
         }
-    } else if (self[0x3]) {
-        new_var = (s32)TLobby__sub_80401B20(*(u8 **)((u8 *)&lbl_805C02D0 + 0x1c), *(u16 *)(p + 0x10));
-        TLobby__sub_803FE6CC(self, 2, p[0xe], (void *)new_var);
-        TLobby__sub_80405328(self + 0x10);
-        self[0x3]--;
-    } else {
-        p = *(u8 **)(self + 0xc);
-        update_connection_state((int)(p + 0xa0));
-        update_connection_state((int)(p + 0x4));
-        *(s16 *)(self + 0x8) = 1;
+        chap->msg = (void *)(lbl_8047FDF0);
+        sub = c->sub;
+        update_connection_state((int)(sub + 0xA0));
+        update_connection_state((int)(sub + 4));
+        c->abort = 1;
+        return;
     }
+    if (c->retries != 0) {
+        buf = (void *)(TLobby__sub_80401B20(lbl_805C02D0.p1C, chap->len));
+        TLobby__sub_803FE6CC(c, 2, chap->id, buf);
+        TLobby__sub_80405328(c->timer);
+        c->retries--;
+        return;
+    }
+    sub = c->sub;
+    update_connection_state((int)(sub + 0xA0));
+    update_connection_state((int)(sub + 4));
+    c->abort = 1;
 }
 
 struct Ent_80401B20;
@@ -707,18 +681,6 @@ extern u8 lbl_805D7A98;
 #pragma opt_common_subs on
 #pragma dont_inline off
 #pragma inline_depth(4)
-typedef struct G_803FC820 {
-    s32 f0;
-    u8 *p4;
-    u8 *p8;
-    u32 fC;
-    u8 *p10;
-    u32 f14;
-    u8 *p18;
-    u32 f1C;
-    char *p20;
-} G_803FC820;
-#define G2_803FC820 (*(G_803FC820 *)&lbl_805C02D0)
 inline s32 chap_rbs_803FC820(B_803FADA0 **src) {
     if (TLobby__sub_80401BCC(src, &lbl_805D7A98, 1) != 1) {
         return -1;
@@ -740,10 +702,10 @@ inline s32 chap_rb_803FC820(B_803FADA0 **src) {
     }
     return chap_rbs_803FC820(src);
 }
-extern s16 TLobby__sub_803FC820(u8 *c, u8 *hdr, int v) {
+extern s16 TLobby__sub_803FC820(Conn_804004DC *c, u8 *hdr, int v) {
     s16 total;
-    s32 TLobby__sub_803FE6CC(void *, u8, u8, void *);
-    u8 *chap;
+    s32 TLobby__sub_803FE6CC(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
+    PppChap *chap;
     u8 *name;
     u8 *value;
     s16 n;
@@ -762,15 +724,15 @@ extern s16 TLobby__sub_803FC820(u8 *c, u8 *hdr, int v) {
     name = NULL;
     value = NULL;
     secret = NULL;
-    chap = *(u8 **)(c + 0x30);
+    chap = c->opts;
 
-    if (hdr[1] != c[1]) {
+    if (hdr[1] != c->id) {
         return -1;
     }
     total = *(s16 *)(hdr + 2);
     n = chap_rbs_803FC820((B_803FADA0 **)&v);
     if (n != -1) {
-        p = value = G2_803FC820.p10;
+        p = value = lbl_805C02D0.p10;
         for (i = 0; i < n; i++) {
             *p++ = chap_rb_803FC820((B_803FADA0 **)&v);
         }
@@ -783,7 +745,7 @@ extern s16 TLobby__sub_803FC820(u8 *c, u8 *hdr, int v) {
         m = 0x7F;
     }
     if (m != 0) {
-        q = name = G2_803FC820.p4;
+        q = name = lbl_805C02D0.p4;
         for (j = 0; j < m; j++) {
             *q++ = chap_rb_803FC820((B_803FADA0 **)&v);
         }
@@ -792,41 +754,41 @@ extern s16 TLobby__sub_803FC820(u8 *c, u8 *hdr, int v) {
     if (lbl_805D7A90 & 2) {
         secret = (const char *)TLobby__sub_803F7684(name);
         if (secret == NULL) {
-            NetCopyString(G2_803FC820.p20, (const char *)&lbl_805E1168);
-            reply = TLobby__sub_80401B20(G2_803FC820.p20, NetStringLength(G2_803FC820.p20));
+            NetCopyString(lbl_805C02D0.p20, (const char *)&lbl_805E1168);
+            reply = TLobby__sub_80401B20(lbl_805C02D0.p20, NetStringLength(lbl_805C02D0.p20));
             TLobby__sub_803FE6CC(c, 4, hdr[1], reply);
             return -1;
         }
     }
-    *G2_803FC820.p18 = hdr[1];
+    *lbl_805C02D0.p18 = hdr[1];
     if (lbl_805D7A90 & 2) {
-        NetCopyString((char *)G2_803FC820.p18 + 1, secret);
+        NetCopyString((char *)lbl_805C02D0.p18 + 1, secret);
     } else {
-        NetCopyString((char *)G2_803FC820.p18 + 1, *(const char **)(chap + 4));
+        NetCopyString((char *)lbl_805C02D0.p18 + 1, chap->secret);
     }
     if (lbl_805D7A90 & 2) {
         len = NetStringLength(secret);
     } else {
-        len = NetStringLength(*(const char **)(chap + 4));
+        len = NetStringLength(chap->secret);
     }
     init_md5_state((void *)ctx);
-    TLobby__sub_80401EB8(ctx, G2_803FC820.p18, len + 1);
-    TLobby__sub_80401EB8(ctx, G2_803FC820.p8 + 1, lbl_805D7A9A);
-    TLobby__sub_80401D2C((u8 *)G2_803FC820.p20, (u32 *)ctx);
-    if (NetMemcmp(G2_803FC820.p20, value, 0x10) == 0) {
-        NetCopyString(G2_803FC820.p20, (const char *)lbl_8047FE08);
+    TLobby__sub_80401EB8(ctx, lbl_805C02D0.p18, len + 1);
+    TLobby__sub_80401EB8(ctx, lbl_805C02D0.p8 + 1, lbl_805D7A9A);
+    TLobby__sub_80401D2C((u8 *)lbl_805C02D0.p20, (u32 *)ctx);
+    if (NetMemcmp(lbl_805C02D0.p20, value, 0x10) == 0) {
+        NetCopyString(lbl_805C02D0.p20, (const char *)lbl_8047FE08);
         code = 3;
         ret = 0;
     } else if (lbl_805D7A90 & 2) {
-        NetCopyString(G2_803FC820.p20, (const char *)&lbl_805E1168);
+        NetCopyString(lbl_805C02D0.p20, (const char *)&lbl_805E1168);
         code = 4;
         ret = -1;
     } else {
-        NetCopyString(G2_803FC820.p20, (const char *)lbl_8047FE08);
+        NetCopyString(lbl_805C02D0.p20, (const char *)lbl_8047FE08);
         code = 3;
         ret = 0;
     }
-    reply = TLobby__sub_80401B20(G2_803FC820.p20, NetStringLength(G2_803FC820.p20));
+    reply = TLobby__sub_80401B20(lbl_805C02D0.p20, NetStringLength(lbl_805C02D0.p20));
     TLobby__sub_803FE6CC(c, code, hdr[1], reply);
     return ret;
 }

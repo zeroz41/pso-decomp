@@ -48,7 +48,7 @@ s32 TLobby__sub_80428358(void);
 
 s16 TLobby__sub_80401BCC(void *, void *, int);
 
-B_803FADA0 *init_net_buffer_entry(s32);
+B_803FADA0 *init_net_buffer_entry(u16);
 extern u8 lbl_805D7A70[1];
 extern u8 lbl_805D7A74[1];
 u16 read_network_u16_be(u8 *p);
@@ -65,33 +65,32 @@ void NetStoreCurrentThread(s32 *thread) {
 }
 
 void TLobby__sub_803F97E8(s32 ms) {
+    s32 level;
     s32 i;
-    u8 *p;
-    s32 lvl;
-    NetworkAlarmSlot *s;
+    NetworkAlarmSlot *slot;
     OSAlarm *alarm;
-    u64 ticks;
-
-    lvl = OSDisableInterrupts();
+    s64 ticks;
+    level = OSDisableInterrupts();
     for (i = 0; i < 0x40; i++) {
-        p = (u8 *)lobby_alarm_slot_table + i * 0x58;
-        if (*(s32 *)p == 0) break;
+        if (lobby_alarm_slot_table[i].active == 0) {
+            break;
+        }
     }
     if (i >= 0x40) {
-        OSRestoreInterrupts(lvl);
+        OSRestoreInterrupts(level);
         return;
     }
-    s = &lobby_alarm_slot_table[i];
-    s->active = 1;
-    alarm = &s->alarm;
+    slot = &lobby_alarm_slot_table[i];
+    alarm = &slot->alarm;
+    slot->active = 1;
     OSCreateAlarm(alarm);
-    ticks = (u32)ms * ((*(u32 *)0x800000F8 >> 2) / 1000);
+    ticks = ms * ((*(u32 *)0x800000F8 >> 2) / 1000);
     OSSetAlarm(alarm, ticks, (OSAlarmHandler)signal_alarm_queue);
-    OSRestoreInterrupts(lvl);
-    OSReceiveMessage(&s->queue, NULL, 1);
-    lvl = OSDisableInterrupts();
-    s->active = 0;
-    OSRestoreInterrupts(lvl);
+    OSRestoreInterrupts(level);
+    OSReceiveMessage(&slot->queue, NULL, 1);
+    level = OSDisableInterrupts();
+    slot->active = 0;
+    OSRestoreInterrupts(level);
 }
 
 void signal_alarm_queue(void *alarm) {
@@ -574,8 +573,8 @@ s32 TLobby__sub_803FA7B0(u8 *self, u8 *src, void *h)
   s16 state;
   s16 res;
   u8 *new_var;
-  void TLobby__sub_803FE6CC(void *, u8, u8, void *);
-  s16 NetIPv6CPParseConfigureOption(void *self, u8 *out, u8 *src, u8 *c, s16 flag);
+  s32 TLobby__sub_803FE6CC(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
+  s16 NetIPv6CPParseConfigureOption(void *self, u8 *out, u8 *src, u8 *c, s16 flag); /* declared s16 here; the definition returns s32 */
   self = self;
   new_var = *((u8 **) (self + 0x30));
   m = new_var;

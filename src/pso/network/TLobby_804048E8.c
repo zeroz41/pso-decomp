@@ -29,71 +29,6 @@ u32 lbl_805C0FD0[560];
 u32 lbl_805C1890[4];
 #pragma pop
 
-typedef struct Strm_80405A74 { u8 *p; u16 len; } Strm_80405A74;
-typedef struct A_80403F4C {
-    u32 src;
-    u32 dst;
-    u16 len;
-    u16 id;
-    u16 frag;
-    u16 cksum;
-    u8 pad10;
-    u8 df;
-    u8 mf;
-    u8 version;
-    u8 tos;
-    u8 ttl;
-    u8 count;
-    u8 optlen;
-    u8 opts[0x40 - 0x18];
-} A_80403F4C;
-typedef struct B_80403F4C {
-    u16 src_port;
-    u16 dst_port;
-    u32 seq;
-    u32 ack;
-    u16 window;
-    u16 checksum;
-    u16 urgent;
-    u16 mss;
-    u8 pad_14;
-    u8 urg;
-    u8 ack_flag;
-    u8 psh;
-    u8 rst;
-    u8 syn;
-    u8 fin;
-    u8 option_len;
-    u8 options[0x28];
-} B_80403F4C;
-typedef struct Ent_80403F4C {
-    u8 id;
-    u8 pad1[3];
-    struct Ent_80403F4C *next;
-    A_80403F4C a;
-    B_80403F4C b;
-} Ent_80403F4C;
-typedef struct Obj_80403F4C {
-    Ent_80403F4C *tstate;
-    Ent_80403F4C *ents;
-    u8 pad8;
-    u8 max;
-    u8 last_cs;
-    u8 last_xmit;
-    u8 cur;
-    u8 flags;
-    u8 padE[2];
-    s32 n10;
-    s32 n14;
-    s32 n18;
-    s32 n1C;
-    s32 n20;
-    s32 n24;
-    s32 n28;
-    u8 pad2C[4];
-    s32 n30;
-} Obj_80403F4C;
-u32 TLobby__sub_803FEA88(A_80403F4C *out, Strm_80405A74 **src);
 s32 TLobby__sub_804053B8(B_80403F4C *, Strm_80405A74 **);
 u8 *TLobby__sub_8040555C(B_80403F4C *, u8 *, s32);
 u8 *GXLoadTexObjPreLoaded(A_80403F4C *, u8 *, s32);
@@ -135,8 +70,8 @@ s32 TLobby__sub_804048E8(Obj_80403F4C *comp, Strm_80405A74 **m, s16 compress_cid
     cs = lastcs->next;
     lcs = lastcs;
     hlen = TLobby__sub_803FEA88(&a, m);
-    if (a.count != 6 || a.frag != 0 || a.mf != 0) {
-        if (a.count != 6) {
+    if (a.proto != 6 || a.frag != 0 || a.mf != 0) {
+        if (a.proto != 6) {
             comp->n10++;
         } else {
             comp->n14++;
@@ -261,7 +196,7 @@ found:
     return 0x80;
 
 uncompressed:
-    a.count = cs->id;
+    a.proto = cs->id;
     cs->a = a;
     cs->b = b;
     comp->last_xmit = cs->id;
