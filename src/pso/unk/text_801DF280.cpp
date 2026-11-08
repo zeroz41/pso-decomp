@@ -72,7 +72,7 @@ extern "C" {
 int bswap_32__FPUl(void* a0);
 s32 bswap_16__FPUs(s32);
 int bswap__13packet_headerFv(void* a0);
-Blk_801DF774 *TProtocol__sub_801DF774(Blk_801DF774 *d, const Blk_801DF774 *s);
+Blk_801DF774 *copy_choice_search_parameters(Blk_801DF774 *d, const Blk_801DF774 *s);
 int __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void*);
 Obj_801DF61C *copy_ply_meet_user_extension(Obj_801DF61C *dst, Obj_801DF61C *src);
 s32 __ct__16TPlyGuildCardTagFv(s32);
@@ -179,7 +179,7 @@ void bswap_choice_search_config(void* p) { bswap_32__FPUl(p); { int i; for (i = 
 
 void bswap_u16_pair_field(void* p) { bswap_16__FPUs((s32)p); bswap_16__FPUs((s32)((void*)((char*)p + 0x2))); }
 
-Blk_801DF774 *TProtocol__sub_801DF774(Blk_801DF774 *d, const Blk_801DF774 *s) {
+Blk_801DF774 *copy_choice_search_parameters(Blk_801DF774 *d, const Blk_801DF774 *s) {
     d->a = s->a;
     d->b = s->b;
     return d;
