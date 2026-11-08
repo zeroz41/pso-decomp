@@ -778,131 +778,163 @@ void TLobby__sub_8041FED4(TcpSackView *tcb) {
     }
 }
 
-s32 TLobby__sub_8041FFF8(u32 len, Obj_8041FFF8 *self) {
-    u32 t;
-    s16 idx = (s16)(self - (Obj_8041FFF8 *)tcp_protocol_state.p);
-    u8 e[12];
-    Seg_8041FFF8 c;
-    u8 b[8];
-    u8 pad[8];
-    u8 a[8];
-    u8 d[8];
-    u32 n;
-    Item_8041FFF8 *it;
-    s16 i;
-    s16 L;
+s32 TLobby__sub_8041FFF8(u32 len, Obj_8041FFF8 *self)
+{
+  u32 t;
+  s16 idx = (s16) (self - ((Obj_8041FFF8 *) tcp_protocol_state.p));
+  int pad3;
+  Seg_8041FFF8 c;
+  u8 b[8];
+  int pad2;
+  volatile int pad;
+  u8 a[8];
+  u8 d[8];
+  u32 n;
+  Item_8041FFF8 *it;
+  int new_var2;
+  s16 i;
+  unsigned int new_var;
+  s16 L;
+  if (self->flag == 1)
+  {
+    b[4] = 1;
+    n = len;
+    a[4] = 1;
+    if ((n != 0) && (self->f20 != 0))
+    {
+      set_value_and_enable(a, (s32) (&c));
+      NetMemcpy(b, self->f10, 8);
+      if (((s32) self->f24) != 0)
+      {
+        TLobby__sub_80406EB8(b, self->f24 << 4);
+      }
+      TLobby__sub_80406FD8(a, b, 16);
+      while ((((u32) c.n) <= n) && (self->f20 != 0))
+      {
+        self->f20--;
+        n -= c.n;
+        self->f34 -= c.n;
+        if (self->f24 < 0x40)
+        {
+          self->f24 = self->f24 + 1;
+        }
+        else
+        {
+          self->f24 = 0;
+        }
+        if (self->f20 == 0)
+        {
+          self->f28 = 0;
+          self->f24 = 0;
+          self->flag = 0;
+        }
+        complete_request_callback(idx, c.p, 0, (s32 *) (&c));
+        t = self->f24;
+        new_var2 = t;
+        NetMemcpy(b, self->f10, 8);
+        if (new_var2 != 0)
+        {
+          TLobby__sub_80406EB8(b, new_var2 << 4);
+        }
+        TLobby__sub_80406FD8(a, b, 16);
+      }
 
-    if (self->flag == 1) {
-        b[4] = 1;
-        n = len;
-        a[4] = 1;
-        if (n != 0 && self->f20 != 0) {
-            set_value_and_enable(a, (s32)&c);
-            NetMemcpy(b, self->f10, 8);
-            if ((s32)self->f24 != 0) {
-                TLobby__sub_80406EB8(b, self->f24 << 4);
-            }
-            TLobby__sub_80406FD8(a, b, 16);
-            while ((u32)c.n <= n && self->f20 != 0) {
-                self->f20--;
-                n -= c.n;
-                self->f34 -= c.n;
-                if (self->f24 < 0x40) {
-                    self->f24 = self->f24 + 1;
-                } else {
-                    self->f24 = 0;
-                }
-                if (self->f20 == 0) {
-                    self->f28 = 0;
-                    self->f24 = 0;
-                    self->flag = 0;
-                }
-                complete_request_callback(idx, c.p, 0, (s32 *)&c);
-                t = self->f24;
-                NetMemcpy(b, self->f10, 8);
-                if (t != 0) {
-                    TLobby__sub_80406EB8(b, t << 4);
-                }
-                TLobby__sub_80406FD8(a, b, 16);
-            }
-            if (n != 0 && self->f20 != 0) {
-                L = n;
-                self->f34 -= n;
-                c.n -= L;
-                c.m += L;
-                TLobby__sub_80406FD8(b, a, 16);
-            }
-        }
-        return 0;
+      if ((n != 0) && (self->f20 != 0))
+      {
+        L = n;
+        self->f34 -= n;
+        c.n -= L;
+        c.m += L;
+        TLobby__sub_80406FD8(b, a, 16);
+      }
     }
-
-    if (len != 0) {
-        if (len <= self->f20) {
-            self->f20 -= len;
-            self->f24 += len;
-            if (self->f24 >= self->f530) {
-                self->f24 -= self->f530;
-            }
-        } else {
-            n = len - self->f20;
-            self->f20 = 0;
-            self->f24 = self->f28;
-            self->f34 -= n;
-            it = self->items;
-            for (i = 0; i < self->f30 && n != 0; i++, it++) {
-                if (n < it->len) {
-                    it->len -= n;
-                    TLobby__sub_80406EB8(it->data, n);
-                    n = 0;
-                } else {
-                    n -= it->len;
-                    it->len = 0;
-                }
-            }
-        }
-    }
-
-    if (self->f34 != 0) {
-        if (self->f34 > self->f530 - self->f20) {
-            return 0;
-        }
-        NetMemcpy(d, self->f10, 8);
-        TLobby__sub_80406EB8(d, self->f28);
-        i = 0;
-        it = self->items;
-        while (i < self->f30) {
-            if (it->len > 0) {
-                self->f20 += it->len;
-                n = self->f530 - self->f28;
-                if (it->len > n) {
-                    TLobby__sub_80406FD8(d, it->data, n);
-                    TLobby__sub_80406EB8(it->data, n);
-                    it->len -= n;
-                    self->f34 -= n;
-                    self->f28 = 0;
-                    NetMemcpy(d, self->f10, 8);
-                }
-                L = it->len;
-                TLobby__sub_80406FD8(d, it->data, L);
-                self->f28 += L;
-                TLobby__sub_80406EB8(d, L);
-                self->f34 -= L;
-                it->len = 0;
-            }
-            i++;
-            it++;
-        }
-        if (self->f34 != 0) {
-            return 0;
-        }
-        self->f34 = 0;
-        self->f30 = 0;
-    }
-    if (self->f34 != 0) {
-        return 0;
-    }
-    set_thread_state_and_resume(idx, self->f1FC, 0);
     return 0;
+  }
+  if (len != 0)
+  {
+    if (len <= self->f20)
+    {
+      self->f20 -= len;
+      self->f24 += len;
+      if (self->f24 >= self->f530)
+      {
+        self->f24 -= self->f530;
+      }
+    }
+    else
+    {
+      n = len - self->f20;
+      self->f20 = 0;
+      self->f24 = self->f28;
+      self->f34 -= n;
+      it = self->items;
+      for (i = 0; (i < self->f30) && (n != 0); it++, i++)
+      {
+        if (n >= it->len)
+        {
+          n -= it->len;
+          it->len = 0;
+        }
+        else
+        {
+          it->len -= n;
+          TLobby__sub_80406EB8(it->data, n);
+          n = 0;
+        }
+      }
+
+    }
+  }
+  if (self->f34 != 0)
+  {
+    if (self->f34 > (self->f530 - self->f20))
+    {
+      return 0;
+    }
+    NetMemcpy(d, self->f10, 8);
+    TLobby__sub_80406EB8(d, self->f28);
+    i = 0;
+    it = self->items;
+    while (i < self->f30)
+    {
+      if (it->len > 0)
+      {
+        self->f20 += it->len;
+        new_var = it->len;
+        n = self->f530 - self->f28;
+        if (new_var > n)
+        {
+          TLobby__sub_80406FD8(d, it->data, n);
+          TLobby__sub_80406EB8(it->data, n);
+          it->len -= n;
+          self->f34 -= n;
+          self->f28 = 0;
+          NetMemcpy(d, self->f10, 8);
+        }
+        L = it->len;
+        TLobby__sub_80406FD8(d, it->data, L);
+        self->f28 += L;
+        TLobby__sub_80406EB8(d, L);
+        self->f34 -= L;
+        it->len = 0;
+      }
+      it++;
+      i++;
+    }
+
+    if (self->f34 != 0)
+    {
+      return 0;
+    }
+    self->f34 = 0;
+    self->f30 = 0;
+    return set_thread_state_and_resume(idx, self->f1FC, 0);
+  }
+  if (!self->f34)
+  {
+    set_thread_state_and_resume(idx, self->f1FC, 0);
+  }
+  return 0;
 }
 
 #pragma push
