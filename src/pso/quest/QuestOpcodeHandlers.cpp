@@ -279,16 +279,16 @@ namespace pf2_p0 { extern "C" { extern RecoveredGlobal_8000F7FC_lbl_80515F48 que
 #define quest_player_class_name_buffer pf2_p0::quest_player_class_name_buffer
 namespace pf2_p0 { extern "C" { extern RecoveredGlobal_8000F7FC_lbl_80515F48 quest_player_name_buffer; } }
 #define quest_player_name_buffer pf2_p0::quest_player_name_buffer
-void TLobby__sub_801E6840(void);
+void append_player_name(void);
 int sprintf(char *, const char *, ...);
 extern char lbl_80449C74[];
-namespace pf2_p0 { extern "C" { s32 TLobby__sub_801E6BB8(); } }
-#define TLobby__sub_801E6BB8 pf2_p0::TLobby__sub_801E6BB8
+namespace pf2_p0 { extern "C" { s32 is_message_source_exhausted(); } }
+#define is_message_source_exhausted pf2_p0::is_message_source_exhausted
 namespace pf2_p0 { extern "C" { s8 read_byte_advance__6TLobbyFv(); } }
 #define read_byte_advance__6TLobbyFv pf2_p0::read_byte_advance__6TLobbyFv
-void TLobby__sub_801E6C2C(s8);
-namespace pf2_p0 { extern "C" { void TLobby__sub_801E6C40(); } }
-#define TLobby__sub_801E6C40 pf2_p0::TLobby__sub_801E6C40
+void append_message_char(s8);
+namespace pf2_p0 { extern "C" { void begin_message_substitution(); } }
+#define begin_message_substitution pf2_p0::begin_message_substitution
 s32 expand_message_substitutions(s32 arg0, s32 arg1);
 }
 s32 parse_f_index(s32 a0);
@@ -324,8 +324,8 @@ void TLobby::capture_chat_sensor() {
 extern s32 lbl_80449C6C[];
 
 s32 expand_message_substitutions(s32 arg0, s32 arg1) {
-    TLobby__sub_801E6C40();
-    while (TLobby__sub_801E6BB8() == 0) {
+    begin_message_substitution();
+    while (is_message_source_exhausted() == 0) {
         s8 c = read_byte_advance__6TLobbyFv();
         switch (c) {
         case 0x3C:
@@ -336,11 +336,11 @@ s32 expand_message_substitutions(s32 arg0, s32 arg1) {
             }
         case 0x3D:
         default:
-            TLobby__sub_801E6C2C(c);
+            append_message_char(c);
             break;
         }
     }
-    TLobby__sub_801E6C2C(0);
+    append_message_char(0);
     return arg1;
 }
 
@@ -350,7 +350,7 @@ void TLobby::parse_message_tag() {
     u32 i;
     s32 idx;
     s8 c;
-    for (i = 0; i < 0x40 && TLobby__sub_801E6BB8() == 0; i++) {
+    for (i = 0; i < 0x40 && is_message_source_exhausted() == 0; i++) {
         c = read_byte_advance__6TLobbyFv();
         switch (c) {
         case 0x3E:
@@ -418,7 +418,7 @@ void TLobby::append_default_string() {
     append_string((void *)((s32 *)(&quest_player_class_name_buffer.value)));
 }
 
-void TLobby__sub_801E6840(void) {
+void append_player_name(void) {
     append_string((void *)((s32 *)(&quest_player_name_buffer.value)));
 }
 
@@ -451,8 +451,8 @@ s32 parse_f_index(s32 a0) {
 }
 
 #undef TLobby__sub_80070ACC
-#undef TLobby__sub_801E6BB8
-#undef TLobby__sub_801E6C40
+#undef is_message_source_exhausted
+#undef begin_message_substitution
 #undef append_string
 #undef get_character_save_record
 #undef get_unit_list__6TLobbyFv
@@ -467,12 +467,12 @@ void append_string(s32 arg0);
 extern char lbl_805DC4B4[4];
 void append_int_param__6TLobbyFi(s32 arg0);
 extern char lbl_80449C90[];
-void TLobby__sub_801E6AE0(void);
+void append_episode_progress_string(void);
 extern char lbl_805DC4B0[4];
 void append_float_value__6TLobbyFi(s32 arg0);
 s32 TObjItemOKWindow__sub_801F3268();
 extern char lbl_80449C88[];
-void TLobby__sub_801E6A04(void);
+void append_entered_item_name_pair(void);
 namespace pf2_p1 { extern "C" { s32 get_class_type_name__6TLobbyFl(s32); } }
 #define get_class_type_name__6TLobbyFl pf2_p1::get_class_type_name__6TLobbyFl
 u32 get_player_by_client_id(s32);
@@ -485,8 +485,8 @@ extern "C" {
 s32 is_split_screen();
 char *TLobby__sub_800713C8();
 extern char lbl_805DC4AC[3];
-void TLobby__sub_801E6998(void);
-u8 TLobby__sub_801E6BB8(void);
+void append_split_screen_hero_name(void);
+u8 is_message_source_exhausted(void);
 s32 parse_r_index(s32 arg0);
 u8 read_byte_advance__6TLobbyFv(void);
 s32 strcpy(s32, s32);
@@ -507,7 +507,7 @@ s32 parse_r_index(s32 arg0) {
 
 extern u8 *TLobby__quest_script_read_ptr;
 
-void TLobby__sub_801E6998(void) {
+void append_split_screen_hero_name(void) {
     char buf[0x40];
     if (is_split_screen() == 1) {
         sprintf(buf, lbl_805DC4AC, get_split_screen_character_name());
@@ -518,7 +518,7 @@ void TLobby__sub_801E6998(void) {
     append_string((s32)buf);
 }
 
-void TLobby__sub_801E6A04(void) {
+void append_entered_item_name_pair(void) {
     char buf[64];
     s32 t = (s32)TObjItemNameSelect::get_selected_name();
     sprintf(buf, lbl_80449C88, TObjItemOKWindow__sub_801F3268(), t);
@@ -538,7 +538,7 @@ void append_int_param__6TLobbyFi(s32 arg0) {
     append_string((s32)buf);
 }
 
-void TLobby__sub_801E6AE0(void) {
+void append_episode_progress_string(void) {
     char buf[64];
     sprintf(buf, lbl_80449C90, 1, 12);
     append_string((s32)buf);
@@ -565,7 +565,7 @@ void append_hero_name(void) {
 }
 extern "C" {
 
-u8 TLobby__sub_801E6BB8(void) {
+u8 is_message_source_exhausted(void) {
     return (u8) ((s8) *TLobby__quest_script_read_ptr == 0);
 }
 
@@ -589,12 +589,12 @@ void append_string(s32 arg0) {
 
 #undef get_class_type_name__6TLobbyFl
 
-void TLobby__sub_801E6C2C(s8 arg0);
+void append_message_char(s8 arg0);
 
 namespace pf2_p2 { extern "C" { extern s8 *quest_string_append_cursor; } }
 #define quest_string_append_cursor pf2_p2::quest_string_append_cursor
 
-void TLobby__sub_801E6C2C(s8 arg0) {
+void append_message_char(s8 arg0) {
     s8 *temp_r4;
 
     temp_r4 = quest_string_append_cursor;
@@ -619,12 +619,12 @@ void *memcpy(void *, const void *, u32);
 }
 void qst_op_check_for_keyword(void);
 extern "C" {
-void TLobby__sub_801E6C40(int a0, int a1);
+void begin_message_substitution(int a0, int a1);
 void create_singleton__6TLobbyFPv(void *arg0);
 
 namespace pf2_p3 { extern "C" { extern int TLobby__quest_script_read_ptr; } }
 #define TLobby__quest_script_read_ptr pf2_p3::TLobby__quest_script_read_ptr
-void TLobby__sub_801E6C40(int a0, int a1) { TLobby__quest_script_read_ptr = a0; quest_string_append_cursor = a1; }
+void begin_message_substitution(int a0, int a1) { TLobby__quest_script_read_ptr = a0; quest_string_append_cursor = a1; }
 
 void qst_op_olga_flow_is_dead(s32 arg0) {
     if (TBoss6PlotFalz::is_phase_reached() != 0) {
