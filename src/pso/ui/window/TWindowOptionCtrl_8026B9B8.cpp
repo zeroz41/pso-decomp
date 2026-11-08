@@ -21,12 +21,12 @@ s32 TWindowOptionCtrl::create_list_window() {
     s32 idx;
     s32 list;
 
-    fn_8036A514(2);
+    unlock_music_flag(2);
     list = check_room_seq_4__16TAdChrSelASlotGCFl(get_option_entry__17TWindowOptionCtrlFi(0xCF), 0x31);
     set_flag70_bit100__21TWindowSubComCardListFv();
     idx = 0;
     do {
-        if (fn_8036A620(idx) != 0) {
+        if (is_music_flag_unlocked_stub(idx) != 0) {
             if (check_flag_index_set(idx) == 0) {
                 draw_text_gray__17TWindowSubComCardFllll(list, lbl_8044F4AC, 0x26, idx);
             } else {

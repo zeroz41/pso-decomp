@@ -281,7 +281,7 @@ u8 lbl_80514D40[0x218];
 }
 
 extern "C" {
-void fn_8036A450(s32 arg0);
+void unlock_sequencer_flag(s32 arg0);
 int TKeyBoardControl__sub_8000F828(void);
 s32 TKeyBoardControl__sub_801E3E24(s32 id, const char *name, void *buf, s32 size);
 void TLobby__sub_803C5D24(u8 *arg0);
@@ -291,7 +291,7 @@ extern s16 lbl_805D371C;
 extern Program_80226FA0 *lbl_804CBE74[];
 
 void init_music_sequencer(s32 program) {
-    fn_8036A450(program);
+    unlock_sequencer_flag(program);
     lbl_805D371C = 0;
     TLobby::release_bgm_resource();
     lbl_805D6300 = program;

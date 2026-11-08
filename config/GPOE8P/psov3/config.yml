@@ -6389,7 +6389,7 @@ force_active:
   - fn_803519FC
   - fn_80351A14
   - fn_8035D49C
-  - fn_8036A3CC
+  - get_flag_word_mask
   - fn_803DB15C
   - fn_803DD3C8
   - fn_803F1804

@@ -44,7 +44,7 @@ void TWindowOptionCtrl::apply_and_close(s32 arg1) {
     TLobby::stop_audio_streams();
     TLobby::stop_audio_streams();
     TLobby::close_option_window();
-    fn_8036A648(arg1);
+    get_bgm_filename(arg1);
     play_area_music();
     this->m_1d = (u8) (this->m_1d | 2);
 }

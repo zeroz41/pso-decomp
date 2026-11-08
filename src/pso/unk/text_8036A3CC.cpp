@@ -120,7 +120,7 @@ const char *bgm_adx_filename_table[49] = {
 };
 
 // Unlocking .flag also unlocks .linked; ends with {-1, -1}.
-const FlagLink_8036A514 lbl_8047AB8C[] = {
+const FlagLink_8036A514 music_flag_link_table[] = {
     {11, 10},
     {14, 13},
     {17, 16},
@@ -145,7 +145,7 @@ const s32 music_sequencer_flag_ids[9] = {11, 14, 17, 21, 22, 42, 45, 36, 39};
 
 extern "C" {
 
-u32 *fn_8036A3CC(s32 arg0, u32 *mask) {
+u32 *get_flag_word_mask(s32 arg0, u32 *mask) {
     s32 word;
     if (arg0 < 0) {
         return 0;
@@ -161,12 +161,12 @@ u32 *fn_8036A3CC(s32 arg0, u32 *mask) {
     return &get_instance__23TAdSinglePlyChrSelectGCFv()->flags[word];
 }
 
-void fn_8036A450(s32 arg0) {
+void unlock_sequencer_flag(s32 arg0) {
     s32 flag;
     if ((arg0 >= 0) && (arg0 < 9)) {
         flag = music_sequencer_flag_ids[arg0];
         if (check_flag_index_set(flag) != 1) {
-            fn_8036A514(flag);
+            unlock_music_flag(flag);
         }
     }
 }
@@ -179,26 +179,26 @@ void TObjBgmColCtrl::update_all_zones(s32 arg0) {
     var_r31 = 0;
     do {
         if (check_flag_index_set(var_r31) != 1) {
-            if (strcmp((const char *)fn_8036A648(var_r31), (const char *)arg0) == 0) {
-                fn_8036A514(var_r31);
+            if (strcmp((const char *)get_bgm_filename(var_r31), (const char *)arg0) == 0) {
+                unlock_music_flag(var_r31);
             }
         }
         var_r31 += 1;
     } while (var_r31 < 0x31);
 }
 
-void fn_8036A514(s32 flag) {
+void unlock_music_flag(s32 flag) {
     u32 mask;
     u32 *word;
     s32 i;
 
     if (check_flag_index_set(flag) != 1 && flag >= 0 && flag < 0x31) {
-        word = fn_8036A3CC(flag, &mask);
+        word = get_flag_word_mask(flag, &mask);
         if (word != 0) {
             *word |= mask;
-            for (i = 0; lbl_8047AB8C[i].flag != -1; i++) {
-                if (flag == lbl_8047AB8C[i].flag) {
-                    fn_8036A514(lbl_8047AB8C[i].linked);
+            for (i = 0; music_flag_link_table[i].flag != -1; i++) {
+                if (flag == music_flag_link_table[i].flag) {
+                    unlock_music_flag(music_flag_link_table[i].linked);
                 }
             }
         }
@@ -215,7 +215,7 @@ s32 check_flag_index_set(s32 arg0) {
     if (arg0 >= 0x31) {
         return 0;
     }
-    temp_r3 = (s32 *)fn_8036A3CC(arg0, (u32 *)&sp8);
+    temp_r3 = (s32 *)get_flag_word_mask(arg0, (u32 *)&sp8);
     if (temp_r3 == NULL) {
         return 0;
     }
@@ -224,14 +224,14 @@ s32 check_flag_index_set(s32 arg0) {
 
 extern "C" {
 
-s32 fn_8036A620(s32 idx) {
+s32 is_music_flag_unlocked_stub(s32 idx) {
     if (check_flag_index_set(idx) == 0) {
         return 1;
     }
     return 1;
 }
 
-s32 fn_8036A648(s32 arg0) {
+s32 get_bgm_filename(s32 arg0) {
     if (arg0 < 0) {
         return 0;
     }
