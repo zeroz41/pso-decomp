@@ -123,11 +123,11 @@ BmlResourceDescriptor boss6_plot_falz_resource_descriptor = { "boss06_plotfalz_d
 const char *TBoss6PlotFalz__name = "TBoss6PlotFalz";
 f32 TBoss6PlotFalz__fade_amount = -1.0f;
 #pragma pop
-const Vec lbl_8047059C = { -10000.0f, 0.0f, 0.0f };
-const Vec lbl_804705A8 = { -10000.0f, 10.0f, 0.0f };
-const Vec lbl_804705B4 = { 0.0f, 0.0f, 0.0f };
-const Vec lbl_804705C0 = { 0.0f, 0.0f, 0.0f };
-const Vec lbl_804705CC = { -10000.0f, 0.0f, 0.0f };
+const Vec plotfalz_far_anchor_pos = { -10000.0f, 0.0f, 0.0f };
+const Vec plotfalz_warp_circle_center = { -10000.0f, 10.0f, 0.0f };
+const Vec plotfalz_spawn_ring_origin = { 0.0f, 0.0f, 0.0f };
+const Vec plotfalz_target_zero_pos = { 0.0f, 0.0f, 0.0f };
+const Vec plotfalz_target_sentinel_pos = { -10000.0f, 0.0f, 0.0f };
 
 struct Color_802ABF44 { f32 a, b, c, d; };
 
@@ -676,7 +676,7 @@ void TBoss6PlotFalz__sub_802AB684(s32 arg0) {
     typedef char spC_offset[(offsetof(Stack_802AB684, spC) == 0x4) ? 1 : -1];
     Stack_802AB684 stack;
     VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0));
-    subtract_vector(&stack.sp8, &lbl_8047059C);
+    subtract_vector(&stack.sp8, &plotfalz_far_anchor_pos);
     stack.spC = 0.0f;
     vector_length(&stack.sp8);
 }
@@ -851,7 +851,7 @@ void TBoss6PlotFalz::release_object() { if (*(unsigned int*)((char*)this + 0x384
 
 s32 TBoss6PlotFalz::get_target_pos_a(s32 arg0, s32 arg1) {
     if ((u32) TBoss6PlotFalz__type2_instance == 0U) {
-        VecCopy((Vec *)(arg1), &lbl_804705CC);
+        VecCopy((Vec *)(arg1), &plotfalz_target_sentinel_pos);
         return 0;
     }
     VecCopy((Vec *)(arg1), (const Vec *)(TBoss6PlotFalz__type2_instance + 0x38));
@@ -860,7 +860,7 @@ s32 TBoss6PlotFalz::get_target_pos_a(s32 arg0, s32 arg1) {
 
 s32 TBoss6PlotFalz::get_target_pos_b(s32 arg0, s32 arg1) {
     if ((u32) TBoss6PlotFalz__type1_instance == 0U) {
-        VecCopy((Vec *)(arg1), &lbl_804705C0);
+        VecCopy((Vec *)(arg1), &plotfalz_target_zero_pos);
         return 0;
     }
     VecCopy((Vec *)(arg1), (const Vec *)(TBoss6PlotFalz__type1_instance + 0x38));
@@ -1177,11 +1177,11 @@ void TBoss6PlotFalz::warp_nearby_players() {
     for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {
         p = (Obj_802AC3E8 *)get_player_data__10TObjPlayerFi(i);
         if (p != NULL && p->sub != NULL && (p->sub->flags & 0x20000)
-            && !(xyz_distance(&lbl_804705B4, &p->pos) > 150.0f)
-            && !(xyz_distance(&lbl_8047059C, &p->pos) <= 300.0f)) {
+            && !(xyz_distance(&plotfalz_spawn_ring_origin, &p->pos) > 150.0f)
+            && !(xyz_distance(&plotfalz_far_anchor_pos, &p->pos) <= 300.0f)) {
             VecCopy((Vec *)&v, (const Vec *)&p->pos);
-            subtract_vector(&v, &lbl_804705B4);
-            vec3_add_to(&v, &lbl_8047059C);
+            subtract_vector(&v, &plotfalz_spawn_ring_origin);
+            vec3_add_to(&v, &plotfalz_far_anchor_pos);
             v.y = 7.5f;
             VecCopy((Vec *)&p->pos, (const Vec *)&v);
             ((TObjCollidable *)p)->refresh_collision_body_centers();
@@ -1224,7 +1224,7 @@ void place_players_in_warp_circle(void) {
     for (i = 0; i < registered_player_count; i++) {
         void *p = get_player_data__10TObjPlayerFi(i);
         if (p != NULL && get_field_3e0__12TBoss3VoloptFv(p) == 0x1F) {
-            Vec pos = lbl_804705A8;
+            Vec pos = plotfalz_warp_circle_center;
             pos.x += 350.0f * sin_table_lookup(ang);
             pos.z += 350.0f * cos_table_lookup(ang);
             ((void (*)(void *, void *))set_position_from__8TObjBaseFPv)(p, &pos);
