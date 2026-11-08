@@ -507,152 +507,198 @@ inline void sack_remove_8041F914(O_8041F66C *o, s16 idx) {
 }
 #pragma pop
 
-s32 TLobby__sub_8041F914(u8 *tbl, u16 x, O_8041F66C *o, P_8041FDA0 *d) {
-    u8 *p;
-    u32 cnt;
-    s32 n;
-    s16 kk;
-    u32 rem;
-    u32 k;
-    s32 sum;
-    s32 delta;
-    s32 s;
-    u32 i;
-    u8 buf1[8];
-    u8 buf2[8];
-
-    if (!((((u8 *)o)[0x204] >> 6) & 1)) {
-        rem = 0;
-        sum = 0;
-        delta = d->b - o->now;
-        if (delta <= 0) {
-            return 0;
-        }
-        if ((u32)(*(s32 *)(tbl + 8) - x + delta) > (u32)(o->f534 - o->fD8)) {
-            return 0;
-        }
-        cnt = *(s32 *)(tbl + 4);
-        i = 0;
-        p = tbl;
-        for (; i < cnt; p += 12, i++) {
-            if ((u16)*(s16 *)(p + 0xc) > (u16)x) {
-                rem = (u16)x;
-                break;
-            }
-            x -= *(s16 *)(p + 0xc);
-        }
-        if (i == cnt) {
-            return 0;
-        }
-        k = o->fE0 + delta;
-        if (k > o->f534) {
-            k -= o->f534;
-        }
-        NetMemcpy(buf1, o->fC8, 8);
-        TLobby__sub_80406EB8(buf1, k);
-        for (p = tbl + i * 12; i < *(u32 *)(tbl + 4); p += 12, i++) {
-            NetMemcpy(buf2, p + 0x10, 8);
-            if (rem != 0) {
-                TLobby__sub_80406EB8(buf2, rem);
-            }
-            rem = *(s16 *)(p + 0xc) - rem;
-            if ((u32)rem > o->f534 - o->fD8) {
-                rem = o->fD8;
-            }
-            sum += rem;
-            if (k + rem >= o->f534) {
-                TLobby__sub_80406FD8(buf1, buf2, o->f534 - k);
-                NetMemcpy(buf1, o->fC8, 8);
-                TLobby__sub_80406EB8(buf2, o->f534 - k);
-                rem -= o->f534 - k;
-            }
-            if (rem != 0) {
-                TLobby__sub_80406FD8(buf1, buf2, rem);
-                TLobby__sub_80406EB8(buf1, (s16)rem);
-            }
-            rem = 0;
-        }
-        s = d->b;
-        sum += s;
-        if (o->n == -1) {
-            TLobby__sub_8041FDA0((O_8041FDA0 *)o, 0, s, sum);
-            o->fFA = 0;
-        } else {
-            if (s - o->items[0].a <= 0) {
-                TLobby__sub_8041FDA0((O_8041FDA0 *)o, 0, s, sum);
-                kk = 0;
-            } else {
-                O_8041F66C *e = (O_8041F66C *)((u8 *)o + 8);
-                for (kk = 1; kk <= o->n; e = (O_8041F66C *)((u8 *)e + 8), kk++) {
-                    if (s - e->items[0].a <= 0) {
-                        n = o->items[kk - 1].b;
-                        if (s - n <= 0) {
-                            delta = sum - n;
-                            if (delta < 0) {
-                                goto fin;
-                            }
-                            o->total += delta;
-                            o->items[kk - 1].b = sum;
-                            kk--;
-                        } else {
-                            TLobby__sub_8041FDA0((O_8041FDA0 *)o, kk, s, sum);
-                        }
-                        break;
-                    }
-                }
-                if (kk == o->n + 1) {
-                    n = o->items[kk - 1].b;
-                    if (s - n <= 0) {
-                        delta = sum - n;
-                        if (delta < 0) {
-                            goto fin;
-                        }
-                        o->total += delta;
-                        o->items[kk - 1].b = sum;
-                        kk--;
-                    } else {
-                        TLobby__sub_8041FDA0((O_8041FDA0 *)o, kk, s, sum);
-                    }
-                }
-            }
-            o->fFA = kk;
-            while (kk + 1 <= o->n && o->items[kk].b - o->items[kk + 1].a >= 0) {
-                if (o->items[kk].b - o->items[kk + 1].b >= 0) {
-                    {
-                        s16 idx = kk + 1;
-                        s16 nn = o->n;
-                        s16 j;
-                        if (!(idx < 0 || nn < 0 || idx > nn)) {
-                            o->total -= o->items[idx].b - o->items[idx].a;
-                            for (j = idx; j < o->n; j++) {
-                                o->items[j] = o->items[j + 1];
-                            }
-                            o->n--;
-                        }
-                    }
-                } else {
-                    o->total += o->items[kk + 1].b - o->items[kk].b;
-                    o->items[kk].b = o->items[kk + 1].b;
-                    {
-                        s16 idx = kk + 1;
-                        s16 nn = o->n;
-                        s16 j;
-                        if (!(idx < 0 || nn < 0 || idx > nn)) {
-                            o->total -= o->items[idx].b - o->items[idx].a;
-                            for (j = idx; j < o->n; j++) {
-                                o->items[j] = o->items[j + 1];
-                            }
-                            o->n--;
-                        }
-                    }
-                }
-            }
-        }
-fin:
-        TLobby__sub_8041FED4((TcpSackView *)o);
-        return 0;
+s32 TLobby__sub_8041F914(u8 *tbl, u16 x, O_8041F66C *o, P_8041FDA0 *d)
+{
+  u32 cnt;
+  s32 n;
+  volatile unsigned int pad;
+  s16 kk;
+  u32 rem;
+  u32 k;
+  s32 sum;
+  s32 delta;
+  s32 s;
+  u32 i;
+  u8 buf1[8];
+  O_8041F66C *new_var;
+  u8 buf2[8];
+  u8 *p;
+  if (!((((u8 *) o)[0x204] >> 6) & 1))
+  {
+    rem = 0;
+    sum = 0;
+    delta = d->b - o->now;
+    if (delta <= 0)
+    {
+      return 0;
     }
-    return -1;
+    if (((u32) (((*((s32 *) (tbl + 8))) - x) + delta)) > ((u32) (o->f534 - o->fD8)))
+    {
+      return 0;
+    }
+    cnt = *((s32 *) (tbl + 4));
+    i = 0;
+    cnt = cnt;
+    for (; i < cnt; i++)
+    {
+      if (((u16) (*((s16 *) ((tbl + (i * 12)) + 0xc)))) > ((u16) x))
+      {
+        rem = (u16) x;
+        break;
+      }
+      x -= *((s16 *) ((tbl + (i * 12)) + 0xc));
+    }
+
+    if (i == cnt)
+    {
+      return 0;
+    }
+    k = o->fE0 + delta;
+    if (k > o->f534)
+    {
+      k -= o->f534;
+    }
+    NetMemcpy(buf1, o->fC8, 8);
+    TLobby__sub_80406EB8(buf1, k);
+    for (p = tbl + (i * 12); i < (*((u32 *) (tbl + 4))); p += 12, i++)
+    {
+      NetMemcpy(buf2, p + 0x10, 8);
+      if (rem != 0)
+      {
+        TLobby__sub_80406EB8(buf2, rem);
+      }
+      rem = (*((s16 *) (p + 0xc))) - rem;
+      if (((u32) rem) > (o->f534 - o->fD8))
+      {
+        rem = o->f534 - o->fD8;
+      }
+      sum += rem;
+      if ((k + rem) >= o->f534)
+      {
+        TLobby__sub_80406FD8(buf1, buf2, o->f534 - k);
+        NetMemcpy(buf1, o->fC8, 8);
+        TLobby__sub_80406EB8(buf2, o->f534 - k);
+        rem -= o->f534 - k;
+      }
+      if (rem)
+      {
+        TLobby__sub_80406FD8(buf1, buf2, rem);
+        TLobby__sub_80406EB8(buf1, (s16) rem);
+      }
+      rem = 0;
+    }
+
+    s = d->b;
+    sum += s;
+    if (o->n == (-1))
+    {
+      TLobby__sub_8041FDA0((O_8041FDA0 *) o, 0, s, sum);
+      o->fFA = 0;
+    }
+    else
+    {
+      if ((s - o->items[0].a) <= 0)
+      {
+        TLobby__sub_8041FDA0((O_8041FDA0 *) o, 0, s, sum);
+        kk = 0;
+      }
+      else
+      {
+        O_8041F66C *e = (O_8041F66C *) (((u8 *) o) + 8);
+        for (kk = 1; kk <= o->n; e = (O_8041F66C *) (((u8 *) e) + 8), kk++)
+        {
+          if ((s - e->items[0].a) <= 0)
+          {
+            n = o->items[kk - 1].b;
+            if ((s - n) <= 0)
+            {
+              delta = sum - n;
+              if (delta < 0)
+              {
+                goto fin;
+              }
+              o->total += delta;
+              o->items[kk - 1].b = sum;
+              kk--;
+            }
+            else
+            {
+              TLobby__sub_8041FDA0((O_8041FDA0 *) o, kk, s, sum);
+            }
+            break;
+          }
+        }
+
+        if (kk == (o->n + 1))
+        {
+          n = o->items[kk - 1].b;
+          if ((s - n) <= 0)
+          {
+            delta = sum - n;
+            if (delta < 0)
+            {
+              goto fin;
+            }
+            o->total += delta;
+            o->items[kk - 1].b = sum;
+            kk--;
+          }
+          else
+          {
+            TLobby__sub_8041FDA0((O_8041FDA0 *) o, kk, s, sum);
+          }
+        }
+      }
+      o->fFA = kk;
+      while (((kk + 1) <= o->n) && ((o->items[kk].b - o->items[kk + 1].a) >= 0))
+      {
+        if ((o->items[kk].b - o->items[kk + 1].b) >= 0)
+        {
+          {
+            s16 idx = kk + 1;
+            s16 nn = o->n;
+            s16 j;
+            if (!(((idx < 0) || (nn < 0)) || (idx > nn)))
+            {
+              o->total -= o->items[idx].b - o->items[idx].a;
+              for (j = idx; j < o->n; j++)
+              {
+                o->items[j] = o->items[j + 1];
+              }
+
+              o->n--;
+            }
+          }
+        }
+        else
+        {
+          o->total += o->items[kk + 1].b - o->items[kk].b;
+          (new_var = o)->items[kk].b = o->items[kk + 1].b;
+          {
+            s16 idx = kk + 1;
+            s16 nn = o->n;
+            s16 j;
+            if (!(((idx < 0) || (nn < 0)) || (idx > nn)))
+            {
+              o->total -= o->items[idx].b - o->items[idx].a;
+              for (j = idx; j < o->n; j++)
+              {
+                o->items[j] = o->items[j + 1];
+              }
+
+              o->n--;
+            }
+          }
+        }
+      }
+
+    }
+    fin:
+    TLobby__sub_8041FED4((TcpSackView *) o);
+
+    return 0;
+  }
+  return -1;
 }
 
 void TLobby__sub_8041FDA0(O_8041FDA0 *o, s16 idx, s32 a, s32 b) {
