@@ -43,14 +43,14 @@ void release_photon_blast_requests(void *registry) {
     }
 }
 
-void *TObjPlayer::find_by_section_id(s32 section) {
+void *TObjPlayer::find_by_section_id(u16 section) {
     s32 n;
     s32 i;
     u8 *e;
     n = TObjPlayer__sub_803131AC(this);
     for (i = 0; i < n; i++) {
         e = (u8 *)get_element__10TObjPlayerFPvi(this, i);
-        if ((u16)section == (u16)get_section_id__10TObjPlayerFv(e)) {
+        if (section == (u16)get_section_id__10TObjPlayerFv(e)) {
             return TObjPlayer__sub_803131B4(e, 0);
         }
     }

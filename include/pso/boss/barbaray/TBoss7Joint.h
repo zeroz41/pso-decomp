@@ -5,8 +5,10 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 
 struct TBoss7Joint : public TObjEneDD {
+    TBoss7Joint(TObject *parent, u16 id, s16 set_index, Vec *position, s32 index);
     virtual ~TBoss7Joint();
     void init_boss_stats();
+    virtual void dispatch_action(u32 state, s32 reason);
     virtual void vfunc_62();
     virtual void clear_harmful_statuses();
     virtual void apply_shock_status();
@@ -20,6 +22,9 @@ struct TBoss7Joint : public TObjEneDD {
     virtual void vfunc_28();
     virtual void vfunc_88();
     virtual void vfunc_93();
+    // Never defined: the vtable slot (+0x1A0) is 0 as in TObjEneDD, where it is pure. Declared so the
+    // DeRolLeC ctor can `new` the joint, which the original does (call at 0x802EE1DC).
+    virtual s32 vfunc_104(f32);
     u8 unk_374[0x28];
     u32 m_3b8;
     u8 _pad3BC[0x4];

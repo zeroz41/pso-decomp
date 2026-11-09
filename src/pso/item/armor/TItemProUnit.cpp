@@ -167,7 +167,7 @@ void TItemProUnit::apply_owner_bonuses() {
             if (level != 0xFF) {
                 // Called with the class byte unextended: this TU saw the
                 // limit lookup as taking two u8s.
-                limit = ((u8 (*)(u8, u8))get_technique_learn_limit)(owner->m_88d, (u8)i);
+                limit = get_technique_learn_limit(owner->m_88d, (u8)i);
                 bonus = technique_bonus;
                 total = level + bonus;
                 if (limit < total) {

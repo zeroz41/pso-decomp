@@ -1181,6 +1181,7 @@ pso/effect/TDuelEffectNumber_80080290.cpp:
 	.text       start:0x80080290 end:0x80080460
 	.rodata     start:0x80438DC0 end:0x80438E20
 	.sdata      start:0x805D28E8 end:0x805D28F0
+	.sdata2     start:0x805D9308 end:0x805D9310
 
 pso/effect/TDuelEffectNumber_80080460.cpp:
 	.text       start:0x80080460 end:0x80080750
@@ -4507,7 +4508,7 @@ pso/object/trap/TOTrap.cpp:
 pso/object/trap/TOTrapAncient01.cpp:
 	.text       start:0x8017939C end:0x8017A20C
 	.rodata     start:0x80442E68 end:0x80442E70
-	.data       start:0x804B4A1C end:0x804B4A78
+	.data       start:0x804B49D8 end:0x804B4AD8
 	.sdata2     start:0x805DBA48 end:0x805DBA74
 
 pso/object/trap/TOTrapAncient02R.cpp:
@@ -5823,12 +5824,9 @@ pso/ui/frontend/TAdPlayerLoadGC_801E0C30.cpp:
 	.bss        start:0x80511ED0 end:0x80511F70
 	.sdata2     start:0x805DC410 end:0x805DC418
 
-pso/unk/text_801E283C.cpp:
-	.text       start:0x801E283C end:0x801E2B24
-
 pso/system/data/pso_date.cpp:
-	.text       start:0x801E2B24 end:0x801E2D1C
-	.rodata     start:0x804496D0 end:0x80449700
+	.text       start:0x801E283C end:0x801E2D1C
+	.rodata     start:0x804496D0 end:0x80449730
 
 pso/player/TObjPlayer_801E2D1C.cpp:
 	.text       start:0x801E2D1C end:0x801E2EFC
@@ -6020,7 +6018,7 @@ pso/quest/TQuestVmDownLoadServer_801F9010.cpp:
 
 pso/ui/hud/TRaderMapCore.cpp:
 	.text       start:0x801F9058 end:0x801FB2B8
-	.rodata     start:0x8044A7A0 end:0x8044A7A8
+	.rodata     start:0x8044A7A0 end:0x8044A7B0
 	.data       start:0x804C8738 end:0x804C8848
 	.bss        start:0x80512D08 end:0x805137C8
 	.sdata2     start:0x805DC540 end:0x805DC560
@@ -6254,13 +6252,7 @@ pso/map/TSetManager.cpp:
 	.sbss       start:0x805D6150 end:0x805D6158
 
 pso/map/TSetManager_8020D918.cpp:
-	.text       start:0x8020D918 end:0x8020DFD8
-
-pso/unk/TLobby_8020DFD8.cpp:
-	.text       start:0x8020DFD8 end:0x8020E08C
-
-pso/unk/text_8020E08C.cpp:
-	.text       start:0x8020E08C end:0x8020E400
+	.text       start:0x8020D918 end:0x8020E400
 	.bss        start:0x80513A40 end:0x80513D34
 
 pso/unk/TLobby_8020E400.cpp:
@@ -6310,27 +6302,13 @@ pso/ui/window/TWindowInputNumber_80211608.cpp:
 pso/ui/city/TCheckRoomSequence_80211614.cpp:
 	.text       start:0x80211614 end:0x80211648
 
-pso/ui/city/THunterGuildWarning_80211648.cpp:
-	.text       start:0x80211648 end:0x80211690
-
-pso/ui/city/THunterGuildWarning_80211690.cpp:
-	.text       start:0x80211690 end:0x802116EC
-
-pso/ui/city/THunterGuildWarning_802116EC.cpp:
-	.text       start:0x802116EC end:0x80211700
-
-pso/ui/city/THunterGuildWarning_80211700.cpp:
-	.text       start:0x80211700 end:0x8021170C
-
-pso/ui/city/THunterGuildWarning_8021170C.cpp:
-	.text       start:0x8021170C end:0x80211718
-
-pso/ui/city/THunterGuildWarning_80211718.cpp:
-	.text       start:0x80211718 end:0x802119F0
-
 pso/ui/city/THunterGuildWarning.cpp:
-	.text       start:0x802119F0 end:0x80211B10
+	.text       start:0x80211648 end:0x80211B10
+	.rodata     start:0x8044BC68 end:0x8044BC90
 	.data       start:0x804C96A0 end:0x804C96B8
+	.sdata      start:0x805D3648 end:0x805D3650
+	.sbss       start:0x805D6178 end:0x805D6180
+	.sdata2     start:0x805DC640 end:0x805DC644
 
 pso/unk/text_80211B10.cpp:
 	.text       start:0x80211B10 end:0x80211C1C
@@ -7391,6 +7369,7 @@ pso/ui/window/TWindowInputNumber.cpp:
 
 pso/ui/window/TWindowSubStatusDisp_80256B94.cpp:
 	.text       start:0x80256B94 end:0x8025737C
+	.rodata     start:0x8044EE40 end:0x8044EE48
 	.sdata2     start:0x805DCE58 end:0x805DCED0
 
 pso/ui/window/TWindowSubStatusDisp_8025737C.cpp:
@@ -8508,6 +8487,7 @@ pso/object/ambient/TObjFish.cpp:
 	.text       start:0x8029D504 end:0x8029E764
 	.rodata     start:0x80465A48 end:0x80465E08
 	.data       start:0x804DC640 end:0x804DC7B4
+	.sdata2     start:0x805DDD40 end:0x805DDD88
 
 pso/map/FloorArea_8029E764.cpp:
 	.text       start:0x8029E764 end:0x8029E7BC

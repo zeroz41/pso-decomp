@@ -17,7 +17,8 @@ struct TOTrapAncient01 : public TOTrap {
     virtual void render();
     u32 m_344;
     u32 m_348;
-    u8 _pad34C[0xC];
+    f32 scale_step; // name inferred: added to scale.y each frame by vfunc_81, -scale.y / scale.z in the ctor
+    u8 _pad350[0x8];
     void* m_358;
     void release_trapped_player();
     void *create();

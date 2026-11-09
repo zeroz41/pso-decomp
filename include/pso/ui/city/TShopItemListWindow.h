@@ -6,8 +6,8 @@
 
 struct TShopItemListWindow : public TShopWindowBase {
     virtual ~TShopItemListWindow();
-    s32 prepare_tool_purchase();
-    s32 handle_amount_confirm();
+    void prepare_tool_purchase();
+    void handle_amount_confirm();
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);
     virtual void vfunc_6();

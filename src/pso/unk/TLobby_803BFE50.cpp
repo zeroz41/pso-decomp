@@ -94,25 +94,46 @@ struct Snd_803C0BE8 {
 
 struct Rec_803C0018 { u8 state; u8 pad[0x9B]; };
 
-struct AudioStreamSource;
-struct AudioStreamChunk { void *data; s32 size; };
+// Decoder handle fields read directly (TLobby::get_field_a8 returns the same field).
+struct AudioStreamDecoder { u8 pad_0[0xA8]; s16 format; };
 
+struct AudioStreamSource;
+
+// Same slot layout as SjRingBufferInterface (CRI SJ stream interface).
 struct AudioStreamSourceVtable {
     void *pad[6];
-    void (*lock)(AudioStreamSource *, s32, s32, AudioStreamChunk *);
-    void (*unlock)(AudioStreamSource *, s32, AudioStreamChunk *);
-    void (*f20)(AudioStreamSource *, s32, AudioStreamChunk *);
+    void (*get_chunk)(AudioStreamSource *, s32, s32, SjChunk *);
+    void (*unget_chunk)(AudioStreamSource *, s32, SjChunk *);
+    void (*put_chunk)(AudioStreamSource *, s32, SjChunk *);
+    s32 (*get_available)(AudioStreamSource *, s32);
 };
 
 struct AudioStreamSource { AudioStreamSourceVtable *vt; };
 
+// Names inferred from the decode step (TLobby__sub_803C0238) and the setup in TLobby__sub_803C0848.
 struct AudioStreamInputState {
-    s8 f0; s8 state; u8 f2; s8 f3; u32 f4; AudioStreamSource *f8;
-    SjRingBuffer *rings[4];
-    u8 pad_1c[0x2C - 0x1C];
-    s32 f2c; s32 f30; s32 f34; s32 f38; s32 f3c; s32 f40; s32 f44;
-    s32 f48; s32 f4c; s32 f50; s32 f54;
-    u8 f58[0x40]; s32 f98;
+    s8 in_use;
+    s8 state;
+    u8 channels;
+    char stop_when_drained;
+    TLobby *decoder;
+    AudioStreamSource *source;
+    SjRingBuffer *rings[2];
+    SjChunk src_chunk;
+    SjChunk out_chunks[2];
+    s32 output_samples;
+    s32 consumed_bytes;
+    s32 decoded_samples;
+    s32 max_samples;
+    s32 notify_samples;
+    s32 notify_count;
+    s32 notify_bytes;
+    void (*notify_callback)(void *);
+    void *notify_context;
+    void (*output_callback)(void *, s32, u8 *, s32);
+    void *output_context;
+    u8 header[0x40];
+    s32 header_size;
 };
 
 extern "C" {
@@ -120,6 +141,9 @@ void TLobby__sub_803BFE58(u8 *arg0);
 void TLobby__sub_803BFEE8(u8 *arg0);
 s32 TLobby__sub_803C3ABC(u8 *arg0);
 s32 TLobby__sub_803C3AC4(u8 *arg0);
+void TLobby__sub_803C3A04(u8 *arg0);
+void TLobby__sub_803C3984(u8 *arg0);
+void TLobby__sub_803C34F4(TLobby *decoder);
 s32 TLobby__sub_803C3B38(int);
 s32 TLobby__sub_803C3B44(u8 *arg0);
 s32 get_field_a8__6TLobbyFv(int);
@@ -142,13 +166,13 @@ extern s32 lbl_805E0CB8;
 void TLobby__sub_803C0628(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
 void EXIGetID(Snd_803C0BE8 *arg0);
 void GXFlush(void);
-s32 TLobby__sub_803C0238();
-s32 TLobby__sub_803C3B68(s32 arg0, u16 *hdr, s32 size);
-void TLobby__sub_803D3130(s32 arg0, s32 arg1, u8 *arg2, u8 *arg3);
+void TLobby__sub_803C0238(AudioStreamInputState *st);
+s32 TLobby__sub_803C3B68(TLobby *decoder, u16 *hdr, s32 size);
+void TLobby__sub_803D3130(SjChunk *chunk, s32 size, SjChunk *head, SjChunk *tail);
 void *memcpy(void *, const void *, u32);
 void process_audio_stream_input(AudioStreamInputState *arg0);
-u32 alloc_record__6TLobbyFiiii(s32 channels, u8 *buffer, s32 size, s32 total);
-void TLobby__sub_803C3B5C(u32 record, void (*callback)(void *, s32 *, s32 *, s32 *), void *context);
+TLobby *alloc_record__6TLobbyFiiii(s32 channels, u8 *buffer, s32 size, s32 total);
+void TLobby__sub_803C3B5C(TLobby *decoder, void (*callback)(void *, s32 *, s32 *, s32 *), void *context);
 AudioStreamInputState *TLobby__sub_803C0848(AudioStreamSource *source, s32 channels, SjRingBuffer **rings);
 s32 TLobby::get_offset_58() {
     s32 arg0 = (s32)this;
@@ -233,43 +257,141 @@ void GXFlush(void) {
 #pragma push
 #pragma inline_depth(4)
 #pragma dont_inline off
-inline void parse_audio_stream_input_header(AudioStreamInputState *arg0) {
-    AudioStreamChunk b;
-    AudioStreamChunk b2;
-    AudioStreamSource *s = arg0->f8;
-    s32 h = arg0->f4;
+inline void parse_audio_stream_input_header(AudioStreamInputState *st) {
+    SjChunk b;
+    SjChunk b2;
+    TLobby *h;
+    AudioStreamSource *s;
     s32 n;
-    s->vt->lock(s, 1, 0x1000, &b);
+    s = st->source;
+    h = st->decoder;
+    s->vt->get_chunk(s, 1, 0x1000, &b);
     if (b.size < 0x10) {
-        s->vt->unlock(s, 1, &b);
+        s->vt->unget_chunk(s, 1, &b);
         return;
     }
     n = TLobby__sub_803C3B68(h, (u16 *)b.data, b.size);
     if (n == 0 || n > b.size) {
-        s->vt->unlock(s, 1, &b);
+        s->vt->unget_chunk(s, 1, &b);
         return;
     }
-    arg0->f98 = n;
-    if (get_field_a8__6TLobbyFv(h) == 4) {
-        arg0->f3 = 1;
+    st->header_size = n;
+    if (h->get_field_a8() == 4) {
+        st->stop_when_drained = 1;
     }
-    if (get_field_a8__6TLobbyFv(h) == 2) {
-        memcpy(arg0->f58, b.data, b.size < 0x40 ? b.size : 0x40);
+    if (h->get_field_a8() == 2) {
+        memcpy(st->header, b.data, b.size < 0x40 ? b.size : 0x40);
     }
-    if (get_field_a8__6TLobbyFv(h) == 10) {
-        s->vt->unlock(s, 1, &b);
+    if (h->get_field_a8() == 10) {
+        s->vt->unget_chunk(s, 1, &b);
     } else {
-        TLobby__sub_803D3130((s32)&b, (s32)n, (u8 *)&b, (u8 *)&b2);
-        s->vt->f20(s, 0, &b);
-        s->vt->unlock(s, 1, &b2);
+        TLobby__sub_803D3130(&b, n, &b, &b2);
+        s->vt->put_chunk(s, 0, &b);
+        s->vt->unget_chunk(s, 1, &b2);
     }
-    arg0->state = 2;
+    st->state = 2;
 }
-void process_audio_stream_input(AudioStreamInputState *arg0) {
-    if (arg0->state == 2) {
-        TLobby__sub_803C0238();
-    } else if (arg0->state == 1) {
-        parse_audio_stream_input_header(arg0);
+void process_audio_stream_input(AudioStreamInputState *st) {
+    if (st->state == 2) {
+        TLobby__sub_803C0238(st);
+    } else if (st->state == 1) {
+        parse_audio_stream_input_header(st);
+    }
+}
+
+inline void feed_audio_stream_decoder(AudioStreamInputState *st) {
+    TLobby *h = st->decoder;
+    AudioStreamSource *s = st->source;
+    s32 need;
+    if (st->stop_when_drained == 1 && s->vt->get_available(s, 1) == 0) {
+        st->state = 3;
+        return;
+    }
+    s->vt->get_chunk(s, 1, 0x7FFFFFFF, &st->src_chunk);
+    if (h->get_field_a8() == 0 && st->src_chunk.size >= 2 && (u16)*(s16 *)st->src_chunk.data == 0x8001) {
+        st->state = 3;
+        s->vt->unget_chunk(s, 1, &st->src_chunk);
+        return;
+    }
+    if (st->decoded_samples >= TLobby__sub_803C3ABC((u8 *)st->decoder)) {
+        st->state = 3;
+        s->vt->unget_chunk(s, 1, &st->src_chunk);
+        return;
+    }
+    need = TLobby__sub_803C3AC4((u8 *)st->decoder);
+    if (st->rings[0]->interface->get_available(st->rings[0], 0) / 2 < need) {
+        s->vt->unget_chunk(s, 1, &st->src_chunk);
+        return;
+    }
+    if (h->get_field_a8() == 10) {
+        s->vt->unget_chunk(s, 1, &st->src_chunk);
+    }
+    h->init_scroll((s32)st->src_chunk.data, st->src_chunk.size);
+    TLobby__sub_803C3A04((u8 *)h);
+}
+
+inline void drain_audio_stream_decoder(AudioStreamInputState *st) {
+    TLobby *h = st->decoder;
+    AudioStreamSource *s = st->source;
+    SjChunk head;
+    SjChunk tail;
+    s32 total = TLobby__sub_803C3ABC((u8 *)h);
+    s32 bytes = h->get_field_0xa4();
+    s32 avail = h->get_field_a0();
+    s32 n = total - st->decoded_samples;
+    s32 i;
+    if (avail < n) {
+        n = avail;
+    }
+    TLobby__sub_803D3130(&st->src_chunk, bytes, &head, &tail);
+    s->vt->put_chunk(s, 0, &head);
+    s->vt->unget_chunk(s, 1, &tail);
+    for (i = 0; i < TLobby__sub_803C3B38((int)st->decoder); i++) {
+        TLobby__sub_803D3130(&st->out_chunks[i], n * 2, &head, &tail);
+        if (st->output_callback != NULL) {
+            st->output_callback(st->output_context, i, head.data, head.size);
+        }
+        st->rings[i]->interface->put_chunk(st->rings[i], 1, (SjChunk *)&head);
+        st->rings[i]->interface->unget_chunk(st->rings[i], 0, (SjChunk *)&tail);
+    }
+    st->output_samples += n;
+    st->consumed_bytes += bytes;
+    st->decoded_samples += n;
+    st->notify_count += n;
+    st->notify_bytes += bytes;
+    if (st->notify_samples >= 0 && st->notify_count >= st->notify_samples) {
+        if (st->notify_callback != NULL) {
+            st->notify_callback(st->notify_context);
+        }
+    }
+    TLobby__sub_803C3984((u8 *)h);
+}
+
+inline void skip_audio_stream_decoder(AudioStreamInputState *st) {
+    TLobby *h = st->decoder;
+    s32 total = TLobby__sub_803C3ABC((u8 *)h);
+    s32 bytes = h->get_field_0xa4();
+    s32 avail = h->get_field_a0();
+    s32 n = total - st->decoded_samples;
+    if (avail < n) {
+        n = avail;
+    }
+    st->output_samples += n;
+    st->consumed_bytes += bytes;
+    st->decoded_samples += n;
+}
+
+void TLobby__sub_803C0238(AudioStreamInputState *st) {
+    TLobby *h = st->decoder;
+    if (h->get_entry_id() == 0) {
+        feed_audio_stream_decoder(st);
+    }
+    TLobby__sub_803C34F4(h);
+    if (h->get_entry_id() == 3) {
+        drain_audio_stream_decoder(st);
+    }
+    if (((AudioStreamDecoder *)h)->format == 10) {
+        skip_audio_stream_decoder(st);
     }
 }
 #pragma pop
@@ -351,7 +473,7 @@ AudioStreamInputState *TLobby__sub_803C0848(AudioStreamSource *source, s32 chann
     SjRingBuffer *ring = rings[0];
     s32 size;
     for (i = 0; i < 0x10; i++) {
-        if (((AudioStreamInputState *)&lbl_80570AC0)[i].f0 == 0) {
+        if (((AudioStreamInputState *)&lbl_80570AC0)[i].in_use == 0) {
             break;
         }
     }
@@ -361,31 +483,31 @@ AudioStreamInputState *TLobby__sub_803C0848(AudioStreamSource *source, s32 chann
     st = &((AudioStreamInputState *)&lbl_80570AC0)[i];
     buffer = sj_ring_buffer_get_buffer(ring);
     size = sj_ring_buffer_get_buffer_size(ring) / 2;
-    st->f4 = alloc_record__6TLobbyFiiii(channels, buffer, size, size + sj_ring_buffer_get_extra_buffer_size(ring) / 2);
-    if (st->f4 == 0) {
+    st->decoder = alloc_record__6TLobbyFiiii(channels, buffer, size, size + sj_ring_buffer_get_extra_buffer_size(ring) / 2);
+    if (st->decoder == NULL) {
         return NULL;
     }
-    TLobby__sub_803C3B5C(st->f4, TLobby__sub_803C0628, st);
-    st->f8 = source;
-    st->f2 = channels;
+    TLobby__sub_803C3B5C(st->decoder, TLobby__sub_803C0628, st);
+    st->source = source;
+    st->channels = channels;
     for (i = 0; i < channels; i++) {
         st->rings[i] = rings[i];
     }
     st->state = 0;
-    st->f98 = 0;
-    st->f2c = 0;
-    st->f30 = 0;
-    st->f34 = 0;
-    st->f38 = 0x7FFFFFFF;
-    st->f3c = -1;
-    st->f40 = 0;
-    st->f44 = 0;
-    st->f3 = 0;
-    st->f48 = 0;
-    st->f4c = 0;
-    st->f50 = 0;
-    st->f54 = 0;
-    st->f0 = 1;
+    st->header_size = 0;
+    st->output_samples = 0;
+    st->consumed_bytes = 0;
+    st->decoded_samples = 0;
+    st->max_samples = 0x7FFFFFFF;
+    st->notify_samples = -1;
+    st->notify_count = 0;
+    st->notify_bytes = 0;
+    st->stop_when_drained = 0;
+    st->notify_callback = 0;
+    st->notify_context = 0;
+    st->output_callback = 0;
+    st->output_context = 0;
+    st->in_use = 1;
     return st;
 }
 

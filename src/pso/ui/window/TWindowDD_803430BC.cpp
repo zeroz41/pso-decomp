@@ -962,7 +962,7 @@ void *mem_alloc(u32 size);
 void *memset(void *dst, int c, u32 n);
 extern u32 TWindowDD__ws_data_base;
 extern u32 lbl_805D6E34;
-extern u32 lbl_805D6E4C;
+extern u8 *lbl_805D6E4C;
 extern DDPoint_80344114 TWindowDD__data_805434E8[][8];
 extern const DDPoint_80344114 lbl_80478568[];
 extern const f32 lbl_804785A0[];
@@ -1733,6 +1733,227 @@ s32 format_german_message__9TWindowDDFPvPvUs(DD_803461CC *src, char *window_dd, 
     window_dd[pos++] = 0;
     return pos;
 }
+
+/* Spanish word-select formatter (window mode 4; inferred: format_spanish_message, from the
+   leading "\xBF"/"\xA1" marks for the ?/! ids 0x685/0x686). */
+s32 TWindowDD__sub_80345608(DD_803461CC *src, char *window_dd, u16 arg2) {
+    s32 k;
+    s32 n;
+    s32 i;
+    s32 pos;
+    s32 s;
+    pos = i = 0;
+    n = src->count;
+    if (n == 0) {
+        window_dd[0] = i;
+        return 1;
+    }
+    switch (src->type) {
+    case 1:
+        TWindowDD__sub_8034740C(src, window_dd, &pos);
+        break;
+    case 2:
+        if (n > 2) {
+            n = 2;
+        }
+        for (k = 0; k < n; k++) {
+            if (k == 1) {
+                append_char__9TWindowDDFSclPl(0x20, window_dd, &pos);
+            }
+            TWindowDD__sub_8034886C(src->ids[k], window_dd, &pos);
+        }
+        append_char__9TWindowDDFSclPl(0x3F, window_dd, &pos);
+        if (src->count > 2) {
+            append_prompt_newline__9TWindowDDFPl(window_dd, &pos);
+            TWindowDD__sub_8034886C(src->ids[2], window_dd, &pos);
+        }
+        break;
+    case 3:
+        if (n > 1) {
+            struct { DD_803461CC dd; u8 pad[0x10]; } tmp;
+            TWindowDD__sub_80347758(src, &tmp.dd);
+            pos = TWindowDD__sub_80345608(&tmp.dd, window_dd, arg2);
+        } else {
+            TWindowDD__sub_8034886C(src->ids[0], window_dd, &pos);
+        }
+        break;
+    case 4: {
+        if (n > 3) {
+            if (src->ids[3] == 0x685) {
+                append_string__9TWindowDDFllPl("\xBF", window_dd, &pos);
+            } else if (src->ids[3] == 0x686) {
+                append_string__9TWindowDDFllPl("\xA1", window_dd, &pos);
+            }
+        }
+        s = src->ids[0];
+        if (s != 0x2C8) {
+            TWindowDD__sub_8034886C(s, window_dd, &pos);
+        }
+        k = 0;
+        if (s == 0x2C7) {
+            append_char__9TWindowDDFSclPl(0x2C, window_dd, &pos);
+            append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[0xA8C / 4], window_dd, &pos);
+            k = 2;
+        } else if (s >= 0x68C && s <= 0x697) {
+            append_char__9TWindowDDFSclPl(0x2C, window_dd, &pos);
+            append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[0xA80 / 4], window_dd, &pos);
+            k = 1;
+        } else if (s == 0x698) {
+            append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[0xA80 / 4], window_dd, &pos);
+            k = 1;
+        }
+        if (n > 1) {
+            i = src->ids[1];
+            show_message_by_count__9TWindowDDFll(window_dd, &pos);
+            if (k == 0) {
+                TWindowDD__sub_8034886C(i, window_dd, &pos);
+            } else {
+                Pair_80344980 *p;
+                if (k == 1) {
+                    p = &TWindowDD__data_805D6E40[1];
+                } else {
+                    p = &TWindowDD__data_805D6E40[0];
+                }
+                append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[p->list[i - 0x5AC]], window_dd, &pos);
+            }
+        }
+        if (n > 2) {
+            show_message_by_count__9TWindowDDFll(window_dd, &pos);
+            TWindowDD__sub_80347474(src, src->ids[2], window_dd, &pos);
+        }
+        if (n > 3) {
+            TWindowDD__sub_8034886C(src->ids[3], window_dd, &pos);
+        }
+        window_dd[0] = fn_80228C54(window_dd[0]);
+        break;
+    }
+    case 5: {
+        s32 mode;
+        if (n > 2) {
+            if (src->ids[2] == 0x685) {
+                append_string__9TWindowDDFllPl("\xBF", window_dd, &pos);
+            } else if (src->ids[2] == 0x686) {
+                append_string__9TWindowDDFllPl("\xA1", window_dd, &pos);
+            }
+        }
+        k = src->ids[0];
+        TWindowDD__sub_80347474(src, k, window_dd, &pos);
+        if (k == 0x2C4) {
+            mode = 0;
+            i = get_player_battle_flag_state__9TWindowDDFUs(arg2);
+        } else if (k == 0x2C7) {
+            mode = 2;
+            append_char__9TWindowDDFSclPl(0x2C, window_dd, &pos);
+            append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[0xA8C / 4], window_dd, &pos);
+            if (get_player_battle_flag_state__9TWindowDDFUs(arg2) == 2) {
+                i = 3;
+            } else {
+                i = 1;
+            }
+        } else if (k >= 0x68C && k <= 0x697) {
+            mode = 1;
+            append_char__9TWindowDDFSclPl(0x2C, window_dd, &pos);
+            append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[0xA80 / 4], window_dd, &pos);
+            i = get_player_battle_flag_state__9TWindowDDFUs(k - 0x68C);
+        } else {
+            mode = 3;
+            if (k == 0x2C5) {
+                i = 0;
+            } else if (k == 0x2C6) {
+                i = 2;
+            } else {
+                switch (TWindowDD__data_805D6E48[clamp_range_2C9_552__9TWindowDDFs(k)]) {
+                case 0:
+                    i = 0;
+                    break;
+                case 1:
+                    i = 1;
+                    break;
+                case 2:
+                    i = 2;
+                    break;
+                case 3:
+                    i = 3;
+                    break;
+                }
+            }
+        }
+        if (n > 1) {
+            s32 found;
+            show_message_by_count__9TWindowDDFll(window_dd, &pos);
+            k = src->ids[1];
+            switch (lbl_805D6E4C[clamp_range_5FA_682__9TWindowDDFs(k)]) {
+            case 0:
+                found = 1;
+                switch (mode) {
+                case 0:
+                    s = 0x697;
+                    break;
+                case 1:
+                    s = 0x699;
+                    break;
+                case 2:
+                    s = 0x698;
+                    break;
+                case 3:
+                    s = 0x69A;
+                    break;
+                }
+                break;
+            case 1:
+                found = 1;
+                switch (mode) {
+                case 0:
+                    s = 0x69B;
+                    break;
+                case 1:
+                    s = 0x279;
+                    break;
+                case 2:
+                    s = 0x69C;
+                    break;
+                case 3:
+                    s = 0x69D;
+                    break;
+                }
+                break;
+            case 2:
+            default:
+                found = 0;
+                break;
+            }
+            if (found != 0) {
+                append_string__9TWindowDDFllPl(TWindowDD__data_805D6E28[s], window_dd, &pos);
+                show_message_by_count__9TWindowDDFll(window_dd, &pos);
+            }
+            if (i == 0) {
+                TWindowDD__sub_80347474(src, k, window_dd, &pos);
+            } else {
+                Pair_80344980 *p;
+                if (i == 1) {
+                    p = &TWindowDD__data_805D6E44[0];
+                } else if (i == 2) {
+                    p = &TWindowDD__data_805D6E44[1];
+                } else {
+                    p = &TWindowDD__data_805D6E44[2];
+                }
+                TWindowDD__sub_803474CC(src, k, TWindowDD__data_805D6E28[p->list[clamp_range_5FA_682__9TWindowDDFs(k)]], window_dd, &pos);
+            }
+        }
+        if (n > 2) {
+            TWindowDD__sub_8034886C(src->ids[2], window_dd, &pos);
+        }
+        window_dd[0] = fn_80228C54(window_dd[0]);
+        break;
+    }
+    case 6:
+        format_type6_message__9TWindowDDFlPv(src, window_dd, &pos);
+        break;
+    }
+    window_dd[pos++] = 0;
+    return pos;
+}
+
 
 #pragma push
 #pragma opt_common_subs on

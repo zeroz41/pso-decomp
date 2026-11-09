@@ -340,7 +340,7 @@ u8 obj_isState3_324__9TObjCharaFv(u8* p);
 s32 get_type__10TObjPlayerFPv(void* p);
 void create_hit_effect__10TObjPlayerFPv(void *);
 f32 receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll(Actor_8001311C *self, Actor_8001311C *att, Info_8001311C *arg, Coll_8001311C *coll, s32 tech, s32 arg5);
-u8 obj_is_hit_receivable(u8 *arg0);
+s32 obj_is_hit_receivable(u8 *arg0);
 int get_player_data__10TObjPlayerFi(int a0);
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
@@ -4747,7 +4747,7 @@ s16 TObjPlayer::obj_getS16_116() {
 #pragma scheduling off
 #pragma scheduling on
 #pragma scheduling off
-u8 TObjChara::obj_isState3_324() {
+s32 TObjChara::obj_isState3_324() {
     return this->control_state == 3;
 }
 #pragma pop
@@ -4821,7 +4821,7 @@ void*TObjPlayer::init_192dc_return_self(void* p) { ((int (*)(void*))reset_status
 
 void TObjCollidable::interact(s32 client) { this->interactor = client; }
 
-u8 obj_is_hit_receivable(u8 *arg0) {
+s32 obj_is_hit_receivable(u8 *arg0) {
     return (u8) (*(u16 *)((s8 *)arg0 + 0x96) == 1);
 }
 

@@ -16,7 +16,6 @@ void *__nw__7TObjectFUl(int);
 void *draw_default_entry__9TWindowDDFl();
 int update_fade__11TWindowBaseFv(void*);
 
-extern "C" void TWindowDD__sub_80340A78();
 extern "C" void init__9TWindowDDFv();
 extern "C" void render_shadows__7TObjectFv();
 struct W_80340F00 { s32 f0; u8 pad4[0x14]; void *p18; u8 pad1c[0x5C - 0x1C]; s32 f5c; u8 pad60[4]; f32 f64; f32 f68; f32 f6c; };

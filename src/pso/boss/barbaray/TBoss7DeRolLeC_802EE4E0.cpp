@@ -1,11 +1,12 @@
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowCtrl.h"
 
 struct RecoveredGlobal_802EE4E0_lbl_804E3C5C {
     s32 value;
-    u8 remaining[0x48];
+    u8 remaining[0x2C];
 };
 
 
@@ -17,12 +18,9 @@ u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void run_load_callback_table(void *, int);
 extern s32 lbl_804E3D1C[];
 extern const f32 lbl_805DEA10;
-void *TBoss7DeRolLeC__ct(void *, void *, void *);
-void *__nw__7TObjectFUl(int);
 
-extern void *tl_04;
 
-typedef char RecoveredGlobal_802EE4E0_lbl_804E3C5C_size[sizeof(RecoveredGlobal_802EE4E0_lbl_804E3C5C) == 0x4C ? 1 : -1];
+typedef char RecoveredGlobal_802EE4E0_lbl_804E3C5C_size[sizeof(RecoveredGlobal_802EE4E0_lbl_804E3C5C) == 0x30 ? 1 : -1];
 void TBoss7DeRolLeC::run_exit_callbacks() {
     call_funcs_reverse__6TLobbyFPvUi((s32) &lbl_804E3C5C.value, 0x30U);
     if ((void *) lbl_805D6918 != NULL) {
@@ -32,11 +30,7 @@ void TBoss7DeRolLeC::run_exit_callbacks() {
 }
 
 void *TBoss7DeRolLeC::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x7D4);
-    if (o != NULL) {
-        o = TBoss7DeRolLeC__ct(o, tl_04, arg0);
-    }
-    return o;
+    return new TBoss7DeRolLeC(tl_04, arg0);
 }
 void TObjPlayer__sub_802EE574(void) {
     s32 i;

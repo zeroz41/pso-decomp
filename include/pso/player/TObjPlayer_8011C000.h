@@ -11,7 +11,7 @@ s32 get_item_star_count(s32 id);
 s32 get_item_stat_boost_record(s32 arg0, s32 type, s32 id);
 s32 get_mag_feed_result(s32 arg0, s32 arg1);
 extern "C" {
-u8 get_technique_learn_limit(s8 arg0, u8 arg1);
+u8 get_technique_learn_limit(u8 arg0, u8 arg1);
 s32 get_unit_attribute_index__10TObjPlayerFUc(u8 arg0);
 u8 get_weapon_class_motion_type(u8 arg0);
 void get_weapon_special_type_amount(u32 x, s16 *a, s16 *b);
@@ -27,7 +27,7 @@ extern "C" {
 void find_tool_pmt_base_id(s32 arg0, u8 *arg1);
 f32 get_item_price_coefficient(u8 arg0, u8 arg1);
 s32 get_item_star_count(s32 id);
-u8 get_technique_learn_limit(s8 arg0, u8 arg1);
+u8 get_technique_learn_limit(u8 arg0, u8 arg1);
 u8 get_weapon_class_motion_type(u8 arg0);
 void get_weapon_special_type_amount(u32 x, s16 *a, s16 *b);
 u8 roll_weapon_special_for_stars(u8 arg0);

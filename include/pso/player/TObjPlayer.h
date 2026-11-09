@@ -468,7 +468,7 @@ struct TObjPlayer : public TObjChara {
     static u8 get_next_matching_special_index(u8 arg0);
     static void free_item_globals();
     static void init_game_resources();
-    u8 is_script_controlled();
+    s32 is_script_controlled();
     int activate_d04_slot();
     void spawn_hit_particle_trio();
     static void forward_item_effect_callback(s32 arg0, s32 arg1);
@@ -746,7 +746,7 @@ struct TObjPlayer : public TObjChara {
     void complete_guard_reaction();
     static void select_hit_action(s32 arg0);
     static void create_photon_blast_party_effects(s32 arg0);
-    static u8 *find_photon_blast_by_section_id(s32 arg0);
+    static u8 *find_photon_blast_by_section_id(u16 section_id);
     static s32 get_current_target_id();
     static void update_photon_blast_state();
     static void apply_photon_blast(s32 arg0, s32 arg1);
@@ -1195,7 +1195,7 @@ struct TObjPlayer : public TObjChara {
     void reset_tech_state();
     static void load_lobby_pigeon_resource();
     void *create_object_by_type();
-    void *find_by_section_id(s32 section);
+    void *find_by_section_id(u16 section);
     void create_party_effects(s32 id);
     u16 find_first_valid_target_id();
     void process_all_elements();

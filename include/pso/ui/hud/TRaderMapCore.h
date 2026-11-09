@@ -80,7 +80,8 @@ struct TRaderMapCore : public TObjBase {
     static void create();
     static void unload_floor_map();
     static void load_map_resources();
-    static s32 apply_compass_param();
+    static s32 apply_compass_param(s32 *counter);
+    void draw_compass(s32 mode);
     static void free_statics();
     static void load_frame_texture();
     void reset();

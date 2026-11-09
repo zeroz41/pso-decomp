@@ -435,7 +435,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/unk/TLobby_80103F5C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/TDuelEffectCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/TDuelEffectNumber.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/effect/TDuelEffectNumber_80080290.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/effect/TDuelEffectNumber_80080290.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-fp_contract on")},
     "pso/effect/TEffClitical.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/item/TItemEffArmor.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/item/TItemEffBringer.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -464,6 +464,18 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/city/TShopKeepItemWindow.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/npc/TNpcPlayer.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/window/TWindowMainMenu_802AD538.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # -fp_contract on: 0x80257024 fuses its depth math (0.299f * depth + parent depth) into fmadds; the
+    # unit's other functions are the same either way (its twin draw_gauge in _8025737C needs it too).
+    "pso/ui/window/TWindowSubStatusDisp_80256B94.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
+    # -fp_contract on: the scroll bar render 0x80340A78 fuses its cap and thumb math into fmadds/fnmsubs;
+    # the unit's other functions are the same either way.
+    "pso/ui/window/TWindowDD.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
+    # -fp_contract on: handle_scroll_input, get_cursor_pos and the strip draw 0x80341674 fuse into fmadds
+    # (they were the unit's fp_contract pragma regions); the other functions are the same either way.
+    "pso/ui/window/TWindowDD_80341A08.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
+    # -str readonly: every string of this unit is read-only data ("SELECT"/"NEXT" of the constructor in .rodata,
+    # the Spanish "\xBF"/"\xA1" marks of 0x80345608 in .sdata2, each pooled once).
+    "pso/ui/window/TWindowDD_803430BC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowCtrlMain.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/frontend/TAdSelectTxtSubGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdBackGC_8029A6EC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -623,6 +635,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/trap/TOExplosiveMachine.cpp": {"mw_version": "GC/2.0"},
     "pso/enemy/slime/TObjEneSlimeTailAttack.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline on,deferred", "-fp_contract on", "-str reuse,readonly")},
     "pso/boss/goldragon/TBoss8Dragon.cpp": {"mw_version": "GC/2.0"},
+    # TBoss2DeRolLe__sub_8002FE60: its expanded instance-data struct copy hoists the next load above the
+    # last store only under 2.0; every other function of the unit compiles the same.
+    "pso/boss/derolle/TBoss2DeRolLe.cpp": {"mw_version": "GC/2.0"},
     "pso/effect/TEffIndirectCtrl.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/boss/darkfalz/TObjDFDemo1.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     # -sdata 4: the 8-byte motion id table 0x804EF9D8 sits in .data, the 4-byte class name in .sdata.
@@ -652,7 +667,13 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # GC/1.3: the compiler-generated TMenuList<> copy constructor.
     "pso/network/TRegister.cpp": {"mw_version": "GC/1.3"},
     "pso/player/TPlyGuildCardTag_801E0284.cpp": {"mw_version": "GC/1.3"},
+    # fill_date_from_seconds stores the month between the days[m - 1] load and the subtraction only
+    # under 1.3-2.0 (2.6 schedules the store after it).
+    "pso/system/data/pso_date.cpp": {"mw_version": "GC/1.3"},
     "pso/network/TPlyStartGame.cpp": {"mw_version": "GC/1.3"},
+    # TShopItemListWindow: handle_amount_confirm compiles identical only under 1.3-2.0 (2.5/2.6
+    # schedule it differently); every other function of the unit compiles the same.
+    "pso/ui/city/TShopItemListWindow.cpp": {"mw_version": "GC/1.3"},
     "pso/ui/window/TWindowShortListCtrl_8026E7DC.cpp": {"mw_version": "GC/1.3", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # Deferred inlining: functions come out in reverse source order and the
     # vtables before the switch tables in .data.

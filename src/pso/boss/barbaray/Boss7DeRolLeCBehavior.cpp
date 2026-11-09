@@ -875,8 +875,8 @@ void TBoss7DeRolLeC::sub_802E8234() {
     lbl_805D6924 = this->unk_628;
     lbl_805D6920 = 0;
     lbl_805D6928 = (long) (((u8 *)this) + 0x3EC);
-    lbl_805D6930 = this->unk_6D8;
-    lbl_805D6934 = this->unk_6D4;
+    lbl_805D6930 = (s32)this->unk_6D8;
+    lbl_805D6934 = (s32)this->unk_6D4;
     lbl_805D692C = (long) (((u8 *)this) + 0x4DC);
     lbl_805D6944 = (long) (((u8 *)this) + 0x7B4);
 }

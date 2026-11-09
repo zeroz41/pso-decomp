@@ -32,6 +32,7 @@ void PSMTXScaleApply(const GC_Mtx src, GC_Mtx dest, f32 xS, f32 yS, f32 zS);
 void PSMTXQuat(GC_Mtx mtx, const PSQuaternion* quat);
 
 void PSVECNormalize(const Vec* src, Vec* dst);
+f32 PSVECDistance(const Vec* a, const Vec* b);
 void PSMTXMultVec(const GC_Mtx m, const Vec* src, Vec* dst);
 
 void PSMTXMultVec(const GC_Mtx, const Vec*, Vec*);

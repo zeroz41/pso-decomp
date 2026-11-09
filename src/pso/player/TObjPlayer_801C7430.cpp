@@ -9,6 +9,7 @@
 #include "pso/unk/TUnk_804DDD28.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_801C7430.h"
 #include "pso/player/PlayerAttackController.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
@@ -1391,7 +1392,6 @@ void TObjPlayer__sub_801CBB80(void);
 void run_guard_reaction_phase__10TObjPlayerFis(s32 arg0, s16 arg1);
 void update_active_instance__10TObjPlayerFi(s32 arg0);
 void release_all_players_control_lock(void);
-void release_photon_blast_player_holds(u16 *p);
 void handle_6x36(void);
 void handle_6x37_photon_blast(s32 arg0);
 void handle_6x49_execute_photon_blast(void *arg0);
@@ -1593,7 +1593,6 @@ void admit_photon_blast_sequence(u8 *players, void *self);
 void calc_death_sink_offset(void *arg0);
 void reset_player_appearance_opacity(void *a0);
 void remove_photon_blast_participant(s32 arg0);
-void freeze_players_for_photon_blast(s16 arg0, u16 *arg1);
 void send_photon_blast_targets_packet(u8 *arg0);
 void init_6x48_cast_complete_packet(u8 *arg0);
 void init_6x8D_technique_level_packet(u8 *arg0);
@@ -1607,7 +1606,6 @@ void add_photon_blast_charge(u8 *arg0, f32 farg0);
 void create_technique_charge_light(u32 kind, void *owner);
 void release_photon_blast_requests(void *registry);
 extern "C" {
-u8 * find_by_section_id__10TObjPlayerFl(void *, int);
 s32 find_first_valid_target_id__10TObjPlayerFv(void*);
 void TObjPlayer__sub_80312E98(void *, s32);
 s32 append_photon_blast_request(u32, s32, s32);
@@ -3941,9 +3939,9 @@ void TObjPlayer::create_photon_blast_party_effects(s32 arg0) {
     }
 }
 
-u8 *TObjPlayer::find_photon_blast_by_section_id(s32 arg0) {
+u8 *TObjPlayer::find_photon_blast_by_section_id(u16 section_id) {
     if ((void *) TObjPlayer__shared_photon_blast_state != NULL) {
-        return find_by_section_id__10TObjPlayerFl(TObjPlayer__shared_photon_blast_state, arg0);
+        return (u8 *)((TObjPlayer *)TObjPlayer__shared_photon_blast_state)->find_by_section_id(section_id);
     }
     return NULL;
 }

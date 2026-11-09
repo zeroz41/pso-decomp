@@ -2,6 +2,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/TObjEZRopeBase.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/player/TObjPlayer_803DF7A8.h"
 struct Vec_800FF8CC {
     f32 x, y, z;
 };
@@ -44,12 +45,78 @@ struct Obj_800FF788 {
 
 extern "C" {
 void vec3_add_to(Vec_800FF8CC *, Vec_800FF8CC *);
-void fn_800FF580(void *, void *, f32);
+void fn_800FF580(Obj_800FF788 *self, Vec_800FF788 *p, f32 len);
 f32 vector_length(void *);
 void subtract_vector(void *, void *);
 void normalize_vector(void *);
 extern const f32 lbl_805DAA58;
 extern const f32 lbl_805DAA5C;
+
+extern const f32 lbl_805DAA64;
+
+// One of the rope's collision spheres; the list ends at a negative radius.
+struct Collider_800FF580 {
+    f32 radius;
+    Vec_800FF788 center;
+};
+
+void fn_800FF580(Obj_800FF788 *self, Vec_800FF788 *p, f32 len) {
+    Vec_800FF788 v = *p;
+    Vec_800FF788 hit;
+    s32 iter;
+    Collider_800FF580 *c;
+    f32 push;
+    f32 d;
+    f32 best;
+    f32 half;
+    f32 reach;
+    f32 zero;
+
+    iter = 16;
+    half = lbl_805DAA64 * len;
+    zero = lbl_805DAA58;
+    while (1) {
+        best = lbl_805DAA58;
+        for (c = (Collider_800FF580 *)self->flag; c->radius >= zero; c++) {
+            reach = half + c->radius;
+            d = xyz_distance((Vec *)&v, (Vec *)&c->center);
+            if (d < reach && reach - d > best) {
+                best = reach - d;
+                push = reach;
+                VecCopy((Vec *)&hit, (const Vec *)&c->center);
+            }
+        }
+        if (iter <= 0 || zero == best) {
+            VecCopy((Vec *)p, (const Vec *)&v);
+            return;
+        }
+        subtract_vector(&v, &hit);
+        if (zero == vector_length(&v)) {
+            v.x = zero;
+            v.y = lbl_805DAA5C;
+            v.z = zero;
+        } else {
+            normalize_vector(&v);
+        }
+        v.x *= push;
+        v.y *= push;
+        v.z *= push;
+        vec3_add_to((Vec_800FF8CC *)&v, (Vec_800FF8CC *)&hit);
+        subtract_vector(&v, p - 1);
+        if (zero == vector_length(&v)) {
+            v.x = zero;
+            v.y = lbl_805DAA5C;
+            v.z = zero;
+        } else {
+            normalize_vector(&v);
+        }
+        v.x *= len;
+        v.y *= len;
+        v.z *= len;
+        vec3_add_to((Vec_800FF8CC *)&v, (Vec_800FF8CC *)(p - 1));
+        iter--;
+    }
+}
 
 void TObjEZRopeBase::sub_800FF788(void *mtx) {
     Seg_800FF788 *seg;

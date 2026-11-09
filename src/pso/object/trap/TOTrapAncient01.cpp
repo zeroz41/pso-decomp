@@ -21,12 +21,29 @@
 #include <stdlib.h>
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/render/render_util.h"
+#include "pso/render/model_render_state.h"
+#include "pso/math/ScratchVectors.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/player/TUnk_804B6C24.h"
+#include "pso/boss/volopt/TObjVoloptCage.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/network/client_id.h"
+#include "pso/unk/TLobby.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_800FD8A0.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/object/TObjChip.h"
+#include "pso/system/SoundEffect.h"
 
-struct RecoveredGlobal_80179E34_lbl_804B4834
-{
-  s32 value;
-  u8 remaining[0xC];
-};
+extern BmlResource *TOTrapAncient01__bml_resource;
+extern BmlResourceDescriptor bm_o_trap_ancient01_resource_descriptor;
 
 struct E_8017A1A4 { u8 pad[0xc]; f32 f; u8 pad2[0x2c - 0x10]; };
 
@@ -128,62 +145,32 @@ struct Trap_80179B8C : VObj_80179B8C {
 };
 
 extern "C" {
-void receive_physical_attack__6TOTrapFPvf(void *, void *, f32);
-u16 get_entity_id(void *);
-void obj_clear_flag30_20000(void *arg0);
-s32 check_player_flag1__6TLobbyFv();
-extern s32 local_client_id;
-s32 TObjFish__sub_8001EDB0(void *, s32);
-s32 get_bml_model(void *, s32);
-u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern RecoveredGlobal_80179E34_lbl_804B4834 bm_o_trap_ancient01_resource_descriptor;
-extern u32 TOTrapAncient01__bml_resource;
 extern const f32 TOTrapAncient01__data_805DBA4C;
 extern const f32 lbl_805DBA5C;
 f32 TObjPlayer__sub_8017A1A4(Obj_8017A1A4 *self, s32 i);
-s32 free_collision_body_parts(void *);
 s32 __destroy_arr(void *, void *, int, int);
 void __dl__7TObjectFPv(void *);
 extern s32 __vt__15TOTrapAncient01[];
 Self_80179EC0 *__dt__15TOTrapAncient01Fv(Self_80179EC0 *self, s16 flag);
-s32 init_collision_body_parts(void *, void *, int);
 void TOTrap__ct(void *, void *, void *);
 void __construct_array(void *, void *, void *, int, int);
 void __ct__15RenderFadeStateFv(void *);
-extern s32 lbl_804B4844[];
+extern CollisionBody lbl_804B4844[];
 extern s32 TOTrapAncient01__class_name;
 extern const f32 lbl_805DBA54;
 extern const f32 lbl_805DBA6C;
 extern const f32 lbl_805DBA74;
 VObj_801797D4 *get_battle_param__10TObjPlayerFi(s32);
-s32 obj_is_hit_receivable(void *);
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
-void play_persistent_sound(s32, void *, void *, s32, s32);
 extern s32 lbl_805D3530;
 extern const f32 lbl_805DBA48;
-s32 is_split_screen();
-s32 get_camera_mode__11TCameraCtrlFv();
 void update__15RenderFadeStateFv(void *);
-int rotate_matrix_y(int, int);
-int push_matrix();
-int post_translate_matrix(void *);
-extern s32 model_render_flags;
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
 extern const f32 lbl_805DBA58;
 extern const f32 lbl_805DBA60;
 extern const f32 lbl_805DBA64;
 extern const f32 lbl_805DBA68;
 void render__15TOTrapAncient01Fv(Trap_80179B8C *self);
-void TLobby__sub_8001FE7C(void*, int);
-void fn_80141CF0(void *, void *, void *);
 void TOTrapAncient02R__sub_80154D78(void *);
-void *__nw__7TObjectFUl(int);
-s32 is_current_room(void *);
-
 void TOTrap::apply_knockback_from_attacker(u8 *, f32) {  }
 void TOTrapAncient01::vfunc_86() {  }
 void TOTrapAncient01::vfunc_88() {  }
@@ -200,37 +187,91 @@ void TOTrapAncient01::vfunc_6(s16 *arg1, s32 arg2) {
 }
 
 void TOTrapAncient01::release_trapped_player() {
-    s32 temp_r3;
-    s32 temp_r3_2;
+    TObjPlayer *player;
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        if (this->target != NULL) {
-            temp_r3 = (s32)get_player_by_client_id((get_entity_id(this->target)));
-            if (temp_r3 != 0) {
-                if (check_player_flag1__6TLobbyFv() != 0) {
-                    TObjPlayer::send_code_45_1(temp_r3);
+        if (target != NULL) {
+            player = get_player_by_client_id(get_entity_id((TObjBase *)target));
+            if (player != NULL) {
+                if (((TLobby *)player)->check_player_flag1() != 0) {
+                    TObjPlayer::send_code_45_1((s32)player);
                 }
-                obj_clear_flag30_20000((void *)temp_r3);
+                obj_clear_flag30_20000(player);
             }
         }
-    } else if ((this->target != NULL) && ((s32) local_client_id == (s32) get_entity_id(this->target))) {
-        temp_r3_2 = (s32)get_player_by_client_id(local_client_id);
-        if (temp_r3_2 != 0) {
-            if (check_player_flag1__6TLobbyFv() != 0) {
-                TObjPlayer::send_code_45_1(temp_r3_2);
+    } else if (target != NULL && local_client_id == get_entity_id((TObjBase *)target)) {
+        player = get_player_by_client_id(local_client_id);
+        if (player != NULL) {
+            if (((TLobby *)player)->check_player_flag1() != 0) {
+                TObjPlayer::send_code_45_1((s32)player);
             }
-            obj_clear_flag30_20000((void *)temp_r3_2);
+            obj_clear_flag30_20000(player);
         }
     }
 }
 
+extern const TObjChipParams lbl_80442D80;
+extern const TObjChipParams lbl_80442DCC;
+extern const TObjChipParams lbl_80442E18;
+void TOTrapAncient01::play_sounds() {
+    TObjChipParams chip0 = lbl_80442D80;
+    chip0.pos[0] = position.x;
+    chip0.pos[1] = position.y;
+    chip0.pos[2] = position.z;
+    chip0.pad_38[0] = position.y;
+    chip0.model = get_bml_model(TOTrapAncient01__bml_resource, 0);
+    chip0.textures = TObjFish__sub_8001EDB0(TOTrapAncient01__bml_resource, 0);
+    TObjChipParams chip1 = lbl_80442DCC;
+    chip1.pos[0] = position.x;
+    chip1.pos[1] = position.y;
+    chip1.pos[2] = position.z;
+    chip1.pad_38[0] = position.y;
+    chip1.model = get_bml_model(TOTrapAncient01__bml_resource, 1);
+    chip1.textures = TObjFish__sub_8001EDB0(TOTrapAncient01__bml_resource, 1);
+    TObjChipParams chip2 = lbl_80442E18;
+    chip2.pos[0] = position.x;
+    chip2.pos[1] = position.y;
+    chip2.pos[2] = position.z;
+    chip2.pad_38[0] = position.y;
+    chip2.model = get_bml_model(TOTrapAncient01__bml_resource, 2);
+    chip2.textures = TObjFish__sub_8001EDB0(TOTrapAncient01__bml_resource, 2);
+    new TObjChip(tl_06, &chip0);
+    new TObjChip(tl_06, &chip1);
+    new TObjChip(tl_06, &chip2);
+    TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect(&position, 0x8B);
+    if (particle != NULL) {
+        particle->set_scale(1.25f, 1.25f);
+    }
+    switch (get_current_floor_area()) {
+    case AREA_SEABED_UPPER:
+    case AREA_SEABED_LOWER:
+        play_sound_effect(0x4004C118, &position, 0, 0);
+        break;
+    case AREA_VR_TEMPLE_ALPHA:
+    case AREA_VR_TEMPLE_BETA:
+        play_sound_effect(0x4BC07, &position, 0, 0);
+        break;
+    case AREA_VR_SPACESHIP_ALPHA:
+    case AREA_VR_SPACESHIP_BETA:
+        play_sound_effect(0x4004BC07, &position, 0, 0);
+        break;
+    case AREA_SEASIDE_NIGHT:
+        play_sound_effect(0x4004BC19, &position, 0, 0);
+        break;
+    case AREA_TOWER:
+        play_sound_effect(0x4004BC19, &position, 0, 0);
+        break;
+    default:
+        play_sound_effect(0x4004BC12, &position, 0, 0);
+        break;
+    }
+}
+
 f32 TOTrapAncient01::receive_physical_attack(void *arg1, f32 farg0) {
-    this->release_trapped_player();
-    receive_physical_attack__6TOTrapFPvf(this, arg1, farg0);
+    release_trapped_player();
+    return TOTrap::receive_physical_attack(arg1, farg0);
 }
 
 void TOTrapAncient01::vfunc_84() {  }
-
-extern void *tl_05;
 
 void TOTrapAncient01::vfunc_82() {
     s32 i;
@@ -247,7 +288,7 @@ void TOTrapAncient01::vfunc_82() {
             if (p == 0) {
                 break;
             }
-            if (obj_is_hit_receivable(p) == 0) {
+            if (obj_is_hit_receivable((u8 *)p) == 0) {
                 break;
             }
             if (check_value_equals__13TUnk_804B6C24Fl(p, lbl_805D3530) == 0) {
@@ -268,11 +309,11 @@ void TOTrapAncient01::vfunc_82() {
     case AREA_RUINS1:
     case AREA_RUINS2:
     case AREA_RUINS3:
-        play_persistent_sound(0x4004C618, ((Trap_801797D4 *)this), (u8 *)((Trap_801797D4 *)this) + 0x38, 0, 0);
+        play_persistent_sound(0x4004C618, (s32)this, (u32)&position, 0, 0);
         break;
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_persistent_sound(0x4004C610, ((Trap_801797D4 *)this), (u8 *)((Trap_801797D4 *)this) + 0x38, 0, 0);
+        play_persistent_sound(0x4004C610, (s32)this, (u32)&position, 0, 0);
         break;
     case AREA_PIONEER2_EP1:
         return;
@@ -313,6 +354,65 @@ void TOTrapAncient01::vfunc_82() {
     }
 }
 
+void TOTrapAncient01::vfunc_81() {
+    TObjPlayer *player;
+    f32 dist;
+    scale.y += scale_step;
+    if (TOTrapAncient01__data_805DBA4C < scale.y) {
+        switch (get_current_floor_area()) {
+        case AREA_PIONEER2_EP1:
+            break;
+        case AREA_CAVE1:
+        case AREA_CAVE2:
+        case AREA_CAVE3:
+            play_persistent_sound(0x4321A, (s32)this, (u32)&position, 0, 0);
+            break;
+        case AREA_MINE1:
+        case AREA_MINE2:
+            play_persistent_sound(0x4004B211, (s32)this, (u32)&position, 0, 0);
+            break;
+        case AREA_RUINS1:
+        case AREA_RUINS2:
+        case AREA_RUINS3:
+            play_persistent_sound(0x4004B217, (s32)this, (u32)&position, 0, 0);
+            break;
+        case AREA_VR_SPACESHIP_ALPHA:
+        case AREA_VR_SPACESHIP_BETA:
+            play_persistent_sound(0x4004B212, (s32)this, (u32)&position, 0, 0);
+            break;
+        }
+    } else {
+        mode = 3;
+        scale.y = TOTrapAncient01__data_805DBA4C;
+        calc_attach_pos();
+        clear_player_status_flag(0, 0x08001F04);
+        set_indexed_flags(0, 0x8003);
+        obj_clearFlags30(0x40000);
+        spawn_particle_effect(&position, 0x8F);
+        spawn_particle_effect(&position, 0x8F);
+        this->player = find_nearest_visible_player((TObjEnemy *)this, NULL, range);
+        if (this->player != 0xFFFF) {
+            player = get_player_by_client_id(this->player);
+            target = (u8 *)player;
+            if (target != NULL) {
+                dist = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
+                this->dist -= TObjPlayer__sub_8017A1A4((Obj_8017A1A4 *)player, 0);
+                if (dist < this->dist * this->dist) {
+                    if (TObjPlayer::is_locally_controlled(target) != 0) {
+                        send_6x2C_impose_hold(player, &position, -1, 0, this->dist);
+                        obj_set_flag_20000(player);
+                    }
+                } else {
+                    this->player = 0xFFFF;
+                    target = NULL;
+                }
+            }
+        } else {
+            target = NULL;
+        }
+    }
+}
+
 #pragma push
 #pragma opt_lifetimes off
 #pragma fp_contract on
@@ -323,10 +423,10 @@ void render__15TOTrapAncient01Fv(Trap_80179B8C *self) {
     Vec_80179B8C v;
     i = 0;
     if (is_split_screen() != 0) {
-        i = get_camera_mode__11TCameraCtrlFv();
+        i = TCameraCtrl::get_camera_mode();
     }
     fade = &self->fades[i];
-    update__15RenderFadeStateFv(fade);
+    ((RenderFadeState *)fade)->update();
     self->f340 = self->m8(lbl_805DBA58, lbl_805DBA5C);
     if (self->f340 == 1) {
         if (((RenderFadeState *)fade)->updateFromCamera((const f32*)(self->pos38)) == 1) {
@@ -336,23 +436,23 @@ void render__15TOTrapAncient01Fv(Trap_80179B8C *self) {
             fade->m6();
         }
         push_matrix();
-        post_translate_matrix(self->pos38);
-        rotate_matrix_y(0, self->f60);
+        post_translate_matrix((const f32 *)self->pos38);
+        rotate_matrix_y(NULL, self->f60);
         if (TObjPlayer::check_demo_mode() != 1 && self->f6C <= TOTrapAncient01__data_805DBA4C) {
             v.x = lbl_805DBA60 * (lbl_805DBA64 * (f32)rand()) - lbl_805DBA68;
             v.y = TOTrapAncient01__data_805DBA4C;
             v.z = lbl_805DBA60 * (lbl_805DBA64 * (f32)rand()) - lbl_805DBA68;
-            post_translate_matrix(&v);
+            post_translate_matrix(&v.x);
         }
         TObjFish::set_global_param(self->f24);
         n = self->model;
         push_matrix();
         translate_matrix(0, TOTrapAncient01__data_805DBA4C, self->f6C, TOTrapAncient01__data_805DBA4C);
-        post_translate_matrix(n->mtx);
+        post_translate_matrix((const f32 *)n->mtx);
         draw_ginja_model(self->model->f4);
         n = n->child;
         push_matrix();
-        post_translate_matrix(n->mtx);
+        post_translate_matrix((const f32 *)n->mtx);
         TParticleCtrl::begin_effect_render();
         draw_ginja_model(n->f4);
         TParticleCtrl::end_effect_render();
@@ -370,7 +470,7 @@ void render__15TOTrapAncient01Fv(Trap_80179B8C *self) {
 #pragma pop
 
 void *TOTrapAncient01::create() {
-    void *o = __nw__7TObjectFUl(0x3C8);
+    void *o = TObject::operator new(0x3C8);
     if (o != NULL) {
         o = TOTrapAncient01__ct(o, tl_05, this);
     }
@@ -378,39 +478,26 @@ void *TOTrapAncient01::create() {
 }
 
 void TOTrapAncient01::release_static_resource() {
-    if ((u32) TOTrapAncient01__bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TOTrapAncient01__bml_resource, 1);
-        TOTrapAncient01__bml_resource = 0U;
+    if (TOTrapAncient01__bml_resource != NULL) {
+        TLobby__sub_8001FE7C(TOTrapAncient01__bml_resource, 1);
+        TOTrapAncient01__bml_resource = NULL;
     }
 }
 
-extern s32 scratch_vec[];
-extern s32 trap_ancient_light_color[];
-
-typedef struct RecoveredGlobal_80179E34_lbl_804B4834 RecoveredGlobal_80179E34_lbl_804B4834;
 void TOTrapAncient01::load_resources() {
-  s32 temp_r31;
-  int new_var;
-  s32 temp_r3;
-  s32 var_r0;
-  temp_r3 = (int)::operator new(0x440);
-  var_r0 = temp_r3;
-  temp_r31 = var_r0;
-  new_var = 0;
-  if (temp_r31 != new_var)
-  {
-    var_r0 = (long) load_resource_from_descriptor((void *) temp_r3, 1, &bm_o_trap_ancient01_resource_descriptor.value, 0, 0, 0);
-  }
-  (*(u8 * *)&TOTrapAncient01__bml_resource) = (unsigned char *) ((void *) var_r0);
-  temp_r31 = TObjFish__sub_8001EDB0((void *) var_r0, 3);
-  TMotorcycle::add_entry(0x39, (int) get_bml_model((*(u8 * *)&TOTrapAncient01__bml_resource), 3), (int) temp_r31, (f32) lbl_805DBA5C, (f32) TOTrapAncient01__data_805DBA4C);
+    BmlResource *resource = (BmlResource *)::operator new(0x440);
+    if (resource != NULL) {
+        resource = load_resource_from_descriptor(resource, 1, &bm_o_trap_ancient01_resource_descriptor, 0, 0, 0);
+    }
+    TOTrapAncient01__bml_resource = resource;
+    TMotorcycle::add_entry(0x39, get_bml_model(TOTrapAncient01__bml_resource, 3), TObjFish__sub_8001EDB0(resource, 3), lbl_805DBA5C, TOTrapAncient01__data_805DBA4C);
 }
 
 Self_80179EC0 *__dt__15TOTrapAncient01Fv(Self_80179EC0 *self, s16 flag) {
     if (self != 0) {
         self->vt = __vt__15TOTrapAncient01;
         ((TObjCollidable *)self)->unregister_object_by_id();
-        free_collision_body_parts(self);
+        free_collision_body_parts((TObjCollidable *)self);
         __destroy_arr(self->arr, (void *)__dt__15RenderFadeStateFv, 0x1C, 4);
         __dt__6TOTrapFv(self, 0);
         if (flag > 0) {
@@ -432,8 +519,8 @@ void *TOTrapAncient01__ct(void *arg0, void *arg1, void *arg2) {
     ((TOTrapAncient01 *)arg0)->apply_object_set_data((void *)((s32)arg2));
     ((TObjPlayer *)arg0)->init_position_vectors();
     ((TObjChara *)arg0)->calc_attach_pos();
-    *(s32 *)((s8 *)self + 0x34) = get_bml_model((void *)TOTrapAncient01__bml_resource, 3);
-    *(s32 *)((s8 *)self + 0x24) = TObjFish__sub_8001EDB0((void *)TOTrapAncient01__bml_resource, 3);
+    *(s32 *)((s8 *)self + 0x34) = get_bml_model(TOTrapAncient01__bml_resource, 3);
+    *(s32 *)((s8 *)self + 0x24) = TObjFish__sub_8001EDB0(TOTrapAncient01__bml_resource, 3);
     *(s16 *)((s8 *)self + 0x326) = 0;
     *(f32 *)((s8 *)self + 0x334) = 0.5f * *(f32 *)((s8 *)self + 0x68) + 30.0f;
     if (*(f32 *)((s8 *)self + 0x6C) < 0.0f) {
@@ -463,7 +550,7 @@ void *TOTrapAncient01__ct(void *arg0, void *arg1, void *arg2) {
     *(s32 *)((s8 *)self + 0x344) = *(s32 *)((s8 *)self + 0x88);
     *(f32 *)((s8 *)self + 0x338) = lbl_805DBA54;
     *(u16 *)((s8 *)self + 0x33C) = 0xFFFF;
-    init_collision_body_parts(arg0, lbl_804B4844, 1);
+    init_collision_body_parts((TObjCollidable *)arg0, lbl_804B4844, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     *(u32 *)((s8 *)self + 0x30) |= 0x60040000;
     ((TObjChara *)arg0)->get_or_assign_entity_id(0);
@@ -481,10 +568,8 @@ f32 TObjPlayer__sub_8017A1A4(Obj_8017A1A4 *self, s32 i) {
 }
 
 void TOTrapAncient02R::vfunc_86() {
-    s32 x;
-    x = is_current_room(this);
-    if (x == 1) {
-        fn_80141CF0((void *)((char *)this + 80), scratch_vec, trap_ancient_light_color);
+    if (is_current_room(this) == 1) {
+        fn_80141CF0(&home_position, &scratch_vec, &trap_ancient_light_color);
         TOTrapAncient02R__sub_80154D78(this);
     }
 }

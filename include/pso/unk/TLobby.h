@@ -315,7 +315,7 @@ struct TLobby : public TObject {
     void *free_boss4rock(s16 arg1);
     static void append_swapped_u32(s32 *arg0);
     void append_entity_entry();
-    static u32 clamp_min_drop(u32 arg0);
+    static u32 clamp_min_drop(u32 min, u32 max);
     static void free_boss4rock();
     void bswap_quad_word();
     void bswap_vec3();
@@ -529,7 +529,7 @@ struct TLobby : public TObject {
     s32 get_field_28();
     s16 get_slot();
     s32 get_packet_flag_for_state();
-    s16 get_field_a8();
+    s32 get_field_a8();
     s32 get_field_0x3c();
     void clear_record();
     s32 is_spsd_header();

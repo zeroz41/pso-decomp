@@ -39,7 +39,6 @@ s32 next_event_shuffle_entry(EventShuffleTable *s);
 extern s32 lbl_805D60A4;
 Ent_802098AC *lbl_805D60B8;
 extern "C" {
-s16 clamp_min_drop__6TLobbyFUl(s32, s32);
 extern u8 *TLobby__item_data_table_buffer;
 void TLobby__sub_802099FC(Out_802099FC *arg0, s32 arg1);
 extern s32 item_drop_rng;
@@ -132,7 +131,7 @@ void TLobby__sub_802099FC(Out_802099FC *arg0, s32 key) {
         arg0->f[4] = r.f[4];
         arg0->f40 = r.h[1];
         arg0->f42 = r.h[0];
-        arg0->f6 = clamp_min_drop__6TLobbyFUl(r.h[4], r.h[5] + 1);
+        arg0->f6 = TLobby::clamp_min_drop(r.h[4], r.h[5] + 1);
     }
 }
 }

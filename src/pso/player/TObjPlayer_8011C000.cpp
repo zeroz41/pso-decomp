@@ -165,8 +165,8 @@ Rule_8011C0B8 *find_item_combination_recipe(u8 *id, void *item) {
     return NULL;
 }
 
-u8 get_technique_learn_limit(s8 arg0, u8 arg1) {
-    return (*(u8 (**)[12])((s8 *)(*(u8 * *)&item_pmt_tbl) + 0x40))[arg1][arg0];
+u8 get_technique_learn_limit(u8 arg0, u8 arg1) {
+    return (*(u8 (**)[12])((s8 *)(*(u8 * *)&item_pmt_tbl) + 0x40))[arg1][(s8)arg0];
 }
 
 void TObjPlayer::register_item_drop() {

@@ -15,7 +15,7 @@ public:
     TObjChara(TObject *parent);
     f32 random_ratio();
     virtual ~TObjChara();
-    u8 obj_isState3_324();
+    s32 obj_isState3_324();
     s32 obj_isState2_324();
     // control_state 7: the owner holds a fixed pose its mag aligns to.
     s32 is_in_fixed_pose();

@@ -4,11 +4,30 @@
 #include "types.h"
 #include <stddef.h>
 #include <dolphin/mtx.h>
+#include "pso/system/NinjaTypes.h"
 
-struct CsnModel;
 struct CsnVector {
     f32 x, y, z;
 };
+
+// One collision triangle (field names inferred from evaluate_ground_triangles).
+struct CsnFace {
+    u16 vertex[3]; // indices into CsnModel::vertices
+    u16 flags;     // surface attribute bits tested against the query mask
+    Vec normal;
+    Vec center;    // centre and radius of the bounding circle
+    f32 radius;
+};
+
+// The triangle mesh of a collision group (field names inferred).
+struct CsnModel {
+    u8 pad_0[0x4];
+    Vec *vertices;
+    s32 face_count;
+    CsnFace *faces;
+};
+
+typedef char CsnFaceSize[sizeof(CsnFace) == 0x24 ? 1 : -1];
 
 struct CsnGroup {
     CsnModel* model;
@@ -34,7 +53,7 @@ struct CsnContact {
 
 // The result csnVector returns (one static record, NULL when nothing is hit).
 struct CsnHit {
-    u8 pad_0[0x4];
+    u32 hit_mask;        // (inferred) bit 0: ground contact, others: per-flag contacts
     CsnContact *contact;
     u8 pad_8[0x38];
 };
@@ -45,8 +64,8 @@ CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask);
 
 extern "C" {
 void TObjPlayer__sub_80079108(void);
-void TObjPlayer__sub_8007910C(void);
-void TObjPlayer__sub_80079110(void);
+void TObjPlayer__sub_8007910C(CsnContact *contact, NJS_ARGB *color);
+void TObjPlayer__sub_80079110(CsnHit *hit);
 void TObjPlayer__sub_80079114(void);
 s32 TObjPlayer__sub_80079118(s32 *_w0);
 void TObjPlayer__sub_8007911C(void);

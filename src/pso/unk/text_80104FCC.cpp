@@ -5,6 +5,12 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/text_8011A780.h"
+#include "pso/unk/text_80104FCC.h"
+#include "pso/item/TItemMenuCtrl.h"
+#include "pso/player/PlayerRequirementStats.h"
+#include "pso/player/TObjPlayer_8011C000.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 struct Blk_8010542C { u32 w[4]; };
 struct Item_8010542C { u32 a; Blk_8010542C b; };
@@ -96,9 +102,153 @@ extern Rec_80105538 *TLobby__data_805D6144;
 extern const f32 lbl_805DAAB4;
 extern "C" {
 void send_6x60_standard_drop_item_request(Obj_80105538 *self);
-int roll_weapon_special_channel15(void* p);
-int roll_weapon_special_for_stars(void*);
 
+}
+struct WeaponPmt_80104FCC { u8 pad[8]; u16 equip; u8 padA[0xE - 0xA]; u16 atp; u16 ata; u16 mst; };
+struct ArmorPmt_80104FCC { u8 pad[0xE]; u16 equip; u8 level; };
+struct UnitPmt_80104FCC { u8 pad[8]; s16 kind; };
+struct MagPmt_80104FCC { u8 pad[0x14]; u16 equip; };
+
+
+s32 check_equip_requirements(TObjPlayer *player, TItemData *item, s32 *reasons) {
+    s32 flags;
+    if (player == 0 || item == 0) {
+        if (reasons != 0) {
+            *reasons |= 0x20;
+        }
+        return 0;
+    }
+    if (player->obj_isState3_324() != 0 || player->is_script_controlled() != 0) {
+        if (reasons != 0) {
+            *reasons = 0;
+        }
+        return 1;
+    }
+    if (is_quest_active() != 0) {
+        u32 menu = 0;
+        switch (item->data1.data_u8[0]) {
+        case 0:
+            menu = 1;
+            break;
+        case 1:
+            switch (item->data1.data_u8[1]) {
+            case 1:
+                menu = 2;
+                break;
+            case 2:
+                menu = 3;
+                break;
+            case 3:
+                menu = 4;
+                break;
+            }
+            break;
+        case 2:
+            menu = 5;
+            break;
+        }
+        if (menu != 0 && TItemMenuCtrl::query_flag(menu) == 1) {
+            return 0;
+        }
+    }
+    flags = 0;
+    switch (item->data1.data_u8[0]) {
+    case 0: {
+        WeaponPmt_80104FCC *pmt = (WeaponPmt_80104FCC *)lookup_item_pmt_record((u8 *)item);
+        if (pmt != 0) {
+            PlayerRequirementStats stats;
+            if (check_class_equip_permission(player, (s16)pmt->equip) == 0) {
+                flags |= 1;
+            }
+            ((TWindowSubStatusDisp *)&stats)->clear_fields();
+            build_player_equipment_requirement_stats(player, &stats);
+            if (stats.values[0] < pmt->atp) {
+                flags |= 2;
+            }
+            if (stats.values[3] < pmt->mst) {
+                flags |= 4;
+            }
+            if (stats.values[2] < pmt->ata) {
+                flags |= 8;
+            }
+        } else {
+            flags |= 0x20;
+        }
+        break;
+    }
+    case 1:
+        if (item->data1.data_u8[1] != 3) {
+            ArmorPmt_80104FCC *pmt = (ArmorPmt_80104FCC *)lookup_item_pmt_record((u8 *)item);
+            if (pmt != 0) {
+                if (check_class_equip_permission(player, (s16)pmt->equip) == 0) {
+                    flags |= 1;
+                }
+                if (player->get_actor_level_index() < pmt->level) {
+                    flags |= 0x10;
+                }
+            } else {
+                flags |= 0x20;
+            }
+        } else if (check_class_equip_permission(player, 0xD7) != 0) {
+            UnitPmt_80104FCC *pmt = (UnitPmt_80104FCC *)lookup_item_pmt_record((u8 *)item);
+            if (pmt != 0) {
+                switch (pmt->kind) {
+                case 1:
+                case 5:
+                case 16:
+                case 18:
+                case 21:
+                    flags |= 1;
+                    break;
+                }
+            } else {
+                flags |= 0x20;
+            }
+        }
+        break;
+    case 2: {
+        MagPmt_80104FCC *pmt = (MagPmt_80104FCC *)lookup_item_pmt_record((u8 *)item);
+        if (pmt != 0) {
+            if (check_class_equip_permission(player, (s16)pmt->equip) == 0) {
+                flags |= 1;
+            }
+        } else {
+            flags |= 0x20;
+        }
+        break;
+    }
+    case 3:
+        switch (item->data1.data_u8[1]) {
+        case 2: {
+            u8 limit = get_technique_learn_limit(player->m_88d, item->data1.data_u8[4]);
+            if (limit == 0xFF || limit < item->data1.data_u8[2]) {
+                flags |= 1;
+            }
+            break;
+        }
+        case 8:
+            if (check_class_equip_permission(player, 0xD7) != 0) {
+                flags |= 1;
+            }
+            break;
+        }
+        break;
+    case 4:
+        if ((s32)item->data2.data_u32 > 999999) {
+            flags |= 0x20;
+        }
+        break;
+    }
+    if (reasons != 0) {
+        *reasons = flags;
+    }
+    if (flags == 0) {
+        return 1;
+    }
+    return 0;
+}
+
+extern "C" {
 int check_class_equip_permission(TObjPlayer *player, s32 perm) {
     s32 t = player->class_flags;
     if (t & CLASS_FLAG_HUNTER) {
@@ -123,7 +273,7 @@ int check_class_equip_permission(TObjPlayer *player, s32 perm) {
     return 1;
 }
 
-int roll_weapon_special_channel15(void* p) { return roll_weapon_special_for_stars(p); }
+u8 roll_weapon_special_channel15(u8 arg0) { return roll_weapon_special_for_stars(arg0); }
 }
 
 TItem *construct_item(TItemData *data) {

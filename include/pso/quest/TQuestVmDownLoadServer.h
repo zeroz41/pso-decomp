@@ -102,7 +102,7 @@ public:
     static s32 seek_or_reopen(int arg0);
     static s32 find_file_info_index();
     void set_file_info_name();
-    u32 aram_read_thunk(u32 arg1, int _w2);
+    s32 aram_read_thunk(u32 arg1, int _w2);
     static void unescape_copy_string(u8 *arg0, u8 *arg1, u8 *arg2);
     static s32 count_entries_until_terminator(const u8 *p, const u8 *end);
     static void copy_sjis_string(u8 *arg0, u8 *arg1);
@@ -129,7 +129,7 @@ public:
     static s32 calc_pair_cost_bonus(u8 arg0, u8 arg1, s32 arg2);
     static s32 calc_item_entry_cost_extra(u8 arg0, u8 arg1, u8 arg2, s32 arg3);
     static void reset_slot_chain_timers(s32 arg0);
-    static s16 select_best_slot_entry(s32 idx, s32 max, s32 want);
+    static s32 select_best_slot_entry(s32 idx, s32 max, s32 want);
     static s32 sum_entry_sizes(s32 start, s32 n);
     static u8 *find_keyword_entry(u16 *start, u16 *end);
     static s32 get_download_state();

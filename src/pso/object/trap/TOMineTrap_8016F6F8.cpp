@@ -108,6 +108,7 @@ extern f32 lbl_805DB864;
 extern f32 lbl_805DB85C;
 extern const f32 TOMineTrap__data_805DB868;
 void TOMineTrap__sub_80170CD4(void* p);
+void record_attack_source(void *object, u16 id);
 extern const f32 lbl_805DB884;
 extern const f32 lbl_805DB888;
 f32 atan2_float(f32 y, f32 x);
@@ -189,6 +190,98 @@ void TOMineTrap::set_triggered() {
     this->mode = 3;
     ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
     this->actorFlags = (s32) (this->actorFlags & 0xFFFBFFFF);
+}
+
+void TOMineTrap::run_task() {
+    TObjChara *attacker;
+    s32 i;
+    TObjPlayer *p;
+    u16 id;
+
+    update_float_height();
+    switch (mode) {
+    case 0:
+    case 2:
+        if (find_target_in_range() == 1) {
+            set_triggered();
+        }
+        VecCopy((Vec *)&m_2fc, &float_position);
+        VecCopy(&bodies->center, &float_position);
+        break;
+    case 3:
+        if (set_params[1]-- < 0) {
+            set_state();
+            send_state_packet(2);
+        }
+        TOMineTrap__sub_80170CD4(this);
+        submit_cursor_candidate(this, -1);
+        break;
+    case 4:
+        attacker = get_player_by_client_id(get_trap_type());
+        if (attacker == NULL) {
+            attacker = this;
+        }
+        for (i = 0; i < lbl_805D5868; i++) {
+            p = TObjPlayer::get_player_data(i);
+            if (p == NULL || p == (TObjChara *)this || p->obj_testFlags30(0x4000800) != 0) {
+                continue;
+            }
+            if (p->alt_room != alt_room && p->room != room && p->room != alt_room) {
+                continue;
+            }
+            id = get_entity_id(p);
+            if (id == 0xFFFF) {
+                continue;
+            }
+            if (id == get_trap_type() && TOMineTrap::get_trap_count() != 1) {
+                continue;
+            }
+            if (id < 0x1000) {
+                if (TObjPlayer::get_player_count() == 1 && p->get_floor() == get_current_floor() &&
+                    horizontal_distance_squared(&position, &p->position) < m_350 * m_350) {
+                    if (p->obj_isState2_324() == 0) {
+                        target = (u8 *)p;
+                        switch (attack.kind) {
+                        case 2:
+                            ((TObjChara *)target)->apply_movement_ailment(0);
+                            break;
+                        default:
+                            ((TObjChara *)target)->receive_direct_attack(this, attack, 0, -1, -1);
+                            break;
+                        }
+                        record_attack_source(target, get_trap_type());
+                    }
+                    if (m_380 != 1) {
+                        m_380 = show_owner_message((s32)this, (u32)p);
+                    }
+                }
+            } else if (id < 0x4000) {
+                if (horizontal_distance_squared(&position, &p->position) < m_350 * m_350) {
+                    target = (u8 *)p;
+                    switch (attack.kind) {
+                    case 2:
+                        ((TObjChara *)target)->apply_movement_ailment(0);
+                        ((TObjChara *)target)->vfunc_74(0);
+                        break;
+                    default:
+                        ((TObjChara *)target)->receive_direct_attack(attacker, attack, 0, -1, -1);
+                        break;
+                    }
+                    record_attack_source(target, get_trap_type());
+                }
+            } else if (check_value_equals__13TUnk_804B6C24Fl(p, TOMineTrap__data_805D3080) != 0) {
+                if (horizontal_distance_squared(&position, &p->position) < m_350 * m_350) {
+                    target = (u8 *)p;
+                    ((TObjChara *)target)->receive_physical_attack(this, TOMineTrap__data_805DB868);
+                }
+            }
+        }
+        mode = 5;
+        clear_player_status_flag(0, 1);
+        sub_8017070C();
+        queue_destruction();
+        break;
+    }
 }
 
 void TOMineTrap::vfunc_86() {

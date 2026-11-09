@@ -8,20 +8,6 @@ struct Obj_803C1A24 { u8 pad[0xAC]; void *fac; };
 extern RecoveredCallback_1268626c296b lbl_805D7514;
 extern s32 (*lbl_805D7510)();
 
-void TLobby__sub_803C19D8(void) {
-    lbl_805D7510();
-}
-void TLobby__sub_803C1A00(u8 *arg0, s32 arg1) {
-    *(s32 *)((s8 *)arg0 + 0xB0) = arg1;
-    *(u32 *)((s8 *)arg0 + 0xB4) = (u32) (arg1 / 96);
-}
-void TLobby::invoke_notify_callback() {
-    Obj_803C1A24 *arg0 = (Obj_803C1A24 *)this;
-    if (arg0->fac != 0) {
-        lbl_805D7514(arg0->fac);
-    }
-}
-
 #include <string.h>
 
 // Little-endian RIFF/WAVE fields read on the big-endian GameCube.
@@ -72,7 +58,7 @@ s32 TLobby__sub_803C1780(s32 buf, s32 len, s16 *data_offset, s8 *marker, s8 *bit
     if (i == len) {
         return -1;
     }
-    size = LE32(((WavFmtChunk *)(i + buf))->size);
+    size = LE32(*(u32 *)(i + 4 + buf)); // "data" chunk size
     *data_offset = i + 8;
     *marker = -1;
     *sample_rate = LE32(fmt->sample_rate);
@@ -102,4 +88,18 @@ s32 TLobby__sub_803C1780(s32 buf, s32 len, s16 *data_offset, s8 *marker, s8 *bit
         return -1;
     }
     return *sample_rate == 0 ? -1 : 0;
+}
+
+void TLobby__sub_803C19D8(void) {
+    lbl_805D7510();
+}
+void TLobby__sub_803C1A00(u8 *arg0, s32 arg1) {
+    *(s32 *)((s8 *)arg0 + 0xB0) = arg1;
+    *(u32 *)((s8 *)arg0 + 0xB4) = (u32) (arg1 / 96);
+}
+void TLobby::invoke_notify_callback() {
+    Obj_803C1A24 *arg0 = (Obj_803C1A24 *)this;
+    if (arg0->fac != 0) {
+        lbl_805D7514(arg0->fac);
+    }
 }

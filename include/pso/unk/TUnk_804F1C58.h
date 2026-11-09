@@ -5,6 +5,8 @@
 
 class TUnk_804F1C58 : public TObject {
 public:
+    TUnk_804F1C58(TObject *parent, void *model);
+    void set_field_38(s32 v);
     virtual ~TUnk_804F1C58();
     void *destroy(s16);
     u8 unk_1C[0x4];

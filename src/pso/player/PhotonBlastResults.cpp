@@ -16,32 +16,14 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/unk/TUnk_804C349C.h"
+#include "pso/player/PhotonBlastResults.h"
 
 struct Slot_801A8868 { u8 pad[0x18]; };
 struct Counts_801A8868 { s32 v[4]; };
-struct Rec_801A8868 { u8 pad[0x20]; s32 f20; };
 
 struct Hit_801A86E0 { s32 kind; f32 value; };
 
-struct PhotonBlastSequence_801A9870 : public TObject {
-    TObject *summon;
-    s32 summon_index;
-    s32 state;
-    s32 summon_count;
-    Vec position;
-    TObjPlayer *owner;
-    u16 owner_client_id;
-    s32 power_level;
-    s32 elapsed;
-    s32 delay;
-    s32 animated;
-    s32 kinds[4];
-    u32 participants[4];
-    s32 levels[4];
-    u32 recipients[4];
-    u16 holds[4];
-};
-typedef char PhotonBlastSequence_801A9870_size[sizeof(PhotonBlastSequence_801A9870) == 0x98 ? 1 : -1];
 
 struct PhotonSummonParams_801A9870 {
     Vec position;
@@ -90,7 +72,6 @@ s32 get_photon_blast_chain(void *, s32);
 s32 is_split_screen();
 s32 get_room__8TObjBaseFv(void *);
 u16 get_entity_id(void *);
-s32 TObjPlayer__sub_801A9E10(void *, int, void *, void *, int, int);
 void set_type__10TObjPlayerFs(void *, s16);
 s32 TObjPlayer__sub_801AA528(s32 arg0, s16 arg1);
 void *TObjPlayer__sub_801AA66C(void *, void *);
@@ -101,18 +82,13 @@ void play_sound_effect(u32 id, void *position, s32, s32);
 u8 *TPhotonLeilla__ct(u8 *self, u8 *params);
 u8 *TPhotonMylla__ct(u8 *self, u8 *params);
 extern u32 lbl_805D5D18;
-void deliver_photon_blast_results_animated(PhotonBlastSequence_801A9870 *seq);
-void deliver_photon_blast_results_delayed(PhotonBlastSequence_801A9870 *seq);
-void step_photon_blast_sequence(PhotonBlastSequence_801A9870 *seq);
 }
 extern s32 photon_blast_donation_flags[];
 void clear_photon_blast_donations(void);
 extern s32 local_client_id;
 s32 is_photon_blast_presentation_admitted(u32 owner_id, void *records);
 const Counts_801A8868 photon_blast_result_counts_init = { 0, 0, 0, 0 };
-extern Rec_801A8868 photon_blast_sequence_table[];
 void admit_photon_blast_sequence(u8 *players, void *self);
-void apply_photon_blast_action_hold(s32 arg0, s32 arg1, s32 arg2);
 
 #pragma push
 #pragma fp_contract on
@@ -238,7 +214,6 @@ void admit_photon_blast_sequence(u8 *players, void *self) {
     s32 k;
     s32 flag;
     s32 delay;
-    void *o;
     void *p;
     s32 i;
     s32 idx;
@@ -291,7 +266,7 @@ void admit_photon_blast_sequence(u8 *players, void *self) {
         if (i != get_entity_id(self)) {
             q = get_player_by_client_id(i);
             if (q != NULL && GET_STAT(q) == GET_STAT(self)
-                && photon_blast_sequence_table[get_entity_id(q)].f20 != 0) {
+                && photon_blast_sequence_table[get_entity_id(q)].state != 0) {
                 flag = 1;
             }
         }
@@ -308,10 +283,7 @@ void admit_photon_blast_sequence(u8 *players, void *self) {
         return;
     }
     if (is_photon_blast_presentation_admitted(get_entity_id(self), b) != 0) {
-        o = __nw__7TObjectFUl(0x98);
-        if (o != NULL) {
-            TObjPlayer__sub_801A9E10(o, get_entity_id(self), b, &counts, 1, 0);
-        }
+        new TUnk_804C349C(get_entity_id(self), (u8 *)b, counts.v, 1, 0);
     } else {
         idx = 0;
         for (i = 0; i < 4; i++) {
@@ -321,10 +293,7 @@ void admit_photon_blast_sequence(u8 *players, void *self) {
             }
         }
         delay = idx * 150 + 100;
-        o = __nw__7TObjectFUl(0x98);
-        if (o != NULL) {
-            TObjPlayer__sub_801A9E10(o, get_entity_id(self), b, &counts, 0, delay);
-        }
+        new TUnk_804C349C(get_entity_id(self), (u8 *)b, counts.v, 0, delay);
     }
     TObjPlayer__sub_801AA528((s32)&b[3], -1);
     TObjPlayer__sub_801AA528((s32)&b[2], -1);
@@ -338,7 +307,7 @@ void admit_photon_blast_sequence(u8 *players, void *self) {
 #undef GET_STAT
 #undef SET_TYPE
 
-void deliver_photon_blast_results_animated(PhotonBlastSequence_801A9870 *seq) {
+void deliver_photon_blast_results_animated(TUnk_804C349C *seq) {
     s32 i;
     for (i = 0; i < photon_blast_hit_count; i++) {
         TObjChara *target = find_entity_by_id(photon_blast_hit_queue[i].identity);
@@ -436,7 +405,7 @@ void deliver_photon_blast_results_animated(PhotonBlastSequence_801A9870 *seq) {
     clear_photon_blast_donations();
 }
 
-void deliver_photon_blast_results_delayed(PhotonBlastSequence_801A9870 *seq) {
+void deliver_photon_blast_results_delayed(TUnk_804C349C *seq) {
     s32 i;
     for (i = 0; i < deferred_photon_blast_hit_count; i++) {
         TObjChara *target = find_entity_by_id(deferred_photon_blast_hit_queue[i].identity);
@@ -534,7 +503,7 @@ void deliver_photon_blast_results_delayed(PhotonBlastSequence_801A9870 *seq) {
     clear_photon_blast_donations();
 }
 
-void step_photon_blast_sequence(PhotonBlastSequence_801A9870 *seq) {
+void step_photon_blast_sequence(TUnk_804C349C *seq) {
     PhotonSummonParams_801A9870 params;
     u8 *summon;
     s32 first_summon;
@@ -645,4 +614,4 @@ void step_photon_blast_sequence(PhotonBlastSequence_801A9870 *seq) {
 }
 
 s32 photon_blast_donation_flags[4];
-Rec_801A8868 photon_blast_sequence_table[4];
+PhotonBlastChain photon_blast_sequence_table[4];

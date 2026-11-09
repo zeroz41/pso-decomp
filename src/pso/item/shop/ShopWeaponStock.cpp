@@ -480,7 +480,7 @@ void roll_shop_weapon_special(Obj_80224F7C *obj) {
         obj->v = roll_weapon_special_channel15(0);
         break;
     case 2:
-        obj->v = roll_weapon_special_channel15((void *)(1));
+        obj->v = roll_weapon_special_channel15(1);
         break;
     case 0:
     default:

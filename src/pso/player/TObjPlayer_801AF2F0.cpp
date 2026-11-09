@@ -33,6 +33,7 @@
 #include "pso/player/TObjPlayer.h"
 #include <stddef.h>
 #include "pso/player/PlayerRequirementStats.h"
+#include "pso/player/TPlyDispData.h"
 #include "pso/item/TItemData.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
@@ -2419,7 +2420,9 @@ s32 TObjPlayer__sub_801D91B8(void *, void *);
 s32 get_current_state_field__10TObjPlayerFScl(s32, s32);
 s32 get_class_attack_template(void *);
 s32 get_class_defense_template();
-void * get_class_stat_caps();
+player_stats *get_class_stat_caps(s8 cls);
+stats *get_class_base_stats(s8 cls);
+void apply_class_level_growth(s8 cls, s32 level, stats *st);
 f32 get_tp_class_factor__10TObjPlayerFv();
 f32 get_class_technique_boost(s32, s32);
 void split_capped_value__10TObjPlayerFUcPUcPSc(u8, void *, void *);
@@ -2762,8 +2765,7 @@ void clamp_stats__10TObjPlayerFiPv(s32 arg0, void *arg1) {
     void *temp_r31;
 
     temp_r31 = ((TObjPlayer *)arg0)->get_stats();
-    ((s32 (*)(s32))get_class_index__10TObjPlayerFv)(arg0);
-    class_stat_caps = get_class_stat_caps();
+    class_stat_caps = get_class_stat_caps(get_class_index__10TObjPlayerFv((u8 *)arg0));
     temp_r4 = *(s16 *)((s8 *)temp_r31 + 0);
     if (temp_r4 < 0) {
         *(s16 *)((s8 *)arg1 + 0) = 1;
@@ -5739,6 +5741,29 @@ void TObjPlayer::update_aim_angle(s32 arg1) {
 }
 
 void TObjPlayer__sub_801B67C4(void* p) { *(s16*)((char*)p + 0x0) = 0; *(s32*)((char*)p + 0x4) = 0; }
+
+// Base stats of the class plus the growth of every level row up to `level`, each clamped to the class caps.
+void apply_class_level_growth(s8 cls, s32 level, stats *st) {
+    s32 n;
+    s32 row;
+    player_stats *caps;
+
+    n = TObjPlayer::clamp_index_to_max(level);
+    ((TObjPlayer *)st)->copy_stats(get_class_base_stats(cls));
+    row = get_ply_level_table_row(cls, 0);
+    if (row != 0) {
+        caps = get_class_stat_caps(cls);
+        for (s32 i = 0; i < n; i++) {
+            row += 0xC;
+            TObjPlayer::add_stat_clamped(((TObjPlayer *)row)->get_char_class(), &st->atp, caps->stats.atp);
+            TObjPlayer::add_stat_clamped(((TObjPlayer *)row)->get_team_id(), &st->mst, caps->stats.mst);
+            TObjPlayer::add_stat_clamped(TObjPlayer__sub_801C2134((void *)row), &st->evp, caps->stats.evp);
+            TObjPlayer::add_stat_clamped(TObjPlayer__sub_801C212C((void *)row), &st->hp, caps->stats.hp);
+            TObjPlayer::add_stat_clamped(((TObjPlayer *)row)->get_byte_4(), &st->dfp, caps->stats.dfp);
+            TObjPlayer::add_stat_clamped(((TObjPlayer *)row)->get_field_5(), &st->ata, caps->stats.ata);
+        }
+    }
+}
 
 void TObjPlayer::copy_stats(void *arg1) {
     *(s16 *)((s8 *)this + 0) = (s16) *(s16 *)((s8 *)arg1 + 0);

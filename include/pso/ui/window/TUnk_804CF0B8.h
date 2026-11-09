@@ -49,7 +49,7 @@ public:
     s8 m_73;
     u8 unk_74[0x2];
     s16 m_76;
-    u8 unk_78[0x4];
+    char *name;  // speaker name, drawn by draw_name_plate (inferred)
     f32 m_7c;
     u8 unk_80[0x4];
     s32 m_84;

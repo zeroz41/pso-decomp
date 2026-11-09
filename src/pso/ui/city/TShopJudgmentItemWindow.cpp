@@ -416,7 +416,7 @@ void TShopJudgmentItemWindow::update_judge_confirm() {
                     *(u32 *)((s8 *)arg0 + 0x15C) = 0U;
                 }
                 try_spend_actor_meseta((u8 *)(*(s32 *)((s8 *)arg0 + 0x24)), 0x64);
-                if (check_equip_requirements(*(void **)((s8 *)arg0 + 0x24), arg0 + 0x28, NULL) != 0) {
+                if (check_equip_requirements(*(TObjPlayer **)((s8 *)arg0 + 0x24), (TItemData *)(arg0 + 0x28), NULL) != 0) {
                     ((VObj_18 *)(arg0))->m6(0xC, 1);
                     ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x158)))->close();
                     *(u32 *)((s8 *)arg0 + 0x158) = 0U;

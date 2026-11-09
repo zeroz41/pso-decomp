@@ -41,6 +41,14 @@ struct Delivery_8011AA68 {
     u32 header; u8 client; u8 kind; s16 source; f32 x; f32 z; s16 room; u16 reserved; u8 item[24];
 };
 
+struct BoxDrop_8011A868 {
+    u8 cmd; u8 size; u16 pad2; u8 client; u8 area; s16 source;
+    f32 x; f32 z; s16 room; s16 x12; s8 slot; u8 pad15[3];
+    f32 fixed; u32 params[3];
+};
+
+struct BoxSet_8011A868 { u8 pad0[0x2C]; f32 fixed; u32 params[3]; };
+
 struct Item_8011AB64 { u8 data[12]; u32 id; u32 meseta; };
 
 struct Source_8011AB64 { u32 a; u16 claim; u16 b; u32 c; };
@@ -68,7 +76,7 @@ extern s32 item_sync_counter_table;
 extern s32 item_id_counter_table;
 extern "C" {
 s32 bswap_6xa2_fields__6TLobbyFv();
-s32 handle_box_drop_directive(void *);
+void handle_box_drop_directive(void *);
 void set_boss_buf_entry__6TLobbyFii(s32 v, u16 idx);
 void handle_6x5A_pick_up_item_request(Msg_8011A9D8 *msg);
 int is_quest_active(void);
@@ -96,6 +104,51 @@ u32 build_item_id(u16 arg0) {
         id = arg0 | 0x06010000;
     }
     return id;
+}
+
+void handle_box_drop_directive(void *arg0) {
+    BoxDrop_8011A868 *req = (BoxDrop_8011A868 *)arg0;
+    BoxSet_8011A868 set;
+    Delivery_8011AA68 delivery;
+    TItemData item;
+    u8 data0;
+    u8 data1;
+    u32 id;
+    s16 source = req->source;
+    if (source != -1) {
+        Source_8011AA68 row = quest_object_entries[source];
+        if (row.claim != 0xFFFF) {
+            id = build_item_id(row.claim);
+            row.claim = 0xFFFF;
+            TLobby::apply_table_entry(source, &row);
+            set.fixed = req->fixed;
+            set.params[0] = req->params[0];
+            set.params[1] = req->params[1];
+            set.params[2] = req->params[2];
+            item.unpack_from_item(&set);
+            if (0.0f == set.fixed) {
+                data0 = item.data1.data_u8[0];
+                data1 = item.data1.data_u8[1];
+                item.init();
+                item.data1.data_u8[0] = data0;
+                item.data1.data_u8[1] = data1;
+                TObjPlayer::drop_meseta_from_slot(req->slot, (s32)&item);
+            }
+            item.id = id;
+            if (item.isValidGroundDrop() != 0) {
+                item.encode_for_network();
+                ((TLobby *)(&delivery))->init_header_packet();
+                delivery.client = req->client;
+                delivery.kind = 2;
+                delivery.source = source;
+                delivery.x = req->x;
+                delivery.z = req->z;
+                delivery.room = req->room;
+                ((TItemData *)(delivery.item))->copy_from(&item);
+                ((TLobby *)(&delivery))->send_item_packet();
+            }
+        }
+    }
 }
 
 void observe_item_id(s32 item_id) {

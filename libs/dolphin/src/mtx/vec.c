@@ -13,6 +13,6 @@ asm void PSVECCrossProduct(register Vec* vec1, register Vec* vec2,
 #include "orig_asm/mtx/vec/PSVECCrossProduct.inc"
 }
 
-asm f32 PSVECDistance(register Vec* vec1, register Vec* vec2) {
+asm f32 PSVECDistance(const register Vec* vec1, const register Vec* vec2) {
 #include "orig_asm/mtx/vec/PSVECDistance.inc"
 }

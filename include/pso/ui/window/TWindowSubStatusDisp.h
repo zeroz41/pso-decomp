@@ -143,6 +143,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void get_player();
     void set_entry_display_value(s32 arg1);
     s32 get_display_mode();
+    int get_record_slot(int base);
     static void vt16();
     static void vt15();
     static void vt18();

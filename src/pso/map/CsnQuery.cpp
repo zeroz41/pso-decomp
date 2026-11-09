@@ -3,6 +3,7 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/TObjMapCsn.h"
+#include "pso/render/render_util.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -132,7 +133,7 @@ void TObjPlayer__sub_80079108(void);
 s32 TObjPlayer__sub_80079118(s32 *);
 void TObjPlayer__sub_8007911C(void);
 void TObjPlayer__sub_80079120(s32);
-s32 evaluate_ground_triangles(s32, s32, u32 *);
+s32 evaluate_ground_triangles(Vec *origin, u32 mask, CsnGroup **groups);
 extern s32 lbl_804389CC[];
 extern s32 lbl_80500140[];
 s32 *csnVectorUnder(Vec *arg0, u32 *arg1, s32 arg2);
@@ -174,8 +175,6 @@ void TObjPlayer__sub_80079114(void);
 f32 vector_length(void *);
 Wall_8007A138 *query_collision_segment_groups(Vec_8007A138 *a, Vec_8007A138 *b, u32 mask);
 s32 calc_segment_xz_distance_sq(Vec_8007A138 *c, Vec_8007A138 *o, Vec_8007A138 *e, Vec_8007A138 *d, f32 radius, f32 hsq, f32 inv);
-void TObjPlayer__sub_8007910C(void);
-void TObjPlayer__sub_80079110(void);
 
 typedef char RecoveredGlobal_800790F0_lbl_804F5800_size[sizeof(RecoveredGlobal_800790F0_lbl_804F5800) == 0x100 ? 1 : -1];
 s32 get_csn_group_flags(u8 arg0) {
@@ -183,8 +182,8 @@ s32 get_csn_group_flags(u8 arg0) {
 }
 
 void TObjPlayer__sub_80079108(void) {  }
-void TObjPlayer__sub_8007910C(void) {  }
-void TObjPlayer__sub_80079110(void) {  }
+void TObjPlayer__sub_8007910C(CsnContact *contact, NJS_ARGB *color) {  }
+void TObjPlayer__sub_80079110(CsnHit *hit) {  }
 void TObjPlayer__sub_80079114(void) {  }
 s32 TObjPlayer__sub_80079118(s32 * _w0) {  }
 void TObjPlayer__sub_8007911C(void) {  }
@@ -226,6 +225,149 @@ s32 calc_segment_xz_distance_sq(Vec_8007A138 *c, Vec_8007A138 *o, Vec_8007A138 *
         dist = x * x + z * z;
     }
     return dist <= radius * radius;
+}
+
+// Drops a vertical ray from origin through the faces of the listed groups and
+// records the nearest ground contact plus one contact per special surface bit.
+s32 evaluate_ground_triangles(Vec *origin, u32 mask, CsnGroup **groups) {
+    Vec dir;
+    s32 i;
+    s32 count;
+    Vec *vertices;
+    CsnFace *face;
+    CsnContact *contacts;
+    CsnContact *contact;
+    CsnHit *result = (CsnHit *)lbl_80500140;
+    f32 best;
+    f32 ox;
+    f32 oy;
+    f32 oz;
+
+    result->hit_mask = 0;
+    contacts = result->contact;
+    lbl_8050BF60.x = origin->x;
+    best = 2.0f;
+    lbl_8050BF60.y = -10000.0f + origin->y;
+    lbl_8050BF60.z = origin->z;
+    vsub(origin, &lbl_8050BF60, &dir);
+    ox = origin->x;
+    oy = origin->y;
+    oz = origin->z;
+    for (; *groups != NULL; groups++) {
+        CsnModel *model = (*groups)->model;
+        i = 0;
+        count = model->face_count;
+        face = model->faces;
+        vertices = model->vertices;
+        for (; i < count; i++, face++) {
+            Vec *v0;
+            Vec *v1;
+            Vec *v2;
+            f32 x1, x0, y0, z0, z1, x2, z2;
+            f32 t;
+            f32 dx;
+            f32 dz;
+            f32 nx;
+            f32 ny;
+            f32 nz;
+            if (!(face->flags & mask)) {
+                continue;
+            }
+            dx = face->center.x - ox;
+            dz = face->center.z - oz;
+            if (dx * dx + dz * dz > face->radius * face->radius) {
+                continue;
+            }
+            ny = face->normal.y;
+            if (ny < 0.00001f) {
+                continue;
+            }
+            v0 = &vertices[face->vertex[0]];
+            v1 = &vertices[face->vertex[1]];
+            v2 = &vertices[face->vertex[2]];
+            if (v0->y > oy && v1->y > oy && v2->y > oy) {
+                continue;
+            }
+            x0 = v0->x - ox;
+            z1 = v1->z - oz;
+            z0 = v0->z - oz;
+            x1 = v1->x - ox;
+            if (z0 * x1 - x0 * z1 < -0.0001f) {
+                continue;
+            }
+            x2 = v2->x - ox;
+            z2 = v2->z - oz;
+            if (z1 * x2 - x1 * z2 < -0.0001f) {
+                continue;
+            }
+            if (z2 * x0 - x2 * z0 < -0.0001f) {
+                continue;
+            }
+            nx = face->normal.x;
+            nz = face->normal.z;
+            y0 = v0->y - oy;
+            t = -(-(x0 * nx + y0 * ny + z0 * nz) / (-10000.0f * ny));
+            if ((mask & 0x10) && (face->flags & 0x10)) {
+                contact = &contacts[1];
+                result->hit_mask |= 0x10;
+                contact->point.x = ox;
+                contact->point.y = -10000.0f * t + oy;
+                contact->point.z = oz;
+                contact->normal.x = nx;
+                contact->normal.y = ny;
+                contact->normal.z = nz;
+                contact->flags = face->flags;
+            }
+            if ((mask & 4) && (face->flags & 4)) {
+                contact = &contacts[2];
+                result->hit_mask |= 4;
+                contact->point.x = ox;
+                contact->point.y = -10000.0f * t + oy;
+                contact->point.z = oz;
+                contact->normal.x = nx;
+                contact->normal.y = ny;
+                contact->normal.z = nz;
+                contact->flags = face->flags;
+            }
+            if ((mask & 2) && (face->flags & 2)) {
+                contact = &contacts[3];
+                result->hit_mask |= 2;
+                contact->point.x = ox;
+                contact->point.y = -10000.0f * t + oy;
+                contact->point.z = oz;
+                contact->normal.x = nx;
+                contact->normal.y = ny;
+                contact->normal.z = nz;
+                contact->flags = face->flags;
+            }
+            if ((mask & 8) && (face->flags & 8)) {
+                contact = &contacts[4];
+                result->hit_mask |= 8;
+                contact->point.x = ox;
+                contact->point.y = -10000.0f * t + oy;
+                contact->point.z = oz;
+                contact->normal.x = nx;
+                contact->normal.y = ny;
+                contact->normal.z = nz;
+                contact->flags = face->flags;
+            }
+            if ((face->flags & (mask & ~0x1E)) && t < best) {
+                best = t;
+                contact = &contacts[0];
+                result->hit_mask |= 1;
+                contact->point.x = ox;
+                contact->point.y = -10000.0f * t + oy;
+                contact->point.z = oz;
+                contact->normal.x = nx;
+                contact->normal.y = ny;
+                contact->normal.z = nz;
+                contact->flags = face->flags;
+            }
+            TObjPlayer__sub_80079110(result);
+            TObjPlayer__sub_8007910C(contact, &debug_color_blue);
+        }
+    }
+    return result->hit_mask & 1;
 }
 }
 extern s32 csn_query_map_object[];
@@ -730,16 +872,16 @@ s32 *csnVectorUnder(Vec *arg0, u32 *arg1, s32 arg2) {
     if ((u32) *arg1 == 0U) {
         if (((u32)refill_csn_candidate_cache((P_80079C64 *)(arg0), (M_80079C64 **)(arg1), arg2)) == 0U) {
             var_r31 = NULL;
-        } else if (evaluate_ground_triangles((s32)arg0, arg2, arg1) == 0) {
+        } else if (evaluate_ground_triangles(arg0, arg2, (CsnGroup **)arg1) == 0) {
             var_r31 = NULL;
         }
     } else {
-        if (evaluate_ground_triangles((s32)arg0, arg2, arg1) != 0) {
+        if (evaluate_ground_triangles(arg0, arg2, (CsnGroup **)arg1) != 0) {
             goto done;
         }
         if (((u32)refill_csn_candidate_cache((P_80079C64 *)(arg0), (M_80079C64 **)(arg1), arg2)) == 0U) {
             var_r31 = NULL;
-        } else if (evaluate_ground_triangles((s32)arg0, arg2, arg1) == 0) {
+        } else if (evaluate_ground_triangles(arg0, arg2, (CsnGroup **)arg1) == 0) {
             var_r31 = NULL;
         }
     }
@@ -755,7 +897,7 @@ s32 *csnVecterUnder(s32 origin, s32 mask) {
     var_r31 = ((s32 *)&lbl_80500140);
     if (((u32)select_ground_query_groups((CsnVector *)(origin), mask)) == 0U) {
         var_r31 = 0;
-    } else if (evaluate_ground_triangles(origin, mask, lbl_804FFD40) == 0) {
+    } else if (evaluate_ground_triangles((Vec *)origin, mask, (CsnGroup **)lbl_804FFD40) == 0) {
         var_r31 = 0;
     }
     TObjPlayer__sub_80079118(lbl_804389E8);

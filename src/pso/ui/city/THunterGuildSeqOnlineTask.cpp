@@ -295,7 +295,7 @@ char *strtok(char *, const char *);
 char *strncpy(char *, const char *, u32);
 extern s32 local_client_id;
 s32 THunterGuildSeqOffline__sub_80212074();
-int create__14TWindowMessageFllUll(void *, NJS_POINT2 *, s32, s32);
+int create__14TWindowMessageFlPCfUll(void *, NJS_POINT2 *, s32, s32);
 
 void TQuestListOnline::begin_file_download() {
     Ent_802150E8 *arg0 = (Ent_802150E8 *)this;
@@ -375,7 +375,7 @@ void TQuestListOnline::receive_quest_info(void *arg0) {
                 TQuestListOnline__quest_info_window = 0;
             }
             NJS_POINT2 p = quest_info_window_size;
-            TQuestListOnline__quest_info_window = create__14TWindowMessageFllUll(get_window_layout_position(0x2E), &p, 1, local_client_id);
+            TQuestListOnline__quest_info_window = create__14TWindowMessageFlPCfUll(get_window_layout_position(0x2E), &p, 1, local_client_id);
             ((TWindowBase *)TQuestListOnline__quest_info_window)->set_depth(37000.0f);
             ((TWindowMessage *)TQuestListOnline__quest_info_window)->append_line(TQuestListOnline__selected_quest_info + 4, 0x80);
             if (TCameraCtrl::get_camera_id() >= 2) {

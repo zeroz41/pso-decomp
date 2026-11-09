@@ -1,20 +1,18 @@
 #include "types.h"
 #include "pso/unk/TLobby.h"
+#include "pso/item/drop/TItemDrop_80105D0C.h"
 
 extern "C" {
-
-u32 item_drop_rng_below(s32);
-
 extern s32 item_drop_rng;
-
-u32 TLobby::clamp_min_drop(u32 arg0) {
-    u32 var_r3;
-
-    var_r3 = item_drop_rng_below(item_drop_rng);
-    if (var_r3 < arg0) {
-        var_r3 = arg0;
-    }
-    return var_r3;
 }
 
+// A random value in [0, max) from the item drop RNG, raised to at least min.
+u32 TLobby::clamp_min_drop(u32 min, u32 max) {
+    u32 value;
+
+    value = item_drop_rng_below(item_drop_rng, max);
+    if (value < min) {
+        value = min;
+    }
+    return value;
 }
