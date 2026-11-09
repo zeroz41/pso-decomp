@@ -4747,7 +4747,7 @@ s16 TObjPlayer::obj_getS16_116() {
 #pragma scheduling off
 #pragma scheduling on
 #pragma scheduling off
-u8 TObjChara::obj_isState3_324() {
+s32 TObjChara::obj_isState3_324() {
     return this->control_state == 3;
 }
 #pragma pop

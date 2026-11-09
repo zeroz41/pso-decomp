@@ -468,7 +468,7 @@ struct TObjPlayer : public TObjChara {
     static u8 get_next_matching_special_index(u8 arg0);
     static void free_item_globals();
     static void init_game_resources();
-    u8 is_script_controlled();
+    s32 is_script_controlled();
     int activate_d04_slot();
     void spawn_hit_particle_trio();
     static void forward_item_effect_callback(s32 arg0, s32 arg1);
