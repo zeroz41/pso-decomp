@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void fn_801F9030(void);
+void reset_download_graph(void);
 }
 
 // --- C functions defined in TQuestVmDownLoadServer_801F9010.cpp ---
 extern "C" {
-void fn_801F9030(void);
+void reset_download_graph(void);
 }
 // --- end of C functions
 

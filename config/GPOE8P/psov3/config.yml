@@ -6334,7 +6334,7 @@ force_active:
   - bswap_quest_list_entry
   - __sinit_text_801E0C08_cpp
   - fn_801F6520
-  - fn_801F9030
+  - reset_download_graph
   - fn_80214058
   - fn_80214254
   - fn_80223B98
@@ -8197,7 +8197,7 @@ force_active:
   - lbl_8057FFD0
   - lbl_80581330
   - lbl_8058DC00
-  - lbl_8058DD88
+  - quest_convert_string
   - lbl_805A9008
   - lbl_805A9A90
   - lbl_805A9AF0
@@ -16221,12 +16221,12 @@ force_active:
   - sub_801AC444__13TPhotonLeillaFv
   - sub_801AD4A8__12TPhotonMyllaFv
   - sub_801ADC7C__12TPhotonPillaFv
-  - sub_801F6B00__22TQuestVmDownLoadServerFv
-  - sub_801F6C74__22TQuestVmDownLoadServerFv
-  - sub_801F6D24__22TQuestVmDownLoadServerFv
-  - sub_801F718C__22TQuestVmDownLoadServerFv
-  - sub_801F770C__22TQuestVmDownLoadServerFv
-  - sub_801F7FEC__22TQuestVmDownLoadServerFv
+  - check_dismiss_to_close_input__22TQuestVmDownLoadServerFv
+  - handle_download_done_input__22TQuestVmDownLoadServerFv
+  - check_back_to_open_input__22TQuestVmDownLoadServerFv
+  - build_file_info_image__22TQuestVmDownLoadServerFv
+  - build_file_slot_image__22TQuestVmDownLoadServerFv
+  - count_download_file_blocks__22TQuestVmDownLoadServerFv
   - sub_80204D7C__6TSceneFv
   - sub_8020F1DC__18TCheckRoomSequenceFv
   - sub_802100F8__18TCheckRoomSequenceFv

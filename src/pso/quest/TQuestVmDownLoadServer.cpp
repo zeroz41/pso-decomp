@@ -592,7 +592,7 @@ void TQuestVmDownLoadServer::run_task() {
     ((TQuestVmDownLoadServer *)arg0)->check_client_connections();
     switch (state) {
     case 0:
-        ((TQuestVmDownLoadServer *)arg0)->sub_801F7FEC();
+        ((TQuestVmDownLoadServer *)arg0)->count_download_file_blocks();
         break;
     case 1:
         ((TQuestVmDownLoadServer *)arg0)->close_window();
@@ -631,7 +631,7 @@ void TQuestVmDownLoadServer::run_task() {
         ((TQuestVmDownLoadServer *)arg0)->find_free_file_names();
         break;
     case 8:
-        ((TQuestVmDownLoadServer *)arg0)->sub_801F770C();
+        ((TQuestVmDownLoadServer *)arg0)->build_file_slot_image();
         break;
     case 9:
         ((TQuestVmDownLoadServer *)arg0)->load_quest_data();
@@ -649,7 +649,7 @@ void TQuestVmDownLoadServer::run_task() {
         ((TQuestVmDownLoadServer *)arg0)->finish_download();
         break;
     case 14:
-        ((TQuestVmDownLoadServer *)arg0)->sub_801F718C();
+        ((TQuestVmDownLoadServer *)arg0)->build_file_info_image();
         break;
     case 15:
         ((TQuestVmDownLoadServer *)arg0)->write_quest_data();
@@ -658,7 +658,7 @@ void TQuestVmDownLoadServer::run_task() {
         ((TQuestVmDownLoadServer *)arg0)->close_download();
         break;
     case 19:
-        ((TQuestVmDownLoadServer *)arg0)->sub_801F6C74();
+        ((TQuestVmDownLoadServer *)arg0)->handle_download_done_input();
         break;
     case 20:
         ((TQuestVmDownLoadServer *)arg0)->check_cancel_input();
@@ -667,7 +667,7 @@ void TQuestVmDownLoadServer::run_task() {
         ((TQuestVmDownLoadServer *)arg0)->close();
         break;
     case 18:
-        ((TQuestVmDownLoadServer *)arg0)->sub_801F6D24();
+        ((TQuestVmDownLoadServer *)arg0)->check_back_to_open_input();
         break;
     case 21:
         ((TQuestVmDownLoadServer *)arg0)->destroy();
@@ -676,12 +676,12 @@ void TQuestVmDownLoadServer::run_task() {
         ((TQuestVmDownLoadServer *)arg0)->close_message();
         break;
     case 23:
-        ((TQuestVmDownLoadServer *)arg0)->sub_801F6B00();
+        ((TQuestVmDownLoadServer *)arg0)->check_dismiss_to_close_input();
         break;
     }
 }
 
-void TQuestVmDownLoadServer::sub_801F7FEC() {
+void TQuestVmDownLoadServer::count_download_file_blocks() {
     Slot_801F7FEC *s;
     u32 n;
 
@@ -932,7 +932,7 @@ void TQuestVmDownLoadServer::find_free_file_names() {
     self->f2A0 = 0x11;
 }
 
-void TQuestVmDownLoadServer::sub_801F770C() {
+void TQuestVmDownLoadServer::build_file_slot_image() {
     Req_801F770C req;
     s32 r;
     if (this->m_25c >= 0 && TAdPlayerLoadGC__sub_801E1B50(this->m_25c) == 0) {
@@ -1072,7 +1072,7 @@ void TQuestVmDownLoadServer::finish_download() {
         lbl_805D49B4 = 0;
     }
 }
-void TQuestVmDownLoadServer::sub_801F718C() {
+void TQuestVmDownLoadServer::build_file_info_image() {
     Req_801F718C req;
     s32 r;
     if ((s32)TQuestVmDownLoadServer__download_kind != 1) {
@@ -1225,7 +1225,7 @@ void TQuestVmDownLoadServer::show_status_message(s32 text, s32 arg2) {
     ((TMessageWindowController *)(arg0 + 0x1C))->display_message((const char *)text, (s32)(arg2 | 0x80));
 }
 void TQuestVmDownLoadServer::close_message() { if (*(unsigned int *)&this->m_294 != 0) { ((TMessageWindowController *)((char*)this + 0x1c))->close(); *(int *)&this->m_294 = 0; } }
-void TQuestVmDownLoadServer::sub_801F6D24() {
+void TQuestVmDownLoadServer::check_back_to_open_input() {
     u8 *p;
     if (((QVm_801F6D24 *)this)->f294 == 0 || ((TMessageWindowController *)((u8 *)((QVm_801F6D24 *)this) + 0x1C))->is_ready() != 0) {
         p = ((u8 *)&controller_input_state) + 0x20;
@@ -1236,7 +1236,7 @@ void TQuestVmDownLoadServer::sub_801F6D24() {
         }
     }
 }
-void TQuestVmDownLoadServer::sub_801F6C74() {
+void TQuestVmDownLoadServer::handle_download_done_input() {
     u8 *temp_r31;
     temp_r31 = (u8 *)&controller_input_state.value + 0x20;
     quest_download_in_progress = 0;
@@ -1285,7 +1285,7 @@ void TQuestVmDownLoadServer::clear_field2A0() {
         *(s32 *)((s8 *)TQuestVmDownLoadServer__instance + 0x2A0) = 0;
     }
 }
-void TQuestVmDownLoadServer::sub_801F6B00() {
+void TQuestVmDownLoadServer::check_dismiss_to_close_input() {
     if (*(u32 *)&this->m_294 == 0 || ((TMessageWindowController *)(((u8*)this) + 0x1C))->is_ready() != 0) {
         void* p = (u8 *)&controller_input_state + 0x20;
         if (TWindowShortListCtrl__check_controller_button(p, 4) != 0 || TWindowShortListCtrl__check_controller_button(p, 2) != 0) {

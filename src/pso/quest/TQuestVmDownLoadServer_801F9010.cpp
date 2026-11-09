@@ -4,8 +4,8 @@
 #include "pso/render/TDLGraph.h"
 
 void TQuestVmDownLoadServer::reset_download() {
-    fn_801F9030();
+    reset_download_graph();
 }
-void fn_801F9030(void) {
+void reset_download_graph(void) {
     TDLGraph::update_graph(1, 1);
 }
