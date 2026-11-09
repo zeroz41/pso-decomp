@@ -175,29 +175,30 @@ void TWindowDD__sub_8034055C(TUnk_804EFBAC *self) {
     step = TWindowDD__data_805DFB20 * h;
     dv = lbl_805DFB4C * lbl_805DFB48;
     q.x0 = points[0].a;
-    q.y0 = points[0].b + h;
     q.x1 = points[7].a;
+    q.y0 = points[0].b + h;
     q.y1 = points[7].b - h;
-    q.u0 = q.v0 = lbl_805DFC40;
+    q.u0 = lbl_805DFC40;
     q.u1 = lbl_805DFC48;
+    q.v0 = q.u0;
     q.v1 = dv;
     TWindowSubStatusDisp::begin_render();
     begin_screen_draw(1);
     set_draw_texture_and_color(4, -1);
-    for (i = 0; i < 3; i++) {
-        if (i == self->pad_68 && self->pad_60 == 0) {
+    for (s32 j = 0; j < 3; j++) {
+        if (j == self->pad_68 && self->pad_60 == 0) {
             color = 0xFF000000;
-        } else if (self->pad_64 <= i) {
+        } else if (self->pad_64 <= j) {
             color = 0xFFFFFFFF;
         } else {
             color = 0xFF808080;
         }
         set_constant_material_color(color);
         draw_textured_quad_at_depth((f32 *)&q, depth);
-        q.v0 = q.v1;
-        q.v1 += dv;
         q.y0 += step;
         q.y1 += step;
+        q.v0 = q.v1;
+        q.v1 += dv;
     }
     TWindowSubStatusDisp::get_player();
 }

@@ -80,6 +80,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
     f32 part;
     f32 yb;
     f32 top;
+    f32 bottom;
     f32 step;
 
     // TWindowDD::get_draw_count(lbl_805D63F0), read inline here (0x80348AE8 is the same load chain)
@@ -94,8 +95,9 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
     s = rect->scale[1];
     count = self->pad_78;
     top = -(0.5f * self->pad_4C);
+    bottom = top + TWindowDD__data_805DFB20;
     y0 = top * s + c;
-    y1 = (top + TWindowDD__data_805DFB20) * s + c;
+    y1 = bottom * s + c;
     if (self->pad_64 == 0) {
         v0 = lbl_805DFB40;
         v1 = v0 + TWindowDD__data_805DFB20;
@@ -147,11 +149,12 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
         }
     }
     if (frac != 0.0f) {
+        yb = 0.5f * self->pad_4C * s + c;
         v = verts;
         for (i = 0; i < 4; i++) {
             v[0].b = y1;
             v[0].e = v0;
-            v[1].b = 0.5f * self->pad_4C * s + c;
+            v[1].b = yb;
             v[1].e = v0 - frac * TWindowDD__data_805DFB18;
             v += 2;
         }
@@ -163,8 +166,9 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
         TWindowDD__sub_80348A2C(rect, verts);
         top = (f32)self->m_6c * TWindowDD__data_805DFB20 + -(0.5f * self->pad_4C);
         s = rect->scale[1];
+        bottom = top + TWindowDD__data_805DFB20;
         y0 = top * s + c;
-        y1 = (top + TWindowDD__data_805DFB20) * s + c;
+        y1 = bottom * s + c;
         v = verts;
         for (i = 0; i < 4; i++) {
             v->b = y0;
