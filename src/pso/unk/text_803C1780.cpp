@@ -72,7 +72,7 @@ s32 TLobby__sub_803C1780(s32 buf, s32 len, s16 *data_offset, s8 *marker, s8 *bit
     if (i == len) {
         return -1;
     }
-    size = LE32(((WavFmtChunk *)(i + buf))->size);
+    size = LE32(*(u32 *)(i + 4 + buf)); // "data" chunk size
     *data_offset = i + 8;
     *marker = -1;
     *sample_rate = LE32(fmt->sample_rate);
