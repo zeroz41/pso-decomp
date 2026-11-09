@@ -14,6 +14,7 @@ extern "C" {
 void TLobby__sub_803D33D4(s32 arg0, s32 arg1);
 void TLobby__sub_803D33E4(s32 arg0, s32 arg1);
 void TLobby__sub_803D346C(s32 arg0);
+void TLobby__sub_803D34B0(s32 arg0, void (*arg1)(s32), s32 arg2);
 }
 // --- end of C functions
 
