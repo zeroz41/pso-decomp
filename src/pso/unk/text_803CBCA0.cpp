@@ -24,7 +24,6 @@ extern "C" {
 extern s32 lbl_804F9D80[];
 extern s32 lbl_805D7594;
 extern s32 lbl_805D75AC;
-extern s32 lbl_805D75B0;
 
 void __OSCallResetFunctions(void) {
     s32 enabled;

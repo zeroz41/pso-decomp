@@ -874,9 +874,6 @@ s32 VIWaitForRetrace();
 extern Cb_803CBA58 adx_worker_thread_pending_callback;
 extern s32 lbl_805D7540;
 extern s32 lbl_805D75A0;
-extern s32 lbl_805D75B4;
-extern s32 lbl_805D75B8;
-extern s32 lbl_805D75BC;
 void TLobby__sub_803CBB14(void);
 }
 extern const u32 lbl_805E0D5C[1];
@@ -902,9 +899,6 @@ void configure_audio_stream_output(Stream_803C9FCC *self);
 extern char adxt_start_filename_open_error[];
 void start_audio_stream_file(Stream_803CA824 *self, const char *name);
 s16 TLobby__sub_803C96E0(Obj_803C96E0 *self, s32 i);
-extern volatile s32 lbl_805D759C;
-extern volatile s32 lbl_805D75C8;
-extern s32 lbl_805D75C4;
 extern const char *const volatile lbl_805E0D78;
 void TLobby__sub_803CB81C(void);
 s32 TLobby__sub_803CBF50(void *);
@@ -925,11 +919,9 @@ void TLobby__sub_803CB74C(s32 *arg0);
 s32 run_worker_callbacks_slot5__6TLobbyFv(int);
 extern Cfg_803CBA58 lbl_804F9D80;
 extern OSThread *lbl_805D75A8;
-extern s32 lbl_805D75B0;
 
 extern s32 lbl_805D7598;
 extern s32 lbl_805D75A4;
-extern s32 lobby_worker_thread_run_flag;
 extern char adxm_idle_border_internal_error[];
 
 void TLobby__sub_803C97F4(u8 *arg0, s32 *pos, s32 *rate);
