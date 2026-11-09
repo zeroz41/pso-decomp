@@ -560,7 +560,7 @@ u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
 void __ct__7TObjectFP7TObject(void *, void *);
 void __construct_array(void *, void *, void *, int, int);
 extern u8 __ct__15RenderFadeStateFv[];
-extern s32 lbl_805D2650;
+extern s32 TBoss1Dragon__name;
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
 extern "C" void vfunc_103__9TObjEneDDFPUc();
@@ -5693,7 +5693,7 @@ u8 *TBoss1Dragon__ct(u8 *arg0, void *arg1, void *arg2) {
     TObjBoss2Tunnel::reset_coords_pass((s32)(arg0 + 0x618));
     __construct_array(arg0 + 0x6E8, __ct__15RenderFadeStateFv, __dt__15RenderFadeStateFv, 0x1C, 4);
     __ct__14SubtractiveRngFv(arg0 + 0x77C);
-    F_29DE4(arg0, s32, 0) = lbl_805D2650;
+    F_29DE4(arg0, s32, 0) = TBoss1Dragon__name;
     if ((u32)TBoss1Dragon__data_805D4B2C == 0U) {
         TBoss1Dragon__data_805D4B2C = (s32)arg0;
     }
