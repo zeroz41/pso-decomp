@@ -93,7 +93,6 @@ extern u8 lbl_8047FDE0[];
 extern u8 lbl_8047FDF0[];
 extern s16 lbl_805D7A7E;
 extern s32 lobby_timer_list_head;
-extern s16 lobby_handler_table_desc;
 extern s32 lbl_8047FEB8[];
 extern s32 lbl_8047FEC8[];
 extern s16 lbl_805D7A7C;

@@ -7,15 +7,19 @@
 #include <stddef.h>
 #include "pso/network/netcfg.h"
 #include "pso/network/IPv6.h"
+#include "pso/network/NetDns.h"
+#include "pso/network/NetArp.h"
+#include "pso/network/NetIpv4.h"
+#include "pso/network/NetEthernet.h"
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/NetworkMessageTransport.h"
 
 typedef struct Big_803F8AD8 {
     u8 pad0[0xB7A0];
-    u8 bufB7A0[0x2FC0];
-    u8 bufE760[0x30];
-    u8 bufE790[0x10];
-    void *funcs[7];
+    EthFrameSlot eth_slots[8];  /* 0xB7A0 */
+    EthSocket eth_sockets[3];   /* 0xE760 */
+    EthLink eth_link;           /* 0xE790 */
+    EthDriver bba;              /* 0xE7A0 */
 } Big_803F8AD8;
 
 typedef struct Ent_803F8BA4 { u8 pad[0x31C]; s32 size; u8 *buf; u8 pad2[4]; } Ent_803F8BA4;
@@ -39,37 +43,37 @@ static s32 lbl_805B9534[1059];
 static s32 lbl_805BA5C0[3115];
 static s32 lobby_net_recv_desc[641];
 
-extern NetSizes lbl_805D7A50;
+extern s16 lbl_805D7A50[3];
 
 void TLobby__sub_803F86BC(void *cfg) {
 }
 
-void init_net_config(NetConfig *c) {
+void init_net_config(DnsResolverState *c) {
     u8 *buf = (u8 *)lobby_net_config_block;
-    c->f0 = 0;
+    c->next_id = 0;
     c->f2 = 0x3F;
-    c->f4 = 0xFF;
-    c->f6 = 0x200;
-    c->fA = 3;
-    c->fC = &lbl_805D7A50;
-    lbl_805D7A50.a = 2;
-    lbl_805D7A50.b = 4;
-    lbl_805D7A50.c = 8;
-    c->f10 = 2;
-    c->f14 = buf + 0x49A0;
-    c->f1A = 6;
-    c->f1C = 0x200;
-    c->f20 = buf + 0x39A0;
-    c->f24 = 8;
-    c->f28 = buf + 0x3960;
-    c->f2C = 0x20;
-    c->f34 = buf + 0x3460;
-    c->f2E = 0x10;
-    c->f38 = buf + 0x13A0;
-    c->f30 = 0x10;
-    c->f3C = buf + 0x1E0;
-    c->f40 = 8;
-    c->f44 = buf;
+    c->max_name = 0xFF;
+    c->msg_size = 0x200;
+    c->ntimeouts = 3;
+    c->timeouts = lbl_805D7A50;
+    lbl_805D7A50[0] = 2;
+    lbl_805D7A50[1] = 4;
+    lbl_805D7A50[2] = 8;
+    c->nservers = 2;
+    c->servers = (NetworkAddress *)(buf + 0x49A0);
+    c->max_tries = 6;
+    c->buffer_size = 0x200;
+    c->buffer_base = buf + 0x39A0;
+    c->nbuffers = 8;
+    c->buffers = (DnsBuffer *)(buf + 0x3960);
+    c->naddrs = 0x20;
+    c->addrs = (DnsAddr *)(buf + 0x3460);
+    c->nhosts = 0x10;
+    c->hosts = (DnsHost *)(buf + 0x13A0);
+    c->nptrs = 0x10;
+    c->ptrs = (DnsPtr *)(buf + 0x1E0);
+    c->nqueries = 8;
+    c->queries = (DnsQuery *)buf;
 }
 
 void TLobby__sub_803F8794(void *cfg) {
@@ -158,14 +162,14 @@ void TLobby__sub_803F8930(u8 *cfg) {
 void TLobby__sub_803F8958(void *cfg) {
 }
 
-void init_buffer_descriptor_a(NetBufDescA *cfg) {
-    cfg->f0 = 0x1A;
-    cfg->f2 = 3;
-    cfg->f4 = 9;
-    cfg->f6 = 0x240;
-    cfg->f8 = (u8 *)lobby_net_config_block + 0x621C;
-    cfg->fC = (u8 *)lobby_net_config_block + 0x61C8;
-    cfg->f10 = (u8 *)lobby_net_config_block + 0x60F0;
+void init_buffer_descriptor_a(Ipv4RoutingState *cfg) {
+    cfg->nroutes = 0x1A;
+    cfg->nifaces = 3;
+    cfg->max_aliases = 9;
+    cfg->min_mtu = 0x240;
+    cfg->routes = (Ipv4Route *)((u8 *)lobby_net_config_block + 0x621C);
+    cfg->ifaces = (Ipv4Iface *)((u8 *)lobby_net_config_block + 0x61C8);
+    cfg->alias_pool = (Ipv4Alias *)((u8 *)lobby_net_config_block + 0x60F0);
 }
 
 void TLobby__sub_803F89A0(NetFragPool *cfg) {
@@ -192,28 +196,28 @@ void init_buffer_desc_a(NetBufferPool *cfg) {
 void TLobby__sub_803F8A08(void *cfg) {
 }
 
-void TLobby__sub_803F8A0C(u8 *cfg) {
-    *(s16 *)(cfg + 0) = 5;
-    *(s32 **)(cfg + 4) = lbl_805B9534;
+void TLobby__sub_803F8A0C(NetPacketPool *cfg) {
+    cfg->count = 5;
+    cfg->packets = (NetPacket *)lbl_805B9534;
 }
 
 void TLobby__sub_803F8A24(void *cfg) {
 }
 
-void init_net_buffer_config(NetBufferCfg *cfg) {
-    cfg->f0 = 8;
-    cfg->f2 = 3;
-    cfg->f4 = 2;
-    cfg->f6 = 0x5DC;
-    cfg->f8 = 9;
-    cfg->fA = 0x14;
-    cfg->fC = 3;
-    cfg->f10 = (u8 *)lobby_net_config_block + 0xB650;
-    cfg->f14 = (u8 *)lobby_net_config_block + 0xB5F0;
-    cfg->f1C = (u8 *)lobby_net_config_block + 0xB5D0;
-    cfg->f18 = (u8 *)lobby_net_config_block + 0xB564;
-    cfg->f20 = (u8 *)lobby_net_config_block + 0xA9AC;
-    cfg->f24 = (u8 *)lobby_net_config_block + 0xA990;
+void init_net_buffer_config(ArpState *cfg) {
+    cfg->nentries = 8;
+    cfg->nifaces = 3;
+    cfg->nholds = 2;
+    cfg->hold_size = 0x5DC;
+    cfg->naliases = 9;
+    cfg->timeout = 0x14;
+    cfg->retry = 3;
+    cfg->entries = (ArpEntry *)((u8 *)lobby_net_config_block + 0xB650);
+    cfg->ifaces = (ArpIface *)((u8 *)lobby_net_config_block + 0xB5F0);
+    cfg->holds = (ArpHold *)((u8 *)lobby_net_config_block + 0xB5D0);
+    cfg->aliases = (ArpAlias *)((u8 *)lobby_net_config_block + 0xB564);
+    cfg->hold_buffers = (u8 *)lobby_net_config_block + 0xA9AC;
+    cfg->packet = (u8 *)lobby_net_config_block + 0xA990;
 }
 
 void TLobby__sub_803F8A9C(void *cfg) {
@@ -228,23 +232,23 @@ void TLobby__sub_803F8AB8(void *cfg) {
     reset_message_thread();
 }
 
-void init_net_func_table(NetFuncTableCfg *cfg) {
+void init_net_func_table(EthernetState *cfg) {
     Big_803F8AD8 *g = (Big_803F8AD8 *)lobby_net_config_block;
-    g->funcs[0] = (void *)TLobby__sub_80426B88;
-    g->funcs[1] = (void *)open_channel_checked;
-    g->funcs[2] = (void *)remove_rec_by_handle;
-    g->funcs[3] = (void *)add_multicast_address;
-    g->funcs[4] = (void *)consume_item_count_by_id;
-    g->funcs[5] = (void *)get_local_address;
-    g->funcs[6] = (void *)queue_timeout_message;
-    cfg->a = 1;
-    cfg->b = 1;
-    cfg->c = 3;
-    cfg->d = 8;
-    cfg->funcs = g->funcs;
-    cfg->x = g->bufE790;
-    cfg->y = g->bufE760;
-    cfg->z = g->bufB7A0;
+    g->bba.init = (s16 (*)(s16))TLobby__sub_80426B88;
+    g->bba.open = (s16 (*)(s16, u16))open_channel_checked;
+    g->bba.close = remove_rec_by_handle;
+    g->bba.add_multicast = add_multicast_address;
+    g->bba.remove_multicast = consume_item_count_by_id;
+    g->bba.get_address = (s16 (*)(s16, void *))get_local_address;
+    g->bba.send = queue_timeout_message;
+    cfg->ndrivers = 1;
+    cfg->nlinks = 1;
+    cfg->nsockets = 3;
+    cfg->nslots = 8;
+    cfg->drivers = &g->bba;
+    cfg->links = &g->eth_link;
+    cfg->sockets = g->eth_sockets;
+    cfg->slots = g->eth_slots;
 }
 
 void TLobby__sub_803F8B78(void *cfg) {

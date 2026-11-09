@@ -17,7 +17,7 @@ s32 abort_tcp_connection(s16 arg0);
 void clear_position(void *self);
 s32 close_if_open(void *self);
 s32 compare_sockaddr(void *self, u8 *arg1);
-s32 dispatch_by_addr_family(s32 arg0, u8 *arg1, u8 *arg2, u8 *arg3, void *arg4, void *arg5);
+s32 dispatch_by_addr_family(s32 arg0, NetworkAddress *arg1, NetworkAddress *arg2, u8 *arg3, void *arg4, void *arg5);
 s32 get_field_534(void *self);
 s32 get_field_d8(void *self);
 s32 get_queue_diff(void *self);
@@ -475,7 +475,7 @@ L316:
             *(u32 *)(self + offsetof(TcpTcb, snd_max)) = *(u32 *)(self + offsetof(TcpTcb, snd_nxt)) + r28;
         }
         {
-            s16 rc = dispatch_by_addr_family((s32)ent, self + offsetof(TcpTcb, remote), self + offsetof(TcpTcb, local), self + offsetof(TcpTcb, f2D6), self + offsetof(TcpTcb, f2DC), (void *)6);
+            s16 rc = dispatch_by_addr_family((s32)ent, (NetworkAddress *)(self + offsetof(TcpTcb, remote)), (NetworkAddress *)(self + offsetof(TcpTcb, local)), self + offsetof(TcpTcb, f2D6), self + offsetof(TcpTcb, f2DC), (void *)6);
             release_entry(ent);
             if (rc < 0) {
                 return rc;
@@ -530,7 +530,7 @@ s32 TLobby__sub_8041B3D4(void* a, void* b, s16 c, s16 d, s32 e, s32 f, u8 g_m) {
     void *ph;
     u8 *ctx;
     u8 buf[0x10];
-    s16 dispatch_by_addr_family(void* a, void* b, void* c, void* d, void* e, u32 n);
+    s16 dispatch_by_addr_family(void* a, NetworkAddress *, NetworkAddress *, u8 *, void* e, u32 n); /* declared s16 here; the definition is s32 (s32, NetworkAddress *, NetworkAddress *, u8 *, void *, void *) */
 
     NetMemset((void *)(buf), (int)(0), (int)(0x10));
     if (!TLobby__sub_8040DA54((u8 *)(a), (u8 *)(b))) {

@@ -28,16 +28,11 @@ typedef struct Stack_80421938 { s16 flags; s16 len; s32 zero; u8 src[0x10]; u8 d
 
 typedef struct O_80421F10 { u8 pad0[8]; s32 size; s16 used; } O_80421F10;
 
-typedef struct Stack_80421F10 { s16 flags; s16 len; s32 zero; u8 src[0x14]; u8 dst[0x14]; s16 port; } Stack_80421F10;
 
 typedef struct IpAddr_80422B8C { u32 family; u8 a[0xC]; } IpAddr_80422B8C;
 
 typedef struct P_8042315C { s32 type; s32 a; s32 b; s32 c; s32 pad10; s16 n; s16 m; s32 d; s32 pad1C; } P_8042315C;
 
-typedef struct send_buffs {
-    short len;
-    u8 *buff;
-} send_buffs;
 
 
 s32 TLobby__sub_8041112C(void);
@@ -307,10 +302,9 @@ s32 TLobby__sub_80421B3C(s32 a) {
     return r;
 }
 
-typedef struct UdpBuf_80421BAC { s16 len; u8 pad2[2]; s32 data; } UdpBuf_80421BAC;
 s16 udp_sendto(s32 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, s32 opt); /* declared here with an s32 handle; the definition takes s16 */
 
-s16 TUdpSocket__sub_80421BAC(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n, UdpBuf_80421BAC *bufs) {
+s16 TUdpSocket__sub_80421BAC(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n, send_buffs *bufs) {
     u32 any_addr[5];
     u32 any_opt[4];
     u16 i;
@@ -359,7 +353,7 @@ s16 TUdpSocket__sub_80421BAC(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n
         }
         pkt->total_bytes += bufs[i - 1].len;
         pkt->fragments[pkt->fragment_count].length = bufs[i - 1].len;
-        init_packet_header((void *)&pkt->fragments[pkt->fragment_count].buffer, bufs[i - 1].data);
+        init_packet_header((void *)&pkt->fragments[pkt->fragment_count].buffer, (s32)bufs[i - 1].buff);
         pkt->fragment_count++;
     }
     if (pkt->total_bytes > 0x7FE3) {
@@ -416,12 +410,12 @@ s16 TUdpSocket__sub_80421DEC(void *src, s32 sport, void *dst, s32 dport, s32 arg
 }
 
 s32 TLobby__sub_80421F10(O_80421F10 *o, void *src, void *dst, s16 port, void *cb, s32 flags) {
-    Stack_80421F10 s;
-    s.flags = flags | 0x400;
+    UdpDatagram s;
+    s.socket = flags | 0x400;
     s.len = o->size - o->used;
-    s.zero = 0;
-    NetMemcpy(s.src, src, 0x14);
-    NetMemcpy(s.dst, dst, 0x14);
+    s.buf = 0;
+    NetMemcpy(&s.src, src, sizeof(NetworkAddress));
+    NetMemcpy(&s.dst, dst, sizeof(NetworkAddress));
     s.port = port;
     if (cb != NULL) {
         TLobby__sub_80421FB8(cb, &s, o);
@@ -429,8 +423,7 @@ s32 TLobby__sub_80421F10(O_80421F10 *o, void *src, void *dst, s16 port, void *cb
     return 0;
 }
 
-typedef struct PktHdr_80421FB8 { s16 flags; s16 len; u8 *buf; } PktHdr_80421FB8;
-typedef s16 (*PktCb_80421FB8)(s32, PktHdr_80421FB8 *);
+typedef s16 (*PktCb_80421FB8)(s32, UdpDatagram *);
 
 void TLobby__sub_80421FB8(void *cb, void *hdr_, void *o_) {
     s32 i;
@@ -438,9 +431,9 @@ void TLobby__sub_80421FB8(void *cb, void *hdr_, void *o_) {
     s16 len;
     NetBufferRef pkt;
     s16 chunk;
-    PktHdr_80421FB8 *hdr;
+    UdpDatagram *hdr;
     NetPacket *o;
-    hdr = (PktHdr_80421FB8 *)hdr_;
+    hdr = (UdpDatagram *)hdr_;
     o = (NetPacket *)o_;
     len = hdr->len;
     if (((PktCb_80421FB8)cb)(0, hdr) == 0) {
@@ -1322,7 +1315,7 @@ extern s32 dhcp_send_time;
 s32 dhcp_release_step(void) {
     s32 now;
     P_8042315C opt;
-    UdpBuf_80421BAC buf;
+    send_buffs buf;
     u32 dst[5];
     u32 src[5];
     s32 len;
@@ -1365,7 +1358,7 @@ s32 dhcp_release_step(void) {
         sock = dhcp_socket;
         len = len > 300 ? len : 300;
         buf.len = len;
-        buf.data = (s32)lbl_805C1E00;
+        buf.buff = lbl_805C1E00;
         if (TUdpSocket__sub_80421BAC(sock, src, dst, 0x43, NULL, 1, &buf) < 0) {
             TLobby__sub_80421B3C(dhcp_socket);
             dhcp_socket = -1;
@@ -1402,7 +1395,7 @@ extern s32 lbl_805D7B90;
 s32 dhcp_request_step(void) {
     s32 now;
     s32 x;
-    UdpBuf_80421BAC buf;
+    send_buffs buf;
     u32 dst[5];
     u32 src[5];
     u32 pad[3];
@@ -1437,7 +1430,7 @@ s32 dhcp_request_step(void) {
         dst[1] = id;
         len = len > 300 ? len : 300;
         buf.len = len;
-        buf.data = (s32)lbl_805C1E00;
+        buf.buff = lbl_805C1E00;
         if (TUdpSocket__sub_80421BAC(sock, src, dst, 0x43, NULL, 1, &buf) < 0) {
             TLobby__sub_80421B3C(dhcp_socket);
             dhcp_socket = -1;
@@ -1525,7 +1518,7 @@ s32 dhcp_discover_step(void) {
     u32 pad2[3];
     u32 buf[2];
     u32 pad1[1];
-    UdpBuf_80421BAC rd;
+    send_buffs rd;
     u32 dst[5];
     u32 src[5];
     s32 len;
@@ -1581,7 +1574,7 @@ s32 dhcp_discover_step(void) {
         sock = dhcp_socket;
         len = len > 300 ? len : 300;
         rd.len = len;
-        rd.data = (s32)lbl_805C1E00;
+        rd.buff = lbl_805C1E00;
         if (TUdpSocket__sub_80421BAC(sock, src, dst, 0x43, NULL, 1, &rd) < 0) {
             TLobby__sub_80421B3C(dhcp_socket);
             dhcp_socket = -1;

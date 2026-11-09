@@ -27,7 +27,7 @@ s32 TLobby__sub_803F87C4(void *);
 void TLobby__sub_8041FDA0(TcpTcb *o, s16 idx, s32 a, s32 b);
 void TLobby__sub_8041FED4(TcpTcb *tcb);
 s32 TLobby__sub_80420D38(u16 arg0, u8 arg1);
-s16 dispatch_by_addr_family(void *, void *, void *, s32, s32, int);
+s16 dispatch_by_addr_family(void *, NetworkAddress *, NetworkAddress *, s32, s32, int); /* declared s16 here; the definition is s32 (s32, NetworkAddress *, NetworkAddress *, u8 *, void *, void *) */
 s16 TLobby__sub_8040D8F0(void *, void *, int, void *, int);
 s16 select_source_address(void *, void *);
 s16 TLobby__sub_8040DA54(void *, void *);

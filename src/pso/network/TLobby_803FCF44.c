@@ -182,7 +182,6 @@ s32 TLobby__sub_804037B0(s32 arg0, u16 arg1);
 void TLobby__sub_803F892C(void *);
 void TLobby__sub_803F8958(void *);
 void TLobby__sub_803F87DC(void *);
-extern Tbl_80408718 lbl_805C1AB0;
 void TLobby__sub_803F97E8(int);
 extern u8 lbl_805C0038[];
 s16 TLobby__sub_80401BCC(void *self, void *dst, u16 n);
@@ -4208,7 +4207,6 @@ bad:
 
 struct RecoveredFields_80401B8C_arg0;
 
-struct Ent_804086B4;
 
 typedef char RecoveredFields_804143BC_arg0_0_offset[offsetof(RecoveredFields_804143BC_arg0, field_0) == 0x0 ? 1 : -1];
 typedef char RecoveredFields_804143BC_arg0_1_offset[offsetof(RecoveredFields_804143BC_arg0, field_1) == 0x1 ? 1 : -1];

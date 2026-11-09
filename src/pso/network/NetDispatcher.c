@@ -10,7 +10,6 @@
 
 #include "types.h"
 #include "pso/network/TLobby_803FCF44.h"
-typedef struct E_8041A0C0 E_8041A0C0;
 
 struct Self_803FD85C;
 
@@ -272,17 +271,14 @@ void NetRunProtocolDispatchLoop(void) {
 }
 #pragma pop
 
-struct E_8041A0C0 { u8 pad[0x14]; s16 f14; u16 f16; s32 f18; };
 s32 release_slot_by_id(u16 a) {
-    E_8041A0C0 *g = (E_8041A0C0 *)&network_dispatch_state;
-    E_8041A0C0 *p = g;
+    NetworkDispatchState *g = &network_dispatch_state;
     s16 i;
-    for (i = 0; i < 3; p = (E_8041A0C0 *)((u8 *)p + 8), i++) {
-        if (p->f14 != 0 && p->f16 == a) {
-            E_8041A0C0 *q = (E_8041A0C0 *)((u8 *)g + i * 8);
-            q->f14 = 0;
-            q->f16 = 0;
-            q->f18 = 0;
+    for (i = 0; i < 3; i++) {
+        if (g->handlers[i].used != 0 && g->handlers[i].type == a) {
+            g->handlers[i].used = 0;
+            g->handlers[i].type = 0;
+            g->handlers[i].fn = 0;
             return 0;
         }
     }

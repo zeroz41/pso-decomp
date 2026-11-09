@@ -49,7 +49,6 @@ u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 arg2, u8 *arg3, s16 arg4);
 s32 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1);
 
 s16 TLobby__sub_80413D78(); /* declared without a parameter list; the definition is s16 (self, idx) */
-extern Tbl_80408718 lbl_805C1AB0;
 s16 TLobby__sub_80413F0C(); /* declared without a parameter list; the definition is s16 (self, id) */
 s16 NetIPv6HandleNeighborSolicitation(u8 *arg0, void *arg1, void *arg2, void *arg3);
 
@@ -62,10 +61,6 @@ struct V_803FE600;
 u16 TUdpSocket__sub_80419864(); /* declared without a parameter list; the definition is u16 (p, n) */
 
 s32 NetUnregisterTimer(void* p);
-
-struct Tbl_80408718;
-
-struct Tbl_80408F2C;
 
 s32 TLobby__sub_80409CE0(s16 arg0, s32 arg1, s32 arg2, s32 arg3);
 
@@ -3053,9 +3048,9 @@ done:
         e->lladdr_len = 0;
         return ret;
     }
-    NetMemcpy((u8 *)e->pending + 8, c, 0x28);
+    NetMemcpy((u8 *)&e->pending->params, c, 0x28);
     e->timer = g->retrans_ticks;
-    *(s16 *)((u8 *)e->pending + 4) = e->timer;
+    e->pending->ttl = e->timer;
     e->probes = 0;
     return NetIPv6SendMulticastNeighborProbe((u8 *)e);
 }
@@ -4164,7 +4159,7 @@ done:
                 e->lladdr_len = 0;
                 return ret;
             }
-            NetMemcpy((u8 *)e->pending + 8, arg3, 0x28);
+            NetMemcpy((u8 *)&e->pending->params, arg3, 0x28);
             return NetIPv6SendMulticastNeighborProbe((u8 *)e);
         }
     }
@@ -4374,18 +4369,18 @@ s32 NetIPv6EmitRouterSolicitation(NetPacket *net_packet, NetIPv6SendParameters *
 #pragma pop
 
 inline s32 notify_804182DC(Ipv6NdNeighbor *e) {
-    u8 *nw;
-    nw = (u8 *)alloc_free_entry();
+    NetPacket *nw;
+    nw = (NetPacket *)alloc_free_entry();
     if (nw == 0) {
         return (s32)e;
     }
-    *(s32 *)(nw + 4) = 0;
-    *(s32 *)(nw + 8) = e->pending->len;
-    ((struct { s16 v; u8 pad[10]; } *)(nw + 0xc))[*(s32 *)(nw + 4)].v = e->pending->len;
-    set_value_and_enable((void *)(nw + *(s32 *)(nw + 4) * 12 + 0x10), (s32)e->pending->data);
-    *(s32 *)(nw + 4) = *(s32 *)(nw + 4) + 1;
+    nw->fragment_count = 0;
+    nw->total_bytes = e->pending->len;
+    nw->fragments[nw->fragment_count].length = e->pending->len;
+    set_value_and_enable(&nw->fragments[nw->fragment_count].buffer, (s32)e->pending->data);
+    nw->fragment_count++;
     TLobby__sub_80410BA8(nw, &e->pending->params, e->iface, e->lladdr);
-    release_entry((void *)nw);
+    release_entry(nw);
     return 1;
 }
 

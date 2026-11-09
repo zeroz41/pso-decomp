@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_804048E8.h"
+#include "pso/network/NetArp.h"
 
 typedef struct Node_80405008 {
     u8 id;
@@ -246,6 +247,6 @@ s32 init_net_list(s16 count1, s16 count2) {
     return (s32)p;
 }
 
-u32 lbl_805C1AB0[0x28 / 4];
+ArpState lbl_805C1AB0;
 u8 lbl_805C18B0[0x200];
 u32 lbl_805C18A0[4];

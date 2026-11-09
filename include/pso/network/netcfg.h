@@ -9,14 +9,7 @@
 extern "C" {
 #endif
 
-typedef struct NetSizes { s16 a; s16 b; s16 c; } NetSizes;
-
-typedef struct NetConfig {
-    s16 f0; s16 f2; s16 f4; s16 f6; s16 f8; s16 fA; NetSizes *fC;
-    s16 f10; s16 f12; u8 *f14; s16 f18; s16 f1A; s16 f1C; s16 f1E; u8 *f20;
-    s16 f24; s16 f26; u8 *f28; s16 f2C; s16 f2E; s16 f30; s16 f32;
-    u8 *f34; u8 *f38; u8 *f3C; s16 f40; s16 f42; u8 *f44;
-} NetConfig;
+struct DnsResolverState;
 
 typedef struct NetParamCfg {
     s32 buffer;          /* 0x00 */
@@ -28,38 +21,7 @@ typedef struct NetParamCfg {
     s16 fA0;             /* 0xA0 */
 } NetParamCfg;
 
-typedef struct NetBufDescA {
-    s16 f0;
-    s16 f2;
-    s16 f4;
-    s16 f6;
-    u8 *f8;
-    u8 *fC;
-    u8 *f10;
-} NetBufDescA;
 
-
-typedef struct NetBufferCfg {
-    s16 f0, f2, f4, f6, f8, fA, fC;
-    u8 padE[2];
-    u8 *f10;
-    u8 *f14;
-    u8 *f18;
-    u8 *f1C;
-    u8 *f20;
-    u8 *f24;
-} NetBufferCfg;
-
-typedef struct NetFuncTableCfg {
-    s16 a;
-    s16 b;
-    s16 c;
-    s16 d;
-    void *funcs;
-    void *x;
-    void *y;
-    void *z;
-} NetFuncTableCfg;
 
 typedef struct NetBufferLayout {
     s16 a;
@@ -74,7 +36,7 @@ typedef struct NetBufferLayout {
 } NetBufferLayout;
 
 void TLobby__sub_803F86BC(void *cfg);
-void init_net_config(NetConfig *cfg);
+void init_net_config(struct DnsResolverState *cfg);
 void TLobby__sub_803F8794(void *cfg);
 void init_params(NetParamCfg *cfg);
 void TLobby__sub_803F87C4(void *cfg);
@@ -91,7 +53,8 @@ void init_buffer_descriptor_b(struct Ipv6NdState *cfg);
 void TLobby__sub_803F892C(void *cfg);
 void TLobby__sub_803F8930(u8 *cfg);
 void TLobby__sub_803F8958(void *cfg);
-void init_buffer_descriptor_a(NetBufDescA *cfg);
+struct Ipv4RoutingState;
+void init_buffer_descriptor_a(struct Ipv4RoutingState *cfg);
 struct NetFragPool;
 void TLobby__sub_803F89A0(struct NetFragPool *cfg);
 void TLobby__sub_803F89A4(struct NetFragPool *cfg);
@@ -99,13 +62,16 @@ struct NetBufferPool;
 void TLobby__sub_803F89D8(struct NetBufferPool *cfg);
 void init_buffer_desc_a(struct NetBufferPool *cfg);
 void TLobby__sub_803F8A08(void *cfg);
-void TLobby__sub_803F8A0C(u8 *cfg);
+struct NetPacketPool;
+void TLobby__sub_803F8A0C(struct NetPacketPool *cfg);
 void TLobby__sub_803F8A24(void *cfg);
-void init_net_buffer_config(NetBufferCfg *cfg);
+struct ArpState;
+void init_net_buffer_config(struct ArpState *cfg);
 void TLobby__sub_803F8A9C(void *cfg);
 void TLobby__sub_803F8AA0(u8 *cfg);
 void TLobby__sub_803F8AB8(void *cfg);
-void init_net_func_table(NetFuncTableCfg *cfg);
+struct EthernetState;
+void init_net_func_table(struct EthernetState *cfg);
 void TLobby__sub_803F8B78(void *cfg);
 struct LoopbackState;
 void init_net_recv_desc(struct LoopbackState *cfg);
