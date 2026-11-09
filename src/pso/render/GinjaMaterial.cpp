@@ -61,9 +61,10 @@ s32 Dolphin_GXSetVtxDesc(int, void *);
 s32 GXClearVtxDesc();
 void GXSetZMode(u8, s32, s32);
 void GXSetZCompLoc(s32);
+void GXSetBlendMode(s32, s32, s32, s32);
 extern RecoveredCallback_d26337a2813d ginja_draw_end_callback;
-extern s32 ginja_draw_flags;
-extern s32 model_render_flags;
+extern u32 ginja_draw_flags;
+extern u32 model_render_flags;
 void queue_model_draw_matrix(s32, s32);
 extern s32 current_matrix;
 extern S_803DB560 ginja_material_cache;
@@ -79,9 +80,10 @@ extern s32 ginja_vertex_component_types[];
 void GXSetVtxAttrFmt(s32, s32, s32, s32, u8);
 void GXSetArray(s32, void *, u8);
 void set_ginja_vertex_arrays(Arr_803DC3BC *arg0);
-s32 apply_ginja_material_params(GinjaDrawRecord *);
+void apply_ginja_material_params(GinjaDrawRecord *);
 s32 GXCallDisplayList(void *, u32);
-extern s32 ginja_draw_list_state, ginja_draw_list_mask, ginja_draw_flags;
+extern u32 ginja_draw_list_state, ginja_draw_flags;
+extern s32 ginja_draw_list_mask;
 void GXSetTexCoordGen2(s32 dst, u32 func, u32 src, s32 mtx, s32 normalize, s32 pt);
 extern s32 ginja_texture_matrix_ids[];
 extern s32 ginja_texcoord_gen_enabled;
@@ -373,6 +375,133 @@ void ginja_set_alpha_compare(s32 ref) {
 }
 #pragma pop
 
+
+extern GinjaSceneState *current_render_context;
+// Each handler gets the parameter's value and the bits that changed (update_ginja_cached_parameter).
+typedef void (*GinjaParameterHandler)(u32 value, u32 changed);
+extern GinjaParameterHandler ginja_parameter_handlers[11];
+extern s32 material_alpha_compare_reference;
+
+#pragma push
+#pragma scheduling off
+#pragma peephole off
+#pragma use_lmw_stmw off
+void apply_ginja_material_params(GinjaDrawRecord *record) {
+    s32 src;
+    s32 dst;
+    GinjaSurfaceState *surface;
+    GinjaParameter *param = (GinjaParameter *)record->parameters;
+    s32 count = record->parameter_count;
+    u32 blend;
+    s32 type;
+    s32 op;
+
+    for (; count > 0; count--, param++) {
+        u32 changed = update_ginja_cached_parameter(param->kind, param->value);
+        if (changed) {
+            ginja_parameter_handlers[param->kind](param->value, changed);
+        }
+    }
+    if (ginja_draw_flags & 2) {
+        GXSetBlendMode(0, 0, 0, 0);
+    } else if (model_render_flags & 0x800000) {
+        GXSetZCompLoc(0);
+        GXSetZMode(1, 7, 0);
+    } else if (ginja_material_cache.textured == 0) {
+        blend = ginja_material_cache.blend;
+        if (model_render_flags & 0x8000) {
+            blend = ginja_blend_override;
+        }
+        type = (blend & 0xC000) >> 14;
+        GXSetBlendMode(type, (blend & 0x3800) >> 11, (blend & 0x700) >> 8, blend & 0xFF);
+        GXSetZCompLoc(0);
+        if (type != 0) {
+            GXSetZMode(1, 3, 0);
+        } else {
+            GXSetZMode(1, 1, 1);
+        }
+    } else if (ginja_material_cache.blend_valid != 0) {
+        type = (ginja_material_cache.blend & 0xC000) >> 14;
+        src = (ginja_material_cache.blend & 0x3800) >> 11;
+        dst = (ginja_material_cache.blend & 0x700) >> 8;
+        op = ginja_material_cache.blend & 0xFF;
+        if (model_render_flags & 0x400) {
+            GXSetBlendMode(type, src, dst, op);
+            GXSetZCompLoc(0);
+            GXSetZMode(1, 3, 0);
+        } else if (model_render_flags & 1) {
+            if (model_render_flags & 0x8000) {
+                u16 texture = ginja_material_cache.texture & 0x1FFF;
+                u8 opaque = 1;
+                if (!(ginja_draw_list_state & 8) && (ginja_draw_list_state & 2) && (ginja_draw_list_mask & 1)) {
+                    ginja_draw_list_state |= 4;
+                } else {
+                    if ((model_render_flags & 0x10) && model_material_color.r != 1.0f) {
+                        opaque = 0;
+                    }
+                    if ((model_render_flags & 0x20) && model_material_color.r != 0.0f) {
+                        opaque = 0;
+                    }
+                    surface = current_render_context->textures->entries[texture].texture->surface;
+                    GXSetZCompLoc(0);
+                    if (opaque) {
+                        GXSetZMode(1, 3, 0);
+                        ginja_set_alpha_compare(0);
+                    } else if (surface->format == 14) {
+                        GXSetZCompLoc(0);
+                        GXSetZMode(1, 3, 1);
+                        ginja_set_alpha_compare(0);
+                    } else {
+                        GXSetZMode(1, 3, 1);
+                    }
+                    GXSetBlendMode(type, src, dst, op);
+                }
+            } else if ((ginja_draw_list_state & 2) && (ginja_draw_list_mask & 1)) {
+                ginja_draw_list_state |= 4;
+            } else {
+                GXSetBlendMode(type, src, dst, op);
+            }
+        } else if (type != 0) {
+            surface = current_render_context->textures->entries[ginja_material_cache.texture & 0x1FFF].texture->surface;
+            if (ginja_material_cache.textured != 0 && surface->format == 14 && src == 4 && dst == 5 &&
+                (surface->flags & 0x40000000)) {
+                if (!(ginja_draw_list_state & 8) && (ginja_draw_list_state & 2) && (ginja_draw_list_mask & 2)) {
+                    ginja_draw_list_state |= 4;
+                } else {
+                    GXSetBlendMode(0, 4, 5, 15);
+                    GXSetZCompLoc(0);
+                    GXSetZMode(1, 3, 1);
+                    ginja_set_alpha_compare(material_alpha_compare_reference & 0xFF);
+                }
+            } else if (!(ginja_draw_list_state & 8) && (ginja_draw_list_state & 2) && (ginja_draw_list_mask & 1)) {
+                ginja_draw_list_state |= 4;
+            } else if ((model_render_flags & 0x1000000) && !(ginja_draw_flags & 2)) {
+                GXSetBlendMode(type, src, dst, op);
+                GXSetZCompLoc(0);
+                GXSetZMode(1, 3, 1);
+                ginja_set_alpha_compare(material_alpha_compare_reference & 0xFF);
+            } else {
+                GXSetBlendMode(type, src, dst, op);
+                GXSetZCompLoc(0);
+                GXSetZMode(1, 3, 0);
+                ginja_set_alpha_compare(0);
+            }
+        } else {
+            surface = current_render_context->textures->entries[ginja_material_cache.texture & 0x1FFF].texture->surface;
+            if (surface->format == 14 && !(surface->flags & 0x40000000)) {
+                GXSetBlendMode(0, 4, 5, 15);
+                GXSetZCompLoc(1);
+                GXSetZMode(1, 1, 1);
+            } else {
+                GXSetAlphaCompare(7, 0, 0, 7, 0);
+                GXSetBlendMode(1, 4, 5, 0);
+                GXSetZCompLoc(0);
+                GXSetZMode(1, 3, 1);
+            }
+        }
+    }
+}
+#pragma pop
 void set_ginja_vertex_arrays(Arr_803DC3BC *arg0) {
     while (arg0->idx != 0xFF) {
         GXSetArray(ginja_vertex_attributes[arg0->idx], arg0->base, arg0->stride);
@@ -405,9 +534,9 @@ s32 draw_ginja_model_lists(void *model_data) {
   GinjaDrawRecord *secondary;
   GinjaDrawRecord *primary;
   s32 primaryCount;
-  s32 result = (s32)invalidate_ginja_inherited_state();
+  invalidate_ginja_inherited_state();
   if (model->vertices) {
-    result = ((s32 (*)(void *))set_ginja_vertex_arrays)(model->vertices);
+    set_ginja_vertex_arrays((Arr_803DC3BC *)model->vertices);
   }
   ginja_draw_list_state = 0;
   if ((ginja_draw_list_mask & 1) && (ginja_draw_list_mask & 2)) {
@@ -419,15 +548,13 @@ s32 draw_ginja_model_lists(void *model_data) {
     primary = model->primary;
     for (; primaryCount > 0; primaryCount--, primary++) {
       ginja_draw_list_state &= ~4;
-      result = apply_ginja_material_params(primary);
-      if ((((u32)(ginja_draw_list_state & 8)) != 0U) ||
-          (((u32)(ginja_draw_list_state & 4)) == 0U)) {
-        result = GXCallDisplayList(primary->display_list,
-                                   primary->display_list_size);
+      apply_ginja_material_params(primary);
+      if ((ginja_draw_list_state & 8) || !(ginja_draw_list_state & 4)) {
+        GXCallDisplayList(primary->display_list, primary->display_list_size);
       }
     }
   }
-  if (((u32)(ginja_draw_flags & 2)) == 0U) {
+  if (!(ginja_draw_flags & 2)) {
     ginja_draw_list_state = 0;
     if ((ginja_draw_list_mask & 1) && (ginja_draw_list_mask & 2)) {
       ginja_draw_list_state |= 8;
@@ -439,16 +566,13 @@ s32 draw_ginja_model_lists(void *model_data) {
       for (; secondaryCount > 0; secondaryCount--, secondary++) {
         ginja_draw_list_state &= ~4;
         apply_ginja_material_params(secondary);
-        if ((((u32)(ginja_draw_list_state & 8)) != 0U) ||
-            (((u32)(ginja_draw_list_state & 4)) == 0U)) {
-          GXCallDisplayList(secondary->display_list,
-                            secondary->display_list_size);
+        if ((ginja_draw_list_state & 8) || !(ginja_draw_list_state & 4)) {
+          GXCallDisplayList(secondary->display_list, secondary->display_list_size);
         }
       }
     }
-    result = 0;
+    return 0;
   }
-  return result;
 }
 #pragma pop
 
@@ -506,10 +630,13 @@ s32 load_ginja_model_matrices(int arg0) {
     }
 }
 
-void *ginja_parameter_handlers[11] = {
-    (void *)&ginja_set_vertex_format, (void *)&set_ginja_indexed_vtx_desc, (void *)&set_ginja_channel_counts, (void *)0x0,
-    (void *)&set_ginja_blend_param, (void *)&set_ginja_material_color, (void *)&TObjPlayer::set_global_color_rgba, (void *)&TObjPlayer::set_global_color_rgba_alt_b,
-    (void *)&ginja_load_texture_slot, (void *)&set_ginja_tev_order, (void *)&set_ginja_texcoord_gen,
+GinjaParameterHandler ginja_parameter_handlers[11] = {
+    (GinjaParameterHandler)ginja_set_vertex_format, (GinjaParameterHandler)set_ginja_indexed_vtx_desc,
+    (GinjaParameterHandler)set_ginja_channel_counts, NULL,
+    (GinjaParameterHandler)set_ginja_blend_param, (GinjaParameterHandler)set_ginja_material_color,
+    (GinjaParameterHandler)TObjPlayer::set_global_color_rgba, (GinjaParameterHandler)TObjPlayer::set_global_color_rgba_alt_b,
+    (GinjaParameterHandler)ginja_load_texture_slot, (GinjaParameterHandler)set_ginja_tev_order,
+    (GinjaParameterHandler)set_ginja_texcoord_gen,
 };
 s32 ginja_vertex_attributes[14] = {
     0x0, 0x9, 0xa, 0xb,
