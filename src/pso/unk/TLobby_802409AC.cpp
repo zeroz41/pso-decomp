@@ -4,6 +4,15 @@
 #include "pso/unk/TLobby_8023F734.h"
 #include "pso/unk/TLobby_80242910.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "dolphin/mtx.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/map/FloorArea.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/network/client_id.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/render/render_util.h"
 
 typedef struct Entry_8024220C
 {
@@ -679,6 +688,99 @@ void TLobby__sub_80241798(Sound_80241798 *arg0) {
 }
 
 void TLobby__sub_80241A0C(void) {  }
+
+extern TCameraCtrl *camera_ctrl_instance;
+
+// Volume, pan and surround of a positioned voice from the listener: the camera,
+// or in split screen the nearest viewed player. Dark Falz and Olga Flow double
+// the hearing range.
+void calc_sound_spatial_params(SoundRequestVoice *v) {
+    s32 pan = 0;
+    s32 volume = 0;
+    s32 surround = 0;
+    if (camera_ctrl_instance != NULL) {
+        Vec listener;
+        Vec source;
+        listener.x = camera_ctrl_instance->pos_x;
+        listener.y = 0.0f;
+        listener.z = camera_ctrl_instance->pos_z;
+        if (v->position != NULL) {
+            f32 dist;
+            f32 range = 300.0f;
+            if (get_current_floor_area() == AREA_DARK_FALZ || get_current_floor_area() == AREA_OLGA_FLOW) {
+                range *= 2.0f;
+            }
+            source.x = ((const Vec *)v->position)->x;
+            source.y = 0.0f;
+            source.z = ((const Vec *)v->position)->z;
+            if (is_split_screen()) {
+                dist = 10000.0f;
+                TCameraCtrl::get_camera_id();
+                for (s32 i = 0; i < TCameraCtrl::get_camera_id(); i++) {
+                    s32 id = TCameraCtrl::get_nth_view_player_id(i);
+                    if (id < 12) {
+                        TObjPlayer *player = get_player_by_client_id(id);
+                        if (player != NULL) {
+                            listener.x = player->position.x;
+                            listener.y = 0.0f;
+                            listener.z = player->position.z;
+                        }
+                        f32 d = horizontal_distance_squared(&listener, &source);
+                        if (dist > d) {
+                            dist = d;
+                        }
+                    }
+                }
+                if (dist != 10000.0f) {
+                    dist = newton_sqrtf(dist);
+                }
+            } else {
+                if (TLobby::is_camera_state_active()) {
+                    listener.x = camera_ctrl_instance->pos_x;
+                    listener.y = 0.0f;
+                    listener.z = camera_ctrl_instance->pos_z;
+                } else {
+                    TObjPlayer *player = get_player_by_client_id(local_client_id);
+                    if (player != NULL) {
+                        listener.x = player->position.x;
+                        listener.y = 0.0f;
+                        listener.z = player->position.z;
+                    }
+                }
+                dist = PSVECDistance(&listener, &source);
+            }
+            if (is_split_screen() || (v->flags & 2)) {
+                pan = 0;
+            } else if (dist > 0.0f) {
+                pan = (s8)(127.0f * -sin_table_lookup(
+                    (s32)(10430.38043493439 * atan2_float(((const Vec *)v->position)->z - camera_ctrl_instance->pos_z,
+                                                          ((const Vec *)v->position)->x - camera_ctrl_instance->pos_x))
+                    + (camera_ctrl_instance->yaw + 0x4000)));
+            }
+            if (is_split_screen() || (v->flags & 8)) {
+                surround = 0;
+            } else {
+                const Vec *pos = (const Vec *)v->position;
+                s32 angle = (s32)(10430.38043493439 * atan2_float(pos->z - listener.z, pos->x - listener.x))
+                    + (camera_ctrl_instance->yaw - 0x4000);
+                surround = (s32)(dist * (cos_table_lookup(angle) * get_field_2a4__6TLobbyFPv(v->owner)));
+            }
+            if (v->flags & 4) {
+                volume = 0;
+            } else {
+                f32 t = (dist - 40.0f) / (range - 40.0f);
+                if (t < 0.0f) {
+                    t = 0.0f;
+                }
+                t *= 127.0f;
+                volume = -(s32)t;
+            }
+        }
+    }
+    v->spatial = volume;
+    v->panSpatial = pan;
+    v->surroundSpatial = surround;
+}
 
 extern const f32 lbl_805DC9EC;
 
