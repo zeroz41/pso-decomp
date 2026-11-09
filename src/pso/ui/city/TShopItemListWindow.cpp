@@ -1,3 +1,7 @@
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+
 #include "types.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
