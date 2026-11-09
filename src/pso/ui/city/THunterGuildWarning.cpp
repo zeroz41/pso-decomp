@@ -28,7 +28,6 @@ THunterGuildWarning::~THunterGuildWarning() {
 
 extern "C" {
 
-void THunterGuildWarning__sub_80211774(void *, void *);
 void THunterGuildWarning__sub_802119CC(void *);
 
 extern const char *THunterGuildWarning__name;
@@ -39,6 +38,6 @@ THunterGuildWarning::THunterGuildWarning(TObject *object, void *arg2) : TObject(
     *(void **)((s8 *)this + 0x1C) = arg2;
     *(u32 *)((s8 *)this + 0x20) = 90;
     THunterGuildWarning__sub_802119CC(this);
-    THunterGuildWarning__sub_80211774(this, *(void **)((s8 *)this + 0x1C));
+    sub_80211774(*(void **)((s8 *)this + 0x1C));
     THunterGuildWarning__instance = this;
 }
