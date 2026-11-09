@@ -4646,6 +4646,60 @@ inline s32 max_entry_index(u8 *rec) {
     return max;
 }
 
+ 
+// Size of a page record: little-endian u16 at its start (name inferred).
+inline u16 record_size(u8 *p) {
+    return p[0] + (p[1] << 8);
+}
+
+s32 TQuestVmDownLoadServer__sub_803EF208(Req_803EEF2C *msg) {
+    u8 *end;
+    u8 *p;
+    s32 not_found = 1;
+    u8 n;
+    s32 c;
+    s32 size;
+    char buf[0x50];
+    if (lbl_805D7904 == -1) {
+        return -3;
+    }
+    if (lbl_805D78F8 == 0x8000) {
+        return -6;
+    }
+    strncpy(buf, msg->name, msg->len);
+    buf[msg->len] = 0;
+    p = get_cached_page__22TQuestVmDownLoadServerFi(((TQuestVmDownLoadServer *)buf)->find_name_index());
+    for (end = p; (size = (u16)(end[0] + (end[1] << 8))) != 0; end += size) {
+    }
+    for (; p < end; p += record_size(p)) {
+        n = p[2];
+        c = strncmp((const char *)(p + 3), buf, (s16)n);
+        if (c == 0) {
+            if ((s16)n == msg->len) {
+                not_found = 0;
+                break;
+            }
+        } else if (c > 0) {
+            break;
+        }
+    }
+    if (not_found) {
+        return 0;
+    }
+    c = TQuestVmDownLoadServer__sub_803EEFC8(p, msg);
+    if (c == 0) {
+        return 0;
+    }
+    if (c == -1) {
+        shift_tail_bytes(p + (u16)(p[0] + (p[1] << 8)), end + 2, -(u16)(p[0] + (p[1] << 8)));
+    } else {
+        shift_tail_bytes(p + (u16)(p[0] + (p[1] << 8)) + c, end + 2, -c);
+    }
+    TQuestVmDownLoadServer__sub_803E79AC();
+    TQuestVmDownLoadServer::set_active();
+    return 3;
+}
+
 s32 TQuestVmDownLoadServer__sub_803EF538(Msg_803E9190 *msg) {
     u8 *end;
     u8 *page;
