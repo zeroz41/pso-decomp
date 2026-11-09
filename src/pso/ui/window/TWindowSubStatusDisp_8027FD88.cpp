@@ -113,6 +113,19 @@ extern s32 TWindowSubStatusDisp__rank_time_records_layout[];
 // rank letters by clear rank: "", "B", "A", "S"
 extern char *lbl_804D2B20[];
 
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+
+// Inferred name: m_60 == 2 selects the second pair of record sets (slots 2/3 instead of 0/1).
+inline int TWindowSubStatusDisp::get_record_slot(int base) {
+    int slot = base;
+    if (m_60 == 2) {
+        slot = base + 2;
+    }
+    return slot;
+}
+
 // Best-time records page: the online (m_60 == 2) variant shows the other record slots.
 void TWindowSubStatusDisp::vt4() {
     s32 slot;
@@ -129,10 +142,7 @@ void TWindowSubStatusDisp::vt4() {
     }
     init_window_layout_entries(&m_24, TWindowSubStatusDisp__rank_time_records_layout, m_20);
     ((TWindowSubStatusDisp *)m_68)->get_type();
-    slot = 0;
-    if (m_60 == 2) {
-        slot = 2;
-    }
+    slot = get_record_slot(0);
     entry = (u16 *)get_array_entry(0);
     if (slot == 0) {
         set_text_entry_string((u8 *)entry, (u32)TWindowSubStatusDisp::get_message_10(0x90), 0);
@@ -140,19 +150,19 @@ void TWindowSubStatusDisp::vt4() {
         set_text_entry_string((u8 *)entry, (u32)TWindowSubStatusDisp::get_message_10(0x93), 0);
     }
 
-    label = (u16 *)get_array_entry(1);
+    entry = (u16 *)get_array_entry(1);
     value = (u16 *)get_array_entry(2);
     name = (u16 *)get_array_entry(3);
     player_name = (s8 *)TWindowSubStatusDisp::get_status_window((u16)m_20);
     if (slot != 0 || player_name == NULL || *player_name == 0) {
-        *label |= 2;
+        *entry |= 2;
         *value |= 2;
         *name |= 2;
     } else {
-        *label &= ~2;
+        *entry &= ~2;
         *value &= ~2;
         *name &= ~2;
-        set_text_entry_string((u8 *)label, (u32)TWindowSubStatusDisp::get_message_10(0x9B), 0);
+        set_text_entry_string((u8 *)entry, (u32)TWindowSubStatusDisp::get_message_10(0x9B), 0);
         set_text_entry_string((u8 *)name, (u32)player_name, 0x20);
         *(s32 *)((u8 *)name + 0x24) = TWindowSubStatusDisp::get_status_index((u16)m_20);
     }
@@ -199,10 +209,7 @@ void TWindowSubStatusDisp::vt4() {
         set_text_entry_string((u8 *)label, get_shared_text_buffer(), 0x20);
     }
 
-    slot = 1;
-    if (m_60 == 2) {
-        slot = 3;
-    }
+    slot = get_record_slot(1);
     entry = (u16 *)get_array_entry(0xA);
     value = (u16 *)get_array_entry(0xB);
     label = (u16 *)get_array_entry(0xC);
