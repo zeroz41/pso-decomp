@@ -295,7 +295,7 @@ struct RadarVec2_801FA880 { f32 x, y; };
 
 extern "C" {
 s32 TCameraCtrl__sub_80068EF0();
-void draw_compass__13TRaderMapCoreFv(TRaderMapCore *self, s32 mode);
+extern u32 TRaderMapCore__data_805D5F4C;
 extern const f32 lbl_805DC588;
 extern RadarSpriteFrame_801FA6CC lbl_804C87E4[];
 extern f32 lbl_804C87B4[][4];
@@ -1078,6 +1078,50 @@ RadarSpriteFrame_801FA6CC lbl_804C87E4[2] = {
     { 32, 32, 16, 27, 0, 0, 256, 256, 0, 0 },
     { 32, 32, 16, 16, 0, 0, 256, 256, 1, 0 },
 };
+
+// The sprite block draw_compass_sprite reads: screen position, depth, scale,
+// rotation, the texture list and the frame table.
+struct RadarCompassSprite_801FA6CC {
+    f32 x;
+    f32 y;
+    f32 z;
+    f32 scale_x;
+    f32 scale_y;
+    s32 rotation;
+    u32 texlist;
+    RadarSpriteFrame_801FA6CC *frames;
+};
+
+void TRaderMapCore::draw_compass(s32 mode) {
+    RadarCompassSprite_801FA6CC sprite;
+    u32 color;
+    f32 *pos;
+    if (apply_compass_param(&m_90) != 0) {
+        sprite.x = 0.0f;
+        sprite.y = 0.0f;
+        sprite.z = 0.0f;
+        sprite.scale_x = 1.0f;
+        sprite.scale_y = 1.0f;
+        sprite.rotation = 0;
+        sprite.texlist = TRaderMapCore__data_805D5F4C;
+        sprite.frames = lbl_804C87E4;
+        color = 0xFFFFFFFF;
+        TParticleCtrl::begin_effect_render();
+        pos = lbl_804C87B4[mode];
+        sprite.x = pos[2] + lbl_804C87E4[1].x;
+        sprite.y = pos[3] + lbl_804C87E4[1].y;
+        set_default_alpha_blend();
+        ((u8 *)&color)[3] = (u8)m_19c;
+        ((TObjPlayer *)&sprite)->draw_compass_sprite(1, ((color & 0xFF00) << 16) | (color >> 16) | ((color & 0xFF) << 16), 0x21, 0.8f);
+        sprite.x = pos[0] + lbl_804C87E4[0].x;
+        sprite.y = pos[1] + lbl_804C87E4[0].y;
+        sprite.rotation = m_174;
+        set_additive_blend();
+        ((TObjPlayer *)&sprite)->draw_compass_sprite(0, -1, 0x21, 0.8f);
+        TParticleCtrl::end_effect_render();
+    }
+}
+
 static RadarVec2_801FA880 radar_backdrop_origin[3] = { { 480.0f, 64.0f }, { 32.0f, 288.0f }, { 96.0f, 176.0f } };
 static RadarVec2_801FA880 radar_backdrop_size[3] = { { 128.0f, 128.0f }, { 448.0f, 128.0f }, { 448.0f, 128.0f } };
 static f32 radar_backdrop_alpha[3] = { 64.0f, 64.0f, 128.0f };
@@ -1226,7 +1270,7 @@ void TRaderMapCore::render() {
             ((TRaderMapCore *)arg0)->draw_enemy_gate_markers();
             draw_player_markers();
             setup_view(TRaderMapCore__view_mode);
-            draw_compass__13TRaderMapCoreFv((TRaderMapCore *)arg0, TRaderMapCore__view_mode);
+            draw_compass(TRaderMapCore__view_mode);
             break;
         case 1:
             TCameraCtrl::restore_full_screen_view();
@@ -1239,7 +1283,7 @@ void TRaderMapCore::render() {
             setup_view(TRaderMapCore__view_mode);
             TCameraCtrl::restore_full_screen_view();
             this->m_174 = 0;
-            draw_compass__13TRaderMapCoreFv((TRaderMapCore *)arg0, TRaderMapCore__view_mode);
+            draw_compass(TRaderMapCore__view_mode);
             TCameraCtrl__sub_80068EF0();
             break;
         case 2:

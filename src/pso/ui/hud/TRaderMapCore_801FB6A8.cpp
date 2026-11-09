@@ -95,7 +95,7 @@ void TRaderMapCore::load_map_resources() {
     TRaderMapCore__render_mode = 1;
 }
 
-s32 TRaderMapCore::apply_compass_param() {
+s32 TRaderMapCore::apply_compass_param(s32 *counter) {
     if ((u32) TRaderMapCore__data_805D5F4C != 0U) {
         TObjFish::set_global_param((s32) TRaderMapCore__data_805D5F4C);
         return 1;
