@@ -39,6 +39,8 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_800FD8A0.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/object/TObjChip.h"
+#include "pso/system/SoundEffect.h"
 
 extern BmlResource *TOTrapAncient01__bml_resource;
 extern BmlResourceDescriptor bm_o_trap_ancient01_resource_descriptor;
@@ -204,6 +206,63 @@ void TOTrapAncient01::release_trapped_player() {
             }
             obj_clear_flag30_20000(player);
         }
+    }
+}
+
+extern const TObjChipParams lbl_80442D80;
+extern const TObjChipParams lbl_80442DCC;
+extern const TObjChipParams lbl_80442E18;
+void TOTrapAncient01::play_sounds() {
+    TObjChipParams chip0 = lbl_80442D80;
+    chip0.pos[0] = position.x;
+    chip0.pos[1] = position.y;
+    chip0.pos[2] = position.z;
+    chip0.pad_38[0] = position.y;
+    chip0.model = get_bml_model(TOTrapAncient01__bml_resource, 0);
+    chip0.textures = TObjFish__sub_8001EDB0(TOTrapAncient01__bml_resource, 0);
+    TObjChipParams chip1 = lbl_80442DCC;
+    chip1.pos[0] = position.x;
+    chip1.pos[1] = position.y;
+    chip1.pos[2] = position.z;
+    chip1.pad_38[0] = position.y;
+    chip1.model = get_bml_model(TOTrapAncient01__bml_resource, 1);
+    chip1.textures = TObjFish__sub_8001EDB0(TOTrapAncient01__bml_resource, 1);
+    TObjChipParams chip2 = lbl_80442E18;
+    chip2.pos[0] = position.x;
+    chip2.pos[1] = position.y;
+    chip2.pos[2] = position.z;
+    chip2.pad_38[0] = position.y;
+    chip2.model = get_bml_model(TOTrapAncient01__bml_resource, 2);
+    chip2.textures = TObjFish__sub_8001EDB0(TOTrapAncient01__bml_resource, 2);
+    new TObjChip(tl_06, &chip0);
+    new TObjChip(tl_06, &chip1);
+    new TObjChip(tl_06, &chip2);
+    TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect(&position, 0x8B);
+    if (particle != NULL) {
+        particle->set_scale(1.25f, 1.25f);
+    }
+    switch (get_current_floor_area()) {
+    case AREA_SEABED_UPPER:
+    case AREA_SEABED_LOWER:
+        play_sound_effect(0x4004C118, &position, 0, 0);
+        break;
+    case AREA_VR_TEMPLE_ALPHA:
+    case AREA_VR_TEMPLE_BETA:
+        play_sound_effect(0x4BC07, &position, 0, 0);
+        break;
+    case AREA_VR_SPACESHIP_ALPHA:
+    case AREA_VR_SPACESHIP_BETA:
+        play_sound_effect(0x4004BC07, &position, 0, 0);
+        break;
+    case AREA_SEASIDE_NIGHT:
+        play_sound_effect(0x4004BC19, &position, 0, 0);
+        break;
+    case AREA_TOWER:
+        play_sound_effect(0x4004BC19, &position, 0, 0);
+        break;
+    default:
+        play_sound_effect(0x4004BC12, &position, 0, 0);
+        break;
     }
 }
 
