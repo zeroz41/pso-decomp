@@ -2866,3 +2866,5 @@ pso/player/TUnk_804928CC.cpp
 pso/network/NetworkRuntime.c
 pso/network/NetworkThreadRuntime.c
 pso/object/ambient/TObjFish.cpp
+pso/ui/city/TShopItemListWindow.cpp
+pso/unk/text_803C1780.cpp
