@@ -4,17 +4,29 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/network/protocol/protocol.h"
+#include "pso/unk/pso_carve_8020bf88.h"
+#include "pso/player/TObjPlayer_80011014.h"
 struct Ent_8020BB18 { u8 pad0[2]; s16 a; u8 pad1[0x3C]; u32 f40; };
 
-struct Src_8020B970 { s16 f0; u8 pad2[6]; u16 f8; s16 fA; s16 fC; u8 padE[0x44 - 0xE]; };
+struct Src_8020B970 { s16 f0; s16 flags; u8 pad4[4]; u16 f8; s16 fA; s16 fC; u8 padE[0x44 - 0xE]; };
 
-struct Dst_8020B970 { u16 f0; u8 pad2[2]; s16 f4; s16 f6; };
+struct Dst_8020B970 { u16 f0; s16 flags; s16 f4; s16 f6; };
 
-struct Src_8020B7C4 { s16 f0; u8 pad2[8]; u16 fA; s16 fC; s16 fE; u8 pad10[0x48 - 0x10]; };
+struct Src_8020B7C4 { s16 f0; s16 flags; u8 pad4[6]; u16 fA; s16 fC; s16 fE; u8 pad10[0x48 - 0x10]; };
 
 struct Tbl_8020B970 { s32 count; s32 count2; u8 pad8[8]; Dst_8020B970 *list; Dst_8020B970 *list2; };
 
 struct Slot_8020B970 { void *entry; void *entry2; };
+
+// Set flags of every floor's object and enemy sets, packed for the network (serialize_area_set_flags).
+struct AreaSetFlags_8020B5CC {
+    u32 header_size;
+    s32 object_count;
+    u32 enemy_offset;
+    s32 enemy_count;
+    s16 flags[1];
+};
 
 extern "C" {
 void destroy_child_recursive__6TLobbyFPvPv(int, int);
@@ -32,8 +44,83 @@ extern Slot_8020B970 TLobby__data_80513A40[];
 extern Tbl_8020B970 TLobby__floor_enemy_group_table[];
 extern u32 TLobby__data_805D6104;
 extern u32 TLobby__data_805D6108;
+extern Src_8020B970 *TLobby__data_805D610C;
+extern Src_8020B7C4 *TLobby__data_805D6114;
 s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32 idx, Src_8020B970 *src, u32 size);
 s32 init_quest_floor_enemies(s32 idx, Src_8020B7C4 *src, u32 size);
+
+int TLobby__sub_8020B5CC(AreaSetFlags_8020B5CC *out) {
+    Dst_8020B970 *e;
+    s32 n;
+    s16 *p;
+    s32 i;
+    s32 count;
+    s32 j;
+    Src_8020B970 *s;
+    Src_8020B7C4 *s2;
+
+    out->header_size = 0x10;
+    p = out->flags;
+    count = 0;
+    for (i = 0; i < 18; i++) {
+        n = TLobby__floor_enemy_group_table[i].count;
+        if (n > 0) {
+            e = TLobby__floor_enemy_group_table[i].list;
+            if (i == get_current_floor()) {
+                s = TLobby__data_805D610C;
+                if (s != NULL) {
+                    for (j = 0; j < n; j++) {
+                        s16 flags = s->flags & ~2;
+                        bswap_16((u16 *)&flags);
+                        s++;
+                        count++;
+                        *p++ = flags;
+                    }
+                }
+            } else {
+                for (j = 0; j < n; j++) {
+                    s16 flags = e->flags & ~2;
+                    bswap_16((u16 *)&flags);
+                    e++;
+                    count++;
+                    *p++ = flags;
+                }
+            }
+        }
+    }
+    out->object_count = count;
+    out->enemy_offset = out->object_count * 2 + 0x10;
+    count = 0;
+    for (i = 0; i < 18; i++) {
+        n = TLobby__floor_enemy_group_table[i].count2;
+        if (n > 0) {
+            e = TLobby__floor_enemy_group_table[i].list2;
+            if (i == get_current_floor()) {
+                s2 = TLobby__data_805D6114;
+                if (s2 != NULL) {
+                    for (j = 0; j < n; j++) {
+                        s16 flags = s2->flags & ~2;
+                        bswap_16((u16 *)&flags);
+                        s2++;
+                        count++;
+                        *p++ = flags;
+                    }
+                }
+            } else {
+                for (j = 0; j < n; j++) {
+                    s16 flags = e->flags & ~2;
+                    bswap_16((u16 *)&flags);
+                    e++;
+                    count++;
+                    *p++ = flags;
+                }
+            }
+        }
+    }
+    out->enemy_count = count;
+    ((TLobby *)out)->bswap_4_words();
+    return TLobby__sub_8020BF88();
+}
 
 #pragma push
 #pragma opt_propagation off
