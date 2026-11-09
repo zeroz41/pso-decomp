@@ -5824,12 +5824,9 @@ pso/ui/frontend/TAdPlayerLoadGC_801E0C30.cpp:
 	.bss        start:0x80511ED0 end:0x80511F70
 	.sdata2     start:0x805DC410 end:0x805DC418
 
-pso/unk/text_801E283C.cpp:
-	.text       start:0x801E283C end:0x801E2B24
-
 pso/system/data/pso_date.cpp:
-	.text       start:0x801E2B24 end:0x801E2D1C
-	.rodata     start:0x804496D0 end:0x80449700
+	.text       start:0x801E283C end:0x801E2D1C
+	.rodata     start:0x804496D0 end:0x80449730
 
 pso/player/TObjPlayer_801E2D1C.cpp:
 	.text       start:0x801E2D1C end:0x801E2EFC

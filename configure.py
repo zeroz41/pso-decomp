@@ -664,6 +664,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # GC/1.3: the compiler-generated TMenuList<> copy constructor.
     "pso/network/TRegister.cpp": {"mw_version": "GC/1.3"},
     "pso/player/TPlyGuildCardTag_801E0284.cpp": {"mw_version": "GC/1.3"},
+    # fill_date_from_seconds stores the month between the days[m - 1] load and the subtraction only
+    # under 1.3-2.0 (2.6 schedules the store after it).
+    "pso/system/data/pso_date.cpp": {"mw_version": "GC/1.3"},
     "pso/network/TPlyStartGame.cpp": {"mw_version": "GC/1.3"},
     "pso/ui/window/TWindowShortListCtrl_8026E7DC.cpp": {"mw_version": "GC/1.3", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # Deferred inlining: functions come out in reverse source order and the
