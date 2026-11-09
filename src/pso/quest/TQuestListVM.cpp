@@ -520,7 +520,7 @@ void TQuestListVM::poll_quest_download() {
 void TQuestListVM::open_confirm_window() {
     if (detail_window == NULL) {
         WindowSize size = detail_window_size;
-        detail_window = (TWindowMessage *)TWindowMessage::create((s32)get_window_layout_position(0x2E), (s32)&size, 1, get_entity_id(player));
+        detail_window = (TWindowMessage *)TWindowMessage::create((s32)get_window_layout_position(0x2E), &size.width, 1, get_entity_id(player));
         detail_window->append_line((int)((QuestBinHeader *)decrypted_quest_buffer)->long_description, 1);
         detail_window->set_depth(-13000.0f);
         if (TCameraCtrl::get_camera_id() >= 2) {

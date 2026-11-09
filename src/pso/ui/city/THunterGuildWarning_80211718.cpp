@@ -46,8 +46,8 @@ void THunterGuildWarning::sub_80211774(void *) {
     S_80211718 *self = (S_80211718 *)this;
     f32 size[2] = {322.0f, 120.0f};
     f32 scale[2] = {1.0f, 1.0f};
+    int text;
     s32 i;
-    s32 text;
     u16 id;
 
     if (TCameraCtrl::get_instance() > 2) {
@@ -58,7 +58,7 @@ void THunterGuildWarning::sub_80211774(void *) {
     case 0:
         id = TCameraCtrl::get_nth_view_player_id(0);
         if (get_player_by_client_id(id) != NULL) {
-            self->w[id] = (u32)TWindowMessage::create(get_window_layout_position(0x31), (s32)size, 1, id);
+            self->w[id] = (u32)TWindowMessage::create(get_window_layout_position(0x31), size, 1, id);
         }
         if (self->w[id] != 0) {
             ((TWindowMessage *)self->w[id])->append_line(TQuestVmDownLoadServer__sub_8006EF6C(99), 0x81);
@@ -68,7 +68,7 @@ void THunterGuildWarning::sub_80211774(void *) {
     case 1:
         id = TCameraCtrl::get_nth_view_player_id(0);
         if (get_player_by_client_id(id) != NULL) {
-            self->w[id] = (u32)TWindowMessage::create(get_window_layout_position(0x31), (s32)size, 1, id);
+            self->w[id] = (u32)TWindowMessage::create(get_window_layout_position(0x31), size, 1, id);
         }
         if (self->w[id] != 0) {
             ((TWindowMessage *)self->w[id])->append_line(TQuestVmDownLoadServer__sub_8006EF6C(104), 0x81);
@@ -84,7 +84,7 @@ void THunterGuildWarning::sub_80211774(void *) {
         for (i = 0; i < 4; i++) {
             if (id != i) {
                 if (get_player_by_client_id(i) != NULL) {
-                    self->w[i] = (u32)TWindowMessage::create(get_window_layout_position(0x31), (s32)size, 1, i);
+                    self->w[i] = (u32)TWindowMessage::create(get_window_layout_position(0x31), size, 1, i);
                 }
                 if (self->w[i] != 0) {
                     ((TWindowMessage *)self->w[i])->append_line(TQuestVmDownLoadServer__sub_8006EF6C(text), 0x81);
