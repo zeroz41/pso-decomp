@@ -38,7 +38,7 @@ extern char controller_input_state[];
 s32 TAdPlayerLoadGC__sub_801E1B50(int);
 s32 load_player__23TAdSinglePlyChrSelectGCFv();
 u32 TAdChrSelASlotGC__sub_8030CB08(TAdChrSelASlotGC *arg0, s32 kind, s32 text);
-extern RecoveredGlobal_802D4730_lbl_804C89BC lbl_804C89BC;
+extern RecoveredGlobal_802D4730_lbl_804C89BC pso_guildcard_card_filename;
 void TKeyBoardControl__sub_8000F91C(s32 arg0);
 void TKeyBoardControl__sub_8000F9CC(s32 arg0);
 s32 TAdChrSelASlotGC__sub_8030C978(void *arg0, s32 arg1, s32 arg2);
@@ -420,7 +420,7 @@ void TAdSinglePlyChrSelectGC::sub_802D4730() {
         return;
     }
     if (TAdPlayerLoadGC__sub_801E1B50(0) == 0) {
-        if (TAdPlayerLoadGC::find_card_file(0, (const char *)(&lbl_804C89BC.value)) == 0) {
+        if (TAdPlayerLoadGC::find_card_file(0, (const char *)(&pso_guildcard_card_filename.value)) == 0) {
             if ((u32) *(u32 *)((s8 *)arg0 + 0x40) != 0U) {
                 ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x40)))->close();
                 *(u32 *)((s8 *)arg0 + 0x40) = 0U;
@@ -453,7 +453,7 @@ void TAdSinglePlyChrSelectGC::sub_802D486C() {
         return;
     }
     if (TAdPlayerLoadGC__sub_801E1B50(0) == 0) {
-        if ((u32)TAdPlayerLoadGC::find_card_file(0, (const char *)&lbl_804C89BC.value) != 0xFFFFFF41U) {
+        if ((u32)TAdPlayerLoadGC::find_card_file(0, (const char *)&pso_guildcard_card_filename.value) != 0xFFFFFF41U) {
             if (*(u32 *)((s8 *)arg0 + 0x3C) != 0U) {
                 ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x3C)))->close();
                 *(u32 *)((s8 *)arg0 + 0x3C) = 0U;

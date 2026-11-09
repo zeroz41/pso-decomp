@@ -28,8 +28,8 @@ void *memcpy(void *, const void *, u32);
 extern char memory_card_character_dir_name[];
 extern s32 lbl_805D49B4;
 void poll_load_status__15TAdPlayerLoadGCFl(s32, void *);
-extern char lbl_804C88C0[];
-extern char lbl_804C89BC[];
+extern char pso_character_card_filename[];
+extern char pso_guildcard_card_filename[];
 extern char pso_system_card_filename[];
 int TWindowKeyBoardHard::is_card_flag_set() { return TWindowKeyBoardHard::test_card_flag((s32)this, 1); }
 void draw_ginja_box_tree(u8 *arg0) {
@@ -71,9 +71,9 @@ void draw_ginja_box_tree(u8 *arg0) {
 void TAdSinglePlyChrSelectGC__sub_801FBB1C(void) {
     s32 r;
     if (TAdPlayerLoadGC::probe_and_check_card(0) != 0) {
-        r = TAdPlayerLoadGC::find_card_file(0, lbl_804C88C0);
+        r = TAdPlayerLoadGC::find_card_file(0, pso_character_card_filename);
         if (r == 0 || (u32)r == 0xFFFFFF41U) {
-            poll_load_status__15TAdPlayerLoadGCFl(0, lbl_804C88C0);
+            poll_load_status__15TAdPlayerLoadGCFl(0, pso_character_card_filename);
         }
     }
 }
@@ -81,9 +81,9 @@ void TAdSinglePlyChrSelectGC__sub_801FBB1C(void) {
 void TAdSinglePlyChrSelectGC__sub_801FBB7C(void) {
     s32 r;
     if (TAdPlayerLoadGC::probe_and_check_card(0) != 0) {
-        r = TAdPlayerLoadGC::find_card_file(0, lbl_804C89BC);
+        r = TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename);
         if (r == 0 || (u32)r == 0xFFFFFF41U) {
-            poll_load_status__15TAdPlayerLoadGCFl(0, lbl_804C89BC);
+            poll_load_status__15TAdPlayerLoadGCFl(0, pso_guildcard_card_filename);
         }
     }
 }
