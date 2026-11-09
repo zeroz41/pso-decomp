@@ -6,6 +6,7 @@
 #include "pso/network/NetworkTransport.h"
 
 #include "types.h"
+#include "pso/network/text_80421620.h"
 
 typedef struct Pkt_804249F0 {
     u8 f0;
@@ -40,71 +41,9 @@ typedef struct Req_804250A8 {
     s32 d;
 } Req_804250A8;
 
-typedef struct RecoveredGlobal_80428374_lbl_805D0A40 {
-    s32 value;
-    u8 remaining[0x5C];
-} RecoveredGlobal_80428374_lbl_805D0A40;
-
-typedef struct RecoveredGlobal_8042839C_lbl_805D0A40 {
-    s32 value;
-    u8 remaining[0x5C];
-} RecoveredGlobal_8042839C_lbl_805D0A40;
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-
-typedef struct RecoveredGlobal_8042E768_lbl_805D1D20 {
-    s32 value;
-    u8 remaining[0x18];
-} RecoveredGlobal_8042E768_lbl_805D1D20;
-
-typedef struct RecoveredGlobal_80427D0C_lbl_805CFC20 {
-    s32 value;
-    u8 remaining[0xE1C];
-} RecoveredGlobal_80427D0C_lbl_805CFC20;
-
-typedef struct RecoveredGlobal_80428360_lbl_805CFC20 {
-    s16 value;
-    u8 remaining[0xE1E];
-} RecoveredGlobal_80428360_lbl_805CFC20;
-
-typedef struct RecoveredGlobal_8042DD70_lbl_805D1D20 {
-    s32 value;
-    u8 remaining[0x18];
-} RecoveredGlobal_8042DD70_lbl_805D1D20;
-
-typedef struct Names_8042E57C {
-    char *name[6];
-} Names_8042E57C;
-
-typedef struct Names_8042E628 {
-    char *name[4];
-} Names_8042E628;
-
-typedef struct Names_8042E6C4 {
-    char *name[5];
-} Names_8042E6C4;
-
-typedef struct Names_8042E7B8 {
-    char *name[3];
-} Names_8042E7B8;
-
-typedef struct Ent_80426894 {
-    s16 count;
-    u8 id[6];
-} Ent_80426894;
-
-typedef struct Tbl_80426894 {
-    u8 pad[6];
-    Ent_80426894 ent[6];
-} Tbl_80426894;
-
-typedef struct Ent_80427C6C {
-    u16 pad0;
-    u16 id;
-    u8 rest[0xE10];
-} Ent_80427C6C;
 
 typedef struct R_804253A0 { s32 a; s32 b; } R_804253A0;
 
@@ -112,35 +51,14 @@ NetworkPacketBufferDescriptor network_packet_buffer_descriptors[NETWORK_PACKET_B
 u8 network_packet_buffers[NETWORK_PACKET_BUFFER_COUNT][NETWORK_PACKET_BUFFER_BYTES];
 extern u32 network_packet_mutex;
 void TAdSinglePlyChrSelectGC__sub_8042DDE4(int, int);
-typedef struct Ent_804267F0 {
-    s16 count;
-    u8 id[6];
-} Ent_804267F0;
 
-typedef struct Tbl_804267F0 {
-    u8 pad[6];
-    Ent_804267F0 ent[6];
-} Tbl_804267F0;
-
-s16 TLobby__sub_804262CC(void *);
-void NetUnregisterTimer(void *);
-s32 TLobby__sub_80421B3C(s32);
+s32 NetUnregisterTimer(void *fn);
 s32 TLobby__sub_804250A8(s32);
 extern u8 TLobby__sub_80423298[];
-extern s32 lbl_805D7B14;
-extern s16 dhcp_socket;
 void TLobby__sub_80424CA8(void);
 s32 TLobby__sub_804251C0(s16, void *);
-extern s32 dhcp_state;
-extern volatile s32 dhcp_error;
 
-extern G_804249F0 lbl_805C1E00;
-extern s32 dhcp_step;
-extern s32 dhcp_reply_received;
-extern u8 lbl_805D7B1C[6];
-extern u32 lbl_805D7B28;
-extern u8 lbl_805D7B4C[4];
-extern u8 lbl_805D7B50[4];
+extern u8 lbl_805C1E00[0x1194];
 s16 TLobby__sub_803F96AC(u32*);
 typedef struct DhcpOption_804FD948 {
     s16 id;
@@ -154,21 +72,13 @@ void TLobby__sub_803F97E8(s32);
 s16 TUdpSocket__sub_80421DEC(void *, int, void *, int, int, s32 (*)(s16, Arg_804249F0 *));
 s32 TLobby__sub_80424DCC(s16, s32, s32, void *, void *, void *, void *, s32);
 s32 dhcp_handle_reply(s16 arg0, Arg_804249F0 *arg1);
-extern void *lbl_805D7B40;
-extern void *lbl_805D7B44;
-extern void *lbl_805D7B48;
 extern s32 lbl_805D7B54;
-extern s32 lbl_805D7B58;
-extern s32 dhcp_max_retries;
 
 s32 get_task_count(void) {
     return dhcp_state;
 }
 
 s32 TLobby__sub_80425288(s16, s16, void *);
-extern u32 dhcp_lease_time;
-extern u32 dhcp_renewal_time;
-extern u32 dhcp_rebinding_time;
 extern u32 dhcp_lease_start;
 extern u32 dhcp_lease_expiry;
 
@@ -282,8 +192,8 @@ s16 validate_slot_buffers(s32 arg0, void *arg1, void *arg2, void *arg3) {
 #pragma push
 #pragma opt_propagation off
 s32 dhcp_handle_reply(s16 arg0, Arg_804249F0 *arg1) {
-    s32 find_dhcp_option(u8 *p, u8 tag, u8 **out);
-    G_804249F0 *g = &lbl_805C1E00;
+    s32 find_dhcp_option(u8 *p, u8 tag, u8 **out); /* declared s32 here; the definition returns u8 */
+    G_804249F0 *g = (G_804249F0 *)lbl_805C1E00;
     Pkt_804249F0 *pk;
     u8 *q;
     u8 *p;
@@ -297,13 +207,13 @@ s32 dhcp_handle_reply(s16 arg0, Arg_804249F0 *arg1) {
     if (pk->f0 != 2 || pk->f1 != 1 || pk->f2 != 6) {
         return 0;
     }
-    if (NetMemcmp(pk->f4, lbl_805D7B50, 4) != 0) {
+    if (NetMemcmp(pk->f4, &lbl_805D7B50, 4) != 0) {
         return 0;
     }
     if (NetMemcmp(pk->f1C, lbl_805D7B1C, 6) != 0) {
         return 0;
     }
-    if (NetMemcmp(q, lbl_805D7B4C, 4) != 0) {
+    if (NetMemcmp(q, &lbl_805D7B4C, 4) != 0) {
         return 0;
     }
     if (dhcp_step != 2) {
@@ -409,14 +319,8 @@ s32 TLobby__sub_80424DCC(s16, s32 a1, s32 a2, void *, void *a4, void *a5, void *
     return 0;
 }
 
-extern s16 dhcp_iface;
-extern s32 dhcp_elapsed_ms;
-extern s32 dhcp_last_tick_ms;
-extern s32 dhcp_lease_elapsed;
-extern u8 dhcp_hostname[];
 s32 NetRegisterTimer(s32 period, s16 locked, void *fn);
 s16 TLobby__sub_80422F70(s16, void *, s32, void *);
-s16 TLobby__sub_80423064(s16, s32);
 s16 TLobby__sub_8042315C(s16, void *);
 s32 NetRegisterTimer(s32, s16, void *);
 /* Clears the DHCP client state (lease timers, option table, hostname) and records the interface. */
@@ -435,8 +339,8 @@ static inline void dhcp_reset_state(s16 iface) {
     lbl_805D7B40 = 0;
     lbl_805D7B44 = 0;
     lbl_805D7B48 = 0;
-    *(u32 *)lbl_805D7B4C = 0x63825363;
-    *(s32 *)lbl_805D7B50 = 0;
+    lbl_805D7B4C = 0x63825363;
+    lbl_805D7B50 = 0;
     lbl_805D7B54 = 0;
     lbl_805D7B58 = 0;
     NetMemset(dhcp_hostname, 0, 0x20);
@@ -503,9 +407,7 @@ s32 TLobby__sub_80424FE0(void) {
     return 0;
 }
 
-extern s16 dhcp_iface;
 s16 TLobby__sub_80422F70(s16, void *, s32, void *);
-s16 TLobby__sub_80423064(s16, s32);
 s16 TLobby__sub_8042315C(s16, void *);
 #pragma dont_inline on
 #pragma use_lmw_stmw off
@@ -737,21 +639,6 @@ s32 initialize_network_packet_pool(void) {
     return 0;
 }
 
-typedef char RecoveredGlobal_80427D0C_lbl_805CFC20_size[sizeof(RecoveredGlobal_80427D0C_lbl_805CFC20) == 0xE20 ? 1 : -1];
-
-typedef char RecoveredGlobal_80428374_lbl_805D0A40_size[sizeof(RecoveredGlobal_80428374_lbl_805D0A40) == 0x60 ? 1 : -1];
-
-typedef char RecoveredGlobal_80428360_lbl_805CFC20_size[sizeof(RecoveredGlobal_80428360_lbl_805CFC20) == 0xE20 ? 1 : -1];
-
-typedef char RecoveredGlobal_8042839C_lbl_805D0A40_size[sizeof(RecoveredGlobal_8042839C_lbl_805D0A40) == 0x60 ? 1 : -1];
-
-#pragma push
-#pragma opt_common_subs off
-typedef char RecoveredGlobal_8042DD70_lbl_805D1D20_size[sizeof(RecoveredGlobal_8042DD70_lbl_805D1D20) == 0x1C ? 1 : -1];
-#pragma pop
-
-
-typedef char RecoveredGlobal_8042E768_lbl_805D1D20_size[sizeof(RecoveredGlobal_8042E768_lbl_805D1D20) == 0x1C ? 1 : -1];
 
 typedef char NetworkPacketDescriptorSize[sizeof(NetworkPacketBufferDescriptor)==12 ? 1 : -1];
 typedef char NetworkPacketInUseOffset[offsetof(NetworkPacketBufferDescriptor,in_use)==0 ? 1 : -1];

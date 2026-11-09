@@ -6,86 +6,16 @@
 #include "types.h"
 #include "pso/network/NetStackTypes.h"
 
-
-
-typedef struct RecoveredGlobal_80428374_lbl_805D0A40 {
-    s32 value;
-    u8 remaining[0x5C];
-} RecoveredGlobal_80428374_lbl_805D0A40;
-
-typedef struct RecoveredGlobal_8042839C_lbl_805D0A40 {
-    s32 value;
-    u8 remaining[0x5C];
-} RecoveredGlobal_8042839C_lbl_805D0A40;
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-
-typedef struct RecoveredGlobal_8042E768_lbl_805D1D20 {
-    s32 value;
-    u8 remaining[0x18];
-} RecoveredGlobal_8042E768_lbl_805D1D20;
-
-typedef struct RecoveredGlobal_80427D0C_lbl_805CFC20 {
-    s32 value;
-    u8 remaining[0xE1C];
-} RecoveredGlobal_80427D0C_lbl_805CFC20;
-
-typedef struct RecoveredGlobal_80428360_lbl_805CFC20 {
-    s16 value;
-    u8 remaining[0xE1E];
-} RecoveredGlobal_80428360_lbl_805CFC20;
-
-typedef struct RecoveredGlobal_8042DD70_lbl_805D1D20 {
-    s32 value;
-    u8 remaining[0x18];
-} RecoveredGlobal_8042DD70_lbl_805D1D20;
-
-typedef struct Names_8042E57C {
-    char *name[6];
-} Names_8042E57C;
-
-typedef struct Names_8042E628 {
-    char *name[4];
-} Names_8042E628;
-
-typedef struct Names_8042E6C4 {
-    char *name[5];
-} Names_8042E6C4;
-
-typedef struct Names_8042E7B8 {
-    char *name[3];
-} Names_8042E7B8;
-
-typedef struct Ent_80426894 {
-    s16 count;
-    u8 id[6];
-} Ent_80426894;
-
-typedef struct Tbl_80426894 {
-    u8 pad[6];
-    Ent_80426894 ent[6];
-} Tbl_80426894;
-
-typedef struct Ent_80425870 {
-    s32 used;
-    u32 f4;
-    u32 base;
-} Ent_80425870;
-
-typedef struct Ent_80427C6C {
-    u16 pad0;
-    u16 id;
-    u8 rest[0xE10];
-} Ent_80427C6C;
 
 typedef struct PppoeNames {
     u8 name[0x100];
     u8 service[0x100];
 } PppoeNames;
 
-typedef struct Ent_80427D40 {
+typedef struct PppoeSlot {
     s16 state;
     u16 id;
     s16 m_4;
@@ -109,54 +39,38 @@ typedef struct Ent_80427D40 {
     u8 rx_frame[0x5EA];
     u16 rx_frame_len;
     u8 padE12[0xE14 - 0xE12];
-} Ent_80427D40;
+} PppoeSlot;
 
+/* lobby_pppoe_slot_table: the client's one session and the address received frames must be sent to. */
+typedef struct PppoeTable {
+    PppoeSlot slots[1];
+    u8 mac[6];                  /* 0xE14: no code in this build writes it */
+    u8 padE1A[6];
+} PppoeTable;
+typedef char PppoeTable_size_check[sizeof(PppoeTable) == 0xE20 ? 1 : -1];
 
 extern u8 lbl_805CF240[0xA0];
 extern u8 pppoe_message_queue[0xA0];
 extern u8 lbl_805CF380[0x48];
-RecoveredGlobal_80427D0C_lbl_805CFC20 lobby_pppoe_slot_table;
+PppoeTable lobby_pppoe_slot_table;
 extern u8 lbl_805CF380[];
 extern u8 pppoe_message_queue[];
-typedef struct Ent_804267F0 {
-    s16 count;
-    u8 id[6];
-} Ent_804267F0;
-
-typedef struct Tbl_804267F0 {
-    u8 pad[6];
-    Ent_804267F0 ent[6];
-} Tbl_804267F0;
 
 extern u8 lbl_805CF240[];
 
-Ent_80427C6C *find_pppoe_slot_by_session_id(s32 arg0, u16 arg1);
-s16 TLobby__sub_8042787C(Ent_80427D40 *e, u8 *p, u16 len);
-s16 TLobby__sub_80427F48(s16 slot, u8 *frame, u16 len);
-s16 TLobby__sub_80426D80(Ent_80427D40 *e);
+PppoeSlot *find_pppoe_slot_by_session_id(s32 arg0, u16 arg1);
+s16 TLobby__sub_8042787C(PppoeSlot *e, u8 *p, u16 len);
+s16 TLobby__sub_80426D80(PppoeSlot *e);
 s32 TLobby__sub_80426574(s32);
-s16 TLobby__sub_80426EB8(Ent_80427D40 *e);
+s16 TLobby__sub_80426EB8(PppoeSlot *e);
 s16 TLobby__sub_804270C0(u8 *self);
-Ent_80427D40 *TLobby__sub_80427B6C(u8 *p, u16 len);
-void TLobby__sub_80427378(Ent_80427D40 *e);
+PppoeSlot *TLobby__sub_80427B6C(u8 *p, u16 len);
+void TLobby__sub_80427378(PppoeSlot *e);
 s16 handle_pppoe_discovery_frame(s32, u16);
-s16 TLobby__sub_80427988(Ent_80427D40 *e, u8 *p, u16 len);
-
-#pragma push
-#pragma opt_propagation off
-#pragma pop
-
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
-#pragma pop
+s16 TLobby__sub_80427988(PppoeSlot *e, u8 *p, u16 len);
 
 #define arg0 ((s32)argp)
 #undef arg0
-
-#pragma push
-#pragma dont_inline on
-#pragma pop
 
 s16 build_ethernet_frame_header(void *frame, void *src, void *mac, u16 type, u8 flag, u16 a, u16 len);
 s32 write_pppoe_ac_name_tag(s32 *arg0, u8 *arg1);
@@ -197,7 +111,7 @@ s16 build_ethernet_frame_header(void *frame, void *src, void *mac, u16 type, u8 
   return r;
 }
 
-inline s16 put_service_name(u8 **p, Ent_80427D40 *e) {
+inline s16 put_service_name(u8 **p, PppoeSlot *e) {
     u16 type;
     u16 len;
     s16 n;
@@ -215,7 +129,7 @@ inline s16 put_service_name(u8 **p, Ent_80427D40 *e) {
     return ret;
 }
 
-inline s16 put_host_uniq(u8 **p, Ent_80427D40 *e) {
+inline s16 put_host_uniq(u8 **p, PppoeSlot *e) {
     u16 type;
     u16 len;
     s16 ret;
@@ -231,7 +145,7 @@ inline s16 put_host_uniq(u8 **p, Ent_80427D40 *e) {
     return ret;
 }
 
-inline s16 put_ac_cookie(u8 **p, Ent_80427D40 *e) {
+inline s16 put_ac_cookie(u8 **p, PppoeSlot *e) {
     u16 type;
     u16 len;
     s16 n = 0;
@@ -249,7 +163,7 @@ inline s16 put_ac_cookie(u8 **p, Ent_80427D40 *e) {
     return n;
 }
 
-inline s16 put_relay_session_id(u8 **p, Ent_80427D40 *e) {
+inline s16 put_relay_session_id(u8 **p, PppoeSlot *e) {
     u16 type;
     u16 len;
     s16 n = 0;
@@ -298,7 +212,7 @@ inline s16 put_end_of_list3(u8 **p) {
 
 #pragma push
 #pragma opt_propagation off
-s16 TLobby__sub_80426D80(Ent_80427D40 *e) {
+s16 TLobby__sub_80426D80(PppoeSlot *e) {
     void *src;
     u8 *p;
     s16 n;
@@ -354,7 +268,7 @@ out:
     return n;
 }
 #pragma pop
-s16 TLobby__sub_80426EB8(Ent_80427D40 *e) {
+s16 TLobby__sub_80426EB8(PppoeSlot *e) {
     u8 *p;
     s16 n;
     s16 total;
@@ -429,7 +343,7 @@ s16 TLobby__sub_804270C0(u8 *self) {
 }
 #pragma pop
 
-s16 write_empty_tlv_header(u8 **p, Ent_80427D40 *e) {
+s16 write_empty_tlv_header(u8 **p, PppoeSlot *e) {
     u16 type;
     u16 len;
     s16 ret;
@@ -466,7 +380,7 @@ typedef struct Fields_arg1 { u8 pad_0[58]; char name[1]; } Fields_arg1;
 }
 #pragma pop
 
-inline s16 build_padt(Ent_80427D40 *e) {
+inline s16 build_padt(PppoeSlot *e) {
     u8 *payload;
     u8 *p;
     s16 n;
@@ -479,15 +393,15 @@ inline s16 build_padt(Ent_80427D40 *e) {
     return n;
 }
 
-inline void restart_timer(Ent_80427D40 *e, s16 retries, s32 timeout) {
+inline void restart_timer(PppoeSlot *e, s16 retries, s32 timeout) {
     get_time_ms(&e->last);
     e->timeout = timeout;
     e->m_6 = retries;
 }
 
-void TLobby__sub_80427378(Ent_80427D40 *self) {
-    s16 write_empty_tlv_header();
-    s16 TLobby__sub_80426440();
+void TLobby__sub_80427378(PppoeSlot *self) {
+    s16 write_empty_tlv_header(); /* declared without a parameter list; the definition is s16 (u8 **, PppoeSlot *) */
+    s16 TLobby__sub_80426440(); /* declared s16 here; the definition returns s32 */
     void *v = self;
     u16 a;
     u16 q;
@@ -576,8 +490,7 @@ void TLobby__sub_80427378(Ent_80427D40 *self) {
     }
 }
 
-
-inline s16 send_frame(Ent_80427D40 *e, u16 len) {
+inline s16 send_frame(PppoeSlot *e, u16 len) {
     return post_send_message(e->frame, len);
 }
 
@@ -591,14 +504,14 @@ s16 handle_pppoe_discovery_frame(s32 frame, u16 frame_len) {
     u16 id;
     u16 hdr;
     u8 spare[2];
-    Ent_80427D40 *p;
+    PppoeSlot *p;
     s16 t;
 
     NetMemcpy(&id, base + 4, 2);
     NetMemcpy(&cmd, base + 1, 1);
     switch (cmd) {
     case 0x7:
-        p = (Ent_80427D40 *)TLobby__sub_80427B6C(sub, id);
+        p = TLobby__sub_80427B6C(sub, id);
         if (p == NULL) {
             ret = 0;
             break;
@@ -634,7 +547,7 @@ s16 handle_pppoe_discovery_frame(s32 frame, u16 frame_len) {
         *(s16 *)((u8 *)p + 6) = 2;
         break;
     case 0x65:
-        p = (Ent_80427D40 *)TLobby__sub_80427B6C(sub, id);
+        p = TLobby__sub_80427B6C(sub, id);
         if (p == NULL) {
             ret = 0;
             break;
@@ -653,7 +566,7 @@ s16 handle_pppoe_discovery_frame(s32 frame, u16 frame_len) {
         p->state = 4;
         break;
     case 0xa7:
-        p = (Ent_80427D40 *)find_pppoe_slot_by_session_id(frame, frame_len);
+        p = find_pppoe_slot_by_session_id(frame, frame_len);
         if (p == NULL) {
             ret = 0;
             break;
@@ -679,8 +592,6 @@ s16 handle_pppoe_discovery_frame(s32 frame, u16 frame_len) {
     return ret;
 }
 
-typedef char RecoveredGlobal_80427D0C_lbl_805CFC20_size[sizeof(RecoveredGlobal_80427D0C_lbl_805CFC20) == 0xE20 ? 1 : -1];
-
 s32 skip_pppoe_tags(s32 arg0, u8 *arg1, u16 arg2) {
     u8 *p = arg1;
     u16 len = arg2;
@@ -701,7 +612,7 @@ s32 skip_pppoe_tags(s32 arg0, u8 *arg1, u16 arg2) {
     return 0;
 }
 
-s16 TLobby__sub_8042787C(Ent_80427D40 *e, u8 *p, u16 len) {
+s16 TLobby__sub_8042787C(PppoeSlot *e, u8 *p, u16 len) {
     s16 result = 1;
     u8 *cur = p;
     u16 type;
@@ -739,9 +650,7 @@ done:
     return result;
 }
 
-
-
-s16 TLobby__sub_80427988(Ent_80427D40 *e, u8 *p, u16 len) {
+s16 TLobby__sub_80427988(PppoeSlot *e, u8 *p, u16 len) {
     s16 result = 0;
     u8 *cur;
     u16 type;
@@ -804,11 +713,9 @@ done:
     return result;
 }
 
-
-
-Ent_80427D40 *TLobby__sub_80427B6C(u8 *p, u16 len) {
-    Ent_80427D40 *e;
-    Ent_80427D40 *ret = NULL;
+PppoeSlot *TLobby__sub_80427B6C(u8 *p, u16 len) {
+    PppoeSlot *e;
+    PppoeSlot *ret = NULL;
     u8 *cur = p;
     s16 i;
     u8 *data;
@@ -826,7 +733,7 @@ Ent_80427D40 *TLobby__sub_80427B6C(u8 *p, u16 len) {
                 ret = NULL;
                 goto done;
             }
-            e = (Ent_80427D40 *)&lobby_pppoe_slot_table;
+            e = lobby_pppoe_slot_table.slots;
             data = cur + 4;
             i = 0;
             ret = NULL;
@@ -849,9 +756,9 @@ done:
     return ret;
 }
 
-Ent_80427C6C *find_pppoe_slot_by_session_id(s32 arg0, u16 arg1) {
+PppoeSlot *find_pppoe_slot_by_session_id(s32 arg0, u16 arg1) {
     u16 id;
-    Ent_80427C6C *ret;
+    PppoeSlot *ret;
     s16 i;
     if (arg1 < 0x14U) {
         return NULL;
@@ -863,7 +770,7 @@ Ent_80427C6C *find_pppoe_slot_by_session_id(s32 arg0, u16 arg1) {
     i = 0;
     ret = NULL;
     while (i < 1) {
-        ret = &((Ent_80427C6C *)&lobby_pppoe_slot_table)[i];
+        ret = &lobby_pppoe_slot_table.slots[i];
         if (id == ret->id) {
             break;
         }
@@ -875,25 +782,22 @@ Ent_80427C6C *find_pppoe_slot_by_session_id(s32 arg0, u16 arg1) {
     return ret;
 }
 
-
-
 s16 get_pppoe_session_id(s16 arg0) {
     if ((arg0 < 0) || (arg0 >= 1)) {
         return -1;
     }
-    return *(s16 *)((s8 *)((u8 *)&lobby_pppoe_slot_table.value + (arg0 * 0xE14)) + 0);
+    return lobby_pppoe_slot_table.slots[arg0].state;
 }
 
-#define TBL_80427D40 ((Ent_80427D40 *)&lobby_pppoe_slot_table)
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
 static inline void check_80427D40(void) {
     s32 now;
-    Ent_80427D40 *p;
+    PppoeSlot *p;
     s16 i;
     get_time_ms(&now);
-    for (p = TBL_80427D40, i = 0; i < 1; p++, i++) {
+    for (p = lobby_pppoe_slot_table.slots, i = 0; i < 1; p++, i++) {
         if (p->state != -1 && p->timeout != 0 && now - p->last > p->timeout) {
             TLobby__sub_80427378(p);
         }
@@ -906,7 +810,7 @@ s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen) {
     s32 padA;
     u16 len;
     s32 padB;
-    Ent_80427D40 *e;
+    PppoeSlot *e;
     s16 ret;
     u8 *src;
     check_80427D40();
@@ -919,7 +823,7 @@ s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen) {
     NetMemcpy(&type, (u8 *)pkt + 0xC, 2);
     if (type != 0x8863 && type != 0x8864) {
         ret = 0;
-    } else if (NetMemcmp((void *)pkt, &TBL_80427D40[1], 6) != 0) {
+    } else if (NetMemcmp((void *)pkt, lobby_pppoe_slot_table.mac, 6) != 0) {
         ret = 0;
     } else if (((u8 *)pkt)[0xE] != 0x11) {
         ret = 0;
@@ -930,9 +834,9 @@ s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen) {
         NetMemcpy(&len, (u8 *)pkt + 0x12, 2);
         src = (u8 *)pkt + 0x14;
         if (buf != NULL && len <= bufLen) {
-            e = ((Ent_80427D40 *)find_pppoe_slot_by_session_id(pkt, id));
+            e = find_pppoe_slot_by_session_id(pkt, id);
             if (e != NULL && e->state == 4) {
-                ret = e - TBL_80427D40;
+                ret = e - lobby_pppoe_slot_table.slots;
                 NetMemcpy(buf, src, len);
                 if (outLen != NULL) {
                     *outLen = len;
@@ -951,7 +855,7 @@ s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen) {
 #pragma pop
 
 s16 TLobby__sub_80427F48(s16 slot, u8 *frame, u16 len) {
-    Ent_80427D40 *e;
+    PppoeSlot *e;
     u8 *hdr;
     u16 type;
     u8 version;
@@ -964,7 +868,7 @@ s16 TLobby__sub_80427F48(s16 slot, u8 *frame, u16 len) {
     if (slot < 0 || slot >= 1) {
         return -1;
     }
-    e = &TBL_80427D40[slot];
+    e = &lobby_pppoe_slot_table.slots[slot];
     if (e->state != 4) {
         return -1;
     }
@@ -992,11 +896,11 @@ s16 TLobby__sub_80427F48(s16 slot, u8 *frame, u16 len) {
 }
 
 s32 TLobby__sub_80428094(s16 slot) {
-    Ent_80427D40 *e;
+    PppoeSlot *e;
     if (slot < 0 || slot >= 1) {
         return -1;
     }
-    e = &TBL_80427D40[slot];
+    e = &lobby_pppoe_slot_table.slots[slot];
     switch (e->state) {
     case 0:
         if (e->state != -1) {
@@ -1041,17 +945,17 @@ s32 TLobby__sub_80428094(s16 slot) {
 }
 
 s16 TLobby__sub_804281DC(void *self) {
-    Ent_80427D40 *tbl;
-    Ent_80427D40 *p;
-    Ent_80427D40 *e;
+    PppoeSlot *tbl;
+    PppoeSlot *p;
+    PppoeSlot *e;
     s32 now;
     s32 stamp;
     s16 i;
     s16 slot;
     s16 set;
-    s16 TLobby__sub_80426660(u8 *);
+    s16 TLobby__sub_80426660(u8 *); /* declared s16 here; the definition returns s32 */
 
-    tbl = (0, (Ent_80427D40 *)&lobby_pppoe_slot_table);
+    tbl = (0, (PppoeSlot *)&lobby_pppoe_slot_table);
     set = 0;
     for (p = &tbl[0], i = 0; i < 1; p++, (i++) & 0xFFFFFFFFFFFFFFFF) {
         if (p->state == 6) {
@@ -1096,20 +1000,8 @@ s32 TLobby__sub_80428358(void) {
     return 0;
 }
 
-typedef char RecoveredGlobal_80428374_lbl_805D0A40_size[sizeof(RecoveredGlobal_80428374_lbl_805D0A40) == 0x60 ? 1 : -1];
-
-typedef char RecoveredGlobal_80428360_lbl_805CFC20_size[sizeof(RecoveredGlobal_80428360_lbl_805CFC20) == 0xE20 ? 1 : -1];
 s32 TLobby__sub_80428360(void) {
-    (*(RecoveredGlobal_80428360_lbl_805CFC20 *)&lobby_pppoe_slot_table).value = -1;
+    lobby_pppoe_slot_table.slots[0].state = -1;
     return 0;
 }
-
-typedef char RecoveredGlobal_8042839C_lbl_805D0A40_size[sizeof(RecoveredGlobal_8042839C_lbl_805D0A40) == 0x60 ? 1 : -1];
-
-#pragma push
-#pragma opt_common_subs off
-typedef char RecoveredGlobal_8042DD70_lbl_805D1D20_size[sizeof(RecoveredGlobal_8042DD70_lbl_805D1D20) == 0x1C ? 1 : -1];
-#pragma pop
-
-typedef char RecoveredGlobal_8042E768_lbl_805D1D20_size[sizeof(RecoveredGlobal_8042E768_lbl_805D1D20) == 0x1C ? 1 : -1];
 

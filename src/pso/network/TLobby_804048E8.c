@@ -1,7 +1,9 @@
 /* The network stack's connection list (a C library, built with GC/1.2.5n): the list header and its two pools of
  * 0x8C-byte nodes, the second chained into a free list. */
 #include "types.h"
+#include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_804048E8.h"
+#include "pso/network/NetArp.h"
 
 typedef struct Node_80405008 {
     u8 id;
@@ -29,81 +31,9 @@ u32 lbl_805C0FD0[560];
 u32 lbl_805C1890[4];
 #pragma pop
 
-typedef struct Strm_80405A74 { u8 *p; u16 len; } Strm_80405A74;
-typedef struct A_80403F4C {
-    u32 src;
-    u32 dst;
-    u16 len;
-    u16 id;
-    u16 frag;
-    u16 cksum;
-    u8 pad10;
-    u8 df;
-    u8 mf;
-    u8 version;
-    u8 tos;
-    u8 ttl;
-    u8 count;
-    u8 optlen;
-    u8 opts[0x40 - 0x18];
-} A_80403F4C;
-
-typedef struct B_80403F4C {
-    u16 src_port;
-    u16 dst_port;
-    u32 seq;
-    u32 ack;
-    u16 window;
-    u16 checksum;
-    u16 urgent;
-    u16 mss;
-    u8 pad_14;
-    u8 urg;
-    u8 ack_flag;
-    u8 psh;
-    u8 rst;
-    u8 syn;
-    u8 fin;
-    u8 option_len;
-    u8 options[0x28];
-} B_80403F4C;
-
-typedef struct Ent_80403F4C {
-    u8 id;
-    u8 pad1[3];
-    struct Ent_80403F4C *next;
-    A_80403F4C a;
-    B_80403F4C b;
-} Ent_80403F4C;
-
-typedef struct Obj_80403F4C {
-    Ent_80403F4C *tstate;
-    Ent_80403F4C *ents;
-    u8 pad8;
-    u8 max;
-    u8 last_cs;
-    u8 last_xmit;
-    u8 cur;
-    u8 flags;
-    u8 padE[2];
-    s32 n10;
-    s32 n14;
-    s32 n18;
-    s32 n1C;
-    s32 n20;
-    s32 n24;
-    s32 n28;
-    u8 pad2C[4];
-    s32 n30;
-} Obj_80403F4C;
-
-#define o ((Obj_80403F4C *)ov)
-
-u32 TLobby__sub_803FEA88(A_80403F4C *out, Strm_80405A74 **src);
-s32 TLobby__sub_804053B8(B_80403F4C *, Strm_80405A74 **);
+s32 TLobby__sub_804053B8(B_80403F4C *, PppFrame **); /* declared here with other parameter types; the definition is s32 (void *, u8 **) */
 u8 *TLobby__sub_8040555C(B_80403F4C *, u8 *, s32);
 u8 *GXLoadTexObjPreLoaded(A_80403F4C *, u8 *, s32);
-u8 *write_network_u16_be(u8 *p, u16 v);
 s32 NetMemcmp(void *, void *, int);
 void NetMemcpy(void *, void *, int);
 u8 *alloc_from_buffer(void *self, s16 arg1);
@@ -122,7 +52,7 @@ inline u8 *vj_encode(u8 *cp, u32 n) {
     return cp;
 }
 
-s32 TLobby__sub_804048E8(Obj_80403F4C *comp, Strm_80405A74 **m, s16 compress_cid) {
+s32 TLobby__sub_804048E8(Obj_80403F4C *comp, PppFrame **m, s16 compress_cid) {
     Ent_80403F4C *cs;
     Ent_80403F4C *lastcs;
     Ent_80403F4C *lcs;
@@ -141,20 +71,20 @@ s32 TLobby__sub_804048E8(Obj_80403F4C *comp, Strm_80405A74 **m, s16 compress_cid
     cs = lastcs->next;
     lcs = lastcs;
     hlen = TLobby__sub_803FEA88(&a, m);
-    if (a.count != 6 || a.frag != 0 || a.mf != 0) {
-        if (a.count != 6) {
+    if (a.proto != 6 || a.frag != 0 || a.mf != 0) {
+        if (a.proto != 6) {
             comp->n10++;
         } else {
             comp->n14++;
         }
-        *m = (Strm_80405A74 *)GXLoadTexObjPreLoaded(&a, (u8 *)*m, 1);
+        *m = (PppFrame *)GXLoadTexObjPreLoaded(&a, (u8 *)*m, 1);
         return 0x40;
     }
     hlen += TLobby__sub_804053B8(&b, m);
     if (b.syn || b.fin || b.rst || !b.ack_flag) {
         comp->n14++;
-        *m = (Strm_80405A74 *)TLobby__sub_8040555C(&b, (u8 *)*m, 0);
-        *m = (Strm_80405A74 *)GXLoadTexObjPreLoaded(&a, (u8 *)*m, 1);
+        *m = (PppFrame *)TLobby__sub_8040555C(&b, (u8 *)*m, 0);
+        *m = (PppFrame *)GXLoadTexObjPreLoaded(&a, (u8 *)*m, 1);
         return 0x40;
     }
     for (;;) {
@@ -253,12 +183,12 @@ found:
     cs->b = b;
     deltaS = cp - (u8 *)lbl_805C1890;
     if (compress_cid == 0 || comp->last_xmit != cs->id) {
-        cp = (*m = (Strm_80405A74 *)alloc_from_buffer(*m, deltaS + 4))->p;
+        cp = (*m = (PppFrame *)alloc_from_buffer(*m, deltaS + 4))->data;
         *cp++ = changes | 0x40;
         *cp++ = cs->id;
         comp->last_xmit = cs->id;
     } else {
-        cp = (*m = (Strm_80405A74 *)alloc_from_buffer(*m, deltaS + 3))->p;
+        cp = (*m = (PppFrame *)alloc_from_buffer(*m, deltaS + 3))->data;
         *cp++ = (s8)changes;
     }
     cp = write_network_u16_be(cp, deltaA);
@@ -267,17 +197,16 @@ found:
     return 0x80;
 
 uncompressed:
-    a.count = cs->id;
+    a.proto = cs->id;
     cs->a = a;
     cs->b = b;
     comp->last_xmit = cs->id;
     comp->n18++;
-    *m = (Strm_80405A74 *)TLobby__sub_8040555C(&b, (u8 *)*m, 0);
-    *m = (Strm_80405A74 *)GXLoadTexObjPreLoaded(&a, (u8 *)*m, 1);
+    *m = (PppFrame *)TLobby__sub_8040555C(&b, (u8 *)*m, 0);
+    *m = (PppFrame *)GXLoadTexObjPreLoaded(&a, (u8 *)*m, 1);
     return 0x70;
 }
 #pragma pop
-
 
 void TLobby__sub_80405000(u32 mode) {
     if (mode == 0) {
@@ -318,6 +247,6 @@ s32 init_net_list(s16 count1, s16 count2) {
     return (s32)p;
 }
 
-u32 lbl_805C1AB0[0x28 / 4];
+ArpState lbl_805C1AB0;
 u8 lbl_805C18B0[0x200];
-u32 lbl_805C18A0[4];
+NetThreadState lbl_805C18A0;

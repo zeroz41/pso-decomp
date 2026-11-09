@@ -3,6 +3,9 @@
  * control protocol. Split from NetworkRuntime.c: signal_alarm_queue addresses the alarm table as an extern while
  * the functions before it pool the tables as their own file's data. */
 #include "types.h"
+#include "pso/network/TLobby_803F86BC.h"
+#include "pso/network/TLobby_803FCF44.h"
+#include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_803FC178.h"
 #include "string.h"
 #include "dolphin/os/OSThread.h"
@@ -14,85 +17,46 @@
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/TLobby_80428374.h"
 #include "pso/network/TLobby_803FAEA0.h"
-typedef struct Ent_803F9B48 { s32 active; u32 key; u8 pad[0x328 - 8]; } Ent_803F9B48;
 
-typedef struct Ent_803F9C78 { s32 active; u32 key; u8 pad[0x318 - 8]; void (*fn)(struct Ent_803F9C78 *); u8 pad2[0x328 - 0x31C]; } Ent_803F9C78;
-
-typedef struct Blk_803FA2A8 { s32 w[6]; } Blk_803FA2A8;
-
-typedef union U_803FA2A8 { s16 h4; Blk_803FA2A8 src; } U_803FA2A8;
-
-typedef struct Q_803FA2A8 {
-    s16 h0; s16 h2;
-    U_803FA2A8 u;
-    Blk_803FA2A8 dst;
-    s16 h34; s16 h36; s16 h38; s16 h3A;
-    s32 w3C; s32 w40;
-    u8 pad44[0x50 - 0x44];
-    s16 h50;
-} Q_803FA2A8;
-
-typedef struct P_803FA2A8 { u8 pad[0x30]; Q_803FA2A8 *q; } P_803FA2A8;
-
-typedef struct B_803FADA0 { u8 *buf; u16 len; } B_803FADA0;
-
-typedef struct A_803FADA0 { u8 pad0[4]; u32 a; u32 b; } A_803FADA0;
-
-
-u8 *write_network_u16_be(u8 *p, u16 v);
-
-s32 TLobby__sub_80405304(void *arg0);
-extern u16 lobby_thread_pool_count;
-extern Ent_803F9B48 *lobby_thread_pool_base;
-void TLobby__sub_803FA2A8(P_803FA2A8 *o);
 s32 TLobby__sub_80428358(void);
 
 s16 TLobby__sub_80401BCC(void *, void *, int);
 
-B_803FADA0 *init_net_buffer_entry(s32);
-extern u8 lbl_805D7A70[1];
-extern u8 lbl_805D7A74[1];
-u16 read_network_u16_be(u8 *p);
-u32 TLobby__sub_80402AFC(u8 *p);
 #define PCO_RD16(p) (TLobby__sub_80401BCC((p), lbl_805D7A70, 2) != 2 ? -1 : read_network_u16_be(lbl_805D7A70))
 #define PCO_RD32(p) (TLobby__sub_80401BCC((p), lbl_805D7A70, 4) != 4 ? 0 : TLobby__sub_80402AFC(lbl_805D7A70))
 #define PCO_RD8(p) (TLobby__sub_80401BCC((p), lbl_805D7A74, 1) != 1 ? -1 : (s16)lbl_805D7A74[0])
-void TLobby__sub_803FADA0(B_803FADA0 **arg0, A_803FADA0 *arg1, s32 arg2, s32 arg3, void *arg4);
-
-extern s32 lbl_805D4810;
 
 void NetStoreCurrentThread(s32 *thread) {
     *thread = (s32)OSGetCurrentThread();
 }
 
 void TLobby__sub_803F97E8(s32 ms) {
+    s32 level;
     s32 i;
-    u8 *p;
-    s32 lvl;
-    NetworkAlarmSlot *s;
+    NetworkAlarmSlot *slot;
     OSAlarm *alarm;
-    u64 ticks;
-
-    lvl = OSDisableInterrupts();
+    s64 ticks;
+    level = OSDisableInterrupts();
     for (i = 0; i < 0x40; i++) {
-        p = (u8 *)lobby_alarm_slot_table + i * 0x58;
-        if (*(s32 *)p == 0) break;
+        if (lobby_alarm_slot_table[i].active == 0) {
+            break;
+        }
     }
     if (i >= 0x40) {
-        OSRestoreInterrupts(lvl);
+        OSRestoreInterrupts(level);
         return;
     }
-    s = &lobby_alarm_slot_table[i];
-    s->active = 1;
-    alarm = &s->alarm;
+    slot = &lobby_alarm_slot_table[i];
+    alarm = &slot->alarm;
+    slot->active = 1;
     OSCreateAlarm(alarm);
-    ticks = (u32)ms * ((*(u32 *)0x800000F8 >> 2) / 1000);
+    ticks = ms * ((*(u32 *)0x800000F8 >> 2) / 1000);
     OSSetAlarm(alarm, ticks, (OSAlarmHandler)signal_alarm_queue);
-    OSRestoreInterrupts(lvl);
-    OSReceiveMessage(&s->queue, NULL, 1);
-    lvl = OSDisableInterrupts();
-    s->active = 0;
-    OSRestoreInterrupts(lvl);
+    OSRestoreInterrupts(level);
+    OSReceiveMessage(&slot->queue, NULL, 1);
+    level = OSDisableInterrupts();
+    slot->active = 0;
+    OSRestoreInterrupts(level);
 }
 
 void signal_alarm_queue(void *alarm) {
@@ -300,15 +264,6 @@ s32 TLobby__sub_803FA4A4(u8 *self, u8 *src, s32 h);
 s32 TLobby__sub_803FA7B0(u8 *self, u8 *src, void *h);
 s32 TLobby__sub_803FA318(u8* self, u8* src, s32 n);
 void TLobby__sub_803FD694(u8 *arg0);
-void *TLobby__sub_803FABDC(void *);
-s32 TLobby__sub_803FA4A4(u8 *, u8 *, s32);
-s32 TLobby__sub_803FA7B0(u8 *self, u8 *src, void *h);
-s32 TLobby__sub_803FA318(u8* self, u8* src, s32 n);
-void TLobby__sub_803FA234();
-void TLobby__sub_803FA238();
-void TLobby__sub_803FA280();
-void TLobby__sub_803FD694(u8 *);
-void init_net_state_entry();
 s32 verify_message_sequence();
 void TLobby__sub_803F9FAC(u8 *ctx) {
     Blk_803FA2A8 *src = (Blk_803FA2A8 *)lbl_804FD380;
@@ -412,12 +367,7 @@ void TLobby__sub_803FA2A8(P_803FA2A8 *o) {
     q->h34 = q->h34 | q->h38;
 }
 
-s32 read_2_bytes(void *self, void *src);
 #pragma push
-#pragma cplusplus off
-#pragma pop
-#pragma push
-#pragma cplusplus off
 #pragma dont_inline off
 #pragma inline_depth(4)
 inline u32 optbit_803FA318(u32 bit) {
@@ -437,8 +387,6 @@ inline u32 optbit_803FA318(u32 bit) {
     return bit;
 }
 s32 TLobby__sub_803FA318(u8* self, u8* src, s32 h) {
-    s32 read_2_bytes(void*, void*);
-    s16 TLobby__sub_80401BCC();
     u8* m = *(u8**)(self + 0x30);
     s32 cnt = *(s16*)(src + 2);
     s16 k;
@@ -475,7 +423,6 @@ s32 TLobby__sub_803FA318(u8* self, u8* src, s32 h) {
 #pragma pop
 
 s32 NetIPv6CPParseConfigureOption(void *self, u8 *out, u8 *src, u8 *c, s16 flag);
-s32 read_2_bytes(void *self, void *src);
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -520,7 +467,6 @@ s32 TLobby__sub_803FA4A4(u8 *self, u8 *src, s32 h) {
 #pragma pop
 typedef struct Sub_803FA664 { u8 pad0[0x1C]; s16 h1C; } Sub_803FA664;
 typedef struct Obj_803FA664 { u8 pad0; u8 b1; u8 pad2[9]; u8 bB; u8 padC[0x24]; Sub_803FA664 *p30; } Obj_803FA664;
-typedef struct Msg_803FA664 { u8 pad0; u8 b1; s16 h2; } Msg_803FA664;
 
 void TLobby__sub_803FACD8(u32 *self, void *src, s32 mask);
 #pragma push
@@ -584,7 +530,7 @@ s32 verify_message_sequence(Obj_803FA664 *obj, Msg_803FA664 *msg, u32 expected) 
 s32 TLobby__sub_803FA7B0(u8 *self, u8 *src, void *h)
 {
   u32 sh;
-  B_803FADA0 *blk;
+  PppFrame *blk;
   u8 *m;
   s32 cnt;
   s16 r;
@@ -592,8 +538,8 @@ s32 TLobby__sub_803FA7B0(u8 *self, u8 *src, void *h)
   s16 state;
   s16 res;
   u8 *new_var;
-  void TLobby__sub_803FE6CC(void *, u8, u8, void *);
-  s16 NetIPv6CPParseConfigureOption(void *self, u8 *out, u8 *src, u8 *c, s16 flag);
+  s32 TLobby__sub_803FE6CC(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
+  s16 NetIPv6CPParseConfigureOption(void *self, u8 *out, u8 *src, u8 *c, s16 flag); /* declared s16 here; the definition returns s32 */
   self = self;
   new_var = *((u8 **) (self + 0x30));
   m = new_var;
@@ -728,7 +674,7 @@ void *TLobby__sub_803FABDC(void *self) {
     s16 bits;
     u8 *s;
     u8 *p;
-    B_803FADA0 *obj;
+    PppFrame *obj;
 
     p = *(u8 **)((u8 *)self + 0x30);
     obj = 0;
@@ -785,15 +731,15 @@ void TLobby__sub_803FACD8(u32 *self, void *src, s32 mask)
   {
     if (m & (1 << i))
     {
-      TLobby__sub_803FADA0((B_803FADA0 **) self, (A_803FADA0 *) src, optnum_803FACD8(i), lbl_804FD398[i], 0);
+      TLobby__sub_803FADA0((PppFrame **) self, (A_803FADA0 *) src, optnum_803FACD8(i), lbl_804FD398[i], 0);
     }
   }
 
 }
 #pragma pop
-void TLobby__sub_803FADA0(B_803FADA0 **pbuf, A_803FADA0 *hdr, s32 type, s32 total_len, void *src) {
+void TLobby__sub_803FADA0(PppFrame **pbuf, A_803FADA0 *hdr, s32 type, s32 total_len, void *src) {
     u8 *p;
-    B_803FADA0 *b;
+    PppFrame *b;
     s16 n;
     n = total_len - 2;
     if (*pbuf != NULL) {
@@ -805,7 +751,7 @@ void TLobby__sub_803FADA0(B_803FADA0 **pbuf, A_803FADA0 *hdr, s32 type, s32 tota
         }
         *pbuf = b;
     }
-    p = b->buf + b->len;
+    p = b->data + b->len;
     p[0] = type;
     p[1] = total_len;
     p += 2;
@@ -822,11 +768,5 @@ void TLobby__sub_803FADA0(B_803FADA0 **pbuf, A_803FADA0 *hdr, s32 type, s32 tota
     }
     b->len += total_len;
 }
-
-#pragma opt_propagation off
-#pragma opt_propagation reset
-
-#pragma dont_inline off
-#pragma inline_depth(4)
 
 u32 ppp_ipv6cp_protocol_state[0x2A];

@@ -2,29 +2,8 @@
 #ifndef PSO_NETWORK_NETSTACKTYPES_H
 #define PSO_NETWORK_NETSTACKTYPES_H
 #include "types.h"
-
-typedef struct p803FB184_Unk805BC510 {
-    s16 unk0;
-    struct {
-        s16 unk0;
-        s16 unk2;
-    } unk2[2];
-    u8 unkA[2];
-    s16* unkC;
-    u32 unk10;
-    s16 unk14;
-    s16 unk16;
-} p803FB184_Unk805BC510;
-typedef struct p803FB184_Unk805BC238Entry {
-    u8 pad0[8];
-    u32 unk8;
-    u32 unkC;
-} p803FB184_Unk805BC238Entry;
-typedef struct p803FB184_UnkHdr {
-    u32 a;
-    u16 b;
-    u8 c;
-} p803FB184_UnkHdr;
+#include <stddef.h>
+#include "pso/network/NetworkRuntime.h"
 
 typedef struct p803FE518_UnkBuf803FF344 {
     u8* data;
@@ -40,100 +19,6 @@ typedef struct p803FE518_UnkSrc803FE518 {
     u8 pad10[4];
     u8 b14;
 } p803FE518_UnkSrc803FE518;
-typedef struct p803FE518_Unk805BDDE0 {
-    s16 unk0;
-    struct {
-        s16 unk0;
-        s16 unk2;
-    } unk2[2];
-    s16 unkA;
-    s16 unkC;
-    s16* unk10;
-    u32 unk14;
-    u32 unk18;
-    u32 unk1C;
-    u32 unk20;
-} p803FE518_Unk805BDDE0;
-typedef struct p803FE518_U7Obj p803FE518_U7Obj;
-typedef struct p803FE518_U7Slot {
-    p803FE518_U7Obj* obj;
-    s16 used;
-    s16 size;
-    s16 cap;
-    s16 pad;
-    s32 data;
-} p803FE518_U7Slot;
-struct p803FE518_U7Obj {
-    s16 pad0;
-    s16 key;
-    s32 pad4;
-    p803FE518_U7Slot* slot;
-};
-typedef struct p803FE518_Unk805BDCD8Entry {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    u8 pad6[0xA];
-} p803FE518_Unk805BDCD8Entry;
-typedef struct p803FE518_Unk805BDCD8 {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 unk6;
-    u8 pad8[4];
-    p803FE518_Unk805BDCD8Entry* unkC;
-} p803FE518_Unk805BDCD8;
-typedef struct p803FE518_UnkNode8040A3C0 {
-    s16 unk0;
-    u32 unk4;
-    u8 unk8[0x10];
-    s16 unk18;
-    u8 unk1a[2];
-    s32 unk1c;
-    struct p803FE518_UnkNode8040A3C0* next;
-    void* unk24;
-} p803FE518_UnkNode8040A3C0;
-typedef struct p803FE518_Unk8040A3C0 {
-    s16 unk0;
-    u8 unk2[0x202];
-    s16 unk204;
-    p803FE518_UnkNode8040A3C0* unk208;
-} p803FE518_Unk8040A3C0;
-typedef struct p803FE518_Unk805BDCF0 {
-    u8 unk0[0xc];
-    s16* unkC;
-    s16 unk10;
-    u8 unk12[0x2];
-    u8* unk14;
-    s16 unk18;
-    s16 unk1a;
-    s16 unk1c;
-    u8 unk1e[0x2];
-    s32 unk20;
-    s16 unk24;
-    u8 unk26[0x2];
-    u8* unk28;
-    s16 unk2c;
-    s16 unk2e;
-    s16 unk30;
-    u8 unk32[0x2];
-    u8* unk34;
-    p803FE518_Unk8040A3C0* unk38;
-    u8* unk3c;
-    s16 unk40;
-    u8 unk42[0x2];
-    u8* unk44;
-} p803FE518_Unk805BDCF0;
-typedef struct p803FE518_UnkArg8040B34C {
-    s32 pad0;
-    u32 type;
-    u8 data[0x10];
-} p803FE518_UnkArg8040B34C;
-typedef struct p803FE518_Unk805D3D38 {
-    s16 unk0;
-    u8 pad2[2];
-    u8* unk4;
-} p803FE518_Unk805D3D38;
 #pragma push
 #pragma cplusplus off
 static inline s16 fn_8040B758_len(char* s)
@@ -172,118 +57,111 @@ typedef struct {
     u16 f10;
     s16 f12;
 } Unk805BDD60Entry;
-typedef struct {
-    s16 countA;
-    s16 countB;
-    s16 countC;
-    u16 pad6;
-    Unk805BDD60Entry* entriesA;
-    void* entriesB;
-  } p8040B8B4_Unk805BDD60;
-typedef struct p8040B8B4_Unk8040BEEnt {
-    s16 a;
-    u8 pad2[2];
-    void* p;
-    u32 pad8;
-} p8040B8B4_Unk8040BEEnt;
-typedef struct p8040B8B4_Unk8040BEBuf {
-    u8 pad0[4];
-    s32 count;
-    s32 total;
-    p8040B8B4_Unk8040BEEnt ents[8];
-} p8040B8B4_Unk8040BEBuf;
 
-typedef struct p8040EE4C_Unk805BDDB8 {
-    s16 cnt0;
-    s16 cnt2;
-    s16 cnt4;
-    u8 pad6[0xE];
-    s16 cnt14;
-    u8 pad16[2];
-    void* p18;
-    void* p1c;
-    void* p20;
-    void* p24;
-} p8040EE4C_Unk805BDDB8;
-typedef struct p8040EE4C_Unk805BDDE0 {
-    s16 unk0;
-    struct {
-        s16 unk0;
-        s16 unk2;
-    } unk2[2];
-    s16 unkA;
-    s16 unkC;
-    s16* unk10;
-    u32 unk14;
-} p8040EE4C_Unk805BDDE0;
-typedef struct p8040EE4C_Unk805BDDF8 {
-    s16 count;
-    s16 step;
-    u8* out;
-    u32 cursor;
-} p8040EE4C_Unk805BDDF8;
-typedef struct p8040EE4C_Unk805BDF48Rec {
-    u8 pad0[4];
-    u16 flags;
-    s16 type;
-    u8 pad8[3];
-    u8 unkB;
-    u8 padC[0x244 - 0xC];
-    s16 unk244;
-    s16 unk246;
-    u8 pad248[0x25C - 0x248];
-    s16 timers[4];
-    u8 pad264[0x2C6 - 0x264];
-    s16 unk2C6;
-    u8 pad2C8[0x544 - 0x2C8];
-} p8040EE4C_Unk805BDF48Rec;
-typedef struct p8040EE4C_Unk805BDF48 {
-    p8040EE4C_Unk805BDF48Rec* entries;
-    s16 count;
-    s16 cur;
-    u8 pad8[8];
-    u16 unk10;
-    u16 unk12;
-    u16 unk14;
-    u8 pad16[2];
-    u32 unk18;
-    u8 pad1C[4];
-    s16 unk20;
-    u8 pad22[2];
-    s16 unk24;
-} p8040EE4C_Unk805BDF48;
-typedef void (*p8040EE4C_Unk8041900Cb)(void*, s32, s32, s32);
-typedef struct p8040EE4C_Unk805BDE38Entry {
-    u8 pad0[4];
-    s16 flags;
-    u8 pad6[2];
-    u8 unk8[0x14];
-    u32 unk1C;
-    s16 unk20;
-    u8 unk22;
-    u8 unk23;
-    u32 pad24;
-    struct p8040EE4C_Unk805BDE38Entry* next;
-    u32 unk2C;
-    u32 unk30;
-} p8040EE4C_Unk805BDE38Entry;
-typedef struct {
-    s16 count;
-    u8 pad2[6];
-    p8040EE4C_Unk805BDE38Entry* entries;
-    u32 padC;
-    p8040EE4C_Unk805BDE38Entry* head;
-    p8040EE4C_Unk805BDE38Entry* tail;
-} p8040EE4C_Unk805BDE38;
 
-typedef struct p804210AC_Unk80427DD4 {
-    u8 pad0[0x8];
-    u8* p8;
-    u8 pad1[0x2];
-    s16 se;
-    u8** p10;
-    u8 pad3[0x4];
-    s16* p18;
-} p804210AC_Unk80427DD4;
+
+/* A PPP connection record (TLobby_803FC178.c / TLobby_803FCF44.c). */
+typedef struct Conn_804004DC {
+    u8 state;
+    u8 id;
+    u8 pad2;
+    u8 retries;
+    u8 pad4[2];
+    u8 f6;
+    u8 pad7;
+    s16 abort;
+    u8 padA[2];
+    u8 *sub;
+    u8 timer[0x1C]; /* a lobby timer (TLobby__sub_80405298) */
+    void *proto;
+    void *opts;
+} Conn_804004DC;
+typedef char Conn_804004DC_size_check[sizeof(Conn_804004DC) == 0x34 ? 1 : -1];
+typedef char Conn_804004DC_opts_check[(offsetof(Conn_804004DC, opts) == 0x30) ? 1 : -1];
+/* CHAP state, in Conn_804004DC.opts of the CHAP connection. */
+typedef struct PppChap {
+    const char *name;
+    const char *secret;
+    const char *msg;
+    s16 active;
+    u8 id;
+    u8 padF;
+    u16 len;
+} PppChap;
+typedef char PppChap_size_check[sizeof(PppChap) == 0x14 ? 1 : -1];
+typedef char PppChap_len_check[(offsetof(PppChap, len) == 0x10) ? 1 : -1];
+
+/* lbl_805C02D0: the CHAP buffers and settings (TLobby_803FC178.c).  init_net_buffer_table (NetworkTransport.c) points
+ * the buffers into that file's static block and sets their sizes. */
+typedef struct PppAuthState {
+    u8 *p0;
+    u8 *p4;                     /* 0x04: the name received */
+    u8 *p8;                     /* 0x08: the challenge sent */
+    u8 *pC;
+    u8 *p10;                    /* 0x10: the value received */
+    u8 *p14;
+    u8 *p18;                    /* 0x18: the hash input (identifier, secret, challenge) */
+    u8 *p1C;
+    char *p20;                  /* 0x20: the digest, then the message sent */
+    s16 size0;                  /* 0x24: the sizes of p0 .. p20 */
+    s16 size4;
+    s16 size8;
+    s16 sizeC;
+    s16 size10;
+    s16 size14;
+    s16 size18;
+    s16 size1C;
+    s16 size20;
+    u8 f36;                     /* 0x36: copied to the FSM's proto.b9 */
+    u8 f37;                     /* 0x37: proto.bA */
+    u16 f38;                    /* 0x38: the FSM's timeout, in seconds */
+    u8 pad3A[6];
+} PppAuthState;
+typedef char PppAuthState_size_check[sizeof(PppAuthState) == 0x40 ? 1 : -1];
+
+/* lbl_805C0620: the PAP buffers and settings (TLobby_803FCF44.c), set by init_net_block_620_params. */
+typedef struct PppPapState {
+    u8 *peer_id;                /* the peer id received */
+    u8 *password;               /* 0x04: the password received */
+    u8 *message;                /* 0x08: the message received */
+    s16 peer_id_size;           /* 0x0C */
+    s16 password_size;          /* 0x0E */
+    s16 message_size;           /* 0x10 */
+    u8 f12;                     /* 0x12 .. 0x14: as PppAuthState.f36 .. f38 */
+    u8 f13;
+    s16 f14;
+    u8 pad16[2];
+} PppPapState;
+typedef char PppPapState_size_check[sizeof(PppPapState) == 0x18 ? 1 : -1];
+
+/* lbl_805C04A8: the PPP frame buffers (TLobby_803FCF44.c), set by init_net_buffer_desc.  Each buffer starts with its
+ * PppFrame record; its data starts ((headroom + 0x83) & ~3) bytes in. */
+typedef struct PppBuffers {
+    s32 headroom;
+    u8 *pool;                   /* 0x04: npool buffers of pool_words words (init_net_buffer_entry) */
+    s16 npool;                  /* 0x08 */
+    s16 pool_words;             /* 0x0A */
+    PppFrame *packet;           /* 0x0C: TLobby__sub_80401B20's */
+    PppFrame *frame_out;        /* 0x10: the HDLC frame being sent */
+    PppFrame *ip_out;           /* 0x14: the IP packet being sent (TLobby__sub_803FD21C) */
+    PppFrame *frame_in;         /* 0x18: the frame being received */
+    PppFrame *reply;            /* 0x1C: TLobby__sub_803FE6CC's packet when it is given none */
+    s16 packet_words;           /* 0x20: the sizes of packet .. reply, in words */
+    s16 frame_out_words;
+    s16 ip_out_words;
+    s16 frame_in_words;
+    s16 reply_words;
+    u8 pad2A[6];
+} PppBuffers;
+typedef char PppBuffers_size_check[sizeof(PppBuffers) == 0x30 ? 1 : -1];
+#ifdef __cplusplus
+extern "C" {
+#endif
+extern PppAuthState lbl_805C02D0;
+extern PppPapState lbl_805C0620;
+extern PppBuffers lbl_805C04A8;
+#ifdef __cplusplus
+}
+#endif
 
 #endif

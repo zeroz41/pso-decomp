@@ -3,19 +3,28 @@
  * this file's static buffers. */
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/NetworkTransport.h"
+#include "pso/network/NetPppLink.h"
+#include "pso/network/NetStackTypes.h"
 #include "pso/network/TLobby_80426CAC.h"
 
 #include "types.h"
 
-typedef struct RecoveredGlobal_803F76F4_lbl_805A9008 {
-    s32 value;
-    u8 remaining[0x108C];
-} RecoveredGlobal_803F76F4_lbl_805A9008;
-
-typedef struct RecoveredGlobal_803F7790_lbl_805A9008 {
-    s32 value;
-    u8 remaining[0x108C];
-} RecoveredGlobal_803F7790_lbl_805A9008;
+/* The CHAP and PAP buffers init_net_buffer_table and init_net_block_620_params hand out (PppAuthState, PppPapState). */
+typedef struct PppAuthBuffers {
+    u8 auth20[0x100];
+    u8 auth1C[0x100];
+    u8 auth18[0x184];           /* 0x181 used */
+    u8 auth14[0x184];           /* 0x181 used */
+    u8 auth10[0x100];
+    u8 authC[0x100];
+    u8 auth8[0x80];
+    u8 auth4[0x80];
+    u8 auth0[0x80];
+    u8 pap_message[0x100];
+    u8 pap_password[0x80];
+    u8 pap_peer_id[0x80];
+} PppAuthBuffers;
+typedef char PppAuthBuffers_size[sizeof(PppAuthBuffers) == 0xA88 ? 1 : -1];
 
 typedef struct NetworkPacketBufferStorage {
     u8 packet_slots[4][1500];
@@ -28,19 +37,9 @@ typedef struct NetworkPacketBufferStorage {
 } NetworkPacketBufferStorage;
 typedef char NetworkPacketBufferStorage_size[sizeof(NetworkPacketBufferStorage) == 0x4C18 ? 1 : -1];
 
-typedef struct RecoveredGlobal_803F79C0_lbl_805A9008 {
-    s32 value;
-    u8 remaining[0x108C];
-} RecoveredGlobal_803F79C0_lbl_805A9008;
-
-typedef struct RecoveredGlobal_803F7A30_lbl_805C18A0 {
-    s32 value;
-    u8 remaining[0xC];
-} RecoveredGlobal_803F7A30_lbl_805C18A0;
 
 typedef struct E_803F7684 { u32 key; s32 val; } E_803F7684;
 
-typedef struct P_803F7A90 { s32 a; s32 b; } P_803F7A90;
 
 typedef struct Q_803F7AF4 { s32 a; s32 b; } Q_803F7AF4;
 
@@ -69,7 +68,7 @@ s32 send_at_compression_cmd__23TAdSinglePlyChrSelectGCFl(s32 mode);
 s32 send_atx_command__23TAdSinglePlyChrSelectGCFl(s32 mode);
 s32 copy_default_and_get_state__23TAdSinglePlyChrSelectGCFv(void *self);
 
-extern s32 lbl_805D7A00;
+extern s16 lbl_805D7A00[4];
 void TLobby__sub_803F97E8(s32);
 s32 TLobby__sub_80428094(s16);
 void TAdSinglePlyChrSelectGC__sub_8042D604(void);
@@ -77,14 +76,9 @@ extern s16 net_slot_id;
 extern s32 queue_thread_handle;
 extern u32 TLobby__send_ring_mutex;
 extern s16 network_pppoe_transport_enabled;
-void close_network_transport(void);
-extern RecoveredGlobal_803F7A30_lbl_805C18A0 lbl_805C18A0;
 extern s32 send_ring_buffer_base;
 extern s32 lobby_ring_buffer_size;
 extern s16 lbl_805D47F8;
-extern u16 net_param_player_count;
-extern u16 net_param_room_count;
-extern s32 lbl_805D4800;
 extern s16 lbl_805D4804;
 extern s32 lbl_805D4808;
 extern s32 lbl_805D480C;
@@ -92,18 +86,15 @@ extern s32 net_param_word_h;
 extern s32 net_param_word_i;
 extern s32 lobby_map_state_code;
 extern E_803F7684 lbl_804FD350[];
-s32 TLobby__sub_803F7684(void *arg0);
 extern u8 run_net_thread_loop[];
 s16 TLobby__sub_803F96AC(void *);
 s16 TLobby__sub_803F9B94(void *, void *);
-void start_network_thread(void);
 s32 TAdSinglePlyChrSelectGC__sub_8042DD70(s32 arg0, s32 arg1, s32 arg2);
 s32 TAdSinglePlyChrSelectGC__sub_8042E184(void);
 s32 TAdSinglePlyChrSelectGC__sub_8042E320(s32, s32, void *);
 extern s32 TLobby__queue_timeout_remaining;
 void subtract_network_queue_timeout(s32 arg0);
 void set_lobby_map_state_code(s32 arg0);
-s32 is_transport_connected(void);
 extern s32 lobby_send_ring_read_pos;
 extern s32 lobby_send_ring_pending_bytes;
 extern Q_803F7AF4 TLobby__next_send_chunk;
@@ -116,28 +107,19 @@ s32 TAdSinglePlyChrSelectGC__sub_8042CEF8(char *);
 void TAdSinglePlyChrSelectGC__sub_8042E488(s32);
 s32 open_network_transport(A_803F8314 *arg0);
 u32 layout_buffers(u8 *, u32, u32);
-extern u32 net_transport_buffer_ptr_a;
-extern u32 net_transport_buffer_ptr_b;
 s32 layout_net_params_buffer(u8 *data, s32 size);
 s32 TAdSinglePlyChrSelectGC__sub_8042D49C(int);
 s32 configure_modem_options(s32 arg0, s32 arg1, s32 arg2, s32 n, s32 p);
 s32 TAdSinglePlyChrSelectGC__sub_8042D7E0(void *);
-s32 recv_network_frame(u16 arg0, void *arg1, u16 *arg2);
 s32 TLobby__sub_803F8D24(NetTransportParams *);
 s32 get_net_params_and_size(NetTransportParams *arg0);
-s16 TLobby__sub_80427F48(s16, u8 *, u16);
 s32 send_network_frame(u16 arg0, u8 *arg1);
-void TLobby__sub_803F7678(void);
-s32 TLobby__sub_803F767C(void);
 void TLobby__sub_803F76F0(void);
 void TLobby__sub_803F778C(void);
 void TLobby__sub_803F77E0(void);
 void TLobby__sub_803F7980(void);
 void TLobby__sub_803F79AC(void);
-void TLobby__sub_803F79B0(u8 *arg0);
 void TLobby__sub_803F79BC(void);
-void TLobby__sub_803F808C(void);
-s32 TLobby__sub_803F811C(s16 *arg0);
 u32 compute_range_end(NetTransportParams *params, s32 base, u32 limit);
 
 extern s32 lbl_805D79F8;
@@ -153,7 +135,7 @@ __declspec(section ".sdata2") const char modem_delayed_response[] = "DELAYED";
 __declspec(section ".sdata2") const char modem_ring_response[] = "RING";
 __declspec(section ".sdata2") const char modem_default_connect_argument[] = "00";
 
-static u8 lbl_805A9008[0xA88];
+static PppAuthBuffers lbl_805A9008;
 static u8 lbl_805A9A90[0x60];
 static u8 lbl_805A9AF0[0x80];
 static u8 lbl_805A9B70[0x80];
@@ -171,7 +153,6 @@ static const char modem_no_carrier_response[] = "NO CARRIER";
 static const char modem_no_dialtone_response[] = "NO DIALTONE";
 static const char modem_initialization_script[] = "send \"AT&FE0\\r\"\nwait \"OK\\r\\n\",3\nsend \"ATS0=1\\r\"\nwait \"OK\\r\\n\",3\nsend \"ATW2\\r\"\nwait \"OK\\r\\n\",3\nsend \"ATX3&C1&D2\\r\"\nwait \"OK\\r\\n\",3\n";
 static const char modem_dial_script[] = "dial \"%t\"\n";
-#define lbl_805A9008 (*(RecoveredGlobal_803F76F4_lbl_805A9008 *)lbl_805A9008)
 
 void TLobby__sub_803F7678(void) {
 
@@ -195,50 +176,44 @@ void TLobby__sub_803F76F0(void) {
 
 }
 
-typedef char RecoveredGlobal_803F76F4_lbl_805A9008_size[sizeof(RecoveredGlobal_803F76F4_lbl_805A9008) == 0x1090 ? 1 : -1];
-void init_net_buffer_table(void *table) {
-    u8 *cfg = (u8 *)table;
-    typedef struct NetBufferTableFields { u8 * field_0; u8 * field_4; u8 * field_8; u8 * field_C; u8 * field_10; u8 * field_14; u8 * field_18; u8 * field_1C; s32 * field_20; s16 field_24; s16 field_26; s16 field_28; s16 field_2A; s16 field_2C; s16 field_2E; s16 field_30; s16 field_32; s16 field_34; s8 field_36; s8 field_37; s16 field_38; } NetBufferTableFields;
-    ((NetBufferTableFields*)cfg)->field_0 = (u8 *)&lbl_805A9008.value + 0x808;
-    ((NetBufferTableFields*)cfg)->field_4 = (u8 *)&lbl_805A9008.value + 0x788;
-    ((NetBufferTableFields*)cfg)->field_8 = (u8 *)&lbl_805A9008.value + 0x708;
-    ((NetBufferTableFields*)cfg)->field_C = (u8 *)&lbl_805A9008.value + 0x608;
-    ((NetBufferTableFields*)cfg)->field_10 = (u8 *)&lbl_805A9008.value + 0x508;
-    ((NetBufferTableFields*)cfg)->field_14 = (u8 *)&lbl_805A9008.value + 0x384;
-    ((NetBufferTableFields*)cfg)->field_18 = (u8 *)&lbl_805A9008.value + 0x200;
-    ((NetBufferTableFields*)cfg)->field_1C = (u8 *)&lbl_805A9008.value + 0x100;
-    ((NetBufferTableFields*)cfg)->field_20 = &lbl_805A9008.value;
-    ((NetBufferTableFields*)cfg)->field_24 = 0x80;
-    ((NetBufferTableFields*)cfg)->field_26 = 0x80;
-    ((NetBufferTableFields*)cfg)->field_28 = 0x80;
-    ((NetBufferTableFields*)cfg)->field_2A = 0x100;
-    ((NetBufferTableFields*)cfg)->field_2C = 0x100;
-    ((NetBufferTableFields*)cfg)->field_2E = 0x181;
-    ((NetBufferTableFields*)cfg)->field_30 = 0x181;
-    ((NetBufferTableFields*)cfg)->field_32 = 0x100;
-    ((NetBufferTableFields*)cfg)->field_34 = 0x100;
-    ((NetBufferTableFields*)cfg)->field_36 = 0xA;
-    ((NetBufferTableFields*)cfg)->field_37 = 5;
-    ((NetBufferTableFields*)cfg)->field_38 = 3;
+void init_net_buffer_table(PppAuthState *auth) {
+    auth->p0 = lbl_805A9008.auth0;
+    auth->p4 = lbl_805A9008.auth4;
+    auth->p8 = lbl_805A9008.auth8;
+    auth->pC = lbl_805A9008.authC;
+    auth->p10 = lbl_805A9008.auth10;
+    auth->p14 = lbl_805A9008.auth14;
+    auth->p18 = lbl_805A9008.auth18;
+    auth->p1C = lbl_805A9008.auth1C;
+    auth->p20 = (char *)lbl_805A9008.auth20;
+    auth->size0 = 0x80;
+    auth->size4 = 0x80;
+    auth->size8 = 0x80;
+    auth->sizeC = 0x100;
+    auth->size10 = 0x100;
+    auth->size14 = 0x181;
+    auth->size18 = 0x181;
+    auth->size1C = 0x100;
+    auth->size20 = 0x100;
+    auth->f36 = 0xA;
+    auth->f37 = 5;
+    auth->f38 = 3;
 }
 
 void TLobby__sub_803F778C(void) {
 
 }
 
-typedef char RecoveredGlobal_803F7790_lbl_805A9008_size[sizeof(RecoveredGlobal_803F7790_lbl_805A9008) == 0x1090 ? 1 : -1];
-void init_net_block_620_params(void *params) {
-    u8 *cfg = (u8 *)params;
-    typedef struct NetBlock620Fields { u8 * field_0; u8 * field_4; u8 * field_8; s16 field_C; s16 field_E; s16 field_10; s8 field_12; s8 field_13; s16 field_14; } NetBlock620Fields;
-    ((NetBlock620Fields*)cfg)->field_0 = (unsigned char *) ((void *) ((u8 *)&(*(RecoveredGlobal_803F7790_lbl_805A9008 *)&lbl_805A9008).value + 0xA08));
-    ((NetBlock620Fields*)cfg)->field_4 = (unsigned char *) ((void *) ((u8 *)&(*(RecoveredGlobal_803F7790_lbl_805A9008 *)&lbl_805A9008).value + 0x988));
-    ((NetBlock620Fields*)cfg)->field_8 = (unsigned char *) ((void *) ((u8 *)&(*(RecoveredGlobal_803F7790_lbl_805A9008 *)&lbl_805A9008).value + 0x888));
-    ((NetBlock620Fields*)cfg)->field_C = 0x80;
-    ((NetBlock620Fields*)cfg)->field_E = 0x80;
-    ((NetBlock620Fields*)cfg)->field_10 = 0x100;
-    ((NetBlock620Fields*)cfg)->field_12 = 0xA;
-    ((NetBlock620Fields*)cfg)->field_13 = 5;
-    ((NetBlock620Fields*)cfg)->field_14 = 3;
+void init_net_block_620_params(PppPapState *pap) {
+    pap->peer_id = lbl_805A9008.pap_peer_id;
+    pap->password = lbl_805A9008.pap_password;
+    pap->message = lbl_805A9008.pap_message;
+    pap->peer_id_size = 0x80;
+    pap->password_size = 0x80;
+    pap->message_size = 0x100;
+    pap->f12 = 0xA;
+    pap->f13 = 5;
+    pap->f14 = 3;
 }
 
 void TLobby__sub_803F77E0(void) {
@@ -298,61 +273,55 @@ void TLobby__sub_803F7980(void) {
 
 }
 
-void init_buffer_desc_b(void *desc) {
-    u8 *cfg = (u8 *)desc;
-    typedef struct BufferDescBFields { u8 pad_0[12]; s32 * field_C; s32 * field_10; s16 field_14; s16 field_16; } BufferDescBFields;
-    ((BufferDescBFields*)cfg)->field_C = &lbl_805D7A00;
-    ((BufferDescBFields*)cfg)->field_10 = (s32 *)network_packet_buffer_storage.packet_slots;
-    ((BufferDescBFields*)cfg)->field_16 = 4;
-    ((BufferDescBFields*)cfg)->field_14 = 0x5DC;
+void init_buffer_desc_b(PppLink *link) {
+    link->used = lbl_805D7A00;
+    link->buffers = network_packet_buffer_storage.packet_slots[0];
+    link->count = 4;
+    link->size = 0x5DC;
 }
 
 void TLobby__sub_803F79AC(void) {
 
 }
 
-void TLobby__sub_803F79B0(u8 *cfg) {
-    *(s16 *)((s8 *)cfg + 8) = 0x28;
+void TLobby__sub_803F79B0(NetThreadState *t) {
+    t->poll_ms = 0x28;
 }
 
 void TLobby__sub_803F79BC(void) {
 
 }
 
-typedef char RecoveredGlobal_803F79C0_lbl_805A9008_size[sizeof(RecoveredGlobal_803F79C0_lbl_805A9008) == 0x1090 ? 1 : -1];
-void init_net_buffer_desc(void *desc) {
-    u8 *cfg = (u8 *)desc;
-    typedef struct BufferDescFields { s32 field_0; u8 * field_4; s16 field_8; s16 field_A; u8 * field_C; u8 * field_10; u8 * field_14; u8 * field_18; u8 * field_1C; s16 field_20; s16 field_22; s16 field_24; s16 field_26; s16 field_28; } BufferDescFields;
-    ((BufferDescFields*)cfg)->field_4 = (u8 *)(&(*(RecoveredGlobal_803F79C0_lbl_805A9008 *)&lbl_805A9008).value) + 0x4B78;
-    ((BufferDescFields*)cfg)->field_8 = 2;
-    ((BufferDescFields*)cfg)->field_A = 0x226;
-    ((BufferDescFields*)cfg)->field_C = (u8 *)(&(*(RecoveredGlobal_803F79C0_lbl_805A9008 *)&lbl_805A9008).value) + 0x4A60;
-    ((BufferDescFields*)cfg)->field_10 = (u8 *)(&(*(RecoveredGlobal_803F79C0_lbl_805A9008 *)&lbl_805A9008).value) + 0x3A48;
-    ((BufferDescFields*)cfg)->field_14 = (u8 *)(&(*(RecoveredGlobal_803F79C0_lbl_805A9008 *)&lbl_805A9008).value) + 0x31B0;
-    ((BufferDescFields*)cfg)->field_18 = (u8 *)(&(*(RecoveredGlobal_803F79C0_lbl_805A9008 *)&lbl_805A9008).value) + 0x2918;
-    ((BufferDescFields*)cfg)->field_1C = (u8 *)(&(*(RecoveredGlobal_803F79C0_lbl_805A9008 *)&lbl_805A9008).value) + 0x2800;
-    ((BufferDescFields*)cfg)->field_0 = 0x18;
-    ((BufferDescFields*)cfg)->field_20 = 0x46;
-    ((BufferDescFields*)cfg)->field_22 = 0x406;
-    ((BufferDescFields*)cfg)->field_24 = 0x226;
-    ((BufferDescFields*)cfg)->field_26 = 0x226;
-    ((BufferDescFields*)cfg)->field_28 = 0x46;
+void init_net_buffer_desc(PppBuffers *bufs) {
+    bufs->pool = (u8 *)network_packet_buffer_storage.workspace_550_pair;
+    bufs->npool = 2;
+    bufs->pool_words = 0x226;
+    bufs->packet = (PppFrame *)network_packet_buffer_storage.workspace_70_b;
+    bufs->frame_out = (PppFrame *)network_packet_buffer_storage.workspace_1030;
+    bufs->ip_out = (PppFrame *)network_packet_buffer_storage.workspace_550_b;
+    bufs->frame_in = (PppFrame *)network_packet_buffer_storage.workspace_550_a;
+    bufs->reply = (PppFrame *)network_packet_buffer_storage.workspace_70_a;
+    bufs->headroom = 0x18;
+    bufs->packet_words = 0x46;
+    bufs->frame_out_words = 0x406;
+    bufs->ip_out_words = 0x226;
+    bufs->frame_in_words = 0x226;
+    bufs->reply_words = 0x46;
 }
 
-typedef char RecoveredGlobal_803F7A30_lbl_805C18A0_size[sizeof(RecoveredGlobal_803F7A30_lbl_805C18A0) == 0x10 ? 1 : -1];
 void stop_network_thread(void) {
-    lock_mutex((int) (*(s32 *)((s8 *)&lbl_805C18A0.value + 0)));
-    cancel_thread_if_running((void *)(*(s32 *)((s8 *)&lbl_805C18A0.value + 4)));
-    deactivate_entry_by_key((u32)((int) (*(s32 *)((s8 *)&lbl_805C18A0.value + 4))));
-    unlock_mutex((int) (*(s32 *)((s8 *)&lbl_805C18A0.value + 0)));
-    NetReleaseMutex((u32)((int) (*(s32 *)((s8 *)&lbl_805C18A0.value + 0))));
+    lock_mutex(lbl_805C18A0.mutex);
+    cancel_thread_if_running((void *)lbl_805C18A0.thread);
+    deactivate_entry_by_key(lbl_805C18A0.thread);
+    unlock_mutex(lbl_805C18A0.mutex);
+    NetReleaseMutex(lbl_805C18A0.mutex);
 }
 
 void start_network_thread(void) {
-    if (TLobby__sub_803F96AC(((P_803F7A90 *)&lbl_805C18A0)) < 0 || TLobby__sub_803F9B94(run_net_thread_loop, &((P_803F7A90 *)&lbl_805C18A0)[0].b) < 0) {
+    if (TLobby__sub_803F96AC(&lbl_805C18A0.mutex) < 0 || TLobby__sub_803F9B94(run_net_thread_loop, &lbl_805C18A0.thread) < 0) {
         return;
     }
-    NetResumeThread(((P_803F7A90 *)&lbl_805C18A0)[0].b);
+    NetResumeThread(lbl_805C18A0.thread);
 }
 
 /* Send thread: takes chunks from the send ring and hands them to the modem, waiting for each to drain. */
@@ -689,9 +658,9 @@ s32 open_network_transport(A_803F8314 *cfg) {
         } else {
             name = (char *)modem_default_connect_argument;
         }
-        unlock_mutex(lbl_805C18A0.value);
+        unlock_mutex(lbl_805C18A0.mutex);
         ret = TAdSinglePlyChrSelectGC__sub_8042CEF8(name);
-        lock_mutex(lbl_805C18A0.value);
+        lock_mutex(lbl_805C18A0.mutex);
         if (ret == 1) {
             TAdSinglePlyChrSelectGC__sub_8042E488(5);
             if (TLobby__sub_803F96AC(&TLobby__send_ring_mutex) < 0) {

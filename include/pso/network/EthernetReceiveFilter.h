@@ -15,6 +15,7 @@ typedef struct EthernetReceiveFilter {
     EthernetMulticastEntry multicast[6];
     s16 protocol_count;
     EthernetProtocolRegistration protocols[5];
+    u16 filter_types[5];        /* 0x4C: the registered EtherTypes, passed to the driver's filter */
 } EthernetReceiveFilter;
 typedef struct EthernetFrameHeader {
     u8 destination[6];
@@ -24,5 +25,6 @@ typedef struct EthernetFrameHeader {
 
 #include <stddef.h>
 typedef char EthernetProtocolsOffset[offsetof(EthernetReceiveFilter, protocols) == 0x38 ? 1 : -1];
+typedef char EthernetReceiveFilterSize[sizeof(EthernetReceiveFilter) == 0x56 ? 1 : -1];
 typedef char EthernetTypeOffset[offsetof(EthernetFrameHeader, ether_type) == 0x0C ? 1 : -1];
 #endif

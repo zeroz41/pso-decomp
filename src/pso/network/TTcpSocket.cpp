@@ -261,11 +261,6 @@ struct at_ip_addr {
 	} ip46;
 };
 
-struct send_buffs {
-	short len;
-	u8 *buff;
-};
-
 void func_80019A68();
 void controller_stuff();
 char func_801A5E54();

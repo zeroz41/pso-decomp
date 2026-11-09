@@ -14,6 +14,7 @@ s32 write_pppoe_ac_name_tag(s32 *cursor, u8 *slot);
 s32 skip_pppoe_tags(s32 slot, u8 *tags, u16 len);
 s16 get_pppoe_session_id(s16 slot);
 s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen);
+s16 TLobby__sub_80427F48(s16 slot, u8 *frame, u16 len);
 #ifdef __cplusplus
 }
 #endif
