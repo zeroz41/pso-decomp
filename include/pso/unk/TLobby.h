@@ -529,7 +529,7 @@ struct TLobby : public TObject {
     s32 get_field_28();
     s16 get_slot();
     s32 get_packet_flag_for_state();
-    s16 get_field_a8();
+    s32 get_field_a8();
     s32 get_field_0x3c();
     void clear_record();
     s32 is_spsd_header();

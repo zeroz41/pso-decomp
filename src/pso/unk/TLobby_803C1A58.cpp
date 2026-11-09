@@ -16,10 +16,15 @@ struct Strm_803C1A8C {
     s32 id;
     u8 padC[2];
     s8 channels;
-    u8 padF[0x50 - 0xF];
+    u8 padF[0x40 - 0xF];
+    s32 wrap_len;       // samples; data past it is copied back to the buffer start
+    s32 wrap_offset;    // second channel's offset for that copy
+    u8 pad48[0x50 - 0x48];
     u8 *src;
     s32 maxLen;
-    u8 pad58[0x64 - 0x58];
+    s32 stream_channels; // 2 = two channel buffers, rOff apart
+    s32 sample_bytes;
+    s32 block_samples;
     s16 *buf;
     s32 bufLen;
     s32 rOff;
@@ -148,7 +153,7 @@ extern s32 lbl_805E0CC8;
 extern s32 lbl_805E0CD0;
 extern s32 lbl_805E0CD8;
 void TLobby__sub_803C19D8(void *);
-void TLobby__sub_803C3570(void *);
+void TLobby__sub_803C3570(Strm_803C1A8C *o);
 void TLobby__sub_803C40D0(void *);
 void TLobby__sub_803C34F4(Obj_803C34F4 *arg0);
 s32 DVDReadPrio(void *, void *, void *);
@@ -711,7 +716,7 @@ u8 *fn_803C32EC(u8 *hdr, s32 size, s32 *rate, s32 *channels, s32 *bits, s32 *sam
 void TLobby__sub_803C34F4(Obj_803C34F4 *lobby) {
     s16 s = lobby->state;
     if (s == 0) {
-        TLobby__sub_803C3570(lobby);
+        TLobby__sub_803C3570((Strm_803C1A8C *)lobby);
     } else if (s == 10) {
         TLobby__sub_803C19D8(lobby);
     } else if (s == 2) {
@@ -722,6 +727,109 @@ void TLobby__sub_803C34F4(Obj_803C34F4 *lobby) {
         ((TLobby *)lobby)->dispatch_by_state();
     } else if (s == 1) {
         TLobby__sub_803C0B3C((u8 *)lobby);
+    }
+}
+
+void TLobby__sub_803C3570(Strm_803C1A8C *o) {
+    if (o->state == 1 && ((TLobby *)(o->id))->get_client_count() == 0) {
+        s32 blk;
+        s32 end;
+        s32 pos;
+        s32 len;
+        s32 room;
+        s32 rem;
+        s32 avail;
+        s32 n;
+        o->read(o->readArg, &o->pos, &o->avail, &o->x78);
+        blk = o->block_samples;
+        end = (o->x78 + blk - 1) / blk;
+        avail = o->avail;
+        pos = o->pos;
+        len = o->bufLen;
+        room = (blk + (len - pos) - 1) / blk;
+        rem = (blk - 1) - (o->x78 + blk - 1) % blk;
+        n = o->maxLen / o->stream_channels;
+        if (end < room && pos + room * blk - rem < len) {
+            room++;
+        }
+        if (o->x78 < avail) {
+            avail += rem;
+        }
+        if (n > avail / blk) {
+            n = avail / blk;
+        }
+        if (n > end) {
+            n = end;
+        }
+        if (n > room) {
+            n = room;
+        }
+        if (o->stream_channels == 2) {
+            TLobby *lobby = (TLobby *)o->id;
+            s16 *dst = o->buf + o->pos;
+            lobby->post_request((s32)o->src, n * 2, (s32)dst, (s32)(dst + o->rOff));
+            TLobby__sub_803CB4A4((u8 *)lobby);
+        } else {
+            TLobby *lobby = (TLobby *)o->id;
+            lobby->try_post_command((s32)o->src, n, (s32)(o->buf + o->pos));
+            TLobby__sub_803CB4A4((u8 *)lobby);
+        }
+        o->state = 2;
+    }
+    if (o->state == 2) {
+        ((TLobby *)(o->id))->update_receive_check();
+        if (((TLobby *)(o->id))->get_client_count() == 3) {
+            s32 rOff;
+            s32 size;
+            s32 pos;
+            s16 *buf;
+            s32 rem;
+            s32 width;
+            s32 blk;
+            s32 last;
+            blk = o->block_samples;
+            width = o->sample_bytes;
+            pos = o->pos;
+            last = o->x78 + blk - 1;
+            rem = (blk - 1) - last % blk;
+            buf = o->buf;
+            size = o->wrap_len;
+            rOff = o->wrap_offset;
+            s32 got = ((TLobby *)(o->id))->get_size();
+            s32 n = got * blk / o->stream_channels;
+            if (last / blk * o->stream_channels <= got) {
+                n -= rem;
+            }
+            o->n = n;
+            pos += n;
+            o->bytes = got * width;
+            if (pos >= size) {
+                s32 i;
+                s16 *dst;
+                s16 *src;
+                pos -= size;
+                if (o->stream_channels == 2) {
+                    dst = buf;
+                    src = buf + size;
+                    for (i = pos; i > 0; i--) {
+                        *dst++ = *src++;
+                    }
+                    src = buf + (rOff + size);
+                    dst = buf + rOff;
+                    for (i = pos; i > 0; i--) {
+                        *dst++ = *src++;
+                    }
+                } else {
+                    src = buf + size;
+                    for (i = pos; i > 0; i--) {
+                        *buf++ = *src++;
+                    }
+                }
+            }
+            ((TLobby *)(o->id))->reset_field_0C();
+            o->done(o->doneArg, o->bytes, o->n);
+            o->state = 3;
+        }
     }
 }
 
@@ -848,7 +956,7 @@ s32 TLobby__sub_803C3B44(u8 *arg0) {
     return *(s32 *)((s8 *)arg0 + 0x14);
 }
 
-s16 TLobby::get_field_a8() {
+s32 TLobby::get_field_a8() {
     u8 *arg0 = (u8 *)this;
     return *(s16 *)((s8 *)arg0 + 0xA8);
 }
