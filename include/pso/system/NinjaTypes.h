@@ -95,6 +95,14 @@ union NJS_COLOR {
     NJS_BGRA argb;
 };
 
+// `num` 2D points with one colour each and optional texture coordinates.
+struct NJS_POINT2COL {
+    NJS_POINT2 *p;
+    NJS_COLOR *col;
+    NJS_POINT2 *tex;
+    u32 num;
+};
+
 // Ninja motion: per-node key data played over nbFrame frames.
 struct NJS_MOTION {
     void *mdata;

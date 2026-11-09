@@ -815,6 +815,21 @@ void TAdSinglePlyChrSelectGC::get_sorted_region_samples(s32 *samples) {
 }
 #pragma push
 #pragma fp_contract on
+// Barycentric weights of point inside the sample triangle of its region (inferred).
+void calc_shape_region_coefficients(f32 *point) {
+    s32 i0, i1, i2;
+    f32 u, v, y0;
+    creation_shape_blend.region = find_shape_triangle_region((u8 *)point);
+    i0 = creation_region_sample_index_table[creation_shape_blend.region * 3 + 0];
+    i1 = creation_region_sample_index_table[creation_shape_blend.region * 3 + 1];
+    i2 = creation_region_sample_index_table[creation_shape_blend.region * 3 + 2];
+    y0 = lbl_804D400C[i0].height;
+    u = (point[0] - lbl_804D400C[i0].width) / (lbl_804D400C[i2].width - lbl_804D400C[i0].width);
+    v = ((point[1] - y0) - (lbl_804D400C[i2].height - y0) * u) / (lbl_804D400C[i1].height - y0);
+    creation_shape_blend.weights[2] = u;
+    creation_shape_blend.weights[1] = v;
+    creation_shape_blend.weights[0] = lbl_805DD944 - (v + u);
+}
 s32 clear_creation_shape_eval_masks(f32 *dst, const f32 *a, const f32 *b, const f32 *c) {
     s32 i;
     for (i = 0; i < 3; i++) {

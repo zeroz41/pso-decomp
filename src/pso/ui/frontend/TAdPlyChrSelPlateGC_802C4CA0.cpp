@@ -1,6 +1,8 @@
 #include "types.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/render/ModelDrawContext.h"
 struct O_802C4D5C { u8 pad[0x2a8]; f32 v[1]; };
 
 typedef struct Q_802C4D88 { s8 b[4]; } Q_802C4D88;
@@ -41,6 +43,22 @@ typedef struct S_802C4E38 {
     u8 col[4];
     s32 f3AC;
 } S_802C4E38;
+
+void TAdPlyChrSelPlateGC::render() {
+    u32 i;
+
+    if (TMainTask::get_render_pass() != 1) {
+        set_color_blending_mode(0, 8);
+        set_color_blending_mode(1, 10);
+        for (i = 0; i < plate_count; i++) {
+            if (plate_shown[i] != 0) {
+                TAdEnterSerialAccessGC__sub_802C4B64(this, &plate_pos[i], plate_color[i], i);
+            }
+        }
+        set_color_blending_mode(0, 8);
+        set_color_blending_mode(1, 6);
+    }
+}
 
 extern "C" {
 extern const f32 lbl_805DE54C;

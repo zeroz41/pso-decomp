@@ -5,6 +5,9 @@
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
+#include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
+#include "pso/ui/frontend/TAdChrMoveEffectGC.h"
+#include "pso/ui/charcreate/TObjCMHairMenu.h"
 
 TAdSelectGameModeGC::~TAdSelectGameModeGC() {}
 
@@ -156,5 +159,32 @@ u8 *__ct__19TAdSelectGameModeGCFv(u8 *arg0, void *parent) {
     create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)arg0, 0xA, (f32)lbl_805DE538);
     return arg0;
 }
+
+#pragma push
+#pragma fp_contract on
+void TAdEnterSerialAccessGC__sub_802C4B64(TAdPlyChrSelPlateGC *plate, NJS_POINT2 *pos, NJS_COLOR color, u32 depth) {
+    NJS_POINT2 xy[4];
+    NJS_POINT2COL fan;
+    NJS_COLOR col[4];
+
+    fan.p = xy;
+    fan.col = col;
+    fan.tex = NULL;
+    fan.num = 4;
+    fan.p[0].x = pos->x;
+    fan.p[0].y = pos->y;
+    ((TAdChrMoveEffectGC *)&fan.col[0])->copy4(&color);
+    fan.p[1].x = fan.p[0].x;
+    fan.p[1].y = fan.p[0].y + plate->plate_size.y;
+    ((TAdChrMoveEffectGC *)&fan.col[1])->copy4(&color);
+    fan.p[2].x = fan.p[0].x + plate->plate_size.x;
+    fan.p[2].y = fan.p[0].y + plate->plate_size.y;
+    ((TAdChrMoveEffectGC *)&fan.col[2])->copy4(&color);
+    fan.p[3].x = fan.p[0].x + plate->plate_size.x;
+    fan.p[3].y = fan.p[0].y;
+    ((TAdChrMoveEffectGC *)&fan.col[3])->copy4(&color);
+    ((TObjCMHairMenu *)&fan)->draw_tri_fan_2d(4, 7, 0.001f * (f32)depth + -30.0f);
+}
+#pragma pop
 
 }

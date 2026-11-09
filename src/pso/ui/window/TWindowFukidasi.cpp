@@ -10,6 +10,9 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/ui/window/TWindowSubStatusDisp_800FBD74.h"
+#include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 struct Pt_80250A24 { f32 x, y; };
 
@@ -130,9 +133,14 @@ struct Fuki_80252764 {
 };
 
 struct View_80252764 {
-    u8 pad0[0x28];
+    f32 x;
+    f32 y;
+    u8 pad8[0x28 - 0x8];
     f32 sx;
     f32 sy;
+    s32 fade_in;  // frame counter of the name plate fade (inferred)
+    u8 pad34[0x38 - 0x34];
+    f32 depth;
 };
 
 struct Fuki_802521E8 {
@@ -228,7 +236,8 @@ void set_color__13TUnk_804CF0B8FUs(void *arg0, u16 arg1);
 void open__15TWindowFukidasiFPvPvi(u8 *arg0, u32 *arg1, s32 arg2);
 void set_text__15TWindowFukidasiFPvii(u8 *arg0, s32 arg1, s32 arg2);
 void init_flags__15TWindowFukidasiFPvi(void *arg0, s32 arg1);
-void draw_name_plate__15TWindowFukidasiFv(void *, View_80252764 *, u32);
+void draw_name_plate__15TWindowFukidasiFv(TUnk_804CF0B8 *, View_80252764 *, u32);
+void apply_context_transform_to_rect(View_80252764 *ctx, f32 *rect);
 void TWindowFukidasi__sub_80252C38(void *p);
 void clear_flag_20__13TUnk_804CF0B8Fv();
 s32 fn_80252CBC(void);
@@ -1038,6 +1047,80 @@ void TUnk_804CF0B8::sub_80251DF0(s16 arg1, s32 str, s16 arg3, f32 farg0) {
 
 #pragma push
 #pragma fp_contract on
+void draw_name_plate__15TWindowFukidasiFv(TUnk_804CF0B8 *balloon, View_80252764 *view, u32 color) {
+    f32 pos[2];
+    f32 rect[8];
+    f32 depth;
+    f32 width;
+    s32 alpha;
+    u32 a;
+    u32 argb;
+
+    if (balloon->name != NULL && view->fade_in >= 0) {
+        width = get_name_text_width(balloon->name);
+        if (view->fade_in < 6) {
+            alpha = (1.0f / 6.0f) * (f32)(view->fade_in * 255);
+        } else {
+            alpha = 255;
+        }
+        a = alpha << 24;
+        argb = (color & 0x00FFFFFF) | (a & 0xFF000000);
+        pos[0] = view->x - 11.0f;
+        pos[1] = view->y - 10.0f;
+        depth = -1.0f / (0.0598f + view->depth);
+        begin_screen_draw(1);
+        TWindowSubStatusDisp::render_forward();
+        set_draw_texture_and_color(0, argb);
+        rect[0] = pos[0];
+        rect[1] = pos[1];
+        rect[2] = 16.0f + pos[0];
+        rect[3] = 19.0f + pos[1];
+        rect[4] = 0.56640625f;
+        rect[5] = 0.92578125f;
+        rect[6] = 0.62890625f;
+        rect[7] = 1.0f;
+        apply_context_transform_to_rect(view, rect);
+        draw_textured_quad_at_depth(rect, depth);
+        if (width < 20.0f) {
+            rect[0] = 12.0f + ((20.0f + pos[0]) - 16.0f);
+        } else {
+            rect[0] = 12.0f + ((pos[0] + width) - 16.0f);
+        }
+        rect[1] = pos[1];
+        rect[2] = 16.0f + rect[0];
+        rect[3] = 19.0f + pos[1];
+        rect[4] = 0.69140625f;
+        rect[5] = 0.92578125f;
+        rect[6] = 0.75390625f;
+        rect[7] = 1.0f;
+        apply_context_transform_to_rect(view, rect);
+        draw_textured_quad_at_depth(rect, depth);
+        if (width > 20.0f) {
+            rect[0] = 16.0f + pos[0];
+            rect[1] = pos[1];
+            rect[2] = 12.0f + ((pos[0] + width) - 16.0f);
+            rect[3] = 19.0f + pos[1];
+            rect[4] = 0.62890625f;
+            rect[5] = 0.92578125f;
+            rect[6] = 0.69140625f;
+            rect[7] = 1.0f;
+            apply_context_transform_to_rect(view, rect);
+            draw_textured_quad_at_depth(rect, depth);
+        }
+        TWindowSubStatusDisp::get_player();
+        pos[0] += 6.0f;
+        if (width < 20.0f) {
+            pos[0] += 0.5f * (20.0f - width);
+        }
+        pos[1] += 3.0f;
+        set_text_draw_params((s32)view, 0, 1, -1.0f / (0.07475f + view->depth), 100000.0f);
+        draw_small_font_string_clipped(pos, balloon->name, a, 1000000.0f);
+    }
+}
+#pragma pop
+
+#pragma push
+#pragma fp_contract on
 void TUnk_804CF0B8::draw_tail(void *view, u32 color, f32 *off, f32 depth) {
     f32 verts[6];
     f32 pos[3];
@@ -1202,7 +1285,7 @@ void TUnk_804CF0B8::render() {
     ((TUnk_804CF0B8 *)((Fuki_80252764 *)this))->draw_tail(v, ((Fuki_80252764 *)this)->color, off, lbl_805DCD90 + ((Fuki_80252764 *)this)->f54);
     if (((TUnk_804CF0B8 *)((Fuki_80252764 *)this))->is_active() != 0) {
         draw_visible_window_entries(((Fuki_80252764 *)this), ((Fuki_80252764 *)this)->f24, v);
-        draw_name_plate__15TWindowFukidasiFv(((Fuki_80252764 *)this), v, ((Fuki_80252764 *)this)->color);
+        draw_name_plate__15TWindowFukidasiFv(this, v, ((Fuki_80252764 *)this)->color);
     }
 }
 #pragma pop

@@ -467,6 +467,12 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -fp_contract on: 0x80257024 fuses its depth math (0.299f * depth + parent depth) into fmadds; the
     # unit's other functions are the same either way (its twin draw_gauge in _8025737C needs it too).
     "pso/ui/window/TWindowSubStatusDisp_80256B94.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
+    # -fp_contract on: the scroll bar render 0x80340A78 fuses its cap and thumb math into fmadds/fnmsubs;
+    # the unit's other functions are the same either way.
+    "pso/ui/window/TWindowDD.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
+    # -fp_contract on: handle_scroll_input, get_cursor_pos and the strip draw 0x80341674 fuse into fmadds
+    # (they were the unit's fp_contract pragma regions); the other functions are the same either way.
+    "pso/ui/window/TWindowDD_80341A08.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
     "pso/ui/window/TWindowCtrlMain.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/frontend/TAdSelectTxtSubGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdBackGC_8029A6EC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

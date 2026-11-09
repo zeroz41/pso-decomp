@@ -9,10 +9,10 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/unk/TUnk_804CFA28.h"
+#include "pso/unk/text_803D619C.h"
 
 extern "C" {
 int refresh_status_display__9TWindowDDFv(void *);
-void TWindowDD__sub_80341674(TWindowDD_WS_Word *, u8 *);
 void draw_visible_window_entries(TWindowDD_WS_Word *, TWindowDDWordEntryList *, TWindowKeyBoardSoft *);
 extern const s32 TWindowDD__data_805DFC14;
 extern const s32 lbl_805DFC18;
@@ -28,7 +28,7 @@ void TWindowDD_WS_Word::render() {
     s32 j;
     entry = (TWindowKeyBoardSoft *)TWindowDD::draw_default_entry((s32)self);
     self->calc_inner_rect((u8 *)entry);
-    TWindowDD__sub_80341674(self, (u8 *)entry);
+    TWindowDD__sub_80341674(self, entry);
     if (self->m_8c != 0) {
         self->m_8c = 0;
         idx = self->m_68 - self->m_6c;
@@ -51,6 +51,129 @@ void TWindowDD_WS_Word::render() {
     }
     entry->inner_y += lbl_805DFCA0;
     draw_visible_window_entries(self, &self->entries, entry);
+}
+
+struct E_803403F8 { f32 a; f32 b; f32 c; f32 d; f32 e; s32 f; };
+
+extern "C" {
+extern const f32 TWindowDD__data_805DFB18;
+extern const f32 TWindowDD__data_805DFB20;
+extern const f32 lbl_805DFB40;
+extern const f32 lbl_805DFB44;
+extern void *lbl_805D63F0;
+}
+
+void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect) {
+    E_803403F8 verts[8];
+    E_803403F8 *v;
+    s32 tex;
+    s32 i;
+    s32 j;
+    s32 count;
+    f32 y1;
+    f32 c;
+    f32 s;
+    f32 v0;
+    f32 y0;
+    f32 v1;
+    f32 frac;
+    f32 part;
+    f32 yb;
+    f32 top;
+    f32 step;
+
+    // TWindowDD::get_draw_count(lbl_805D63F0), read inline here (0x80348AE8 is the same load chain)
+    tex = **(s32 **)((s8 *)(*(void **)((s8 *)(*(void **)lbl_805D63F0) + 0x20)) + 0xC);
+    if (rect->open_tick < 0) {
+        return;
+    }
+    c = 0.5f * self->pad_4C + self->pad_44;
+    ((TWindowDD *)verts)->reset_entries(TWindowDD__sub_80348AD4(self->pad_54, 0.0f), -1);
+    ((TWindowDD *)verts)->copy_point_table(self->pad_64);
+    TWindowDD__sub_80348A2C(rect, verts);
+    s = rect->scale[1];
+    count = self->pad_78;
+    top = -(0.5f * self->pad_4C);
+    y0 = top * s + c;
+    y1 = (top + TWindowDD__data_805DFB20) * s + c;
+    if (self->pad_64 == 0) {
+        v0 = lbl_805DFB40;
+        v1 = v0 + TWindowDD__data_805DFB20;
+    } else {
+        v0 = lbl_805DFB44;
+        v1 = v0 + TWindowDD__data_805DFB20;
+    }
+    v0 *= TWindowDD__data_805DFB18;
+    v1 *= TWindowDD__data_805DFB18;
+    frac = TWindowDD__data_805DFB20 * fn_803D6308(-self->pad_88 / TWindowDD__data_805DFB20);
+    if (frac != 0.0f) {
+        count = self->pad_78 - 1;
+        if (frac < 0.0f) {
+            part = frac + TWindowDD__data_805DFB20;
+        } else {
+            part = frac;
+            frac -= TWindowDD__data_805DFB20;
+        }
+        yb = part * s + y0;
+        v = verts;
+        for (i = 0; i < 4; i++) {
+            v[0].b = y0;
+            v[0].e = v1 - part * TWindowDD__data_805DFB18;
+            v[1].b = yb;
+            v[1].e = v1;
+            v += 2;
+        }
+        ((TWindowDD *)verts)->draw_transformed_primitive((void *)8, (void *)tex, (void *)1);
+        y0 = yb;
+    }
+    if (count > 0) {
+        step = TWindowDD__data_805DFB20 * s;
+        v = verts;
+        for (i = 0; i < 4; i++) {
+            v[0].e = v0;
+            v[1].e = v1;
+            v += 2;
+        }
+        for (i = 0; i < count; i++) {
+            y1 = y0 + step;
+            v = verts;
+            for (j = 0; j < 4; j++) {
+                v[0].b = y0;
+                v[1].b = y1;
+                v += 2;
+            }
+            ((TWindowDD *)verts)->draw_transformed_primitive((void *)8, (void *)tex, (void *)1);
+            y0 = y1;
+        }
+    }
+    if (frac != 0.0f) {
+        v = verts;
+        for (i = 0; i < 4; i++) {
+            v[0].b = y1;
+            v[0].e = v0;
+            v[1].b = 0.5f * self->pad_4C * s + c;
+            v[1].e = v0 - frac * TWindowDD__data_805DFB18;
+            v += 2;
+        }
+        ((TWindowDD *)verts)->draw_transformed_primitive((void *)8, (void *)tex, (void *)1);
+    }
+    if (self->m_74 > 0 && self->sub_80342254() != 0) {
+        ((TWindowDD *)verts)->reset_entries(TWindowDD__sub_80348AD4(self->pad_54, 0.1f), -1);
+        ((TWindowDD *)verts)->copy_point_table(1);
+        TWindowDD__sub_80348A2C(rect, verts);
+        top = (f32)self->m_6c * TWindowDD__data_805DFB20 + -(0.5f * self->pad_4C);
+        s = rect->scale[1];
+        y0 = top * s + c;
+        y1 = (top + TWindowDD__data_805DFB20) * s + c;
+        v = verts;
+        for (i = 0; i < 4; i++) {
+            v->b = y0;
+            v++;
+            v->b = y1;
+            v++;
+        }
+        ((TWindowDD *)verts)->draw_transformed_primitive((void *)8, (void *)tex, (void *)1);
+    }
 }
 
 #define sub_80341AC0__17TWindowDD_WS_WordFv ((s32 (*)(void))sub_80341AC0__17TWindowDD_WS_WordFv)
@@ -143,8 +266,6 @@ s32 get_field_20__17TWindowSubComCardFv(void);
 void TWindowDD::set_mode_2() { this->m_80 = 2; }
 void TWindowDD::reset_cursor() { this->m_80 = 0; }
 
-#pragma push
-#pragma fp_contract on
 void TWindowDD::handle_scroll_input() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r3_3;
@@ -234,7 +355,6 @@ void TWindowDD::handle_scroll_input() {
     ((TWindowBase *)arg0)->update_fade();
     ((TWindowBase *)arg0)->update_window_entry_list(arg0 + 0x24);
 }
-#pragma pop
 
 void TWindowDD::init_and_mark_field8C() { init_layout_entries(); load_element_list(); this->m_a8 = 1; }
 
@@ -325,14 +445,11 @@ s32 TWindowDD::update_if_field28_set() {
     return 0;
 }
 
-#pragma push
-#pragma fp_contract on
 void TWindowDD::get_cursor_pos(u8 *arg1) {
     u8 *arg0 = (u8 *)this;
     *(f32 *)((s8 *)arg1 + 0) = (f32) *(f32 *)((s8 *)arg0 + 0x40);
     *(f32 *)((s8 *)arg1 + 4) = (f32) (((f32) *(s32 *)((s8 *)arg0 + 0x6C) * TWindowDD__data_805DFB20) + *(f32 *)((s8 *)arg0 + 0x44));
 }
-#pragma pop
 
 s32 TWindowDD::get_field_68() { return this->m_84; }
 void TWindowDD::add_scroll_offset(int a1) { this->m_84 = (this->m_84 + a1); this->m_a8 = 1; TWindowDD::spawn_window(); }
