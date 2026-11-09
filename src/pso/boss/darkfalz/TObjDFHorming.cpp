@@ -151,7 +151,7 @@ const char *TBoss4DarkFalz__name = "TBoss4DarkFalz";
 
 // Read-only start positions (.rodata) of sub_8004B8F8 and sub_8004B7DC. Declared const, the visible
 // definition lets CodeWarrior hoist the copy above the stmw in both users, so they are placed explicitly.
-__declspec(section ".rodata") Vec lbl_804371BC = { 0.0f, 10.0f, 0.0f };
+__declspec(section ".rodata") Vec dark_falz_player_ring_center_origin = { 0.0f, 10.0f, 0.0f };
 __declspec(section ".rodata") Vec dark_falz_player_ring_center = { 10000.0f, 10.0f, 0.0f };
 
 Vec dark_falz_zako_ring_origin_vec = { 0.0f, -13.0f, 0.0f };
@@ -761,7 +761,7 @@ void TBoss4DarkFalz__sub_8004B7DC(TBoss4DarkFalz *boss4_dark_falz) {
 
 #pragma fp_contract on
 void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *boss4_dark_falz) {
-    Vec base = lbl_804371BC;
+    Vec base = dark_falz_player_ring_center_origin;
     s32 rate;
     s32 ang;
     s32 i;
