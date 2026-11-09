@@ -38,6 +38,8 @@ void TLobby__sub_803C406C(void);
 s32 TLobby__sub_803C43A8(void *arg0, void *hdr, void *arg2);
 s32 TRK__write_aram(void *arg0p, void *hdr, void *size);
 s32 get_progress_info__6TLobbyFPvPvPvPv(u8 *arg0, s32 *arg1, s32 *arg2, s32 *arg3);
+u8 *TLobby__sub_803C2388(u8 *hdr, s32 *rate, s32 *channels, s32 *bits, s32 *frames);
+u8 *fn_803C32EC(u8 *hdr, s32 size, s32 *rate, s32 *channels, s32 *bits, s32 *samples, s32 *format);
 }
 // --- end of C functions
 

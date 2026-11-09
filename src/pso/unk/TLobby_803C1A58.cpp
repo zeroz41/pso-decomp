@@ -153,12 +153,10 @@ void TLobby__sub_803C40D0(void *);
 void TLobby__sub_803C34F4(Obj_803C34F4 *arg0);
 s32 DVDReadPrio(void *, void *, void *);
 s32 TLobby__sub_803C44C0(Hdr_803C44C0 *hdr, s32 arg1, s16 *arg2, s8 *arg3, s8 *arg4, s8 *arg5, s8 *arg6, s32 *arg7, s32 *arg8, s32 *arg9, s16 *arg10);
-u8 *TLobby__sub_803C2388(u8 *, s32 *, s32 *, s32 *, s32 *);
 extern s32 lbl_8047C520[];
 extern s32 lbl_8047C540[];
 u32 adx_allocate_decoder_channel();
 Rec_803C3E88 *alloc_record__6TLobbyFiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-u32 GXSetCopyFilter(void *, void *, void *, void *, void *, void *, void *);
 void process_byteswapped_pcm_transfer(Snd_803C1DC4 *arg0);
 void TLobby__sub_803C2A00(Strm_803C1A8C *o);
 /* mu-law sample expansion table (8-bit code -> s16 PCM) */
@@ -352,6 +350,96 @@ s32 TLobby::is_aiff_header() {
     return 0;
 }
 
+// Little-endian reads of big-endian header fields, swapped in place afterwards.
+#define READ_LE32(b) ((b)[0] | ((b)[1] << 8) | ((b)[2] << 16) | ((b)[3] << 24))
+#define SWAP32(x) ((((x) >> 24) & 0xFF) | (((x) >> 8) & 0xFF00) | (((x) << 8) & 0xFF0000) | ((x) << 24))
+#define READ_LE16(b) ((u16)(b)[0] | ((u16)(b)[1] << 8))
+#define SWAP16(x) ((((x) >> 8) & 0xFF) | (((x) << 8) & 0xFF00))
+
+// Walks the chunks of an AIFF ("FORM"/"AIFF") header, whose fields are big-endian: COMM gives
+// the format, SSND the start of the sample data, which is returned (NULL if not an AIFF).
+// (inferred name: parse_aiff_header)
+u8 *TLobby__sub_803C2388(u8 *hdr, s32 *rate, s32 *channels, s32 *bits, s32 *frames) {
+    u8 *p;
+    u8 *end;
+    u8 *data;
+    s32 have_comm;
+    s32 have_ssnd;
+    u32 magic;
+    u32 form_size;
+    u32 type;
+    u32 id;
+    u32 size;
+    u32 offset;
+    u16 exponent;
+    u16 mantissa;
+
+    p = hdr + 12;
+    have_comm = 0;
+    magic = READ_LE32(hdr);
+    form_size = READ_LE32(hdr + 4);
+    form_size = SWAP32(form_size);
+    type = READ_LE32(hdr + 8);
+    have_ssnd = 0;
+    data = NULL;
+    if (magic != 0x4D524F46) {
+        return NULL;
+    }
+    if (type != 0x46464941) {
+        return NULL;
+    }
+    end = p + (form_size - 4);
+    while (p < end) {
+        id = READ_LE32(p);
+        size = READ_LE32(p + 4);
+        size = SWAP32(size);
+        p += 8;
+        switch (id) {
+        case 0x4D4D4F43:
+            if (have_comm) {
+                break;
+            }
+            if ((s32)size < 18) {
+                return NULL;
+            }
+            have_comm = 1;
+            *channels = READ_LE16(p);
+            *channels = SWAP16(*channels);
+            *frames = READ_LE32(p + 2);
+            *frames = SWAP32(*frames);
+            *bits = READ_LE16(p + 6);
+            *bits = SWAP16(*bits);
+            exponent = READ_LE16(p + 8);
+            exponent = SWAP16(exponent);
+            mantissa = READ_LE16(p + 10);
+            mantissa = SWAP16(mantissa);
+            p += 18;
+            *rate = mantissa >> (0x400E - exponent);
+            if (have_ssnd) {
+                return data;
+            }
+            break;
+        case 0x444E5353:
+            if (have_ssnd) {
+                break;
+            }
+            have_ssnd = 1;
+            offset = READ_LE32(p);
+            p += 4;
+            offset = SWAP32(offset);
+            data = p + offset;
+            if (have_comm) {
+                return data;
+            }
+            break;
+        default:
+            p += (size + 1) & ~1;
+            break;
+        }
+    }
+    return data;
+}
+
 void TLobby::dispatch_by_state() {
     u8 *arg0 = (u8 *)this;
     s16 temp_r0;
@@ -508,7 +596,7 @@ s32 TLobby__sub_803C30E8(u8 *arg0, s32 arg1, s32 arg2) {
         var_r31 = 0;
         var_r5 = -1;
     } else {
-        temp_r3 = GXSetCopyFilter((void *)arg1, (void *)arg2, &sp8, &spC, &sp10, &sp14, &sp18);
+        temp_r3 = (u32)fn_803C32EC((u8 *)arg1, arg2, &sp8, &spC, &sp10, &sp14, &sp18);
         if (temp_r3 == 0U) {
             var_r5 = -1;
         } else {
@@ -564,6 +652,60 @@ s32 TLobby::is_snd_header() {
         return 1;
     }
     return 0;
+}
+
+// Reads a Sun/NeXT ".snd" (AU) header, whose fields are big-endian; returns the start of
+// the sample data, or NULL when the magic, data offset or encoding is not supported.
+// (inferred name: parse_snd_header)
+u8 *fn_803C32EC(u8 *hdr, s32 size, s32 *rate, s32 *channels, s32 *bits, s32 *samples, s32 *format) {
+    u32 magic;
+    u32 offset;
+    u32 data_size;
+    u32 encoding;
+
+    magic = READ_LE32(hdr);
+    if (magic != 0x0064732E && magic != 0x646E732E) {
+        return NULL;
+    }
+    offset = READ_LE32(hdr + 4);
+    offset = SWAP32(offset);
+    if ((s32)offset > size) {
+        return NULL;
+    }
+    data_size = READ_LE32(hdr + 8);
+    data_size = SWAP32(data_size);
+    encoding = READ_LE32(hdr + 12);
+    encoding = SWAP32(encoding);
+    switch (encoding) {
+    case 1:
+        *format = 2;
+        *bits = 8;
+        break;
+    case 2:
+        *format = 1;
+        *bits = 8;
+        break;
+    case 3:
+        *format = 0;
+        *bits = 16;
+        break;
+    default:
+        return NULL;
+    }
+    *rate = READ_LE32(hdr + 16);
+    *rate = SWAP32(*rate);
+    *channels = READ_LE32(hdr + 20);
+    *channels = SWAP32(*channels);
+    if (*format == 2) {
+        *samples = (s32)data_size / *channels;
+    } else if (*format == 1) {
+        *samples = (s32)data_size / *channels;
+    } else if (*format == 0) {
+        *samples = (s32)data_size / 2 / *channels;
+    } else {
+        *samples = 0x7FFF0000;
+    }
+    return hdr + offset;
 }
 
 void TLobby__sub_803C34F4(Obj_803C34F4 *lobby) {
