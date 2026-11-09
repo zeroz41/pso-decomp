@@ -829,11 +829,6 @@ pso/ui/city/THunterGuildSeqOffline_8021277C.cpp
 pso/ui/city/THunterGuildSeqOffline_8021282C.cpp
 pso/ui/city/THunterGuildSeqOffline_80213788.cpp
 pso/ui/city/THunterGuildWarning.cpp
-pso/ui/city/THunterGuildWarning_80211648.cpp
-pso/ui/city/THunterGuildWarning_80211690.cpp
-pso/ui/city/THunterGuildWarning_802116EC.cpp
-pso/ui/city/THunterGuildWarning_80211700.cpp
-pso/ui/city/THunterGuildWarning_8021170C.cpp
 pso/ui/city/TJudgmentSequence.cpp
 pso/ui/city/TJudgmentSequence_8021E4C4.cpp
 pso/ui/keyboard/TKeyBoardControl.cpp

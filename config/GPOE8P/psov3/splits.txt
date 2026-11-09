@@ -6302,29 +6302,13 @@ pso/ui/window/TWindowInputNumber_80211608.cpp:
 pso/ui/city/TCheckRoomSequence_80211614.cpp:
 	.text       start:0x80211614 end:0x80211648
 
-pso/ui/city/THunterGuildWarning_80211648.cpp:
-	.text       start:0x80211648 end:0x80211690
-
-pso/ui/city/THunterGuildWarning_80211690.cpp:
-	.text       start:0x80211690 end:0x802116EC
-
-pso/ui/city/THunterGuildWarning_802116EC.cpp:
-	.text       start:0x802116EC end:0x80211700
-
-pso/ui/city/THunterGuildWarning_80211700.cpp:
-	.text       start:0x80211700 end:0x8021170C
-
-pso/ui/city/THunterGuildWarning_8021170C.cpp:
-	.text       start:0x8021170C end:0x80211718
-
-pso/ui/city/THunterGuildWarning_80211718.cpp:
-	.text       start:0x80211718 end:0x802119F0
-	.rodata     start:0x8044BC7C end:0x8044BC90
-	.sdata2     start:0x805DC640 end:0x805DC644
-
 pso/ui/city/THunterGuildWarning.cpp:
-	.text       start:0x802119F0 end:0x80211B10
+	.text       start:0x80211648 end:0x80211B10
+	.rodata     start:0x8044BC68 end:0x8044BC90
 	.data       start:0x804C96A0 end:0x804C96B8
+	.sdata      start:0x805D3648 end:0x805D3650
+	.sbss       start:0x805D6178 end:0x805D6180
+	.sdata2     start:0x805DC640 end:0x805DC644
 
 pso/unk/text_80211B10.cpp:
 	.text       start:0x80211B10 end:0x80211C1C
