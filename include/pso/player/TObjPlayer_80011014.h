@@ -48,7 +48,7 @@ int obj_getPtr2B0_20(u8 *p);
 s16 obj_getS16_2BA(u8 *p);
 s16 get_actor_hp(void *object);
 s16 get_actor_tp(void *object);
-u8 obj_is_hit_receivable(u8 *arg0);
+s32 obj_is_hit_receivable(u8 *arg0);
 void play_shock_feedback__10TObjPlayerFii(s32 arg0, s32 arg1);
 void show_meseta_label(s32 arg0, u32 arg1, s32 arg2, s32 arg3);
 void spawn_poison_effect__10TObjPlayerFii(s32 arg0, s32 arg1);
