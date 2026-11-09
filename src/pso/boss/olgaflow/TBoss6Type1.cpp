@@ -2103,7 +2103,8 @@ void TBoss6Type1__sub_802B6504(TBoss6Type1 *boss) {
             s32 a = r % total;
             s32 b = seed % total;
             if (a == b) {
-                b = (j + 1 + b) % total;
+                b += j + 1;
+                b %= total;
             }
             Vec tmp = points[a];
             VecCopy(&points[a], &points[b]);
