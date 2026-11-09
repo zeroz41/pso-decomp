@@ -79,6 +79,75 @@ void TBoss6Zanzo__sub_803205A0(s32 *arg0, s32 *arg1) {
     *(ByteBlock_C *)((s32) arg0 + 4) = *(const ByteBlock_C *)((s32) arg1 + 4);
 }
 
+// A trail point: its colour and position.
+struct ZanzoTrailPoint { u8 color[4]; Vec pos; };
+
+// The quad strip draw_tri_fan_3d reads.
+struct ZanzoQuad { Vec *positions; u8 (*colors)[4]; void *uvs; s32 count; };
+
+// Draws the after-image trail: a strip of quads between each pair of consecutive frames, fading out with age.
+void TBoss6Zanzo::sub_803205C4() {
+    Src_80320534 *frame;
+    Src_80320534 *end;
+    Src_80320534 *prev;
+    f32 step;
+    f32 alpha;
+    f32 prev_alpha;
+    f32 next_alpha;
+    s32 drawn;
+    s32 i;
+    ZanzoTrailPoint *p;
+    u8 colors[4][4];
+    ZanzoQuad quad;
+    Vec positions[4];
+
+    step = 1.0f / m_28;
+    alpha = 1.0f;
+    frame = (Src_80320534 *)m_1c;
+    end = frame + m_28;
+    drawn = 0;
+    for (; frame < end; frame++) {
+        if (frame == (Src_80320534 *)m_1c || frame->a == 0 || prev->a == 0) {
+            drawn = 0;
+        } else {
+            if (!drawn) {
+                prev_alpha = 0.0f;
+            }
+            next_alpha = alpha;
+            if (frame == end - 1 || frame[1].a == 0) {
+                next_alpha = 0.0f;
+            }
+            quad.colors = colors;
+            quad.uvs = NULL;
+            quad.count = 4;
+            quad.positions = positions;
+            for (i = 0; i < m_24 - 1; i++) {
+                p = &((ZanzoTrailPoint *)prev->p)[i];
+                ((TAdChrMoveEffectGC *)colors[0])->copy4(p);
+                colors[0][3] = prev_alpha * p->color[3];
+                VecCopy__FP3VecPC3Vec(&positions[0], &p->pos);
+                p = (ZanzoTrailPoint *)prev->p + i + 1;
+                ((TAdChrMoveEffectGC *)colors[1])->copy4(p);
+                colors[1][3] = prev_alpha * p->color[3];
+                VecCopy__FP3VecPC3Vec(&positions[1], &p->pos);
+                p = (ZanzoTrailPoint *)frame->p + i + 1;
+                ((TAdChrMoveEffectGC *)colors[2])->copy4(p);
+                colors[2][3] = next_alpha * p->color[3];
+                VecCopy__FP3VecPC3Vec(&positions[2], &p->pos);
+                p = &((ZanzoTrailPoint *)frame->p)[i];
+                ((TAdChrMoveEffectGC *)colors[3])->copy4(p);
+                colors[3][3] = next_alpha * p->color[3];
+                VecCopy__FP3VecPC3Vec(&positions[3], &p->pos);
+                ((TObjPlayer *)&quad)->draw_tri_fan_3d(4, 7);
+            }
+            drawn = 1;
+        }
+        prev_alpha = alpha;
+        prev = frame;
+        alpha -= step;
+    }
+}
+
 void TBoss6Zanzo::render() { set_depth_buffer_settings_1__Fv(this); sub_803205C4(); restore_saved_depth_alpha_state(); }
 
 void run_task__11TBoss6ZanzoFv(Obj_803208CC *arg0) {
