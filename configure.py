@@ -635,6 +635,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/trap/TOExplosiveMachine.cpp": {"mw_version": "GC/2.0"},
     "pso/enemy/slime/TObjEneSlimeTailAttack.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline on,deferred", "-fp_contract on", "-str reuse,readonly")},
     "pso/boss/goldragon/TBoss8Dragon.cpp": {"mw_version": "GC/2.0"},
+    # TBoss2DeRolLe__sub_8002FE60: its expanded instance-data struct copy hoists the next load above the
+    # last store only under 2.0; every other function of the unit compiles the same.
+    "pso/boss/derolle/TBoss2DeRolLe.cpp": {"mw_version": "GC/2.0"},
     "pso/effect/TEffIndirectCtrl.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/boss/darkfalz/TObjDFDemo1.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     # -sdata 4: the 8-byte motion id table 0x804EF9D8 sits in .data, the 4-byte class name in .sdata.
