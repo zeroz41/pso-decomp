@@ -967,10 +967,8 @@ pso/unk/TLobby_8020CE4C.cpp
 pso/unk/TLobby_8020CFC8.cpp
 pso/unk/TLobby_8020D0B0.cpp
 pso/unk/TLobby_8020D1BC.cpp
-pso/unk/TLobby_8020DFD8.cpp
 pso/effect/TUnk_80494968.cpp
 pso/unk/text_80184C2C.cpp
-pso/unk/text_8020E08C.cpp
 pso/unk/TLobby_8020E400.cpp
 pso/unk/TLobby_8020ED20.cpp
 pso/unk/TLobby_8020EDBC.cpp
@@ -1336,6 +1334,7 @@ pso/system/scene/TScene_8029F5B0.cpp
 pso/system/scene/TScene_80327B00.cpp
 pso/network/TSendDownloadHead.cpp
 pso/map/TSetManager.cpp
+pso/map/TSetManager_8020D918.cpp
 pso/ui/city/TShopArmorListWindow.cpp
 pso/ui/city/TShopArmorListWindow_80266CF8.cpp
 pso/ui/city/TShopArmorListWindow_802785FC.cpp

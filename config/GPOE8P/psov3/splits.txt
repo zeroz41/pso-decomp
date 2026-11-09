@@ -6255,13 +6255,7 @@ pso/map/TSetManager.cpp:
 	.sbss       start:0x805D6150 end:0x805D6158
 
 pso/map/TSetManager_8020D918.cpp:
-	.text       start:0x8020D918 end:0x8020DFD8
-
-pso/unk/TLobby_8020DFD8.cpp:
-	.text       start:0x8020DFD8 end:0x8020E08C
-
-pso/unk/text_8020E08C.cpp:
-	.text       start:0x8020E08C end:0x8020E400
+	.text       start:0x8020D918 end:0x8020E400
 	.bss        start:0x80513A40 end:0x80513D34
 
 pso/unk/TLobby_8020E400.cpp:
