@@ -181,7 +181,7 @@ extern "C" {
 
 s32 memset(void *, int, int);
 void * get_bml_motion(s32, s32);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 Big_8016775C * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void mem_free(void *p);
 void *mem_alloc(u32 size);
@@ -803,7 +803,7 @@ void TOHangceilingCave01::destroy_instance() {
         }
     }
     if ((u32) TOHangceilingCave01__model_archive != 0U) {
-        TLobby__sub_8001FE7C((void*)TOHangceilingCave01__model_archive, 1);
+        free_bin_model_request((void*)TOHangceilingCave01__model_archive, 1);
         TOHangceilingCave01__model_archive = 0U;
     }
 }

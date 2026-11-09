@@ -19,7 +19,7 @@ extern const char lbl_804449F0[];
 extern const char lbl_80444A00[];
 extern const char lbl_80444A10[];
 extern const char *labo_map_warp_dest_name_table_b[];
-void TLobby__sub_8001FE7C(void *, s32);
+void free_bin_model_request(void *, s32);
 extern int city_season_easter_egg_model_table[];
 extern int city_season_xmas_model_table[];
 extern void *lbl_805D5B34;
@@ -68,7 +68,7 @@ void TLobby::free_buffers() {
         lbl_805D5B48 = NULL;
     }
     if (lbl_805D5B38 != NULL) {
-        TLobby__sub_8001FE7C(lbl_805D5B38, 1);
+        free_bin_model_request(lbl_805D5B38, 1);
         lbl_805D5B38 = NULL;
     }
     lbl_805D5B44 = 0;
@@ -80,7 +80,7 @@ void TLobby::free_buffers() {
     }
     for (i = 5; i >= 0; i--) {
         if ((u32)city_season_easter_egg_model_table[i] != 0) {
-            TLobby__sub_8001FE7C((void *)city_season_easter_egg_model_table[i], 1);
+            free_bin_model_request((void *)city_season_easter_egg_model_table[i], 1);
         }
         city_season_easter_egg_model_table[i] = 0;
         city_season_xmas_model_table[i] = 0;

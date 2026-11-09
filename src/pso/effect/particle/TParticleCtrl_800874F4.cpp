@@ -178,7 +178,7 @@ struct GenEntry_8008767C { s32 id; Gen_8008767C fn; };
 
 extern "C" {
 void set_particle_tint_color(u8 *arg0, void *arg1);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 void mem_free(void *p);
 extern s32 particle_area_entry_table;
@@ -645,7 +645,7 @@ void TParticleCtrl::free_all() {
     mem_free((void *)particle_area_entry_table);
     particle_area_entry_table = 0;
     if ((u32) TParticleCtrl__regular_bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TParticleCtrl__regular_bml_resource, 1);
+        free_bin_model_request((void*)TParticleCtrl__regular_bml_resource, 1);
         TParticleCtrl__regular_bml_resource = 0U;
     }
     if ((u32) TParticleCtrl__texture_list != 0U) {

@@ -163,7 +163,7 @@ int scale_current_matrix(void *);
 int post_translate_matrix(void *);
 int TPlyPhotonChair__sub_8035B520(void* p);
 void *__dt__15TPlyPhotonChairFv(void *arg0, s16 arg1);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void __dl__7TObjectFPv(void *);
 
 void TPlyPhotonChair::render() {
@@ -236,7 +236,7 @@ void TPlyPhotonChair::run_task() {
 
 void TPlyPhotonChair::free_static_model() {
     if ((u32) TPlyPhotonChair__shared_model_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TPlyPhotonChair__shared_model_resource, 1);
+        free_bin_model_request((void*)TPlyPhotonChair__shared_model_resource, 1);
         TPlyPhotonChair__shared_model_resource = 0U;
     }
 }
@@ -343,7 +343,7 @@ extern u32 chao_npc_instance_handle;
 
 void TPlyPhotonChair::free_instance() {
     if ((u32) chao_npc_instance_handle != 0U) {
-        TLobby__sub_8001FE7C((void*)chao_npc_instance_handle, 1);
+        free_bin_model_request((void*)chao_npc_instance_handle, 1);
         chao_npc_instance_handle = 0U;
     }
 }

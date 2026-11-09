@@ -171,7 +171,7 @@ void TOKeyAncient03::cleanup_refs() {
         }
     }
     if (TOKeyAncient03__model_archive != NULL) {
-        TLobby__sub_8001FE7C(TOKeyAncient03__model_archive, 1);
+        free_bin_model_request(TOKeyAncient03__model_archive, 1);
         TOKeyAncient03__model_archive = NULL;
     }
 }

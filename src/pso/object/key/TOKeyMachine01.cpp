@@ -211,7 +211,7 @@ void TOKeyMachine01::free_statics() {
         }
     }
     if (TOKeyMachine01__resource_bundle != NULL) {
-        TLobby__sub_8001FE7C(TOKeyMachine01__resource_bundle, 1);
+        free_bin_model_request(TOKeyMachine01__resource_bundle, 1);
         TOKeyMachine01__resource_bundle = NULL;
     }
 }

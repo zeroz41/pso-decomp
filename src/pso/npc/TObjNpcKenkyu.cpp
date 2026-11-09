@@ -34,14 +34,14 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 TObjFish__sub_8001EDB0(int, int);
 s32 get_bml_model(int, int);
 extern s32 __vt__13TObjNpcKenkyu[];
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 void TObjNpcKenkyu::free_static_model() {
     if ((u32) TObjNpcKenkyu__static_model != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjNpcKenkyu__static_model, 1);
+        free_bin_model_request((void*)TObjNpcKenkyu__static_model, 1);
         TObjNpcKenkyu__static_model = 0U;
     }
 }

@@ -346,7 +346,7 @@ int get_boss_warp_model_handle(void);
 int fn_8019F9AC(void);
 }
 }
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void TObjFish__sub_8019F72C(void);
 }
 s32 TObjWarpBossMulti__create(s32 arg0);
@@ -1289,7 +1289,7 @@ s32 TObjWarpBossMulti__create(s32 arg0) {
 }
 void TObjFish__sub_8019F72C(void) {
     if ((u32) boss_warp_resource_bundle != 0U) {
-        TLobby__sub_8001FE7C((void*)boss_warp_resource_bundle, 1);
+        free_bin_model_request((void*)boss_warp_resource_bundle, 1);
         boss_warp_resource_bundle = 0U;
     }
 }

@@ -1540,7 +1540,7 @@ extern const f32 lbl_805DF370;
 
 extern "C" {
 extern const f32 lbl_805DF38C;
-s32 TLobby__sub_8001FE7C(u32, s32);
+s32 free_bin_model_request(u32, s32);
 void mem_free(void *p);
 
 }
@@ -1666,7 +1666,7 @@ void TObjEneMe3SinowZoa::free_resources() {
         TObjEneMe3SinowZoa__alternate_texture_list.textures = NULL;
     }
     if (TObjEneMe3SinowZoa__bml_resource != 0) {
-        TLobby__sub_8001FE7C((u32)TObjEneMe3SinowZoa__bml_resource, 1);
+        free_bin_model_request((u32)TObjEneMe3SinowZoa__bml_resource, 1);
         TObjEneMe3SinowZoa__bml_resource = NULL;
     }
 }

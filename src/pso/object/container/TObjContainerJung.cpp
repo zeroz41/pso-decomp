@@ -534,7 +534,7 @@ extern "C" {
 void *__nw__7TObjectFUl(int);
 extern void *tl_05;
 void TObjContainerJung__vt77(const Obj_8018D4DC *self);
-s32 TLobby__sub_8001FE7C(s32, s32);
+s32 free_bin_model_request(s32, s32);
 s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 
@@ -558,7 +558,7 @@ void *TObjContainerJung::create(void *arg0) {
 }
 
 void TObjContainerJung::release() {
-    TLobby__sub_8001FE7C(TObjContainerJung__bml_model_resource, 1);
+    free_bin_model_request(TObjContainerJung__bml_model_resource, 1);
     TObjContainerJung__bml_model_resource = 0;
     TObjContainerJung__bml_aux_handle = 0;
 }
@@ -717,7 +717,7 @@ u8 *TObjContainerJungEx::get_model(s32 index) {
 
 void TObjContainerJungEx::free_data() {
     if (TObjContainerJungEx__resource_bundle != NULL) {
-        TLobby__sub_8001FE7C((s32)TObjContainerJungEx__resource_bundle, 1);
+        free_bin_model_request((s32)TObjContainerJungEx__resource_bundle, 1);
         TObjContainerJungEx__resource_bundle = NULL;
     }
 }

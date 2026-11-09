@@ -149,7 +149,7 @@ struct RecoveredGlobal_8022F068_lbl_804CC934 {
 };
 
 extern "C" {
-u8 * TLobby__sub_8001FE7C(void *, s16);
+u8 * free_bin_model_request(void *, s16);
 s32 release_texture_list(void *, s32);
 extern RecoveredGlobal_8022F068_lbl_804CC934 technique_ringwave_texture_list;
 extern u8 *technique_effect_bml;
@@ -230,7 +230,7 @@ void TLobby__sub_8022F068(void) {
         lbl_805D63B0 = NULL;
     }
     if ((void *) technique_effect_bml != NULL) {
-        TLobby__sub_8001FE7C(technique_effect_bml, 1);
+        free_bin_model_request(technique_effect_bml, 1);
     }
     technique_effect_bml = NULL;
 }

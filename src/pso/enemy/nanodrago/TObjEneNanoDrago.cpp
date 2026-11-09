@@ -145,7 +145,7 @@ extern "C" s32 dispatch_shared_handler_a__6TLobbyFl(int);
 extern "C" s32 register_object__6TLobbyFl(int);
 extern "C" s32 dispatch_shared_handler_b__6TLobbyFl(int);
 extern "C" s32 register_boss__6TLobbyFl(int);
-extern "C" void TLobby__sub_8001FE7C(void*, int);
+extern "C" void free_bin_model_request(void*, int);
 extern "C" u8 * load_resource_from_descriptor(void *, s32, s32 *, s32, s32, s32);
 extern "C" s32 find_active_entity_by_id(int);
 
@@ -316,7 +316,7 @@ void TObjEneNanoDrago::load_resources() {
 }
 void TObjEneNanoDrago::free_resources() {
     if ((u32) nano_drago_entry_params_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)nano_drago_entry_params_resource, 1);
+        free_bin_model_request((void*)nano_drago_entry_params_resource, 1);
         nano_drago_entry_params_resource = NULL;
     }
 }

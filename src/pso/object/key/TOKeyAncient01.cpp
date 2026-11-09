@@ -75,7 +75,7 @@ void TOKeyAncient01::free_shared_resources() {
         }
     }
     if (TOKeyAncient01__shared_resource_object != NULL) {
-        TLobby__sub_8001FE7C(TOKeyAncient01__shared_resource_object, 1);
+        free_bin_model_request(TOKeyAncient01__shared_resource_object, 1);
         TOKeyAncient01__shared_resource_object = NULL;
     }
 }

@@ -338,7 +338,7 @@ s32 get_main_phase();
 f32 calc_distance_to_client__10TObjPlayerFlUsUl(void *, u16, Vec_802D8828 *);
 s32 obj_setFlags30(void *, int);
 s32 queue_destruction__7TObjectFv();
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void TCameraCtrl__sub_8006A044(s32, f32);
 s32 *csnVecterUnder(s32 origin, s32 mask);
 s32 rotate_xz_pair_by_angle(f32 *, f32 *, s32, f32);
@@ -2584,7 +2584,7 @@ void TObjEneGibbles::free_static() {
         gibbles_combat_stat_entries = 0U;
     }
     if ((u32) TObjEneGibbles__resource_bundle != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjEneGibbles__resource_bundle, 1);
+        free_bin_model_request((void*)TObjEneGibbles__resource_bundle, 1);
         TObjEneGibbles__resource_bundle = 0U;
     }
 }

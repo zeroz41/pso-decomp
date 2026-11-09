@@ -26,7 +26,7 @@ void *TObjNpcFemaleBase__create(void *set_data) {
 
 void TObjNpcFemaleBase::free_static_data() {
     if (TObjNpcFemaleBase__shared_resource_obj != NULL) {
-        TLobby__sub_8001FE7C(TObjNpcFemaleBase__shared_resource_obj, 1);
+        free_bin_model_request(TObjNpcFemaleBase__shared_resource_obj, 1);
         TObjNpcFemaleBase__shared_resource_obj = NULL;
     }
 }

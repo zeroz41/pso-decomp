@@ -1548,7 +1548,7 @@ struct VObj_18_be4a70 : VBase_18_be4a70 {
 extern const f32 lbl_805D9844;
 extern "C" {
 void *__ct__17TObjEneDf2BringerFP7TObjectPv(void *arg0, void *arg1, void *arg2);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 }
 #define transition_enemy_state__9TObjEneDDFl ((int (*)(void*, void*))transition_enemy_state__9TObjEneDDFl)
 extern "C" {
@@ -1776,7 +1776,7 @@ void TObjEneDf2Bringer::free_resources() {
         TObjEneDf2Bringer__trail_buffer = 0U;
     }
     if ((u32) TObjEneDf2Bringer__resource_bundle != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjEneDf2Bringer__resource_bundle, 1);
+        free_bin_model_request((void*)TObjEneDf2Bringer__resource_bundle, 1);
         TObjEneDf2Bringer__resource_bundle = 0U;
     }
 }

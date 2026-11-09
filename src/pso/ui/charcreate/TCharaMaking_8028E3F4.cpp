@@ -119,7 +119,7 @@ void build_appearance_texture_names__12TCharaMakingFv(TextureOutput *output, App
     }
 }
 
-void TCharaMaking__sub_8028E6B4(void) {
+void request_chara_making_archives(void) {
     s32 i;
     if (TQuestVmDownLoadServer::is_ready() != 0) {
         return;

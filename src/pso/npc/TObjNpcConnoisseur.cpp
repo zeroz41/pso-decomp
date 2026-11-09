@@ -66,7 +66,7 @@ void *__nw__7TObjectFUl(int);
 
 void TObjNpcConnoisseur::destroy_instance() {
     if ((u32) TObjNpcConnoisseur__instance != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjNpcConnoisseur__instance, 1);
+        free_bin_model_request((void*)TObjNpcConnoisseur__instance, 1);
         TObjNpcConnoisseur__instance = 0U;
     }
 }

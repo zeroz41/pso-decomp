@@ -69,7 +69,7 @@ void TOBoss4::load_static_resource() {
 
 void TOBoss4::free_instance() {
     if (model_resource != NULL) {
-        TLobby__sub_8001FE7C(model_resource, 1);
+        free_bin_model_request(model_resource, 1);
         model_resource = NULL;
     }
 }

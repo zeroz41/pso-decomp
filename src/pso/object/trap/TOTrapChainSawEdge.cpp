@@ -1093,12 +1093,12 @@ u8 *TOTrapChainSawKey::get_model(s32 arg0) {
 #include "types.h"
 
 extern "C" {
-void TLobby__sub_8001FE7C(void *, int);
+void free_bin_model_request(void *, int);
 
 void TOTrapChainSaw::unload_static_data() {
     s32 i;
     if (lbl_805D6808 != NULL) {
-        TLobby__sub_8001FE7C(lbl_805D6808, 1);
+        free_bin_model_request(lbl_805D6808, 1);
         lbl_805D6808 = NULL;
     }
     for (i = 0; i < 5; i++) {

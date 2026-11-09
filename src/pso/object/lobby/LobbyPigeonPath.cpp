@@ -528,7 +528,7 @@ typedef struct { f32 f0, f4, f8, fC; s32 f10; } Ent_802C17FC;
 
 typedef struct { u8 pad[4]; u32 n; } Anim_802C17FC;
 
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 debug_draw_line(s32 *, s32 *, s32, s32);
 
@@ -708,7 +708,7 @@ void TObjPlayer::destroy_instance() {
         lobby_kamome_texture_gvm_handle = 0U;
     }
     if ((u32) lobby_kamome_model_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)lobby_kamome_model_resource, 1);
+        free_bin_model_request((void*)lobby_kamome_model_resource, 1);
         lobby_kamome_model_resource = 0U;
     }
 }
@@ -906,7 +906,7 @@ void TObjPlayer::free_statics() {
         lobby_pigeon_texture_gvm = 0U;
     }
     if ((u32) jungle_bird_bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)jungle_bird_bml_resource, 1);
+        free_bin_model_request((void*)jungle_bird_bml_resource, 1);
         jungle_bird_bml_resource = 0U;
     }
 }
@@ -1095,7 +1095,7 @@ void TObjPlayer::free_chr_select() {
         jungle_ebi_texture_gvm_handle = 0U;
     }
     if ((u32) jungle_ebi_model_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)jungle_ebi_model_resource, 1);
+        free_bin_model_request((void*)jungle_ebi_model_resource, 1);
         jungle_ebi_model_resource = 0U;
     }
 }
@@ -1308,7 +1308,7 @@ void TObjPlayer__sub_802C2900(void) {
         (*(u32 *)&seabed_dolphin_texture_handle) = 0U;
     }
     if ((u32) seabed_dolphin_bml_archive != 0U) {
-        TLobby__sub_8001FE7C((void*)seabed_dolphin_bml_archive, 1);
+        free_bin_model_request((void*)seabed_dolphin_bml_archive, 1);
         seabed_dolphin_bml_archive = 0U;
     }
 }

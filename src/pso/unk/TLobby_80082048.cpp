@@ -72,12 +72,12 @@ void *create_particle_emitter(void *pos, s32 id);
 extern s32 __vt__13TUnk_8048E1A4[];
 extern s32 tl_05;
 extern const f32 lbl_805D9378;
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void __dl__7TObjectFPv(void *);
 
 void TLobby::destroy_global_singleton() {
     if ((u32) freeze_shell_bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)freeze_shell_bml_resource, 1);
+        free_bin_model_request((void*)freeze_shell_bml_resource, 1);
         freeze_shell_bml_resource = 0U;
     }
 }

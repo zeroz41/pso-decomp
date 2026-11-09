@@ -1991,7 +1991,7 @@ s32 dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 register_object__6TLobbyFl(s32);
 s32 dispatch_shared_handler_b__6TLobbyFl(s32);
 s32 register_boss__6TLobbyFl(s32);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 u32 csnLookAt(void *, void *);
 void state_patrol__16TObjEneRe7BeruraFPvi(void *arg0, s32 arg1);
 void TObjEneRe7Berura__sub_80093888(u8 *actor, s32 arg1);
@@ -2752,7 +2752,7 @@ void TObjEneRe7Berura::destroy_children() {
         re7_berura_static_buffer = 0U;
     }
     if ((u32) TObjEneRe7Berura__shared_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjEneRe7Berura__shared_resource, 1);
+        free_bin_model_request((void*)TObjEneRe7Berura__shared_resource, 1);
         TObjEneRe7Berura__shared_resource = 0U;
     }
 }

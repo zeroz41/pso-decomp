@@ -327,7 +327,7 @@ u16 get_entity_id(void *);
 void obj_setFlags30(void *, u32);
 s32 is_split_screen();
 void * get_bml_model(void *, int);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void * load_resource_from_descriptor(void *, int, char *, int, int, int);
 s32 check_player_flag1__6TLobbyFv();
 s32 free_collision_body_parts(void *);
@@ -1164,7 +1164,7 @@ void *TOTrapAncient02::create(void *arg0) {
 
 void TOTrapAncient02::destroy_instance() {
     if ((u32) TOTrapAncient02__shared_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TOTrapAncient02__shared_resource, 1);
+        free_bin_model_request((void*)TOTrapAncient02__shared_resource, 1);
         TOTrapAncient02__shared_resource = 0U;
     }
 }

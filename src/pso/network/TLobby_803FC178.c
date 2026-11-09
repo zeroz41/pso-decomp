@@ -83,7 +83,7 @@ s16 TLobby__sub_803FC1CC(Conn_804004DC *c, s32 timeout) {
     if (lbl_805D7A90 & 2) {
         auth->active = 1;
         TLobby__sub_803FE820((s32)c);
-        TLobby__sub_803FE6CC(c, 1, 0, TLobby__sub_803FCF44(c));
+        TLobby__sub_803FE6CC(c, 1, 0, build_avetcp_net_buffer(c));
     } else {
         auth->active = 0;
     }
@@ -173,7 +173,7 @@ extern void TLobby__sub_803FC318(u8 *conn) {
         BUF3_803FC318.proto.f1C = (void *)TLobby__sub_803FE84C;
         BUF3_803FC318.proto.f20 = (void *)TLobby__sub_803FE84C;
         BUF3_803FC318.proto.f24 = (void *)TLobby__sub_803FE84C;
-        BUF3_803FC318.proto.f28 = (void *)TLobby__sub_803FCF44;
+        BUF3_803FC318.proto.f28 = (void *)build_avetcp_net_buffer;
         BUF3_803FC318.proto.f2C = (void *)TLobby__sub_803FE844;
         BUF3_803FC318.proto.f30 = (void *)TLobby__sub_803FE844;
         BUF3_803FC318.proto.f34 = (void *)TLobby__sub_803FE844;

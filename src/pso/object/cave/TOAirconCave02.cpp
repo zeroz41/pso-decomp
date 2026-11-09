@@ -33,7 +33,7 @@ void *TOAirconCave02::create(void *set_data) {
 
 void TOAirconCave02::release_static_resource() {
     if (TOAirconCave02__bml_resource != NULL) {
-        TLobby__sub_8001FE7C(TOAirconCave02__bml_resource, 1);
+        free_bin_model_request(TOAirconCave02__bml_resource, 1);
         TOAirconCave02__bml_resource = NULL;
     }
 }

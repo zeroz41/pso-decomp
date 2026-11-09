@@ -61,7 +61,7 @@ extern s32 __vt__11TMotorcycle[];
 extern s32 motorcycle_class_name;
 void *TMotorcycle__ct(void *arg0, void *arg1, void *arg2);
 void *__dt__11TMotorcycleFv(void *arg0, s16 arg1);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
@@ -103,7 +103,7 @@ void TMotorcycle::free_statics() {
         TMotorcycle__texture_list = 0U;
     }
     if ((u32) TMotorcycle__bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TMotorcycle__bml_resource, 1);
+        free_bin_model_request((void*)TMotorcycle__bml_resource, 1);
         TMotorcycle__bml_resource = 0U;
     }
 }

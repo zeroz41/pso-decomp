@@ -81,7 +81,7 @@ void TOMekaFish00::load_shared_resource() {
 
 void TOMekaFish00::release_static_instance() {
     if (model_resource != NULL) {
-        TLobby__sub_8001FE7C(model_resource, 1);
+        free_bin_model_request(model_resource, 1);
         model_resource = NULL;
     }
 }
@@ -120,7 +120,7 @@ void TOMekaFish01::load_shared_resource() {
 
 void TOMekaFish01::free_static_data() {
     if (model_resource != NULL) {
-        TLobby__sub_8001FE7C(model_resource, 1);
+        free_bin_model_request(model_resource, 1);
         model_resource = NULL;
     }
 }
@@ -159,7 +159,7 @@ void TOBiwaMushi::load_resource_instance() {
 
 void TOBiwaMushi::free_shared_data() {
     if (model_resource != NULL) {
-        TLobby__sub_8001FE7C(model_resource, 1);
+        free_bin_model_request(model_resource, 1);
         model_resource = NULL;
     }
 }

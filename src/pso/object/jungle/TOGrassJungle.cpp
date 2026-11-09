@@ -34,7 +34,7 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_8029CD0C_lbl_8046598C lbl_8046598C;
 BmlResource *TOGrassJungle__bml_resource;
 u32 TOGrassJungle__grass_gvm_texture;
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 void *__nw__7TObjectFUl(int);
 
@@ -55,7 +55,7 @@ void TOGrassJungle::release_static_instance() {
         TOGrassJungle__grass_gvm_texture = 0U;
     }
     if ((u32) TOGrassJungle__bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TOGrassJungle__bml_resource, 1);
+        free_bin_model_request((void*)TOGrassJungle__bml_resource, 1);
         TOGrassJungle__bml_resource = 0U;
     }
 }

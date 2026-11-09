@@ -453,7 +453,7 @@ void TBoss3Volopt::load_resources() {
 void TBoss3Volopt::free_parts() {
     TObjVoloptCage::destroy();
     if (boss3_volopt_resources != NULL) {
-        TLobby__sub_8001FE7C(boss3_volopt_resources, 1);
+        free_bin_model_request(boss3_volopt_resources, 1);
         boss3_volopt_resources = NULL;
     }
     TBoss3VoloptP01::destroy();

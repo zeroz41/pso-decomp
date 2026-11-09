@@ -83,7 +83,7 @@ void *__dt__8TObjDoorFv(void *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
 extern void *tl_05;
 void *TObjDoor__create(void *arg0);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 extern s32 TObjDoor__resource_param;
 extern u32 door_resource_handle;
 u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, s32 arg2);
@@ -553,7 +553,7 @@ void TObjDoor::free_resources() {
     TObjPlayer::free_if_valid(TObjDoor__resource_param);
     TObjDoor__resource_param = 0;
     if ((u32) door_resource_handle != 0U) {
-        TLobby__sub_8001FE7C((void*)door_resource_handle, 1);
+        free_bin_model_request((void*)door_resource_handle, 1);
         door_resource_handle = 0U;
     }
 }

@@ -99,7 +99,7 @@ extern s32 game_difficulty_selection;
 extern u8 lbl_80445CF0[];
 extern u8 lbl_80445D08[];
 extern u8 lbl_80445D20[];
-s32 TLobby__sub_8001FE7C(void *, s32);
+s32 free_bin_model_request(void *, s32);
 void *__dt__5TOKeyFv(void *arg0, s16 arg1);
 void *__ct__18CameraDistanceFadeFv(void *self);
 
@@ -275,7 +275,7 @@ void *TLazerFenceSw::create() {
 
 void TLazerFenceSw__sub_80193C5C(void) {
     if (lazer_fence_switch_bml_resource != 0) {
-        TLobby__sub_8001FE7C(lazer_fence_switch_bml_resource, 1);
+        free_bin_model_request(lazer_fence_switch_bml_resource, 1);
         lazer_fence_switch_bml_resource = 0;
     }
     TObjPlayer::free_if_valid(TLazerFenceSw__texture_list);

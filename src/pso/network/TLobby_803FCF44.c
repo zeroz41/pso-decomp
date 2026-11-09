@@ -206,7 +206,7 @@ inline s32 rd_803FCC10(PppFrame **pp) {
 extern u32 lbl_805E1158;
 extern u16 lbl_805E115C;
 extern u8 lbl_805E115E;
-void *TLobby__sub_803FCF44(Conn_804004DC *c)
+void *build_avetcp_net_buffer(Conn_804004DC *c)
 {
   PppChap *chap = c->opts;
   s32 tick;

@@ -1,6 +1,6 @@
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
 
-extern "C" void TLobby__sub_8001FE7C(void*, int);
+extern "C" void free_bin_model_request(void*, int);
 
 #include "types.h"
 
@@ -43,7 +43,7 @@ void TChCrLoadGmNjReq::run_task() {
 TChCrLoadGmNjReq::~TChCrLoadGmNjReq() {
     sub_8028C8A8();
     if (m_68 != nullptr) {
-        TLobby__sub_8001FE7C(m_68, 1);
+        free_bin_model_request(m_68, 1);
     }
 }
 void *TChCrLoadGmNjReq__ct(void *ch_cr_load_gm_nj_req, void *arg1, void *arg2) {

@@ -4,7 +4,7 @@
 typedef struct Ent_803653A4 { s32 id; s32 arg; } Ent_803653A4;
 
 extern "C" {
-void TLobby__sub_8001FE7C(void *, int);
+void free_bin_model_request(void *, int);
 extern u32 labo_design_object_table[];
 void *load_resource_from_descriptor(void *, s32, s32, s32, s32, s32);
 }
@@ -13,7 +13,7 @@ void free_object_table(void) {
     s32 i;
     for (i = 5; i >= 0; i--) {
         if (labo_design_object_table[i] != 0) {
-            TLobby__sub_8001FE7C((void *)labo_design_object_table[i], 1);
+            free_bin_model_request((void *)labo_design_object_table[i], 1);
             labo_design_object_table[i] = 0;
         }
     }

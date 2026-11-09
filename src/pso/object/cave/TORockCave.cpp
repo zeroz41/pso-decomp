@@ -164,11 +164,11 @@ void TORockCave::load_resources() {
 
 void TORockCave::free_instances() {
     if (rock_cave_model_resource != NULL) {
-        TLobby__sub_8001FE7C(rock_cave_model_resource, 1);
+        free_bin_model_request(rock_cave_model_resource, 1);
         rock_cave_model_resource = NULL;
     }
     if (cave_rock_resource_bundle != NULL) {
-        TLobby__sub_8001FE7C(cave_rock_resource_bundle, 1);
+        free_bin_model_request(cave_rock_resource_bundle, 1);
         cave_rock_resource_bundle = NULL;
     }
 }

@@ -26,7 +26,7 @@ void *TObjNpcFemaleChild__create(void *set_data) {
 
 void TObjNpcFemaleChild::release_static_instance() {
     if (TObjNpcFemaleChild__static_instance != NULL) {
-        TLobby__sub_8001FE7C(TObjNpcFemaleChild__static_instance, 1);
+        free_bin_model_request(TObjNpcFemaleChild__static_instance, 1);
         TObjNpcFemaleChild__static_instance = NULL;
     }
 }

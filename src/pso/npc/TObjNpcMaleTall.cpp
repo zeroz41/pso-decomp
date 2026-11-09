@@ -28,7 +28,7 @@ void *TObjNpcMaleTall__create(void *set_data) {
 
 void TObjNpcMaleTall::destroy_instance() {
     if (TObjNpcMaleTall__shared_model_resource != NULL) {
-        TLobby__sub_8001FE7C(TObjNpcMaleTall__shared_model_resource, 1);
+        free_bin_model_request(TObjNpcMaleTall__shared_model_resource, 1);
         TObjNpcMaleTall__shared_model_resource = NULL;
     }
 }

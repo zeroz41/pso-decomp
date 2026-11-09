@@ -1820,7 +1820,7 @@ void TObjEneMe1Canadin::free_resources() {
         lbl_805D4FDC = NULL;
     }
     if (lbl_805D4FD0 != NULL) {
-        TLobby__sub_8001FE7C(lbl_805D4FD0, 1);
+        free_bin_model_request(lbl_805D4FD0, 1);
         lbl_805D4FD0 = NULL;
     }
 }

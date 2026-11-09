@@ -26,7 +26,7 @@ void *TObjNpcFemaleDwarf__create(void *set_data) {
 
 void TObjNpcFemaleDwarf::unload_static_data() {
     if (TObjNpcFemaleDwarf__static_data != NULL) {
-        TLobby__sub_8001FE7C(TObjNpcFemaleDwarf__static_data, 1);
+        free_bin_model_request(TObjNpcFemaleDwarf__static_data, 1);
         TObjNpcFemaleDwarf__static_data = NULL;
     }
 }

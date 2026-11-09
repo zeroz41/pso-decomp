@@ -90,12 +90,12 @@ s32 get_entity_id(void *);
 TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src);
 void *find_entity_by_id(u16 id);
 TechniqueContactList *TObjPlayer__sub_802A3FDC(Obj_802A3FDC *self, void *src);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1);
 
 void TObjNpcKenkyuW::destroy_instance() {
     if ((u32) TObjNpcKenkyuW__model_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjNpcKenkyuW__model_resource, 1);
+        free_bin_model_request((void*)TObjNpcKenkyuW__model_resource, 1);
         TObjNpcKenkyuW__model_resource = 0U;
     }
 }

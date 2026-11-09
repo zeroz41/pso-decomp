@@ -93,7 +93,7 @@ void *TORainbowCave01::create(void *set_data) {
 
 void TORainbowCave01::free_static_data() {
     if (TORainbowCave01__bml_resource != NULL) {
-        TLobby__sub_8001FE7C(TORainbowCave01__bml_resource, 1);
+        free_bin_model_request(TORainbowCave01__bml_resource, 1);
         TORainbowCave01__bml_resource = NULL;
     }
 }

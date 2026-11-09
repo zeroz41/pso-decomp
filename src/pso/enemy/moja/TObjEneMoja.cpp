@@ -4,7 +4,7 @@
 
 extern "C" {
 
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void *TObjEneMoja__ct(void *, void *, void *);
 void *__nw__7TObjectFUl(int);
@@ -55,7 +55,7 @@ void TObjEneMoja::free_resources() {
         lbl_805D50DC = 0U;
     }
     if ((u32) lbl_805D50D8 != 0U) {
-        TLobby__sub_8001FE7C((void*)lbl_805D50D8, 1);
+        free_bin_model_request((void*)lbl_805D50D8, 1);
         lbl_805D50D8 = 0U;
     }
 }

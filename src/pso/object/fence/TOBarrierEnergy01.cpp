@@ -93,7 +93,7 @@ void TOBarrierEnergy01::free_resources() {
         }
     }
     if (barrier_energy_shared_bml_archive != NULL) {
-        TLobby__sub_8001FE7C(barrier_energy_shared_bml_archive, 1);
+        free_bin_model_request(barrier_energy_shared_bml_archive, 1);
         barrier_energy_shared_bml_archive = NULL;
     }
 }

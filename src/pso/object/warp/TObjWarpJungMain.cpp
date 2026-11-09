@@ -344,7 +344,7 @@ s32 TObjWarpJung::update_warp_display() {
 
 void free_warp_jung_beam_resources(void) {
     s32 i;
-    TLobby__sub_8001FE7C(TObjWarpJung__beam_bml_resource, 1);
+    free_bin_model_request(TObjWarpJung__beam_bml_resource, 1);
     TObjWarpJung__beam_bml_resource = NULL;
     warp_jung_beam_motion = NULL;
     warp_jung_model_handle = 0;

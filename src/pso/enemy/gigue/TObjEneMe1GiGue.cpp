@@ -1711,7 +1711,7 @@ s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
-s32 TLobby__sub_8001FE7C(s32, s32);
+s32 free_bin_model_request(s32, s32);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 init_from_model__11TBreakUpMdlFl(s32, s32);
 s32 update__15RenderFadeStateFv(void *);
@@ -2024,7 +2024,7 @@ void TObjEneMe1GiGue::delete_barrier() {
         TObjEneMe1GiGue__barrier_obj = NULL;
     }
     if (TObjEneMe1GiGue__data_805D6838 != 0U) {
-        TLobby__sub_8001FE7C(TObjEneMe1GiGue__data_805D6838, 1);
+        free_bin_model_request(TObjEneMe1GiGue__data_805D6838, 1);
         TObjEneMe1GiGue__data_805D6838 = 0U;
     }
 }

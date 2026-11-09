@@ -98,7 +98,7 @@ void TBoss6Rock::load_resources() {
 
 void TBoss6Rock::free_data() {
     if (TBoss6Rock__data_805D6EF0 != NULL) {
-        TLobby__sub_8001FE7C(TBoss6Rock__data_805D6EF0, 1);
+        free_bin_model_request(TBoss6Rock__data_805D6EF0, 1);
         TBoss6Rock__data_805D6EF0 = NULL;
     }
     if (TBoss6Rock__data_805D6EF4 != NULL) {

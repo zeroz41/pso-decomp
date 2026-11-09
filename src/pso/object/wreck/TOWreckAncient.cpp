@@ -53,7 +53,7 @@ extern s32 TOWreckAncient__name;
 extern s32 tl_05;
 u8 *TOWreckAncient__ct(u8 *arg0, s32 arg1);
 void *__dt__14TOWreckAncientFv(void *arg0, s16 arg1);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 s32 post_translate_matrix(void *);
 s32 free_collision_body_parts(void *);
 s32 rotate_matrix_y(s32, s32);
@@ -75,11 +75,11 @@ void TOWreckAncient::render() {
 
 void TOWreckAncient::free_statics() {
     if ((u32) wreck_ancient_bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)wreck_ancient_bml_resource, 1);
+        free_bin_model_request((void*)wreck_ancient_bml_resource, 1);
         wreck_ancient_bml_resource = 0U;
     }
     if ((u32) wreck_ancient_brakable_bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)wreck_ancient_brakable_bml_resource, 1);
+        free_bin_model_request((void*)wreck_ancient_brakable_bml_resource, 1);
         wreck_ancient_brakable_bml_resource = 0U;
     }
 }

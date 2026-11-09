@@ -133,7 +133,7 @@ extern s32 model_render_flags;
 s32 init_key__5TOKeyFPv(void *, void *);
 void *__ct__5TOKeyFP7TObject(TOKey *arg0);
 extern s32 __vt__11TObjDoorKey[];
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 int update_armed_switch__5TOKeyFv(void*);
 s32 __dl__7TObjectFPv(void *);
 void *__dt__5TOKeyFv(void *arg0, s16 arg1);
@@ -317,7 +317,7 @@ void *TObjDoorKey__create(void *arg0) {
 
 void TObjDoorKey::free_key() {
     if ((u32) door_key_resource_handle != 0U) {
-        TLobby__sub_8001FE7C((void*)door_key_resource_handle, 1);
+        free_bin_model_request((void*)door_key_resource_handle, 1);
         door_key_resource_handle = 0U;
     }
     TObjPlayer::free_if_valid(TObjDoorKey__texture_handle);

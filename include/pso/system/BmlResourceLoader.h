@@ -12,7 +12,7 @@ extern "C" {
 // Loads the archive a descriptor names into resource (0x440 bytes from
 // operator new).
 BmlResource *load_resource_from_descriptor(void *resource, s32 kind, BmlResourceDescriptor *descriptor, s32 arg3, s32 arg4, s32 arg5);
-void TLobby__sub_8001FE7C(void *resource, int del);
+void free_bin_model_request(void *resource, int del);
 }
 
 #endif

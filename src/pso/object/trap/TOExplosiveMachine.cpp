@@ -19,7 +19,7 @@
 
 extern "C" {
 void *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
-void TLobby__sub_8001FE7C(void *, s32);
+void free_bin_model_request(void *, s32);
 s32 post_translate_matrix(const Vec *);
 s32 push_matrix();
 
@@ -90,7 +90,7 @@ void TOExplosiveMachine::load_shared_resource() {
 
 void TOExplosiveMachine::destroy_static_lobby() {
     if (explosive_machine_model_archive != NULL) {
-        TLobby__sub_8001FE7C(explosive_machine_model_archive, 1);
+        free_bin_model_request(explosive_machine_model_archive, 1);
         explosive_machine_model_archive = NULL;
     }
 }

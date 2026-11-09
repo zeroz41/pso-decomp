@@ -171,7 +171,7 @@ s32 draw_ginja_object();
 s32 push_matrix();
 extern const f32 lbl_805DBBE0;
 extern const f32 lbl_805DBBE4;
-s32 TLobby__sub_8001FE7C(s32, s32);
+s32 free_bin_model_request(s32, s32);
 s32 release_texture_list(void*);
 
 void TLobby::free_map_resources() {
@@ -180,7 +180,7 @@ void TLobby::free_map_resources() {
         TAdSinglePlyChrSelectGC::safe_free(city_common_texture_list);
         city_common_texture_list = 0U;
     }
-    TLobby__sub_8001FE7C((s32)city_common_model_archive, 1);
+    free_bin_model_request((s32)city_common_model_archive, 1);
     city_common_model_archive = 0;
 }
 }

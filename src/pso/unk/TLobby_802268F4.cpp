@@ -469,7 +469,7 @@ void sndSetHooks(SndHooks *hooks);
 s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aram_size);
 int TLobby__sub_80227A70(void *p);
 void TLobby__sub_80227A90(void);
-void TLobby__sub_8022780C(void);
+void init_adx_audio_system(void);
 extern const SndHooks lbl_8044C858;
 extern u32 lbl_804CB838[6];
 void *lbl_805D62D8;
@@ -591,7 +591,7 @@ void TLobby::shutdown_buffers() {
     }
 }
 
-void TLobby__sub_8022780C(void) {
+void init_adx_audio_system(void) {
     s32 i;
 
     lbl_80514C60[0] = xmalloc(0x2D1E4);

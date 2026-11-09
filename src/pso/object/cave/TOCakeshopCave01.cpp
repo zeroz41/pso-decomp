@@ -91,7 +91,7 @@ void *TOCakeshopCave01::create(void *set_data) {
 
 void TOCakeshopCave01::release_static_resource() {
     if (TOCakeshopCave01__model_resource != NULL) {
-        TLobby__sub_8001FE7C(TOCakeshopCave01__model_resource, 1);
+        free_bin_model_request(TOCakeshopCave01__model_resource, 1);
         TOCakeshopCave01__model_resource = NULL;
     }
 }

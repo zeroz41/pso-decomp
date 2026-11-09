@@ -113,10 +113,10 @@ extern RecoveredGlobal_8030B658_lbl_804E76C0 bm_obj_boss8_monitor_resource_descr
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__14TObjLiveCamera[];
 extern s32 TObjLiveCamera__class_name;
-int TLobby__sub_8001FE7C(void*, void*);
+int free_bin_model_request(void*, void*);
 void __dl__7TObjectFPv(void *);
 
-void TObjLiveCamera__sub_8030B630(void) { TLobby__sub_8001FE7C((void*)live_monitor_shared_resource, (void*)1); }
+void TObjLiveCamera__sub_8030B630(void) { free_bin_model_request((void*)live_monitor_shared_resource, (void*)1); }
 
 void TObjLiveCamera::load_static_resource() {
     s32 temp_r3;

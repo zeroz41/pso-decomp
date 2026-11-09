@@ -82,7 +82,7 @@ void vfunc_28__16TObjEneRe2FlowerFv(void);
 void *destroy__16TObjEneRe2FlowerFPvs(void *arg0, s16 arg1);
 void vfunc_63__16TObjEneRe2FlowerFv(void *arg0);
 void vfunc_62__16TObjEneRe2FlowerFv(void *arg0);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void free_collision_body_parts(void *);
 void *TObjEneRe2Flower__ct(void *, void *, void *);
 void TObjPlayer__sub_800C4D44(void);
@@ -374,7 +374,7 @@ extern u32 lbl_805D5174;
 void TObjEneRe2Flower::destroy_instance() {
     TObjPlayer__sub_800C4D44();
     if ((u32) lbl_805D5174 != 0U) {
-        TLobby__sub_8001FE7C((void*)lbl_805D5174, 1);
+        free_bin_model_request((void*)lbl_805D5174, 1);
         lbl_805D5174 = 0U;
     }
 }

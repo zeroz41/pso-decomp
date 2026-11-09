@@ -312,7 +312,7 @@ void *TOKurage::create(void *set_data) {
 
 void TOKurage::destroy_static_instance() {
     if (TOKurage__bml_resource != NULL) {
-        TLobby__sub_8001FE7C(TOKurage__bml_resource, 1);
+        free_bin_model_request(TOKurage__bml_resource, 1);
         TOKurage__bml_resource = NULL;
     }
 }

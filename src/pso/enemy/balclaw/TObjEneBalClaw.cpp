@@ -79,7 +79,7 @@ struct Obj_8008D79C { u8 pad0[0x388]; s32 flags; u8 pad38C[0x3B8 - 0x38C]; s32 f
 extern "C" {
 extern s32 balclaw_last_shared_update_frame;
 extern s32 actor_frame_tick;
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void __dl__7TObjectFPv(void *);
 void *__dt__15TObjEnemyCustomFv(void *arg0, s16 arg1);
 
@@ -161,7 +161,7 @@ void TObjEneBalClaw::vfunc_62() {
 
 void TObjEneBalClaw::release_global_805D4F20() {
     if ((u32) lbl_805D4F20 != 0U) {
-        TLobby__sub_8001FE7C((void*)lbl_805D4F20, 1);
+        free_bin_model_request((void*)lbl_805D4F20, 1);
         lbl_805D4F20 = 0U;
     }
 }

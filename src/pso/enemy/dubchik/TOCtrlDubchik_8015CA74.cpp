@@ -149,7 +149,7 @@ void dubchik_start_dying(u8 *arg0);
 f32 receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll(void *, s32, Pair_8015D518, void *, s32, s32);
 f32 TOCtrlDubchik__vt21(TOCtrlDubchik *arg0, s32 arg1, Pair_8015D518 arg2, void *arg3);
 void *__dt__13TOCtrlDubchikFv(void *arg0, s16 arg1);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 s32 free_collision_body_parts(void *);
 s32 select_melee_contact_body__9TObjCharaFPvf();
 s32 __dl__7TObjectFPv(void *);
@@ -394,7 +394,7 @@ void *TOCtrlDubchik::create(void *arg0) {
 
 void TOCtrlDubchik::destroy_instance() {
     if ((u32) TOCtrlDubchik__shared_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TOCtrlDubchik__shared_resource, 1);
+        free_bin_model_request((void*)TOCtrlDubchik__shared_resource, 1);
         TOCtrlDubchik__shared_resource = 0U;
     }
 }

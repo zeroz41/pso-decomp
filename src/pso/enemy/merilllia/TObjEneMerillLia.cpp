@@ -536,7 +536,7 @@ void vfunc_101__16TObjEneMerillLiaFv(void);
 void vfunc_93__16TObjEneMerillLiaFv(void);
 void *__dt__16TObjEneMerillLiaFPvs(void *arg0, s16 arg1);
 void vfunc_58__16TObjEneMerillLiaFv(void *arg0);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void free_collision_body_parts(void *);
 void *TObjEneMerillLia__ct(void *, void *, void *);
@@ -1688,7 +1688,7 @@ void TObjEneMerillLia::destroy_rocks() {
         TObjEneMerillLia__rock_param_table = 0U;
     }
     if ((u32) TObjEneMerillLia__entry_params_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjEneMerillLia__entry_params_resource, 1);
+        free_bin_model_request((void*)TObjEneMerillLia__entry_params_resource, 1);
         TObjEneMerillLia__entry_params_resource = 0U;
     }
 }

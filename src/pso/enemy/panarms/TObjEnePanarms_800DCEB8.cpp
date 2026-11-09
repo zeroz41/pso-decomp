@@ -234,7 +234,7 @@ extern s32 __dt__15RenderFadeStateFv[];
 extern s32 __vt__14TObjEnePanarms[];
 u8 *__dt__14TObjEnePanarmsFv(u8 *arg0, s16 arg1);
 void TObjEnePanarms__sub_800DEEF8(void* p);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 int post_translate_matrix(void*);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
@@ -330,7 +330,7 @@ void TObjEnePanarms::load_and_spawn_npc() {
 
 void TObjEnePanarms::free_data() {
     if (TObjEnePanarms__entry_params_resource != NULL) {
-        TLobby__sub_8001FE7C((void*)TObjEnePanarms__entry_params_resource, 1);
+        free_bin_model_request((void*)TObjEnePanarms__entry_params_resource, 1);
         TObjEnePanarms__entry_params_resource = NULL;
     }
 }

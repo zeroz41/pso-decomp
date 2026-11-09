@@ -308,7 +308,7 @@ s32 init_collision_body_parts(void *, void *, int);
 void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern s32 __vt__11TObjDoaEx01[];
 
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
@@ -353,7 +353,7 @@ void *TObjDoaEx01__create(void *arg0) {
 
 void TObjDoaEx01::free_resource() {
     if ((u32) TObjDoaEx01__resource_bundle != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjDoaEx01__resource_bundle, 1);
+        free_bin_model_request((void*)TObjDoaEx01__resource_bundle, 1);
         TObjDoaEx01__resource_bundle = 0U;
     }
 }

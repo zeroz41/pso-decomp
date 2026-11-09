@@ -28,7 +28,7 @@ void *TObjNpcMaleBase__create(void *set_data) {
 
 void TObjNpcMaleBase::free_static_data() {
     if (TObjNpcMaleBase__shared_bml_archive != NULL) {
-        TLobby__sub_8001FE7C(TObjNpcMaleBase__shared_bml_archive, 1);
+        free_bin_model_request(TObjNpcMaleBase__shared_bml_archive, 1);
         TObjNpcMaleBase__shared_bml_archive = NULL;
     }
 }

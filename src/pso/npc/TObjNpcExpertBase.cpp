@@ -31,12 +31,12 @@ struct RecoveredGlobal_80149BB4___vt__17TObjNpcExpertBase {
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 __vt__17TObjNpcExpertBase[];
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void __dl__7TObjectFPv(void *);
 
 void TObjNpcExpertBase::free_shared_data() {
     if ((u32) TObjNpcExpertBase__shared_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjNpcExpertBase__shared_resource, 1);
+        free_bin_model_request((void*)TObjNpcExpertBase__shared_resource, 1);
         TObjNpcExpertBase__shared_resource = 0U;
     }
 }

@@ -9,7 +9,7 @@ u8 *load_gvm_texture_file(s32 arg0);
 extern u8 boss06_tube_dat_resource_descriptor[];
 extern u32 boss6_tube_bml_resource;
 extern u32 boss6_tube_texture_list;
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 void *__nw__7TObjectFUl(int);
 
@@ -23,7 +23,7 @@ void *TBoss6Tube::create(void *arg0) {
 
 void TBoss6Tube::free_resources() {
     if ((u32) boss6_tube_bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)boss6_tube_bml_resource, 1);
+        free_bin_model_request((void*)boss6_tube_bml_resource, 1);
         boss6_tube_bml_resource = 0U;
     }
     if ((u32) boss6_tube_texture_list != 0U) {

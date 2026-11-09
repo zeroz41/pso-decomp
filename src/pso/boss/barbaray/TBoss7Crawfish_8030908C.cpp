@@ -38,7 +38,7 @@ extern const f32 TBoss7Crawfish__data_805DF0D8;
 extern const f32 TBoss7Crawfish__data_805DF0DC;
 extern const f32 lbl_805DF100;
 int TBoss7Crawfish__sub_80308BEC(void *p);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 s32 __dl__7TObjectFPv(void *);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
@@ -137,7 +137,7 @@ u8 *TBoss7Crawfish__ct(u8 *arg0, s32 arg1, s32 arg2) {
 
 void TBoss7Crawfish::destroy_instance() {
     if ((u32) TBoss7Crawfish__shared_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TBoss7Crawfish__shared_resource, 1);
+        free_bin_model_request((void*)TBoss7Crawfish__shared_resource, 1);
         TBoss7Crawfish__shared_resource = 0U;
     }
 }

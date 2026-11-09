@@ -4413,7 +4413,7 @@ extern s32 lbl_805D2A70;
 u8 *TObjEneBm5GibonU__ct(u8 *arg0, s32 arg1, s32 arg2);
 void vfunc_61__16TObjEneBm5GibonUFv(void);
 void vfunc_28__16TObjEneBm5GibonUFv(void);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void __dl__FPv(void);
 
 void TObjEneBm5GibonU::vfunc_88() {
@@ -4643,7 +4643,7 @@ void TObjEneBm5GibonU::init_child_node() {
 
 void TObjEneBm5GibonU::release_static_resource() {
     if ((u32) (*(u32 *)&TObjEneBm5GibonU__model_archive) != 0U) {
-        TLobby__sub_8001FE7C((void*)(*(u32 *)&TObjEneBm5GibonU__model_archive), 1);
+        free_bin_model_request((void*)(*(u32 *)&TObjEneBm5GibonU__model_archive), 1);
         (*(u32 *)&TObjEneBm5GibonU__model_archive) = 0U;
     }
 }

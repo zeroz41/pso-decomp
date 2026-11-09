@@ -211,10 +211,10 @@ extern "C" {
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 lbl_805D5CCC;
 void TObjWarpLobby__sub_801A0B38(void);
-s32 TLobby__sub_8001FE7C(s32, s32);
+s32 free_bin_model_request(s32, s32);
 
 void TObjWarpLobby::release_static() {
-    TLobby__sub_8001FE7C(TObjWarpLobby__instance, 1);
+    free_bin_model_request(TObjWarpLobby__instance, 1);
     TObjWarpLobby__instance = 0;
 }
 void TObjWarpLobby__sub_801A0B38(void) {

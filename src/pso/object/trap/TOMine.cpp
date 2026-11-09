@@ -62,7 +62,7 @@ extern s32 TOMine__name;
 extern const f32 lbl_805DB85C;
 Obj_80171278 *TOMine__ct(Obj_80171278 *arg0);
 void *__dt__6TOMineFv(void *arg0, s16 arg1);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 int submit_target_to_player_cursor(void*);
 void __dl__7TObjectFPv(void *);
 
@@ -151,7 +151,7 @@ void TOMine::render() {
 
 void TOMine::free_instance() {
     if ((u32) lbl_805D5A50 != 0U) {
-        TLobby__sub_8001FE7C((void*)lbl_805D5A50, 1);
+        free_bin_model_request((void*)lbl_805D5A50, 1);
         lbl_805D5A50 = 0U;
     }
 }

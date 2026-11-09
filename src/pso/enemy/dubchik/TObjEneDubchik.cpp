@@ -133,7 +133,7 @@ s32 render_anim_model_at_pos__15TObjEnemyCustomFv();
 void *__nw__7TObjectFUl(int);
 void TObjPlayer__sub_800A8FB4(void *arg0_);
 
-void TLobby__sub_8001FE7C(void *, s32);
+void free_bin_model_request(void *, s32);
 extern s32 lbl_80500AF0[];
 extern s32 lbl_80500AF8[];
 struct Res_800AA82C;
@@ -625,7 +625,7 @@ void TObjPlayer::free_effect_resources() {
         breakup_model_ptr = NULL;
     }
     if (dubchik_resource != NULL) {
-        TLobby__sub_8001FE7C(dubchik_resource, 1);
+        free_bin_model_request(dubchik_resource, 1);
         dubchik_resource = NULL;
     }
     dubchik_texlist = NULL;

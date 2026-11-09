@@ -40,7 +40,7 @@ extern void *TItemLoad__model_load_task_root;
 extern void *TItemLoad__completed_model_load_task_root;
 extern s32 TItemLoad__model_slot_in_use;
 extern s32 item_load_resource_handle;
-s32 TLobby__sub_8001FE7C(s32, s32);
+s32 free_bin_model_request(s32, s32);
 s32 __ct__9TItemLoadFv(void *, s32);
 void mem_free(void *p);
 
@@ -52,7 +52,7 @@ void TItemLoad::free_all() {
     if ((void *) TItemLoad__completed_model_load_task_root != NULL) {
         ((VObj_801105AC *)TItemLoad__completed_model_load_task_root)->m0(1);
     }
-    TLobby__sub_8001FE7C(TItemLoad__bml_resource, 1);
+    free_bin_model_request(TItemLoad__bml_resource, 1);
     item_load_resource_handle = 0;
     TItemLoad__bml_resource = 0;
     TItemLoad__model_load_task_root = NULL;

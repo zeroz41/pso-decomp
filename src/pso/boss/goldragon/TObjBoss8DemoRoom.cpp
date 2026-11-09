@@ -44,7 +44,7 @@ typedef char RecoveredGlobal_8036B6D0_lbl_804F3660_size[sizeof(RecoveredGlobal_8
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_8036B6D0_lbl_804F3660 TObjBoss8DemoRoom__resource_desc;
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void __ct__7TObjectFP7TObject(void *);
 
 extern s32 __vt__17TObjBoss8DemoRoom[];
@@ -59,7 +59,7 @@ void *__ct__17TObjBoss8DemoRoomFv(void *boss8_demo_room) {
 
 void TObjBoss8DemoRoom::free_static_instance() {
     if (TObjBoss8DemoRoom__shared_resource_object != 0) {
-        TLobby__sub_8001FE7C(TObjBoss8DemoRoom__shared_resource_object, 1);
+        free_bin_model_request(TObjBoss8DemoRoom__shared_resource_object, 1);
         TObjBoss8DemoRoom__shared_resource_object = 0;
     }
 }

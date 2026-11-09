@@ -51,7 +51,7 @@ u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 komorebi_last_uv_update_frame;
 s32 get_bml_motion(s32, s32);
 extern s32 lazer_fence_norm_bml_resource;
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 s32 scroll_ginja_mesh_uvs(s32, s32, s32, s32, s32);
 s32 post_translate_matrix(void *);
 s32 scale_matrix(s32, f32, f32, f32);
@@ -118,7 +118,7 @@ void *TKomorebi__create(void *arg0) {
 
 void TKomorebi::free_static() {
     if ((u32) TKomorebi__resource_bundle != 0U) {
-        TLobby__sub_8001FE7C((void*)TKomorebi__resource_bundle, 1);
+        free_bin_model_request((void*)TKomorebi__resource_bundle, 1);
         TKomorebi__resource_bundle = 0U;
     }
     komorebi_last_uv_update_frame = 0;

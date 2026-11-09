@@ -48,7 +48,7 @@ struct Ent_80207478 { s32 f0; char *name; };
 struct Res_80207478 { void *buf; s32 n; };
 
 extern "C" {
-u8 * TLobby__sub_8001FE7C(void *, s16);
+u8 * free_bin_model_request(void *, s16);
 extern s32 TSceneSora__sky_active_flag;
 extern s32 TSceneSora__instance;
 extern u32 TSceneSora__sky_bml_resource;
@@ -68,7 +68,7 @@ s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 set_global_param__8TObjFishFl();
 void *get_current_floor();
-u32 TLobby__sub_8002058C(void *, int, Res_80207478 *, Res_80207478 *, int, int, int);
+u32 init_bin_model_request(void *, int, Res_80207478 *, Res_80207478 *, int, int, int);
 s32 lookup_scene_object__6TLobbyFPv(void *, Ref_80207478 *);
 void *adxf_open__6TLobbyFUii(char *, int);
 extern char sky_model_ext_s_njm[];
@@ -161,7 +161,7 @@ void TSceneSora::create_instance() {
 void TSceneSora__sub_80207430(void) {
     TSceneSora__sky_active_flag = 1;
     if ((void *) (*(u8 * *)&TSceneSora__sky_bml_resource) != NULL) {
-        TLobby__sub_8001FE7C((*(u8 * *)&TSceneSora__sky_bml_resource), 1);
+        free_bin_model_request((*(u8 * *)&TSceneSora__sky_bml_resource), 1);
         (*(u8 * *)&TSceneSora__sky_bml_resource) = NULL;
     }
     TSceneSora__instance = 0;
@@ -210,7 +210,7 @@ void TSceneSora::load_sky_resources() {
         a.n = 0;
         o = (u32)(int)::operator new(0x440);
         if (o != 0) {
-            o = TLobby__sub_8002058C((void *)o, 1, &b, &a, 0, 0, 0);
+            o = init_bin_model_request((void *)o, 1, &b, &a, 0, 0, 0);
         }
         TSceneSora__sky_bml_resource = o;
         TSceneSora__sky_active_flag = 1;

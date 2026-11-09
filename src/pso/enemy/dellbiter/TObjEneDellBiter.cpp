@@ -73,7 +73,7 @@ s16 get_attack_params_atp_min(void *p);
 s32 obj_is_hit_receivable(void *);
 u16 get_entity_id(void *);
 void obj_setFlags30(void *, s32);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 s32 get_mode__11TCameraCtrlFPv(void *);
 u32 csnLookAt(void *, void *);
@@ -252,7 +252,7 @@ void *TObjEneDellBiter::create(void *set_data) {
 
 void TObjEneDellBiter::destroy_static_instance() {
     if ((u32) TObjEneDellBiter__shared_model_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjEneDellBiter__shared_model_resource, 1);
+        free_bin_model_request((void*)TObjEneDellBiter__shared_model_resource, 1);
         TObjEneDellBiter__shared_model_resource = 0U;
     }
 }

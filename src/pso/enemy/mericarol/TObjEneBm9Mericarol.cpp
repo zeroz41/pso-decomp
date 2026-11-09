@@ -175,7 +175,7 @@ void vfunc_63__19TObjEneBm9MericarolFv(void *arg0);
 void vfunc_62__19TObjEneBm9MericarolFv(void *arg0);
 void vfunc_88__19TObjEneBm9MericarolFv(void *arg0);
 s32 clear_attack_receipts__9TObjEneDDFv(void);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 struct Obj_802D0D3C;
 Obj_802D0D3C *TObjEneBm9Mericarol__ct(Obj_802D0D3C *, void *, s32);
 void *__nw__7TObjectFUl(int);
@@ -738,7 +738,7 @@ void TObjEneBm9Mericarol::free_shared_instances() {
     }
     fn_802D1C84();
     if ((u32) lbl_805D6868 != 0U) {
-        TLobby__sub_8001FE7C((void*)lbl_805D6868, 1);
+        free_bin_model_request((void*)lbl_805D6868, 1);
         lbl_805D6868 = 0U;
     }
 }

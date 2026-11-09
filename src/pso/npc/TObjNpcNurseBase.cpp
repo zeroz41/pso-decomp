@@ -28,7 +28,7 @@ void *TObjNpcNurseBase__create(void *set_data) {
 
 void TObjNpcNurseBase::free_shared_data() {
     if (TObjNpcNurseBase__shared_model_resource != NULL) {
-        TLobby__sub_8001FE7C(TObjNpcNurseBase__shared_model_resource, 1);
+        free_bin_model_request(TObjNpcNurseBase__shared_model_resource, 1);
         TObjNpcNurseBase__shared_model_resource = NULL;
     }
 }

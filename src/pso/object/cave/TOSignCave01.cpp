@@ -85,7 +85,7 @@ void *TOSignCave01::create(void *set_data) {
 
 void TOSignCave01::release_static_resource() {
     if (TOSignCave01__bml_resource != NULL) {
-        TLobby__sub_8001FE7C(TOSignCave01__bml_resource, 1);
+        free_bin_model_request(TOSignCave01__bml_resource, 1);
         TOSignCave01__bml_resource = NULL;
     }
 }

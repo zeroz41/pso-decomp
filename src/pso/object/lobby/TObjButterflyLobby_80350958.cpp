@@ -299,7 +299,7 @@ s32 get_bml_model(void *, int);
 s32 __ct__8TObjBaseFP7TObject();
 extern s32 __vt__18TObjButterflyLobby[];
 extern s32 lbl_805D4360;
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
@@ -345,7 +345,7 @@ void *TObjButterflyLobby__create(void *arg0) {
 
 void TObjButterflyLobby::destroy_instance() {
     if ((u32) lobby_butterfly_bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)lobby_butterfly_bml_resource, 1);
+        free_bin_model_request((void*)lobby_butterfly_bml_resource, 1);
         lobby_butterfly_bml_resource = 0U;
     }
 }

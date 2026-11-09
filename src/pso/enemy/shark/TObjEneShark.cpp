@@ -576,7 +576,7 @@ extern u32 TObjEneShark__resource_buf;
 extern u32 shark_resource_data;
 extern u32 shark_resource_buffer;
 void vfunc_99__13TUnk_80493450Fv(void);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void mem_free(void*);
 
@@ -802,7 +802,7 @@ void TObjEneShark::free_resources() {
         TObjEneShark__attack_motion_3_trail = 0U;
     }
     if ((u32) shark_bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)shark_bml_resource, 1);
+        free_bin_model_request((void*)shark_bml_resource, 1);
         shark_bml_resource = 0U;
     }
 }

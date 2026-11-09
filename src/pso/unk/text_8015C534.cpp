@@ -16,7 +16,7 @@ struct RecoveredGlobal_8015C534_lbl_804B08BC {
 };
 
 extern "C" {
-s32 TLobby__sub_8001FE7C(u32, int);
+s32 free_bin_model_request(u32, int);
 void mem_free(void *p);
 extern u32 ancient_container_resource_bundle;
 extern u32 ancient_container_fragment_texture_lists;
@@ -68,7 +68,7 @@ void free_ancient_container_resources(void) {
     }
     p = ancient_container_resource_bundle;
     if (p != 0U) {
-        TLobby__sub_8001FE7C(p, 1);
+        free_bin_model_request(p, 1);
         ancient_container_resource_bundle = 0U;
     }
 }

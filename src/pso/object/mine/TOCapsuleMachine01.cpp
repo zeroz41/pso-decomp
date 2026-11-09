@@ -57,7 +57,7 @@ void TOCapsuleMachine01::reset_static_state() {
     TOCapsuleMachine01__last_update_frame_tick = 0;
     lbl_805D58C4 = 0;
     if (TOCapsuleMachine01__model_resource != NULL) {
-        TLobby__sub_8001FE7C(TOCapsuleMachine01__model_resource, 1);
+        free_bin_model_request(TOCapsuleMachine01__model_resource, 1);
         TOCapsuleMachine01__model_resource = NULL;
     }
 }

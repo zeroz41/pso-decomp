@@ -1495,7 +1495,7 @@ extern s32 model_render_flags;
 #define get_floor__10TObjPlayerFv ((s32 (*)(int))(get_floor__10TObjPlayerFv))
 #define get_player_by_client_id ((u8* (*)(u16))(get_player_by_client_id))
 void * create_ene_saver(void *arg0);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void mem_free(void*);
 s32 lerp_angle_half__Fll(s32, s32);
@@ -2034,7 +2034,7 @@ void TObjPlayer::free_resources() {
         (*(u32 *)&lbl_805D506C) = 0U;
     }
     if ((u32) saver_bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)saver_bml_resource, 1);
+        free_bin_model_request((void*)saver_bml_resource, 1);
         saver_bml_resource = 0U;
     }
 }

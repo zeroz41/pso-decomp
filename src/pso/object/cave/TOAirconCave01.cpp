@@ -35,7 +35,7 @@ void *TOAirconCave01::create(void *set_data) {
 
 void TOAirconCave01::release_static_resource() {
     if (TOAirconCave01__model_archive != NULL) {
-        TLobby__sub_8001FE7C(TOAirconCave01__model_archive, 1);
+        free_bin_model_request(TOAirconCave01__model_archive, 1);
         TOAirconCave01__model_archive = NULL;
     }
 }
