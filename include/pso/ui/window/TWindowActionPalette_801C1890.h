@@ -22,7 +22,7 @@ f32 fn_801C19A4(void *p);
 void set_player_team_id(void *p, s32 v);
 void fn_801C19E0(void *p, s32 v);
 void fn_801C19E8(void *p);
-void fn_801C19F4(void *p);
+void set_player_pk_mode_flag(void *p);
 s32 fn_801C1B88(void *p);
 s32 fn_801C1BA0(void *p);
 void *ref_primary_action_palette(void *p);

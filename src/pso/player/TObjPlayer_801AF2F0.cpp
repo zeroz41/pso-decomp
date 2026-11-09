@@ -2330,7 +2330,7 @@ s32 TLobby__sub_801C19D0(void *p);
 void set_player_team_id(void *p, s32 v);
 void fn_801C19E0(void *, s32);
 void fn_801C19E8(void *p);
-void fn_801C19F4(void *p);
+void set_player_pk_mode_flag(void *p);
 void *TObjPlayer__sub_801C1A00(void *p);
 s32 TObjPlayer__sub_801C1AC8(void *);
 s32 TObjPlayer__sub_801C1B0C(void *, int);
@@ -3649,7 +3649,7 @@ void TObjPlayer::set_state_flag_6043() {
     } else {
         this->m_698 = 0x2003;
     }
-    fn_801C19F4(((u8 *)this) + 0x828);
+    set_player_pk_mode_flag(((u8 *)this) + 0x828);
 }
 
 void handle_6x1B_enable_pk_mode_for_player(void *arg0) {

@@ -266,9 +266,9 @@ void clear_counter__6TLobbyFPv(void *a0);
 void send_neg50__6TLobbyFPvPv(void *p, s32 a1);
 void calc_player_rankings__6TLobbyFPv(void *);
 int sprintf(char *, const char *, ...);
-extern char lbl_80446FCC[];
-extern char lbl_80446FD4[];
-extern char lbl_80446FDC[];
+extern char battle_ctrl_score_label[];
+extern char battle_ctrl_score_format[];
+extern char battle_ctrl_music_name_start[];
 extern char *lobby_rank_ordinal_text_table[];
 extern Entry_801C2B04 TLobby__duel_result_table[];
 void show_score_results__6TLobbyFPv(void *self);
@@ -322,20 +322,20 @@ void show_score_results__6TLobbyFPv(void *self) {
     VObj_801C2B04 *p;
     clear_counter__6TLobbyFPv(self);
     calc_player_rankings__6TLobbyFPv(self);
-    ((TWindowCtrl *)lbl_80446FCC)->init_all_default();
+    ((TWindowCtrl *)battle_ctrl_score_label)->init_all_default();
     for (i = 0; i < 4; i++) {
         e = &TLobby__duel_result_table[i];
         p = get_player_by_client_id(e->id);
         if (p != NULL) {
-            sprintf(buf, lbl_80446FD4, lobby_rank_ordinal_text_table[e->name], p->m10());
+            sprintf(buf, battle_ctrl_score_format, lobby_rank_ordinal_text_table[e->name], p->m10());
             ((TWindowCtrl *)buf)->init_all_default();
         }
     }
-    send_neg50__6TLobbyFPvPv(lbl_80446FDC, 0x3C);
+    send_neg50__6TLobbyFPvPv(battle_ctrl_music_name_start, 0x3C);
 }
-__declspec(section ".rodata") char lbl_80446FCC[] = "SCORE";
-__declspec(section ".rodata") char lbl_80446FD4[] = "%s %s";
-__declspec(section ".rodata") char lbl_80446FDC[] = "start.adx";
+__declspec(section ".rodata") char battle_ctrl_score_label[] = "SCORE";
+__declspec(section ".rodata") char battle_ctrl_score_format[] = "%s %s";
+__declspec(section ".rodata") char battle_ctrl_music_name_start[] = "start.adx";
 
 }
 }
@@ -378,8 +378,8 @@ void handle_battle_result__6TLobbyFii(u16, s32);
 void TObjEneRe4Sorcerer__sub_801E3F14(s32);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
 void *__nw__7TObjectFUl(u32);
-extern char lbl_80446FF0[];
-extern char lbl_80446FFC[];
+extern char battle_ctrl_music_name_duel1[];
+extern char battle_ctrl_music_name_duel2[];
 void queue_destruction__7TObjectFv(void *arg0);
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 extern s32 lbl_805D2A98;
@@ -539,7 +539,7 @@ void TLobby::start_duel_battle() {
     }
     clear_counter__6TLobbyFPv(this);
     area = get_current_floor_area();
-    name = (area == AREA_BATTLE1) ? lbl_80446FF0 : lbl_80446FFC;
+    name = (area == AREA_BATTLE1) ? battle_ctrl_music_name_duel1 : battle_ctrl_music_name_duel2;
     obj = __nw__7TObjectFUl(0x40);
     if (obj != NULL) {
         init_with_name__6TLobbyFPvPvPvPv(obj, this, name, 0x2D);
@@ -552,8 +552,8 @@ void TLobby::start_duel_battle() {
     }
     ((Lobby_801C2F40 *)this)->f64 = TLobby__battle_ctrl_default_value;
 }
-__declspec(section ".rodata") char lbl_80446FF0[] = "duel1.adx";
-__declspec(section ".rodata") char lbl_80446FFC[] = "duel2.adx";
+__declspec(section ".rodata") char battle_ctrl_music_name_duel1[] = "duel1.adx";
+__declspec(section ".rodata") char battle_ctrl_music_name_duel2[] = "duel2.adx";
 void TPlayerBattleCtrl::init_battle_round() {
   s32 char_select_slot;
   s32 temp_r3;
@@ -867,8 +867,8 @@ s32 forward_trade_action_default__16TObjCityMainWarpFPviii(void *, s32, int, int
 void *check_room_seq_4__16TAdChrSelASlotGCFl(void *, int);
 void *create__14TWindowMessageFPvll(void *, void *, s32);
 void *get_window_layout_position(s32);
-extern u8 lbl_80447008[];
-extern u8 lbl_80447010[];
+extern u8 battle_ctrl_music_name_win[];
+extern u8 battle_ctrl_music_name_lose[];
 extern Flags_801C3AF4 *controller_input_state[];
 extern s32 TLobby__duel_result_table[];
 extern s32 local_client_id;
@@ -1499,9 +1499,9 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
             calc_player_rankings__6TLobbyFPv((Lobby_801C484C *)((Lobby_801C484C *)arg0));
             record_local_battle_placement(arg0);
             if (((u16 *)TLobby__duel_result_table)[0] == local_client_id) {
-                send_neg50__6TLobbyFPvPv(lbl_80447008, (void *)0x96);
+                send_neg50__6TLobbyFPvPv(battle_ctrl_music_name_win, (void *)0x96);
             } else {
-                send_neg50__6TLobbyFPvPv(lbl_80447010, (void *)0x96);
+                send_neg50__6TLobbyFPvPv(battle_ctrl_music_name_lose, (void *)0x96);
             }
             *(s32 *)((s8 *)arg0 + 0x20) = 4;
         }
@@ -1646,8 +1646,8 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
         }
     }
 }
-__declspec(section ".rodata") u8 lbl_80447008[] = "win.adx";
-__declspec(section ".rodata") u8 lbl_80447010[] = "lose.adx";
+__declspec(section ".rodata") u8 battle_ctrl_music_name_win[] = "win.adx";
+__declspec(section ".rodata") u8 battle_ctrl_music_name_lose[] = "lose.adx";
 
 void update_timed_wait__6TLobbyFPv(Lobby_801C484C *self) {
     s32 secs;

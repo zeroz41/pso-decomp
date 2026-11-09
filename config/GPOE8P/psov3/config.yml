@@ -7578,13 +7578,13 @@ force_active:
   - lbl_80446FAC
   - lbl_80446FB4
   - lbl_80446FBC
-  - lbl_80446FCC
-  - lbl_80446FD4
-  - lbl_80446FDC
-  - lbl_80446FF0
-  - lbl_80446FFC
-  - lbl_80447008
-  - lbl_80447010
+  - battle_ctrl_score_label
+  - battle_ctrl_score_format
+  - battle_ctrl_music_name_start
+  - battle_ctrl_music_name_duel1
+  - battle_ctrl_music_name_duel2
+  - battle_ctrl_music_name_win
+  - battle_ctrl_music_name_lose
   - lbl_8044A800
   - lbl_8044A80C
   - lbl_8044A840

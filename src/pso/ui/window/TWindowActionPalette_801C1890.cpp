@@ -82,7 +82,7 @@ void fn_801C19E0(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
 
 void fn_801C19E8(void* p) { *(s32*)((char*)p + 0x0) = 0; }
 
-void fn_801C19F4(void* p) { *(s32*)((char*)p + 0x0) = 1; }
+void set_player_pk_mode_flag(void* p) { *(s32*)((char*)p + 0x0) = 1; }
 
 void* TObjPlayer__sub_801C1A00(void* p) { TObjPlayer__sub_801C1A30(p); return p; }
 
