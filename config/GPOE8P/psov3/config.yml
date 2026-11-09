@@ -7422,49 +7422,49 @@ force_active:
   - lbl_804394D4
   - lbl_8043AAA4
   - lbl_8043AD10
-  - lbl_8043AD24
-  - lbl_8043AD3C
-  - lbl_8043AD50
-  - lbl_8043AD6C
-  - lbl_8043AD88
-  - lbl_8043ADA4
-  - lbl_8043ADC0
-  - lbl_8043ADDC
-  - lbl_8043ADF8
-  - lbl_8043AE14
-  - lbl_8043AE30
-  - lbl_8043AE48
-  - lbl_8043AE64
-  - lbl_8043AE80
-  - lbl_8043AE9C
-  - lbl_8043AEDC
-  - lbl_8043B380
+  - shark_model_name_bm1tl_s_wala_body_nj
+  - shark_model_name_bm1_s_wala_body_nj
+  - shark_motion_name_appear_bm1_s_wala_body_njm
+  - shark_motion_name_atackl_bm1_s_wala_body_njm
+  - shark_motion_name_atackr_bm1_s_wala_body_njm
+  - shark_motion_name_damage_bm1_s_wala_body_njm
+  - shark_motion_name_deadb_bm1_s_wala_body_njm
+  - shark_motion_name_dead_bm1_s_wala_body_njm
+  - shark_motion_name_leader_bm1_s_wala_body_njm
+  - shark_motion_name_mihari_bm1_s_wala_body_njm
+  - shark_motion_name_run_bm1_s_wala_body_njm
+  - shark_motion_name_stund_bm1_s_wala_body_njm
+  - shark_motion_name_wakeup_bm1_s_wala_body_njm
+  - shark_motion_name_walk_bm1_s_wala_body_njm
+  - bm_ene_bm1_shark_bml_filename
+  - bm_ene_bm1_shark_a_bml_filename
+  - bm_ene_bm3_fly_a_bml_filename
   - lbl_8043B398
   - lbl_8043BC10
   - lbl_8043BC24
   - TObjEneRe2Flower_EffCurse3__class_name_string
   - lbl_8043C920
   - lbl_8043D008
-  - lbl_8043D01C
-  - lbl_8043D030
-  - lbl_8043D044
-  - lbl_8043D058
-  - lbl_8043D06C
-  - lbl_8043D080
-  - lbl_8043D09C
-  - lbl_8043D0B8
-  - lbl_8043D0D4
-  - lbl_8043D0F0
-  - lbl_8043D108
-  - lbl_8043D120
+  - slime_tail_model_name_bm4_ps_ma_tail_nj
+  - slime_tail_model_name_bm4_ps_mar_body_nj
+  - slime_tail_model_name_bm4_ps_mar_tail_nj
+  - slime_tail_model_name_bm4_ps_mb_body_nj
+  - slime_tail_model_name_bm4_ps_mbr_body_nj
+  - slime_tail_motion_name_apear_bm4_ps_mb_body_njm
+  - slime_tail_motion_name_apper_bm4_ps_ma_body_njm
+  - slime_tail_motion_name_atack_bm4_ps_ma_body_njm
+  - slime_tail_motion_name_damage_bm4_ps_ma_body_njm
+  - slime_tail_motion_name_kie_bm4_ps_ma_body_njm
+  - slime_tail_motion_name_kie_bm4_ps_mb_body_njm
+  - slime_tail_motion_name_move_bm4_ps_mb_body_njm
   - lbl_8043D138
-  - lbl_8043D150
-  - lbl_8043D16C
-  - lbl_8043D188
-  - lbl_8043D1A0
+  - slime_tail_motion_name_nodam_bm4_ps_ma_body_njm
+  - slime_tail_motion_name_tlatk_bm4_ps_ma_tail_njm
+  - slime_tail_motion_name_wait_bm4_ps_ma_body_njm
+  - slime_tail_motion_name_wait_bm4_ps_mb_body_njm
   - lbl_8043D1B8
-  - lbl_8043D1D0
-  - lbl_8043D1EC
+  - slime_tail_motion_name_wait2_bm4_ps_ma_body_njm
+  - bm4_ps_ma_body_bml_filename
   - TObjEneSlime__class_name_string
   - lbl_8043D210
   - lbl_8043D218
@@ -7669,20 +7669,20 @@ force_active:
   - lbl_80472C90
   - lbl_80472C9C
   - lbl_80474F08
-  - lbl_80474F1C
-  - lbl_80474F34
-  - lbl_80474F54
-  - lbl_80474F74
-  - lbl_80474F90
-  - lbl_80474FAC
-  - lbl_80474FC8
-  - lbl_80474FE4
-  - lbl_80475000
-  - lbl_8047501C
-  - lbl_80475038
-  - lbl_80475054
-  - lbl_8047506C
-  - lbl_80475084
+  - dolmolm_model_name_abgc01l_wola_body_nj
+  - dolmolm_motion_name_atack_l_abgc01_wola_body_njm
+  - dolmolm_motion_name_atack_r_abgc01_wola_body_njm
+  - dolmolm_motion_name_damage_abgc01_wola_body_njm
+  - dolmolm_motion_name_dead_abgc01_wola_body_njm
+  - dolmolm_motion_name_odori_abgc01_wola_body_njm
+  - dolmolm_motion_name_wait_abgc01_wola_body_njm
+  - dolmolm_motion_name_wait2_abgc01_wola_body_njm
+  - dolmolm_motion_name_wake_abgc01_wola_body_njm
+  - dolmolm_motion_name_walk_abgc01_wola_body_njm
+  - bm_ene_abgc01_wola_body_bml_filename
+  - dolmolm_model_name_lo_abgc01_wola_body_nj
+  - dolmolm_model_name_lo_abgc01l_wola_body_nj
+  - bm_ene_abgc01_wola_body_low_bml_filename
   - lbl_804750C8
   - TObjEneDelDepth__class_name_string
   - TObjEneDelDepthBomb__class_name_string
