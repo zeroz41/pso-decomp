@@ -667,7 +667,7 @@ void TQuestVmDownLoadServer::run_task() {
         ((TQuestVmDownLoadServer *)arg0)->close();
         break;
     case 18:
-        ((TQuestVmDownLoadServer *)arg0)->check_back_to_open_input();
+        ((TQuestVmDownLoadServer *)arg0)->sub_801F6D24();
         break;
     case 21:
         ((TQuestVmDownLoadServer *)arg0)->destroy();
@@ -1225,7 +1225,7 @@ void TQuestVmDownLoadServer::show_status_message(s32 text, s32 arg2) {
     ((TMessageWindowController *)(arg0 + 0x1C))->display_message((const char *)text, (s32)(arg2 | 0x80));
 }
 void TQuestVmDownLoadServer::close_message() { if (*(unsigned int *)&this->m_294 != 0) { ((TMessageWindowController *)((char*)this + 0x1c))->close(); *(int *)&this->m_294 = 0; } }
-void TQuestVmDownLoadServer::check_back_to_open_input() {
+void TQuestVmDownLoadServer::sub_801F6D24() {
     u8 *p;
     if (((QVm_801F6D24 *)this)->f294 == 0 || ((TMessageWindowController *)((u8 *)((QVm_801F6D24 *)this) + 0x1C))->is_ready() != 0) {
         p = ((u8 *)&controller_input_state) + 0x20;

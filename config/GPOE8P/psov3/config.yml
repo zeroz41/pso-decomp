@@ -16223,7 +16223,7 @@ force_active:
   - sub_801ADC7C__12TPhotonPillaFv
   - check_dismiss_to_close_input__22TQuestVmDownLoadServerFv
   - handle_download_done_input__22TQuestVmDownLoadServerFv
-  - check_back_to_open_input__22TQuestVmDownLoadServerFv
+  - sub_801F6D24__22TQuestVmDownLoadServerFv
   - build_file_info_image__22TQuestVmDownLoadServerFv
   - build_file_slot_image__22TQuestVmDownLoadServerFv
   - count_download_file_blocks__22TQuestVmDownLoadServerFv

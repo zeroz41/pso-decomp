@@ -32,7 +32,7 @@ public:
     void handle_confirm_input();
     void build_file_slot_image();
     void build_file_info_image();
-    void check_back_to_open_input();
+    void sub_801F6D24();
     void handle_download_done_input();
     void check_dismiss_to_close_input();
     virtual void run_task();
