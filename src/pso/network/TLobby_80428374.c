@@ -35,7 +35,6 @@ extern s32 lobby_buffer_pool_end;
 extern s32 lbl_805D7BFC;
 
 s32 TLobby__sub_803F97E8(int);
-extern void *lbl_805C18A0[];
 s32 modem_script_next_token(u8 *src, u8 *dst, u8 **next);
 s16 TLobby__sub_804293B0(u8 *buf, s16 len);
 s16 TLobby__sub_804036FC(u16 *avail);
@@ -137,19 +136,19 @@ static inline s16 modem_wait_connect(void) {
             ret = 4;
             break;
         }
-        unlock_mutex((s32)lbl_805C18A0[0]);
+        unlock_mutex(lbl_805C18A0.mutex);
         TLobby__sub_803F97E8(100);
-        lock_mutex((s32)lbl_805C18A0[0]);
+        lock_mutex(lbl_805C18A0.mutex);
     }
     return ret;
 }
 
 /* Runs a modem script line by line (DIAL, SEND, WAIT, DELAY, TERMINAL). */
-s16 modem_run_script(u8 *script, ModemScriptSession *sess) {
-    s16 modem_script_next_token(u8 *, u8 *, u8 **);
-    s16 modem_script_send(void);
-    s16 modem_script_dial(u8 *);
-    s16 wait_timeout_loop(void *);
+s16 modem_run_script(u8 *script, NetSession *sess) {
+    s16 modem_script_next_token(u8 *, u8 *, u8 **); /* declared s16 here; the definition returns s32 */
+    s16 modem_script_send(void); /* declared s16 here; the definition returns s32 */
+    s16 modem_script_dial(u8 *); /* declared s16 here; the definition returns s32 */
+    s16 wait_timeout_loop(void *); /* declared s16 here; the definition returns s32 */
     u8 *p;
     s16 nstr;
     s16 nint;
@@ -242,9 +241,9 @@ s32 wait_timeout_loop(void *params) {
         if ((u32)(now - start) > limit) {
             break;
         }
-        unlock_mutex((int)lbl_805C18A0[0]);
+        unlock_mutex(lbl_805C18A0.mutex);
         TLobby__sub_803F97E8(100);
-        lock_mutex((int)lbl_805C18A0[0]);
+        lock_mutex(lbl_805C18A0.mutex);
     }
     return ret;
 }
@@ -675,9 +674,9 @@ s16 TLobby__sub_804293B0(u8 *buf, s16 len) {
             lobby_modem_wait_timeout_ms = 0;
             return -1;
         }
-        unlock_mutex((int)lbl_805C18A0[0]);
+        unlock_mutex(lbl_805C18A0.mutex);
         TLobby__sub_803F97E8(100);
-        lock_mutex((int)lbl_805C18A0[0]);
+        lock_mutex(lbl_805C18A0.mutex);
     }
     return 0;
 }

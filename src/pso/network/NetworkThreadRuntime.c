@@ -530,7 +530,7 @@ s32 verify_message_sequence(Obj_803FA664 *obj, Msg_803FA664 *msg, u32 expected) 
 s32 TLobby__sub_803FA7B0(u8 *self, u8 *src, void *h)
 {
   u32 sh;
-  B_803FADA0 *blk;
+  PppFrame *blk;
   u8 *m;
   s32 cnt;
   s16 r;
@@ -674,7 +674,7 @@ void *TLobby__sub_803FABDC(void *self) {
     s16 bits;
     u8 *s;
     u8 *p;
-    B_803FADA0 *obj;
+    PppFrame *obj;
 
     p = *(u8 **)((u8 *)self + 0x30);
     obj = 0;
@@ -731,15 +731,15 @@ void TLobby__sub_803FACD8(u32 *self, void *src, s32 mask)
   {
     if (m & (1 << i))
     {
-      TLobby__sub_803FADA0((B_803FADA0 **) self, (A_803FADA0 *) src, optnum_803FACD8(i), lbl_804FD398[i], 0);
+      TLobby__sub_803FADA0((PppFrame **) self, (A_803FADA0 *) src, optnum_803FACD8(i), lbl_804FD398[i], 0);
     }
   }
 
 }
 #pragma pop
-void TLobby__sub_803FADA0(B_803FADA0 **pbuf, A_803FADA0 *hdr, s32 type, s32 total_len, void *src) {
+void TLobby__sub_803FADA0(PppFrame **pbuf, A_803FADA0 *hdr, s32 type, s32 total_len, void *src) {
     u8 *p;
-    B_803FADA0 *b;
+    PppFrame *b;
     s16 n;
     n = total_len - 2;
     if (*pbuf != NULL) {
@@ -751,7 +751,7 @@ void TLobby__sub_803FADA0(B_803FADA0 **pbuf, A_803FADA0 *hdr, s32 type, s32 tota
         }
         *pbuf = b;
     }
-    p = b->buf + b->len;
+    p = b->data + b->len;
     p[0] = type;
     p[1] = total_len;
     p += 2;

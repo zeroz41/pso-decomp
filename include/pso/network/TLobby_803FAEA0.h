@@ -80,7 +80,7 @@ u8 *copy_name_buffer(void *src);
 s16 NetGetLinkStatus(NetLinkStatus *status);
 s32 NetLinkDisconnect(NetWaitParam *param);
 s32 NetLinkConnect(NetConnectCfg *cfg);
-s16 NetApplyConnectionConfig(u8 *config);
+s16 NetApplyConnectionConfig(NetConnectCfg *config);
 s32 get_remaining(s32 arg0);
 s32 is_timed_out(void);
 s32 TLobby__sub_803FB6A0(void);

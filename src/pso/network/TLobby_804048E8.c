@@ -31,7 +31,7 @@ u32 lbl_805C0FD0[560];
 u32 lbl_805C1890[4];
 #pragma pop
 
-s32 TLobby__sub_804053B8(B_80403F4C *, Strm_80405A74 **);
+s32 TLobby__sub_804053B8(B_80403F4C *, PppFrame **); /* declared here with other parameter types; the definition is s32 (void *, u8 **) */
 u8 *TLobby__sub_8040555C(B_80403F4C *, u8 *, s32);
 u8 *GXLoadTexObjPreLoaded(A_80403F4C *, u8 *, s32);
 s32 NetMemcmp(void *, void *, int);
@@ -52,7 +52,7 @@ inline u8 *vj_encode(u8 *cp, u32 n) {
     return cp;
 }
 
-s32 TLobby__sub_804048E8(Obj_80403F4C *comp, Strm_80405A74 **m, s16 compress_cid) {
+s32 TLobby__sub_804048E8(Obj_80403F4C *comp, PppFrame **m, s16 compress_cid) {
     Ent_80403F4C *cs;
     Ent_80403F4C *lastcs;
     Ent_80403F4C *lcs;
@@ -77,14 +77,14 @@ s32 TLobby__sub_804048E8(Obj_80403F4C *comp, Strm_80405A74 **m, s16 compress_cid
         } else {
             comp->n14++;
         }
-        *m = (Strm_80405A74 *)GXLoadTexObjPreLoaded(&a, (u8 *)*m, 1);
+        *m = (PppFrame *)GXLoadTexObjPreLoaded(&a, (u8 *)*m, 1);
         return 0x40;
     }
     hlen += TLobby__sub_804053B8(&b, m);
     if (b.syn || b.fin || b.rst || !b.ack_flag) {
         comp->n14++;
-        *m = (Strm_80405A74 *)TLobby__sub_8040555C(&b, (u8 *)*m, 0);
-        *m = (Strm_80405A74 *)GXLoadTexObjPreLoaded(&a, (u8 *)*m, 1);
+        *m = (PppFrame *)TLobby__sub_8040555C(&b, (u8 *)*m, 0);
+        *m = (PppFrame *)GXLoadTexObjPreLoaded(&a, (u8 *)*m, 1);
         return 0x40;
     }
     for (;;) {
@@ -183,12 +183,12 @@ found:
     cs->b = b;
     deltaS = cp - (u8 *)lbl_805C1890;
     if (compress_cid == 0 || comp->last_xmit != cs->id) {
-        cp = (*m = (Strm_80405A74 *)alloc_from_buffer(*m, deltaS + 4))->p;
+        cp = (*m = (PppFrame *)alloc_from_buffer(*m, deltaS + 4))->data;
         *cp++ = changes | 0x40;
         *cp++ = cs->id;
         comp->last_xmit = cs->id;
     } else {
-        cp = (*m = (Strm_80405A74 *)alloc_from_buffer(*m, deltaS + 3))->p;
+        cp = (*m = (PppFrame *)alloc_from_buffer(*m, deltaS + 3))->data;
         *cp++ = (s8)changes;
     }
     cp = write_network_u16_be(cp, deltaA);
@@ -202,8 +202,8 @@ uncompressed:
     cs->b = b;
     comp->last_xmit = cs->id;
     comp->n18++;
-    *m = (Strm_80405A74 *)TLobby__sub_8040555C(&b, (u8 *)*m, 0);
-    *m = (Strm_80405A74 *)GXLoadTexObjPreLoaded(&a, (u8 *)*m, 1);
+    *m = (PppFrame *)TLobby__sub_8040555C(&b, (u8 *)*m, 0);
+    *m = (PppFrame *)GXLoadTexObjPreLoaded(&a, (u8 *)*m, 1);
     return 0x70;
 }
 #pragma pop
@@ -249,4 +249,4 @@ s32 init_net_list(s16 count1, s16 count2) {
 
 ArpState lbl_805C1AB0;
 u8 lbl_805C18B0[0x200];
-u32 lbl_805C18A0[4];
+NetThreadState lbl_805C18A0;

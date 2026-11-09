@@ -56,7 +56,7 @@ typedef struct ModemConfig {
     u8 pad39[3];
     s32 w3C;
     s32 w40;
-    s32 w44;
+    char *w44;          /* the script run after hanging up (TLobby__sub_803FB6A0), when h6 is set */
     char *s48;
     s32 w4C;
     s32 w50;
@@ -65,23 +65,51 @@ typedef struct ModemConfig {
     char *init_command; /* "AT+MS=V34\r" by default (connect_modem) */
 } ModemConfig;
 
-// Modem dial-script session; the script substitutes %t, %u and %p with
-// these strings (field names inferred from the substitution keys).
-typedef struct ModemScriptSession {
-    u8 pad00[0xC];
-    char *user;
-    char *password;
-    char *phone_number;
-    u8 pad18[0x70];
-    ModemRequest req;
-} ModemScriptSession;
+/* The session (lbl_805BFF68, TLobby_803FAEA0.c): NetApplyConnectionConfig copies the connection request (NetConnectCfg)
+ * into it and TLobby__sub_803FB7A4 connects with it. A dial script substitutes %t, %u and %p with phone_number, user and
+ * password. */
+typedef struct NetSession {
+    u16 flags;                  /* NetConnectCfg.flags; bit 2: no modem */
+    s16 h2;                     /* 0x02 */
+    s16 h4;                     /* 0x04 */
+    u8 pad6[2];
+    s32 connect_ms;             /* 0x08: when PPP started (state 3); is_timed_out gives up 60 s later */
+    char *user;                 /* 0x0C */
+    char *password;             /* 0x10 */
+    char *phone_number;         /* 0x14 */
+    void (*cb)(s16, s32);       /* 0x18: status callback */
+    ModemConfig modem;          /* 0x1C: a copy of the default (init_net_session, copy_name_buffer) */
+    s16 h7C;                    /* 0x7C: NetConnectCfg.h18 .. h20 */
+    s16 h7E;
+    s16 h80;
+    s16 h82;
+    s16 h84;
+    u8 pad86[2];
+    ModemRequest req;           /* 0x88: NetConnectCfg.h24 .. prefix */
+    s16 h98;                    /* 0x98: NetConnectCfg.h34 .. h40; the low 7 bits select the authentication */
+    s16 mtu;                    /* 0x9A: 0 = the default (lobby_net_buffer_desc_b) */
+    s32 start_tick;             /* 0x9C */
+    u16 uA0;
+    u16 uA2;
+    s16 hA4;
+    u8 padA6[2];
+    s32 wA8;                    /* 0xA8: NetConnectCfg.w44 .. w58 */
+    s32 wAC;
+    s32 wB0;
+    s32 wB4;
+    s32 wB8;
+    s32 wBC;
+    u8 bufC0[8];                /* 0xC0: NetConnectCfg.b5C */
+    u8 bufC8[8];                /* 0xC8: NetConnectCfg.b64 */
+} NetSession;
+typedef char NetSession_size_check[sizeof(NetSession) == 0xD0 ? 1 : -1];
 
 /* TLobby_80428374.c: the modem session (dial-script expansion, timed waits) and the buffer pool's bounds. */
 #ifdef __cplusplus
 extern "C" {
 #endif
 s32 init_modem_session_config(void);
-s16 modem_run_script(u8 *script, ModemScriptSession *sess);
+s16 modem_run_script(u8 *script, NetSession *sess);
 s16 modem_script_wait(ModemRequest *req);
 s32 modem_script_send(void);
 s32 modem_script_dial(u8 *request);

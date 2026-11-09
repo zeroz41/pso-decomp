@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/network/NetStackTypes.h"
+#include "pso/network/NetPppLink.h"
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_803FC178.h"
 #include "pso/network/TLobby_804048E8.h"
@@ -12,16 +13,9 @@ typedef struct Self_803FD74C Self_803FD74C;
 typedef struct Tbl_803FD74C Tbl_803FD74C;
 typedef struct Self_803FD85C Self_803FD85C;
 typedef struct Tbl_803FD85C Tbl_803FD85C;
-typedef struct RecoveredGlobal_803FD520_lbl_805C0310 RecoveredGlobal_803FD520_lbl_805C0310;
-typedef struct RecoveredGlobal_80401A68_lbl_805C04A8 RecoveredGlobal_80401A68_lbl_805C04A8;
-typedef struct RecoveredGlobal_80402B60_lbl_805C0620 RecoveredGlobal_80402B60_lbl_805C0620;
-typedef struct RecoveredGlobal_80403D28_lbl_805C0638 RecoveredGlobal_80403D28_lbl_805C0638;
-typedef struct Inner_80401CAC Inner_80401CAC;
-typedef struct Outer_80401CAC Outer_80401CAC;
 typedef struct Sub_803FF858 Sub_803FF858;
 typedef struct Obj_803FF858 Obj_803FF858;
 typedef struct O_80400ACC O_80400ACC;
-typedef struct Ent_80401B20 Ent_80401B20;
 typedef struct Self_803FDA68 Self_803FDA68;
 typedef struct Tbl_803FDA68 Tbl_803FDA68;
 typedef struct V_803FE600 V_803FE600;
@@ -53,35 +47,9 @@ struct Tbl_803FD85C {
     u8 pad18[8];
     void (*f20)(Self_803FD85C *, Tbl_803FD85C *);
 };
-struct RecoveredGlobal_803FD520_lbl_805C0310 {
-    s16 h0;
-    s16 h2;
-    s16 h4;
-    s16 h6;
-    s16 h8;
-    u8 padA[2];
-    s16 *buf;
-    u8 pad10[6];
-    s16 h16;
-};
-struct RecoveredGlobal_80401A68_lbl_805C04A8 {
-    s32 value;
-    u8 remaining[0x2C];
-};
-struct RecoveredGlobal_80402B60_lbl_805C0620 {
-    s32 value;
-    u8 remaining[0x14];
-};
-struct RecoveredGlobal_80403D28_lbl_805C0638 {
-    s32 value;
-    u8 remaining[0x9C];
-};
-struct Inner_80401CAC { u8 pad[4]; u16 f4; };
-struct Outer_80401CAC { Inner_80401CAC *p; };
 struct Sub_803FF858 { u8 pad0[0x28]; s16 h1C; };
 struct Obj_803FF858 { u8 pad0; u8 b1; u8 pad2[4]; u8 b6; u8 pad7[4]; u8 bB; u8 padC[0x24]; Sub_803FF858 *p30; };
 struct O_80400ACC { u8 b0; u8 b1; u8 b2; u8 pad3[0x108 - 3]; s32 f108; };
-struct Ent_80401B20 { u8 *p0; u16 h4; };
 struct Self_803FDA68 {
     u8 f0; u8 f1; u8 f2; u8 f3; u8 f4; u8 f5; u8 f6; u8 f7;
     s16 f8; u8 padA[6];
@@ -116,12 +84,10 @@ struct Names_80403168 {
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern RecoveredGlobal_80402B60_lbl_805C0620 lbl_805C0620;
-extern RecoveredGlobal_80403D28_lbl_805C0638 lbl_805C0638;
 extern Names_80403168 lbl_805C04D8;
 extern u8 lobby_ppp_read_buf;
 s16 TLobby__sub_803FFB84(void *self, void *p, void *a, u8 *hdr, s16 c);
-u32 TLobby__sub_803FE9F8(u32 sum, UnkSumBuf* buf, u16 count);
+u32 TLobby__sub_803FE9F8(u32 sum, PppFrame* buf, u16 count);
 void TLobby__sub_803FD0C0(void);
 void TLobby__sub_803FE820(s32 arg0);
 s32 set_socket_flags_by_mode(s16 arg0, u8 *arg1);
@@ -132,7 +98,7 @@ s32 TLobby__sub_80403D28(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 a
 s32 TLobby__sub_803FE6CC(void *self, int a, int b, void *c);
 s32 TLobby__sub_803FE658(u8 *arg0);
 void TLobby__sub_803FD958(u8 *arg0);
-void TLobby__sub_80401CAC(Outer_80401CAC *o, u16 v);
+void TLobby__sub_80401CAC(PppFrame **o, u16 v);
 u16 read_network_u16_be(u8 *p);
 u32 TLobby__sub_80402AFC(u8 *p);
 u8 *write_network_u16_be(u8 *p, u16 v);
@@ -143,8 +109,8 @@ s32 TLobby__sub_80403B04(u8 *arg0, u8 *arg1, s32 arg2);
 s16 TLobby__sub_80402BB4(void *arg0, u32 timeout);
 s32 TLobby__sub_80403BA8(u8 *arg0, u8 *arg1, s32 arg2);
 void TLobby__sub_8040098C(Conn_804004DC *c);
-s16 TLobby__sub_80403F4C(void *ov, Strm_80405A74 **spp);
-B_803FADA0 *init_net_buffer_entry(u16 idx);
+s16 TLobby__sub_80403F4C(void *ov, PppFrame **spp);
+PppFrame *init_net_buffer_entry(u16 idx);
 void TLobby__sub_80400270(u32 *self, void *opt, s32 mask);
 s32 TLobby__sub_803FF858(Obj_803FF858 *arg0, Msg_803FA664 *arg1, u32 arg2);
 s16 TLobby__sub_803FD5A4(s16 h, s16 v);
@@ -168,10 +134,9 @@ s32 set_target_slot(u8 *arg0, s32 arg1);
 void *TLobby__sub_803FCF44(Conn_804004DC *c);
 s32 TLobby__sub_803FE8BC(u8 *dst, void *src);
 void TLobby__sub_80400ACC(O_80400ACC *o);
-Ent_80401B20 *TLobby__sub_80401B20(void *src, u16 n);
+PppFrame *TLobby__sub_80401B20(void *src, u16 n);
 void TLobby__sub_80401EB8(u8* self_m, u8* src, u32 len);
 void TLobby__sub_80401D2C(u8 *dst, u32 *self_m);
-extern RecoveredGlobal_80401A68_lbl_805C04A8 lbl_805C04A8;
 #ifdef __cplusplus
 }
 #endif

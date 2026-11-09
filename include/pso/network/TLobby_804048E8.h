@@ -2,15 +2,10 @@
 #define PSO_NETWORK_TLOBBY_804048E8_H
 
 #include "types.h"
+#include "pso/network/NetworkRuntime.h"
 
 /* TLobby_804048E8.c: the stack's connection list (node pools). */
 
-/* A cursor over a packet buffer: data pointer and remaining length. */
-typedef struct Strm_80405A74 {
-    u8 *p;
-    u16 len;
-} Strm_80405A74;
-typedef char Strm_80405A74_size_check[sizeof(Strm_80405A74) == 8 ? 1 : -1];
 
 /* An IPv4 header decoded by TLobby__sub_803FEA88. */
 typedef struct A_80403F4C {
@@ -93,7 +88,7 @@ extern "C" {
 #endif
 void TLobby__sub_80405000(u32 arg0);
 s32 init_net_list(s16 count2, s16 count1);
-s32 TLobby__sub_803FEA88(A_80403F4C *out, Strm_80405A74 **src);
+s32 TLobby__sub_803FEA88(A_80403F4C *out, PppFrame **src);
 #ifdef __cplusplus
 }
 #endif

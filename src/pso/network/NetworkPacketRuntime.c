@@ -52,7 +52,6 @@ u8 network_packet_buffers[NETWORK_PACKET_BUFFER_COUNT][NETWORK_PACKET_BUFFER_BYT
 extern u32 network_packet_mutex;
 void TAdSinglePlyChrSelectGC__sub_8042DDE4(int, int);
 
-s16 TLobby__sub_804262CC(void *);
 s32 NetUnregisterTimer(void *fn);
 s32 TLobby__sub_804250A8(s32);
 extern u8 TLobby__sub_80423298[];

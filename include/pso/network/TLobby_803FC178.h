@@ -6,8 +6,6 @@
 
 /* TLobby_803FC178.c: PPP (LCP/IPCP/CHAP/PAP, MD5), the connection state machine and the stack's buffer streams. */
 typedef struct Blk24_8047FE50 Blk24_8047FE50;
-typedef struct UnkSumBuf UnkSumBuf;
-typedef struct RecoveredGlobal_803FB110_lbl_805BFF68 RecoveredGlobal_803FB110_lbl_805BFF68;
 typedef struct RecoveredGlobal_803AA0C0_lbl_80556E88 RecoveredGlobal_803AA0C0_lbl_80556E88;
 typedef struct Sub_803FC480 Sub_803FC480;
 typedef struct Obj_803FC480 Obj_803FC480;
@@ -16,11 +14,6 @@ typedef struct RecoveredGlobal_803F88E4_lbl_805AEEB0 RecoveredGlobal_803F88E4_lb
 typedef struct RecoveredFields_803F88E4_arg0 RecoveredFields_803F88E4_arg0;
 typedef struct Hdr_803FC4B4 Hdr_803FC4B4;
 struct Blk24_8047FE50 { u32 w[6]; };
-struct UnkSumBuf { u8 *data; u16 len; };
-struct RecoveredGlobal_803FB110_lbl_805BFF68 {
-    s32 value;
-    u8 remaining[0xCC];
-};
 struct RecoveredGlobal_803AA0C0_lbl_80556E88 {
     s32 value;
     u8 remaining[0xFC];
@@ -48,7 +41,6 @@ struct RecoveredFields_803F88E4_arg0
 };
 typedef char RecoveredGlobal_803F88E4_lbl_805AEEB0_size[((sizeof(RecoveredGlobal_803F88E4_lbl_805AEEB0)) == 0x49C8) ? (1) : (-1)];
 typedef char RecoveredGlobal_803AA0C0_lbl_80556E88_size[sizeof(RecoveredGlobal_803AA0C0_lbl_80556E88) == 0x100 ? 1 : -1];
-typedef char RecoveredGlobal_803FB110_lbl_805BFF68_size[sizeof(RecoveredGlobal_803FB110_lbl_805BFF68) == 0xD0 ? 1 : -1];
 struct Hdr_803FC4B4 { u8 type; u8 flag; s16 len; };
 #ifdef __cplusplus
 extern "C" {

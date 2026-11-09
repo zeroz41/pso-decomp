@@ -10,21 +10,13 @@ typedef struct Bits_803FF698 Bits_803FF698;
 typedef struct Self_803FF698 Self_803FF698;
 typedef struct Src_803FC178 Src_803FC178;
 typedef struct St_8040098C St_8040098C;
-typedef struct RecoveredGlobal_80401A90_lbl_805C04A8 RecoveredGlobal_80401A90_lbl_805C04A8;
-typedef struct RecoveredGlobal_80402B88_lbl_805C0620 RecoveredGlobal_80402B88_lbl_805C0620;
 typedef struct Ent_80400744 Ent_80400744;
 typedef struct Self_80400744 Self_80400744;
 typedef struct Msg_80400744 Msg_80400744;
 typedef struct RecoveredFields_80401B8C_arg0 RecoveredFields_80401B8C_arg0;
-typedef struct RecoveredGlobal_803FD21C_lobby_net_buffer_desc_b RecoveredGlobal_803FD21C_lobby_net_buffer_desc_b;
-typedef struct RecoveredGlobal_803FD310_lobby_net_buffer_desc_b RecoveredGlobal_803FD310_lobby_net_buffer_desc_b;
-typedef struct E_803FD560 E_803FD560;
-typedef struct G_803FD560 G_803FD560;
 typedef struct P_803FF48C P_803FF48C;
 typedef struct Q_803FF48C Q_803FF48C;
 typedef struct Opt_80400338 Opt_80400338;
-typedef struct G_80401B20 G_80401B20;
-typedef struct G_80401CE8 G_80401CE8;
 /* This file's functions. */
 u8 * alloc_from_buffer(void *self, s16 arg1);
 s32 clear_socket_slot(s16 i);
@@ -127,16 +119,6 @@ typedef struct LcpOpts {
 typedef char LcpOpts_size_check[sizeof(LcpOpts) == 0x68 ? 1 : -1];
 struct St_8040098C { s8 f0; u8 f1; u8 f2; u8 pad3[0x69]; u8 f6C[0x9C]; s32 f108; s32 f10C; };
 
-struct RecoveredGlobal_80401A90_lbl_805C04A8 {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
-struct RecoveredGlobal_80402B88_lbl_805C0620 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 #include <stddef.h>
 #include "pso/network/NetStackTypes.h"
 
@@ -159,18 +141,6 @@ typedef struct Cfg_804019A8 {
     u8 b19;
 } Cfg_804019A8;
 
-struct RecoveredGlobal_803FD21C_lobby_net_buffer_desc_b {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_803FD310_lobby_net_buffer_desc_b {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-extern RecoveredGlobal_804050DC_lbl_805C18A0 lbl_805C18A0;
-extern RecoveredGlobal_803FD520_lbl_805C0310 lobby_net_buffer_desc_b;
 s32 TLobby__sub_803F79BC(void *);
 s32 TLobby__sub_803F778C(void *);
 s32 TLobby__sub_804036FC(u8 *arg0);
@@ -193,16 +163,14 @@ struct Buf_803FC684;
 struct N_80405298;
 
 struct O_80400ACC;
-struct Outer_80401CAC;
 
-struct Ent_80401B20;
-inline s32 chap_rbs_803FC820(B_803FADA0 **src) {
+inline s32 chap_rbs_803FC820(PppFrame **src) {
     if (TLobby__sub_80401BCC(src, &lbl_805D7A98, 1) != 1) {
         return -1;
     }
     return (s16)lbl_805D7A98;
 }
-inline s32 chap_rb_803FC820(B_803FADA0 **src) {
+inline s32 chap_rb_803FC820(PppFrame **src) {
     s32 fast = 0;
     s32 valid = 0;
     if (src != NULL && *src != NULL) {
@@ -213,12 +181,12 @@ inline s32 chap_rb_803FC820(B_803FADA0 **src) {
     }
     if (fast) {
         (*src)->len--;
-        return *(*src)->buf++;
+        return *(*src)->data++;
     }
     return chap_rbs_803FC820(src);
 }
 
-inline s32 rd_803FCC10(UnkSumBuf **pp) {
+inline s32 rd_803FCC10(PppFrame **pp) {
     s32 ok1;
     s32 ok2;
     ok2 = 0;
@@ -243,7 +211,7 @@ void *TLobby__sub_803FCF44(Conn_804004DC *c)
   PppChap *chap = c->opts;
   s32 tick;
   char name[] = "avetcp";
-  B_803FADA0 *buf;
+  PppFrame *buf;
   u8 *p;
   s16 i;
   u16 len;
@@ -259,7 +227,7 @@ void *TLobby__sub_803FCF44(Conn_804004DC *c)
   {
     return NULL;
   }
-  p = buf->buf;
+  p = buf->data;
   NetStoreTick(&tick);
   *(u16 *)&lbl_805D7A9A = (tick & 0x1F) + 0x10;
   *p++ = *(u16 *)&lbl_805D7A9A;
@@ -271,13 +239,13 @@ void *TLobby__sub_803FCF44(Conn_804004DC *c)
   NetCopyString((char *)p, name);
   buf->len += *(u16 *)&lbl_805D7A9A + (u16)NetStringLength(name) + 1;
   len = buf->len;
-  lim = lbl_805C02D0.f28;
+  lim = lbl_805C02D0.size8;
   n = len;
   if ((s16)len > lim)
   {
     n = lim;
   }
-  NetMemcpy(lbl_805C02D0.p8, buf->buf, n);
+  NetMemcpy(lbl_805C02D0.p8, buf->data, n);
   return buf;
 }
 
@@ -293,10 +261,10 @@ s32 set_flags_and_state(void *self) {
 
 void TLobby__sub_803F7980(void *);
 void TLobby__sub_803FD0C0(void) {
-    RecoveredGlobal_803FD520_lbl_805C0310 *g = &lobby_net_buffer_desc_b;
-    clear_table_entry_locked((s16)(g->h0));
-    g->h0 = -1;
-    g->h16 = 0;
+    PppLink *g = &lobby_net_buffer_desc_b;
+    clear_table_entry_locked((s16)(g->id));
+    g->id = -1;
+    g->count = 0;
     TLobby__sub_803F7980(g);
 }
 
@@ -310,7 +278,7 @@ s16 TLobby__sub_803FD10C(void) {
     s16 i;
     s16 *p;
 
-    init_buffer_desc_b((void *)(&lobby_net_buffer_desc_b));
+    init_buffer_desc_b(&lobby_net_buffer_desc_b);
     fns[0] = (Fn_803FD10C)TLobby__sub_803FD60C;
     fns[1] = (void (*)())TLobby__sub_803FD5A4;
     fns[2] = (Fn_803FD10C)clear_socket_slot;
@@ -326,14 +294,14 @@ s16 TLobby__sub_803FD10C(void) {
     if (r < 0) {
         return r;
     }
-    lobby_net_buffer_desc_b.h0 = r;
-    lobby_net_buffer_desc_b.h2 = 0;
-    lobby_net_buffer_desc_b.h4 = 0;
-    lobby_net_buffer_desc_b.h6 = 0;
-    lobby_net_buffer_desc_b.h8 = 0;
-    p = lobby_net_buffer_desc_b.buf;
+    lobby_net_buffer_desc_b.id = r;
+    lobby_net_buffer_desc_b.protocols[0].used = 0;
+    lobby_net_buffer_desc_b.protocols[0].type = 0;
+    lobby_net_buffer_desc_b.protocols[1].used = 0;
+    lobby_net_buffer_desc_b.protocols[1].type = 0;
+    p = lobby_net_buffer_desc_b.used;
     i = 0;
-    while (i < lobby_net_buffer_desc_b.h16) {
+    while (i < lobby_net_buffer_desc_b.count) {
         *p = 0;
         i++;
         p++;
@@ -343,58 +311,56 @@ s16 TLobby__sub_803FD10C(void) {
 
 #pragma push
 #pragma optimization_level 3
-typedef char RecoveredGlobal_803FD21C_lobby_net_buffer_desc_b_size[sizeof(RecoveredGlobal_803FD21C_lobby_net_buffer_desc_b) == 0x18 ? 1 : -1];
 s32 TLobby__sub_803FD21C(s16 arg0, s32 arg1, s32 arg2, u8 *arg3) {
-    s16 temp_r3;
-    u8 *temp_r31;
+    s16 len;
+    PppFrame *pkt;
     if ((arg0 != 0) && (arg0 != 1)) {
         return -0x112;
     }
-    temp_r31 = (u8 *)(*(u8 **)((s8 *)((s32 *)&lbl_805C04A8) + 0x14));
-    temp_r3 = TLobby__sub_804098B4(arg3);
-    if ((s16) *(s16 *)((s8 *)(&(*(RecoveredGlobal_803FD21C_lobby_net_buffer_desc_b *)&lobby_net_buffer_desc_b).value) + 0x14) < temp_r3) {
+    pkt = lbl_805C04A8.ip_out;
+    len = TLobby__sub_804098B4(arg3);
+    if (lobby_net_buffer_desc_b.size < len) {
         return -0x112;
     }
-    lock_mutex((int)((void *) (((s32 *)&lbl_805C18A0)[0])));
+    lock_mutex(lbl_805C18A0.mutex);
     if ((s16) lobby_modem_connect_state == 4) {
-        *(s32 *)((s8 *)temp_r31 + 0) = (s32) ((u8 *)(*(u8 **)((s8 *)((s32 *)&lbl_805C04A8) + 0x14)) + ((*(s32 *)((s8 *)((s32 *)&lbl_805C04A8) + 0) + 0x83) & 0xFFFFFFFC));
-        *(s16 *)((s8 *)temp_r31 + 4) = temp_r3;
-        TLobby__sub_80409908((void *)(*(s32 *)((s8 *)temp_r31 + 0)), (void *)(arg3));
-        TLobby__sub_80406328((s32) temp_r31, *(s16 *)((s8 *)((u8 *)(&(*(RecoveredGlobal_803FD21C_lobby_net_buffer_desc_b *)&lobby_net_buffer_desc_b).value) + (arg0 * 4)) + 4));
+        pkt->data = (u8 *)lbl_805C04A8.ip_out + ((lbl_805C04A8.headroom + 0x83) & 0xFFFFFFFC);
+        pkt->len = len;
+        TLobby__sub_80409908(pkt->data, arg3);
+        TLobby__sub_80406328((s32) pkt, lobby_net_buffer_desc_b.protocols[arg0].type);
     }
-    unlock_mutex((int)((void *) (((s32 *)&lbl_805C18A0)[0])));
+    unlock_mutex(lbl_805C18A0.mutex);
     return 0;
 }
 #pragma pop
 
 #pragma push
 #pragma optimization_level 3
-typedef char RecoveredGlobal_803FD310_lobby_net_buffer_desc_b_size[sizeof(RecoveredGlobal_803FD310_lobby_net_buffer_desc_b) == 0x18 ? 1 : -1];
 s32 TLobby__sub_803FD310(s16 arg0, s32 arg1, u8 *arg2) {
-    s16 temp_r3;
-    u8 *temp_r31;
+    s16 len;
+    PppFrame *pkt;
     if ((arg0 != 0) && (arg0 != 1)) {
         return -0x112;
     }
-    temp_r31 = (u8 *)(*(u8 **)((s8 *)((s32 *)&lbl_805C04A8) + 0x14));
-    temp_r3 = TLobby__sub_804098B4(arg2);
-    if ((s16) *(s16 *)((s8 *)(&(*(RecoveredGlobal_803FD310_lobby_net_buffer_desc_b *)&lobby_net_buffer_desc_b).value) + 0x14) < temp_r3) {
+    pkt = lbl_805C04A8.ip_out;
+    len = TLobby__sub_804098B4(arg2);
+    if (lobby_net_buffer_desc_b.size < len) {
         return -0x112;
     }
-    lock_mutex((int)((void *) (((s32 *)&lbl_805C18A0)[0])));
+    lock_mutex(lbl_805C18A0.mutex);
     if ((s16) lobby_modem_connect_state == 4) {
-        *(s32 *)((s8 *)temp_r31 + 0) = (s32) ((u8 *)(*(u8 **)((s8 *)((s32 *)&lbl_805C04A8) + 0x14)) + ((*(s32 *)((s8 *)((s32 *)&lbl_805C04A8) + 0) + 0x83) & 0xFFFFFFFC));
-        *(s16 *)((s8 *)temp_r31 + 4) = temp_r3;
-        TLobby__sub_80409908((void *)(*(s32 *)((s8 *)temp_r31 + 0)), (void *)(arg2));
-        TLobby__sub_80406328((s32) temp_r31, *(s16 *)((s8 *)((u8 *)(&(*(RecoveredGlobal_803FD310_lobby_net_buffer_desc_b *)&lobby_net_buffer_desc_b).value) + (arg0 * 4)) + 4));
+        pkt->data = (u8 *)lbl_805C04A8.ip_out + ((lbl_805C04A8.headroom + 0x83) & 0xFFFFFFFC);
+        pkt->len = len;
+        TLobby__sub_80409908(pkt->data, arg2);
+        TLobby__sub_80406328((s32) pkt, lobby_net_buffer_desc_b.protocols[arg0].type);
     }
-    unlock_mutex((int)((void *) (((s32 *)&lbl_805C18A0)[0])));
+    unlock_mutex(lbl_805C18A0.mutex);
     return 0;
 }
 #pragma pop
 
 extern s32 TLobby__sub_803FD404(s16 ch, u32 addr) {
-  p803FB184_Unk805BC510 *p = &(*(p803FB184_Unk805BC510*)&lobby_net_buffer_desc_b);
+  PppLink *p = &lobby_net_buffer_desc_b;
   s16 new_var;
   s16 size;
   s16 i;
@@ -405,10 +371,10 @@ extern s32 TLobby__sub_803FD404(s16 ch, u32 addr) {
   {
     return -0x112;
   }
-  used = p->unkC;
-  base = p->unk10;
-  size = p->unk14;
-  count = p->unk16;
+  used = p->used;
+  base = (u32)p->buffers;
+  size = p->size;
+  count = p->count;
   for (i = 0; i < count; i++, used++)
   {
     if ((((*used) != 0) && (base <= addr)) && (addr < (base + size)))
@@ -450,7 +416,6 @@ s32 TLobby__sub_803FD4FC(s16 arg0) {
     return 0;
 }
 
-typedef char RecoveredGlobal_803FD520_lbl_805C0310_size[sizeof(RecoveredGlobal_803FD520_lbl_805C0310) == 0x18 ? 1 : -1];
 s16 get_checked_status_value(s16 arg0) {
     if ((arg0 != 0) && (arg0 != 1)) {
         return -0x112;
@@ -458,19 +423,17 @@ s16 get_checked_status_value(s16 arg0) {
     if (lbl_805D7A7A != 0) {
         return 0x5AE;
     }
-    return *(s16 *)((s8 *)(&lobby_net_buffer_desc_b.h0) + 0x14);
+    return lobby_net_buffer_desc_b.size;
 }
 
-typedef struct E_803FD560 { s16 a; s16 b; } E_803FD560;
-struct G_803FD560 { s16 id; E_803FD560 e[2]; };
 s32 clear_socket_slot(s16 i) {
-    G_803FD560 *g;
+    PppLink *g;
     if (i != 0 && i != 1) {
         return -0x112;
     }
-    g = (G_803FD560 *)&lobby_net_buffer_desc_b;
-    g->e[i].a = 0;
-    g->e[i].b = 0;
+    g = &lobby_net_buffer_desc_b;
+    g->protocols[i].used = 0;
+    g->protocols[i].type = 0;
     return 0;
 }
 
@@ -478,17 +441,17 @@ void update_countdown_state(void *);
 
 s16 TLobby__sub_803FD5A4(s16 h, s16 v) {
     s16 r;
-    G_803FD560 *g = ((G_803FD560 *)&lobby_net_buffer_desc_b);
+    PppLink *g = &lobby_net_buffer_desc_b;
     if (h != g->id) { return -274; }
-    if (g->e[0].a == 0) {
+    if (g->protocols[0].used == 0) {
         r = 0;
-    } else if (g->e[1].a == 0) {
+    } else if (g->protocols[1].used == 0) {
         r = 1;
     } else {
         return -274;
     }
-    g->e[r].a = 1;
-    g->e[r].b = v;
+    g->protocols[r].used = 1;
+    g->protocols[r].type = v;
     return r;
 }
 
@@ -507,7 +470,7 @@ s32 TLobby__sub_803FD60C(ch, dst)
     u32 a;
     u32 b;
     u8 *p;
-    if (ch != *(s16 *)&lobby_net_buffer_desc_b) {
+    if (ch != lobby_net_buffer_desc_b.id) {
         return -0x112;
     }
     q = lbl_805C0038 + 0xd4;
@@ -746,7 +709,7 @@ static inline s16 read_packet_header(Hdr_803FC4B4 *dst, void *src, s32 with_ext)
 #pragma inline_depth(4)
 void TLobby__sub_803FDBF8(u8 *self, void *arg1)
 {
-    s16 TLobby__sub_803FE6CC();
+    s16 TLobby__sub_803FE6CC(); /* declared without a parameter list; the definition is s32 (void *, int, int, void *) */
     extern s32 lbl_805D7AA0;
     Hdr_803FC4B4 hdr;
     s16 rc;
@@ -758,7 +721,7 @@ void TLobby__sub_803FDBF8(u8 *self, void *arg1)
         return;
     }
     hdr.len -= 4;
-    TLobby__sub_80401CAC((Outer_80401CAC *)&arg1, hdr.len);
+    TLobby__sub_80401CAC((PppFrame **)&arg1, hdr.len);
     switch (hdr.type) {
     case 1:
         switch (self[0]) {
@@ -1038,23 +1001,23 @@ s32 TLobby__sub_803FE658(u8 *arg0) {
     return TLobby__sub_803FE6CC((void *) (arg0), 1, 0, (void *) ((*(s32 (**)(void *, void *))((s8 *)temp_r4 + 0x28))(arg0, temp_r4)));
 }
 
-extern s32 TLobby__sub_80406624(s32, s32, u16, UnkSumBuf *);
+s32 TLobby__sub_80406624(s32 a, s32 b, u16 code, void *self);
 #pragma push
 #pragma opt_lifetimes off
 extern s32 TLobby__sub_803FE6CC(void *self, int a, int b, void *c)
 {
-  RecoveredGlobal_80401A68_lbl_805C04A8 *new_var;
+  PppBuffers *new_var;
   u8 *new_var2;
-  UnkSumBuf *buf;
+  PppFrame *buf;
   u8 *r31 = *((u8 **) (((u8 *) self) + 0xc));
   s32 cmd;
   u8 *new_var3;
   s32 r27;
   u16 n;
-  if ((buf = (UnkSumBuf *) c) == 0)
+  if ((buf = (PppFrame *) c) == 0)
   {
-    UnkSumBuf *q = *((UnkSumBuf **) (((u8 *) (&lbl_805C04A8)) + 0x1c));
-    q->data = ((u8 *) q) + (((*(new_var = &lbl_805C04A8)).value + 0x83) & (~3));
+    PppFrame *q = lbl_805C04A8.reply;
+    q->data = ((u8 *) q) + (((*(new_var = &lbl_805C04A8)).headroom + 0x83) & (~3));
     q->len = 0;
     buf = q;
   }
@@ -1103,7 +1066,7 @@ extern s32 TLobby__sub_803FE6CC(void *self, int a, int b, void *c)
   }
   n = get_field_4((void *) buf) + 4;
   {
-    UnkSumBuf *out = (UnkSumBuf *) alloc_from_buffer((0, (void *) buf), 4);
+    PppFrame *out = (PppFrame *) alloc_from_buffer((0, (void *) buf), 4);
     u8 *dp = out->data;
     *dp++ = a;
     *dp++ = r27;
@@ -1119,7 +1082,7 @@ extern s32 TLobby__sub_803FE6CC(void *self, int a, int b, void *c)
     s16 v = *((s16 *) (r7 + 0x118));
     *((s16 *) (r7 + 0x118)) = v + 1;
   }
-  return TLobby__sub_80406624(0, 0, (*((UnkSumBuf **) (((u8 *) self) + 0x2c)))->len, buf);
+  return TLobby__sub_80406624(0, 0, (*((PppFrame **) (((u8 *) self) + 0x2c)))->len, buf);
 }
 #pragma pop
 void TLobby__sub_803FE820(s32 arg0) {
@@ -1162,7 +1125,7 @@ s32 TLobby__sub_803FE8BC(u8 *dst, void *src) {
     return 0;
 }
 
-extern u16 TLobby__sub_803FE934(u8* p, UnkSumBuf *buf, u16 count) {
+extern u16 TLobby__sub_803FE934(u8* p, PppFrame *buf, u16 count) {
     u32 sum = 0;
     s32 i;
     if (p != NULL) {
@@ -1174,7 +1137,7 @@ extern u16 TLobby__sub_803FE934(u8* p, UnkSumBuf *buf, u16 count) {
     return ~sum & 0xFFFF;
 }
 
-extern u32 TLobby__sub_803FE9F8(u32 sum, UnkSumBuf* buf, u16 count) {
+extern u32 TLobby__sub_803FE9F8(u32 sum, PppFrame* buf, u16 count) {
     s16 n;
     u16 last;
     s32 odd;
@@ -1205,8 +1168,8 @@ extern u32 TLobby__sub_803FE9F8(u32 sum, UnkSumBuf* buf, u16 count) {
 
 typedef struct IpHdr_803FEA88 { u8 ver_ihl; u8 tos; u16 len; u16 id; u16 frag; u8 ttl; u8 proto; u16 cksum; u32 src; u32 dst; } IpHdr_803FEA88;
 typedef char IpHdr_803FEA88_size_check[sizeof(IpHdr_803FEA88) == 0x14 ? 1 : -1];
-s32 TLobby__sub_803FEA88(A_80403F4C *out, Strm_80405A74 **src) {
-    Strm_80405A74 *e = *src;
+s32 TLobby__sub_803FEA88(A_80403F4C *out, PppFrame **src) {
+    PppFrame *e = *src;
     IpHdr_803FEA88 h;
     u32 hl;
     u16 frag;
@@ -1302,7 +1265,7 @@ u8 *GXLoadTexObjPreLoaded(A_80403F4C *arg0, u8 *arg1, s32 arg2) {
         u32 m = (u16)n;
         NetMemcpy(data, hdr, m);
         if ((u16)arg2 == 0) {
-            sum = TLobby__sub_803FE9F8(0, (UnkSumBuf *)arg1, n);
+            sum = TLobby__sub_803FE9F8(0, (PppFrame *)arg1, n);
             sum = (sum >> 16) + (sum & 0xFFFF);
             sum = (sum >> 16) + sum;
             *(u16 *)&hdr[10] = ~sum;
@@ -1315,18 +1278,18 @@ u8 *GXLoadTexObjPreLoaded(A_80403F4C *arg0, u8 *arg1, s32 arg2) {
 extern s32 lbl_805D7AA0;
 s16 TLobby__sub_803FED78(u8 *self) {
     u8 *p;
-    u32 *pd;
+    NetThreadState *pd;
     u8 *obj;
     s16 st;
     s16 *ps;
-    s16 check_connection_status(void *);
+    s16 check_connection_status(void *); /* declared s16 here; the definition returns s32 */
     st = 1;
     obj = *(u8 **)(self + 0xc);
     *(s16 *)(self + 8) = 0;
     ps = (s16 *)(lbl_805C0038 + 0xd4);
     ps[4] = 0;
     p = (u8 *)ps;
-    pd = (u32 *)&lbl_805C18A0;
+    pd = &lbl_805C18A0;
     goto test;
     while (1) {
         if (is_timed_out() != 0 || obj[0] == 4) {
@@ -1337,10 +1300,10 @@ s16 TLobby__sub_803FED78(u8 *self) {
         }
         if (*(s16 *)(self + 8) != 0) goto after;
         st = check_connection_status((void *)p);
-        unlock_mutex(pd[0]);
+        unlock_mutex(pd->mutex);
         TLobby__sub_803F97E8(0x64);
         process_expired_timers();
-        lock_mutex(pd[0]);
+        lock_mutex(pd->mutex);
 test:
         if (self[0] == 5) goto after;
         if (lbl_805D7AA0 >= 2) goto after;
@@ -1356,13 +1319,13 @@ after:
         *(s16 *)(self + 8) = 0;
         return 0;
     }
-    pd = (u32 *)&lbl_805C18A0;
+    pd = &lbl_805C18A0;
     while (st > 0) {
         st = check_connection_status((void *)p);
-        unlock_mutex(pd[0]);
+        unlock_mutex(pd->mutex);
         TLobby__sub_803F97E8(0x64);
         process_expired_timers();
-        lock_mutex(pd[0]);
+        lock_mutex(pd->mutex);
     }
     switch (st) {
     case 0:
@@ -1388,7 +1351,7 @@ void TLobby__sub_803FF48C(P_803FF48C *);
 extern s32 TLobby__sub_803FF50C(Self_803FF698 *self, u8 *item, s32 arg);
 extern s32 TLobby__sub_803FF698(Self_803FF698 *self, u8 *item, s32 arg);
 extern s32 TLobby__sub_803FF9A4(void *self, u8 *src, u32 bits);
-extern B_803FADA0 *TLobby__sub_80400174(void *self);
+extern PppFrame *TLobby__sub_80400174(void *self);
 void TLobby__sub_803FEF4C(u8 *self) {
     struct Blk36_8047FE18 *src = (struct Blk36_8047FE18 *)lbl_8047FE18;
     u8 *o = (u8 *)&lbl_805C0328;
@@ -1746,7 +1709,7 @@ extern s32 TLobby__sub_803FF9A4(void *self, u8 *src, u32 bits)
   s16 k;
   s16 res;
   s32 TLobby__sub_803FE6CC(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
-  void TLobby__sub_80400338(B_803FADA0 **pbuf, Opt_80400338 *opt, s32 type, s32 len, void *src);
+  void TLobby__sub_80400338(PppFrame **pbuf, Opt_80400338 *opt, s32 type, s32 len, void *src);
   base = *((u8 **) (((u8 *) self) + 0x30));
   n = *((s16 *) (src + 2));
   k = 2;
@@ -1778,7 +1741,7 @@ extern s32 TLobby__sub_803FF9A4(void *self, u8 *src, u32 bits)
       sh = (hdr[0] < 8) ? (hdr[0]) : ((((new_var = hdr[0]) >= 0x80) && (new_var < 0x90)) ? (new_var - 0x78) : (0));
       *((s16 *) (base + 0x74)) |= 1 << sh;
     }
-    TLobby__sub_80400338((B_803FADA0 **) (&buf), (Opt_80400338 *) (base + 0x74), hdr[0], hdr[1], &bits);
+    TLobby__sub_80400338((PppFrame **) (&buf), (Opt_80400338 *) (base + 0x74), hdr[0], hdr[1], &bits);
     if (res > 3)
     {
       TLobby__sub_803FE6CC(self, k, src[1], buf);
@@ -2048,9 +2011,9 @@ s16 TLobby__sub_803FFB84(void *self, void *p, void *a, u8 *hdr, s16 c)
   return res;
 }
 
-void TLobby__sub_80400338(B_803FADA0 **pbuf, Opt_80400338 *opt, s32 type, s32 len, void *src);
-extern B_803FADA0 *TLobby__sub_80400174(void *self) {
-    B_803FADA0 *blk;
+void TLobby__sub_80400338(PppFrame **pbuf, Opt_80400338 *opt, s32 type, s32 len, void *src);
+extern PppFrame *TLobby__sub_80400174(void *self) {
+    PppFrame *blk;
     s16 i;
     s16 flags;
     u8 *p;
@@ -2114,14 +2077,14 @@ void TLobby__sub_80400270(u32 *self, void *opt, s32 mask)
   {
     if (m & (1 << i))
     {
-      TLobby__sub_80400338((B_803FADA0 **) self, (Opt_80400338 *) opt, optnum_80400270(i), lbl_8047FE3C[i], 0);
+      TLobby__sub_80400338((PppFrame **) self, (Opt_80400338 *) opt, optnum_80400270(i), lbl_8047FE3C[i], 0);
     }
   }
 
 }
 #pragma pop
-void TLobby__sub_80400338(B_803FADA0 **pbuf, Opt_80400338 *opt, s32 type, s32 len, void *src) {
-    B_803FADA0 *buf;
+void TLobby__sub_80400338(PppFrame **pbuf, Opt_80400338 *opt, s32 type, s32 len, void *src) {
+    PppFrame *buf;
     s16 n;
     u8 *p;
     u8 *q;
@@ -2137,7 +2100,7 @@ void TLobby__sub_80400338(B_803FADA0 **pbuf, Opt_80400338 *opt, s32 type, s32 le
         }
         *pbuf = buf;
     }
-    p = buf->buf + buf->len;
+    p = buf->data + buf->len;
     p[0] = type;
     p[1] = len;
     p += 2;
@@ -2175,7 +2138,7 @@ void TLobby__sub_80400338(B_803FADA0 **pbuf, Opt_80400338 *opt, s32 type, s32 le
 }
 
 s32 wait_for_connection(Conn_804004DC *c) {
-    RecoveredGlobal_804050DC_lbl_805C18A0 *g;
+    NetThreadState *g;
     u8 *sub;
     sub = c->sub;
     g = &lbl_805C18A0;
@@ -2186,10 +2149,10 @@ s32 wait_for_connection(Conn_804004DC *c) {
             c->abort = 0;
             return -1;
         }
-        unlock_mutex(g->value);
+        unlock_mutex(g->mutex);
         TLobby__sub_803F97E8(100);
         process_expired_timers();
-        lock_mutex(g->value);
+        lock_mutex(g->mutex);
     }
     c->abort = 0;
     return 0;
@@ -2420,8 +2383,6 @@ void TLobby__sub_80400B98(u8 *arg0) {
     **(s8 **)((s8 *)arg0 + 0xC) = 1;
 }
 
-typedef char RecoveredGlobal_80401A68_lbl_805C04A8_size[sizeof(RecoveredGlobal_80401A68_lbl_805C04A8) == 0x30 ? 1 : -1];
-
 void save_timer_state(void *self) {
     LcpOpts *s;
     s32 t;
@@ -2572,7 +2533,7 @@ s32 TLobby__sub_80400F1C(Obj_803FF858 *arg0, Msg_803FA664 *arg1, u32 arg2) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline void add_lcp_options(B_803FADA0 **pbuf, s16 *vals, s16 mask) {
+inline void add_lcp_options(PppFrame **pbuf, s16 *vals, s16 mask) {
     s16 i;
 
     for (i = 1; i <= 8; i++) {
@@ -2587,7 +2548,7 @@ s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, Msg_803FA664 *msg, u32 src) {
     s32 remaining;
     s16 status;
     s16 r;
-    B_803FADA0 *reply;
+    PppFrame *reply;
     u8 hdr[2];
     s16 missing;
     s32 TLobby__sub_803FE6CC(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
@@ -2888,12 +2849,11 @@ s32 configure_mode_by_type(void *self, s16 type) {
 }
 
 void init_net_state_c(void) {
-    TLobby__sub_803F79BC((void *) (&lbl_805C04A8.value));
+    TLobby__sub_803F79BC(&lbl_805C04A8);
 }
 
-typedef char RecoveredGlobal_80401A90_lbl_805C04A8_size[sizeof(RecoveredGlobal_80401A90_lbl_805C04A8) == 0x30 ? 1 : -1];
 s32 init_net_subsystem_block(void) {
-    init_net_buffer_desc((void *)(&(*(RecoveredGlobal_80401A90_lbl_805C04A8 *)&lbl_805C04A8).value));
+    init_net_buffer_desc(&lbl_805C04A8);
     return 0;
 }
 
@@ -2912,16 +2872,15 @@ s32 TLobby__sub_80401ABC(u8* self_m, void* dst, s32 n)
     return m;
 }
 
-struct G_80401B20 { s32 f0; s32 f4; s32 f8; Ent_80401B20 *pC; };
 #pragma opt_propagation off
-Ent_80401B20 *TLobby__sub_80401B20(void *src, u16 n) {
-    G_80401B20 *g = (G_80401B20 *)&lbl_805C04A8;
-    Ent_80401B20 *t = g->pC;
-    Ent_80401B20 *e;
-    t->p0 = (u8 *)t + ((g->f0 + 0x83) & ~3);
+PppFrame *TLobby__sub_80401B20(void *src, u16 n) {
+    PppBuffers *g = &lbl_805C04A8;
+    PppFrame *t = g->packet;
+    PppFrame *e;
+    t->data = (u8 *)t + ((g->headroom + 0x83) & ~3);
     e = t;
-    NetMemcpy(e->p0, src, n);
-    e->h4 = n;
+    NetMemcpy(e->data, src, n);
+    e->len = n;
     return e;
 }
 #pragma opt_propagation reset
@@ -2941,24 +2900,24 @@ u8 *alloc_from_buffer(void *self, s16 arg1) {
 }
 
 extern s16 TLobby__sub_80401BCC(void *self, void *dst, u16 n) {
-    Strm_80405A74 *p;
+    PppFrame *p;
     s16 m;
     s16 total = 0;
 
     if (self == 0) {
         return 0;
     }
-    while (n != 0 && (p = *(Strm_80405A74 **)self) != 0) {
+    while (n != 0 && (p = *(PppFrame **)self) != 0) {
         m = (n < p->len) ? n : p->len;
         if (dst != 0) {
             if (m == 1) {
-                ((u8 *)dst)[0] = p->p[0];
+                ((u8 *)dst)[0] = p->data[0];
             } else if (m > 1) {
-                NetMemcpy(dst, p->p, m);
+                NetMemcpy(dst, p->data, m);
             }
             dst = (u8 *)dst + m;
         }
-        p->p += m;
+        p->data += m;
         total += m;
         n -= m;
         p->len -= m;
@@ -2969,11 +2928,11 @@ extern s16 TLobby__sub_80401BCC(void *self, void *dst, u16 n) {
     return total;
 }
 
-void TLobby__sub_80401CAC(Outer_80401CAC *o, u16 v) {
-    if (o == NULL || o->p == NULL) return;
+void TLobby__sub_80401CAC(PppFrame **o, u16 v) {
+    if (o == NULL || *o == NULL) return;
     if (v == 0) return;
-    if (o->p->f4 < v) return;
-    o->p->f4 = v;
+    if ((*o)->len < v) return;
+    (*o)->len = v;
 }
 
 u16 get_field_4(void *self) {
@@ -2981,15 +2940,14 @@ u16 get_field_4(void *self) {
     return *(u16 *)((s8 *)arg0 + 4);
 }
 
-typedef struct G_80401CE8 { s32 f0; u8 *f4; u8 pad8[2]; s16 hA; } G_80401CE8;
 #pragma push
 #pragma opt_propagation off
-B_803FADA0 *init_net_buffer_entry(u16 idx) {
-  G_80401CE8 *g = (G_80401CE8 *)&lbl_805C04A8;
-  B_803FADA0 *t = (B_803FADA0 *) (g->f4 + ((idx * g->hA) * ((((4 & 0xFFFFFFFFu) & 0xFFFFFFFFu) & 0xFFFFFFFFu) & 0xFFFFFFFFu)));
-  B_803FADA0 *e;
-  e = (B_803FADA0 *) (g->f4 + ((idx * g->hA) * ((((4 & 0xFFFFFFFFu) & 0xFFFFFFFFu) & 0xFFFFFFFFu) & 0xFFFFFFFFu)));
-  e->buf = ((u8 *) t) + ((g->f0 + 0x83) & (~3));
+PppFrame *init_net_buffer_entry(u16 idx) {
+  PppBuffers *g = &lbl_805C04A8;
+  PppFrame *t = (PppFrame *) (g->pool + ((idx * g->pool_words) * ((((4 & 0xFFFFFFFFu) & 0xFFFFFFFFu) & 0xFFFFFFFFu) & 0xFFFFFFFFu)));
+  PppFrame *e;
+  e = (PppFrame *) (g->pool + ((idx * g->pool_words) * ((((4 & 0xFFFFFFFFu) & 0xFFFFFFFFu) & 0xFFFFFFFFu) & 0xFFFFFFFFu)));
+  e->data = ((u8 *) t) + ((g->headroom + 0x83) & (~3));
   e->len = 0xFFFFFFFFu * 0;
   return e;
   e = t;
@@ -3081,8 +3039,6 @@ void init_md5_state(void *self) {
     ((Fields_arg0*)arg0)->field_8 = 0x98BADCFE;
     ((Fields_arg0*)arg0)->field_C = 0x10325476;
 }
-
-typedef char RecoveredGlobal_80402B60_lbl_805C0620_size[sizeof(RecoveredGlobal_80402B60_lbl_805C0620) == 0x18 ? 1 : -1];
 
 #define S11_80401FE8 7
 #define S12_80401FE8 12
@@ -3252,18 +3208,17 @@ u8 *write_network_u32_be(u8 *p, u32 v) {
 }
 
 void init_net_block_620(void) {
-    TLobby__sub_803F778C((void *) (&lbl_805C0620.value));
+    TLobby__sub_803F778C(&lbl_805C0620);
 }
 
-typedef char RecoveredGlobal_80402B88_lbl_805C0620_size[sizeof(RecoveredGlobal_80402B88_lbl_805C0620) == 0x18 ? 1 : -1];
 s32 init_net_block_620_secondary(void) {
-    init_net_block_620_params((void *)(&(*(RecoveredGlobal_80402B88_lbl_805C0620 *)&lbl_805C0620).value));
+    init_net_block_620_params(&lbl_805C0620);
     return 0;
 }
 
 extern s16 TLobby__sub_80402BB4(void *arg0, u32 timeout) {
     Conn_804004DC *c = (Conn_804004DC *)arg0;
-    RecoveredGlobal_804050DC_lbl_805C18A0 *g;
+    NetThreadState *g;
     u8 *sub;
 
     sub = c->sub;
@@ -3287,10 +3242,10 @@ extern s16 TLobby__sub_80402BB4(void *arg0, u32 timeout) {
             update_connection_state((int)(c->sub + 4));
             return -0x12;
         }
-        unlock_mutex(g->value);
+        unlock_mutex(g->mutex);
         TLobby__sub_803F97E8(100);
         process_expired_timers();
-        lock_mutex(g->value);
+        lock_mutex(g->mutex);
     }
     c->abort = 0;
     return 0;
@@ -3411,7 +3366,7 @@ static inline s16 read_text_field(u8 *self, Hdr_803FC4B4 *hdr, s32 src) {
     if (n != -1) {
         if (n != 0) {
             fld = (s16)get_field_4((void *)src);
-            pdst = (u8 **)((u8 *)&lbl_805C0620 + 8);
+            pdst = &lbl_805C0620.message;
             rv = TLobby__sub_80401ABC((u8 *)src, *pdst, n);
             (*pdst)[(s16)rv] = 0;
             *(u8 **)(obj + 8) = *pdst;
@@ -3436,8 +3391,8 @@ void PADRead(u8 *self, s32 arg1)
   Hdr_803FC4B4 hdr;
   u8 *f30;
   u8 *p;
-  extern s16 TLobby__sub_803FE8BC(u8 *, s32 *);
-  extern s16 TLobby__sub_80403308(u8 *, u8 *, UnkSumBuf *);
+  extern s16 TLobby__sub_803FE8BC(u8 *, void *); /* declared s16 here; the definition returns s32 */
+  extern s16 TLobby__sub_80403308(u8 *, u8 *, PppFrame *);
   f30 = *((u8 **) (self + 0x30));
   if (TLobby__sub_803FE8BC((u8 *) (&hdr), &arg1))
   {
@@ -3445,11 +3400,11 @@ void PADRead(u8 *self, s32 arg1)
   }
   hdr.len -= 4;
   new_var = self;
-  TLobby__sub_80401CAC((Outer_80401CAC *) (&arg1), hdr.len);
+  TLobby__sub_80401CAC((PppFrame **) (&arg1), hdr.len);
   switch (hdr.type)
   {
     case 1:
-      if (TLobby__sub_80403308(new_var, (u8 *) (&hdr), (UnkSumBuf *) arg1))
+      if (TLobby__sub_80403308(new_var, (u8 *) (&hdr), (PppFrame *) arg1))
     {
       return;
     }
@@ -3497,7 +3452,6 @@ void PADRead(u8 *self, s32 arg1)
 
 }
 #pragma pop
-typedef char RecoveredGlobal_804050DC_lbl_805C18A0_size[sizeof(RecoveredGlobal_804050DC_lbl_805C18A0) == 0x10 ? 1 : -1];
 
 s32 TLobby__sub_80403168(u8 *arg0, u8 *arg1, u8 *arg2) {
     Names_80403168 *g;
@@ -3571,21 +3525,21 @@ extern u8 lbl_8047FEEC[];
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline s32 valid_80403308(UnkSumBuf **s) {
+inline s32 valid_80403308(PppFrame **s) {
     s32 r = 0;
     if (s != NULL && *s != NULL) {
         r = 1;
     }
     return r;
 }
-inline s32 avail_80403308(UnkSumBuf **s) {
+inline s32 avail_80403308(PppFrame **s) {
     s32 r = 0;
     if (valid_80403308(s) && (*s)->len > 1) {
         r = 1;
     }
     return r;
 }
-inline s32 get_80403308(UnkSumBuf **s) {
+inline s32 get_80403308(PppFrame **s) {
     if (avail_80403308(s)) {
         (*s)->len--;
         return *(*s)->data++;
@@ -3595,7 +3549,7 @@ inline s32 get_80403308(UnkSumBuf **s) {
     }
     return (s16)lbl_805D7AB8[0];
 }
-extern s16 TLobby__sub_80403308(u8 *self, u8 *src, UnkSumBuf *val) {
+extern s16 TLobby__sub_80403308(u8 *self, u8 *src, PppFrame *val) {
     s32 TLobby__sub_803FE6CC(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
     u8 *p1 = 0;
     u8 *p2 = 0;
@@ -3611,7 +3565,7 @@ extern s16 TLobby__sub_80403308(u8 *self, u8 *src, UnkSumBuf *val) {
     if (ch != -1) {
         s16 cnt;
         u8 *out;
-        p1 = (u8 *)lbl_805C0620.value;
+        p1 = lbl_805C0620.peer_id;
         out = p1;
         for (cnt = ch; cnt-- > 0;) {
             *out++ = get_80403308(&val);
@@ -3623,7 +3577,7 @@ extern s16 TLobby__sub_80403308(u8 *self, u8 *src, UnkSumBuf *val) {
     if (ch != -1) {
         s16 cnt;
         u8 *out;
-        p2 = *(u8 **)((u8 *)&lbl_805C0620 + 4);
+        p2 = lbl_805C0620.password;
         out = p2;
         for (cnt = ch; cnt-- > 0;) {
             *out++ = get_80403308(&val);
@@ -3715,8 +3669,6 @@ s32 TLobby__sub_804036FC(u8 *arg0) {
     }
     return 0;
 }
-
-typedef char RecoveredGlobal_80403D28_lbl_805C0638_size[sizeof(RecoveredGlobal_80403D28_lbl_805C0638) == 0xA0 ? 1 : -1];
 
 s32 TLobby__sub_80403730(u8 *dst, unsigned short n) {
   u8 buf;
@@ -3913,16 +3865,25 @@ s32 TLobby__sub_80403C60(u8 *arg0) {
     return 0;
 }
 
+/* lbl_805C0638: eight records whose first byte TLobby__sub_80403D28 clears before each connect; nothing else in the game
+ * reads or writes them. */
+typedef struct ConnectRecord {
+    s8 active;
+    u8 pad1[0x13];
+} ConnectRecord;
+typedef char ConnectRecord_size_check[sizeof(ConnectRecord) == 0x14 ? 1 : -1];
+extern ConnectRecord lbl_805C0638[8];
+
 s32 TLobby__sub_80403D28(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7) {
     s32 temp_r31;
-    *(s8 *)((s8 *)(&lbl_805C0638.value) + 0) = 0;
-    *(s8 *)((s8 *)(&lbl_805C0638.value) + 0x14) = 0;
-    *(s8 *)((s8 *)(&lbl_805C0638.value) + 0x28) = 0;
-    *(s8 *)((s8 *)(&lbl_805C0638.value) + 0x3C) = 0;
-    *(s8 *)((s8 *)(&lbl_805C0638.value) + 0x50) = 0;
-    *(s8 *)((s8 *)(&lbl_805C0638.value) + 0x64) = 0;
-    *(s8 *)((s8 *)(&lbl_805C0638.value) + 0x78) = 0;
-    *(s8 *)((s8 *)(&lbl_805C0638.value) + 0x8C) = 0;
+    lbl_805C0638[0].active = 0;
+    lbl_805C0638[1].active = 0;
+    lbl_805C0638[2].active = 0;
+    lbl_805C0638[3].active = 0;
+    lbl_805C0638[4].active = 0;
+    lbl_805C0638[5].active = 0;
+    lbl_805C0638[6].active = 0;
+    lbl_805C0638[7].active = 0;
     temp_r31 = TLobby__sub_80403DA8((void *) (arg1), (void *) (arg2), (void *) (arg3), (void *) (arg4), (void *) (arg5), (void *) (arg6), (void *) (arg7));
     TLobby__sub_804062A0(0x82);
     return temp_r31;
@@ -4016,7 +3977,7 @@ void TLobby__sub_804053B8(B_80403F4C *, u8 **);
 u8 *TLobby__sub_8040555C(B_80403F4C *, u8 *, s32);
 #define o ((Obj_80403F4C *)ov)
 #define pp ((u8 **)spp)
-s16 TLobby__sub_80403F4C(void *ov, Strm_80405A74 **spp) {
+s16 TLobby__sub_80403F4C(void *ov, PppFrame **spp) {
     A_80403F4C a;
     B_80403F4C b;
     Ent_80403F4C *e;
@@ -4048,38 +4009,38 @@ s16 TLobby__sub_80403F4C(void *ov, Strm_80405A74 **spp) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline s32 vj_buffer_valid(Strm_80405A74 **src) {
+inline s32 vj_buffer_valid(PppFrame **src) {
     s32 valid = 0;
     if (src != NULL && *src != NULL) {
         valid = 1;
     }
     return valid;
 }
-inline s32 vj_read_byte(Strm_80405A74 **src) {
+inline s32 vj_read_byte(PppFrame **src) {
     if (TLobby__sub_80401BCC(src, lbl_805D7AC4, 1) != 1) {
         return -1;
     }
     return (s16)lbl_805D7AC4[0];
 }
-inline s32 vj_next_byte(Strm_80405A74 **src) {
+inline s32 vj_next_byte(PppFrame **src) {
     s32 fast = 0;
     if (vj_buffer_valid(src) && (*src)->len > 1) {
         fast = 1;
     }
     if (fast) {
         (*src)->len--;
-        return *(*src)->p++;
+        return *(*src)->data++;
     }
     return vj_read_byte(src);
 }
-inline s32 vj_read_u16(Strm_80405A74 **src) {
+inline s32 vj_read_u16(PppFrame **src) {
     if (TLobby__sub_80401BCC(src, lbl_805D7AC0, 2) != 2) {
         return -1;
     }
     return read_network_u16_be(lbl_805D7AC0);
 }
 #define comp ((Obj_80403F4C *)self)
-#define src ((Strm_80405A74 **)arg)
+#define src ((PppFrame **)arg)
 s16 TLobby__sub_804040E0(void *self, void *arg) {
     B_80403F4C *th;
     Ent_80403F4C *cs;
@@ -4186,8 +4147,8 @@ s16 TLobby__sub_804040E0(void *self, void *arg) {
     }
     len = get_field_4(*src) + 40 + cs->a.optlen;
     cs->a.len = len;
-    *src = (Strm_80405A74 *)TLobby__sub_8040555C((B_80403F4C *)th, (u8 *)*src, 0);
-    *src = (Strm_80405A74 *)GXLoadTexObjPreLoaded(&cs->a, (u8 *)*src, 0);
+    *src = (PppFrame *)TLobby__sub_8040555C((B_80403F4C *)th, (u8 *)*src, 0);
+    *src = (PppFrame *)GXLoadTexObjPreLoaded(&cs->a, (u8 *)*src, 0);
     return len;
 
 bad:
@@ -4207,14 +4168,13 @@ bad:
 
 struct RecoveredFields_80401B8C_arg0;
 
-
 typedef char RecoveredFields_804143BC_arg0_0_offset[offsetof(RecoveredFields_804143BC_arg0, field_0) == 0x0 ? 1 : -1];
 typedef char RecoveredFields_804143BC_arg0_1_offset[offsetof(RecoveredFields_804143BC_arg0, field_1) == 0x1 ? 1 : -1];
 
-RecoveredGlobal_80403D28_lbl_805C0638 lbl_805C0638;
-RecoveredGlobal_80402B60_lbl_805C0620 lbl_805C0620;
+ConnectRecord lbl_805C0638[8];
+PppPapState lbl_805C0620;
 Names_80403168 lbl_805C04D8;
-RecoveredGlobal_80401A68_lbl_805C04A8 lbl_805C04A8;
+PppBuffers lbl_805C04A8;
 LcpState lbl_805C0400;
 IpcpState lbl_805C0328;
-RecoveredGlobal_803FD520_lbl_805C0310 lobby_net_buffer_desc_b;
+PppLink lobby_net_buffer_desc_b;

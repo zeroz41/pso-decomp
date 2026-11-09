@@ -22,10 +22,12 @@ typedef struct NetTransportParams {
 extern "C" {
 #endif
 void init_modem_buffer_config(void* config);
-void init_net_buffer_table(void* table);
-void init_net_block_620_params(void* params);
-void init_buffer_desc_b(void* desc);
-void init_net_buffer_desc(void* desc);
+struct PppAuthState;
+struct PppPapState;
+struct PppBuffers;
+void init_net_buffer_table(struct PppAuthState *auth);
+void init_net_block_620_params(struct PppPapState *pap);
+void init_net_buffer_desc(struct PppBuffers *bufs);
 void stop_network_thread(void);
 void queue_thread_main(void);
 s32 write_ring_buffer(u8* src, s32 len);
@@ -43,7 +45,8 @@ s32 is_transport_connected(void);
 s32 recv_network_frame(u16 max_len, void *lobby, u16 *out_len);
 void TLobby__sub_803F7678(void);
 s32 TLobby__sub_803F767C(void);
-void TLobby__sub_803F79B0(u8 *cfg);
+struct NetThreadState;
+void TLobby__sub_803F79B0(struct NetThreadState *t);
 void TLobby__sub_803F808C(void);
 s32 TLobby__sub_803F811C(s16 *out);
 extern u16 net_param_player_count;

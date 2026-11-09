@@ -10,26 +10,11 @@
 #include "pso/network/NetEthernet.h"
 
 /* TLobby_804050DC.c: connection records, the DNS resolver tables and socket start-up. */
-typedef struct RecoveredGlobal_804050DC_lbl_805C18A0 RecoveredGlobal_804050DC_lbl_805C18A0;
-typedef struct RecoveredGlobal_804050EC_lbl_805C18A0 RecoveredGlobal_804050EC_lbl_805C18A0;
-typedef struct RecoveredGlobal_80405114_lbl_805C18A0 RecoveredGlobal_80405114_lbl_805C18A0;
 typedef struct E_8040DDB0 E_8040DDB0;
 typedef struct RecoveredGlobal_8040DD68_lbl_805C1B38 RecoveredGlobal_8040DD68_lbl_805C1B38;
 typedef struct N_80405298 N_80405298;
 typedef struct In_8040D95C In_8040D95C;
 typedef struct Out_8040D95C Out_8040D95C;
-struct RecoveredGlobal_804050DC_lbl_805C18A0 {
-    s32 value;
-    u8 remaining[0xC];
-};
-struct RecoveredGlobal_804050EC_lbl_805C18A0 {
-    s32 value;
-    u8 remaining[0xC];
-};
-struct RecoveredGlobal_80405114_lbl_805C18A0 {
-    s32 value;
-    u8 remaining[0xC];
-};
 struct E_8040DDB0 { u8 c0; u8 c1; u8 c2; u8 c3; s16 f4; u8 pad6[0x16]; };
 struct RecoveredGlobal_8040DD68_lbl_805C1B38 {
     s16 value;
