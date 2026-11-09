@@ -158,9 +158,6 @@ struct Fish_8029D5C8 {
 extern "C" {
 
 extern u8 *camera_ctrl_instance;
-extern const f32 lbl_805DDD40;
-extern const f32 TObjFish__data_805DDD44;
-extern const f32 lbl_805DDD48;
 
 #pragma push
 #pragma fp_contract on
@@ -181,7 +178,7 @@ void render__8TObjFishFv(u8 *arg0) {
     struct { f32 x, y, z; } d;
 
     if (TMainTask::get_render_pass() != 1 &&
-        ((VObj_18_26a62c *)arg0)->m8(lbl_805DDD40, TObjFish__data_805DDD44) != 0 &&
+        ((VObj_18_26a62c *)arg0)->m8(400.0f, 200.0f) != 0 &&
         F(Fish_8029D5C8 *, 0xA0) != NULL && ((s32 (*)(void *))update_state__8TObjFishFv)(arg0) != 0) {
         f = F(Fish_8029D5C8 *, 0xA0);
         n = F(s32, 0x94);
@@ -204,7 +201,7 @@ void render__8TObjFishFv(u8 *arg0) {
             } else {
                 *pa += 0x4000;
             }
-            r = lbl_805DDD48 * a;
+            r = 0.2f * a;
             {
                 struct { f32 x, y, z; } e, t;
                 e.x = d.x - f->x;
@@ -381,9 +378,13 @@ void TObjFish::run_task() {
         if (fabs_float(f->velocity.z) > 0.0f && (k & 3) == 0) {
             f->target_angle = 10430.38043493439 * atan2_float(f->velocity.x, f->velocity.z);
         }
-        f->angle += (s32)((s16)(f->target_angle - f->angle) * 0.12f);
+        f32 turn = (s16)(f->target_angle - f->angle);
+        turn *= 0.12f;
+        f->angle += (s32)turn;
         if ((k & 3) == 0) {
-            f->yaw += (s32)((s16)((s16)((s32)(10430.38043493439 * atan2_float(f->target.x - f->pos.x, f->target.z - f->pos.z)) - rotation_y) - f->yaw) * 0.8f);
+            turn = (s16)((s16)((s32)(10430.38043493439 * atan2_float(f->target.x - f->pos.x, f->target.z - f->pos.z)) - rotation_y) - f->yaw);
+            turn *= 0.8f;
+            f->yaw += (s32)turn;
         }
         m = f->anim;
         if (m < 0 || m > 2) {
@@ -424,10 +425,6 @@ struct Ent_8029E170 {
 
 extern "C" {
 
-extern const f32 lbl_805DDD60;
-extern const f32 lbl_805DDD64;
-extern const f32 lbl_805DDD70;
-extern const f32 lbl_805DDD7C;
 
 #pragma push
 #pragma fp_contract on
@@ -451,12 +448,12 @@ s32 TObjFish::init_fish_school(void *arg1_arg, s32 arg2, s32 arg3) {
     }
     p = *(Ent_8029E170 * *)&this->m_a0;
     for (i = 0; i < *(s32 *)&this->m_94; i++) {
-        p->pos.x = lbl_805DDD70 * (arg1->x * (lbl_805DDD64 * (f32) rand() - lbl_805DDD60));
-        p->pos.y = lbl_805DDD70 * (arg1->y * (lbl_805DDD64 * (f32) rand() - lbl_805DDD60));
-        p->pos.z = lbl_805DDD70 * (arg1->z * (lbl_805DDD64 * (f32) rand() - lbl_805DDD60));
-        p->v18.x = lbl_805DDD7C;
-        p->v18.y = lbl_805DDD7C;
-        p->v18.z = lbl_805DDD7C;
+        p->pos.x = 2.0f * (arg1->x * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
+        p->pos.y = 2.0f * (arg1->y * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
+        p->pos.z = 2.0f * (arg1->z * ((1.0f / 32768.0f) * (f32) rand() - 0.5f));
+        p->v18.x = 0.0f;
+        p->v18.y = 0.0f;
+        p->v18.z = 0.0f;
         if (i < arg2) {
             p->f30 = 0;
         } else if (i < arg2 + arg3) {
@@ -464,16 +461,16 @@ s32 TObjFish::init_fish_school(void *arg1_arg, s32 arg2, s32 arg3) {
         } else {
             p->f30 = 2;
         }
-        p->f32 = TObjFish__data_805DDD44 * (lbl_805DDD64 * (f32) rand());
+        p->f32 = 200.0f * ((1.0f / 32768.0f) * (f32) rand());
         p->f24 = 0;
-        p->f28 = lbl_805DDD64 * (f32) rand();
+        p->f28 = (1.0f / 32768.0f) * (f32) rand();
         p->f2c = 0;
         p->f2e = 0;
         p->f38 = 0;
         p->f34 = 0;
-        p->v0c.x = lbl_805DDD7C;
-        p->v0c.y = lbl_805DDD7C;
-        p->v0c.z = lbl_805DDD7C;
+        p->v0c.x = 0.0f;
+        p->v0c.y = 0.0f;
+        p->v0c.z = 0.0f;
         p++;
     }
     return 1;

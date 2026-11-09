@@ -2870,3 +2870,4 @@ pso/weapon/TUnk_804A2C90.cpp
 pso/player/TUnk_804928CC.cpp
 pso/network/NetworkRuntime.c
 pso/network/NetworkThreadRuntime.c
+pso/object/ambient/TObjFish.cpp
