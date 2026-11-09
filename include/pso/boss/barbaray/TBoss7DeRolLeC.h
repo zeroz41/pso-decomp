@@ -5,13 +5,31 @@
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/derolle/TUnk_80036250.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/system/ControllerInputState.h"
 #include <dolphin/mtx.h>
 
+struct TBoss7Joint;
+class TBoss7Tentacle;
+class TBoss7LaserLight;
+class AreaAttackHistory;
+class TUnk_804F1C58;
+
+// Boss parameter block 15 from TLobby::dispatch_shared_handler_a.
+struct TBoss7DeRolLeCParams {
+    u8 pad_00[0x18];
+    s32 unk_18;
+    u8 pad_1C[0x4];
+    s32 unk_20;
+};
+
 struct TBoss7DeRolLeC : public TObjEneDD_ST {
+    TBoss7DeRolLeC(TObject *parent, void *set_data);
     virtual ~TBoss7DeRolLeC();
     void update_projectile_spawns();
     virtual void run_task();
     virtual void render();
+    virtual void dispatch_action(u32 state, s32 reason); // defined as TBoss7DeRolLeC__dispatch_state (vtable +0x15C)
     void update_or_dispatch();
     void flee_if_disturbed();
     void set_state_and_send(s32);
@@ -34,49 +52,91 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void apply_paralysis();
     void apply_poison_status();
     void vfunc_28();
-    u8 pad_374[0x18];
+    u8 pad_374[0x8];
+    f32 unk_37C;                  // 20.0 (the joints set 3.0)
+    u8 pad_380[0xC];
     u16 unk_38C;
-    u8 pad_38E[0x17E];
-    u8 unk_50C[0x24];             // effect source passed to TObjFish::set_effect_target_position
-    u8 pad_530[0xF8];
+    u8 pad_38E[0x32];
+    CollisionBody unk_3C0;        // copy of lbl_80473C3C, the body's collision sphere
+    Vec unk_3EC[20];
+    Vec unk_4DC[4];
+    Vec unk_50C[3];               // effect source passed to TObjFish::set_effect_target_position
+    Vec unk_530[10];              // joint positions, one per TBoss7Joint in unk_5F8
+    s32 unk_5A8[10];              // read by TObjPlayer__sub_802E7EA0
+    s32 unk_5D0[10];
+    TBoss7Joint *unk_5F8[10];
+    TBoss7DeRolLeCParams *unk_620; // TLobby::dispatch_shared_handler_a(15)
+    ControllerInputContext *unk_624; // controller_input_state.controllers[1]
     s32 unk_628;                  // state flags (0x4, 0x8, 0x40, 0x80, 0x8000 tested)
-    u8 pad_62C[0x4];
+    s32 unk_62C;
     TUnk_80036250 motion_x;       // drives position.x (sub_802EB270)
     TUnk_80036250 motion_y;       // drives position.y
     TUnk_80036250 motion_z;       // drives position.z
     TObject unk_690;              // embedded task group: the ctor builds it with TObject(TObject *), run_task/render walk it
     s32 unk_6AC;
-    u8 pad_6B0[0x4];
+    s32 unk_6B0;
     s32 action_index;             // step in lbl_804E3C2C[difficulty][], advanced by advance_action_sequence
     s32 unk_6B8;
-    u8 pad_6BC[0x4];
+    s32 unk_6BC;
     s32 unk_6C0;                  // index into lbl_80472D04 (sub_802EB270: from)
     s32 unk_6C4;                  // index into lbl_80472D04 (sub_802EB270: to)
     s32 unk_6C8;
     s32 unk_6CC;
     s32 unk_6D0;
-    s32 unk_6D4;                  // mem_alloc'd buffer (freed by the destructor)
-    s32 unk_6D8;                  // mem_alloc'd buffer (freed by the destructor)
-    u8 pad_6DC[0x10];             // TObject *[4], released by the destructor
+    GC_Mtx *unk_6D4;                 // 12 matrices, mem_alloc'd by the ctor (freed by the destructor)
+    GC_Mtx *unk_6D8;                 // 4 matrices, one per tentacle root (freed by the destructor)
+    TBoss7Tentacle *unk_6DC[4];   // released by the destructor
     Vec unk_6EC;
-    u8 pad_6F8[0x4];
+    s32 unk_6F8;
     s32 unk_6FC;
     s32 unk_700;
-    u8 pad_704[0x24];             // 0x708/0x71C/0x720 TObject *, 0x718 AreaAttackHistory * (destructor)
+    s32 unk_704;
+    TBoss7LaserLight *unk_708;
+    Vec unk_70C;                  // the laser light's position
+    AreaAttackHistory *unk_718;
+    s32 unk_71C;                  // TObject * per the destructor
+    s32 unk_720;
+    s32 unk_724;
     s32 unk_728;                  // state step (sub_802EB270: 1 = arrived)
     s32 unk_72C;
-    u8 pad_730[0x14];
+    s32 unk_730;
+    s32 unk_734;
+    s32 unk_738;
+    s32 unk_73C;
+    s32 unk_740;
     f32 unk_744;
     f32 unk_748;
     f32 unk_74C;
     f32 unk_750;
     f32 unk_754;
     f32 unk_758;
-    u8 pad_75C[0x48];             // 0x784/0x788[6] TObject * (destructor)
+    f32 unk_75C;
+    f32 unk_760;
+    f32 unk_764;
+    f32 unk_768;
+    f32 unk_76C;
+    f32 unk_770;
+    f32 unk_774;
+    f32 unk_778;
+    f32 unk_77C;
+    f32 unk_780;
+    TObject *unk_784;             // released by the destructor
+    TObject *unk_788[6];          // released by the destructor
+    s32 unk_7A0;
     TObject *crawfish_parent;     // the group spawned crawfish are children of
-    u8 pad_7A8[0x4];
-    u32 unk_7AC;
-    u8 pad_7B0[0x24];
+    s32 unk_7A8;
+    TUnk_804F1C58 *unk_7AC;
+    s32 unk_7B0;
+    f32 unk_7B4;
+    f32 unk_7B8;
+    f32 unk_7BC;
+    f32 unk_7C0;
+    f32 unk_7C4;
+    f32 unk_7C8;
+    u16 unk_7CC;
+    u16 unk_7CE;
+    u16 unk_7D0;
+    u16 unk_7D2;
     void set_field_38(s32 v);
     static void run_exit_callbacks();
     static void *create(void *arg0);

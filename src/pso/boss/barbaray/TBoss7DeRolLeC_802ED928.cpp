@@ -170,7 +170,7 @@ void TBoss7DeRolLeC::run_task() {
         {
             void *p = (void *) __nw__7TObjectFUl(0x3C);
             if (p != NULL) {
-                ((TObjPlayer *)p)->init_breakup_pieces(this, this->unk_6D4);
+                ((TObjPlayer *)p)->init_breakup_pieces(this, (s32)this->unk_6D4);
             }
         }
     }
@@ -246,7 +246,7 @@ void TBoss7DeRolLeC::run_task() {
         scale_current_matrix(lbl_804E3BF0);
         this->sub_802E8234();
         this->get_frame();
-        apply_with_callback__10TObjPlayerFlf(this->unk_7AC, (s32)this->current_motion);
+        apply_with_callback__10TObjPlayerFlf((s32)this->unk_7AC, (s32)this->current_motion);
         pop_matrix();
         clear_motion_packed_rotation();
         fn_802E79B0(this);
