@@ -7,19 +7,8 @@
 /* TLobby_803FC178.c: PPP (LCP/IPCP/CHAP/PAP, MD5), the connection state machine and the stack's buffer streams. */
 typedef struct Blk24_8047FE50 Blk24_8047FE50;
 typedef struct UnkSumBuf UnkSumBuf;
-typedef struct RecoveredGlobal_803F8AA0_lbl_805BA5C0 RecoveredGlobal_803F8AA0_lbl_805BA5C0;
-typedef struct RecoveredGlobal_803F8A0C_lbl_805B9534 RecoveredGlobal_803F8A0C_lbl_805B9534;
 typedef struct RecoveredGlobal_803FB110_lbl_805BFF68 RecoveredGlobal_803FB110_lbl_805BFF68;
-typedef struct RecoveredGlobal_803F895C_lbl_805AEEB0 RecoveredGlobal_803F895C_lbl_805AEEB0;
-typedef struct RecoveredGlobal_803F89A4_lbl_805B52D4 RecoveredGlobal_803F89A4_lbl_805B52D4;
-typedef struct RecoveredGlobal_803F89A4_lbl_805B5454 RecoveredGlobal_803F89A4_lbl_805B5454;
-typedef struct RecoveredGlobal_803F89DC_lbl_805B54BC RecoveredGlobal_803F89DC_lbl_805B54BC;
-typedef struct RecoveredGlobal_803F89DC_lbl_805B94BC RecoveredGlobal_803F89DC_lbl_805B94BC;
-typedef struct RecoveredGlobal_803F8A28_lbl_805AEEB0 RecoveredGlobal_803F8A28_lbl_805AEEB0;
-typedef struct RecoveredGlobal_803F94A0_lbl_805BF770 RecoveredGlobal_803F94A0_lbl_805BF770;
 typedef struct RecoveredGlobal_803AA0C0_lbl_80556E88 RecoveredGlobal_803AA0C0_lbl_80556E88;
-typedef struct RecoveredGlobal_803F8930_lbl_805B4F84 RecoveredGlobal_803F8930_lbl_805B4F84;
-typedef struct RecoveredGlobal_803F8B7C_lbl_805BD66C RecoveredGlobal_803F8B7C_lbl_805BD66C;
 typedef struct Sub_803FC480 Sub_803FC480;
 typedef struct Obj_803FC480 Obj_803FC480;
 typedef struct Buf_803FC684 Buf_803FC684;
@@ -28,57 +17,13 @@ typedef struct RecoveredFields_803F88E4_arg0 RecoveredFields_803F88E4_arg0;
 typedef struct Hdr_803FC4B4 Hdr_803FC4B4;
 struct Blk24_8047FE50 { u32 w[6]; };
 struct UnkSumBuf { u8 *data; u16 len; };
-struct RecoveredGlobal_803F8AA0_lbl_805BA5C0 {
-    s32 value;
-    u8 remaining[0x30A8];
-};
-struct RecoveredGlobal_803F8A0C_lbl_805B9534 {
-    s32 value;
-    u8 remaining[0x1088];
-};
 struct RecoveredGlobal_803FB110_lbl_805BFF68 {
     s32 value;
     u8 remaining[0xCC];
 };
-struct RecoveredGlobal_803F895C_lbl_805AEEB0 {
-    s32 value;
-    u8 remaining[0x49C4];
-};
-struct RecoveredGlobal_803F89A4_lbl_805B52D4 {
-    s32 value;
-    u8 remaining[0x17C];
-};
-struct RecoveredGlobal_803F89A4_lbl_805B5454 {
-    s32 value;
-    u8 remaining[0x64];
-};
-struct RecoveredGlobal_803F89DC_lbl_805B54BC {
-    s32 value;
-    u8 remaining[0x3FFC];
-};
-struct RecoveredGlobal_803F89DC_lbl_805B94BC {
-    s32 value;
-    u8 remaining[0x74];
-};
-struct RecoveredGlobal_803F8A28_lbl_805AEEB0 {
-    s32 value;
-    u8 remaining[0x49C4];
-};
-struct RecoveredGlobal_803F94A0_lbl_805BF770 {
-    s32 value;
-    u8 remaining[0x74C];
-};
 struct RecoveredGlobal_803AA0C0_lbl_80556E88 {
     s32 value;
     u8 remaining[0xFC];
-};
-struct RecoveredGlobal_803F8930_lbl_805B4F84 {
-    s32 value;
-    u8 remaining[0x34C];
-};
-struct RecoveredGlobal_803F8B7C_lbl_805BD66C {
-    s32 value;
-    u8 remaining[0xA00];
 };
 struct Sub_803FC480 { u8 f0; u8 f1; u8 f2; u8 f3; u8 f4; };
 struct Obj_803FC480 { u8 f0; u8 f1; u8 f2; u8 pad3[0x9D]; Sub_803FC480 sub; };
@@ -102,17 +47,6 @@ struct RecoveredFields_803F88E4_arg0
   u8 *field_18;
 };
 typedef char RecoveredGlobal_803F88E4_lbl_805AEEB0_size[((sizeof(RecoveredGlobal_803F88E4_lbl_805AEEB0)) == 0x49C8) ? (1) : (-1)];
-typedef char RecoveredGlobal_803F8930_lbl_805B4F84_size[sizeof(RecoveredGlobal_803F8930_lbl_805B4F84) == 0x350 ? 1 : -1];
-typedef char RecoveredGlobal_803F895C_lbl_805AEEB0_size[sizeof(RecoveredGlobal_803F895C_lbl_805AEEB0) == 0x49C8 ? 1 : -1];
-typedef char RecoveredGlobal_803F89A4_lbl_805B52D4_size[sizeof(RecoveredGlobal_803F89A4_lbl_805B52D4) == 0x180 ? 1 : -1];
-typedef char RecoveredGlobal_803F89A4_lbl_805B5454_size[sizeof(RecoveredGlobal_803F89A4_lbl_805B5454) == 0x68 ? 1 : -1];
-typedef char RecoveredGlobal_803F89DC_lbl_805B54BC_size[sizeof(RecoveredGlobal_803F89DC_lbl_805B54BC) == 0x4000 ? 1 : -1];
-typedef char RecoveredGlobal_803F89DC_lbl_805B94BC_size[sizeof(RecoveredGlobal_803F89DC_lbl_805B94BC) == 0x78 ? 1 : -1];
-typedef char RecoveredGlobal_803F8A0C_lbl_805B9534_size[sizeof(RecoveredGlobal_803F8A0C_lbl_805B9534) == 0x108C ? 1 : -1];
-typedef char RecoveredGlobal_803F8A28_lbl_805AEEB0_size[sizeof(RecoveredGlobal_803F8A28_lbl_805AEEB0) == 0x49C8 ? 1 : -1];
-typedef char RecoveredGlobal_803F8AA0_lbl_805BA5C0_size[sizeof(RecoveredGlobal_803F8AA0_lbl_805BA5C0) == 0x30AC ? 1 : -1];
-typedef char RecoveredGlobal_803F8B7C_lbl_805BD66C_size[sizeof(RecoveredGlobal_803F8B7C_lbl_805BD66C) == 0xA04 ? 1 : -1];
-typedef char RecoveredGlobal_803F94A0_lbl_805BF770_size[sizeof(RecoveredGlobal_803F94A0_lbl_805BF770) == 0x750 ? 1 : -1];
 typedef char RecoveredGlobal_803AA0C0_lbl_80556E88_size[sizeof(RecoveredGlobal_803AA0C0_lbl_80556E88) == 0x100 ? 1 : -1];
 typedef char RecoveredGlobal_803FB110_lbl_805BFF68_size[sizeof(RecoveredGlobal_803FB110_lbl_805BFF68) == 0xD0 ? 1 : -1];
 struct Hdr_803FC4B4 { u8 type; u8 flag; s16 len; };

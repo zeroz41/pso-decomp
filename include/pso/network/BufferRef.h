@@ -17,6 +17,8 @@ extern "C" {
 #endif
 /* Advances a buffer reference by n bytes (TLobby_804050DC.c). */
 void TLobby__sub_80406EB8(NetBufferRef *ref, s32 n);
+/* Frees the block behind a buffer reference of kind 2 or 4 (TLobby_804050DC.c). */
+s32 TLobby__sub_80406B6C(NetBufferRef *ref);
 #ifdef __cplusplus
 }
 #endif

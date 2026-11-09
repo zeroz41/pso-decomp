@@ -54,4 +54,15 @@ typedef struct NetIcmpv6RouterSolicitation {
     NetIcmpv6Header header;
 } NetIcmpv6RouterSolicitation;
 
+typedef struct NetIcmpv6RouterAdvertisement {
+    u8 type;
+    u8 code;
+    u16 checksum;
+    u8 cur_hop_limit;
+    u8 flags;
+    u16 router_lifetime; /* seconds */
+    u32 reachable_time;  /* ms */
+    u32 retrans_timer;   /* ms */
+} NetIcmpv6RouterAdvertisement;
+
 #endif

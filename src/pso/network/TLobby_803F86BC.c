@@ -6,6 +6,8 @@
 #include "pso/network/TLobby_803F86BC.h"
 #include <stddef.h>
 #include "pso/network/netcfg.h"
+#include "pso/network/IPv6.h"
+#include "pso/network/TLobby_8041112C.h"
 #include "pso/network/NetworkMessageTransport.h"
 
 typedef struct Big_803F8AD8 {
@@ -22,17 +24,17 @@ s32 lbl_805D7A58;
 extern u8 *lobby_second_buffer_pool_base;
 
 static u32 lobby_net_config_block[4722];
-static NetIpv6IfParams ipv6_interface_config;
-static u32 lbl_805B38A0[13];
+static Ipv6Header ipv6_interface_config;
+static Ipv6RawSocket lbl_805B38A0[1];
 static u32 lbl_805B38D4[50];
 static u32 lbl_805B399C[99];
 static u32 lbl_805B3B28[36];
 static u32 lbl_805B3BB8[1267];
 static s32 lbl_805B4F84[212];
-static s32 lbl_805B52D4[96];
-static s32 lbl_805B5454[26];
+static NetFragment lbl_805B52D4[0x10];
+static NetFragPacket lbl_805B5454[2];
 static s32 lbl_805B54BC[4096];
-static s32 lbl_805B94BC[30];
+static NetBufferPoolEntry lbl_805B94BC[2];
 static s32 lbl_805B9534[1059];
 static s32 lbl_805BA5C0[3115];
 static s32 lobby_net_recv_desc[641];
@@ -92,51 +94,52 @@ void TLobby__sub_803F87C8(u8 *cfg) {
 void TLobby__sub_803F87DC(void *cfg) {
 }
 
-void init_ipv6_interface_config(NetIpv6IfCfg *cfg) {
-    cfg->x0 = 1;
-    cfg->xc = 0;
-    cfg->x10 = 0;
-    cfg->x14 = 0x40;
-    cfg->x4 = lbl_805B38A0;
-    cfg->cfg = ipv6_interface_config;
+void init_ipv6_interface_config(Ipv6ProtocolState *cfg) {
+    cfg->nsockets = 1;
+    cfg->traffic_class = 0;
+    cfg->flow_label = 0;
+    cfg->hop_limit = 0x40;
+    cfg->sockets = lbl_805B38A0;
+    cfg->hdr = ipv6_interface_config;
 }
 
 void TLobby__sub_803F8864(void *cfg) {
 }
 
-void init_udp_socket_config(NetUdpCfg *o) {
-    o->a0 = 0x1A;
-    o->a2 = 3;
-    o->a4 = 9;
-    o->a14 = 9;
-    o->a6 = 1;
-    o->aA = 1;
-    o->a8 = 1;
-    o->aC = 1;
-    o->a10 = 1;
-    o->aE = 2;
-    o->a16 = 0x1E;
-    o->a12 = 0x500;
-    o->p18 = (u8 *)lbl_805B3BB8;
-    o->p1C = (u8 *)lbl_805B3B28;
-    o->p20 = (u8 *)lbl_805B399C;
-    o->p24 = (u8 *)lbl_805B38D4;
+/* Fills ipv6_address_routing_state. */
+void init_udp_socket_config(Ipv6State *o) {
+    o->route_count = 0x1A;
+    o->count = 3;
+    o->max_addrs = 9;
+    o->pmtu_count = 9;
+    o->dad_timer_init = 1;
+    o->dad_interval = 1;
+    o->dad_count_init = 1;
+    o->rs_timer_init = 1;
+    o->rs_interval = 1;
+    o->rs_count_init = 2;
+    o->pmtu_lifetime = 0x1E;
+    o->min_mtu = 0x500;
+    o->routes = (Ipv6Route *)lbl_805B3BB8;
+    o->ifaces = (Ipv6Iface *)lbl_805B3B28;
+    o->addr_pool = (Ipv6AddrNode *)lbl_805B399C;
+    o->pmtu = (Ipv6PmtuEntry *)lbl_805B38D4;
 }
 
 void TLobby__sub_803F88E0(void *cfg) {
 }
 
-void init_buffer_descriptor_b(NetBufDescB *cfg) {
-    u8 *new_var;
-    cfg->f0 = 2;
-    new_var = (u8 *)lobby_net_config_block;
-    cfg->f2 = 8;
-    cfg->f4 = 8;
-    cfg->f14 = 0x5DC;
-    cfg->f8 = new_var + 0x6064;
-    cfg->fC = new_var + 0x5E24;
-    cfg->f10 = new_var + 0x5D04;
-    cfg->f18 = (u8 *)lobby_net_config_block + 0x514C;
+void init_buffer_descriptor_b(Ipv6NdState *cfg) {
+    u8 *block;
+    cfg->npending = 2;
+    block = (u8 *)lobby_net_config_block;
+    cfg->nneighbors = 8;
+    cfg->nrouters = 8;
+    cfg->mtu = 1500;
+    cfg->pending = (Ipv6NdPending *)(block + 0x6064);
+    cfg->neighbors = (Ipv6NdNeighbor *)(block + 0x5E24);
+    cfg->routers = (Ipv6NdRouter *)(block + 0x5D04);
+    cfg->buffers = (u8 *)lobby_net_config_block + 0x514C;
 }
 
 void TLobby__sub_803F892C(void *cfg) {
@@ -165,26 +168,25 @@ void init_buffer_descriptor_a(NetBufDescA *cfg) {
     cfg->f10 = (u8 *)lobby_net_config_block + 0x60F0;
 }
 
-void TLobby__sub_803F89A0(void *cfg) {
+void TLobby__sub_803F89A0(NetFragPool *cfg) {
 }
 
-void TLobby__sub_803F89A4(u8 *cfg) {
-    struct NetConfig { s16 field_0; s16 field_2; s16 field_4; u8 pad_6[2]; s32 *field_8; s32 *field_C; };
-    ((struct NetConfig *)cfg)->field_0 = 2;
-    ((struct NetConfig *)cfg)->field_2 = 0x10;
-    ((struct NetConfig *)cfg)->field_4 = 8;
-    ((struct NetConfig *)cfg)->field_8 = lbl_805B5454;
-    ((struct NetConfig *)cfg)->field_C = lbl_805B52D4;
+void TLobby__sub_803F89A4(NetFragPool *cfg) {
+    cfg->npackets = 2;
+    cfg->nfrags = 0x10;
+    cfg->max_frags = 8;
+    cfg->packets = lbl_805B5454;
+    cfg->frags = lbl_805B52D4;
 }
 
-void TLobby__sub_803F89D8(void *cfg) {
+void TLobby__sub_803F89D8(NetBufferPool *cfg) {
 }
 
-void init_buffer_desc_a(NetBufDescA2 *cfg) {
-    cfg->f0 = 2;
-    cfg->f2 = 0x2000;
-    cfg->f4 = lbl_805B94BC;
-    cfg->f8 = lbl_805B54BC;
+void init_buffer_desc_a(NetBufferPool *cfg) {
+    cfg->count = 2;
+    cfg->size = 0x2000;
+    cfg->ents = lbl_805B94BC;
+    cfg->data = (u8 *)lbl_805B54BC;
 }
 
 void TLobby__sub_803F8A08(void *cfg) {
@@ -248,11 +250,11 @@ void init_net_func_table(NetFuncTableCfg *cfg) {
 void TLobby__sub_803F8B78(void *cfg) {
 }
 
-void init_net_recv_desc(NetRecvDescCfg *cfg) {
-    cfg->fA = 0x500;
-    cfg->fC = 2;
-    cfg->f10 = &lbl_805D7A58;
-    cfg->f14 = lobby_net_recv_desc;
+void init_net_recv_desc(LoopbackState *cfg) {
+    cfg->slot_size = 0x500;
+    cfg->slot_count = 2;
+    cfg->slot_used = (s16 *)&lbl_805D7A58;
+    cfg->slots = (u8 *)lobby_net_recv_desc;
 }
 
 u8 *layout_buffers(NetBufferLayout *h, u8 *p, u8 *end) {

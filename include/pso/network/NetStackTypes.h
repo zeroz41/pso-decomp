@@ -16,16 +16,6 @@ typedef struct p803FB184_Unk805BC510 {
     s16 unk14;
     s16 unk16;
 } p803FB184_Unk805BC510;
-typedef struct p803FB184_Unk805BC238Entry {
-    u8 pad0[8];
-    u32 unk8;
-    u32 unkC;
-} p803FB184_Unk805BC238Entry;
-typedef struct p803FB184_UnkHdr {
-    u32 a;
-    u16 b;
-    u8 c;
-} p803FB184_UnkHdr;
 
 typedef struct p803FE518_UnkBuf803FF344 {
     u8* data;
@@ -70,20 +60,6 @@ struct p803FE518_U7Obj {
     s32 pad4;
     p803FE518_U7Slot* slot;
 };
-typedef struct p803FE518_Unk805BDCD8Entry {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    u8 pad6[0xA];
-} p803FE518_Unk805BDCD8Entry;
-typedef struct p803FE518_Unk805BDCD8 {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 unk6;
-    u8 pad8[4];
-    p803FE518_Unk805BDCD8Entry* unkC;
-} p803FE518_Unk805BDCD8;
 typedef struct p803FE518_UnkNode8040A3C0 {
     s16 unk0;
     u32 unk4;
@@ -173,88 +149,8 @@ typedef struct {
     u16 f10;
     s16 f12;
 } Unk805BDD60Entry;
-typedef struct {
-    s16 countA;
-    s16 countB;
-    s16 countC;
-    u16 pad6;
-    Unk805BDD60Entry* entriesA;
-    void* entriesB;
-  } p8040B8B4_Unk805BDD60;
-typedef struct p8040B8B4_Unk8040BEEnt {
-    s16 a;
-    u8 pad2[2];
-    void* p;
-    u32 pad8;
-} p8040B8B4_Unk8040BEEnt;
-typedef struct p8040B8B4_Unk8040BEBuf {
-    u8 pad0[4];
-    s32 count;
-    s32 total;
-    p8040B8B4_Unk8040BEEnt ents[8];
-} p8040B8B4_Unk8040BEBuf;
 
-typedef struct p8040EE4C_Unk805BDDB8 {
-    s16 cnt0;
-    s16 cnt2;
-    s16 cnt4;
-    u8 pad6[0xE];
-    s16 cnt14;
-    u8 pad16[2];
-    void* p18;
-    void* p1c;
-    void* p20;
-    void* p24;
-} p8040EE4C_Unk805BDDB8;
-typedef struct p8040EE4C_Unk805BDDE0 {
-    s16 unk0;
-    struct {
-        s16 unk0;
-        s16 unk2;
-    } unk2[2];
-    s16 unkA;
-    s16 unkC;
-    s16* unk10;
-    u32 unk14;
-} p8040EE4C_Unk805BDDE0;
-typedef struct p8040EE4C_Unk805BDDF8 {
-    s16 count;
-    s16 step;
-    u8* out;
-    u32 cursor;
-} p8040EE4C_Unk805BDDF8;
-typedef struct p8040EE4C_Unk805BDE38Entry {
-    u8 pad0[4];
-    s16 flags;
-    u8 pad6[2];
-    u8 unk8[0x14];
-    u32 unk1C;
-    s16 unk20;
-    u8 unk22;
-    u8 unk23;
-    u32 pad24;
-    struct p8040EE4C_Unk805BDE38Entry* next;
-    u32 unk2C;
-    u32 unk30;
-} p8040EE4C_Unk805BDE38Entry;
-typedef struct {
-    s16 count;
-    u8 pad2[6];
-    p8040EE4C_Unk805BDE38Entry* entries;
-    u32 padC;
-    p8040EE4C_Unk805BDE38Entry* head;
-    p8040EE4C_Unk805BDE38Entry* tail;
-} p8040EE4C_Unk805BDE38;
 
-typedef struct p804210AC_Unk80427DD4 {
-    u8 pad0[0x8];
-    u8* p8;
-    u8 pad1[0x2];
-    s16 se;
-    u8** p10;
-    u8 pad3[0x4];
-    s16* p18;
-} p804210AC_Unk80427DD4;
 
 /* A PPP connection record (TLobby_803FC178.c / TLobby_803FCF44.c). */
 typedef struct Conn_804004DC {

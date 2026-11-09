@@ -90,10 +90,58 @@ typedef struct Ipv6State {
     Ipv6PmtuEntry *pmtu;
 } Ipv6State;
 typedef char Ipv6State_size_check[sizeof(Ipv6State) == 0x28 ? 1 : -1];
+
+/* A raw IPv6 socket (tag "IP6"): packets with next header `proto` between the two addresses (unspecified =
+   any) go to TLobby__sub_80421938. */
+typedef struct Ipv6RawSocket {
+    u8 tag[3];
+    u8 index;
+    u16 used;         /* 0x04 */
+    u8 local[16];     /* 0x06 */
+    u8 remote[16];    /* 0x16 */
+    u8 pad26[2];
+    u32 owner;        /* 0x28 */
+    u8 pad2C[4];
+    u8 proto;         /* 0x30 */
+    u8 pad31[3];
+} Ipv6RawSocket;
+typedef struct Ipv6Header {
+    u32 version_class_flow;
+    u16 payload_length;
+    u8 next_header;
+    u8 hop_limit;
+    IPv6Address src;
+    IPv6Address dst;
+} Ipv6Header;
+typedef char Ipv6Header_size_check[sizeof(Ipv6Header) == 0x28 ? 1 : -1];
+/* An IPv6 fragment header (next header 0x2C). */
+typedef struct Ipv6FragmentHeader {
+    u8 next_header;
+    u8 reserved;
+    u16 offset_flags; /* offset in bytes (a multiple of 8) | 1 if more fragments follow */
+    u32 ident;
+} Ipv6FragmentHeader;
+typedef char Ipv6FragmentHeader_size_check[sizeof(Ipv6FragmentHeader) == 8 ? 1 : -1];
+/* ipv6_protocol_state: init_ipv6_interface_config fills it. */
+typedef struct Ipv6ProtocolState {
+    s16 nsockets;
+    u8 pad2[2];
+    Ipv6RawSocket *sockets;  /* 0x04 */
+    u32 ident;               /* 0x08: identification of the next fragmented packet */
+    u16 traffic_class;       /* 0x0C: default, already shifted into the header's first halfword */
+    u8 padE[2];
+    u32 flow_label;          /* 0x10: default */
+    u8 hop_limit;            /* 0x14: default; set from router advertisements */
+    u8 pad15[3];
+    Ipv6Header hdr;          /* 0x18: header of the packet being sent */
+} Ipv6ProtocolState;
+typedef char Ipv6RawSocket_size_check[sizeof(Ipv6RawSocket) == 0x34 ? 1 : -1];
+typedef char Ipv6ProtocolState_size_check[sizeof(Ipv6ProtocolState) == 0x40 ? 1 : -1];
 #ifdef __cplusplus
 extern "C" {
 #endif
 extern Ipv6State ipv6_address_routing_state;
+extern Ipv6ProtocolState ipv6_protocol_state;
 /* The route for dst (src picks the interface), or NULL. */
 Ipv6Route *TLobby__sub_80413264(void *dst, void *src);
 /* The MTU of interface `iface`. */

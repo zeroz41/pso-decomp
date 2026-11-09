@@ -13,13 +13,10 @@ typedef struct RecoveredGlobal_804050EC_lbl_805C18A0 RecoveredGlobal_804050EC_lb
 typedef struct RecoveredGlobal_80405114_lbl_805C18A0 RecoveredGlobal_80405114_lbl_805C18A0;
 typedef struct E_8040DDB0 E_8040DDB0;
 typedef struct RecoveredGlobal_8040DD68_lbl_805C1B38 RecoveredGlobal_8040DD68_lbl_805C1B38;
-typedef struct E_8040FF58 E_8040FF58;
-typedef struct RecoveredGlobal_8040FF0C_lbl_805C1B78 RecoveredGlobal_8040FF0C_lbl_805C1B78;
 typedef struct RecoveredGlobal_80409A3C_lbl_805C1C50 RecoveredGlobal_80409A3C_lbl_805C1C50;
 typedef struct Ent_80408718 Ent_80408718;
 typedef struct Tbl_80408718 Tbl_80408718;
 typedef struct N_80405298 N_80405298;
-typedef struct O_80406B6C O_80406B6C;
 typedef struct Ent_804086B4 Ent_804086B4;
 typedef struct Rec_8040B33C Rec_8040B33C;
 typedef struct A_8040A45C A_8040A45C;
@@ -65,14 +62,6 @@ struct RecoveredGlobal_8040DD68_lbl_805C1B38 {
     s16 f8;
     u8 padA[0x1E];
 };
-struct E_8040FF58 { u8 c0; u8 c1; u8 c2; u8 c3; s16 f4; u8 pad6[0x2E]; };
-struct RecoveredGlobal_8040FF0C_lbl_805C1B78 {
-    s16 value;
-    u8 pad2[2];
-    E_8040FF58 *ents;
-    s32 f8;
-    u8 padC[0x34];
-};
 struct RecoveredGlobal_80409A3C_lbl_805C1C50 {
     s32 value;
     u8 remaining[0xF4];
@@ -80,7 +69,6 @@ struct RecoveredGlobal_80409A3C_lbl_805C1C50 {
 struct Ent_80408718 { s16 f0; u8 pad[0x16]; };
 struct Tbl_80408718 { s16 count; s16 h2; s16 h4; s16 h6; s16 h8; u8 pad[4]; Ent_80408718 *list; u8 tail[0x14]; };
 struct N_80405298 { N_80405298 *next; s32 f4; u8 pad8[0x18 - 8]; u8 b18; };
-struct O_80406B6C { u32 w0; u8 b4; };
 struct Ent_804086B4 { s16 f0; s16 f2; u8 pad[0x14]; };
 struct Rec_8040B33C { u32 f0; u8 pad[0x10]; };
 struct A_8040A45C { s16 f0; u8 pad2[2]; s32 f4; };
@@ -144,7 +132,6 @@ void flush_flags_step(void);
 s16 init_net_tables(void);
 s32 clear_all_used_records(void);
 s32 close_connection_by_index(s16 i);
-extern RecoveredGlobal_8040FF0C_lbl_805C1B78 ipv6_protocol_state;
 extern u32 lbl_805C1AD8[6];
 extern G_8040A45C dns_resolver_state;
 u8 *alloc_free_entry(void);

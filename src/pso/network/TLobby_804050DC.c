@@ -81,8 +81,6 @@ typedef struct DnsRec_804050DC DnsRec_804050DC;
 typedef struct DnsBase_804050DC DnsBase_804050DC;
 typedef struct RtEntry_8040F8A4 RtEntry_8040F8A4;
 typedef struct Obj_80405304 Obj_80405304;
-typedef struct Cfg_803F87E0 Cfg_803F87E0;
-typedef struct Obj_803F87E0 Obj_803F87E0;
 typedef struct Desc_803F8AD8 Desc_803F8AD8;
 typedef struct Hdr_8040B6E4 Hdr_8040B6E4;
 typedef struct Pkt_8040B6E4 Pkt_8040B6E4;
@@ -103,7 +101,6 @@ typedef struct Ent_8040A19C Ent_8040A19C;
 typedef struct G_8040A19C G_8040A19C;
 typedef struct LobbyHandler LobbyHandler;
 typedef struct LobbyHandlerTable LobbyHandlerTable;
-typedef struct NbPoolView NbPoolView;
 typedef struct Ent_804089A8 Ent_804089A8;
 typedef struct Slot_804089A8 Slot_804089A8;
 typedef struct Tbl_804089A8 Tbl_804089A8;
@@ -231,21 +228,6 @@ struct Self_803FD85C;
 typedef struct RtEntry_8040F8A4 { u16 flags; u8 pad2[2]; u32 id; u32 mask; u32 owner; u8 pad10[4]; } RtEntry_8040F8A4;
 
 typedef struct Obj_80405304 { u8 pad[0x18]; u8 f18; } Obj_80405304;
-
-typedef struct Cfg_803F87E0 { s32 w[10]; } Cfg_803F87E0;
-
-struct Obj_803F87E0 {
-    s16 x0;
-    u8 pad2[2];
-    void *x4;
-    u8 pad8[4];
-    s16 xc;
-    u8 pade[2];
-    s32 x10;
-    s8 x14;
-    u8 pad15[3];
-    Cfg_803F87E0 cfg;
-};
 
 struct Desc_803F8AD8 {
     s16 a;
@@ -406,11 +388,6 @@ s16 TLobby__sub_80413D78();
 s32 TLobby__sub_8040FE40(s16 arg0);
 extern RecoveredGlobal_8040DD68_lbl_805C1B38 ipv4_protocol_state;
 s32 TLobby__sub_8040ED70(void);
-struct NbPoolView {
-    s16 count;
-    u8 *ents;
-};
-#define NBP ((NbPoolView *)&network_buffer_pool_state)
 s16 TLobby__sub_8040A2BC(Fn_8040881C *fns, s16 kind);
 extern Tbl_80408718 lbl_805C1AB0;
 u16 TLobby__sub_80406BD8(const void *, s16);
@@ -1427,81 +1404,81 @@ s32 shutdown_network_handle(void) {
 }
 
 void init_msg(void *self, s32 arg1) {
-    *(s32 *)&((TObjectFields *)self)->m_name = arg1;
-    *(s8 *)&((TObjectFields *)self)->m_flags = 4;
+    ((NetBufferRef *)self)->value = arg1;
+    ((NetBufferRef *)self)->kind = 4;
 }
 
 void init_packet_header(void *self, s32 arg1) {
-    *(s32 *)&((TObjectFields *)self)->m_name = arg1;
-    *(s8 *)&((TObjectFields *)self)->m_flags = 3;
+    ((NetBufferRef *)self)->value = arg1;
+    ((NetBufferRef *)self)->kind = 3;
 }
 
 void set_value_and_enable(void *self, s32 arg1) {
-    *(s32 *)&((TObjectFields *)self)->m_name = arg1;
-    *(s8 *)&((TObjectFields *)self)->m_flags = 1;
+    ((NetBufferRef *)self)->value = arg1;
+    ((NetBufferRef *)self)->kind = 1;
 }
 
 #pragma push
 #pragma opt_common_subs on
 #pragma opt_propagation off
 void TLobby__sub_80406FD8(void *a, void *b, s32 v) {
-    switch (*((u8 *)b + 4)) {
+    switch (((NetBufferRef *)b)->kind) {
     case 1:
     case 4:
-        switch (*((u8 *)a + 4)) {
+        switch (((NetBufferRef *)a)->kind) {
         case 1:
         case 4:
-            NetMemcpy(*(void **)a, *(void **)b, v);
+            NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)((NetBufferRef *)b)->value, v);
             break;
         case 2:
             {
-        u32 word = *(u32 *)a;
+        u32 word = ((NetBufferRef *)a)->value;
         s16 id = (s16)(word >> 24);
         u32 hi;
         u8 *rec;
         u8 *ent;
         u32 t;
-        if (NBP->count < id) {
+        if (network_buffer_pool_state.count < id) {
             return;
         }
         hi = word >> 16;
-        rec = NBP->ents;
-        rec += id * 0x3c;
-        ent = rec + (s16)(hi & 0xff) * 6;
-        t = *(u16 *)(ent + 0xe) + (word & 0xffff) + *(u32 *)rec;
-        NetMemcpy((void *)t, *(void **)b, v);
+        rec = (u8 *)network_buffer_pool_state.ents;
+        rec += id * (s32)sizeof(NetBufferPoolEntry);
+        ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
+        t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
+        NetMemcpy((void *)t, (void *)((NetBufferRef *)b)->value, v);
         break;
     }
         case 3:
-            NetMemcpy(*(void **)a, *(void **)b, v);
+            NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)((NetBufferRef *)b)->value, v);
             break;
         }
         break;
     case 2:
-        switch (*((u8 *)a + 4)) {
+        switch (((NetBufferRef *)a)->kind) {
         case 1:
         case 4:
             {
-        u32 word = *(u32 *)b;
+        u32 word = ((NetBufferRef *)b)->value;
         s16 id = (s16)(word >> 24);
         u32 hi;
         u8 *rec;
         u8 *ent;
         u32 t;
-        if (NBP->count < id) {
+        if (network_buffer_pool_state.count < id) {
             return;
         }
         hi = word >> 16;
-        rec = NBP->ents;
-        rec += id * 0x3c;
-        ent = rec + (s16)(hi & 0xff) * 6;
-        t = *(u16 *)(ent + 0xe) + (word & 0xffff) + *(u32 *)rec;
-        NetMemcpy(*(void **)a, (void *)t, v);
+        rec = (u8 *)network_buffer_pool_state.ents;
+        rec += id * (s32)sizeof(NetBufferPoolEntry);
+        ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
+        t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
+        NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)t, v);
         break;
     }
         case 2:
             {
-        u32 word = *(u32 *)b;
+        u32 word = ((NetBufferRef *)b)->value;
         s16 id = (s16)(word >> 24);
         u32 hi;
         u8 *rec;
@@ -1513,73 +1490,73 @@ void TLobby__sub_80406FD8(void *a, void *b, s32 v) {
         u8 *rec2;
         u8 *ent2;
         u32 t2;
-        if (NBP->count < id) {
+        if (network_buffer_pool_state.count < id) {
             return;
         }
-        word2 = *(u32 *)a;
+        word2 = ((NetBufferRef *)a)->value;
         id2 = (s16)(word2 >> 24);
-        rec = NBP->ents + id * 0x3c;
+        rec = (u8 *)network_buffer_pool_state.ents + id * (s32)sizeof(NetBufferPoolEntry);
         hi = word >> 16;
-        ent = rec + (s16)(hi & 0xff) * 6;
-        t = *(u16 *)(ent + 0xe) + (word & 0xffff) + *(u32 *)rec;
-        if (NBP->count < id2) {
+        ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
+        t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
+        if (network_buffer_pool_state.count < id2) {
             return;
         }
-        rec2 = NBP->ents + id2 * 0x3c;
+        rec2 = (u8 *)network_buffer_pool_state.ents + id2 * (s32)sizeof(NetBufferPoolEntry);
         hi2 = word2 >> 16;
-        ent2 = rec2 + (s16)(hi2 & 0xff) * 6;
-        t2 = *(u16 *)(ent2 + 0xe) + (word2 & 0xffff) + *(u32 *)rec2;
+        ent2 = rec2 + (s16)(hi2 & 0xff) * (s32)sizeof(NetBufferSegment);
+        t2 = *(u16 *)(ent2 + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word2 & 0xffff) + *(u32 *)(rec2 + offsetof(NetBufferPoolEntry, buf));
         NetMemcpy((void *)t2, (void *)t, v);
         break;
     }
         case 3:
             {
-        u32 word = *(u32 *)b;
+        u32 word = ((NetBufferRef *)b)->value;
         s16 id = (s16)(word >> 24);
         u32 hi;
         u8 *rec;
         u8 *ent;
         u32 t;
-        if (NBP->count < id) {
+        if (network_buffer_pool_state.count < id) {
             return;
         }
         hi = word >> 16;
-        rec = NBP->ents;
-        rec += id * 0x3c;
-        ent = rec + (s16)(hi & 0xff) * 6;
-        t = *(u16 *)(ent + 0xe) + (word & 0xffff) + *(u32 *)rec;
-        NetMemcpy(*(void **)a, (void *)t, v);
+        rec = (u8 *)network_buffer_pool_state.ents;
+        rec += id * (s32)sizeof(NetBufferPoolEntry);
+        ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
+        t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
+        NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)t, v);
         break;
     }
         }
         break;
     case 3:
-        switch (*((u8 *)a + 4)) {
+        switch (((NetBufferRef *)a)->kind) {
         case 1:
         case 4:
-            NetMemcpy(*(void **)a, *(void **)b, v);
+            NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)((NetBufferRef *)b)->value, v);
             break;
         case 2:
             {
-        u32 word = *(u32 *)a;
+        u32 word = ((NetBufferRef *)a)->value;
         s16 id = (s16)(word >> 24);
         u32 hi;
         u8 *rec;
         u8 *ent;
         u32 t;
-        if (NBP->count < id) {
+        if (network_buffer_pool_state.count < id) {
             return;
         }
         hi = word >> 16;
-        rec = NBP->ents;
-        rec += id * 0x3c;
-        ent = rec + (s16)(hi & 0xff) * 6;
-        t = *(u16 *)(ent + 0xe) + (word & 0xffff) + *(u32 *)rec;
-        NetMemcpy((void *)t, *(void **)b, v);
+        rec = (u8 *)network_buffer_pool_state.ents;
+        rec += id * (s32)sizeof(NetBufferPoolEntry);
+        ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
+        t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
+        NetMemcpy((void *)t, (void *)((NetBufferRef *)b)->value, v);
         break;
     }
         case 3:
-            NetMemcpy(*(void **)a, *(void **)b, v);
+            NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)((NetBufferRef *)b)->value, v);
             break;
         }
         break;
@@ -1604,9 +1581,9 @@ s32 reset_socket_table(void) {
 }
 #pragma pop
 
-s32 TLobby__sub_80406B6C(O_80406B6C *o) {
+s32 TLobby__sub_80406B6C(NetBufferRef *o) {
     if (o != 0) {
-        switch (o->b4) {
+        switch (o->kind) {
         case 1:
         case 3:
             break;
@@ -1624,7 +1601,7 @@ s32 TLobby__sub_80406B6C(O_80406B6C *o) {
 u16 TUdpSocket__sub_80419864();
 u16 TLobby__sub_80406BD8(const void *arg_, s16 flag)
 {
-  s32 count = *((s32 *) (((u8 *) arg_) + 4));
+  s32 count = *((s32 *) (((u8 *) arg_) + offsetof(NetPacket, fragment_count)));
   u32 sum = 0;
   u8 *new_var;
   s16 carry = 0;
@@ -1634,15 +1611,15 @@ u16 TLobby__sub_80406BD8(const void *arg_, s16 flag)
   {
     u8 *e;
     e = (u8 *) arg_;
-    e += count * 12;
+    e += count * (s32)sizeof(NetPacketFragment);
     while (count != 0)
     {
       u8 *ptr;
-      u8 type = *((u8 *) (e + 8));
-      u8 *w = e + 4;
+      u8 type = *((u8 *) (e + offsetof(NetPacketFragment, buffer.kind)));
+      u8 *w = e + offsetof(NetPacketFragment, buffer);
       s16 len;
       count--;
-      e -= 12;
+      e -= sizeof(NetPacketFragment);
       switch (type)
       {
         case 1:
@@ -1656,15 +1633,15 @@ u16 TLobby__sub_80406BD8(const void *arg_, s16 flag)
           u32 word = *((u32 *) w);
           s16 id = (s16) (word >> 24);
           u8 *rec;
-          if (NBP->count < id)
+          if (network_buffer_pool_state.count < id)
           {
             return 0;
           }
-          rec = NBP->ents;
-          rec = rec + (id * 0x3c);
+          rec = (u8 *)network_buffer_pool_state.ents;
+          rec = rec + (id * (s32)sizeof(NetBufferPoolEntry));
           {
-            u32 t = (*((u32 *) rec)) + (word & 0xffff);
-            t = (*((u16 *) ((rec + (((s16) ((word >> 16) & 0xff)) * 6)) + 0xe))) + t;
+            u32 t = (*((u32 *) (rec + offsetof(NetBufferPoolEntry, buf)))) + (word & 0xffff);
+            t = (*((u16 *) ((rec + (((s16) ((word >> 16) & 0xff)) * (s32)sizeof(NetBufferSegment))) + offsetof(NetBufferPoolEntry, segs[0].offset)))) + t;
             ptr = (u8 *) t;
           }
           break;
@@ -1672,7 +1649,7 @@ u16 TLobby__sub_80406BD8(const void *arg_, s16 flag)
 
         new_var = e;
         case 3:
-          ptr = *((u8 **) (new_var + 16));
+          ptr = *((u8 **) (new_var + sizeof(NetPacketFragment) + offsetof(NetPacketFragment, buffer)));
           break;
 
         default:
@@ -1680,7 +1657,7 @@ u16 TLobby__sub_80406BD8(const void *arg_, s16 flag)
 
       }
 
-      len = *((s16 *) (e + 12));
+      len = *((s16 *) (e + sizeof(NetPacketFragment) + offsetof(NetPacketFragment, length)));
       if (carry)
       {
         hdr[1] = *(ptr++);
@@ -1710,14 +1687,14 @@ u16 TLobby__sub_80406BD8(const void *arg_, s16 flag)
   }
   else
   {
-    u8 *e = ((u8 *) arg_) + 12;
+    u8 *e = ((u8 *) arg_) + offsetof(NetPacket, fragments);
     s32 i;
-    for (i = 1; i < count; e += 12, i++)
+    for (i = 1; i < count; e += sizeof(NetPacketFragment), i++)
     {
-      u8 *w = e + 0x10;
+      u8 *w = e + sizeof(NetPacketFragment) + offsetof(NetPacketFragment, buffer);
       u8 *ptr;
       s16 len;
-      switch (*((u8 *) (e + 0x14)))
+      switch (*((u8 *) (e + sizeof(NetPacketFragment) + offsetof(NetPacketFragment, buffer.kind))))
       {
         case 1:
 
@@ -1730,22 +1707,22 @@ u16 TLobby__sub_80406BD8(const void *arg_, s16 flag)
           u32 word = *((u32 *) w);
           s16 id = (s16) (word >> 24);
           u8 *rec;
-          if (NBP->count < id)
+          if (network_buffer_pool_state.count < id)
           {
             return 0;
           }
-          rec = NBP->ents;
-          rec = rec + (id * 0x3c);
+          rec = (u8 *)network_buffer_pool_state.ents;
+          rec = rec + (id * (s32)sizeof(NetBufferPoolEntry));
           {
-            u32 t = (*((u32 *) rec)) + (word & 0xffff);
-            t = (*((u16 *) ((rec + (((s16) ((word >> 16) & 0xff)) * 6)) + 0xe))) + t;
+            u32 t = (*((u32 *) (rec + offsetof(NetBufferPoolEntry, buf)))) + (word & 0xffff);
+            t = (*((u16 *) ((rec + (((s16) ((word >> 16) & 0xff)) * (s32)sizeof(NetBufferSegment))) + offsetof(NetBufferPoolEntry, segs[0].offset)))) + t;
             ptr = (u8 *) t;
           }
           break;
         }
 
         case 3:
-          ptr = *((u8 **) (e + 0x10));
+          ptr = *((u8 **) (e + sizeof(NetPacketFragment) + offsetof(NetPacketFragment, buffer)));
           break;
 
         default:
@@ -1753,7 +1730,7 @@ u16 TLobby__sub_80406BD8(const void *arg_, s16 flag)
 
       }
 
-      len = *((s16 *) (e + 12));
+      len = *((s16 *) (e + sizeof(NetPacketFragment) + offsetof(NetPacketFragment, length)));
       if (carry)
       {
         hdr[1] = *(ptr++);
@@ -1813,23 +1790,23 @@ u8 *TLobby__sub_80406F0C(void *self)
     u8 *rec;
     u8 *sub;
 
-    switch (((u8 *)self)[4]) {
+    switch (((NetBufferRef *)self)->kind) {
     case 1:
     case 4:
-        return *(u8 **)self;
+        return (u8 *)((NetBufferRef *)self)->value;
     case 2:
-        w = *(u32 *)self;
+        w = ((NetBufferRef *)self)->value;
         k = (s16)(w >> 24);
-        if (*(s16 *)((u8 *)&network_buffer_pool_state) < k) {
+        if (network_buffer_pool_state.count < k) {
             return 0;
         }
         j = (s16)((w >> 16) & 0xff);
-        sub = *(u8 **)(((u8 *)&network_buffer_pool_state) + 4) + k * 0x3c;
+        sub = (u8 *)network_buffer_pool_state.ents + k * (s32)sizeof(NetBufferPoolEntry);
         rec = sub;
-        sub = rec + j * 6;
-        return (u8 *)(*(u16 *)(sub + 0xe) + (w & 0xffff) + *(u32 *)rec);
+        sub = rec + j * (s32)sizeof(NetBufferSegment);
+        return (u8 *)(*(u16 *)(sub + offsetof(NetBufferPoolEntry, segs[0].offset)) + (w & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf)));
     case 3:
-        return *(u8 **)self;
+        return (u8 *)((NetBufferRef *)self)->value;
     default:
         return 0;
     }
@@ -6235,15 +6212,6 @@ s16 TLobby__sub_8040CFE8(u8 type, u8 code, u32 src, u32 dst, NetPacket *pkt) {
 /* Defined K&R with an s16 mtu (TLobby_8041112C.c). */
 s32 TLobby__sub_80411DEC(IPv6Address *addr, s16 mtu);
 extern s16 TLobby__sub_8040D718(u8 type, u8 code, u8 *src, u8 *dst, NetPacket *pkt, s16 idx);
-typedef struct Ipv6Header_8040D120 {
-    u32 version_class_flow;
-    u16 payload_length;
-    u8 next_header;
-    u8 hop_limit;
-    IPv6Address src;
-    IPv6Address dst;
-} Ipv6Header_8040D120;
-typedef char Ipv6Header_8040D120_size_check[sizeof(Ipv6Header_8040D120) == 0x28 ? 1 : -1];
 typedef struct Icmp6ErrorInfo {
     u8 type;
     u8 code;
@@ -6267,7 +6235,7 @@ extern s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_lim
     s16 NetIPv6HandleNeighborAdvertisement(NetPacket *pkt, u8 *src, u8 *dst, s16 iface);
     s16 NetIPv6HandleRedirect(NetPacket *pkt, u8 *src, u8 *dst, s16 iface);
     NetBufferRef ref;
-    Ipv6Header_8040D120 ip;
+    Ipv6Header ip;
     Icmp6ErrorInfo icmp;
     UdpHeader udp;
     NetPacketFragment *from;
@@ -6752,15 +6720,14 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   int new_var2;
   unsigned char mf;
   u32 s;
-  s16 TUdpSocket__sub_8040E354(u8 *, u32, u8 *, s16, s16);
-  s16 TLobby__sub_8040FDA0(u32, s16);
-  s16 TLobby__sub_8040FE40(s16);
-  s32 TLobby__sub_80418C40(u8 *, void *, s16, u8, u32, void *, u16, s32, s16);
-  s16 TLobby__sub_8041B974(void *, void *, void *);
-  s16 udp_input(void *, void *, void *, s16);
-  void TLobby__sub_80421AD8(void *, u32, u32, u32, s16);
+  s16 TUdpSocket__sub_8040E354(u8 *, u32, u8 *, s16, s16); /* declared with 5 parameters; the definition is s16 (u8 *, u32, u8 *, s32) */
+  s16 TLobby__sub_8040FDA0(u32, s16); /* declared s16 here; the definition returns s32 */
+  s16 TLobby__sub_8040FE40(s16); /* declared s16 here; the definition returns s32 */
+  s32 TLobby__sub_80418C40(u8* self, void* p1, s16 p2, u8 p3, u32 p4, void* p5, u16 p6, u8 p7, s16 p8);
+  s16 TLobby__sub_8041B974(void *, void *, void *); /* declared s16 here; the definition is s32 (u8 *, u8 *, u8 *) */
+  s16 udp_input(void *, void *, void *, s16); /* declared s16 here; the definition is s32 (O_80420DE4 *, NetworkAddress *, NetworkAddress *, s32) */
+  s32 TLobby__sub_80421AD8(u8 *, u32, u32, u32, s16); /* declared here with other parameter types; the definition is s32 (u8 *, s32, s32, u32, s32) */
   u16 TUdpSocket__sub_80419864(void *, s16);
-  s32 TUdpSocket__sub_80418BD8(A_80418BD8 *);
   struct 
   {
     s32 t;
@@ -6877,14 +6844,14 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
     {
       if (n == 1)
       {
-        TUdpSocket__sub_80418BD8((A_80418BD8 *) ip);
+        TUdpSocket__sub_80418BD8((NetPacket *) ip);
       }
       release_entry(ip);
       return -1;
     }
       if (n == 1)
     {
-      TUdpSocket__sub_80418BD8((A_80418BD8 *) ip);
+      TUdpSocket__sub_80418BD8((NetPacket *) ip);
     }
       release_entry(ip);
       break;
@@ -6895,14 +6862,14 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
     {
       if (n == 1)
       {
-        TUdpSocket__sub_80418BD8((A_80418BD8 *) ip);
+        TUdpSocket__sub_80418BD8((NetPacket *) ip);
       }
       release_entry(ip);
       return -1;
     }
       if (n == 1)
     {
-      TUdpSocket__sub_80418BD8((A_80418BD8 *) ip);
+      TUdpSocket__sub_80418BD8((NetPacket *) ip);
     }
       release_entry(ip);
       return 0;
@@ -6920,7 +6887,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
           rr = TUdpSocket__sub_8040CE58((u8 *) (&ic), ip, x, id);
           if (n == 1)
         {
-          TUdpSocket__sub_80418BD8((A_80418BD8 *) ip);
+          TUdpSocket__sub_80418BD8((NetPacket *) ip);
         }
           release_entry(ip);
           return rr;
@@ -6928,7 +6895,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
         default:
           if (n == 1)
         {
-          TUdpSocket__sub_80418BD8((A_80418BD8 *) ip);
+          TUdpSocket__sub_80418BD8((NetPacket *) ip);
         }
           release_entry(ip);
           return -1;
@@ -6938,7 +6905,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
     }
       if (n == 1)
     {
-      TUdpSocket__sub_80418BD8((A_80418BD8 *) ip);
+      TUdpSocket__sub_80418BD8((NetPacket *) ip);
     }
       release_entry(ip);
       return 0;
@@ -6974,7 +6941,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   {
     if (n == 1)
     {
-      TUdpSocket__sub_80418BD8((A_80418BD8 *) ip);
+      TUdpSocket__sub_80418BD8((NetPacket *) ip);
     }
     release_entry(ip);
     return 0;
@@ -6985,7 +6952,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   TUdpSocket__sub_8040CE58((u8 *) (&ic), ip, x, id);
   if (n == 1)
   {
-    TUdpSocket__sub_80418BD8((A_80418BD8 *) ip);
+    TUdpSocket__sub_80418BD8((NetPacket *) ip);
   }
   release_entry(ip);
   return -1;
@@ -8218,28 +8185,28 @@ s32 TLobby__sub_8040FEE4(s32 arg0, s32 arg1) {
 }
 s32 NetIPv6Shutdown(void) {
     release_slot_by_id(0x86DD);
-    TLobby__sub_803F87DC((void *)((void *) (&ipv6_protocol_state.value)));
-    ipv6_protocol_state.value = 0;
+    TLobby__sub_803F87DC(&ipv6_protocol_state);
+    ipv6_protocol_state.nsockets = 0;
     return 0;
 }
 
 s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id);
 s32 NetIPv6Init(void) {
     s16 i;
-    E_8040FF58 *e;
-    RecoveredGlobal_8040FF0C_lbl_805C1B78 *g = &ipv6_protocol_state;
+    Ipv6RawSocket *e;
+    Ipv6ProtocolState *g = &ipv6_protocol_state;
 
-    init_ipv6_interface_config((NetIpv6IfCfg *)((Obj_803F87E0 *)&g->value));
-    e = g->ents;
-    for (i = 0; i < g->value; i++) {
-        e->c0 = 0x49;
-        e->c1 = 0x50;
-        e->c2 = 0x36;
-        e->c3 = i;
-        e->f4 = 0;
+    init_ipv6_interface_config(g);
+    e = g->sockets;
+    for (i = 0; i < g->nsockets; i++) {
+        e->tag[0] = 'I';
+        e->tag[1] = 'P';
+        e->tag[2] = '6';
+        e->index = i;
+        e->used = 0;
         e++;
     }
-    g->f8 = 1;
+    g->ident = 1;
     register_protocol_handler(0x86DD, (NetProtocolHandler)TLobby__sub_8040FFF8);
     return 0;
 }
@@ -8316,7 +8283,6 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
   s16 TLobby__sub_8041B974(void *, void *, void *); /* declared s16 here; the definition is s32 (u8 *, u8 *, u8 *) */
   s16 udp_input(void *, void *, void *, s16); /* declared s16 here; the definition is s32 (O_80420DE4 *, NetworkAddress *, NetworkAddress *, s32) */
   s32 TLobby__sub_80421938(void *, void *, void *, u32, s16); /* declared here with other parameter types; the definition is s32 (O_80421938 *, void *, void *, void *, s32) */
-  s32 TUdpSocket__sub_80418BD8(A_80418BD8 *);
   struct 
   {
     s32 t;
@@ -8344,7 +8310,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
   u8 *new_var2;
   u8 *rec;
   s16 m;
-  u8 *ent;
+  Ipv6RawSocket *ent;
   s16 i;
   s32 rem;
   u8 *new_var4;
@@ -8353,7 +8319,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
   s16 res;
   u8 *last;
   s16 reasm;
-  u8 *g;
+  Ipv6ProtocolState *g;
   u8 *src;
   u8 nh;
   s16 r;
@@ -8539,22 +8505,22 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
 
   }
 
-  g = (u8 *) (&ipv6_protocol_state);
-  ent = *((u8 **) (g + 4));
-  for (i = 0; i < (*((s16 *) g)); i++)
+  g = &ipv6_protocol_state;
+  ent = g->sockets;
+  for (i = 0; i < g->nsockets; i++)
   {
-    if ((((*((u16 *) (ent + 4))) == 1) && (ent[48] == nh)) && ((*((u32 *) (ent + 40))) != 0))
+    if (((ent->used == 1) && (ent->proto == nh)) && (ent->owner != 0))
     {
-      if ((NetIPv6IsUnspecified(ent + 6) != 0) || (NetIPv6CompareAddresses(ent + 6, src) == 0))
+      if ((NetIPv6IsUnspecified(ent->local) != 0) || (NetIPv6CompareAddresses(ent->local, src) == 0))
       {
-        if ((NetIPv6IsUnspecified(ent + 22) != 0) || (NetIPv6CompareAddresses(ent + 22, new_var4) == 0))
+        if ((NetIPv6IsUnspecified(ent->remote) != 0) || (NetIPv6CompareAddresses(ent->remote, new_var4) == 0))
         {
-          TLobby__sub_80421938(rec, src, dst, *((u32 *) (ent + 40)), i);
+          TLobby__sub_80421938(rec, src, dst, ent->owner, i);
           found = 1;
         }
       }
     }
-    ent += 52;
+    ent++;
   }
 
   if (found == 1)
@@ -8562,7 +8528,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
     ok:
     if (reasm == 1)
     {
-      TUdpSocket__sub_80418BD8((A_80418BD8 *) rec);
+      TUdpSocket__sub_80418BD8((NetPacket *) rec);
     }
 
     release_entry(rec);
@@ -8578,7 +8544,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
   fail:
   if (reasm == 1)
   {
-    TUdpSocket__sub_80418BD8((A_80418BD8 *) rec);
+    TUdpSocket__sub_80418BD8((NetPacket *) rec);
   }
 
   release_entry(rec);
@@ -8617,7 +8583,7 @@ static inline s16 chk_804105E0(u8 *p, s16 lim, s16 ctx, s16 l, s16 rem, u8 *q, u
 extern s32 TLobby__sub_804105E0(u8 *self, u8 *p, s16 lim, s16 ctx)
 {
   s32 TLobby__sub_80410BA8(void *, void *, s16, void *); /* declared s32 here; the definition returns s16 */
-  s32 TLobby__sub_80415D0C(u8 *a, u8 *b, u8 *c, s16 d); /* declared s32 here; the definition is s16 (Pkt_804179A4 *, u8 *, Sock_804179A4 *, s16) */
+  s32 TLobby__sub_80415D0C(u8 *a, u8 *b, u8 *c, s16 d); /* declared s32 here; the definition is s16 (NetPacket *, u8 *, NetIPv6SendParameters *, s16) */
   s16 NetIPv6IsMulticast(u8 *); /* declared s16 here; the definition returns s32 */
   s16 TLobby__sub_804136AC(s16); /* declared s16 here; the definition returns s32 */
   u8 loc[8];
@@ -8828,7 +8794,7 @@ s32 TLobby__sub_80410A98(s32 arg0, void *arg1, void *arg2, void *arg3, void *arg
   u8 *q;
   s16 NetIPv6IsMulticast(u8 *); /* declared s16 here; the definition returns s32 */
   s16 TLobby__sub_804136AC(s16); /* declared s16 here; the definition returns s32 */
-  s32 TLobby__sub_80415D0C(Pkt_804179A4 *, u8 *, Sock_804179A4 *, s16); /* declared s32 here; the definition returns s16 */
+  s32 TLobby__sub_80415D0C(NetPacket *, u8 *, NetIPv6SendParameters *, s16); /* declared s32 here; the definition returns s16 */
   p = TLobby__sub_80413264(arg1, arg2);
   if (p == ((void *) 0))
   {
@@ -8856,7 +8822,7 @@ s32 TLobby__sub_80410A98(s32 arg0, void *arg1, void *arg2, void *arg3, void *arg
   NetMemcpy(buf2, arg1, 0x10);
   if ((!NetIPv6IsMulticast(q)) && TLobby__sub_804136AC(p->iface))
   {
-    return TLobby__sub_80415D0C((Pkt_804179A4 *) arg0, new_var, (Sock_804179A4 *) buf1, p->iface);
+    return TLobby__sub_80415D0C((NetPacket *) arg0, new_var, (NetIPv6SendParameters *) buf1, p->iface);
   }
   return TLobby__sub_80410BA8((void *) arg0, buf1, p->iface, (void *) 0);
 }
@@ -8864,13 +8830,13 @@ s32 TLobby__sub_80410A98(s32 arg0, void *arg1, void *arg2, void *arg3, void *arg
 s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 a6, u32 len);
 s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d)
 {
-  s16 TLobby__sub_804112B8(s32, s32, s16);
-  s16 TLobby__sub_8041123C(s32, s32, s16);
-  s16 NetIPv6IsMulticast(void *);
-  u8 *base = (u8 *) (&ipv6_protocol_state);
+  s16 TLobby__sub_804112B8(s32, s32, s16); /* declared s16 here; the definition returns s32 */
+  s16 TLobby__sub_8041123C(s32, s32, s16); /* declared s16 here; the definition returns s32 */
+  s16 NetIPv6IsMulticast(void *); /* declared s16 here; the definition is s32 (u8 *) */
+  Ipv6ProtocolState *base = &ipv6_protocol_state;
   s32 new_var;
-  u32 used = *((u32 *) (((u8 *) self) + 8));
-  u8 *slot = base + 0x18;
+  u32 used = ((NetPacket *) self)->total_bytes;
+  Ipv6Header *slot = &base->hdr;
   s32 n;
   s32 off;
   s16 ret;
@@ -8879,60 +8845,56 @@ s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d)
   {
     return 0;
   }
-  *((u32 *) slot) = 0;
-  if (*((u32 *) (((u8 *) a) + 0x20)))
+  slot->version_class_flow = 0;
+  if (((NetIPv6SendParameters *) a)->flow_label)
   {
-    *((u32 *) slot) = (*((u32 *) (((u8 *) a) + 0x20))) & 0xFFFFF;
+    slot->version_class_flow = (((NetIPv6SendParameters *) a)->flow_label) & 0xFFFFF;
   }
   else
   {
-    *((u32 *) slot) = *((u32 *) (base + 0x10));
+    slot->version_class_flow = base->flow_label;
   }
-  if (*((u16 *) (((u8 *) a) + 0x24)))
+  if (((NetIPv6SendParameters *) a)->traffic_class_bits)
   {
-    *((u16 *) slot) |= (*((u16 *) (((u8 *) a) + 0x24))) & 0xFF0;
+    *((u16 *) slot) |= (((NetIPv6SendParameters *) a)->traffic_class_bits) & 0xFF0;
   }
   else
   {
-    *((u16 *) slot) |= *((u16 *) (base + 0xc));
+    *((u16 *) slot) |= base->traffic_class;
   }
   *((u8 *) slot) = 0x60;
-  *((u16 *) (slot + 4)) = used;
-  *((u8 *) (slot + 6)) = ((u8 *) a)[0x27];
-  if (((u8 *) a)[0x26])
+  slot->payload_length = used;
+  slot->next_header = ((NetIPv6SendParameters *) a)->next_header;
+  if (((NetIPv6SendParameters *) a)->hop_limit)
   {
-    *((u8 *) (slot + 7)) = ((u8 *) a)[0x26];
+    slot->hop_limit = ((NetIPv6SendParameters *) a)->hop_limit;
   }
   else
   {
-    *((u8 *) (slot + 7)) = base[0x14];
+    slot->hop_limit = base->hop_limit;
   }
-  NetMemcpy(slot + 8, a, 16);
-  NetMemcpy(slot + 0x18, ((u8 *) a) + 0x10, 16);
-  ret = TLobby__sub_80411C44(((u8 *) a) + 0x10, c);
+  NetMemcpy(&slot->src, &((NetIPv6SendParameters *) a)->source, sizeof(IPv6Address));
+  NetMemcpy(&slot->dst, &((NetIPv6SendParameters *) a)->destination, sizeof(IPv6Address));
+  ret = TLobby__sub_80411C44(((NetIPv6SendParameters *) a)->destination.bytes, c);
   if (ret < 0)
   {
     return ret;
   }
-  n = ret - 0x28;
-  *((u32 *) (base + 8)) += 1;
+  n = ret - (s32)sizeof(Ipv6Header);
+  base->ident += 1;
   new_var = n;
   if (used > ((u32) n))
   {
-    return TLobby__sub_80410D6C((u8 *) self, slot, c, (s32) d, new_var);
+    return TLobby__sub_80410D6C((u8 *) self, (u8 *) slot, c, (s32) d, new_var);
   }
-  *((u32 *) (((u8 *) self) + 8)) += 0x28;
-  ((struct 
+  ((NetPacket *) self)->total_bytes += sizeof(Ipv6Header);
+  ((NetPacketFragment *) (((u8 *) self) + offsetof(NetPacket, fragments)))[((NetPacket *) self)->fragment_count].length = sizeof(Ipv6Header);
+  off = ((NetPacket *) self)->fragment_count * (s32)sizeof(NetPacketFragment);
+  set_value_and_enable((((u8 *) self) + off) + offsetof(NetPacket, fragments[0].buffer), (s32) slot);
+  ((NetPacket *) self)->fragment_count += 1;
+  if (NetIPv6IsMulticast(&((NetIPv6SendParameters *) a)->destination))
   {
-    u16 v;
-    u8 pad[10];
-  } *) (((u8 *) self) + 0xc))[*((s32 *) (((u8 *) self) + 4))].v = 0x28;
-  off = (*((s32 *) (((u8 *) self) + 4))) * 12;
-  set_value_and_enable((((u8 *) self) + off) + 0x10, (s32) slot);
-  *((s32 *) (((u8 *) self) + 4)) += 1;
-  if (NetIPv6IsMulticast(((u8 *) a) + 0x10))
-  {
-    return TLobby__sub_804112B8((s32) self, (s32) (((u8 *) a) + 0x10), c);
+    return TLobby__sub_804112B8((s32) self, (s32) &((NetIPv6SendParameters *) a)->destination, c);
   }
   return TLobby__sub_8041123C((s32) self, (s32) d, c);
 }
@@ -8944,93 +8906,81 @@ extern s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 a6, u32 len)
     s16 NetIPv6IsMulticast(u8 *); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_804112B8(s32, s32, s16); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_8041123C(s32, s32, s16); /* declared s16 here; the definition returns s32 */
-    typedef struct {
-        u32 f0;
-        s32 n;
-        u32 total;
-        struct {
-            s16 len;
-            u8 pad[2];
-            u8 data[8];
-        } ent[12];
-    } Pkt;
-    Pkt iov;
-    u8 fh[8];
+    NetPacket iov;
+    Ipv6FragmentHeader fh;
     s16 i;
     s16 k;
     s16 j;
     s32 off;
     s16 rem;
-    Pkt *iovp;
+    NetPacket *iovp;
     u32 limit;
-    Pkt *pc;
+    NetPacket *pc;
     s32 flen;
-    u8 *e;
     s16 r;
 
-    pc = (Pkt *)ctx;
+    pc = (NetPacket *)ctx;
     if (len < 8) {
         return -6;
     }
-    fh[0] = hdr[6];
-    fh[1] = 0;
-    *(u16 *)(fh + 2) = 0;
-    *(u32 *)(fh + 4) = *(u32 *)((u8 *)&ipv6_protocol_state + 8);
-    hdr[6] = 0x2c;
+    fh.next_header = hdr[offsetof(Ipv6Header, next_header)];
+    fh.reserved = 0;
+    fh.offset_flags = 0;
+    fh.ident = ipv6_protocol_state.ident;
+    hdr[offsetof(Ipv6Header, next_header)] = 0x2c;
     limit = len - 8;
     limit &= 0xFFF8;
     iovp = &iov;
     off = 0;
-    while (pc->total != 0) {
-        iov.total = 0;
-        iov.n = 0;
-        for (i = pc->n - 1; i >= 0; i--) {
-            if (iov.total + (flen = pc->ent[i].len) < limit) {
-                iov.total += pc->ent[i].len;
-                iov.n++;
+    while (pc->total_bytes != 0) {
+        iov.total_bytes = 0;
+        iov.fragment_count = 0;
+        for (i = pc->fragment_count - 1; i >= 0; i--) {
+            if (iov.total_bytes + (flen = pc->fragments[i].length) < limit) {
+                iov.total_bytes += pc->fragments[i].length;
+                iov.fragment_count++;
             } else {
-                iov.total = limit;
-                iov.n++;
+                iov.total_bytes = limit;
+                iov.fragment_count++;
                 break;
             }
         }
-        k = iov.n - 1;
-        j = pc->n - 1;
-        rem = iov.total;
+        k = iov.fragment_count - 1;
+        j = pc->fragment_count - 1;
+        rem = iov.total_bytes;
         while (k >= 0 && rem > 0) {
-            NetMemcpy(iovp->ent[k].data, pc->ent[j].data, 8);
-            if (rem < pc->ent[j].len) {
-                iovp->ent[k].len = rem;
-                pc->total -= rem;
-                e = (u8 *)pc + j * 12;
-                *(s16 *)(e + 12) -= rem;
-                TLobby__sub_80406EB8((NetBufferRef *)(e + 16), rem);
+            NetMemcpy(&iovp->fragments[k].buffer, &pc->fragments[j].buffer, sizeof(NetBufferRef));
+            if (rem < pc->fragments[j].length) {
+                iovp->fragments[k].length = rem;
+                pc->total_bytes -= rem;
+                pc->fragments[j].length -= rem;
+                TLobby__sub_80406EB8(&pc->fragments[j].buffer, rem);
                 break;
             }
-            iovp->ent[k].len = pc->ent[j].len;
-            rem -= pc->ent[j].len;
-            pc->total -= pc->ent[j].len;
-            pc->ent[j].len = 0;
-            pc->n--;
+            iovp->fragments[k].length = pc->fragments[j].length;
+            rem -= pc->fragments[j].length;
+            pc->total_bytes -= pc->fragments[j].length;
+            pc->fragments[j].length = 0;
+            pc->fragment_count--;
             k--;
             j--;
         }
-        *(u16 *)(fh + 2) = off & 0xFFF8;
-        if (pc->total != 0) {
-            *(u16 *)(fh + 2) |= 1;
+        fh.offset_flags = off & 0xFFF8;
+        if (pc->total_bytes != 0) {
+            fh.offset_flags |= 1;
         }
-        off += (s16)iov.total;
-        iov.total += 8;
-        iovp->ent[iov.n].len = 8;
-        set_value_and_enable(iovp->ent[iov.n].data, (s32)fh);
-        iov.n++;
-        *(u16 *)(hdr + 4) = iov.total;
-        iov.total += 40;
-        iovp->ent[iov.n].len = 40;
-        set_value_and_enable(iovp->ent[iov.n].data, (s32)hdr);
-        iov.n++;
-        if (NetIPv6IsMulticast(hdr + 24)) {
-            r = TLobby__sub_804112B8((s32)iovp, (s32)(hdr + 24), a5);
+        off += (s16)iov.total_bytes;
+        iov.total_bytes += 8;
+        iovp->fragments[iov.fragment_count].length = 8;
+        set_value_and_enable(&iovp->fragments[iov.fragment_count].buffer, (s32)&fh);
+        iov.fragment_count++;
+        *(u16 *)(hdr + offsetof(Ipv6Header, payload_length)) = iov.total_bytes;
+        iov.total_bytes += 40;
+        iovp->fragments[iov.fragment_count].length = 40;
+        set_value_and_enable(&iovp->fragments[iov.fragment_count].buffer, (s32)hdr);
+        iov.fragment_count++;
+        if (NetIPv6IsMulticast(hdr + offsetof(Ipv6Header, dst))) {
+            r = TLobby__sub_804112B8((s32)iovp, (s32)(hdr + offsetof(Ipv6Header, dst)), a5);
         } else {
             r = TLobby__sub_8041123C((s32)iovp, a6, a5);
         }
@@ -9066,7 +9016,7 @@ extern u16 TLobby__sub_80411040(const struct IPv6Address *src, const struct IPv6
     return ~sum;
 }
 
-RecoveredGlobal_8040FF0C_lbl_805C1B78 ipv6_protocol_state;
+Ipv6ProtocolState ipv6_protocol_state;
 Ipv4RoutingState ipv4_address_routing_state;
 RecoveredGlobal_8040DD68_lbl_805C1B38 ipv4_protocol_state;
 G_8040A45C dns_resolver_state;

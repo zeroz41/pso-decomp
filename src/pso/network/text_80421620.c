@@ -75,7 +75,7 @@ s16 init_ipv4_interfaces();
 s16 TLobby__sub_8040ED70();
 s16 NetIPv6Init();
 s16 TUdpSocket__sub_8041118C();
-s16 TLobby__sub_80415690();
+s16 TLobby__sub_80415690(); /* declared s16 here; the definition returns s32 */
 s16 NetIPv6InitNeighborDiscovery();
 s16 init_packet_fragment_pools();
 s16 TLobby__sub_80419A34(int); /* declared here with an int argument and an s16 return; the definition takes no arguments and returns s32 */
