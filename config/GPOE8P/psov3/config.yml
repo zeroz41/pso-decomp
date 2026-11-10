@@ -17743,6 +17743,29 @@ force_active:
   - write_telepipe_record__FPUcUssPUcl
   - __ct__13TUnk_804A6CC8FP7TObjectPUc
   - yasminkov_9000m_eject_casing__13TUnk_804A6AD8FP12WeaponVectorl
+  - TLobby__sub_803C5B50
+  - TLobby__sub_803C5E58
+  - TLobby__sub_803C5E68
+  - TObjPlayer__sub_80079108
+  - TObjPlayer__sub_8007910C
+  - TObjPlayer__sub_80079110
+  - TObjPlayer__sub_80079114
+  - TObjPlayer__sub_80079120
+  - TObjPlayer__sub_80079124
+  - TObjPlayer__sub_80079DE0
+  - adx_stream_ring_buffer
+  - adx_stream_ring_buffer_storage
+  - calc_segment_xz_distance_sq
+  - check_line_hits_walls__10TObjPlayerFPvPviPv
+  - copy_wall_polygon__10TObjPlayerFPUc
+  - evaluate_ground_triangles
+  - intersect_wall_triangle_one_sided
+  - music_stream_afs_filename_buffer
+  - prepare_wall_query_polygons__FPvfl
+  - query_wall_segment__FPvPvPvl
+  - refill_csn_candidate_cache
+  - select_deepest_wall_ray
+  - select_ground_query_groups__FP9CsnVectorUl
 # --- force_active (END) ---
 # False pointers: packed data words whose values happen to land on code/data
 # addresses. dtk would emit a relocation and export the target symbol.
