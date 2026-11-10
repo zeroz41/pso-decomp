@@ -17766,6 +17766,21 @@ force_active:
   - refill_csn_candidate_cache
   - select_deepest_wall_ray
   - select_ground_query_groups__FP9CsnVectorUl
+  - __dt__19TAdSelectGameModeGCFv
+  - __vt__19TAdSelectGameModeGC
+  - add_part__25TWindowSubSymbolChatPartsFv
+  - fn_80284C04
+  - fn_80284FB8
+  - fn_80285314
+  - fn_802855C4
+  - fn_802857C4
+  - handle_add__25TWindowSubSymbolChatPartsFv
+  - handle_cancel__25TWindowSubSymbolChatPartsFv
+  - lbl_805DD808
+  - render__19TAdSelectGameModeGCFv
+  - run_task__19TAdSelectGameModeGCFv
+  - sub_80285054__25TWindowSubSymbolChatPartsFv
+  - sub_80285274__25TWindowSubSymbolChatPartsFPUc
 # --- force_active (END) ---
 # False pointers: packed data words whose values happen to land on code/data
 # addresses. dtk would emit a relocation and export the target symbol.

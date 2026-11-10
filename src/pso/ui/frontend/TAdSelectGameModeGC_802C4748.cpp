@@ -9,8 +9,6 @@
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 
-TAdSelectGameModeGC::~TAdSelectGameModeGC() {}
-
 #include "types.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/TLevelSelect.h"
@@ -106,6 +104,8 @@ void run_task__19TAdSelectGameModeGCFv(u8 *arg0) {
         }
     }
 }
+TAdSelectGameModeGC::~TAdSelectGameModeGC() {}
+
 u8 *__ct__19TAdSelectGameModeGCFv(u8 *arg0, void *parent) {
     void *p;
     __ct__7TObjectFP7TObject(arg0, parent);
