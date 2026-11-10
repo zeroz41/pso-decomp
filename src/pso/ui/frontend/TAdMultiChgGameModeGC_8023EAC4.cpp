@@ -2,6 +2,7 @@
 #include "pso/ui/window/TWindowShortListCtrl_801A4FC0.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
+#include "pso/ui/frontend/TAdTimeSetGC.h"
 #include "pso/ui/TLogo.h"
 
 extern "C" {
@@ -19,7 +20,6 @@ void *TAdMultiSaveGC__ct(void *, s32);
 void *TAdPsoPassSaveGC__ct(void *, s32);
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent);
 void *TAdSnAkPassConfirmGC__ct(void *, s32);
-void *TAdTimeSetGC__ct(void *, s32);
 void *TAdTrialAgreementGC__ct(void *, s32);
 void *TAdTrialModemChkGC__ct(void *, s32);
 void *TAdVIConfigGC__ct(void *, s32);
@@ -161,11 +161,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = (s32)get_or_create__22TAdMultiPlyChrSelectGCFii(tl_01, 0);
         break;
     case 8:
-        p = __nw__7TObjectFUl(0x468);
-        if (p != NULL) {
-            p = TAdTimeSetGC__ct(p, tl_01);
-        }
-        game_mode_scene_instance = (s32)p;
+        game_mode_scene_instance = (s32)new TAdTimeSetGC((TObject *)tl_01);
         break;
     case 9:
         p = __nw__7TObjectFUl(0x34);
