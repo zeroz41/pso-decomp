@@ -106,13 +106,24 @@ u32 build_item_id(u16 arg0) {
     return id;
 }
 
+void observe_item_id(s32 item_id) {
+    int id = item_id;
+    if (get_current_floor_area() != AREA_LOBBY) {
+        s32 lo = 0x10000;
+        if (lo < id && id < 0x2010000) {
+            s32 idx = id >> 21;
+            if (((s32 *)item_sync_counter_table)[(u16)idx] <= id) {
+                set_boss_buf_entry__6TLobbyFii(id + 1, idx);
+            }
+        }
+    }
+}
+
 void handle_box_drop_directive(void *arg0) {
     BoxDrop_8011A868 *req = (BoxDrop_8011A868 *)arg0;
     BoxSet_8011A868 set;
     Delivery_8011AA68 delivery;
     TItemData item;
-    u8 data0;
-    u8 data1;
     u32 id;
     s16 source = req->source;
     if (source != -1) {
@@ -127,8 +138,8 @@ void handle_box_drop_directive(void *arg0) {
             set.params[2] = req->params[2];
             item.unpack_from_item(&set);
             if (0.0f == set.fixed) {
-                data0 = item.data1.data_u8[0];
-                data1 = item.data1.data_u8[1];
+                const u8 data0 = item.data1.data_u8[0];
+                const u8 data1 = item.data1.data_u8[1];
                 item.init();
                 item.data1.data_u8[0] = data0;
                 item.data1.data_u8[1] = data1;
@@ -146,19 +157,6 @@ void handle_box_drop_directive(void *arg0) {
                 delivery.room = req->room;
                 ((TItemData *)(delivery.item))->copy_from(&item);
                 ((TLobby *)(&delivery))->send_item_packet();
-            }
-        }
-    }
-}
-
-void observe_item_id(s32 item_id) {
-    int id = item_id;
-    if (get_current_floor_area() != AREA_LOBBY) {
-        s32 lo = 0x10000;
-        if (lo < id && id < 0x2010000) {
-            s32 idx = id >> 21;
-            if (((s32 *)item_sync_counter_table)[(u16)idx] <= id) {
-                set_boss_buf_entry__6TLobbyFii(id + 1, idx);
             }
         }
     }

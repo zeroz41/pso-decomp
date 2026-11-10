@@ -2,9 +2,11 @@
 #define PSO_ENEMY_TOBJENEPANBARA_H
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/render/RenderFadeState.h"
 
-// One Pan Arms half (0x470 bytes, TObjEnePanarms::create_bara); 0x37C points at the
-// body and 0x380 is the half's index (create_bara's second argument).
+// One Pan Arms half (0x470 bytes, TObjEnePanarms::create_bara); 0x380 is the half's
+// index (create_bara's second argument, the constructor's third).
 extern "C" {
 // Links a half to the body (0x39C) and to the other half (0x3A0).
 void TObjEnePanarms__sub_800E1C8C(void *arg0, s32 arg1, s32 arg2);
@@ -12,7 +14,10 @@ void TObjEnePanarms__sub_800E1C8C(void *arg0, s32 arg1, s32 arg2);
 
 class TObjEnePanBARA : public TObjEnemy {
 public:
+    TObjEnePanBARA(TObject *parent, void *setData, s32 index);
     virtual ~TObjEnePanBARA();
+    virtual void run_task();
+    virtual void render();
     void calc_part_position(u8 *, s32 *);
     virtual void vfunc_63();
     virtual void vfunc_62();
@@ -48,16 +53,26 @@ public:
     void draw();
     int find_nearest_enemy_with_flag_alt_target(s32 arg1, f32 farg0);
     void attack_target_player(s32 arg1);
-    void draw_with_fade();
+    // The state table's entries that have no name yet.
+    void sub_800E10D0();
+    void sub_800E0D1C();
+    void sub_800E0B9C();
+    void sub_800E0A44();
+    void sub_800E0950();
+    void sub_800E0930();
+    void sub_800E092C();
+    void sub_800E055C();
+    void sub_800E0344();
+    void sub_800E0214();
+    void sub_800E0048();
+    void sub_800DFE08();
     s32 state;
     s32 m_378;
-    u8 unk_37C[0x4];
+    CollisionBody *collision_body_parts; // init_collision_body_parts / free_collision_body_parts
     s32 m_380;
-    u8 unk_384[0x4];
+    s32 m_384;
     s32 m_388;
-    s32 m_38c;
-    u32 m_390;
-    u8 unk_394[0x4];
+    Vec m_38c;
     s32 m_398;
     u8 *m_39c;
     void* m_3a0;
@@ -70,18 +85,17 @@ public:
     s32 m_3bc;
     u8 unk_3C0[0x4];
     s32 m_3c4;
-    u8 unk_3C8[0x4];
-    s32 m_3cc;
-    u8 unk_3D0[0x4];
+    Vec pad_3c8;
     s32 m_3d4;
-    u8 unk_3D8[0x4];
+    f32 pad_3d8;
     void* m_3dc;
     u8 unk_3E0[0x4];
-    u8 unk_3E4[0x78];
+    u8 unk_3E4[0x8];
+    RenderFadeState fades[4]; // one per camera (render)
     s32 m_45c;
-    u8 unk_460[0x4];
+    f32 pad_460;
     f32 m_464;
-    u8 unk_468[0x4];
+    f32 pad_468;
     f32 m_46c;
 };
 

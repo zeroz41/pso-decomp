@@ -7,7 +7,6 @@
 #include "pso/boss/goldragon/TBoss8Dragon_802F3AB4.h"
 #include "pso/enemy/saver/SaverLifecycle.h"
 #include "pso/enemy/darkgunner/TObjEneDarkGunCenter.h"
-#include "pso/enemy/flower/TObjEneRe2Flower_800C3E14.h"
 #include "pso/unk/TLobby_800F795C.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/npc/TObjNpcBase_80149128.h"

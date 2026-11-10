@@ -1307,213 +1307,14 @@ struct Set_800C1C4C {
 struct Lappy_800C1C4C { u8 pad[0x354]; f32 params[5]; };
 
 
-typedef struct Mat_800C20D0 {
-    u8 pad0[0x8];
-    s32 f8;
-    u8 padC[0x14 - 0xC];
-    s32 f14;
-    u8 pad18[0x20 - 0x18];
-    s32 f20;
-    u8 pad24[0x2C - 0x24];
-    s32 f2C;
-} Mat_800C20D0;
-
-typedef struct Model_800C20D0 {
-    Mat_800C20D0 *mat;
-} Model_800C20D0;
-
-struct VBase_800C20D0 {
-    char pad0[0x18];
-};
-
-struct VObj_800C20D0 : VBase_800C20D0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
-struct Obj_800C20D0 : VObj_800C20D0 {
-    u8 pad1C[0x24 - 0x1C];
-    Model_800C20D0 *model;
-    u8 pad28[0x34 - 0x28];
-    s32 f34;
-    Vec pos;
-    u8 pad44[0x60 - 0x44];
-    s32 f60;
-};
 
 
-typedef struct Mat_800C220C {
-    u8 pad0[0x8];
-    s32 f8;
-    u8 padC[0x14 - 0xC];
-    s32 f14;
-    u8 pad18[0x20 - 0x18];
-    s32 f20;
-    u8 pad24[0x2C - 0x24];
-    s32 f2C;
-} Mat_800C220C;
-
-typedef struct Model_800C220C { Mat_800C220C *mat; } Model_800C220C;
-
-struct SBase_800C220C { char pad0[0x14]; };
-
-struct Sub_800C220C : SBase_800C220C {
-    virtual void s0(); virtual void s1(); virtual void s2(); virtual void s3();
-    virtual void s4(); virtual void s5();
-    virtual void m6(); virtual void m7(); virtual s32 m8();
-};
-
-struct VBase_800C220C { char pad0[0x18]; };
-
-struct VObj_800C220C : VBase_800C220C {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual s32 m8(f32, f32);
-    virtual s32 m9(f32, f32, f32);
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35();
-    virtual void v36();
-    virtual void v37();
-    virtual void v38();
-    virtual void v39();
-    virtual void v40();
-    virtual void v41();
-    virtual void v42();
-    virtual void v43();
-    virtual void v44();
-    virtual void v45();
-    virtual void v46();
-    virtual void v47();
-    virtual void v48();
-    virtual void v49();
-    virtual void v50();
-    virtual void v51();
-    virtual void v52();
-    virtual void v53();
-    virtual void v54();
-    virtual void v55();
-    virtual void v56();
-    virtual void v57();
-    virtual void v58();
-    virtual void v59();
-    virtual void v60();
-    virtual void v61();
-    virtual void v62();
-    virtual void v63();
-    virtual void v64();
-    virtual void v65();
-    virtual void v66();
-    virtual void v67();
-    virtual void v68();
-    virtual void v69();
-    virtual void v70();
-    virtual void v71();
-    virtual void v72();
-    virtual void v73();
-    virtual void v74();
-    virtual void v75();
-    virtual void v76();
-    virtual void v77();
-    virtual void v78();
-    virtual void v79();
-    virtual void v80();
-    virtual void v81();
-    virtual void v82();
-    virtual void v83();
-    virtual void v84();
-    virtual void v85();
-    virtual void v86();
-    virtual void v87();
-    virtual void v88();
-    virtual void v89();
-    virtual void v90();
-    virtual void v91();
-    virtual void v92();
-    virtual void v93();
-    virtual void v94();
-    virtual void v95();
-    virtual void v96();
-    virtual void v97();
-    virtual void v98();
-    virtual void v99();
-    virtual void v100();
-    virtual void v101();
-    virtual void v102();
-    virtual void v103();
-    virtual void m104();
-};
-
-struct Obj_800C220C : VObj_800C220C {
-    u8 pad1C[0x24 - 0x1C];
-    Model_800C220C *model;
-    u8 pad28[0x38 - 0x28];
-    Vec pos;
-    u8 pad44[0x60 - 0x44];
-    s32 f60;
-    u8 pad64[0x326 - 0x64];
-    s16 f326;
-    u8 pad328[0x3C0 - 0x328];
-    s32 f3C0;
-    u32 f3C4;
-    f32 f3C8;
-    u8 pad3CC[0x3D8 - 0x3CC];
-    s32 f3D8;
-    f32 f3DC;
-    f32 f3E0;
-    f32 f3E4;
-    f32 f3E8;
-    f32 f3EC;
-    f32 f3F0;
-    Sub_800C220C sub;
-};
-
-extern "C" {
-s32 sub_800C3B8C__16TObjEneRe2FlowerFv(void *);
-}
 void restore_alpha_ref(void);
 void set_alpha_ref_override(u8 scene);
 extern Vec lbl_8043BBC0[];
 extern "C" {
 s32 is_main_phase_15__9TObjEneDDFv(void);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
-s32 defer_render__7TObjectFv(void *);
 extern Vec lbl_8043BBB4[];
 extern s32 saved_model_render_flags;
 extern s32 lbl_805D5178;
@@ -1525,7 +1326,6 @@ extern const f32 lbl_805D9FAC;
 extern const f32 lbl_805D9FB0;
 extern const f32 lbl_805D9FB4;
 extern const f32 lbl_805D9FB8;
-void TObjPlayer__sub_800C220C(Obj_800C220C *o);
 void *__dt__12TObjEneLappyFv(void *arg0, s16 arg1);
 void free_collision_body_parts(void *);
 void __dl__7TObjectFPv(void *);
@@ -1975,106 +1775,106 @@ __declspec(section ".sdata2") extern const f32 lbl_805D9F9C = 0.0f;
 void TObjEneRe2Flower::vfunc_106() {
     s32 save8;
     s32 save14;
-    if (((Obj_800C20D0 *)this)->m8(400.0f, 25.0f) == 0) {
+    if (update_object_view_visibility(400.0f, 25.0f) == 0) {
         return;
     }
     Vec v = lbl_8043BBC0[0];
-    ((TObjEneDD *)(((Obj_800C20D0 *)this)))->draw_ground_shadow(&v, 0);
-    if (((TObjEneRe2Flower *)((Obj_800C20D0 *)this))->get_flag_11() == 0 && sub_800C3B8C__16TObjEneRe2FlowerFv(((Obj_800C20D0 *)this)) != 0) {
-        save8 = ((Obj_800C20D0 *)this)->model->mat->f8;
-        save14 = ((Obj_800C20D0 *)this)->model->mat->f14;
-        ((Obj_800C20D0 *)this)->model->mat->f8 = ((Obj_800C20D0 *)this)->model->mat->f20;
-        ((Obj_800C20D0 *)this)->model->mat->f14 = ((Obj_800C20D0 *)this)->model->mat->f2C;
+    draw_ground_shadow(&v, 0);
+    if (get_flag_11() == 0 && sub_800C3B8C() != 0) {
+        save8 = ((NJS_TEXLIST *)texlist)->textures[0].texaddr;
+        save14 = ((NJS_TEXLIST *)texlist)->textures[1].texaddr;
+        ((NJS_TEXLIST *)texlist)->textures[0].texaddr = ((NJS_TEXLIST *)texlist)->textures[2].texaddr;
+        ((NJS_TEXLIST *)texlist)->textures[1].texaddr = ((NJS_TEXLIST *)texlist)->textures[3].texaddr;
     }
-    set_global_param__8TObjFishFl(((Obj_800C20D0 *)this)->model);
+    set_global_param__8TObjFishFl((void *)texlist);
     push_matrix();
-    post_translate_matrix(&((Obj_800C20D0 *)this)->pos);
-    rotate_matrix_y(0, ((Obj_800C20D0 *)this)->f60);
+    post_translate_matrix(&position);
+    rotate_matrix_y(0, rotation_y);
     TObjEneDD::clear_global_flag_400();
     toggle_particle_effect__10TObjPlayerFv();
     set_alpha_ref_override(0);
-    draw_chunk_object(((Obj_800C20D0 *)this)->f34);
+    draw_chunk_object((s32)model);
     restore_alpha_ref();
     end_effect_render__13TParticleCtrlFv();
     pop_matrix();
-    if (((TObjEneRe2Flower *)((Obj_800C20D0 *)this))->get_flag_11() == 0 && sub_800C3B8C__16TObjEneRe2FlowerFv(((Obj_800C20D0 *)this)) != 0) {
-        ((Obj_800C20D0 *)this)->model->mat->f8 = save8;
-        ((Obj_800C20D0 *)this)->model->mat->f14 = save14;
+    if (get_flag_11() == 0 && sub_800C3B8C() != 0) {
+        ((NJS_TEXLIST *)texlist)->textures[0].texaddr = save8;
+        ((NJS_TEXLIST *)texlist)->textures[1].texaddr = save14;
     }
 }
-void TObjPlayer__sub_800C220C(Obj_800C220C *o) {
+void TObjEneRe2Flower::render() {
     s32 visible;
     s32 save8;
     s32 save14;
     if (TObjPlayer::check_demo_mode() != 0) {
-        o->m104();
+        vfunc_106();
         return;
     }
-    if (o->f326 == 11) {
+    if (mode == 11) {
         return;
     }
     if (is_main_phase_15__9TObjEneDDFv() != 0) {
-        if (((TObjEneRe2Flower *)o)->get_flag_11() != 0) {
-            visible = o->m9(600.0f, 600.0f, 25.0f);
+        if (get_flag_11() != 0) {
+            visible = classify_actor_view_detail(600.0f, 600.0f, 25.0f);
         } else {
-            visible = o->m9(lbl_805D9E88, lbl_805D9E84, 25.0f);
+            visible = classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 25.0f);
         }
-    } else if (o->m8(400.0f, 25.0f) != 0) {
+    } else if (update_object_view_visibility(400.0f, 25.0f) != 0) {
         visible = 1;
     } else {
         visible = 0;
     }
     if (visible != 0) {
-        if (o->f326 != 10) {
+        if (mode != 10) {
             Vec v = lbl_8043BBB4[0];
-            ((TObjEneDD *)(o))->draw_ground_shadow(&v, 0);
+            draw_ground_shadow(&v, 0);
         }
-        ((TObjEneDD *)o)->update_secondary_light();
-        if (((TObjEneRe2Flower *)o)->get_flag_11() == 0 && sub_800C3B8C__16TObjEneRe2FlowerFv(o) != 0) {
-            save8 = o->model->mat->f8;
-            save14 = o->model->mat->f14;
-            o->model->mat->f8 = o->model->mat->f20;
-            o->model->mat->f14 = o->model->mat->f2C;
+        update_secondary_light();
+        if (get_flag_11() == 0 && sub_800C3B8C() != 0) {
+            save8 = ((NJS_TEXLIST *)texlist)->textures[0].texaddr;
+            save14 = ((NJS_TEXLIST *)texlist)->textures[1].texaddr;
+            ((NJS_TEXLIST *)texlist)->textures[0].texaddr = ((NJS_TEXLIST *)texlist)->textures[2].texaddr;
+            ((NJS_TEXLIST *)texlist)->textures[1].texaddr = ((NJS_TEXLIST *)texlist)->textures[3].texaddr;
         }
-        set_global_param__8TObjFishFl(o->model);
+        set_global_param__8TObjFishFl((void *)texlist);
         push_matrix();
-        post_translate_matrix(&o->pos);
-        rotate_matrix_y(0, o->f3C0);
+        post_translate_matrix(&position);
+        rotate_matrix_y(0, m_3c0);
         saved_model_render_flags = model_render_flags;
         set_alpha_ref_override(0);
         TObjEneDD::clear_global_flag_400();
-        translate_matrix(0, lbl_805D9FAC, o->f3C8, lbl_805D9FAC);
-        lbl_805D517C = o->f60 - o->f3C0;
-        lbl_805D5180 = &o->f3DC;
-        o->f3DC = lbl_805D9FAC;
-        o->f3E0 = lbl_805D9FB0;
-        o->f3E4 = lbl_805D9FAC;
-        o->f3E8 = lbl_805D9FAC;
-        o->f3EC = lbl_805D9FB4;
-        o->f3F0 = lbl_805D9FAC;
+        translate_matrix(0, lbl_805D9FAC, m_3c8, lbl_805D9FAC);
+        lbl_805D517C = rotation_y - m_3c0;
+        lbl_805D5180 = &m_3dc[0].x;
+        m_3dc[0].x = lbl_805D9FAC;
+        m_3dc[0].y = lbl_805D9FB0;
+        m_3dc[0].z = lbl_805D9FAC;
+        m_3dc[1].x = lbl_805D9FAC;
+        m_3dc[1].y = lbl_805D9FB4;
+        m_3dc[1].z = lbl_805D9FAC;
         scale_matrix(0, lbl_805D9FB8, lbl_805D9FB8, lbl_805D9FB8);
         set_chunk_model_node_callback((s32)((void *)TObjPlayer::update_effect_sequence));
-        if (o->f326 == 8) {
-            s32 c = (o->f3D8 & 0xFF) << 16;
+        if (mode == 8) {
+            s32 c = (m_3d8 & 0xFF) << 16;
             lbl_805D5178 = -1;
             toggle_particle_effect__10TObjPlayerFv();
-            ((TObjEneDD_ST *)o)->draw_with_alt_model(c);
+            draw_with_alt_model(c);
             end_effect_render__13TParticleCtrlFv();
         } else {
             lbl_805D5178 = 0;
             toggle_particle_effect__10TObjPlayerFv();
-            if (o->f3C4 & 8) {
-                if (o->sub.m8() != 0) {
-                    o->sub.m6();
-                    if (defer_render__7TObjectFv(o) == 0) {
-                        draw__10TObjMotionFv(o);
+            if (m_3c4 & 8) {
+                if (m_3f4.has_visible_opacity() != 0) {
+                    m_3f4.set_flags_and_apply_damage_color();
+                    if (defer_render() == 0) {
+                        draw();
                     }
-                    o->sub.m7();
+                    m_3f4.clear_flag_and_notify();
                 }
             } else if (visible == 1) {
-                draw__10TObjMotionFv(o);
+                draw();
             } else {
-                draw_motion_model__10TObjMotionFv(o);
+                draw_motion_model();
             }
             end_effect_render__13TParticleCtrlFv();
         }
@@ -2082,19 +1882,19 @@ void TObjPlayer__sub_800C220C(Obj_800C220C *o) {
         restore_alpha_ref();
         model_render_flags = saved_model_render_flags;
         pop_matrix();
-        ((TObjEneDD *)o)->update_primary_light();
-        if (((TObjEneRe2Flower *)o)->get_flag_11() == 0 && sub_800C3B8C__16TObjEneRe2FlowerFv(o) != 0) {
-            o->model->mat->f8 = save8;
-            o->model->mat->f14 = save14;
+        update_primary_light();
+        if (get_flag_11() == 0 && sub_800C3B8C() != 0) {
+            ((NJS_TEXLIST *)texlist)->textures[0].texaddr = save8;
+            ((NJS_TEXLIST *)texlist)->textures[1].texaddr = save14;
         }
         return;
     }
-    o->f3DC = o->pos.x;
-    o->f3E0 = lbl_805D9FB0 + o->pos.y;
-    o->f3E4 = o->pos.z;
-    o->f3E8 = o->pos.x;
-    o->f3EC = lbl_805D9FB4 + o->pos.y;
-    o->f3F0 = o->pos.z;
+    m_3dc[0].x = position.x;
+    m_3dc[0].y = lbl_805D9FB0 + position.y;
+    m_3dc[0].z = position.z;
+    m_3dc[1].x = position.x;
+    m_3dc[1].y = lbl_805D9FB4 + position.y;
+    m_3dc[1].z = position.z;
 }
 }
 

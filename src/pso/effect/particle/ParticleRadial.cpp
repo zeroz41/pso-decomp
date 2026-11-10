@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/render_util.h"
 #include "pso/system/MatrixOps.h"
@@ -115,20 +116,14 @@ extern s32 model_render_flags;
 f32 atan2_float(f32, f32);
 f32 vector_length(void *);
 void project_world_to_screen(s32, void *, void *);
-extern const Ang_8008BAF8 radial_particle_zero_angles;
-extern const f64 lbl_80439560[];
-extern const f32 lbl_805D9564;
+static const Ang_8008BAF8 radial_particle_zero_angles = { 0, 0, 0 };
 void __ct__7TObjectFP7TObject(void *, void *);
 }
 void * create_random_particle(void *arg0, void *arg1, void *arg2);
-extern const f32 TParticleCtrl__data_805D9558;
-extern const f32 TParticleCtrl__data_805D955C;
 extern s32 TParticleCtrl__data_8048E7A8[];
 void stop_cue_stream(void);
 void *init_particle_base(void *arg0, void *arg1, s32 arg2);
 extern ParticleTexture *TParticleCtrl__data_80511F70[];
-extern const f32 lbl_805D9568;
-extern const f32 lbl_805D956C;
 u8 *construct_radial_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5);
 void setup_particle_tev(s32 arg0);
 void load_projected_texture_matrix(f32 farg0);
@@ -225,146 +220,99 @@ void * create_random_particle(void *arg0, void *arg1, void *arg2) {
 
 void TUnk_8048E7A8::check_radial_particle_retire() {
     u8 *arg0 = (u8 *)this;
-    if ((this->age >= TParticleCtrl__data_805D9558) || (TParticleCtrl__data_805D955C == vec_squared_length((arg0 + 0x3C)))) {
+    if ((this->age >= 1.0f) || (0.0f == vec_squared_length((arg0 + 0x3C)))) {
         queue_destruction__7TObjectFv((arg0));
     }
-}
-
-// Colour channel scaled by the fade alpha; nothing below zero, at most alpha.
-inline f32 fade_particle_channel(f32 c, f32 alpha) {
-    if (c < 0.0f) {
-        return 0.0f;
-    }
-    return alpha * ((c < 1.0f) ? c : 1.0f);
-}
-
-inline f32 clamp_particle_channel(f32 c) {
-    if (c < 0.0f) {
-        return 0.0f;
-    }
-    return (c < 1.0f) ? c : 1.0f;
 }
 
 #pragma push
 #pragma fp_contract on
 void TUnk_8048E7A8::run_task() {
-  u8 *arg0 = (u8 *) this;
-  u8 *params;
-  Vec_8008BAF8 out;
-  f32 new_var[2];
-  f32 k;
-  f32 a3;
-  f32 X;
-  f32 f2c;
-  f32 beta;
-  f32 v;
-  f32 ch[3];
-  u8 rgba[4];
-  s32 *tbl;
-  u8 *sub;
-  s32 count;
-  u8 *ent;
-  f32 *vec;
-  u32 ucount;
-  params = (u8 *) this->param;
-  *((f32 *) (arg0 + 0x68)) = (*((f32 *) (arg0 + 0x68))) * (*((f32 *) (params + 0x50)));
-  approach_vector_fixed_distance((const Vec *) (arg0 + 0x70), (const Vec *) (arg0 + 0x30), (Vec *) (&out), *((f32 *) (arg0 + 0x68)));
-  *((f32 *) (arg0 + 0x3c)) = out.x - (*((f32 *) (arg0 + 0x70)));
-  *((f32 *) (arg0 + 0x40)) = out.y - (*((f32 *) (arg0 + 0x74)));
-  *((f32 *) (arg0 + 0x44)) = out.z - (*((f32 *) (arg0 + 0x78)));
-  vec3_add_to((Vec *) (arg0 + 0x70), (const Vec *) (arg0 + 0x3c));
-  a3 = 1.0f;
-  X = a3;
-  params = (u8 *) this->param;
-  *((f32 *) (arg0 + 0x28)) = (*((f32 *) (arg0 + 0x28))) * (*((f32 *) (params + 0x2c)));
-  params = (u8 *) this->param;
-  *((f32 *) (arg0 + 0x2c)) = (*((f32 *) (arg0 + 0x2c))) * (*((f32 *) (params + 0x2c)));
-  *((f32 *) (arg0 + 0x58)) = (*((f32 *) (arg0 + 0x58))) + (*((f32 *) (arg0 + 0x5c)));
-  params = (u8 *) this->param;
-  new_var[0] = *((f32 *) (arg0 + 0x58));
-  if ((*((f32 *) (params + 0x58))) > new_var[0])
-  {
-    a3 = new_var[0] * (*((f32 *) (arg0 + 0x60)));
-  }
-  f2c = 1.0f - new_var[0];
-  if (f2c < (*((f32 *) (params + 0x5c))))
-  {
-    X = f2c * (*((f32 *) (arg0 + 0x64)));
-  }
-  new_var[1] = (a3 < X) ? (a3) : (X);
-  tbl = (s32 *) (&TParticleCtrl__data_80511F70);
-  sub = (u8 *) (*((s32 *) (((u8 *) tbl[*((u16 *) (arg0 + 0x1c))]) + 0x28)));
-  if ((*((u32 *) sub)) & 1)
-  {
-    if ((*((u16 *) (arg0 + 0x24))) & 0x100)
-    {
-      ch[0] = fade_particle_channel(((*((f32 *) (params + 0x6c))) * new_var[0]) + (*((f32 *) (arg0 + 0x4c))), new_var[1]);
-      ch[1] = fade_particle_channel(((*((f32 *) (params + 0x70))) * new_var[0]) + (*((f32 *) (arg0 + 0x50))), new_var[1]);
-      ch[2] = fade_particle_channel(((*((f32 *) (params + 0x74))) * new_var[0]) + (*((f32 *) (arg0 + 0x54))), new_var[1]);
+    NJS_COLOR col;
+    Vec target;
+    f32 t[2];                  // [0] age this frame, [1] fade alpha; kept in memory
+    f32 fade_in;
+    f32 fade_out;
+    f32 rest;
+    f32 ch[3];
+    ParticleParam *p;
+    s32 frames;
+    u32 last;
+
+    speed *= param->speed_decay;
+    approach_vector_fixed_distance(&pos, &origin, &target, speed);
+    step.x = target.x - pos.x;
+    step.y = target.y - pos.y;
+    step.z = target.z - pos.z;
+    vec3_add_to(&pos, &step);
+    fade_in = 1.0f;
+    fade_out = fade_in;
+    m_28 *= param->scale_decay;
+    unk_2C *= param->scale_decay;
+    age += age_rate;
+    p = param;
+    t[0] = age;
+    if (p->fade_in_end > t[0]) {
+        fade_in = t[0] * fade_in_scale;
     }
-    else
-    {
-      ch[0] = fade_particle_channel(((*((f32 *) (params + 0x6c))) * new_var[0]) + (*((f32 *) (params + 0x7c))), new_var[1]);
-      ch[1] = fade_particle_channel(((*((f32 *) (params + 0x70))) * new_var[0]) + (*((f32 *) (params + 0x80))), new_var[1]);
-      ch[2] = fade_particle_channel(((*((f32 *) (params + 0x74))) * new_var[0]) + (*((f32 *) (params + 0x84))), new_var[1]);
+    rest = 1.0f - t[0];
+    if (rest < p->fade_out_start) {
+        fade_out = rest * fade_out_scale;
     }
-    new_var[1] = 1.0f;
-  }
-  else
-    if ((*((u16 *) (arg0 + 0x24))) & 0x100)
-  {
-    ch[0] = clamp_particle_channel(((*((f32 *) (params + 0x6c))) * new_var[0]) + (*((f32 *) (arg0 + 0x4c))));
-    ch[1] = clamp_particle_channel(((*((f32 *) (params + 0x70))) * new_var[0]) + (*((f32 *) (arg0 + 0x50))));
-    ch[2] = clamp_particle_channel(((*((f32 *) (params + 0x74))) * new_var[0]) + (*((f32 *) (arg0 + 0x54))));
-  }
-  else
-  {
-    ch[0] = clamp_particle_channel(((*((f32 *) (params + 0x6c))) * new_var[0]) + (*((f32 *) (params + 0x7c))));
-    ch[1] = clamp_particle_channel(((*((f32 *) (params + 0x70))) * new_var[0]) + (*((f32 *) (params + 0x80))));
-    ch[2] = clamp_particle_channel(((*((f32 *) (params + 0x74))) * new_var[0]) + (*((f32 *) (params + 0x84))));
-  }
-  rgba[0] = (u8) (254.0f * new_var[1]);
-  rgba[1] = (u8) (254.0f * ch[0]);
-  rgba[2] = (u8) (254.0f * ch[1]);
-  rgba[3] = (u8) (254.0f * ch[2]);
-  *((u32 *) (arg0 + 0x90)) = *((u32 *) rgba);
-  sub = *((u8 **) (((u8 *) ((s32 *) (&TParticleCtrl__data_80511F70))[*((u16 *) (arg0 + 0x1c))]) + 0x28));
-  count = *((s32 *) (sub + 0xc));
-  if ((*((u8 *) ((*((u8 **) (arg0 + 0x20))) + 0x88))) & 0x10)
-  {
-    *((u8 *) (arg0 + 0x94)) = (u8) ((s32) ((*((f32 *) (arg0 + 0x58))) * ((f32) (count - 1))));
-  }
-  else
-  {
-    *((u8 *) (arg0 + 0x94)) += 1;
-    if (!(count > ((s8) (*((u8 *) (arg0 + 0x94))))))
-    {
-      *((u8 *) (arg0 + 0x94)) = 0;
+    t[1] = (fade_in < fade_out) ? fade_in : fade_out;
+    if (TParticleCtrl__data_80511F70[sprite_index]->sprites->flags & 1) {
+        if (flags & 0x100) {
+            ch[0] = fade_particle_channel(p->color_rate[0] * t[0] + color_base[0], t[1]);
+            ch[1] = fade_particle_channel(p->color_rate[1] * t[0] + color_base[1], t[1]);
+            ch[2] = fade_particle_channel(p->color_rate[2] * t[0] + color_base[2], t[1]);
+        } else {
+            ch[0] = fade_particle_channel(p->color_rate[0] * t[0] + p->color_base[0], t[1]);
+            ch[1] = fade_particle_channel(p->color_rate[1] * t[0] + p->color_base[1], t[1]);
+            ch[2] = fade_particle_channel(p->color_rate[2] * t[0] + p->color_base[2], t[1]);
+        }
+        t[1] = 1.0f;
+    } else if (flags & 0x100) {
+        ch[0] = clamp_particle_channel(p->color_rate[0] * t[0] + color_base[0]);
+        ch[1] = clamp_particle_channel(p->color_rate[1] * t[0] + color_base[1]);
+        ch[2] = clamp_particle_channel(p->color_rate[2] * t[0] + color_base[2]);
+    } else {
+        ch[0] = clamp_particle_channel(p->color_rate[0] * t[0] + p->color_base[0]);
+        ch[1] = clamp_particle_channel(p->color_rate[1] * t[0] + p->color_base[1]);
+        ch[2] = clamp_particle_channel(p->color_rate[2] * t[0] + p->color_base[2]);
     }
-  }
-  if ((*((u16 *) (arg0 + 0x24))) & 0x10)
-  {
-    ent = (u8 *) find_entity_by_id(*((u16 *) (arg0 + 0x26)));
-    if (ent == 0)
-    {
-      queue_destruction__7TObjectFv(this);
-      return;
+    col.argb.a = 254.0f * t[1];
+    col.argb.r = 254.0f * ch[0];
+    col.argb.g = 254.0f * ch[1];
+    col.argb.b = 254.0f * ch[2];
+    color = col.color;
+    frames = TParticleCtrl__data_80511F70[sprite_index]->sprites->frame_count;
+    if (param->flags & 0x10) {
+        frame = age * (frames - 1);
+    } else {
+        frame++;
+        if (frames <= frame) {
+            frame = 0;
+        }
     }
-    vec = (f32 *) ((TObjCollidable *) ent)->get_center();
-    *((f32 *) (arg0 + 0x7c)) = vec[0] - (*((f32 *) (arg0 + 0x30)));
-    *((f32 *) (arg0 + 0x80)) = vec[1] - (*((f32 *) (arg0 + 0x34)));
-    *((f32 *) (arg0 + 0x84)) = vec[2] - (*((f32 *) (arg0 + 0x38)));
-  }
-  if ((*((u32 *) (arg0 + 0xb8))) != 0)
-  {
-    *((f32 *) (arg0 + 0xbc)) = (*((f32 *) (arg0 + 0xbc))) + (*((f32 *) (arg0 + 0xc0)));
-    ucount = (*((u32 *) ((*((u8 **) (arg0 + 0xb8))) + 4))) - 1;
-    if (((f32) ucount) <= (*((f32 *) (arg0 + 0xbc))))
-    {
-      *((f32 *) (arg0 + 0xbc)) = (f32) ucount;
+    if (flags & 0x10) {
+        TObjCollidable *target_obj = find_entity_by_id(target_id);
+        if (target_obj == NULL) {
+            queue_destruction();
+            return;
+        }
+        Vec *center = (Vec *)target_obj->get_center();
+        attach.x = center->x - origin.x;
+        attach.y = center->y - origin.y;
+        attach.z = center->z - origin.z;
     }
-  }
-  this->check_radial_particle_retire();
+    if (motion != NULL) {
+        motion_frame += unk_C0;
+        last = motion->nbFrame - 1;
+        if ((f32)last <= motion_frame) {
+            motion_frame = last;
+        }
+    }
+    check_radial_particle_retire();
 }
 #pragma pop
 
@@ -391,14 +339,14 @@ void TUnk_8048E7A8::render() {
         end.y = pos.y + this->step.y;
         end.z = pos.z + this->step.z;
         len = vector_length((u8 *)&this->step);
-        if (TParticleCtrl__data_805D955C == len) {
+        if (0.0f == len) {
             return;
         }
         project_world_to_screen(0, &pos, &s1);
         project_world_to_screen(0, &end, &s2);
         s2.x = s2.x - s1.x;
         s2.y = s2.y - s1.y;
-        this->m_96 = (s16)(lbl_80439560[0] * atan2_float(s2.y, s2.x));
+        this->m_96 = (s16)(10430.38043493439 * atan2_float(s2.y, s2.x));
         this->m_88 = *(f32 *)((s8 *)(*(u8 * *)&this->param) + 0x60) * len;
         *(f32 *)((s8 *)arg0 + 0x8C) = *(f32 *)((s8 *)(*(u8 * *)&this->param) + 0x64) * len;
     } else {
@@ -433,7 +381,7 @@ void TUnk_8048E7A8::render() {
             }
             TParticleCtrl::begin_effect_render();
             if (*(u16 *)((s8 *)arg0 + 0x24) & 0x400) {
-                load_projected_texture_matrix(lbl_805D9564);
+                load_projected_texture_matrix(1.33f);
             }
             rotate_matrix_y(0, this->m_96);
             if (*(u16 *)((s8 *)arg0 + 0x24) & 0x400) {
@@ -503,9 +451,9 @@ u8 *construct_radial_particle(u8 *object, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4
     s32 temp_r0;
     init_particle_base(object, arg1, arg3);
     ((Fields_arg0*)object)->field_18 = &(*(RecoveredGlobal_8008BF58_TParticleCtrl__data_8048E7A8 *)&TParticleCtrl__data_8048E7A8).value;
-    ((Fields_arg0*)object)->field_70 = (f32) ((((Fields_arg1*)arg1)->field_18 * ((lbl_805D9568 * (f32) rand()) - lbl_805D956C)) + ((Fields_arg2*)arg2)->field_0);
-    ((Fields_arg0*)object)->field_74 = (f32) ((((Fields_arg1*)arg1)->field_1C * ((lbl_805D9568 * (f32) rand()) - lbl_805D956C)) + ((Fields_arg2*)arg2)->field_4);
-    ((Fields_arg0*)object)->field_78 = (f32) ((((Fields_arg1*)arg1)->field_20 * ((lbl_805D9568 * (f32) rand()) - lbl_805D956C)) + ((Fields_arg2*)arg2)->field_8);
+    ((Fields_arg0*)object)->field_70 = (f32) ((((Fields_arg1*)arg1)->field_18 * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_0);
+    ((Fields_arg0*)object)->field_74 = (f32) ((((Fields_arg1*)arg1)->field_1C * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_4);
+    ((Fields_arg0*)object)->field_78 = (f32) ((((Fields_arg1*)arg1)->field_20 * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_8);
     ((Fields_arg0*)object)->field_24 = arg4;
     if (((Fields_arg0*)object)->field_24 & 0x80) {
         ((Fields_arg0*)object)->field_95 = 1;
@@ -514,18 +462,18 @@ u8 *construct_radial_particle(u8 *object, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4
     ((Fields_arg0*)object)->field_30 = (f32) ((Fields_arg2*)arg2)->field_0;
     ((Fields_arg0*)object)->field_34 = (f32) ((Fields_arg2*)arg2)->field_4;
     ((Fields_arg0*)object)->field_38 = (f32) ((Fields_arg2*)arg2)->field_8;
-    ((Fields_arg0*)object)->field_28 = (f32) ((((Fields_arg1*)arg1)->field_28 * (lbl_805D9568 * (f32) rand())) + ((Fields_arg1*)arg1)->field_24);
+    ((Fields_arg0*)object)->field_28 = (f32) ((((Fields_arg1*)arg1)->field_28 * (3.0517578e-05f * (f32) rand())) + ((Fields_arg1*)arg1)->field_24);
     ((Fields_arg0*)object)->field_2C = (f32) ((Fields_arg0*)object)->field_28;
-    temp_r0 = (s32) (((f32) ((Fields_arg1*)arg1)->field_4C * (lbl_805D9568 * (f32) rand())) + (f32) ((Fields_arg1*)arg1)->field_48);
+    temp_r0 = (s32) (((f32) ((Fields_arg1*)arg1)->field_4C * (3.0517578e-05f * (f32) rand())) + (f32) ((Fields_arg1*)arg1)->field_48);
     if (((Fields_arg1*)arg1)->field_88 & 1) {
-        ((Fields_arg0*)object)->field_5C = (f32) (TParticleCtrl__data_805D9558 / (f32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(s32 *)((s8 *)(&(*(RecoveredGlobal_8008BF58_TParticleCtrl__data_80511F70 *)&TParticleCtrl__data_80511F70).value) + (((Fields_arg0*)object)->field_1C * 4))) + 0x28)) + 0xC));
+        ((Fields_arg0*)object)->field_5C = (f32) (1.0f / (f32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(s32 *)((s8 *)(&(*(RecoveredGlobal_8008BF58_TParticleCtrl__data_80511F70 *)&TParticleCtrl__data_80511F70).value) + (((Fields_arg0*)object)->field_1C * 4))) + 0x28)) + 0xC));
     } else {
-        ((Fields_arg0*)object)->field_5C = (f32) (TParticleCtrl__data_805D9558 / (f32) temp_r0);
+        ((Fields_arg0*)object)->field_5C = (f32) (1.0f / (f32) temp_r0);
     }
-    ((Fields_arg0*)object)->field_68 = (f32) ((((Fields_arg1*)arg1)->field_38 * (lbl_805D9568 * (f32) rand())) + ((Fields_arg1*)arg1)->field_30);
-    ((Fields_arg0*)object)->field_3C = (f32) TParticleCtrl__data_805D955C;
-    ((Fields_arg0*)object)->field_40 = (f32) TParticleCtrl__data_805D955C;
-    ((Fields_arg0*)object)->field_44 = (f32) TParticleCtrl__data_805D955C;
+    ((Fields_arg0*)object)->field_68 = (f32) ((((Fields_arg1*)arg1)->field_38 * (3.0517578e-05f * (f32) rand())) + ((Fields_arg1*)arg1)->field_30);
+    ((Fields_arg0*)object)->field_3C = 0.0f;
+    ((Fields_arg0*)object)->field_40 = 0.0f;
+    ((Fields_arg0*)object)->field_44 = 0.0f;
     if (((Fields_arg0*)object)->field_24 & 0x2000) {
         request_indirect_effect(0x1F);
     }
@@ -540,24 +488,24 @@ u8 *TParticleCtrl::init_random_particle(u8 *arg1, u8 *arg2, s32 arg3) {
     s32 temp_r0;
     init_particle_base(this, arg1, arg3);
     ((Fields_arg0*)((u8 *)this))->field_18 = &(*(RecoveredGlobal_8008C21C_TParticleCtrl__data_8048E7A8 *)&TParticleCtrl__data_8048E7A8).value;
-    ((Fields_arg0*)((u8 *)this))->field_70 = (f32) ((((Fields_arg1*)arg1)->field_18 * ((lbl_805D9568 * (f32) rand()) - lbl_805D956C)) + ((Fields_arg2*)arg2)->field_0);
-    ((Fields_arg0*)((u8 *)this))->field_74 = (f32) ((((Fields_arg1*)arg1)->field_1C * ((lbl_805D9568 * (f32) rand()) - lbl_805D956C)) + ((Fields_arg2*)arg2)->field_4);
-    ((Fields_arg0*)((u8 *)this))->field_78 = (f32) ((((Fields_arg1*)arg1)->field_20 * ((lbl_805D9568 * (f32) rand()) - lbl_805D956C)) + ((Fields_arg2*)arg2)->field_8);
+    ((Fields_arg0*)((u8 *)this))->field_70 = (f32) ((((Fields_arg1*)arg1)->field_18 * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_0);
+    ((Fields_arg0*)((u8 *)this))->field_74 = (f32) ((((Fields_arg1*)arg1)->field_1C * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_4);
+    ((Fields_arg0*)((u8 *)this))->field_78 = (f32) ((((Fields_arg1*)arg1)->field_20 * ((3.0517578e-05f * (f32) rand()) - 0.5f)) + ((Fields_arg2*)arg2)->field_8);
     ((Fields_arg0*)((u8 *)this))->field_30 = (f32) ((Fields_arg2*)arg2)->field_0;
     ((Fields_arg0*)((u8 *)this))->field_34 = (f32) ((Fields_arg2*)arg2)->field_4;
     ((Fields_arg0*)((u8 *)this))->field_38 = (f32) ((Fields_arg2*)arg2)->field_8;
-    ((Fields_arg0*)((u8 *)this))->field_28 = (f32) ((((Fields_arg1*)arg1)->field_28 * (lbl_805D9568 * (f32) rand())) + ((Fields_arg1*)arg1)->field_24);
+    ((Fields_arg0*)((u8 *)this))->field_28 = (f32) ((((Fields_arg1*)arg1)->field_28 * (3.0517578e-05f * (f32) rand())) + ((Fields_arg1*)arg1)->field_24);
     ((Fields_arg0*)((u8 *)this))->field_2C = (f32) ((Fields_arg0*)((u8 *)this))->field_28;
-    temp_r0 = (s32) (((f32) ((Fields_arg1*)arg1)->field_4C * (lbl_805D9568 * (f32) rand())) + (f32) ((Fields_arg1*)arg1)->field_48);
+    temp_r0 = (s32) (((f32) ((Fields_arg1*)arg1)->field_4C * (3.0517578e-05f * (f32) rand())) + (f32) ((Fields_arg1*)arg1)->field_48);
     if (((Fields_arg1*)arg1)->field_88 & 1) {
-        ((Fields_arg0*)((u8 *)this))->field_5C = (f32) (TParticleCtrl__data_805D9558 / (f32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(s32 *)((s8 *)TParticleCtrl__data_80511F70 + (((Fields_arg0*)((u8 *)this))->field_1C * 4))) + 0x28)) + 0xC));
+        ((Fields_arg0*)((u8 *)this))->field_5C = (f32) (1.0f / (f32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(s32 *)((s8 *)TParticleCtrl__data_80511F70 + (((Fields_arg0*)((u8 *)this))->field_1C * 4))) + 0x28)) + 0xC));
     } else {
-        ((Fields_arg0*)((u8 *)this))->field_5C = (f32) (TParticleCtrl__data_805D9558 / (f32) temp_r0);
+        ((Fields_arg0*)((u8 *)this))->field_5C = (f32) (1.0f / (f32) temp_r0);
     }
-    ((Fields_arg0*)((u8 *)this))->field_68 = (f32) ((((Fields_arg1*)arg1)->field_38 * (lbl_805D9568 * (f32) rand())) + ((Fields_arg1*)arg1)->field_30);
-    ((Fields_arg0*)((u8 *)this))->field_3C = (f32) TParticleCtrl__data_805D955C;
-    ((Fields_arg0*)((u8 *)this))->field_40 = (f32) TParticleCtrl__data_805D955C;
-    ((Fields_arg0*)((u8 *)this))->field_44 = (f32) TParticleCtrl__data_805D955C;
+    ((Fields_arg0*)((u8 *)this))->field_68 = (f32) ((((Fields_arg1*)arg1)->field_38 * (3.0517578e-05f * (f32) rand())) + ((Fields_arg1*)arg1)->field_30);
+    ((Fields_arg0*)((u8 *)this))->field_3C = 0.0f;
+    ((Fields_arg0*)((u8 *)this))->field_40 = 0.0f;
+    ((Fields_arg0*)((u8 *)this))->field_44 = 0.0f;
     if (((Fields_arg0*)((u8 *)this))->field_24 & 0x2000) {
         request_indirect_effect(0x1F);
     }

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/effect/particle/ParticleBallistic.h"
@@ -103,6 +104,11 @@ struct Vec_800890F4 { f32 x, y, z; };
 
 struct Ang_800890F4 { s32 x, y, z; };
 
+static const Vec_800890F4 lbl_804394E8 = { 0.0f, 0.0f, -1.0f };
+static const Vec_800890F4 lbl_804394F4 = { 0.0f, 0.0f, -1.0f };
+static const Vec_800890F4 lbl_80439500 = { 0.0f, 0.0f, 1.0f };
+static const Ang_800890F4 lbl_8043950C = { 0, 0, 0 };
+
 struct Scr_800890F4 { f32 x, y; };
 
 struct Def_800890F4 {
@@ -148,8 +154,6 @@ extern "C" {
 void *alloc_particle_memory(int);
 void queue_destruction__7TObjectFv(void *arg0);
 f32 vec_squared_length(u8 *arg0);
-extern const f32 TParticleCtrl__data_805D94F8;
-extern const f32 TParticleCtrl__data_805D94FC;
 extern s32 TParticleCtrl__data_8048E778[];
 s32 rand(void);
 s32 rotate_matrix_y(s32, s32);
@@ -167,18 +171,8 @@ extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 f32 vector_length(void *);
-extern const f32 TParticleCtrl__data_805D9500;
-extern const f32 TParticleCtrl__data_805D9504;
-extern const f32 TParticleCtrl__data_805D950C;
-extern const f32 lbl_805D9520;
 void restore_saved_depth_alpha_state();
 f32 vec3_dot(void *, void *);
-extern Vec_800890F4 lbl_804394E8;
-extern Vec_800890F4 lbl_804394F4;
-extern Vec_800890F4 lbl_80439500;
-extern Ang_800890F4 lbl_8043950C;
-extern const f64 lbl_80439528;
-extern const f32 lbl_805D951C;
 void __ct__7TObjectFP7TObject(void *, void *);
 }
 void setup_particle_tev(s32 arg0);
@@ -276,29 +270,14 @@ void TUnk_8048E778::retire_ballistic_particle_if_done() {
         stack.sp8 = this->pos.x - this->origin.x;
         stack.spC = this->pos.y - *(f32 *)((s8 *)arg0 + 0x34);
         stack.sp10 = this->pos.z - this->origin.z;
-        if (TParticleCtrl__data_805D94F8 == vec_squared_length((u8 *)&stack.sp8)) {
+        if (0.0f == vec_squared_length((u8 *)&stack.sp8)) {
             queue_destruction__7TObjectFv((arg0));
             return;
         }
     }
-    if (this->age >= TParticleCtrl__data_805D94FC) {
+    if (this->age >= 1.0f) {
         queue_destruction__7TObjectFv((arg0));
     }
-}
-
-// Colour channel scaled by the fade alpha; nothing below zero, at most alpha.
-inline f32 fade_particle_channel(f32 c, f32 alpha) {
-    if (c < 0.0f) {
-        return 0.0f;
-    }
-    return alpha * ((c < 1.0f) ? c : 1.0f);
-}
-
-inline f32 clamp_particle_channel(f32 c) {
-    if (c < 0.0f) {
-        return 0.0f;
-    }
-    return (c < 1.0f) ? c : 1.0f;
 }
 
 #pragma push
@@ -314,7 +293,6 @@ void TUnk_8048E778::run_task() {
     f32 r;
     f32 g;
     f32 b;
-    f32 a;
     f32 tilt;
     s32 frames;
 
@@ -380,7 +358,7 @@ void TUnk_8048E778::run_task() {
             g = fade_particle_channel(p->color_rate[1] * t + p->color_base[1], alpha);
             b = fade_particle_channel(p->color_rate[2] * t + p->color_base[2], alpha);
         }
-        a = 1.0f;
+        alpha = 1.0f;
     } else {
         if (flags & 0x100) {
             r = clamp_particle_channel(p->color_rate[0] * t + color_base[0]);
@@ -391,9 +369,8 @@ void TUnk_8048E778::run_task() {
             g = clamp_particle_channel(p->color_rate[1] * t + p->color_base[1]);
             b = clamp_particle_channel(p->color_rate[2] * t + p->color_base[2]);
         }
-        a = alpha;
     }
-    col.argb.a = 254.0f * a;
+    col.argb.a = 254.0f * alpha;
     col.argb.r = 254.0f * r;
     col.argb.g = 254.0f * g;
     col.argb.b = 254.0f * b;
@@ -477,7 +454,7 @@ void TUnk_8048E778::render() {
         project_world_to_screen(0, &b, &s1);
         s1.x -= s0.x;
         s1.y -= s0.y;
-        p->angle = lbl_80439528 * atan2_float(s1.y, s1.x);
+        p->angle = 10430.38043493439 * atan2_float(s1.y, s1.x);
         p->sw = p->def->sx * len;
         p->sh = p->def->sy * len;
     } else if (p->def->flags & 0x40) {
@@ -554,7 +531,7 @@ void TUnk_8048E778::render() {
             rotate_matrix_y(0, p->angle);
         }
         if (p->flags & 0x400) {
-            load_projected_texture_matrix(lbl_805D951C);
+            load_projected_texture_matrix(1.33f);
         }
         TParticleCtrl::begin_effect_render();
         if (p->flags & 0x400) {
@@ -624,9 +601,9 @@ u8 *construct_ballistic_particle(void *a0, void *a1, void *a2, void *a3, s32 arg
     f32 *v;
     init_particle_base(a0, a1, arg4);
     p->field_18 = TParticleCtrl__data_8048E778;
-    p->field_C4 = TParticleCtrl__data_805D94F8;
-    p->field_C8 = TParticleCtrl__data_805D94F8;
-    p->field_CC = TParticleCtrl__data_805D94F8;
+    p->field_C4 = 0.0f;
+    p->field_C8 = 0.0f;
+    p->field_CC = 0.0f;
     p->field_24 = arg5;
     if (p->field_24 & 0x80) {
         p->field_95 = 1;
@@ -635,12 +612,12 @@ u8 *construct_ballistic_particle(void *a0, void *a1, void *a2, void *a3, s32 arg
     p->field_98 = c->field_0;
     p->field_9C = c->field_4;
     p->field_A0 = c->field_8;
-    p->field_70 = (d->field_18 * ((TParticleCtrl__data_805D9504 * (f32)rand()) - TParticleCtrl__data_805D9500)) + pos->field_0;
-    p->field_78 = (d->field_20 * ((TParticleCtrl__data_805D9504 * (f32)rand()) - TParticleCtrl__data_805D9500)) + pos->field_8;
+    p->field_70 = (d->field_18 * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->field_0;
+    p->field_78 = (d->field_20 * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->field_8;
     if (d->field_88 & 2) {
         p->field_74 = pos->field_4 + d->field_1C;
     } else {
-        p->field_74 = (d->field_1C * ((TParticleCtrl__data_805D9504 * (f32)rand()) - TParticleCtrl__data_805D9500)) + pos->field_4;
+        p->field_74 = (d->field_1C * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->field_4;
     }
     p->field_30 = pos->field_0;
     p->field_38 = pos->field_8;
@@ -649,25 +626,25 @@ u8 *construct_ballistic_particle(void *a0, void *a1, void *a2, void *a3, s32 arg
     } else {
         p->field_34 = pos->field_4;
     }
-    p->field_28 = (d->field_28 * (TParticleCtrl__data_805D9504 * (f32)rand())) + d->field_24;
+    p->field_28 = (d->field_28 * (3.0517578e-05f * (f32)rand())) + d->field_24;
     p->field_2C = p->field_28;
-    temp_r0 = (s32)(((f32)d->field_4C * (TParticleCtrl__data_805D9504 * (f32)rand())) + (f32)d->field_48);
+    temp_r0 = (s32)(((f32)d->field_4C * (3.0517578e-05f * (f32)rand())) + (f32)d->field_48);
     if (d->field_88 & 1) {
-        p->field_5C = TParticleCtrl__data_805D94FC / (f32)((s32 **)(((void **)&TParticleCtrl__data_80511F70)[p->field_1C]))[0x28 / 4][0xC / 4];
+        p->field_5C = 1.0f / (f32)((s32 **)(((void **)&TParticleCtrl__data_80511F70)[p->field_1C]))[0x28 / 4][0xC / 4];
     } else {
-        p->field_5C = TParticleCtrl__data_805D94FC / (f32)temp_r0;
+        p->field_5C = 1.0f / (f32)temp_r0;
     }
-    p->field_3C = (d->field_38 * (TParticleCtrl__data_805D9504 * (f32)rand())) + d->field_30;
-    p->field_40 = (d->field_3C * (TParticleCtrl__data_805D9504 * (f32)rand())) + d->field_34;
+    p->field_3C = (d->field_38 * (3.0517578e-05f * (f32)rand())) + d->field_30;
+    p->field_40 = (d->field_3C * (3.0517578e-05f * (f32)rand())) + d->field_34;
     v = &p->field_3C;
-    p->field_44 = TParticleCtrl__data_805D94F8;
-    rotate_vec_xz(v, v, (s32)(TParticleCtrl__data_805D950C * (lbl_805D9520 * (TParticleCtrl__data_805D9504 * (f32)rand()))));
-    if (TParticleCtrl__data_805D94F8 == d->field_54 && TParticleCtrl__data_805D94F8 == d->field_34 && TParticleCtrl__data_805D94F8 == d->field_30) {
+    p->field_44 = 0.0f;
+    rotate_vec_xz(v, v, (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand()))));
+    if (0.0f == d->field_54 && 0.0f == d->field_34 && 0.0f == d->field_30) {
         p->field_96 = 0;
-        p->field_68 = TParticleCtrl__data_805D94F8;
+        p->field_68 = 0.0f;
     } else {
-        p->field_96 = (s16)(TParticleCtrl__data_805D950C * (lbl_805D9520 * (TParticleCtrl__data_805D9504 * (f32)rand())));
-        p->field_68 = (TParticleCtrl__data_805D9504 * (f32)rand()) - TParticleCtrl__data_805D9500;
+        p->field_96 = (s16)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
+        p->field_68 = (3.0517578e-05f * (f32)rand()) - 0.5f;
     }
     if (p->field_24 & 0x2000) {
         request_indirect_effect(0x1F);
@@ -701,15 +678,15 @@ void *TUnk_8048E778::init_particle_random_spread(void *a1, void *a2, void *a3) {
     f32 *v;
     init_particle_base(this, a1, (s32)a3);
     p->field_18 = TParticleCtrl__data_8048E778;
-    p->field_C4 = TParticleCtrl__data_805D94F8;
-    p->field_C8 = TParticleCtrl__data_805D94F8;
-    p->field_CC = TParticleCtrl__data_805D94F8;
-    p->field_70 = (d->field_18 * ((TParticleCtrl__data_805D9504 * (f32)rand()) - TParticleCtrl__data_805D9500)) + pos->field_0;
-    p->field_78 = (d->field_20 * ((TParticleCtrl__data_805D9504 * (f32)rand()) - TParticleCtrl__data_805D9500)) + pos->field_8;
+    p->field_C4 = 0.0f;
+    p->field_C8 = 0.0f;
+    p->field_CC = 0.0f;
+    p->field_70 = (d->field_18 * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->field_0;
+    p->field_78 = (d->field_20 * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->field_8;
     if (d->field_88 & 2) {
         p->field_74 = pos->field_4 + d->field_1C;
     } else {
-        p->field_74 = (d->field_1C * ((TParticleCtrl__data_805D9504 * (f32)rand()) - TParticleCtrl__data_805D9500)) + pos->field_4;
+        p->field_74 = (d->field_1C * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + pos->field_4;
     }
     p->field_30 = pos->field_0;
     p->field_38 = pos->field_8;
@@ -718,25 +695,25 @@ void *TUnk_8048E778::init_particle_random_spread(void *a1, void *a2, void *a3) {
     } else {
         p->field_34 = pos->field_4;
     }
-    p->field_28 = (d->field_28 * (TParticleCtrl__data_805D9504 * (f32)rand())) + d->field_24;
+    p->field_28 = (d->field_28 * (3.0517578e-05f * (f32)rand())) + d->field_24;
     p->field_2C = p->field_28;
-    temp_r0 = (s32)(((f32)d->field_4C * (TParticleCtrl__data_805D9504 * (f32)rand())) + (f32)d->field_48);
+    temp_r0 = (s32)(((f32)d->field_4C * (3.0517578e-05f * (f32)rand())) + (f32)d->field_48);
     if (d->field_88 & 1) {
-        p->field_5C = TParticleCtrl__data_805D94FC / (f32)((s32 **)(((void **)&TParticleCtrl__data_80511F70)[p->field_1C]))[0x28 / 4][0xC / 4];
+        p->field_5C = 1.0f / (f32)((s32 **)(((void **)&TParticleCtrl__data_80511F70)[p->field_1C]))[0x28 / 4][0xC / 4];
     } else {
-        p->field_5C = TParticleCtrl__data_805D94FC / (f32)temp_r0;
+        p->field_5C = 1.0f / (f32)temp_r0;
     }
-    p->field_3C = (d->field_38 * (TParticleCtrl__data_805D9504 * (f32)rand())) + d->field_30;
-    p->field_40 = (d->field_3C * (TParticleCtrl__data_805D9504 * (f32)rand())) + d->field_34;
+    p->field_3C = (d->field_38 * (3.0517578e-05f * (f32)rand())) + d->field_30;
+    p->field_40 = (d->field_3C * (3.0517578e-05f * (f32)rand())) + d->field_34;
     v = &p->field_3C;
-    p->field_44 = TParticleCtrl__data_805D94F8;
-    rotate_vec_xz(v, v, (s32)(TParticleCtrl__data_805D950C * (lbl_805D9520 * (TParticleCtrl__data_805D9504 * (f32)rand()))));
-    if (TParticleCtrl__data_805D94F8 == d->field_54 && TParticleCtrl__data_805D94F8 == d->field_34 && TParticleCtrl__data_805D94F8 == d->field_30) {
+    p->field_44 = 0.0f;
+    rotate_vec_xz(v, v, (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand()))));
+    if (0.0f == d->field_54 && 0.0f == d->field_34 && 0.0f == d->field_30) {
         p->field_96 = 0;
-        p->field_68 = TParticleCtrl__data_805D94F8;
+        p->field_68 = 0.0f;
     } else {
-        p->field_96 = (s16)(TParticleCtrl__data_805D950C * (lbl_805D9520 * (TParticleCtrl__data_805D9504 * (f32)rand())));
-        p->field_68 = (TParticleCtrl__data_805D9504 * (f32)rand()) - TParticleCtrl__data_805D9500;
+        p->field_96 = (s16)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
+        p->field_68 = (3.0517578e-05f * (f32)rand()) - 0.5f;
     }
     if (p->field_24 & 0x2000) {
         request_indirect_effect(0x1F);

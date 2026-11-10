@@ -4,11 +4,33 @@
 #include "types.h"
 
 struct AdxStreamFile;
+struct LscStream;
+struct SjRingBuffer;
 
 // One ADX stream player slot (adx_stream_player_pool).
 typedef struct Ent_803C9608 {
     char state;
-    u8 pad[0xA7];
+    s8 stat;
+    u8 pad_2[0x4 - 0x2];
+    s32 f4;
+    u8 *f8;
+    s32 fC;
+    u8 pad_10[0x18 - 0x10];
+    SjRingBuffer *f18[2]; // one per channel; 2 is inferred (stereo), the code only proves the index
+    u8 pad_20[0x48 - 0x20];
+    s32 f48;
+    u8 pad_4C[0x60 - 0x4C];
+    s16 f60;
+    u8 pad_62[0x70 - 0x62];
+    s8 f70;
+    u8 f71;
+    s8 f72;
+    u8 pad_73[0x94 - 0x73];
+    LscStream *f94;
+    u8 pad_98[0x9C - 0x98];
+    s32 f9C;
+    s32 fA0;
+    u8 pad_A4[0xA8 - 0xA4];
 } Ent_803C9608;
 
 extern "C" {
@@ -22,7 +44,7 @@ s32 TLobby__sub_803C8578(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C8594(u8 *arg0, s32 *arg1, s32 *arg2);
 s32 TLobby__sub_803C85AC(u8 *arg0, s32 *arg1);
 void TLobby__sub_803C89C4(u8 *arg0);
-short TLobby__sub_803C8B2C(u8 *arg0);
+s32 TLobby__sub_803C8B2C(u8 *arg0);
 void TLobby__sub_803C8B38(u8 *arg0);
 void TLobby__sub_803C9350(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C9358(u8 *arg0);
@@ -67,7 +89,7 @@ s32 TLobby__sub_803C8578(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C8594(u8 *arg0, s32 *arg1, s32 *arg2);
 s32 TLobby__sub_803C85AC(u8 *arg0, s32 *arg1);
 void TLobby__sub_803C89C4(u8 *arg0);
-short TLobby__sub_803C8B2C(u8 *arg0);
+s32 TLobby__sub_803C8B2C(u8 *arg0);
 void TLobby__sub_803C8B38(u8 *arg0);
 void TLobby__sub_803C9350(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C9358(u8 *arg0);

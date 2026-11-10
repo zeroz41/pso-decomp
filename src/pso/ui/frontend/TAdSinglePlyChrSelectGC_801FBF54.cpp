@@ -3,6 +3,7 @@
 #include "pso/system/date.h"
 #include "pso/system/main_loop.h"
 #include "pso/system/memory.h"
+#include "pso/system/save/TCheckMemoryCard.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
@@ -2109,7 +2110,6 @@ void TLobby__sub_80269CA4(s32);
 Win_801FEE14 *create__14TWindowMessageFlPCfUll(V2_801FEE14 *, V2_801FEE14 *, s32, s32);
 void TAdSinglePlyChrSelectGC__sub_8033B9EC(void);
 s32 TAdSinglePlyChrSelectGC__sub_8033B9F8(Win_801FEE14 *);
-Win_801FEE14 *create_check_memory_card__23TAdSinglePlyChrSelectGCFPvPvPv(void *, s32, s32);
 void func_803DCDFC__Fv(void);
 extern V2_801FEE14 lbl_8044A7D0[];
 extern V2_801FEE14 lbl_8044A7D8[];
@@ -2209,7 +2209,7 @@ s32 save_character_to_card__23TAdSinglePlyChrSelectGCFv(void) {
     Win_801FEE14 *w;
     s32 result;
     s32 v;
-    w = create_check_memory_card__23TAdSinglePlyChrSelectGCFPvPvPv(tl_01, 0, 1);
+    w = (Win_801FEE14 *)TCheckMemoryCard::create((TObject *)tl_01, NULL, 1);
     if (w == NULL) {
         return 0;
     }

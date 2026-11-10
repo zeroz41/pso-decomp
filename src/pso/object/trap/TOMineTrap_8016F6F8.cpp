@@ -13,6 +13,10 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/system/BmlResource.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 struct Trap_8016F704 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x84 - 0x44]; s32 delay; u8 pad88[0x2A8 - 0x88]; void *target; u8 pad2AC[0x34C - 0x2AC]; f32 range; u8 pad350[0x35C - 0x350]; u16 targetId; };
 
@@ -22,8 +26,6 @@ s32 get_current_floor(void);
 f32 horizontal_distance_squared(void *, void *);
 extern u8 lobby_rule_settings[];
 u16 get_entity_id(void *);
-u8 *TOMineTrap__ct(u8 *, u8 *, s32, s32);
-void *__nw__7TObjectFUl(u32);
 extern s32 enable_v2_features;
 s32 create_placed_trap__10TOMineTrapFUiss(u32 arg0, s16 arg1, s16 arg2);
 s32 is_split_screen();
@@ -105,7 +107,7 @@ s32 play_sound_effect(s32, s32, s32, s32);
 extern s8 mine_trap_effect_table[];
 extern s8 mine_trap_keymachine_table[];
 extern f32 lbl_805DB864;
-extern f32 lbl_805DB85C;
+extern const f32 lbl_805DB85C;
 extern const f32 TOMineTrap__data_805DB868;
 void TOMineTrap__sub_80170CD4(void* p);
 void record_attack_source(void *object, u16 id);
@@ -130,10 +132,17 @@ extern s32 TOMineIcon02__name;
 extern s32 TOMineIcon03__name;
 extern s32 TOMineIcon04__name;
 u8 *get_battle_param__10TObjPlayerFi(s32);
-void check_enemy_body_collisions(void *);
 extern const f32 lbl_805DB874;
 void *__dt__10TOMineTrapFv(void *arg0, s16 arg1);
-s32 free_collision_body_parts(void *);
+extern s32 game_difficulty_selection;
+extern BmlResource *lbl_805D5A50;
+extern CollisionBody mine_collision_body_parts[];
+extern f32 lbl_805D307C;
+extern const f32 lbl_80442138[];
+extern const f32 lbl_805DB86C;
+extern const f32 lbl_805DB878;
+extern const f32 lbl_805DB87C;
+extern const f32 lbl_805DB880;
 s32 is_locally_controlled__10TObjPlayerFPv(u32 a0 = 0);
 s32 __dl__7TObjectFPv(void *);
 void *__dt__6TOMineFv(void *arg0, s16 arg1);
@@ -314,10 +323,7 @@ s32 create_placed_trap__10TOMineTrapFUiss(u32 arg0, s16 arg1, s16 arg2) {
     if (is_boss_area() == 1 || is_current_area_item_enabled() == 0) {
         return 0;
     }
-    obj = __nw__7TObjectFUl(0x384);
-    if (obj != 0) {
-        obj = ((u8 *(*)(u8 *, u8 *, s16, s16))TOMineTrap__ct)((u8 *)obj, (u8 *)arg0, arg1, arg2);
-    }
+    obj = new TOMineTrap((TObjBase *)arg0, arg1, arg2);
     return (s32)obj;
 }
 
@@ -329,7 +335,7 @@ void *__dt__10TOMineTrapFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__10TOMineTrap;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
+        free_collision_body_parts((TObjCollidable *)arg0);
         __dt__6TOMineFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
@@ -337,6 +343,112 @@ void *__dt__10TOMineTrapFv(void *arg0, s16 arg1) {
     }
     return arg0;
 }
+
+#pragma push
+#pragma fp_contract on
+TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
+    TObjPlayer *player;
+    s32 floor;
+    f32 area_scale;
+
+    m_name = (const char *)TOMineTrap__data_805D3080;
+    m_380 = 0;
+    if (owner != NULL) {
+        sub_80171348(get_entity_id(owner));
+    } else {
+        m_2d8 = 0xFFFF;
+    }
+    player = NULL;
+    if (get_trap_type() != 0xFFFF && get_trap_type() < 0x1000) {
+        player = get_player_by_client_id(get_trap_type());
+    }
+    get_current_floor_area();
+    floor = get_current_floor();
+    if (enable_v2_features == 1 && owner != NULL && player != NULL && floor == player->get_floor() &&
+        is_current_area_item_enabled() == 1 && is_boss_area() == 0) {
+        switch (kind) {
+        default:
+            kind = 0;
+        case 0:
+            attack.kind = 1;
+            if (((TLobby *)lobby_rule_settings)->get_rule_field_0() == 1) {
+                attack.power = lbl_805D307C;
+            } else {
+                area_scale = lbl_80442138[get_current_floor_area()];
+                attack.power = lbl_805DB86C * area_scale *
+                               (lbl_805DB870 * (lbl_805DB878 * (f32)player->get_actor_level_index() + lbl_805DB874));
+            }
+            if (attack.power < lbl_805DB85C) {
+                attack.power = lbl_805DB85C;
+            }
+            break;
+        case 1:
+            attack.kind = 2;
+            attack.power = lbl_805DB85C;
+            break;
+        case 2:
+            attack.kind = 17;
+            attack.power = lbl_805DB85C;
+            break;
+        case 3:
+            attack.kind = 18;
+            attack.power = lbl_805DB85C;
+            break;
+        }
+        m_37e = slot + (kind * 20 + get_trap_type() * 80);
+        VecCopy(&float_position, VecCopy(&home_position, VecCopy(&position, &owner->position)));
+        ((TObjPlayer *)this)->init_position_vectors();
+        calc_attach_pos();
+        spawn_disp_objects();
+        m_370 = owner->rotation_y;
+        alt_room = owner->alt_room;
+        room = owner->room;
+        switch (attack.kind) {
+        default:
+            attack.kind = 1;
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 19:
+            model = (void *)get_bml_model(lbl_805D5A50, 4);
+            texlist = TObjFish__sub_8001EDB0(lbl_805D5A50, 4);
+            m_374 = get_bml_model(lbl_805D5A50, 1);
+            m_378 = TObjFish__sub_8001EDB0(lbl_805D5A50, 1);
+            break;
+        case 15:
+        case 16:
+        case 17:
+        case 18:
+            model = (void *)get_bml_model(lbl_805D5A50, 5);
+            texlist = TObjFish__sub_8001EDB0(lbl_805D5A50, 5);
+            m_374 = get_bml_model(lbl_805D5A50, 0);
+            m_378 = TObjFish__sub_8001EDB0(lbl_805D5A50, 0);
+            break;
+        }
+        mode = 0;
+        pad_34C = lbl_805DB87C;
+        m_350 = lbl_805DB87C;
+        set_params[0] = 150;
+        set_params[1] = 30;
+        if (game_difficulty_selection == 3 && ((TLobby *)lobby_rule_settings)->get_rule_field_0() == 0) {
+            set_params[0] = 60;
+            m_350 = lbl_805DB880;
+            set_trap_count(0);
+            set_instance(1);
+        }
+        m_344 = 0;
+        m_35c = 0xFFFF;
+        actorFlags |= 0x60000000;
+        init_collision_body_parts(this, mine_collision_body_parts, 1);
+        register_object_by_id();
+    } else {
+        queue_destruction();
+    }
+}
+#pragma pop
 
 s32 TOMine::is_target_in_list(void *obj) {
     TOMine *self = this;

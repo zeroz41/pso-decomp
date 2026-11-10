@@ -5,11 +5,13 @@
 #include "pso/object/trap/TOMine.h"
 
 struct TOMineTrap : public TOMine {
+    // owner: the actor that placed it; kind 0-3 picks the attack; slot is its index among the owner's traps.
+    TOMineTrap(TObjBase *owner, s16 kind, s16 slot);
     virtual ~TOMineTrap();
     virtual void spawn_disp_objects();
     virtual void vfunc_86();
     virtual void vfunc_82();
-    void sub_80171348(s16);
+    void sub_80171348(u16);
     virtual const char *get_name();
     virtual void run_task();
     u32 m_374;

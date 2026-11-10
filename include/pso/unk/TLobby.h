@@ -695,7 +695,9 @@ struct TLobby : public TObject {
     static void init_afs_adxf_state();
     static s32 get_afs_file_info(s32 arg0, s32 arg1, char *arg2, s32 *arg3, s32 *arg4, s32 *arg5);
     s32 adxf_get_fsize_byte();
+    static s32 adxf_seek(void *adxf, int pos, int type);
     s32 adxf_stop();
+    static s32 adxf_read_nw32(void *adxf, int nsct, void *buf);
     static s32 read_checked_align(s32 arg0, s32 arg1, s32 arg2);
     static void release_used_slots();
     static s32 read_afs_toc(s32 arg0);

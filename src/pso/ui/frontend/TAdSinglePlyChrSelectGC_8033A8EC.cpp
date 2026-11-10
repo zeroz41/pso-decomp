@@ -9,6 +9,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8033A8EC.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/system/main_loop.h"
+#include "pso/system/save/TCheckMemoryCard.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
@@ -58,7 +59,6 @@ struct TAdSinglePlyChrSelectGC__sub_8033B5F0;
 s32 setup__23TAdSinglePlyChrSelectGCFi(s32);
 s32 TAdSinglePlyChrSelectGC__sub_801FDA4C();
 
-u8 * create_check_memory_card__23TAdSinglePlyChrSelectGCFPvPvPv(void *, void *, void *);
 int request_queued_main_phase(void*);
 s32 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 extern void *character_select_scene_resource_callbacks[];
@@ -388,7 +388,7 @@ void TAdSinglePlyChrSelectGC::sub_8033B0AC() {
 
 void TAdSinglePlyChrSelectGC::start_check_memory_card() {
     u8 *temp_r3;
-    *(u8 **)((s8 *)((u8 *)this) + 0x40) = create_check_memory_card__23TAdSinglePlyChrSelectGCFPvPvPv(this, NULL, NULL);
+    *(u8 **)((s8 *)((u8 *)this) + 0x40) = (u8 *)TCheckMemoryCard::create(this, NULL, 0);
     temp_r3 = (u8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x40));
     if (temp_r3 != NULL) {
         TAdSinglePlyChrSelectGC__sub_8033B9E0(temp_r3);
@@ -621,8 +621,11 @@ s32 TAdSinglePlyChrSelectGC::has_no_save_files(s32 chan) {
     return 1;
 }
 
-bool TAdSinglePlyChrSelectGC__sub_8033BA84(s32 chan) {
-    return !TAdPlayerLoadGC::find_card_file(chan, pso_system_card_filename);
+s32 TAdSinglePlyChrSelectGC__sub_8033BA84(s32 chan) {
+    if (TAdPlayerLoadGC::find_card_file(chan, pso_system_card_filename) != 0) {
+        return 0;
+    }
+    return 1;
 }
 
 #pragma pop

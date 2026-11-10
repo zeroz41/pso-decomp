@@ -17,14 +17,12 @@ s32 abort_tcp_connection(s16 arg0);
 void clear_position(void *self);
 s32 close_if_open(void *self);
 s32 compare_sockaddr(void *self, u8 *arg1);
-s32 dispatch_by_addr_family(s32 arg0, NetworkAddress *arg1, NetworkAddress *arg2, u8 *arg3, void *arg4, void *arg5);
 s32 get_field_534(void *self);
 s32 get_field_d8(void *self);
 s32 get_queue_diff(void *self);
 s32 get_score(void *self);
 s32 get_tcp_stat(s16 arg0, s16 *arg1, s16 *arg2, s32 *arg3, s32 *arg4);
 void insert_item_at(void *self, s16 idx, s32 a, s32 b);
-s32 is_multicast_address(void *self, s16 arg1);
 s32 mark_connection_closed(s16 arg0);
 void release_entry(void *self);
 void reset_slot_index(void *self);
@@ -32,8 +30,6 @@ s16 tcp_connect_start(s16 arg0, s32 arg1, s16 arg2);
 s16 tcp_get_socket_handle(s16 i);
 s16 validate_tcp_handle(s16 i);
 s32 get_adjusted_slot_count(u8 *arg0);
-s32 is_addr_unspecified(u8 *arg0);
-s32 select_source_address(Out_8040D95C *arg0, In_8040D95C *arg1);
 
 struct Self_803FD85C;
 
@@ -45,7 +41,6 @@ struct Self_803FD85C;
 #include "pso/network/text_80421620.h"
 
 u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 arg2, u8 *arg3, s16 arg4);
-s16 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1);
 s32 TLobby__sub_8041D368(u8 *arg0);
 u8 * TLobby__sub_8041B5C0(void *);
 
@@ -530,7 +525,6 @@ s32 TLobby__sub_8041B3D4(void* a, void* b, s16 c, s16 d, s32 e, s32 f, u8 g_m) {
     void *ph;
     u8 *ctx;
     u8 buf[0x10];
-    s16 dispatch_by_addr_family(void* a, NetworkAddress *, NetworkAddress *, u8 *, void* e, u32 n); /* declared s16 here; the definition is s32 (s32, NetworkAddress *, NetworkAddress *, u8 *, void *, void *) */
 
     NetMemset((void *)(buf), (int)(0), (int)(0x10));
     if (!TLobby__sub_8040DA54((u8 *)(a), (u8 *)(b))) {
@@ -573,7 +567,7 @@ s32 TLobby__sub_8041B3D4(void* a, void* b, s16 c, s16 d, s32 e, s32 f, u8 g_m) {
     set_value_and_enable(ctx + 0x10, (s32)&hdr);
     src.h1 = ((s16)TLobby__sub_8040D8F0((u8 *)(b), (u8 *)(a), (s8)(6), (u8 *)(ctx), (s16)(1)));
     NetMemcpy(ph, (void *)(&src.h1), (int)(2));
-    if ((s16)dispatch_by_addr_family((void*)(ctx), (void*)(a), (void*)(b), (void*)(buf + 4), (void*)(buf + 4), (u32)(6)) < 0) {
+    if (dispatch_by_addr_family((s32)ctx, (NetworkAddress *)a, (NetworkAddress *)b, buf + 4, buf + 4, (void *)6) < 0) {
         release_entry((void*)(ctx));
         return -1;
     }
@@ -641,7 +635,6 @@ extern s32 TLobby__sub_8041B774(u8 *self, u8 *src, u8 *a, u8 *b) {
     u8 *sp;
     s16 TLobby__sub_8041ECA4(u8 *); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_8041EC14(u8 *); /* declared s16 here; the definition returns s32 */
-    s16 is_addr_unspecified(u8 *); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_8041E780(void); /* declared s16 here; the definition returns s32 */
 
     if (*(s16 *)(self + offsetof(TcpTcb, f2C4)) <= *(s16 *)(self + offsetof(TcpTcb, pending))) return 0;
@@ -735,7 +728,6 @@ extern s32 TLobby__sub_8041B974(u8 *pkt, u8 *a, u8 *b) {
     s16 srtt;
     s32 TLobby__sub_80422AB8(s32, void (*)(s16, s16, s32, s32), s16, s32, s32, s32);
     s16 compare_sockaddr(void *, u8 *); /* declared s16 here; the definition returns s32 */
-    s16 is_addr_unspecified(u8 *); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_8041B3D4(void *, void *, u16, u16, s32, s32, u8); /* declared s16 here; the definition is s32 (void *, void *, s16, s16, s32, s32, u8) */
     s16 TLobby__sub_8041D368(u8 *); /* declared s16 here; the definition returns s32 */
 
@@ -862,7 +854,7 @@ retry:
         if (!(kind & 2)) {
             goto drop;
         }
-        if ((s16)is_multicast_address((void *)b, 0) == 1) {
+        if (is_multicast_address((void *)b, 0) == 1) {
             goto drop;
         }
         ent_new = (u8 *)TLobby__sub_8041B774(found, (u8 *)ti, a, b);
@@ -1402,7 +1394,7 @@ dropwithreset:
     if (kind & 4) {
         goto drop;
     }
-    if ((s16)is_multicast_address((void *)b, 0) == 1) {
+    if (is_multicast_address((void *)b, 0) == 1) {
         goto drop;
     }
     if (kind & 0x10) {
@@ -2234,8 +2226,6 @@ u16 TLobby__sub_8041EA14(void);
 s16 tcp_connect_start(s16 arg0, s32 arg1, s16 arg2) {
     s16 r;
     TcpTcb *e;
-    s16 is_addr_unspecified(u8 *arg0); /* declared s16 here; the definition returns s32 */
-    s16 select_source_address(void *, void *); /* declared s16 here; the definition is s32 (Out_8040D95C *, In_8040D95C *) */
     s16 TLobby__sub_8041A9AC(TcpTcb *); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_8041EC14(u8 *); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_8041ECA4(u8 *arg0); /* declared s16 here; the definition returns s32 */
@@ -2258,7 +2248,7 @@ s16 tcp_connect_start(s16 arg0, s32 arg1, s16 arg2) {
         NetDispatchSocketEvent((s16)(e - tcp_protocol_state.tcbs), e->event_ctx, 3, 0xC);
         return -6;
     }
-    if (is_addr_unspecified(e->local) != 0 && select_source_address(e->local, (void *)arg1) < 0) {
+    if (is_addr_unspecified(e->local) != 0 && select_source_address((Out_8040D95C *)e->local, (In_8040D95C *)arg1) < 0) {
         NetDispatchSocketEvent((s16)(e - tcp_protocol_state.tcbs), e->event_ctx, 3, 0xC);
         return -6;
     }
@@ -2319,7 +2309,6 @@ extern s32 TLobby__sub_8041E590(s16 idx) {
 }
 
 extern s32 TLobby__sub_8041E5E4(s16 idx, u8 *a, u16 id) {
-    s16 is_addr_unspecified(u8 *); /* declared s16 here; the definition returns s32 */
     s16 compare_sockaddr(void *, u8 *); /* declared s16 here; the definition returns s32 */
     s16 i;
     u8 *e;

@@ -46,7 +46,6 @@ struct Stack_80416008 {
 typedef struct Na_804179A4 { u8 type; u8 code; s16 cksum; u8 flags; u8 rsv[3]; u8 target[16]; } Na_804179A4;
 
 u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 arg2, u8 *arg3, s16 arg4);
-s32 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1);
 
 s16 TLobby__sub_80413D78(); /* declared without a parameter list; the definition is s16 (self, idx) */
 s16 TLobby__sub_80413F0C(); /* declared without a parameter list; the definition is s16 (self, id) */
@@ -112,7 +111,7 @@ s32 TUdpSocket__sub_8041118C(void) {
 
 #pragma push
 #pragma opt_common_subs on
-s32 TLobby__sub_8041123C(s32 arg0, s32 arg1, s16 arg2) {
+s16 TLobby__sub_8041123C(s32 arg0, s32 arg1, s16 arg2) {
     Ipv6Iface *ifc;
     if ((arg2 < 0) || (arg2 >= ipv6_address_routing_state.count)) {
         return -0x10A;
@@ -127,7 +126,7 @@ s32 TLobby__sub_8041123C(s32 arg0, s32 arg1, s16 arg2) {
 
 #pragma push
 #pragma opt_common_subs on
-s32 TLobby__sub_804112B8(s32 arg0, s32 arg1, s16 arg2) {
+s16 TLobby__sub_804112B8(s32 arg0, s32 arg1, s16 arg2) {
     Ipv6Iface *ifc;
     if ((arg2 < 0) || (arg2 >= ipv6_address_routing_state.count)) {
         return -0x10A;
@@ -572,7 +571,7 @@ s16 get_iface_mtu(s16 arg0) {
 
 s16 TLobby__sub_80414218(void *, void *);
 s32 NetIPv6GetAddressScopeClass(u8 *arg0);
-s32 TLobby__sub_80411F1C(void *out, void *dst, s16 idx) {
+s16 TLobby__sub_80411F1C(void *out, void *dst, s16 idx) {
     Ipv6State *g = &ipv6_address_routing_state;
     u8 *sel = NULL;
     s16 best = 0;
@@ -1300,7 +1299,7 @@ s16 TLobby__sub_80412CA4(u8 *addr, s32 plen, s16 x, s16 idx, s32 y)
   return r;
 }
 
-s32 TLobby__sub_80413230(u8 *arg0, s32 arg1) {
+s16 TLobby__sub_80413230(u8 *arg0, s32 arg1) {
     if (TLobby__sub_80413264(arg0, (void *)arg1) != NULL) {
         return 1;
     }
@@ -1320,7 +1319,6 @@ inline Ipv6Route *routes_80413264(Ipv6State *g) {
 Ipv6Route *TLobby__sub_80413264(void *dst, void *src) {
     /* declared s16 here; the definitions return s32 */
     s16 NetCompareBitPrefix(u8 *a, u8 *b, s16 bits);
-    s16 NetIPv6IsUnspecified(u8 *arg0);
     Ipv6State *g = &ipv6_address_routing_state;
     s16 i;
     Ipv6Route *rt;
@@ -2149,14 +2147,14 @@ s16 NetIPv6IsLoopback(u8 *arg0) {
     return 0;
 }
 
-s32 NetIPv6IsMulticast(u8 *arg0) {
+s16 NetIPv6IsMulticast(u8 *arg0) {
     if ((u8) *arg0 == 0xFF) {
         return 1;
     }
     return 0;
 }
 
-s32 NetIPv6IsUnspecified(u8 *arg0) {
+s16 NetIPv6IsUnspecified(u8 *arg0) {
     typedef struct Fields_arg0 { u8 field_0; u8 field_1; u8 field_2; u8 field_3; u8 field_4; u8 field_5; u8 field_6; u8 field_7; u8 field_8; u8 field_9; u8 field_A; u8 field_B; u8 field_C; u8 field_D; u8 field_E; u8 field_F; } Fields_arg0;
     if ((u8) ((Fields_arg0*)arg0)->field_0 != 0) {
         return 0;
@@ -2951,7 +2949,6 @@ s16 TLobby__sub_80415D0C(NetPacket *a, u8 *b, NetIPv6SendParameters *c, s16 d) {
     Ipv6NdPending *q;
     NetPacketFragment *seg;
     s16 NetIPv6SendMulticastNeighborProbe(u8 *arg0); /* declared s16 here; the definition returns s32 */
-    s16 NetIPv6IsMulticast(u8 *arg0); /* declared s16 here; the definition returns s32 */
     Ipv6NdPending *NetIPv6SelectPendingPacketSlot(void); /* declared with no parameters, so calls here pass none; the definition takes (s32, s32, s32, s32, s32, Ipv6NdPending *) */
     Ipv6NdNeighbor *NetIPv6FindOrSelectNeighborCacheEntry(u8 *, int, s16); /* declared with an int second parameter here; the definition takes u8 * */
     g = &ipv6_neighbor_discovery_state;
@@ -3260,7 +3257,6 @@ s16 NetIPv6HandleRedirect(u8 *arg0, u8 *arg1, void *arg2, s32 arg3) {
     u8 *frag;
     s16 r;
     s16 NetIPv6IsLinkLocal(u8 *); /* declared s16 here; the definition returns s32 */
-    s16 NetIPv6IsMulticast(u8 *); /* declared s16 here; the definition returns s32 */
     s16 NetIPv6ParseRedirectOptions(u8 *, s32, u8 *, s32, s16 *, s32); /* declared s16 here with an s32 6th argument; the definition takes s16 and returns s32 */
 
     frag = arg0 + 0x18;
@@ -3356,7 +3352,6 @@ s16 NetIPv6HandleNeighborAdvertisement(u8 *arg0, void *arg1, void *arg2, s16 arg
     u8 *hdr;
     u32 len;
     s16 r;
-    s16 NetIPv6IsMulticast(u8 *arg0); /* declared s16 here; the definition returns s32 */
     s16 NetIPv6FindTargetLinkLayerAddressOption(u8 *o, s32 len, u8 **out, s16 *outlen); /* declared s16 here; the definition returns s32 */
     s16 NetIPv6ApplyNeighborAdvertisement(Msg_80416994 *, u8 *name, s16 len, s32 arg3, s32 arg4, s16 id); /* declared s16 here with an s16 6th argument; the definition takes s32 and returns s32 */
     lladdr = 0;
@@ -3613,8 +3608,6 @@ s16 NetIPv6HandleNeighborSolicitation(u8 *arg0, void *arg1, void *arg2, void *ar
     u8 *hdr;
     u32 len;
     s16 r;
-    s16 NetIPv6IsMulticast(u8 *arg0); /* declared s16 here; the definition returns s32 */
-    s16 NetIPv6IsUnspecified(u8 *arg0); /* declared s16 here; the definition returns s32 */
     hdr = arg0 + 0x18;
     len = *(s16 *)(arg0 + 0x18);
     if (len < 0x18) {
@@ -3641,7 +3634,6 @@ s16 NetIPv6HandleNeighborSolicitation(u8 *arg0, void *arg1, void *arg2, void *ar
 
 extern s16 TLobby__sub_80416F58(u8 *self, s32 n, void *out, void *arg_)
 {
-  s16 NetIPv6IsUnspecified(u8 *); /* declared s16 here; the definition returns s32 */
   void *TLobby__sub_804182DC(void *, void *, s16, s32); /* declared here with an s32 4th argument; the definition takes s16 */
   u8 *p;
   s16 step;
@@ -3691,8 +3683,6 @@ s16 TLobby__sub_80417028(void *self, void *a, void *b, void *d) {
     s16 r;
     s16 NetIPv6GetInterfaceLinkLayerAddress(s32, s32, s32); /* declared here with other parameter types; the definition is s16 (s32, s16, s16) */
     s16 NetIPv6SendNeighborAdvertisement(u8 *, void *, s32, u8 *, s32); /* declared here with other parameter types; the definition is s16 (NetPacket *, u8 *, u8, NetIPv6SendParameters *, s16) */
-    s16 NetIPv6IsUnspecified(u8 *); /* declared s16 here; the definition returns s32 */
-    s16 NetIPv6IsMulticast(u8 *); /* declared s16 here; the definition returns s32 */
 
     flags = 0;
     if (TLobby__sub_80413C0C((u8 *)self + offsetof(IPv6NeighborSolicitation, target), (int)d)) {
@@ -3971,7 +3961,6 @@ s16 NetIPv6HandleRouterSolicitation(u8 *o, s32 arg1, s32 arg2, s32 arg3) {
 
 s16 TLobby__sub_80417868(void *arg0, u32 arg1, s32 arg2, s32 arg3)
 {
-  s16 NetIPv6IsUnspecified(u8 *); /* declared s16 here; the definition returns s32 */
   void *TLobby__sub_804182DC(void *, void *, s16, s32); /* declared here with an s32 4th argument; the definition takes s16 */
   s16 i;
   s32 step;
@@ -4052,8 +4041,6 @@ s16 NetIPv6SendNeighborAdvertisement(NetPacket *arg0, u8 *address, u8 arg2, NetI
     u16 TLobby__sub_80411040(void *, void *, u8, void *, s16); /* declared here with other parameter types; the definition is u16 (const IPv6Address *, const IPv6Address *, u8, const NetPacket *, s16) */
     s16 TLobby__sub_804136AC(s16 arg0); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_80413934(void *, s16); /* declared s16 here; the definition is s32 (u8 *, s16) */
-    s16 NetIPv6IsMulticast(u8 *arg0); /* declared s16 here; the definition returns s32 */
-    s16 NetIPv6IsUnspecified(u8 *arg0); /* declared s16 here; the definition returns s32 */
     s16 NetIPv6SendMulticastNeighborProbe(u8 *arg0); /* declared s16 here; the definition returns s32 */
     Ipv6NdNeighbor *NetIPv6FindOrSelectNeighborCacheEntry(u8 *, int, s16); /* declared with an int second parameter here; the definition takes u8 * */
     Ipv6NdPending *NetIPv6SelectPendingPacketSlot(void); /* declared with no parameters, so calls here pass none; the definition takes (s32, s32, s32, s32, s32, Ipv6NdPending *) */
@@ -4277,8 +4264,6 @@ s16 NetIPv6EmitNeighborSolicitation(int arg0, void *arg1, void *arg2, s16 arg3, 
     s16 temp_r3;
     s16 temp_r5;
     s16 r;
-    s16 NetIPv6IsMulticast(u8 *); /* declared s16 here; the definition returns s32 */
-    s16 NetIPv6IsUnspecified(u8 *); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_80414090(u8 *, s16); /* declared s16 here; the definition returns s32 */
     net_packet = (NetPacket *)arg0;
     target = (u8 *)arg1;
@@ -4334,8 +4319,6 @@ s32 NetIPv6EmitRouterSolicitation(NetPacket *net_packet, NetIPv6SendParameters *
     s16 temp_r3;
     s16 temp_r5;
     s16 NetIPv6GetInterfaceLinkLayerAddress(s32, s16, s32);
-    s16 NetIPv6IsMulticast(u8 *);
-    s16 NetIPv6IsUnspecified(u8 *);
     if ((NetIPv6IsMulticast((u8 *)(&addr->destination))) == 0) {
         return -0x10E;
     }

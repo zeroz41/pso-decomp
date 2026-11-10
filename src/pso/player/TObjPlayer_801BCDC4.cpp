@@ -41,10 +41,10 @@ extern "C" {
 
 void TObjPlayer::update_recobox(s32 arg0) {
     if (is_current_area_item_enabled() != 0) {
-        TObjPlayer__sub_801BE9A8(arg0);
+        ((TObjPlayer *)arg0)->sub_801BE9A8();
         return;
     }
-    set_flag_20000__10TObjPlayerFi(arg0);
+    ((TObjPlayer *)arg0)->set_flag_20000();
 }
 void TObjPlayer::destroy_child() { void* m = this->inventory_objects; if (m) queue_destruction__7TObjectFv(m); }
 

@@ -8,9 +8,6 @@ struct CreationTextureCacheEntry;
 
 struct TAdSinglePlyChrSelectGC : public TObject {
     virtual ~TAdSinglePlyChrSelectGC();
-    void update_state(int);
-    void show_confirm_dialog(void *);
-    void advance_when_load_done(int);
     void sub_802D4E08();
     virtual void render();
     u32 m_1c;
@@ -137,7 +134,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     s32 start_offline_seq();
     void *destroy(s16 arg1);
     static s32 has_no_save_files(s32 chan);
-    static void *create_check_memory_card(void *arg0, void *arg1, void *arg2);
     static void permute_save_blocks(void* stream, const u8* source, u8* destination, u32 size);
     u8 unk_38[0x4];
     s32 m_3c;
@@ -159,33 +155,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     void start_character_load_task();
     void request_model_loads();
     void draw_creation_figure();
-    static s32 is_card_file_missing_a();
-    static s32 is_card_file_missing_b();
-    static s32 is_card_file_absent_a();
-    static s32 is_card_file_absent_b();
-    void open_message_choice(void *arg1, s32 arg2, void *arg3, void *arg4);
-    s32 count_selected_flags();
-    static void create_result_bg(s32 arg0);
-    void build_selection_summary();
-    void init_menu_window();
-    void update_close_on_load();
-    void try_setup();
-    void update_close_timer();
-    void init_screen();
-    void update_char_timer();
-    static void create_backgrounds(s32 arg0);
-    void update_timer();
-    static void close_scene(s32 arg0);
-    void update_load_countdown();
-    void update_load_state();
-    int close_and_next_cancel();
-    void handle_confirm_menu();
-    void open_char_select();
-    void reset_on_load_complete();
-    void ensure_player_loaded();
-    void ensure_system_file_loaded();
-    void report_card_status();
-    void rebuild_and_maybe_close();
     static void reset_quest_id();
     static void set_quest_download_server(int a0);
     static void init_logo_state(s32 arg0);
@@ -210,8 +179,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     void crypt_data_be(u32 *data, s32 len);
     void append_extension_if_missing(char *name, char *ext);
     u8 *init_char_record();
-    static s32 is_load_complete();
-    s32 check_capacity();
 };
 
 typedef char TAdSinglePlyChrSelectGC_size[sizeof(TAdSinglePlyChrSelectGC) == 0x60 ? 1 : -1];

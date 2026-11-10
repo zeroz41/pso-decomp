@@ -52,20 +52,16 @@ u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag)
 s32 close_and_reset_connection(void *self);
 s32 compare_sockaddr(void *self, u8 *arg1);
 void complete_pending_request(s16 id);
-s32 dispatch_by_addr_family(s32 arg0, NetworkAddress *arg1, NetworkAddress *arg2, u8 *arg3, void *arg4, void *arg5);
 s32 dispatch_handler_by_id(s16 arg0, s32 arg1, s32 arg2);
-s32 dispatch_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3);
 void dispatch_request_callback(void *self, s16 status);
 s32 dispatch_slot_a(s16 arg0, s32 arg1);
 s32 dispatch_slot_b(s16 arg0, s32 arg1);
-s32 forward_net_op(s16 arg0, u8 *arg1, u8 *arg2);
-s32 forward_socket_op_by_handle(s16 id, u8 *a, u8 *b);
+s16 forward_net_op(s16 arg0, u8 *arg1, u8 *arg2);
+s16 forward_socket_op_by_handle(s16 id, u8 *a, u8 *b);
 s16 * get_active_entry_by_index(s16 arg0);
 s32 init_ipv4_interfaces(void);
 s16 init_net_sockets(void);
 s32 init_packet_fragment_pools(void);
-s32 is_lookup_found(u32 arg0, u32 arg1);
-s32 is_multicast_address(void *self, s16 arg1);
 void release_entry(void *self);
 s32 reset_socket_table(void);
 void run_net_thread_loop(void);
@@ -77,10 +73,8 @@ ArpEntry *find_free_peer_entry(void);
 NetworkAddress *find_next_active_record(DnsQuery *a);
 ArpEntry *find_oldest_peer_entry(s16 state);
 ArpEntry *find_or_add_peer_entry(s16 handler, s32 socket, u8 plen, void *paddr, u8 hlen, void *haddr, s16 state);
-s32 is_addr_unspecified(u8 *arg0);
 void ppp_input_packet(PppFrame *arg0);
 void reset_connection_requests(DnsPtr *o_, s16 arg1);
-s32 select_source_address(Out_8040D95C *arg0, In_8040D95C *arg1);
 
 extern PppFrame *ppp_rx_frame_ptr;
 extern s32 lbl_805D7A94;
@@ -137,8 +131,8 @@ struct LobbyHandler {
     s32 (*op20)(s32, s32, s32);                    /* 0x20: TLobby__sub_80409CE0 */
     s32 (*op24)(s32, s32);                         /* 0x24: dispatch_handler_by_id; TLobby__sub_80409818 calls it
                                                       as void (s16, s32) */
-    s32 (*op28)(s32, s32, s32);                    /* 0x28: dispatch_handler_by_index */
-    s32 (*output)(s32, s32, s32, s32);             /* 0x2C: call_handler_by_index */
+    s16 (*op28)(s32, s32, s32);                    /* 0x28: dispatch_handler_by_index */
+    s16 (*output)(s32, s32, s32, s32);             /* 0x2C: call_handler_by_index */
 };
 typedef char LobbyHandler_size_check[sizeof(LobbyHandler) == 0x30 ? 1 : -1];
 
@@ -158,7 +152,6 @@ s16 TLobby__sub_80407F20(s16 a, s16 b, s16 c, s16 d, s16 e, s32 f, s16 g, s32 h)
 s32 TLobby__sub_8040878C(void);
 s32 TLobby__sub_8040C9E0(DnsAddr *arg0, DnsAddr *arg1);
 u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 arg2, u8 *arg3, s16 arg4);
-s32 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1);
 
 u8 * TLobby__sub_8040F76C(u32, u32);
 s32 TLobby__sub_8040FEE4(s32 arg0, s32 arg1);
@@ -1661,7 +1654,7 @@ s32 TLobby__sub_80407418(s16 id) {
     return 0;
 }
 
-s32 forward_net_op(s16 arg0, u8 *arg1, u8 *arg2) {
+s16 forward_net_op(s16 arg0, u8 *arg1, u8 *arg2) {
     return TLobby__sub_8040799C(arg0, arg1, arg2);
 }
 
@@ -1896,11 +1889,11 @@ inline void Send_8040799C(ArpIface *e, void *name) {
     }
 }
 
-s32 TLobby__sub_8040799C(s16 idx, void *name, void *arg2) {
+s16 TLobby__sub_8040799C(s16 idx, void *name, void *arg2) {
     ArpState *t = &lbl_805C1AB0;
     ArpIface *e;
     ArpEntry *p;
-    s32 ret;
+    s16 ret;
     ArpEntry *np;
 
     e = Lookup_8040799C(t, idx);
@@ -2645,7 +2638,7 @@ s32 send_ethernet_frame(s16 idx, s16 mode, u8 *addr, void *pkt) {
     return 0;
 }
 
-s32 forward_socket_op_by_handle(s16 id, u8 *a, u8 *b) {
+s16 forward_socket_op_by_handle(s16 id, u8 *a, u8 *b) {
     EthSocket *e;
     s32 sock;
 
@@ -3184,9 +3177,9 @@ s32 TLobby__sub_80409AD8(void) {
     return 0;
 }
 
-s32 call_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+s16 call_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     LobbyHandler *e;
-    s32 (*fn)(s32, s32, s32, s32);
+    s16 (*fn)(s32, s32, s32, s32);
     if (arg0 < 0 || arg0 > lobby_handler_table_desc.count) {
         return -0x10F;
     }
@@ -3202,9 +3195,9 @@ s32 call_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     return fn(arg1, arg2, arg3, arg4);
 }
 
-s32 dispatch_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3) {
+s16 dispatch_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3) {
     LobbyHandler *e;
-    s32 (*fn)(s32, s32, s32);
+    s16 (*fn)(s32, s32, s32);
     if (arg0 < 0 || arg0 > lobby_handler_table_desc.count) {
         return -0x10F;
     }
@@ -5401,9 +5394,6 @@ s32 TUdpSocket__sub_8040CE58(u8 *p, u8 *b, s16 x, s16 id)
   u8 *h;
   s32 lim;
   s32 r;
-  s16 NetIPv4IsUnspecified(u32); /* declared s16 here; the definition returns s32 */
-  s16 NetIPv4IsLoopback(s32); /* declared s16 here; the definition returns s32 */
-  s16 TLobby__sub_8040FDA0(u32, s16); /* declared s16 here; the definition returns s32 */
   if ((NetIPv4IsUnspecified(*((u32 *) (b + 0xc))) || NetIPv4IsLoopback(*((s32 *) (b + 0xc)))) || (TLobby__sub_8040FDA0(*((u32 *) (b + 0xc)), id) != 0))
   {
     return -1;
@@ -5452,7 +5442,6 @@ typedef struct Icmp4Header {
 } Icmp4Header;
 typedef char Icmp4Header_size_check[sizeof(Icmp4Header) == 8 ? 1 : -1];
 s16 TLobby__sub_8040CFE8(u8 type, u8 code, u32 src, u32 dst, NetPacket *pkt) {
-    s16 TLobby__sub_8040E780(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void *proto);
     NetBufferRef ref;
     Icmp4Header hdr;
 
@@ -5640,11 +5629,7 @@ extern s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_lim
 }
 
 s16 TLobby__sub_8040D510(void *a, u8 *src, s16 c, s16 flag) {
-    s16 NetIPv6IsUnspecified(u8 *); /* declared s16 here; the definition returns s32 */
-    s16 NetIPv6IsMulticast(u8 *); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_80413D78(void *, s16);
-    s16 TLobby__sub_80411F1C(void *, void *, s16); /* declared s16 here; the definition returns s32 */
-    s16 TLobby__sub_80410A98(s32, void *, void *, void *, void *); /* declared s16 here; the definition returns s32 */
     u8 buf[0x10];
     u8 *p;
     u8 *rec;
@@ -5708,10 +5693,6 @@ typedef struct Icmp6MessageHeader {
 } Icmp6MessageHeader;
 typedef char Icmp6MessageHeader_size_check[sizeof(Icmp6MessageHeader) == 4 ? 1 : -1];
 extern s16 TLobby__sub_8040D718(u8 type, u8 code, u8 *src, u8 *dst, NetPacket *pkt, s16 idx) {
-    s16 NetIPv6IsMulticast(u8 *arg0); /* declared s16 here; the definition returns s32 */
-    s16 NetIPv6IsUnspecified(u8 *arg0); /* declared s16 here; the definition returns s32 */
-    s16 TLobby__sub_80411F1C(void *, void *, s16); /* declared s16 here; the definition returns s32 */
-    s16 TLobby__sub_80410A98(s32, void *, void *, void *, void *); /* declared s16 here; the definition returns s32 */
     Icmp6MessageHeader hdr;
     s16 r;
 
@@ -5742,10 +5723,8 @@ extern s16 TLobby__sub_8040D718(u8 type, u8 code, u8 *src, u8 *dst, NetPacket *p
     return 0;
 }
 
-s32 TLobby__sub_80410A98(s32, void *, void *, void *, void *);
 
-s32 dispatch_by_addr_family(s32 arg0, NetworkAddress *arg1, NetworkAddress *arg2, u8 *arg3, void *arg4, void *arg5) {
-    s32 TLobby__sub_8040E780(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void *proto); /* declared s32 here; the definition returns s16 */
+s16 dispatch_by_addr_family(s32 arg0, NetworkAddress *arg1, NetworkAddress *arg2, u8 *arg3, void *arg4, void *arg5) {
     switch (arg2->family) {
     case 4:
         return TLobby__sub_8040E780((u8 *)arg0, arg1->ipv4, arg2->ipv4, arg3[0], arg3[1], arg3[2], arg5);
@@ -5772,11 +5751,9 @@ u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 arg2, u8 *pkt, s16 flag) {
 }
 
 typedef struct Ent_8040D95C { u8 pad0[2]; s16 f2; u8 pad4[2]; s16 f6; u8 pad8[4]; s32 fC; } Ent_8040D95C;
-s32 TLobby__sub_8040EF50(u32 *out, u32 mask, s16 c);
-s32 select_source_address(Out_8040D95C *arg0, In_8040D95C *arg1) {
+s16 select_source_address(Out_8040D95C *arg0, In_8040D95C *arg1) {
     Ent_8040D95C *e;
     s16 ok;
-    s16 NetIPv6IsUnspecified(u8 *arg0); /* declared s16 here; the definition returns s32 */
 
     switch (arg1->type) {
     case 4:
@@ -5811,7 +5788,7 @@ s32 select_source_address(Out_8040D95C *arg0, In_8040D95C *arg1) {
     }
 }
 
-s32 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1) {
+s16 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1) {
     typedef struct Fields_arg0 { s32 field_0; u8 * field_4; } Fields_arg0;
     typedef struct Fields_arg1 { u8 pad_0[4]; s32 field_4; } Fields_arg1;
     s32 var_r4;
@@ -5851,7 +5828,7 @@ s16 NetValidateLocalAddress(NetworkAddress* address) {
     }
 }
 
-s32 is_multicast_address(void *self, s16 arg1) {
+s16 is_multicast_address(void *self, s16 arg1) {
     u8 *arg0 = (u8 *)self;
     typedef struct Fields_arg0 { s32 field_0; u32 field_4; } Fields_arg0;
     switch (((Fields_arg0*)arg0)->field_0) {
@@ -5865,7 +5842,7 @@ s32 is_multicast_address(void *self, s16 arg1) {
     }
 }
 
-s32 is_addr_unspecified(u8 *arg0) {
+s16 is_addr_unspecified(u8 *arg0) {
     typedef struct Fields_arg0 { s32 field_0; u32 field_4; } Fields_arg0;
     switch (((Fields_arg0*)arg0)->field_0) {
     case 0:
@@ -5990,8 +5967,6 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   int new_var2;
   unsigned char mf;
   u32 s;
-  s16 TUdpSocket__sub_8040E354(u8 *, u32, u8 *, s16, s16); /* declared with 5 parameters; the definition is s16 (u8 *, u32, u8 *, s32) */
-  s16 TLobby__sub_8040FDA0(u32, s16); /* declared s16 here; the definition returns s32 */
   s16 TLobby__sub_8040FE40(s16); /* declared s16 here; the definition returns s32 */
   s32 TLobby__sub_80418C40(u8* self, void* p1, s16 p2, u8 p3, u32 p4, void* p5, u16 p6, u8 p7, s16 p8);
   s16 TLobby__sub_8041B974(void *, void *, void *); /* declared s16 here; the definition is s32 (u8 *, u8 *, u8 *) */
@@ -6228,9 +6203,8 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   return -1;
 }
 
-s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s32 total)
+s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
 {
-  s16 TLobby__sub_8040EDE4(void *, u32, s16);
   s16 TLobby__sub_8040EF00(s16);
   u16 TUdpSocket__sub_80419864(void *, s16);
   s16 cnt8;
@@ -6436,10 +6410,7 @@ s16 TLobby__sub_8040E780(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void 
   s16 r;
   u8 *new_var;
   u32 s;
-  s16 TLobby__sub_8040EF50(u32 *, u32, s16); /* declared s16 here; the definition returns s32 */
-  s16 TLobby__sub_8040FDA0(u32, s16); /* declared s16 here; the definition returns s32 */
   s16 TLobby__sub_8040EF00(s16); /* declared s16 here; the definition returns s32 */
-  s16 TLobby__sub_8040EDE4(void *, u32, s16); /* declared s16 here; the definition returns s32 */
   struct 
   {
     s64 a;
@@ -6696,7 +6667,7 @@ inline s16 chk_8040EDE4(s16 id, u32 k) {
     return 0;
 }
 
-extern s32 TLobby__sub_8040EDE4(void *self, u32 key, s16 id) {
+extern s16 TLobby__sub_8040EDE4(void *self, u32 key, s16 id) {
     s16 *e;
 
     if (id < 0 || id >= ipv4_address_routing_state.nifaces) {
@@ -6752,7 +6723,7 @@ inline void drop_8040F1A0(Ipv4RoutingState *g, u32 k1, u32 k2) {
     }
 }
 
-extern s32 TLobby__sub_8040EF50(u32 *out, u32 mask, s16 c)
+extern s16 TLobby__sub_8040EF50(u32 *out, u32 mask, s16 c)
 {
   s16 n;
   u32 new_var;
@@ -7006,7 +6977,7 @@ extern s16 TLobby__sub_8040F454(u32 addr, u32 mask, u32 broadcast, s16 idx) {
     return 0;
 }
 #pragma pop
-s32 is_lookup_found(u32 arg0, u32 arg1) {
+s16 is_lookup_found(u32 arg0, u32 arg1) {
     if (TLobby__sub_8040F76C(arg0, arg1) != NULL) {
         return 1;
     }
@@ -7365,7 +7336,7 @@ s16 TLobby__sub_8040FCEC(u32 ip) {
     return -1;
 }
 
-s32 NetIPv4IsLoopback(s32 arg0) {
+s16 NetIPv4IsLoopback(s32 arg0) {
     if ((u32) ((arg0 & 0xFF000000) + 0x81000000) == 0U) {
         return 1;
     }
@@ -7373,7 +7344,7 @@ s32 NetIPv4IsLoopback(s32 arg0) {
 }
 
 
-s32 TLobby__sub_8040FDA0(u32 arg0, s16 arg1) {
+s16 TLobby__sub_8040FDA0(u32 arg0, s16 arg1) {
     Ipv4Iface *e;
     if (arg1 < 0 || arg1 >= ipv4_address_routing_state.nifaces) {
         e = NULL;
@@ -7393,7 +7364,7 @@ s32 TLobby__sub_8040FDA0(u32 arg0, s16 arg1) {
     return 0;
 }
 
-s32 NetIPv4IsUnspecified(u32 arg0) {
+s16 NetIPv4IsUnspecified(u32 arg0) {
     if (arg0 == 0U) {
         return 1;
     }
@@ -7540,8 +7511,6 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
   s16 TLobby__sub_804105E0(u8 *, u8 *, s16, s16); /* declared s16 here; the definition returns s32 */
   s16 TLobby__sub_804136CC(s16); /* declared s16 here; the definition returns void */
   s16 TLobby__sub_804136EC(void *); /* declared s16 here; the definition returns s32 */
-  s16 NetIPv6IsMulticast(u8 *); /* declared s16 here; the definition returns s32 */
-  s16 NetIPv6IsUnspecified(u8 *); /* declared s16 here; the definition returns s32 */
   s16 NetIPv6CompareAddresses(void *, void *); /* declared s16 here; the definition is s32 (s32, s32) */
   s16 TLobby__sub_8041B974(void *, void *, void *); /* declared s16 here; the definition is s32 (u8 *, u8 *, u8 *) */
   s16 udp_input(void *, void *, void *, s16); /* declared s16 here; the definition is s32 (O_80420DE4 *, NetworkAddress *, NetworkAddress *, s32) */
@@ -7847,7 +7816,6 @@ extern s32 TLobby__sub_804105E0(u8 *self, u8 *p, s16 lim, s16 ctx)
 {
   s32 TLobby__sub_80410BA8(void *, void *, s16, void *); /* declared s32 here; the definition returns s16 */
   s32 TLobby__sub_80415D0C(u8 *a, u8 *b, u8 *c, s16 d); /* declared s32 here; the definition is s16 (NetPacket *, u8 *, NetIPv6SendParameters *, s16) */
-  s16 NetIPv6IsMulticast(u8 *); /* declared s16 here; the definition returns s32 */
   s16 TLobby__sub_804136AC(s16); /* declared s16 here; the definition returns s32 */
   u8 loc[8];
   u8 out2[0x10];
@@ -7986,7 +7954,6 @@ extern s32 TLobby__sub_804105E0(u8 *self, u8 *p, s16 lim, s16 ctx)
 }
 #pragma pop
 s32 TLobby__sub_80410958(u8* p, s16 n, u8* self, s16 c, s16 d) {
-    s16 NetIPv6IsMulticast(void*);
     u8* cur = p;
     s32 len;
 
@@ -8039,9 +8006,8 @@ s32 TLobby__sub_80410958(u8* p, s16 n, u8* self, s16 c, s16 d) {
     return 0;
 }
 
-s32 TLobby__sub_80410A98(s32 arg0, void *arg1, void *arg2, void *arg3, void *arg4)
+s16 TLobby__sub_80410A98(s32 arg0, void *arg1, void *arg2, void *arg3, void *arg4)
 {
-    s32 TLobby__sub_80410BA8(void *, void *, s16, void *); /* declared s32 here; the definition returns s16 */
   u8 tmp[12];
   volatile struct 
   {
@@ -8055,9 +8021,7 @@ s32 TLobby__sub_80410A98(s32 arg0, void *arg1, void *arg2, void *arg3, void *arg
   u8 buf1[16];
   Ipv6Route *p;
   u8 *q;
-  s16 NetIPv6IsMulticast(u8 *); /* declared s16 here; the definition returns s32 */
   s16 TLobby__sub_804136AC(s16); /* declared s16 here; the definition returns s32 */
-  s32 TLobby__sub_80415D0C(NetPacket *, u8 *, NetIPv6SendParameters *, s16); /* declared s32 here; the definition returns s16 */
   p = TLobby__sub_80413264(arg1, arg2);
   if (p == ((void *) 0))
   {
@@ -8093,9 +8057,6 @@ s32 TLobby__sub_80410A98(s32 arg0, void *arg1, void *arg2, void *arg3, void *arg
 s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 a6, u32 len);
 s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d)
 {
-  s16 TLobby__sub_804112B8(s32, s32, s16); /* declared s16 here; the definition returns s32 */
-  s16 TLobby__sub_8041123C(s32, s32, s16); /* declared s16 here; the definition returns s32 */
-  s16 NetIPv6IsMulticast(void *); /* declared s16 here; the definition is s32 (u8 *) */
   Ipv6ProtocolState *base = &ipv6_protocol_state;
   s32 new_var;
   u32 used = ((NetPacket *) self)->total_bytes;
@@ -8155,7 +8116,7 @@ s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d)
   off = ((NetPacket *) self)->fragment_count * (s32)sizeof(NetPacketFragment);
   set_value_and_enable((((u8 *) self) + off) + offsetof(NetPacket, fragments[0].buffer), (s32) slot);
   ((NetPacket *) self)->fragment_count += 1;
-  if (NetIPv6IsMulticast(&((NetIPv6SendParameters *) a)->destination))
+  if (NetIPv6IsMulticast(((NetIPv6SendParameters *) a)->destination.bytes))
   {
     return TLobby__sub_804112B8((s32) self, (s32) &((NetIPv6SendParameters *) a)->destination, c);
   }
@@ -8166,9 +8127,6 @@ s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d)
 #pragma opt_common_subs on
 extern s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 a6, u32 len)
 {
-    s16 NetIPv6IsMulticast(u8 *); /* declared s16 here; the definition returns s32 */
-    s16 TLobby__sub_804112B8(s32, s32, s16); /* declared s16 here; the definition returns s32 */
-    s16 TLobby__sub_8041123C(s32, s32, s16); /* declared s16 here; the definition returns s32 */
     NetPacket iov;
     Ipv6FragmentHeader fh;
     s16 i;

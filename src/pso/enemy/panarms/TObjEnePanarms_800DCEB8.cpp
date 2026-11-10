@@ -45,15 +45,6 @@ struct Stack_800DD9A0 {
     f32 sp18;
 };
 
-/* One state's motion of the Pan Arms body: motion indexes bm7_s_paa_body_motion_names
-   (state 0 wait, state 4 deada); same layout as shinowa_mirage_motion_param_table. */
-struct PanarmsMotionParam {
-    s32 unk_0;
-    s32 motion;
-    f32 unk_8;
-    s32 unk_c;
-};
-
 struct Vec_800DECC4 { f32 x; f32 y; f32 z; };
 
 struct Obj_800DECC4 { u8 pad[0x38]; Vec_800DECC4 pos; u8 pad2[0x248 - 0x44]; u8 f248[0x384 - 0x248]; f32 f384; };

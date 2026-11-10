@@ -447,6 +447,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/effect/photon/TPhotonFarlla.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # setup_photon_blast_camera reaches its four .rodata camera offsets with a lis/addi each: -pool off.
     "pso/effect/photon/PhotonBlastSummon.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
+    # render reaches each of its .rodata vectors and angles with its own lis/addi (no shared base): -pool off.
+    "pso/effect/particle/ParticleBallistic.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     "pso/effect/photon/TPhotonConcentrate.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TPhotonMylla__ct reaches its packet template with its own lis/addi (no shared .rodata base): -pool off.
     "pso/effect/photon/TPhotonMylla.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
@@ -458,6 +460,12 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/canadin/TObjEneMe1Canadin.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/enemy/deldepth/TObjEneDelDepth.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/enemy/panarms/TObjEnePanarms_800DCEB8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # -sdata 4: the four 8-byte tables 0x80495914-0x80495934 sit in .data, not .sdata.
+    "pso/enemy/panarms/TObjEnePanarms.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-sdata 4")},
+    "pso/enemy/moja/TObjEneMoja.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # -inline off,deferred: the constructor reaches __vt__16TObjEneRe2Flower through the .data anchor
+    # (setup_data + 388) and the vtable sits before dispatch_action's jump table.
+    "pso/enemy/flower/TObjEneRe2Flower.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/ui/frontend/TAdRicoRingCtrl.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/enemy/dd/TObjEneDD.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/enemy/dubchik/TObjEneDubchik.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
@@ -536,6 +544,17 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/window/TObjNewFloorWin_80073DC4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdMultiChgGameModeGC_8023EAC4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdMultiChgGameModeGC_8036DE10.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # -str reuse,readonly: the class name string 0x80477DA0 sits in .rodata.
+    # -sdata 4: the 8-byte menu position 0x804EF8D8 sits in .data, the 4-byte menu width in .sbss.
+    "pso/system/save/TCheckMemoryCard.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    # -str reuse,readonly: the class name string 0x80472920 sits in .rodata.
+    # -sdata 4: the 8-byte window positions 0x804E3040-58 sit in .data, the 4-byte menu width in .sbss.
+    # -fp_contract on: T_ATS_DrawCalendar::render uses fnmsubs and the static initialiser fmadds.
+    # -inline off,deferred: __vt__18T_ATS_DrawCalendar (0x804E34FC) sits before __vt__12TAdTimeSetGC (0x804E3514)
+    # although the functions and literals are in address order; the source is written last function first.
+    "pso/ui/frontend/TAdTimeSetGC.cpp": {
+        "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-sdata 4", "-fp_contract on")
+    },
     "pso/ui/frontend/TAdLoadQuestPrtTxtGC_8034A090.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdScrollWinGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/window/TWindowSubComCard_8007341C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
@@ -900,6 +919,7 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
     ("musyx_hw", 0x803BAC70, "GC/1.2.5n", _switch(cflags_musyx, "-inline auto"), {}),
     # CRI ADX, LSC, SJ, MFCI and GCRNA ("Build:Jun 13 2002").
     ("cri", 0x803BFE50, "GC/2.6", cflags_middleware, {
+        "pso/unk/text_803CC294.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
         "pso/unk/text_803CE568.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
         "pso/unk/text_803CFEA0.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
         "pso/unk/text_803D31A4.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},

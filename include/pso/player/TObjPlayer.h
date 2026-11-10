@@ -39,6 +39,7 @@ struct TObjPlayer : public TObjChara {
     s32 create_shoot_model(int, int, int, f32);
     void create_cane_effect_from_state(void *);
     u32 apply_wall_response();
+    void apply_battle_level_reset(s32 level);
     void set_action_provider_variant(s16);
     void update_position_from_target();
     s16 get_idle_animation();
@@ -1532,6 +1533,8 @@ struct TObjPlayer : public TObjChara {
     int get_field_374();
     static s32 clamp_index_to_max(s32 arg0);
     void clamp_nested_index();
+    void sub_801BE9A8();
+    void set_flag_20000();
     void set_flag_2000000();
     void set_flag_02000000();
     void set_position_history_entry(s32 arg1, f32 farg0, f32 farg1);

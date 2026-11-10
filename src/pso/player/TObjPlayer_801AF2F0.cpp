@@ -2157,8 +2157,6 @@ void TObjPlayer__sub_801B5A44(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 void TObjPlayer__sub_801B5AF8(s32 arg0, s32 arg1);
 void damp_planar_velocity(P_801B5FB0 *p);
 void handle_6x2E_set_or_clear_player_flags(void *arg0);
-void apply_battle_level_reset__10TObjPlayerFv(Pl_801B0B88 *, s32);
-void TObjPlayer__sub_801B67C4(void* p);
 void spawn_level_change_feedback__10TObjPlayerFv(s32 arg0, s32 arg1);
 void handle_6x30_change_player_level(void *arg0);
 void send_6x30_change_player_level(Player_801B6C30 *arg0);
@@ -2240,8 +2238,6 @@ void init_inventory_list__10TObjPlayerFPv(void *);
 s32 TObjPlayer__sub_801BE8F4(void *, s32, s32);
 void *TObjPlayer__sub_801BE918(void *a0, int a1, void *a2, void *a3);
 s16 clamp_nested_index__10TObjPlayerFv(void *, int);
-void TObjPlayer__sub_801BE9A8(s32);
-void set_flag_20000__10TObjPlayerFi(s32);
 s32 set_flag_02000000__10TObjPlayerFv(void *);
 s32 set_flag_400000__10TObjPlayerFi(void *);
 s32 TObjPlayer__sub_801BEB0C(void *);
@@ -3364,7 +3360,7 @@ void TLobby::apply_battle_rules_to_players() {
         case 1:
             ((TObjPlayer *)p)->sub_801BEE2C(0);
             ((TObjPlayer *)p)->sub_801BEE24(0);
-            apply_battle_level_reset__10TObjPlayerFv(p, ((TLobby *)q)->clamp_player_index());
+            ((TObjPlayer *)p)->apply_battle_level_reset(((TLobby *)q)->clamp_player_index());
             break;
         }
         lv = TLobby__sub_801D6DDC(q);
@@ -5740,7 +5736,88 @@ void TObjPlayer::update_aim_angle(s32 arg1) {
     obj->m12(class_state_field - this->obj_getPtr2B0_1C());
 }
 
-void TObjPlayer__sub_801B67C4(void* p) { *(s16*)((char*)p + 0x0) = 0; *(s32*)((char*)p + 0x4) = 0; }
+// An equipped item and the slot it sits in, kept while apply_battle_level_reset rebuilds the stats.
+struct Unk_801B67C4 {
+    Unk_801B67C4() {
+        slot = 0;
+        item = NULL;
+    }
+
+    s16 slot;
+    TItem *item;
+};
+
+// Battle rule "level": rebuilds the stats as the class base plus the growth of every level row up to
+// `level`, then puts back the equipment the new stats still allow (units last, and only over an armor).
+void TObjPlayer::apply_battle_level_reset(s32 level) {
+    level = clamp_index_to_max(level);
+
+    Unk_801B67C4 saved[9];
+    s16 result;
+
+    Unk_801B67C4 *e = saved;
+    for (s32 i = 0; i < 13; i++) {
+        TItem *item = get_equipped_item(i);
+        if (item != NULL) {
+            e->slot = item->get_attach_slot();
+            e->item = item;
+            e++;
+        }
+    }
+    ((TObjPlayer *)inventory_objects)->set_flag_and_update((int)this);
+    s8 cls = get_class_index();
+    stats *base = get_class_base_stats(cls);
+    ((player_stats *)m_2b0)->stats.atp = base->atp;
+    ((player_stats *)m_2b0)->stats.mst = base->mst;
+    ((player_stats *)m_2b0)->stats.evp = base->evp;
+    ((player_stats *)m_2b0)->stats.hp = base->hp;
+    ((player_stats *)m_2b0)->stats.dfp = base->dfp;
+    ((player_stats *)m_2b0)->stats.ata = base->ata;
+    ((player_stats *)m_2b0)->stats.lck = base->lck;
+    s32 row = get_ply_level_table_row(cls, 0);
+    if (row != 0) {
+        player_stats *caps = get_class_stat_caps(cls);
+        for (s32 i = 0; i < level; i++) {
+            row += 0xC;
+            add_stat_clamped(((TObjPlayer *)row)->get_char_class(), &((player_stats *)m_2b0)->stats.atp, caps->stats.atp);
+            add_stat_clamped(((TObjPlayer *)row)->get_team_id(), &((player_stats *)m_2b0)->stats.mst, caps->stats.mst);
+            add_stat_clamped(TObjPlayer__sub_801C2134((void *)row), &((player_stats *)m_2b0)->stats.evp, caps->stats.evp);
+            add_stat_clamped(TObjPlayer__sub_801C212C((void *)row), &((player_stats *)m_2b0)->stats.hp, caps->stats.hp);
+            add_stat_clamped(((TObjPlayer *)row)->get_byte_4(), &((player_stats *)m_2b0)->stats.dfp, caps->stats.dfp);
+            add_stat_clamped(((TObjPlayer *)row)->get_field_5(), &((player_stats *)m_2b0)->stats.ata, caps->stats.ata);
+        }
+    }
+    ((player_stats *)m_2b0)->level = level;
+    ((player_stats *)m_2b0)->mbr_0xe = 40;
+    ((player_stats *)m_2b0)->exp = get_current_state_field(cls, level);
+    ((player_stats *)m_2b0)->meseta = 300;
+    f32 tp_factor = get_tp_class_factor();
+    recalc_combat_stats(NULL, NULL, NULL, get_class_hp_factor(), tp_factor);
+    hp = hpmax;
+    tp = tpmax;
+    set_flag_20000();
+    Unk_801B67C4 *p = saved;
+    for (s32 i = 0; i < 9; i++, p++) {
+        TItem *item = p->item;
+        if (item == NULL) {
+            break;
+        }
+        if (!item->is_unit() && item->check_equip_requirements(this, &result)) {
+            equip_item_to_slot(item, p->slot);
+        }
+    }
+    Unk_801B67C4 *q = saved;
+    for (s32 i = 0; i < 9; i++, q++) {
+        TItem *item = q->item;
+        if (item == NULL) {
+            break;
+        }
+        if (item->is_unit() && item->check_equip_requirements(this, &result) && (TItem *)((TItemData *)this)->get_item_field_2() != NULL) {
+            equip_item_to_slot(item, q->slot);
+        }
+    }
+    sub_801BE9A8();
+}
 
 // Base stats of the class plus the growth of every level row up to `level`, each clamped to the class caps.
 void apply_class_level_growth(s8 cls, s32 level, stats *st) {
@@ -6268,9 +6345,9 @@ void equip_saved_item_if_slot_empty__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1) {
     temp_r3 = (s32)create_item((TItemData *)(arg1 + 8));
     if ((temp_r3 != 0) && (((u32 (*)(void *, void *))pickup_item__10TObjPlayerFP5TItem)(arg0, (void *) temp_r3) != 0) && (*(s32 *)((s8 *)arg1 + 4) & 8) && (((s32 (*)(void *, s32))get_slot_value__10TObjPlayerFPvi)(arg0 + 0xD04, (s32) ((VObj_18_e9153c *)(temp_r3))->m31()) == 0U)) {
         set_equip_slot_entry((s32)(arg0 + 0xD04), (s32) ((VObj_18_e9153c *)(temp_r3))->m31(), temp_r3);
-        set_flag_20000__10TObjPlayerFi((s32) arg0);
+        ((TObjPlayer *)arg0)->set_flag_20000();
         ((VObj_18_e9153c *)(temp_r3))->m18();
-        TObjPlayer__sub_801BE9A8((s32) arg0);
+        ((TObjPlayer *)arg0)->sub_801BE9A8();
     }
 }
 
@@ -6348,9 +6425,9 @@ void handle_6x2B_create_inventory_item(s32 arg0) {
             item = ((u8 * (*)(s32 *))create_item)((s32 *)pkt.item);
             if ((item != NULL) && (((u32 (*)(int, int))pickup_item__10TObjPlayerFP5TItem)(player, (int)item) != 0U) && (kind == 2) && (pkt.f19 != 0) && (((u32 (*)(void *, void *))get_slot_value__10TObjPlayerFPvi)((void *)(player + 0xD04), (void *)(((VObj_18_p65 *)item)->m31())) == 0U)) {
                 ((s32 (*)(void *, void *, int))set_equip_slot_entry)((void *)(player + 0xD04), (void *)(((VObj_18_p65 *)item)->m31()), (int)item);
-                ((s32 (*)(int))set_flag_20000__10TObjPlayerFi)(player);
+                ((TObjPlayer *)player)->set_flag_20000();
                 ((VObj_18_p65 *)item)->m18();
-                ((s32 (*)(int))TObjPlayer__sub_801BE9A8)(player);
+                ((TObjPlayer *)player)->sub_801BE9A8();
             }
         }
     }
