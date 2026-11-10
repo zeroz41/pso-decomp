@@ -278,7 +278,7 @@ void *character_making_action_table[36] = {
     (void *)0x10000, (void *)0x2e, (void *)0x3f800000, (void *)0x0,
 };
 // TCMCharacter class-name pointer, stored as the object name by TCMCharacter__ct (inferred)
-const char *lbl_805D3BBC = "TCMCharacter";
+const char *TCMCharacter__name = "TCMCharacter";
 // empty model part copied into every slot by init_entry_tables (inferred)
 __declspec(section ".rodata") CreationModelPart lbl_80451CD0 = {0, 0};
 #pragma pop
@@ -377,7 +377,7 @@ void *TCMCharacter__ct(void *motion, void *arg1) {
 
     __ct__10TObjMotionFP7TObject(motion, arg1);
     *(void **)((s8 *)motion + 0x18) = (void *)lbl_804D4054;
-    *(const char **)((s8 *)motion + 0) = lbl_805D3BBC;
+    *(const char **)((s8 *)motion + 0) = TCMCharacter__name;
     lbl_805D49B4 = 1;
     cm = creation_player_character;
     char_select_active_flag = 0;

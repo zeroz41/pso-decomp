@@ -59,9 +59,9 @@ int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
 int init_change_mode__21TAdMultiChgGameModeGCFv(void*);
 void queue_destruction__7TObjectFv(void *arg0);
 s32 TAdPlayerLoadGC__sub_801E1B50(s32);
-extern RecoveredGlobal_8036E8DC_lbl_804C88C0 lbl_804C88C0;
+extern RecoveredGlobal_8036E8DC_lbl_804C88C0 pso_character_card_filename;
 extern RecoveredGlobal_8036E8DC_lbl_804C8914 pso_system_card_filename;
-extern RecoveredGlobal_8036E8DC_lbl_804C89BC lbl_804C89BC;
+extern RecoveredGlobal_8036E8DC_lbl_804C89BC pso_guildcard_card_filename;
 u32 load_system_file_flag__23TAdSinglePlyChrSelectGCFv(void);
 u32 update_window_mode_from_progress__6TLobbyFPv(void *, const void *);
 void *check_room_seq_4__16TAdChrSelASlotGCFl(void *, s32);
@@ -529,7 +529,7 @@ s32 check_system_file_status__23TAdSinglePlyChrSelectGCFv(void) {
     if (TAdPlayerLoadGC::check_memcard_status(0) != 0) {
         return 4;
     }
-    if ((TAdPlayerLoadGC::find_card_file(0, (const char *)&lbl_804C88C0.value) != 0) || (TAdPlayerLoadGC::find_card_file(0, (const char *)((const char *)&lbl_804C89BC.value)) != 0) || (TAdPlayerLoadGC::find_card_file(0, (const char *)((const char *)&pso_system_card_filename.value)) != 0)) {
+    if ((TAdPlayerLoadGC::find_card_file(0, (const char *)&pso_character_card_filename.value) != 0) || (TAdPlayerLoadGC::find_card_file(0, (const char *)((const char *)&pso_guildcard_card_filename.value)) != 0) || (TAdPlayerLoadGC::find_card_file(0, (const char *)((const char *)&pso_system_card_filename.value)) != 0)) {
         return 8;
     }
     return 0;

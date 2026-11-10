@@ -69,8 +69,8 @@ u32 __nw__7TObjectFUl(int);
 
 s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(int, void *, int);
 s32 query_memcard_capacity__15TAdPlayerLoadGCFl(int, int);
-extern char lbl_804C89BC[];
-extern char lbl_804C88C0[];
+extern char pso_guildcard_card_filename[];
+extern char pso_character_card_filename[];
 s32 TAdPlayerLoadGC__sub_801E1944(s32, void *, u32, s32);
 s32 TAdPlayerLoadGC__sub_801E1B50(s32);
 
@@ -215,7 +215,7 @@ void TAdSinglePlyChrSelectGC::update_setup() {
 
 #define arg0 ((O_8033AC44 *)this)
 void TAdSinglePlyChrSelectGC::check_memcard_space() {
-    switch (get_card_file_info__15TAdPlayerLoadGCFiPvPv(arg0->f24, lbl_804C89BC, 0)) {
+    switch (get_card_file_info__15TAdPlayerLoadGCFiPvPv(arg0->f24, pso_guildcard_card_filename, 0)) {
     case 0:
         arg0->f2c = 7;
         break;
@@ -328,10 +328,10 @@ void TAdSinglePlyChrSelectGC::handle_load_result() {
 
 #define ad_single_ply_chr_select_gc ((O_8033AFC8 *)this)
 void TAdSinglePlyChrSelectGC::sub_8033AFC8() {
-    switch (get_card_file_info__15TAdPlayerLoadGCFiPvPv(ad_single_ply_chr_select_gc->f24, lbl_804C88C0, 0)) {
+    switch (get_card_file_info__15TAdPlayerLoadGCFiPvPv(ad_single_ply_chr_select_gc->f24, pso_character_card_filename, 0)) {
     case 0:
         if (ad_single_ply_chr_select_gc->f20 != 0) {
-            switch (TAdPlayerLoadGC__sub_801E1944(ad_single_ply_chr_select_gc->f24, lbl_804C88C0, ad_single_ply_chr_select_gc->f20, ad_single_ply_chr_select_gc->f28)) {
+            switch (TAdPlayerLoadGC__sub_801E1944(ad_single_ply_chr_select_gc->f24, pso_character_card_filename, ad_single_ply_chr_select_gc->f20, ad_single_ply_chr_select_gc->f28)) {
             case 0:
                 ad_single_ply_chr_select_gc->f2C = 3;
                 break;
@@ -615,7 +615,7 @@ u8 TAdSinglePlyChrSelectGC__sub_8033B9F8(u8 *arg0) {
 }
 
 s32 TAdSinglePlyChrSelectGC::has_no_save_files(s32 chan) {
-    if (TAdPlayerLoadGC::find_card_file(chan, pso_system_card_filename) != 0 || TAdPlayerLoadGC::find_card_file(chan, lbl_804C88C0) != 0 || TAdPlayerLoadGC::find_card_file(chan, lbl_804C89BC) != 0) {
+    if (TAdPlayerLoadGC::find_card_file(chan, pso_system_card_filename) != 0 || TAdPlayerLoadGC::find_card_file(chan, pso_character_card_filename) != 0 || TAdPlayerLoadGC::find_card_file(chan, pso_guildcard_card_filename) != 0) {
         return 0;
     }
     return 1;

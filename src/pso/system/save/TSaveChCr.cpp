@@ -42,9 +42,9 @@ extern TSaveChCrStateActions lbl_804EF658[];
 
 extern "C" {
 int close_and_advance__9TSaveChCrFPv(void*, int);
-extern s32 lbl_804C88C0[];
+extern s32 pso_character_card_filename[];
 extern s32 pso_system_card_filename[];
-extern s32 lbl_804C89BC[];
+extern s32 pso_guildcard_card_filename[];
 void *__nw__7TObjectFUl(int);
 void *__ct__9TAdBackGCFv(void *, void *);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
@@ -117,7 +117,7 @@ void TSaveChCr::fn_80339D78() {
     }
 }
 s32 TSaveChCr::sub_80339DBC() {
-    if ((TAdPlayerLoadGC::find_card_file(0, (const char *)(pso_system_card_filename)) != 0) || (TAdPlayerLoadGC::find_card_file(0, (const char *)(lbl_804C88C0)) != 0) || (TAdPlayerLoadGC::find_card_file(0, (const char *)(lbl_804C89BC)) != 0)) {
+    if ((TAdPlayerLoadGC::find_card_file(0, (const char *)(pso_system_card_filename)) != 0) || (TAdPlayerLoadGC::find_card_file(0, (const char *)(pso_character_card_filename)) != 0) || (TAdPlayerLoadGC::find_card_file(0, (const char *)(pso_guildcard_card_filename)) != 0)) {
         return 0;
     }
     return 1;
