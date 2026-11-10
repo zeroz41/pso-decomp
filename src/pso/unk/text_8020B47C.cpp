@@ -34,20 +34,19 @@ extern FloorSetFlags_8020B47C TLobby__floor_enemy_group_table[18];
 
 // Copies the received object and enemy set flags of every floor into the floor tables.
 void TLobby__sub_8020B47C(SyncSetFlagBlock_8020B47C *block) {
-    s32 i;
-    SetFlagRow_8020B47C *row;
     s32 j;
+    SetFlagRow_8020B47C *row;
+    s32 i;
     s16 *src;
     s32 count;
 
     ((TLobby *)block)->bswap_4_words();
     src = (s16 *)((u8 *)block + block->object_flags_offset);
-    for (j = 0; j < 18; j++) {
-        FloorSetFlags_8020B47C *t = &TLobby__floor_enemy_group_table[j];
-        count = t->object_count;
-        if (count > 0) {
-            row = t->object_rows;
-            for (i = 0; i < count; i++) {
+    for (i = 0; i < 18; i++) {
+        if (TLobby__floor_enemy_group_table[i].object_count > 0) {
+            count = TLobby__floor_enemy_group_table[i].object_count;
+            row = TLobby__floor_enemy_group_table[i].object_rows;
+            for (j = 0; j < count; j++) {
                 s16 flags = *src;
                 bswap_16((u16 *)&flags);
                 row->flags = flags;
@@ -57,12 +56,11 @@ void TLobby__sub_8020B47C(SyncSetFlagBlock_8020B47C *block) {
         }
     }
     src = (s16 *)((u8 *)block + block->enemy_flags_offset);
-    for (i = 0; i < 18; i++) {
-        FloorSetFlags_8020B47C *t = &TLobby__floor_enemy_group_table[i];
-        count = t->enemy_count;
-        if (count > 0) {
-            row = t->enemy_rows;
-            for (j = 0; j < count; j++) {
+    for (j = 0; j < 18; j++) {
+        if (TLobby__floor_enemy_group_table[j].enemy_count > 0) {
+            row = TLobby__floor_enemy_group_table[j].enemy_rows;
+            count = TLobby__floor_enemy_group_table[j].enemy_count;
+            for (i = 0; i < count; i++) {
                 s16 flags = *src;
                 bswap_16((u16 *)&flags);
                 row->flags = flags;
