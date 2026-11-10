@@ -248,98 +248,123 @@ inline f32 clamp_particle_channel(f32 c) {
 #pragma push
 #pragma fp_contract on
 void TUnk_8048E7A8::run_task() {
-    NJS_COLOR col;
-    Vec target;
-    ParticleParam *p;
-    f32 t;
-    f32 fade_in;
-    f32 fade_out;
-    f32 alpha;
-    f32 r;
-    f32 g;
-    f32 b;
-    f32 a;
-    s32 frames;
-
-    speed *= param->speed_decay;
-    approach_vector_fixed_distance(&pos, &origin, &target, speed);
-    step.x = target.x - pos.x;
-    step.y = target.y - pos.y;
-    step.z = target.z - pos.z;
-    vec3_add_to(&pos, &step);
-    m_28 *= param->scale_decay;
-    unk_2C *= param->scale_decay;
-    age += age_rate;
-    p = param;
-    t = age;
-    fade_in = 1.0f;
-    fade_out = 1.0f;
-    if (p->fade_in_end > t) {
-        fade_in = t * fade_in_scale;
+  u8 *arg0 = (u8 *) this;
+  u8 *params;
+  Vec_8008BAF8 out;
+  f32 new_var[2];
+  f32 k;
+  f32 a3;
+  f32 X;
+  f32 f2c;
+  f32 beta;
+  f32 v;
+  f32 ch[3];
+  u8 rgba[4];
+  s32 *tbl;
+  u8 *sub;
+  s32 count;
+  u8 *ent;
+  f32 *vec;
+  u32 ucount;
+  params = (u8 *) this->param;
+  *((f32 *) (arg0 + 0x68)) = (*((f32 *) (arg0 + 0x68))) * (*((f32 *) (params + 0x50)));
+  approach_vector_fixed_distance((const Vec *) (arg0 + 0x70), (const Vec *) (arg0 + 0x30), (Vec *) (&out), *((f32 *) (arg0 + 0x68)));
+  *((f32 *) (arg0 + 0x3c)) = out.x - (*((f32 *) (arg0 + 0x70)));
+  *((f32 *) (arg0 + 0x40)) = out.y - (*((f32 *) (arg0 + 0x74)));
+  *((f32 *) (arg0 + 0x44)) = out.z - (*((f32 *) (arg0 + 0x78)));
+  vec3_add_to((Vec *) (arg0 + 0x70), (const Vec *) (arg0 + 0x3c));
+  a3 = 1.0f;
+  X = a3;
+  params = (u8 *) this->param;
+  *((f32 *) (arg0 + 0x28)) = (*((f32 *) (arg0 + 0x28))) * (*((f32 *) (params + 0x2c)));
+  params = (u8 *) this->param;
+  *((f32 *) (arg0 + 0x2c)) = (*((f32 *) (arg0 + 0x2c))) * (*((f32 *) (params + 0x2c)));
+  *((f32 *) (arg0 + 0x58)) = (*((f32 *) (arg0 + 0x58))) + (*((f32 *) (arg0 + 0x5c)));
+  params = (u8 *) this->param;
+  new_var[0] = *((f32 *) (arg0 + 0x58));
+  if ((*((f32 *) (params + 0x58))) > new_var[0])
+  {
+    a3 = new_var[0] * (*((f32 *) (arg0 + 0x60)));
+  }
+  f2c = 1.0f - new_var[0];
+  if (f2c < (*((f32 *) (params + 0x5c))))
+  {
+    X = f2c * (*((f32 *) (arg0 + 0x64)));
+  }
+  new_var[1] = (a3 < X) ? (a3) : (X);
+  tbl = (s32 *) (&TParticleCtrl__data_80511F70);
+  sub = (u8 *) (*((s32 *) (((u8 *) tbl[*((u16 *) (arg0 + 0x1c))]) + 0x28)));
+  if ((*((u32 *) sub)) & 1)
+  {
+    if ((*((u16 *) (arg0 + 0x24))) & 0x100)
+    {
+      ch[0] = fade_particle_channel(((*((f32 *) (params + 0x6c))) * new_var[0]) + (*((f32 *) (arg0 + 0x4c))), new_var[1]);
+      ch[1] = fade_particle_channel(((*((f32 *) (params + 0x70))) * new_var[0]) + (*((f32 *) (arg0 + 0x50))), new_var[1]);
+      ch[2] = fade_particle_channel(((*((f32 *) (params + 0x74))) * new_var[0]) + (*((f32 *) (arg0 + 0x54))), new_var[1]);
     }
-    if (1.0f - t < p->fade_out_start) {
-        fade_out = (1.0f - t) * fade_out_scale;
+    else
+    {
+      ch[0] = fade_particle_channel(((*((f32 *) (params + 0x6c))) * new_var[0]) + (*((f32 *) (params + 0x7c))), new_var[1]);
+      ch[1] = fade_particle_channel(((*((f32 *) (params + 0x70))) * new_var[0]) + (*((f32 *) (params + 0x80))), new_var[1]);
+      ch[2] = fade_particle_channel(((*((f32 *) (params + 0x74))) * new_var[0]) + (*((f32 *) (params + 0x84))), new_var[1]);
     }
-    if (fade_in < fade_out) {
-        alpha = fade_in;
-    } else {
-        alpha = fade_out;
+    new_var[1] = 1.0f;
+  }
+  else
+    if ((*((u16 *) (arg0 + 0x24))) & 0x100)
+  {
+    ch[0] = clamp_particle_channel(((*((f32 *) (params + 0x6c))) * new_var[0]) + (*((f32 *) (arg0 + 0x4c))));
+    ch[1] = clamp_particle_channel(((*((f32 *) (params + 0x70))) * new_var[0]) + (*((f32 *) (arg0 + 0x50))));
+    ch[2] = clamp_particle_channel(((*((f32 *) (params + 0x74))) * new_var[0]) + (*((f32 *) (arg0 + 0x54))));
+  }
+  else
+  {
+    ch[0] = clamp_particle_channel(((*((f32 *) (params + 0x6c))) * new_var[0]) + (*((f32 *) (params + 0x7c))));
+    ch[1] = clamp_particle_channel(((*((f32 *) (params + 0x70))) * new_var[0]) + (*((f32 *) (params + 0x80))));
+    ch[2] = clamp_particle_channel(((*((f32 *) (params + 0x74))) * new_var[0]) + (*((f32 *) (params + 0x84))));
+  }
+  rgba[0] = (u8) (254.0f * new_var[1]);
+  rgba[1] = (u8) (254.0f * ch[0]);
+  rgba[2] = (u8) (254.0f * ch[1]);
+  rgba[3] = (u8) (254.0f * ch[2]);
+  *((u32 *) (arg0 + 0x90)) = *((u32 *) rgba);
+  sub = *((u8 **) (((u8 *) ((s32 *) (&TParticleCtrl__data_80511F70))[*((u16 *) (arg0 + 0x1c))]) + 0x28));
+  count = *((s32 *) (sub + 0xc));
+  if ((*((u8 *) ((*((u8 **) (arg0 + 0x20))) + 0x88))) & 0x10)
+  {
+    *((u8 *) (arg0 + 0x94)) = (u8) ((s32) ((*((f32 *) (arg0 + 0x58))) * ((f32) (count - 1))));
+  }
+  else
+  {
+    *((u8 *) (arg0 + 0x94)) += 1;
+    if (!(count > ((s8) (*((u8 *) (arg0 + 0x94))))))
+    {
+      *((u8 *) (arg0 + 0x94)) = 0;
     }
-    if (TParticleCtrl__data_80511F70[sprite_index]->sprites->flags & 1) {
-        if (flags & 0x100) {
-            r = fade_particle_channel(p->color_rate[0] * t + color_base[0], alpha);
-            g = fade_particle_channel(p->color_rate[1] * t + color_base[1], alpha);
-            b = fade_particle_channel(p->color_rate[2] * t + color_base[2], alpha);
-        } else {
-            r = fade_particle_channel(p->color_rate[0] * t + p->color_base[0], alpha);
-            g = fade_particle_channel(p->color_rate[1] * t + p->color_base[1], alpha);
-            b = fade_particle_channel(p->color_rate[2] * t + p->color_base[2], alpha);
-        }
-        a = 1.0f;
-    } else {
-        if (flags & 0x100) {
-            r = clamp_particle_channel(p->color_rate[0] * t + color_base[0]);
-            g = clamp_particle_channel(p->color_rate[1] * t + color_base[1]);
-            b = clamp_particle_channel(p->color_rate[2] * t + color_base[2]);
-        } else {
-            r = clamp_particle_channel(p->color_rate[0] * t + p->color_base[0]);
-            g = clamp_particle_channel(p->color_rate[1] * t + p->color_base[1]);
-            b = clamp_particle_channel(p->color_rate[2] * t + p->color_base[2]);
-        }
-        a = alpha;
+  }
+  if ((*((u16 *) (arg0 + 0x24))) & 0x10)
+  {
+    ent = (u8 *) find_entity_by_id(*((u16 *) (arg0 + 0x26)));
+    if (ent == 0)
+    {
+      queue_destruction__7TObjectFv(this);
+      return;
     }
-    col.argb.a = 254.0f * a;
-    col.argb.r = 254.0f * r;
-    col.argb.g = 254.0f * g;
-    col.argb.b = 254.0f * b;
-    color = col.color;
-    frames = TParticleCtrl__data_80511F70[sprite_index]->sprites->frame_count;
-    if (param->flags & 0x10) {
-        frame = age * (frames - 1);
-    } else {
-        frame++;
-        if (frames <= frame) {
-            frame = 0;
-        }
+    vec = (f32 *) ((TObjCollidable *) ent)->get_center();
+    *((f32 *) (arg0 + 0x7c)) = vec[0] - (*((f32 *) (arg0 + 0x30)));
+    *((f32 *) (arg0 + 0x80)) = vec[1] - (*((f32 *) (arg0 + 0x34)));
+    *((f32 *) (arg0 + 0x84)) = vec[2] - (*((f32 *) (arg0 + 0x38)));
+  }
+  if ((*((u32 *) (arg0 + 0xb8))) != 0)
+  {
+    *((f32 *) (arg0 + 0xbc)) = (*((f32 *) (arg0 + 0xbc))) + (*((f32 *) (arg0 + 0xc0)));
+    ucount = (*((u32 *) ((*((u8 **) (arg0 + 0xb8))) + 4))) - 1;
+    if (((f32) ucount) <= (*((f32 *) (arg0 + 0xbc))))
+    {
+      *((f32 *) (arg0 + 0xbc)) = (f32) ucount;
     }
-    if (flags & 0x10) {
-        TObjCollidable *target_obj = find_entity_by_id(target_id);
-        if (target_obj == NULL) {
-            queue_destruction();
-            return;
-        }
-        Vec *center = (Vec *)target_obj->get_center();
-        attach.x = center->x - origin.x;
-        attach.y = center->y - origin.y;
-        attach.z = center->z - origin.z;
-    }
-    if (motion != NULL) {
-        motion_frame += unk_C0;
-        if ((f32)(motion->nbFrame - 1) <= motion_frame) {
-            motion_frame = motion->nbFrame - 1;
-        }
-    }
-    check_radial_particle_retire();
+  }
+  this->check_radial_particle_retire();
 }
 #pragma pop
 
