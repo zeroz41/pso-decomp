@@ -703,7 +703,7 @@ force_active:
   - TNpcPlayer__sub_80152A34
   - TNpcPlayer__sub_80152A78
   - TNpcPlayer__sub_80152D64
-  - TNpcPlayer__sub_80190F3C
+  - init_npc_player_char_loader
   - TOAirconCave01__model_archive
   - TOAirconCave01__shared_resource_desc
   - TOAirconCave01_class_name

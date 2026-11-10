@@ -36,14 +36,14 @@ s32 TObjFish__sub_8001EDB0(int, int);
 s32 get_bml_model(int, int);
 extern s32 __vt__11TObjNpcHosa[];
 extern const char *TObjNpcHosa__name;
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 void TObjNpcHosa::destroy_static_instance() {
     if ((u32) TObjNpcHosa__static_model_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjNpcHosa__static_model_resource, 1);
+        free_bin_model_request((void*)TObjNpcHosa__static_model_resource, 1);
         TObjNpcHosa__static_model_resource = 0U;
     }
 }

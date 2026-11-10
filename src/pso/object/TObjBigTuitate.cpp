@@ -80,7 +80,7 @@ CollisionBody big_tuitate_collision_body[1] = {
 extern s32 __vt__14TObjBigTuitate[];
 extern s32 TObjBigTuitate__name;
 
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void free_collision_body_parts(void *);
 int update__15RenderFadeStateFv(void*);
 void __dl__7TObjectFPv(void *);
@@ -154,7 +154,7 @@ s32 __ct__14TObjCollidableFP7TObject();
 extern s32 __vt__11TObjTuitate[];
 extern s32 TObjTuitate__class_name;
 
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void free_collision_body_parts(void *);
 int update__15RenderFadeStateFv(void*);
 void __dl__7TObjectFPv(void *);
@@ -174,7 +174,7 @@ extern void *tl_05;
 
 void free_tuitate_bml_resource(void) {
     if ((u32) TObjTuitate__bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjTuitate__bml_resource, 1);
+        free_bin_model_request((void*)TObjTuitate__bml_resource, 1);
         TObjTuitate__bml_resource = 0U;
     }
 }
@@ -269,7 +269,7 @@ void load_bigtuitate_bml_resource(void) {
 
 void TObjBigTuitate::free_instance() {
     if ((u32) TObjBigTuitate__bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjBigTuitate__bml_resource, 1);
+        free_bin_model_request((void*)TObjBigTuitate__bml_resource, 1);
         TObjBigTuitate__bml_resource = 0U;
     }
 }

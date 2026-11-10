@@ -28,7 +28,7 @@ void *TObjNpcSoldierMacho__create(void *set_data) {
 
 void TObjNpcSoldierMacho::unload_static_data() {
     if (TObjNpcSoldierMacho__shared_model_resource != NULL) {
-        TLobby__sub_8001FE7C(TObjNpcSoldierMacho__shared_model_resource, 1);
+        free_bin_model_request(TObjNpcSoldierMacho__shared_model_resource, 1);
         TObjNpcSoldierMacho__shared_model_resource = NULL;
     }
 }

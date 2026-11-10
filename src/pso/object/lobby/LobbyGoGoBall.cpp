@@ -231,7 +231,7 @@ void * __nw__7TObjectFUl(s32);
 }
 struct Vec_80198E84 { f32 x; f32 y; f32 z; s32 w; u8 pad10[2]; s16 f12; };
 extern "C" {
-void TLobby__sub_8001FE7C(s32, int, void *, f32);
+void free_bin_model_request(s32, int, void *, f32);
 extern s32 lobby_gvm_texture_handles[];
 void fn_80198E84(void);
 }
@@ -1052,7 +1052,7 @@ void fn_80198E84(void) {
     gogo_ball_sync_state->y = (0.0f);
     gogo_ball_sync_state->z = (63.0f);
     gogo_ball_sync_state->w = 0;
-    TLobby__sub_8001FE7C(gogo_ball_bml_resource, 1, gogo_ball_sync_state, (63.0f));
+    free_bin_model_request(gogo_ball_bml_resource, 1, gogo_ball_sync_state, (63.0f));
     gogo_ball_bml_resource = 0;
     for (i = 0; i < 9; i++) {
         TObjPlayer::free_if_valid(lobby_gvm_texture_handles[i]);

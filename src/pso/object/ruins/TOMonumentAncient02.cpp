@@ -177,7 +177,7 @@ void *TOMonumentAncient02::create(void *set_data) {
 
 void TOMonumentAncient02::free_shared_data() {
     if (TOMonumentAncient02__bml_resource != NULL) {
-        TLobby__sub_8001FE7C(TOMonumentAncient02__bml_resource, 1);
+        free_bin_model_request(TOMonumentAncient02__bml_resource, 1);
         TOMonumentAncient02__bml_resource = NULL;
     }
 }

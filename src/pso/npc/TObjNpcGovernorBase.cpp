@@ -33,7 +33,7 @@ extern void *tl_04;
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 __vt__19TObjNpcGovernorBase[];
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
@@ -54,7 +54,7 @@ void * TObjNpcGovernorBase__create(void *arg0) {
 
 void TObjNpcGovernorBase::free_shared_data() {
     if ((u32) TObjNpcGovernorBase__shared_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjNpcGovernorBase__shared_resource, 1);
+        free_bin_model_request((void*)TObjNpcGovernorBase__shared_resource, 1);
         TObjNpcGovernorBase__shared_resource = 0U;
     }
 }

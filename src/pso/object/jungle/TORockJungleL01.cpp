@@ -522,7 +522,7 @@ extern Offs_8029C7DC lbl_8046581C;
 extern Spawn_8029C7DC lbl_80465828;
 extern u8 identity_matrix[];
 s32 play_sound_effect(s32, s32, s32, s32);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 void free_collision_body_parts(void *);
 void __dl__7TObjectFPv(void *);
@@ -630,7 +630,7 @@ void TORockJungleS01::free_globals() {
         TORockJungleS01__texture_resource = 0U;
     }
     if ((u32) TORockJungleS01__bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TORockJungleS01__bml_resource, 1);
+        free_bin_model_request((void*)TORockJungleS01__bml_resource, 1);
         TORockJungleS01__bml_resource = 0U;
     }
 }

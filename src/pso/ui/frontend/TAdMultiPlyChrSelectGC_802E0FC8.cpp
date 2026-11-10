@@ -14,7 +14,7 @@ struct RecoveredGlobal_802E1024_lbl_804E2F68 {
 extern "C" {
 s32 __nw__7TObjectFUl(int);
 extern RecoveredGlobal_802E1024_lbl_804E2F68 multi_chr_select_player_slot_table;
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 
 extern s32 multi_chr_select_player_actor_ops[];
 
@@ -48,7 +48,7 @@ s32 get_or_create_player__22TAdMultiPlyChrSelectGCFiiii(s32 arg0, s32 arg1, s32 
 
 void TAdChrSelPlayerGC__sub_802E10A0(void) {
     if ((u32) TAdMultiPlyChrSelectGC__resource_bundle != 0U) {
-        TLobby__sub_8001FE7C((void*)TAdMultiPlyChrSelectGC__resource_bundle, 1);
+        free_bin_model_request((void*)TAdMultiPlyChrSelectGC__resource_bundle, 1);
         TAdMultiPlyChrSelectGC__resource_bundle = 0U;
     }
 }

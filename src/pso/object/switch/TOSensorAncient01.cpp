@@ -147,7 +147,7 @@ void TOSensorAncient01::destroy() {
         }
     }
     if (sensor_ancient01_model_resource != NULL) {
-        TLobby__sub_8001FE7C(sensor_ancient01_model_resource, 1);
+        free_bin_model_request(sensor_ancient01_model_resource, 1);
         sensor_ancient01_model_resource = NULL;
     }
 }

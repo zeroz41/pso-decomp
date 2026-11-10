@@ -795,7 +795,7 @@ struct RecoveredGlobal_800EBC28___vt__12TObjEneSlime {
 extern "C" {
 s32 __ct__9TObjEnemyFP7TObject(void *);
 extern s32 __vt__12TObjEneSlime[];
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void __dl__7TObjectFPv(void *);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 
@@ -905,7 +905,7 @@ void TObjEneSlime::spawn_pair() {
 
 void TObjEneSlime::free_instance() {
     if ((u32) slime_bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)slime_bml_resource, 1);
+        free_bin_model_request((void*)slime_bml_resource, 1);
         slime_bml_resource = 0U;
     }
 }

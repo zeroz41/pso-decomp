@@ -482,7 +482,7 @@ void vfunc_101__14TObjEneDolmOlmFv(void);
 void request_stand_action__14TObjEneDolmOlmFv(void* p);
 void vfunc_100__14TObjEneDolmOlmFv(void *arg0);
 void vfunc_58__14TObjEneDolmOlmFv(void *arg0);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 u8 *__ct__14TObjEneDolmOlmFll(u8 *, s32, s32);
 void *__nw__7TObjectFUl(int);
@@ -1022,7 +1022,7 @@ void TObjEneDolmOlm::free_shared_resources() {
         TObjEneDolmOlm__data_805D6A14 = 0U;
     }
     if ((u32) TObjEneDolmOlm__resource_bundle != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjEneDolmOlm__resource_bundle, 1);
+        free_bin_model_request((void*)TObjEneDolmOlm__resource_bundle, 1);
         TObjEneDolmOlm__resource_bundle = 0U;
     }
 }

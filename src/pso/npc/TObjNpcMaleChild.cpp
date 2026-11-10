@@ -28,7 +28,7 @@ void *TObjNpcMaleChild__create(void *set_data) {
 
 void TObjNpcMaleChild::release_static_instance() {
     if (TObjNpcMaleChild__shared_model_resource != NULL) {
-        TLobby__sub_8001FE7C(TObjNpcMaleChild__shared_model_resource, 1);
+        free_bin_model_request(TObjNpcMaleChild__shared_model_resource, 1);
         TObjNpcMaleChild__shared_model_resource = NULL;
     }
 }

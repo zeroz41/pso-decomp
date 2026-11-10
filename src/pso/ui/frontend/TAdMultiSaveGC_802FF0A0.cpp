@@ -29,11 +29,11 @@ typedef char RecoveredGlobal_802FF0D8_lbl_804E6570_size[sizeof(RecoveredGlobal_8
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_802FF0D8_lbl_804E6570 TAdMultiSaveGC__shared_resource_desc;
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 
 void TAdMultiSaveGC::free_window() {
     if ((u32) admultisave_shared_model_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)admultisave_shared_model_resource, 1);
+        free_bin_model_request((void*)admultisave_shared_model_resource, 1);
         admultisave_shared_model_resource = 0U;
     }
 }

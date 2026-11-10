@@ -109,11 +109,11 @@ void TOKeyGenericSw::free_shared_resources() {
         }
     }
     if (TOKeyGenericSw__shared_resource_ptrs[1] != NULL) {
-        TLobby__sub_8001FE7C(TOKeyGenericSw__shared_resource_ptrs[1], 1);
+        free_bin_model_request(TOKeyGenericSw__shared_resource_ptrs[1], 1);
         TOKeyGenericSw__shared_resource_ptrs[1] = NULL;
     }
     if (TOKeyGenericSw__shared_resource_ptrs[0] != NULL) {
-        TLobby__sub_8001FE7C(TOKeyGenericSw__shared_resource_ptrs[0], 1);
+        free_bin_model_request(TOKeyGenericSw__shared_resource_ptrs[0], 1);
         TOKeyGenericSw__shared_resource_ptrs[0] = NULL;
     }
 }

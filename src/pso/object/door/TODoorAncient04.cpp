@@ -85,7 +85,7 @@ void TODoorAncient04::free_resources() {
         }
     }
     if (door_ancient04_archive != NULL) {
-        TLobby__sub_8001FE7C(door_ancient04_archive, 1);
+        free_bin_model_request(door_ancient04_archive, 1);
         door_ancient04_archive = NULL;
     }
 }

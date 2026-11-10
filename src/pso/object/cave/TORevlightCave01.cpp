@@ -54,7 +54,7 @@ void *TORevlightCave01::create(void *set_data) {
 
 void TORevlightCave01::release_static_instance() {
     if (TORevlightCave01__bml_resource != NULL) {
-        TLobby__sub_8001FE7C(TORevlightCave01__bml_resource, 1);
+        free_bin_model_request(TORevlightCave01__bml_resource, 1);
         TORevlightCave01__bml_resource = NULL;
     }
 }

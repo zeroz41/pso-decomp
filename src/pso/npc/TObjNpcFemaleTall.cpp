@@ -26,7 +26,7 @@ void *TObjNpcFemaleTall__create(void *set_data) {
 
 void TObjNpcFemaleTall::destroy_instance() {
     if (TObjNpcFemaleTall__instance != NULL) {
-        TLobby__sub_8001FE7C(TObjNpcFemaleTall__instance, 1);
+        free_bin_model_request(TObjNpcFemaleTall__instance, 1);
         TObjNpcFemaleTall__instance = NULL;
     }
 }

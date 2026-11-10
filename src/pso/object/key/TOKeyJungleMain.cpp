@@ -59,7 +59,7 @@ void *TOKeyJungleMain::create(void *set_data) {
 
 void TOKeyJungleMain::release_static_resource() {
     if (TOKeyJungleMain__static_model_resource != NULL) {
-        TLobby__sub_8001FE7C(TOKeyJungleMain__static_model_resource, 1);
+        free_bin_model_request(TOKeyJungleMain__static_model_resource, 1);
         TOKeyJungleMain__static_model_resource = NULL;
     }
 }

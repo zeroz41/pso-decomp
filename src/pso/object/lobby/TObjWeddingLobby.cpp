@@ -92,7 +92,7 @@ void *TObjWeddingLobby::create(void *set_data) {
 
 void TObjWeddingLobby::free_resources() {
     if (resource_bundle != NULL) {
-        TLobby__sub_8001FE7C(resource_bundle, 1);
+        free_bin_model_request(resource_bundle, 1);
         resource_bundle = NULL;
     }
 }

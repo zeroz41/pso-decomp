@@ -3438,7 +3438,7 @@ s32 init_collision_body_parts(void *, void *, int);
 void *__ct__14TObjCollidableFP7TObject(void *, int);
 void *__nw__7TObjectFUl(int);
 extern s32 bm5_wolf_class_name;
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 
 void TObjEneBm5Wolf::update_collision_center() {
 
@@ -3643,7 +3643,7 @@ void TObjEneBm5Wolf::apply_position_to_node_list() {
 
 void TObjEneBm5Wolf::release_global_805D5120() {
     if ((u32) (*(u32 *)&TObjEneBm5Wolf__bml_resource) != 0U) {
-        TLobby__sub_8001FE7C((void*)(*(u32 *)&TObjEneBm5Wolf__bml_resource), 1);
+        free_bin_model_request((void*)(*(u32 *)&TObjEneBm5Wolf__bml_resource), 1);
         (*(u32 *)&TObjEneBm5Wolf__bml_resource) = 0U;
     }
 }

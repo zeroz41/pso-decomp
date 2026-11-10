@@ -36,12 +36,12 @@ s32 TObjFish__sub_8001EDB0(int, int);
 s32 get_bml_model(int, int);
 extern s32 __vt__12TObjNpcHosa2[];
 extern const char *TObjNpcHosa2__name;
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void __dl__7TObjectFPv(void *);
 
 void TObjNpcHosa2::close_dialog_window() {
     if ((u32) TObjNpcHosa2__shared_model_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjNpcHosa2__shared_model_resource, 1);
+        free_bin_model_request((void*)TObjNpcHosa2__shared_model_resource, 1);
         TObjNpcHosa2__shared_model_resource = 0U;
     }
 }

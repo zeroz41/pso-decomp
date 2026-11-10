@@ -78,7 +78,7 @@ void *TObjRainbowLobby::create(void *set_data) {
 
 void TObjRainbowLobby::free_resources() {
     if (shared_model_resource != NULL) {
-        TLobby__sub_8001FE7C(shared_model_resource, 1);
+        free_bin_model_request(shared_model_resource, 1);
         shared_model_resource = NULL;
     }
 }

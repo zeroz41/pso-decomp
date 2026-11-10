@@ -28,7 +28,7 @@ void *TObjNpcMaleMacho__create(void *set_data) {
 
 void TObjNpcMaleMacho::close_dialog_window() {
     if (TObjNpcMaleMacho__static_model_resource != NULL) {
-        TLobby__sub_8001FE7C(TObjNpcMaleMacho__static_model_resource, 1);
+        free_bin_model_request(TObjNpcMaleMacho__static_model_resource, 1);
         TObjNpcMaleMacho__static_model_resource = NULL;
     }
 }

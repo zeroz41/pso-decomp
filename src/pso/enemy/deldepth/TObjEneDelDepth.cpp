@@ -124,7 +124,7 @@ s32 is_split_screen(void);
 s32 dispatch_shared_handler_a__6TLobbyFl(s32);
 BmlResource *load_resource_from_descriptor(BmlResource *, s32, const BmlResourceDescriptor *, s32, s32, s32);
 
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 
 extern "C" const char lbl_80475BD8[];
 extern "C" const char deldepth_model_name_swim_disc_nj[];
@@ -293,7 +293,7 @@ void TObjEneDelDepth::load_assets() {
 
 void TObjEneDelDepth::free_shared_data() {
     if ((u32) TObjEneDelDepth__shared_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjEneDelDepth__shared_resource, 1);
+        free_bin_model_request((void*)TObjEneDelDepth__shared_resource, 1);
         TObjEneDelDepth__shared_resource = NULL;
     }
 }

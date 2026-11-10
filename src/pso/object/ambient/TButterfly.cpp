@@ -214,7 +214,7 @@ extern "C" {
 
 extern "C" {
 
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void __ct__8TObjBaseFP7TObject(void *);
 void *__nw__7TObjectFUl(int);
 
@@ -240,7 +240,7 @@ void *TButterfly__create(void *arg0) {
 
 void TButterfly::destroy_instance() {
     if ((u32) butterfly_bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)butterfly_bml_resource, 1);
+        free_bin_model_request((void*)butterfly_bml_resource, 1);
         butterfly_bml_resource = 0U;
     }
 }

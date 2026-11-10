@@ -94,7 +94,7 @@ void TODoorAncient08::destroy() {
         }
     }
     if (bml_resource != NULL) {
-        TLobby__sub_8001FE7C(bml_resource, 1);
+        free_bin_model_request(bml_resource, 1);
         bml_resource = NULL;
     }
 }

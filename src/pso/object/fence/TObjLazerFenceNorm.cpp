@@ -106,7 +106,7 @@ struct TObjLazerFenceNorm_80192CCC {
     Motion_80192CCC *motion;
 };
 
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 void *load_resource_from_descriptor(void *, int, BmlResourceDescriptor *, int, int, int);
 u8 *load_gvm_texture_file(s32 arg0);
@@ -147,7 +147,7 @@ void load_lazer_fence_norm_resources(void) {
 
 void TObjLazerFenceNorm::free_resources() {
     if ((u32) lazer_fence_norm_bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)lazer_fence_norm_bml_resource, 1);
+        free_bin_model_request((void*)lazer_fence_norm_bml_resource, 1);
         lazer_fence_norm_bml_resource = 0U;
     }
     if ((u32) lazer_fence_norm_texture_list != 0U) {

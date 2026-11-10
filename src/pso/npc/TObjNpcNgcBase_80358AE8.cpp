@@ -126,7 +126,7 @@ static const char *npc_ncwoman_body_model_names[2] = { "ncwoman_body.nj", NULL }
 static BmlResourceDescriptor npc_ncwoman_body_resource_descriptor = { "bm_ncwoman_body.bml", npc_ncwoman_body_model_names, npc_ncwoman_body_motion_names, 1, 0 };
 
 // {resource slot, descriptor} lists, terminated by slot -1 (load_resources picks one per area).
-static Rec_803592B8 lbl_804F17D8[] = {
+static Rec_803592B8 npc_pioneer2_ep_resource_descriptor_list[] = {
     { 0, &npc_michel_t_body_resource_descriptor },
     { 1, &npc_karen_t_body_resource_descriptor },
     { 2, &npc_leo_w_body_resource_descriptor },
@@ -143,12 +143,12 @@ static Rec_803592B8 lbl_804F17D8[] = {
     { 13, &npc_kenkyuw2_body_resource_descriptor },
     { -1, NULL },
 };
-static Rec_803592B8 lbl_804F1850[] = {
+static Rec_803592B8 npc_group_selection_resource_descriptor_list[] = {
     { 4, &npc_delta_w_body_resource_descriptor },
     { 11, &npc_nctrunk_body_resource_descriptor },
     { -1, NULL },
 };
-static Rec_803592B8 lbl_804F1868[] = {
+static Rec_803592B8 npc_seabed_resource_descriptor_list[] = {
     { 2, &npc_leo_w_body_resource_descriptor },
     { -1, NULL },
 };
@@ -158,7 +158,7 @@ s32 __ct__11TObjControlFP7TObject(int, int);
 s32 __nw__7TObjectFUl(int);
 RecoveredGlobal_803591D0_TObjNpcNgcBase__data_805439A8 TObjNpcNgcBase__data_805439A8;
 extern s32 tl_04;
-s32 TLobby__sub_8001FE7C(void *, s32);
+s32 free_bin_model_request(void *, s32);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 typedef struct RecoveredGlobal_803591D0_TObjNpcNgcBase__data_805439A8 RecoveredGlobal_803591D0_TObjNpcNgcBase__data_805439A8;
 typedef char RecoveredGlobal_803591D0_TObjNpcNgcBase__data_805439A8_size[((sizeof(RecoveredGlobal_803591D0_TObjNpcNgcBase__data_805439A8)) == 0x38) ? (1) : (-1)];
@@ -530,7 +530,7 @@ void TObjNpcNgcBase::free_shared_resources() {
     s32 i;
     for (i = 0xd; i >= 0; i--) {
         if (((void * *)&TObjNpcNgcBase__data_805439A8)[i] != 0) {
-            TLobby__sub_8001FE7C(((void * *)&TObjNpcNgcBase__data_805439A8)[i], 1);
+            free_bin_model_request(((void * *)&TObjNpcNgcBase__data_805439A8)[i], 1);
             ((void * *)&TObjNpcNgcBase__data_805439A8)[i] = 0;
         }
     }
@@ -546,14 +546,14 @@ void TObjNpcNgcBase::load_resources() {
     switch (get_current_floor_area()) {
     case AREA_PIONEER2_EP1:
     case AREA_PIONEER2_EP2:
-        p = lbl_804F17D8;
+        p = npc_pioneer2_ep_resource_descriptor_list;
         break;
     case AREA_CENTRAL_CONTROL_AREA: case AREA_JUNGLE_NORTH: case AREA_JUNGLE_EAST: case AREA_MOUNTAIN: case AREA_SEASIDE:
     case AREA_SEASIDE_NIGHT: case AREA_TOWER:
-        p = lbl_804F1850;
+        p = npc_group_selection_resource_descriptor_list;
         break;
     case AREA_SEABED_UPPER: case AREA_SEABED_LOWER:
-        p = lbl_804F1868;
+        p = npc_seabed_resource_descriptor_list;
         break;
     }
     if (p != NULL) {

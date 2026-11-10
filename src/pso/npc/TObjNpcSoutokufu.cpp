@@ -45,12 +45,12 @@ s32 get_bml_model(int, int);
 extern s32 __vt__16TObjNpcSoutokufu[];
 f32 calc_sq_offset__12TBoss8DragonFf(void *, void *, f32);
 extern void *lbl_805D4DD8;
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void __dl__7TObjectFPv(void *);
 
 void TObjNpcSoutokufu::close_dialog_window() {
     if ((u32) TObjNpcSoutokufu__shared_model_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjNpcSoutokufu__shared_model_resource, 1);
+        free_bin_model_request((void*)TObjNpcSoutokufu__shared_model_resource, 1);
         TObjNpcSoutokufu__shared_model_resource = 0U;
     }
 }

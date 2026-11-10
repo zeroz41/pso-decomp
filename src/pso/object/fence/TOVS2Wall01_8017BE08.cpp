@@ -152,7 +152,7 @@ extern const f32 lbl_805DBAB0;
 s32 load_resource_from_descriptor(int, int, void *, int, int, int);
 extern const f32 lbl_805DBAA8;
 extern const f32 lbl_805DBAB4;
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 u8 *TObjGoalWarpAncient__ct(TObjGoalWarpAncient *arg0, s32 arg1, s32 arg2);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
@@ -220,7 +220,7 @@ void TOVS2Wall01::load_resources() {
 }
 void TOVS2Wall01::release_model() {
     if ((u32) TOVS2Wall01__bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TOVS2Wall01__bml_resource, 1);
+        free_bin_model_request((void*)TOVS2Wall01__bml_resource, 1);
         TOVS2Wall01__bml_resource = 0U;
     }
 }

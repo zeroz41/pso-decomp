@@ -536,7 +536,7 @@ extern SeabedTrapResourceDescriptor seabed_trap_resource_descriptor;
 extern s32 trap_seabed01_param_index_table[];
 void vfunc_6__14TOTrapSeabed01FPsl(void *arg0, s16 *arg1, s32 arg2);
 void *__dt__14TOTrapSeabed01Fv(void *arg0, s16 arg1);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void stop_sound_request(s32 idx);
 s32 release_texture_list(void*);
 void free_collision_body_parts(void *);
@@ -620,7 +620,7 @@ void TOTrapSeabed01::free_static_resources() {
         (*(u32 *)&TOTrapSeabed01__texture_file) = 0U;
     }
     if ((u32) (*(u32 *)&TOTrapSeabed01__bml_resource) != 0U) {
-        TLobby__sub_8001FE7C((void*)(*(u32 *)&TOTrapSeabed01__bml_resource), 1);
+        free_bin_model_request((void*)(*(u32 *)&TOTrapSeabed01__bml_resource), 1);
         (*(u32 *)&TOTrapSeabed01__bml_resource) = 0U;
     }
 }

@@ -156,7 +156,7 @@ extern "C" {
 s32 get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 int is_quest_active(void);
 s32 get_localized_text_entry(s32, s32);
@@ -317,7 +317,7 @@ void TObjLaboMapWarp__vt13(TObjLaboMapWarp *labo_map_warp, s32 arg1) {
 
 void TObjLaboMapWarp::release_static_resource() {
     if ((u32) (*(u32 *)&TObjLaboMapWarp__resource_bundle) != 0U) {
-        TLobby__sub_8001FE7C((void*)(*(u32 *)&TObjLaboMapWarp__resource_bundle), 1);
+        free_bin_model_request((void*)(*(u32 *)&TObjLaboMapWarp__resource_bundle), 1);
         (*(u32 *)&TObjLaboMapWarp__resource_bundle) = 0U;
     }
 }

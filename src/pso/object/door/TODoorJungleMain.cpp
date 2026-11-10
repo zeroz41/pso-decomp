@@ -239,7 +239,7 @@ s32 matrix_mult_vec(void *, void *, void *);
 #pragma pop
 
 void *__dt__16TODoorJungleMainFv(void *arg0, s16 arg1);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 void free_collision_body_parts(void *);
 void __dl__7TObjectFPv(void *);
@@ -251,7 +251,7 @@ void TODoorJungleMain::free_static_resources() {
         door_jungle_main_gvm_texture = 0U;
     }
     if ((u32) TODoorJungleMain__bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TODoorJungleMain__bml_resource, 1);
+        free_bin_model_request((void*)TODoorJungleMain__bml_resource, 1);
         TODoorJungleMain__bml_resource = 0U;
     }
 }

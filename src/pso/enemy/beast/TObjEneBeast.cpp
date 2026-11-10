@@ -390,7 +390,7 @@ void *mem_alloc(u32 size);
 extern Ids_8009241C lbl_80439D68[];
 extern Quad_8009241C lbl_80439D70[];
 extern s32 lbl_80439D80[];
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void *__nw__7TObjectFUl(int);
 void mem_free(void*);
@@ -628,7 +628,7 @@ void free_boss4_rock_pool(void) {
         beast_claw_trail_instance = 0U;
     }
     if ((u32) ene_beast_bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)ene_beast_bml_resource, 1);
+        free_bin_model_request((void*)ene_beast_bml_resource, 1);
         ene_beast_bml_resource = 0U;
     }
 }

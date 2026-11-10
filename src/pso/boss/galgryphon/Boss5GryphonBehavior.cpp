@@ -5114,11 +5114,11 @@ void TBoss5Gryphon::cleanup() {
         boss5_gryphon_texture_list = 0U;
     }
     if ((u32) boss5_gryphon_bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void *)boss5_gryphon_bml_resource, 1);
+        free_bin_model_request((void *)boss5_gryphon_bml_resource, 1);
         boss5_gryphon_bml_resource = 0U;
     }
     if ((u32) boss5_gryphon_body_bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void *)boss5_gryphon_body_bml_resource, 1);
+        free_bin_model_request((void *)boss5_gryphon_body_bml_resource, 1);
         boss5_gryphon_body_bml_resource = 0U;
     }
 }
@@ -5134,7 +5134,7 @@ void *TBoss5Gryphon::create(void *arg0) {
 }
 
 // Inferred: TBoss5Gryphon's resource loader (paired with TBoss5Gryphon::cleanup in the boss resource table).
-void TBoss8Dragon__sub_80065C90(void) {
+void load_boss5_gryphon_resources(void) {
     switch (TBoss8Dragon__sub_8005D700()) {
     case 0:
         boss5_gryphon_body_bml_resource = (u8 *)load_enemy_bml_resource((u8 *)boss5_gryphon_body_bml_desc);

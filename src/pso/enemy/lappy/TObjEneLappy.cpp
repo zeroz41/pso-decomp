@@ -1649,7 +1649,7 @@ __declspec(section ".data") s32 lappy_object_handles[2];
 __declspec(section ".data") s32 lappy_variant_speed_ptr_table[2];
 #define lbl_80492F28 ((s32 *)lbl_80492F28)
 
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 s32 get_main_phase();
 s32 dispatch_shared_handler_a__6TLobbyFl(s32);
@@ -1675,7 +1675,7 @@ void TLobby::cleanup_handles() {
         (*(u32 *)&rappy_alternate_texture_list) = 0U;
     }
     if ((u32) (*(u32 *)&rappy_bml_resource) != 0U) {
-        TLobby__sub_8001FE7C((void*)(*(u32 *)&rappy_bml_resource), 1);
+        free_bin_model_request((void*)(*(u32 *)&rappy_bml_resource), 1);
         (*(u32 *)&rappy_bml_resource) = 0U;
     }
 }

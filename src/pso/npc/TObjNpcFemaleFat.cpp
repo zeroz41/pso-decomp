@@ -26,7 +26,7 @@ void *TObjNpcFemaleFat__create(void *set_data) {
 
 void TObjNpcFemaleFat::free_static_model() {
     if (TObjNpcFemaleFat__static_model != NULL) {
-        TLobby__sub_8001FE7C(TObjNpcFemaleFat__static_model, 1);
+        free_bin_model_request(TObjNpcFemaleFat__static_model, 1);
         TObjNpcFemaleFat__static_model = NULL;
     }
 }

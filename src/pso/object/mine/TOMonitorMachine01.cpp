@@ -137,7 +137,7 @@ void TOMonitorMachine01::reset_static_state() {
         TOMonitorMachine01__scroll_meshes[i] = NULL;
     }
     if (TOMonitorMachine01__bml_resource != NULL) {
-        TLobby__sub_8001FE7C(TOMonitorMachine01__bml_resource, 1);
+        free_bin_model_request(TOMonitorMachine01__bml_resource, 1);
         TOMonitorMachine01__bml_resource = NULL;
     }
 }

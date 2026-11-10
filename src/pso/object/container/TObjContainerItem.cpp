@@ -1464,7 +1464,7 @@ void TLobby::free_chr_select_slot() {
         lbl_805D5B8C = 0U;
     }
     if ((u32) container_breakup_model_archive != 0U) {
-        TLobby__sub_8001FE7C(container_breakup_model_archive, 1);
+        free_bin_model_request(container_breakup_model_archive, 1);
         container_breakup_model_archive = NULL;
     }
 }
@@ -1503,7 +1503,7 @@ void TLobby::free_char_select_resources() {
         lbl_805D5B7C = 0U;
     }
     if ((u32) lbl_805D5B78 != 0U) {
-        TLobby__sub_8001FE7C(lbl_805D5B78, 1);
+        free_bin_model_request(lbl_805D5B78, 1);
         lbl_805D5B78 = NULL;
     }
 }

@@ -30,14 +30,14 @@ s32 TObjFish__sub_8001EDB0(int, int);
 s32 get_bml_model(int, int);
 extern s32 __vt__14TObjNpcKenkyu2[];
 extern const char *TObjNpcKenkyu2__name;
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 void TObjNpcKenkyu2::free_static_model() {
     if ((u32) TObjNpcKenkyu2__shared_model_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjNpcKenkyu2__shared_model_resource, 1);
+        free_bin_model_request((void*)TObjNpcKenkyu2__shared_model_resource, 1);
         TObjNpcKenkyu2__shared_model_resource = 0U;
     }
 }

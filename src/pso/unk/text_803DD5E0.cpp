@@ -77,7 +77,7 @@ s32 DVDClose(FileInfo_803DD784 *);
 s32 Dolphin_DVDReadPrio(FileInfo_803DD784 *, void *, s32, s32, s32);
 extern u8 gvrt_header_read_buffer[];
 extern Slot_803DD784 *record_array_ptr;
-s32 TObjPlayer__sub_803DD784(Obj_803DDA68 *obj, s32 idx);
+s32 read_gvrt_file_header(Obj_803DDA68 *obj, s32 idx);
 void TObjPlayer__sub_803DD5E8(GvmTextureList_803DDDC8 *list, GvmTextureEntry_803DDDC8 *entries, u32 names, s32 count);
 }
 u32 *find_gvrt_texture_chunk(TLobby *arg0, u32 *arg1, u32 *arg2);
@@ -124,7 +124,7 @@ s32 lbl_805D77A4;
 #pragma push
 #pragma optimize_for_size off
 #pragma use_lmw_stmw off
-s32 TObjPlayer__sub_803DD784(Obj_803DDA68 *obj, s32 idx) {
+s32 read_gvrt_file_header(Obj_803DDA68 *obj, s32 idx) {
     s32 sz;
     s32 id;
     s32 arg;

@@ -4928,7 +4928,7 @@ s32 TBoss2DeRolLe__sub_80034034(void *);
 void TBoss2Fin__sub_800367C0(void);
 void TBoss2Mine__sub_80038D84(void);
 void TBoss2Tentacle__sub_8003A0A8(void);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void TObjPlayer__sub_8002EB88(void);
 void __dl__FPv(void);
 void *__nw__7TObjectFUl(int);
@@ -5668,7 +5668,7 @@ void reset_parts__13TBoss2DeRolLeFv(void) {
     TBoss2Mine__sub_80038D84();
     TBoss2Tentacle__sub_8003A0A8();
     if ((u32) lbl_805D4BA4 != 0U) {
-        TLobby__sub_8001FE7C((void*)lbl_805D4BA4, 1);
+        free_bin_model_request((void*)lbl_805D4BA4, 1);
         lbl_805D4BA4 = 0U;
     }
 }

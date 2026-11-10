@@ -129,7 +129,7 @@ void TOKeyAncient02::free_static() {
         }
     }
     if (TOKeyAncient02__model_archive != NULL) {
-        TLobby__sub_8001FE7C(TOKeyAncient02__model_archive, 1);
+        free_bin_model_request(TOKeyAncient02__model_archive, 1);
         TOKeyAncient02__model_archive = NULL;
     }
     TOKeyAncient02__glass_model = NULL;

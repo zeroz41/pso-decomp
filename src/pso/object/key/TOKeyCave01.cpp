@@ -221,7 +221,7 @@ void TOKeyCave01::free_objects() {
         }
     }
     if (TOKeyCave01__resource_bundle != NULL) {
-        TLobby__sub_8001FE7C(TOKeyCave01__resource_bundle, 1);
+        free_bin_model_request(TOKeyCave01__resource_bundle, 1);
         TOKeyCave01__resource_bundle = NULL;
     }
 }

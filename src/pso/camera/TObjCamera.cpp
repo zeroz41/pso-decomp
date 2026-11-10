@@ -23,7 +23,7 @@
 
 extern "C" {
 u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
-void TLobby__sub_8001FE7C(void *, int);
+void free_bin_model_request(void *, int);
 AnimationMotion *get_bml_motion(u32, int);
 s32 get_bml_model(u32, int);
 void TObjFish__sub_8001EDB0(u32, int);
@@ -219,7 +219,7 @@ void *TObjCamera::create(void *set_data) {
 
 void TObjCamera::free_resources() {
     if (model_resource != 0) {
-        TLobby__sub_8001FE7C((void *)model_resource, 1);
+        free_bin_model_request((void *)model_resource, 1);
         model_resource = 0;
     }
 }

@@ -161,7 +161,7 @@ void *TODragonflyMachine01::create(void *set_data) {
 
 void TODragonflyMachine01::unload_static_data() {
     if (model_resource != NULL) {
-        TLobby__sub_8001FE7C(model_resource, 1);
+        free_bin_model_request(model_resource, 1);
         model_resource = NULL;
     }
 }

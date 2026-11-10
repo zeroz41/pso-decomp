@@ -26,7 +26,7 @@ void *TObjNpcFemaleMacho__create(void *set_data) {
 
 void TObjNpcFemaleMacho::close_dialog_window() {
     if (TObjNpcFemaleMacho__lobby_resource != NULL) {
-        TLobby__sub_8001FE7C(TObjNpcFemaleMacho__lobby_resource, 1);
+        free_bin_model_request(TObjNpcFemaleMacho__lobby_resource, 1);
         TObjNpcFemaleMacho__lobby_resource = NULL;
     }
 }

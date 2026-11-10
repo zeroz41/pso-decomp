@@ -315,7 +315,7 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u8 * load_gvm_texture_file(s32);
 extern s32 __vt__16TObjContainerIdo[];
 void *__dt__16TObjContainerIdoFv(void *arg0, s16 arg1);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 
@@ -326,7 +326,7 @@ void TObjContainerIdo::free_resources() {
         container_ido_texture_gvm_handle = 0U;
     }
     if ((u32) TObjContainerIdo__model_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjContainerIdo__model_resource, 1);
+        free_bin_model_request((void*)TObjContainerIdo__model_resource, 1);
         TObjContainerIdo__model_resource = 0U;
     }
 }

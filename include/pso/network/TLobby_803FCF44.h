@@ -131,7 +131,7 @@ s32 set_filter_index(u8 *arg0, s32 arg1);
 s32 set_target_id(u8 *arg0, s32 arg1);
 s32 set_target_index(u8 *arg0, s32 arg1);
 s32 set_target_slot(u8 *arg0, s32 arg1);
-void *TLobby__sub_803FCF44(Conn_804004DC *c);
+void *build_avetcp_net_buffer(Conn_804004DC *c);
 s32 TLobby__sub_803FE8BC(u8 *dst, void *src);
 void TLobby__sub_80400ACC(O_80400ACC *o);
 PppFrame *TLobby__sub_80401B20(void *src, u16 n);

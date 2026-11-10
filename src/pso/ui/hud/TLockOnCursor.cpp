@@ -63,7 +63,7 @@ struct RecoveredGlobal_8013D91C_main_task {
 };
 
 extern "C" {
-u8 * TLobby__sub_8001FE7C(void *, s16);
+u8 * free_bin_model_request(void *, s16);
 extern u8 *lock_on_cursor_bml_resource;
 extern s32 lock_on_cursor_model;
 extern s32 TLockOnCursor__target_cursor_model;
@@ -198,7 +198,7 @@ void TLockOnCursor::reset_and_spawn_cursors() {
 
 void TLockOnCursor::free_cursor_resources() {
     if ((void *) lock_on_cursor_bml_resource != NULL) {
-        TLobby__sub_8001FE7C(lock_on_cursor_bml_resource, 1);
+        free_bin_model_request(lock_on_cursor_bml_resource, 1);
         lock_on_cursor_bml_resource = NULL;
     }
     lock_on_cursor_model = 0;

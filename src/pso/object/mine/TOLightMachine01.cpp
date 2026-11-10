@@ -39,7 +39,7 @@ s32 __ct__8TObjBaseFP7TObject(void *, int);
 extern s32 __vt__16TOLightMachine01[];
 extern s32 TOLightMachine01__name;
 extern s32 tl_05;
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
@@ -84,7 +84,7 @@ void *TOLightMachine01::create(void *arg0) {
 
 void TOLightMachine01::destroy_instance() {
     if ((u32) TOLightMachine01__shared_bml_archive != 0U) {
-        TLobby__sub_8001FE7C((void*)TOLightMachine01__shared_bml_archive, 1);
+        free_bin_model_request((void*)TOLightMachine01__shared_bml_archive, 1);
         TOLightMachine01__shared_bml_archive = 0U;
     }
 }

@@ -116,7 +116,7 @@ f32 fabs_float(f32);
 s32 approach_angle_limited(s32, s32, s32);
 extern Vec scratch_vec;
 
-int TLobby__sub_8001FE7C(void*, void*);
+int free_bin_model_request(void*, void*);
 void free_collision_body_parts(void *);
 
 #pragma push
@@ -1468,7 +1468,7 @@ TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(paren
 }
 
 void TObjEneIllGill::free_effect() {
-    TLobby__sub_8001FE7C(illGillResource, (void *)1);
+    free_bin_model_request(illGillResource, (void *)1);
     illGillResource = NULL;
 }
 

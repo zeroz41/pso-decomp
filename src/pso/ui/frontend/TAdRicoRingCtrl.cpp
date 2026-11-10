@@ -93,7 +93,7 @@ int push_matrix(void*);
 int push_matrix(void*);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_8001BE80_lbl_804809C0 TAdRicoRingCtrl__resource_descriptor;
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void *__nw__7TObjectFUl(int);
 }
 
@@ -112,7 +112,7 @@ void TAdRicoRingCtrl::load_static_resource() {
 
 void TAdRicoRingCtrl::release_global_805D4A00() {
     if ((u32) TAdRicoRing__resource_bundle != 0U) {
-        TLobby__sub_8001FE7C((void*)TAdRicoRing__resource_bundle, 1);
+        free_bin_model_request((void*)TAdRicoRing__resource_bundle, 1);
         TAdRicoRing__resource_bundle = 0U;
     }
 }

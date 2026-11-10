@@ -479,7 +479,7 @@ void *TOTrapAncient01::create() {
 
 void TOTrapAncient01::release_static_resource() {
     if (TOTrapAncient01__bml_resource != NULL) {
-        TLobby__sub_8001FE7C(TOTrapAncient01__bml_resource, 1);
+        free_bin_model_request(TOTrapAncient01__bml_resource, 1);
         TOTrapAncient01__bml_resource = NULL;
     }
 }

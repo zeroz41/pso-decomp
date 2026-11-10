@@ -254,7 +254,7 @@ void TObjHashi::load_shared_resource() {
 
 void TObjHashi::unload_static_data() {
     if (bml_resource != NULL) {
-        TLobby__sub_8001FE7C(bml_resource, 1);
+        free_bin_model_request(bml_resource, 1);
         bml_resource = NULL;
     }
 }
@@ -292,7 +292,7 @@ void TObjHashiVersus1::load_shared_resource() {
 
 void TObjHashiVersus1::unload_static_data() {
     if (bml_resource != NULL) {
-        TLobby__sub_8001FE7C(bml_resource, 1);
+        free_bin_model_request(bml_resource, 1);
         bml_resource = NULL;
     }
 }
@@ -331,7 +331,7 @@ void TObjHashiVersus2::load_shared_resource() {
 
 void TObjHashiVersus2::unload_static_data() {
     if (bml_resource != NULL) {
-        TLobby__sub_8001FE7C(bml_resource, 1);
+        free_bin_model_request(bml_resource, 1);
         bml_resource = NULL;
     }
 }

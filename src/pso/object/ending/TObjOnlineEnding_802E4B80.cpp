@@ -465,7 +465,7 @@ void *TObjOnlineEnding__ct(void *arg0, void *parent) {
 #pragma pop
 #undef SELF
 
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void *TObjOnlineEnding__ct(void *, void *);
 
 void *TObjOnlineEnding::create(void *arg0) {
@@ -478,7 +478,7 @@ void *TObjOnlineEnding::create(void *arg0) {
 
 void TBoss4DarkFalz::free_global_instance() {
     if ((u32) lbl_805D68F4 != 0U) {
-        TLobby__sub_8001FE7C((void*)lbl_805D68F4, 1);
+        free_bin_model_request((void*)lbl_805D68F4, 1);
         lbl_805D68F4 = 0U;
     }
 }

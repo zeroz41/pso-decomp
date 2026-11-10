@@ -221,7 +221,7 @@ static OSResetFunctionInfo modem_reset_function_info = {
 
 void TAdSinglePlyChrSelectGC__sub_8042BF6C(s32 length);
 void TAdSinglePlyChrSelectGC__sub_8042C124(s32 chan, OSContext *context);
-void TAdSinglePlyChrSelectGC__sub_8042C8D8(void);
+void parse_modem_command_response(void);
 void TAdSinglePlyChrSelectGC__sub_8042DF4C(s32 chan, OSContext *context);
 
 // Modem register access over EXI channel 0, device 2: a read sends the register number in the
@@ -433,7 +433,7 @@ void TAdSinglePlyChrSelectGC__sub_8042C2E4(s32 chan, OSContext *context) {
                     modem_command_response_state.length += count;
                 }
                 EXIDeselect(0);
-                TAdSinglePlyChrSelectGC__sub_8042C8D8();
+                parse_modem_command_response();
                 ModemWriteRegister(1, lbl_805D7C90.f4);
                 EXIUnlock(0);
                 if (modem_command_response_state.done == 1 && modem_command_response_state.callback != NULL) {
@@ -448,7 +448,7 @@ void TAdSinglePlyChrSelectGC__sub_8042C2E4(s32 chan, OSContext *context) {
     }
 }
 
-void TAdSinglePlyChrSelectGC__sub_8042C8D8(void) {
+void parse_modem_command_response(void) {
     u8 *p;
     u8 *line;
     u8 *end;

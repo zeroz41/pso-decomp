@@ -503,7 +503,7 @@ void __destroy_arr(void *, void *, int, int);
 void __dt__13TUnk_80490470Fv(void *, int);
 extern u8 __dt__15RenderFadeStateFv[];
 O_800A846C *TObjPlayer__sub_800A846C(O_800A846C *arg0, s16 arg1);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void *__nw__7TObjectFUl(int);
 void mem_free(void*);
@@ -727,7 +727,7 @@ void TObjEneDimedian::free_boss_objects() {
         dimedian_type3_object = 0U;
     }
     if ((u32) dimedian_resource_ptr != 0U) {
-        TLobby__sub_8001FE7C((void*)dimedian_resource_ptr, 1);
+        free_bin_model_request((void*)dimedian_resource_ptr, 1);
         dimedian_resource_ptr = 0U;
     }
 }

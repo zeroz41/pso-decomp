@@ -54,7 +54,7 @@ void __dl__7TObjectFPv(void *);
 extern s32 TObjFish__area_event_stage;
 u8 update_state__8TObjFishFv(void *arg0);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 
 u8 TObjFish::update_state() {
     if ((s32) TObjFish__area_event_stage == 0) {
@@ -550,7 +550,7 @@ u8 *TObjFish__create(u8 *arg0) {
 
 void TObjFish::free_resource() {
     if ((u32) (*(u32 *)&TObjFish__area_bml_resource) != 0U) {
-        TLobby__sub_8001FE7C((void*)(*(u32 *)&TObjFish__area_bml_resource), 1);
+        free_bin_model_request((void*)(*(u32 *)&TObjFish__area_bml_resource), 1);
         (*(u32 *)&TObjFish__area_bml_resource) = 0U;
     }
 }

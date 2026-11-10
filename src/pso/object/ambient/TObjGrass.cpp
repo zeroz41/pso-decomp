@@ -359,7 +359,7 @@ s32 is_split_screen();
 extern s32 local_client_id;
 s32 set_param__9TObjEnemyFl(void *, int, int);
 s32 init_collision_body_parts(void *, void *, int);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 s32 update_movement_status__9TObjCharaFv();
 s32 update_action_hold_status__9TObjCharaFv();
 void mem_free(void*);
@@ -579,7 +579,7 @@ void TObjGrass::destroy_all() {
         lbl_805D5158 = 0U;
     }
     if ((u32) TObjGrass__resource_bundle != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjGrass__resource_bundle, 1);
+        free_bin_model_request((void*)TObjGrass__resource_bundle, 1);
         TObjGrass__resource_bundle = 0U;
     }
 }

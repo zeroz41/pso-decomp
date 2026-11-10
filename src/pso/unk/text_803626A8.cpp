@@ -207,7 +207,7 @@ extern u8 *lbl_805D6FA8;
 extern const f32 lbl_805E0248;
 extern const f32 lbl_805E024C;
 extern const f32 lbl_805E0250;
-void TLobby__sub_8001FE7C(void *, int);
+void free_bin_model_request(void *, int);
 void *__dt__13TUnk_804F26E0Fv(void *arg0, s16 arg1);
 void __construct_array(void *, void *, void *, int, int);
 void *__dt__13TUnk_804A4948Fv(void *arg0, s16 arg1);
@@ -246,7 +246,7 @@ void TObjEneEpsilonGuard::free_shared_resources() {
         (*(V_8036274C * *)&lbl_805D6FA8) = NULL;
     }
     if ((*(u32 *)&lbl_805D6FA0) != 0) {
-        TLobby__sub_8001FE7C((void *)(*(u32 *)&lbl_805D6FA0), 1);
+        free_bin_model_request((void *)(*(u32 *)&lbl_805D6FA0), 1);
         (*(u32 *)&lbl_805D6FA0) = 0;
     }
 }

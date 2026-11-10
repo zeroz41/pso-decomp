@@ -710,7 +710,7 @@ s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 s32 get_bml_motion(u32, int);
-s32 TLobby__sub_8001FE7C(u32, s32);
+s32 free_bin_model_request(u32, s32);
 u32 load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 get_camera_mode__11TCameraCtrlFv();
 s32 copy_position__20TBoss3VoloptHiraisinFv(void *);
@@ -1616,7 +1616,7 @@ void *TObjEneGyaranzo::create(void *arg0) {
 
 void TObjEneGyaranzo::free_static_instances() {
     if (gyaranzo_bml_resource != 0U) {
-        TLobby__sub_8001FE7C(gyaranzo_bml_resource, 1);
+        free_bin_model_request(gyaranzo_bml_resource, 1);
         gyaranzo_bml_resource = 0U;
     }
     if ((*(struct VObj_800D3BA0_800D3B38 * *)&gyaranzo_breakup_model_obj) != 0) {

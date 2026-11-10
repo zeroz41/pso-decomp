@@ -44,7 +44,7 @@ extern s32 TLobby__designated_client_id;
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void TLobby__sub_8001FE7C(void *, int);
+void free_bin_model_request(void *, int);
 // TCameraCtrl.h declares these short; the callers here take an int (no extsh).
 s32 get_screen_width__11TCameraCtrlFv();
 s32 get_screen_height__11TCameraCtrlFv();
@@ -121,7 +121,7 @@ void TObjTombstone::load_resources() {
 
 void TObjTombstone::destroy() {
     if (TObjTombstone__shared_resource_object != 0U) {
-        TLobby__sub_8001FE7C((void *)TObjTombstone__shared_resource_object, 1);
+        free_bin_model_request((void *)TObjTombstone__shared_resource_object, 1);
         TObjTombstone__shared_resource_object = 0U;
         TObjTombstone::reset_matrix();
     }

@@ -736,7 +736,7 @@ static inline void bba_reset(void) {
 
 void OSReport(char *fmt, ...);
 void *memset(void *, int, unsigned long);
-s32 TLobby__sub_8042AAA0(void *arg) {
+s32 init_bba_exi_adapter(void *arg) {
     s32 level;
     u32 cid;
     u8 val;

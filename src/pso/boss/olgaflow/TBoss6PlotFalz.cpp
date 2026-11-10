@@ -1351,7 +1351,7 @@ s32 register_boss__6TLobbyFl(int);
 s32 __ct__9TObjEnemyFP7TObject();
 s32 TBoss6PlotFalz__ct(s32, s32, s32);
 void TItemEffOrgaFlowShot__sub_80357204(void);
-int TLobby__sub_8001FE7C(void*, void*);
+int free_bin_model_request(void*, void*);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
 s32 __nw__7TObjectFUl(s32);
 
@@ -1522,7 +1522,7 @@ s32 TBoss6PlotFalz__ct(s32 self, s32 arg1, s32 arg2) {
 #pragma pop
 #undef arg0
 
-void TBoss6PlotFalz::free_all() { TBoss4DarkFalz::free_global_instance(); TBoss6Tube::free_resources(); TBoss6Rock::free_data(); TItemEffOrgaFlowShot__sub_80357204(); TLobby__sub_8001FE7C((void*)obj_fish_count, (void*)1); obj_fish_count = 0; }
+void TBoss6PlotFalz::free_all() { TBoss4DarkFalz::free_global_instance(); TBoss6Tube::free_resources(); TBoss6Rock::free_data(); TItemEffOrgaFlowShot__sub_80357204(); free_bin_model_request((void*)obj_fish_count, (void*)1); obj_fish_count = 0; }
 
 extern s32 tl_04;
 

@@ -19,7 +19,7 @@ typedef struct Msg_804264F4 { u32 f0; u32 f4; s32 f8; } Msg_804264F4;
 s32 OSInitMessageQueue(void *, void *, int);
 s16 TLobby__sub_803F9B94(void *, void *);
 void NetRegisterTimer(int, int, void (*)(void));
-s32 TLobby__sub_8042AAA0(void *);
+s32 init_bba_exi_adapter(void *);
 /* The message queues (OSMessageQueue + messages) and, below, the channel table: only this file uses them. */
 static u8 lbl_805CF240[0xA0];
 static u8 pppoe_message_queue[0xA0];
@@ -271,7 +271,7 @@ s16 TLobby__sub_804262CC(EthernetReceiveFilter *config) {
         return 0;
     }
     NetMemset(config, 0, sizeof(EthernetReceiveFilter));
-    if (TLobby__sub_8042AAA0((void *)lobby_connect_mode) != 1) {
+    if (init_bba_exi_adapter((void *)lobby_connect_mode) != 1) {
         status = -1;
     } else {
         if ((u32) lbl_805D7BC4 != 0U) {

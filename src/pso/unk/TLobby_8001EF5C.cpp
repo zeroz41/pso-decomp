@@ -163,7 +163,7 @@ s32 create_file_load_entry__6TLobbyFllUllPPv(void *, s32, void *, void *, void *
 s32 TLobby__sub_800F9FF4(s32);
 void mem_free(void *p);
 s32 release_texture_list(void *);
-Lobby_8001FE7C *TLobby__sub_8001FE7C(Lobby_8001FE7C *self, s16 del);
+Lobby_8001FE7C *free_bin_model_request(Lobby_8001FE7C *self, s16 del);
 u32 prs_decompress_buffer(s32 arg0, s32 arg1);
 void *mem_alloc(u32 size);
 char *strncpy(char *dest, const char *src, unsigned long num);
@@ -681,7 +681,7 @@ s32 TLobby::load_bin_model(s32 arg1, s32 arg2) {
     return 1;
 }
 
-Lobby_8001FE7C *TLobby__sub_8001FE7C(Lobby_8001FE7C *self, s16 del) {
+Lobby_8001FE7C *free_bin_model_request(Lobby_8001FE7C *self, s16 del) {
     s32 i;
     if (self != NULL) {
         if (self->flags & 2) {
@@ -922,7 +922,7 @@ inline void TBinModel::request_motions(u32 *list) {
 
 // TBinModel constructor (inferred: strings "TBinModel_NORMAL" / "TBinModel_REQ", operator new(0x440) at each caller).
 extern "C" {
-TBinModel *TLobby__sub_8002058C(TBinModel *self, s32 kind, u32 *models, u32 *motions, s32 on_loaded, s32 on_loaded_arg, s32 load_buffer) {
+TBinModel *init_bin_model_request(TBinModel *self, s32 kind, u32 *models, u32 *motions, s32 on_loaded, s32 on_loaded_arg, s32 load_buffer) {
     Lobby_8001FA1C req;
     s32 handle;
     u32 *p;

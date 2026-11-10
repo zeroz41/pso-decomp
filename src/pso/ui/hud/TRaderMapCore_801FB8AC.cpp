@@ -29,7 +29,7 @@ extern u32 TRaderMapCore__data_805D5F4C;
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_8019A9B8_lbl_80446184 lbl_8044A7B8;
 extern RecoveredGlobal_8019A9B8_lbl_804B8F60 obj_f_enemy_resource_descriptor;
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 
 void TRaderMapCore::free_statics() {
@@ -39,7 +39,7 @@ void TRaderMapCore::free_statics() {
         TRaderMapCore__data_805D5F4C = 0U;
     }
     if ((u32) TRaderMapCore__frame_model_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TRaderMapCore__frame_model_resource, 1);
+        free_bin_model_request((void*)TRaderMapCore__frame_model_resource, 1);
         TRaderMapCore__frame_model_resource = 0U;
     }
 }

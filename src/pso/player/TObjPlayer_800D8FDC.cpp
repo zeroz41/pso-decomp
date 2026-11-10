@@ -145,12 +145,12 @@ extern const f32 lbl_805DA3D8;
 extern s32 player_particle_effect_enabled;
 extern u8 corpse_mark_resource_descriptor[];
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 
 void TObjPlayer::destroy_static_lobby() {
     if ((u32) (*(u32 *)&player_corpse_mark_resource) != 0U) {
-        TLobby__sub_8001FE7C((void*)(*(u32 *)&player_corpse_mark_resource), 1);
+        free_bin_model_request((void*)(*(u32 *)&player_corpse_mark_resource), 1);
         (*(u32 *)&player_corpse_mark_resource) = 0U;
     }
 }

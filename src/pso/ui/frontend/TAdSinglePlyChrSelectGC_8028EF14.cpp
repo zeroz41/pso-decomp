@@ -67,7 +67,7 @@ s32 count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 extern CreationTextureCacheEntry *char_select_current_entry;
 void TAdSinglePlyChrSelectGC__sub_8028ED54(void);
 void blend_creation_proportion_shapes(f32 *);
-s32 TLobby__sub_8001FE7C(void *, int);
+s32 free_bin_model_request(void *, int);
 void *__dt__10TObjMotionFv(void *arg0, s16 arg1);
 void mem_free(void *p);
 s32 __dl__7TObjectFPv(void *);
@@ -427,7 +427,7 @@ u8 *TAdSinglePlyChrSelectGC__sub_802908CC(u8 *arg0, s16 arg1) {
             }
         }
         ((TAdSinglePlyChrSelectGC *)arg0)->free_field_FC();
-        TLobby__sub_8001FE7C((void *)chara_select_preview_resource, 1);
+        free_bin_model_request((void *)chara_select_preview_resource, 1);
         chara_select_preview_resource = 0;
         ((TCMCharacter *)arg0)->reset_model_parts();
         (*(s32 *)&chara_select_head_node) = 0;

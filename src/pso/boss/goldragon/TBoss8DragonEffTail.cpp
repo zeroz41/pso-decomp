@@ -111,7 +111,7 @@ extern s32 __vt__19TBoss8DragonEffTail[];
 EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 arg2);
 s32 vec3_add_to(s32, s32, s32);
 void matrix_mult_vec(s32, void *, void *);
-s32 TLobby__sub_8001FE7C(s32, s32);
+s32 free_bin_model_request(s32, s32);
 s32 release_texture_list(void*);
 void __dl__7TObjectFPv(void *);
 int fill_value_array(void*);
@@ -217,7 +217,7 @@ void TBoss8DragonEffTail::free_statics() {
         TAdSinglePlyChrSelectGC::safe_free(dragon_tail_gvm_texture_handle);
         dragon_tail_gvm_texture_handle = 0U;
     }
-    TLobby__sub_8001FE7C(boss8_eff_tail_bml_resource, 1);
+    free_bin_model_request(boss8_eff_tail_bml_resource, 1);
     boss8_eff_tail_bml_resource = 0;
 }
 

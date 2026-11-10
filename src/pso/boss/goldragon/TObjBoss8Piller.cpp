@@ -20,7 +20,7 @@ extern u32 TObjBoss8Piller__shared_resource;
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller __vt__15TObjBoss8Piller;
 extern s32 TObjBoss8Piller__class_name;
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 
 typedef char RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller_size[sizeof(RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller) == 0x18 ? 1 : -1];
 u8 *__ct__15TObjBoss8PillerFv(u8 *object, u8 *arg1, u8 *arg2, s16 arg3) {
@@ -38,7 +38,7 @@ u8 *__ct__15TObjBoss8PillerFv(u8 *object, u8 *arg1, u8 *arg2, s16 arg3) {
 
 void TObjBoss8Piller::free_held_object() {
     if ((u32) TObjBoss8Piller__shared_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjBoss8Piller__shared_resource, 1);
+        free_bin_model_request((void*)TObjBoss8Piller__shared_resource, 1);
         TObjBoss8Piller__shared_resource = 0U;
     }
 }

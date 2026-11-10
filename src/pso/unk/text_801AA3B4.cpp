@@ -42,7 +42,7 @@ struct PhotonBlastChain_801AA424 {
 };
 
 extern "C" {
-void TLobby__sub_8001FE7C(u32, int);
+void free_bin_model_request(u32, int);
 void call_funcs_reverse__6TLobbyFPvUi(void *, int);
 extern u8 photon_blast_load_callback_table[];
 extern u32 photon_blast_donation_flags[];
@@ -54,7 +54,7 @@ void TObjPlayer__sub_801AA3B4(void) {
     s32 i;
     call_funcs_reverse__6TLobbyFPvUi(photon_blast_load_callback_table, 0x50);
     if (photon_blast_shared_resource != 0U) {
-        TLobby__sub_8001FE7C(photon_blast_shared_resource, 1);
+        free_bin_model_request(photon_blast_shared_resource, 1);
         photon_blast_shared_resource = 0U;
     }
     for (i = 0; i < 4; i++) {

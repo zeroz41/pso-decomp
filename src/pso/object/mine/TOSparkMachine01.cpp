@@ -98,7 +98,7 @@ void begin_effect_render__13TParticleCtrlFv(void *);
 void rotate_matrix_y(int, int);
 void push_matrix();
 void post_translate_matrix(void *);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
@@ -177,7 +177,7 @@ void *TOSparkMachine01::create() {
 
 void TOSparkMachine01::destroy_static_instance() {
     if ((u32) TOSparkMachine01__static_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TOSparkMachine01__static_resource, 1);
+        free_bin_model_request((void*)TOSparkMachine01__static_resource, 1);
         TOSparkMachine01__static_resource = 0U;
     }
 }

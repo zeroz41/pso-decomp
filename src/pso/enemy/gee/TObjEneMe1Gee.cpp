@@ -3877,7 +3877,7 @@ struct DelB_800CC808 { char pad[0xC]; };
 struct Del_800CC808 : DelB_800CC808 { virtual ~Del_800CC808(); };
 
 extern "C" {
-void TLobby__sub_8001FE7C(void *, s32);
+void free_bin_model_request(void *, s32);
 void TObjEneMe1Gee__sub_802A4D4C(void);
 
 #define g51C4 (*(Del_800CC808 **)&TObjEneMe1Gee__data_805D51C4)
@@ -3893,7 +3893,7 @@ void TObjEneMe1Gee::free_globals() {
         g51C0 = NULL;
     }
     if (g51B0 != NULL) {
-        TLobby__sub_8001FE7C(g51B0, 1);
+        free_bin_model_request(g51B0, 1);
         g51B0 = NULL;
     }
     TObjEneMe1Gee__sub_802A4D4C();

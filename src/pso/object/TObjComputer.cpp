@@ -133,7 +133,7 @@ extern ChipParam_8018860C lbl_80444E5C;
 extern ChipParam_8018860C lbl_80444EA8;
 extern void *tl_05;
 void TObjContainerAbeEnemy__vt77(const Obj_8018860C *self);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 s32 free_collision_body_parts(void *);
 s32 vfunc_14__11TObjMesBaseFv();
@@ -238,7 +238,7 @@ void TObjComputer::free_resources() {
         TObjComputer__texture_gvm_handle = 0U;
     }
     if ((u32) TObjComputer__model_archive != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjComputer__model_archive, 1);
+        free_bin_model_request((void*)TObjComputer__model_archive, 1);
         TObjComputer__model_archive = 0U;
     }
 }
@@ -362,7 +362,7 @@ void TObjGbAdvance::load_resource_instance() {
 
 void TObjGbAdvance::free_shared_data() {
     if ((u32) TObjGbAdvance__data_805D5B74 != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjGbAdvance__data_805D5B74, 1);
+        free_bin_model_request((void*)TObjGbAdvance__data_805D5B74, 1);
         TObjGbAdvance__data_805D5B74 = 0U;
     }
 }

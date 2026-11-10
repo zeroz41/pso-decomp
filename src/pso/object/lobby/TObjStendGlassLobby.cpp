@@ -92,7 +92,7 @@ void *TObjStendGlassLobby::create(void *set_data) {
 
 void TObjStendGlassLobby::free_resources() {
     if (static_model_resource != NULL) {
-        TLobby__sub_8001FE7C(static_model_resource, 1);
+        free_bin_model_request(static_model_resource, 1);
         static_model_resource = NULL;
     }
 }

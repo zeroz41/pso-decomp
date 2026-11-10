@@ -88,7 +88,7 @@ void *TOHangerMachine01::create(void *set_data) {
 
 void TOHangerMachine01::free_static_model() {
     if (TOHangerMachine01__bml_resource != NULL) {
-        TLobby__sub_8001FE7C(TOHangerMachine01__bml_resource, 1);
+        free_bin_model_request(TOHangerMachine01__bml_resource, 1);
         TOHangerMachine01__bml_resource = NULL;
     }
 }

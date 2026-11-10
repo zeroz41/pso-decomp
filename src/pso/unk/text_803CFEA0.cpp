@@ -29,7 +29,7 @@ struct DVDFileInfo_803D0AE8 {
 extern "C" {
 extern s32 fileio_error_context;
 extern RecoveredCallback_4873a87e26d6 fileio_error_callback;
-s32 TLobby__sub_803D0654(struct File_803D0654 *arg0, s32 arg1, s32 arg2);
+s32 fileio_seek(struct File_803D0654 *arg0, s32 arg1, s32 arg2);
 s32 DVDOpen(const char *, DVDFileInfo_803D0AE8 *);
 s32 DVDClose(DVDFileInfo_803D0AE8 *);
 char *strcat(char *, const char *);
@@ -53,7 +53,7 @@ s32 TLobby::get_handle_field_20() {
     }
     return *(s32 *)((s8 *)arg0 + 0x20);
 }
-void TLobby__sub_803CFEF4(File_803D0654 *file, s32 unit) {
+void set_fileio_unit_size(File_803D0654 *file, s32 unit) {
     s32 old;
     s32 offset;
     if (file == NULL) {
@@ -302,7 +302,7 @@ s32 TLobby::get_handle_field_1c() {
     return *(s32 *)((s8 *)arg0 + 0x1c);
 }
 
-s32 TLobby__sub_803D0654(struct File_803D0654 *arg0, s32 arg1, s32 arg2) {
+s32 fileio_seek(struct File_803D0654 *arg0, s32 arg1, s32 arg2) {
     if (arg0 == NULL) {
         if (fileio_error_callback != NULL) {
             fileio_error_callback(fileio_error_context, (s32 *)"E0092912:handl is null.", 0);

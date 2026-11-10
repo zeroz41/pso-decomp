@@ -198,13 +198,13 @@ s32 load_current_floor_resources(void) {
 extern "C" {
 
 void load_resources__12TBoss1DragonFv();
-void TBoss8Dragon__sub_80065C90();
+void load_boss5_gryphon_resources();
 void TObjEneBalClaw__sub_8008D924();
-void TObjPlayer__sub_800A2DCC();
+void load_darkgunner_effect_resources();
 void load_resources__11TObjEneMojaFv();
 void TObjEneMerillLia__sub_800D6D64();
 
-void TObjEneMe3ShinowaMirage__sub_800E7B94();
+void load_shinowa_mirage_resources();
 void TBoss4Type3__sub_802D1130();
 void TBoss8Dragon__sub_802FDA78();
 void TObjEneMorfos__sub_803350AC();
@@ -325,7 +325,7 @@ FloorResourceCallbacks floor_resource_callbacks_selectors_06_07[9] = {
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
     { TObjPlayer__sub_800AA82C, TObjPlayer::free_effect_resources },
     { TLobby::load_gyaranzo_resources, TObjEneGyaranzo::free_static_instances },
-    { TObjEneMe3ShinowaMirage__sub_800E7B94, TObjEneMe3ShinowaMirage::free_shared_resources },
+    { load_shinowa_mirage_resources, TObjEneMe3ShinowaMirage::free_shared_resources },
     { TObjEneMe1Canadin::load_resources, TObjEneMe1Canadin::free_resources },
     { TOCtrlDubchik::load_shared_resource, TOCtrlDubchik::destroy_instance },
     { reset_camera_override, restore_cameras_if_overridden },
@@ -350,7 +350,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_09[10] = {
     { load_corpse_mark_resource, TObjPlayer::destroy_static_lobby },
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
     { initialize_saver_resources, TObjPlayer::free_resources },
-    { TObjPlayer__sub_800A2DCC, TObjPlayer::cleanup_effects },
+    { load_darkgunner_effect_resources, TObjPlayer::cleanup_effects },
     { TObjEneDarkGunCenter__sub_800A0E80, TObjEneDarkGunCenter__sub_800A0E7C },
     { TObjEneDf2Bringer::load_resources, TObjEneDf2Bringer::free_resources },
     { TLobby::load_dimedian_resources, TObjEneDimedian::free_boss_objects },
@@ -363,7 +363,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_10[11] = {
     { load_corpse_mark_resource, TObjPlayer::destroy_static_lobby },
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
     { TObjEneRe4Sorcerer::load_resources, TObjEneRe4Sorcerer::free_bits },
-    { TObjPlayer__sub_800A2DCC, TObjPlayer::cleanup_effects },
+    { load_darkgunner_effect_resources, TObjPlayer::cleanup_effects },
     { TObjEneDarkGunCenter__sub_800A0E80, TObjEneDarkGunCenter__sub_800A0E7C },
     { TObjEneDf2Bringer::load_resources, TObjEneDf2Bringer::free_resources },
     { TObjEneRe7Berura::load_static_resources, TObjEneRe7Berura::destroy_children },
@@ -436,7 +436,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_16[10] = {
     { TObjGrass::load_resources, TObjGrass::destroy_all },
     { TObjCGrass::load_resources, TObjCGrass::release_global_805D5130 },
     { TLobby::load_shark_resources, TObjEneShark::free_resources },
-    { TObjEneMe3ShinowaMirage__sub_800E7B94, TObjEneMe3ShinowaMirage::free_shared_resources },
+    { load_shinowa_mirage_resources, TObjEneMe3ShinowaMirage::free_shared_resources },
     { initialize_saver_resources, TObjPlayer::free_resources },
     { TObjEneDf2Bringer::load_resources, TObjEneDf2Bringer::free_resources },
     { 0, 0 },
@@ -449,7 +449,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_17[10] = {
     { TObjGrass::load_resources, TObjGrass::destroy_all },
     { TObjCGrass::load_resources, TObjCGrass::release_global_805D5130 },
     { TLobby::load_shark_resources, TObjEneShark::free_resources },
-    { TObjEneMe3ShinowaMirage__sub_800E7B94, TObjEneMe3ShinowaMirage::free_shared_resources },
+    { load_shinowa_mirage_resources, TObjEneMe3ShinowaMirage::free_shared_resources },
     { initialize_saver_resources, TObjPlayer::free_resources },
     { TObjEneDf2Bringer::load_resources, TObjEneDf2Bringer::free_resources },
     { 0, 0 },
@@ -601,7 +601,7 @@ FloorResourceCallbacks floor_resource_callbacks_selectors_28_29[14] = {
 FloorResourceCallbacks floor_resource_callbacks_selector_30[4] = {
     { load_corpse_mark_resource, TObjPlayer::destroy_static_lobby },
     { TObjEneDD::create_instance, TObjEneDD::release_resource },
-    { TBoss8Dragon__sub_80065C90, TBoss5Gryphon::cleanup },
+    { load_boss5_gryphon_resources, TBoss5Gryphon::cleanup },
     { 0, 0 },
 };
 

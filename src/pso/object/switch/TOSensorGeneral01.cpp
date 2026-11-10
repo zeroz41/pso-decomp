@@ -104,7 +104,7 @@ void TOSensorGeneral01::free_assets() {
         }
     }
     if (sensor_general_shared_bml_archive != NULL) {
-        TLobby__sub_8001FE7C(sensor_general_shared_bml_archive, 1);
+        free_bin_model_request(sensor_general_shared_bml_archive, 1);
         sensor_general_shared_bml_archive = NULL;
     }
 }

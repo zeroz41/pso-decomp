@@ -1021,7 +1021,7 @@ extern Param_8018BB64 container_ancient_anim_binding[];
 extern s32 TContainerAncient01__effect_id_table[];
 
 u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 arg2);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void *__nw__7TObjectFUl(int);
 
 extern void *tl_05;
@@ -1036,7 +1036,7 @@ void *TContainerAncient01::create(void *arg0) {
 
 void TContainerAncient01::release_static_resource() {
     if ((u32) TContainerAncient01__bml_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TContainerAncient01__bml_resource, 1);
+        free_bin_model_request((void*)TContainerAncient01__bml_resource, 1);
         TContainerAncient01__bml_resource = 0U;
     }
 }

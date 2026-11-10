@@ -881,7 +881,7 @@ u8 *get_enemy_entity(u16 arg0);
 s32 angle_diff_s16(s32, s32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void *init_base__13TUnk_80481B34Fv(void *arg0);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 void __ct__13TUnk_804928CCFP7TObjectP8TObjBase(void *);
 s32 update_linked_position__12TObjEneDD_STFf(f32);
 void subtractive_rng_seed(void *, u32);
@@ -5878,7 +5878,7 @@ void TBoss1Dragon::free_resources() {
         TBoss1Dragon__data_805D4B28 = 0U;
     }
     if ((u32) TBoss1Dragon__data_805D4B08 != 0U) {
-        TLobby__sub_8001FE7C((void*)TBoss1Dragon__data_805D4B08, 1);
+        free_bin_model_request((void*)TBoss1Dragon__data_805D4B08, 1);
         TBoss1Dragon__data_805D4B08 = 0U;
     }
 }

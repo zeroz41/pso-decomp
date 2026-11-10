@@ -37,7 +37,7 @@ u8 *TLobby__sub_8019118C(u8 *arg0, s32 arg1, s32 arg2);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_804B7C04[];
 extern s32 npc_player_char_data_buffer;
-Npc_80190F3C *TNpcPlayer__sub_80190F3C(Npc_80190F3C *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *arg6);
+Npc_80190F3C *init_npc_player_char_loader(Npc_80190F3C *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *arg6);
 void free_collision_body_parts(void *);
 void *get_player_by_client_id(s32 i);
 s32 __dl__7TObjectFPv(void *);
@@ -104,7 +104,7 @@ void TUnk_804B7C1C::run_task() {
             arg0->fB4 = 1;
             o = __nw__7TObjectFUl(0x3C);
             if (o != 0) {
-                TNpcPlayer__sub_80190F3C((Npc_80190F3C *)o, arg0->pos, arg0->f60, arg0->fAC, arg0->fB0, arg0->f88, tl_07);
+                init_npc_player_char_loader((Npc_80190F3C *)o, arg0->pos, arg0->f60, arg0->fAC, arg0->fB0, arg0->f88, tl_07);
             }
         }
     } else {
@@ -125,7 +125,7 @@ void TUnk_804B7C1C::render() {  }
 void TLobby__sub_80190FD0(int a0) { npc_proximity_target_id = a0; }
 
 extern "C" {
-Npc_80190F3C *TNpcPlayer__sub_80190F3C(Npc_80190F3C *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *arg6) {
+Npc_80190F3C *init_npc_player_char_loader(Npc_80190F3C *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *arg6) {
     __ct__7TObjectFP7TObject(arg0, arg6);
     arg0->f18 = ((u8 *)__vt__13TUnk_804B7C04);
     VecCopy((Vec *)arg0->f1C, (const Vec *)arg1);

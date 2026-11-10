@@ -743,7 +743,7 @@ s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
-void TLobby__sub_8001FE7C(void*, int);
+void free_bin_model_request(void*, int);
 s32 get_camera_mode__11TCameraCtrlFv();
 s32 get_flag_b4__9TObjEneDDFv(void *);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
@@ -1931,7 +1931,7 @@ int TObjEneBm3FlyNest__sub_800B4158(void) {  return (*(int *)&lbl_805D5108); }
 void TObjEneBm3FlyNest::free_fly() {
     TObjEneBm3Fly::release_shared_data();
     if ((u32) lbl_805D5108 != 0U) {
-        TLobby__sub_8001FE7C((void*)lbl_805D5108, 1);
+        free_bin_model_request((void*)lbl_805D5108, 1);
         lbl_805D5108 = 0U;
     }
 }

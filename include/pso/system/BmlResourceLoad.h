@@ -10,7 +10,7 @@
 // one down again (del > 0 frees it).
 extern "C" {
 BmlResource *load_resource_from_descriptor(void *memory, s32 kind, BmlResourceDescriptor *descriptor, s32, s32, s32);
-void TLobby__sub_8001FE7C(BmlResource *resource, s16 del);
+void free_bin_model_request(BmlResource *resource, s16 del);
 }
 
 #endif

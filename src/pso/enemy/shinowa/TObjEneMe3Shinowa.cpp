@@ -4309,7 +4309,7 @@ void *TObjEneMe3Shinowa__ct(void *ene_me3_shinowa, void *parent) {
 
 
 extern "C" {
-s32 TLobby__sub_8001FE7C(void *, s32);
+s32 free_bin_model_request(void *, s32);
 void mem_free(void *p);
 int create__21TObjEneMe3ShinowaRealFv(void*);
 
@@ -4342,7 +4342,7 @@ void TObjEneMe3ShinowaMirage::free_shared_resources() {
         lbl_80500FEC.textures = 0;
     }
     if (TObjEneMe3ShinowaMirage__data_805D5298 != 0) {
-        TLobby__sub_8001FE7C(TObjEneMe3ShinowaMirage__data_805D5298, 1);
+        free_bin_model_request(TObjEneMe3ShinowaMirage__data_805D5298, 1);
         TObjEneMe3ShinowaMirage__data_805D5298 = 0;
     }
 }
@@ -4359,7 +4359,7 @@ extern DelDepthAnimationBinding lbl_8043CF84;
 // Floor resource callback (inferred: load_shared_resources, the TObjEneMe3SinowZoa::load_resources twin):
 // loads the shared Shinowa BML, a texture-list copy for the mirage, the per-variant parameter tables,
 // the breakup model and the sampled claw-trail points.
-void TObjEneMe3ShinowaMirage__sub_800E7B94() {
+void load_shinowa_mirage_resources() {
     NJS_TEXLIST *src;
     s32 n;
     s32 i;
