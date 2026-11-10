@@ -73,4 +73,14 @@ u8 *__dt__13TUnk_8048E728Fv(u8 *arg0, s16 arg1);
 }
 void *init_particle_base(void *arg0, void *arg1, s32 arg2);
 
+// Colour channel scaled by the fade alpha; nothing below zero, at most alpha.
+inline f32 fade_particle_channel(f32 c, f32 alpha) {
+    return (c < 0.0f) ? 0.0f : alpha * ((c < 1.0f) ? c : 1.0f);
+}
+
+// Colour channel limited to 0..1.
+inline f32 clamp_particle_channel(f32 c) {
+    return (c < 0.0f) ? 0.0f : ((c < 1.0f) ? c : 1.0f);
+}
+
 #endif

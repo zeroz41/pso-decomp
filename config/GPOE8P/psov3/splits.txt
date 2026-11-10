@@ -1344,7 +1344,7 @@ pso/effect/particle/ParticleOrbit.cpp:
 
 pso/effect/particle/ParticleRadial.cpp:
 	.text       start:0x8008B478 end:0x8008C4F4
-	.rodata     start:0x80439550 end:0x80439560
+	.rodata     start:0x80439540 end:0x80439568
 	.sdata2     start:0x805D9558 end:0x805D9570
 
 pso/unk/text_8008C4F4.cpp:
