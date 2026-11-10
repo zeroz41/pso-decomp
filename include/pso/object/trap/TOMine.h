@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjChara.h"
 
 struct TOMine : public TObjChara {
+    TOMine(TObject *parent);
     virtual ~TOMine();
     virtual f32 receive_weapon_special_attack(void *, void *);
     void detonate();
@@ -34,7 +35,8 @@ struct TOMine : public TObjChara {
     Vec float_position; // copied from position on spawn; y bobs in update_float_height
     u32 m_340;
     u32 m_344;
-    u8 unk_348[0x8];
+    u8 unk_348[0x4];
+    f32 pad_34C;              // inferred: detection radius (find_target_in_range squares it)
     f32 m_350;                // trigger radius (squared against horizontal_distance_squared)
     DirectAttackPayload attack; // passed by value to receive_direct_attack
     u16 m_35c;
