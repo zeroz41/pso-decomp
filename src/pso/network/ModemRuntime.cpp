@@ -581,29 +581,66 @@ s32 modem_wait_ok_or_error(void) {
     }
 }
 
-// Sends one AT command and waits for OK/ERROR, the same pair TAdSinglePlyChrSelectGC__sub_8042D49C runs
-// (name inferred). Each expansion keeps a stack slot for result in 0x8042CEF8's frame.
-static inline s32 ModemSendCommand(char *command) {
-    s32 result;
-
-    TAdSinglePlyChrSelectGC__sub_8042D6A4(command);
-    result = modem_wait_ok_or_error();
-    return result;
-}
-
-s32 TAdSinglePlyChrSelectGC__sub_8042CEF8(const char *country) {
-    char buf[0x80];
-    u16 cmd;
+s32 TAdSinglePlyChrSelectGC__sub_8042CEF8(char *country)
+{
+    char buf[0x88];
+    s32 bpad;
+    s32 enabled;
+    u16 *p30;
+    u8 *p29;
+    u8 *p25;
+    u16 cmd70;
     u32 id;
-    BOOL selected;
-    u16 reset;
+    u8 pad2[4];
+    u16 cmd66;
+    u16 cmd64;
+    u8 pad3[4];
+    u8 b5e;
+    u16 cmd5c;
+    u8 pa1[4];
+    u8 b56;
+    u16 cmd54;
+    u8 pa2[4];
+    u8 b4e;
+    u16 cmd4c;
+    u8 pa3[4];
+    u8 b46;
+    u16 cmd44;
+    u8 pa4[4];
+    u8 b3e;
+    u16 cmd3c;
+    u8 pa5[4];
+    u8 b36;
+    u16 cmd34;
+    u8 pa6[4];
+    u8 b2e;
+    u16 cmd2c;
+    u8 pa7[4];
+    u8 b24;
+    u8 pad[0x18];
+    void TAdSinglePlyChrSelectGC__sub_8042C2E4(s32, void *);
+    void OSInitThreadQueue(void *);
+    void EXISetExiCallback(s32, void *);
 
-    ModemLockExi();
+    enabled = OSDisableInterrupts();
+    for (;;) {
+        if (EXILock(0, 2, (EXICallback)TAdSinglePlyChrSelectGC::wake_load_thread) == 1) {
+            OSRestoreInterrupts(enabled);
+            break;
+        }
+        OSSleepThread(&lbl_805D7CA0);
+        OSRestoreInterrupts(enabled);
+    }
+
     lbl_805D7C98 = 0;
-    lbl_805D7C90.f0 = 480;
-    lbl_805D7C90.f2 = 33;
-    lbl_805D7C90.f4 = 0x62;
-    lbl_805D7C90.f5 = 5;
+    p30 = (u16 *)&lbl_805D7C90;
+    *p30 = 0x1e0;
+    *++p30 = 0x21;
+    p29 = (u8 *)&lbl_805D7C90;
+    *(p29 += 4) = 0x62;
+    p25 = (u8 *)&lbl_805D7C90;
+    *(p25 += 5) = 5;
+
     memset(&modem_connection_info, 0, sizeof(modem_connection_info));
     memset(&modem_recv_state, 0, sizeof(modem_recv_state));
     memset(&modem_send_state, 0, sizeof(modem_send_state));
@@ -618,9 +655,9 @@ s32 TAdSinglePlyChrSelectGC__sub_8042CEF8(const char *country) {
     modem_send_state.busy = 0;
     modem_recv_state.capacity = 0;
     modem_recv_state.f34 = 1;
-    selected = EXISelect(0, 2, 0);
-    cmd = 0;
-    EXIImm(0, &cmd, 2, EXI_WRITE, NULL);
+    EXISelect(0, 2, 0);
+    cmd70 = 0;
+    EXIImm(0, &cmd70, 2, EXI_WRITE, NULL);
     EXISync(0);
     EXIImm(0, &id, 4, EXI_READ, NULL);
     EXISync(0);
@@ -629,28 +666,100 @@ s32 TAdSinglePlyChrSelectGC__sub_8042CEF8(const char *country) {
         EXIUnlock(0);
         return -1;
     }
-    reset = 0x8000;
-    selected = EXISelect(0, 2, 4);
-    EXIImm(0, &reset, 2, EXI_WRITE, NULL);
+
+    cmd66 = 0x8000;
+    EXISelect(0, 2, 4);
+    EXIImm(0, &cmd66, 2, EXI_WRITE, NULL);
     EXISync(0);
     EXIDeselect(0);
-    ModemWriteRegister(0x13, lbl_805D7C90.f5);
-    ModemWriteRegister(6, 0x32);
-    ModemWriteRegister(7, 0x40);
-    ModemWriteRegister(0x10, lbl_805D7C90.f0 >> 8);
-    ModemWriteRegister(0x11, lbl_805D7C90.f0);
-    ModemWriteRegister(0xE, lbl_805D7C90.f2 >> 8);
-    ModemWriteRegister(0xF, lbl_805D7C90.f2);
-    ModemSendCommand(lbl_805D489C);
+
+    b5e = *p25;
+    cmd64 = 0x5300;
+    EXISelect(0, 2, 4);
+    EXIImm(0, &cmd64, 2, EXI_WRITE, NULL);
+    EXISync(0);
+    EXIImm(0, &b5e, 1, EXI_WRITE, NULL);
+    EXISync(0);
+    EXIDeselect(0);
+
+    b56 = 0x32;
+    cmd5c = 0x4600;
+    EXISelect(0, 2, 4);
+    EXIImm(0, &cmd5c, 2, EXI_WRITE, NULL);
+    EXISync(0);
+    EXIImm(0, &b56, 1, EXI_WRITE, NULL);
+    EXISync(0);
+    EXIDeselect(0);
+
+    b4e = 0x40;
+    cmd54 = 0x4700;
+    EXISelect(0, 2, 4);
+    EXIImm(0, &cmd54, 2, EXI_WRITE, NULL);
+    EXISync(0);
+    EXIImm(0, &b4e, 1, EXI_WRITE, NULL);
+    EXISync(0);
+    EXIDeselect(0);
+
+    b46 = (u8)(*(u16 *)&lbl_805D7C90 >> 8);
+    cmd4c = 0x5000;
+    EXISelect(0, 2, 4);
+    EXIImm(0, &cmd4c, 2, EXI_WRITE, NULL);
+    EXISync(0);
+    EXIImm(0, &b46, 1, EXI_WRITE, NULL);
+    EXISync(0);
+    EXIDeselect(0);
+
+    b3e = (u8)*(u16 *)&lbl_805D7C90;
+    cmd44 = 0x5100;
+    EXISelect(0, 2, 4);
+    EXIImm(0, &cmd44, 2, EXI_WRITE, NULL);
+    EXISync(0);
+    EXIImm(0, &b3e, 1, EXI_WRITE, NULL);
+    EXISync(0);
+    EXIDeselect(0);
+
+    b36 = (u8)(*p30 >> 8);
+    cmd3c = 0x4e00;
+    EXISelect(0, 2, 4);
+    EXIImm(0, &cmd3c, 2, EXI_WRITE, NULL);
+    EXISync(0);
+    EXIImm(0, &b36, 1, EXI_WRITE, NULL);
+    EXISync(0);
+    EXIDeselect(0);
+
+    b2e = (u8)*p30;
+    cmd34 = 0x4f00;
+    EXISelect(0, 2, 4);
+    EXIImm(0, &cmd34, 2, EXI_WRITE, NULL);
+    EXISync(0);
+    EXIImm(0, &b2e, 1, EXI_WRITE, NULL);
+    EXISync(0);
+    EXIDeselect(0);
+
+    TAdSinglePlyChrSelectGC__sub_8042D6A4(lbl_805D489C);
+    modem_wait_ok_or_error();
     strcpy(buf, lbl_805D48A4);
     strcat(buf, country);
     strcat(buf, lbl_805D48AC);
-    ModemSendCommand(buf);
-    ModemSendCommand(lbl_805D48B0);
-    ModemSendCommand("ATW1\\V0\r");
-    ModemSendCommand("ATS95=44\r");
-    ModemWriteRegister(1, lbl_805D7C90.f4);
-    EXISetExiCallback(2, TAdSinglePlyChrSelectGC__sub_8042C2E4);
+    TAdSinglePlyChrSelectGC__sub_8042D6A4(buf);
+    modem_wait_ok_or_error();
+    TAdSinglePlyChrSelectGC__sub_8042D6A4(lbl_805D48B0);
+    modem_wait_ok_or_error();
+    TAdSinglePlyChrSelectGC__sub_8042D6A4("ATW1\\V0\r");
+    modem_wait_ok_or_error();
+    TAdSinglePlyChrSelectGC__sub_8042D6A4("ATS95=44\r");
+    modem_wait_ok_or_error();
+
+    b24 = *p29;
+    cmd2c = 0x4100;
+    EXISelect(0, 2, 4);
+    EXIImm(0, &cmd2c, 2, EXI_WRITE, NULL);
+    EXISync(0);
+    EXIImm(0, &b24, 1, EXI_WRITE, NULL);
+    EXISync(0);
+    EXIDeselect(0);
+
+    EXISetExiCallback(2, (void *)TAdSinglePlyChrSelectGC__sub_8042C2E4);
     OSRegisterResetFunction(&modem_reset_function_info);
     EXIUnlock(0);
     return 1;
