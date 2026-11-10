@@ -1864,10 +1864,10 @@ pso/enemy/panarms/TObjEnePanarms_800DFB74.cpp:
 pso/enemy/panarms/TObjEnePanarms.cpp:
 	.text       start:0x800DFBD0 end:0x800E2FFC
 	.ctors      start:0x80433F64 end:0x80433F68
-	.rodata     start:0x8043CDC8 end:0x8043CDD0
+	.rodata     start:0x8043CDC8 end:0x8043CDD8
 	.data       start:0x80495458 end:0x80495A80
-	.sbss       start:0x805D5288 end:0x805D528C
-	.sdata2     start:0x805DA524 end:0x805DA584
+	.sbss       start:0x805D5288 end:0x805D5298
+	.sdata2     start:0x805DA520 end:0x805DA5A0
 
 pso/object/ambient/TObjFish_800E2FFC.cpp:
 	.text       start:0x800E2FFC end:0x800E31C4
