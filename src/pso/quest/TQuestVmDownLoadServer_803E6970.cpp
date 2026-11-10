@@ -2379,6 +2379,7 @@ s32 TQuestVmDownLoadServer::is_download_cmd_allowed(u8 arg0) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(1)
+#pragma opt_common_subs off
 inline s32 IsX_803E9FFC(u8 arg0) {
     if ((lbl_805D7888 - 1) <= 1U) {
         return 0;
@@ -2424,6 +2425,10 @@ inline s32 IsBreakChar_803E9A74(u8 c) {
     }
 }
 Seg_803E9FFC *TQuestVmDownLoadServer__sub_803E9A74(s32 pos, s32 end, u8 a, u8 b) {
+    s32 n;
+    Obj_803EADD4 *slot;
+    Ent_803E9DE0 *sub;
+    Ent_803E9DE0 *e;
     Seg_803E9FFC *head;
     head = NULL;
     if (pos >= end) {
@@ -2432,74 +2437,73 @@ Seg_803E9FFC *TQuestVmDownLoadServer__sub_803E9A74(s32 pos, s32 end, u8 a, u8 b)
         }
         return (Seg_803E9FFC *)-1;
     }
-    {
-        Obj_803EADD4 *slot = &((Obj_803EADD4 *)quest_download_slot_chain_table)[pos];
-        Ent_803E9DE0 *e = (Ent_803E9DE0 *)slot->x0;
-        if ((u32)e == 0xFFFFFFFF) {
-            return (Seg_803E9FFC *)-1;
-        }
-        if (e == NULL && IsBreakChar_803E9A74(((u8 *)&quest_download_scratch_storage)[pos])) {
-            if (a == 0 || TQuestVmDownLoadServer::is_valid_item_for_slot(a, b)) {
-                Seg_803E9FFC *s = (Seg_803E9FFC *)TQuestVmDownLoadServer__sub_803ECF0C();
-                if (s != NULL) {
-                    s->off = 1;
-                    s->a = 0xFF;
-                    s->x2 = 0xFF;
-                    s->b = 0;
-                    s->x3 = 0;
-                    s->next = NULL;
-                }
-                return s;
+    slot = &((Obj_803EADD4 *)quest_download_slot_chain_table)[pos];
+    e = (Ent_803E9DE0 *)slot->x0;
+    if ((u32)e == 0xFFFFFFFF) {
+        return (Seg_803E9FFC *)-1;
+    }
+    if (e == NULL && IsBreakChar_803E9A74(((u8 *)&quest_download_scratch_storage)[pos])) {
+        if (a == 0 || TQuestVmDownLoadServer::is_valid_item_for_slot(a, b)) {
+            Seg_803E9FFC *s = (Seg_803E9FFC *)TQuestVmDownLoadServer__sub_803ECF0C();
+            if (s != NULL) {
+                s->off = 1;
+                s->a = 0xFF;
+                s->x2 = 0xFF;
+                s->b = 0;
+                s->x3 = 0;
+                s->next = NULL;
             }
+            return s;
         }
-        {
-            for (; e != NULL; e -= (s8)e->d) {
-                if (TQuestVmDownLoadServer::is_valid_item_for_slot(e->a, e->b)) {
-                    if (a == 0 || TQuestVmDownLoadServer__sub_803E7390(a, b, e->a)) {
-                        u8 *text = (u8 *)&quest_download_scratch_storage + pos;
-                        s32 n = lbl_8047F0F8[e->off];
-                        if (pos + n >= end || !IsX_803E9FFC(text[n])) {
-                            Seg_803E9FFC *s = (Seg_803E9FFC *)TQuestVmDownLoadServer__sub_803ECF0C();
-                            if (s != NULL) {
-                                s->off = n;
-                                s->x2 = s->a = e->a;
-                                s->x3 = s->b = e->b;
-                                s->next = head;
-                                head = s;
-                            }
-                        }
-                    }
-                }
-                if ((s8)e->d == 0) {
-                    break;
-                }
-            }
-        }
-        for (e = (Ent_803E9DE0 *)slot->x0; e != NULL; e -= (s8)e->d) {
+    }
+    // Entries that end at this position.
+    for (; e != NULL; e -= (s8)e->d) {
+        if (TQuestVmDownLoadServer::is_valid_item_for_slot(e->a, e->b)) {
             if (a == 0 || TQuestVmDownLoadServer__sub_803E7390(a, b, e->a)) {
-                s32 n = lbl_8047F0F8[e->off];
-                Seg_803E9FFC *r = TQuestVmDownLoadServer__sub_803E9A74(pos + n, end, e->a, e->b);
-                if ((u32)r == 0xFFFFFFFF) {
-                    TQuestVmDownLoadServer__sub_803ECE5C((Node_803ECE5C *)head);
-                    return (Seg_803E9FFC *)-1;
-                }
-                if (r != NULL) {
-                    Seg_803E9FFC *s;
-                    for (s = r;; s = s->next) {
-                        s->off += n;
-                        s->x2 = e->a;
-                        s->x3 = e->b;
-                        if (s->next == NULL) {
-                            break;
-                        }
+                u8 *text = (u8 *)&quest_download_scratch_storage + pos;
+                n = lbl_8047F0F8[e->off];
+                if (pos + n >= end || !IsX_803E9FFC(text[n])) {
+                    Seg_803E9FFC *s = (Seg_803E9FFC *)TQuestVmDownLoadServer__sub_803ECF0C();
+                    if (s != NULL) {
+                        s->off = n;
+                        s->x2 = s->a = e->a;
+                        s->x3 = s->b = e->b;
+                        s->next = head;
+                        head = s;
                     }
-                    s->next = head;
-                    head = r;
                 }
             }
-            if ((s8)e->d == 0) {
-                break;
+        }
+        if ((s8)e->d == 0) {
+            break;
+        }
+    }
+    // Entries continued by the segments that follow them.
+    for (sub = (Ent_803E9DE0 *)slot->x0; sub != NULL; sub -= (s8)sub->d) {
+        if (a == 0 || TQuestVmDownLoadServer__sub_803E7390(a, b, sub->a)) {
+            Seg_803E9FFC *r;
+            n = lbl_8047F0F8[sub->off];
+            r = TQuestVmDownLoadServer__sub_803E9A74(pos + n, end, sub->a, sub->b);
+            if ((u32)r == 0xFFFFFFFF) {
+                TQuestVmDownLoadServer__sub_803ECE5C((Node_803ECE5C *)head);
+                return (Seg_803E9FFC *)-1;
             }
+            if (r != NULL) {
+                Seg_803E9FFC *s;
+                for (s = r;; s = s->next) {
+                    s->off += n;
+                    s->x2 = sub->a;
+                    s->x3 = sub->b;
+                    if (s->next == NULL) {
+                        break;
+                    }
+                }
+                s->next = head;
+                head = r;
+            }
+        }
+        if ((s8)sub->d == 0) {
+            break;
         }
     }
     return head;
@@ -2668,11 +2672,11 @@ void *TQuestVmDownLoadServer__sub_803E9FFC(s32 arg0, s32 arg1, Tok_803E9FFC *t) 
 #pragma dont_inline off
 #pragma inline_depth(1)
 inline N_803E9FA4 *merge_sorted_nodes(N_803E9FA4 *head, N_803E9FA4 *list) {
+    N_803E9FA4 *n;
     N_803E9FA4 *next;
-    while (list != NULL) {
-        next = list->next;
-        head = insert_sorted_node__22TQuestVmDownLoadServerFPvPv(head, list);
-        list = next;
+    for (n = list; n != NULL; n = next) {
+        next = n->next;
+        head = insert_sorted_node__22TQuestVmDownLoadServerFPvPv(head, n);
     }
     return head;
 }
