@@ -230,15 +230,14 @@ void TUnk_8048E7A8::check_radial_particle_retire() {
 void TUnk_8048E7A8::run_task() {
     NJS_COLOR col;
     Vec target;
-    ParticleParam *p;
-    f32 t;
+    f32 t[2];                  // [0] age this frame, [1] fade alpha; kept in memory
     f32 fade_in;
     f32 fade_out;
-    f32 alpha;
-    f32 r;
-    f32 g;
-    f32 b;
+    f32 rest;
+    f32 ch[3];
+    ParticleParam *p;
     s32 frames;
+    u32 last;
 
     speed *= param->speed_decay;
     approach_vector_fixed_distance(&pos, &origin, &target, speed);
@@ -246,50 +245,45 @@ void TUnk_8048E7A8::run_task() {
     step.y = target.y - pos.y;
     step.z = target.z - pos.z;
     vec3_add_to(&pos, &step);
+    fade_in = 1.0f;
+    fade_out = fade_in;
     m_28 *= param->scale_decay;
     unk_2C *= param->scale_decay;
     age += age_rate;
     p = param;
-    t = age;
-    fade_in = 1.0f;
-    fade_out = 1.0f;
-    if (p->fade_in_end > t) {
-        fade_in = t * fade_in_scale;
+    t[0] = age;
+    if (p->fade_in_end > t[0]) {
+        fade_in = t[0] * fade_in_scale;
     }
-    if (1.0f - t < p->fade_out_start) {
-        fade_out = (1.0f - t) * fade_out_scale;
+    rest = 1.0f - t[0];
+    if (rest < p->fade_out_start) {
+        fade_out = rest * fade_out_scale;
     }
-    if (fade_in < fade_out) {
-        alpha = fade_in;
-    } else {
-        alpha = fade_out;
-    }
+    t[1] = (fade_in < fade_out) ? fade_in : fade_out;
     if (TParticleCtrl__data_80511F70[sprite_index]->sprites->flags & 1) {
         if (flags & 0x100) {
-            r = fade_particle_channel(p->color_rate[0] * t + color_base[0], alpha);
-            g = fade_particle_channel(p->color_rate[1] * t + color_base[1], alpha);
-            b = fade_particle_channel(p->color_rate[2] * t + color_base[2], alpha);
+            ch[0] = fade_particle_channel(p->color_rate[0] * t[0] + color_base[0], t[1]);
+            ch[1] = fade_particle_channel(p->color_rate[1] * t[0] + color_base[1], t[1]);
+            ch[2] = fade_particle_channel(p->color_rate[2] * t[0] + color_base[2], t[1]);
         } else {
-            r = fade_particle_channel(p->color_rate[0] * t + p->color_base[0], alpha);
-            g = fade_particle_channel(p->color_rate[1] * t + p->color_base[1], alpha);
-            b = fade_particle_channel(p->color_rate[2] * t + p->color_base[2], alpha);
+            ch[0] = fade_particle_channel(p->color_rate[0] * t[0] + p->color_base[0], t[1]);
+            ch[1] = fade_particle_channel(p->color_rate[1] * t[0] + p->color_base[1], t[1]);
+            ch[2] = fade_particle_channel(p->color_rate[2] * t[0] + p->color_base[2], t[1]);
         }
-        alpha = 1.0f;
+        t[1] = 1.0f;
+    } else if (flags & 0x100) {
+        ch[0] = clamp_particle_channel(p->color_rate[0] * t[0] + color_base[0]);
+        ch[1] = clamp_particle_channel(p->color_rate[1] * t[0] + color_base[1]);
+        ch[2] = clamp_particle_channel(p->color_rate[2] * t[0] + color_base[2]);
     } else {
-        if (flags & 0x100) {
-            r = clamp_particle_channel(p->color_rate[0] * t + color_base[0]);
-            g = clamp_particle_channel(p->color_rate[1] * t + color_base[1]);
-            b = clamp_particle_channel(p->color_rate[2] * t + color_base[2]);
-        } else {
-            r = clamp_particle_channel(p->color_rate[0] * t + p->color_base[0]);
-            g = clamp_particle_channel(p->color_rate[1] * t + p->color_base[1]);
-            b = clamp_particle_channel(p->color_rate[2] * t + p->color_base[2]);
-        }
+        ch[0] = clamp_particle_channel(p->color_rate[0] * t[0] + p->color_base[0]);
+        ch[1] = clamp_particle_channel(p->color_rate[1] * t[0] + p->color_base[1]);
+        ch[2] = clamp_particle_channel(p->color_rate[2] * t[0] + p->color_base[2]);
     }
-    col.argb.a = 254.0f * alpha;
-    col.argb.r = 254.0f * r;
-    col.argb.g = 254.0f * g;
-    col.argb.b = 254.0f * b;
+    col.argb.a = 254.0f * t[1];
+    col.argb.r = 254.0f * ch[0];
+    col.argb.g = 254.0f * ch[1];
+    col.argb.b = 254.0f * ch[2];
     color = col.color;
     frames = TParticleCtrl__data_80511F70[sprite_index]->sprites->frame_count;
     if (param->flags & 0x10) {
@@ -313,8 +307,9 @@ void TUnk_8048E7A8::run_task() {
     }
     if (motion != NULL) {
         motion_frame += unk_C0;
-        if ((f32)(motion->nbFrame - 1) <= motion_frame) {
-            motion_frame = motion->nbFrame - 1;
+        last = motion->nbFrame - 1;
+        if ((f32)last <= motion_frame) {
+            motion_frame = last;
         }
     }
     check_radial_particle_retire();

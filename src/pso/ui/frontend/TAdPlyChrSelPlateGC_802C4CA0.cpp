@@ -1,4 +1,5 @@
 #include "types.h"
+#include <stddef.h>
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
 #include "pso/system/task/TMainTask.h"
@@ -52,7 +53,10 @@ void TAdPlyChrSelPlateGC::render() {
         set_color_blending_mode(1, 10);
         for (i = 0; i < plate_count; i++) {
             if (plate_shown[i] != 0) {
-                TAdEnterSerialAccessGC__sub_802C4B64(this, &plate_pos[i], plate_color[i], i);
+                u8 *pos = (u8 *)this;
+                pos += i * sizeof(NJS_POINT2);
+                pos += offsetof(TAdPlyChrSelPlateGC, plate_pos);
+                TAdEnterSerialAccessGC__sub_802C4B64(this, (NJS_POINT2 *)pos, plate_color[i], i);
             }
         }
         set_color_blending_mode(0, 8);

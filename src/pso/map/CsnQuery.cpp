@@ -229,147 +229,198 @@ s32 calc_segment_xz_distance_sq(Vec_8007A138 *c, Vec_8007A138 *o, Vec_8007A138 *
 
 // Drops a vertical ray from origin through the faces of the listed groups and
 // records the nearest ground contact plus one contact per special surface bit.
-s32 evaluate_ground_triangles(Vec *origin, u32 mask, CsnGroup **groups) {
-    Vec dir;
-    s32 i;
-    s32 count;
-    Vec *vertices;
-    CsnFace *face;
-    CsnContact *contacts;
-    CsnContact *contact;
-    CsnHit *result = (CsnHit *)lbl_80500140;
-    f32 best;
-    f32 ox;
-    f32 oy;
-    f32 oz;
-
-    result->hit_mask = 0;
-    contacts = result->contact;
-    lbl_8050BF60.x = origin->x;
-    best = 2.0f;
-    lbl_8050BF60.y = -10000.0f + origin->y;
-    lbl_8050BF60.z = origin->z;
-    vsub(origin, &lbl_8050BF60, &dir);
-    ox = origin->x;
-    oy = origin->y;
-    oz = origin->z;
-    for (; *groups != NULL; groups++) {
-        CsnModel *model = (*groups)->model;
-        i = 0;
-        count = model->face_count;
-        face = model->faces;
-        vertices = model->vertices;
-        for (; i < count; i++, face++) {
-            Vec *v0;
-            Vec *v1;
-            Vec *v2;
-            f32 x1, x0, y0, z0, z1, x2, z2;
-            f32 t;
-            f32 dx;
-            f32 dz;
-            f32 nx;
-            f32 ny;
-            f32 nz;
-            if (!(face->flags & mask)) {
-                continue;
-            }
-            dx = face->center.x - ox;
-            dz = face->center.z - oz;
-            if (dx * dx + dz * dz > face->radius * face->radius) {
-                continue;
-            }
-            ny = face->normal.y;
-            if (ny < 0.00001f) {
-                continue;
-            }
-            v0 = &vertices[face->vertex[0]];
-            v1 = &vertices[face->vertex[1]];
-            v2 = &vertices[face->vertex[2]];
-            if (v0->y > oy && v1->y > oy && v2->y > oy) {
-                continue;
-            }
-            x0 = v0->x - ox;
-            z1 = v1->z - oz;
-            z0 = v0->z - oz;
-            x1 = v1->x - ox;
-            if (z0 * x1 - x0 * z1 < -0.0001f) {
-                continue;
-            }
-            x2 = v2->x - ox;
-            z2 = v2->z - oz;
-            if (z1 * x2 - x1 * z2 < -0.0001f) {
-                continue;
-            }
-            if (z2 * x0 - x2 * z0 < -0.0001f) {
-                continue;
-            }
-            nx = face->normal.x;
-            nz = face->normal.z;
-            y0 = v0->y - oy;
-            t = -(-(x0 * nx + y0 * ny + z0 * nz) / (-10000.0f * ny));
-            if ((mask & 0x10) && (face->flags & 0x10)) {
-                contact = &contacts[1];
-                result->hit_mask |= 0x10;
-                contact->point.x = ox;
-                contact->point.y = -10000.0f * t + oy;
-                contact->point.z = oz;
-                contact->normal.x = nx;
-                contact->normal.y = ny;
-                contact->normal.z = nz;
-                contact->flags = face->flags;
-            }
-            if ((mask & 4) && (face->flags & 4)) {
-                contact = &contacts[2];
-                result->hit_mask |= 4;
-                contact->point.x = ox;
-                contact->point.y = -10000.0f * t + oy;
-                contact->point.z = oz;
-                contact->normal.x = nx;
-                contact->normal.y = ny;
-                contact->normal.z = nz;
-                contact->flags = face->flags;
-            }
-            if ((mask & 2) && (face->flags & 2)) {
-                contact = &contacts[3];
-                result->hit_mask |= 2;
-                contact->point.x = ox;
-                contact->point.y = -10000.0f * t + oy;
-                contact->point.z = oz;
-                contact->normal.x = nx;
-                contact->normal.y = ny;
-                contact->normal.z = nz;
-                contact->flags = face->flags;
-            }
-            if ((mask & 8) && (face->flags & 8)) {
-                contact = &contacts[4];
-                result->hit_mask |= 8;
-                contact->point.x = ox;
-                contact->point.y = -10000.0f * t + oy;
-                contact->point.z = oz;
-                contact->normal.x = nx;
-                contact->normal.y = ny;
-                contact->normal.z = nz;
-                contact->flags = face->flags;
-            }
-            if ((face->flags & (mask & ~0x1E)) && t < best) {
-                best = t;
-                contact = &contacts[0];
-                result->hit_mask |= 1;
-                contact->point.x = ox;
-                contact->point.y = -10000.0f * t + oy;
-                contact->point.z = oz;
-                contact->normal.x = nx;
-                contact->normal.y = ny;
-                contact->normal.z = nz;
-                contact->flags = face->flags;
-            }
-            TObjPlayer__sub_80079110(result);
-            TObjPlayer__sub_8007910C(contact, &debug_color_blue);
-        }
+extern const f32 lbl_805D91F4;
+extern const f32 lbl_805D91F8;
+extern const f32 lbl_805D9200;
+#define GT_DOWN (*(f32 *)&lbl_805D91F8)     /* -10000.0f: ray length downwards */
+#define GT_TMAX (*(f32 *)&lbl_805D91F4)     /* 2.0f: no hit yet */
+#define GT_EPS_NY (*(f32 *)&lbl_805D91FC)   /* 1e-5f: skip walls (normal y) */
+#define GT_EPS_EDGE (*(f32 *)&lbl_805D9200) /* -1e-4f: edge test tolerance */
+void vsub(void *, void *, void *);
+s32 evaluate_ground_triangles(Vec *origin_arg, u32 mask_arg, CsnGroup **list_arg) {
+  CsnVector *origin = (CsnVector *) origin_arg;
+  u32 mask = mask_arg;
+  u32 m10;
+  u32 m4;
+  u32 m2;
+  f32 ax;
+  u32 m8;
+  u32 mz;
+  s32 i;
+  s32 count;
+  Vec *verts;
+  CsnFace *poly;
+  CsnContact *hits;
+  CsnModel *mesh;
+  CsnVector tmp;
+  f32 minT;
+  f32 ox;
+  f32 oy;
+  f32 oz;
+  CsnContact *hit;
+  s32 *hdr;
+  lbl_80500140[0] = 0;
+  hdr = lbl_80500140;
+  hits = (CsnContact *) lbl_80500140[1];
+  lbl_8050BF60.x = origin->x;
+  lbl_8050BF60.y = GT_DOWN + origin->y;
+  lbl_8050BF60.z = origin->z;
+  minT = GT_TMAX;
+  vsub(origin, &lbl_8050BF60, &tmp);
+  ox = origin->x;
+  oy = origin->y;
+  oz = origin->z;
+  m10 = mask & 0x10;
+  m4 = mask & 0x4;
+  m2 = mask & 0x2;
+  m8 = mask & 0x8;
+  mz = mask & (~0x1E);
+  for (; (*list_arg) != 0; list_arg++)
+  {
+    mesh = (*list_arg)->model;
+    count = mesh->face_count;
+    poly = mesh->faces;
+    verts = mesh->vertices;
+    for (i = 0; i < count; i++, poly++)
+    {
+      f32 dx;
+      f32 nx;
+      f32 ny;
+      f32 nz;
+      f32 k;
+      f32 t;
+      f32 ay;
+      f32 az;
+      f32 bx;
+      f32 bz;
+      f32 cx;
+      f32 cz;
+      Vec *a;
+      Vec *b;
+      Vec *c;
+      f32 hy;
+      f32 dz;
+      if (!(poly->flags & mask))
+      {
+        continue;
+      }
+      dx = poly->center.x - ox;
+      t = poly->radius * poly->radius;
+      dz = (0, poly->center.z - oz);
+      if (((dx * dx) + (dz * dz)) > t)
+      {
+        continue;
+      }
+      if (poly->normal.y < GT_EPS_NY)
+      {
+        continue;
+      }
+      a = &verts[poly->vertex[0]];
+      b = &verts[poly->vertex[1]];
+      c = &verts[poly->vertex[2]];
+      if (((a->y > oy) && (b->y > oy)) && (c->y > oy))
+      {
+        continue;
+      }
+      ax = a->x - ox;
+      az = a->z - oz;
+      bx = b->x - ox;
+      bz = b->z - oz;
+      if (((az * bx) - (ax * bz)) < GT_EPS_EDGE)
+      {
+        continue;
+      }
+      cx = c->x - ox;
+      cz = c->z - oz;
+      if (((bz * cx) - (bx * cz)) < GT_EPS_EDGE)
+      {
+        continue;
+      }
+      if (((cz * ax) - (cx * az)) < GT_EPS_EDGE)
+      {
+        continue;
+      }
+      ny = poly->normal.y;
+      nx = poly->normal.x;
+      nz = poly->normal.z;
+      k = GT_DOWN;
+      ay = a->y - oy;
+      t = (-(((ax * poly->normal.x) + (ay * ny)) + (az * poly->normal.z))) / (k * ny);
+      t = -t;
+      if (m10 && (poly->flags & 0x10))
+      {
+        hdr[0] |= 0x10;
+        hit = &hits[1];
+        hit->point.x = ox;
+        hit->point.y = (GT_DOWN * t) + oy;
+        hit->point.z = oz;
+        hit->normal.x = nx;
+        hit->normal.y = ny;
+        hit->normal.z = nz;
+        hit->flags = poly->flags;
+      }
+      if (m4 && (poly->flags & 0x4))
+      {
+        hdr[0] |= 0x4;
+        hit = &hits[2];
+        hit->point.x = ox;
+        hit->point.y = (GT_DOWN * t) + oy;
+        hit->point.z = oz;
+        hit->normal.x = nx;
+        hit->normal.y = ny;
+        hit->normal.z = nz;
+        hit->flags = poly->flags;
+      }
+      if (m2 && (poly->flags & 0x2))
+      {
+        hdr[0] |= 0x2;
+        hit = &hits[3];
+        hit->point.x = ox;
+        hit->point.y = (GT_DOWN * t) + oy;
+        hit->point.z = oz;
+        hit->normal.x = nx;
+        hit->normal.y = ny;
+        hit->normal.z = nz;
+        hit->flags = poly->flags;
+      }
+      if (m8 && (poly->flags & 0x8))
+      {
+        hdr[0] |= 0x8;
+        hit = &hits[4];
+        hit->point.x = ox;
+        hit->point.y = (GT_DOWN * t) + oy;
+        hit->point.z = oz;
+        hit->normal.x = nx;
+        hit->normal.y = ny;
+        hit->normal.z = nz;
+        hit->flags = poly->flags;
+      }
+      if ((poly->flags & mz) && (t < minT))
+      {
+        minT = t;
+        hdr[0] |= 0x1;
+        hit = &hits[0];
+        hit->point.x = ox;
+        hit->point.y = (GT_DOWN * t) + oy;
+        hit->point.z = oz;
+        hit->normal.x = nx;
+        hit->normal.y = ny;
+        hit->normal.z = nz;
+        hit->flags = poly->flags;
+      }
+      TObjPlayer__sub_80079110((CsnHit *) hdr);
+      TObjPlayer__sub_8007910C(hit, &debug_color_blue);
     }
-    return result->hit_mask & 1;
+
+  }
+
+  return hdr[0] & 1;
 }
 }
+#undef GT_DOWN
+#undef GT_TMAX
+#undef GT_EPS_NY
+#undef GT_EPS_EDGE
 extern s32 csn_query_map_object[];
 extern s32 lbl_80438988[];
 void *query_prepared_wall_polygons(void *self);

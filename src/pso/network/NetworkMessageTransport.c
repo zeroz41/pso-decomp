@@ -116,7 +116,7 @@ void message_thread_loop(void) {
         n = *(s32 *)(spC + 4);
         id = *(s32 *)(spC + 8);
         if (n > 0) {
-            start_exi_send(id, n, (s32)TLobby__sub_80425D88);
+            start_exi_send(id, n, TLobby__sub_80425D88);
             OSReceiveMessage(lbl_805CF380, &sp8, 1);
             network_message_pending_count -= 1;
         }
@@ -256,7 +256,7 @@ void TLobby__sub_80426190(EthernetReceiveFilter *o) {
         o->filter_types[n] = 0;
     }
     if (n > 0) {
-        TLobby__sub_8042BA48((s32)o->filter_types, n);
+        TLobby__sub_8042BA48(o->filter_types, n);
         TLobby__sub_8042B58C((u32)TLobby__sub_80426AAC, (s32)forward_to_channel);
     }
 }

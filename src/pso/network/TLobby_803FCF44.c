@@ -41,7 +41,7 @@ void queue_command_81(void);
 s32 read_2_bytes(void *self, void *src);
 void reset_connection_slot(void *self);
 void reset_connection_state(void *self);
-void save_timer_state(void *self);
+void reset_lcp_options(void *self);
 void set_active(void *self);
 s32 set_active_flag(void *self);
 s32 set_flags_and_state(void *self);
@@ -1217,7 +1217,7 @@ s32 TLobby__sub_803FEA88(A_80403F4C *out, PppFrame **src) {
     return hl;
 }
 
-u8 *GXLoadTexObjPreLoaded(A_80403F4C *arg0, u8 *arg1, s32 arg2) {
+u8 *NetIPv4WriteHeader(A_80403F4C *arg0, u8 *arg1, s32 arg2) {
     Src_803FC178 *src = (Src_803FC178 *)arg0;
     u16 n;
     u8 buf[0x40];
@@ -2204,7 +2204,7 @@ void TLobby__sub_8040059C(u8 *conn)
   proto->bB = 3;
   proto->timeout = 1000;
   proto->f10 = (void *)TLobby__sub_80400988;
-  proto->f14 = (void *)save_timer_state;
+  proto->f14 = (void *)reset_lcp_options;
   proto->f18 = (void *)TLobby__sub_80400B98;
   proto->f1C = (void *)TLobby__sub_8040098C;
   proto->f20 = (void *)reset_connection_slot;
@@ -2383,7 +2383,7 @@ void TLobby__sub_80400B98(u8 *arg0) {
     **(s8 **)((s8 *)arg0 + 0xC) = 1;
 }
 
-void save_timer_state(void *self) {
+void reset_lcp_options(void *self) {
     LcpOpts *s;
     s32 t;
     s = ((Conn_804004DC *)self)->opts;
@@ -4001,7 +4001,7 @@ s16 TLobby__sub_80403F4C(void *ov, PppFrame **spp) {
     e->a = a;
     e->b = b;
     *pp = TLobby__sub_8040555C(&b, *pp, 0);
-    *pp = GXLoadTexObjPreLoaded(&a, *pp, 1);
+    *pp = NetIPv4WriteHeader(&a, *pp, 1);
     o->n28++;
     return get_field_4((void *)(*pp));
 }
@@ -4148,7 +4148,7 @@ s16 TLobby__sub_804040E0(void *self, void *arg) {
     len = get_field_4(*src) + 40 + cs->a.optlen;
     cs->a.len = len;
     *src = (PppFrame *)TLobby__sub_8040555C((B_80403F4C *)th, (u8 *)*src, 0);
-    *src = (PppFrame *)GXLoadTexObjPreLoaded(&cs->a, (u8 *)*src, 0);
+    *src = (PppFrame *)NetIPv4WriteHeader(&cs->a, (u8 *)*src, 0);
     return len;
 
 bad:

@@ -53,7 +53,6 @@ force_active:
   - DoSetPitch
   - Dolphin_DVDCancelAsync
   - Dolphin_GXFlush
-  - Dolphin_GXLoadTexObjPreLoaded
   - Down
   - EXIClearInterrupts
   - EmitterShutdown
@@ -61,6 +60,7 @@ force_active:
   - EventHandler
   - GXInitFifoLimits
   - GXInitFifoPtrs
+  - GXLoadTexObjPreLoaded
   - GXSetTevAlphaIn
   - GXSetTevAlphaOp
   - GXSetTevIndirect
@@ -109,7 +109,6 @@ force_active:
   - ResetCallback
   - ResetFunctionQueue
   - ResetNotes
-  - Runtime_TRKValidMemory32
   - ScanIDList
   - ScanIDListReverse
   - SelectSource
@@ -1645,6 +1644,7 @@ force_active:
   - TRKPPCAccessFPRegister
   - TRKPositionFile
   - TRKPostInterruptEvent
+  - TRKValidMemory32
   - TRK_mainError
   - bswap_generate_id_payload
   - TSceneSora__ct
@@ -17743,6 +17743,44 @@ force_active:
   - write_telepipe_record__FPUcUssPUcl
   - __ct__13TUnk_804A6CC8FP7TObjectPUc
   - yasminkov_9000m_eject_casing__13TUnk_804A6AD8FP12WeaponVectorl
+  - TLobby__sub_803C5B50
+  - TLobby__sub_803C5E58
+  - TLobby__sub_803C5E68
+  - TObjPlayer__sub_80079108
+  - TObjPlayer__sub_8007910C
+  - TObjPlayer__sub_80079110
+  - TObjPlayer__sub_80079114
+  - TObjPlayer__sub_80079120
+  - TObjPlayer__sub_80079124
+  - TObjPlayer__sub_80079DE0
+  - adx_stream_ring_buffer
+  - adx_stream_ring_buffer_storage
+  - calc_segment_xz_distance_sq
+  - check_line_hits_walls__10TObjPlayerFPvPviPv
+  - copy_wall_polygon__10TObjPlayerFPUc
+  - evaluate_ground_triangles
+  - intersect_wall_triangle_one_sided
+  - music_stream_afs_filename_buffer
+  - prepare_wall_query_polygons__FPvfl
+  - query_wall_segment__FPvPvPvl
+  - refill_csn_candidate_cache
+  - select_deepest_wall_ray
+  - select_ground_query_groups__FP9CsnVectorUl
+  - __dt__19TAdSelectGameModeGCFv
+  - __vt__19TAdSelectGameModeGC
+  - add_part__25TWindowSubSymbolChatPartsFv
+  - fn_80284C04
+  - fn_80284FB8
+  - fn_80285314
+  - fn_802855C4
+  - fn_802857C4
+  - handle_add__25TWindowSubSymbolChatPartsFv
+  - handle_cancel__25TWindowSubSymbolChatPartsFv
+  - lbl_805DD808
+  - render__19TAdSelectGameModeGCFv
+  - run_task__19TAdSelectGameModeGCFv
+  - sub_80285054__25TWindowSubSymbolChatPartsFv
+  - sub_80285274__25TWindowSubSymbolChatPartsFPUc
 # --- force_active (END) ---
 # False pointers: packed data words whose values happen to land on code/data
 # addresses. dtk would emit a relocation and export the target symbol.
