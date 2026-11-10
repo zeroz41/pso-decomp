@@ -20,7 +20,7 @@ s32 TObjPlayer__sub_80117E50(u16 idx) {
     TObjPlayer *other;
     me = (TObjPlayer *)get_player_by_client_id(idx);
     if (me != NULL) {
-        mask = (me->class_flags & 1) + 1;
+        mask = (me->class_flags & 1) ? 2 : 1;
         floor = me->get_floor();
         for (i = 0; i != 4; i++) {
             if (i != idx) {
