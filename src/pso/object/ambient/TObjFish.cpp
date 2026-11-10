@@ -87,38 +87,38 @@ Lend:
 extern const char lbl_80465A48[] = "lobby_suisou_sakana01_yellow.gj";
 extern const char lbl_80465A68[] = "lobby_suisou_sakana02_red.gj";
 extern const char lbl_80465A88[] = "lobby_suisou_sakana03_bule.gj";
-extern const char lbl_80465AA8[] = "lobby_suisou_sakana01_yellow.njm";
-extern const char lbl_80465ACC[] = "lobby_suisou_sakana02_red.njm";
-extern const char lbl_80465AEC[] = "lobby_suisou_sakana03_bule.njm";
-extern const char lbl_80465B0C[] = "bm_sakana_obj_lobby.bml";
+extern const char fish_motion_name_lobby_suisou_sakana01_yellow_njm[] = "lobby_suisou_sakana01_yellow.njm";
+extern const char fish_motion_name_lobby_suisou_sakana02_red_njm[] = "lobby_suisou_sakana02_red.njm";
+extern const char fish_motion_name_lobby_suisou_sakana03_bule_njm[] = "lobby_suisou_sakana03_bule.njm";
+extern const char bm_sakana_obj_lobby_bml_filename[] = "bm_sakana_obj_lobby.bml";
 extern const char lbl_80465B24[] = "sakana_jungle21.gj";
 extern const char lbl_80465B38[] = "sakana_jungle22.gj";
 extern const char lbl_80465B4C[] = "sakana_jungle23.gj";
-extern const char lbl_80465B60[] = "sakana_jungle21.njm";
-extern const char lbl_80465B74[] = "sakana_jungle22.njm";
-extern const char lbl_80465B88[] = "sakana_jungle23.njm";
-extern const char lbl_80465B9C[] = "bm_sakana_obj_jungle2.bml";
+extern const char fish_motion_name_sakana_jungle21_njm[] = "sakana_jungle21.njm";
+extern const char fish_motion_name_sakana_jungle22_njm[] = "sakana_jungle22.njm";
+extern const char fish_motion_name_sakana_jungle23_njm[] = "sakana_jungle23.njm";
+extern const char bm_sakana_obj_jungle2_bml_filename[] = "bm_sakana_obj_jungle2.bml";
 extern const char lbl_80465BB8[] = "sakana_jungle51.gj";
 extern const char lbl_80465BCC[] = "sakana_jungle52.gj";
 extern const char lbl_80465BE0[] = "sakana_jungle53.gj";
-extern const char lbl_80465BF4[] = "sakana_jungle51.njm";
-extern const char lbl_80465C08[] = "sakana_jungle52.njm";
-extern const char lbl_80465C1C[] = "sakana_jungle53.njm";
-extern const char lbl_80465C30[] = "bm_sakana_obj_jungle5.bml";
+extern const char fish_motion_name_sakana_jungle51_njm[] = "sakana_jungle51.njm";
+extern const char fish_motion_name_sakana_jungle52_njm[] = "sakana_jungle52.njm";
+extern const char fish_motion_name_sakana_jungle53_njm[] = "sakana_jungle53.njm";
+extern const char bm_sakana_obj_jungle5_bml_filename[] = "bm_sakana_obj_jungle5.bml";
 extern const char lbl_80465C4C[] = "sakana01_obj1.gj";
 extern const char lbl_80465C60[] = "sakana02_obj1.gj";
 extern const char lbl_80465C74[] = "sakana03_obj1.gj";
-extern const char lbl_80465C88[] = "sakana01_obj1.njm";
-extern const char lbl_80465C9C[] = "sakana02_obj1.njm";
-extern const char lbl_80465CB0[] = "sakana03_obj1.njm";
-extern const char lbl_80465CC4[] = "bm_sakana_obj_seabed1.bml";
+extern const char fish_motion_name_sakana01_obj1_njm[] = "sakana01_obj1.njm";
+extern const char fish_motion_name_sakana02_obj1_njm[] = "sakana02_obj1.njm";
+extern const char fish_motion_name_sakana03_obj1_njm[] = "sakana03_obj1.njm";
+extern const char bm_sakana_obj_seabed1_bml_filename[] = "bm_sakana_obj_seabed1.bml";
 extern const char lbl_80465CE0[] = "sakana04_obj1.gj";
 extern const char lbl_80465CF4[] = "sakana05_obj1.gj";
 extern const char lbl_80465D08[] = "sakana06_obj1.gj";
-extern const char lbl_80465D1C[] = "sakana04_obj1.njm";
-extern const char lbl_80465D30[] = "sakana05_obj1.njm";
-extern const char lbl_80465D44[] = "sakana06_obj1.njm";
-extern const char lbl_80465D58[] = "bm_sakana_obj_seabed2.bml";
+extern const char fish_motion_name_sakana04_obj1_njm[] = "sakana04_obj1.njm";
+extern const char fish_motion_name_sakana05_obj1_njm[] = "sakana05_obj1.njm";
+extern const char fish_motion_name_sakana06_obj1_njm[] = "sakana06_obj1.njm";
+extern const char bm_sakana_obj_seabed2_bml_filename[] = "bm_sakana_obj_seabed2.bml";
 
 // Per area stage and fish kind: animation frame step, then the motion's frame count.
 extern const f32 lbl_80465D74[5][3] = { { 1.0f, 1.0f, 1.0f }, { 0.4f, 0.4f, 0.4f }, { 0.4f, 0.4f, 0.4f }, { 0.4f, 0.4f, 0.4f }, { 0.0f, 0.0f, 0.0f } };
@@ -568,11 +568,11 @@ void *fish_resource_name_table[60] = {
     (void *)lbl_80465A68,
     (void *)lbl_80465A88,
     0,
-    (void *)lbl_80465AA8,
-    (void *)lbl_80465ACC,
-    (void *)lbl_80465AEC,
+    (void *)fish_motion_name_lobby_suisou_sakana01_yellow_njm,
+    (void *)fish_motion_name_lobby_suisou_sakana02_red_njm,
+    (void *)fish_motion_name_lobby_suisou_sakana03_bule_njm,
     0,
-    (void *)lbl_80465B0C,
+    (void *)bm_sakana_obj_lobby_bml_filename,
     (void *)&fish_resource_name_table[0],
     (void *)&fish_resource_name_table[4],
     (void *)0x30003,
@@ -580,11 +580,11 @@ void *fish_resource_name_table[60] = {
     (void *)lbl_80465B38,
     (void *)lbl_80465B4C,
     0,
-    (void *)lbl_80465B60,
-    (void *)lbl_80465B74,
-    (void *)lbl_80465B88,
+    (void *)fish_motion_name_sakana_jungle21_njm,
+    (void *)fish_motion_name_sakana_jungle22_njm,
+    (void *)fish_motion_name_sakana_jungle23_njm,
     0,
-    (void *)lbl_80465B9C,
+    (void *)bm_sakana_obj_jungle2_bml_filename,
     (void *)&fish_resource_name_table[12],
     (void *)&fish_resource_name_table[16],
     (void *)0x30003,
@@ -592,11 +592,11 @@ void *fish_resource_name_table[60] = {
     (void *)lbl_80465BCC,
     (void *)lbl_80465BE0,
     0,
-    (void *)lbl_80465BF4,
-    (void *)lbl_80465C08,
-    (void *)lbl_80465C1C,
+    (void *)fish_motion_name_sakana_jungle51_njm,
+    (void *)fish_motion_name_sakana_jungle52_njm,
+    (void *)fish_motion_name_sakana_jungle53_njm,
     0,
-    (void *)lbl_80465C30,
+    (void *)bm_sakana_obj_jungle5_bml_filename,
     (void *)&fish_resource_name_table[24],
     (void *)&fish_resource_name_table[28],
     (void *)0x30003,
@@ -604,11 +604,11 @@ void *fish_resource_name_table[60] = {
     (void *)lbl_80465C60,
     (void *)lbl_80465C74,
     0,
-    (void *)lbl_80465C88,
-    (void *)lbl_80465C9C,
-    (void *)lbl_80465CB0,
+    (void *)fish_motion_name_sakana01_obj1_njm,
+    (void *)fish_motion_name_sakana02_obj1_njm,
+    (void *)fish_motion_name_sakana03_obj1_njm,
     0,
-    (void *)lbl_80465CC4,
+    (void *)bm_sakana_obj_seabed1_bml_filename,
     (void *)&fish_resource_name_table[36],
     (void *)&fish_resource_name_table[40],
     (void *)0x30003,
@@ -616,11 +616,11 @@ void *fish_resource_name_table[60] = {
     (void *)lbl_80465CF4,
     (void *)lbl_80465D08,
     0,
-    (void *)lbl_80465D1C,
-    (void *)lbl_80465D30,
-    (void *)lbl_80465D44,
+    (void *)fish_motion_name_sakana04_obj1_njm,
+    (void *)fish_motion_name_sakana05_obj1_njm,
+    (void *)fish_motion_name_sakana06_obj1_njm,
     0,
-    (void *)lbl_80465D58,
+    (void *)bm_sakana_obj_seabed2_bml_filename,
     (void *)&fish_resource_name_table[48],
     (void *)&fish_resource_name_table[52],
     (void *)0x30003,
