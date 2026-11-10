@@ -7528,41 +7528,41 @@ force_active:
   - TOHangceilingCave01Key__class_name_string
   - lbl_80441858
   - lbl_80441874
-  - lbl_80443BA8
-  - lbl_80443BBC
-  - lbl_80443BD0
-  - lbl_80443BEC
-  - lbl_80443C00
-  - lbl_80443C1C
-  - lbl_80443C38
-  - lbl_80443C54
-  - lbl_80443C70
-  - lbl_80443C88
-  - lbl_80443CA8
-  - lbl_80443CC4
-  - lbl_80443CDC
-  - lbl_80443CF0
-  - lbl_80443D08
-  - lbl_80443D20
-  - lbl_80443D38
-  - lbl_80443D50
-  - lbl_80443D68
-  - lbl_80443D80
-  - lbl_80443D98
-  - lbl_80443DB4
-  - lbl_80443DC4
-  - lbl_80443DD8
-  - lbl_80443DEC
-  - lbl_80443E00
-  - lbl_80443E14
-  - lbl_80443E28
-  - lbl_80443E3C
-  - lbl_80443E50
-  - lbl_80443E68
-  - lbl_80443E88
-  - lbl_80443EA4
-  - lbl_80443EBC
-  - lbl_80443EDC
+  - city_door_asset_de_obj_bigbeam_gj
+  - city_door_asset_de_obj_citybeam_gj
+  - city_door_asset_de_obj_o_aircar02_light_gj
+  - city_door_asset_de_obj_smallbeam_gj
+  - city_door_asset_ds_obj_o_aircar01_light_gj
+  - city_door_asset_ds_obj_o_aircar03_light_gj
+  - city_door_asset_ds_obj_o_aircar04_light_gj
+  - city_door_asset_ds_obj_o_aircar05_light_gj
+  - city_door_asset_fd_obj_n_elv_bmerge4_gj
+  - city_door_asset_fd_obj_n_tobira_shut_sita_gj
+  - city_door_asset_fd_obj_n_tobira_shut_ue_gj
+  - city_door_asset_fd_obj_shopdoor_01_gj
+  - city_door_asset_fd_obj_warp_big_gj
+  - city_door_asset_fd_obj_warp_small_gj
+  - city_door_asset_fe_hntdoor_fusagi_gj
+  - city_door_asset_fe_obj_o_aircar01_nj
+  - city_door_asset_fe_obj_o_aircar02_nj
+  - city_door_asset_fe_obj_o_aircar03_nj
+  - city_door_asset_fe_obj_o_aircar04_nj
+  - city_door_asset_fe_obj_o_aircar05_nj
+  - city_door_asset_fe_obj_o_medical_door01l_gj
+  - city_door_asset_hunter_door_gj
+  - city_door_asset_aircar_path1_njm
+  - city_door_asset_aircar_path2_njm
+  - city_door_asset_aircar_path3_njm
+  - city_door_asset_aircar_path4_njm
+  - city_door_asset_aircar_path5_njm
+  - city_door_asset_de_obj_bigbeam_njm
+  - city_door_asset_de_obj_citybeam_njm
+  - city_door_asset_de_obj_smallbeam_njm
+  - city_door_asset_fd_obj_n_tobira_shut_sita_njm
+  - city_door_asset_fd_obj_n_tobira_shut_ue_njm
+  - city_door_asset_fd_obj_shopdoor_01_njm
+  - city_door_asset_fe_obj_o_medical_door01l_njm
+  - city_door_asset_hunter_door_njm
   - lbl_80444218
   - lbl_80444228
   - lbl_80444238
