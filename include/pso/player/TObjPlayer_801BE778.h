@@ -14,10 +14,8 @@ void TObjPlayer__sub_801BE80C(void *p, u8 v);
 void TObjPlayer__sub_801BE838(void *p, u8 v);
 void TObjPlayer__sub_801BE864(void *p, u8 v);
 void *TObjPlayer__sub_801BE918(void *a0, int a1, void *a2, void *a3);
-void TObjPlayer__sub_801BE9A8(s32 arg0);
 int TObjPlayer__sub_801BEABC(void *p);
 u8 get_mag_level__10TObjPlayerFPv(void *p);
-void set_flag_20000__10TObjPlayerFi(s32 arg0);
 void set_flag_400000__10TObjPlayerFi(s32 arg0);
 }
 
