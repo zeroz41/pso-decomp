@@ -1576,20 +1576,13 @@ pso/enemy/shark/TObjEneShark.cpp:
 	.data       start:0x804914B0 end:0x80491828
 	.sdata2     start:0x805D9BA0 end:0x805D9BD8
 
-pso/enemy/moja/TObjEneMoja_800ACA60.cpp:
-	.text       start:0x800ACA60 end:0x800AF450
-	.rodata     start:0x8043B0C0 end:0x8043B0C8
-	.data       start:0x80491B08 end:0x80491B30
-	.sdata2     start:0x805D9BE0 end:0x805D9BF8
-
 pso/enemy/moja/TObjEneMoja.cpp:
-	.text       start:0x800AF450 end:0x800AF56C
-
-pso/enemy/moja/TObjEneMoja_800AF56C.cpp:
-	.text       start:0x800AF56C end:0x800AF8B0
-
-pso/enemy/moja/TObjEneMoja_800AF8B0.cpp:
-	.text       start:0x800AF8B0 end:0x800AFB28
+	.text       start:0x800ACA60 end:0x800AFB28
+	.rodata     start:0x8043AEF8 end:0x8043B0D0
+	.data       start:0x80491828 end:0x80491B30
+	.sdata      start:0x805D2A08 end:0x805D2A10
+	.sbss       start:0x805D50C8 end:0x805D50E0
+	.sdata2     start:0x805D9BD8 end:0x805D9C68
 
 pso/enemy/fly/TObjEneBm3Fly.cpp:
 	.text       start:0x800AFB28 end:0x800B23A0
