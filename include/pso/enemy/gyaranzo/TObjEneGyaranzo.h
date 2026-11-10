@@ -12,6 +12,7 @@ struct TObjEneGyaranzo : public TObjEnemyCustom {
     virtual void render();
     void sub_800D37F4();
     void sub_800D2900();
+    void fn_800D2A68();
     void init_params_from_table();
     virtual void vfunc_62();
     virtual void vfunc_63();

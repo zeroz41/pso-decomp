@@ -19,6 +19,8 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/system/vector.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
+#include "pso/object/TObjChip.h"
+#include "pso/system/BmlResource.h"
 
 #include "pso/render/TUnk_80494938.h"
 #include <stddef.h>
@@ -164,6 +166,10 @@ extern const f32 lbl_805DA270;
 
 u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 extern Params_800D2900 lbl_8043C35C;
+extern const TObjChipParams lbl_8043C278;
+extern const TObjChipParams lbl_8043C2C4;
+extern const TObjChipParams lbl_8043C310;
+extern const f32 lbl_805DA264;
 u32 *gyaranzo_model_resources[0x16];
 u8 *gyaranzo_resource_ptrs[13];
 EnemyTargetCandidate TObjGyaranzoMissile_target_slots[4];
@@ -721,7 +727,6 @@ s32 __ct__15TObjEnemyCustomFP7TObject(void *);
 #define update_walk_to_target__10TObjPlayerFPv ((s32 (*)(void *))update_walk_to_target__10TObjPlayerFPv)
 #define init_params_from_table__15TObjEneGyaranzoFv ((s32 (*)(void *))init_params_from_table__15TObjEneGyaranzoFv)
 #define update__19TObjGyaranzoMissileFPv ((s32 (*)(void *))update__19TObjGyaranzoMissileFPv)
-s32 fn_800D2A68(void *);
 void TObjPlayer__sub_800D2E8C(Ene_800D2E8C *arg0);
 void vfunc_63__15TObjEneGyaranzoFv(u8 *arg0);
 void vfunc_62__15TObjEneGyaranzoFv(u8 *arg0);
@@ -1172,6 +1177,33 @@ void TObjEneGyaranzo::sub_800D2900() {
     }
 }
 
+// Inferred: throws three chips of the body from 25 units above its position.
+inline void set_chip(TObjChipParams &chip, f32 x, f32 y, f32 z, f32 groundY, s32 textures, s32 model) {
+    chip.pos[0] = x;
+    chip.pos[1] = y;
+    chip.pos[2] = z;
+    chip.pad_38[0] = groundY;
+    chip.model = model;
+    chip.textures = textures;
+}
+
+void TObjEneGyaranzo::fn_800D2A68() {
+    Vec pos = position;
+    pos.y += lbl_805DA264;
+
+    TObjChipParams first = lbl_8043C278;
+    BmlResource *resource = (BmlResource *)gyaranzo_bml_resource;
+    set_chip(first, pos.x, pos.y, pos.z, position.y, resource->models[0].m_c, resource->models[0].model);
+    TObjChipParams second = lbl_8043C2C4;
+    set_chip(second, pos.x, pos.y, pos.z, position.y, resource->models[1].m_c, resource->models[1].model);
+    TObjChipParams third = lbl_8043C310;
+    set_chip(third, pos.x, pos.y, pos.z, position.y, resource->models[2].m_c, resource->models[2].model);
+
+    new TObjChip((TObject *)tl_05, &first);
+    new TObjChip((TObject *)tl_05, &second);
+    new TObjChip((TObject *)tl_05, &third);
+}
+
 void TObjPlayer::update_aim_and_fire() {
     s32 temp_r3;
     s32 temp_r4;
@@ -1320,7 +1352,7 @@ void TObjEneGyaranzo::vfunc_62() {
     if (((s32)this->m_3b8) <= 0)
     {
       this->m_3b8 = 0x3C;
-      fn_800D2A68((void *) arg0);
+      ((TObjEneGyaranzo *)arg0)->fn_800D2A68();
     }
     temp_r0 = this->m_3a8;
     var_r3 = 0;
