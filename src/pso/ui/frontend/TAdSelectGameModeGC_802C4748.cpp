@@ -160,19 +160,29 @@ u8 *__ct__19TAdSelectGameModeGCFv(u8 *arg0, void *parent) {
     return arg0;
 }
 
+extern const f32 lbl_805DE540;
+extern const f32 lbl_805DE544;
 #pragma push
 #pragma fp_contract on
 void TAdEnterSerialAccessGC__sub_802C4B64(TAdPlyChrSelPlateGC *plate, NJS_POINT2 *pos, NJS_COLOR color, u32 depth) {
-    NJS_POINT2 xy[4];
     NJS_POINT2COL fan;
+    NJS_POINT2 *xyp;
     NJS_COLOR col[4];
+    NJS_POINT2 xy[4];
+    f32 y;
+    f32 x;
 
-    fan.p = xy;
+    x = pos->x;
+    y = pos->y;
     fan.col = col;
+    xyp = xy;
+    if ((!&color && !&color) && !&color) {
+    }
+    fan.p = xyp;
     fan.tex = NULL;
     fan.num = 4;
-    fan.p[0].x = pos->x;
-    fan.p[0].y = pos->y;
+    fan.p[0].x = x;
+    fan.p[0].y = y;
     ((TAdChrMoveEffectGC *)&fan.col[0])->copy4(&color);
     fan.p[1].x = fan.p[0].x;
     fan.p[1].y = fan.p[0].y + plate->plate_size.y;
@@ -183,7 +193,7 @@ void TAdEnterSerialAccessGC__sub_802C4B64(TAdPlyChrSelPlateGC *plate, NJS_POINT2
     fan.p[3].x = fan.p[0].x + plate->plate_size.x;
     fan.p[3].y = fan.p[0].y;
     ((TAdChrMoveEffectGC *)&fan.col[3])->copy4(&color);
-    ((TObjCMHairMenu *)&fan)->draw_tri_fan_2d(4, 7, 0.001f * (f32)depth + -30.0f);
+    ((TObjCMHairMenu *)&fan)->draw_tri_fan_2d(4, 7, lbl_805DE544 * (f32)depth + lbl_805DE540);
 }
 #pragma pop
 
