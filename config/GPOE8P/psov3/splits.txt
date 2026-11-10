@@ -12210,6 +12210,7 @@ pso/unk/TLobby_803CC274.cpp:
 
 pso/unk/text_803CC294.cpp:
 	.text       start:0x803CC294 end:0x803CD804
+	.rodata     start:0x8047C818 end:0x8047CD84
 
 pso/unk/TLobby_803CD804.cpp:
 	.text       start:0x803CD804 end:0x803CD840

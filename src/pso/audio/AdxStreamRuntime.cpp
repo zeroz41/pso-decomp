@@ -114,7 +114,7 @@ struct AdxStreamFile {
 extern "C" {
 void TLobby__sub_803C89C4(u8 *arg0);
 void TLobby__sub_803C8B38(u8 *arg0);
-short TLobby__sub_803C8B2C(u8 *arg0);
+s32 TLobby__sub_803C8B2C(u8 *arg0);
 extern RecoveredGlobal_803C90B0_lbl_80575140 adx_stream_read_requests;
 void TLobby__sub_803C9DB4(u8 *arg0);
 void TLobby__sub_803C5D24(u8 *arg0);
@@ -370,12 +370,8 @@ s32 TLobby::set_scroll_offset(s32 arg1) {
     return ((TLobby *)(*(s32 *)&this->m_prev))->cv_fs_tell() - *(s32 *)&this->m_up;
 }
 
-short TLobby__sub_803C8B2C(u8 *arg0) {
-  u8 *new_var;
-  s8 *new_var2;
-  new_var = arg0;
-  new_var2 = ((s8 *) new_var) + 1;
-  return *new_var2;
+s32 TLobby__sub_803C8B2C(u8 *arg0) {
+  return ((s8 *)arg0)[1];
 }
 
 void TLobby__sub_803C8B38(u8 *arg0) {
@@ -904,7 +900,7 @@ void TLobby__sub_803CB81C(void);
 s32 TLobby__sub_803CBF50(void *);
 extern u8 adx_out_pan_parameter_error[];
 void GXFlush(void);
-s32 TLobby__sub_803CA8B4(Ent_803C9608 *);
+void TLobby__sub_803CA8B4(Ent_803C9608 *);
 extern Ent_803C9608 adx_stream_player_pool[16];
 extern s32 lbl_805D7564;
 struct SjMemoryBuffer;
@@ -1642,6 +1638,101 @@ s32 TLobby__sub_803CBFB0(int, int);
 struct Conn_803CAEB4;
 void TLobby__sub_803CAEB4(Conn_803CAEB4 *arg0);
 extern char adx_decoder_channel_count_error[];
+
+void TLobby__sub_803CAB38(Strm_803CAB38 *self);
+s32 TLobby__sub_803CBFF0(int);
+extern s32 lbl_805D7578;
+extern s32 lbl_805D757C;
+extern s32 lbl_805D7580;
+
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(4)
+// Inferred: CRI adxt_stat_prep (wait until every output SJ holds data, then start the RNA).
+inline void prep_803CA8B4(Ent_803C9608 *self) {
+    s32 n;
+    s32 i;
+    if (TLobby__sub_803C07E8(self->f4) == 3) {
+        n = send_with_offset4__6TLobbyFv(self->f4);
+        lbl_805D7580 = n;
+        for (i = 0; i < n; i++) {
+            lbl_805D757C = self->f18[i]->interface->get_available(self->f18[i], 1);
+            if (lbl_805D757C >= 0x40) {
+                break;
+            }
+        }
+        if (i == n) {
+            dispatch_packet__6TLobbyFv(self->fC, 0);
+            self->stat = 4;
+        }
+    }
+}
+// Inferred: CRI adxt_stat_playing (start playback once enough is decoded; pad the end with silence).
+inline void dec_803CA8B4(Ent_803C9608 *self) {
+    s32 rna = self->fC;
+    s32 sjd = self->f4;
+    s32 i;
+    s32 avail;
+    s32 nbyte;
+    s32 size;
+    s32 nch;
+    SjRingBuffer *sj;
+    SjChunk ck;
+    avail = query_available_size__6TLobbyFv(rna);
+    size = TLobby__sub_803CBFF0(rna);
+    if (avail >= self->f48 * 2 || size <= notify_field_4_alt__6TLobbyFv(sjd) ||
+        TLobby__sub_803C07E8(self->f4) == 3) {
+        if (self->f70 == 0) {
+            if (self->f72 == 0) {
+                TLobby__sub_803CC030(rna, 1);
+                self->f9C = 0;
+                self->fA0 = lbl_805D7540;
+            }
+            self->stat = 3;
+        }
+        self->f71 = 1;
+    }
+    if (TLobby__sub_803C07E8(self->f4) == 3) {
+        nch = TLobby__sub_803C9740((u8 *)self);
+        nbyte = self->f48 * nch * 2;
+        for (i = 0; i < nch; i++) {
+            sj = self->f18[i];
+            sj->interface->get_chunk(sj, 0, nbyte, &ck);
+            memset(ck.data, 0, ck.size);
+            sj->interface->put_chunk(sj, 1, &ck);
+        }
+    }
+}
+// Inferred: CRI adxt_stat_playend (stop the RNA once its queue is empty).
+inline void end_803CA8B4(Ent_803C9608 *self) {
+    lbl_805D7578 = query_available_size__6TLobbyFv(self->fC);
+    if (query_available_size__6TLobbyFv(self->fC) <= 0) {
+        TLobby__sub_803CC030(self->fC, 0);
+        self->stat = 5;
+    }
+}
+// Inferred: CRI ADXT_ExecHndl (per-handle state step of the ADXT server).
+void TLobby__sub_803CA8B4(Ent_803C9608 *self) {
+    s8 stat = self->stat;
+    if (stat == 3) {
+        prep_803CA8B4(self);
+    } else if (stat == 1) {
+        TLobby__sub_803CAB38((Strm_803CAB38 *)self);
+    } else if (stat == 2) {
+        dec_803CA8B4(self);
+    } else if (stat == 4) {
+        end_803CA8B4(self);
+    }
+    if (self->f8 != NULL && TLobby__sub_803C8B2C(self->f8) == 4) {
+        self->f60 = -1;
+        self->stat = 6;
+    }
+    if (self->f94 != NULL && lsc_get_state(self->f94) == 3) {
+        self->f60 = -1;
+        self->stat = 6;
+    }
+}
+#pragma pop
 
 #define SBF50 TLobby__sub_803CBF50
 
