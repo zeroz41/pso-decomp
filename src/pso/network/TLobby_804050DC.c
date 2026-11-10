@@ -91,7 +91,7 @@ extern u16 lbl_805D7AE8;
 extern u16 lbl_804FD3A8[];
 extern u8 lbl_805C18B0[];
 extern s16 TLobby__sub_804290D4(s32 idx);
-s16 TRKValidMemory32(u32, u32, u32, s16, u8, u16);
+s16 NetIPv4AddRoute(u32, u32, u32, s16, u8, u16);
 
 extern void TLobby__sub_8040B1C4(void *);
 extern void TLobby__sub_8040BE40(DnsQuery *self, s16 a, s16 b);
@@ -6974,7 +6974,7 @@ extern s16 TLobby__sub_8040F454(u32 addr, u32 mask, u32 broadcast, s16 idx) {
     if (is_socket_flag_set(idx) == 0 && !unspecified) {
         found = getfirst_8040F1A0(pn, pifs, &gateway);
         if (found) {
-            found = TRKValidMemory32(addr, 0xFFFFFFFF, gateway, 0, 1, 0);
+            found = NetIPv4AddRoute(addr, 0xFFFFFFFF, gateway, 0, 1, 0);
             if (found < 0) {
                 call_entry_callback(idx, ifc->handle);
                 ifc->state = 0;
@@ -6988,7 +6988,7 @@ extern s16 TLobby__sub_8040F454(u32 addr, u32 mask, u32 broadcast, s16 idx) {
             }
         }
     }
-    err = TRKValidMemory32(addr & mask, mask, addr, 0, 1, 0);
+    err = NetIPv4AddRoute(addr & mask, mask, addr, 0, 1, 0);
     if (err < 0) {
         if (is_socket_flag_set(idx) == 0 && gateway != 0xFFFFFFFF && !unspecified) {
             drop_8040F1A0(g, addr, gateway);
@@ -7082,7 +7082,7 @@ extern s32 TLobby__sub_8040F8A4(u32 a1, void *a2, u32 a3, u32 a4, u32 a5)
   s16 i;
   s16 found = 0;
   RtEntry_8040F8A4 *e;
-  s16 TRKValidMemory32(void *, void *, void *, int, int, int); /* declared here with other parameter types; the definition is s16 (u32, u32, u32, s16, u8, u16) */
+  s16 NetIPv4AddRoute(void *, void *, void *, int, int, int); /* declared here with other parameter types; the definition is s16 (u32, u32, u32, s16, u8, u16) */
   for (i = 0, e = (RtEntry_8040F8A4 *)tbl->routes; i < tbl->nroutes; i++, e++)
   {
     if (!(e->flags & 1))
@@ -7126,7 +7126,7 @@ extern s32 TLobby__sub_8040F8A4(u32 a1, void *a2, u32 a3, u32 a4, u32 a5)
 
   if (found != 0)
   {
-    if (TRKValidMemory32((void *) a1, (void *) a3, a2, 1, 2, a4) != 0)
+    if (NetIPv4AddRoute((void *) a1, (void *) a3, a2, 1, 2, a4) != 0)
     {
       return -1;
     }
@@ -7259,7 +7259,7 @@ inline Ipv4Iface *get_ifaces_8040FA48(Ipv4RoutingState *g) {
 }
 #pragma push
 #pragma opt_common_subs on
-s16 TRKValidMemory32(u32 dst, u32 mask, u32 gateway, s16 f10, u8 type, u16 flags) {
+s16 NetIPv4AddRoute(u32 dst, u32 mask, u32 gateway, s16 f10, u8 type, u16 flags) {
     Ipv4RoutingState *g = &ipv4_address_routing_state;
     Ipv4Iface *ifaces;
     s16 m;

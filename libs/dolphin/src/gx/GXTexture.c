@@ -1,7 +1,6 @@
 
 
 #define GXInitTexObj Dolphin_GXInitTexObj
-#define GXLoadTexObjPreLoaded Dolphin_GXLoadTexObjPreLoaded
 #define __SetSURegs GXTexture___SetSURegs
 
 #include <dolphin/gx.h>

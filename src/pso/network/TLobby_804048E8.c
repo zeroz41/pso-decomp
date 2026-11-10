@@ -33,7 +33,7 @@ u32 lbl_805C1890[4];
 
 s32 TLobby__sub_804053B8(B_80403F4C *, PppFrame **); /* declared here with other parameter types; the definition is s32 (void *, u8 **) */
 u8 *TLobby__sub_8040555C(B_80403F4C *, u8 *, s32);
-u8 *GXLoadTexObjPreLoaded(A_80403F4C *, u8 *, s32);
+u8 *NetIPv4WriteHeader(A_80403F4C *, u8 *, s32);
 s32 NetMemcmp(void *, void *, int);
 void NetMemcpy(void *, void *, int);
 u8 *alloc_from_buffer(void *self, s16 arg1);
@@ -77,14 +77,14 @@ s32 TLobby__sub_804048E8(Obj_80403F4C *comp, PppFrame **m, s16 compress_cid) {
         } else {
             comp->n14++;
         }
-        *m = (PppFrame *)GXLoadTexObjPreLoaded(&a, (u8 *)*m, 1);
+        *m = (PppFrame *)NetIPv4WriteHeader(&a, (u8 *)*m, 1);
         return 0x40;
     }
     hlen += TLobby__sub_804053B8(&b, m);
     if (b.syn || b.fin || b.rst || !b.ack_flag) {
         comp->n14++;
         *m = (PppFrame *)TLobby__sub_8040555C(&b, (u8 *)*m, 0);
-        *m = (PppFrame *)GXLoadTexObjPreLoaded(&a, (u8 *)*m, 1);
+        *m = (PppFrame *)NetIPv4WriteHeader(&a, (u8 *)*m, 1);
         return 0x40;
     }
     for (;;) {
@@ -203,7 +203,7 @@ uncompressed:
     comp->last_xmit = cs->id;
     comp->n18++;
     *m = (PppFrame *)TLobby__sub_8040555C(&b, (u8 *)*m, 0);
-    *m = (PppFrame *)GXLoadTexObjPreLoaded(&a, (u8 *)*m, 1);
+    *m = (PppFrame *)NetIPv4WriteHeader(&a, (u8 *)*m, 1);
     return 0x70;
 }
 #pragma pop

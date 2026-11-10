@@ -45,7 +45,7 @@ s32 TLobby__sub_80421AD8(u8 *arg0, s32 arg1, s32 arg2, u32 arg3, s32 arg4);
 s32 TLobby__sub_804218AC(s32 arg0, s32 arg1);
 s32 TLobby__sub_8040F9CC(void *, void *, void *, int);
 s32 TLobby__sub_804219D0(s32 arg0, s32 arg1, s32 arg2);
-s32 TRKValidMemory32(void *, void *, void *, s16, u8, u16); /* declared s32 here; the definition is s16 (u32, u32, u32, s16, u8, u16) */
+s32 NetIPv4AddRoute(void *, void *, void *, s16, u8, u16); /* declared s32 here; the definition is s16 (u32, u32, u32, s16, u8, u16) */
 s32 TLobby__sub_80421A50(s32 arg0, s32 arg1, s32 arg2);
 s32 TLobby__sub_8041E780();
 s32 tcp_create(void);
@@ -265,7 +265,7 @@ s32 TLobby__sub_804219D0(s32 arg0, s32 arg1, s32 arg2) {
 s32 TLobby__sub_80421A50(s32 arg0, s32 arg1, s32 arg2) {
     s32 result;
     lock_mutex(network_dispatch_state.lock_handle);
-    result = TRKValidMemory32((void *)arg0, (void *)arg1, (void *)arg2, 1, (int) (0U), (int) (0U));
+    result = NetIPv4AddRoute((void *)arg0, (void *)arg1, (void *)arg2, 1, (int) (0U), (int) (0U));
     unlock_mutex(network_dispatch_state.lock_handle);
     return result;
 }

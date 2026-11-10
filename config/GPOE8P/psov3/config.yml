@@ -53,7 +53,6 @@ force_active:
   - DoSetPitch
   - Dolphin_DVDCancelAsync
   - Dolphin_GXFlush
-  - Dolphin_GXLoadTexObjPreLoaded
   - Down
   - EXIClearInterrupts
   - EmitterShutdown
@@ -61,6 +60,7 @@ force_active:
   - EventHandler
   - GXInitFifoLimits
   - GXInitFifoPtrs
+  - GXLoadTexObjPreLoaded
   - GXSetTevAlphaIn
   - GXSetTevAlphaOp
   - GXSetTevIndirect
@@ -109,7 +109,6 @@ force_active:
   - ResetCallback
   - ResetFunctionQueue
   - ResetNotes
-  - Runtime_TRKValidMemory32
   - ScanIDList
   - ScanIDListReverse
   - SelectSource
@@ -1645,6 +1644,7 @@ force_active:
   - TRKPPCAccessFPRegister
   - TRKPositionFile
   - TRKPostInterruptEvent
+  - TRKValidMemory32
   - TRK_mainError
   - bswap_generate_id_payload
   - TSceneSora__ct
