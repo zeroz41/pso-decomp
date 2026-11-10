@@ -1055,7 +1055,7 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
     ((void (*)(void))pop_matrix)();
 }
 
-__declspec(section ".rodata") extern const char lbl_8043B380[] = "bm_ene_bm3_fly_a.bml";
+__declspec(section ".rodata") extern const char bm_ene_bm3_fly_a_bml_filename[] = "bm_ene_bm3_fly_a.bml";
 __declspec(section ".rodata") extern const f64 lbl_8043B398[1] = { 10430.38043493439 };
 
 void TObjEneBm3FlyNest::render() {
@@ -1954,7 +1954,7 @@ void TObjEneBm3FlyNest::load_resources() {
     lbl_805D5114 = 0;
     bm3_fly_nest_attachment_index = 0;
     if (TObjEneDD::check_v2_mode() != 0) {
-        lbl_805D5108 = load_enemy_bml_resource_named(&bm3_fly_nest_resource_desc, (void *)lbl_8043B380);
+        lbl_805D5108 = load_enemy_bml_resource_named(&bm3_fly_nest_resource_desc, (void *)bm_ene_bm3_fly_a_bml_filename);
     } else {
         lbl_805D5108 = load_enemy_bml_resource((u8 *)&bm3_fly_nest_resource_desc);
     }

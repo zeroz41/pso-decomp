@@ -570,7 +570,7 @@ s32 register_boss__6TLobbyFl(int);
 u8 *load_enemy_bml_resource_named(void *, void *);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void *mem_alloc(u32 size);
-extern u8 lbl_8043AEDC[];
+extern u8 bm_ene_bm1_shark_a_bml_filename[];
 extern u32 TObjEneShark__resource_node;
 extern u32 TObjEneShark__resource_buf;
 extern u32 shark_resource_data;
@@ -645,21 +645,21 @@ extern "C" void get_pos__9TObjCharaFl();
 extern "C" void is_actor_cadence_frame__9TObjCharaFl();
 extern "C" void is_target_in_attack_range__9TObjCharaFv();
 extern "C" __declspec(section ".rodata") u8 lbl_8043AD10[] = "bm1f_s_wala_body.nj";
-extern "C" __declspec(section ".rodata") u8 lbl_8043AD24[] = "bm1tl_s_wala_body.nj";
-extern "C" __declspec(section ".rodata") u8 lbl_8043AD3C[] = "bm1_s_wala_body.nj";
-extern "C" __declspec(section ".rodata") u8 lbl_8043AD50[] = "appear_bm1_s_wala_body.njm";
-extern "C" __declspec(section ".rodata") u8 lbl_8043AD6C[] = "atackl_bm1_s_wala_body.njm";
-extern "C" __declspec(section ".rodata") u8 lbl_8043AD88[] = "atackr_bm1_s_wala_body.njm";
-extern "C" __declspec(section ".rodata") u8 lbl_8043ADA4[] = "damage_bm1_s_wala_body.njm";
-extern "C" __declspec(section ".rodata") u8 lbl_8043ADC0[] = "deadb_bm1_s_wala_body.njm";
-extern "C" __declspec(section ".rodata") u8 lbl_8043ADDC[] = "dead_bm1_s_wala_body.njm";
-extern "C" __declspec(section ".rodata") u8 lbl_8043ADF8[] = "leader_bm1_s_wala_body.njm";
-extern "C" __declspec(section ".rodata") u8 lbl_8043AE14[] = "mihari_bm1_s_wala_body.njm";
-extern "C" __declspec(section ".rodata") u8 lbl_8043AE30[] = "run_bm1_s_wala_body.njm";
-extern "C" __declspec(section ".rodata") u8 lbl_8043AE48[] = "stund_bm1_s_wala_body.njm";
-extern "C" __declspec(section ".rodata") u8 lbl_8043AE64[] = "wakeup_bm1_s_wala_body.njm";
-extern "C" __declspec(section ".rodata") u8 lbl_8043AE80[] = "walk_bm1_s_wala_body.njm";
-extern "C" __declspec(section ".rodata") u8 lbl_8043AE9C[] = "bm_ene_bm1_shark.bml";
+extern "C" __declspec(section ".rodata") u8 shark_model_name_bm1tl_s_wala_body_nj[] = "bm1tl_s_wala_body.nj";
+extern "C" __declspec(section ".rodata") u8 shark_model_name_bm1_s_wala_body_nj[] = "bm1_s_wala_body.nj";
+extern "C" __declspec(section ".rodata") u8 shark_motion_name_appear_bm1_s_wala_body_njm[] = "appear_bm1_s_wala_body.njm";
+extern "C" __declspec(section ".rodata") u8 shark_motion_name_atackl_bm1_s_wala_body_njm[] = "atackl_bm1_s_wala_body.njm";
+extern "C" __declspec(section ".rodata") u8 shark_motion_name_atackr_bm1_s_wala_body_njm[] = "atackr_bm1_s_wala_body.njm";
+extern "C" __declspec(section ".rodata") u8 shark_motion_name_damage_bm1_s_wala_body_njm[] = "damage_bm1_s_wala_body.njm";
+extern "C" __declspec(section ".rodata") u8 shark_motion_name_deadb_bm1_s_wala_body_njm[] = "deadb_bm1_s_wala_body.njm";
+extern "C" __declspec(section ".rodata") u8 shark_motion_name_dead_bm1_s_wala_body_njm[] = "dead_bm1_s_wala_body.njm";
+extern "C" __declspec(section ".rodata") u8 shark_motion_name_leader_bm1_s_wala_body_njm[] = "leader_bm1_s_wala_body.njm";
+extern "C" __declspec(section ".rodata") u8 shark_motion_name_mihari_bm1_s_wala_body_njm[] = "mihari_bm1_s_wala_body.njm";
+extern "C" __declspec(section ".rodata") u8 shark_motion_name_run_bm1_s_wala_body_njm[] = "run_bm1_s_wala_body.njm";
+extern "C" __declspec(section ".rodata") u8 shark_motion_name_stund_bm1_s_wala_body_njm[] = "stund_bm1_s_wala_body.njm";
+extern "C" __declspec(section ".rodata") u8 shark_motion_name_wakeup_bm1_s_wala_body_njm[] = "wakeup_bm1_s_wala_body.njm";
+extern "C" __declspec(section ".rodata") u8 shark_motion_name_walk_bm1_s_wala_body_njm[] = "walk_bm1_s_wala_body.njm";
+extern "C" __declspec(section ".rodata") u8 bm_ene_bm1_shark_bml_filename[] = "bm_ene_bm1_shark.bml";
 extern "C" __declspec(section ".rodata") u8 TObjEneShark__class_name_string[] = "TObjEneShark";
 extern "C" void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
 extern "C" void receive_physical_attack__9TObjCharaFPvf();
@@ -687,16 +687,16 @@ extern "C" void update_turn_toward_target__13TUnk_80493450Fv();
 extern void *bm_ene_bm1_shark_model_names[4];
 extern void *bm_ene_bm1_shark_motion_names[13];
 void *bm_ene_bm1_shark_model_names[4] = {
-    (void *)&lbl_8043AD10, (void *)&lbl_8043AD24, (void *)&lbl_8043AD3C, (void *)0x0,
+    (void *)&lbl_8043AD10, (void *)&shark_model_name_bm1tl_s_wala_body_nj, (void *)&shark_model_name_bm1_s_wala_body_nj, (void *)0x0,
 };
 void *bm_ene_bm1_shark_motion_names[13] = {
-    (void *)&lbl_8043AD50, (void *)&lbl_8043AD6C, (void *)&lbl_8043AD88, (void *)&lbl_8043ADA4,
-    (void *)&lbl_8043ADC0, (void *)&lbl_8043ADDC, (void *)&lbl_8043ADF8, (void *)&lbl_8043AE14,
-    (void *)&lbl_8043AE30, (void *)&lbl_8043AE48, (void *)&lbl_8043AE64, (void *)&lbl_8043AE80,
+    (void *)&shark_motion_name_appear_bm1_s_wala_body_njm, (void *)&shark_motion_name_atackl_bm1_s_wala_body_njm, (void *)&shark_motion_name_atackr_bm1_s_wala_body_njm, (void *)&shark_motion_name_damage_bm1_s_wala_body_njm,
+    (void *)&shark_motion_name_deadb_bm1_s_wala_body_njm, (void *)&shark_motion_name_dead_bm1_s_wala_body_njm, (void *)&shark_motion_name_leader_bm1_s_wala_body_njm, (void *)&shark_motion_name_mihari_bm1_s_wala_body_njm,
+    (void *)&shark_motion_name_run_bm1_s_wala_body_njm, (void *)&shark_motion_name_stund_bm1_s_wala_body_njm, (void *)&shark_motion_name_wakeup_bm1_s_wala_body_njm, (void *)&shark_motion_name_walk_bm1_s_wala_body_njm,
     (void *)0x0,
 };
 void *bm_ene_bm1_shark_resource_descriptor[4] = {
-    (void *)&lbl_8043AE9C, (void *)&bm_ene_bm1_shark_model_names, (void *)&bm_ene_bm1_shark_motion_names, (void *)0x3000c,
+    (void *)&bm_ene_bm1_shark_bml_filename, (void *)&bm_ene_bm1_shark_model_names, (void *)&bm_ene_bm1_shark_motion_names, (void *)0x3000c,
 };
 void *TObjEneShark__action_table[44] = {
     (void *)0x10000, (void *)0x9, (void *)0x3f19999a, (void *)0x1,
@@ -819,7 +819,7 @@ void TLobby::load_shark_resources() {
     void *p;
     s32 i;
     if (TObjEneDD::check_v2_mode() != 0) {
-        G_B8 = load_enemy_bml_resource_named(bm_ene_bm1_shark_resource_descriptor, lbl_8043AEDC);
+        G_B8 = load_enemy_bml_resource_named(bm_ene_bm1_shark_resource_descriptor, bm_ene_bm1_shark_a_bml_filename);
     } else {
         p = ::operator new(0x440);
         if (p != NULL) {
@@ -860,7 +860,7 @@ void TLobby::load_shark_resources() {
     }
 }
 
-extern "C" __declspec(section ".rodata") u8 lbl_8043AEDC[] = "bm_ene_bm1_shark_a.bml";
+extern "C" __declspec(section ".rodata") u8 bm_ene_bm1_shark_a_bml_filename[] = "bm_ene_bm1_shark_a.bml";
 
 O_800AC5EC *__dt__12TObjEneSharkFv(O_800AC5EC *arg0, s16 arg1) {
     s32 i;

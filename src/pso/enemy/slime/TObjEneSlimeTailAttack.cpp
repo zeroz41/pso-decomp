@@ -315,26 +315,26 @@ s32 scale_current_matrix(Vec_800E8C6C *);
 
 // This TU's .rodata objects in address order (names stay placeholders).
 extern const char lbl_8043D008[] = "bm4_ps_ma_body.nj";
-extern const char lbl_8043D01C[] = "bm4_ps_ma_tail.nj";
-extern const char lbl_8043D030[] = "bm4_ps_mar_body.nj";
-extern const char lbl_8043D044[] = "bm4_ps_mar_tail.nj";
-extern const char lbl_8043D058[] = "bm4_ps_mb_body.nj";
-extern const char lbl_8043D06C[] = "bm4_ps_mbr_body.nj";
-extern const char lbl_8043D080[] = "apear_bm4_ps_mb_body.njm";
-extern const char lbl_8043D09C[] = "apper_bm4_ps_ma_body.njm";
-extern const char lbl_8043D0B8[] = "atack_bm4_ps_ma_body.njm";
-extern const char lbl_8043D0D4[] = "damage_bm4_ps_ma_body.njm";
-extern const char lbl_8043D0F0[] = "kie_bm4_ps_ma_body.njm";
-extern const char lbl_8043D108[] = "kie_bm4_ps_mb_body.njm";
-extern const char lbl_8043D120[] = "move_bm4_ps_mb_body.njm";
+extern const char slime_tail_model_name_bm4_ps_ma_tail_nj[] = "bm4_ps_ma_tail.nj";
+extern const char slime_tail_model_name_bm4_ps_mar_body_nj[] = "bm4_ps_mar_body.nj";
+extern const char slime_tail_model_name_bm4_ps_mar_tail_nj[] = "bm4_ps_mar_tail.nj";
+extern const char slime_tail_model_name_bm4_ps_mb_body_nj[] = "bm4_ps_mb_body.nj";
+extern const char slime_tail_model_name_bm4_ps_mbr_body_nj[] = "bm4_ps_mbr_body.nj";
+extern const char slime_tail_motion_name_apear_bm4_ps_mb_body_njm[] = "apear_bm4_ps_mb_body.njm";
+extern const char slime_tail_motion_name_apper_bm4_ps_ma_body_njm[] = "apper_bm4_ps_ma_body.njm";
+extern const char slime_tail_motion_name_atack_bm4_ps_ma_body_njm[] = "atack_bm4_ps_ma_body.njm";
+extern const char slime_tail_motion_name_damage_bm4_ps_ma_body_njm[] = "damage_bm4_ps_ma_body.njm";
+extern const char slime_tail_motion_name_kie_bm4_ps_ma_body_njm[] = "kie_bm4_ps_ma_body.njm";
+extern const char slime_tail_motion_name_kie_bm4_ps_mb_body_njm[] = "kie_bm4_ps_mb_body.njm";
+extern const char slime_tail_motion_name_move_bm4_ps_mb_body_njm[] = "move_bm4_ps_mb_body.njm";
 extern const char lbl_8043D138[] = "move_bm4_ps_mb_body.njs";
-extern const char lbl_8043D150[] = "nodam_bm4_ps_ma_body.njm";
-extern const char lbl_8043D16C[] = "tlatk_bm4_ps_ma_tail.njm";
-extern const char lbl_8043D188[] = "wait_bm4_ps_ma_body.njm";
-extern const char lbl_8043D1A0[] = "wait_bm4_ps_mb_body.njm";
+extern const char slime_tail_motion_name_nodam_bm4_ps_ma_body_njm[] = "nodam_bm4_ps_ma_body.njm";
+extern const char slime_tail_motion_name_tlatk_bm4_ps_ma_tail_njm[] = "tlatk_bm4_ps_ma_tail.njm";
+extern const char slime_tail_motion_name_wait_bm4_ps_ma_body_njm[] = "wait_bm4_ps_ma_body.njm";
+extern const char slime_tail_motion_name_wait_bm4_ps_mb_body_njm[] = "wait_bm4_ps_mb_body.njm";
 extern const char lbl_8043D1B8[] = "wait_bm4_ps_mb_body.njs";
-extern const char lbl_8043D1D0[] = "wait2_bm4_ps_ma_body.njm";
-extern const char lbl_8043D1EC[] = "bm4_ps_ma_body.bml";
+extern const char slime_tail_motion_name_wait2_bm4_ps_ma_body_njm[] = "wait2_bm4_ps_ma_body.njm";
+extern const char bm4_ps_ma_body_bml_filename[] = "bm4_ps_ma_body.bml";
 extern const char TObjEneSlime__class_name_string[] = "TObjEneSlime";
 extern const char lbl_8043D210[] = "BLUE";
 // Debug label strings; slime_debug_label_table points at them.
@@ -505,17 +505,17 @@ extern void *slime_model_name_ptr_table[7];
 extern void *bm4_ps_ma_body_motion_names[15];
 
 void *slime_model_name_ptr_table[7] = {
-    (void *)&lbl_8043D008, (void *)&lbl_8043D01C, (void *)&lbl_8043D030, (void *)&lbl_8043D044,
-    (void *)&lbl_8043D058, (void *)&lbl_8043D06C, (void *)0x0,
+    (void *)&lbl_8043D008, (void *)&slime_tail_model_name_bm4_ps_ma_tail_nj, (void *)&slime_tail_model_name_bm4_ps_mar_body_nj, (void *)&slime_tail_model_name_bm4_ps_mar_tail_nj,
+    (void *)&slime_tail_model_name_bm4_ps_mb_body_nj, (void *)&slime_tail_model_name_bm4_ps_mbr_body_nj, (void *)0x0,
 };
 void *bm4_ps_ma_body_motion_names[15] = {
-    (void *)&lbl_8043D080, (void *)&lbl_8043D09C, (void *)&lbl_8043D0B8, (void *)&lbl_8043D0D4,
-    (void *)&lbl_8043D0F0, (void *)&lbl_8043D108, (void *)&lbl_8043D120, (void *)&lbl_8043D138,
-    (void *)&lbl_8043D150, (void *)&lbl_8043D16C, (void *)&lbl_8043D188, (void *)&lbl_8043D1A0,
-    (void *)&lbl_8043D1B8, (void *)&lbl_8043D1D0, (void *)0x0,
+    (void *)&slime_tail_motion_name_apear_bm4_ps_mb_body_njm, (void *)&slime_tail_motion_name_apper_bm4_ps_ma_body_njm, (void *)&slime_tail_motion_name_atack_bm4_ps_ma_body_njm, (void *)&slime_tail_motion_name_damage_bm4_ps_ma_body_njm,
+    (void *)&slime_tail_motion_name_kie_bm4_ps_ma_body_njm, (void *)&slime_tail_motion_name_kie_bm4_ps_mb_body_njm, (void *)&slime_tail_motion_name_move_bm4_ps_mb_body_njm, (void *)&lbl_8043D138,
+    (void *)&slime_tail_motion_name_nodam_bm4_ps_ma_body_njm, (void *)&slime_tail_motion_name_tlatk_bm4_ps_ma_tail_njm, (void *)&slime_tail_motion_name_wait_bm4_ps_ma_body_njm, (void *)&slime_tail_motion_name_wait_bm4_ps_mb_body_njm,
+    (void *)&lbl_8043D1B8, (void *)&slime_tail_motion_name_wait2_bm4_ps_ma_body_njm, (void *)0x0,
 };
 void *slime_pair_resource_descriptor[4] = {
-    (void *)&lbl_8043D1EC, (void *)&slime_model_name_ptr_table, (void *)&bm4_ps_ma_body_motion_names, (void *)0x6000e,
+    (void *)&bm4_ps_ma_body_bml_filename, (void *)&slime_model_name_ptr_table, (void *)&bm4_ps_ma_body_motion_names, (void *)0x6000e,
 };
 __declspec(section ".data") void *slime_debug_label_table[2] = {
     (void *)&lbl_8043D210, (void *)lbl_805DA668,

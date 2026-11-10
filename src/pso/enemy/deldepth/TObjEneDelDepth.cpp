@@ -127,50 +127,50 @@ BmlResource *load_resource_from_descriptor(BmlResource *, s32, const BmlResource
 void TLobby__sub_8001FE7C(void*, int);
 
 extern "C" const char lbl_80475BD8[];
-extern "C" const char lbl_80475BE8[];
-extern "C" const char lbl_80475BF8[];
-extern "C" const char lbl_80475C08[];
-extern "C" const char lbl_80475C20[];
-extern "C" const char lbl_80475C38[];
-extern "C" const char lbl_80475C50[];
-extern "C" const char lbl_80475C64[];
-extern "C" const char lbl_80475C78[];
-extern "C" const char lbl_80475C90[];
-extern "C" const char lbl_80475CA8[];
-extern "C" const char lbl_80475CC0[];
-extern "C" const char lbl_80475CD8[];
-extern "C" const char lbl_80475CF0[];
-extern "C" const char lbl_80475D04[];
-extern "C" const char lbl_80475D18[];
-extern "C" const char lbl_80475D30[];
-extern "C" const char lbl_80475D40[];
+extern "C" const char deldepth_model_name_swim_disc_nj[];
+extern "C" const char deldepth_model_name_swim_kirai_nj[];
+extern "C" const char deldepth_motion_name_changea_swim_disc_njm[];
+extern "C" const char deldepth_motion_name_changeb_swim_disc_njm[];
+extern "C" const char deldepth_motion_name_damage_swim_disc_njm[];
+extern "C" const char deldepth_motion_name_dead_swim_disc_njm[];
+extern "C" const char deldepth_motion_name_move_swim_disc_njm[];
+extern "C" const char deldepth_motion_name_attack_swim_body_njm[];
+extern "C" const char deldepth_motion_name_attack2_swim_body_njm[];
+extern "C" const char deldepth_motion_name_changea_swim_body_njm[];
+extern "C" const char deldepth_motion_name_changeb_swim_body_njm[];
+extern "C" const char deldepth_motion_name_damage_swim_body_njm[];
+extern "C" const char deldepth_motion_name_dead_swim_body_njm[];
+extern "C" const char deldepth_motion_name_wait_swim_body_njm[];
+extern "C" const char bm_ene_del_depth_bml_filename[];
+extern "C" const char deldepth_model_name_lo_swim_body_nj[];
+extern "C" const char bm_ene_del_depth_low_bml_filename[];
 extern const char *lbl_804E80C0[4];
 extern const char *TObjEneDelDepth_motion_file_list[13];
 extern const char *lbl_804E8114[4];
 extern const char *TObjEneDelDepth_motion_names[13];
 const char *lbl_804E80C0[4] = {
-    lbl_80475BD8, lbl_80475BE8, lbl_80475BF8, NULL,
+    lbl_80475BD8, deldepth_model_name_swim_disc_nj, deldepth_model_name_swim_kirai_nj, NULL,
 };
 const char *TObjEneDelDepth_motion_file_list[13] = {
-    lbl_80475C08, lbl_80475C20, lbl_80475C38, lbl_80475C50,
-    lbl_80475C64, lbl_80475C78, lbl_80475C90, lbl_80475CA8,
-    lbl_80475CC0, lbl_80475CD8, lbl_80475CF0, lbl_80475D04,
+    deldepth_motion_name_changea_swim_disc_njm, deldepth_motion_name_changeb_swim_disc_njm, deldepth_motion_name_damage_swim_disc_njm, deldepth_motion_name_dead_swim_disc_njm,
+    deldepth_motion_name_move_swim_disc_njm, deldepth_motion_name_attack_swim_body_njm, deldepth_motion_name_attack2_swim_body_njm, deldepth_motion_name_changea_swim_body_njm,
+    deldepth_motion_name_changeb_swim_body_njm, deldepth_motion_name_damage_swim_body_njm, deldepth_motion_name_dead_swim_body_njm, deldepth_motion_name_wait_swim_body_njm,
     NULL,
 };
 BmlResourceDescriptor lbl_804E8104 = {
-    lbl_80475D18, lbl_804E80C0, TObjEneDelDepth_motion_file_list, 3, 12
+    bm_ene_del_depth_bml_filename, lbl_804E80C0, TObjEneDelDepth_motion_file_list, 3, 12
 };
 const char *lbl_804E8114[4] = {
-    lbl_80475D30, lbl_80475BE8, lbl_80475BF8, NULL,
+    deldepth_model_name_lo_swim_body_nj, deldepth_model_name_swim_disc_nj, deldepth_model_name_swim_kirai_nj, NULL,
 };
 const char *TObjEneDelDepth_motion_names[13] = {
-    lbl_80475C08, lbl_80475C20, lbl_80475C38, lbl_80475C50,
-    lbl_80475C64, lbl_80475C78, lbl_80475C90, lbl_80475CA8,
-    lbl_80475CC0, lbl_80475CD8, lbl_80475CF0, lbl_80475D04,
+    deldepth_motion_name_changea_swim_disc_njm, deldepth_motion_name_changeb_swim_disc_njm, deldepth_motion_name_damage_swim_disc_njm, deldepth_motion_name_dead_swim_disc_njm,
+    deldepth_motion_name_move_swim_disc_njm, deldepth_motion_name_attack_swim_body_njm, deldepth_motion_name_attack2_swim_body_njm, deldepth_motion_name_changea_swim_body_njm,
+    deldepth_motion_name_changeb_swim_body_njm, deldepth_motion_name_damage_swim_body_njm, deldepth_motion_name_dead_swim_body_njm, deldepth_motion_name_wait_swim_body_njm,
     NULL,
 };
 BmlResourceDescriptor lbl_804E8158 = {
-    lbl_80475D40, lbl_804E8114, TObjEneDelDepth_motion_names, 3, 12
+    bm_ene_del_depth_low_bml_filename, lbl_804E8114, TObjEneDelDepth_motion_names, 3, 12
 };
 CollisionBody TObjEneDelDepth_collision_body_parts[] = {
     {{0.0f, 15.0f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f}
