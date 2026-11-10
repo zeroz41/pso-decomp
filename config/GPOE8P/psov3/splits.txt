@@ -10395,40 +10395,14 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_8033A8EC.cpp:
 	.sbss       start:0x805D6D80 end:0x805D6D98
 	.sdata2     start:0x805DFA30 end:0x805DFA34
 
-pso/unk/text_8033BAB4.cpp:
-	.text       start:0x8033BAB4 end:0x8033BB14
-
-pso/system/save/TCheckMemoryCard_8033BB14.cpp:
-	.text       start:0x8033BB14 end:0x8033BC34
-
-pso/ui/window/TWindowSubComCard_8033BC34.cpp:
-	.text       start:0x8033BC34 end:0x8033BC88
-
-pso/quest/TQuestVmDownLoadServer_8033BC88.cpp:
-	.text       start:0x8033BC88 end:0x8033BCDC
-
-pso/unk/text_8033BCDC.cpp:
-	.text       start:0x8033BCDC end:0x8033BDB0
-
-pso/ui/window/TWindowSubComCard_8033BDB0.cpp:
-	.text       start:0x8033BDB0 end:0x8033C22C
-
-pso/quest/TQuestVmDownLoadServer_8033C22C.cpp:
-	.text       start:0x8033C22C end:0x8033C2E8
-
-pso/ui/window/TWindowSubComCard_8033C2E8.cpp:
-	.text       start:0x8033C2E8 end:0x8033C420
-
 pso/system/save/TCheckMemoryCard.cpp:
-	.text       start:0x8033C420 end:0x8033C640
-	.data       start:0x804EF9A0 end:0x804EF9B8
-
-pso/ui/frontend/TAdSinglePlyChrSelectGC_8033C640.cpp:
-	.text       start:0x8033C640 end:0x8033C69C
-
-pso/unk/text_8033C69C.cpp:
-	.text       start:0x8033C69C end:0x8033C7C8
+	.text       start:0x8033BAB4 end:0x8033C7C8
 	.ctors      start:0x80433FF8 end:0x80433FFC
+	.rodata     start:0x80477DA0 end:0x80477DD0
+	.data       start:0x804EF8D8 end:0x804EF9B8
+	.sdata      start:0x805D4290 end:0x805D4298
+	.sbss       start:0x805D6D98 end:0x805D6DA0
+	.sdata2     start:0x805DFA38 end:0x805DFA48
 
 pso/boss/olgaflow/TBoss6Demo10_TYPE1_APPEAR.cpp:
 	.text       start:0x8033C7C8 end:0x8033CCC8

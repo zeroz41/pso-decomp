@@ -73,7 +73,7 @@ void TUnk_804C2298::run_task() {
         break;
     case 4:
         if (self->card == NULL) {
-            self->card = ((TCheckMemoryCard *)self)->create(NULL, NULL);
+            self->card = TCheckMemoryCard::create_system_file_check((TObject *)self, NULL, 0);
         }
         self->state = 5;
     case 5:

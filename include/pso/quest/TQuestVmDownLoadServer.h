@@ -74,8 +74,6 @@ public:
     static s32 poll_serial_access();
     static void destroy_instance();
     static void reset_download();
-    void init(void* a1, void* a2, void* a3, void* a4);
-    void init_from_keyboard_state();
     static s32 reset_download_buffers();
     static s32 poll_download_status();
     s32 handle_list_scroll();

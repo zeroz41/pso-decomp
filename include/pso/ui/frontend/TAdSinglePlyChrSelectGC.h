@@ -137,7 +137,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     s32 start_offline_seq();
     void *destroy(s16 arg1);
     static s32 has_no_save_files(s32 chan);
-    static void *create_check_memory_card(void *arg0, void *arg1, void *arg2);
     static void permute_save_blocks(void* stream, const u8* source, u8* destination, u32 size);
     u8 unk_38[0x4];
     s32 m_3c;

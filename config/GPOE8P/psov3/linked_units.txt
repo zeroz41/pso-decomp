@@ -1300,8 +1300,6 @@ pso/quest/TQuestVmDownLoadServer_8007EBDC.cpp
 pso/quest/TQuestVmDownLoadServer_80080788.cpp
 pso/quest/TQuestVmDownLoadServer_800F9CE4.cpp
 pso/quest/TQuestVmDownLoadServer_801F9010.cpp
-pso/quest/TQuestVmDownLoadServer_8033BC88.cpp
-pso/quest/TQuestVmDownLoadServer_8033C22C.cpp
 pso/quest/TQuestVmDownLoadServer_803E5668.cpp
 pso/ui/hud/TRaderMapCore_801A6CEC.cpp
 pso/ui/hud/TRaderMapCore_801F3710.cpp
@@ -1611,9 +1609,6 @@ pso/ui/window/TWindowSubComCard_80271E7C.cpp
 pso/ui/window/TWindowSubComCard_80275484.cpp
 pso/ui/window/TWindowSubComCard_802A55E0.cpp
 pso/ui/window/TWindowSubComCard_802A5748.cpp
-pso/ui/window/TWindowSubComCard_8033BC34.cpp
-pso/ui/window/TWindowSubComCard_8033BDB0.cpp
-pso/ui/window/TWindowSubComCard_8033C2E8.cpp
 pso/ui/window/TWindowSubComCard_8034CD98.cpp
 pso/ui/window/TWindowSubCustomEquip.cpp
 pso/ui/window/TWindowSubCustomEquip_80275D9C.cpp
@@ -2249,7 +2244,6 @@ pso/ui/frontend/TAdPlayerLoadGC.cpp
 pso/ui/frontend/TAdPlayerLoadGC_80076BBC.cpp
 pso/ui/frontend/TAdPlayerLoadGC_800F9EF8.cpp
 pso/ui/frontend/TAdPlayerLoadGC_801E0C30.cpp
-pso/system/save/TCheckMemoryCard_8033BB14.cpp
 pso/ui/frontend/TAdPlayerLoadGC_803F3CF4.cpp
 pso/ui/frontend/TAdPlyPltAnimCtrlGC.cpp
 pso/ui/frontend/TAdPlyPltAnimGC.cpp
@@ -2288,7 +2282,6 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_802E13C8.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_802E3AE4.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_80336054.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8033A8EC.cpp
-pso/ui/frontend/TAdSinglePlyChrSelectGC_8033C640.cpp
 pso/ui/frontend/TAdSnAkPassConfirmGC.cpp
 pso/ui/frontend/TAdSoniclogo.cpp
 pso/ui/frontend/TAdStorySelectGC.cpp
@@ -2725,8 +2718,6 @@ pso/unk/text_8032AC9C.cpp
 pso/unk/text_8032B318.cpp
 pso/unk/text_803374F0.cpp
 pso/unk/text_80338F3C.cpp
-pso/unk/text_8033BAB4.cpp
-pso/unk/text_8033BCDC.cpp
 pso/unk/text_8033F314.cpp
 pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT_8033FE30.cpp
 pso/unk/text_8033FF78.cpp
