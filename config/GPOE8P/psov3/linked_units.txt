@@ -2421,6 +2421,7 @@ pso/unk/text_8010EF14.cpp
 pso/unk/text_8010F168.cpp
 pso/unk/text_8010F210.cpp
 pso/unk/text_8011085C.cpp
+pso/unk/text_8011A780.cpp
 pso/unk/text_8011B328.cpp
 pso/unk/text_8011B620.cpp
 pso/weapon/shoot/TItemShootParticle_8011B694.cpp
