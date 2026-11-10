@@ -5,6 +5,15 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/render/RenderFadeState.h"
 
+/* One state's motion of the Pan Arms body: motion indexes bm7_s_paa_body_motion_names
+   (state 0 wait, state 4 deada); same layout as shinowa_mirage_motion_param_table. */
+struct PanarmsMotionParam {
+    s32 unk_0;
+    s32 motion;
+    f32 unk_8;
+    s32 unk_c;
+};
+
 struct TObjEnePanarms : public TObjEnemy {
     TObjEnePanarms(TObject *parent, void *setData);
     virtual ~TObjEnePanarms();
