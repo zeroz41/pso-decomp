@@ -2005,6 +2005,7 @@ pso/player/TObjPlayer_80109344.cpp
 pso/player/TObjPlayer_8010A050.cpp
 pso/player/TObjPlayer_8010ECD0.cpp
 pso/player/TObjPlayer_80116578.cpp
+pso/player/TObjPlayer_80117DD8.cpp
 pso/player/TObjPlayer_8011B86C.cpp
 pso/player/TObjPlayer_8011BADC.cpp
 pso/player/TObjPlayer_8011C000.cpp
