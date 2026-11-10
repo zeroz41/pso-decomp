@@ -1227,7 +1227,7 @@ void set_scripted_camera_pose(void *, void *, void *);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 int play_sound_effect(void*, int, int, int);
 void play_cue_stream_file(s32 name);
-extern const char lbl_804359F8[] = "deldeath.adx";
+extern const char derolle_music_name_deldeath[] = "deldeath.adx";
 void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 s32 activate_camera_mode(int);
@@ -1566,7 +1566,7 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
         switch (o->f6E0) {
         case 0:
             if (((TObjMotion *)o)->is_passing_frame(27.0f) != 0) {
-                play_cue_stream_file((s32)lbl_804359F8);
+                play_cue_stream_file((s32)derolle_music_name_deldeath);
             } else if (((TObjMotion *)o)->is_passing_frame(20.0f) != 0) {
                 play_sound_effect((void *)0x4003AD11, 0, 0, 0);
             } else if (((TObjMotion *)o)->is_passing_frame(99.0f) != 0) {
