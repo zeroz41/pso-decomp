@@ -27,17 +27,12 @@ s32 TLobby__sub_803F87C4(void *);
 void TLobby__sub_8041FDA0(TcpTcb *o, s16 idx, s32 a, s32 b);
 void TLobby__sub_8041FED4(TcpTcb *tcb);
 s32 TLobby__sub_80420D38(u16 arg0, u8 arg1);
-s16 dispatch_by_addr_family(void *, NetworkAddress *, NetworkAddress *, s32, s32, int); /* declared s16 here; the definition is s32 (s32, NetworkAddress *, NetworkAddress *, u8 *, void *, void *) */
 s16 TLobby__sub_8040D8F0(void *, void *, int, void *, int);
-s16 select_source_address(void *, void *);
-s16 TLobby__sub_8040DA54(void *, void *);
-s16 is_addr_unspecified(void *);
 s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, s32 arg5);
 void TLobby__sub_8041F66C(TcpTcb *o);
 s16 compare_sockaddr(void *, void *);
-s16 is_multicast_address(void *, s32);
 s16 TLobby__sub_80421F10(void *, void *, void *, u16, s32, s16);
-s32 udp_input(O_80420DE4 *arg0, NetworkAddress *src, NetworkAddress *dst, s32 arg3);
+s16 udp_input(O_80420DE4 *arg0, NetworkAddress *src, NetworkAddress *dst, s16 arg3);
 UdpRuntimeState udp_runtime_state;
 
 s32 TLobby__sub_8041ED8C(TcpTcb *self, void *data, u32 len, s32 arg3) {
@@ -1064,7 +1059,7 @@ inline void add_item_80420FC8(NetPacket *pkt, void *data, s32 len) {
     pkt->fragment_count++;
 }
 
-s32 udp_input(O_80420DE4 *arg0, NetworkAddress *src, NetworkAddress *dst, s32 arg3) {
+s16 udp_input(O_80420DE4 *arg0, NetworkAddress *src, NetworkAddress *dst, s16 arg3) {
     u8 sp20[8];
     Hdr_80420DE4 hdr;
     UdpRuntimeState *g;
@@ -1084,14 +1079,14 @@ s32 udp_input(O_80420DE4 *arg0, NetworkAddress *src, NetworkAddress *dst, s32 ar
         if (e->active == 0) {
             goto next;
         }
-        if (is_addr_unspecified(&e->remoteAddress) != 0) {
+        if (is_addr_unspecified((u8 *)&e->remoteAddress) != 0) {
             if (e->remoteAddress.family != 0 && e->remoteAddress.family != src->family) {
                 goto next;
             }
         } else if (compare_sockaddr(&e->remoteAddress, src) != 0) {
             goto next;
         }
-        if (is_addr_unspecified(&e->localAddress) != 0) {
+        if (is_addr_unspecified((u8 *)&e->localAddress) != 0) {
             if (e->localAddress.family != 0 && e->localAddress.family != dst->family) {
                 goto next;
             }
@@ -1132,7 +1127,7 @@ s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst,
     if (e->active == 0) {
         return -4;
     }
-    if (is_addr_unspecified(&e->remoteAddress) == 0) {
+    if (is_addr_unspecified((u8 *)&e->remoteAddress) == 0) {
         dst = &e->remoteAddress;
     }
     if (e->localAddress.family != 0) {
@@ -1146,11 +1141,11 @@ s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst,
     } else {
         e->destinationPort = port;
     }
-    if (TLobby__sub_8040DA54(dst, src) == 0) {
+    if (TLobby__sub_8040DA54((u8 *)dst, (u8 *)src) == 0) {
         NetDispatchSocketEvent(id, e->eventCallback, 2, 0x80);
         return -6;
     }
-    r = select_source_address(src, dst);
+    r = select_source_address((Out_8040D95C *)src, (In_8040D95C *)dst);
     if (r < 0) {
         return r;
     }
@@ -1158,7 +1153,7 @@ s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst,
     add_item_80420FC8(pkt, &e->sourcePort, 8);
     e->checksum = 0;
     e->checksum = TLobby__sub_8040D8F0(src, dst, 0x11, pkt, 1);
-    return dispatch_by_addr_family(pkt, dst, src, arg5 + 4, arg5 + 4, 0x11);
+    return dispatch_by_addr_family((s32)pkt, dst, src, (u8 *)(arg5 + 4), (void *)(arg5 + 4), (void *)0x11);
 }
 #pragma pop
 

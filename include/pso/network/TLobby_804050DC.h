@@ -2,6 +2,7 @@
 #define PSO_NETWORK_TLOBBY_804050DC_H
 
 #include "types.h"
+#include "pso/network/UdpRuntime.h"
 #include "pso/network/IPv6.h"
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetDns.h"
@@ -36,7 +37,7 @@ s32 clear_all_used_records(void);
 s32 close_connection_by_index(s16 i);
 u8 *alloc_free_entry(void);
 s32 call_entry_callback(s16 i, s32 arg);
-s32 call_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+s16 call_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 s32 clear_table_entry_locked(s16 arg0);
 void init_msg(void *self, s32 arg1);
 void init_net_block_18A0(void);
@@ -54,9 +55,9 @@ s32 TLobby__sub_8040A044(s16 idx, u32 a, s32 b, u32 *c);
 void TLobby__sub_804050DC(s16 arg0);
 s32 TLobby__sub_804062A0(s16 arg0);
 s16 reset_network_timer_list(void);
-s32 TLobby__sub_8040799C(s16 idx, void *name, void *arg2);
+s16 TLobby__sub_8040799C(s16 idx, void *name, void *arg2);
 s32 TLobby__sub_80409AA8(void);
-s32 TLobby__sub_8040FDA0(u32 arg0, s16 arg1);
+s16 TLobby__sub_8040FDA0(u32 arg0, s16 arg1);
 void TLobby__sub_80405328(u8 *arg0);
 s16 TLobby__sub_8040FCEC(u32 ip);
 s32 TLobby__sub_8040DD68(void);
@@ -75,6 +76,18 @@ s16 TLobby__sub_804098B4(void *pkt);
 s32 TLobby__sub_80409908(void *self, void *arr_);
 u8 *TLobby__sub_80406F0C(void *self);
 s32 TLobby__sub_80406328(s32 self, s16 type);
+s16 dispatch_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3);
+s16 dispatch_by_addr_family(s32 arg0, NetworkAddress *arg1, NetworkAddress *arg2, u8 *arg3, void *arg4, void *arg5);
+s16 select_source_address(Out_8040D95C *arg0, In_8040D95C *arg1);
+s16 is_multicast_address(void *self, s16 arg1);
+s16 is_addr_unspecified(u8 *arg0);
+s16 is_lookup_found(u32 arg0, u32 arg1);
+s16 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1);
+s16 TLobby__sub_8040E780(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void *proto);
+s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id);
+s16 TLobby__sub_8040EDE4(void *self, u32 key, s16 id);
+s16 TLobby__sub_8040EF50(u32 *out, u32 mask, s16 c);
+s16 TLobby__sub_80410A98(s32 arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 extern NetPacketPool lobby_udp_socket_table;
 #ifdef __cplusplus
 }
