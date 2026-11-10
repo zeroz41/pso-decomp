@@ -4994,11 +4994,10 @@ extern f32 lbl_805D69C0;
 void subtractive_rng_seed(void *, s32);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 
-#pragma push
-#pragma fp_contract on
 void TBoss8Dragon__sub_802F89F8(TBoss8Dragon *self, u32 event) {
-    Vec pos;
+    void *bullet;
     s32 found;
+    Vec pos;
     TObjPlayer *player;
     f32 step;
 
@@ -5026,8 +5025,13 @@ void TBoss8Dragon__sub_802F89F8(TBoss8Dragon *self, u32 event) {
         }
         break;
     case 7:
-        subtractive_rng_seed(&self->m_764, ((s32)(TBoss8Dragon__data_805DEDB0 * self->m_690) << 16) |
-                                               (u16)(s32)(TBoss8Dragon__data_805DEDB0 * self->m_694));
+        {
+            u32 seed = (u32)(s32)(TBoss8Dragon__data_805DEDB0 * self->m_690);
+            s32 low = (s32)(TBoss8Dragon__data_805DEDB0 * self->m_694);
+            seed *= 0x10000UL;
+            seed |= (u32)low & 0xFFFFUL;
+            subtractive_rng_seed(&self->m_764, seed);
+        }
         break;
     case 6:
         copy_pos_to_field688__12TBoss8DragonFPv(self);
@@ -5088,7 +5092,7 @@ void TBoss8Dragon__sub_802F89F8(TBoss8Dragon *self, u32 event) {
                     pos.y = TBoss8Dragon__data_805DED50;
                     pos.z = lbl_805DEE60 * (calc_random_ratio__10TObjPlayerFv(&self->m_764) - TBoss8Dragon__data_805DEDA8);
                 }
-                void *bullet = __nw__7TObjectFUl(0x58);
+                bullet = __nw__7TObjectFUl(0x58);
                 if (bullet != 0) {
                     TBoss8DragonEffBullet__ct(bullet, &self->m_3c4, &self->m_410, &pos, self->m_75c, get_entity_id((u8 *)self));
                 }
@@ -5111,7 +5115,8 @@ void TBoss8Dragon__sub_802F89F8(TBoss8Dragon *self, u32 event) {
             break;
         case 5:
             ((TObjMotion *)self)->advance_animation();
-            step = (f32)angle_diff_s16(self->m_60, self->m_860) * lbl_805DEE64;
+            step = (f32)angle_diff_s16(self->m_60, self->m_860);
+            step *= lbl_805DEE64;
             if ((step < lbl_805DEE68 && step >= lbl_805DEE6C) || ((TObjEneDD *)self)->get_flag_b4() != 0) {
                 self->m_60 = self->m_860;
                 self->m_84c = 6;
@@ -5125,18 +5130,18 @@ void TBoss8Dragon__sub_802F89F8(TBoss8Dragon *self, u32 event) {
         }
         if (self->m_84c == 1 || self->m_84c == 2) {
             self->m_864 += lbl_805D69C0;
-            if (self->m_864 < TBoss8Dragon__data_805DED50) {
-                self->m_864 = TBoss8Dragon__data_805DED50;
+            if (self->m_864 < 0.0f) {
+                self->m_864 = 0.0f;
             }
             self->m_3c += self->m_864;
-            if (self->m_3c <= lbl_805DEE70) {
-                self->m_3c = lbl_805DEE70;
+            if (self->m_3c <= 180.0f) {
+                self->m_3c = 180.0f;
             }
         }
         if (self->m_84c == 3 || self->m_84c == 4 || self->m_84c == 5) {
-            self->m_3c -= TBoss8Dragon__data_805DED74;
-            if (self->m_3c < lbl_805DEE70) {
-                self->m_3c = lbl_805DEE70;
+            self->m_3c -= 1.0f;
+            if (self->m_3c < 180.0f) {
+                self->m_3c = 180.0f;
             }
         }
         break;
@@ -5147,7 +5152,6 @@ void TBoss8Dragon__sub_802F89F8(TBoss8Dragon *self, u32 event) {
         break;
     }
 }
-#pragma pop
 
 #undef F
 #define F(t, o) (*(t *)(arg0 + (o)))

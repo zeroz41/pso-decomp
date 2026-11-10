@@ -104,148 +104,224 @@ extern "C" {
 void send_6x60_standard_drop_item_request(Obj_80105538 *self);
 
 }
-struct WeaponPmt_80104FCC { u8 pad[8]; u16 equip; u8 padA[0xE - 0xA]; u16 atp; u16 ata; u16 mst; };
-struct ArmorPmt_80104FCC { u8 pad[0xE]; u16 equip; u8 level; };
-struct UnitPmt_80104FCC { u8 pad[8]; s16 kind; };
-struct MagPmt_80104FCC { u8 pad[0x14]; u16 equip; };
 
 
-s32 check_equip_requirements(TObjPlayer *player, TItemData *item, s32 *reasons) {
-    s32 flags;
-    if (player == 0 || item == 0) {
-        if (reasons != 0) {
-            *reasons |= 0x20;
-        }
-        return 0;
-    }
-    if (player->obj_isState3_324() != 0 || player->is_script_controlled() != 0) {
-        if (reasons != 0) {
-            *reasons = 0;
-        }
-        return 1;
-    }
-    if (is_quest_active() != 0) {
-        u32 menu = 0;
-        switch (item->data1.data_u8[0]) {
-        case 0:
-            menu = 1;
-            break;
-        case 1:
-            switch (item->data1.data_u8[1]) {
-            case 1:
-                menu = 2;
-                break;
-            case 2:
-                menu = 3;
-                break;
-            case 3:
-                menu = 4;
-                break;
-            }
-            break;
-        case 2:
-            menu = 5;
-            break;
-        }
-        if (menu != 0 && TItemMenuCtrl::query_flag(menu) == 1) {
-            return 0;
-        }
-    }
-    flags = 0;
-    switch (item->data1.data_u8[0]) {
-    case 0: {
-        WeaponPmt_80104FCC *pmt = (WeaponPmt_80104FCC *)lookup_item_pmt_record((u8 *)item);
-        if (pmt != 0) {
-            PlayerRequirementStats stats;
-            if (check_class_equip_permission(player, (s16)pmt->equip) == 0) {
-                flags |= 1;
-            }
-            ((TWindowSubStatusDisp *)&stats)->clear_fields();
-            build_player_equipment_requirement_stats(player, &stats);
-            if (stats.values[0] < pmt->atp) {
-                flags |= 2;
-            }
-            if (stats.values[3] < pmt->mst) {
-                flags |= 4;
-            }
-            if (stats.values[2] < pmt->ata) {
-                flags |= 8;
-            }
-        } else {
-            flags |= 0x20;
-        }
-        break;
-    }
-    case 1:
-        if (item->data1.data_u8[1] != 3) {
-            ArmorPmt_80104FCC *pmt = (ArmorPmt_80104FCC *)lookup_item_pmt_record((u8 *)item);
-            if (pmt != 0) {
-                if (check_class_equip_permission(player, (s16)pmt->equip) == 0) {
-                    flags |= 1;
-                }
-                if (player->get_actor_level_index() < pmt->level) {
-                    flags |= 0x10;
-                }
-            } else {
-                flags |= 0x20;
-            }
-        } else if (check_class_equip_permission(player, 0xD7) != 0) {
-            UnitPmt_80104FCC *pmt = (UnitPmt_80104FCC *)lookup_item_pmt_record((u8 *)item);
-            if (pmt != 0) {
-                switch (pmt->kind) {
-                case 1:
-                case 5:
-                case 16:
-                case 18:
-                case 21:
-                    flags |= 1;
-                    break;
-                }
-            } else {
-                flags |= 0x20;
-            }
-        }
-        break;
-    case 2: {
-        MagPmt_80104FCC *pmt = (MagPmt_80104FCC *)lookup_item_pmt_record((u8 *)item);
-        if (pmt != 0) {
-            if (check_class_equip_permission(player, (s16)pmt->equip) == 0) {
-                flags |= 1;
-            }
-        } else {
-            flags |= 0x20;
-        }
-        break;
-    }
-    case 3:
-        switch (item->data1.data_u8[1]) {
-        case 2: {
-            u8 limit = get_technique_learn_limit(player->m_88d, item->data1.data_u8[4]);
-            if (limit == 0xFF || limit < item->data1.data_u8[2]) {
-                flags |= 1;
-            }
-            break;
-        }
-        case 8:
-            if (check_class_equip_permission(player, 0xD7) != 0) {
-                flags |= 1;
-            }
-            break;
-        }
-        break;
-    case 4:
-        if ((s32)item->data2.data_u32 > 999999) {
-            flags |= 0x20;
-        }
-        break;
-    }
-    if (reasons != 0) {
-        *reasons = flags;
-    }
-    if (flags == 0) {
-        return 1;
+extern "C" s32 obj_isState3_324__9TObjCharaFv(void *);
+extern "C" s32 is_script_controlled__10TObjPlayerFv(void *);
+extern "C" s32 query_flag__13TItemMenuCtrlFl(s32);
+extern "C" int clear_fields__20TWindowSubStatusDispFv(void *);
+s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
+  void *new_var;
+  s32 flags;
+  struct 
+  {
+    s16 a;
+    s16 x2;
+    s16 b;
+    s16 c;
+    s32 r[2];
+  } st;
+  u32 k;
+  int new_var3;
+  s32 r;
+  void *new_var2;
+  if (((s32) self == 0) || (p == 0))
+  {
+    if (out != 0)
+    {
+      *out |= 0x20;
     }
     return 0;
+  }
+  new_var2 = self;
+  if ((obj_isState3_324__9TObjCharaFv(new_var2) != 0) || (is_script_controlled__10TObjPlayerFv(new_var = new_var2) != 0))
+  {
+    if (out != 0)
+    {
+      *out = 0;
+    }
+    return 1;
+  }
+  if (is_quest_active() != 0)
+  {
+    k = 0;
+    switch (((u8 *) p)[0])
+    {
+      case 0:
+        k = 1;
+        break;
+
+      case 1:
+        switch (((u8 *) p)[1])
+      {
+        case 1:
+          k = 2;
+          break;
+
+        case 2:
+          k = 3;
+          break;
+
+        case 3:
+          k = 4;
+          break;
+
+      }
+
+        break;
+
+      case 2:
+        k = 5;
+        break;
+
+    }
+
+    if ((k != 0) && (query_flag__13TItemMenuCtrlFl(k) == 1))
+    {
+      return 0;
+    }
+  }
+  flags = 0;
+  switch (((u8 *) p)[0])
+  {
+    case 0:
+      if ((s32) (p = (TItemData *) lookup_item_pmt_record((u8 *) p)) != 0)
+    {
+      if (check_class_equip_permission((TObjPlayer *) new_var2, (s16) (*((u16 *) ((u8 *) p + 8)))) == 0)
+      {
+        flags |= 1;
+      }
+      clear_fields__20TWindowSubStatusDispFv(&st);
+      build_player_equipment_requirement_stats((TObjPlayer *) new_var, (PlayerRequirementStats *) (&st));
+      if (st.a < (*((u16 *) ((u8 *) p + 0xe))))
+      {
+        flags |= 2;
+      }
+      if (st.c < (*((u16 *) ((u8 *) p + 0x12))))
+      {
+        flags |= 4;
+      }
+      if (st.b < (*((u16 *) ((u8 *) p + 0x10))))
+      {
+        flags |= 8;
+      }
+    }
+    else
+    {
+      flags |= 0x20;
+    }
+      break;
+
+    case 1:
+      if (((u8 *) p)[1] != 3)
+    {
+      if ((s32) (p = (TItemData *) lookup_item_pmt_record((u8 *) p)) != 0)
+      {
+        if (check_class_equip_permission((TObjPlayer *) new_var, (s16) (*((u16 *) ((u8 *) p + 0xe)))) == ((0, 0)))
+        {
+          flags |= 1;
+        }
+        r = ((TObjChara *) new_var)->get_actor_level_index();
+        if (r < ((u8 *) p)[0x10])
+        {
+          flags |= 0x10;
+        }
+      }
+      else
+      {
+        flags |= 0x20;
+      }
+    }
+    else
+      if (check_class_equip_permission((TObjPlayer *) new_var2, 0xd7) != 0)
+    {
+      if ((p = (TItemData *) lookup_item_pmt_record((u8 *) p)) != 0)
+      {
+        switch (*((s16 *) ((u8 *) p + 8)))
+        {
+          case 1:
+
+          case 5:
+
+          case 0x10:
+
+          case 0x12:
+
+          case 0x15:
+            flags |= 1;
+            break;
+
+          default:
+            break;
+
+        }
+
+      }
+      else
+      {
+        flags |= 0x20;
+      }
+    }
+      break;
+
+    case 2:
+      if ((p = (TItemData *) lookup_item_pmt_record((u8 *) p)) != 0)
+    {
+      if (check_class_equip_permission((TObjPlayer *) new_var, (s16) (*((u16 *) ((u8 *) p + 0x14)))) == 0)
+      {
+        flags |= 1;
+      }
+    }
+    else
+    {
+      flags |= 0x20;
+    }
+      break;
+
+    case 3:
+      switch (((u8 *) p)[1])
+    {
+      case 2:
+        r = ((u8 *) p)[4];
+      {
+        u8 lim = ((u8 (*)(u8, u8)) get_technique_learn_limit)(*((u8 *) (((u8 *) new_var2) + 0x88d)), r);
+        if ((lim == 0xff) || (lim < ((u8 *) p)[2]))
+        {
+          flags |= 1;
+        }
+      }
+        break;
+
+      case 8:
+        if (check_class_equip_permission((TObjPlayer *) new_var2, 0xd7) != 0)
+      {
+        flags |= 1;
+      }
+        break;
+
+    }
+
+      break;
+
+    case 4:
+      new_var3 = 0xf423f;
+      if (new_var3 < (*((s32 *) ((u8 *) p + 0x10))))
+    {
+      flags |= 0x20;
+    }
+      break;
+
+  }
+
+  if (out != 0)
+  {
+    *out = flags;
+  }
+  if (flags == 0)
+  {
+    return 1;
+  }
+  return 0;
 }
 
 extern "C" {

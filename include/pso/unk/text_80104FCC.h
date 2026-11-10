@@ -12,7 +12,7 @@ u8 roll_weapon_special_channel15(u8 arg0);
 int check_class_equip_permission(TObjPlayer *player, s32 perm);
 // Whether `player` meets the item's requirements; *requirement gets the
 // stat it falls short on.
-s32 check_equip_requirements(TObjPlayer *player, TItemData *item, s32 *requirement);
+s32 check_equip_requirements(void *player, TItemData *item, s32 *requirement);
 }
 
 struct TItem;

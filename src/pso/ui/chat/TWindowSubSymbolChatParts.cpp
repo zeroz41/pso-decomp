@@ -377,32 +377,46 @@ void fn_80285314(Win_802857C4 *self, Rect_802857C4 *ctx) {
 
 #pragma push
 #pragma fp_contract on
-void fn_802855C4(Win_802857C4 *arg0, Rect_802857C4 *ctx) {
-    s32 i;
-    s32 j;
-    s32 row;
+#pragma opt_propagation off
+__declspec(section ".sdata2") extern const f32 lbl_805DD808 = 8.0f;
+void fn_802855C4(Win_802857C4 *self, Rect_802857C4 *ctx) {
+    f32 sc;
     f32 y;
+    f32 x;
+    f32 hi;
     f32 off;
-    f32 *e1;
-    void *e2;
-    void *e0;
+    s32 i;
+    s32 row;
+    f32 lo;
+    f32 *a;
+    f32 *b;
+    f32 *c;
+    int k;
 
     row = 0;
-    e1 = (f32 *)((TWindowBase *)arg0)->get_array_entry(1);
-    e2 = (void *)((TWindowBase *)arg0)->get_array_entry(2);
-    e0 = (void *)((TWindowBase *)arg0)->get_array_entry(0);
-    for (i = 0; i < arg0->count; row++) {
-        off = 40.0f * (f32)row;
-        y = ctx->y + off;
-        if (8.0f + (32.0f + y) < ctx->top || y - 8.0f > ctx->bottom) {
+    a = (f32 *)((TWindowBase *)self)->get_array_entry(1);
+    b = (f32 *)((TWindowBase *)self)->get_array_entry(2);
+    c = (f32 *)((TWindowBase *)self)->get_array_entry(0);
+    i = 0;
+    lo = *(const f32 *)&lbl_805DD808;
+    hi = 32.0f;
+    sc = 40.0f;
+    for (; i < self->count; row++) {
+        off = sc * (f32)row;
+        y = ctx->y;
+        y += off;
+        if (lo + (hi + y) < ctx->top || y - lo > ctx->bottom) {
             i += 4;
         } else {
-            for (j = 0; j < 4; j++, i++) {
-                if (i >= arg0->count) break;
-                e1[2] = 40.0f * (f32)j + 10.0f;
-                e1[3] = 9.0f + off;
-                setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(e1, e2, e0, i, (s8)*arg0->p78, *arg0->p7C, *arg0->p80, 0);
-                draw_visible_window_entries(arg0, arg0->sub, ctx);
+            x = 9.0f + off;
+            for (k = 0; k < 4; k++, i++) {
+                if (i >= self->count) {
+                    break;
+                }
+                a[2] = 40.0f * (f32)k + 10.0f;
+                a[3] = x;
+                setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(a, b, c, (u16)i, *(s8 *)self->p78, *self->p7C, *self->p80, 0);
+                draw_visible_window_entries(self, self->sub, ctx);
             }
         }
     }
@@ -411,7 +425,7 @@ void fn_802855C4(Win_802857C4 *arg0, Rect_802857C4 *ctx) {
 
 #pragma push
 #pragma fp_contract on
-extern const f32 lbl_805DD7F8;
+#pragma opt_propagation off
 
 void fn_802857C4(Win_802857C4 *arg0, Rect_802857C4 *ctx) {
     s32 i;
@@ -426,7 +440,7 @@ void fn_802857C4(Win_802857C4 *arg0, Rect_802857C4 *ctx) {
     row = 0;
     e1 = (f32 *)((TWindowBase *)arg0)->get_array_entry(1);
     e0 = (f32 *)((TWindowBase *)arg0)->get_array_entry(0);
-    h = lbl_805DD7F8;
+    h = 32.0f;
     for (i = 0; i < arg0->count; row++) {
         off = 40.0f * (f32)row;
         y = ctx->y;

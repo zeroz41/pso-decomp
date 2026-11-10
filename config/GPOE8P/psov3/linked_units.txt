@@ -2868,3 +2868,10 @@ pso/network/NetworkThreadRuntime.c
 pso/object/ambient/TObjFish.cpp
 pso/ui/city/TShopItemListWindow.cpp
 pso/unk/text_803C1780.cpp
+pso/map/CsnQuery.cpp
+pso/player/TObjPlayer_80117DD8.cpp
+pso/unk/text_80209D34.cpp
+pso/unk/text_8020B47C.cpp
+pso/unk/text_803C5AA0.cpp
+pso/ui/chat/TWindowSubSymbolChatParts.cpp
+pso/ui/frontend/TAdSelectGameModeGC_802C4748.cpp

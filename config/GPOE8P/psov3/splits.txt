@@ -8984,6 +8984,7 @@ pso/player/TObjPlayer_802C422C.cpp:
 
 pso/ui/frontend/TAdSelectGameModeGC_802C4748.cpp:
 	.text       start:0x802C4748 end:0x802C4CA0
+	.rodata     start:0x80471A78 end:0x80471A80
 	.data       start:0x804E0A18 end:0x804E0A30
 
 pso/ui/frontend/TAdPlyChrSelPlateGC_802C4CA0.cpp:

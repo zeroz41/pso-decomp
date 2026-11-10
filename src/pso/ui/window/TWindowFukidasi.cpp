@@ -1045,77 +1045,114 @@ void TUnk_804CF0B8::sub_80251DF0(s16 arg1, s32 str, s16 arg3, f32 farg0) {
     this->clear_flag2c_bit100();
 }
 
+extern const f32 lbl_805DCD10;
+extern const f32 lbl_805DCD54;
+extern const f32 lbl_805DCD5C;
+extern const f32 lbl_805DCD60;
+extern const f32 lbl_805DCD64;
+extern const f32 lbl_805DCD68;
+extern const f32 lbl_805DCD6C;
+extern const f32 lbl_805DCD70;
+extern const f32 lbl_805DCD74;
+extern const f32 lbl_805DCD7C;
+extern const f32 lbl_805DCD80;
+extern const f32 lbl_805DCD84;
+extern const f32 lbl_805DCD88;
+extern const f32 lbl_805DCD8C;
+extern "C" s32 draw_small_font_string_clipped__FPfPCcUlf(f32 *pos, const char *s, u32 color, f32 width);
 #pragma push
 #pragma fp_contract on
-void draw_name_plate__15TWindowFukidasiFv(TUnk_804CF0B8 *balloon, View_80252764 *view, u32 color) {
-    f32 pos[2];
-    f32 rect[8];
-    f32 depth;
-    f32 width;
-    s32 alpha;
-    u32 a;
-    u32 argb;
-
-    if (balloon->name != NULL && view->fade_in >= 0) {
-        width = get_name_text_width(balloon->name);
-        if (view->fade_in < 6) {
-            alpha = (1.0f / 6.0f) * (f32)(view->fade_in * 255);
-        } else {
-            alpha = 255;
-        }
-        a = alpha << 24;
-        argb = (color & 0x00FFFFFF) | (a & 0xFF000000);
-        pos[0] = view->x - 11.0f;
-        pos[1] = view->y - 10.0f;
-        depth = -1.0f / (0.0598f + view->depth);
-        begin_screen_draw(1);
-        TWindowSubStatusDisp::render_forward();
-        set_draw_texture_and_color(0, argb);
-        rect[0] = pos[0];
-        rect[1] = pos[1];
-        rect[2] = 16.0f + pos[0];
-        rect[3] = 19.0f + pos[1];
-        rect[4] = 0.56640625f;
-        rect[5] = 0.92578125f;
-        rect[6] = 0.62890625f;
-        rect[7] = 1.0f;
-        apply_context_transform_to_rect(view, rect);
-        draw_textured_quad_at_depth(rect, depth);
-        if (width < 20.0f) {
-            rect[0] = 12.0f + ((20.0f + pos[0]) - 16.0f);
-        } else {
-            rect[0] = 12.0f + ((pos[0] + width) - 16.0f);
-        }
-        rect[1] = pos[1];
-        rect[2] = 16.0f + rect[0];
-        rect[3] = 19.0f + pos[1];
-        rect[4] = 0.69140625f;
-        rect[5] = 0.92578125f;
-        rect[6] = 0.75390625f;
-        rect[7] = 1.0f;
-        apply_context_transform_to_rect(view, rect);
-        draw_textured_quad_at_depth(rect, depth);
-        if (width > 20.0f) {
-            rect[0] = 16.0f + pos[0];
-            rect[1] = pos[1];
-            rect[2] = 12.0f + ((pos[0] + width) - 16.0f);
-            rect[3] = 19.0f + pos[1];
-            rect[4] = 0.62890625f;
-            rect[5] = 0.92578125f;
-            rect[6] = 0.69140625f;
-            rect[7] = 1.0f;
-            apply_context_transform_to_rect(view, rect);
-            draw_textured_quad_at_depth(rect, depth);
-        }
-        TWindowSubStatusDisp::get_player();
-        pos[0] += 6.0f;
-        if (width < 20.0f) {
-            pos[0] += 0.5f * (20.0f - width);
-        }
-        pos[1] += 3.0f;
-        set_text_draw_params((s32)view, 0, 1, -1.0f / (0.07475f + view->depth), 100000.0f);
-        draw_small_font_string_clipped(pos, balloon->name, a, 1000000.0f);
+#pragma opt_common_subs off
+void draw_name_plate__15TWindowFukidasiFv(TUnk_804CF0B8 *self, View_80252764 *arg1, u32 arg2) {
+  f32 pos[2];
+  f32 q[8];
+  f32 scale;
+  f32 textW;
+  s32 alpha;
+  s32 alphaBits;
+  s32 color;
+  f32 new_var;
+  void *name;
+  name = self->name;
+  if ((name != 0) && (arg1->fade_in >= 0))
+  {
+    textW = (f32) ((u32) get_name_text_width(name));
+    if (arg1->fade_in < 6)
+    {
+      alpha = (s32) (lbl_805DCD5C * ((f32) ((s32) (arg1->fade_in * 0xFF))));
     }
+    else
+    {
+      alpha = 0xFF;
+    }
+    alphaBits = alpha << 24;
+    color = arg2 & 0xffffff;
+    color |= alphaBits & 0xff000000;
+    pos[0] = arg1->x - lbl_805DCD60;
+    pos[1] = arg1->y - TWindowFukidasi__data_805DCD1C;
+    scale = TWindowFukidasi__data_805DCD4C / (lbl_805DCD64 + arg1->depth);
+    begin_screen_draw(1);
+    TWindowSubStatusDisp::render_forward();
+    set_draw_texture_and_color(0, color);
+    q[0] = pos[0];
+    q[1] = pos[1];
+    q[2] = lbl_805DCD68 + q[0];
+    q[3] = lbl_805DCD10 + q[1];
+    q[4] = lbl_805DCD6C;
+    q[5] = lbl_805DCD70;
+    q[6] = lbl_805DCD74;
+    q[7] = TWindowFukidasi__data_805DCCE8;
+    apply_context_transform_to_rect(arg1, q);
+    draw_textured_quad_at_depth(q, scale);
+    if (textW < TWindowFukidasi__data_805DCCFC)
+    {
+      q[0] = lbl_805DCD78 + ((TWindowFukidasi__data_805DCCFC + pos[0]) - lbl_805DCD68);
+    }
+    else
+    {
+      q[0] = lbl_805DCD78 + ((pos[0] + textW) - lbl_805DCD68);
+    }
+    q[1] = pos[1];
+    q[2] = lbl_805DCD68 + q[0];
+    q[3] = lbl_805DCD10 + q[1];
+    q[4] = lbl_805DCD7C;
+    q[5] = lbl_805DCD70;
+    q[6] = lbl_805DCD80;
+    q[7] = TWindowFukidasi__data_805DCCE8;
+    apply_context_transform_to_rect(arg1, q);
+    draw_textured_quad_at_depth(q, scale);
+    if (textW > TWindowFukidasi__data_805DCCFC)
+    {
+      {
+        f32 k = lbl_805DCD68;
+        q[0] = (new_var = pos[0]) + k;
+      }
+      q[1] = pos[1];
+      q[2] = lbl_805DCD78 + ((new_var + textW) - lbl_805DCD68);
+      q[3] = lbl_805DCD10 + q[1];
+      q[4] = lbl_805DCD74;
+      q[5] = lbl_805DCD70;
+      q[6] = lbl_805DCD7C;
+      q[7] = TWindowFukidasi__data_805DCCE8;
+      apply_context_transform_to_rect(arg1, q);
+      draw_textured_quad_at_depth(q, scale);
+    }
+    TWindowSubStatusDisp::get_player();
+    {
+      f32 k = lbl_805DCD84;
+      pos[0] = pos[0] + k;
+    }
+    if (textW < TWindowFukidasi__data_805DCCFC)
+    {
+      pos[0] = (TWindowFukidasi__data_805DCD0C * (TWindowFukidasi__data_805DCCFC - textW)) + pos[0];
+    }
+    {
+      f32 k = TWindowFukidasi__data_805DCD28;
+      pos[1] = pos[1] + k;
+    }
+    set_text_draw_params((s32) arg1, 0, 1, TWindowFukidasi__data_805DCD4C / (lbl_805DCD88 + arg1->depth), lbl_805DCD8C);
+    draw_small_font_string_clipped__FPfPCcUlf(pos, self->name, alphaBits, lbl_805DCD54);
+  }
 }
 #pragma pop
 
