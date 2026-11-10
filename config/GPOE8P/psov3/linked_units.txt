@@ -473,8 +473,6 @@ pso/enemy/panarms/TObjEnePanarms_800DFB00.cpp
 pso/enemy/panarms/TObjEnePanarms_800DFB74.cpp
 pso/enemy/panarms/TObjEnePanarms_800F5E90.cpp
 pso/enemy/flower/TObjEneRe2Flower.cpp
-pso/enemy/flower/TObjEneRe2Flower_800C3B8C.cpp
-pso/enemy/flower/TObjEneRe2Flower_800C3BA8.cpp
 pso/enemy/flower/TObjEneRe2Flower_800C4B78.cpp
 pso/enemy/sorcerer/TObjEneRe4Bit.cpp
 pso/enemy/sorcerer/TObjEneRe4Sorcerer_800EDB98.cpp
@@ -2388,7 +2386,6 @@ pso/unk/text_800C2A88.cpp
 pso/unk/text_800C2CE0.cpp
 pso/unk/text_800C3088.cpp
 pso/unk/text_800C3A60.cpp
-pso/enemy/flower/TObjEneRe2Flower_800C3B80.cpp
 pso/enemy/TUnk_80493450_800C69E8.cpp
 pso/unk/text_800C7FEC.cpp
 pso/unk/text_800D8830.cpp
