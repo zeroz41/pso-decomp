@@ -243,8 +243,6 @@ extern const f32 TParticleCtrl__data_805D94E4;
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-void TParticleCtrl::clear_active_flag() { *(u16*)((char*)this + 0x2c) &= 0xfffe; }
-
 u8 *create_ballistic_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5) {
     u8 *temp_r3;
     u8 *var_r0;
@@ -286,13 +284,10 @@ void TUnk_8048E778::run_task() {
     NJS_COLOR col;
     Vec toward_camera;
     ParticleParam *p;
-    f32 t;
+    f32 t[2]; // [0] age this frame, [1] fade alpha
     f32 fade_in;
     f32 fade_out;
-    f32 alpha;
-    f32 r;
-    f32 g;
-    f32 b;
+    f32 ch[3];
     f32 tilt;
     s32 frames;
 
@@ -334,46 +329,46 @@ void TUnk_8048E778::run_task() {
     unk_2C *= param->scale_decay;
     age += age_rate;
     p = param;
-    t = age;
+    t[0] = age;
     fade_in = 1.0f;
     fade_out = 1.0f;
-    if (p->fade_in_end > t) {
-        fade_in = t * fade_in_scale;
+    if (p->fade_in_end > t[0]) {
+        fade_in = t[0] * fade_in_scale;
     }
-    if (1.0f - t < p->fade_out_start) {
-        fade_out = (1.0f - t) * fade_out_scale;
+    if (1.0f - t[0] < p->fade_out_start) {
+        fade_out = (1.0f - t[0]) * fade_out_scale;
     }
     if (fade_in < fade_out) {
-        alpha = fade_in;
+        t[1] = fade_in;
     } else {
-        alpha = fade_out;
+        t[1] = fade_out;
     }
     if (TParticleCtrl__data_80511F70[sprite_index]->sprites->flags & 1) {
         if (flags & 0x100) {
-            r = fade_particle_channel(p->color_rate[0] * t + color_base[0], alpha);
-            g = fade_particle_channel(p->color_rate[1] * t + color_base[1], alpha);
-            b = fade_particle_channel(p->color_rate[2] * t + color_base[2], alpha);
+            ch[0] = fade_particle_channel(p->color_rate[0] * t[0] + color_base[0], t[1]);
+            ch[1] = fade_particle_channel(p->color_rate[1] * t[0] + color_base[1], t[1]);
+            ch[2] = fade_particle_channel(p->color_rate[2] * t[0] + color_base[2], t[1]);
         } else {
-            r = fade_particle_channel(p->color_rate[0] * t + p->color_base[0], alpha);
-            g = fade_particle_channel(p->color_rate[1] * t + p->color_base[1], alpha);
-            b = fade_particle_channel(p->color_rate[2] * t + p->color_base[2], alpha);
+            ch[0] = fade_particle_channel(p->color_rate[0] * t[0] + p->color_base[0], t[1]);
+            ch[1] = fade_particle_channel(p->color_rate[1] * t[0] + p->color_base[1], t[1]);
+            ch[2] = fade_particle_channel(p->color_rate[2] * t[0] + p->color_base[2], t[1]);
         }
-        alpha = 1.0f;
+        t[1] = 1.0f;
     } else {
         if (flags & 0x100) {
-            r = clamp_particle_channel(p->color_rate[0] * t + color_base[0]);
-            g = clamp_particle_channel(p->color_rate[1] * t + color_base[1]);
-            b = clamp_particle_channel(p->color_rate[2] * t + color_base[2]);
+            ch[0] = clamp_particle_channel(p->color_rate[0] * t[0] + color_base[0]);
+            ch[1] = clamp_particle_channel(p->color_rate[1] * t[0] + color_base[1]);
+            ch[2] = clamp_particle_channel(p->color_rate[2] * t[0] + color_base[2]);
         } else {
-            r = clamp_particle_channel(p->color_rate[0] * t + p->color_base[0]);
-            g = clamp_particle_channel(p->color_rate[1] * t + p->color_base[1]);
-            b = clamp_particle_channel(p->color_rate[2] * t + p->color_base[2]);
+            ch[0] = clamp_particle_channel(p->color_rate[0] * t[0] + p->color_base[0]);
+            ch[1] = clamp_particle_channel(p->color_rate[1] * t[0] + p->color_base[1]);
+            ch[2] = clamp_particle_channel(p->color_rate[2] * t[0] + p->color_base[2]);
         }
     }
-    col.argb.a = 254.0f * alpha;
-    col.argb.r = 254.0f * r;
-    col.argb.g = 254.0f * g;
-    col.argb.b = 254.0f * b;
+    col.argb.a = 254.0f * t[1];
+    col.argb.r = 254.0f * ch[0];
+    col.argb.g = 254.0f * ch[1];
+    col.argb.b = 254.0f * ch[2];
     color = col.color;
     p = param;
     if (0.0f == p->gravity && 0.0f == p->unk_34 && 0.0f == p->unk_30) {

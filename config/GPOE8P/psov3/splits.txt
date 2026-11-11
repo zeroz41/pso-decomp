@@ -1335,12 +1335,12 @@ pso/effect/particle/TParticleCtrl_800874F4.cpp:
 pso/effect/particle/ParticleBallistic.cpp:
 	.text       start:0x8008877C end:0x80089F7C
 	.rodata     start:0x804394E8 end:0x80439530
-	.sdata2     start:0x805D94F8 end:0x805D9528
+	.sdata2     start:0x805D94F8 end:0x805D9524
 
 pso/effect/particle/ParticleOrbit.cpp:
 	.text       start:0x80089F7C end:0x8008B478
 	.rodata     start:0x80439530 end:0x80439540
-	.sdata2     start:0x805D9528 end:0x805D9558
+	.sdata2     start:0x805D9528 end:0x805D9554
 
 pso/effect/particle/ParticleRadial.cpp:
 	.text       start:0x8008B478 end:0x8008C4F4

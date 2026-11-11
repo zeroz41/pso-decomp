@@ -1184,6 +1184,8 @@ pso/object/wreck/TOWreckAncient07.cpp
 pso/object/wreck/TOWreckAncientBrakable.cpp
 pso/object/wreck/TOWreckAncientBrakable05.cpp
 pso/network/TPacket.cpp
+pso/effect/particle/ParticleBallistic.cpp
+pso/effect/particle/ParticleOrbit.cpp
 pso/effect/particle/ParticleRadial.cpp
 pso/effect/particle/TParticleCtrl.cpp
 pso/effect/particle/TParticleCtrl_80085EE4.cpp
