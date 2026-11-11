@@ -17807,6 +17807,8 @@ block_relocations:
   # pointers into .text; with them the split object zeroes table bytes the compiled one has.
   - source: 0x8047EB44
   - source: 0x8047EC64
+  # Bytes 0x80 0x0A 0x20 0x20 inside TPlayerBattleCtrl4P's team-battle message string (lbl_80475A34+0x1C) read as a pointer into .text.
+  - source: 0x80475A50
 
 # MetroTRK code templates are copied as data, so CFA does not discover their references.
 add_relocations:

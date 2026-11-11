@@ -9486,11 +9486,12 @@ pso/ui/frontend/TAdChrSelBSlotGC.cpp:
 
 pso/player/TPlayerBattleCtrl4P.cpp:
 	.text       start:0x8031012C end:0x80312C50
-	.rodata     start:0x80475B88 end:0x80475B90
+	.rodata     start:0x80475930 end:0x80475B90
 	.data       start:0x804E7D30 end:0x804E80C0
 	.bss        start:0x80542E90 end:0x80542FB0
+	.sdata      start:0x805D4110 end:0x805D4118
 	.sbss       start:0x805D6AB0 end:0x805D6AC0
-	.sdata2     start:0x805DF240 end:0x805DF248
+	.sdata2     start:0x805DF228 end:0x805DF248
 
 pso/enemy/deldepth/DelDepthData.cpp:
 	.rodata     start:0x80475BD8 end:0x80475DD8
