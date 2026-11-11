@@ -26,7 +26,7 @@ extern const s32 adx_signed_nibbles[16] = {
 }
 
 extern "C" {
-extern s32 lbl_805D7520;
+s32 lbl_805D7520;
 }
 
 void TLobby::set_global_805D7520(s32 arg0) {

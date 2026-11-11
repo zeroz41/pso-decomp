@@ -15,7 +15,7 @@
 
 extern "C" {
 
-extern s32 TLobby__init_ref_count;
+s32 TLobby__init_ref_count;
 
 void TLobby::release_ref() {
     s32 temp_r0;

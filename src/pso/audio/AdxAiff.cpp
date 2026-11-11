@@ -147,19 +147,12 @@ struct Snd_803C1DC4
 extern "C" {
 s32 memset(void *, int, int);
 int memcmp(const void *a, const void *b, unsigned long n);
-extern const char lbl_805E0CE0[4];
-extern s32 lbl_805E0CC0;
-extern s32 lbl_805E0CC8;
-extern s32 lbl_805E0CD0;
-extern s32 lbl_805E0CD8;
 void TLobby__sub_803C19D8(void *);
 void TLobby__sub_803C3570(Strm_803C1A8C *o);
 void TLobby__sub_803C40D0(void *);
 void TLobby__sub_803C34F4(Obj_803C34F4 *arg0);
 s32 DVDReadPrio(void *, void *, void *);
 s32 TLobby__sub_803C44C0(Hdr_803C44C0 *hdr, s32 arg1, s16 *arg2, s8 *arg3, s8 *arg4, s8 *arg5, s8 *arg6, s32 *arg7, s32 *arg8, s32 *arg9, s16 *arg10);
-extern s32 lbl_8047C520[];
-extern s32 lbl_8047C540[];
 u32 adx_allocate_decoder_channel();
 Rec_803C3E88 *alloc_record__6TLobbyFiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void process_byteswapped_pcm_transfer(Snd_803C1DC4 *arg0);
@@ -331,7 +324,7 @@ s32 TLobby::parse_stream_header(void *arg1, void *arg2) {
 
 s32 TLobby::is_aiff_header() {
     u8 *arg0 = (u8 *)this;
-    if (((s32)memcmp((const void *)(arg0), (const void *)(&lbl_805E0CC0), (unsigned long)(4))) == 0 && ((s32)memcmp((const void *)(arg0 + 8), (const void *)(&lbl_805E0CC8), (unsigned long)(4))) == 0) {
+    if (((s32)memcmp((const void *)(arg0), "FORM", (unsigned long)(4))) == 0 && ((s32)memcmp((const void *)(arg0 + 8), "AIFF", (unsigned long)(4))) == 0) {
         return 1;
     }
     return 0;

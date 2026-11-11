@@ -13,7 +13,7 @@
 #include "pso/unk/text_803CC294.h"
 #include "pso/unk/text_803CE568.h"
 
-extern s32 lbl_805D7530;
+s32 lbl_805D7530;
 
 void ARAlloc(void) {
     if ((s32) lbl_805D7530 == 0) {

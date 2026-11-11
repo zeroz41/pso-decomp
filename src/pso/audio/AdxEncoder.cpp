@@ -107,7 +107,8 @@ s32 adx_write_encoded_blocks(AdxEncoder *enc);
 s32 write_adx_header__6TLobbyFPvPv(AdxEncoder *o, Strm_803C5B50 *s);
 void TLobby__sub_803C7DF0(AdxEncoder *enc, s32 ch);
 s32 fn_803C8020(AdxEncoder *enc, s32 ch);
-extern char *lbl_805D4664;
+s32 lbl_805D4660 = 0x1000;
+char *lbl_805D4664 = "(c)CRI";
 
 /* The encoder's file-local work pools: 61C4 addresses all three from one .bss base register, which CW
    only does for static data of one TU. */
@@ -756,7 +757,6 @@ void TLobby__sub_803C7DF0(AdxEncoder *enc, s32 ch) {
     }
 }
 
-extern s32 lbl_805D4660;
 
 /* Predicts sample i from the channel history and records the residual (inferred). */
 inline void predict_sample_8020(AdxEncChannel *c, s32 i, s16 smp) {

@@ -28,15 +28,15 @@ typedef void (*RecoveredCallback_e2efd47cbcab)(s32, char *);
 extern "C" {
 s32 memset(void *, int, int);
 extern RecoveredGlobal_803C5850_lbl_80572020 adx_error_message_buffer;
-extern s32 lobby_error_callback;
-extern s32 tlobby_error_callback_arg;
+s32 lobby_error_callback;
+s32 tlobby_error_callback_arg;
 char *strncpy(char *dst, const char *src, u32 n);
 void strncat(char *buf, s32 arg, s32 n);
 void TLobby__sub_803D38B4(const char *fmt, ...);
 s32 strlen(const char *);
 char number_format_digit_buffer[0x20];
 RecoveredGlobal_803C5850_lbl_80572020 adx_error_message_buffer;
-extern const char lbl_805E0D28[2];
+const char lbl_805E0D28[2] = " ";
 s32 set_callback_params__6TLobbyFll();
 }
 

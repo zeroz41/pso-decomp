@@ -282,20 +282,21 @@ void TLobby__sub_803C0758(u8 *arg0);
 void configure_audio_stream_output(Stream_803C9FCC *self);
 s16 TLobby__sub_803C96E0(Obj_803C96E0 *self, s32 i);
 s32 TLobby__sub_803CBF50(void *);
-extern u8 adx_out_pan_parameter_error[];
 void GXFlush(void);
 void TLobby__sub_803CA8B4(Ent_803C9608 *);
 extern Ent_803C9608 adx_stream_player_pool[16];
-extern s32 lbl_805D7564;
 
 void TLobby__sub_803C97F4(u8 *arg0, s32 *pos, s32 *rate);
 s32 TLobby__sub_803CBF10(int);
-extern s32 lbl_805D7560;
-extern s32 lbl_805D7570;
 s32 TLobby__sub_803C9358(u8 *arg0);
 void TLobby__sub_803C94DC(u8 *arg0, s32 arg1);
 void TLobby__sub_803C9E38(Obj_803C9E38 *arg0, VObj_803C9E38 *arg1);
-extern RecoveredCallback_2be3cacebb2e lbl_805D7574;
+s32 lbl_805D7560;
+s32 lbl_805D7564;
+s32 lbl_805D7568;
+f32 lbl_805D756C;
+s32 lbl_805D7570;
+RecoveredCallback_2be3cacebb2e lbl_805D7574;
 void TLobby__sub_803CA194(Obj_803CA194 *arg0);
 void *TLobby__sub_803C0848(void *, s32, void *);
 void *run_step_5210__6TLobbyFv(void *, s32);
@@ -443,7 +444,7 @@ void TLobby::adxt_set_out_pan(s32 arg1, s16 arg2) {
         TLobby__sub_803CBF50(this->m_next);
         return;
     }
-    TLobby::notify_error((const char *)adx_out_pan_parameter_error);
+    TLobby::notify_error("E8101208 ADXT_SetOutPan: parameter error");
 }
 
 s32 TLobby__sub_803C9740(u8 *arg0) {
@@ -499,9 +500,7 @@ extern "C" {
 s32 TLobby__sub_803C0010(u8 *arg0);
 s32 send_packet_by_id_2__6TLobbyFv(int);
 s32 query_available_size__6TLobbyFv(int);
-extern f32 lbl_805D756C;
-extern s32 lbl_805D7568;
-extern u32 lbl_805D4678;
+u32 lbl_805D4678 = 1;
 }
 
 inline void get_play_position_803C97F4(Adxt_803C97F4 *p, s32 *pos, s32 *rate) {

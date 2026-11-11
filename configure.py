@@ -952,6 +952,16 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         "pso/unk/text_803CFEA0.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
         "pso/unk/text_803D31A4.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
         "pso/audio/LscInit.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
+        # Their strings (chunk tags, error messages, the build string) are read-only data: .sdata2 and .rodata.
+        "pso/audio/AdxAiff.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
+        "pso/audio/AdxAu.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
+        "pso/audio/AdxBsc.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
+        "pso/audio/AdxSpsd.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
+        "pso/audio/AdxtInit.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
+        "pso/audio/AdxEncoder.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
+        "pso/audio/AdxTalk.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
+        "pso/audio/AdxtStart.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
+        "pso/audio/AdxtServer.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
     }),
     # Sega's Ginja model library.
     ("ginja", 0x803D6538, "GC/2.6", _switch(cflags_middleware, "-O3,p", "-opt nopeephole"), {

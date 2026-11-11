@@ -33,7 +33,7 @@ void TLobby__sub_803CB570(u8 *arg0, u8 *arg1, s16 *arg2);
 u32 decode_adx_mono_blocks(int, int, int, void *, int, int);
 u32 dispatch_receive_update__6TLobbyFv(int, int, int, void *, int, void *, int, int);
 
-extern s32 lbl_805D7588;
+s32 lbl_805D7588;
 
 }
 extern "C" {

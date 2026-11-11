@@ -59,8 +59,9 @@ struct PointerRecords_803C8610_var_r31 { u8 bytes[0x40]; };
 
 extern "C" {
 s32 TLobby__sub_803D3130(void *, s32, Pair_803C8678 *, Pair_803C8678 *);
-extern s32 tlobby_stream_read_retry_limit;
-extern s32 lbl_805D7558;
+s32 lbl_805D7550;
+s32 tlobby_stream_read_retry_limit;
+s32 lbl_805D7558;
 s32 memset(void *, int, int);
 }
 void update_active_stream_reads(void);
@@ -94,17 +95,16 @@ extern RecoveredGlobal_803C90B0_lbl_80575140 adx_stream_read_requests;
 s32 TLobby__sub_803C85AC(u8 *arg0, s32 *arg1);
 s32 cvFsGetFileSize(void);
 u32 cvFsOpen(const char *, int, int);
-extern char lbl_8047C634[];
-extern s32 adx_stream_request_count_ex;
-extern s32 lbl_805D7550;
+s32 adx_stream_request_count_ex = 0x10;
+s32 adx_stream_request_base_index = 0x10;
+s32 adx_stream_fname_slot_count = 0x18;
+static const char lbl_8047C600[] = "E00041205 ADXSTM_OpenFnameRangeExRt: can't open ";
+static const char lbl_8047C634[] = "E00041205 ADXSTM_OpenFnameEx: can't open ";
+static const char lbl_8047C660[] = "E0041206 ADXSTM_OpenFnameRang: can't open ";
 AdxStreamFile *TLobby__sub_803C8BAC(const char *name, s32 arg);
 s32 cvFsGetFileSizeEx(void);
-extern s32 adx_stream_fname_slot_count;
-extern s32 adx_stream_request_base_index;
 AdxStreamFile *TLobby__sub_803C8CDC(const char *name, s32 mode, s32 arg);
-extern char lbl_8047C600[];
 AdxStreamFile *adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, s32 arg);
-extern char lbl_8047C660[];
 AdxStreamFile *adxstm_open_fname_range__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, s32 arg);
 void TLobby__sub_803C8514(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C8578(u8 *arg0, s32 arg1);
@@ -381,7 +381,7 @@ AdxStreamFile *TLobby__sub_803C8BAC(const char *name, s32 arg) {
     size = cvFsGetFileSize();
     h = cvFsOpen(name, 0, 0);
     if (h == 0) {
-        TLobby::report_adx_error((const char *)lbl_8047C634, (s32)name);
+        TLobby::report_adx_error(lbl_8047C634, (s32)name);
         return NULL;
     }
     p = alloc_803C8BAC(arg, h, size);
@@ -427,7 +427,7 @@ AdxStreamFile *TLobby__sub_803C8CDC(const char *name, s32 mode, s32 arg) {
     }
     h = cvFsOpen((const char *)(name), mode, 0);
     if (h == 0) {
-        TLobby::report_adx_error((const char *)lbl_8047C634, (s32)name);
+        TLobby::report_adx_error(lbl_8047C634, (s32)name);
         return NULL;
     }
     p = alloc_803C8CDC(arg, h, 0, size);
@@ -467,7 +467,7 @@ AdxStreamFile *adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(const char *name, s
     AdxStreamFile *p;
     h = cvFsOpen((const char *)(name), mode, 0);
     if (h == 0) {
-        TLobby::report_adx_error((const char *)lbl_8047C600, (s32)name);
+        TLobby::report_adx_error(lbl_8047C600, (s32)name);
         return NULL;
     }
     p = alloc_803C8E28(arg, h, off, nsect << 11);
@@ -507,7 +507,7 @@ AdxStreamFile *adxstm_open_fname_range__6TLobbyFPviiii(const char *name, s32 mod
     AdxStreamFile *p;
     h = cvFsOpen((const char *)(name), mode, 0);
     if (h == 0) {
-        TLobby::report_adx_error((const char *)lbl_8047C660, (s32)name);
+        TLobby::report_adx_error(lbl_8047C660, (s32)name);
         return NULL;
     }
     p = alloc_803C8F5C(arg, h, off, nsect << 11);

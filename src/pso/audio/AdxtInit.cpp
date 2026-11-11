@@ -15,11 +15,11 @@
 extern "C" {
 s32 memset(void *, int, int);
 void flush_update__6TLobbyFv(void *, int);
-extern s32 lbl_805D4658;
-extern s32 TLobby_init_ref_count;
-extern s32 TLobby__svm_cb_svr_handle;
-extern s32 lbl_805D7540;
-extern const s32 lbl_805E0D30;
+s32 lbl_805D4658 = 1;
+s32 TLobby_init_ref_count;
+s32 TLobby__svm_cb_svr_handle;
+s32 lbl_805D7540;
+static const char *const volatile lbl_805E0D30 = "\nADXT/GC Ver.8.05 Build:Jun 13 2002 19:01:36\n";
 void TLobby__sub_803CE240(void);
 }
 
@@ -51,9 +51,9 @@ void TLobby::dec_ref_and_shutdown() {
     }
 }
 void TLobby::init_and_add_ref() {
-    s32 v = lbl_805E0D30;
+    lbl_805E0D30;
     if (TLobby_init_ref_count == 0) {
-        ((void (*)(s32))TLobby__sub_803C4698)(v);
+        TLobby__sub_803C4698();
         TLobby::init_once();
         TLobby__sub_803D2ED4();
         sj_ring_buffer_init();

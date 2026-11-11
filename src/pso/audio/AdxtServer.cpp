@@ -48,7 +48,6 @@ s32 set_field_44__6TLobbyFl(int, int);
 s32 set_field_40__6TLobbyFl(int, int);
 s32 set_field_3c__6TLobbyFl(int, int);
 s32 set_count__6TLobbyFl(int, int);
-extern char adxt_trap_entry_data_shortage_error[];
 void adxt_trap_entry_update__6TLobbyFPv(Obj_803CB20C *arg0);
 
 extern s32 lbl_805D7540;
@@ -118,13 +117,12 @@ s32 TLobby__sub_803CBF90(int, int);
 s32 TLobby__sub_803CBFB0(int, int);
 struct Conn_803CAEB4;
 void TLobby__sub_803CAEB4(Conn_803CAEB4 *arg0);
-extern char adx_decoder_channel_count_error[];
 
 void TLobby__sub_803CAB38(Strm_803CAB38 *self);
 s32 TLobby__sub_803CBFF0(int);
-extern s32 lbl_805D7578;
-extern s32 lbl_805D757C;
-extern s32 lbl_805D7580;
+s32 lbl_805D7578;
+s32 lbl_805D757C;
+s32 lbl_805D7580;
 
 // Inferred: CRI adxt_stat_prep (wait until every output SJ holds data, then start the RNA).
 inline void prep_803CA8B4(Ent_803C9608 *self) {
@@ -226,7 +224,7 @@ void TLobby__sub_803CAB38(Strm_803CAB38 *self) {
         s32 v = send_with_offset4__6TLobbyFv(t);
         if (v > self->f3) {
             TLobby::format_number_pair(v, self->f3, buf, 0x10);
-            TLobby::report_adx_error((const char *)adx_decoder_channel_count_error, (s32)buf);
+            TLobby::report_adx_error("E9081001 adxt_stat_decinfo: can't play this number of channels", (s32)buf);
             stop_audio_stream(arg0);
             return;
         }
@@ -457,7 +455,7 @@ void adxt_trap_entry_update__6TLobbyFPv(Obj_803CB20C *arg0) {
     }
     s->vt->lock(s, 1, arg0->f50, &b);
     if (b.size < arg0->f50) {
-        TLobby::notify_error((const char *)adxt_trap_entry_data_shortage_error);
+        TLobby::notify_error("E8101201 adxt_trap_entry: not enough data");
     }
     s->vt->commit(s, 0, &b);
     set_field_40__6TLobbyFl(id, 0);

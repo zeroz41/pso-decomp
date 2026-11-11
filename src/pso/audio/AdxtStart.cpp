@@ -80,11 +80,9 @@ typedef struct Ent_803CA774 {
 
 extern "C" {
 void configure_audio_stream_output(Stream_803C9FCC *self);
-extern char adxt_start_filename_open_error[];
 void start_audio_stream_file(Stream_803CA824 *self, const char *name);
 struct SjMemoryBuffer;
 SjMemoryBuffer *sj_memory_buffer_create(void *arg0, s32 arg1);
-extern char adxt_start_mem_idx_stream_create_error[];
 
 }
 void stop_audio_stream(u8 *arg0);
@@ -102,7 +100,7 @@ void TLobby::adxt_start_mem_idx(u8 *arg1, s32 arg2) {
     r = (s32)sj_memory_buffer_create(arg1 + *(s32 *)(arg1 + (arg2 + 1) * 8), 0x40000000);
     if (r == 0) {
         TLobby::release_ref();
-        TLobby::notify_error((const char *)adxt_start_mem_idx_stream_create_error);
+        TLobby::notify_error("E8101207: can't create sj (ADXT_StartMemIdx)");
         return;
     }
     start_stream_playback(r);
@@ -116,7 +114,7 @@ void start_audio_stream_file(Stream_803CA824 *self, const char *name) {
     TLobby::init_once();
     if ((self->handle = TLobby__sub_803C8BAC(name, self->f10)) == 0) {
         TLobby::release_ref();
-        TLobby::report_adx_error((const char *)adxt_start_filename_open_error, (s32)name);
+        TLobby::report_adx_error("E8101205 ADXT_StartFname: can't open ", (s32)name);
         self->f60 = -1;
         self->state = 6;
     } else {

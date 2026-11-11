@@ -8116,7 +8116,7 @@ pso/ui/charcreate/TObjCMName.cpp:
 	.text       start:0x802948F4 end:0x80298F38
 	.ctors      start:0x80433FC0 end:0x80433FC4
 	.rodata     start:0x80465140 end:0x80465150
-	.data       start:0x804DB950 end:0x804DBD48
+	.data       start:0x804DB950 end:0x804DBDC0
 	.bss        start:0x80540988 end:0x805409C8
 	.sbss       start:0x805D65A0 end:0x805D65A8
 	.sdata2     start:0x805DDA6C end:0x805DDC20
@@ -11800,23 +11800,28 @@ pso/unk/text_803C1780.cpp:
 
 pso/audio/AdxAiff.cpp:
 	.text       start:0x803C1A58 end:0x803C25F8
+	.sdata2     start:0x805E0CC0 end:0x805E0CD0
 
 pso/audio/AdxAu.cpp:
 	.text       start:0x803C25F8 end:0x803C34F4
 	.data       start:0x804F9B80 end:0x804F9D80
+	.sdata2     start:0x805E0CD0 end:0x805E0CE0
 
 pso/audio/AdxBsc.cpp:
 	.text       start:0x803C34F4 end:0x803C40A0
+	.rodata     start:0x8047C520 end:0x8047C568
 	.bss        start:0x80571480 end:0x80572000
 
 pso/audio/AdxSpsd.cpp:
 	.text       start:0x803C40A0 end:0x803C45E4
+	.sdata2     start:0x805E0CE0 end:0x805E0CE8
 
 pso/audio/AdxAmp.cpp:
 	.text       start:0x803C45E4 end:0x803C4630
 
 pso/audio/AdxLock.cpp:
 	.text       start:0x803C4630 end:0x803C46A4
+	.sbss       start:0x805D7518 end:0x805D7520
 
 pso/audio/AdxHeader.cpp:
 	.text       start:0x803C46A4 end:0x803C4C3C
@@ -11825,17 +11830,25 @@ pso/audio/AdxHeader.cpp:
 pso/audio/AdxDecode4.cpp:
 	.text       start:0x803C4C3C end:0x803C526C
 	.rodata     start:0x8047C568 end:0x8047C5A8
+	.sbss       start:0x805D7520 end:0x805D7528
 
 pso/audio/AdxError.cpp:
 	.text       start:0x803C526C end:0x803C58C8
 	.bss        start:0x80572000 end:0x80572120
+	.sbss       start:0x805D7528 end:0x805D7530
+	.sdata2     start:0x805E0D28 end:0x805E0D30
 
 pso/audio/AdxFsServer.cpp:
 	.text       start:0x803C58C8 end:0x803C5930
+	.sbss       start:0x805D7530 end:0x805D7538
 
 pso/audio/AdxtInit.cpp:
 	.text       start:0x803C5930 end:0x803C5B50
+	.rodata     start:0x8047C5A8 end:0x8047C5D8
 	.bss        start:0x80572120 end:0x80572BA0
+	.sdata      start:0x805D4658 end:0x805D4660
+	.sbss       start:0x805D7538 end:0x805D7548
+	.sdata2     start:0x805E0D30 end:0x805E0D38
 
 pso/unk/text_803C5B50.cpp:
 	.text       start:0x803C5B50 end:0x803C5E78
@@ -11844,25 +11857,36 @@ pso/unk/text_803C5B50.cpp:
 pso/audio/AdxEncoder.cpp:
 	.text       start:0x803C5E78 end:0x803C84D0
 	.bss        start:0x80573100 end:0x80575140
-	.sdata2     start:0x805E0D40 end:0x805E0D50
+	.sdata      start:0x805D4660 end:0x805D4668
+	.sdata2     start:0x805E0D38 end:0x805E0D50
 
 pso/audio/AdxStream.cpp:
 	.text       start:0x803C84D0 end:0x803C90E4
+	.rodata     start:0x8047C600 end:0x8047C690
 	.bss        start:0x80575140 end:0x80575B40
+	.sdata      start:0x805D4668 end:0x805D4678
+	.sbss       start:0x805D7550 end:0x805D7560
 
 pso/audio/AdxTalk.cpp:
 	.text       start:0x803C90E4 end:0x803CA774
+	.rodata     start:0x8047C690 end:0x8047C6C0
+	.sdata      start:0x805D4678 end:0x805D4680
+	.sbss       start:0x805D7560 end:0x805D7578
 	.sdata2     start:0x805E0D50 end:0x805E0D70
 
 pso/audio/AdxtStart.cpp:
 	.text       start:0x803CA774 end:0x803CA8B4
+	.rodata     start:0x8047C6C0 end:0x8047C718
 
 pso/audio/AdxtServer.cpp:
 	.text       start:0x803CA8B4 end:0x803CB384
+	.rodata     start:0x8047C718 end:0x8047C788
+	.sbss       start:0x805D7578 end:0x805D7588
 
 pso/audio/AdxExpand.cpp:
 	.text       start:0x803CB384 end:0x803CB74C
 	.bss        start:0x80575B40 end:0x80575E80
+	.sbss       start:0x805D7588 end:0x805D7590
 
 pso/audio/AdxManager.cpp:
 	.text       start:0x803CB74C end:0x803CBCA0
