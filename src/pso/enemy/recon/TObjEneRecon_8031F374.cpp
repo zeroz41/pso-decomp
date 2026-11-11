@@ -4,7 +4,6 @@
 
 extern "C" {
 
-s32 TObjEneRecobox__sub_8031F1A8(void *);
 s32 refresh_lobby_state__10TObjPlayerFv();
 s32 send_entity_set_flags__9TObjEnemyFv();
 

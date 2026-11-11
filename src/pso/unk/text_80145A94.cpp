@@ -4,6 +4,7 @@
 #include "pso/network/NetworkInfoLoader.h"
 #include "pso/network/NetworkInfoRequests.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_803F18B8.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_803F339C.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_803F3CF4.h"
 #include "pso/unk/text_80145A94.h"
 #include "pso/unk/text_8042EE4C.h"
@@ -16,8 +17,6 @@ struct Ids_80145A94 { s32 v[2]; };
 struct Buf_80145A94 { s32 hdr; s8 name[0xA0]; s8 x[0x270 - 0xA4]; };
 
 extern "C" {
-s32 TLobby__sub_803F3BF8(int, s32, u32);
-s32 request_network_info_load(s32, void *);
 s32 memset(void *, int, int);
 extern s32 lbl_8043F3E8[];
 extern s16 disc_error_code;
@@ -51,7 +50,7 @@ s32 TLobby__sub_80145A94(void) {
         TLobby__sub_803F3D60();
         lbl_805D56CE = 0;
     }
-    TLobby__sub_803F3BF8(0, lbl_805D56C8, status);
+    TLobby__sub_803F3BF8(0, (void *)lbl_805D56C8, status);
     lbl_805D56CE = 1;
     TAdPlayerLoadGC__sub_803F31D8((void *)TLobby::get_global_63e0());
     start = 0;

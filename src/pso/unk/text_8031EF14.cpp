@@ -1,6 +1,10 @@
 #include "types.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/object/TObjChip.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_80087278.h"
 struct Obj_8031EF14 { u8 pad[0x410]; s32 count; u8 pad2[4]; u16 ids[6]; };
 
 struct Obj_8031F0F0 { u8 pad[0x410]; s32 count; u8 pad2[4]; u16 ids[6]; };
@@ -71,6 +75,41 @@ s32 TObjEneRecon::is_below_child_limit(u16 arg1) {
         return n < 4;
     }
     return n < 2;
+}
+
+extern BmlResource *TObjEneRecobox__static_instance;
+extern const TObjChipParams lbl_804762F0;
+extern const TObjChipParams lbl_8047633C;
+extern const TObjChipParams lbl_80476388;
+// Called from TObjEneRecon::handle_death_state: breaks the Recon into three
+// debris chips (models 3-5 of the Recobox archive, textures of model 3).
+void TObjEneRecobox__sub_8031F1A8(TObjEneRecon *recon) {
+    TObjChipParams chip0 = lbl_804762F0;
+    chip0.pos[0] = recon->position.x;
+    chip0.pos[1] = recon->position.y;
+    chip0.pos[2] = recon->position.z;
+    chip0.pad_38[0] = recon->position.y;
+    chip0.model = TObjEneRecobox__static_instance->models[3].model;
+    chip0.textures = TObjEneRecobox__static_instance->models[3].m_c;
+    TObjChipParams chip1 = lbl_8047633C;
+    chip1.pos[0] = recon->position.x;
+    chip1.pos[1] = recon->position.y;
+    chip1.pos[2] = recon->position.z;
+    chip1.pad_38[0] = recon->position.y;
+    chip1.model = TObjEneRecobox__static_instance->models[4].model;
+    chip1.textures = TObjEneRecobox__static_instance->models[3].m_c;
+    TObjChipParams chip2 = lbl_80476388;
+    chip2.pos[0] = recon->position.x;
+    chip2.pos[1] = recon->position.y;
+    chip2.pos[2] = recon->position.z;
+    chip2.pad_38[0] = recon->position.y;
+    chip2.model = TObjEneRecobox__static_instance->models[5].model;
+    chip2.textures = TObjEneRecobox__static_instance->models[3].m_c;
+    spawn_particle_effect_with_flags(&recon->position, 0x45, 0x40);
+    spawn_particle_effect_with_flags(&recon->position, 0x46, 0x40);
+    new TObjChip(tl_05, &chip0);
+    new TObjChip(tl_05, &chip1);
+    new TObjChip(tl_05, &chip2);
 }
 
 }
