@@ -45,7 +45,7 @@ struct LobbyHandler {
 typedef char LobbyHandler_size_check[sizeof(LobbyHandler) == 0x30 ? 1 : -1];
 
 typedef struct LobbyHandlerTable { s16 count; LobbyHandler *list; } LobbyHandlerTable;
-extern LobbyHandlerTable lobby_handler_table_desc;
+extern LobbyHandlerTable lobby_handler_table_desc; /* defined at the end of the file */
 typedef char LobbyHandlerTable_size_check[sizeof(LobbyHandlerTable) == 8 ? 1 : -1];
 
 #include "pso/network/IPv6Send.h"
@@ -452,3 +452,5 @@ extern s16 TLobby__sub_8040A2BC(Fn_8040881C *fns, s16 kind) {
         return -0x10F;
     }
 }
+
+LobbyHandlerTable lobby_handler_table_desc;

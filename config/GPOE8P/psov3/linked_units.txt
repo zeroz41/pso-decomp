@@ -2796,3 +2796,11 @@ pso/network/NetIcmp6.c
 pso/network/NetAddrFamily.c
 pso/network/NetIpv4Route.c
 pso/network/NetUdp.c
+pso/network/TLobby_803FCF44.c
+pso/network/NetPppLink.c
+pso/network/PppLcp.c
+pso/network/PppBuffer.c
+pso/network/PppMd5.c
+pso/network/NetByteOrder.c
+pso/network/PppControl.c
+pso/network/PppVj.c

@@ -8,7 +8,8 @@
 #include "pso/network/TLobby_803FC178.h"
 #include "pso/network/TLobby_804048E8.h"
 
-/* TLobby_803FCF44.c: PPP option negotiation, the connection records and the stack's timers. */
+/* Shared by the PPP files split out of TLobby_803FCF44.c: NetPppLink.c, PppFsm.c, PppIpcp.c, PppLcp.c, PppBuffer.c,
+ * PppMd5.c, NetByteOrder.c, PppPap.c, PppControl.c and PppVj.c (CHAP is TLobby_803FC178.c). */
 typedef struct Self_803FD74C Self_803FD74C;
 typedef struct Tbl_803FD74C Tbl_803FD74C;
 typedef struct Self_803FD85C Self_803FD85C;
@@ -89,6 +90,25 @@ extern u8 lobby_ppp_read_buf;
 s16 TLobby__sub_803FFB84(void *self, void *p, void *a, u8 *hdr, s16 c);
 u32 TLobby__sub_803FE9F8(u32 sum, PppFrame* buf, u16 count);
 void TLobby__sub_803FD0C0(void);
+/* Called across the PPP files; each line names its defining file. */
+void TLobby__sub_803FD694(u8 *arg0); /* PppFsm.c */
+void TLobby__sub_803FE600(O_803FE600 *o); /* PppFsm.c */
+s16 TLobby__sub_803FED78(u8 *self); /* PppIpcp.c */
+s16 TLobby__sub_80400744(int a0, void *a1); /* PppLcp.c */
+s32 TLobby__sub_80401ABC(u8 *self_m, void *dst, s32 n); /* PppBuffer.c */
+
+/* The protocol header that opens the IPCP and LCP state objects (.bss 805C0328 and 805C0400). */
+typedef struct Obj_803FEF4C {
+    u32 w0;
+    u16 h4;
+    s16 h6;
+    u8 b8;
+    u8 b9;
+    u8 bA;
+    u8 bB;
+    s32 wC;
+    void *fn[11];
+} Obj_803FEF4C;
 void TLobby__sub_803FE820(s32 arg0);
 s32 set_socket_flags_by_mode(s16 arg0, u8 *arg1);
 s16 TLobby__sub_803FF304(u8 *lobby);

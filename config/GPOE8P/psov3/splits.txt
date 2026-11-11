@@ -12438,10 +12438,46 @@ pso/network/TLobby_803FC178.c:
 	.bss        start:0x805C0180 end:0x805C0310
 
 pso/network/TLobby_803FCF44.c:
-	.text       start:0x803FCF44 end:0x804048E8
-	.data       start:0x804FD5A8 end:0x804FD650
-	.bss        start:0x805C0310 end:0x805C06D8
+	.text       start:0x803FCF44 end:0x803FD0C0
 	.sdata2     start:0x805E1158 end:0x805E1160
+
+pso/network/NetPppLink.c:
+	.text       start:0x803FD0C0 end:0x803FD694
+	.bss        start:0x805C0310 end:0x805C0328
+
+pso/network/PppFsm.c:
+	.text       start:0x803FD694 end:0x803FED78
+	.data       start:0x804FD5A8 end:0x804FD628
+
+pso/network/PppIpcp.c:
+	.text       start:0x803FED78 end:0x804004DC
+	.bss        start:0x805C0328 end:0x805C0400
+
+pso/network/PppLcp.c:
+	.text       start:0x804004DC end:0x80401A68
+	.data       start:0x804FD628 end:0x804FD650
+	.bss        start:0x805C0400 end:0x805C04A8
+
+pso/network/PppBuffer.c:
+	.text       start:0x80401A68 end:0x80401D2C
+	.bss        start:0x805C04A8 end:0x805C04D8
+
+pso/network/PppMd5.c:
+	.text       start:0x80401D2C end:0x80402ADC
+
+pso/network/NetByteOrder.c:
+	.text       start:0x80402ADC end:0x80402B60
+
+pso/network/PppPap.c:
+	.text       start:0x80402B60 end:0x804036FC
+	.bss        start:0x805C04D8 end:0x805C0638
+
+pso/network/PppControl.c:
+	.text       start:0x804036FC end:0x80403F4C
+	.bss        start:0x805C0638 end:0x805C06D8
+
+pso/network/PppVj.c:
+	.text       start:0x80403F4C end:0x804048E8
 
 pso/network/TLobby_804048E8.c:
 	.text       start:0x804048E8 end:0x804050DC
@@ -12461,6 +12497,7 @@ pso/network/NetEthernet.c:
 
 pso/network/NetHandlerTable.c:
 	.text       start:0x80409818 end:0x8040A3C0
+	.sbss       start:0x805D7AF8 end:0x805D7B00
 
 pso/network/NetDns.c:
 	.text       start:0x8040A3C0 end:0x8040CB44

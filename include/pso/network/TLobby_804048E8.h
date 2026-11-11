@@ -89,6 +89,7 @@ extern "C" {
 void TLobby__sub_80405000(u32 arg0);
 s32 init_net_list(s16 count2, s16 count1);
 s32 TLobby__sub_803FEA88(A_80403F4C *out, PppFrame **src);
+u8 *NetIPv4WriteHeader(A_80403F4C *arg0, u8 *arg1, s32 arg2); /* PppFsm.c */
 #ifdef __cplusplus
 }
 #endif
