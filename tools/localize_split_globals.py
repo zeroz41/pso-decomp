@@ -11,8 +11,8 @@ an artifact of the split, and marking it `scope:local` removes the refusal
 without changing a byte of the DOL.
 
 "No other object" is checked against the undefined symbols of the objects
-the link actually uses: the split object (build/GPOE8P/obj) of every unit in
-report.json and the compiled object (build/GPOE8P/src) of every unit, since
+the link actually uses: the split object (build/<version>/obj) of every unit in
+report.json and the compiled object (build/<version>/src) of every unit, since
 the following scan may link any exact one.
 Stale objects of retired splits in those directories are ignored.
 
@@ -35,7 +35,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import link_units as lu  # noqa: E402
 
-SYMBOLS = lu.CFG_DIR / "symbols.txt"
+SYMBOLS = lu.SYMBOLS
 BLOCKED = lu.CFG_DIR / "linked_units_blocked.json"
 
 
@@ -68,7 +68,13 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--write", action="store_true")
     ap.add_argument("units", nargs="*", help="limit to these units")
+    ap.add_argument("--version", default="GPOE8P", choices=["GPOE8P", "GPOP8P"],
+                    help="game version (default: GPOE8P)")
     args = ap.parse_args()
+    global SYMBOLS, BLOCKED
+    lu.use_version(args.version)
+    SYMBOLS = lu.SYMBOLS
+    BLOCKED = lu.CFG_DIR / "linked_units_blocked.json"
 
     if not BLOCKED.exists():
         sys.exit(f"missing {BLOCKED.relative_to(lu.ROOT)}: run tools/link_units.py scan first")
