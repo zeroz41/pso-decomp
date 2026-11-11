@@ -38,11 +38,15 @@ struct Boss2TunnelEffectEntry {
     const s32 *indices;
 };
 
-extern const s32 lbl_804743B0[];
-extern const s32 lbl_804743BC[];
-extern const s32 lbl_804743CC[];
-extern const s32 lbl_804743D8[];
-extern const s32 lbl_804743E4[];
+const s32 lbl_804743B0[3] = {0, 1, 2};
+const s32 lbl_804743BC[4] = {3, 4, 5, 6};
+const s32 lbl_804743CC[3] = {7, 8, 9};
+const s32 lbl_804743D8[3] = {10, 11, 12};
+const s32 lbl_804743E4[4] = {13, 14, 15, 16};
+// where TObjBoss2Tunnel__sub_802F2A2C places its two TObjBoss7RaftSplash
+const Vec TObjBoss2Tunnel__raft_splash_offset_table[2] = {{3.0f, 0.0f, -5.0f}, {-3.0f, 0.0f, -5.0f}};
+const char *TObjBoss7TunnelCol__name = "TObjBoss7TunnelCol";
+const CollisionBody TObjBoss7TunnelCol__col_desc = {{0.0f, 0.0f, 0.0f}, 100.0f, 9.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 Boss2TunnelEffectEntry boss2_tunnel_effect_name_table[5] = {
     {3, lbl_804743B0},
@@ -132,15 +136,13 @@ void *__dt__18TObjBoss7TunnelColFv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-extern s32 TObjBoss7TunnelCol__col_desc[];
-extern void *lbl_805D3FF0;
 
 void *TObjBoss7TunnelCol__ct(void *arg0, TObject *parent) {
     TObjBoss7TunnelCol *self = (TObjBoss7TunnelCol *)arg0;
     __ct__14TObjCollidableFP7TObject(arg0, parent);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjBoss7TunnelCol;
-    *(void * *)&((TObjBoss7TunnelCol *)arg0)->m_name = lbl_805D3FF0;
-    copy_collision_body(&self->collision_body, (const CollisionBody *)TObjBoss7TunnelCol__col_desc);
+    self->m_name = TObjBoss7TunnelCol__name;
+    copy_collision_body(&self->collision_body, &TObjBoss7TunnelCol__col_desc);
     *(f32 *)((s8 *)arg0 + 0x38) = 85.0f;
     *(f32 *)((s8 *)arg0 + 0x3C) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x40) = 0.0f;
@@ -328,9 +330,8 @@ void fn_802F1E54(u8 *arg0);
 s32 reset_floats__15TObjBoss2TunnelFv(void *);
 s32 reset_floats__15TObjBoss2TunnelFl(void *);
 s32 is_room_enemy_set_cleared(s32, int);
-s32 TObjBoss7RaftSplash__ct(void *, void *, void *, void *, void *);
+s32 TObjBoss7RaftSplash__ct(void *, void *, void *, const Vec *, void *);
 
-extern u8 TObjBoss2Tunnel__raft_splash_offset_table[];
 void *TObjBoss2Tunnel__sub_802F2A2C(void *arg0p, s32 parent);
 f32 rand_signed_unit();
 u8 *__ct__13TObjBoss7DustFv(u8 *arg0, s32 arg1, s32 arg2);
@@ -642,7 +643,7 @@ void *TObjBoss2Tunnel__sub_802F2A2C(void *arg0p, s32 parent) {
     for (i = 0; i < 2; i++) {
         p = __nw__7TObjectFUl(0x40);
         if (p != 0) {
-            TObjBoss7RaftSplash__ct((void *) p, arg0, &lbl_804E4A44[i], TObjBoss2Tunnel__raft_splash_offset_table + i * 0xC, arg0 + 0x5C);
+            TObjBoss7RaftSplash__ct((void *) p, arg0, &lbl_804E4A44[i], &TObjBoss2Tunnel__raft_splash_offset_table[i], arg0 + 0x5C);
         }
     }
     new TUnk_804E4AD4(*(TObject **)((s8 *)arg0 + 0x90), 0);

@@ -438,6 +438,16 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/effect/TDuelEffectNumber_80080290.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-fp_contract on")},
     "pso/effect/TEffClitical.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/item/TItemEffArmor.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/boss/derolle/TObjBoss2Tunnel_802F1A58.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/unk/TLobby_803382E4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/city/TShopDeleteItemWindow.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/unk/TLobby_80207DA8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/item/TItemReverseTech.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/hud/TNowLoading.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/item/TItemLoad_80110010.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/player/TObjPlayer_801D84CC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # -sdata 4: the 8-byte camera bank list 0x80488B98 sits in .data, not .sdata.
+    "pso/camera/TCameraCtrl_8006C7C4.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     "pso/effect/item/TItemEffBringer.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/item/TItemEffCane.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/item/TItemEffEquip.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -665,7 +675,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # .data base (addi r0,r28,1860), so the vtable existed before the functions were
     # compiled; with the source last-to-first every function lands at its address.
     # -fp_contract on: four functions need fused multiply-adds, none differ with it on.
-    "pso/boss/darkfalz/TBoss4Type1.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-sdata 4", "-fp_contract on")},
+    "pso/boss/darkfalz/TBoss4Type1.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-sdata 4", "-fp_contract on", "-str reuse,readonly")},
     # -sdata 4: the 8-byte name list lbl_80487858 sits in .data, not .sdata.
     "pso/boss/galgryphon/Boss5GryphonBehavior.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/enemy/gyaranzo/TObjEneGyaranzo.cpp": {"mw_version": "GC/2.0"},

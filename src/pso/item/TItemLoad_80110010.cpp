@@ -5,6 +5,7 @@
 #include "pso/item/TUnk_8049F3F4.h"
 #include "pso/item/TUnk_8049F42C.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/BmlResourceDescriptor.h"
 
 struct Base_801104C4_80110010 { char pad[0x18]; };
 struct VObj_801104C4_80110010 : Base_801104C4_80110010 {
@@ -26,13 +27,28 @@ struct Node_801103F4 : Base_801103F4 {
 
 struct Load_8011006C { void *buf; s32 f4; s32 f8; s32 fC; s32 f10; void *f14; };
 
+__declspec(section ".data") const char *item_model_names[15] = {
+    "gun_bullet.gj", "armor_scan.gj", "ixm_box01.gj", "ixm_box02.gj", "ixm_box03.gj", "ixm_box04.gj", "ixm_box05.gj",
+    "ixm_box06.gj", "ixm_box07_gift.gj", "ixm_box08_xmas.gj", "ixm_box09_egg.gj", "ixm_box10_pumpkin.gj",
+    "ixm_box11_flower.gj", "wxmR04_d_t_efect.gj", NULL
+};
+__declspec(section ".data") const char *item_motion_names[2] = { "armor_scan.njm", NULL };
+BmlResourceDescriptor item_bml_resource_descriptor = { "item.bml", item_model_names, item_motion_names, 14, 1 };
+
+// Per item class (item[0]) offsets added to the PMT record's two model ids.
+const s16 lbl_8043E4C0[4] = { 0, 0x10A, 0xC7, 0 };
+const s16 lbl_8043E4C8[4] = { 0, 0x11F, 0xDC, 0 };
+
+const char *lbl_805D2BE8 = "ItemTexture.afs";
+const char *lbl_805D2BEC = "ItemModel.afs";
+const char *item_load_tmp_buffer = "ItemLoad";
+const char *TItemLoad__name = "TItemLoad";
+
 extern u32 TItemLoad__completed_model_load_task_root;
 extern "C" {
 void *TItemLoad__sub_801107EC(void *p);
 void *lookup_item_pmt_record(u8 *item);
 void *__nw__7TObjectFUl(u32);
-extern s16 lbl_8043E4C0[];
-extern s16 lbl_8043E4C8[];
 extern void *TItemLoad__model_load_task_root;
 extern s32 *TItemLoad__model_slot_in_use;
 void *mem_alloc(u32);

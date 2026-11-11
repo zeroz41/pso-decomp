@@ -368,11 +368,11 @@ void *__dt__21TShopDeleteItemWindowFv(TShopDeleteItemWindow *arg0, s16 arg1) {
     return arg0;
 }
 
-extern void *TShopDeleteItemWindow__name;
-
 }
+
+const char *TShopDeleteItemWindow__name = "TShopDeleteItemWindow";
 TShopDeleteItemWindow::TShopDeleteItemWindow(void *arg1, void *arg2, void *arg3) : TShopWindowBase((TObject *)arg1) {
-    *(void * *)&this->m_name = TShopDeleteItemWindow__name;
+    this->m_name = TShopDeleteItemWindow__name;
     this->m_20 = 0;
     *(void **)((s8 *)this + 0x24) = arg3;
     this->m_5c = 1;
