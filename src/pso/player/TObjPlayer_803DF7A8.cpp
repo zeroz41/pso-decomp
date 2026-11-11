@@ -208,8 +208,8 @@ static inline f32 sqrtf_803DFB1C(f32 x) {
 /* Two quads touch: in each of the XY, XZ and YZ projections an edge of one
    crosses an edge of the other, or one projection lies inside the other. */
 s32 TObjPlayer__sub_803DFB1C(Vec_803E1B1C *a, Vec_803E1B1C *b) {
-    Point2_803E0CC8 pb[4];
     Point2_803E0CC8 pa[4];
+    Point2_803E0CC8 pb[4];
     s32 hitXY;
     s32 hitXZ;
     s32 hitYZ;

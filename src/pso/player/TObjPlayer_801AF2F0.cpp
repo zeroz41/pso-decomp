@@ -5754,9 +5754,10 @@ void TObjPlayer::apply_battle_level_reset(s32 level) {
 
     Unk_801B67C4 saved[9];
     s16 result;
+    s32 i;
 
     Unk_801B67C4 *e = saved;
-    for (s32 i = 0; i < 13; i++) {
+    for (i = 0; i < 13; i++) {
         TItem *item = get_equipped_item(i);
         if (item != NULL) {
             e->slot = item->get_attach_slot();
@@ -5776,8 +5777,8 @@ void TObjPlayer::apply_battle_level_reset(s32 level) {
     ((player_stats *)m_2b0)->stats.lck = base->lck;
     s32 row = get_ply_level_table_row(cls, 0);
     if (row != 0) {
-        player_stats *caps = get_class_stat_caps(cls);
-        for (s32 i = 0; i < level; i++) {
+        const player_stats *caps = get_class_stat_caps(cls);
+        for (i = 0; i < level; i++) {
             row += 0xC;
             add_stat_clamped(((TObjPlayer *)row)->get_char_class(), &((player_stats *)m_2b0)->stats.atp, caps->stats.atp);
             add_stat_clamped(((TObjPlayer *)row)->get_team_id(), &((player_stats *)m_2b0)->stats.mst, caps->stats.mst);
