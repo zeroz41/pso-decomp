@@ -1266,6 +1266,7 @@ pso/quest/TQuestVmDownLoadServer_80080788.cpp
 pso/quest/TQuestVmDownLoadServer_800F9CE4.cpp
 pso/quest/TQuestVmDownLoadServer_801F9010.cpp
 pso/quest/TQuestVmDownLoadServer_803E5668.cpp
+pso/quest/TQuestVmDownLoadServer_803E6970.cpp
 pso/ui/hud/TRaderMapCore_801A6CEC.cpp
 pso/ui/hud/TRaderMapCore_801F3710.cpp
 pso/ui/hud/TRaderMapCore_801FB2B8.cpp

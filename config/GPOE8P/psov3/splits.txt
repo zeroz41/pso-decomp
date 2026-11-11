@@ -12272,16 +12272,24 @@ pso/quest/TQuestVmDownLoadServer_803E5668.cpp:
 	.sbss       start:0x805D7828 end:0x805D782C
 	.sdata2     start:0x805E10C0 end:0x805E10C8
 
-pso/quest/QuestDownloadBuffers.cpp:
-	.bss        start:0x8058DE08 end:0x80596668
-
 pso/ui/window/TWindowKeyBoardSoft_803E6610.cpp:
 	.text       start:0x803E6610 end:0x803E6970
 
 pso/quest/TQuestVmDownLoadServer_803E6970.cpp:
-	.text       start:0x803E6970 end:0x803F0C50
+	.text       start:0x803E6970 end:0x803E8918
 	.rodata     start:0x8047EA28 end:0x8047F0F8
-	.data       start:0x804FC858 end:0x804FCD34
+	.data       start:0x804FC858 end:0x804FC8F8
+	.bss        start:0x8058DE08 end:0x80591EC8
+
+pso/quest/QuestDownloadBuffers.cpp:
+	.bss        start:0x80591EC8 end:0x80596668
+
+pso/quest/TQuestVmDownLoadServer_803E8918.cpp:
+	.text       start:0x803E8918 end:0x803E9A24
+
+pso/quest/TQuestVmDownLoadServer_803E9A24.cpp:
+	.text       start:0x803E9A24 end:0x803F0C50
+	.data       start:0x804FC8F8 end:0x804FCD34
 	.bss        start:0x80596668 end:0x805A2720
 
 pso/ui/keyboard/TKeyBoardControl_803F0C50.cpp:
