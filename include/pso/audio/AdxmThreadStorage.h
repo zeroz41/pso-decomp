@@ -26,5 +26,9 @@ extern volatile s32 lbl_805D75BC;
 extern volatile s32 lobby_worker_thread_run_flag;
 extern volatile s32 lbl_805D75C4;
 extern volatile s32 lbl_805D75C8;
+
+// SVM lock/unlock callbacks TLobby__sub_803CB858 registers.
+void __OSCallResetFunctions(void);
+void fn_803CBCA0(void);
 }
 #endif

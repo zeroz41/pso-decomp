@@ -1,5 +1,6 @@
 // CRI adx_errs.c: ADX error reporting (ADXERR_ItoA2, ADXERR_CallErrFunc1/2, ADXERR_Init/Finish).
 #include "types.h"
+#include <string.h>
 #include "pso/unk/text_803D31A4.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/LscStream.h"
@@ -26,14 +27,10 @@ struct RecoveredGlobal_803C588C_lbl_80572020 {
 typedef void (*RecoveredCallback_e2efd47cbcab)(s32, char *);
 
 extern "C" {
-s32 memset(void *, int, int);
 extern RecoveredGlobal_803C5850_lbl_80572020 adx_error_message_buffer;
 s32 lobby_error_callback;
 s32 tlobby_error_callback_arg;
-char *strncpy(char *dst, const char *src, u32 n);
-void strncat(char *buf, s32 arg, s32 n);
 void TLobby__sub_803D38B4(const char *fmt, ...);
-s32 strlen(const char *);
 char number_format_digit_buffer[0x20];
 RecoveredGlobal_803C5850_lbl_80572020 adx_error_message_buffer;
 const char lbl_805E0D28[2] = " ";
@@ -65,11 +62,11 @@ inline void num_to_str_803C526C(s32 v, char *out, s32 n) {
 }
 void TLobby::format_number_pair(s32 arg0, s32 arg1, char *arg2, s32 arg3) {
     num_to_str_803C526C(arg0, arg2, arg3);
-    strncat(arg2, (s32)lbl_805E0D28, arg3 - strlen(arg2) - 1);
+    strncat(arg2, lbl_805E0D28, arg3 - strlen(arg2) - 1);
     num_to_str_803C526C(arg1, arg2 + strlen(arg2), 4 - strlen(arg2));
 }
 
-void TLobby::report_adx_error(const char *msg, s32 arg) {
+void TLobby::report_adx_error(const char *msg, const char *arg) {
     strncpy(((char *)&adx_error_message_buffer), msg, 0xFF);
     strncat(((char *)&adx_error_message_buffer), arg, 0xFF);
     if ((*(Callback_803C5744 *)&lobby_error_callback) != 0) {

@@ -6,7 +6,6 @@
 #include "pso/audio/SjRingBuffer.h"
 
 #include "types.h"
-#include "pso/unk/text_803CBCA0.h"
 #include "pso/unk/text_803D31A4.h"
 
 struct Pair_803C8678 { u32 a, b; };

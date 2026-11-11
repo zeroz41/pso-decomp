@@ -1,4 +1,5 @@
 #include <dolphin/os/OSThread.h>
+#include <dolphin/os/OSInterrupt.h>
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxmThreadStorage.h"
@@ -6,7 +7,6 @@
 #include "pso/audio/SjRingBuffer.h"
 
 #include "types.h"
-#include "pso/unk/text_803CBCA0.h"
 #include "pso/unk/text_803D31A4.h"
 
 extern "C" {
@@ -32,36 +32,35 @@ typedef struct Cfg_803CBA58 {
 
 extern "C" {
 s32 VIWaitForRetrace();
-
-extern Cb_803CBA58 adx_worker_thread_pending_callback;
-extern s32 lbl_805D7540;
-extern s32 lbl_805D75A0;
-void TLobby__sub_803CBB14(void);
-}
-
-extern "C" {
 void TLobby__sub_803CB7F8(s32 arg0, s32 arg1);
-extern s32 lbl_805D7590;
-s32 TLobby__sub_803CB844(void);
-extern const char *const volatile lbl_805E0D78;
-void TLobby__sub_803CB81C(void);
 void TLobby__sub_803CE544(void *, int);
 void TLobby__sub_803CFAA8(const char *, void *, int);
 char *TLobby__sub_803D43B8(void);
-extern const char lbl_805E0D70[4];
-extern const char lbl_805E0D74[4];
 void TLobby__sub_803CB74C(s32 *arg0);
 s32 run_worker_callbacks_slot5__6TLobbyFv(int);
-extern Cfg_803CBA58 lbl_804F9D80;
-extern OSThread *lbl_805D75A8;
-
-extern s32 lbl_805D7598;
-extern s32 lbl_805D75A4;
-extern char adxm_idle_border_internal_error[];
-
 void TLobby__sub_803CBA18(void);
+void TLobby__sub_803CBB14(void);
 s32 set_callback_params__6TLobbyFll();
+extern s32 lbl_805D7540;
 
+Cfg_803CBA58 lbl_804F9D80 = {0};
+Cb_803CBA58 adx_worker_thread_pending_callback = {NULL, 0};
+
+s32 lbl_805D7590;
+s32 lbl_805D7594;
+s32 lbl_805D7598;
+volatile s32 lbl_805D759C;
+s32 lbl_805D75A0;
+s32 lbl_805D75A4;
+OSThread *lbl_805D75A8;
+s32 lbl_805D75AC;
+volatile s32 lbl_805D75B0;
+volatile s32 lbl_805D75B4;
+volatile s32 lbl_805D75B8;
+volatile s32 lbl_805D75BC;
+volatile s32 lobby_worker_thread_run_flag;
+volatile s32 lbl_805D75C4;
+volatile s32 lbl_805D75C8;
 }
 void * *initialize_dvd_file_driver(void);
 void set_dvd_synchronous_read_mode(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
@@ -69,10 +68,10 @@ extern "C" {
 
 void TLobby__sub_803CB74C(s32 *arg0) {
     TLobby__sub_803CE544((void *)TLobby__sub_803CB7F8, 0);
-    TLobby__sub_803CFAA8(lbl_805E0D70, (void *)TLobby__sub_803D43B8, 0);
+    TLobby__sub_803CFAA8("MFS", (void *)TLobby__sub_803D43B8, 0);
     TLobby__sub_803CE544((void *)TLobby__sub_803CB7F8, 0);
-    TLobby__sub_803CFAA8(lbl_805E0D74, (void *)initialize_dvd_file_driver, 0);
-    ((TLobby *)lbl_805E0D74)->cvFsSetDefDev();
+    TLobby__sub_803CFAA8("GCD", (void *)initialize_dvd_file_driver, 0);
+    ((TLobby *)"GCD")->cvFsSetDefDev();
     if (arg0 != NULL) {
         set_dvd_synchronous_read_mode(0, 0, 0, *arg0);
     } else {
@@ -83,6 +82,8 @@ void TLobby__sub_803CB74C(s32 *arg0) {
 void TLobby__sub_803CB7F8(s32 arg0, s32 arg1) {
     TLobby::notify_error((const char *)arg1);
 }
+
+static const char *const volatile lbl_805E0D78 = "\nADXGC Ver.1.10 Build:Jun 13 2002 19:01:41\n";
 
 void TLobby__sub_803CB81C(void) {
     lbl_805E0D78;
@@ -200,8 +201,47 @@ void TLobby::adxm_goto_mwidle_border() {
         }
     }
     if (i == 200000000) {
-        TLobby::set_message_and_notify(adxm_idle_border_internal_error);
+        TLobby::set_message_and_notify("1060102: Internal Error: adxm_goto_mwidle_border");
     }
     OSSetThreadPriority(&adxm_worker_thread, lbl_804F9D80.prio);
 }
+}
+
+extern "C" {
+void fn_803CBCA0(void) {
+    OSThread *t;
+    if (--lbl_805D7594 == 0) {
+        t = OSGetCurrentThread();
+        OSSuspendThread(&adxm_busy_wait_thread);
+        OSSetThreadPriority(t, lbl_805D75AC);
+    }
+}
+
+void __OSCallResetFunctions(void) {
+    s32 enabled;
+    OSThread *thread;
+    s32 prio;
+    if (lbl_805D7594 == 0) {
+        enabled = OSDisableInterrupts();
+        OSDisableScheduler();
+        lbl_805D75B0 = 1;
+        thread = OSGetCurrentThread();
+        prio = OSGetThreadPriority(thread);
+        OSSetThreadPriority(thread, lbl_804F9D80.prio0);
+        lbl_805D75AC = prio;
+        lbl_805D75B0 = 0;
+        OSEnableScheduler();
+        OSRestoreInterrupts(enabled);
+        OSResumeThread(&adxm_busy_wait_thread);
+    }
+    lbl_805D7594++;
+}
+}
+
+void dispatch_lobby_callback(void) {
+    TLobby__sub_803D3988();
+}
+
+void dispatch_callback(void) {
+    TLobby__sub_803D39C0();
 }

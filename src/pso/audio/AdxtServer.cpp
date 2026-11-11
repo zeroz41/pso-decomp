@@ -6,7 +6,6 @@
 #include "pso/audio/SjRingBuffer.h"
 
 #include "types.h"
-#include "pso/unk/text_803CBCA0.h"
 #include "pso/unk/text_803D31A4.h"
 
 struct Pair_803C8678 { u32 a, b; };
@@ -224,7 +223,7 @@ void TLobby__sub_803CAB38(Strm_803CAB38 *self) {
         s32 v = send_with_offset4__6TLobbyFv(t);
         if (v > self->f3) {
             TLobby::format_number_pair(v, self->f3, buf, 0x10);
-            TLobby::report_adx_error("E9081001 adxt_stat_decinfo: can't play this number of channels", (s32)buf);
+            TLobby::report_adx_error("E9081001 adxt_stat_decinfo: can't play this number of channels", buf);
             stop_audio_stream(arg0);
             return;
         }

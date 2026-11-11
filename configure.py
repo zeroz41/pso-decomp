@@ -967,6 +967,7 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         "pso/audio/AdxTalk.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
         "pso/audio/AdxtStart.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
         "pso/audio/AdxtServer.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
+        "pso/audio/AdxManager.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
     }),
     # Sega's Ginja model library.
     ("ginja", 0x803D6538, "GC/2.6", _switch(cflags_middleware, "-O3,p", "-opt nopeephole"), {
@@ -1209,6 +1210,8 @@ if args.target == "psov3":
                             mw_version="GC/2.6", cflags=cflags_native_recovered),
                 Unit("PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/ansi_fp.c",
                             mw_version="GC/1.3", cflags=cflags_native_recovered_auto),
+                Unit("PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/locale.c",
+                            mw_version="GC/1.3", cflags=cflags_native_recovered),
                 Unit("PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/printf.c",
                             mw_version="GC/1.3", cflags=cflags_native_recovered),
                 Unit("PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/rand.c",

@@ -6,7 +6,6 @@
 #include "pso/audio/SjRingBuffer.h"
 
 #include "types.h"
-#include "pso/unk/text_803CBCA0.h"
 #include "pso/unk/text_803D31A4.h"
 
 struct AdxStreamFile {
@@ -114,7 +113,7 @@ void start_audio_stream_file(Stream_803CA824 *self, const char *name) {
     TLobby::init_once();
     if ((self->handle = TLobby__sub_803C8BAC(name, self->f10)) == 0) {
         TLobby::release_ref();
-        TLobby::report_adx_error("E8101205 ADXT_StartFname: can't open ", (s32)name);
+        TLobby::report_adx_error("E8101205 ADXT_StartFname: can't open ", name);
         self->f60 = -1;
         self->state = 6;
     } else {

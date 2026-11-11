@@ -487,7 +487,7 @@ s32 TRK__write_aram(void *arg0p, void *hdr, void *size) {
     }
     if ((s8) *(u8 *)((s8 *)arg0 + 0xC) > 4) {
         if ((u32) *(u32 *)((s8 *)arg0 + 0xAC) == 0U) {
-            TLobby::report_adx_error("E1060101 ADXB_DecodeHeaderAdx: ", (s32)"can't play AHX data by this handle");
+            TLobby::report_adx_error("E1060101 ADXB_DecodeHeaderAdx: ", "can't play AHX data by this handle");
             return 0;
         }
         *(s8 *)((s8 *)arg0 + 0xD) = 8;

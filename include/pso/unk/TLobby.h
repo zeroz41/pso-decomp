@@ -543,7 +543,7 @@ struct TLobby : public TObject {
     static void set_global_805D7520(s32 arg0);
     static void dispatch_receive_update();
     static void format_number_pair(s32 arg0, s32 arg1, char *arg2, s32 arg3);
-    static void report_adx_error(const char *msg, s32 arg);
+    static void report_adx_error(const char *msg, const char *arg);
     static void notify_error(const char *arg0);
     static void set_params(s32 arg0, s32 arg1);
     static void clear_error_callback();

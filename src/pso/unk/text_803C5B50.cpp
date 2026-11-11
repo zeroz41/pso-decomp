@@ -93,7 +93,7 @@ void append_music_stream_segment(u8 *arg0, s32 arg1, s32 arg2) {
         return;
     }
     TLobby::format_number_pair(arg1, arg2, buf, 0x10);
-    TLobby::report_adx_error((const char *)lbl_8047C5D8, (s32)buf);
+    TLobby::report_adx_error((const char *)lbl_8047C5D8, buf);
 }
 extern "C" {
 

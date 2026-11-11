@@ -7,9 +7,11 @@ public:
     CharacterAppearanceFields* appearance;
     s32 initialized,active;
     f32 fade;
+    TObjCMProportion(TObject *parent);
     virtual ~TObjCMProportion();
     virtual void run_task();
     virtual void render();
+    static TObjCMProportion *create(TObject *parent);
 public:
     static f32 get_ratio();
     static f32 get_right_trigger_ratio();

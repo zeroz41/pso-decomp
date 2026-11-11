@@ -7,6 +7,7 @@ PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/ansi_fp.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/buffer_io.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/direct_io.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/file_io.c
+PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/locale.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/mbstring.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/mem.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/mem_funcs.c
@@ -2682,7 +2683,6 @@ pso/unk/text_8036F764.cpp
 pso/unk/text_80396328.cpp
 pso/unk/text_8039739C.cpp
 pso/unk/text_803C1668.cpp
-pso/unk/text_803CBCA0.cpp
 pso/unk/text_803CC070.cpp
 pso/unk/text_803CC134.cpp
 pso/unk/text_803CC294.cpp

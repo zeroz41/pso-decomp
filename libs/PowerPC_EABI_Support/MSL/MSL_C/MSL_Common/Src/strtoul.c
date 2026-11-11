@@ -339,10 +339,8 @@ int atoi(const char* str) {
     return strtol(str, NULL, 10);
 }
 
-#define __lconv lbl_804F5B00
 #include "MSL_C/ansi_fp.h"
 #include "MSL_C/locale.h"
-extern struct lconv __lconv;
 extern double __dec2num(const decimal* d);
 extern float __float_huge[];
 extern float __float_nan[];

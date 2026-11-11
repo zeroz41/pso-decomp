@@ -6,7 +6,6 @@
 #include "pso/audio/SjRingBuffer.h"
 
 #include "types.h"
-#include "pso/unk/text_803CBCA0.h"
 #include "pso/unk/text_803D31A4.h"
 
 struct Strm_803C8678;
@@ -381,7 +380,7 @@ AdxStreamFile *TLobby__sub_803C8BAC(const char *name, s32 arg) {
     size = cvFsGetFileSize();
     h = cvFsOpen(name, 0, 0);
     if (h == 0) {
-        TLobby::report_adx_error(lbl_8047C634, (s32)name);
+        TLobby::report_adx_error(lbl_8047C634, name);
         return NULL;
     }
     p = alloc_803C8BAC(arg, h, size);
@@ -427,7 +426,7 @@ AdxStreamFile *TLobby__sub_803C8CDC(const char *name, s32 mode, s32 arg) {
     }
     h = cvFsOpen((const char *)(name), mode, 0);
     if (h == 0) {
-        TLobby::report_adx_error(lbl_8047C634, (s32)name);
+        TLobby::report_adx_error(lbl_8047C634, name);
         return NULL;
     }
     p = alloc_803C8CDC(arg, h, 0, size);
@@ -467,7 +466,7 @@ AdxStreamFile *adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(const char *name, s
     AdxStreamFile *p;
     h = cvFsOpen((const char *)(name), mode, 0);
     if (h == 0) {
-        TLobby::report_adx_error(lbl_8047C600, (s32)name);
+        TLobby::report_adx_error(lbl_8047C600, name);
         return NULL;
     }
     p = alloc_803C8E28(arg, h, off, nsect << 11);
@@ -507,7 +506,7 @@ AdxStreamFile *adxstm_open_fname_range__6TLobbyFPviiii(const char *name, s32 mod
     AdxStreamFile *p;
     h = cvFsOpen((const char *)(name), mode, 0);
     if (h == 0) {
-        TLobby::report_adx_error(lbl_8047C660, (s32)name);
+        TLobby::report_adx_error(lbl_8047C660, name);
         return NULL;
     }
     p = alloc_803C8F5C(arg, h, off, nsect << 11);
