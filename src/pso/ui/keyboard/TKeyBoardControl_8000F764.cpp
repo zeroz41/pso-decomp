@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/effect/TEffect.h"

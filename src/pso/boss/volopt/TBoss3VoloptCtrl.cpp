@@ -9,7 +9,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/text_801F43B4.h"

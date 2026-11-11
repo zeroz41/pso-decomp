@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/text_8034CEDC.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubComCard.h"

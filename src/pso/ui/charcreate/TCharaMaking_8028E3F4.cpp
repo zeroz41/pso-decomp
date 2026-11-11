@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/ui/charcreate/TCharaMaking_8028E3F4.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 

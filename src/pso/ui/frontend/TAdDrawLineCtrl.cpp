@@ -1,5 +1,5 @@
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/render_util.h"
 #include "types.h"

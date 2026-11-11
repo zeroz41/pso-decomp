@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/unk/text_800F7DAC.h"
 #include "pso/camera/TCameraCtrl_803D6538.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"

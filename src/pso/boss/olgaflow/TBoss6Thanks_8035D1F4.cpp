@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6Thanks_8035D1F4.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/text_8035D2EC.h"
 #include "pso/boss/olgaflow/TBoss6Thanks.h"
 #include "pso/player/TObjPlayer_80011014.h"

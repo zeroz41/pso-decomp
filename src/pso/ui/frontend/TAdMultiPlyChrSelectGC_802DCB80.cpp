@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"

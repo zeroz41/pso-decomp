@@ -1,7 +1,7 @@
 #include "pso/system/scene/TEnding.h"
 #include "pso/camera/TCameraCtrl_803D6538.h"
 #include "pso/system/scene/TEnding_8008C5C0.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/player/TObjPlayer_801A5AEC.h"

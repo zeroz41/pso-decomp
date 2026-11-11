@@ -7,7 +7,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"

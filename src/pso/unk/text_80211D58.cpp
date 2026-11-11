@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/unk/text_80211D58.h"
 #include "pso/ui/city/THunterGuildWarning.h"

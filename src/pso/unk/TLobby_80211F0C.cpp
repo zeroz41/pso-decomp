@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
 #include "pso/ui/city/THunterGuildWarning.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_80211F0C.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"

@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/effect/TEffect.h"
@@ -77,21 +79,7 @@ struct Cfg_8000FAE4 {
 
 extern s32 lbl_805D49C0;
 extern "C" {
-void TKeyBoardControl__sub_8000F950(void);
-void TKeyBoardControl__sub_8000F95C(void);
-void mark_area_change_pending(void);
-void clear_keyboard_key_state(void);
-void TKeyBoardControl__sub_8000F764(void);
 extern RecoveredGlobal_8000F9E4_lbl_804FE120 main_phase_state;
-void TKeyBoardControl__sub_8000F9E4(void);
-void TKeyBoardControl__sub_8000F90C(s32 arg0);
-void TKeyBoardControl__sub_8000F9CC(s32 arg0);
-s32 get_main_phase(void);
-s32 TKeyBoardControl__sub_8000F8EC(void);
-void TKeyBoardControl__sub_8000F91C(s32 arg0);
-bool is_keyboard_active(void);
-s32 TKeyBoardControl__sub_8000F92C(void);
-s32 request_queued_main_phase(void);
 void GXSetCopyClear(GXColor_8000FA00 clear_clr, u32 clear_z);
 void GXCopyDisp(void *dest, int clear);
 void GXInitLightPos(void *lt_obj, f32 x, f32 y, f32 z);
@@ -131,7 +119,6 @@ void init_system_heap_and_global_allocator(u8 *start, s32 size);
 s32 xmalloc__FUl(u32);
 s32 init_pad_slots_and_read__16TKeyBoardControlFv(int, int, int);
 void TObjPlayer__sub_803E492C(s32 a, s32 b);
-int TKeyBoardControl__sub_8000F828(void);
 int OSResetSystem(void*, void*, void*);
 void TAdPlayerLoadGC__sub_801E1350(void);
 void release_all__23TAdSinglePlyChrSelectGCFv(void);
@@ -140,8 +127,6 @@ void TLobby__sub_80147978(void);
 void TLobby__sub_8020E3BC(void);
 }
 extern s32 keyboard_active_flag;
-void activate_keyboard(void);
-void deactivate_keyboard(void);
 extern s32 keyboard_key_state;
 extern RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270 TKeyBoardControl__global_key_state;
 extern u8 gx_default_light_obj[];
@@ -153,7 +138,6 @@ extern GXColor_8000FA00 lbl_805D7D08;
 extern const f32 lbl_805D7D0C;
 extern const f32 lbl_805D7D10;
 extern GXColor_8000FA00 lbl_805E1200;
-void init_gx_lighting_defaults(void);
 void init_disc_error_messages(void);
 void load_menu_font(void);
 void load_ply_level_tbl(void);
@@ -166,8 +150,6 @@ int lbl_805D49A4;
 int player_matrix_stack_buffer;
 s32 keyboard_input_buffer;
 extern int resource_decompress_buffer;
-void init_game_systems(void);
-void shutdown_and_reset_system(void);
 extern "C" {
 void TLobby__sub_8022809C(void);
 void TLobby__sub_802433A8(void);
