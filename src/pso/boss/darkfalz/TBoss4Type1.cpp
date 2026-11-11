@@ -54,7 +54,6 @@ int rotate_matrix_y(void *, void *);
 int push_matrix(void);
 extern const f32 lbl_805D8B20;
 extern const f32 lbl_805D8B24;
-extern const f32 lbl_805D8B28;
 extern const f32 lbl_805D8B2C;
 extern const f32 lbl_805D8B30;
 extern const f32 lbl_805D8B34;
@@ -496,18 +495,6 @@ extern const f32 lbl_805D8B88;
 extern "C" {
 void TBoss4Type2__sub_80055300(void) { TBoss4Type2__sub_80054FC0(NULL, lbl_805D8B20); }
 
-void create_all_tenchu_furu__11TBoss4Type2Fi(s32 arg0) {
-    s32 *var_r31;
-    s32 var_r30;
-    var_r30 = 0;
-    var_r31 = &TBoss4Type2__tenchu_furu_array.value;
-    do {
-        ((TObjDFTenchuFuru *)arg0)->create((void *)var_r31);
-        var_r30 += 1;
-        var_r31 = (s32 *)((u8 *)var_r31 + (0xC));
-    } while (var_r30 < 0x40);
-}
-
 s32 is_split_screen(void);
 extern const f32 lbl_805D8B8C;
 extern const f32 lbl_805D8B90;
@@ -626,6 +613,18 @@ extern "C" void TBoss4Type2__sub_80054FC0(u8 *arg0, f32 arg1) {
     next:
     tries++;
   }
+}
+
+void create_all_tenchu_furu__11TBoss4Type2Fi(s32 arg0) {
+    s32 *var_r31;
+    s32 var_r30;
+    var_r30 = 0;
+    var_r31 = &TBoss4Type2__tenchu_furu_array.value;
+    do {
+        ((TObjDFTenchuFuru *)arg0)->create((void *)var_r31);
+        var_r30 += 1;
+        var_r31 = (s32 *)((u8 *)var_r31 + (0xC));
+    } while (var_r30 < 0x40);
 }
 
 void TBoss4Type2__sub_80054DA8(TBoss4Type2 *boss) {
@@ -1364,8 +1363,8 @@ void TBoss4Type1::update_follow_camera_offsets() {
     {
         Vec_80053E40 a = lbl_804375EC;
         Vec_80053E40 b = lbl_804375F8;
-        if (best > lbl_805D8B28) {
-            best = lbl_805D8B28;
+        if (best > 40.42f) {
+            best = 40.42f;
         }
         t = best / 40.42f;
         if (t > lbl_805D8B20) {

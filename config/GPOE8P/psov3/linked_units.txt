@@ -230,6 +230,7 @@ pso/boss/darkfalz/TBoss4DarkFalz_8004D8C8.cpp
 pso/boss/darkfalz/TBoss4Fade.cpp
 pso/boss/darkfalz/TBoss4Thanks.cpp
 pso/boss/darkfalz/TBoss4Thanks_8035C8F0.cpp
+pso/boss/darkfalz/TBoss4Type1.cpp
 pso/boss/darkfalz/TBoss4Type2_8004A978.cpp
 pso/boss/darkfalz/TBoss4Type2_80086C44.cpp
 pso/effect/particle/TParticleCtrl_800874F4.cpp
@@ -437,6 +438,7 @@ pso/enemy/dubchik/TObjEneDubchik.cpp
 pso/enemy/epsilon/TObjEneEpsilon.cpp
 pso/enemy/epsilon/TObjEneEpsilonGuard_8035DD68.cpp
 pso/enemy/epsilon/TObjEneEpsilonGuard_8035F5C8.cpp
+pso/enemy/gibbles/TObjEneGibbles.cpp
 pso/effect/enemy/TObjEneHoldEffect.cpp
 pso/effect/enemy/TObjEneHoldEffect_800FD814.cpp
 pso/effect/enemy/TObjEneHoldEffect_8036CDFC.cpp
