@@ -471,7 +471,7 @@ extern void TLobby__sub_803FCC10(void *self_, void *src_, int v)
 {
   u8 *g;
   u8 *src;
-  int new_var4[2];
+  int count;
   u8 *r28;
   u8 ctx[0x58];
   u8 *new_var;
@@ -511,11 +511,11 @@ extern void TLobby__sub_803FCC10(void *self_, void *src_, int v)
   {
     rem = 0x7f;
   }
-  new_var4[0] = rem;
-  if (new_var4[0] != 0)
+  count = rem;
+  if (count != 0)
   {
     u8 *p = *((u8 **) (g + 0x150));
-    for (i = 0; i < new_var4[0]; i++)
+    for (i = 0; i < count; i++)
     {
       do
       {
@@ -544,7 +544,7 @@ extern void TLobby__sub_803FCC10(void *self_, void *src_, int v)
   *((u16 *) (r28 + 0x10)) = r22 + 0x11;
   ent = TLobby__sub_80401B20(*pq, *((u16 *) (r28 + 0x10)));
   TLobby__sub_803FE6CC((u8 *) new_var3, 2, r28[0xe], ent);
-  TLobby__sub_80405328(((u8 *) new_var3) + (new_var4[1] = 0x10));
+  TLobby__sub_80405328(((u8 *) new_var3) + 0x10);
   ((u8 *) new_var3)[3] -= 1;
   if (((u8 *) new_var3)[6] != 0)
   {

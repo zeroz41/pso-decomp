@@ -337,10 +337,12 @@ void TLobby__sub_8041F66C(TcpTcb *o) {
 #pragma inline_depth(4)
 inline void sack_remove_8041F914(TcpTcb *o, s16 idx) {
     s16 j;
+    s32 len;
     if (idx < 0 || o->reasm_n < 0 || idx > o->reasm_n) {
         return;
     }
-    o->reasm_total -= o->reasm[idx].end - o->reasm[idx].start;
+    len = o->reasm[idx].end - o->reasm[idx].start;
+    o->reasm_total -= len;
     for (j = idx; j < o->reasm_n; j++) {
         o->reasm[j] = o->reasm[j + 1];
     }
