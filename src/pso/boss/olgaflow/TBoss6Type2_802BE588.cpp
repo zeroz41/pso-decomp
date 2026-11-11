@@ -247,9 +247,6 @@ void TBoss6Type2::sub_802BEB78() {
     }
 }
 
-#pragma push
-#pragma opt_common_subs off
-#pragma fp_contract on
 void TBoss6Type2::sub_802BEC28() {
     f32 ratio;
     u32 player;
@@ -278,7 +275,6 @@ void TBoss6Type2::sub_802BEC28() {
         set_action_state((void *)0x1B);
     }
 }
-#pragma pop
 
 void TBoss6Type2::spawn_death_soul() {
     u8 *arg0 = (u8 *)this;

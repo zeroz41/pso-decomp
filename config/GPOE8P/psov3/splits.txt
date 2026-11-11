@@ -9677,12 +9677,11 @@ pso/ui/frontend/TAdLdQuestPrtGC.cpp:
 	.sbss       start:0x805D6C38 end:0x805D6C3D
 	.sdata2     start:0x805DF540 end:0x805DF550
 
-pso/boss/olgaflow/TBoss6GravBall_80323134.cpp:
-	.text       start:0x80323134 end:0x80323348
-
 pso/boss/olgaflow/TBoss6GravBall.cpp:
-	.text       start:0x80323348 end:0x80323DCC
+	.text       start:0x80323134 end:0x80323DCC
+	.rodata     start:0x80476648 end:0x80476690
 	.data       start:0x804ECA40 end:0x804ECAC0
+	.sdata      start:0x805D4170 end:0x805D4178
 	.sbss       start:0x805D6C40 end:0x805D6C48
 	.sdata2     start:0x805DF550 end:0x805DF57C
 
@@ -10508,9 +10507,10 @@ pso/ui/frontend/TAdPlyPltAnimGC.cpp:
 
 pso/boss/olgaflow/TBoss6SwordShot.cpp:
 	.text       start:0x803561C4 end:0x80356E30
-	.rodata     start:0x804793A8 end:0x804793B8
+	.rodata     start:0x80479378 end:0x804793B8
 	.data       start:0x804F1458 end:0x804F1488
-	.sdata2     start:0x805DFFE8 end:0x805DFFFC
+	.sdata      start:0x805D43A8 end:0x805D43B0
+	.sdata2     start:0x805DFFE8 end:0x805E000C
 
 pso/unk/text_80356E30.cpp:
 	.text       start:0x80356E30 end:0x80356E50

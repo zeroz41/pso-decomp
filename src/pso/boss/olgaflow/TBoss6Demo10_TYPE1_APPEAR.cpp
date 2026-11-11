@@ -172,8 +172,6 @@ TBoss6Demo10_TYPE1_APPEAR::~TBoss6Demo10_TYPE1_APPEAR() {
     }
 }
 
-#pragma push
-#pragma opt_common_subs off
 typedef struct Ent_8033CB4C Ent_8033CB4C;
 typedef struct Fish_8033CB4C Fish_8033CB4C;
 TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TObject *parent) : TObject(parent) {
@@ -201,7 +199,6 @@ TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TObject *parent) : TObject(
     ((Fish_8033CB4C *)this)->x38 = 0;
 }
 
-#pragma pop
 
 void *TBoss6Demo10_TYPE1_APPEAR__create(void *parent) {
     void *o = __nw__7TObjectFUl(0x68);

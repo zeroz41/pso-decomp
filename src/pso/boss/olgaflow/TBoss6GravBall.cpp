@@ -9,6 +9,119 @@ extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/unk/TLobby.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/ui/hud/TNowLoading.h"
+#include "pso/ui/frontend/TAdLdQuestPrtGC.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+
+
+const char TBoss6GravBall__class_name_string[] = "TBoss6GravBall";
+const s32 TBoss6GravBall__emitter_id_table[9] = {535, 536, 537, 538, 539, 534, 534, 534, 534};
+const s32 lbl_8047667C[2] = {0, 1};
+const Vec lbl_80476684 = {0.0f, 0.0f, 0.0f};
+const char *TBoss6GravBall__name = TBoss6GravBall__class_name_string;
+
+struct Vec_80323134 { f32 x, y, z; };
+struct Ctl_80323134 { u8 pad[0x38]; Vec_80323134 pos; };
+struct Obj_80323134 { u8 pad[0xC8]; Vec_80323134 pos; void *items[9]; };
+struct T_80323320 { u8 pad[0xD4]; s32 arr[9]; };
+
+extern "C" {
+
+void fn_80323134(Obj_80323134 *arg0) {
+    s32 i;
+    Vec_80323134 v;
+    Ctl_80323134 *c;
+    for (i = 0; i < 9; i++) {
+        if (arg0->items[i] != 0) {
+            switch (i) {
+            case 5: case 6: case 7: case 8:
+                c = (Ctl_80323134 *)get_player_by_client_id((u16)(i - 5));
+                if (c != 0) {
+                    VecCopy((Vec *)&v, (const Vec *)&c->pos);
+                    ((TParticleCtrl *)arg0->items[i])->set_position(&v);
+                }
+                break;
+            default:
+                ((TParticleCtrl *)arg0->items[i])->set_position(&arg0->pos);
+                break;
+            }
+        }
+    }
+}
+
+#pragma push
+#pragma opt_common_subs off
+
+void TBoss6GravBall::destroy_part(s32 arg1) {
+    s32 arg0 = (s32)this;
+    u32 temp_r3;
+    u8 *temp_r31;
+    temp_r31 = (u8 *)(arg0 + (arg1 * 4));
+    temp_r3 = *(u32 *)((s8 *)temp_r31 + 0xD4);
+    if (temp_r3 != 0U) {
+        TParticleCtrl::release((void *)temp_r3);
+        *(u32 *)((s8 *)temp_r31 + 0xD4) = 0U;
+    }
+}
+
+void TBoss6GravBall__sub_80323214(s32 arg0, s32 arg1) {
+    s32 temp_r5;
+    u8 *temp_r31;
+    u8 *boss4_type2;
+    temp_r5 = arg1 * 4;
+    temp_r31 = (u8 *)(arg0 + temp_r5);
+    if ((void *) *(u8 **)((s8 *)temp_r31 + 0xD4) == NULL) {
+        *(u8 **)((s8 *)temp_r31 + 0xD4) = (unsigned char *) (create_particle_emitter((void *)(arg0 + 0xC8), *(s32 *)((s8 *)TBoss6GravBall__emitter_id_table + temp_r5)));
+        boss4_type2 = (u8 *)(*(u8 **)((s8 *)temp_r31 + 0xD4));
+        if (boss4_type2 != NULL) {
+            ((TParticleCtrl *)boss4_type2)->set_flags(0x2040);
+        }
+    }
+}
+#pragma pop
+
+#pragma push
+#pragma opt_common_subs off
+void TBoss6GravBall::create_emitter(s32 arg1) {
+    s32 arg0 = (s32)this;
+    s32 temp_r5;
+    u8 *temp_r31;
+    u8 *boss4_type2;
+    temp_r5 = arg1 * 4;
+    temp_r31 = (u8 *)(arg0 + temp_r5);
+    if ((void *) *(u8 **)((s8 *)temp_r31 + 0xD4) == NULL) {
+        *(u8 **)((s8 *)temp_r31 + 0xD4) = (unsigned char *) (create_particle_emitter((void *)(arg0 + 0xC8), *(s32 *)((s8 *)TBoss6GravBall__emitter_id_table + temp_r5)));
+        boss4_type2 = (u8 *)(*(u8 **)((s8 *)temp_r31 + 0xD4));
+        if (boss4_type2 != NULL) {
+            ((TParticleCtrl *)boss4_type2)->set_flags(0x40);
+        }
+    }
+}
+#pragma pop
+
+void TBoss6GravBall::init_parts() {
+    s32 arg0 = (s32)this;
+    s32 var_r31;
+    var_r31 = 0;
+    do {
+        destroy_part(var_r31);
+        var_r31 += 1;
+    } while (var_r31 < 9);
+}
+
+void TBoss6GravBall__sub_80323320(T_80323320 *self) {
+    s32 i;
+    for (i = 0; i < 9; i++) {
+        self->arr[i] = 0;
+    }
+}
+
+void TBoss6GravBall::render() {  }
+
+}
 
 struct P_80323348 { u8 pad[0x30]; u32 flags; };
 
@@ -30,7 +143,6 @@ s32 is_state_1f__14TBoss6PlotFalzFUi();
 f32 vector_length(void *);
 void subtract_vector(void *, void *);
 void normalize_vector(void *);
-extern u8 lbl_80476684[];
 
 
 void TBoss6GravBall__sub_803236F8(TBoss6GravBall *arg0);
@@ -60,8 +172,6 @@ void TBoss6GravBall::clear_player_grav_flags() {
     }
 }
 
-#pragma push
-#pragma fp_contract on
 void TBoss6GravBall__sub_803233AC(u8 *self) {
     Vec_803233AC v;
     s32 n;
@@ -107,11 +217,7 @@ void TBoss6GravBall__sub_803233AC(u8 *self) {
         }
     }
 }
-#pragma pop
 
-#pragma push
-#pragma fp_contract on
-#pragma opt_common_subs off
 void TBoss6GravBall__sub_80323544(u8 *self) {
     Vec_80323544 v;
     s32 n;
@@ -162,7 +268,6 @@ void TBoss6GravBall__sub_80323544(u8 *self) {
         }
     }
 }
-#pragma pop
 
 void TBoss6GravBall__sub_803236F8(TBoss6GravBall *arg0) {
     Vec v = arg0->ball_position;
@@ -173,7 +278,7 @@ void TBoss6GravBall__sub_803236F8(TBoss6GravBall *arg0) {
         v.z *= 0.6666667f;
         subtract_vector(&arg0->ball_position, &v);
     } else {
-        VecCopy(&arg0->ball_position, (const Vec *)lbl_80476684);
+        VecCopy(&arg0->ball_position, &lbl_80476684);
     }
     arg0->clamp_to_ground();
 }
@@ -211,7 +316,7 @@ void TBoss6GravBall::update_lifetime(void *) {
 #include "pso/player/TObjPlayer.h"
 
 struct Obj_80323D20 {
-    s32 f0; u8 pad[0xAC - 4]; s32 fAC; s32 fB0; s32 fB4; u8 padB8[4]; f32 fBC; s32 fC0; s32 fC4; f32 pos[3];
+    const char *name; u8 pad[0xAC - 4]; s32 fAC; s32 fB0; s32 fB4; u8 padB8[4]; f32 fBC; s32 fC0; s32 fC4; f32 pos[3];
 };
 
 class TBoss6GravBall_80323BBC {
@@ -231,16 +336,11 @@ s32 check_demo_mode__10TObjPlayerFv(void *);
 s32 query_teammate_state__9TObjEneDDFv(void);
 void VecCopy__FP3VecPC3Vec(void *, void *);
 s32 create_emitter__14TBoss6GravBallFl(void *, int);
-void TBoss6GravBall__sub_80323320(void *);
-extern s32 lbl_8047667C[];
 extern s32 __vt__14TBoss6GravBall[];
-extern s32 TBoss6GravBall__name;
 
 s32 play_persistent_sound(int, void *, void *, int, int);
 s32 get_state__14TBoss6GravBallFv(int);
-s32 fn_80323134(void *);
 s32 destroy_part__14TBoss6GravBallFl(void *, int);
-s32 TBoss6GravBall__sub_80323214(void *, int);
 void TBoss6GravBall__sub_80323544(u8 *self);
 s32 clamp_to_ground__14TBoss6GravBallFv();
 
@@ -320,7 +420,7 @@ void update_state__14TBoss6GravBallFPv(u8 *arg0) {
     if (temp_r3 != 0) {
         TBoss6GravBall__sub_803236F8((TBoss6GravBall *)arg0);
     }
-    fn_80323134(arg0);
+    fn_80323134((Obj_80323134 *)arg0);
     if (temp_r3 != 0) {
         create_emitter__14TBoss6GravBallFl(arg0, 2);
         temp_f2 = *(f32 *)((s8 *)arg0 + 0xBC);
@@ -342,7 +442,7 @@ void update_state__14TBoss6GravBallFPv(u8 *arg0) {
             destroy_part__14TBoss6GravBallFl(arg0, 0);
             destroy_part__14TBoss6GravBallFl(arg0, 1);
             destroy_part__14TBoss6GravBallFl(arg0, 2);
-            TBoss6GravBall__sub_80323214(arg0, 4);
+            TBoss6GravBall__sub_80323214((s32)arg0, 4);
             *(s32 *)((s8 *)arg0 + 0xB8) = 0;
             *(s32 *)((s8 *)arg0 + 0xB4) = 0;
             *(s32 *)((s8 *)arg0 + 0xB0) = 1;
@@ -380,7 +480,7 @@ TBoss6GravBall::~TBoss6GravBall() {
 }
 TBoss6GravBall::TBoss6GravBall(s32 arg1, void *arg2) : TObjCollidable((TObject *)arg1) {
     s32 i;
-    ((Obj_80323D20 *)this)->f0 = TBoss6GravBall__name;
+    ((Obj_80323D20 *)this)->name = TBoss6GravBall__name;
     ((Obj_80323D20 *)this)->fAC = arg1;
     VecCopy__FP3VecPC3Vec(((Obj_80323D20 *)this)->pos, arg2);
     ((Obj_80323D20 *)this)->fB4 = 0;
@@ -388,7 +488,7 @@ TBoss6GravBall::TBoss6GravBall(s32 arg1, void *arg2) : TObjCollidable((TObject *
     ((Obj_80323D20 *)this)->fBC = 0.0f;
     ((Obj_80323D20 *)this)->fC0 = 0;
     ((Obj_80323D20 *)this)->fC4 = 0;
-    TBoss6GravBall__sub_80323320(((Obj_80323D20 *)this));
+    TBoss6GravBall__sub_80323320((T_80323320 *)this);
     for (i = 0; i < 2; i++) {
         create_emitter__14TBoss6GravBallFl(((Obj_80323D20 *)this), lbl_8047667C[i]);
     }

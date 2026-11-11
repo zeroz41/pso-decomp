@@ -867,6 +867,11 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/ruins/TOMonumentAncient01.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     "pso/boss/darkfalz/TOBoss4.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-str reuse,readonly", "-sdata 4", "-inline deferred")},
     "pso/boss/olgaflow/TBoss6Rock.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-str reuse,readonly", "-inline off,deferred")},
+    "pso/boss/olgaflow/TBoss6Type2_80336E6C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/boss/olgaflow/TBoss6Type2.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
+    "pso/boss/olgaflow/TBoss6CrushRock.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
+    "pso/boss/olgaflow/TBoss6SwordShot.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
+    "pso/boss/olgaflow/TBoss6GravBall.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
     # -inline deferred: the TU inlines its inline helpers one level deep (no auto-inlining) and emits its functions in
     # reverse source order; -fp_contract on: its float math fuses into fmadds/fnmsubs throughout.
     # sub_802B59CC and the other users reach each of TBoss6Type1's .rodata tables with their own lis/addi

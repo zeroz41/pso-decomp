@@ -28,9 +28,6 @@ void *__nw__7TObjectFUl(int);
 extern s32 tl_02;
 extern s32 TBoss6PlotFalz__instance;
 
-#pragma push
-#pragma opt_common_subs off
-#pragma fp_contract on
 typedef char RecoveredGlobal_8035A1A4___vt__15TBoss6CrushRock_size[sizeof(RecoveredGlobal_8035A1A4___vt__15TBoss6CrushRock) == 0x18 ? 1 : -1];
 u8 *__ct__15TBoss6CrushRockFv(u8 *object, s32 arg1, s32 arg2, s32 arg3) {
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
@@ -50,10 +47,7 @@ u8 *__ct__15TBoss6CrushRockFv(u8 *object, s32 arg1, s32 arg2, s32 arg3) {
     *(s32 *)((s8 *)object + 0x50) = (s32) (4096.0f * ((0.000030517578f * (f32) rand()) - 0.5f));
     return object;
 }
-#pragma pop
 
-#pragma push
-#pragma fp_contract on
 void TBoss6Rock::spawn_crush_rocks(s32 kind) {
     f32 radius;
     s32 base;
@@ -94,7 +88,6 @@ void TBoss6Rock::spawn_crush_rocks(s32 kind) {
         }
     }
 }
-#pragma pop
 
 s32 TBoss6PlotFalz::get_hp() {
     return TBoss6PlotFalz__instance;

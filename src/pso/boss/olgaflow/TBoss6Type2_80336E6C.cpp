@@ -1,4 +1,3 @@
-#pragma readonly_strings on
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6Type2_8032E708.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
@@ -42,7 +41,6 @@ void TBoss6Type2::sub_80336F00() { m_3cc = 0; play_sound_effect((void*)438292, &
 
 #pragma push
 #pragma opt_common_subs off
-#pragma opt_propagation off
 void TBoss6Type2::update_ramp_timer() {
     u8 *arg0 = (u8 *)this;
     *(f32 *)((s8 *)arg0 + 0x400) = (f32) (*(f32 *)((s8 *)arg0 + 0x400) + lbl_805DF980);

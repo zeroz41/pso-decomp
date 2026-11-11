@@ -264,7 +264,6 @@ pso/boss/olgaflow/TBoss6EffFlowSoul.cpp
 pso/boss/olgaflow/TBoss6EffHyoui.cpp
 pso/boss/olgaflow/TBoss6EmptyWarp_802B0E2C.cpp
 pso/boss/olgaflow/TBoss6GravBall.cpp
-pso/boss/olgaflow/TBoss6GravBall_80323134.cpp
 pso/boss/olgaflow/TBoss6Kakusan.cpp
 pso/boss/olgaflow/TBoss6Mag.cpp
 pso/boss/olgaflow/TBoss6MagMine.cpp
