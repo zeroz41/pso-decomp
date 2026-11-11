@@ -23,13 +23,6 @@ extern "C" { void setup_photon_blast_camera__13TUnk_804C3248Fv(u8 *); }
 
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
-struct Stack_801A7310 {
-    s8 sp8;
-    s8 sp9;
-    s16 spA;
-    f32 spC;
-    f32 sp10;
-};
 
 struct RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628 {
     s32 value;
@@ -121,22 +114,17 @@ typedef char RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628_size[sizeof(Rec
 
 void TUnk_804C3248::begin_photon_summon_camera(s8 arg1) {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_801A7310, sp8) == 0x0) ? 1 : -1];
-    typedef char sp9_offset[(offsetof(Stack_801A7310, sp9) == 0x1) ? 1 : -1];
-    typedef char spA_offset[(offsetof(Stack_801A7310, spA) == 0x2) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_801A7310, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_801A7310, sp10) == 0x8) ? 1 : -1];
-    Stack_801A7310 stack;
+    CameraPlayback playback;
     s32 temp_r3;
-    stack.sp9 = arg1;
-    stack.sp8 = get_current_floor_area() == AREA_DARK_FALZ;
-    stack.spA = 0;
-    stack.spC = 0.0f;
-    stack.sp10 = 1.0f;
+    playback.index = arg1;
+    playback.bank = (s8)(get_current_floor_area() == AREA_DARK_FALZ);
+    playback.flags = 0;
+    playback.frame = 0.0f;
+    playback.frame_step = 1.0f;
     if ((*(s32 *)((s8 *)&TCameraCtrl__view_state.value + 8) & 4) || (*(s32 *)((s8 *)&TCameraCtrl__view_state.value + 8) & 8)) {
         TCameraCtrl::select_active_controller(5);
     }
-    ((CameraPlayback *)(&stack.sp8))->cache_target_and_forward(0x4222);
+    playback.cache_target_and_forward(0x4222);
     temp_r3 = (long) (arg0 + 0x38);
     set_scripted_camera_pose(temp_r3, temp_r3, (u8 *)&this->rotation_x);
     *(s32 *)((s8 *)arg0 + 0xFC) = 1;

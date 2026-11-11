@@ -911,8 +911,6 @@ struct VObj_18_8002F7C4 : VBase_18_8002F7C4 {
 
 struct Vec_8002F7C4 { f32 x, y, z; };
 
-struct Cam_8002F7C4 { s8 a; s8 b; s16 c; f32 d; f32 e; };
-
 struct Sub_8002F7C4 { u8 pad0[8]; u32 f8; };
 
 struct Rol_8002F7C4 : VObj_18_8002F7C4 {
@@ -952,8 +950,6 @@ struct Rol_8002F7C4 : VObj_18_8002F7C4 {
 };
 
 struct Vec_80032E38 { f32 x, y, z; };
-
-struct Cam_80032E38 { s8 a; s8 b; s16 c; f32 d; f32 e; };
 
 struct Play_80032E38 { u16 h0; u16 h2; };
 
@@ -1519,7 +1515,7 @@ void TBoss2DeRolLe__sub_8002F73C(Obj_8002F73C *self, u32 kind) {
 #pragma opt_common_subs off
 #define o ((Rol_8002F7C4 *)arg0)
 void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
-    Cam_8002F7C4 cam;
+    CameraPlayback cam;
     Vec_8002F7C4 v;
     Vec_8002F7C4 w;
     Vec_8002F7C4 save;
@@ -1543,13 +1539,13 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
             TBoss2Tentacle__sub_80039E54((void *)o->tent[i]);
         }
         TWindowCtrl::init_all_slots();
-        cam.b = 0;
-        cam.a = 2;
-        cam.c = 0;
-        cam.d = 0.0f;
-        cam.e = 0.7f;
+        cam.index = 0;
+        cam.bank = 2;
+        cam.flags = 0;
+        cam.frame = 0.0f;
+        cam.frame_step = 0.7f;
         ((s32 (*)(int, f32))activate_camera_mode)(5, 0.0f);
-        ((CameraPlayback *)(&cam))->cache_target_and_forward(0x2AAA);
+        cam.cache_target_and_forward(0x2AAA);
         set_scripted_camera_pose(&o->pos, &o->pos, &o->f5C);
         break;
     case 2:
@@ -3304,8 +3300,8 @@ void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(void *arg0_, void *arg1_) {
 #define o ((Rol_80032E38 *)arg0)
 void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
     Vec_80032E38 *p = &o->f724;
-    Cam_80032E38 cam;
-    Cam_80032E38 cam2;
+    CameraPlayback cam;
+    CameraPlayback cam2;
     Vec_80032E38 v1;
     Vec_80032E38 v2;
     Vec_80032E38 v3;
@@ -3327,21 +3323,21 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
         p->y = 0.0f;
         p->z = 0.0f;
         if (TObjEneDD::check_v2_mode() != 0) {
-            cam.b = 1;
-            cam.a = 1;
-            cam.c = 0;
-            cam.d = 0.0f;
-            cam.e = 0.8f;
+            cam.index = 1;
+            cam.bank = 1;
+            cam.flags = 0;
+            cam.frame = 0.0f;
+            cam.frame_step = 0.8f;
             ((s32 (*)(int, f32))activate_camera_mode)(5, 0.0f);
-            ((CameraPlayback *)(&cam))->cache_target_and_forward(0x1C71);
+            cam.cache_target_and_forward(0x1C71);
         } else {
-            cam2.b = 0;
-            cam2.a = 1;
-            cam2.c = 0;
-            cam2.d = 0.0f;
-            cam2.e = 0.8f;
+            cam2.index = 0;
+            cam2.bank = 1;
+            cam2.flags = 0;
+            cam2.frame = 0.0f;
+            cam2.frame_step = 0.8f;
             ((s32 (*)(int, f32))activate_camera_mode)(5, 0.0f);
-            ((CameraPlayback *)(&cam2))->cache_target_and_forward(0x1C71);
+            cam2.cache_target_and_forward(0x1C71);
         }
         TWindowCtrl::init_all_slots();
         ((TObjEneDD *)o)->get_target_state_b();

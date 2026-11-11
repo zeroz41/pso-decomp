@@ -114,14 +114,6 @@ struct VoloptBreakupParams {
     f32 values[6];
 };
 
-struct VoloptCameraCommand {
-    s8 a;
-    s8 b;
-    s16 c;
-    f32 d;
-    f32 e;
-};
-
 class ViewCulledObject {
 public:
     u8 pad_0[0x18];
@@ -1112,7 +1104,7 @@ void TBoss3VoloptP02::update_fade_state() {
 #pragma pop
 
 void TBoss3VoloptP02::update_death_sequence() {
-    VoloptCameraCommand cam;
+    CameraPlayback cam;
     switch ((s32)state) {
     case 0:
         destroy_children();
@@ -1124,13 +1116,13 @@ void TBoss3VoloptP02::update_death_sequence() {
         TBoss3Volopt::start_rumble();
         break;
     case 1:
-        cam.b = 1;
-        cam.a = 2;
-        cam.c = 0;
-        cam.d = 0.0f;
-        cam.e = 1.0f;
+        cam.index = 1;
+        cam.bank = 2;
+        cam.flags = 0;
+        cam.frame = 0.0f;
+        cam.frame_step = 1.0f;
         activate_camera_mode(5, 0.0f);
-        ((CameraPlayback *)&cam)->cache_target_and_forward(0x160A);
+        cam.cache_target_and_forward(0x160A);
         rotation_y = 0;
         set_scripted_camera_pose(&boss3_volopt_spawn_pos, &boss3_volopt_spawn_pos, &rotation_x);
         TObjPlayer::freeze_all_players();

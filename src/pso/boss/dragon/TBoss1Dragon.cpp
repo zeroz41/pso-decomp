@@ -353,7 +353,6 @@ struct Dragon_80021490 {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Cam_80022EE0 { u8 mode; u8 sub; s16 c; f32 d; f32 e; };
 
 
 struct Vec_80022EE0 { f32 x, y, z; };
@@ -2185,7 +2184,7 @@ struct Eff_80022EE0 { u32 w[5]; };
 void update_death_state__12TBoss1DragonFv(u8 *arg0, u32 arg1) {
     Eff_80022EE0 eff1;
     Eff_80022EE0 eff2;
-    Cam_80022EE0 cam;
+    CameraPlayback cam;
     Vec_80022EE0 rot;
     Vec_80022EE0 v;
     switch (arg1) {
@@ -2203,23 +2202,23 @@ void update_death_state__12TBoss1DragonFv(u8 *arg0, u32 arg1) {
         TWindowCtrl::init_all_slots();
         switch (isV2Mode__12TBoss1DragonFv()) {
         case 0:
-            cam.sub = 0;
-            cam.mode = 2;
-            cam.c = 0;
-            cam.d = (0.0f);
-            cam.e = (0.5f);
+            cam.index = 0;
+            cam.bank = 2;
+            cam.flags = 0;
+            cam.frame = (0.0f);
+            cam.frame_step = (0.5f);
             activate_camera_mode(5);
-            ((CameraPlayback *)(&cam))->cache_target_and_forward(0x31C7);
+            cam.cache_target_and_forward(0x31C7);
             set_scripted_camera_pose(arg0 + 0x38, arg0 + 0x38, arg0 + 0x5C);
             break;
         case 1:
-            cam.sub = 1;
-            cam.mode = 2;
-            cam.c = 0;
-            cam.d = (0.0f);
-            cam.e = (0.5f);
+            cam.index = 1;
+            cam.bank = 2;
+            cam.flags = 0;
+            cam.frame = (0.0f);
+            cam.frame_step = (0.5f);
             activate_camera_mode(5);
-            ((CameraPlayback *)(&cam))->cache_target_and_forward(0x3333);
+            cam.cache_target_and_forward(0x3333);
             set_scripted_camera_pose(arg0 + 0x38, arg0 + 0x38, arg0 + 0x5C);
             break;
         }

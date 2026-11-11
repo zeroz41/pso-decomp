@@ -17,8 +17,6 @@ const char *TBoss5GryphonDemo__name = "TBoss5GryphonDemo";
 
 struct Obj_800665FC { s32 f0; u8 pad4[0x14]; void *f18; f32 f1c; f32 f20; s32 f24; };
 
-struct Cam_800665FC { s8 f8; s8 f9; s16 fa; f32 fc; f32 f10; };
-
 extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
 void set_camera_capture_overlay_alpha(int a0);
@@ -44,20 +42,20 @@ void TBoss5GryphonDemo::run_task() {
 TBoss5GryphonDemo::~TBoss5GryphonDemo() {}
 }
 TBoss5GryphonDemo::TBoss5GryphonDemo(TObject *parent, s32 arg2, f32 farg0) : TObject(parent) {
-    Cam_800665FC c;
+    CameraPlayback c;
     ((Obj_800665FC *)this)->f0 = ((s32)TBoss5GryphonDemo__name);
     ((Obj_800665FC *)this)->f1c = farg0;
     ((Obj_800665FC *)this)->f20 = 0.0f;
     ((Obj_800665FC *)this)->f24 = arg2;
     switch (TBoss8Dragon__sub_8005D700()) {
     case 0:
-        c.f8 = 1;
-        c.f9 = 0;
-        c.fa = 0;
-        c.fc = ((Obj_800665FC *)this)->f20;
-        c.f10 = ((Obj_800665FC *)this)->f1c;
+        c.bank = 1;
+        c.index = 0;
+        c.flags = 0;
+        c.frame = ((Obj_800665FC *)this)->f20;
+        c.frame_step = ((Obj_800665FC *)this)->f1c;
         activate_camera_mode(5);
-        ((CameraPlayback *)(&c))->cache_target_and_forward(0x238E);
+        c.cache_target_and_forward(0x238E);
         break;
     }
 }
