@@ -27,9 +27,8 @@
 // order (sub_8004F1FC first in .text).
 
 extern "C" {
-// Dark Falz's afterimage (zanzo) models and its three body models.
+// Dark Falz's afterimage (zanzo) models.
 extern s32 boss4_zanzo_bml_index_table[2];
-extern s32 lbl_80486FB0[3];
 }
 
 const char *TObjDFDemo4__name = "TObjDFDemo4";
