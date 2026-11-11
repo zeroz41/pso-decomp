@@ -126,7 +126,7 @@ struct Self_8005AE60 {
     u8 pad32e[0x33E - 0x32E];
     s16 f33E;
     u8 pad340[0x378 - 0x340];
-    u8 f378[0x38C - 0x378];
+    ModelNodeTables node_tables;
     s32 f38C;
     s32 f390;
     s32 f394;
@@ -345,7 +345,8 @@ struct S_8005AD50 {
     u8 pad0[0x18];
     void *vt;
     u8 pad1c[0x378 - 0x1c];
-    u8 f378[0x1c];
+    ModelNodeTables node_tables;
+    u8 pad38c[0x394 - 0x38C];
     s32 f394;
     u8 pad398[0x438 - 0x398];
     void *fx[3];
@@ -915,7 +916,7 @@ Self_8005AE60 *TBoss4Type3__ct(Self_8005AE60 *self, s32 parent, s32 *arg2) {
     *(s32 *)((u8 *)self + 0x528) = create__13TUnk_80494968FUlUl(0xA0303030, 0xFFFF0088);
     clear_motion_packed_rotation();
     ((TBoss4Type3 *)self)->create_particle_emitters();
-    init_model_node_tables(self->f378, (void *)boss4_type3_model_node_specs, 2);
+    init_model_node_tables(&self->node_tables, (void *)boss4_type3_model_node_specs, 2);
     self->f3D4 = self->f32C;
     self->f3CC = 0;
     self->f3D0 = *(s32 *)(dispatch_shared_handler_a__6TLobbyFl(0x38) + 0x24);
@@ -944,7 +945,7 @@ S_8005AD50 *__dt__11TBoss4Type3Fv(S_8005AD50 *o, s16 flag) {
     s32 i;
     if (o != 0) {
         o->vt = __vt__11TBoss4Type3;
-        fn_8004AA04(o->f378);
+        fn_8004AA04(&o->node_tables);
         ((TBoss4Type3 *)o)->destroy_parts();
         if (o->f51c != 0) {
             delete (SampledMotionPoints *)o->f51c;
@@ -1032,7 +1033,7 @@ void TBoss4Type3::run_task() {
     handle_damage_taken();
     if (this->m_374 != 2) {
         copy_positions_to_parts();
-        ((ModelNodeTables *)(&this->m_378))->scroll_strips();
+        this->node_tables.scroll_strips();
     }
     if (this->m_3ba == 0xFFFF) {
         if ((this->m_3c8 -= 0.06666667f) < 0.0f) {

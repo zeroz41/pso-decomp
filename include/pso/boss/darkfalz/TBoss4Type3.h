@@ -2,6 +2,7 @@
 #define PSO_BOSS_DARKFALZ_TBOSS4TYPE3_H
 
 #include "types.h"
+#include "pso/unk/ModelNodeTables.h"
 #include <stddef.h>
 #include "pso/enemy/TObjEnemy.h"
 
@@ -30,8 +31,7 @@ struct TBoss4Type3 : public TObjEnemy {
     virtual void apply_paralysis();
     virtual void apply_poison_status();
     s32 m_374;
-    void* m_378;
-    u8 _pad37C[0x10];
+    ModelNodeTables node_tables;
     u32 m_38c;
     s32 m_390;
     TBoss4Type3CollisionState *m_394;
@@ -156,7 +156,7 @@ typedef char Type3TimerOffset[(offsetof(TBoss4Type3,m_398)==0x398)?1:-1];
 typedef char Type3FractionOffset[(offsetof(TBoss4Type3,m_39c)==0x39C)?1:-1];
 
 typedef char Type3Offset_374[(offsetof(TBoss4Type3,m_374) == 0x374)?1:-1];
-typedef char Type3Offset_378[(offsetof(TBoss4Type3,m_378) == 0x378)?1:-1];
+typedef char Type3Offset_378[(offsetof(TBoss4Type3,node_tables) == 0x378)?1:-1];
 typedef char Type3Offset_38c[(offsetof(TBoss4Type3,m_38c) == 0x38c)?1:-1];
 typedef char Type3Offset_390[(offsetof(TBoss4Type3,m_390) == 0x390)?1:-1];
 typedef char Type3Offset_394[(offsetof(TBoss4Type3,m_394) == 0x394)?1:-1];

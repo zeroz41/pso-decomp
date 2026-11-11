@@ -2,6 +2,7 @@
 #define PSO_UNK_MODELNODETABLES_H
 
 #include "types.h"
+#include <stddef.h>
 
 // The scrolling strip buffers built on a model's nodes (init_model_node_tables
 // fills it, scroll_strips scrolls it, fn_8004AA04 frees it).
@@ -15,5 +16,8 @@ struct ModelNodeTables {
     s32 scroll_v;
     void **items;
 };
+
+typedef char ModelNodeTablesSize[(sizeof(ModelNodeTables) == 0x14) ? 1 : -1];
+typedef char ModelNodeTablesItemsOffset[(offsetof(ModelNodeTables, items) == 0x10) ? 1 : -1];
 
 #endif

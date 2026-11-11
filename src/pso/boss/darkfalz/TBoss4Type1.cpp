@@ -117,7 +117,8 @@ typedef struct Obj_80053440 {
     Vec_80053440 pos;
     u8 pad44[0x374 - 0x44];
     s32 state;
-    u8 f378[0x3F8 - 0x378];
+    ModelNodeTables node_tables;
+    u8 pad38c[0x3F8 - 0x38C];
     void *a[4];
     void *b[4];
 } Obj_80053440;
@@ -1296,7 +1297,7 @@ void TBoss4Type1::sub_80053440() {
             ((TParticleCtrl *)arg0->b[i])->set_position(&v);
         }
     }
-    ((ModelNodeTables *)(arg0->f378))->scroll_strips();
+    arg0->node_tables.scroll_strips();
     play_persistent_sound(0x4003BC0E, (s32)arg0, (u32)&arg0->pos, 0x40, 2);
 }
 

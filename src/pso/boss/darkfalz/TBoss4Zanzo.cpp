@@ -132,7 +132,8 @@ struct S_800578E8 {
     u8 pad0[0x18];
     void *vt;
     u8 pad1c[0x378 - 0x1c];
-    u8 f378[0x1c];
+    ModelNodeTables node_tables;
+    u8 pad38c[0x394 - 0x38C];
     s32 f394;
     u8 pad398[0x42c - 0x398];
     void *ptr[8];
@@ -422,7 +423,8 @@ struct S_8005AD50 {
     u8 pad0[0x18];
     void *vt;
     u8 pad1c[0x378 - 0x1c];
-    u8 f378[0x1c];
+    ModelNodeTables node_tables;
+    u8 pad38c[0x394 - 0x38C];
     s32 f394;
     u8 pad398[0x438 - 0x398];
     void *fx[3];
@@ -1606,7 +1608,7 @@ void TBoss4Type2::update_main() {
         if (*(void **)((s8 *)arg0 + 0x430) != NULL) {
             ((TParticleCtrl *)*(void **)((s8 *)arg0 + 0x430))->set_position(&pos);
         }
-        ((ModelNodeTables *)(arg0 + 0x378))->scroll_strips();
+        this->node_tables.scroll_strips();
     }
     {
         Vec_80057598 a = boss4_type2_follow_camera_offset_a;
@@ -1643,7 +1645,7 @@ S_800578E8 *__dt__13TUnk_80486924Fv(S_800578E8 *o, s16 flag) {
     s32 i;
     if (o != 0) {
         o->vt = lbl_80486924;
-        fn_8004AA04(o->f378);
+        fn_8004AA04(&o->node_tables);
         for (i = 0; i < 8; i++) {
             if (o->ptr[i] != 0) {
                 TParticleCtrl::release(o->ptr[i]);

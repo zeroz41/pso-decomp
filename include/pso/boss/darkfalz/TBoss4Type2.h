@@ -2,6 +2,8 @@
 #define PSO_BOSS_DARKFALZ_TBOSS4TYPE2_H
 
 #include "types.h"
+#include "pso/unk/ModelNodeTables.h"
+#include <stddef.h>
 
 /* Boss parameter block 0x36 from TLobby::dispatch_shared_handler_a (read by TBoss4Type1.cpp and
  * TObjDFHorming). move_seconds is clamped to 1..60 and scaled by 30.0 into a frame count; the two
@@ -45,8 +47,7 @@ struct TBoss4Type2
     u16 m_33e;
     u8 _pad340[0x34];
     u32 m_374;
-    void* m_378;
-    u8 _pad37C[0x10];
+    ModelNodeTables node_tables;
     u32 m_38c;
     u32 m_390;
     u32 m_394;
@@ -171,5 +172,7 @@ struct TBoss4Type2
     void check_state_if_idle();
     void sub_800531BC();
 };
+
+typedef char Type2NodeTablesOffset[(offsetof(TBoss4Type2, node_tables) == 0x378) ? 1 : -1];
 
 #endif
