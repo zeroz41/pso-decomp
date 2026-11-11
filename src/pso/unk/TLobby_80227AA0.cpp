@@ -420,8 +420,16 @@ s32 init_sound_aux_effects(void *);
 void TLobby__sub_803382E4(void);
 s32 TLobby__sub_803CB81C();
 s32 TLobby__sub_80226B64(int);
-extern s32 floor_sound_bank_table[];
-extern s32 floor_sound_bank_volume_table[];
+extern const s32 floor_sound_bank_table[36] = {
+    1, 2, 2, 4, 4, 4, 6, 6, 8, 8, 8, 3,
+    5, 7, 9, -1, 10, 11, 1, 14, 14, 15, 15, 12,
+    12, 12, 12, 12, 16, 16, 13, 17, 18, 21, 19, 20,
+};
+extern const f32 floor_sound_bank_volume_table[36] = {
+    0.0f, 0.0f, 0.0f, 0.5f, 0.4f, 0.3f, 0.2f, 0.2f, 0.35f, 0.35f, 0.35f, 0.1f,
+    0.4f, 0.0f, 0.2f, 0.0f, 0.05f, 0.0f, 0.0f, 0.0f, 0.0f, 0.05f, 0.05f, 0.1f,
+    0.1f, 0.1f, 0.1f, 0.1f, 0.5f, 0.5f, 0.1f, 0.5f, 0.0f, 0.1f, 0.1f, 0.2f,
+};
 
 void TLobby::refresh_render_state() { pop_sound_groups__6TLobbyFPvi((void *)&sound_control_state, (s32)((void*)0)); ((int (*)(float))apply_clamped_field_27c__6TLobbyFv)(0.0f); render_tick__Fv(); }
 

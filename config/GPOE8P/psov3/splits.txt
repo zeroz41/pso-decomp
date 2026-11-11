@@ -5962,6 +5962,7 @@ pso/map/TSetEvtDestroy.cpp:
 
 pso/unk/TLobby_80209524.cpp:
 	.text       start:0x80209524 end:0x80209D34
+	.rodata     start:0x8044BAF8 end:0x8044BBA0
 	.sbss       start:0x805D60B8 end:0x805D60BC
 
 pso/unk/text_80209D34.cpp:
@@ -6381,6 +6382,7 @@ pso/unk/TLobby_80227A2C.cpp:
 pso/unk/TLobby_80227AA0.cpp:
 	.text       start:0x80227AA0 end:0x80228154
 	.ctors      start:0x80433FA4 end:0x80433FA8
+	.rodata     start:0x8044C8D0 end:0x8044C9F0
 	.bss        start:0x80514F58 end:0x80515BA0
 	.sdata2     start:0x805DC768 end:0x805DC770
 

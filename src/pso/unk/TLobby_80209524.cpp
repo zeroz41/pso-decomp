@@ -294,7 +294,11 @@ void TLobby::pick_weighted_entry(s32 *arg0, s32 *arg1) {
 
 extern "C" {
 
-extern s32 lobby_random_slot_id_table[];
+extern const s32 lobby_random_slot_id_table[42] = {
+    68, 67, 65, 66, 64, 96, 97, 98, 99, 100, 101, 128, 129, 130,
+    131, 132, 133, 160, 161, 162, 163, 164, 165, 166, 167, 168, 212, 213,
+    214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 224, 225, 0,
+};
 
 s32 pick_random_slot__6TLobbyFPv(s16 *arg0) {
     s32 key;
