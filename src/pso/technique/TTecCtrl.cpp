@@ -2,6 +2,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/technique/TechniqueParams.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/technique/TechniqueBoost.h"
 #include "pso/effect/TUnk_804CC148.h"
 #include "pso/object/ambient/TObjLight.h"
@@ -68,7 +69,7 @@ struct Player_8022D27C {
     u8 tech[1];
 };
 
-typedef struct Col_8022C738 { s32 w[4]; } Col_8022C738;
+typedef struct Col_8022C738 { f32 r, g, b, a; } Col_8022C738;
 
 typedef struct Vec_8022C738 { f32 x, y, z; } Vec_8022C738;
 
@@ -107,27 +108,60 @@ void *__ct__13TUnk_804CCD0CFll(void *, void *, s32);
 void *construct_resta_charge_sound(void *, void *, s32);
 void *__ct__13TUnk_804CCAC8Fll(void *, void *, s32);
 void *__ct__13TUnk_804CC74CFll(void *, void *, s32);
-extern Col_8022C738 technique_charge_light_color;
-extern Vec_8022C738 lbl_8044CF8C;
-extern Col_8022C738 technique_charge_light_params;
-extern Vec_8022C738 lbl_8044CFA8;
-extern Col_8022C738 lbl_8044CFB4;
-extern Vec_8022C738 lbl_8044CFC4;
-extern Col_8022C738 rabarta_charge_light_color;
-extern Vec_8022C738 lbl_8044CFE0;
-extern Col_8022C738 zonde_charge_light_color;
-extern Vec_8022C738 lbl_8044CFFC;
-extern Col_8022C738 resta_charge_light_color;
-extern Vec_8022C738 lbl_8044D018;
-extern Col_8022C738 ryuker_charge_light_color;
-extern Vec_8022C738 lbl_8044D034;
-extern Col_8022C738 shifta_charge_light_color;
-extern Vec_8022C738 lbl_8044D050;
-extern Col_8022C738 megid_charge_light_color;
-extern Vec_8022C738 lbl_8044D06C;
 extern LightData_8022C738 TObjLight__scene_light_state;
 extern s32 tl_07;
 }
+
+// The technique effects' models and motions, and the archive that holds them.
+const char *bm_technic_model_names[13] = {
+    "eff_f_bartaturara.gj",
+    "eff_f_gibarta_01.gj",
+    "eff_f_gibartalv1.gj",
+    "eff_f_gibartalv4.gj",
+    "eff_f_gibartalv6.gj",
+    "eff_f_ice_piece.gj",
+    "eff_f_rabarta.gj",
+    "eff_f_rabarta_02.gj",
+    "eff_f_rabarta_03.gj",
+    "eff_f_rafoie_shushku.gj",
+    "eff_f_ringwave.gj",
+    "eff_rafoie.gj",
+    NULL
+};
+const char *bm_technic_motion_names[6] = {
+    "eff_f_bartaturara.njm",
+    "eff_f_gibarta_01.njm",
+    "eff_f_rabarta.njm",
+    "eff_f_rabarta_02.njm",
+    "eff_f_rabarta_03.njm",
+    NULL
+};
+BmlResourceDescriptor technique_resource_descriptor = {
+    "bm_technic.bml", bm_technic_model_names, bm_technic_motion_names, 12, 5
+};
+// Per technique id (0-18): the base parameters calc_technique_parameters scales by level.
+TechniqueParams technique_param_table[19] = {
+    {110.0f, 3.0f, 100.0f, 0.0f, 5, 5, 40, 1, 5461, 7281, 15, 1, 130, 50, 10, 20, 30},
+    {260.0f, 8.0f, 50.0f, 0.0f, 20, 7, 100, 1, 65536, 0, 20, 10, 70, 26, 5, 25, 0},
+    {350.0f, 0.0f, 100.0f, 10.0f, 30, 13, 133, 1, 7281, 0, 25, 10, 25, 22, 10, 28, 40},
+    {50.0f, 3.0f, 90.0f, 0.0f, 4, 5, 35, 2, 9102, 0, 15, 1, 120, 50, 30, 25, 50},
+    {230.0f, 0.0f, 100.0f, 0.0f, 25, 7, 100, 2, 20024, 0, 40, 10, 50, 24, 10, 24, 120},
+    {400.0f, 0.0f, 40.0f, 0.0f, 35, 13, 106, 2, 65536, 0, 25, 10, 20, 19, 2, 30, 0},
+    {80.0f, 0.0f, 110.0f, 10.0f, 6, 5, 44, 3, 32768, 16384, 15, 1, 110, 50, 10, 24, 0},
+    {200.0f, 0.0f, 80.0f, 0.0f, 25, 7, 100, 3, 16384, 16384, 20, 10, 60, 22, 20, 25, 0},
+    {450.0f, 0.0f, 50.0f, 0.0f, 35, 13, 134, 3, 65536, 16384, 25, 10, 30, 16, 20, 30, 0},
+    {1180.0f, 0.0f, 150.0f, 10.0f, 45, 15, 160, 3, 32768, 16384, 35, 1, 110, 75, 30, 30, 0},
+    {0.0f, 0.0f, 60.0f, 0.0f, 10, 5, 60, 10, 32768, 16384, 30, 10, 100, 1, 25, 17, 0},
+    {0.0f, 0.0f, 50.0f, 0.0f, 10, 5, 60, 11, 32768, 16384, 15, 10, 50, 1, 4, 28, 0},
+    {0.0f, 0.0f, 50.0f, 0.0f, 10, 5, 60, 12, 32768, 16384, 15, 10, 50, 1, 4, 28, 0},
+    {0.0f, 0.0f, 60.0f, 0.0f, 10, 5, 60, 9, 32768, 16384, 30, 10, 100, 1, 25, 28, 0},
+    {0.0f, 0.0f, 10.0f, 0.0f, 10, 20, 150, 14, 0, 0, 20, 0, 50, 0, 0, 0, 0},
+    {50.0f, 0.0f, 60.0f, 0.0f, 15, 7, 50, 6, 0, 0, 20, 10, 120, 5, 25, 30, 0},
+    {0.0f, 0.0f, 60.0f, 0.0f, 10, 7, 85, 7, 0, 0, 20, 10, 50, 0, 25, 26, 0},
+    {0.0f, 0.0f, 100.0f, 0.0f, 20, 10, 150, 8, 0, 0, 30, 1, 0, 0, 0, 0, 0},
+    {27.0f, 2.0f, 100.0f, 0.0f, 30, 15, 160, 5, 7281, 7281, 35, 1, 105, 3, 20, 28, 10},
+};
+const char *TTecCtrl__name = "TTecCtrl";
 
 void *tech_high_level_linear_power_table[19] = {
     (void *)0xffab0041, (void *)0x1e002a, (void *)0x1720015, (void *)0xff83003f,
@@ -154,19 +188,15 @@ s32 release_texture_list(void *, s32);
 extern RecoveredGlobal_8022F068_lbl_804CC934 technique_ringwave_texture_list;
 extern u8 *technique_effect_bml;
 extern void **lbl_805D63B0;
-extern u8 technique_resource_descriptor[];
-extern u8 lbl_8044D088[];
-extern u8 lbl_8044D094[];
 u8 *load_resource_from_descriptor(u8 *, s32, void *, s32, s32, s32);
 u8 *load_gvm_texture_file(s32 arg0);
-void bind_gvm_texture_list(void *, void *);
+void bind_gvm_texture_list(const char *, void *);
 void reset_telepipe_visit_counts(void);
 void __ct__7TObjectFP7TObject(void *);
 }
 
 extern s8 lbl_805D63A8;
 extern s32 __vt__8TTecCtrl[];
-extern void *TTecCtrl__name;
 typedef char RecoveredGlobal_8022F068_lbl_804CC934_size[sizeof(RecoveredGlobal_8022F068_lbl_804CC934) == 0xC ? 1 : -1];
 
 #define ONE_SLOT()                                                                       \
@@ -207,11 +237,11 @@ typedef char RecoveredGlobal_8022F068_lbl_804CC934_size[sizeof(RecoveredGlobal_8
 void load_technique_resources(void) {
     u8 *p = (u8 *)::operator new(0x440);
     if (p != 0) {
-        p = load_resource_from_descriptor(p, 1, technique_resource_descriptor, 0, 0, 0);
+        p = load_resource_from_descriptor(p, 1, &technique_resource_descriptor, 0, 0, 0);
     }
     technique_effect_bml = p;
-    lbl_805D63B0 = (void **)load_gvm_texture_file((s32)lbl_8044D088);
-    bind_gvm_texture_list(lbl_8044D094, ((u8 *)&technique_ringwave_texture_list));
+    lbl_805D63B0 = (void **)load_gvm_texture_file((s32)"technic.gvm");
+    bind_gvm_texture_list("technic_pt", ((u8 *)&technique_ringwave_texture_list));
     TTecZondeEff::init_resources();
 }
 
@@ -238,7 +268,7 @@ void TLobby__sub_8022F068(void) {
 void *__ct__8TTecCtrlFv(void *tec_ctrl) {
     __ct__7TObjectFP7TObject(tec_ctrl);
     *(s32 **)((s8 *)tec_ctrl + 0x18) = __vt__8TTecCtrl;
-    *(void * *)&((TTecCtrl *)tec_ctrl)->m_name = TTecCtrl__name;
+    ((TTecCtrl *)tec_ctrl)->m_name = TTecCtrl__name;
     *(u32 *)((s8 *)tec_ctrl + 0x1C) = 0;
     return tec_ctrl;
 }
@@ -699,12 +729,12 @@ void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) 
     }
 }
 
-#pragma push
-#pragma opt_propagation off
-#define CHARGE_LIGHT_8022C738(COL, VEC, INIT)                                                    \
+// One technique's charge light: colour R, G, B, A, shining down; INIT builds its
+// charge effect when the caster is played here.
+#define CHARGE_LIGHT_8022C738(R, G, B, A, INIT)                                                  \
     {                                                                                            \
-        Col_8022C738 c = COL;                                                                    \
-        Vec_8022C738 v = VEC;                                                                    \
+        Col_8022C738 c = {R, G, B, A};                                                           \
+        Vec_8022C738 v = {0.0f, -1.0f, 0.0f};                                                    \
         void *o = __nw__7TObjectFUl(100);                                                        \
         if (o != NULL) {                                                                         \
             ((void *(*)(f32, f32, f32, void *, Col_8022C738 *, Vec_8022C738 *, s32, void *, s32)) \
@@ -723,45 +753,44 @@ void create_technique_charge_light(u32 kind, void *owner) {
     s32 base = p->f12 + p->f20 + 50;
     switch (kind) {
     case 1:
-        CHARGE_LIGHT_8022C738(technique_charge_light_color, lbl_8044CF8C, __ct__13TUnk_804CC794Fll)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 0.5f, 0.0f, __ct__13TUnk_804CC794Fll)
         break;
     case 0:
     case 2:
-        CHARGE_LIGHT_8022C738(technique_charge_light_params, lbl_8044CFA8, __ct__13TUnk_804CC794Fll)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 0.5f, 0.0f, __ct__13TUnk_804CC794Fll)
         break;
     case 3:
     case 4:
-        CHARGE_LIGHT_8022C738(lbl_8044CFB4, lbl_8044CFC4, __ct__13TUnk_804CC948Fll)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 1.0f, __ct__13TUnk_804CC948Fll)
         break;
     case 5:
-        CHARGE_LIGHT_8022C738(rabarta_charge_light_color, lbl_8044CFE0, __ct__13TUnk_804CC948Fll)
+        CHARGE_LIGHT_8022C738(1.0f, 0.3f, 0.7f, 1.0f, __ct__13TUnk_804CC948Fll)
         break;
     case 6:
     case 7:
     case 8:
-        CHARGE_LIGHT_8022C738(zonde_charge_light_color, lbl_8044CFFC, __ct__13TUnk_804CCD0CFll)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 0.3f, __ct__13TUnk_804CCD0CFll)
         break;
     case 9:
     case 15:
     case 16:
     case 17:
-        CHARGE_LIGHT_8022C738(resta_charge_light_color, lbl_8044D018, construct_resta_charge_sound)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 1.0f, construct_resta_charge_sound)
         break;
     case 10:
     case 11:
     case 12:
     case 14:
-        CHARGE_LIGHT_8022C738(ryuker_charge_light_color, lbl_8044D034, __ct__13TUnk_804CCAC8Fll)
+        CHARGE_LIGHT_8022C738(1.0f, 0.3f, 0.9f, 1.0f, __ct__13TUnk_804CCAC8Fll)
         break;
     case 13:
-        CHARGE_LIGHT_8022C738(shifta_charge_light_color, lbl_8044D050, __ct__13TUnk_804CCAC8Fll)
+        CHARGE_LIGHT_8022C738(1.0f, 0.9f, 0.3f, 1.0f, __ct__13TUnk_804CCAC8Fll)
         break;
     case 18:
-        CHARGE_LIGHT_8022C738(megid_charge_light_color, lbl_8044D06C, __ct__13TUnk_804CC74CFll)
+        CHARGE_LIGHT_8022C738(1.0f, 0.6f, 0.2f, 0.7f, __ct__13TUnk_804CC74CFll)
         break;
     }
 }
-#pragma pop
 
 s32 TObjPlayer::get_level_tier(s32 arg0) {
 

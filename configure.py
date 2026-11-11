@@ -658,8 +658,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # updates read the global after the inner clamp only through the inlined lowered_pad_12 (auto
     # would also inline calc_technique_boost into it). deferred: the original .data holds
     # __vt__8TTecCtrl before the four switch jump tables (0x804CC5F4 < 0x804CC60C), which only
-    # deferred code generation emits.
-    "pso/technique/TTecCtrl.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-inline on,deferred")},
+    # deferred code generation emits. -str reuse,readonly: its model/motion names, archive name and
+    # class name sit in .rodata. -pool off: create_technique_charge_light loads each case's colour and
+    # direction templates by their own lis/addi; pooled data would share one .rodata base instead.
+    "pso/technique/TTecCtrl.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-inline on,deferred", "-str reuse,readonly", "-pool off")},
     # -fp_contract on: the ctor fuses its scale and corner math into fmadds; the unit's other
     # functions have no float math. deferred: the original .data holds __vt__16TPlayerFootStamp
     # (0x804DE4F8) before the ctor's switch jump table (0x804DE510), which only deferred code

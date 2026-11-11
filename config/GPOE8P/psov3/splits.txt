@@ -6472,9 +6472,10 @@ pso/unk/text_8022BE64.cpp:
 pso/technique/TTecCtrl.cpp:
 	.text       start:0x8022C444 end:0x8022F1C0
 	.ctors      start:0x80433FB0 end:0x80433FB4
-	.rodata     start:0x8044D078 end:0x8044D088
-	.data       start:0x804CC510 end:0x804CC73C
+	.rodata     start:0x8044CDF8 end:0x8044D0A0
+	.data       start:0x804CC170 end:0x804CC73C
 	.bss        start:0x80515F90 end:0x80516140
+	.sdata      start:0x805D37A0 end:0x805D37A8
 	.sdata2     start:0x805DC7D0 end:0x805DC7EC
 
 pso/item/TItemEquipBase_8022F1C0.cpp:
