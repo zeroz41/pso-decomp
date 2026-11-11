@@ -1008,22 +1008,26 @@ void TObjCMHairMenu::render() {
     vec2f pos3;
     vec2f pos4;
     s32 i;
-    f32 hi;
-    s32 j;
-    s32 hair = appearance->hair;
+    f32 pulse;
+    f32 v;
     f32 w;
     s32 sprite;
-    f32 t;
+    f32 off;
+    s32 j;
+    f32 a;
+    f32 base;
+    f32 alpha;
+    s32 idx;
+    s32 hair;
     f32 step;
+    f32 hi;
+    f32 t;
+    f32 r;
     f32 dim;
     f32 scale;
-    f32 v;
-    f32 a;
-    f32 pulse = 0.25f * sin_table_lookup(ticks << 10) + 1.0f;
-    f32 base;
-    s32 idx;
-    f32 alpha;
 
+    hair = appearance->hair;
+    pulse = 0.25f * sin_table_lookup(ticks << 10) + 1.0f;
     if (pulse > 1.0f) {
         pulse = 1.0f;
     }
@@ -1036,18 +1040,18 @@ void TObjCMHairMenu::render() {
     base = lbl_8046509C[idx];
     if (!(fade <= 0.33f)) {
         if (fade >= 0.66f) {
-            t = 1.0f;
+            r = 1.0f;
         } else {
-            t = (fade - 0.33f) / 0.33f;
+            r = (fade - 0.33f) / 0.33f;
         }
         scl.y = 1.0f;
         pos.y = 146.0f;
         for (i = 0; i < 4; i++) {
             sprite = 0;
             if (i == 0) {
-                w = t * (base - 75.0f) + 75.0f;
+                w = r * (base - 75.0f) + 75.0f;
             } else {
-                w = t * (lbl_804650C4[i] - 75.0f) + 75.0f;
+                w = r * (lbl_804650C4[i] - 75.0f) + 75.0f;
             }
             pos.x = 75.0f;
             if (i == selection) {
@@ -1101,21 +1105,21 @@ void TObjCMHairMenu::render() {
             draw_ui_sprite(sprite, &pos3, -2.4375f, s);
             pos3.x += 17.0f;
         }
-        w = base - 347.0f;
+        off = base - 347.0f;
         dim = alpha;
         if (selection == 0) {
             hi = alpha * pulse;
         } else {
-            dim *= 0.6f;
-            hi = dim;
+            hi = alpha * 0.6f;
+            dim = hi;
         }
-        pos4.x = 299.0f + w;
+        pos4.x = 299.0f + off;
         pos4.y = 149.0f;
         draw_ui_sprite(hair + 20, &pos4, -2.4375f, hi);
-        pos4.x = 305.0f + w;
+        pos4.x = 305.0f + off;
         pos4.y = 150.0f;
         draw_ui_sprite(0x1E, &pos4, -2.4375f, dim);
-        pos4.x = 324.0f + w;
+        pos4.x = 324.0f + off;
         pos4.y = 167.0f;
         draw_ui_sprite(count + 19, &pos4, -2.4375f, dim);
         for (i = 1; i < 4; i++) {
