@@ -81,9 +81,7 @@ void TKeyBoardControl__sub_8000F950(void);
 void TKeyBoardControl__sub_8000F95C(void);
 void mark_area_change_pending(void);
 void clear_keyboard_key_state(void);
-s32 disable_disconnected_ports__16TKeyBoardControlFv(void *);
 void TKeyBoardControl__sub_8000F764(void);
-void TKeyBoardControl__sub_8000F7FC(void);
 extern RecoveredGlobal_8000F9E4_lbl_804FE120 main_phase_state;
 void TKeyBoardControl__sub_8000F9E4(void);
 void TKeyBoardControl__sub_8000F90C(s32 arg0);
@@ -138,7 +136,6 @@ int OSResetSystem(void*, void*, void*);
 void TAdPlayerLoadGC__sub_801E1350(void);
 void release_all__23TAdSinglePlyChrSelectGCFv(void);
 void TAdWarningBaseGC__sub_8032D188(void);
-int clear_split_screen_fog__8TFogCtrlFv(void*);
 void TLobby__sub_80147978(void);
 void TLobby__sub_8020E3BC(void);
 }
@@ -171,13 +168,10 @@ s32 keyboard_input_buffer;
 extern int resource_decompress_buffer;
 void init_game_systems(void);
 void shutdown_and_reset_system(void);
-void update_music_sequencer(void);
 extern "C" {
-void update_global_sound_frame(void);
 void TLobby__sub_8022809C(void);
 void TLobby__sub_802433A8(void);
 void TObjBoss2Tunnel__sub_8036EF4C(void);
-void TObjPlayer__sub_80083FB0(void);
 void TObjPlayer__sub_801D92A4(void);
 void fn_800FFE0C(void);
 void TWindowSnapShot__sub_802A7DA0(void);
@@ -186,8 +180,6 @@ int VIWaitForRetrace(void);
 int VIFlush(void);
 int VISetBlack(void*);
 int xfree__FPv(void*);
-
-extern s32 lbl_805D62B0;
 
 void TKeyBoardControl::update() {  }
 int TKeyBoardControl__sub_8000F828(void) { return 0; }
