@@ -11863,17 +11863,16 @@ pso/unk/TLobby_803CC274.cpp:
 	.text       start:0x803CC274 end:0x803CC294
 
 pso/unk/text_803CC294.cpp:
-	.text       start:0x803CC294 end:0x803CD804
-	.rodata     start:0x8047C818 end:0x8047CD84
-
-pso/unk/TLobby_803CD804.cpp:
-	.text       start:0x803CD804 end:0x803CD840
-
-pso/unk/text_803CD840.cpp:
-	.text       start:0x803CD840 end:0x803CE1D0
-	.bss        start:0x8057DF50 end:0x80581330
-	.sdata      start:0x805D4688 end:0x805D4690
+	.text       start:0x803CC294 end:0x803CD99C
+	.rodata     start:0x8047C818 end:0x8047CF30
+	.bss        start:0x8057DF50 end:0x8057FFD0
 	.sbss       start:0x805D75F0 end:0x805D75F8
+	.sdata2     start:0x805E0D88 end:0x805E0D8C
+
+pso/unk/text_803CD99C.cpp:
+	.text       start:0x803CD99C end:0x803CE1D0
+	.bss        start:0x8057FFD0 end:0x80581330
+	.sdata      start:0x805D4688 end:0x805D4690
 	.sdata2     start:0x805E0D90 end:0x805E0DA0
 
 pso/unk/TLobby_803CE1D0.cpp:

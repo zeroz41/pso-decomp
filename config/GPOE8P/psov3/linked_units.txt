@@ -1004,7 +1004,6 @@ pso/unk/TLobby_803CBF30.cpp
 pso/unk/TLobby_803CBF50.cpp
 pso/unk/TLobby_803CC0B4.cpp
 pso/unk/TLobby_803CC274.cpp
-pso/unk/TLobby_803CD804.cpp
 pso/unk/TLobby_803CE1D0.cpp
 pso/unk/TLobby_803CE1E4.cpp
 pso/unk/TLobby_803CE200.cpp
@@ -2673,7 +2672,8 @@ pso/unk/text_803C1668.cpp
 pso/unk/text_803CBCA0.cpp
 pso/unk/text_803CC070.cpp
 pso/unk/text_803CC134.cpp
-pso/unk/text_803CD840.cpp
+pso/unk/text_803CC294.cpp
+pso/unk/text_803CD99C.cpp
 pso/unk/text_803CE1D8.cpp
 pso/unk/text_803CE1F4.cpp
 pso/unk/text_803CE240.cpp

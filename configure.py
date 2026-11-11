@@ -936,7 +936,7 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
     ("musyx_hw", 0x803BAC70, "GC/1.2.5n", _switch(cflags_musyx, "-inline auto"), {}),
     # CRI ADX, LSC, SJ, MFCI and GCRNA ("Build:Jun 13 2002").
     ("cri", 0x803BFE50, "GC/2.6", cflags_middleware, {
-        "pso/unk/text_803CC294.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
+        "pso/unk/text_803CC294.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly", "-inline auto")},
         "pso/unk/text_803CE568.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
         "pso/unk/text_803CFEA0.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
         "pso/unk/text_803D31A4.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},

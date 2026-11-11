@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "pso/system/MiddlewareInterruptLock.h"
 
 #include "types.h"
@@ -10,18 +12,6 @@ struct Ent_803CE198 { s32 a; s32 b; u8 pad[8]; };
 struct Sub_803CE198 { u8 pad[0x214]; Ent_803CE198 e[1]; };
 
 struct Obj_803CE198 { u8 pad[0xa0]; Sub_803CE198 sub; };
-
-struct Ent_803CD840 {
-    s32 f0;
-    s32 f4;
-    s32 f8;
-    u8 padC[2];
-    s8 fE;
-    u8 padF;
-    char name[0x100];
-    s32 f110;
-    u8 pad114[4];
-};
 
 #define BE32_803CDEC8(p) (((p)[0] << 24) | ((p)[1] << 16) | ((p)[2] << 8) | (p)[3])
 #define BE16_803CDEC8(p) (((p)[0] << 8) | (p)[1])
@@ -89,75 +79,9 @@ struct Obj_803CDB0C {
 };
 
 extern "C" {
-char *strncpy(char *, const char *, u32);
-void *memset(void *, s32, u32);
-s32 adxf_read_nw32__6TLobbyFPviPv(void *, int, int);
-void *adxf_open__6TLobbyFUii(const char *, s32);
-extern char lbl_8047C818[];
-extern Ent_803CD840 *afs_archive_toc_table[256];
-u8 adxf_open_file_buffer[0x2080];
-extern s32 lobby_adxf_current_file_id;
-extern void *lobby_adxf_open_file_handle;
-extern s32 lobby_afs_toc_entry_index;
-extern s32 lbl_805D75EC;
-s32 lbl_805D75F0;
-s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 arg2, Ent_803CD840 *e);
-int memcmp(const void *, const void *, unsigned long);
-unsigned long strlen(const char *);
-char *cri_copyright_string = "(c)CRI";
 s32 parse_aix_header__6TLobbyFPviPv(u8 *arg0, s32 arg1, Out_803CDEC8 *arg2);
 void TLobby__sub_803D3130(Chunk_803CDB0C *, s32, Chunk_803CDB0C *, Chunk_803CDB0C *);
-void *memcpy(void *, const void *, u32);
-
-#pragma dont_inline off
-#pragma inline_depth(4)
-inline s32 check_803CD840(char *msg, s32 id, Ent_803CD840 *e) {
-    if (id < 0 || id >= 0x100) {
-        TLobby::notify_error(msg + 0x3E8);
-        return -3;
-    }
-    if (e == NULL) {
-        TLobby::notify_error(msg + 0x420);
-        return -3;
-    }
-    return 0;
-}
-s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 arg2, Ent_803CD840 *e) {
-    char *msg = lbl_8047C818;
-    s32 r;
-    s32 aligned;
-    r = check_803CD840(msg, id, e);
-    if (r < 0) {
-        return r;
-    }
-    if (lobby_adxf_current_file_id >= 0) {
-        TLobby::notify_error(msg + 0x56C);
-        return -1;
-    }
-    lobby_adxf_open_file_handle = adxf_open__6TLobbyFUii(name, arg2);
-    if (lobby_adxf_open_file_handle == NULL) {
-        TLobby::notify_error(msg + 0x5A4);
-        return -1;
-    }
-    lobby_adxf_current_file_id = id;
-    lobby_afs_toc_entry_index = 0;
-    memset(e, 0, 0x118);
-    afs_archive_toc_table[id] = e;
-    e->f0 = 0;
-    strncpy(e->name, name, 0x100);
-    e->f110 = arg2;
-    e->fE = 0;
-    aligned = (s32)(adxf_open_file_buffer + 0x20) & ~0x1F;
-    lbl_805D75F0 = aligned;
-    lbl_805D75EC = aligned;
-    r = adxf_read_nw32__6TLobbyFPviPv(lobby_adxf_open_file_handle, 1, aligned);
-    if (r < 0) {
-        ((TLobby *)lobby_adxf_open_file_handle)->close_adxf_handle();
-        return r;
-    }
-    e->f8 = 0;
-    return 0;
-}
+char *cri_copyright_string = "(c)CRI";
 
 struct StreamSlot_803CD99C {
     s8 active;

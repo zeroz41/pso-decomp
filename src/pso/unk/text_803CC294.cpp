@@ -1,5 +1,6 @@
+#include <string.h>
+
 #include "types.h"
-#include "pso/unk/TLobby_803CD804.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/unk/text_803CC294.h"
 #include "pso/unk/TLobby.h"
@@ -10,15 +11,13 @@ struct Obj_803CC4C0 { u8 a; s8 b; };
 struct Chunk_803CC294 { u16 id; u16 len; s32 off; };
 
 struct Ent_803CC294 {
-    struct Ent_803CC294 *next; s32 f4; s32 f8; u16 fc; u8 pad_e[2]; char name[0x100];
+    struct Ent_803CC294 *next; s32 f4; s32 f8; u16 fc; s8 fe; u8 pad_f; char name[0x100];
     s32 f110; u16 f114; u16 arr[1];
 };
 
 struct Ent_803CD5C4 {
     u8 pad_0[4]; s32 f4; s32 f8; u16 fc; u8 pad_e[0x114 - 0xE]; s16 f114; s16 arr[1];
 };
-
-struct Strm_803CD5C4 { u8 f0; s8 f1; };
 
 struct LogEnt_803CD16C { s8 type; s8 phase; u16 seq; s32 a; s32 b; s32 c; };
 
@@ -51,14 +50,11 @@ struct LogHdr_803CCE9C { u8 pad[0x6]; u16 seq; };
 
 extern "C" {
 s32 TLobby__sub_803CC4C0(Obj_803CC4C0 *p);
-s32 strncpy(void *, void *, int);
 extern Ent_803CC294 *afs_archive_toc_table[];
-s32 memcmp(void *, void *, int);
 extern s32 lobby_adxf_current_file_id;
-extern Strm_803CD5C4 *lobby_adxf_open_file_handle;
+extern Slot_803CD16C *lobby_adxf_open_file_handle;
 extern s32 lobby_afs_toc_entry_index;
 extern u8 *lbl_805D75EC;
-extern s32 lbl_805E0D88;
 u32 adxstm_open_fname_range__6TLobbyFPviiii(Buf_803CD16C *, s32, s32, s32, s32);
 extern u16 lbl_8057B7B0[16];
 extern LogEnt_803CD16C lbl_8057B7D0[];
@@ -69,7 +65,7 @@ u32 TLobby__sub_803C8CDC(u32, s32, s32);
 Slot_803CD16C *adxf_open__6TLobbyFUii(u32 arg0, s32 arg1);
 s32 invalidate_cache__6TLobbyFv(s32, s32);
 extern s32 lbl_805D75E4;
-void *memset(void *, int, unsigned long);
+extern s32 lbl_805D75E8;
 
 #pragma push
 #pragma inline_depth(4)
@@ -667,8 +663,7 @@ Slot_803CD16C *adxf_open__6TLobbyFUii(u32 arg0, s32 arg1) {
     return s;
 }
 
-// adxf_ChkPrmPt, ADXF_AddPartition and ADXF_LoadPartition (named by their messages): removed by the linker.
-// Only their messages are left, between ADXF_Open's and ADXF_GetPtStat's in the string pool.
+// adxf_ChkPrmPt (named by its messages): inlined into ADXF_LoadPartitionNw below.
 s32 adxf_chk_prm_pt(s32 ptid, void *ptinfo) {
     if (ptid < 0 || ptid >= 0x100) {
         TLobby::notify_error("E9040801:partition ID is range outside.(adxf_ChkPrmPt)");
@@ -681,6 +676,8 @@ s32 adxf_chk_prm_pt(s32 ptid, void *ptinfo) {
     return 0;
 }
 
+// ADXF_AddPartition and ADXF_LoadPartition (named by their messages): removed by the linker.
+// Only their messages are left, between adxf_ChkPrmPt's and ADXF_GetPtStat's in the string pool.
 s32 adxf_add_partition(void) {
     TLobby::notify_error("E9040808:can't open.(ADXF_AddPartition)");
     return -1;
@@ -713,7 +710,7 @@ s32 TLobby::read_afs_toc(s32 arg0) {
     arr = e->arr;
     if (e->f8 == 0) {
         s32 n;
-        if (memcmp(lbl_805D75EC, &lbl_805E0D88, 3) != 0) {
+        if (memcmp(lbl_805D75EC, "AFS", 3) != 0) {
             TLobby::notify_error("E0040701:Illigal format(not AFS).(ADXF_GetPtStat)");
             TLobby__sub_803CD804();
             return 4;
@@ -752,5 +749,96 @@ s32 TLobby::read_afs_toc(s32 arg0) {
     return st;
 }
 #pragma pop
+
+void TLobby__sub_803CD804(void) {
+    ((TLobby *)lobby_adxf_open_file_handle)->close_adxf_handle();
+    lobby_adxf_open_file_handle = 0;
+    lobby_adxf_current_file_id = -1;
+    lobby_afs_toc_entry_index = 0;
+    lbl_805D75E8 = 0;
+}
+
+u8 adxf_open_file_buffer[0x2080];
+u8 *lbl_805D75F0;
+
+// ADXF_LoadPartitionNw (named by its messages)
+s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 arg2, Ent_803CC294 *e) {
+    s32 r;
+    u8 *buf;
+    r = adxf_chk_prm_pt(id, e);
+    if (r < 0) {
+        return r;
+    }
+    if (lobby_adxf_current_file_id >= 0) {
+        TLobby::notify_error("E0042401:multi-load partition.(ADXF_LoadPartitionNw)");
+        return -1;
+    }
+    lobby_adxf_open_file_handle = adxf_open__6TLobbyFUii((u32)name, arg2);
+    if (lobby_adxf_open_file_handle == NULL) {
+        TLobby::notify_error("E9040804:can't open file.(ADXF_LoaddPartitionNw)");
+        return -1;
+    }
+    lobby_adxf_current_file_id = id;
+    lobby_afs_toc_entry_index = 0;
+    memset(e, 0, 0x118);
+    afs_archive_toc_table[id] = e;
+    e->next = NULL;
+    strncpy(e->name, name, 0x100);
+    e->f110 = arg2;
+    e->fe = 0;
+    buf = (u8 *)((s32)(adxf_open_file_buffer + 0x20) & ~0x1F);
+    lbl_805D75F0 = buf;
+    lbl_805D75EC = buf;
+    r = TLobby::adxf_read_nw32(lobby_adxf_open_file_handle, 1, buf);
+    if (r < 0) {
+        ((TLobby *)lobby_adxf_open_file_handle)->close_adxf_handle();
+        return r;
+    }
+    e->f8 = 0;
+    return 0;
+}
+
+// ADXF_LoadPtNwEx (named by its messages) and a second loader whose messages also say ADXF_LoadPartition
+// (real name unknown): removed by the linker. Only their messages are left after ADXF_LoadPartitionNw's, at
+// the end of the string pool; the bodies follow ADXF_LoadPartitionNw.
+s32 adxf_load_pt_nw_ex(s32 ptid, const char *fname, s32 dir, Ent_803CC294 *ptinfo, void *tmpbuf, s32 tbsize) {
+    if (tmpbuf == NULL) {
+        TLobby::notify_error("E1110701:'tmpbuf' is null.(ADXF_LoadPtNwEx)");
+        return -3;
+    }
+    if (tbsize <= 0) {
+        TLobby::notify_error("E1110702:'tbsize' <= 0.(ADXF_LoadPtNwEx)");
+        return -3;
+    }
+    if (adxf_chk_prm_pt(ptid, ptinfo) < 0) {
+        return -3;
+    }
+    if (lobby_adxf_current_file_id >= 0) {
+        TLobby::notify_error("E0042401:multi-load partition.(ADXF_LoadPtNwEx)");
+        return -1;
+    }
+    lobby_adxf_open_file_handle = adxf_open__6TLobbyFUii((u32)fname, dir);
+    if (lobby_adxf_open_file_handle == NULL) {
+        TLobby::notify_error("E9040804:can't open file.(ADXF_LoadPtNwEx)");
+        return -1;
+    }
+    return 0;
+}
+
+s32 adxf_load_partition2(s32 ptid, const char *fname, s32 dir, Ent_803CC294 *ptinfo) {
+    if (adxf_chk_prm_pt(ptid, ptinfo) < 0) {
+        return -3;
+    }
+    if (adxf_open__6TLobbyFUii((u32)fname, dir) == NULL) {
+        TLobby::notify_error("E9040804:can't open file.(ADXF_LoadPartition)");
+        return -1;
+    }
+    if (ptinfo->f8 == 0) {
+        TLobby::notify_error("E9040806:file is broken.(ADXF_LoadPartition)");
+        return -1;
+    }
+    TLobby::notify_error("E9040805:read error.(ADXF_LoadPartition)");
+    return -1;
+}
 
 }
