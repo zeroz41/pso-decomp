@@ -23,6 +23,8 @@
 #include "pso/unk/text_803D8F74.h"
 
 #pragma readonly_strings on
+// Built with deferred code generation (-inline deferred): functions come out in reverse
+// order (sub_8004F1FC first in .text).
 
 extern "C" {
 // Dark Falz's afterimage (zanzo) models and its three body models.
