@@ -691,8 +691,7 @@ s32 test_box_sphere_contact(Vec_803E1B1C *box, CollisionSphere *sphere) {
                                      ((px - center->x) * (px - center->x) + (py - center->y) * (py - center->y)));
             for (j = 0; j < 4; j++) {
                 EdgeOrder_803E112C order = lbl_8047E558;
-                s32 k = order.v[j];
-                Vec_803E1B1C *a = &box[face[k]];
+                Vec_803E1B1C *a = &box[face[order.v[j]]];
                 Vec_803E1B1C *b = &box[face[order.v[j + 1]]];
                 f32 ex = a->x - b->x;
                 f32 ey = a->y - b->y;
@@ -708,9 +707,9 @@ s32 test_box_sphere_contact(Vec_803E1B1C *box, CollisionSphere *sphere) {
                 dx *= scale;
                 dy *= scale;
                 dz *= scale;
-                if ((f32)__fabs(normals[adjacent.v[i][k]].x - dx) <= 0.025f &&
-                    (f32)__fabs(normals[adjacent.v[i][k]].y - dy) <= 0.025f &&
-                    (f32)__fabs(normals[adjacent.v[i][k]].z - dz) <= 0.025f &&
+                if ((f32)__fabs(normals[adjacent.v[i][order.v[j]]].x - dx) <= 0.025f &&
+                    (f32)__fabs(normals[adjacent.v[i][order.v[j]]].y - dy) <= 0.025f &&
+                    (f32)__fabs(normals[adjacent.v[i][order.v[j]]].z - dz) <= 0.025f &&
                     sphere->radius >= dist) {
                     faceHit &= 1;
                 } else if (dist <= sphere->radius) {

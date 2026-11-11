@@ -370,8 +370,8 @@ u8 *TLobby__sub_803C2388(u8 *hdr, s32 *rate, s32 *channels, s32 *bits, s32 *fram
     u8 *data;
     s32 have_comm;
     s32 have_ssnd;
-    u32 magic;
     u32 form_size;
+    s32 magic;
     u32 type;
     u32 id;
     u32 size;
