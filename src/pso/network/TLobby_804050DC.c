@@ -160,7 +160,7 @@ s32 TLobby__sub_8040FE40(s16 arg0);
 extern RecoveredGlobal_8040DD68_lbl_805C1B38 ipv4_protocol_state;
 s32 TLobby__sub_8040ED70(void);
 s16 TLobby__sub_8040A2BC(Fn_8040881C *fns, s16 kind);
-u16 TLobby__sub_80406BD8(const void *, s16);
+u16 TLobby__sub_80406BD8(NetPacket *, s16);
 s32 OSDisableInterrupts(void);
 s32 OSRestoreInterrupts(s32);
 void TLobby__sub_803F97E8(int);
@@ -1361,171 +1361,113 @@ s32 TLobby__sub_80406B6C(NetBufferRef *o) {
 }
 
 u16 TUdpSocket__sub_80419864();
-u16 TLobby__sub_80406BD8(const void *arg_, s16 flag)
+u16 TLobby__sub_80406BD8(NetPacket *pkt, s16 flag)
 {
-  s32 count = *((s32 *) (((u8 *) arg_) + offsetof(NetPacket, fragment_count)));
-  u32 sum = 0;
-  u8 *new_var;
-  s16 carry = 0;
-  u8 hdr[2];
-  *((u16 *) hdr) = 0;
-  if (flag == 1)
-  {
-    u8 *e;
-    e = (u8 *) arg_;
-    e += count * (s32)sizeof(NetPacketFragment);
-    while (count != 0)
-    {
-      u8 *ptr;
-      u8 type = *((u8 *) (e + offsetof(NetPacketFragment, buffer.kind)));
-      u8 *w = e + offsetof(NetPacketFragment, buffer);
-      s16 len;
-      count--;
-      e -= sizeof(NetPacketFragment);
-      switch (type)
-      {
-        case 1:
-
-        case 4:
-          ptr = *((u8 **) w);
-          break;
-
-        case 2:
-        {
-          u32 word = *((u32 *) w);
-          s16 id = (s16) (word >> 24);
-          u8 *rec;
-          if (network_buffer_pool_state.count < id)
-          {
-            return 0;
-          }
-          rec = (u8 *)network_buffer_pool_state.ents;
-          rec = rec + (id * (s32)sizeof(NetBufferPoolEntry));
-          {
-            u32 t = (*((u32 *) (rec + offsetof(NetBufferPoolEntry, buf)))) + (word & 0xffff);
-            t = (*((u16 *) ((rec + (((s16) ((word >> 16) & 0xff)) * (s32)sizeof(NetBufferSegment))) + offsetof(NetBufferPoolEntry, segs[0].offset)))) + t;
-            ptr = (u8 *) t;
-          }
-          break;
-        }
-
-        new_var = e;
-        case 3:
-          ptr = *((u8 **) (new_var + sizeof(NetPacketFragment) + offsetof(NetPacketFragment, buffer)));
-          break;
-
-        default:
-          break;
-
-      }
-
-      len = *((s16 *) (e + sizeof(NetPacketFragment) + offsetof(NetPacketFragment, length)));
-      if (carry)
-      {
-        hdr[1] = *(ptr++);
-        sum += *((u16 *) hdr);
-        len--;
-      }
-      if (len & 1)
-      {
-        hdr[0] = ptr[len + (-1)];
-        hdr[1] = 0;
-        carry = 1;
-        len--;
-      }
-      else
-      {
-        *((u16 *) hdr) = 0;
-        carry = 0;
-      }
-      len = (s16) (((s32) len) >> 1);
-      sum += TUdpSocket__sub_80419864(ptr, len);
-    }
-
-    if (carry)
-    {
-      sum += *((u16 *) hdr);
-    }
-  }
-  else
-  {
-    u8 *e = ((u8 *) arg_) + offsetof(NetPacket, fragments);
+    u32 sum = 0;
+    u8 *ptr;
+    s32 count = pkt->fragment_count;
     s32 i;
-    for (i = 1; i < count; e += sizeof(NetPacketFragment), i++)
-    {
-      u8 *w = e + sizeof(NetPacketFragment) + offsetof(NetPacketFragment, buffer);
-      u8 *ptr;
-      s16 len;
-      switch (*((u8 *) (e + sizeof(NetPacketFragment) + offsetof(NetPacketFragment, buffer.kind))))
-      {
-        case 1:
+    s16 carry = 0;
+    u8 hdr[2];
+    s16 len;
+    NetBufferRef *ref;
 
-        case 4:
-          ptr = *((u8 **) w);
-          break;
-
-        case 2:
-        {
-          u32 word = *((u32 *) w);
-          s16 id = (s16) (word >> 24);
-          u8 *rec;
-          if (network_buffer_pool_state.count < id)
-          {
-            return 0;
-          }
-          rec = (u8 *)network_buffer_pool_state.ents;
-          rec = rec + (id * (s32)sizeof(NetBufferPoolEntry));
-          {
-            u32 t = (*((u32 *) (rec + offsetof(NetBufferPoolEntry, buf)))) + (word & 0xffff);
-            t = (*((u16 *) ((rec + (((s16) ((word >> 16) & 0xff)) * (s32)sizeof(NetBufferSegment))) + offsetof(NetBufferPoolEntry, segs[0].offset)))) + t;
-            ptr = (u8 *) t;
-          }
-          break;
+    *(u16 *)hdr = 0;
+    if (flag == 1) {
+        while (count != 0) {
+            count--;
+            ref = &pkt->fragments[count].buffer;
+            switch (pkt->fragments[count].buffer.kind) {
+            case 1:
+            case 4:
+                ptr = (u8 *)ref->value;
+                break;
+            case 2: {
+                u32 w = ref->value;
+                s16 k = (s16)(w >> 24);
+                NetBufferPoolEntry *ent;
+                if (network_buffer_pool_state.count < k) {
+                    return 0;
+                }
+                ent = &network_buffer_pool_state.ents[k];
+                ptr = (u8 *)(ent->segs[(s16)((w >> 16) & 0xff)].offset + (w & 0xffff) + (u32)ent->buf);
+                break;
+            }
+            case 3:
+                ptr = (u8 *)pkt->fragments[count].buffer.value;
+                break;
+            }
+            len = pkt->fragments[count].length;
+            if (carry) {
+                hdr[1] = *ptr++;
+                sum += *(u16 *)hdr;
+                len--;
+            }
+            if (len & 1) {
+                hdr[0] = ptr[len - 1];
+                hdr[1] = 0;
+                carry = 1;
+                len--;
+            } else {
+                *(u16 *)hdr = 0;
+                carry = 0;
+            }
+            len = len >> 1;
+            sum += TUdpSocket__sub_80419864(ptr, len);
         }
-
-        case 3:
-          ptr = *((u8 **) (e + sizeof(NetPacketFragment) + offsetof(NetPacketFragment, buffer)));
-          break;
-
-        default:
-          break;
-
-      }
-
-      len = *((s16 *) (e + sizeof(NetPacketFragment) + offsetof(NetPacketFragment, length)));
-      if (carry)
-      {
-        hdr[1] = *(ptr++);
-        sum += *((u16 *) hdr);
-        len--;
-      }
-      if (len & 1)
-      {
-        hdr[0] = ptr[len - 1];
-        hdr[1] = 0;
-        carry = 1;
-        len--;
-      }
-      else
-      {
-        *((u16 *) hdr) = 0;
-        carry = 0;
-      }
-      len = (s16) (((s32) len) >> 1);
-      sum += TUdpSocket__sub_80419864(ptr, len);
+        if (carry) {
+            sum += *(u16 *)hdr;
+        }
+    } else {
+        for (i = 1; i < count; i++) {
+            ref = &pkt->fragments[i].buffer;
+            switch (pkt->fragments[i].buffer.kind) {
+            case 1:
+            case 4:
+                ptr = (u8 *)ref->value;
+                break;
+            case 2: {
+                u32 w = ref->value;
+                s16 k = (s16)(w >> 24);
+                NetBufferPoolEntry *ent;
+                if (network_buffer_pool_state.count < k) {
+                    return 0;
+                }
+                ent = &network_buffer_pool_state.ents[k];
+                ptr = (u8 *)(ent->segs[(s16)((w >> 16) & 0xff)].offset + (w & 0xffff) + (u32)ent->buf);
+                break;
+            }
+            case 3:
+                ptr = (u8 *)pkt->fragments[i].buffer.value;
+                break;
+            }
+            len = pkt->fragments[i].length;
+            if (carry) {
+                hdr[1] = *ptr++;
+                sum += *(u16 *)hdr;
+                len--;
+            }
+            if (len & 1) {
+                hdr[0] = ptr[len - 1];
+                hdr[1] = 0;
+                carry = 1;
+                len--;
+            } else {
+                *(u16 *)hdr = 0;
+                carry = 0;
+            }
+            len = len >> 1;
+            sum += TUdpSocket__sub_80419864(ptr, len);
+        }
+        if (carry) {
+            sum += *(u16 *)hdr;
+        }
     }
-
-    if (carry)
-    {
-      sum += *((u16 *) hdr);
+    if (sum & 0xffff0000) {
+        sum = (sum >> 16) + (sum & 0xffff);
+        sum += sum >> 16;
     }
-  }
-  if (sum & 0xffff0000)
-  {
-    sum = (sum >> 16) + (sum & 0xffff);
-    sum += sum >> 16;
-  }
-  return (u16) sum;
+    return (u16)sum;
 }
 
 void TLobby__sub_80406EB8(NetBufferRef *ref, s32 n) {
