@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80290CB0.h"
 #include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
 #include "pso/player/TObjPlayer_801A5AEC.h"

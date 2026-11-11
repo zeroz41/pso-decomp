@@ -1,6 +1,6 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"

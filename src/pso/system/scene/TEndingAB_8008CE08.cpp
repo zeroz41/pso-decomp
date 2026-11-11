@@ -1,7 +1,7 @@
 #include "pso/system/scene/TEndingAB.h"
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/system/scene/TEndingAB_8008CE08.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 #include "types.h"
 #include "pso/system/scene/TScene.h"

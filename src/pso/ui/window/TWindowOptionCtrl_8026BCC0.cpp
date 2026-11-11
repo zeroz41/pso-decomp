@@ -2,7 +2,7 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007C5C0.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/ui/window/TWindowOptionCtrl_8026C5D8.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"

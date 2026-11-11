@@ -3,7 +3,7 @@
 #include "pso/unk/TLOC_ListClear.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/unk/TLOC_End.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLOC_Start.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"

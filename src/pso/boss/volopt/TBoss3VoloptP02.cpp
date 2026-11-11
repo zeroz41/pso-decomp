@@ -35,7 +35,7 @@
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"

@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/TUnk_804C2298.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/window/TWindowShortListCtrl_801A4FC0.h"
 #include "pso/system/task/TObject_80019A50.h"
 

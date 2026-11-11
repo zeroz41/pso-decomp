@@ -17,7 +17,10 @@ pso/unk/text_8000F740.cpp:
 	.text       start:0x8000F740 end:0x8000F764
 
 pso/ui/keyboard/TKeyBoardControl_8000F764.cpp:
-	.text       start:0x8000F764 end:0x8000FD54
+	.text       start:0x8000F764 end:0x8000F824
+
+pso/ui/keyboard/TKeyBoardControl_8000F824.cpp:
+	.text       start:0x8000F824 end:0x8000FD54
 	.bss        start:0x804FE020 end:0x804FE120
 	.sbss       start:0x805D49A0 end:0x805D49B0
 
@@ -511,22 +514,12 @@ pso/boss/darkfalz/TObjDFDemo3.cpp:
 	.sdata      start:0x805D2790 end:0x805D2794
 	.sdata2     start:0x805D89D0 end:0x805D89EC
 
-pso/boss/darkfalz/TObjDFDemo4_8004F1FC.cpp:
-	.text       start:0x8004F1FC end:0x8004F2A8
-
-pso/boss/darkfalz/TObjDFDemo4_8004F2A8.cpp:
-	.text       start:0x8004F2A8 end:0x8004F5F8
-	.rodata     start:0x80437410 end:0x80437418
-	.sdata2     start:0x805D89F0 end:0x805D89F4
-
-pso/boss/darkfalz/TObjDFDemo4_8004F5F8.cpp:
-	.text       start:0x8004F5F8 end:0x8004F6AC
-
-pso/boss/darkfalz/TObjDFDemo4_8004F6AC.cpp:
-	.text       start:0x8004F6AC end:0x8004F8AC
-
 pso/boss/darkfalz/TObjDFDemo4.cpp:
-	.text       start:0x8004F8AC end:0x8004F904
+	.text       start:0x8004F1FC end:0x8004F904
+	.rodata     start:0x804373B8 end:0x80437418
+	.data       start:0x80485720 end:0x80485798
+	.sdata      start:0x805D2798 end:0x805D279C
+	.sdata2     start:0x805D89F0 end:0x805D8A08
 
 pso/boss/darkfalz/TObjDFDemo5.cpp:
 	.text       start:0x8004F904 end:0x80050050

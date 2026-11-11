@@ -15,7 +15,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/item/TItemReverseTech.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include <stddef.h>
 #include "pso/system/task/TObject.h"

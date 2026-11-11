@@ -75,7 +75,7 @@ extern int current_scene_light;
 }
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_800B9B84.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"

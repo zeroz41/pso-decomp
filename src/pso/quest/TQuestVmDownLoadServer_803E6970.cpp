@@ -5451,8 +5451,9 @@ void TQuestVmDownLoadServer__sub_803EE2F4(s32 pos, s32 end) {
     u8 *name;
     u8 *text;
     s32 len;
-    s32 n;
+    s64 name_len;
     Sub_803ED9AC *sub;
+    s32 n;
     while (pos < end && (n = TQuestVmDownLoadServer__sub_803E9F54(pos)) != 0) {
         slot = &quest_download_slot_chain_table[pos];
         if (pos == quest_text_cursor_pos && (lbl_805D78E8 == 1 || quest_download_state >= 3)) {
@@ -5482,7 +5483,8 @@ void TQuestVmDownLoadServer__sub_803EE2F4(s32 pos, s32 end) {
             copy_entry_text(name, text, pos, len, node);
             if (lbl_8058DC98[0] != 0) {
                 req.name = (char *)lbl_8058DC98;
-                req.len = strlen((char *)lbl_8058DC98);
+                name_len = strlen((char *)lbl_8058DC98);
+                req.len = name_len;
                 req.pad6 = 0;
                 if (node == NULL || (sub = node->sub) == NULL) {
                     req.x7 = 0x28;

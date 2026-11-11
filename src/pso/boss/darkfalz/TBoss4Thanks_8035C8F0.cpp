@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/boss/darkfalz/TBoss4Thanks_8035C8F0.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/text_8035C9E8.h"
 #include "pso/boss/darkfalz/TBoss4Thanks.h"
 #include "pso/player/TObjPlayer_80011014.h"

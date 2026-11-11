@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_80211C3C.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/quest/TQuestListOnline.h"
 
 extern "C" {
