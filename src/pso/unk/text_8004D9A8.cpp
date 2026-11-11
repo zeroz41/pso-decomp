@@ -272,7 +272,7 @@ s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
 void set_scripted_camera_pose(void *, void *, void *);
 void __ct__8TObjBaseFP7TObject(void *, void *);
-extern u8 TObjDFDemo0__model_node_entries[];
+extern const ModelNodeSpec TObjDFDemo0__model_node_entries[7];
 extern s32 lbl_80485EB0[];
 extern s32 TObjDFDemo0__name;
 
@@ -319,7 +319,7 @@ Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
     for (j = 0; j < 5; j++) {
         self->fa8[j] = 0;
     }
-    self->node_tables.init((const ModelNodeSpec *)TObjDFDemo0__model_node_entries, 7);
+    self->node_tables.init(TObjDFDemo0__model_node_entries, 7);
     activate_camera_mode(5);
     set_scripted_camera_pose(lbl_804854F0, lbl_804854F0, lbl_804854FC);
     ((TCameraCtrl *)lbl_80485508)->cache_target_and_forward(0x416C);

@@ -567,8 +567,8 @@ __declspec(section ".data") s32 boss4_type2_attack_pattern_table[2] = {6, 7};
 struct Vec_80057598 { f32 x, y, z; };
 
 static const s32 boss4_type2_emitter_ids[2] = {0x144, 0x145};
-static const s32 boss4_type2_model_node_table[18] = {
-    0xB, 3, 0, 0xA, 5, 0, 0xA, 0x60, 0, 0xA, 0x63, 0, 0xA, 0x65, 0, 0xA, 0x68, 0,
+static const ModelNodeSpec boss4_type2_model_node_table[6] = {
+    {0xB, 3, 0}, {0xA, 5, 0}, {0xA, 0x60, 0}, {0xA, 0x63, 0}, {0xA, 0x65, 0}, {0xA, 0x68, 0},
 };
 static const Vec_80057598 boss4_type2_follow_camera_offset_a = {0.0f, 19.8f, -5.0f};
 static const Vec_80057598 boss4_type2_follow_camera_offset_b = {0.0f, 15.43f, 55.42f};
@@ -1701,7 +1701,7 @@ u8 *TBoss4Type2__ct(u8 *arg0, s32 parent, s32 *arg2) {
     for (; i < 8; i++) {
         ((Arr_800579A0 *) arg0)->f42C[i] = 0;
     }
-    ((TBoss4Type2 *)arg0)->node_tables.init((const ModelNodeSpec *)boss4_type2_model_node_table, 6);
+    ((TBoss4Type2 *)arg0)->node_tables.init(boss4_type2_model_node_table, 6);
     *(s32 *)((s8 *)arg0 + 0x3A0) = 0;
     *(s32 *)((s8 *)arg0 + 0x3E0) = 0;
     *(u16 *)((s8 *)arg0 + 0x3C4) = 0xFFFF;
