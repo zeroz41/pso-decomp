@@ -301,6 +301,47 @@ struct TBoss8Dragon
     void draw_with_fade(s32 arg1, s32 arg2);
     void draw();
     u8 *ct_attack_object(s32 arg1, s32 arg2, s32 arg3);
+
+    // Per-action event handlers, dispatched by sub_802FA4E4 (vtable slot 87).
+    void sub_802F4B90(s32 event);
+    void action(s32 event);
+    void sub_802F4DD4(s32 event);
+    void update_wander_state(s32 event);
+    void sub_802F51DC(s32 event);
+    void sub_802F5434(s32 event);
+    void sub_802F5644(s32 event);
+    void sub_802F57E4(s32 event);
+    void handle_walk_state(s32 event);
+    void sub_802F5BA0(s32 event);
+    void sub_802F5CC8(s32 event);
+    void sub_802F5F64(s32 event);
+    void sub_802F610C(s32 event);
+    void sub_802F645C(s32 event);
+    void sub_802F6618(s32 event);
+    void sub_802F6708(s32 event);
+    void sub_802F6838(s32 event);
+    void handle_leap_state(s32 event);
+    void handle_spiral_state(s32 event);
+    void sub_802F75C8(s32 event);
+    void action_17(s32 event);
+    void sub_802F7B4C(s32 event);
+    void sub_802F7B70(s32 event);
+    void state_roar(s32 event);
+    void sub_802F8150(s32 event);
+    void sub_802F8270(s32 event);
+    void sub_802F8578(s32 event);
+    void sub_802F87EC(s32 event);
+    void sub_802F89F8(s32 event);
+    void sub_802F8F88(s32 event);
+    void state_turn_and_charge(s32 event);
+    void sub_802F9850(s32 event);
+    void sub_802F9A4C(s32 event);
+    void handle_tail_attack_state(s32 event);
+    void state_breath_attack(s32 event);
+    void sub_802FA16C(s32 event);
+    void sub_802FA374(s32 event);
+    void sub_802FA478(s32 event);
+    void sub_802FA4E4(s32 action, s32 event);
 };
 
 #include <stddef.h>

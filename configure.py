@@ -656,7 +656,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/gyaranzo/TObjEneGyaranzo.cpp": {"mw_version": "GC/2.0"},
     "pso/object/trap/TOExplosiveMachine.cpp": {"mw_version": "GC/2.0"},
     "pso/enemy/slime/TObjEneSlimeTailAttack.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline on,deferred", "-fp_contract on", "-str reuse,readonly")},
-    "pso/boss/goldragon/TBoss8Dragon.cpp": {"mw_version": "GC/2.0"},
+    # -inline off,deferred: every jump table of the unit sits after the vtable, while the slot-87 handler
+    # table (a function-local static) sits before the bezier tables: data in parse order, code deferred.
+    "pso/boss/goldragon/TBoss8Dragon.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline off,deferred")},
     # TBoss2DeRolLe__sub_8002FE60: its expanded instance-data struct copy hoists the next load above the
     # last store only under 2.0; every other function of the unit compiles the same.
     "pso/boss/derolle/TBoss2DeRolLe.cpp": {"mw_version": "GC/2.0"},
