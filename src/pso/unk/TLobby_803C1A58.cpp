@@ -363,37 +363,35 @@ s32 TLobby::is_aiff_header() {
 
 // Walks the chunks of an AIFF ("FORM"/"AIFF") header, whose fields are big-endian: COMM gives
 // the format, SSND the start of the sample data, which is returned (NULL if not an AIFF).
-// (inferred name: parse_aiff_header)
+// (inferred name: parse_aiff_header; CRI original by shape: AIFF_GetInfo, adx_baif)
 u8 *TLobby__sub_803C2388(u8 *hdr, s32 *rate, s32 *channels, s32 *bits, s32 *frames) {
     u8 *p;
     u8 *end;
     u8 *data;
+    s32 id;
+    s32 size;
+    s32 type;
     s32 have_comm;
     s32 have_ssnd;
-    u32 form_size;
-    s32 magic;
-    u32 type;
-    u32 id;
-    u32 size;
-    u32 offset;
     u16 exponent;
     u16 mantissa;
+    u32 offset;
 
     p = hdr + 12;
     have_comm = 0;
-    magic = READ_LE32(hdr);
-    form_size = READ_LE32(hdr + 4);
-    form_size = SWAP32(form_size);
-    type = READ_LE32(hdr + 8);
     have_ssnd = 0;
     data = NULL;
-    if (magic != 0x4D524F46) {
+    id = READ_LE32(hdr);
+    size = READ_LE32(hdr + 4);
+    size = SWAP32(size);
+    type = READ_LE32(hdr + 8);
+    if (id != 0x4D524F46) {
         return NULL;
     }
     if (type != 0x46464941) {
         return NULL;
     }
-    end = p + form_size - 4;
+    end = p + size - 4;
     while (p < end) {
         id = READ_LE32(p);
         size = READ_LE32(p + 4);
@@ -401,10 +399,10 @@ u8 *TLobby__sub_803C2388(u8 *hdr, s32 *rate, s32 *channels, s32 *bits, s32 *fram
         p += 8;
         switch (id) {
         case 0x4D4D4F43:
-            if (have_comm) {
+            if (have_comm != 0) {
                 break;
             }
-            if ((s32)size < 18) {
+            if (size < 18) {
                 return NULL;
             }
             have_comm = 1;
@@ -420,20 +418,20 @@ u8 *TLobby__sub_803C2388(u8 *hdr, s32 *rate, s32 *channels, s32 *bits, s32 *fram
             mantissa = SWAP16(mantissa);
             p += 18;
             *rate = mantissa >> (0x400E - exponent);
-            if (have_ssnd) {
+            if (have_ssnd != 0) {
                 return data;
             }
             break;
         case 0x444E5353:
-            if (have_ssnd) {
+            if (have_ssnd != 0) {
                 break;
             }
             have_ssnd = 1;
             offset = READ_LE32(p);
-            p += 4;
             offset = SWAP32(offset);
+            p += 4;
             data = p + offset;
-            if (have_comm) {
+            if (have_comm != 0) {
                 return data;
             }
             break;
@@ -730,50 +728,87 @@ void TLobby__sub_803C34F4(Obj_803C34F4 *lobby) {
     }
 }
 
+#pragma push
+#pragma inline_depth(4)
+#pragma dont_inline off
+// Queues n blocks of both channels in the decoder and starts it (inferred: ADXB's stereo entry).
+inline void entry_stereo_3570(void *obj, s32 n) {
+    Strm_803C1A8C *o = (Strm_803C1A8C *)obj;
+    TLobby *lobby;
+    s16 *dst;
+
+    dst = o->buf + o->pos;
+    lobby = (TLobby *)o->id;
+    lobby->post_request((s32)o->src, n * 2, (s32)dst, (s32)(dst + o->rOff));
+    TLobby__sub_803CB4A4((u8 *)lobby);
+}
+
+// Queues n blocks of one channel in the decoder and starts it (inferred: ADXB's mono entry).
+inline void entry_mono_3570(void *obj, s32 n) {
+    Strm_803C1A8C *o = (Strm_803C1A8C *)obj;
+    TLobby *lobby;
+    s16 *dst;
+
+    dst = o->buf + o->pos;
+    lobby = (TLobby *)o->id;
+    lobby->try_post_command((s32)o->src, n, (s32)dst);
+    TLobby__sub_803CB4A4((u8 *)lobby);
+}
+
+// Queues the next decode: the least of the input blocks, the blocks that fit the write window
+// (extended by the end padding when the end is inside it), the blocks before the end and those up
+// to the ring end (+1 when a block may straddle it) (inferred: ADXB_EvokeDecode).
+inline void evoke_decode_3570(Strm_803C1A8C *o) {
+    s32 n;
+    s32 pad;
+    s32 bufsmpl;
+    s32 ofst;
+    s32 x70;
+    s32 nblk;
+    s32 avail;
+    s32 room;
+    s32 pos;
+    s32 blk;
+    s32 room_end;
+
+    blk = o->block_samples;
+    pos = o->pos;
+    bufsmpl = o->bufLen;
+    avail = o->avail;
+    n = o->maxLen / o->stream_channels;
+    x70 = o->x78;
+    ofst = x70 + blk - 1;
+    nblk = ofst / blk;
+    pad = (blk - 1) - ofst % blk;
+    room = (blk + (bufsmpl - pos) - 1) / blk;
+    room_end = room * blk;
+    if (nblk < room && pos + room_end - pad < bufsmpl) {
+        room++;
+    }
+    if (x70 < avail) {
+        avail += pad;
+    }
+    if (n > avail / blk) {
+        n = avail / blk;
+    }
+    if (n > nblk) {
+        n = nblk;
+    }
+    if (n > room) {
+        n = room;
+    }
+    if (o->stream_channels == 2) {
+        entry_stereo_3570(o, n);
+    } else {
+        entry_mono_3570(o, n);
+    }
+}
+
+// One step of the stream decoder (inferred: ADXB_ExecOneAdx, with ADXB_EvokeDecode inlined).
 void TLobby__sub_803C3570(Strm_803C1A8C *o) {
     if (o->state == 1 && ((TLobby *)(o->id))->get_client_count() == 0) {
-        s32 blk;
-        s32 room_end;
-        s32 last;
-        s32 end;
-        s32 room;
-        s32 rem;
-        s32 avail;
-        s32 n;
         o->read(o->readArg, &o->pos, &o->avail, &o->x78);
-        blk = o->block_samples;
-        last = o->x78 + blk - 1;
-        end = last / blk;
-        rem = (blk - 1) - last % blk;
-        avail = o->avail;
-        room = (blk + (o->bufLen - o->pos) - 1) / blk;
-        room_end = o->pos + room * blk;
-        n = o->maxLen / o->stream_channels;
-        if (end < room && room_end - rem < o->bufLen) {
-            room++;
-        }
-        if (o->x78 < avail) {
-            avail += rem;
-        }
-        if (n > avail / blk) {
-            n = avail / blk;
-        }
-        if (n > end) {
-            n = end;
-        }
-        if (n > room) {
-            n = room;
-        }
-        if (o->stream_channels == 2) {
-            TLobby *lobby = (TLobby *)o->id;
-            s16 *dst = o->buf + o->pos;
-            lobby->post_request((s32)o->src, n * 2, (s32)dst, (s32)(dst + o->rOff));
-            TLobby__sub_803CB4A4((u8 *)lobby);
-        } else {
-            TLobby *lobby = (TLobby *)o->id;
-            lobby->try_post_command((s32)o->src, n, (s32)(o->buf + o->pos));
-            TLobby__sub_803CB4A4((u8 *)lobby);
-        }
+        evoke_decode_3570(o);
         o->state = 2;
     }
     if (o->state == 2) {
@@ -787,17 +822,21 @@ void TLobby__sub_803C3570(Strm_803C1A8C *o) {
             s32 width;
             s32 blk;
             s32 last;
+            s32 n;
+            s32 got;
+            s32 nblk;
             blk = o->block_samples;
             width = o->sample_bytes;
             pos = o->pos;
             last = o->x78 + blk - 1;
+            nblk = last / blk;
             rem = (blk - 1) - last % blk;
             buf = o->buf;
             size = o->wrap_len;
             rOff = o->wrap_offset;
-            s32 got = ((TLobby *)(o->id))->get_size();
-            s32 n = got * blk / o->stream_channels;
-            if (last / blk * o->stream_channels <= got) {
+            got = ((TLobby *)(o->id))->get_size();
+            n = got * blk / o->stream_channels;
+            if (nblk * o->stream_channels <= got) {
                 n -= rem;
             }
             o->n = n;
@@ -832,6 +871,8 @@ void TLobby__sub_803C3570(Strm_803C1A8C *o) {
         }
     }
 }
+
+#pragma pop
 
 s32 TLobby::get_field_a0() {
     u8 *arg0 = (u8 *)this;

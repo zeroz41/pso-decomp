@@ -192,6 +192,7 @@ os/OSTime.c
 os/__ppc_eabi_init.cpp
 os/__start.c
 pad/Pad.c
+pso/audio/AdxEncoder.cpp
 pso/audio/GcrnaError.cpp
 pso/audio/GcrnaStream.cpp
 pso/boss/galgryphon/Boss5GryphonActionScripts.cpp

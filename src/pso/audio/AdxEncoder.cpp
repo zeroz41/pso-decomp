@@ -637,9 +637,9 @@ inline void set_history_7978(AdxEncoder *enc, s32 ch, s16 hist1, s16 hist2) {
 
 /* Scales and quantizes one block of every channel (inferred). */
 inline void encode_channels_7978(AdxEncoder *enc) {
+    s32 ch;
     AdxEncChannel *c;
     AdxEncHistory *h;
-    s32 ch;
 
     for (ch = 0; ch < enc->channels; ch++) {
         fn_803C8020(enc, ch);
@@ -657,12 +657,10 @@ inline s32 encode_block_7978(AdxEncoder *enc) {
     s32 i;
     s32 n;
 
-    n = enc->total_samples - enc->samples_encoded;
     pcm[0] = enc->pcm[0];
     pcm[1] = enc->pcm[1];
-    if (enc->block_samples < n) {
-        n = enc->block_samples;
-    }
+    n = (enc->block_samples < enc->total_samples - enc->samples_encoded) ? enc->block_samples
+                                                                          : enc->total_samples - enc->samples_encoded;
     if (read_input_samples_7978(enc, pcm, n) == 0) {
         return 0;
     }
@@ -678,6 +676,7 @@ inline s32 encode_block_7978(AdxEncoder *enc) {
     return enc->block_samples;
 }
 
+// Encodes every complete block of the input (inferred: CRI adxsje_encode_data).
 s32 adx_encode_available_blocks(AdxEncoder *enc) {
     s32 total;
     Strm_803C5B50 *out;
