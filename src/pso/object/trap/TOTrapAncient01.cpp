@@ -4,7 +4,6 @@
 #include "pso/render/RenderFadeState_800D7BFC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/object/trap/TOTrapAncient02R.h"
 #include "pso/object/trap/TOTrap.h"
 #include "pso/object/trap/TOTrapAncient01.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -110,14 +109,6 @@ extern "C" {
 VObj_801797D4 *get_battle_param__10TObjPlayerFi(s32);
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 extern s32 lbl_805D3530;
-void TOTrapAncient02R__sub_80154D78(void *);
-}
-
-void TOTrapAncient02R::vfunc_86() {
-    if (is_current_room(this) == 1) {
-        fn_80141CF0(&home_position, &scratch_vec, &trap_ancient_light_color);
-        TOTrapAncient02R__sub_80154D78(this);
-    }
 }
 
 f32 TObjPlayer__sub_8017A1A4(TObjCollidable *actor, s32 body) {

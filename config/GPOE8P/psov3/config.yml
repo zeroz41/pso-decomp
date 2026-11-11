@@ -816,9 +816,9 @@ force_active:
   - TOSwitchAttack__ct
   - TOSwitchItem__class_name
   - TOSwitchTimer__ct
-  - TOTrapAncient02R__ct
-  - TOTrapAncient02R__vt79
-  - TOTrapAncient02__ct
+  - __ct__16TOTrapAncient02RFP7TObjectPv
+  - vfunc_81__16TOTrapAncient02RFv
+  - __ct__15TOTrapAncient02FP7TObjectPv
   - TOTrapChainSawDamage__ct
   - TOTrapChainSawDamage__sub_802C9C00
   - TOTrapChainSawDamage__vt14
@@ -16522,9 +16522,12 @@ force_active:
   - translate_key_char__16TKeyBoardControlFPvUcPUs
   - translate_view_negated__11TCameraCtrlFfff
   - trap_ancient02_collision_body
-  - trap_ancient02_ruins_pillar_resources
-  - trap_ancient02_seabed_pillar_resources
-  - trap_ancient02_torabasami_resources
+  - bm_obj_ruins_pillar_model_names
+  - bm_obj_ruins_pillar_resource_descriptor
+  - bm_obj_seabed_pillar_model_names
+  - bm_obj_seabed_pillar_resource_descriptor
+  - bm_fs_obj_o_torabasami_model_names
+  - bm_fs_obj_o_torabasami_resource_descriptor
   - traverse_animated_node_tree__FPv
   - trigger_activate_sound__11TOKeyCave01Fv
   - trigger_activate_sound__11TObjDoorKeyFv

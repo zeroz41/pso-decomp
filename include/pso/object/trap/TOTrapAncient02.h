@@ -5,6 +5,7 @@
 #include "pso/object/trap/TOTrap.h"
 
 struct TOTrapAncient02 : public TOTrap {
+    TOTrapAncient02(TObject *parent, void *set_data);
     virtual ~TOTrapAncient02();
     virtual void vfunc_81();
     virtual void vfunc_82();
@@ -14,14 +15,14 @@ struct TOTrapAncient02 : public TOTrap {
     virtual void render();
     f32 h344;
     f32 h348;
-    u32 m_34c;
+    s32 spin_angle;     // name inferred: += 0x888 per vfunc_84 frame, the y turn of the fourth model part
     s32 reset;
     s32 timer;
-    u32 m_358;
+    s32 particle_tev;   // name inferred: rotation_z > 0 in the ctor; render draws with setup_particle_tev when set
 
     void render_particle_chain();
     void draw_effect_chain();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     static void destroy_instance();
     static void load_resources();
 };

@@ -1184,7 +1184,6 @@ pso/object/collision/TOSymbolchatColli.cpp
 pso/object/trap/TOTrap.cpp
 pso/object/trap/TOTrapAncient01.cpp
 pso/object/trap/TOTrapAncient02.cpp
-pso/object/trap/TOTrapAncient02R.cpp
 pso/object/trap/TOTrapChainSawEdge.cpp
 pso/object/trap/TOTrapSeabed01.cpp
 pso/object/fence/TOVS2Wall01.cpp
@@ -1711,7 +1710,6 @@ pso/system/data/pso_const_ids.cpp
 pso/system/data/pso_const_ids3.cpp
 pso/system/data/pso_const_ids4.cpp
 pso/system/data/pso_const_ids5.cpp
-pso/system/data/pso_const_ids7.cpp
 pso/system/data/pso_date.cpp
 pso/network/ModemRuntime.cpp
 pso/network/NetworkInfoCodec.cpp
@@ -2415,7 +2413,7 @@ pso/object/key/TODummyKeyCave01_80165940.cpp
 pso/unk/text_8016F1C0.cpp
 pso/object/switch/TOSwitchTimer_801782A0.cpp
 pso/unk/text_8017866C.cpp
-pso/unk/text_8017B8A0.cpp
+pso/unk/text_8017B9AC.cpp
 pso/object/ambient/TButterfly_8017E900.cpp
 pso/unk/text_8018E258.cpp
 pso/unk/text_80196214.cpp

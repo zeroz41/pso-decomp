@@ -3,30 +3,8 @@
 #include "pso/object/fence/TOVS2Wall01_8017C7A4.h"
 #include "pso/unk/text_8017B8A0.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/trap/TOTrapAncient02R.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/fence/TOVS2Wall01.h"
-
-struct Obj_8017B8A0 {
-    u8 pad[0x18];
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(s32 a, f32 b);
-};
-
-struct B_8017B8D4 { u8 pad[0x18]; };
-
-struct V_8017B8D4 : B_8017B8D4 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(s32 a, f32 b);
-};
 
 struct Sub_8017BAFC { u8 pad[4]; s16 f4; };
 
@@ -51,57 +29,11 @@ struct VObj_8017B9B0 : VBase_8017B9B0 {
 };
 
 extern "C" {
-extern const f32 lbl_805DBA78;
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, int);
 void *find_entity_by_id(u16 id);
 extern s32 TOVS2Wall01__class_name;
 extern Ent_8017B9B0 *quest_object_entries;
 void handle_6x86_hit_destructible_object(Pkt_8017B9B0 *arg0);
-
-f32 TOTrapAncient02R::receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32) {
-    Obj_8017B8A0 *self = (Obj_8017B8A0 *)this;
-    self->m20(0, lbl_805DBA78);
-}
-
-f32 TOTrapAncient02R::receive_weapon_special_attack(void *, void *) {
-    V_8017B8D4 *self = (V_8017B8D4 *)this;
-    self->m20(0, lbl_805DBA78);
-}
-
-void TOTrapAncient02R::init_trap_param_clamped() {
-    s32 temp_r0;
-    this->m_368 = (s32) this->scale.y;
-    temp_r0 = this->m_368;
-    if (temp_r0 < 1) {
-        this->m_368 = 1;
-        return;
-    }
-    if (temp_r0 > 0x100) {
-        this->m_368 = 0x100;
-    }
-}
-
-void TOTrapAncient02R::clamp_trap_level_param() {
-    s32 temp_r0;
-    this->m_35c = (s32) this->set_params[2];
-    temp_r0 = this->m_35c;
-    if (temp_r0 < 0) {
-        this->m_35c = 0;
-        return;
-    }
-    if (temp_r0 >= 5) {
-        this->m_35c = 4;
-    }
-}
-
-void TOTrapAncient02R::init_trap_object_id() {
-    s32 temp_r0;
-    this->m_364 = (s32) this->set_params[1];
-    temp_r0 = this->m_364;
-    if ((temp_r0 < 0) || (temp_r0 >= 0x100)) {
-        this->m_364 = -1;
-    }
-}
 
 void TOVS2Wall01__sub_8017B9AC(void) {  }
 

@@ -4444,26 +4444,23 @@ pso/object/trap/TOTrap.cpp:
 	.sdata2     start:0x805DBA38 end:0x805DBA48
 
 pso/object/trap/TOTrapAncient01.cpp:
-	.text       start:0x801793A0 end:0x8017A20C
+	.text       start:0x801793A0 end:0x8017A1B8
 	.rodata     start:0x80442CE0 end:0x80442E70
 	.data       start:0x804B4820 end:0x804B4AD8
 	.sdata      start:0x805D31A0 end:0x805D31A8
 	.sbss       start:0x805D5AD0 end:0x805D5AD8
 	.sdata2     start:0x805DBA48 end:0x805DBA78
 
-pso/object/trap/TOTrapAncient02R.cpp:
-	.text       start:0x8017A20C end:0x8017A210
-
 pso/object/trap/TOTrapAncient02.cpp:
-	.text       start:0x8017A210 end:0x8017B878
-	.rodata     start:0x80442F30 end:0x80442F40
-	.data       start:0x804B4AD8 end:0x804B4D10
+	.text       start:0x8017A1B8 end:0x8017B9AC
+	.rodata     start:0x80442E70 end:0x80442F40
+	.data       start:0x804B4AD8 end:0x804B4E78
+	.sdata      start:0x805D31A8 end:0x805D31C0
+	.sbss       start:0x805D5AD8 end:0x805D5AE8
+	.sdata2     start:0x805DBA78 end:0x805DBAA8
 
-pso/system/data/pso_const_ids7.cpp:
-	.text       start:0x8017B878 end:0x8017B8A0
-
-pso/unk/text_8017B8A0.cpp:
-	.text       start:0x8017B8A0 end:0x8017BBAC
+pso/unk/text_8017B9AC.cpp:
+	.text       start:0x8017B9AC end:0x8017BBAC
 
 pso/object/fence/TOVS2Wall01.cpp:
 	.text       start:0x8017BBAC end:0x8017BCC8
