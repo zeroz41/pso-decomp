@@ -6,7 +6,6 @@
 extern "C" {
 s32 TObjPlayer__sub_801C2044(s32 *arg0);
 void *TObjPlayer__sub_801C2058(void *p);
-void TObjPlayer__sub_801C2098(void *p);
 void TObjPlayer__sub_801C210C(void *p, s32 v);
 int TObjPlayer__sub_801C2114(void);
 u8 TObjPlayer__sub_801C212C(void *p);

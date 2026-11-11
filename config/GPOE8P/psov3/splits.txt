@@ -5397,15 +5397,12 @@ pso/player/TObjPlayer_801D3554.cpp:
 	.text       start:0x801D3554 end:0x801D3780
 
 pso/player/TPlyItem.cpp:
-	.text       start:0x801D3780 end:0x801D57B0
-	.rodata     start:0x80447168 end:0x80447170
-	.data       start:0x804C4468 end:0x804C44C8
-
-pso/item/TItemList_801D57B0.cpp:
-	.text       start:0x801D57B0 end:0x801D59DC
-
-pso/item/TItemList.cpp:
-	.text       start:0x801D59DC end:0x801D5DAC
+	.text       start:0x801D3780 end:0x801D5DAC
+	.rodata     start:0x80447150 end:0x80447170
+	.data       start:0x804C43E8 end:0x804C44C8
+	.sdata      start:0x805D3568 end:0x805D3570
+	.sbss       start:0x805D5DE0 end:0x805D5E08
+	.sdata2     start:0x805DC3C8 end:0x805DC3D8
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801D5DAC.cpp:
 	.text       start:0x801D5DAC end:0x801D5DDC

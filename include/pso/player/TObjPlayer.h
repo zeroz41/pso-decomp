@@ -648,7 +648,6 @@ struct TObjPlayer : public TObjChara {
     static int get_item_count_max();
     void *init();
     void set_field4(s32 v);
-    void*init_c2098_return_self();
     u8 get_field_5();
     u8 get_byte_4();
     u8 get_team_id();

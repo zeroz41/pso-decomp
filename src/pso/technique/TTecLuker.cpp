@@ -41,6 +41,7 @@ struct RecoveredGlobal_80233D18_lbl_804CC9D4 {
 
 #include "pso/technique/TechniqueChargeEmitter.h"
 #include "pso/item/TItemList.h"
+#include "pso/player/TPlyItem.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -923,11 +924,7 @@ void *TTecLuker__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) 
         if ((s32)arg4 == 0xA) {
             VecCopy((Vec *)&L->pos, (const Vec *)arg3);
         } else {
-            p = ::operator new(0xA8);
-            if (p != NULL) {
-                p = ((TItemList *)p)->init_array();
-            }
-            L->fx = p;
+            L->fx = new TUnk_804C4450;
             if (L->fx != NULL) {
                 Vec_80234D50 v = lbl_8044D72C;
                 push_matrix_from(identity_matrix);

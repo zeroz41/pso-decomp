@@ -493,10 +493,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/frontend/TAdPlyPltAnimGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdChrSelBSlotGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdMultiPlayerNoGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    # -inline off,deferred: the vtables 0x804C4468-0x804C44C8 sit in the key functions'
-    # address order (~TUnk_804C4468 0x801D3958 .. ~TPlyItem 0x801D4F44); a plain build
-    # emits them reversed. Deferred emits the functions backwards, so the source is too.
-    "pso/player/TPlyItem.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # -inline off: the TPlyItem part sits in a defer_codegen region (written backwards),
+    # the TItemList part after it is forward. readonly: the class-name strings are in .rodata.
+    "pso/player/TPlyItem.cpp": {"cflags": _switch(cflags_pso, "-inline off", "-str reuse,readonly")},
     # -sdata 4: the 8-byte kind tables 0x80542FBC-0x80542FDC sit in .bss, not .sbss.
     "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.cpp": {"cflags": _switch(cflags_pso, "-inline on,deferred", "-str reuse,readonly", "-sdata 4")},
     "pso/enemy/shinowa/TObjEneMe3Shinowa.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
