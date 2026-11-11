@@ -192,9 +192,9 @@ extern "C" {
 #endif
 extern TcpState tcp_protocol_state;
 
-s32 TLobby__sub_8041A9AC(TcpTcb *tcb);
+s16 TLobby__sub_8041A9AC(TcpTcb *tcb);
 /* NetTcp.c: start sending a queued packet on connection arg0. */
-s32 tcp_start_send(s16 arg0, NetPacket *arg1, void (*completion)(s16, s16), u8 arg3);
+s16 tcp_start_send(s16 arg0, NetPacket *arg1, void (*completion)(s16, s16), u8 arg3);
 
 /* SocketProtocolRuntime.c: the TCP send and receive queues. */
 s32 TLobby__sub_8041ED8C(TcpTcb *self, void *data, u32 len, s32 arg3);
