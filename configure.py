@@ -866,7 +866,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/ruins/TOMonumentAncient01.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     "pso/boss/darkfalz/TOBoss4.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-str reuse,readonly", "-sdata 4", "-inline deferred")},
     "pso/boss/olgaflow/TBoss6Rock.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-str reuse,readonly", "-inline off,deferred")},
-    "pso/boss/olgaflow/TBoss6Type1.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # -inline deferred: the TU inlines its inline helpers one level deep (no auto-inlining) and emits its functions in
+    # reverse source order; -fp_contract on: its float math fuses into fmadds/fnmsubs throughout.
+    "pso/boss/olgaflow/TBoss6Type1.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-inline deferred")},
     "pso/object/warp/TObjCityMainWarpChallenge.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/object/TObjTombstone.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-fp_contract on", "-str reuse,readonly")},
     "pso/object/cave/TOCakeshopCave01.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},

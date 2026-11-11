@@ -280,6 +280,7 @@ pso/boss/olgaflow/TBoss6Tube.cpp
 pso/boss/olgaflow/TBoss6Tube_802B1020.cpp
 pso/boss/olgaflow/TBoss6Tube_802B15F4.cpp
 pso/boss/olgaflow/TBoss6Tube_802B16BC.cpp
+pso/boss/olgaflow/TBoss6Type1.cpp
 pso/boss/olgaflow/TBoss6Type1_802B20C0.cpp
 pso/boss/olgaflow/TBoss6Type1_80320AE0.cpp
 pso/boss/olgaflow/TBoss6Type1_80323DCC.cpp
