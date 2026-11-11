@@ -276,12 +276,12 @@ void TUnk_804CC800::run_task() {
         pad_1C[0]->set_position(&pad_2C);
         pad_1C[0]->set_direction(rot);
     } else {
-        u32 i;
+        u32 i = 0;
         rot[1] = (s32)(10430.38043493439 * atan2_float(pad_2C.x - pad_20.x, pad_2C.z - pad_20.z));
         rot[0] = rot[1] - 0x8000;
         rot[1] = 0;
         rot[2] = 0x4000;
-        for (i = 0; i < TTecGiFoie__emitter_profile_table[pad_44].count; i++) {
+        for (; i < TTecGiFoie__emitter_profile_table[pad_44].count; i++) {
             pad_1C[i]->set_position(&pad_2C);
             pad_1C[i]->set_direction(rot);
         }
