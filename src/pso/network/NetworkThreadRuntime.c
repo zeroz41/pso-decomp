@@ -185,11 +185,11 @@ s32 NetCompareStringsCaseInsensitiveN(u8* a, u8* b, u32 n) {
     for (i = 0; (si = (s16)i) < n && (t1 = *a) != 0 && (t2 = *b) != 0; i++, a++, b++) {
         c1 = t1;
         c2 = t2;
-        if (TAdEndText__sub_8039994C(c1)) {
-            c1 = TAdEndText__sub_80399904(c1);
+        if (islower(c1)) {
+            c1 = toupper(c1);
         }
-        if (TAdEndText__sub_8039994C(c2)) {
-            c2 = TAdEndText__sub_80399904(c2);
+        if (islower(c2)) {
+            c2 = toupper(c2);
         }
         if (c1 != c2) {
             return c1 - c2;

@@ -6,7 +6,6 @@
 #define cbForReadSync dvdfs_cbForReadSync
 #define currentDirectory lbl_805D7138
 #define entryToPath dvdfs_entryToPath
-#define tolower TAdEndText__sub_80399928
 
 #include <dolphin.h>
 #include <dolphin/dvd.h>

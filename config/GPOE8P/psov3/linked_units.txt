@@ -275,9 +275,6 @@ pso/boss/olgaflow/TBoss6SwordShot.cpp
 pso/boss/olgaflow/TBoss6Thanks.cpp
 pso/boss/olgaflow/TBoss6Thanks_8035D1F4.cpp
 pso/boss/olgaflow/TBoss6Tube.cpp
-pso/boss/olgaflow/TBoss6Tube_802B1020.cpp
-pso/boss/olgaflow/TBoss6Tube_802B15F4.cpp
-pso/boss/olgaflow/TBoss6Tube_802B16BC.cpp
 pso/boss/olgaflow/TBoss6Type1.cpp
 pso/boss/olgaflow/TBoss6Type1_802B20C0.cpp
 pso/boss/olgaflow/TBoss6Type1_80320AE0.cpp
@@ -291,10 +288,6 @@ pso/boss/olgaflow/TBoss6Type2_80356E50.cpp
 pso/boss/olgaflow/TBoss6Type2_8036A92C.cpp
 pso/boss/olgaflow/TBoss6Type2_8036DC80.cpp
 pso/boss/barbaray/TBoss7Crawfish.cpp
-pso/boss/barbaray/TBoss7Crawfish_80308C10.cpp
-pso/boss/barbaray/TBoss7Crawfish_80308C84.cpp
-pso/boss/barbaray/TBoss7Crawfish_80308E0C.cpp
-pso/boss/barbaray/TBoss7Crawfish_8030908C.cpp
 pso/boss/barbaray/TBoss7DeRolLeC_8035A628.cpp
 pso/boss/barbaray/TBoss7DeRolLeC_802EE4E0.cpp
 pso/boss/barbaray/TBoss7Joint.cpp
@@ -693,7 +686,6 @@ pso/math/MatrixTransforms.cpp
 pso/math/MatrixVector.cpp
 pso/ui/frontend/TAdEndText.cpp
 pso/ui/frontend/TAdEndText_80307A34.cpp
-pso/ui/frontend/TAdEndText_80399904.cpp
 pso/ui/frontend/TAdGuideTxtGC.cpp
 pso/ui/frontend/TAdGuideTxtGC_802B17D4.cpp
 pso/ui/frontend/TAdMultiOkGC.cpp
@@ -1137,8 +1129,6 @@ pso/object/cave/TOHangceilingCave01.cpp
 pso/object/mine/TOHangerMachine01.cpp
 pso/object/TOHealGeneral.cpp
 pso/object/jungle/TOJungleDesign.cpp
-pso/object/jungle/TOJungleDesign_802FEDE8.cpp
-pso/object/jungle/TOJungleDesign_802FEEB4.cpp
 pso/object/key/TOKey.cpp
 pso/object/key/TOKeyAncient01.cpp
 pso/object/key/TOKeyAncient02.cpp
@@ -2210,7 +2200,6 @@ pso/ui/frontend/TAdMultiPlyChrSelectGC_802E011C.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0FC8.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_803495B4.cpp
 pso/ui/frontend/TAdMultiSaveGC.cpp
-pso/ui/frontend/TAdMultiSaveGC_802FF0A0.cpp
 pso/ui/frontend/TAdMultiSaveGC_802FF14C.cpp
 pso/ui/frontend/TAdMultiSelGameModeGC.cpp
 pso/ui/frontend/TAdMultiSelGameModeGC_802D5098.cpp

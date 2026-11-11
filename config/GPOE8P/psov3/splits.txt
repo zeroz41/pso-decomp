@@ -8612,22 +8612,13 @@ pso/boss/olgaflow/TBoss6EmptyWarp_802B0E2C.cpp:
 	.sdata      start:0x805D3E90 end:0x805D3E98
 	.sdata2     start:0x805DE228 end:0x805DE22C
 
-pso/boss/olgaflow/TBoss6Tube_802B1020.cpp:
-	.text       start:0x802B1020 end:0x802B1564
-	.rodata     start:0x80470A60 end:0x80470A68
-	.sbss       start:0x805D6720 end:0x805D6728
-	.sdata2     start:0x805DE230 end:0x805DE280
-
 pso/boss/olgaflow/TBoss6Tube.cpp:
-	.text       start:0x802B1564 end:0x802B15F4
-
-pso/boss/olgaflow/TBoss6Tube_802B15F4.cpp:
-	.text       start:0x802B15F4 end:0x802B16BC
-	.data       start:0x804DE898 end:0x804DE8B0
-
-pso/boss/olgaflow/TBoss6Tube_802B16BC.cpp:
-	.text       start:0x802B16BC end:0x802B17D4
-	.rodata     start:0x80470A68 end:0x80470A80
+	.text       start:0x802B1020 end:0x802B17D4
+	.rodata     start:0x804709F8 end:0x80470A80
+	.data       start:0x804DE878 end:0x804DE8B0
+	.sdata      start:0x805D3E98 end:0x805D3EA0
+	.sbss       start:0x805D6718 end:0x805D6728
+	.sdata2     start:0x805DE230 end:0x805DE280
 
 pso/ui/frontend/TAdGuideTxtGC_802B17D4.cpp:
 	.text       start:0x802B17D4 end:0x802B1850
@@ -9270,22 +9261,16 @@ pso/npc/TObjNpcHosa2.cpp:
 	.sdata      start:0x805D4038 end:0x805D4040
 	.sbss       start:0x805D69D8 end:0x805D69E0
 
-pso/object/jungle/TOJungleDesign_802FEDE8.cpp:
-	.text       start:0x802FEDE8 end:0x802FEE68
-
 pso/object/jungle/TOJungleDesign.cpp:
-	.text       start:0x802FEE68 end:0x802FEEB4
-
-pso/object/jungle/TOJungleDesign_802FEEB4.cpp:
-	.text       start:0x802FEEB4 end:0x802FF028
-	.data       start:0x804E6580 end:0x804E663C
+	.text       start:0x802FEDE8 end:0x802FF128
+	.rodata     start:0x80474CF0 end:0x80474D70
+	.data       start:0x804E6560 end:0x804E663C
+	.sdata      start:0x805D4040 end:0x805D4048
+	.sbss       start:0x805D69E0 end:0x805D69E8
 	.sdata2     start:0x805DEF20 end:0x805DEF28
 
-pso/ui/frontend/TAdMultiSaveGC_802FF0A0.cpp:
-	.text       start:0x802FF028 end:0x802FF14C
-
 pso/ui/frontend/TAdMultiSaveGC_802FF14C.cpp:
-	.text       start:0x802FF14C end:0x802FF5F8
+	.text       start:0x802FF128 end:0x802FF5F8
 	.data       start:0x804E6658 end:0x804E6680
 	.sdata2     start:0x805DEF28 end:0x805DEF2C
 
@@ -9400,23 +9385,12 @@ pso/ui/frontend/TAdLoadNetworkGC_803084AC.cpp:
 	.sdata2     start:0x805DF0C0 end:0x805DF0C4
 
 pso/boss/barbaray/TBoss7Crawfish.cpp:
-	.text       start:0x80308688 end:0x80308C10
-	.rodata     start:0x804755A8 end:0x804755B0
-	.sdata2     start:0x805DF0C8 end:0x805DF0D0
-
-pso/boss/barbaray/TBoss7Crawfish_80308C10.cpp:
-	.text       start:0x80308C10 end:0x80308C84
-
-pso/boss/barbaray/TBoss7Crawfish_80308C84.cpp:
-	.text       start:0x80308C84 end:0x80308E0C
-
-pso/boss/barbaray/TBoss7Crawfish_80308E0C.cpp:
-	.text       start:0x80308E0C end:0x8030908C
-
-pso/boss/barbaray/TBoss7Crawfish_8030908C.cpp:
-	.text       start:0x8030908C end:0x803094E8
-	.data       start:0x804E73E0 end:0x804E752C
+	.text       start:0x80308688 end:0x803094E8
+	.rodata     start:0x804754A0 end:0x804755B8
+	.data       start:0x804E7348 end:0x804E752C
+	.sdata      start:0x805D40A0 end:0x805D40A4
 	.sbss       start:0x805D6A60 end:0x805D6A64
+	.sdata2     start:0x805DF0C8 end:0x805DF104
 
 pso/ui/city/TShopEquipmentSellWindow_803094E8.cpp:
 	.text       start:0x803094E8 end:0x80309540
@@ -11415,18 +11389,16 @@ PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/ansi_fp.c:
 	.data       start:0x804F5698 end:0x804F5800
 	.sdata2     start:0x805E0598 end:0x805E05C8
 
+PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/buffer_io.c:
+	.text       start:0x8039980C end:0x80399904
+
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/ctype.c:
+	.text       start:0x80399904 end:0x80399964
 	.data       start:0x804F5800 end:0x804F5B00
 
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/locale.c:
 	.rodata     start:0x8047BB90 end:0x8047BB98
 	.data       start:0x804F5B00 end:0x804F5B38
-
-PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/buffer_io.c:
-	.text       start:0x8039980C end:0x80399904
-
-pso/ui/frontend/TAdEndText_80399904.cpp:
-	.text       start:0x80399904 end:0x80399964
 
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/direct_io.c:
 	.text       start:0x80399964 end:0x80399C90

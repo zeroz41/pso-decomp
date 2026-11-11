@@ -14,6 +14,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
 s32 TQuestVmDownLoadServer__sub_8006EF6C(s32 arg0);
@@ -25,8 +26,11 @@ extern u8 TAdMultiSaveGC__data_80474D70[];
 extern u8 TAdMultiSaveGC__data_80474D78[];
 s32 verify_system_file__23TAdSinglePlyChrSelectGCFPv();
 void *__nw__7TObjectFUl(u32);
-extern s32 tl_fade;
 int queue_destruction__7TObjectFv(void);
+
+void TAdMultiSaveGC::render() {
+    if (TMainTask::get_render_pass() == 1) return;
+}
 
 void TAdMultiSaveGC::queue_destruction() { queue_destruction__7TObjectFv(); TAdMultiChgGameModeGC::begin_change_game_mode(); }
 s32 TAdMultiSaveGC__sub_802FF170(void) {
