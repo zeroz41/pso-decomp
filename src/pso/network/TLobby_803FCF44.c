@@ -3373,7 +3373,7 @@ static inline s16 read_text_field(u8 *self, Hdr_803FC4B4 *hdr, s32 src) {
             ret = 1;
             if ((s16)rv < n || n < fld) {
             } else {
-                ret = rv;
+                ret = 0;
             }
             return ret;
         }
@@ -3382,15 +3382,25 @@ static inline s16 read_text_field(u8 *self, Hdr_803FC4B4 *hdr, s32 src) {
     return -1;
 }
 
+static inline void finish_pending_step(u8 *self, u8 bit) {
+    u8 *link;
+    link = *(u8 **)(self + 0xC);
+    self[2] &= ~bit;
+    if (!(self[2] & 0x30)) {
+        self[0] = 5;
+    }
+    TLobby__sub_80405304(self + 0x10);
+    link[2] &= ~bit;
+    TLobby__sub_80400ACC((O_80400ACC *)link);
+}
+
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
 void PADRead(u8 *self, s32 arg1)
 {
-  u8 *new_var;
   Hdr_803FC4B4 hdr;
   u8 *f30;
-  u8 *p;
   extern s16 TLobby__sub_803FE8BC(u8 *, void *); /* declared s16 here; the definition returns s32 */
   extern s16 TLobby__sub_80403308(u8 *, u8 *, PppFrame *);
   f30 = *((u8 **) (self + 0x30));
@@ -3399,40 +3409,23 @@ void PADRead(u8 *self, s32 arg1)
     return;
   }
   hdr.len -= 4;
-  new_var = self;
   TLobby__sub_80401CAC((PppFrame **) (&arg1), hdr.len);
   switch (hdr.type)
   {
     case 1:
-      if (TLobby__sub_80403308(new_var, (u8 *) (&hdr), (PppFrame *) arg1))
+      if (TLobby__sub_80403308(self, (u8 *) (&hdr), (PppFrame *) arg1))
     {
       return;
     }
-      p = *((u8 **) (new_var + 0xC));
-      self[2] &= ~0x10;
-      if (!(self[2] & 0x30))
-    {
-      self[0] = 5;
-    }
-      TLobby__sub_80405304(new_var + 0x10);
-      p[2] &= ~0x10;
-      TLobby__sub_80400ACC((O_80400ACC *) p);
+      finish_pending_step(self, 0x10);
       return;
 
     case 2:
-      if (read_text_field(new_var, &hdr, arg1) != 0)
+      if (read_text_field(self, &hdr, arg1) != 0)
     {
       return;
     }
-      p = *((u8 **) (self + 0xC));
-      self[2] &= ~0x20;
-      if (!(self[2] & 0x30))
-    {
-      self[0] = 5;
-    }
-      TLobby__sub_80405304(0x10 + self);
-      p[2] &= ~0x20;
-      TLobby__sub_80400ACC((O_80400ACC *) p);
+      finish_pending_step(self, 0x20);
       return;
 
     case 3:
@@ -3440,10 +3433,10 @@ void PADRead(u8 *self, s32 arg1)
     {
       return;
     }
-      TLobby__sub_80405304(new_var + 0x10);
+      TLobby__sub_80405304(self + 0x10);
       *((s32 *) f30) = 0;
       *((s32 *) (f30 + 4)) = 0;
-      *((s16 *) (new_var + 8)) = 1;
+      *((s16 *) (self + 8)) = 1;
       self[0] = 0;
       lbl_805D7A80 = 1;
       return;
