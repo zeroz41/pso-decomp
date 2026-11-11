@@ -4908,12 +4908,9 @@ pso/object/TObjTank.cpp:
 	.sdata2     start:0x805DBFA0 end:0x805DBFA8
 
 pso/object/TObjBigTuitate.cpp:
-	.text       start:0x8019AA18 end:0x8019B0D4
+	.text       start:0x8019AA18 end:0x8019B124
 	.data       start:0x804B8FF0 end:0x804B90D0
 	.sdata2     start:0x805DBFA8 end:0x805DBFC4
-
-pso/unk/text_8019B0D4.cpp:
-	.text       start:0x8019B0D4 end:0x8019B124
 
 pso/object/warp/TObjAreaWarpEndingJung.cpp:
 	.text       start:0x8019B124 end:0x8019DBB4
@@ -8588,15 +8585,11 @@ pso/object/ambient/TObjMistCtrl.cpp:
 	.data       start:0x804DE4C0 end:0x804DE4F4
 
 pso/player/TPlayerFootStamp.cpp:
-	.text       start:0x802AF83C end:0x802B01D8
-	.rodata     start:0x804707F8 end:0x80470908
+	.text       start:0x802AF83C end:0x802B0228
+	.rodata     start:0x804707F8 end:0x80470920
 	.data       start:0x804DE4F8 end:0x804DE540
 	.sdata      start:0x805D3E88 end:0x805D3E8C
 	.sdata2     start:0x805DE1F8 end:0x805DE214
-
-pso/player/TPlayerFootStamp_802B01D8.cpp:
-	.text       start:0x802B01D8 end:0x802B0228
-	.rodata     start:0x80470908 end:0x80470920
 
 pso/boss/olgaflow/TBoss6PlotFalz_802B0228.cpp:
 	.text       start:0x802B0228 end:0x802B0DCC

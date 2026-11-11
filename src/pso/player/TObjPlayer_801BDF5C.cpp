@@ -7,7 +7,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSnapShot_802A7D68.h"
 #include "pso/ui/hud/TLockOnCursor_8013D91C.h"
-#include "pso/player/TPlayerFootStamp_802B01D8.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/unk/text_80354BE4.h"
 #include "pso/player/TPlayerFootStamp.h"

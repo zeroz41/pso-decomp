@@ -1214,7 +1214,6 @@ pso/player/TObjPlayer_802790CC.cpp
 pso/player/TPlayerBattleCtrl4P.cpp
 pso/player/TPlayerBattleCtrl4P_801C4F70.cpp
 pso/player/TPlayerFootStamp.cpp
-pso/player/TPlayerFootStamp_802B01D8.cpp
 pso/player/TPlyCharData.cpp
 pso/player/TPlyCharData_8007214C.cpp
 pso/player/TPlyCharData_801E0A04.cpp
@@ -2408,7 +2407,6 @@ pso/unk/text_80196A20.cpp
 pso/object/quest/TObjQuestCol_80196A8C.cpp
 pso/object/ambient/TObjRain_801977D4.cpp
 pso/object/ambient/TObjRain_80197998.cpp
-pso/unk/text_8019B0D4.cpp
 pso/unk/text_8019DBB4.cpp
 pso/unk/text_801A2710.cpp
 pso/unk/text_801A2B38.cpp

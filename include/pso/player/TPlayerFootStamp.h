@@ -38,4 +38,6 @@ public:
     s32 timer;                // 0xC0: frames left
 };
 
+void load_player_footstamp(void);
+
 #endif

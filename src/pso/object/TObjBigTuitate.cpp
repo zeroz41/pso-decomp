@@ -172,6 +172,19 @@ extern void *tl_05;
 
 }
 
+extern BmlResourceDescriptor fe_obj_tutate_resource_descriptor;
+
+void load_tuitate_bml_resource(void) {
+    s32 temp_r3;
+    s32 var_r0;
+    temp_r3 = (int)::operator new(0x440);
+    var_r0 = temp_r3;
+    if (var_r0 != 0) {
+        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &fe_obj_tutate_resource_descriptor, 0, 0, 0));
+    }
+    TObjTuitate__bml_resource = var_r0;
+}
+
 void free_tuitate_bml_resource(void) {
     if ((u32) TObjTuitate__bml_resource != 0U) {
         free_bin_model_request((void*)TObjTuitate__bml_resource, 1);
