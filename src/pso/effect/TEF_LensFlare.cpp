@@ -118,10 +118,10 @@ void TEF_LensFlare::render() {
             normalize_vector(&dir);
         }
         push_matrix_from(&identity_matrix);
+        Vec view;
         Vec forward = {0.0f, 0.0f, -1.0f};
         rotate_matrix_y(0, camera_ctrl_instance->yaw);
         rotate_matrix_x(0, camera_ctrl_instance->pitch);
-        Vec view;
         rotate_vector_by_matrix(0, &forward, &view);
         pop_matrix();
         f32 d = vec3_dot(&view, &dir);
@@ -129,6 +129,8 @@ void TEF_LensFlare::render() {
             f32 screen[2];
             Vec at;
             f32 t;
+            f32 dx;
+            f32 dy;
             s32 i;
             LensFlareElement *e;
 
@@ -179,6 +181,8 @@ void TEF_LensFlare::render() {
                 f32 w;
                 f32 h;
                 t = t * t * t * t;
+                dx = 320.0f - screen[0];
+                dy = 240.0f - screen[1];
                 white.argb.a = 0xFF;
                 white.argb.r = 0xFF;
                 white.argb.g = 0xFF;
@@ -221,16 +225,16 @@ void TEF_LensFlare::render() {
                 tint.argb.b = 0xFF;
                 tint.argb.a = 255.0f * (t * e->brightness);
                 sprite.color = tint.color;
+                at.x = dx * e->position + screen[0];
+                at.y = dy * e->position + screen[1];
                 at.z = 0.0f;
-                at.x = (320.0f - screen[0]) * e->position + screen[0];
-                at.y = (240.0f - screen[1]) * e->position + screen[1];
                 VecCopy(&sprite.pos, &at);
-                sprite.scale_x = sprite.scale_y = size;
+                sprite.scale_y = sprite.scale_x = size;
                 begin_screen_draw(1);
-                TObjFish::set_global_param(lbl_804C5820[e->sprite].param);
-                set_draw_texture_and_color(lbl_804C5820[e->sprite].tex, -1);
-                w = lbl_804C5820[e->sprite].sx * (2.0f * sprite.scale_x);
-                h = lbl_804C5820[e->sprite].sy * (2.0f * sprite.scale_y);
+                TObjFish::set_global_param(lbl_804C5820[e->sprite + 9].param);
+                set_draw_texture_and_color(lbl_804C5820[e->sprite + 9].tex, -1);
+                w = lbl_804C5820[e->sprite + 9].sx * (2.0f * sprite.scale_x);
+                h = lbl_804C5820[e->sprite + 9].sy * (2.0f * sprite.scale_y);
                 quad.x0 = at.x - w;
                 quad.x1 = at.x + w;
                 quad.y0 = at.y - h;

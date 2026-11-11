@@ -4118,7 +4118,6 @@ N_803EC09C *get_next_node__22TQuestVmDownLoadServerFPv(Q_803EC09C *p) {
 void TQuestVmDownLoadServer__sub_803EC284(s32 pos, s32 mode) {
     Node_803EB794 *p;
     s32 n;
-    s32 i;
     if (mode == 1) {
         TQuestVmDownLoadServer__sub_803EC09C();
     }
@@ -4131,7 +4130,7 @@ void TQuestVmDownLoadServer__sub_803EC284(s32 pos, s32 mode) {
     n = count_fitting_groups(p);
     while (pos >= n) {
         pos -= n;
-        for (i = n; i != 0; i--) {
+        while (n-- != 0) {
             p = next_entry_group(p);
         }
         n = count_fitting_groups(p);
