@@ -1876,6 +1876,13 @@ inline s32 Hash_803E8C2C(char *s) {
     return h;
 }
 
+// Id of a name-cache record: its 0x400-byte page in bits 12 and up, its offset in the page below
+// (name inferred).
+inline s32 NameRecordId_80591EC8(NameCache_80591EC8 *cache, void *rec) {
+    s32 off = (u8 *)rec - (u8 *)cache;
+    return ((off / 1024) << 12) | (off % 1024);
+}
+
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(1)
@@ -1893,8 +1900,6 @@ s32 lookup_name_entry__22TQuestVmDownLoadServerFPvsPv(char *arg0, s16 arg1, Out_
     Node_803E8B1C *n;
     s32 r;
     u8 len;
-    s32 off;
-    u8 unused[8];
     Ent_803E8B1C *e;
     for (n = ((Node_803E8B1C * *)&lbl_80593EC8)[Hash_803E8B1C(arg0)]; n != NULL; n = n->next) {
         e = n->ent;
@@ -1913,9 +1918,8 @@ s32 lookup_name_entry__22TQuestVmDownLoadServerFPvsPv(char *arg0, s16 arg1, Out_
         arg2->id = -1;
         return 0;
     }
-    off = (u8 *)e - (u8 *)&lbl_80591EC8;
     arg2->a = 0;
-    arg2->id = ((off / 1024) << 12) | (off % 1024);
+    arg2->id = NameRecordId_80591EC8(&lbl_80591EC8, e);
     arg2->ent = e;
     return 1;
 }
@@ -1930,8 +1934,6 @@ s32 TQuestVmDownLoadServer__sub_803E8C2C(char *arg0, s16 arg1, Out_803E8C2C *arg
     s16 blen;
     s32 r;
     s16 m;
-    s32 off;
-    u8 unused[8];
     blen = 0;
     pre = 0;
     arg2->pre = 0;
@@ -1961,9 +1963,8 @@ s32 TQuestVmDownLoadServer__sub_803E8C2C(char *arg0, s16 arg1, Out_803E8C2C *arg
         arg2->id = -1;
         return 0;
     }
-    off = (u8 *)found - (u8 *)&lbl_80591EC8;
     arg2->a = 0;
-    arg2->id = ((off / 1024) << 12) | (off % 1024);
+    arg2->id = NameRecordId_80591EC8(&lbl_80591EC8, found);
     arg2->len = blen;
     arg2->pre = pre;
     arg2->ent = found;
@@ -2010,11 +2011,9 @@ s32 TQuestVmDownLoadServer__sub_803E8DA0(char *name, Req_803EEF2C *req, s32 attr
     n = FindName_80591EC8(cache, name, req->len, &link);
     e = n->ent;
     if (e->len == req->len && strncmp(name, e->name, req->len) == 0) {
-        s32 off;
         e->len = 0;
         *link = n->next;
-        off = (u8 *)n->ent - (u8 *)cache;
-        TQuestVmDownLoadServer::invalidate_entries_by_id(((off / 1024) << 12) | (off % 1024));
+        TQuestVmDownLoadServer::invalidate_entries_by_id(NameRecordId_80591EC8(cache, n->ent));
         n->next = lbl_805D7878;
         lbl_805D7878 = n;
     }
