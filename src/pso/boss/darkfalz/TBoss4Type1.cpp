@@ -6,7 +6,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/boss/darkfalz/TBoss4Type1.h"
-#include "pso/unk/text_8004AA04.h"
+#include "pso/unk/ModelNodeTables.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/TObjControl.h"
 #include "pso/system/task/TMainTask.h"
@@ -117,7 +117,8 @@ typedef struct Obj_80053440 {
     Vec_80053440 pos;
     u8 pad44[0x374 - 0x44];
     s32 state;
-    u8 f378[0x3F8 - 0x378];
+    ModelNodeTables node_tables;
+    u8 pad38c[0x3F8 - 0x38C];
     void *a[4];
     void *b[4];
 } Obj_80053440;
@@ -704,7 +705,7 @@ TBoss4Type1::TBoss4Type1(TObject *parent, s32 *params) : TObjEnemy(parent) {
     for (; j < 13; j++) {
         parts[j] = 0;
     }
-    init_model_node_tables(&model_nodes, boss4_type1_model_node_table, 7);
+    model_nodes.init(boss4_type1_model_node_table, 7);
     unk_3a4 = 0;
     unk_3a0 = 0;
     unk_3ac = 1;
@@ -734,7 +735,7 @@ extern "C" {
 TBoss4Type1::~TBoss4Type1() {
     s32 i;
     s32 j;
-    fn_8004AA04(&model_nodes);
+    model_nodes.destroy();
     for (i = 0; i < 13; i++) {
         if (parts[i] != 0) {
             TParticleCtrl::release(parts[i]);
@@ -1296,7 +1297,7 @@ void TBoss4Type1::sub_80053440() {
             ((TParticleCtrl *)arg0->b[i])->set_position(&v);
         }
     }
-    ((TBoss4Type2 *)(arg0->f378))->scroll_strips();
+    arg0->node_tables.scroll_strips();
     play_persistent_sound(0x4003BC0E, (s32)arg0, (u32)&arg0->pos, 0x40, 2);
 }
 

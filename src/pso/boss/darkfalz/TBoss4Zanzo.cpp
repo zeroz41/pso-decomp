@@ -2,6 +2,7 @@
 #include "pso/math/FloatRounding.h"
 #pragma readonly_strings on
 #include "types.h"
+#include "pso/unk/ModelNodeTables.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/PadRumble.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
@@ -131,7 +132,8 @@ struct S_800578E8 {
     u8 pad0[0x18];
     void *vt;
     u8 pad1c[0x378 - 0x1c];
-    u8 f378[0x1c];
+    ModelNodeTables node_tables;
+    u8 pad38c[0x394 - 0x38C];
     s32 f394;
     u8 pad398[0x42c - 0x398];
     void *ptr[8];
@@ -421,7 +423,8 @@ struct S_8005AD50 {
     u8 pad0[0x18];
     void *vt;
     u8 pad1c[0x378 - 0x1c];
-    u8 f378[0x1c];
+    ModelNodeTables node_tables;
+    u8 pad38c[0x394 - 0x38C];
     s32 f394;
     u8 pad398[0x438 - 0x398];
     void *fx[3];
@@ -450,7 +453,6 @@ s32 get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
 s32 fn_80044330(void *);
-void fn_8004AA04(void *);
 s32 pick_random_target_player__11TBoss4Type3Fv(void);
 s32 TBoss4DarkFalz__sub_8004AF5C(s32, s16 *, s16 *);
 s32 TBoss4DarkFalz__sub_8004B4F0(void *, void *);
@@ -508,7 +510,6 @@ extern s32 local_client_id;
 extern s32 registered_player_count;
 struct Def_804867C8 { s32 value; s32 remaining[39]; };
 
-void init_model_node_tables(void *, void *, int);
 s32 TObjFish__sub_800E3124(void *, void *, f32);
 s32 init_collision_body_parts(void *, void *, int);
 const char *boss4_type2_class_name = "TBoss4Type2";
@@ -566,8 +567,8 @@ __declspec(section ".data") s32 boss4_type2_attack_pattern_table[2] = {6, 7};
 struct Vec_80057598 { f32 x, y, z; };
 
 static const s32 boss4_type2_emitter_ids[2] = {0x144, 0x145};
-static const s32 boss4_type2_model_node_table[18] = {
-    0xB, 3, 0, 0xA, 5, 0, 0xA, 0x60, 0, 0xA, 0x63, 0, 0xA, 0x65, 0, 0xA, 0x68, 0,
+static const ModelNodeSpec boss4_type2_model_node_table[6] = {
+    {0xB, 3, 0}, {0xA, 5, 0}, {0xA, 0x60, 0}, {0xA, 0x63, 0}, {0xA, 0x65, 0}, {0xA, 0x68, 0},
 };
 static const Vec_80057598 boss4_type2_follow_camera_offset_a = {0.0f, 19.8f, -5.0f};
 static const Vec_80057598 boss4_type2_follow_camera_offset_b = {0.0f, 15.43f, 55.42f};
@@ -1605,7 +1606,7 @@ void TBoss4Type2::update_main() {
         if (*(void **)((s8 *)arg0 + 0x430) != NULL) {
             ((TParticleCtrl *)*(void **)((s8 *)arg0 + 0x430))->set_position(&pos);
         }
-        ((TBoss4Type2 *)(arg0 + 0x378))->scroll_strips();
+        this->node_tables.scroll_strips();
     }
     {
         Vec_80057598 a = boss4_type2_follow_camera_offset_a;
@@ -1642,7 +1643,7 @@ S_800578E8 *__dt__13TUnk_80486924Fv(S_800578E8 *o, s16 flag) {
     s32 i;
     if (o != 0) {
         o->vt = lbl_80486924;
-        fn_8004AA04(o->f378);
+        o->node_tables.destroy();
         for (i = 0; i < 8; i++) {
             if (o->ptr[i] != 0) {
                 TParticleCtrl::release(o->ptr[i]);
@@ -1700,7 +1701,7 @@ u8 *TBoss4Type2__ct(u8 *arg0, s32 parent, s32 *arg2) {
     for (; i < 8; i++) {
         ((Arr_800579A0 *) arg0)->f42C[i] = 0;
     }
-    init_model_node_tables(arg0 + 0x378, (void *)boss4_type2_model_node_table, 6);
+    ((TBoss4Type2 *)arg0)->node_tables.init(boss4_type2_model_node_table, 6);
     *(s32 *)((s8 *)arg0 + 0x3A0) = 0;
     *(s32 *)((s8 *)arg0 + 0x3E0) = 0;
     *(u16 *)((s8 *)arg0 + 0x3C4) = 0xFFFF;

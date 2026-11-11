@@ -3,7 +3,6 @@
 #include "pso/boss/darkfalz/TObjDFDemo4.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
-#include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -41,7 +40,7 @@ void *TObjDFDemo4::create(void *arg0, void *arg1, void *arg2) {
     return new TObjDFDemo4((TObject *)arg0, (const Vec *)arg1, (s32)arg2);
 }
 
-// The nodes init_model_node_tables builds the strips on.
+// The nodes ModelNodeTables::init builds the strips on.
 inline const ModelNodeSpec *strip_nodes() {
     static const ModelNodeSpec lbl_804373C4[2] = {{0xC, 0x4A, 1}, {0xE, 0x4A, 1}};
     return lbl_804373C4;
@@ -76,7 +75,7 @@ TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
         body_parts[i].motion = get_bml_motion(res, lbl_80485728[i]);
     }
     frame = -0.5f;
-    init_model_node_tables(&node_tables, strip_nodes(), 2);
+    node_tables.init(strip_nodes(), 2);
     for (s32 j = 0; j < 2; j++) {
         particle_emitters[j] = NULL;
     }
@@ -94,7 +93,7 @@ TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
 
 TObjDFDemo4::~TObjDFDemo4() {
     s32 i;
-    fn_8004AA04(&node_tables);
+    node_tables.destroy();
     if (node_list != NULL) {
         TObjFish::init_state_1(node_list);
         node_list = NULL;
@@ -157,7 +156,7 @@ void TObjDFDemo4::run_task() {
     if ((frame += 0.5f) > 119.0f) {
         frame = 119.0f;
     }
-    ((TBoss4Type2 *)&node_tables)->scroll_strips();
+    node_tables.scroll_strips();
     if (++timer >= 0xF0) {
         queue_destruction();
     }

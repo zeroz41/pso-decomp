@@ -2,6 +2,7 @@
 #include "pso/effect/TUnk_80494968.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
+#include "pso/unk/ModelNodeTables.h"
 #include "pso/system/PadRumble.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
@@ -45,7 +46,7 @@ extern const char boss4_type3_state_name_capture[] = "CAPTURE";
 extern const char boss4_type3_state_name_bura[] = "BURA";
 extern const char boss4_type3_state_name_libera[] = "LIBERA";
 extern const char boss4_type3_state_name_cut[] = "CUT";
-extern const s32 boss4_type3_model_node_specs[2][3] = {{12,74,1},{14,74,1}};
+extern const ModelNodeSpec boss4_type3_model_node_specs[2] = {{12, 74, 1}, {14, 74, 1}};
 extern const s32 boss4_type3_effect_ids[8] = {326,326,326,326,328,327,327,323};
 const char *TObjBs4CutAtk_name = TObjBs4CutAtk_type_name;
 const char *TBoss4Type3_name = TBoss4Type3_type_name;
@@ -125,7 +126,7 @@ struct Self_8005AE60 {
     u8 pad32e[0x33E - 0x32E];
     s16 f33E;
     u8 pad340[0x378 - 0x340];
-    u8 f378[0x38C - 0x378];
+    ModelNodeTables node_tables;
     s32 f38C;
     s32 f390;
     s32 f394;
@@ -344,7 +345,8 @@ struct S_8005AD50 {
     u8 pad0[0x18];
     void *vt;
     u8 pad1c[0x378 - 0x1c];
-    u8 f378[0x1c];
+    ModelNodeTables node_tables;
+    u8 pad38c[0x394 - 0x38C];
     s32 f394;
     u8 pad398[0x438 - 0x398];
     void *fx[3];
@@ -387,7 +389,6 @@ s32 get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
 void fn_80044330(void *p);
-void fn_8004AA04(void *);
 void TObjPlayer__sub_80052390(f32 x);
 f32 TBoss4Type3__sub_800524E8(f32);
 void TBoss4Type3__sub_800599F4(void*, int, int);
@@ -424,7 +425,6 @@ extern void* __vt__13TObjBs4CutAtk[];
 
 extern s32 local_client_id;
 
-void init_model_node_tables(void *, void *, int);
 s32 TObjFish__sub_800E3124(u8 *list, s32 vecs);
 s32 init_collision_body_parts(void *, void *, int);
 extern s32 model_render_flags;
@@ -914,7 +914,7 @@ Self_8005AE60 *TBoss4Type3__ct(Self_8005AE60 *self, s32 parent, s32 *arg2) {
     *(s32 *)((u8 *)self + 0x528) = create__13TUnk_80494968FUlUl(0xA0303030, 0xFFFF0088);
     clear_motion_packed_rotation();
     ((TBoss4Type3 *)self)->create_particle_emitters();
-    init_model_node_tables(self->f378, (void *)boss4_type3_model_node_specs, 2);
+    self->node_tables.init(boss4_type3_model_node_specs, 2);
     self->f3D4 = self->f32C;
     self->f3CC = 0;
     self->f3D0 = *(s32 *)(dispatch_shared_handler_a__6TLobbyFl(0x38) + 0x24);
@@ -943,7 +943,7 @@ S_8005AD50 *__dt__11TBoss4Type3Fv(S_8005AD50 *o, s16 flag) {
     s32 i;
     if (o != 0) {
         o->vt = __vt__11TBoss4Type3;
-        fn_8004AA04(o->f378);
+        o->node_tables.destroy();
         ((TBoss4Type3 *)o)->destroy_parts();
         if (o->f51c != 0) {
             delete (SampledMotionPoints *)o->f51c;
@@ -1031,7 +1031,7 @@ void TBoss4Type3::run_task() {
     handle_damage_taken();
     if (this->m_374 != 2) {
         copy_positions_to_parts();
-        ((TBoss4Type2 *)(&this->m_378))->scroll_strips();
+        this->node_tables.scroll_strips();
     }
     if (this->m_3ba == 0xFFFF) {
         if ((this->m_3c8 -= 0.06666667f) < 0.0f) {

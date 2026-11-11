@@ -3,7 +3,6 @@
 #include "pso/boss/darkfalz/TObjDFDemo1.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-#include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
@@ -101,18 +100,18 @@ TObjDFDemo1::TObjDFDemo1(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     lbl_80485610.cache_target_and_forward(0x4000);
     play_sound_effect(0x4003A324, &position, 0, 1);
     scroll = 0.0f;
-    init_model_node_tables(&strips, lbl_80437328, 6);
+    strips.init(lbl_80437328, 6);
     timer = 0;
 }
 
-// The nodes init_model_node_tables builds the strips on.
+// The nodes ModelNodeTables::init builds the strips on.
 const ModelNodeSpec lbl_80437328[6] = {
     {0xB, 3, 0}, {0xA, 5, 0}, {0xA, 0x60, 0}, {0xA, 0x63, 0}, {0xA, 0x65, 0}, {0xA, 0x68, 0},
 };
 
 TObjDFDemo1::~TObjDFDemo1() {
     s32 i;
-    fn_8004AA04(&strips);
+    strips.destroy();
     for (i = 0; i < 4; i++) {
         if (particle_emitters[i] != NULL) {
             TParticleCtrl::release(particle_emitters[i]);
@@ -168,7 +167,7 @@ void TObjDFDemo1::run_task() {
     if ((scroll += 1.0f / 45.0f) >= 1.0f) {
         scroll -= 1.0f;
     }
-    ((TBoss4Type2 *)&strips)->scroll_strips();
+    strips.scroll_strips();
     if (++timer >= 300) {
         queue_destruction();
     }

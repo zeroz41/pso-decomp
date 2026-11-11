@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/unk/text_8004AA04.h"
+#include "pso/unk/ModelNodeTables.h"
 
 struct TBoss4DarkFalz;
 

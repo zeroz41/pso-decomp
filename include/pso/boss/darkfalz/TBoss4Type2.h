@@ -2,6 +2,8 @@
 #define PSO_BOSS_DARKFALZ_TBOSS4TYPE2_H
 
 #include "types.h"
+#include "pso/unk/ModelNodeTables.h"
+#include <stddef.h>
 
 /* Boss parameter block 0x36 from TLobby::dispatch_shared_handler_a (read by TBoss4Type1.cpp and
  * TObjDFHorming). move_seconds is clamped to 1..60 and scaled by 30.0 into a frame count; the two
@@ -21,7 +23,7 @@ struct TBoss4Type2
     void sub_80056FEC(s32);
     void sub_80056F90(s32, s32);
     void sub_80056998();
-    u8 _pad1C[0x8];
+    u8 _pad00[0x24];
     u32 m_24;
     u8 _pad28[0x8];
     u32 m_30;
@@ -45,8 +47,7 @@ struct TBoss4Type2
     u16 m_33e;
     u8 _pad340[0x34];
     u32 m_374;
-    void* m_378;
-    u8 _pad37C[0x10];
+    ModelNodeTables node_tables;
     u32 m_38c;
     u32 m_390;
     u32 m_394;
@@ -101,7 +102,6 @@ struct TBoss4Type2
     void calc_scaled_field(s32 arg1, s32 arg2);
     void set_motion_index(s32 arg1);
     static u8 is_active();
-    void scroll_strips();
     static void *create_zanzo(void *arg0, void *arg1);
     void spawn_bishi_around_players();
     void apply_resta_heal();
@@ -172,5 +172,7 @@ struct TBoss4Type2
     void check_state_if_idle();
     void sub_800531BC();
 };
+
+typedef char Type2NodeTablesOffset[(offsetof(TBoss4Type2, node_tables) == 0x378) ? 1 : -1];
 
 #endif

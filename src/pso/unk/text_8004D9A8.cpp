@@ -3,6 +3,7 @@
 #include "pso/system/PadRumble.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/unk/ModelNodeTables.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -59,7 +60,7 @@ void fn_8004D9A8(u8 *arg0) {
 }
 
 typedef struct { f32 x, y, z; } Vec_8004DA7C;
-struct Self_8004DA7C { u8 pad[0x90]; s32 t; u8 pad94[0x14]; void *p[5]; u8 padbc[0x48]; f32 f104; f32 f108; f32 f10c; };
+struct Self_8004DA7C { u8 pad[0x90]; s32 t; ModelNodeTables node_tables; void *p[5]; u8 padbc[0x48]; f32 f104; f32 f108; f32 f10c; };
 
 struct Ent_8004DA7C { s32 arg; s32 start; s32 end; u8 data[0xC]; };
 
@@ -194,7 +195,7 @@ void TBoss3Volopt__sub_8004DA7C(u8 *self) {
         start_pad_rumble_all(0xC0, 0xF);
         break;
     }
-    ((TBoss4Type2 *)(self + 0x94))->scroll_strips();
+    S->node_tables.scroll_strips();
     if (++*(s32 *)((s8 *)self + 0x90) >= 0x118) {
         queue_destruction__7TObjectFv(self);
     }
@@ -213,12 +214,11 @@ struct S_8004DE44 {
     u8 pad0[0x18];
     void *vt;
     u8 pad1c[0x94 - 0x1c];
-    u8 f94[0x14];
+    ModelNodeTables node_tables;
     void *ptr[5];
 };
 
 extern "C" {
-void fn_8004AA04(void *);
 void __dl__7TObjectFPv(void *);
 extern void *__vt__11TObjDFDemo0[13];
 S_8004DE44 *__dt__11TObjDFDemo0Fv(S_8004DE44 *o, s16 flag);
@@ -226,7 +226,7 @@ S_8004DE44 *__dt__11TObjDFDemo0Fv(S_8004DE44 *o, s16 flag) {
     s32 i;
     if (o != 0) {
         o->vt = __vt__11TObjDFDemo0;
-        fn_8004AA04(o->f94);
+        o->node_tables.destroy();
         for (i = 0; i < 5; i++) {
             if (o->ptr[i] != 0) {
                 TParticleCtrl::release(o->ptr[i]);
@@ -248,7 +248,7 @@ typedef struct Obj_8004DEE0 {
     void *vt;
     u8 pad1c[0x90 - 0x1c];
     s32 f90;
-    u8 f94[0xA8 - 0x94];
+    ModelNodeTables node_tables;
     s32 fa8[5];
     s32 fbc[3][6];
     f32 f104;
@@ -269,10 +269,9 @@ typedef struct Data_8004DEE0 {
 s32 get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
-void init_model_node_tables(void *, void *, s32);
 void set_scripted_camera_pose(void *, void *, void *);
 void __ct__8TObjBaseFP7TObject(void *, void *);
-extern u8 TObjDFDemo0__model_node_entries[];
+extern const ModelNodeSpec TObjDFDemo0__model_node_entries[7];
 extern s32 lbl_80485EB0[];
 extern s32 TObjDFDemo0__name;
 
@@ -319,7 +318,7 @@ Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
     for (j = 0; j < 5; j++) {
         self->fa8[j] = 0;
     }
-    init_model_node_tables(self->f94, TObjDFDemo0__model_node_entries, 7);
+    self->node_tables.init(TObjDFDemo0__model_node_entries, 7);
     activate_camera_mode(5);
     set_scripted_camera_pose(lbl_804854F0, lbl_804854F0, lbl_804854FC);
     lbl_80485508.cache_target_and_forward(0x416C);
