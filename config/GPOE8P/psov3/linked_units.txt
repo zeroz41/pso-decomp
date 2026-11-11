@@ -2291,6 +2291,7 @@ pso/ui/frontend/TAdTitleGC.cpp
 pso/ui/frontend/TAdTrialAgreementGC.cpp
 pso/ui/frontend/TAdTrialAgreementGC_8033573C.cpp
 pso/ui/frontend/TAdTrialModemChkGC.cpp
+pso/ui/frontend/TAdTrialModemChkGC_8042E9FC.cpp
 pso/ui/frontend/TAdVIConfigGC.cpp
 pso/ui/frontend/TAdVIConfigGC_80248B8C.cpp
 pso/ui/frontend/TAdVIConfigGC_80308200.cpp

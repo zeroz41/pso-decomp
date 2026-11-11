@@ -21,11 +21,15 @@ extern s32 lbl_805D7CC4;
 // callee-register-hungry function gives prologue+stmw+epilogue (0x50), and
 // statement-level asm is wrapped in its own frame (0x28..0x30).  0/20 emit the
 // 20 bytes; the function-level asm body (generated from the original
-// disassembly by tools/orig_asm.py) is byte-exact on 20/20.  `static` so the
+// disassembly by tools/orig_asm.py) is byte-exact on 20/20.  force_active: nothing
+// calls it, so the linker would strip it.  `static` so the
 // symbol stays local, as the original object declares it.
+#pragma push
+#pragma force_active on
 static asm void pad_03_8042E9FC_text(void) {
 #include "orig_asm/pso/ui/frontend/TAdTrialModemChkGC_8042E9FC/pad_03_8042E9FC_text.inc"
 }
+#pragma pop
 
 s32 TAdTrialModemChkGC::init_modem_check_params() {
     if ((s32) lbl_805D7CA8 == 0) {
