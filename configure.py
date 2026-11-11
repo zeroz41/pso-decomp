@@ -659,6 +659,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/derolle/TBoss2DeRolLe.cpp": {"mw_version": "GC/2.0"},
     "pso/effect/TEffIndirectCtrl.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/boss/darkfalz/TObjDFDemo1.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
+    "pso/boss/darkfalz/TObjDFDemo4.cpp": {"cflags": _switch(cflags_pso, "-inline deferred", "-sdata 4")},
     # -sdata 4: the 8-byte motion id table 0x804EF9D8 sits in .data, the 4-byte class name in .sdata.
     # deferred: the ctor addresses .data from one base with the vtable at +0x14, and the .sdata2
     # pool order only comes out with the functions emitted last to first. Inlining on: the ctor's
