@@ -116,7 +116,6 @@ struct TCameraCtrl : public TObject {
     static void update_battle_camera();
     static void create(s32 arg0, s32 arg1, s32 arg2);
     void *destroy(s16 arg1);
-    void cache_target_and_forward(s32 arg1);
     static void reset_to_local_player();
     static void set_override_position_and_angle(u8 *arg0, s16 arg1);
     static void set_fixed_position_and_target(u8 *arg0, u8 *arg1);

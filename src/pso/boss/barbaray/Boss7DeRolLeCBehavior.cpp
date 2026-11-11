@@ -3,6 +3,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjMotion.h"
@@ -957,8 +958,6 @@ struct Fish_802E95F8 { u8 pad[0x534]; Pt_802E95F8 pts[16]; u8 pad2[0x728 - 0x534
 
 struct Vec_802EBBC8 { f32 x, y, z; };
 
-struct Cam_802EBBC8 { s8 a; s8 b; s16 c; f32 d; f32 e; };
-
 struct Vec_802E85E0 { f32 x, y, z; };
 
 struct Tgt_802E85E0 { u8 pad[0x38]; Vec_802E85E0 pos; };
@@ -1037,8 +1036,6 @@ struct PCtrl_802EC550 {
 };
 
 struct Vec_802E8B50 { f32 x, y, z; };
-
-struct Cam_802E8B50 { s8 a; s8 b; s16 c; f32 d; f32 e; };
 
 struct Body_802E8B50 { u8 pad[8]; s32 flags; };
 
@@ -1196,7 +1193,7 @@ void TObjFish__sub_802ECE90(void *arg0, int idx, int arg);
 void TObjFish__sub_802E95F8(u8 *arg0, u32 arg1, s32 arg2);
 s32 restore_player_cameras();
 s32 activate_camera_mode(s32 arg0);
-u8 *get_scripted_camera_playback();
+CameraPlayback *get_scripted_camera_playback();
 s32 query_teammate_state__9TObjEneDDFv();
 int play_sound_effect(void*, void*, void*, void*);
 
@@ -1838,7 +1835,7 @@ __declspec(section ".sdata2") const f32 lbl_805DEA2C[1] = { 85.0f };
 #define lbl_805DEA2C (lbl_805DEA2C[0])
 void TObjFish::handle_death_state(u32 arg1) {
     Fish_802E8B50 *o = (Fish_802E8B50 *)this;
-    Cam_802E8B50 cam;
+    CameraPlayback cam;
     s32 i;
     switch (arg1) {
     case 4:
@@ -1863,13 +1860,13 @@ void TObjFish::handle_death_state(u32 arg1) {
         TObjBoss2Tunnel::clear_flags_0x3000();
         TWindowCtrl::init_all_slots();
         {
-            cam.b = 0;
-            cam.a = 2;
-            cam.c = 0;
-            cam.d = lbl_805DEA10;
-            cam.e = lbl_805DEA28;
+            cam.index = 0;
+            cam.bank = 2;
+            cam.flags = 0;
+            cam.frame = lbl_805DEA10;
+            cam.frame_step = lbl_805DEA28;
             activate_camera_mode(5);
-            ((TCameraCtrl *)(&cam))->cache_target_and_forward(0x1C71);
+            cam.cache_target_and_forward(0x1C71);
         }
         break;
     case 2:
@@ -1886,7 +1883,7 @@ void TObjFish::handle_death_state(u32 arg1) {
         break;
     case 0:
         ((TObjMotion *)o)->advance_animation();
-        if (*(u16 *)(get_scripted_camera_playback() + 2) & 1) {
+        if (get_scripted_camera_playback()->flags & 1) {
             o->phase = 1;
             TWindowCtrl::init_all_slots2();
             restore_player_cameras();
@@ -3392,14 +3389,14 @@ void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1) {
     case 0:
         if (*(s32 *)((s8 *)arg0 + 0x72C) == 0) {
             if (query_teammate_state__9TObjEneDDFv() == 0) {
-                Cam_802EBBC8 cam;
-                cam.b = 0;
-                cam.a = 1;
-                cam.c = 0;
-                cam.d = lbl_805DEA10;
-                cam.e = lbl_805DEA28;
+                CameraPlayback cam;
+                cam.index = 0;
+                cam.bank = 1;
+                cam.flags = 0;
+                cam.frame = lbl_805DEA10;
+                cam.frame_step = lbl_805DEA28;
                 activate_camera_mode(5);
-                ((TCameraCtrl *)(&cam))->cache_target_and_forward(0x1C71);
+                cam.cache_target_and_forward(0x1C71);
                 *(s32 *)((s8 *)arg0 + 0x72C) = 1;
             }
         } else {
@@ -3424,7 +3421,7 @@ void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1) {
                 play_sound_effect((void *) 0x39906, 0, 0, 0);
             }
             ((TObjFish *)arg0)->update_attached_orientation();
-            if (*(u16 *) (get_scripted_camera_playback() + 2) & 1) {
+            if (get_scripted_camera_playback()->flags & 1) {
                 restore_player_cameras();
                 ((TBoss7DeRolLeC *)arg0)->advance_action_sequence();
                 *(s32 *)((s8 *)arg0 + 0x728) = 1;

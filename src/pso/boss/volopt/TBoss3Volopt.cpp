@@ -985,7 +985,7 @@ void TBoss3Volopt::update_intro_cutscene() {
         first.frame = 0.0f;
         first.frame_step = 0.0f;
         activate_camera_mode(5);
-        ((TCameraCtrl *)&first)->cache_target_and_forward(0x271C);
+        first.cache_target_and_forward(0x271C);
         state = 1;
     case 1:
         play_persistent_sound(0x4003B202, this, 0, 0, 0);
@@ -999,7 +999,7 @@ void TBoss3Volopt::update_intro_cutscene() {
             second.frame = 0.0f;
             second.frame_step = 1.0f;
             activate_camera_mode(5);
-            ((TCameraCtrl *)&second)->cache_target_and_forward(0x271C);
+            second.cache_target_and_forward(0x271C);
         }
         break;
     case 2:
@@ -1136,7 +1136,7 @@ void TBoss3Volopt::update_phase2_intro() {
         playback.frame = 0.0f;
         playback.frame_step = 1.0f;
         activate_camera_mode(5);
-        ((TCameraCtrl *)&playback)->cache_target_and_forward(0x160A);
+        playback.cache_target_and_forward(0x160A);
         set_scripted_camera_pose(&position, &position, (CameraAngles *)&rotation_x);
         state = 4;
         return;

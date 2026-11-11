@@ -6,6 +6,7 @@
 #include "pso/enemy/EnemyStateEvent.h"
 #include "pso/render/MaterialColorFade.h"
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
@@ -144,8 +145,6 @@ struct Obj_8005E594 {
 };
 
 struct Vec_80062BA0 { f32 x, y, z; };
-
-struct Cam_80062BA0 { s8 a; s8 b; s16 c; f32 d; f32 e; };
 
 struct Part_80064F50 { u8 pad0[4]; f32 f4; u8 pad8[4]; f32 fC; u8 pad10[8]; u32 flags; u8 pad1C[4]; f32 f20; u8 pad24[4]; f32 f28; };
 
@@ -3726,7 +3725,7 @@ void TBoss5Gryphon::update_demo_state(u32 arg1) {
 #pragma fp_contract on
 void TBoss5Gryphon::update_death_state(u32 arg1) {
     u8 *arg0 = (u8 *)this;
-    Cam_80062BA0 cam;
+    CameraPlayback cam;
     Vec_80062BA0 v;
     Vec_80062BA0 tmp;
     Vec_80062BA0 *p;
@@ -3749,13 +3748,13 @@ void TBoss5Gryphon::update_death_state(u32 arg1) {
         TWindowCtrl::init_all_slots();
         switch (TBoss8Dragon__sub_8005D700()) {
         case 0:
-            cam.b = 0;
-            cam.a = 2;
-            cam.c = 0;
-            cam.d = lbl_805D8D5C;
-            cam.e = 0.5f;
+            cam.index = 0;
+            cam.bank = 2;
+            cam.flags = 0;
+            cam.frame = lbl_805D8D5C;
+            cam.frame_step = 0.5f;
             activate_camera_mode(5);
-            ((TCameraCtrl *)(&cam))->cache_target_and_forward(0x31C7);
+            cam.cache_target_and_forward(0x31C7);
             set_scripted_camera_pose(arg0 + 0x38, arg0 + 0x38, arg0 + 0x5C);
             break;
         }

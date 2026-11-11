@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TObjDFDemoF.h"
@@ -59,7 +60,7 @@ s32 TObjDFDemoF__bml_model_id_table[3] = {0x0, 0x10, 0x11};
 s32 lbl_80485834[3] = {-1, 0x26, 0x27};
 void *lbl_80485840[3] = {(void *) 0xc69c4000, (void *) 0x0, (void *) 0x0};
 void *lbl_8048584C[3] = {(void *) 0x0, (void *) 0x0, (void *) 0x0};
-void *lbl_80485858[3] = {(void *) 0x50000, (void *) 0x0, (void *) 0x3f000000};
+CameraPlayback lbl_80485858 = {0, 5, 0, 0.0f, 0.5f};
 void *three_part_model_translate_offset[3] = {(void *) 0xc69c4000, (void *) 0x0, (void *) 0x0};
 void *__vt__11TObjDFDemoF[14] = {(void *) 0x0, (void *) 0x0, &__dt__11TObjDFDemoFFPvs, &run_task__11TObjDFDemoFFv, &render__11TObjDFDemoFFv, &render_shadows__7TObjectFv, &vfunc_6__8TObjBaseFPsl, &apply_object_set_data__8TObjBaseFPv, &reset_motion_fields__8TObjBaseFv, &get_center__8TObjBaseFv, &update_object_view_visibility__8TObjBaseFff, &classify_actor_view_detail__8TObjBaseFfff, &get_name__8TObjBaseFv, (void *) 0x0};
 
@@ -110,7 +111,7 @@ Obj_80050194 *TObjDFDemoF__ct(Obj_80050194 *arg0, void *parent) {
   new_var->fb8 = -1.0f;
   activate_camera_mode(5);
   set_scripted_camera_pose(lbl_80485840, lbl_80485840, lbl_8048584C);
-  ((TCameraCtrl *)lbl_80485858)->cache_target_and_forward(0x392D);
+  lbl_80485858.cache_target_and_forward(0x392D);
   play_sound_effect(0x3A802, 0, 0, 0);
   start_pad_rumble_all(0x20, 0xF);
   arg0->f90 = 0;

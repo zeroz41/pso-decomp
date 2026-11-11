@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
 #include "pso/object/ambient/TObjFish_800E2FFC.h"
 #include "pso/boss/olgaflow/Boss6Type1Appearance.h"
@@ -52,7 +53,7 @@ extern s32 lbl_80477DEC[];
 extern s32 boss6_type1_appear_node_desc[];
 extern s32 boss6_type1_appear_model_node_descriptors[];
 extern s32 lbl_80477E30[];
-extern s32 lbl_80477E3C[];
+extern CameraPlayback lbl_80477E3C;
 extern s32 lbl_804DF614[];
 extern s32 boss6_type1_appear_motion_indices[];
 extern const s32 __vt__25TBoss6Demo10_TYPE1_APPEAR[];
@@ -194,7 +195,7 @@ TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TObject *parent) : TObject(
     build_tables__14TBoss6PlotFalzFPvPvi(((Fish_8033CB4C *)this)->x40, boss6_type1_appear_model_node_descriptors, 2);
     activate_camera_mode(5);
     set_scripted_camera_pose(lbl_80477DEC, lbl_80477DEC, lbl_80477E30);
-    ((TCameraCtrl *)lbl_80477E3C)->cache_target_and_forward(0x416C);
+    lbl_80477E3C.cache_target_and_forward(0x416C);
     ((Fish_8033CB4C *)this)->x34 = lbl_805DFA50.value;
     ((Fish_8033CB4C *)this)->x38 = 0;
 }
@@ -214,7 +215,7 @@ __declspec(section ".rodata") s32 lbl_80477DEC[] = {0x00000000, 0x41C80000, 0x42
 __declspec(section ".rodata") s32 boss6_type1_appear_node_desc[] = {0x00000000, 0x00000000, 0x00000000, 0x00000000, 0xFFFFFFFF, 0x00000000, 0x00000000, 0x00000000};
 __declspec(section ".rodata") s32 boss6_type1_appear_model_node_descriptors[] = {0x00000003, 0x00000001, 0x00000000, 0x00000006, 0x00000001, 0x00000000};
 __declspec(section ".rodata") s32 lbl_80477E30[] = {0x00000000, 0x00000000, 0x00000000};
-__declspec(section ".rodata") s32 lbl_80477E3C[] = {0x01020000, 0x00000000, 0x3F333333};
+__declspec(section ".rodata") CameraPlayback lbl_80477E3C = {1, 2, 0, 0.0f, 0.7f};
 s32 boss6_type1_appear_motion_indices[] = {35, 36};
 extern __declspec(section ".data") const s32 __vt__25TBoss6Demo10_TYPE1_APPEAR[];
 __declspec(section ".sdata") AppearanceClassTag TBoss6Demo10_TYPE1_APPEAR__name = {TBoss6Demo10_TYPE1_APPEAR__class_name, 0};

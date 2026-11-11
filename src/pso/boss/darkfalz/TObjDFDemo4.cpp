@@ -86,7 +86,7 @@ TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
         CameraAngles angles = *intro_camera_angles();
         angles.yaw = this->angle;
         set_scripted_camera_pose(&this->pos, &this->pos, &angles);
-        ((TCameraCtrl *)&playback)->cache_target_and_forward(0x416C);
+        playback.cache_target_and_forward(0x416C);
     }
     node_list = (TObjFish *)TObjFish__sub_800E3124((u8 *)lbl_80485734, (s32)node_positions);
     timer = 0;

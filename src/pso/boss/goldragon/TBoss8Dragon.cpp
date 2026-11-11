@@ -5,6 +5,7 @@
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/render/RenderFadeState.h"
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -2293,7 +2294,6 @@ struct VObj_18_81e212 : VBase_18_81e212 {
 };
 struct Vec_802F6838 { f32 x, y, z; };
 struct Rot_802F6838 { s32 x, y, z; };
-struct Cam_802F6838 { s8 a; s8 b; s16 c; f32 d; f32 e; };
 s32 restore_player_cameras(void);
 void activate_camera_mode(s32, f32);
 void set_scripted_camera_pose(void *, void *, void *);
@@ -6216,7 +6216,7 @@ void TBoss8Dragon::handle_leap_state(s32 arg1) {
 #undef G
 extern "C" {
 void TBoss8Dragon::sub_802F6838(s32 arg1) {
-    Cam_802F6838 cam;
+    CameraPlayback cam;
     Rot_802F6838 r;
     Vec_802F6838 v;
 
@@ -6233,13 +6233,13 @@ void TBoss8Dragon::sub_802F6838(s32 arg1) {
         *(void **)((s8 *)this + 0x894) = 0;
         play_cue_stream_file((s32)lbl_80474B30);
         TWindowCtrl::init_all_slots();
-        cam.a = 2;
-        cam.b = 0;
-        cam.c = 0;
-        cam.d = 0.0f;
-        cam.e = 0.5f;
+        cam.bank = 2;
+        cam.index = 0;
+        cam.flags = 0;
+        cam.frame = 0.0f;
+        cam.frame_step = 0.5f;
         activate_camera_mode(5, 0.0f);
-        ((TCameraCtrl *)(&cam))->cache_target_and_forward(0x31C7);
+        cam.cache_target_and_forward(0x31C7);
         set_scripted_camera_pose((u8 *)&m_38, (u8 *)&m_38, (u8 *)&m_5c);
         break;
     }

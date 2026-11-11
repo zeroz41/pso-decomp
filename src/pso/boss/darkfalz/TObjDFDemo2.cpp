@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/task/TObject.h"
@@ -92,9 +93,7 @@ __declspec(section ".rodata") Pose_8004EB78 lbl_80437384 = {0, 0, 0};
 __declspec(section ".data") void *TObjDFDemo2__motion_index_table[2] = {
     (void *)0x12, (void *)0x11,
 };
-void *lbl_80485680[3] = {
-    (void *)0x0, (void *)0x0, (void *)0x3f000000,
-};
+CameraPlayback lbl_80485680 = {0, 0, 0, 0.0f, 0.5f};
 void *__vt__11TObjDFDemo2[13] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__11TObjDFDemo2Fv, (void *)&run_task__11TObjDFDemo2Fv,
     (void *)&render__11TObjDFDemo2Fv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
@@ -204,7 +203,7 @@ void *TObjDFDemo2__ct(void *arg0, void *parent, void *arg2, void *arg3, void *ar
         p.b = (s32) self->b8;
         set_scripted_camera_pose(self->pos, self->pos, &p);
     }
-    ((TCameraCtrl *)lbl_80485680)->cache_target_and_forward(0x4444);
+    lbl_80485680.cache_target_and_forward(0x4444);
     play_sound_effect(0x4003A325, self->pos, 0, 1);
     self->bc = 0;
     return self;
