@@ -6,6 +6,7 @@
 // in reverse source order: bodies here run from the highest address down.
 
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -1129,7 +1130,7 @@ void TBoss3VoloptP02::update_death_sequence() {
         cam.d = 0.0f;
         cam.e = 1.0f;
         activate_camera_mode(5, 0.0f);
-        ((TCameraCtrl *)&cam)->cache_target_and_forward(0x160A);
+        ((CameraPlayback *)&cam)->cache_target_and_forward(0x160A);
         rotation_y = 0;
         set_scripted_camera_pose(&boss3_volopt_spawn_pos, &boss3_volopt_spawn_pos, &rotation_x);
         TObjPlayer::freeze_all_players();

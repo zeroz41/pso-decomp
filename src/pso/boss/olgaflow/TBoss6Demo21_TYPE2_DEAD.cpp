@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
 #include "pso/object/ambient/TObjFish_800E2FFC.h"
 #include "pso/boss/olgaflow/Boss6Type2Death.h"
@@ -424,7 +425,7 @@ void *TBoss6Demo21_TYPE2_DEAD__ct(void *arg0p, void *arg1, void *arg2) {
     *(s32 *)((s8 *)arg0 + 0x9C) = TObjFish__sub_800E3124(boss6_type2_death_effect_desc_c, (s32)(arg0 + 0x84));
     activate_camera_mode(5);
     set_scripted_camera_pose(arg0 + 0x58, arg0 + 0x58, lbl_80478134);
-    ((TCameraCtrl *)lbl_80478140)->cache_target_and_forward(0x416C);
+    ((CameraPlayback *)lbl_80478140)->cache_target_and_forward(0x416C);
     for (i = 0; i < 4; i++) {
         ((Fish_8033E688 *)arg0)->arr[i] = 0;
     }

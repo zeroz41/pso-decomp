@@ -7,6 +7,7 @@
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/PadRumble.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -1548,7 +1549,7 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
         cam.d = 0.0f;
         cam.e = 0.7f;
         ((s32 (*)(int, f32))activate_camera_mode)(5, 0.0f);
-        ((TCameraCtrl *)(&cam))->cache_target_and_forward(0x2AAA);
+        ((CameraPlayback *)(&cam))->cache_target_and_forward(0x2AAA);
         set_scripted_camera_pose(&o->pos, &o->pos, &o->f5C);
         break;
     case 2:
@@ -3332,7 +3333,7 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
             cam.d = 0.0f;
             cam.e = 0.8f;
             ((s32 (*)(int, f32))activate_camera_mode)(5, 0.0f);
-            ((TCameraCtrl *)(&cam))->cache_target_and_forward(0x1C71);
+            ((CameraPlayback *)(&cam))->cache_target_and_forward(0x1C71);
         } else {
             cam2.b = 0;
             cam2.a = 1;
@@ -3340,7 +3341,7 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
             cam2.d = 0.0f;
             cam2.e = 0.8f;
             ((s32 (*)(int, f32))activate_camera_mode)(5, 0.0f);
-            ((TCameraCtrl *)(&cam2))->cache_target_and_forward(0x1C71);
+            ((CameraPlayback *)(&cam2))->cache_target_and_forward(0x1C71);
         }
         TWindowCtrl::init_all_slots();
         ((TObjEneDD *)o)->get_target_state_b();

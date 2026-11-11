@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TObjDFDemoF.h"
@@ -110,7 +111,7 @@ Obj_80050194 *TObjDFDemoF__ct(Obj_80050194 *arg0, void *parent) {
   new_var->fb8 = -1.0f;
   activate_camera_mode(5);
   set_scripted_camera_pose(lbl_80485840, lbl_80485840, lbl_8048584C);
-  ((TCameraCtrl *)lbl_80485858)->cache_target_and_forward(0x392D);
+  ((CameraPlayback *)lbl_80485858)->cache_target_and_forward(0x392D);
   play_sound_effect(0x3A802, 0, 0, 0);
   start_pad_rumble_all(0x20, 0xF);
   arg0->f90 = 0;

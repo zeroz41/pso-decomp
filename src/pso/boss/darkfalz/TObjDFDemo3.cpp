@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/ambient/TObjFish_800E2FFC.h"
@@ -219,7 +220,7 @@ u8 *TObjDFDemo3__ct(u8 *arg0, s32 parent, s32 arg2, s32 arg3) {
         c.y = *(s32 *)((s8 *)arg0 + 0xAC);
         set_scripted_camera_pose(arg0 + 0xA0, arg0 + 0xA0, &c);
     }
-    ((TCameraCtrl *)lbl_804856E0)->cache_target_and_forward(0x1555);
+    ((CameraPlayback *)lbl_804856E0)->cache_target_and_forward(0x1555);
     *(s32 *)((s8 *)arg0 + 0xB8) = TObjFish__sub_800E3124(lbl_804856C0, (s32)(arg0 + 0xBC));
     *(s32 *)((s8 *)arg0 + 0xB0) = 0;
     return arg0;

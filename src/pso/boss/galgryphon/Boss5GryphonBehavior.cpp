@@ -6,6 +6,7 @@
 #include "pso/enemy/EnemyStateEvent.h"
 #include "pso/render/MaterialColorFade.h"
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
@@ -3755,7 +3756,7 @@ void TBoss5Gryphon::update_death_state(u32 arg1) {
             cam.d = lbl_805D8D5C;
             cam.e = 0.5f;
             activate_camera_mode(5);
-            ((TCameraCtrl *)(&cam))->cache_target_and_forward(0x31C7);
+            ((CameraPlayback *)(&cam))->cache_target_and_forward(0x31C7);
             set_scripted_camera_pose(arg0 + 0x38, arg0 + 0x38, arg0 + 0x5C);
             break;
         }

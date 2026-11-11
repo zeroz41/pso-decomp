@@ -4,6 +4,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 
 #include <stddef.h>
 #include "pso/boss/goldragon/TBoss8Dragon.h"
@@ -80,7 +81,7 @@ u8 *__ct__16TBoss8DragonDemoFv(u8 *object, s32 arg1, s32 arg2, f32 farg0) {
     stack.spC = *(f32 *)((s8 *)object + 0x20);
     stack.sp10 = *(f32 *)((s8 *)object + 0x1C);
     activate_camera_mode(5);
-    ((TCameraCtrl *)(&stack.sp8))->cache_target_and_forward(0x3333);
+    ((CameraPlayback *)(&stack.sp8))->cache_target_and_forward(0x3333);
     return object;
 }
 void TBoss8Dragon::update_colli_parts() {

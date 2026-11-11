@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
@@ -323,7 +324,7 @@ Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
     init_model_node_tables(self->f94, TObjDFDemo0__model_node_entries, 7);
     activate_camera_mode(5);
     set_scripted_camera_pose(lbl_804854F0, lbl_804854F0, lbl_804854FC);
-    ((TCameraCtrl *)lbl_80485508)->cache_target_and_forward(0x416C);
+    ((CameraPlayback *)lbl_80485508)->cache_target_and_forward(0x416C);
     self->f10c = (0.0f);
     play_sound_effect(0x40039E21, lbl_804854F0, 0, 1);
     self->f90 = 0;

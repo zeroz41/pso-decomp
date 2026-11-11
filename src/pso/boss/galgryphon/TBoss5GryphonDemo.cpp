@@ -3,6 +3,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/galgryphon/TBoss5GryphonColli_C.h"
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
@@ -56,7 +57,7 @@ TBoss5GryphonDemo::TBoss5GryphonDemo(TObject *parent, s32 arg2, f32 farg0) : TOb
         c.fc = ((Obj_800665FC *)this)->f20;
         c.f10 = ((Obj_800665FC *)this)->f1c;
         activate_camera_mode(5);
-        ((TCameraCtrl *)(&c))->cache_target_and_forward(0x238E);
+        ((CameraPlayback *)(&c))->cache_target_and_forward(0x238E);
         break;
     }
 }

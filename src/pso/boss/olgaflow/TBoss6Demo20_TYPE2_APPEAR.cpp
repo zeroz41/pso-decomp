@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/task/TObject.h"
@@ -357,7 +358,7 @@ u8 *TBoss6Demo20_TYPE2_APPEAR__ct(TBoss6Demo20_TYPE2_APPEAR *boss6_demo20_type2_
     }
     activate_camera_mode(5);
     set_scripted_camera_pose((void *)lbl_80478058, (void *)lbl_80478058, (void *)lbl_80478064);
-    ((TCameraCtrl *)boss6_type2_appear_camera_script)->cache_target_and_forward(0x416C);
+    ((const CameraPlayback *)boss6_type2_appear_camera_script)->cache_target_and_forward(0x416C);
     *(f32 *)((s8 *)boss6_demo20_type2_appear + 0xE0) = 0.0f;
     boss6_demo20_type2_appear->m_e4 = 0.0f;
     *(s32 *)((s8 *)boss6_demo20_type2_appear + 0xE8) = 0;

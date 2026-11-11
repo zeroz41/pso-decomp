@@ -98,7 +98,7 @@ TObjDFDemo1::TObjDFDemo1(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
         CameraAngles angles = {0, this->angle, 0};
         set_scripted_camera_pose(&this->pos, &this->pos, &angles);
     }
-    ((TCameraCtrl *)&lbl_80485610)->cache_target_and_forward(0x4000);
+    lbl_80485610.cache_target_and_forward(0x4000);
     play_sound_effect(0x4003A324, &position, 0, 1);
     scroll = 0.0f;
     init_model_node_tables(&strips, lbl_80437328, 6);

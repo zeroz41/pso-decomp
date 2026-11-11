@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/task/TObject.h"
@@ -204,7 +205,7 @@ void *TObjDFDemo2__ct(void *arg0, void *parent, void *arg2, void *arg3, void *ar
         p.b = (s32) self->b8;
         set_scripted_camera_pose(self->pos, self->pos, &p);
     }
-    ((TCameraCtrl *)lbl_80485680)->cache_target_and_forward(0x4444);
+    ((CameraPlayback *)lbl_80485680)->cache_target_and_forward(0x4444);
     play_sound_effect(0x4003A325, self->pos, 0, 1);
     self->bc = 0;
     return self;

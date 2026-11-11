@@ -72,6 +72,7 @@ struct ByteBlock_C { u8 bytes[0xc]; };
 
 struct Obj_80021260;
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
 
 #pragma inline_depth(1)
@@ -2208,7 +2209,7 @@ void update_death_state__12TBoss1DragonFv(u8 *arg0, u32 arg1) {
             cam.d = (0.0f);
             cam.e = (0.5f);
             activate_camera_mode(5);
-            ((TCameraCtrl *)(&cam))->cache_target_and_forward(0x31C7);
+            ((CameraPlayback *)(&cam))->cache_target_and_forward(0x31C7);
             set_scripted_camera_pose(arg0 + 0x38, arg0 + 0x38, arg0 + 0x5C);
             break;
         case 1:
@@ -2218,7 +2219,7 @@ void update_death_state__12TBoss1DragonFv(u8 *arg0, u32 arg1) {
             cam.d = (0.0f);
             cam.e = (0.5f);
             activate_camera_mode(5);
-            ((TCameraCtrl *)(&cam))->cache_target_and_forward(0x3333);
+            ((CameraPlayback *)(&cam))->cache_target_and_forward(0x3333);
             set_scripted_camera_pose(arg0 + 0x38, arg0 + 0x38, arg0 + 0x5C);
             break;
         }

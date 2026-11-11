@@ -5,6 +5,7 @@
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/render/RenderFadeState.h"
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -6239,7 +6240,7 @@ void TBoss8Dragon::sub_802F6838(s32 arg1) {
         cam.d = 0.0f;
         cam.e = 0.5f;
         activate_camera_mode(5, 0.0f);
-        ((TCameraCtrl *)(&cam))->cache_target_and_forward(0x31C7);
+        ((CameraPlayback *)(&cam))->cache_target_and_forward(0x31C7);
         set_scripted_camera_pose((u8 *)&m_38, (u8 *)&m_38, (u8 *)&m_5c);
         break;
     }

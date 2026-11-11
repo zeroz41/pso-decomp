@@ -81,7 +81,7 @@ TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TObject *parent, void *arg) : T
     emitter = NULL;
     activate_camera_mode(5);
     set_scripted_camera_pose(&position, &position, dead_camera_angles());
-    ((TCameraCtrl *)dead_camera_playback())->cache_target_and_forward(0x416C);
+    dead_camera_playback()->cache_target_and_forward(0x416C);
     frame = 0.0f;
     timer = 0;
 }

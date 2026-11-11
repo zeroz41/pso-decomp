@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/unk/TUnk_804C3248.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/effect/photon/PhotonBlastSummon.h"
@@ -135,7 +136,7 @@ void TUnk_804C3248::begin_photon_summon_camera(s8 arg1) {
     if ((*(s32 *)((s8 *)&TCameraCtrl__view_state.value + 8) & 4) || (*(s32 *)((s8 *)&TCameraCtrl__view_state.value + 8) & 8)) {
         TCameraCtrl::select_active_controller(5);
     }
-    ((TCameraCtrl *)(&stack.sp8))->cache_target_and_forward(0x4222);
+    ((CameraPlayback *)(&stack.sp8))->cache_target_and_forward(0x4222);
     temp_r3 = (long) (arg0 + 0x38);
     set_scripted_camera_pose(temp_r3, temp_r3, (u8 *)&this->rotation_x);
     *(s32 *)((s8 *)arg0 + 0xFC) = 1;

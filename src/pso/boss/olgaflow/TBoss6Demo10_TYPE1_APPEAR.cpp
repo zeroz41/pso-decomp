@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
 #include "pso/object/ambient/TObjFish_800E2FFC.h"
 #include "pso/boss/olgaflow/Boss6Type1Appearance.h"
@@ -194,7 +195,7 @@ TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TObject *parent) : TObject(
     build_tables__14TBoss6PlotFalzFPvPvi(((Fish_8033CB4C *)this)->x40, boss6_type1_appear_model_node_descriptors, 2);
     activate_camera_mode(5);
     set_scripted_camera_pose(lbl_80477DEC, lbl_80477DEC, lbl_80477E30);
-    ((TCameraCtrl *)lbl_80477E3C)->cache_target_and_forward(0x416C);
+    ((CameraPlayback *)lbl_80477E3C)->cache_target_and_forward(0x416C);
     ((Fish_8033CB4C *)this)->x34 = lbl_805DFA50.value;
     ((Fish_8033CB4C *)this)->x38 = 0;
 }

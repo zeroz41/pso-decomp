@@ -3,6 +3,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
+#include "pso/camera/CameraPlayback.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjMotion.h"
@@ -1869,7 +1870,7 @@ void TObjFish::handle_death_state(u32 arg1) {
             cam.d = lbl_805DEA10;
             cam.e = lbl_805DEA28;
             activate_camera_mode(5);
-            ((TCameraCtrl *)(&cam))->cache_target_and_forward(0x1C71);
+            ((CameraPlayback *)(&cam))->cache_target_and_forward(0x1C71);
         }
         break;
     case 2:
@@ -3399,7 +3400,7 @@ void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1) {
                 cam.d = lbl_805DEA10;
                 cam.e = lbl_805DEA28;
                 activate_camera_mode(5);
-                ((TCameraCtrl *)(&cam))->cache_target_and_forward(0x1C71);
+                ((CameraPlayback *)(&cam))->cache_target_and_forward(0x1C71);
                 *(s32 *)((s8 *)arg0 + 0x72C) = 1;
             }
         } else {
