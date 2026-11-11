@@ -36,6 +36,8 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/boss/derolle/TBoss2Fin.h"
 #include "pso/boss/derolle/TBoss2Joint.h"
 #include "pso/boss/derolle/TBoss2Mine.h"
+#include "pso/boss/derolle/TUnk_80482D04.h"
+#include "pso/boss/derolle/TUnk_80482EC0.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
@@ -5240,8 +5242,6 @@ s32 fill_value_array(void *);
 void reset_fields_3d0__13TBoss2DeRolLeFPv(void *p);
 void *__ct__9TBoss2FinFv(void *, void *, void *, void *);
 void *TBoss2LaserLight__ct(void *, void *, void *);
-void *create__13TUnk_80482D04Fiii(void *, void *, u16, int);
-void *TBoss2Mine__sub_800381B8(void *, void *, u16, int);
 void *__ct__14TBoss2TentacleFP7TObjectll(void *, void *, void *, s32);
 s32 __ct__12TObjEneDD_STFP7TObject(void *, void *);
 s32 is_main_phase_15__9TObjEneDDFv();
@@ -5548,17 +5548,11 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
         }
     }
     for (i = 0; i < 5; i++) {
-        p = __nw__7TObjectFUl(0x3F0);
-        if (p != NULL) {
-            p = TBoss2Mine__sub_800381B8(p, self->obj3D8, a++, b++);
-        }
+        p = new TUnk_80482EC0((TObject *)self->obj3D8, a++, b++);
         self->f630[i] = p;
     }
     for (i = 0; i < 3; i++) {
-        p = __nw__7TObjectFUl(0x410);
-        if (p != NULL) {
-            p = create__13TUnk_80482D04Fiii(p, self->obj3D8, a++, b++);
-        }
+        p = new TUnk_80482D04((TObject *)self->obj3D8, a++, b++);
         self->f644[i] = p;
     }
     p = __nw__7TObjectFUl(0x88);

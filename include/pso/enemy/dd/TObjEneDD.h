@@ -36,7 +36,8 @@ struct TObjEneDD : public TObjEnemy {
     virtual u8 *vfunc_101(u8 *);
     virtual u8 *vfunc_102();
     virtual u8 *vfunc_103(u8 *);
-    virtual s32 vfunc_104(f32) = 0;
+    // The table ends at slot 103 (the word after it is padding): dispatch_action's state handlers
+    // start at slot 104 and each subclass declares its own (TObjEneDD_ST f32, TBoss2Mine s32, FlyNest init).
     int get_flag_b4();
     static f32 calc_elapsed_scaled();
     void update_velocity();

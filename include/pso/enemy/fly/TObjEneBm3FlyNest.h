@@ -9,6 +9,8 @@ struct TObjEneBm3FlyNest : public TObjEneDD {
     virtual void run_task();
     virtual void render();
     virtual void vfunc_88();
+    // Slot 104, the first one TObjEneDD leaves to its subclasses (dispatch_action's state-0 handler).
+    virtual void init(void *);
     virtual void render_with_state_debug();
     virtual void render_shadows();
     void init_params();
@@ -39,7 +41,6 @@ struct TObjEneBm3FlyNest : public TObjEneDD {
     u32 m_4d0;
     u32 m_4d4;
     static void capture_attachment(void * _w0);
-    static int init(void* p);
     void remove_child(u8 *child);
     s32 has_free_attack_slot(u16 id);
     void spawn_child();
