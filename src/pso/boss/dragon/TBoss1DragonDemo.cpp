@@ -13,7 +13,7 @@ struct RecoveredGlobal_8002B744___vt__16TBoss1DragonDemo {
 };
 
 extern "C" {
-u8 *get_scripted_camera_playback();
+CameraPlayback *get_scripted_camera_playback();
 s32 isV2Mode__12TBoss1DragonFv();
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8002B744___vt__16TBoss1DragonDemo __vt__16TBoss1DragonDemo;
@@ -26,7 +26,7 @@ void TBoss1DragonDemo::render() {  }
 
 void TBoss1DragonDemo::run_task() {
     u8 *arg0 = (u8 *)this;
-    if ((*(u16 *)((s8 *)(get_scripted_camera_playback()) + 2) & 1) || ((s32) **(s32 **)((s8 *)arg0 + 0x24) == 0)) {
+    if ((get_scripted_camera_playback()->flags & 1) || ((s32) **(s32 **)((s8 *)arg0 + 0x24) == 0)) {
         restore_player_cameras();
         queue_destruction__7TObjectFv((arg0));
     }

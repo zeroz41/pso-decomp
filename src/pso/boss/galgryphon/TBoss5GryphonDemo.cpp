@@ -21,7 +21,7 @@ extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
 void set_camera_capture_overlay_alpha(int a0);
 s32 restore_player_cameras();
-u8 *get_scripted_camera_playback();
+CameraPlayback *get_scripted_camera_playback();
 
 int TBoss8Dragon__sub_8005D700(void);
 s32 activate_camera_mode(s32 arg0);
@@ -31,10 +31,10 @@ void TBoss5GryphonDemo::render() {  }
 
 void TBoss5GryphonDemo::run_task() {
     u8 *arg0 = (u8 *)this;
-    u8 *scripted_camera_playback;
+    CameraPlayback *scripted_camera_playback;
     scripted_camera_playback = get_scripted_camera_playback();
     set_camera_capture_overlay_alpha(0x8F);
-    if ((*(u16 *)((s8 *)scripted_camera_playback + 2) & 1) || ((s32) **(s32 **)((s8 *)arg0 + 0x24) == 0)) {
+    if ((scripted_camera_playback->flags & 1) || ((s32) **(s32 **)((s8 *)arg0 + 0x24) == 0)) {
         restore_player_cameras();
         queue_destruction__7TObjectFv((arg0));
     }

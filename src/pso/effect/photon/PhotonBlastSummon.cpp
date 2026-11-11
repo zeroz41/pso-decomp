@@ -396,7 +396,7 @@ void apply_all_default__8TFogCtrlFv(void) { TFogCtrl::apply_all((s32)((void*)63)
 extern s32 TSceneSora__sky_active_flag;
 extern u32 TSceneSora__instance;
 u16 TCameraCtrl__sub_8006A5DC();
-void *get_scripted_camera_playback();
+CameraPlayback *get_scripted_camera_playback();
 
 s32 queue_destruction__7TObjectFv(void *);
 void allow_rendering__7TObjectFv(TObject *arg0);
@@ -445,7 +445,7 @@ void TUnk_804C3248::update_state() {
         ((s32 (*)(f32))update_photon_blast_camera_pose)(1.0f);
         return;
     case 1:
-        if ((*(u16 *)((s8 *)(get_scripted_camera_playback()) + 2) & 1) || (TCameraCtrl__sub_8006A5DC() != 5)) {
+        if ((get_scripted_camera_playback()->flags & 1) || (TCameraCtrl__sub_8006A5DC() != 5)) {
             queue_destruction__7TObjectFv(this);
         }
         return;

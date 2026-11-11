@@ -951,8 +951,6 @@ struct Rol_8002F7C4 : VObj_18_8002F7C4 {
 
 struct Vec_80032E38 { f32 x, y, z; };
 
-struct Play_80032E38 { u16 h0; u16 h2; };
-
 struct Rol_80032E38 {
     u8 pad0[0x38];
     Vec_80032E38 pos;
@@ -1237,7 +1235,7 @@ f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, s32 arg2);
 int play_sound_effect(void*, int, int, int);
 s32 get_flag_b4__9TObjEneDDFv(void *);
-Play_80032E38 *get_scripted_camera_playback(void);
+CameraPlayback *get_scripted_camera_playback(void);
 s32 restore_player_cameras();
 void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1);
 f32 random_ratio__9TObjCharaFv(void *);
@@ -3434,7 +3432,7 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
             }
             break;
         case 4:
-            if (get_scripted_camera_playback()->h2 & 1) {
+            if (get_scripted_camera_playback()->flags & 1) {
                 restore_player_cameras();
                 o->f6E0 = 5;
             }

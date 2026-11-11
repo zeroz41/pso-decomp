@@ -1193,7 +1193,7 @@ void TObjFish__sub_802ECE90(void *arg0, int idx, int arg);
 void TObjFish__sub_802E95F8(u8 *arg0, u32 arg1, s32 arg2);
 s32 restore_player_cameras();
 s32 activate_camera_mode(s32 arg0);
-u8 *get_scripted_camera_playback();
+CameraPlayback *get_scripted_camera_playback();
 s32 query_teammate_state__9TObjEneDDFv();
 int play_sound_effect(void*, void*, void*, void*);
 
@@ -1883,7 +1883,7 @@ void TObjFish::handle_death_state(u32 arg1) {
         break;
     case 0:
         ((TObjMotion *)o)->advance_animation();
-        if (*(u16 *)(get_scripted_camera_playback() + 2) & 1) {
+        if (get_scripted_camera_playback()->flags & 1) {
             o->phase = 1;
             TWindowCtrl::init_all_slots2();
             restore_player_cameras();
@@ -3421,7 +3421,7 @@ void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1) {
                 play_sound_effect((void *) 0x39906, 0, 0, 0);
             }
             ((TObjFish *)arg0)->update_attached_orientation();
-            if (*(u16 *) (get_scripted_camera_playback() + 2) & 1) {
+            if (get_scripted_camera_playback()->flags & 1) {
                 restore_player_cameras();
                 ((TBoss7DeRolLeC *)arg0)->advance_action_sequence();
                 *(s32 *)((s8 *)arg0 + 0x728) = 1;

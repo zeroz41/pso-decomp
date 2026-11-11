@@ -24,7 +24,7 @@ struct RecoveredGlobal_802F2CC4_lbl_804E4A44 {
 struct Obj_8002B118 { u8 pad[0x1c]; void *colli[3]; };
 
 extern "C" {
-u8 *get_scripted_camera_playback();
+CameraPlayback *get_scripted_camera_playback();
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_802F2D8C___vt__16TBoss8DragonDemo __vt__16TBoss8DragonDemo;
 extern const char *TBoss8DragonDemo__name;
@@ -47,7 +47,7 @@ void TBoss8DragonDemo::render() {  }
 
 void TBoss8DragonDemo::run_task() {
     u8 *arg0 = (u8 *)this;
-    if ((*(u16 *)((s8 *)(get_scripted_camera_playback()) + 2) & 1) || ((s32) **(s32 **)((s8 *)arg0 + 0x24) == 0)) {
+    if ((get_scripted_camera_playback()->flags & 1) || ((s32) **(s32 **)((s8 *)arg0 + 0x24) == 0)) {
         restore_player_cameras();
         queue_destruction__7TObjectFv((arg0));
     }
