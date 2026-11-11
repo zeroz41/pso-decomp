@@ -5,6 +5,7 @@
 #include "pso/unk/text_8007ECF0.h"
 #include "pso/render/TDLGraph.h"
 #include "pso/object/warp/TObjWarpString.h"
+#include "pso/ui/charcreate/TObjCMHairMenu.h"
 
 struct E_8007F3F8 { s32 a; f32 f; };
 
@@ -164,6 +165,48 @@ void TDLGraph::draw_countdown_timer(f32 x, f32 y) {
         self->time--;
     }
 }
+struct VtxList_8007F27C {
+    f32 *pos;
+    u32 *col;
+    s32 n;
+    s32 cap;
+};
+
+#pragma push
+#pragma fp_contract on
+void fn_8007F27C(TDLGraph *self, f32 *pos, f32 *size) {
+    u32 col[4];
+    f32 v[8];
+    f32 x0 = pos[0] - 2.0f;
+    f32 x1 = 2.0f + (pos[0] + size[0]);
+    f32 y0 = pos[1] - 2.0f;
+    f32 y1 = 2.0f + (pos[1] + size[1]);
+    VtxList_8007F27C vl = { NULL, NULL, 0, 4 };
+    vl.pos = v;
+    vl.col = col;
+    col[0] = col[1] = col[2] = col[3] = 0xFF;
+    v[0] = v[6] = x0;
+    v[2] = v[4] = x1;
+    v[1] = v[3] = y0;
+    v[5] = v[7] = y1;
+    ((TObjCMHairMenu *)&vl)->draw_tri_fan_2d(4, 2, -2.0f);
+    x0 = pos[0];
+    x1 = size[0];
+    y0 = pos[1];
+    y1 = size[1] + y0;
+    col[0] = col[1] = col[2] = col[3] = self->m_34;
+    v[0] = v[6] = x0;
+    v[2] = v[4] = x1 * self->m_1c + x0;
+    v[1] = v[3] = y0;
+    v[5] = v[7] = y1;
+    ((TObjCMHairMenu *)&vl)->draw_tri_fan_2d(4, 2, -1.0f);
+    x0 = size[0] + pos[0];
+    col[0] = col[1] = col[2] = col[3] = self->m_38;
+    v[0] = v[6] = x0;
+    ((TObjCMHairMenu *)&vl)->draw_tri_fan_2d(4, 2, -1.0f);
+}
+#pragma pop
+
 s32 fn_8007F3F8(O_8007F3F8 *arg0, f32 farg0) {
     f32 sum;
     f32 df;
