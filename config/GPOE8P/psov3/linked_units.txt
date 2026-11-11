@@ -2864,3 +2864,4 @@ pso/unk/text_803C5AA0.cpp
 pso/ui/chat/TWindowSubSymbolChatParts.cpp
 pso/ui/frontend/TAdSelectGameModeGC_802C4748.cpp
 pso/boss/darkfalz/TObjDFDemo4_8004F6AC.cpp
+pso/boss/olgaflow/TBoss6Demo11_TYPE1_DEAD.cpp
