@@ -8,6 +8,13 @@ extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/render/render_util.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 
@@ -157,12 +164,9 @@ struct Task_802312E4;
 
 struct Vec_802312E4;
 
-u16 get_entity_id(void *);
-f32 newton_sqrtf(f32);
 void queue_destruction__7TObjectFv(void *arg0);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
-f32 horizontal_distance_squared(void *, void *);
 void mem_free(void *);
 void *mem_alloc(u32 size);
 void * find_entity_by_id(u16);
@@ -181,9 +185,6 @@ u8 * __dt__10TTecGiFoieFv(u8 *arg0, s16 arg1);
 void run_task__10TTecGiFoieFv(u8 *self);
 void * TTecGiFoie__ct(void *self_, void *source, void *origin, void *level);
 void matrix_mult_vec(void *, void *, void *);
-void rotate_matrix_y(void *, s32);
-s32 push_matrix_from(void *src);
-s32 pop_matrices(s32 arg0);
 
 extern const f32 TTecGiFoie__data_805DC81C;
 extern RecoveredGlobal_80231638___vt__10TTecGiFoie __vt__10TTecGiFoie;
@@ -193,7 +194,8 @@ extern Vec_8023179C lbl_8044D32C;
 extern RecoveredGlobal_80230D9C_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_80230D9C_lbl_804CC55C lbl_804CC55C;
 extern void *lbl_804CC800[];
-extern u8 identity_matrix[];
+extern const f32 lbl_8044D338[3];
+extern const Vec lbl_8044D344;
 extern u32 TTecGiFoie__name;
 extern const f32 lbl_805DC810;
 extern const f32 lbl_805DC818;
@@ -210,6 +212,80 @@ void TTecGiFoie::calc_params() {
   {
     ((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 8))));
   }
+}
+
+void TUnk_804CC800::run_task() {
+    s32 rot[3];
+    s32 bob;
+    switch (pad_44) {
+    case 0:
+        bob = 0;
+        break;
+    case 1:
+        bob = 1;
+        break;
+    case 2:
+        bob = 2;
+        break;
+    case 3:
+        bob = 0;
+        break;
+    case 4:
+        bob = 1;
+        break;
+    case 5:
+        bob = 2;
+        break;
+    default:
+        bob = 0;
+        break;
+    }
+    pad_40++;
+    if (pad_46) {
+        Vec offset;
+        pad_38 += 0.015;
+        pad_3C += 0x1C71;
+        offset.x = pad_38 * cos_table_lookup(pad_3C);
+        offset.z = pad_38 * sin_table_lookup(pad_3C);
+        offset.y = 0.0f;
+        push_matrix_from(identity_matrix);
+        rotate_matrix_y(0, pad_48);
+        rotate_matrix_x(0, 0x4000);
+        rotate_vector_by_matrix(0, &offset, &offset);
+        pop_matrix();
+        pad_2C.x = pad_20.x + offset.x;
+        pad_2C.y = pad_20.y + offset.y;
+        pad_2C.z = pad_20.z + offset.z;
+    } else {
+        pad_38 += 0.55f;
+        pad_3C += (s32)(182.04445f * (f32)(pad_44 + 9));
+        pad_2C.y = lbl_8044D338[bob] * sin_table_lookup((s32)(182.04445f * (f32)(pad_40 * 15))) + pad_20.y;
+        pad_2C.x = pad_38 * cos_table_lookup(pad_3C) + pad_20.x;
+        pad_2C.z = pad_38 * sin_table_lookup(pad_3C) + pad_20.z;
+    }
+    if (pad_47) {
+        Vec dir = lbl_8044D344;
+        push_matrix_from(identity_matrix);
+        rotate_matrix_y(0, pad_48);
+        rotate_vector_by_matrix(0, &dir, &dir);
+        pop_matrix();
+        rot[0] = 0;
+        rot[1] = 0;
+        rot[2] = 0;
+        direction_to_rotation_xz((u8 *)&dir, &rot[0], &rot[2]);
+        pad_1C[0]->set_position(&pad_2C);
+        pad_1C[0]->set_direction(rot);
+    } else {
+        u32 i;
+        rot[1] = (s32)(10430.38043493439 * atan2_float(pad_2C.x - pad_20.x, pad_2C.z - pad_20.z));
+        rot[0] = rot[1] - 0x8000;
+        rot[1] = 0;
+        rot[2] = 0x4000;
+        for (i = 0; i < TTecGiFoie__emitter_profile_table[pad_44].count; i++) {
+            pad_1C[i]->set_position(&pad_2C);
+            pad_1C[i]->set_direction(rot);
+        }
+    }
 }
 
 u8 *__dt__13TUnk_804CC800Fv(Task_80231224 *task, s16 flag) {
@@ -298,12 +374,12 @@ void TTecGiFoie::vfunc_6(void *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (self->ids[i] == get_entity_id(((VObj_8023154C *)target))) {
+        if (self->ids[i] == get_entity_id((TObjBase *)target)) {
             found = 1;
         }
     }
     if (found == 0) {
-        self->ids[*(s32 *)&this->m_138] = get_entity_id(((VObj_8023154C *)target));
+        self->ids[*(s32 *)&this->m_138] = get_entity_id((TObjBase *)target);
         *(s32 *)&this->m_138 += 1;
         if (*(s32 *)&this->m_138 >= 32) {
             *(s32 *)&this->m_138 = 31;
@@ -368,7 +444,7 @@ void run_task__10TTecGiFoieFv(u8 *self) {
         return;
     }
     if (TTecLuker::is_parents_unqueued(((TTecGiFoie *)self)->m_ec) != 0) {
-        distance = newton_sqrtf(horizontal_distance_squared(*(u8 **)((s8 *)self + 0xEC) + 0x2C, self + 0x20));
+        distance = newton_sqrtf(horizontal_distance_squared((Vec *)(*(u8 **)((s8 *)self + 0xEC) + 0x2C), (Vec *)(self + 0x20)));
         if (*(u8 **)((s8 *)self + 0xE8) != NULL) {
             *(f32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 **)((s8 *)self + 0xE8)) + 0xA4)) + 0xC) = TTecGiFoie__data_805DC81C + distance;
         }
@@ -455,7 +531,7 @@ void *TTecGiFoie__ct(void *self_, void *source, void *origin, void *level) {
         break;
     }
     if (self->source != NULL) {
-        self->fb4 = get_entity_id(self->source);
+        self->fb4 = get_entity_id((TObjBase *)self->source);
     }
     return self_;
 #undef self
