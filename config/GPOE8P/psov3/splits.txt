@@ -4532,8 +4532,9 @@ pso/object/ambient/TButterfly_8017E900.cpp:
 
 pso/object/ambient/TButterfly.cpp:
 	.text       start:0x8017E978 end:0x8017F4AC
-	.rodata     start:0x80443970 end:0x80443978
-	.data       start:0x804B5840 end:0x804B5874
+	.rodata     start:0x80443910 end:0x80443978
+	.data       start:0x804B5820 end:0x804B5874
+	.sdata      start:0x805D3230 end:0x805D3238
 	.sdata2     start:0x805DBAD8 end:0x805DBB54
 
 pso/camera/TObjCamera.cpp:
@@ -4903,12 +4904,16 @@ pso/object/lobby/LobbyGoGoBall.cpp:
 
 pso/object/TObjTank.cpp:
 	.text       start:0x8019A790 end:0x8019AA18
-	.data       start:0x804B8F70 end:0x804B8FD4
+	.rodata     start:0x80446158 end:0x80446198
+	.data       start:0x804B8F58 end:0x804B8FD4
+	.sdata      start:0x805D3440 end:0x805D3448
 	.sdata2     start:0x805DBFA0 end:0x805DBFA8
 
 pso/object/TObjBigTuitate.cpp:
 	.text       start:0x8019AA18 end:0x8019B124
-	.data       start:0x804B8FF0 end:0x804B90D0
+	.rodata     start:0x80446198 end:0x80446208
+	.data       start:0x804B8FD8 end:0x804B90D0
+	.sdata      start:0x805D3448 end:0x805D3458
 	.sdata2     start:0x805DBFA8 end:0x805DBFC4
 
 pso/object/warp/TObjAreaWarpEndingJung.cpp:
@@ -10850,7 +10855,9 @@ pso/unk/TLobby_8036B204.cpp:
 
 pso/boss/goldragon/TObjBoss8DemoRoom.cpp:
 	.text       start:0x8036B514 end:0x8036B748
-	.data       start:0x804F3670 end:0x804F3688
+	.rodata     start:0x8047AC78 end:0x8047ACC0
+	.data       start:0x804F3658 end:0x804F3688
+	.sdata      start:0x805D44E0 end:0x805D44E8
 
 pso/unk/text_8036B748.cpp:
 	.text       start:0x8036B748 end:0x8036B7E8

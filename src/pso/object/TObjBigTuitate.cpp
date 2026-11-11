@@ -66,19 +66,25 @@ extern u32 TObjBigTuitate__bml_resource;
 
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject();
-extern char lbl_804461C0[];
-extern char lbl_804461D4[];
-extern const char *fe_obj_bigtutate_motion_names[];
-__declspec(section ".data") const char *fe_obj_bigtutate_model_names[2] = { lbl_804461C0, NULL };
-BmlResourceDescriptor fe_obj_bigtutate_resource_descriptor = { lbl_804461D4, fe_obj_bigtutate_model_names, fe_obj_bigtutate_motion_names, 1, 0 };
+__declspec(section ".data") const char *fe_obj_tutate_model_names[2] = { "fe_obj_tutate.gj", NULL };
+const char *fe_obj_tutate_motion_names[1] = { NULL };
+BmlResourceDescriptor fe_obj_tutate_resource_descriptor = {
+    "fe_obj_tutate.bml", fe_obj_tutate_model_names, fe_obj_tutate_motion_names, 1, 0
+};
+__declspec(section ".data") const char *fe_obj_bigtutate_model_names[2] = { "fe_obj_bigtutate.gj", NULL };
+const char *fe_obj_bigtutate_motion_names[1] = { NULL };
+BmlResourceDescriptor fe_obj_bigtutate_resource_descriptor = {
+    "fe_obj_bigtutate.bml", fe_obj_bigtutate_model_names, fe_obj_bigtutate_motion_names, 1, 0
+};
 CollisionBody TObjTuitate__collision_parts[1] = {
     {{0.0f, 0.0f, 0.0f}, 6.0f, 16.0f, 1, 0x10003},
 };
 CollisionBody big_tuitate_collision_body[1] = {
     {{0.0f, 0.0f, 0.0f}, 6.0f, 16.0f, 1, 0x10003},
 };
+const char *TObjTuitate__class_name = "TObjTuitate";
+const char *TObjBigTuitate__name = "TObjBigTuitate";
 extern s32 __vt__14TObjBigTuitate[];
-extern s32 TObjBigTuitate__name;
 
 void free_bin_model_request(void*, int);
 void free_collision_body_parts(void *);
@@ -152,7 +158,6 @@ extern u32 TObjTuitate__bml_resource;
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject();
 extern s32 __vt__11TObjTuitate[];
-extern s32 TObjTuitate__class_name;
 
 void free_bin_model_request(void*, int);
 void free_collision_body_parts(void *);
@@ -172,7 +177,6 @@ extern void *tl_05;
 
 }
 
-extern BmlResourceDescriptor fe_obj_tutate_resource_descriptor;
 
 void load_tuitate_bml_resource(void) {
     s32 temp_r3;

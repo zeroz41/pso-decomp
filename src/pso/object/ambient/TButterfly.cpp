@@ -8,6 +8,13 @@
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 
+__declspec(section ".data") const char *bm_o_abe_butterfly_model_names[2] = { "abecyou_fe_obj001_cyou.gj", NULL };
+__declspec(section ".data") const char *bm_o_abe_butterfly_motion_names[2] = { "abecyou2_fe_obj001_cyou.njm", NULL };
+BmlResourceDescriptor bm_o_abe_butterfly_resource_descriptor = {
+    "bm_o_abe_butterfly.bml", bm_o_abe_butterfly_model_names, bm_o_abe_butterfly_motion_names, 1, 1
+};
+const char *TButterfly__name = "TButterfly";
+
 struct Base_8017E978 { char pad[0x18]; };
 struct VObj_8017E978 : Base_8017E978 { virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7(); virtual s32 m8(f32, f32); };
 
@@ -218,11 +225,10 @@ void free_bin_model_request(void*, int);
 void __ct__8TObjBaseFP7TObject(void *);
 void *__nw__7TObjectFUl(int);
 
-extern void *TButterfly__name;
 
 }
 TButterfly::TButterfly(TObject *arg1, void *arg2) : TObjBase(arg1) {
-    *(void * *)&this->m_name = TButterfly__name;
+    this->m_name = TButterfly__name;
     VecCopy((Vec *)((char *)this + 56), (const Vec *)((char *)arg2 + 12));
     copy_xyz((char *)this + 92, (void *)((char *)arg2 + 24));
     VecCopy((Vec *)((char *)this + 104), (const Vec *)((char *)arg2 + 36));
@@ -245,7 +251,6 @@ void TButterfly::destroy_instance() {
     }
 }
 
-extern BmlResourceDescriptor bm_o_abe_butterfly_resource_descriptor;
 u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
 
 void TButterfly::load_resources() {

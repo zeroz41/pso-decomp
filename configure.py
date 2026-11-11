@@ -608,6 +608,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/city/THunterGuildSeqOnlineTask.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/city/THunterGuildSeqOnlineTask_802156A0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/collision/TObjBgmColCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/object/ambient/TButterfly.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/object/TObjTank.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/boss/goldragon/TObjBoss8DemoRoom.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/npc/TObjNpcConnoisseur.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/npc/TObjNpcARW00.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/npc/TObjNpcFemaleBase.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -649,7 +652,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/technique/TTecResta.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/technique/TTecReverser.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/object/ambient/TObjEnvSoundGlobal.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
-    "pso/object/TObjBigTuitate.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/object/TObjBigTuitate.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # GC/2.0: compiler-expanded struct copies take 2.0's registers.
     # -sdata 4: the 8-byte effect id pair lbl_80485B08 sits in .data, not .sdata.
     # -inline off,deferred: the ctor reaches the compiler-made vtable off the TU's pooled

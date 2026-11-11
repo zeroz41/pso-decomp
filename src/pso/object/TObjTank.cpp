@@ -9,17 +9,15 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/system/BmlResourceDescriptor.h"
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
-struct RecoveredGlobal_8019A9B8_lbl_80446184 {
-    s32 value;
-    u8 remaining[0xC];
+__declspec(section ".data") const char *fs_obj_tank_model_names[2] = { "fs_obj_tank.gj", NULL };
+const char *fs_obj_tank_motion_names[1] = { NULL };
+BmlResourceDescriptor fs_obj_tank_resource_descriptor = {
+    "fs_obj_tank.bml", fs_obj_tank_model_names, fs_obj_tank_motion_names, 1, 0
 };
-
-struct RecoveredGlobal_8019A9B8_lbl_804B8F60 {
-    s32 value;
-    u8 remaining[0xC];
-};
+const char *TObjTank__class_name = "TObjTank";
 
 CollisionBody tobjtank_collision_body_parts = {{0.0f, 0.0f, 0.0f}, 20.0f, 10.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
@@ -36,11 +34,8 @@ s32 draw_ginja_object();
 extern u32 tank_bml_resource;
 extern u32 TObjTank__texture_list;
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern RecoveredGlobal_8019A9B8_lbl_80446184 lbl_80446184;
-extern RecoveredGlobal_8019A9B8_lbl_804B8F60 fs_obj_tank_resource_descriptor;
 s32 init_collision_body_parts(void *, void *, int);
 extern s32 __vt__8TObjTank[];
-extern s32 TObjTank__class_name;
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 s32 free_collision_body_parts(void *);
@@ -117,18 +112,16 @@ void TObjTank::free_globals() {
         tank_bml_resource = 0U;
     }
 }
-typedef char RecoveredGlobal_8019A9B8_lbl_80446184_size[sizeof(RecoveredGlobal_8019A9B8_lbl_80446184) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_8019A9B8_lbl_804B8F60_size[sizeof(RecoveredGlobal_8019A9B8_lbl_804B8F60) == 0x10 ? 1 : -1];
 void TObjTank::load_globals() {
     s32 temp_r3;
     s32 var_r0;
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &fs_obj_tank_resource_descriptor.value, 0, 0, 0));
+        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &fs_obj_tank_resource_descriptor, 0, 0, 0));
     }
     (*(s32 *)&tank_bml_resource) = var_r0;
-    (*(u8 * *)&TObjTank__texture_list) = load_gvm_texture_file((s32) &lbl_80446184.value);
+    (*(u8 * *)&TObjTank__texture_list) = load_gvm_texture_file((s32)"fs_obj_tank.GVM");
 }
 
 }
