@@ -10146,10 +10146,16 @@ pso/ui/frontend/TAdPlyStatusGC_8033FD48.cpp:
 	.sdata2     start:0x805DFB10 end:0x805DFB14
 
 pso/ui/window/TWindowDD.cpp:
-	.text       start:0x803403F8 end:0x80340EA8
+	.text       start:0x803403F8 end:0x8034055C
+
+pso/ui/window/TWindowDD_8034055C.cpp:
+	.text       start:0x8034055C end:0x80340A78
 	.ctors      start:0x80434000 end:0x80434004
-	.rodata     start:0x804785D8 end:0x804785E0
 	.data       start:0x804EFB90 end:0x804EFB98
+
+pso/ui/window/TWindowDD_80340A78.cpp:
+	.text       start:0x80340A78 end:0x80340EA8
+	.rodata     start:0x804785D8 end:0x804785E0
 
 pso/ui/window/TWindowDD_80340EA8.cpp:
 	.text       start:0x80340EA8 end:0x803411E8

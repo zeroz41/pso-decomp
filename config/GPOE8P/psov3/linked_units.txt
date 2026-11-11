@@ -1420,6 +1420,7 @@ pso/ui/window/TWindowCtrl_80269FB0.cpp
 pso/ui/window/TWindowCtrl_8026AD44.cpp
 pso/ui/window/TWindowCtrl_8026F6A4.cpp
 pso/ui/window/TWindowCtrl_80271DFC.cpp
+pso/ui/window/TWindowDD.cpp
 pso/ui/window/TWindowDD_8020C2DC.cpp
 pso/ui/window/TWindowDD_8024662C.cpp
 pso/ui/window/TWindowDD_80246F8C.cpp
