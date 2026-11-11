@@ -254,9 +254,6 @@ void GXFlush(void) {
     }
 }
 
-#pragma push
-#pragma inline_depth(4)
-#pragma dont_inline off
 inline void parse_audio_stream_input_header(AudioStreamInputState *st) {
     SjChunk b;
     SjChunk b2;
@@ -394,7 +391,6 @@ void TLobby__sub_803C0238(AudioStreamInputState *st) {
         skip_audio_stream_decoder(st);
     }
 }
-#pragma pop
 
 void TLobby__sub_803C0628(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3) {
     S_803C0628 *arg0 = (S_803C0628 *)arg0_;

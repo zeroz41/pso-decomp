@@ -60,8 +60,6 @@ inline float modff_803D6308(float x, float *iptr) {
     return frac;
 }
 #pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 #pragma peephole off
 #pragma scheduling off
 f32 fn_803D6308(f32 x) {

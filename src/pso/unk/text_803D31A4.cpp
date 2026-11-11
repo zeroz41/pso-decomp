@@ -61,9 +61,6 @@ void TLobby::init_callback_tables() {
 }
 struct Cb_803D3224 { s32 (*fn)(s32); s32 arg; };
 
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 static inline s32 run_callbacks_803D3224(s32 idx) {
     Cb_803D3224 *c;
     s32 i;
@@ -90,7 +87,6 @@ s32 TLobby::run_worker_callbacks_slot4() {
 s32 TLobby::run_callbacks_group2() {
     return run_callbacks_803D3224(2);
 }
-#pragma pop
 void TLobby__sub_803D33D4(s32 arg0, s32 arg1) {
     lbl_805D7664.a = arg0;
     lbl_805D7664.b = arg1;

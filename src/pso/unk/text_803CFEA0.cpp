@@ -98,9 +98,6 @@ s32 TLobby::get_handle_value_checked() {
     return arg0->f;
 }
 
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(8)
 inline s32 dvd_request_idle(GcciRequest *r) {
     s32 idle = 0;
     if (r->status == 0 || r->status == 10) {
@@ -159,7 +156,6 @@ void TLobby__sub_803D006C(void *arg) {
     DVDGetDriveStatus();
 }
 
-#pragma pop
 
 extern s32 dvd_synchronous_read_enabled;
 void DCInvalidateRange(void *, u32);
@@ -168,9 +164,6 @@ s32 DVDReadAsyncPrio(void *, void *, s32, s32, void (*)(void), s32);
 s32 Dolphin_DVDReadPrio(void *, void *, s32, s32, s32);
 void TLobby__sub_803CFE9C(void);
 
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(8)
 inline s32 dvd_request_ready(GcciRequest *r) {
     s32 ready = 0;
     if (*(s8 *)&r->state == 1 || *(s8 *)&r->state == 0) {
@@ -289,7 +282,6 @@ s32 TLobby__sub_803D0214(void *arg, s32 count, void *buf) {
     dvd_active_request.state = 2;
     return r->count;
 }
-#pragma pop
 
 s32 TLobby::get_handle_field_1c() {
     u8 *arg0 = (u8 *)this;
@@ -320,9 +312,6 @@ s32 fileio_seek(struct File_803D0654 *arg0, s32 arg1, s32 arg2) {
     arg0->pos = (arg0->pos > 0) ? arg0->pos : 0;
     return arg0->pos;
 }
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(8)
 void TLobby__sub_803D0714(void *arg) {
     GcciRequest *rr;
     GcciRequest *r = (GcciRequest *)arg;
@@ -455,7 +444,6 @@ GcciRequest *TLobby__sub_803D08E0(const char *name, s32 arg1, s32 mode) {
     return r;
 }
 
-#pragma pop
 
 typedef s32 (*RecoveredCallback_4873a87e26d6)(s32, s32 *, s32);
 s32 TLobby::get_dvd_file_size(const char *name) {

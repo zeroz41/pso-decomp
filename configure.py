@@ -930,16 +930,23 @@ cflags_musyx = _switch(cflags_pso, "-O4,p", "-sdata2 8", "-Cpp_exceptions on") +
 # compiler, flags, per-file exceptions). Each library runs to the next one's
 # address; the version strings in their data name them.
 cflags_middleware = _switch(cflags_pso, "-O4,p", drop=("-sdata2",))
+# CRI built its libraries with -inline auto (the RE4 decomp builds every CRI file with it).
+cflags_cri = _switch(cflags_middleware, "-inline auto")
 MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
     # MusyX's synthesizer core, then its service, hardware and effect files.
     ("musyx", 0x803A3858, "GC/1.2.5n", _switch(cflags_musyx, "-opt nocse"), {}),
     ("musyx_hw", 0x803BAC70, "GC/1.2.5n", _switch(cflags_musyx, "-inline auto"), {}),
     # CRI ADX, LSC, SJ, MFCI and GCRNA ("Build:Jun 13 2002").
-    ("cri", 0x803BFE50, "GC/2.6", cflags_middleware, {
-        "pso/unk/text_803CC294.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly", "-inline auto")},
-        "pso/unk/text_803CE568.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
-        "pso/unk/text_803CFEA0.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
-        "pso/unk/text_803D31A4.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
+    ("cri", 0x803BFE50, "GC/2.6", cflags_cri, {
+        # Folds of several CRI files keep -inline off: auto inlining pulls callees from the other TUs in.
+        "pso/unk/TLobby_803C1A58.cpp": {"cflags": cflags_middleware},  # ADXB_ExecHndl inlines the AHX/SPSD steps (803C34F4, 803C3B68)
+        "pso/unk/TLobby_803C45E4.cpp": {"cflags": cflags_middleware},  # ADXT_Init/Finish inline the SVM/ADXF setup (803C59B8, 803C5930, ARAlloc)
+        "pso/audio/AdxStreamRuntime.cpp": {"cflags": cflags_middleware},  # ADXT_StartMem inlines the SJ constructors (803CA774, 803CA8B4)
+        "pso/unk/text_803CC294.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
+        "pso/unk/text_803CE568.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
+        "pso/unk/text_803CFEA0.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
+        "pso/unk/text_803D31A4.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
+        "pso/audio/LscInit.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
     }),
     # Sega's Ginja model library.
     ("ginja", 0x803D6538, "GC/2.6", _switch(cflags_middleware, "-O3,p", "-opt nopeephole"), {

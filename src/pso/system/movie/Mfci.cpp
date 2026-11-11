@@ -28,9 +28,6 @@ s32 mfci_request_read(void *handle, s32 sectors, void *buffer);
 extern char lbl_8047DF90[];
 extern MfciFilePool mfci_file_pool;
 typedef char RecoveredGlobal_803CFEA0_lbl_8047DAE4_size[sizeof(RecoveredGlobal_803CFEA0_lbl_8047DAE4) == 0x18 ? 1 : -1];
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 
 inline u32 parse_hex_pair(char *s, u32 *lo) {
     char *end;
@@ -113,7 +110,6 @@ s32 mfci_request_read(void *handle, s32 sectors, void *buffer) {
     TLobby__sub_803D3988();
     return mfci_file_entry->read_sectors;
 }
-#pragma pop
 
 s32 mfci_get_position(MfciFileEntry *mfci_file_entry) {
     if (mfci_file_entry == NULL) {
@@ -163,9 +159,6 @@ void mfci_close(MfciFileEntry *mfci_file_entry) {
         }
     }
 }
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 
 inline void parse_803D4290(char *s, u32 *hi, u32 *lo) {
     char *end;
@@ -183,9 +176,6 @@ inline void parse_803D4290(char *s, u32 *hi, u32 *lo) {
     }
 }
 
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 inline void parse_803D4058(char *s, u32 *hi, u32 *lo) {
     char *end;
     u32 v;
@@ -261,7 +251,6 @@ MfciFileEntry *mfci_open(const char *name, s32 arg1, s32 mode) {
     f->used = 1;
     return f;
 }
-#pragma pop
 
 u32 mfci_parse_file_size(char *s) {
     u32 lo;
@@ -280,7 +269,6 @@ u32 mfci_parse_file_size(char *s) {
     parse_803D4290(s, 0, &lo);
     return lo;
 }
-#pragma pop
 
 char mfci_error_message_buffer[0x12C];
 MfciFilePool mfci_file_pool;

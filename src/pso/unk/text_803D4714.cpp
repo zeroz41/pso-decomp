@@ -46,9 +46,6 @@ void TLobby__sub_803D3130(void *, s32, void *, void *);
 void *memcpy(void *, const void *, u32);
 void *memset(void *, int, u32);
 extern S_803D4714 gcrna_stream_pool[];
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 inline s32 flagA_803D4770(Obj_803D4770 *o) {
     if (o == NULL) {
         return -1;
@@ -136,6 +133,5 @@ void TLobby::update_stream_buffers() {
         }
     }
 }
-#pragma pop
 
 }

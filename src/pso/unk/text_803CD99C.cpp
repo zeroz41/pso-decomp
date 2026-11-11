@@ -139,9 +139,6 @@ void TLobby__sub_803CD99C(void) {
     }
 }
 
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 static inline s32 parse_803CDB0C(u8 *data, u32 len, Hdr_803CDB0C *h) {
     u8 *p;
     if (len < 0x10) {
@@ -235,7 +232,6 @@ s32 TLobby::demux_stream_chunks() {
     }
     return ret;
 }
-#pragma pop
 
 s32 parse_aix_header__6TLobbyFPviPv(u8 *arg0, s32 arg1, Out_803CDEC8 *arg2) {
     s32 len;

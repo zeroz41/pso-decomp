@@ -11,9 +11,6 @@ AdxStreamFile *adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(const char *name, s
 s32 set_range__6TLobbyFPvii(u8 *file, s32 min_bytes, s32 capacity);
 
 // The three per-status steps are separate functions inlined into lsc_poll (inferred: CRI lsc_svr shape).
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 // Entry being read (status 1): follow the stream until it ends.
 inline void read_803D1D28(LscStream *lsc_stream) {
     LscQueueEntry *entry;
@@ -105,6 +102,5 @@ void lsc_poll(LscStream *lsc_stream) {
         wait_803D1D28(lsc_stream);
     }
 }
-#pragma pop
 
 }

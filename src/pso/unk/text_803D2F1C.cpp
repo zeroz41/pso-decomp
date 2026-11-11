@@ -1,9 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_803D2F1C.h"
 
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 struct ByteBlock_8 { u8 bytes[0x8]; };
 
 typedef struct Buf_803D2F1C { u8 *data; s32 size; } Buf_803D2F1C;
@@ -23,9 +20,6 @@ u8 *find_archive_entry__6TLobbyFPvPvPvPv(Buf_803D2F1C *arc, const char *name, co
 
 #define HEX_803D2F1C(p, i) lbl_804F9E60[(s8)(p)[i]]
 #define SIZE_803D2F1C(p) ((((((((((((HEX_803D2F1C(p, 8) << 4) + HEX_803D2F1C(p, 9)) << 4) + HEX_803D2F1C(p, 10)) << 4) + HEX_803D2F1C(p, 11)) << 4) + HEX_803D2F1C(p, 12)) << 4) + HEX_803D2F1C(p, 13)) << 4) + HEX_803D2F1C(p, 14))
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 inline s32 size_803D2F1C(u8 *p) {
     s32 v = HEX_803D2F1C(p, 8);
     v = (v << 4) + HEX_803D2F1C(p, 9);
@@ -59,7 +53,6 @@ u8 *find_archive_entry__6TLobbyFPvPvPvPv(Buf_803D2F1C *arc, const char *name, co
     }
     return NULL;
 }
-#pragma pop
 
 #pragma push
 #pragma scheduling off

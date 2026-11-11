@@ -2092,6 +2092,7 @@ pso/object/city/CityTraffic.cpp
 pso/system/data/FlagWord.cpp
 pso/render/GinjaModelQueue.cpp
 pso/audio/LscStream.cpp
+pso/audio/LscInit.cpp
 pso/audio/LscServer.cpp
 pso/render/MaterialAlphaCompare.cpp
 pso/system/movie/Mfci.cpp

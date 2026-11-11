@@ -11925,9 +11925,16 @@ pso/unk/text_803D0C34.cpp:
 	.sbss       start:0x805D7610 end:0x805D7614
 
 pso/audio/LscStream.cpp:
-	.text       start:0x803D0F1C end:0x803D1D28
+	.text       start:0x803D0F1C end:0x803D1C24
 	.rodata     start:0x8047DCF0 end:0x8047DE10
+	.sbss       start:0x805D7620 end:0x805D762C
+
+pso/audio/LscInit.cpp:
+	.text       start:0x803D1C24 end:0x803D1D28
+	.rodata     start:0x8047DE10 end:0x8047DE40
 	.bss        start:0x80583058 end:0x805873D8
+	.sbss       start:0x805D7630 end:0x805D7634
+	.sdata2     start:0x805E0DB0 end:0x805E0DB4
 
 pso/audio/LscServer.cpp:
 	.text       start:0x803D1D28 end:0x803D1FD4

@@ -36,9 +36,6 @@ u32 gcrna_aligned_audio_storage;
 
 extern "C" const char *const volatile gcrna_version_pointer = "\nGCRNA Ver.0.97 Build:Jun 13 2002 19:01:27\n";
 
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 inline s32 gcrna_get_play_switch(GcrnaStream *stream) {
     if (stream == 0) {
         return -1;
@@ -151,7 +148,6 @@ inline s32 gcrna_get_transfer_switch(GcrnaStream *stream) {
     return stream->flags & 1;
 }
 
-#pragma auto_inline on
 void GCRNA_SetTransSw(GcrnaStream *stream, s32 enabled) {
     if (stream == 0) {
         return;
@@ -458,7 +454,6 @@ void gcrna_set_audio_buffer_storage(u8 *buffer, u32 size, s32 count) {
     gcrna_audio_allocation = buffer;
     gcrna_uses_caller_buffer = 1;
 }
-#pragma pop
 
 u8* gcrna_audio_buffers[32];
 GcrnaStream gcrna_stream_pool[16];
