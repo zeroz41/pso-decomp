@@ -289,7 +289,7 @@ s16 TLobby__sub_8041A9AC(TcpTcb *tp)
             } else {
                 t = ((u32)get_score(tp) < tp->f530) ? get_score(tp) : tp->f530;
             }
-            if ((idle != 0 || (tp->flags & 4)) && off + len >= t) {
+            if ((idle != 0 || (tp->flags & 4)) && len + off >= t) {
                 goto send;
             }
             if (tp->force != 0) {

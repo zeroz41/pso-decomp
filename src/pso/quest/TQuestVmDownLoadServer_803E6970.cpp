@@ -3026,7 +3026,7 @@ s32 TQuestVmDownLoadServer__sub_803EA428(s32 start, s32 end) {
                 break;
             }
         }
-        e = (Ent_803E6970 *)&quest_download_entry_table + j - 1;
+        e = (Ent_803E6970 *)&quest_download_entry_table + (j - 1);
         if (TQuestVmDownLoadServer__sub_803EC884(e->ch)) {
             attr = 0x28;
         } else if (TQuestVmDownLoadServer::is_valid_sjis_code(e->ch)) {

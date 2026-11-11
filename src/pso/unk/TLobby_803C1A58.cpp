@@ -393,7 +393,7 @@ u8 *TLobby__sub_803C2388(u8 *hdr, s32 *rate, s32 *channels, s32 *bits, s32 *fram
     if (type != 0x46464941) {
         return NULL;
     }
-    end = p + (form_size - 4);
+    end = p + form_size - 4;
     while (p < end) {
         id = READ_LE32(p);
         size = READ_LE32(p + 4);
