@@ -5,21 +5,13 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/object/trap/TOMineTrapDisp.h"
-
-struct VB_8016F320 { char pad[0x18]; };
-
-struct VO_8016F320 : VB_8016F320 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual char *m10();
-};
+#include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/technique/TTecCtrl.h"
 
 extern "C" {
 extern const f32 lbl_805DB85C;
 void *get_shared_text_buffer(void);
-s32 get_trap_type__10TOMineTrapFv(s32);
-s32 is_technique_ready__8TTecCtrlFv(void);
-VO_8016F320 *get_player_by_client_id(u16);
 void text_builder_append(const char *);
 }
 void text_builder_reset(void);
@@ -63,14 +55,13 @@ void TOMineTrap::spawn_disp_objects() {
     }
 }
 
-extern "C" {
-s32 TOMineTrap::show_owner_message(s32 arg0, u32 arg1) {
-    char *name;
-    VO_8016F320 *p;
-    if ((arg1 != 0U) && (is_technique_ready__8TTecCtrlFv() != 0)) {
-        p = get_player_by_client_id(get_trap_type__10TOMineTrapFv(arg0));
+s32 TOMineTrap::show_owner_message(TObjChara *player) {
+    const char *name;
+    TObjPlayer *p;
+    if (player != NULL && TTecCtrl::is_technique_ready() != 0) {
+        p = get_player_by_client_id(get_trap_type());
         if (p != NULL) {
-            name = p->m10();
+            name = p->get_name();
             if (name != NULL) {
                 text_builder_reset();
                 text_builder_append("\x09""C4");
@@ -83,9 +74,6 @@ s32 TOMineTrap::show_owner_message(s32 arg0, u32 arg1) {
     }
     return 0;
 }
-}
-
-#include "pso/player/TObjPlayer.h"
 
 struct Pkt_8016F558 { u8 code, words; u16 object, sub, idx; };
 
@@ -142,7 +130,7 @@ const char *TOMineTrap::get_name() {
     TObjPlayer *player;
 
     name = NULL;
-    player = (TObjPlayer *)get_player_by_client_id((u16)get_trap_type__10TOMineTrapFv((s32)this));
+    player = get_player_by_client_id(get_trap_type());
     if (player != NULL) {
         name = player->get_name();
     }
