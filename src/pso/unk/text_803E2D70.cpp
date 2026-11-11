@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/player/TObjPlayer_803DF7A8.h"
+#include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/player/TObjPlayer_803E21B8.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
