@@ -1467,9 +1467,10 @@ pso/enemy/bringer/BringerEffects.cpp:
 
 pso/enemy/canadin/TObjEneMe1Canadin.cpp:
 	.text       start:0x8009AB4C end:0x8009F7AC
-	.rodata     start:0x8043A390 end:0x8043A398
+	.rodata     start:0x8043A1B0 end:0x8043A398
 	.data       start:0x8048FEB0 end:0x80490410
 	.bss        start:0x80500930 end:0x80500970
+	.sdata      start:0x805D29B0 end:0x805D29B8
 	.sbss       start:0x805D4FD8 end:0x805D4FDC
 	.sdata2     start:0x805D9888 end:0x805D9938
 
@@ -1805,7 +1806,9 @@ pso/enemy/nanodrago/TObjEneNanoDrago_800D9BBC.cpp:
 
 pso/enemy/nanodrago/TObjEneNanoDrago.cpp:
 	.text       start:0x800D9C34 end:0x800DC420
+	.rodata     start:0x8043C760 end:0x8043C900
 	.data       start:0x80494B10 end:0x80494E10
+	.sdata      start:0x805D2AA8 end:0x805D2AB0
 	.sdata2     start:0x805DA3F8 end:0x805DA478
 
 pso/unk/text_800DC420.cpp:

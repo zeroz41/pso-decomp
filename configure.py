@@ -458,7 +458,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/TLogo.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/hud/TMainCursor.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/bringer/TObjEneDf2Bringer.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/enemy/canadin/TObjEneMe1Canadin.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/enemy/canadin/TObjEneMe1Canadin.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/enemy/deldepth/TObjEneDelDepth.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/enemy/panarms/TObjEnePanarms_800DCEB8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # -sdata 4: the four 8-byte tables 0x80495914-0x80495934 sit in .data, not .sdata.
@@ -747,7 +747,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/volopt/TBoss3VoloptP01.cpp": {"cflags": _switch(cflags_pso, "-inline deferred")},
     # Delbiter uses deferred code generation: reverse source definitions put
     # native vtables before the switch tables and functions in address order.
-    "pso/enemy/nanodrago/TObjEneNanoDrago.cpp": {"cflags": _switch(cflags_pso, "-inline deferred")},
+    "pso/enemy/nanodrago/TObjEneNanoDrago.cpp": {"cflags": _switch(cflags_pso, "-inline deferred", "-str reuse,readonly")},
     "pso/enemy/dellbiter/TObjEneDellBiter.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/enemy/dellbiter/TObjEneDellBiterEffects.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # The Bringer twin: its four vtables come out in ascending key-function order.
