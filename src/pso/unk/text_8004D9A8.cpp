@@ -2,6 +2,7 @@
 #include "pso/system/PadRumble.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/unk/ModelNodeTables.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -195,7 +196,7 @@ void TBoss3Volopt__sub_8004DA7C(u8 *self) {
         start_pad_rumble_all(0xC0, 0xF);
         break;
     }
-    ((TBoss4Type2 *)(self + 0x94))->scroll_strips();
+    ((ModelNodeTables *)(self + 0x94))->scroll_strips();
     if (++*(s32 *)((s8 *)self + 0x90) >= 0x118) {
         queue_destruction__7TObjectFv(self);
     }

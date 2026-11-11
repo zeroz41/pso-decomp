@@ -1296,7 +1296,7 @@ void TBoss4Type1::sub_80053440() {
             ((TParticleCtrl *)arg0->b[i])->set_position(&v);
         }
     }
-    ((TBoss4Type2 *)(arg0->f378))->scroll_strips();
+    ((ModelNodeTables *)(arg0->f378))->scroll_strips();
     play_persistent_sound(0x4003BC0E, (s32)arg0, (u32)&arg0->pos, 0x40, 2);
 }
 

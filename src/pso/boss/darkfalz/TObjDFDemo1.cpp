@@ -3,7 +3,6 @@
 #include "pso/boss/darkfalz/TObjDFDemo1.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-#include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
@@ -168,7 +167,7 @@ void TObjDFDemo1::run_task() {
     if ((scroll += 1.0f / 45.0f) >= 1.0f) {
         scroll -= 1.0f;
     }
-    ((TBoss4Type2 *)&strips)->scroll_strips();
+    strips.scroll_strips();
     if (++timer >= 300) {
         queue_destruction();
     }

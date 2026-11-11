@@ -2,6 +2,7 @@
 #include "pso/math/FloatRounding.h"
 #pragma readonly_strings on
 #include "types.h"
+#include "pso/unk/ModelNodeTables.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/PadRumble.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
@@ -1605,7 +1606,7 @@ void TBoss4Type2::update_main() {
         if (*(void **)((s8 *)arg0 + 0x430) != NULL) {
             ((TParticleCtrl *)*(void **)((s8 *)arg0 + 0x430))->set_position(&pos);
         }
-        ((TBoss4Type2 *)(arg0 + 0x378))->scroll_strips();
+        ((ModelNodeTables *)(arg0 + 0x378))->scroll_strips();
     }
     {
         Vec_80057598 a = boss4_type2_follow_camera_offset_a;

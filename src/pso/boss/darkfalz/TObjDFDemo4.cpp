@@ -3,7 +3,6 @@
 #include "pso/boss/darkfalz/TObjDFDemo4.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
-#include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -157,7 +156,7 @@ void TObjDFDemo4::run_task() {
     if ((frame += 0.5f) > 119.0f) {
         frame = 119.0f;
     }
-    ((TBoss4Type2 *)&node_tables)->scroll_strips();
+    node_tables.scroll_strips();
     if (++timer >= 0xF0) {
         queue_destruction();
     }

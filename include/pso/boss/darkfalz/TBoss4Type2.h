@@ -101,7 +101,6 @@ struct TBoss4Type2
     void calc_scaled_field(s32 arg1, s32 arg2);
     void set_motion_index(s32 arg1);
     static u8 is_active();
-    void scroll_strips();
     static void *create_zanzo(void *arg0, void *arg1);
     void spawn_bishi_around_players();
     void apply_resta_heal();

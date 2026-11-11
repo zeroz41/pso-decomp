@@ -2,6 +2,7 @@
 #include "pso/effect/TUnk_80494968.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
+#include "pso/unk/ModelNodeTables.h"
 #include "pso/system/PadRumble.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
@@ -1031,7 +1032,7 @@ void TBoss4Type3::run_task() {
     handle_damage_taken();
     if (this->m_374 != 2) {
         copy_positions_to_parts();
-        ((TBoss4Type2 *)(&this->m_378))->scroll_strips();
+        ((ModelNodeTables *)(&this->m_378))->scroll_strips();
     }
     if (this->m_3ba == 0xFFFF) {
         if ((this->m_3c8 -= 0.06666667f) < 0.0f) {
