@@ -4055,7 +4055,7 @@ s32 TQuestVmDownLoadServer__sub_803F0500(u8 *name, s16 len, Out_803E8C2C *out) {
         for (; (u16)(p[0] + (p[1] << 8)) != 0; p += (u16)(p[0] + (p[1] << 8))) {
             s16 m;
             s32 r;
-            Ent_803E8C2C *e = (Ent_803E8C2C *)p;
+            Ent_803E8B1C *e = (Ent_803E8B1C *)p;
             n = e->len;
             m = TQuestVmDownLoadServer::match_prefix_length((u8 *)e->name, name, (s16)n);
             if (m >= pre) {
@@ -4091,7 +4091,7 @@ s32 TQuestVmDownLoadServer__sub_803F0500(u8 *name, s16 len, Out_803E8C2C *out) {
     out->id = found - page;
     out->len = blen;
     out->pre = pre;
-    out->ent = (Ent_803E8C2C *)found;
+    out->ent = (Ent_803E8B1C *)found;
     return 1;
 }
 

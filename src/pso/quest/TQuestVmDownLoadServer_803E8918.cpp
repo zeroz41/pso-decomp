@@ -4,6 +4,8 @@
 #include "pso/quest/QuestDownloadServer.h"
 
 extern "C" {
+NameCache_80591EC8 lbl_80591EC8;
+NameHash_80593EC8 lbl_80593EC8;
 void TQuestVmDownLoadServer__sub_803E8918(void) {
     lbl_805D7868 = 1;
 }
@@ -23,12 +25,12 @@ inline int Hash_80591EC8(char *s) {
     }
     return h;
 }
-inline Node_803E8B1C *FindName_80591EC8(NameCache_80591EC8 *cache, char *buf, s16 len, Node_803E8B1C ***plink) {
+inline Node_803E8B1C *FindName_80591EC8(char *buf, s16 len, Node_803E8B1C ***plink) {
     Node_803E8B1C *n;
     Node_803E8B1C *prev = NULL;
     s32 h;
     h = Hash_80591EC8(buf);
-    for (n = cache->hash[h]; n != NULL; n = n->next) {
+    for (n = lbl_80593EC8.hash[h]; n != NULL; n = n->next) {
         s32 r;
         u8 elen = n->ent->len;
         r = strncmp(n->ent->name, buf, (s16)elen);
@@ -41,17 +43,8 @@ inline Node_803E8B1C *FindName_80591EC8(NameCache_80591EC8 *cache, char *buf, s1
         }
         prev = n;
     }
-    *plink = prev == NULL ? &cache->hash[h] : &prev->next;
+    *plink = prev == NULL ? &lbl_80593EC8.hash[h] : &prev->next;
     return n;
-}
-inline Node_803E8B1C *AllocNode_80591EC8() {
-    Node_803E8B1C *node;
-    if (lbl_805D7878 == NULL) {
-        TQuestVmDownLoadServer__sub_803E95BC();
-    }
-    node = lbl_805D7878;
-    lbl_805D7878 = node->next;
-    return node;
 }
 
 #pragma push
@@ -66,7 +59,7 @@ extern "C" void TQuestVmDownLoadServer__sub_803E8924(s32 arg0) {
   s16 len;
   u8 *dst;
   s16 new_var;
-  Node_803E8C2C *n;
+  Node_803E8B1C *n;
   s32 cost;
   s32 i;
   s32 r;
@@ -105,7 +98,7 @@ extern "C" void TQuestVmDownLoadServer__sub_803E8924(s32 arg0) {
   {
     i = 0;
   }
-  n = lbl_80593EC8[i];
+  n = lbl_80593EC8.hash[i];
   while (n != 0)
   {
     s16 l = n->ent->len;
@@ -126,11 +119,11 @@ extern "C" void TQuestVmDownLoadServer__sub_803E8924(s32 arg0) {
     n = n->next;
   }
 
-  if (n->ent != ((Ent_803E8C2C *) p))
+  if (n->ent != ((Ent_803E8B1C *) p))
   {
     return;
   }
-  n->ent = (Ent_803E8C2C *) dst;
+  n->ent = (Ent_803E8B1C *) dst;
   while (cost != 0)
   {
     *(dst++) = *(p++);
@@ -205,7 +198,7 @@ s32 lookup_name_entry__22TQuestVmDownLoadServerFPvsPv(char *arg0, s16 arg1, Out_
     s32 r;
     u8 len;
     Ent_803E8B1C *e;
-    for (n = ((Node_803E8B1C * *)&lbl_80593EC8)[Hash_803E8B1C(arg0)]; n != NULL; n = n->next) {
+    for (n = lbl_80593EC8.hash[Hash_803E8B1C(arg0)]; n != NULL; n = n->next) {
         e = n->ent;
         len = e->len;
         r = strncmp(e->name, arg0, (s16)len);
@@ -230,10 +223,10 @@ s32 lookup_name_entry__22TQuestVmDownLoadServerFPvsPv(char *arg0, s16 arg1, Out_
 #pragma pop
 
 s32 TQuestVmDownLoadServer__sub_803E8C2C(char *arg0, s16 arg1, Out_803E8C2C *arg2) {
-    Node_803E8C2C *n;
-    Ent_803E8C2C *e;
+    Node_803E8B1C *n;
+    Ent_803E8B1C *e;
     s16 len;
-    Ent_803E8C2C *found;
+    Ent_803E8B1C *found;
     s16 pre;
     s16 blen;
     s32 r;
@@ -242,7 +235,7 @@ s32 TQuestVmDownLoadServer__sub_803E8C2C(char *arg0, s16 arg1, Out_803E8C2C *arg
     pre = 0;
     arg2->pre = 0;
     arg2->len = 0;
-    for (n = lbl_80593EC8[Hash_803E8C2C(arg0)]; n != NULL; n = n->next) {
+    for (n = lbl_80593EC8.hash[Hash_803E8C2C(arg0)]; n != NULL; n = n->next) {
         e = n->ent;
         len = e->len;
         m = TQuestVmDownLoadServer::match_prefix_length((u8 *)e->name, (u8 *)arg0, (s16)len);
@@ -302,6 +295,17 @@ inline void WriteRecord_803E8DA0(u8 *p, s32 size, Req_803EEF2C *req, u8 attr) {
     }
     TQuestVmDownLoadServer::copy_sjis_string(req->text, p);
 }
+inline u8 *AllocRecord_80591EC8(s32 size) {
+    u8 *p;
+    if (lbl_805D7870 > lbl_805D786C - size - 2) {
+        TQuestVmDownLoadServer__sub_803E95BC();
+    }
+    p = lbl_805D7870;
+    lbl_805D7870 += size;
+    lbl_805D7870[0] = 0;
+    lbl_805D7870[1] = 0;
+    return p;
+}
 s32 TQuestVmDownLoadServer__sub_803E8DA0(char *name, Req_803EEF2C *req, s32 attr) {
     NameCache_80591EC8 *cache;
     Node_803E8B1C *n;
@@ -312,7 +316,7 @@ s32 TQuestVmDownLoadServer__sub_803E8DA0(char *name, Req_803EEF2C *req, s32 attr
     u8 *rec;
     lbl_805D7868 = 1;
     cache = &lbl_80591EC8;
-    n = FindName_80591EC8(cache, name, req->len, &link);
+    n = FindName_80591EC8(name, req->len, &link);
     e = n->ent;
     if (e->len == req->len && strncmp(name, e->name, req->len) == 0) {
         e->len = 0;
@@ -321,17 +325,15 @@ s32 TQuestVmDownLoadServer__sub_803E8DA0(char *name, Req_803EEF2C *req, s32 attr
         n->next = lbl_805D7878;
         lbl_805D7878 = n;
     }
-    node = AllocNode_80591EC8();
-    size = RecordSize_803E8DA0(req);
-    if (lbl_805D7870 > lbl_805D786C - size - 2) {
+    if (lbl_805D7878 == NULL) {
         TQuestVmDownLoadServer__sub_803E95BC();
     }
-    rec = lbl_805D7870;
-    lbl_805D7870 = rec + size;
-    lbl_805D7870[0] = 0;
-    lbl_805D7870[1] = 0;
+    node = lbl_805D7878;
+    lbl_805D7878 = node->next;
+    size = RecordSize_803E8DA0(req);
+    rec = AllocRecord_80591EC8(size);
     WriteRecord_803E8DA0(rec, size, req, attr);
-    n = FindName_80591EC8(cache, name, req->len, &link);
+    n = FindName_80591EC8(name, req->len, &link);
     node->ent = (Ent_803E8B1C *)rec;
     node->next = n;
     *link = node;

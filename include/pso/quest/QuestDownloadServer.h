@@ -298,11 +298,6 @@ struct Cache_803E840C {
     Page_803E840C pages[10];
 };
 
-struct Ent_803E8C2C { u8 pad[2]; u8 len; char name[1]; };
-
-struct Node_803E8C2C { Ent_803E8C2C *ent; Node_803E8C2C *next; };
-
-struct Out_803E8C2C { s16 a; s16 id; s16 len; s16 pre; u8 pad[4]; Ent_803E8C2C *ent; };
 
 struct Buf_803E82AC {
     u8 name[0x3CBC];
@@ -327,10 +322,15 @@ struct Node_803E8B1C { Ent_803E8B1C *ent; Node_803E8B1C *next; };
 
 struct Out_803E8B1C { s16 a; s16 id; u8 pad[8]; Ent_803E8B1C *ent; };
 
-// Name cache at lbl_80591EC8: eight 0x400-byte record pages, the hash buckets (lbl_80593EC8)
+struct Out_803E8C2C { s16 a; s16 id; s16 len; s16 pre; u8 pad[4]; Ent_803E8B1C *ent; };
+
+// Name cache: eight 0x400-byte record pages (lbl_80591EC8), then the hash buckets (lbl_80593EC8)
 // and the free-list node pool that __VIRetraceHandler links up.
 struct NameCache_80591EC8 {
     u8 pages[8][0x400];
+};
+
+struct NameHash_80593EC8 {
     Node_803E8B1C *hash[0x50];
     Node_803E8B1C nodes[0x200];
 };
@@ -492,7 +492,7 @@ void *TQuestVmDownLoadServer__sub_803E9FFC(s32 arg0, s32 arg1, Tok_803E9FFC *t);
 void *TQuestVmDownLoadServer__sub_803ECED0(void);
 void *TQuestVmDownLoadServer__sub_803ECF0C(void);
 extern u8 *file_page_cache_head;
-extern Node_803E8C2C *lbl_80593EC8[];
+extern NameHash_80593EC8 lbl_80593EC8;
 s32 TQuestVmDownLoadServer__sub_803E8C2C(char *arg0, s16 arg1, Out_803E8C2C *arg2);
 void TQuestVmDownLoadServer__sub_803EFF20(u8 *data, s32 a1, s32 a2, s32 *best, u8 *dst, s32 flags);
 extern const char ask_header_signature[];
