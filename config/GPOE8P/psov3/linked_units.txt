@@ -1222,6 +1222,7 @@ pso/object/wreck/TOWreckAncient07.cpp
 pso/object/wreck/TOWreckAncientBrakable.cpp
 pso/object/wreck/TOWreckAncientBrakable05.cpp
 pso/network/TPacket.cpp
+pso/effect/particle/ParticleRadial.cpp
 pso/effect/particle/TParticleCtrl.cpp
 pso/effect/particle/TParticleCtrl_80085EE4.cpp
 pso/effect/particle/TParticleCtrl_800866F8.cpp
@@ -1734,6 +1735,7 @@ pso/system/data/pso_const_ids4.cpp
 pso/system/data/pso_const_ids5.cpp
 pso/system/data/pso_const_ids7.cpp
 pso/system/data/pso_date.cpp
+pso/network/ModemRuntime.cpp
 pso/network/NetworkInfoCodec.cpp
 pso/network/NetworkInfoLoader.cpp
 pso/network/NetworkMessageTransport.c
@@ -2279,6 +2281,7 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_80243218.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8028C650.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8028C8E0.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.cpp
+pso/ui/frontend/TAdSinglePlyChrSelectGC_8028EF14.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_802E3AE4.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_80336054.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8033A8EC.cpp
@@ -2416,6 +2419,7 @@ pso/unk/text_800FD930.cpp
 pso/unk/text_800FFE04.cpp
 pso/unk/text_80103674.cpp
 pso/unk/text_80104F4C.cpp
+pso/unk/text_80104FCC.cpp
 pso/unk/text_801057A8.cpp
 pso/effect/item/TItemEffEquip_80108860.cpp
 pso/unk/text_801094D8.cpp
@@ -2768,6 +2772,7 @@ pso/unk/text_803CD840.cpp
 pso/unk/text_803CE1D8.cpp
 pso/unk/text_803CE1F4.cpp
 pso/unk/text_803CE240.cpp
+pso/unk/text_803CE568.cpp
 pso/unk/text_803CFEA0.cpp
 pso/unk/text_803D2F1C.cpp
 pso/unk/text_803D39F8.cpp

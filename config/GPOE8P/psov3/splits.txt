@@ -2243,7 +2243,7 @@ pso/unk/text_80104F4C.cpp:
 
 pso/unk/text_80104FCC.cpp:
 	.text       start:0x80104FCC end:0x801057A8
-	.data       start:0x8049EEFC end:0x8049EF54
+	.data       start:0x8049EED8 end:0x8049EF54
 
 pso/unk/text_801057A8.cpp:
 	.text       start:0x801057A8 end:0x80105874
@@ -8223,7 +8223,7 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_8028EF14.cpp:
 	.data       start:0x804D3A08 end:0x804D40A8
 	.bss        start:0x8051C0E8 end:0x80540954
 	.sdata      start:0x805D3B70 end:0x805D3BC0
-	.sbss       start:0x805D655C end:0x805D6560
+	.sbss       start:0x805D6558 end:0x805D6560
 
 pso/ui/charcreate/CharacterAppearanceTables.cpp:
 	.rodata     start:0x80451CE0 end:0x80464B48
@@ -12229,6 +12229,7 @@ pso/unk/text_803CE568.cpp:
 	.text       start:0x803CE568 end:0x803CFE68
 	.rodata     start:0x8047CF30 end:0x8047DAB8
 	.bss        start:0x80581A30 end:0x80581EA8
+	.sdata2     start:0x805E0DA0 end:0x805E0DA4
 
 pso/unk/TLobby_803CFE68.cpp:
 	.text       start:0x803CFE68 end:0x803CFEA0

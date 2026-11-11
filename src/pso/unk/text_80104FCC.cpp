@@ -11,6 +11,13 @@
 #include "pso/player/TObjPlayer_8011C000.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/item/TItemMoney.h"
+#include "pso/item/TItemObject.h"
+#include "pso/item/armor/TItemProArmor.h"
+#include "pso/item/armor/TItemProShield.h"
+#include "pso/item/armor/TItemProUnit.h"
+#include "pso/item/mag/TItemMag.h"
+#include "pso/player/TObjPlayer_80121010.h"
 
 struct Blk_8010542C { u32 w[4]; };
 struct Item_8010542C { u32 a; Blk_8010542C b; };
@@ -80,13 +87,16 @@ struct Obj_80105538 {
 };
 
 extern "C" {
-typedef s32 (*Fn_8010542C)(void *);
-extern Fn_8010542C item_create_fn_table[];
-struct In_801054E0 { u8 pad0; u8 idx; };
-typedef s32 (*Fn_801054E0)(In_801054E0 *);
-struct E_801054E0 { Fn_801054E0 fn; };
-extern E_801054E0 item_pro_create_fn_table[];
-s32 TLobby__sub_801054E0(In_801054E0 *arg0);
+// Item factories by item group (item[0]) and, for armor, by subgroup (item[1]).
+typedef TItem *(*Fn_8010542C)(u8 *item);
+TItem *TLobby__sub_801054E0(u8 *item);
+Fn_8010542C item_pro_create_fn_table[4] = {
+    0, TItemProArmor::create, TItemProShield::create, TItemProUnit::create,
+};
+Fn_8010542C item_create_fn_table[5] = {
+    (Fn_8010542C)create_weapon_for_item, TLobby__sub_801054E0, TItemMag::create, TItemObject::create_tool,
+    (Fn_8010542C)TItemMoney::create,
+};
 void *get_player_by_client_id(s32);
 s32 get_current_floor(void);
 s32 TObjPlayer__sub_80104840(s32);
@@ -363,7 +373,7 @@ TItem *construct_item(TItemData *data) {
                 fn = item_create_fn_table[*(u8 *)src];
                 if (fn != 0) {
                     observe_item_id(item.b.w[2]);
-                    return (TItem *)fn(&item);
+                    return fn((u8 *)&item);
                 }
             }
         }
@@ -373,11 +383,11 @@ TItem *construct_item(TItemData *data) {
 
 extern "C" {
 
-s32 TLobby__sub_801054E0(In_801054E0 *arg0) {
-    if (arg0 != 0) {
-        if (arg0->idx < 4) {
-            if (item_pro_create_fn_table[arg0->idx].fn != 0) {
-                return item_pro_create_fn_table[arg0->idx].fn(arg0);
+TItem *TLobby__sub_801054E0(u8 *item) {
+    if (item != 0) {
+        if (item[1] < 4) {
+            if (item_pro_create_fn_table[item[1]] != 0) {
+                return item_pro_create_fn_table[item[1]](item);
             }
         }
     }

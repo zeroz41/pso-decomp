@@ -1,3 +1,4 @@
+#define PSO_SDK_COMPACT_MATH
 #include "pso/network/NetworkTransport.h"
 #include "pso/network/ModemRuntime.h"
 #include "pso/network/NetworkMessageTransport.h"
@@ -9,6 +10,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby.h"
 #include "pso/network/TUdpSocket.h"
+#undef PSO_SDK_COMPACT_MATH
 
 struct RecoveredGlobal_80428374_lbl_805D0A40 {
     s32 value;
