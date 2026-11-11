@@ -18,6 +18,9 @@ public:
     void place_rect_at_head_or_slot();
     void sub_802504A8();
     void calc_text_size(f32 *);
+    s32 calc_name_plate_angle(f32 *, f32 *, f32 *, f32 *);  // dead-stripped
+    void clear_width();  // dead-stripped
+    void measure_text_unbounded(int);  // dead-stripped
     virtual void render();
     void clear_flag();
     s16 get_field_20();

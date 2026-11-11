@@ -43,17 +43,6 @@ int rand(void);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 f32 xyz_distance(void *, void *);
-extern const f64 TWindowFukidasi__data_8044ED70;
-extern const f32 TWindowFukidasi__data_805DCCE8;
-extern const f32 TWindowFukidasi__data_805DCD08;
-extern const f32 TWindowFukidasi__data_805DCD0C;
-extern const f32 TWindowFukidasi__data_805DCD14;
-extern const f32 TWindowFukidasi__data_805DCD18;
-extern const f32 TWindowFukidasi__data_805DCD1C;
-extern const f32 lbl_805DCD20;
-extern const f32 lbl_805DCD24;
-extern const f32 TWindowFukidasi__data_805DCD28;
-extern const f32 lbl_805DCD2C;
 s32 rest_balloon__15TWindowFukidasiFv(Fuki_80250A24 *b, f32 *rect, f32 *arg2);
 s32 try_place_bubble__15TWindowFukidasiFPvPvPv(Fuki_802506E8 *b, f32 *rect, f32 *o);
 struct Entry_80250380 { u8 pad[0x10]; f32 w; f32 h; };
@@ -264,10 +253,6 @@ void DVDConvertEntrynumToPath(f32 *q);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 
 extern Cam_802511E4 TCameraCtrl__data_804FF634;
-extern const f32 TWindowFukidasi__data_805DCCF4;
-extern const f32 TWindowFukidasi__data_805DCCFC;
-extern const f32 TWindowFukidasi__data_805DCD30;
-extern const f32 TWindowFukidasi__data_805DCD4C;
 extern s32 TWindowFukidasi__balloon_color_table[];
 extern Vec_80251380 fukidasi_forward_vec;
 extern RecoveredGlobal_80251BA0_lbl_804CF080 window_fukidasi_layout_entries;
@@ -275,31 +260,6 @@ extern u8 identity_matrix[];
 extern s32 window_fukidasi_class_name;
 extern Cam_80251380 *camera_ctrl_instance;
 extern void *lbl_805D63F0;
-extern const f32 lbl_805DCCEC;
-extern const f32 lbl_805DCCF0;
-extern const f32 lbl_805DCCF8;
-extern f32 lbl_805DCD00;
-extern f32 lbl_805DCD04;
-extern const f32 lbl_805DCD34;
-extern const f32 lbl_805DCD38;
-extern const f32 lbl_805DCD3C;
-extern const f32 lbl_805DCD40;
-extern const f32 lbl_805DCD44;
-extern const f32 lbl_805DCD48;
-extern const f32 lbl_805DCD50;
-extern const f32 lbl_805DCD58;
-extern const f32 lbl_805DCD78;
-extern const f32 lbl_805DCD90;
-extern const f32 lbl_805DCD94;
-extern const f32 lbl_805DCD98;
-extern const f32 lbl_805DCD9C;
-extern const f32 lbl_805DCDA4;
-extern const f32 lbl_805DCDB0;
-extern const f32 lbl_805DCDB4;
-extern const f32 lbl_805DCDB8;
-extern const f32 lbl_805DCDBC;
-extern const f32 lbl_805DCDC0;
-
 void complete_speech_balloon(u8 *arg0) {
     s32 t;
     *(s8 *)(arg0 + 0x70) = 4;
@@ -309,7 +269,7 @@ void complete_speech_balloon(u8 *arg0) {
     TWindowFukidasi__sub_80252C38(arg0);
     ((TUnk_804CF0B8 *)arg0)->set_flag2c_bit100();
     ((TWindowBase *)arg0)->save_position();
-    *(f32 *)(arg0 + 0x80) = TWindowFukidasi__data_805DCCE8;
+    *(f32 *)(arg0 + 0x80) = 1.0f;
     ((TWindowFukidasi *)arg0)->sync_display_pos();
     *(s32 *)(arg0 + 0x5C) = 0x186A0;
     t = *(u8 *)(arg0 + 0x72);
@@ -349,7 +309,7 @@ void TWindowFukidasi::rearm_balloon(s32 arg1) {
     switch ((s32) (*(u8 *)((s8 *)((u8 *)this) + 0x72))) {
     case 0:
         n = TWindowKeyBoardSoft::strnlen((s8 *)(((void * (*)(void *))get_field_20__17TWindowSubComCardFv)(((void * (*)(void *, int))get_array_entry__11TWindowBaseFi)(this, 0))), (u32)0x100);
-        *(s16 *)((s8 *)((u8 *)this) + 0x74) = (s16) ((lbl_805DCCF0 * (f32) n) + lbl_805DCCEC);
+        *(s16 *)((s8 *)((u8 *)this) + 0x74) = (s16) ((3.3f * (f32) n) + 55.5f);
         break;
     case 1:
         *(s16 *)((s8 *)((u8 *)this) + 0x74) = 0x5A;
@@ -388,8 +348,8 @@ void TUnk_804CF0B8::calc_text_size(f32 *out) {
     switch (((Fuki_80250380 *)this)->kind) {
     case 0:
         e = ((Entry_80250380 * (*)(void *, int))get_array_entry__11TWindowBaseFi)(this, 0);
-        out[0] = TWindowFukidasi__data_805DCCF4 + (lbl_805DCCF8 + e->w);
-        out[1] = TWindowFukidasi__data_805DCCF4 + (TWindowFukidasi__data_805DCCFC + e->h);
+        out[0] = 0.1f + (8.0f + e->w);
+        out[1] = 0.1f + (20.0f + e->h);
         break;
     case 1:
         TWindowSubSymbolChat__sub_802483F0((int)((Fuki_80250380 *)this)->entries, (void *)out);
@@ -404,8 +364,8 @@ void TWindowFukidasi::sync_display_pos() { *(f32*)((char*)this + 0x60) = *(f32*)
 s32 TWindowFukidasi::approach(f32 farg0) {
     f32 temp_f31;
 
-    temp_f31 = lbl_805DCD00 * (farg0 - *(f32 *)((s8 *)this + 0x80));
-    if (fabs_float(temp_f31) < lbl_805DCD04) {
+    temp_f31 = 0.47f * (farg0 - *(f32 *)((s8 *)this + 0x80));
+    if (fabs_float(temp_f31) < 0.011f) {
         *(f32 *)((s8 *)this + 0x80) = farg0;
         return 1;
     }
@@ -417,6 +377,19 @@ void TUnk_804CF0B8::sub_802504A8() {
     if (!(this->m_71 & 0x10)) {
         this->m_70 = 7;
     }
+}
+
+// Dead-stripped from the DOL: no code of it survives, only its literals (1000, 0.5
+// and 19 at 0x805DCD08-0x805DCD13 and 10430.38 at 0x8044ED70), pooled between
+// approach's 0.011 and TWindowFukidasi__sub_802505C0's 2^-15. It aims from the
+// middle of the 19-unit name plate draw_name_plate puts on the balloon's top edge at
+// the tail tip draw_tail places 1000/distance short of the speaker, with the
+// same atan2 scale. Name inferred from that role.
+s32 TUnk_804CF0B8::calc_name_plate_angle(f32 *world, f32 *scr, f32 *rect, f32 *size) {
+    f32 reach = 1000.0f / xyz_distance(camera_ctrl_instance->pos, world);
+    f32 dx = (0.5f * size[0] + rect[0]) - scr[0];
+    f32 dy = ((0.5f * size[1] + rect[1]) - 19.0f) - (scr[1] - reach);
+    return (s32) (10430.38043493439 * atan2_float(dy, dx));
 }
 
 #pragma push
@@ -431,9 +404,9 @@ void TUnk_804CF0B8::place_rect_at_head_or_slot() {
             b->slot = ((TUnk_804CF0B8 *)b)->alloc_nearest_free_slot();
         }
         m = get_message_by_type__11TWindowCtrlFScl(b->slot, b->viewport);
-        b->rect[0] = m[0] - TWindowFukidasi__data_805DCD0C * b->anchor[0];
-        b->rect[1] = m[1] - TWindowFukidasi__data_805DCD0C * b->anchor[1];
-        ((TUnk_804CF0B8 *)b)->clamp_position(b->rect, TWindowFukidasi__data_805DCCE8);
+        b->rect[0] = m[0] - 0.5f * b->anchor[0];
+        b->rect[1] = m[1] - 0.5f * b->anchor[1];
+        ((TUnk_804CF0B8 *)b)->clamp_position(b->rect, 1.0f);
     } else {
         f32 p[2];
         if ((s8)b->slot != -1) {
@@ -442,8 +415,8 @@ void TUnk_804CF0B8::place_rect_at_head_or_slot() {
             TWindowCtrl::release_slot((s8 *)&b->slot);
         }
         project_anchor((f32 *)(0), p);
-        b->rect[0] = p[0] - TWindowFukidasi__data_805DCD0C * b->anchor[0];
-        b->rect[1] = p[1] - TWindowFukidasi__data_805DCD0C * b->anchor[1];
+        b->rect[0] = p[0] - 0.5f * b->anchor[0];
+        b->rect[1] = p[1] - 0.5f * b->anchor[1];
     }
 }
 #pragma pop
@@ -456,11 +429,11 @@ s32 TWindowFukidasi__sub_802505C0(Fuki_80251028 *b, f32 *rect, f32 *out) {
     f32 y;
     f32 h;
     f32 t;
-    t = TWindowFukidasi__data_805DCD14 * (f32) rand();
+    t = 0.000030517578f * (f32) rand();
     out[0] = t * w + x;
     y = ((TWindowCtrlMain *)b->viewport)->get_field10();
     h = (((TWindowCtrlMain *)b->viewport)->get_field_18() - ((TWindowCtrlMain *)b->viewport)->get_field10()) - b->anchor[1];
-    t = TWindowFukidasi__data_805DCD14 * (f32) rand();
+    t = 0.000030517578f * (f32) rand();
     out[1] = t * h + y;
     return (u32) __cntlzw((u32) draw_resolved_window__15TWindowFukidasiFllll((Fuki_80250F70 *)b, out, b->anchor, 4)) >> 5;
 }
@@ -488,35 +461,35 @@ s32 try_place_bubble__15TWindowFukidasiFPvPvPv(Fuki_802506E8 *b, f32 *rect, f32 
     s32 a;
     s32 angle;
     ((TUnk_804CF0B8 *)F70_802506E8)->project_anchor(world, NULL);
-    reach = TWindowFukidasi__data_805DCD08 / xyz_distance((u8 *)camera_ctrl_instance + 0x178, world);
-    dx = (TWindowFukidasi__data_805DCD0C * b->rsize[0] + rect[0]) - b->center[0];
-    dy = (TWindowFukidasi__data_805DCD0C * b->rsize[1] + rect[1]) - b->center[1];
-    a = (s32) (TWindowFukidasi__data_8044ED70 * ((f64)atan2_float(dy, dx)));
+    reach = 1000.0f / xyz_distance((u8 *)camera_ctrl_instance + 0x178, world);
+    dx = (0.5f * b->rsize[0] + rect[0]) - b->center[0];
+    dy = (0.5f * b->rsize[1] + rect[1]) - b->center[1];
+    a = (s32) (10430.38043493439 * ((f64)atan2_float(dy, dx)));
     edge[0] = dx - reach * cos_table_lookup(a);
     edge[1] = dy - reach * sin_table_lookup(a);
-    edge[0] /= TWindowFukidasi__data_805DCD18 + b->rsize[0];
-    edge[1] /= TWindowFukidasi__data_805DCD1C + b->rsize[1];
-    angle = (s32) (TWindowFukidasi__data_8044ED70 * ((f64)atan2_float(edge[1], edge[0])));
+    edge[0] /= 14.0f + b->rsize[0];
+    edge[1] /= 10.0f + b->rsize[1];
+    angle = (s32) (10430.38043493439 * ((f64)atan2_float(edge[1], edge[0])));
     ((TWindowFukidasi *)b)->get_boundary_offset(angle + 0x8000, edge);
-    a = (s32) (TWindowFukidasi__data_8044ED70 * ((f64)atan2_float(edge[1], edge[0])));
+    a = (s32) (10430.38043493439 * ((f64)atan2_float(edge[1], edge[0])));
     edge[0] += reach * cos_table_lookup(a);
     edge[1] += reach * sin_table_lookup(a);
-    o[0] = (b->center[0] + edge[0]) - TWindowFukidasi__data_805DCD0C * b->size[0];
-    o[1] = (b->center[1] + edge[1]) - TWindowFukidasi__data_805DCD0C * b->size[1];
-    if (CLAMP_802506E8(F70_802506E8, o, TWindowFukidasi__data_805DCCE8) != 0) {
+    o[0] = (b->center[0] + edge[0]) - 0.5f * b->size[0];
+    o[1] = (b->center[1] + edge[1]) - 0.5f * b->size[1];
+    if (CLAMP_802506E8(F70_802506E8, o, 1.0f) != 0) {
         return 0;
     }
     if (DRAW_802506E8(F70_802506E8, o, b->size, 4) == NULL) {
         return 1;
     }
-    angle = (s32) ((f32) a + (lbl_805DCD20 * (TWindowFukidasi__data_805DCD14 * (f32) rand()) - lbl_805DCD24));
+    angle = (s32) ((f32) a + (32768.0f * (0.000030517578f * (f32) rand()) - 16384.0f));
     ((TWindowFukidasi *)b)->get_boundary_offset(angle, edge);
-    a = (s32) (TWindowFukidasi__data_8044ED70 * ((f64)atan2_float(edge[1], edge[0])));
+    a = (s32) (10430.38043493439 * ((f64)atan2_float(edge[1], edge[0])));
     edge[0] += reach * cos_table_lookup(a);
     edge[1] += reach * sin_table_lookup(a);
-    o[0] = (b->center[0] + edge[0]) - TWindowFukidasi__data_805DCD0C * b->size[0];
-    o[1] = (b->center[1] + edge[1]) - TWindowFukidasi__data_805DCD0C * b->size[1];
-    if (CLAMP_802506E8(F70_802506E8, o, TWindowFukidasi__data_805DCCE8) != 0) {
+    o[0] = (b->center[0] + edge[0]) - 0.5f * b->size[0];
+    o[1] = (b->center[1] + edge[1]) - 0.5f * b->size[1];
+    if (CLAMP_802506E8(F70_802506E8, o, 1.0f) != 0) {
         return 0;
     }
     return (u32) __cntlzw((u32) DRAW_802506E8(F70_802506E8, o, b->size, 4)) >> 5;
@@ -535,64 +508,64 @@ s32 rest_balloon__15TWindowFukidasiFv(Fuki_80250A24 *b, f32 *rect, f32 *arg2) {
     s32 a;
     s32 angle;
     ((TUnk_804CF0B8 *)F70_80250A24)->project_anchor(world, NULL);
-    reach = TWindowFukidasi__data_805DCD08 / xyz_distance(camera_ctrl_instance->pos, world);
-    dx = (TWindowFukidasi__data_805DCD0C * b->rsize[0] + rect[0]) - b->center[0];
-    dy = (TWindowFukidasi__data_805DCD0C * b->rsize[1] + rect[1]) - b->center[1];
+    reach = 1000.0f / xyz_distance(camera_ctrl_instance->pos, world);
+    dx = (0.5f * b->rsize[0] + rect[0]) - b->center[0];
+    dy = (0.5f * b->rsize[1] + rect[1]) - b->center[1];
     dist = newton_sqrtf(dx * dx + dy * dy);
-    if (dist < TWindowFukidasi__data_805DCD28) {
+    if (dist < 3.0f) {
         angle = 0xD400;
     } else {
-        a = (s32) (TWindowFukidasi__data_8044ED70 * ((f64)atan2_float(dy, dx)));
+        a = (s32) (10430.38043493439 * ((f64)atan2_float(dy, dx)));
         edge[0] = dx - reach * cos_table_lookup(a);
         edge[1] = dy - reach * sin_table_lookup(a);
-        edge[0] /= TWindowFukidasi__data_805DCD18 + b->rsize[0];
-        edge[1] /= TWindowFukidasi__data_805DCD1C + b->rsize[1];
-        angle = (s32) (TWindowFukidasi__data_8044ED70 * ((f64)atan2_float(edge[1], edge[0])));
+        edge[0] /= 14.0f + b->rsize[0];
+        edge[1] /= 10.0f + b->rsize[1];
+        angle = (s32) (10430.38043493439 * ((f64)atan2_float(edge[1], edge[0])));
     }
     ((TWindowFukidasi *)b)->get_boundary_offset(angle, edge);
-    a = (s32) (TWindowFukidasi__data_8044ED70 * ((f64)atan2_float(edge[1], edge[0])));
+    a = (s32) (10430.38043493439 * ((f64)atan2_float(edge[1], edge[0])));
     edge[0] += reach * cos_table_lookup(a);
     edge[1] += reach * sin_table_lookup(a);
-    if (fabs_float(dist - newton_sqrtf(edge[0] * edge[0] + edge[1] * edge[1])) < TWindowFukidasi__data_805DCD1C) {
+    if (fabs_float(dist - newton_sqrtf(edge[0] * edge[0] + edge[1] * edge[1])) < 10.0f) {
         return 0;
     }
-    o->x = (b->center[0] + edge[0]) - TWindowFukidasi__data_805DCD0C * b->size[0];
-    o->y = (b->center[1] + edge[1]) - TWindowFukidasi__data_805DCD0C * b->size[1];
-    if (CLAMP_80250A24(F70_80250A24, (f32 *)o, TWindowFukidasi__data_805DCCE8) != 0) {
+    o->x = (b->center[0] + edge[0]) - 0.5f * b->size[0];
+    o->y = (b->center[1] + edge[1]) - 0.5f * b->size[1];
+    if (CLAMP_80250A24(F70_80250A24, (f32 *)o, 1.0f) != 0) {
         return 0;
     }
     if (DRAW_80250A24(F70_80250A24, (f32 *)o, b->size, 4) == NULL) {
         return 1;
     }
-    t = TWindowFukidasi__data_805DCD14 * (f32) rand();
+    t = 0.000030517578f * (f32) rand();
     edge[0] += t * (dx - edge[0]);
     edge[1] += t * (dy - edge[1]);
-    o->x = (b->center[0] + edge[0]) - TWindowFukidasi__data_805DCD0C * b->size[0];
-    o->y = (b->center[1] + edge[1]) - TWindowFukidasi__data_805DCD0C * b->size[1];
+    o->x = (b->center[0] + edge[0]) - 0.5f * b->size[0];
+    o->y = (b->center[1] + edge[1]) - 0.5f * b->size[1];
     if (DRAW_80250A24(F70_80250A24, (f32 *)o, b->size, 4) == NULL) {
         return 1;
     }
-    angle = (s32) ((f32) a + (lbl_805DCD20 * (TWindowFukidasi__data_805DCD14 * (f32) rand()) - lbl_805DCD24));
+    angle = (s32) ((f32) a + (32768.0f * (0.000030517578f * (f32) rand()) - 16384.0f));
     ((TWindowFukidasi *)b)->get_boundary_offset(angle, edge);
-    a = (s32) (TWindowFukidasi__data_8044ED70 * ((f64)atan2_float(edge[1], edge[0])));
+    a = (s32) (10430.38043493439 * ((f64)atan2_float(edge[1], edge[0])));
     edge[0] += reach * cos_table_lookup(a);
     edge[1] += reach * sin_table_lookup(a);
-    o->x = (b->center[0] + edge[0]) - TWindowFukidasi__data_805DCD0C * b->size[0];
-    o->y = (b->center[1] + edge[1]) - TWindowFukidasi__data_805DCD0C * b->size[1];
-    if (CLAMP_80250A24(F70_80250A24, (f32 *)o, TWindowFukidasi__data_805DCCE8) != 0) {
+    o->x = (b->center[0] + edge[0]) - 0.5f * b->size[0];
+    o->y = (b->center[1] + edge[1]) - 0.5f * b->size[1];
+    if (CLAMP_80250A24(F70_80250A24, (f32 *)o, 1.0f) != 0) {
         return 0;
     }
     if (DRAW_80250A24(F70_80250A24, (f32 *)o, b->size, 4) == NULL) {
         return 1;
     }
-    angle = (s32) (lbl_805DCD2C * (TWindowFukidasi__data_805DCD14 * (f32) rand()));
+    angle = (s32) (65536.0f * (0.000030517578f * (f32) rand()));
     ((TWindowFukidasi *)b)->get_boundary_offset(angle, edge);
-    a = (s32) (TWindowFukidasi__data_8044ED70 * ((f64)atan2_float(edge[1], edge[0])));
+    a = (s32) (10430.38043493439 * ((f64)atan2_float(edge[1], edge[0])));
     edge[0] += reach * cos_table_lookup(a);
     edge[1] += reach * sin_table_lookup(a);
-    o->x = (b->center[0] + edge[0]) - TWindowFukidasi__data_805DCD0C * b->size[0];
-    o->y = (b->center[1] + edge[1]) - TWindowFukidasi__data_805DCD0C * b->size[1];
-    if (CLAMP_80250A24(F70_80250A24, (f32 *)o, TWindowFukidasi__data_805DCCE8) != 0) {
+    o->x = (b->center[0] + edge[0]) - 0.5f * b->size[0];
+    o->y = (b->center[1] + edge[1]) - 0.5f * b->size[1];
+    if (CLAMP_80250A24(F70_80250A24, (f32 *)o, 1.0f) != 0) {
         return 0;
     }
     return (u32) __cntlzw((u32) DRAW_80250A24(F70_80250A24, (f32 *)o, b->size, 4)) >> 5;
@@ -605,7 +578,7 @@ s32 shift_rect_with_head__15TWindowFukidasiFPvPvPv(Fuki_80250F70 *b, f32 *rect, 
     ((TUnk_804CF0B8 *)b)->project_anchor(0, b->head);
     out[0] = rect[0] + (b->head[0] - x);
     out[1] = rect[1] + (b->head[1] - y);
-    ((TUnk_804CF0B8 *)b)->clamp_position(out, TWindowFukidasi__data_805DCCE8);
+    ((TUnk_804CF0B8 *)b)->clamp_position(out, 1.0f);
     if (draw_resolved_window__15TWindowFukidasiFllll(b, out, b->anchor, 4) == 0) {
         return 1;
     }
@@ -623,9 +596,9 @@ void refresh_rect_placement__15TWindowFukidasiFPv(Fuki_80251028 *b) {
             b->slot = ((TUnk_804CF0B8 *)b)->alloc_nearest_free_slot();
         }
         m = get_message_by_type__11TWindowCtrlFScl(b->slot, b->viewport);
-        b->rect[0] = m[0] - TWindowFukidasi__data_805DCD0C * b->anchor[0];
-        b->rect[1] = m[1] - TWindowFukidasi__data_805DCD0C * b->anchor[1];
-        ((TUnk_804CF0B8 *)b)->clamp_position(b->rect, TWindowFukidasi__data_805DCCE8);
+        b->rect[0] = m[0] - 0.5f * b->anchor[0];
+        b->rect[1] = m[1] - 0.5f * b->anchor[1];
+        ((TUnk_804CF0B8 *)b)->clamp_position(b->rect, 1.0f);
     } else {
         f32 a[2];
         f32 c[2];
@@ -668,6 +641,14 @@ void refresh_rect_placement__15TWindowFukidasiFPv(Fuki_80251028 *b) {
 }
 #pragma pop
 
+// Dead-stripped from the DOL: no code of it survives, only its literal (0.0 at
+// 0x805DCD30, pooled between rest_balloon's 65536 and project_anchor's 320). It
+// clears the width sub_80251DF0 zeroes when it sets the balloon up. Name inferred
+// from that role.
+void TUnk_804CF0B8::clear_width() {
+    m_48 = 0.0f;
+}
+
 s32 TUnk_804CF0B8::project_anchor(f32 *pos, f32 *out) {
     Fuki_80250F70 *arg0 = (Fuki_80250F70 *)this;
     Fuki_802511E4 *b = (Fuki_802511E4 *)arg0;
@@ -702,8 +683,8 @@ s32 TUnk_804CF0B8::project_anchor(f32 *pos, f32 *out) {
         out[1] -= (f32)get_screen_width__11TCameraCtrlFv();
         out[1] /= TCameraCtrl::get_fov();
     }
-    out[0] += TCameraCtrl__data_804FF634.x - lbl_805DCD34;
-    out[1] += TCameraCtrl__data_804FF634.y - lbl_805DCD38;
+    out[0] += TCameraCtrl__data_804FF634.x - 320.0f;
+    out[1] += TCameraCtrl__data_804FF634.y - 240.0f;
     return 1;
 }
 
@@ -722,9 +703,9 @@ s32 TUnk_804CF0B8::is_speaker_far_or_offscreen() {
         return 1;
     }
     if (((TUnk_804CF0B8 *)arg0)->is_flag_set() != 0) {
-        m = lbl_805DCD3C;
+        m = -50.0f;
     } else {
-        m = TWindowFukidasi__data_805DCD30;
+        m = 0.0f;
     }
     if (scr[0] < ((TWindowCtrlMain *)(((Fuki_80251380 *)arg0)->viewport))->get_position_z() - m) {
         return 1;
@@ -749,13 +730,13 @@ s32 TUnk_804CF0B8::is_speaker_far_or_offscreen() {
     d[0] = pos[0] - camera_ctrl_instance->pos[0];
     d[1] = pos[1] - camera_ctrl_instance->pos[1];
     d[2] = pos[2] - camera_ctrl_instance->pos[2];
-    if (vec3_dot(&v, d) <= TWindowFukidasi__data_805DCD30) {
+    if (vec3_dot(&v, d) <= 0.0f) {
         return 1;
     }
     xx = d[0] * d[0];
     yy = d[1] * d[1];
     zz = d[2] * d[2];
-    if (zz + (xx + yy) > lbl_805DCD44 * m + lbl_805DCD40) {
+    if (zz + (xx + yy) > 40.0f * m + 14400.0f) {
         return 1;
     }
     ((TUnk_804CF0B8 *)arg0)->sub_80252C68();
@@ -772,20 +753,20 @@ void TUnk_804CF0B8::follow_anchor() {
     f32 dx;
     f32 dy;
 
-    cx = TWindowFukidasi__data_805DCD0C * b->anchor[0] + b->rect[0];
-    cy = TWindowFukidasi__data_805DCD0C * b->anchor[1] + b->rect[1];
+    cx = 0.5f * b->anchor[0] + b->rect[0];
+    cy = 0.5f * b->anchor[1] + b->rect[1];
     if (b->options & 0x40) {
         b->center[0] = cx;
         b->center[1] = cy;
     } else {
-        dx = lbl_805DCD48 * (cx - b->center[0]);
-        dy = lbl_805DCD48 * (cy - b->center[1]);
-        if (fabs_float(dx) < TWindowFukidasi__data_805DCCF4) {
+        dx = 0.21f * (cx - b->center[0]);
+        dy = 0.21f * (cy - b->center[1]);
+        if (fabs_float(dx) < 0.1f) {
             b->center[0] = cx;
         } else {
             b->center[0] += dx;
         }
-        if (fabs_float(dy) < TWindowFukidasi__data_805DCCF4) {
+        if (fabs_float(dy) < 0.1f) {
             b->center[1] = cy;
         } else {
             b->center[1] += dy;
@@ -799,11 +780,11 @@ void TUnk_804CF0B8::follow_anchor() {
         b->size[1] += (b->anchor[1] - b->size[1]) / (f32)b->steps;
         b->steps--;
     }
-    b->pos[0] = b->center[0] - TWindowFukidasi__data_805DCD0C * b->size[0];
-    b->pos[1] = b->center[1] - TWindowFukidasi__data_805DCD0C * b->size[1];
+    b->pos[0] = b->center[0] - 0.5f * b->size[0];
+    b->pos[1] = b->center[1] - 0.5f * b->size[1];
     ((TUnk_804CF0B8 *)b)->clamp_position(b->pos, b->margin);
-    b->center[0] = TWindowFukidasi__data_805DCD0C * b->size[0] + b->pos[0];
-    b->center[1] = TWindowFukidasi__data_805DCD0C * b->size[1] + b->pos[1];
+    b->center[0] = 0.5f * b->size[0] + b->pos[0];
+    b->center[1] = 0.5f * b->size[1] + b->pos[1];
     project_anchor(NULL, b->head);
 }
 #pragma pop
@@ -840,8 +821,8 @@ void TWindowFukidasi::get_boundary_offset(s32 angle, f32 *out) {
     f32 kx;
     f32 ky;
     s32 neg;
-    ax = TWindowFukidasi__data_805DCD0C * (TWindowFukidasi__data_805DCD0C * b->w + TWindowFukidasi__data_805DCD18);
-    ay = TWindowFukidasi__data_805DCD0C * (TWindowFukidasi__data_805DCD0C * b->h + TWindowFukidasi__data_805DCD1C);
+    ax = 0.5f * (0.5f * b->w + 14.0f);
+    ay = 0.5f * (0.5f * b->h + 10.0f);
     out[0] = ax * cos_table_lookup(angle);
     out[1] = ay * sin_table_lookup(angle);
     if ((angle + 0x2000) & 0x4000) {
@@ -850,16 +831,16 @@ void TWindowFukidasi::get_boundary_offset(s32 angle, f32 *out) {
             kx = -kx;
         }
         if (angle & 0x8000) {
-            ky = TWindowFukidasi__data_805DCD4C;
+            ky = -1.0f;
         } else {
-            ky = TWindowFukidasi__data_805DCCE8;
+            ky = 1.0f;
         }
     } else {
         neg = (angle + 0x2000) & 0x8000;
         if (neg) {
-            kx = TWindowFukidasi__data_805DCD4C;
+            kx = -1.0f;
         } else {
-            kx = TWindowFukidasi__data_805DCCE8;
+            kx = 1.0f;
         }
         ky = sin_table_lookup(angle) / cos_table_lookup(angle);
         if (neg) {
@@ -888,22 +869,22 @@ s32 TUnk_804CF0B8::clamp_position(void *arg1, f32 farg0) {
     s32 var_r31;
 
     var_r31 = 0;
-    temp_f1 = TWindowFukidasi__data_805DCCFC + ((TWindowCtrlMain *)(*(s16 *)&this->m_20))->get_position_z();
+    temp_f1 = 20.0f + ((TWindowCtrlMain *)(*(s16 *)&this->m_20))->get_position_z();
     if (*(f32 *)((s8 *)arg1 + 0) < temp_f1) {
         *(f32 *)((s8 *)arg1 + 0) = temp_f1;
         var_r31 = 1;
     }
-    temp_f1_2 = (((TWindowCtrlMain *)(*(s16 *)&this->m_20))->get_ctrl_field14() - TWindowFukidasi__data_805DCCFC) - (this->m_48 * farg0);
+    temp_f1_2 = (((TWindowCtrlMain *)(*(s16 *)&this->m_20))->get_ctrl_field14() - 20.0f) - (this->m_48 * farg0);
     if (*(f32 *)((s8 *)arg1 + 0) > temp_f1_2) {
         *(f32 *)((s8 *)arg1 + 0) = temp_f1_2;
         var_r31 = 1;
     }
-    temp_f1_3 = lbl_805DCD44 + ((TWindowCtrlMain *)(*(s16 *)&this->m_20))->get_field10();
+    temp_f1_3 = 40.0f + ((TWindowCtrlMain *)(*(s16 *)&this->m_20))->get_field10();
     if (*(f32 *)((s8 *)arg1 + 4) < temp_f1_3) {
         *(f32 *)((s8 *)arg1 + 4) = temp_f1_3;
         var_r31 = 1;
     }
-    temp_f1_4 = (((TWindowCtrlMain *)(*(s16 *)&this->m_20))->get_field_18() - lbl_805DCD44) - (*(f32 *)((s8 *)this + 0x4C) * farg0);
+    temp_f1_4 = (((TWindowCtrlMain *)(*(s16 *)&this->m_20))->get_field_18() - 40.0f) - (*(f32 *)((s8 *)this + 0x4C) * farg0);
     if (*(f32 *)((s8 *)arg1 + 4) > temp_f1_4) {
         *(f32 *)((s8 *)arg1 + 4) = temp_f1_4;
         var_r31 = 1;
@@ -934,7 +915,7 @@ void open__15TWindowFukidasiFPvPvi(u8 *arg0, u32 *arg1, s32 arg2) {
     if (var_r31 != 0) {
         *(u8 *)((s8 *)arg0 + 0x70) = 5U;
         ((TUnk_804CF0B8 *)arg0)->clear_flag();
-        if (TWindowSubStatusDisp::get_card_window_scale(*(s16 *)((s8 *)arg0 + 0x20)) > TWindowFukidasi__data_805DCD30) {
+        if (TWindowSubStatusDisp::get_card_window_scale(*(s16 *)((s8 *)arg0 + 0x20)) > 0.0f) {
             *(s32 *)((s8 *)arg0 + 0x5C) = 0;
         }
     }
@@ -972,7 +953,7 @@ void set_text__15TWindowFukidasiFPvii(u8 *arg0, s32 str, s32 arg2) {
   }
   else
   {
-    measure_message_text_width((int) temp_r3, (f32) lbl_805DCD50);
+    measure_message_text_width((int) temp_r3, 200.0f);
   }
   if (arg2 & 0x80)
   {
@@ -984,8 +965,8 @@ void set_text__15TWindowFukidasiFPvii(u8 *arg0, s32 str, s32 arg2) {
   }
   *((s32 *) (((s8 *) temp_r3) + 0x24)) = 0xFF000000;
   new_var = TWindowKeyBoardSoft::strnlen((s8 *)str, (u32)(0x100));
-  *((s16 *) (((s8 *) arg0) + 0x74)) = (s16) ((lbl_805DCCF0 * ((f32) new_var)) + lbl_805DCCEC);
-  if (TWindowSubStatusDisp::get_card_window_scale((int) ((s32) (*((s16 *) (((s8 *) arg0) + 0x20))))) > TWindowFukidasi__data_805DCD30)
+  *((s16 *) (((s8 *) arg0) + 0x74)) = (s16) ((3.3f * ((f32) new_var)) + 55.5f);
+  if (TWindowSubStatusDisp::get_card_window_scale((int) ((s32) (*((s16 *) (((s8 *) arg0) + 0x20))))) > 0.0f)
   {
     *((s32 *) (((s8 *) arg0) + 0x5C)) = 0;
   }
@@ -997,9 +978,17 @@ void set_text__15TWindowFukidasiFPvii(u8 *arg0, s32 str, s32 arg2) {
 }
 #pragma pop
 
+// Dead-stripped from the DOL: no code of it survives, only its literal (1e6 at
+// 0x805DCD54, pooled between set_text's 200 and init_flags's 60000). It measures a
+// text entry the way set_text does but without its 200 wrap width, using the
+// 1e6 "no limit" width draw_name_plate clips names with. Name inferred from that role.
+void TUnk_804CF0B8::measure_text_unbounded(int entry) {
+    measure_message_text_width(entry, 1000000.0f);
+}
+
 void init_flags__15TWindowFukidasiFPvi(void *arg0, s32 arg1) {
-    ((TUnk_804CF0B8 *)arg0)->m_58 = (f32) TWindowFukidasi__data_805DCD30;
-    set_depth__11TWindowBaseFf(lbl_805DCD58);
+    ((TUnk_804CF0B8 *)arg0)->m_58 = 0.0f;
+    set_depth__11TWindowBaseFf(60000.0f);
     if (sub_80246948__11TWindowBaseFv(arg0) != 0) {
         ((TUnk_804CF0B8 *)arg0)->m_2c = (s32) (((TUnk_804CF0B8 *)arg0)->m_2c | 1);
     }
@@ -1037,28 +1026,14 @@ void TUnk_804CF0B8::sub_80251DF0(s16 arg1, s32 str, s16 arg3, f32 farg0) {
         *(s32 *)((s8 *)this + 0x78) = 0;
     }
     ((s32 (*)(void *, s16))set_color__13TUnk_804CF0B8FUs)(this, arg1);
-    *(f32 *)((s8 *)this + 0x80) = (f32) TWindowFukidasi__data_805DCD30;
+    *(f32 *)((s8 *)this + 0x80) = 0.0f;
     this->m_7c = farg0;
-    this->m_48 = (f32) TWindowFukidasi__data_805DCD30;
-    *(f32 *)((s8 *)this + 0x4C) = (f32) TWindowFukidasi__data_805DCD30;
+    this->m_48 = 0.0f;
+    *(f32 *)((s8 *)this + 0x4C) = 0.0f;
     this->clear_flag();
     this->clear_flag2c_bit100();
 }
 
-extern const f32 lbl_805DCD10;
-extern const f32 lbl_805DCD54;
-extern const f32 lbl_805DCD5C;
-extern const f32 lbl_805DCD60;
-extern const f32 lbl_805DCD64;
-extern const f32 lbl_805DCD68;
-extern const f32 lbl_805DCD6C;
-extern const f32 lbl_805DCD70;
-extern const f32 lbl_805DCD74;
-extern const f32 lbl_805DCD7C;
-extern const f32 lbl_805DCD80;
-extern const f32 lbl_805DCD84;
-extern const f32 lbl_805DCD88;
-extern const f32 lbl_805DCD8C;
 extern "C" s32 draw_small_font_string_clipped__FPfPCcUlf(f32 *pos, const char *s, u32 color, f32 width);
 #pragma push
 #pragma fp_contract on
@@ -1079,7 +1054,7 @@ void draw_name_plate__15TWindowFukidasiFv(TUnk_804CF0B8 *self, View_80252764 *ar
     textW = (f32) ((u32) get_name_text_width(name));
     if (arg1->fade_in < 6)
     {
-      alpha = (s32) (lbl_805DCD5C * ((f32) ((s32) (arg1->fade_in * 0xFF))));
+      alpha = (s32) (0.16666667f * ((f32) ((s32) (arg1->fade_in * 0xFF))));
     }
     else
     {
@@ -1088,70 +1063,64 @@ void draw_name_plate__15TWindowFukidasiFv(TUnk_804CF0B8 *self, View_80252764 *ar
     alphaBits = alpha << 24;
     color = arg2 & 0xffffff;
     color |= alphaBits & 0xff000000;
-    pos[0] = arg1->x - lbl_805DCD60;
-    pos[1] = arg1->y - TWindowFukidasi__data_805DCD1C;
-    scale = TWindowFukidasi__data_805DCD4C / (lbl_805DCD64 + arg1->depth);
+    pos[0] = arg1->x - 11.0f;
+    pos[1] = arg1->y - 10.0f;
+    scale = -1.0f / (0.0598f + arg1->depth);
     begin_screen_draw(1);
     TWindowSubStatusDisp::render_forward();
     set_draw_texture_and_color(0, color);
     q[0] = pos[0];
     q[1] = pos[1];
-    q[2] = lbl_805DCD68 + q[0];
-    q[3] = lbl_805DCD10 + q[1];
-    q[4] = lbl_805DCD6C;
-    q[5] = lbl_805DCD70;
-    q[6] = lbl_805DCD74;
-    q[7] = TWindowFukidasi__data_805DCCE8;
+    q[2] = 16.0f + q[0];
+    q[3] = 19.0f + q[1];
+    q[4] = 0.56640625f;
+    q[5] = 0.92578125f;
+    q[6] = 0.62890625f;
+    q[7] = 1.0f;
     apply_context_transform_to_rect(arg1, q);
     draw_textured_quad_at_depth(q, scale);
-    if (textW < TWindowFukidasi__data_805DCCFC)
+    if (textW < 20.0f)
     {
-      q[0] = lbl_805DCD78 + ((TWindowFukidasi__data_805DCCFC + pos[0]) - lbl_805DCD68);
+      q[0] = 12.0f + ((20.0f + pos[0]) - 16.0f);
     }
     else
     {
-      q[0] = lbl_805DCD78 + ((pos[0] + textW) - lbl_805DCD68);
+      q[0] = 12.0f + ((pos[0] + textW) - 16.0f);
     }
     q[1] = pos[1];
-    q[2] = lbl_805DCD68 + q[0];
-    q[3] = lbl_805DCD10 + q[1];
-    q[4] = lbl_805DCD7C;
-    q[5] = lbl_805DCD70;
-    q[6] = lbl_805DCD80;
-    q[7] = TWindowFukidasi__data_805DCCE8;
+    q[2] = 16.0f + q[0];
+    q[3] = 19.0f + q[1];
+    q[4] = 0.69140625f;
+    q[5] = 0.92578125f;
+    q[6] = 0.75390625f;
+    q[7] = 1.0f;
     apply_context_transform_to_rect(arg1, q);
     draw_textured_quad_at_depth(q, scale);
-    if (textW > TWindowFukidasi__data_805DCCFC)
+    if (textW > 20.0f)
     {
       {
-        f32 k = lbl_805DCD68;
+        f32 k = 16.0f;
         q[0] = (new_var = pos[0]) + k;
       }
       q[1] = pos[1];
-      q[2] = lbl_805DCD78 + ((new_var + textW) - lbl_805DCD68);
-      q[3] = lbl_805DCD10 + q[1];
-      q[4] = lbl_805DCD74;
-      q[5] = lbl_805DCD70;
-      q[6] = lbl_805DCD7C;
-      q[7] = TWindowFukidasi__data_805DCCE8;
+      q[2] = 12.0f + ((new_var + textW) - 16.0f);
+      q[3] = 19.0f + q[1];
+      q[4] = 0.62890625f;
+      q[5] = 0.92578125f;
+      q[6] = 0.69140625f;
+      q[7] = 1.0f;
       apply_context_transform_to_rect(arg1, q);
       draw_textured_quad_at_depth(q, scale);
     }
     TWindowSubStatusDisp::get_player();
+    pos[0] += 6.0f;
+    if (textW < 20.0f)
     {
-      f32 k = lbl_805DCD84;
-      pos[0] = pos[0] + k;
+      pos[0] = (0.5f * (20.0f - textW)) + pos[0];
     }
-    if (textW < TWindowFukidasi__data_805DCCFC)
-    {
-      pos[0] = (TWindowFukidasi__data_805DCD0C * (TWindowFukidasi__data_805DCCFC - textW)) + pos[0];
-    }
-    {
-      f32 k = TWindowFukidasi__data_805DCD28;
-      pos[1] = pos[1] + k;
-    }
-    set_text_draw_params((s32) arg1, 0, 1, TWindowFukidasi__data_805DCD4C / (lbl_805DCD88 + arg1->depth), lbl_805DCD8C);
-    draw_small_font_string_clipped__FPfPCcUlf(pos, self->name, alphaBits, lbl_805DCD54);
+    pos[1] += 3.0f;
+    set_text_draw_params((s32) arg1, 0, 1, -1.0f / (0.07475f + arg1->depth), 100000.0f);
+    draw_small_font_string_clipped__FPfPCcUlf(pos, self->name, alphaBits, 1000000.0f);
   }
 }
 #pragma pop
@@ -1174,8 +1143,8 @@ void TUnk_804CF0B8::draw_tail(void *view, u32 color, f32 *off, f32 depth) {
         this->project_anchor(pos, scr);
         cx = ((Fuki_802521E8 *)this)->center[0];
         cy = ((Fuki_802521E8 *)this)->center[1];
-        angle = TWindowFukidasi__data_8044ED70 * atan2_float(cy - scr[1], cx - scr[0]);
-        s = TWindowFukidasi__data_805DCD08 / xyz_distance((*(u8 * *)&camera_ctrl_instance) + 0x178, pos);
+        angle = 10430.38043493439 * atan2_float(cy - scr[1], cx - scr[0]);
+        s = 1000.0f / xyz_distance((*(u8 * *)&camera_ctrl_instance) + 0x178, pos);
         x0 = s * cos_table_lookup(angle) + scr[0];
         y0 = s * sin_table_lookup(angle) + scr[1];
         prim.verts = verts;
@@ -1185,11 +1154,11 @@ void TUnk_804CF0B8::draw_tail(void *view, u32 color, f32 *off, f32 depth) {
         colors[2] = colors[1] = colors[0] = (color << 8) | (color >> 24);
         verts[0] = x0;
         verts[1] = y0;
-        verts[2] = off[0] + (((Fuki_802521E8 *)this)->tail * (lbl_805DCD78 * cos_table_lookup(angle + 0x4000)) + cx);
-        verts[3] = off[1] + (((Fuki_802521E8 *)this)->tail * (lbl_805DCD78 * sin_table_lookup(angle + 0x4000)) + cy);
-        verts[4] = off[0] + (((Fuki_802521E8 *)this)->tail * (lbl_805DCD78 * cos_table_lookup(angle - 0x4000)) + cx);
-        verts[5] = off[1] + (((Fuki_802521E8 *)this)->tail * (lbl_805DCD78 * sin_table_lookup(angle - 0x4000)) + cy);
-        ((TObjCMHairMenu *)(&prim))->draw_tri_fan_2d(3, 2, lbl_805DCD90 + ((Fuki_802521E8 *)this)->f54);
+        verts[2] = off[0] + (((Fuki_802521E8 *)this)->tail * (12.0f * cos_table_lookup(angle + 0x4000)) + cx);
+        verts[3] = off[1] + (((Fuki_802521E8 *)this)->tail * (12.0f * sin_table_lookup(angle + 0x4000)) + cy);
+        verts[4] = off[0] + (((Fuki_802521E8 *)this)->tail * (12.0f * cos_table_lookup(angle - 0x4000)) + cx);
+        verts[5] = off[1] + (((Fuki_802521E8 *)this)->tail * (12.0f * sin_table_lookup(angle - 0x4000)) + cy);
+        ((TObjCMHairMenu *)(&prim))->draw_tri_fan_2d(3, 2, 0.04485f + ((Fuki_802521E8 *)this)->f54);
     }
 }
 #pragma pop
@@ -1241,40 +1210,40 @@ void TUnk_804CF0B8::draw_body(void *ctx, u32 argb, f32 *offset, f32 depth) {
     f32 mid;
     f32 d;
     f32 t;
-    width = ((struct Fukidasi_80252558 *)this)->size[0] + lbl_805DCD9C * ((struct Fukidasi_80252558 *)this)->size[1];
+    width = ((struct Fukidasi_80252558 *)this)->size[0] + 0.342f * ((struct Fukidasi_80252558 *)this)->size[1];
     s.f10 = 0.0f;
     s.f2c = 0.0f;
     s.f30 = 0.0f;
     begin_screen_draw(1);
     TObjFish::set_global_param((s32)lbl_805D63F0);
     set_draw_texture_and_color(1, argb);
-    if (((struct Fukidasi_80252558 *)this)->size[1] < lbl_805DCD98) {
-        capY = TWindowFukidasi__data_805DCD0C * ((struct Fukidasi_80252558 *)this)->size[1];
+    if (((struct Fukidasi_80252558 *)this)->size[1] < 64.0f) {
+        capY = 0.5f * ((struct Fukidasi_80252558 *)this)->size[1];
     } else {
-        capY = lbl_805DCD94;
+        capY = 32.0f;
     }
-    s.z = TWindowFukidasi__data_805DCD4C / depth;
+    s.z = -1.0f / depth;
     s.y = ((struct Fukidasi_80252558 *)this)->position[1] + offset[1];
     s.rowHeight = capY;
     s.v = 0.0f;
-    s.vh = capY * lbl_805DCDA4;
+    s.vh = capY / 256.0f;
     s.y = ((struct DrawCtx_80252558 *)ctx)->pivot[1] + ((struct DrawCtx_80252558 *)ctx)->scale[1] * (s.y - ((struct DrawCtx_80252558 *)ctx)->pivot[1]);
     s.rowHeight *= ((struct DrawCtx_80252558 *)ctx)->scale[1];
     draw_body_row(&s, ((struct DrawCtx_80252558 *)ctx), offset[0], 0.0f, width, capY);
     s.y = (((struct Fukidasi_80252558 *)this)->size[1] + (((struct Fukidasi_80252558 *)this)->position[1] + offset[1])) - capY;
     s.y = ((struct DrawCtx_80252558 *)ctx)->pivot[1] + ((struct DrawCtx_80252558 *)ctx)->scale[1] * (s.y - ((struct DrawCtx_80252558 *)ctx)->pivot[1]);
-    t = lbl_805DCDB0 - capY;
-    s.v = t * lbl_805DCDA4;
+    t = 96.0f - capY;
+    s.v = t / 256.0f;
     draw_body_row(&s, ((struct DrawCtx_80252558 *)ctx), offset[0], ((struct Fukidasi_80252558 *)this)->size[1] - capY, width, capY);
-    d = ((struct Fukidasi_80252558 *)this)->size[1] - lbl_805DCD98;
+    d = ((struct Fukidasi_80252558 *)this)->size[1] - 64.0f;
     mid = d * ((struct DrawCtx_80252558 *)ctx)->scale[1];
-    if (mid >= TWindowFukidasi__data_805DCD30) {
-        f32 y = lbl_805DCD94 + ((struct Fukidasi_80252558 *)this)->position[1];
+    if (mid >= 0.0f) {
+        f32 y = 32.0f + ((struct Fukidasi_80252558 *)this)->position[1];
         s.y = y + offset[1];
         s.y = ((struct DrawCtx_80252558 *)ctx)->pivot[1] + ((struct DrawCtx_80252558 *)ctx)->scale[1] * (s.y - ((struct DrawCtx_80252558 *)ctx)->pivot[1]);
-        s.v = lbl_805DCDB4;
+        s.v = 0.125f;
         s.rowHeight = mid;
-        draw_body_row(&s, ((struct DrawCtx_80252558 *)ctx), offset[0], lbl_805DCD94, width, d);
+        draw_body_row(&s, ((struct DrawCtx_80252558 *)ctx), offset[0], 32.0f, width, d);
     }
     TWindowSubStatusDisp::get_player();
 }
@@ -1289,8 +1258,8 @@ void TUnk_804CF0B8::render() {
     case 0:
         ((TUnk_804CF0B8 *)((Fuki_80252764 *)this))->project_anchor(NULL, ((Fuki_80252764 *)this)->head);
         this->place_rect_at_head_or_slot();
-        ((Fuki_80252764 *)this)->center[0] = TWindowFukidasi__data_805DCD0C * ((Fuki_80252764 *)this)->anchor[0] + ((Fuki_80252764 *)this)->rect[0];
-        ((Fuki_80252764 *)this)->center[1] = TWindowFukidasi__data_805DCD0C * ((Fuki_80252764 *)this)->anchor[1] + ((Fuki_80252764 *)this)->rect[1];
+        ((Fuki_80252764 *)this)->center[0] = 0.5f * ((Fuki_80252764 *)this)->anchor[0] + ((Fuki_80252764 *)this)->rect[0];
+        ((Fuki_80252764 *)this)->center[1] = 0.5f * ((Fuki_80252764 *)this)->anchor[1] + ((Fuki_80252764 *)this)->rect[1];
         ((Fuki_80252764 *)this)->phase = 1;
         break;
     case 2:
@@ -1312,14 +1281,14 @@ void TUnk_804CF0B8::render() {
     v = get_draw_context__11TWindowBaseFPv(((Fuki_80252764 *)this));
     v->sx /= TCameraCtrl::get_view_scale();
     v->sy /= TCameraCtrl::get_fov();
-    off[0] = TWindowFukidasi__data_805DCD28 * ((Fuki_80252764 *)this)->tail;
-    off[1] = lbl_805DCDB8 * ((Fuki_80252764 *)this)->tail;
-    draw_body((struct DrawCtx_80252558 *)(v), (u32)(0xFF000000), off, lbl_805DCDBC + ((Fuki_80252764 *)this)->f54);
-    ((TUnk_804CF0B8 *)((Fuki_80252764 *)this))->draw_tail(v, (u32)(0xFF000000), off, lbl_805DCDC0 + ((Fuki_80252764 *)this)->f54);
-    off[0] = TWindowFukidasi__data_805DCD30;
-    off[1] = TWindowFukidasi__data_805DCD30;
-    draw_body((struct DrawCtx_80252558 *)(v), ((Fuki_80252764 *)this)->color, off, lbl_805DCDC0 + ((Fuki_80252764 *)this)->f54);
-    ((TUnk_804CF0B8 *)((Fuki_80252764 *)this))->draw_tail(v, ((Fuki_80252764 *)this)->color, off, lbl_805DCD90 + ((Fuki_80252764 *)this)->f54);
+    off[0] = 3.0f * ((Fuki_80252764 *)this)->tail;
+    off[1] = 2.5f * ((Fuki_80252764 *)this)->tail;
+    draw_body((struct DrawCtx_80252558 *)(v), (u32)(0xFF000000), off, 0.0299f + ((Fuki_80252764 *)this)->f54);
+    ((TUnk_804CF0B8 *)((Fuki_80252764 *)this))->draw_tail(v, (u32)(0xFF000000), off, 0.01495f + ((Fuki_80252764 *)this)->f54);
+    off[0] = 0.0f;
+    off[1] = 0.0f;
+    draw_body((struct DrawCtx_80252558 *)(v), ((Fuki_80252764 *)this)->color, off, 0.01495f + ((Fuki_80252764 *)this)->f54);
+    ((TUnk_804CF0B8 *)((Fuki_80252764 *)this))->draw_tail(v, ((Fuki_80252764 *)this)->color, off, 0.04485f + ((Fuki_80252764 *)this)->f54);
     if (((TUnk_804CF0B8 *)((Fuki_80252764 *)this))->is_active() != 0) {
         draw_visible_window_entries(((Fuki_80252764 *)this), ((Fuki_80252764 *)this)->f24, v);
         draw_name_plate__15TWindowFukidasiFv(this, v, ((Fuki_80252764 *)this)->color);
@@ -1338,7 +1307,7 @@ void TWindowFukidasi::run_task() {
       ((TUnk_804CF0B8 *)arg0)->set_flag2c_bit100();
       *((u8 *) (((s8 *) arg0) + 0x70)) = 2U;
     case 2:
-      if (approach(TWindowFukidasi__data_805DCCE8) != 0)
+      if (approach(1.0f) != 0)
     {
       *((u8 *) (((s8 *) arg0) + 0x70)) = 3U;
     }
@@ -1352,8 +1321,8 @@ void TWindowFukidasi::run_task() {
       if ((*((u8 *) (((s8 *) arg0) + 0x71))) & 8)
     {
       *((s16 *) (((s8 *) arg0) + 0x74)) = (s16) ((*((s16 *) (((s8 *) arg0) + 0x74))) - 1);
-      *((f32 *) (((s8 *) arg0) + 0x58)) = (f32) ((*((f32 *) (((s8 *) arg0) + 0x58))) + TWindowFukidasi__data_805DCCF4);
-      *((f32 *) (((s8 *) arg0) + 0x1C)) = (f32) ((*((f32 *) (((s8 *) arg0) + 0x1C))) + TWindowFukidasi__data_805DCCF4);
+      *((f32 *) (((s8 *) arg0) + 0x58)) += 0.1f;
+      *((f32 *) (((s8 *) arg0) + 0x1C)) += 0.1f;
       if ((*((s16 *) (((s8 *) arg0) + 0x74))) < 0)
       {
         *((u8 *) (((s8 *) arg0) + 0x70)) = 7U;
@@ -1367,7 +1336,7 @@ void TWindowFukidasi::run_task() {
       ((TUnk_804CF0B8 *)arg0)->set_flag2c_bit100();
       *((u8 *) (((s8 *) arg0) + 0x70)) = 6U;
     case 6:
-      if (approach(TWindowFukidasi__data_805DCD0C) != 0)
+      if (approach(0.5f) != 0)
     {
       *((u8 *) (((s8 *) arg0) + 0x70)) = 1U;
     }
@@ -1380,7 +1349,7 @@ void TWindowFukidasi::run_task() {
       *((u8 *) (((s8 *) arg0) + 0x71)) = (u8) ((*((u8 *) (((s8 *) arg0) + 0x71))) | 0x10);
       *((u8 *) (((s8 *) arg0) + 0x70)) = 8U;
     case 8:
-      if (approach(TWindowFukidasi__data_805DCD30) != 0)
+      if (approach(0.0f) != 0)
     {
       *((u8 *) (((s8 *) arg0) + 0x70)) = 9U;
     }

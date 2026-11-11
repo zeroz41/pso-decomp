@@ -7286,7 +7286,7 @@ pso/ui/window/TWindowFukidasi.cpp:
 	.text       start:0x8025010C end:0x80252AE4
 	.rodata     start:0x8044ED68 end:0x8044ED80
 	.data       start:0x804CF0D0 end:0x804CF120
-	.sdata2     start:0x805DCD0C end:0x805DCDC8
+	.sdata2     start:0x805DCCE8 end:0x805DCDC4
 
 pso/ui/window/TWindowFukidasi_80252AE4.cpp:
 	.text       start:0x80252AE4 end:0x80252B74
@@ -9715,6 +9715,7 @@ pso/ui/charcreate/TChCrTagInformationStr.cpp:
 	.text       start:0x803098F4 end:0x80309D80
 	.rodata     start:0x804755F0 end:0x80475600
 	.data       start:0x804E7560 end:0x804E7578
+	.sdata2     start:0x805DF108 end:0x805DF130
 
 pso/effect/particle/TPlyFollowParticleCtrl.cpp:
 	.text       start:0x80309D80 end:0x8030A6A8

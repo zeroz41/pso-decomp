@@ -12,18 +12,8 @@ struct TagTextOrigin {
 
 extern "C" {
 void TCameraCtrl__sub_80068EF0(void);
-extern const f32 TChCrTagInformationStr__data_805DF108;
-extern const f32 lbl_805DF10C;
-extern const f32 lbl_805DF110;
-extern const f32 lbl_805DF114;
-extern const f32 lbl_805DF118;
-extern const f32 lbl_805DF11C;
-extern const f32 lbl_805DF120;
 s32 queue_destruction__7TObjectFv();
 extern s32 char_creation_tag_info_selected_index;
-extern const f32 lbl_805DF124;
-extern const f32 lbl_805DF128;
-extern const f32 lbl_805DF12C;
 s32 __ct__7TObjectFP7TObject();
 void *__nw__7TObjectFUl(int);
 
@@ -39,7 +29,7 @@ void *TChCrTagInformationStr::create(void *arg0, void *arg1) {
 
 // Seven lines of text; while fading in, each line also gets rings of faint copies that close in on it.
 void TChCrTagInformationStr::render() {
-    if (TChCrTagInformationStr__data_805DF108 != alpha) {
+    if (0.0f != alpha) {
         TCameraCtrl::restore_full_screen_view();
         set_depth_buffer_settings_1();
         TagTextOrigin pos = {315.0f, 280.0f};
@@ -51,15 +41,15 @@ void TChCrTagInformationStr::render() {
         u32 glow_color;
         a = alpha;
         sq = a * a;
-        color = ((u32)(lbl_805DF10C * sq) << 24) | 0xFFFFFF;
-        spread = lbl_805DF110 - sq;
-        glow_color = ((u32)(lbl_805DF114 * alpha * sin_table_lookup(lbl_805DF118 * a)) << 24) | 0xFFFFFF;
-        radius_step = lbl_805DF11C * spread;
+        color = ((u32)(255.0f * sq) << 24) | 0xFFFFFF;
+        spread = 1.0f - sq;
+        glow_color = ((u32)(16.0f * alpha * sin_table_lookup(32768.0f * a)) << 24) | 0xFFFFFF;
+        radius_step = 1.5f * spread;
         s32 line;
         for (line = 0; line < 7; line++) {
             const char *text = (const char *)get_localized_text_entry(text_group, first_text_entry + line);
             draw_menu_text(pos.x, pos.y, text, color);
-            if (spread > TChCrTagInformationStr__data_805DF108) {
+            if (spread > 0.0f) {
                 s32 ring;
                 for (ring = 1; ring < 5; ring++) {
                     f32 radius = ring * radius_step;
@@ -71,7 +61,7 @@ void TChCrTagInformationStr::render() {
                     }
                 }
             }
-            pos.y += lbl_805DF120;
+            pos.y += 20.0f;
         }
         restore_saved_depth_alpha_state();
         TCameraCtrl__sub_80068EF0();
@@ -101,20 +91,20 @@ void run_task__22TChCrTagInformationStrFv(u8 *arg0) {
         }
         break;
     case 1:
-        *(f32 *)((s8 *)arg0 + 0x30) = (f32) (*(f32 *)((s8 *)arg0 + 0x30) + lbl_805DF124);
-        if (*(f32 *)((s8 *)arg0 + 0x30) > lbl_805DF110) {
-            *(f32 *)((s8 *)arg0 + 0x30) = (f32) lbl_805DF110;
+        *(f32 *)((s8 *)arg0 + 0x30) += 0.026666667f;
+        if (*(f32 *)((s8 *)arg0 + 0x30) > 1.0f) {
+            *(f32 *)((s8 *)arg0 + 0x30) = 1.0f;
             break;
         }
         break;
     case 2:
         if ((s32) char_creation_tag_info_selected_index == -1) {
-            *(f32 *)((s8 *)arg0 + 0x30) = (f32) (*(f32 *)((s8 *)arg0 + 0x30) + lbl_805DF128);
+            *(f32 *)((s8 *)arg0 + 0x30) += -0.13333334f;
         } else {
-            *(f32 *)((s8 *)arg0 + 0x30) = (f32) (*(f32 *)((s8 *)arg0 + 0x30) + lbl_805DF12C);
+            *(f32 *)((s8 *)arg0 + 0x30) += -0.033333335f;
         }
-        if (*(f32 *)((s8 *)arg0 + 0x30) <= (*(f32 *)&TChCrTagInformationStr__data_805DF108)) {
-            *(f32 *)((s8 *)arg0 + 0x30) = (f32) (*(f32 *)&TChCrTagInformationStr__data_805DF108);
+        if (*(f32 *)((s8 *)arg0 + 0x30) <= 0.0f) {
+            *(f32 *)((s8 *)arg0 + 0x30) = 0.0f;
             queue_destruction__7TObjectFv();
         }
         break;
@@ -138,7 +128,7 @@ void *__ct__22TChCrTagInformationStrFv(void *arg0, s32 arg1, s32 arg2) {
     }
     *(s32 *)((s8 *)arg0 + 0x34) = 0;
     *(s32 *)((s8 *)arg0 + 0x2C) = 5;
-    *(f32 *)((s8 *)arg0 + 0x30) = (f32) TChCrTagInformationStr__data_805DF108;
+    *(f32 *)((s8 *)arg0 + 0x30) = 0.0f;
     *(s32 *)((s8 *)arg0 + 0x1C) = 0;
     return arg0;
 }

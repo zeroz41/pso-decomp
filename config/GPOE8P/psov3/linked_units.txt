@@ -1493,6 +1493,7 @@ pso/ui/window/TWindowDuelResult_801C2528.cpp
 pso/ui/window/TWindowEffectLight.cpp
 pso/ui/window/TWindowEffectParty.cpp
 pso/ui/window/TWindowEffectParty_8024F690.cpp
+pso/ui/window/TWindowFukidasi.cpp
 pso/ui/window/TWindowFukidasi_80252AE4.cpp
 pso/ui/window/TWindowFukidasi_80252B74.cpp
 pso/ui/window/TWindowFukidasi_80252BF8.cpp
