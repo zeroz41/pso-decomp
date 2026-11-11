@@ -43,7 +43,9 @@ void *TBoss6PlotFalz::create(void *parent, void *arg) {
     return new TBoss6Demo11_TYPE1_DEAD((TObject *)parent, arg);
 }
 
-TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TObject *parent, void *arg) : TObject(parent) {
+// inline: the original reaches its three local statics by name, not through the TU's
+// .rodata anchor, which only a weak (inline) copy does under -inline deferred.
+inline TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TObject *parent, void *arg) : TObject(parent) {
     static const EffectNodeDesc lbl_80477E60[] = {
         {0, {0.0f, 0.0f, 0.0f}},
         {4, {0.0f, 0.0f, 0.0f}},
@@ -61,7 +63,7 @@ TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TObject *parent, void *arg) : T
     VecCopy(&position, &lbl_804EF9E0);
     resource = (BmlResource *)TObjFish::get_fish_count();
     for (i = 0; i < 2; i++) {
-        s32 model_id = lbl_804DF614[i];
+        const s32 model_id = lbl_804DF614[i];
         parts[i].model = get_bml_model(resource, model_id);
         parts[i].texture = TObjFish__sub_8001EDB0(resource, model_id);
         parts[i].motion = get_bml_motion(resource, lbl_804EF9D8[i]);
