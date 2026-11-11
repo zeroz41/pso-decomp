@@ -186,3 +186,9 @@ void TBoss6CrushPtcl::run_task() {
         queue_destruction__7TObjectFv(this);
     }
 }
+
+// run_task's constants; defined after their use so the loads stay symbol loads (lead the .sdata2).
+extern const f32 lbl_805E00B8 = -0.25f;
+extern const f32 lbl_805E00BC = 0.0f;
+extern const f32 lbl_805E00C0 = 0.25f;
+extern const f32 lbl_805E00C4 = 0.1f;

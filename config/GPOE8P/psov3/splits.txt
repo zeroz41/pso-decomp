@@ -8665,15 +8665,12 @@ pso/boss/olgaflow/TBoss6Type2.cpp:
 	.sdata2     start:0x805DE3F0 end:0x805DE4D8
 
 pso/boss/olgaflow/TBoss6Type2_802BE588.cpp:
-	.text       start:0x802BE588 end:0x802BFBF4
-	.rodata     start:0x80471538 end:0x80471540
-	.sbss       start:0x805D6788 end:0x805D6790
-	.sdata2     start:0x805DE4E0 end:0x805DE4F4
-
-pso/unk/text_802BFBF4.cpp:
-	.text       start:0x802BFBF4 end:0x802C095C
+	.text       start:0x802BE588 end:0x802C095C
 	.ctors      start:0x80433FCC end:0x80433FD0
+	.rodata     start:0x804713D0 end:0x80471540
 	.data       start:0x804DFC50 end:0x804E079C
+	.sbss       start:0x805D6750 end:0x805D6798
+	.sdata2     start:0x805DE4D8 end:0x805DE4F4
 
 pso/unk/text_802C095C.cpp:
 	.text       start:0x802C095C end:0x802C09A8
@@ -10567,7 +10564,7 @@ pso/boss/olgaflow/TBoss6CrushRock.cpp:
 	.rodata     start:0x804796A0 end:0x804796C8
 	.data       start:0x804F1C28 end:0x804F1C58
 	.sdata      start:0x805D4408 end:0x805D4410
-	.sdata2     start:0x805E00C8 end:0x805E00E8
+	.sdata2     start:0x805E00B8 end:0x805E00E8
 
 pso/boss/barbaray/TBoss7DeRolLeC_8035A628.cpp:
 	.text       start:0x8035A628 end:0x8035A630

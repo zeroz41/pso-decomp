@@ -2606,7 +2606,6 @@ pso/unk/text_802AE978.cpp
 pso/unk/text_802AEAA4.cpp
 pso/ui/TLevelSelect_802AEBA8.cpp
 pso/object/ambient/TObjMistCtrl_802AF64C.cpp
-pso/unk/text_802BFBF4.cpp
 pso/unk/text_802C095C.cpp
 pso/player/TObjPlayer_802C09E0.cpp
 pso/unk/text_802C39F8.cpp
