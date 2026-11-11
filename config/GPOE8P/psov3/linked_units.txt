@@ -619,7 +619,6 @@ pso/object/container/TObjContainerItem.cpp
 pso/object/container/TObjContainerJung.cpp
 pso/item/TObjItemLight.cpp
 pso/item/TUnk_8049F3F4.cpp
-pso/item/TUnk_8049F42C.cpp
 pso/item/TUnk_8049F770.cpp
 pso/item/TUnk_8049F828.cpp
 pso/item/TUnk_8049F8E0.cpp
@@ -2367,7 +2366,6 @@ pso/unk/text_80086FE0.cpp
 pso/unk/text_800870BC.cpp
 pso/unk/text_800871A0.cpp
 pso/unk/text_80087278.cpp
-pso/unk/text_8008C4F4.cpp
 pso/unk/text_80090464.cpp
 pso/unk/text_80090488.cpp
 pso/enemy/beast/TObjEneBeast_80092AE0.cpp
@@ -2426,11 +2424,9 @@ pso/unk/text_8013ADD0.cpp
 pso/unk/text_8013ADE4.cpp
 pso/unk/text_8013F810.cpp
 pso/unk/text_80140D50.cpp
-pso/unk/text_80145804.cpp
 pso/unk/text_80145A44.cpp
 pso/unk/text_80145A94.cpp
 pso/unk/text_8014618C.cpp
-pso/unk/text_8015C534.cpp
 pso/system/TLanguage_8015C680.cpp
 pso/object/key/TODummyKeyCave01_80165940.cpp
 pso/unk/text_8016F1C0.cpp
@@ -2462,8 +2458,6 @@ pso/unk/text_801A6A5C.cpp
 pso/unk/text_801A6F84.cpp
 pso/player/TObjPlayer_801BC194.cpp
 pso/player/TObjPlayer_801BC688.cpp
-pso/unk/text_801C23A8.cpp
-pso/unk/text_801C51D4.cpp
 pso/unk/text_801C53D4.cpp
 pso/unk/text_801C543C.cpp
 pso/unk/text_801C5454.cpp
@@ -2507,7 +2501,6 @@ pso/unk/text_801E0C08.cpp
 pso/unk/text_801E3F24.cpp
 pso/unk/text_801E416C.cpp
 pso/unk/text_801E4BCC.cpp
-pso/unk/text_801E4E4C.cpp
 pso/effect/particle/TParticleCtrl_801E4E7C.cpp
 pso/unk/text_801E4EB0.cpp
 pso/unk/text_801E4F04.cpp
@@ -2728,7 +2721,6 @@ pso/unk/text_8035BFF8.cpp
 pso/unk/text_8035C9E8.cpp
 pso/unk/text_8035D2EC.cpp
 pso/unk/text_8035D444.cpp
-pso/unk/text_8035D49C.cpp
 pso/unk/text_803626A8.cpp
 pso/unk/text_80365348.cpp
 pso/unk/text_8036A3CC.cpp

@@ -1347,11 +1347,8 @@ pso/effect/particle/ParticleRadial.cpp:
 	.rodata     start:0x80439540 end:0x80439568
 	.sdata2     start:0x805D9558 end:0x805D9570
 
-pso/unk/text_8008C4F4.cpp:
-	.text       start:0x8008C4F4 end:0x8008C5C0
-
 pso/system/scene/TEnding_8008C5C0.cpp:
-	.text       start:0x8008C5C0 end:0x8008C6F4
+	.text       start:0x8008C4F4 end:0x8008C6F4
 	.sdata2     start:0x805D9570 end:0x805D9578
 
 pso/system/scene/TEndingC.cpp:
@@ -2437,11 +2434,8 @@ pso/item/TItemLoad_8010FAB4.cpp:
 pso/item/TItemLoad_8010FB74.cpp:
 	.text       start:0x8010FB74 end:0x8010FC28
 
-pso/item/TUnk_8049F42C.cpp:
-	.text       start:0x8010FC28 end:0x8010FDF0
-
 pso/item/TItemLoad_8010FDF0.cpp:
-	.text       start:0x8010FDF0 end:0x8010FF68
+	.text       start:0x8010FC28 end:0x8010FF68
 
 pso/item/TItemLoad_8010FF68.cpp:
 	.text       start:0x8010FF68 end:0x8010FFAC
@@ -3434,12 +3428,9 @@ pso/ui/frontend/TAdSubPlyItemGC.cpp:
 	.text       start:0x8014572C end:0x80145750
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC_80145778.cpp:
-	.text       start:0x80145750 end:0x80145804
-	.sdata2     start:0x805DB1A8 end:0x805DB1AC
-
-pso/unk/text_80145804.cpp:
-	.text       start:0x80145804 end:0x80145A28
+	.text       start:0x80145750 end:0x80145A28
 	.bss        start:0x8050C040 end:0x8050C0A8
+	.sdata2     start:0x805DB1A8 end:0x805DB1AC
 
 pso/ui/window/TWindowCtrl_80145A28.cpp:
 	.text       start:0x80145A28 end:0x80145A44
@@ -3941,10 +3932,7 @@ pso/object/container/TOContainerAncientItemCommon.cpp:
 	.text       start:0x8015BFF0 end:0x8015C4CC
 
 pso/player/TObjPlayer_8015C4CC.cpp:
-	.text       start:0x8015C4CC end:0x8015C534
-
-pso/unk/text_8015C534.cpp:
-	.text       start:0x8015C534 end:0x8015C680
+	.text       start:0x8015C4CC end:0x8015C680
 
 pso/system/TLanguage_8015C680.cpp:
 	.text       start:0x8015C680 end:0x8015C8D8
@@ -5339,13 +5327,10 @@ pso/ui/window/TWindowActionPalette_801C1890.cpp:
 pso/player/TObjPlayer_801C1FF8.cpp:
 	.text       start:0x801C1FF8 end:0x801C23A8
 
-pso/unk/text_801C23A8.cpp:
-	.text       start:0x801C23A8 end:0x801C2528
+pso/ui/window/TWindowDuelResult_801C2528.cpp:
+	.text       start:0x801C23A8 end:0x801C25B4
 	.rodata     start:0x80446F78 end:0x80446F80
 	.sdata2     start:0x805DC2E0 end:0x805DC2E4
-
-pso/ui/window/TWindowDuelResult_801C2528.cpp:
-	.text       start:0x801C2528 end:0x801C25B4
 
 pso/unk/TLobby_801C25B4.cpp:
 	.text       start:0x801C25B4 end:0x801C4F70
@@ -5362,10 +5347,7 @@ pso/unk/TLobby_801C4F80.cpp:
 	.sdata2     start:0x805DC300 end:0x805DC304
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801C50A8.cpp:
-	.text       start:0x801C50A8 end:0x801C51D4
-
-pso/unk/text_801C51D4.cpp:
-	.text       start:0x801C51D4 end:0x801C53D4
+	.text       start:0x801C50A8 end:0x801C53D4
 	.sdata2     start:0x805DC308 end:0x805DC320
 
 pso/unk/text_801C53D4.cpp:
@@ -5819,10 +5801,7 @@ pso/unk/text_801E4BCC.cpp:
 	.text       start:0x801E4BCC end:0x801E4CF0
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801E4CF0.cpp:
-	.text       start:0x801E4CF0 end:0x801E4E4C
-
-pso/unk/text_801E4E4C.cpp:
-	.text       start:0x801E4E4C end:0x801E4E7C
+	.text       start:0x801E4CF0 end:0x801E4E7C
 
 pso/effect/particle/TParticleCtrl_801E4E7C.cpp:
 	.text       start:0x801E4E7C end:0x801E4EB0
@@ -10913,10 +10892,7 @@ pso/unk/text_8035D2EC.cpp:
 	.text       start:0x8035D2EC end:0x8035D444
 
 pso/unk/text_8035D444.cpp:
-	.text       start:0x8035D444 end:0x8035D49C
-
-pso/unk/text_8035D49C.cpp:
-	.text       start:0x8035D49C end:0x8035D540
+	.text       start:0x8035D444 end:0x8035D540
 
 pso/unk/TLobby_8035D540.cpp:
 	.text       start:0x8035D540 end:0x8035D5B4
