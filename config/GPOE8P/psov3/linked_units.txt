@@ -1167,6 +1167,7 @@ pso/object/switch/TOSwitchItem.cpp
 pso/object/switch/TOSwitchTimer.cpp
 pso/object/collision/TOSymbolchatColli.cpp
 pso/object/trap/TOTrap.cpp
+pso/object/trap/TOTrapAncient01.cpp
 pso/object/trap/TOTrapAncient02.cpp
 pso/object/trap/TOTrapAncient02R.cpp
 pso/object/trap/TOTrapChainSawEdge.cpp

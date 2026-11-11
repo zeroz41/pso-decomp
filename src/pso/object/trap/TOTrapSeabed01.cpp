@@ -524,7 +524,7 @@ struct RecoveredGlobal_802CA9AC___vt__14TOTrapSeabed01 { s32 value; u8 remaining
 extern "C" {
 s32 get_bml_motion(int, int);
 s32 init_collision_body_parts(void *, void *, int);
-s32 TOTrap__ct(void *);
+s32 __ct__6TOTrapFP7TObject(void *);
 extern SeabedTrapCollisionBody seabed_trap_collision_body;
 extern void *__vt__14TOTrapSeabed01[];
 extern s32 TOTrapSeabed01_class_name;
@@ -599,7 +599,7 @@ void TOTrapSeabed01::clamp_params_and_init() {
     if (this->scale.y < TOTrapSeabed01__data_805DE644[0]) {
         this->scale.y = TOTrapSeabed01__data_805DE644[0];
     }
-    *(f32 *)&this->m_354 = this->vfunc_87(this->scale.y);
+    *(f32 *)&this->m_354 = this->scale_by_table_value(this->scale.y);
     *(s32 *)&this->set_params[2] = CLAMPI(*(s32 *)&this->set_params[2], 0, 5);
     *(s32 *)&this->m_350 = trap_seabed01_param_index_table[*(s32 *)&this->set_params[2]];
 }
@@ -672,7 +672,7 @@ void *__dt__14TOTrapSeabed01Fv(void *arg0, s16 arg1) {
     return arg0;
 }
 u8 *TOTrapSeabed01__ct(TOTrapSeabed01 *trap_seabed01, s32 arg1, s32 arg2) {
-    TOTrap__ct(trap_seabed01);
+    __ct__6TOTrapFP7TObject(trap_seabed01);
     *(s32 **)((s8 *)trap_seabed01 + 0x18) = &(*(RecoveredGlobal_802CA9AC___vt__14TOTrapSeabed01 *)&__vt__14TOTrapSeabed01).value;
     *(s32 *)((s8 *)trap_seabed01 + 0) = (s32) TOTrapSeabed01_class_name;
     ((TOTrapSeabed01 *)(trap_seabed01))->apply_object_set_data((void *)arg2);
@@ -699,9 +699,10 @@ void vfunc_89__6TOTrapFv();
 void vfunc_86__6TOTrapFv();
 void vfunc_88__6TOTrapFv();
 void try_start_action__6TOTrapFll();
-u8 TOTrap__sub_801792CC(u8 *arg0, s32 arg1);
-u8 TOTrap__sub_801792E4(u8 *arg0, s32 arg1);
-u8 TOTrap__sub_801792FC(u8 *arg0, s32 arg1);
+void roll_physical_accuracy__6TOTrapFPvlf();
+void select_melee_contact_body__6TOTrapFPvf();
+void calc_distance_accuracy_penalty__6TOTrapFPvPvPvf();
+void scale_by_table_value__6TOTrapFf();
 void apply_knockback_from_attacker__6TOTrapFPUcf();
 void vfunc_29__9TObjCharaFv();
 void vfunc_74__9TObjCharaFl();
@@ -731,7 +732,7 @@ void apply_poison_status__9TObjCharaFv();
 void apply_shock_status__9TObjCharaFv();
 void apply_slow_status__9TObjCharaFv();
 void apply_switch_attack__9TObjCharaFv();
-void check_trigger_range__6TOTrapFUl();
+void receive_direct_attack__6TOTrapFPv19DirectAttackPayloadPvll();
 void classify_actor_view_detail__8TObjBaseFfff();
 void clear_all_status_effects__9TObjCharaFv();
 void clear_harmful_statuses__9TObjCharaFv();
@@ -749,7 +750,7 @@ void vfunc_75__9TObjCharaFf();
 void get_center__9TObjCharaFv();
 void get_actor_level_index__9TObjCharaFv();
 void get_pos__9TObjCharaFl();
-void get_scale__6TOTrapFUl();
+void receive_weapon_special_attack__6TOTrapFPvPv();
 void is_actor_cadence_frame__9TObjCharaFl();
 void is_any_player_matching_stat__6TOTrapFv();
 void is_target_in_attack_range__9TObjCharaFv();
@@ -807,14 +808,14 @@ void *__vt__14TOTrapSeabed01[91] = {
     (void *)&update_actor_ground_y__9TObjCharaFv,
     (void *)&vfunc_18__9TObjCharaFPUc,
     (void *)&is_actor_cadence_frame__9TObjCharaFl,
-    (void *)&TOTrap__sub_801792E4,
-    (void *)&TOTrap__sub_801792FC,
+    (void *)&select_melee_contact_body__6TOTrapFPvf,
+    (void *)&calc_distance_accuracy_penalty__6TOTrapFPvPvPvf,
     (void *)&TOTrapSeabed01__vt20,
-    (void *)&check_trigger_range__6TOTrapFUl,
-    (void *)&get_scale__6TOTrapFUl,
+    (void *)&receive_direct_attack__6TOTrapFPv19DirectAttackPayloadPvll,
+    (void *)&receive_weapon_special_attack__6TOTrapFPvPv,
     (void *)&apply_knockback_from_attacker__6TOTrapFPUcf,
     (void *)&try_start_action__6TOTrapFll,
-    (void *)&TOTrap__sub_801792CC,
+    (void *)&roll_physical_accuracy__6TOTrapFPvlf,
     (void *)&vfunc_28__9TObjCharaFv,
     (void *)&vfunc_29__9TObjCharaFv,
     (void *)&is_target_in_attack_range__9TObjCharaFv,
@@ -874,7 +875,7 @@ void *__vt__14TOTrapSeabed01[91] = {
     (void *)&vfunc_84__14TOTrapSeabed01Fv,
     (void *)&TOTrapSeabed01__vt83,
     (void *)&vfunc_86__6TOTrapFv,
-    (void *)&TOTrap::scale_by_table_value,
+    (void *)&scale_by_table_value__6TOTrapFf,
     (void *)&vfunc_88__6TOTrapFv,
     (void *)&vfunc_89__6TOTrapFv,
     0

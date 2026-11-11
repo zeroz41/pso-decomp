@@ -333,7 +333,8 @@ s32 check_player_flag1__6TLobbyFv();
 s32 free_collision_body_parts(void *);
 void init_collision_body_parts(void *, void *, s32);
 void *__dt__6TOTrapFv(void *arg0, s16 arg1);
-void * TOTrap__ct(void *, void *, void *);
+void *__ct__6TOTrapFP7TObject(void *, void *, void *);
+void scale_by_table_value__6TOTrapFf();
 void find_target_player__16TOTrapAncient02RFv(Obj_8017A8B0 *self);
 f32 receive_physical_attack__16TOTrapAncient02RFPvf(Obj_8017A988 *self);
 void * __dt__16TOTrapAncient02RFv(void *arg0, s16 arg1);
@@ -578,7 +579,7 @@ s32 __vt__16TOTrapAncient02R[90] = {
     (s32)&vfunc_84__15TOTrapAncient02Fv,
     (s32)&play_sounds__6TOTrapFv,
     (s32)&vfunc_86__16TOTrapAncient02RFv,
-    (s32)&TOTrap::scale_by_table_value,
+    (s32)&scale_by_table_value__6TOTrapFf,
     (s32)&vfunc_88__16TOTrapAncient02RFv,
     (s32)&vfunc_89__6TOTrapFv
 };
@@ -692,7 +693,7 @@ void TOTrapAncient02R__vt79(Obj_8017A3C0 *o) {
                     case 1: {
                         Dmg_8017A3C0 dmg;
                         dmg.type = 3;
-                        dmg.v = ((TOTrapAncient02R *)o)->vfunc_87(lbl_805DBA94 * (f32)o->level + lbl_805DBA90);
+                        dmg.v = ((TOTrapAncient02R *)o)->scale_by_table_value(lbl_805DBA94 * (f32)o->level + lbl_805DBA90);
                         ((Trap_8017A3C0 *)o->target)->m21(o, dmg, 0, -1, -1);
                         spawn_particle_effect(scratch_vec, 0xB9);
                         spawn_particle_effect(scratch_vec, 0xBA);
@@ -1231,7 +1232,7 @@ void *__dt__15TOTrapAncient02Fv(void *trap, s16 arg1) {
 #pragma push
 #pragma fp_contract on
 void *TOTrapAncient02__ct(void *arg0, void *arg1, void *arg2) {
-    TOTrap__ct(((Trap_8017B6D8 *)arg0), arg1, arg2);
+    __ct__6TOTrapFP7TObject(((Trap_8017B6D8 *)arg0), arg1, arg2);
     ((Trap_8017B6D8 *)arg0)->vt = (void *)__vt__15TOTrapAncient02;
     ((Trap_8017B6D8 *)arg0)->id = TOTrapAncient02__name;
     ((V_8017B6D8 *)((Trap_8017B6D8 *)arg0))->init(arg2);

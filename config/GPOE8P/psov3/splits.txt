@@ -4439,13 +4439,14 @@ pso/object/collision/TOSymbolchatColli.cpp:
 	.sdata2     start:0x805DBA28 end:0x805DBA34
 
 pso/object/trap/TOTrap.cpp:
-	.text       start:0x80178B78 end:0x8017939C
+	.text       start:0x80178B78 end:0x801793A0
+	.data       start:0x804B46B8 end:0x804B4820
 	.sdata2     start:0x805DBA38 end:0x805DBA48
 
 pso/object/trap/TOTrapAncient01.cpp:
-	.text       start:0x8017939C end:0x8017A20C
+	.text       start:0x801793A0 end:0x8017A20C
 	.rodata     start:0x80442D80 end:0x80442E70
-	.data       start:0x804B49D8 end:0x804B4AD8
+	.data       start:0x804B4870 end:0x804B4AD8
 	.sdata2     start:0x805DBA48 end:0x805DBA78
 
 pso/object/trap/TOTrapAncient02R.cpp:

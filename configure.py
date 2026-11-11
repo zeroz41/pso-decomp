@@ -663,7 +663,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # with its own lis/addi, not off one shared base.
     "pso/unk/text_80049FD8.cpp": {"mw_version": "GC/2.0"},
     "pso/unk/text_8031EF14.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-pool off")},
-    "pso/object/trap/TOTrapAncient01.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-pool off")},
+    "pso/object/trap/TOTrapAncient01.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-pool off", "-inline off,deferred")},
     # TItemAttackCol's ctor builds a const StarLightParameters aggregate from the params; its star-colour loads
     # come before the stores into the local, the same 2.0 aggregate scheduling as the chip spawners above.
     "pso/weapon/TItemAttackCol.cpp": {"mw_version": "GC/2.0"},
