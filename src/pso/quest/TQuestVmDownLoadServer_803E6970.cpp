@@ -1709,8 +1709,8 @@ extern u8 *lbl_805D7870;
 extern Node_803E8B1C *lbl_805D7878;
 void TQuestVmDownLoadServer__sub_803E95BC(void);
 
-inline s32 Hash_80591EC8(char *s) {
-    s32 h;
+inline int Hash_80591EC8(char *s) {
+    int h;
     u8 c = s[0];
     if (c >= 0xA0 && c < 0xF0) {
         h = c - 0xA0;
@@ -1737,11 +1737,7 @@ inline Node_803E8B1C *FindName_80591EC8(NameCache_80591EC8 *cache, char *buf, s1
         }
         prev = n;
     }
-    if (prev == NULL) {
-        *plink = &cache->hash[h];
-    } else {
-        *plink = &prev->next;
-    }
+    *plink = prev == NULL ? &cache->hash[h] : &prev->next;
     return n;
 }
 inline Node_803E8B1C *AllocNode_80591EC8() {
@@ -1986,7 +1982,7 @@ inline s32 RecordSize_803E8DA0(Req_803EEF2C *req) {
     } else {
         extra = 2;
     }
-    return req->len + extra + TQuestVmDownLoadServer::calc_sjis_string_width(req->text) + 3;
+    return 3 + req->len + extra + TQuestVmDownLoadServer::calc_sjis_string_width(req->text);
 }
 inline void WriteRecord_803E8DA0(u8 *p, s32 size, Req_803EEF2C *req, u8 attr) {
     *p++ = size % 256;
@@ -3549,8 +3545,22 @@ inline s32 entry_group_text(s32 start, s32 count, Node_803EB794 *node, u16 *buf)
     buf += n;
     return n + TQuestVmDownLoadServer__sub_803E6970(start + node->len, count - node->len, buf, 0);
 }
-inline void put_page_number(u8 *p, s32 n) {
+void TQuestVmDownLoadServer__sub_803EB4D4(void) {
+    s32 n;
+    u16 *buf;
+    s32 i;
+    Node_803EB794 *node;
+    s32 w;
+    s32 pos;
+    u8 *p;
     s32 d;
+
+    p = &lbl_80596258[5];
+    n = count_entry_groups(lbl_805D78A0);
+    n = n - quest_page_node_index - 1;
+    if (n < 0) {
+        n = 0;
+    }
     d = n / 100;
     if (d != 0) {
         *p++ = d + '0';
@@ -3565,23 +3575,6 @@ inline void put_page_number(u8 *p, s32 n) {
         *p++ = ' ';
     }
     *p = n % 10 + '0';
-}
-void TQuestVmDownLoadServer__sub_803EB4D4(void) {
-    s32 n;
-    u16 *buf;
-    s32 i;
-    Node_803EB794 *node;
-    s32 w;
-    s32 pos;
-    u8 *p;
-
-    p = &lbl_80596258[5];
-    n = count_entry_groups(lbl_805D78A0);
-    n -= quest_page_node_index + 1;
-    if (n < 0) {
-        n = 0;
-    }
-    put_page_number(p, n);
     TQuestVmDownLoadServer__sub_803EC95C(lbl_805A0340, lbl_80596258, 0);
     node = lbl_805D78A0;
     pos = 9;
