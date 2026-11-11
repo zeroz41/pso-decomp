@@ -9982,6 +9982,7 @@ pso/boss/olgaflow/TBoss6Type2_80336E6C.cpp:
 	.ctors      start:0x80433FF0 end:0x80433FF4
 	.rodata     start:0x80477858 end:0x80477890
 	.data       start:0x804EEF98 end:0x804EF100
+	.sdata2     start:0x805DF978 end:0x805DF988
 
 pso/player/TObjPlayer_80337348.cpp:
 	.text       start:0x80337348 end:0x803374F0

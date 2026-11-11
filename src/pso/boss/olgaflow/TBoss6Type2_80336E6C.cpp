@@ -6,10 +6,6 @@ struct O_80337054 { u8 pad[0x3CC]; s32 f3cc; u8 pad2[0x410 - 0x3D0]; s32 f410; }
 
 extern "C" {
 s32 set_action__9TBoss6MagFl(void * a0, s32 a1);
-extern const f32 lbl_805DF978;
-extern const f32 lbl_805DF97C;
-extern const f32 lbl_805DF980;
-extern const f32 lbl_805DF984;
 void spawn_mag_mines__11TBoss6Type2Fv();
 int play_sound_effect(void*, void*, void*, void*);
 s32 turn_toward_target__11TBoss6Type2Fv();
@@ -17,13 +13,11 @@ s32 fly_toward_target__11TBoss6Type2Fv();
 s32 TBoss6Type2__sub_8032FB84();
 s32 set_action__9TBoss6MagFl(void * a0 = 0, s32 a1 = 0);
 
-#pragma push
-#pragma opt_common_subs off
 void TBoss6Type2::update_recover_timer() {
     u8 *arg0 = (u8 *)this;
-    *(f32 *)((s8 *)arg0 + 0x400) = (f32) (*(f32 *)((s8 *)arg0 + 0x400) + lbl_805DF978);
-    if (*(f32 *)((s8 *)arg0 + 0x400) < lbl_805DF97C) {
-        *(f32 *)((s8 *)arg0 + 0x400) = (f32) lbl_805DF97C;
+    *(f32 *)((s8 *)arg0 + 0x400) += -1.0f / 30.0f;
+    if (*(f32 *)((s8 *)arg0 + 0x400) < 0.0f) {
+        *(f32 *)((s8 *)arg0 + 0x400) = 0.0f;
     }
     this->m_3cc = (this->m_3cc + 1);
     if ((s32) this->m_3cc >= 0x5A) {
@@ -35,24 +29,20 @@ void TBoss6Type2::update_recover_timer() {
         set_action__9TBoss6MagFl(arg0, 2);
     }
 }
-#pragma pop
 
 void TBoss6Type2::sub_80336F00() { m_3cc = 0; play_sound_effect((void*)438292, &position, (void*)0, (void*)0); destroy_part_object((s32)((void*)((void*)0))); }
 
-#pragma push
-#pragma opt_common_subs off
 void TBoss6Type2::update_ramp_timer() {
     u8 *arg0 = (u8 *)this;
-    *(f32 *)((s8 *)arg0 + 0x400) = (f32) (*(f32 *)((s8 *)arg0 + 0x400) + lbl_805DF980);
-    if (*(f32 *)((s8 *)arg0 + 0x400) > lbl_805DF984) {
-        *(f32 *)((s8 *)arg0 + 0x400) = (f32) lbl_805DF984;
+    *(f32 *)((s8 *)arg0 + 0x400) += 1.0f / 30.0f;
+    if (*(f32 *)((s8 *)arg0 + 0x400) > 1.0f) {
+        *(f32 *)((s8 *)arg0 + 0x400) = 1.0f;
     }
     this->m_3cc = (this->m_3cc + 1);
     if ((s32) this->m_3cc >= (s32) this->m_3c0) {
         set_action__9TBoss6MagFl(arg0, 5);
     }
 }
-#pragma pop
 
 void TBoss6Type2::sub_80336FB8() { m_3cc = 0; ensure_particle_emitter((s32)((void*)0)); }
 void TBoss6Type2::tick_attack_timer() {
