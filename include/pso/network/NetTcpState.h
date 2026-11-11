@@ -202,7 +202,7 @@ s32 TLobby__sub_8041F11C(TcpTcb *self);
 s32 TLobby__sub_8041F204(NetPacket *pkt, u16 x, TcpTcb *self);
 s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th);
 s32 TLobby__sub_8041FFF8(u32 len, TcpTcb *self);
-s32 TLobby__sub_80420410(s32 arg0, s32 arg1, NetPacket *pkt, TcpTcb *o);
+s32 TLobby__sub_80420410(u32 off, u32 len, NetPacket *pkt, TcpTcb *o);
 s32 TLobby__sub_80420BD0(NetPacket *req, TcpTcb *s, void (*done)(s16, s16));
 #ifdef __cplusplus
 }
