@@ -2025,7 +2025,6 @@ pso/player/TObjPlayer_8015C8D8.cpp
 pso/player/TObjPlayer_80178150.cpp
 pso/player/TObjPlayer_801A7080.cpp
 pso/player/TObjPlayer_801A9BAC.cpp
-pso/player/TObjPlayer_801AA220.cpp
 pso/player/TObjPlayer_801AA508.cpp
 pso/player/TObjPlayer_801AA5C0.cpp
 pso/player/TObjPlayer_801AD47C.cpp
@@ -2480,7 +2479,6 @@ pso/unk/text_801A5778.cpp
 pso/unk/text_801A6A28.cpp
 pso/unk/text_801A6A5C.cpp
 pso/unk/text_801A6F84.cpp
-pso/unk/text_801AA3B4.cpp
 pso/player/TObjPlayer_801BC194.cpp
 pso/player/TObjPlayer_801BC688.cpp
 pso/unk/text_801C23A8.cpp

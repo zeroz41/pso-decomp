@@ -5185,18 +5185,8 @@ pso/player/PhotonBlastResults.cpp:
 	.sdata2     start:0x805DC110 end:0x805DC138
 
 pso/player/TObjPlayer_801A9BAC.cpp:
-	.text       start:0x801A9BAC end:0x801A9CB8
-
-pso/unk/text_801A9CB8.cpp:
-	.text       start:0x801A9CB8 end:0x801AA220
-
-pso/player/TObjPlayer_801AA220.cpp:
-	.text       start:0x801AA220 end:0x801AA3B4
-	.data       start:0x804C32C0 end:0x804C33C8
-
-pso/unk/text_801AA3B4.cpp:
-	.text       start:0x801AA3B4 end:0x801AA508
-	.data       start:0x804C33C8 end:0x804C344C
+	.text       start:0x801A9BAC end:0x801AA508
+	.data       start:0x804C32C0 end:0x804C34B4
 
 pso/player/TObjPlayer_801AA508.cpp:
 	.text       start:0x801AA508 end:0x801AA584

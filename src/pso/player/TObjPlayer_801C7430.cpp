@@ -4198,7 +4198,7 @@ void TObjPlayer::enter_photon_blast_action() {
     *(s16 *)(arg0 + 0x328) = 0;
     set_action_state__10TObjPlayerFPvss(arg0, 9, query_equip__10TObjPlayerFv(arg0));
     ((TObjPlayer *)arg0)->set_state_flags(0x80);
-    TObjPlayer::start_photon_blast(((TFontSmallLobby *)(arg0 + 0x4AC))->get_valid_index(), ((s32 (*)(void *))get_entity_id)(arg0));
+    TObjPlayer::start_photon_blast(((TFontSmallLobby *)(arg0 + 0x4AC))->get_valid_index(), (u16)get_entity_id(arg0));
 }
 
 void handle_6x49_execute_photon_blast(void *arg0) {

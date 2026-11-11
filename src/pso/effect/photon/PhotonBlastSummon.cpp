@@ -109,8 +109,8 @@ void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 sca
     }
 }
 
-void queue_deferred_photon_blast_support(void) {
-    ((s32 (*)(f32))queue_deferred_photon_blast_hit)(1.0f);
+void queue_deferred_photon_blast_support(u32 identity, s32 kind, s32 allow_duplicate) {
+    ((void (*)(u32, s32, s32, f32))queue_deferred_photon_blast_hit)(identity, kind, allow_duplicate, 1.0f);
 }
 
 void queue_photon_blast_support(void) {

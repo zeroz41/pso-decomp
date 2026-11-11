@@ -1248,7 +1248,7 @@ struct TObjPlayer : public TObjChara {
     u16 get_uid();
     static u32 spawn_shot_effect(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
     void clear_rico_ring_flag();
-    static void start_photon_blast(s32 arg0, u16 arg1);
+    static void start_photon_blast(s32 kind, s32 client_id);
     s32 init_arrays();
     s32 get_card_window_field_244();
     void init_local_pad_binding();

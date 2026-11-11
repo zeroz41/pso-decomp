@@ -14,6 +14,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 #pragma readonly_strings on
 
@@ -152,9 +153,6 @@ struct RecoveredGlobal_801AD218_TPhotonMagicSquare__data_804C3940 { s32 value; u
 
 struct RecoveredGlobal_801AD218___vt__18TPhotonMagicSquare { s32 value; u8 remaining[0x34]; };
 
-struct RecoveredGlobal_801AD330_TPhotonMagicSquare__data_804C3940 { s32 value; u8 remaining[0x5C]; };
-
-struct RecoveredGlobal_801AD330___vt__18TPhotonMagicSquare { s32 value; u8 remaining[0x34]; };
 
 extern "C" {
 s32 __ct__8TObjBaseFP7TObject(void *);
@@ -169,7 +167,6 @@ NJS_ARGB TPhotonMagicSquare__color_palette[6] = {
 extern RecoveredGlobal_801AD0F0___vt__18TPhotonMagicSquare __vt__18TPhotonMagicSquare;
 extern const char *TPhotonMagicSquare__data_805D3508;
 extern u8 *photon_blast_shared_resource;
-s32 find_entity_by_id(void *);
 s32 play_sound_effect(int, int, int, int);
 void __dl__7TObjectFPv(void *);
 
@@ -225,10 +222,9 @@ u8 *construct_photon_magic_square_normal(u8 *photon_magic_square, s32 arg1, s32 
     return photon_magic_square;
 }
 
-u8 *TPhotonMagicSquare::construct_at_owner(s32 arg1, s32 arg2, s32 arg3) {
-    s32 entity;
-    __ct__8TObjBaseFP7TObject(this);
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_801AD330___vt__18TPhotonMagicSquare *)&__vt__18TPhotonMagicSquare).value;
+// Constructor: TObjBase(parent), then the vtable store (start_photon_blast news one per blast kind).
+TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 color, u16 owner_id) : TObjBase(parent) {
+    TObjCollidable *entity;
     *(s32 *)&this->m_name = (s32) ((s32)TPhotonMagicSquare__data_805D3508);
     *(s32 *)&this->model = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x28);
     *(u8 * *)&this->m_90 = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x430)) + 0x14));
@@ -239,10 +235,10 @@ u8 *TPhotonMagicSquare::construct_at_owner(s32 arg1, s32 arg2, s32 arg3) {
     this->scale.x = (f32) (0.0f);
     this->scale.y = (f32) (0.0f);
     this->scale.z = (f32) (0.0f);
-    copy_argb((NJS_ARGB *)(((u8 *)this) + 0xA0), (NJS_ARGB *)((u8 *)TPhotonMagicSquare__color_palette + (arg2 * 0x10)));
-    entity = find_entity_by_id((void *)arg3);
-    if (entity != 0) {
-        VecCopy((Vec *)(((u8 *)this) + 0xB8), (const Vec *)(entity + 0x38));
+    copy_argb((NJS_ARGB *)(((u8 *)this) + 0xA0), (NJS_ARGB *)((u8 *)TPhotonMagicSquare__color_palette + (color * 0x10)));
+    entity = find_entity_by_id(owner_id);
+    if (entity != NULL) {
+        VecCopy((Vec *)(((u8 *)this) + 0xB8), &entity->position);
     }
     *(f32 *)((s8 *)((u8 *)this) + 0xBC) += (2.0f);
     *(s32 *)&this->m_b0 = 0;
@@ -251,5 +247,4 @@ u8 *TPhotonMagicSquare::construct_at_owner(s32 arg1, s32 arg2, s32 arg3) {
     *(f32 *)&this->_padC8 = (f32) (0.1f);
     *(s32 *)&this->m_cc = 2;
     play_sound_effect(0x4002AD2E, 0, 0, 0);
-    return ((u8 *)this);
 }
