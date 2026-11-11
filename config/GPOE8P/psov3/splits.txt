@@ -10148,31 +10148,30 @@ pso/ui/frontend/TAdPlyStatusGC_8033FD48.cpp:
 
 pso/ui/window/TWindowDD.cpp:
 	.text       start:0x803403F8 end:0x8034055C
+	.sdata2     start:0x805DFB18 end:0x805DFC40
 
 pso/ui/window/TWindowDD_8034055C.cpp:
 	.text       start:0x8034055C end:0x80340A78
 	.ctors      start:0x80434000 end:0x80434004
 	.data       start:0x804EFB90 end:0x804EFB98
+	.sdata2     start:0x805DFC40 end:0x805DFC50
 
 pso/ui/window/TWindowDD_80340A78.cpp:
 	.text       start:0x80340A78 end:0x80340EA8
 	.rodata     start:0x804785D8 end:0x804785E0
 
 pso/ui/window/TWindowDD_80340EA8.cpp:
-	.text       start:0x80340EA8 end:0x803411E8
+	.text       start:0x80340EA8 end:0x80341108
 	.ctors      start:0x80434004 end:0x80434008
 	.data       start:0x804EFBC8 end:0x804EFC00
 	.sbss       start:0x805D6DC8 end:0x805D6DCC
 
-pso/ui/window/TWindowDD_803411E8.cpp:
-	.text       start:0x803411E8 end:0x80341334
-
 pso/ui/window/TWindowDD_80341334.cpp:
-	.text       start:0x80341334 end:0x80341500
+	.text       start:0x80341108 end:0x80341500
 	.ctors      start:0x80434008 end:0x8043400C
 	.rodata     start:0x804785E0 end:0x804785F8
 	.sdata      start:0x805D42D8 end:0x805D42E0
-	.sdata2     start:0x805DFC20 end:0x805DFC24
+	.sdata2     start:0x805DFC90 end:0x805DFCA0
 
 pso/ui/window/TWindowDD_80341A08.cpp:
 	.text       start:0x80341500 end:0x80342254

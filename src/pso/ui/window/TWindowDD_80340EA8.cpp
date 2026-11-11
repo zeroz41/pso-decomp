@@ -131,29 +131,4 @@ void __sinit_TWindowDD_80340EA8_cpp(void) {
 }
 __declspec(section ".ctors") static void *const __sinit_TWindowDD_80340EA8_cpp_ref = (void *)__sinit_TWindowDD_80340EA8_cpp;
 
-extern f32 lbl_805DFC90;
-
-void TWindowDD_WS_String::render() {
-    f32 ctx;
-    void *temp_r3;
-    s32 arg0 = (s32)this;
-
-    temp_r3 = draw_default_entry__9TWindowDDFl();
-    ((TWindowBase *)arg0)->calc_inner_rect((u8 *)temp_r3);
-    ((TWindowDD_WS_String *)arg0)->draw_entry_if_visible(temp_r3);
-    ctx = *(f32 *)((s8 *)temp_r3 + 0x14);
-    *(f32 *)((s8 *)temp_r3 + 0x14) = (f32) (ctx + lbl_805DFC90);
-    draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3, ctx);
-}
-
-extern f32 lbl_805DFC94;
-
-void TWindowDD_WS_String::draw_entry_if_visible(void *arg1) {
-    if ((s32) *(s32 *)((s8 *)arg1 + 0x30) >= 0) {
-        draw((s32)arg1, (s32)(*(s32 *)&(*(u32 *)((u8 *)this + 0x60))), (f32)lbl_805DFC94);
-    }
-}
-
-void TWindowDD::init_window() { initialize_subwindow(); update_fade__11TWindowBaseFv(this); update_window_entry_list__11TWindowBaseFPv(this, (char*)this + 0x24); }
-
 }

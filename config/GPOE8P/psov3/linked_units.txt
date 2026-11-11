@@ -1428,7 +1428,6 @@ pso/ui/window/TWindowDD_8020C2DC.cpp
 pso/ui/window/TWindowDD_8024662C.cpp
 pso/ui/window/TWindowDD_80246F8C.cpp
 pso/ui/window/TWindowDD_80340EA8.cpp
-pso/ui/window/TWindowDD_803411E8.cpp
 pso/ui/window/TWindowDD_80341334.cpp
 pso/ui/window/TWindowDD_80342254.cpp
 pso/ui/window/TWindowDD_803424EC.cpp

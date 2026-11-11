@@ -28,9 +28,6 @@ extern s32 lbl_805D63F0;
 extern const f32 TWindowDD__data_805DFB20;
 extern const f32 lbl_805DFB48;
 extern const f32 lbl_805DFB4C;
-extern const f32 lbl_805DFC40;
-extern const f32 lbl_805DFC44;
-extern const f32 lbl_805DFC48;
 
 struct Quad_8034055C { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
@@ -52,7 +49,7 @@ void TWindowDD__sub_8034055C(TUnk_804EFBAC *self) {
         return;
     }
     self->calc_inner_rect((u8 *)ctx);
-    ((TWindowDD *)points)->reset_entries(TWindowDD__sub_80348AD4(self->pad_54, lbl_805DFC40), -1);
+    ((TWindowDD *)points)->reset_entries(TWindowDD__sub_80348AD4(self->pad_54, 0.0f), -1);
     ((TWindowDD *)points)->copy_point_table(0);
     TWindowDD__sub_80348A2C(ctx, points);
     TWindowDD__sub_803489B8(ctx, points, 0);
@@ -72,7 +69,7 @@ void TWindowDD__sub_8034055C(TUnk_804EFBAC *self) {
             ((TWindowDD *)points)->draw_transformed_primitive((void *)8, (void *)count, (void *)1);
         }
     }
-    depth = TWindowDD__sub_80348AD4(self->pad_54, lbl_805DFC44);
+    depth = TWindowDD__sub_80348AD4(self->pad_54, 0.2f);
     TWindowDD__sub_803489B8(ctx, points, 0);
     h = ctx->scale[1];
     step = TWindowDD__data_805DFB20 * h;
@@ -81,8 +78,8 @@ void TWindowDD__sub_8034055C(TUnk_804EFBAC *self) {
     q.x1 = points[7].a;
     q.y0 = points[0].b + h;
     q.y1 = points[7].b - h;
-    q.u0 = lbl_805DFC40;
-    q.u1 = lbl_805DFC48;
+    q.u0 = 0.0f;
+    q.u1 = 1.0f;
     q.v0 = q.u0;
     q.v1 = dv;
     TWindowSubStatusDisp::begin_render();

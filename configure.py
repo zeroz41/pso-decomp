@@ -483,6 +483,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/window/TWindowDD_80340A78.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
     # -fp_contract on: handle_scroll_input, get_cursor_pos and the strip draw 0x80341674 fuse into fmadds
     # (they were the unit's fp_contract pragma regions); the other functions are the same either way.
+    # -fp_contract on: 0x803412A0 fuses its width math into fmadds (it was the unit's fp_contract pragma region);
+    # the other ten functions of this file are the same either way.
+    "pso/ui/window/TWindowDD_80341334.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
     "pso/ui/window/TWindowDD_80341A08.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
     # -str readonly: every string of this unit is read-only data ("SELECT"/"NEXT" of the constructor in .rodata,
     # the Spanish "\xBF"/"\xA1" marks of 0x80345608 in .sdata2, each pooled once).
