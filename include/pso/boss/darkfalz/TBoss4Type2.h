@@ -21,7 +21,7 @@ struct TBoss4Type2
     void sub_80056FEC(s32);
     void sub_80056F90(s32, s32);
     void sub_80056998();
-    u8 _pad1C[0x8];
+    u8 _pad00[0x24];
     u32 m_24;
     u8 _pad28[0x8];
     u32 m_30;
