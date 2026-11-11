@@ -3,19 +3,13 @@
 
 #include "types.h"
 
-extern "C" {
-u8 *TWindowDD__sub_8034138C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-s32 TWindowDD__sub_8034146C(s32 arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0);
-void __sinit_TWindowDD_80341334_cpp(void);
-void *__dt__9TWindowDDFPvs(void *arg0, s16 arg1);
-}
+class TWindowDD_WS_String;
 
 // --- C functions defined in TWindowDD_80341334.cpp ---
 extern "C" {
-u8 *TWindowDD__sub_8034138C(u8 *arg0, s32 arg1, s32 arg2, s32 str, s32 arg4);
-s32 TWindowDD__sub_8034146C(s32 arg0, s32 arg1, s32 str, s32 arg3, f32 farg0);
-void __sinit_TWindowDD_80341334_cpp(void);
-void *__dt__9TWindowDDFPvs(void *arg0, s16 arg1);
+TWindowDD_WS_String *TWindowDD__sub_8034138C(TWindowDD_WS_String *self, f32 *pos, f32 *size, u32 str, s32 style);
+TWindowDD_WS_String *TWindowDD__sub_8034146C(f32 *pos, f32 *size, u32 str, s32 style, f32 width);
+void *__dt__19TWindowDD_WS_StringFv(void *arg0, s16 arg1);
 }
 // --- end of C functions
 
