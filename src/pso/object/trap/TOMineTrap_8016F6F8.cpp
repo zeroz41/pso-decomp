@@ -202,9 +202,9 @@ void TOMineTrap::set_triggered() {
 }
 
 void TOMineTrap::run_task() {
-    s32 i;
     TObjChara *attacker;
     TObjPlayer *p;
+    s32 i;
     u16 id;
 
     update_float_height();
@@ -246,10 +246,11 @@ void TOMineTrap::run_task() {
                 continue;
             }
             if (id < 0x1000) {
+                TObjChara *chara = p;
                 if (TObjPlayer::get_player_count() == 1 && p->get_floor() == get_current_floor() &&
-                    horizontal_distance_squared(&position, &p->position) < m_350 * m_350) {
-                    if (p->obj_isState2_324() == 0) {
-                        target = (u8 *)p;
+                    horizontal_distance_squared(&position, &chara->position) < m_350 * m_350) {
+                    if (chara->obj_isState2_324() == 0) {
+                        target = (u8 *)chara;
                         switch (attack.kind) {
                         case 2:
                             ((TObjChara *)target)->apply_movement_ailment(0);
@@ -261,7 +262,7 @@ void TOMineTrap::run_task() {
                         record_attack_source(target, get_trap_type());
                     }
                     if (m_380 != 1) {
-                        m_380 = show_owner_message(p);
+                        m_380 = show_owner_message(chara);
                     }
                 }
             } else if (id < 0x4000) {
