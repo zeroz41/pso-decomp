@@ -5,6 +5,55 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/object/TObjControl.h"
+#include "pso/enemy/darkgunner/DarkGunner.h"
+struct EBase_800A0798 { u8 pad[0x18]; };
+
+struct Ent_800A0798 : EBase_800A0798 {
+    virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3(); virtual void v4();
+    virtual void v5(); virtual void v6(); virtual void v7(); virtual void v8(); virtual void v9();
+    virtual void v10(); virtual void v11(); virtual void v12(); virtual void v13(); virtual void v14();
+    virtual void v15(); virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19();
+    virtual void v20(); virtual void v21(); virtual void v22(); virtual void v23(); virtual void v24();
+    virtual void v25(); virtual void v26(); virtual void v27(); virtual void v28(); virtual void v29();
+    virtual void v30(); virtual void v31(); virtual void v32(); virtual void v33(); virtual void v34();
+    virtual void v35(); virtual void v36(); virtual void v37(); virtual void v38(); virtual void v39();
+    virtual void v40(); virtual void v41(); virtual void v42(); virtual void v43(); virtual void v44();
+    virtual void v45(); virtual void v46(); virtual void v47(); virtual void v48(); virtual void v49();
+    virtual void v50(); virtual void v51(); virtual void v52(); virtual void v53(); virtual void v54();
+    virtual void v55(); virtual void v56(); virtual void v57(); virtual void v58();
+};
+
+
+
+struct Player_800A0994 {
+    u8 pad0[0x28];
+    s16 f28;
+    u8 pad2A[0x354 - 0x2A];
+    f32 f354;
+    u8 pad358[0x428 - 0x358];
+    u16 f428;
+};
+
+struct Ene_800A0994 {
+    u8 pad0[0x358];
+    f32 f358;
+};
+
+struct Gunner_800A0994 {
+    u8 pad0[0x1C];
+    u16 f1C;
+    u8 pad1E[0x28 - 0x1E];
+    s16 f28;
+    u8 pad2A[0x354 - 0x2A];
+    f32 f354;
+    u8 pad358[0x37C - 0x358];
+    s32 count;
+    u8 pad380[0x384 - 0x380];
+    u16 ids[16];
+};
+
+
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -43,7 +92,7 @@ struct Gun_800A0B20 : VBase_800A0B20 {
     s32 state;
     s32 timer;
     s32 count;
-    u8 pad380[0x384 - 0x380];
+    s32 sel;
     u16 ids[16];
     s32 f3a4;
 };
@@ -54,10 +103,9 @@ f32 atan2_float(f32, f32);
 void queue_destruction__7TObjectFv(void *);
 void TObjPlayer__sub_800A0654(void *);
 s32 TObjPlayer__sub_800A06B4(void *);
-void fn_800A0798(void *);
-void fn_800A0884(void *);
+void fn_800A0798(Gun_800A0B20 *self);
+s32 fn_800A0884(Gun_800A0B20 *o);
 void TObjEneDarkGunCenter__sub_800A0B18(void);
-u8 *get_enemy_entity(u16);
 void run_task__20TObjEneDarkGunCenterFv(Gun_800A0B20 *self);
 void TObjEneDarkGunCenter__sub_800A0E7C(void);
 void TObjEneDarkGunCenter__sub_800A0E80(void);
@@ -67,6 +115,108 @@ u8 *TObjEneDarkGunCenter__ct(u8 *arg0, s32 arg1, s32 arg2);
 void __dl__7TObjectFPv(void *);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
+
+int get_player_data__10TObjPlayerFi(int a0);
+s16 get_entity_id(void *);
+s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
+extern const char *TObjEneDarkGunner__class_name;
+extern s32 registered_player_count;
+extern s32 lbl_805D5870;
+
+void fn_800A0798(Gun_800A0B20 *self) {
+    s32 i;
+    self->timer = 0x1a4;
+    self->state = 5;
+    for (i = 0; i < self->count; i++) {
+        Ent_800A0798 *e = (Ent_800A0798 *)get_enemy_entity(self->ids[i]);
+        if (e != 0) {
+            e->v58();
+        }
+    }
+}
+
+void TObjEneDarkGunCenter::hide_linked_enemies() {
+    Gun_800A0B20 *self = (Gun_800A0B20 *)this;
+    s32 i;
+    for (i = 0; i < self->count; i++) {
+        void *e = get_enemy_entity(self->ids[i]);
+        if (e != 0) {
+            ((TObjPlayer *)e)->set_hidden_flag();
+        }
+    }
+    self->timer = 0x78;
+    self->state = 4;
+}
+
+s32 fn_800A0884(Gun_800A0B20 *o) {
+    void *ents[16];
+    s32 n;
+    s32 i;
+    s32 j;
+    n = 0;
+    for (i = 0; i < o->count; i++) {
+        ents[i] = get_enemy_entity(o->ids[i]);
+        if (ents[i] != NULL) {
+            n++;
+        }
+    }
+    if (n == 0) {
+        return 0;
+    }
+    do {
+        o->sel++;
+        if (o->sel >= o->count) {
+            o->sel = 0;
+        }
+    } while (ents[o->sel] == NULL);
+    for (j = 0; j < o->count; j++) {
+        if (ents[j] != NULL) {
+            if (j == o->sel) {
+                fn_800A0FDC((TObjEneLappy *)((u8 *)ents[j]));
+            } else {
+                clear_lappy_flag_set_param((TObjEneLappy *)((u8 *)ents[j]));
+            }
+        }
+    }
+    return 1;
+}
+
+void TObjEneDarkGunCenter::sub_800A0994() {
+    Gunner_800A0994 *self = (Gunner_800A0994 *)this;
+    s32 k;
+    Ene_800A0994 *a;
+    Player_800A0994 *p;
+    s32 m;
+    Ene_800A0994 *b;
+    s32 i;
+    s32 j;
+    self->count = 0;
+    for (k = registered_player_count; k < registered_player_count + lbl_805D5870; k++) {
+        p = (Player_800A0994 *)get_player_data__10TObjPlayerFi(k);
+        if (p != NULL && check_value_equals__13TUnk_804B6C24Fl(p, (s32)TObjEneDarkGunner__class_name) != 0 &&
+            self->f354 == p->f354 && self->f28 == p->f28) {
+            p->f428 = self->f1C;
+            self->ids[self->count++] = get_entity_id(p);
+            if (self->count >= 16) {
+                break;
+            }
+        }
+    }
+    for (m = self->count; m < 16; m++) {
+        self->ids[m] = 0xFFFF;
+    }
+    for (i = 0; i < self->count - 1; i++) {
+        for (j = i + 1; j < self->count; j++) {
+            a = (Ene_800A0994 *)get_enemy_entity(self->ids[i]);
+            b = (Ene_800A0994 *)get_enemy_entity(self->ids[j]);
+            if (a != NULL && b != NULL && a->f358 > b->f358) {
+                u16 t = self->ids[i];
+                self->ids[i] = self->ids[j];
+                self->ids[j] = t;
+            }
+        }
+    }
+}
 
 void TObjEneDarkGunCenter__sub_800A0B18(void) {  }
 void TObjEneDarkGunCenter::render() {  }

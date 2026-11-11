@@ -1490,20 +1490,8 @@ pso/render/TUnk_80490470.cpp:
 	.data       start:0x80490470 end:0x8049049C
 	.sdata2     start:0x805D9958 end:0x805D9970
 
-pso/unk/text_800A0798.cpp:
-	.text       start:0x800A0798 end:0x800A0814
-
-pso/enemy/darkgunner/TObjEneDarkGunCenter_800A0814.cpp:
-	.text       start:0x800A0814 end:0x800A0884
-
-pso/unk/text_800A0884.cpp:
-	.text       start:0x800A0884 end:0x800A0994
-
-pso/enemy/darkgunner/TObjEneDarkGunCenter_800A0994.cpp:
-	.text       start:0x800A0994 end:0x800A0B18
-
 pso/enemy/darkgunner/TObjEneDarkGunCenter.cpp:
-	.text       start:0x800A0B18 end:0x800A0EDC
+	.text       start:0x800A0798 end:0x800A0EDC
 	.rodata     start:0x8043A488 end:0x8043A498
 	.data       start:0x804904A0 end:0x80490608
 	.sdata2     start:0x805D9970 end:0x805D9978
@@ -5539,13 +5527,7 @@ pso/player/TObjPlayer_801D9AD0.cpp:
 	.text       start:0x801D9AD0 end:0x801D9B18
 
 pso/player/TObjPlayer_801D9B18.cpp:
-	.text       start:0x801D9B18 end:0x801D9B38
-
-pso/unk/text_801D9B38.cpp:
-	.text       start:0x801D9B38 end:0x801D9C88
-
-pso/player/TObjPlayer_801D9C88.cpp:
-	.text       start:0x801D9C88 end:0x801D9CE0
+	.text       start:0x801D9B18 end:0x801D9CE0
 
 pso/player/TObjPlayer_801D9CE0.cpp:
 	.text       start:0x801D9CE0 end:0x801D9E08
@@ -5567,13 +5549,7 @@ pso/network/TProtocol_801D9EEC.cpp:
 	.text       start:0x801D9EEC end:0x801D9F50
 
 pso/network/TProtocol_801D9F50.cpp:
-	.text       start:0x801D9F50 end:0x801D9FA0
-
-pso/unk/text_801D9FA0.cpp:
-	.text       start:0x801D9FA0 end:0x801DA054
-
-pso/network/TProtocol_801DA054.cpp:
-	.text       start:0x801DA054 end:0x801DA140
+	.text       start:0x801D9F50 end:0x801DA140
 
 pso/network/TProtocol_801DA140.cpp:
 	.text       start:0x801DA140 end:0x801DA240
@@ -5612,32 +5588,8 @@ pso/network/TProtocol_801DB34C.cpp:
 pso/network/TProtocol_801DB3CC.cpp:
 	.text       start:0x801DB3CC end:0x801DB474
 
-pso/network/TProtocol_801DB474.cpp:
-	.text       start:0x801DB474 end:0x801DB554
-
-pso/unk/text_801DB554.cpp:
-	.text       start:0x801DB554 end:0x801DB5C4
-
-pso/network/TProtocol_801DB5C4.cpp:
-	.text       start:0x801DB5C4 end:0x801DB630
-
-pso/network/TProtocol_801DB630.cpp:
-	.text       start:0x801DB630 end:0x801DB684
-
-pso/network/TProtocol_801DB684.cpp:
-	.text       start:0x801DB684 end:0x801DB8EC
-
-pso/network/TProtocol_801DB8EC.cpp:
-	.text       start:0x801DB8EC end:0x801DB998
-
-pso/unk/text_801DB998.cpp:
-	.text       start:0x801DB998 end:0x801DBA58
-
-pso/network/TProtocol_801DBA58.cpp:
-	.text       start:0x801DBA58 end:0x801DBAB4
-
 pso/network/TProtocol.cpp:
-	.text       start:0x801DBAB4 end:0x801DEF7C
+	.text       start:0x801DB474 end:0x801DEF7C
 	.data       start:0x804C4A50 end:0x804C5234
 	.sbss       start:0x805D5E28 end:0x805D5E30
 
@@ -6016,26 +5968,8 @@ pso/map/TSetEvtDestroy.cpp:
 	.sdata      start:0x805D3630 end:0x805D3638
 
 pso/unk/TLobby_80209524.cpp:
-	.text       start:0x80209524 end:0x80209584
-
-pso/unk/text_80209584.cpp:
-	.text       start:0x80209584 end:0x8020970C
-
-pso/unk/TLobby_8020970C.cpp:
-	.text       start:0x8020970C end:0x802097B0
-
-pso/unk/text_802097B0.cpp:
-	.text       start:0x802097B0 end:0x80209BD8
+	.text       start:0x80209524 end:0x80209D34
 	.sbss       start:0x805D60B8 end:0x805D60BC
-
-pso/unk/TLobby_80209BD8.cpp:
-	.text       start:0x80209BD8 end:0x80209C58
-
-pso/unk/text_80209C58.cpp:
-	.text       start:0x80209C58 end:0x80209CF8
-
-pso/unk/TLobby_80209CF8.cpp:
-	.text       start:0x80209CF8 end:0x80209D34
 
 pso/unk/text_80209D34.cpp:
 	.text       start:0x80209D34 end:0x8020A188
@@ -6044,54 +5978,9 @@ pso/unk/TLobby_8020A188.cpp:
 	.text       start:0x8020A188 end:0x8020A2AC
 
 pso/unk/text_8020A2AC.cpp:
-	.text       start:0x8020A2AC end:0x8020A350
+	.text       start:0x8020A2AC end:0x8020B5CC
 	.rodata     start:0x8044BBA0 end:0x8044BBA8
 	.sdata2     start:0x805DC618 end:0x805DC620
-
-pso/unk/TLobby_8020A350.cpp:
-	.text       start:0x8020A350 end:0x8020A508
-
-pso/unk/text_8020A508.cpp:
-	.text       start:0x8020A508 end:0x8020A568
-
-pso/unk/TLobby_8020A568.cpp:
-	.text       start:0x8020A568 end:0x8020A6B0
-
-pso/unk/text_8020A6B0.cpp:
-	.text       start:0x8020A6B0 end:0x8020A744
-
-pso/unk/TLobby_8020A744.cpp:
-	.text       start:0x8020A744 end:0x8020A768
-
-pso/unk/text_8020A768.cpp:
-	.text       start:0x8020A768 end:0x8020AB30
-
-pso/unk/TLobby_8020AB30.cpp:
-	.text       start:0x8020AB30 end:0x8020AB50
-
-pso/unk/text_8020AB50.cpp:
-	.text       start:0x8020AB50 end:0x8020AD20
-
-pso/unk/TLobby_8020AD20.cpp:
-	.text       start:0x8020AD20 end:0x8020AD40
-
-pso/unk/text_8020AD40.cpp:
-	.text       start:0x8020AD40 end:0x8020B03C
-
-pso/unk/TLobby_8020B03C.cpp:
-	.text       start:0x8020B03C end:0x8020B334
-
-pso/unk/TLobby_8020B334.cpp:
-	.text       start:0x8020B334 end:0x8020B374
-
-pso/unk/text_8020B374.cpp:
-	.text       start:0x8020B374 end:0x8020B47C
-
-pso/unk/text_8020B47C.cpp:
-	.text       start:0x8020B47C end:0x8020B588
-
-pso/unk/TLobby_8020B588.cpp:
-	.text       start:0x8020B588 end:0x8020B5CC
 
 pso/unk/text_8020B5CC.cpp:
 	.text       start:0x8020B5CC end:0x8020BBA0
@@ -6184,30 +6073,12 @@ pso/unk/TLobby_8020E400.cpp:
 	.text       start:0x8020E400 end:0x8020E700
 
 pso/unk/text_8020E700.cpp:
-	.text       start:0x8020E700 end:0x8020ED20
-
-pso/unk/TLobby_8020ED20.cpp:
-	.text       start:0x8020ED20 end:0x8020ED44
-
-pso/unk/text_8020ED44.cpp:
-	.text       start:0x8020ED44 end:0x8020EDBC
-
-pso/unk/TLobby_8020EDBC.cpp:
-	.text       start:0x8020EDBC end:0x8020EE2C
-
-pso/unk/text_8020EE2C.cpp:
-	.text       start:0x8020EE2C end:0x8020EED8
+	.text       start:0x8020E700 end:0x8020EED8
 
 pso/unk/TLobby_8020EED8.cpp:
-	.text       start:0x8020EED8 end:0x8020EEFC
-
-pso/unk/text_8020EEFC.cpp:
-	.text       start:0x8020EEFC end:0x8020F00C
+	.text       start:0x8020EED8 end:0x8020F034
 	.rodata     start:0x8044BC38 end:0x8044BC40
 	.sdata2     start:0x805DC628 end:0x805DC62C
-
-pso/unk/TLobby_8020F00C.cpp:
-	.text       start:0x8020F00C end:0x8020F034
 
 pso/ui/city/TCheckRoomSequence.cpp:
 	.text       start:0x8020F034 end:0x802115F4
@@ -6236,22 +6107,7 @@ pso/ui/city/THunterGuildWarning.cpp:
 	.sdata2     start:0x805DC640 end:0x805DC644
 
 pso/unk/text_80211B10.cpp:
-	.text       start:0x80211B10 end:0x80211C1C
-
-pso/unk/TLobby_80211C1C.cpp:
-	.text       start:0x80211C1C end:0x80211C3C
-
-pso/unk/text_80211C3C.cpp:
-	.text       start:0x80211C3C end:0x80211CE0
-
-pso/unk/TLobby_80211CE0.cpp:
-	.text       start:0x80211CE0 end:0x80211D58
-
-pso/unk/text_80211D58.cpp:
-	.text       start:0x80211D58 end:0x80211EC4
-
-pso/unk/TLobby_80211F0C.cpp:
-	.text       start:0x80211EC4 end:0x80211FEC
+	.text       start:0x80211B10 end:0x80211FEC
 
 pso/ui/city/THunterGuildSeqOffline_80211FEC.cpp:
 	.text       start:0x80211FEC end:0x802123E0
@@ -6560,15 +6416,9 @@ pso/unk/TLobby_80228C84.cpp:
 	.text       start:0x80228C84 end:0x80228CC0
 
 pso/ui/window/TWindowSubStatusDisp_80228CC0.cpp:
-	.text       start:0x80228CC0 end:0x80228E98
+	.text       start:0x80228CC0 end:0x802290F8
 	.rodata     start:0x8044CB60 end:0x8044CB70
 	.bss        start:0x80515BC8 end:0x80515CC8
-
-pso/unk/text_80228E98.cpp:
-	.text       start:0x80228E98 end:0x80228F5C
-
-pso/ui/window/TWindowSubStatusDisp_80228F5C.cpp:
-	.text       start:0x80228F5C end:0x802290F8
 
 pso/object/switch/TSwitch.cpp:
 	.text       start:0x802290F8 end:0x802294E4
@@ -6699,12 +6549,9 @@ pso/technique/TTecLuker.cpp:
 	.sdata2     start:0x805DC858 end:0x805DC87C
 
 pso/technique/TTecMegid.cpp:
-	.text       start:0x8023508C end:0x80235A20
+	.text       start:0x8023508C end:0x80235B24
 	.rodata     start:0x8044D8C0 end:0x8044D8C8
 	.sdata2     start:0x805DC880 end:0x805DC888
-
-pso/unk/text_80235A20.cpp:
-	.text       start:0x80235A20 end:0x80235B24
 
 pso/technique/TTecMegid_80235B24.cpp:
 	.text       start:0x80235B24 end:0x80235C44
@@ -8798,16 +8645,10 @@ pso/ui/frontend/TAdGuideTxtGC.cpp:
 	.sdata      start:0x805D3EA0 end:0x805D3EA8
 	.sdata2     start:0x805DE280 end:0x805DE298
 
-pso/ui/window/TWindowSubTrade_802B1AB4.cpp:
-	.text       start:0x802B1AB4 end:0x802B1C1C
-	.sdata2     start:0x805DE298 end:0x805DE29C
-
-pso/unk/text_802B1C1C.cpp:
-	.text       start:0x802B1C1C end:0x802B1D58
-
 pso/ui/window/TWindowSubTrade.cpp:
-	.text       start:0x802B1D58 end:0x802B20C0
+	.text       start:0x802B1AB4 end:0x802B20C0
 	.data       start:0x804DE8E0 end:0x804DE900
+	.sdata2     start:0x805DE298 end:0x805DE29C
 
 pso/boss/olgaflow/TBoss6Type1_802B20C0.cpp:
 	.text       start:0x802B20C0 end:0x802B4898
@@ -10338,24 +10179,9 @@ pso/ui/frontend/TAdPlyStatusGC.cpp:
 	.sbss       start:0x805D6DA8 end:0x805D6DC0
 
 pso/ui/frontend/TAdPlyStatusGC_8033FD48.cpp:
-	.text       start:0x8033FD48 end:0x8033FE28
-
-pso/player/TObjPlayer_8033FE28.cpp:
-	.text       start:0x8033FE28 end:0x8033FE30
-
-pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT_8033FE30.cpp:
-	.text       start:0x8033FE30 end:0x8033FEEC
-
-pso/boss/darkfalz/TBoss4Type2_8033FEEC.cpp:
-	.text       start:0x8033FEEC end:0x8033FF78
+	.text       start:0x8033FD48 end:0x803403F8
 	.rodata     start:0x80478560 end:0x80478568
-
-pso/unk/text_8033FF78.cpp:
-	.text       start:0x8033FF78 end:0x80340160
 	.sdata2     start:0x805DFB10 end:0x805DFB14
-
-pso/boss/darkfalz/TBoss4Type2_80340160.cpp:
-	.text       start:0x80340160 end:0x803403F8
 
 pso/ui/window/TWindowDD.cpp:
 	.text       start:0x803403F8 end:0x80340EA8

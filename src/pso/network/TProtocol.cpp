@@ -1,3 +1,252 @@
+// ---- pso/network/TProtocol_801DB474
+#include "pso/network/TProtocol.h"
+
+void TProtocol::send_server_time_request() {
+    packet_header header;
+    if (m_connected != 0) {
+        header.command = 0xB1;
+        header.flags = 0;
+        header.size = sizeof(header);
+        header.bswap();
+        send((u8*)&header, sizeof(header));
+    }
+}
+
+void TProtocol::send_server_time_accepted() {
+    packet_header header;
+    if (m_connected != 0) {
+        header.command = 0x99;
+        header.flags = 0;
+        header.size = sizeof(header);
+        header.bswap();
+        send((u8*)&header, sizeof(header));
+    }
+}
+
+// ---- pso/unk/text_801DB554
+#include "types.h"
+#include "pso/unk/TLobby.h"
+#include "pso/network/protocol/protocol.h"
+
+struct Stack_801DB554 {
+    s8 sp8;
+    s8 sp9;
+    s16 spA;
+};
+
+void TLobby::send_6F_burst_done() {
+    u8 *arg0 = (u8 *)this;
+    Stack_801DB554 stack;
+    if ((s32) *(s32 *)((s8 *)arg0 + 0x1910) != 0) {
+        stack.sp8 = 0x6F;
+        stack.sp9 = 0;
+        stack.spA = 4;
+        ((packet_header *)((s32) &stack.sp8))->bswap();
+        ((TProtocol *)arg0)->send((u8 *)&stack.sp8, 4);
+    }
+}
+
+// ---- pso/network/TProtocol_801DB5C4
+#include "pso/network/TProtocol.h"
+
+void TProtocol::send_quest_menu_closed() {
+    packet_header header;
+    memset(&header, 0, sizeof(header));
+    header.command = 0xA9;
+    header.size = sizeof(header);
+    header.bswap();
+    send((u8*)&header, sizeof(header));
+}
+
+// ---- pso/network/TProtocol_801DB630
+#include "types.h"
+#include "pso/network/TProtocol.h"
+#include "pso/network/protocol/protocol.h"
+
+void TProtocol::handle_cmd_97(packet &pkt) {
+    s32 *arg1 = (s32 *)&pkt;
+    s32 sp8;
+    u8 temp_r3;
+    s32 (*temp_r12)(u8);
+
+    sp8 = *arg1;
+    ((packet_header *)(&sp8))->bswap();
+    temp_r3 = *(u8 *)((s8 *)&sp8 + 1);
+    temp_r12 = *(s32 (**)(u8))((s8 *)this + 0xBC44);
+    if (temp_r12 != NULL) {
+        temp_r12(temp_r3);
+    }
+}
+
+// ---- pso/network/TProtocol_801DB684
+#include "pso/network/TProtocol.h"
+#include "pso/ui/chat/TChatMessage.h"
+#include "pso/player/TPlyGuildCardTag_8007B434.h"
+#include "pso/unk/text_801DF280.h"
+#include <stddef.h>
+
+struct CharacterSaveInfoPacket {
+    packet_header header;
+    C_CharSaveInfo_DCv2_PC_V3_BB_96 payload;
+};
+
+struct ChangeShipOrBlockPacket {
+    packet_header header;
+    C_ChangeShipOrBlock_A0_A1 payload;
+};
+
+typedef char CharacterSaveInfoPacket_size[sizeof(CharacterSaveInfoPacket) == 0xC ? 1 : -1];
+typedef char ChangeShipOrBlockPacket_size[sizeof(ChangeShipOrBlockPacket) == 0x1C ? 1 : -1];
+typedef char TProtocol_connected_offset[offsetof(TProtocol, m_connected) == 0x1910 ? 1 : -1];
+typedef char TProtocol_guildcard_offset[offsetof(TProtocol, m_guildcard_tag) == 0x1900 ? 1 : -1];
+
+void TProtocol::send_character_save_info(int creation_timestamp, int event_counter) {
+    CharacterSaveInfoPacket packet;
+    packet.header.command = 0x96;
+    packet.header.flags = 0;
+    packet.header.size = sizeof(packet);
+    packet.payload.creation_timestamp = creation_timestamp;
+    packet.payload.event_counter = event_counter;
+    bswap_save_packet((s32)&packet);
+    send((u8 *)&packet, sizeof(packet));
+}
+
+void TProtocol::send_quest_menu_request() {
+    packet_header header;
+    if (m_connected != 0) {
+        header.command = 0xA2;
+        header.flags = 0;
+        header.size = sizeof(header);
+        header.bswap();
+        send((u8 *)&header, sizeof(header));
+    }
+}
+
+void TProtocol::send_block_list_request() {
+    ChangeShipOrBlockPacket packet;
+    u8 pad[8];
+    if (m_connected != 0) {
+        construct_change_ship_block_packet((s32)&packet);
+        memset(&packet, 0, sizeof(packet));
+        packet.header.command = 0xA1;
+        packet.header.size = sizeof(packet);
+        __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&packet.payload, &m_guildcard_tag);
+        bswap_change_ship_block_packet(&packet);
+        send((u8 *)&packet, sizeof(packet));
+    }
+}
+
+void TProtocol::send_ship_list_request() {
+    ChangeShipOrBlockPacket packet;
+    u8 pad[8];
+    if (m_connected != 0) {
+        construct_change_ship_block_packet((s32)&packet);
+        memset(&packet, 0, sizeof(packet));
+        packet.header.command = 0xA0;
+        packet.header.size = sizeof(packet);
+        __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&packet.payload, &m_guildcard_tag);
+        bswap_change_ship_block_packet(&packet);
+        send((u8 *)&packet, sizeof(packet));
+    }
+}
+
+void TProtocol::send_simple_mail(TChatMessage &message) {
+    if (m_connected != 0) {
+        message.header.command = 0x81;
+        message.header.flags = 0;
+        message.header.size = 0x220;
+        bswap__12TChatMessageFv((s32)&message);
+        send((u8 *)&message, 0x220);
+    }
+}
+
+// ---- pso/network/TProtocol_801DB8EC
+#include "types.h"
+#include "pso/network/TProtocol.h"
+#include "pso/network/protocol/protocol.h"
+
+void TProtocol::handle_cmd_95(packet &pkt) {
+    s32 *arg1 = (s32 *)&pkt;
+    s32 sp8;
+    s32 (*temp_r12)();
+
+    sp8 = *arg1;
+    ((packet_header *)(&sp8))->bswap();
+    temp_r12 = *(s32 (**)())((s8 *)this + 0xBC34);
+    if (temp_r12 != NULL) {
+        temp_r12();
+    }
+}
+void TProtocol::handle_cmd_92(packet &pkt) {
+    s32 *arg1 = (s32 *)&pkt;
+    u8 *arg0 = (u8 *)this;
+    s32 sp8;
+    s32 (*temp_r12)(u8);
+    sp8 = *(s32 *)((s8 *)arg1 + 0);
+    ((packet_header *)(&sp8))->bswap();
+    this->m_regist_state = (s32) *(u8 *)((s8 *)&sp8 + 0x1);
+    temp_r12 = *(s32 (**)(u8))((s8 *)arg0 + 0xBC2C);
+    if (temp_r12 != NULL) {
+        temp_r12(*(u8 *)((s8 *)&sp8 + 0x1));
+    }
+}
+
+// ---- pso/unk/text_801DB998
+#include "types.h"
+#include "pso/player/TPlySmth.h"
+#include "pso/ui/chat/TChatMessage_801DF918.h"
+#include "pso/unk/text_801DB998.h"
+
+struct Stack_801DB998 {
+    u8 sp8;
+    u8 pad_9[0x1];
+    s16 spA;
+    u8 spC[8];
+    s32 sp14;
+    u8 pad_18[0x1];
+    s8 sp19;
+    u8 pad_1A[0x2];
+    char sp1C[0x30];
+    char sp4C[0x30];
+    char sp7C[0x30];
+};
+
+void send_register_9c(u8 *arg0) {
+    Stack_801DB998 stack;
+    construct_cmd_9c_send_pso_regist((&stack.sp8));
+    memset(&stack.sp8, 0, 0xA4);
+    stack.sp8 = 0x9C;
+    stack.spA = 0xA4;
+    __as__8TPlySmthFRC8TPlySmth((s32)&stack.spC, (s32)(arg0 + 0x18F8));
+    stack.sp14 = (s32) *(u16 *)((s8 *)arg0 + 0x1908);
+    stack.sp19 = (s8) *(s32 *)((s8 *)arg0 + 0x1934);
+    strncpy(stack.sp1C, (char *)(arg0 + 0x3EDA), 0x30);
+    strncpy(stack.sp4C, (char *)(arg0 + 0x3F0A), 0x30);
+    strncpy(stack.sp7C, (char *)(arg0 + 0x3F3A), 0x30);
+    bswap_cmd_9c_send_pso_regist((&stack.sp8));
+    ((TProtocol *)arg0)->send(&stack.sp8, 0xA4);
+}
+
+// ---- pso/network/TProtocol_801DBA58
+#include "types.h"
+#include "pso/network/TProtocol.h"
+#include "pso/network/protocol/protocol.h"
+
+void TProtocol::handle_cmd_90(packet &pkt) {
+    s32 *arg1 = (s32 *)&pkt;
+    u8 *arg0 = (u8 *)this;
+    s32 sp8;
+    s32 (*temp_r12)(u8);
+    sp8 = *(s32 *)((s8 *)arg1 + 0);
+    ((packet_header *)(&sp8))->bswap();
+    this->m_regist_state = (s32) *(u8 *)((s8 *)&sp8 + 0x1);
+    temp_r12 = *(s32 (**)(u8))((s8 *)arg0 + 0xBC28);
+    if (temp_r12 != NULL) {
+        temp_r12(*(u8 *)((s8 *)&sp8 + 0x1));
+    }
+}
+
+// ---- pso/network/TProtocol
 #include <global_types.h>
 #include "pso/network/TProtocol_801DFCAC.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"

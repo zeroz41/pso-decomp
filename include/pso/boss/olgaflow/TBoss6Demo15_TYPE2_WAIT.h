@@ -20,7 +20,8 @@ public:
     f32 m_48;
     u8 unk_4C[0xC];
     void * m_58;
-    u8 unk_5C[0x2C];
+    u8 unk_5C[0x4];
+    TObject *csn_objects[10]; // TObjMapCsn objects (fn_8034009C creates them)
 };
 typedef char TBoss6Demo15_TYPE2_WAIT_size[sizeof(TBoss6Demo15_TYPE2_WAIT) == 0x88 ? 1 : -1];
 
