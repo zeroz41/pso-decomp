@@ -17,9 +17,8 @@ struct VO_8016F320 : VB_8016F320 {
 extern "C" {
 extern const f32 lbl_805DB85C;
 void *get_shared_text_buffer(void);
-s32 get_trap_type__10TOMineTrapFv(s32);
 s32 is_technique_ready__8TTecCtrlFv(void);
-VO_8016F320 *get_player_by_client_id(u16);
+VO_8016F320 *get_player_by_client_id(s32);
 void text_builder_append(const char *);
 }
 void text_builder_reset(void);
@@ -63,12 +62,11 @@ void TOMineTrap::spawn_disp_objects() {
     }
 }
 
-extern "C" {
-s32 TOMineTrap::show_owner_message(s32 arg0, u32 arg1) {
+s32 TOMineTrap::show_owner_message(TObjChara *player) {
     char *name;
     VO_8016F320 *p;
-    if ((arg1 != 0U) && (is_technique_ready__8TTecCtrlFv() != 0)) {
-        p = get_player_by_client_id(get_trap_type__10TOMineTrapFv(arg0));
+    if (player != NULL && is_technique_ready__8TTecCtrlFv() != 0) {
+        p = get_player_by_client_id(get_trap_type());
         if (p != NULL) {
             name = p->m10();
             if (name != NULL) {
@@ -82,7 +80,6 @@ s32 TOMineTrap::show_owner_message(s32 arg0, u32 arg1) {
         }
     }
     return 0;
-}
 }
 
 #include "pso/player/TObjPlayer.h"
@@ -142,7 +139,7 @@ const char *TOMineTrap::get_name() {
     TObjPlayer *player;
 
     name = NULL;
-    player = (TObjPlayer *)get_player_by_client_id((u16)get_trap_type__10TOMineTrapFv((s32)this));
+    player = (TObjPlayer *)get_player_by_client_id(get_trap_type());
     if (player != NULL) {
         name = player->get_name();
     }

@@ -261,7 +261,7 @@ void TOMineTrap::run_task() {
                         record_attack_source(target, get_trap_type());
                     }
                     if (m_380 != 1) {
-                        m_380 = show_owner_message((s32)this, (u32)p);
+                        m_380 = show_owner_message(p);
                     }
                 }
             } else if (id < 0x4000) {
