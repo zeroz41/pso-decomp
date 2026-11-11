@@ -4,8 +4,9 @@
 #include "types.h"
 
 extern "C" {
-// Plays a one-shot sound effect at a world position.
-void play_sound_effect(s32 id, void *pos, s32 a2, s32 a3);
+// Plays a one-shot sound effect at a world position; returns the request
+// handle stop_sound_request takes.
+s32 play_sound_effect(s32 id, void *pos, s32 a2, s32 a3);
 }
 
 #endif

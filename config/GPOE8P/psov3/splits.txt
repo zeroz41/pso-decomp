@@ -4445,8 +4445,10 @@ pso/object/trap/TOTrap.cpp:
 
 pso/object/trap/TOTrapAncient01.cpp:
 	.text       start:0x801793A0 end:0x8017A20C
-	.rodata     start:0x80442D80 end:0x80442E70
-	.data       start:0x804B4870 end:0x804B4AD8
+	.rodata     start:0x80442CE0 end:0x80442E70
+	.data       start:0x804B4820 end:0x804B4AD8
+	.sdata      start:0x805D31A0 end:0x805D31A8
+	.sbss       start:0x805D5AD0 end:0x805D5AD8
 	.sdata2     start:0x805DBA48 end:0x805DBA78
 
 pso/object/trap/TOTrapAncient02R.cpp:
@@ -8776,13 +8778,11 @@ pso/object/trap/TOTrapChainSawEdge.cpp:
 	.sbss       start:0x805D6808 end:0x805D6810
 	.sdata2     start:0x805DE618 end:0x805DE63C
 
-pso/object/trap/TOTrapSeabed01_802C9C18.cpp:
-	.text       start:0x802C9C18 end:0x802C9DF0
-
 pso/object/trap/TOTrapSeabed01.cpp:
-	.text       start:0x802C9DF0 end:0x802CAA84
-	.rodata     start:0x804720D8 end:0x80472118
+	.text       start:0x802C9C18 end:0x802CAA84
+	.rodata     start:0x80471FB8 end:0x80472118
 	.data       start:0x804E0F90 end:0x804E11C8
+	.sdata      start:0x805D3F10 end:0x805D3F18
 	.sbss       start:0x805D6810 end:0x805D6824
 	.sdata2     start:0x805DE640 end:0x805DE660
 

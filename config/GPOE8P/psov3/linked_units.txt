@@ -2600,7 +2600,6 @@ pso/unk/text_802C095C.cpp
 pso/player/TObjPlayer_802C09E0.cpp
 pso/unk/text_802C39F8.cpp
 pso/unk/text_802C3AC0.cpp
-pso/object/trap/TOTrapSeabed01_802C9C18.cpp
 pso/unk/text_802CE510.cpp
 pso/enemy/mericarol/TObjEneBm9Mericarol_802CE68C.cpp
 pso/unk/text_802D1C84.cpp

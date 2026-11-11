@@ -574,7 +574,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/effect/photon/TPhotonLeilla.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/photon/TPhotonLine.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/text_8028A820.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/object/trap/TOTrapSeabed01.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/object/trap/TOTrapSeabed01.cpp": {"cflags": _switch(cflags_pso, "-inline on,deferred", "-str reuse,readonly", "-sdata 4")},
     "pso/npc/TObjNpcMoja.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/npc/TObjNpcNFM01.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/npc/TObjNpcNFM00.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -666,7 +666,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # with its own lis/addi, not off one shared base.
     "pso/unk/text_80049FD8.cpp": {"mw_version": "GC/2.0"},
     "pso/unk/text_8031EF14.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-pool off")},
-    "pso/object/trap/TOTrapAncient01.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-pool off", "-inline off,deferred")},
+    "pso/object/trap/TOTrapAncient01.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-pool off", "-inline off,deferred", "-str reuse,readonly")},
     # TItemAttackCol's ctor builds a const StarLightParameters aggregate from the params; its star-colour loads
     # come before the stores into the local, the same 2.0 aggregate scheduling as the chip spawners above.
     "pso/weapon/TItemAttackCol.cpp": {"mw_version": "GC/2.0"},

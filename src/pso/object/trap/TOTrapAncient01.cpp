@@ -43,12 +43,25 @@
 
 #include "pso/system/NinjaTypes.h"
 
-extern BmlResource *TOTrapAncient01__bml_resource;
-extern BmlResourceDescriptor bm_o_trap_ancient01_resource_descriptor;
+BmlResource *TOTrapAncient01__bml_resource;
 
-struct E_8017A1A4 { u8 pad[0xc]; f32 f; u8 pad2[0x2c - 0x10]; };
+const char *bm_o_trap_ancient01_model_names[] = {
+    "fe_obj_o_turigane_hahen01.gj",
+    "fe_obj_o_turigane_hahen02.gj",
+    "fe_obj_o_turigane_hahen03.gj",
+    "fs_obj_o_turigane.gj",
+    NULL,
+};
+const char *bm_o_trap_ancient01_motion_names[] = {NULL};
+BmlResourceDescriptor bm_o_trap_ancient01_resource_descriptor = {
+    "bm_o_trap_ancient01.bml", bm_o_trap_ancient01_model_names, bm_o_trap_ancient01_motion_names, 4, 0,
+};
+// name inferred: the one body the ctor hands to init_collision_body_parts
+static CollisionBody trap_ancient01_collision_body[1] = {
+    {{0.0f, 20.0f, 0.0f}, 14.0f, 0.0f, 0, 0x08011F04, {0.0f, 0.0f, 0.0f}, 0.0f},
+};
+const char *TOTrapAncient01__class_name = "TOTrapAncient01";
 
-struct Obj_8017A1A4 { u8 pad[0xa4]; E_8017A1A4 *arr; };
 struct VBase_801797D4 { char pad[0x18]; };
 
 struct VObj_801797D4 : VBase_801797D4 {
@@ -94,9 +107,6 @@ struct Trap_801797D4 : VObj_801797D4 {
 };
 
 extern "C" {
-f32 TObjPlayer__sub_8017A1A4(Obj_8017A1A4 *self, s32 i);
-extern CollisionBody lbl_804B4844[];
-extern const char *TOTrapAncient01__class_name;
 VObj_801797D4 *get_battle_param__10TObjPlayerFi(s32);
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 extern s32 lbl_805D3530;
@@ -110,8 +120,8 @@ void TOTrapAncient02R::vfunc_86() {
     }
 }
 
-f32 TObjPlayer__sub_8017A1A4(Obj_8017A1A4 *self, s32 i) {
-    return self->arr[i].f;
+f32 TObjPlayer__sub_8017A1A4(TObjCollidable *actor, s32 body) {
+    return actor->bodies[body].radius;
 }
 
 #pragma push
@@ -153,7 +163,7 @@ TOTrapAncient01::TOTrapAncient01(TObject *parent, void *set_data) : TOTrap(paren
     payload.kind = set_params[1];
     dist = 15.0f;
     player = 0xFFFF;
-    init_collision_body_parts(this, lbl_804B4844, 1);
+    init_collision_body_parts(this, trap_ancient01_collision_body, 1);
     refresh_collision_body_centers();
     actorFlags |= 0x60040000;
     get_or_assign_entity_id(0);
@@ -287,7 +297,7 @@ void TOTrapAncient01::vfunc_81() {
             target = (u8 *)player;
             if (target != NULL) {
                 dist = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
-                this->dist -= TObjPlayer__sub_8017A1A4((Obj_8017A1A4 *)player, 0);
+                this->dist -= TObjPlayer__sub_8017A1A4(player, 0);
                 if (dist < this->dist * this->dist) {
                     if (TObjPlayer::is_locally_controlled(target) != 0) {
                         send_6x2C_impose_hold(player, &position, -1, 0, this->dist);

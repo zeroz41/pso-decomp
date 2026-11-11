@@ -34,7 +34,13 @@ void run_task__8TObjChipFv(void *arg0);
 }
 
 // TObjChipParams followed by the data spawn_chips reads (at +0x4C).
-struct TObjChipSpawnParams;
+struct TObjChipSpawnParams {
+    TObjChipParams chip;
+    s32 pad_4C;
+    s32 angle_y; // name inferred: TOTrapSeabed01 gives each fragment chip a y angle here
+    s32 pad_54;
+    u8 pad_58[0xC];
+};
 
 // One debris piece of a TObjChip.
 struct TObjChipPiece {

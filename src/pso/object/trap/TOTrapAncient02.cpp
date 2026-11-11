@@ -120,7 +120,6 @@ extern const f32 lbl_805DBA94;
 extern const f32 lbl_805DBA98;
 void TOTrapAncient02R__vt79(Obj_8017A3C0 *o);
 void vfunc_82__16TOTrapAncient02RFv(void *arg0);
-f32 TObjPlayer__sub_8017A1A4(void *, s32);
 void send_6x2C_impose_hold(void *, void *, s32, s32, f32);
 extern s32 local_client_id;
 struct Obj_8017A8B0 {
@@ -1016,7 +1015,7 @@ void TOTrapAncient02::vfunc_81() {
             self->target = (u8 *)p;
             if (self->target != NULL) {
                 d = horizontal_distance_squared((const Vec *)((u8 *)self->target + 0x38), (const Vec *)&self->position);
-                self->dist = self->range - TObjPlayer__sub_8017A1A4(p, 0);
+                self->dist = self->range - TObjPlayer__sub_8017A1A4((TObjPlayer *)p, 0);
                 if (d < self->dist * self->dist) {
                     if (self->player == local_client_id) {
                         send_6x2C_impose_hold(p, &self->position, self->timer, 0, self->dist);

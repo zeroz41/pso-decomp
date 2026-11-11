@@ -47,5 +47,9 @@ struct TOTrap : public TObjChara {
     s32 m_340;
 };
 
+// The radius of an actor's collision body `body` (TOTrapAncient01's TU); the traps
+// shrink their hold distance by the held player's body radius.
+extern "C" f32 TObjPlayer__sub_8017A1A4(TObjCollidable *actor, s32 body);
+
 typedef char TOTrap_size[sizeof(TOTrap) == 0x344 ? 1 : -1];
 #endif
