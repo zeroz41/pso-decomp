@@ -4687,12 +4687,9 @@ pso/object/collision/TObjEvtCollision.cpp:
 	.data       start:0x804B7BA0 end:0x804B7BD8
 
 pso/npc/TNpcPlayer_80190E64.cpp:
-	.text       start:0x80190E64 end:0x80191218
+	.text       start:0x80190E64 end:0x801912BC
 	.rodata     start:0x80445910 end:0x80445928
 	.data       start:0x804B7BD8 end:0x804B7C54
-
-pso/unk/TLobby_80191218.cpp:
-	.text       start:0x80191218 end:0x801912BC
 
 pso/object/TObjHashi.cpp:
 	.text       start:0x801912BC end:0x80191D80
@@ -9990,10 +9987,7 @@ pso/unk/TLobby_80335E7C.cpp:
 	.sdata2     start:0x805DF8C8 end:0x805DF8E8
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC_80336054.cpp:
-	.text       start:0x80336054 end:0x803360CC
-
-pso/unk/TLobby_803360CC.cpp:
-	.text       start:0x803360CC end:0x80336874
+	.text       start:0x80336054 end:0x80336874
 	.ctors      start:0x80433FEC end:0x80433FF0
 	.rodata     start:0x80477668 end:0x80477830
 	.data       start:0x804EE488 end:0x804EE60C
@@ -10310,14 +10304,11 @@ pso/ui/frontend/TAdFloorLoadGC.cpp:
 pso/ui/frontend/TAdFloorLoadPrtGC.cpp:
 	.text       start:0x8034AD28 end:0x8034AD38
 
-pso/unk/text_8034AD38.cpp:
-	.text       start:0x8034AD38 end:0x8034AF68
+pso/ui/window/TWindowDD_8034AF68.cpp:
+	.text       start:0x8034AD38 end:0x8034B110
 	.rodata     start:0x80478A28 end:0x80478B78
 	.data       start:0x804F0028 end:0x804F0040
 	.sdata      start:0x805D4330 end:0x805D4338
-
-pso/ui/window/TWindowDD_8034AF68.cpp:
-	.text       start:0x8034AF68 end:0x8034B110
 
 pso/quest/challenge/TChallenge4PItemSelect.cpp:
 	.text       start:0x8034B110 end:0x8034BE30
