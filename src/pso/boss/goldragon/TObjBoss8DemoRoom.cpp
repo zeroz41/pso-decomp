@@ -11,6 +11,14 @@
 #include "pso/network/protocol/subcommand_validation.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/system/BmlResourceDescriptor.h"
+
+__declspec(section ".data") const char *bm_obj_boss8_demoroom_model_names[2] = { "fe_obj_cyl_soto.nj", NULL };
+const char *bm_obj_boss8_demoroom_motion_names[1] = { NULL };
+BmlResourceDescriptor TObjBoss8DemoRoom__resource_desc = {
+    "bm_obj_boss8_demoroom.bml", bm_obj_boss8_demoroom_model_names, bm_obj_boss8_demoroom_motion_names, 1, 0
+};
+const char *TObjBoss8DemoRoom__name = "TObjBoss8DemoRoom";
 
 extern "C" {
 
@@ -38,22 +46,18 @@ TObjBoss8DemoRoom::~TObjBoss8DemoRoom() {}
 
 }
 
-struct RecoveredGlobal_8036B6D0_lbl_804F3660 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_8036B6D0_lbl_804F3660_size[sizeof(RecoveredGlobal_8036B6D0_lbl_804F3660) == 0x10 ? 1 : -1];
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern RecoveredGlobal_8036B6D0_lbl_804F3660 TObjBoss8DemoRoom__resource_desc;
 void free_bin_model_request(void*, int);
 void __ct__7TObjectFP7TObject(void *);
 
 extern s32 __vt__17TObjBoss8DemoRoom[];
-extern void *TObjBoss8DemoRoom__name;
 
 void *__ct__17TObjBoss8DemoRoomFv(void *boss8_demo_room) {
     __ct__7TObjectFP7TObject(boss8_demo_room);
     *(s32 **)((s8 *)boss8_demo_room + 0x18) = __vt__17TObjBoss8DemoRoom;
-    *(void * *)&((TObjBoss8DemoRoom *)boss8_demo_room)->m_name = TObjBoss8DemoRoom__name;
+    ((TObjBoss8DemoRoom *)boss8_demo_room)->m_name = TObjBoss8DemoRoom__name;
     return boss8_demo_room;
 }
 
@@ -70,7 +74,7 @@ void TObjBoss8DemoRoom::load_resource() {
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &TObjBoss8DemoRoom__resource_desc.value, 0, 0, 0));
+        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &TObjBoss8DemoRoom__resource_desc, 0, 0, 0));
     }
     TObjBoss8DemoRoom__shared_resource_object = (void *)var_r0;
 }

@@ -63,28 +63,23 @@ f32 *dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 void fn_80356E30(s32 *p);
 extern RecoveredGlobal_80356B18___vt__15TBoss6SwordWave __vt__15TBoss6SwordWave;
-extern s32 TBoss6SwordWave__name;
+extern const char *TBoss6SwordWave__name;
 u8 *__ct__15TBoss6SwordWaveFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void queue_destruction__7TObjectFv(void *arg0);
 s32 query_teammate_state__9TObjEneDDFv();
-extern const f32 lbl_805E0010;
-extern const f32 lbl_805E0014;
 void clear_bit__15TBoss6SwordWaveFPvUc(W_80356D10 *arg0, u8 arg1);
 u8 TBoss6SwordWave__sub_80356D08(u32 arg1, u32 arg2);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 f32 xyz_distance(void *, void *);
-extern u8 lbl_80479388[];
-extern const f32 lbl_805DFFFC;
-extern const f32 lbl_805E0000;
-extern const f32 lbl_805E0004;
-extern const f32 lbl_805E0008;
 s32 get_point__10TBoss6RockFllPf(s32, void *, void *);
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 s32 normalize_vector(void *);
-extern s32 lbl_805E000C;
+extern const s32 lbl_805E000C;
+extern const f32 lbl_805E0010;
+extern const f32 lbl_805E0014;
 s32 is_active__14TBoss6PlotFalzFv();
 }
 struct Pair_803561C4 { s32 a; f32 b; };
@@ -115,6 +110,12 @@ struct VObj_18_ec708a : VBase_18_ec708a {
 };
 
 struct Vec_803561C4 { f32 x, y, z; };
+
+const char TBoss6SwordWave__class_name_string[] = "TBoss6SwordWave";
+const Vec lbl_80479388 = {-10000.0f, 0.0f, 0.0f};
+const char TBoss6SwordShot__class_name_string[] = "TBoss6SwordShot";
+const char *TBoss6SwordWave__name = TBoss6SwordWave__class_name_string;
+const char *TBoss6SwordShot__name = TBoss6SwordShot__class_name_string;
 
 void damage_players_in_radius(u8 *arg0) {
     Vec_803561C4 v;
@@ -161,7 +162,7 @@ void *__dt__15TBoss6SwordShotFv(void *arg0, s16 arg1) {
 }
 
 struct Shot_80356374 {
-    s32 f0;
+    const char *name;
     u8 pad4[0x14];
     void *vt18;
     s32 owner;
@@ -173,7 +174,7 @@ struct Shot_80356374 {
 
 extern "C" {
 u8 *fn_8035648C(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
-extern s32 TBoss6SwordShot__name;
+extern const char *TBoss6SwordShot__name;
 u8 *TBoss6SwordShot__ct(void *arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0);
 
 #pragma push
@@ -185,7 +186,7 @@ u8 *TBoss6SwordShot__ct(void *arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
     void *p;
     __ct__7TObjectFP7TObject(arg0, (void *)arg1);
     self->vt18 = (s32 *)__vt__15TBoss6SwordShot;
-    self->f0 = TBoss6SwordShot__name;
+    self->name = TBoss6SwordShot__name;
     self->owner = arg1;
     VecCopy((Vec *)&self->pos, (const Vec *)arg2);
     self->speed = farg0;
@@ -212,8 +213,6 @@ u8 *TBoss6SwordShot__ct(void *arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
 #undef self
 #pragma pop
 
-#pragma push
-#pragma fp_contract on
 u8 *fn_8035648C(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
     u8 *temp_r3;
     u8 *var_r0;
@@ -224,7 +223,6 @@ u8 *fn_8035648C(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
     }
     return var_r0;
 }
-#pragma pop
 
 }
 
@@ -232,8 +230,6 @@ u8 *fn_8035648C(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {
 #include "pso/boss/olgaflow/TBoss6Rock.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
 
-#pragma push
-#pragma fp_contract on
 s32 TBoss6SwordWave::spawn_wave_ring_particles() {
     Wave_803564F4 *o = (Wave_803564F4 *)this;
     f32 d;
@@ -241,19 +237,19 @@ s32 TBoss6SwordWave::spawn_wave_ring_particles() {
     s32 step;
     s32 ang;
     d = 6.28f * o->radius;
-    if (d <= lbl_805E0004) {
+    if (d <= 1e-05f) {
         f = 1.0f;
     } else {
-        f = lbl_805E0000 / d;
+        f = 42.158997f / d;
     }
-    step = (s32)(lbl_805DFFFC * f);
+    step = (s32)(65536.0f * f);
     for (ang = 0; ang < 0x10000; ang += step) {
         s32 seg = ((s32 (*)(void *, s32))TBoss6SwordWave__sub_80356D08)(o->x30, ang);
         if (((s32 (*)(void *, s32))test_rock_bit__15TBoss6SwordWaveFiUc)(o->x30, seg) != 0) {
             Vec_803564F4 v = o->pos;
             v.x += o->radius * sin_table_lookup(ang);
             v.z += o->radius * cos_table_lookup(ang);
-            if (!(xyz_distance(&v, lbl_80479388) > lbl_805E0008)) {
+            if (!(xyz_distance(&v, (void *)&lbl_80479388) > 400.0f)) {
                 spawn_particle_effect_with_flags(&v, 0x212, 0x40);
                 if (((TBoss6Type2 *)(o->owner))->get_rotation_timer() == 0) {
                     spawn_particle_effect(&v, 0x213);
@@ -264,7 +260,6 @@ s32 TBoss6SwordWave::spawn_wave_ring_particles() {
         }
     }
 }
-#pragma pop
 
 struct W_80356D10;
 
@@ -340,7 +335,7 @@ s32 TBoss6SwordWave::break_rocks_in_wave() {
         }
         ((void (*)(void *, u8))clear_bit__15TBoss6SwordWaveFPvUc)(arg0 + 0x30, t);
         TBoss6Rock::reset_rock_state(i);
-        if (dist <= lbl_805E0004) {
+        if (dist <= 1e-05f) {
             continue;
         }
         n.x = -d.z;
@@ -421,8 +416,6 @@ u8 *__ct__15TBoss6SwordWaveFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, 
     return arg0;
 }
 
-#pragma push
-#pragma fp_contract on
 u8 *TBoss6SwordWave::create(s32 arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
     u8 *temp_r3;
     u8 *var_r0;
@@ -433,7 +426,6 @@ u8 *TBoss6SwordWave::create(s32 arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
     }
     return var_r0;
 }
-#pragma pop
 
 u8 test_rock_bit__15TBoss6SwordWaveFiUc(s32 arg0, u8 arg1) {
     typedef char sp8_offset[(offsetof(Stack_80356C80, sp8) == 0x0) ? 1 : -1];

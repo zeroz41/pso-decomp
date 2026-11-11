@@ -58,6 +58,8 @@ typedef char LscStream_field_34_offset[offsetof(LscStream, field_34)==0x34 ? 1 :
 typedef char LscStream_entries_offset[offsetof(LscStream, entries)==0x38 ? 1 : -1];
 extern "C" {
 extern LscStream lsc_slot_table[16];
+extern const char *const volatile lsc_version_string;
+extern s32 lsc_init_count;
 s32 lsc_get_min_buffer_bytes(LscStream* stream);
 void lsc_set_min_buffer_bytes(LscStream* stream, s32 bytes);
 s32 lsc_get_stream_progress(LscStream* stream, s32 stream_id);

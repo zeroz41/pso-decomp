@@ -410,7 +410,6 @@ force_active:
   - TBoss8Dragon__sub_800BB650
   - TBoss8Dragon__sub_802F3C94
   - TBoss8Dragon__sub_802F3F20
-  - __sinit_TBoss8Dragon_802FDDD4_cpp
   - TBoss8Dragon__sub_8030B80C
   - TBoss8Dragon__sub_8036AF50
   - TCameraCtrl__sub_800677D4
@@ -508,7 +507,7 @@ force_active:
   - TItemEffNeedleBase__class_name
   - TItemEffNeedlePos__class_name
   - TItemEffNeedle__class_name
-  - TItemEffOrgaFlowShot__ct
+  - __ct__20TItemEffOrgaFlowShotFP7TObjectP10S_80357734
   - TItemEffectWeapon__class_name
   - TItemEquipBase__sub_80119100
   - TItemEquipBase__sub_80119168
@@ -817,9 +816,9 @@ force_active:
   - TOSwitchAttack__ct
   - TOSwitchItem__class_name
   - TOSwitchTimer__ct
-  - TOTrapAncient02R__ct
-  - TOTrapAncient02R__vt79
-  - TOTrapAncient02__ct
+  - __ct__16TOTrapAncient02RFP7TObjectPv
+  - vfunc_81__16TOTrapAncient02RFv
+  - __ct__15TOTrapAncient02FP7TObjectPv
   - TOTrapChainSawDamage__ct
   - TOTrapChainSawDamage__sub_802C9C00
   - TOTrapChainSawDamage__vt14
@@ -16523,9 +16522,12 @@ force_active:
   - translate_key_char__16TKeyBoardControlFPvUcPUs
   - translate_view_negated__11TCameraCtrlFfff
   - trap_ancient02_collision_body
-  - trap_ancient02_ruins_pillar_resources
-  - trap_ancient02_seabed_pillar_resources
-  - trap_ancient02_torabasami_resources
+  - bm_obj_ruins_pillar_model_names
+  - bm_obj_ruins_pillar_resource_descriptor
+  - bm_obj_seabed_pillar_model_names
+  - bm_obj_seabed_pillar_resource_descriptor
+  - bm_fs_obj_o_torabasami_model_names
+  - bm_fs_obj_o_torabasami_resource_descriptor
   - traverse_animated_node_tree__FPv
   - trigger_activate_sound__11TOKeyCave01Fv
   - trigger_activate_sound__11TObjDoorKeyFv
@@ -17781,12 +17783,32 @@ force_active:
   - run_task__19TAdSelectGameModeGCFv
   - sub_80285054__25TWindowSubSymbolChatPartsFv
   - sub_80285274__25TWindowSubSymbolChatPartsFPUc
+  - "TLobby__sub_803C8594"
+  - "TLobby__sub_803C9104"
+  - "TLobby__sub_803C9350"
+  - "TLobby__sub_803C9358"
+  - "TLobby__sub_803C94D8"
+  - "TLobby__sub_803C96A8"
+  - "TLobby__sub_803C96B0"
+  - "TLobby__sub_803C96E0"
+  - "adx_get_data_start_offset"
+  - "adxt_set_out_pan__6TLobbyFls"
+  - "apply_if_v2__6TLobbyFv"
+  - "check_packet_header_8001__6TLobbyFPUslPl"
+  - "set_rate_mode__6TLobbyFl"
+  - "TLobby__sub_803CBA18"
 # --- force_active (END) ---
 # False pointers: packed data words whose values happen to land on code/data
 # addresses. dtk would emit a relocation and export the target symbol.
 block_relocations:
   # 0x8000F513 inside lobby_font_texture_prs_data; would export MusyX hardware.c's @eti_8000F50C.
   - source: 0x8049C198
+  # Bit patterns inside the glyph table of TQuestVmDownLoadServer_803E6970 (glyph_bits+0x11C, +0x23C) read as
+  # pointers into .text; with them the split object zeroes table bytes the compiled one has.
+  - source: 0x8047EB44
+  - source: 0x8047EC64
+  # Bytes 0x80 0x0A 0x20 0x20 inside TPlayerBattleCtrl4P's team-battle message string (lbl_80475A34+0x1C) read as a pointer into .text.
+  - source: 0x80475A50
 
 # MetroTRK code templates are copied as data, so CFA does not discover their references.
 add_relocations:

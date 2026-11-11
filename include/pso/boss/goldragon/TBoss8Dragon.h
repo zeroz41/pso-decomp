@@ -254,7 +254,6 @@ struct TBoss8Dragon
     void set_field_1c();
     void spawn_child_object();
     static void free_resources();
-    f32 apply_default_velocity_scale();
     int get_flag_bit6();
     void fill_follow_camera_params(u8 *arg1, u8 *arg2);
     static int get_instance_count();
@@ -293,7 +292,6 @@ struct TBoss8Dragon
     void render_body_model();
     void select_freeze_target();
     void emit_body_effects();
-    f32 apply_velocity_scale(f32 farg0, f32 farg1);
     void get_follow_camera_offsets(u8 *arg1);
     s32 is_closest_part();
     s32 push_apart_from_parts();
@@ -301,6 +299,47 @@ struct TBoss8Dragon
     void draw_with_fade(s32 arg1, s32 arg2);
     void draw();
     u8 *ct_attack_object(s32 arg1, s32 arg2, s32 arg3);
+
+    // Per-action event handlers, dispatched by sub_802FA4E4 (vtable slot 87).
+    void sub_802F4B90(s32 event);
+    void action(s32 event);
+    void sub_802F4DD4(s32 event);
+    void update_wander_state(s32 event);
+    void sub_802F51DC(s32 event);
+    void sub_802F5434(s32 event);
+    void sub_802F5644(s32 event);
+    void sub_802F57E4(s32 event);
+    void handle_walk_state(s32 event);
+    void sub_802F5BA0(s32 event);
+    void sub_802F5CC8(s32 event);
+    void sub_802F5F64(s32 event);
+    void sub_802F610C(s32 event);
+    void sub_802F645C(s32 event);
+    void sub_802F6618(s32 event);
+    void sub_802F6708(s32 event);
+    void sub_802F6838(s32 event);
+    void handle_leap_state(s32 event);
+    void handle_spiral_state(s32 event);
+    void sub_802F75C8(s32 event);
+    void action_17(s32 event);
+    void sub_802F7B4C(s32 event);
+    void sub_802F7B70(s32 event);
+    void state_roar(s32 event);
+    void sub_802F8150(s32 event);
+    void sub_802F8270(s32 event);
+    void sub_802F8578(s32 event);
+    void sub_802F87EC(s32 event);
+    void sub_802F89F8(s32 event);
+    void sub_802F8F88(s32 event);
+    void state_turn_and_charge(s32 event);
+    void sub_802F9850(s32 event);
+    void sub_802F9A4C(s32 event);
+    void handle_tail_attack_state(s32 event);
+    void state_breath_attack(s32 event);
+    void sub_802FA16C(s32 event);
+    void sub_802FA374(s32 event);
+    void sub_802FA478(s32 event);
+    void sub_802FA4E4(s32 action, s32 event);
 };
 
 #include <stddef.h>

@@ -78,10 +78,6 @@ struct TWindowDD
     int initialize_subwindow();
     void *destroy_window_base(s16 arg1);
     static void refresh_status_display();
-    void init_window();
-    void init_and_set_field50(void *arg1);
-    void update_position(s32 arg1);
-    void set_first_entry_text(u32 arg1);
     void set_mode_2();
     void reset_cursor();
     void handle_scroll_input();

@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowDD_WS_String.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/Language.h"
 
@@ -287,7 +288,6 @@ s32 TWindowDD__sub_8034146C(V2_80343C64 *arg0, V2_80343C64 *arg1, s32 arg2, s32 
 s32 TWindowDD__sub_80348B70(s16 arg0);
 void TWindowDD__sub_803412A0(u8 *arg0);
 void update_state__9TWindowDDFv(void);
-void update_position__9TWindowDDFl(u8 *arg0, s32 arg1);
 s32 create__9TWindowDDFv(void);
 extern char lbl_8047863C[];
 extern char lbl_80478644[];
@@ -881,7 +881,7 @@ Obj_80343C64 *TWindowDD__ct(Obj_80343C64 *self, void *parent, void *arg2) {
     if (p != 0)
     {
       TWindowDD__sub_803412A0(p);
-      update_position__9TWindowDDFl(p, 0);
+      ((TWindowDD_WS_String *)p)->update_position(0);
       ((Win_80343C64 *) p)->f30 = lbl_805DFB60;
       ((Win_80343C64 *) p)->f40 = lbl_805DFB60;
       ((Win_80343C64 *) p)->f34 = lbl_805DFBF4;

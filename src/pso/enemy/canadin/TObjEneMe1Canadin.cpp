@@ -19,6 +19,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceLoad.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/player/TObjPlayer_800F0810.h"
@@ -589,8 +590,6 @@ void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 void fn_8009BD00(void);
-extern s32 lbl_8043A268[];
-extern s32 lbl_8043A274[];
 extern u32 lbl_805D4FD4;
 s32 TObjEneMe1Canadin__render_point_cursor;
 extern s32 saved_model_render_flags;
@@ -604,8 +603,8 @@ void TObjEneMe1Canadin__sub_8009E948(u8 *arg0);
 void push_history_entry__17TObjEneMe1CanadinFPvfPvi(s32, f32, void *, s32);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 f32 subtract_vector(void *, void *);
-extern const f64 lbl_8043A3C8;
 void TObjEneMe1Canadin__sub_8009C91C(void *arg0, s32 arg1);
+extern const f64 lbl_8043A3C8;
 s32 queue_destruction__7TObjectFv(void *);
 void noop__17TObjEneMe1CanadinFv(void);
 void advance_state_5_to_4__17TObjEneMe1CanadinFPv(void *arg0);
@@ -614,8 +613,6 @@ u8 *TObjEneMe1Canadin_EffLine__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 void TObjEneEpsilon__sub_800B92F8(u8 *arg0, s32 arg1, f32 farg0);
 s32 transition_enemy_state__9TObjEneDDFl(void *, s32);
 void * __nw__7TObjectFUl(int);
-extern const s32 canadin_formation_reset_vec4[];
-extern u8 TObjEneMe1Canadin__map_core_default_vec4[];
 void TObjEneMe1Canadin__sub_8009D320(void *arg0, s32 arg1);
 u32 __cvt_fp2unsigned(f32);
 s32 pack_debug_text_position(s32 arg0, s32 arg1);
@@ -1058,10 +1055,6 @@ struct VObj_8009E7C4_8009E474 : Base_8009E7C4_8009E474 {
     virtual s32 m114(s32);
 };
 
-struct RecoveredGlobal_8009E4AC_lbl_8043A2A0 {
-    s32 value;
-    u8 remaining[0xC];
-};
 
 struct TargetBase_8009E860 { char pad[0x18]; };
 
@@ -1194,7 +1187,6 @@ struct Canadin_8009E860 {
     u16 target_id;
 };
 
-typedef char RecoveredGlobal_8009E4AC_lbl_8043A2A0_size[sizeof(RecoveredGlobal_8009E4AC_lbl_8043A2A0) == 0x10 ? 1 : -1];
 
 struct Stack_800CBDBC {
     s32 sp8;
@@ -1496,10 +1488,6 @@ void vec3_add_to(void *, void *);
 s32 matrix_mult_vec(int, void *, int);
 s32 rotate_vector_by_matrix(int, int, int);
 
-extern RecoveredGlobal_8009E4AC_lbl_8043A2A0 canadin_formation_fade_start_color;
-extern const CanadinBehaviorParams canadin_behavior_params;
-extern u8 canadin_projectile_param_block[];
-extern void *TObjEneMe1Canadin__class_name;
 extern BmlResource *lbl_805D4FD0;
 extern TUnk_8048FA00 *lbl_805D4FDC;
 extern TUnk_8048FA00 *lbl_805D4FE0;
@@ -1510,50 +1498,6 @@ extern s32 *lbl_805D4FF0;
 extern const f32 lbl_805D9860;
 int is_target_android(void *p);
 
-extern "C" {
-extern u8 lbl_8043A1B0[];
-}
-extern "C" {
-extern u8 lbl_8043A1C0[];
-}
-extern "C" {
-extern u8 lbl_8043A1CC[];
-}
-extern "C" {
-extern u8 lbl_8043A1E4[];
-}
-extern "C" {
-extern u8 lbl_8043A1FC[];
-}
-extern "C" {
-extern u8 lbl_8043A214[];
-}
-extern "C" {
-extern u8 lbl_8043A22C[];
-}
-extern "C" {
-extern u8 lbl_8043A240[];
-}
-extern "C" {
-extern u8 lbl_8043A254[];
-}
-extern "C" {
-extern u8 lbl_8043A2B0[];
-}
-extern "C" {
-extern u8 lbl_8043A2CC[];
-}
-extern "C" {
-extern u8 lbl_8043A2D8[];
-}
-extern "C" {
-extern u8 lbl_8043A2F8[];
-}
-extern "C" {
-extern u8 lbl_8043A308[];
-}
-extern void *bm_ene_me1_mb_model_names[3];
-extern void *bm_ene_me1_mb_motion_names[7];
 void *canadin_setup_param_block[7] = {
     (void *)0x43610000, (void *)0x0, (void *)0x600, (void *)0x0,
     (void *)0x0, (void *)0x0, (void *)0x0,
@@ -1563,16 +1507,29 @@ void *lbl_8048FECC[11] = {
     (void *)0x0, (void *)0x0, (void *)0x8003, (void *)0x0,
     (void *)0x0, (void *)0x0, (void *)0x0,
 };
-void *bm_ene_me1_mb_model_names[3] = {
-    (void *)&lbl_8043A1B0, (void *)&lbl_8043A1C0, (void *)0x0,
+// The Canadin's two models and six motions, and the archive that holds them.
+const char *bm_ene_me1_mb_model_names[3] = {
+    "me1n_y_mb.nj",
+    "me1_y_mb.nj",
+    NULL
 };
-void *bm_ene_me1_mb_motion_names[7] = {
-    (void *)&lbl_8043A1CC, (void *)&lbl_8043A1E4, (void *)&lbl_8043A1FC, (void *)&lbl_8043A214,
-    (void *)&lbl_8043A22C, (void *)&lbl_8043A240, (void *)0x0,
+const char *bm_ene_me1_mb_motion_names[7] = {
+    "change02_me1_y_mb.njm",
+    "change01_me1_y_mb.njm",
+    "damage01_me1_y_mb.njm",
+    "damage02_me1_y_mb.njm",
+    "wait01_me1_y_mb.njm",
+    "wait02_me1_y_mb.njm",
+    NULL
 };
-void *bm_ene_me1_mb_resource_descriptor[4] = {
-    (void *)&lbl_8043A254, (void *)&bm_ene_me1_mb_model_names, (void *)&bm_ene_me1_mb_motion_names, (void *)0x20006,
+BmlResourceDescriptor bm_ene_me1_mb_resource_descriptor = {
+    "bm_ene_me1_mb.bml", bm_ene_me1_mb_model_names, bm_ene_me1_mb_motion_names, 2, 6
 };
+const Vec lbl_8043A268 = { 0.0f, 0.0f, 1.0f };
+const Vec lbl_8043A274 = { 0.0f, -1.0f, 0.0f };
+const NJS_ARGB canadin_formation_reset_vec4 = { 1.0f, 0.0f, 0.2f, 1.0f };
+const NJS_ARGB TObjEneMe1Canadin__map_core_default_vec4 = { 1.0f, 1.0f, 0.0f, 0.2f };
+const NJS_ARGB canadin_formation_fade_start_color = { 1.0f, 0.2f, 1.0f, 0.0f };
 void *lbl_8048FF30[28] = {
     (void *)0x10000, (void *)0x4, (void *)0x3e4ccccd, (void *)0x0,
     (void *)0x10000, (void *)0x5, (void *)0x3e4ccccd, (void *)0x0,
@@ -1582,10 +1539,17 @@ void *lbl_8048FF30[28] = {
     (void *)0x20001, (void *)0x3, (void *)0x3f19999a, (void *)0x0,
     (void *)0x30000, (void *)0x1, (void *)0x3f000000, (void *)0x0,
 };
-void *canadin_leader_fade_sequence_table[5] = {
-    (void *)&lbl_8043A2B0, (void *)&lbl_8043A2CC, (void *)&lbl_8043A2D8, (void *)&lbl_8043A2F8,
-    (void *)&lbl_8043A308,
+const char *canadin_leader_fade_sequence_table[5] = {
+    "ababaababaabbababbabbbbc",
+    "abbabbababc",
+    "ababaaabbaaabbbabbabababbbbc",
+    "abaaabababbac",
+    "ababababaabbaabbababaabaabaaabbbbc",
 };
+const CanadinBehaviorParams canadin_behavior_params = { 3, 5.0f, 3.0f, 3.0f, 1 };
+const CanadinBehaviorParams canadin_projectile_param_block = { 3, 10.0f, 20.0f, 3.0f, 1 };
+const char *TObjEneMe1Canadin__class_name = "TObjEneMe1Canadin";
+const char *TObjEneMe1CanadinLeader__class_name = "TObjEneMe1CanadinLeader";
 s32 lbl_80500930[3];
 s32 lbl_8050093C[3];
 s32 lbl_80500948[3];
@@ -1611,7 +1575,6 @@ Vec lbl_80500960;
 
 
 
-extern s32 TObjEneMe1CanadinLeader__class_name;
 
 struct List_8009B7C0 { u8 pad[0x4CC]; s32 cap; s32 n; s32 items[8]; };
 
@@ -1728,14 +1691,14 @@ extern int fold_flush_2;
 extern "C" {
 extern const char lbl_8043A3D0[];
 extern u32 lbl_805D4FD4;
-extern s32 *lbl_805D4FE4;
-extern s32 *lbl_805D4FE8;
-extern s32 *lbl_805D4FEC;
-extern s32 *lbl_805D4FF0;
 extern const s32 lbl_8043A180[3];
 extern const s32 lbl_8043A18C[3];
 extern const s32 lbl_8043A198[3];
 extern const s32 lbl_8043A1A4[3];
+extern s32 *lbl_805D4FE4;
+extern s32 *lbl_805D4FE8;
+extern s32 *lbl_805D4FEC;
+extern s32 *lbl_805D4FF0;
 }
 
 // Name inferred: the motion setup TLobby::spawn_npc_enemy takes (motions, animation table, 0, 0x70000).
@@ -1746,7 +1709,6 @@ struct CanadinSpawnParams {
     s32 flags;
 };
 
-extern "C" const CanadinSpawnParams lbl_8043A380;
 
 
 
@@ -1765,9 +1727,9 @@ void TObjEneMe1Canadin::load_resources() {
     lbl_80500960.y = 0.0f;
     lbl_80500960.z = 0.0f;
     if (TObjEneDD::check_v2_mode() != 0) {
-        lbl_805D4FD0 = (BmlResource *)load_enemy_bml_resource_named((s32)bm_ene_me1_mb_resource_descriptor, (s32)lbl_8043A3D0);
+        lbl_805D4FD0 = (BmlResource *)load_enemy_bml_resource_named((s32)&bm_ene_me1_mb_resource_descriptor, (s32)lbl_8043A3D0);
     } else {
-        lbl_805D4FD0 = (BmlResource *)load_enemy_bml_resource((u8 *)bm_ene_me1_mb_resource_descriptor);
+        lbl_805D4FD0 = (BmlResource *)load_enemy_bml_resource((u8 *)&bm_ene_me1_mb_resource_descriptor);
     }
     for (i = 0; i < 3; i++) {
         lbl_80500930[i] = (s32)TLobby::register_boss(lbl_8043A180[i]);
@@ -1794,8 +1756,7 @@ void TObjEneMe1Canadin::load_resources() {
     lbl_805D4FF0 = (s32 *)(((s32 *)((NJS_OBJECT *)find_model_node(model2, 2))->model)[1] + 4);
     TObjPlayer__sub_800F0928();
     s16 ids[2] = { 0x17, 0x18 };
-    CanadinSpawnParams params = lbl_8043A380;
-    params.motions = (s32)lbl_805D4FD0->motions;
+    CanadinSpawnParams params = { (s32)lbl_805D4FD0->motions, lbl_8048FF30, 0, 0x70000 };
     for (i = 0; i < 2; i++) {
         TLobby::spawn_npc_enemy(ids[i], lbl_805D4FD0->models[i].model, (NJS_TEXLIST *)lbl_805D4FD0->models[1].m_c, &params, 8.0f, 15.0f);
     }
@@ -1827,7 +1788,7 @@ void TObjEneMe1Canadin::free_resources() {
 
 extern "C" {
 TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, void *set_data, s32 kind) : TObjEneDD_ST(parent) {
-    *(void **)((s8 *)this + 0x0) = TObjEneMe1Canadin__class_name;
+    m_name = TObjEneMe1Canadin__class_name;
     invoke_initialization_hook(set_data);
     *(u32 *)((s8 *)this + 0x3C8) = 0;
     update_by_field_0x354();
@@ -1839,7 +1800,7 @@ TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, void *set_data, s32 kind) 
 
 extern "C" {
 TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, TObjEneMe1Canadin *leader, Vec *pos, s32 id, s32 sub_id) : TObjEneDD_ST(parent) {
-    *(s32 *)((s8 *)this + 0) = (s32) (*(s32 *)&TObjEneMe1Canadin__class_name);
+    m_name = TObjEneMe1Canadin__class_name;
     *(TObjEneMe1Canadin **)((s8 *)this + 0x3C0) = leader;
     init_common_from((u8 *)(*(u8 **)((s8 *)this + 0x3C0)));
     *(s16 *)((s8 *)this + 0x1C) = id;
@@ -1912,7 +1873,7 @@ void TObjEneMe1Canadin::setup_enemy() {
     *(f32 *)((s8 *)arg0 + 0x498) = 0.0f;
     *(s32 *)((s8 *)arg0 + 0x49C) = 0;
     *(s32 *)((s8 *)arg0 + 0x4A0) = 0;
-    ((void (*)(void *, void *))copy_argb)(arg0 + 0x4A4, TObjEneMe1Canadin__map_core_default_vec4);
+    ((void (*)(void *, void *))copy_argb)(arg0 + 0x4A4, (void *)&TObjEneMe1Canadin__map_core_default_vec4);
     *(f32 *)((s8 *)arg0 + 0x4A4) = 0.0f;
     *(s32 *)((s8 *)arg0 + 0x4B8) = 0;
     *(s32 *)((s8 *)arg0 + 0x4B4) = 0;
@@ -2298,7 +2259,7 @@ void TObjEneMe1CanadinLeader::update_fade_sequence(void *pv) {
                 break;
             case 0x63:
                 p->state = 0;
-                copy_argb((NJS_ARGB *)&p->f4a4, (NJS_ARGB *)canadin_formation_reset_vec4);
+                copy_argb((NJS_ARGB *)&p->f4a4, (NJS_ARGB *)&canadin_formation_reset_vec4);
                 break;
             case 0x61:
                 p->f4a4 = 1.0f;
@@ -2314,7 +2275,7 @@ void TObjEneMe1CanadinLeader::update_fade_sequence(void *pv) {
 
 extern "C" {
 void TObjEneMe1CanadinLeader__sub_8009E4AC(u8 *arg0, s32 arg1) {
-    ((TObjEneMe1Canadin *)arg0)->reset_map_core(&canadin_formation_fade_start_color.value);
+    ((TObjEneMe1Canadin *)arg0)->reset_map_core((void *)&canadin_formation_fade_start_color);
     *(s32 *)((s8 *)arg0 + 0x4B8) = 3;
     *(s32 *)((s8 *)arg0 + 0x4BC) = arg1;
     *(s32 *)((s8 *)arg0 + 0x4C0) = 2;
@@ -2627,7 +2588,7 @@ void TObjEneMe1Canadin::vfunc_110(s32 arg1) {
         this->vfunc_96();
         *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) & 0xFEFFFFFF);
         {
-            const f32 *p = (const f32 *) canadin_formation_reset_vec4;
+            const f32 *p = (const f32 *)&canadin_formation_reset_vec4;
             *(f32 *)((s8 *)arg0 + 0x4A8) = p[1];
             *(f32 *)((s8 *)arg0 + 0x4AC) = p[2];
             *(f32 *)((s8 *)arg0 + 0x4B0) = p[3];
@@ -2801,7 +2762,7 @@ void TObjEneMe1Canadin__sub_8009D320(void *arg0, s32 arg1) {
         o->flags &= 0xFFBFFFFF;
         ((VObj_18_2d9fb9 *)o)->m94();
         o->f30 |= 0x01000000;
-        ((TObjEneMe1Canadin *)o)->reset_map_core((void *)canadin_formation_reset_vec4);
+        ((TObjEneMe1Canadin *)o)->reset_map_core((void *)&canadin_formation_reset_vec4);
         o->mode = 1;
         o->timer = 0;
         o->f49C = 0;
@@ -2844,7 +2805,7 @@ void TObjEneMe1Canadin__sub_8009D320(void *arg0, s32 arg1) {
             if (o->fB8 == 1) {
                 void *p;
                 o->mode = 3;
-                ((TObjEneMe1Canadin *)o)->reset_map_core(TObjEneMe1Canadin__map_core_default_vec4);
+                ((TObjEneMe1Canadin *)o)->reset_map_core((void *)&TObjEneMe1Canadin__map_core_default_vec4);
                 VecCopy((Vec *)pos, (const Vec *)&o->base);
                 p = __nw__7TObjectFUl(0x48);
                 if (p != 0) {
@@ -2895,7 +2856,7 @@ void TObjEneMe1Canadin__sub_8009D320(void *arg0, s32 arg1) {
                 o->mode = 5;
                 o->timer = 0;
                 o->flags &= 0xFFFBFFFF;
-                ((TObjEneMe1Canadin *)o)->reset_map_core((void *)canadin_formation_reset_vec4);
+                ((TObjEneMe1Canadin *)o)->reset_map_core((void *)&canadin_formation_reset_vec4);
                 o->f404++;
                 {
                     void *q = __nw__7TObjectFUl(0x68);
@@ -2924,7 +2885,7 @@ void TObjEneMe1Canadin__sub_8009D320(void *arg0, s32 arg1) {
         break;
     case 5:
         o->flags &= 0xFFFBFFFF;
-        ((TObjEneMe1Canadin *)o)->reset_map_core((void *)canadin_formation_reset_vec4);
+        ((TObjEneMe1Canadin *)o)->reset_map_core((void *)&canadin_formation_reset_vec4);
         if (o->f49C != 0) {
             queue_destruction__7TObjectFv(o->f49C);
             o->f49C = 0;
@@ -2988,7 +2949,7 @@ void TObjEneMe1Canadin__sub_8009CC74(void *arg0, s32 arg1) {
                 if (o->flags & 0x40000) {
                     if (o->f3AC < 40.0f) {
                         o->mode = 2;
-                        ((TObjEneMe1Canadin *)o)->reset_map_core(TObjEneMe1Canadin__map_core_default_vec4);
+                        ((TObjEneMe1Canadin *)o)->reset_map_core((void *)&TObjEneMe1Canadin__map_core_default_vec4);
                     }
                 } else if (o->f3AC < 100.0f) {
                     o->f3C0 = find_entity_by_id(o->f4C8);
@@ -3097,7 +3058,7 @@ void TObjEneMe1Canadin__sub_8009CC74(void *arg0, s32 arg1) {
                         o->mode = 2;
                     } else {
                         o->mode = 1;
-                        ((TObjEneMe1Canadin *)o)->reset_map_core((void *)canadin_formation_reset_vec4);
+                        ((TObjEneMe1Canadin *)o)->reset_map_core((void *)&canadin_formation_reset_vec4);
                         if (o->f3AC > 100.0f) {
                             o->flags &= 0xFFFBFFFF;
                         }
@@ -3111,7 +3072,7 @@ void TObjEneMe1Canadin__sub_8009CC74(void *arg0, s32 arg1) {
         break;
     case 5:
         o->flags &= 0xFFFBFFFF;
-        ((TObjEneMe1Canadin *)o)->reset_map_core((void *)canadin_formation_reset_vec4);
+        ((TObjEneMe1Canadin *)o)->reset_map_core((void *)&canadin_formation_reset_vec4);
         TObjEneMe1Canadin__sub_8009E930((u8 *)o);
         break;
     }
@@ -3367,7 +3328,7 @@ void TObjEneMe1Canadin__sub_8009C2EC(u8 *arg0, s32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x64) += 0x2000;
         (*(s32 *)((s8 *)arg0 + 0x470))++;
         if (*(s32 *)((s8 *)arg0 + 0x470) >= 0x96) {
-            Copy5_8009C2EC c = *(Copy5_8009C2EC *)canadin_projectile_param_block;
+            Copy5_8009C2EC c = *(Copy5_8009C2EC *)&canadin_projectile_param_block;
             u8 *t = *(u8 **)((s8 *)arg0 + 0x468);
             *(f32 *)&c.w[1] = *(f32 *)((s8 *)t + 8);
             TObjEneDD__sub_800BA5A4(arg0, &c, t);
@@ -3625,8 +3586,8 @@ void TObjEneMe1Canadin::render() {
             if ((s16) *(s16 *)((s8 *)arg0 + 0x326) != 0xA) {
                 lbl_805D4FD4 = 0;
                 TObjEneMe1Canadin__render_point_cursor = (s32)(arg0 + 0x414);
-                VecCopy((Vec *)(arg0 + 0x438), (const Vec *)(lbl_8043A268));
-                VecCopy((Vec *)(arg0 + 0x420), (const Vec *)(lbl_8043A274));
+                VecCopy((Vec *)(arg0 + 0x438), &lbl_8043A268);
+                VecCopy((Vec *)(arg0 + 0x420), &lbl_8043A274);
                 set_chunk_model_node_callback((s32)&fn_8009BD00);
                 if (var_r30 == 1) {
                     ((TObjMotion *)arg0)->draw();
@@ -3638,8 +3599,8 @@ void TObjEneMe1Canadin::render() {
                 rotate_matrix_z(0, (int) (*(s32 *)((s8 *)arg0 + 0x64)));
                 lbl_805D4FD4 = -1;
                 TObjEneMe1Canadin__render_point_cursor = (s32)(arg0 + 0x414);
-                VecCopy((Vec *)(arg0 + 0x438), (const Vec *)(lbl_8043A268));
-                VecCopy((Vec *)(arg0 + 0x420), (const Vec *)(lbl_8043A274));
+                VecCopy((Vec *)(arg0 + 0x438), &lbl_8043A268);
+                VecCopy((Vec *)(arg0 + 0x420), &lbl_8043A274);
                 set_chunk_model_node_callback((s32)&fn_8009BD00);
                 ((TObjEneDD_ST *)arg0)->draw_with_alt_model((int) (*(s32 *)((s8 *)arg0 + 0x410)));
                 set_chunk_model_node_callback(NULL);
@@ -3655,8 +3616,8 @@ void TObjEneMe1Canadin::render() {
         ((TObjEneDD *)arg0)->update_primary_light();
         return;
     }
-    VecCopy((Vec *)(arg0 + 0x438), (const Vec *)(lbl_8043A268));
-    VecCopy((Vec *)(arg0 + 0x420), (const Vec *)(lbl_8043A274));
+    VecCopy((Vec *)(arg0 + 0x438), &lbl_8043A268);
+    VecCopy((Vec *)(arg0 + 0x420), &lbl_8043A274);
     VecCopy((Vec *)(arg0 + 0x42C), (const Vec *)(arg0 + 0x2FC));
     VecCopy((Vec *)(arg0 + 0x414), (const Vec *)(arg0 + 0x2FC));
     VecCopy((Vec *)(arg0 + 0x444), (const Vec *)(arg0 + 0x2FC));
@@ -3709,7 +3670,7 @@ TObjEneMe1CanadinLeader::TObjEneMe1CanadinLeader(TObject *parent, void *set_data
     s32 i;
     List_8009B7C0 *l;
 
-    *(s32 *)((s8 *)this + 0) = (s32) TObjEneMe1CanadinLeader__class_name;
+    m_name = TObjEneMe1CanadinLeader__class_name;
     vfunc_106();
     *(f32 *)((s8 *)this + 0x3E8) += 10.0f;
     l = (List_8009B7C0 *)this;
@@ -3903,7 +3864,7 @@ void TObjEneMe1CanadinLeader::update_formation_state(void *arg0) {
         if (self->f4B8 == 0) {
             self->state = 3;
             self->flags3C8 &= ~8;
-            copy_argb((NJS_ARGB *)self->v4A4, (NJS_ARGB *)((s32 *)canadin_formation_reset_vec4));
+            copy_argb((NJS_ARGB *)self->v4A4, (NJS_ARGB *)&canadin_formation_reset_vec4);
             for (i = 0; i < self->count; i++) {
                 if (((s32 (*)(void *, s32))TObjEneMe1CanadinLeader__sub_8009E31C)(self->members[i], 0x200) != 0) {
                     ((s32 (*)(void *))TObjEneMe1CanadinLeader__sub_8009E27C)(self->members[i]);
@@ -3923,7 +3884,7 @@ void TObjEneMe1CanadinLeader::update_formation_state(void *arg0) {
         break;
     case 5:
         if (self->f4B8 == 0) {
-            copy_argb((NJS_ARGB *)self->v4A4, (NJS_ARGB *)((s32 *)canadin_formation_reset_vec4));
+            copy_argb((NJS_ARGB *)self->v4A4, (NJS_ARGB *)&canadin_formation_reset_vec4);
             self->state = 6;
             for (i = 0; i < self->count; i++) {
                 if (((s32 (*)(void *, s32))TObjEneMe1CanadinLeader__sub_8009E31C)(self->members[i], 0x100) != 0) {
@@ -3942,7 +3903,7 @@ void TObjEneMe1CanadinLeader::update_formation_state(void *arg0) {
     case 8:
         if (self->f4B8 == 0) {
             self->state = 9;
-            copy_argb((NJS_ARGB *)self->v4A4, (NJS_ARGB *)((s32 *)canadin_formation_reset_vec4));
+            copy_argb((NJS_ARGB *)self->v4A4, (NJS_ARGB *)&canadin_formation_reset_vec4);
             for (j = 0; j < self->count; j++) {
                 ((s32 (*)(void *))TObjEneMe1CanadinLeader__sub_8009E258)(self->members[j]);
             }
@@ -3970,7 +3931,7 @@ void TObjEneMe1CanadinLeader::vfunc_110(s32 arg1) {
         advance_state_5_to_4__17TObjEneMe1CanadinFPv(arg0);
         ((TObjEneDD *)arg0)->set_field_378(3);
         ((VObj_8009AD18 *)arg0)->m94();
-        const f32 *p = (const f32 *)canadin_formation_reset_vec4;
+        const f32 *p = (const f32 *)&canadin_formation_reset_vec4;
         self->f4A8 = p[1];
         self->f4AC = p[2];
         self->f4B0 = p[3];

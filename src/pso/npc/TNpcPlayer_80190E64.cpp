@@ -2,11 +2,13 @@
 #include "pso/unk/TUnk_804B7C1C.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/unk/TUnk_804B7C1C.h"
 #include "pso/unk/TUnk_804B7C04.h"
 #include "pso/unk/TLobby.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/npc/TNpcPlayer_80190E64.h"
+#include "pso/unk/TLobby_80191218.h"
+
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 CollisionBody npc_player_collision_body_part = {{0.0f, 5.0f, 0.0f}, 7.0f, 50.0f, 0, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f};
@@ -54,11 +56,36 @@ void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 u8 *create_player_object(u16, s32, s32);
 s32 queue_player_injured_pose();
 s32 __dt__7TObjectFv(void *, s32);
-s32 set_player_quest_control_flag(void *);
+void set_player_quest_control_flag(TObjPlayer *player);
 
 }
 
 #pragma defer_codegen on
+
+extern "C" {
+extern void *tl_05;
+extern int hashi_versus2_flag;
+
+void TObjHashiVersus2__sub_801912B0(void) { hashi_versus2_flag = 0; }
+
+void TObjHashiVersus2__sub_801912A4(void) { hashi_versus2_flag = 1; }
+
+void set_player_quest_control_flag(TObjPlayer *player) {
+    player->set_state_flags(0x8000);
+}
+
+void TLobby__sub_80191270(void) { npc_proximity_target_id = -1; }
+
+void TLobby__sub_80191264(void) { npc_proximity_target_id = -1; }
+
+void *TLobby::create_npc(void *arg0) {
+    void *o = __nw__7TObjectFUl(0xB8);
+    if (o != NULL) {
+        o = TLobby__sub_8019118C((u8 *)o, (s32)tl_05, (s32)arg0);
+    }
+    return o;
+}
+}
 
 extern "C" {
 u8 *TLobby__sub_8019118C(u8 *arg0, s32 arg1, s32 arg2) {
@@ -146,10 +173,11 @@ TUnk_804B7C04::~TUnk_804B7C04() {
         *(s16 *)((s8 *)player_object + 0x324) = 6;
         if (this->unk_38 == 1) {
             queue_player_injured_pose();
-            set_player_quest_control_flag(player_object);
+            set_player_quest_control_flag((TObjPlayer *)player_object);
         }
         send_6x24_teleport_player(this->unk_30, this->unk_1C, this->unk_28);
     }
 }
 
 void TUnk_804B7C04::run_task() { if (this->m_2c == 1) { queue_destruction__7TObjectFv(this); } }
+

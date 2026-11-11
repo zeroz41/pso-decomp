@@ -17,6 +17,9 @@ void spawn_dead_spot__10TObjPlayerFlllf(s32 point, s32 selector, s32 delay, f32 
 void spawn_dead_spot_scale15(s32 point, s32 delay);
 }
 void spawn_landing_dead_spot(s32 point, s32 delay);
+// Dead-stripped (no code in the DOL); names inferred, see TBoss3Volopt_800D8ACC.cpp.
+void spawn_corner_dead_spot_scale2_5(s32 point, s32 delay);
+void spawn_corner_dead_spot_scale25(s32 point, s32 delay);
 
 #include <dolphin/mtx.h>
 extern "C" void fn_800D911C(Vec *position);

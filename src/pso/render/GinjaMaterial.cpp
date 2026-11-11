@@ -1,6 +1,6 @@
 #include "pso/system/ModelDrawCallback.h"
 #include "pso/render/GinjaMaterialState.h"
-#include "pso/player/TObjPlayer_803DF7A8.h"
+#include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaModelQueue.h"
 #include "pso/unk/text_803E2008.h"

@@ -126,7 +126,7 @@ struct Wall_8007A138 {
     u32 flags;
 };
 
-extern RecoveredGlobal_800790F0_lbl_804F5800 lbl_804F5800;
+extern RecoveredGlobal_800790F0_lbl_804F5800 __ctype_map;
 extern "C" {
 s32 get_csn_group_flags(u8 arg0);
 void TObjPlayer__sub_80079108(void);
@@ -178,7 +178,7 @@ s32 calc_segment_xz_distance_sq(Vec_8007A138 *c, Vec_8007A138 *o, Vec_8007A138 *
 
 typedef char RecoveredGlobal_800790F0_lbl_804F5800_size[sizeof(RecoveredGlobal_800790F0_lbl_804F5800) == 0x100 ? 1 : -1];
 s32 get_csn_group_flags(u8 arg0) {
-    return *(u8 *)((s8 *)((u8 *)&lbl_804F5800.value + arg0) + 0) & 0xC0;
+    return *(u8 *)((s8 *)((u8 *)&__ctype_map.value + arg0) + 0) & 0xC0;
 }
 
 void TObjPlayer__sub_80079108(void) {  }

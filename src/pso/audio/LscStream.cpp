@@ -12,11 +12,9 @@ struct SjInterface {
 
 struct SjHandle { SjInterface *vt; };
 
-extern void (*lsc_queue_empty_callback)(void *, void *);
-extern void *lsc_queue_empty_object;
-extern void *lsc_queue_empty_param;
-extern s32 lsc_init_count;
-extern const char *volatile lsc_version_string;
+void (*lsc_queue_empty_callback)(void *, void *);
+void *lsc_queue_empty_object;
+void *lsc_queue_empty_param;
 
 extern "C" {
 void lsc_set_repeat(LscStream *lsc_stream, u8 repeat) {
@@ -226,10 +224,6 @@ void lsc_start(LscStream *o) {
     ((void (*)(void *))notify_dvd_read__6TLobbyFv)(lk0);
 }
 
-#pragma push
-#pragma dont_inline off
-#pragma auto_inline on
-#pragma inline_depth(4)
 s32 lsc_enqueue_range(LscStream *lsc_stream, const char *filename, s32 open_mode, s32 range_offset, s32 range_length) {
     LscQueueEntry *entry;
     s32 id;
@@ -279,11 +273,7 @@ s32 lsc_enqueue_file(LscStream *lsc_stream, const char *filename) {
     TLobby__sub_803C8B38((u8 *)file);
     return lsc_enqueue_range(lsc_stream, filename, 0, 0, sectors);
 }
-#pragma pop
 
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 inline LscStream *lsc_find_free_slot(void) {
     s32 i;
     LscStream *o = 0;
@@ -357,34 +347,5 @@ LscStream *lsc_create(void *sj_handle) {
     ((void (*)(void *))notify_dvd_read__6TLobbyFv)(lk);
     return o;
 }
-#pragma pop
-
-void lsc_shutdown(void) {
-    u8 lock[8];
-    s32 i;
-    ((void (*)(void *))enter_lock__6TLobbyFv)(lock);
-    if (--lsc_init_count == 0) {
-        for (i = 0; i < 16; i++) {
-            if ((s32)lsc_slot_table[i].in_use == 1) {
-                lsc_destroy(&lsc_slot_table[i]);
-            }
-        }
-        memset(lsc_slot_table, 0, 0x4380);
-        TLobby::set_callback(0, 0);
-    }
-    ((void (*)(void *))notify_dvd_read__6TLobbyFv)(lock);
 }
 
-void lsc_init(void) {
-    u8 sp8[8];
-    lsc_version_string;
-    ((void (*)(void *))enter_lock__6TLobbyFv)(sp8);
-    if (lsc_init_count == 0) {
-        memset(lsc_slot_table, 0, (unsigned long)(0x4380));
-        TLobby::set_callback(0, 0);
-    }
-    lsc_init_count++;
-    ((void (*)(void *))notify_dvd_read__6TLobbyFv)(sp8);
-}
-
- LscStream lsc_slot_table[16]; }

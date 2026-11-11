@@ -54,7 +54,6 @@ int rotate_matrix_y(void *, void *);
 int push_matrix(void);
 extern const f32 lbl_805D8B20;
 extern const f32 lbl_805D8B24;
-extern const f32 lbl_805D8B28;
 extern const f32 lbl_805D8B2C;
 extern const f32 lbl_805D8B30;
 extern const f32 lbl_805D8B34;
@@ -205,7 +204,7 @@ struct Boss_800542B0 {
 
 /* One state of the TBoss4Type2 state machine (same shape as the TBoss4Zanzo.cpp table). */
 struct Entry_800542B0 {
-    u8 *f0;
+    const char *f0;
     s32 f4;
     void (TBoss4Type2::*enter)();
     void (TBoss4Type2::*update_idle)();
@@ -303,10 +302,6 @@ f32 xyz_distance(Vec_80053914 *, Vec_80053914 *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
 extern u8 TBoss4DarkFalz__data_804FF1E8[];
-extern Vec_800530C0 lbl_80437604;
-extern Vec_800530C0 boss4_type2_effect_offset_vec_b;
-extern const f64 lbl_80437620[];
-extern const f64 lbl_80437630;
 RecoveredGlobal_80054F6C_lbl_804FF2A0 TBoss4Type2__tenchu_furu_array;
 extern s32 registered_player_count;
 extern const f32 lbl_805D8AF8;
@@ -335,8 +330,6 @@ extern const f32 lbl_805D8B74;
 extern const f32 lbl_805D8B78;
 extern const f32 lbl_805D8B7C;
 extern const f32 lbl_805D8B80;struct Cam_800531C8 { u8 pad[0x178]; Vec_80053E40 pos; };
-extern Vec_80053E40 lbl_804375EC;
-extern Vec_80053E40 lbl_804375F8;
 extern Cam_800531C8 *camera_ctrl_instance;
 
 struct P2_80052E10 { s32 a, b; };
@@ -352,17 +345,7 @@ struct S_80052E10 {
     u8 pad3cc[4];
     s32 f3d0;
 };
-extern "C" u8 lbl_8043750C[];
-extern "C" u8 lbl_80437514[];
-extern "C" u8 lbl_80437520[];
-extern "C" u8 lbl_8043752C[];
-extern "C" u8 lbl_80437534[];
-extern "C" u8 lbl_80437540[];
-extern "C" u8 lbl_8043754C[];
-extern "C" u8 lbl_80437558[];
-extern "C" u8 lbl_80437560[];
-extern "C" u8 lbl_80437568[];
-extern "C" u8 lbl_80437570[];
+const char *TBoss4Type1__name = "TBoss4Type1";
 void *lbl_80485AE0[10] = {
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x41c80000,
     (void *)0x40000000, (void *)0x41c80000, (void *)0x3f000000, (void *)0x3f000000,
@@ -370,17 +353,17 @@ void *lbl_80485AE0[10] = {
 };
 s32 lbl_80485B08[2] = { 0xFB, 0xFC };
 Entry_800542B0 lbl_80485C48[11] = {
-    { lbl_8043750C, 0, &TBoss4Type2::sub_800531BC, &TBoss4Type2::check_state_if_idle, &TBoss4Type2::sub_800530C0 },
-    { lbl_80437514, 0, 0, &TBoss4Type2::update_flag800_state, 0 },
-    { lbl_80437520, 0, &TBoss4Type2::sub_8005307C, &TBoss4Type2::update_state_transition, &TBoss4Type2::sub_80052EF8 },
-    { lbl_8043752C, 1, &TBoss4Type2::sub_80052EEC, &TBoss4Type2::sub_80052EE8, &TBoss4Type2::tick_state_398_timer },
-    { lbl_80437534, -1, 0, 0, 0 },
-    { lbl_80437540, 2, &TBoss4Type2::start_motion_for_index, 0, &TBoss4Type2::update_spawn_uro },
-    { lbl_8043754C, 2, &TBoss4Type2::start_motion_for_index, 0, &TBoss4Type2::tick_countdown_set_state7 },
-    { lbl_80437558, 4, &TBoss4Type2::set_motion_for_state, &TBoss4Type2::update_state, &TBoss4Type2::update_attack_countdown },
-    { lbl_80437560, 11, &TBoss4Type2::init_child_and_set_timer, &TBoss4Type2::update_scale_state, &TBoss4Type2::update_tech_charge },
-    { lbl_80437568, 12, &TBoss4Type2::init_child_and_set_timer, &TBoss4Type2::update_scale_state, &TBoss4Type2::update_tech_charge },
-    { lbl_80437570, 13, &TBoss4Type2::init_timer, &TBoss4Type2::sub_800528B8, &TBoss4Type2::sub_800525AC },
+    { "APPEAR", 0, &TBoss4Type2::sub_800531BC, &TBoss4Type2::check_state_if_idle, &TBoss4Type2::sub_800530C0 },
+    { "WAITNEXT", 0, 0, &TBoss4Type2::update_flag800_state, 0 },
+    { "MOVESTNDPOS", 0, &TBoss4Type2::sub_8005307C, &TBoss4Type2::update_state_transition, &TBoss4Type2::sub_80052EF8 },
+    { "DEAD", 1, &TBoss4Type2::sub_80052EEC, &TBoss4Type2::sub_80052EE8, &TBoss4Type2::tick_state_398_timer },
+    { "WAITKILL", -1, 0, 0, 0 },
+    { "HAKILOOP", 2, &TBoss4Type2::start_motion_for_index, 0, &TBoss4Type2::update_spawn_uro },
+    { "PAKULOOP", 2, &TBoss4Type2::start_motion_for_index, 0, &TBoss4Type2::tick_countdown_set_state7 },
+    { "HAKIEND", 4, &TBoss4Type2::set_motion_for_state, &TBoss4Type2::update_state, &TBoss4Type2::update_attack_countdown },
+    { "BEAM_L", 11, &TBoss4Type2::init_child_and_set_timer, &TBoss4Type2::update_scale_state, &TBoss4Type2::update_tech_charge },
+    { "BEAM_R", 12, &TBoss4Type2::init_child_and_set_timer, &TBoss4Type2::update_scale_state, &TBoss4Type2::update_tech_charge },
+    { "TENCHU", 13, &TBoss4Type2::init_timer, &TBoss4Type2::sub_800528B8, &TBoss4Type2::sub_800525AC },
 };
 CollisionBody lbl_80485E2C[3] = {
     { { 135.0f, 25.0f, 0.0f }, 30.0f, 0.0f, 0, 0x801B, { 0.0f, 0.0f, 0.0f }, 0.0f },
@@ -482,9 +465,10 @@ void *boss4_type2_state_motion_index_table[3] = {
 
 
 extern "C" s32 init_collision_body_parts(void *, void *, int);
-extern s32 boss4_type1_emitter_id_table[];
-extern const ModelNodeSpec boss4_type1_model_node_table[];
-extern const char *TBoss4Type1__name;
+extern const s32 boss4_type1_emitter_id_table[8] = { 0x144, 0x144, 0x144, 0x144, 0x145, 0x145, 0x145, 0x145 };
+extern const ModelNodeSpec boss4_type1_model_node_table[7] = {
+    { 9, 1, 0 }, { 7, 1, 0 }, { 5, 2, 0 }, { 4, 2, 0 }, { 6, 2, 0 }, { 3, 5, 0 }, { 3, 0x5E, 0 },
+};
 extern const f32 lbl_805D8B84;
 
 extern "C" {
@@ -495,18 +479,6 @@ extern const f32 lbl_805D8B88;
 
 extern "C" {
 void TBoss4Type2__sub_80055300(void) { TBoss4Type2__sub_80054FC0(NULL, lbl_805D8B20); }
-
-void create_all_tenchu_furu__11TBoss4Type2Fi(s32 arg0) {
-    s32 *var_r31;
-    s32 var_r30;
-    var_r30 = 0;
-    var_r31 = &TBoss4Type2__tenchu_furu_array.value;
-    do {
-        ((TObjDFTenchuFuru *)arg0)->create((void *)var_r31);
-        var_r30 += 1;
-        var_r31 = (s32 *)((u8 *)var_r31 + (0xC));
-    } while (var_r30 < 0x40);
-}
 
 s32 is_split_screen(void);
 extern const f32 lbl_805D8B8C;
@@ -626,6 +598,18 @@ extern "C" void TBoss4Type2__sub_80054FC0(u8 *arg0, f32 arg1) {
     next:
     tries++;
   }
+}
+
+void create_all_tenchu_furu__11TBoss4Type2Fi(s32 arg0) {
+    s32 *var_r31;
+    s32 var_r30;
+    var_r30 = 0;
+    var_r31 = &TBoss4Type2__tenchu_furu_array.value;
+    do {
+        ((TObjDFTenchuFuru *)arg0)->create((void *)var_r31);
+        var_r30 += 1;
+        var_r31 = (s32 *)((u8 *)var_r31 + (0xC));
+    } while (var_r30 < 0x40);
 }
 
 void TBoss4Type2__sub_80054DA8(TBoss4Type2 *boss) {
@@ -1191,7 +1175,7 @@ void pick_target_position__13TRaderMapCoreFPvPv(O_80053914 *self, Vec_80053914 *
         return;
     }
     s = lbl_805D8B50 * random_ratio__9TObjCharaFv(self);
-    a1 = (s32)(lbl_80437630 * atan2_float(-self->pos.x, -self->pos.z));
+    a1 = (s32)(10430.38043493439 * atan2_float(-self->pos.x, -self->pos.z));
     b = (s32)(lbl_805D8B54 * random_ratio__9TObjCharaFv(self));
     ang = b + a1;
     ang -= 0x6000;
@@ -1362,10 +1346,10 @@ void TBoss4Type1::update_follow_camera_offsets() {
         }
     }
     {
-        Vec_80053E40 a = lbl_804375EC;
-        Vec_80053E40 b = lbl_804375F8;
-        if (best > lbl_805D8B28) {
-            best = lbl_805D8B28;
+        Vec_80053E40 a = { 0.0f, 19.8f, -5.0f };
+        Vec_80053E40 b = { 0.0f, 12.93f, 55.42f };
+        if (best > 40.42f) {
+            best = 40.42f;
         }
         t = best / 40.42f;
         if (t > lbl_805D8B20) {
@@ -1393,8 +1377,8 @@ void TBoss4Type2::check_state_if_idle() {
 void TBoss4Type2::sub_800530C0() {
     Obj_800530C0 *self = (Obj_800530C0 *)this;
     self->f39c = ((f32 (*)(void *, f32))calc_wave_offset__11TBoss4Type2Ff)(this, lbl_805D8B18 - (f32)self->timer / lbl_805D8B1C);
-    Vec_800530C0 a = lbl_80437604;
-    Vec_800530C0 b = boss4_type2_effect_offset_vec_b;
+    Vec_800530C0 a = { 0.0f, 0.0f, -120.0f };
+    Vec_800530C0 b = { 0.0f, 0.0f, -175.0f };
     ((void (*)(void *, Vec_800530C0 *, Vec_800530C0 *))set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv)(this, &a, &b);
     if (--self->timer < 0) {
         set_state(1);
@@ -1540,7 +1524,7 @@ void TBoss4Type2::update_scale_state() {
     s32 var_r31;
 
     if ((s32) *(s32 *)((s8 *)this + 0x398) == 0) {
-        if (((f32 (*)(void))random_ratio__9TObjCharaFv)() < lbl_80437620[0]) {
+        if (((f32 (*)(void))random_ratio__9TObjCharaFv)() < 0.5) {
             ((s32 (*)(void *))TBoss4Type2__sub_80053504)(this);
             return;
         }

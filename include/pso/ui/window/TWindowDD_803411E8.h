@@ -3,13 +3,11 @@
 
 #include "types.h"
 
-extern "C" {
-void TWindowDD__sub_803412A0(u8 *arg0);
-}
+class TWindowDD_WS_String;
 
-// --- C functions defined in TWindowDD_803411E8.cpp ---
+// --- C functions defined in TWindowDD_80341334.cpp ---
 extern "C" {
-void TWindowDD__sub_803412A0(u8 *arg0);
+void TWindowDD__sub_803412A0(TWindowDD_WS_String *self);
 }
 // --- end of C functions
 

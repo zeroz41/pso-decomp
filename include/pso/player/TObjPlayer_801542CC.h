@@ -23,6 +23,8 @@ TObjChara *resolve_hittable_target(u16 actor_id, s16 collider);
 s32 project_actor_to_ground(TObjChara *actor, Vec *pos, s32 flags);
 // The radius of the actor's collision body, or a default without bodies.
 f32 get_collision_body_radius(TObjCollidable *actor, s32 body);
+// Empty in the build (TOTrapAncient02R::vfunc_86 and TOTrapChainSaw::update_demo call it).
+void TOTrapAncient02R__sub_80154D78(void *obj);
 }
 
 // The entity table: players fill its first registered_player_count slots.

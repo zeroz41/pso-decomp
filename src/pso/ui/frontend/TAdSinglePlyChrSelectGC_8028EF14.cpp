@@ -76,7 +76,7 @@ void TCharaMaking__bind_appearance_texture_lists(s32 *hair, s32 *head, s32 *body
 void copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(void *dst, void *src);
 extern s32 lbl_805D49B4;
 extern int char_creation_figure_draw_flag;
-extern s32 creation_resource_ready_state;
+s32 creation_resource_ready_state;
 u8 *TAdSinglePlyChrSelectGC__sub_802908CC(u8 *arg0, s16 arg1);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void rotate_matrix_y(int, u32);
@@ -320,55 +320,6 @@ extern s32 creation_region_sample_index_table[24]; extern CreationShapePoint lbl
 #pragma defer_codegen on
 }
 
-void TCMCharacter::reset_model_parts() {
-    for (s32 i = 0; i < 10; i++) {
-        creation_hair_model_parts[i].present = creation_cap_model_parts[i].present = 0;
-    }
-    for (s32 i = 0; i < 5; i++) {
-        creation_head_model_parts[i].present = 0;
-    }
-    creation_models_ready = 0;
-}
-
-s32 TCMCharacter::bind_model_parts(u32 *selected, const char **names, CreationModelPart *parts,
-                                 s32 part, s32 model_index) {
-    *selected = 0;
-    if (names == NULL) {
-        return model_index;
-    }
-    CharacterAppearanceFields *appearance = (CharacterAppearanceFields *)creation_player_character;
-    s32 count = class_appearance_table[((TCharaMaking *)creation_player_character)->get_display_index()].counts[part];
-    if (count == 0) {
-        count = 1;
-    }
-    s32 i = 0;
-    while (i < count) {
-        if (*names == NULL) {
-            parts->present = 0;
-            parts->model = 0;
-        } else {
-            parts->present = 1;
-            parts->model = get_bml_model((BmlResource *)chara_select_preview_resource, model_index++);
-        }
-        i++;
-        names++;
-        parts++;
-    }
-    chara_select_head_node = parts[(&appearance->costume)[part]].model;
-    return model_index;
-}
-
-void TCMCharacter::load_model_parts() {
-    TCharaMaking *appearance = (TCharaMaking *)creation_player_character;
-    CharacterClassAppearance *entry = &class_appearance_table[((TCharaMaking *)creation_player_character)->get_display_index()];
-    creation_models_ready = 1;
-    model = (void *)get_bml_model((BmlResource *)chara_select_preview_resource, 0);
-    s32 next = bind_model_parts(&chara_select_hair_node_b, entry->capModels, creation_cap_model_parts, 4, 1);
-    next = bind_model_parts(&chara_select_hair_node_a, entry->hairModels, creation_hair_model_parts, 4, next);
-    bind_model_parts(&chara_select_head_node, entry->headModels, creation_head_model_parts, 3, next);
-    appearance->get_display_index();
-}
-
 extern "C" {
 void *TCMCharacter__ct(void *motion, void *arg1) {
     CreationTextureCacheEntry *p;
@@ -456,6 +407,54 @@ void TAdSinglePlyChrSelectGC::init_entry_tables(void* _w0) {
     for (s32 i = 0; i < 5; i++) {
         TAdSinglePlyChrSelectGC__sub_80290884(&creation_head_model_parts[i], &lbl_80451CD0);
     }
+}
+void TCMCharacter::load_model_parts() {
+    TCharaMaking *appearance = (TCharaMaking *)creation_player_character;
+    CharacterClassAppearance *entry = &class_appearance_table[((TCharaMaking *)creation_player_character)->get_display_index()];
+    creation_models_ready = 1;
+    model = (void *)get_bml_model((BmlResource *)chara_select_preview_resource, 0);
+    s32 next = bind_model_parts(&chara_select_hair_node_b, entry->capModels, creation_cap_model_parts, 4, 1);
+    next = bind_model_parts(&chara_select_hair_node_a, entry->hairModels, creation_hair_model_parts, 4, next);
+    bind_model_parts(&chara_select_head_node, entry->headModels, creation_head_model_parts, 3, next);
+    appearance->get_display_index();
+}
+
+s32 TCMCharacter::bind_model_parts(u32 *selected, const char **names, CreationModelPart *parts,
+                                 s32 part, s32 model_index) {
+    *selected = 0;
+    if (names == NULL) {
+        return model_index;
+    }
+    CharacterAppearanceFields *appearance = (CharacterAppearanceFields *)creation_player_character;
+    s32 count = class_appearance_table[((TCharaMaking *)creation_player_character)->get_display_index()].counts[part];
+    if (count == 0) {
+        count = 1;
+    }
+    s32 i = 0;
+    while (i < count) {
+        if (*names == NULL) {
+            parts->present = 0;
+            parts->model = 0;
+        } else {
+            parts->present = 1;
+            parts->model = get_bml_model((BmlResource *)chara_select_preview_resource, model_index++);
+        }
+        i++;
+        names++;
+        parts++;
+    }
+    chara_select_head_node = parts[(&appearance->costume)[part]].model;
+    return model_index;
+}
+
+void TCMCharacter::reset_model_parts() {
+    for (s32 i = 0; i < 10; i++) {
+        creation_hair_model_parts[i].present = creation_cap_model_parts[i].present = 0;
+    }
+    for (s32 i = 0; i < 5; i++) {
+        creation_head_model_parts[i].present = 0;
+    }
+    creation_models_ready = 0;
 }
 u8 TAdSinglePlyChrSelectGC::is_active() {
     return (u8) (char_select_active_flag == 1);
@@ -852,6 +851,19 @@ s32 clear_creation_shape_eval_masks(f32 *dst, const f32 *a, const f32 *b, const 
     return 1;
 }
 
+s32 TAdSinglePlyChrSelectGC::map_button_code(s32 arg0) {
+    switch (arg0) {
+    case 0x29:
+        return 3;
+    case 0x2C:
+        return 4;
+    case 0xFF:
+        return -1;
+    default:
+        return -2;
+    }
+}
+
 // Blends the vertex chunks of the three source models into the destination
 // model's chunk list with the region weights: positions, normals (renormalised)
 // and the upper half of the Ninja flags word.
@@ -1015,18 +1027,6 @@ void blend_creation_proportion_shapes(f32 *point) {
 }
 #pragma pop
 
-s32 TAdSinglePlyChrSelectGC::map_button_code(s32 arg0) {
-    switch (arg0) {
-    case 0x29:
-        return 3;
-    case 0x2C:
-        return 4;
-    case 0xFF:
-        return -1;
-    default:
-        return -2;
-    }
-}
 s32 TAdSinglePlyChrSelectGC::count_remaining_slots() {
     CreationTextureCacheEntry *p;
     s32 n;

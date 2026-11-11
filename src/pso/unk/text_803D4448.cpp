@@ -33,9 +33,6 @@ extern u8 gcrna_volume_table[];
 extern s32 gcrna_pan_table[];
 void set_sound_stream_volume(Obj_803D4540 *o, s32 vol);
 void sndStreamFrq(s32, s32);
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 inline s32 stat_803D4540(Obj_803D4540 *o) {
     if (o == 0) {
         return -1;
@@ -43,9 +40,6 @@ inline s32 stat_803D4540(Obj_803D4540 *o) {
     return (o->flags >> 1) & 1;
 }
 
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 inline s32 stat_803D4448(Obj_803D4540 *o) {
     if (o == 0) {
         return -1;
@@ -71,7 +65,6 @@ void TLobby::set_stream_channel_pan(s32 ch, s32 pan) {
                          (u32)(gcrna_volume_table[-o->vol] * gcrna_volume_table[-o->x68]) >> 7,
                          (u32)(gcrna_volume_table[-o->vol] * gcrna_volume_table[-o->x6c]) >> 7);
 }
-#pragma pop
 
 void set_sound_stream_volume(Obj_803D4540 *o, s32 vol) {
     s32 i;
@@ -95,7 +88,6 @@ void set_sound_stream_volume(Obj_803D4540 *o, s32 vol) {
                              (u32)(gcrna_volume_table[-o->vol] * gcrna_volume_table[-o->x6c]) >> 7);
     }
 }
-#pragma pop
 
 void TLobby::set_stream_frequency(s32 rate) {
     s32 i;

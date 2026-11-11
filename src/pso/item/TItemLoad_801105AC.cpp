@@ -5,24 +5,6 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/item/TItemLoad.h"
 
-extern char lbl_8043E3A8[];
-extern char lbl_8043E3B8[];
-extern char lbl_8043E3C8[];
-extern char lbl_8043E3D8[];
-extern char lbl_8043E3E8[];
-extern char lbl_8043E3F8[];
-extern char lbl_8043E408[];
-extern char lbl_8043E418[];
-extern char lbl_8043E428[];
-extern char lbl_8043E43C[];
-extern char lbl_8043E450[];
-extern char lbl_8043E464[];
-extern char lbl_8043E47C[];
-extern char lbl_8043E490[];
-extern char lbl_8043E4A4[];
-extern char lbl_8043E4B4[];
-extern const char *item_model_names[15];
-extern const char *item_motion_names[2];
 extern BmlResourceDescriptor item_bml_resource_descriptor;
 
 struct Base_801105AC { char pad[0x18]; };
@@ -105,7 +87,4 @@ void TItemLoad::create() {
 s32 TItemLoad__sub_80110740(void* p) { return *(s32*)((char*)p + 0x3c); }
 s32 TItemLoad__sub_80110748(void* p) { return *(s32*)((char*)p + 0x28); }
 
-__declspec(section ".data") const char *item_model_names[15] = { lbl_8043E3A8, lbl_8043E3B8, lbl_8043E3C8, lbl_8043E3D8, lbl_8043E3E8, lbl_8043E3F8, lbl_8043E408, lbl_8043E418, lbl_8043E428, lbl_8043E43C, lbl_8043E450, lbl_8043E464, lbl_8043E47C, lbl_8043E490, NULL };
-__declspec(section ".data") const char *item_motion_names[2] = { lbl_8043E4A4, NULL };
-BmlResourceDescriptor item_bml_resource_descriptor = { lbl_8043E4B4, item_model_names, item_motion_names, 14, 1 };
 }

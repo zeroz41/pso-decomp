@@ -748,6 +748,7 @@ s32 get_camera_mode__11TCameraCtrlFv();
 s32 get_flag_b4__9TObjEneDDFv(void *);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 void render_with_state_debug__17TObjEneBm3FlyNestFv(u8 *arg0);
+void init__17TObjEneBm3FlyNestFPv(void *);
 void render__17TObjEneBm3FlyNestFv(u8 *arg0);
 void handle_attachment_sample__17TObjEneBm3FlyNestFi(s32 arg0);
 int copy_target_state__17TObjEneBm3FlyNestFPv(void* p, s32 sound_id);
@@ -950,7 +951,7 @@ void *lbl_80491EE4[106] = {
     (void *)vfunc_92__9TObjEneDDFv, (void *)vfunc_93__9TObjEneDDFv, (void *)vfunc_94__9TObjEneDDFv, (void *)vfunc_95__9TObjEneDDFv,
     (void *)vfunc_96__9TObjEneDDFv, (void *)vfunc_97__9TObjEneDDFv, (void *)vfunc_98__9TObjEneDDFv, (void *)vfunc_99__9TObjEneDDFv,
     (void *)vfunc_100__9TObjEneDDFv, (void *)vfunc_101__9TObjEneDDFPUc, (void *)vfunc_102__9TObjEneDDFv, (void *)vfunc_103__9TObjEneDDFPUc,
-    (void *)TObjEneBm3FlyNest::init, (void *)render_with_state_debug__17TObjEneBm3FlyNestFv,
+    (void *)init__17TObjEneBm3FlyNestFPv, (void *)render_with_state_debug__17TObjEneBm3FlyNestFv,
 };
 extern RecoveredGlobal_800B2948_lbl_8043B2A4 bm3_fly_nest_attachment_sample_table;
 extern Anim_800B41E8 bm3_flynest_anim_binding;
@@ -1165,7 +1166,7 @@ void TObjEneBm3FlyNest::capture_attachment(void * _w0) {
     ++lbl_805D510C;
 }
 
-int TObjEneBm3FlyNest::init(void* p) { return ((int (*)(void*))init_params__17TObjEneBm3FlyNestFv)(p); }
+void TObjEneBm3FlyNest::init(void *) { init_params(); }
 
 int copy_target_state__17TObjEneBm3FlyNestFPv(void* p, s32 sound_id) { return ((TObjEnemy *)(p))->remap_sound_for_area((s32)(sound_id)); }
 

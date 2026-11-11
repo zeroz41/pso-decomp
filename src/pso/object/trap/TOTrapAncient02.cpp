@@ -1,887 +1,443 @@
 #include "types.h"
-#include "pso/render/NinjaUtil.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
-#include "pso/object/trap/TOTrap.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/enemy/TObjEnemy.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/object/trap/TOTrap.h"
 #include "pso/object/trap/TOTrapAncient02.h"
 #include "pso/object/trap/TOTrapAncient02R.h"
-#include "pso/map/FloorArea.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/object/switch/TSwitch.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/enemy/TObjEnemy.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_80083594.h"
-#include "pso/unk/text_803D8F74.h"
-#include "pso/system/SoundEffect.h"
-#include "pso/unk/text_80087278.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/render/GinjaMaterial.h"
-extern "C" void has_flag_0x800__9TObjCharaFv();
-extern "C" void test_flag30_512__9TObjCharaFv();
-extern "C" void test_flag_1000__9TObjCharaFv();
-extern "C" void test_flag_256__9TObjCharaFv();
-
-#include "pso/system/vector.h"
-
-#include "pso/technique/TTecZonde.h"
-#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-
+#include "pso/technique/TTecZonde.h"
 #include "pso/technique/TTecFoie.h"
 #include "pso/technique/TTecGiBarta.h"
 #include "pso/technique/TTecGiFoie.h"
 #include "pso/technique/TTecMegid.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/seabed/TObjSeabedSuisoBrakable.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/ui/frontend/TAdEnterPasswordGC.h"
+#include "pso/unk/TLobby.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/unk/text_800FD8A0.h"
+#include "pso/map/FloorArea.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/math/ScratchVectors.h"
+#include "pso/network/client_id.h"
+#include "pso/render/GinjaMaterial.h"
+#include "pso/render/GinjaUvScroll.h"
+#include "pso/render/NinjaUtil.h"
+#include "pso/render/render_util.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/BmlResourceLoader.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/system/vector.h"
 
-struct Vec_8017A3C0 { f32 x, y, z; };
-
-struct Dmg_8017A3C0 { s32 type; f32 v; };
-
-struct VB_8017A3C0 { u8 pad[0x18]; };
-
-struct Trap_8017A3C0 : VB_8017A3C0 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20();
-    virtual void m21(void *, Dmg_8017A3C0, s32, s32, s32);
-    virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-    virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31();
-    virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35();
-    virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43();
-    virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47();
-    virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51();
-    virtual void m52(); virtual void m53(); virtual void m54(); virtual void m55();
-    virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63();
-    virtual void m64(); virtual void m65(); virtual void m66(); virtual void m67();
-    virtual void m68(); virtual void m69(); virtual void m70(); virtual void m71();
-    virtual void m72(); virtual void m73(); virtual void m74(); virtual void m75();
-    virtual void m76(); virtual void m77(); virtual void m78(); virtual void m79();
-    virtual void m80(); virtual void m81(); virtual void m82(); virtual void m83();
-    virtual void m84();
-    virtual f32 m85(f32);
-};
-
-struct Obj_8017A3C0 {
-    u8 pad0[0x28];
-    s16 f28;
-    u8 pad2A[4];
-    s16 f2E;
-    u8 pad30[8];
-    Vec_8017A3C0 pos;
-    u8 pad44[0x60 - 0x44];
-    s32 angle;
-    u8 pad64[0x2A8 - 0x64];
-    Obj_8017A3C0 *target;
-    u8 pad2AC[0x2FC - 0x2AC];
-    Vec_8017A3C0 f2FC;
-    u8 pad308[0x326 - 0x308];
-    s16 mode;
-    s16 sub;
-    u8 pad32A[0x334 - 0x32A];
-    f32 range;
-    f32 f338;
-    u16 idx;
-    u8 pad33E[0x344 - 0x33E];
-    f32 f344;
-    f32 f348;
-    u8 pad34C[0x35C - 0x34C];
-    s32 kind;
-    s32 level;
-};
-
-extern "C" {
-u16 find_nearest_visible_player(void *, int, f32);
-s32 get_current_floor(void);
-f32 atan2_float(f32 y, f32 x);
-f32 get_collision_body_radius(void *, s32);
-void submit_cursor_candidate(void *, s32);
-void *get_player_by_client_id(s32 i);
-void * __nw__7TObjectFUl(int);
-void rotate_vector_by_matrix(int, void *, void *);
-void subtract_vector(void *, void *);
-extern Vec_8017A3C0 scratch_vec[];
-extern Vec_8017A3C0 lbl_8050BF00[];
-extern u8 identity_matrix[];
-extern const f32 lbl_805DBA78;
-extern const f32 lbl_805DBA80;
-extern const f32 lbl_805DBA84;
-extern const f32 lbl_805DBA88;
-extern const f32 lbl_805DBA8C;
-extern const f32 lbl_805DBA90;
-extern const f32 lbl_805DBA94;
-extern const f32 lbl_805DBA98;
-void TOTrapAncient02R__vt79(Obj_8017A3C0 *o);
-void vfunc_82__16TOTrapAncient02RFv(void *arg0);
-f32 TObjPlayer__sub_8017A1A4(void *, s32);
-void send_6x2C_impose_hold(void *, void *, s32, s32, f32);
-extern s32 local_client_id;
-struct Obj_8017A8B0 {
-    u8 pad[0x38];
-    f32 pos[3];
-    u8 pad44[0x2A8 - 0x44];
-    u8 *target;
-    u8 pad2ac[0x326 - 0x2AC];
-    s16 state;
-    u8 pad328[0x334 - 0x328];
-    f32 range;
-    u8 pad338[0x33C - 0x338];
-    u16 idx;
-    u8 pad33e[0x364 - 0x33E];
-    s32 switchId;
-};
-
-struct Vec_8017A988 { f32 x, y, z; };
-
-struct VBase_8017A988 { u8 pad[0x18]; };
-
-struct Obj_8017A988 : VBase_8017A988 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4(s16 *, s32);
-    u16 id;
-    u8 pad1e[0x38 - 0x1E];
-    Vec_8017A988 pos;
-    u8 pad44[0x80 - 0x44];
-    u32 x80;
-    u8 pad84[0x326 - 0x84];
-    s16 state;
-    u8 pad328[0x344 - 0x328];
-    f32 x344;
-    f32 x348;
-    u8 pad34c[0x368 - 0x34C];
-    s32 timer;
-};
-
-struct Base_B_8017AC98 { char pad[0x18]; };
-
-struct V_B_8017AC98 : Base_B_8017AC98 {
-    virtual void pv15();
-    virtual void pv16();
-    virtual void pv17();
-    virtual void pv18();
-    virtual void pv19();
-    virtual void pv20();
-    virtual void pv21();
-    virtual void pv22();
-    virtual s32 m8(f32, f32);
-};
-
-struct Base_8017B84C_8017AC98 { char pad[0x18]; };
-
-struct VObj_8017B84C_8017AC98 : Base_8017B84C_8017AC98 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-};
-
-struct Obj_8017ACA0 {
-    u8 pad[0x326];
-    s16 state;
-    u8 pad328[0x34C - 0x328];
-    s32 angle;
-};
-
-struct Trap_8017ADC4 {
-    u8 pad0[0x2A8];
-    void *target;
-    u8 pad2AC[0x326 - 0x2AC];
-    s16 mode;
-    s16 state;
-    u8 pad32A[0x33C - 0x32A];
-    u16 player;
-    u8 pad33E[0x344 - 0x33E];
-    f32 h344;
-    f32 h348;
-    u8 pad34C[0x350 - 0x34C];
-    s32 reset;
-    s32 timer;
-};
-
-struct Base_8017B6D8 { char pad[0x18]; };
-
-struct V_8017B6D8 : Base_8017B6D8 {
-    virtual void pv8();
-    virtual void pv9();
-    virtual void pv10();
-    virtual void pv11();
-    virtual void pv12();
-    virtual void init(void *);
-};
-
-struct Trap_8017B6D8 {
-    u32 id;
-    u8 pad4[0x18 - 0x4];
-    void *vt;
-    u8 pad1C[0x24 - 0x1C];
-    s32 f24;
-    u8 pad28[0x30 - 0x28];
-    u32 flags;
-    void *f34;
-    u8 pad38[0x64 - 0x38];
-    s32 f64;
-    f32 f68;
-    u8 pad6C[0x84 - 0x6C];
-    s32 f84;
-    u8 pad88[0x326 - 0x88];
-    s16 mode;
-    s16 state;
-    u8 pad32A[0x334 - 0x32A];
-    f32 range;
-    f32 dist;
-    u16 player;
-    u8 pad33E[0x344 - 0x33E];
-    f32 h344;
-    f32 h348;
-    s32 f34C;
-    s32 reset;
-    s32 timer;
-    s32 f358;
-};
-
-u16 get_entity_id(void *);
-void obj_setFlags30(void *, u32);
-s32 is_split_screen();
-void * get_bml_model(void *, int);
-void free_bin_model_request(void*, int);
-void * load_resource_from_descriptor(void *, int, char *, int, int, int);
-s32 check_player_flag1__6TLobbyFv();
-s32 free_collision_body_parts(void *);
-void init_collision_body_parts(void *, void *, s32);
-void *__dt__6TOTrapFv(void *arg0, s16 arg1);
-void * TOTrap__ct(void *, void *, void *);
-void find_target_player__16TOTrapAncient02RFv(Obj_8017A8B0 *self);
-f32 receive_physical_attack__16TOTrapAncient02RFPvf(Obj_8017A988 *self);
-void * __dt__16TOTrapAncient02RFv(void *arg0, s16 arg1);
-void *TOTrapAncient02R__ct(TOTrapAncient02R *arg0, void *arg1, void *arg2);
-void vfunc_84__15TOTrapAncient02Fv(Obj_8017ACA0 *self);
-void render__15TOTrapAncient02Fv(void *arg0);
-void * __dt__15TOTrapAncient02Fv(void *arg0, s16 arg1);
-void * TOTrapAncient02__ct(void *arg0, void *arg1, void *arg2);
-void submit_cursor_and_notify__16TOTrapAncient02RFv(void *arg0);
-s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-u8 is_current_floor_switch_set(u16);
-void __dl__7TObjectFPv(void *);
-void scroll_ginja_mesh_uvs(u32, s32, s32, u16, s32);
-s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(void *);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
-s32 push_matrix();
-s32 post_translate_matrix(void *);
-
-extern u32 TOTrapAncient02__shared_resource;
-extern s32 __vt__15TOTrapAncient02[];
-extern u32 TOTrapAncient02__name;
-extern s32 lbl_805D31B8;
-extern s32 actor_frame_tick;
 extern s32 game_difficulty_selection;
-extern s32 lbl_805D5ADC;
-extern u32 lbl_805D5AE0;
-extern s32 lbl_805D5AE4;
-extern const f32 lbl_805DBA7C;
-extern const f32 lbl_805DBA9C;
-extern const f32 lbl_805DBAA0;
-extern const f32 lbl_805DBAA4;
 
-#pragma push
-#pragma fp_contract on
-void receive_direct_attack__16TOTrapAncient02RFPv19DirectAttackPayloadPvll();
-void receive_weapon_special_attack__16TOTrapAncient02RFPvPv();
-void vfunc_86__16TOTrapAncient02RFv();
-void vfunc_88__16TOTrapAncient02RFv();
-void vfunc_89__6TOTrapFv();
-void apply_knockback_from_attacker__6TOTrapFPUcf();
-void vfunc_29__9TObjCharaFv();
-void vfunc_74__9TObjCharaFl();
-void recalc_stats__9TObjCharaFv();
-void vfunc_28__9TObjCharaFv();
-void vfunc_67__9TObjCharaFf();
-void vfunc_66__9TObjCharaFv();
-void get_anim_node_position__9TObjCharaFlP3Vec();
-void vfunc_63__9TObjCharaFv();
-void vfunc_62__9TObjCharaFv();
-void vfunc_61__9TObjCharaFv();
-void vfunc_60__9TObjCharaFv();
-void vfunc_59__9TObjCharaFv();
-void vfunc_58__9TObjCharaFv();
-void vfunc_43__9TObjCharaFv();
-void vfunc_18__9TObjCharaFPUc();
-void interact__14TObjCollidableFl();
-void get_name__8TObjBaseFv();
-void add_actor_exp__9TObjCharaFl();
-void apply_action_hold_status__9TObjCharaFf();
-void apply_anti_technique__9TObjCharaFl();
-void apply_attack_stat_status__9TObjCharaFPv();
-void apply_confusion_status__9TObjCharaFv();
-void apply_movement_ailment__9TObjCharaFl();
-void apply_object_set_data__8TObjBaseFPv();
-void apply_paralysis__9TObjCharaFv();
-void apply_poison_status__9TObjCharaFv();
-void apply_shock_status__9TObjCharaFv();
-void apply_slow_status__9TObjCharaFv();
-void apply_switch_attack__9TObjCharaFv();
-void classify_actor_view_detail__8TObjBaseFfff();
-void clear_all_status_effects__9TObjCharaFv();
-void clear_harmful_statuses__9TObjCharaFv();
-void consume_timer_field__9TObjCharaFl();
-void cure_paralysis__9TObjCharaFv();
-void cure_poison_ailment__9TObjCharaFv();
-void apply_defense_stat_status__9TObjCharaFPv();
-void enemy_spawn_jellen_effect__9TObjCharaFv();
-void enemy_spawn_zalure_effect__9TObjCharaFv();
-void vfunc_78__9TObjCharaFl();
-void vfunc_77__9TObjCharaFv();
-void vfunc_76__9TObjCharaFf();
-void vfunc_75__9TObjCharaFf();
-void get_center__9TObjCharaFv();
-void get_actor_level_index__9TObjCharaFv();
-void get_pos__9TObjCharaFl();
-void is_actor_cadence_frame__9TObjCharaFl();
-void is_target_in_attack_range__9TObjCharaFv();
-void play_sounds__6TOTrapFv();
-void render_shadows__7TObjectFv();
-void reset_motion_fields__9TObjCharaFv();
-void reset_pose__9TObjCharaFv();
-void is_any_player_matching_stat__16TOTrapAncient02RFv();
-void try_start_action__16TOTrapAncient02RFll();
-void roll_physical_accuracy__16TOTrapAncient02RFPvlf();
-void select_melee_contact_body__16TOTrapAncient02RFPvf();
-void calc_distance_accuracy_penalty__16TOTrapAncient02RFPvPvPvf();
-void vfunc_6__6TOTrapFPsl();
-void trigger_switch_attack__9TObjCharaFv(s32 arg0);
-void update_action_hold_status__9TObjCharaFv();
-s32 vfunc_37__9TObjCharaFv(u8 *arg0);
-void update_actor_ground_y__9TObjCharaFv();
-s32 update_attack_stat_status__9TObjCharaFv(u8 *arg0);
-s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
-void update_flag30_timer__9TObjCharaFv();
-void update_movement_status__9TObjCharaFv();
-void update_object_view_visibility__8TObjBaseFff();
-void update_poison_status__9TObjCharaFv();
-void update_shock_clock__9TObjCharaFv();
-void run_task__6TOTrapFv();
-extern char lbl_80442E70[];
-extern char lbl_80442E88[];
-extern char lbl_80442EA4[];
-extern char lbl_80442EC0[];
-extern char lbl_80442ED8[];
-extern char lbl_80442EF0[];
-extern const char *lbl_805D31A8[];
-extern const char *lbl_805D31AC[];
-extern const char *lbl_805D31B0[];
-struct TrapAncient02ResourceDescriptor {
-    const char *bml_filename;
-    const char *const *model_filenames;
-    const char *const *motion_filenames;
-    s16 model_count;
-    s16 motion_count;
+const char *bm_fs_obj_o_torabasami_model_names[] = {"fs_obj_o_torabasami.gj", NULL};
+const char *bm_fs_obj_o_torabasami_motion_names[] = {NULL};
+BmlResourceDescriptor bm_fs_obj_o_torabasami_resource_descriptor = {
+    "bm_fs_obj_o_torabasami.bml", bm_fs_obj_o_torabasami_model_names, bm_fs_obj_o_torabasami_motion_names, 1, 0,
 };
-struct TrapAncient02ResourceRecord {
-    const char *model_filenames[2];
-    TrapAncient02ResourceDescriptor descriptor;
+const char *bm_obj_ruins_pillar_model_names[] = {"fe_obj_o_torabasami02.gj", NULL};
+const char *bm_obj_ruins_pillar_motion_names[] = {NULL};
+BmlResourceDescriptor bm_obj_ruins_pillar_resource_descriptor = {
+    "bm_obj_ruins_pillar.bml", bm_obj_ruins_pillar_model_names, bm_obj_ruins_pillar_motion_names, 1, 0,
 };
-struct TrapAncient02CollisionBody {
-    f32 local_center[3];
-    f32 radius;
-    f32 field_10;
-    s32 field_14;
-    u32 flags;
-    f32 world_center[3];
-    f32 field_28;
+const char *bm_obj_seabed_pillar_model_names[] = {"obj_o_tarabasami03.gj", NULL};
+const char *bm_obj_seabed_pillar_motion_names[] = {NULL};
+BmlResourceDescriptor bm_obj_seabed_pillar_resource_descriptor = {
+    "bm_obj_seabed_pillar.bml", bm_obj_seabed_pillar_model_names, bm_obj_seabed_pillar_motion_names, 1, 0,
 };
-typedef char TrapAncient02ResourceDescriptor_size[(sizeof(TrapAncient02ResourceDescriptor) == 0x10) ? 1 : -1];
-typedef char TrapAncient02ResourceRecord_size[(sizeof(TrapAncient02ResourceRecord) == 0x18) ? 1 : -1];
-typedef char TrapAncient02CollisionBody_size[(sizeof(TrapAncient02CollisionBody) == 0x2C) ? 1 : -1];
-TrapAncient02ResourceRecord trap_ancient02_torabasami_resources = {
-    { lbl_80442E70, 0 },
-    { lbl_80442E88, trap_ancient02_torabasami_resources.model_filenames, lbl_805D31A8, 1, 0 }
+CollisionBody trap_ancient02_collision_body = {
+    {0.0f, 8.5f, 0.0f}, 2.0f, 0.0f, 0, 0x38003, {0.0f, 0.0f, 0.0f}, 0.0f,
 };
-TrapAncient02ResourceRecord trap_ancient02_ruins_pillar_resources = {
-    { lbl_80442EA4, 0 },
-    { lbl_80442EC0, trap_ancient02_ruins_pillar_resources.model_filenames, lbl_805D31AC, 1, 0 }
-};
-TrapAncient02ResourceRecord trap_ancient02_seabed_pillar_resources = {
-    { lbl_80442ED8, 0 },
-    { lbl_80442EF0, trap_ancient02_seabed_pillar_resources.model_filenames, lbl_805D31B0, 1, 0 }
-};
-TrapAncient02CollisionBody trap_ancient02_collision_body = {
-    { 0.0f, 8.5f, 0.0f }, 2.0f, 0.0f, 0, 0x38003, { 0.0f, 0.0f, 0.0f }, 0.0f
-};
-s32 __vt__16TOTrapAncient02R[90] = {
-    0,
-    0,
-    (s32)&__dt__16TOTrapAncient02RFv,
-    (s32)&run_task__6TOTrapFv,
-    (s32)&render__15TOTrapAncient02Fv,
-    (s32)&render_shadows__7TObjectFv,
-    (s32)&vfunc_6__6TOTrapFPsl,
-    (s32)&apply_object_set_data__8TObjBaseFPv,
-    (s32)&reset_motion_fields__9TObjCharaFv,
-    (s32)&get_center__9TObjCharaFv,
-    (s32)&update_object_view_visibility__8TObjBaseFff,
-    (s32)&classify_actor_view_detail__8TObjBaseFfff,
-    (s32)&get_name__8TObjBaseFv,
-    (s32)&interact__14TObjCollidableFl,
-    (s32)&add_actor_exp__9TObjCharaFl,
-    (s32)&consume_timer_field__9TObjCharaFl,
-    (s32)&get_actor_level_index__9TObjCharaFv,
-    (s32)&update_actor_ground_y__9TObjCharaFv,
-    (s32)&vfunc_18__9TObjCharaFPUc,
-    (s32)&is_actor_cadence_frame__9TObjCharaFl,
-    (s32)&select_melee_contact_body__16TOTrapAncient02RFPvf,
-    (s32)&calc_distance_accuracy_penalty__16TOTrapAncient02RFPvPvPvf,
-    (s32)&receive_physical_attack__16TOTrapAncient02RFPvf,
-    (s32)&receive_direct_attack__16TOTrapAncient02RFPv19DirectAttackPayloadPvll,
-    (s32)&receive_weapon_special_attack__16TOTrapAncient02RFPvPv,
-    (s32)&apply_knockback_from_attacker__6TOTrapFPUcf,
-    (s32)&try_start_action__16TOTrapAncient02RFll,
-    (s32)&roll_physical_accuracy__16TOTrapAncient02RFPvlf,
-    (s32)&vfunc_28__9TObjCharaFv,
-    (s32)&vfunc_29__9TObjCharaFv,
-    (s32)&is_target_in_attack_range__9TObjCharaFv,
-    (s32)&test_flag_256__9TObjCharaFv,
-    (s32)&test_flag30_512__9TObjCharaFv,
-    (s32)&has_flag_0x800__9TObjCharaFv,
-    (s32)&test_flag_1000__9TObjCharaFv,
-    (s32)&update_poison_status__9TObjCharaFv,
-    (s32)&update_action_hold_status__9TObjCharaFv,
-    (s32)&vfunc_37__9TObjCharaFv,
-    (s32)&update_flag30_timer__9TObjCharaFv,
-    (s32)&update_movement_status__9TObjCharaFv,
-    (s32)&update_shock_clock__9TObjCharaFv,
-    (s32)&update_attack_stat_status__9TObjCharaFv,
-    (s32)&update_defense_stat_status__9TObjCharaFv,
-    (s32)&vfunc_43__9TObjCharaFv,
-    (s32)&apply_poison_status__9TObjCharaFv,
-    (s32)&apply_paralysis__9TObjCharaFv,
-    (s32)&apply_slow_status__9TObjCharaFv,
-    (s32)&apply_confusion_status__9TObjCharaFv,
-    (s32)&apply_movement_ailment__9TObjCharaFl,
-    (s32)&apply_shock_status__9TObjCharaFv,
-    (s32)&clear_harmful_statuses__9TObjCharaFv,
-    (s32)&apply_attack_stat_status__9TObjCharaFPv,
-    (s32)&apply_defense_stat_status__9TObjCharaFPv,
-    (s32)&cure_poison_ailment__9TObjCharaFv,
-    (s32)&cure_paralysis__9TObjCharaFv,
-    (s32)&clear_all_status_effects__9TObjCharaFv,
-    (s32)&apply_action_hold_status__9TObjCharaFf,
-    (s32)&apply_anti_technique__9TObjCharaFl,
-    (s32)&vfunc_58__9TObjCharaFv,
-    (s32)&vfunc_59__9TObjCharaFv,
-    (s32)&vfunc_60__9TObjCharaFv,
-    (s32)&vfunc_61__9TObjCharaFv,
-    (s32)&vfunc_62__9TObjCharaFv,
-    (s32)&vfunc_63__9TObjCharaFv,
-    (s32)&reset_pose__9TObjCharaFv,
-    (s32)&get_anim_node_position__9TObjCharaFlP3Vec,
-    (s32)&vfunc_66__9TObjCharaFv,
-    (s32)&vfunc_67__9TObjCharaFf,
-    (s32)&get_pos__9TObjCharaFl,
-    (s32)&apply_switch_attack__9TObjCharaFv,
-    (s32)&enemy_spawn_jellen_effect__9TObjCharaFv,
-    (s32)&trigger_switch_attack__9TObjCharaFv,
-    (s32)&enemy_spawn_zalure_effect__9TObjCharaFv,
-    (s32)&recalc_stats__9TObjCharaFv,
-    (s32)&vfunc_74__9TObjCharaFl,
-    (s32)&vfunc_75__9TObjCharaFf,
-    (s32)&vfunc_76__9TObjCharaFf,
-    (s32)&vfunc_77__9TObjCharaFv,
-    (s32)&vfunc_78__9TObjCharaFl,
-    (s32)&find_target_player__16TOTrapAncient02RFv,
-    (s32)&submit_cursor_and_notify__16TOTrapAncient02RFv,
-    (s32)&TOTrapAncient02R__vt79,
-    (s32)&vfunc_82__16TOTrapAncient02RFv,
-    (s32)&is_any_player_matching_stat__16TOTrapAncient02RFv,
-    (s32)&vfunc_84__15TOTrapAncient02Fv,
-    (s32)&play_sounds__6TOTrapFv,
-    (s32)&vfunc_86__16TOTrapAncient02RFv,
-    (s32)&TOTrap::scale_by_table_value,
-    (s32)&vfunc_88__16TOTrapAncient02RFv,
-    (s32)&vfunc_89__6TOTrapFv
-};
+const char *TOTrapAncient02__name = "TOTrapAncient02";
+const char *TOTrapAncient02R__name = "TOTrapAncient02R";
 
-void TOTrapAncient02R::calc_trap_count() {
-    s32 temp_r4;
+BmlResource *TOTrapAncient02__shared_resource;
+s32 lbl_805D5ADC;   // the actor_frame_tick the uv scroll last ran on
+void *lbl_805D5AE0; // the model vfunc_84 scrolls the uvs of
+s32 lbl_805D5AE4;   // the mesh of it that scrolls
 
-    *(s32 *)&this->m_360 = (s32) (this->scale.z + ((lbl_805DBA7C * (f32) game_difficulty_selection) + lbl_805DBA78));
-    temp_r4 = *(s32 *)&this->m_360;
-    if (temp_r4 < 0) {
-        *(s32 *)&this->m_360 = 0;
-        return;
-    }
-    if ((s32) game_difficulty_selection == 3) {
-        if (temp_r4 > 0x1D) {
-            *(s32 *)&this->m_360 = 0x1D;
-        }
-    } else if (temp_r4 > 0xE) {
-        *(s32 *)&this->m_360 = 0xE;
-    }
-}
-#pragma pop
-
-void TOTrapAncient02R::vfunc_82() {
-    f32 temp_f1;
-    f32 temp_f1_2;
-    set_indexed_flags(0, 1);
-    submit_cursor_candidate(this, -1);
-    switch (this->phase) {
-    case 0:
-    case 1:
-        this->phase = 2;
-    case 2:
-        this->timer = (this->timer - 1);
-        if ((s32) this->timer < 0) {
-            this->phase = 3;
-            this->timer = (s32) this->reset;
-        }
-        break;
-    case 3:
-        if (lbl_805DBA80 < this->h348) {
-            this->h348 -= lbl_805DBA78;
-            return;
-        }
-        this->phase = 4;
-        this->h348 = (f32) lbl_805DBA80;
-        return;
-    case 4:
-        if (lbl_805DBA80 < this->h344) {
-            this->h344 -= lbl_805DBA78;
-            return;
-        }
-        this->mode = 0;
-        this->phase = 0;
-        this->h344 = (f32) lbl_805DBA80;
-        this->player = 0xFFFF;
-        this->target = 0;
-        break;
+void TOTrapAncient02R::init_trap_object_id() {
+    switch_id = set_params[1];
+    if (switch_id < 0 || switch_id >= 0x100) {
+        switch_id = -1;
     }
 }
 
-#pragma push
-#pragma fp_contract on
-void TOTrapAncient02R__vt79(Obj_8017A3C0 *o) {
-    f32 d;
-    s32 ang;
-    ((TObjCollidable *)o)->set_indexed_flags(0, 1);
-    submit_cursor_candidate(o, -1);
-    switch (o->sub) {
-    case 0:
-        if (o->f344 < lbl_805DBA84) {
-            o->f344 += lbl_805DBA78;
-        } else {
-            o->sub = 1;
-            o->f344 = lbl_805DBA84;
-        }
-        break;
-    case 1:
-        o->f348 += lbl_805DBA78;
-        if (lbl_805DBA88 <= o->f348) {
-            o->sub = 2;
-            o->f348 = lbl_805DBA88;
-        }
-        break;
-    case 2:
-        o->idx = find_nearest_visible_player(o, 0, o->range);
-        if (o->idx != 0xFFFF) {
-            Obj_8017A3C0 *p = (Obj_8017A3C0 *)get_player_by_client_id(o->idx);
-            o->target = p;
-            if (o->target != NULL && ((TObjPlayer *)p)->get_floor() == get_current_floor() &&
-                (o->target->f2E == o->f2E || o->target->f28 == o->f28 || o->target->f28 == o->f2E)) {
-                d = horizontal_distance_squared((const Vec *)&o->target->pos, (const Vec *)&o->pos);
-                o->f338 = o->range + get_collision_body_radius(o->target, 0);
-                if (d < o->f338 * o->f338) {
-                    o->mode = 3;
-                    o->sub = 2;
-                    VecCopy((Vec *)scratch_vec, (const Vec *)&o->pos);
-                    scratch_vec->y += o->f344 + o->f348;
-                    VecCopy((Vec *)lbl_8050BF00, (const Vec *)&o->target->f2FC);
-                    subtract_vector(lbl_8050BF00, scratch_vec);
-                    if (((TObjBoss2Tunnel *)lbl_8050BF00)->update_scale() < lbl_805DBA8C) {
-                        lbl_8050BF00->x = lbl_8050BF00->y = lbl_805DBA80;
-                        lbl_8050BF00->z = lbl_805DBA78;
-                        push_matrix_from(identity_matrix);
-                        rotate_matrix_y(0, o->angle);
-                        rotate_vector_by_matrix(0, lbl_8050BF00, lbl_8050BF00);
-                        pop_matrix();
-                    }
-                    ang = 10430.38043493439 * atan2_float(lbl_8050BF00->x, lbl_8050BF00->z);
-                    switch (o->kind) {
-                    case 1: {
-                        Dmg_8017A3C0 dmg;
-                        dmg.type = 3;
-                        dmg.v = ((TOTrapAncient02R *)o)->vfunc_87(lbl_805DBA94 * (f32)o->level + lbl_805DBA90);
-                        ((Trap_8017A3C0 *)o->target)->m21(o, dmg, 0, -1, -1);
-                        spawn_particle_effect(scratch_vec, 0xB9);
-                        spawn_particle_effect(scratch_vec, 0xBA);
-                        {
-                            void *t = __nw__7TObjectFUl(0x260);
-                            if (t != NULL) {
-                                ((TTecZonde *)t)->construct_bolt_effect((u8 *)tl_07, (u8 *)scratch_vec, (u8 *)lbl_8050BF00, 0x14000000, 0x14, o->range, (f32)lbl_805DBA98);
-                            }
-                        }
-                        play_sound_effect(0x4002A408, scratch_vec, 0, 0);
-                        break;
-                    }
-                    case 0:
-                        TTecFoie::create_ex((void *)o, (void *)scratch_vec, &o->target->f2FC, (void *)o->level);
-                        break;
-                    case 2:
-                        ((TTecGiBarta *)o)->create_ex((void *)scratch_vec, (void *)ang, (void *)o->level);
-                        break;
-                    case 3:
-                        TTecMegid::create((s32)o, (s32)scratch_vec, (s32)&o->target->f2FC, o->level);
-                        break;
-                    case 4:
-                        TTecGiFoie::create((void *)o, (void *)scratch_vec, (void *)o->level);
-                        break;
-                    }
-                } else {
-                    o->idx = 0xFFFF;
-                    o->target = NULL;
-                }
-            } else {
-                o->idx = 0xFFFF;
-                o->target = NULL;
-            }
-        } else {
-            o->target = NULL;
-        }
-        if (o->target == NULL) {
-            o->sub = 3;
-        }
-        break;
-    case 3:
-        if (lbl_805DBA80 < o->f348) {
-            o->f348 -= lbl_805DBA78;
-        } else {
-            o->sub = 4;
-            o->f348 = lbl_805DBA80;
-        }
-        break;
-    case 4:
-        if (lbl_805DBA80 < o->f344) {
-            o->f344 -= lbl_805DBA78;
-        } else {
-            o->mode = 0;
-            o->sub = 0;
-            o->f344 = lbl_805DBA80;
-            o->idx = 0xFFFF;
-            o->target = NULL;
-        }
-        break;
+void TOTrapAncient02R::clamp_trap_level_param() {
+    technique = set_params[2];
+    if (technique < 0) {
+        technique = 0;
+    } else if (technique >= 5) {
+        technique = 4;
     }
 }
-#pragma pop
 
-#pragma push
-#pragma fp_contract on
-void TOTrapAncient02R::find_target_player() {
-    Obj_8017A8B0 *self = (Obj_8017A8B0 *)this;
-    ((TObjCollidable *)self)->clear_player_status_flag(0, 1);
-    ((TObjChara *)self)->calc_attach_pos();
-    if (*(s32 *)&this->m_364 == -1 || is_current_floor_switch_set(*(s32 *)&this->m_364) == 1) {
-        this->player = find_nearest_visible_player(self, 0, this->range);
-        if (this->player != 0xFFFF) {
-            this->target = (u8 *)get_player_by_client_id(this->player);
-            if (this->target != NULL) {
-                if (horizontal_distance_squared((const Vec *)(this->target + 0x38), (const Vec *)self->pos) < this->range * this->range) {
-                    this->mode = 2;
-                }
-            } else {
-                this->player = 0xFFFF;
-                this->target = NULL;
-            }
-        } else {
-            this->target = NULL;
-        }
+void TOTrapAncient02R::init_trap_param_clamped() {
+    hits = scale.y;
+    if (hits < 1) {
+        hits = 1;
+    } else if (hits > 0x100) {
+        hits = 0x100;
     }
 }
-#pragma pop
 
-#pragma push
-#pragma fp_contract on
-f32 TOTrapAncient02R::receive_physical_attack(void *, f32) {
-    Obj_8017A988 *self = (Obj_8017A988 *)this;
-    s16 msg;
-    if (self->id >= 0x4000 && self->x80 != 0) {
-        Vec_8017A988 v = self->pos;
-        v.y += self->x344 + self->x348;
-        spawn_particle_effect(&v, 0x1D0);
-        spawn_particle_effect(&v, 1);
-        if (--self->timer <= 0) {
-            self->timer = 0;
-            if (((TObjCollidable *)self)->access_object_saved_state(&msg, 1) != 0) {
-                self->state = 4;
-                msg = self->state;
-                ((TObjCollidable *)self)->send_object_state_update(&msg);
-                ((TObjCollidable *)self)->access_object_saved_state(&msg, 0);
-                self->m4(&msg, 1);
-            }
-        }
-    }
-    return lbl_805DBA80;
+f32 TOTrapAncient02R::receive_weapon_special_attack(void *, void *) {
+    return receive_physical_attack(NULL, 1.0f);
 }
-#pragma pop
 
-#pragma push
-#pragma fp_contract on
-void *TOTrapAncient02R::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x36C);
-    if (o != NULL) {
-        o = TOTrapAncient02R__ct((TOTrapAncient02R *)o, tl_05, arg0);
-    }
-    return o;
+f32 TOTrapAncient02R::receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32) {
+    return receive_physical_attack(NULL, 1.0f);
 }
-#pragma pop
 
-#pragma push
-#pragma fp_contract on
-void *__dt__16TOTrapAncient02RFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TOTrapAncient02R;
-        ((void (*)(void *, int))__dt__15TOTrapAncient02Fv)(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+int TOTrapAncient02R::calc_distance_accuracy_penalty(void *, void *, void *, float) {
+    return 1;
 }
-#pragma pop
 
-#pragma push
-#pragma fp_contract on
-#pragma fp_contract on
-void *TOTrapAncient02R__ct(TOTrapAncient02R *trap_ancient02_r, void *arg1, void *arg2) {
-    ((s32 (*)(void *, void *))TOTrapAncient02__ct)(trap_ancient02_r, arg1);
-    *(s32 **)((s8 *)trap_ancient02_r + 0x18) = __vt__16TOTrapAncient02R;
-    *(s32 *)((s8 *)trap_ancient02_r + 0) = (s32) lbl_805D31B8;
-    trap_ancient02_r->apply_object_set_data(arg2);
-    ((TObjPlayer *)trap_ancient02_r)->init_position_vectors();
-    ((TObjChara *)trap_ancient02_r)->calc_attach_pos();
-    *(s32 *)((s8 *)trap_ancient02_r + 0x34) = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(void * *)&TOTrapAncient02__shared_resource) + 0x42C)) + 8);
-    trap_ancient02_r->texlist = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(void * *)&TOTrapAncient02__shared_resource) + 0x42C)) + 0xC);
-    trap_ancient02_r->mode = 0;
-    trap_ancient02_r->phase = 0;
-    trap_ancient02_r->range = lbl_805DBAA0 * trap_ancient02_r->scale.x + lbl_805DBA9C;
-    trap_ancient02_r->dist = trap_ancient02_r->range;
-    trap_ancient02_r->reset = (s32) (lbl_805DBA9C + (f32) trap_ancient02_r->set_params[0]);
-    if (trap_ancient02_r->reset < 0) {
-        trap_ancient02_r->reset = 0;
+s32 TOTrapAncient02R::select_melee_contact_body(void *, f32) {
+    return 1;
+}
+
+s32 TOTrapAncient02R::roll_physical_accuracy(void *, s32, f32) {
+    return 1;
+}
+
+s32 TOTrapAncient02R::try_start_action(s32, s32) {
+    return 1;
+}
+
+s32 TOTrapAncient02R::is_any_player_matching_stat() {
+    return 0;
+}
+
+void TOTrapAncient02R::submit_cursor_and_notify() {
+    find_target_player();
+}
+
+TOTrapAncient02::TOTrapAncient02(TObject *parent, void *set_data) : TOTrap(parent) {
+    m_name = TOTrapAncient02__name;
+    apply_object_set_data(set_data);
+    ((TObjPlayer *)this)->init_position_vectors();
+    calc_attach_pos();
+    model = (void *)TOTrapAncient02__shared_resource->models->model;
+    texlist = TOTrapAncient02__shared_resource->models->m_c;
+    mode = 0;
+    phase = 0;
+    range = 0.5f * scale.x + 30.0f;
+    dist = range;
+    reset = 30.0f + (f32)set_params[0];
+    if (reset < 0) {
+        reset = 0;
     }
-    trap_ancient02_r->timer = trap_ancient02_r->reset;
-    trap_ancient02_r->init_trap_object_id();
-    trap_ancient02_r->clamp_trap_level_param();
-    trap_ancient02_r->calc_trap_count();
-    trap_ancient02_r->init_trap_param_clamped();
-    trap_ancient02_r->player = 0xFFFF;
-    *(s32 *)((s8 *)trap_ancient02_r + 0x2A8) = 0;
-    trap_ancient02_r->h348 = lbl_805DBA80;
-    trap_ancient02_r->h344 = lbl_805DBA80;
-    *(s32 *)&trap_ancient02_r->m_34c = 0;
-    if (trap_ancient02_r->rotation_z > 0) {
-        *(s32 *)&trap_ancient02_r->m_358 = 1;
+    timer = reset;
+    player = 0xFFFF;
+    init_collision_body_parts(this, &trap_ancient02_collision_body, 1);
+    refresh_collision_body_centers();
+    actorFlags |= 0x60000000;
+    ((TObjPlayer *)this)->register_object_by_id();
+    h348 = 0.0f;
+    h344 = 0.0f;
+    spin_angle = 0;
+    if (rotation_z > 0) {
+        particle_tev = 1;
     } else {
-        *(s32 *)&trap_ancient02_r->m_358 = 0;
+        particle_tev = 0;
     }
-    return trap_ancient02_r;
 }
-#pragma pop
 
-void TOTrapAncient02::vfunc_86() {  }
+TOTrapAncient02::~TOTrapAncient02() {
+    unregister_object_by_id();
+    free_collision_body_parts(this);
+}
 
-void TOTrapAncient02::vfunc_88() {  }
+void TOTrapAncient02::load_resources() {
+    BmlResource *resource;
+    switch (get_current_floor_area()) {
+    case AREA_VR_TEMPLE_ALPHA:
+    case AREA_VR_TEMPLE_BETA:
+        resource = (BmlResource *)::operator new(0x440);
+        if (resource != NULL) {
+            resource = load_resource_from_descriptor(resource, 1, &bm_obj_ruins_pillar_resource_descriptor, 0, 0, 0);
+        }
+        TOTrapAncient02__shared_resource = resource;
+        lbl_805D5AE0 = find_object_node((NJS_OBJECT *)get_bml_model(resource, 0), 2)->model;
+        lbl_805D5AE4 = 2;
+        lbl_805D5ADC = 0;
+        break;
+    case AREA_CENTRAL_CONTROL_AREA:
+    case AREA_JUNGLE_NORTH:
+    case AREA_JUNGLE_EAST:
+    case AREA_MOUNTAIN:
+    case AREA_SEASIDE:
+    case AREA_SEABED_UPPER:
+    case AREA_SEABED_LOWER:
+    case AREA_SEASIDE_NIGHT:
+    case AREA_TOWER:
+        resource = (BmlResource *)::operator new(0x440);
+        if (resource != NULL) {
+            resource = load_resource_from_descriptor(resource, 1, &bm_obj_seabed_pillar_resource_descriptor, 0, 0, 0);
+        }
+        TOTrapAncient02__shared_resource = resource;
+        lbl_805D5AE0 = find_object_node((NJS_OBJECT *)get_bml_model(resource, 0), 2)->model;
+        lbl_805D5AE4 = 1;
+        lbl_805D5ADC = 0;
+        break;
+    default:
+        resource = (BmlResource *)::operator new(0x440);
+        if (resource != NULL) {
+            resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_o_torabasami_resource_descriptor, 0, 0, 0);
+        }
+        TOTrapAncient02__shared_resource = resource;
+        lbl_805D5AE0 = ((NJS_OBJECT *)resource->models->model)->child->child->model;
+        lbl_805D5AE4 = 1;
+        lbl_805D5ADC = 0;
+        break;
+    }
+}
+
+void TOTrapAncient02::destroy_instance() {
+    if (TOTrapAncient02__shared_resource != NULL) {
+        free_bin_model_request(TOTrapAncient02__shared_resource, 1);
+        TOTrapAncient02__shared_resource = NULL;
+    }
+}
+
+void *TOTrapAncient02::create(void *set_data) {
+    return new TOTrapAncient02(tl_05, set_data);
+}
+
+void TOTrapAncient02::render() {
+    if (TMainTask::get_render_pass() != 1) {
+        m_340 = update_object_view_visibility(400.0f, 20.0f);
+        if (m_340 == 1 && (particle_tev == 0 || is_split_screen() != 0 || dispatch_input_to_instance__18TAdEnterPasswordGCFi((s32)this) == 0)) {
+            set_draw_list_mask(3);
+            if (particle_tev != 0) {
+                render_particle_chain();
+            } else {
+                draw_effect_chain();
+            }
+            restore_draw_list_mask();
+        }
+    }
+}
+
+void TOTrapAncient02::draw_effect_chain() {
+    NJS_OBJECT *n;
+    push_matrix();
+    TObjFish::set_global_param(texlist);
+    post_translate_matrix(&position.x);
+    rotate_matrix_y(0, rotation_y);
+    n = (NJS_OBJECT *)model;
+    translate_matrix(0, n->pos[0], n->pos[1] + h344, n->pos[2]);
+    draw_ginja_model((s32)n->model);
+    push_matrix();
+    n = n->child;
+    translate_matrix(0, n->pos[0], n->pos[1] + h348, n->pos[2]);
+    draw_ginja_model((s32)n->model);
+    TParticleCtrl::begin_effect_render();
+    push_matrix();
+    n = n->child;
+    post_translate_matrix(n->pos);
+    draw_ginja_model((s32)n->model);
+    pop_matrix();
+    push_matrix();
+    n = n->sibling;
+    post_translate_matrix(n->pos);
+    rotate_matrix_y(0, spin_angle);
+    draw_ginja_model((s32)n->model);
+    pop_matrix();
+    TParticleCtrl::end_effect_render();
+    pop_matrix();
+    pop_matrix();
+}
+
+void TOTrapAncient02::render_particle_chain() {
+    NJS_OBJECT *n;
+    push_matrix();
+    post_translate_matrix(&position.x);
+    rotate_matrix_y(0, rotation_y);
+    n = (NJS_OBJECT *)model;
+    translate_matrix(0, n->pos[0], n->pos[1] + h344, n->pos[2]);
+    setup_particle_tev(0);
+    TObjFish::set_global_param(texlist);
+    load_projection_tex_matrix(0x38E);
+    draw_ginja_model((s32)n->model);
+    reset_particle_tev();
+    push_matrix();
+    n = n->child;
+    translate_matrix(0, n->pos[0], n->pos[1] + h348, n->pos[2]);
+    setup_particle_tev(0);
+    TObjFish::set_global_param(texlist);
+    load_projection_tex_matrix(0x38E);
+    draw_ginja_model((s32)n->model);
+    reset_particle_tev();
+    TParticleCtrl::begin_effect_render();
+    push_matrix();
+    n = n->child;
+    post_translate_matrix(n->pos);
+    setup_particle_tev(1);
+    TObjFish::set_global_param(texlist);
+    load_projection_tex_matrix(0x38E);
+    draw_ginja_model((s32)n->model);
+    reset_particle_tev();
+    pop_matrix();
+    push_matrix();
+    n = n->sibling;
+    post_translate_matrix(n->pos);
+    rotate_matrix_y(0, spin_angle);
+    setup_particle_tev(0);
+    TObjFish::set_global_param(texlist);
+    load_projection_tex_matrix(0x38E);
+    draw_ginja_model((s32)n->model);
+    reset_particle_tev();
+    pop_matrix();
+    TParticleCtrl::end_effect_render();
+    pop_matrix();
+    pop_matrix();
+}
+
+void TOTrapAncient02::vfunc_81() {
+    TObjPlayer *p;
+    f32 d;
+    submit_cursor_candidate(this, -1);
+    switch (phase) {
+    case 0:
+        if (h344 < 7.0f) {
+            h344 += 1.0f;
+        } else {
+            phase = 1;
+            h344 = 7.0f;
+        }
+        break;
+    case 1:
+        h348 += 1.0f;
+        if (10.15f <= h348) {
+            phase = 2;
+            h348 = 10.15f;
+        }
+        break;
+    case 2:
+        player = find_nearest_visible_player((TObjEnemy *)this, NULL, range);
+        if (player != 0xFFFF) {
+            p = get_player_by_client_id(player);
+            target = (u8 *)p;
+            if (target != NULL) {
+                d = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
+                dist = range - TObjPlayer__sub_8017A1A4(p, 0);
+                if (d < dist * dist) {
+                    if (player == local_client_id) {
+                        send_6x2C_impose_hold(p, &position, timer, 0, dist);
+                    }
+                    mode = 3;
+                    phase = 2;
+                } else {
+                    player = 0xFFFF;
+                    target = NULL;
+                }
+            }
+        } else {
+            target = NULL;
+        }
+        if (target == NULL) {
+            phase = 3;
+        }
+        break;
+    case 3:
+        if (0.0f < h348) {
+            h348 -= 1.0f;
+        } else {
+            phase = 4;
+            h348 = 0.0f;
+        }
+        break;
+    case 4:
+        if (0.0f < h344) {
+            h344 -= 1.0f;
+        } else {
+            mode = 0;
+            phase = 0;
+            h344 = 0.0f;
+            player = 0xFFFF;
+            target = NULL;
+        }
+        break;
+    }
+}
+
+void TOTrapAncient02::vfunc_82() {
+    TObjPlayer *p;
+    submit_cursor_candidate(this, -1);
+    switch (phase) {
+    case 0:
+    case 1:
+        phase = 2;
+    case 2:
+        if (target != NULL) {
+            obj_setFlags30(target, 0x200);
+            ((TObjEnemy *)target)->sub_8002AE64();
+            ((TObjEnemy *)target)->sub_800A7798(1.0f);
+            timer--;
+            if (timer < 0) {
+                phase = 3;
+                timer = reset;
+                if (target != NULL && local_client_id == get_entity_id((TObjBase *)target)) {
+                    p = get_player_by_client_id(local_client_id);
+                    if (p != NULL && ((TLobby *)p)->check_player_flag1() != 0) {
+                        TObjPlayer::send_code_45_1((s32)p);
+                    }
+                }
+            }
+        } else {
+            phase = 3;
+            timer = reset;
+        }
+        break;
+    case 3:
+        if (0.0f < h348) {
+            h348 -= 1.0f;
+        } else {
+            phase = 4;
+            h348 = 0.0f;
+        }
+        break;
+    case 4:
+        if (0.0f < h344) {
+            h344 -= 1.0f;
+        } else {
+            mode = 0;
+            phase = 0;
+            h344 = 0.0f;
+            player = 0xFFFF;
+            target = NULL;
+        }
+        break;
+    }
+}
 
 void TOTrapAncient02::vfunc_84() {
-    Obj_8017ACA0 *self = (Obj_8017ACA0 *)this;
-    if (lbl_805D5ADC != actor_frame_tick && lbl_805D5AE0 != 0) {
+    if (lbl_805D5ADC != actor_frame_tick && lbl_805D5AE0 != NULL) {
         lbl_805D5ADC = actor_frame_tick;
         scroll_ginja_mesh_uvs(lbl_805D5AE0, 0, 0xE, lbl_805D5AE4, 1);
     }
-    this->m_34c += 0x888;
-    switch (this->mode) {
+    spin_angle += 0x888;
+    switch (mode) {
     case 1:
     case 2:
     case 3:
@@ -889,20 +445,20 @@ void TOTrapAncient02::vfunc_84() {
         case AREA_CAVE1:
         case AREA_CAVE2:
         case AREA_CAVE3:
-            play_persistent_sound(0x4461B, (s32)self, (u32)((u8 *)self + 0x38), 0, 0);
+            play_persistent_sound(0x4461B, (s32)this, (u32)&position, 0, 0);
             return;
         case AREA_MINE1:
         case AREA_MINE2:
-            play_persistent_sound(0x4004C612, (s32)self, (u32)((u8 *)self + 0x38), 0, 0);
+            play_persistent_sound(0x4004C612, (s32)this, (u32)&position, 0, 0);
             return;
         case AREA_RUINS1:
         case AREA_RUINS2:
         case AREA_RUINS3:
-            play_persistent_sound(0x4004C618, (s32)self, (u32)((u8 *)self + 0x38), 0, 0);
+            play_persistent_sound(0x4004C618, (s32)this, (u32)&position, 0, 0);
             return;
         case AREA_VR_SPACESHIP_ALPHA:
         case AREA_VR_SPACESHIP_BETA:
-            play_persistent_sound(0x4004C610, (s32)self, (u32)((u8 *)self + 0x38), 0, 0);
+            play_persistent_sound(0x4004C610, (s32)this, (u32)&position, 0, 0);
         case AREA_PIONEER2_EP1:
             return;
         case AREA_FOREST1:
@@ -934,338 +490,258 @@ void TOTrapAncient02::vfunc_84() {
     }
 }
 
-void TOTrapAncient02::vfunc_82() {
-    Trap_8017ADC4 *self = (Trap_8017ADC4 *)this;
-    s32 p;
-    submit_cursor_candidate(self, -1);
-    switch (self->state) {
-    case 0:
-    case 1:
-        self->state = 2;
-    case 2:
-        if (self->target != NULL) {
-            obj_setFlags30(self->target, 0x200);
-            ((TObjEnemy *)(self->target))->sub_8002AE64();
-            ((TObjEnemy *)(self->target))->sub_800A7798(lbl_805DBA78);
-            self->timer--;
-            if (self->timer < 0) {
-                self->state = 3;
-                self->timer = self->reset;
-                if (self->target != NULL && local_client_id == get_entity_id(self->target)) {
-                    p = (s32)get_player_by_client_id(local_client_id);
-                    if (p != 0 && check_player_flag1__6TLobbyFv() != 0) {
-                        TObjPlayer::send_code_45_1(p);
-                    }
-                }
-            }
-        } else {
-            self->state = 3;
-            self->timer = self->reset;
-        }
-        break;
-    case 3:
-        if (lbl_805DBA80 < self->h348) {
-            self->h348 -= lbl_805DBA78;
-        } else {
-            self->state = 4;
-            self->h348 = lbl_805DBA80;
-        }
-        break;
-    case 4:
-        if (lbl_805DBA80 < self->h344) {
-            self->h344 -= lbl_805DBA78;
-        } else {
-            self->mode = 0;
-            self->state = 0;
-            self->h344 = lbl_805DBA80;
-            self->player = 0xFFFF;
-            self->target = NULL;
-        }
-        break;
+void TOTrapAncient02::vfunc_88() {}
+
+void TOTrapAncient02::vfunc_86() {}
+
+TOTrapAncient02R::TOTrapAncient02R(TObject *parent, void *set_data) : TOTrapAncient02(parent, set_data) {
+    m_name = TOTrapAncient02R__name;
+    apply_object_set_data(set_data);
+    ((TObjPlayer *)this)->init_position_vectors();
+    calc_attach_pos();
+    model = (void *)TOTrapAncient02__shared_resource->models->model;
+    texlist = TOTrapAncient02__shared_resource->models->m_c;
+    mode = 0;
+    phase = 0;
+    range = 0.5f * scale.x + 30.0f;
+    dist = range;
+    reset = 30.0f + (f32)set_params[0];
+    if (reset < 0) {
+        reset = 0;
     }
-}
-}
-void setup_particle_tev(s32 arg0);
-
-void TOTrapAncient02::vfunc_81() {
-    TOTrapAncient02 *self = this;
-    void *p;
-    f32 d;
-    submit_cursor_candidate(self, -1);
-    switch (self->phase) {
-    case 0:
-        if (self->h344 < lbl_805DBA84) {
-            self->h344 += lbl_805DBA78;
-        } else {
-            self->phase = 1;
-            self->h344 = lbl_805DBA84;
-        }
-        break;
-    case 1:
-        self->h348 += lbl_805DBA78;
-        if (lbl_805DBA88 <= self->h348) {
-            self->phase = 2;
-            self->h348 = lbl_805DBA88;
-        }
-        break;
-    case 2:
-        self->player = find_nearest_visible_player(self, 0, self->range);
-        if (self->player != 0xFFFF) {
-            p = (void *)get_player_by_client_id((self->player));
-            self->target = (u8 *)p;
-            if (self->target != NULL) {
-                d = horizontal_distance_squared((const Vec *)((u8 *)self->target + 0x38), (const Vec *)&self->position);
-                self->dist = self->range - TObjPlayer__sub_8017A1A4(p, 0);
-                if (d < self->dist * self->dist) {
-                    if (self->player == local_client_id) {
-                        send_6x2C_impose_hold(p, &self->position, self->timer, 0, self->dist);
-                    }
-                    self->mode = 3;
-                    self->phase = 2;
-                } else {
-                    self->player = 0xFFFF;
-                    self->target = NULL;
-                }
-            }
-        } else {
-            self->target = NULL;
-        }
-        if (self->target == NULL) {
-            self->phase = 3;
-        }
-        break;
-    case 3:
-        if (lbl_805DBA80 < self->h348) {
-            self->h348 -= lbl_805DBA78;
-        } else {
-            self->phase = 4;
-            self->h348 = lbl_805DBA80;
-        }
-        break;
-    case 4:
-        if (lbl_805DBA80 < self->h344) {
-            self->h344 -= lbl_805DBA78;
-        } else {
-            self->mode = 0;
-            self->phase = 0;
-            self->h344 = lbl_805DBA80;
-            self->player = 0xFFFF;
-            self->target = NULL;
-        }
-        break;
-    }
-}
-
-void TOTrapAncient02::render_particle_chain() {
-    u8 *temp_r31;
-    u8 *temp_r31_2;
-    u8 *temp_r31_3;
-    u8 *temp_r31_4;
-
-    push_matrix();
-    post_translate_matrix((u8 *)&this->position);
-    rotate_matrix_y(0, this->rotation_y);
-    temp_r31 = (unsigned char *) (this->model);
-    translate_matrix(0, (f32) (*(f32 *)((s8 *)temp_r31 + 8)), (f32) (*(f32 *)((s8 *)temp_r31 + 0xC) + this->h344), (f32) (*(f32 *)((s8 *)temp_r31 + 0x10)));
-    setup_particle_tev(0);
-    TObjFish::set_global_param(this->texlist);
-    load_projection_tex_matrix(0x38E);
-    draw_ginja_model((*(s32 *)((s8 *)temp_r31 + 4)));
-    reset_particle_tev();
-    push_matrix();
-    temp_r31_2 = (unsigned char *) (*(void **)((s8 *)temp_r31 + 0x2C));
-    translate_matrix(0, (f32) (*(f32 *)((s8 *)temp_r31_2 + 8)), (f32) (*(f32 *)((s8 *)temp_r31_2 + 0xC) + this->h348), (f32) (*(f32 *)((s8 *)temp_r31_2 + 0x10)));
-    setup_particle_tev(0);
-    TObjFish::set_global_param(this->texlist);
-    load_projection_tex_matrix(0x38E);
-    draw_ginja_model((*(s32 *)((s8 *)temp_r31_2 + 4)));
-    reset_particle_tev();
-    TParticleCtrl::begin_effect_render();
-    push_matrix();
-    temp_r31_3 = (unsigned char *) (*(void **)((s8 *)temp_r31_2 + 0x2C));
-    post_translate_matrix(temp_r31_3 + 8);
-    setup_particle_tev(1);
-    TObjFish::set_global_param(this->texlist);
-    load_projection_tex_matrix(0x38E);
-    draw_ginja_model((*(s32 *)((s8 *)temp_r31_3 + 4)));
-    reset_particle_tev();
-    pop_matrix();
-    push_matrix();
-    temp_r31_4 = (unsigned char *) (*(void **)((s8 *)temp_r31_3 + 0x30));
-    post_translate_matrix(temp_r31_4 + 8);
-    rotate_matrix_y(0, this->m_34c);
-    setup_particle_tev(0);
-    TObjFish::set_global_param(this->texlist);
-    load_projection_tex_matrix(0x38E);
-    draw_ginja_model((*(s32 *)((s8 *)temp_r31_4 + 4)));
-    reset_particle_tev();
-    pop_matrix();
-    TParticleCtrl::end_effect_render();
-    pop_matrix();
-    pop_matrix();
-}
-
-void TOTrapAncient02::draw_effect_chain() {
-    u8 *temp_r31;
-    u8 *temp_r31_2;
-    u8 *temp_r31_3;
-    u8 *temp_r31_4;
-
-    push_matrix();
-    TObjFish::set_global_param(this->texlist);
-    post_translate_matrix((u8 *)&this->position);
-    rotate_matrix_y(0, this->rotation_y);
-    temp_r31 = (unsigned char *) (this->model);
-    translate_matrix(0, (f32) (*(f32 *)((s8 *)temp_r31 + 8)), (f32) (*(f32 *)((s8 *)temp_r31 + 0xC) + this->h344), (f32) (*(f32 *)((s8 *)temp_r31 + 0x10)));
-    draw_ginja_model((*(s32 *)((s8 *)temp_r31 + 4)));
-    push_matrix();
-    temp_r31_2 = (unsigned char *) (*(void **)((s8 *)temp_r31 + 0x2C));
-    translate_matrix(0, (f32) (*(f32 *)((s8 *)temp_r31_2 + 8)), (f32) (*(f32 *)((s8 *)temp_r31_2 + 0xC) + this->h348), (f32) (*(f32 *)((s8 *)temp_r31_2 + 0x10)));
-    draw_ginja_model((*(s32 *)((s8 *)temp_r31_2 + 4)));
-    TParticleCtrl::begin_effect_render();
-    push_matrix();
-    temp_r31_3 = (unsigned char *) (*(void **)((s8 *)temp_r31_2 + 0x2C));
-    post_translate_matrix(temp_r31_3 + 8);
-    draw_ginja_model((*(s32 *)((s8 *)temp_r31_3 + 4)));
-    pop_matrix();
-    push_matrix();
-    temp_r31_4 = (unsigned char *) (*(void **)((s8 *)temp_r31_3 + 0x30));
-    post_translate_matrix(temp_r31_4 + 8);
-    rotate_matrix_y(0, this->m_34c);
-    draw_ginja_model((*(s32 *)((s8 *)temp_r31_4 + 4)));
-    pop_matrix();
-    TParticleCtrl::end_effect_render();
-    pop_matrix();
-    pop_matrix();
-}
-
-void TOTrapAncient02::render() {
-    if (TMainTask::get_render_pass() != 1) {
-        this->m_340 = ((V_B_8017AC98 *) this)->m8(lbl_805DBAA4, lbl_805DBA94);
-        if (((s32) this->m_340 == 1) && (((s32) this->m_358 == 0) || (is_split_screen() != 0) || (dispatch_input_to_instance__18TAdEnterPasswordGCFi(this) == 0))) {
-            set_draw_list_mask(3);
-            if ((s32) this->m_358 != 0) {
-                this->render_particle_chain();
-            } else {
-                this->draw_effect_chain();
-            }
-            restore_draw_list_mask();
-        }
-    }
-}
-
-void *TOTrapAncient02::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x35C);
-    if (o != NULL) {
-        o = TOTrapAncient02__ct(o, tl_05, arg0);
-    }
-    return o;
-}
-
-void TOTrapAncient02::destroy_instance() {
-    if ((u32) TOTrapAncient02__shared_resource != 0U) {
-        free_bin_model_request((void*)TOTrapAncient02__shared_resource, 1);
-        TOTrapAncient02__shared_resource = 0U;
-    }
-}
-
-void TOTrapAncient02::load_resources() {
-    char *base = (char *)&trap_ancient02_torabasami_resources;
-    void *obj;
-    switch (get_current_floor_area()) {
-    case AREA_VR_TEMPLE_ALPHA:
-    case AREA_VR_TEMPLE_BETA:
-        obj = ::operator new(0x440);
-        if (obj != 0) {
-            obj = load_resource_from_descriptor(obj, 1, base + 0x20, 0, 0, 0);
-        }
-        TOTrapAncient02__shared_resource = (u32) obj;
-        lbl_805D5AE0 = (u32)find_object_node((NJS_OBJECT *)get_bml_model(obj, 0), 2)->model;
-        lbl_805D5AE4 = 2;
-        lbl_805D5ADC = 0;
-        break;
-    case AREA_CENTRAL_CONTROL_AREA:
-    case AREA_JUNGLE_NORTH:
-    case AREA_JUNGLE_EAST:
-    case AREA_MOUNTAIN:
-    case AREA_SEASIDE:
-    case AREA_SEABED_UPPER:
-    case AREA_SEABED_LOWER:
-    case AREA_SEASIDE_NIGHT:
-    case AREA_TOWER:
-        obj = ::operator new(0x440);
-        if (obj != 0) {
-            obj = load_resource_from_descriptor(obj, 1, base + 0x38, 0, 0, 0);
-        }
-        TOTrapAncient02__shared_resource = (u32) obj;
-        lbl_805D5AE0 = (u32)find_object_node((NJS_OBJECT *)get_bml_model(obj, 0), 2)->model;
-        lbl_805D5AE4 = 1;
-        lbl_805D5ADC = 0;
-        break;
-    default:
-        obj = ::operator new(0x440);
-        if (obj != 0) {
-            obj = load_resource_from_descriptor(obj, 1, base + 8, 0, 0, 0);
-        }
-        TOTrapAncient02__shared_resource = (u32) obj;
-        lbl_805D5AE0 = *(u32 *)(*(u8 **)(*(u8 **)(*(u8 **)(*(u8 **)((u8 *)obj + 0x42C) + 8) + 0x2C) + 0x2C) + 4);
-        lbl_805D5AE4 = 1;
-        lbl_805D5ADC = 0;
-        break;
-    }
-}
-
-void *__dt__15TOTrapAncient02Fv(void *trap, s16 arg1) {
-    if (trap != NULL) {
-        *(s32 **)((s8 *)trap + 0x18) = __vt__15TOTrapAncient02;
-        ((TObjCollidable *)trap)->unregister_object_by_id();
-        free_collision_body_parts(trap);
-        __dt__6TOTrapFv(trap, 0);
-        if (arg1 > 0) {
-            ((s32 (*)(void *))__dl__7TObjectFPv)(trap);
-        }
-    }
-    return trap;
-}
-
-#pragma push
-#pragma fp_contract on
-void *TOTrapAncient02__ct(void *arg0, void *arg1, void *arg2) {
-    TOTrap__ct(((Trap_8017B6D8 *)arg0), arg1, arg2);
-    ((Trap_8017B6D8 *)arg0)->vt = (void *)__vt__15TOTrapAncient02;
-    ((Trap_8017B6D8 *)arg0)->id = TOTrapAncient02__name;
-    ((V_8017B6D8 *)((Trap_8017B6D8 *)arg0))->init(arg2);
-    ((TObjPlayer *)arg0)->init_position_vectors();
-    ((TObjChara *)arg0)->calc_attach_pos();
-    ((Trap_8017B6D8 *)arg0)->f34 = *(void **)(*(u8 **)(TOTrapAncient02__shared_resource + 0x42C) + 8);
-    ((Trap_8017B6D8 *)arg0)->f24 = *(s32 *)(*(u8 **)(TOTrapAncient02__shared_resource + 0x42C) + 0xC);
-    ((Trap_8017B6D8 *)arg0)->mode = 0;
-    ((Trap_8017B6D8 *)arg0)->state = 0;
-    ((Trap_8017B6D8 *)arg0)->range = lbl_805DBAA0 * ((Trap_8017B6D8 *)arg0)->f68 + lbl_805DBA9C;
-    ((Trap_8017B6D8 *)arg0)->dist = ((Trap_8017B6D8 *)arg0)->range;
-    ((Trap_8017B6D8 *)arg0)->reset = lbl_805DBA9C + (f32)((Trap_8017B6D8 *)arg0)->f84;
-    if (((Trap_8017B6D8 *)arg0)->reset < 0) {
-        ((Trap_8017B6D8 *)arg0)->reset = 0;
-    }
-    ((Trap_8017B6D8 *)arg0)->timer = ((Trap_8017B6D8 *)arg0)->reset;
-    ((Trap_8017B6D8 *)arg0)->player = 0xFFFF;
-    init_collision_body_parts(((Trap_8017B6D8 *)arg0), (void *)&trap_ancient02_collision_body, 1);
-    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
-    ((Trap_8017B6D8 *)arg0)->flags |= 0x60000000;
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    ((Trap_8017B6D8 *)arg0)->h348 = lbl_805DBA80;
-    ((Trap_8017B6D8 *)arg0)->h344 = lbl_805DBA80;
-    ((Trap_8017B6D8 *)arg0)->f34C = 0;
-    if (((Trap_8017B6D8 *)arg0)->f64 > 0) {
-        ((Trap_8017B6D8 *)arg0)->f358 = 1;
+    timer = reset;
+    init_trap_object_id();
+    clamp_trap_level_param();
+    calc_trap_count();
+    init_trap_param_clamped();
+    player = 0xFFFF;
+    target = NULL;
+    h348 = 0.0f;
+    h344 = 0.0f;
+    spin_angle = 0;
+    if (rotation_z > 0) {
+        particle_tev = 1;
     } else {
-        ((Trap_8017B6D8 *)arg0)->f358 = 0;
+        particle_tev = 0;
     }
-    return ((Trap_8017B6D8 *)arg0);
 }
-#pragma pop
 
-void TOTrapAncient02R::submit_cursor_and_notify() {
-    struct VObj_8017B84C_8017AC98 *o = (struct VObj_8017B84C_8017AC98 *)this;
-    o->m77();
+TOTrapAncient02R::~TOTrapAncient02R() {}
+
+void *TOTrapAncient02R::create(void *set_data) {
+    return new TOTrapAncient02R(tl_05, set_data);
+}
+
+f32 TOTrapAncient02R::receive_physical_attack(void *, f32) {
+    s16 state;
+    if (entity_id >= 0x4000 && set_entry != NULL) {
+        Vec v = position;
+        v.y += h344 + h348;
+        spawn_particle_effect(&v, 0x1D0);
+        spawn_particle_effect(&v, 1);
+        if (--hits <= 0) {
+            hits = 0;
+            if (access_object_saved_state(&state, 1) != 0) {
+                mode = 4;
+                state = mode;
+                send_object_state_update(&state);
+                access_object_saved_state(&state, 0);
+                vfunc_6(&state, 1);
+            }
+        }
+    }
+    return 0.0f;
+}
+
+void TOTrapAncient02R::find_target_player() {
+    clear_player_status_flag(0, 1);
+    calc_attach_pos();
+    if (switch_id == -1 || is_current_floor_switch_set((u16)switch_id) == 1) {
+        player = find_nearest_visible_player((TObjEnemy *)this, NULL, range);
+        if (player != 0xFFFF) {
+            target = (u8 *)get_player_by_client_id(player);
+            if (target != NULL) {
+                if (horizontal_distance_squared(&((TObjBase *)target)->position, &position) < range * range) {
+                    mode = 2;
+                }
+            } else {
+                player = 0xFFFF;
+                target = NULL;
+            }
+        } else {
+            target = NULL;
+        }
+    }
+}
+
+void TOTrapAncient02R::vfunc_81() {
+    f32 d;
+    s32 ang;
+    set_indexed_flags(0, 1);
+    submit_cursor_candidate(this, -1);
+    switch (phase) {
+    case 0:
+        if (h344 < 7.0f) {
+            h344 += 1.0f;
+        } else {
+            phase = 1;
+            h344 = 7.0f;
+        }
+        break;
+    case 1:
+        h348 += 1.0f;
+        if (10.15f <= h348) {
+            phase = 2;
+            h348 = 10.15f;
+        }
+        break;
+    case 2:
+        player = find_nearest_visible_player((TObjEnemy *)this, NULL, range);
+        if (player != 0xFFFF) {
+            TObjPlayer *p = get_player_by_client_id(player);
+            target = (u8 *)p;
+            if (target != NULL && p->get_floor() == get_current_floor() &&
+                (((TObjBase *)target)->alt_room == alt_room || ((TObjBase *)target)->room == room ||
+                 ((TObjBase *)target)->room == alt_room)) {
+                d = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
+                dist = range + get_collision_body_radius((TObjCollidable *)target, 0);
+                if (d < dist * dist) {
+                    mode = 3;
+                    phase = 2;
+                    VecCopy(&scratch_vec, &position);
+                    scratch_vec.y += h344 + h348;
+                    VecCopy(&lbl_8050BF00, (Vec *)&((TObjChara *)target)->m_2fc);
+                    subtract_vector(&lbl_8050BF00, &scratch_vec);
+                    if (((TObjBoss2Tunnel *)&lbl_8050BF00)->update_scale() < 1e-5f) {
+                        lbl_8050BF00.x = lbl_8050BF00.y = 0.0f;
+                        lbl_8050BF00.z = 1.0f;
+                        push_matrix_from(identity_matrix);
+                        rotate_matrix_y(0, rotation_y);
+                        rotate_vector_by_matrix(0, &lbl_8050BF00, &lbl_8050BF00);
+                        pop_matrix();
+                    }
+                    ang = 10430.38043493439 * atan2_float(lbl_8050BF00.x, lbl_8050BF00.z);
+                    switch (technique) {
+                    case 1: {
+                        DirectAttackPayload payload;
+                        payload.kind = 3;
+                        payload.power = scale_by_table_value(20.0f * (f32)tech_level + 240.0f);
+                        ((TObjChara *)target)->receive_direct_attack(this, payload, NULL, -1, -1);
+                        spawn_particle_effect(&scratch_vec, 0xB9);
+                        spawn_particle_effect(&scratch_vec, 0xBA);
+                        {
+                            void *t = TObject::operator new(0x260);
+                            if (t != NULL) {
+                                ((TTecZonde *)t)->construct_bolt_effect((u8 *)tl_07, (u8 *)&scratch_vec, (u8 *)&lbl_8050BF00, 0x14000000, 0x14, range, 1.8f);
+                            }
+                        }
+                        play_sound_effect(0x4002A408, &scratch_vec, 0, 0);
+                        break;
+                    }
+                    case 0:
+                        TTecFoie::create_ex(this, &scratch_vec, (Vec *)&((TObjChara *)target)->m_2fc, (void *)tech_level);
+                        break;
+                    case 2:
+                        ((TTecGiBarta *)this)->create_ex(&scratch_vec, (void *)ang, (void *)tech_level);
+                        break;
+                    case 3:
+                        TTecMegid::create((s32)this, (s32)&scratch_vec, (s32)(Vec *)&((TObjChara *)target)->m_2fc, tech_level);
+                        break;
+                    case 4:
+                        TTecGiFoie::create(this, &scratch_vec, (void *)tech_level);
+                        break;
+                    }
+                } else {
+                    player = 0xFFFF;
+                    target = NULL;
+                }
+            } else {
+                player = 0xFFFF;
+                target = NULL;
+            }
+        } else {
+            target = NULL;
+        }
+        if (target == NULL) {
+            phase = 3;
+        }
+        break;
+    case 3:
+        if (0.0f < h348) {
+            h348 -= 1.0f;
+        } else {
+            phase = 4;
+            h348 = 0.0f;
+        }
+        break;
+    case 4:
+        if (0.0f < h344) {
+            h344 -= 1.0f;
+        } else {
+            mode = 0;
+            phase = 0;
+            h344 = 0.0f;
+            player = 0xFFFF;
+            target = NULL;
+        }
+        break;
+    }
+}
+
+void TOTrapAncient02R::vfunc_82() {
+    set_indexed_flags(0, 1);
+    submit_cursor_candidate(this, -1);
+    switch (phase) {
+    case 0:
+    case 1:
+        phase = 2;
+    case 2:
+        timer = timer - 1;
+        if (timer < 0) {
+            phase = 3;
+            timer = reset;
+        }
+        break;
+    case 3:
+        if (0.0f < h348) {
+            h348 -= 1.0f;
+            return;
+        }
+        phase = 4;
+        h348 = 0.0f;
+        return;
+    case 4:
+        if (0.0f < h344) {
+            h344 -= 1.0f;
+            return;
+        }
+        mode = 0;
+        phase = 0;
+        h344 = 0.0f;
+        player = 0xFFFF;
+        target = NULL;
+        break;
+    }
+}
+
+void TOTrapAncient02R::calc_trap_count() {
+    tech_level = scale.z + (2.0f * (f32)game_difficulty_selection + 1.0f);
+    if (tech_level < 0) {
+        tech_level = 0;
+    } else if (game_difficulty_selection == 3) {
+        if (tech_level > 0x1D) {
+            tech_level = 0x1D;
+        }
+    } else if (tech_level > 0xE) {
+        tech_level = 0xE;
+    }
+}
+
+void TOTrapAncient02R::vfunc_88() {}
+
+void TOTrapAncient02R::vfunc_86() {
+    if (is_current_room(this) == 1) {
+        fn_80141CF0(&home_position, &scratch_vec, &trap_ancient_light_color);
+        TOTrapAncient02R__sub_80154D78(this);
+    }
 }

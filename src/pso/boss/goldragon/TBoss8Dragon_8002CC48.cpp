@@ -15,6 +15,8 @@ void set_constant_material(const NJS_ARGB *color);
 #include "pso/boss/dragon/TObjBoss1MokoHill_SoloM.h"
 #include <stddef.h>
 #include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include "pso/system/BmlResource.h"
 #include "pso/boss/dragon/TObjBoss1Rock.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -27,15 +29,13 @@ struct UV_8002D4C0 { s16 u, v; };
 
 struct Vtx_8002D4C0 { s16 pad; s16 u; s16 v; };
 
-struct Hdr_8002D4C0 { u8 pad[4]; s16 count; };
-
 struct Obj_8002D4C0 { f32 x; u8 pad[4]; f32 z; };
 
 typedef struct Ent_8002CE78 {
     f32 *dst;
     f32 base;
     f32 ofs;
-    u8 padC[4];
+    s32 state;
 } Ent_8002CE78;
 
 typedef struct Obj_8002CE78 {
@@ -59,7 +59,6 @@ struct Trail_8002CC48 {
 };
 
 struct Vec_8002CFB8 { f32 x; f32 y; f32 z; };
-struct Ent_8002CFB8 { u8 pad0[8]; f32 f8; s32 state; };
 struct Trail_8002CFB8 {
     u8 pad0[0x10];
     void *f10;
@@ -71,36 +70,6 @@ struct Trail_8002CFB8 {
     f32 f34;
     u8 pad38[4];
     s32 f3C;
-};
-
-struct Vtx_8002DB7C { f32 p[3]; f32 n[3]; };
-
-struct Model_8002DB7C {
-    u32 *vertices;
-    u16 *polygons;
-    f32 center[3];
-    f32 radius;
-};
-
-struct Object_8002DB7C {
-    u32 flags;
-    Model_8002DB7C *model;
-    f32 position[3];
-    s32 rotation[3];
-    f32 scale[3];
-    Object_8002DB7C *child;
-    Object_8002DB7C *sibling;
-};
-
-struct Grid_8002DB7C {
-    s32 width;
-    s32 strips;
-    s32 stripWords;
-    s32 materialWords;
-    u32 *vertices;
-    u16 *polygons;
-    Model_8002DB7C model;
-    Object_8002DB7C object;
 };
 
 typedef struct Obj_8002CD8C {
@@ -133,15 +102,15 @@ extern const f32 lbl_805D8194;
 void *TObjBoss1MokoHill_Solo__ct(void *arg0_, void *arg1, int arg2);
 extern s32 __vt__23TObjBoss1MokoHill_SoloM[];
 extern s32 TObjBoss1MokoHill_SoloM__name;
-extern u8 *lbl_805D4B50;
+extern BmlResource *lbl_805D4B50;
 extern s32 dragon_common_texture_list;
-extern int lbl_805D4B60;
-extern int lbl_805D4B64;
-extern int lbl_805D4B68;
-extern int lbl_805D4B6C;
-extern Hdr_8002D4C0 *lbl_805D4B70;
+extern Unk_8002DB7C *lbl_805D4B60;
+extern Unk_8002DB7C *lbl_805D4B64;
+extern Unk_8002DB7C *lbl_805D4B68;
+extern UV_8002D4C0 *lbl_805D4B6C;
+extern s16 *lbl_805D4B70;
 extern s32 lbl_805D4B74;
-extern int lbl_805D4B78;
+extern Ent_8002CE78 *lbl_805D4B78;
 extern s32 dragon_trail_position_source;
 extern s32 dragon_trail_heading_source;
 extern s32 saved_model_render_flags;
@@ -179,10 +148,6 @@ f32 cos_table_lookup(s32, f32);
 s32 update_scale__15TObjBoss2TunnelFv(void *, f32);
 u8 *TObjBoss1MokoHill_SoloM__ct(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3);
 void update_dragon_trail_uvs(Obj_8002D4C0 *self);
-s32 TBoss8Dragon__sub_8002DAEC(void *arg0);
-s32 TBoss8Dragon__sub_8002DB04(void *arg0);
-void *destroy__12TBoss8DragonFPvs(void *arg0, s16 arg1);
-Grid_8002DB7C *init_grid_mesh__12TBoss8DragonFPviiiPv(Grid_8002DB7C *g, s32 width, s32 strips, s32 materialWords, s16 *material);
 f32 rand_signed_unit(void);
 
 void TObjBoss1MokoHill_Solo::run_task() {
@@ -254,7 +219,7 @@ void TObjBoss1MokoHill_SoloM::render() {
     if (arg0->active != 0) {
         TObjFish::set_global_param(dragon_common_texture_list);
         update_dragon_trail_uvs((Obj_8002D4C0 *)((struct Obj_8002D4C0 *)dragon_trail_position_source));
-        for (p = (Ent_8002CE78 *)lbl_805D4B78, i = 0; i < lbl_805D4B74; i++, p++) {
+        for (p = lbl_805D4B78, i = 0; i < lbl_805D4B74; i++, p++) {
             *p->dst = p->base + p->ofs;
         }
         push_matrix();
@@ -266,15 +231,15 @@ void TObjBoss1MokoHill_SoloM::render() {
             saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
             model_render_flags |= 0x800;
             set_chunk_material_override_pair(0xFF00, 0x100, chunk_polygon_flags_or_mask, chunk_polygon_flags_and_mask);
-            draw_chunk_object(*(void **)(*(u8 **)(lbl_805D4B50 + 0x42C) + 0x38));
+            draw_chunk_object((void *)lbl_805D4B50->models[3].model);
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             model_render_flags = saved_model_render_flags;
         } else {
-            draw_chunk_object(*(void **)(*(u8 **)(lbl_805D4B50 + 0x42C) + 0x38));
+            draw_chunk_object((void *)lbl_805D4B50->models[3].model);
         }
         pop_matrix();
-        for (p = (Ent_8002CE78 *)lbl_805D4B78, i = 0; i < lbl_805D4B74; i++, p++) {
+        for (p = lbl_805D4B78, i = 0; i < lbl_805D4B74; i++, p++) {
             *p->dst = p->base;
         }
     }
@@ -293,7 +258,7 @@ void TObjBoss1MokoHill_SoloM::run_task() {
     f32 c;
     s32 ang;
     void *o;
-    Ent_8002CFB8 *p;
+    Ent_8002CE78 *p;
     s32 i;
 
     if (self->f1C != 0) {
@@ -345,22 +310,22 @@ void TObjBoss1MokoHill_SoloM::run_task() {
             vel.y = lerp__9TDeadSpotFff(6.0f, 9.0f);
             new TObjBoss1Rock((TObject *)self->f10, &pos, &vel, 1);
         }
-        for (p = (Ent_8002CFB8 *)lbl_805D4B78, i = 0; i < lbl_805D4B74; p++, i++) {
+        for (p = lbl_805D4B78, i = 0; i < lbl_805D4B74; p++, i++) {
             switch (p->state) {
             case 0:
-                if (p->f8 < -8.0f) {
-                    p->f8 = -8.0f;
+                if (p->ofs < -8.0f) {
+                    p->ofs = -8.0f;
                     p->state = (s32)(70.0f * (3.0517578125e-05f * (f32)rand())) + 2;
                 } else {
-                    p->f8 = p->f8 - 0.2f;
+                    p->ofs = p->ofs - 0.2f;
                 }
                 break;
             case 1:
-                if (p->f8 > 0.0f) {
-                    p->f8 = 0.0f;
+                if (p->ofs > 0.0f) {
+                    p->ofs = 0.0f;
                     p->state = 0;
                 } else {
-                    p->f8 = p->f8 + lbl_805D8184;
+                    p->ofs = p->ofs + lbl_805D8184;
                 }
                 break;
             default:
@@ -417,12 +382,12 @@ u8 *TObjBoss1MokoHill_SoloM__ct(u8 *boss1_moko_hill_solo_m, u8 *arg1, u8 *arg2, 
 void update_dragon_trail_uvs(Obj_8002D4C0 *self) {
     s32 cnt;
     s16 n;
-    s16 *p = (s16 *)((u8 *)lbl_805D4B70 + 6);
-    UV_8002D4C0 *src = (*(UV_8002D4C0 * *)&lbl_805D4B6C);
+    s16 *p = lbl_805D4B70 + 3;
+    UV_8002D4C0 *src = lbl_805D4B6C;
     s32 i = 0;
     s16 du = (s16)(lbl_805D81D8 * (lbl_805D81DC * self->x));
     s16 dv = (s16)(lbl_805D81D8 * (lbl_805D81E0 * self->z));
-    cnt = lbl_805D4B70->count & 0x3FFF;
+    cnt = lbl_805D4B70[2] & 0x3FFF;
     for (; i < cnt; i++) {
         n = *p++;
         s32 j;
@@ -439,32 +404,205 @@ void update_dragon_trail_uvs(Obj_8002D4C0 *self) {
     }
 }
 
-void TBoss8Dragon::free_resources() { mem_free((void *)lbl_805D4B78); lbl_805D4B78 = 0; mem_free((void *)lbl_805D4B6C); lbl_805D4B6C = 0; ((int (*)(void*, void*))destroy__12TBoss8DragonFPvs)((void*)lbl_805D4B64, (void*)1); lbl_805D4B64 = 0; ((int (*)(void*, void*))destroy__12TBoss8DragonFPvs)((void*)lbl_805D4B68, (void*)1); lbl_805D4B68 = 0; ((int (*)(void*, void*))destroy__12TBoss8DragonFPvs)((void*)lbl_805D4B60, (void*)1); lbl_805D4B60 = 0; }
-
-s32 TBoss8Dragon__sub_8002DAEC(void *arg0) {
-    return *(s32 *)((s8 *)arg0 + 0x14) + ((*(s32 *)((s8 *)arg0 + 0xC) + 3) * 2);
+void TBoss8Dragon::free_resources() {
+    mem_free(lbl_805D4B78);
+    lbl_805D4B78 = NULL;
+    mem_free(lbl_805D4B6C);
+    lbl_805D4B6C = NULL;
+    delete lbl_805D4B64;
+    lbl_805D4B64 = NULL;
+    delete lbl_805D4B68;
+    lbl_805D4B68 = NULL;
+    delete lbl_805D4B60;
+    lbl_805D4B60 = NULL;
 }
 
-s32 TBoss8Dragon__sub_8002DB04(void *arg0) {
-    return *(s32 *)((s8 *)arg0 + 0x10) + 8;
-}
+extern s16 lbl_804FE238[11];
+extern s16 lbl_804FE250[11];
 
-void *destroy__12TBoss8DragonFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        mem_free((void *)(*(s32 *)((s8 *)arg0 + 0x10)));
-        *(s32 *)((s8 *)arg0 + 0x10) = 0;
-        mem_free((void *)(*(s32 *)((s8 *)arg0 + 0x14)));
-        *(s32 *)((s8 *)arg0 + 0x14) = 0;
-        *(s32 *)((s8 *)arg0 + 0x18) = 0;
-        *(s32 *)((s8 *)arg0 + 0x1C) = 0;
-        if (arg1 > 0) {
-            ::operator delete(arg0);
+// Builds the dragon arena's run-time meshes: an 11 x 11 grid and a 5 x 5 grid shaped by
+// apply_default_velocity_scale, an 11-wide single strip, the trail model's uv table and the list of
+// its raised vertices (role inferred from the body; free_resources releases all of them).
+void TBoss8Dragon__sub_8002D5F8(void) {
+    s16 *material = ((NJS_CNK_MODEL *)((NJS_OBJECT *)lbl_805D4B50->models[4].model)->model)->polygon_list;
+    Unk_8002DB7C::Vertex *v;
+    s32 count;
+    s16 v1;
+    f32 *vtx;
+    s32 total;
+    f32 x;
+    s32 col2;
+    s16 n;
+    Ent_8002CE78 *e;
+    s32 row;
+    Vec normal;
+    Unk_8002DB7C::Vertex *verts;
+    s16 u;
+    s16 *poly;
+    s16 v0;
+    s32 i;
+    f32 *pos;
+    f32 x2;
+    Vec normal2;
+    f32 z;
+    NJS_CNK_MODEL *trail;
+    UV_8002D4C0 *uv;
+    s32 col;
+    Unk_8002DB7C::Vertex *v2;
+    s16 *strip;
+    s16 *start;
+    s16 *p;
+    s32 row2;
+    f32 z2;
+    f32 *vstart;
+
+    lbl_805D4B60 = new Unk_8002DB7C(11, 10, 8, material);
+    verts = lbl_805D4B60->get_vertices();
+    v = verts;
+    z = 60.0f;
+    for (row = 0; row < 11; row++) {
+        x = 60.0f;
+        for (col = 0; col < 11; col++) {
+            normal.x = x;
+            normal.z = z;
+            v->pos.x = x;
+            v->pos.y = apply_default_velocity_scale(&normal);
+            v->pos.z = z;
+            v->normal.x = normal.x;
+            v->normal.y = normal.y;
+            v->normal.z = normal.z;
+            v++;
+            x -= 12.0f;
+        }
+        z -= 12.0f;
+    }
+    v = verts;
+    for (i = 0; i < 11; i++) {
+        lbl_804FE238[i] = 1024.0f * (0.0125f * v->pos.x);
+        lbl_804FE250[i] = 1024.0f * (-0.0125f * v->pos.x);
+        v++;
+    }
+
+    lbl_805D4B68 = new Unk_8002DB7C(5, 4, 8, material);
+    v2 = lbl_805D4B68->get_vertices();
+    z2 = 0.0f;
+    for (row2 = 0; row2 < 5; row2++) {
+        x2 = 15.0f;
+        for (col2 = 0; col2 < 5; col2++) {
+            normal2.x = x2;
+            normal2.z = z2;
+            v2->pos.x = x2;
+            v2->pos.y = 2.0f + apply_default_velocity_scale(&normal2);
+            v2->pos.z = z2;
+            v2->normal.x = normal2.x;
+            v2->normal.y = normal2.y;
+            v2->normal.z = normal2.z;
+            v2++;
+            x2 -= 7.5f;
+        }
+        z2 -= 7.5f;
+    }
+    poly = lbl_805D4B68->polygons;
+    poly[7] = (poly[7] & 0xC000) | 5;
+    poly[8] |= 0x900;
+    strip = lbl_805D4B68->get_strips();
+    v0 = 0x400;
+    v1 = 0x300;
+    for (row = 0; row < 4; row++) {
+        strip++;
+        u = 0;
+        for (col = 0; col < 5; col++) {
+            strip[1] = u;
+            strip[2] = v0;
+            strip[4] = u;
+            strip[5] = v1;
+            strip += 6;
+            u += 0x100;
+        }
+        v0 = v1;
+        v1 -= 0x100;
+    }
+
+    lbl_805D4B64 = new Unk_8002DB7C(11, 1, 8, material);
+
+    trail = (NJS_CNK_MODEL *)((NJS_OBJECT *)lbl_805D4B50->models[3].model)->model;
+    vtx = (f32 *)trail->vertex_list;
+    poly = trail->polygon_list;
+    poly[6] = 0x408;
+    p = poly + 8;
+    lbl_805D4B70 = p;
+    p[0] = 0x242;
+    count = p[2] & 0x3FFF;
+    p += 3;
+    start = p;
+    vtx += 2;
+    total = 0;
+    for (i = 0; i < count; i++) {
+        n = *p++;
+        if (n < 0) {
+            n = -n;
+        }
+        total += n;
+    }
+    uv = (UV_8002D4C0 *)mem_alloc(total * 4);
+    p = start;
+    lbl_805D4B6C = uv;
+    for (i = 0; i < count; i++) {
+        n = *p++;
+        if (n < 0) {
+            n = -n;
+        }
+        for (col = 0; col < n; col++) {
+            pos = vtx + *p * 6;
+            p += 3;
+            uv->u = 1024.0f * (0.0125f * pos[0]);
+            uv->v = 1024.0f * (-0.0125f * pos[2]);
+            uv++;
         }
     }
-    return arg0;
+
+    count = ((u32 *)((NJS_CNK_MODEL *)((NJS_OBJECT *)lbl_805D4B50->models[3].model)->model)->vertex_list)[1] >> 16;
+    lbl_805D4B74 = 0;
+    vstart = vtx;
+    for (i = 0; i < count; i++) {
+        if (vtx[1] > 15.0f) {
+            lbl_805D4B74++;
+        }
+        vtx += 6;
+    }
+    e = (Ent_8002CE78 *)mem_alloc(lbl_805D4B74 * 16);
+    vtx = vstart;
+    lbl_805D4B78 = e;
+    for (i = 0; i < count; i++) {
+        if (vtx[1] > 15.0f) {
+            e->dst = &vtx[1];
+            e->base = vtx[1];
+            e->ofs = -8.0f;
+            e->state = (s32)(70.0f * (3.0517578125e-05f * (f32)rand())) + 2;
+            e++;
+        }
+        vtx += 6;
+    }
 }
 
-Grid_8002DB7C *init_grid_mesh__12TBoss8DragonFPviiiPv(Grid_8002DB7C *g, s32 width, s32 strips, s32 materialWords, s16 *material) {
+s16 *Unk_8002DB7C::get_strips() {
+    return polygons + (materialWords + 3);
+}
+
+Unk_8002DB7C::Vertex *Unk_8002DB7C::get_vertices() {
+    return (Vertex *)(vertices + 2);
+}
+
+Unk_8002DB7C::~Unk_8002DB7C() {
+    mem_free(vertices);
+    vertices = NULL;
+    mem_free(polygons);
+    polygons = NULL;
+    model.vertex_list = NULL;
+    model.polygon_list = NULL;
+}
+
+Unk_8002DB7C::Unk_8002DB7C(s32 width, s32 strips, s32 materialWords, s16 *material) {
     s32 i;
     s32 first;
     s32 second;
@@ -473,25 +611,25 @@ Grid_8002DB7C *init_grid_mesh__12TBoss8DragonFPviiiPv(Grid_8002DB7C *g, s32 widt
     s32 x;
     s32 count;
     u32 *v;
-    Vtx_8002DB7C *vt;
-    g->width = width;
-    g->strips = strips;
-    g->materialWords = materialWords;
-    g->stripWords = g->width * 6 + 1;
-    g->polygons = (u16 *)mem_alloc((g->materialWords + 5 + g->stripWords * g->strips) * 2);
-    g->vertices = (u32 *)mem_alloc((g->width * (g->strips + 1) * 6 + 3) * 4);
-    p = (s16 *)g->polygons;
-    for (i = 0; i < g->materialWords; i++) {
+    Vertex *vt;
+    this->width = width;
+    this->strips = strips;
+    this->materialWords = materialWords;
+    this->stripWords = this->width * 6 + 1;
+    this->polygons = (s16 *)mem_alloc((this->materialWords + 5 + this->stripWords * this->strips) * 2);
+    this->vertices = (u32 *)mem_alloc((this->width * (this->strips + 1) * 6 + 3) * 4);
+    p = this->polygons;
+    for (i = 0; i < this->materialWords; i++) {
         *p++ = *material++;
     }
     *p++ = 0x242;
-    *p++ = g->stripWords * g->strips + 1;
-    *p++ = g->strips;
+    *p++ = this->stripWords * this->strips + 1;
+    *p++ = this->strips;
     first = 0;
-    second = g->width;
-    for (row = 0; row < g->strips; row++) {
-        *p++ = g->width * 2;
-        for (x = 0; x < g->width;) {
+    second = this->width;
+    for (row = 0; row < this->strips; row++) {
+        *p++ = this->width * 2;
+        for (x = 0; x < this->width;) {
             *p++ = first++;
             x++;
             *p++ = 0;
@@ -503,70 +641,68 @@ Grid_8002DB7C *init_grid_mesh__12TBoss8DragonFPviiiPv(Grid_8002DB7C *g, s32 widt
     }
     *p++ = 0xff;
     *p = 0xff;
-    count = g->width * (g->strips + 1);
-    v = g->vertices;
+    count = this->width * (this->strips + 1);
+    v = this->vertices;
     *v++ = ((count * 6 + 1) << 16) | 0x29;
     *v++ = count << 16;
-    vt = (Vtx_8002DB7C *)v;
+    vt = (Vertex *)v;
     for (i = 0; i < count; i++) {
-        vt->p[0] = lbl_805D8198;
-        vt->p[1] = lbl_805D8198;
-        vt->p[2] = lbl_805D8198;
-        vt->n[0] = lbl_805D8198;
-        vt->n[1] = lbl_805D8198;
-        vt->n[2] = lbl_805D8198;
+        vt->pos.x = lbl_805D8198;
+        vt->pos.y = lbl_805D8198;
+        vt->pos.z = lbl_805D8198;
+        vt->normal.x = lbl_805D8198;
+        vt->normal.y = lbl_805D8198;
+        vt->normal.z = lbl_805D8198;
         vt++;
     }
     *(u32 *)vt = 0xff;
-    g->model.vertices = g->vertices;
-    g->model.polygons = g->polygons;
-    g->model.center[0] = lbl_805D8198;
-    g->model.center[1] = lbl_805D8198;
-    g->model.center[2] = lbl_805D8198;
-    g->model.radius = lbl_805D8198;
-    g->object.flags = 0x17;
-    g->object.model = &g->model;
-    g->object.position[0] = lbl_805D8198;
-    g->object.position[1] = lbl_805D8198;
-    g->object.position[2] = lbl_805D8198;
-    g->object.rotation[0] = 0;
-    g->object.rotation[1] = 0;
-    g->object.rotation[2] = 0;
-    g->object.scale[0] = lbl_805D81F4;
-    g->object.scale[1] = lbl_805D81F4;
-    g->object.scale[2] = lbl_805D81F4;
-    g->object.child = NULL;
-    g->object.sibling = NULL;
-    return g;
+    this->model.vertex_list = this->vertices;
+    this->model.polygon_list = this->polygons;
+    this->model.center[0] = lbl_805D8198;
+    this->model.center[1] = lbl_805D8198;
+    this->model.center[2] = lbl_805D8198;
+    this->model.r = lbl_805D8198;
+    this->object.evalflags = 0x17;
+    this->object.model = &this->model;
+    this->object.pos[0] = lbl_805D8198;
+    this->object.pos[1] = lbl_805D8198;
+    this->object.pos[2] = lbl_805D8198;
+    this->object.ang[0] = 0;
+    this->object.ang[1] = 0;
+    this->object.ang[2] = 0;
+    this->object.scl[0] = lbl_805D81F4;
+    this->object.scl[1] = lbl_805D81F4;
+    this->object.scl[2] = lbl_805D81F4;
+    this->object.child = NULL;
+    this->object.sibling = NULL;
 }
 
-f32 TBoss8Dragon::apply_default_velocity_scale() {
-    f32 *vector = (f32 *)this;
-    return ((TBoss8Dragon *)vector)->apply_velocity_scale(lbl_805D81E4, lbl_805D81D4);
+f32 apply_default_velocity_scale(Vec *vector) {
+    return apply_velocity_scale(vector, lbl_805D81E4, lbl_805D81D4);
 }
 
-f32 TBoss8Dragon::apply_velocity_scale(f32 farg0, f32 farg1) {
+f32 apply_velocity_scale(Vec *vector, f32 farg0, f32 farg1) {
     f32 temp_f1;
     f32 temp_f1_2;
     f32 temp_f2;
     f32 var_f31;
     s32 temp_r31;
 
-    temp_f1 = normalize_vector_xz((Vec *)this);
+    temp_f1 = normalize_vector_xz(vector);
     if (temp_f1 > farg0) {
         var_f31 = lbl_805D8198;
-        *(f32 *)((s8 *)this + 0) = var_f31;
-        *(f32 *)&this->unk_4 = (f32) lbl_805D81F4;
-        this->m_8 = var_f31;
+        vector->x = var_f31;
+        vector->y = lbl_805D81F4;
+        vector->z = var_f31;
     } else {
         temp_r31 = (s32) (lbl_805D81F8 * (temp_f1 / farg0));
         var_f31 = farg1 * (lbl_805D81F4 + cos_table_lookup(temp_r31, lbl_805D81F8));
         temp_f1_2 = sin_table_lookup(temp_r31);
-        temp_f2 = *(f32 *)((s8 *)this + 0) * temp_f1_2;
-        *(f32 *)((s8 *)this + 0) = temp_f2;
-        *(f32 *)&this->unk_4 = (f32) lbl_805D81F4;
-        this->m_8 = (f32) (this->m_8 * temp_f1_2);
-        update_scale__15TObjBoss2TunnelFv(this, temp_f1_2);
+        temp_f2 = vector->x * temp_f1_2;
+        vector->x = temp_f2;
+        vector->y = lbl_805D81F4;
+        vector->z = vector->z * temp_f1_2;
+        update_scale__15TObjBoss2TunnelFv(vector, temp_f1_2);
     }
     return var_f31;
 }

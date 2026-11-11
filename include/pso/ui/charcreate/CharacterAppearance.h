@@ -3,11 +3,18 @@
 #include "types.h"
 #include <stddef.h>
 
+// The player's visual record (same 0x50-byte layout as disp_data_part2 in TPlyDispData.h, whose
+// names nameColor/extraModel/version follow).
 struct CharacterAppearanceFields {
-    u8 name[0x30];
-    u8 section;
+    char name[0x10];
+    u8 pad_10[0x18 - 0x10];
+    u32 nameColor;
+    u8 extraModel;
+    u8 pad_1D[0x30 - 0x1D];
+    s8 section;
     s8 classId;
-    u8 flags, spare;
+    s8 flags;
+    u8 version;
     u32 classFlags;
     s16 costume, skin, face, head, hair, red, green, blue;
     f32 width, height;

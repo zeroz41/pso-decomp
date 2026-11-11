@@ -2,7 +2,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/TObjEZRopeBase.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
-#include "pso/player/TObjPlayer_803DF7A8.h"
+#include "pso/player/TObjPlayer_803E1A58.h"
 struct Vec_800FF8CC {
     f32 x, y, z;
 };

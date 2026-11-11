@@ -195,9 +195,6 @@ extern const f32 TParticleCtrl__data_805D94E4;
 
 extern "C" {
 
-void clear_active_flag__13TParticleCtrlFv(void* p);
-
-void clear_active_flag__13TParticleCtrlFv(void* p) { *(u16*)((char*)p + 0x2c) &= 0xfffe; }
 u8 *create_radial_particle(u8 *arg0, u8 *arg1, s32 arg2, u16 arg3, s16 arg4) {
     u8 *particle_memory;
     u8 *var_r0;

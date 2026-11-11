@@ -12,13 +12,13 @@ void TItemAttackCol::check_object_hits() {
     s32 i;
     s32 e;
     reset_global_table();
-    TObjPlayer__sub_8015431C(((u8 *)this) + 0x1C);
+    TObjPlayer__sub_8015431C((u8 *)&this->bodies);
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         e = get_attack_entry__16TObjOnlineEndingFi(i);
         if (try_add_hit_target((void *)e) != 0) {
             this->vfunc_6((s32 *)e);
-            this->m_a4 -= 1;
-            if (this->m_a4 == 0) {
+            this->hits_left -= 1;
+            if (this->hits_left == 0) {
                 queue_destruction__7TObjectFv(this);
                 reset_global_table();
                 return;

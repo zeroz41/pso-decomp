@@ -72,31 +72,6 @@ static Vec tkof_centop_high_pos = {0.0f, 264.0f, 0.0f};
 
 extern "C" {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-struct RecoveredGlobal_802B3BEC_lbl_80470CE0 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-
-
-
-
-typedef char RecoveredGlobal_802B3BEC_lbl_80470CE0_size[sizeof(RecoveredGlobal_802B3BEC_lbl_80470CE0) == 0xC ? 1 : -1];
-
 s32 TBoss6Type1__sub_802B4A9C(void *);
 void TBoss6Type1__sub_802B4B04(u8 *arg0);
 void TBoss6Type1__sub_802B5140(s32 arg0, s32 arg1, s32 arg2);
@@ -114,8 +89,6 @@ s32 TBoss6Type1__sub_802B8A70(void *);
 void TBoss6Type1__sub_802B8BB4(u8 *arg0);
 int TBoss6Type1__sub_802B8E1C(void*);
 int send_flow_action_if_idle__11TBoss6Type1FPvc(void*, void*);
-
-extern RecoveredGlobal_802B3BEC_lbl_80470CE0 lbl_80470CE0;
 
 void TBoss6Type1::enter_flag800_state() {
     if (this->actorFlags & 0x800) {
@@ -877,7 +850,7 @@ void TBoss6Type1::sub_802B3B94() {
 
 void TBoss6Type1::init_effect_slot_1() {
     u8 *arg0 = (u8 *)this;
-    VecCopy((Vec *)(arg0 + 0x420), (const Vec *)&lbl_80470CE0.value);
+    VecCopy((Vec *)(arg0 + 0x420), &lbl_80470CE0);
     *(s32 *)((s8 *)arg0 + 0x40C) = 0x5A;
     *(s32 *)((s8 *)arg0 + 0x410) = 0x5A;
     ((TBoss6Type1 *)arg0)->spawn_effect_slot((s32)((void*)(1)));

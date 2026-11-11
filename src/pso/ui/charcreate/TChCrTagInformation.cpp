@@ -4,6 +4,7 @@
 #include "pso/unk/text_803098DC.h"
 #include "pso/ui/charcreate/TChCrTagInformation.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
+#include "pso/ui/charcreate/TChCrTagInformation_802A1FAC.h"
 
 struct Tag_802A1E8C {
     u8 pad[0x24];
@@ -53,6 +54,26 @@ void *__dt__19TChCrTagInformationFv(void *arg0, s16 arg1) {
         }
     }
     return arg0;
+}
+
+}
+
+extern "C" {
+
+extern const f32 lbl_805DDE20;
+extern const f32 lbl_805DDE24;
+extern void *TChCrTagInformation__class_name;
+
+void *TChCrTagInformation__ct(TChCrTagInformation *ch_cr_tag_information, TObject *parent, void *arg) {
+    __ct__8TChCrTagFP7TObjectPv(ch_cr_tag_information, parent, arg);
+    *(s32 **)((s8 *)ch_cr_tag_information + 0x18) = __vt__19TChCrTagInformation;
+    *(void * *)&ch_cr_tag_information->m_name = TChCrTagInformation__class_name;
+    ch_cr_tag_information->m_28 = lbl_805DDE20;
+    *(f32 *)((s8 *)ch_cr_tag_information + 0x2C) = lbl_805DDE24;
+    ch_cr_tag_information->m_34 = lbl_805DDE20;
+    *(f32 *)((s8 *)ch_cr_tag_information + 0x38) = lbl_805DDE24;
+    fn_803098E8();
+    return ch_cr_tag_information;
 }
 
 }

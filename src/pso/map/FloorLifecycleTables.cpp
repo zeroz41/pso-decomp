@@ -118,7 +118,7 @@
 #include "pso/object/warp/TObjWarpLobby.h"
 #include "pso/object/lobby/TObjWeddingLobby.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/frontend/TAdMultiSaveGC.h"
+#include "pso/object/jungle/TOJungleDesign.h"
 
 extern "C" {
 void TMainCursor__sub_80154090();
@@ -777,7 +777,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_24[31] = {
     { TOTrapChainSaw::load_shared_resource, TOTrapChainSaw::unload_static_data },
     { TOBiwaMushi::load_resource_instance, TOBiwaMushi::free_shared_data },
     { TObjPlayer::load_kamome_resources, TObjPlayer::destroy_instance },
-    { TAdMultiSaveGC::load_shared_resource, TAdMultiSaveGC::free_window },
+    { TOJungleDesign::load_shared_resource, TOJungleDesign::free_shared_resource },
     { TOTrapAncient02::load_resources, TOTrapAncient02::destroy_instance },
     { 0, 0 },
 };
@@ -810,7 +810,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_25[30] = {
     { TOTrapChainSaw::load_shared_resource, TOTrapChainSaw::unload_static_data },
     { TOBiwaMushi::load_resource_instance, TOBiwaMushi::free_shared_data },
     { TObjPlayer::load_kamome_resources, TObjPlayer::destroy_instance },
-    { TAdMultiSaveGC::load_shared_resource, TAdMultiSaveGC::free_window },
+    { TOJungleDesign::load_shared_resource, TOJungleDesign::free_shared_resource },
     { TOTrapAncient02::load_resources, TOTrapAncient02::destroy_instance },
     { 0, 0 },
 };
@@ -840,7 +840,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_26[27] = {
     { TObjFish::load_models, TObjFish__sub_8019F72C },
     { TOTrapChainSaw::load_shared_resource, TOTrapChainSaw::unload_static_data },
     { TObjPlayer::load_kamome_resources, TObjPlayer::destroy_instance },
-    { TAdMultiSaveGC::load_shared_resource, TAdMultiSaveGC::free_window },
+    { TOJungleDesign::load_shared_resource, TOJungleDesign::free_shared_resource },
     { TOTrapAncient02::load_resources, TOTrapAncient02::destroy_instance },
     { 0, 0 },
 };
@@ -873,7 +873,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_27[30] = {
     { TObjFish::load_models, TObjFish__sub_8019F72C },
     { TOTrapChainSaw::load_shared_resource, TOTrapChainSaw::unload_static_data },
     { TObjPlayer::load_kamome_resources, TObjPlayer::destroy_instance },
-    { TAdMultiSaveGC::load_shared_resource, TAdMultiSaveGC::free_window },
+    { TOJungleDesign::load_shared_resource, TOJungleDesign::free_shared_resource },
     { TOTrapAncient02::load_resources, TOTrapAncient02::destroy_instance },
     { 0, 0 },
 };
@@ -903,7 +903,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_34[27] = {
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TObjFish::load_models, TObjFish__sub_8019F72C },
     { TOTrapChainSaw::load_shared_resource, TOTrapChainSaw::unload_static_data },
-    { TAdMultiSaveGC::load_shared_resource, TAdMultiSaveGC::free_window },
+    { TOJungleDesign::load_shared_resource, TOJungleDesign::free_shared_resource },
     { TOTrapAncient02::load_resources, TOTrapAncient02::destroy_instance },
     { 0, 0 },
 };

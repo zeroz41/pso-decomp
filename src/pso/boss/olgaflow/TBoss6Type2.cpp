@@ -670,14 +670,11 @@ void world_to_grid_pos__11TBoss6Type2FPvPvPv(f32 *arg0, s8 *arg1, s8 *arg2) {
     *arg2 = (s8)fb;
 }
 
-#pragma push
-#pragma fp_contract on
 void grid_to_world_pos__11TBoss6Type2FccPv(s8 arg0, s8 arg1, f32 *arg2) {
     arg2[0] = (f32)((7.874016f * (f32)arg0) + -10500.0f);
     arg2[1] = 0.0f;
     arg2[2] = (f32)((7.874016f * (f32)arg1) + -500.0f);
 }
-#pragma pop
 
 void TBoss6Type2::call_9A24_plus_1(s32 *arg1) {
     u8 *arg0 = (u8 *)this;
@@ -790,20 +787,13 @@ void init_parts__11TBoss6Type2FPv(s32 arg0) {
     } while (var_r31 < 0xE);
 }
 
-#pragma push
-#pragma opt_common_subs off
-#pragma opt_propagation off
-#pragma opt_dead_assignments off
 void TBoss6Type2__sub_802B9D6C(Obj_802B9D6C *self) {
     s32 i;
     for (i = 0; i < 14; i++) self->arr[i] = 0;
 }
-#pragma pop
 
 #pragma push
 #pragma opt_common_subs off
-#pragma opt_propagation off
-#pragma opt_dead_assignments off
 void TBoss6Type2::update_footstep_effects() {
     u8 *arg0 = (u8 *)this;
   Stack_802B9D90 stack;
@@ -861,20 +851,8 @@ void TBoss6Type2::update_footstep_effects() {
 }
 #pragma pop
 
-#pragma push
-#pragma opt_common_subs off
-#pragma opt_propagation off
-#pragma opt_dead_assignments off
 void TBoss6Type2::set_fields_554() { *(s32*)((char*)this + 0x554) = 1; *(s32*)((char*)this + 0x558) = 1; }
-#pragma pop
 
-#pragma push
-#pragma opt_common_subs off
-#pragma opt_propagation off
-#pragma opt_dead_assignments off
-#pragma opt_common_subs reset
-#pragma opt_propagation reset
-#pragma opt_dead_assignments reset
 void TBoss6Type2::restore_effect_values() {
     T2_802B9EE4 *arg0 = (T2_802B9EE4 *)this;
     s32 i;
@@ -882,15 +860,7 @@ void TBoss6Type2::restore_effect_values() {
         *arg0->e[i].p = arg0->e[i].a;
     }
 }
-#pragma pop
 
-#pragma push
-#pragma opt_common_subs off
-#pragma opt_propagation off
-#pragma opt_dead_assignments off
-#pragma opt_common_subs reset
-#pragma opt_propagation reset
-#pragma opt_dead_assignments reset
 void TBoss6Type2::sum_offsets() {
     T2_802B9EE4 *arg0 = (T2_802B9EE4 *)this;
     s32 i;
@@ -898,15 +868,7 @@ void TBoss6Type2::sum_offsets() {
         *arg0->e[i].p = arg0->e[i].a + arg0->e[i].b;
     }
 }
-#pragma pop
 
-#pragma push
-#pragma opt_common_subs off
-#pragma opt_propagation off
-#pragma opt_dead_assignments off
-#pragma opt_common_subs reset
-#pragma opt_propagation reset
-#pragma opt_dead_assignments reset
 void TBoss6Type2::aim_toward_point(void *arg1_arg) {
     Boss_802B9F3C *arg0 = (Boss_802B9F3C *)this;
     Vec_802B9A68 *arg1 = (Vec_802B9A68 *)arg1_arg;
@@ -927,15 +889,7 @@ void TBoss6Type2::aim_toward_point(void *arg1_arg) {
         arg0->e[i].a = approach_angle_limited(arg0->e[i].a, ang, 0x2AA);
     }
 }
-#pragma pop
 
-#pragma push
-#pragma opt_common_subs off
-#pragma opt_propagation off
-#pragma opt_dead_assignments off
-#pragma opt_common_subs reset
-#pragma opt_propagation reset
-#pragma opt_dead_assignments reset
 void TBoss6Type2::init_collected_entries() {
     T2_802BA000 *arg0 = (T2_802BA000 *)this;
     s32 i;
@@ -945,12 +899,9 @@ void TBoss6Type2::init_collected_entries() {
         arg0->e[i].b = 0;
     }
 }
-#pragma pop
 
 #pragma push
 #pragma opt_common_subs off
-#pragma opt_propagation off
-#pragma opt_dead_assignments off
 void TBoss6Type2::sub_802BA078() {
     Player_802BA078 *p;
     if (((Boss_802BA078 *)this)->f55C != 0xFFFF) {
@@ -973,10 +924,6 @@ void TBoss6Type2::sub_802BA078() {
 }
 #pragma pop
 
-#pragma push
-#pragma opt_common_subs off
-#pragma opt_propagation off
-#pragma opt_dead_assignments off
 void TBoss6Type2::reset_fish_fields() {
     ((Obj_802BA158 *)this)->f55c = 0xFFFF;
     ((Obj_802BA158 *)this)->f570 = 0;
@@ -985,12 +932,7 @@ void TBoss6Type2::reset_fish_fields() {
     ((Obj_802BA158 *)this)->f594 = 0;
     ((Obj_802BA158 *)this)->f598 = 0;
 }
-#pragma pop
 
-#pragma push
-#pragma opt_common_subs off
-#pragma opt_propagation off
-#pragma opt_dead_assignments off
 void TBoss6Type2::restore_target_player_state() {
     u8 *player;
     u32 id = *(u16 *)((s8 *)((u8 *)this) + 0x55C);
@@ -1009,7 +951,6 @@ void TBoss6Type2::restore_target_player_state() {
         reset_fish_fields__11TBoss6Type2Fv((Obj_802BA158 *)this);
     }
 }
-#pragma pop
 
 void TBoss6Type2::copy_vec2(void* q) { *(u32*)((char*)this + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)this + 0x4) = *(u32*)((char*)q + 0x4); }
 
@@ -1269,8 +1210,6 @@ s32 TBoss6Type2::turn_toward_target_position() {
     return 1;
 }
 
-#pragma push
-#pragma fp_contract on
 s32 snap_to_ground__11TBoss6Type2FPv(Obj_802BAB80 *self) {
     Vec_802BAB80 p;
     f32 t;
@@ -1301,7 +1240,6 @@ s32 snap_to_ground__11TBoss6Type2FPv(Obj_802BAB80 *self) {
     self->pos.y = 0.0f;
     return 1;
 }
-#pragma pop
 
 void TBoss6Type2__sub_802BAD04(s32 arg0) {
     u8 *temp_r3;
@@ -1317,8 +1255,6 @@ void TBoss6Type2__sub_802BAD04(s32 arg0) {
     }
 }
 
-#pragma push
-#pragma fp_contract on
 void TBoss6Type2::spawn_rocks_around_players() {
     Vec_802BAD90 p;
     Vec_802BAD90 q;
@@ -1352,7 +1288,6 @@ void TBoss6Type2::spawn_rocks_around_players() {
     }
     play_sound_effect(0x4006AB1D, (void *)&boss6_arena_center, 0, 1);
 }
-#pragma pop
 
 void TBoss6Type2::drop_random_rocks(s32 arg0, s32 arg1) {
     s32 avail_tbl[32];
@@ -1421,9 +1356,6 @@ void TBoss6Type2::init_range() {
     ((s32 (*)(f32, f32))request_player_camera_offsets__11TBoss6Type2FPvff)(100.0f, -125.0f);
 }
 
-#pragma push
-#pragma opt_common_subs off
-#pragma fp_contract on
 s32 request_player_camera_offsets__11TBoss6Type2FPvff(Obj_802BB1E0 *self, f32 a, f32 b) {
     Vec_802B9A68 pp;
     Vec_802B9A68 me;
@@ -1498,7 +1430,6 @@ s32 request_player_camera_offsets__11TBoss6Type2FPvff(Obj_802BB1E0 *self, f32 a,
         }
     }
 }
-#pragma pop
 
 void TBoss6Type2::sub_802BB498() {
     switch (((T2_802BB498 *)this)->f374) {
@@ -1956,8 +1887,6 @@ void TBoss6Type2::init_segment_range() {
     update_segments();
 }
 
-#pragma push
-#pragma opt_common_subs off
 void TBoss6Type2::sub_802BC124() {
     *(f32 *)&this->unk_4FC += -0.06666667f;
     if (*(f32 *)&this->unk_4FC < 0.0f) {
@@ -1965,7 +1894,6 @@ void TBoss6Type2::sub_802BC124() {
     }
     this->m_500 = (f32) ((f32) this->m_32c / (f32) *(s16 *)&this->m_33e);
 }
-#pragma pop
 
 s32 TBoss6Type2::choose_turn_motion() {
     f32 temp_f3;
@@ -2166,13 +2094,6 @@ void TBoss6Type2::copy_anim_state() {
     *(s32 *)((s8 *)this + 0x4F0) = (s32) this->m_32c;
 }
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void set_screen_pos__11TBoss6Type2FPv(void *arg0) {
     f32 var_f0;
     f32 var_f1;
@@ -2188,14 +2109,9 @@ void set_screen_pos__11TBoss6Type2FPv(void *arg0) {
     *(f32 *)((s8 *)TBoss6Type2__motion_table + 0x3C) = var_f1;
     *(f32 *)((s8 *)TBoss6Type2__motion_table + 0xEC) = var_f0;
 }
-#pragma pop
 
 #pragma push
 #pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
 #pragma dont_inline off
 void TBoss6Type2::load_battle_params() {
     u8 *arg0 = (u8 *)this;
@@ -2415,13 +2331,6 @@ void TBoss6Type2::update_motion_tracks() {
     }
 }
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 
 struct Blk_802BCFD4;
 
@@ -2441,15 +2350,7 @@ void TBoss6Type2::init_motion_entries() {
 }
 
 void TBoss6Type2::copy_transform(void* q) { *(u32*)((char*)this + 0x0) = *(u32*)((char*)q + 0x0); *(f32*)((char*)this + 0x4) = *(f32*)((char*)q + 0x4); *(f32*)((char*)this + 0x8) = *(f32*)((char*)q + 0x8); *(f32*)((char*)this + 0xc) = *(f32*)((char*)q + 0xc); *(f32*)((char*)this + 0x10) = *(f32*)((char*)q + 0x10); *(u32*)((char*)this + 0x14) = *(u32*)((char*)q + 0x14); *(f32*)((char*)this + 0x18) = *(f32*)((char*)q + 0x18); }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 __declspec(section ".sdata2") const s32 TBoss6Type2__data_805DE4B8 = 1;
 __declspec(section ".sdata2") const s32 lbl_805DE4BC = 0;
 
@@ -2457,14 +2358,9 @@ Blk_802BCFD4 *copy_block__11TBoss6Type2FPvPv(Blk_802BCFD4 *d, const Blk_802BCFD4
     *d = *s;
     return d;
 }
-#pragma pop
 
 #pragma push
 #pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
 #pragma dont_inline off
 void TBoss6Type2::set_action_state(void *vv) {
     s32 i;
@@ -2486,12 +2382,6 @@ void TBoss6Type2::set_action_state(void *vv) {
 #pragma pop
 
 #pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 
 #pragma push
 #pragma opt_common_subs off
@@ -2547,87 +2437,32 @@ void TBoss6Type2::copy_pos_620(s32 arg1) {
 }
 #pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2::get_push_points(s32 arg1, s32 arg2) {
     s32 arg0 = (s32)this;
     VecCopy((Vec *)(arg1), (const Vec *)(arg0 + 0x5FC));
     VecCopy((Vec *)(arg2), (const Vec *)(arg0 + 0x5C0));
 }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2::copy_pos_59c(s32 arg1) {
     s32 arg0 = (s32)this;
     VecCopy((Vec *)arg1, (const Vec *)(arg0 + 0x59C));
 }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2__sub_802BD340(void) {  }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2::apply_damage(s32 arg1) {
     if ((arg1 > 0) && ((s32) this->m_418 == 0)) {
         add_damage(arg1);
     }
 }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2__sub_802BD378(T2_802BD378 *arg0, s32 arg1, void *arg2, s32 *arg3) {
     VecCopy((Vec *)(arg2), (const Vec *)(&arg0->v[arg1 + 0xE - 0]));
     *arg3 = arg0->f60;
 }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 s32 TBoss6Type2::get_rotation_timer() { return this->m_418; }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2::get_phase_values(u16 *a, u16 *b, u16 *out) {
     s32 i;
     *a = ((Obj_8004D8C8 *)this)->f2d6;
@@ -2636,7 +2471,6 @@ void TBoss6Type2::get_phase_values(u16 *a, u16 *b, u16 *out) {
         out[i] = obj_getArrU16_FC(this, i);
     }
 }
-#pragma pop
 
 f32 vfunc_23__11TBoss6Type2FPvPvPvll(TBoss6Type2 *self, void *attacker, AttackMsg_802BD430 msg, void *collision, s32 tech, s32 arg5) {
     while ((s32)self->m_418 != 0) {
@@ -2656,13 +2490,6 @@ f32 vfunc_23__11TBoss6Type2FPvPvPvll(TBoss6Type2 *self, void *attacker, AttackMs
     return receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll(self, attacker, msg, collision, tech, arg5);
 }
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 f32 TBoss6Type2__vt20(TBoss6Type2 *arg0, u32 att, f32 scale) {
     s32 var_r31;
     s32 var_r30;
@@ -2700,25 +2527,9 @@ f32 TBoss6Type2__vt20(TBoss6Type2 *arg0, u32 att, f32 scale) {
     arg0->spawn_hit_effects();
     return 0.0f;
 }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2__vt61(void* p) { if (*(int *)&((TBoss6Type2 *)p)->m_374 != 35) { ((TBoss6Type2 *)p)->set_action_state((void*)((void*)35)); } }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2__vt60(TBoss6Type2 *boss6_type2) {
     boss6_type2->m_30 = (s32) (boss6_type2->m_30 & 0xFFFFFDFF);
     *(f32 *)((s8 *)boss6_type2 + 0x4FC) = 1.0f;
@@ -2732,15 +2543,7 @@ void TBoss6Type2__vt60(TBoss6Type2 *boss6_type2) {
         ((s32 (*)(int, void *, int, int))play_sound_effect)(0x68A24, (u8 *)boss6_type2 + 0x38, 0, 1);
     }
 }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 s32 TBoss6Type2::count_matching_values(s32 arg1, s32 arg2) {
     T1_802BD68C *arg0 = (T1_802BD68C *)this;
     s32 i;
@@ -2756,15 +2559,7 @@ s32 TBoss6Type2::count_matching_values(s32 arg1, s32 arg2) {
     }
     return cnt;
 }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2::set_target_state(s32 arg1, s32 arg2) {
     u32 temp_r31;
     s32 temp_r30;
@@ -2784,15 +2579,7 @@ void TBoss6Type2::set_target_state(s32 arg1, s32 arg2) {
         ((TBoss6Type2 *)(this->m_414))->set_target_nodes((void*)this->m_2e4, (void*)(*(s32 *)&this->m_42c));
     }
 }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 s32 TBoss6Type2::choose_next_index() {
     T2_802BD76C *arg0 = (T2_802BD76C *)this;
     s32 k = (s32)(2.99f * (3.0517578e-05f * (f32)rand())) + 1;
@@ -2802,15 +2589,7 @@ s32 TBoss6Type2::choose_next_index() {
     }
     return r;
 }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 
 s32 TBoss6Type2::pick_random_other_index() {
     TBoss6Type2 *o = this;
@@ -2829,17 +2608,8 @@ s32 TBoss6Type2::find_index_in_table(u32 v) {
     }
     return 0;
 }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 int TBoss6Type2::get_table_entry(int a0) {  return TBoss6Type2__initial_actor_flag_masks[a0]; }
-#pragma pop
 
 extern "C" u8 *get_enemy_entity(u16 arg0);
 
@@ -2862,15 +2632,7 @@ extern "C" void handle_6xA5_olga_flow_boss_actions(void *arg) {
 }
 
 #pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 #pragma opt_common_subs off
-#pragma opt_propagation off
-#pragma fp_contract on
 void TBoss6Type2__sub_802BD938(u8 *arg0, u8 *arg1) {
     typedef char sp8_offset[(offsetof(Stack_802BD938, sp8) == 0x0) ? 1 : -1];
     typedef char sp9_offset[(offsetof(Stack_802BD938, sp9) == 0x1) ? 1 : -1];
@@ -2923,13 +2685,6 @@ void TBoss6Type2__sub_802BD938(u8 *arg0, u8 *arg1) {
 }
 #pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2::update_attack_target() {
     s32 sp8;
     s32 temp_r0;
@@ -2971,15 +2726,7 @@ void TBoss6Type2::update_attack_target() {
     TBoss6Type2__sub_802BD938((u8 *)this, (u8 *)&sp8);
     send_action_packet_if_idle(var_r31, &sp8);
 }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 
 void TBoss6Type2::send_state_action_packet() {
     s32 sp8;
@@ -3023,15 +2770,7 @@ void TBoss6Type2::update_action_state() {
     }
     send_action_packet_if_idle(var_r4, &sp8);
 }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2::send_action_packet_if_idle(s32 arg1, s32 *arg2) {
     Pkt_802BDD6C p;
     u8 *s; s32 i;
@@ -3045,15 +2784,7 @@ void TBoss6Type2::send_action_packet_if_idle(s32 arg1, s32 *arg2) {
         ((TBoss6Type2 *)(&p))->update_and_send();
     }
 }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2::send_action_packet(s8 arg1) {
     typedef char sp8_offset[(offsetof(Stack_802BDDF8, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_802BDDF8, spC) == 0x4) ? 1 : -1];
@@ -3065,15 +2796,7 @@ void TBoss6Type2::send_action_packet(s8 arg1) {
         ((TBoss6Type2 *)(&stack.sp8))->update_and_send();
     }
 }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2::parse_action_packet(void *arg1) {
     this->m_478 = (u8) *(u8 *)((s8 *)arg1 + 8);
     this->m_47c = (s32) (s8) *(u8 *)((s8 *)arg1 + 9);
@@ -3097,15 +2820,7 @@ void TBoss6Type2::parse_action_packet(void *arg1) {
     set_action_field_0x408__11TBoss6Type2Fs(*(s32 *)&this->unk_410, this->m_468);
     set_action_field_0x408__11TBoss6Type2Fs(*(s32 *)&this->m_414, this->m_46a);
 }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2::build_state_packet(u8 *arg1) {
     u16 spA;
     u16 sp8;
@@ -3120,7 +2835,6 @@ void TBoss6Type2::build_state_packet(u8 *arg1) {
     *(s8 *)((s8 *)arg1 + 0xE) = (s8) spA;
     *(s8 *)((s8 *)arg1 + 0xF) = (s8) sp8;
 }
-#pragma pop
 
 struct Fish_802BE014 { u8 pad[0x764]; void *fish[1]; };
 
@@ -3155,12 +2869,6 @@ s32 __dt__11TBoss6Type2Fv(s32 self_, s16 flag) {
 #undef self
 
 #pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 
 #pragma push
 #pragma opt_common_subs off
@@ -3271,10 +2979,6 @@ void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *arg1) {
 
 #pragma push
 #pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
 #pragma dont_inline off
 s32 TBoss6Type2::create(s32 arg2_) {
     s32 arg0_;
@@ -3292,74 +2996,18 @@ s32 TBoss6Type2::create(s32 arg2_) {
 }
 #pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2__vt42(void) {  }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2__vt43(void) {  }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2__vt44(void) {  }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2__vt45(void) {  }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2__vt46(void) {  }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2__vt47(void) {  }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 void TBoss6Type2__vt48(void) {  }
 }
-#pragma pop
 

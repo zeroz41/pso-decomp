@@ -1,5 +1,6 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowDD_WS_String.h"
 
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
@@ -492,9 +493,9 @@ void TWindowDD__sub_80347CC8(W_80347CC8 *arg0, void *window_dd) {
             }
             s->f38 = lbl_805DFCD4 * TWindowDD__data_805DFB58 + x;
             if (x <= lbl_805DFCD0) {
-                ((TWindowDD *)s)->update_position(TWindowDD__data_805DFB50);
+                ((TWindowDD_WS_String *)s)->update_position(TWindowDD__data_805DFB50);
             } else {
-                ((TWindowDD *)s)->init_and_set_field50((void *)TWindowDD__data_805DFB50);
+                ((TWindowDD_WS_String *)s)->init_and_set_field50((void *)TWindowDD__data_805DFB50);
             }
         }
     }
@@ -508,9 +509,9 @@ s32 TWindowDD::setup_entry(s32 arg1) {
     var_r31 = 0;
     temp_r30 = this->m_88;
     if ((temp_r30 != 0U) && ((str = TWindowDD__sub_80348B70(arg1)) != 0)) {
-        ((TWindowDD *)temp_r30)->set_first_entry_text(str);
+        ((TWindowDD_WS_String *)temp_r30)->set_first_entry_text(str);
         TWindowDD__sub_803412A0(temp_r30);
-        ((TWindowDD *)temp_r30)->init_and_set_field50((void *)TWindowDD__data_805DFB50);
+        ((TWindowDD_WS_String *)temp_r30)->init_and_set_field50((void *)TWindowDD__data_805DFB50);
         var_r31 = 1;
     }
     return var_r31;
@@ -539,7 +540,7 @@ void TWindowDD__sub_80347E04(W_80347E04 *arg0, s32 arg1) {
             ((TWindowBase *)o)->set_depth(lbl_805DFC28);
             TWindowDD__sub_803412A0((u32)o);
             ((TWindowSubSymbolChatPartsSet *)(o + 0x40))->copy_vec2(&v);
-            ((TWindowDD *)o)->init_and_set_field50((void *)TWindowDD__data_805DFB50);
+            ((TWindowDD_WS_String *)o)->init_and_set_field50((void *)TWindowDD__data_805DFB50);
             arg0->f74[arg1] = o;
         }
     }

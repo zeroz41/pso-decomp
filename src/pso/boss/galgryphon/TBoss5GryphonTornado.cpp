@@ -1,12 +1,39 @@
 #include "types.h"
 #include "pso/boss/galgryphon/TBoss5GryphonTornado.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/ui/hud/TNowLoading.h"
+
+extern "C" {
+extern const f32 lbl_805DFFA8;
+void TBoss5GryphonTornado::sub_803554F0(u8 *boss2_tunnel) {
+    u8 *arg0 = (u8 *)this;
+  unsigned short new_var;
+  u16 temp_r3;
+  u8 *player;
+  *((f32 *) (((s8 *) boss2_tunnel) + 0)) = (f32) lbl_805DFFA8;
+  *((f32 *) (((s8 *) boss2_tunnel) + 4)) = (f32) lbl_805DFFA8;
+  *((f32 *) (((s8 *) boss2_tunnel) + 8)) = (f32) lbl_805DFFA8;
+  temp_r3 = this->m_24;
+  new_var = -1U;
+  if (temp_r3 != new_var)
+  {
+    player = (u8 *) get_player_by_client_id(temp_r3);
+    if (player != 0)
+    {
+      *((f32 *) (((s8 *) boss2_tunnel) + 0)) = (f32) ((*((f32 *) (((s8 *) player) + 0x38))) - (*((f32 *) (((s8 *) arg0) + 0x28))));
+      *((f32 *) (((s8 *) boss2_tunnel) + 8)) = (f32) ((*((f32 *) (((s8 *) player) + 0x40))) - (this->m_30));
+      ((TObjBoss2Tunnel *)boss2_tunnel)->update_scale();
+    }
+  }
+}
+
+}
 
 struct RecoveredGlobal_803558E4___vt__20TBoss5GryphonTornado {
     s32 value;
@@ -39,7 +66,6 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__20TBoss5GryphonTornado[];
 extern s32 lbl_805D4398;
-extern const f32 lbl_805DFFA8;
 s32 get_bml_motion(s32, s32);
 s32 get_bml_model(s32, s32);
 void TBoss8Dragon__sub_800640A4(s32, Vec_80355570 *);
@@ -168,4 +194,3 @@ u8 *TBoss5GryphonTornado__ct(TBoss5GryphonTornado *boss5_gryphon_tornado, u8 *ar
     boss5_gryphon_tornado->m_1c = 0;
     return (u8 *)boss5_gryphon_tornado;
 }
-

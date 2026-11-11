@@ -224,14 +224,14 @@ void TCameraCtrl::load_camera_banks() {
         return;
     }
     for (j = 0; j < n; j++) {
-        sz = ((TScene *)(b->entries[j].id))->update_lobby_scene();
+        sz = ((TScene *)(b->entries[j].filename))->update_lobby_scene();
         if (sz <= -1) {
             return;
         }
         TCameraCtrl__camera_banks.e[j].p = xmalloc(sz);
     }
     for (k = 0; k < n; k++) {
-        TCameraCtrl__camera_banks.e[k].a = load_relocatable_file(b->entries[k].id, (s32)TCameraCtrl__camera_banks.e[k].p);
+        TCameraCtrl__camera_banks.e[k].a = load_relocatable_file((s32)b->entries[k].filename, (s32)TCameraCtrl__camera_banks.e[k].p);
     }
 }
 

@@ -248,7 +248,7 @@ void TOTrap::render() {
     u8 *arg0 = (u8 *)this;
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
         this->m_340 = ((TOTrapVObj*)arg0)->m8(4e+02f, 2e+01f);
-        if ((s32) this->m_340 == 1) {
+        if (this->m_340 == 1) {
             push_matrix();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
@@ -265,130 +265,22 @@ void TOTrap::render() {
 
 }
 
-#include "types.h"
-#include "pso/object/trap/TOTrap_801791EC.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/object/trap/TOTrap.h"
-
-struct Self_80179244 { s32 type; u8 pad4[0x18 - 4]; s32 *vt; u8 pad1c[0x334 - 0x1C]; f32 f334; f32 f338; u16 s33c; u8 pad33e[2]; s32 f340; };
 
 extern "C" {
-void *__ct__9TObjCharaFP7TObject(void *, void *, void *);
-extern s32 __vt__6TOTrap[];
-extern s32 lbl_805D3198;
-
-Self_80179244 *TOTrap__ct(Self_80179244 *self, void *a, void *b);
-void __dl__7TObjectFPv(void *);
-
-void *__dt__6TOTrapFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__6TOTrap;
-        __dt__9TObjCharaFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+extern const char *lbl_805D3198;
 }
 
-Self_80179244 *TOTrap__ct(Self_80179244 *self, void *a, void *b) {
-    __ct__9TObjCharaFP7TObject(self, a, b);
-    self->vt = __vt__6TOTrap;
-    self->type = lbl_805D3198;
-    self->f334 = self->f338 = 0.0f;
-    self->s33c = 0xFFFF;
-    self->f340 = 1;
-    return self;
+TOTrap::~TOTrap() {}
+
+TOTrap::TOTrap(TObject *parent) : TObjChara(parent) {
+    m_name = lbl_805D3198;
+    range = dist = 0.0f;
+    player = 0xFFFF;
+    m_340 = 1;
 }
 
-void TOTrap::vfunc_84() {  }
+void TOTrap::vfunc_84() {}
 
-}
+void TOTrap::vfunc_86() {}
 
-#include "types.h"
-#include "pso/object/trap/TOTrap_801792AC.h"
-#include "pso/object/trap/TOTrap.h"
-
-struct Base_80179314_801792AC { char pad[0x18]; };
-struct VObj_80179314_801792AC : Base_80179314_801792AC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20(int, f32);
-};
-struct Base_80179358_801792AC { char pad[0x18]; };
-struct VObj_80179358_801792AC : Base_80179358_801792AC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20(int, f32);
-};
-
-void TOTrap::vfunc_86() {  }
-void TOTrap::vfunc_88() {  }
-
-s32 TOTrap::try_start_action(s32 arg1, s32) {
-    return (u8) (arg1 != *(s32 *)&this->target);
-}
-
-u8 TOTrap__sub_801792CC(u8 *arg0, s32 arg1) {
-    return (u8) (arg1 != *(s32 *)((s8 *)arg0 + 0x2A8));
-}
-
-u8 TOTrap__sub_801792E4(u8 *arg0, s32 arg1) {
-    return (u8) (arg1 != *(s32 *)((s8 *)arg0 + 0x2A8));
-}
-
-u8 TOTrap__sub_801792FC(u8 *arg0, s32 arg1) {
-    return (u8) (arg1 != *(s32 *)((s8 *)arg0 + 0x2A8));
-}
-
-f32 TOTrap::check_trigger_range(u32 arg1) {
-    struct VObj_80179314_801792AC *arg0 = (struct VObj_80179314_801792AC *)this;
-    if (arg1 != *(u32 *)((s8 *)arg0 + 0x2A8)) {
-        arg0->m20(0, 1.0f);
-    }
-    return 0.0f;
-}
-
-f32 TOTrap::get_scale(u32 arg1) {
-    struct VObj_80179358_801792AC *arg0 = (struct VObj_80179358_801792AC *)this;
-    if (arg1 != *(u32 *)((s8 *)arg0 + 0x2A8)) {
-        arg0->m20(0, 1.0f);
-    }
-    return 0.0f;
-}
+void TOTrap::vfunc_88() {}

@@ -42,9 +42,7 @@ extern "C" void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 head
 extern "C" s32 lbl_805D5870;
 extern "C" f32 atan2_float(f32, f32);
 extern "C" void vec3_add_to(void *, void *);
-extern "C" Vec lbl_8043C8E4;
-extern "C" Vec find_open_direction_zero_vec;
-extern "C" const f64 lbl_8043C900[];
+extern "C" const f64 lbl_8043C900;
 extern "C" s16 get_entity_id(void *);
 extern "C" void subtract_vector(void *, void *);
 
@@ -135,7 +133,7 @@ extern "C" s32 saved_model_render_flags;
 extern "C" s32 model_render_flags;
 struct NanoDragoAnimationBinding {
     BmlMotionEntry *motions;
-    u32 unknown04;
+    TObjMotionAction *actions;
     u32 unknown08;
     u32 unknown0C;
 };
@@ -158,8 +156,6 @@ extern "C" void init_collision_body_parts(void *, void *, s32);
 extern "C" s32 submit_cursor_candidate(void *, int);
 extern "C" s32 minimap_render_dot(void *, int, int, int);
 
-extern "C" NanoDragoAnimationBinding nano_drago_anim_binding;
-extern "C" const char *nano_drago_name;
 extern "C" s32 lbl_805D5248;
 extern "C" s32 lbl_805D524C;
 extern "C" s32 lbl_805D5250;
@@ -167,47 +163,17 @@ extern "C" s32 lbl_805D5254;
 extern "C" BmlResource *nano_drago_entry_params_resource;
 extern "C" void *tl_04;
 
-extern "C" u8 lbl_8043C760[];
-
-extern "C" u8 lbl_8043C774[];
-
-extern "C" u8 lbl_8043C78C[];
-
-extern "C" u8 lbl_8043C7A8[];
-
-extern "C" u8 lbl_8043C7C4[];
-
-extern "C" u8 lbl_8043C7E0[];
-
-extern "C" u8 lbl_8043C7FC[];
-
-extern "C" u8 lbl_8043C814[];
-
-extern "C" u8 lbl_8043C82C[];
-
-extern "C" u8 lbl_8043C844[];
-
-extern "C" u8 lbl_8043C860[];
-
-extern "C" u8 lbl_8043C878[];
-
-extern "C" u8 lbl_8043C890[];
-
-extern "C" u8 lbl_8043C8A8[];
-
-extern "C" const char *bm_ene_nanodrago_model_names[2];
-extern "C" const char *bm_ene_nanodrago_motion_names[13];
 __declspec(section ".data") const char *bm_ene_nanodrago_model_names[2] = {
-    (const char *)lbl_8043C760, NULL,
+    "bm6_s_drc_body.nj", NULL,
 };
 const char *bm_ene_nanodrago_motion_names[13] = {
-    (const char *)lbl_8043C774, (const char *)lbl_8043C78C, (const char *)lbl_8043C7A8, (const char *)lbl_8043C7C4,
-    (const char *)lbl_8043C7E0, (const char *)lbl_8043C7FC, (const char *)lbl_8043C814, (const char *)lbl_8043C82C,
-    (const char *)lbl_8043C844, (const char *)lbl_8043C860, (const char *)lbl_8043C878, (const char *)lbl_8043C890,
+    "beam_bm6_s_drc_body.njm", "damfly_bm6_s_drc_body.njm", "damgrd_bm6_s_drc_body.njm", "deadg_bm6_s_drc_body.njm",
+    "deads_bm6_s_drc_body.njm", "fly_bm6_s_drc_body.njm", "joy_bm6_s_drc_body.njm", "land_bm6_s_drc_body.njm",
+    "lasfly_bm6_s_drc_body.njm", "lift_bm6_s_drc_body.njm", "wait_bm6_s_drc_body.njm", "walk_bm6_s_drc_body.njm",
     NULL,
 };
 BmlResourceDescriptor bm_ene_nanodrago_resource_descriptor = {
-    (const char *)lbl_8043C8A8, bm_ene_nanodrago_model_names, bm_ene_nanodrago_motion_names, 1, 12
+    "bm_ene_nanodrago.bml", bm_ene_nanodrago_model_names, bm_ene_nanodrago_motion_names, 1, 12
 };
 TObjMotionAction nanodrago_action_table[12] = {
     {2, 0, 10, 0.8f, 0},
@@ -230,6 +196,8 @@ CollisionBody nano_drago_bodies[2] = {
     {{0.0f, 15.0f, 0.0f}, 15.0f, 0.0f, 0, 0x8001, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 15.0f, 0.0f}, 12.0f, 0.0f, 0, 0xA000002, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
+
+const char *nano_drago_name = "TObjEneNanoDrago";
 
 // Deferred code generation emits these methods in address order.
 void TObjEneNanoDrago::vfunc_61() {  }
@@ -293,8 +261,6 @@ TObjEneNanoDrago::~TObjEneNanoDrago() {
     free_collision_body_parts(this);
 }
 void TObjEneNanoDrago::load_resources() {
-    NanoDragoAnimationBinding binding;
-
     u8 *storage;
     BmlModelEntry *modelEntries;
     u8 *resource;
@@ -309,8 +275,7 @@ void TObjEneNanoDrago::load_resources() {
     lbl_805D524C = dispatch_shared_handler_b__6TLobbyFl(0x1A);
     lbl_805D5250 = register_object__6TLobbyFl(0x1A);
     lbl_805D5254 = dispatch_shared_handler_a__6TLobbyFl(0x1A);
-    binding = nano_drago_anim_binding;
-    binding.motions = nano_drago_entry_params_resource->motions;
+    NanoDragoAnimationBinding binding = { nano_drago_entry_params_resource->motions, nanodrago_action_table, 1, 0xC0000 };
     modelEntries = nano_drago_entry_params_resource->models;
     TLobby::spawn_npc_enemy((s16)(0x22), modelEntries[0].model, (NJS_TEXLIST *)modelEntries[0].m_c, &binding, (f32)((f32) (15.0f)), (f32)((f32) (0.0f)));
 }
@@ -566,7 +531,7 @@ void TObjEneNanoDrago::update_circling_state() {
             Vec d = *(Vec *)(target + 0x38);
             subtract_vector(&d, (Vec *)&position);
             if (xz_length_squared(&d) <= 160000.0f &&
-                angle_difference_abs(-(s32)(lbl_8043C900[0] * atan2_float(d.z, d.x)) + 0x4000, rotation_y) < 0xAAA) {
+                angle_difference_abs(-(s32)(lbl_8043C900 * atan2_float(d.z, d.x)) + 0x4000, rotation_y) < 0xAAA) {
                 s32 next;
                 if (hp <= hpmax / 4) {
                     next = 10;
@@ -1169,7 +1134,7 @@ void TObjEneNanoDrago::add_target_in_front_arc(TObjChara *candidate) {
     if (!(((v.x * v.x) + (v.z * v.z)) > 160000.0f))
     {
       dx = v.x;
-      heading = (-((s32) (lbl_8043C900[0] * atan2_float(v.z, dx)))) + 0x4000;
+      heading = (-((s32) (lbl_8043C900 * atan2_float(v.z, dx)))) + 0x4000;
       if (angle_difference_abs(heading, rotation_y) <= 0xAAA)
       {
         s16 id = get_entity_id(candidate);
@@ -1215,6 +1180,9 @@ void TObjEneNanoDrago::update_attack_parameters() {
 
 #pragma push
 #pragma opt_common_subs off
+// The probe step and the zeroed offset find_open_direction rotates around the drago.
+const Vec lbl_8043C8E4 = { 200.0f, 0.0f, 0.0f };
+const Vec find_open_direction_zero_vec = { 0.0f, 0.0f, 0.0f };
 void TObjEneNanoDrago::find_open_direction(Vec *direction) {
     s32 ang;
     s32 best;
@@ -1223,7 +1191,7 @@ void TObjEneNanoDrago::find_open_direction(Vec *direction) {
     f32 bestv;
     f32 d;
     CsnHit *h;
-    ang = (s32)(lbl_8043C900[0] * atan2_float(direction->x, direction->z));
+    ang = (s32)(lbl_8043C900 * atan2_float(direction->x, direction->z));
     bestv = 0.0f;
     best = ang;
     push_matrix_from(&identity_matrix);

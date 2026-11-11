@@ -4,19 +4,21 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct Vec;
+
 class TItemList : public TObject {
 public:
+    TItemList(TObject *parent);
     virtual ~TItemList();
 public:
     static s32 is_item_valid(s32 arg0);
-    void *dt(s16 arg1);
-    void *init_items();
-    void *init_array();
     static void *create_node(void *arg0, void *arg1, void *arg2, s8 arg3);
     int copy_item_data();
     void lookup_entry_by_count(s32 arg1);
     u8 get_item_count();
     void *run_item_count_update();
+
+    u32 pad_1C;
 };
 
 class TItemList;
@@ -24,9 +26,13 @@ extern "C" {
 void TItemList__sub_801D59DC(void *p);
 void TItemList__sub_801D5A0C(s32 *arg0);
 void TItemList__sub_801D5A64(void *p);
-void *TItemList__sub_801D5B10(void *arg0, s16 arg1);
-u8 *TItemList__sub_801D5CF8(u8 *arg0);
-void *__dt__9TItemListFPvs(void *arg0, s16 arg1);
+void TItemList__sub_801D5804(s32 *arg0);
+void TItemList__sub_801D5838(void *p);
+int TItemList__sub_801D5844(void *p);
+void TItemList__sub_801D58C8(void *p);
+void TItemList__sub_801D59A0(TItemList *item_list, s32 arg1);
+void copy_position__9TItemListFPv(void *p, const Vec *v);
+void *get_ptr_0x44__9TItemListFPv(void *p);
 }
 void clear_placement_search_slot(TItemList *arg0, s32 arg1);
 extern "C" {
@@ -58,15 +64,5 @@ extern u8 *player_item_collect_cursor;
 extern s32 owned_item_export_cursor;
 extern s32 inventory_update_field_d8_key;
 extern s32 inventory_search_item_data;
-
-extern "C" {
-void *reset_position__9TItemListFPv(void *a0);
-}
-
-// --- C functions defined in TItemList.cpp ---
-extern "C" {
-void *TItemList__sub_801D5B10(void *item_list, s16 arg1);
-}
-// --- end of C functions
 
 #endif

@@ -5,11 +5,10 @@
 
 class TUnk_804F0C08 : public TItemEffPG {
 public:
+    TUnk_804F0C08(TObject *parent, S_8035016C *params, s32 count);
     virtual ~TUnk_804F0C08();
-    void *initialize(void *, void *, void *);
-    void *destroy(s16);
     virtual s32 vfunc_7();
-    u8 unk_D4[0x4];
+    s32 pad_D4; // vfunc_7 counts it down and fails at 0
 };
 typedef char TUnk_804F0C08_size[sizeof(TUnk_804F0C08) == 0xD8 ? 1 : -1];
 

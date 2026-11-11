@@ -2,6 +2,7 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/hud/TRaderMapCore_801FB964.h"
 
 struct RecoveredGlobal_8019A9B8_lbl_80446184 {
     s32 value;
@@ -57,6 +58,36 @@ void TRaderMapCore::load_frame_texture() {
     }
     (*(s32 *)&TRaderMapCore__frame_model_resource) = var_r0;
     (*(u8 * *)&TRaderMapCore__data_805D5F4C) = load_gvm_texture_file((s32) &lbl_8044A7B8.value);
+}
+
+}
+
+extern "C" {
+
+s32 get_bml_model(s32);
+void __dl__7TObjectFPv(void *);
+void __dt__7TObjectFv(void *, int);
+
+    extern const float TRaderMapCore__data_805DC528;
+    extern const float TRaderMapCore__data_805DC534;
+void TRaderMapCore::reset() { *(float *)&this->m_prev = TRaderMapCore__data_805DC528; *(float *)&this->m_flags = TRaderMapCore__data_805DC528; *(float *)&this->m_name = TRaderMapCore__data_805DC528; *(int *)&this->m_next = 0; *(float *)&this->m_up = TRaderMapCore__data_805DC534; *(short *)&this->m_down = 0; *(short*)((char*)this + 0x16) = -1; *(float *)&this->texlist = TRaderMapCore__data_805DC534; *(float *)&this->m_20 = TRaderMapCore__data_805DC534; *(float *)&this->entity_id = TRaderMapCore__data_805DC534; *(float*)((char*)this + 0x18) = TRaderMapCore__data_805DC534; }
+
+
+void TRaderMapCore::init_map_ptr() {
+    get_bml_model(TRaderMapCore__frame_model_resource);
+}
+
+extern s32 lbl_804C88A8[];
+
+void *__dt__13TUnk_804C88A8Fv(void *arg0, s16 arg1) {
+    if (arg0 != NULL) {
+        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804C88A8;
+        __dt__7TObjectFv(arg0, 0);
+        if (arg1 > 0) {
+            __dl__7TObjectFPv(arg0);
+        }
+    }
+    return arg0;
 }
 
 }

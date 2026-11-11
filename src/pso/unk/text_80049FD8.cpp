@@ -8,13 +8,18 @@
 
 // Throws three debris chips from the pillar's position.
 void fn_80049FD8(TObjVoloptPillar *pillar) {
-    TObjChipParams params = volopt_pillar_chip_params;
-    params.pos[0] = pillar->position.x;
-    params.pos[1] = pillar->position.y;
-    params.pos[2] = pillar->position.z;
-    params.model = boss3_volopt_resources->models[0xE].model;
-    params.textures = boss3_volopt_resources->models[0xE].m_c;
-    new TObjChip(tl_05, &params);
-    new TObjChip(tl_05, &params);
-    new TObjChip(tl_05, &params);
+    const TObjChipParams params = {
+        {0.5f, 0.03f, 0.25f},
+        {pillar->position.x, pillar->position.y, pillar->position.z},
+        {4.5f, -3.0f, 4.5f},
+        {0x400, 0x100, 0x400},
+        {4, 60},
+        {0.0f, 1.0f},
+        boss3_volopt_resources->models[0xE].model,
+        boss3_volopt_resources->models[0xE].m_c,
+        2,
+    };
+    new TObjChip(tl_05, (TObjChipParams *)&params);
+    new TObjChip(tl_05, (TObjChipParams *)&params);
+    new TObjChip(tl_05, (TObjChipParams *)&params);
 }

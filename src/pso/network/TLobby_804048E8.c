@@ -247,6 +247,5 @@ s32 init_net_list(s16 count1, s16 count2) {
     return (s32)p;
 }
 
-ArpState lbl_805C1AB0;
 u8 lbl_805C18B0[0x200];
 NetThreadState lbl_805C18A0;

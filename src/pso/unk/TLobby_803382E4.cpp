@@ -7,6 +7,7 @@
 #include "pso/unk/text_803E2D70.h"
 
 #include "pso/unk/TLobby.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
@@ -29,9 +30,8 @@ struct A_80338608 { u8 pad[0x14]; u32 col; };
 struct B_80338608 { u8 pad[0xC]; u32 col; };
 
 extern "C" {
-s32 set_stream_state__6TLobbyFi(void *, int);
+s32 set_stream_state__6TLobbyFi(const char *, int);
 s32 load_gvm_texture_archive(int, void *);
-extern s32 lbl_80477BC4[];
 s32 lobby_request_flags;
 void TCameraCtrl__sub_80068EF0(void);
 void draw_projected_quads__15TObjBoss2TunnelFPvi(void *, s32);
@@ -49,17 +49,14 @@ u32 __cvt_fp2unsigned(f32);
 void set_perspective_projection_from_fov(s32, f32, f32, f32, f32, f32);
 extern const f32 lbl_805DF9AC;
 extern const f32 lbl_805DF9B0;
-extern "C" u8 lbl_80477B90[];
-extern "C" u8 lbl_80477BA0[];
-extern "C" u8 lbl_80477BB4[];
 u8 *load_gvm_texture_file(s32 arg0);
 s32 release_texture_list(s32 *);
 int free_if_valid__10TObjPlayerFl(void*);
 
-void *lbl_804EF1B8[9] = {
-    (void *)&lbl_80477B90, (void *)0x0, (void *)0x0, (void *)&lbl_80477BA0,
-    (void *)0x0, (void *)0x0, (void *)&lbl_80477BB4, (void *)0x0,
-    (void *)0x0,
+NJS_TEXNAME lbl_804EF1B8[3] = {
+    { (void *)"f256_nowloading", 0, 0 },
+    { (void *)"f256_nowloading_b", 0, 0 },
+    { (void *)"f064_mahourot", 0, 0 },
 };
 __declspec(section ".data") void *lbl_804EF1DC[2] = {
     (void *)&lbl_804EF1B8, (void *)0x3,
@@ -171,7 +168,7 @@ void TLobby::load_now_loading_texture() {
     if (!(lobby_request_flags & 2)) {
         temp_r31 = (s32)TQuestVmDownLoadServer::alloc(0x11000);
         temp_r3 = (s32)TQuestVmDownLoadServer::alloc(0x2000);
-        set_stream_state__6TLobbyFi(lbl_80477BC4, temp_r3);
+        set_stream_state__6TLobbyFi("NowLoading.prs", temp_r3);
         prs_decompress_buffer((temp_r3), (temp_r31));
         load_gvm_texture_archive(temp_r31, lbl_804EF1DC);
         TAdSinglePlyChrSelectGC::safe_free(temp_r3);
@@ -271,5 +268,4 @@ void TLobby::update_pulse_colors(s32 arg0) {
 void TWindowSubStatusDisp__sub_803386F0(void) { free_if_valid__10TObjPlayerFl((void*)info_icon_texture); }
 }
 
-    extern unsigned char lbl_80477BD4[];
-void load_info_icon(void) { info_icon_texture = (int)load_gvm_texture_file((s32)lbl_80477BD4); }
+void load_info_icon(void) { info_icon_texture = (int)load_gvm_texture_file((s32)"InfoIcon.gvm"); }

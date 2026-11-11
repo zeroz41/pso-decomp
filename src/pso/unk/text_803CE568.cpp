@@ -40,9 +40,6 @@ char *const volatile lbl_805E0DA0 = "\nCVFS/GC Ver.2.24 Build:Jun 13 2002 19:00:
 s8 fs_default_device_name[12];
 Ent_803CF958 cvfs_entry_table[32];
 CvFsHandle si_type_info_table[40];
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 extern const char lbl_805E0DA4[4];
 char *strcpy(char *, const char *);
 int sprintf(char *, const char *, ...);
@@ -440,7 +437,6 @@ s32 cvFsGetFileSize(char *path) {
     cvfs_error("cvFsGetFileSize #4:vtbl error");
     return 0;
 }
-#pragma pop
 
 s32 TLobby::cv_fs_get_stat() {
     u8 *arg0 = (u8 *)this;
@@ -587,9 +583,6 @@ void TLobby::cv_fs_close() {
         }
     }
 }
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 CvFsHandle *cvFsOpen(char *path, s32 mode, s32 arg) {
     char dev[300];
     char file[300];
@@ -636,10 +629,7 @@ CvFsHandle *cvFsOpen(char *path, s32 mode, s32 arg) {
     }
     return h;
 }
-#pragma pop
 typedef s32 (*RecoveredCallback_4873a87e26d6)(s32, const char *, s32);
-#pragma dont_inline off
-#pragma inline_depth(4)
 inline s32 find_803CF958(char *s, s32 len) {
     Ent_803CF958 *p;
     s32 i;

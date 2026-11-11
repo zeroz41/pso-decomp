@@ -202,8 +202,8 @@ void TOMineTrap::set_triggered() {
 }
 
 void TOMineTrap::run_task() {
-    TObjChara *attacker;
     s32 i;
+    TObjChara *attacker;
     TObjPlayer *p;
     u16 id;
 

@@ -93,4 +93,10 @@ struct TObjEneRecon : public TObjEneDD_ST {
 };
 
 typedef char TObjEneRecon_size[sizeof(TObjEneRecon) == 0x4E4 ? 1 : -1];
+
+// --- C functions defined in pso/unk/text_8031EF14.cpp ---
+extern "C" {
+void TObjEneRecobox__sub_8031F1A8(TObjEneRecon *recon);
+}
+// --- end of C functions
 #endif

@@ -86,16 +86,7 @@ typedef struct A16_8011E3E8 { s32 a; s32 b; s32 c; s32 d; } A16_8011E3E8;
 
 typedef struct Obj_8011E3E8 { u8 pad[0xF0]; s32 f0; } Obj_8011E3E8;
 
-struct Vec_8011EAB8 { f32 x, y, z; };
 
-struct Params_8011EAB8 {
-    Vec_8011EAB8 pos;
-    u8 pad0C[0x28 - 0x0C];
-    f32 f28;
-    u8 pad2C[0x34 - 0x2C];
-    s32 f34;
-    s32 f38;
-};
 
 struct WeaponArgb { f32 alpha, red, green, blue; };
 
@@ -120,7 +111,6 @@ extern A12_8011E3E8 lbl_8043E838[];
 extern A16_8011E3E8 lbl_8043E844[];
 s32 is_locally_controlled__10TObjPlayerFPv(s32);
 void create__10TItemEffPGFPvPvPv(void *arg0, void *parent, void *item);
-void create__10TItemEffPGFPvPv(s32, Params_8011EAB8 *);
 struct VBase_8011E2AC { char pad[0x18]; };
 
 struct VObj_8011E2AC : VBase_8011E2AC {
@@ -557,7 +547,7 @@ u32 pack_weapon_trail_color(void *weapon) {
 }
 
 void TUnk_804F1320::spawn_pg_effect(void *arg1, s32 item, f32 farg0) {
-    Params_8011EAB8 prm;
+    S_8035016C prm;
     if (item < 0 || item >= 200) {
         return;
     }
@@ -565,14 +555,14 @@ void TUnk_804F1320::spawn_pg_effect(void *arg1, s32 item, f32 farg0) {
         return;
     }
     remap_extra_attack_type();
-    ((TItemEffPG *)(&prm))->init_params();
+    prm.init_params();
     ((TObjPlayer *)((u8 *)this))->fill_status_info(&prm);
-    VecCopy((Vec *)&prm.pos, (const Vec *)((Vec_8011EAB8 *)arg1));
-    prm.f28 = farg0;
-    prm.f34 = (s32)this->second_model;
-    prm.f38 = *(s32 *)(((u8 *)this) + 0x24);
+    VecCopy(&prm.position, (const Vec *)arg1);
+    prm.pad_28 = farg0;
+    prm.pad_34 = (s32)this->second_model;
+    prm.pad_38 = *(s32 *)(((u8 *)this) + 0x24);
     if (is_locally_controlled__10TObjPlayerFPv(*(s32 *)(((u8 *)this) + 0xF0)) != 0) {
-        create__10TItemEffPGFPvPv((s32)tl_05, &prm);
+        TItemEffPG::create((void *)tl_05, &prm);
     } else {
         create__10TItemEffPGFPvPvPv((void *)tl_05, &prm, (void *)item);
     }

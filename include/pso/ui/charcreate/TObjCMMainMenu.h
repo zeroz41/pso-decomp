@@ -1,6 +1,7 @@
 #ifndef PSO_UI_CHARCREATE_TOBJCMMAINMENU_H
 #define PSO_UI_CHARCREATE_TOBJCMMAINMENU_H
 #include "pso/system/task/TObject.h"
+#include "pso/ui/charcreate/CharacterAppearance.h"
 #include <stddef.h>
 
 // The id of the entry selected in the character creation main menu.
@@ -8,6 +9,7 @@ extern s32 creation_menu_selected_entry;
 
 class TObjCMMainMenu : public TObject {
 public:
+    TObjCMMainMenu(TObject *parent);
     virtual ~TObjCMMainMenu();
     void update_menu_reveal();
     void sub_80297B18();
@@ -21,7 +23,8 @@ public:
     void sub_802984FC();
     void sub_802981BC();
     void sub_80297EF4();
-    void* character;
+    void sub_802972C4();
+    CharacterAppearanceFields *character;
     s32 mode;
     s32* entries;
     s32 entry_count;
@@ -57,8 +60,7 @@ public:
     void update_submenu_fade();
     void update_slide_offset();
     static void update_random_proportion_action(void * _w0);
-    void *create();
-    void *destroy(s16 arg1);
+    static TObjCMMainMenu *create(TObject *parent);
     static void clear_task_state();
     static f32 get_scale();
     static f32 get_proportion();

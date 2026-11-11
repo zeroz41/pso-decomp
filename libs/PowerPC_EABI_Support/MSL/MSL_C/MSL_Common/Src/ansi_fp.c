@@ -1,6 +1,4 @@
 #pragma defer_codegen on
-#define __ctype_map lbl_804F5800
-#define __lower_map lbl_804F5900
 #define __count_trailing_zerol ansi_fp___count_trailing_zerol
 
 #include "MSL_C/ansi_fp.h"

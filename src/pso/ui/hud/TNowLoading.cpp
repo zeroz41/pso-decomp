@@ -29,7 +29,7 @@ typedef struct Cam_8001D3A8 {
 } Cam_8001D3A8;
 
 typedef struct TNowLoading_8001D3A8 {
-    s32 unk0;
+    const char *unk0; // TObject::m_name
     u8 pad4[0x18 - 0x4];
     void *vtable;
     void *children[4];
@@ -47,7 +47,7 @@ void *__nw__7TObjectFUl(u32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 TAdLoadNetworkGC__ct(void *, void *, void *);
 extern s32 __vt__11TNowLoading[];
-extern s32 TNowLoading__class_name;
+const char *TNowLoading__class_name = "TNowLoading";
 TNowLoading_8001D3A8 *TNowLoading__ct(TNowLoading_8001D3A8 *arg0, void *arg1, Vec_8001D3A8 *arg2);
 void DCFlushRange(void *, u32);
 void TNowLoading__sub_8001D4D0(void);

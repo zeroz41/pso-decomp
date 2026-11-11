@@ -572,7 +572,7 @@ s16 tcp_send(s32 a, void (*notify)(s16, s16), char bufnum, struct send_buffs *sb
     s16 r;
     s16 n;
     s16 ret;
-    s16 tcp_start_send(s32, NetPacket *, void (*)(s16, s16), u8); /* declared here with an s32 handle and an s16 return; the definition takes s16 and returns s32 */
+    s16 tcp_start_send(s32, NetPacket *, void (*)(s16, s16), u8); /* declared here with an s32 handle; the definition takes an s16 handle */
     if (bufnum > 3) {
         return -2;
     }

@@ -1,3 +1,4 @@
+// ---- pso/unk/text_80211B10
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
@@ -49,4 +50,205 @@ s32 TPlayerBattleCtrl4P::fn_80211B10(s32 id) {
     return result;
 }
 #pragma pop
+}
+
+// ---- pso/unk/TLobby_80211C1C
+#include "types.h"
+#include "pso/unk/TLobby.h"
+
+extern "C" {
+
+int get_selected_quest_id__16TQuestListOnlineFv(void*);
+
+int TLobby::get_selected_quest_id() { return get_selected_quest_id__16TQuestListOnlineFv(this); }
+
+}
+
+// ---- pso/unk/text_80211C3C
+#include "types.h"
+#include "pso/unk/text_80211C3C.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/quest/TQuestListOnline.h"
+
+extern "C" {
+extern s32 TLobby__designated_client_id;
+extern s32 local_client_id;
+s32 THunterGuildSeqOffline__sub_80213458(void);
+}
+
+s32 TLobby__sub_80211C3C(void) {
+    if (get_main_phase() != 0xF) {
+        return 3;
+    }
+    if (TLobby__designated_client_id == local_client_id) {
+        switch (TQuestListOnline::get_list_state()) {
+        case 0:
+            return 3;
+        case 1:
+            return 1;
+        case 2:
+            return 2;
+        default:
+            return 0;
+        }
+    }
+    switch (THunterGuildSeqOffline__sub_80213458()) {
+    case -1:
+        return 3;
+    default:
+        return 0;
+    }
+}
+
+// ---- pso/unk/TLobby_80211CE0
+#include "types.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/unk/TLobby.h"
+#include "pso/unk/TLobby_80211F0C.h"
+
+extern "C" {
+
+s32 create__22THunterGuildSeqOfflineFPv(s32);
+
+s32 TLobby::handle_main_phase(s32 arg0) {
+    if (get_main_phase() == 0xE) {
+        return create__22THunterGuildSeqOfflineFPv(arg0);
+    }
+    if (get_main_phase() == 0xF) {
+        if ((s32) local_client_id == (s32) TLobby__designated_client_id) {
+            return (s32)TLobby::create_tl05_object((void *)arg0);
+        }
+        return (s32)create_lobby_object_05((void *)arg0);
+    }
+    return 0;
+}
+
+}
+
+// ---- pso/unk/text_80211D58
+#include "types.h"
+#include "pso/player/TPlayerBattleCtrl4P.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/unk/text_80211D58.h"
+#include "pso/ui/city/THunterGuildWarning.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+extern "C" {
+s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
+s32 TWindowShortListCtrl__check_controller_button(void *, s32);
+s32 get_map_id__13TRaderMapCoreFv();
+s32 is_active__19THunterGuildWarningFv();
+s32 THunterGuildSeqOffline__sub_80211FEC(s32);
+s32 THunterGuildSeqOffline__sub_80212000(s32);
+s32 THunterGuildSeqOffline__sub_80212060(s32);
+extern u8 controller_input_state[][0x50];
+extern s32 lbl_805D55C0;
+s32 TLobby__sub_80211D58(s32 arg0) {
+    s32 kind;
+    s32 player;
+    if (get_main_phase() == 14) {
+        if (TRaderMapCore::is_not_split_screen() == 1) {
+            if (get_game_play_mode() == 0) {
+                return 1;
+            }
+            player = get_nth_view_player_id__11TCameraCtrlFl(0);
+            if ((u16)player != arg0) {
+                return 1;
+            }
+            if (is_active__19THunterGuildWarningFv() != 0) {
+                return 1;
+            }
+            kind = TPlayerBattleCtrl4P::fn_80211B10(player);
+            if (kind != 0) {
+                if (get_player_by_client_id((u16)player) != NULL) {
+                    if (TWindowShortListCtrl__check_controller_button(&controller_input_state[get_map_id__13TRaderMapCoreFv()][0x20], 4) != 0 &&
+                        is_active__19THunterGuildWarningFv() == 0) {
+                        switch (kind) {
+                        case 1:
+                        case 2:
+                            THunterGuildWarning::create_instance(0);
+                            break;
+                        case 3:
+                            THunterGuildWarning::create_instance(1);
+                            break;
+                        }
+                    }
+                }
+                return 1;
+            }
+        }
+        return THunterGuildSeqOffline__sub_80212060(arg0);
+    }
+    if (get_main_phase() == 15) {
+        if (lbl_805D55C0 != 0) {
+            return 1;
+        }
+        if (THunterGuildSeqOffline__sub_80212000(arg0) != 0) {
+            return 1;
+        }
+        return THunterGuildSeqOffline__sub_80211FEC(arg0) != 0 ? 1 : 0;
+    }
+    return 0;
+}
+
+}
+
+// ---- pso/unk/TLobby_80211F0C
+#include "types.h"
+#include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
+#include "pso/ui/city/THunterGuildWarning.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/unk/TLobby_80211F0C.h"
+#include "pso/unk/TLobby.h"
+#include "pso/ui/city/THunterGuildSeqOffline.h"
+#include "pso/quest/TQuestListOnline.h"
+
+void update_hunter_guild_phase(void) {
+    if (get_main_phase() == 0xE) {
+        THunterGuildWarning__sub_80211700();
+        THunterGuildSeqOffline::clear_instance_table();
+    }
+    if (get_main_phase() == 0xF) {
+        clear_slots__22THunterGuildSeqOfflineFv();
+        clear_slot_flags__22THunterGuildSeqOfflineFv();
+        TQuestListOnline::release_resources();
+    }
+}
+extern "C" {
+
+void THunterGuildSeqOffline__sub_8021339C(void);
+
+void TLobby::update_guild_or_quest_phase() {
+    if (get_main_phase() == 0xE) {
+        THunterGuildSeqOffline__sub_8021339C();
+        THunterGuildWarning__sub_8021170C();
+    }
+    if (get_main_phase() == 0xF) {
+        TQuestListOnline::init_download_buffers();
+        zero_four_slots__22THunterGuildSeqOfflineFv();
+        THunterGuildSeqOffline__sub_80213CA4();
+    }
+}
+
+void *__nw__7TObjectFUl(int);
+void *THunterGuildSeqOnline_Client__ct(void *, void *, void *);
+extern void *tl_05;
+
+void *create_lobby_object_05(void *arg0) {
+    void *o = __nw__7TObjectFUl(0x40);
+    if (o != NULL) {
+        o = THunterGuildSeqOnline_Client__ct(o, tl_05, arg0);
+    }
+    return o;
+}
+
+void *THunterGuildSeqOffline__sub_80214B3C(void *, void *, void *);
+
+void *TLobby::create_tl05_object(void *arg0) {
+    void *o = __nw__7TObjectFUl(0x44);
+    if (o != NULL) {
+        o = THunterGuildSeqOffline__sub_80214B3C(o, tl_05, arg0);
+    }
+    return o;
+}
 }

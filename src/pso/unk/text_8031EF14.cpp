@@ -1,6 +1,10 @@
 #include "types.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/object/TObjChip.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_80087278.h"
 struct Obj_8031EF14 { u8 pad[0x410]; s32 count; u8 pad2[4]; u16 ids[6]; };
 
 struct Obj_8031F0F0 { u8 pad[0x410]; s32 count; u8 pad2[4]; u16 ids[6]; };
@@ -71,6 +75,32 @@ s32 TObjEneRecon::is_below_child_limit(u16 arg1) {
         return n < 4;
     }
     return n < 2;
+}
+
+extern BmlResource *TObjEneRecobox__static_instance;
+// Called from TObjEneRecon::handle_death_state: breaks the Recon into three
+// debris chips (models 3-5 of the Recobox archive, textures of model 3).
+void TObjEneRecobox__sub_8031F1A8(TObjEneRecon *recon) {
+    const TObjChipParams chip0 = {
+        {0.5f, 0.07f, 0.26f}, {recon->position.x, recon->position.y, recon->position.z},
+        {5.0f, 5.0f, 5.0f}, {0x400, 0x100, 0x400}, {5, 50}, {recon->position.y, 0.6f},
+        TObjEneRecobox__static_instance->models[3].model, TObjEneRecobox__static_instance->models[3].m_c, 20,
+    };
+    const TObjChipParams chip1 = {
+        {0.5f, 0.07f, 0.26f}, {recon->position.x, recon->position.y, recon->position.z},
+        {4.0f, 4.5f, 4.0f}, {0x200, 0x100, 0x200}, {6, 50}, {recon->position.y, 0.5f},
+        TObjEneRecobox__static_instance->models[4].model, TObjEneRecobox__static_instance->models[3].m_c, 20,
+    };
+    const TObjChipParams chip2 = {
+        {0.5f, 0.07f, 0.26f}, {recon->position.x, recon->position.y, recon->position.z},
+        {4.0f, 4.5f, 4.0f}, {0x200, 0x100, 0x200}, {6, 50}, {recon->position.y, 0.5f},
+        TObjEneRecobox__static_instance->models[5].model, TObjEneRecobox__static_instance->models[3].m_c, 20,
+    };
+    spawn_particle_effect_with_flags(&recon->position, 0x45, 0x40);
+    spawn_particle_effect_with_flags(&recon->position, 0x46, 0x40);
+    new TObjChip(tl_05, (TObjChipParams *)&chip0);
+    new TObjChip(tl_05, (TObjChipParams *)&chip1);
+    new TObjChip(tl_05, (TObjChipParams *)&chip2);
 }
 
 }

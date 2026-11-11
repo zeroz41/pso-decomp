@@ -5,50 +5,35 @@
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 
-struct RecoveredGlobal_8028D9B4_lbl_8051C094 { s32 value; u8 remaining[0x50]; };
-typedef char RecoveredGlobal_8028D9B4_lbl_8051C094_size[sizeof(RecoveredGlobal_8028D9B4_lbl_8051C094) == 0x54 ? 1 : -1];
-
-struct RecoveredGlobal_8028D9A8_lbl_8051C094 {
-    s32 value;
-    u8 remaining[0x50];
-};
-
 struct RecoveredGlobal_8028DA0C_lbl_8051C07C {
     s32 value;
     u8 remaining[0x14];
 };
 
-struct RecoveredGlobal_8028D9F8_lbl_8051C094 {
-    s32 value;
-    u8 remaining[0x50];
-};
-
 extern "C" {
 u8 * copy_player_visual_record(void *, void *);
-extern RecoveredGlobal_8028D9B4_lbl_8051C094 character_creation_visual_record;
+extern CharacterAppearanceFields character_creation_visual_record;
 s32 strncpy(void *, void *, int);
 extern RecoveredGlobal_8028DA0C_lbl_8051C07C character_creation_name_buffer;
 u8 *get_class_appearance_preset(s32 arg0);
 s32 TAdEndText__sub_8001B3EC(s32);
 
-typedef char RecoveredGlobal_8028D9A8_lbl_8051C094_size[sizeof(RecoveredGlobal_8028D9A8_lbl_8051C094) == 0x54 ? 1 : -1];
-s32 *TObjCMMainMenu__sub_8028D9A8(void) {
-    return &(*(RecoveredGlobal_8028D9A8_lbl_8051C094 *)&character_creation_visual_record).value;
+CharacterAppearanceFields *TObjCMMainMenu__sub_8028D9A8(void) {
+    return &character_creation_visual_record;
 }
 
-void TObjCMMainMenu__sub_8028D9B4(u8 *arg0) {
-    if ((s8) *(u8 *)((s8 *)arg0 + 0x32) & 0xA) {
+void TObjCMMainMenu__sub_8028D9B4(CharacterAppearanceFields *record) {
+    if (record->flags & 0xA) {
         TObjCMMainMenu__sub_8028D9F8();
         return;
     }
-    copy_player_visual_record(&character_creation_visual_record.value, arg0);
+    copy_player_visual_record(&character_creation_visual_record, record);
 }
 
 typedef char RecoveredGlobal_8028DA0C_lbl_8051C07C_size[sizeof(RecoveredGlobal_8028DA0C_lbl_8051C07C) == 0x18 ? 1 : -1];
 
-typedef char RecoveredGlobal_8028D9F8_lbl_8051C094_size[sizeof(RecoveredGlobal_8028D9F8_lbl_8051C094) == 0x54 ? 1 : -1];
 void TObjCMMainMenu__sub_8028D9F8(void) {
-    *(s8 *)((s8 *)(&(*(RecoveredGlobal_8028D9F8_lbl_8051C094 *)&character_creation_visual_record).value) + 0x31) = -1;
+    character_creation_visual_record.classId = -1;
 }
 
 void TObjCMMainMenu::copy_char_name() {

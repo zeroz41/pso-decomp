@@ -19,6 +19,7 @@
 #include "pso/unk/text_803D8DE0.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/system/TLanguage_801E4874.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803DA798.h"
@@ -50,6 +51,18 @@ const FootStampHeightScale lbl_80470888[12] = {
 const char *TPlayerFootStamp::class_name = "TPlayerFootStamp";
 
 extern u32 player_footstamp_texture_gvm_handle;
+
+void TPlayerFootStamp::sub_802B0204(s32 num) {
+    if (num < 0 || num > 1) {
+        texture = 0;
+    } else {
+        texture = num;
+    }
+}
+
+void load_player_footstamp(void) {
+    player_footstamp_texture_gvm_handle = (u32)load_gvm_texture_file((s32)"player_footstamp.GVM");
+}
 
 void TPlayerFootStamp::free_instance() {
     if ((u32) player_footstamp_texture_gvm_handle != 0U) {

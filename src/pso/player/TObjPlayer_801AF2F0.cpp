@@ -59,6 +59,8 @@
 
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/player/PhotonBlastGauge.h"
+#include "pso/item/TItemList.h"
+#include "pso/player/TPlyItem.h"
 
 #define M0(x) virtual void m##x();
 struct Base_801AF2F0 { char pad[0x18]; };
@@ -2350,7 +2352,7 @@ s32 fn_801C1F1C(s32);
 s32 TObjPlayer__sub_801C1F50(s32);
 s32 TObjPlayer__sub_801C2044(s32 *arg0);
 TItemData* TObjPlayer__sub_801C2058(DeathDropRecord*);
-void* init_c2098_return_self__10TObjPlayerFv(void*);
+void* __ct__12Unk_801C2068Fv(void*);
 void init_player_telepipe_record(void *);
 s16 TObjPlayer__sub_801C2114(void);
 u8 TObjPlayer__sub_801C212C(void *p);
@@ -2385,14 +2387,12 @@ s32 check_player_action_allowed();
 s32 TObjPlayer__sub_801D4368(void * a0 = 0);
 void TObjPlayer__sub_801D47EC(void *, s32, s32);
 s32 run_state_query__10TObjPlayerFi(s32, void *);
-s32 TObjPlayer__sub_801D49F4(s32, void *, s32, s32, void *);
+
 s32 use_item__6TLobbyFlll(s32, void *, s32, s32, void *);
 void TLobby__sub_801D4C28(s32, Pl_801B0B88 *, s32, s32);
 u32 find_first_inventory_entry__10TObjPlayerFi(int, void *);
 u32 set_mode_and_refresh_object__10TObjPlayerFPvi(s32, s8 *);
-u8 * TPlyItem__ct(void *, void *);
 s32 set_field_1c__10TObjPlayerFl(void *, void *);
-u8 * __ct__9TItemListFv(void *, void *);
 s32 draw_party_label__15TFontSmallLobbyFiUis(s32, s32, s32);
 s32 accumulate_damage_stats(s32, s32, s32);
 s32 TObjPlayer__sub_801D6D28(s32 *);
@@ -5754,9 +5754,10 @@ void TObjPlayer::apply_battle_level_reset(s32 level) {
 
     Unk_801B67C4 saved[9];
     s16 result;
+    s32 i;
 
     Unk_801B67C4 *e = saved;
-    for (s32 i = 0; i < 13; i++) {
+    for (i = 0; i < 13; i++) {
         TItem *item = get_equipped_item(i);
         if (item != NULL) {
             e->slot = item->get_attach_slot();
@@ -5776,8 +5777,8 @@ void TObjPlayer::apply_battle_level_reset(s32 level) {
     ((player_stats *)m_2b0)->stats.lck = base->lck;
     s32 row = get_ply_level_table_row(cls, 0);
     if (row != 0) {
-        player_stats *caps = get_class_stat_caps(cls);
-        for (s32 i = 0; i < level; i++) {
+        const player_stats *caps = get_class_stat_caps(cls);
+        for (i = 0; i < level; i++) {
             row += 0xC;
             add_stat_clamped(((TObjPlayer *)row)->get_char_class(), &((player_stats *)m_2b0)->stats.atp, caps->stats.atp);
             add_stat_clamped(((TObjPlayer *)row)->get_team_id(), &((player_stats *)m_2b0)->stats.mst, caps->stats.mst);
@@ -5822,15 +5823,16 @@ void TObjPlayer::apply_battle_level_reset(s32 level) {
 // Base stats of the class plus the growth of every level row up to `level`, each clamped to the class caps.
 void apply_class_level_growth(s8 cls, s32 level, stats *st) {
     s32 n;
+    s32 i;
     s32 row;
-    player_stats *caps;
+    const player_stats *caps;
 
     n = TObjPlayer::clamp_index_to_max(level);
     ((TObjPlayer *)st)->copy_stats(get_class_base_stats(cls));
     row = get_ply_level_table_row(cls, 0);
     if (row != 0) {
         caps = get_class_stat_caps(cls);
-        for (s32 i = 0; i < n; i++) {
+        for (i = 0; i < n; i++) {
             row += 0xC;
             TObjPlayer::add_stat_clamped(((TObjPlayer *)row)->get_char_class(), &st->atp, caps->stats.atp);
             TObjPlayer::add_stat_clamped(((TObjPlayer *)row)->get_team_id(), &st->mst, caps->stats.mst);
@@ -6366,26 +6368,12 @@ void bind_saved_inventory_equipment__10TObjPlayerFPvPvi(u8 *p, u8 *records, s32 
 }
 
 void TObjPlayer::create_inventory() {
-    u8 *temp_r3;
-    u8 *item_list;
     u8 *object;
-    u8 *var_r0;
-    u8 *var_r0_2;
     u8 *var_r0_3;
     if ((void *) this->inventory_objects == NULL) {
-        temp_r3 = (u8 *)(((u8 * (*)(s32))__nw__7TObjectFUl)(0x1CC));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(TPlyItem__ct(temp_r3, this));
-        }
-        this->inventory_objects = var_r0;
+        this->inventory_objects = new TPlyItem(this);
     }
-    item_list = (u8 *)(((u8 * (*)(s32))__nw__7TObjectFUl)(0x20));
-    var_r0_2 = item_list;
-    if (var_r0_2 != NULL) {
-        var_r0_2 = (u8 *)(__ct__9TItemListFv(item_list, this->inventory_objects));
-    }
-    *(void **)((s8 *)this->inventory_objects + 0x1C4) = var_r0_2;
+    ((TPlyItem *)this->inventory_objects)->pad_1C4 = new TItemList((TObject *)this->inventory_objects);
     object = (u8 *)(((u8 * (*)(s32))__nw__7TObjectFUl)(0x1C));
     var_r0_3 = object;
     if (var_r0_3 != NULL) {
@@ -6487,7 +6475,7 @@ void TObjPlayer::drop_items_on_death() {
     if (fields->inventory_owner==NULL || ((s32 (*)(TObjPlayer*))obj_isState3_324__9TObjCharaFv)(this)!=0 || is_script_controlled__10TObjPlayerFv(this)!=0) {
         return;
     }
-    __construct_array(records,init_c2098_return_self__10TObjPlayerFv,NULL,sizeof(DeathDropRecord),9);
+    __construct_array(records,__ct__12Unk_801C2068Fv,NULL,sizeof(DeathDropRecord),9);
     count=0;
     if (((s32 (*)(void))is_technique_ready__8TTecCtrlFv)()!=0) {
         if (((s32 (*)(TObjPlayer*))check_flag_01000000__10TObjPlayerFPv)(this)==0) {
@@ -6650,7 +6638,7 @@ s32 TObjPlayer::count_items_of_type(s8 arg1, s8 arg2, s8 arg3) {
 }
 
 void dispatch_input__10TObjPlayerFPvii(void *player, s32 arg1, s32 arg2) {
-    TObjPlayer__sub_801D49F4(*(s32 *)((s8 *)player + 0xD00), player, arg1, arg2, player);
+    TObjPlayer__sub_801D49F4(*(void **)((s8 *)player + 0xD00), (s32)player, (s32 *)arg1, arg2);
 }
 
 void handle_6xAC(void *arg0) {
@@ -6702,7 +6690,6 @@ void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b) {
 void *pickup_item__10TObjPlayerFP5TItem(u8 *player, u8 *arg1) {
     u32 sp8[5];
     s32 id;
-    void *o;
     void *list;
     s32 n;
     VObj_18_p72 *owner;
@@ -6727,22 +6714,14 @@ void *pickup_item__10TObjPlayerFP5TItem(u8 *player, u8 *arg1) {
     case 0:
     case 1:
     case 2:
-        o = ((void * (*)(u32))__nw__7TObjectFUl)(0x20);
-        if (o != NULL) {
-            o = ((void * (*)(void *, s32))__ct__9TItemListFv)(o, *(s32 *)((s8 *)(((TObjPlayer *)player)->inventory_objects) + 0x1C4));
-        }
-        list = o;
+        list = new TItemList(((TPlyItem *)((TObjPlayer *)player)->inventory_objects)->pad_1C4);
         break;
     case 3:
         if (TObjPlayer__sub_801C1AC8(arg1) != 0) {
             ((TItem *)arg1)->copy_to_item_data((TItemData *)&sp8);
             id = ((s32 (*)(void *, void *))set_mode_and_refresh_object__10TObjPlayerFPvi)(((TObjPlayer *)player)->inventory_objects, &sp8);
             if (id == 0) {
-                o = ((void * (*)(u32))__nw__7TObjectFUl)(0x20);
-                if (o != NULL) {
-                    o = ((void * (*)(void *, s32))__ct__9TItemListFv)(o, *(s32 *)((s8 *)(((TObjPlayer *)player)->inventory_objects) + 0x1C4));
-                }
-                list = o;
+                list = new TItemList(((TPlyItem *)((TObjPlayer *)player)->inventory_objects)->pad_1C4);
                 break;
             }
             n = ((TItem *)arg1)->get_amount();
@@ -6756,11 +6735,7 @@ void *pickup_item__10TObjPlayerFP5TItem(u8 *player, u8 *arg1) {
             ((TItem *)arg1)->destroy();
             return 0;
         }
-        o = ((void * (*)(u32))__nw__7TObjectFUl)(0x20);
-        if (o != NULL) {
-            o = ((void * (*)(void *, s32))__ct__9TItemListFv)(o, *(s32 *)((s8 *)(((TObjPlayer *)player)->inventory_objects) + 0x1C4));
-        }
-        list = o;
+        list = new TItemList(((TPlyItem *)((TObjPlayer *)player)->inventory_objects)->pad_1C4);
         break;
     }
     if (list != NULL) {

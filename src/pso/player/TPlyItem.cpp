@@ -22,7 +22,6 @@
 #include "pso/item/TUnk_804C4498.h"
 #include "pso/item/TUnk_804C4468.h"
 #include "pso/item/TUnk_804C4480.h"
-#include "pso/item/TItemList_801D57B0.h"
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -37,6 +36,7 @@ struct Shape_801D3C38 {
     u8 pad10[4];
     s32 f14;
     s32 mask;
+    u8 pad1C[0x10];
 };
 struct Body_801D3E20 { void *colliders; s32 count; Vec position; s32 facing; };
 struct Actor_801D3E20 {
@@ -64,15 +64,9 @@ s32 TAdPlayerLoadGC__sub_801E1B50(s32);
 // The callers sign-extend the result (extsb), the header's member returns u8.
 s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv();
 void *refresh_actor_body_spheres(Body_801D3E20, Body_801D3E20);
-extern Shape_801D3C38 placement_search_collision_body;
-extern Body_801D3E20 placement_search_collision_probe;
-extern const f32 lbl_805DC3C8;
-extern const f32 lbl_805DC3CC;
-extern const f32 lbl_805DC3D0;
 extern void *tl_07;
 void *find_placement_obstruction(void *self, Body_801D3E20 *s);
 }
-extern const f32 lbl_805DC3D4;
 typedef struct Rec_801D40D4 {
     u8 pad0[4];
     s32 flags;
@@ -155,14 +149,33 @@ s32 item_identity_matches(u8 *arg0, u8 *arg1);
 s32 is_at_tekker__5TItemFv();
 s32 get_slot_value__10TObjPlayerFPvi(s32 *arg0, s32 arg1);
 s32 export_inventory_entry__10TObjPlayerFiPv(s32 arg0, u8 *arg1);
-void __ct__7TObjectFP7TObject(void *);
-extern s32 __vt__8TPlyItem[];
-extern void *TPlyItem_name_ref;
 }
 s32 compare_item_data_masked(void *arg0, void *arg1, s32 arg2);
 
-// Built -inline off,deferred, which emits the functions last to first: they are
-// written here from the highest address (0x801D579C) down to 0x801D3780.
+const char *TItemList__name = "TItemList";
+const char *TPlyItem_name_ref = "TPlyItem";
+
+Shape_801D3C38 placement_search_collision_body = {{0}, 0.0f, {0}, 0, 0x10003};
+Body_801D3E20 placement_search_collision_probe = {&placement_search_collision_body, 1, {0.0f, 0.0f, 0.0f}, 0};
+
+s32 item_reduce_target_player;
+u8 *player_item_collect_cursor;
+s32 inventory_update_field_d8_key;
+s32 *TObjPlayer__owner_field_write_cursor;
+s32 inventory_walk_progress_count;
+s32 inventory_walk_visit_count;
+s32 *player_owner_collect_cursor;
+s32 inventory_search_item_data;
+s32 owned_item_export_cursor;
+u8 item_reduce_owner_match_field_ec;
+u8 reduce_owner_match_id;
+
+// The original .text and vtable order (TPlyItem part last-to-first, then TItemList forward) is a deferred region.
+#pragma push
+#pragma defer_codegen on
+
+// Deferred codegen emits these functions last to first: they are
+// written here from the highest address (0x801D57A8) down to 0x801D3780.
 
 void TObjPlayer::set_field_1c(s32 v) { *(s32*)((char*)this + 0x1c) = v; }
 
@@ -402,19 +415,13 @@ void TLobby::reduce_owner_matched_items() {
     }
 }
 
-extern "C" void *TPlyItem__ct(void *ply_item) {
-    __ct__7TObjectFP7TObject(ply_item);
-    *(s32 **)((s8 *)ply_item + 0x18) = __vt__8TPlyItem;
-    ((TItemList *)((char *)ply_item + 32))->init_items();
-    *(void * *)&((TPlyItem *)ply_item)->m_name = TPlyItem_name_ref;
-    *(u16 *)((s8 *)ply_item + 0x1C) = 0;
-    *(u16 *)((s8 *)ply_item + 0x1E) = 0;
-    return ply_item;
+TPlyItem::TPlyItem(TObject *parent) : TObject(parent) {
+    m_name = TPlyItem_name_ref;
+    pad_1C = 0;
+    pad_1E = 0;
 }
 
-TPlyItem::~TPlyItem() {
-    TItemList__sub_801D5B10((char*)this + 0x20, -1);
-}
+TPlyItem::~TPlyItem() {}
 
 void *TObjPlayer::start_inventory_update(int key) { inventory_update_field_d8_key = key; inventory_walk_progress_count = 0; return ((TObjPlayer *)this->unk_1C4)->find_inventory_item_by_field_d8(); }
 
@@ -840,9 +847,9 @@ TUnk_804C4498::TUnk_804C4498(TObject *parent, TObjBase *source, const Vec *pos, 
     }
     VecCopy(&this->origin, pos);
     this->unk_1C = arg;
-    this->candidate.z = lbl_805DC3D4;
-    this->candidate.y = lbl_805DC3D4;
-    this->candidate.x = lbl_805DC3D4;
+    this->candidate.z = 0.0f;
+    this->candidate.y = 0.0f;
+    this->candidate.x = 0.0f;
     this->online = 0;
 }
 
@@ -858,7 +865,7 @@ s32 TUnk_804C4498::reset_placement_search_ring() {
     }
     this->step = 0x10000 / this->count;
     this->angle = this->heading;
-    this->radius = lbl_805DC3C8 * this->ring;
+    this->radius = 6.0f * this->ring;
 }
 
 extern "C" void *find_placement_obstruction(void *self, Body_801D3E20 *s) {
@@ -867,7 +874,7 @@ extern "C" void *find_placement_obstruction(void *self, Body_801D3E20 *s) {
     for (i = TLobby::get_game_mode() + TObjEneDD::get_enemy_count(); i < end; i++) {
         Actor_801D3E20 *a = (Actor_801D3E20 *)TObjPlayer::get_player_data(i);
         if (a != 0 && a->colliders != 0 && !(a->flags & 0x800)) {
-            if (lbl_805DC3D0 > horizontal_distance_squared(&s->position, &a->pos)) {
+            if (10000.0f > horizontal_distance_squared(&s->position, &a->pos)) {
                 Body_801D3E20 b;
                 void *r;
                 b.colliders = a->colliders;
@@ -912,8 +919,8 @@ s32 TUnk_804C4498::step_placement_search() {
         this->sample++;
         return 0;
     }
-    this->candidate.y = lbl_805DC3C8 + g->pos->y;
-    placement_search_collision_body.radius = lbl_805DC3CC;
+    this->candidate.y = 6.0f + g->pos->y;
+    placement_search_collision_body.radius = 3.0f;
     placement_search_collision_body.f14 = 0;
     placement_search_collision_body.mask = 0x31F03;
     VecCopy(&placement_search_collision_probe.position, &this->candidate);
@@ -1023,3 +1030,114 @@ void TUnk_804C4468::run_task() {
     }
     queue_destruction();
 }
+
+#pragma pop
+
+struct Arr_801D5868 { s32 n; s32 e[1]; };
+struct Ent_801D598C { u8 d[0x10]; };
+struct Obj_801D598C { u8 pad[0x28]; Ent_801D598C e[1]; };
+struct Ent_801D5854 { u8 d[0x1C]; };
+struct Obj_801D5854 { u8 pad[0xA8]; Ent_801D5854 arr[1]; };
+
+extern "C" {
+s32 TItemList__sub_801D5868(Arr_801D5868 *, s32);
+Ent_801D5854 *TItemList__sub_801D5854(Obj_801D5854 *p, s32 i);
+s32 TItemList__sub_801D598C(Obj_801D598C *arg0, s32 arg1);
+int copy_from__9TItemDataFP9TItemData(void*);
+s32 check_value_equals__13TUnk_804B6C24Fl(s32, s32);
+}
+
+TItemList::TItemList(TObject *parent) : TObject(parent) {
+    m_name = TItemList__name;
+    pad_1C = 0;
+    disallow_rendering();
+}
+
+extern "C" {
+void TItemList__sub_801D5804(s32 *arg0) {
+    *arg0 += 1;
+}
+
+int TItemList::copy_item_data() { return copy_from__9TItemDataFP9TItemData((char*)this + 0x8); }
+void TItemList__sub_801D5838(void* p) { *(s32*)((char*)p + 0x0) = 1; }
+int TItemList__sub_801D5844(void* p) { return *(u32*)((char*)p + 0x0) == 0; }
+
+Ent_801D5854 *TItemList__sub_801D5854(Obj_801D5854 *p, s32 i) {
+    return &p->arr[i];
+}
+
+s32 TItemList__sub_801D5868(Arr_801D5868 *arg0, s32 arg1) {
+    return (s32)&arg0->e[arg1];
+}
+
+void* get_ptr_0x44__9TItemListFPv(void* p) { return (char*)p + 0x44; }
+void TUnk_804C4498::sub_801D5884(u8 v) { this->ring = v; }
+
+void TItemList::lookup_entry_by_count(s32 arg1) {
+    TItemList__sub_801D58C8((void*)(((u8 *)TItemList__sub_801D5868((Arr_801D5868 *)(arg1), (s8)(get_item_count())))));
+}
+
+void TItemList__sub_801D58C8(void* p) { *(s32*)((char*)p + 0x0) = 3; }
+u8 TItemList::get_item_count() { return *(u8*)((char*)this + 0x1c); }
+u16 TUnk_804C4468::get_client_id() { return this->client_id; }
+
+void *TItemList::run_item_count_update() {
+    return TItemList__sub_801D5854(*(Obj_801D5854 **)((s8 *)this + 0x54), (s8)get_item_count());
+}
+
+void TUnk_804C4468::sub_801D591C() {
+    copy_position__9TItemListFPv((void *)TItemList__sub_801D598C((Obj_801D598C *)this->unk_54, (s8)((TItemList *)this)->get_item_count()), (const Vec *)get_ptr_0x44__9TItemListFPv(this));
+}
+
+void copy_position__9TItemListFPv(void *p, const Vec *v) { VecCopy((Vec *)((char *)p + 0x4), v); }
+
+s32 TItemList__sub_801D598C(Obj_801D598C *arg0, s32 arg1) {
+    return (s32)&arg0->e[arg1];
+}
+void TItemList__sub_801D59A0(TItemList *item_list, s32 arg1) {
+    TItemList__sub_801D59DC((void*)(((u8 *)TItemList__sub_801D5868((Arr_801D5868 *)arg1, (s8)item_list->get_item_count()))));
+}
+
+void TItemList__sub_801D59DC(void* p) { *(s32*)((char*)p + 0x0) = 2; }
+}
+
+void decrement_placement_search_pending(void* p, void* a1) { TItemList__sub_801D5A0C((s32 *)a1); }
+
+void TItemList__sub_801D5A0C(s32 *arg0) {
+    s32 temp_r0;
+    temp_r0 = *arg0 - 1;
+    *arg0 = temp_r0;
+    if (temp_r0 < 0) {
+        *arg0 = 0;
+    }
+}
+
+void clear_placement_search_slot(TItemList *item_list, s32 arg1) {
+    TItemList__sub_801D5A64((void*)(TItemList__sub_801D5868((Arr_801D5868 *)arg1, (s8)item_list->get_item_count())));
+}
+
+void TItemList__sub_801D5A64(void* p) { *(s32*)((char*)p + 0x0) = 0; }
+
+void TUnk_804C4480::sub_801D5A70() {
+    copy_position__9TItemListFPv((void *)TItemList__sub_801D598C((Obj_801D598C *)this->unk_54, (s8)((TItemList *)this)->get_item_count()), (const Vec *)get_ptr_0x44__9TItemListFPv(this));
+}
+
+s32 TItemList::is_item_valid(s32 arg0) {
+    u8 valid;
+
+    valid = 0;
+    if ((check_value_equals__13TUnk_804B6C24Fl(arg0, (s32)TItemList__name) != 0) && (((TObject *)arg0)->all_parents_unqueued_for_destruction() != 0)) {
+        valid = 1;
+    }
+    return valid;
+}
+
+TUnk_804C445C::~TUnk_804C445C() {}
+TUnk_804C4450::~TUnk_804C4450() {}
+TUnk_804C4444::~TUnk_804C4444() {}
+TUnk_804C445C::TUnk_804C445C() {}
+TUnk_804C4450::TUnk_804C4450() {}
+Unk_801D5CB8::Unk_801D5CB8() { x = y = z = 0.0f; }
+TUnk_804C4444::TUnk_804C4444() { count = 0; }
+
+TItemList::~TItemList() {}

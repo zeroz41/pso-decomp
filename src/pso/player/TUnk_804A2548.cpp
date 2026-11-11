@@ -16,7 +16,6 @@
 
 extern "C" {
 
-s32 has_game_join_id__13TUnk_804E355CFv();
 
 extern const f32 lbl_805DAD50;
 
@@ -24,13 +23,13 @@ void TUnk_804A2548::run_task() {
     f32 temp_f1;
     f32 temp_f1_2;
 
-    if (has_game_join_id__13TUnk_804E355CFv() != 0) {
-        temp_f1 = this->m_40;
-        if (temp_f1 < *(f32 *)&this->unk_C4) {
-            this->m_40 = (f32) (temp_f1 + lbl_805DAD50);
-            temp_f1_2 = *(f32 *)&this->unk_C4;
-            if (temp_f1_2 < this->m_40) {
-                this->m_40 = temp_f1_2;
+    if (has_game_join_id() != 0) {
+        temp_f1 = this->body.radius;
+        if (temp_f1 < this->pad_C4) {
+            this->body.radius = (f32) (temp_f1 + lbl_805DAD50);
+            temp_f1_2 = this->pad_C4;
+            if (temp_f1_2 < this->body.radius) {
+                this->body.radius = temp_f1_2;
             }
         } else {
             queue_destruction__7TObjectFv(this);
@@ -41,32 +40,12 @@ void TUnk_804A2548::run_task() {
 
 }
 
-extern "C" {
+TUnk_804A2548::~TUnk_804A2548() {}
 
-void __dl__7TObjectFPv(void *);
+extern "C" const float lbl_805DAD54;
 
-extern s32 __vt__13TUnk_804A2548[];
-
-void *__dt__13TUnk_804A2548Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804A2548;
-        ((TUnk_804E355C *)arg0)->destroy_attack_collision(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
-
-}
-
-extern "C" {
-
-int construct_attack_collision(void);
-
-    extern const float lbl_805DAD54;
-void*TUnk_804A2548::construct_explosion_collider() { construct_attack_collision(); *(int*)((char*)this + 0x18) = (int)__vt__13TUnk_804A2548; *(float *)&this->unk_C4 = lbl_805DAD54; return this; }
-
+TUnk_804A2548::TUnk_804A2548(TObject *parent, S_802E451C *params) : TUnk_804E355C(parent, params) {
+    pad_C4 = lbl_805DAD54;
 }
 
 struct Elem_80125628 { u8 pad[0x1c]; u8 f1c[0x2c - 0x1c]; };
@@ -75,13 +54,6 @@ struct Obj_80125628 { u8 pad[0xa4]; Elem_80125628 *elems; };
 
 struct Ctx_80125628 { Obj_80125628 *obj; s32 idx; };
 
-struct Info_80125678 {
-    Vec pos;
-    u8 pad0c[0x10 - 0xC];
-    s32 f10;
-    u8 pad14[0x80 - 0x14];
-};
-
 struct Self_8012573C { u8 pad[0x23c]; u32 f23c; };
 
 struct Out_8012573C { u8 pad[0x40]; u32 f40; u8 pad44[0x50 - 0x44]; s32 f50; u8 pad54[0x70 - 0x54]; void *f70; void *f74; s32 f78; s32 f7c; };
@@ -89,7 +61,7 @@ struct Out_8012573C { u8 pad[0x40]; u32 f40; u8 pad44[0x50 - 0x44]; s32 f50; u8 
 extern "C" {
 void config_faust_attack_collider__10TObjPlayerFPvPv(Self_8012573C *self, Out_8012573C *out);
 }
-s32 spawn_faust_explosion(u32 a0, const Vec &pos);
+void spawn_faust_explosion(u32 a0, const Vec &pos);
 void TObjPlayer::spawn_faust_wall_explosion(s32 arg0, s32 arg1) {
     u32 temp_r3 = (u32)find_item_by_id(arg0);
     if (temp_r3 != 0U) {
@@ -106,23 +78,17 @@ void spawn_faust_hit_explosion(s32 arg0, s32 arg1) {
 
 extern "C" {
 void *TObjPlayer__sub_802E449C(void *a0);
-void *__nw__7TObjectFUl(u32);
-s32 construct_explosion_collider__13TUnk_804A2548Fv(void *, TObject *, void *);
 extern TObject *tl_05;
 }
 
-s32 spawn_faust_explosion(u32 a0, const Vec &pos) {
+void spawn_faust_explosion(u32 a0, const Vec &pos) {
     if (((TItem *)a0)->get_item_index() == 1) {
-        Info_80125678 info;
-        void *o;
+        S_802E449C info;
         TObjPlayer__sub_802E449C(&info);
         ((TObjPlayer *)a0)->fill_status_info(&info);
-        VecCopy(&info.pos, &pos);
-        info.f10 = 0xA;
-        o = __nw__7TObjectFUl(0xC8);
-        if (o != NULL) {
-            construct_explosion_collider__13TUnk_804A2548Fv(o, tl_05, &info);
-        }
+        VecCopy(&info.position, &pos);
+        info.hits = 10;
+        new TUnk_804A2548(tl_05, &info);
         create_timed_particle_emitter(&info, 0x17F, 0, 10);
     } else {
         Vec v = pos;

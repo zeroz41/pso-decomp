@@ -107,7 +107,8 @@ s32 adx_write_encoded_blocks(AdxEncoder *enc);
 s32 write_adx_header__6TLobbyFPvPv(AdxEncoder *o, Strm_803C5B50 *s);
 void TLobby__sub_803C7DF0(AdxEncoder *enc, s32 ch);
 s32 fn_803C8020(AdxEncoder *enc, s32 ch);
-extern char *lbl_805D4664;
+s32 lbl_805D4660 = 0x1000;
+char *lbl_805D4664 = "(c)CRI";
 
 /* The encoder's file-local work pools: 61C4 addresses all three from one .bss base register, which CW
    only does for static data of one TU. */
@@ -129,9 +130,6 @@ void TLobby__sub_803C5E78(void) {
     } while (i < 8);
 }
 
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 inline void set_coef_5ED4(AdxEncCoef *d, s16 coef1, s16 coef2) {
     d->coef1 = coef1;
     d->coef2 = coef2;
@@ -190,7 +188,6 @@ void TLobby__sub_803C5ED4(AdxEncoder *enc) {
         adx_process_encoder_output((u8 *)enc);
     }
 }
-#pragma pop
 
 void adx_process_encoder_output(u8 *arg0p) {
     struct Fields_arg0 { u8 pad_0[1]; s8 field_1; u8 pad_2[1]; u8 field_3; u8 pad_4[40]; s32 field_2C; s32 field_30; u8 pad_34[8]; s32 field_3C; };
@@ -251,9 +248,6 @@ void TLobby__sub_803C6138(S_803C6138 *arg0) {
     }
 }
 
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 inline AdxEncHistory *alloc_history_61C4(void) {
     AdxEncHistory *h;
     s32 i;
@@ -344,7 +338,6 @@ u8 *TLobby__sub_803C61C4(s32 nch, Strm_803C5B50 **src, Strm_803C5B50 *dst) {
     enc->used = 1;
     return (u8 *)enc;
 }
-#pragma pop
 
 void TLobby::clear_net_buffer_1680() {
     memset(adx_encoder_context_pool, 0, sizeof(adx_encoder_context_pool));
@@ -356,8 +349,6 @@ void TLobby::clear_buffer_1680() {
 
 #pragma push
 #pragma opt_propagation off
-#pragma dont_inline off
-#pragma inline_depth(4)
 
 inline s32 put8_803C6860(Strm_803C5B50 *s, const void *v) {
     Buf_803C5B50 b;
@@ -543,8 +534,6 @@ fail:
 
 #pragma push
 #pragma opt_propagation off
-#pragma inline_depth(4)
-#pragma dont_inline off
 inline void put16_803C7748(Strm_803C7748 *s, const void *src) {
     Buf_803C7748 b;
     s->vt->lock(s, 0, 2, &b);
@@ -600,9 +589,6 @@ s32 TLobby::write_zero_padded_block(void *arg0p) {
 #undef arg0
 #pragma pop
 
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 /* Pulls n samples per channel from the input streams into pcm (inferred). */
 inline s32 read_input_samples_7978(AdxEncoder *enc, s16 **pcm, s32 n) {
     Strm_803C5B50 **in;
@@ -637,9 +623,9 @@ inline void set_history_7978(AdxEncoder *enc, s32 ch, s16 hist1, s16 hist2) {
 
 /* Scales and quantizes one block of every channel (inferred). */
 inline void encode_channels_7978(AdxEncoder *enc) {
+    s32 ch;
     AdxEncChannel *c;
     AdxEncHistory *h;
-    s32 ch;
 
     for (ch = 0; ch < enc->channels; ch++) {
         fn_803C8020(enc, ch);
@@ -657,12 +643,10 @@ inline s32 encode_block_7978(AdxEncoder *enc) {
     s32 i;
     s32 n;
 
-    n = enc->total_samples - enc->samples_encoded;
     pcm[0] = enc->pcm[0];
     pcm[1] = enc->pcm[1];
-    if (enc->block_samples < n) {
-        n = enc->block_samples;
-    }
+    n = (enc->block_samples < enc->total_samples - enc->samples_encoded) ? enc->block_samples
+                                                                          : enc->total_samples - enc->samples_encoded;
     if (read_input_samples_7978(enc, pcm, n) == 0) {
         return 0;
     }
@@ -678,6 +662,7 @@ inline s32 encode_block_7978(AdxEncoder *enc) {
     return enc->block_samples;
 }
 
+// Encodes every complete block of the input (inferred: CRI adxsje_encode_data).
 s32 adx_encode_available_blocks(AdxEncoder *enc) {
     s32 total;
     Strm_803C5B50 *out;
@@ -695,11 +680,7 @@ s32 adx_encode_available_blocks(AdxEncoder *enc) {
     } while (enc->samples_encoded < enc->total_samples);
     return total;
 }
-#pragma pop
 
-#pragma push
-#pragma inline_depth(4)
-#pragma dont_inline off
 inline void put_803C7C10(Strm_803C5B50 *s, void *src, s32 n) {
     Buf_803C5B50 b;
     s->vt->lock(s, 0, n, &b);
@@ -728,7 +709,6 @@ s32 adx_write_encoded_blocks(AdxEncoder *enc) {
     }
     return total;
 }
-#pragma pop
 
 // Quantizes one block of channel ch to ADX nibbles (inferred: the ADX encoder's block step).
 void TLobby__sub_803C7DF0(AdxEncoder *enc, s32 ch) {
@@ -777,10 +757,6 @@ void TLobby__sub_803C7DF0(AdxEncoder *enc, s32 ch) {
     }
 }
 
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
-extern s32 lbl_805D4660;
 
 /* Predicts sample i from the channel history and records the residual (inferred). */
 inline void predict_sample_8020(AdxEncChannel *c, s32 i, s16 smp) {
@@ -872,6 +848,5 @@ s32 fn_803C8020(AdxEncoder *enc, s32 ch) {
     }
     return 0;
 }
-#pragma pop
 }
 

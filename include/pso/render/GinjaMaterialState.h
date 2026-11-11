@@ -25,7 +25,7 @@ typedef struct GinjaSurfaceState {
   u32 format;
   u8 reserved8[0x14];
   u32 flags;
-  u32 reserved20;
+  u32 *pixels; /* +0x20: texel buffer the menu font clears and draws glyphs into (name inferred) */
   s32 ref_count; /* +0x24: textures sharing this surface; freed at 0 (name inferred) */
 } GinjaSurfaceState;
 typedef struct GinjaTextureState {

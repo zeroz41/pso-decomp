@@ -71,11 +71,6 @@ extern char floor_map_name_aancient03_04[];
 extern char floor_map_name_aboss01[];
 extern char floor_map_name_aboss02[];
 extern char floor_map_name_aboss03[];
-extern char lbl_8044BA50[];
-extern char lbl_8044BA64[];
-extern char lbl_8044BA7C[];
-extern char lbl_8044BA90[];
-extern char lbl_8044BAA8[];
 extern char floor_map_name_boss08[];
 extern char floor_map_name_boss07[];
 extern char floor_map_name_boss06[];
@@ -266,7 +261,7 @@ __declspec(section ".data") const char *lbl_804C9258[2] = { floor_map_name_aboss
 __declspec(section ".data") const char *lbl_804C9260[2] = { floor_map_name_aboss02, floor_map_name_aboss02 };
 __declspec(section ".data") const char *lbl_804C9268[2] = { floor_map_name_aboss03, floor_map_name_aboss03 };
 FloorSceneEntry floor_scene_table[36] = { { lbl_804C90E0, 1 }, { lbl_804C90E8, 1 }, { lbl_804C90F0, 1 }, { lbl_804C90F8, 6 }, { lbl_804C9128, 5 }, { lbl_804C9150, 6 }, { lbl_804C9180, 6 }, { lbl_804C91B0, 6 }, { lbl_804C91E0, 5 }, { lbl_804C9208, 5 }, { lbl_804C9230, 5 }, { lbl_804C9258, 1 }, { lbl_804C9260, 1 }, { lbl_804C9268, 1 }, { lbl_804C8DF0, 1 }, { lbl_804C8DF8, 15 }, { lbl_804C8E70, 3 }, { lbl_804C8E88, 3 }, { lbl_804C8EA0, 1 }, { lbl_804C8ED8, 3 }, { lbl_804C8EF0, 3 }, { lbl_804C8EA8, 3 }, { lbl_804C8EC0, 3 }, { lbl_804C8F08, 1 }, { lbl_804C8F10, 1 }, { lbl_804C8F18, 1 }, { lbl_804C8F20, 3 }, { lbl_804C8F38, 1 }, { lbl_804C8F70, 3 }, { lbl_804C8F88, 3 }, { lbl_804C8FA0, 1 }, { lbl_804C8FA8, 1 }, { lbl_804C8FB0, 1 }, { lbl_804C8FB8, 1 }, { lbl_804C8F40, 1 }, { lbl_804C8F48, 5 } };
-s32 forest_rel_filename_table[6] = { (s32)lbl_8044BA50, (s32)lbl_8044BA64, (s32)lbl_8044BA7C, (s32)lbl_8044BA90, (s32)lbl_8044BAA8, 0 };
+s32 forest_rel_filename_table[6] = { (s32)"SetDataTableOff.rel", (s32)"SetDataTableOffUlti.rel", (s32)"SetDataTableOn.rel", (s32)"SetDataTableOnUlti.rel", (s32)"SetDataTable_TGS2001.rel", 0 };
 }
 
 

@@ -4,17 +4,27 @@
 #include "types.h"
 #include "pso/item/TUnk_804E355C.h"
 
+// TItemEffPG's parameters (init_params fills in the defaults).
+struct S_8035016C : S_802E451C {
+    f32 pad_28;          // copied to TItemEffPG::pad_C4, at most 50
+    f32 required_charge; // copied to TItemEffPG::required_charge
+    f32 pad_30;          // copied to TItemEffPG::m_c8
+    s32 pad_34;          // TUnk_804F1320::spawn_pg_effect: the weapon's second model
+    s32 pad_38;
+    S_8035016C *init_params();
+};
+
 struct TItemEffPG : public TUnk_804E355C {
+    TItemEffPG(TObject *parent, S_8035016C *params);
     virtual ~TItemEffPG();
     virtual s32 vfunc_7();
-    u8 unk_C4[0x4];
+    f32 pad_C4;   // run_task grows body.radius by m_c8 a frame up to it
     f32 m_c8;
     f32 required_charge; // inferred: compared with the player's photon blast charge, then spent
     u32 m_d0;
     u8 *create();
     virtual void run_task();
     static void create(void *arg0, void *arg1);
-    void*init_params();
 };
 
 typedef char TItemEffPG_size[sizeof(TItemEffPG) == 0xD4 ? 1 : -1];

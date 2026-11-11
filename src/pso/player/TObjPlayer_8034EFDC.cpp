@@ -8,6 +8,8 @@
 #include "pso/weapon/TUnk_804F0AF8.h"
 #include "pso/weapon/TUnk_804F0908.h"
 #include "pso/weapon/TUnk_804F0810.h"
+#include "pso/player/TUnk_804A2548.h"
+#include "pso/weapon/TItemAttackCol.h"
 
 struct Base_8034EFDC { char pad[0x18]; };
 struct VObj_8034EFDC : Base_8034EFDC {
@@ -103,11 +105,6 @@ struct Elem_8034F204 { u8 x[0x2C]; };
 
 struct Tbl_8034F204 { u8 pad[0x1C]; Elem_8034F204 arr[1]; };
 
-struct Info_8034F4FC {
-    u8 pad0[0x10];
-    s32 f10;
-    u8 pad14[0x80 - 0x14];
-};
 
 extern "C" {
 u8 *__nw__5TItemFUl(s32);
@@ -131,7 +128,6 @@ extern const f32 lbl_805DFDF8;
 void launch_rappys_fan_slicer__10TObjPlayerFPv(u8 *weapon);
 s32 spawn_particle_effect(void *, s32);
 void *find_entity_by_id(s32);
-s32 construct_explosion_collider__13TUnk_804A2548Fv(void *, s32, void *);
 void *__nw__7TObjectFUl(u32);
 s32 create_fire_explosion_effect(void *, void *, s32, s32, f32);
 void *TObjPlayer__sub_802E449C(void *a0);
@@ -288,16 +284,13 @@ void TObjPlayer::spawn_fire_explosion_at_item(s32 arg0, s32 arg1) {
 }
 
 s32 TObjPlayer::spawn_fire_explosion(u32 a0, s32 a1) {
-    Info_8034F4FC info;
+    S_802E449C info;
     void *o;
     TObjPlayer__sub_802E449C(&info);
     ((TObjPlayer *)a0)->fill_status_info(&info);
-    VecCopy((Vec *)&info, (const Vec *)a1);
-    info.f10 = 0xA;
-    o = __nw__7TObjectFUl(0xC8);
-    if (o != NULL) {
-        construct_explosion_collider__13TUnk_804A2548Fv(o, tl_05, &info);
-    }
+    VecCopy(&info.position, (const Vec *)a1);
+    info.hits = 10;
+    new TUnk_804A2548((TObject *)tl_05, &info);
     o = __nw__7TObjectFUl(0x64);
     if (o != NULL) {
         ((s32 (*)(f32, void *, void *, s32, s32))create_fire_explosion_effect)(lbl_805DFE00, o, &info, 0, tl_particle);

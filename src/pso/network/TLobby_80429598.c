@@ -1,5 +1,6 @@
 /* The network stack's EXI Ethernet adapter driver (a C library, built with GC/1.2.5n): register reads and writes
  * over EXI, the receive/send DMA chain and its buffers, the MAC address, the multicast filter and the link status. */
+#define PSO_SDK_COMPACT_MATH
 #include "pso/network/NetworkTransport.h"
 #include "pso/network/TLobby_80429598.h"
 #include "pso/network/ModemRuntime.h"
@@ -11,6 +12,7 @@
 #include <string.h>
 #include <dolphin/exi.h>
 #include <dolphin/os.h>
+#undef PSO_SDK_COMPACT_MATH
 
 #pragma dont_inline off
 
@@ -58,8 +60,15 @@ void TLobby__sub_8042B434(s32 chan, OSContext *ctx);
 extern s32 lbl_805D7C84;
 extern s32 lbl_805D7C88;
 
-extern u16 lbl_805D7C5C;
-extern u16 lbl_805D7C6C[2];
+/* A receive ring page header: the next page, the frame length and the receive status. */
+typedef struct RecvDescriptor {
+    u16 next;
+    u16 length;
+    u8 status;
+} RecvDescriptor;
+
+extern volatile RecvDescriptor lbl_805D7C5C;
+extern RecvDescriptor lbl_805D7C6C;
 extern u8 *lbl_805D7C74;
 extern u16 lbl_805D7C78; /* receive ring write page */
 extern u16 lbl_805D7C7A; /* receive ring read page */
@@ -72,8 +81,6 @@ void TLobby__sub_80429648(void);
 void TLobby__sub_80429B8C(s32 chan, OSContext *ctx);
 extern u8 lbl_805D4830[6];
 
-extern u16 lbl_805D7C60;
-extern u16 lbl_805D7C70;
 void wake_network_thread(void) {
     OSWakeupThread(&network_thread_queue);
 }
@@ -139,9 +146,9 @@ static inline void bba_cmd_outs(u32 reg, void *buf, s32 len) {
     EXIDeselect(0);
 }
 
-static inline void bba_ins(u32 reg, void *buf, s32 len) {
+static inline void bba_ins(u16 reg, void *buf, s32 len) {
     u32 cmd;
-    cmd = ((reg << 8) & 0xFFFF00) | 0x80000000;
+    cmd = (reg << 8) | 0x80000000;
     EXISelect(0, 2, 5);
     EXIImm(0, &cmd, 4, 1, 0);
     EXISync(0);
@@ -149,9 +156,9 @@ static inline void bba_ins(u32 reg, void *buf, s32 len) {
     EXIDeselect(0);
 }
 
-static inline void bba_outs(u32 reg, void *buf, s32 len) {
+static inline void bba_outs(u16 reg, void *buf, s32 len) {
     u32 cmd;
-    cmd = ((reg << 8) & 0xFFFF00) | 0xC0000000;
+    cmd = (reg << 8) | 0xC0000000;
     EXISelect(0, 2, 5);
     EXIImm(0, &cmd, 4, 1, 0);
     EXISync(0);
@@ -239,78 +246,73 @@ inline void exi8_w32_8(u32 cmd, u8 val) {
     EXIDeselect(0);
 }
 
+static inline void bba_out16(u32 reg, u16 val) {
+    u16 le;
+    le = bba_swap16(val);
+    bba_outs(reg, &le, 2);
+}
+
+static inline RecvDescriptor bba_read_descriptor(u32 reg) {
+    u8 hdr[4];
+    u8 status;
+    bba_ins(reg, hdr, 4);
+    lbl_805D7C5C.next = hdr[0] | ((hdr[1] & 0xF) << 8);
+    lbl_805D7C5C.length = ((hdr[2] << 4) & 0xFF0) | ((hdr[1] >> 4) & 0xF);
+    status = hdr[3];
+    lbl_805D7C5C.status = status;
+    return lbl_805D7C5C;
+}
+
+/* Drains the receive ring: hands each frame whose type is accepted to the receive callback and starts its DMA. */
 void TLobby__sub_80429648(void) {
-  u8 reply40[4];
-  u16 id46;
-  s32 n;
-  s32 i;
-  u16 len;
-  volatile u16 *new_var;
-  u32 sh;
-  u16 *p;
-  u16 *q;
-  u16 h24;
-  volatile u32 t4;
-  volatile u16 t2;
-  volatile u8 scratch[8];
-  exi_dma_write_length = 0;
-  new_var = &t2;
-  exi_dma_read_length = 0;
-  while (lbl_805D7C7A != lbl_805D7C78)
-  {
-    sh = (lbl_805D7C7A & 0xFF) << 8;
-    bba_ins(sh, reply40, 4);
-    p = &lbl_805D7C5C;
-    p[0] = reply40[0] | ((reply40[1] & 0xF) << 8);
-    p[1] = ((reply40[2] << 4) & 0xFF0) | (((len = (0, reply40[1])) >> 4) & 0xF);
-    *(((u8 *) p) + 4) = reply40[3];
-    t4 = *((u32 *) (&lbl_805D7C5C));
-    t2 = lbl_805D7C60;
-    *((u32 *) (&lbl_805D7C6C)) = t4;
-    lbl_805D7C70 = *new_var;
-    bba_ins(sh + 0x10, &id46, 2);
-    n = lbl_805D7C48;
-    if (n > 0)
-    {
-      for (i = 0; i < n; i++)
-      {
-        if (lbl_805D7C44[i] == id46)
-        {
-          break;
-        }
-      }
+    u16 page;
+    u16 type;
+    s32 i;
+    u16 len;
+    u8 status;
+    u32 data;
 
-      if ((i != n) && (lbl_805D7C4C != 0))
-      {
-        q = lbl_805D7C6C;
-        lbl_805D7C74 = ((u8 *(*)(u16, u16, u8)) lbl_805D7C4C)(id46, q[1], *((u8 *) (&q[2])));
-        if (lbl_805D7C74 != 0)
-        {
-          i = sh + 4;
-          len = q[1];
-          if (((sh + 4) + len) > 0x1000)
-          {
-            exi_dma_write_length = (sh + len) - 0xFFC;
-            exi_dma_read_length = len - exi_dma_write_length;
-          }
-          else
-          {
-            exi_dma_read_length = len;
-            exi_dma_write_length = 0;
-          }
-          start_exi_dma_read((u16) i);
-          return;
+    exi_dma_write_length = 0;
+    exi_dma_read_length = 0;
+    while (lbl_805D7C7A != lbl_805D7C78) {
+        page = (lbl_805D7C7A & 0xFF) << 8;
+        lbl_805D7C6C = bba_read_descriptor(page);
+        bba_ins(page + 0x10, &type, 2);
+        if (lbl_805D7C48 > 0) {
+            for (i = 0; i < lbl_805D7C48; i++) {
+                if (lbl_805D7C44[i] == type) {
+                    break;
+                }
+            }
+            if (i == lbl_805D7C48) {
+                goto skip;
+            }
         }
-      }
+        if (lbl_805D7C4C != 0) {
+            status = lbl_805D7C6C.status;
+            lbl_805D7C74 = ((u8 *(*)(u16, u16, u8))lbl_805D7C4C)(type, lbl_805D7C6C.length, status);
+            if (lbl_805D7C74 != NULL) {
+                data = page + 4;
+                len = lbl_805D7C6C.length;
+                if (data + len > 0x1000) {
+                    exi_dma_write_length = (page - 0xFFC) + len;
+                    exi_dma_read_length = len - exi_dma_write_length;
+                } else {
+                    exi_dma_read_length = len;
+                    exi_dma_write_length = 0;
+                }
+                start_exi_dma_read(data);
+                return;
+            }
+        }
+    skip:
+        lbl_805D7C7A = lbl_805D7C6C.next;
     }
-    lbl_805D7C7A = lbl_805D7C6C[0];
-  }
 
-  h24 = bba_swap16(lbl_805D7C78);
-  exi8_w32_16(0xC0001800, h24);
-  exi8_w32_8(0xC0000900, 2);
-  exi8_w16_8(0x4200, 0xF8);
-  EXIUnlock(0);
+    bba_out16(0x18, lbl_805D7C78);
+    bba_out8(0x09, 2);
+    bba_cmd_out8(0x02, 0xF8);
+    EXIUnlock(0);
 }
 
 void start_exi_dma_read(u16 arg0) {
@@ -348,9 +350,9 @@ void TLobby__sub_80429AC8(void) {
         if (exi_dma_write_length != 0) {
             memcpy(lbl_805D7C74 + exi_dma_read_length, exi_dma_write_buffer, exi_dma_write_length);
         }
-        ((void (*)(u8 *, u16))exi_receive_callback)(lbl_805D7C74, lbl_805D7C6C[1]);
+        ((void (*)(u8 *, u16))exi_receive_callback)(lbl_805D7C74, lbl_805D7C6C.length);
     }
-    lbl_805D7C7A = lbl_805D7C6C[0];
+    lbl_805D7C7A = lbl_805D7C6C.next;
     TLobby__sub_80429648();
 }
 static inline void bba_recv(void) {

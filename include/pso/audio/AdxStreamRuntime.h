@@ -78,7 +78,7 @@ s32 set_range__6TLobbyFPvii(u8 *arg0, s32 arg1, s32 arg2);
 void stop_audio_stream(u8 *arg0);
 void update_active_stream_reads(void);
 
-// --- C functions defined in AdxStreamRuntime.cpp ---
+// --- C functions of the ADX stream, talk and manager files (AdxStream.cpp to AdxManager.cpp) ---
 extern "C" {
 void TLobby__sub_803C5D00(u8 *arg0);
 void TLobby__sub_803C5D24(u8 *lobby);

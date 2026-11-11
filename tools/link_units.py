@@ -207,9 +207,15 @@ def discarded_weak_functions(u: dict) -> set[str]:
         if not split.exists() or elf_symbol_bindings(split).get(name) != (1, 2):
             continue
         if compiled.exists() and elf_symbol_bindings(compiled).get(name) != (1, 2):
-            if (unit_name(owner) in linked or (owner.get("metadata") or {}).get("complete")
-                    or report_scores_exact(owner)):
-                continue
+            # The owner's own copy is weak as well (an in-class inline whose
+            # vtable both TUs emit): mwld keeps the first weak definition, so
+            # a linked owner earlier in the link order still provides it.
+            if not (elf_symbol_bindings(compiled).get(name) == (2, 2)
+                    and unit_name(owner) in linked
+                    and _links_before(split, SPLIT_OBJ_DIR / obj.relative_to(OBJ_DIR))):
+                if (unit_name(owner) in linked or (owner.get("metadata") or {}).get("complete")
+                        or report_scores_exact(owner)):
+                    continue
         discarded.add(name)
     return discarded
 
@@ -259,6 +265,12 @@ def _dol_symbol_names() -> set[str]:
 
 SPLIT_OBJ_DIR = ROOT / "build" / "GPOE8P" / "obj"
 SPLIT_CONFIG = ROOT / "build" / "GPOE8P" / "config.json"
+
+
+def _links_before(a: Path, b: Path) -> bool:
+    """Whether split object `a` comes before `b` in dtk's link order."""
+    order = {o: i for i, o in enumerate(_split_objects())}
+    return a in order and b in order and order[a] < order[b]
 
 
 def _split_objects() -> list[Path]:
