@@ -254,7 +254,6 @@ struct TBoss8Dragon
     void set_field_1c();
     void spawn_child_object();
     static void free_resources();
-    f32 apply_default_velocity_scale();
     int get_flag_bit6();
     void fill_follow_camera_params(u8 *arg1, u8 *arg2);
     static int get_instance_count();
@@ -293,7 +292,6 @@ struct TBoss8Dragon
     void render_body_model();
     void select_freeze_target();
     void emit_body_effects();
-    f32 apply_velocity_scale(f32 farg0, f32 farg1);
     void get_follow_camera_offsets(u8 *arg1);
     s32 is_closest_part();
     s32 push_apart_from_parts();
