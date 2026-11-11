@@ -8665,13 +8665,10 @@ pso/boss/olgaflow/TBoss6Type2.cpp:
 	.sdata2     start:0x805DE3F0 end:0x805DE4D8
 
 pso/boss/olgaflow/TBoss6Type2_802BE588.cpp:
-	.text       start:0x802BE588 end:0x802BF558
+	.text       start:0x802BE588 end:0x802BFBF4
 	.rodata     start:0x80471538 end:0x80471540
 	.sbss       start:0x805D6788 end:0x805D6790
 	.sdata2     start:0x805DE4E0 end:0x805DE4F4
-
-pso/boss/olgaflow/TBoss6Type2_802BF558.cpp:
-	.text       start:0x802BF558 end:0x802BFBF4
 
 pso/unk/text_802BFBF4.cpp:
 	.text       start:0x802BFBF4 end:0x802C095C
@@ -10565,21 +10562,11 @@ pso/boss/goldragon/TBoss8Dragon_80359A7C.cpp:
 	.text       start:0x80359A7C end:0x80359E20
 	.sdata2     start:0x805E00B0 end:0x805E00B8
 
-pso/boss/olgaflow/TBoss6CrushPtcl.cpp:
-	.text       start:0x80359E20 end:0x80359FC4
-	.data       start:0x804F1C28 end:0x804F1C40
-
-pso/boss/olgaflow/TBoss6CrushRock_80359FC4.cpp:
-	.text       start:0x80359FC4 end:0x80359FEC
-
-pso/boss/olgaflow/TBoss6CrushRock_80359FEC.cpp:
-	.text       start:0x80359FEC end:0x8035A14C
-
 pso/boss/olgaflow/TBoss6CrushRock.cpp:
-	.text       start:0x8035A14C end:0x8035A628
-	.rodata     start:0x804796C0 end:0x804796C8
-	.data       start:0x804F1C40 end:0x804F1C58
-	.sdata      start:0x805D4408 end:0x805D440C
+	.text       start:0x80359E20 end:0x8035A628
+	.rodata     start:0x804796A0 end:0x804796C8
+	.data       start:0x804F1C28 end:0x804F1C58
+	.sdata      start:0x805D4408 end:0x805D4410
 	.sdata2     start:0x805E00C8 end:0x805E00E8
 
 pso/boss/barbaray/TBoss7DeRolLeC_8035A628.cpp:

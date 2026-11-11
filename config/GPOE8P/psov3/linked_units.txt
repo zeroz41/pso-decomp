@@ -255,10 +255,7 @@ pso/boss/galgryphon/TBoss5GryphonLightningWing_80324CEC.cpp
 pso/boss/galgryphon/TBoss5GryphonShockWave.cpp
 pso/boss/galgryphon/TBoss5GryphonSnarl.cpp
 pso/boss/galgryphon/TBoss5GryphonTornado.cpp
-pso/boss/olgaflow/TBoss6CrushPtcl.cpp
 pso/boss/olgaflow/TBoss6CrushRock.cpp
-pso/boss/olgaflow/TBoss6CrushRock_80359FC4.cpp
-pso/boss/olgaflow/TBoss6CrushRock_80359FEC.cpp
 pso/boss/olgaflow/TBoss6DPB.cpp
 pso/boss/olgaflow/TBoss6EffFlowSoul.cpp
 pso/boss/olgaflow/TBoss6EffHyoui.cpp
@@ -285,7 +282,6 @@ pso/boss/olgaflow/TBoss6Type1_80320AE0.cpp
 pso/boss/olgaflow/TBoss6Type1_80323DCC.cpp
 pso/boss/olgaflow/TBoss6Type2.cpp
 pso/boss/olgaflow/TBoss6Type2_802BE588.cpp
-pso/boss/olgaflow/TBoss6Type2_802BF558.cpp
 pso/boss/olgaflow/TBoss6Type2_8032E708.cpp
 pso/boss/olgaflow/TBoss6Type2_803309D8.cpp
 pso/boss/olgaflow/TBoss6Type2_80336E6C.cpp
