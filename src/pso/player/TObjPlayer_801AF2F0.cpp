@@ -5822,15 +5822,16 @@ void TObjPlayer::apply_battle_level_reset(s32 level) {
 // Base stats of the class plus the growth of every level row up to `level`, each clamped to the class caps.
 void apply_class_level_growth(s8 cls, s32 level, stats *st) {
     s32 n;
+    s32 i;
     s32 row;
-    player_stats *caps;
+    const player_stats *caps;
 
     n = TObjPlayer::clamp_index_to_max(level);
     ((TObjPlayer *)st)->copy_stats(get_class_base_stats(cls));
     row = get_ply_level_table_row(cls, 0);
     if (row != 0) {
         caps = get_class_stat_caps(cls);
-        for (s32 i = 0; i < n; i++) {
+        for (i = 0; i < n; i++) {
             row += 0xC;
             TObjPlayer::add_stat_clamped(((TObjPlayer *)row)->get_char_class(), &st->atp, caps->stats.atp);
             TObjPlayer::add_stat_clamped(((TObjPlayer *)row)->get_team_id(), &st->mst, caps->stats.mst);
