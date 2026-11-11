@@ -1786,20 +1786,24 @@ pso/enemy/saver/TObjEneSaver.cpp:
 	.text       start:0x800D8A78 end:0x800D8ACC
 
 pso/boss/volopt/TBoss3Volopt_800D8ACC.cpp:
-	.text       start:0x800D8ACC end:0x800D8FDC
-	.data       start:0x80494A58 end:0x80494AE0
+	.text       start:0x800D8ACC end:0x800D9560
+	.rodata     start:0x8043C728 end:0x8043C758
+	.data       start:0x80494A40 end:0x80494AE0
+	.sdata      start:0x805D2AA0 end:0x805D2AA8
+	.sbss       start:0x805D5228 end:0x805D5230
+	.sdata2     start:0x805DA3C0 end:0x805DA3D8
 
-pso/player/TObjPlayer_800D8FDC.cpp:
-	.text       start:0x800D8FDC end:0x800D97E8
+pso/render/MaterialColorFade.cpp:
+	.text       start:0x800D9560 end:0x800D9768
 	.rodata     start:0x8043C758 end:0x8043C760
 	.data       start:0x80494AE0 end:0x80494B0C
+	.sdata2     start:0x805DA3D8 end:0x805DA3E8
 
-pso/unk/text_800D97E8.cpp:
-	.text       start:0x800D97E8 end:0x800D98D8
-
-pso/boss/darkfalz/TBoss4Type3_800D9960.cpp:
-	.text       start:0x800D98D8 end:0x800D9BBC
+pso/unk/SampledMotionPoints.cpp:
+	.text       start:0x800D9768 end:0x800D9BBC
 	.bss        start:0x80500F80 end:0x80500FB0
+	.sbss       start:0x805D5230 end:0x805D5248
+	.sdata2     start:0x805DA3E8 end:0x805DA3F8
 
 pso/enemy/nanodrago/TObjEneNanoDrago_800D9BBC.cpp:
 	.text       start:0x800D9BBC end:0x800D9C34
@@ -9272,13 +9276,12 @@ pso/object/jungle/TOJungleDesign.cpp:
 	.sbss       start:0x805D69E0 end:0x805D69E8
 	.sdata2     start:0x805DEF20 end:0x805DEF28
 
-pso/ui/frontend/TAdMultiSaveGC_802FF14C.cpp:
-	.text       start:0x802FF128 end:0x802FF5F8
-	.data       start:0x804E6658 end:0x804E6680
-	.sdata2     start:0x805DEF28 end:0x805DEF2C
-
 pso/ui/frontend/TAdMultiSaveGC.cpp:
-	.text       start:0x802FF5F8 end:0x802FF760
+	.text       start:0x802FF128 end:0x802FF760
+	.rodata     start:0x80474D70 end:0x80474D98
+	.data       start:0x804E6640 end:0x804E6680
+	.sdata      start:0x805D4048 end:0x805D404C
+	.sdata2     start:0x805DEF28 end:0x805DEF2C
 
 pso/unk/text_802FF760.cpp:
 	.text       start:0x802FF760 end:0x802FF878

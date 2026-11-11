@@ -3,6 +3,7 @@
 #include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdTimeSetGC.h"
+#include "pso/ui/frontend/TAdMultiSaveGC.h"
 #include "pso/ui/TLogo.h"
 
 extern "C" {
@@ -16,7 +17,6 @@ void *TAdExNetConfirmGC__ct(void *, s32);
 void *TAdLicAgreementGC__ct(void *, s32);
 void *__ct__13TUnk_804F3A20FP7TObject(void *, s32);
 void *__ct__17TAdMultiConfirmGCFP7TObject(void *, s32);
-void *TAdMultiSaveGC__ct(void *, s32);
 void *TAdPsoPassSaveGC__ct(void *, s32);
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent);
 void *TAdSnAkPassConfirmGC__ct(void *, s32);
@@ -164,11 +164,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = (s32)new TAdTimeSetGC((TObject *)tl_01);
         break;
     case 9:
-        p = __nw__7TObjectFUl(0x34);
-        if (p != NULL) {
-            p = TAdMultiSaveGC__ct(p, tl_01);
-        }
-        game_mode_scene_instance = (s32)p;
+        game_mode_scene_instance = (s32)new TAdMultiSaveGC((TObject *)tl_01);
         break;
     case 10:
         p = __nw__7TObjectFUl(0x4C);

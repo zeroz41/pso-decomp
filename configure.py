@@ -495,6 +495,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/frontend/TAdSelectTxtSubGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdBackGC_8029A6EC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdMcSelectGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/frontend/TAdMultiSaveGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # -sdata 4: the 8-byte model name table 0x80494A40 sits in .data, the 4-byte motion name table in .sdata.
+    "pso/boss/volopt/TBoss3Volopt_800D8ACC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/ui/frontend/TAdMcSelectCursorGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdMcSelectMcGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdPlyPltAnimGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

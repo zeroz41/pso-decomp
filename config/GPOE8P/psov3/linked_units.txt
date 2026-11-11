@@ -227,6 +227,8 @@ pso/boss/volopt/TBoss3VoloptMonitor.cpp
 pso/boss/volopt/TBoss3VoloptP01.cpp
 pso/boss/volopt/TBoss3VoloptP02.cpp
 pso/boss/volopt/TBoss3Volopt_800D8ACC.cpp
+pso/render/MaterialColorFade.cpp
+pso/unk/SampledMotionPoints.cpp
 pso/boss/darkfalz/TBoss4CheckEmpty.cpp
 pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.cpp
 pso/boss/darkfalz/TBoss4DarkFalz_8004D8C8.cpp
@@ -241,7 +243,6 @@ pso/boss/darkfalz/TBoss4Type3.cpp
 pso/boss/darkfalz/TBoss4Type3_800505A8.cpp
 pso/boss/darkfalz/TBoss4Type3_800524E8.cpp
 pso/boss/darkfalz/TBoss4Type3_800D7A20.cpp
-pso/boss/darkfalz/TBoss4Type3_800D9960.cpp
 pso/boss/darkfalz/TBoss4Zako.cpp
 pso/boss/darkfalz/TBoss4ZakoDraw.cpp
 pso/boss/darkfalz/TBoss4ZakoDraw_8030AD38.cpp
@@ -1954,7 +1955,6 @@ pso/player/TObjPlayer_800C25A0.cpp
 pso/player/TObjPlayer_800C4714.cpp
 pso/render/RenderFadeState_800D7BFC.cpp
 pso/player/TObjPlayer_800D8A2C.cpp
-pso/player/TObjPlayer_800D8FDC.cpp
 pso/player/TObjPlayer_800DCC90.cpp
 pso/player/TObjPlayer_800E80A4.cpp
 pso/player/TObjPlayer_800EBE2C.cpp
@@ -2200,7 +2200,6 @@ pso/ui/frontend/TAdMultiPlyChrSelectGC_802E011C.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0FC8.cpp
 pso/ui/frontend/TAdMultiPlyChrSelectGC_803495B4.cpp
 pso/ui/frontend/TAdMultiSaveGC.cpp
-pso/ui/frontend/TAdMultiSaveGC_802FF14C.cpp
 pso/ui/frontend/TAdMultiSelGameModeGC.cpp
 pso/ui/frontend/TAdMultiSelGameModeGC_802D5098.cpp
 pso/ui/frontend/TAdPlayerLoadGC.cpp
@@ -2352,7 +2351,6 @@ pso/enemy/TUnk_80493450_800C69E8.cpp
 pso/unk/text_800C7FEC.cpp
 pso/unk/text_800D8830.cpp
 pso/unk/text_800D8988.cpp
-pso/unk/text_800D97E8.cpp
 pso/enemy/nanodrago/TObjEneNanoDrago_800D9BBC.cpp
 pso/unk/text_800DC420.cpp
 pso/unk/text_800F5BC0.cpp
