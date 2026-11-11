@@ -4,7 +4,15 @@
 #include "types.h"
 #include "pso/item/TUnk_804E355C.h"
 
+// The spawn parameters TUnk_804F14A8::emit_marker_effects fills after
+// TObjPlayer::reset_field28 (0x80357734) and hands to create.
+struct S_80357734 : S_802E451C {
+    s32 rotation_y;
+    Vec joints[5];
+};
+
 struct TItemEffOrgaFlowShot : public TUnk_804E355C {
+    TItemEffOrgaFlowShot(TObject *parent, S_80357734 *params);
     virtual ~TItemEffOrgaFlowShot();
     virtual void run_task();
     void* m_c4;
@@ -27,21 +35,17 @@ struct TItemEffOrgaFlowShot : public TUnk_804E355C {
     u32 m_140;
     u8 _pad144[0x1C];
     u32 m_160;
-    void* m_164;
-    u8 unk_168[0x4];
-    f32 m_16c;
-    void* m_170;
-    u8 unk_174[0x4];
-    f32 m_178;
-    f32 m_17c;
-    u8 unk_180[0x4];
-    f32 m_184;
-    u32 m_188;
-    u8 _pad18C[0x4];
-    void* m_190;
-    void* m_194;
-    u8 _pad198[0x4];
-    u32 m_19c;
+    Vec pad_164;  // params joint 0 - joint 1, normalized
+    Vec pad_170;  // params joint 4 - joint 3, normalized
+    f32 pad_17C;  // sin(pad_188)
+    f32 pad_180;
+    f32 pad_184;  // cos(pad_188)
+    s32 pad_188;  // params->rotation_y
+    f32 pad_18C;
+    f32 pad_190;
+    f32 pad_194;
+    f32 pad_198;
+    s32 pad_19C;  // counted down by run_task
     static void approach_value(f32 *arg0, f32 farg0, f32 farg1);
     void bswap_6xAD_subordinate_action();
     void update_segments();

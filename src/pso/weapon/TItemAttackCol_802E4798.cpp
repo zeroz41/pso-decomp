@@ -7,6 +7,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include <string.h>
 
 struct Hit_802E4798 { u8 *obj; s32 idx; };
 
@@ -17,13 +18,13 @@ s32 obj_is_hit_receivable(void *);
 s32 obj_testFlags30__14TObjCollidableFUl(void *, u32);
 u16 get_entity_id(void *);
 s32 is_technique_ready__8TTecCtrlFv();
+s32 get_type__10TObjPlayerFPv(void *);
 void queue_destruction__7TObjectFv(void *arg0);
 void TObjPlayer__sub_801542F4(s32 a);
 void TObjPlayer__sub_8015431C(u8 *arg0);
 void reset_global_table(void);
 Hit_802E4798 *get_attack_entry__16TObjOnlineEndingFi(int);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
+
 
 s32 TUnk_804E355C::try_add_hit_target(void *arg1_arg) {
     Hit_802E4798 *arg1 = (Hit_802E4798 *)arg1_arg;
@@ -32,7 +33,7 @@ s32 TUnk_804E355C::try_add_hit_target(void *arg1_arg) {
     s32 i;
     s32 flags;
     u8 *arg0 = (u8 *)this;
-    if (((TUnk_804E355C *)arg0)->m_a0 >= 8) {
+    if (((TUnk_804E355C *)arg0)->hit_count >= 8) {
         return 0;
     }
     if (((TUnk_804E355C *)arg0)->client_id == get_entity_id(arg1->obj)) {
@@ -50,7 +51,7 @@ s32 TUnk_804E355C::try_add_hit_target(void *arg1_arg) {
     }
     if (ok != 0) {
         e = (Hit_802E4798 *) (arg0 + 0x60);
-        for (i = 0; i != ((TUnk_804E355C *)arg0)->m_a0; i++) {
+        for (i = 0; i != ((TUnk_804E355C *)arg0)->hit_count; i++) {
             if (e->obj == arg1->obj && e->idx == arg1->idx) {
                 return 0;
             }
@@ -58,7 +59,7 @@ s32 TUnk_804E355C::try_add_hit_target(void *arg1_arg) {
         }
         if (obj_is_hit_receivable(arg1->obj) != 0) {
             ((TItemAttackCol *)e)->copy_pos(arg1);
-            ((TUnk_804E355C *)arg0)->m_a0 += 1;
+            ((TUnk_804E355C *)arg0)->hit_count += 1;
             return 1;
         }
     }
@@ -67,26 +68,25 @@ s32 TUnk_804E355C::try_add_hit_target(void *arg1_arg) {
 
 void TItemAttackCol::copy_pos(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); *(u32 *)&this->m_flags = *(u32*)((char*)q + 0x4); }
 
-extern s32 __vt__13TUnk_804E355C[];
 
 void TUnk_804E355C::check_hits() {
     s32 i;
     Hit_802E4798 *e;
     u8 *arg0 = (u8 *)this;
     reset_global_table();
-    TObjPlayer__sub_801542F4((s32)&this->unk_1C);
+    TObjPlayer__sub_801542F4((s32)&this->bodies);
     if (*(s32 *)((s8 *)arg0 + 0xC0) != 0) {
-        TObjPlayer__sub_8015431C((u8 *)&this->unk_1C);
+        TObjPlayer__sub_8015431C((u8 *)&this->bodies);
     }
-    if (((TUnk_804E355C *)arg0)->m_bc != 0) {
+    if (((TUnk_804E355C *)arg0)->pad_BC != 0) {
         TObjPlayer::apply_status_effect((s32)(arg0 + 0x1C));
     }
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         e = get_attack_entry__16TObjOnlineEndingFi(i);
         if (((TUnk_804E355C *)arg0)->try_add_hit_target(e) != 0) {
             ((TUnk_804E355C *)arg0)->vfunc_6((s32 *)((s32)e));
-            ((TUnk_804E355C *)arg0)->m_a4 -= 1;
-            if (((TUnk_804E355C *)arg0)->m_a4 == 0) {
+            ((TUnk_804E355C *)arg0)->hits_left -= 1;
+            if (((TUnk_804E355C *)arg0)->hits_left == 0) {
                 queue_destruction__7TObjectFv(arg0);
                 reset_global_table();
                 return;
@@ -96,65 +96,68 @@ void TUnk_804E355C::check_hits() {
     reset_global_table();
 }
 
-void *TUnk_804E355C::destroy_attack_collision(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804E355C;
-        __dt__7TObjectFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
+// ~TUnk_804E355C (vtable slot 2 of __vt__13TUnk_804E355C). Kept as a C body: a C++
+// definition makes this file emit the vtable, and the original has it at 0x804E355C,
+// 4-aligned right after __vt__14TItemAttackCol, i.e. in one translation unit with
+// TItemAttackCol.cpp that the split still cuts in three (TItemAttackCol is unlinked).
+extern "C" {
+extern void *__vt__13TUnk_804E355C[];
+void __dt__7TObjectFv(void *self, s16 flags);
+void __dl__7TObjectFPv(void *p);
+
+TUnk_804E355C *__dt__13TUnk_804E355CFv(TUnk_804E355C *self, s16 flags) {
+    if (self != NULL) {
+        *(void ***)((u8 *)self + 0x18) = __vt__13TUnk_804E355C;
+        __dt__7TObjectFv(self, 0);
+        if (flags > 0) {
+            __dl__7TObjectFPv(self);
         }
     }
-    return this;
+    return self;
+}
 }
 
 }
 
+// 0.0f, shared with the TItemAttackCol unit's literal pool.
+extern "C" const f32 lbl_805DE914;
 
-extern "C" {
-s32 memset(void *, int, int);
-s32 get_type__10TObjPlayerFPv(void *);
-s32 __ct__7TObjectFP7TObject(void *, void *);
-extern const f32 lbl_805DE914;
-u8 *construct_attack_collision(u8 *arg0, s32 arg1, u8 *arg2);
-u8 *construct_attack_collision(u8 *arg0, s32 arg1, u8 *arg2) {
-    u32 player;
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804E355C;
-    *(f32 *)((s8 *)arg0 + 0x34) = (f32) lbl_805DE914;
-    ((TUnk_804E355C *)arg0)->m_38 = (f32) lbl_805DE914;
-    *(f32 *)((s8 *)arg0 + 0x3C) = (f32) lbl_805DE914;
-    ((TUnk_804E355C *)arg0)->m_40 = (f32) *(f32 *)((s8 *)arg2 + 0xC);
-    *(f32 *)((s8 *)arg0 + 0x44) = (f32) lbl_805DE914;
-    ((TUnk_804E355C *)arg0)->m_48 = 0;
-    *(s32 *)((s8 *)arg0 + 0x4C) = 0x41F07;
-    ((TUnk_804E355C *)arg0)->m_50 = (f32) lbl_805DE914;
-    *(f32 *)((s8 *)arg0 + 0x54) = (f32) lbl_805DE914;
-    ((TUnk_804E355C *)arg0)->m_58 = (f32) lbl_805DE914;
-    *(f32 *)((s8 *)arg0 + 0x5C) = (f32) lbl_805DE914;
-    *(u8 **)((s8 *)arg0 + 0x1C) = (unsigned char *) (arg0 + 0x34);
-    ((TUnk_804E355C *)arg0)->m_20 = 1;
-    VecCopy((Vec *)(arg0 + 0x24), (const Vec *)(arg2));
-    memset(arg0 + 0x60, 0, 0x40);
-    ((TUnk_804E355C *)arg0)->m_a0 = 0;
-    ((TUnk_804E355C *)arg0)->m_a4 = (s32) *(s32 *)((s8 *)arg2 + 0x10);
-    ((TUnk_804E355C *)arg0)->client_id = (u16) *(u16 *)((s8 *)arg2 + 0x14);
-    *(s16 *)((s8 *)arg0 + 0xAA) = (s16) *(s16 *)((s8 *)arg2 + 0x16);
-    ((TUnk_804E355C *)arg0)->m_ac = (s32) *(s32 *)((s8 *)arg2 + 0x18);
-    *(f32 *)((s8 *)arg0 + 0xB0) = (f32) *(f32 *)((s8 *)arg2 + 0x1C);
-    ((TUnk_804E355C *)arg0)->m_b4 = (f32) *(f32 *)((s8 *)arg2 + 0x20);
-    *(s32 *)((s8 *)arg0 + 0xB8) = (s32) *(s32 *)((s8 *)arg2 + 0x24);
-    *(s32 *)((s8 *)arg0 + 0xC0) = 1;
-    player = (u32)get_player_by_client_id(((s32) *(u16 *)((s8 *)arg2 + 0x14)));
-    if (player != 0U) {
-        if (get_type__10TObjPlayerFPv((void *)(player + 0x828)) != 0) {
-            ((TUnk_804E355C *)arg0)->m_bc = 1;
+
+
+TUnk_804E355C::TUnk_804E355C(TObject *parent, S_802E451C *params) : TObject(parent) {
+    TObjPlayer *player;
+    body.offset.x = lbl_805DE914;
+    body.offset.y = lbl_805DE914;
+    body.offset.z = lbl_805DE914;
+    body.radius = params->radius;
+    body.half_width = lbl_805DE914;
+    body.shape = 0;
+    body.flags = 0x41F07;
+    body.center.x = lbl_805DE914;
+    body.center.y = lbl_805DE914;
+    body.center.z = lbl_805DE914;
+    body.unk_28 = lbl_805DE914;
+    bodies = &body;
+    body_count = 1;
+    VecCopy(&position, &params->position);
+    memset(hits, 0, sizeof(hits));
+    hit_count = 0;
+    hits_left = params->hits;
+    client_id = params->client_id;
+    room = params->room;
+    item_id = params->item_id;
+    pad_B0 = params->pad_1C;
+    pad_B4 = params->pad_20;
+    pad_B8 = params->pad_24;
+    pad_C0 = 1;
+    player = get_player_by_client_id(params->client_id);
+    if (player != NULL) {
+        if (get_type__10TObjPlayerFPv(&player->m_828) != 0) {
+            pad_BC = 1;
         } else {
-            ((TUnk_804E355C *)arg0)->m_bc = 0;
+            pad_BC = 0;
         }
     } else {
-        ((TUnk_804E355C *)arg0)->m_bc = 0;
+        pad_BC = 0;
     }
-    return arg0;
-}
-
 }

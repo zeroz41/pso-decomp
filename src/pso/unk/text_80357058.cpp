@@ -18,8 +18,6 @@
 #include "pso/player/TObjPlayer.h"
 
 
-struct RecoveredGlobal_80357548___vt__20TItemEffOrgaFlowShot { s32 value; u8 remaining[0x1C]; };
-typedef char RecoveredGlobal_80357548___vt__20TItemEffOrgaFlowShot_size[sizeof(RecoveredGlobal_80357548___vt__20TItemEffOrgaFlowShot) == 0x20 ? 1 : -1];
 
 struct B_80357058 { u8 hdr[4]; u8 d[0x40]; u8 tail[8+1]; };
 
@@ -50,14 +48,12 @@ extern "C" {
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 f32 normalize_vector(void *);
-extern s32 __vt__20TItemEffOrgaFlowShot[];
-extern s32 TItemEffOrgaFlowShot__name;
+extern const char *TItemEffOrgaFlowShot__name;
 s32 is_local_client_floor_leader();
 void grid_to_world_pos__11TBoss6Type2FccPv(u8, u8, Vec_803570E4 *);
 void clear_rock_state__10TBoss6RockFl(s32 i, s32 a, s32 b);
 int olga_flow_subordinate_actions_enabled;
 void handle_6xAD_olga_flow_subordinate_boss_actions(Pkt_803570E4 *pkt);
-s32 has_game_join_id__13TUnk_804E355CFv();
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 }
@@ -181,14 +177,13 @@ void TItemEffOrgaFlowShot::update_segments() {
 #pragma push
 #pragma fp_contract on
 void TItemEffOrgaFlowShot::update_position_from_velocity() {
-    u8 *arg0 = (u8 *)this;
     f32 temp_f2;
-    temp_f2 = 0.5f * *(f32 *)&this->m_190;
-    this->m_40 = temp_f2;
-    *(f32 *)((s8 *)arg0 + 0x44) = (f32) (4.0f + *(f32 *)&this->m_194);
-    this->m_24 = (f32) ((this->m_17c * temp_f2) + this->m_114);
-    *(f32 *)&this->m_28 = (f32) *(f32 *)&this->unk_118;
-    *(f32 *)&this->unk_2C = (f32) ((this->m_184 * temp_f2) + this->m_11c);
+    temp_f2 = 0.5f * pad_190;
+    body.radius = temp_f2;
+    body.half_width = 4.0f + pad_194;
+    position.x = (pad_17C * temp_f2) + m_114;
+    position.y = *(f32 *)unk_118;
+    position.z = (pad_184 * temp_f2) + m_11c;
 }
 #pragma pop
 
@@ -207,91 +202,72 @@ void TItemEffOrgaFlowShot::render() {
     TParticleCtrl::end_effect_render();
 }
 
-void run_task__20TItemEffOrgaFlowShotFv(u8 *item_eff_orga_flow_shot) {
-    s32 temp_r3;
+void TItemEffOrgaFlowShot::run_task() {
     s32 i;
-    if (has_game_join_id__13TUnk_804E355CFv() != 0) {
-        ((TUnk_804E355C *)item_eff_orga_flow_shot)->check_hits();
+    if (has_game_join_id() != 0) {
+        check_hits();
     } else {
-        queue_destruction__7TObjectFv((item_eff_orga_flow_shot));
-        disallow_rendering__7TObjectFv((TObject *)(item_eff_orga_flow_shot));
+        queue_destruction__7TObjectFv(this);
+        disallow_rendering__7TObjectFv(this);
     }
-    TItemEffOrgaFlowShot::approach_value((f32 *)(item_eff_orga_flow_shot + 0x190), 50.0f, (f32)((f32) (*(f32 *)((s8 *)item_eff_orga_flow_shot + 0x18C))));
-    if (*(f32 *)((s8 *)item_eff_orga_flow_shot + 0x190) == *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x18C)) {
-        TItemEffOrgaFlowShot::approach_value((f32 *)(item_eff_orga_flow_shot + 0x194), 0.6f, (f32)((f32) (*(f32 *)((s8 *)item_eff_orga_flow_shot + 0x198))));
+    approach_value(&pad_190, 50.0f, pad_18C);
+    if (pad_190 == pad_18C) {
+        approach_value(&pad_194, 0.6f, pad_198);
     }
     for (i = 0; i != 10; i++) {
-        TObjBoss2Tunnel::decrement_packed_timer((u32 *)(&((O_8035740C *)item_eff_orga_flow_shot)->v[i].w), 2);
+        TObjBoss2Tunnel::decrement_packed_timer((u32 *)(&((O_8035740C *)this)->v[i].w), 2);
     }
-    if (*(f32 *)((s8 *)item_eff_orga_flow_shot + 0x194) == *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x198)) {
-        temp_r3 = ((TItemEffOrgaFlowShot *)item_eff_orga_flow_shot)->m_19c;
-        ((TItemEffOrgaFlowShot *)item_eff_orga_flow_shot)->m_19c = (temp_r3 - 1);
-        if (temp_r3 == 0) {
-            queue_destruction__7TObjectFv((item_eff_orga_flow_shot));
+    if (pad_194 == pad_198) {
+        if (pad_19C-- == 0) {
+            queue_destruction__7TObjectFv(this);
         }
     }
-    ((TItemEffOrgaFlowShot *)item_eff_orga_flow_shot)->update_segments();
-    ((TItemEffOrgaFlowShot *)item_eff_orga_flow_shot)->update_position_from_velocity();
+    update_segments();
+    update_position_from_velocity();
 }
 
-void *__dt__20TItemEffOrgaFlowShotFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TItemEffOrgaFlowShot;
-        ((TUnk_804E355C *)arg0)->destroy_attack_collision(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TItemEffOrgaFlowShot::~TItemEffOrgaFlowShot() {}
 
-u8 *TItemEffOrgaFlowShot__ct(TItemEffOrgaFlowShot *item_eff_orga_flow_shot, s32 arg1, u8 *arg2) {
-    construct_attack_collision((u8 *)item_eff_orga_flow_shot, arg1, arg2);
-    *(s32 **)((s8 *)item_eff_orga_flow_shot + 0x18) = &(*(RecoveredGlobal_80357548___vt__20TItemEffOrgaFlowShot *)&__vt__20TItemEffOrgaFlowShot).value;
-    *(s32 *)((s8 *)item_eff_orga_flow_shot + 0) = (s32) TItemEffOrgaFlowShot__name;
-    *(s32 *)((s8 *)item_eff_orga_flow_shot + 0xC0) = 0;
-    item_eff_orga_flow_shot->m_48 = 1;
-    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x44) = 10.0f;
-    *(s32 *)((s8 *)item_eff_orga_flow_shot + 0x30) = (s32) *(s32 *)((s8 *)arg2 + 0x28);
-    item_eff_orga_flow_shot->m_188 = (s32) *(s32 *)((s8 *)arg2 + 0x28);
-    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x190) = 0.0f;
-    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x18C) = 200.0f;
-    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x194) = 0.0f;
-    item_eff_orga_flow_shot->m_19c = 0x14;
-    item_eff_orga_flow_shot->m_17c = sin_table_lookup(item_eff_orga_flow_shot->m_188);
-    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x180) = 0.0f;
-    item_eff_orga_flow_shot->m_184 = cos_table_lookup(item_eff_orga_flow_shot->m_188);
-    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x164) = (f32) (*(f32 *)((s8 *)arg2 + 0x2C) - *(f32 *)((s8 *)arg2 + 0x38));
-    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x168) = (f32) (*(f32 *)((s8 *)arg2 + 0x30) - *(f32 *)((s8 *)arg2 + 0x3C));
-    item_eff_orga_flow_shot->m_16c = (f32) (*(f32 *)((s8 *)arg2 + 0x34) - *(f32 *)((s8 *)arg2 + 0x40));
-    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x198) = (f32) (3.0f * normalize_vector((u8 *)item_eff_orga_flow_shot + 0x164));
-    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x170) = (f32) (*(f32 *)((s8 *)arg2 + 0x5C) - *(f32 *)((s8 *)arg2 + 0x50));
-    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x174) = (f32) (*(f32 *)((s8 *)arg2 + 0x60) - *(f32 *)((s8 *)arg2 + 0x54));
-    item_eff_orga_flow_shot->m_178 = (f32) (*(f32 *)((s8 *)arg2 + 0x64) - *(f32 *)((s8 *)arg2 + 0x58));
-    normalize_vector((u8 *)item_eff_orga_flow_shot + 0x170);
-    item_eff_orga_flow_shot->m_f4 = (f32) *(f32 *)((s8 *)arg2 + 0x38);
-    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0xF8) = (f32) *(f32 *)((s8 *)arg2 + 0x3C);
-    item_eff_orga_flow_shot->m_fc = (f32) *(f32 *)((s8 *)arg2 + 0x40);
-    item_eff_orga_flow_shot->m_100 = 0x6040FF40;
-    item_eff_orga_flow_shot->m_114 = (f32) *(f32 *)((s8 *)arg2 + 0x44);
-    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x118) = (f32) *(f32 *)((s8 *)arg2 + 0x48);
-    item_eff_orga_flow_shot->m_11c = (f32) *(f32 *)((s8 *)arg2 + 0x4C);
-    item_eff_orga_flow_shot->m_120 = 0x408840;
-    item_eff_orga_flow_shot->m_134 = (f32) *(f32 *)((s8 *)arg2 + 0x50);
-    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x138) = (f32) *(f32 *)((s8 *)arg2 + 0x54);
-    item_eff_orga_flow_shot->m_13c = (f32) *(f32 *)((s8 *)arg2 + 0x58);
-    item_eff_orga_flow_shot->m_140 = 0x6040FF40;
-    item_eff_orga_flow_shot->m_e0 = 0x408840;
-    item_eff_orga_flow_shot->m_160 = 0x408840;
-    item_eff_orga_flow_shot->update_segments();
-    item_eff_orga_flow_shot->update_position_from_velocity();
-    return (u8 *)item_eff_orga_flow_shot;
+TItemEffOrgaFlowShot::TItemEffOrgaFlowShot(TObject *parent, S_80357734 *params) : TUnk_804E355C(parent, params) {
+    m_name = TItemEffOrgaFlowShot__name;
+    pad_C0 = 0;
+    body.shape = 1;
+    body.half_width = 10.0f;
+    rotation_y = params->rotation_y;
+    pad_188 = params->rotation_y;
+    pad_190 = 0.0f;
+    pad_18C = 200.0f;
+    pad_194 = 0.0f;
+    pad_19C = 0x14;
+    pad_17C = sin_table_lookup(pad_188);
+    pad_180 = 0.0f;
+    pad_184 = cos_table_lookup(pad_188);
+    pad_164.x = params->joints[0].x - params->joints[1].x;
+    pad_164.y = params->joints[0].y - params->joints[1].y;
+    pad_164.z = params->joints[0].z - params->joints[1].z;
+    pad_198 = 3.0f * normalize_vector(&pad_164);
+    pad_170.x = params->joints[4].x - params->joints[3].x;
+    pad_170.y = params->joints[4].y - params->joints[3].y;
+    pad_170.z = params->joints[4].z - params->joints[3].z;
+    normalize_vector(&pad_170);
+    m_f4 = params->joints[1].x;
+    *(f32 *)unk_F8 = params->joints[1].y;
+    m_fc = params->joints[1].z;
+    m_100 = 0x6040FF40;
+    m_114 = params->joints[2].x;
+    *(f32 *)unk_118 = params->joints[2].y;
+    m_11c = params->joints[2].z;
+    m_120 = 0x408840;
+    m_134 = params->joints[3].x;
+    *(f32 *)unk_138 = params->joints[3].y;
+    m_13c = params->joints[3].z;
+    m_140 = 0x6040FF40;
+    m_e0 = 0x408840;
+    m_160 = 0x408840;
+    update_segments();
+    update_position_from_velocity();
 }
 
 void TItemEffOrgaFlowShot::create(void *arg0, void *arg1) {
-    void *o;
-    o = __nw__7TObjectFUl(0x1A0);
-    if (o != NULL) {
-        TItemEffOrgaFlowShot__ct((TItemEffOrgaFlowShot *)((u8 *)o), (s32)((s32)arg0), (u8 *)((u8 *)arg1));
-    }
+    new TItemEffOrgaFlowShot((TObject *)arg0, (S_80357734 *)arg1);
 }

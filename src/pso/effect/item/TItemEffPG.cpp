@@ -6,7 +6,6 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
-#include "pso/effect/item/TItemEffPG_8034FF4C.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -182,24 +181,31 @@ u8 *TItemEffPG__visual_ct(u8 *arg0, u8 *arg1, u8 *arg2) {
 s32 TUnk_804F0C08::vfunc_7() {
     s32 temp_r4;
 
-    temp_r4 = *(s32 *)((s8 *)this + 0xD4);
+    temp_r4 = this->pad_D4;
     if (temp_r4 > 0) {
-        *(s32 *)((s8 *)this + 0xD4) = (temp_r4 - 1);
+        this->pad_D4 = (temp_r4 - 1);
         return 1;
     }
     return 0;
 }
 
-extern s32 lbl_804F0C08[];
+// ~TUnk_804F0C08 (vtable slot 2 of __vt__13TUnk_804F0C08). Kept as a C body: a C++
+// definition here emits its vtable before __vt__13TUnk_804F0BF0 (CodeWarrior emits
+// vtables in reverse key-function order), while the original has 0BF0, 0C08 and
+// TItemEffPG in address order: one TU with TItemEffPG_8034FE28.cpp, written backwards.
+extern "C" {
+extern void *__vt__13TUnk_804F0C08[];
+void __dt__10TItemEffPGFv(void *self, s16 flags);
 
-void *TUnk_804F0C08::destroy(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = lbl_804F0C08;
-        __dt__10TItemEffPGFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
+TUnk_804F0C08 *__dt__13TUnk_804F0C08Fv(TUnk_804F0C08 *self, s16 flags) {
+    if (self != NULL) {
+        *(void ***)((u8 *)self + 0x18) = __vt__13TUnk_804F0C08;
+        __dt__10TItemEffPGFv(self, 0);
+        if (flags > 0) {
+            __dl__7TObjectFPv(self);
         }
     }
-    return this;
+    return self;
+}
 }
 

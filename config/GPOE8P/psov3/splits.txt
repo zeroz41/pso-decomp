@@ -2855,6 +2855,7 @@ pso/weapon/TUnk_804A2450.cpp:
 
 pso/player/TUnk_804A2548.cpp:
 	.text       start:0x801254D8 end:0x8012599C
+	.data       start:0x804A2548 end:0x804A2564
 	.sdata2     start:0x805DAD58 end:0x805DAD64
 
 pso/weapon/TUnk_804A2678.cpp:
@@ -10374,6 +10375,7 @@ pso/effect/item/TItemEffPG.cpp:
 pso/effect/item/TItemEffPG_8034FE28.cpp:
 	.text       start:0x8034FE28 end:0x803501BC
 	.rodata     start:0x80478CB8 end:0x80478CD0
+	.data       start:0x804F0C28 end:0x804F0C48
 	.sdata      start:0x805D4350 end:0x805D4358
 
 pso/item/TUnk_804F0C48.cpp:
@@ -10512,6 +10514,7 @@ pso/boss/olgaflow/TBoss6Type2_80356E50.cpp:
 
 pso/unk/text_80357058.cpp:
 	.text       start:0x80357058 end:0x80357734
+	.data       start:0x804F1488 end:0x804F14A8
 	.sbss       start:0x805D6F20 end:0x805D6F24
 	.sdata2     start:0x805E0028 end:0x805E0048
 
