@@ -9223,39 +9223,14 @@ pso/boss/goldragon/TBoss8Dragon_802F3AB4.cpp:
 	.text       start:0x802F3AB4 end:0x802F3CA0
 	.data       start:0x804E4BF0 end:0x804E4C08
 
-pso/boss/goldragon/TBoss8Dragon_802F3CA0.cpp:
-	.text       start:0x802F3CA0 end:0x802F3EE4
-	.rodata     start:0x80474B08 end:0x80474B10
-
-pso/boss/goldragon/TBoss8Dragon_802F3EE4.cpp:
-	.text       start:0x802F3EE4 end:0x802F3F20
-
-pso/boss/goldragon/TBoss8Dragon_802F3F20.cpp:
-	.text       start:0x802F3F20 end:0x802F42A0
-
-pso/boss/goldragon/TBoss8Dragon_802F42A0.cpp:
-	.text       start:0x802F42A0 end:0x802F4324
-
-pso/boss/goldragon/TBoss8Dragon_802F4324.cpp:
-	.text       start:0x802F4324 end:0x802F4380
-
-pso/boss/goldragon/TBoss8Dragon_802F4380.cpp:
-	.text       start:0x802F4380 end:0x802F4480
-
-pso/boss/goldragon/TBoss8Dragon_802F4480.cpp:
-	.text       start:0x802F4480 end:0x802F44D8
-
 pso/boss/goldragon/TBoss8Dragon.cpp:
-	.text       start:0x802F44D8 end:0x802FDDD4
-	.rodata     start:0x80474B10 end:0x80474B18
+	.text       start:0x802F3CA0 end:0x802FDF34
+	.ctors      start:0x80433FE0 end:0x80433FE4
+	.rodata     start:0x80474B08 end:0x80474B18
 	.data       start:0x804E4C08 end:0x804E5E78
 	.bss        start:0x80541DC8 end:0x80541E48
+	.sbss       start:0x805D6980 end:0x805D69C8
 	.sdata2     start:0x805DED50 end:0x805DEEA0
-
-pso/boss/goldragon/TBoss8Dragon_802FDDD4.cpp:
-	.text       start:0x802FDDD4 end:0x802FDF34
-	.ctors      start:0x80433FE0 end:0x80433FE4
-	.sbss       start:0x805D6980 end:0x805D6988
 
 pso/boss/goldragon/TBoss8DragonEffBreath.cpp:
 	.text       start:0x802FDF34 end:0x802FE0E0

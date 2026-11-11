@@ -306,6 +306,7 @@ pso/boss/barbaray/TBoss7LaserPtcl.cpp
 pso/boss/barbaray/TBoss7LaserPtcl_8035AE54.cpp
 pso/boss/barbaray/TBoss7PhotonBullet_802EF26C.cpp
 pso/boss/barbaray/TBoss7TentacleNeedle.cpp
+pso/boss/goldragon/TBoss8Dragon.cpp
 pso/boss/goldragon/TBoss8DragonColli.cpp
 pso/boss/goldragon/TBoss8DragonDemo.cpp
 pso/boss/goldragon/TBoss8DragonEffBreath.cpp
@@ -324,14 +325,6 @@ pso/boss/goldragon/TBoss8Dragon_802F3638.cpp
 pso/boss/goldragon/TBoss8Dragon_802F36DC.cpp
 pso/boss/goldragon/TBoss8Dragon_802F376C.cpp
 pso/boss/goldragon/TBoss8Dragon_802F3AB4.cpp
-pso/boss/goldragon/TBoss8Dragon_802F3CA0.cpp
-pso/boss/goldragon/TBoss8Dragon_802F3EE4.cpp
-pso/boss/goldragon/TBoss8Dragon_802F3F20.cpp
-pso/boss/goldragon/TBoss8Dragon_802F42A0.cpp
-pso/boss/goldragon/TBoss8Dragon_802F4324.cpp
-pso/boss/goldragon/TBoss8Dragon_802F4380.cpp
-pso/boss/goldragon/TBoss8Dragon_802F4480.cpp
-pso/boss/goldragon/TBoss8Dragon_802FDDD4.cpp
 pso/boss/goldragon/TBoss8Dragon_80324D3C.cpp
 pso/boss/goldragon/TBoss8Dragon_80325D38.cpp
 pso/boss/goldragon/TBoss8Dragon_80359A7C.cpp
