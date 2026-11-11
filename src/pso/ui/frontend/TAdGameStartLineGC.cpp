@@ -1,9 +1,28 @@
-#include "pso/ui/frontend/TAdGameStartLineGC.h"
-
 #include "types.h"
+#include "pso/ui/frontend/TAdGameStartLineGC.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+
+extern "C" {
+extern void *lbl_805D6C18;
+}
+
+#pragma push
+#pragma fp_contract on
+void TAdGameStartLineGC::fn_80320DE8() {
+    begin_screen_draw(1);
+    TObjFish::set_global_param((s32)lbl_805D6C18);
+    set_draw_texture_and_color(0, m_158);
+    for (u32 i = 0; i < 4; i++) {
+        draw_textured_quad_at_depth(&cur[i].x0, 0.0001f * i + 0.795f);
+    }
+    TWindowSubStatusDisp::get_player();
+}
+#pragma pop
 
 struct Quad_80320EF0 {
     f32 x0, y0, x1, y1;
@@ -33,7 +52,6 @@ void *__ct__7TObjectFP7TObject(void *, void *);
 void *get_instance__10TObjPlayerFv(void);
 extern void *__vt__18TAdGameStartLineGC[];
 extern void *TAdGameStartLineGC__name;
-extern void *lbl_805D6C18;
 TAdGameStartLineGC_80320EF0 *__ct__18TAdGameStartLineGCFv(TAdGameStartLineGC_80320EF0 *self, void *parent);
 
 void TAdGameStartLineGC::render() { if (TMainTask::get_render_pass() != 1) { set_additive_blend(); fn_80320DE8(); set_default_alpha_blend(); } }

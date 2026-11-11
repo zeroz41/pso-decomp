@@ -1,14 +1,25 @@
+#include "pso/unk/SampledMotionPoints.h"
+#include "pso/system/vector.h"
 #include "pso/animation/MotionContext.h"
 #include "pso/math/FloatRounding.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
-#include "pso/unk/SampledMotionPoints.h"
 #include "pso/math/MatrixVector.h"
-
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/memory.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
 #include "pso/player/TObjPlayer.h"
+
+extern Vec TObjEneMe3ShinowaMirage_motion_trail_points[2];
+extern s32 lbl_80500FA4[3];
+
+void SampledMotionPoints::sample_node_offsets(NJS_OBJECT *model, NJS_MOTION *motion, s32 node_index, const Vec *first_offset, const Vec *second_offset) {
+    lbl_80500FA4[0] = node_index;
+    lbl_80500FA4[1] = node_index;
+    VecCopy(&TObjEneMe3ShinowaMirage_motion_trail_points[0], first_offset);
+    VecCopy(&TObjEneMe3ShinowaMirage_motion_trail_points[1], second_offset);
+    sample(model, motion, lbl_80500FA4, TObjEneMe3ShinowaMirage_motion_trail_points);
+}
 
 extern "C" {
 Vec lbl_80500F80;

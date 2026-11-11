@@ -1,12 +1,13 @@
-#define TOBJECT_OUT_OF_LINE_HELPERS
+#include "types.h"
+#include "pso/unk/TLobby_80291D94.h"
+#include "pso/network/TPlyJoinLobbyEntry.h"
+#include "pso/unk/text_803000C8.h"
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/enemy/dolmolm/TObjEneDolmOlm.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
-
-#include "types.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/ui/TLevelSelect.h"
@@ -17,6 +18,29 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/ui/window/TWindowMenu.h"
+
+extern "C" {
+s32 is_split_screen(void);
+extern s32 TAdMultiSelGameModeGC__data_805D69F0;
+void fn_803000C8(void) {
+    if (is_split_screen() != 0) {
+        switch (TAdMultiSelGameModeGC__data_805D69F0) {
+        case 1:
+            set_player_count__6TLobbyFi(1);
+            break;
+        case 2:
+            enable_split_screen_challenge_mode();
+            break;
+        case 0:
+            break;
+        }
+    }
+}
+
+}
+
+#define TOBJECT_OUT_OF_LINE_HELPERS
+
 
 struct Self_80300770 {
     u8 pad0[0x1C];
@@ -47,7 +71,6 @@ struct Obj_8030095C {
 };
 
 extern "C" {
-extern s32 TAdMultiSelGameModeGC__data_805D69F0;
 s32 is_multiplayer_character_slot_selected(u32);
 Ent_80300850 *get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int);
 void *__nw__7TObjectFUl(u32);
