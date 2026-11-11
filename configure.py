@@ -703,10 +703,12 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/derolle/TBoss2DeRolLe.cpp": {"mw_version": "GC/2.0"},
     "pso/effect/TEffIndirectCtrl.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/boss/darkfalz/TObjDFDemo1.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
+    "pso/boss/darkfalz/TObjDFDemo4.cpp": {"cflags": _switch(cflags_pso, "-inline deferred", "-sdata 4")},
     # -sdata 4: the 8-byte motion id table 0x804EF9D8 sits in .data, the 4-byte class name in .sdata.
     # deferred: the ctor addresses .data from one base with the vtable at +0x14, and the .sdata2
-    # pool order only comes out with the functions emitted last to first.
-    "pso/boss/olgaflow/TBoss6Demo11_TYPE1_DEAD.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-sdata 4")},
+    # pool order only comes out with the functions emitted last to first. Inlining on: the ctor's
+    # three .rodata tables are local statics of inline helpers, addressed by symbol, not pooled.
+    "pso/boss/olgaflow/TBoss6Demo11_TYPE1_DEAD.cpp": {"cflags": _switch(cflags_pso, "-inline deferred", "-sdata 4")},
     # GC/1.3.2: the container files 0x8018807C-0x8018D900, the CRC-32 pair
     # (`xoris/xori 0xFFFF`; 2.x always emits `li -1; xor`), and five others.
     # TObjCamera: 1.3.2 copies CameraSoundEvent member by member unscheduled.

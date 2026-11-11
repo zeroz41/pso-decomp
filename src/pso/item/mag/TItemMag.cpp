@@ -20,7 +20,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"

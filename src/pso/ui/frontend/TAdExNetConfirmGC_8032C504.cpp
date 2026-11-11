@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdExNetConfirmGC.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdExNetConfirmGC_8032C504.h"

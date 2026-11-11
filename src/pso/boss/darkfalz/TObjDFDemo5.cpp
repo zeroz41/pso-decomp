@@ -29,9 +29,6 @@
 #pragma defer_codegen on
 
 extern "C" {
-// Dark Falz's three body models (TBoss4Type3's table).
-extern s32 lbl_80486FB0[3];
-
 const char *TObjDFDemo5__name = "TObjDFDemo5";
 TObjFishNodeEntry lbl_80485798[3] = {{0x38}, {0x39}, {-1}};
 TObjFishNodeEntry lbl_804857C8[2] = {{0}, {-1}};

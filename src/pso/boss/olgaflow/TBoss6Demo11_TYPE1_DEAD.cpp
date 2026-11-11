@@ -43,9 +43,7 @@ void *TBoss6PlotFalz::create(void *parent, void *arg) {
     return new TBoss6Demo11_TYPE1_DEAD((TObject *)parent, arg);
 }
 
-// inline: the original reaches its three local statics by name, not through the TU's
-// .rodata anchor, which only a weak (inline) copy does under -inline deferred.
-inline TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TObject *parent, void *arg) : TObject(parent) {
+inline const EffectNodeDesc *dead_effect_nodes() {
     static const EffectNodeDesc lbl_80477E60[] = {
         {0, {0.0f, 0.0f, 0.0f}},
         {4, {0.0f, 0.0f, 0.0f}},
@@ -54,8 +52,19 @@ inline TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TObject *parent, void *a
         {0x31, {0.0f, 0.0f, 0.0f}},
         {-1, {0.0f, 0.0f, 0.0f}},
     };
+    return lbl_80477E60;
+}
+inline const CameraAngles *dead_camera_angles() {
     static const CameraAngles lbl_80477EC0 = {0, 0, 0};
+    return &lbl_80477EC0;
+}
+inline const CameraPlayback *dead_camera_playback() {
     static const CameraPlayback lbl_80477ECC = {1, 0, 0, 0.0f, 0.7f};
+    return &lbl_80477ECC;
+}
+
+TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TObject *parent, void *arg) : TObject(parent) {
+    u32 model_id;
     BmlResource *resource;
     s32 i;
     m_name = TBoss6Demo11_TYPE1_DEAD__name;
@@ -63,16 +72,16 @@ inline TBoss6Demo11_TYPE1_DEAD::TBoss6Demo11_TYPE1_DEAD(TObject *parent, void *a
     VecCopy(&position, &lbl_804EF9E0);
     resource = (BmlResource *)TObjFish::get_fish_count();
     for (i = 0; i < 2; i++) {
-        const s32 model_id = lbl_804DF614[i];
+        model_id = lbl_804DF614[i];
         parts[i].model = get_bml_model(resource, model_id);
         parts[i].texture = TObjFish__sub_8001EDB0(resource, model_id);
         parts[i].motion = get_bml_motion(resource, lbl_804EF9D8[i]);
     }
-    node_effect = (TObjFish *)TObjFish__sub_800E3124((u8 *)lbl_80477E60, (s32)effect_points);
+    node_effect = (TObjFish *)TObjFish__sub_800E3124((u8 *)dead_effect_nodes(), (s32)effect_points);
     emitter = NULL;
     activate_camera_mode(5);
-    set_scripted_camera_pose(&position, &position, &lbl_80477EC0);
-    ((TCameraCtrl *)&lbl_80477ECC)->cache_target_and_forward(0x416C);
+    set_scripted_camera_pose(&position, &position, dead_camera_angles());
+    ((TCameraCtrl *)dead_camera_playback())->cache_target_and_forward(0x416C);
     frame = 0.0f;
     timer = 0;
 }

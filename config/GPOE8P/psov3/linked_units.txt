@@ -811,6 +811,7 @@ pso/ui/city/TJudgmentSequence.cpp
 pso/ui/city/TJudgmentSequence_8021E4C4.cpp
 pso/ui/keyboard/TKeyBoardControl.cpp
 pso/ui/keyboard/TKeyBoardControl_8000F764.cpp
+pso/ui/keyboard/TKeyBoardControl_8000F824.cpp
 pso/ui/keyboard/TKeyBoardControl_80131C58.cpp
 pso/ui/keyboard/TKeyBoardControl_801A57C4.cpp
 pso/unk/TLobby_80243370.cpp
@@ -2254,6 +2255,7 @@ pso/ui/frontend/TAdTitleGC.cpp
 pso/ui/frontend/TAdTrialAgreementGC.cpp
 pso/ui/frontend/TAdTrialAgreementGC_8033573C.cpp
 pso/ui/frontend/TAdTrialModemChkGC.cpp
+pso/ui/frontend/TAdTrialModemChkGC_8042E9FC.cpp
 pso/ui/frontend/TAdVIConfigGC.cpp
 pso/ui/frontend/TAdVIConfigGC_80248B8C.cpp
 pso/ui/frontend/TAdVIConfigGC_80308200.cpp
@@ -2292,9 +2294,6 @@ pso/unk/text_8002B164.cpp
 pso/unk/text_80049FD8.cpp
 pso/unk/text_8004AA04.cpp
 pso/unk/text_8004D9A8.cpp
-pso/boss/darkfalz/TObjDFDemo4_8004F1FC.cpp
-pso/boss/darkfalz/TObjDFDemo4_8004F2A8.cpp
-pso/boss/darkfalz/TObjDFDemo4_8004F5F8.cpp
 pso/boss/darkfalz/TObjDFDemoF_80050050.cpp
 pso/boss/darkfalz/TObjDFDemoF_80050134.cpp
 pso/boss/darkfalz/TObjDFYutai_800502FC.cpp
@@ -2792,3 +2791,4 @@ pso/network/PppMd5.c
 pso/network/NetByteOrder.c
 pso/network/PppControl.c
 pso/network/PppVj.c
+pso/boss/olgaflow/TBoss6Demo11_TYPE1_DEAD.cpp

@@ -45,4 +45,10 @@ struct TObjDFDemo5 : public TObjBase {
 };
 
 typedef char TObjDFDemo5_size[sizeof(TObjDFDemo5) == 0x118 ? 1 : -1];
+
+extern "C" {
+// Dark Falz's three body models (TBoss4Type3's table).
+extern s32 lbl_80486FB0[3];
+}
+
 #endif

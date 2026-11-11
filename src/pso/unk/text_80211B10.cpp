@@ -67,7 +67,7 @@ int TLobby::get_selected_quest_id() { return get_selected_quest_id__16TQuestList
 // ---- pso/unk/text_80211C3C
 #include "types.h"
 #include "pso/unk/text_80211C3C.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/quest/TQuestListOnline.h"
 
 extern "C" {
@@ -102,7 +102,7 @@ s32 TLobby__sub_80211C3C(void) {
 
 // ---- pso/unk/TLobby_80211CE0
 #include "types.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_80211F0C.h"
 
@@ -128,7 +128,7 @@ s32 TLobby::handle_main_phase(s32 arg0) {
 // ---- pso/unk/text_80211D58
 #include "types.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/unk/text_80211D58.h"
 #include "pso/ui/city/THunterGuildWarning.h"
@@ -197,7 +197,7 @@ s32 TLobby__sub_80211D58(s32 arg0) {
 #include "types.h"
 #include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
 #include "pso/ui/city/THunterGuildWarning.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_80211F0C.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"

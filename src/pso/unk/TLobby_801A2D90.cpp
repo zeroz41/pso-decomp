@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_801A2D90.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/object/switch/TSwitch.h"

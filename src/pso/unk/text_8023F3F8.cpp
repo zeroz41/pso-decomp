@@ -6,7 +6,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/text_800FA464.h"
