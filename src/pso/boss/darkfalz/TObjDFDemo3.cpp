@@ -75,9 +75,7 @@ void *lbl_804856C0[8] = {
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
     (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x0,
 };
-void *lbl_804856E0[3] = {
-    (void *)0x60000, (void *)0x0, (void *)0x3f800000,
-};
+CameraPlayback lbl_804856E0 = {0, 6, 0, 0.0f, 1.0f};
 void *__vt__11TObjDFDemo3[13] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__11TObjDFDemo3Fv, (void *)&run_task__11TObjDFDemo3Fv,
     (void *)&render__11TObjDFDemo3Fv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
@@ -220,7 +218,7 @@ u8 *TObjDFDemo3__ct(u8 *arg0, s32 parent, s32 arg2, s32 arg3) {
         c.y = *(s32 *)((s8 *)arg0 + 0xAC);
         set_scripted_camera_pose(arg0 + 0xA0, arg0 + 0xA0, &c);
     }
-    ((CameraPlayback *)lbl_804856E0)->cache_target_and_forward(0x1555);
+    lbl_804856E0.cache_target_and_forward(0x1555);
     *(s32 *)((s8 *)arg0 + 0xB8) = TObjFish__sub_800E3124(lbl_804856C0, (s32)(arg0 + 0xBC));
     *(s32 *)((s8 *)arg0 + 0xB0) = 0;
     return arg0;
