@@ -1450,8 +1450,9 @@ pso/effect/TBreakUpMdl.cpp:
 
 pso/enemy/bringer/TObjEneDf2Bringer.cpp:
 	.text       start:0x80097100 end:0x80099EF8
-	.rodata     start:0x8043A0F0 end:0x8043A108
+	.rodata     start:0x80439F70 end:0x8043A128
 	.data       start:0x8048FA10 end:0x8048FE08
+	.sdata      start:0x805D29A0 end:0x805D29A8
 
 pso/player/TObjPlayer_80099EF8.cpp:
 	.text       start:0x80099EF8 end:0x80099F00

@@ -13,6 +13,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/system/BmlResourceDescriptor.h"
 
 struct RecoveredGlobal_80096F54_TBreakUpMdl__data_8048FA00 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_80096F54_TBreakUpMdl__data_8048FA00_size[sizeof(RecoveredGlobal_80096F54_TBreakUpMdl__data_8048FA00) == 0x10 ? 1 : -1];
@@ -68,47 +69,10 @@ extern "C" {
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
-extern Vec lbl_8043A0E0;
 extern const f32 lbl_805D97D8;
 extern const f32 lbl_805D97DC;
 extern const f32 TObjEneDf2Bringer__data_805D97E0;
 
-void TObjEneDf2Bringer::vfunc_105() {
-    Bringer_80097100 *self = (Bringer_80097100 *)this;
-    f32 frame;
-    s32 i;
-    Motion_80097100 *mot;
-    ((TObjEneDD *)self)->get_target_info();
-    if (self->m8(lbl_805D97D8, lbl_805D97DC) != 0) {
-        Vec v = lbl_8043A0E0;
-        ((TObjEneDD *)(self))->draw_ground_shadow(&v, 0);
-        TObjPlayer::toggle_particle_effect();
-        TObjFish::set_global_param((s32)self->texlist);
-        push_matrix();
-        post_translate_matrix(self->pos);
-        rotate_matrix_y(0, self->f60);
-        i = (s32)self->animIdx;
-        if (i < 0) {
-            i = 0;
-        } else if (i >= 11) {
-            i = 10;
-        }
-        mot = self->mots[self->anims[i].idx].mot;
-        frame = self->frame;
-        if (frame < TObjEneDf2Bringer__data_805D97E0) {
-            frame = TObjEneDf2Bringer__data_805D97E0;
-        } else if (frame > (mot->count - 1)) {
-            frame = (mot->count - 1);
-        }
-        set_motion_packed_rotation();
-        draw_model_motion((void *)self->f34, mot, frame);
-        clear_motion_packed_rotation();
-        pop_matrix();
-        TParticleCtrl::end_effect_render();
-    }
-}
-
-void TObjEneDf2Bringer::vfunc_83() { if (get_target_info() != 0) { sub_800994F8(); } }
 
 }
 
@@ -196,21 +160,6 @@ struct RecoveredGlobal_8031B170_lbl_804E8880
   u8 remaining[0xCC];
 };
 extern "C" {
-extern "C" u8 lbl_80439F70[];
-extern "C" u8 lbl_80439F84[];
-extern "C" u8 lbl_80439F9C[];
-extern "C" u8 lbl_80439FB4[];
-extern "C" u8 lbl_80439FD0[];
-extern "C" u8 lbl_80439FE8[];
-extern "C" u8 lbl_8043A000[];
-extern "C" u8 lbl_8043A018[];
-extern "C" u8 lbl_8043A030[];
-extern "C" u8 lbl_8043A048[];
-extern "C" u8 lbl_8043A060[];
-extern "C" u8 lbl_8043A078[];
-extern "C" u8 lbl_8043A090[];
-extern void *bm_ene_df2_bringer_model_names[2];
-extern void *bm_ene_df2_bringer_motion_names[12];
 void *bringer_init_params[7] = {
     (void *)0x43610000, (void *)0x0, (void *)0x600, (void *)0x0,
     (void *)0x0, (void *)0x0, (void *)0x0,
@@ -226,16 +175,27 @@ void *lbl_8048FA2C[33] = {
     (void *)0x9d03, (void *)0x0, (void *)0x0, (void *)0x0,
     (void *)0x0,
 };
-__declspec(section ".data") void *bm_ene_df2_bringer_model_names[2] = {
-    (void *)&lbl_80439F70, (void *)0x0,
+// The Bringer's model and motions, and the archive that holds them.
+__declspec(section ".data") const char *bm_ene_df2_bringer_model_names[2] = {
+    "bm8_s_kb_body.nj",
+    NULL
 };
-void *bm_ene_df2_bringer_motion_names[12] = {
-    (void *)&lbl_80439F84, (void *)&lbl_80439F9C, (void *)&lbl_80439FB4, (void *)&lbl_80439FD0,
-    (void *)&lbl_80439FE8, (void *)&lbl_8043A000, (void *)&lbl_8043A018, (void *)&lbl_8043A030,
-    (void *)&lbl_8043A048, (void *)&lbl_8043A060, (void *)&lbl_8043A078, (void *)0x0,
+const char *bm_ene_df2_bringer_motion_names[12] = {
+    "beam_bm8_s_kb_body.njm",
+    "cold_bm8_s_kb_body.njm",
+    "damage_bm8_s_kb_body.njm",
+    "dead_bm8_s_kb_body.njm",
+    "hoe_bm8_s_kb_body.njm",
+    "kamae_bm8_s_kb_body.njm",
+    "kiri_bm8_s_kb_body.njm",
+    "run_bm8_s_kb_body.njm",
+    "tpkyu_bm8_s_kb_body.njm",
+    "wait_bm8_s_kb_body.njm",
+    "walk_bm8_s_kb_body.njm",
+    NULL
 };
-void *bm_ene_df2_bringer_resource_descriptor[4] = {
-    (void *)&lbl_8043A090, (void *)&bm_ene_df2_bringer_model_names, (void *)&bm_ene_df2_bringer_motion_names, (void *)0x1000b,
+BmlResourceDescriptor bm_ene_df2_bringer_resource_descriptor = {
+    "bm_ene_df2_bringer.bml", bm_ene_df2_bringer_model_names, bm_ene_df2_bringer_motion_names, 1, 11
 };
 void *lbl_8048FAF8[44] = {
     (void *)0x10000, (void *)0x9, (void *)0x3f4ccccd, (void *)0x0,
@@ -880,7 +840,6 @@ s32 scroll_strip_uvs(int, int, int);
 s32 defer_render__7TObjectFv(void *);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-extern Vec lbl_8043A0D4[];
 extern s32 TObjEneDf2Bringer__uv_scroll_buffer;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -1011,7 +970,7 @@ struct Obj_80098FF4 {
     u8 field2FC[4];
 };
 
-struct Pair_800993E8 { s32 a; u32 flags; };
+struct Pair_800993E8 { f32 a; u32 flags; };
 
 struct ChildBase_800993E8 { char pad[0x18]; };
 
@@ -1184,7 +1143,6 @@ void enemy_set_target_id(void *, u16);
 s32 is_alive__8TObjBaseFv(void *);
 f32 horizontal_distance_squared(void *, void *);
 extern const f32 lbl_805D982C;
-extern Pair_800993E8 lbl_8043A0CC[];
 #define TObjEneDf2Bringer__trail_buffer (*(void * *)&TObjEneDf2Bringer__trail_buffer)
 extern const f32 lbl_805D9838;
 extern const f32 lbl_805D983C;
@@ -1561,7 +1519,7 @@ void invoke_initialization_hook__9TObjEneDDFPv(void *, void *);
 
 
 extern s32 __ct__15RenderFadeStateFv[];
-extern void *lbl_805D29A0;
+const char *TObjEneDf2Bringer__name = "TObjEneDf2Bringer";
 
 
 struct Vec_80099800 { f32 x, y, z; };
@@ -1612,7 +1570,7 @@ struct Ent_80099BD4
 struct Sp_80099BD4
 {
   s32 a;
-  s32 b;
+  void *b;
   s32 c;
   s32 d;
 };
@@ -1635,10 +1593,8 @@ s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 }
 extern "C" {
-u32 load_enemy_bml_resource_named(void *, void *);
+u32 load_enemy_bml_resource_named(void *, const char *);
 s32 load_enemy_bml_resource(u8 *arg0);
-extern Sp_80099BD4 lbl_8043A0BC[];
-extern u8 lbl_8043A108[];
 extern const f32 lbl_805D9848;
 extern const f32 lbl_805D984C;
 #define bringer_camera_ctrl_target_vec (*(Vec_80099BD4 *)&bringer_camera_ctrl_target_vec)
@@ -1686,11 +1642,11 @@ void TObjEneDf2Bringer::load_resources() {
   bringer_camera_ctrl_target_vec.z = TObjEneDf2Bringer__data_805D97E0;
   if (TObjEneDD::check_v2_mode() != 0)
   {
-    TObjEneDf2Bringer__resource_bundle = load_enemy_bml_resource_named(bm_ene_df2_bringer_resource_descriptor, lbl_8043A108);
+    TObjEneDf2Bringer__resource_bundle = load_enemy_bml_resource_named(&bm_ene_df2_bringer_resource_descriptor, "bm_ene_df2_bringer_a.bml");
   }
   else
   {
-    TObjEneDf2Bringer__resource_bundle = load_enemy_bml_resource((u8 *)bm_ene_df2_bringer_resource_descriptor);
+    TObjEneDf2Bringer__resource_bundle = load_enemy_bml_resource((u8 *)&bm_ene_df2_bringer_resource_descriptor);
   }
   bringer_boss_stats_handle = register_boss__6TLobbyFl(0xD);
   bringer_boss_stats_ptr_b = dispatch_shared_handler_b__6TLobbyFl(0xD);
@@ -1749,8 +1705,7 @@ void TObjEneDf2Bringer::load_resources() {
   TObjEneDf2Bringer__uv_scroll_buffer = (u32) o;
   init_bringer_effect_tables();
   {
-    Sp_80099BD4 sp = lbl_8043A0BC[0];
-    sp.a = *((s32 *) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x430));
+    Sp_80099BD4 sp = { *((s32 *) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x430)), &lbl_8048FAF8, 1, 0xB0000 };
     TLobby::spawn_npc_enemy((s16)0x16, (s32)(*((s32 *) ((*((u8 **) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x42C))) + 8))), (NJS_TEXLIST *)(*((s32 *) ((*((u8 **) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x42C))) + 0xC))), &sp, (f32)TObjEneDf2Bringer__data_805D9808, (f32)TObjEneDf2Bringer__data_805D97E0);
   }
 }
@@ -1800,7 +1755,7 @@ void TObjEneDf2Bringer::set_entry_value_clamped(s32 arg0, f32 farg0) {
 TObjEneDf2Bringer::TObjEneDf2Bringer(TObject *arg1, void *arg2) : TObjEneDD_ST(arg1) {
     __ct__13TUnk_80490470Fv(((char *)this + 964));
     __construct_array((void *)((char *)this + 992), __ct__15RenderFadeStateFv, __dt__15RenderFadeStateFv, 28, 4);
-    *(void **)((s8 *)this + 0x0) = lbl_805D29A0;
+    m_name = TObjEneDf2Bringer__name;
     invoke_initialization_hook__9TObjEneDDFPv(this, arg2);
     sub_800994F8();
     this->init_enemy();
@@ -1979,7 +1934,7 @@ void update_attack_child__17TObjEneDf2BringerFPv(Bringer_800993E8 *obj) {
         VecCopy((Vec *)(((ChildFields_800993E8 *)self->child)->model), (const Vec *)&entry->a);
         VecCopy((Vec *)(&((ChildFields_800993E8 *)self->child)->model->b), (const Vec *)&entry->b);
         ((TObjCollidable *)(self->child))->refresh_collision_body_centers();
-        Pair_800993E8 pair = lbl_8043A0CC[0];
+        Pair_800993E8 pair = { 3.0f, 1 };
         if (obj->m97() != 0) {
             pair.flags |= 2;
         }
@@ -2903,7 +2858,7 @@ void render__17TObjEneDf2BringerFv(u8 *arg0) {
     }
     if (var_r31 != 0) {
         {
-            Vec v = lbl_8043A0D4[0];
+            Vec v = { 2.0f, 1.0f, 5.0f };
             ((TObjEneDD *)(arg0))->draw_ground_shadow(&v, 0);
         }
         ((TObjEneDD *)arg0)->update_secondary_light();
@@ -2979,3 +2934,41 @@ void render__17TObjEneDf2BringerFv(u8 *arg0) {
 #undef update_attack_child__17TObjEneDf2BringerFPv
 #undef update_flag_0x3C0__17TObjEneDf2BringerFPv
 #undef S
+
+void TObjEneDf2Bringer::vfunc_83() { if (get_target_info() != 0) { sub_800994F8(); } }
+
+void TObjEneDf2Bringer::vfunc_105() {
+    Bringer_80097100 *self = (Bringer_80097100 *)this;
+    f32 frame;
+    s32 i;
+    Motion_80097100 *mot;
+    ((TObjEneDD *)self)->get_target_info();
+    if (self->m8(lbl_805D97D8, lbl_805D97DC) != 0) {
+        Vec v = { 1.0f, 1.0f, 3.0f };
+        ((TObjEneDD *)(self))->draw_ground_shadow(&v, 0);
+        TObjPlayer::toggle_particle_effect();
+        TObjFish::set_global_param((s32)self->texlist);
+        push_matrix();
+        post_translate_matrix(self->pos);
+        rotate_matrix_y(0, self->f60);
+        i = (s32)self->animIdx;
+        if (i < 0) {
+            i = 0;
+        } else if (i >= 11) {
+            i = 10;
+        }
+        mot = self->mots[self->anims[i].idx].mot;
+        frame = self->frame;
+        if (frame < TObjEneDf2Bringer__data_805D97E0) {
+            frame = TObjEneDf2Bringer__data_805D97E0;
+        } else if (frame > (mot->count - 1)) {
+            frame = (mot->count - 1);
+        }
+        set_motion_packed_rotation();
+        draw_model_motion((void *)self->f34, mot, frame);
+        clear_motion_packed_rotation();
+        pop_matrix();
+        TParticleCtrl::end_effect_render();
+    }
+}
+
