@@ -3077,28 +3077,28 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
         unk_754 = position.y;
         unk_748 = position.z;
         d = lbl_80472D04[unk_6C4].x - lbl_80472D04[unk_6C0].x;
-        if (lbl_805DEA10 < d) {
-            unk_74C = lbl_805DEA18;
-        } else if (d < lbl_805DEA10) {
-            unk_74C = lbl_805DEA70;
+        if (0.0f < d) {
+            unk_74C = 1.0f;
+        } else if (d < 0.0f) {
+            unk_74C = -1.0f;
         } else {
-            unk_74C = lbl_805DEA10;
+            unk_74C = 0.0f;
         }
         d = lbl_80472D04[unk_6C4].y - lbl_80472D04[unk_6C0].y;
-        if (lbl_805DEA10 < d) {
-            unk_758 = lbl_805DEA18;
-        } else if (d < lbl_805DEA10) {
-            unk_758 = lbl_805DEA70;
+        if (0.0f < d) {
+            unk_758 = 1.0f;
+        } else if (d < 0.0f) {
+            unk_758 = -1.0f;
         } else {
-            unk_758 = lbl_805DEA10;
+            unk_758 = 0.0f;
         }
         d = lbl_80472D04[unk_6C4].z - lbl_80472D04[unk_6C0].z;
-        if (lbl_805DEA10 < d) {
-            unk_750 = lbl_805DEA18;
-        } else if (d < lbl_805DEA10) {
-            unk_750 = lbl_805DEA70;
+        if (0.0f < d) {
+            unk_750 = 1.0f;
+        } else if (d < 0.0f) {
+            unk_750 = -1.0f;
         } else {
-            unk_750 = lbl_805DEA10;
+            unk_750 = 0.0f;
         }
         if (unk_6C4 < 5) {
             speed = lbl_805DEA58;

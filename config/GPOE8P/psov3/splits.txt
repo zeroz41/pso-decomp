@@ -9328,7 +9328,7 @@ pso/boss/barbaray/Boss7DeRolLeCBehavior.cpp:
 	.text       start:0x802E7888 end:0x802ED928
 	.rodata     start:0x80472CB0 end:0x80473FB8
 	.data       start:0x804E3BF0 end:0x804E45C4
-	.sdata2     start:0x805DEA30 end:0x805DEBA8
+	.sdata2     start:0x805DEA10 end:0x805DEBA8
 
 pso/boss/barbaray/TBoss7DeRolLeC_802ED928.cpp:
 	.text       start:0x802ED928 end:0x802EDCF0
