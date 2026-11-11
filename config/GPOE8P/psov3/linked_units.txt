@@ -1026,6 +1026,7 @@ pso/network/TLobby_803FAEA0.c
 pso/network/TLobby_804048E8.c
 pso/network/TLobby_80426CAC.c
 pso/network/TLobby_80428374.c
+pso/network/TLobby_80429598.c
 pso/ui/hud/TLockOnCursor.cpp
 pso/ui/TLogo.cpp
 pso/ui/TLogo_8001C134.cpp
