@@ -15,34 +15,6 @@ extern "C" {
 Strm_803C5B50 *sj_ring_buffer_create(void *, s32, s32);
 extern u8 adx_stream_ring_buffer_storage[];
 extern u8 adx_stream_ring_buffer[];
-void ARAlloc(void);
-void TLobby__sub_803CE240(void);
-
-s32 TLobby::ar_alloc() {
-    ARAlloc();
-    return 0;
-}
-
-s32 TLobby::get_state_zero() {
-    TLobby__sub_803C9608();
-    return 0;
-}
-
-s32 TLobby::process_connection_state() {
-    if (TLobby__sub_803CB844() == 1) {
-        lsc_poll_all();
-        TLobby__sub_803CE240();
-    } else {
-        TLobby__sub_803CBA38();
-        lsc_poll_all();
-        TLobby__sub_803CE240();
-    }
-    return 0;
-}
-
-void TLobby::forward_notify_error(s32 arg0, s32 arg1) {
-    TLobby::notify_error((const char *)arg1);
-}
 
 void TLobby__sub_803C5B50(Obj_803C5B50 *arg0, s32 arg1, s32 arg2, s32 arg3) {
     Strm_803C5B50 *arr[2];
@@ -135,7 +107,6 @@ void TLobby__sub_803C5E68(void) {
 
 }
 
-Ent_803C9608 adx_stream_player_pool[16];
 u8 adx_stream_ring_buffer_storage[0x40];
 u8 adx_stream_ring_buffer[0x400];
 char music_stream_afs_filename_buffer[0x120];

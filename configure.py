@@ -941,10 +941,7 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
     ("musyx_hw", 0x803BAC70, "GC/1.2.5n", _switch(cflags_musyx, "-inline auto"), {}),
     # CRI ADX, LSC, SJ, MFCI and GCRNA ("Build:Jun 13 2002").
     ("cri", 0x803BFE50, "GC/2.6", cflags_cri, {
-        # Folds of several CRI files keep -inline off: auto inlining pulls callees from the other TUs in.
-        "pso/unk/TLobby_803C1A58.cpp": {"cflags": cflags_middleware},  # ADXB_ExecHndl inlines the AHX/SPSD steps (803C34F4, 803C3B68)
-        "pso/unk/TLobby_803C45E4.cpp": {"cflags": cflags_middleware},  # ADXT_Init/Finish inline the SVM/ADXF setup (803C59B8, 803C5930, ARAlloc)
-        "pso/audio/AdxStreamRuntime.cpp": {"cflags": cflags_middleware},  # ADXT_StartMem inlines the SJ constructors (803CA774, 803CA8B4)
+        # These files pool their string literals (-str reuse,readonly).
         "pso/unk/text_803CC294.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
         "pso/unk/text_803CE568.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},
         "pso/unk/text_803CFEA0.cpp": {"cflags": _switch(cflags_cri, "-str reuse,readonly")},

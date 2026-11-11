@@ -11799,30 +11799,75 @@ pso/unk/text_803C1668.cpp:
 pso/unk/text_803C1780.cpp:
 	.text       start:0x803C1780 end:0x803C1A58
 
-pso/unk/TLobby_803C1A58.cpp:
-	.text       start:0x803C1A58 end:0x803C45E4
+pso/audio/AdxAiff.cpp:
+	.text       start:0x803C1A58 end:0x803C25F8
+
+pso/audio/AdxAu.cpp:
+	.text       start:0x803C25F8 end:0x803C34F4
 	.data       start:0x804F9B80 end:0x804F9D80
+
+pso/audio/AdxBsc.cpp:
+	.text       start:0x803C34F4 end:0x803C40A0
 	.bss        start:0x80571480 end:0x80572000
 
-pso/unk/TLobby_803C45E4.cpp:
-	.text       start:0x803C45E4 end:0x803C5AA0
-	.rodata     start:0x8047C568 end:0x8047C5A8
-	.bss        start:0x80572000 end:0x80572120
+pso/audio/AdxSpsd.cpp:
+	.text       start:0x803C40A0 end:0x803C45E4
+
+pso/audio/AdxAmp.cpp:
+	.text       start:0x803C45E4 end:0x803C4630
+
+pso/audio/AdxLock.cpp:
+	.text       start:0x803C4630 end:0x803C46A4
+
+pso/audio/AdxHeader.cpp:
+	.text       start:0x803C46A4 end:0x803C4C3C
 	.sdata2     start:0x805E0CE8 end:0x805E0D28
 
-pso/unk/text_803C5AA0.cpp:
-	.text       start:0x803C5AA0 end:0x803C5E78
-	.bss        start:0x80572120 end:0x80573100
+pso/audio/AdxDecode4.cpp:
+	.text       start:0x803C4C3C end:0x803C526C
+	.rodata     start:0x8047C568 end:0x8047C5A8
+
+pso/audio/AdxError.cpp:
+	.text       start:0x803C526C end:0x803C58C8
+	.bss        start:0x80572000 end:0x80572120
+
+pso/audio/AdxFsServer.cpp:
+	.text       start:0x803C58C8 end:0x803C5930
+
+pso/audio/AdxtInit.cpp:
+	.text       start:0x803C5930 end:0x803C5B50
+	.bss        start:0x80572120 end:0x80572BA0
+
+pso/unk/text_803C5B50.cpp:
+	.text       start:0x803C5B50 end:0x803C5E78
+	.bss        start:0x80572BA0 end:0x80573100
 
 pso/audio/AdxEncoder.cpp:
 	.text       start:0x803C5E78 end:0x803C84D0
 	.bss        start:0x80573100 end:0x80575140
 	.sdata2     start:0x805E0D40 end:0x805E0D50
 
-pso/audio/AdxStreamRuntime.cpp:
-	.text       start:0x803C84D0 end:0x803CBCA0
-	.bss        start:0x80575140 end:0x8057B7B0
+pso/audio/AdxStream.cpp:
+	.text       start:0x803C84D0 end:0x803C90E4
+	.bss        start:0x80575140 end:0x80575B40
+
+pso/audio/AdxTalk.cpp:
+	.text       start:0x803C90E4 end:0x803CA774
 	.sdata2     start:0x805E0D50 end:0x805E0D70
+
+pso/audio/AdxtStart.cpp:
+	.text       start:0x803CA774 end:0x803CA8B4
+
+pso/audio/AdxtServer.cpp:
+	.text       start:0x803CA8B4 end:0x803CB384
+
+pso/audio/AdxExpand.cpp:
+	.text       start:0x803CB384 end:0x803CB74C
+	.bss        start:0x80575B40 end:0x80575E80
+
+pso/audio/AdxManager.cpp:
+	.text       start:0x803CB74C end:0x803CBCA0
+	.bss        start:0x80575E80 end:0x8057B7B0
 
 pso/unk/text_803CBCA0.cpp:
 	.text       start:0x803CBCA0 end:0x803CBDE0

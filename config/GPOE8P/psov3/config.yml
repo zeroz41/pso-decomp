@@ -17780,6 +17780,20 @@ force_active:
   - run_task__19TAdSelectGameModeGCFv
   - sub_80285054__25TWindowSubSymbolChatPartsFv
   - sub_80285274__25TWindowSubSymbolChatPartsFPUc
+  - "TLobby__sub_803C8594"
+  - "TLobby__sub_803C9104"
+  - "TLobby__sub_803C9350"
+  - "TLobby__sub_803C9358"
+  - "TLobby__sub_803C94D8"
+  - "TLobby__sub_803C96A8"
+  - "TLobby__sub_803C96B0"
+  - "TLobby__sub_803C96E0"
+  - "adx_get_data_start_offset"
+  - "adxt_set_out_pan__6TLobbyFls"
+  - "apply_if_v2__6TLobbyFv"
+  - "check_packet_header_8001__6TLobbyFPUslPl"
+  - "set_rate_mode__6TLobbyFl"
+  - "TLobby__sub_803CBA18"
 # --- force_active (END) ---
 # False pointers: packed data words whose values happen to land on code/data
 # addresses. dtk would emit a relocation and export the target symbol.

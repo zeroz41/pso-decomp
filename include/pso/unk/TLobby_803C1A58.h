@@ -21,7 +21,7 @@ s32 TRK__write_aram(void *arg0p, void *hdr, void *size);
 s32 get_progress_info__6TLobbyFPvPvPvPv(u8 *arg0, s32 *arg1, s32 *arg2, s32 *arg3);
 }
 
-// --- C functions defined in TLobby_803C1A58.cpp ---
+// --- C functions of the ADXB decoder files (AdxAiff.cpp to AdxSpsd.cpp) ---
 extern "C" {
 s32 TLobby__sub_803C30E8(u8 *arg0, s32 arg1, s32 arg2);
 void TLobby__sub_803C3984(u8 *arg0);
