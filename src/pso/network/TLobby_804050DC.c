@@ -488,6 +488,7 @@ s32 TLobby__sub_80405700()
   u16 st;
   u16 n;
   PppBuffers *base;
+  u8 *buf = lbl_805C18B0;
   u16 is_transport_connected(void); /* declared u16 here; the definition returns s32 */
   if (lobby_modem_connect_state == 10)
   {
@@ -533,23 +534,23 @@ s32 TLobby__sub_80405700()
   }
   if (lbl_805D7ADC == 0)
   {
-    lbl_805D7ADC = lbl_805C18B0;
+    lbl_805D7ADC = buf;
     ppp_rx_frame_ptr = 0;
     lbl_805D7AE8 = 0xffff;
     lbl_805D7AE4 = 0;
-    lbl_805D7AE0 = lbl_805C18B0;
+    lbl_805D7AE0 = buf;
   }
   base = &lbl_805C04A8;
   for (;;)
   {
     if (lbl_805D7ADC == lbl_805D7AE0)
     {
-      if ((recv_network_frame(0x200, lbl_805C18B0, &st) != 0) || (st < 1))
+      if ((recv_network_frame(0x200, buf, &st) != 0) || (st < 1))
       {
         goto tail;
       }
-      lbl_805D7ADC = lbl_805C18B0;
-      lbl_805D7AE0 = lbl_805C18B0 + st;
+      lbl_805D7ADC = buf;
+      lbl_805D7AE0 = buf + st;
     }
     c = *(lbl_805D7ADC++);
     if (c == 0x7e)
@@ -4481,8 +4482,8 @@ s32 TLobby__sub_8040B8BC(DnsQuery *self)
 }
 #pragma pop
 inline DnsAddr *find_8040BA38(DnsHost *obj, DnsAddr *rec) {
-    DnsAddr *node;
     s16 cnt;
+    DnsAddr *node;
     if (obj == 0 || rec == 0) {
         return 0;
     }
@@ -4495,127 +4496,109 @@ inline DnsAddr *find_8040BA38(DnsHost *obj, DnsAddr *rec) {
 }
 extern s32 TLobby__sub_8040BA38(DnsQuery *self, u8 *p, s32 n)
 {
+  DnsRrHeader hdr;
+  DnsAddr rec;
+  DnsAddr *found;
   s32 ret;
   s32 l;
-  DnsRrHeader hdr;
-  u8 *new_var;
-  DnsAddr rec;
-  s16 limit;
-  DnsAddr *found;
-  u8 *new_var2;
+  u8 *rr;
   ret = TLobby__sub_8040BD40(self, p, n, 0);
-  p += (s16) ret;
-  if (limit < (((s16) ret) + 10))
+  rr = p + (s16) ret;
+  if ((s16) n < (s16) ret + 10)
   {
-    limit = n;
     return n;
   }
-  NetMemcpy(&hdr, p, 10);
+  NetMemcpy(&hdr, rr, 10);
   ret += 10;
   l = hdr.rdlength;
-  if (limit < (((s16) ret) + ((s16) l)))
+  if ((s16) n < (s16) ret + (s16) l)
   {
     return n;
   }
   ret += l;
   switch (hdr.rclass)
   {
+  case 1:
+  switch (hdr.type)
+  {
     case 1:
-      switch (hdr.type)
     {
-      new_var2 = p;
-      case 1:
+      DnsHost *obj = self->req.lookup.host;
+      if (obj == 0)
       {
-        DnsHost *obj;
-        obj = self->req.lookup.host;
-        if (obj == 0)
+        break;
+      }
+      rec.rtype = 1;
+      rec.addr.family = 4;
+      NetMemcpy(rec.addr.address, rr + 10, 4);
+      if ((found = find_8040BA38(obj, &rec)) == 0)
+      {
+        found = TLobby__sub_8040C248(obj);
+        if (found == 0)
         {
           break;
         }
-        rec.rtype = 1;
-        rec.addr.family = 4;
-        NetMemcpy(rec.addr.address, new_var2 + 10, 4);
-        if ((found = find_8040BA38(obj, &rec)) == 0)
-        {
-          found = TLobby__sub_8040C248(obj);
-          if (found == 0)
-          {
-            break;
-          }
-          found->used = 1;
-          found->rtype = 1;
-          found->addr.family = 4;
-          new_var = new_var2;
-          NetMemcpy(found->addr.address, new_var + 10, 4);
-          found->host = obj;
-          append_to_list(obj, found);
-        }
-        found->ttl = hdr.ttl;
-        break;
+        found->used = 1;
+        found->rtype = 1;
+        found->addr.family = 4;
+        NetMemcpy(found->addr.address, rr + 10, 4);
+        found->host = obj;
+        append_to_list(obj, found);
       }
-
-      case 5:
-      {
-        DnsHost *o = self->req.lookup.host;
-        if ((o != 0) && (((s8) o->cname[0]) == 0))
-        {
-          TLobby__sub_8040BD40(self, new_var2 + 10, l, o->cname);
-        }
-        break;
-      }
-        if (!found)
-      {
-      }
-
-      case 0x1c:
-      {
-        DnsHost *obj;
-        obj = self->req.lookup.host;
-        if (obj == 0)
-        {
-          break;
-        }
-        rec.rtype = 0x1c;
-        rec.addr.family = 6;
-        NetMemcpy(rec.addr.address, p + 10, 0x10);
-        if ((found = find_8040BA38(obj, &rec)) == 0)
-        {
-          found = TLobby__sub_8040C248(obj);
-          if (found == 0)
-          {
-            break;
-          }
-          found->used = 1;
-          found->rtype = 0x1c;
-          found->addr.family = 6;
-          NetMemcpy(found->addr.address, new_var + 10, 0x10);
-          found->host = obj;
-          append_to_list(obj, found);
-        }
-        found->ttl = hdr.ttl;
-        break;
-      }
-
-      case 0xc:
-      {
-        DnsPtr *o = self->req.ptr.entry;
-        if (o != 0)
-        {
-          o->ttl = hdr.ttl;
-          TLobby__sub_8040BD40(self, p + 10, l, o->name);
-        }
-        break;
-      }
-
-    }
-
+      found->ttl = hdr.ttl;
       break;
-
+    }
+    case 5:
+    {
+      DnsHost *o = self->req.lookup.host;
+      if (o != 0 && (s8) o->cname[0] == 0)
+      {
+        TLobby__sub_8040BD40(self, rr + 10, l, o->cname);
+      }
+      break;
+    }
+    case 0x1c:
+    {
+      DnsHost *obj = self->req.lookup.host;
+      if (obj == 0)
+      {
+        break;
+      }
+      rec.rtype = 0x1c;
+      rec.addr.family = 6;
+      NetMemcpy(rec.addr.address, rr + 10, 0x10);
+      found = find_8040BA38(obj, &rec);
+      if (found == 0)
+      {
+        found = TLobby__sub_8040C248(obj);
+        if (found == 0)
+        {
+          break;
+        }
+        found->used = 1;
+        found->rtype = 0x1c;
+        found->addr.family = 6;
+        NetMemcpy(found->addr.address, rr + 10, 0x10);
+        found->host = obj;
+        append_to_list(obj, found);
+      }
+      found->ttl = hdr.ttl;
+      break;
+    }
+    case 0xc:
+    {
+      DnsPtr *o = self->req.ptr.entry;
+      if (o != 0)
+      {
+        o->ttl = hdr.ttl;
+        TLobby__sub_8040BD40(self, rr + 10, l, o->name);
+      }
+      break;
+    }
   }
-
-  end:
+  break;
+  }
   return ret;
-
 }
 extern s32 TLobby__sub_8040BD40(DnsQuery *self, u8 *p, s32 n, u8 *dst)
 {
