@@ -3,6 +3,7 @@
 #include "pso/player/TObjPlayer_803E21B8.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/unk/text_803DD5E0.h"
 #include "pso/unk/text_803E2008.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/system/memory.h"
@@ -146,12 +147,12 @@ extern const f32 lbl_805E109C;
 extern const f32 lbl_805E10A0;
 void GXSetVtxAttrFmt(int, int, int, int, u8);
 void draw_chunk_textured_strips(s16 *list, Vtx_803E352C *verts, u32 info, s32 large);
-struct ChunkModel_803E44D4 { u32 *vertices; u16 *polygons; };
+struct ChunkModel_803E44D4 { u32 *vertices; s16 *polygons; };
 struct ChunkBuffer_803E44D4 { void *vertices; s32 bytes; };
 struct ChunkRecording_803E44D4 { ChunkBuffer_803E44D4 buffers[32]; s32 index; };
 void OSReport(const char*, ...);
 void* memmove(void*, const void*, unsigned long);
-void dispatch_chunk_polygon_list(u16*, s32);
+void dispatch_chunk_polygon_list(s16 *list, s32 buffer);
 extern const char lbl_804FC810[];
 extern u32 lbl_805D77E4;
 extern ChunkRecording_803E44D4* chunk_vertex_cache_state;
@@ -626,6 +627,97 @@ void set_chunk_blend_depth_mode(s32 arg0, s32 arg1) {
     }
     if ((u32) (model_render_flags & 0x400) != 0) {
         GXSetZMode(1, 3, 0);
+    }
+}
+
+extern "C" {
+void GXSetTexCoordGen2(s32 dst, u32 func, u32 src, s32 mtx, s32 normalize, s32 pt);
+void draw_chunk_color_tex_strips(s16 *list, void *verts, u32 info, s32 large);
+extern s32 lbl_805D7798;
+extern u32 chunk_polygon_flags_and_mask;
+extern u32 chunk_polygon_flags_or_mask;
+}
+
+void dispatch_chunk_polygon_list(s16 *list, s32 buffer) {
+    u16 length;
+    s16 info;
+    s16 type;
+    s16 cmd;
+    s16 size;
+    u32 changed;
+
+    while ((cmd = *list++) != 0xFF) {
+        type = cmd & 0xFF;
+        if (type < 8) {
+            switch (type) {
+            case 1:
+                set_chunk_blend(cmd);
+                break;
+            case 4:
+                chunk_polygon_list_cache[(s16) ((cmd >> 8) & 0xFF)] = list;
+                lbl_805D7798++;
+                return;
+            case 5:
+                dispatch_chunk_polygon_list(chunk_polygon_list_cache[(s16) ((cmd >> 8) & 0xFF)], buffer);
+                lbl_805D7798--;
+                break;
+            }
+        } else if (type < 0x10) {
+            apply_chunk_texture_command(cmd, list[0]);
+            list++;
+        } else if (type < 0x40) {
+            size = *list++;
+            set_chunk_blend(cmd);
+            submit_chunk_material_color(cmd, list);
+            list += size;
+        } else {
+            length = ((u16 *) list)[0];
+            info = list[1];
+            list += 2;
+            if ((u32) (model_render_flags & 0x800) != 0) {
+                cmd &= chunk_polygon_flags_and_mask;
+                cmd |= chunk_polygon_flags_or_mask;
+            }
+            cmd >>= 8;
+            changed = (cmd ^ chunk_previous_strip_flags) | chunk_strip_dirty_flags;
+            chunk_previous_strip_flags = cmd;
+            chunk_strip_dirty_flags = 0;
+            if (changed & 1) {
+                set_strip_lighting_chan_ctrl(cmd);
+            }
+            switch (type) {
+            case 0x40:
+                if (cmd & 0x40) {
+                    set_chunk_blend_depth_mode(cmd, 1);
+                    setup_chunk_tev_stages();
+                    GXSetTexCoordGen2(0, 0, 1, 0x2A, 0, 0x7D);
+                    draw_strip_pos_normal__10TObjPlayerFPvPvUi(list, (Vtx_803E46FC *) buffer, info);
+                } else {
+                    set_chunk_blend_depth_mode(cmd, 0);
+                    TObjPlayer::setup_tev_passclr();
+                    draw_strip_list_pos_nrm__10TObjPlayerFPvPvUi(list, (Vtx_803E36C4 *) buffer, info);
+                }
+                break;
+            case 0x41:
+            case 0x42:
+                set_chunk_blend_depth_mode(cmd, 1);
+                if (cmd & 0x40) {
+                    setup_chunk_tev_stages();
+                    GXSetTexCoordGen2(0, 0, 1, 0x2A, 0, 0x7D);
+                    draw_triangle_strips__10TObjPlayerFPvPvUi(list, (Vtx_803E47E0 *) buffer, info);
+                } else if (chunk_has_vertex_colors != 0) {
+                    setup_chunk_tev_stages();
+                    GXSetTexCoordGen2(0, 1, 4, 0x3C, 0, 0x7D);
+                    draw_chunk_color_tex_strips(list, (void *) buffer, info, type == 0x42);
+                } else {
+                    setup_chunk_tev_stages();
+                    GXSetTexCoordGen2(0, 1, 4, 0x3C, 0, 0x7D);
+                    draw_chunk_textured_strips(list, (Vtx_803E352C *) buffer, info, type == 0x42);
+                }
+                break;
+            }
+            list += length - 1;
+        }
     }
 }
 
