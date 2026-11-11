@@ -60,7 +60,7 @@ void obj_setFlags30(void *, u32);
 extern s32 __vt__6TOMine[];
 extern s32 TOMine__name;
 extern const f32 lbl_805DB85C;
-Obj_80171278 *TOMine__ct(Obj_80171278 *arg0);
+Obj_80171278 *__ct__6TOMineFP7TObject(Obj_80171278 *arg0);
 void *__dt__6TOMineFv(void *arg0, s16 arg1);
 void free_bin_model_request(void*, int);
 int submit_target_to_player_cursor(void*);
@@ -177,7 +177,7 @@ void *__dt__6TOMineFv(void *arg0, s16 arg1) {
     }
     return arg0;
 }
-Obj_80171278 *TOMine__ct(Obj_80171278 *arg0) {
+Obj_80171278 *__ct__6TOMineFP7TObject(Obj_80171278 *arg0) {
     __ct__9TObjCharaFP7TObject(arg0);
     arg0->vptr = (u32)((s32 *)&__vt__6TOMine);
     arg0->f00 = TOMine__name;

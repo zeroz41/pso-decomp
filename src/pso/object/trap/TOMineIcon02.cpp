@@ -50,7 +50,7 @@ extern "C" {
 s32 TObjFish__sub_8001EDB0(void *, s32);
 s32 get_bml_model(void *, s32);
 void init_collision_body_parts(void *, void *, s32);
-void TOMine__ct(void *, void *, void *);
+void __ct__6TOMineFP7TObject(void *, void *, void *);
 extern u8 mine_collision_body_parts[];
 extern s32 __vt__12TOMineIcon02[];
 extern s32 TOMineIcon02__name;
@@ -87,7 +87,7 @@ void *__dt__12TOMineIcon02Fv(void *arg0, s16 arg1) {
 #pragma push
 #pragma fp_contract on
 void *TOMineIcon02__ct(void *arg0, void *arg1, void *arg2) {
-    TOMine__ct(arg0, arg1, arg2);
+    __ct__6TOMineFP7TObject(arg0, arg1, arg2);
 #define self ((Icon_801717C0 *)arg0)
     self->vt = ((void * *)&__vt__12TOMineIcon02);
     self->f0 = TOMineIcon02__name;
