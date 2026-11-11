@@ -145,8 +145,6 @@ struct Trap_80179B8C : VObj_80179B8C {
 };
 
 extern "C" {
-extern const f32 TOTrapAncient01__data_805DBA4C;
-extern const f32 lbl_805DBA5C;
 f32 TObjPlayer__sub_8017A1A4(Obj_8017A1A4 *self, s32 i);
 s32 __destroy_arr(void *, void *, int, int);
 void __dl__7TObjectFPv(void *);
@@ -157,18 +155,10 @@ void __construct_array(void *, void *, void *, int, int);
 void __ct__15RenderFadeStateFv(void *);
 extern CollisionBody lbl_804B4844[];
 extern s32 TOTrapAncient01__class_name;
-extern const f32 lbl_805DBA54;
-extern const f32 lbl_805DBA6C;
-extern const f32 lbl_805DBA74;
 VObj_801797D4 *get_battle_param__10TObjPlayerFi(s32);
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 extern s32 lbl_805D3530;
-extern const f32 lbl_805DBA48;
 void update__15RenderFadeStateFv(void *);
-extern const f32 lbl_805DBA58;
-extern const f32 lbl_805DBA60;
-extern const f32 lbl_805DBA64;
-extern const f32 lbl_805DBA68;
 void render__15TOTrapAncient01Fv(Trap_80179B8C *self);
 void TOTrapAncient02R__sub_80154D78(void *);
 void TOTrap::apply_knockback_from_attacker(u8 *, f32) {  }
@@ -268,9 +258,9 @@ void TOTrapAncient01::vfunc_82() {
     s32 i;
     VObj_801797D4 *p;
     this->calc_attach_pos();
-    ((Trap_801797D4 *)this)->f354 -= lbl_805DBA48;
-    if (((Trap_801797D4 *)this)->f354 < TOTrapAncient01__data_805DBA4C) {
-        ((Trap_801797D4 *)this)->fA4->fC = lbl_805DBA54;
+    ((Trap_801797D4 *)this)->f354 -= 1.0f;
+    if (((Trap_801797D4 *)this)->f354 < 0.0f) {
+        ((Trap_801797D4 *)this)->fA4->fC = 15.0f;
         set_indexed_flags(0, 0x100);
         TObjPlayer::init_all_slots();
         ((TObjPlayer *)this)->check_object_collisions();
@@ -290,10 +280,10 @@ void TOTrapAncient01::vfunc_82() {
             p->m21(this, &v, 0, -1, -1);
             }
             if (((Trap_801797D4 *)this)->f344.a < 5) {
-                p->m23(((Trap_801797D4 *)this), TOTrapAncient01__data_805DBA4C);
+                p->m23(((Trap_801797D4 *)this), 0.0f);
             }
         }
-        ((Trap_801797D4 *)this)->m20(((Trap_801797D4 *)this)->f2A8, lbl_805DBA48);
+        ((Trap_801797D4 *)this)->m20(((Trap_801797D4 *)this)->f2A8, 1.0f);
     }
     submit_cursor_candidate(((Trap_801797D4 *)this), -1);
     switch (get_current_floor_area()) {
@@ -349,7 +339,7 @@ void TOTrapAncient01::vfunc_81() {
     TObjPlayer *player;
     f32 dist;
     scale.y += scale_step;
-    if (TOTrapAncient01__data_805DBA4C < scale.y) {
+    if (0.0f < scale.y) {
         switch (get_current_floor_area()) {
         case AREA_PIONEER2_EP1:
             break;
@@ -374,7 +364,7 @@ void TOTrapAncient01::vfunc_81() {
         }
     } else {
         mode = 3;
-        scale.y = TOTrapAncient01__data_805DBA4C;
+        scale.y = 0.0f;
         calc_attach_pos();
         clear_player_status_flag(0, 0x08001F04);
         set_indexed_flags(0, 0x8003);
@@ -418,7 +408,7 @@ void render__15TOTrapAncient01Fv(Trap_80179B8C *self) {
     }
     fade = &self->fades[i];
     ((RenderFadeState *)fade)->update();
-    self->f340 = self->m8(lbl_805DBA58, lbl_805DBA5C);
+    self->f340 = self->m8(400.0f, 20.0f);
     if (self->f340 == 1) {
         if (((RenderFadeState *)fade)->updateFromCamera((const f32*)(self->pos38)) == 1) {
             saved_model_render_flags = model_render_flags;
@@ -429,16 +419,16 @@ void render__15TOTrapAncient01Fv(Trap_80179B8C *self) {
         push_matrix();
         post_translate_matrix((const f32 *)self->pos38);
         rotate_matrix_y(NULL, self->f60);
-        if (TObjPlayer::check_demo_mode() != 1 && self->f6C <= TOTrapAncient01__data_805DBA4C) {
-            v.x = lbl_805DBA60 * (lbl_805DBA64 * (f32)rand()) - lbl_805DBA68;
-            v.y = TOTrapAncient01__data_805DBA4C;
-            v.z = lbl_805DBA60 * (lbl_805DBA64 * (f32)rand()) - lbl_805DBA68;
+        if (TObjPlayer::check_demo_mode() != 1 && self->f6C <= 0.0f) {
+            v.x = 0.1f * (3.0517578125e-05f * (f32)rand()) - 0.05f;
+            v.y = 0.0f;
+            v.z = 0.1f * (3.0517578125e-05f * (f32)rand()) - 0.05f;
             post_translate_matrix(&v.x);
         }
         TObjFish::set_global_param(self->f24);
         n = self->model;
         push_matrix();
-        translate_matrix(0, TOTrapAncient01__data_805DBA4C, self->f6C, TOTrapAncient01__data_805DBA4C);
+        translate_matrix(0, 0.0f, self->f6C, 0.0f);
         post_translate_matrix((const f32 *)n->mtx);
         draw_ginja_model(self->model->f4);
         n = n->child;
@@ -481,7 +471,7 @@ void TOTrapAncient01::load_resources() {
         resource = load_resource_from_descriptor(resource, 1, &bm_o_trap_ancient01_resource_descriptor, 0, 0, 0);
     }
     TOTrapAncient01__bml_resource = resource;
-    TMotorcycle::add_entry(0x39, get_bml_model(TOTrapAncient01__bml_resource, 3), TObjFish__sub_8001EDB0(resource, 3), lbl_805DBA5C, TOTrapAncient01__data_805DBA4C);
+    TMotorcycle::add_entry(0x39, get_bml_model(TOTrapAncient01__bml_resource, 3), TObjFish__sub_8001EDB0(resource, 3), 20.0f, 0.0f);
 }
 
 Self_80179EC0 *__dt__15TOTrapAncient01Fv(Self_80179EC0 *self, s16 flag) {
@@ -521,9 +511,9 @@ void *TOTrapAncient01__ct(void *arg0, void *arg1, void *arg2) {
         *(f32 *)((s8 *)self + 0x70) = 1.0f;
     }
     *(f32 *)((s8 *)self + 0x34C) = -*(f32 *)((s8 *)self + 0x6C) / *(f32 *)((s8 *)self + 0x70);
-    *(f32 *)((s8 *)self + 0x350) = lbl_805DBA6C + (f32)*(s32 *)((s8 *)self + 0x8C);
+    *(f32 *)((s8 *)self + 0x350) = 30.0f + (f32)*(s32 *)((s8 *)self + 0x8C);
     if (get_main_phase() == 0xE) {
-        *(f32 *)((s8 *)self + 0x350) *= lbl_805DBA74;
+        *(f32 *)((s8 *)self + 0x350) *= 0.33f;
     }
     if (*(f32 *)((s8 *)self + 0x350) < 0.0f) {
         *(f32 *)((s8 *)self + 0x350) = 0.0f;
@@ -539,7 +529,7 @@ void *TOTrapAncient01__ct(void *arg0, void *arg1, void *arg2) {
         *(s32 *)((s8 *)self + 0x88) = 5;
     }
     *(s32 *)((s8 *)self + 0x344) = *(s32 *)((s8 *)self + 0x88);
-    *(f32 *)((s8 *)self + 0x338) = lbl_805DBA54;
+    *(f32 *)((s8 *)self + 0x338) = 15.0f;
     *(u16 *)((s8 *)self + 0x33C) = 0xFFFF;
     init_collision_body_parts((TObjCollidable *)arg0, lbl_804B4844, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();

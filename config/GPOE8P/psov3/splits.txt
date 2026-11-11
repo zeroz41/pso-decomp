@@ -4446,7 +4446,7 @@ pso/object/trap/TOTrapAncient01.cpp:
 	.text       start:0x8017939C end:0x8017A20C
 	.rodata     start:0x80442D80 end:0x80442E70
 	.data       start:0x804B49D8 end:0x804B4AD8
-	.sdata2     start:0x805DBA48 end:0x805DBA74
+	.sdata2     start:0x805DBA48 end:0x805DBA78
 
 pso/object/trap/TOTrapAncient02R.cpp:
 	.text       start:0x8017A20C end:0x8017A210
