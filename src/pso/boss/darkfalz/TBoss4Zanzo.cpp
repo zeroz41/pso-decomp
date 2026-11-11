@@ -453,7 +453,6 @@ s32 get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
 s32 fn_80044330(void *);
-void fn_8004AA04(void *);
 s32 pick_random_target_player__11TBoss4Type3Fv(void);
 s32 TBoss4DarkFalz__sub_8004AF5C(s32, s16 *, s16 *);
 s32 TBoss4DarkFalz__sub_8004B4F0(void *, void *);
@@ -511,7 +510,6 @@ extern s32 local_client_id;
 extern s32 registered_player_count;
 struct Def_804867C8 { s32 value; s32 remaining[39]; };
 
-void init_model_node_tables(void *, void *, int);
 s32 TObjFish__sub_800E3124(void *, void *, f32);
 s32 init_collision_body_parts(void *, void *, int);
 const char *boss4_type2_class_name = "TBoss4Type2";
@@ -1645,7 +1643,7 @@ S_800578E8 *__dt__13TUnk_80486924Fv(S_800578E8 *o, s16 flag) {
     s32 i;
     if (o != 0) {
         o->vt = lbl_80486924;
-        fn_8004AA04(&o->node_tables);
+        o->node_tables.destroy();
         for (i = 0; i < 8; i++) {
             if (o->ptr[i] != 0) {
                 TParticleCtrl::release(o->ptr[i]);
@@ -1703,7 +1701,7 @@ u8 *TBoss4Type2__ct(u8 *arg0, s32 parent, s32 *arg2) {
     for (; i < 8; i++) {
         ((Arr_800579A0 *) arg0)->f42C[i] = 0;
     }
-    init_model_node_tables(arg0 + 0x378, (void *)boss4_type2_model_node_table, 6);
+    ((TBoss4Type2 *)arg0)->node_tables.init((const ModelNodeSpec *)boss4_type2_model_node_table, 6);
     *(s32 *)((s8 *)arg0 + 0x3A0) = 0;
     *(s32 *)((s8 *)arg0 + 0x3E0) = 0;
     *(u16 *)((s8 *)arg0 + 0x3C4) = 0xFFFF;

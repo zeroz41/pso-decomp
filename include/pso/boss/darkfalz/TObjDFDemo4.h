@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/darkfalz/TObjDFDemo5.h"
-#include "pso/unk/text_8004AA04.h"
+#include "pso/unk/ModelNodeTables.h"
 
 class TParticleCtrl;
 struct TObjFish;

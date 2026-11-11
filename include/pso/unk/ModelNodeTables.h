@@ -4,11 +4,21 @@
 #include "types.h"
 #include <stddef.h>
 
-// The scrolling strip buffers built on a model's nodes (init_model_node_tables
-// fills it, scroll_strips scrolls it, fn_8004AA04 frees it).
+// One entry of a model node table: the model, the node inside it and the
+// strip count passed to TLobby::alloc_tables.
+struct ModelNodeSpec {
+    s32 model;
+    s32 node;
+    s32 count;
+};
+
+// The scrolling strip buffers built on a model's nodes (init fills it,
+// scroll_strips scrolls it, destroy frees it).
 // Embedded in TObjDFDemo0/1/4 and TBoss4Type1/2/3.
 struct ModelNodeTables {
     void scroll_strips();
+    void destroy();
+    void init(const ModelNodeSpec *specs, s32 spec_count);
 
     s32 count;
     u8 pad_04[0x4];
