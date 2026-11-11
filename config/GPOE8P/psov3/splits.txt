@@ -12316,7 +12316,11 @@ pso/unk/TLobby_803E2D50.cpp:
 	.text       start:0x803E2D50 end:0x803E2D70
 
 pso/unk/text_803E2D70.cpp:
-	.text       start:0x803E2D70 end:0x803E4954
+	.text       start:0x803E2D70 end:0x803E2F28
+	.sdata2     start:0x805E1088 end:0x805E1090
+
+pso/unk/text_803E2F28.cpp:
+	.text       start:0x803E2F28 end:0x803E4954
 	.bss        start:0x8058DBD0 end:0x8058DC00
 	.sdata2     start:0x805E109C end:0x805E10B0
 

@@ -2730,6 +2730,7 @@ pso/unk/text_803E1FC8.cpp
 pso/unk/text_803E2070.cpp
 pso/player/TObjPlayer_803E20B0.cpp
 pso/unk/text_803E29B0.cpp
+pso/unk/text_803E2D70.cpp
 pso/unk/text_803E4CE8.cpp
 pso/unk/text_803E4D8C.cpp
 pso/unk/text_803F1804.cpp
