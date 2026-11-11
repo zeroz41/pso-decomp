@@ -2790,3 +2790,13 @@ pso/unk/text_80209D34.cpp
 pso/unk/text_803C5B50.cpp
 pso/ui/chat/TWindowSubSymbolChatParts.cpp
 pso/ui/frontend/TAdSelectGameModeGC_802C4748.cpp
+pso/network/NetLoopback.c
+pso/network/NetIPv6NeighborDiscovery.c
+pso/network/NetArp.c
+pso/network/NetEthernet.c
+pso/network/NetHandlerTable.c
+pso/network/NetIcmp.c
+pso/network/NetIcmp6.c
+pso/network/NetAddrFamily.c
+pso/network/NetIpv4Route.c
+pso/network/NetUdp.c

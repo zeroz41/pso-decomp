@@ -89,6 +89,29 @@ s16 TLobby__sub_8040EDE4(void *self, u32 key, s16 id);
 s16 TLobby__sub_8040EF50(u32 *out, u32 mask, s16 c);
 s16 TLobby__sub_80410A98(s32 arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 extern NetPacketPool lobby_udp_socket_table;
+/* Shared by the modules cut out of this unit; each is defined in the file named in its comment. */
+u16 TLobby__sub_80406BD8(struct NetPacket *, s16);    /* TLobby_804050DC.c */
+s32 dispatch_slot_a(s16, s32);                       /* NetArp.c */
+s32 dispatch_slot_b(s16, s32);                       /* NetArp.c */
+s16 forward_net_op(s16, u8 *, u8 *);                 /* NetArp.c */
+typedef void (*Fn_8040881C)(void);                   /* a link-layer driver entry (NetHandlerTable.c) */
+s16 *get_active_entry_by_index(s16);                 /* NetIpv4Route.c */
+u8 *TLobby__sub_8040F76C(u32, u32);                  /* NetIpv4Route.c */
+s32 TLobby__sub_8040FE40(s16);                       /* NetIpv4Route.c */
+s32 TLobby__sub_8040FEE4(s32, s32);                  /* NetIpv4Route.c */
+/* ARP (src/pso/network/NetArp.c). */
+s32 TLobby__sub_80407418(s16 id);
+void forward_net_op_5args(s16, s16, s16, s16, s16, s32, s8, s32);
+/* The handler table (src/pso/network/NetHandlerTable.c). */
+s32 TLobby__sub_80409D7C(s16, s32, s32, s32);
+s32 TLobby__sub_80409E18(s16, s32, s32);
+s32 TLobby__sub_80409EB0(s16, s32);
+/* ICMP (src/pso/network/NetIcmp.c). */
+s16 TLobby__sub_8040CB44(u8 *self, u32 d, u32 c);
+s32 TUdpSocket__sub_8040CE58(u8 *p, u8 *b, s16 x, s16 id);
+/* ICMPv6 (src/pso/network/NetIcmp6.c). */
+s16 NetIPv6HandleIcmpMessage(struct NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16 iface);
+s16 TLobby__sub_8040D510(void *a, u8 *src, s16 c, s16 flag);
 #ifdef __cplusplus
 }
 #endif

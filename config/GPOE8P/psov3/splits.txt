@@ -12459,17 +12459,69 @@ pso/network/TLobby_803FCF44.c:
 pso/network/TLobby_804048E8.c:
 	.text       start:0x804048E8 end:0x804050DC
 	.data       start:0x804FD650 end:0x804FD690
-	.bss        start:0x805C06D8 end:0x805C1AD8
+	.bss        start:0x805C06D8 end:0x805C1AB0
 
 pso/network/TLobby_804050DC.c:
-	.text       start:0x804050DC end:0x8041112C
-	.data       start:0x804FD690 end:0x804FD7D8
-	.bss        start:0x805C1AD8 end:0x805C1BB8
+	.text       start:0x804050DC end:0x80407358
+
+pso/network/NetArp.c:
+	.text       start:0x80407358 end:0x8040874C
+	.bss        start:0x805C1AB0 end:0x805C1AD8
+
+pso/network/NetEthernet.c:
+	.text       start:0x8040874C end:0x80409818
+	.bss        start:0x805C1AD8 end:0x805C1AF0
+
+pso/network/NetHandlerTable.c:
+	.text       start:0x80409818 end:0x8040A3C0
+
+pso/network/NetDns.c:
+	.text       start:0x8040A3C0 end:0x8040CB44
+	.bss        start:0x805C1AF0 end:0x805C1B38
+
+pso/network/NetIcmp.c:
+	.text       start:0x8040CB44 end:0x8040D120
+	.data       start:0x804FD690 end:0x804FD6E0
+
+pso/network/NetIcmp6.c:
+	.text       start:0x8040D120 end:0x8040D86C
+
+pso/network/NetAddrFamily.c:
+	.text       start:0x8040D86C end:0x8040DD68
+
+pso/network/NetIpv4.c:
+	.text       start:0x8040DD68 end:0x8040ED28
+	.bss        start:0x805C1B38 end:0x805C1B60
+
+pso/network/NetIpv4Route.c:
+	.text       start:0x8040ED28 end:0x8040FF0C
+	.bss        start:0x805C1B60 end:0x805C1B78
+
+pso/network/NetIpv6.c:
+	.text       start:0x8040FF0C end:0x8041112C
+	.data       start:0x804FD6E0 end:0x804FD7D8
+	.bss        start:0x805C1B78 end:0x805C1BB8
 
 pso/network/TLobby_8041112C.c:
-	.text       start:0x8041112C end:0x80419A00
+	.text       start:0x8041112C end:0x8041509C
 	.data       start:0x804FD7D8 end:0x804FD890
-	.bss        start:0x805C1BB8 end:0x805C1C50
+	.bss        start:0x805C1BB8 end:0x805C1BE0
+
+pso/network/NetLoopback.c:
+	.text       start:0x8041509C end:0x80415650
+	.bss        start:0x805C1BE0 end:0x805C1BF8
+
+pso/network/NetBufferPool.c:
+	.text       start:0x80415650 end:0x80415AEC
+	.bss        start:0x805C1BF8 end:0x805C1C08
+
+pso/network/NetIPv6NeighborDiscovery.c:
+	.text       start:0x80415AEC end:0x80418A7C
+	.bss        start:0x805C1C08 end:0x805C1C38
+
+pso/network/NetFragment.c:
+	.text       start:0x80418A7C end:0x80419A00
+	.bss        start:0x805C1C38 end:0x805C1C50
 
 pso/network/NetDispatcher.c:
 	.text       start:0x80419A00 end:0x8041A1D8
@@ -12480,8 +12532,11 @@ pso/network/NetTcp.c:
 	.bss        start:0x805C1D48 end:0x805C1DF0
 
 pso/network/SocketProtocolRuntime.c:
-	.text       start:0x8041ED8C end:0x80421620
+	.text       start:0x8041ED8C end:0x80420C5C
 	.data       start:0x804FD890 end:0x804FD948
+
+pso/network/NetUdp.c:
+	.text       start:0x80420C5C end:0x80421620
 	.bss        start:0x805C1DF0 end:0x805C1E00
 
 pso/network/text_80421620.c:
