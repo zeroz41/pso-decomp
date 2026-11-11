@@ -733,23 +733,23 @@ void TLobby__sub_803C34F4(Obj_803C34F4 *lobby) {
 void TLobby__sub_803C3570(Strm_803C1A8C *o) {
     if (o->state == 1 && ((TLobby *)(o->id))->get_client_count() == 0) {
         s32 blk;
+        s32 room_end;
+        s32 last;
         s32 end;
-        s32 pos;
-        s32 len;
         s32 room;
         s32 rem;
         s32 avail;
         s32 n;
         o->read(o->readArg, &o->pos, &o->avail, &o->x78);
         blk = o->block_samples;
-        end = (o->x78 + blk - 1) / blk;
+        last = o->x78 + blk - 1;
+        end = last / blk;
+        rem = (blk - 1) - last % blk;
         avail = o->avail;
-        pos = o->pos;
-        len = o->bufLen;
-        room = (blk + (len - pos) - 1) / blk;
-        rem = (blk - 1) - (o->x78 + blk - 1) % blk;
+        room = (blk + (o->bufLen - o->pos) - 1) / blk;
+        room_end = o->pos + room * blk;
         n = o->maxLen / o->stream_channels;
-        if (end < room && pos + room * blk - rem < len) {
+        if (end < room && room_end - rem < o->bufLen) {
             room++;
         }
         if (o->x78 < avail) {
