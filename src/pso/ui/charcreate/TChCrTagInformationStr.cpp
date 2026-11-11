@@ -5,8 +5,6 @@
 #include "pso/ui/MenuText.h"
 #include "pso/unk/TLobby_80132ED0.h"
 
-TChCrTagInformationStr::~TChCrTagInformationStr() {}
-
 // Where the first line of the tag text is drawn; each line goes 20 below the last.
 struct TagTextOrigin {
     f32 x, y;
@@ -21,6 +19,22 @@ extern const f32 lbl_805DF114;
 extern const f32 lbl_805DF118;
 extern const f32 lbl_805DF11C;
 extern const f32 lbl_805DF120;
+s32 queue_destruction__7TObjectFv();
+extern s32 char_creation_tag_info_selected_index;
+extern const f32 lbl_805DF124;
+extern const f32 lbl_805DF128;
+extern const f32 lbl_805DF12C;
+s32 __ct__7TObjectFP7TObject();
+void *__nw__7TObjectFUl(int);
+
+void *TChCrTagInformationStr::create(void *arg0, void *arg1) {
+    void *o;
+    o = __nw__7TObjectFUl(0x38);
+    if (o != NULL) {
+        o = __ct__22TChCrTagInformationStrFv((void *)o, (s32)arg0, (s32)arg1);
+    }
+    return o;
+}
 }
 
 // Seven lines of text; while fading in, each line also gets rings of faint copies that close in on it.
@@ -64,26 +78,7 @@ void TChCrTagInformationStr::render() {
     }
 }
 
-#include "types.h"
-
 extern "C" {
-s32 queue_destruction__7TObjectFv();
-extern s32 char_creation_tag_info_selected_index;
-extern const f32 lbl_805DF124;
-extern const f32 lbl_805DF128;
-extern const f32 lbl_805DF12C;
-s32 __ct__7TObjectFP7TObject();
-void *__nw__7TObjectFUl(int);
-
-void *TChCrTagInformationStr::create(void *arg0, void *arg1) {
-    void *o;
-    o = __nw__7TObjectFUl(0x38);
-    if (o != NULL) {
-        o = __ct__22TChCrTagInformationStrFv((void *)o, (s32)arg0, (s32)arg1);
-    }
-    return o;
-}
-
 extern s32 __vt__22TChCrTagInformationStr[];
 extern s32 TChCrTagInformationStr__class_name;
 
@@ -126,6 +121,8 @@ void run_task__22TChCrTagInformationStrFv(u8 *arg0) {
     }
 }
 #pragma pop
+
+TChCrTagInformationStr::~TChCrTagInformationStr() {}
 
 void *__ct__22TChCrTagInformationStrFv(void *arg0, s32 arg1, s32 arg2) {
     __ct__7TObjectFP7TObject();

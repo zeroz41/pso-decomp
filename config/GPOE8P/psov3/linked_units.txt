@@ -713,6 +713,7 @@ pso/ui/frontend/TAdGuideTxtGC.cpp
 pso/ui/frontend/TAdGuideTxtGC_802B17D4.cpp
 pso/ui/frontend/TAdMultiOkGC.cpp
 pso/ui/frontend/TAdPlyChrSelPlateGC.cpp
+pso/ui/frontend/TAdPlyChrSelPlateGC_802C4CA0.cpp
 pso/ui/frontend/TAdTimeSetGC.cpp
 pso/ui/charcreate/TChCrCharSelect.cpp
 pso/ui/charcreate/TChCrEffWall.cpp
@@ -776,6 +777,7 @@ pso/ui/charcreate/TChCrTag.cpp
 pso/ui/charcreate/TChCrTagInformation.cpp
 pso/ui/charcreate/TChCrTagInformation_802A1FAC.cpp
 pso/ui/charcreate/TChCrTagInformation_802A200C.cpp
+pso/ui/charcreate/TChCrTagInformationStr.cpp
 pso/ui/charcreate/TChCrTagName.cpp
 pso/ui/charcreate/TChCrTagOccupation.cpp
 pso/ui/charcreate/TChCrTagPlBack.cpp
@@ -1671,6 +1673,7 @@ pso/ui/window/TWindowSubStatusDisp_80249060.cpp
 pso/ui/window/TWindowSubStatusDisp_8024F688.cpp
 pso/ui/window/TWindowSubStatusDisp_8024FBA8.cpp
 pso/ui/window/TWindowSubStatusDisp_80255DF4.cpp
+pso/ui/window/TWindowSubStatusDisp_80256B94.cpp
 pso/ui/window/TWindowSubStatusDisp_8025737C.cpp
 pso/ui/window/TWindowSubStatusDisp_80257BC0.cpp
 pso/ui/window/TWindowSubStatusDisp_8025995C.cpp
@@ -2046,6 +2049,7 @@ pso/player/TObjPlayer_801C0808.cpp
 pso/player/TObjPlayer_801C1FF8.cpp
 pso/player/TObjPlayer_801C5558.cpp
 pso/player/TObjPlayer_801C721C.cpp
+pso/player/TObjPlayer_801C7430.cpp
 pso/player/TObjPlayer_801D3554.cpp
 pso/player/TObjPlayer_801D6BC8.cpp
 pso/player/TObjPlayer_801D6C4C.cpp
