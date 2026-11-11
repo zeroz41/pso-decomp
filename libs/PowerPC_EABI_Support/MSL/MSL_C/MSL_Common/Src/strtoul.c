@@ -1,5 +1,3 @@
-#define __ctype_map lbl_804F5800
-#define __upper_map lbl_804F5A00
 
 #include "MSL_C/scanf.h"
 #include "MSL_C/ctype.h"

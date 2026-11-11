@@ -1,5 +1,4 @@
 #define parse_format scanf_parse_format
-#define __ctype_map lbl_804F5800
 
 #include "MSL_C/scanf.h"
 #include "MSL_C/ctype.h"

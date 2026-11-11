@@ -19,9 +19,11 @@ public:
     s32 ticks;
     s32 active;
     f32 fade;
+    TObjCMName(TObject *parent);
     virtual ~TObjCMName();
     virtual void run_task();
     virtual void render();
+    static TObjCMName *create(TObject *parent);
 };
 
 typedef char TObjCMNameSize[sizeof(TObjCMName) == 0x34 ? 1 : -1];

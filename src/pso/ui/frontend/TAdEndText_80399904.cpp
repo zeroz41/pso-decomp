@@ -16,9 +16,9 @@ struct RecoveredGlobal_80399928_lbl_804F5900 {
     u8 remaining[0xFC];
 };
 
-extern RecoveredGlobal_8039994C_lbl_804F5800 lbl_804F5800;
-extern RecoveredGlobal_80399904_lbl_804F5A00 lbl_804F5A00;
-extern RecoveredGlobal_80399928_lbl_804F5900 lbl_804F5900;
+extern RecoveredGlobal_8039994C_lbl_804F5800 __ctype_map;
+extern RecoveredGlobal_80399904_lbl_804F5A00 __upper_map;
+extern RecoveredGlobal_80399928_lbl_804F5900 __lower_map;
 typedef char RecoveredGlobal_8039994C_lbl_804F5800_size[sizeof(RecoveredGlobal_8039994C_lbl_804F5800) == 0x100 ? 1 : -1];
 
 typedef char RecoveredGlobal_80399904_lbl_804F5A00_size[sizeof(RecoveredGlobal_80399904_lbl_804F5A00) == 0x100 ? 1 : -1];
@@ -26,7 +26,7 @@ u32 TAdEndText__sub_80399904(s32 arg0) {
     if (arg0 == -1) {
         return -1U;
     }
-    return *(u8 *)((s8 *)((u8 *)&lbl_804F5A00.value + (u8) arg0) + 0);
+    return *(u8 *)((s8 *)((u8 *)&__upper_map.value + (u8) arg0) + 0);
 }
 
 typedef char RecoveredGlobal_80399928_lbl_804F5900_size[sizeof(RecoveredGlobal_80399928_lbl_804F5900) == 0x100 ? 1 : -1];
@@ -34,9 +34,9 @@ u32 TAdEndText__sub_80399928(s32 arg0) {
     if (arg0 == -1) {
         return -1U;
     }
-    return *(u8 *)((s8 *)((u8 *)&lbl_804F5900.value + (u8) arg0) + 0);
+    return *(u8 *)((s8 *)((u8 *)&__lower_map.value + (u8) arg0) + 0);
 }
 
 s32 TAdEndText__sub_8039994C(u8 arg0) {
-    return *(u8 *)((s8 *)((u8 *)&lbl_804F5800.value + arg0) + 0) & 0x40;
+    return *(u8 *)((s8 *)((u8 *)&__ctype_map.value + arg0) + 0) & 0x40;
 }

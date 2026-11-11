@@ -11414,6 +11414,9 @@ PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/ansi_fp.c:
 	.data       start:0x804F5698 end:0x804F5800
 	.sdata2     start:0x805E0598 end:0x805E05C8
 
+PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/ctype.c:
+	.data       start:0x804F5800 end:0x804F5B00
+
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/locale.c:
 	.rodata     start:0x8047BB90 end:0x8047BB98
 	.data       start:0x804F5B00 end:0x804F5B38

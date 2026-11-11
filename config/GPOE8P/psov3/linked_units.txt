@@ -5,6 +5,7 @@ PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/alloc.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/ansi_files.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/ansi_fp.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/buffer_io.c
+PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/ctype.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/direct_io.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/file_io.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/locale.c

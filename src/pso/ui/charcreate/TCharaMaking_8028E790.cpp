@@ -4,6 +4,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
 #include "pso/camera/CreationCamera.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
+#include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/system/save/TSaveChCr.h"
 
@@ -24,7 +25,6 @@ extern "C" {
 void *__nw__7TObjectFUl(int);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 void *TCMCharacter__ct(void *arg0, void *arg1);
-s32 create__14TObjCMMainMenuFv(void *);
 extern RecoveredGlobal_8028E9A4___vt__12TCharaMaking __vt__12TCharaMaking;
 extern s32 creation_main_menu_obj;
 f32 sin_table_lookup(s32);
@@ -112,7 +112,7 @@ u8 *TCharaMaking__ct(u8 *arg0, s32 arg1) {
     if (motion != 0U) {
         TCMCharacter__ct((void *)motion, (arg0));
     }
-    creation_main_menu_obj = create__14TObjCMMainMenuFv(arg0);
+    creation_main_menu_obj = (s32)TObjCMMainMenu::create((TObject *)arg0);
     *(s32 *)((s8 *)arg0 + 0x1C) = 0x1555;
     ((TCharaMaking *)arg0)->m_20 = 0x9000;
     ((TCharaMaking *)arg0)->update_light_direction();

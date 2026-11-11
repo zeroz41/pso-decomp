@@ -1214,6 +1214,8 @@ if args.target == "psov3":
                             mw_version="GC/2.6", cflags=cflags_native_recovered),
                 Unit("PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/ansi_fp.c",
                             mw_version="GC/1.3", cflags=cflags_native_recovered_auto),
+                Unit("PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/ctype.c",
+                            mw_version="GC/1.3", cflags=cflags_native_recovered),
                 Unit("PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/locale.c",
                             mw_version="GC/1.3", cflags=cflags_native_recovered),
                 Unit("PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/printf.c",

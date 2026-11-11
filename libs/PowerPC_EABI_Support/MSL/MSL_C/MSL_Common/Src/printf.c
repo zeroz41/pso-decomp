@@ -1,6 +1,5 @@
 #define __FileWrite printf___FileWrite
 #define __StringWrite printf___StringWrite
-#define __ctype_map lbl_804F5800
 #define round_decimal printf_round_decimal
 
 #include "MSL_C/printf.h"

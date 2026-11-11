@@ -36,7 +36,7 @@ typedef char CharacterAppearanceFields_name_offset[offsetof(CharacterAppearanceF
 typedef char CharacterAppearanceFields_section_offset[offsetof(CharacterAppearanceFields, section) == 0x30 ? 1 : -1];
 typedef char CharacterAppearanceFields_classId_offset[offsetof(CharacterAppearanceFields, classId) == 0x31 ? 1 : -1];
 typedef char CharacterAppearanceFields_flags_offset[offsetof(CharacterAppearanceFields, flags) == 0x32 ? 1 : -1];
-typedef char CharacterAppearanceFields_spare_offset[offsetof(CharacterAppearanceFields, spare) == 0x33 ? 1 : -1];
+typedef char CharacterAppearanceFields_version_offset[offsetof(CharacterAppearanceFields, version) == 0x33 ? 1 : -1];
 typedef char CharacterAppearanceFields_classFlags_offset[offsetof(CharacterAppearanceFields, classFlags) == 0x34 ? 1 : -1];
 typedef char CharacterAppearanceFields_costume_offset[offsetof(CharacterAppearanceFields, costume) == 0x38 ? 1 : -1];
 typedef char CharacterAppearanceFields_skin_offset[offsetof(CharacterAppearanceFields, skin) == 0x3A ? 1 : -1];
