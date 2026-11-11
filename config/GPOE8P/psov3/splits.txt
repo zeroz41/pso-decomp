@@ -442,6 +442,7 @@ pso/boss/TUnk_80484AFC.cpp:
 
 pso/unk/text_80049FD8.cpp:
 	.text       start:0x80049FD8 end:0x8004A0AC
+	.rodata     start:0x80436748 end:0x80436794
 
 pso/boss/volopt/TObjVoloptPillar.cpp:
 	.text       start:0x8004A0AC end:0x8004A634
@@ -4443,7 +4444,7 @@ pso/object/trap/TOTrap.cpp:
 
 pso/object/trap/TOTrapAncient01.cpp:
 	.text       start:0x8017939C end:0x8017A20C
-	.rodata     start:0x80442E68 end:0x80442E70
+	.rodata     start:0x80442D80 end:0x80442E70
 	.data       start:0x804B49D8 end:0x804B4AD8
 	.sdata2     start:0x805DBA48 end:0x805DBA74
 
@@ -9590,6 +9591,7 @@ pso/enemy/recon/TObjEneRecon_8031EF00.cpp:
 
 pso/unk/text_8031EF14.cpp:
 	.text       start:0x8031EF14 end:0x8031F374
+	.rodata     start:0x804762F0 end:0x804763D4
 
 pso/enemy/recon/TObjEneRecon_8031F374.cpp:
 	.text       start:0x8031F374 end:0x8031F408

@@ -30,7 +30,6 @@ typedef char TObjVoloptPillar_size[sizeof(TObjVoloptPillar) == 0xC0 ? 1 : -1];
 extern const char *TObjVoloptPillar_name;
 extern const DirectAttackPayload volopt_pillar_attack;
 extern const Vec volopt_pillar_push;
-extern const TObjChipParams volopt_pillar_chip_params;
 extern const f64 volopt_pillar_rad_to_angle;
 
 

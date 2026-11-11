@@ -209,34 +209,25 @@ void TOTrapAncient01::release_trapped_player() {
     }
 }
 
-extern const TObjChipParams lbl_80442D80;
-extern const TObjChipParams lbl_80442DCC;
-extern const TObjChipParams lbl_80442E18;
 void TOTrapAncient01::play_sounds() {
-    TObjChipParams chip0 = lbl_80442D80;
-    chip0.pos[0] = position.x;
-    chip0.pos[1] = position.y;
-    chip0.pos[2] = position.z;
-    chip0.pad_38[0] = position.y;
-    chip0.model = get_bml_model(TOTrapAncient01__bml_resource, 0);
-    chip0.textures = TObjFish__sub_8001EDB0(TOTrapAncient01__bml_resource, 0);
-    TObjChipParams chip1 = lbl_80442DCC;
-    chip1.pos[0] = position.x;
-    chip1.pos[1] = position.y;
-    chip1.pos[2] = position.z;
-    chip1.pad_38[0] = position.y;
-    chip1.model = get_bml_model(TOTrapAncient01__bml_resource, 1);
-    chip1.textures = TObjFish__sub_8001EDB0(TOTrapAncient01__bml_resource, 1);
-    TObjChipParams chip2 = lbl_80442E18;
-    chip2.pos[0] = position.x;
-    chip2.pos[1] = position.y;
-    chip2.pos[2] = position.z;
-    chip2.pad_38[0] = position.y;
-    chip2.model = get_bml_model(TOTrapAncient01__bml_resource, 2);
-    chip2.textures = TObjFish__sub_8001EDB0(TOTrapAncient01__bml_resource, 2);
-    new TObjChip(tl_06, &chip0);
-    new TObjChip(tl_06, &chip1);
-    new TObjChip(tl_06, &chip2);
+    const TObjChipParams chip0 = {
+        {0.5f, 0.03f, 0.15f}, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
+        {0x800, 0x100, 0x800}, {4, 30}, {position.y, 1.0f},
+        get_bml_model(TOTrapAncient01__bml_resource, 0), TObjFish__sub_8001EDB0(TOTrapAncient01__bml_resource, 0), 22,
+    };
+    const TObjChipParams chip1 = {
+        {0.5f, 0.03f, 0.15f}, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
+        {0x800, 0x100, 0x800}, {4, 30}, {position.y, 1.0f},
+        get_bml_model(TOTrapAncient01__bml_resource, 1), TObjFish__sub_8001EDB0(TOTrapAncient01__bml_resource, 1), 22,
+    };
+    const TObjChipParams chip2 = {
+        {0.5f, 0.03f, 0.15f}, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
+        {0x800, 0x100, 0x800}, {4, 30}, {position.y, 1.0f},
+        get_bml_model(TOTrapAncient01__bml_resource, 2), TObjFish__sub_8001EDB0(TOTrapAncient01__bml_resource, 2), 22,
+    };
+    new TObjChip(tl_06, (TObjChipParams *)&chip0);
+    new TObjChip(tl_06, (TObjChipParams *)&chip1);
+    new TObjChip(tl_06, (TObjChipParams *)&chip2);
     TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect(&position, 0x8B);
     if (particle != NULL) {
         particle->set_scale(1.25f, 1.25f);

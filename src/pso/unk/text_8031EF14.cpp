@@ -78,38 +78,29 @@ s32 TObjEneRecon::is_below_child_limit(u16 arg1) {
 }
 
 extern BmlResource *TObjEneRecobox__static_instance;
-extern const TObjChipParams lbl_804762F0;
-extern const TObjChipParams lbl_8047633C;
-extern const TObjChipParams lbl_80476388;
 // Called from TObjEneRecon::handle_death_state: breaks the Recon into three
 // debris chips (models 3-5 of the Recobox archive, textures of model 3).
 void TObjEneRecobox__sub_8031F1A8(TObjEneRecon *recon) {
-    TObjChipParams chip0 = lbl_804762F0;
-    chip0.pos[0] = recon->position.x;
-    chip0.pos[1] = recon->position.y;
-    chip0.pos[2] = recon->position.z;
-    chip0.pad_38[0] = recon->position.y;
-    chip0.model = TObjEneRecobox__static_instance->models[3].model;
-    chip0.textures = TObjEneRecobox__static_instance->models[3].m_c;
-    TObjChipParams chip1 = lbl_8047633C;
-    chip1.pos[0] = recon->position.x;
-    chip1.pos[1] = recon->position.y;
-    chip1.pos[2] = recon->position.z;
-    chip1.pad_38[0] = recon->position.y;
-    chip1.model = TObjEneRecobox__static_instance->models[4].model;
-    chip1.textures = TObjEneRecobox__static_instance->models[3].m_c;
-    TObjChipParams chip2 = lbl_80476388;
-    chip2.pos[0] = recon->position.x;
-    chip2.pos[1] = recon->position.y;
-    chip2.pos[2] = recon->position.z;
-    chip2.pad_38[0] = recon->position.y;
-    chip2.model = TObjEneRecobox__static_instance->models[5].model;
-    chip2.textures = TObjEneRecobox__static_instance->models[3].m_c;
+    const TObjChipParams chip0 = {
+        {0.5f, 0.07f, 0.26f}, {recon->position.x, recon->position.y, recon->position.z},
+        {5.0f, 5.0f, 5.0f}, {0x400, 0x100, 0x400}, {5, 50}, {recon->position.y, 0.6f},
+        TObjEneRecobox__static_instance->models[3].model, TObjEneRecobox__static_instance->models[3].m_c, 20,
+    };
+    const TObjChipParams chip1 = {
+        {0.5f, 0.07f, 0.26f}, {recon->position.x, recon->position.y, recon->position.z},
+        {4.0f, 4.5f, 4.0f}, {0x200, 0x100, 0x200}, {6, 50}, {recon->position.y, 0.5f},
+        TObjEneRecobox__static_instance->models[4].model, TObjEneRecobox__static_instance->models[3].m_c, 20,
+    };
+    const TObjChipParams chip2 = {
+        {0.5f, 0.07f, 0.26f}, {recon->position.x, recon->position.y, recon->position.z},
+        {4.0f, 4.5f, 4.0f}, {0x200, 0x100, 0x200}, {6, 50}, {recon->position.y, 0.5f},
+        TObjEneRecobox__static_instance->models[5].model, TObjEneRecobox__static_instance->models[3].m_c, 20,
+    };
     spawn_particle_effect_with_flags(&recon->position, 0x45, 0x40);
     spawn_particle_effect_with_flags(&recon->position, 0x46, 0x40);
-    new TObjChip(tl_05, &chip0);
-    new TObjChip(tl_05, &chip1);
-    new TObjChip(tl_05, &chip2);
+    new TObjChip(tl_05, (TObjChipParams *)&chip0);
+    new TObjChip(tl_05, (TObjChipParams *)&chip1);
+    new TObjChip(tl_05, (TObjChipParams *)&chip2);
 }
 
 }

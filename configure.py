@@ -657,6 +657,13 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/galgryphon/Boss5GryphonBehavior.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/enemy/gyaranzo/TObjEneGyaranzo.cpp": {"mw_version": "GC/2.0"},
     "pso/object/trap/TOExplosiveMachine.cpp": {"mw_version": "GC/2.0"},
+    # The debris-chip spawners below build const TObjChipParams aggregates whose position, model and
+    # texture loads all come before the stores into the locals, which only 2.0 schedules that way
+    # (as in TOExplosiveMachine::run_task). -pool off: each chip's initializer template is reached
+    # with its own lis/addi, not off one shared base.
+    "pso/unk/text_80049FD8.cpp": {"mw_version": "GC/2.0"},
+    "pso/unk/text_8031EF14.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-pool off")},
+    "pso/object/trap/TOTrapAncient01.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-pool off")},
     "pso/enemy/slime/TObjEneSlimeTailAttack.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline on,deferred", "-fp_contract on", "-str reuse,readonly")},
     # -inline off,deferred: every jump table of the unit sits after the vtable, while the slot-87 handler
     # table (a function-local static) sits before the bezier tables: data in parse order, code deferred.
