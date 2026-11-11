@@ -2285,6 +2285,7 @@ pso/ui/frontend/TAdDrawLineCtrl_80019B78.cpp
 pso/unk/text_8001A3BC.cpp
 pso/unk/text_8001C388.cpp
 pso/unk/text_8002B164.cpp
+pso/unk/text_80049FD8.cpp
 pso/unk/text_8004AA04.cpp
 pso/unk/text_8004D9A8.cpp
 pso/boss/darkfalz/TObjDFDemo4_8004F1FC.cpp
@@ -2620,6 +2621,7 @@ pso/unk/text_80308328.cpp
 pso/unk/text_80309890.cpp
 pso/unk/text_803098DC.cpp
 pso/unk/text_80312C50.cpp
+pso/unk/text_8031EF14.cpp
 pso/unk/text_80320358.cpp
 pso/boss/galgryphon/TBoss5GryphonLightning_80324E10.cpp
 pso/unk/text_80325F7C.cpp
