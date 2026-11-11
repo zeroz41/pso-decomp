@@ -334,11 +334,13 @@ TItemAttackCol::TItemAttackCol(TObject *parent, S_802E449C *params) : TUnk_804E3
     pad_120[2] = 1.0f;
     hit_wall_flags.reset();
     if (params->flags & 2) {
-        StarLightParameters star = {0.0f, 7.0f, {{0, 0, 0, 0}}, 0, 20.0f};
-        star.width = params->star_width;
-        star.color.channels.r = 255.0f * params->star_color[0];
-        star.color.channels.g = 255.0f * params->star_color[1];
-        star.color.channels.b = 255.0f * params->star_color[2];
+        const StarLightParameters star = {
+            params->star_width,
+            7.0f,
+            {{0, 255.0f * params->star_color[0], 255.0f * params->star_color[1], 255.0f * params->star_color[2]}},
+            0,
+            20.0f,
+        };
         star_light = (TEffStarLight2D *)spawn_star_light_2d((s32)&position, (s32)&star, (s32)this);
     } else {
         star_light = NULL;
