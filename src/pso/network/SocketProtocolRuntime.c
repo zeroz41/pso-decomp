@@ -332,10 +332,12 @@ void TLobby__sub_8041F66C(TcpTcb *o) {
     }
 }
 
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(4)
 inline void sack_remove_8041F914(TcpTcb *o, s16 idx) {
-    s16 nn = o->reasm_n;
     s16 j;
-    if (idx < 0 || nn < 0 || idx > nn) {
+    if (idx < 0 || o->reasm_n < 0 || idx > o->reasm_n) {
         return;
     }
     o->reasm_total -= o->reasm[idx].end - o->reasm[idx].start;
@@ -345,154 +347,130 @@ inline void sack_remove_8041F914(TcpTcb *o, s16 idx) {
     o->reasm_n--;
 }
 
+/* Queues an out-of-order segment: copies it into the receive ring at its sequence offset and merges its range into
+   the SACK/reassembly list.  Returns -1 when the connection no longer receives (f204_b6). */
 s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th) {
-    u8 *p; /* (u8 *)pkt + i * sizeof(NetPacketFragment), so fragments[i] is at p + offsetof(NetPacket, fragments) */
-    u32 cnt;
-    s32 n;
-    s16 kk;
-    u32 rem;
-    u32 k;
-    s32 sum;
-    s32 delta;
-    s32 s;
-    u32 i;
-    u8 buf1[8];
-    u8 buf2[8];
-
     if (!o->f204_b6) {
-        rem = 0;
-        sum = 0;
-        delta = th->seq - o->rcv_nxt;
-        if (delta <= 0) {
-            return 0;
-        }
-        if ((u32)(pkt->total_bytes - x + delta) > (u32)(o->f534 - o->fD8)) {
-            return 0;
-        }
-        cnt = pkt->fragment_count;
-        i = 0;
-        p = (u8 *)pkt;
-        for (; i < cnt; p += sizeof(NetPacketFragment), i++) {
-            if ((u16)*(s16 *)(p + offsetof(NetPacket, fragments[0].length)) > (u16)x) {
-                rem = (u16)x;
-                break;
-            }
-            x -= *(s16 *)(p + offsetof(NetPacket, fragments[0].length));
-        }
-        if (i == cnt) {
-            return 0;
-        }
-        k = o->fE0 + delta;
-        if (k > o->f534) {
-            k -= o->f534;
-        }
-        NetMemcpy(buf1, &o->rcv_buf, 8);
-        TLobby__sub_80406EB8((NetBufferRef *)buf1, k);
-        for (p = (u8 *)pkt + i * sizeof(NetPacketFragment); i < pkt->fragment_count; p += sizeof(NetPacketFragment), i++) {
-            NetMemcpy(buf2, p + offsetof(NetPacket, fragments[0].buffer), 8);
-            if (rem != 0) {
-                TLobby__sub_80406EB8((NetBufferRef *)buf2, rem);
-            }
-            rem = *(s16 *)(p + offsetof(NetPacket, fragments[0].length)) - rem;
-            if ((u32)rem > o->f534 - o->fD8) {
-                rem = o->fD8;
-            }
-            sum += rem;
-            if (k + rem >= o->f534) {
-                TLobby__sub_80406FD8(buf1, buf2, o->f534 - k);
-                NetMemcpy(buf1, &o->rcv_buf, 8);
-                TLobby__sub_80406EB8((NetBufferRef *)buf2, o->f534 - k);
-                rem -= o->f534 - k;
-            }
-            if (rem != 0) {
-                TLobby__sub_80406FD8(buf1, buf2, rem);
-                TLobby__sub_80406EB8((NetBufferRef *)buf1, (s16)rem);
-            }
-            rem = 0;
-        }
-        s = th->seq;
-        sum += s;
-        if (o->reasm_n == -1) {
-            TLobby__sub_8041FDA0(o, 0, s, sum);
-            o->last_reasm = 0;
-        } else {
-            if (s - o->reasm[0].start <= 0) {
-                TLobby__sub_8041FDA0(o, 0, s, sum);
-                kk = 0;
-            } else {
-                /* Not a TCB: e moves one range (8 bytes) per kk, so e->reasm[0] is o->reasm[kk]. Only e->reasm is read. */
-                TcpTcb *e = (TcpTcb *)((u8 *)o + sizeof(TcpReasmRange));
-                for (kk = 1; kk <= o->reasm_n; e = (TcpTcb *)((u8 *)e + sizeof(TcpReasmRange)), kk++) {
-                    if (s - e->reasm[0].start <= 0) {
-                        n = o->reasm[kk - 1].end;
-                        if (s - n <= 0) {
-                            delta = sum - n;
-                            if (delta < 0) {
-                                goto fin;
-                            }
-                            o->reasm_total += delta;
-                            o->reasm[kk - 1].end = sum;
-                            kk--;
-                        } else {
-                            TLobby__sub_8041FDA0(o, kk, s, sum);
-                        }
-                        break;
-                    }
-                }
-                if (kk == o->reasm_n + 1) {
-                    n = o->reasm[kk - 1].end;
-                    if (s - n <= 0) {
-                        delta = sum - n;
-                        if (delta < 0) {
-                            goto fin;
-                        }
-                        o->reasm_total += delta;
-                        o->reasm[kk - 1].end = sum;
-                        kk--;
-                    } else {
-                        TLobby__sub_8041FDA0(o, kk, s, sum);
-                    }
-                }
-            }
-            o->last_reasm = kk;
-            while (kk + 1 <= o->reasm_n && o->reasm[kk].end - o->reasm[kk + 1].start >= 0) {
-                if (o->reasm[kk].end - o->reasm[kk + 1].end >= 0) {
-                    {
-                        s16 idx = kk + 1;
-                        s16 nn = o->reasm_n;
-                        s16 j;
-                        if (!(idx < 0 || nn < 0 || idx > nn)) {
-                            o->reasm_total -= o->reasm[idx].end - o->reasm[idx].start;
-                            for (j = idx; j < o->reasm_n; j++) {
-                                o->reasm[j] = o->reasm[j + 1];
-                            }
-                            o->reasm_n--;
-                        }
-                    }
-                } else {
-                    o->reasm_total += o->reasm[kk + 1].end - o->reasm[kk].end;
-                    o->reasm[kk].end = o->reasm[kk + 1].end;
-                    {
-                        s16 idx = kk + 1;
-                        s16 nn = o->reasm_n;
-                        s16 j;
-                        if (!(idx < 0 || nn < 0 || idx > nn)) {
-                            o->reasm_total -= o->reasm[idx].end - o->reasm[idx].start;
-                            for (j = idx; j < o->reasm_n; j++) {
-                                o->reasm[j] = o->reasm[j + 1];
-                            }
-                            o->reasm_n--;
-                        }
-                    }
-                }
-            }
-        }
-fin:
-        TLobby__sub_8041FED4(o);
+    u32 skip;
+    u32 i;
+    u32 pos;
+    s32 total;
+    s32 d;
+    u32 room;
+    s32 seq;
+    s32 end;
+    s16 j;
+    s32 grow;
+    NetBufferRef dst;
+    NetBufferRef src;
+    u32 len;
+    skip = 0;
+    total = 0;
+    d = th->seq - o->rcv_nxt;
+    if (d <= 0) {
         return 0;
+    }
+    len = pkt->total_bytes - x;
+    if (d + len > o->f534 - o->fD8) {
+        return 0;
+    }
+    for (i = 0; i < pkt->fragment_count; i++) {
+        if ((u16)pkt->fragments[i].length > x) {
+            skip = x;
+            break;
+        }
+        x -= pkt->fragments[i].length;
+    }
+    if (i == pkt->fragment_count) {
+        return 0;
+    }
+    pos = o->fE0 + d;
+    if (pos > o->f534) {
+        pos -= o->f534;
+    }
+    NetMemcpy(&dst, &o->rcv_buf, 8);
+    TLobby__sub_80406EB8(&dst, pos);
+    for (; i < pkt->fragment_count; i++) {
+        NetMemcpy(&src, &pkt->fragments[i].buffer, 8);
+        if (skip != 0) {
+            TLobby__sub_80406EB8(&src, skip);
+        }
+        skip = pkt->fragments[i].length - skip;
+        room = o->f534 - o->fD8;
+        if (skip > room) {
+            skip = room;
+        }
+        total += skip;
+        if (pos + skip >= o->f534) {
+            TLobby__sub_80406FD8(&dst, &src, o->f534 - pos);
+            NetMemcpy(&dst, &o->rcv_buf, 8);
+            TLobby__sub_80406EB8(&src, o->f534 - pos);
+            skip -= o->f534 - pos;
+        }
+        if (skip != 0) {
+            TLobby__sub_80406FD8(&dst, &src, skip);
+            TLobby__sub_80406EB8(&dst, (s16)skip);
+        }
+        skip = 0;
+    }
+    seq = th->seq;
+    end = seq + total;
+    if (o->reasm_n == -1) {
+        TLobby__sub_8041FDA0(o, 0, seq, end);
+        o->last_reasm = 0;
+    } else {
+        if (seq - o->reasm[0].start <= 0) {
+            TLobby__sub_8041FDA0(o, 0, seq, end);
+            j = 0;
+        } else {
+            for (j = 1; j <= o->reasm_n; j++) {
+                if (seq - o->reasm[j].start <= 0) {
+                    if (seq - o->reasm[j - 1].end <= 0) {
+                        grow = end - o->reasm[j - 1].end;
+                        if (grow < 0) {
+                            goto done;
+                        }
+                        o->reasm_total += grow;
+                        o->reasm[j - 1].end = end;
+                        j--;
+                    } else {
+                        TLobby__sub_8041FDA0(o, j, seq, end);
+                    }
+                    break;
+                }
+            }
+            if (j == o->reasm_n + 1) {
+                if (seq - o->reasm[j - 1].end <= 0) {
+                    grow = end - o->reasm[j - 1].end;
+                    if (grow < 0) {
+                        goto done;
+                    }
+                    o->reasm_total += grow;
+                    o->reasm[j - 1].end = end;
+                    j--;
+                } else {
+                    TLobby__sub_8041FDA0(o, j, seq, end);
+                }
+            }
+        }
+        o->last_reasm = j;
+        while (j + 1 <= o->reasm_n && o->reasm[j].end - o->reasm[j + 1].start >= 0) {
+            if (o->reasm[j].end - o->reasm[j + 1].end >= 0) {
+                sack_remove_8041F914(o, j + 1);
+            } else {
+                o->reasm_total += o->reasm[j + 1].end - o->reasm[j].end;
+                o->reasm[j].end = o->reasm[j + 1].end;
+                sack_remove_8041F914(o, j + 1);
+            }
+        }
+    }
+done:
+    TLobby__sub_8041FED4(o);
+    return 0;
     }
     return -1;
 }
+#pragma pop
 
 void TLobby__sub_8041FDA0(TcpTcb *o, s16 idx, s32 a, s32 b) {
     s16 i;

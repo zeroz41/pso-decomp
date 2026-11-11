@@ -292,6 +292,8 @@ void *pp;
   u8 *e;
   u8 *p = (u8 *) pp;
   u8 a92[16];
+  s32 ret; /* results of the adds below, never checked; the original frame keeps both slots */
+  s16 err;
   if ((id < 0) || (id >= (*((s16 *) (((u8 *) g) + offsetof(Ipv6State, count))))))
   {
     return -266;
@@ -345,7 +347,7 @@ void *pp;
     case 2:
       if (t == 1)
     {
-      TLobby__sub_80412618(p, id);
+      err = TLobby__sub_80412618(p, id);
     }
       break;
 
@@ -361,7 +363,7 @@ void *pp;
       if (t == 1)
     {
       NetMemset(a92, 0, 16);
-      TLobby__sub_8041347C(a92, 0, *((u8 **) p), id, 2, 4);
+      ret = TLobby__sub_8041347C(a92, 0, *((u8 **) p), id, 2, 4);
     }
       break;
 
@@ -378,7 +380,7 @@ void *pp;
     {
       NetMemset(a92, 0, 16);
       remove_80411604(g, 0, a92, *((u8 **) p));
-      TLobby__sub_8041347C(a92, 0, *((u8 **) (p + 4)), id, 2, 4);
+      ret = TLobby__sub_8041347C(a92, 0, *((u8 **) (p + 4)), id, 2, 4);
     }
       break;
 
@@ -401,7 +403,7 @@ void *pp;
       if (t == 1)
     {
       remove_80411604(g, *((s16 *) (p + 4)), *((u8 **) p), *((u8 **) (p + 8)));
-      TLobby__sub_8041347C(*((u8 **) p), 128, *((u8 **) (p + 12)), id, 3, 4);
+      ret = TLobby__sub_8041347C(*((u8 **) p), 128, *((u8 **) (p + 12)), id, 3, 4);
     }
       break;
 
@@ -868,7 +870,7 @@ s16 idx;
   u8 tmp[16];
   u8 a68[16];
   u8 a52[16];
-  u8 pad4[4];
+  s16 err;
   if ((idx <= 0) || (idx >= (*(pn = &g->count))))
   {
     return -266;
@@ -1053,7 +1055,7 @@ s16 idx;
   }
 
   L400:
-  TLobby__sub_80409D7C(idx, *((s16 *) (e + offsetof(Ipv6Iface, handle))), 2, tmp);
+  err = TLobby__sub_80409D7C(idx, *((s16 *) (e + offsetof(Ipv6Iface, handle))), 2, tmp);
 
   if ((*((u8 **) (e + offsetof(Ipv6Iface, addrs)))) == pfx)
   {
