@@ -248,6 +248,8 @@ void TLobby__sub_80411334(void) {
     }
 }
 
+void TLobby__sub_80414B98(u8* dst, s16 bits, u8* src);
+
 inline s16 cmp16_80411604(void *a, void *b) {
     s32 t = NetMemcmp(a, b, 16);
     if (t < 0) {
@@ -259,9 +261,13 @@ inline s16 cmp16_80411604(void *a, void *b) {
     return 0;
 }
 
-inline void remove_80411604(Ipv6State *g, s16 len, void *grp, void *src) {
-    s16 n = g->route_count;
-    Ipv6Route *e = g->routes;
+inline void remove_80411604(Ipv6State *g, s16 len, u8 *addr, void *src) {
+    u8 grp[16];
+    s16 n;
+    Ipv6Route *e;
+    TLobby__sub_80414B98(grp, len, addr);
+    n = g->route_count;
+    e = g->routes;
     for (; n > 0; n--, e++) {
         if (e->state == 1 && e->prefix_len == len && cmp16_80411604(e->prefix, grp) == 0 && cmp16_80411604(e->gateway, src) == 0) {
             e->state = 0;
@@ -277,12 +283,8 @@ void *pp;
 {
   s16 TLobby__sub_8042325C(s16, s32, void *, void *); /* declared with 4 parameters; the definition is s32 (s32, s32, s32, s32 (*fn)(s32, s32, s32)) */
   s32 TLobby__sub_8041347C(u8 *src, s16 id, u8 *key, s16 a, s16 b, s16 c);
-  void TLobby__sub_80414B98(u8 *, s16, u8 *);
-  u8 *new_var;
   s16 TLobby__sub_80412618(void *, s16);
-  u8 *k;
   void *h;
-  s16 len;
   s16 i;
   Ipv6State *g = &ipv6_address_routing_state;
   u8 *ent;
@@ -290,11 +292,6 @@ void *pp;
   u8 *e;
   u8 *p = (u8 *) pp;
   u8 a92[16];
-  u8 padm[8];
-  u8 a68[16];
-  u8 a52[16];
-  u8 a36[16];
-  u8 a20[16];
   if ((id < 0) || (id >= (*((s16 *) (((u8 *) g) + offsetof(Ipv6State, count))))))
   {
     return -266;
@@ -372,9 +369,7 @@ void *pp;
       if (t == 1)
     {
       NetMemset(a92, 0, 16);
-      k = *((u8 **) p);
-      TLobby__sub_80414B98(a68, 0, a92);
-      remove_80411604(g, 0, a68, k);
+      remove_80411604(g, 0, a92, *((u8 **) p));
     }
       break;
 
@@ -382,9 +377,7 @@ void *pp;
       if (t == 1)
     {
       NetMemset(a92, 0, 16);
-      k = *((u8 **) p);
-      TLobby__sub_80414B98(a52, 0, a92);
-      remove_80411604(g, 0, a52, k);
+      remove_80411604(g, 0, a92, *((u8 **) p));
       TLobby__sub_8041347C(a92, 0, *((u8 **) (p + 4)), id, 2, 4);
     }
       break;
@@ -400,20 +393,14 @@ void *pp;
       if (t == 1)
     {
       NetMemset(a92, 0, 16);
-      k = *((u8 **) p);
-      TLobby__sub_80414B98(a36, 0, a92);
-      remove_80411604(g, 0, a36, k);
+      remove_80411604(g, 0, a92, *((u8 **) p));
     }
       break;
 
     case 10:
       if (t == 1)
     {
-      new_var = *((u8 **) p);
-      len = *((s16 *) (p + 4));
-      k = *((u8 **) (p + 8));
-      TLobby__sub_80414B98(a20, len, new_var);
-      remove_80411604(g, len, a20, k);
+      remove_80411604(g, *((s16 *) (p + 4)), *((u8 **) p), *((u8 **) (p + 8)));
       TLobby__sub_8041347C(*((u8 **) p), 128, *((u8 **) (p + 12)), id, 3, 4);
     }
       break;
@@ -680,7 +667,6 @@ extern s32 TLobby__sub_80412058(s16 id, u8 *self, s32 len, u8 *out) {
 }
 #pragma pop
 
-void TLobby__sub_80414B98(u8* dst, s16 bits, u8* src);
 
 inline s16 cmp_8041347C(void *a, void *b) {
     s32 r = NetMemcmp(a, b, 16);
@@ -833,9 +819,13 @@ inline s16 getaddr_80412618(s16 *n, u8 **ents, void *out) {
     return 1;
 }
 
-inline void remove_80412618(Ipv6State *g, s16 len, void *grp, void *src) {
-    s16 n = g->route_count;
-    Ipv6Route *e = g->routes;
+inline void remove_80412618(Ipv6State *g, s16 len, u8 *addr, void *src) {
+    u8 grp[16];
+    s16 n;
+    Ipv6Route *e;
+    TLobby__sub_80414B98(grp, len, addr);
+    n = g->route_count;
+    e = g->routes;
     for (; n > 0; n--, e++) {
         if (e->state == 1 && e->prefix_len == len && cmp16_80412618(e->prefix, grp) == 0 && cmp16_80412618(e->gateway, src) == 0) {
             e->state = 0;
@@ -879,8 +869,6 @@ s16 idx;
   u8 a68[16];
   u8 a52[16];
   u8 pad4[4];
-  u8 a32[16];
-  u8 a16[16];
   if ((idx <= 0) || (idx >= (*(pn = &g->count))))
   {
     return -266;
@@ -1057,13 +1045,11 @@ s16 idx;
     return 0;
   }
   n8 = *((s16 *) (pi + 4));
-  TLobby__sub_80414B98(a32, n8, tmp);
-  remove_80412618(g, n8, a32, tmp);
+  remove_80412618(g, n8, tmp, tmp);
   L348:
   if (is_socket_flag_set(idx) == 0)
   {
-    TLobby__sub_80414B98(a16, 128, tmp);
-    remove_80412618(g, 128, a16, a68);
+    remove_80412618(g, 128, tmp, a68);
   }
 
   L400:
