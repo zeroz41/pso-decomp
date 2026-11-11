@@ -36,8 +36,8 @@ struct LogHdr_803CD3A8 { u8 pad[0x2]; u16 seq; };
 struct LogHdr_803CC980 { u8 pad[0xA]; u16 seq; };
 
 struct Snd_803CC980 {
-    u8 f0; s8 state; s8 f2; u8 f3; u32 f4; SjRingBuffer *f8; s32 fc; u8 pad_10[0x14 - 0x10];
-    s32 f14; s32 f18; s32 f1c; s32 f20; s32 f24; s32 f28; s32 f2c; s32 f30;
+    u8 f0; s8 state; s8 f2; u8 f3; u32 f4; SjRingBuffer *f8; int fc; u8 pad_10[0x14 - 0x10];
+    int f14; int f18; int f1c; int f20; s32 f24; s32 f28; int f2c; int f30;
 };
 
 struct Ent_803CC884 {
@@ -318,29 +318,6 @@ s32 TLobby::read_checked_align(s32 arg0, s32 arg1, s32 arg2) {
 #pragma push
 #pragma inline_depth(4)
 #pragma dont_inline off
-inline s32 read_sj32_803CCB98(Snd_803CC980 *adxf, s32 nsct, SjRingBuffer *sj) {
-    s32 rqsct;
-    TLobby::init_once();
-    adxf->f18 = adxf->f30 + adxf->f14;
-    adxf->f1c = nsct < adxf->fc - adxf->f14 ? nsct : adxf->fc - adxf->f14;
-    adxf->f20 = 0;
-    rqsct = 0;
-    if (adxf->f1c == 0) {
-        adxf->state = 3;
-    } else {
-        TLobby__sub_803C8514((u8 *)adxf->f4, adxf->f1c);
-        ((TLobby *)adxf->f4)->set_scroll_position(-1);
-        ((TLobby *)adxf->f4)->set_buffer((void **)sj);
-        ((TLobby *)adxf->f4)->set_field_10_and_notify(adxf->f30 + adxf->f14);
-        TLobby__sub_803C8578((u8 *)adxf->f4, adxf->f2c);
-        adxf->state = 2;
-        ((TLobby *)adxf->f4)->init_stream_position();
-        rqsct = adxf->f1c;
-    }
-    TLobby::release_ref();
-    return rqsct;
-}
-
 // ADXF_ReadNw32 (named by its messages)
 s32 TLobby::adxf_read_nw32(void *handle, int nsct, void *buf) {
     Snd_803CC980 *adxf = (Snd_803CC980 *)handle;
@@ -379,7 +356,23 @@ s32 TLobby::adxf_read_nw32(void *handle, int nsct, void *buf) {
     if (TLobby__sub_803C8B2C((u8 *)adxf->f4) != 1) {
         TLobby__sub_803C89C4((u8 *)adxf->f4);
     }
-    rqsct = read_sj32_803CCB98(adxf, nsct, sj);
+    TLobby::init_once();
+    adxf->f18 = adxf->f30 + adxf->f14;
+    adxf->f1c = nsct < adxf->fc - adxf->f14 ? nsct : adxf->fc - adxf->f14;
+    adxf->f20 = rqsct = 0;
+    if (adxf->f1c == 0) {
+        adxf->state = 3;
+    } else {
+        TLobby__sub_803C8514((u8 *)adxf->f4, adxf->f1c);
+        ((TLobby *)adxf->f4)->set_scroll_position(-1);
+        ((TLobby *)adxf->f4)->set_buffer((void **)sj);
+        ((TLobby *)adxf->f4)->set_field_10_and_notify(adxf->f30 + adxf->f14);
+        TLobby__sub_803C8578((u8 *)adxf->f4, adxf->f2c);
+        adxf->state = 2;
+        ((TLobby *)adxf->f4)->init_stream_position();
+        rqsct = adxf->f1c;
+    }
+    TLobby::release_ref();
     if (rqsct <= 0) {
         sj->interface->destroy(sj);
     } else {
@@ -393,6 +386,7 @@ s32 TLobby::adxf_read_nw32(void *handle, int nsct, void *buf) {
 
 // ADXF_ReadSj32 (named by its messages): removed by the linker, its three messages stay in the string pool.
 s32 adxf_read_sj32(Snd_803CC980 *adxf, s32 nsct, SjRingBuffer *sj) {
+    s32 rqsct;
     if (adxf == NULL) {
         TLobby::notify_error("E9040811:'adxf' is NULL.(ADXF_ReadSj32)");
         return -3;
@@ -405,7 +399,24 @@ s32 adxf_read_sj32(Snd_803CC980 *adxf, s32 nsct, SjRingBuffer *sj) {
         TLobby::notify_error("E9040813:'sj'is NULL.(ADXF_ReadSj32)");
         return -3;
     }
-    return read_sj32_803CCB98(adxf, nsct, sj);
+    TLobby::init_once();
+    adxf->f18 = adxf->f30 + adxf->f14;
+    adxf->f1c = nsct < adxf->fc - adxf->f14 ? nsct : adxf->fc - adxf->f14;
+    adxf->f20 = rqsct = 0;
+    if (adxf->f1c == 0) {
+        adxf->state = 3;
+    } else {
+        TLobby__sub_803C8514((u8 *)adxf->f4, adxf->f1c);
+        ((TLobby *)adxf->f4)->set_scroll_position(-1);
+        ((TLobby *)adxf->f4)->set_buffer((void **)sj);
+        ((TLobby *)adxf->f4)->set_field_10_and_notify(adxf->f30 + adxf->f14);
+        TLobby__sub_803C8578((u8 *)adxf->f4, adxf->f2c);
+        adxf->state = 2;
+        ((TLobby *)adxf->f4)->init_stream_position();
+        rqsct = adxf->f1c;
+    }
+    TLobby::release_ref();
+    return rqsct;
 }
 
 inline s32 rd32_803CD5C4(u8 *p) {
