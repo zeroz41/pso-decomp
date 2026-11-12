@@ -5,7 +5,7 @@
 
 // One pending memory-card request per slot (A, B), stepped by TAdPlayerLoadGC__sub_803F2F1C.
 struct CardRequestSlot {
-    s32 buffer;      // read/write data
+    void *buffer;    // read/write data
     char name[0x20];
     char new_name[0x20]; // rename target
     s32 kind;        // 1 mount, 2 create, 3 open, 4 read, 5 write, 6 rename, 7 delete, 8 set attributes, 9 find file
@@ -55,7 +55,7 @@ public:
     static void reset_slot_entry(s32 arg0);
     static s32 close_card_slot(s32 arg0);
     static s32 finish_load_slot_state4(s32 arg0, s32 *arg1);
-    static s32 queue_network_request(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    static s32 queue_network_request(s32 file, void *buffer, s32 length, s32 offset);
     static s32 finish_load_slot_state3(s32 arg0, s32 *arg1);
     static s32 begin_card_file_request(s32 chan, const char *name);
     static void unmount_card(s32 chan);

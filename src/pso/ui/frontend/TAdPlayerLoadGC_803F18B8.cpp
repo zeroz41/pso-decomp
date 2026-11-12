@@ -296,7 +296,7 @@ void TAdPlayerLoadGC__sub_803F2240(s32 file) {
             u8 *buf = (u8 *)card_disk_id + off;
             s32 rc;
             buf += 0xF8;
-            rc = CARDWriteAsync((CARDFileInfo *)buf, (void *)TAdPlayerLoadGC__load_request_slots[*ip].buffer, TAdPlayerLoadGC__load_request_slots[*ip].length, TAdPlayerLoadGC__load_request_slots[*ip].offset, 0);
+            rc = CARDWriteAsync((CARDFileInfo *)buf, TAdPlayerLoadGC__load_request_slots[*ip].buffer, TAdPlayerLoadGC__load_request_slots[*ip].length, TAdPlayerLoadGC__load_request_slots[*ip].offset, 0);
             ioff = *ip * 0x68;
             slot = (s32 *)(&card_disk_id[ioff]);
             slot += 0x1F;
@@ -430,7 +430,7 @@ void TAdPlayerLoadGC__sub_803F2610(s32 file) {
             u8 *buf = (u8 *)card_disk_id + off;
             s32 rc;
             buf += 0xF8;
-            rc = CARDReadAsync((CARDFileInfo *)buf, (void *)TAdPlayerLoadGC__load_request_slots[*ip].buffer, TAdPlayerLoadGC__load_request_slots[*ip].length, TAdPlayerLoadGC__load_request_slots[*ip].offset, 0);
+            rc = CARDReadAsync((CARDFileInfo *)buf, TAdPlayerLoadGC__load_request_slots[*ip].buffer, TAdPlayerLoadGC__load_request_slots[*ip].length, TAdPlayerLoadGC__load_request_slots[*ip].offset, 0);
             ioff = *ip * 0x68;
             slot = (s32 *)(&card_disk_id[ioff]);
             slot += 0x1F;

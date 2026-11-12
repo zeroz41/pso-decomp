@@ -32,7 +32,7 @@ s32 TAdPlayerLoadGC::finish_load_slot_state4(s32 arg0, s32 *arg1) {
         t = TAdPlayerLoadGC__load_request_slots[arg0].status;
         r = t;
         if (t != 200) {
-            TAdPlayerLoadGC__load_request_slots[arg0].buffer = 0;
+            TAdPlayerLoadGC__load_request_slots[arg0].buffer = NULL;
             memset(TAdPlayerLoadGC__load_request_slots[arg0].name, 0, 0x20);
             memset(TAdPlayerLoadGC__load_request_slots[arg0].new_name, 0, 0x20);
             TAdPlayerLoadGC__load_request_slots[arg0].kind = 0;
@@ -50,13 +50,13 @@ s32 TAdPlayerLoadGC::finish_load_slot_state4(s32 arg0, s32 *arg1) {
     return r;
 }
 
-s32 TAdPlayerLoadGC::queue_network_request(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+s32 TAdPlayerLoadGC::queue_network_request(s32 file, void *buffer, s32 length, s32 offset) {
     s32 chan;
 
     if (TAdPlayerLoadGC::get_load_state() < 1) {
         return -1;
     }
-    if (arg0 < 0 || arg0 >= 100 || ((chan = card_open_files[arg0].channel) != 0 && chan != 1)) {
+    if (file < 0 || file >= 100 || ((chan = card_open_files[file].channel) != 0 && chan != 1)) {
         return -2;
     }
     if (TAdPlayerLoadGC__load_request_slots[chan].kind != 0) {
@@ -65,10 +65,10 @@ s32 TAdPlayerLoadGC::queue_network_request(s32 arg0, s32 arg1, s32 arg2, s32 arg
     TAdPlayerLoadGC__load_request_slots[chan].kind = 4;
     TAdPlayerLoadGC__load_request_slots[chan].step = 9;
     TAdPlayerLoadGC__load_request_slots[chan].status = 200;
-    TAdPlayerLoadGC__load_request_slots[chan].buffer = arg1;
-    TAdPlayerLoadGC__load_request_slots[chan].length = arg2;
-    TAdPlayerLoadGC__load_request_slots[chan].offset = arg3;
-    TAdPlayerLoadGC__load_request_slots[chan].file_index = arg0;
+    TAdPlayerLoadGC__load_request_slots[chan].buffer = buffer;
+    TAdPlayerLoadGC__load_request_slots[chan].length = length;
+    TAdPlayerLoadGC__load_request_slots[chan].offset = offset;
+    TAdPlayerLoadGC__load_request_slots[chan].file_index = file;
     return 0;
 }
 s32 TAdPlayerLoadGC::finish_load_slot_state3(s32 arg0, s32 *arg1) {
@@ -87,7 +87,7 @@ s32 TAdPlayerLoadGC::finish_load_slot_state3(s32 arg0, s32 *arg1) {
                 memset(&card_open_files[TAdPlayerLoadGC__load_request_slots[arg0].file_index], 0, 0x88);
                 card_open_files[TAdPlayerLoadGC__load_request_slots[arg0].file_index].channel = 2;
             }
-            TAdPlayerLoadGC__load_request_slots[arg0].buffer = 0;
+            TAdPlayerLoadGC__load_request_slots[arg0].buffer = NULL;
             memset(TAdPlayerLoadGC__load_request_slots[arg0].name, 0, 0x20);
             memset(TAdPlayerLoadGC__load_request_slots[arg0].new_name, 0, 0x20);
             TAdPlayerLoadGC__load_request_slots[arg0].kind = 0;
@@ -160,7 +160,7 @@ s32 TAdPlayerLoadGC::take_network_info_load_result(s32 arg0, s32 *arg1) {
         t = TAdPlayerLoadGC__load_request_slots[arg0].status;
         r = t;
         if (t != 200) {
-            TAdPlayerLoadGC__load_request_slots[arg0].buffer = 0;
+            TAdPlayerLoadGC__load_request_slots[arg0].buffer = NULL;
             memset(TAdPlayerLoadGC__load_request_slots[arg0].name, 0, 0x20);
             memset(TAdPlayerLoadGC__load_request_slots[arg0].new_name, 0, 0x20);
             TAdPlayerLoadGC__load_request_slots[arg0].kind = 0;
@@ -206,7 +206,7 @@ s32 TAdPlayerLoadGC::take_network_info_poll_result(s32 arg0, s32 *arg1) {
         t = TAdPlayerLoadGC__load_request_slots[arg0].status;
         r = t;
         if (t != 200) {
-            TAdPlayerLoadGC__load_request_slots[arg0].buffer = 0;
+            TAdPlayerLoadGC__load_request_slots[arg0].buffer = NULL;
             memset(TAdPlayerLoadGC__load_request_slots[arg0].name, 0, 0x20);
             memset(TAdPlayerLoadGC__load_request_slots[arg0].new_name, 0, 0x20);
             TAdPlayerLoadGC__load_request_slots[arg0].kind = 0;

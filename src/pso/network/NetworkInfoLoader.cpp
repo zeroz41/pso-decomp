@@ -153,7 +153,7 @@ void update_network_info_load(void) {
         } else {
             TAdPlayerLoadGC__network_config_buffer = (Save_803F3F64 *)network_info_load_state.caller_buffer;
         }
-        network_info_load_state.card_result = TAdPlayerLoadGC::queue_network_request((s32)network_info_load_state.file_handle, (s32)TAdPlayerLoadGC__network_config_buffer, (s32)(get_network_info_file_size()), 0);
+        network_info_load_state.card_result = TAdPlayerLoadGC::queue_network_request((s32)network_info_load_state.file_handle, TAdPlayerLoadGC__network_config_buffer, (s32)(get_network_info_file_size()), 0);
         if (network_info_load_state.card_result < 0) {
             if ((void *)(&network_info_load_state)[0].caller_buffer == NULL) {
                 if (TAdPlayerLoadGC__network_config_buffer != NULL) {
