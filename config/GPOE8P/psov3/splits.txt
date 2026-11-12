@@ -5698,15 +5698,10 @@ pso/network/TGameProtocol.cpp:
 	.data       start:0x804C5260 end:0x804C57DC
 
 pso/unk/TLobby_801E43E4.cpp:
-	.text       start:0x801E43E4 end:0x801E483C
-	.sdata2     start:0x805DC448 end:0x805DC44C
-
-pso/player/TObjPlayer_801E483C.cpp:
-	.text       start:0x801E483C end:0x801E4874
-
-pso/system/TLanguage_801E4874.cpp:
-	.text       start:0x801E4874 end:0x801E4BCC
+	.text       start:0x801E43E4 end:0x801E4BCC
+	.rodata     start:0x80449798 end:0x80449850
 	.sbss       start:0x805D5E58 end:0x805D5E5C
+	.sdata2     start:0x805DC448 end:0x805DC44C
 
 pso/unk/text_801E4BCC.cpp:
 	.text       start:0x801E4BCC end:0x801E4CF0

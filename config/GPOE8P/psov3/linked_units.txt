@@ -820,7 +820,6 @@ pso/ui/keyboard/TKeyBoardControl_803F0C50.cpp
 pso/effect/TKomorebi.cpp
 pso/system/TLanguage.cpp
 pso/system/TLanguage_801A5694.cpp
-pso/system/TLanguage_801E4874.cpp
 pso/system/TLanguage_803DAF68.cpp
 pso/object/container/TContainerAncient01_8018A55C.cpp
 pso/ui/TLevelSelect.cpp
@@ -1995,7 +1994,6 @@ pso/player/TObjPlayer_801D9B18.cpp
 pso/player/TObjPlayer_801D9E08.cpp
 pso/player/TObjPlayer_801D9E10.cpp
 pso/player/TObjPlayer_801E2D1C.cpp
-pso/player/TObjPlayer_801E483C.cpp
 pso/player/TObjPlayer_8023355C.cpp
 pso/player/TObjPlayer_8023C024.cpp
 pso/player/TObjPlayer_8023E480.cpp
