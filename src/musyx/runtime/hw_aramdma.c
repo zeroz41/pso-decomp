@@ -1,18 +1,5 @@
 #include "musyx/runtime/musyx_runtime_b.h"
 
-#define synthInfo_voiceNum (((u8 *)synthInfo)[0x210])
-#define CLAMP(value, min, max) ((value) > (max) ? (max) : (value) < (min) ? (min) : (value))
-#define CLAMP_INV(value, min, max) ((value) < (min) ? (min) : (value) > (max) ? (max) : (value))
-#define MIN(a, b) ((a) > (b) ? (b) : (a))
-#define SLOTS_803BD694 (*(Slot_803BD694 **)&lbl_805D748C)
-#define userCallback lbl_805D74E8
-#define salAIBufferBase lbl_805D74EC
-#define salDspIsDone (*(volatile u32 *)&lbl_805D74F0)
-#define salLogicIsWaiting (*(volatile u32 *)&lbl_805D74F4)
-#define salLogicActive (*(volatile u32 *)&lbl_805D74F8)
-#define salLastTick (*(volatile u32 *)&lbl_805D74FC)
-#define salAIBufferIndex lbl_805D750C
-#define OSCachedToPhysical(caddr) ((u32)((u8 *)(caddr) - 0x80000000))
 extern "C" {
 
 static ARAMTransferQueue_803BDCD0 aramQueueLo;
@@ -300,12 +287,5 @@ void aramFreeStreamBuffer(u8 id) {
 #undef aramUsedStreamBuffers
 #undef aramFreeStreamBuffers
 #undef aramIdleStreamBuffers
-#undef userCallback
-#undef salAIBufferBase
-#undef salDspIsDone
-#undef salLogicIsWaiting
-#undef salLogicActive
-#undef salLastTick
-#undef salAIBufferIndex
 
 }
