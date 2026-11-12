@@ -19,7 +19,7 @@
 /* The object header the stack's records share (laid out like TObject's fields). */
 typedef struct Ent_8040D95C Ent_8040D95C;
 u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag);
-s32 compare_sockaddr(void *self, u8 *arg1);
+s32 compare_sockaddr(NetworkAddress *a, NetworkAddress *b);
 
 #include <stddef.h>
 
@@ -166,32 +166,20 @@ s16 is_addr_unspecified(u8 *arg0) {
     }
 }
 
-s32 compare_sockaddr(void *self, u8 *arg1) {
-    u8 *arg0 = (u8 *)self;
-    typedef struct Fields_arg0 { s32 field_0; u8 * field_4; } Fields_arg0;
-    typedef struct Fields_arg1 { u32 field_0; u8 * field_4; } Fields_arg1;
-    u8 *var_r3;
-    u8 *var_r4;
-    switch (((Fields_arg0*)arg0)->field_0) {
+s32 compare_sockaddr(NetworkAddress *a, NetworkAddress *b) {
+    switch (a->family) {
     case 4:
-        if ((u32) ((Fields_arg1*)arg1)->field_0 != 4U) {
-            var_r3 = (u8 *)((void *)-1);
+        if (b->family != 4) {
             return -1;
         }
-        var_r3 = (u8 *)(((Fields_arg0*)arg0)->field_4);
-        var_r4 = (u8 *)(((Fields_arg1*)arg1)->field_4);
-        return TLobby__sub_8040FEE4((s32)(var_r3), (s32)(var_r4));
+        return TLobby__sub_8040FEE4(a->ipv4, b->ipv4);
     case 6:
-        if ((u32) ((Fields_arg1*)arg1)->field_0 != 6U) {
-            var_r3 = (u8 *)((void *)-1);
+        if (b->family != 6) {
             return -1;
         }
-        var_r3 = (u8 *)(arg0 + 4);
-        var_r4 = (u8 *)(arg1 + 4);
-        return NetIPv6CompareAddresses((s32)(var_r3), (s32)(var_r4));
+        return NetIPv6CompareAddresses((s32)a->address, (s32)b->address);
     default:
     case 0:
-        var_r3 = (u8 *)((void *)-1);
         return -1;
     }
 }

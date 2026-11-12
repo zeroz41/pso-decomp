@@ -20,7 +20,7 @@ s32 TLobby__sub_803F87C4(void *);
 s32 TLobby__sub_80420D38(u16 arg0, u8 arg1);
 s16 TLobby__sub_8040D8F0(void *, void *, int, void *, int);
 s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, s32 arg5);
-s16 compare_sockaddr(void *, void *);
+s16 compare_sockaddr(NetworkAddress *a, NetworkAddress *b);
 s16 TLobby__sub_80421F10(void *, void *, void *, u16, s32, s16);
 s16 udp_input(O_80420DE4 *arg0, NetworkAddress *src, NetworkAddress *dst, s16 arg3);
 UdpRuntimeState udp_runtime_state;

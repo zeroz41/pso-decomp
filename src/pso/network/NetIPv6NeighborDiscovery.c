@@ -26,7 +26,6 @@ typedef struct Item_80416994 Item_80416994;
 typedef struct Pkt_80416994 Pkt_80416994;
 typedef struct Arg_80416994 Arg_80416994;
 typedef struct Arg3_80417494 Arg3_80417494;
-void release_entry(void *self);
 
 #include <stddef.h>
 struct Stack_80416008 {
@@ -265,26 +264,25 @@ done:
 }
 
 s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(s32 arg0, s16 arg1) {
-    typedef struct Fields_temp_r3 { u8 pad_0[4]; s32 field_4; s32 field_8; } Fields_temp_r3;
     typedef char sp10_offset[(offsetof(Stack_80416008, sp10) == 0x0) ? 1 : -1];
     typedef char sp20_offset[(offsetof(Stack_80416008, sp20) == 0x10) ? 1 : -1];
     Stack_80416008 stack;
     s32 temp_r31;
-    u8 *free_entry;
+    NetPacket *free_entry;
     s32 NetIPv6EmitNeighborSolicitation(int, void *, void *, s16, int);
     if (TLobby__sub_80413D78() != 0) {
         return -0x10E;
     }
-    free_entry = (u8 *)(alloc_free_entry());
+    free_entry = alloc_free_entry();
     if (free_entry == NULL) {
         return -0x10E;
     }
-    ((Fields_temp_r3*)free_entry)->field_4 = 0;
-    ((Fields_temp_r3*)free_entry)->field_8 = 0;
+    free_entry->fragment_count = 0;
+    free_entry->total_bytes = 0;
     NetMemset((void *) (&stack.sp10), 0, 0x10);
     NetIPv6MakeSolicitedNodeMulticastAddress((u8 *)((void *) (&stack.sp20)), (u8 *)(arg0));
     temp_r31 = NetIPv6EmitNeighborSolicitation((int)free_entry, (void *)arg0, (void *) (&stack.sp10), arg1, 0);
-    release_entry((void *)free_entry);
+    release_entry(free_entry);
     return temp_r31;
 }
 
@@ -292,21 +290,21 @@ s32 NetIPv6SendRouterSolicitation(s32 arg0) {
     u8 address[0x1C];
     u8 addr[0x10];
     s32 temp_r31;
-    u8 *free_entry;
+    NetPacket *free_entry;
     s16 TLobby__sub_804145D4(void *, void *); /* declared here with other parameter types; the definition is s16 (void *, s16) */
 
-    free_entry = (u8 *)(alloc_free_entry());
+    free_entry = alloc_free_entry();
     if (free_entry == NULL) {
         return -0x10E;
     }
-    *(s32 *)((s8 *)free_entry + 4) = 0;
-    *(s32 *)((s8 *)free_entry + 8) = 0;
+    free_entry->fragment_count = 0;
+    free_entry->total_bytes = 0;
     init_ipv6_all_routers_multicast_address((u8 *)(address), (s8)(2));
     if (TLobby__sub_804145D4((void *)addr, (void *)arg0) < 0) {
         NetMemset(addr, 0, 0x10);
     }
-    temp_r31 = NetIPv6EmitRouterSolicitation((NetPacket *)(free_entry), (NetIPv6SendParameters *)(addr), (s32)(arg0));
-    release_entry((void *)free_entry);
+    temp_r31 = NetIPv6EmitRouterSolicitation(free_entry, (NetIPv6SendParameters *)(addr), (s32)(arg0));
+    release_entry(free_entry);
     return temp_r31;
 }
 
@@ -728,7 +726,7 @@ s32 NetIPv6ApplyNeighborAdvertisement(Msg_80416994 *msg, u8 *name, s16 len, s32 
                     set_value_and_enable((void *)(pkt->items[pkt->n].val), (s32)e->pending->data);
                     pkt->n++;
                     ret = TLobby__sub_80410BA8((u8 *)pkt, &e->pending->params, e->iface, e->lladdr);
-                    release_entry((void *)pkt);
+                    release_entry((NetPacket *)pkt);
                 }
                 e->pending->used = 0;
                 e->pending = 0;
@@ -906,7 +904,7 @@ s16 TLobby__sub_80417028(void *self, void *a, void *b, void *d) {
         return 0;
     }
     NetMemcpy(buf20, (u8 *)self + offsetof(IPv6NeighborSolicitation, target), 0x10);
-    p = alloc_free_entry();
+    p = (u8 *)alloc_free_entry();
     if (p == NULL) {
         return -0x10e;
     }
@@ -933,7 +931,7 @@ s16 TLobby__sub_80417028(void *self, void *a, void *b, void *d) {
         }
     }
     r = NetIPv6SendNeighborAdvertisement((u8 *)p, (u8 *)self + offsetof(IPv6NeighborSolicitation, target), flags, buf20, (s32)d);
-    release_entry(p);
+    release_entry((NetPacket *)p);
     return r;
 }
 
@@ -1375,7 +1373,7 @@ s32 NetIPv6SendMulticastNeighborProbe(u8 *arg0) {
     s32 temp_r31;
     s32 NetIPv6EmitNeighborSolicitation(int, void *, void *, s16, int); /* declared s32 here; the definition returns s16 */
     Ipv6NdRouter *temp_r3_3;
-    u8 *free_entry;
+    NetPacket *free_entry;
     u8 *temp_r3_2;
     u8 *temp_r3_4;
 
@@ -1401,8 +1399,8 @@ s32 NetIPv6SendMulticastNeighborProbe(u8 *arg0) {
         *(s16 *)((s8 *)arg0 + 0x26) = 0;
         return -0x10E;
     }
-    *(s32 *)((s8 *)free_entry + 4) = 0;
-    *(s32 *)((s8 *)free_entry + 8) = 0;
+    free_entry->fragment_count = 0;
+    free_entry->total_bytes = 0;
     temp_r3_4 = *(u8 **)((s8 *)arg0 + 0x10);
     if (temp_r3_4 != NULL && TLobby__sub_804137FC(temp_r3_4 + 8, *(s16 *)((s8 *)arg0 + 8)) != 0) {
         NetMemcpy(sp1C, *(u8 **)((s8 *)arg0 + 0x10) + 8, 0x10);
@@ -1411,7 +1409,7 @@ s32 NetIPv6SendMulticastNeighborProbe(u8 *arg0) {
     }
     NetIPv6MakeSolicitedNodeMulticastAddress(sp2C, (u8 *)(arg0 + 0x16));
     temp_r31 = NetIPv6EmitNeighborSolicitation((int)free_entry, arg0 + 0x16, sp1C, *(s16 *)((s8 *)arg0 + 8), 0);
-    release_entry((void *)free_entry);
+    release_entry(free_entry);
     return temp_r31;
 }
 
@@ -1425,7 +1423,7 @@ s32 NetIPv6SendUnicastNeighborProbe(u8 *arg0) {
     s32 temp_r31;
     s32 NetIPv6EmitNeighborSolicitation(int, void *, void *, s16, int); /* declared s32 here; the definition returns s16 */
     Ipv6NdRouter *temp_r3_3;
-    u8 *free_entry;
+    NetPacket *free_entry;
     u8 *temp_r3_2;
     u8 *temp_r3_4;
 
@@ -1451,8 +1449,8 @@ s32 NetIPv6SendUnicastNeighborProbe(u8 *arg0) {
         *(s16 *)((s8 *)arg0 + 0x26) = 0;
         return -0x10E;
     }
-    *(s32 *)((s8 *)free_entry + 4) = 0;
-    *(s32 *)((s8 *)free_entry + 8) = 0;
+    free_entry->fragment_count = 0;
+    free_entry->total_bytes = 0;
     temp_r3_4 = *(u8 **)((s8 *)arg0 + 0x10);
     if (temp_r3_4 != NULL && TLobby__sub_804137FC(temp_r3_4 + 8, *(s16 *)((s8 *)arg0 + 8)) != 0) {
         NetMemcpy(sp1C, *(u8 **)((s8 *)arg0 + 0x10) + 8, 0x10);
@@ -1461,7 +1459,7 @@ s32 NetIPv6SendUnicastNeighborProbe(u8 *arg0) {
     }
     NetMemcpy(sp2C, arg0 + 0x16, 0x10);
     temp_r31 = NetIPv6EmitNeighborSolicitation((int)free_entry, arg0 + 0x16, sp1C, *(s16 *)((s8 *)arg0 + 8), (int)(arg0 + 0x28));
-    release_entry((void *)free_entry);
+    release_entry(free_entry);
     return temp_r31;
 }
 
@@ -1565,7 +1563,7 @@ s32 NetIPv6EmitRouterSolicitation(NetPacket *net_packet, NetIPv6SendParameters *
 
 inline s32 notify_804182DC(Ipv6NdNeighbor *e) {
     NetPacket *nw;
-    nw = (NetPacket *)alloc_free_entry();
+    nw = alloc_free_entry();
     if (nw == 0) {
         return (s32)e;
     }

@@ -17,7 +17,6 @@
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/text_80421620.h"
 /* The object header the stack's records share (laid out like TObject's fields). */
-void release_entry(void *self);
 NetPacket *alloc_packet_with_header(ArpFields *f, ArpIface *iface);
 ArpEntry *find_free_peer_entry(void);
 ArpEntry *find_oldest_peer_entry(s16 state);
@@ -242,7 +241,7 @@ extern s32 TLobby__sub_80407640(void *pkt, s16 a, s16 b, s16 c)
         NetMemcpy(out.tpa, in.spa, hit->plen);
         call_handler_by_index(hit->handler, c, 0, (s32)in.sha, (s32)r);
         if (r != NULL) {
-          release_entry((void *)r);
+          release_entry(r);
         }
       }
     }
@@ -324,7 +323,7 @@ inline void Send_8040799C(ArpIface *e, void *name) {
         NetMemcpy(o.tpa, name, e->plen);
         call_handler_by_index(e->handler, e->arp_socket, 1, 0, (s32)r);
         if (r != NULL) {
-            release_entry((void *)r);
+            release_entry(r);
         }
     }
 }
@@ -613,7 +612,7 @@ NetPacket *alloc_packet_with_header(ArpFields *f, ArpIface *iface) {
     if ((u32)len > 0x1CU) {
         return NULL;
     }
-    pkt = (NetPacket *)alloc_free_entry();
+    pkt = alloc_free_entry();
     if (pkt == NULL) {
         return NULL;
     }
@@ -733,14 +732,14 @@ ArpEntry *find_or_add_peer_entry(s16 handler, s32 socket, u8 plen, void *paddr, 
         NetMemcpy(e->haddr, haddr, hlen);
         e->state = state;
         if (e->hold != NULL) {
-            p = (NetPacket *)alloc_free_entry();
+            p = alloc_free_entry();
             if (p != NULL) {
                 p->fragment_count = 1;
                 p->total_bytes = e->hold->len;
                 p->fragments[0].length = e->hold->len;
                 set_value_and_enable(&p->fragments[0].buffer, e->hold->data);
                 call_handler_by_index(handler, socket, 0, (s32)e->haddr, (s32)p);
-                release_entry((void *)p);
+                release_entry(p);
             }
         }
         detach_80408428(e);

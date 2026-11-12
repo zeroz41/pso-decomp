@@ -18,7 +18,6 @@
 #include "pso/network/text_80421620.h"
 /* The object header the stack's records share (laid out like TObject's fields). */
 u16 calc_ip_checksum(void *self, s16 b);
-void release_entry(void *self);
 
 #include <stddef.h>
 
@@ -46,7 +45,7 @@ s16 TLobby__sub_8040CB44(u8 *self, u32 d, u32 c)
   s16 r;
   u32 i;
   u8 *rec;
-  u8 *out;
+  NetPacket *out;
   unsigned int a;
   u32 net;
   u32 mask;
@@ -82,17 +81,17 @@ s16 TLobby__sub_8040CB44(u8 *self, u32 d, u32 c)
     {
       return -0x101;
     }
-      *((s32 *) (out + 4)) = (*((s32 *) (self + 4))) - 1;
-      *((s32 *) (out + 8)) = (*((s32 *) (self + 8))) - (*((s16 *) (self + 0xc)));
+      out->fragment_count = (*((s32 *) (self + 4))) - 1;
+      out->total_bytes = (*((s32 *) (self + 8))) - (*((s16 *) (self + 0xc)));
       p = self + (*((s32 *) (self + 4))) * 12;
-      for (i = 0, q = out; i < (*((u32 *) (out + 4))); i++)
+      for (i = 0, q = (u8 *) out; i < out->fragment_count; i++)
     {
       *((s16 *) (q + 0xc)) = *((s16 *) p);
       NetMemcpy(q + 0x10, (p -= 12) + 16, 8);
       q += 12;
     }
 
-      r = TLobby__sub_8040CFE8(0, 0, c, d, (NetPacket *)(out));
+      r = TLobby__sub_8040CFE8(0, 0, c, d, out);
       if (r < 0)
     {
       release_entry(out);
@@ -160,7 +159,7 @@ s16 TLobby__sub_8040CB44(u8 *self, u32 d, u32 c)
 s32 TUdpSocket__sub_8040CE58(u8 *p, u8 *b, s16 x, s16 id)
 {
   s32 TLobby__sub_8040E780(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void *proto); /* declared s32 here; the definition returns s16 */
-  u8 *h;
+  NetPacket *pkt;
   s32 lim;
   s32 r;
   if ((NetIPv4IsUnspecified(*((u32 *) (b + 0xc))) || NetIPv4IsLoopback(*((s32 *) (b + 0xc)))) || (TLobby__sub_8040FDA0(*((u32 *) (b + 0xc)), id) != 0))
@@ -171,35 +170,27 @@ s32 TUdpSocket__sub_8040CE58(u8 *p, u8 *b, s16 x, s16 id)
   {
     return -1;
   }
-  h = alloc_free_entry();
-  if (h == ((void *) 0))
+  pkt = alloc_free_entry();
+  if (pkt == ((void *) 0))
   {
     return -1;
   }
   lim = (s16) ((b[0] << 2) & 0x3C);
   lim = lim + 8;
   x = (x < lim) ? (x) : (lim);
-  *((s32 *) (h + 4)) = 0;
-  *((s32 *) (h + 8)) = x;
-  ((struct 
-  {
-    s16 v;
-    u8 pad[10];
-  } *) (h + 0xc))[*((s32 *) (h + 4))].v = x;
-  set_value_and_enable(&(h + 0x10)[(*((s32 *) (h + 4))) * 12], (s32) b);
-  *((s32 *) (h + 4)) += 1;
-  *((s32 *) (h + 8)) += 8;
-  ((struct 
-  {
-    s16 v;
-    u8 pad[10];
-  } *) (h + 0xc))[*((s32 *) (h + 4))].v = 8;
-  set_value_and_enable(&(h + 0x10)[(*((s32 *) (h + 4))) * 12], (s32) p);
-  *((s32 *) (h + 4)) += 1;
+  pkt->fragment_count = 0;
+  pkt->total_bytes = x;
+  pkt->fragments[pkt->fragment_count].length = x;
+  set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32) b);
+  pkt->fragment_count += 1;
+  pkt->total_bytes += 8;
+  pkt->fragments[pkt->fragment_count].length = 8;
+  set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (s32) p);
+  pkt->fragment_count += 1;
   *((u16 *) (p + 2)) = 0;
-  *((u16 *) (p + 2)) = calc_ip_checksum(h, 1);
-  r = TLobby__sub_8040E780(h, *((u32 *) (b + 0xc)), *((u32 *) (b + 0x10)), 0, 0, 0, (void *) 1);
-  release_entry(h);
+  *((u16 *) (p + 2)) = calc_ip_checksum(pkt, 1);
+  r = TLobby__sub_8040E780((u8 *) pkt, *((u32 *) (b + 0xc)), *((u32 *) (b + 0x10)), 0, 0, 0, (void *) 1);
+  release_entry(pkt);
   return r;
 }
 

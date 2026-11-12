@@ -17,7 +17,6 @@
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/text_80421620.h"
 /* The object header the stack's records share (laid out like TObject's fields). */
-void release_entry(void *self);
 
 #include <stddef.h>
 
@@ -76,7 +75,7 @@ inline s16 opts_8040FFF8(u8 *p, s16 rem, u8 *ip, s16 m, s16 id) {
 }
 
 struct IC_8040FFF8 { u8 type; u8 code; s32 w; };
-inline u8 *frag_8040FFF8(u8 *ip, u8 *p, s32 rem, s16 m, s16 id, void *sa, struct IC_8040FFF8 *ic) {
+inline NetPacket *frag_8040FFF8(u8 *ip, u8 *p, s32 rem, s16 m, s16 id, void *sa, struct IC_8040FFF8 *ic) {
     s32 TLobby__sub_80418C40(u8 *, u8 *, s16, u8, u32, void *, u16, u8, s16);
     u32 fl;
     u32 mf;
@@ -93,7 +92,7 @@ inline u8 *frag_8040FFF8(u8 *ip, u8 *p, s32 rem, s16 m, s16 id, void *sa, struct
         }
         return 0;
     }
-    return (u8 *) TLobby__sub_80418C40(ip, (u8 *) (m - (rem - 8)), rem - 8, 60, *((u32 *) (p + 4)), sa, off, mf, id);
+    return (NetPacket *) TLobby__sub_80418C40(ip, (u8 *) (m - (rem - 8)), rem - 8, 60, *((u32 *) (p + 4)), sa, off, mf, id);
 }
 inline s32 min_8040FFF8(s32 a, s32 b) {
     if (a < b) {
@@ -102,19 +101,19 @@ inline s32 min_8040FFF8(s32 a, s32 b) {
     return b;
 }
 
-inline u8 *buildrec_8040FFF8(u8 *ip, s16 m, u8 *p, s32 rem) {
-    u8 *rec = alloc_free_entry();
+inline NetPacket *buildrec_8040FFF8(u8 *ip, s16 m, u8 *p, s32 rem) {
+    NetPacket *rec = alloc_free_entry();
     if (rec == 0) {
         return 0;
     }
-    *(s32 *)(rec + 4) = 0;
-    *(s32 *)(rec + 8) = m;
-    ((struct { u16 v; u8 pad[10]; } *)(rec + 0xc))[*(s32 *)(rec + 4)].v = m - rem;
-    set_value_and_enable(rec + 0x10 + *(s32 *)(rec + 4) * 12, (s32)ip);
-    *(s32 *)(rec + 4) += 1;
-    ((struct { u16 v; u8 pad[10]; } *)(rec + 0xc))[*(s32 *)(rec + 4)].v = rem;
-    set_value_and_enable(rec + 0x10 + *(s32 *)(rec + 4) * 12, (s32)p);
-    *(s32 *)(rec + 4) += 1;
+    rec->fragment_count = 0;
+    rec->total_bytes = m;
+    rec->fragments[rec->fragment_count].length = m - rem;
+    set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32)ip);
+    rec->fragment_count += 1;
+    rec->fragments[rec->fragment_count].length = (u16)rem;
+    set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32)p);
+    rec->fragment_count += 1;
     return rec;
 }
 
@@ -155,7 +154,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
   struct IC_8040FFF8 ic28;
   u8 *p;
   u8 *new_var2;
-  u8 *rec;
+  NetPacket *rec;
   s16 m;
   Ipv6RawSocket *ent;
   s16 i;
@@ -311,7 +310,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
   switch (nh)
   {
     case 58:
-      r = NetIPv6HandleIcmpMessage((NetPacket *)(rec), src, dst, new_var2[7], new_var);
+      r = NetIPv6HandleIcmpMessage(rec, src, dst, new_var2[7], new_var);
       if (r < 0)
     {
       goto fail;
@@ -375,7 +374,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
     ok:
     if (reasm == 1)
     {
-      TUdpSocket__sub_80418BD8((NetPacket *) rec);
+      TUdpSocket__sub_80418BD8(rec);
     }
 
     release_entry(rec);
@@ -391,7 +390,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
   fail:
   if (reasm == 1)
   {
-    TUdpSocket__sub_80418BD8((NetPacket *) rec);
+    TUdpSocket__sub_80418BD8(rec);
   }
 
   release_entry(rec);
@@ -430,14 +429,14 @@ static inline s16 chk_804105E0(u8 *p, s16 lim, s16 ctx, s16 l, s16 rem, u8 *q, u
 extern s32 TLobby__sub_804105E0(u8 *self, u8 *p, s16 lim, s16 ctx)
 {
   s32 TLobby__sub_80410BA8(void *, void *, s16, void *); /* declared s32 here; the definition returns s16 */
-  s32 TLobby__sub_80415D0C(u8 *a, u8 *b, u8 *c, s16 d); /* declared s32 here; the definition is s16 (NetPacket *, u8 *, NetIPv6SendParameters *, s16) */
+  s32 TLobby__sub_80415D0C(NetPacket *a, u8 *b, u8 *c, s16 d); /* declared s32 here; the definition is s16 (NetPacket *, u8 *, NetIPv6SendParameters *, s16) */
   s16 TLobby__sub_804136AC(s16); /* declared s16 here; the definition returns s32 */
   u8 loc[8];
   u8 out2[0x10];
   u8 out1[0x10];
   u8 err[8];
   s32 tot;
-  u8 *e;
+  NetPacket *e;
   s16 rem;
   u8 *q;
   Ipv6Route *hit;
@@ -545,15 +544,11 @@ extern s32 TLobby__sub_804105E0(u8 *self, u8 *p, s16 lim, s16 ctx)
   {
     return -1;
   }
-  *((s32 *) (e + 4)) = 0;
-  *((s32 *) (e + 8)) = tot;
-  ((struct 
-  {
-    s16 v;
-    u8 pad[10];
-  } *) (e + 0xc))[*((s32 *) (e + 4))].v = (s16) tot;
-  set_value_and_enable((void *) ((e + ((*((s32 *) (e + 4))) * 12)) + 0x10), (s32) (p + 0x28));
-  *((s32 *) (e + 4)) = (*((s32 *) (e + 4))) + 1;
+  e->fragment_count = 0;
+  e->total_bytes = tot;
+  e->fragments[e->fragment_count].length = (s16) tot;
+  set_value_and_enable(&e->fragments[e->fragment_count].buffer, (s32) (p + 0x28));
+  e->fragment_count = e->fragment_count + 1;
   NetMemcpy(out1, self + 8, 0x10);
   NetMemcpy(out2, self + 0x18, 0x10);
   if ((NetIPv6IsMulticast(dst) == 0) && (TLobby__sub_804136AC(hit->iface) != 0))
@@ -564,7 +559,7 @@ extern s32 TLobby__sub_804105E0(u8 *self, u8 *p, s16 lim, s16 ctx)
   {
     r21 = TLobby__sub_80410BA8(e, out1, hit->iface, 0);
   }
-  release_entry((void *) e);
+  release_entry(e);
   return r21;
 }
 #pragma pop
