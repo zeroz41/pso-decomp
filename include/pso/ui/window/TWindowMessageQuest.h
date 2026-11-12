@@ -18,6 +18,7 @@ void *__dt__19TWindowMessageQuestFv(void *arg0, s16 arg1);
 
 extern "C" {
 u8 *TWindowMessageQuest__ct(u8 *arg0, s32 arg1);
+void create_quest_message_window(void);
 }
 
 #endif

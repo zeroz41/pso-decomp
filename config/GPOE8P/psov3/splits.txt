@@ -1471,13 +1471,14 @@ pso/render/TUnk_80490470.cpp:
 	.sdata2     start:0x805D9958 end:0x805D9970
 
 pso/enemy/darkgunner/TObjEneDarkGunCenter.cpp:
-	.text       start:0x800A0798 end:0x800A0EDC
-	.rodata     start:0x8043A488 end:0x8043A498
+	.text       start:0x800A0798 end:0x800A0FAC
+	.rodata     start:0x8043A470 end:0x8043A498
 	.data       start:0x804904A0 end:0x80490608
+	.sdata      start:0x805D29C8 end:0x805D29D0
 	.sdata2     start:0x805D9970 end:0x805D9978
 
 pso/enemy/darkgunner/DarkGunner.cpp:
-	.text       start:0x800A0EDC end:0x800A3290
+	.text       start:0x800A0FAC end:0x800A3290
 	.rodata     start:0x8043A498 end:0x8043A6E8
 	.data       start:0x80490608 end:0x80490998
 	.sdata      start:0x805D29D0 end:0x805D29D4
@@ -1614,12 +1615,16 @@ pso/object/ambient/TObjGrass.cpp:
 	.sdata2     start:0x805D9EB8 end:0x805D9F20
 
 pso/enemy/lappy/TObjEneLappy.cpp:
-	.text       start:0x800BFBBC end:0x800C25A0
+	.text       start:0x800BFBBC end:0x800C20D0
 	.rodata     start:0x8043B7D8 end:0x8043BA28
 	.data       start:0x80492BD8 end:0x80493078
 	.bss        start:0x80500BE0 end:0x80500C00
 	.sdata      start:0x805D2A40 end:0x805D2A44
-	.sdata2     start:0x805D9F20 end:0x805D9FAC
+	.sdata2     start:0x805D9F20 end:0x805D9FA0
+
+pso/enemy/flower/TObjEneRe2Flower_800C20D0.cpp:
+	.text       start:0x800C20D0 end:0x800C25A0
+	.sdata2     start:0x805D9FA0 end:0x805D9FAC
 
 pso/player/TObjPlayer_800C25A0.cpp:
 	.text       start:0x800C25A0 end:0x800C2614
@@ -7330,14 +7335,12 @@ pso/ui/window/TWindowMessagePage.cpp:
 pso/unk/TLobby_8026B06C.cpp:
 	.text       start:0x8026B06C end:0x8026B118
 
-pso/ui/window/TWindowMessageQuest_8026B118.cpp:
-	.text       start:0x8026B118 end:0x8026B208
-	.rodata     start:0x8044F470 end:0x8044F478
-	.sdata2     start:0x805DD260 end:0x805DD264
-
 pso/ui/window/TWindowMessageQuest.cpp:
-	.text       start:0x8026B208 end:0x8026B2B4
+	.text       start:0x8026B118 end:0x8026B2B4
+	.rodata     start:0x8044F450 end:0x8044F478
 	.data       start:0x804D0790 end:0x804D07A8
+	.sdata      start:0x805D39A0 end:0x805D39A8
+	.sdata2     start:0x805DD260 end:0x805DD264
 
 pso/ui/window/TWindowOptionCtrl_8026B2B4.cpp:
 	.text       start:0x8026B2B4 end:0x8026B2E4
@@ -9103,7 +9106,8 @@ pso/unk/text_802F190C.cpp:
 	.text       start:0x802F190C end:0x802F1A58
 
 pso/boss/derolle/TObjBoss2Tunnel_802F1A58.cpp:
-	.text       start:0x802F1A58 end:0x802F2C90
+	.text       start:0x802F1A58 end:0x802F2CDC
+	.ctors      start:0x80433FDC end:0x80433FE0
 	.rodata     start:0x804743B0 end:0x80474460
 	.data       start:0x804E4978 end:0x804E4B3C
 	.sdata      start:0x805D3FF0 end:0x805D3FF8
@@ -9111,8 +9115,7 @@ pso/boss/derolle/TObjBoss2Tunnel_802F1A58.cpp:
 	.sdata2     start:0x805DEC98 end:0x805DED14
 
 pso/boss/goldragon/TBoss8DragonDemo.cpp:
-	.text       start:0x802F2C90 end:0x802F2E7C
-	.ctors      start:0x80433FDC end:0x80433FE0
+	.text       start:0x802F2CDC end:0x802F2E7C
 	.rodata     start:0x80474460 end:0x80474478
 	.data       start:0x804E4B58 end:0x804E4B70
 	.sdata      start:0x805D3FF8 end:0x805D4000
@@ -12324,7 +12327,10 @@ pso/ui/frontend/TAdPlayerLoadGC_803F18B8.cpp:
 	.bss        start:0x805A28C0 end:0x805A5F00
 
 pso/ui/frontend/TAdPlayerLoadGC_803F339C.cpp:
-	.text       start:0x803F339C end:0x803F3CF4
+	.text       start:0x803F339C end:0x803F3BF8
+
+pso/unk/text_803F3BF8.cpp:
+	.text       start:0x803F3BF8 end:0x803F3CF4
 
 pso/ui/frontend/TAdPlayerLoadGC_803F3CF4.cpp:
 	.text       start:0x803F3CF4 end:0x803F3DD4

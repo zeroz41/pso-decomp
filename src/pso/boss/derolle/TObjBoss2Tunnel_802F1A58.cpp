@@ -6,7 +6,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/barbaray/TObjBoss7TunnelCol.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/boss/goldragon/TBoss8DragonDemo.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_802F1D1C.h"
@@ -53,10 +52,12 @@ s32 boss2_tunnel_spawn_timer_table[0x1F] = {
     1, 2, 1, 2, 1, 2, 2, 1, 1, 2, 1, 2, 1, 2, 1,
 };
 s32 boss2_tunnel_spawn_timer_table_b[10] = {1, 1, 3, 4, 3, 3, 3, 3, 3, 3};
-// y is filled in by the static initializer at 0x802F2CC4
+// y comes from a float constant of another file, so this file's static
+// initializer (0x802F2CC4, .ctors 0x80433FDC) fills it in at startup.
+extern "C" const f32 lbl_805DE9F4;
 Vec_802F25AC lbl_804E4A44[2] = {
-    {78.0f, 0.0f, 83.0f},
-    {-78.0f, 0.0f, 83.0f},
+    {78.0f, lbl_805DE9F4, 83.0f},
+    {-78.0f, lbl_805DE9F4, 83.0f},
 };
 u32 boss2_tunnel_state_flags;
 s32 lbl_805D696C;
@@ -78,14 +79,12 @@ extern s32 __vt__18TObjBoss7TunnelCol[];
 struct GE_802F1DAC { s32 a, b, obj, d; };
 struct GE_802F1E54 { s32 a, b, obj, d; };
 extern "C" {
-s32 copy_position__16TBoss8DragonDemoFv(int, void *);
 s32 draw_ginja_object(int);
 s32 is_in_camera_range__18TObjBoss7TunnelColFv(void *);
 extern u8 *boss7_common_bml_resource;
 extern u8 *boss7_common_texture_list;
 void __dt__7TObjectFv(void *, int);
 void __dl__7TObjectFPv(void *);
-s32 copy_position__16TBoss8DragonDemoFv(int, void *);
 u32 __nw__7TObjectFUl(s32);
 void TObjBoss2Tunnel__sub_802F2278(void);
 s32 TObjBoss2Tunnel__sub_802F22F4(void);
@@ -121,6 +120,18 @@ s32 TObjBoss2Tunnel__sub_802F2070(void);
 // Written last-to-first: the TU was compiled with deferred codegen, which emits functions in reverse
 // order of definition (and the vtables in .text order).
 #pragma defer_codegen on
+
+f32 TUnk_804E4B3C::sub_802F2CBC() {
+    return segment_x;
+}
+
+f32 TUnk_804E4B3C::sub_802F2CB4() {
+    return scroll_speed;
+}
+
+void TUnk_804E4B3C::copy_position(const Vec *position) {
+    VecCopy(&unk_78, position);
+}
 
 void TObjBoss2Tunnel__sub_802F2C84(void) { (*(int *)&boss2_tunnel_state_flags) = 0; }
 
@@ -361,7 +372,7 @@ void TUnk_804E4B3C::sub_802F2400() {
     TObject *temp_r3;
     update_spawn_timer((s32)boss2_tunnel_spawn_timer_table_b, 0xA, 1);
     if ((*(s32 *)&boss2_tunnel_state_flags) & 8) {
-        temp_f1 = unk_80;
+        temp_f1 = unk_78.z;
         if (temp_f1 < 1.0f) {
             phase = 2;
             *(f32 *)((s8 *)this + 0x5C) = 0.0f;
@@ -482,7 +493,7 @@ s32 TObjBoss2Tunnel__sub_802F2070(void) {
 
 TUnk_804E4B24::TUnk_804E4B24(TObject *parent, s32 kind, Vec *pos, f32 half_length) : TObject(parent) {
     Boss2TunnelEffectEntry *entry;
-    controller = (s32)parent->m_up;
+    controller = (TUnk_804E4B3C *)parent->m_up;
     entry = &boss2_tunnel_effect_name_table[kind];
     VecCopy(&position, pos);
     rotation_x = 0;
@@ -493,7 +504,7 @@ TUnk_804E4B24::TUnk_804E4B24(TObject *parent, s32 kind, Vec *pos, f32 half_lengt
     this->kind = kind;
     this->half_length = half_length;
     if (kind == 4) {
-        copy_position__16TBoss8DragonDemoFv(controller, &position);
+        controller->copy_position(&position);
         TObjBoss2Tunnel__sub_802F2278();
     }
     update_collision();
@@ -503,10 +514,10 @@ TUnk_804E4B24::~TUnk_804E4B24() {}
 
 void TUnk_804E4B24::run_task() {
     u8 *arg0 = (u8 *)this;
-    *(f32 *)((s8 *)arg0 + 0x1C) = TBoss8DragonDemo__sub_802F2CBC((void *)this->controller);
-    this->position.z = (f32) (this->position.z - TBoss8DragonDemo__sub_802F2CB4((void *)this->controller));
+    position.x = controller->sub_802F2CBC();
+    position.z = position.z - controller->sub_802F2CB4();
     if ((s32) this->kind == 4) {
-        copy_position__16TBoss8DragonDemoFv(this->controller, (u8 *)&this->position);
+        controller->copy_position(&position);
     }
     if (this->position.z <= -*(f32 *)((s8 *)arg0 + 0x44)) {
         queue_destruction__7TObjectFv((arg0));
@@ -639,4 +650,3 @@ void TUnk_804E4AD4::run_task() {
         this->frame = (f32) (temp_f0 - temp_f1);
     }
 }
-

@@ -456,6 +456,7 @@ pso/enemy/panarms/TObjEnePanarms_800DFB00.cpp
 pso/enemy/panarms/TObjEnePanarms_800DFB74.cpp
 pso/enemy/panarms/TObjEnePanarms_800F5E90.cpp
 pso/enemy/flower/TObjEneRe2Flower.cpp
+pso/enemy/flower/TObjEneRe2Flower_800C20D0.cpp
 pso/enemy/flower/TObjEneRe2Flower_800C4B78.cpp
 pso/enemy/sorcerer/TObjEneRe4Bit.cpp
 pso/enemy/sorcerer/TObjEneRe4Sorcerer_800EDB98.cpp
@@ -1487,7 +1488,6 @@ pso/ui/window/TWindowMessageLog_8026A5A0.cpp
 pso/ui/window/TWindowMessageLog_8026AA38.cpp
 pso/ui/window/TWindowMessagePage.cpp
 pso/ui/window/TWindowMessageQuest.cpp
-pso/ui/window/TWindowMessageQuest_8026B118.cpp
 pso/ui/window/TWindowMessageScroll.cpp
 pso/ui/window/TWindowMessageYesNo.cpp
 pso/ui/window/TWindowOptionCtrl.cpp
@@ -2172,6 +2172,7 @@ pso/ui/frontend/TAdPlayerLoadGC.cpp
 pso/ui/frontend/TAdPlayerLoadGC_80076BBC.cpp
 pso/ui/frontend/TAdPlayerLoadGC_800F9EF8.cpp
 pso/ui/frontend/TAdPlayerLoadGC_801E0C30.cpp
+pso/ui/frontend/TAdPlayerLoadGC_803F339C.cpp
 pso/ui/frontend/TAdPlayerLoadGC_803F3CF4.cpp
 pso/ui/frontend/TAdPlyPltAnimCtrlGC.cpp
 pso/ui/frontend/TAdPlyPltAnimGC.cpp

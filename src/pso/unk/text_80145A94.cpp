@@ -1,6 +1,7 @@
 #include <string.h>
 #include "types.h"
 #include "pso/unk/text_8014618C.h"
+#include "pso/unk/text_803F3BF8.h"
 #include "pso/unk/text_803F4D84.h"
 #include "pso/network/NetworkInfoLoader.h"
 #include "pso/network/NetworkInfoRequests.h"
