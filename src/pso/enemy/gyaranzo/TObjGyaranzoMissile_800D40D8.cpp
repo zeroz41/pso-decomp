@@ -13,6 +13,8 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/map/CsnQuery.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/task/TMainTask.h"
 
 struct D_800D40FC { u8 pad[0x18]; s32 arr[1]; };
 
@@ -119,13 +121,13 @@ void TUnk_8049442C::update_ground_fall(s32 *arg1, f32 farg0) {
         VecCopy((Vec *)(arg1), (const Vec *)(&position.x));
     }
     if (temp_r31 == 1) {
-        this->m_b0 += -0.10888889f;
-        *(f32 *)((s8 *)((u8 *)this) + 0x3C) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x3C) + this->m_b0);
+        this->velocity.y += -0.10888889f;
+        *(f32 *)((s8 *)((u8 *)this) + 0x3C) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x3C) + this->velocity.y);
         temp_f1 = position.y + farg0;
         position.y = temp_f1;
         if (*(f32 *)((s8 *)((u8 *)this) + 0x3C) <= temp_f1) {
             *(f32 *)((s8 *)((u8 *)this) + 0x3C) = temp_f1;
-            this->m_b0 = (f32) 0.0f;
+            this->velocity.y = (f32) 0.0f;
             this->actorFlags = (s32) (this->actorFlags | 0x800000);
             return;
         }
@@ -172,7 +174,7 @@ void TUnk_8049442C::render() {
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, this->m_bc);
-    rotate_matrix_x(0, *(s32 *)&this->unk_C0);
+    rotate_matrix_x(0, this->unk_C0);
     model_render_flags &= 0xFFFFFBFF;
     draw_chunk_object((void *)this->m_c4);
     pop_matrix();
@@ -240,28 +242,13 @@ void TUnk_8049442C::run_task() {
     }
 }
 
-struct RecoveredGlobal_800D4668_lbl_80494400 {
-    s32 value;
-    u8 remaining[0x28];
-};
-
-struct RecoveredGlobal_800D4668_lbl_8049442C {
-    s32 value;
-    u8 remaining[0x38];
-};
+CollisionBody gyaranzo_missile_collision_body = {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x10D03, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 extern "C" {
 u16 get_entity_id(void *);
 s32 init_collision_body_parts(void *, void *, int);
-s32 __ct__14TObjCollidableFP7TObject(void *, int);
 
-extern RecoveredGlobal_800D4668_lbl_80494400 gyaranzo_missile_collision_body;
-extern s32 lbl_8049442C[];
-
-extern s32 gyaranzo_bml_resource;
-extern s32 tl_04;
-
-u8 *TObjGyaranzoMissile__sub_800D4668(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, s32 arg4);
+extern BmlResource *gyaranzo_bml_resource;
 
 void queue_destruction__7TObjectFv(void *);
 
@@ -279,56 +266,39 @@ s32 post_translate_matrix(void *);
 void free_collision_body_parts(void *);
 
 s32 push_matrix();
-void __dl__7TObjectFPv(void *);
+}
 
-void *TUnk_8049442C::destroy(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = lbl_8049442C;
-        unregister_object_by_id();
-        free_collision_body_parts(this);
-        __dt__14TObjCollidableFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
-    }
-    return this;
+TUnk_8049442C::~TUnk_8049442C() {
+    unregister_object_by_id();
+    free_collision_body_parts(this);
 }
 
 extern s32 model_render_flags;
 
-typedef char RecoveredGlobal_800D4668_lbl_80494400_size[sizeof(RecoveredGlobal_800D4668_lbl_80494400) == 0x2C ? 1 : -1];
-typedef char RecoveredGlobal_800D4668_lbl_8049442C_size[sizeof(RecoveredGlobal_800D4668_lbl_8049442C) == 0x3C ? 1 : -1];
-u8 *TObjGyaranzoMissile__sub_800D4668(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, s32 arg4) {
-    u8 *temp_r4;
-    __ct__14TObjCollidableFP7TObject(arg0, tl_04);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_800D4668_lbl_8049442C *)&lbl_8049442C).value;
-    VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg2));
-    VecCopy((Vec *)(arg0 + 0xE0), (const Vec *)(arg0 + 0x38));
-    ((TUnk_8049442C *)arg0)->m_e4 += 5.0f;
-    ((TUnk_8049442C *)arg0)->m_dc = arg4;
-    ((TUnk_8049442C *)arg0)->m_c4 = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&gyaranzo_bml_resource) + 0x42C)) + 0x58);
-    *(s32 *)((s8 *)arg0 + 0xC8) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&gyaranzo_bml_resource) + 0x42C)) + 0x5C);
-    *(s16 *)((s8 *)arg0 + 0x28) = (s16) *(s16 *)((s8 *)arg1 + 0x28);
-    *(u16 *)((s8 *)arg0 + 0xD8) = get_entity_id(arg1);
-    ((TUnk_8049442C *)arg0)->m_b8 = 0;
-    ((TUnk_8049442C *)arg0)->m_bc = (arg3 + 0x8000);
-    *(s32 *)((s8 *)arg0 + 0xC0) = -0x4000;
-    ((TUnk_8049442C *)arg0)->m_cc = 0;
-    *(s32 *)((s8 *)arg0 + 0xD0) = 0;
+TUnk_8049442C::TUnk_8049442C(TObjBase *owner, Vec *pos, s32 angle, s32 spin) : TObjCollidable(tl_04) {
+    VecCopy(&position, pos);
+    VecCopy(&unk_E0, &position);
+    unk_E0.y += 5.0f;
+    m_dc = spin;
+    m_c4 = gyaranzo_bml_resource->models[5].model;
+    unk_C8 = gyaranzo_bml_resource->models[5].m_c;
+    room = owner->room;
+    owner_id = get_entity_id(owner);
+    m_b8 = 0;
+    m_bc = angle + 0x8000;
+    unk_C0 = -0x4000;
+    m_cc = 0;
+    unk_D0 = 0;
     push_matrix_from(identity_matrix);
-    *(f32 *)((s8 *)arg0 + 0xAC) = (f32) 0.0f;
-    ((TUnk_8049442C *)arg0)->m_b0 = (f32) 0.0f;
-    *(f32 *)((s8 *)arg0 + 0xB4) = (f32) 0.5f;
-    rotate_matrix_y(0, (int) (((TUnk_8049442C *)arg0)->m_bc));
-    temp_r4 = (arg0 + 0xAC);
-    rotate_vector_by_matrix(0, temp_r4, temp_r4);
+    velocity.x = 0.0f;
+    velocity.y = 0.0f;
+    velocity.z = 0.5f;
+    rotate_matrix_y(0, m_bc);
+    rotate_vector_by_matrix(0, &velocity, &velocity);
     pop_matrix();
-    ((TUnk_8049442C *)arg0)->m_d4 = (f32) 0.0f;
-    init_collision_body_parts(arg0, &gyaranzo_missile_collision_body.value, 1);
-    *(f32 *)((s8 *)(((TUnk_8049442C *)arg0)->bodies) + 0xC) = (f32) 3.0f;
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TUnk_8049442C *)arg0)->m_ec = 0xF;
-    return arg0;
-}
-
+    m_d4 = 0.0f;
+    init_collision_body_parts(this, &gyaranzo_missile_collision_body, 1);
+    bodies->radius = 3.0f;
+    register_object_by_id();
+    m_ec = 15;
 }

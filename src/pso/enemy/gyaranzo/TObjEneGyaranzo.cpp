@@ -19,6 +19,7 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/system/vector.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
+#include "pso/object/TUnk_8049442C.h"
 #include "pso/object/TObjChip.h"
 #include "pso/system/BmlResource.h"
 
@@ -157,7 +158,6 @@ struct Outer_800D2900 { u8 pad[0x42c]; Inner_800D2900 *p42c; };
 
 extern "C" {
 f32 random_ratio__9TObjCharaFv(s32);
-u8 * TObjGyaranzoMissile__sub_800D4668(void *, void *, void *, s32, s32);
 s32 render_anim_model_at_pos__15TObjEnemyCustomFv(void *);
 void * __nw__7TObjectFUl(int);
 extern const f32 lbl_805DA268;
@@ -1122,14 +1122,10 @@ void *gyaranzo_actor_vtable_ops[83] = {
 void TObjEneGyaranzo::spawn_missile() {
     Vec launch_position;
     s32 temp_r31;
-    u8 *temp_r3;
     render_anim_model_at_pos__15TObjEnemyCustomFv(this);
     ((VObj_18_f1aa6a *)(this))->m63(0x18, &launch_position);
     temp_r31 = (s32) (lbl_805DA268 * ((lbl_805DA26C * random_ratio__9TObjCharaFv((s32) this)) - lbl_805DA270));
-    temp_r3 = (u8 *)(((u8 *)__nw__7TObjectFUl(0xF0)));
-    if (temp_r3 != NULL) {
-        TObjGyaranzoMissile__sub_800D4668(temp_r3, this, &launch_position, rotation_y, temp_r31);
-    }
+    new TUnk_8049442C(this, &launch_position, rotation_y, temp_r31);
     spawn_particle_effect((void *)((s32) &launch_position), 0xF3);
     play_sound_effect((void *)(((TObjEnemy *)(this))->remap_sound_for_area((s32)(0x4003B20D))), &position, 0, 0);
 }

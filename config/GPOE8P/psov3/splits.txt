@@ -1443,6 +1443,7 @@ pso/enemy/bringer/TObjEneDf2Bringer.cpp:
 	.rodata     start:0x80439F70 end:0x8043A128
 	.data       start:0x8048FA10 end:0x8048FE08
 	.sdata      start:0x805D29A0 end:0x805D29A8
+	.sdata2     start:0x805D97D8 end:0x805D9850
 
 pso/player/TObjPlayer_80099EF8.cpp:
 	.text       start:0x80099EF8 end:0x80099F00
@@ -1715,6 +1716,7 @@ pso/enemy/gyaranzo/TObjEneGyaranzo.cpp:
 pso/enemy/gyaranzo/TObjGyaranzoMissile_800D40D8.cpp:
 	.text       start:0x800D40D8 end:0x800D47B4
 	.rodata     start:0x8043C448 end:0x8043C450
+	.data       start:0x80494400 end:0x80494464
 	.sdata2     start:0x805DA2A0 end:0x805DA2BC
 
 pso/enemy/gyaranzo/TObjGyaranzoMissile.cpp:
