@@ -61,12 +61,41 @@ struct SharedMemory {
 
 typedef char SharedMemory_size[sizeof(SharedMemory) == 0x8000 ? 1 : -1];
 
+// Header of a DOL executable.
+struct DolHeader {
+    u32 text_offset[7];
+    u32 data_offset[11];
+    u32 text_address[7];
+    u32 data_address[11];
+    u32 text_size[7];
+    u32 data_size[11];
+    u32 bss_address;
+    u32 bss_size;
+    u32 entry_point;
+    u8 unk_0E4[0x1C];
+};
+
+typedef char DolHeader_size[sizeof(DolHeader) == 0x100 ? 1 : -1];
+
+// Argument of LaunchDol: the DOL to start, its loaded image, and the bytes after
+// this header to keep across the reset.
+struct LaunchDolContext {
+    char dol_name[0x100];
+    s32 unk_100;
+    DolHeader *dol_image;
+    s32 keep_size;
+    u8 unk_10C[4];
+    SharedMemory shared_memory;
+};
+
+extern LaunchDolContext *lbl_805D7CB0;
 extern SharedMemoryDiscMessages *lbl_805D7CB8;
 extern SharedMemory *lbl_805D7CC0;
 extern SharedMemoryConnectParam *lbl_805D7CC4;
 
 extern "C" {
 extern s32 lbl_805D7CA8;
+void LaunchDol(LaunchDolContext *context);
 }
 
 #endif
