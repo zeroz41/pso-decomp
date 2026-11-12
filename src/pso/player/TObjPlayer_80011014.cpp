@@ -1200,9 +1200,9 @@ s32 calc_shock_chance(TObjPlayer *actor, TObjPlayer *arg1, TObjPlayer *arg2) {
 extern "C" {
 
 void TObjPlayer__sub_8001053C(u8 *arg0) {
-    *(f32 *)((s8 *)arg0 + 0x310) = (f32) (0.0f);
-    *(f32 *)((s8 *)arg0 + 0x30C) = (f32) (0.0f);
-    *(f32 *)((s8 *)arg0 + 0x308) = (f32) (0.0f);
+    *(f32 *)((s8 *)arg0 + 0x310) = 0.0f;
+    *(f32 *)((s8 *)arg0 + 0x30C) = 0.0f;
+    *(f32 *)((s8 *)arg0 + 0x308) = 0.0f;
 }
 
 void TObjPlayer::apply_velocity() {
@@ -1832,7 +1832,7 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0) {
         position.y = temp_f1;
         if (*(f32 *)((s8 *)enemy + 0x3C) <= temp_f1) {
             *(f32 *)((s8 *)enemy + 0x3C) = temp_f1;
-            *(f32 *)((s8 *)enemy + 0x30C) = (f32) (0.0f);
+            *(f32 *)((s8 *)enemy + 0x30C) = 0.0f;
             enemy->actorFlags = (s32) (enemy->actorFlags | 0x800000);
             return;
         }
@@ -4667,7 +4667,7 @@ s16 TObjChara::get_s16_2c4() { return (this->m_2c4); }
 
 void reset_status_effect_row(u8 *arg0) {
     *(s32 *)((s8 *)arg0 + 0) = 0;
-    *(f32 *)((s8 *)arg0 + 4) = (f32) (0.0f);
+    *(f32 *)((s8 *)arg0 + 4) = 0.0f;
     *(s32 *)((s8 *)arg0 + 8) = 0;
 }
 

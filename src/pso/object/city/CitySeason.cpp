@@ -715,7 +715,7 @@ extern "C" {
 
 typedef char RecoveredGlobal_80183D00_lbl_804B5CC4_size[sizeof(RecoveredGlobal_80183D00_lbl_804B5CC4) == 0x3C ? 1 : -1];
 u8 *TObjCity_Season_SonicAdv2__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    ((s32 (*)(void *, void *, void *, int, f32))init_city_season_object)((void *)arg0, (void *)arg1, (void *)arg2, 5, (f32)3.0f);
+    ((s32 (*)(void *, void *, void *, int, f32))init_city_season_object)((void *)arg0, (void *)arg1, (void *)arg2, 5, 3.0f);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80183D00_lbl_804B5CC4 *)&__vt__25TObjCity_Season_SonicAdv2).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjCity_Season_SonicAdv2__name;
     return arg0;
@@ -852,7 +852,7 @@ u8 *TObjCity_Season_21_21__ct(u8 *city_season_21_21, s32 arg1, s32 arg2) {
     typedef char sp8_offset[(offsetof(Stack_80183F24, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_80183F24, spC) == 0x4) ? 1 : -1];
     Stack_80183F24 stack;
-    ((s32 (*)(void *, void *, void *, int, f32))init_city_season_object)((void *)city_season_21_21, (void *)arg1, (void *)arg2, 4, (f32)23.0f);
+    ((s32 (*)(void *, void *, void *, int, f32))init_city_season_object)((void *)city_season_21_21, (void *)arg1, (void *)arg2, 4, 23.0f);
     *(s32 **)((s8 *)city_season_21_21 + 0x18) = &(*(RecoveredGlobal_80183F24_lbl_804B5D00 *)&__vt__21TObjCity_Season_21_21).value;
     *(s32 *)((s8 *)city_season_21_21 + 0) = (s32) TObjCity_Season_21_21__name;
     *(s32 *)((s8 *)city_season_21_21 + 0xB4) = 0;
@@ -1189,7 +1189,7 @@ u8 *TObjCity_Season_XmasTree__ct(u8 *arg0, s32 arg1, s32 arg2) {
     typedef char sp8_offset[(offsetof(Stack_801844C8, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_801844C8, spC) == 0x4) ? 1 : -1];
     Stack_801844C8 stack;
-    ((s32 (*)(void *, void *, void *, int, f32))init_city_season_object)((void *)arg0, (void *)arg1, (void *)arg2, 2, (f32)22.5f);
+    ((s32 (*)(void *, void *, void *, int, f32))init_city_season_object)((void *)arg0, (void *)arg1, (void *)arg2, 2, 22.5f);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_801844C8_lbl_804B5DA0 *)&__vt__24TObjCity_Season_XmasTree).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjCity_Season_XmasTree__name;
     if (((u32)((u8 * (*)(void *))get_anim_frame__13TUnk_804B5E48Fv)(arg0)) != 0U) {
@@ -1289,7 +1289,7 @@ u8 *TObjCity_Season_ValentineHeart__ct(u8 *arg0, s32 arg1, s32 arg2) {
     typedef char sp8_offset[(offsetof(Stack_801846E0, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_801846E0, spC) == 0x4) ? 1 : -1];
     Stack_801846E0 stack;
-    ((s32 (*)(void *, void *, void *, int, f32))init_city_season_object)((void *)arg0, (void *)arg1, (void *)arg2, 1, (f32)13.0f);
+    ((s32 (*)(void *, void *, void *, int, f32))init_city_season_object)((void *)arg0, (void *)arg1, (void *)arg2, 1, 13.0f);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_801846E0_lbl_804B5DD8 *)&__vt__30TObjCity_Season_ValentineHeart).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjCity_Season_ValentineHeart__name;
     if (((u32)((u8 * (*)(void *))get_anim_frame__13TUnk_804B5E48Fv)(arg0)) != 0U) {
@@ -1395,7 +1395,7 @@ u8 *TObjCity_Season_EasterEgg__ct(u8 *city_season_easter_egg, s32 arg1, s32 arg2
     typedef char sp8_offset[(offsetof(Stack_8018493C, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_8018493C, spC) == 0x4) ? 1 : -1];
     Stack_8018493C stack;
-    ((s32 (*)(void *, void *, void *, int, f32))init_city_season_object)((void *)city_season_easter_egg, (void *)arg1, (void *)arg2, 0, (f32)13.0f);
+    ((s32 (*)(void *, void *, void *, int, f32))init_city_season_object)((void *)city_season_easter_egg, (void *)arg1, (void *)arg2, 0, 13.0f);
     *(s32 **)((s8 *)city_season_easter_egg + 0x18) = &(*(RecoveredGlobal_8018493C_lbl_804B5E10 *)&__vt__25TObjCity_Season_EasterEgg).value;
     *(s32 *)((s8 *)city_season_easter_egg + 0) = (s32) TObjCity_Season_EasterEgg__name;
     *(s32 *)((s8 *)city_season_easter_egg + 0xB4) = 0;
@@ -1520,7 +1520,7 @@ u8 *init_city_season_object(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
     } else {
         *(s32 *)((s8 *)arg0 + 0xA4) = 0;
     }
-    ((TUnk_804B5E48 *)arg0)->m_b0 = (f32) 0.0f;
+    ((TUnk_804B5E48 *)arg0)->m_b0 = 0.0f;
     return arg0;
 }
 

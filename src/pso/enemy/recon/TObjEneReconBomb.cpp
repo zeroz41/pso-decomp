@@ -273,7 +273,7 @@ u8 *TObjEneReconBomb__ct(TObjEneReconBomb *ene_recon_bomb, s32 arg1, s32 arg2, s
     temp_f31 = sin_table_lookup(ene_recon_bomb->rotation_y);
     temp_f1 = cos_table_lookup(ene_recon_bomb->rotation_y);
     *(f32 *)((s8 *)ene_recon_bomb + 0x33C) = (f32) (*(f32 *)((s8 *)ene_recon_bomb + 0x354) * temp_f31);
-    *(f32 *)((s8 *)ene_recon_bomb + 0x340) = (f32) (0.0f);
+    *(f32 *)((s8 *)ene_recon_bomb + 0x340) = 0.0f;
     ene_recon_bomb->m_344 = (f32) (*(f32 *)((s8 *)ene_recon_bomb + 0x354) * temp_f1);
     ene_recon_bomb->m_360 = 0;
     ene_recon_bomb->m_35c = 0;

@@ -189,7 +189,7 @@ void TLobby::tick_fade_counter() {
     s32 (*temp_r12)();
     *(f32 *)((s8 *)arg0 + 0x1C) += 1.0f;
     if (*(f32 *)((s8 *)arg0 + 0x1C) >= (128.0f)) {
-        *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (128.0f);
+        *(f32 *)((s8 *)arg0 + 0x1C) = 128.0f;
         temp_r12 = *(s32 (**)())((s8 *)arg0 + 0x28);
         if (temp_r12 != NULL) {
             temp_r12();
@@ -206,7 +206,7 @@ void step_fade_opacity_increase(u8 *arg0) {
     s32 (*temp_r12)();
     *(f32 *)((s8 *)arg0 + 0x1C) += 8.0f;
     if (*(f32 *)((s8 *)arg0 + 0x1C) >= (255.0f)) {
-        *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (255.0f);
+        *(f32 *)((s8 *)arg0 + 0x1C) = 255.0f;
         temp_r12 = *(s32 (**)())((s8 *)arg0 + 0x28);
         if (temp_r12 != NULL) {
             temp_r12();
@@ -219,7 +219,7 @@ void step_fade_opacity_increase(u8 *arg0) {
 void TLobby::init_fadeout_state(s32 arg0) {
     if ((void *) screen_fade_controller != NULL) {
         *(s32 *)((s8 *)screen_fade_controller + 0x28) = arg0;
-        *(f32 *)((s8 *)screen_fade_controller + 0x1C) = (f32) (0.0f);
+        *(f32 *)((s8 *)screen_fade_controller + 0x1C) = 0.0f;
         *(s8 *)((s8 *)screen_fade_controller + 0x20) = 0;
         *(s8 *)((s8 *)screen_fade_controller + 0x21) = 0;
         *(s8 *)((s8 *)screen_fade_controller + 0x22) = 0;
@@ -234,7 +234,7 @@ void TUnk_80499970::step_fade_opacity_decrease() {
     s32 (*temp_r12)();
     *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (*(f32 *)((s8 *)arg0 + 0x1C) - (8.0f));
     if (*(f32 *)((s8 *)arg0 + 0x1C) <= (0.0f)) {
-        *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (0.0f);
+        *(f32 *)((s8 *)arg0 + 0x1C) = 0.0f;
         temp_r12 = *(s32 (**)())((s8 *)arg0 + 0x28);
         if (temp_r12 != NULL) {
             temp_r12();
@@ -247,7 +247,7 @@ void TUnk_80499970::step_fade_opacity_decrease() {
 void TLobby::set_fade_params(s32 arg0) {
     if ((void *) screen_fade_controller != NULL) {
         *(s32 *)((s8 *)screen_fade_controller + 0x28) = arg0;
-        *(f32 *)((s8 *)screen_fade_controller + 0x1C) = (f32) (255.0f);
+        *(f32 *)((s8 *)screen_fade_controller + 0x1C) = 255.0f;
         *(s8 *)((s8 *)screen_fade_controller + 0x20) = 0;
         *(s8 *)((s8 *)screen_fade_controller + 0x21) = 0;
         *(s8 *)((s8 *)screen_fade_controller + 0x22) = 0;
@@ -377,7 +377,7 @@ void TUnk_804999B8::run_task() {
     s32 (*temp_r12)();
     *(f32 *)((s8 *)((u8 *)this) + 0x1C) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x1C) - (8.0f));
     if (*(f32 *)((s8 *)((u8 *)this) + 0x1C) <= 0.0f) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x1C) = (f32) 0.0f;
+        *(f32 *)((s8 *)((u8 *)this) + 0x1C) = 0.0f;
         temp_r12 = *(s32 (**)())((s8 *)((u8 *)this) + 0x24);
         if (temp_r12 != NULL) {
             temp_r12();
@@ -415,7 +415,7 @@ void TUnk_804999D0::run_task() {
     s32 (*temp_r12)();
     *(f32 *)((s8 *)((u8 *)this) + 0x1C) += 8.0f;
     if (*(f32 *)((s8 *)((u8 *)this) + 0x1C) >= (255.0f)) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x1C) = (f32) (255.0f);
+        *(f32 *)((s8 *)((u8 *)this) + 0x1C) = 255.0f;
         temp_r12 = *(s32 (**)())((s8 *)((u8 *)this) + 0x24);
         if (temp_r12 != NULL) {
             temp_r12();

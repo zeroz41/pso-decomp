@@ -145,7 +145,7 @@ u8 *__ct__9TBoss6DPBFv(u8 *object, s32 arg1, s32 arg2, f32 farg0) {
     *(s32 *)((s8 *)object + 0) = (s32) TBoss6DPB__class_name;
     *(s32 *)((s8 *)object + 0x1C) = arg1;
     VecCopy((Vec *)(object + 0x20), (const Vec *)(arg2));
-    *(f32 *)((s8 *)object + 0x24) = (f32) 0.0f;
+    *(f32 *)((s8 *)object + 0x24) = 0.0f;
     *(f32 *)((s8 *)object + 0x2C) = farg0;
     temp_f2 = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x2C)) + 8);
     *(s32 *)((s8 *)object + 0x34) = (s32) temp_f2;
@@ -155,7 +155,7 @@ u8 *__ct__9TBoss6DPBFv(u8 *object, s32 arg1, s32 arg2, f32 farg0) {
     temp_f1 = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x2F)) + 8);
     *(f32 *)((s8 *)object + 0x38) = temp_f1;
     if (0.0f == temp_f1) {
-        *(f32 *)((s8 *)object + 0x38) = (f32) 1.0f;
+        *(f32 *)((s8 *)object + 0x38) = 1.0f;
     }
     play_sound_effect(0x40069410, (u32)(object + 0x20), 0, 0);
     *(s32 *)((s8 *)object + 0x30) = 0;

@@ -492,7 +492,7 @@ u8 *TObjDFJisin__ct(u8 *object, u8 *arg1, s32 arg2) {
     *(f32 *)((s8 *)object + 0x1C) = (f32) (300.0f * sin_table_lookup(arg2));
     *(f32 *)((s8 *)object + 0x20) = (f32) lbl_805D8A30;
     *(f32 *)((s8 *)object + 0x24) = (f32) (-300.0f * cos_table_lookup(arg2));
-    *(f32 *)((s8 *)object + 0x28) = (f32) 25.0f;
+    *(f32 *)((s8 *)object + 0x28) = 25.0f;
     return object;
 }
 

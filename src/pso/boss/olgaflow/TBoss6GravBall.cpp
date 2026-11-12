@@ -427,7 +427,7 @@ void update_state__14TBoss6GravBallFPv(u8 *arg0) {
         if (temp_f2 < 1.0f) {
             *(f32 *)((s8 *)arg0 + 0xBC) += 0.033333335f;
             if (*(f32 *)((s8 *)arg0 + 0xBC) > 1.0f) {
-                *(f32 *)((s8 *)arg0 + 0xBC) = (f32) 1.0f;
+                *(f32 *)((s8 *)arg0 + 0xBC) = 1.0f;
             }
         }
         TBoss6GravBall__sub_80323544((arg0));

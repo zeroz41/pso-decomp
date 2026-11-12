@@ -265,7 +265,7 @@ void update_slide_in__12TChCrTagNameFPv(u8 *arg0) {
   f32 var_f4;
   f32 temp_f3;
   var_f4 = (1.0f);
-  *((f32 *) (((s8 *) arg0) + 0x48)) = (f32) (58.0f);
+  *((f32 *) (((s8 *) arg0) + 0x48)) = 58.0f;
   *((f32 *) (((s8 *) arg0) + 0x4C)) = (f32) (((27.0f) * ((f32) (*((s32 *) (((s8 *) arg0) + 0x20))))) + (1e+02f));
   temp_f2 = *((f32 *) (((s8 *) arg0) + 0x24));
   temp_f1 = *((f32 *) (((s8 *) arg0) + 0x40));
@@ -314,11 +314,11 @@ u8 *__ct__12TChCrTagNameFv(u8 *ch_cr_tag_name, TObject *parent, void *arg) {
     __ct__8TChCrTagFP7TObjectPv(ch_cr_tag_name, parent, arg);
     *(s32 **)((s8 *)ch_cr_tag_name + 0x18) = (s32 *)__vt__12TChCrTagName;
     *(s32 *)((s8 *)ch_cr_tag_name + 0) = (s32) TChCrTagName__class_name;
-    *(f32 *)((s8 *)ch_cr_tag_name + 0x28) = (f32) (0.033333335f);
-    *(f32 *)((s8 *)ch_cr_tag_name + 0x2C) = (f32) (-0.022222223f);
-    *(f32 *)((s8 *)ch_cr_tag_name + 0x34) = (f32) (0.6666667f);
-    *(f32 *)((s8 *)ch_cr_tag_name + 0x38) = (f32) (-0.06666667f);
-    *(f32 *)((s8 *)ch_cr_tag_name + 0x3C) = (f32) (0.0f);
+    *(f32 *)((s8 *)ch_cr_tag_name + 0x28) = 0.033333335f;
+    *(f32 *)((s8 *)ch_cr_tag_name + 0x2C) = -0.022222223f;
+    *(f32 *)((s8 *)ch_cr_tag_name + 0x34) = 0.6666667f;
+    *(f32 *)((s8 *)ch_cr_tag_name + 0x38) = -0.06666667f;
+    *(f32 *)((s8 *)ch_cr_tag_name + 0x3C) = 0.0f;
     *(f32 *)((s8 *)ch_cr_tag_name + 0x40) = 0.8f - 0.053333335f * (f32) (0xC - *(s32 *)((s8 *)ch_cr_tag_name + 0x20));
     update_slide_in__12TChCrTagNameFPv(ch_cr_tag_name);
     *(s32 *)((s8 *)ch_cr_tag_name + 0x44) = 0;

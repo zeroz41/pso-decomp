@@ -86,7 +86,7 @@ void TChCrEffTag::run_task()
   }
   if (temp_f1 > 294.0f)
   {
-    width = (f32) 294.0f;
+    width = 294.0f;
   }
 }
 #pragma pop

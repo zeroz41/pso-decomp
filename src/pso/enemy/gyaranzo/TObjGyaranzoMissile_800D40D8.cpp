@@ -127,7 +127,7 @@ void TUnk_8049442C::update_ground_fall(s32 *arg1, f32 farg0) {
         position.y = temp_f1;
         if (*(f32 *)((s8 *)((u8 *)this) + 0x3C) <= temp_f1) {
             *(f32 *)((s8 *)((u8 *)this) + 0x3C) = temp_f1;
-            this->velocity.y = (f32) 0.0f;
+            this->velocity.y = 0.0f;
             this->actorFlags = (s32) (this->actorFlags | 0x800000);
             return;
         }

@@ -445,7 +445,7 @@ void TOTrapChainSawKey::update_state() {
     ((s32 (*)())update_state__14TOTrapChainSawFv)();
     *(f32 *)((s8 *)arg0 + 0x104) = (f32) (*(f32 *)((s8 *)arg0 + 0x104) + *(f32 *)((s8 *)arg0 + 0x108));
     if (*(f32 *)((s8 *)arg0 + 0x104) > (f32) (u32) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x100)) + 4) - 1)) {
-        *(f32 *)((s8 *)arg0 + 0x104) = (f32) (0.0f);
+        *(f32 *)((s8 *)arg0 + 0x104) = 0.0f;
     }
     play_persistent_sound((void *) (((s32 (*)(void *, int))get_area_table_value__17TOTrapChainSawKeyFii)(arg0, 2)), arg0, arg0 + 0x38, 0, 0);
     if ((s32) *(s32 *)((s8 *)arg0 + 0xF0) == 1) {

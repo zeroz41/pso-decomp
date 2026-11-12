@@ -882,8 +882,8 @@ void *TObjPlayer__sub_802C19E8(void *arg0) {
     var_r0 = (temp_r3 < 0) ? 0 : (temp_r3 > 2) ? 2 : temp_r3;
     ((TUnk_804E08D4 *)arg0)->m_c8 = var_r0;
     *(s32 *)((s8 *)arg0 + 0xA0) = ((s32 (*)(s32, s32))get_bml_motion)((*(s32 *)&lobby_kamome_model_resource), *(s32 *)((s8 *)((s32 *)&jungle_seagull_path_profiles) + (((TUnk_804E08D4 *)arg0)->m_c8 * 0x14)));
-    ((TUnk_804E08D4 *)arg0)->m_a4 = (f32) (0.0f);
-    ((TUnk_804E08D4 *)arg0)->m_a8 = (f32) (0.0f);
+    ((TUnk_804E08D4 *)arg0)->m_a4 = 0.0f;
+    ((TUnk_804E08D4 *)arg0)->m_a8 = 0.0f;
     ((TUnk_804E08D4 *)arg0)->sub_802C1660();
     *(f32 *)((s8 *)arg0 + 0x90) = (f32) (1e+03f);
     *(s32 *)((s8 *)arg0 + 0xCC) = (s32) (((3e+01f) * ((4.0f) * ((3.0517578e-05f) * (f32) rand()))) + (1.5e+02f));
@@ -1074,8 +1074,8 @@ u8 *TObjPlayer__sub_802C20E8(u8 *arg0, s32 arg1, const void* _w2) {
   }
   ((TUnk_804E0910 *)arg0)->m_c8 = var_r0;
   *((s32 *) (((s8 *) arg0) + 0xA0)) = get_bml_motion((*(u8 * *)&jungle_bird_bml_resource), *((s32 *) (((s8 *) (&(*(RecoveredGlobal_802C20E8_lbl_80471890 *)&lobby_pigeon_path_parameters).value)) + ((((TUnk_804E0910 *)arg0)->m_c8) * 0x14))));
-  ((TUnk_804E0910 *)arg0)->m_a4 = (f32) (0.0f);
-  ((TUnk_804E0910 *)arg0)->m_a8 = (f32) (0.0f);
+  ((TUnk_804E0910 *)arg0)->m_a4 = 0.0f;
+  ((TUnk_804E0910 *)arg0)->m_a8 = 0.0f;
   ((TUnk_804E0910 *)arg0)->sub_802C1E34();
   return arg0;
 }
@@ -1287,8 +1287,8 @@ u8 *TObjPlayer__sub_802C27FC(u8 *arg0, s32 arg1, const void* _w2) {
   }
   ((TUnk_804E094C *)arg0)->m_c8 = var_r0;
   *((s32 *) (((s8 *) arg0) + 0xA0)) = get_bml_motion((*(u8 * *)&jungle_ebi_model_resource), *((s32 *) (((s8 *) (&(*(RecoveredGlobal_802C27FC_lbl_80471848 *)&jungle_ebi_path_profiles).value)) + ((((TUnk_804E094C *)arg0)->m_c8) * 0x18))));
-  ((TUnk_804E094C *)arg0)->m_a4 = (f32) (0.0f);
-  ((TUnk_804E094C *)arg0)->m_a8 = (f32) (0.0f);
+  ((TUnk_804E094C *)arg0)->m_a4 = 0.0f;
+  ((TUnk_804E094C *)arg0)->m_a8 = 0.0f;
   ((TUnk_804E094C *)arg0)->sub_802C2548();
   return arg0;
 }
@@ -1478,8 +1478,8 @@ u8 *TObjPlayer__sub_802C2F04(u8 *arg0, s32 arg1, const void* _w2) {
   }
   ((TUnk_804E0988 *)arg0)->m_c8 = var_r0;
   *((s32 *) (((s8 *) arg0) + 0xA0)) = get_bml_motion((*(u8 * *)&seabed_dolphin_bml_archive), *((s32 *) (((s8 *) (&(*(RecoveredGlobal_802C2F04_lbl_804717D4 *)&seabed_dolphin_path_profiles).value)) + ((((TUnk_804E0988 *)arg0)->m_c8) * 0x14))));
-  ((TUnk_804E0988 *)arg0)->m_a4 = (f32) (0.0f);
-  ((TUnk_804E0988 *)arg0)->m_a8 = (f32) (0.0f);
+  ((TUnk_804E0988 *)arg0)->m_a4 = 0.0f;
+  ((TUnk_804E0988 *)arg0)->m_a8 = 0.0f;
   ((TUnk_804E0988 *)arg0)->sub_802C2C48();
   return arg0;
 }
@@ -1605,7 +1605,7 @@ u8 *TObjPathObj__ct(u8 *path_obj, s32 parent, s32 arg2) {
     *(s32 *)((s8 *)path_obj + 0) = (s32) TObjPathObj__name;
     ((TObjPathObj *)(path_obj))->apply_object_set_data((void *)arg2);
     *(f32 *)((s8 *)path_obj + 0x90) = (f32) (5e+02f);
-    ((TObjPathObj *)path_obj)->m_94 = (f32) (1.5e+02f);
+    ((TObjPathObj *)path_obj)->m_94 = 1.5e+02f;
     return path_obj;
 }
 

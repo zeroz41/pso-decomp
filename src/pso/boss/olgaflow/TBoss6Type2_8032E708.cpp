@@ -500,7 +500,7 @@ void TBoss6Type2::enforce_min_distance() {
     {
       if (temp_f1 <= (1e-05f))
       {
-        stack.sp8 = apply_direction_sign((f32) (1.0f));
+        stack.sp8 = apply_direction_sign(1.0f);
       }
       normalize_vector(&stack.sp8);
       stack.sp8 *= (4e+01f);
@@ -676,15 +676,15 @@ s32 TBoss6Mag::is_action_ready() {
 
 void TBoss6Mag::update_rotation_ramp() {
     if ((is_action_ready() == 0) || (is_target_in_front_range() == 0)) {
-        *(f32 *)((s8 *)this + 0x3BC) = (f32) (0.0f);
+        *(f32 *)((s8 *)this + 0x3BC) = 0.0f;
         *(f32 *)((s8 *)this + 0x3B8) += (-0.06666667f);
         if (*(f32 *)((s8 *)this + 0x3B8) < (0.0f)) {
-            *(f32 *)((s8 *)this + 0x3B8) = (f32) (0.0f);
+            *(f32 *)((s8 *)this + 0x3B8) = 0.0f;
         }
     } else if ((1.0f) == *(f32 *)((s8 *)this + 0x3B8)) {
         *(f32 *)((s8 *)this + 0x3BC) += (0.033333335f);
         if (*(f32 *)((s8 *)this + 0x3BC) > (1.0f)) {
-            *(f32 *)((s8 *)this + 0x3BC) = (f32) (1.0f);
+            *(f32 *)((s8 *)this + 0x3BC) = 1.0f;
         }
         if ((1.0f) == *(f32 *)((s8 *)this + 0x3BC)) {
             if (is_local_client_floor_leader() != 0) {
@@ -695,14 +695,14 @@ void TBoss6Mag::update_rotation_ramp() {
                     }
                 }
             }
-            *(f32 *)((s8 *)this + 0x3B8) = (f32) (0.0f);
-            *(f32 *)((s8 *)this + 0x3BC) = (f32) (0.0f);
+            *(f32 *)((s8 *)this + 0x3B8) = 0.0f;
+            *(f32 *)((s8 *)this + 0x3BC) = 0.0f;
         }
     } else {
-        *(f32 *)((s8 *)this + 0x3BC) = (f32) (0.0f);
+        *(f32 *)((s8 *)this + 0x3BC) = 0.0f;
         *(f32 *)((s8 *)this + 0x3B8) += (0.06666667f);
         if (*(f32 *)((s8 *)this + 0x3B8) > (1.0f)) {
-            *(f32 *)((s8 *)this + 0x3B8) = (f32) (1.0f);
+            *(f32 *)((s8 *)this + 0x3B8) = 1.0f;
         }
     }
 }
@@ -1003,7 +1003,7 @@ void TBoss6Type2::init_segment_angle_range() {
 void TBoss6Mag::decay_glow_and_calc_hp_ratio() {
     *(f32 *)((s8 *)this + 0x3F8) += (-0.06666667f);
     if (*(f32 *)((s8 *)this + 0x3F8) < (0.0f)) {
-        *(f32 *)((s8 *)this + 0x3F8) = (f32) (0.0f);
+        *(f32 *)((s8 *)this + 0x3F8) = 0.0f;
     }
     *(f32 *)((s8 *)this + 0x3FC) = (f32) ((f32) *(s16 *)((s8 *)this + 0x32C) / (f32) *(s16 *)((s8 *)this + 0x33E));
 }
@@ -1067,7 +1067,7 @@ void TBoss6Mag::change_motion(s32 arg1) {
         *(f32 *)((s8 *)arg0 + 0x3F4) = (f32) *(f32 *)((s8 *)arg0 + 0x3E0);
         *(f32 *)((s8 *)arg0 + 0x3E4) = (f32) *(f32 *)((s8 *)((u8 *)(&(*(RecoveredGlobal_8032FF24_lbl_804EDD94 *)&boss6_type2_motion_table).value) + temp_r31) + 0xC);
         *(s32 *)((s8 *)arg0 + 0x3DC) = bml_motion;
-        *(f32 *)((s8 *)arg0 + 0x3E0) = (f32) (0.0f);
+        *(f32 *)((s8 *)arg0 + 0x3E0) = 0.0f;
     }
 }
 #pragma pop
@@ -1173,7 +1173,7 @@ void TBoss6Mag::vfunc_63() {
         return;
     default:
         TBoss6Type2__sub_802BD340((int) (*(s32 *)((s8 *)arg0 + 0x378)));
-        *(f32 *)((s8 *)arg0 + 0x3F8) = (f32) (1.0f);
+        *(f32 *)((s8 *)arg0 + 0x3F8) = 1.0f;
         ((TBoss6Mag *)arg0)->set_action(4);
         play_sound_effect(0x69E17, arg0 + 0x38, 0, 0);
         break;
@@ -1181,10 +1181,10 @@ void TBoss6Mag::vfunc_63() {
 }
 
 void spawn_ground_effect__10TObjPlayerFPv(u8 *arg0) {
-    *(f32 *)((s8 *)arg0 + 0x3F8) = (f32) (1.0f);
+    *(f32 *)((s8 *)arg0 + 0x3F8) = 1.0f;
     *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) & 0xFFFFFDFF);
     play_sound_effect(0x6A816, arg0 + 0x38, 0, 0);
-    *(f32 *)((s8 *)arg0 + 0x3BC) = (f32) (0.0f);
+    *(f32 *)((s8 *)arg0 + 0x3BC) = 0.0f;
 }
 void TBoss6PlotFalz__sub_802AC008(f32, f32);
 s32 rotate_matrix_x(int, int);
@@ -1273,7 +1273,7 @@ void TBoss6Mag::run_task() {
         if ((s32) *(s32 *)((s8 *)arg0 + 0x388) != 0) {
             var_r4 = -0x5DB4;
         }
-        add_radar_scaled_marker(arg0 + 0x38, var_r4, 1, 1, (f32) (2.0f));
+        add_radar_scaled_marker(arg0 + 0x38, var_r4, 1, 1, 2.0f);
         ((TBoss6Mag *)arg0)->decay_glow_and_calc_hp_ratio();
         ((TBoss6Mag *)arg0)->sync_hp_apply_damage();
         ((TBoss6Mag *)arg0)->spawn_trap_by_stat();

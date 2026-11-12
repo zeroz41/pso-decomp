@@ -381,7 +381,7 @@ TUnk_80486924::~TUnk_80486924() {
 
 void TUnk_80486924::vfunc_62() {
     *(s32 *)((s8 *)((u8 *)this) + 0x3E4) = 1;
-    *(f32 *)((s8 *)((u8 *)this) + 0x3F0) = (f32) 1.0f;
+    *(f32 *)((s8 *)((u8 *)this) + 0x3F0) = 1.0f;
     *(s32 *)((s8 *)((u8 *)this) + 0x30) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x30) & 0xFFFFFDFF);
     ((s32 (*)(int, void *, int, int, void *))play_sound_effect)(0x4003B723, ((u8 *)this) + 0x38, 0, 1, this);
 }
@@ -478,7 +478,7 @@ void TBoss4Type2::update_phase_timer() {
         break;
     case 1:
         if (*(f32 *)((s8 *)arg0 + 0x3d0) >= 29.0f) {
-            *(f32 *)((s8 *)arg0 + 0x3d0) = (f32) 29.0f;
+            *(f32 *)((s8 *)arg0 + 0x3d0) = 29.0f;
             *(s32 *)((s8 *)arg0 + 0x3d8) = 1;
         }
         break;
@@ -486,14 +486,14 @@ void TBoss4Type2::update_phase_timer() {
         if (*(f32 *)((s8 *)arg0 + 0x3d0) >= 29.0f) {
             *(s32 *)((s8 *)arg0 + 0x3c8) = (s32) *(s32 *)((s8 *)((u8 *)&(*(RecoveredGlobal_8005455C_lbl_80485EC8 *)&TBoss4Type2__attack_pattern_table).value + (*(s32 *)((s8 *)arg0 + 0x3c8) << 0x4)) + 4);
             *(s32 *)((s8 *)arg0 + 0x3dc) = (s32) *(s32 *)((s8 *)(&(*(RecoveredGlobal_8005455C_lbl_80485EC8 *)&TBoss4Type2__attack_pattern_table).value) + (*(s32 *)((s8 *)arg0 + 0x3c8) << 0x4));
-            *(f32 *)((s8 *)arg0 + 0x3d0) = (f32) 0.0f;
+            *(f32 *)((s8 *)arg0 + 0x3d0) = 0.0f;
             *(s32 *)((s8 *)arg0 + 0x3d8) = 1;
         }
         break;
     }
     temp_f1_2 = *(f32 *)((s8 *)arg0 + 0x3d0);
     if ((temp_f1_2 < 0.0f) || (temp_f1_2 >= 30.0f)) {
-        *(f32 *)((s8 *)arg0 + 0x3d0) = (f32) 0.0f;
+        *(f32 *)((s8 *)arg0 + 0x3d0) = 0.0f;
     }
 }
 extern int fold_flush_4;
@@ -503,7 +503,7 @@ void TBoss4Type2::set_attack_pattern_by_index(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     if (arg1 != -1) {
         *(s32 *)((s8 *)arg0 + 0x3c8) = arg1;
-        *(f32 *)((s8 *)arg0 + 0x3d0) = (f32) (0.0f);
+        *(f32 *)((s8 *)arg0 + 0x3d0) = 0.0f;
         *(s32 *)((s8 *)arg0 + 0x3dc) = (s32) *(s32 *)((s8 *)((u8 *)&TBoss4Type2__attack_pattern_table.value + (arg1 << 0x4)) + 0);
     }
 }
@@ -830,7 +830,7 @@ void TBoss4Type2::spawn_afterimages() {
 
 void TBoss4Type2::appear_enter() {
     void *arg0 = (void *)this;
-    *(f32 *)((s8 *)arg0 + 0x3E8) = (f32) 0.0f;
+    *(f32 *)((s8 *)arg0 + 0x3E8) = 0.0f;
     *(s32 *)((s8 *)arg0 + 0x398) = 0x3C;
 }
 
@@ -878,7 +878,7 @@ void TBoss4Type2::dead_update() {
 
 void TBoss4Type2::move_enter() {
     void *arg0 = (void *)this;
-    *(f32 *)((s8 *)arg0 + 0x3E8) = (f32) (0.0f);
+    *(f32 *)((s8 *)arg0 + 0x3E8) = 0.0f;
     *(s32 *)((s8 *)arg0 + 0x3E0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3E0) + 1);
     *(s32 *)((s8 *)arg0 + 0x398) = (s32) *(s32 *)((s8 *)arg0 + 0x41C);
 }
@@ -900,7 +900,7 @@ void TBoss4Type2::move_update() {
     if (temp_r5 > 7) {
         *(f32 *)((s8 *)boss4_type2 + 0x39C) = ((f32 (*)(void *, f32))compute_wave_offset__11TBoss4Type2Ff)(boss4_type2, (1.0f) - ((temp_r5 - 7) / (f32) *(s32 *)((s8 *)boss4_type2 + 0x420)));
     } else {
-        *(f32 *)((s8 *)boss4_type2 + 0x39C) = (f32) (1.0f);
+        *(f32 *)((s8 *)boss4_type2 + 0x39C) = 1.0f;
     }
     TBoss4Type2__sub_80057128(boss4_type2);
     if ((s32) game_difficulty_selection == 3) {
@@ -921,7 +921,7 @@ void TBoss4Type2::move_update() {
 
 void TBoss4Type2::jisin_enter() {
     void *arg0 = (void *)this;
-    *(f32 *)((s8 *)arg0 + 0x3E8) = (f32) (0.0f);
+    *(f32 *)((s8 *)arg0 + 0x3E8) = 0.0f;
     *(s32 *)((s8 *)arg0 + 0x398) = 0x4B;
 }
 
@@ -950,12 +950,12 @@ void TBoss4Type2::beam_enter() {
   s32 var_r31;
   VecCopy((Vec *)(arg0 + 0x3F8), (const Vec *)(arg0 + 0x3B4));
   subtract_vector(arg0 + 0x3F8, arg0 + 0x38);
-  *((f32 *) (((s8 *) arg0) + 0x3FC)) = (f32) 0.0f;
+  *((f32 *) (((s8 *) arg0) + 0x3FC)) = 0.0f;
   if (vector_length(arg0 + 0x3F8) <= 0.01f)
   {
-    *((f32 *) (((s8 *) arg0) + 0x3F8)) = (f32) 1.0f;
-    *((f32 *) (((s8 *) arg0) + 0x3FC)) = (f32) 0.0f;
-    *((f32 *) (((s8 *) arg0) + 0x400)) = (f32) 0.0f;
+    *((f32 *) (((s8 *) arg0) + 0x3F8)) = 1.0f;
+    *((f32 *) (((s8 *) arg0) + 0x3FC)) = 0.0f;
+    *((f32 *) (((s8 *) arg0) + 0x400)) = 0.0f;
   }
   else
   {
@@ -974,9 +974,9 @@ void TBoss4Type2::beam_enter() {
   }
   *((f32 *) (((s8 *) arg0) + 0x404)) = ((f32 (*)(int))sin_table_lookup)((int) var_r31);
   *((f32 *) (((s8 *) arg0) + 0x40C)) = ((f32 (*)(int))cos_table_lookup)((int) var_r31);
-  *((f32 *) (((s8 *) arg0) + 0x408)) = (f32) 0.0f;
+  *((f32 *) (((s8 *) arg0) + 0x408)) = 0.0f;
   VecCopy((Vec *)(arg0 + 0x410), (const Vec *)(arg0 + 0x38));
-  *((f32 *) (((s8 *) arg0) + 0x414)) = (f32) 0.0f;
+  *((f32 *) (((s8 *) arg0) + 0x414)) = 0.0f;
   normalize_vector(arg0 + 0x410);
   *((f32 *) (((s8 *) arg0) + 0x410)) *= 280.0f;
   *((f32 *) (((s8 *) arg0) + 0x418)) *= 280.0f;
@@ -1069,7 +1069,7 @@ void TBoss4Type2::beam_update() {
 
 void TBoss4Type2::tenchu_enter() {
     u8 *arg0 = (u8 *)this;
-    *(f32 *)((s8 *)arg0 + 0x3E8) = (f32) (0.0f);
+    *(f32 *)((s8 *)arg0 + 0x3E8) = 0.0f;
     TBoss4Type2__sub_80055300();
     *(s32 *)((s8 *)arg0 + 0x398) = 0x96;
 }
@@ -1230,25 +1230,25 @@ void TBoss4Type2::tenchu_update() {
 
 void TBoss4Type2::md_stop1_enter() {
     void *arg0 = (void *)this;
-    *(f32 *)((s8 *)arg0 + 0x3E8) = (f32) 0.0f;
+    *(f32 *)((s8 *)arg0 + 0x3E8) = 0.0f;
     *(s32 *)((s8 *)arg0 + 0x398) = 0x4B;
 }
 
 void TBoss4Type2::md_stop2_enter() {
     void *arg0 = (void *)this;
-    *(f32 *)((s8 *)arg0 + 0x3E8) = (f32) 0.0f;
+    *(f32 *)((s8 *)arg0 + 0x3E8) = 0.0f;
     *(s32 *)((s8 *)arg0 + 0x398) = 0x96;
 }
 
 void TBoss4Type2::md_stop3_enter() {
     void *arg0 = (void *)this;
-    *(f32 *)((s8 *)arg0 + 0x3E8) = (f32) 0.0f;
+    *(f32 *)((s8 *)arg0 + 0x3E8) = 0.0f;
     *(s32 *)((s8 *)arg0 + 0x398) = 0xE1;
 }
 
 void TBoss4Type2::md_stop4_enter() {
     void *arg0 = (void *)this;
-    *(f32 *)((s8 *)arg0 + 0x3E8) = (f32) 0.0f;
+    *(f32 *)((s8 *)arg0 + 0x3E8) = 0.0f;
     *(s32 *)((s8 *)arg0 + 0x398) = 0x12C;
 }
 
@@ -1276,7 +1276,7 @@ void TBoss4Type2::md_stop_update() {
 
 void TBoss4Type2::md_recover_enter() {
     u8 *arg0 = (u8 *)this;
-    *(f32 *)((s8 *)arg0 + 0x3E8) = (f32) 0.0f;
+    *(f32 *)((s8 *)arg0 + 0x3E8) = 0.0f;
     ((s32 (*)(s32, void *, s32, s32))play_sound_effect)(0x40039E21, arg0 + 0x38, 0, 1);
     *(s32 *)((s8 *)arg0 + 0x398) = 0x96;
 }

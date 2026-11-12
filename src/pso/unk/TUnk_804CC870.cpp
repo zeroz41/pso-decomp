@@ -155,7 +155,7 @@ void TUnk_804CC888::run_task() {
                 if (e->flags & 0x20) {
                     r = (s32)spawn_particle_effect(obj + 0x38, e->a);
                     if (r != 0) {
-                        attach_particle_model((u8 *)r, (s32)(get_bml_model(technique_effect_bml, technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i].flags >> 16)), (s32)lbl_805D63B0, 0, 1, (f32)1.0f);
+                        attach_particle_model((u8 *)r, (s32)(get_bml_model(technique_effect_bml, technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i].flags >> 16)), (s32)lbl_805D63B0, 0, 1, 1.0f);
                     }
                 } else {
                     spawn_particle_effect(obj + 0x38, e->a);

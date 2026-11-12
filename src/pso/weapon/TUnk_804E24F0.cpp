@@ -44,12 +44,12 @@ void TUnk_804E24F0::emit_marker_effects() {
 
 void TUnk_804E24F0::update_idle() {
     s32 arg0 = (s32)this;
-    TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1F8), (f32)0.5f, (f32)4.0f);
+    TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1F8), 0.5f, 4.0f);
 }
 
 void TUnk_804E24F0::update_attack() {
     s32 arg0 = (s32)this;
-    TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1F8), (f32)(-1.0f), (f32)0.0f);
+    TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1F8), -1.0f, 0.0f);
 }
 
 TUnk_804E24F0::TUnk_804E24F0(TObject *parent, u8 *item) : TItemWeapon(parent, item) {

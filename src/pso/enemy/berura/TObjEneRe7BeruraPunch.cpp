@@ -159,7 +159,7 @@ void TObjEneRe7BeruraPunch::update_flight() {
     u8 *temp_r3;
     this->m_f4 += 0.15f;
     if (this->m_f4 > 2.0f) {
-        this->m_f4 = (f32) 2.0f;
+        this->m_f4 = 2.0f;
     }
     var_r31 = 0;
     this->m_114 += 10.0f;
@@ -227,7 +227,7 @@ void TObjEneRe7BeruraPunch::launch(s32 arg1, s32 arg2) {
         this->rotation_y = 0;
     }
     *(f32 *)&this->unk_BC = sin_table_lookup(this->rotation_y);
-    this->m_c0 = (f32) 0.0f;
+    this->m_c0 = 0.0f;
     *(f32 *)&this->unk_C4 = cos_table_lookup(this->rotation_y);
     this->m_c8 = (f32) 3e+02f;
     ((TObjEneRe7BeruraPunch *)arg0)->reset();
@@ -318,7 +318,7 @@ void TObjEneRe7BeruraPunch::snap_to_ground() {
   if ((*((f32 *) (((s8 *) arg0) + 0xCC))) < 10.0f)
   {
     *((f32 *) (((s8 *) arg0) + 0xE0)) = (f32) (10.0f + (*((f32 *) (((s8 *) arg0) + 0x3C))));
-    *((f32 *) (((s8 *) arg0) + 0xCC)) = (f32) 10.0f;
+    *((f32 *) (((s8 *) arg0) + 0xCC)) = 10.0f;
   }
   if ((new_var && new_var) && new_var)
   {
@@ -328,10 +328,10 @@ void TObjEneRe7BeruraPunch::snap_to_ground() {
 void TObjEneRe7BeruraPunch::reset() {
     u8 *arg0 = (u8 *)this;
     fill_value_array(*(s32 *)&this->_padD8);
-    this->m_f4 = (f32) 1.0f;
+    this->m_f4 = 1.0f;
     ((BeruraObj_800962F4*)(arg0 + 0xF8))->m2();
     *(s32 *)&this->unk_118 = 0;
-    this->m_114 = (f32) 0.0f;
+    this->m_114 = 0.0f;
 }
 
 void TObjEneRe7BeruraPunch::run_task() {
@@ -414,11 +414,11 @@ void TObjEneRe7BeruraPunch::init() {
 
     this->m_b4 = 0;
     this->m_b8 = 0;
-    *(f32 *)&this->unk_BC = (f32) 0.0f;
-    this->m_c0 = (f32) 0.0f;
-    *(f32 *)&this->unk_C4 = (f32) 0.0f;
-    this->m_c8 = (f32) 0.0f;
-    *(f32 *)&this->unk_CC = (f32) 0.0f;
+    *(f32 *)&this->unk_BC = 0.0f;
+    this->m_c0 = 0.0f;
+    *(f32 *)&this->unk_C4 = 0.0f;
+    this->m_c8 = 0.0f;
+    *(f32 *)&this->unk_CC = 0.0f;
     this->m_d0 = 0;
     this->m_d4 = 0;
     var_a = (int)::operator new(0x10);

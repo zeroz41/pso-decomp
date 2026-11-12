@@ -2526,7 +2526,7 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1) {
                 break;
             }
             if (*(s16 *)((s8 *)arg0 + 0xB8) != 1) {
-                if (((TObjMotion *)arg0)->is_passing_frame(4.0f) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)(22.0f)) != 0) {
+                if (((TObjMotion *)arg0)->is_passing_frame(4.0f) != 0 || ((TObjMotion *)arg0)->is_passing_frame(22.0f) != 0) {
                     TObjFish::set_effect_target_position(arg0, (void *)0x39905, arg0 + 0x50C);
                 } else if (((TObjMotion *)arg0)->is_passing_frame(14.0f) != 0) {
                     TObjFish::set_effect_target_position(arg0, (void *)0x39906, arg0 + 0x50C);
@@ -2722,7 +2722,7 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
                 break;
             }
             if (self->fB8 != 1) {
-                if (((TObjMotion *)self)->is_passing_frame(10.0f) != 0 || ((TObjMotion *)self)->is_passing_frame((f32)(41.0f)) != 0) {
+                if (((TObjMotion *)self)->is_passing_frame(10.0f) != 0 || ((TObjMotion *)self)->is_passing_frame(41.0f) != 0) {
                     TObjFish::set_effect_target_position(self, (void *) 0x39905, self->eff);
                 } else if (((TObjMotion *)self)->is_passing_frame(25.0f) != 0) {
                     TObjFish::set_effect_target_position(self, (void *) 0x39906, self->eff);

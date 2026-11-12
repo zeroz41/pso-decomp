@@ -61,7 +61,7 @@ void TObjDoaEx01::update_closing() {
     u8 *arg0 = (u8 *)this;
     this->animation_frame = (f32) (this->animation_frame - this->animation_step);
     if (this->animation_frame < 0.0f) {
-        this->animation_frame = (f32) 0.0f;
+        this->animation_frame = 0.0f;
         this->object_state = 0;
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
     }
@@ -116,7 +116,7 @@ void TObjDoaEx01::update_opening() {
 void TObjDoaEx01::update_closed() {
     Obj_8018DBCC *self = (Obj_8018DBCC *)this;
     if (self->flags & 1) {
-        if (((TObjMapObject *)self)->is_any_player_within_radius_xz((f32)4.9e+03f) == 1) {
+        if (((TObjMapObject *)self)->is_any_player_within_radius_xz(4.9e+03f) == 1) {
             self->state = 1;
             ((TObjCollidable *)self)->set_indexed_flags(0, 8);
             switch (get_current_floor_area()) {
@@ -332,14 +332,14 @@ u8 *TObjDoaEx01__ct(u8 *arg0, s32 arg1, s32 arg2) {
     init_collision_body_parts(arg0, &TObjDoaEx01__collision_body_parts, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TObjDoaEx01 *)arg0)->animation_frame = (f32) 0.0f;
-    ((TObjDoaEx01 *)arg0)->animation_step = (f32) 0.5f;
+    ((TObjDoaEx01 *)arg0)->animation_frame = 0.0f;
+    ((TObjDoaEx01 *)arg0)->animation_step = 0.5f;
     *(f32 *)((s8 *)arg0 + 0xB4) = (f32) *(u32 *)((s8 *)(get_bml_motion((*(s32 *)&TObjDoaEx01__resource_bundle), 0)) + 4);
     ((TObjDoaEx01 *)arg0)->door_flags = 0x100001;
-    *(f32 *)((s8 *)arg0 + 0xD4) = (f32) 1.0f;
-    ((TObjDoaEx01 *)arg0)->m_d8 = (f32) 1.0f;
-    *(f32 *)((s8 *)arg0 + 0xDC) = (f32) 1.0f;
-    ((TObjDoaEx01 *)arg0)->m_e0 = (f32) 1.0f;
+    *(f32 *)((s8 *)arg0 + 0xD4) = 1.0f;
+    ((TObjDoaEx01 *)arg0)->m_d8 = 1.0f;
+    *(f32 *)((s8 *)arg0 + 0xDC) = 1.0f;
+    ((TObjDoaEx01 *)arg0)->m_e0 = 1.0f;
     return arg0;
 }
 

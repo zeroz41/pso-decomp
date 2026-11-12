@@ -158,7 +158,7 @@ TObjLiveCameraCtrl::TObjLiveCameraCtrl(TObject *parent) : TObject(parent) {
     }
     p = __nw__7TObjectFUl(0x3C);
     if (p != 0) {
-        p = fn_800832EC((u8 *)p, (s32)tl_particlemodel, (s32)lbl_804757E0[((Cam_8030BED4 *)this)->f4c], (s32)(((Cam_8030BED4 *)this)->f34), (s32)(((Cam_8030BED4 *)this)->f40), (f32)0.5f);
+        p = fn_800832EC((u8 *)p, (s32)tl_particlemodel, (s32)lbl_804757E0[((Cam_8030BED4 *)this)->f4c], (s32)(((Cam_8030BED4 *)this)->f34), (s32)(((Cam_8030BED4 *)this)->f40), 0.5f);
     }
     ((Cam_8030BED4 *)this)->f50 = p;
 }

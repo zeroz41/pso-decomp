@@ -61,11 +61,11 @@ void TButterfly::draw_model() {
 void TButterfly::init_motion() {
     u8 *arg0 = (u8 *)this;
     VecCopy((Vec *)&this->unk_90, (const Vec *)&this->position);
-    *(f32 *)&this->m_9c = (f32) (0.0f);
-    *(f32 *)&this->unk_A0 = (f32) (0.0f);
-    this->m_a4 = (f32) (0.0f);
+    *(f32 *)&this->m_9c = 0.0f;
+    *(f32 *)&this->unk_A0 = 0.0f;
+    this->m_a4 = 0.0f;
     this->motion_frame = (f32) ((0.5f) * ((3.0517578e-05f) * (f32) rand()));
-    this->m_b0 = (f32) (0.0f);
+    this->m_b0 = 0.0f;
     this->m_b8 = 0;
     this->m_b9 = 0;
     this->m_b4 = 0x1E;

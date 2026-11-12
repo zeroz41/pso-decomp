@@ -271,7 +271,7 @@ u8 *TObjEnvSoundEx__ct(u8 *env_sound_ex, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)env_sound_ex + 0) = (s32) TObjEnvSoundEx__class_name;
     ((TObjEnvSoundEx *)(env_sound_ex))->apply_object_set_data((void *)arg2);
     ((TObjEnvSoundEx *)env_sound_ex)->init_sound_params();
-    *(f32 *)((s8 *)env_sound_ex + 0x94) = (f32) (-127.0f);
+    *(f32 *)((s8 *)env_sound_ex + 0x94) = -127.0f;
     disallow_rendering__7TObjectFv((TObject *)(env_sound_ex));
     return env_sound_ex;
 }
@@ -405,10 +405,10 @@ s32 TObjEnvSoundGlobal::setup_sound() {
     }
     *(f32 *)&this->unk_90 = (f32) *(s32 *)&this->set_params[1];
     if (*(f32 *)&this->unk_90 < (-127.0f)) {
-        *(f32 *)&this->unk_90 = (f32) (-127.0f);
+        *(f32 *)&this->unk_90 = -127.0f;
     }
     if (*(f32 *)&this->unk_90 > (127.0f)) {
-        *(f32 *)&this->unk_90 = (f32) (127.0f);
+        *(f32 *)&this->unk_90 = 127.0f;
     }
     return var_r31;
 }

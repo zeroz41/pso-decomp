@@ -167,7 +167,7 @@ void TPhotonPilla::run_task() {
         sp8.y += 3e+01f;
         entity = (s32)__nw__7TObjectFUl(0xD0);
         if (entity != 0U) {
-            TPhotonMagicSquare__ct((u8 *)entity, (s32)this, 3, (s32)&sp8, 0xD2, (f32)0.5f);
+            TPhotonMagicSquare__ct((u8 *)entity, (s32)this, 3, (s32)&sp8, 0xD2, 0.5f);
         }
     }
     if ((5e+01f == (f32) *(s32 *)((s8 *)this + 0x1A8)) && ((s16) this->requested_action == 1) && ((s32) this->m_1a4 == 1)) {
@@ -334,7 +334,7 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
         pos.y += 4e+01f;
         mem = __nw__7TObjectFUl(0xD0);
         if (mem != NULL) {
-            TPhotonMagicSquare__ct((u8 *)mem, (s32)photon_rainbow, 3, (s32)&pos, 0xAA, (f32)0.5f);
+            TPhotonMagicSquare__ct((u8 *)mem, (s32)photon_rainbow, 3, (s32)&pos, 0xAA, 0.5f);
         }
         }
         spawn_photon_blast_attachment_effects(photon_rainbow, 3);

@@ -109,7 +109,7 @@ TAdTitleGC::TAdTitleGC(TObject *parent, s32 idx) : TObject(parent) {
         ((TAdTitleGC_802A0E08 *)this)->recs[i].c = 1.0f;
         ((TAdTitleGC_802A0E08 *)this)->recs[i].d = (4e+01f) * (f32)(((TAdTitleGC_802A0E08 *)this)->idx + off + 1) / 512.0f;
     }
-    ((TAdTitleGC_802A0E08 *)this)->f130 = (u32)create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)((TAdTitleGC_802A0E08 *)this), 8, (f32)(0.0f));
+    ((TAdTitleGC_802A0E08 *)this)->f130 = (u32)create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)((TAdTitleGC_802A0E08 *)this), 8, 0.0f);
 }
 
 TAdTitleGC::~TAdTitleGC() {}
@@ -151,7 +151,7 @@ s32 TAdTitleGC::update_title_rects() {
 #pragma fp_contract on
 void TAdTitleGC::calc_text_pos(s32 arg0, u8 *arg1, s32 arg2) {
     *(f32 *)((s8 *)arg1 + 0) = (f32) ((6.2e+02f) - (f32) calc_text_width((char *)(arg2)));
-    *(f32 *)((s8 *)arg1 + 4) = (f32) (86.0f);
+    *(f32 *)((s8 *)arg1 + 4) = 86.0f;
 }
 #pragma pop
 

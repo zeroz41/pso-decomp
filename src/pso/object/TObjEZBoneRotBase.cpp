@@ -57,9 +57,9 @@ void TObjEZBoneRotPlayer::run_task() {
     }
     temp_f1 = *(f32 *)((s8 *)this + 0x94);
     if (temp_f1 < 0.0f) {
-        *(f32 *)((s8 *)this + 0x94) = (f32) 0.0f;
+        *(f32 *)((s8 *)this + 0x94) = 0.0f;
     } else if (temp_f1 > 1.0f) {
-        *(f32 *)((s8 *)this + 0x94) = (f32) 1.0f;
+        *(f32 *)((s8 *)this + 0x94) = 1.0f;
     }
     advance_bone_rotation();
     *(s32 *)((s8 *)this + 0x9C) = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)this + 0x98)) + 0x60);

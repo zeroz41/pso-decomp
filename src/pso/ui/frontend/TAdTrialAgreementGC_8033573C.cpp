@@ -185,7 +185,7 @@ void TAdTrialAgreementGC::update_title_prompt() {
 void TAdTrialAgreementGC::handle_cursor_input() {
     u8 *input;
     input = (u8 *)&controller_physical_port_bank.value + 0x20;
-    *(f32 *)&this->m_28 = (f32) 1.0f;
+    *(f32 *)&this->m_28 = 1.0f;
     if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state.value + 0x160)), 0x10, 6, 1) != 0)) {
         *(s32 *)&this->_pad20 = (s32) (*(s32 *)&this->_pad20 - 1);
         if ((s32) *(s32 *)&this->_pad20 < 0) {

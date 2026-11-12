@@ -1033,7 +1033,7 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
         advance_animation();
         switch (state_timer) {
         case 0:
-            if (is_passing_frame(16.0f) != 0 || is_passing_frame((f32)(26.0f)) != 0) {
+            if (is_passing_frame(16.0f) != 0 || is_passing_frame(26.0f) != 0) {
                 play_sound_effect(((TObjEnemy *)(this))->remap_sound_for_area((s32)((void *)0x40039E12)), &position, 0, 0);
                 this->spawn_front_particle();
             }

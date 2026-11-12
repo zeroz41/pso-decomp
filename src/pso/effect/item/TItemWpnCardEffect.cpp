@@ -354,12 +354,12 @@ void TUnk_804EDD20::vfunc_8() {
     if (*(s32 *)((s8 *)arg0 + 0x70) & 1) {
         this->m_80 += 0.25f;
         if (this->m_80 > 0.0f) {
-            this->m_80 = (f32) 0.0f;
+            this->m_80 = 0.0f;
         }
     } else {
         this->m_80 = (f32) (this->m_80 - 0.25f);
         if (this->m_80 < (-1.0f)) {
-            this->m_80 = (f32) (-1.0f);
+            this->m_80 = -1.0f;
         }
     }
 }

@@ -55,7 +55,7 @@ void fn_802CE510(int arg0) {
     {
       play_persistent_sound((s32)((void *) ((TObjEnemy *)((void *) arg0))->remap_sound_for_area((s32)(0x3B211))), arg0, (arg0 + 0x38), 0, 0);
     }
-    if (((((TObjMotion *)arg0)->is_passing_frame((f32)((f32) lbl_805DE6EC)) != 0) || (((TObjMotion *)arg0)->is_passing_frame((f32)((f32) 15.0f)) != 0)) || (((TObjMotion *)arg0)->is_passing_frame((f32)((f32) lbl_805DE6F0)) != 0))
+    if (((((TObjMotion *)arg0)->is_passing_frame((f32)((f32) lbl_805DE6EC)) != 0) || (((TObjMotion *)arg0)->is_passing_frame((f32)(15.0f)) != 0)) || (((TObjMotion *)arg0)->is_passing_frame((f32)((f32) lbl_805DE6F0)) != 0))
     {
       if (temp_r31 != 0)
       {

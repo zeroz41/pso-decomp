@@ -1024,7 +1024,7 @@ void TBoss6PlotFalz::apply_fade_material_color(f32 farg0, f32 farg1, f32 farg2, 
         stack.spC = temp_f2;
         stack.sp10 = temp_f1;
         stack.sp14 = -((TBoss6PlotFalz__fade_amount * (1.0f - farg3)) - 1.0f);
-        set_constant_material(&stack.sp8, temp_f1, temp_f2, (f32) (1.0f), TBoss6PlotFalz__fade_amount);
+        set_constant_material(&stack.sp8, temp_f1, temp_f2, 1.0f, TBoss6PlotFalz__fade_amount);
     }
 }
 #pragma pop
@@ -1418,9 +1418,9 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     }
     VecCopy((Vec *)((u8 *)this + 0x44), (const Vec *)(VecCopy((Vec *)((u8 *)this + 0x50), (const Vec *)(VecCopy((Vec *)((u8 *)this + 0x74), (const Vec *)((u8 *)this + 0x38))))));
     VecCopy((Vec *)((u8 *)this + 0x2FC), (const Vec *)((u8 *)this + 0x38));
-    m_310 = (f32) 0.0f;
-    *(f32 *)((s8 *)this + 0x30C) = (f32) 0.0f;
-    *(f32 *)((s8 *)this + 0x308) = (f32) 0.0f;
+    m_310 = 0.0f;
+    *(f32 *)((s8 *)this + 0x30C) = 0.0f;
+    *(f32 *)((s8 *)this + 0x308) = 0.0f;
     *(s32 *)((s8 *)this + 0x2A8) = 0;
     temp_r30 = register_boss__6TLobbyFl(0x2C);
     temp_r29 = dispatch_shared_handler_b__6TLobbyFl(0x2C);

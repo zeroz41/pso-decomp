@@ -440,12 +440,12 @@ u8 *TOCtrlDubchik__ct(TOCtrlDubchik *ctrl_dubchik, s32 arg1, s32 arg2) {
     ctrl_dubchik->mode = 0;
     ctrl_dubchik->hp = 0x12C;
     ctrl_dubchik->hpmax = 0x12C;
-    ctrl_dubchik->view_range = (f32) 400.0f;
+    ctrl_dubchik->view_range = 400.0f;
     ctrl_dubchik->model_radius = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)ctrl_dubchik->model + 4)) + 0x14);
-    ctrl_dubchik->hover_height = (f32) 60.0f;
+    ctrl_dubchik->hover_height = 60.0f;
     ctrl_dubchik->bob_phase = 0;
-    ctrl_dubchik->part_spread = (f32) 0.0f;
-    ctrl_dubchik->effect_scale = (f32) 0.0f;
+    ctrl_dubchik->part_spread = 0.0f;
+    ctrl_dubchik->effect_scale = 0.0f;
     ctrl_dubchik->spin_angle = 0;
     VecCopy(&ctrl_dubchik->shadow_pos, (const Vec *)((u8 *)ctrl_dubchik + 0x50));
     ctrl_dubchik->visible = 1;

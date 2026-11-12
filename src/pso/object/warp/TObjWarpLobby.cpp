@@ -135,7 +135,7 @@ void run_task__13TObjWarpLobbyFv(VO_801A0894 *arg0) {
     s32 selected_menu_value;
     ((TObjWarpLobby *)arg0)->m_c8 += 4.0f;
     if ((f32) (*(u32 *)((s8 *)(*(void **)((s8 *)arg0 + 0xD8)) + 4) - 1) < ((TObjWarpLobby *)arg0)->m_c8) {
-        ((TObjWarpLobby *)arg0)->m_c8 = (f32) 0.0f;
+        ((TObjWarpLobby *)arg0)->m_c8 = 0.0f;
     }
     *(f32 *)((s8 *)arg0 + 0xC4) += 336.0f;
     if ((find_warp_player_in_range(arg0, (u16) local_client_id, *(f32 *)((s8 *)arg0 + 0xAC)) != 0U) && (arg0->m14() != 0)) {
@@ -174,8 +174,8 @@ void *TObjWarpLobby__ct(TObjWarpLobby *warp_lobby) {
     TObjAreaWarp__ct();
     *(s32 **)((s8 *)warp_lobby + 0x18) = __vt__13TObjWarpLobby;
     *(s32 *)((s8 *)warp_lobby + 0) = (s32) TObjWarpLobby__name;
-    warp_lobby->m_c8 = (f32) 0.0f;
-    *(f32 *)((s8 *)warp_lobby + 0xC4) = (f32) 0.0f;
+    warp_lobby->m_c8 = 0.0f;
+    *(f32 *)((s8 *)warp_lobby + 0xC4) = 0.0f;
     warp_lobby->m_cc = 0;
     *(s32 *)((s8 *)warp_lobby + 0xD0) = 0;
     *(s32 *)((s8 *)warp_lobby + 0xD4) = 0;
