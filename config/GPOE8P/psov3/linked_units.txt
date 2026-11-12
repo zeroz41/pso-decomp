@@ -554,7 +554,6 @@ pso/item/TItemLoad_80110540.cpp
 pso/item/TItemLoad_801105AC.cpp
 pso/item/TItemLockCountCtrl.cpp
 pso/item/TItemLockCountCtrl_80119238.cpp
-pso/item/TItemLockCountCtrl_8011E184.cpp
 pso/item/mag/TItemMag.cpp
 pso/item/mag/TItemMagSub.cpp
 pso/item/mag/TItemMag_8001A468.cpp
@@ -593,7 +592,6 @@ pso/item/TItemTimerEvent.cpp
 pso/weapon/TItemWeapon.cpp
 pso/weapon/TItemWeaponMechgun.cpp
 pso/effect/item/TItemWpnCardEffect.cpp
-pso/item/TItem_80363AF4.cpp
 pso/object/container/TObjContainerIdo.cpp
 pso/object/container/TObjContainerIdo_8018BEE4.cpp
 pso/object/container/TObjContainerIdo_801A0B94.cpp
@@ -1841,7 +1839,6 @@ pso/object/ambient/TObjLight_8023347C.cpp
 pso/object/ambient/TObjLight_80235C44.cpp
 pso/object/ambient/TObjLight_80236D60.cpp
 pso/object/ambient/TObjLight_803DF220.cpp
-pso/object/TObjLiveMonitorSmall.cpp
 pso/object/lobby/TObjLobbyMain.cpp
 pso/object/TObjLuker.cpp
 pso/object/TObjLuker_8001A438.cpp
@@ -2031,7 +2028,6 @@ pso/boss/barbaray/TBoss7DeRolLeC_802ED928.cpp
 pso/player/TObjPlayer_80307618.cpp
 pso/player/TObjPlayer_803083B0.cpp
 pso/player/TObjPlayer_803130BC.cpp
-pso/player/TObjPlayer_80326578.cpp
 pso/player/TObjPlayer_8032E4C8.cpp
 pso/player/TObjPlayer_80337348.cpp
 pso/player/TObjPlayer_8033E910.cpp
@@ -2641,7 +2637,6 @@ pso/unk/text_8035C9E8.cpp
 pso/unk/text_8035D2EC.cpp
 pso/unk/text_8035D444.cpp
 pso/unk/text_803626A8.cpp
-pso/unk/text_80365348.cpp
 pso/unk/text_8036A3CC.cpp
 pso/network/PSOV3Encryption_8036AE2C.cpp
 pso/unk/text_8036B748.cpp

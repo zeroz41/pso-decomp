@@ -2690,10 +2690,7 @@ pso/item/TItemTimer.cpp:
 	.data       start:0x804A0550 end:0x804A0568
 
 pso/item/TItemTimerEvent.cpp:
-	.text       start:0x8011DA9C end:0x8011E184
-
-pso/item/TItemLockCountCtrl_8011E184.cpp:
-	.text       start:0x8011E184 end:0x8011E214
+	.text       start:0x8011DA9C end:0x8011E214
 
 pso/player/TObjPlayer_8011E214.cpp:
 	.text       start:0x8011E214 end:0x8011E248
@@ -9426,14 +9423,10 @@ pso/boss/goldragon/TObjBoss8Piller.cpp:
 	.data       start:0x804E7668 end:0x804E76B0
 	.sdata2     start:0x805DF158 end:0x805DF164
 
-pso/object/TObjLiveMonitorSmall.cpp:
-	.text       start:0x8030B098 end:0x8030B370
-	.data       start:0x804E76D0 end:0x804E76E8
-
 pso/object/TObjLiveMonitor.cpp:
-	.text       start:0x8030B370 end:0x8030C090
+	.text       start:0x8030B098 end:0x8030C090
 	.rodata     start:0x804757E0 end:0x804757F0
-	.data       start:0x804E76E8 end:0x804E7700
+	.data       start:0x804E76D0 end:0x804E7700
 	.sdata2     start:0x805DF168 end:0x805DF1E4
 
 pso/ui/window/TWindowPartyStatus.cpp:
@@ -9689,13 +9682,10 @@ pso/unk/text_80325F7C.cpp:
 	.sdata2     start:0x805DF638 end:0x805DF644
 
 pso/boss/galgryphon/TBoss5GryphonLightningHorn.cpp:
-	.text       start:0x8032627C end:0x80326578
+	.text       start:0x8032627C end:0x80327338
+	.rodata     start:0x80476760 end:0x80476770
 	.data       start:0x804ECDA8 end:0x804ECEB8
 	.sdata2     start:0x805DF650 end:0x805DF658
-
-pso/player/TObjPlayer_80326578.cpp:
-	.text       start:0x80326578 end:0x80327338
-	.rodata     start:0x80476760 end:0x80476770
 
 pso/unk/text_80327338.cpp:
 	.text       start:0x80327338 end:0x80327390
@@ -10677,11 +10667,8 @@ pso/effect/item/TItemEffectWeapon.cpp:
 	.sdata      start:0x805D4470 end:0x805D4478
 	.sdata2     start:0x805E0280 end:0x805E0288
 
-pso/item/TItem_80363AF4.cpp:
-	.text       start:0x80363AF4 end:0x80363BE0
-
 pso/player/TObjPlayer_80363BE0.cpp:
-	.text       start:0x80363BE0 end:0x803642D8
+	.text       start:0x80363AF4 end:0x803642D8
 	.data       start:0x804F29F8 end:0x804F2A28
 	.sbss       start:0x805D6FB8 end:0x805D6FC0
 	.sdata2     start:0x805E0288 end:0x805E028C
@@ -10704,13 +10691,10 @@ pso/object/lobby/TObjTreeLobby.cpp:
 	.sdata2     start:0x805E0290 end:0x805E02A0
 
 pso/object/lab/TObjLaboDesignBase.cpp:
-	.text       start:0x80364C98 end:0x80365348
+	.text       start:0x80364C98 end:0x80365450
 	.data       start:0x804F2B78 end:0x804F2E08
 	.sbss       start:0x805D6FC8 end:0x805D6FD0
 	.sdata2     start:0x805E02A0 end:0x805E02B4
-
-pso/unk/text_80365348.cpp:
-	.text       start:0x80365348 end:0x80365450
 
 pso/enemy/illgill/TObjIllGillKage.cpp:
 	.text       start:0x80365450 end:0x80365688

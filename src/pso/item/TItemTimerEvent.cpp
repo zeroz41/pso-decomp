@@ -4,11 +4,10 @@
 #include "pso/item/TItemTimerEvent.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/player/TObjPlayer_80011014.h"
-
-struct Base_8011E140_8011DA9C { char pad[0x18]; };
-struct VObj_8011E140_8011DA9C : Base_8011E140_8011DA9C {
-    virtual void m0(int);
-};
+#include "pso/item/TItemLockCountCtrl.h"
+#include "pso/item/TItemLockCountCtrl_8011E184.h"
+#include "pso/weapon/TItemWeapon.h"
+#include "pso/player/TObjPlayer.h"
 
 struct RecoveredGlobal_8011DC90___vt__15TItemTimerEvent {
     s32 value;
@@ -19,7 +18,7 @@ extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
 u32 get_player_by_client_id(u16);
 void fn_8011085C(u8 *arg0, s32 arg1);
-extern struct VObj_8011E140_8011DA9C *item_timer_event_instance;
+extern TItemLockCountCtrl *item_timer_event_instance;
 void fn_801108C8(u8 *arg0, s32 arg1);
 void disallow_rendering__7TObjectFv(TObject *arg0);
 s32 __ct__15TItemHeapObjectFP7TObject(void *);
@@ -40,7 +39,6 @@ void *__dt__15TItemTimerEventFv(void *arg0, s16 arg1);
 s32 test_action_mask__10TObjPlayerFl(s32, s32);
 s32 is_item_area_enabled();
 void __dt__15TItemHeapObjectFv(void *, int);
-s32 fn_8011E1D4();
 void __dl__15TItemHeapObjectFPv(void *);
 s32 obj_isState3_324__9TObjCharaFv(s32);
 s32 obj_testFlags30__14TObjCollidableFUl(s32, s32);
@@ -250,8 +248,9 @@ void TItemTimerEvent::start_event_by_index(u16 arg0) {
 }
 
 void TItemTimerEvent::check_battle_ctrl(int arg0) {
-    if (get_player_by_client_id(arg0) != 0U) {
-        fn_8011E1D4();
+    u32 player = get_player_by_client_id(arg0);
+    if (player != 0U) {
+        fn_8011E1D4((TObjPlayer *)player);
     }
 }
 
@@ -262,10 +261,37 @@ void TItemTimerEvent::notify_if_active(int arg0) {
 }
 
 void TItemTimerEvent::clear_active() {
-    if (item_timer_event_instance != NULL) {
-        item_timer_event_instance->m0(1);
-    }
+    delete item_timer_event_instance;
     item_timer_event_instance = NULL;
+}
+
+}
+
+extern "C" {
+void *__nw__7TObjectFUl(int);
+
+
+void TItemLockCountCtrl::create_instance() {
+    void *o;
+    o = __nw__7TObjectFUl(0x2C);
+    if (o != NULL) {
+        o = TItemLockCountCtrl__ct((void *)o, 0, 12, TItemTimerEvent::notify_if_active, TItemTimerEvent::check_battle_ctrl);
+    }
+    item_timer_event_instance = (TItemLockCountCtrl *)o;
+}
+
+void fn_8011E1D4(TObjPlayer *player) {
+    if (!(player->class_flags & CLASS_FLAG_ANDROID)) {
+        ((TObjPlayer *)player)->sub_8011E204(0x10000);
+    }
+}
+void TObjPlayer::sub_8011E204(s32 arg1) {
+  s32 *new_var;
+  int new_var2;
+    TObjPlayer *arg0 = (TObjPlayer *)this;
+  new_var2 = ~arg1;
+  new_var = (s32 *) (((s8 *) arg0) + 0x334);
+  *new_var = (s32) ((arg0->m_334) & new_var2);
 }
 
 }
