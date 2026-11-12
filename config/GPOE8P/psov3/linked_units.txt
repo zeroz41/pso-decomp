@@ -2680,7 +2680,6 @@ pso/unk/text_803E29B0.cpp
 pso/unk/text_803E2D70.cpp
 pso/unk/text_803E4CE8.cpp
 pso/unk/text_803F1804.cpp
-pso/unk/text_803F4D10.cpp
 pso/unk/text_803F4D84.cpp
 pso/network/text_80421620.c
 pso/unk/text_8042E8C4.cpp

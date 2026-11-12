@@ -113,6 +113,7 @@ pso/ui/frontend/TAdSoniclogo.cpp:
 pso/unk/text_8001C388.cpp:
 	.text       start:0x8001C388 end:0x8001C5A0
 	.rodata     start:0x804349B8 end:0x804349C0
+	.data       start:0x80480BC8 end:0x80480C68
 	.sbss       start:0x805D4A58 end:0x805D4A78
 	.sdata2     start:0x805D7E80 end:0x805D7E8C
 
@@ -2250,6 +2251,7 @@ pso/item/TItemDisconnectCtrl.cpp:
 pso/item/drop/TItemDrop_80105D0C.cpp:
 	.text       start:0x80105D0C end:0x80107B74
 	.rodata     start:0x8043E120 end:0x8043E130
+	.sbss       start:0x805D5458 end:0x805D5478
 
 pso/item/drop/TItemDropSub_80107B74.cpp:
 	.text       start:0x80107B74 end:0x80107B90
@@ -5907,7 +5909,9 @@ pso/system/scene/TScene.cpp:
 
 pso/system/scene/TSceneSora.cpp:
 	.text       start:0x802071B4 end:0x80207644
-	.rodata     start:0x8044A9C8 end:0x8044A9D0
+	.rodata     start:0x8044A9B8 end:0x8044A9D0
+	.sdata      start:0x805D3620 end:0x805D3628
+	.sbss       start:0x805D6050 end:0x805D6060
 	.sdata2     start:0x805DC608 end:0x805DC610
 
 pso/unk/TLobby_80207644.cpp:
@@ -8947,6 +8951,7 @@ pso/unk/TLobby_802E03C8.cpp:
 pso/ui/frontend/TAdMultiConfirmGC_802E03D0.cpp:
 	.text       start:0x802E03D0 end:0x802E0F58
 	.rodata     start:0x804728D0 end:0x80472920
+	.data       start:0x804E2F78 end:0x804E3008
 	.sdata2     start:0x805DE8A8 end:0x805DE8E8
 
 pso/ui/frontend/TAdChrSelPlayerGC.cpp:
@@ -9489,8 +9494,10 @@ pso/enemy/recon/TObjEneReconBomb.cpp:
 
 pso/enemy/recon/TObjEneRecon.cpp:
 	.text       start:0x8031BCB8 end:0x8031E800
-	.rodata     start:0x80476108 end:0x80476118
+	.rodata     start:0x804760C0 end:0x80476118
 	.data       start:0x804EC3F0 end:0x804EC668
+	.sdata      start:0x805D4130 end:0x805D4138
+	.sbss       start:0x805D6AF0 end:0x805D6B10
 	.sdata2     start:0x805DF3D8 end:0x805DF3E8
 
 pso/enemy/recon/TObjEneRecobox_8031E800.cpp:
@@ -12297,13 +12304,11 @@ pso/network/NetworkInfoRequests.cpp:
 	.text       start:0x803F3DD4 end:0x803F3F64
 
 pso/network/NetworkInfoLoader.cpp:
-	.text       start:0x803F3F64 end:0x803F4D10
-	.data       start:0x804FCE68 end:0x804FCEA4
+	.text       start:0x803F3F64 end:0x803F4D84
+	.data       start:0x804FCE68 end:0x804FD334
 	.bss        start:0x805A5F00 end:0x805A8AE8
+	.sdata      start:0x805D4708 end:0x805D4710
 	.sbss       start:0x805D79A0 end:0x805D79AC
-
-pso/unk/text_803F4D10.cpp:
-	.text       start:0x803F4D10 end:0x803F4D84
 
 pso/unk/text_803F4D84.cpp:
 	.text       start:0x803F4D84 end:0x803F632C

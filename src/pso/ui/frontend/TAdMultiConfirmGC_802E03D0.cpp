@@ -57,15 +57,9 @@ s32 set_global_param__8TObjFishFl();
 
 }
 
-struct RecoveredGlobal_802E0784_lbl_804E2F78 {
-    s32 value;
-    u8 remaining[0x8C];
-};
-
 extern "C" {
-extern RecoveredGlobal_802E0784_lbl_804E2F78 lbl_804E2F78;
+extern TObjMotionAction lbl_804E2F78[9];
 extern u8 *TAdMultiPlyChrSelectGC__resource_bundle;
-typedef char RecoveredGlobal_802E0784_lbl_804E2F78_size[sizeof(RecoveredGlobal_802E0784_lbl_804E2F78) == 0x90 ? 1 : -1];
 
 s32 copy_player_visual_record(void *, void *);
 u8 *get_entry__23TAdSinglePlyChrSelectGCFi(int);
@@ -373,7 +367,7 @@ void TUnk_804E3008::run_task() {
 }
 
 void TUnk_804E3008::sub_802E0784() {
-    this->set_field_d8((s32)&lbl_804E2F78.value);
+    this->set_field_d8((s32)lbl_804E2F78);
     this->set_field_dc((int) (*(s32 *)((s8 *)TAdMultiPlyChrSelectGC__resource_bundle + 0x430)));
     set_cursor_index__13TUnk_804E3008Fl(this, 0);
     set_animation((this->requested_action));
@@ -480,3 +474,15 @@ int TAdMultiConfirmGC::set_cursor_index_2(void* p) { return ((int (*)(void *, in
 void TAdMultiConfirmGC__sub_802E03D0(void* p) { *(s32*)((char*)p + 0x118) = 0; }
 
 }
+
+TObjMotionAction lbl_804E2F78[9] = {
+    { 1, 0, 0x21, 1.0f, 0 },
+    { 1, 0, 0x1, 1.0f, 0 },
+    { 1, 0, 0x0, 1.0f, 0 },
+    { 1, 0, 0x1F, 1.0f, 0 },
+    { 1, 0, 0x20, 1.0f, 0 },
+    { 1, 0, 0x1E, 1.0f, 0 },
+    { 1, 0, 0x2F, 1.0f, 0 },
+    { 1, 0, 0x30, 1.0f, 0 },
+    { 1, 0, 0x2E, 1.0f, 0 },
+};
