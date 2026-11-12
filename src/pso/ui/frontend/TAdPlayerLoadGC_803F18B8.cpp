@@ -490,7 +490,7 @@ void TAdPlayerLoadGC__sub_803F282C(s32 file) {
     s32 id;
     s32 off;
     s32 res;
-    u8 *rec;
+    CardFileEntry *rec;
 
     off = file * 0x88;
     ip = (s32 *)(&card_disk_id[off]);
@@ -521,8 +521,8 @@ void TAdPlayerLoadGC__sub_803F282C(s32 file) {
         }
         st[id * 0x1A] = 0x13;
     case 0x13:
-        rec = (u8 *)card_disk_id + off + 0xF0;
-        res = CARDGetStatus(*ip, *(s32 *)((u8 *)card_disk_id + off + 0xFC), (CARDStat *)(rec + 0x1C));
+        rec = (CardFileEntry *)((u8 *)card_disk_id + off + 0xF0);
+        res = CARDGetStatus(*ip, *(s32 *)((u8 *)card_disk_id + off + 0xFC), &rec->stat);
         id = *ip;
         TAdPlayerLoadGC__load_request_slots[id].result = res;
         if (TAdPlayerLoadGC__load_request_slots[id].result < 0) {
@@ -533,7 +533,7 @@ void TAdPlayerLoadGC__sub_803F282C(s32 file) {
             id = *ip;
             TAdPlayerLoadGC__load_request_slots[id].status = -0xCF;
             st[id * 0x1A] = 0x18;
-            CARDClose((CARDFileInfo *)(rec + 8));
+            CARDClose(&rec->file_info);
         } else {
             id = *ip;
             if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
@@ -564,7 +564,7 @@ void TAdPlayerLoadGC__sub_803F2A4C(s32 file) {
   s32 *st;
   s32 id;
   s32 res;
-  u8 *rec;
+  CardFileEntry *rec;
   off = file * 0x88;
   ip = (s32 *) (&card_disk_id[off]);
   st = &TAdPlayerLoadGC__load_request_slots[0].step;
@@ -629,15 +629,15 @@ void TAdPlayerLoadGC__sub_803F2A4C(s32 file) {
     }
 
     case 0x13:
-      rec = (((u8 *) card_disk_id) + off) + 0xF0;
-      res = CARDGetStatus(*ip, *((s32 *) ((((u8 *) card_disk_id) + off) + 0xFC)), (CARDStat *)(rec + 0x1C));
+      rec = (CardFileEntry *)((((u8 *) card_disk_id) + off) + 0xF0);
+      res = CARDGetStatus(*ip, *((s32 *) ((((u8 *) card_disk_id) + off) + 0xFC)), &rec->stat);
       id = *ip;
       TAdPlayerLoadGC__load_request_slots[id].result = res;
       if (TAdPlayerLoadGC__load_request_slots[id].result < 0)
     {
       TAdPlayerLoadGC__load_request_slots[id].status = -0xCF;
       st[id * 0x1A] = 0x18;
-      CARDClose((CARDFileInfo *)(rec + 8));
+      CARDClose(&rec->file_info);
     }
     else
     {
