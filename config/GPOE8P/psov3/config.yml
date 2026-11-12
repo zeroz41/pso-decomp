@@ -17797,6 +17797,11 @@ force_active:
   - "check_packet_header_8001__6TLobbyFPUslPl"
   - "set_rate_mode__6TLobbyFl"
   - "TLobby__sub_803CBA18"
+  - __ct__10TOMineTrapFP8TObjBasess
+  - find_target_in_range__10TOMineTrapFv
+  - is_target_in_list__6TOMineFPv
+  - sub_8017070C__6TOMineFv
+  - sync_position__10TOMineTrapFv
 # --- force_active (END) ---
 # False pointers: packed data words whose values happen to land on code/data
 # addresses. dtk would emit a relocation and export the target symbol.

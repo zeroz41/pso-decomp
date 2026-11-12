@@ -200,6 +200,13 @@ void TOMineTrap::set_triggered() {
     this->actorFlags = (s32) (this->actorFlags & 0xFFFBFFFF);
 }
 
+void TOMineTrap::vfunc_86() {
+    u8 *arg0 = (u8 *)this;
+    this->mode = 2;
+    ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
+    this->actorFlags = (s32) (this->actorFlags & 0xFFFBFFFF);
+}
+
 void TOMineTrap::run_task() {
     TObjChara *attacker;
     TObjPlayer *p;
@@ -291,13 +298,6 @@ void TOMineTrap::run_task() {
         queue_destruction();
         break;
     }
-}
-
-void TOMineTrap::vfunc_86() {
-    u8 *arg0 = (u8 *)this;
-    this->mode = 2;
-    ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
-    this->actorFlags = (s32) (this->actorFlags & 0xFFFBFFFF);
 }
 
 void TOMineTrap::destroy_matching_traps() {
