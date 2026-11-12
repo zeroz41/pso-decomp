@@ -21,7 +21,7 @@ extern s32 lobby_net_config_load_state;
 extern u8 *lobby_net_config_buffer;
 extern u8 *lobby_net_config_card_base;
 
-s32 TAdPlayerLoadGC::finish_load_slot_state4(s32 arg0, s32 *arg1) {
+s32 TAdPlayerLoadGC::take_card_read_result(s32 arg0, s32 *arg1) {
     s32 r;
     s32 t;
     if (TAdPlayerLoadGC::get_load_state() < 1) {
@@ -50,7 +50,7 @@ s32 TAdPlayerLoadGC::finish_load_slot_state4(s32 arg0, s32 *arg1) {
     return r;
 }
 
-s32 TAdPlayerLoadGC::queue_network_request(s32 file, void *buffer, s32 length, s32 offset) {
+s32 TAdPlayerLoadGC::request_card_read(s32 file, void *buffer, s32 length, s32 offset) {
     s32 chan;
 
     if (TAdPlayerLoadGC::get_load_state() < 1) {
@@ -71,7 +71,7 @@ s32 TAdPlayerLoadGC::queue_network_request(s32 file, void *buffer, s32 length, s
     TAdPlayerLoadGC__load_request_slots[chan].file_index = file;
     return 0;
 }
-s32 TAdPlayerLoadGC::finish_load_slot_state3(s32 arg0, s32 *arg1) {
+s32 TAdPlayerLoadGC::take_card_open_result(s32 arg0, s32 *arg1) {
     s32 r;
     s32 t;
 
@@ -148,7 +148,7 @@ s32 TAdPlayerLoadGC::begin_card_file_request(s32 chan, const char *name) {
 void TAdPlayerLoadGC::unmount_card(s32 chan) {
     CARDUnmount(chan);
 }
-s32 TAdPlayerLoadGC::take_network_info_load_result(s32 arg0, s32 *arg1) {
+s32 TAdPlayerLoadGC::take_card_mount_result(s32 arg0, s32 *arg1) {
     s32 r;
     s32 t;
 
@@ -194,7 +194,7 @@ s32 TAdPlayerLoadGC__sub_803F3998(s32 chan) {
     return r;
 }
 
-s32 TAdPlayerLoadGC::take_network_info_poll_result(s32 arg0, s32 *arg1) {
+s32 TAdPlayerLoadGC::take_card_find_result(s32 arg0, s32 *arg1) {
     s32 r;
     s32 t;
 
@@ -223,7 +223,7 @@ s32 TAdPlayerLoadGC::take_network_info_poll_result(s32 arg0, s32 *arg1) {
     }
     return r;
 }
-s32 TAdPlayerLoadGC::request_card_open(s32 arg0, const char *arg1) {
+s32 TAdPlayerLoadGC::request_card_find(s32 arg0, const char *arg1) {
     s32 r = 0;
     s32 n = 0;
 

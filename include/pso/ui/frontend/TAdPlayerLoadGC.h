@@ -54,15 +54,15 @@ public:
     static void update_card_rename(s32 arg0);
     static void reset_slot_entry(s32 arg0);
     static s32 close_card_slot(s32 arg0);
-    static s32 finish_load_slot_state4(s32 arg0, s32 *arg1);
-    static s32 queue_network_request(s32 file, void *buffer, s32 length, s32 offset);
-    static s32 finish_load_slot_state3(s32 arg0, s32 *arg1);
+    static s32 take_card_read_result(s32 arg0, s32 *arg1);
+    static s32 request_card_read(s32 file, void *buffer, s32 length, s32 offset);
+    static s32 take_card_open_result(s32 arg0, s32 *arg1);
     static s32 begin_card_file_request(s32 chan, const char *name);
     static void unmount_card(s32 chan);
-    static s32 take_network_info_load_result(s32 arg0, s32 *arg1);
-    static s32 take_network_info_poll_result(s32 arg0, s32 *arg1);
+    static s32 take_card_mount_result(s32 arg0, s32 *arg1);
+    static s32 take_card_find_result(s32 arg0, s32 *arg1);
 public:
-    static s32 request_card_open(s32 arg0, const char *arg1);
+    static s32 request_card_find(s32 arg0, const char *arg1);
 
     u32 state;
     int mode; // 0, 1 or 2, given by the creator; from state 12 on, mode 1 also watches slot B
