@@ -44,6 +44,25 @@ extern "C" {
 s32 close__6TMovieFis(s32 arg0, s16 arg1);
 }
 
+// Planes of one decoded movie frame, filled by the decoder callback that
+// TMovie::flip_frame_buffer() calls (inferred from pack_movie_frame's use:
+// three 8-bit planes Y, U, V and their pitches in bytes).
+struct MovieFramePlanes {
+    u32 *y;
+    u32 *u;
+    u32 *v;
+    u32 y_pitch;
+    u32 uv_pitch;
+};
+
+extern "C" {
+extern void *movie_current_frame_buffer;
+extern s32 lbl_805D56A4;
+extern s32 lbl_805D56A8;
+
+void pack_movie_frame(MovieFramePlanes *planes);
+}
+
 // --- C functions defined in TMovie.cpp ---
 extern "C" {
 s32 close__6TMovieFis(s32 arg0, s16 arg1);
