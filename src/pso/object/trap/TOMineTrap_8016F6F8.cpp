@@ -684,6 +684,7 @@ void TOMine::vfunc_86() {
 }
 
 typedef struct Stack_80170AC8 Stack_80170AC8;
+#pragma push
 #pragma fp_contract on
 void TOMine::follow_target() {
     u8 *arg0 = (u8 *)this;
@@ -714,6 +715,7 @@ void TOMine::follow_target() {
   this->rotation_y = (s32) (10430.38043493439 * atan2_float((f64) stack.sp8, (f64) stack.sp10));
   ((TObjCollidable *)arg0)->refresh_collision_body_centers();
 }
+#pragma pop
 
 void TOMine::sub_80170BEC() {
     u8 *p;
