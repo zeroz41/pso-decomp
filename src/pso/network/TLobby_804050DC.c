@@ -1233,113 +1233,193 @@ s32 TLobby__sub_80406B6C(NetBufferRef *o) {
 }
 
 u16 TUdpSocket__sub_80419864();
+
+struct NbPoolView {
+    s16 count;
+    u8 *ents;
+};
+typedef struct NbPoolView NbPoolView;
+
 u16 TLobby__sub_80406BD8(NetPacket *pkt, s16 flag)
 {
-    u32 sum = 0;
-    u8 *ptr;
-    s32 count = pkt->fragment_count;
-    s32 i;
-    s16 carry = 0;
-    u8 hdr[2];
-    s16 len;
-    NetBufferRef *ref;
+  s32 count = *((s32 *) (((u8 *) pkt) + 4));
+  u32 sum = 0;
+  int new_var2;
+  u8 *ptr;
+  u8 *e;
+  u8 *new_var;
+  s16 carry = 0;
+  u8 hdr[2];
+  int new_var3;
+  *((u16 *) hdr) = 0;
+  if (flag == 1)
+  {
+    e = (u8 *) pkt;
+    e += count * 12;
+    while (count != 0)
+    {
+      u8 type = *((u8 *) (e + 8));
+      u8 *w = e + 4;
+      s16 len;
+      new_var3 = type;
+      count--;
+      e -= 12;
+      switch (new_var3)
+      {
+        case 1:
 
-    *(u16 *)hdr = 0;
-    if (flag == 1) {
-        while (count != 0) {
-            count--;
-            ref = &pkt->fragments[count].buffer;
-            switch (pkt->fragments[count].buffer.kind) {
-            case 1:
-            case 4:
-                ptr = (u8 *)ref->value;
-                break;
-            case 2: {
-                u32 w = ref->value;
-                s16 k = (s16)(w >> 24);
-                NetBufferPoolEntry *ent;
-                if (network_buffer_pool_state.count < k) {
-                    return 0;
-                }
-                ent = &network_buffer_pool_state.ents[k];
-                ptr = (u8 *)(ent->segs[(s16)((w >> 16) & 0xff)].offset + (w & 0xffff) + (u32)ent->buf);
-                break;
-            }
-            case 3:
-                ptr = (u8 *)pkt->fragments[count].buffer.value;
-                break;
-            }
-            len = pkt->fragments[count].length;
-            if (carry) {
-                hdr[1] = *ptr++;
-                sum += *(u16 *)hdr;
-                len--;
-            }
-            if (len & 1) {
-                hdr[0] = ptr[len - 1];
-                hdr[1] = 0;
-                carry = 1;
-                len--;
-            } else {
-                *(u16 *)hdr = 0;
-                carry = 0;
-            }
-            len = len >> 1;
-            sum += TUdpSocket__sub_80419864(ptr, len);
+        case 4:
+          ptr = *((u8 **) w);
+          break;
+
+        case 2:
+        {
+          u32 word = *((u32 *) w);
+          s16 id = (s16) (word >> 24);
+          u8 *rec;
+          if (((NbPoolView *) (&network_buffer_pool_state))->count < id)
+          {
+            return 0;
+          }
+          rec = ((NbPoolView *) (&network_buffer_pool_state))->ents;
+          rec = rec + (id * 0x3c);
+          {
+            u32 t = (*((u32 *) rec)) + (word & 0xffff);
+            t = (*((u16 *) ((rec + (((s16) ((word >> 16) & 0xff)) * 6)) + 0xe))) + t;
+            ptr = (u8 *) t;
+          }
+          break;
         }
-        if (carry) {
-            sum += *(u16 *)hdr;
+          new_var = e;
+          if ((!len) && (!len))
+        {
         }
-    } else {
-        for (i = 1; i < count; i++) {
-            ref = &pkt->fragments[i].buffer;
-            switch (pkt->fragments[i].buffer.kind) {
-            case 1:
-            case 4:
-                ptr = (u8 *)ref->value;
-                break;
-            case 2: {
-                u32 w = ref->value;
-                s16 k = (s16)(w >> 24);
-                NetBufferPoolEntry *ent;
-                if (network_buffer_pool_state.count < k) {
-                    return 0;
-                }
-                ent = &network_buffer_pool_state.ents[k];
-                ptr = (u8 *)(ent->segs[(s16)((w >> 16) & 0xff)].offset + (w & 0xffff) + (u32)ent->buf);
-                break;
-            }
-            case 3:
-                ptr = (u8 *)pkt->fragments[i].buffer.value;
-                break;
-            }
-            len = pkt->fragments[i].length;
-            if (carry) {
-                hdr[1] = *ptr++;
-                sum += *(u16 *)hdr;
-                len--;
-            }
-            if (len & 1) {
-                hdr[0] = ptr[len - 1];
-                hdr[1] = 0;
-                carry = 1;
-                len--;
-            } else {
-                *(u16 *)hdr = 0;
-                carry = 0;
-            }
-            len = len >> 1;
-            sum += TUdpSocket__sub_80419864(ptr, len);
-        }
-        if (carry) {
-            sum += *(u16 *)hdr;
-        }
+
+        case 3:
+          ptr = *((u8 **) (new_var + 16));
+          break;
+
+        default:
+          break;
+
+      }
+
+      len = *((s16 *) (e + 12));
+      if (carry)
+      {
+        hdr[1] = *(ptr++);
+        sum += *((u16 *) hdr);
+        len--;
+      }
+      if (len & 1)
+      {
+        hdr[0] = ptr[len + (-1)];
+        hdr[1] = 0;
+        carry = 1;
+        len--;
+      }
+      else
+      {
+        *((u16 *) hdr) = 0;
+        carry = 0;
+      }
+      len = (s16) (((s32) len) >> 1);
+      sum += TUdpSocket__sub_80419864(ptr, len);
     }
-    if (sum & 0xffff0000) {
-        sum = (sum >> 16) + (sum & 0xffff);
-        sum += sum >> 16;
+
+    if (carry)
+    {
+      sum += *((u16 *) hdr);
     }
-    return (u16)sum;
+  }
+  else
+  {
+    s32 i;
+    u8 *e = ((u8 *) pkt) + 12;
+    for (i = 1; i < count; e += 12, i++)
+    {
+      u8 *w = e + 0x10;
+      u8 *ptr;
+      s16 len;
+      switch (*((u8 *) (e + 0x14)))
+      {
+        case 1:
+
+        case 4:
+          ptr = *((u8 **) w);
+          break;
+
+        case 2:
+        {
+          u32 word = *((u32 *) w);
+          s16 id = (s16) (word >> 24);
+          u8 *rec;
+          if (((NbPoolView *) (&network_buffer_pool_state))->count < id)
+          {
+            return 0;
+          }
+          rec = ((NbPoolView *) (&network_buffer_pool_state))->ents;
+          rec = rec + (id * 0x3c);
+          {
+            u32 t = (*((u32 *) rec)) + (word & 0xffff);
+            t = (*((u16 *) (((((s16) ((word >> 16) & 0xff)) * 6) + rec) + 0xe))) + t;
+            ptr = (u8 *) t;
+          }
+          break;
+        }
+
+        case 3:
+          if (hdr || pkt)
+        {
+          ptr = *((u8 **) (e + 0x10));
+          break;
+        }
+        else
+        {
+          ptr = *((u8 **) (e + 0x10));
+          break;
+        }
+
+        default:
+          break;
+
+      }
+
+      len = *((s16 *) (e + 12));
+      if (carry)
+      {
+        hdr[1] = *(ptr++);
+        sum += *((u16 *) hdr);
+        len--;
+      }
+      if (len & 1)
+      {
+        hdr[0] = ptr[len - 1];
+        hdr[1] = 0;
+        carry = 1;
+        len--;
+      }
+      else
+      {
+        *((u16 *) hdr) = 0;
+        carry = 0;
+      }
+      len = (s16) (((s32) len) >> 1);
+      sum += TUdpSocket__sub_80419864(ptr, len);
+    }
+
+    if (carry)
+    {
+      sum += *((u16 *) hdr);
+    }
+  }
+  new_var2 = sum & 0xffff0000;
+  if (new_var2)
+  {
+    sum = (sum >> 16) + (sum & 0xffff);
+    sum += sum >> 16;
+  }
+  return (u16) sum;
 }
 
 void TLobby__sub_80406EB8(NetBufferRef *ref, s32 n) {
