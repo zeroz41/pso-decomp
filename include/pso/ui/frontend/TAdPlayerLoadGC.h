@@ -3,6 +3,23 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+// One pending memory-card request per slot (A, B), stepped by TAdPlayerLoadGC::poll_card_load.
+struct CardRequestSlot {
+    s32 buffer;      // read/write data
+    char name[0x20];
+    char new_name[0x20]; // rename target
+    s32 kind;        // 1 mount, 2 create, 3 open, 4 read, 5 write, 6 rename, 7 delete, 8 set attributes, 9 check
+    s32 step;        // state of the request's state machine
+    s32 offset;      // read/write offset
+    s32 length;      // read/write/create size
+    s32 file_index;  // entry in the open-file table
+    s32 status;      // 200 while pending, then 0 or a negative error
+    s32 result;      // last CARD call's result
+    s32 file_no;     // CARDSetAttributes file number
+    u8 attr;         // CARDSetAttributes attributes
+    u8 pad65[3];
+};
+
 // Memory-card watcher of the character-select screens: run_task steps through the probe,
 // mount and file checks of slot A and, depending on mode, of slot B.
 class TAdPlayerLoadGC : public TObject {
