@@ -1162,8 +1162,6 @@ pso/object/trap/TOTrapAncient02.cpp
 pso/object/trap/TOTrapChainSawEdge.cpp
 pso/object/trap/TOTrapSeabed01.cpp
 pso/object/fence/TOVS2Wall01.cpp
-pso/object/fence/TOVS2Wall01_8017BCC8.cpp
-pso/object/fence/TOVS2Wall01_8017BE08.cpp
 pso/object/wreck/TOWreckAncient.cpp
 pso/object/wreck/TOWreckAncient01.cpp
 pso/object/wreck/TOWreckAncient02.cpp
@@ -2355,7 +2353,6 @@ pso/unk/text_8014618C.cpp
 pso/object/key/TODummyKeyCave01_80165940.cpp
 pso/object/switch/TOSwitchTimer_801782A0.cpp
 pso/unk/text_8017866C.cpp
-pso/unk/text_8017B9AC.cpp
 pso/unk/text_8018E258.cpp
 pso/unk/text_80196214.cpp
 pso/unk/text_801963A8.cpp
