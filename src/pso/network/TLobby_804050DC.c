@@ -20,7 +20,6 @@
 typedef struct Timer_804051CC Timer_804051CC;
 typedef struct Lobby_804062A0 Lobby_804062A0;
 typedef struct Obj_80405304 Obj_80405304;
-void release_entry(void *self);
 s32 reset_socket_table(void);
 void run_net_thread_loop(void);
 void ppp_input_packet(PppFrame *arg0);
@@ -1389,8 +1388,7 @@ u8 *TLobby__sub_80406F0C(void *self)
     }
 }
 
-void release_entry(void *self) {
-    NetPacket *e = (NetPacket *)self;
+void release_entry(NetPacket *e) {
     s16 i;
     s16 n = lobby_udp_socket_table.count;
     NetPacket *p = lobby_udp_socket_table.packets;
@@ -1402,14 +1400,14 @@ void release_entry(void *self) {
     }
 }
 
-u8 *alloc_free_entry(void) {
+NetPacket *alloc_free_entry(void) {
     s16 n = lobby_udp_socket_table.count;
     NetPacket *p = lobby_udp_socket_table.packets;
     s16 i;
     for (i = 0; i < n; i++, p++) {
         if (p->in_use == 0) {
             p->in_use = 1;
-            return (u8 *)p;
+            return p;
         }
     }
     return 0;

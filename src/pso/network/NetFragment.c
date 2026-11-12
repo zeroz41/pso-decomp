@@ -13,7 +13,7 @@
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
-s32 compare_sockaddr(void *self, u8 *arg1);
+s32 compare_sockaddr(NetworkAddress *a, NetworkAddress *b);
 s32 init_packet_fragment_pools(void);
 
 #include <stddef.h>
@@ -91,7 +91,7 @@ s32 TLobby__sub_80418C40(u8* self, void* p1, s16 p2, u8 p3, u32 p4, void* p5, u1
 {
     NetFragPacket* TLobby__sub_8041955C(NetworkAddress *, u32, u8); /* declared here with other parameter types; the definition is NetFragPacket * (NetworkAddress *, s32, s32) */
     s32 TLobby__sub_80418D7C(NetFragPacket*, u8*, void*, u16, u16, u8, s16); /* declared here with other parameter types; the definition is s32 (NetFragPacket *, u8 *, u16, u16, u16, u8, s16) */
-    s16 compare_sockaddr(void*, u8 *); /* declared s16 here; the definition returns s32 */
+    s16 compare_sockaddr(NetworkAddress *, NetworkAddress *); /* declared s16 here; the definition returns s32 */
     NetFragPool* base = &packet_fragment_pool_state;
     s16 count;
     s32 ret;
@@ -315,7 +315,7 @@ s32 TLobby__sub_80418D7C(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_of
   {
     return 0;
   }
-  tail = alloc_free_entry();
+  tail = (u8 *)alloc_free_entry();
   if (tail == 0)
   {
     TLobby__sub_8041979C();
@@ -469,7 +469,7 @@ return -1;
 }
 
 s32 TLobby__sub_80419470(void* a, void* b) {
-    s16 compare_sockaddr(void*, u8 *); /* declared s16 here; the definition returns s32 */
+    s16 compare_sockaddr(NetworkAddress *, NetworkAddress *); /* declared s16 here; the definition returns s32 */
     NetFragPool* tbl = &packet_fragment_pool_state;
     NetFragPacket** headp;
     s16 count;
