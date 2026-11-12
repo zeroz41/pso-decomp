@@ -24,6 +24,14 @@ public:
     u8 pad_3A8[0xC];
 };
 
+// Plate size (then four bytes the plate copies and a word) passed to the TAdPlyChrSelPlateGC ctor
+struct ChrSelPlateLayout {
+    f32 width;
+    f32 height;
+    u8 pad_8[4];
+    s32 pad_c;
+};
+
 // Draws one plate quad of `plate`'s size at `pos` in `color`, `depth` steps in front.
 extern "C" void TAdEnterSerialAccessGC__sub_802C4B64(TAdPlyChrSelPlateGC *plate, NJS_POINT2 *pos, NJS_COLOR color, u32 depth);
 

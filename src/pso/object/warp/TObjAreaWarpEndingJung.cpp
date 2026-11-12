@@ -426,15 +426,6 @@ extern RecoveredGlobal_8019D030___vt__17TObjMapWarpForest __vt__17TObjMapWarpFor
 extern s32 __vt__18TObjAreaWarpEnding[];
 extern s32 __vt__18TObjAreaWarpForest[];
 extern s32 __vt__22TObjAreaWarpEndingJung[];
-extern char lbl_804463D0[];
-extern char lbl_804463E0[];
-extern char lbl_804463F0[];
-extern char lbl_80446404[];
-extern char lbl_8044641C[];
-extern char lbl_80446430[];
-extern char lbl_80446440[];
-extern char lbl_80446450[];
-extern char lbl_80446460[];
 extern Vec_8019D0A8 map_warp_destination_offsets[];
 extern s64 warp_string_screen_position_table[];
 extern RecoveredGlobal_8019CA24_lbl_80515BA0 lbl_80515BA0;
@@ -843,10 +834,10 @@ void TObjMapWarp::draw_debug_destinations() {
     Vec_8019D0A8 *end;
     s32 i;
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    ((s32 (*)(s32, const char *, ...))debug_printf_at)(0x13001C, lbl_80446430);
-    ((s32 (*)(s32, const char *, ...))debug_printf_at)(0x13001D, lbl_80446440);
-    ((s32 (*)(s32, const char *, ...))debug_printf_at)(0x13001E, lbl_80446450);
-    ((s32 (*)(s32, const char *, ...))debug_printf_at)(0x130020, lbl_80446460);
+    ((s32 (*)(s32, const char *, ...))debug_printf_at)(0x13001C, "<- DST POS X");
+    ((s32 (*)(s32, const char *, ...))debug_printf_at)(0x13001D, "<- DST POS Y");
+    ((s32 (*)(s32, const char *, ...))debug_printf_at)(0x13001E, "<- DST POS Z");
+    ((s32 (*)(s32, const char *, ...))debug_printf_at)(0x130020, "<- DST ANG Y");
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
     for (i = 0; i < 4; i++) {
         Vec_8019D0A8 b;
@@ -1065,7 +1056,7 @@ void TObjAreaWarp::debug_print_area_num() {
     Obj_8019C924 *self = (Obj_8019C924 *)this;
     self->saved_id = self->id;
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x130020, lbl_8044641C, self->saved_id);
+    debug_printf_at(0x130020, "<- AREA NUM : %d", self->saved_id);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
@@ -1294,7 +1285,7 @@ void TObjAreaWarpQuest::debug_print_area_num() {
     }
     ((Obj_8019C144 *)this)->f8C = ((Obj_8019C144 *)this)->f8C % 2;
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x13001C, lbl_80446404, ((Obj_8019C144 *)this)->fC4);
+    debug_printf_at(0x13001C, "<- PLAYER SET ID : %d", ((Obj_8019C144 *)this)->fC4);
     if (((Obj_8019C144 *)this)->f8C == 0) {
         TObjNpcEnemy::set_global_count(0xFFFFFF);
         debug_printf_at(0x130022, "<- COLOR : BLUE");
@@ -1521,11 +1512,11 @@ void TObjMapForceWarp__vt17(Obj_8019B978 *arg0) {
         arg0->ffc = 1;
     }
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x130021, lbl_804463D0);
+    debug_printf_at(0x130021, "<- FLOOR NUMBER");
     if (arg0->ffc != 0) {
-        debug_printf_at(0x130022, lbl_804463E0);
+        debug_printf_at(0x130022, "<- DISP NUMBER");
     } else {
-        debug_printf_at(0x130022, lbl_804463F0);
+        debug_printf_at(0x130022, "<- NO DISP NUMBER");
     }
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }

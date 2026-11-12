@@ -46,6 +46,7 @@ struct RecoveredGlobal_80360638_lbl_805439FC {
 
 #include <stddef.h>
 #include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/boss/volopt/TBoss3VoloptP01.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -227,20 +228,6 @@ struct Obj_803606A0 {
     Vec_803606A0 pts[4];
 };
 
-// .rodata 0x80479D00-0x80479E88 stays outside the unit: the claim must start 8-aligned, and with the
-// joint tables defined here sub_803606A0 would address them and its f64 literal off one section base,
-// which the original does not.
-// Joint index per guard slot and the joint-local point the guard angle is measured from (sub_803606A0).
-extern Tbl_803606A0 epsilon_guard_attack_offset_table;
-extern Vec_803606A0 lbl_80479D10;
-// 20 rows of per-guard attack flags (update_attack_pattern).
-extern Tbl_8035FFA8 epsilon_guard_attack_pattern_table;
-// Guard slot visiting order {2, 0, 1, 3} (TObjEneEpsilonGuard__sub_8035FD50).
-extern Tbl_803606A0 lbl_80479E5C;
-// Per-colour value {1, 2, 3, 5} (get_table_value_by_index).
-extern Tbl_803606A0 epsilon_guard_table_value_set;
-// Per-colour value {9, 7, 10, 11} (sub_8035F8A8).
-extern T_8035F8A8 lbl_80479E7C[];
 
 struct W_8035FA50;
 struct W_8035FBBC;
@@ -481,7 +468,6 @@ u16 get_entity_id(void *);
 void handle_guard_action_state__19TObjEneEpsilonGuardFPvi(W_80361508 *self, s32 arg1);
 void queue_destruction__7TObjectFv(void *);
 void TObjEneEpsilonGuard__sub_803610D0(u8 *arg0, s32 arg1);
-extern u8 epsilon_guard_destroy_breakup_params[];
 extern s32 lbl_805D6FA4;
 s32 TObjEneMe3SinowZoa__sub_800D72A4(void *);
 s32 update__15RenderFadeStateFv(void *);
@@ -497,7 +483,6 @@ extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void draw_with_fade__19TObjEneEpsilonGuardFPvi(u8 *arg0, s32 arg1);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-extern Vec4_80360D9C lbl_80479CAC[];
 s32 check_path_obstructed(void *, void *);
 int get_player_data__10TObjPlayerFi(int a0);
 void obj_setFlags30(void *, s32);
@@ -579,7 +564,15 @@ CollisionBody lbl_804F226C[2] = {
 u32 lbl_804F22C4[2] = {0x80FF4040, 0x80FF4040};
 RecoveredGlobal_80360638_lbl_804F22CC TObjEneEpsilonGuard__debug_line_list = {&lbl_805439FC, lbl_804F22C4, 0, 4};
 
-extern const char *lbl_805D4460;
+const TBoss3VoloptBreakupParams epsilon_guard_destroy_breakup_params = { 0x14, { 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f } };
+// Body colour per color_index, copied into the guard parts.
+const Vec4_80360D9C lbl_80479CAC[4] = {
+    {255.0f, 255.0f, 0.0f, 0.0f},
+    {255.0f, 0.0f, 0.0f, 255.0f},
+    {255.0f, 255.0f, 255.0f, 0.0f},
+    {255.0f, 255.0f, 0.0f, 255.0f},
+};
+const char *TObjEneEpsilonBody__class_name = "TObjEneEpsilonBody";
 
 extern u8 *epsilon_guard_part_color_table[];
 
@@ -596,7 +589,7 @@ void TObjEneEpsilonBody::set_guard_part_colors(NJS_ARGB *color) {
 
 TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEneEpsilon(parent) {
     s32 i;
-    m_name = lbl_805D4460;
+    m_name = TObjEneEpsilonBody__class_name;
     invoke_initialization_hook(set_data);
     init_params();
     set_param(0x54);
@@ -1398,7 +1391,7 @@ void TObjEneEpsilonBody::action_destroy(s32 reason) {
             action_timer++;
             if (action_timer >= 0x14) {
                 vfunc_95();
-                TBoss3Volopt::create_breakup_mdl((s32)lbl_805D6FA4, (s32)epsilon_guard_destroy_breakup_params, (s32)texlist, (s32)body_center(), (s32)rotation_y);
+                TBoss3Volopt::create_breakup_mdl((s32)lbl_805D6FA4, (s32)&epsilon_guard_destroy_breakup_params, (s32)texlist, (s32)body_center(), (s32)rotation_y);
                 play_sound_effect(0x4003AD4C, (u8 *)&m_2fc, 0, 0);
                 ((TObjPlayer *)body_center())->trigger_dell_biter_events();
                 flags |= 1;
@@ -1458,7 +1451,8 @@ void TObjEneEpsilonBody::render() {
 
 void TObjEneEpsilonBody::sub_803606A0(s32 i) {
     Obj_803606A0 *g6 = (Obj_803606A0 *)this;
-    Tbl_803606A0 t = epsilon_guard_attack_offset_table;
+    // Joint index per guard slot.
+    Tbl_803606A0 t = {{28, 38, 48, 58}};
 
     if (i < 0) {
         i = 0;
@@ -1474,7 +1468,7 @@ void TObjEneEpsilonBody::sub_803606A0(s32 i) {
     pop_matrix();
     push_matrix_from(anim_model_matrix_array[t.v[i]]);
     {
-        Vec_803606A0 v = lbl_80479D10;
+        Vec_803606A0 v = {0.0f, 0.0f, 0.0f};
         matrix_mult_vec(0, &v, &g6->pts[i]);
     }
     pop_matrix();
@@ -1642,7 +1636,14 @@ void TObjEneEpsilonBody::tick_stun_timer() {
     }
 }
 void TObjEneEpsilonGuard::update_attack_pattern(void *arg0) {
-    Tbl_8035FFA8 t = epsilon_guard_attack_pattern_table;
+    // 20 rows of per-guard attack flags.
+    Tbl_8035FFA8 t = {{
+        {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0},
+        {0, 0, 0, 0}, {1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0},
+        {0, 0, 0, 1}, {1, 1, 0, 0}, {1, 0, 1, 0}, {1, 0, 0, 1},
+        {0, 1, 1, 0}, {0, 1, 0, 1}, {0, 0, 1, 1}, {1, 1, 1, 0},
+        {1, 1, 0, 1}, {1, 0, 1, 1}, {0, 1, 1, 1}, {1, 1, 1, 1},
+    }};
     s32 *row;
     s32 i;
     if (o->flags & 0x400) {
@@ -1666,7 +1667,7 @@ void TObjEneEpsilonGuard::update_attack_pattern(void *arg0) {
 // Picks the player for guard slot `slot`: the up to four nearest players in
 // range with a clear path, sorted by distance and repeated to fill four slots.
 u32 TObjEneEpsilonGuard__sub_8035FD50(TObjEneEpsilonGuard *self, s32 slot) {
-    Tbl_803606A0 order = lbl_80479E5C;
+    Tbl_803606A0 order = {{2, 0, 1, 3}};
     EnemyTargetCandidate list[4];
     Vec d;
     EnemyTargetCandidate tmp;
@@ -1833,7 +1834,7 @@ int TObjEneEpsilonGuard__sub_8035F950(void* p) { return (*(u32*)((char*)p + 0x43
 
 s16 TObjEneEpsilonBody::get_table_value_by_index() {
     s16 i = this->color_index;
-    Tbl_803606A0 t = epsilon_guard_table_value_set;
+    Tbl_803606A0 t = {{1, 2, 3, 5}};
     if (i < 0 || i > 3) {
         return 0;
     }
@@ -1842,7 +1843,7 @@ s16 TObjEneEpsilonBody::get_table_value_by_index() {
 
 s16 TObjEneEpsilonBody::sub_8035F8A8() {
     s16 i = ((W_8035F8A8 *)this)->idx;
-    T_8035F8A8 t = lbl_80479E7C[0];
+    T_8035F8A8 t = {{9, 7, 10, 11}};
     if (i < 0 || i > 3) {
         return 0;
     }

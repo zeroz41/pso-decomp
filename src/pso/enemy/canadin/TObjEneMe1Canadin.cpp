@@ -604,7 +604,6 @@ void push_history_entry__17TObjEneMe1CanadinFPvfPvi(s32, f32, void *, s32);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 f32 subtract_vector(void *, void *);
 void TObjEneMe1Canadin__sub_8009C91C(void *arg0, s32 arg1);
-extern const f64 lbl_8043A3C8;
 s32 queue_destruction__7TObjectFv(void *);
 void noop__17TObjEneMe1CanadinFv(void);
 void advance_state_5_to_4__17TObjEneMe1CanadinFPv(void *arg0);
@@ -616,9 +615,6 @@ void * __nw__7TObjectFUl(int);
 void TObjEneMe1Canadin__sub_8009D320(void *arg0, s32 arg1);
 u32 __cvt_fp2unsigned(f32);
 s32 pack_debug_text_position(s32 arg0, s32 arg1);
-extern s32 lbl_8043A398[];
-extern s32 lbl_8043A3A8[];
-extern s32 lbl_8043A3BC[];
 struct VBase_18 { char pad[0x18]; };
 
 
@@ -1498,6 +1494,12 @@ extern s32 *lbl_805D4FF0;
 extern const f32 lbl_805D9860;
 int is_target_android(void *p);
 
+// Ids load_resources registers with the lobby for each of the three slots.
+static const s32 lbl_8043A180[3] = { 7, 8, 9 };
+static const s32 lbl_8043A18C[3] = { 7, 8, 9 };
+static const s32 lbl_8043A198[3] = { 7, 8, 9 };
+static const s32 lbl_8043A1A4[3] = { 7, 8, 9 };
+
 void *canadin_setup_param_block[7] = {
     (void *)0x43610000, (void *)0x0, (void *)0x600, (void *)0x0,
     (void *)0x0, (void *)0x0, (void *)0x0,
@@ -1689,12 +1691,7 @@ extern int fold_flush_2;
 }
 
 extern "C" {
-extern const char lbl_8043A3D0[];
 extern u32 lbl_805D4FD4;
-extern const s32 lbl_8043A180[3];
-extern const s32 lbl_8043A18C[3];
-extern const s32 lbl_8043A198[3];
-extern const s32 lbl_8043A1A4[3];
 extern s32 *lbl_805D4FE4;
 extern s32 *lbl_805D4FE8;
 extern s32 *lbl_805D4FEC;
@@ -1727,7 +1724,7 @@ void TObjEneMe1Canadin::load_resources() {
     lbl_80500960.y = 0.0f;
     lbl_80500960.z = 0.0f;
     if (TObjEneDD::check_v2_mode() != 0) {
-        lbl_805D4FD0 = (BmlResource *)load_enemy_bml_resource_named((s32)&bm_ene_me1_mb_resource_descriptor, (s32)lbl_8043A3D0);
+        lbl_805D4FD0 = (BmlResource *)load_enemy_bml_resource_named((s32)&bm_ene_me1_mb_resource_descriptor, (s32)"bm_ene_me1_mb_a.bml");
     } else {
         lbl_805D4FD0 = (BmlResource *)load_enemy_bml_resource((u8 *)&bm_ene_me1_mb_resource_descriptor);
     }
@@ -2066,7 +2063,7 @@ void TObjEneMe1Canadin::update_hover_height() {
 
 extern "C" {
 void TObjEneMe1Canadin::update_angle() {
-    *(s32 *)((s8 *)this + 0x60) = approach_angle_limited(*(s32 *)((s8 *)this + 0x60), (s32) (lbl_8043A3C8 * atan2_float(*(f32 *)((s8 *)this + 0x3A0), *(f32 *)((s8 *)this + 0x3A8))), 0x400);
+    *(s32 *)((s8 *)this + 0x60) = approach_angle_limited(*(s32 *)((s8 *)this + 0x60), (s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)this + 0x3A0), *(f32 *)((s8 *)this + 0x3A8))), 0x400);
     *(s32 *)((s8 *)this + 0x60) = (s32) (s16) *(s32 *)((s8 *)this + 0x60);
 }
 }
@@ -3151,7 +3148,7 @@ void TObjEneMe1Canadin__sub_8009C91C(void *arg0, s32 arg1) {
                     c = normalize_vector_xz((Vec *)(&v));
                     ((TObjEneDD *)o)->move_to_wall_clamped_destination(v.x, v.z, c);
                 }
-                o->angle = (s32)(lbl_8043A3C8 * atan2_float(dir->x, dir->z)) + 0x8000;
+                o->angle = (s32)(10430.38043493439 * atan2_float(dir->x, dir->z)) + 0x8000;
                 push_history_entry__17TObjEneMe1CanadinFPvfPvi(o->f408, 0.8f, o->f414, o->f4B4);
                 break;
             }
@@ -3637,11 +3634,11 @@ void TObjEneMe1Canadin::render_canadin_model_with_debug_type() {
     if ((((s32)((TObjEneDD *)arg0)->get_target_info()) != 0) && ((s32) *(s32 *)((s8 *)arg0 + 0x3C4) == 0)) {
         temp_r3 = *(s32 *)((s8 *)arg0 + 0x3C8);
         if (temp_r3 & 0x100) {
-            TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 0)), (char *)lbl_8043A398);
+            TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 0)), "TYPE:IN FIGHTER");
         } else if (temp_r3 & 0x200) {
-            TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 0)), (char *)lbl_8043A3A8);
+            TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 0)), "TYPE:OUT FIGHTER");
         } else {
-            TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 0)), (char *)lbl_8043A3BC);
+            TObjEneMe1Gee::queue_debug_text((s32)(pack_debug_text_position(0, 0)), "TYPE:UNKOWN");
         }
     }
     if (((VObj_18_26a62c *)(arg0))->m8(400.0f, 15.0f) != 0) {

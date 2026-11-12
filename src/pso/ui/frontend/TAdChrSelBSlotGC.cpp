@@ -21,15 +21,7 @@
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/unk/TLobby.h"
 
-// Plate size (then four bytes the plate copies and a word) passed to the TAdPlyChrSelPlateGC ctor
-struct ChrSelBSlotPlateLayout {
-    f32 width;
-    f32 height;
-    u8 pad_8[4];
-    s32 pad_c;
-};
-
-static const ChrSelBSlotPlateLayout chr_sel_b_slot_plate_layout = { 180.0f, 38.0f, { 0xBC, 0x98, 0x36, 0x00 }, 0 };
+static const ChrSelPlateLayout chr_sel_b_slot_plate_layout = { 180.0f, 38.0f, { 0xBC, 0x98, 0x36, 0x00 }, 0 };
 // Plate positions of the four entries
 static const CharacterSlotPosition lbl_804758E8[4] = {
     { 434.0f, 182.0f }, { 434.0f, 225.0f }, { 434.0f, 268.0f }, { 434.0f, 311.0f },

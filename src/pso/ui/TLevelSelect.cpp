@@ -16,7 +16,7 @@ struct Self_80133068 { u8 pad[0x20]; s32 f20; s32 f24; };
 #pragma auto_inline off
 #pragma dont_inline off
 struct Self_8013319C {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x14];
     void *vt;
     s32 count;
@@ -24,13 +24,15 @@ struct Self_8013319C {
     void *guide;
 };
 
-struct Ent_8013319C { s32 id; s32 b; s32 c; };
+struct Ent_8013319C { s32 id; f32 b; f32 c; };
 
 struct Ents_8013319C { Ent_8013319C e[4]; };
 
-struct Pos_8013319C { s32 x; s32 y; };
+struct Pos_8013319C { f32 x; f32 y; };
 
 struct Poss_8013319C { Pos_8013319C p[4]; };
+
+const char *level_select_class_name = "TLevelSelect";
 
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
@@ -48,11 +50,7 @@ void __ct__13TAdTitleTexGCFv(void *, void *);
 void __ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, void *, int);
 void *__ct__14TAdSelectCurGCFv(void *, void *, void *, void *);
 void *__ct__13TAdGuideTxtGCFv(void *, void *);
-extern Ents_8013319C level_select_entry_table;
-extern Pos_8013319C lbl_8043ED58[];
-extern Poss_8013319C level_select_position_table;
 extern u8 __vt__12TLevelSelect[];
-extern s32 level_select_class_name;
 extern void *tl_01;
 Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self);
 void TLevelSelect::render() {  }
@@ -128,7 +126,10 @@ Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self) {
         __ct__13TAdTitleTexGCFv(p, self);
     }
     {
-        Ents_8013319C ents = level_select_entry_table;
+        Ents_8013319C ents = {{
+            { 0x44FFFFFF, 238.0f, 145.0f }, { 0x44FFFFFF, 208.0f, 197.0f },
+            { 0x44FFFFFF, 178.0f, 249.0f }, { 0x44FFFFFF, 148.0f, 301.0f },
+        }};
         for (i = 0; i < self->count + 1; i++) {
             ents.e[i].id = -1;
         }
@@ -145,8 +146,8 @@ Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self) {
             __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &ents.e[3], 3);
         }
         {
-            Pos_8013319C pos = lbl_8043ED58[0];
-            Poss_8013319C poss = level_select_position_table;
+            Pos_8013319C pos = { 302.0f, 28.0f };
+            Poss_8013319C poss = {{ { 215.0f, 146.0f }, { 185.0f, 198.0f }, { 155.0f, 250.0f }, { 125.0f, 302.0f } }};
             p = __nw__7TObjectFUl(0x708);
             if (p != NULL) {
                 p = __ct__14TAdSelectCurGCFv(p, self, &poss, &pos);
