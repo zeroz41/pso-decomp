@@ -8,6 +8,7 @@
 #include "pso/unk/TUnk_80488DA0.h"
 #include "pso/unk/TUnk_80488E00.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/camera/TCameraCtrl.h"
 
 struct Vec_8006835C { f32 x, y, z; };
 
@@ -68,7 +69,6 @@ extern View_8006835C *camera_ctrl_instance;
 void apply_camera_controller_pose(Cam_80068530 *arg0);
 s32 is_split_screen();
 f32 fabs_float();
-s32 get_camera_mode__11TCameraCtrlFv();
 Vec_8006835C *get_position_ptr__10TObjPlayerFv(void *);
 Vec_8006835C *get_target_ptr__11TCameraCtrlFv(void *);
 Hit_8006809C *csnVector(void *, void *, s32);
@@ -130,7 +130,7 @@ s32 TUnk_80488E00::predict_obstruction() {
         dist *= 13.0f;
     }
     if (is_split_screen() != 0) {
-        s32 mode = get_camera_mode__11TCameraCtrlFv();
+        s32 mode = TCameraCtrl::get_camera_mode();
         View_80068530 *v = (View_80068530 *) camera_ctrl_instance;
         a = &v->eye[mode];
         b = &v->look[mode];

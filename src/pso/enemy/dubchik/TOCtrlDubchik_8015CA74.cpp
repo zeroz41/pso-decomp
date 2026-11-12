@@ -26,6 +26,9 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/player/TUnk_804B6C24.h"
 
 struct VBase_18_65b835 { char pad[0x18]; };
 
@@ -141,8 +144,6 @@ extern RecoveredGlobal_8015D3CC_lbl_804B0A20 TOCtrlDubchik__collision_body;
 extern s32 __vt__13TOCtrlDubchik[];
 extern s32 TOCtrlDubchik__name;
 u8 *TOCtrlDubchik__ct(TOCtrlDubchik *arg0, s32 arg1, s32 arg2);
-s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
-s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 extern char lbl_80440984[];
@@ -197,8 +198,8 @@ void TOCtrlDubchik::sub_8015CA74() {
         play_sound_effect(0x4003AD16, (u8 *)&this->position, 0, 0);
     }
     for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
-        p = (u8 *)get_player_data__10TObjPlayerFi(i);
-        if (p != NULL && p != arg0 && check_value_equals__13TUnk_804B6C24Fl(p, (s32)TObjEneDubchik__class_name) != 0 &&
+        p = (u8 *)TObjPlayer::get_player_data(i);
+        if (p != NULL && p != arg0 && ((TUnk_804B6C24 *)p)->check_value_equals((s32)TObjEneDubchik__class_name) != 0 &&
             *(s32 *)(p + 0x368) == 0 && *(s16 *)(arg0 + 0x28) == *(s16 *)(p + 0x28)) {
             dubchik_start_dying(p);
         }
@@ -277,9 +278,9 @@ void TOCtrlDubchik::sub_8015CE80() {
     hover_height = 60.0f + sin_table_lookup(bob_phase);
     apply_actor_gravity(this, (s32 *)&shadow_pos, hover_height);
     for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
-        p = (u8 *)get_player_data__10TObjPlayerFi(i);
-        if (p != NULL && p != ((u8 *)this) && obj_testFlags30__14TObjCollidableFUl(p, 0x800) != 0 &&
-            check_value_equals__13TUnk_804B6C24Fl(p, (s32)TObjEneDubchik__class_name) != 0 &&
+        p = (u8 *)TObjPlayer::get_player_data(i);
+        if (p != NULL && p != ((u8 *)this) && ((TObjCollidable *)p)->obj_testFlags30(0x800) != 0 &&
+            ((TUnk_804B6C24 *)p)->check_value_equals((s32)TObjEneDubchik__class_name) != 0 &&
             *(s32 *)(p + 0x368) == 0 && *(s16 *)(((u8 *)this) + 0x28) == *(s16 *)(p + 0x28)) {
             this->mode = 1;
         }
@@ -292,7 +293,7 @@ void TOCtrlDubchik::run_task() {
         TOCtrlDubchik__sub_8015C9D0(arg0);
         return;
     }
-    if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x800) != 0) {
+    if (((TObjCollidable *)arg0)->obj_testFlags30(0x800) != 0) {
         *(s16 *)(arg0 + 0x326) = 6;
     } else if (this->update_movement_status() != 0) {
         ((TObjCollidable *)arg0)->refresh_collision_body_centers();

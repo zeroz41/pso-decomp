@@ -16,6 +16,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/ambient/TObjFish.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -321,7 +322,6 @@ f32 normalize_vector(void *);
 void TBoss6Type2__sub_8032F5C4(void *arg0);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
-s32 clear_render_callback__8TObjFishFv(s32);
 }
 void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);
 extern "C" {
@@ -1039,7 +1039,7 @@ void TBoss6Mag::draw_model_motion_blend() {
     if ((0.0f) == *(f32 *)((s8 *)this + 0x3E8)) {
         ((TObjFish *)(*(s32 *)((s8 *)this + 0x458)))->set_draw_callback_list();
         draw_model_motion((void *)bml_model, (void *)(*(s32 *)((s8 *)this + 0x3DC)), *(f32 *)((s8 *)this + 0x3E0));
-        clear_render_callback__8TObjFishFv(*(s32 *)((s8 *)this + 0x458));
+        ((TObjFish *)(*(s32 *)((s8 *)this + 0x458)))->clear_render_callback();
     } else {
         stack.sp8 = *(s32 *)((s8 *)this + 0x3F0);
         stack.sp10 = *(f32 *)((s8 *)this + 0x3F4);
@@ -1047,7 +1047,7 @@ void TBoss6Mag::draw_model_motion_blend() {
         stack.sp14 = *(f32 *)((s8 *)this + 0x3E0);
         ((TObjFish *)(*(s32 *)((s8 *)this + 0x458)))->set_draw_callback_list();
         draw_model_blend_motion((void *)bml_model, &stack.sp8, *(f32 *)((s8 *)this + 0x3E8));
-        clear_render_callback__8TObjFishFv(*(s32 *)((s8 *)this + 0x458));
+        ((TObjFish *)(*(s32 *)((s8 *)this + 0x458)))->clear_render_callback();
     }
     clear_motion_packed_rotation();
 }

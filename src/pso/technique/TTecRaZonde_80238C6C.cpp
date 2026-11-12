@@ -1,9 +1,12 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TTecRaZonde.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecZonde.h"
 #include "pso/unk/TUnk_804CCB28.h"
 #include "pso/effect/TUnk_804CC148.h"
+#include "pso/system/task/TObject.h"
+#include "pso/technique/TTecCtrl.h"
 #pragma readonly_strings on
 
 #include <stddef.h>
@@ -72,9 +75,7 @@ struct Self_80239070 {
 };
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 s32 calc_technique_parameters(int, int, int);
-s32 is_technique_ready__8TTecCtrlFv();
 extern RecoveredGlobal_80230D9C_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_80230D9C_lbl_804CC55C lbl_804CC55C;
 u16 get_entity_id(void *);
@@ -216,13 +217,13 @@ void TTecRaZonde::calc_damage() {
   s32 new_var;
   new_var = calc_technique_parameters(8, (int) ((RecoveredFields_80238D10_arg0 *) arg0)->field_78, 0xFFFF);
   ((TTecAnti *)(arg0 + 0x88))->copy_params((u8 *)new_var);
-  if ((((s16) ((RecoveredFields_80238D10_arg0 *) arg0)->field_78) >= 0xF) && (is_technique_ready__8TTecCtrlFv() == 0))
+  if ((((s16) ((RecoveredFields_80238D10_arg0 *) arg0)->field_78) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {
     ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x20))) + ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x22))) * ((RecoveredFields_80238D10_arg0 *) arg0)->field_78));
     return;
   }
   ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_88 + ((f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_AC * ((RecoveredFields_80238D10_arg0 *) arg0)->field_78)));
-  if (is_technique_ready__8TTecCtrlFv() != 0)
+  if (TTecCtrl::is_technique_ready() != 0)
   {
     ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_88 * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x40))));
   }
@@ -283,7 +284,7 @@ TTecRaZonde::~TTecRaZonde() {
     u32 i;
     for (i = 0; i < ((RProfile_80238F84 *)TTecRaZonde__band_profile_table)[((Self_80238EC8 *)this)->band].count; i++) {
         if (((Self_80238EC8 *)this)->objs[i] != 0) {
-            queue_destruction__7TObjectFv(((Self_80238EC8 *)this)->objs[i]);
+            ((TObject *)(((Self_80238EC8 *)this)->objs[i]))->queue_destruction();
             ((Self_80238EC8 *)this)->objs[i] = 0;
         }
     }
@@ -296,12 +297,12 @@ void TTecRaZonde::render() {  }
 void run_task__11TTecRaZondeFv(Obj_80238F84 *self) {
     s32 i;
     if (self->proxy == NULL) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return;
     }
     self->source = find_entity_by_id(self->sourceId);
     if (self->source == NULL) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return;
     }
     for (i = 0; i < ((RProfile_80238F84 *)TTecRaZonde__band_profile_table)[self->band].count; i++) {
@@ -314,7 +315,7 @@ void run_task__11TTecRaZondeFv(Obj_80238F84 *self) {
         }
     }
     ((TUnk_804CC148 *)self)->apply_technique_to_area_targets();
-    queue_destruction__7TObjectFv(self);
+    ((TObject *)self)->queue_destruction();
 }
 
 #pragma push

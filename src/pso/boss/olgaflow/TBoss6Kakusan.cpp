@@ -15,6 +15,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer.h"
 
 struct RecoveredGlobal_80322994___vt__13TBoss6Kakusan { s32 value; u8 remaining[0x14]; };
 
@@ -113,7 +114,7 @@ void TBoss6Kakusan::check_beam_player_hits() {
   n = TLobby::get_game_mode();
   for (i = 0; i < n; i++)
   {
-    pl = (u8 *)get_player_data__10TObjPlayerFi(i);
+    pl = (u8 *)TObjPlayer::get_player_data(i);
     if (pl == 0)
     {
       continue;

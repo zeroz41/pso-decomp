@@ -43,6 +43,7 @@
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
 
 #pragma readonly_strings on
 
@@ -62,7 +63,6 @@ void *get_window_layout_position(s32);
 void *check_room_seq_4__16TAdChrSelASlotGCFl(void *, s32);
 void *update_window_mode_from_progress__6TLobbyFPv(void *, WindowPos *);
 s32 align_menu_entry_positions(u32);
-s32 get_cursor_value__19TWindowMenuIconLineFv(void *);
 void TWindowHelpItem__set_displayed_item_by_id(void *, s32);
 u32 TKeyBoardControl__ct(void *, void *, s32, s32, s32, s32);
 void TQuestThread__sub_801F5D88(void);
@@ -403,7 +403,7 @@ void TQuestThreadBoard::run_task() {
         }
         break;
     case QST_WAIT_ITEM_CHOICE: {
-        s32 item = get_cursor_value__19TWindowMenuIconLineFv(ctx.pack_select_window);
+        s32 item = ((TWindowMenuIconLine *)ctx.pack_select_window)->get_cursor_value();
         if (item != ctx.registers[ctx.result_register]) {
             ctx.registers[ctx.result_register] = item;
             TWindowHelpItem__set_displayed_item_by_id(ctx.pack_select_help_window, item);
@@ -575,7 +575,7 @@ void TQuestThread::run_task() {
         }
         break;
     case QST_WAIT_ITEM_CHOICE: {
-        s32 item = get_cursor_value__19TWindowMenuIconLineFv(ctx.pack_select_window);
+        s32 item = ((TWindowMenuIconLine *)ctx.pack_select_window)->get_cursor_value();
         if (item != ctx.registers[ctx.result_register]) {
             ctx.registers[ctx.result_register] = item;
             TWindowHelpItem__set_displayed_item_by_id(ctx.pack_select_help_window, item);

@@ -12,6 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
+#include "pso/ui/chat/TWindowSubSymbolChat.h"
 struct Stack_80285274 {
     f32 sp8;
     f32 spC;
@@ -328,7 +329,7 @@ void fn_80285314(Win_802857C4 *self, Rect_802857C4 *ctx) {
 
     col = 0;
     row = 0;
-    chat = (Chat_80285314 *)((u8 *)get_instance__20TWindowSubSymbolChatFv() + 0x1C);
+    chat = (Chat_80285314 *)((u8 *)TWindowSubSymbolChat::get_instance() + 0x1C);
     e1 = (Part_80285314 *)((TWindowBase *)self)->get_array_entry(1);
     e2 = (Part_80285314 *)((TWindowBase *)self)->get_array_entry(2);
     e0 = (Part_80285314 *)((TWindowBase *)self)->get_array_entry(0);

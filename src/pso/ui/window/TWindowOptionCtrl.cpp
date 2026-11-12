@@ -9,17 +9,17 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern "C" {
 
-void *get_global_state__23TAdSinglePlyChrSelectGCFv();
 s32 play_area_music();
 u32 create_menu__17TWindowOptionCtrlFv(void *);
 
 void TWindowOptionCtrl::set_params(void *arg0, s16 arg1, s8 arg2) {
     void *temp_r3;
 
-    temp_r3 = get_global_state__23TAdSinglePlyChrSelectGCFv();
+    temp_r3 = TAdSinglePlyChrSelectGC::get_global_state();
     if (temp_r3 != NULL) {
         *(s16 *)((s8 *)temp_r3 + 4) = arg1;
         *(s8 *)((s8 *)temp_r3 + 6) = arg2;

@@ -1,8 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/technique/TTecBarta.h"
 #include "pso/effect/TUnk_804CC148.h"
 #include "pso/effect/TUnk_804CCC68.h"
+#include "pso/system/task/TObject.h"
+#include "pso/technique/TTecCtrl.h"
 
 struct RecoveredGlobal_8022B6FC_lbl_804CC510
 {
@@ -108,11 +111,9 @@ struct Tec_8022BD74 {
 
 extern "C" {
 s32 calc_technique_parameters(int, int, int);
-s32 is_technique_ready__8TTecCtrlFv();
 extern RecoveredGlobal_8022B6FC_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_8022B6FC_lbl_804CC55C lbl_804CC55C;
 extern TechniqueContactVtable __vt__9TTecBarta;
-void queue_destruction__7TObjectFv(void *arg0);
 void mem_free(void *p);
 void __dl__7TObjectFPv(TTecBarta*);
 TTecBarta* __dt__9TTecBartaFv(TTecBarta* self,s16 deleting);
@@ -252,14 +253,14 @@ void TTecBarta::init_parameters() {
   int new_var;
   new_var = (int) calc_technique_parameters(3, this->level, 0xFFFF);
   ((TTecAnti *)(arg0 + 0xCC))->copy_params((u8 *)new_var);
-  if (((this->level) >= 0xF) && (is_technique_ready__8TTecCtrlFv() == 0))
+  if (((this->level) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {
     this->power = (f32) ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0xC))) + ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0xE))) * (this->level)));
   }
   else
   {
     this->power = (f32) ((this->power) + ((f32) ((*((s16 *) (((s8 *) arg0) + 0xF0))) * (this->level))));
-    if (is_technique_ready__8TTecCtrlFv() != 0)
+    if (TTecCtrl::is_technique_ready() != 0)
     {
       this->power = (f32) ((this->power) * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x18))));
     }
@@ -312,7 +313,7 @@ TTecBarta* __dt__9TTecBartaFv(TTecBarta* self,s16 deleting) {
         *(void **)((u8 *)self + 0x18) = &__vt__9TTecBarta;
         for(u32 i=0;i<TTecBarta__emitter_bands[self->band].count;++i) {
             if(self->emitters[i]) {
-                queue_destruction__7TObjectFv(self->emitters[i]);
+                ((TObject *)self->emitters[i])->queue_destruction();
                 self->emitters[i]=0;
             }
         }
@@ -327,7 +328,7 @@ void TTecBarta::run_task() {
     s32 i;
     this->source = (u32)find_entity_by_id(this->sourceId);
     if (this->source == NULL) {
-        queue_destruction__7TObjectFv((TechniqueParticleEmitter *)this);
+        ((TObject *)((TechniqueParticleEmitter *)this))->queue_destruction();
         return;
     }
     for (i = 0; i < TTecBarta__emitter_bands[this->band].count; i++) {
@@ -402,7 +403,7 @@ void TUnk_804CC148::apply_technique_to_area_targets() {
     s32 i;
     u32 id;
     if (((Tec_8022BD74 *)this)->fe8 == 0) {
-        queue_destruction__7TObjectFv((TechniqueParticleEmitter *)((Tec_8022BD74 *)this));
+        ((TObject *)((TechniqueParticleEmitter *)((Tec_8022BD74 *)this)))->queue_destruction();
         return;
     }
     if (get_entity_id(((Tec_8022BD74 *)this)->owner) < 4) {

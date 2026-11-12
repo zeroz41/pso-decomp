@@ -7,6 +7,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjMotion.h"
 
 struct RecoveredGlobal_803655F8___vt__15TObjIllGillKage { s32 value; u8 remaining[0x30]; };
 typedef char RecoveredGlobal_803655F8___vt__15TObjIllGillKage_size[sizeof(RecoveredGlobal_803655F8___vt__15TObjIllGillKage) == 0x34 ? 1 : -1];
@@ -22,7 +23,6 @@ u8 *TObjIllGillKage__ct(u8 *arg0, s32 arg1, u32 arg2);
 void *__dt__15TObjIllGillKageFv(void *arg0, s16 arg1);
 s32 is_locally_controlled__10TObjPlayerFPv();
 void __dl__7TObjectFPv(void *);
-s32 obj_testFlags30__14TObjCollidableFUl(s32, s32);
 
 int TObjIllGillKage::queue_destruction() { return queue_destruction__7TObjectFv(this); }
 
@@ -41,7 +41,7 @@ void TObjIllGillKage::attack_target() {
 
     this->m_90 = 1;
     temp_r3 = (s32)get_player_by_client_id(this->m_98);
-    if ((temp_r3 != 0) && (is_locally_controlled__10TObjPlayerFPv() != 0) && (((TObject *)temp_r3)->all_parents_unqueued_for_destruction() != 0) && (obj_testFlags30__14TObjCollidableFUl(temp_r3, 0x800) == 0)) {
+    if ((temp_r3 != 0) && (is_locally_controlled__10TObjPlayerFPv() != 0) && (((TObject *)temp_r3)->all_parents_unqueued_for_destruction() != 0) && (((TObjCollidable *)temp_r3)->obj_testFlags30(0x800) == 0)) {
         TObjPlayer::play_effect(temp_r3, this->m_94, 3);
     }
 }

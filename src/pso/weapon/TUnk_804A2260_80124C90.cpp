@@ -8,6 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/player/TObjPlayer.h"
 
 struct Vec_80124C90 { f32 x, y, z; };
 
@@ -31,7 +32,6 @@ void spawn_item_attacker(s32 arg0, u32 arg1, s32 arg2, u8 *arg3);
 extern "C" {
 void create_lavis_shot(void *, void *, void *, f32);
 f32 *get_weapon_range_record(void *, s32);
-f32 query_extended_state__10TObjPlayerFv(void *);
 void *get_captured_target_entry(void *, s32);
 void vec3_add_to(void *, void *);
 s32 transform_point_by_current_matrix(void *, void *);
@@ -93,7 +93,7 @@ void TUnk_804A2260::sub_80124C90() {
             atk.id1 = get_entity_id(t);
             atk.d8 = ((TItem *)((u8 *)this))->get_item_id();
             atk.idx = get_captured_target_collider_index(e2);
-            atk.f = query_extended_state__10TObjPlayerFv(me->pl);
+            atk.f = ((TObjPlayer *)me->pl)->query_extended_state();
             spawn_item_attacker((s32)tl_05, (u32)&me->pl->pos38, (s32)(xyz_distance(pos, &part->v) / me->scale), (u8 *)&atk);
         }
     }

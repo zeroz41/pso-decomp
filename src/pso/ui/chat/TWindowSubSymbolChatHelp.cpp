@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/ui/window/TWindowDD.h"
 
 struct RecoveredGlobal_80284B84_lbl_804D2D10 {
     s32 value;
@@ -64,7 +65,6 @@ int TWindowSubSymbolChatHelp__sub_80247EE8(int);
 void apply_context_transform_to_rect(void *, void *);
 void draw_help_icon__24TWindowSubSymbolChatHelpFiPvii(s32 arg0, Win_802845EC *arg1, s32 arg2, s32 arg3);
 void __dl__7TObjectFPv(void *);
-int initialize_subwindow__9TWindowDDFv(void*);
 
 extern s32 lbl_805D63F0;
 
@@ -266,7 +266,7 @@ void TWindowSubSymbolChatHelp::render() {
     draw_help_entries((void *)temp_r3);
 }
 
-void TWindowSubSymbolChatHelp::run_task() { handle_page_input(); handle_toggle_input(); initialize_subwindow__9TWindowDDFv(this); }
+void TWindowSubSymbolChatHelp::run_task() { handle_page_input(); handle_toggle_input(); ((TWindowDD *)this)->initialize_subwindow(); }
 
 void *__dt__24TWindowSubSymbolChatHelpFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

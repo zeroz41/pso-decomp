@@ -1,9 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/T_OWEHMS_Exp.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/TObjWaitEntryHairMoveSim.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/object/TObjEZBoneRotPlayer.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 extern "C" {
 extern void* __vt__12T_OWEHMS_Exp[6];
 void destroy__12T_OWEHMS_ExpFs();
@@ -55,7 +57,7 @@ void TObjWaitEntryHairMoveSim__sub_800FE3BC(int _w0) {  }
 void T_OWEHMS_Exp::run_task() {
     if (player->m_cfc == 0) {
         start_bone_rotation();
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 T_OWEHMS_Exp* T_OWEHMS_Exp::destroy(s16 should_free) {
@@ -704,7 +706,7 @@ void TObjWaitEntryHairMoveSim::run_task() {
     void *arg0 = this;
     if ((s32) *(s32 *)((s8 *)(*(void **)((s8 *)arg0 + 0x1C)) + 0xCFC) == 0) {
         create_hair_effects__24TObjWaitEntryHairMoveSimFPv(arg0);
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 

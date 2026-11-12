@@ -24,6 +24,9 @@
 #include "pso/unk/TUnk_804DDD28.h"
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/data/FlagWord.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/unk/TLobby.h"
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
@@ -398,7 +401,6 @@ void TObjPlayer__sub_801BF690(u8 *arg0) {
 
 extern "C" {
 
-int clear_fields__20TWindowSubStatusDispFv(void*);
 int TObjPlayer__sub_801BF8CC(void* p);
 int reset__8FlagWordFv(void*);
 int get_enabled__11TMainCursorFv(void*);
@@ -412,7 +414,7 @@ void TObjPlayer__sub_801BF6D4(void* p, s16 v) { *(s16*)((char*)p + 0x0) = v; }
 void TObjPlayer__sub_801BF6DC(void* p, s16 v) { *(s16*)((char*)p + 0x2) = v; }
 int TObjPlayer__sub_801BF6E4(void* p) { return get_enabled__11TMainCursorFv((char*)p + 0x4); }
 int TObjPlayer::update_main_cursor() { return get_type__11TMainCursorFv((char*)this + 0x4); }
-void*TObjPlayer::reset_sub_status_disp() { clear_fields__20TWindowSubStatusDispFv(this); *(short*)((char*)this + 0x18) = 0; *(short*)((char*)this + 0x16) = 0; return this; }
+void*TObjPlayer::reset_sub_status_disp() { ((TWindowSubStatusDisp *)this)->clear_fields(); *(short*)((char*)this + 0x18) = 0; *(short*)((char*)this + 0x16) = 0; return this; }
 s32 TObjPlayer::update_timer() {
     s32 temp_r0;
 
@@ -487,7 +489,7 @@ void TObjPlayer::init_tag() {
 
 void TObjPlayer::reset_counter_field4() {
     *(s32 *)((s8 *)this + 4) = 0;
-    reset__8FlagWordFv(this);
+    ((FlagWord *)this)->FlagWord::reset();
 }
 
     extern const float TObjPlayer__data_805DC294;
@@ -650,7 +652,6 @@ s32 init_state__10TObjPlayerFi(s32 p) {
 }
 
 extern "C" {
-int get_valid_child__6TLobbyFv(void*);
 
 void TObjPlayer__sub_801BFED4(void* p) { *(s32*)((char*)p + 0x4) = -1; }
 s32 TObjPlayer::setup_state() {
@@ -693,7 +694,7 @@ s16 TBoss7Crawfish::get_floor() { return this->requested_action; }
 int TUnk_804DDD28::vfunc_77(s32) { return 0; }
 int TUnk_804DDD28::vfunc_10() { return 0; }
 int TUnk_804DDD28::vfunc_5(s32) { return 0; }
-int TObjPlayer::sub_802a7290_fwd() { return get_valid_child__6TLobbyFv(this); }
+int TObjPlayer::sub_802a7290_fwd() { return ((TLobby *)this)->get_valid_child(); }
 int TObjPlayer::is_handle_valid() { return TLobby::validate_handle((s32 *)this); }
 
 }

@@ -25,6 +25,8 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/key/TOKey.h"
+#include "pso/player/TUnk_804B6C24.h"
 
 const char *abeno_fs_obj001_fosuno_model_names[4] = { "abeno_fs_obj001_fosuno.gj", "abesu_fs_obj001_fosu.gj", "abesu_fs_obj001_fotutu.gj", NULL };
 const char *abeno_fs_obj001_fosuno_motion_names[1] = { NULL };
@@ -56,7 +58,6 @@ s32 TObjDoorKey__data_805D5C04;
 struct Obj_8018FA6C { u8 pad0[0x6]; u16 id; u8 pad8[0x4]; Obj_8018FA6C *next; u8 pad10[0x4]; Obj_8018FA6C *children; };
 
 extern "C" {
-s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 extern Obj_8018FA6C *tl_05;
 Obj_8018FA6C *fn_8018FA6C(u16 id) {
     Obj_8018FA6C *next = tl_05->children;
@@ -64,7 +65,7 @@ Obj_8018FA6C *fn_8018FA6C(u16 id) {
     while (tl_05->children != 0 && next != 0) {
         cur = next;
         next = cur->next;
-        if (check_value_equals__13TUnk_804B6C24Fl(cur, (s32)TObjDoorKey__class_name) != 0 && cur->id == id) {
+        if (((TUnk_804B6C24 *)cur)->check_value_equals((s32)TObjDoorKey__class_name) != 0 && cur->id == id) {
             return cur;
         }
     }
@@ -132,11 +133,9 @@ extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 actor_frame_tick;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-s32 init_key__5TOKeyFPv(void *, void *);
 void *__ct__5TOKeyFP7TObject(TOKey *arg0);
 extern s32 __vt__11TObjDoorKey[];
 void free_bin_model_request(void*, int);
-int update_armed_switch__5TOKeyFv(void*);
 s32 __dl__7TObjectFPv(void *);
 void *__dt__5TOKeyFv(void *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
@@ -267,7 +266,7 @@ void TObjDoorKey::update_switch_on() {
 }
 
 void TObjDoorKey::update_switch_off() { submit_cursor_candidate(this, -1); }
-void TObjDoorKey::update_armed_switch() { update_armed_switch__5TOKeyFv(this); }
+void TObjDoorKey::update_armed_switch() { TOKey::update_armed_switch(); }
 
 void TObjDoorKey::run_task() {
     struct VObj_8018FF74_8018FAEC *o = (struct VObj_8018FF74_8018FAEC *)this;
@@ -285,7 +284,7 @@ TObjDoorKey::~TObjDoorKey() {
 }
 TObjDoorKey::TObjDoorKey(TObject *arg1, void *arg2) : TOKey(arg1) {
     *(const char **)((s8 *)this + 0) = TObjDoorKey__class_name;
-    init_key__5TOKeyFPv(this, arg2);
+    init_key(arg2);
     this->m_e8 = 0;
     this->m_f0 = 0;
     *(s32 *)((s8 *)this + 0xEC) = 0x14;

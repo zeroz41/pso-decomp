@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
@@ -6,6 +7,7 @@
 #include "pso/quest/TQuestListOffline.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
@@ -41,7 +43,6 @@ struct Win_80217344 {
     void *f54;
 };
 
-void queue_destruction__7TObjectFv(void *);
 void vfunc_11__17TQuestListOfflineFv(QuestList_802171BC *self);
 void * close_shop_subwindows__17TQuestListOfflineFs(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
@@ -170,19 +171,19 @@ void TQuestListOffline::vfunc_11() {
         if (self->accepted) {
             self->accepted(self->owner);
         }
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         break;
     case 5:
         if (self->cancelled) {
             self->cancelled(self->owner);
         }
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         break;
     case 4:
         if (self->download) {
             self->download(self->owner);
         }
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         break;
     case 6:
         break;

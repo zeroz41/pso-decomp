@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/NinjaTypes.h"
@@ -38,6 +39,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/task/TObject.h"
 struct RecoveredGlobal_801982D4_lbl_804B8DAC { s32 value; u8 remaining[0x20]; };
 typedef char RecoveredGlobal_801982D4_lbl_804B8DAC_size[sizeof(RecoveredGlobal_801982D4_lbl_804B8DAC) == 0x24 ? 1 : -1];
 #pragma inline_depth(1)
@@ -89,7 +91,6 @@ struct RecoveredGlobal_80198DCC_lbl_8050E208;
 struct Vec_80199674;
 struct Vec_8019978C;
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 extern Sys_80198A2C gogo_ball_configuration;
 extern Vec_80198E84 gogo_ball_sync_state[];
 void TWindowTimer__sub_8019A6F8(void*);
@@ -590,13 +591,13 @@ void TUnk_804B8E18::run_task() {
         spawn_particle_effect_with_flags(&p, 0x45, 0x40);
         spawn_particle_effect_with_flags(&p, 0x46, 0x40);
         TWindowCtrl::open((s32)(get_entity_id(this)), (s32)lbl_8044613C, 0x1B);
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     update_goal_checks(local_client_id);
     update_best_time();
     if (position.y <= (-5e+02f)) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
     VecCopy((Vec *)&q, &position);
     velocity.y += gravity;
@@ -1090,7 +1091,7 @@ TUnk_804B8DE8::TUnk_804B8DE8(Vec *position, s32 limit, s32 arg3, s32 arg4, TObje
 
 TUnk_804B8DE8::~TUnk_804B8DE8() {
     if (effect != NULL) {
-        queue_destruction__7TObjectFv(effect);
+        effect->queue_destruction();
         effect = NULL;
     }
 }
@@ -1106,7 +1107,7 @@ void TUnk_804B8DE8::run_task() {
     if (this->counter++ >= self->limit) {
         spawn_particle_effect_with_flags(&self->pos, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->pos, 0x46, 0x40);
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return;
     }
     state = this->state;
@@ -1135,7 +1136,7 @@ void TUnk_804B8DE8::run_task() {
             }
         }
         if (self->timer++ >= 1000) {
-            queue_destruction__7TObjectFv(self);
+            ((TObject *)self)->queue_destruction();
             return;
         }
         this->rot += 0x16C;
@@ -1285,7 +1286,7 @@ void TUnk_804B8DD0::run_task() {
     t = this->age;
     this->age = t + 1;
     if (t >= this->lifetime) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 

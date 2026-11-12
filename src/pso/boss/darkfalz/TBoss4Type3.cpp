@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/effect/TUnk_80494968.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -22,6 +23,12 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
+#include "pso/unk/TLobby.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -380,10 +387,8 @@ struct VObj_8005B218 : VBase_8005B218 {
 };
 
 f32 random_ratio__9TObjCharaFv(void *);
-int get_player_data__10TObjPlayerFi(int a0);
 u16 get_entity_id(void *);
 s32 is_split_screen();
-void queue_destruction__7TObjectFv(void *);
 s16 * register_boss__6TLobbyFl(s32);
 s32 get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(s32, s32);
@@ -404,9 +409,7 @@ S_8005AD50 * __dt__11TBoss4Type3Fv(S_8005AD50 *o, s16 flag);
 void * __ct__13TObjBs4CutAtkFv(void *arg0, s32 arg1, s32 arg2, s32 arg3);
 void * create__13TObjBs4CutAtkFPvPvPv(void *arg0, void *arg1, void *arg2);
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
-s32 query_teammate_state__9TObjEneDDFv(void *);
 int toggle_particle_effect__10TObjPlayerFv(void*);
-s32 clear_render_callback__8TObjFishFv(s32);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 void free_collision_body_parts(void *);
@@ -766,7 +769,6 @@ struct TBoss4Type3;
 typedef char TypedVector_80059B78_size[(sizeof(TypedVector_80059B78) == 12) ? 1 : -1];
 
 extern "C" {
-void update_collisions__10TObjPlayerFv(void *);
 void submit_cursor_candidate(void *, int);
 struct O_80059618;
 struct Obj_8005A1AC;
@@ -816,11 +818,11 @@ void TObjBs4CutAtk::run_task() {
 
     lo = (u16)this->angle;
     hi = lo + 0x71C;
-    if (query_teammate_state__9TObjEneDDFv(this) != 0) {
+    if (((TObjEneDD *)this)->query_teammate_state() != 0) {
         return;
     }
     for (i = 0; i < TLobby::get_game_mode(); i++) {
-        p = (VObj_8005B218 *)get_player_data__10TObjPlayerFi(i);
+        p = (VObj_8005B218 *)TObjPlayer::get_player_data(i);
         if (TBoss4Type3__sub_8005254C(get_entity_id(p)) == 0) {
             continue;
         }
@@ -837,7 +839,7 @@ void TObjBs4CutAtk::run_task() {
         }
     }
     if (++this->age >= 6) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     this->angle += this->angle_step;
@@ -885,7 +887,7 @@ Self_8005AE60 *TBoss4Type3__ct(Self_8005AE60 *self, s32 parent, s32 *arg2) {
     VecCopy__FP3VecPC3Vec(self->v2FC, self->v38);
     self->f308 = self->f30C = self->f310 = 0.0f;
     self->f2A8 = 0;
-    ((TObjEnemy *)self)->bind_enemy_combat_stats((u8 *)((int)register_boss__6TLobbyFl(0x38)), (u8 *)(TLobby::dispatch_shared_handler_b(0x38)), (u8 *)(TLobby::register_object(0x38)));
+    ((TObjEnemy *)self)->bind_enemy_combat_stats((u8 *)((int)TLobby::register_boss(0x38)), (u8 *)(TLobby::dispatch_shared_handler_b(0x38)), (u8 *)(TLobby::register_object(0x38)));
     self->f33E = self->f3E4 = self->f32C;
     ((TBoss3Volopt *)self)->reset_photon_effect();
     ((TObjEnemy *)self)->set_param(0x2F);
@@ -944,7 +946,7 @@ S_8005AD50 *__dt__11TBoss4Type3Fv(S_8005AD50 *o, s16 flag) {
             o->f51c = 0;
         }
         if (o->f524 != 0) {
-            queue_destruction__7TObjectFv(o->f524);
+            ((TObject *)o->f524)->queue_destruction();
             o->f524 = 0;
         }
         if (o->f520 != 0) {
@@ -952,7 +954,7 @@ S_8005AD50 *__dt__11TBoss4Type3Fv(S_8005AD50 *o, s16 flag) {
             o->f520 = 0;
         }
         if (o->f528 != 0) {
-            queue_destruction__7TObjectFv(o->f528);
+            ((TObject *)o->f528)->queue_destruction();
             o->f528 = 0;
         }
         for (i = 0; i < 3; i++) {
@@ -1014,7 +1016,7 @@ void TBoss4Type3::run_task() {
     advance_afterimage();
     if (this->m_3a0 != 17) {
         this->m_394->flags |= 1;
-        update_collisions__10TObjPlayerFv(this);
+        ((TObjPlayer *)this)->update_collisions();
         submit_cursor_candidate(this, -1);
     } else {
         this->m_394->flags &= ~1;
@@ -1177,7 +1179,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
         off = i;
         ((TObjFish *)((s32)this->render_lists[off]))->set_draw_callback_list();
         draw_model_motion((void *)(get_bml_model(this->m_390, tbl[i])), (void *)(get_bml_motion(this->m_390, TBoss4Type3__anim_state_table[this->m_3f0].motions[i])), this->m_3f4);
-        clear_render_callback__8TObjFishFv((s32)this->render_lists[off]);
+        ((TObjFish *)this->render_lists[off])->clear_render_callback();
     }
     clear_motion_packed_rotation();
     model_render_flags &= ~0x20000;
@@ -1473,7 +1475,7 @@ void TBoss4Type3::calc_grid_index() {
 
 void TBoss4Type3__sub_800599F4(void *p, int lo, int hi) {
     s32 sector = ((TBoss4Type3 *)p)->choose_attack_heading_sector();
-    s32 n = (s64)(s32)(0.99f * (f32)(hi - lo + 1) * random_ratio__9TObjCharaFv(p));
+    s32 n = (s64)(s32)(0.99f * (f32)(hi - lo + 1) * ((TObjChara *)p)->random_ratio());
     n += lo;
     ((TBoss4Type3 *)p)->send_packed_action(n + 4, sector, sector);
 }
@@ -2113,7 +2115,7 @@ void TBoss4Type3::advance_bura() {
     if ((s32) this->m_398 == 0) {
         this->m_3bc = (this->m_3bc + 1);
         temp_r0 = this->m_3bc;
-        if ((temp_r0 >= 5) || ((temp_r0 >= 2) && (random_ratio__9TObjCharaFv(arg0) < 0.5f))) {
+        if ((temp_r0 >= 5) || ((temp_r0 >= 2) && (((TObjChara *)arg0)->random_ratio() < 0.5f))) {
             ((s32 (*)(void *, s32))TBoss4Type3__sub_80059F64)(arg0, 9);
             return;
         }

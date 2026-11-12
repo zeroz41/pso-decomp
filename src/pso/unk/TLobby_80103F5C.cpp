@@ -31,6 +31,9 @@
 #include "pso/item/TItem.h"
 #include "pso/unk/text_801036CC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/item/TItemData.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer.h"
 
 struct In_8010440C { u8 pad0; u8 idx; };
 
@@ -108,7 +111,6 @@ extern s32 __ct__9FloorItemFv[];
 void TLobby__sub_801041BC(void *arg0);
 void TLobby__sub_801041D8(void);
 void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header);
-void bswap__9TItemDataFv(s32 arg0);
 void __sinit_TLobby_80103F5C_cpp(void);
     extern int* item_sync_counter_table;
 s32 get_item_icon_index();
@@ -121,11 +123,8 @@ s32 get_char_index__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
 s32 is_locally_controlled__10TObjPlayerFPv();
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 s32 get_player_by_client_id(u16);
-s32 is_script_controlled__10TObjPlayerFv(s32);
-s32 obj_isState3_324__9TObjCharaFv(s32);
 extern s32 local_client_id;
 extern s32 TLobby__designated_client_id;
-void send_6x26_unequip_item__10TObjPlayerFPvPv(void *self, void *item);
 s32 get_item_id__5TItemFv();
 int get_item_field_6__10TObjPlayerFPv(void *p);
 void *TLobby__sub_8010440C(In_8010440C *arg0);
@@ -139,7 +138,6 @@ s32 TItemDropSub__sub_80107B74();
 #pragma dont_inline off
 
 extern "C" {
-int get_player_data__10TObjPlayerFi(int a0);
 s32 test_elt_flag__13TUnk_80493450Fll(void *p, s32 a, s32 mask);
 extern void *tl_05;
 void TLobby__sub_801036CC(void);
@@ -155,7 +153,7 @@ void TLobby__sub_801036CC(void) {
     s32 i;
     Player_801036CC *p;
     for (i = 0; i != TLobby::get_lobby_flag(); i++) {
-        p = (Player_801036CC *)get_player_data__10TObjPlayerFi(i);
+        p = (Player_801036CC *)TObjPlayer::get_player_data(i);
         if (p != NULL && test_elt_flag__13TUnk_80493450Fll(p, 0, 0x20000) != 0 && p->owner == tl_05) {
             ((TObject *)p)->queue_destruction();
         }
@@ -538,7 +536,7 @@ void TLobby__sub_801041BC(void *arg0) {
 void TLobby__sub_801041D8(void) {
     ((FlagWord *)(&lbl_805D5430))->set(1);
 }
-void TLobby::bswap_item() { bswap_16((u16 *)((char*)this + 0x2)); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); bswap_16((u16 *)((char*)this + 0xc)); bswap_16((u16 *)((char*)this + 0xe)); bswap__9TItemDataFv((s32)((char*)this + 0x10)); }
+void TLobby::bswap_item() { bswap_16((u16 *)((char*)this + 0x2)); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); bswap_16((u16 *)((char*)this + 0xc)); bswap_16((u16 *)((char*)this + 0xe)); ((TItemData *)((char*)this + 0x10))->bswap(); }
 
 TLobbyFloorItemEntry *TLobby::copy_floor_item_entry(TLobbyFloorItemEntry *dst, TLobbyFloorItemEntry *src) {
     *dst = *src;
@@ -654,7 +652,7 @@ void TLobby::forward_to_player(int arg0, void *item) {
     s32 player;
     if (item != NULL) {
         player = get_player_by_client_id(arg0);
-        if ((player != 0) && ((is_locally_controlled__10TObjPlayerFPv() == 1) || ((obj_isState3_324__9TObjCharaFv(player) == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)) || ((is_script_controlled__10TObjPlayerFv(player) == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)))) {
+        if ((player != 0) && ((is_locally_controlled__10TObjPlayerFPv() == 1) || ((((TObjChara *)player)->obj_isState3_324() == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)) || ((((TObjPlayer *)player)->is_script_controlled() == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)))) {
             ((TObjPlayer *)player)->request_inventory_item((TItemData*)item);
             send_6x25_equip_item((void *)player, *(s32 *)((s8 *)item + 0xC), 0);
         }
@@ -664,7 +662,7 @@ void TLobby::handle_player_event(s32 arg0, s32 arg1) {
     s32 player;
     u32 var_r3;
     player = get_player_by_client_id((u16)arg0);
-    if ((player != 0) && ((is_locally_controlled__10TObjPlayerFPv() == 1) || ((obj_isState3_324__9TObjCharaFv(player) == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)) || ((is_script_controlled__10TObjPlayerFv(player) == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)))) {
+    if ((player != 0) && ((is_locally_controlled__10TObjPlayerFPv() == 1) || ((((TObjChara *)player)->obj_isState3_324() == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)) || ((((TObjPlayer *)player)->is_script_controlled() == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)))) {
         var_r3 = 0U;
         switch (arg1) {
         case 0:
@@ -689,7 +687,7 @@ void TLobby::handle_player_event(s32 arg0, s32 arg1) {
             break;
         }
         if (var_r3 != 0U) {
-            send_6x26_unequip_item__10TObjPlayerFPvPv((void *)player, (void *)(get_item_id__5TItemFv()));
+            TObjPlayer::send_6x26_unequip_item((void *)player, (void *)(get_item_id__5TItemFv()));
         }
     }
 }

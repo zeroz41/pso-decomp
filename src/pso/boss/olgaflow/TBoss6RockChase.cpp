@@ -12,6 +12,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer.h"
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 #include <stddef.h>
@@ -129,7 +130,7 @@ s32 TBoss6RockChase::damage_players_in_range() {
         dmg = 20;
     }
     for (i = 0; i < n; i++) {
-        pl = (Player_8036D1B4 *)get_player_data__10TObjPlayerFi(i);
+        pl = (Player_8036D1B4 *)TObjPlayer::get_player_data(i);
         if (((TBoss6PlotFalz *)pl)->is_active() != 0) {
             VecCopy((Vec *)&d, (const Vec *)&pl->pos);
             subtract_vector(&d, &self->pos);

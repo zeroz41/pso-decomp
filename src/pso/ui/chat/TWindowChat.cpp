@@ -14,6 +14,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/chat/TWindowChat.h"
 
 struct Win_8024701C { u8 p0[0x1E]; u16 flags; s32 f20; u8 p24[4]; s32 f28; };
 
@@ -160,7 +161,7 @@ s32 TWindowChat::submit_keyboard_input() {
         return 0;
     }
     if (((TKeyBoardControl *)kb)->is_active() != 0) {
-        reset_input__11TWindowChatFv((int)this->composer);
+        ((TWindowChat *)this->composer)->reset_input();
         ((TWindowChat *)arg0)->set_input_active();
         return 1;
     }
@@ -177,7 +178,7 @@ s32 TWindowChat::submit_keyboard_input() {
     } else {
         export_keyboard_text((int)this->composer, (void *) ((u8 *) this->result + 4));
     }
-    reset_input__11TWindowChatFv((int)this->composer);
+    ((TWindowChat *)this->composer)->reset_input();
     return 1;
 }
 
@@ -194,7 +195,7 @@ void TWindowChat::update() {
             }
             end_player_keyboard_hold(local_client_id);
         }
-        reset_input__11TWindowChatFv((int)this->composer);
+        ((TWindowChat *)this->composer)->reset_input();
         this->close_all_children();
         ((TKeyBoardControl *)(this->hardKeyboard))->set_flag60_bit200();
     }

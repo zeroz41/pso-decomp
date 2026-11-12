@@ -1,6 +1,7 @@
 // ---- pso/player/TObjPlayer_801D9B18
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer.h"
 
 void TObjPlayer::set_tech_level(s16 arg1) {
     s16 var_r4;
@@ -42,7 +43,7 @@ void TObjPlayer::copy_all_technique_entries(void *arg1) {
 void get_effective_technique_level__10TObjPlayerFPvs(u8 *self, s16 idx) {
     u8 v = *(self + idx + 0x70);
     u8 c = TObjPlayer__sub_801C010C(self, idx);
-    clamp_to_max__10TObjPlayerFlUcUc((s32)self, v, c);
+    TObjPlayer::clamp_to_max((s32)self, v, c);
 }
 void TObjPlayer__sub_801D9C34(u8 *self, s16 idx, void *arg2) {
     u8 c = TObjPlayer__sub_801C010C(self, idx);

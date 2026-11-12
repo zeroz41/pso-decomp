@@ -17,6 +17,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/TUnk_80499970.h"
 
 struct RecoveredGlobal_800F81A8_lbl_80499970 {
     s32 value;
@@ -72,7 +73,6 @@ u32 prs_decompress_buffer(s32 arg0, s32 arg1);
 }
 void step_fade_opacity_increase(u8 *arg0);
 extern "C" {
-void step_fade_opacity_decrease__13TUnk_80499970Fv(u8 *arg0);
 u8 * __dt__13TUnk_80499988Fv(u8 *arg0, s16 arg1);
 void * TLobby__sub_800F8498(void *arg0, void *arg1, s32 arg2, s32 arg3, u8 arg4, u8 arg5, u8 arg6, u8 arg7);
 void * __dt__13TUnk_804999A0Fv(void *arg0, s16 arg1);
@@ -171,7 +171,7 @@ void TLobby::dispatch_state() {
 
     switch (*(s32 *)((s8 *)this + 0x24)) {
     case 1:
-        step_fade_opacity_decrease__13TUnk_80499970Fv((u8 *)this);
+        ((TUnk_80499970 *)this)->step_fade_opacity_decrease();
         return;
     case 2:
         step_fade_opacity_increase((u8 *)this);

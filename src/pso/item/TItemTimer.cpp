@@ -14,6 +14,8 @@
 #include <stdlib.h>
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjMotion.h"
 
 void TItemTimer::run_task() {
     m_1C--;
@@ -77,8 +79,6 @@ s32 is_item_area_enabled();
 s32 __ct__7TObjectFP7TObject();
 s32 is_flag_20000_set__10TObjPlayerFv(s32);
 s32 get_entity_id(s32);
-s32 obj_isState2_324__9TObjCharaFv(void *);
-s32 obj_isState3_324__9TObjCharaFv(s32);
 s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 
 extern s32 __vt__10TItemTimer[];
@@ -171,7 +171,7 @@ void TUnk_804A05C8::vfunc_6() {
 
 void TUnk_804A05E8::vfunc_6() {
 
-    if (obj_isState2_324__9TObjCharaFv(*(void * *)&this->m_28) == 0) {
+    if (((TObjChara *)(*(void * *)&this->m_28))->obj_isState2_324() == 0) {
         if (((TObjPlayer *)this->m_28)->has_flag_0x800() == 0) {
             ((TBoss3Volopt *)(this->m_28))->get_field_3e0();
             if ((is_item_area_enabled() == 1) && ((lbl_805DAC78 * (f32) rand()) < *(f32 *)&this->unk_2C)) {
@@ -187,27 +187,27 @@ extern f32 lbl_805DAC80;
 void TUnk_804A0608::vfunc_6() {
     struct VObj_8011D94C_8011D414 *o;
 
-    if (obj_testFlags30__14TObjCollidableFUl((void *)this->m_28, 0x800) == 0) {
+    if (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0) {
         o = (struct VObj_8011D94C_8011D414 *)this->m_28;
         o->m73(lbl_805DAC80);
     }
 }
 
 void TUnk_804A0628::vfunc_6() {
-    if (obj_testFlags30__14TObjCollidableFUl((void *)this->m_28, 0x800) == 0) {
+    if (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0) {
         add_actor_tp((u8 *)this->m_28, 1);
     }
 }
 
 void TUnk_804A0648::vfunc_6() {
-    if (obj_testFlags30__14TObjCollidableFUl((void *)this->m_28, 0x800) == 0) {
+    if (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0) {
         add_actor_hp((u8 *)this->m_28, 1);
     }
 }
 
 void TUnk_804A0668::vfunc_6() {
     ((TBoss3Volopt *)(this->m_28))->get_field_3e0();
-    if ((is_item_area_enabled() == 1) && (obj_isState3_324__9TObjCharaFv(this->m_28) == 0) && (obj_testFlags30__14TObjCollidableFUl((void *)this->m_28, 0x800) == 0)) {
+    if ((is_item_area_enabled() == 1) && (((TObjChara *)this->m_28)->obj_isState3_324() == 0) && (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0)) {
         ((TObjChara *)(this->m_28))->subtract_actor_tp(1);
     }
 }

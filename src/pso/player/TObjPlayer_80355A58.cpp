@@ -5,6 +5,7 @@
 #include "pso/item/mag/TItemMag.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/item/TItem.h"
 
 struct RecoveredGlobal_80355BA0_lbl_804F1320 {
     s32 value;
@@ -16,7 +17,6 @@ u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 extern s32 __vt__13TUnk_804F1320[];
 u8 *photon_field_weapon_ct(TObjPlayer *arg0, u8 *arg1);
 s32 get_current_floor();
-s8 get_mode__5TItemFv(u8 *arg0);
 
 void TUnk_804F1320::activate_effect(s32 item) {
     s32 temp_r31;
@@ -25,7 +25,7 @@ void TUnk_804F1320::activate_effect(s32 item) {
         temp_r31 = ((TObjPlayer *)(this->owner))->get_floor();
         {
         s32 t = get_current_floor();
-        if ((t == temp_r31) && (get_mode__5TItemFv((u8 *)this) == 2)) {
+        if ((t == temp_r31) && (((TItem *)this)->get_mode() == 2)) {
             spawn_pg_effect((void *)(*(u32 *)&this->owner + 0x2FC), (s32)item, (f32)(*(f32 *)&this->unk_1F8));
         }
         }

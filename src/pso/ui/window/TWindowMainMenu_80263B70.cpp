@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowMainMenu.h"
 struct TWindowSubItem;
 struct TWindowSubMag;
 #include "pso/ui/window/TWindowSubEquip_80275C0C.h"
@@ -82,7 +83,7 @@ void TWindowMainMenu::close_and_clear_flags() {
     temp_r4 = *(s32 *)((s8 *)this + 0x4C);
     *(s32 *)((s8 *)this + 0x4C) = (s32) (temp_r4 & ~5);
     ((s32 (*)(void *, s32))close_child_window__15TWindowMainMenuFv)(this, temp_r4);
-    destroy_submenu__15TWindowMainMenuFv(this);
+    destroy_submenu();
     close();
     if (get_player_by_client_id((s32)(*(s32 *)((s8 *)this + 0x54))) != 0U) {
         init_parts__10TObjPlayerFv();
@@ -257,7 +258,7 @@ void *__ct__13TUnk_804E0B28FP7TObjectl(void *, void *, void *);
 
 void TWindowMainMenu1P::create_char_select_slot() {
     void *o;
-    destroy_submenu__15TWindowMainMenuFv(this);
+    destroy_submenu();
     set_scale_f();
     o = __nw__7TObjectFUl(0x50);
     if (o != NULL) {
@@ -305,7 +306,7 @@ void TWindowMainMenu::create_submenu(u32 arg1) {
     s32 var_r0_8;
     s32 var_r0_9;
     *(s32 *)((s8 *)((u8 *)this) + 0x4C) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x4C) | 4);
-    destroy_submenu__15TWindowMainMenuFv(this);
+    destroy_submenu();
     set_scale_f();
     switch (arg1) {
     case 25:

@@ -34,6 +34,10 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TObject.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/player/TUnk_804B6C24.h"
 
 // ---- declarations carried over from the fragment TOMineTrapDisp_8016EDC8.cpp
 extern "C" {
@@ -41,7 +45,6 @@ s32 is_locally_controlled__10TObjPlayerFPv(void);
 f32 horizontal_distance_squared(void *, void *);
 void get_player_state__6TOMineFv(void *, u16);
 s32 fn_80171314(void *);
-s32 get_room__8TObjBaseFv(void *);
 }
 
 
@@ -104,7 +107,6 @@ s32 is_locally_controlled__10TObjPlayerFPv(void);
 f32 horizontal_distance_squared(void *, void *);
 void get_player_state__6TOMineFv(void *, u16);
 s32 fn_80171314(void *);
-s32 get_camera_mode__11TCameraCtrlFv();
 extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -153,7 +155,6 @@ struct Pkt_8016F418 { u8 pad[4]; u16 id; u16 kind; };
 extern "C" {
 void TOMineTrap__sub_8017141C(void *);
 void *spawn_particle_effect(void *pos, s32 id);
-int get_player_data__10TObjPlayerFi(int a0);
 s16 TOMineTrap__sub_80171340(void *);
 u16 TOMineTrap__sub_80171358(void *);
 extern s32 lbl_805D5868;
@@ -165,7 +166,6 @@ void handle_6x80_trigger_trap(Pkt_8016F418 *arg0);
 // ---- declarations carried over from the fragment TOMineTrap_8016F6F8.cpp
 struct Trap_8016F704 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x84 - 0x44]; s32 delay; u8 pad88[0x2A8 - 0x88]; void *target; u8 pad2AC[0x34C - 0x2AC]; f32 range; u8 pad350[0x35C - 0x350]; u16 targetId; };
 extern "C" {
-s32 obj_testFlags30__14TObjCollidableFUl(void *, u32);
 s32 get_current_floor(void);
 f32 horizontal_distance_squared(void *, void *);
 extern u8 lobby_rule_settings[];
@@ -248,8 +248,6 @@ f32 vec3_add_to(void *, void *);
 f32 vec_squared_length(u8 *arg0);
 f32 subtract_vector(void *, void *);
 f32 normalize_vector(void *);
-int get_player_data__10TObjPlayerFi(int a0);
-s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 extern s32 lbl_805D5868;
@@ -583,12 +581,12 @@ void TOMine::sub_80170BEC() {
     case 0:
         this->phase = 1;
         for (i = lbl_805D5870; i < lbl_805D5868; i++) {
-            p = (u8 *)get_player_data__10TObjPlayerFi(i);
+            p = (u8 *)TObjPlayer::get_player_data(i);
             if (p != NULL && p != ((u8 *)this) &&
-                (check_value_equals__13TUnk_804B6C24Fl(p, TOMineIcon01__name) != 0 ||
-                 check_value_equals__13TUnk_804B6C24Fl(p, TOMineIcon02__name) != 0 ||
-                 check_value_equals__13TUnk_804B6C24Fl(p, TOMineIcon03__name) != 0 ||
-                 check_value_equals__13TUnk_804B6C24Fl(p, TOMineIcon04__name) != 0) &&
+                (((TUnk_804B6C24 *)p)->check_value_equals(TOMineIcon01__name) != 0 ||
+                 ((TUnk_804B6C24 *)p)->check_value_equals(TOMineIcon02__name) != 0 ||
+                 ((TUnk_804B6C24 *)p)->check_value_equals(TOMineIcon03__name) != 0 ||
+                 ((TUnk_804B6C24 *)p)->check_value_equals(TOMineIcon04__name) != 0) &&
                 *(s32 *)(p + 0x344) == 1 && *(s32 *)(p + 0x348) == *(s32 *)(((u8 *)this) + 0x348)) {
                 ((TOMine *)p)->update_trigger();
             }
@@ -1056,8 +1054,8 @@ void TOMineTrap::destroy_matching_traps() {
     void *p;
     s32 i;
     for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {
-        p = (void *)get_player_data__10TObjPlayerFi(i);
-        if (p != 0 && check_value_equals__13TUnk_804B6C24Fl(p, (s32)TOMineTrap__data_805D3080) != 0) {
+        p = (void *)TObjPlayer::get_player_data(i);
+        if (p != 0 && ((TUnk_804B6C24 *)p)->check_value_equals((s32)TOMineTrap__data_805D3080) != 0) {
             ((TObject *)p)->queue_destruction();
         }
     }
@@ -1143,7 +1141,7 @@ void TOMineTrap::run_task() {
                     }
                     record_attack_source(target, get_trap_type());
                 }
-            } else if (check_value_equals__13TUnk_804B6C24Fl(p, (s32)TOMineTrap__data_805D3080) != 0) {
+            } else if (((TUnk_804B6C24 *)p)->check_value_equals((s32)TOMineTrap__data_805D3080) != 0) {
                 if (horizontal_distance_squared(&position, &p->position) < m_350 * m_350) {
                     target = (u8 *)p;
                     ((TObjChara *)target)->receive_physical_attack(this, 1.0f);
@@ -1191,8 +1189,8 @@ s32 TOMineTrap::find_target_in_range() {
         return 0;
     }
     for (i = 0; i < registered_player_count + lbl_805D5870; i++) {
-        p = (u8 *)get_player_data__10TObjPlayerFi(i);
-        if (p == 0 || p == (u8 *)self || obj_testFlags30__14TObjCollidableFUl(p, 0x800) != 0) {
+        p = (u8 *)TObjPlayer::get_player_data(i);
+        if (p == 0 || p == (u8 *)self || ((TObjCollidable *)p)->obj_testFlags30(0x800) != 0) {
             continue;
         }
         id = get_entity_id(p);
@@ -1260,7 +1258,7 @@ f32 TOMineTrap::receive_physical_attack(void *attacker, f32) {
     case 0:
     case 1:
     case 2:
-        if ((attacker != NULL) && (check_value_equals__13TUnk_804B6C24Fl(attacker, (s32)TOMineTrap__data_805D3080) != 0)) {
+        if ((attacker != NULL) && (((TUnk_804B6C24 *)attacker)->check_value_equals((s32)TOMineTrap__data_805D3080) != 0)) {
             set_triggered();
             if (set_params[1] > 0xF) {
                 set_params[1] = 0xF;
@@ -1298,11 +1296,11 @@ void handle_6x80_trigger_trap(Pkt_8016F418 *arg0) {
     }
     ((TOMineTrap *)arg0)->bswap_6x80_trigger_trap();
     for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {
-        p = (VObj_8016F418 *)get_player_data__10TObjPlayerFi(i);
+        p = (VObj_8016F418 *)TObjPlayer::get_player_data(i);
         if (p == NULL) {
             continue;
         }
-        if (check_value_equals__13TUnk_804B6C24Fl(p, (s32)TOMineTrap__data_805D3080) == 0) {
+        if (((TUnk_804B6C24 *)p)->check_value_equals((s32)TOMineTrap__data_805D3080) == 0) {
             continue;
         }
         if (arg0->id != TOMineTrap__sub_80171358(p)) {
@@ -1435,7 +1433,7 @@ void TOMineDisp::run_task() {
 void TOMineDisp::render() {
     s32 temp_r31;
     s32 temp_r4;
-    u16 id = TCameraCtrl::get_nth_view_player_id(get_camera_mode__11TCameraCtrlFv());
+    u16 id = TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_mode());
     if (id != this->m_a8) {
         return;
     }
@@ -1488,7 +1486,7 @@ void TOMineTrapDisp::run_task() {
                     if (fn_80171314(pl) != 0 ||
                         (TTecCtrl::is_technique_ready() != 0 && m_ac == (u16)get_entity_id(pl))) {
                         if (!(horizontal_distance_squared(&position, pl + 0x38) <= 40000.0f)) {
-                            if ((s16)get_room__8TObjBaseFv(pl) != (s16)get_room__8TObjBaseFv(this)) {
+                            if ((s16)((TObjBase *)pl)->get_room() != (s16)((TObjBase *)this)->get_room()) {
                                 continue;
                             }
                         }

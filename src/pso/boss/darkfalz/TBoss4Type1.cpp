@@ -18,6 +18,9 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -261,7 +264,6 @@ struct Stack_80053670 {
 
 f32 random_ratio__9TObjCharaFv(void *);
 void VecCopy__FP3VecPC3Vec(void *, void *);
-int get_player_data__10TObjPlayerFi(int a0);
 u16 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
 s32 get_bml_motion(s32, s32);
@@ -284,7 +286,6 @@ void TBoss4Type2__sub_80055300(void);
 Vec_80053E40 * get_position_ptr__10TObjPlayerFv(void *);
 void * create__9TBoss4UroFi(Params_80052CDC *);
 int toggle_particle_effect__10TObjPlayerFv(void*);
-s32 clear_render_callback__8TObjFishFv(s32);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 void free_collision_body_parts(void *);
 s32 project_actor_to_ground(void *, void *, int);
@@ -521,7 +522,7 @@ extern "C" void TBoss4Type2__sub_80054FC0(u8 *arg0, f32 arg1) {
     }
     for (i = 0; i < cnt; i++)
     {
-      arr[i] = (u8 *) get_player_data__10TObjPlayerFi(i);
+      arr[i] = (u8 *) TObjPlayer::get_player_data(i);
       if (arr[i] == 0)
       {
         break;
@@ -892,13 +893,13 @@ void TBoss4Type1::draw_parts() {
             ((TObjFish *)(*(s32 *)(arg0 + off)))->set_draw_callback_list();
             a = get_bml_model(*(s32 *)((s8 *)arg0 + 0x390), lbl_80485EB0[i]);
             draw_model_motion((void *)a, (void *)(get_bml_motion(*(s32 *)((s8 *)arg0 + 0x390), *(s32 *)((s8 *)((u8 *)&boss4_type1_motion_states.value + (*(s32 *)((s8 *)arg0 + 0x3E4) << 5) + i * 4) + 8))), *(f32 *)((s8 *)arg0 + 0x3E8));
-            clear_render_callback__8TObjFishFv(*(s32 *)(arg0 + off));
+            ((TObjFish *)(*(s32 *)(arg0 + off)))->clear_render_callback();
             TBoss6PlotFalz::update_camera_target();
             break;
         case 5:
             ((TObjFish *)(*(s32 *)((s8 *)arg0 + 0x480)))->set_draw_callback_list();
             draw_model_motion((void *)(get_bml_model(*(s32 *)((s8 *)arg0 + 0x390), lbl_80485EB0[i])), (void *)(get_bml_motion(*(s32 *)((s8 *)arg0 + 0x390), *(s32 *)((s8 *)((u8 *)&boss4_type1_motion_states.value + (*(s32 *)((s8 *)arg0 + 0x3E4) << 5) + i * 4) + 8))), *(f32 *)((s8 *)arg0 + 0x3E8));
-            clear_render_callback__8TObjFishFv(*(s32 *)((s8 *)arg0 + 0x480));
+            ((TObjFish *)(*(s32 *)((s8 *)arg0 + 0x480)))->clear_render_callback();
             break;
         default:
             draw_model_motion((void *)(get_bml_model(*(s32 *)((s8 *)arg0 + 0x390), lbl_80485EB0[i])), (void *)(get_bml_motion(*(s32 *)((s8 *)arg0 + 0x390), *(s32 *)((s8 *)((u8 *)&boss4_type1_motion_states.value + (*(s32 *)((s8 *)arg0 + 0x3E4) << 5) + i * 4) + 8))), *(f32 *)((s8 *)arg0 + 0x3E8));
@@ -979,7 +980,7 @@ void TBoss4Type1::push_players_out_of_colliders() {
     }
     pop_matrix();
     for (p = 0; p < registered_player_count; p++) {
-        pl = (u8 *)get_player_data__10TObjPlayerFi(p);
+        pl = (u8 *)TObjPlayer::get_player_data(p);
         if (pl != NULL && ((TBoss3Volopt *)pl)->get_field_3e0() == 0xE) {
             Vec_80053E40 pos = *get_position_ptr__10TObjPlayerFv(pl);
             Vec_80053E40 d;
@@ -1026,7 +1027,7 @@ void TBoss4Type1::push_players_out_of_colliders() {
                     VecCopy__FP3VecPC3Vec(&pos, &q);
                 }
             }
-            if (((f32 (*)(void *, void *))xyz_distance)(get_position_ptr__10TObjPlayerFv(pl), &pos) > lbl_805D8B20) {
+            if (((f32 (*)(void *, void *))xyz_distance)(((TObjPlayer *)pl)->get_position_ptr(), &pos) > lbl_805D8B20) {
                 ((TObjBase *)pl)->set_position_from(&pos);
                 ((TBoss4DarkFalz *)pl)->save_position();
                 ((TObjCollidable *)pl)->set_indexed_flags(0, 0x900000);
@@ -1100,13 +1101,13 @@ void TBoss4Type2::apply_packed_state(u32 arg1) {
 void TBoss4Type2::calc_scale_slot_indices(s32 *a, s32 *b) {
     f32 s;
     s32 v;
-    v = ((S_80053B48 *)this)->f3a0 + (s32)(lbl_805D8B64 * random_ratio__9TObjCharaFv(((S_80053B48 *)this)));
+    v = ((S_80053B48 *)this)->f3a0 + (s32)(lbl_805D8B64 * ((TObjChara *)((S_80053B48 *)this))->random_ratio());
     v += 1;
     if (v >= 4) {
         v -= 4;
     }
     *a = v;
-    s = random_ratio__9TObjCharaFv(this);
+    s = ((TObjChara *)this)->random_ratio();
     if (s <= lbl_805D8B68) {
         *b = 0;
     } else if (s <= lbl_805D8B6C) {
@@ -1153,7 +1154,7 @@ void pick_target_position__13TRaderMapCoreFPvPv(O_80053914 *self, Vec_80053914 *
     best = lbl_805D8B20;
     found = NULL;
     for (i = 0; i < registered_player_count; i++) {
-        p = (O_80053914 *)get_player_data__10TObjPlayerFi(i);
+        p = (O_80053914 *)TObjPlayer::get_player_data(i);
         if (p == NULL) {
             continue;
         }
@@ -1175,9 +1176,9 @@ void pick_target_position__13TRaderMapCoreFPvPv(O_80053914 *self, Vec_80053914 *
         ((s32 (*)(Vec_80053914 *, Vec_80053914 *))VecCopy__FP3VecPC3Vec)(out, &res);
         return;
     }
-    s = lbl_805D8B50 * random_ratio__9TObjCharaFv(self);
+    s = lbl_805D8B50 * ((TObjChara *)self)->random_ratio();
     a1 = (s32)(10430.38043493439 * atan2_float(-self->pos.x, -self->pos.z));
-    b = (s32)(lbl_805D8B54 * random_ratio__9TObjCharaFv(self));
+    b = (s32)(lbl_805D8B54 * ((TObjChara *)self)->random_ratio());
     ang = b + a1;
     ang -= 0x6000;
     out->x = s * sin_table_lookup(ang);

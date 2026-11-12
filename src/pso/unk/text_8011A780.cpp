@@ -17,6 +17,7 @@
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/item/TItemIdCounters.h"
 #include "pso/unk/TLobby_801F3A24.h"
+#include "pso/item/TItemData.h"
 
 // G_PickUpItem_6x59::G_PickUpItem_6x59() on a command built here.
 extern "C" void *__ct__17G_PickUpItem_6x59Fv(void *cmd);
@@ -191,7 +192,7 @@ void TLobby::drop_item_from_source(s16 source, int client, s16 room, int slot, f
             id = build_item_id(row.drop_id_base);
             row.drop_id_base = 0xFFFF;
             TLobby::apply_table_entry(source, &row);
-            init__9TItemDataFv(&item);
+            ((TItemData *)(&item))->init();
             TObjPlayer::drop_item(slot, (s32)&item);
             item.id = id;
             if (((TItemData *)(&item))->isValidGroundDrop() != 0) {

@@ -12,6 +12,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/object/trap/TOTrapChainSaw.h"
 extern "C" void vfunc_28__20TOTrapChainSawDamageFv();
 extern "C" void vfunc_16__18TOTrapChainSawEdgeFv();
 extern "C" void vfunc_25__18TOTrapChainSawEdgeFv();
@@ -411,7 +412,7 @@ void TParticleCtrl__sub_802C8464(u32 arg0) {
 
 void TOTrapChainSawKey::vfunc_27() {  }
 
-int TOTrapChainSawKey::check_player_contact() { if (*(int*)((char*)this + 0xf0) != 1) { check_player_contact__14TOTrapChainSawFv(this); } }
+int TOTrapChainSawKey::check_player_contact() { if (*(int*)((char*)this + 0xf0) != 1) { TOTrapChainSaw::check_player_contact(); } }
 
 void TOTrapChainSawKey::vfunc_25() {
     TObjFish::set_global_param((s32)(*(void **)((s8 *)this + 0x24)));

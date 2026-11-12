@@ -2,6 +2,7 @@
 #include "pso/boss/barbaray/TBoss7Joint.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 extern "C" {
 extern const f32 lbl_805DE9F0;
@@ -11,8 +12,6 @@ s32 register_boss__6TLobbyFl(int);
 s32 reload_stats_keep_hp_tp__9TObjEneDDFv(void *, int, int, int);
 u32 __nw__7TObjectFUl(int);
 s32 TObjPlayer__sub_802E72DC(void *, void *, void *, int);
-s32 vfunc_93__9TObjEneDDFv(void *);
-s32 vfunc_94__9TObjEneDDFv(void *);
 
 int TBoss7Joint::is_part_active() { return *(u32*)((char*)this + 0x3bc) & 0x1; }
 
@@ -30,10 +29,10 @@ void TBoss7Joint::init_boss_stats() {
 
 void TBoss7Joint::vfunc_93() {
     if (*(s32 *)((s8 *)this->bodies + 0x18) & 6) {
-        vfunc_93__9TObjEneDDFv(this);
+        TObjEneDD::vfunc_93();
         return;
     }
-    vfunc_94__9TObjEneDDFv(this);
+    TObjEneDD::vfunc_94();
 }
 void TBoss7Joint::vfunc_88() {
     u8 *arg0 = (u8 *)this;

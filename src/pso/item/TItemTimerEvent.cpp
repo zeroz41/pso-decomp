@@ -10,6 +10,9 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer.h"
 
 struct RecoveredGlobal_8011DC90___vt__15TItemTimerEvent {
     s32 value;
@@ -36,29 +39,26 @@ void *__dt__13TUnk_804A0648Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_804A0668Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_804A0688Fv(void *arg0, s16 arg1);
 void *__dt__15TItemTimerEventFv(void *arg0, s16 arg1);
-s32 test_action_mask__10TObjPlayerFl(s32, s32);
 s32 is_item_area_enabled();
 void __dt__15TItemHeapObjectFv(void *, int);
 void __dl__15TItemHeapObjectFPv(void *);
-s32 obj_isState3_324__9TObjCharaFv(s32);
-s32 obj_testFlags30__14TObjCollidableFUl(s32, s32);
 s32 set_flag_10000__10TObjPlayerFv();
 
 void TUnk_804A0668::vfunc_7() {
-    if (test_action_mask__10TObjPlayerFl(this->m_28, 0x1C) != 0) {
+    if (((TObjPlayer *)this->m_28)->test_action_mask(0x1C) != 0) {
         this->m_24 = (this->m_24 + 1);
     }
 }
 
 void TUnk_804A0688::vfunc_6() {
     ((TBoss3Volopt *)(this->m_28))->get_field_3e0();
-    if ((is_item_area_enabled() == 1) && (obj_isState3_324__9TObjCharaFv(this->m_28) == 0) && (obj_testFlags30__14TObjCollidableFUl(this->m_28, 0x800) == 0)) {
+    if ((is_item_area_enabled() == 1) && (((TObjChara *)this->m_28)->obj_isState3_324() == 0) && (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0)) {
         TObjectV8047c128_subtract_hp((u8 *)this->m_28, 1);
     }
 }
 
 void TUnk_804A0688::vfunc_7() {
-    if (test_action_mask__10TObjPlayerFl(this->m_28, 0x1C) != 0) {
+    if (((TObjPlayer *)this->m_28)->test_action_mask(0x1C) != 0) {
         this->m_24 = (this->m_24 + 1);
     }
 }

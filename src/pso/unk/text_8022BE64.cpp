@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma push
 
 #include "pso/render/render_util.h"
@@ -7,6 +8,8 @@
 
 #include "pso/system/vector.h"
 #include "pso/technique/TTecReverser.h"
+#include "pso/effect/TUnk_804CC148.h"
+#include "pso/system/task/TObject.h"
 
 struct V3_8022BEAC { s32 x; s32 y; s32 z; };
 
@@ -31,7 +34,6 @@ struct Stack_8022BF8C_more_8022be64_1 {
 
 extern "C" {
 f32 vector_length(void *, f32);
-void queue_destruction__7TObjectFv(void *arg0);
 
 void TTecReverser::sub_8022BE64(u8 *arg1, s32 arg2) {
     u8 *arg0 = (u8 *)this;
@@ -57,7 +59,7 @@ void TUnk_804CC148::tick_lifetime() {
     this->state = 1;
     this->age = (this->age + 1);
     if ((f32) this->age > *(f32 *)((s8 *)this + 0x70)) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 
@@ -93,7 +95,7 @@ void TUnk_804CC148::run_task() {
     switch (this->state) {
     case 0:
         sub_8022C008__13TUnk_804CC148Fv();
-        count_if_within_range__13TUnk_804CC148Fv(this);
+        count_if_within_range();
         return;
     case 1:
         this->tick_lifetime();

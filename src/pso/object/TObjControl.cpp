@@ -9,6 +9,10 @@
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
+#include "pso/enemy/TObjEnemy.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/unk/TLobby.h"
 
 struct Ply_800F7118 {
     u8 pad0[0x28];
@@ -27,7 +31,6 @@ struct Ply_800F7118 {
 };
 
 extern "C" {
-int get_player_data__10TObjPlayerFi(int a0);
 u16 get_entity_id(void *);
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
@@ -429,13 +432,11 @@ s32 is_split_screen();
 s32 get_current_floor();
 s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
 s32 is_quest_active();
-s32 is_flag_set__6TLobbyFv();
 void subtractive_rng_seed(void *, s32);
 Ene_800F62E0 * find_active_entity_by_id(u16);
 void * __ct__11TObjControlFP7TObject(void *arg0);
 void handle_6x9C_set_enemy_low_game_flags_ultimate(Msg_800F62E0 *arg0);
 void handle_6x0A_update_enemy_state(Msg_800F6464 *arg0);
-void distribute_experience__9TObjEnemyFv(TObjPlayer_800F6B68 *self);
 void award_enemy_experience__9TObjEnemyFl(u8 *arg0, s32 arg1);
 void link_chain_nodes__10TObjPlayerFPvPvPv(void *arg0, Node_800F6E2C *arg1, Node_800F6E2C *arg2);
 void apply_by_index__9TObjEnemyFs(s16, void *);
@@ -573,11 +574,11 @@ void handle_6x9C_set_enemy_low_game_flags_ultimate(Msg_800F62E0 *arg0) {
     if (((TObject *)e)->all_parents_unqueued_for_destruction() == 0) {
         return;
     }
-    if (obj_testFlags30__14TObjCollidableFUl(e, 0x800) != 0) {
+    if (((TObjCollidable *)e)->obj_testFlags30(0x800) != 0) {
         return;
     }
     flags = arg0->flags;
-    if (obj_testFlags30__14TObjCollidableFUl(e, flags) != 0) {
+    if (((TObjCollidable *)e)->obj_testFlags30(flags) != 0) {
         return;
     }
     obj_setFlags30(e, flags);
@@ -697,16 +698,16 @@ void TObjEnemy::apply_hit_message_flags(void *arg1_arg) {
         flags = arg1->flags & ~0x3F;
     } else {
         flags = arg1->flags;
-        if ((flags & 2) && obj_testFlags30__14TObjCollidableFUl(this, 2) == 0) {
+        if ((flags & 2) && obj_testFlags30(2) == 0) {
             this->apply_paralysis();
         }
-        if ((flags & 4) && obj_testFlags30__14TObjCollidableFUl(this, 4) == 0) {
+        if ((flags & 4) && obj_testFlags30(4) == 0) {
             this->apply_shock_status();
         }
-        if ((flags & 0x10) && obj_testFlags30__14TObjCollidableFUl(this, 0x10) == 0) {
+        if ((flags & 0x10) && obj_testFlags30(0x10) == 0) {
             this->apply_confusion_status();
         }
-        if ((flags & 0x20) && obj_testFlags30__14TObjCollidableFUl(this, 0x20) == 0) {
+        if ((flags & 0x20) && obj_testFlags30(0x20) == 0) {
             this->apply_movement_ailment(0);
         }
     }
@@ -780,7 +781,7 @@ u8 *get_enemy_entity(u16 arg0) {
     return 0;
 }
 
-void TObjPlayer::refresh_lobby_state() { distribute_experience__9TObjEnemyFv((TObjPlayer_800F6B68 *)(this)); query_lobby_state(); }
+void TObjPlayer::refresh_lobby_state() { ((TObjEnemy *)((TObjPlayer_800F6B68 *)(this)))->distribute_experience(); query_lobby_state(); }
 
 int TObjPlayer::query_lobby_state() { return send_6x60_standard_drop_item_request(this); }
 
@@ -822,7 +823,7 @@ void TObjEnemy::award_enemy_experience(s32 arg1) {
         val *= 0.8f;
     }
     if (is_quest_active() == 1) {
-        if (is_flag_set__6TLobbyFv() != 0) {
+        if (TLobby::is_flag_set() != 0) {
             val = (s32)((f32)val * TLobby__sub_800F7A7C());
         } else if (is_challenge_mode_active() != 0) {
             val = (s32)((f32)val * TLobby__sub_800F7A6C());
@@ -1024,7 +1025,7 @@ void TUnk_80493450::link_into_group_chain() {
         head = NULL;
         tail = NULL;
         for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
-            p = (Ply_800F7118 *)get_player_data__10TObjPlayerFi(i);
+            p = (Ply_800F7118 *)TObjPlayer::get_player_data(i);
             if (p == NULL || p == self) {
                 continue;
             }

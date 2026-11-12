@@ -9,6 +9,7 @@
 #include "pso/ui/window/TWindowDeposit.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowDD.h"
 
 struct RecoveredGlobal_8024E548_lbl_804CEB70
 {
@@ -31,7 +32,6 @@ extern s32 __vt__14TWindowDeposit[];
 extern s32 TWindowDeposit__name;
 s32 draw_window_tab(s32, s32, s32, f32);
 void __dl__7TObjectFPv(void *);
-int initialize_subwindow__9TWindowDDFv(void*);
 
 void TWindowDeposit::render_status(s32 arg1) {
     draw_window_tab(arg1, arg1 + 0x10, 3, this->m_60);
@@ -44,7 +44,7 @@ void render__14TWindowDepositFv(s32 arg0) {
     draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)ctx);
 }
 
-void TWindowDeposit::run_task() { initialize_subwindow__9TWindowDDFv(this); update_window_entry_list((char*)this + 0x24); }
+void TWindowDeposit::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list((char*)this + 0x24); }
 
 void *__dt__14TWindowDepositFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -10,6 +11,9 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/system/task/TObject.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -158,7 +162,6 @@ void dispatch_state_handler__19TObjEneBm9MericarolFiUii(s32 arg0, u32 arg1, s32 
 s32 obj_isState2_324__9TObjCharaFv(s32);
 s32 is_valid_target__9TObjEneDDFv(s32);
 f32 horizontal_distance_squared(void *, void *);
-void queue_destruction__7TObjectFv(void *arg0);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
@@ -346,7 +349,6 @@ void invoke_initialization_hook__9TObjEneDDFPv(void *, s32);
 void init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, s32);
 void reset_hp__9TObjEneDDFPUcPUcPUc(void *, s32, s32, s32);
 s32 create__13TUnk_80494968FUlUl(s32, s32);
-void initialize_enemy_state__9TObjEneDDFl(void *, s32);
 void *__ct__14TObjCollidableFP7TObject(void *, s32);
 void init_collision_body_parts(void *, void *, s32);
 u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
@@ -451,7 +453,7 @@ void TObjEneBm9Mericarol::init_size_tier_and_offsets() {
     *(s32 *)((s8 *)arg0 + 0x45C) = (s32) *(s32 *)((s8 *)arg0 + 0x368);
     temp_r0 = *(s32 *)((s8 *)arg0 + 0x45C);
     if ((temp_r0 < 0) || (temp_r0 > 2)) {
-        temp_f1 = random_ratio__9TObjCharaFv((s32) arg0);
+        temp_f1 = ((TObjChara *)arg0)->random_ratio();
         if (temp_f1 > lbl_805DE728) {
             *(s32 *)((s8 *)arg0 + 0x45C) = 2;
         } else if (temp_f1 > 0.8f) {
@@ -615,7 +617,7 @@ u8 *__dt__19TObjEneBm9MericarolFPvs(u8 *arg0, s16 arg1) {
         *(void **)((s8 *)arg0 + 0x18) = TObjEneBm9Mericarol__vtable;
         for (i = 0; i < 2; i++) {
             if (((S_802D0C14 *)arg0)->arr[i] != NULL) {
-                queue_destruction__7TObjectFv(((S_802D0C14 *)arg0)->arr[i]);
+                ((TObject *)(((S_802D0C14 *)arg0)->arr[i]))->queue_destruction();
                 ((S_802D0C14 *)arg0)->arr[i] = NULL;
             }
         }
@@ -631,7 +633,7 @@ u8 *__dt__19TObjEneBm9MericarolFPvs(u8 *arg0, s16 arg1) {
             *(void **)((s8 *)arg0 + 0x48C) = NULL;
         }
         if (*(void **)((s8 *)arg0 + 0x4AC) != NULL) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x4AC));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x4AC)))->queue_destruction();
             *(void **)((s8 *)arg0 + 0x4AC) = NULL;
         }
         free_collision_body_parts(arg0);
@@ -658,7 +660,7 @@ Obj_802D0D3C *TObjEneBm9Mericarol__ct(Obj_802D0D3C *self, void *parent, s32 arg2
     invoke_initialization_hook__9TObjEneDDFPv(self, arg2);
     ((TObjEneBm9Mericarol *)self)->init_size_tier_and_offsets();
     self->f438 = 0;
-    if (random_ratio__9TObjCharaFv((s32)self) <= 0.002f) {
+    if (((TObjChara *)self)->random_ratio() <= 0.002f) {
         self->f438 |= 0x400;
     }
     ((TObjEneDD *)self)->init_position_vectors();
@@ -678,13 +680,13 @@ Obj_802D0D3C *TObjEneBm9Mericarol__ct(Obj_802D0D3C *self, void *parent, s32 arg2
     self->f350 = lbl_804E1548;
     switch (((TObjEneBm9Mericarol *)self)->get_phase()) {
     case 0:
-        initialize_enemy_state__9TObjEneDDFl(self, 0x38);
+        ((TObjEneDD *)self)->initialize_enemy_state(0x38);
         break;
     case 1:
-        initialize_enemy_state__9TObjEneDDFl(self, 0x39);
+        ((TObjEneDD *)self)->initialize_enemy_state(0x39);
         break;
     case 2:
-        initialize_enemy_state__9TObjEneDDFl(self, 0x3A);
+        ((TObjEneDD *)self)->initialize_enemy_state(0x3A);
         break;
     }
     self->f37C = lbl_805DE6EC;

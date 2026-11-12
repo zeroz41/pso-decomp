@@ -7,6 +7,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdlib.h>
+#include "pso/item/TItemData.h"
 
 struct SRock_80224544_8022448C;
 
@@ -119,7 +120,6 @@ void roll_shop_weapon_grind(Item_80225064 *it);
 void roll_shop_weapon_second_bonus(Obj_80224C68 *obj);
 void roll_shop_weapon_first_bonus(Obj_80224DF0 *obj);
 void sort_shop_items(s32, s32, s32);
-void init__9TItemDataFv(void *);
 
 const Pair_8022525C shop_weapon_group_subtype_table[72] = {
     {1, 0}, {1, 1}, {1, 2}, {1, 3}, {1, 4},
@@ -605,7 +605,7 @@ void generate_shop_weapon_stock(s32 tbl) {
       {
         continue;
       }
-      init__9TItemDataFv(&item);
+      ((TItemData *)(&item))->init();
       if (id == 0x39)
       {
         if (shop_section_id_weapon_table_a[lbl_805D6238].a != (-1))

@@ -6,6 +6,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/player/TObjPlayer.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -188,7 +189,7 @@ void TBoss6Mine::explode_damage_players() {
     u8 *arg0 = (u8 *)this;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        pl = (u8 *)get_player_data__10TObjPlayerFi(i);
+        pl = (u8 *)TObjPlayer::get_player_data(i);
         if (((TBoss6PlotFalz *)pl)->is_active() != 0) {
             Vec_803240F8 v = *(Vec_803240F8 *) (arg0 + 0x38);
             subtract_vector(&v, pl + 0x38);

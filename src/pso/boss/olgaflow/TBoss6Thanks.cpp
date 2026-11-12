@@ -17,6 +17,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer.h"
 
 typedef char Thanks_current_motion[offsetof(TBoss6Thanks,current_motion)==0x20?1:-1];
 typedef char Thanks_frame0[offsetof(TBoss6Thanks,frame0)==0x28?1:-1];
@@ -133,7 +134,7 @@ int TBoss6Thanks::is_player_near(void *arg0) {
     n = TLobby::get_game_mode();
     r = 30.0f;
     for (i = 0; i < n; i++) {
-        p = (u8 *)get_player_data__10TObjPlayerFi(i);
+        p = (u8 *)TObjPlayer::get_player_data(i);
         if (p != NULL && ((TBoss6PlotFalz *)p)->is_active() != 0 &&
             xyz_distance(p + 0x38, TBoss6Thanks__data_80479BA8) <= r) {
             return 1;

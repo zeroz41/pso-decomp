@@ -4,6 +4,8 @@
 #include "pso/ui/window/TWindowRoom.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowDD.h"
 
 struct RecoveredGlobal_8026D674_lbl_804D08DC {
     s32 value;
@@ -25,8 +27,6 @@ struct RoomTitleEntry {
 };
 
 extern "C" {
-int get_array_entry__11TWindowBaseFi(void*, int);
-s32 save_position__11TWindowBaseFv(void *);
 void construct_base__9TWindowDDFPUcsPUc(void *, void *, s16, void *);
 void refresh_status_display__9TWindowDDFv(void *);
 s32 get_window_layout_position(int);
@@ -35,20 +35,18 @@ extern s32 __vt__11TWindowRoom[];
 extern s32 TWindowRoom__class_name;
 s32 clamp_list_scroll_offset(struct Pos_8026D740 *a, struct Pos_8026D740 *b, struct Pos_8026D740 *c);
 s32 draw_visible_window_entries(s32, s32, s32);
-int update_window_entry_list__11TWindowBaseFPv(void*, void*);
 s32 draw_window_tab(s32, s32, s32, f32);
 void __dl__7TObjectFPv(void *);
 s32 draw_default_entry__9TWindowDDFl();
-int initialize_subwindow__9TWindowDDFv(void*);
 
 }
 
 void *TWindowRoom::get_title_entry() {
-    return (void *)get_array_entry__11TWindowBaseFi(this, 0);
+    return (void *)((TWindowBase *)this)->get_array_entry(0);
 }
 
 void TWindowSubStatusDisp::set_entry_display_value(s32 arg1) {
-    set_text_entry_string((u8 *)(get_array_entry__11TWindowBaseFi(this, 0)), arg1, 0x60);
+    set_text_entry_string((u8 *)(get_array_entry(0)), arg1, 0x60);
 }
 
 void TWindowRoom::draw_tab(void *context) {
@@ -63,7 +61,7 @@ void TWindowRoom::draw_status() {
     ((TWindowRoom *)arg0)->draw_tab((void *)temp_r3);
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
 }
-void TWindowRoom::run_task() { initialize_subwindow__9TWindowDDFv(this); update_window_entry_list__11TWindowBaseFPv(this, (char*)this + 0x24); }
+void TWindowRoom::run_task() { ((TWindowDD *)this)->initialize_subwindow(); ((TWindowBase *)this)->update_window_entry_list((char*)this + 0x24); }
 
 void *__dt__11TWindowRoomFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
@@ -84,12 +82,12 @@ TWindowRoom::TWindowRoom(char *title) {
                                     (void *)get_window_layout_position(0xAF));
     objectVtable = __vt__11TWindowRoom;
     className = TWindowRoom__class_name;
-    entry = (RoomTitleEntry *)get_array_entry__11TWindowBaseFi(this, 0);
+    entry = (RoomTitleEntry *)((TWindowBase *)this)->get_array_entry(0);
     set_text_entry_string((u8 *)entry, (u32)title, 0x60);
     refresh_status_display__9TWindowDDFv(entry);
     width = 10.0f + (entry->positionX + entry->width);
     positionX -= width;
-    save_position__11TWindowBaseFv(this);
+    ((TWindowBase *)this)->save_position();
     tabParameter = TWindowSubStatusDisp__sub_802877A4(unknown48 - 16.0f);
 }
 

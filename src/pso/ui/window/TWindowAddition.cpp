@@ -5,6 +5,7 @@
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowDD.h"
 
 extern "C" {
 extern s32 TWindowSubStatusDisp__count_ratio_value;
@@ -12,14 +13,13 @@ extern s32 lbl_805DCAB8;
 void sub_802443B4__15TWindowAdditionFv(void *, void *);
 void construct_base__9TWindowDDFPUcsPUc(void *);
 void __dl__7TObjectFPv(void *);
-void destroy_window_base__9TWindowDDFs(void *, int);
 
 extern s32 lbl_804CDFE8[];
 
 void *TWindowAddition::destroy_window(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = lbl_804CDFE8;
-        destroy_window_base__9TWindowDDFs(this, 0);
+        ((TWindowDD *)this)->destroy_window_base(0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
         }

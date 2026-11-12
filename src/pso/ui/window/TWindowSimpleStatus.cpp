@@ -14,6 +14,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/TWindowBase.h"
 
 struct Disp_8026F9F4 { u8 p0[0x20]; s16 id; u8 p1[0x42]; void *windows[5]; };
 
@@ -144,7 +145,7 @@ extern const f32 lbl_805DD3C4;
 void TWindowSubStatusDisp::start_hp_text_color_transition() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
-    temp_r3 = (u8 *)(((s32)get_array_entry__11TWindowBaseFi(arg0, 4)));
+    temp_r3 = (u8 *)(((s32)((TWindowBase *)arg0)->get_array_entry(4)));
     *(f32 *)((s8 *)temp_r3 + 0x20) = (f32) (*(const f32 *)&lbl_805DD388);
     *(f32 *)((s8 *)temp_r3 + 0x24) = (f32) (*(const f32 *)&lbl_805DD388);
     start_text_color_transition(temp_r3, (s32)(0xFF008CFCU), (*(const f32 *)&lbl_805DD38C));
@@ -154,7 +155,7 @@ void TWindowSubStatusDisp::init_gauge_entry() {
     VObj3_8026f71c_more_8026f8cc_0 *temp_r3;
     f32 temp_f0;
 
-    temp_r3 = (VObj3_8026f71c_more_8026f8cc_0 *) get_array_entry__11TWindowBaseFi(this, 3);
+    temp_r3 = (VObj3_8026f71c_more_8026f8cc_0 *) get_array_entry(3);
     temp_f0 = lbl_805DD388;
     *(f32 *)((s8 *)temp_r3 + 0x20) = temp_f0;
     *(f32 *)((s8 *)temp_r3 + 0x24) = temp_f0;
@@ -213,7 +214,7 @@ s32 TWindowSubStatusDisp::update_hp_entry() {
         this->init_gauge_entry();
         return 0xFF00FF15;
     }
-    temp_r31 = (u8 *)(((u8 *)get_array_entry__11TWindowBaseFi(this, 3)));
+    temp_r31 = (u8 *)(((u8 *)get_array_entry(3)));
     *(f32 *)((s8 *)temp_r31 + 0x20) = (f32) ((TItemProShield *)player)->get_field_2b8();
     if (*(f32 *)((s8 *)temp_r31 + 0x24) > (f32) *(s16 *)((s8 *)player + 0x32C)) {
         *(s32 *)((s8 *)((u8 *)this) + 0x60) = 4;

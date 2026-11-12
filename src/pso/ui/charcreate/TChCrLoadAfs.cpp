@@ -7,10 +7,10 @@
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/charcreate/TChCrLoadAfs.h"
+#include "pso/unk/TLobby.h"
 
 extern "C" {
-
-void release_load_slot__12TChCrLoadAfsFv(void *arg0);
 
 int TChCrLoadAfs::is_unloaded() { return *(u32*)((char*)this + 0x4a8) == 0; }
 
@@ -47,7 +47,6 @@ struct L_8028B948 { u8 pad[0x1c]; s32 f1c; u8 pad2[0xc]; s32 f2c; };
 
 extern "C" {
 s32 TLobby__sub_803CC4C0(int);
-void close_adxf_handle__6TLobbyFv(int);
 void poll_load__12TChCrLoadAfsFv(L_8028B948 *arg0);
 u32 adxf_open_afs__6TLobbyFii(s32, s32);
 
@@ -58,7 +57,7 @@ void poll_load__12TChCrLoadAfsFv(L_8028B948 *arg0) {
     case 2:
         return;
     case 3:
-        close_adxf_handle__6TLobbyFv(arg0->f1c);
+        ((TLobby *)arg0->f1c)->close_adxf_handle();
         arg0->f1c = 0;
         break;
     case 1:
@@ -66,7 +65,7 @@ void poll_load__12TChCrLoadAfsFv(L_8028B948 *arg0) {
         arg0->f2c = 3;
         return;
     }
-    release_load_slot__12TChCrLoadAfsFv(arg0);
+    ((TChCrLoadAfs *)arg0)->release_load_slot();
     arg0->f2c = 2;
 }
 
@@ -171,7 +170,7 @@ TChCrLoadAfs::~TChCrLoadAfs() {
     u32 handle = load_handle;
     if (handle != 0) {
         if (TLobby__sub_803CC4C0((int)handle) == 2) ((TLobby *)load_handle)->adxf_stop();
-        close_adxf_handle__6TLobbyFv((int)load_handle);
+        ((TLobby *)load_handle)->close_adxf_handle();
         load_handle = 0;
     }
     u32 buffer = buffer_address;
@@ -179,7 +178,7 @@ TChCrLoadAfs::~TChCrLoadAfs() {
         TAdSinglePlyChrSelectGC::safe_free((int)buffer);
         buffer_address = 0;
     }
-    release_load_slot__12TChCrLoadAfsFv(this);
+    release_load_slot();
 }
 
 extern void *lbl_805D3B48;
@@ -269,14 +268,14 @@ void TChCrLoadAfsTextureReq::update_loading(void *) {
         return;
     }
     if (retry != 0) {
-        close_adxf_handle__6TLobbyFv(arg0->f60);
+        ((TLobby *)arg0->f60)->close_adxf_handle();
         arg0->f60 = 0;
         TAdSinglePlyChrSelectGC::safe_free(arg0->bufs[arg0->f5c]);
         arg0->bufs[arg0->f5c] = 0;
         arg0->f2c = 1;
         return;
     }
-    close_adxf_handle__6TLobbyFv(arg0->f60);
+    ((TLobby *)arg0->f60)->close_adxf_handle();
     arg0->f60 = 0;
     if (++arg0->f5c != arg0->f58) {
         arg0->f2c = 1;

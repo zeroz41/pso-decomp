@@ -21,6 +21,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/system/task/TObject.h"
+#include "pso/item/TItemData.h"
+#include "pso/ui/city/TShopWindowBase.h"
 
 struct VBase_18_a93f07
 {
@@ -112,7 +114,6 @@ void TWindowSetLevelUp__sub_8026DE28(u32, s32);
 u32 create_item_list_window(s32, s32, u16);
 void *__dt__18TShopGetItemWindowFv(TShopGetItemWindow *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
-void init__9TItemDataFv(void *);
 
 s32 TShopGetItemWindow::close() {
     if ((u32) this->m_28 != 0U) {
@@ -194,7 +195,7 @@ void TShopGetItemWindow::update_input_number() {
         if ((u32) this->m_2c == 0U) {
             this->m_2c = (u32)create_yes_no_window(get_window_layout_position(0x2B), (u16) get_entity_id(this->m_24), 0, 0);
             ((TCheckRoomSequence *)(this->m_2c))->set_ready_flag();
-            ((TWindowAddition *)(this->m_2c))->set_position_xy(get_scale__15TShopWindowBaseFv(this), get_scale__15TShopWindowBaseFv(this));
+            ((TWindowAddition *)(this->m_2c))->set_position_xy(get_scale(), get_scale());
         }
         this->m_54 = ((TShopEquipmentSellWindow *)(this->m_30))->get_result();
         ((TWindowBase *)this->m_30)->close();
@@ -402,5 +403,5 @@ TShopGetItemWindow::TShopGetItemWindow(void *arg1, void *arg2, void *arg3) : TSh
     this->m_30 = 0;
     this->m_34 = 0;
     *(void **)((s8 *)this + 0x5C) = arg2;
-    init__9TItemDataFv((void *)((char *)this + 56));
+    ((TItemData *)((char *)this + 56))->init();
 }

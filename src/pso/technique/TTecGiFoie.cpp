@@ -1,6 +1,9 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/technique/TTecGiFoie.h"
+#include "pso/system/task/TObject.h"
+#include "pso/technique/TTecCtrl.h"
 extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/system/vector.h"
 #include "pso/effect/TUnk_804CC148.h"
@@ -164,13 +167,11 @@ struct Task_802312E4;
 
 struct Vec_802312E4;
 
-void queue_destruction__7TObjectFv(void *arg0);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
 void mem_free(void *);
 void *mem_alloc(u32 size);
 void * find_entity_by_id(u16);
-s32 is_technique_ready__8TTecCtrlFv();
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
 void __dl__7TObjectFPv(void *);
@@ -206,9 +207,9 @@ extern s32 tl_07;
 void TTecGiFoie::calc_params() {
     u8 *arg0 = (u8 *)this;
   int new_var;
- new_var = (int) calc_technique_parameters(1, (int) ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78, 0xFFFF); do { ((TTecAnti *)(arg0 + ((0, 0x88))))->copy_params((u8 *)new_var); if ((((s16) ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78) >= 0xF) && (is_technique_ready__8TTecCtrlFv() == 0)) { ((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 = (f32) ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 4))) + ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 6))) * ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78)); return; } } while (0);
+ new_var = (int) calc_technique_parameters(1, (int) ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78, 0xFFFF); do { ((TTecAnti *)(arg0 + ((0, 0x88))))->copy_params((u8 *)new_var); if ((((s16) ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78) >= 0xF) && (TTecCtrl::is_technique_ready() == 0)) { ((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 = (f32) ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 4))) + ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 6))) * ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78)); return; } } while (0);
   ((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 + ((f32) (((RecoveredFields_80230D9C_arg0 *) arg0)->field_AC * ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78)));
-  if (is_technique_ready__8TTecCtrlFv())
+  if (TTecCtrl::is_technique_ready())
   {
     ((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 8))));
   }
@@ -293,10 +294,10 @@ u8 *__dt__13TUnk_804CC800Fv(Task_80231224 *task, s16 flag) {
     if (task != NULL) {
         task->vt = lbl_804CC800;
         if (task->single != 0) {
-            queue_destruction__7TObjectFv(task->emitters[0]);
+            ((TObject *)task->emitters[0])->queue_destruction();
         } else {
             for (i = 0; i < ((Profile_80231224 *)&TTecGiFoie__emitter_profile_table)[task->band].count; i++) {
-                queue_destruction__7TObjectFv(task->emitters[i]);
+                ((TObject *)task->emitters[i])->queue_destruction();
             }
         }
         mem_free(task->emitters);
@@ -412,7 +413,7 @@ u8 *__dt__10TTecGiFoieFv(u8 *arg0, s16 arg1) {
       temp_r30 = var_r31 + 0xEC;
       if (TTecLuker::is_parents_unqueued(*((s32 *) (((s8 *) arg0) + temp_r30))) != 0)
       {
-        queue_destruction__7TObjectFv((void *)(*((s32 *) (((s8 *) arg0) + temp_r30))));
+        ((TObject *)((void *)(*((s32 *) (((s8 *) arg0) + temp_r30)))))->queue_destruction();
       }
       var_r29 += 1;
       var_r31 += 4;
@@ -435,12 +436,12 @@ u8 *__dt__10TTecGiFoieFv(u8 *arg0, s16 arg1) {
 void run_task__10TTecGiFoieFv(u8 *self) {
     f32 distance;
     if (*(void **)((s8 *)self + 0xE8) == NULL) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return;
     }
     *(void **)((s8 *)self + 0x1C) = find_entity_by_id(((TTecGiFoie *)self)->m_b4);
     if (*(void **)((s8 *)self + 0x1C) == NULL) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return;
     }
     if (TTecLuker::is_parents_unqueued(((TTecGiFoie *)self)->m_ec) != 0) {
@@ -450,7 +451,7 @@ void run_task__10TTecGiFoieFv(u8 *self) {
         }
         ((TUnk_804CC148 *)self)->apply_technique_to_area_targets();
         if (distance >= ((TTecGiFoie *)self)->m_90) {
-            queue_destruction__7TObjectFv(self);
+            ((TObject *)self)->queue_destruction();
         }
     }
 }

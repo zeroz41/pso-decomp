@@ -8,6 +8,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer.h"
 
 struct Vec_8034009C { f32 x, y, z; };
 
@@ -157,7 +158,6 @@ struct P_8034009C {
 
 extern "C" {
 void fn_80340040(TBoss6Demo15_TYPE2_WAIT *arg0);
-int get_player_data__10TObjPlayerFi(int a0);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 extern const f32 lbl_805DFAF8;
@@ -177,7 +177,7 @@ void TBoss6Demo15_TYPE2_WAIT::check_any_player_near() {
     y = lbl_805DFAF8;
     lim = 25.0f;
     for (i = 0; i < n; i++) {
-        p = (P_8033FF78 *)get_player_data__10TObjPlayerFi(i);
+        p = (P_8033FF78 *)TObjPlayer::get_player_data(i);
         if (((TBoss6PlotFalz *)p)->is_active() != 0) {
             VecCopy((Vec *)&v, (const Vec *)&arg0->pos);
             subtract_vector(&v, &p->pos);

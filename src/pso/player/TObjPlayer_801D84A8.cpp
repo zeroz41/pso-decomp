@@ -3,6 +3,9 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TUnk_804C4540.h"
 #include "pso/map/FloorArea.h"
+#include "pso/item/TItemData.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/technique/TTecCtrl.h"
 struct Tag_801D7D4C { u8 d[4]; };
 
 struct Obj_801D7D4C { s32 n; Tag_801D7D4C x[4]; Tag_801D7D4C y[4]; };
@@ -20,18 +23,15 @@ struct TObjPlayer_801D8044 {
 
 extern "C" {
 void init__6gc_tagFv(void *);
-s32 obj_testFlags30__14TObjCollidableFUl(void *, u32);
 u8 get_cast_technique_level(void *, int);
 Tec_801D7DA4 *calc_technique_parameters(s32, s32, s32);
 s32 get_game_play_mode();
-s32 is_technique_ready__8TTecCtrlFv();
 s32 TObjPlayer__sub_801C1F50(void *);
 
 u32 get_item_field_6__10TObjPlayerFPv(void *);
 s32 weapon_has_extra_attack(u32);
 int check_flag_100__10TObjPlayerFPv(void *p);
 s32 validate_and_clear_slot__10TObjPlayerFv(void *, s32);
-void init__9TItemDataFv(void *);
 void *set_mode_and_refresh_object__10TObjPlayerFPvi(void *, TItemData_801D8044 *);
 s32 TObjPlayer__sub_801AF694(void *, s32);
 u16 get_entity_id(void *);
@@ -59,7 +59,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *arg0, u8 kind, u8 sub) {
     case 1:
         return 1;
     case 2:
-        if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x20006) != 0 || is_current_area_item_enabled() == 0 || ((TObjPlayer *)arg0)->get_camera_field() == 0) {
+        if (((TObjCollidable *)arg0)->obj_testFlags30(0x20006) != 0 || is_current_area_item_enabled() == 0 || ((TObjPlayer *)arg0)->get_camera_field() == 0) {
             return 0;
         }
         if ((u8)sub == 2) {
@@ -73,7 +73,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *arg0, u8 kind, u8 sub) {
         }
         return 1;
     case 3:
-        if (((TObjPlayer *)(arg0 + 0x428))->test_bit1_at_10() != 0 || obj_testFlags30__14TObjCollidableFUl(arg0, 0x20006) != 0 || ((TObjPlayer *)arg0)->get_camera_field() == 0) {
+        if (((TObjPlayer *)(arg0 + 0x428))->test_bit1_at_10() != 0 || ((TObjCollidable *)arg0)->obj_testFlags30(0x20006) != 0 || ((TObjPlayer *)arg0)->get_camera_field() == 0) {
             return 0;
         }
         if (*(s16 *)(arg0 + 0x32E) - calc_technique_parameters(tec = sub, get_cast_technique_level(arg0 + 0x428, sub), ((s32 (*)(void *))get_entity_id)(arg0))->cost < 0) {
@@ -89,7 +89,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *arg0, u8 kind, u8 sub) {
             if (TObjWarpBossMulti::is_flag_clear(arg0) == 0) {
                 return 0;
             }
-            if (is_technique_ready__8TTecCtrlFv() != 0 || get_game_play_mode() == 1) {
+            if (TTecCtrl::is_technique_ready() != 0 || get_game_play_mode() == 1) {
                 return 0;
             }
             break;
@@ -111,14 +111,14 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *arg0, u8 kind, u8 sub) {
             if (TObjWarpBossMulti::is_flag_clear(arg0) == 0) {
                 return 0;
             }
-            if (is_technique_ready__8TTecCtrlFv() != 0) {
+            if (TTecCtrl::is_technique_ready() != 0) {
                 return 0;
             }
             break;
         }
         return 1;
     case 5:
-        if (TObjPlayer__sub_801C1F50(arg0 + 0x4AC) == 0 || obj_testFlags30__14TObjCollidableFUl(arg0, 0x20006) != 0 || ((TObjPlayer *)arg0)->get_camera_field() == 0) {
+        if (TObjPlayer__sub_801C1F50(arg0 + 0x4AC) == 0 || ((TObjCollidable *)arg0)->obj_testFlags30(0x20006) != 0 || ((TObjPlayer *)arg0)->get_camera_field() == 0) {
             return 0;
         }
         return 1;
@@ -159,7 +159,7 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
         }
         break;
     case 4:
-        init__9TItemDataFv(&item);
+        ((TItemData *)(&item))->init();
         item.kind = 3;
         switch (arg) {
         case 0:

@@ -3,6 +3,10 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/fence/TOBarrierEnergy01.h"
+#include "pso/player/TUnk_804B6C24.h"
+#include "pso/render/RenderFadeState.h"
+#include "pso/unk/TLobby.h"
 struct TObjGoalWarpAncient;
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
@@ -94,7 +98,6 @@ struct VObj_8017B9B0 : VBase_8017B9B0 {
 };
 
 extern "C" {
-s32 check_value_equals__13TUnk_804B6C24Fl(void *, int);
 extern Ent_8017B9B0 *quest_object_entries;
 void handle_6x86_hit_destructible_object(Pkt_8017B9B0 *arg0);
 
@@ -118,7 +121,7 @@ void handle_6x86_hit_destructible_object(Pkt_8017B9B0 *arg0) {
     }
     o = (VObj_8017B9B0 *)find_entity_by_id(id);
     if (o != NULL) {
-        if (check_value_equals__13TUnk_804B6C24Fl(o, (s32)TOVS2Wall01__class_name) == 0) {
+        if (((TUnk_804B6C24 *)o)->check_value_equals((s32)TOVS2Wall01__class_name) == 0) {
             return;
         }
         switch (arg0->e) {
@@ -287,7 +290,6 @@ struct VObj_14_1eb8da : VBase_14_1eb8da {
 };
 extern "C" {
 void __ct__15RenderFadeStateFv(void *);
-s32 update__15RenderFadeStateFv(void *);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern s32 saved_model_render_flags;
@@ -345,8 +347,6 @@ void free_bin_model_request(void*, int);
 u8 *TObjGoalWarpAncient__ct(TObjGoalWarpAncient *arg0, s32 arg1, s32 arg2);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
-int bswap_header__6TLobbyFv(void*);
-int init__17TOBarrierEnergy01Fv(void*);
 }
 
 #pragma defer_codegen on
@@ -359,9 +359,9 @@ void *TObjGoalWarpAncient__create(void *arg0) {
     }
     return o;
 }
-void*TOVS2Wall01::init() { init__17TOBarrierEnergy01Fv(this); *(short *)&this->m_next = 0; *(short*)((char*)this + 0xe) = 0; *(unsigned char*)(this) = 134; *(unsigned char*)((char*)this + 0x1) = 4; return this; }
+void*TOVS2Wall01::init() { ((TOBarrierEnergy01 *)this)->TOBarrierEnergy01::init(); *(short *)&this->m_next = 0; *(short*)((char*)this + 0xe) = 0; *(unsigned char*)(this) = 134; *(unsigned char*)((char*)this + 0x1) = 4; return this; }
 void TOVS2Wall01::update_and_send() { byteswap_hit_packet(); send_subcommand((u8 *)this); }
-void TOVS2Wall01::byteswap_hit_packet() { bswap_header__6TLobbyFv(this); bswap_16((u16 *)((char*)this + 0xc)); bswap_16((u16 *)((char*)this + 0xe)); }
+void TOVS2Wall01::byteswap_hit_packet() { ((TLobby *)this)->bswap_header(); bswap_16((u16 *)((char*)this + 0xc)); bswap_16((u16 *)((char*)this + 0xe)); }
 s32 TOVS2Wall01__sub_8017CA50(void* p) { return *(s32*)((char*)p + 0x33c); }
 void TOVS2Wall01__sub_8017CA48(void* p, s32 v) { *(s32*)((char*)p + 0x33c) = v; }
 }
@@ -573,7 +573,7 @@ void *TOVS2Wall01::create() {
 void TOVS2Wall01::render() {
     u8 *arg0 = (u8 *)this;
     s32 var_r31;
-    update__15RenderFadeStateFv((u8 *)&this->m_340);
+    ((RenderFadeState *)((u8 *)&this->m_340))->update();
     *(s32 *)&this->m_35c = ((VObj_18_26a62c *)(arg0))->m8(*(f32 *)&this->unk_334, this->m_338);
     if ((s32) this->m_35c == 1) {
         if (TRaderMapCore::is_not_split_screen() == 1) {

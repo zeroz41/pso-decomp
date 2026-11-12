@@ -26,6 +26,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/warp/TObjWarpBase.h"
 
 const char *bm_obj_warp_jung_model_names[3] = { "fe_obj_warp_dodai.gj", "fe_obj_warp_jogo_light.gj", NULL };
 __declspec(section ".data") const char *bm_obj_warp_jung_motion_names[2] = { "fe_obj_warp_jogo_light.njm", NULL };
@@ -93,7 +94,6 @@ struct Obj_801A0224 {
 
 u8 *__dt__12TObjAreaWarpFv(u8 *arg0, s16 arg1);
 void *TObjAreaWarp__ct(void *arg0);
-int vfunc_14__12TObjWarpBaseFv(void*);
 s32 TObjWarpJungMain__vt16(TObjWarpJungMain *arg0);
 void * __dt__16TObjWarpJungMainFv(void *arg0, s16 arg1);
 void * TObjWarpJung__create(void *arg0);
@@ -158,7 +158,7 @@ s32 TObjWarpJungMain__vt16(TObjWarpJungMain *warp_jung_main) {
 
 void TObjWarpJungMain::confirm_area_transfer(s32 arg1) { TObjAreaWarp::confirm_area_transfer(arg1); }
 
-void TObjWarpJungMain::vfunc_14() { vfunc_14__12TObjWarpBaseFv(this); TWindowCtrl::clear_flag(); }
+void TObjWarpJungMain::vfunc_14() { TObjWarpBase::vfunc_14(); TWindowCtrl::clear_flag(); }
 
 void TObjWarpJungMain__vt13(TObjWarpJungMain *warp_jung_main, s16 arg1) {
     s32 i;

@@ -3,6 +3,7 @@
 #include "pso/ui/charcreate/TChCrTagOccHeader.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/charcreate/TChCrTagOccupation.h"
+#include "pso/ui/charcreate/TChCrCharSelect.h"
 extern "C" void render__18TChCrTagOccupationFv();
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 
@@ -33,7 +34,7 @@ void TChCrTagOccHeader::run_task() {
 s32 TChCrTagOccHeader__vt4(Hdr_802A2C30 *arg0) {
     switch (TChCrCharSelect::get_selected_index()) {
     case 0:
-        if (arg0->f20 < 3 && arg0->f20 == get_selected_char__15TChCrCharSelectFv()) {
+        if (arg0->f20 < 3 && arg0->f20 == TChCrCharSelect::get_selected_char()) {
             return 1;
         }
         break;

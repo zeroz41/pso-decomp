@@ -17,6 +17,8 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/unk/text_8026C664.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowDD.h"
 
 struct UV_80262038 {
     f32 u;
@@ -947,8 +949,6 @@ void TWindowKeyBoardSoft::render() {
 extern "C" {
 
 s32 sub_80244994__11TWindowBaseFv();
-s32 update_fade__11TWindowBaseFv(void *);
-s32 initialize_subwindow__9TWindowDDFv(void *);
 
 
 void TWindowKeyBoardSoft::run_task() {
@@ -964,8 +964,8 @@ void TWindowKeyBoardSoft::run_task() {
             update_keyboard_child_input_from_controller(temp_r3);
             sub_80260808(temp_r3);
         }
-        initialize_subwindow__9TWindowDDFv(this);
-        update_fade__11TWindowBaseFv(this);
+        ((TWindowDD *)this)->initialize_subwindow();
+        ((TWindowBase *)this)->update_fade();
         *(f32 *)((s8 *)this + 0x68) -= 0.15f * *(f32 *)((s8 *)this + 0x68);
     }
 }

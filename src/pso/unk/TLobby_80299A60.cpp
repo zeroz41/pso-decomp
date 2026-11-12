@@ -17,6 +17,8 @@
 #include "types.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer.h"
 
 extern "C" {
 s32 get_main_phase();
@@ -189,7 +191,6 @@ s32 get_player_by_client_id(int);
 s32 TQuestVmDownLoadServer__sub_8006EF6C(s32);
 s32 get_window_layout_position(s32);
 void TObjPlayer__sub_8024ABDC(s32 arg0);
-void play_effect_default__10TObjPlayerFii(s32 arg0, s32 arg1);
 
 s32 TLobby::is_multi_ready() {
     if ((TLobby::get_challenge_mode_flag() != 0) || (TLobby__sub_80292F5C() <= 1)) {
@@ -264,7 +265,7 @@ void play_effect_all_players__6TLobbyFPv(void*) {
         player = get_player_by_client_id(var_r31);
         if (player != 0) {
             if (check_player_flag1__6TLobbyFv() == 0) {
-                play_effect_default__10TObjPlayerFii(player, -1);
+                TObjPlayer::play_effect_default(player, -1);
             }
         }
         var_r31 += 1;
@@ -363,8 +364,6 @@ void TObjChallenge4PRetry::handle_retry_menu_select() {
     }
 }
 
-s32 obj_testFlags30__14TObjCollidableFUl(s32, s32);
-
 s32 TWindowCtrlMain__sub_8024CE58();
 
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
@@ -397,7 +396,7 @@ void TObjChallenge4PRetry::update_giveup() {
     flag = 1;
     for (i = 0; i < 4; i++) {
         u32 ctrl = get_player_by_client_id(i);
-        if (ctrl != 0U && obj_testFlags30__14TObjCollidableFUl(ctrl, 0x02000000) != 0) {
+        if (ctrl != 0U && ((TObjCollidable *)ctrl)->obj_testFlags30(0x02000000) != 0) {
             flag = 0;
             break;
         }

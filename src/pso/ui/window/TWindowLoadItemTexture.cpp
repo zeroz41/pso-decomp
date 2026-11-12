@@ -10,6 +10,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowDD.h"
 
 #pragma push
 #pragma opt_common_subs off
@@ -53,8 +54,6 @@ s32 draw_visible_window_entries(void *, void *, s32);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
-int initialize_subwindow__9TWindowDDFv(void*);
-
 extern s32 lbl_8044F280[];
 
 void *TWindowLoadItemTexture::create(void *arg1) {
@@ -84,7 +83,7 @@ void render__22TWindowLoadItemTextureFv(TWindowLoadItemTexture *arg0) {
     draw_visible_window_entries(arg0, (u8 *)arg0 + 0x24, temp_r31);
 }
 
-void TWindowLoadItemTexture::run_task() { initialize_subwindow__9TWindowDDFv(this); update_fade(); update_window_entry_list((char*)this + 0x24); }
+void TWindowLoadItemTexture::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list((char*)this + 0x24); }
 
 void *__dt__22TWindowLoadItemTextureFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

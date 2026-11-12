@@ -20,6 +20,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/ambient/TObjFish.h"
 
 struct Ent_8033CB4C
 {
@@ -66,7 +67,6 @@ s32 refresh_players_equipment__14TBoss6PlotFalzFPv();
 s32 post_translate_matrix(s32 *);
 s32 push_matrix();
 void *__nw__7TObjectFUl(int);
-s32 clear_render_callback__8TObjFishFv(s32);
 
 void TBoss6Demo10_TYPE1_APPEAR::sub_8033C7C8() {
     push_matrix();
@@ -77,7 +77,7 @@ void TBoss6Demo10_TYPE1_APPEAR::sub_8033C7C8() {
     TObjFish::set_global_param(*(s32 *)((s8 *)this + 0x2C));
     ((TObjFish *)(this->m_60))->set_draw_callback_list();
     draw_model_motion((void *)this->m_28, (void *)this->m_30, *(f32 *)((s8 *)this + 0x34));
-    clear_render_callback__8TObjFishFv(this->m_60);
+    ((TObjFish *)this->m_60)->clear_render_callback();
     clear_motion_packed_rotation();
     pop_matrix();
 }

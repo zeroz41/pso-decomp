@@ -3,6 +3,9 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/ui/window/TWindowSubComCard.h"
 #pragma push
 
 #include "types.h"
@@ -283,8 +286,6 @@ s32 init_card__17TWindowSubComCardFv();
 s32 TWindowSubComCard__sub_802728CC(void);
 ChrSel_80272B60 *get_chr_select__17TWindowSubComCardFv();
 void *find_entry_value_by_id__17TWindowSubComCardFl(s32, s32);
-s32 obj_isState3_324__9TObjCharaFv(void *);
-s32 is_script_controlled__10TObjPlayerFv(void *);
 void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
 s32 create_player_select_window__17TWindowSubComCardFv(void);
@@ -393,7 +394,7 @@ s32 create_player_select_window__17TWindowSubComCardFv(void) {
     i = 0;
     do {
         if (i != local_client_id && (p = (VObj_18_80272714 *)get_player_by_client_id(i)) != NULL &&
-            is_script_controlled__10TObjPlayerFv(p) == 0 && obj_isState3_324__9TObjCharaFv(p) == 0) {
+            ((TObjPlayer *)p)->is_script_controlled() == 0 && ((TObjChara *)p)->obj_isState3_324() == 0) {
             forward_trade_action_default__16TObjCityMainWarpFPviii((void *)w, (int)(p->m10()), 7, (int)i);
         }
         i++;
@@ -469,7 +470,7 @@ u32 TWindowSubComCard__sub_80272A98(void *) {
     ComCardRec_80272A98 *e;
     ComCardList_80272A98 *l;
     w = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0x8E), 0x20, TWindowSubStatusDisp::get_message_10(0x54));
-    l = (ComCardList_80272A98 *)get_com_count__17TWindowSubComCardFv();
+    l = (ComCardList_80272A98 *)TWindowSubComCard::get_com_count();
     count = l->count;
     e = l->entries;
     for (i = 0; i < count; i++, e++) {
@@ -769,7 +770,7 @@ u32 TWindowSubComCard__sub_8027337C() {
     i = 0;
     do {
         if (i != local_client_id && (p = get_player_by_client_id(i)) != NULL &&
-            is_script_controlled__10TObjPlayerFv(p) == 0 && obj_isState3_324__9TObjCharaFv(p) == 0 &&
+            ((TObjPlayer *)p)->is_script_controlled() == 0 && ((TObjChara *)p)->obj_isState3_324() == 0 &&
             (name = (u8 *)p + 0x85C) != NULL) {
             forward_trade_action_default__16TObjCityMainWarpFPviii((void *)w, (int)name, 7, (int)i);
         }

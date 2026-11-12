@@ -9,6 +9,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 struct RecoveredGlobal_8035D7D0___vt__10TDPBShower {
     s32 value;
@@ -21,13 +22,12 @@ extern RecoveredGlobal_8035D7D0___vt__10TDPBShower __vt__10TDPBShower;
 extern s32 TDPBShower__class_name;
 extern const f32 lbl_805E01C4;
 u8 *TDPBShower__ct(u8 *arg0, u8 *arg1, u8 *arg2);
-int query_teammate_state__9TObjEneDDFv(void*);
 extern const f32 lbl_805E01C0;
 void* __nw__7TObjectFUl(int);
 }
 
 void TDPBShower::run_task() {
-    if (query_teammate_state__9TObjEneDDFv(this) == 0) {
+    if (((TObjEneDD *)this)->query_teammate_state() == 0) {
         m_position[1] += lbl_805E01C0;
         if (m_2c != NULL) {
             ((TParticleCtrl *)m_2c)->set_position(m_position);

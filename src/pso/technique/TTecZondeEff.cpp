@@ -16,6 +16,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
+#include "pso/technique/TTecZondeEff.h"
 
 
 struct RecoveredGlobal_8023D988___vt__12TTecZondeEff {
@@ -149,7 +150,6 @@ extern P_8023DBB4 tec_zonde_effect_task_list;
 extern char lbl_804CC8C8[];
 extern s32 TTecZondeEff__beam_vertex_data;
 f32 rand_signed_unit();
-void randomize_bolt_jitter__12TTecZondeEffFv(Obj_8023D4A8 *arg0);
 s32 is_split_screen(void);
 void spawn_particle_effect(Rec_8023D568 *, s32);
 void restore_saved_depth_alpha_state();
@@ -516,7 +516,7 @@ u8 *TTecZonde::construct_bolt_effect(u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, s32
     *(s16 *)((s8 *)((u8 *)this) + 0x25C) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x38) = 0xD;
     ((TTecZondeEff *)((u8 *)this))->init_bolt_points();
-    randomize_bolt_jitter__12TTecZondeEffFv((Obj_8023D4A8 *)(this));
+    ((TTecZondeEff *)((Obj_8023D4A8 *)(this)))->randomize_bolt_jitter();
     *(s32 *)((s8 *)((u8 *)this) + 0x248) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x24C) = 0xFF000000;
     *(s16 *)((s8 *)((u8 *)this) + 0x25E) = 0;
@@ -537,7 +537,7 @@ u8 *TTecZondeEff::construct(u8 *arg1, u8 *arg2, u8 *arg3, f32 farg0) {
     *(s16 *)((s8 *)((u8 *)this) + 0x25C) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x38) = 0xD;
     this->init_bolt_points();
-    randomize_bolt_jitter__12TTecZondeEffFv((Obj_8023D4A8 *)(this));
+    ((TTecZondeEff *)((Obj_8023D4A8 *)(this)))->randomize_bolt_jitter();
     *(s32 *)((s8 *)((u8 *)this) + 0x248) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x24C) = 0xFF000000;
     *(s16 *)((s8 *)((u8 *)this) + 0x25E) = 0;

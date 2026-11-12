@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/ui/window/TWindowTimer.h"
+#include "pso/ui/window/TWindowBase.h"
 
 #pragma readonly_strings on
 struct Obj_80287BE8 { u8 pad[0x30]; f32 f30; f32 f34; u8 pad2[8]; f32 f40; f32 f44; };
@@ -34,7 +35,7 @@ void init_timer_window_layout(Wn_80287AD8 *arg0) {
     En_80287AD8 *e;
     arg0->f60 |= 1;
     temp_f31 = (f32)calc_text_width("000:000");
-    e = ((En_80287AD8 *)get_array_entry__11TWindowBaseFi(arg0, 0));
+    e = ((En_80287AD8 *)((TWindowBase *)arg0)->get_array_entry(0));
     e->f8 = -(lbl_805DD87C * temp_f31 - lbl_805DD878);
 }
 #pragma pop

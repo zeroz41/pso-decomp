@@ -7,6 +7,7 @@
 #include "pso/ui/frontend/TAdDialingGC.h"
 #include "pso/unk/TLobby_8013AD38.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdDialingGC.h"
 
 struct Stack_803286AC {
     s32 sp8;
@@ -113,7 +114,7 @@ void TAdDialingGC::update_dial_state(s32 arg1) {
         temp_r4 = this->m_a0;
         this->m_a0 = temp_r4 + 1;
         if ((s32) this->m_a0 > 0x5A) {
-            spawn_title_screen__12TAdDialingGCFl(this, temp_r4);
+            spawn_title_screen(temp_r4);
             show_guide_button();
             this->m_a0 = 0;
             this->m_20 = 1;

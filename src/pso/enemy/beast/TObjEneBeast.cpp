@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/effect/TUnk_80494968.h"
 #include "types.h"
@@ -13,6 +14,12 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/render/RenderFadeState.h"
+#include "pso/system/task/TObject.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -33,7 +40,6 @@ s32 restore_scene_lighting();
 s32 select_actor_lighting(void *);
 s32 push_matrix();
 s32 set_global_param__8TObjFishFl(s32);
-s32 defer_render__7TObjectFv(void *);
 extern s32 model_render_flags;
 }
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -118,8 +124,6 @@ void mult_vec_array__10TObjPlayerFUll(int, u32, void *, int);
 void set_matrix_identity(u8 *arg0);
 extern void *beast_claw_trail_instance;
 extern void *boss4_type3_instance;
-s32 get_camera_mode__11TCameraCtrlFv();
-s32 update__15RenderFadeStateFv(void *);
 extern s32 saved_model_render_flags;
 #define play_sound_effect (*(s32 (*)(s32, s32, s32, s32))&play_sound_effect)
 extern "C" void render_shadows__9TObjEnemyFv(u8 *arg0);
@@ -247,7 +251,7 @@ void TObjEneBeast::vfunc_83() {
             *(s32 *)((s8 *)arg0 + 0x390) = 0;
             *(s16 *)((s8 *)arg0 + 0xB8) = 0;
             ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0x0A000000);
-            obj_clearFlags30__8TObjBaseFUl(arg0, 0x04000000);
+            ((TObjBase *)arg0)->obj_clearFlags30(0x04000000);
         }
         break;
     case 2:
@@ -264,7 +268,7 @@ void render__12TObjEneBeastFPv(Obj_8009211C *o) {
 
     cam = 0;
     if (is_split_screen() != 0) {
-        cam = get_camera_mode__11TCameraCtrlFv();
+        cam = TCameraCtrl::get_camera_mode();
     }
     drawMode = o->m9(2e+02f, 4e+02f, 3e+01f);
     if (drawMode == 0) {
@@ -273,12 +277,12 @@ void render__12TObjEneBeastFPv(Obj_8009211C *o) {
     fade = 0;
     if (TObjEneDD::check_v2_mode() != 0) {
         fade = (s32)&o->fades[cam];
-        update__15RenderFadeStateFv((void *)fade);
+        ((RenderFadeState *)fade)->update();
         fade = ((RenderFadeState *)fade)->updateFromCamera((const f32*)(&o->f2FC));
     }
     saved_model_render_flags = model_render_flags;
     select_actor_lighting(o);
-    set_global_param__8TObjFishFl(o->f24);
+    TObjFish::set_global_param(o->f24);
     push_matrix();
     translate_matrix(0, 0.0f, o->f380, 0.0f);
     post_translate_matrix(o->f38);
@@ -290,7 +294,7 @@ void render__12TObjEneBeastFPv(Obj_8009211C *o) {
         doDraw = 1;
         if (fade != 0) {
             o->fades[cam].m6();
-            if (defer_render__7TObjectFv(o) != 0) {
+            if (((TObject *)o)->defer_render() != 0) {
                 doDraw = 0;
             }
         }
@@ -694,7 +698,7 @@ O_80092724 *TObjPlayer__sub_80092724(O_80092724 *arg0, s16 arg1) {
         arg0->vptr = __vt__12TObjEneBeast;
         for (i = 0; i < 2; i++) {
             if (arg0->objs[i] != NULL) {
-                queue_destruction__7TObjectFv(arg0->objs[i]);
+                ((TObject *)arg0->objs[i])->queue_destruction();
                 arg0->objs[i] = NULL;
             }
         }
@@ -772,7 +776,7 @@ void *TObjEneBeast__ct(void *arg0v, void *arg1, void *arg2) {
     ((TObjEnemy *)arg0)->update_prev_position();
     ((TBoss3VoloptHiraisin *)arg0)->copy_position();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    F(arg0, s32, 0x2AC) = (s32)(182.04445f * (3.6e+02f * random_ratio__9TObjCharaFv((s32)arg0)));
+    F(arg0, s32, 0x2AC) = (s32)(182.04445f * (3.6e+02f * ((TObjChara *)arg0)->random_ratio()));
     F(arg0, s16, 0x33A) = 0xF;
     F(arg0, s16, 0x33C) = F(arg0, s16, 0x33A);
     F(arg0, s16, 0x328) = 0;

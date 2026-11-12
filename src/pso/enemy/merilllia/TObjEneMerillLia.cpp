@@ -17,6 +17,10 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/system/task/TObject.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -450,7 +454,6 @@ struct VObj_18_4c2345 : VBase_18_4c2345 {
 void move_with_wall_slide(u8 *arg0);
 
 extern "C" {
-f32 random_ratio__9TObjCharaFv(void *);
 s32 play_sound_effect(void *, void *, int, int);
 void TObjEneMerillLia__sub_800D4EC8(s32 arg0);
 void vfunc_99__16TObjEneMerillLiaFv(s32 arg0);
@@ -469,14 +472,12 @@ void vfunc_94__16TObjEneMerillLiaFv(u8 *arg0);
 extern const f32 lbl_805DA2EC;
 extern const f32 lbl_805DA334;
 extern const f32 lbl_805DA338;
-s32 copy_position__20TBoss3VoloptHiraisinFv(void *);
 s32 get_current_floor();
 f32 xz_distance_squared(void *, void *);
 extern const f32 TObjEneMerillLia__data_805DA2F4;
 void run_task__16TObjEneMerillLiaFv(u8 *arg0);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
-s32 defer_render__7TObjectFv(void *);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 push_matrix();
 f32 post_translate_matrix(void *);
@@ -490,7 +491,6 @@ extern const f32 lbl_805DA330;
 void render__16TObjEneMerillLiaFv(u8 *arg0);
 extern u32 TObjEneMerillLia__entry_params_resource;
 extern s32 game_difficulty_selection;
-s32 obj_testFlags30__14TObjCollidableFUl(void *, int);
 void vfunc_59__16TObjEneMerillLiaFv(Ene_800D51C8 *arg0);
 s16 find_nearest_visible_player(void *, s32, f32);
 s32 obj_setFlags30(void *, s32);
@@ -862,7 +862,7 @@ void TObjEneMerillLia::clamp_and_apply_mode_param() {
 
 void TObjEneMerillLia::vfunc_59() {
     Ene_800D51C8 *arg0 = (Ene_800D51C8 *)this;
-    if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x1000) != 0) {
+    if (((TObjCollidable *)arg0)->obj_testFlags30(0x1000) != 0) {
         this->mode = 4;
     }
     switch (this->mode) {
@@ -925,7 +925,7 @@ void TObjEneMerillLia::vfunc_60() {
     default:
         this->mode = 5;
         this->phase = 1;
-        if (TObjEneMerillLia__data_805DA308 < random_ratio__9TObjCharaFv(arg0)) {
+        if (TObjEneMerillLia__data_805DA308 < ((TObjChara *)arg0)->random_ratio()) {
             this->requested_action = 3;
         } else {
             this->requested_action = 4;
@@ -1126,7 +1126,7 @@ s32 TObjEneMerillLia::update_kafun_attack(void *p) {
         if (*(s16 *)((s8 *)arg0 + 0x33C) < 0) {
             ((TObjBase *)arg0)->obj_clearFlags30(0x200000);
             *(s16 *)((s8 *)arg0 + 0x33C) = 0;
-            if (random_ratio__9TObjCharaFv(arg0) <= *(f32 *)((s8 *)arg0 + 0x3C4)) {
+            if (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3C4)) {
                 ((TObjEneMerillLia *)arg0)->init_attack_state();
             } else {
                 *(s16 *)((s8 *)arg0 + 0x326) = 1;
@@ -1292,7 +1292,7 @@ void TObjEneMerillLia__sub_800D5BCC(u8 *arg0) {
         ((TObjEneMerillLia *)o)->reset_state_clear_status();
     }
     }
-    if (obj_testFlags30__14TObjCollidableFUl(o, 0x800000) == 0) {
+    if (((TObjCollidable *)o)->obj_testFlags30(0x800000) == 0) {
         apply_actor_gravity(o, 0, TObjEneMerillLia__data_805DA300);
     }
     ((TObjCollidable *)o)->refresh_collision_body_centers();
@@ -1518,7 +1518,7 @@ void TObjEneMerillLia::render() {
       if (var_r29 != 0)
       {
         (((VObj_14_fddec9 *)(((u8 *) ((u8 *)this)) + 936))->m6());
-        if (defer_render__7TObjectFv((void *) ((u8 *)this)) != 0)
+        if (((TObject *)this)->defer_render() != 0)
         {
           var_r30 = 0;
         }
@@ -1579,11 +1579,11 @@ void TObjEneMerillLia::init_params_from_position() {
 
 void TObjEneMerillLia::select_action_by_distance() {
     u8 *arg0 = (u8 *)this;
-    if (random_ratio__9TObjCharaFv(arg0) <= this->m_3c4) {
+    if (((TObjChara *)arg0)->random_ratio() <= this->m_3c4) {
         init_attack_state();
         return;
     }
-    if (random_ratio__9TObjCharaFv(arg0) <= *(f32 *)((s8 *)arg0 + 0x3C8)) {
+    if (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3C8)) {
         reset_action_state();
     }
 }
@@ -1646,7 +1646,7 @@ void TObjEneMerillLia::run_task() {
     }
   }
   this->update_prev_position();
-  copy_position__20TBoss3VoloptHiraisinFv((void *) ((u8 *)this));
+  ((TBoss3VoloptHiraisin *)this)->copy_position();
   submit_cursor_candidate((void *) this, -1);
   this->m_2b4 = (f32) ((this->m_2b4) + TObjEneMerillLia__data_805DA2F4);
 }
@@ -1787,9 +1787,9 @@ void *TObjEneMerillLia__ct(void *arg0v, void *arg1, void *arg2) {
     *(u8 **)((s8 *)arg0 + 0x350) = (u8 *) lbl_80494650 + *(s32 *)((s8 *)arg0 + 0x334) * 0x1C;
     *(s16 *)((s8 *)arg0 + 0x33E) = *(s16 *)((s8 *)arg0 + 0x32C);
     ((TObjEnemy *)arg0)->update_prev_position();
-    copy_position__20TBoss3VoloptHiraisinFv(arg0);
+    ((TBoss3VoloptHiraisin *)arg0)->copy_position();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    *(s32 *)((s8 *)arg0 + 0x2AC) = lbl_805DA340 * (lbl_805DA344 * random_ratio__9TObjCharaFv(arg0));
+    *(s32 *)((s8 *)arg0 + 0x2AC) = lbl_805DA340 * (lbl_805DA344 * ((TObjChara *)arg0)->random_ratio());
     *(s16 *)((s8 *)arg0 + 0x33A) = 0xF;
     *(s16 *)((s8 *)arg0 + 0x33C) = *(s16 *)((s8 *)arg0 + 0x33A);
     *(s16 *)((s8 *)arg0 + 0x328) = 0;

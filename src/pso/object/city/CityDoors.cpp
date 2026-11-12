@@ -21,6 +21,8 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/map/TObjMapCsn.h"
+#include "pso/object/TUnk_804B5BA8.h"
 
 struct RecoveredGlobal_8018289C_lbl_80443F4C
 {
@@ -353,8 +355,8 @@ extern "C" {
 u8 *__dt__18TObjCityDoor_LobbyFPvs(u8 *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjCityDoor_Lobby;
-        if (((s32) ((TObjCityDoor_Lobby *)arg0)->m_250 != 0) && (get_map_count__10TObjMapCsnFv() != 0U)) {
-            remove_value_from_id_list(get_map_count__10TObjMapCsnFv(), (u32)(arg0 + 0x90));
+        if (((s32) ((TObjCityDoor_Lobby *)arg0)->m_250 != 0) && (TObjMapCsn::get_map_count() != 0U)) {
+            remove_value_from_id_list(TObjMapCsn::get_map_count(), (u32)(arg0 + 0x90));
         }
         __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
@@ -632,7 +634,7 @@ void TObjCityDoor_Warp::city_door_tick_opening() {
     if ((temp_f1 >= 24.0f) && (temp_f1 <= 25.0f)) {
         update_technique_slot__10TTecRaFoieFl((s32)(play_sound_effect(0x42A04, (s32)((void *) (arg0 + 0x38)), 0, 0)), -0x500, 0);
     }
-    city_door_tick_opening__13TUnk_804B5BA8Fv((void *) (arg0));
+    ((TUnk_804B5BA8 *)arg0)->TUnk_804B5BA8::city_door_tick_opening();
 }
 #pragma pop
 

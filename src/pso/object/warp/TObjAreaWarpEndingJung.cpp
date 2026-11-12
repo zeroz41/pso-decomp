@@ -48,6 +48,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjChara.h"
 
 // The original TU was built with deferred codegen: functions below are in reverse
 // address order, and the pool (three {3, 2} initializers, then the float literals
@@ -343,7 +344,6 @@ extern "C" {
 s32 get_main_phase();
 void mark_area_change_pending();
 void TKeyBoardControl__sub_8000F9CC(s32 arg0);
-s32 obj_isState3_324__9TObjCharaFv(void *);
 u16 get_entity_id(void *);
 s32 is_split_screen();
 s32 get_current_floor();
@@ -1307,7 +1307,7 @@ void TObjAreaWarpQuest__vt17(Warp_8019C05C *arg0, void *arg1) {
     if (arg0->fC4 > 1) {
         for (i = 0; i < 4; i++) {
             p = get_player_by_client_id(i);
-            if (p != 0 && obj_isState3_324__9TObjCharaFv(p) != 0 && (u16)((TNpcPlayer *)p)->get_action_flags() != 0xFFFF) {
+            if (p != 0 && ((TObjChara *)p)->obj_isState3_324() != 0 && (u16)((TNpcPlayer *)p)->get_action_flags() != 0xFFFF) {
                 TObjAreaWarpQuest__sub_8019DCD8(p, arg0->fC4);
             }
         }

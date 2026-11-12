@@ -1,6 +1,10 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/math/FloatRounding.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/unk/TLobby.h"
 #pragma readonly_strings on
 #pragma defer_codegen on
 #pragma inline_depth(1)
@@ -189,7 +193,6 @@ typedef char RecoveredGlobal_8005455C_lbl_80485EC8_size[sizeof(RecoveredGlobal_8
 struct Obj_80056DF0 { u8 pad0[0x3AC]; s32 i3AC; s32 i3B0; f32 f3B4; f32 f3B8; f32 f3BC; };
 
 f32 random_ratio__9TObjCharaFv(void *);
-void * get_player_data__10TObjPlayerFi(s32 i);
 u16 get_entity_id(void *);
 s32 get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(s32, s32);
@@ -203,7 +206,6 @@ void find_target_pos__11TBoss4Type2FPvPv(O_80056C30 *self, Vec_80056C30 *out);
 s32 create__11TBoss4BishiFi(void *);
 s32 request_follow_camera_offsets(void *, void *, int);
 int toggle_particle_effect__10TObjPlayerFv(void*);
-s32 clear_render_callback__8TObjFishFv(s32);
 s32 TObjEneRe4Sorcerer__sub_801E3F1C(f32, f32);
 s32 push_matrix();
 f32 post_translate_matrix(void *);
@@ -522,7 +524,7 @@ void TUnk_80486924::draw_hanger() {
             draw_model_motion((void *)get_bml_model(arg0->f390, boss4_zanzo_bml_index_table[i]),
                 (void *)get_bml_motion(arg0->f390, (s32)(((Row_80057270 *)&TBoss4Type2__attack_pattern_table)[arg0->f3c8].c[i])),
                 arg0->f3d0);
-            clear_render_callback__8TObjFishFv(arg0->f44c);
+            ((TObjFish *)arg0->f44c)->clear_render_callback();
             model_render_flags &= ~0x20000;
             break;
         default:
@@ -539,7 +541,7 @@ void TUnk_80486924::draw_hanger() {
 }
 
 s32 TBoss4Type2::sub_80057224() {
-    return (s32)(49152.0f * random_ratio__9TObjCharaFv(((Obj_80057224 *)this))) + 0x2000 + ((Obj_80057224 *)this)->f3a0;
+    return (s32)(49152.0f * ((TObjChara *)((Obj_80057224 *)this))->random_ratio()) + 0x2000 + ((Obj_80057224 *)this)->f3a0;
 }
 
 #pragma push
@@ -663,7 +665,7 @@ void find_target_pos__11TBoss4Type2FPvPv(O_80056C30 *self, Vec_80056C30 *out) {
     best = 0.0f;
     found = NULL;
     for (i = 0; i < registered_player_count; i++) {
-        p = (O_80056C30 *)get_player_data__10TObjPlayerFi(i);
+        p = (O_80056C30 *)TObjPlayer::get_player_data(i);
         if (p == NULL) {
             continue;
         }
@@ -685,9 +687,9 @@ void find_target_pos__11TBoss4Type2FPvPv(O_80056C30 *self, Vec_80056C30 *out) {
         VecCopy((Vec *)out, (const Vec *)&res);
         return;
     }
-    s = 200.625f * random_ratio__9TObjCharaFv(self);
+    s = 200.625f * ((TObjChara *)self)->random_ratio();
     a1 = (s32)((10430.38043493439) * atan2_float(-self->pos.x, -self->pos.z));
-    b = (s32)(49152.0f * random_ratio__9TObjCharaFv(self));
+    b = (s32)(49152.0f * ((TObjChara *)self)->random_ratio());
     ang = b + a1;
     ang -= 0x6000;
     out->x = s * sin_table_lookup(ang);
@@ -714,7 +716,7 @@ void TBoss4Type2__sub_80056B3C(void *actor, s32 lo, s32 hi) {
     }
     step = 1.0f / (f32)(hi - lo + 1);
     acc = step;
-    scale = random_ratio__9TObjCharaFv(actor);
+    scale = ((TObjChara *)actor)->random_ratio();
     for (i = lo; i < hi; i++) {
         if (scale < acc) {
             break;
@@ -754,11 +756,11 @@ void TBoss4Type2::sub_80056998() {
     s32 temp_r3;
     s32 var_r4;
     s32 var_r5;
-    if (((s32) *(s32 *)((s8 *)((u8 *)this) + 0x3E0) < 3) && (random_ratio__9TObjCharaFv(this) < 0.1f)) {
+    if (((s32) *(s32 *)((s8 *)((u8 *)this) + 0x3E0) < 3) && (((TObjChara *)this)->random_ratio() < 0.1f)) {
         sub_80056F90(4, (s32)((int)((void *) (sub_80057224()))));
         return;
     }
-    if (random_ratio__9TObjCharaFv(this) < 0.1f) {
+    if (((TObjChara *)this)->random_ratio() < 0.1f) {
         temp_r3 = *(s32 *)((s8 *)((u8 *)this) + 0x424);
         var_r5 = temp_r3 + 1;
         var_r4 = temp_r3;
@@ -797,7 +799,7 @@ void TBoss4Type2::spawn_bishi_around_players() {
     b.f0 = arg0->f38c;
     b.f0c = 1;
     for (i = 0; i < registered_player_count; i++) {
-        pl = (u8 *)get_player_data__10TObjPlayerFi(i);
+        pl = (u8 *)TObjPlayer::get_player_data(i);
         if (pl != 0 && TBoss4Type3__sub_8005254C(get_entity_id(pl)) != 0) {
             for (j = 0; j < 3; j++) {
                 if (TBoss4DarkFalz__sub_8004AF5C(arg0->f38c, &b.id, &b.id2) != 0) {
@@ -1028,9 +1030,9 @@ void TBoss4Type2::beam_update() {
         p.x += 20.0f * *(f32 *)((s8 *)arg0 + 0x404);
         p.z += 20.0f * *(f32 *)((s8 *)arg0 + 0x40C);
         if (idx == 0) {
-            create__11TTecRaBartaFPvPvPvPv(arg0, &p, &p, *(s32 *)((s8 *)(dispatch_shared_handler_a__6TLobbyFl(0x36)) + 0x1C));
+            create__11TTecRaBartaFPvPvPvPv(arg0, &p, &p, *(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x36)) + 0x1C));
         } else {
-            ((TTecRaFoie *)arg0)->create(&p, &p, (void *)(*(s32 *)((s8 *)(dispatch_shared_handler_a__6TLobbyFl(0x36)) + 0x18)));
+            ((TTecRaFoie *)arg0)->create(&p, &p, (void *)(*(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x36)) + 0x18)));
         }
         add_radar_scaled_marker(&p, -0x5DB4, 1, 1, 2.5f);
         *(f32 *)((s8 *)arg0 + 0x404) *= -1.0f;

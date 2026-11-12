@@ -1,6 +1,9 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/system/task/TObject.h"
+#include "pso/ui/TUnk_804EF8C0.h"
 #pragma push
 
 #include "types.h"
@@ -63,7 +66,6 @@ s32 lbl_805D6D88;
 s32 single_ply_quest_download_server;
 s32 lbl_805D6D90;
 extern "C" {
-void free_buffer__13TUnk_804EF8C0Fv(void* p);
 int memset(void*, void*, void*);
 int queue_destruction__7TObjectFv(void*);
 struct TAdSinglePlyChrSelectGC__sub_8033B5F0;
@@ -365,7 +367,7 @@ void TAdSinglePlyChrSelectGC::sub_8033B0AC() {
     u32 o;
     if (*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40) != 0) {
         if (((s32 (*)(void *))TAdSinglePlyChrSelectGC__sub_8033B9F8)(*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40)) == 1) {
-            queue_destruction__7TObjectFv((void*)(*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40)));
+            ((TObject *)((void*)(*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40))))->queue_destruction();
             *(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40) = 0;
             *(s32 *)((s8 *)ad_single_ply_chr_select_gc + 0x2C) = 2;
             *(s32 *)((s8 *)ad_single_ply_chr_select_gc + 0x38) = update_window_mode_from_progress__6TLobbyFPv(lbl_80477D48, lbl_80477D50);
@@ -373,7 +375,7 @@ void TAdSinglePlyChrSelectGC::sub_8033B0AC() {
             return;
         }
         if (((TAdSinglePlyChrSelectGC *)(*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40)))->get_field_44() == 1) {
-            queue_destruction__7TObjectFv((void*)(*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40)));
+            ((TObject *)((void*)(*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40))))->queue_destruction();
             *(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40) = 0;
             *(s32 *)((s8 *)ad_single_ply_chr_select_gc + 0x2C) = 0xE;
             ((s32 (*)(void *))TAdSinglePlyChrSelectGC__sub_8033B5F0)(ad_single_ply_chr_select_gc);
@@ -512,7 +514,6 @@ s32 __ct__9TAdBackGCFv(void *, void *);
 
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
-void free_buffer__13TUnk_804EF8C0Fv(void *);
 extern void* lbl_804EF8C0[];
 extern RecoveredGlobal_8033B9C4_lbl_80513910 chr_select_serial_seeds;
 extern char pso_system_card_filename[];
@@ -562,7 +563,7 @@ void TUnk_804EF8C0::run_task() {
 void *TAdSinglePlyChrSelectGC::destroy(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = (s32*)lbl_804EF8C0;
-        free_buffer__13TUnk_804EF8C0Fv(this);
+        ((TUnk_804EF8C0 *)this)->free_buffer();
         __dt__7TObjectFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);

@@ -14,6 +14,8 @@
 #include "pso/object/TObjChallengeRetry.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer.h"
 
 #pragma readonly_strings on
 
@@ -49,7 +51,6 @@ s32 get_player_by_client_id(s32);
 s32 check_player_flag1__6TLobbyFv();
 extern s32 local_client_id;
 void TObjPlayer__sub_8024ABDC(s32 arg0);
-void play_effect_default__10TObjPlayerFii(s32 arg0, s32 arg1);
 extern s32 TLobby__designated_client_id;
 u8 is_challenge_lobby__6TLobbyFv(void);
 s32 TLobby__sub_80070DA8();
@@ -241,7 +242,7 @@ void play_player_default_effect__6TLobbyFv(s32 _w0) {
     s32 player;
     player = get_player_by_client_id(local_client_id);
     if ((player != 0) && (check_player_flag1__6TLobbyFv() == 0)) {
-        play_effect_default__10TObjPlayerFii(player, -1);
+        TObjPlayer::play_effect_default(player, -1);
     }
 }
 u8 is_challenge_lobby__6TLobbyFv(void) {
@@ -328,8 +329,6 @@ void TObjChallengeRetry::handle_challenge_retry_confirm() {
     }
 }
 
-s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
-
 s32 TWindowCtrlMain__sub_8024CE58(void);
 
 void TObjChallengeRetry::sub_8007313C() {
@@ -361,7 +360,7 @@ void TObjChallengeRetry::sub_8007313C() {
       var_r30 = new_var;
       loop_6:
       temp_r3_2 = (u8 *) ((s32 (*)(u32))get_player_by_client_id)(var_r30);
-      if ((temp_r3_2 != 0) && (obj_testFlags30__14TObjCollidableFUl(temp_r3_2, 0x02000000) != 0))
+      if ((temp_r3_2 != 0) && (((TObjCollidable *)temp_r3_2)->obj_testFlags30(0x02000000) != 0))
       {
         var_r31 = 0;
       }

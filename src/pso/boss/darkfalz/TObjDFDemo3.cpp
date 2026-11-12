@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/task/TObject.h"
@@ -22,11 +23,13 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/system/task/TObject.h"
 #pragma readonly_strings on
 
 extern "C" {
 void run_task__11TObjDFDemo3Fv(u8 *arg0);
-s32 clear_render_callback__8TObjFishFv(s32);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 void render__11TObjDFDemo3Fv(u8 *arg0);
@@ -51,7 +54,6 @@ struct S_EF94 {
 };
 
 extern "C" {
-s32 is_ending_or_split_screen__14TBoss4DarkFalzFv();
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 s32 vec3_add_to(void *, void *);
@@ -105,7 +107,7 @@ void TObjDFDemo3::render() {
     ((TObjFish *)(this->m_b8))->set_draw_callback_list();
     set_chunk_render_flags(1);
     draw_model_motion((void *)(*(s32 *)&this->m_94), (void *)(*(s32 *)&this->m_9c), *(f32 *)&this->_padB4);
-    clear_render_callback__8TObjFishFv(this->m_b8);
+    ((TObjFish *)this->m_b8)->clear_render_callback();
     set_chunk_render_flags(2);
     draw_model_motion((void *)(*(s32 *)&this->m_94), (void *)(*(s32 *)&this->m_9c), *(f32 *)&this->_padB4);
     clear_chunk_render_flags();
@@ -157,7 +159,7 @@ void TObjDFDemo3::run_task() {
     temp_r0_2 = this->m_b0 + 1;
     this->m_b0 = temp_r0_2;
     if (temp_r0_2 >= 0x8C) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 #pragma pop
@@ -176,7 +178,7 @@ S_EF94 *__dt__11TObjDFDemo3Fv(S_EF94 *o, s16 flag) {
                 o->ptr[i] = 0;
             }
         }
-        if (is_ending_or_split_screen__14TBoss4DarkFalzFv() == 0) {
+        if (TBoss4DarkFalz::is_ending_or_split_screen() == 0) {
             restore_player_cameras();
         }
         __dt__8TObjBaseFv(o, 0);

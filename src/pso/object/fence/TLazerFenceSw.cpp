@@ -25,6 +25,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/key/TOKey.h"
 
 extern "C" { void rotate_matrix_y(int, void *); s32 pop_matrix(void); void draw_ginja_object(void *); s32 get_bml_motion(s32, s32); s32 get_bml_model(s32, s32); }
 extern s32 model_render_flags;
@@ -77,7 +78,6 @@ void debug_draw_key_id__5TOKeyFv();
 void debug_printf_at(int, void *, ...);
 extern u8 lbl_80445CD8[];
 void debug_draw_key_id__13TLazerFenceSwFv(Sw_80193978 *arg0);
-s32 init_key__5TOKeyFPv(void *, void *);
 void *__ct__5TOKeyFP7TObject(TOKey *arg0);
 extern s32 __vt__13TLazerFenceSw[];
 
@@ -336,7 +336,7 @@ extern "C" {
 TLazerFenceSw::TLazerFenceSw(TObject *arg1, void *arg2) : TOKey(arg1) {
     __ct__18CameraDistanceFadeFv((u8 *)this + 0xF0);
     *(s32 *)((s8 *)this + 0) = (s32)TLazerFenceSw__class_name;
-    init_key__5TOKeyFPv(this, arg2);
+    init_key(arg2);
     if (*(s32 *)((s8 *)this + 0x8C) < 0) {
         *(s32 *)((s8 *)this + 0x8C) = 0;
     }

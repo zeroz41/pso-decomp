@@ -20,6 +20,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
+#include "pso/item/TItemData.h"
 
 struct Stack_8034B158 {
     s8 sp8;
@@ -34,10 +35,6 @@ struct Challenge4PItemCode {
     s32 group;
     s32 subtype;
 };
-
-extern "C" {
-void init__9TItemDataFv(void *);
-}
 
 extern "C" {
 
@@ -115,7 +112,7 @@ TChallenge4PResult::TChallenge4PResult(TObject *parent, u16 slot, s32 resultCode
     wait_frames = 90;
     unknown_30 = 0;
     for (s32 i = 0; i < 3; ++i) {
-        init__9TItemDataFv(&reward_items[i]);
+        (&reward_items[i])->init();
         reward_available[i] = 0;
     }
     TChallenge4PResult__slot_entries[slot_index] = (s32)this;
@@ -478,7 +475,7 @@ void TChallenge4PItemSelect::submit_selected_item() {
     window_menu = (u8 *)((u8 *)menu_window);
     if ((window_menu != NULL) && (((TWindowMenu *)window_menu)->is_decided() != 0)) {
         temp_r31 = (u8 *)&TChallenge4PItemSelect__item_table[((TWindowMenu *)menu_window)->get_selected_value()];
-        init__9TItemDataFv(&stack.sp8);
+        ((TItemData *)(&stack.sp8))->init();
         stack.sp8 = (s8) *(s32 *)((s8 *)temp_r31 + 0);
         stack.sp9 = (s8) *(s32 *)((s8 *)temp_r31 + 4);
         stack.spA = (s8) *(s32 *)((s8 *)temp_r31 + 8);

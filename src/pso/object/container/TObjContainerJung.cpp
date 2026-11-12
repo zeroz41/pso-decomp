@@ -33,6 +33,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/container/TObjContainerJungEx.h"
 
 #pragma readonly_strings on
 
@@ -452,9 +453,9 @@ void TObjContainerJungEx::vfunc_81() {
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, 0.85f, 0.85f, 0.85f);
-        draw_ginja_object((void *)get_model__19TObjContainerJungExFl(0));
+        draw_ginja_object((void *)TObjContainerJungEx::get_model(0));
         TParticleCtrl::begin_effect_render();
-        draw_ginja_object((void *)get_model__19TObjContainerJungExFl(3));
+        draw_ginja_object((void *)TObjContainerJungEx::get_model(3));
         TParticleCtrl::end_effect_render();
         pop_matrix();
     case 1:

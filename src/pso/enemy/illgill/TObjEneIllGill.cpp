@@ -20,6 +20,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/unk/TLobby.h"
 extern "C" void render__15TObjIllGillKageFv();
 #include "pso/render/TUnk_80494938.h"
 
@@ -1473,7 +1474,6 @@ void TObjEneIllGill::free_effect() {
 }
 
 s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void TObjEneIllGill::load_shared_resources() {
@@ -1487,10 +1487,10 @@ void TObjEneIllGill::load_shared_resources() {
     }
     illGillResource = (BmlResource *)p;
     TObjEneIllGill__boss_registration_id = register_boss__6TLobbyFl(0x26);
-    ill_gill_combat_parameter_variants[0] = (AttackParams *)dispatch_shared_handler_b__6TLobbyFl(0x26);
-    ill_gill_combat_parameter_variants[1] = (AttackParams *)dispatch_shared_handler_b__6TLobbyFl(0x27);
-    ill_gill_combat_parameter_variants[2] = (AttackParams *)dispatch_shared_handler_b__6TLobbyFl(0x28);
-    ill_gill_combat_parameter_variants[3] = (AttackParams *)dispatch_shared_handler_b__6TLobbyFl(0x29);
+    ill_gill_combat_parameter_variants[0] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x26);
+    ill_gill_combat_parameter_variants[1] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x27);
+    ill_gill_combat_parameter_variants[2] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x28);
+    ill_gill_combat_parameter_variants[3] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x29);
     lbl_805D6FD8 = register_object__6TLobbyFl(0x26);
     illGillAttackBehavior = (IllGillAttackBehavior *)TLobby::dispatch_shared_handler_a(0x26);
     illGillModelNodeIndex = 0;

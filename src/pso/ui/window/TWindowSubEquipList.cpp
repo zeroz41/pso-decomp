@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubEquipList.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
 
 #pragma readonly_strings on
 
@@ -52,7 +53,7 @@ void TWindowSubEquipList::render() {
 }
 #pragma pop
 
-void TWindowSubEquipList::run_task() { { (void)(run_task__19TWindowMenuIconLineFv((u8 *)this)); return; } }
+void TWindowSubEquipList::run_task() { { (void)(((TWindowMenuIconLine *)this)->TWindowMenuIconLine::run_task()); return; } }
 
 void *__dt__19TWindowSubEquipListFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

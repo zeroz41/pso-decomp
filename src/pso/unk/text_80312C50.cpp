@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/player/TObjPlayer.h"
 
 struct B_80312D4C { char pad[0x18]; };
 
@@ -32,7 +33,7 @@ void release_photon_blast_requests(void *registry) {
     u8 *owner;
     count = TObjPlayer__sub_803131AC(registry);
     for (i = 0; i < count; i++) {
-        u16 player = ((u16)get_section_id__10TObjPlayerFv(get_element__10TObjPlayerFPvi(registry, i)));
+        u16 player = ((u16)((TObjPlayer *)(get_element__10TObjPlayerFPvi(registry, i)))->get_section_id());
         if (player != 0xFFFF) {
             owner = (u8 *)get_player_by_client_id(player);
             if (owner != NULL) {
@@ -50,7 +51,7 @@ void *TObjPlayer::find_by_section_id(u16 section) {
     n = TObjPlayer__sub_803131AC(this);
     for (i = 0; i < n; i++) {
         e = (u8 *)get_element__10TObjPlayerFPvi(this, i);
-        if (section == (u16)get_section_id__10TObjPlayerFv(e)) {
+        if (section == (u16)((TObjPlayer *)e)->get_section_id()) {
             return TObjPlayer__sub_803131B4(e, 0);
         }
     }
@@ -97,7 +98,7 @@ void TObjPlayer__sub_80312E98(void *o, u16 id) {
     s32 n = TObjPlayer__sub_803131AC(o);
     s32 i;
     for (i = 0; i < n; i++) {
-        if (id == ((u16)get_section_id__10TObjPlayerFv(get_element__10TObjPlayerFPvi(o, i)))) {
+        if (id == ((u16)((TObjPlayer *)(get_element__10TObjPlayerFPvi(o, i)))->get_section_id())) {
             ((TObjPlayer *)o)->process_indexed_element((s32)((void*)((void *)i)));
         }
     }

@@ -2,6 +2,8 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/ui/window/TWindowMessage.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer.h"
 class TChCrTagPlBack;
 #include "pso/ui/window/TWindowSubTrade.h"
 #include "pso/unk/TLobby.h"
@@ -98,8 +100,6 @@ TWindowSubComCardList *draw_card_icon__17TWindowSubComCardFll(s32 layout, s32 ki
 extern s32 local_client_id;
 s32 draw_text_gray__17TWindowSubComCardFllll(void *list, void *text, int kind, int id);
 s32 is_trade_range_bit_set(s32 client);
-s32 is_script_controlled__10TObjPlayerFv(TObjPlayer *player);
-s32 obj_isState3_324__9TObjCharaFv(TObjPlayer *player);
 extern const f32 lbl_805DE29C;
 extern const f32 lbl_805DE2A0;
 
@@ -118,10 +118,10 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
         if (player == NULL) {
             continue;
         }
-        if (is_script_controlled__10TObjPlayerFv(player) != 0) {
+        if (player->is_script_controlled() != 0) {
             continue;
         }
-        if (obj_isState3_324__9TObjCharaFv(player) != 0) {
+        if (player->obj_isState3_324() != 0) {
             continue;
         }
         if (is_trade_range_bit_set(i)) {

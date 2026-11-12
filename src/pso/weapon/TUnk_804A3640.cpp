@@ -6,6 +6,7 @@
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer.h"
 
 struct Self_80127BE0 { u8 pad[0xF0]; s32 fF0; };
 
@@ -14,7 +15,6 @@ struct Item_80127BE0 { u16 a; s16 b; };
 struct Tec_80127BE0 { s32 kind; u16 a; s16 b; u8 rest[0x58]; };
 
 extern "C" {
-s16 is_status_subsystem_ready__10TObjPlayerFv(s32);
 s32 get_extended_state__10TObjPlayerFv(s32);
 Item_80127BE0 *get_captured_target_entry(s32, s32);
 void TUnk_804A3640::emit_marker_effects() {
@@ -24,7 +24,7 @@ void TUnk_804A3640::emit_marker_effects() {
     s32 i;
     Tec_80127BE0 tec;
     u8 buf[0xC];
-    switch (is_status_subsystem_ready__10TObjPlayerFv(((Self_80127BE0 *)this)->fF0)) {
+    switch (((TObjPlayer *)(((Self_80127BE0 *)this)->fF0))->is_status_subsystem_ready()) {
     case 1:
         kind = 8;
         break;

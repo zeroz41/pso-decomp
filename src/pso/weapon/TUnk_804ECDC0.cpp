@@ -5,6 +5,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/technique/TTecSlicer.h"
+#include "pso/player/TObjPlayer.h"
 
 typedef struct SlicerLaunchData_8012D9C8 {
     u16 player; u16 pad;
@@ -18,7 +19,6 @@ void init_slicer_launch_state(void *arg0);
 u16 get_entity_id(void *);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 s16 get_validated_attack_stage(u8 *arg0);
-f32 query_extended_state__10TObjPlayerFv(void *);
 void get_weapon_color__11TItemWeaponFPv(f32 *, void *);
 }
 
@@ -32,7 +32,7 @@ void TUnk_804ECDC0::emit_marker_effects() {
     launch.model = second_model;
     launch.kind = TObjPlayer__sub_801D2F4C((s16 *)((u8 *)owner + 0x7CC));
     launch.stage = get_validated_attack_stage((u8 *)owner + 0x7CC);
-    launch.multiplier = query_extended_state__10TObjPlayerFv(owner);
+    launch.multiplier = owner->query_extended_state();
     get_weapon_color__11TItemWeaponFPv(tmp, this);
     copy_argb((NJS_ARGB *)launch.color, (NJS_ARGB *)tmp);
     launch.facing = *(s32 *)((s8 *)owner + 0x60);

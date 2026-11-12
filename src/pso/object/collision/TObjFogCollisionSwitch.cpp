@@ -1,5 +1,6 @@
 #include "pso/math/FloatRounding.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/object/collision/TObjFogCollision.h"
 // Folded unit: pso/unk/text_80153674 + pso/object/TObjFogCollisionSwitch + pso/unk/text_80153A7C.
 #include "types.h"
 #include "pso/object/collision/TObjFogCollision.h"
@@ -55,7 +56,6 @@ extern s32 __vt__22TObjFogCollisionPoison[];
 extern s32 __vt__22TObjFogCollisionSwitch[];
 extern s32 TObjFogCollisionPoison__name;
 extern s32 local_client_id;
-void vfunc_14__16TObjFogCollisionFv(O_801538D4 *);
 s32 vfunc_13__16TObjFogCollisionFl();
 void debug_printf_at(int, void *, ...);
 extern char lbl_80440090[];
@@ -267,7 +267,7 @@ void run_task__22TObjFogCollisionSwitchFv(TObjFogCollisionSwitch *arg0) {
 
 void TObjFogCollisionSwitch::vfunc_14() {
     O_801538D4 *arg0 = (O_801538D4 *)this;
-    vfunc_14__16TObjFogCollisionFv(arg0);
+    ((TObjFogCollision *)arg0)->TObjFogCollision::vfunc_14();
     if (((TObjFogCollisionSwitch *)arg0)->sub_80153A0C() != 0) {
         debug_printf_at(0x13001E, lbl_80440090);
     } else {

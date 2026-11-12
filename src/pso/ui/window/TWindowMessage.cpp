@@ -12,6 +12,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/TWindowBase.h"
 
 struct RecoveredFields_802698C4_arg0 {
     u8 unknown_0[0x6C];
@@ -243,7 +244,7 @@ s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 ar
     if (text == 0) {
         return 0;
     }
-    e = (Entry_80269A0C *)get_array_entry__11TWindowBaseFi(self, self->next_line);
+    e = (Entry_80269A0C *)self->get_array_entry(self->next_line);
     rec = &self->lines[self->next_line];
     if (((TWindowSubComCard *)e)->get_field_20() != 0U) {
         self->scroll_up_line((u8 *)e);

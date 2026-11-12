@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -28,6 +29,8 @@
 #include "pso/unk/text_8011A780.h"
 #include "pso/unk/text_80222DE8.h"
 #include "pso/unk/text_80223B98.h"
+#include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
 
 struct Base_8021F134 { char pad[0x18]; };
 struct VObj_8021F134 : Base_8021F134 {
@@ -138,7 +141,6 @@ s32 sub_8022397C__15TShopWindowBaseFv(void *);
 extern s32 __vt__19TShopItemListWindow[];
 extern s32 TShopItemListWindow__class_name;
 u8 *TShopItemListWindow__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
-void queue_destruction__7TObjectFv(void *arg0);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 sub_80223A48__15TShopWindowBaseFv(void *);
 s32 play_sound_effect(int, int, int, int);
@@ -263,7 +265,7 @@ void TShopItemListWindow::prepare_tool_purchase() {
     s32 count;
 
     if (self->list != NULL) {
-        sel = get_cursor_value__19TWindowMenuIconLineFv(self->list);
+        sel = ((TWindowMenuIconLine *)self->list)->get_cursor_value();
         room = ((TObjPlayer *)self->player)->can_inventory_accept_item((u8 *)&self->recs[sel]);
         count = obj_getPtr2B0_20(self->player) / self->recs[sel].price;
         if (count > room) {
@@ -362,7 +364,7 @@ s32 TShopItemListWindow::check_purchase_eligibility() {
     if (self->list == NULL) {
         return 0;
     }
-    sel = get_cursor_value__19TWindowMenuIconLineFv(self->list);
+    sel = ((TWindowMenuIconLine *)self->list)->get_cursor_value();
     meseta = obj_getPtr2B0_20((u8 *)self->player);
     if (self->recs[sel].qty > meseta) {
         return 0;
@@ -459,7 +461,7 @@ void TShopItemListWindow::vfunc_11() {
         if (temp_r12 != NULL) {
             temp_r12(*(s32 *)((s8 *)arg0 + 0x2C));
         }
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     case 5:
         ((TShopItemListWindow *)arg0)->update();

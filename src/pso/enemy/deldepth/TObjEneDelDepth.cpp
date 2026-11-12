@@ -34,6 +34,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/unk/TLobby.h"
 
 extern "C" {
 f64 atan2_float(f32, f32);
@@ -121,7 +122,6 @@ extern const f32 lbl_805DF2DC;
 
 extern "C" {
 s32 is_split_screen(void);
-s32 dispatch_shared_handler_a__6TLobbyFl(s32);
 BmlResource *load_resource_from_descriptor(BmlResource *, s32, const BmlResourceDescriptor *, s32, s32, s32);
 
 void free_bin_model_request(void*, int);
@@ -288,7 +288,7 @@ void TObjEneDelDepth::load_assets() {
         info.motions = TObjEneDelDepth__shared_resource->motions;
         TLobby::spawn_npc_enemy((s16)0x48, TObjEneDelDepth__shared_resource->models[1].model, (NJS_TEXLIST *)TObjEneDelDepth__shared_resource->models[1].m_c, &info, TObjEneDelDepth_collision_body_parts[0].radius, (f32)TObjEneDelDepth__data_805DF258);
     }
-    TObjEneDelDepth__tune_params = (DelDepthParameters *)dispatch_shared_handler_a__6TLobbyFl(0x30);
+    TObjEneDelDepth__tune_params = (DelDepthParameters *)TLobby::dispatch_shared_handler_a(0x30);
 }
 
 void TObjEneDelDepth::free_shared_data() {

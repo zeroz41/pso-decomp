@@ -5,6 +5,7 @@
 #include "pso/unk/text_801DF280.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TPlyGuildCardTag.h"
+#include "pso/network/protocol/protocol.h"
 
 struct RecoveredFields_801DF394_arg0
 {
@@ -79,7 +80,7 @@ s32 __ct__16TPlyGuildCardTagFv(s32);
 int bswap_32__FPUl(void* a0 = 0);
 
 void bswap_cmd_db_regist_connect_reply(packet_header *arg0) {
-    bswap__13packet_headerFv(arg0);
+    arg0->bswap();
     bswap_ply_smth_pair(((void *)((char *)arg0 + 68)));
     bswap_32__FPUl((void*)((void *)((char *)arg0 + 76)));
 }
@@ -90,7 +91,7 @@ s32 construct_cmd_db_regist_connect_reply(s32 arg0) {
 }
 }
 int bswap_cmd_8a_header(void* p) { return bswap__13packet_headerFv(p); }
-void bswap_cmd_88_body(void* p) { bswap__13packet_headerFv(p); { int i; for (i = 0; i < 16; i++) { bswap_cmd_88_marker_record((void*)((char*)p + 0x4 + i * 12)); } } }
+void bswap_cmd_88_body(void* p) { ((packet_header *)p)->bswap(); { int i; for (i = 0; i < 16; i++) { bswap_cmd_88_marker_record((void*)((char*)p + 0x4 + i * 12)); } } }
 
 void bswap_cmd_88_marker_record(void* p) { ((TPlyGuildCardTag *)p)->bswap(); bswap_32__FPUl((char*)p + 0x8); }
 
@@ -114,7 +115,7 @@ s32 *copy_entry_table(s32 *arg0, s32 *arg1) {
 }
 
 void* copy_cmd_88_marker_record(void* p, void* a1) { __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(p); *(void**)((char*)p + 0x8) = *(void**)((char*)a1 + 0x8); return p; }
-void bswap_cmd_c4_body(void* p) { bswap__13packet_headerFv(p); { int i; for (i = 0; i < 32; i++) { bswap_cmd_c4_entry((void *)((char*)p + 0x4 + i * 212)); } } }
+void bswap_cmd_c4_body(void* p) { ((packet_header *)p)->bswap(); { int i; for (i = 0; i < 32; i++) { bswap_cmd_c4_entry((void *)((char*)p + 0x4 + i * 212)); } } }
 
 void bswap_cmd_c4_entry(void *arg0) {
     bswap_32__FPUl(arg0);
@@ -174,7 +175,7 @@ Obj_801DF61C *copy_ply_meet_user_extension(Obj_801DF61C *dst, Obj_801DF61C *src)
     return dst;
 }
 
-void bswap_choice_search_packet(void* p) { bswap__13packet_headerFv(p); bswap_choice_search_config((char*)p + 0x4); }
+void bswap_choice_search_packet(void* p) { ((packet_header *)p)->bswap(); bswap_choice_search_config((char*)p + 0x4); }
 void bswap_choice_search_config(void* p) { bswap_32__FPUl(p); { int i; for (i = 0; i < 5; i++) { bswap_u16_pair_field((void*)((char*)p + 0x4 + i * 4)); } } }
 
 void bswap_u16_pair_field(void* p) { bswap_16__FPUs((s32)p); bswap_16__FPUs((s32)((void*)((char*)p + 0x2))); }
@@ -185,7 +186,7 @@ Blk_801DF774 *copy_choice_search_parameters(Blk_801DF774 *d, const Blk_801DF774 
     return d;
 }
 
-void bswap_c0_lobby_entries(void* p) { bswap__13packet_headerFv(p); { int i; for (i = 0; i < 56; i++) { bswap_c0_choice_search_entry((void*)((char*)p + 0x4 + i * 32)); } } }
+void bswap_c0_lobby_entries(void* p) { ((packet_header *)p)->bswap(); { int i; for (i = 0; i < 56; i++) { bswap_c0_choice_search_entry((void*)((char*)p + 0x4 + i * 32)); } } }
 
 void bswap_c0_choice_search_entry(void* p) { bswap_u16_pair_field(p); }
 
@@ -197,7 +198,7 @@ void bswap_save_packet(s32 arg0) {
     ((s32)bswap_32__FPUl((void*)(arg0 + 8)));
 }
 
-void bswap_change_ship_block_packet(void* p) { bswap__13packet_headerFv(p); ((TPlyGuildCardTag *)((char*)p + 0x4))->bswap(); }
+void bswap_change_ship_block_packet(void* p) { ((packet_header *)p)->bswap(); ((TPlyGuildCardTag *)((char*)p + 0x4))->bswap(); }
 
 s32 construct_change_ship_block_packet(s32 arg0) {
     __ct__16TPlyGuildCardTagFv(arg0 + 4);

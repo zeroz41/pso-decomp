@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/collision/TObjRaderCol.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -6,6 +7,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_801976F4___vt__12TObjRaderCol {
     s32 value;
@@ -47,7 +49,7 @@ void check_any_player_in_range__12TObjRaderColFPv(Col_8019750C *arg0) {
                 p = (Ply_8019750C *)get_player_by_client_id(j);
                 if (p != 0 && xz_distance_squared(p->pos, arg0->pos) < arg0->f90 * arg0->f90) {
                     TRaderMapCore::reveal_region_by_id(arg0->f94);
-                    queue_destruction__7TObjectFv(arg0);
+                    ((TObject *)arg0)->queue_destruction();
                     return;
                 }
             }
@@ -73,7 +75,7 @@ void TObjRaderCol::check_local_player_in_range(void *arg0_) {
     if (p != 0) {
         if (xz_distance_squared(p->pos, arg0->pos) < arg0->f90 * arg0->f90) {
             TRaderMapCore::reveal_region_by_id((s16)arg0->f94);
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
         }
     }
 }
@@ -106,14 +108,11 @@ u8 *TObjRaderCol__ct(TObjRaderCol *rader_col, s32 arg1, s32 arg2) {
     rader_col->m_94 = (s32) rader_col->set_params[0];
     rader_col->m_98 = 0;
     rader_col->m_9c = 3;
-    disallow_rendering__7TObjectFv((rader_col));
+    rader_col->disallow_rendering();
     return (u8 *)rader_col;
 }
 
 }
 TObjRaderCol::~TObjRaderCol() {
-
-}
-extern "C" {
 
 }

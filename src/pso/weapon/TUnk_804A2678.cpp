@@ -17,6 +17,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjMotion.h"
 
 extern "C" s32 is_item_area_enabled(s32 area);
 
@@ -33,7 +34,6 @@ void run_task__13TUnk_804A2660Fv(void *arg0);
 s8 get_mode__5TItemFv();
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
-s32 obj_testFlags30__14TObjCollidableFUl(s32, s32);
 
 void render__7TObjectFv();
 void render_shadows__7TObjectFv();
@@ -54,7 +54,7 @@ void TUnk_804A2660::run_task() {
             var_r31 = 1;
             if (((TItemWeapon *)var_r30)->get_joint_position(this->m_20, sp8) != 0) {
                 ((TParticleCtrl *)*(u32 *)&this->unk_24)->set_position(sp8);
-                if ((((TItem *)var_r30)->is_hidden() == 0) || (obj_testFlags30__14TObjCollidableFUl(var_r30, 0x08000000) == 0)) {
+                if ((((TItem *)var_r30)->is_hidden() == 0) || (((TObjCollidable *)var_r30)->obj_testFlags30(0x08000000) == 0)) {
                     ((TParticleCtrl *)(*(u32 *)&this->unk_24))->clear_active_flag();
                 } else {
                     ((TParticleCtrl *)(*(u32 *)&this->unk_24))->enable();

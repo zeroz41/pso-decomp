@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TTecSifta.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -7,6 +8,8 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -78,7 +81,6 @@ u8 *TTecSifta__sub_8023B17C(TTecSifta *arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(int, void *, int, int);
 s32 is_split_screen();
-s32 is_script_controlled__10TObjPlayerFv(void *);
 void *find_entity_by_id(u16 id);
 void deliver_technique_to_party_targets(void *);
 void run_task__9TTecSiftaFv(Sifta_8023AF94 *self);
@@ -143,7 +145,7 @@ void TTecSifta::vfunc_7(void *arg1_arg) {
     Obj_8023AE8C *arg0 = (Obj_8023AE8C *)this;
     VObj_18_b27ba1 *player = (VObj_18_b27ba1 *)arg1_arg;
     HitInfo_8023AE8C h;
-    if (is_script_controlled__10TObjPlayerFv(player) == 0) {
+    if (((TObjPlayer *)player)->is_script_controlled() == 0) {
         h.type = 9;
         h.power = arg0->power;
         if (is_split_screen() == 0) {
@@ -167,7 +169,7 @@ void run_task__9TTecSiftaFv(Sifta_8023AF94 *self) {
     s32 i;
     self->source = (u32)find_entity_by_id(self->source_id);
     if (self->source == 0) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return;
     }
     if (self->captured != 0) {
@@ -189,7 +191,7 @@ void run_task__9TTecSiftaFv(Sifta_8023AF94 *self) {
     } else {
         deliver_technique_to_party_targets(self);
     }
-    queue_destruction__7TObjectFv(self);
+    ((TObject *)self)->queue_destruction();
 }
 
 #pragma push

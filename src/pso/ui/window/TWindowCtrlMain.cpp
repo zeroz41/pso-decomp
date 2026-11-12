@@ -36,6 +36,7 @@
 #include "pso/unk/text_80269FE8.h"
 #include "pso/unk/text_80271400.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowDD.h"
 const char *TWindowCtrlMain__name = "TWindowCtrlMain";
 const char *TWindowCtrlScreen__name = "TWindowCtrlScreen";
 const char *TWindowCtrlSub__name = "TWindowCtrlSub";
@@ -85,7 +86,6 @@ int spawn_action_palette_slot_light(void*);
 int open_submenu__15TWindowSubEquipFll(void*);
 int append_line__14TWindowMessageFii(void*);
 int try_open_battle_menu__15TWindowMainMenuFs(void*);
-int update_com_card__9TWindowDDFv(void*);
 }
 void load_hud_palette_textures(void);
 extern "C" {
@@ -559,7 +559,7 @@ TWindowCtrlMain::~TWindowCtrlMain() {
     }
 }
 
-void TWindowCtrlMain::run_task() { { (void)(update_com_card__9TWindowDDFv(this)); return; } }
+void TWindowCtrlMain::run_task() { { (void)(((TWindowDD *)this)->update_com_card()); return; } }
 
 void TWindowCtrlMain::render() {
     set_default_alpha_blend();

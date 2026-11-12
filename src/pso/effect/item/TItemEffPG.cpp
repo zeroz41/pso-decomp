@@ -29,6 +29,8 @@
 #include "pso/item/TUnk_804E355C.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TMainTask.h"
 
 struct Base_8034EFDC { char pad[0x18]; };
 struct VObj_8034EFDC : Base_8034EFDC {
@@ -131,7 +133,6 @@ void init_slicer_launch_state(void *arg0);
 u16 get_entity_id(void *);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 s16 get_validated_attack_stage(u8 *arg0);
-f32 query_extended_state__10TObjPlayerFv(void *);
 void get_weapon_color__11TItemWeaponFPv(f32 *, void *);
 u8 *create__10TTecSlicerFPUs(SlicerLaunchData_8012D9C8 *);
 extern const f32 lbl_805DFDF8;
@@ -147,7 +148,6 @@ void TItemEffPG__begin_visual_fade(void *p);
 void *create_particle_emitter(void *pos, s32 id);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_804F0BF0[];
-s32 get_render_pass__9TMainTaskFv();
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
@@ -341,7 +341,7 @@ void TUnk_804F0BF0::render() {
         return;
     }
     {
-        if (((void *) this->m_20 != NULL) && (get_render_pass__9TMainTaskFv() == 1)) {
+        if (((void *) this->m_20 != NULL) && (TMainTask::get_render_pass() == 1)) {
             set_draw_list_mask(3);
             saved_model_render_flags = model_render_flags;
             saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
@@ -510,7 +510,7 @@ void TUnk_804F0908::emit_marker_effects() {
     launch.model = *(void **)((s8 *)this + 0x188);
     launch.kind = TObjPlayer__sub_801D2F4C((s16 *)(*(u8 **)&owner + 0x7CC));
     launch.stage = get_validated_attack_stage(*(u8 **)&owner + 0x7CC);
-    launch.multiplier = query_extended_state__10TObjPlayerFv(*(u8 **)&owner);
+    launch.multiplier = ((TObjPlayer *)(*(u8 **)&owner))->query_extended_state();
     get_weapon_color__11TItemWeaponFPv(tmp, this);
     copy_argb((NJS_ARGB *)launch.color, (NJS_ARGB *)tmp);
     launch.facing = *(s32 *)((s8 *)(*(u8 **)&owner) + 0x60);

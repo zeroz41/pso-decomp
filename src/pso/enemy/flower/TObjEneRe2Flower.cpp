@@ -21,6 +21,7 @@
 #include "pso/unk/text_800C3088.h"
 #include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/player/TObjPlayer.h"
 
 struct Stack_800C44C4 {
     s32 sp8;
@@ -435,7 +436,7 @@ u8 *TObjEneRe2Flower::find_target_in_range() {
     result = NULL;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        p = (u8 *)get_player_data__10TObjPlayerFi(i);
+        p = (u8 *)TObjPlayer::get_player_data(i);
         if (is_valid_target__9TObjEneDDFv(p) != 0 && obj_isState2_324__9TObjCharaFv(p) == 0) {
             result = p;
             break;

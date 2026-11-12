@@ -25,6 +25,8 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/object/warp/TObjWarpBase.h"
 
 extern "C" {
 s32 is_main_phase_15__9TObjEneDDFv();
@@ -180,7 +182,6 @@ u8 *__dt__12TObjAreaWarpFv(u8 *arg0, s16 arg1);
 void TObjAreaWarp__ct(void *);
 void *__dt__11TObjMapWarpFv(void *arg0, s16 arg1);
 void TObjMapWarp__ct(void *);
-int vfunc_14__12TObjWarpBaseFv(void*);
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(int);
 s32 align_menu_entry_positions(int);
@@ -381,7 +382,7 @@ void TObjCityMapWarp::slot4C() {
 void TObjCityMapWarp::render() {
     u8 *arg0 = (u8 *)this;
     if (((VObj_8018574C*)arg0)->m8(400.0f, 32.0f) != 0) {
-        set_global_param__8TObjFishFl(city_common_texture_list);
+        TObjFish::set_global_param(city_common_texture_list);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -484,7 +485,7 @@ void TObjCityAreaWarp::render() { if (is_main_phase_15__9TObjEneDDFv() != 0) { d
 void TObjCityAreaWarp::do_warp() {
     u8 *arg0 = (u8 *)this;
     if (((VObj80185B58_80185AFC *) arg0)->m8(400.0f, 32.0f) != 0) {
-        set_global_param__8TObjFishFl(city_common_texture_list);
+        TObjFish::set_global_param(city_common_texture_list);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -567,7 +568,7 @@ void TObjCityMainWarp::debug_print_area_num() {
 void TObjCityMainWarp::render() {
     u8 *arg0 = (u8 *)this;
     if (((VObj80185EC8_80185EC8 *) arg0)->m8(400.0f, 35.0f) != 0) {
-        set_global_param__8TObjFishFl(city_common_texture_list);
+        TObjFish::set_global_param(city_common_texture_list);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -635,7 +636,7 @@ s32 TObjCityMainWarp__vt15(u8 *arg0) {
     return 0;
 }
 
-void TObjCityMainWarp::vfunc_14() { if (this->m_b0 != 0) { vfunc_14__12TObjWarpBaseFv(this); TWindowCtrl::clear_flag(); } }
+void TObjCityMainWarp::vfunc_14() { if (this->m_b0 != 0) { TObjWarpBase::vfunc_14(); TWindowCtrl::clear_flag(); } }
 
 #pragma push
 #pragma opt_lifetimes off

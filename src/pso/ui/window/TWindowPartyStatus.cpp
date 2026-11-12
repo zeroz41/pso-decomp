@@ -11,6 +11,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/unk/text_8030C340.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 #pragma readonly_strings on
 
@@ -56,9 +57,7 @@ u8 *TWindowPartyStatus__ct(u8 *arg0, s32 arg1, s32 arg2);
 void *__dt__18TWindowPartyStatusFv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 void __dt__19TWindowSimpleStatusFv(void *, int);
-int update_hp_entry__20TWindowSubStatusDispFv(void*);
 s32 update_lockon_window();
-int update_status_entry__20TWindowSubStatusDispFv(void*);
 void update_status_help_item(s32 arg0);
 
 struct PartyStatusWindowLayout {
@@ -84,7 +83,7 @@ WindowDescriptor party_status_window_params = {
     {114.0f, 46.0f}, 70100.0f, &lbl_804E7750, 0xB28,
 };
 
-void TWindowPartyStatus::draw() { update_hp_entry__20TWindowSubStatusDispFv(this); update_status_entry__20TWindowSubStatusDispFv(this); }
+void TWindowPartyStatus::draw() { ((TWindowSubStatusDisp *)this)->update_hp_entry(); ((TWindowSubStatusDisp *)this)->update_status_entry(); }
 
 void TWindowPartyStatus::draw_background(u8 *arg1) {
     typedef char sp8_offset[(offsetof(Stack_8030C0C4, sp8) == 0x0) ? 1 : -1];

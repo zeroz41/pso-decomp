@@ -10,9 +10,9 @@
 #include "pso/unk/TLobby.h"
 #include "pso/object/switch/TOSwitchItem.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer.h"
 
 extern "C" {
-int get_player_data__10TObjPlayerFi(int a0);
 extern u8 listed_equipment_table[][3];
 void get_weapon_color__11TItemWeaponFPv(void *, void *);
 }
@@ -20,7 +20,7 @@ s32 any_player_has_listed_equipment(void) {
     s32 n = TLobby::get_game_mode();
     s32 i;
     for (i = 0; i < n; i++) {
-        void *pl = (void *)get_player_data__10TObjPlayerFi(i);
+        void *pl = (void *)TObjPlayer::get_player_data(i);
         if (pl != NULL && ((TBoss6PlotFalz *)pl)->is_active() != 0) {
             s32 j;
             for (j = 0; j < 10; j++) {

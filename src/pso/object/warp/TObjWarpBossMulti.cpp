@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/warp/TObjWarpBase.h"
@@ -32,6 +33,9 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/object/warp/TObjWarpBoss.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 const char *TObjWarpBoss__name = "TObjWarpBoss";
 const char *TObjWarpBossMulti__name = "TObjWarpBossMulti";
@@ -236,7 +240,6 @@ extern s32 warp_boss_motion;
 extern s32 __vt__12TObjWarpBoss[];
 extern "C" {
 extern u8 lbl_80446480[];
-void queue_destruction__7TObjectFv(void *);
 void *TObjAreaWarp__ct(void *arg0);
 s32 get_boss_warp_destination(void);
 extern const f32 lbl_805DC000;
@@ -378,9 +381,7 @@ s32 post_translate_matrix(void *);
 s32 draw_ginja_model_with_motion(s32, s32, f32);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
-void allow_rendering__7TObjectFv(TObject *arg0);
 int check_flag_100__10TObjPlayerFPv(void *p);
-void disallow_rendering__7TObjectFv(TObject *arg0);
 f32 xz_distance_squared(s32, void *);
 s32 get_current_floor();
 u8 is_current_floor_switch_set(int);
@@ -390,7 +391,6 @@ s32 align_menu_entry_positions(u32);
 u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 void obj_clear_flag30_20000(void *arg0);
 void obj_set_flag_20000(void *arg0);
-void play_effect_default__10TObjPlayerFii(s32 arg0, s32 arg1);
 s32 send_code_45_1__10TObjPlayerFl();
 char *strcpy(char *, const char *);
 s32 is_locally_controlled__10TObjPlayerFPv(u32);
@@ -646,28 +646,28 @@ void TObjWarpBoss::update_warp_boss_visibility() {
     if (var_r30 == 0) {
         if ((u32) *(u32 *)((s8 *)this + 0x168) != 0U) {
             ((TObject *)(*(void **)((s8 *)this + 0x168)))->suspend_update();
-            disallow_rendering__7TObjectFv((TObject *)((void *)(*(u32 *)((s8 *)this + 0x168))));
+            ((TObject *)((void *)(*(u32 *)((s8 *)this + 0x168))))->disallow_rendering();
         }
         if ((u32) this->m_b0 != 0U) {
             ((TObject *)(*(void **)((s8 *)this + 0xB0)))->suspend_update();
-            disallow_rendering__7TObjectFv((TObject *)(this->m_b0));
+            ((TObject *)(this->m_b0))->disallow_rendering();
         }
         if ((u32) this->m_180 != 0U) {
             ((TObject *)(*(void **)((s8 *)this + 0x164)))->suspend_update();
-            disallow_rendering__7TObjectFv((TObject *)(this->m_180));
+            ((TObject *)(this->m_180))->disallow_rendering();
         }
     } else {
         if ((u32) *(u32 *)((s8 *)this + 0x168) != 0U) {
             ((TQuestVmDownLoadServer *)(*(void **)((s8 *)this + 0x168)))->clear_flag4_bit4();
-            allow_rendering__7TObjectFv((TObject *)((void *)(*(u32 *)((s8 *)this + 0x168))));
+            ((TObject *)((void *)(*(u32 *)((s8 *)this + 0x168))))->allow_rendering();
         }
         if ((u32) this->m_b0 != 0U) {
             ((TQuestVmDownLoadServer *)(*(void **)((s8 *)this + 0xB0)))->clear_flag4_bit4();
-            allow_rendering__7TObjectFv((TObject *)(this->m_b0));
+            ((TObject *)(this->m_b0))->allow_rendering();
         }
         if ((u32) this->m_180 != 0U) {
             ((TQuestVmDownLoadServer *)(*(void **)((s8 *)this + 0x164)))->clear_flag4_bit4();
-            allow_rendering__7TObjectFv((TObject *)(this->m_180));
+            ((TObject *)(this->m_180))->allow_rendering();
         }
     }
 }
@@ -780,7 +780,7 @@ void TObjWarpBoss::warp_player(s32 arg1) {
 
     player = (s32)get_player_by_client_id(arg1);
     if (player != 0) {
-        play_effect_default__10TObjPlayerFii(player, -1);
+        TObjPlayer::play_effect_default(player, -1);
         obj_set_flag_20000((void *)player);
         *(s32 *)((s8 *)this + 0x174) = 0x12C;
     }
@@ -986,7 +986,7 @@ void TObjWarpBoss::update_warp_confirmation() {
             *(s16 *)((s8 *)arg0 + 0xE0) = 5;
         }
         if (*(s16 *)((s8 *)arg0 + 0xE0) != 2) {
-            close_windows__12TObjWarpBossFv(arg0);
+            ((TObjWarpBoss *)arg0)->close_windows();
         }
         break;
     case 3:
@@ -1004,7 +1004,7 @@ void TObjWarpBoss::update_warp_confirmation() {
         }
         break;
     case -1:
-        close_windows__12TObjWarpBossFv(arg0);
+        ((TObjWarpBoss *)arg0)->close_windows();
         break;
     case 5:
         break;
@@ -1252,7 +1252,7 @@ Obj_8019F578 *TObjWarpBoss__ct(Obj_8019F578 *self, int _w1, void * _w2) {
     self->fD0 = 0;
     self->fD4 = 0;
     if (self->fB4 != NULL) {
-        queue_destruction__7TObjectFv(self->fB4);
+        ((TObject *)self->fB4)->queue_destruction();
         self->fB4 = NULL;
     }
     for (i = 0; i < 4; i++) {

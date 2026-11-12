@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet_80247EFC.h"
@@ -17,6 +18,7 @@
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
+#include "pso/system/task/TObject.h"
 
 struct Part_802480EC {
     u8 pad0[8];
@@ -74,8 +76,6 @@ struct SymbolChatSpriteLayout {
     SpritePartLayoutRecord recs[25];
 };
 
-void allow_rendering__7TObjectFv(TObject *arg0);
-void disallow_rendering__7TObjectFv(TObject *arg0);
 u8 * draw_default_entry__9TWindowDDFl();
 void fn_80248324(Ctl_80248324 *c, s32 arg1, s32 arg2);
 s32 draw_visible_window_entries(void *, void *, void *, f32, f32, f32);
@@ -328,10 +328,10 @@ void TWindowSubSymbolChat::init_layout_entries(s32 player) {
 void TWindowSubSymbolChatPartsSet::update_visibility() {
     u8 *arg0 = (u8 *)this;
     if (((s32) this->m_64 == 0) && (((u32) this->m_60 == 0U) || (is_symbol_chat_preset_in_use((u32 *)this->m_60) == 0))) {
-        disallow_rendering__7TObjectFv((TObject *)arg0);
+        ((TObject *)arg0)->disallow_rendering();
         return;
     }
-    allow_rendering__7TObjectFv((TObject *)arg0);
+    ((TObject *)arg0)->allow_rendering();
     set_symbol_chat_parts__20TWindowSubSymbolChatFiPv((s32)(arg0 + 0x24), (void *)(((TWindowSubSymbolChat *)(this->m_60))->get_data_ptr()));
 }
 

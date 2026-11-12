@@ -4,6 +4,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_801BD314.h"
+#include "pso/object/base/TObjMotion.h"
 
 extern "C" {
 
@@ -13,7 +14,6 @@ s32 is_on_current_floor__10TObjPlayerFi(void *);
 s32 run_action_state_phase__10TObjPlayerFisi(void *, s32, s32);
 
 s32 obj_isState2_324__9TObjCharaFv();
-s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 extern const f32 TObjPlayer__data_805DC294;
 
 void TObjPlayer::update_action_animation() {
@@ -24,7 +24,7 @@ void TObjPlayer::update_action_animation() {
     }
     if (is_on_current_floor__10TObjPlayerFi(arg0) != 0) {
         ((TObjPlayer *)arg0)->sub_8011E204(4);
-        if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x800) != 0) {
+        if (((TObjCollidable *)arg0)->obj_testFlags30(0x800) != 0) {
             run_action_state_phase__10TObjPlayerFisi(arg0, 0xF, 0);
             if (test_flags_any((u8 *)&this->m_858, 1) != 0) {
                 this->requested_action = ((TObjPlayer *)arg0)->get_action_animation();

@@ -5,6 +5,7 @@
 #include "pso/unk/TUnk_804DDD28.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TUnk_804ED7D0.h"
+#include "pso/unk/TUnk_804DDD28.h"
 
 struct Base_80328F7C { char pad[0x8]; };
 struct VObj_80328F7C : Base_80328F7C {
@@ -410,7 +411,6 @@ void alloc_work_buffer__6TLobbyFv(void) {
 }
 
 void *TLobby__sub_80329310(void *arg0, s16 arg1);
-s32 vfunc_3__13TUnk_804DDD28Fs(void *, s32);
 
 void free__10TObjPlayerFPv(void *a0);
 
@@ -429,7 +429,7 @@ extern s32 lbl_804ED7D0[];
 void *TLobby__sub_80329310(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 8) = lbl_804ED7D0;
-        vfunc_3__13TUnk_804DDD28Fs(arg0, 0);
+        ((TUnk_804DDD28 *)arg0)->TUnk_804DDD28::vfunc_3(0);
         if (arg1 > 0) {
             free__10TObjPlayerFPv(arg0);
         }

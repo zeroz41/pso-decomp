@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/camera/CameraViewParams.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowDD.h"
 struct TCameraCtrl;
 
 #include "pso/ui/window/TWindowMainMenu.h"
@@ -39,7 +40,6 @@ u8 *TWindowUserSort__ct(u8 *arg0, s32 arg1, s32 arg2);
 void *__dt__15TWindowUserSortFv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 s32 close_and_clear_flags__15TWindowMainMenuFv();
-int initialize_subwindow__9TWindowDDFv(void*);
 
 void render__15TWindowUserSortFv(s32 arg0) {
     s32 temp_r3;
@@ -48,7 +48,7 @@ void render__15TWindowUserSortFv(s32 arg0) {
     draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)temp_r3);
 }
 
-void TWindowUserSort::run_task() { initialize_subwindow__9TWindowDDFv(this); update_fade(); update_window_entry_list((char*)this + 0x24); }
+void TWindowUserSort::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list((char*)this + 0x24); }
 
 void *__dt__15TWindowUserSortFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

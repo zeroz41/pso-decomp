@@ -3,6 +3,8 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowBreakIn.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -26,7 +28,6 @@ extern s32 __vt__14TWindowBreakIn[];
 s32 draw_visible_window_entries(s32, s32, s32);
 void __dl__7TObjectFPv(void *);
 s32 draw_default_entry__9TWindowDDFl();
-int initialize_subwindow__9TWindowDDFv(void*);
 
 void TWindowBreakIn::render() {
     s32 arg0 = (s32)this;
@@ -34,7 +35,7 @@ void TWindowBreakIn::render() {
     draw_visible_window_entries(arg0, arg0 + 0x24, tmp);
 }
 
-void TWindowBreakIn::run_task() { update_entry_visibility__20TWindowSubStatusDispFv((s32)this); initialize_subwindow__9TWindowDDFv(this); update_window_entry_list((char*)this + 0x24); }
+void TWindowBreakIn::run_task() { ((TWindowSubStatusDisp *)this)->update_entry_visibility(); ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list((char*)this + 0x24); }
 
 void *__dt__14TWindowBreakInFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

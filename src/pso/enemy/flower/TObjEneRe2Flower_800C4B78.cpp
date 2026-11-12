@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_EffCurse3.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_800C4B78.h"
@@ -17,6 +18,8 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/system/task/TObject.h"
 
 typedef struct Vec_800C4A5C {
     f32 x, y, z;
@@ -84,7 +87,6 @@ s32 subtract_vector(void *, void *);
 extern void *player_render_texture_buffer;
 void release_texture_list(void *);
 void mem_free(void *);
-s32 is_alive__8TObjBaseFv(s32);
 extern u8 *camera_ctrl_instance;
 
 extern const char TObjEneRe2Flower_EffCurse3__class_name_string[0x1C] = "TObjEneRe2Flower_EffCurse3";
@@ -97,10 +99,10 @@ void TObjEneRe2Flower_EffCurse3::run_task() {
     Vec_800C4B78 b;
     o->timer++;
     if (o->timer > 20) {
-        queue_destruction__7TObjectFv((o));
+        ((TObject *)o)->queue_destruction();
         return;
     }
-    if (is_alive__8TObjBaseFv((s32)o->target) != 0) {
+    if (((TObjBase *)o->target)->is_alive() != 0) {
         VecCopy((Vec *)&a, (const Vec *)&o->target->pos);
         a.y += (14.0f);
         VecCopy((Vec *)&b, (const Vec *)(camera_ctrl_instance + 0x178));
@@ -116,13 +118,13 @@ void TObjEneRe2Flower_EffCurse3::run_task() {
 
 }
 TObjEneRe2Flower_EffCurse3::~TObjEneRe2Flower_EffCurse3() {
-    if (*(void * *)&this->unk_24 != NULL) { queue_destruction__7TObjectFv((*(void * *)&this->unk_24)); *(s32 *)&this->unk_24 = 0; }
+    if (*(void * *)&this->unk_24 != NULL) { ((TObject *)(*(void * *)&this->unk_24))->queue_destruction(); *(s32 *)&this->unk_24 = 0; }
 }
 TObjEneRe2Flower_EffCurse3::TObjEneRe2Flower_EffCurse3(s32 arg1, s32 arg2) : TObject((TObject *)arg1) {
     *(s32 *)&this->m_name = (s32) TObjEneRe2Flower_EffCurse3__name;
     *(s32 *)((s8 *)this + 0x1C) = 0;
     (this->m_20) = arg2;
-    if (is_alive__8TObjBaseFv((this->m_20)) != 0) {
+    if (((TObjBase *)this->m_20)->is_alive() != 0) {
         *(s32 *)&this->unk_24 = (s32)spawn_continuous_particle_effect_with_flags((void *)((this->m_20) + 0x38), 0xDE, 0x40);
     }
 }

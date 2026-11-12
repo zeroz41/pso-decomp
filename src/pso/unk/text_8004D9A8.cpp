@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
@@ -20,6 +21,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/darkfalz/TObjDFDemo0.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
@@ -194,7 +196,7 @@ void TBoss3Volopt__sub_8004DA7C(u8 *self) {
     }
     S->node_tables.scroll_strips();
     if (++*(s32 *)((s8 *)self + 0x90) >= 0x118) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
     }
 }
 

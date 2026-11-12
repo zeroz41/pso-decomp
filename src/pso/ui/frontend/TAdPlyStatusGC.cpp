@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TMainTask.h"
@@ -10,6 +11,7 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/frontend/TAdGuideButtonGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_8033F93C_lbl_8050E3B8 {
     s32 value;
@@ -76,7 +78,6 @@ extern s32 TAdPlyStatusGC__window_offset_index;
 extern s32 TAdPlyStatusGC__is_shown;
 void update_hidden__14TAdPlyStatusGCFv(u8 *arg0);
 u8 * __dt__7TObjectFv(void *, s16);
-void queue_destruction__7TObjectFv(void *);
 void __dl__7TObjectFPv(s32);
 extern RecoveredGlobal_8033FB8C___vt__14TAdPlyStatusGC __vt__14TAdPlyStatusGC;
 extern u32 ply_status_gc_instance;
@@ -364,7 +365,7 @@ u8 *__dt__14TAdPlyStatusGCFv(u8 *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = &__vt__14TAdPlyStatusGC.value;
         object = (u8 *)(*(u8 **)((s8 *)arg0 + 0x6C));
         if (object != NULL) {
-            queue_destruction__7TObjectFv(object);
+            ((TObject *)object)->queue_destruction();
             *(u8 **)((s8 *)arg0 + 0x6C) = NULL;
         }
         if ((u32) ply_status_gc_instance != 0U) {

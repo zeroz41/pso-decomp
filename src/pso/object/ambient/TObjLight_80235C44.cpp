@@ -18,6 +18,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer.h"
 
 static const f32 lbl_805DC888[1] = {1.0f};
 static const f32 lbl_805DC88C[1] = {0.0f};
@@ -291,7 +292,6 @@ struct Proxy_80236A20 { u8 pad[0xA4]; Sub_80236A20 *a4; };
 struct Self_80236A20 { u8 pad[0x128]; Proxy_80236A20 *proxy; f32 f12c; };
 
 extern "C" {
-int get_player_data__10TObjPlayerFi(int a0);
 
 f32 vector_length(void *);
 extern const f64 lbl_8044D8D0[];
@@ -334,7 +334,7 @@ s32 find_support_technique_contact(void *self, int target, void *_w2, void *_w3)
     }
     VecCopy((Vec *)((u8 *)target + 0x38), (const Vec *)&pos);
     for (i = TLobby::get_game_mode(); i < TLobby::get_lobby_flag(); i++) {
-        pd = (PlayerData_80236154 *)get_player_data__10TObjPlayerFi(i);
+        pd = (PlayerData_80236154 *)TObjPlayer::get_player_data(i);
         if (pd != 0 && (pd->flags & 0x20000000)) {
             c = (Contact_80236154 *)((TObjCollidable *)target)->find_actor_body_contact((u8 *)pd, range);
             if (c != 0 && ((c->flags & 1) || !(c->flags & 0x02000000))) {
@@ -395,7 +395,7 @@ s32 find_area_technique_contact(void *self, int target, void *_w2, void *arg3) {
     }
     VecCopy((Vec *)((u8 *)target + 0x38), (const Vec *)&pos);
     for (i = TLobby::get_game_mode(); i < TLobby::get_lobby_flag(); i++) {
-        pd = (PD_80236378 *)get_player_data__10TObjPlayerFi(i);
+        pd = (PD_80236378 *)TObjPlayer::get_player_data(i);
         if (pd != 0 && (pd->flags & 0x20000000) && get_entity_id(pd) != get_entity_id(arg3)) {
             c = (Contact_80236378 *)((TObjCollidable *)target)->find_actor_body_contact((u8 *)pd, range);
             if (c != 0 && ((c->flags & 1) || !(c->flags & 0x02000000))) {
@@ -429,7 +429,7 @@ s32 TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
     if (get_entity_id(player) < 4) {
         n = TLobby::get_lobby_flag();
         for (i = 0; i < n; i++) {
-            pd = (PD_802364D8 *)get_player_data__10TObjPlayerFi(i);
+            pd = (PD_802364D8 *)TObjPlayer::get_player_data(i);
             if (pd != 0 && get_entity_id(pd) != get_entity_id(player)) {
                 ok = 1;
                 if (get_entity_id(pd) < 4) {
@@ -524,7 +524,7 @@ u8 *TUnk_804CCC68::query_technique_enemy_contacts(s32 arg) {
     VecCopy((Vec *)((u8 *)s->proxy + 0x38), (const Vec *)&pos);
     copy_xyz((u8 *)s->proxy + 0x5C, (u8 *)this + 0x54);
     for (i = TLobby::get_game_mode(); i < TLobby::get_lobby_flag(); i++) {
-        pd = (PD_802367D8 *)get_player_data__10TObjPlayerFi(i);
+        pd = (PD_802367D8 *)TObjPlayer::get_player_data(i);
         if (pd == 0) continue;
         if (pd->flags & 0x20000000) {
             if (get_entity_id(pd) == get_entity_id((void *)arg)) continue;
@@ -585,7 +585,7 @@ u8 *TUnk_804CCC68::query_technique_player_contacts(s32 arg) {
     if (get_entity_id((void *)arg) < 4) {
         n = TLobby::get_lobby_flag();
         for (i = 0; i < n; i++) {
-            pd = (PD_80236A20 *)get_player_data__10TObjPlayerFi(i);
+            pd = (PD_80236A20 *)TObjPlayer::get_player_data(i);
             if (pd == 0) continue;
             if (get_entity_id(pd) == get_entity_id((void *)arg)) continue;
             c = (Contact_80236A20 *)((TObjCollidable *)((u8 *)s->proxy))->find_actor_body_contact((u8 *)pd, (f32)range);

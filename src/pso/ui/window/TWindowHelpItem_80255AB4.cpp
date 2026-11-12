@@ -10,6 +10,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/window/TWindowInputNumber.h"
+#include "pso/ui/window/TWindowDD.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -28,7 +29,6 @@ s32 handle_list_page_flip_input(s32);
 s32 draw_visible_window_entries(void *, void *, int);
 s32 draw_list_page_indicator(int, int);
 void __dl__7TObjectFPv(void *);
-void destroy_window_base__9TWindowDDFs(void *, int);
 s32 decay_page_arrow_offset(s32);
 
 void TWindowHelpItem::update_cursor_selection() {
@@ -88,7 +88,7 @@ void *TWindowHelpItem::dt(s16 arg1) {
     if (this != NULL) {
         this->m_vtable18 = TWindowHelpItem__object_vtable;
         delete_if_allocated(this->m_64, 1);
-        destroy_window_base__9TWindowDDFs(this, 0);
+        ((TWindowDD *)this)->destroy_window_base(0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
         }

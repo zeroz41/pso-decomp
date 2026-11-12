@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/TItemData.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -17,6 +18,9 @@
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
+#include "pso/ui/city/TShopWindowBase.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
 
 struct Base_8021B974 { char pad[0x18]; };
 struct VObj_8021B974 : Base_8021B974 {
@@ -198,7 +202,6 @@ void TLobby__sub_80225238(int a0, int a1);
 extern s32 __vt__24TShopEquipmentListWindow[];
 extern s32 TShopEquipmentListWindow__class_name;
 u8 *TShopEquipmentListWindow__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
-void queue_destruction__7TObjectFv(void *arg0);
 int set_field_20__15TShopWindowBaseFl(void*, int);
 int obj_getPtr2B0_20(u8 *p);
 s32 check_equip_requirements(void *, Rec_8021C33C *, u32 *);
@@ -378,10 +381,10 @@ s32 TShopEquipmentListWindow::open_menu_window() {
         ((TWindowSubComCard *)(this->m_2c))->calc_window_size();
         align_menu_entry_positions(this->m_2c);
         ((TCheckRoomSequence *)(this->m_2c))->set_ready_flag();
-        temp_f31 = get_scale__15TShopWindowBaseFv(this);
-        ((TWindowAddition *)(this->m_2c))->set_position_xy(get_scale__15TShopWindowBaseFv(this), temp_f31);
+        temp_f31 = get_scale();
+        ((TWindowAddition *)(this->m_2c))->set_position_xy(get_scale(), temp_f31);
     }
-    set_field_20__15TShopWindowBaseFl(this, 2);
+    set_field_20(2);
 }
 int TShopEquipmentListWindow::get_list_item8() { return set_field_20__15TShopWindowBaseFl(this, 8); }
 
@@ -390,7 +393,7 @@ s32 TShopEquipmentListWindow::handle_confirm() {
     if (o->m8() != 0 && (sub_80223A48__15TShopWindowBaseFv(this) != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         o->m4(0xB, 1);
         ((TWindowMenuIconLine *)(this->m_30))->clear_decided();
-        set_field_20__15TShopWindowBaseFl(this, 1);
+        ((TShopWindowBase *)this)->TShopWindowBase::set_field_20(1);
     }
 }
 
@@ -399,7 +402,7 @@ s32 TShopEquipmentListWindow::handle_select() {
     if (o->m8() != 0 && (sub_80223A48__15TShopWindowBaseFv(this) != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         o->m4(0xB, 1);
         ((TWindowMenuIconLine *)(this->m_30))->clear_decided();
-        set_field_20__15TShopWindowBaseFl(this, 1);
+        ((TShopWindowBase *)this)->TShopWindowBase::set_field_20(1);
     }
 }
 
@@ -457,7 +460,7 @@ s32 TShopEquipmentListWindow::check_purchase_eligibility() {
     if (w->list == 0) {
         return 0;
     }
-    i = get_cursor_value__19TWindowMenuIconLineFv(w->list);
+    i = ((TWindowMenuIconLine *)w->list)->get_cursor_value();
     if (w->recs[i].price > obj_getPtr2B0_20((u8 *)w->player)) {
         return 0;
     }
@@ -542,7 +545,7 @@ void TShopEquipmentListWindow::vfunc_11() {
     switch (*(u32 *)((s8 *)arg0 + 0x20)) {
     case 0:
         TShopEquipmentListWindow::create_buy_list_windows(arg0);
-        set_field_20__15TShopWindowBaseFl(arg0, 1);
+        ((TShopWindowBase *)arg0)->set_field_20(1);
         return;
     case 1:
         ((TShopEquipmentListWindow *)arg0)->handle_selection();
@@ -571,7 +574,7 @@ void TShopEquipmentListWindow::vfunc_11() {
         if (temp_r12 != NULL) {
             temp_r12(*(s32 *)((s8 *)arg0 + 0x28));
         }
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     default:
         return;
     }

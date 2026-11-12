@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -13,6 +14,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 extern "C" { __declspec(section ".sdata2") extern const f32 lbl_805DA000[1] = { 30.0f }; }
 
 typedef struct Vec_800C4A5C {
@@ -84,7 +86,6 @@ u8 *__ct__13TUnk_804928CCFP7TObjectP8TObjBase(u8 *arg0, s32 arg1, u32 arg2);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 Obj_800C4A5C *TObjPlayer__sub_800C4A5C(Obj_800C4A5C *o, void *owner, Vec_800C4A5C *start, s32 angle);
-void queue_destruction__7TObjectFv(void *arg0);
 void *destroy_and_free__21TObjEneRe2Flower_BombFs(void *arg0, s16 arg1);
 void render__21TObjEneRe2Flower_BombFv(u8 *arg0);
 
@@ -210,7 +211,7 @@ void TObjEneRe2Flower_Bomb::run_task() {
     case 0:
         o->fF4++;
         if ((f32)o->fF4 >= (1.5e+02f)) {
-            queue_destruction__7TObjectFv(o);
+            ((TObject *)o)->queue_destruction();
             return;
         }
         if (o->fF4 >= 0x12) {
@@ -220,7 +221,7 @@ void TObjEneRe2Flower_Bomb::run_task() {
         vec3_add_to(&tmp, &o->velB);
         tmp.y += o->fF0 - (3.0f);
         if (csnVector(&o->start, &tmp, 0x1EFF) != 0) {
-            queue_destruction__7TObjectFv(o);
+            ((TObject *)o)->queue_destruction();
             return;
         }
         o->start.x += o->velA.x;
@@ -250,7 +251,7 @@ void TObjEneRe2Flower_Bomb::run_task() {
         }
         if (o->m14(&o->fE4, &lbl_8043BC10) != 0) {
             TObjEneDD__sub_800C2618(find_entity_by_id(o->ownerId));
-            queue_destruction__7TObjectFv(o);
+            ((TObject *)o)->queue_destruction();
             return;
         }
     case 1:
@@ -272,7 +273,7 @@ void TObjEneRe2Flower_Bomb::run_task() {
 void *TObjEneRe2Flower_Bomb::destroy_and_free(s16 arg1) {
     if (this != NULL) {
         *(void ***)((s8 *)this + 0x18) = lbl_804933D8;
-        if (this->m_fc != NULL) { queue_destruction__7TObjectFv((this->m_fc)); this->m_fc = 0; }
+        if (this->m_fc != NULL) { ((TObject *)this->m_fc)->queue_destruction(); this->m_fc = 0; }
         __dt__13TUnk_804928CCFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);

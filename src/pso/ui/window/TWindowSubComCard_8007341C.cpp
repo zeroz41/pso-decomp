@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_8007341C.h"
@@ -9,6 +10,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_800739BC_lbl_8048C9D8 {
     s32 value;
@@ -181,7 +183,7 @@ void TLobby__sub_800738F4(void *lobby, s32 arg1) {
         if (arg1 == 0) {
             ((TWindowBase *)((*(Chal_800738F4 *)&challenge_mode_state).window))->close();
         } else {
-            queue_destruction__7TObjectFv((*(Chal_800738F4 *)&challenge_mode_state).window);
+            ((TObject *)((*(Chal_800738F4 *)&challenge_mode_state).window))->queue_destruction();
         }
         ((void (*)(void *))TLobby__sub_800739BC)(lobby);
     }

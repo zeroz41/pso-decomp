@@ -18,6 +18,9 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowMenu.h"
+#include "pso/ui/window/TWindowSubComCard.h"
 
 extern const f32 lbl_805DD160;
 extern "C" {
@@ -394,14 +397,14 @@ void TWindowMenu::advance_past_disabled_menu_rows() {
     u16 *e;
     s16 t;
     if (((Card_80265AA4 *)this)->cur < ((Card_80265AA4 *)this)->cnt) {
-        e = ((u16 *)get_array_entry__11TWindowBaseFi((void *)(((Card_80265AA4 *)this)), (s32)(((Card_80265AA4 *)this)->cur)));
-        while (((u32)get_field_20__17TWindowSubComCardFv(e)) != 0 && (*e & 0x10)) {
+        e = ((u16 *)((TWindowBase *)((Card_80265AA4 *)this))->get_array_entry((s32)(((Card_80265AA4 *)this)->cur)));
+        while (((u32)((TWindowSubComCard *)e)->get_field_20()) != 0 && (*e & 0x10)) {
             t = ((Card_80265AA4 *)this)->cur + 1;
             ((Card_80265AA4 *)this)->cur = t;
             if (t >= ((Card_80265AA4 *)this)->cnt) {
                 break;
             }
-            e = ((u16 *)get_array_entry__11TWindowBaseFi((void *)(((Card_80265AA4 *)this)), (s32)(((Card_80265AA4 *)this)->cur)));
+            e = ((u16 *)((TWindowBase *)((Card_80265AA4 *)this))->get_array_entry((s32)(((Card_80265AA4 *)this)->cur)));
             if (((Card_80265AA4 *)this)->ents[((Card_80265AA4 *)this)->cur].flags & 2) {
                 ((Card_80265AA4 *)this)->ents[((Card_80265AA4 *)this)->cur].flags &= ~2;
                 *e &= ~8;
@@ -420,7 +423,7 @@ void TWindowMenu::update_scroll_value() {
   new_var = (u32 *)(arg0 + 0x50);
   if ((*((u16 *)(arg0 + 0x70))) & 0x20)
   {
-    v = *((f32 *) (get_selected_entry__11TWindowMenuFv(arg0) + 0xC));
+    v = *((f32 *) (((TWindowMenu *)arg0)->get_selected_entry() + 0xC));
   }
   else
   {
@@ -506,7 +509,7 @@ void TWindowSubComCardList::update_layout_height(f32 x) {
     f32 sum = 0.0f;
     u32 i;
     for (i = 0; i < ((Win_80265E60 *)this)->count; i++) {
-        Ent_80265E60 *e = ((Ent_80265E60 *)get_array_entry__11TWindowBaseFi(this, i));
+        Ent_80265E60 *e = ((Ent_80265E60 *)((TWindowBase *)this)->TWindowBase::get_array_entry(i));
         if (get_field_20__17TWindowSubComCardFv(e) != 0) {
             if (!(e->h <= lbl_8044F330)) {
                 sum += lbl_805DD16C + e->h;
@@ -559,7 +562,7 @@ void TWindowMenu::layout_entries() {
     gap = lbl_805DD16C;
     zero = lbl_8044F330;
     for (i = 0; i < *(s16 *)&this->m_76; i++) {
-        e = (u8 *)get_array_entry__11TWindowBaseFi(this, i);
+        e = (u8 *)get_array_entry(i);
         if (((u32 (*)(void))get_field_20__17TWindowSubComCardFv)() != 0) {
             *(f32 *)(e + 0xC) = y;
             h = *(f32 *)(e + 0x14);

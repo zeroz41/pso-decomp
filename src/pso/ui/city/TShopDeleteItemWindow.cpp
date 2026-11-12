@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -24,6 +25,9 @@
 #include "pso/ui/window/TWindowSetLevelUp.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/text_80222C28.h"
+#include "pso/item/TItemData.h"
+#include "pso/system/task/TObject.h"
+#include "pso/ui/city/TShopWindowBase.h"
 
 struct Base_80337910 { char pad[0x18]; };
 struct VObj_80337910 : Base_80337910 {
@@ -105,7 +109,6 @@ struct VObj_80337980_80337910 : Base_80337980_80337910 {
 
 void *__dt__21TShopDeleteItemWindowFv(TShopDeleteItemWindow *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
-void init__9TItemDataFv(void *);
 
 void TShopDeleteItemWindow::display_message(const char *text, s32 flags) {
     struct VObj_80337910 *o = (struct VObj_80337910 *)*(void **)((s8 *)this + 0x64);
@@ -178,7 +181,7 @@ void TShopDeleteItemWindow::handle_number_input() {
             *(void **)(((u8 *)this) + 0x34) = create_yes_no_window((s32)(get_window_layout_position(0x2B)), id, 0, 0);
             ((TCheckRoomSequence *)(*(void **)(((u8 *)this) + 0x34)))->set_ready_flag();
             ((TWindowSubComCardList *)(*(void **)(((u8 *)this) + 0x34)))->set_selected_index(1);
-            ((TWindowAddition *)(*(void **)(((u8 *)this) + 0x34)))->set_position_xy(get_scale__15TShopWindowBaseFv(this), get_scale__15TShopWindowBaseFv(this));
+            ((TWindowAddition *)(*(void **)(((u8 *)this) + 0x34)))->set_position_xy(get_scale(), get_scale());
         }
         this->m_5c = ((TShopEquipmentSellWindow *)(*(void **)(((u8 *)this) + 0x38)))->get_result();
         ((TWindowBase *)(*(void **)(((u8 *)this) + 0x38)))->close();
@@ -340,14 +343,14 @@ void TShopDeleteItemWindow::vfunc_11() {
         if (temp_r12 != NULL) {
             temp_r12(*(s32 *)((s8 *)arg0 + 0x64));
         }
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     case 7:
         temp_r12_2 = *(s32 (**)(s32))((s8 *)arg0 + 0x28);
         if (temp_r12_2 != NULL) {
             temp_r12_2(*(s32 *)((s8 *)arg0 + 0x64));
         }
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     default:
         return;
     }
@@ -385,5 +388,5 @@ TShopDeleteItemWindow::TShopDeleteItemWindow(void *arg1, void *arg2, void *arg3)
     this->m_38 = 0;
     this->m_3c = 0;
     *(void **)((s8 *)this + 0x64) = arg2;
-    init__9TItemDataFv((void *)((char *)this + 64));
+    ((TItemData *)((char *)this + 64))->init();
 }

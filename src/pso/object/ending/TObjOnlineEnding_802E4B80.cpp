@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
@@ -16,6 +17,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
@@ -222,7 +224,6 @@ struct Obj_802E4C70 {
 extern "C" {
 s32 activate_camera_mode(s32);
 void set_active_camera_pose_from_params(u8 *arg0);
-void queue_destruction__7TObjectFv(void *arg0);
 extern Vec_802E4E44 lbl_80472B9C;
 extern Vec_802E4E44 lbl_80472BA8;
 u32 calc_text_width(char *s);
@@ -341,7 +342,7 @@ void TObjOnlineEnding::run_task() {
             arg0->fade = 17.0f;
         }
         if (++arg0->timer >= 450) {
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
         }
         break;
     }
@@ -413,7 +414,7 @@ void *TObjOnlineEnding__ct(void *arg0, void *parent) {
         SELF->f9C = 1;
         break;
     default:
-        queue_destruction__7TObjectFv(obj);
+        ((TObject *)obj)->queue_destruction();
         return arg0;
     }
     SELF->f90 = get_bml_model(lbl_805D68F4, 0);

@@ -9,6 +9,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/object/collision/TObjFogCollisionSwitch.h"
 
 struct RecoveredGlobal_80153084_lbl_804AF7B0 {
     s32 value;
@@ -53,7 +54,6 @@ extern RecoveredGlobal_801532C8_TObjFogCollisionPoison__data_8050D430 TObjFogCol
 extern s32 lbl_805D2E84;
 void __dt__7TObjectFv(void *, int);
 void __dl__7TObjectFPv(void *);
-void vfunc_14__22TObjFogCollisionSwitchFv(void *self);
 extern char lbl_80440078[];
 s16 get_actor_hp(s32);
 s32 get_entity_id(s32);
@@ -207,7 +207,7 @@ void TObjFogCollisionPoison::clear_state_array() {
 }
 
 void TObjFogCollisionPoison::vfunc_14() {
-    vfunc_14__22TObjFogCollisionSwitchFv(this);
+    TObjFogCollisionSwitch::vfunc_14();
     debug_printf_at(0x13001D, lbl_80440078);
 }
 

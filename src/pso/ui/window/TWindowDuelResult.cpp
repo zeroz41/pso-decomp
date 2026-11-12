@@ -7,6 +7,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/window/TWindowBase.h"
 
 #pragma readonly_strings on
 
@@ -176,7 +177,7 @@ void sub_8024EF40__17TWindowDuelResultFv(Win_8024EF40 *arg0) {
     set_default_status__17TWindowDuelResultFPvi(c, get_localized_text_entry(0x10, 5));
     pl = (u8 *)get_player_by_client_id(arg0->player);
     if (pl != 0) {
-        set_text_entry_string((u8 *)(get_array_entry__11TWindowBaseFi(arg0, 1)), (u32)(pl + 0x85C), 0x20);
+        set_text_entry_string((u8 *)(((TWindowBase *)arg0)->get_array_entry(1)), (u32)(pl + 0x85C), 0x20);
         vals[0] = TWindowDuelResult__sub_801C19AC((f32 *)(pl + 0x75C));
         vals[1] = TWindowDuelResult__sub_801C19AC((f32 *)(pl + 0x76C));
         vals[2] = TWindowDuelResult__sub_801C19AC((f32 *)(pl + 0x78C));

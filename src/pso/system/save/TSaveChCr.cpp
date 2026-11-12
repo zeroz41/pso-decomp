@@ -15,6 +15,7 @@
 
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
+#include "pso/system/save/TSaveChCr.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -99,7 +100,7 @@ void TSaveChCr::update_save_state() {
     if (!(temp_r4 & 2)) {
         if (temp_r4 & 1) {
             if ((u32) this->owned_window == 0U) {
-                close_and_advance__9TSaveChCrFPv(this, 0);
+                close_and_advance(0);
             }
         } else {
             if (temp_r4 & 4) {
@@ -115,7 +116,7 @@ void TSaveChCr::update_save_state() {
 void TSaveChCr::fn_80339D78() {
     close_window();
     if (card_status & 1) {
-        close_and_advance__9TSaveChCrFPv(this, 0);
+        close_and_advance(0);
     }
 }
 s32 TSaveChCr::sub_80339DBC() {

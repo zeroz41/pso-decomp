@@ -12,6 +12,10 @@
 
 #include <stddef.h>
 #include "pso/map/FloorArea.h"
+#include "pso/item/TItemData.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer.h"
 struct Stack_801D8664 {
     s8 sp8;
     s8 sp9;
@@ -24,7 +28,6 @@ struct Src_801D88C8;
 struct Rec_801D86F8 { s32 a[0x50 / 4]; s32 b[0x38 / 4]; s32 c[0x40 / 4]; };
 
 extern "C" {
-void init__9TItemDataFv(void *);
 void process_trade_target__10TObjPlayerFiPv(s32 arg0, void *arg1);
 void TObjPlayer__sub_801D8664(s32 arg0, s8 arg1, s8 arg2);
 void copy_data__6TLobbyFPvPv(void *arg0, void *arg1);
@@ -51,7 +54,6 @@ void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
 void *pickup_item__10TObjPlayerFP5TItem(u8 *arg0, u8 *arg1);
 void set_equip_slot_entry(s32 arg0, s32 arg1, s32 arg2);
 s32 get_item_id__5TItemFv();
-s32 get_slot_value__10TObjPlayerFPvi(s32 *arg0, s32 arg1);
 u16 get_entity_id(void *);
 
 void process_trade_target__10TObjPlayerFiPv(s32 arg0, void *player) {
@@ -63,7 +65,7 @@ void process_trade_target__10TObjPlayerFiPv(s32 arg0, void *player) {
     if (temp_r3 != NULL) {
         s8 val = ((VObj_84_801d859c_801D84CC *)temp_r3)->m31();
         s32 val_ext = (s32)val;
-        if (get_slot_value__10TObjPlayerFPvi((s32 *)(arg0 + 0xD04), val_ext) != 0U) {
+        if (TObjPlayer::get_slot_value((s32 *)(arg0 + 0xD04), val_ext) != 0U) {
             send_6x29_delete_item__10TObjPlayerFPvii((void *)arg0, get_item_id__5TItemFv(), 1);
             set_equip_slot_entry(arg0 + 0xD04, val_ext, 0);
         }
@@ -79,14 +81,13 @@ void TObjPlayer__sub_801D8664(s32 arg0, s8 arg1, s8 arg2) {
     typedef char sp9_offset[(offsetof(Stack_801D8664, sp9) == 0x1) ? 1 : -1];
     typedef char spA_offset[(offsetof(Stack_801D8664, spA) == 0x2) ? 1 : -1];
     Stack_801D8664 stack;
-    init__9TItemDataFv(&stack.sp8);
+    ((TItemData *)(&stack.sp8))->init();
     stack.sp9 = arg1;
     stack.sp8 = 0;
     stack.spA = arg2;
     process_trade_target__10TObjPlayerFiPv(arg0, &stack.sp8);
 }
 
-s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 s32 calc_joint_matrices__10TObjMotionFP10NJS_MOTIONfl(void *, s32, f32, s32);
 void push_matrix(void);
 s32 pop_matrix(void);
@@ -119,7 +120,7 @@ TUnk_804C4540 *TUnk_804C4540::create(TPlyCharData *data) {
 }
 
 void TObjPlayer__sub_801D877C(u8 *arg0) {
-    if ((obj_testFlags30__14TObjCollidableFUl(arg0, 0x02000000) == 0) && ((s32) ((TUnk_804C4540 *)arg0)->m_cfc == 0)) {
+    if ((((TObjCollidable *)arg0)->obj_testFlags30(0x02000000) == 0) && ((s32) ((TUnk_804C4540 *)arg0)->m_cfc == 0)) {
         select_actor_lighting((s32)arg0);
         push_matrix();
         translate_matrix_vec3(0, (arg0 + 0x38));
@@ -274,7 +275,6 @@ typedef struct Rec_801D8F60 { f32 a, b, c; } Rec_801D8F60;
 extern "C" {
 s8 TObjPlayer__sub_801AFDBC(s8);
 s32 get_main_phase();
-s32 obj_isState3_324__9TObjCharaFv(int);
 extern s32 game_difficulty_selection;
 s32 get_class_starting_inventory(s8 arg0);
 u8 *get_class_defense_template(TObjPlayer *arg0);
@@ -384,7 +384,7 @@ s32 *TObjPlayer::get_getup_protection_ticks() {
     var_r31 = arg0;
     if (get_main_phase() == 0xF) {
         var_r3 = var_r31;
-        if (obj_isState3_324__9TObjCharaFv((int)var_r3) != 0) {
+        if (((TObjChara *)var_r3)->obj_isState3_324() != 0) {
             var_r3 = (s32 *)player_getup_protection_ticks_table_flagged;
             var_r3 = (s32 *)player_getup_protection_ticks_table_flagged;
             var_r3 = (s32 *)(*(s32 *)((s8 *)player_getup_protection_ticks_table_flagged + (game_difficulty_selection * 4)));
@@ -396,7 +396,7 @@ s32 *TObjPlayer::get_getup_protection_ticks() {
         return var_r3;
     }
     var_r3 = var_r31;
-    if (obj_isState3_324__9TObjCharaFv((int)var_r3) != 0) {
+    if (((TObjChara *)var_r3)->obj_isState3_324() != 0) {
         var_r3 = (s32 *)getup_protection_ticks_table_b;
         var_r3 = (s32 *)getup_protection_ticks_table_b;
         var_r3 = (s32 *)(*(s32 *)((s8 *)getup_protection_ticks_table_b + (game_difficulty_selection * 4)));
@@ -419,7 +419,7 @@ s32 *TObjPlayer::get_hurt_protection_ticks() {
     var_r31 = arg0;
     if (get_main_phase() == 0xF) {
         var_r3 = var_r31;
-        if (obj_isState3_324__9TObjCharaFv((int)var_r3) != 0) {
+        if (((TObjChara *)var_r3)->obj_isState3_324() != 0) {
             var_r3 = (s32 *)hurt_protection_ticks_table;
             var_r3 = (s32 *)hurt_protection_ticks_table;
             var_r3 = (s32 *)(*(s32 *)((s8 *)hurt_protection_ticks_table + (game_difficulty_selection * 4)));
@@ -431,7 +431,7 @@ s32 *TObjPlayer::get_hurt_protection_ticks() {
         return var_r3;
     }
     var_r3 = var_r31;
-    if (obj_isState3_324__9TObjCharaFv((int)var_r3) != 0) {
+    if (((TObjChara *)var_r3)->obj_isState3_324() != 0) {
         var_r3 = (s32 *)player_hurt_protection_ticks_table_flagged;
         var_r3 = (s32 *)player_hurt_protection_ticks_table_flagged;
         var_r3 = (s32 *)(*(s32 *)((s8 *)player_hurt_protection_ticks_table_flagged + (game_difficulty_selection * 4)));

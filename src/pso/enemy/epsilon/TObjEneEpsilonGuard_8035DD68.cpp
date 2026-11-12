@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -18,6 +19,10 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/render/RenderFadeState.h"
+#include "pso/system/task/TObject.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -417,9 +422,7 @@ const char *TObjEneEpsilonGuard__class_name = "TObjEneEpsilonGuard";
 extern s32 lbl_805D6FA8;
 struct G_8035E430;
 s32 is_split_screen();
-s32 get_camera_mode__11TCameraCtrlFv();
 s32 get_mode__11TCameraCtrlFPv(void *);
-s32 update__15RenderFadeStateFv(void *);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern s32 saved_model_render_flags;
@@ -435,7 +438,6 @@ extern void *TObjEneEpsilonGuard__movement_params;
 void TObjEneEpsilonGuard__sub_8035E8C0(void *, s32);
 s32 VecCopy__FP3VecPC3Vec(void *);
 s32 obj_is_hit_receivable();
-void queue_destruction__7TObjectFv(void *arg0);
 VObj_8035EA90 *get_battle_param__10TObjPlayerFi(s32);
 extern CollisionBody TObjEneEpsilonGuard__model_desc[];
 
@@ -594,13 +596,13 @@ void render_with_fade__19TObjEneEpsilonGuardFPvi(u8 *ene_re7_berura, s32 arg1) {
     VObj_8035E018 *r;
     i = 0;
     if (is_split_screen() != 0) {
-        i = get_camera_mode__11TCameraCtrlFv();
+        i = TCameraCtrl::get_camera_mode();
     }
     saved_model_render_flags = model_render_flags;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     r = (VObj_8035E018 *)&((Self_8035E018 *)ene_re7_berura)->recs[i];
-    update__15RenderFadeStateFv(r);
+    ((RenderFadeState *)r)->update();
     if (((RenderFadeState *)r)->updateFromCamera((const f32*)(ene_re7_berura + 0x2FC)) != 0) {
         r->m6();
         if (!(get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200)) {
@@ -701,7 +703,7 @@ void TObjEneEpsilonGuard::handle_message(s32 arg1) {
         this->send_entity_set_flags();
         return;
     case 3:
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     case 5:
     case 0:
         return;
@@ -936,7 +938,7 @@ void TObjEneEpsilonGuard::sub_8035EA90() {
                 *(f32 *)((s8 *)((u8 *)this) + 0x458) = 0.0f;
                 *(s32 *)((s8 *)((u8 *)this) + 0x46C) &= ~0x20;
                 if (*(void **)((s8 *)((u8 *)this) + 0x440) != NULL) {
-                    queue_destruction__7TObjectFv(*(void **)((s8 *)((u8 *)this) + 0x440));
+                    ((TObject *)(*(void **)((s8 *)((u8 *)this) + 0x440)))->queue_destruction();
                     *(void **)((s8 *)((u8 *)this) + 0x440) = NULL;
                 }
             }
@@ -944,7 +946,7 @@ void TObjEneEpsilonGuard::sub_8035EA90() {
         default:
             *(s32 *)((s8 *)((u8 *)this) + 0x46C) &= ~0x20;
             if (*(void **)((s8 *)((u8 *)this) + 0x440) != NULL) {
-                queue_destruction__7TObjectFv(*(void **)((s8 *)((u8 *)this) + 0x440));
+                ((TObject *)(*(void **)((s8 *)((u8 *)this) + 0x440)))->queue_destruction();
                 *(void **)((s8 *)((u8 *)this) + 0x440) = NULL;
             }
             break;
@@ -977,7 +979,7 @@ void TObjEneEpsilonGuard::sub_8035EA90() {
             }
         }
     } else if (*(void **)((s8 *)((u8 *)this) + 0x440) != NULL) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)((u8 *)this) + 0x440));
+        ((TObject *)(*(void **)((s8 *)((u8 *)this) + 0x440)))->queue_destruction();
         *(void **)((s8 *)((u8 *)this) + 0x440) = NULL;
     }
 }
@@ -1083,7 +1085,6 @@ extern "C" {
 void TObjEneEpsilonGuard__vt85(TObjEneEpsilonGuard *arg0, s32 arg1, s32 arg2);
 void run_task__19TObjEneEpsilonGuardFv(u8 *arg0);
 s32 reset_hp__9TObjEneDDFPUcPUcPUc(void *, s32, s32, s32);
-s32 initialize_enemy_state__9TObjEneDDFl(void *, int);
 extern s32 epsilon_guard_boss_stat_handle;
 extern s32 epsilon_guard_shared_handler_b;
 extern s32 epsilon_guard_registered_object_handle;
@@ -1316,7 +1317,7 @@ u8 *__dt__19TObjEneEpsilonGuardFv(u8 *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(void ***)((s8 *)arg0 + 0x18) = __vt__19TObjEneEpsilonGuard;
         if (*(void **)((s8 *)arg0 + 0x440) != NULL) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x440));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x440)))->queue_destruction();
             *(void **)((s8 *)arg0 + 0x440) = NULL;
         }
         if (*(void **)((s8 *)arg0 + 0x45C) != NULL) {
@@ -1352,7 +1353,7 @@ void TObjEneEpsilonGuard::init_model_and_state() {
     ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x80020);
     ((TObjEneDD *)arg0)->check_state_flag_4();
     *(void **)((s8 *)arg0 + 0x350) = epsilon_guard_params;
-    initialize_enemy_state__9TObjEneDDFl(arg0, 0x57);
+    ((TObjEneDD *)arg0)->initialize_enemy_state(0x57);
     ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0x460, arg0 + 0x38);
     *(s32 *)((s8 *)arg0 + 0x46C) = 0;
     *(s32 *)((s8 *)arg0 + 0x46C) |= 0x10;

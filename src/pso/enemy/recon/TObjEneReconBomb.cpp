@@ -21,6 +21,7 @@
 #include "pso/enemy/recon/TObjEneRecobox_8031FCB0.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer.h"
 
 #pragma readonly_strings on
 
@@ -97,7 +98,6 @@ extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, void *, int);
 s16 get_entity_id(int);
 s32 fn_8031B618(Obj_8031B618 *arg0);
-int get_player_data__10TObjPlayerFi(int a0);
 u32 csnVector(void *, void *, int);
 s32 project_actor_to_ground(void *, void *, void *);
 s32 TObjEneRecon__sub_8031C250(u32);
@@ -231,7 +231,7 @@ void TObjEneReconBomb::run_task() {
         spawn_particle_effect_with_flags(&arg0->pos, 0x45, 0x40);
         spawn_particle_effect_with_flags(&arg0->pos, 0x46, 0x40);
         for (i = 0; i < lbl_805D5868; i++) {
-            pl = (VObj_8031B808 *)get_player_data__10TObjPlayerFi(i);
+            pl = (VObj_8031B808 *)TObjPlayer::get_player_data(i);
             if (TObjPlayer::is_valid_and_active((u32)pl) != 0 && pl != 0 && (u16)get_entity_id((int)pl) < 0x1000 && pl->m31() == 0) {
                 if (horizontal_distance_squared((const Vec *)((u8 *)pl + 0x2FC), (const Vec *)&arg0->pos2) <= arg0->range * arg0->range) {
                     P_8031B808 d;

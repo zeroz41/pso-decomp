@@ -9,6 +9,8 @@
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/technique/TTecCtrl.h"
 
 struct RecoveredGlobal_80235348_lbl_804CC510
 {
@@ -191,7 +193,6 @@ struct Obj_802351B4
 
 extern "C" {
 s32 calc_technique_parameters(int, int, int);
-s32 is_technique_ready__8TTecCtrlFv();
 extern RecoveredGlobal_80235348_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_80235348_lbl_804CC55C lbl_804CC55C;
 void mem_free(void *p);
@@ -204,7 +205,6 @@ void __ct__13TUnk_804CCC68FlPUcPUcl();
 extern s32 lbl_805D37E8;
 u8 *TTecMegid__ct(TTecMegid *arg0, s32 _w1, s32 _w2, s32 _w3, s32 _w4);
 void construct_facing_technique__10TObjPlayerFPviPvii();
-s32 obj_isState3_324__9TObjCharaFv(void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 get_technique_caster_flags(s32, u16);
 void TTecMegid__vt6(Obj_80235490 *self, VObj_80235490 *target);
@@ -326,14 +326,14 @@ void TTecMegid::init_parameters() {
   s32 new_var;
   new_var = calc_technique_parameters(0x12, (int) ((RecoveredFields_80235348_arg0 *) arg0)->field_C4, 0xFFFF);
   ((TTecAnti *)(arg0 + 0xCC))->copy_params((u8 *)new_var);
-  if ((((s16) ((RecoveredFields_80235348_arg0 *) arg0)->field_C4) >= 0xF) && (is_technique_ready__8TTecCtrlFv() == 0))
+  if ((((s16) ((RecoveredFields_80235348_arg0 *) arg0)->field_C4) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {
     ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x48))) + ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x4A))) * ((RecoveredFields_80235348_arg0 *) arg0)->field_C4));
   }
   else
   {
     ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_F0 * ((RecoveredFields_80235348_arg0 *) arg0)->field_C4)));
-    if (is_technique_ready__8TTecCtrlFv() != 0)
+    if (TTecCtrl::is_technique_ready() != 0)
     {
       ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_CC * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x90))));
     }
@@ -359,7 +359,7 @@ void TTecMegid__vt6(Obj_80235490 *self, VObj_80235490 *target) {
         HitInfo_80235490 tmp;
         tmp.type = 5;
         tmp.power = self->power;
-        if (get_entity_id(target) < 4 && obj_isState3_324__9TObjCharaFv(target) != 0) {
+        if (get_entity_id(target) < 4 && ((TObjChara *)target)->obj_isState3_324() != 0) {
             return;
         }
         HitInfo_80235490 info = tmp;

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/darkfalz/TBoss4Zako.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
@@ -8,6 +9,10 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -131,12 +136,10 @@ extern const f32 lbl_805D8CBC;
 extern const f32 lbl_805D8CC8;
 extern const f32 lbl_805D8CE4;
 void vt6__9TBoss4UroFv(u8 *arg0);
-void queue_destruction__7TObjectFv(void *arg0);
 extern const f32 lbl_805D8CB8;
 extern const f32 lbl_805D8CC0;
 void vt2__11TBoss4BishiFv(u8 *arg0);
 void vt5__9TBoss4UroFv(u8 *arg0);
-f32 random_ratio__9TObjCharaFv(s32 arg0);
 
 s32 get_instance__14TBoss4DarkFalzFv();
 s32 get_position_ptr__10TObjPlayerFv(s32);
@@ -427,8 +430,8 @@ s32 TBoss4Zako__ct(s32 arg0, s32 parent, s32 arg2) {
     *(s32 *)((s8 *)THIS + 0x3A8) = 0;
     *(s32 *)((s8 *)THIS + 0x3AC) = (*(u16 *)((s8 *)THIS + 0x1C) % 6 + 1) * 450;
     *(f32 *)((s8 *)THIS + 0x3B0) = lbl_805D8CBC;
-    *(s32 *)((s8 *)THIS + 0x3BC) = lbl_805D8CF8 * random_ratio__9TObjCharaFv((s32)THIS);
-    *(s32 *)((s8 *)THIS + 0x3C0) = lbl_805D8D34 * random_ratio__9TObjCharaFv((s32)THIS) + lbl_805D8D30;
+    *(s32 *)((s8 *)THIS + 0x3BC) = lbl_805D8CF8 * ((TObjChara *)THIS)->random_ratio();
+    *(s32 *)((s8 *)THIS + 0x3C0) = lbl_805D8D34 * ((TObjChara *)THIS)->random_ratio() + lbl_805D8D30;
     *(f32 *)((s8 *)THIS + 0x39C) = *dispatch_shared_handler_a__6TLobbyFl(0x35);
     if (*(f32 *)((s8 *)THIS + 0x39C) <= TBoss4Zako_one_third || *(f32 *)((s8 *)THIS + 0x39C) > lbl_805D8D38) {
         *(f32 *)((s8 *)THIS + 0x39C) = lbl_805D8D3C;
@@ -664,7 +667,7 @@ void TBoss4Zako::update_sink_state() {
     }
     m_5c = (m_5c + 0x111);
     if (m_38.y < lbl_805D8CC0) {
-        queue_destruction__7TObjectFv(this);
+        ((TObject *)this)->queue_destruction();
     }
 }
 #pragma pop
@@ -743,7 +746,7 @@ s32 TBoss4Uro__ct(s32 a0, s32 a1, s32 a2) {
         o->dir.z = lbl_805D8CBC;
     }
     normalize_vector(&o->dir);
-    o->f398 = lbl_805D8D08 * random_ratio__9TObjCharaFv((s32)o) + lbl_805D8D04;
+    o->f398 = lbl_805D8D08 * ((TObjChara *)o)->random_ratio() + lbl_805D8D04;
     o->dir.x = o->dir.x * o->f398;
     o->dir.z = o->dir.z * o->f398;
     o->f388 = 0xFFFF;
@@ -880,10 +883,10 @@ void TBoss4Zako::update_target_position() {
         }
         *(u32 *)((s8 *)actor + 0x388) = 0xFFFFU;
         if ((u32) *(u32 *)((s8 *)actor + 0x378) != 0U) {
-            temp_r3 = get_instance__14TBoss4DarkFalzFv();
+            temp_r3 = TBoss4DarkFalz::get_instance();
             if (temp_r3 != 0) {
-                temp_r31 = (s32) (lbl_805D8CF8 * random_ratio__9TObjCharaFv((s32)actor));
-                VecCopy__FP3VecPC3Vec(actor + 0x3C4, (void *)(get_position_ptr__10TObjPlayerFv(temp_r3)));
+                temp_r31 = (s32) (lbl_805D8CF8 * ((TObjChara *)actor)->random_ratio());
+                VecCopy__FP3VecPC3Vec(actor + 0x3C4, (void *)(((TObjPlayer *)temp_r3)->get_position_ptr()));
                 *(f32 *)((s8 *)actor + 0x3C8) = (f32) lbl_805D8CBC;
                 *(f32 *)((s8 *)actor + 0x3C4) = (f32) ((lbl_805D8CFC * sin_table_lookup(temp_r31)) + *(f32 *)((s8 *)actor + 0x3C4));
                 *(f32 *)((s8 *)actor + 0x3CC) = (f32) ((lbl_805D8CFC * cos_table_lookup(temp_r31)) + *(f32 *)((s8 *)actor + 0x3CC));
@@ -942,7 +945,7 @@ void vt5__9TBoss4UroFv(u8 *arg0) {
     }
     *(s32 *)((s8 *)arg0 + 0x5C) = (s32) (*(s32 *)((s8 *)arg0 + 0x5C) + 0x111);
     if (*(f32 *)((s8 *)arg0 + 0x3C) < lbl_805D8CC0) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 #pragma pop
@@ -1121,7 +1124,7 @@ void vt2__11TBoss4BishiFv(u8 *arg0) {
     }
     *(s32 *)((s8 *)arg0 + 0x5C) = (s32) (*(s32 *)((s8 *)arg0 + 0x5C) + 0x111);
     if (*(f32 *)((s8 *)arg0 + 0x3C) < lbl_805D8CC0) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 #pragma pop

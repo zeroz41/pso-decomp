@@ -4,10 +4,9 @@
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/player/TObjPlayer.h"
 
 extern "C" {
-
-int check_flag__10TObjPlayerFl(void*, int);
 
 extern void *TWindowCtrl__active_window;
 
@@ -18,7 +17,7 @@ s32 TWindowCtrl::get_flag_bit3() {
     return ((u16) *(u16 *)((s8 *)TWindowCtrl__active_window + 0x1C) >> 3U) & 1;
 }
 
-int TWindowCtrl::is_player_flag_4000_set() { return check_flag__10TObjPlayerFl(this, 16384); }
+int TWindowCtrl::is_player_flag_4000_set() { return ((TObjPlayer *)this)->check_flag(16384); }
 s32 TWindowCtrl::is_map_visible() {
     if (TRaderMapCore::is_not_split_screen() != 1) {
         return 1;

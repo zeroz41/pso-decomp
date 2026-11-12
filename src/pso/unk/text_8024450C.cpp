@@ -5,6 +5,7 @@
 #include "pso/ui/window/TObjResultWin.h"
 #include "pso/unk/text_8024450C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowRoom.h"
 
 extern "C" {
 s32 __nw__7TObjectFUl(int);
@@ -34,7 +35,7 @@ s32 create_area_window(s32 arg0) {
     }
     ((TWindowSubStatusDisp *)object)->set_entry_display_value(arg0);
     fn_802449E0((u8 *)object);
-    temp_r31 = (u8 *)(get_title_entry__11TWindowRoomFv(object));
+    temp_r31 = (u8 *)(((TWindowRoom *)object)->get_title_entry());
     *(f32 *)((s8 *)temp_r31 + 8) = (f32) -((lbl_805DCAC0 * (f32) calc_text_width((char *)(arg0))) - lbl_805DCABC);
     return object;
 }

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/render_util.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -6,6 +7,8 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/map/FloorArea.h"
+#include "pso/render/RenderFadeState.h"
+#include "pso/system/task/TObject.h"
 
 struct Base_8029c054_8029C030 { char pad[0x14]; };
 struct VObj_8029c054_8029C030 : Base_8029c054_8029C030 {
@@ -43,12 +46,9 @@ struct Rd_8029C094 {
 
 extern "C" {
 void __ct__15RenderFadeStateFv(void *);
-s32 isFading__15RenderFadeStateCFv(void *);
 void matrix_mult_vec(s32, void *, void *);
 
-int update__15RenderFadeStateFv(void*);
-
-void TORockJungleL01::run_task() { update__15RenderFadeStateFv((char*)this + 0xb4); }
+void TORockJungleL01::run_task() { ((RenderFadeState *)((char*)this + 0xb4))->update(); }
 
 void TORockJungleL01::vfunc_15() {
     u8 *arg0 = (u8 *)this;
@@ -70,7 +70,7 @@ void TORockJungleL01::vfunc_14() {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         arg0->fading = 0;
     } else {
-        arg0->fading = isFading__15RenderFadeStateCFv(&arg0->fade);
+        arg0->fading = ((RenderFadeState *)(&arg0->fade))->isFading();
     }
     if (arg0->fading != 0) {
         arg0->fade.m6();
@@ -106,7 +106,7 @@ extern void *lbl_804DC448[];
 void *TORockJungleL01::destroy(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = (s32 *)lbl_804DC448;
-        if (*(void * *)&this->m_d4 != NULL) { queue_destruction__7TObjectFv(*(void * *)&this->m_d4); *(s32 *)&this->m_d4 = 0; }
+        if (*(void * *)&this->m_d4 != NULL) { ((TObject *)(*(void * *)&this->m_d4))->queue_destruction(); *(s32 *)&this->m_d4 = 0; }
         unregister_object_by_id();
         free_collision_body_parts(this);
         __dt__15RenderFadeStateFv((s8 *)this + 0xB4, -1);
@@ -311,7 +311,6 @@ void *__ct__18TORockCaveBrakableFv(void *arg0);
 extern s32 __vt__15TORockJungleM01[];
 extern s32 TORockJungleM01_name_ref;
 
-s32 isFading__15RenderFadeStateCFv(void *);
 void matrix_mult_vec(s32, void *, void *);
 
 void *__nw__7TObjectFUl(int);
@@ -324,11 +323,10 @@ extern u8 identity_matrix[];
 extern void *tl_05;
 s32 play_sound_effect(s32, s32, s32, s32);
 void free_collision_body_parts(void *);
-int update__15RenderFadeStateFv(void*);
 void __dl__7TObjectFPv(void *);
 void *__dt__18TORockCaveBrakableFv(void *arg0, s16 arg1);
 
-void TORockJungleM01::run_task() { update__15RenderFadeStateFv((char*)this + 0xbc); TORockCaveBrakable::run_task(); }
+void TORockJungleM01::run_task() { ((RenderFadeState *)((char*)this + 0xbc))->update(); TORockCaveBrakable::run_task(); }
 
 void TORockJungleM01::vfunc_18() {
     s32 arg0 = (s32)this;
@@ -372,7 +370,7 @@ void *TORockJungleM01::create(void *arg0) {
 }
 
 TORockJungleM01::~TORockJungleM01() {
-    if (*(void **)((s8 *)this + 0xDC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0xDC)); this->m_dc = 0; }
+    if (*(void **)((s8 *)this + 0xDC) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xDC)))->queue_destruction(); this->m_dc = 0; }
     ((TObjCollidable *)this)->unregister_object_by_id();
     free_collision_body_parts(this);
     __dt__15RenderFadeStateFv((s8 *)this + 0xBC, -1);
@@ -428,7 +426,7 @@ void TORockJungleM01::vfunc_14() {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         arg0->fading = 0;
     } else {
-        arg0->fading = isFading__15RenderFadeStateCFv(&arg0->fade);
+        arg0->fading = ((RenderFadeState *)(&arg0->fade))->isFading();
     }
     if (arg0->fading != 0) {
         arg0->fade.m6();
@@ -563,7 +561,7 @@ void *TORockJungleS01::create(void *arg0) {
 void *__dt__15TORockJungleS01Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TORockJungleS01;
-        if (*(void **)((s8 *)arg0 + 0xBC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xBC)); ((TORockJungleS01 *)arg0)->m_bc = 0; }
+        if (*(void **)((s8 *)arg0 + 0xBC) != NULL) { ((TObject *)(*(void **)((s8 *)arg0 + 0xBC)))->queue_destruction(); ((TORockJungleS01 *)arg0)->m_bc = 0; }
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         __dt__18TORockCaveBrakableFv(arg0, 0);

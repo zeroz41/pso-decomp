@@ -7,6 +7,7 @@
 #include "pso/ui/window/TWindowQuantity.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowDD.h"
 
 struct Quantity_8026D000 {
     s32 f0;
@@ -31,7 +32,6 @@ extern s32 lbl_805D39B0;
 s32 draw_window_tab(s32, s32, s32, f32);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
-int initialize_subwindow__9TWindowDDFv(void*);
 
 void TWindowQuantity::set_position(s32 arg1) {
     draw_window_tab(arg1, arg1 + 0x10, 3, this->m_60);
@@ -44,7 +44,7 @@ void render__15TWindowQuantityFv(s32 arg0) {
     draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)ctx);
 }
 
-void TWindowQuantity::run_task() { initialize_subwindow__9TWindowDDFv(this); update_window_entry_list((char*)this + 0x24); }
+void TWindowQuantity::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list((char*)this + 0x24); }
 
 void *__dt__15TWindowQuantityFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

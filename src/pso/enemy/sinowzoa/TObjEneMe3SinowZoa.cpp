@@ -51,6 +51,11 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/render_util.h"
+#include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 // load_resources fills these per kind (0 and 1) from TLobby::register_boss,
 // TLobby::dispatch_shared_handler_b, TLobby::register_object and
@@ -90,8 +95,6 @@ void TObjEneMe3SinowZoa__sub_80316840(u8 *arg0);
 }
 
 extern "C" {
-int vfunc_62__18TObjEneMe3SinowZoaFv(void*);
-int vfunc_63__18TObjEneMe3SinowZoaFv(void*);
 f32 random_ratio__9TObjCharaFv(void *);
 
 extern const f32 lbl_805DF304;
@@ -662,10 +665,8 @@ struct VObj_14_2ab9de : VBase_14_2ab9de {
     virtual s32 m3();
 };
 
-s32 is_locally_controlled__10TObjPlayerFPv(void *);
 u32 get_item_field_6__10TObjPlayerFPv(void *);
 f32 fabs_float(f32);
-void queue_destruction__7TObjectFv(void *);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 s32 get_item_id__5TItemFv();
 }
@@ -674,9 +675,6 @@ extern "C" {
 int select_and_apply_target__12TObjEneDD_STFf(void*);
 s32 check_v2_mode__9TObjEneDDFv(s32, s32);
 s32 reset_hp__9TObjEneDDFPUcPUcPUc(void *, int, int, int);
-s32 initialize_enemy_state__9TObjEneDDFl(void *, int);
-int vfunc_96__9TObjEneDDFv(void*);
-int vfunc_95__9TObjEneDDFv(void*);
 void TObjEneDD__sub_800BA438(void *, void *);
 s32 init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int, int);
 s32 TObjEneMe3SinowZoa__sub_800D72A4(void *);
@@ -1797,7 +1795,7 @@ void TObjEneMe3SinowZoa::sub_8031AC74() {
             }
         }
         if ((s16) *(s16 *)((s8 *)arg0 + 0x326) == 0x11) {
-            transition_enemy_state__9TObjEneDDFl(arg0, 0x12);
+            ((TObjEneDD *)arg0)->transition_enemy_state(0x12);
         }
     } else {
         temp_r3_2 = *(s32 *)((s8 *)arg0 + 0x3CC);
@@ -1823,7 +1821,7 @@ void TObjEneMe3SinowZoa::vfunc_62() {
     u8 *arg0 = (u8 *)this;
     if (*(s32 *)((s8 *)arg0 + 0x3CC) & 1) {
         ((TObjEneDD *)arg0)->clear_attack_receipts();
-        if (((s32) *(s32 *)((s8 *)arg0 + 0x3C0) == 1) && (random_ratio__9TObjCharaFv(arg0) <= *(f32 *)((s8 *)arg0 + 0x3F0))) {
+        if (((s32) *(s32 *)((s8 *)arg0 + 0x3C0) == 1) && (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3F0))) {
             ((int (*)(void*, void*))transition_enemy_state__9TObjEneDDFl)(arg0, (void*)(0x12));
         }
     } else if ((s16) *(s16 *)((s8 *)arg0 + 0x326) != 0xE) {
@@ -1844,9 +1842,9 @@ void TObjEneMe3SinowZoa::vfunc_88() {
     *(f32 *)((s8 *)(*(void **)((s8 *)this + 0xA4)) + 4) = (f32) (*(f32 *)((s8 *)this + 0x300) - *(f32 *)((s8 *)this + 0x3C));
 }
 
-void TObjEneMe3SinowZoa::vfunc_95() { vfunc_95__9TObjEneDDFv(this); sub_800F5874((s32)((void*)38)); }
+void TObjEneMe3SinowZoa::vfunc_95() { TObjEneDD::vfunc_95(); sub_800F5874((s32)((void*)38)); }
 
-void TObjEneMe3SinowZoa::vfunc_96() { vfunc_96__9TObjEneDDFv(this); sub_800F5864((s32)((void*)38)); }
+void TObjEneMe3SinowZoa::vfunc_96() { TObjEneDD::vfunc_96(); sub_800F5864((s32)((void*)38)); }
 
 void TObjEneMe3SinowZoa::setup_move_bounds() {
     if (((s32 (*)(void))sub_8031A4D0__18TObjEneMe3SinowZoaFv)() != 0) {
@@ -1926,8 +1924,8 @@ extern "C" {
 bool TObjEneMe3SinowZoa__sub_8031A820(u8 *ene_dd) {
     f32 temp_f31;
     if (fabs_float(*(f32 *)((s8 *)(*(u8 **)((s8 *)ene_dd + 0x390)) + 0x3C) - *(f32 *)((s8 *)ene_dd + 0x3C)) >= 20.0f) {
-        if (random_ratio__9TObjCharaFv(ene_dd) <= *(f32 *)((s8 *)ene_dd + 0x3F4)) {
-            transition_enemy_state__9TObjEneDDFl(ene_dd, 0xC);
+        if (((TObjChara *)ene_dd)->random_ratio() <= *(f32 *)((s8 *)ene_dd + 0x3F4)) {
+            ((TObjEneDD *)ene_dd)->transition_enemy_state(0xC);
             goto block_4;
         }
         return 0;
@@ -1957,12 +1955,12 @@ void TObjEneMe3SinowZoa::sub_8031A6A0() {
                 if (d > TObjEneMe3SinowZoa__data_805DF31C) {
                     if (((s32 (*)(void *))sub_8031A454__18TObjEneMe3SinowZoaFv)(this) != 0) {
                         pl = *(VObj_18_bd3b49 **)((s8 *)this + 0x390);
-                        if (is_locally_controlled__10TObjPlayerFPv(pl) != 0 && get_item_field_6__10TObjPlayerFPv(pl) != 0) {
+                        if (TObjPlayer::is_locally_controlled(pl) != 0 && get_item_field_6__10TObjPlayerFPv(pl) != 0) {
                             send_6x26_unequip_item__10TObjPlayerFPvPv(pl, get_item_id__5TItemFv());
                             ((TObjPlayer *)pl)->get_hand_joint_position((s32)&unk_408);
                             spawn_particle_effect(&unk_408, 0x1D0);
                         }
-                    } else if (near != 0 && random_ratio__9TObjCharaFv(this) <= lbl_805DF384) {
+                    } else if (near != 0 && random_ratio() <= lbl_805DF384) {
                         TObjEneDD__sub_800BA438(this, *(void **)((s8 *)this + 0x390));
                     }
                 }
@@ -2052,12 +2050,12 @@ u8 TObjEneMe3SinowZoa::sub_8031A454() {
 void TObjEneMe3SinowZoa::sub_8031A3D8() {
     if (((s32 (*)(void *))sub_8031A454__18TObjEneMe3SinowZoaFv)(this) != 0) {
         *(s32 **)((s8 *)((u8 *)this) + 0x24) = (s32 *)&TObjEneMe3SinowZoa__alternate_texture_list;
-        initialize_enemy_state__9TObjEneDDFl(this, 0x46);
+        initialize_enemy_state(0x46);
         *(s32 *)((s8 *)((u8 *)this) + 0x3C8) = 1;
         return;
     }
     *(s32 **)((s8 *)((u8 *)this) + 0x24) = (s32 *) *(s32 **)((s8 *)(*(u8 **)((s8 *)TObjEneMe3SinowZoa__bml_resource + 0x42C)) + 0xC);
-    initialize_enemy_state__9TObjEneDDFl(this, 0x45);
+    initialize_enemy_state(0x45);
     *(s32 *)((s8 *)((u8 *)this) + 0x3C8) = 0;
 }
 
@@ -2214,9 +2212,9 @@ void TObjEneMe3SinowZoa::sub_80319E74(s32 arg1) {
     case 3:
         if (((VObj_14_948132 *) (arg0 + 0x414))->m5() != 0) {
             if (*(s32 *)((s8 *)arg0 + 0x3C0) == 1) {
-                transition_enemy_state__9TObjEneDDFl(arg0, 2);
+                ((TObjEneDD *)arg0)->transition_enemy_state(2);
             } else {
-                transition_enemy_state__9TObjEneDDFl(arg0, 0xD);
+                ((TObjEneDD *)arg0)->transition_enemy_state(0xD);
             }
         }
         break;
@@ -2256,7 +2254,7 @@ void TObjEneMe3SinowZoa::state_chase(s32 arg1) {
     case 3:
         if (((VObj_18_bb4b7f *)(arg0))->m102(200.0f) != 0) {
             if (*(f32 *)((s8 *)arg0 + 0x3AC) <= lbl_805DF36C) {
-                transition_enemy_state__9TObjEneDDFl(arg0, 0xD);
+                ((TObjEneDD *)arg0)->transition_enemy_state(0xD);
                 return;
             }
             temp_r0 = *(s32 *)((s8 *)arg0 + 0x438) - 1;
@@ -2264,12 +2262,12 @@ void TObjEneMe3SinowZoa::state_chase(s32 arg1) {
             if ((temp_r0 <= 0) && (((VObj_18_bb4b7f *)(arg0))->m104() != 0)) {
                 *(s32 *)((s8 *)arg0 + 0x438) = 0x3C;
                 if (((f32 (*)(void *))random_ratio__9TObjCharaFv)(arg0) <= lbl_805DF370) {
-                    transition_enemy_state__9TObjEneDDFl(arg0, 7);
+                    ((TObjEneDD *)arg0)->transition_enemy_state(7);
                     return;
                 }
             }
         } else if ((s32) *(s32 *)((s8 *)arg0 + 0x434) >= 0xE10) {
-            transition_enemy_state__9TObjEneDDFl(arg0, 0xD);
+            ((TObjEneDD *)arg0)->transition_enemy_state(0xD);
             return;
         }
         break;
@@ -2312,7 +2310,7 @@ void TObjEneMe3SinowZoa__sub_80319B8C(u8 *ene_dd, s32 arg1) {
         break;
     case 3:
         if (((VObj_14_948132 *)(ene_dd + (1044)))->m5() != 0) {
-            transition_enemy_state__9TObjEneDDFl(ene_dd, 4);
+            ((TObjEneDD *)ene_dd)->transition_enemy_state(4);
             break;
         }
     case 0:
@@ -2339,7 +2337,7 @@ void TObjEneMe3SinowZoa::update_state_action(s32 arg1) {
         break;
     case 3:
         if (*(s32 *)((s8 *)this + 0x434) > 0x1E) {
-            transition_enemy_state__9TObjEneDDFl(this, 5);
+            transition_enemy_state(5);
         }
         break;
     case 0:
@@ -2396,7 +2394,7 @@ void TObjEneMe3SinowZoa__sub_80319748(u8 *ene_me3_sinow_zoa, s32 arg1) {
         break;
     case 3:
         if ((s32) *(s32 *)((s8 *)ene_me3_sinow_zoa + 0x434) == 3) {
-            transition_enemy_state__9TObjEneDDFl(ene_me3_sinow_zoa, 0xD);
+            ((TObjEneDD *)ene_me3_sinow_zoa)->transition_enemy_state(0xD);
         }
         break;
     case 0:
@@ -2471,15 +2469,15 @@ void TObjEneMe3SinowZoa::state_chase_target(s32 arg1) {
     case 3:
         if ((u32) *(u32 *)((s8 *)arg0 + 0x390) == 0U) {
             this->vfunc_111();
-            transition_enemy_state__9TObjEneDDFl(arg0, 0xD);
+            ((TObjEneDD *)arg0)->transition_enemy_state(0xD);
             return;
         }
         if (((s32 (*)(f32))TObjEneMe3SinowZoa__sub_8031A820)((f32) (*(f32 *)((s8 *)arg0 + 0x444))) != 0) {
-            transition_enemy_state__9TObjEneDDFl(arg0, 8);
+            ((TObjEneDD *)arg0)->transition_enemy_state(8);
             return;
         }
         if (((VObj_18_e66632 *)(arg0))->m104() != 0) {
-            transition_enemy_state__9TObjEneDDFl(arg0, 7);
+            ((TObjEneDD *)arg0)->transition_enemy_state(7);
         }
     case 5:
         return;
@@ -2517,9 +2515,9 @@ void TObjEneMe3SinowZoa__sub_80318F7C(Ene_80318F7C *self, s32 arg1) {
     case 3:
         if (self->f434 == 7 || ((TObjEneDD *)self)->get_flag_b4() != 0) {
             if (self->m100() == 0) {
-                transition_enemy_state__9TObjEneDDFl(self, 10);
+                ((TObjEneDD *)self)->transition_enemy_state(10);
             } else {
-                transition_enemy_state__9TObjEneDDFl(self, 6);
+                ((TObjEneDD *)self)->transition_enemy_state(6);
             }
         }
         break;
@@ -2770,22 +2768,22 @@ void TObjEneMe3SinowZoa__sub_8031884C(void *arg0_, s32 arg1) {
         return;
     case 3:
         if ((s32) *(s32 *)((s8 *)arg0 + 0x434) == 3) {
-            if (((s32) *(s32 *)((s8 *)arg0 + 0x3C0) == 0) && (random_ratio__9TObjCharaFv(arg0) <= *(f32 *)((s8 *)arg0 + 0x3EC))) {
-                transition_enemy_state__9TObjEneDDFl(arg0, 0x11);
-            } else if (random_ratio__9TObjCharaFv(arg0) <= *(f32 *)((s8 *)arg0 + 0x3E8)) {
+            if (((s32) *(s32 *)((s8 *)arg0 + 0x3C0) == 0) && (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3EC))) {
+                ((TObjEneDD *)arg0)->transition_enemy_state(0x11);
+            } else if (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3E8)) {
                 if (((s32 (*)(u8 *))sub_8031A454__18TObjEneMe3SinowZoaFv)(arg0) != 0) {
-                    if (random_ratio__9TObjCharaFv(arg0) > TObjEneMe3SinowZoa__kind_param_tbls[*(s32 *)((s8 *)arg0 + 0x3C8)][5]) {
-                        transition_enemy_state__9TObjEneDDFl(arg0, 0x10);
+                    if (((TObjChara *)arg0)->random_ratio() > TObjEneMe3SinowZoa__kind_param_tbls[*(s32 *)((s8 *)arg0 + 0x3C8)][5]) {
+                        ((TObjEneDD *)arg0)->transition_enemy_state(0x10);
                     } else {
-                        transition_enemy_state__9TObjEneDDFl(arg0, 0xB);
+                        ((TObjEneDD *)arg0)->transition_enemy_state(0xB);
                     }
                 } else {
-                    transition_enemy_state__9TObjEneDDFl(arg0, 0x10);
+                    ((TObjEneDD *)arg0)->transition_enemy_state(0x10);
                 }
-            } else if (random_ratio__9TObjCharaFv(arg0) <= *(f32 *)((s8 *)arg0 + 0x3F4)) {
-                transition_enemy_state__9TObjEneDDFl(arg0, 0xC);
+            } else if (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3F4)) {
+                ((TObjEneDD *)arg0)->transition_enemy_state(0xC);
             } else {
-                transition_enemy_state__9TObjEneDDFl(arg0, 6);
+                ((TObjEneDD *)arg0)->transition_enemy_state(6);
             }
         }
         break;
@@ -2852,7 +2850,7 @@ void TObjEneMe3SinowZoa__sub_80318564(u8 *arg0, s32 arg1) {
         break;
     case 3:
         if (F(s32, 0x438) > TBL(0x1C)) {
-            transition_enemy_state__9TObjEneDDFl(arg0, 6);
+            ((TObjEneDD *)arg0)->transition_enemy_state(6);
         }
         break;
     case 5:
@@ -2920,9 +2918,9 @@ void TObjEneMe3SinowZoa::handle_state_substate(s32 arg1) {
         break;
     case 3:
         if (update_linked_position(200.0f) != 0) {
-            transition_enemy_state__9TObjEneDDFl(this, 6);
+            transition_enemy_state(6);
         } else if (*(s32 *)((s8 *)this + 0x434) >= 0x5A) {
-            transition_enemy_state__9TObjEneDDFl(this, 0xA);
+            transition_enemy_state(0xA);
         }
         break;
     case 5:
@@ -2950,7 +2948,7 @@ void TObjEneMe3SinowZoa__sub_803182F8(u8 *ene_dd, s32 arg1) {
         break;
     case 3:
         if (*(s32 *)((s8 *)ene_dd + 0x434) == 2) {
-            transition_enemy_state__9TObjEneDDFl(ene_dd, 0);
+            ((TObjEneDD *)ene_dd)->transition_enemy_state(0);
         }
         break;
     case 0:
@@ -2989,10 +2987,10 @@ void TObjEneMe3SinowZoa::state_knockback(s32 arg1) {
         break;
     case 3:
         if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
-            if (*(s32 *)((s8 *)arg0 + 0x3C0) == 1 && random_ratio__9TObjCharaFv(arg0) <= *(f32 *)((s8 *)arg0 + 0x3F0)) {
-                transition_enemy_state__9TObjEneDDFl(arg0, 0x12);
+            if (*(s32 *)((s8 *)arg0 + 0x3C0) == 1 && ((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3F0)) {
+                ((TObjEneDD *)arg0)->transition_enemy_state(0x12);
             } else {
-                transition_enemy_state__9TObjEneDDFl(arg0, *(s32 *)((s8 *)arg0 + 0x378));
+                ((TObjEneDD *)arg0)->transition_enemy_state(*(s32 *)((s8 *)arg0 + 0x378));
             }
         }
         break;
@@ -3064,7 +3062,7 @@ void TObjEneMe3SinowZoa__sub_80317F90(u8 *arg0, s32 arg1) {
             ((VObj_18_64d9d3 *)(arg0))->m100();
             break;
         case 2:
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
             break;
         }
         break;
@@ -3100,18 +3098,18 @@ void TObjEneMe3SinowZoa__sub_80317B50(void *arg0_, s32 arg1) {
             *(s32 *)((s8 *)ene_me3_sinow_zoa + 0x3C0) = 1;
             *(s32 *)((s8 *)ene_me3_sinow_zoa + 0x3CC) |= 0x40000;
             ((TObjCollidable *)ene_me3_sinow_zoa)->set_indexed_flags(0, 0x08000000);
-            if (random_ratio__9TObjCharaFv(ene_me3_sinow_zoa) <= *(f32 *)((s8 *)ene_me3_sinow_zoa + 0x3E8)) {
+            if (((TObjChara *)ene_me3_sinow_zoa)->random_ratio() <= *(f32 *)((s8 *)ene_me3_sinow_zoa + 0x3E8)) {
                 if (((s32 (*)(u8 *))sub_8031A454__18TObjEneMe3SinowZoaFv)(ene_me3_sinow_zoa) != 0) {
-                    if (random_ratio__9TObjCharaFv(ene_me3_sinow_zoa) > TObjEneMe3SinowZoa__kind_param_tbls[*(s32 *)((s8 *)ene_me3_sinow_zoa + 0x3C8)][5]) {
-                        transition_enemy_state__9TObjEneDDFl(ene_me3_sinow_zoa, 0x10);
+                    if (((TObjChara *)ene_me3_sinow_zoa)->random_ratio() > TObjEneMe3SinowZoa__kind_param_tbls[*(s32 *)((s8 *)ene_me3_sinow_zoa + 0x3C8)][5]) {
+                        ((TObjEneDD *)ene_me3_sinow_zoa)->transition_enemy_state(0x10);
                     } else {
-                        transition_enemy_state__9TObjEneDDFl(ene_me3_sinow_zoa, 0xB);
+                        ((TObjEneDD *)ene_me3_sinow_zoa)->transition_enemy_state(0xB);
                     }
                 } else {
-                    transition_enemy_state__9TObjEneDDFl(ene_me3_sinow_zoa, 0x10);
+                    ((TObjEneDD *)ene_me3_sinow_zoa)->transition_enemy_state(0x10);
                 }
             } else {
-                transition_enemy_state__9TObjEneDDFl(ene_me3_sinow_zoa, 1);
+                ((TObjEneDD *)ene_me3_sinow_zoa)->transition_enemy_state(1);
             }
         }
         break;
@@ -3137,8 +3135,8 @@ void TObjEneMe3SinowZoa__sub_80317B50(void *arg0_, s32 arg1) {
                     if (*(u8 **)((s8 *)ene_me3_sinow_zoa + 0x390) == NULL) {
                         break;
                     }
-                    d[0] = (s32)(3.0f * random_ratio__9TObjCharaFv(ene_me3_sinow_zoa)) - 1;
-                    d[1] = (s32)(2.0f * random_ratio__9TObjCharaFv(ene_me3_sinow_zoa)) - 1;
+                    d[0] = (s32)(3.0f * ((TObjChara *)ene_me3_sinow_zoa)->random_ratio()) - 1;
+                    d[1] = (s32)(2.0f * ((TObjChara *)ene_me3_sinow_zoa)->random_ratio()) - 1;
                     if (d[1] <= d[0]) {
                         d[1]++;
                     }
@@ -3644,14 +3642,14 @@ TObjEneMe3SinowZoaReal::TObjEneMe3SinowZoaReal(TObject *parent, void *set_data) 
 TObjEneMe3SinowZoaReal::~TObjEneMe3SinowZoaReal() {
 }
 
-void TObjEneMe3SinowZoaReal::vfunc_63() { vfunc_63__18TObjEneMe3SinowZoaFv(this); }
+void TObjEneMe3SinowZoaReal::vfunc_63() { TObjEneMe3SinowZoa::vfunc_63(); }
 
-void TObjEneMe3SinowZoaReal::vfunc_62() { vfunc_62__18TObjEneMe3SinowZoaFv(this); }
+void TObjEneMe3SinowZoaReal::vfunc_62() { TObjEneMe3SinowZoa::vfunc_62(); }
 
 void TObjEneMe3SinowZoaReal::vfunc_107() {
     struct Ene_80316898 *self = (struct Ene_80316898 *) this;
     *(s32 *)((s8 *)this + 0x3FC) = *(s32 *)((s8 *)this + 0x3FC) + 1;
-    if ((*(s32 *)((s8 *)this + 0x3FC) >= 2) || (random_ratio__9TObjCharaFv(this) < lbl_805DF304)) {
+    if ((*(s32 *)((s8 *)this + 0x3FC) >= 2) || (random_ratio() < lbl_805DF304)) {
         ((TObjEneDD *)self)->transition_enemy_state(9);
         return;
     }

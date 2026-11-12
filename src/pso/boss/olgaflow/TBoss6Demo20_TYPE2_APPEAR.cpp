@@ -22,6 +22,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/ambient/TObjFish.h"
 struct RecoveredGlobal_8033DCA8_lbl_80477F2C { s32 value; u8 remaining[8]; };
 struct RecoveredGlobal_8033DCA8_lbl_804EFA08 { s32 value; u8 remaining[8]; };
 extern const RecoveredGlobal_8033DCA8_lbl_80477F2C boss6_type2_appear_origin;
@@ -49,8 +50,6 @@ const u8 lbl_80478064[12] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0
 const CameraPlayback boss6_type2_appear_camera_script = {1, 3, 0, 0.0f, 0.7f};
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-
-s32 clear_render_callback__8TObjFishFv(s32);
 
 void TBoss6Demo20_TYPE2_APPEAR::draw_model_12() {
     push_matrix();
@@ -118,7 +117,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_4() {
         TObjFish::set_global_param(*(s32 *)((s8 *)this + 0xC0));
         ((TObjFish *)(this->m_7c))->set_draw_callback_list();
         draw_model_motion((void *)this->m_bc, (void *)this->m_c4, *(f32 *)((s8 *)this + 0xE0));
-        clear_render_callback__8TObjFishFv(this->m_7c);
+        ((TObjFish *)this->m_7c)->clear_render_callback();
         clear_motion_packed_rotation();
         pop_matrix();
         if (var_f31 < 1.0f) {

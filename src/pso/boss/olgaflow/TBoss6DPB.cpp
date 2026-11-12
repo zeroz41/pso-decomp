@@ -13,6 +13,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer.h"
 
 struct V_8035D8B0 { s32 a; f32 b; s32 c; };
 
@@ -99,7 +100,7 @@ void TBoss6DPB::apply_shower_damage_to_players() {
     s32 power;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        pl = (Pl_8035D924 *)get_player_data__10TObjPlayerFi(i);
+        pl = (Pl_8035D924 *)TObjPlayer::get_player_data(i);
         if (((TBoss6PlotFalz *)pl)->is_active() != 0) {
             VecCopy((Vec *)&v, (const Vec *)((u8 *)pl + 0x38));
             subtract_vector(&v, &arg0->pos);

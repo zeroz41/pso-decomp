@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -21,6 +22,11 @@
 #include "types.h"
 #include "pso/ui/Language.h"
 #include "pso/map/FloorArea.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/player/TUnk_804B6C24.h"
+#include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 typedef struct Lobby_801C2898 {
     u8 pad0[0x268];
@@ -62,7 +68,6 @@ struct S801C295C_801C25B4 { s32 f0; s8 f4; s8 pad[0x13]; };
 s32 check_all_battle_flags__6TLobbyFv(void);
 void clear_counter__6TLobbyFPv(void* a0);
 void build_6x7D_set_battle_mode_data(void *p);
-s32 obj_testFlags30__14TObjCollidableFUl(u32, s32);
 
 extern "C" {
 __declspec(section ".rodata") char TPlayerBattleCtrl__class_name_string[] = "TPlayerBattleCtrl";
@@ -86,7 +91,7 @@ s32 check_all_battle_flags__6TLobbyFv(void) {
     var_r31 = 0;
 loop_1:
     temp_r3 = get_player_by_client_id(var_r31);
-    if ((temp_r3 != 0U) && (obj_testFlags30__14TObjCollidableFUl(temp_r3, 0x02000000) != 0)) {
+    if ((temp_r3 != 0U) && (((TObjCollidable *)temp_r3)->obj_testFlags30(0x02000000) != 0)) {
         return 0;
     }
     var_r31 += 1;
@@ -379,8 +384,6 @@ void TObjEneRe4Sorcerer__sub_801E3F18(void);
 void *__nw__7TObjectFUl(u32);
 extern char battle_ctrl_music_name_duel1[];
 extern char battle_ctrl_music_name_duel2[];
-void queue_destruction__7TObjectFv(void *arg0);
-s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 extern s32 lbl_805D2A98;
 s32 get_entity_id();
 }
@@ -406,7 +409,6 @@ void TLobby__sub_8020BCE4(void);
 void clear_trap_counts(s8 *arg0);
 
 s32 set_flag_270__6TLobbyFPv();
-s32 set_frames__15ProtectionTimerFl(s32, s32);
 
 s32 check_all_players_ready__6TLobbyFv(void) {
     u8 *var_r31;
@@ -451,8 +453,8 @@ void TLobby::destroy_matching_children() {
     void *down;
     down = this->m_down;
 while (down != NULL) {
-        if (check_value_equals__13TUnk_804B6C24Fl(down, lbl_805D2A98) != 0) {
-            queue_destruction__7TObjectFv(down);
+        if (((TUnk_804B6C24 *)down)->check_value_equals(lbl_805D2A98) != 0) {
+            ((TObject *)down)->queue_destruction();
         }
         ((TLobby *)down)->destroy_matching_children();
         down = *(void **)((s8 *)down + 0xC);
@@ -505,7 +507,7 @@ void init__6TLobbyFPv(void *arg0) {
     temp_r3 = update_battle_controller__10TObjPlayerFv();
     if (temp_r3 != 0) {
         obj_set_flag_20000();
-        set_frames__15ProtectionTimerFl(temp_r3 + 0x644, 0xE10);
+        ((ProtectionTimer *)(temp_r3 + 0x644))->set_frames(0xE10);
     }
     TOMineTrap::destroy_matching_traps();
     queue_destroy_event_descendants((TObject*)tl_01);
@@ -570,7 +572,7 @@ void TPlayerBattleCtrl::init_battle_round() {
   {
     var_r3 = char_select_slot;
   }
-  set_slot__23TAdSinglePlyChrSelectGCFi((u16) var_r3);
+  TAdSinglePlyChrSelectGC::set_slot((u16) var_r3);
   TAdSinglePlyChrSelectGC__sub_801FCE6C();
   apply_game_settings__6TLobbyFii(this, 1);
   close_and_play_effect__6TLobbyFii((u16) local_client_id, 1);
@@ -764,7 +766,6 @@ extern s32 local_client_id;
 void handle_battle_result__6TLobbyFii(int arg0, s32 arg1);
 u32 get_player_by_client_id(u16);
 void begin_player_keyboard_hold(s32 arg0);
-void play_effect_default__10TObjPlayerFii(s32 arg0, s32 arg1);
 extern s32 local_client_id;
 void request_active_window_close(void);
 void close_and_play_effect__6TLobbyFii(int arg0, s32 arg1);
@@ -900,7 +901,6 @@ extern s32 lobby_rule_settings[];
 extern s32 TLobby__duel_result_table[];
 s32 calc_player_rankings__6TLobbyFPv(Lobby_801C484C *);
 void TLobby__sub_801036CC(void);
-void play_effect_default__10TObjPlayerFii(s32 arg0, s32 arg1);
 s32 update_battle_controller__10TObjPlayerFv();
 void TLobby__sub_8020BC50(void);
 void TLobby__sub_801C38A4(void);
@@ -913,7 +913,6 @@ s32 TLobby__sub_801C19D0(void *);
 extern s32 lobby_rule_settings[];
 s32 check_team_balance__6TLobbyFPvi(Lobby_801C484C *self, s32 arg1);
 void TKeyBoardControl__sub_8000F950(void);
-void queue_destruction__7TObjectFv(void *arg0);
 extern void *TLobby__idle_timeout_object;
 extern s16 TLobby__data_805D5CE8;
 extern s32 evt2_random_enemies_mode;
@@ -944,7 +943,6 @@ void __dt__7TObjectFv(void *, int);
 s32 bswap_packet_header__6TLobbyFv();
 int show_duel_result_window(void*, void*);
 s32 memcpy(s32 *, s32, s32);
-void queue_destruction__7TObjectFv(void *arg0);
 void strncpy(void *, void *, int);
 s32 update_battle_controller__10TObjPlayerFv();
 
@@ -955,7 +953,7 @@ void release_ref__6TLobbyFPv(u8 *object) {
     *(s32 *)((s8 *)object + 0x1C) = temp_r0;
     if (temp_r0 <= 0) {
         play_area_music((char *)(object + 0x20));
-        queue_destruction__7TObjectFv(object);
+        ((TObject *)object)->queue_destruction();
     }
 }
 
@@ -1195,7 +1193,7 @@ void TLobby__sub_801C38E8(void *arg0) {
     case 0:
         t = update_battle_controller__10TObjPlayerFv();
         if (t != 0) {
-            play_effect_default__10TObjPlayerFii(t, -1);
+            TObjPlayer::play_effect_default(t, -1);
         }
         *(s32 *)((u8 *)arg0 + 0x2C) = 0xF;
         *(s32 *)((u8 *)arg0 + 0x20) = 1;
@@ -1412,7 +1410,7 @@ void handle_battle_result__6TLobbyFii(int arg0, s32 arg1) {
 void close_and_play_effect__6TLobbyFii(int arg0, s32 arg1) {
     u32 temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
-        play_effect_default__10TObjPlayerFii(temp, -1);
+        TObjPlayer::play_effect_default(temp, -1);
     }
     if (arg1 != 0) {
         begin_player_keyboard_hold(local_client_id);
@@ -1439,7 +1437,7 @@ void end_battle_mode_cleanup__6TLobbyFPv(void *object) {
         evt2_random_enemies_mode = 0;
         TKeyBoardControl__sub_8000F950();
         TLobby__data_805D5CE8 = 1;
-        queue_destruction__7TObjectFv(object);
+        ((TObject *)object)->queue_destruction();
         break;
     case -1:
         break;

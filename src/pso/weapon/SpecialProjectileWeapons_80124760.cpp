@@ -22,6 +22,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/player/TObjPlayer.h"
 struct TItemEquipBase;
 #include "pso/weapon/shoot/TItemShootParticle.h"
 
@@ -60,7 +61,6 @@ typedef char WeaponStarLightParameterWordsExtent[sizeof(WeaponStarLightParameter
 typedef char StarLightFollowerExtent[sizeof(StarLightFollowerView) == 0x2C ? 1 : -1];
 
 extern "C" {
-s32 launch_rare_weapon_special__10TObjPlayerFPvlf(void *, void *, int, f32);
 
 void *__dt__13TUnk_804A2164Fv(void *arg0, s16 arg1);
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
@@ -184,7 +184,7 @@ void TUnk_804A2164::emit_marker_effects() {
     }
     ((TItemWeapon *)((RecoilWeaponView *)this))->get_gun_point(&sp8);
     if (((RecoilWeaponView *)this)->is_mode_two_and_ready() != 0) {
-        launch_rare_weapon_special__10TObjPlayerFPvlf((void *) (((RecoilWeaponView *)this)), &sp8, 1, (f32) (1.0f));
+        ((TObjPlayer *)((RecoilWeaponView *)this))->launch_rare_weapon_special(&sp8, 1, (f32) (1.0f));
         return;
     }
     ((RecoilWeaponView *)this)->launch_shot((u8 *)&sp8, 0, 0, 1);

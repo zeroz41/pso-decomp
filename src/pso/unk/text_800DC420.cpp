@@ -11,6 +11,7 @@
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer.h"
 
 struct D_800DC420 { u8 pad[0x18]; s32 arr[1]; };
 
@@ -77,7 +78,6 @@ extern const f32 lbl_805D525C;
 extern s32 lbl_805D526C;
 extern s32 local_client_id;
 void hit_object_in_radius__10TObjPlayerFPvPvPv(Src_800DC4B4 *arg0, Obj_800DC4B4 *obj, void *attacker);
-int get_player_data__10TObjPlayerFi(int a0);
 u32 csnVector(void *, void *, int);
 void *find_entity_by_id(u16);
 s32 is_valid_and_active__10TObjPlayerFUl();
@@ -195,7 +195,7 @@ void TUnk_80494E10::run_task() {
     att = find_entity_by_id(arg0->owner);
     if (att != NULL) {
         for (i = 0; i < registered_player_count + lbl_805D5870; i++) {
-            pl = (void *)get_player_data__10TObjPlayerFi(i);
+            pl = (void *)TObjPlayer::get_player_data(i);
             if (pl != NULL && is_valid_and_active__10TObjPlayerFUl() != 0) {
                 hit_object_in_radius__10TObjPlayerFPvPvPv((Src_800DC4B4 *)arg0, (Obj_800DC4B4 *)pl, att);
             }

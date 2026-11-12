@@ -4,6 +4,7 @@
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecZonde.h"
 #include "pso/system/task/TObject.h"
+#include "pso/technique/TTecCtrl.h"
 
 struct RecoveredGlobal_8023C558_lbl_804CC510
 {
@@ -29,7 +30,6 @@ struct RecoveredFields_8023C558_arg0
 
 extern "C" {
 s32 calc_technique_parameters(int, int, int);
-s32 is_technique_ready__8TTecCtrlFv();
 extern RecoveredGlobal_8023C558_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_8023C558_lbl_804CC55C lbl_804CC55C;
 typedef struct RecoveredFields_8023C558_arg0 RecoveredFields_8023C558_arg0;
@@ -41,13 +41,13 @@ void TTecZonde::init_parameters() {
   s32 new_var;
   new_var = calc_technique_parameters(6, (int) ((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_C4, 0xFFFF);
   ((TTecAnti *)(((u8 *)this) + 0xCC))->copy_params((u8 *)new_var);
-  if ((((s16) ((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_C4) >= 0xF) && (is_technique_ready__8TTecCtrlFv() == 0))
+  if ((((s16) ((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_C4) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {
     ((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_CC = (f32) ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x18))) + ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x1A))) * ((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_C4));
     return;
   }
   ((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_CC = (f32) (((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_CC + ((f32) (((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_F0 * ((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_C4)));
-  if (is_technique_ready__8TTecCtrlFv())
+  if (TTecCtrl::is_technique_ready())
   {
     ((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_CC = (f32) (((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_CC * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x30))));
   }

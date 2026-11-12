@@ -14,6 +14,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer.h"
 
 
 struct RecoveredGlobal_8035C83C___vt__12TBoss4Thanks { s32 value; u8 remaining[0x14]; };
@@ -67,7 +68,6 @@ extern const u8 boss4_thanks_listed_item_table[3][3] = {{0x00, 0x9D, 0x00}, {0x0
 extern const Ent_8035C35C boss4_thanks_emitter_table[4] = {
     {0x8D, 0x00, 0x32}, {0xA7, 0x1E, 0x6E}, {0x1FD, 0x32, 0x5A}, {0x1C2, 0x46, 0x78},
 };
-void *get_player_data__10TObjPlayerFi(s32);
 s32 get_entity_id(void *);
 s32 TBoss4Type3__sub_8005254C(s32);
 f32 xyz_distance(void *, const void *);
@@ -135,7 +135,7 @@ int TBoss4Thanks::is_player_nearby(void *arg0) {
     n = TLobby::get_game_mode();
     lim = 30.0f;
     for (i = 0; i < n; i++) {
-        p = (u8 *)get_player_data__10TObjPlayerFi(i);
+        p = (u8 *)TObjPlayer::get_player_data(i);
         if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0 &&
             xyz_distance(p + 0x38, boss4_thanks_position) <= lim) {
             return 1;

@@ -3,6 +3,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/quest/TQuestColCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TUnk_804B6C24.h"
 
 struct Obj_80195CF0 { u8 pad0[6]; u16 f6; u8 pad8[4]; Obj_80195CF0 *next; u8 pad10[4]; Obj_80195CF0 *child; };
 
@@ -10,7 +11,6 @@ struct Obj_80195DE0 { u8 pad0[6]; u16 f6; u8 pad8[4]; Obj_80195DE0 *next; u8 pad
 
 extern "C" {
 u16 get_entity_id(void *);
-s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 extern s32 TObjQuestCol__class_name;
 extern s32 TObjQuestColA__class_name;
 extern s32 obj_quest_col_alock_class_name;
@@ -32,12 +32,12 @@ Obj_80195CF0 *find_by_id__13TQuestColCtrlFUs(u16 arg0) {
     while ((*(Obj_80195CF0 * *)&quest_collision_task_root)->child != 0 && next != 0) {
         cur = next;
         next = cur->next;
-        if ((check_value_equals__13TUnk_804B6C24Fl(cur, TObjQuestCol__class_name) != 0
-             || check_value_equals__13TUnk_804B6C24Fl(cur, TObjQuestColA__class_name) != 0
-             || check_value_equals__13TUnk_804B6C24Fl(cur, obj_quest_col_alock_class_name) != 0
-             || check_value_equals__13TUnk_804B6C24Fl(cur, obj_quest_col_apc_class_name) != 0
-             || check_value_equals__13TUnk_804B6C24Fl(cur, TObjQuestColApcIN__name) != 0
-             || check_value_equals__13TUnk_804B6C24Fl(cur, TObjQuestColApcINW__name) != 0)
+        if ((((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestCol__class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestColA__class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals(obj_quest_col_alock_class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals(obj_quest_col_apc_class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestColApcIN__name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestColApcINW__name) != 0)
             && arg0 == get_entity_id(cur)) {
             return cur;
         }
@@ -55,12 +55,12 @@ void TQuestColCtrl::delete_by_param(s32 arg0) {
     while ((*(Obj_80195DE0 * *)&quest_collision_task_root)->child != 0 && next != 0) {
         cur = next;
         next = cur->next;
-        if ((check_value_equals__13TUnk_804B6C24Fl(cur, TObjQuestCol__class_name) != 0
-             || check_value_equals__13TUnk_804B6C24Fl(cur, TObjQuestColA__class_name) != 0
-             || check_value_equals__13TUnk_804B6C24Fl(cur, obj_quest_col_alock_class_name) != 0
-             || check_value_equals__13TUnk_804B6C24Fl(cur, obj_quest_col_apc_class_name) != 0
-             || check_value_equals__13TUnk_804B6C24Fl(cur, TObjQuestColApcIN__name) != 0
-             || check_value_equals__13TUnk_804B6C24Fl(cur, TObjQuestColApcINW__name) != 0)
+        if ((((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestCol__class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestColA__class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals(obj_quest_col_alock_class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals(obj_quest_col_apc_class_name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestColApcIN__name) != 0
+             || ((TUnk_804B6C24 *)cur)->check_value_equals(TObjQuestColApcINW__name) != 0)
             && cur->f6 == arg0) {
             ((TObject *)cur)->queue_destruction();
             return;

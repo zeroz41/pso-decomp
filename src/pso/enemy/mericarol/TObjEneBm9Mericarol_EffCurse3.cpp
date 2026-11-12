@@ -14,6 +14,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjMotion.h"
 
 struct VBase_18_477421
 {
@@ -38,7 +39,6 @@ typedef struct Obj_800C4B78 {
 
 extern "C" {
 s32 subtract_vector(void *, void *);
-s32 is_alive__8TObjBaseFv(s32);
 extern u8 *camera_ctrl_instance;
 
 #pragma push
@@ -53,7 +53,7 @@ void TObjEneBm9Mericarol_EffCurse3::run_task() {
         ((TObject *)o)->queue_destruction();
         return;
     }
-    if (is_alive__8TObjBaseFv((s32)o->target) != 0) {
+    if (((TObjBase *)o->target)->is_alive() != 0) {
         VecCopy((Vec *)&a, (const Vec *)&o->target->pos);
         a.y += 14.0f;
         VecCopy((Vec *)&b, (const Vec *)(camera_ctrl_instance + 0x178));
@@ -80,7 +80,7 @@ TObjEneBm9Mericarol_EffCurse3::TObjEneBm9Mericarol_EffCurse3(TObject *parent, s3
     m_name = TObjEneBm9Mericarol_EffCurse3__class_name;
     *(s32 *)((s8 *)this + 0x1C) = 0;
     this->m_20 = target;
-    if (is_alive__8TObjBaseFv(this->m_20) != 0) {
+    if (((TObjBase *)this->m_20)->is_alive() != 0) {
         *(s32 *)&this->unk_24 = (s32)spawn_continuous_particle_effect_with_flags((void *)(this->m_20 + 0x38), 0x20D, 0x40);
     }
 }

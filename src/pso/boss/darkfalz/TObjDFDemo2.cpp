@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -24,6 +25,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/system/task/TObject.h"
 #pragma readonly_strings on
 
 typedef struct Rec_8004E918 {
@@ -158,7 +160,7 @@ void TObjDFDemo2::run_task() {
         arg0->fc0 = 119.0f;
     }
     if (++arg0->ftimer >= 0x118) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 

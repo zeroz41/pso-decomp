@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/TFogCtrl_EOR.h"
@@ -16,6 +17,8 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/collision/TObjFogCollisionPoison.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_800FA95C_lbl_8049C700 {
     s32 value;
@@ -34,7 +37,6 @@ static const char lbl_8043DA30[] = "fogentry_a.dat";
 const char *TFogCtrl__name = "TFogCtrl";
 const char *TFogCtrl_EOR__name = "TFogCtrl_EOR";
 s32 TFogCtrl__sub_800FAC84(void *p);
-void queue_destruction__7TObjectFv(void *arg0);
 int update_all__8TFogCtrlFv(void*);
 
 s32 TQuestVmDownLoadServer::get_serial_access() { return TAdEnterSerialAccessGC::parse_serial_value(); }
@@ -58,7 +60,7 @@ u8 *TFogCtrl_EOR::init_object() {
 
 void TQuestVmDownLoadServer::destroy_instance() {
     if ((u32) fog_ctrl_instance != 0U) {
-        queue_destruction__7TObjectFv((void *)fog_ctrl_instance);
+        ((TObject *)fog_ctrl_instance)->queue_destruction();
     }
     fog_ctrl_instance = 0U;
 }
@@ -285,7 +287,6 @@ struct FogCtrl_800FB134;
 extern "C" {
 
 s32 is_split_screen();
-s32 get_camera_mode__11TCameraCtrlFv();
 void read_disc_file(const char *, void *);
 s32 TFogCtrl__sub_800FAC84(void* p);
 s32 request_fog__8TFogCtrlFPvii(u8 *arg0, s32 arg1, s32 arg2);
@@ -404,7 +405,7 @@ void*TFogCtrl::get_entry(int a0) {  return (char*)((*(int *)&fog_entry_array)) +
 void TFogCtrl::clear_split_screen_fog() {
     u32 temp_r3;
     if (is_split_screen() == 1) {
-        temp_r3 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_800FAD08_TFogCtrl__data_80501188 *)&TFogCtrl__fog_instance_table).value) + ((TCameraCtrl::get_nth_view_player_id((int) (get_camera_mode__11TCameraCtrlFv())) * 4) & 0x3FFFC));
+        temp_r3 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_800FAD08_TFogCtrl__data_80501188 *)&TFogCtrl__fog_instance_table).value) + ((TCameraCtrl::get_nth_view_player_id((int) (TCameraCtrl::get_camera_mode())) * 4) & 0x3FFFC));
         if (temp_r3 != 0U) {
             ((TFogCtrl *)temp_r3)->clear_active_flag();
         }

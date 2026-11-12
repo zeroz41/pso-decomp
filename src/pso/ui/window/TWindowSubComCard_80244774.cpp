@@ -17,6 +17,7 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowBase.h"
 
 
 struct UV_8024503C { f32 u, v; };
@@ -330,7 +331,7 @@ s32 TWindowDD::draw_default_entry(s32 arg0) {
 void TWindowBase::set_depth(f32 farg0) {
     sub_8026CC28__11TWindowBaseFv();
     *(f32 *)((s8 *)this + 0x1C) = farg0;
-    resort_window_order__11TWindowBaseFv(this);
+    resort_window_order();
 }
 
 bool is_balloon_overlapping(u8 *arg0, u8 *arg1, u8 *arg2) {

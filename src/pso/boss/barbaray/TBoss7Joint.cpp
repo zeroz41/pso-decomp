@@ -9,6 +9,7 @@
 #include "pso/boss/barbaray/TBoss7Joint.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 struct RecoveredGlobal_802EEC60___vt__11TBoss7Joint {
     s32 value;
@@ -23,7 +24,6 @@ const char *TBoss7Joint__name = "TBoss7Joint";
 
 extern "C" {
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
-void initialize_enemy_state__9TObjEneDDFl(void *, s32);
 extern s32 __vt__11TBoss7Joint[];
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
@@ -119,7 +119,7 @@ u8 *TBoss7Joint__ct(u8 *boss7_joint, u8 *arg1, s16 arg2, s16 arg3, s32 arg4, s32
     *(s16 *)((s8 *)boss7_joint + 0x2C) = arg3;
     *(s32 *)((s8 *)boss7_joint + 0x3C0) = arg4;
     *(s32 *)((s8 *)boss7_joint + 0x3B8) = arg5;
-    initialize_enemy_state__9TObjEneDDFl(boss7_joint, 0x49);
+    ((TObjEneDD *)boss7_joint)->initialize_enemy_state(0x49);
     ((TBoss7Joint *)boss7_joint)->init_params();
     return boss7_joint;
 }

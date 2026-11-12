@@ -19,6 +19,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjMotion.h"
 
 struct Vec_8029B640 { s32 x, y, z; };
 struct Ids_8029B428 {
@@ -54,7 +55,6 @@ extern "C" {
 
 s32 update_object_view_visibility__16TODoorJungleMainFff(s32 arg0, f32 farg0, f32 farg1);
 f32 xz_distance_squared(s32, s32);
-s32 update_object_view_visibility__8TObjBaseFff(s32, f32, f32);
 
 extern s32 camera_ctrl_instance;
 
@@ -63,7 +63,7 @@ s32 TODoorJungleMain::update_object_view_visibility(f32 farg0, f32 farg1) {
     if (xz_distance_squared(arg0 + 0x38, camera_ctrl_instance + 0x178) < (farg1 * farg1)) {
         return 1;
     }
-    return update_object_view_visibility__8TObjBaseFff(arg0, farg0, farg1);
+    return ((TObjBase *)arg0)->TObjBase::update_object_view_visibility(farg0, farg1);
 }
 
 void TODoorJungleMain::vfunc_6(s16 *arg1, s32 arg2) {

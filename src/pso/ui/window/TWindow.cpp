@@ -14,6 +14,8 @@
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/city/TShopWindowBase.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
 
 struct Base_80216BCC_80216B44 { char pad[0x18]; };
 struct VObj_80216BCC_80216B44 : Base_80216BCC_80216B44 {
@@ -114,9 +116,7 @@ struct Win_80216F50 {
 extern "C" {
 u16 get_entity_id(void *);
 s32 get_quest_list_text(s32, s32);
-f32 get_scale__15TShopWindowBaseFv(void *);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
-s32 get_cursor_value__19TWindowMenuIconLineFv(s32);
 void *create__14TWindowMessageFlPCfUll(void *, void *, s32, s32);
 void *get_window_layout_position(s32);
 void *create__14TWindowMessageFPvll(void *, void *, s32);
@@ -159,7 +159,7 @@ void handle_confirm_dialog(TShopWindowBase *shop_window_base) {
         if ((*(void **)((s8 *)shop_window_base + 0x38) != NULL) && (((TWindowMenu *)(*(void **)((s8 *)shop_window_base + 0x38)))->is_decided() != 0)) {
             selected_menu_value = ((TWindowMenu *)(*(u32 *)((s8 *)shop_window_base + 0x38)))->get_selected_value();
             if (selected_menu_value == 0) {
-                temp_r0 = get_cursor_value__19TWindowMenuIconLineFv(*(s32 *)((s8 *)shop_window_base + 0x3C));
+                temp_r0 = ((TWindowMenuIconLine *)(*(s32 *)((s8 *)shop_window_base + 0x3C)))->get_cursor_value();
                 prepare_offline_quest_filenames((const char *)((*(Entry_80216BCC_80216B44 **)((s8 *)shop_window_base + 0x54))[temp_r0].field18));
                 shop_window_base->set_field_20(3);
                 return;
@@ -230,7 +230,7 @@ void TQuestListOffline::update_list_navigation() {
         }
         if (((Win_80216CF8 *)this)->f38 == NULL) {
             ((Win_80216CF8 *)this)->f38 = create_yes_no_window((s32)(get_window_layout_position(0x2B)), get_entity_id(((Win_80216CF8 *)this)->f24), 0, 0);
-            ((TWindowAddition *)(((Win_80216CF8 *)this)->f38))->set_position_xy(get_scale__15TShopWindowBaseFv(((Win_80216CF8 *)this)), get_scale__15TShopWindowBaseFv(((Win_80216CF8 *)this)));
+            ((TWindowAddition *)(((Win_80216CF8 *)this)->f38))->set_position_xy(((TShopWindowBase *)((Win_80216CF8 *)this))->get_scale(), ((TShopWindowBase *)((Win_80216CF8 *)this))->get_scale());
             if (((Win_80216CF8 *)this)->f34 != NULL) {
                 ((Win_80216CF8 *)this)->f34->m7(5, 1);
             }

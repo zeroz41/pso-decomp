@@ -4,6 +4,7 @@
 
 #include "types.h"
 #include "pso/ui/window/TWindowSubMag.h"
+#include "pso/ui/window/TWindowBase.h"
 
 extern "C" {
 u16 * get_array_entry__11TWindowBaseFi(void * a0, s32 a1);
@@ -27,7 +28,7 @@ void TWindowSubMag::set_mag_slot_state(s32 item) {
 }
 void fn_8026287C(u8 *arg0) {
     u8 *temp_r3;
-    temp_r3 = (u8 *)(((s32)get_array_entry__11TWindowBaseFi(arg0, 0)));
+    temp_r3 = (u8 *)(((s32)((TWindowBase *)arg0)->get_array_entry(0)));
     *(u8 **)((s8 *)temp_r3 + 0x30) = (unsigned char *) (arg0 + 0x70);
     *(u16 *)((s8 *)temp_r3 + 0) = (u16) (*(u16 *)((s8 *)temp_r3 + 0) & 0xFFFFFFFD);
 }

@@ -41,6 +41,8 @@
 #include "pso/player/TObjPlayer_801AD47C.h"
 #include "pso/effect/photon/TPhotonRainbow_801AE640.h"
 #include "pso/effect/photon/TPhotonLeilla.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer.h"
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
@@ -99,7 +101,6 @@ s32 TObjPlayer__sub_801AA528(s32 arg0, s16 arg1);
 void *TObjPlayer__sub_801AA66C(void *, void *);
 void *__nw__7TObjectFUl(int);
 s16 TObjPlayer__sub_80313114(u8 *arg0);
-int get_player_data__10TObjPlayerFi(int);
 u8 *TPhotonLeilla__ct(u8 *self, u8 *params);
 u8 *TPhotonMylla__ct(u8 *self, u8 *params);
 extern u32 lbl_805D5D18;
@@ -202,14 +203,14 @@ void apply_photon_blast_action_hold(s32 arg0, s32 arg1, s32 arg2) {
 
     ent = ((u8 *(*)(u16))find_entity_by_id)(arg2);
     for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count(); i++) {
-        plr = (u8 *)get_player_data__10TObjPlayerFi(i);
+        plr = (u8 *)TObjPlayer::get_player_data(i);
         if (plr != NULL && !(*(s32 *)((s8 *)plr + 0x30) & 0x40000000)) {
             if (is_split_screen() != 0) {
                 tmp1.value = (f32)arg1;
                 tmp1.kind = 0x14;
                 Hit_801A86E0 hit1 = tmp1;
                 ((VObj_18_b27ba1 *)plr)->m21(ent, &hit1, 0, -1, -1);
-            } else if (*(s16 *)((s8 *)plr + 0x28) == (s16)get_room__8TObjBaseFv(ent)) {
+            } else if (*(s16 *)((s8 *)plr + 0x28) == (s16)((TObjBase *)ent)->get_room()) {
                 tmp2.value = (f32)arg1;
                 tmp2.kind = 0x14;
                 Hit_801A86E0 hit2 = tmp2;

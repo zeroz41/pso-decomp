@@ -11,6 +11,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/player/TObjPlayer.h"
 
 extern "C" {
 
@@ -63,7 +64,6 @@ extern const f32 lbl_805DAF54;
 void init_slicer_launch_state(void *arg0);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 s16 get_validated_attack_stage(u8 *arg0);
-f32 query_extended_state__10TObjPlayerFv(void *);
 void get_weapon_color__11TItemWeaponFPv(f32 *, void *);
 }
 extern const f32 lbl_805DAF40;
@@ -81,7 +81,7 @@ void TUnk_804A5B20::emit_marker_effects() {
     launch.model = *(void **)((s8 *)this + 0x188);
     launch.kind = TObjPlayer__sub_801D2F4C((s16 *)((u8 *)owner + 0x7CC));
     launch.stage = get_validated_attack_stage((u8 *)owner + 0x7CC);
-    launch.multiplier = query_extended_state__10TObjPlayerFv(owner);
+    launch.multiplier = owner->query_extended_state();
     get_weapon_color__11TItemWeaponFPv(tmp, this);
     copy_argb((NJS_ARGB *)launch.color, (NJS_ARGB *)tmp);
     launch.facing = owner->rotation_y;

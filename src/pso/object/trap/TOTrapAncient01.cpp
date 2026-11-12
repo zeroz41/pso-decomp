@@ -43,6 +43,7 @@
 
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TUnk_804B6C24.h"
 
 BmlResource *TOTrapAncient01__bml_resource;
 
@@ -109,7 +110,6 @@ struct Trap_801797D4 : VObj_801797D4 {
 
 extern "C" {
 VObj_801797D4 *get_battle_param__10TObjPlayerFi(s32);
-s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 extern s32 lbl_805D3530;
 }
 
@@ -325,7 +325,7 @@ void TOTrapAncient01::vfunc_82() {
             if (obj_is_hit_receivable((u8 *)p) == 0) {
                 break;
             }
-            if (check_value_equals__13TUnk_804B6C24Fl(p, lbl_805D3530) == 0) {
+            if (((TUnk_804B6C24 *)p)->check_value_equals(lbl_805D3530) == 0) {
                 break;
             }
             {

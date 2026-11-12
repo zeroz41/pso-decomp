@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
 #include "pso/npc/TObjNpcBase_80149128.h"
 #include "types.h"
@@ -25,6 +26,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/npc/TObjNpcBringer.h"
 #include "pso/npc/TObjNpcEnemy.h"
+#include "pso/system/task/TObject.h"
 
 
 // ---- src/pso/npc/TObjNpcARW00.cpp (0x801480F4..0x80148274)
@@ -415,7 +417,6 @@ s32 pop_matrix(void);
 extern u8 identity_matrix[];
 u16 get_entity_id(void *);
 f64 atan2_float(f32, f32);
-s32 queue_destruction__7TObjectFv(void *);
 }
 void move_with_wall_slide(u8 *arg0);
 u8 *create_conversation_camera(s32 arg0);
@@ -596,7 +597,7 @@ void TObjNpcBase::update_conversation() {
             case 0x41F:
                 TCameraCtrl::update_active_player();
                 if (F(void *, 0x3B4) != 0) {
-                    queue_destruction__7TObjectFv(F(void *, 0x3B4));
+                    ((TObject *)(F(void *, 0x3B4)))->queue_destruction();
                     F(void *, 0x3B4) = 0;
                 }
                 break;

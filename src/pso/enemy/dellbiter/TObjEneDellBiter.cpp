@@ -59,6 +59,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/TLobby.h"
 
 extern "C" {
 f64 atan2_float(f32, f32);
@@ -133,7 +134,6 @@ extern const char *lbl_804E6C80[2];
 extern const char *lbl_804E6C88[11];
 
 extern "C" {
-u8 *dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
@@ -202,7 +202,7 @@ void TObjEneDellBiter::load_resources() {
     dellbiter_boss_stat_handle = register_boss__6TLobbyFl(0xD);
     TObjEneDellBiter__shared_handler_param = dispatch_shared_handler_b__6TLobbyFl(0xD);
     dellbiter_object_stat_handle = register_object__6TLobbyFl(0xD);
-    TObjEneDellBiter__movement_params = (DelbiterMovementParameters *)dispatch_shared_handler_a__6TLobbyFl(0xD);
+    TObjEneDellBiter__movement_params = (DelbiterMovementParameters *)TLobby::dispatch_shared_handler_a(0xD);
     TObjEneDellBiter__demo_script_step = 0;
     TObjEneDellBiter__demo_rotate_x_angle = 0;
     TObjEneDellBiter__demo_script_cursor = 0;

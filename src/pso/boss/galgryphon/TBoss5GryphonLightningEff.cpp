@@ -14,6 +14,7 @@
 #include "pso/unk/TLobby_803255F8.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/technique/TTecZondeEff.h"
 
 struct Ent_80325248 { u8 b[0xC]; };
 
@@ -48,7 +49,6 @@ struct L2_80325070 { u8 pad[0xC]; s32 *p; };
 struct L1_80325070 { u8 pad[8]; L2_80325070 *a; u8 pad2[8]; L2_80325070 *b; };
 
 extern "C" {
-void run_task__12TTecZondeEffFv(void *);
 void eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, void *, s32, void *, f32);
 void subtract_vector(void *, void *);
 extern s32 __vt__25TBoss5GryphonLightningEff[];
@@ -120,7 +120,7 @@ void TBoss5GryphonLightningEff::render() {
 }
 void TBoss5GryphonLightningEff::run_task() {
     Obj_80325248 *arg0 = (Obj_80325248 *)this;
-    run_task__12TTecZondeEffFv(arg0);
+    ((TTecZondeEff *)arg0)->TTecZondeEff::run_task();
     if ((3.0517578e-05f) * (f32)rand() > (0.95f)) {
         s32 i = (f32)arg0->n * ((3.0517578e-05f) * (f32)rand());
         spawn_particle_effect_with_flags(&arg0->ents[i], 0x215, 0x40);

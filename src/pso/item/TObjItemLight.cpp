@@ -8,13 +8,13 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer.h"
 
 struct Light_80191F90 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x18]; f32 rot[3]; u8 pad68[0x28]; f32 f90; void *f94; };
 
 struct Ply_80191F90 { u8 pad0[0x38]; f32 pos[3]; };
 
 extern "C" {
-s32 is_locally_controlled__10TObjPlayerFPv(void *);
 s32 get_current_floor();
 s32 is_item_light_interaction_blocked();
 f32 xz_distance_squared(void *, void *);
@@ -41,7 +41,7 @@ void run_task__13TObjItemLightFv(Light_80191F90 *arg0) {
     for (i = 0; i < 4; i++) {
         p = get_player_by_client_id(i);
         if (p != 0 && ((TObjPlayer *)p)->get_floor() == get_current_floor()
-            && is_locally_controlled__10TObjPlayerFPv(p) != 0
+            && TObjPlayer::is_locally_controlled(p) != 0
             && xz_distance_squared(p->pos, arg0->pos) < arg0->f90 * arg0->f90) {
             ((TObjBase *)arg0)->set_event_source_flag(8);
             ((TObject *)arg0)->queue_destruction();

@@ -2,6 +2,8 @@
 #include "pso/ui/window/TWindowRoom.h"
 #include "pso/ui/window/TWindowArea.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowDD.h"
 
 struct RecoveredGlobal_8024470C___vt__11TWindowArea { s32 value; u8 remaining[0x14]; };
 typedef char RecoveredGlobal_8024470C___vt__11TWindowArea_size[sizeof(RecoveredGlobal_8024470C___vt__11TWindowArea) == 0x18 ? 1 : -1];
@@ -12,11 +14,9 @@ u8 * __ct__11TWindowRoomFPc(void *, s32);
 extern s32 __vt__11TWindowArea[];
 extern s32 lbl_805D3880;
 extern const f32 lbl_805DCAC4;
-int update_window_entry_list__11TWindowBaseFPv(void*, void*);
 void __dl__7TObjectFPv(void *);
-int initialize_subwindow__9TWindowDDFv(void*);
 
-void TWindowArea::run_task() { initialize_subwindow__9TWindowDDFv(this); update_window_entry_list__11TWindowBaseFPv(this, (char*)this + 0x24); }
+void TWindowArea::run_task() { ((TWindowDD *)this)->initialize_subwindow(); ((TWindowBase *)this)->update_window_entry_list((char*)this + 0x24); }
 
 void *__dt__11TWindowAreaFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

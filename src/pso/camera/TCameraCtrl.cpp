@@ -13,6 +13,7 @@
 #include "pso/camera/CreationCamera.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/camera/TCameraCtrl.h"
 
 struct RecoveredGlobal_8006ABAC_lbl_804FF61C {
     s32 value;
@@ -319,7 +320,6 @@ extern s16 TCameraCtrl__viewport_x;
 extern s16 TCameraCtrl__viewport_y;
 s32 set_perspective_projection_from_fov(int, f32, f32, f32);
 s32 get_entity_id(void *);
-s32 get_camera_mode__11TCameraCtrlFv();
 s32 TCameraCtrl__sub_8006B358(void *p);
 extern void *camera_controller_registry[13];
 extern u8 *camera_ctrl_instance;
@@ -1936,7 +1936,7 @@ s32 TCameraCtrl::get_camera_target_id(s32 arg0) {
         if (arg0 < 0) {
             var_r3 = arg0;
         } else {
-            var_r3 = get_camera_mode__11TCameraCtrlFv();
+            var_r3 = TCameraCtrl::get_camera_mode();
         }
         if (var_r3 >= 4) {
             return 0xFFFF;

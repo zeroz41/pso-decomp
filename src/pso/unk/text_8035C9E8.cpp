@@ -5,8 +5,8 @@
 #include "pso/unk/TLobby.h"
 #include "pso/object/switch/TOSwitchItem.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer.h"
 extern "C" {
-void *get_player_data__10TObjPlayerFi(int);
 void *get_entity_id(void *);
 s32 TBoss4Type3__sub_8005254C(void *);
 }
@@ -15,7 +15,7 @@ s32 any_player_has_listed_item(void) {
     s32 n = TLobby::get_game_mode();
     s32 i;
     for (i = 0; i < n; i++) {
-        void *pl = get_player_data__10TObjPlayerFi(i);
+        void *pl = TObjPlayer::get_player_data(i);
         if (pl != NULL && TBoss4Type3__sub_8005254C(get_entity_id(pl)) != 0) {
             s32 j;
             for (j = 0; j < 3; j++) {

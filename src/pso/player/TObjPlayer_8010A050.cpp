@@ -9,6 +9,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
+#include "pso/item/TItemData.h"
 
 struct Obj_8010A1D0 {
     u8 pad0[0x18];
@@ -100,7 +101,6 @@ void *spawn_particle_effect(void *pos, s32 id);
 s32 is_item_area_enabled();
 void *get_player_by_client_id(s32 i);
 s16 count_nearby_players_with_shield__10TObjPlayerFUsPUc(u16, s8 *);
-s32 init__9TItemDataFv(s8 *);
 
 void *create_particle_emitter(void *pos, s32 id);
 s32 get_current_floor();
@@ -122,7 +122,7 @@ void TUnk_8049F130::run_task() {
         return;
     }
     if (120.0f == (f32) *(s32 *)&this->unk_1C) {
-        init__9TItemDataFv(&sp8.a);
+        ((TItemData *)(&sp8.a))->init();
         sp8.a = 1;
         sp8.b = 2;
         sp8.c = *(u8 *)((s8 *)this + 0x2A);

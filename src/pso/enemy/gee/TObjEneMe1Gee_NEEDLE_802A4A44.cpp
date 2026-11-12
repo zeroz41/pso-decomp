@@ -14,6 +14,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/enemy/gigue/TObjEneMe1GiGueMissile.h"
 
 struct VBase_18_174c10 { char pad[0x18]; };
 
@@ -104,7 +105,6 @@ struct RecoveredGlobal_802A4CC4_lbl_804DCFF8 {
 
 extern "C" {
 s32 TObjPlayer__sub_802A445C(void *, s32);
-s32 update_lifetime__22TObjEneMe1GiGueMissileFv(void *);
 u16 get_entity_id(void *);
 u8 * TNeedleShoot__ct(void *, s32, void *, void *);
 extern RecoveredGlobal_802A4CC4_lbl_804DCFF8 __vt__20TObjEneMe1Gee_NEEDLE;
@@ -146,7 +146,7 @@ void TObjEneMe1Gee_NEEDLE::run_task() {
     }
     if ((s32) this->m_b8 == 1) {
         update_position();
-        update_lifetime__22TObjEneMe1GiGueMissileFv(this);
+        ((TObjEneMe1GiGueMissile *)this)->update_lifetime();
         TObjPlayer__sub_802A445C(this, 1);
         return;
     }
