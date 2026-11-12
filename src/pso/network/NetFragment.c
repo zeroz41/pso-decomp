@@ -183,12 +183,12 @@ s32 TLobby__sub_80418D7C(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_of
   NetFragment *cur;
   NetFragment *n0;
   s16 i;
-  s16 n;
+  NetPacketFragment *ep;
   s16 res;
   s32 len;
   s16 ls;
   s32 sum;
-  NetPacketFragment *ep;
+  s16 n;
   u32 off;
   NetFragment *nx;
   s16 cnt;
