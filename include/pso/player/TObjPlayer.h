@@ -428,7 +428,6 @@ struct TObjPlayer : public TObjChara {
     static void free_effect_resources();
     void clear_flag_04000000();
     void set_invuln_flags();
-    void *dt(s16 arg1);
     void cancel_action();
     s32 get_action_priority();
     void draw_model_no_fog();

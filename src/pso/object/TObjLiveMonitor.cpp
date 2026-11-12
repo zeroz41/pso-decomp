@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/TObjLiveMonitorSmall.h"
 #include "pso/object/TObjLiveMonitor.h"
 #include "types.h"
@@ -55,7 +56,6 @@ s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__14TObjLiveCamera[];
 extern s32 TObjLiveCamera__class_name;
 int free_bin_model_request(void*, void*);
-void __dl__7TObjectFPv(void *);
 extern void *tl_05;
 typedef char RecoveredGlobal_8030B708___vt__14TObjLiveCamera_size[sizeof(RecoveredGlobal_8030B708___vt__14TObjLiveCamera) == 0x34 ? 1 : -1];
 int update_single_screen__11TCameraCtrlFv(void*);
@@ -85,7 +85,6 @@ struct Cam_8030BED4 {
     u8 f54[4];
 };
 extern "C" {
-void queue_destruction__7TObjectFv(void *);
 void update_toggle_state__12TBoss8DragonFv(void *);
 void update_live_camera__12TBoss8DragonFv(void *);
 void choose_next_camera_shot__12TBoss8DragonFv(void *);
@@ -94,7 +93,6 @@ void subtractive_rng_seed(void *, s32);
 s32 __ct__14SubtractiveRngFv(void *);
 u8 *fn_800832EC(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 s32 is_room_enemy_set_cleared(s32 floor, s16 room);
-extern s32 __vt__18TObjLiveCameraCtrl[];
 extern s32 TObjLiveCameraCtrl__class_name;
 extern s32 tl_particlemodel;
 extern s32 live_camera_controller_next_slot;
@@ -104,7 +102,6 @@ s32 memset(s32 *, s32, s32);
 }
 void reset_globals_805D6A84(void);
 extern "C" {
-void __dt__7TObjectFv(void *, s32);
 }
 
 void reset_globals_805D6A84(void) {
@@ -166,20 +163,9 @@ TObjLiveCameraCtrl::TObjLiveCameraCtrl(TObject *parent) : TObject(parent) {
     ((Cam_8030BED4 *)this)->f50 = p;
 }
 
-extern "C" {
-TObjLiveCameraCtrl *__dt__18TObjLiveCameraCtrlFv(TObjLiveCameraCtrl *self, s16 flag) {
-    if (self != NULL) {
-        *(s32 **)((s8 *)self + 0x18) = __vt__18TObjLiveCameraCtrl;
-        ((TObject **)&TObjLiveCameraCtrl__instances)[self->slot_index] = NULL;
-        if (self->camera_object != NULL) queue_destruction__7TObjectFv(self->camera_object);
-        __dt__7TObjectFv(self, 0);
-        if (flag > 0) {
-            __dl__7TObjectFPv(self);
-        }
-    }
-    return self;
-}
-
+TObjLiveCameraCtrl::~TObjLiveCameraCtrl() {
+    ((TObject **)&TObjLiveCameraCtrl__instances)[slot_index] = NULL;
+    if (camera_object != NULL) camera_object->queue_destruction();
 }
 void TObjLiveCameraCtrl::run_task() {
     update_toggle_state__12TBoss8DragonFv(this);
@@ -377,20 +363,11 @@ u8 *TObjLiveCamera__ct(u8 *live_camera, s32 parent, s32 arg2) {
     return live_camera;
 }
 
-void *__dt__14TObjLiveCameraFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TObjLiveCamera;
-        __dt__8TObjBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TObjLiveCamera::~TObjLiveCamera() {}
 
-void run_task__14TObjLiveCameraFv(void) {  }
+void TObjLiveCamera::run_task() {  }
 
-void render__14TObjLiveCameraFv(void) {  }
+void TObjLiveCamera::render() {  }
 
 void TObjLiveCamera::load_static_resource() {
     s32 temp_r3;

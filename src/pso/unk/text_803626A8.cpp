@@ -50,94 +50,7 @@ struct RecoveredGlobal_803626A8_lbl_8058D490 {
     u8 remaining[0x2C];
 };
 
-struct RecoveredGlobal_80362B48___vt__14TObjEneEpsilon {
-    s32 value;
-    u8 remaining[0x1A0];
-};
 
-
-struct VBase_18_c22f9c
-{
-  char pad[0x18];
-};
-
-struct VObj_18_c22f9c : VBase_18_c22f9c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63(s32, void *);
-};
-
-struct T_80362C80
-{
-  u8 pad0[0xF0];
-  VObj_18_c22f9c *obj;
-};
-
-struct S_80362C80
-{
-  s32 v;
-};
 
 struct Leaf_803627DC { u8 pad[4]; s32 v; };
 
@@ -163,7 +76,6 @@ public:
 
 extern const f32 lbl_805E0258;
 extern const f32 lbl_805E025C;
-void s_rank_knuckle_equip(u8 *arg0);
 extern "C" {
 u8 *__nw__5TItemFUl(s32);
 s32 matrix_mult_vec(int, void *, void *);
@@ -173,16 +85,9 @@ s32 pop_matrix();
 f32 post_translate_matrix(void *);
 extern RecoveredGlobal_803626A8_lbl_80479FBC lbl_80479FBC;
 extern RecoveredGlobal_803626A8_lbl_8058D490 identity_matrix;
-void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
-s32 __dl__7TObjectFPv(void *);
-s32 __destroy_arr(void *, void *, int, int);
-extern s32 __dt__15RenderFadeStateFv[];
-extern s32 __vt__14TObjEneEpsilon[];
-u8 *__dt__14TObjEneEpsilonFv(u8 *arg0, s16 arg1);
 void *spawn_particle_effect(void *pos, s32 id);
 s16 get_validated_attack_stage(u8 *arg0);
 extern s32 knuckle_marker_joint_table[];
-void s_rank_knuckle_marker(T_80362C80 *arg0);
 s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
@@ -208,48 +113,53 @@ extern const f32 lbl_805E0248;
 extern const f32 lbl_805E024C;
 extern const f32 lbl_805E0250;
 void free_bin_model_request(void *, int);
-void *__dt__13TUnk_804F26E0Fv(void *arg0, s16 arg1);
 void __construct_array(void *, void *, void *, int, int);
-void *__dt__13TUnk_804A4948Fv(void *arg0, s16 arg1);
 
 extern const char *TObjEneEpsilon__class_name;
 
 typedef char RecoveredGlobal_803626A8_lbl_80479FBC_size[sizeof(RecoveredGlobal_803626A8_lbl_80479FBC) == 0xC ? 1 : -1];
 typedef char RecoveredGlobal_803626A8_lbl_8058D490_size[sizeof(RecoveredGlobal_803626A8_lbl_8058D490) == 0x30 ? 1 : -1];
-void TObjEneEpsilonGuard::sub_803626A8(s32 arg1, s32 arg2) {
-    typedef char sp8_offset[(offsetof(Stack_803626A8, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_803626A8, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_803626A8, sp10) == 0x8) ? 1 : -1];
-    Stack_803626A8 stack;
-    stack.sp8 = *(s32 *)((s8 *)&lbl_80479FBC.value + 0);
-    stack.spC = *(s32 *)((s8 *)&lbl_80479FBC.value + 4);
-    stack.sp10 = *(s32 *)((s8 *)&lbl_80479FBC.value + 8);
-    push_matrix_from((void *)&identity_matrix.value);
-    post_translate_matrix((void *) (((u8 *)this) + 0x38));
-    rotate_matrix_y(0, this->rotation_y);
-    this->calc_joint_matrices(this->frame);
-    pop_matrix();
-    push_matrix_from(anim_model_matrix_array[arg2]);
-    matrix_mult_vec(0, (void *)&stack.sp8, (void *)arg1);
-    pop_matrix();
 }
 
-typedef char RecoveredGlobal_80362B48___vt__14TObjEneEpsilon_size[sizeof(RecoveredGlobal_80362B48___vt__14TObjEneEpsilon) == 0x1A4 ? 1 : -1];
+u8 *create_s_rank_knuckle(u8 *arg0);
 
-void TObjEneEpsilonGuard::free_shared_resources() {
-    if ((*(V_8036274C * *)&lbl_805D6FA4) != NULL) {
-        delete (*(V_8036274C * *)&lbl_805D6FA4);
-        (*(V_8036274C * *)&lbl_805D6FA4) = NULL;
+// The original TU was compiled deferred: functions are written last-to-first.
+#pragma defer_codegen on
+
+TUnk_804F26E0::~TUnk_804F26E0() {}
+
+u8 *create_s_rank_knuckle(u8 *arg0) {
+    if (arg0 != NULL) {
+        return (u8 *)new TUnk_804F26E0(tl_05, arg0);
     }
-    if ((*(V_8036274C * *)&lbl_805D6FA8) != NULL) {
-        delete (*(V_8036274C * *)&lbl_805D6FA8);
-        (*(V_8036274C * *)&lbl_805D6FA8) = NULL;
-    }
-    if ((*(u32 *)&lbl_805D6FA0) != 0) {
-        free_bin_model_request((void *)(*(u32 *)&lbl_805D6FA0), 1);
-        (*(u32 *)&lbl_805D6FA0) = 0;
-    }
+    return NULL;
 }
+
+TUnk_804F26E0::TUnk_804F26E0(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {}
+
+// S-rank knuckle marker (was s_rank_knuckle_marker): effect at the owner's knuckle joint.
+void TUnk_804F26E0::vfunc_62() {
+  u8 sp8[0x10];
+  s32 n;
+  owner->get_anim_node_position(knuckle_marker_joint_table[(owner->has_valid_handle() * 3) + get_validated_attack_stage(((u8 *)owner) + 0x7CC)], (Vec *)sp8);
+  spawn_particle_effect(sp8, 0x1D0);
+}
+
+// S-rank knuckle equip hook (was s_rank_knuckle_equip): sets the owner's EVP.
+void TUnk_804F26E0::vfunc_57() {
+    ((PlayerAttackState *)(*(s32 *)&this->owner + 0x7CC))->set_evp(lbl_805E025C);
+}
+
+void TUnk_804F26E0::vfunc_58() {
+    ((PlayerAttackState *)(*(s32 *)&this->owner + 0x7CC))->set_evp(lbl_805E0258);
+}
+
+TObjEneEpsilon::TObjEneEpsilon(TObject *parent) : TObjEneDD_ST(parent) {
+    m_name = TObjEneEpsilon__class_name;
+    check_state_flag_4();
+}
+
+TObjEneEpsilon::~TObjEneEpsilon() {}
 
 void TObjEneEpsilonGuard::load_assets() {
     u8 *p;
@@ -296,67 +206,46 @@ void TObjEneEpsilonGuard::load_assets() {
     }
 }
 
-u8 *__dt__14TObjEneEpsilonFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80362B48___vt__14TObjEneEpsilon *)&__vt__14TObjEneEpsilon).value;
-        __destroy_arr(arg0 + 0x3C0, &__dt__15RenderFadeStateFv, 0x1C, 4);
-        __dt__12TObjEneDD_STFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
+void TObjEneEpsilonGuard::free_shared_resources() {
+    if ((*(V_8036274C * *)&lbl_805D6FA4) != NULL) {
+        delete (*(V_8036274C * *)&lbl_805D6FA4);
+        (*(V_8036274C * *)&lbl_805D6FA4) = NULL;
     }
-    return arg0;
-}
-
-TObjEneEpsilon::TObjEneEpsilon(TObject *parent) : TObjEneDD_ST(parent) {
-    m_name = TObjEneEpsilon__class_name;
-    check_state_flag_4();
-}
-
-extern s32 __vt__13TUnk_804F26E0[];
-
-void TUnk_804F26E0::vfunc_62() {
-    ((PlayerAttackState *)(*(s32 *)&this->owner + 0x7CC))->set_evp(lbl_805E0258);
-}
-}
-u8 *create_s_rank_knuckle(u8 *arg0);
-void s_rank_knuckle_equip(u8 *arg0) {
-    ((PlayerAttackState *)(*(s32 *)((s8 *)arg0 + 0xF0) + 0x7CC))->set_evp(lbl_805E025C);
-}
-
-typedef struct S_80362C80 S_80362C80;
-typedef struct T_80362C80 T_80362C80;
-typedef struct VBase_18_c22f9c VBase_18_c22f9c;
-typedef struct VObj_18_c22f9c VObj_18_c22f9c;
-
-void s_rank_knuckle_marker(T_80362C80 *arg0) {
-  u8 sp8[0x10];
-  s32 n;
-  arg0->obj->m63(knuckle_marker_joint_table[(((TObjPlayer *)(arg0->obj))->has_valid_handle() * 3) + get_validated_attack_stage(((u8 *) arg0->obj) + 0x7CC)], sp8);
-  spawn_particle_effect(sp8, 0x1D0);
-}
-
-TUnk_804F26E0::TUnk_804F26E0(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {}
-u8 *create_s_rank_knuckle(u8 *arg0) {
-    if (arg0 != NULL) {
-        return (u8 *)new TUnk_804F26E0(tl_05, arg0);
+    if ((*(V_8036274C * *)&lbl_805D6FA8) != NULL) {
+        delete (*(V_8036274C * *)&lbl_805D6FA8);
+        (*(V_8036274C * *)&lbl_805D6FA8) = NULL;
     }
-    return NULL;
+    if ((*(u32 *)&lbl_805D6FA0) != 0) {
+        free_bin_model_request((void *)(*(u32 *)&lbl_805D6FA0), 1);
+        (*(u32 *)&lbl_805D6FA0) = 0;
+    }
 }
+
+void TObjEneEpsilonGuard::sub_803626A8(s32 arg1, s32 arg2) {
+    typedef char sp8_offset[(offsetof(Stack_803626A8, sp8) == 0x0) ? 1 : -1];
+    typedef char spC_offset[(offsetof(Stack_803626A8, spC) == 0x4) ? 1 : -1];
+    typedef char sp10_offset[(offsetof(Stack_803626A8, sp10) == 0x8) ? 1 : -1];
+    Stack_803626A8 stack;
+    stack.sp8 = *(s32 *)((s8 *)&lbl_80479FBC.value + 0);
+    stack.spC = *(s32 *)((s8 *)&lbl_80479FBC.value + 4);
+    stack.sp10 = *(s32 *)((s8 *)&lbl_80479FBC.value + 8);
+    push_matrix_from((void *)&identity_matrix.value);
+    post_translate_matrix((void *) (((u8 *)this) + 0x38));
+    rotate_matrix_y(0, this->rotation_y);
+    this->calc_joint_matrices(this->frame);
+    pop_matrix();
+    push_matrix_from(anim_model_matrix_array[arg2]);
+    matrix_mult_vec(0, (void *)&stack.sp8, (void *)arg1);
+    pop_matrix();
+}
+
 extern "C" {
-
-void *__dt__13TUnk_804F26E0Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804F26E0;
-        __dt__13TUnk_804A4948Fv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
 
 __declspec(section ".data") const char *bm_ene_epsilon_model_names[8] = { lbl_80479EA0, lbl_80479EB0, lbl_80479EC4, lbl_80479ED8, lbl_80479EE8, lbl_80479EF4, lbl_80479F04, NULL };
 __declspec(section ".data") const char *bm_ene_epsilon_motion_names[5] = { lbl_80479F18, lbl_80479F34, lbl_80479F50, lbl_80479F70, NULL };
 }
 BmlResourceDescriptor TObjEneEpsilonGuard__resource_descriptor = { lbl_80479F88, bm_ene_epsilon_model_names, bm_ene_epsilon_motion_names, 7, 4 };
+
+// Pointed at by lbl_80479FAC.b, the spawn record load_assets passes to TLobby::spawn_npc_enemy.
+struct Unk_804F252C { s32 unk_0; s32 unk_4; f32 unk_8; s32 unk_C; };
+Unk_804F252C lbl_804F252C = { 0x10000, 0, 0.3f, 0 };

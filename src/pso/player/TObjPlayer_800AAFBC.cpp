@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/player/TUnk_80491460.h"
@@ -280,16 +281,10 @@ void TUnk_80491460::run_task() {
   while (var_r31 < 0xC);
 }
 
-void *TObjPlayer::dt(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_80491460;
-        if ((void *)this->rotation_x != NULL) { queue_destruction__7TObjectFv((void *)this->rotation_x); }
-        __dt__7TObjectFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
+TUnk_80491460::~TUnk_80491460() {
+    if (particle != NULL) {
+        particle->queue_destruction();
     }
-    return this;
 }
 
 }

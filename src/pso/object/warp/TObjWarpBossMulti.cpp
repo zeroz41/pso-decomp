@@ -354,7 +354,6 @@ s32 TObjWarpBossMulti__create(s32 arg0);
 }
 void __dl__7TObjectFPv(void *);
 u8 *__dt__12TObjAreaWarpFv(u8 *arg0, s16 arg1);
-void *__dt__12TObjWarpBossFv(void *arg0, s16 arg1);
 struct Base2_8019f358_8019F22C { char pad[0x18]; };
 struct VObj2_8019f358_8019F22C : Base2_8019f358_8019F22C { virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7(); virtual s32 m8(f32, f32); };
 
@@ -1219,17 +1218,9 @@ void TObjWarpBoss::run_task() {
         }
     }
 }
-void *__dt__12TObjWarpBossFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjWarpBoss;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        close_windows__12TObjWarpBossFv(arg0);
-        __dt__12TObjAreaWarpFv((u8 *)arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TObjWarpBoss::~TObjWarpBoss() {
+    unregister_object_by_id();
+    close_windows();
 }
 Obj_8019F578 *TObjWarpBoss__ct(Obj_8019F578 *self, int _w1, void * _w2) {
     int i;
