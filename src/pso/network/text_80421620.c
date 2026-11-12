@@ -97,8 +97,6 @@ s16 TLobby__sub_8040F454(s32, s32, s32, s16);
 s16 TLobby__sub_80412CA4(void *, s16, s16, s16, s32);
 s16 TLobby__sub_8042315C(s16 arg0, P_8042315C *p);
 u8 lbl_805C1E00[0x1194];
-extern u8 lbl_805C2F94[0x100];
-extern u8 dhcp_server_id[4];
 s32 cleanup_subsystems(void) {
     TLobby__sub_80419A7C();
     TLobby__sub_80409AA8();
@@ -1066,8 +1064,6 @@ void TLobby__sub_80423298(void) {
     }
 }
 
-extern s32 lbl_805D7B2C;
-extern s32 lbl_805D7B30;
 extern s32 lbl_805D7B80;
 s32 find_dhcp_option(u8 *p, u8 tag, u8 **out);
 void parse_dhcp_lease_times(u8 *packet);

@@ -32,7 +32,6 @@ struct VObj_80335580_803354A4 : Base_80335580_803354A4 {
 extern "C" {
 
 int TKeyBoardControl__sub_8000F9CC(void*);
-int stop_audio_streams__6TLobbyFv(void*);
 
 void TAdTrialModemChkGC__sub_803354A4(void) {  }
 void TAdTrialModemChkGC::check_modem_result() {
@@ -43,7 +42,7 @@ void TAdTrialModemChkGC::check_modem_result() {
     }
     TAdTrialModemChkGC__sub_8007FA24(1);
 }
-int TAdTrialModemChkGC__sub_803354E8(void* p) { return stop_audio_streams__6TLobbyFv(p); }
+void TAdTrialModemChkGC__sub_803354E8(void) { TLobby::stop_audio_streams(); }
 
 void TAdTrialModemChkGC::render() {
     struct VObj_80335508_803354A4 *o = (struct VObj_80335508_803354A4 *)this;

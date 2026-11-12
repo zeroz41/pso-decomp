@@ -67,7 +67,20 @@ typedef struct DhcpOption_804FD948 {
     s16 size;
     void *data;
 } DhcpOption_804FD948;
-extern DhcpOption_804FD948 lbl_804FD948[12];
+DhcpOption_804FD948 lbl_804FD948[12] = {
+    { 0x1, 0, 1, 4, &lbl_805D7B2C },
+    { 0x2, 0, 1, 4, &lbl_805D7B30 },
+    { 0x3, 0, 0, 0x100, lbl_805C2F94 },
+    { 0x4, 0, 1, 4, &lbl_805D7B34 },
+    { 0x5, 0, 1, 4, &lbl_805D7B38 },
+    { 0x6, 0, 1, 4, &lbl_805D7B3C },
+    { 0x7, 0, 1, 4, &dhcp_lease_time },
+    { 0x8, 0, 1, 4, &dhcp_renewal_time },
+    { 0x9, 0, 1, 4, &dhcp_rebinding_time },
+    { 0xE, 0, 1, 4, dhcp_server_id },
+    { 0xF, 0, 1, 4, &lbl_805D7B28 },
+    { 0x10, 0, 0, 0x20, dhcp_hostname },
+};
 void TLobby__sub_803F97E8(s32);
 s16 TUdpSocket__sub_80421DEC(void *, int, void *, int, int, s32 (*)(s16, Arg_804249F0 *));
 s32 TLobby__sub_80424DCC(s16, s32, s32, void *, void *, void *, void *, s32);

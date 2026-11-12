@@ -1,5 +1,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "types.h"
+#include "pso/unk/text_801A3014.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/system/main_loop.h"
 #include "pso/system/vector.h"
@@ -189,8 +190,6 @@ extern s32 local_client_id;
 extern s32 actor_frame_tick;
 extern s32 lbl_805D5CE0;
 extern s32 TLobby__lobby_state_flags;
-void init_offline_game_scene(void);
-void dispatch_offline_main_frame(void);
 
 typedef char RecoveredGlobal_801A3540_lbl_804C1F68_size[sizeof(RecoveredGlobal_801A3540_lbl_804C1F68) == 0x180 ? 1 : -1];
 typedef char RecoveredGlobal_801A3540_lbl_80515BA0_size[sizeof(RecoveredGlobal_801A3540_lbl_80515BA0) == 0x28 ? 1 : -1];

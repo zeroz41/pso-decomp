@@ -29,6 +29,24 @@ extern "C" void apply_anti_technique__9TObjCharaFl();
 #include "pso/unk/TLobby.h"
 #include "pso/enemy/dubchik/TOCtrlDubchik.h"
 #include "pso/map/FloorArea.h"
+#include "pso/ui/TLogo.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC_8023F4E4.h"
+#include "pso/unk/text_8023F3F8.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/ui/keyboard/TKeyBoardControl_802A1180.h"
+#include "pso/unk/text_802A1154.h"
+#include "pso/unk/text_80290BEC.h"
+#include "pso/ui/frontend/TAdEndText.h"
+#include "pso/ui/frontend/TAdEndText_80307A34.h"
+#include "pso/system/scene/TEnding.h"
+#include "pso/unk/text_8008C4F4.h"
+#include "pso/unk/text_801A3014.h"
+#include "pso/unk/TLobby_801A3C48.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8033A8EC.h"
+#include "pso/ui/frontend/TAdTrialModemChkGC.h"
+#include "pso/item/TItemReverseTech.h"
 
 struct VBase_800172CC { u8 pad[0x18]; };
 
@@ -946,7 +964,30 @@ extern const f64 lbl_80434098;
 extern const f64 lbl_804340A0;
 extern u8 lbl_804340A8[];
 extern s32 lbl_804340B0[];
-extern SceneEntry_8000FD54 main_phase_table[];
+SceneEntry_8000FD54 main_phase_table[] = {
+    { NULL, NULL, NULL },
+    { TLogo::init_logo_scene, TLogo::run_frame, TLogo__sub_8013F5AC },
+    { TAdMultiChgGameModeGC__sub_8023F62C, fn_8023F3F8, TLobby::release_scene_resources },
+    { TKeyBoardControl::update_menu_scene, update_movie_phase, fn_802A1154 },
+    { TAdMultiChgGameModeGC__sub_8023F4E4, fn_8023F3F8, TLobby::release_scene_resources },
+    { TKeyBoardControl::update_main_menu_scene, run_main_frame, fn_80290BEC },
+    { TAdMultiChgGameModeGC::render_game_mode_change, fn_8023F3F8, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC__sub_8023F5B4, fn_8023F3F8, TLobby::release_scene_resources },
+    { start_ending_sequence, TKeyBoardControl::run_main_frame, TAdEndText::cleanup },
+    { TAdMultiChgGameModeGC::render_scene, fn_8023F3F8, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC__sub_8023F564, fn_8023F3F8, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC__sub_8023F58C, fn_8023F3F8, TLobby::release_scene_resources },
+    { TEnding::set_flag_and_advance, run_game_frame, fn_8008C4F4 },
+    { TAdMultiChgGameModeGC__sub_8023F50C, fn_8023F3F8, TLobby::release_scene_resources },
+    { init_offline_game_scene, dispatch_offline_main_frame, TLobby::teardown_scene },
+    { run_online_lobby_scene, TLobby::update_camera_state, cleanup_online_lobby_scene },
+    { TEnding::start_ending_scene, run_game_frame, fn_8008C4F4 },
+    { NULL, NULL, NULL },
+    { init_single_player_char_select_scene, TAdSinglePlyChrSelectGC::run_frame, TAdSinglePlyChrSelectGC__sub_8033B264 },
+    { TAdTrialModemChkGC__sub_803354E8, TAdTrialModemChkGC::check_modem_result, TAdTrialModemChkGC__sub_803354A4 },
+    { NULL, NULL, NULL },
+    { TItemReverseTech::init_scene, TItemReverseTech::run_frame, TItemReverseTech::run_cleanup_callbacks },
+};
 extern SceneState_8000FD54 main_phase_state;
 extern Vec_800182A0 scratch_vec;
 extern RecoveredGlobal_80010E44_lbl_8050EA40 lobby_rule_settings;

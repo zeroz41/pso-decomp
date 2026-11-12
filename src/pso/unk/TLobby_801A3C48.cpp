@@ -1,6 +1,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "types.h"
+#include "pso/unk/TLobby_801A3C48.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/system/debug_print.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -209,7 +210,6 @@ extern RecoveredGlobal_801A4610_lbl_804C2240 lobby_area_reload_callbacks;
 extern unsigned char lbl_80515BA0[];
 extern s32 local_client_id;
 extern s32 online_lobby_scene_handle;
-void cleanup_online_lobby_scene(void);
 void process_pending_resources(void);
 void clear_quest_floor_designations(void);
 extern u8 TLobby__data_805011D8[];
@@ -218,7 +218,6 @@ extern u8 game_variations[];
 extern int TLobby__new_game_setup_flags;
 extern u32 quest_area_manager;
 s32 change_floor_reload_area(void);
-void run_online_lobby_scene(void);
 void load_battle_param_entry(void);
 extern s32 TLobby__lobby_number;
 void reload_lobby_floor_scene(void);

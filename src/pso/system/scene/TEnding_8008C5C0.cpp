@@ -90,7 +90,6 @@ u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 void __ct__7TEndingFv(void *);
 void run_load_callback_table(void *, int);
 void set_copy_clear_color_argb(int, int, int);
-int render_tick__Fv(void);
 void *__nw__7TObjectFUl(int);
 extern Vec_8008C5E8 lbl_80439570;
 extern Vec_8008C5E8 lbl_8043957C;
@@ -103,7 +102,7 @@ void TEnding::set_flag_and_advance() {
     TEnding::start_ending_scene();
 }
 
-int TEnding::start_ending_scene() {
+void TEnding::start_ending_scene() {
     void *p;
     set_screen_size(1.0f, 0.85f);
     set_copy_clear_color_argb(0, 0, 0);
@@ -127,7 +126,7 @@ int TEnding::start_ending_scene() {
     if (p != 0) {
         __ct__7TEndingFv(p);
     }
-    return render_tick__Fv();
+    render_tick();
 }
 
 void TEnding__sub_8008C6E8() {}

@@ -27,7 +27,7 @@ pso/ui/keyboard/TKeyBoardControl_8000F824.cpp:
 pso/player/TObjPlayer_80011014.cpp:
 	.text       start:0x8000FD54 end:0x80019848
 	.rodata     start:0x80434080 end:0x80434090
-	.data       start:0x804806E8 end:0x804808EC
+	.data       start:0x804805E0 end:0x804808EC
 	.sdata2     start:0x805D7D18 end:0x805D7DCC
 
 pso/ui/frontend/TAdADXlogo.cpp:
@@ -12515,6 +12515,7 @@ pso/network/text_80421620.c:
 
 pso/network/NetworkPacketRuntime.c:
 	.text       start:0x804245DC end:0x80425B70
+	.data       start:0x804FD948 end:0x804FD9D8
 	.bss        start:0x805C30C0 end:0x805CF240
 
 pso/network/NetworkMessageTransport.c:
@@ -12538,9 +12539,9 @@ pso/network/TLobby_80429598.c:
 
 pso/network/ModemRuntime.cpp:
 	.text       start:0x8042BF48 end:0x8042E8C4
-	.data       start:0x804FDA20 end:0x804FDA78
+	.data       start:0x804FDA20 end:0x804FDAD0
 	.bss        start:0x805D1D20 end:0x805D1E40
-	.sdata      start:0x805D4840 end:0x805D489C
+	.sdata      start:0x805D4840 end:0x805D4940
 
 pso/unk/text_8042E8C4.cpp:
 	.text       start:0x8042E8C4 end:0x8042E9FC
