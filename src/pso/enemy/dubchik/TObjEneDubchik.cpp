@@ -113,10 +113,6 @@ struct VObj_18_fe09eb : VBase_18_fe09eb {
     virtual s32 m63(s32, void *);
 };
 
-struct Mdl_800AA82C { u8 pad[8]; s32 f8; s32 fC; };
-
-struct Res_800AA82C { u8 pad[0x42C]; Mdl_800AA82C *mdl; s32 f430; };
-
 struct Node_800AA82C { u32 flags; u8 pad[0x30 - 4]; s32 f30; };
 
 struct Desc_800AA82C { s32 a; void *b; s32 c; s32 d; };
@@ -136,7 +132,6 @@ void TObjPlayer__sub_800A8FB4(void *arg0_);
 void free_bin_model_request(void *, s32);
 extern s32 lbl_80500AF0[];
 extern s32 lbl_80500AF8[];
-struct Res_800AA82C;
 Res_800AA82C *dubchik_resource;
 NJS_TEXLIST *dubchik_texlist;
 NJS_TEXLIST *dubchik_variant_texlist;

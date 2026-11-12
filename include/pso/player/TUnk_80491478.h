@@ -17,9 +17,8 @@ public:
     s32 get_action_priority();  // 1 once it has settled (state 3)
     s16 part_index;  // the ctor's index: picks the model node and the part's direction
     s16 m_ae;
-    u8 unk_B0[0x4];
-    f32 m_b4;
-    u8 unk_B8[0x8];
+    Vec velocity;  // the push it falls apart with; y is its fall speed (gravity 0.109 a frame)
+    u8 unk_BC[0x4];
     s32 rot_y;  // render's rotate_matrix_y angle (inferred)
     u8 unk_C4[0x4];
     s32 m_c8;

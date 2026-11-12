@@ -1924,7 +1924,8 @@ pso/player/TObjPlayer_80084B84.cpp
 pso/player/TObjPlayer_80090448.cpp
 pso/player/TObjPlayer_80092A7C.cpp
 pso/player/TObjPlayer_80099EF8.cpp
-pso/player/TObjPlayer_800AAFBC.cpp
+pso/player/TUnk_80491460.cpp
+pso/player/TUnk_80491478.cpp
 pso/player/TObjPlayer_800BBE90.cpp
 pso/player/TObjPlayer_800C25A0.cpp
 pso/player/TObjPlayer_800C4714.cpp

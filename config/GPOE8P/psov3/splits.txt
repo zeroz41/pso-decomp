@@ -1524,10 +1524,16 @@ pso/enemy/dubchik/TObjEneDubchik.cpp:
 	.sbss       start:0x805D5090 end:0x805D50A8
 	.sdata2     start:0x805D9AD8 end:0x805D9B58
 
-pso/player/TObjPlayer_800AAFBC.cpp:
-	.text       start:0x800AB0EC end:0x800AB970
-	.rodata     start:0x8043ACF8 end:0x8043AD00
-	.data       start:0x80491460 end:0x804914B0
+pso/player/TUnk_80491460.cpp:
+	.text       start:0x800AB0EC end:0x800AB418
+	.rodata     start:0x8043ACE0 end:0x8043AD00
+	.data       start:0x80491460 end:0x80491478
+	.sdata2     start:0x805D9B58 end:0x805D9B68
+
+pso/player/TUnk_80491478.cpp:
+	.text       start:0x800AB418 end:0x800AB970
+	.rodata     start:0x8043AD00 end:0x8043AD10
+	.data       start:0x80491478 end:0x804914B0
 	.sdata2     start:0x805D9B68 end:0x805D9BA0
 
 pso/enemy/shark/TObjEneShark.cpp:
