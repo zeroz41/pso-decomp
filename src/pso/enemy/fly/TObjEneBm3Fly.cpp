@@ -168,7 +168,6 @@ void render__13TObjEneBm3FlyFv(VObj_800AFBF0 *o);
 f32 normalize_vector_xz__FP3Vec(void *);
 void clamp_flight_height__13TObjEneBm3FlyFv(u8 *arg0);
 void update_dd_flag__13TObjEneBm3FlyFPv(void *arg0);
-s32 remove_child__17TObjEneBm3FlyNestFPUc(u32, void *);
 s32 refresh_and_send_entity_flags__9TObjEnemyFv(void *, s32);
 s32 TBoss8Dragon__sub_800BB7DC(void *);
 s32 transition_enemy_state__9TObjEneDDFl(void *, s32);
@@ -283,7 +282,7 @@ void TObjEneBm3Fly::state_death_fall(s32 arg1) {
         ((s32 (*)(void *))refresh_and_send_entity_flags__9TObjEnemyFv)(arg0);
         temp_photon = (u32)find_entity_by_id(this->owner_id);
         if (temp_photon != 0U) {
-            remove_child__17TObjEneBm3FlyNestFPUc(temp_photon, arg0);
+            ((TObjEneBm3FlyNest *)temp_photon)->remove_child((u8 *)arg0);
         }
         TBoss8Dragon__sub_800BB7DC(arg0);
         this->m_3c0 = 0;
@@ -351,7 +350,7 @@ void action__13TObjEneBm3FlyFPvi(u8 *arg0, s32 arg1) {
         refresh_and_send_entity_flags__9TObjEnemyFv(arg0, temp_r4);
         temp_ret = (u32)find_entity_by_id(*(u16 *)((s8 *)arg0 + 0x418));
         if (temp_ret != 0U) {
-            remove_child__17TObjEneBm3FlyNestFPUc(temp_ret, arg0);
+            ((TObjEneBm3FlyNest *)temp_ret)->remove_child((u8 *)arg0);
         }
         TBoss8Dragon__sub_800BB7DC(arg0);
         TBoss8Dragon__sub_800BB7D8(arg0, 0xF1, (1.0f));
@@ -1514,7 +1513,6 @@ void vfunc_88__13TObjEneBm3FlyFv(u8 *arg0);
 f32 fabs_float(f32);
 extern s32 TObjEneBm3Fly__attack_params;
 s32 get_random_scaled__9TObjEneDDFv(void *);
-s32 has_free_attack_slot__17TObjEneBm3FlyNestFUs(void *, u16);
 s32 enemy_set_target_id(void *, u16);
 s32 collect_enemy_target_candidates(void *, Cand_800B1684 *, f32);
 void vfunc_89__13TObjEneBm3FlyFv(void* p);
@@ -1546,14 +1544,14 @@ void choose_attack__13TObjEneBm3FlyFPv(Fly_800B1684 *s) {
         transition_enemy_state__9TObjEneDDFl(s, 4);
         s->f454 = 0;
     }
-    if (has_free_attack_slot__17TObjEneBm3FlyNestFUs(nest, s->f38C) != 0) {
+    if (((TObjEneBm3FlyNest *)nest)->has_free_attack_slot(s->f38C) != 0) {
         transition_enemy_state__9TObjEneDDFl(s, 3);
         return;
     }
     count = collect_enemy_target_candidates(s, players, (1e+04f));
     for (i = 0; i < count; i++) {
         id = players[i].id;
-        if (id != s->f38C && has_free_attack_slot__17TObjEneBm3FlyNestFUs(nest, id) != 0) {
+        if (id != s->f38C && ((TObjEneBm3FlyNest *)nest)->has_free_attack_slot(id) != 0) {
             enemy_set_target_id(s, id);
             transition_enemy_state__9TObjEneDDFl(s, 3);
             return;
@@ -1788,9 +1786,7 @@ struct RecoveredGlobal_800B2948_lbl_80500B00 {
     u8 remaining[0x3C];
 };
 
-struct Obj_800B2A5C { u8 pad[0x3b0]; s32 count; u8 pad2[4]; u16 ids[6]; };
 
-struct Obj_800B2AF4 { u8 pad[0x3b0]; s32 count; u8 pad2[4]; u16 ids[6]; };
 
 typedef char RecoveredGlobal_800B2948_lbl_8043B2A4_size[sizeof(RecoveredGlobal_800B2948_lbl_8043B2A4) == 0x20 ? 1 : -1];
 
@@ -1927,7 +1923,6 @@ void vfunc_28__13TObjEneBm3FlyFv(void);
 void TObjEneBm3Fly__vt85(s32 arg0, u32 arg1, s32 arg2);
 void * __dt__13TObjEneBm3FlyFv(void *arg0, s16 arg1);
 u8 * TObjEneBm3Fly__ct(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4, u8 *arg5, u8 *arg6);
-int TObjEneBm3FlyNest__sub_800B4158(void);
 u32 TObjEneEpsilon__sub_800B92F8(void *, void *, f32);
 s32 enemy_copy_target_destination__12TObjEneDD_STFv();
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
@@ -2097,8 +2092,6 @@ void TObjEneBm3Fly::clamp_flight_height() {
     }
 #define queue_destruction__7TObjectFv (*(void (*)(void *))&queue_destruction__7TObjectFv)
 #define update_scale__15TObjBoss2TunnelFv (*(s32 (*)(void *))&update_scale__15TObjBoss2TunnelFv)
-#define remove_child__17TObjEneBm3FlyNestFPUc (*(void (*)(Obj_800B2A5C *, u8 *))&remove_child__17TObjEneBm3FlyNestFPUc)
-#define has_free_attack_slot__17TObjEneBm3FlyNestFUs (*(s32 (*)(Obj_800B2AF4 *, u16))&has_free_attack_slot__17TObjEneBm3FlyNestFUs)
 #define clear_global_flag_400__9TObjEneDDFv (*(void (*)(void))&clear_global_flag_400__9TObjEneDDFv)
 #define set_field_378__9TObjEneDDFl (*(s32 (*)(void *, s32))&set_field_378__9TObjEneDDFl)
 #define transition_enemy_state__9TObjEneDDFl (*(s32 (*)(void *, s32))&transition_enemy_state__9TObjEneDDFl)
@@ -2436,7 +2429,7 @@ void TObjEneBm3Fly::load_resources() {
     s32 temp_r3;
     s32 var_r0;
     u8 *temp_r5;
-    bm3_fly_nest_resources = ((u8 * (*)(void))TObjEneBm3FlyNest__sub_800B4158)();
+    bm3_fly_nest_resources = TObjEneBm3FlyNest::sub_800B4158();
     temp_r3 = (int)::operator new(0x10);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
@@ -2460,8 +2453,6 @@ void TObjEneBm3Fly::load_resources() {
 
 #undef queue_destruction__7TObjectFv
 #undef update_scale__15TObjBoss2TunnelFv
-#undef remove_child__17TObjEneBm3FlyNestFPUc
-#undef has_free_attack_slot__17TObjEneBm3FlyNestFUs
 #undef clear_global_flag_400__9TObjEneDDFv
 #undef set_field_378__9TObjEneDDFl
 #undef transition_enemy_state__9TObjEneDDFl

@@ -1560,9 +1560,10 @@ pso/enemy/fly/TObjEneBm3Fly.cpp:
 
 pso/enemy/fly/TObjEneBm3FlyNest.cpp:
 	.text       start:0x800B23A0 end:0x800B4820
-	.rodata     start:0x8043B378 end:0x8043B3A8
+	.rodata     start:0x8043B120 end:0x8043B3A8
 	.data       start:0x80491DA0 end:0x804920D0
 	.bss        start:0x80500B00 end:0x80500B40
+	.sdata      start:0x805D2A18 end:0x805D2A20
 	.sbss       start:0x805D50F8 end:0x805D511C
 	.sdata2     start:0x805D9CF8 end:0x805D9D70
 
