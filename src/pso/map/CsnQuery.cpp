@@ -3,6 +3,7 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/TObjMapCsn.h"
+#include "pso/object/lobby/TObjButterflyLobby.h"
 #include "pso/render/render_util.h"
 
 #pragma inline_depth(1)
@@ -954,3 +955,31 @@ s32 *csnVecterUnder(s32 origin, s32 mask) {
     TObjPlayer__sub_80079118(lbl_804389E8);
     return var_r31;
 }
+
+extern "C" {
+void *mem_alloc(u32 size);
+void mem_free(void *p);
+extern s32 lbl_804389FC[];
+}
+
+CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask) {
+    CsnHit *hit;
+    TObjPlayer__sub_8007911C();
+    hit = (CsnHit *)lbl_80500140;
+    if (query_collision_segment_groups((Vec_8007A138 *)from, (Vec_8007A138 *)to, mask) == NULL) {
+        hit = NULL;
+    } else if (query_segment_wall_meshes((void *)from, (void *)to, mask, (Node_8007970C **)lbl_804FFD40) == 0) {
+        hit = NULL;
+    }
+    TObjPlayer__sub_80079118(lbl_804389FC);
+    return hit;
+}
+
+void TObjButterflyLobby::free_singleton_805D4E6C() {
+    if (wall_query_scene_buffer != NULL) {
+        mem_free(wall_query_scene_buffer);
+        wall_query_scene_buffer = NULL;
+    }
+}
+
+void TObjButterflyLobby::alloc_scene_buffer() { wall_query_scene_buffer = (E_80079580 *)mem_alloc(0x5000); }

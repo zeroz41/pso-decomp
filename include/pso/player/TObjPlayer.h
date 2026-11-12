@@ -1500,7 +1500,7 @@ struct TObjPlayer : public TObjChara {
     static void spawn_fire_explosion_at_item(s32 arg0, s32 arg1);
     static s32 spawn_fire_explosion(u32 a0, s32 a1);
     static u8 *create_gi_gue_bazooka(s32 arg0);
-    static void finish_quest_thread();
+    void finish_quest_thread();
     static void destroy_static_array();
     void push_model_fade_color();
     static u8 *create_state_34(s32 arg0);

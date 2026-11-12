@@ -871,7 +871,6 @@ pso/unk/TLobby_800FA848.cpp
 pso/unk/TLobby_800FD78C.cpp
 pso/unk/TLobby_80103F5C.cpp
 pso/unk/TLobby_80105A2C.cpp
-pso/unk/TLobby_8011B010.cpp
 pso/unk/TLobby_80131794.cpp
 pso/unk/TLobby_8013292C.cpp
 pso/unk/TLobby_80132ED0.cpp
@@ -1774,7 +1773,6 @@ pso/ui/window/TObjBagWarnWin4P.cpp
 pso/object/base/TObjBase.cpp
 pso/object/collision/TObjBgmColCtrl.cpp
 pso/object/TObjBigTuitate.cpp
-pso/object/lobby/TObjButterflyLobby_8007A5D8.cpp
 pso/object/lobby/TObjButterflyLobby_80350958.cpp
 pso/object/ambient/TObjCGrass.cpp
 pso/ui/window/TObjCHTimeWin.cpp
@@ -2582,7 +2580,6 @@ pso/enemy/mericarol/TObjEneBm9Mericarol_802CE68C.cpp
 pso/unk/text_802D1C84.cpp
 pso/unk/text_802D1D48.cpp
 pso/unk/text_802D23E0.cpp
-pso/unk/text_802D298C.cpp
 pso/unk/text_802E10D8.cpp
 pso/weapon/TItemAttackCol_802E3AF4.cpp
 pso/unk/text_802E3BA8.cpp
@@ -2620,7 +2617,6 @@ pso/ui/frontend/TAdLoadQuestPrtTxtGC_8034A090.cpp
 pso/unk/text_8034CEDC.cpp
 pso/unk/text_8034D3D0.cpp
 pso/item/TUnk_804F112C.cpp
-pso/unk/text_80354BE4.cpp
 pso/unk/text_80355970.cpp
 pso/unk/text_80355A1C.cpp
 pso/unk/text_80355C1C.cpp
@@ -2701,7 +2697,6 @@ pso/unk/text_803F4D10.cpp
 pso/unk/text_803F4D84.cpp
 pso/network/text_80421620.c
 pso/unk/text_8042E8C4.cpp
-pso/unk/text_8042EAD4.cpp
 si/SIBios.c
 si/SISamplingRate.c
 vi/vi.c

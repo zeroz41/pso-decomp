@@ -1037,10 +1037,7 @@ pso/network/TTcpSocket.cpp:
 	.data       start:0x8048D378 end:0x8048D4C0
 
 pso/map/CsnQuery.cpp:
-	.text       start:0x800790F0 end:0x8007A5D8
-
-pso/object/lobby/TObjButterflyLobby_8007A5D8.cpp:
-	.text       start:0x8007A5D8 end:0x8007A6C8
+	.text       start:0x800790F0 end:0x8007A6C8
 
 pso/unk/text_8007A6C8.cpp:
 	.text       start:0x8007A6C8 end:0x8007A720
@@ -2589,11 +2586,9 @@ pso/item/TItemReverseTechCtrl.cpp:
 	.data       start:0x804A0440 end:0x804A04A8
 
 pso/unk/text_8011A780.cpp:
-	.text       start:0x8011A780 end:0x8011B010
+	.text       start:0x8011A780 end:0x8011B260
+	.sbss       start:0x805D54E0 end:0x805D54F0
 	.sdata2     start:0x805DAC58 end:0x805DAC5C
-
-pso/unk/TLobby_8011B010.cpp:
-	.text       start:0x8011B010 end:0x8011B260
 
 pso/weapon/shoot/TItemShootModelRotZ.cpp:
 	.text       start:0x8011B260 end:0x8011B328
@@ -8842,13 +8837,10 @@ pso/unk/text_802D23E0.cpp:
 pso/ui/window/TWindowSubTradeMain_802D2808.cpp:
 	.text       start:0x802D2808 end:0x802D298C
 
-pso/unk/text_802D298C.cpp:
-	.text       start:0x802D298C end:0x802D2B64
-	.bss        start:0x80540BD0 end:0x80540FB0
-
 pso/network/TradeSession.cpp:
-	.text       start:0x802D2B64 end:0x802D3924
+	.text       start:0x802D298C end:0x802D3924
 	.data       start:0x804E1920 end:0x804E1A60
+	.bss        start:0x80540BD0 end:0x80540FB0
 
 pso/ui/window/TWindowSubTradeMain_802D3924.cpp:
 	.text       start:0x802D3924 end:0x802D3970
@@ -10409,11 +10401,8 @@ pso/boss/olgaflow/TBoss6Rock.cpp:
 	.sbss       start:0x805D6EF0 end:0x805D6F08
 	.sdata2     start:0x805DFF48 end:0x805DFFA8
 
-pso/unk/text_80354BE4.cpp:
-	.text       start:0x80354BE4 end:0x80354EC8
-
 pso/player/TObjPlayer_80354EC8.cpp:
-	.text       start:0x80354EC8 end:0x8035510C
+	.text       start:0x80354BE4 end:0x8035510C
 	.ctors      start:0x80434010 end:0x80434014
 	.bss        start:0x80543978 end:0x805439A8
 
@@ -12547,11 +12536,8 @@ pso/unk/text_8042E8C4.cpp:
 	.text       start:0x8042E8C4 end:0x8042E9FC
 
 pso/ui/frontend/TAdTrialModemChkGC_8042E9FC.cpp:
-	.text       start:0x8042E9FC end:0x8042EAD4
-
-pso/unk/text_8042EAD4.cpp:
-	.text       start:0x8042EAD4 end:0x8042F13C
-	.sbss       start:0x805D7CC8 end:0x805D7CCC
+	.text       start:0x8042E9FC end:0x8042F13C
+	.sbss       start:0x805D7CB0 end:0x805D7CCC
 
 exi/EXIBios.c:
 	.text       start:0x8042F13C end:0x80430A10
