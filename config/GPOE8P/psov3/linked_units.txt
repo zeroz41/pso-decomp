@@ -885,7 +885,6 @@ pso/unk/TLobby_801404CC.cpp
 pso/unk/TLobby_80140FF4.cpp
 pso/unk/TLobby_80156B18.cpp
 pso/unk/TLobby_8015ABD0.cpp
-pso/unk/TLobby_8015C944.cpp
 pso/unk/TLobby_80160804.cpp
 pso/unk/TLobby_801461EC.cpp
 pso/unk/TLobby_80191F80.cpp
@@ -1084,10 +1083,6 @@ pso/object/switch/TOChatSensor_8015B214.cpp
 pso/object/mine/TOComputerMachine01.cpp
 pso/object/mine/TOComputerMachine01_8023DD0C.cpp
 pso/object/container/TOContainerAncientEnemy.cpp
-pso/object/container/TOContainerAncientEnemyCommon.cpp
-pso/object/container/TOContainerAncientEnemyRare.cpp
-pso/object/container/TOContainerAncientItemCommon.cpp
-pso/object/container/TOContainerAncientItemNone.cpp
 pso/enemy/dubchik/TOCtrlDubchik_8015CA74.cpp
 pso/object/door/TODoorAncient01.cpp
 pso/object/door/TODoorAncient03.cpp
@@ -1101,7 +1096,6 @@ pso/object/door/TODoorBase.cpp
 pso/object/door/TODoorCave01.cpp
 pso/object/door/TODoorCave02.cpp
 pso/object/door/TODoorCave03.cpp
-pso/object/door/TODoorFourLightBase.cpp
 pso/object/door/TODoorFourLightSpace.cpp
 pso/object/door/TODoorJungleMain.cpp
 pso/object/door/TODoorLabo.cpp
@@ -1960,8 +1954,6 @@ pso/player/TObjPlayer_8011C000.cpp
 pso/player/TObjPlayer_8011CEC0.cpp
 pso/player/TObjPlayer_8011E214.cpp
 pso/player/TObjPlayer_801542CC.cpp
-pso/player/TObjPlayer_8015C4CC.cpp
-pso/player/TObjPlayer_8015C8D8.cpp
 pso/player/TObjPlayer_80178150.cpp
 pso/player/TObjPlayer_801A7080.cpp
 pso/player/TObjPlayer_801A9BAC.cpp
@@ -2372,7 +2364,6 @@ pso/unk/text_80140D50.cpp
 pso/unk/text_80145A44.cpp
 pso/unk/text_80145A94.cpp
 pso/unk/text_8014618C.cpp
-pso/system/TLanguage_8015C680.cpp
 pso/object/key/TODummyKeyCave01_80165940.cpp
 pso/object/switch/TOSwitchTimer_801782A0.cpp
 pso/unk/text_8017866C.cpp

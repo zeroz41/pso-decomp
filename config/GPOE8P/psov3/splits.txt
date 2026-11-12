@@ -3900,34 +3900,10 @@ pso/object/mine/TOComputerMachine01.cpp:
 	.sbss       start:0x805D58E0 end:0x805D58E8
 	.sdata2     start:0x805DB390 end:0x805DB398
 
-pso/object/container/TOContainerAncientEnemyRare.cpp:
-	.text       start:0x8015B714 end:0x8015B84C
-
-pso/object/container/TOContainerAncientEnemyCommon.cpp:
-	.text       start:0x8015B84C end:0x8015B8E8
-
 pso/object/container/TOContainerAncientEnemy.cpp:
-	.text       start:0x8015B8E8 end:0x8015BE34
-
-pso/object/container/TOContainerAncientItemNone.cpp:
-	.text       start:0x8015BE34 end:0x8015BFF0
-
-pso/object/container/TOContainerAncientItemCommon.cpp:
-	.text       start:0x8015BFF0 end:0x8015C4CC
-
-pso/player/TObjPlayer_8015C4CC.cpp:
-	.text       start:0x8015C4CC end:0x8015C680
-
-pso/system/TLanguage_8015C680.cpp:
-	.text       start:0x8015C680 end:0x8015C8D8
+	.text       start:0x8015B714 end:0x8015C9D0
 	.data       start:0x804B0068 end:0x804B00C8
 	.sdata      start:0x805D2EF0 end:0x805D2EFC
-
-pso/player/TObjPlayer_8015C8D8.cpp:
-	.text       start:0x8015C8D8 end:0x8015C944
-
-pso/unk/TLobby_8015C944.cpp:
-	.text       start:0x8015C944 end:0x8015C9D0
 
 pso/enemy/dubchik/TOCtrlDubchik_8015CA74.cpp:
 	.text       start:0x8015C9D0 end:0x8015D5D4
@@ -8264,15 +8240,11 @@ pso/player/TObjPlayer_8029F694.cpp:
 	.text       start:0x8029F694 end:0x8029F730
 
 pso/object/door/TODoorLabo.cpp:
-	.text       start:0x8029F730 end:0x802A031C
+	.text       start:0x8029F730 end:0x802A0A30
 	.rodata     start:0x80466038 end:0x80466040
-	.data       start:0x804DC820 end:0x804DC890
+	.data       start:0x804DC820 end:0x804DCA5C
 	.sbss       start:0x805D6600 end:0x805D6630
 	.sdata2     start:0x805DDDB8 end:0x805DDDC4
-
-pso/object/door/TODoorFourLightBase.cpp:
-	.text       start:0x802A031C end:0x802A0A30
-	.data       start:0x804DCA00 end:0x804DCA5C
 
 pso/unk/text_802A0A30.cpp:
 	.text       start:0x802A0A30 end:0x802A0A60
