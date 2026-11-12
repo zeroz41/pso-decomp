@@ -593,7 +593,7 @@ pso/boss/darkfalz/TBoss4Zanzo.cpp:
 	.text       start:0x8005569C end:0x80058208
 	.ctors      start:0x80433F3C end:0x80433F40
 	.rodata     start:0x80437638 end:0x80437758
-	.data       start:0x80486370 end:0x80486924
+	.data       start:0x80486370 end:0x80486A70
 	.sdata      start:0x805D27D8 end:0x805D27E0
 	.sdata2     start:0x805D8BA0 end:0x805D8C30
 

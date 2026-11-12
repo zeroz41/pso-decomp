@@ -290,7 +290,7 @@ force_active:
   - TBoss4DarkFalz__sub_801D94C0
   - TBoss4Thanks__sub_8035C480
   - TBoss4Type2__attack_pattern_table
-  - TBoss4Type2__ct
+  - __ct__13TUnk_80486924FP7TObjectPl
   - TBoss4Type2__sub_80056B3C
   - TBoss4Type2__sub_80057128
   - TBoss4Type3__anim_state_table
@@ -1882,7 +1882,7 @@ force_active:
   - __ct__10TButterflyFP7TObjectPv
   - __ct__10TItemMoneyFP7TObjectP9TItemData
   - __ct__10TObjCameraFP7TObjectPv
-  - __ct__11TBoss4ZanzoFv
+  - __ct__11TBoss4ZanzoFP7TObjectP14Zanzo_8005676C
   - __ct__11TMessageBoxFRC11TMessageBox
   - __ct__11TOBiwaMushiFPv
   - __ct__11TOBoss4BirdFPv
