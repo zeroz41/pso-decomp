@@ -12,7 +12,7 @@ struct TWindowCtrlMain : public TObject {
     static void free_all_windows();
     static void reset_all(void* _w0);
     void update_child_2c();
-    void spawn_palette_slot_light();
+    void spawn_palette_slot_light(s32 kind);
     void update_field28();
     void free_member();
     s32 get_main_menu_message();

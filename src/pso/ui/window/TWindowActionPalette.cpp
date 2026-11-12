@@ -13,7 +13,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/item/TItem.h"
-#include "pso/ui/window/TWindowHelpItem_80243408.h"
 #include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/ui/window/TWindowEffectLight.h"
@@ -68,10 +67,10 @@ void TWindowHelpItem::set_help_text(s32 arg0, s32 arg1) {
     set_sprite_uv_from_pixels((u8 *)arg0, 92.0f, 0.0f);
 }
 
-s32 get_help_value__15TWindowHelpItemFv(void) {
+s32 TWindowHelpItem::get_help_value(u16 slot, s32 client_id) {
     TItem *item;
 
-    s32 id = ((s32 (*)(void))get_palette_consumable_count)();
+    s32 id = get_palette_consumable_count(slot, client_id);
     if (id == -1) {
         return 0;
     }
@@ -113,7 +112,7 @@ void update_palette_item_count_label(TWindowHelpItem *window_help_item, u8 *arg1
             v = clamp_char_at__10TObjPlayerFl(p + 0x7C4, arg3 - 0xD);
         }
     } else {
-        v = ((s32 (*)(u16, s32))get_help_value__15TWindowHelpItemFv)(arg3, arg4);
+        v = TWindowHelpItem::get_help_value(arg3, arg4);
     }
     if (v <= 0) {
         window_help_item->set_flag0_bit2();

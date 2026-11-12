@@ -45,6 +45,7 @@ struct TWindowHelpItem
     TWindowHelpItem(void *position, u16 index);
     void set_flag0_bit2();
     static void set_help_text(s32 arg0, s32 arg1);
+    static s32 get_help_value(u16 slot, s32 client_id);
     void update_displayed_item();
     void update_stat_disp();
     static void update_resistance_rows(void *arg0);
