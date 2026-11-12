@@ -2369,3 +2369,16 @@ void TObjEneMorfos__sub_803350AC(void) {
     }
 }
 }
+
+s32 lbl_805D6D08[1];
+s32 lbl_805D6D0C[1];
+int TObjEneMorfos__param_table;
+int TObjEneMorfos__instance;
+s32 TObjEneMorfos__phase;
+s32 TObjEneMorfos__camera_path_cursor;
+u8 *lbl_805D6D20;
+u8 *lbl_805D6D24;
+s32 lbl_805D6D28;
+s32 lbl_805D6D2C;
+float morfos_projectile_speed;
+float morfos_param_table_speed_copy;

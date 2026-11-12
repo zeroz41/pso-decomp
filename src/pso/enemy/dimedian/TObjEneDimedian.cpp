@@ -434,7 +434,7 @@ extern "C" const u8 dimedian_stund_motion_filename[28] = "stund_bm1_s_wala_body.
 extern "C" const u8 dimedian_wakeup_motion_filename[28] = "wakeup_bm1_s_wala_body.njm";
 extern "C" const u8 dimedian_walk_motion_filename[28] = "walk_bm1_s_wala_body.njm";
 extern "C" const u8 dimedian_bml_filename[24] = "bm_ene_df3_dimedian.bml";
-extern "C" const u8 dimedian_class_name[16] = "TObjEneDimedian";
+extern "C" const char dimedian_class_name[16] = "TObjEneDimedian";
 
 typedef struct O_800A846C {
     u8 pad0[0x18];
@@ -492,7 +492,7 @@ extern "C" {
 void init_collision_body_parts(void *, void *, s32);
 void __construct_array(void *, void *, void *, int, int);
 void __ct__15RenderFadeStateFv();
-extern s32 TObjEneDimedian_name_ref;
+extern const char *TObjEneDimedian_name_ref;
 
 void __dt__13TUnk_80493450Fv(void *, int);
 void free_collision_body_parts(void *);
@@ -832,7 +832,7 @@ void *TObjEneDimedian__ct(void *arg0_, void *arg1_, void *arg2_) {
     *(u8 **)((s8 *)arg0 + 0x18) = __vt__15TObjEneDimedian;
     __ct__13TUnk_80490470Fv((arg0 + 0x3A8));
     __construct_array(arg0 + 0x3CC, (void *)&__ct__15RenderFadeStateFv, (void *)&__dt__15RenderFadeStateFv, 0x1C, 4);
-    *(s32 *)((s8 *)arg0 + 0) = TObjEneDimedian_name_ref;
+    *(const char **)((s8 *)arg0 + 0) = TObjEneDimedian_name_ref;
     ((VObj_18_c99286 *)arg0)->m79(arg2);
     ((TObjPlayer *)arg0)->init_position_vectors();
     *(s32 *)((s8 *)arg0 + 0x334) = *(s32 *)((s8 *)arg0 + 0x368);
@@ -913,4 +913,15 @@ void TObjEneDimedian::load_dimedian_param_entry(s32 i) {
     O_800A884C *self = (O_800A884C *)this;
     self->x34 = dimedian_resource_ptr->tbl[i].x8;
     self->x24 = dimedian_resource_ptr->tbl[i].xc;
+}
+
+extern "C" {
+s32 dimedian_resource_handles[3];
+s32 dimedian_last_draw_tick[3];
+
+const char *TObjEneDimedian_name_ref = dimedian_class_name;
+
+G_800A884C *dimedian_resource_ptr;
+s32 dimedian_type3_object;
+s32 lbl_805D5088;
 }

@@ -2353,3 +2353,16 @@ void TObjEneRe4Sorcerer::load_resources() {
 
 void TBoss3Volopt__sub_800F059C(void) {  }
 }
+
+extern "C" {
+s32 lbl_805D52D0;
+s32 TObjEneRe4Sorcerer__attack_params;
+s32 TObjEneRe4Sorcerer__resistance_params;
+u8 *sorcerer_behavior_params;
+u32 sorcerer_bml_resource;
+s32 TObjEneRe4Sorcerer__render_node_index;
+s32 TObjEneRe4Sorcerer__saved_render_flags;
+f32 TObjEneRe4Sorcerer__effect_render_scale;
+s32 re4_sorcerer_render_node_ptr;
+u32 TObjEneRe4Sorcerer__uv_scroll_buffer;
+}

@@ -190,3 +190,5 @@ int validate_input__22TAdEnterSerialAccessGCFPviPv(void *arg0, s32 arg1, char *a
 }
 
 int TAdEnterSerialAccessGC::forward_input(void* p) { return ((int (*)(void *))validate_input__22TAdEnterSerialAccessGCFPviPv)(p); }
+
+char serial_access_hex_string_buf[0x40];

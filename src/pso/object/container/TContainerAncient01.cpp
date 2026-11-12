@@ -1198,3 +1198,6 @@ void TContainerAncient01::apply_knockback_from_attacker(u8 *, f32) {  }
 s32 TContainerAncient01::try_start_action(s32, s32) { return 1; }
 s32 TContainerAncient01::roll_physical_accuracy(void *, s32, f32) { return 1; }
 }
+
+s32 TContainerAncient01__bml_resource;
+s32 TContainerAncient01R__bml_resource;

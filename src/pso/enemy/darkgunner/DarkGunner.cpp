@@ -1694,3 +1694,15 @@ void TObjPlayer::clear_counter() { this->m_340 = 0; }
 
 void TObjPlayer::set_cancel_flag() { *(s32 *)&this->m_340 = 1; }
 }
+
+extern "C" {
+f32 player_scale_factor;
+u32 player_effect_bml_resource;
+u32 TObjPlayer__effect_resource;
+s32 lbl_805D5014;
+s32 lbl_805D5018;
+s32 TObjPlayer__shadow_chunk_object;
+s32 lbl_805D5020;
+s32 lbl_805D5024;
+s32 lbl_805D5028;
+}

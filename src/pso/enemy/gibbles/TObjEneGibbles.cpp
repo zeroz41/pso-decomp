@@ -2689,3 +2689,13 @@ void TObjEneGibbles::sub_802DBC94(s32 i) {
     ((O_802DBC94 *)this)->f24 = (*(G_802DBC94 * *)&TObjEneGibbles__resource_bundle)->e[i].d;
 }
 }
+
+extern "C" {
+s32 gibbles_boss_stat_handle;
+u32 gibbles_combat_stat_entries;
+s32 gibbles_combat_stats_handle;
+u8 *TObjEneGibbles__ai_parameters;
+u32 TObjEneGibbles__resource_bundle;
+s32 TObjEneGibbles__render_node_index;
+s32 TObjEneGibbles__render_rotation_x;
+}

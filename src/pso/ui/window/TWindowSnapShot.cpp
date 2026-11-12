@@ -377,3 +377,9 @@ u8 *TWindowSnapShot__ct(TWindowSnapShot *window_snap_shot, s32 arg1) {
     TWindowDuelResult::set_default_status((void *) temp_r31, get_localized_text_entry(0xF, 0x13));
     return (u8 *)window_snap_shot;
 }
+
+void *shared_snapshot_capture;
+u32 snapshot_image_buffer;
+s32 snapshot_buffer_size;
+s32 lbl_805D669C;
+int snapshot_aligned_buffer_size;

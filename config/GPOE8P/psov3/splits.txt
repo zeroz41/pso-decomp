@@ -309,6 +309,7 @@ pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.cpp:
 	.ctors      start:0x80433F2C end:0x80433F30
 	.rodata     start:0x80435C38 end:0x80435E40
 	.data       start:0x80483300 end:0x80483370
+	.bss        start:0x804FE9C8 end:0x804FE9E4
 	.sdata      start:0x805D26F0 end:0x805D26F8
 
 pso/unk/TLobby_8003A95C.cpp:
@@ -1482,7 +1483,7 @@ pso/enemy/darkgunner/DarkGunner.cpp:
 	.rodata     start:0x8043A498 end:0x8043A6E8
 	.data       start:0x80490608 end:0x80490998
 	.sdata      start:0x805D29D0 end:0x805D29D4
-	.sbss       start:0x805D4FF8 end:0x805D5008
+	.sbss       start:0x805D4FF8 end:0x805D5030
 	.sdata2     start:0x805D9978 end:0x805D99D0
 
 pso/enemy/TUnk_804909C4.cpp:
@@ -1516,7 +1517,9 @@ pso/enemy/dimedian/TObjEneDimedian.cpp:
 	.text       start:0x800A7764 end:0x800A887C
 	.rodata     start:0x8043A8D8 end:0x8043AAC0
 	.data       start:0x80490D10 end:0x80491088
-	.sbss       start:0x805D5070 end:0x805D5080
+	.bss        start:0x80500988 end:0x805009A0
+	.sdata      start:0x805D29F0 end:0x805D29F8
+	.sbss       start:0x805D5070 end:0x805D5090
 	.sdata2     start:0x805D9AA0 end:0x805D9AD4
 
 pso/enemy/dubchik/TObjEneDubchik.cpp:
@@ -1544,6 +1547,8 @@ pso/enemy/shark/TObjEneShark.cpp:
 	.text       start:0x800AB970 end:0x800ACA60
 	.rodata     start:0x8043AD10 end:0x8043AEF8
 	.data       start:0x804914B0 end:0x80491828
+	.sdata      start:0x805D2A00 end:0x805D2A08
+	.sbss       start:0x805D50A8 end:0x805D50C8
 	.sdata2     start:0x805D9BA0 end:0x805D9BD8
 
 pso/enemy/moja/TObjEneMoja.cpp:
@@ -1710,6 +1715,7 @@ pso/enemy/gyaranzo/TObjEneGyaranzo.cpp:
 	.rodata     start:0x8043C3A8 end:0x8043C428
 	.data       start:0x80494108 end:0x804943FC
 	.bss        start:0x80500ED0 end:0x80500F80
+	.sbss       start:0x805D51E0 end:0x805D5210
 	.sdata2     start:0x805DA27C end:0x805DA280
 
 pso/enemy/gyaranzo/TObjGyaranzoMissile_800D40D8.cpp:
@@ -1890,6 +1896,7 @@ pso/enemy/sorcerer/TObjEneRe4Sorcerer_800EDB98.cpp:
 	.rodata     start:0x8043D410 end:0x8043D418
 	.data       start:0x80496EE0 end:0x804971BC
 	.bss        start:0x80501070 end:0x80501080
+	.sbss       start:0x805D52D0 end:0x805D52F8
 	.sdata2     start:0x805DA788 end:0x805DA7F0
 
 pso/enemy/AreaSoundRemap.cpp:
@@ -4592,6 +4599,7 @@ pso/object/container/TContainerAncient01.cpp:
 	.text       start:0x8018A584 end:0x8018BEE4
 	.rodata     start:0x804450B0 end:0x804450B8
 	.data       start:0x804B6D70 end:0x804B7094
+	.sbss       start:0x805D5B90 end:0x805D5B98
 	.sdata2     start:0x805DBD10 end:0x805DBD60
 
 pso/object/container/TObjContainerIdo_8018BEE4.cpp:
@@ -8409,6 +8417,7 @@ pso/system/data/pso_const_ids3.cpp:
 
 pso/ui/window/TWindowSnapShot.cpp:
 	.text       start:0x802A7848 end:0x802A8140
+	.sbss       start:0x805D6690 end:0x805D66A4
 	.sdata2     start:0x805DE018 end:0x805DE020
 
 pso/effect/TEffIndirectCtrl.cpp:
@@ -8876,6 +8885,7 @@ pso/enemy/gibbles/TObjEneGibbles.cpp:
 	.text       start:0x802D7A2C end:0x802DBCC4
 	.rodata     start:0x80472790 end:0x804727A0
 	.data       start:0x804E2828 end:0x804E2B8C
+	.sbss       start:0x805D68A8 end:0x805D68C8
 	.sdata2     start:0x805DE7E0 end:0x805DE888
 
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802DBCC4.cpp:
@@ -9248,6 +9258,8 @@ pso/enemy/dolmolm/TObjEneDolmOlm.cpp:
 	.text       start:0x80300CE4 end:0x80302DB0
 	.rodata     start:0x80474F08 end:0x804750E0
 	.data       start:0x804E6740 end:0x804E6AF4
+	.sdata      start:0x805D4068 end:0x805D4070
+	.sbss       start:0x805D6A00 end:0x805D6A20
 	.sdata2     start:0x805DEF48 end:0x805DEF9C
 
 pso/enemy/recon/TObjEneRecon_80302DB0.cpp:
@@ -9800,6 +9812,7 @@ pso/unk/text_8032AC9C.cpp:
 pso/ui/frontend/TAdEnterSerialAccessGC_8032AD30.cpp:
 	.text       start:0x8032AD30 end:0x8032B318
 	.rodata     start:0x80477260 end:0x80477270
+	.bss        start:0x80543468 end:0x805434A8
 
 pso/unk/text_8032B318.cpp:
 	.text       start:0x8032B318 end:0x8032B38C
@@ -9900,6 +9913,7 @@ pso/enemy/morfos/TObjEneMorfos.cpp:
 	.rodata     start:0x80477600 end:0x80477618
 	.data       start:0x804EE0C0 end:0x804EE3AC
 	.bss        start:0x805434D0 end:0x805434E8
+	.sbss       start:0x805D6D08 end:0x805D6D38
 
 pso/enemy/morfos/TObjEneMorfosArm.cpp:
 	.text       start:0x80335218 end:0x803354A4
@@ -10699,6 +10713,7 @@ pso/object/lobby/TObjTreeLobby.cpp:
 pso/object/lab/TObjLaboDesignBase.cpp:
 	.text       start:0x80364C98 end:0x80365450
 	.data       start:0x804F2B78 end:0x804F2E08
+	.bss        start:0x80543A48 end:0x80543A60
 	.sbss       start:0x805D6FC8 end:0x805D6FD0
 	.sdata2     start:0x805E02A0 end:0x805E02B4
 

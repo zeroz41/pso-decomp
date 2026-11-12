@@ -1756,3 +1756,18 @@ u8 *TObjEneGyaranzo__ct(TObjEneGyaranzo *arg0, s32 arg1, u8 *arg2) {
     return (u8 *)arg0;
 }
 }
+
+extern "C" {
+s32 gyaranzo_boss_stats_handle;
+s32 gyaranzo_boss_stats_ptr_b;
+s32 gyaranzo_object_handle;
+s32 gyaranzo_missile_param_table;
+f32 lbl_805D51F0;
+f32 TObjGyaranzoMissile__speed_scale;
+f32 TObjGyaranzoMissile__max_range;
+u32 gyaranzo_bml_resource;
+u32 *lbl_805D5200;
+u32 *lbl_805D5204;
+s32 gyaranzo_breakup_model_obj;
+s32 gyaranzo_missile_volley_end_time;
+}

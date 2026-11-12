@@ -387,3 +387,7 @@ void load_labo_design_object_table(void) {
         }
     }
 }
+
+extern "C" {
+u32 labo_design_object_table[6];
+}
