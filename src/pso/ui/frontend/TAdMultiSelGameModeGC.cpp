@@ -50,12 +50,14 @@ typedef void (TAdMultiSelGameModeGC::*Action_80300770)();
 
 struct Ent_80300850 { u8 pad[0x364]; s32 f364; };
 
-struct Pos_8030095C { s32 v[8]; };
+struct Pos_8030095C { f32 v[8]; };
 
-struct Cur_8030095C { s32 v[2]; };
+struct Cur_8030095C { f32 v[2]; };
+
+struct TxtSlot_8030095C { s32 id; f32 x; f32 y; };
 
 struct Obj_8030095C {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x14];
     void *vt;
     s32 f1C;
@@ -79,22 +81,18 @@ void __ct__9TAdBackGCFv(void *, void *);
 void __ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__8TAdRayGCFv(void *, void *);
 void __ct__10TAdTitleGCFP7TObjectl(void *, void *, s32);
-void *__ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, void *, s32);
+void *__ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, const void *, s32);
 void __ct__13TAdTitleTexGCFv(void *, void *);
 void *__ct__14TAdSelectCurGCFv(void *, void *, void *, void *);
 void *__ct__13TAdGuideTxtGCFv(void *, void *);
-extern s32 lbl_80474E40[];
-extern Cur_8030095C lbl_80474EAC[];
-extern Pos_8030095C TAdMultiSelGameModeGC__menu_position_table;
 extern void *__vt__21TAdMultiSelGameModeGC[];
-extern s32 TAdMultiSelGameModeGC__name;
 extern s32 game_difficulty_selection;
 extern s32 lbl_805D69F4;
 Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s32 mode);
 s32 set_default_camera__21TAdMultiChgGameModeGCFv(void *);
 }
 
-typedef struct Pos_803001B4 { s32 x, y; } Pos_803001B4;
+typedef struct Pos_803001B4 { f32 x, y; } Pos_803001B4;
 
 typedef struct Pos3_803001B4 { Pos_803001B4 p[3]; } Pos3_803001B4;
 
@@ -104,12 +102,18 @@ extern "C" {
 void align_menu_entry_positions(s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(void *, u32);
-extern Pos3_803001B4 multi_sel_game_mode_position;
-extern Arr3_803001B4 lbl_80474EEC;
-extern Arr3_803001B4 multi_sel_game_mode_arr3;
 extern u8 controller_input_state[];
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
+
+static const TxtSlot_8030095C lbl_80474E40[7] = {
+    { -1, 133.0f, 145.0f }, { -1, 111.0f, 197.0f }, { -1, 89.0f, 250.0f }, { -1, 148.0f, 301.0f },
+    { -1, 340.0f, 145.0f }, { -1, 310.0f, 197.0f }, { -1, 280.0f, 250.0f },
+};
+const char *TAdMultiSelGameModeGC__name = "TAdMultiSelGameModeGC";
+extern Pos3_803001B4 multi_sel_game_mode_position;
+extern Arr3_803001B4 lbl_80474EEC;
+extern Arr3_803001B4 multi_sel_game_mode_arr3;
 
 void TAdMultiSelGameModeGC::render() {  }
 
@@ -179,7 +183,7 @@ void TAdMultiSelGameModeGC::sub_803003A4() {
             self->f1C = 1;
         } else if (((TWindowMenu *)self->f2C)->is_decided() != 0) {
             game_difficulty_selection = ((TWindowMenu *)self->f2C)->get_selected_value();
-            ((TAdSelectTxtGC *)self->f30)->reset_slots(&lbl_80474E40[12], (void *)game_difficulty_selection);
+            ((TAdSelectTxtGC *)self->f30)->reset_slots((void *)&lbl_80474E40[4], (void *)game_difficulty_selection);
             ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
             self->f1C = 1;
         }
@@ -200,15 +204,15 @@ void TAdMultiSelGameModeGC::sub_803003A4() {
                 TAdMultiSelGameModeGC__data_805D69F0 = 2;
                 break;
             }
-            ((TAdSelectTxtGC *)self->f34)->reset_slots(&lbl_80474E40[15], (void *)(TAdMultiSelGameModeGC__data_805D69F0 + 9));
+            ((TAdSelectTxtGC *)self->f34)->reset_slots((void *)&lbl_80474E40[5], (void *)(TAdMultiSelGameModeGC__data_805D69F0 + 9));
             if (TAdMultiSelGameModeGC__data_805D69F0 == 1 && lbl_805D69F4 == 1) {
                 lbl_805D69F4 = 0;
                 TAdStorySelectGC::set_state(0);
-                ((TAdSelectTxtGC *)self->f38)->reset_slots(&lbl_80474E40[18], (void *)(lbl_805D69F4 + 4));
+                ((TAdSelectTxtGC *)self->f38)->reset_slots((void *)&lbl_80474E40[6], (void *)(lbl_805D69F4 + 4));
             }
             if (TAdMultiSelGameModeGC__data_805D69F0 == 2 && game_difficulty_selection != 0) {
                 game_difficulty_selection = 0;
-                ((TAdSelectTxtGC *)self->f30)->reset_slots(&lbl_80474E40[12], (void *)0);
+                ((TAdSelectTxtGC *)self->f30)->reset_slots((void *)&lbl_80474E40[4], (void *)0);
             }
             ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
             self->f1C = 1;
@@ -229,7 +233,7 @@ void TAdMultiSelGameModeGC::sub_803003A4() {
                 TAdStorySelectGC::set_state(1);
                 break;
             }
-            ((TAdSelectTxtGC *)self->f38)->reset_slots(&lbl_80474E40[18], (void *)(lbl_805D69F4 + 4));
+            ((TAdSelectTxtGC *)self->f38)->reset_slots((void *)&lbl_80474E40[6], (void *)(lbl_805D69F4 + 4));
             ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
             self->f1C = 1;
         }
@@ -352,13 +356,13 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
         __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[0], 0x10);
     }
     if ((p = __nw__7TObjectFUl(0xE0)) != NULL) {
-        __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[3], 0x11);
+        __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[1], 0x11);
     }
     if ((p = __nw__7TObjectFUl(0xE0)) != NULL) {
-        __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[6], 0x8);
+        __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[2], 0x8);
     }
     if ((p = __nw__7TObjectFUl(0xE0)) != NULL) {
-        __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[9], 0xF);
+        __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[3], 0xF);
     }
     {
         s32 max = ((s32 (*)(void *))get_max_difficulty_for_party_level)(self);
@@ -369,22 +373,22 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
     }
     p = __nw__7TObjectFUl(0xE0);
     if (p != NULL) {
-        p = __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[12], game_difficulty_selection);
+        p = __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[4], game_difficulty_selection);
     }
     self->f30 = p;
     p = __nw__7TObjectFUl(0xE0);
     if (p != NULL) {
-        p = __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[15], TAdMultiSelGameModeGC__data_805D69F0 + 9);
+        p = __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[5], TAdMultiSelGameModeGC__data_805D69F0 + 9);
     }
     self->f34 = p;
     p = __nw__7TObjectFUl(0xE0);
     if (p != NULL) {
-        p = __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[18], lbl_805D69F4 + 4);
+        p = __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &lbl_80474E40[6], lbl_805D69F4 + 4);
     }
     self->f38 = p;
     {
-        Cur_8030095C cur = lbl_80474EAC[0];
-        Pos_8030095C pos = TAdMultiSelGameModeGC__menu_position_table;
+        Cur_8030095C cur = { { 442.0f, 28.0f } };
+        Pos_8030095C pos = { { 144.0f, 146.0f, 114.0f, 198.0f, 84.0f, 250.0f, 54.0f, 302.0f } };
         p = __nw__7TObjectFUl(0x708);
         if (p != NULL) {
             p = __ct__14TAdSelectCurGCFv(p, self, &pos, &cur);

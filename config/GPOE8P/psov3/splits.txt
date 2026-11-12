@@ -3893,8 +3893,9 @@ pso/object/mine/TOComputerMachine01.cpp:
 
 pso/object/container/TOContainerAncientEnemy.cpp:
 	.text       start:0x8015B714 end:0x8015C9D0
+	.rodata     start:0x80440508 end:0x80440940
 	.data       start:0x804B0068 end:0x804B00C8
-	.sdata      start:0x805D2EF0 end:0x805D2EFC
+	.sdata      start:0x805D2EF0 end:0x805D2F18
 
 pso/enemy/dubchik/TOCtrlDubchik_8015CA74.cpp:
 	.text       start:0x8015C9D0 end:0x8015D5D4
@@ -6502,6 +6503,8 @@ pso/technique/TTecJelin.cpp:
 
 pso/technique/TTecLuker.cpp:
 	.text       start:0x80233A90 end:0x8023508C
+	.rodata     start:0x8044D660 end:0x8044D7A8
+	.sdata      start:0x805D37E0 end:0x805D37E8
 	.sdata2     start:0x805DC858 end:0x805DC87C
 
 pso/technique/TTecMegid.cpp:
@@ -9235,7 +9238,9 @@ pso/ui/frontend/TAdMultiConfirmGC.cpp:
 
 pso/ui/frontend/TAdMultiChgGameModeGC.cpp:
 	.text       start:0x802FFC78 end:0x80300098
+	.rodata     start:0x80474DE0 end:0x80474E40
 	.data       start:0x804E6698 end:0x804E66B0
+	.sdata      start:0x805D4058 end:0x805D4060
 	.sdata2     start:0x805DEF38 end:0x805DEF3C
 
 pso/unk/TLobby_80300098.cpp:
@@ -9243,7 +9248,9 @@ pso/unk/TLobby_80300098.cpp:
 
 pso/ui/frontend/TAdMultiSelGameModeGC.cpp:
 	.text       start:0x803000C8 end:0x80300CE4
+	.rodata     start:0x80474E40 end:0x80474ED4
 	.data       start:0x804E66B0 end:0x804E6740
+	.sdata      start:0x805D4060 end:0x805D4068
 	.sbss       start:0x805D69F8 end:0x805D6A00
 	.sdata2     start:0x805DEF40 end:0x805DEF48
 

@@ -45,16 +45,6 @@
 
 struct Obj_80188814 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
 
-struct Spawn_8015B94C {
-    u8 pad0[0xC];
-    f32 x, y, z;
-    u8 pad18[0x38 - 0x18];
-    f32 f38;
-    u8 pad3c[4];
-    s32 f40;
-    s32 f44;
-    u8 pad48[4];
-};
 struct Obj_8015B94C { u8 pad[0x38]; f32 x, y, z; u8 pad44[0x326 - 0x44]; s16 f326; };
 
 struct O_8015BAE0 { u8 pad[0x1C]; u16 id; u8 pad1e[0x80 - 0x1E]; u32 f80; s32 f84; };
@@ -79,18 +69,6 @@ struct RecoveredGlobal_8015BD68_lbl_804B00C8 {
 };
 typedef char RecoveredGlobal_8015BD68_lbl_804B00C8_size[sizeof(RecoveredGlobal_8015BD68_lbl_804B00C8) == 0x2C ? 1 : -1];
 
-struct Desc_8015C234 {
-    u8 pad0[0xC];
-    f32 x;
-    f32 y;
-    f32 z;
-    u8 pad18[0x38 - 0x18];
-    f32 y2;
-    u8 pad3C[0x40 - 0x3C];
-    s32 a;
-    s32 b;
-    u8 pad48[0x4C - 0x48];
-};
 struct Obj_8015C234 {
     u8 pad0[0x38];
     f32 x;
@@ -168,49 +146,36 @@ extern s32 lbl_804B08BC[];
 extern s32 lbl_804B6C24[];
 extern RecoveredGlobal_8015BD68_lbl_804B00C8 TOContainerAncientEnemy__collision_body_params;
 
-extern s32 lbl_805D2F10;
-extern void *TOContainerAncientEnemyCommon__name;
-extern s32 TOContainerAncientEnemy__name;
-extern void *TOContainerAncientItemNone__name;
-extern s32 TOContainerAncientItemRare__name;
-extern void *TOContainerAncientItemCommon__name;
-
-extern Spawn_8015B94C ancient_enemy_break_debris_desc;
-extern Spawn_8015B94C ancient_enemy_break_debris_desc_b;
-extern Desc_8015C234 fish_break_debris_desc;
-extern Desc_8015C234 lbl_8044074C;
-extern char lbl_80440830[];
 extern const f32 lbl_805DB398;
 extern const f32 lbl_805DB39C;
 extern const f32 lbl_805DB3A0;
 
-extern char lbl_80440508[];
-extern char lbl_80440520[];
-extern char lbl_80440540[];
-extern char lbl_80440560[];
-extern char lbl_8044057C[];
-extern char lbl_8044059C[];
-extern char lbl_804405BC[];
-extern char lbl_804405D8[];
-extern char lbl_804405F4[];
-extern char lbl_80440608[];
-extern char lbl_80440624[];
-extern char lbl_80440640[];
-extern char lbl_8044083C[];
-extern char lbl_80440850[];
-extern char lbl_8044086C[];
-extern char lbl_80440888[];
-extern char lbl_804408A4[];
-extern char lbl_804408C4[];
-extern char lbl_804408E4[];
-extern char lbl_80440900[];
-extern char lbl_80440920[];
-extern BmlResourceBlock_804B0068 bm_o_container_ancient_resource_bundle;
-extern BmlResourceBlock_804B0088 fe_obj_o_vs2container_resource_bundle;
-extern BmlResourceBlock_804B00A8 fe_obj_ex_box1_resource_bundle;
-extern const char *bm_o_container_ancient_motion_names[1];
-extern const char *fe_obj_o_vs2container_motion_names[1];
-extern const char *fe_obj_ex_box1_motion_names[1];
+const char *bm_o_container_ancient_motion_names[1] = { NULL };
+const char *fe_obj_o_vs2container_motion_names[1] = { NULL };
+const char *fe_obj_ex_box1_motion_names[1] = { NULL };
+BmlResourceBlock_804B0068 bm_o_container_ancient_resource_bundle = { { "fe_obj_o_container.gj", "fe_obj_o_container_hahen01.gj", "fe_obj_o_container_hahen02.gj", NULL }, { "bm_o_container_ancient.bml", bm_o_container_ancient_resource_bundle.model_filenames, bm_o_container_ancient_motion_names, 3, 0 } };
+BmlResourceBlock_804B0088 fe_obj_o_vs2container_resource_bundle = { { "fe_obj_o_vs2container_hahen1.gj", "fe_obj_o_vs2container_hahen2.gj", "fs_obj_o_vs2container.gj", NULL }, { "fe_obj_o_vs2container.bml", fe_obj_o_vs2container_resource_bundle.model_filenames, fe_obj_o_vs2container_motion_names, 3, 0 } };
+BmlResourceBlock_804B00A8 fe_obj_ex_box1_resource_bundle = { { "fs_obj_ex_box1.gj", "fe_obj_ex_box1_hahen01.gj", "fe_obj_ex_box1_hahen02.gj", NULL }, { "fe_obj_ex_box1.bml", fe_obj_ex_box1_resource_bundle.model_filenames, fe_obj_ex_box1_motion_names, 3, 0 } };
+
+const char *TOContainerAncientItemCommon__name = "TOContainerAncientItemCommon";
+const char *TOContainerAncientItemRare__name = "TOContainerAncientItemRare";
+const char *TOContainerAncientItemNone__name = "TOContainerAncientItemNone";
+const char *TOContainerAncientEnemy__name = "TOContainerAncientEnemy";
+const char *TOContainerAncientEnemyCommon__name = "TOContainerAncientEnemyCommon";
+const char *lbl_805D2F10 = "TOContainerAncientEnemyRare";
+
+static const TObjChipParams fish_break_debris_desc = {
+    { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, { 5, 0x32 }, { 0.0f, 0.6f }, 0, 0, 0x16,
+};
+static const TObjChipParams lbl_8044074C = {
+    { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, { 6, 0x32 }, { 0.0f, 0.5f }, 0, 0, 0x16,
+};
+static const TObjChipParams ancient_enemy_break_debris_desc = {
+    { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, { 5, 0x32 }, { 0.0f, 0.6f }, 0, 0, 0x16,
+};
+static const TObjChipParams ancient_enemy_break_debris_desc_b = {
+    { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, { 6, 0x32 }, { 0.0f, 0.5f }, 0, 0, 0x16,
+};
 
 u8 *TOContainerAncientEnemy__ct(u8 *arg0, s32 arg1);
 u8 *TOContainerAncientEnemyCommon__ct(u8 *arg0, s32 arg1);
@@ -266,7 +231,7 @@ void *__dt__29TOContainerAncientEnemyCommonFv(void *arg0, s16 arg1) {
 u8 *TOContainerAncientEnemyCommon__ct(u8 *container_ancient_enemy_common, s32 arg1) {
     TOContainerAncientEnemy__ct(container_ancient_enemy_common, arg1);
     *(s32 **)((s8 *)container_ancient_enemy_common + 0x18) = __vt__29TOContainerAncientEnemyCommon;
-    *(void * *)&((TOContainerAncientEnemyCommon *)container_ancient_enemy_common)->m_name = TOContainerAncientEnemyCommon__name;
+    ((TOContainerAncientEnemyCommon *)container_ancient_enemy_common)->m_name = TOContainerAncientEnemyCommon__name;
     return container_ancient_enemy_common;
 }
 
@@ -286,23 +251,23 @@ void TOContainerAncientEnemy::vfunc_79() {
     Obj_8015B94C *self = (Obj_8015B94C *)this;
     void *o;
     if (this->mode != 1) {
-        Spawn_8015B94C a = ancient_enemy_break_debris_desc;
-        a.x = self->x;
-        a.y = self->y;
-        a.z = self->z;
-        a.f38 = self->y;
-        a.f40 = get_bml_model((void *)ancient_container_resource_bundle, 1);
-        a.f44 = TObjFish__sub_8001EDB0((void *)ancient_container_resource_bundle, 1);
-        Spawn_8015B94C b = ancient_enemy_break_debris_desc_b;
-        b.x = self->x;
-        b.y = self->y;
-        b.z = self->z;
-        b.f38 = self->y;
-        b.f40 = get_bml_model((void *)ancient_container_resource_bundle, 2);
-        b.f44 = TObjFish__sub_8001EDB0((void *)ancient_container_resource_bundle, 2);
-        if (check_value_equals__13TUnk_804B6C24Fl(self, lbl_805D2F10) != 0) {
-            a.f44 = ancient_container_fragment_texture_lists[1];
-            b.f44 = ancient_container_fragment_texture_lists[2];
+        TObjChipParams a = ancient_enemy_break_debris_desc;
+        a.pos[0] = self->x;
+        a.pos[1] = self->y;
+        a.pos[2] = self->z;
+        a.pad_38[0] = self->y;
+        a.model = get_bml_model((void *)ancient_container_resource_bundle, 1);
+        a.textures = TObjFish__sub_8001EDB0((void *)ancient_container_resource_bundle, 1);
+        TObjChipParams b = ancient_enemy_break_debris_desc_b;
+        b.pos[0] = self->x;
+        b.pos[1] = self->y;
+        b.pos[2] = self->z;
+        b.pad_38[0] = self->y;
+        b.model = get_bml_model((void *)ancient_container_resource_bundle, 2);
+        b.textures = TObjFish__sub_8001EDB0((void *)ancient_container_resource_bundle, 2);
+        if (check_value_equals__13TUnk_804B6C24Fl(self, (s32)lbl_805D2F10) != 0) {
+            a.textures = ancient_container_fragment_texture_lists[1];
+            b.textures = ancient_container_fragment_texture_lists[2];
         }
         spawn_particle_effect(&self->x, 0x45);
         spawn_particle_effect(&self->x, 0x46);
@@ -341,7 +306,7 @@ f32 TOContainerAncientEnemy::receive_physical_attack(void *, f32) {
 void TOContainerAncientEnemy::debug_print_item_box_info() {
     Obj_80188814 *self = (Obj_80188814 *)this;
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x130020, lbl_80440830, this->set_params[0]);
+    debug_printf_at(0x130020, "EVT NO : %d", this->set_params[0]);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
     debug_draw_sphere((const Vec *)self->pos, &debug_color_blue_alpha30, lbl_805DB3A0);
 }
@@ -455,7 +420,7 @@ void *__dt__26TOContainerAncientItemNoneFv(void *arg0, s16 arg1) {
 void *TOContainerAncientItemNone__ct(void *container_ancient_item_none, void *parent) {
     TOContainerAncientItemRare__ct((u8 *)container_ancient_item_none, (s32)parent);
     *(s32 **)((s8 *)container_ancient_item_none + 0x18) = __vt__26TOContainerAncientItemNone;
-    *(void * *)&((TOContainerAncientItemNone *)container_ancient_item_none)->m_name = TOContainerAncientItemNone__name;
+    ((TOContainerAncientItemNone *)container_ancient_item_none)->m_name = TOContainerAncientItemNone__name;
     return container_ancient_item_none;
 }
 
@@ -533,7 +498,7 @@ void *__dt__28TOContainerAncientItemCommonFv(void *arg0, s16 arg1) {
 void *TOContainerAncientItemCommon__ct(void *container_ancient_item_common, void * _w1) {
     init_ancient_container((u8 *)container_ancient_item_common, (s32)_w1);
     *(s32 **)((s8 *)container_ancient_item_common + 0x18) = __vt__28TOContainerAncientItemCommon;
-    *(void * *)&((TOContainerAncientItemCommon *)container_ancient_item_common)->m_name = TOContainerAncientItemCommon__name;
+    ((TOContainerAncientItemCommon *)container_ancient_item_common)->m_name = TOContainerAncientItemCommon__name;
     return container_ancient_item_common;
 }
 
@@ -543,23 +508,23 @@ void TUnk_804B08BC::vfunc_79() {
     if (this->mode == 1) {
         return;
     }
-    Desc_8015C234 a = fish_break_debris_desc;
-    a.x = self->x;
-    a.y = self->y;
-    a.z = self->z;
-    a.y2 = a.y;
-    a.a = get_bml_model((void *)ancient_container_resource_bundle, 1);
-    a.b = TObjFish__sub_8001EDB0((void *)ancient_container_resource_bundle, 1);
-    Desc_8015C234 b = lbl_8044074C;
-    b.x = self->x;
-    b.y = self->y;
-    b.z = self->z;
-    b.y2 = b.y;
-    b.a = get_bml_model((void *)ancient_container_resource_bundle, 2);
-    b.b = TObjFish__sub_8001EDB0((void *)ancient_container_resource_bundle, 2);
-    if (check_value_equals__13TUnk_804B6C24Fl(self, TOContainerAncientItemRare__name) != 0) {
-        a.b = ancient_container_fragment_texture_lists[1];
-        b.b = ancient_container_fragment_texture_lists[2];
+    TObjChipParams a = fish_break_debris_desc;
+    a.pos[0] = self->x;
+    a.pos[1] = self->y;
+    a.pos[2] = self->z;
+    a.pad_38[0] = a.pos[1];
+    a.model = get_bml_model((void *)ancient_container_resource_bundle, 1);
+    a.textures = TObjFish__sub_8001EDB0((void *)ancient_container_resource_bundle, 1);
+    TObjChipParams b = lbl_8044074C;
+    b.pos[0] = self->x;
+    b.pos[1] = self->y;
+    b.pos[2] = self->z;
+    b.pad_38[0] = b.pos[1];
+    b.model = get_bml_model((void *)ancient_container_resource_bundle, 2);
+    b.textures = TObjFish__sub_8001EDB0((void *)ancient_container_resource_bundle, 2);
+    if (check_value_equals__13TUnk_804B6C24Fl(self, (s32)TOContainerAncientItemRare__name) != 0) {
+        a.textures = ancient_container_fragment_texture_lists[1];
+        b.textures = ancient_container_fragment_texture_lists[2];
     }
     {
         u8 *o = (u8 *)TObject::operator new(0x234);
@@ -699,9 +664,9 @@ void TLanguage::load_container_fragment_textures() {
         }
         ancient_container_resource_bundle = p;
         ancient_container_fragment_texture_lists = (u32 *)mem_alloc(0xC);
-        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((s32)lbl_8044083C);
-        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((s32)lbl_80440850);
-        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((s32)lbl_8044086C);
+        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((s32)"fs_obj_ex_box2.gvm");
+        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((s32)"fe_obj_ex_box2_hahen01.gvm");
+        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((s32)"fe_obj_ex_box2_hahen02.gvm");
     } else if (enable_v2_features == 1 &&
                (area == AREA_BATTLE2 || area == AREA_VR_TEMPLE_ALPHA || area == AREA_VR_TEMPLE_BETA || area == AREA_BARBA_RAY)) {
         p = ::operator new(0x440);
@@ -710,9 +675,9 @@ void TLanguage::load_container_fragment_textures() {
         }
         ancient_container_resource_bundle = p;
         ancient_container_fragment_texture_lists = (u32 *)mem_alloc(0xC);
-        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((s32)lbl_80440888);
-        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((s32)lbl_804408A4);
-        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((s32)lbl_804408C4);
+        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((s32)"fs_obj_o_vs2container_r.gvm");
+        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((s32)"fe_obj_o_vs2cont_hahen1_r.gvm");
+        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((s32)"fe_obj_o_vs2cont_hahen2_r.gvm");
     } else {
         p = ::operator new(0x440);
         if (p != NULL) {
@@ -720,9 +685,9 @@ void TLanguage::load_container_fragment_textures() {
         }
         ancient_container_resource_bundle = p;
         ancient_container_fragment_texture_lists = (u32 *)mem_alloc(0xC);
-        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((s32)lbl_804408E4);
-        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((s32)lbl_80440900);
-        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((s32)lbl_80440920);
+        ancient_container_fragment_texture_lists[0] = (u32)load_gvm_texture_file((s32)"fe_obj_o_container_r.gvm");
+        ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((s32)"fe_obj_o_container_hahen01r.gvm");
+        ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((s32)"fe_obj_o_container_hahen02r.gvm");
     }
 }
 
@@ -766,10 +731,4 @@ void byteswap_event_packet__6TLobbyFi(s32 packet) {
 }
 void TLobby::init_packet_67_04() { *(u8 *)&this->m_name = 103; *(u8*)((char*)this + 0x1) = 4; }
 
-__declspec(section ".data") BmlResourceBlock_804B0068 bm_o_container_ancient_resource_bundle = { { lbl_80440508, lbl_80440520, lbl_80440540, NULL }, { lbl_80440560, bm_o_container_ancient_resource_bundle.model_filenames, bm_o_container_ancient_motion_names, 3, 0 } };
-__declspec(section ".data") BmlResourceBlock_804B0088 fe_obj_o_vs2container_resource_bundle = { { lbl_8044057C, lbl_8044059C, lbl_804405BC, NULL }, { lbl_804405D8, fe_obj_o_vs2container_resource_bundle.model_filenames, fe_obj_o_vs2container_motion_names, 3, 0 } };
-__declspec(section ".data") BmlResourceBlock_804B00A8 fe_obj_ex_box1_resource_bundle = { { lbl_804405F4, lbl_80440608, lbl_80440624, NULL }, { lbl_80440640, fe_obj_ex_box1_resource_bundle.model_filenames, fe_obj_ex_box1_motion_names, 3, 0 } };
-__declspec(section ".sdata") const char *bm_o_container_ancient_motion_names[1] = { NULL };
-__declspec(section ".sdata") const char *fe_obj_o_vs2container_motion_names[1] = { NULL };
-__declspec(section ".sdata") const char *fe_obj_ex_box1_motion_names[1] = { NULL };
 }

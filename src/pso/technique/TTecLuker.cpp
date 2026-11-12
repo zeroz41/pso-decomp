@@ -92,7 +92,7 @@ struct Owner_80234D50 {
 };
 
 struct Luker_80234D50 {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x18 - 0x4];
     void *vt;
     Owner_80234D50 *owner;
@@ -183,17 +183,46 @@ extern u32 recovery_technique_charge_particle_ids[];
 void* spawn_particle_effect(float*,u32);
 s32 queue_destruction__7TObjectFv(void *);
 void TTecLuker__updateRecoveryTechniqueCharge(TechniqueChargeEmitter* state);
-extern u8 TTecLuker__visit_counts[4];
+u8 TTecLuker__visit_counts[4] = { 0, 0, 0, 0 };
 void reset_telepipe_visit_counts(void);
 void TTecLuker__sub_80234F08(void);
 void reset_telepipe_record(O_802340A0 *o);
 void TTecLuker__sub_80234F48(void);
 s32 TObjPlayer__sub_801BFFA0(void *p);
 void set_state__9TTecLukerFl(void *p, s32 v);
-extern s32 telepipe_town_heading_table[];
-extern Vec_80233E78 telepipe_town_position_table[];
-extern Vec_80233E78 telepipe_town_position_table_b[];
-Vec_80233E78 *consume_telepipe_arrival(u16 slot, s32 *heading);
+static const s32 telepipe_visual_template_table[12][3] = {
+    { 177, 178, 176 },
+    { 177, 178, 176 },
+    { 177, 178, 176 },
+    { 176, 177, 178 },
+    { 0, 0, 0 },
+    { 0, 0, 0 },
+    { 0, 0, 0 },
+    { 0, 0, 0 },
+    { 0, 0, 0 },
+    { 0, 0, 0 },
+    { 0, 0, 0 },
+    { 0, 0, 0 },
+};
+static const s32 telepipe_owner_tint_table[12] = {
+    0x00FFB2B2, 0x0099FFB2, 0x00FFFFB2, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+};
+const char *TTecLuker__name = "TTecLuker";
+static const Vec_80234D50 lbl_8044D72C = { 0.0f, 0.0f, 0.2f };
+static const Vec_80233E78 telepipe_town_position_table[4] = {
+    { -312.0f, 0.0f, -113.0f },
+    { -306.0f, 0.0f, -135.0f },
+    { -285.0f, 0.0f, -172.0f },
+    { -249.0f, 0.0f, -190.0f },
+};
+static const Vec_80233E78 telepipe_town_position_table_b[4] = {
+    { 270.0f, -30.0f, -220.0f },
+    { 300.0f, -30.0f, -220.0f },
+    { 330.0f, -30.0f, -215.0f },
+    { 360.0f, -30.0f, -185.0f },
+};
+static const s32 telepipe_town_heading_table[4] = { 16384, 16384, 16384, 16384 };
+const Vec_80233E78 *consume_telepipe_arrival(u16 slot, s32 *heading);
 s16 get_field_2__9TTecLukerFPv(void* p);
 s32 get_current_floor(void);
 void restore_floor_telepipes(void);
@@ -217,10 +246,8 @@ s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, s32);
 s32 push_matrix_from(void *);
 s32 pop_matrices(int);
-extern Vec_80234D50 lbl_8044D72C;
 extern void* __vt__9TTecLuker[];
 extern u8 identity_matrix[];
-extern s32 TTecLuker__name;
 void *TTecLuker__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 s32 mark_area_change_pending();
 s32 obj_isState3_324__9TObjCharaFv(void *);
@@ -243,8 +270,6 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
 void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
 extern s32 lbl_80515BA0[];
 u8 *create_telepipe_marker(u8 *arg0, s32 arg1, s8 arg2, s8 arg3, s32 arg4, s32 arg5, s32 arg6, f32 farg0, f32 farg1);
-extern s32 telepipe_visual_template_table[][3];
-extern s32 telepipe_owner_tint_table[];
 extern s32 tl_particlemodel;
 extern "C" {
 void *create_telepipe_visual(void *self, Vec_802347B4 *pos, u32 id, s32 res);
@@ -361,7 +386,7 @@ void create_quest_telepipe_for_client(u16 arg0) {
     }
 }
 
-Vec_80233E78 *consume_telepipe_arrival(u16 slot, s32 *heading) {
+const Vec_80233E78 *consume_telepipe_arrival(u16 slot, s32 *heading) {
     Player_80233E78 *p;
     u16 owner;
     if (slot >= 4) {
@@ -628,9 +653,9 @@ void *create_telepipe_visual(void *self, Vec_802347B4 *pos, u32 id, s32 res) {
   long long off;
   Hit_8023453C *hit;
   void *p;
-  s32 *row;
+  const s32 *row;
   s32 i;
-  u8 *pt;
+  const u8 *pt;
   __ct__7TObjectFP7TObject(self, (void *) res);
   ((Fx_8023453C *) self)->vt = lbl_804CCA0C;
   VecCopy((Vec *)(&((Fx_8023453C *) self)->pos), (const Vec *)pos);
@@ -642,7 +667,7 @@ void *create_telepipe_visual(void *self, Vec_802347B4 *pos, u32 id, s32 res) {
   }
   row = telepipe_visual_template_table[id];
   off = id * 4;
-  pt = (u8 *) telepipe_owner_tint_table;
+  pt = (const u8 *) telepipe_owner_tint_table;
   for (i = 0; i < 3; i++)
   {
     switch (i)
