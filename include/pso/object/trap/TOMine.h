@@ -57,4 +57,10 @@ struct TOMine : public TObjChara {
 };
 
 typedef char TOMine_size[sizeof(TOMine) == 0x374 ? 1 : -1];
+
+struct BmlResource;
+// bm_o_mine.bml, loaded by TOMine::load_static_resource; the mine models of every TOMine class.
+extern BmlResource *lbl_805D5A50;
+// The one collision sphere TOMineTrap and the four TOMineIcon constructors install.
+extern CollisionBody mine_collision_body_parts[1];
 #endif

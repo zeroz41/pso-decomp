@@ -4257,24 +4257,31 @@ pso/object/trap/TOMine.cpp:
 	.sdata2     start:0x805DB850 end:0x805DB88C
 
 pso/object/trap/TOMineIcon01.cpp:
-	.text       start:0x80171430 end:0x8017170C
-	.rodata     start:0x80442218 end:0x80442220
+	.text       start:0x80171430 end:0x801716C8
+	.rodata     start:0x80442208 end:0x80442220
+	.data       start:0x804B3288 end:0x804B33E8
+	.sdata      start:0x805D3090 end:0x805D3098
 	.sdata2     start:0x805DB890 end:0x805DB8A8
 
 pso/object/trap/TOMineIcon02.cpp:
-	.text       start:0x8017170C end:0x801719E4
-	.rodata     start:0x80442230 end:0x80442238
+	.text       start:0x801716C8 end:0x801719A0
+	.rodata     start:0x80442220 end:0x80442238
+	.data       start:0x804B33E8 end:0x804B3548
+	.sdata      start:0x805D3098 end:0x805D30A0
 	.sdata2     start:0x805DB8A8 end:0x805DB8C0
 
 pso/object/trap/TOMineIcon03.cpp:
-	.text       start:0x801719E4 end:0x80171C78
-	.rodata     start:0x80442248 end:0x80442250
+	.text       start:0x801719A0 end:0x80171C78
+	.rodata     start:0x80442238 end:0x80442250
+	.data       start:0x804B3548 end:0x804B36A8
+	.sdata      start:0x805D30A0 end:0x805D30A8
 	.sdata2     start:0x805DB8C0 end:0x805DB8D4
 
 pso/object/trap/TOMineIcon04.cpp:
 	.text       start:0x80171C78 end:0x8017205C
-	.rodata     start:0x80442260 end:0x80442268
+	.rodata     start:0x80442250 end:0x80442268
 	.data       start:0x804B36A8 end:0x804B387C
+	.sdata      start:0x805D30A8 end:0x805D30B0
 	.sdata2     start:0x805DB8D8 end:0x805DB8F0
 
 pso/object/mine/TOMonitorMachine01.cpp:
@@ -4566,6 +4573,7 @@ pso/unk/text_80184C2C.cpp:
 pso/object/warp/TObjLaboMapWarp.cpp:
 	.text       start:0x80185248 end:0x80186C44
 	.rodata     start:0x80444A20 end:0x80444A28
+	.sdata2     start:0x805DBC80 end:0x805DBCA8
 
 pso/object/warp/TObjCityMainWarp_80186C44.cpp:
 	.text       start:0x80186C44 end:0x80186E24
@@ -8263,6 +8271,7 @@ pso/object/door/TODoorLabo.cpp:
 	.text       start:0x8029F730 end:0x802A031C
 	.rodata     start:0x80466038 end:0x80466040
 	.data       start:0x804DC820 end:0x804DC890
+	.sbss       start:0x805D6600 end:0x805D6630
 	.sdata2     start:0x805DDDB8 end:0x805DDDC4
 
 pso/object/door/TODoorFourLightBase.cpp:

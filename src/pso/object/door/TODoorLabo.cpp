@@ -31,6 +31,21 @@ CollisionBody labo_door_collision_body_parts[] = {
     {{0.0f, 20.0f, 0.0f}, 10.0f, 20.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
+// The BML archives and texture lists the door classes load and free (TODoorFourLightSeabed,
+// TODoorFourLightSeabedU, TODoorLabo, TODoorLaboNormal), in address order.
+s32 door_labo_bml_resource;
+s32 lbl_805D6604;
+s32 lbl_805D6608;
+u32 seabed_four_light_door_bml_resource;
+s32 seabed_four_light_door_textures;
+s32 TODoorFourLightSeabedU__texture_list;
+s32 TODoorLabo__bml_resource;
+s32 TODoorLabo__green_texture_list;
+s32 labo_door_red_textures;
+u32 TODoorLabo__model_archive;
+u32 TODoorLaboNormal__green_texture_list;
+u32 TODoorLaboNormal__red_texture_list;
+
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -86,12 +101,8 @@ u8 *load_gvm_texture_file(s32 arg0);
 extern u8 lbl_80466040[];
 extern u8 lbl_8046605C[];
 
-extern u32 TODoorLabo__model_archive;
-extern u32 TODoorLaboNormal__green_texture_list;
-extern u32 TODoorLaboNormal__red_texture_list;
 s32 get_bml_model(s32, s32);
 extern s32 lbl_80465FF8[];
-extern s32 TODoorLabo__bml_resource;
 Door_8029FAE4 *TODoorLabo__ct(Door_8029FAE4 *arg0);
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
@@ -163,7 +174,6 @@ void TODoorLabo::free_resources() {
     }
 }
 
-extern s32 TODoorLabo__green_texture_list;
 
 void TODoorLabo::load_resources() {
     s32 r = (int)::operator new(0x440);
@@ -192,7 +202,6 @@ s32 TODoorLabo__vt20(void) {
     return TODoorLabo__green_texture_list;
 }
 
-extern s32 labo_door_red_textures;
 
 s32 TODoorLabo__vt19(void) {
     return labo_door_red_textures;
@@ -267,13 +276,11 @@ void load_labo_door_resources(void) {
     labo_door_red_textures = (s32)load_gvm_texture_file((s32)lbl_80466090);
 }
 
-extern s32 seabed_four_light_door_textures;
 
 s32 TODoorFourLightSeabedU__vt20(void) {
     return seabed_four_light_door_textures;
 }
 
-extern s32 TODoorFourLightSeabedU__texture_list;
 
 s32 TODoorFourLightSeabedU__vt19(void) {
     return TODoorFourLightSeabedU__texture_list;
@@ -315,7 +322,6 @@ struct Door_8029FD70 {
 
 extern Tbl_8029FD70 door_four_light_seabed_u_table;
 extern s32 odoor_four_light_seabed_u_class_name;
-extern u32 seabed_four_light_door_bml_resource;
 
 #define self ((Door_8029FD70 *)arg0)
 u8 *TODoorFourLightSeabedU__ct(u8 *arg0) {
@@ -391,13 +397,11 @@ void TLanguage__sub_8029FF0C(void) {
     }
 }
 
-extern s32 lbl_805D6604;
 
 s32 TODoorFourLightSeabed__vt20(void) {
     return lbl_805D6604;
 }
 
-extern s32 lbl_805D6608;
 
 s32 TODoorFourLightSeabed__vt19(void) {
     return lbl_805D6608;
@@ -439,7 +443,6 @@ struct Door_802A0068 {
 
 extern Tbl_802A0068 door_four_light_seabed_index_table;
 extern s32 TODoorFourLightSeabed__class_name;
-extern s32 door_labo_bml_resource;
 
 #define self ((Door_802A0068 *)arg0)
 u8 *TODoorFourLightSeabed__ct(u8 *arg0) {
