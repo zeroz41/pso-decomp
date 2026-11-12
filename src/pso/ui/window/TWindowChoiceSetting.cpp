@@ -11,6 +11,9 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
+const char *lbl_805D3970 = "TWindowMenuInfomation";
+static const f32 lbl_8044F3A0[2] = {425.0f, 188.0f};
+
 struct Stack_80268A6C {
     f32 sp8;
     f32 spC;
@@ -147,13 +150,12 @@ void TUnk_804D0658::draw_setting(s32 window_key_board_soft) {
     }
 }
 
-extern s32 lbl_805D3970;
 extern const f32 lbl_805DD1F4;
 
 void TWindowMenuInfomation__ct(u8 *lobby, u32 arg1) {
     u32 i;
     u8 *e;
-    *(s32 *)lobby = lbl_805D3970;
+    *(s32 *)lobby = (s32) lbl_805D3970;
     *(s16 *)(lobby + 0x72) = 0;
     *(s16 *)(lobby + 0x74) = 0;
     *(u16 *)(lobby + 0x76) = arg1;
@@ -182,12 +184,11 @@ s32 __nw__7TObjectFUl(s32);
 Obj_80269004 *fn_80269004(Obj_80269004 *self, void *parent, void *arg2);
 s32 get_window_layout_position(s32);
 }
-extern s32 lbl_8044F3A0[];
 extern s32 lbl_8044F3B8[];
 s32 create_information_counter_window(s32 arg0) {
     s32 var_r31;
 
-    ((s32 (*)(s32 *, s32))fn_80268C5C)(lbl_8044F3A0, arg0);
+    ((s32 (*)(const f32 *, s32))fn_80268C5C)(lbl_8044F3A0, arg0);
     var_r31 = __nw__7TObjectFUl(0x80);
     if (var_r31 != 0) {
         var_r31 = (s32)fn_80269004((Obj_80269004 *)var_r31, (void *)get_window_layout_position(0xAE), (void *)arg0);

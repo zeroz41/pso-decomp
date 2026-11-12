@@ -59,6 +59,9 @@ struct Rec_8003C108 { f32 x, y, z; };
 
 struct Vec_8003B2EC { f32 x, y, z; };
 
+static const Vec_8003B2EC boss2_tunnel_raft_splash_offsets[2] = {{3.0f, 0.0f, -5.0f}, {-3.0f, 0.0f, -5.0f}};
+const char *lbl_805D2708 = "TObjBoss2Tunnel";
+
 struct Model_8003B2EC { s32 a; s32 b; s32 obj; s32 c; };
 
 struct Models_8003B2EC { u8 pad[0x42C]; Model_8003B2EC *models; };
@@ -137,7 +140,6 @@ u8 * sub_8003C21C__15TObjBoss2TunnelFv(O_8003C21C *self);
 s32 rotate_matrix_z(s32, s32);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-extern Vec_8003B2EC boss2_tunnel_render_zero_vec[];
 extern s32 boss2_tunnel_model_index_table[];
 extern s32 boss2_tunnel_model_order_table[];
 extern Models_8003B2EC *boss2_tunnel_instance;
@@ -278,7 +280,7 @@ struct S_8003C2E4 {
 #define __ct__7TObjectFP7TObject ((void (*)(void *))__ct__7TObjectFP7TObject)
 
 struct Tunnel_8003C45C {
-    s32 name;
+    const char *name;
     u8 pad4[0x18 - 4];
     void *vt;
     f32 f1C;
@@ -320,9 +322,7 @@ void TObjBoss2Tunnel__sub_8003C5F8(void);
 void TObjBoss2Tunnel__sub_8003C610(void);
 u8 *TObjBoss2RaftSplash__ct(u8 *arg0, u8 *arg1, f32 *arg2, u8 *arg3, f32 *arg4);
 void reset_floats__15TObjBoss2TunnelFv(void *a0);
-extern u8 boss2_tunnel_raft_splash_offsets[];
 extern s32 __vt__15TObjBoss2Tunnel[];
-extern s32 lbl_805D2708;
 void *TObjBoss2Tunnel__ct(void *arg0, void *arg1);
 void TObjBoss2Tunnel__sub_8003C648(void);
 void *__dt__15TObjBoss2TunnelFv(void *arg0, s16 arg1);
@@ -491,7 +491,7 @@ void *TObjBoss2Tunnel__ct(void *object, void *arg1) {
     for (i = 0; i < 2; i++) {
         u8 *o = (u8 *)__nw__7TObjectFUl(0x40);
         if (o != NULL) {
-            o = TObjBoss2RaftSplash__ct(o, (u8 *)self, boss2_tunnel_raft_splash_positions[i], boss2_tunnel_raft_splash_offsets + i * 0xC, &self->f20);
+            o = TObjBoss2RaftSplash__ct(o, (u8 *)self, boss2_tunnel_raft_splash_positions[i], (u8 *)&boss2_tunnel_raft_splash_offsets[i], &self->f20);
         }
         self->splash[i] = o;
     }
@@ -883,7 +883,7 @@ void render__15TObjBoss2TunnelFv(u8 *arg0) {
     s32 saved;
     s32 i;
     Tunnel_8003B2EC *o = (Tunnel_8003B2EC *)arg0;
-    Vec_8003B2EC v = boss2_tunnel_render_zero_vec[0];
+    Vec_8003B2EC v = {0.0f, 0.0f, 0.0f};
     if (TObjPlayer::is_any_teammate_in_state() == 0 && TMainTask::get_render_pass() == 0) {
     push_matrix();
     {

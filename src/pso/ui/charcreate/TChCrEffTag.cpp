@@ -9,22 +9,18 @@ struct Stack_8029AA74 {
     f32 spC;
 };
 
-struct RecoveredGlobal_8029AA74_lbl_804652A4 {
-    s32 value;
-    u8 remaining[0x30];
-};
+const char *TChCrEffTag__name = "TChCrEffTag";
+s32 TChCrEffTag__selected_heading = -1;
+static const s32 lbl_804652A4[] = {0xA4, 0xA5, 0xA6, 0x9B, 0x9C, 0x9D, 0x9E, 0x9F, 0xA0, 0xA1, 0xA2, 0xA3};
 
 extern "C" {
 u32 create_str__11TChCrEffTagFPvPvPv(void *, int, void *);
-extern RecoveredGlobal_8029AA74_lbl_804652A4 lbl_804652A4;
-extern s32 TChCrEffTag__selected_heading;
 
 int restore_saved_depth_alpha_state(void);
 int draw_chcr_tag_heading_frame(void*);
 int set_depth_buffer_settings_1__Fv(void*);
 
 void TChCrEffTag::render() { set_depth_buffer_settings_1__Fv(this); draw_chcr_tag_frame(); draw_chcr_tag_heading_frame(this); restore_saved_depth_alpha_state(); }
-typedef char RecoveredGlobal_8029AA74_lbl_804652A4_size[sizeof(RecoveredGlobal_8029AA74_lbl_804652A4) == 0x34 ? 1 : -1];
 void TChCrEffTag::refresh_label() {
     u8 *arg0 = (u8 *)this;
     typedef char sp8_offset[(offsetof(Stack_8029AA74, sp8) == 0x0) ? 1 : -1];
@@ -42,7 +38,7 @@ void TChCrEffTag::refresh_label() {
     if (temp_r0 >= 0) {
         stack.sp8 = 27.0f;
         stack.spC = 44.0f;
-        *(u32 *)&this->label = create_str__11TChCrEffTagFPvPvPv(arg0, (int) (*(s32 *)((s8 *)&lbl_804652A4.value + (temp_r0 * 4))), (void *)&stack.sp8);
+        *(u32 *)&this->label = create_str__11TChCrEffTagFPvPvPv(arg0, (int) lbl_804652A4[temp_r0], (void *)&stack.sp8);
     }
 }
 
@@ -63,7 +59,7 @@ void TChCrEffTag::run_task()
   temp_r0 = heading;
   if (temp_r0 >= 0)
   {
-    targetWidth = (f32) (15.0f + ((f32) get_creation_sprite_id__14TObjCMMainMenuFl((int) ((s32*)&lbl_804652A4)[temp_r0])));
+    targetWidth = (f32) (15.0f + ((f32) get_creation_sprite_id__14TObjCMMainMenuFl((int) lbl_804652A4[temp_r0])));
   }
   width = width;
   temp_f3 = targetWidth;
@@ -103,12 +99,11 @@ void __ct__7TObjectFP7TObject(void *);
 
 extern s32 __vt__11TChCrEffTag[];
 
-extern void *TChCrEffTag__name;
 
 void *__ct__11TChCrEffTagFv(void *ch_cr_eff_tag, void *parent) {
     __ct__7TObjectFP7TObject(ch_cr_eff_tag);
     *(s32 **)((s8 *)ch_cr_eff_tag + 0x18) = __vt__11TChCrEffTag;
-    *(void * *)&((TChCrEffTag *)ch_cr_eff_tag)->m_name = TChCrEffTag__name;
+    ((TChCrEffTag *)ch_cr_eff_tag)->m_name = TChCrEffTag__name;
     ((TChCrEffTag *)ch_cr_eff_tag)->heading = -1;
     TChCrEffTag__selected_heading = -1;
     *(u32 *)((s8 *)ch_cr_eff_tag + 0x28) = 0;
@@ -117,9 +112,6 @@ void *__ct__11TChCrEffTagFv(void *ch_cr_eff_tag, void *parent) {
     return ch_cr_eff_tag;
 }
 
-extern char TChCrEffTag__class_name_string[];
-void *TChCrEffTag__name = TChCrEffTag__class_name_string;
-s32 TChCrEffTag__selected_heading = -1;
 }
 
 extern "C" {

@@ -29,7 +29,10 @@ s32 request_fog__8TFogCtrlFPvii(u8 *arg0, s32 arg1, s32 arg2);
 extern s32 TFogCtrl__fog_instance_table[];
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__12TFogCtrl_EOR[];
-extern s32 TFogCtrl_EOR__name;
+static const char lbl_8043DA20[] = "fogentry.dat";
+static const char lbl_8043DA30[] = "fogentry_a.dat";
+const char *TFogCtrl__name = "TFogCtrl";
+const char *TFogCtrl_EOR__name = "TFogCtrl_EOR";
 s32 TFogCtrl__sub_800FAC84(void *p);
 void queue_destruction__7TObjectFv(void *arg0);
 int update_all__8TFogCtrlFv(void*);
@@ -49,7 +52,7 @@ u8 *TFogCtrl_EOR::init_object() {
     u8 *arg0 = (u8 *)this;
     __ct__7TObjectFP7TObject(arg0, &end_of_render_root);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_800FA95C_lbl_8049C700 *)&__vt__12TFogCtrl_EOR).value;
-    *(s32 *)&this->m_name = (s32) TFogCtrl_EOR__name;
+    m_name = TFogCtrl_EOR__name;
     return arg0;
 }
 
@@ -283,7 +286,7 @@ extern "C" {
 
 s32 is_split_screen();
 s32 get_camera_mode__11TCameraCtrlFv();
-void read_disc_file(void *, void *);
+void read_disc_file(const char *, void *);
 s32 TFogCtrl__sub_800FAC84(void* p);
 s32 request_fog__8TFogCtrlFPvii(u8 *arg0, s32 arg1, s32 arg2);
 void TFogCtrl__sub_800FB400(O_800FB400 *self, s32 i, s32 j);
@@ -303,12 +306,9 @@ void GXSetFogRangeAdj(s32, s32, GXFogAdjTable_800FAE1C *);
 f32 sin_table_lookup(s32);
 
 extern RecoveredGlobal_800FB8A0___vt__8TFogCtrl __vt__8TFogCtrl;
-extern u8 lbl_8043DA20[];
-extern u8 lbl_8043DA30[];
 extern s32 area_fog_row_table[];
 extern FogParam_800FBC5C fog_default_entry;
 extern u8 scene_projection_state[];
-extern s32 TFogCtrl__name;
 extern u32 fog_entry_array;
 extern s32 fog_update_flags;
 extern s32 actor_frame_tick;
@@ -788,7 +788,7 @@ u8 *__dt__8TFogCtrlFv(u8 *arg0, s16 arg1) {
 TFogCtrl::TFogCtrl(TObject *parent, s32 index) : TObject(parent) {
     s32 i;
     f32 one;
-    ((TFogCtrl_800FB92C *)this)->f0 = TFogCtrl__name;
+    m_name = TFogCtrl__name;
     ((TFogCtrl_800FB92C *)this)->index = index;
     if (((TFogCtrl_800FB92C *)this)->index >= 0 && ((TFogCtrl_800FB92C *)this)->index < 4) {
         ((TFogCtrl_800FB92C **)&TFogCtrl__fog_instance_table)[((TFogCtrl_800FB92C *)this)->index] = ((TFogCtrl_800FB92C *)this);

@@ -11,9 +11,11 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
 
+static const s32 lbl_80437F40[3] = {0x208, 0x20A, 0x20B};
+const char *lbl_805D2818 = "TBoss5GryphonShockWave";
+
 extern "C" {
-extern u8 lbl_80437F40[];
-void *gryphon_shockwave_particle_ids_ptr;
+const s32 *gryphon_shockwave_particle_ids_ptr;
 s32 get_bml_motion(s32, s32);
 s32 get_bml_model(s32, s32);
 s32 attach_particle_model(s32, s32, s32, s32, s32, f32);
@@ -44,7 +46,7 @@ void TBoss5GryphonShockWave::run_task() {
     case 1:
         eval_bezier_curve__12TBoss8DragonFPviiPvf((u8 *)&this->m_40, 3, 0, (u8 *)&this->m_2c, (f32) *(s32 *)&this->m_20 / (f32) *(s32 *)&this->m_24);
         if ((u32) this->m_3c == 0U) {
-            this->m_3c = spawn_continuous_particle_effect_with_flags((u8 *)&this->m_2c, *(s32 *)((s8 *)(*(u8 * *)&gryphon_shockwave_particle_ids_ptr) + 0), 0x40);
+            this->m_3c = spawn_continuous_particle_effect_with_flags((u8 *)&this->m_2c, gryphon_shockwave_particle_ids_ptr[0], 0x40);
         }
         if ((u32) this->m_3c != 0U) {
             ((TParticleCtrl *)this->m_3c)->set_position((u8 *)&this->m_2c);
@@ -57,11 +59,11 @@ void TBoss5GryphonShockWave::run_task() {
         }
         break;
     case 2:
-        particle_effect_with_flags = spawn_particle_effect_with_flags((u8 *)&this->m_2c, *(s32 *)((s8 *)(*(u8 * *)&gryphon_shockwave_particle_ids_ptr) + 4), 0x40);
+        particle_effect_with_flags = spawn_particle_effect_with_flags((u8 *)&this->m_2c, gryphon_shockwave_particle_ids_ptr[1], 0x40);
         if (particle_effect_with_flags != 0) {
             attach_particle_model(particle_effect_with_flags, get_bml_model(boss5_gryphon_bml_resource, 0), boss5_gryphon_texture_list, get_bml_motion(boss5_gryphon_bml_resource, 0), 0, 1.0f);
         }
-        spawn_particle_effect_with_flags((u8 *)&this->m_2c, *(s32 *)((s8 *)(*(u8 * *)&gryphon_shockwave_particle_ids_ptr) + 8), 0x40);
+        spawn_particle_effect_with_flags((u8 *)&this->m_2c, gryphon_shockwave_particle_ids_ptr[2], 0x40);
         play_sound_effect(0x40033C13, (u8 *)&this->m_2c, 0, 0);
         TBoss8Dragon__sub_80064114(TBoss8Dragon::get_instance_count(), (s32)&this->m_2c);
         spawn_gryphon_tornado(*(s32 *)&this->m_up, *(s32 *)&this->m_38, (u8 *)&this->m_2c, this->m_28);
@@ -77,10 +79,9 @@ void TBoss5GryphonShockWave::run_task() {
 TBoss5GryphonShockWave::~TBoss5GryphonShockWave() {
     if (*(void **)((s8 *)this + 0x3C) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x3C)); this->m_3c = 0; }
 }
-extern s32 lbl_805D2818;
 TBoss5GryphonShockWave::TBoss5GryphonShockWave(TObject *arg1_parent, s32 arg2, u8 *arg3, u8 *arg4, s32 arg5, s16 arg6) : TObject(arg1_parent) {
     s32 sp8[4];
-    *(s32 *)((s8 *)this + 0) = (s32) lbl_805D2818;
+    m_name = lbl_805D2818;
     VecCopy((Vec *)(((u8 *)this) + 0x40), (const Vec *)arg3);
     VecCopy((Vec *)(((u8 *)this) + 0x50), (const Vec *)arg3);
     vec3_add_to(((u8 *)this) + 0x50, arg5);

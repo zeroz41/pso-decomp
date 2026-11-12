@@ -28,6 +28,9 @@
 #include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
 #include "pso/unk/TLobby.h"
 
+const char *TWindowSubSymbolChat__class_name = "TWindowSubSymbolChat";
+static const f32 lbl_8044FB20[2] = {203.0f, 78.0f};
+
 struct Win_80281EA8 { u8 pad[0x24]; s32 f24; };
 
 struct Ent_80281B18 { s8 c; u8 pad[3]; };
@@ -383,7 +386,6 @@ extern s32 __vt__20TWindowSubSymbolChat[];
 extern void *TWindowSubSymbolChat__instance;
 s32 __nw__7TObjectFUl(int);
 s32 get_window_layout_position(s32);
-extern s32 lbl_8044FB20[];
 s32 get_symbol_chat_data__20TWindowSubSymbolChatFv(s32);
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 align_menu_entry_positions(s32);
@@ -482,7 +484,6 @@ s32 TWindowSubSymbolChat::create_chat_symbol_window(s32 arg0, s32 arg1) {
 void TWindowSubSymbolChat::render() {  }
 
 extern s32 close_child__20TWindowSubSymbolChatFv[];
-extern s32 TWindowSubSymbolChat__class_name;
 
 void TWindowSubSymbolChat::run_task() {
     u8 *arg0 = (u8 *)this;

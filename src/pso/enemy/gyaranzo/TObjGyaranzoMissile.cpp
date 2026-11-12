@@ -28,6 +28,9 @@ typedef struct Parm_800D47B4 {
     f32 b;
 } Parm_800D47B4;
 
+const char *lbl_805D2A80 = "TObjGyaranzoMissile";
+static const Parm_800D47B4 lbl_8043C464[] = {{0, 0.0f}};
+
 struct Base_800D47B4 {
     char pad[0x18];
 };
@@ -54,7 +57,6 @@ extern s32 tl_04;
 s32 matrix_mult_vec(int, int, int);
 s32 rotate_matrix_x(int, int);
 extern s32 __vt__19TObjGyaranzoMissile[];
-extern s32 lbl_805D2A80;
 extern f32 TObjGyaranzoMissile__speed_scale;
 u8 *TObjGyaranzoMissile__ct(u8 *arg0, u8 *arg1, u8 *arg2, s16 arg3);
 void queue_destruction__7TObjectFv(void *);
@@ -64,7 +66,6 @@ void *find_entity_by_id(u16);
 void init_all_slots__10TObjPlayerFv(void *);
 void check_enemy_body_collisions(void *);
 s32 play_sound_effect(void *, void *, int, int);
-extern Parm_800D47B4 lbl_8043C464[];
 Target_800D4990 *find_active_entity_by_id(u16);
 }
 s32 get_gyaranzo_missile_int_parameter(s32 i);

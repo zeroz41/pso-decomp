@@ -8,6 +8,8 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/math/AngleLookup.h"
+const char *TObjEneDD__name = "TObjEneDD";
+const char *TObjEneDD_ST__name = "TObjEneDD_ST";
 extern "C" {
 void enemy_clear_target__12TObjEneDD_STFUs(void *);
 u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
@@ -63,7 +65,6 @@ extern const f32 TObjEneDD__data_805D9E8C;
 }
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 extern "C" void enemy_clear_target__12TObjEneDD_STFUs(void *);
-extern "C" void *TObjEneDD_ST__name;
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_800B9AF8.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -169,11 +170,7 @@ struct VObj_18_0c879f : VBase_18_0c879f {
 };
 struct Stack_800BA318 {
     s32 sp8;
-    s32 spC;
-};
-struct RecoveredGlobal_800BA318_lbl_8043B68C {
-    s32 value;
-    u8 remaining[0x8];
+    f32 spC;
 };
 struct E_800BA1C8 { u8 pad[0x18]; u32 flags; u8 pad2[0x10]; };
 struct O_800BA1C8 { u8 pad[0xa4]; E_800BA1C8 *entries; s32 count; };
@@ -184,10 +181,6 @@ struct Obj_800BA200 { u8 pad[0x30]; u32 flags; u8 pad2[0xa4 - 0x34]; Part_800BA2
 struct Part_800BA244 { u8 pad[0x18]; u32 flags; u8 pad2[0x2c - 0x1c]; };
 struct Obj_800BA244 { u8 pad[0x30]; u32 flags; u8 pad2[0xa4 - 0x34]; Part_800BA244 *parts; s32 count; };
 extern "C" {
-extern RecoveredGlobal_800BA318_lbl_8043B68C lbl_8043B68C;
-extern RecoveredGlobal_800BA318_lbl_8043B68C lbl_8043B684;
-extern RecoveredGlobal_800BA318_lbl_8043B68C lbl_8043B67C;
-extern RecoveredGlobal_800BA318_lbl_8043B68C lbl_8043B674;
 struct EneDDBase2_800BA138 { char pad[0x18]; };
 struct EneDDObj2_800BA138 : EneDDBase2_800BA138 {
     virtual void m0();
@@ -229,7 +222,6 @@ int is_target_unobstructed__9TObjEneDDFl(void* a0 = 0, void* a1 = 0, void* a2 = 
 int add_flags_2e4__9TObjCharaFUl(void*, int);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 get_position__12TBoss1DragonFv(void *, s32);
-typedef char RecoveredGlobal_800BA318_lbl_8043B68C_size[sizeof(RecoveredGlobal_800BA318_lbl_8043B68C) == 0xC ? 1 : -1];
 extern u8 *obj_ene_dd_instance;
 }
 #include "types.h"
@@ -683,7 +675,6 @@ s32 subtractive_rng_seed(void *, int);
 s32 vfunc_79__9TObjEnemyFPl();
 int fn_800FD8A0(void*);
 extern s32 area_random_seed;
-extern void *TObjEneDD__name;
 struct Base_800BBDD4 { char pad[0x18]; };
 struct VObj_800BBDD4 : Base_800BBDD4 {
     virtual void m0(int);
@@ -726,7 +717,7 @@ void TObjEneDD::release_resource() {
 }
 
 TObjEneDD::TObjEneDD(TObject *parent) : TObjEnemy(parent) {
-    m_name = (const char *)TObjEneDD__name;
+    m_name = TObjEneDD__name;
     *(u32 *)((s8 *)this + 0x374) = 0;
     *(u32 *)((s8 *)this + 0x378) = 0;
     *(f32 *)((s8 *)this + 0x37C) = 5.0f;
@@ -1420,36 +1411,28 @@ void TObjEneDD::emit_effect_at_position(void* a1) { TObjEneDD::emit_enemy_effect
 void TObjEneDD__sub_800BA438(s32 arg0, u8 *arg1) {
     typedef char sp8_offset[(offsetof(Stack_800BA318, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_800BA318, spC) == 0x4) ? 1 : -1];
-    Stack_800BA318 stack;
-    stack.sp8 = *(s32 *)((s8 *)&lbl_8043B674.value + 0);
-    stack.spC = *(s32 *)((s8 *)&lbl_8043B674.value + 4);
+    Stack_800BA318 stack = {0x12, 1.0f};
     ((VObj_18_0c879f *)(arg1))->m21(arg0, &stack.sp8, 0, -1, -1);
 }
 
 void TObjEneDD::inflict_poison(s32 arg0, u8 *arg1) {
     typedef char sp8_offset[(offsetof(Stack_800BA318, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_800BA318, spC) == 0x4) ? 1 : -1];
-    Stack_800BA318 stack;
-    stack.sp8 = *(s32 *)((s8 *)&lbl_8043B67C.value + 0);
-    stack.spC = *(s32 *)((s8 *)&lbl_8043B67C.value + 4);
+    Stack_800BA318 stack = {0xF, 1.0f};
     ((VObj_18_0c879f *)(arg1))->m21(arg0, &stack.sp8, 0, -1, -1);
 }
 
 void TObjEneDD__sub_800BA378(s32 arg0, u8 *arg1) {
     typedef char sp8_offset[(offsetof(Stack_800BA318, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_800BA318, spC) == 0x4) ? 1 : -1];
-    Stack_800BA318 stack;
-    stack.sp8 = *(s32 *)((s8 *)&lbl_8043B684.value + 0);
-    stack.spC = *(s32 *)((s8 *)&lbl_8043B684.value + 4);
+    Stack_800BA318 stack = {0x10, 1.0f};
     ((VObj_18_0c879f *)(arg1))->m21(arg0, &stack.sp8, 0, -1, -1);
 }
 
 void TObjEneDD::send_damage_message(s32 arg0, u8 *arg1) {
     typedef char sp8_offset[(offsetof(Stack_800BA318, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_800BA318, spC) == 0x4) ? 1 : -1];
-    Stack_800BA318 stack;
-    stack.sp8 = *(s32 *)((s8 *)&lbl_8043B68C.value + 0);
-    stack.spC = *(s32 *)((s8 *)&lbl_8043B68C.value + 4);
+    Stack_800BA318 stack = {0x11, 1.0f};
     ((VObj_18_0c879f *)(arg1))->m21(arg0, &stack.sp8, 0, -1, -1);
 }
 
@@ -1657,7 +1640,7 @@ void TObjEneDD::init_lights() { TObjLight__sub_801337F8((void*)current_scene_lig
 }
 
 TObjEneDD_ST::TObjEneDD_ST(TObject *parent) : TObjEneDD(parent) {
-    m_name = (const char *)TObjEneDD_ST__name;
+    m_name = TObjEneDD_ST__name;
     enemy_clear_target__12TObjEneDD_STFUs(this);
     init_float_params();
     enemy_init_acquire_period(30);
