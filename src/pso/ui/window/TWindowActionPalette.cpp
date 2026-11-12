@@ -23,37 +23,21 @@
 struct PaletteItemKind { u8 group; u8 index; };
 
 static const char TWindowActionPalette__class_name_string[] = "TWindowActionPalette";
-extern const PaletteItemKind lbl_8044E5E8[13];
-const PaletteItemKind lbl_8044E5E8[13] = {
+extern const PaletteItemKind lbl_8044E5E8[13] = {
     {0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {1, 2}, {6, 0},
     {6, 1}, {3, 0}, {4, 0}, {5, 0}, {7, 0}, {8, 0},
 };
-extern const float TWindowActionPalette__bank_panel_uv_origins[4][2];
-const float TWindowActionPalette__bank_panel_uv_origins[4][2] = {
+extern const float TWindowActionPalette__bank_panel_uv_origins[4][2] = {
     {0.0f, 0.0f}, {0.0f, 56.0f}, {0.0f, 112.0f}, {92.0f, 112.0f},
 };
 
 extern "C" {
-extern const char *lbl_805D3870;
 const char *lbl_805D3870 = TWindowActionPalette__class_name_string;
 
 extern const u8 lbl_805DCA10[4] = {2, 4, 6, 0};
 extern const u8 lbl_805DCA14[4] = {1, 2, 3, 0};
 extern const u8 lbl_805DCA18[4] = {3, 5, 7, 0};
 }
-
-struct Base_80243464 { char pad[0x18]; };
-struct VObj_80243464 : Base_80243464 {
-    virtual void m0();   virtual void m1();   virtual void m2();   virtual void m3();
-    virtual void m4();   virtual void m5();   virtual void m6();   virtual void m7();
-    virtual void m8();   virtual void m9();   virtual void m10();  virtual void m11();
-    virtual void m12();  virtual void m13();  virtual void m14();  virtual void m15();
-    virtual void m16();  virtual void m17();  virtual void m18();  virtual void m19();
-    virtual void m20();  virtual void m21();  virtual void m22();  virtual void m23();
-    virtual void m24();  virtual void m25();  virtual void m26();  virtual void m27();
-    virtual void m28();  virtual void m29();  virtual void m30();  virtual void m31();
-    virtual void m32();  virtual void m33();  virtual s32 m34();
-};
 
 struct Icon_80243630 {
     u8 pad0[0x1C];
@@ -67,7 +51,6 @@ struct Icon_80243630 {
 
 struct UV_80243630 { f32 u; f32 v; };
 
-
 extern "C" {
 void *get_player_by_client_id(s32 i);
 s8 clamp_char_at__10TObjPlayerFl(u32, s32);
@@ -76,7 +59,6 @@ s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
 }
 s32 get_palette_consumable_count(u16 slot, s32 client_id);
 void set_sprite_uv_from_pixels(u8 *arg0, f32 farg0, f32 farg1);
-
 
 void TWindowHelpItem::set_help_text(s32 arg0, s32 arg1) {
     if (((TBoss8Dragon *)arg1)->test_card_flag_2() != 0) {
@@ -87,17 +69,17 @@ void TWindowHelpItem::set_help_text(s32 arg0, s32 arg1) {
 }
 
 s32 get_help_value__15TWindowHelpItemFv(void) {
-    struct VObj_80243464 *o;
+    TItem *item;
 
     s32 id = ((s32 (*)(void))get_palette_consumable_count)();
     if (id == -1) {
         return 0;
     }
-    o = (struct VObj_80243464 *)find_item_by_id(id);
-    if (o == NULL) {
+    item = find_item_by_id(id);
+    if (item == NULL) {
         return 0;
     }
-    return o->m34();
+    return item->get_amount();
 }
 
 s32 get_palette_consumable_count(u16 slot, s32 client_id) {
@@ -146,7 +128,6 @@ void update_palette_item_count_label(TWindowHelpItem *window_help_item, u8 *arg1
 }
 #pragma pop
 
-#define TB(x) (x)
 UV_80243630 action_palette_icon_uv_tables[19] = {
     {50.0f, 0.0f}, {50.0f, 43.0f}, {50.0f, 86.0f}, {100.0f, 0.0f},
     {100.0f, 43.0f}, {100.0f, 86.0f}, {0.0f, 0.0f}, {0.0f, 43.0f},
@@ -225,13 +206,13 @@ void draw_action_palette_icon(Icon_80243630 *icon, u16 group, u16 index) {
         break;
     case 2:
         icon->kind = 4;
-        row = TB(lbl_804CDDF8);
+        row = lbl_804CDDF8;
         icon->u0 = row[index].u;
         icon->v0 = row[index].v;
         break;
     case 3:
         icon->kind = 3;
-        row = TB(action_palette_icon_uv_tables);
+        row = action_palette_icon_uv_tables;
         icon->u0 = row[index].u;
         icon->v0 = row[index].v;
         break;
@@ -241,13 +222,13 @@ void draw_action_palette_icon(Icon_80243630 *icon, u16 group, u16 index) {
         } else {
             icon->kind = 4;
         }
-        row = TB(lbl_804CDD40);
+        row = lbl_804CDD40;
         icon->u0 = row[index].u;
         icon->v0 = row[index].v;
         break;
     case 5:
         icon->kind = 3;
-        row = TB(lbl_804CDDC8);
+        row = lbl_804CDDC8;
         icon->u0 = row[index].u;
         icon->v0 = row[index].v;
         break;
@@ -257,7 +238,7 @@ void draw_action_palette_icon(Icon_80243630 *icon, u16 group, u16 index) {
         } else {
             icon->kind = 4;
         }
-        row = TB(lbl_804CDE10);
+        row = lbl_804CDE10;
         icon->u0 = row[index].u;
         icon->v0 = row[index].v;
         break;
@@ -316,7 +297,6 @@ void spawn_action_palette_slot_light(Win_802437C4 *arg0, s32 arg1) {
         kind = 1;
         e = (Ent_802437C4 *)((TWindowBase *)arg0)->get_array_entry(6);
         break;
-        return;
     default:
         return;
     }
@@ -337,14 +317,11 @@ void spawn_action_palette_slot_light(Win_802437C4 *arg0, s32 arg1) {
 
 }
 
-
 typedef char palette_children_offset[offsetof(TWindowActionPalette, children) == 0x24 ? 1 : -1];
 typedef char palette_resources_offset[offsetof(TWindowActionPalette, resources) == 0x60 ? 1 : -1];
 typedef char palette_state_offset[offsetof(TWindowActionPalette, state) == 0x6C ? 1 : -1];
 typedef char palette_scale_offset[offsetof(TWindowActionPalette, scale) == 0x70 ? 1 : -1];
 typedef char palette_size[sizeof(TWindowActionPalette) == 0x78 ? 1 : -1];
-
-
 
 typedef struct Pal_80244108 {
     s32 f0;
@@ -377,12 +354,10 @@ s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 u16 select_action_palette_and_apply__10TObjPlayerFlll(int, int, int, int);
 u16 get_entry_by_index__20TWindowActionPaletteFPll(int, int);
 s32 get_slot_type_for_index__20TWindowActionPaletteFPll(int, int);
-s32 set_help_text__15TWindowHelpItemFll(void *, int);
 s32 is_action_channel_available__10TObjPlayerFii(s32, s32);
 s32 is_player_input_active(int);
 s32 TObjPlayer__sub_80354D5C(int);
 extern u8 controller_input_state[];
-void run_task__20TWindowActionPaletteFv(u8 *arg0);
 s32 get_window_layout_position(s32);
 void *__construct_array(void *, void *, void *, u32, u32);
 s32 init_gc_tag(s32 arg0);
@@ -396,14 +371,12 @@ s32 apply_context_transform_to_rect(void *, void *);
 s32 begin_screen_draw(int);
 s32 draw_textured_quad_at_depth(void *, f32);
 s32 set_draw_texture_and_color(int, int);
-extern s32 lbl_805D63F0;
 s32 TObjPlayer__sub_80354C7C(s32);
 s32 setup_window_draw_context__11TWindowBaseFl(void *, void *);
 void draw_visible_window_entries(void *, void *, int);
 void __dl__7TObjectFPv(void *);
 void __destroy_arr(void *, void *, int, int);
 }
-void set_sprite_uv_from_pixels(u8 *arg0, f32 farg0, f32 farg1);
 
 void TWindowActionPalette::set_bank_panel_art(unsigned short state) {
     void* sprite=get_array_entry__11TWindowBaseFi(this,1);
@@ -545,7 +518,7 @@ void run_task__20TWindowActionPaletteFv(u8 *arg0) {
         ((TWindowActionPalette *)arg0)->state = 3;
     }
     help = (u8 *)get_array_entry__11TWindowBaseFi(SELF, 0);
-    set_help_text__15TWindowHelpItemFll(help, ((TWindowActionPalette *)arg0)->m_20);
+    TWindowHelpItem::set_help_text((s32)help, ((TWindowActionPalette *)arg0)->m_20);
     cnt = ((TWindowActionPalette *)arg0)->state;
     if ((s8)cnt > 0) {
         ((TWindowActionPalette *)arg0)->state = cnt - 1;
