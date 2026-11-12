@@ -665,7 +665,7 @@ struct TObjPlayer : public TObjChara {
     void calc_pos_delta(void *arg1, void *arg2);
     void init_shield_params(s32 arg1);
     void set_flag_2000000_alt();
-    void check_flag_04000000();
+    s32 check_flag_04000000();
     void set_flag_0x8000();
     void check_flag_0x8000();
     void*restore_shrunken_font();

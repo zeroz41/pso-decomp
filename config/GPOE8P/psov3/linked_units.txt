@@ -799,7 +799,6 @@ pso/render/TFogCtrl.cpp
 pso/ui/font/TFontSmallHelp.cpp
 pso/ui/font/TFontSmallLobby_801C013C.cpp
 pso/ui/font/TFontSmallLobby_801D62D0.cpp
-pso/player/TForceOperate.cpp
 pso/ui/city/THunterGuildSeqOffline.cpp
 pso/ui/city/THunterGuildSeqOffline_801F3718.cpp
 pso/ui/city/THunterGuildSeqOffline_80211FEC.cpp
@@ -1231,10 +1230,6 @@ pso/network/TPlyJoinLobbyEntry_801DFA18.cpp
 pso/network/TPlyJoinLobby_801DF9C8.cpp
 pso/network/TPlyMeetUserExtension.cpp
 pso/network/TPlyMeetUserExtension_801DAC6C.cpp
-pso/network/TPlyOnCountOver.cpp
-pso/network/TPlyOnCountOver_801C5FF8.cpp
-pso/network/TPlyOnCreated.cpp
-pso/network/TPlyOnCreated_801C61D0.cpp
 pso/player/TPlyPhotonChair.cpp
 pso/player/TPlyPhotonChair_801BEC44.cpp
 pso/network/TPlyRecvLogin.cpp
@@ -1982,7 +1977,6 @@ pso/player/TObjPlayer_801C00C4.cpp
 pso/player/TObjPlayer_801C0808.cpp
 pso/player/TObjPlayer_801C1FF8.cpp
 pso/player/TObjPlayer_801C5558.cpp
-pso/player/TObjPlayer_801C721C.cpp
 pso/player/TObjPlayer_801C7430.cpp
 pso/player/TObjPlayer_801D3554.cpp
 pso/player/TObjPlayer_801D6BC8.cpp

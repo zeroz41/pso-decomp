@@ -5315,30 +5315,12 @@ pso/unk/text_801C5470.cpp:
 pso/player/TObjPlayer_801C5558.cpp:
 	.text       start:0x801C5558 end:0x801C57D0
 
-pso/player/TForceOperate.cpp:
-	.text       start:0x801C57D0 end:0x801C5FF8
-	.rodata     start:0x80447120 end:0x80447128
-	.sdata2     start:0x805DC320 end:0x805DC334
-
-pso/network/TPlyOnCountOver_801C5FF8.cpp:
-	.text       start:0x801C5FF8 end:0x801C60CC
-
-pso/network/TPlyOnCountOver.cpp:
-	.text       start:0x801C60CC end:0x801C6124
-
-pso/network/TPlyOnCreated.cpp:
-	.text       start:0x801C6124 end:0x801C61D0
-	.sdata      start:0x805D3558 end:0x805D355C
-
-pso/network/TPlyOnCreated_801C61D0.cpp:
-	.text       start:0x801C61D0 end:0x801C6280
-
 pso/player/PlayerTaskEffects.cpp:
-	.text       start:0x801C6280 end:0x801C721C
-	.data       start:0x804C3F78 end:0x804C4020
-
-pso/player/TObjPlayer_801C721C.cpp:
-	.text       start:0x801C721C end:0x801C7430
+	.text       start:0x801C57D0 end:0x801C7430
+	.rodata     start:0x80447020 end:0x80447128
+	.data       start:0x804C3F60 end:0x804C4020
+	.sdata      start:0x805D3558 end:0x805D3568
+	.sdata2     start:0x805DC320 end:0x805DC360
 
 pso/player/TObjPlayer_801C7430.cpp:
 	.text       start:0x801C7430 end:0x801D34E0

@@ -5,8 +5,8 @@
 
 class TPlyOnCreated : public TObject {
 public:
-    virtual ~TPlyOnCreated();
     virtual void run_task();
+    virtual ~TPlyOnCreated();
 public:
     static void *create(void *arg0, void *arg1);
 };
