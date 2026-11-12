@@ -155,6 +155,11 @@ class ProjectConfig:
         self.dtk_path: Optional[Path] = None  # If None, download
         self.compilers_tag: Optional[str] = None  # 1
         self.compilers_path: Optional[Path] = None  # If None, download
+        # Compiler builds made from a stock one in the compilers directory:
+        # name -> stock version; `compiler_patcher <stock dir> <out dir> <stock version>`
+        # writes the build into compilers/<name>.
+        self.patched_compilers: Dict[str, str] = {}
+        self.compiler_patcher: Optional[Path] = None
         self.wibo_tag: Optional[str] = None  # Git tag
         self.wrapper: Optional[Path] = None  # If None, download wibo on Linux
         self.sjiswrap_tag: Optional[str] = None  # Git tag
@@ -632,6 +637,29 @@ def generate_build_ninja(
             },
         )
 
+    patched_compilers: List[Path] = []
+    if config.patched_compilers:
+        assert config.compiler_patcher is not None
+        n.rule(
+            name="patch_compiler",
+            command=f"$python {config.compiler_patcher} $stock $patched $version",
+            description="PATCH $patched",
+        )
+        for name, version in config.patched_compilers.items():
+            patched = compilers / name / "mwcceppc.exe"
+            n.build(
+                outputs=patched,
+                rule="patch_compiler",
+                inputs=compilers_implicit or compilers / version / "mwcceppc.exe",
+                implicit=config.compiler_patcher,
+                variables={
+                    "stock": compilers / version,
+                    "patched": compilers / name,
+                    "version": version,
+                },
+            )
+            patched_compilers.append(patched)
+
     binutils_implicit = None
     if config.binutils_path:
         binutils = config.binutils_path
@@ -659,7 +687,7 @@ def generate_build_ninja(
     n.build(
         outputs="tools",
         rule="phony",
-        inputs=[dtk, sjiswrap, wrapper, compilers, binutils, objdiff],
+        inputs=[dtk, sjiswrap, wrapper, compilers, *patched_compilers, binutils, objdiff],
     )
     n.newline()
 
@@ -671,7 +699,11 @@ def generate_build_ninja(
     # MWCC
     mwcc = compiler_path / "mwcceppc.exe"
     mwcc_cmd = f"{wrapper_cmd}{mwcc} $cflags -MMD -c $in -o $basedir"
-    mwcc_implicit: List[Optional[Path]] = [compilers_implicit or mwcc, wrapper_implicit]
+    mwcc_implicit: List[Optional[Path]] = [
+        compilers_implicit or mwcc,
+        *patched_compilers,
+        wrapper_implicit,
+    ]
 
     # MWCC with UTF-8 to Shift JIS wrapper
     mwcc_sjis_cmd = f"{wrapper_cmd}{sjiswrap} {mwcc} $cflags -MMD -c $in -o $basedir"
@@ -1201,7 +1233,7 @@ def generate_build_ninja(
         n.newline()
 
         # Check if all compiler versions exist
-        for mw_version in used_compiler_versions:
+        for mw_version in used_compiler_versions - config.patched_compilers.keys():
             mw_path = compilers / mw_version / "mwcceppc.exe"
             if config.compilers_path and not os.path.exists(mw_path):
                 sys.exit(f"Compiler {mw_path} does not exist")
@@ -1734,7 +1766,10 @@ def generate_objdiff_config(
                 elif value == "nodeferred":
                     reverse_fn_order = False
 
-        compiler_version = COMPILER_MAP.get(obj.options["mw_version"])
+        mw_version = obj.options["mw_version"]
+        compiler_version = COMPILER_MAP.get(
+            config.patched_compilers.get(mw_version, mw_version)
+        )
         if compiler_version is None:
             print(f"Missing scratch compiler mapping for {obj.options['mw_version']}")
         else:

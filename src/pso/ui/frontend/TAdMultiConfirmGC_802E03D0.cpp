@@ -144,7 +144,6 @@ __declspec(section ".sdata2") void *const lbl_805DE8D8[1] = {
 
 #pragma push
 #pragma fp_contract on
-#pragma pool_data off
 
 void TUnk_804E3008::sub_802E0CB0() {
     ((Obj_802E0CB0 *)this)->f11C = 0;

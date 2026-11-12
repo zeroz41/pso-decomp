@@ -1037,9 +1037,6 @@ T_ATS_DrawCalendar::T_ATS_DrawCalendar(TObject *parent) : TObject(parent) {
 T_ATS_DrawCalendar::~T_ATS_DrawCalendar() {
 }
 
-// render reaches each of its three format strings and the conversion constant 0x80472980 with a lis/addi of
-// its own, while the static initialiser addresses the unit's .data from one base register.
-#pragma pool_data off
 void T_ATS_DrawCalendar::render() {
     char buf[0x24];
     DateStamp date;
@@ -1074,7 +1071,6 @@ void T_ATS_DrawCalendar::render() {
     }
 }
 
-#pragma pool_data reset
 
 void T_ATS_DrawCalendar::sub_802E11C8() {
     visible = 1;

@@ -1613,8 +1613,6 @@ void TBoss4Type3::update_target_effect_timer() {
     *(s32 *)((s8 *)this + 0x3D8) = (s32) (*(s32 *)((s8 *)this + 0x3D8) + 1);
 }
 
-#pragma push
-#pragma pool_data off
 void TBoss4Type3::request_follow_camera_default_offsets() {
     if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x52C) == 1) {
         Vec target = {0.0f, 3.0f, 32.0f};
@@ -1626,7 +1624,6 @@ void TBoss4Type3::request_follow_camera_default_offsets() {
     Vec position = {0.0f, 19.8f, -5.0f};
     request_follow_camera_offsets(&position, &target, 0xFFFF);
 }
-#pragma pop
 
 void TBoss4Type3::enter_appear() {
     void* p = (void*)this; this->m_398 = 147; }

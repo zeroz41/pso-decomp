@@ -53,7 +53,6 @@ const char *TObjNpcBase__name = "TObjNpcBase";
 s32 debug_printf_at(s32, const char *, ...);
 }
 
-#pragma pool_data off
 void TObjNpcBase::vfunc_92() {  }
 void TObjNpcBase::vfunc_91() {  }
 void TObjNpcBase::draw_debug_info() {
@@ -81,7 +80,6 @@ void TObjNpcBase::draw_debug_info() {
     debug_printf_at(0x1A0020, "<- MESSAGE LABEL : %4d", o->f3A8);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
-#pragma pool_data reset
 // ---- src/pso/unk/text_80148274.cpp
 
 struct Obj_80148274 { u8 pad0[0x350]; void *anim; };

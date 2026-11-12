@@ -8,7 +8,6 @@
 #include "pso/ui/window/TWindowDD_8034AF68.h"
 #include "pso/ui/window/TWindowDD.h"
 
-#pragma pool_data off
 struct Slot_8034AD38 { void *ctrl; u8 pad[0x18]; };
 
 struct TAdFloorLoadPrtGC_8034AD38 {

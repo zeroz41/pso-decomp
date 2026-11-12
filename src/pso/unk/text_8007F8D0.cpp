@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/system/scene/TScene.h"
-#pragma pool_data off
 
 extern "C" {
 void TAdTrialModemChkGC__sub_8042EC14(int, int);

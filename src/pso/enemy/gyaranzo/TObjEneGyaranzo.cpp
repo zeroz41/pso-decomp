@@ -448,7 +448,6 @@ void EnemyTargetCandidate::copy_from(const EnemyTargetCandidate *source) {
 #pragma pop
 #define V ((VObj_18_f1aa6a *)(arg0))
 #define NEW(d, id) { void *o = __nw__7TObjectFUl(0xDC); if (o != NULL) { TObjGyaranzoMissile__ct(o, arg0, &d, id); } }
-#pragma pool_data off
 void spawn_missile_volley__19TObjGyaranzoMissileFPv(u8 *arg0) {
     Vec_800D23D4 pos;
     s32 i;
@@ -504,7 +503,6 @@ void spawn_missile_volley__19TObjGyaranzoMissileFPv(u8 *arg0) {
     play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003AD0A)), arg0 + 0x38, 0, 0);
 }
 }
-#pragma pool_data reset
 
 #pragma pop
 #undef V
