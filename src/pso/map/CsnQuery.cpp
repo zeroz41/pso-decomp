@@ -6,6 +6,7 @@
 #include "pso/object/lobby/TObjButterflyLobby.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_8007A7B8.h"
+#include "pso/unk/text_8007A7A0.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -1000,3 +1001,40 @@ void __sinit_CsnQuery_cpp(void) {
 }
 
 __declspec(section ".ctors") static void *const __sinit_CsnQuery_cpp_ref = (void *)__sinit_CsnQuery_cpp;
+
+
+extern "C" {
+    extern const float lbl_805D9204;
+void*TObjMapCsn::get_data_ptr() { return (char*)this + 0x1c; }
+
+extern s32 map_csn_ctrl_instance;
+
+s32 TObjMapCsn::get_map_count() {
+    return map_csn_ctrl_instance;
+}
+void*TObjMapCsn::init() { TObjMapCsn::init_and_return((s32)this); *(int *)&this->m_prev = -1; *(float *)&this->m_next = lbl_805D9204; return this; }
+s32 TObjMapCsn::init_and_return(s32 arg0) {
+    fn_8007A7A0((u8 *)arg0);
+    return arg0;
+}
+
+}
+
+void fn_8007A7A0(u8 *arg0) {
+    *(s32 *)((s8 *)arg0 + 0) = 0;
+    *(u8 **)((s8 *)arg0 + 4) = lbl_804FF9C0;
+}
+
+
+extern "C" {
+
+s32 TObjPlayer__sub_8007A7B8(s32 arg0) {
+    ((TObjPlayer *)arg0)->clear_velocity_vectors();
+    return arg0;
+}
+
+}
+
+
+    extern const float lbl_805D91F0;
+void TObjPlayer::clear_velocity_vectors() { *(float*)((char*)this + 0x8) = lbl_805D91F0; *(float*)((char*)this + 0x4) = lbl_805D91F0; *(float*)((char*)this + 0x0) = lbl_805D91F0; *(float*)((char*)this + 0x14) = lbl_805D91F0; *(float*)((char*)this + 0x10) = lbl_805D91F0; *(float*)((char*)this + 0xc) = lbl_805D91F0; *(int*)((char*)this + 0x18) = 0; }

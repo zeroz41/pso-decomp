@@ -528,6 +528,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/frontend/TAdPlyPltAnimGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdChrSelASlotGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdChrSelBSlotGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # -inline off,deferred: functions come out in reverse source order (the .rodata local initialisers 0x804661E4
+    # precede the scale table and the conversion doubles). -str reuse,readonly: strings 0x80466190 sit in .rodata.
+    # -sdata 4: the 8-byte texlists 0x804DCA78/98 sit in .data.
+    "pso/ui/frontend/TAdTitleGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-sdata 4")},
     "pso/ui/frontend/TAdMultiPlayerNoGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # -inline off: the TPlyItem part sits in a defer_codegen region (written backwards),
     # the TItemList part after it is forward. readonly: the class-name strings are in .rodata.

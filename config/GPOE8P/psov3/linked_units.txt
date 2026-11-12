@@ -1835,7 +1835,6 @@ pso/object/TObjLuker.cpp
 pso/object/TObjLuker_8001A438.cpp
 pso/object/TObjLuker_801329B0.cpp
 pso/map/TObjMapCsn.cpp
-pso/map/TObjMapCsn_8007A720.cpp
 pso/object/base/TObjMapObject.cpp
 pso/object/warp/TObjMapWarpAncient.cpp
 pso/object/warp/TObjMapWarpForest.cpp
@@ -1915,7 +1914,6 @@ pso/player/TObjPlayer_80052374.cpp
 pso/player/TObjPlayer_80055678.cpp
 pso/player/TObjPlayer_800666B0.cpp
 pso/player/TObjPlayer_80072218.cpp
-pso/player/TObjPlayer_8007A7E8.cpp
 pso/player/TObjPlayer_8007B4F8.cpp
 pso/player/TObjPlayer_80080750.cpp
 pso/player/TObjPlayer_80081B2C.cpp
@@ -2244,7 +2242,6 @@ pso/ui/window/TObjBagWarnWin.cpp
 pso/ui/window/TObjBagWarnWin_8006EF24.cpp
 pso/ui/charcreate/TObjCMHexTile.cpp
 pso/boss/darkfalz/TObjDFJisin.cpp
-pso/boss/darkfalz/TObjDFUsoTower_80052000.cpp
 pso/boss/darkfalz/TObjDFYutai.cpp
 pso/object/TObjLiveMonitor.cpp
 pso/ui/window/TObjNewFloorWin.cpp
@@ -2288,8 +2285,6 @@ pso/unk/text_80077A70.cpp
 pso/unk/text_80077AA4.cpp
 pso/unk/text_80077AE8.cpp
 pso/unk/text_80077B34.cpp
-pso/unk/text_8007A7A0.cpp
-pso/unk/text_8007A7B8.cpp
 pso/unk/text_8007B370.cpp
 pso/unk/text_8007C0CC.cpp
 pso/unk/text_8007F8D0.cpp

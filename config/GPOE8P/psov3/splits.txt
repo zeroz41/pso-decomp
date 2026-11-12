@@ -556,15 +556,12 @@ pso/boss/darkfalz/TBoss4Type3_800505A8.cpp:
 	.text       start:0x800505A8 end:0x8005063C
 
 pso/boss/darkfalz/TObjDFJisin.cpp:
-	.text       start:0x8005063C end:0x80052000
+	.text       start:0x8005063C end:0x800521A8
 	.rodata     start:0x804374E8 end:0x804374F8
 	.data       start:0x804858F8 end:0x80485AAC
 	.bss        start:0x804FF228 end:0x804FF2A0
 	.sdata      start:0x805D27B8 end:0x805D27D0
 	.sdata2     start:0x805D8A60 end:0x805D8AC4
-
-pso/boss/darkfalz/TObjDFUsoTower_80052000.cpp:
-	.text       start:0x80052000 end:0x800521A8
 
 pso/boss/darkfalz/TObjDFUsoTower.cpp:
 	.text       start:0x800521A8 end:0x80052374
@@ -1033,21 +1030,9 @@ pso/network/TTcpSocket.cpp:
 	.data       start:0x8048D378 end:0x8048D4C0
 
 pso/map/CsnQuery.cpp:
-	.text       start:0x800790F0 end:0x8007A720
+	.text       start:0x800790F0 end:0x8007A810
 	.ctors      start:0x80433F4C end:0x80433F50
 	.bss        start:0x804FF9C0 end:0x80500158
-
-pso/map/TObjMapCsn_8007A720.cpp:
-	.text       start:0x8007A720 end:0x8007A7A0
-
-pso/unk/text_8007A7A0.cpp:
-	.text       start:0x8007A7A0 end:0x8007A7B8
-
-pso/unk/text_8007A7B8.cpp:
-	.text       start:0x8007A7B8 end:0x8007A7E8
-
-pso/player/TObjPlayer_8007A7E8.cpp:
-	.text       start:0x8007A7E8 end:0x8007A810
 
 pso/ui/window/TWindowSubComCard_8007A810.cpp:
 	.text       start:0x8007A810 end:0x8007B370
@@ -8260,8 +8245,9 @@ pso/unk/text_802A0A30.cpp:
 
 pso/ui/frontend/TAdTitleGC.cpp:
 	.text       start:0x802A0A60 end:0x802A1020
-	.rodata     start:0x80466230 end:0x80466240
-	.data       start:0x804DCAA0 end:0x804DCAB8
+	.rodata     start:0x80466190 end:0x80466240
+	.data       start:0x804DCA60 end:0x804DCAB8
+	.sdata      start:0x805D3D78 end:0x805D3D7C
 	.sdata2     start:0x805DDDC8 end:0x805DDDF4
 
 pso/unk/text_802A1020.cpp:
@@ -8824,6 +8810,7 @@ pso/network/TradeSession.cpp:
 	.text       start:0x802D2808 end:0x802D3924
 	.data       start:0x804E1920 end:0x804E1A60
 	.bss        start:0x80540BD0 end:0x80540FB0
+	.sbss       start:0x805D6888 end:0x805D68A0
 
 pso/ui/window/TWindowSubTradeMain_802D3924.cpp:
 	.text       start:0x802D3924 end:0x802D3970

@@ -28,7 +28,15 @@ struct E_802D2A70 { u32 id; s32 count; };
 struct Half_802D38B4 { E_802D2A70 lists[2][0x1F]; };
 
 extern "C" Half_802D38B4 TLobby__trade_window_state[2]; /* defined below */
-extern u32 TLobby__trade_main_window;
+// The trade session state (.sbss).
+u16 trade_protocol_flags;
+u8 TLobby__trade_partner_client_id;
+u8 TLobby__trade_proposal_state;
+s32 TLobby__data_805D688C;
+s32 trade_proposal_delay;
+u32 TLobby__data_805D6894;
+u32 TLobby__trade_main_window;
+u32 trade_message_controller;
 
 // The trade window's side: the offer/final confirmation flags, the inventory snapshot and the item moves.
 struct RecoveredGlobal_802D2870_TLobby__data_80540BD0
@@ -38,9 +46,6 @@ struct RecoveredGlobal_802D2870_TLobby__data_80540BD0
 };
 
 extern s32 local_client_id;
-extern u8 TLobby__trade_partner_client_id;
-extern s32 TLobby__data_805D688C;
-extern u16 trade_protocol_flags;
 
 s32 are_both_trade_offers_confirmed(void) {
     u16 v = trade_protocol_flags;
@@ -107,8 +112,6 @@ s32 fn_801D4270(s32);
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFv();
 extern s32 local_client_id;
 extern s32 TLobby__protocol_instance;
-extern u8 TLobby__trade_proposal_state;
-extern u32 trade_message_controller;
 
 u8 *TLobby__sub_802D298C(void) {
     return (u8 *)TLobby__trade_window_state[0].lists[1];
@@ -148,7 +151,6 @@ s32 TLobby__sub_802D2A0C(u32 arg0) {
     return 1;
 }
 
-extern u32 TLobby__data_805D6894;
 
 s32 TLobby__sub_802D2A2C(u32 arg0) {
     if ((u32) TLobby__data_805D6894 != arg0) {
@@ -219,7 +221,6 @@ typedef struct S_802D2BC0 {
 extern "C" {
 s32 byteswap_trade_packet__6TLobbyFv();
 
-extern u8 TLobby__trade_partner_client_id;
 void handle_trade_received_items(S_802D2BC0 *arg0);
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
 
@@ -253,7 +254,6 @@ void handle_trade_received_items(S_802D2BC0 *arg0) {
 
 void handle_6xA7(void) {  }
 
-extern u16 trade_protocol_flags;
 
 typedef char RecoveredGlobal_802D2C38_lbl_804E1920_size[sizeof(trade_proposal_state_handlers) == 0x140 ? 1 : -1];
 void handle_6xA6_modify_trade_proposal(u8 *arg0) {
@@ -390,8 +390,6 @@ s32 TLobby::show_event_message(s32 arg0, s32 arg1, s32 arg2) {
     }
 }
 
-extern s32 TLobby__data_805D688C;
-extern s32 trade_proposal_delay;
 
 void reset__6TLobbyFv(void) {
     if (is_trade_active() == 0) {
