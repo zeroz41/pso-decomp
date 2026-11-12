@@ -538,6 +538,8 @@ void TLobby__sub_8041FED4(TcpTcb *tcb) {
     }
 }
 
+#pragma push
+#pragma opt_loop_invariants off
 s32 TLobby__sub_8041FFF8(u32 len, TcpTcb *self) {
     s32 n;
     s16 idx;
@@ -549,6 +551,7 @@ s32 TLobby__sub_8041FFF8(u32 len, TcpTcb *self) {
     u32 k;
     TcpSendEntry rec;
     NetBufferRef a;
+    u8 unused[8];
     NetBufferRef b;
     NetBufferRef d;
     idx = self - tcp_protocol_state.tcbs;
@@ -654,6 +657,7 @@ s32 TLobby__sub_8041FFF8(u32 len, TcpTcb *self) {
     }
     return 0;
 }
+#pragma pop
 
 s32 TLobby__sub_80420410(u32 off, u32 len, NetPacket *pkt, TcpTcb *o) {
     TcpSendEntry ent;
