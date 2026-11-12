@@ -79,7 +79,7 @@ extern void *lbl_805D63F0;
 void TWindowCtrlMain__sub_8024CB7C();
 void TWindowCtrlMain__sub_8024CB8C();
 s32 TWindowMainMenu__sub_8024E3D4(void *);
-int spawn_action_palette_slot_light(void*);
+void spawn_action_palette_slot_light(void *window, s32 kind);
 int open_submenu__15TWindowSubEquipFll(void*);
 int append_line__14TWindowMessageFii(void*);
 int try_open_battle_menu__15TWindowMainMenuFs(void*);
@@ -443,7 +443,7 @@ void TWindowCtrlMain::free_member() { void* m = *(void**)((char*)this + 0x28); i
 
 void TWindowCtrlMain::update_field28() { void* m = *(void**)((char*)this + 0x28); if (m) open_submenu__15TWindowSubEquipFll(m); }
 
-void TWindowCtrlMain::spawn_palette_slot_light() { void* m = *(void**)((char*)this + 0x34); if (m) spawn_action_palette_slot_light(m); }
+void TWindowCtrlMain::spawn_palette_slot_light(s32 kind) { void* m = *(void**)((char*)this + 0x34); if (m) spawn_action_palette_slot_light(m, kind); }
 
 void TWindowCtrlMain::update_child_2c() { void* m = *(void**)((char*)this + 0x2c); if (m) append_line__14TWindowMessageFii(m); }
 

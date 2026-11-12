@@ -2504,7 +2504,6 @@ pso/unk/text_8023F160.cpp
 pso/unk/text_8023F3F8.cpp
 pso/unk/text_8023F660.cpp
 pso/unk/text_802432F0.cpp
-pso/unk/text_802437C4.cpp
 pso/ui/window/TWindowAddition_80244238.cpp
 pso/unk/text_8024450C.cpp
 pso/ui/window/TWindowChallengeResult_80246CE8.cpp
