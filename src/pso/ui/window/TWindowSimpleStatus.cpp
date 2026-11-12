@@ -39,7 +39,6 @@ extern const f32 lbl_805DD3C8;
 extern const f32 lbl_805DD3CC;
 extern const f32 lbl_805DD3D0;
 extern const f32 lbl_805DD3D4;
-extern const f32 lbl_805DD3D8;
 void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const Vec2_80270244 *arg2, f32 farg0, f32 farg1);
 struct VtBase4_8026f71c_more_8026f8cc_0 { void *vtable; };
 
@@ -141,11 +140,6 @@ extern const f32 lbl_805DD3B8;
 extern const f32 lbl_805DD3BC;
 extern const f32 lbl_805DD3C0;
 extern const f32 lbl_805DD3C4;
-extern const f32 lbl_805DD3DC;
-extern const f32 lbl_805DD3E0;
-extern const f32 lbl_805DD3E4;
-extern const f32 lbl_805DD3E8;
-extern const f32 lbl_805DD3EC;
 
 void TWindowSubStatusDisp::start_hp_text_color_transition() {
     u8 *arg0 = (u8 *)this;
@@ -489,7 +483,7 @@ void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const Vec2_80
         p.x = arg1->x + arg2->x;
         p.y = arg1->y + arg2->y;
         draw_photon_blast_fan(arg0, &p, arg1, photon_blast_gauge_ring_color_table[n], 0, 0xD700, lbl_805DD388, farg1);
-        draw_photon_blast_fan(arg0, &p, arg1, photon_blast_gauge_ring_color_table[++n], lbl_805DD3D8 - lbl_805DD3CC * (lbl_805DD3D8 * farg0), 0xD700, lbl_805DD3D4, farg1);
+        draw_photon_blast_fan(arg0, &p, arg1, photon_blast_gauge_ring_color_table[++n], 55040.0f - lbl_805DD3CC * (55040.0f * farg0), 0xD700, lbl_805DD3D4, farg1);
     }
 }
 #pragma pop
@@ -507,12 +501,12 @@ void TWindowSimpleStatus::draw_background(u8 *arg1) {
     } else {
         f = lbl_805DD388;
     }
-    draw_photon_blast_gauge_ring((s32)this, (Params_80270244 *)(arg1), (const Vec2_80270244 *)(lbl_8044F5E4), f, lbl_805DD3DC);
-    pos.x = lbl_805DD3E0 + *(f32 *)((s8 *)arg1 + 0x10);
+    draw_photon_blast_gauge_ring((s32)this, (Params_80270244 *)(arg1), (const Vec2_80270244 *)(lbl_8044F5E4), f, 17.0f);
+    pos.x = 6.0f + *(f32 *)((s8 *)arg1 + 0x10);
     pos.y = lbl_805DD398 + *(f32 *)((s8 *)arg1 + 0x14);
-    size.x = lbl_805DD3E4;
-    size.y = lbl_805DD3E8;
-    scale = lbl_805DD3EC / this->m_54;
+    size.x = 36.0f;
+    size.y = 35.0f;
+    scale = -1.0f / this->m_54;
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(0xB, *(s32 *)((s8 *)arg1 + 0x34));
@@ -596,7 +590,7 @@ SS_80270668 *TWindowSimpleStatus__ct(SS_80270668 *arg0, void *arg1, s32 arg2, vo
     arg0->f0 = TWindowSimpleStatus__name;
     arg0->f20 = arg2;
     arg0->f60 = 0;
-    arg0->f58 = lbl_805DD3EC;
+    arg0->f58 = -1.0f;
     for (i = 0; i < 5; i++) {
         arg0->w[i] = 0;
     }
