@@ -1142,10 +1142,6 @@ pso/object/trap/TOMineIcon01.cpp
 pso/object/trap/TOMineIcon02.cpp
 pso/object/trap/TOMineIcon03.cpp
 pso/object/trap/TOMineIcon04.cpp
-pso/object/trap/TOMineTrap.cpp
-pso/object/trap/TOMineTrapDisp.cpp
-pso/object/trap/TOMineTrapDisp_8016EDC8.cpp
-pso/object/trap/TOMineTrap_8016ED9C.cpp
 pso/object/mine/TOMonitorMachine01.cpp
 pso/object/ruins/TOMonumentAncient01.cpp
 pso/object/ruins/TOMonumentAncient02.cpp
@@ -2384,7 +2380,6 @@ pso/unk/text_80145A94.cpp
 pso/unk/text_8014618C.cpp
 pso/system/TLanguage_8015C680.cpp
 pso/object/key/TODummyKeyCave01_80165940.cpp
-pso/unk/text_8016F1C0.cpp
 pso/object/switch/TOSwitchTimer_801782A0.cpp
 pso/unk/text_8017866C.cpp
 pso/unk/text_8017B9AC.cpp

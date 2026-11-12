@@ -19,55 +19,16 @@ extern "C" void test_flag_256__9TObjCharaFv();
 extern "C" void get_name__6TOMineFv();
 
 
-struct Base_80171E7C { char pad[0x18]; };
-
-struct VIcon_80171E7C : Base_80171E7C {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4();
-    virtual void m5(void *);
-};
-
-struct Icon_80171E7C {
-    s32 f0;
-    u8 pad4[0x18 - 4];
-    void **vt;
-    u8 pad1C[0x24 - 0x1C];
-    s32 f24;
-    u8 pad28[0x30 - 0x28];
-    u32 f30;
-    s32 f34;
-    u8 pad38[0x68 - 0x38];
-    f32 f68;
-    f32 f6C;
-    u8 pad70[0x84 - 0x70];
-    s32 f84;
-    s32 f88;
-    s32 f8C;
-    u8 pad90[0x326 - 0x90];
-    s16 f326;
-    u8 pad328[0x34C - 0x328];
-    f32 f34C;
-    f32 f350;
-    s32 f354;
-    f32 f358;
-    u16 f35C;
-    u8 pad35E[0x374 - 0x35E];
-    s32 f374;
-    s32 f378;
-};
-
 extern "C" {
 void vfunc_80__12TOMineIcon04Fv(s32 arg0);
 s32 TObjFish__sub_8001EDB0(void *, s32);
 s32 get_bml_model(void *, s32);
 void init_collision_body_parts(void *, void *, s32);
-void TOMine__ct(void *, void *, void *);
 extern u8 mine_collision_body_parts[];
 extern void *__vt__12TOMineIcon04[];
-extern s32 TOMineIcon04__name;
+extern const char *TOMineIcon04__name;
 extern s32 game_difficulty_selection;
 extern void *lbl_805D5A50;
-void *TOMineIcon04__ct(void *arg0, void *arg1, void *arg2);
 int vfunc_82__12TOMineIcon04Fv(void* p);
 void vfunc_84__12TOMineIcon04Fv(void);
 void *__dt__12TOMineIcon04Fv(void *arg0, s16 arg1);
@@ -122,8 +83,8 @@ void apply_poison_status__9TObjCharaFv();
 void apply_shock_status__9TObjCharaFv();
 void apply_switch_attack__9TObjCharaFv();
 void receive_weapon_special_attack__6TOMineFPvPv();
-void can_trigger__10TOMineTrapFUl();
-void check_trigger__10TOMineTrapFUl();
+void select_melee_contact_body__6TOMineFPvf();
+void calc_distance_accuracy_penalty__6TOMineFPvPvPvf();
 void classify_actor_view_detail__8TObjBaseFfff();
 void clear_all_status_effects__9TObjCharaFv();
 void clear_harmful_statuses__9TObjCharaFv();
@@ -145,7 +106,7 @@ void render_shadows__7TObjectFv();
 void reset_motion_fields__9TObjCharaFv();
 void reset_pose__9TObjCharaFv();
 void run_task__6TOMineFv();
-void spawn_effect__10TOMineTrapFv();
+void vfunc_81__6TOMineFv();
 void receive_physical_attack__6TOMineFPvf();
 void trigger_switch_attack__9TObjCharaFv(s32 arg0);
 void update_action_hold_status__9TObjCharaFv();
@@ -177,8 +138,8 @@ void *__vt__12TOMineIcon04[87] = {
     (void *)update_actor_ground_y__9TObjCharaFv,
     (void *)vfunc_18__9TObjCharaFPUc,
     (void *)is_actor_cadence_frame__9TObjCharaFl,
-    (void *)can_trigger__10TOMineTrapFUl,
-    (void *)check_trigger__10TOMineTrapFUl,
+    (void *)select_melee_contact_body__6TOMineFPvf,
+    (void *)calc_distance_accuracy_penalty__6TOMineFPvPvPvf,
     (void *)receive_physical_attack__6TOMineFPvf,
     (void *)receive_direct_attack__6TOMineFPv19DirectAttackPayloadPvll,
     (void *)receive_weapon_special_attack__6TOMineFPvPv,
@@ -238,7 +199,7 @@ void *__vt__12TOMineIcon04[87] = {
     (void *)vfunc_78__9TObjCharaFl,
     (void *)vfunc_79__6TOMineFv,
     (void *)vfunc_80__12TOMineIcon04Fv,
-    (void *)spawn_effect__10TOMineTrapFv,
+    (void *)vfunc_81__6TOMineFv,
     (void *)vfunc_82__12TOMineIcon04Fv,
     (void *)spawn_disp_objects__6TOMineFv,
     (void *)vfunc_84__12TOMineIcon04Fv,
@@ -292,11 +253,7 @@ void TOMineIcon04::vfunc_80() {
 }
 
 void *TOMineIcon04::create() {
-    void *o = __nw__7TObjectFUl(0x37C);
-    if (o != NULL) {
-        o = TOMineIcon04__ct(o, tl_05, this);
-    }
-    return o;
+    return new TOMineIcon04((TObject *)tl_05, this);
 }
 
 void *__dt__12TOMineIcon04Fv(void *arg0, s16 arg1) {
@@ -313,45 +270,40 @@ void *__dt__12TOMineIcon04Fv(void *arg0, s16 arg1) {
 }
 #pragma push
 #pragma fp_contract on
-void *TOMineIcon04__ct(void *arg0, void *arg1, void *arg2) {
-    TOMine__ct(arg0, arg1, arg2);
-#define self ((Icon_80171E7C *)arg0)
-    self->vt = ((void * *)&__vt__12TOMineIcon04);
-    self->f0 = TOMineIcon04__name;
-    ((VIcon_80171E7C *)self)->m5(arg2);
-    ((TObjPlayer *)self)->init_position_vectors();
-    ((TObjChara *)self)->calc_attach_pos();
-    self->f34 = get_bml_model(lbl_805D5A50, 7);
-    self->f24 = TObjFish__sub_8001EDB0(lbl_805D5A50, 7);
-    self->f374 = get_bml_model(lbl_805D5A50, 3);
-    self->f378 = TObjFish__sub_8001EDB0(lbl_805D5A50, 3);
-    self->f326 = 0;
-    if (self->f84 < 0) {
-        self->f84 = 0;
+TOMineIcon04::TOMineIcon04(TObject *parent, void *set_data) : TOMine(parent) {
+    m_name = TOMineIcon04__name;
+    apply_object_set_data(set_data);
+    ((TObjPlayer *)this)->init_position_vectors();
+    calc_attach_pos();
+    model = (void *)get_bml_model(lbl_805D5A50, 7);
+    texlist = TObjFish__sub_8001EDB0(lbl_805D5A50, 7);
+    m_374 = get_bml_model(lbl_805D5A50, 3);
+    m_378 = TObjFish__sub_8001EDB0(lbl_805D5A50, 3);
+    mode = 0;
+    if (set_params[0] < 0) {
+        set_params[0] = 0;
     }
-    if (self->f88 < 0) {
-        self->f88 = 0;
-    } else if (self->f88 > 5) {
-        self->f88 = 5;
+    if (set_params[1] < 0) {
+        set_params[1] = 0;
+    } else if (set_params[1] > 5) {
+        set_params[1] = 5;
     }
-    if (self->f8C < 0) {
-        self->f8C = 0;
+    if (set_params[2] < 0) {
+        set_params[2] = 0;
     }
-    self->f358 = (f32)self->f84 * (2.0f * (f32)game_difficulty_selection + 1.0f);
+    attack.power = (f32)set_params[0] * (2.0f * (f32)game_difficulty_selection + 1.0f);
     if (game_difficulty_selection == 3) {
-        self->f358 *= 2.0f;
+        attack.power *= 2.0f;
     }
-    self->f354 = self->f88;
-    self->f34C = 0.5f * self->f68 + 60.0f;
-    self->f350 = 0.5f * self->f6C + 120.0f;
-    ((TOMine *)self)->update_state();
-    self->f35C = 0xFFFF;
-    self->f30 |= 0x60000000;
-    init_collision_body_parts(self, mine_collision_body_parts, 1);
-    ((TObjCollidable *)self)->refresh_collision_body_centers();
-    ((TObjPlayer *)self)->register_object_by_id();
-    return self;
-#undef self
+    attack.kind = set_params[1];
+    pad_34C = 0.5f * scale.x + 60.0f;
+    m_350 = 0.5f * scale.y + 120.0f;
+    update_state();
+    m_35c = 0xFFFF;
+    actorFlags |= 0x60000000;
+    init_collision_body_parts(this, mine_collision_body_parts, 1);
+    refresh_collision_body_centers();
+    register_object_by_id();
 }
 #pragma pop
 

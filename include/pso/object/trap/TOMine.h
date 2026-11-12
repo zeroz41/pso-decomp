@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/system/NinjaTypes.h"
 
 struct TOMine : public TObjChara {
     TOMine(TObject *parent);
@@ -27,6 +28,8 @@ struct TOMine : public TObjChara {
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
     virtual void vfunc_6(s16 *, s32);
     virtual f32 receive_physical_attack(void *, f32);
+    virtual s32 select_melee_contact_body(void *, f32);
+    virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
     virtual const char *get_name();
     virtual void apply_object_set_data(void *);
     virtual void apply_knockback_from_attacker(u8 *, f32);
@@ -40,7 +43,8 @@ struct TOMine : public TObjChara {
     f32 m_350;                // trigger radius (squared against horizontal_distance_squared)
     DirectAttackPayload attack; // passed by value to receive_direct_attack
     u16 m_35c;
-    u8 _pad35E[0x12];
+    u8 pad_35E[0x2];
+    NJS_ARGB color;           // the constant material colour render draws it with
     u32 m_370;
     int get_player_state();
     int find_target_player();

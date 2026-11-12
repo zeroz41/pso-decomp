@@ -4251,33 +4251,16 @@ pso/object/mine/TOLightMachine01.cpp:
 	.data       start:0x804B2EB8 end:0x804B2F08
 	.sdata2     start:0x805DB828 end:0x805DB84C
 
-pso/object/trap/TOMineTrap_8016ED9C.cpp:
-	.text       start:0x8016ED9C end:0x8016EDC8
-
-pso/object/trap/TOMineTrapDisp_8016EDC8.cpp:
-	.text       start:0x8016EDC8 end:0x8016EF10
-
-pso/object/trap/TOMineTrapDisp.cpp:
-	.text       start:0x8016EF10 end:0x8016F1C0
-	.rodata     start:0x804421E0 end:0x804421F0
-	.data       start:0x804B2F68 end:0x804B2FD0
-	.sdata      start:0x805D3088 end:0x805D3090
-
-pso/unk/text_8016F1C0.cpp:
-	.text       start:0x8016F1C0 end:0x8016F6F8
-	.sdata2     start:0x805DB860 end:0x805DB864
-
-pso/object/trap/TOMineTrap_8016F6F8.cpp:
-	.text       start:0x8016F6F8 end:0x80170EEC
-
 pso/object/trap/TOMine.cpp:
-	.text       start:0x80170EEC end:0x80171314
-
-pso/object/trap/TOMineTrap.cpp:
-	.text       start:0x80171314 end:0x80171434
+	.text       start:0x8016ED9C end:0x80171430
+	.rodata     start:0x80441F40 end:0x80442208
+	.data       start:0x804B2F08 end:0x804B3288
+	.sdata      start:0x805D3070 end:0x805D3090
+	.sbss       start:0x805D5A50 end:0x805D5A58
+	.sdata2     start:0x805DB850 end:0x805DB88C
 
 pso/object/trap/TOMineIcon01.cpp:
-	.text       start:0x80171434 end:0x8017170C
+	.text       start:0x80171430 end:0x8017170C
 	.rodata     start:0x80442218 end:0x80442220
 	.sdata2     start:0x805DB890 end:0x805DB8A8
 

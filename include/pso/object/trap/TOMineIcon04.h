@@ -5,6 +5,7 @@
 #include "pso/object/trap/TOMine.h"
 
 struct TOMineIcon04 : public TOMine {
+    TOMineIcon04(TObject *parent, void *set_data);
     virtual ~TOMineIcon04();
     virtual void vfunc_84();
     virtual void vfunc_82();

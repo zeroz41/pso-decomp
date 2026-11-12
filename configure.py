@@ -552,7 +552,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/fence/TOVS2Wall01_8017BE08.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowDD_8034725C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/unk/text_8016F1C0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/object/trap/TOMine.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/hud/TRaderMapCore_801FB6A8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/charcreate/TChCrEffWall.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/charcreate/TChCrTagOccupation.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

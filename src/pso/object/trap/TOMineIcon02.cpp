@@ -9,51 +9,13 @@
 #include "pso/player/TObjPlayer.h"
 
 
-struct Base_801717C0 { char pad[0x18]; };
-
-struct VIcon_801717C0 : Base_801717C0 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4();
-    virtual void m5(void *);
-};
-
-struct Icon_801717C0 {
-    s32 f0;
-    u8 pad4[0x18 - 4];
-    void **vt;
-    u8 pad1C[0x24 - 0x1C];
-    s32 f24;
-    u8 pad28[0x30 - 0x28];
-    u32 f30;
-    s32 f34;
-    u8 pad38[0x68 - 0x38];
-    f32 f68;
-    f32 f6C;
-    u8 pad70[0x84 - 0x70];
-    s32 f84;
-    s32 f88;
-    s32 f8C;
-    u8 pad90[0x326 - 0x90];
-    s16 f326;
-    u8 pad328[0x34C - 0x328];
-    f32 f34C;
-    f32 f350;
-    s32 f354;
-    f32 f358;
-    u16 f35C;
-    u8 pad35E[0x374 - 0x35E];
-    s32 f374;
-    s32 f378;
-};
-
 extern "C" {
 s32 TObjFish__sub_8001EDB0(void *, s32);
 s32 get_bml_model(void *, s32);
 void init_collision_body_parts(void *, void *, s32);
-void TOMine__ct(void *, void *, void *);
 extern u8 mine_collision_body_parts[];
 extern s32 __vt__12TOMineIcon02[];
-extern s32 TOMineIcon02__name;
+extern const char *TOMineIcon02__name;
 extern s32 game_difficulty_selection;
 extern void *lbl_805D5A50;
 s32 free_collision_body_parts(void *);
@@ -64,11 +26,7 @@ void *__nw__7TObjectFUl(int);
 extern void *tl_05;
 
 void *TOMineIcon02::create() {
-    void *o = __nw__7TObjectFUl(0x37C);
-    if (o != NULL) {
-        o = TOMineIcon02__ct(o, tl_05, this);
-    }
-    return o;
+    return new TOMineIcon02((TObject *)tl_05, this);
 }
 
 void *__dt__12TOMineIcon02Fv(void *arg0, s16 arg1) {
@@ -86,45 +44,40 @@ void *__dt__12TOMineIcon02Fv(void *arg0, s16 arg1) {
 
 #pragma push
 #pragma fp_contract on
-void *TOMineIcon02__ct(void *arg0, void *arg1, void *arg2) {
-    TOMine__ct(arg0, arg1, arg2);
-#define self ((Icon_801717C0 *)arg0)
-    self->vt = ((void * *)&__vt__12TOMineIcon02);
-    self->f0 = TOMineIcon02__name;
-    ((VIcon_801717C0 *)self)->m5(arg2);
-    ((TObjPlayer *)self)->init_position_vectors();
-    ((TObjChara *)self)->calc_attach_pos();
-    self->f34 = get_bml_model(lbl_805D5A50, 5);
-    self->f24 = TObjFish__sub_8001EDB0(lbl_805D5A50, 5);
-    self->f374 = get_bml_model(lbl_805D5A50, 0);
-    self->f378 = TObjFish__sub_8001EDB0(lbl_805D5A50, 0);
-    self->f326 = 0;
-    if (self->f84 < 0) {
-        self->f84 = 0;
+TOMineIcon02::TOMineIcon02(TObject *parent, void *set_data) : TOMine(parent) {
+    m_name = TOMineIcon02__name;
+    apply_object_set_data(set_data);
+    ((TObjPlayer *)this)->init_position_vectors();
+    calc_attach_pos();
+    model = (void *)get_bml_model(lbl_805D5A50, 5);
+    texlist = TObjFish__sub_8001EDB0(lbl_805D5A50, 5);
+    m_374 = get_bml_model(lbl_805D5A50, 0);
+    m_378 = TObjFish__sub_8001EDB0(lbl_805D5A50, 0);
+    mode = 0;
+    if (set_params[0] < 0) {
+        set_params[0] = 0;
     }
-    if (self->f88 < 15) {
-        self->f88 = 15;
-    } else if (self->f88 > 18) {
-        self->f88 = 18;
+    if (set_params[1] < 15) {
+        set_params[1] = 15;
+    } else if (set_params[1] > 18) {
+        set_params[1] = 18;
     }
-    if (self->f8C < 0) {
-        self->f8C = 0;
+    if (set_params[2] < 0) {
+        set_params[2] = 0;
     }
-    self->f358 = (f32)self->f84 * (2.0f * (f32)game_difficulty_selection + 1.0f);
+    attack.power = (f32)set_params[0] * (2.0f * (f32)game_difficulty_selection + 1.0f);
     if (game_difficulty_selection == 3) {
-        self->f358 *= 2.0f;
+        attack.power *= 2.0f;
     }
-    self->f354 = self->f88;
-    self->f34C = 0.5f * self->f68 + 30.0f;
-    self->f350 = 0.5f * self->f6C + 60.0f;
-    ((TOMine *)self)->update_state();
-    self->f35C = 0xFFFF;
-    self->f30 |= 0x60000000;
-    init_collision_body_parts(self, mine_collision_body_parts, 1);
-    ((TObjCollidable *)self)->refresh_collision_body_centers();
-    ((TObjPlayer *)self)->register_object_by_id();
-    return self;
-#undef self
+    attack.kind = set_params[1];
+    pad_34C = 0.5f * scale.x + 30.0f;
+    m_350 = 0.5f * scale.y + 60.0f;
+    update_state();
+    m_35c = 0xFFFF;
+    actorFlags |= 0x60000000;
+    init_collision_body_parts(this, mine_collision_body_parts, 1);
+    refresh_collision_body_centers();
+    register_object_by_id();
 }
 #pragma pop
 
