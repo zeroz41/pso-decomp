@@ -12,6 +12,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/math/AngleUnits.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/BmlResource.h"
@@ -712,7 +713,7 @@ void TOMine::follow_target() {
   temp_f2 = *((f32 *) (((s8 *) arg0) + 0x48));
   *((f32 *) (((s8 *) arg0) + 0x3C)) = (f32) ((lbl_805DB884 * ((lbl_805DB888 + (*((f32 *) ((this->target) + 0x3C)))) - temp_f2)) + temp_f2);
   ((TObjChara *)arg0)->calc_attach_pos();
-  this->rotation_y = (s32) (10430.38043493439 * atan2_float((f64) stack.sp8, (f64) stack.sp10));
+  this->rotation_y = (s32) (RADIANS_TO_ANGLE * atan2_float((f64) stack.sp8, (f64) stack.sp10));
   ((TObjCollidable *)arg0)->refresh_collision_body_centers();
 }
 #pragma pop
