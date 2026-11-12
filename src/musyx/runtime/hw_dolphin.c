@@ -111,16 +111,14 @@ typedef struct DSPTaskInfo_803BE554 {
 
 void DSPInit(void);
 void DSPAddTask(void *);
-extern u8 lbl_804F7980[];
-extern u16 lbl_805D4648;
+extern u8 dspSlave[];
+extern u16 dspSlaveLength;
 
 static DSPTaskInfo_803BE554 dsp_task_803BE554 __attribute__((aligned(8)));
 static u16 dram_image_803BE554[4096] __attribute__((aligned(32)));
 
 #define dsp_task dsp_task_803BE554
 #define dram_image dram_image_803BE554
-#define dspSlave lbl_804F7980
-#define dspSlaveLength lbl_805D4648
 #define salDspInitIsDone (*(volatile u32 *)&lbl_805D7500)
 
 u32 salInitDsp(u32 flags) {
@@ -149,8 +147,6 @@ u32 salInitDsp(u32 flags) {
 
 #undef dsp_task
 #undef dram_image
-#undef dspSlave
-#undef dspSlaveLength
 #undef salDspInitIsDone
 
 void salCtrlDsp(s32 arg0) {
