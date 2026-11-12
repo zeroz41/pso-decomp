@@ -770,6 +770,8 @@ pso/unk/TUnk_80488DA0.cpp:
 pso/camera/TCameraCtrl_8006CC30.cpp:
 	.text       start:0x8006CCEC end:0x8006E82C
 	.rodata     start:0x80438528 end:0x80438548
+	.data       start:0x80488DE8 end:0x80488E00
+	.sdata      start:0x805D2840 end:0x805D2848
 	.sdata2     start:0x805D9050 end:0x805D90B8
 
 pso/unk/text_8006E82C.cpp:
@@ -2074,7 +2076,9 @@ pso/unk/TLobby_800FA848.cpp:
 pso/render/TFogCtrl.cpp:
 	.text       start:0x800FA8A4 end:0x800FBD74
 	.rodata     start:0x8043DA60 end:0x8043DA70
-	.data       start:0x8049C700 end:0x8049C718
+	.data       start:0x8049C670 end:0x8049C718
+	.bss        start:0x80501188 end:0x805011D8
+	.sbss       start:0x805D5388 end:0x805D5394
 	.sdata2     start:0x805DA948 end:0x805DA978
 
 pso/ui/window/TWindowSubStatusDisp_800FBD74.cpp:
@@ -3240,7 +3244,9 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.cpp:
 pso/object/ambient/TObjLight_80133568.cpp:
 	.text       start:0x80133568 end:0x80134A40
 	.rodata     start:0x8043ED80 end:0x8043ED98
+	.data       start:0x804A6F28 end:0x804A6F78
 	.bss        start:0x80506320 end:0x80506A60
+	.sbss       start:0x805D5558 end:0x805D557C
 	.sdata2     start:0x805DB088 end:0x805DB0A8
 
 pso/unk/TLobby.cpp:
@@ -3903,6 +3909,7 @@ pso/enemy/dubchik/TOCtrlDubchik_8015CA74.cpp:
 	.text       start:0x8015C9D0 end:0x8015D5D4
 	.rodata     start:0x80440990 end:0x80440998
 	.data       start:0x804B0B98 end:0x804B0BB4
+	.sbss       start:0x805D58F0 end:0x805D58F8
 	.sdata2     start:0x805DB3A8 end:0x805DB3D0
 
 pso/object/door/TODoorBase.cpp:
@@ -8466,8 +8473,9 @@ pso/boss/olgaflow/TBoss6PlotFalz.cpp:
 	.text       start:0x802AACF4 end:0x802ACCC8
 	.rodata     start:0x8046FDB8 end:0x804705E0
 	.data       start:0x804DE0C8 end:0x804DE210
+	.bss        start:0x80540B28 end:0x80540B30
 	.sdata      start:0x805D3E50 end:0x805D3E58
-	.sbss       start:0x805D66E8 end:0x805D66EC
+	.sbss       start:0x805D66E8 end:0x805D6700
 	.sdata2     start:0x805DE088 end:0x805DE0E0
 
 pso/ui/window/TWindowCallBack.cpp:

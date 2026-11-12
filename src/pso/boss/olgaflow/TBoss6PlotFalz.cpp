@@ -1564,3 +1564,11 @@ s32 TObjFish::get_phase() { return *(s32*)((char*)this + 0x378); }
 int TObjFish::get_fish_count() {  return obj_fish_count; }
 
 }
+
+extern "C" {
+u16 boss6_plot_falz_player_order_table[4];
+s32 TBoss6PlotFalz__instance;
+u32 TBoss6PlotFalz__type1_instance;
+u32 TBoss6PlotFalz__type2_instance;
+s32 plot_falz_phase;
+}

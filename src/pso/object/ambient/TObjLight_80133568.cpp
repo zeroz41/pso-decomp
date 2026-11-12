@@ -112,11 +112,6 @@ struct RecoveredGlobal_80133B10_TObjLight__data_80506320 { s32 value; u8 remaini
 
 struct ByteBlock_44 { u8 bytes[0x44]; };
 
-struct RecoveredGlobal_80133D78_lbl_804A6F34 {
-    s32 value;
-    u8 remaining[0x40];
-};
-
 struct LightEntry_801344A4 { f32 dir[3]; f32 color[4]; u8 pad[0xC]; u32 id; };
 
 struct LightDefault_801344A4 { u8 pad0[0xC]; f32 dir[3]; u8 pad18[0xC]; f32 color[4]; u8 rest[0x5C - 0x34]; };
@@ -156,7 +151,7 @@ f32 vector_length(void *);
 f32 normalize_vector(void *);
 extern s32 tl_02;
 extern const float TObjLight__data_805DB088;
-extern RecoveredGlobal_80133D78_lbl_804A6F34 default_scene_light_config;
+extern f32 default_scene_light_config[];
 extern u32 TObjLight__light_entry_data;
 extern const f32 lbl_805DB0A4;
 extern s32 TObjLight__active_light_count;
@@ -453,7 +448,6 @@ void *TObjLight::init(int _w1) {
     return this;
 }
 
-typedef char RecoveredGlobal_80133D78_lbl_804A6F34_size[sizeof(RecoveredGlobal_80133D78_lbl_804A6F34) == 0x44 ? 1 : -1];
 void init_area_lights(void) {
     struct CopyStack_80133D78 { u8 bytes[0x44]; };
     CopyStack_80133D78 copy_storage_80133D78;
@@ -468,7 +462,7 @@ void init_area_lights(void) {
         init_map_lights((u8 *)((void *) ((copy_storage_80133D78.bytes))));
         return;
     }
-    init_map_lights((u8 *)&default_scene_light_config.value);
+    init_map_lights((u8 *)default_scene_light_config);
 }
 
 void TObjLight::free_shared_data() {
@@ -773,4 +767,22 @@ __declspec(section ".sdata2") extern const f32 lbl_805DB098 = 180.0f;
 __declspec(section ".sdata2") extern const f32 lbl_805DB09C = 100000000.0f;
 __declspec(section ".sdata2") extern const f32 lbl_805DB0A0 = 0.89999997615814209f;
 __declspec(section ".sdata2") extern const f32 lbl_805DB0A4 = 48.0f;
+}
+
+extern "C" {
+int light_type_id_table[3] = { 2, 3, 4 };
+f32 default_scene_light_config[17] = {
+    0.0f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.3f, 0.96f, 0.3f,
+    0.0f, 0.7f, 0.8f, 0.8f, 0.0f, 1.0f, 1.0f, 1.0f,
+};
+
+u8 *lbl_805D5558;
+s32 lbl_805D555C;
+s32 current_scene_light;
+void *lbl_805D5564;
+s32 TObjLight__active_light_count;
+s32 TObjLight__actor_light_count;
+s32 TObjLight__light_count;
+u32 TObjLight__light_entry_data;
+s32 light_entry_file_size;
 }

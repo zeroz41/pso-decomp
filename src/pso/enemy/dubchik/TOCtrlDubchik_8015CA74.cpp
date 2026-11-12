@@ -485,3 +485,7 @@ s32 TOCtrlDubchik::roll_physical_accuracy(void *arg1, s32 arg2, f32 farg0) {
 void TOCtrlDubchik::apply_knockback_from_attacker(u8 *, f32) {  }
 
 }
+
+extern "C" {
+u32 TOCtrlDubchik__shared_resource;
+}
