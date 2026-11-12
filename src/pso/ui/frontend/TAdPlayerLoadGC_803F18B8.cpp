@@ -883,18 +883,17 @@ s32 TAdPlayerLoadGC__sub_803F31D8(void *work_area) {
 }
 
 void TAdPlayerLoadGC::reset_slot_entry(s32 arg0) {
-    u8 *temp_r30;
-    temp_r30 = (u8 *)TAdPlayerLoadGC__load_request_slots + (arg0 * 0x68);
-    *(s32 *)((s8 *)temp_r30 + 0) = 0;
-    memset(temp_r30 + 4, 0, 0x20);
-    memset(temp_r30 + 0x24, 0, 0x20);
-    *(s32 *)((s8 *)temp_r30 + 0x44) = 0;
-    *(s32 *)((s8 *)temp_r30 + 0x48) = 0;
-    *(s32 *)((s8 *)temp_r30 + 0x4C) = 0;
-    *(s32 *)((s8 *)temp_r30 + 0x50) = 0;
-    *(s32 *)((s8 *)temp_r30 + 0x54) = -1;
-    *(s32 *)((s8 *)temp_r30 + 0x58) = 0;
-    *(s32 *)((s8 *)temp_r30 + 0x5C) = 0;
+    CardRequestSlot *slot = &TAdPlayerLoadGC__load_request_slots[arg0];
+    slot->buffer = 0;
+    memset(slot->name, 0, sizeof(slot->name));
+    memset(slot->new_name, 0, sizeof(slot->new_name));
+    slot->kind = 0;
+    slot->step = 0;
+    slot->offset = 0;
+    slot->length = 0;
+    slot->file_index = -1;
+    slot->status = 0;
+    slot->result = 0;
 }
 
 s32 TAdPlayerLoadGC::close_card_slot(s32 arg0) {
