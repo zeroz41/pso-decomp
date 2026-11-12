@@ -124,9 +124,9 @@ s32 TLobby__sub_80418C40(u8* self, void* p1, s16 p2, u8 p3, u32 p4, void* p5, u1
 }
 
 inline NetFragment *take_80418D7C(NetFragment **pb, s16 *pn) {
-    NetFragment *ent;
-    s16 i;
     s16 n;
+    s16 i;
+    NetFragment *ent;
     ent = *pb;
     n = *pn;
     for (i = 0; i < n; i++) {
