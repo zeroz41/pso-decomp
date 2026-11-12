@@ -10603,6 +10603,7 @@ pso/unk/text_8035D2EC.cpp:
 
 pso/unk/text_8035D444.cpp:
 	.text       start:0x8035D444 end:0x8035D540
+	.data       start:0x804F1EC8 end:0x804F1FC0
 
 pso/unk/TLobby_8035D540.cpp:
 	.text       start:0x8035D540 end:0x8035D5B4
