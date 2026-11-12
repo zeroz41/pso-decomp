@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/unk/SharedMemory.h"
+#include "pso/unk/ResetConnectParam.h"
 #include "pso/unk/text_8042EAD4.h"
 #include "pso/unk/text_8042EE4C.h"
 struct Ctx_8042EBA4 { u8 pad[0x100]; s32 f100; s32 f104; s32 f108; };
@@ -14,17 +16,12 @@ void LaunchDol(Ctx_8042EBA4 *);
 extern char lbl_80480404[];
 extern Ctx_8042EBA4 *lbl_805D7CB0;
 char *strncpy(char *, const char *, unsigned long);
-void *memset(void *, int, unsigned long);
 unsigned long strlen(const char *);
-extern s32 lbl_805D7CA8;
 extern Ctx_8042ED98 *lbl_805D7CB8;
-extern u8 *lbl_805D7CC0;
 s32 fn_8042E8B8(void);
-int sprintf(char *, const char *, ...);
 extern char lbl_80480240[];
 extern u32 lbl_805D7CB4;
 extern const s32 lbl_805E11F0;
-extern u8 *lbl_805D7CC4;
 extern u8 *lbl_805D7CBC;
 
 #pragma push
@@ -38,12 +35,12 @@ s32 fn_8042EAD4(u8 *arg0, u32 arg1) {
     if (arg1 > 0x800U) {
         return -2;
     }
-    dst = lbl_805D7CC0 + 0x6020;
+    dst = lbl_805D7CC0->data;
     for (i = arg1; i != 0; i--) {
         *dst++ = *arg0++;
     }
-    *(u32 *)((s8 *)lbl_805D7CC0 + 0x14) = arg1;
-    *(s32 *)((s8 *)lbl_805D7CC0 + 4) = (s32) (*(s32 *)((s8 *)lbl_805D7CC0 + 4) | 1);
+    lbl_805D7CC0->data_size = arg1;
+    lbl_805D7CC0->flags |= SHARED_MEMORY_DATA_SET;
     return 0;
 }
 #pragma pop
@@ -61,39 +58,27 @@ void fn_8042EBA4(s32 arg0, s32 arg1) {
 
 #pragma push
 #pragma optimize_for_size off
+#pragma dont_inline off
+#pragma inline_depth(4)
 void TAdTrialModemChkGC__sub_8042EC14(void) {
-    u8 *p;
+    SharedMemory *p;
     char *msgs = lbl_80480240;
     lbl_805D7CB4 = lbl_805E11F0;
     if ((s32) lbl_805D7CA8 == 0) {
         lbl_805D7CB0 = (Ctx_8042EBA4 *) fn_8042E8B8();
-        p = (u8 *) *(Ctx_8042EBA4 *volatile *) &lbl_805D7CB0 + 0x110;
+        p = (SharedMemory *)((u8 *) *(Ctx_8042EBA4 *volatile *) &lbl_805D7CB0 + 0x110);
         lbl_805D7CA8 = 1;
         lbl_805D7CC0 = p;
-        lbl_805D7CC4 = p + 0x7020;
-        lbl_805D7CBC = p + 0x6820;
-        lbl_805D7CB8 = (Ctx_8042ED98 *) (p + 0x7820);
-        if (*(u32 *) p == 0x53454741) {
+        lbl_805D7CC4 = &p->connect_param;
+        lbl_805D7CBC = p->unk_6820;
+        lbl_805D7CB8 = (Ctx_8042ED98 *) p->disc_messages;
+        if (p->magic == SHARED_MEMORY_MAGIC) {
             return;
         }
-        memset(p, 0, 0x8000);
-        *(u32 *) lbl_805D7CC0 = 0x53454741;
-        *(u32 *)((s8 *) lbl_805D7CC0 + 4) = 0x40;
-        if ((s32) lbl_805D7CA8 != 0) {
-            memset(lbl_805D7CC0 + 0x7020, 0, 0x800);
-            *(s32 *)((s8 *) lbl_805D7CC0 + 0x1C) = 0x674;
-            sprintf((char *) (lbl_805D7CC4 + 4), msgs + 0x30);
-            TAdPlayerLoadGC__sub_8042F108(0);
-            TAdTrialModemChkGC__sub_8042F0D4(3);
-            set_modem_trial_param(1);
-            TAdTrialModemChkGC__sub_8042F080(3);
-            set_modem_check_param(3);
-            set_modem_flag(1);
-            set_modem_check_char(1);
-            set_modem_param(5);
-            set_modem_check_param_360(0);
-            *(s32 *)((s8 *) lbl_805D7CC0 + 4) = (s32) (*(s32 *)((s8 *) lbl_805D7CC0 + 4) & 0xFFFFF7FF);
-        }
+        memset(p, 0, sizeof(SharedMemory));
+        lbl_805D7CC0->magic = SHARED_MEMORY_MAGIC;
+        lbl_805D7CC0->flags = 0x40;
+        reset_connect_param(msgs + 0x30);
         fn_8042ED98(0, msgs + 0x1D0);
         fn_8042ED98(1, msgs + 0x220);
         fn_8042ED98(2, msgs + 0x25C);

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/SharedMemory.h"
 #include "pso/unk/text_8042EE4C.h"
 #include "pso/network/TLobby_80429598.h"
 
@@ -6,9 +7,7 @@ extern "C" {
 s32 EXIGetType(int, int, void *);
 u32 lbl_805D7CC8;
 
-extern s32 lbl_805D7CA8;
 extern s8 *lbl_805D7CB8;
-extern u8 *lbl_805D7CC0;
 
 s32 TLobby__sub_8042EE4C(s32 *arg0) {
     s32 sp8;
@@ -53,19 +52,17 @@ s32 fn_8042EF48(s8 arg0) {
         return -1;
     }
     *lbl_805D7CB8 = arg0;
-    *(s32 *)((s8 *)lbl_805D7CC0 + 4) = (s32) (*(s32 *)((s8 *)lbl_805D7CC0 + 4) | 0x1000);
+    lbl_805D7CC0->flags |= SHARED_MEMORY_DISC_MESSAGES_SET;
     return 0;
 }
 }
-
-extern u8 *lbl_805D7CC4;
 
 s32 set_modem_check_param_360(s8 arg0) {
     if ((s32) lbl_805D7CA8 == 0) {
         return -1;
     }
-    *(s8 *)((s8 *)lbl_805D7CC4 + 0x360) = arg0;
-    *(s32 *)((s8 *)lbl_805D7CC0 + 4) = (s32) (*(s32 *)((s8 *)lbl_805D7CC0 + 4) | 0x800);
+    lbl_805D7CC4->check_param_360 = arg0;
+    lbl_805D7CC0->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
@@ -73,8 +70,8 @@ s32 set_modem_param(s16 arg0) {
     if ((s32) lbl_805D7CA8 == 0) {
         return -1;
     }
-    *(s16 *)((s8 *)lbl_805D7CC4 + 0x23E) = arg0;
-    *(s32 *)((s8 *)lbl_805D7CC0 + 4) = (s32) (*(s32 *)((s8 *)lbl_805D7CC0 + 4) | 0x800);
+    lbl_805D7CC4->modem_param = arg0;
+    lbl_805D7CC0->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
@@ -82,8 +79,8 @@ s32 set_modem_check_char(s8 arg0) {
     if ((s32) lbl_805D7CA8 == 0) {
         return -1;
     }
-    *(s8 *)((s8 *)lbl_805D7CC4 + 0x23D) = arg0;
-    *(s32 *)((s8 *)lbl_805D7CC0 + 4) = (s32) (*(s32 *)((s8 *)lbl_805D7CC0 + 4) | 0x800);
+    lbl_805D7CC4->check_char = arg0;
+    lbl_805D7CC0->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
@@ -91,8 +88,8 @@ s32 set_modem_flag(s8 arg0) {
     if ((s32) lbl_805D7CA8 == 0) {
         return -1;
     }
-    *(s8 *)((s8 *)lbl_805D7CC4 + 0x23C) = arg0;
-    *(s32 *)((s8 *)lbl_805D7CC0 + 4) = (s32) (*(s32 *)((s8 *)lbl_805D7CC0 + 4) | 0x800);
+    lbl_805D7CC4->modem_flag = arg0;
+    lbl_805D7CC0->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
@@ -100,14 +97,14 @@ s32 set_modem_check_param(s32 arg0) {
     if ((s32) lbl_805D7CA8 == 0) {
         return -1;
     }
-    *(s32 *)((s8 *)lbl_805D7CC4 + 0xF4) = arg0;
-    *(s32 *)((s8 *)lbl_805D7CC0 + 4) = (s32) (*(s32 *)((s8 *)lbl_805D7CC0 + 4) | 0x800);
+    lbl_805D7CC4->check_param = arg0;
+    lbl_805D7CC0->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
 s32 TAdTrialModemChkGC__sub_8042F080(s16 arg0) {
-    *(s16 *)((s8 *)lbl_805D7CC4 + 0x1C2) = arg0;
-    *(s32 *)((s8 *)lbl_805D7CC0 + 4) = (s32) (*(s32 *)((s8 *)lbl_805D7CC0 + 4) | 0x800);
+    lbl_805D7CC4->unk_1C2 = arg0;
+    lbl_805D7CC0->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
@@ -115,8 +112,8 @@ s32 set_modem_trial_param(s16 arg0) {
     if ((s32) lbl_805D7CA8 == 0) {
         return -1;
     }
-    *(s16 *)((s8 *)lbl_805D7CC4 + 0x1C0) = arg0;
-    *(s32 *)((s8 *)lbl_805D7CC0 + 4) = (s32) (*(s32 *)((s8 *)lbl_805D7CC0 + 4) | 0x800);
+    lbl_805D7CC4->trial_param = arg0;
+    lbl_805D7CC0->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
@@ -124,8 +121,8 @@ s32 TAdTrialModemChkGC__sub_8042F0D4(s8 arg0) {
     if ((s32) lbl_805D7CA8 == 0) {
         return -1;
     }
-    *(s8 *)((s8 *)lbl_805D7CC4 + 0x13D) = arg0;
-    *(s32 *)((s8 *)lbl_805D7CC0 + 4) = (s32) (*(s32 *)((s8 *)lbl_805D7CC0 + 4) | 0x800);
+    lbl_805D7CC4->unk_13D = arg0;
+    lbl_805D7CC0->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
 
@@ -133,7 +130,7 @@ s32 TAdPlayerLoadGC__sub_8042F108(s8 arg0) {
     if ((s32) lbl_805D7CA8 == 0) {
         return -1;
     }
-    *(s8 *)((s8 *)lbl_805D7CC4 + 0x13C) = arg0;
-    *(s32 *)((s8 *)lbl_805D7CC0 + 4) = (s32) (*(s32 *)((s8 *)lbl_805D7CC0 + 4) | 0x800);
+    lbl_805D7CC4->unk_13C = arg0;
+    lbl_805D7CC0->flags |= SHARED_MEMORY_CONNECT_PARAM_SET;
     return 0;
 }
