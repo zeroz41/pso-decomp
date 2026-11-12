@@ -10302,15 +10302,11 @@ pso/npc/TNpcPlayer_8034DAA0.cpp:
 	.sdata2     start:0x805DFDF0 end:0x805DFDF8
 
 pso/effect/item/TItemEffPG.cpp:
-	.text       start:0x8034EFDC end:0x8034FE28
-	.data       start:0x804F0810 end:0x804F0C08
-	.sdata2     start:0x805DFE08 end:0x805DFE14
-
-pso/effect/item/TItemEffPG_8034FE28.cpp:
-	.text       start:0x8034FE28 end:0x803501BC
+	.text       start:0x8034EFDC end:0x803501BC
 	.rodata     start:0x80478CB8 end:0x80478CD0
-	.data       start:0x804F0C28 end:0x804F0C48
+	.data       start:0x804F0810 end:0x804F0C48
 	.sdata      start:0x805D4350 end:0x805D4358
+	.sdata2     start:0x805DFE08 end:0x805DFE24
 
 pso/item/TUnk_804F0C48.cpp:
 	.text       start:0x803501BC end:0x80350394

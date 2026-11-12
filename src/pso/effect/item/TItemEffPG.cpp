@@ -25,6 +25,8 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/item/TUnk_804E355C.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 struct Base_8034EFDC { char pad[0x18]; };
 struct VObj_8034EFDC : Base_8034EFDC {
@@ -161,26 +163,102 @@ void __dl__7TObjectFPv(void *);
 }
 
 // Built with -inline off,deferred: functions are written last to first, so
-// the vtables come out 0810, 0908, 0A00, 0AF8, 0BF0 as in the original.
+// the vtables come out 0810, 0908, 0A00, 0AF8, 0BF0, 0C08, 0C28 as in the original.
+// The functions from 0x8034FE28 on were a separate unit; their literals continue
+// this TU's .sdata2 pool at 0x805DFE14 (a 4-mod-8 address, so no TU starts there).
 
-// ~TUnk_804F0C08 (vtable slot 2 of __vt__13TUnk_804F0C08). Kept as a C body: its
-// vtable belongs with TItemEffPG_8034FE28.cpp, which the original has in this TU
-// (one TU with TItemEffPG_8034FE28.cpp, written backwards).
 extern "C" {
-extern void *__vt__13TUnk_804F0C08[];
-void __dt__10TItemEffPGFv(void *self, s16 flags);
+const char *TItemEffPG__name = "TItemEffPG";
+}
 
-TUnk_804F0C08 *__dt__13TUnk_804F0C08Fv(TUnk_804F0C08 *self, s16 flags) {
-    if (self != NULL) {
-        *(void ***)((u8 *)self + 0x18) = __vt__13TUnk_804F0C08;
-        __dt__10TItemEffPGFv(self, 0);
-        if (flags > 0) {
-            __dl__7TObjectFPv(self);
-        }
+S_8035016C *S_8035016C::init_params() {
+    TObjPlayer__sub_802E451C(this);
+    hits = 10;
+    pad_28 = 50.0f;
+    required_charge = 1.0f;
+    pad_30 = 2.5f;
+    return this;
+}
+
+void TItemEffPG::create(void *arg0, void *arg1) {
+    new TItemEffPG((TObject *)arg0, (S_8035016C *)arg1);
+}
+
+TItemEffPG::TItemEffPG(TObject *parent, S_8035016C *params) : TUnk_804E355C(parent, params) {
+    void *visual;
+    m_name = TItemEffPG__name;
+    pad_C4 = params->pad_28;
+    if (50.0f < pad_C4) {
+        pad_C4 = 50.0f;
     }
-    return self;
+    m_c8 = params->pad_30;
+    required_charge = params->required_charge;
+    pad_B0 *= 3.0f;
+    visual = operator new(0x68);
+    if (visual != NULL) {
+        visual = TItemEffPG__visual_ct((u8 *)visual, (u8 *)this, (u8 *)params);
+    }
+    m_d0 = (u32)visual;
 }
+
+TItemEffPG::~TItemEffPG() {}
+
+void TItemEffPG::run_task() {
+    f32 temp_f1;
+    f32 temp_f1_2;
+    s32 var_r31;
+
+    var_r31 = 1;
+    if (has_game_join_id() == 0) {
+        var_r31 = 0;
+    }
+    if (this->vfunc_7() == 0) {
+        var_r31 = 0;
+    }
+    if (var_r31 != 0) {
+        temp_f1 = this->body.radius;
+        if (temp_f1 < this->pad_C4) {
+            this->body.radius = (f32) (temp_f1 + this->m_c8);
+            temp_f1_2 = this->pad_C4;
+            if (temp_f1_2 < this->body.radius) {
+                this->body.radius = temp_f1_2;
+            }
+        }
+        check_hits();
+        return;
+    }
+    if ((u32) this->m_down == 0U) {
+        queue_destruction__7TObjectFv(this);
+        disallow_rendering__7TObjectFv(this);
+        return;
+    }
+    if ((u32) this->m_d0 != 0U) {
+        TItemEffPG__begin_visual_fade(*(void * *)&this->m_d0);
+        this->m_d0 = 0U;
+    }
 }
+
+s32 TItemEffPG::vfunc_7() {
+    TObjPlayer *player = get_player_by_client_id(client_id);
+    if (player == NULL) {
+        return 0;
+    }
+    if (player->get_photon_blast_charge() < required_charge) {
+        return 0;
+    }
+    player->vfunc_76(required_charge);
+    return 1;
+}
+
+void TItemEffPG::create(void *parent, void *params, void *count) {
+    new TUnk_804F0C08((TObject *)parent, (S_8035016C *)params, (s32)count);
+}
+
+TUnk_804F0C08::TUnk_804F0C08(TObject *parent, S_8035016C *params, s32 count) : TItemEffPG(parent, params) {
+    pad_D4 = count;
+}
+
+TUnk_804F0C08::~TUnk_804F0C08() {}
 
 s32 TUnk_804F0C08::vfunc_7() {
     s32 temp_r4;
