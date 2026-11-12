@@ -35,7 +35,7 @@ static ChannelDefaults_803BADF8 inpChannelDefaults[8][16];
 static ChannelDefaults_803BADF8 inpFXChannelDefaults[64];
 
 void inpSetGlobalMIDIDirtyFlag(u8 a, u8 b, u32 v) {
-    lbl_8056DE98[b][a] |= v;
+    inpGlobalMIDIDirtyFlags[b][a] |= v;
 }
 
 #define synthInfo_voiceNum (((u8 *)synthInfo)[0x210])
@@ -577,8 +577,8 @@ u16 inpGetTremolo(Lob_803BC2D0 *arg0) {
 #pragma opt_common_subs on
 static inline u32 inpResetGlobalMIDIDirtyFlag_803BC318(u8 chan, u8 midiSet, u32 flag) {
     u32 ret;
-    if ((ret = (flag & lbl_8056DE98[midiSet][chan]) != 0) != 0) {
-        lbl_8056DE98[midiSet][chan] &= ~flag;
+    if ((ret = (flag & inpGlobalMIDIDirtyFlags[midiSet][chan]) != 0) != 0) {
+        inpGlobalMIDIDirtyFlags[midiSet][chan] &= ~flag;
     }
     return ret;
 }
@@ -609,7 +609,7 @@ static inline void reset_dirty_803BC490(void) {
     u32 i, j;
     for (i = 0; i < 8; ++i) {
         for (j = 0; j < 16; ++j) {
-            lbl_8056DE98[i][j] = 0xFF;
+            inpGlobalMIDIDirtyFlags[i][j] = 0xFF;
         }
     }
 }

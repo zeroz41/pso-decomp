@@ -132,15 +132,15 @@ u32 salInitDsp(u32 flags) {
 
 
 void salCtrlDsp(s32 arg0) {
-    s32 temp_r31;
+    u16 *temp_r31;
     salBuildCommandList((void *) (arg0), (int) (salGetStartDelay()));
-    temp_r31 = lbl_805D7478;
+    temp_r31 = dspCmdList;
     salDspIsDone = 0;
     PPCSync();
-    DSPSendMailToDSP((void *) (lbl_805D7474 | 0xBABE0000));
+    DSPSendMailToDSP((void *) (dspCmdFirstSize | 0xBABE0000));
     do {
     } while (DSPCheckMailToDSP() != 0U);
-    DSPSendMailToDSP((void *) (temp_r31));
+    DSPSendMailToDSP(temp_r31);
     do {
     } while (DSPCheckMailToDSP() != 0U);
 }

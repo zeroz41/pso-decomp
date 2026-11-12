@@ -1,12 +1,5 @@
 #include "musyx/runtime/musyx_runtime_a.h"
 
-#define ARR_GET_803A3D8C(arr, offset) ((void *)(offset + (u32)arr))
-#define SEQ_CUR (*(SEQ_INSTANCE_803A49C8 **)&lbl_805D7360)
-#define SEQ_FREE_LIST ((SEQ_INSTANCE_803A49C8 *)lbl_805D7378)
-#define SEQ_RUN_LIST ((SEQ_INSTANCE_803A49C8 *)lbl_805D737C)
-#define SEQ_RUN_L (*(SEQ_INSTANCE_803A49C8 **)&lbl_805D737C)
-#define ARR_GET_803A5A78(arr, offset) ((void *)(offset + (u32)arr))
-#define ARR_GET_803A6364(arr, offset) ((void *)(offset + (u32)arr))
 
 typedef struct SAMPLE_HEADER_D {
     u32 info;
@@ -70,26 +63,20 @@ static MAC_MAINTAB_D dataMacMainTab[512];
 static MAC_SUBTAB_D dataMacSubTabmem[2048];
 static FX_GROUP_D dataFXGroups[128];
 
-#define dataSmpSDirNum lbl_805D73D0
-#define dataCurveNum lbl_805D73D2
-#define dataKeymapNum lbl_805D73D4
-#define dataLayerNum lbl_805D73D6
-#define dataMacTotal lbl_805D73D8
-#define dataFXGroupNum lbl_805D73DA
 extern "C" {
 
-u16 lbl_805D73D0;
-u16 lbl_805D73D2;
-u16 lbl_805D73D4;
-u16 lbl_805D73D6;
-u16 lbl_805D73D8;
-u16 lbl_805D73DA;
+u16 dataSmpSDirNum;
+u16 dataCurveNum;
+u16 dataKeymapNum;
+u16 dataLayerNum;
+u16 dataMacTotal;
+u16 dataFXGroupNum;
 s32 lbl_805D73DC;
 s32 lbl_805D73E0;
 Req_803AE60C lbl_805D73E4;
 s32 *lbl_805D73EC;
-Row_803AE4D4 *lbl_805D73F0;
-Part_803AE4D4 *lbl_805D73F4;
+SDIR_DATA_D *dgs_result;
+SAMPLE_HEADER_D *dgs_sheader;
 Req_803AE60C lbl_805D73F8;
 s32 *lbl_805D7400;
 Req_803AE60C lbl_805D7404;
@@ -479,7 +466,7 @@ done:
 s32 dataRemoveSampleReference(u16 id) {
     u32 i;
 
-    for (i = 0; i < lbl_805D73D0; i++) {
+    for (i = 0; i < dataSmpSDirNum; i++) {
         Ent_803ADB58 *e;
         u16 v;
         for (e = ((Tbl_803ADB58 *)dataSmpSDirs)[i].list; (v = e->id) != 0xFFFF; e++) {
@@ -697,8 +684,6 @@ s32 smpcmp(u16 *arg0, u16 *arg1) {
 #pragma bool off
 #pragma dont_inline off
 #pragma inline_depth(4)
-#define dgs_result (*(SDIR_DATA_D **)&lbl_805D73F0)
-#define dgs_sheader (*(SAMPLE_HEADER_D **)&lbl_805D73F4)
 s32 dataGetSample(s16 sid, Sample_803AE4D4 *newsmp) {
     static SDIR_DATA_D key;
     long i;
@@ -728,8 +713,6 @@ s32 dataGetSample(s16 sid, Sample_803AE4D4 *newsmp) {
 
     return -1;
 }
-#undef dgs_result
-#undef dgs_sheader
 
 #pragma pop
 
@@ -739,7 +722,7 @@ s32 curvecmp(u8 *arg0, u8 *arg1) {
 
 s32 dataGetCurve(s16 arg0) {
     lbl_805D73F8.f4 = arg0;
-    if ((lbl_805D7400 = sndBSearch(&lbl_805D73F8, dataCurveTab, lbl_805D73D2, 8, curvecmp)) != NULL) {
+    if ((lbl_805D7400 = sndBSearch(&lbl_805D73F8, dataCurveTab, dataCurveNum, 8, curvecmp)) != NULL) {
         return *lbl_805D7400;
     }
     return 0;
@@ -747,7 +730,7 @@ s32 dataGetCurve(s16 arg0) {
 
 s32 dataGetKeymap(s16 arg0) {
     lbl_805D7404.f4 = arg0;
-    if ((lbl_805D740C = sndBSearch(&lbl_805D7404, dataKeymapTab, lbl_805D73D4, 8, curvecmp)) != NULL) {
+    if ((lbl_805D740C = sndBSearch(&lbl_805D7404, dataKeymapTab, dataKeymapNum, 8, curvecmp)) != NULL) {
         return *lbl_805D740C;
     }
     return 0;
@@ -816,12 +799,12 @@ Se_803A9144 *dataGetFX(s16 fid) {
 void dataInit(void *arg0, void *arg1) {
     s32 i;
 
-    lbl_805D73D0 = 0;
-    lbl_805D73D2 = 0;
-    lbl_805D73D4 = 0;
-    lbl_805D73D6 = 0;
-    lbl_805D73DA = 0;
-    lbl_805D73D8 = 0;
+    dataSmpSDirNum = 0;
+    dataCurveNum = 0;
+    dataKeymapNum = 0;
+    dataLayerNum = 0;
+    dataFXGroupNum = 0;
+    dataMacTotal = 0;
     for (i = 0; i < 0x200; i++) {
         ((Slot_803AE814 *)dataMacMainTab)[i].count = 0;
         ((Slot_803AE814 *)dataMacMainTab)[i].start = 0;

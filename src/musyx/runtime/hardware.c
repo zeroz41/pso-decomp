@@ -1,17 +1,13 @@
 #include "musyx/runtime/musyx_runtime_b.h"
 
-#define synthInfo_voiceNum (((u8 *)synthInfo)[0x210])
-#define CLAMP(value, min, max) ((value) > (max) ? (max) : (value) < (min) ? (min) : (value))
-#define CLAMP_INV(value, min, max) ((value) < (min) ? (min) : (value) > (max) ? (max) : (value))
-#define MIN(a, b) ((a) > (b) ? (b) : (a))
 extern "C" {
 
 s8 salTimeOffset;
-SND_HOOKS lbl_805D74BC;
-u8 lbl_805D74C4;
-u8 lbl_805D74C5;
-u8 lbl_805D74C6;
-u8 lbl_805D74C7;
+SND_HOOKS salHooks;
+u8 salMaxStudioNum;
+u8 salNumVoices;
+u8 salAuxFrame;
+u8 salFrame;
 
 u16 lbl_805D4638[3] = {0, 1, 2};
 u16 lbl_805D4640[3] = {0, 1, 2};
@@ -43,11 +39,11 @@ void snd_handle_irq(void) {
     salHandleAuxProcessing();
     hwIRQLeaveCritical();
     hwIRQEnterCritical();
-    lbl_805D74C7 ^= 1;
-    lbl_805D74C6 = (lbl_805D74C6 + 1) % 3;
-    for (v = 0; v < lbl_805D74C5; ++v) {
+    salFrame ^= 1;
+    salAuxFrame = (salAuxFrame + 1) % 3;
+    for (v = 0; v < salNumVoices; ++v) {
         for (i = 0; i < 5; ++i) {
-            (*(Slot_803BCAA0 **)&lbl_805D748C)[v].changed[i] = 0;
+            (*(Slot_803BCAA0 **)&dspVoice)[v].changed[i] = 0;
         }
     }
     hwIRQLeaveCritical();
@@ -72,8 +68,8 @@ void snd_handle_irq(void) {
 
 s32 hwInit(u32 arg0, s32 arg1, s32 arg2, u32 arg3) {
     hwInitIrq();
-    lbl_805D74C7 = 0;
-    lbl_805D74C6 = 0;
+    salFrame = 0;
+    salAuxFrame = 0;
     salMessageCallback = 0;
     if (salInitAi(snd_handle_irq, arg3, (u32 *)arg0) != 0 &&
         salInitDspCtrl(arg1, arg2, (arg3 & 1) != 0) != 0 &&
@@ -93,7 +89,7 @@ u8 hwGetTimeOffset(void) {
 }
 
 bool hwIsActive(s32 i) {
-    return (*(Slot_803BCCE0 * *)&lbl_805D748C)[i].fec != 0;
+    return (*(Slot_803BCCE0 * *)&dspVoice)[i].fec != 0;
 }
 
 void hwSetMesgCallback(s32 arg0) {
@@ -101,7 +97,7 @@ void hwSetMesgCallback(s32 arg0) {
 }
 
 void hwSetPriority(s32 i, s32 v) {
-    (*(Slot_803BCD08 * *)&lbl_805D748C)[i].f1c = v;
+    (*(Slot_803BCD08 * *)&dspVoice)[i].f1c = v;
 }
 
 void hwInitSamplePlayback(s32 n, s16 arg1, Blk_803BCD1C *arg2, u32 arg3, s32 arg4, s32 arg5, u32 arg6, u8 arg7) {
@@ -136,11 +132,11 @@ void hwInitSamplePlayback(s32 n, s16 arg1, Blk_803BCD1C *arg2, u32 arg3, s32 arg
 }
 
 void hwBreak(s32 i) {
-    Slot_803BCEC8 *s = &(*(Slot_803BCEC8 **)&lbl_805D748C)[i];
+    Slot_803BCEC8 *s = &(*(Slot_803BCEC8 **)&dspVoice)[i];
     if (s->fec == 1 && (u8)salTimeOffset == 0) {
         s->fee = 1;
     }
-    (*(Slot_803BCEC8 **)&lbl_805D748C)[i].f24[(u8)salTimeOffset] |= 0x20;
+    (*(Slot_803BCEC8 **)&dspVoice)[i].f24[(u8)salTimeOffset] |= 0x20;
 }
 
 void hwSetADSR(s32 n, void *arg1, u8 mode) {
@@ -169,7 +165,7 @@ void hwSetADSR(s32 n, void *arg1, u8 mode) {
             if ((v = b->f8 >> 2) > 0x3FF) {
                 v = 0x3FF;
             }
-            SLOTS_803BCF18[n].fc0 = 0xC1 - lbl_804F68DC[v];
+            SLOTS_803BCF18[n].fc0 = 0xC1 - dspScale2IndexTab[v];
         } else {
             SLOTS_803BCF18[n].fb8 = (u16)b->f0;
             SLOTS_803BCF18[n].fbc = (u16)b->f4;
@@ -183,35 +179,35 @@ void hwSetADSR(s32 n, void *arg1, u8 mode) {
 }
 
 void hwSetVirtualSampleLoopBuffer(s32 i, s32 a, s32 b) {
-    (*(Slot_803BD0C8 * *)&lbl_805D748C)[i].f94 = a; (*(Slot_803BD0C8 * *)&lbl_805D748C)[i].f98 = b;
+    (*(Slot_803BD0C8 * *)&dspVoice)[i].f94 = a; (*(Slot_803BD0C8 * *)&dspVoice)[i].f98 = b;
 }
 
 u8 hwGetVirtualSampleState(s32 i) {
-    return (*(Slot_803BD0E8 * *)&lbl_805D748C)[i].f9c;
+    return (*(Slot_803BD0E8 * *)&dspVoice)[i].f9c;
 }
 
 u8 hwGetSampleType(s32 i) {
-    return (*(Slot_803BD0FC * *)&lbl_805D748C)[i].f90;
+    return (*(Slot_803BD0FC * *)&dspVoice)[i].f90;
 }
 
 u16 hwGetSampleID(s32 i) {
-    return (*(Slot_803BD110 * *)&lbl_805D748C)[i].f70;
+    return (*(Slot_803BD110 * *)&dspVoice)[i].f70;
 }
 
 void hwSetStreamLoopPS(s32 i, u8 v) {
-    (*(Slot_803BD124 * *)&lbl_805D748C)[i].fa0 = v;
+    (*(Slot_803BD124 * *)&dspVoice)[i].fa0 = v;
 }
 
 void hwStart(s32 i, s32 x) {
-    (*(Slot_803BD138 * *)&lbl_805D748C)[i].fd4 = salTimeOffset; salActivateVoice(&(*(Slot_803BD138 * *)&lbl_805D748C)[i], x);
+    (*(Slot_803BD138 * *)&dspVoice)[i].fd4 = salTimeOffset; salActivateVoice(&(*(Slot_803BD138 * *)&dspVoice)[i], x);
 }
 
 void hwKeyOff(s32 i) {
-    (*(Slot_803BD174 * *)&lbl_805D748C)[i].f24[(u8)salTimeOffset] |= 0x40;
+    (*(Slot_803BD174 * *)&dspVoice)[i].f24[(u8)salTimeOffset] |= 0x40;
 }
 
 void hwSetPitch(s32 i, u16 v) {
-    Slot_803BD19C *s = &(*(Slot_803BD19C **)&lbl_805D748C)[i];
+    Slot_803BD19C *s = &(*(Slot_803BD19C **)&dspVoice)[i];
     if (v >= 0x4000U) {
         v = 0x3FFF;
     }
@@ -223,28 +219,28 @@ void hwSetPitch(s32 i, u16 v) {
 }
 
 void hwSetSRCType(s32 index, u8 entry) {
-    TLobbySlot_803BD214 *slot = &((TLobbySlot_803BD214 *)lbl_805D748C)[index];
+    TLobbySlot_803BD214 *slot = &((TLobbySlot_803BD214 *)dspVoice)[index];
     slot->code_cc = ((u16 *)&lbl_805D4638)[entry];
     slot->flags |= 0x100;
 }
 void hwSetPolyPhaseFilter(s32 index, u8 entry) {
-    TLobbySlot_803BD214 *slot = &((TLobbySlot_803BD214 *)lbl_805D748C)[index];
+    TLobbySlot_803BD214 *slot = &((TLobbySlot_803BD214 *)dspVoice)[index];
     slot->code_ce = ((u16 *)&lbl_805D4640)[entry];
     slot->flags |= 0x80;
 }
 
 void hwSetITDMode(s32 i, u8 mode) {
     if (mode == 0) {
-        (*(Slot_803BD26C **)&lbl_805D748C)[i].ff0 |= 0x80000000;
-        (*(Slot_803BD26C **)&lbl_805D748C)[i].fd0 = 0x10;
-        (*(Slot_803BD26C **)&lbl_805D748C)[i].fd2 = 0x10;
+        (*(Slot_803BD26C **)&dspVoice)[i].ff0 |= 0x80000000;
+        (*(Slot_803BD26C **)&dspVoice)[i].fd0 = 0x10;
+        (*(Slot_803BD26C **)&dspVoice)[i].fd2 = 0x10;
         return;
     }
-    (*(Slot_803BD26C **)&lbl_805D748C)[i].ff0 &= 0x7FFFFFFF;
+    (*(Slot_803BD26C **)&dspVoice)[i].ff0 &= 0x7FFFFFFF;
 }
 
 void hwSetVolume(s32 voice, u32 volumeCurve, u32 pan, s32 surroundPan, f32 direct, f32 auxiliaryA, f32 auxiliaryB) {
-    SoundMixVoice *state = (*(SoundMixVoice **)&lbl_805D748C) + voice;
+    SoundMixVoice *state = (*(SoundMixVoice **)&dspVoice) + voice;
     SoundMixCurveOutput out[3];
     s32 left, right, surround;
     if (direct >= 1.0f) direct = 1.0f;
@@ -291,7 +287,7 @@ void hwSetVolume(s32 voice, u32 volumeCurve, u32 pan, s32 surroundPan, f32 direc
 }
 
 void hwOff(s32 arg0) {
-    salDeactivateVoice((void *) (lbl_805D748C + (arg0 * 0xF4)));
+    salDeactivateVoice(&dspVoice[arg0]);
 }
 
 #pragma push
@@ -322,7 +318,7 @@ void hwRemoveInput(u8 i, u32 x) {
     salRemoveStudioInput(&((Rec_803BD660 *)&lbl_805663D8)[i], x);
 }
 
-#define SLOTS_803BD694 (*(Slot_803BD694 **)&lbl_805D748C)
+#define SLOTS_803BD694 (*(Slot_803BD694 **)&dspVoice)
 u32 hwGetPos(s32 arg0) {
     u32 r;
     u32 rem;
@@ -435,24 +431,22 @@ void hwSyncSampleMem(void) {
 void hwFrameDone(void) {
 }
 
-void sndSetHooks(Pair_803BD9E4 *arg0) {
-    (*(Pair_803BD9E4 *)&lbl_805D74BC) = *arg0;
+void sndSetHooks(SND_HOOKS *hooks) {
+    salHooks = *hooks;
 }
 
 void hwDisableHRTF(void) {
-    lbl_805D747C = 0;
+    dspHRTFOn = 0;
 }
 s32 hwGetVirtualSampleID(s32 arg0) {
-    u8 *temp_r3;
-    temp_r3 = (unsigned char *) (lbl_805D748C + (arg0 * 0xF4));
-    if ((u8) *(u8 *)((s8 *)temp_r3 + 0xEC) == 0) {
+    if (dspVoice[arg0].state == 0) {
         return -1;
     }
-    return *(s32 *)((s8 *)temp_r3 + 0xE8);
+    return dspVoice[arg0].virtualSampleID;
 }
 
 bool hwVoiceInStartup(s32 i) {
-    return (*(Slot_803BDA2C * *)&lbl_805D748C)[i].fec == 1;
+    return (*(Slot_803BDA2C * *)&dspVoice)[i].fec == 1;
 }
 
 }

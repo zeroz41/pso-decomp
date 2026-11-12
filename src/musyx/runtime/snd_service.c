@@ -1,9 +1,5 @@
 #include "musyx/runtime/musyx_runtime_b.h"
 
-#define synthInfo_voiceNum (((u8 *)synthInfo)[0x210])
-#define CLAMP(value, min, max) ((value) > (max) ? (max) : (value) < (min) ? (min) : (value))
-#define CLAMP_INV(value, min, max) ((value) < (min) ? (min) : (value) > (max) ? (max) : (value))
-#define MIN(a, b) ((a) > (b) ? (b) : (a))
 extern "C" {
 
 u32 lbl_805D4630 = 1;
