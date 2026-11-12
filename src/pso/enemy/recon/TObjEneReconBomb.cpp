@@ -10,13 +10,15 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/enemy/recon/TObjEneReconBomb.h"
 #include "pso/enemy/recon/TObjEneRecobox.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/enemy/recon/TObjEneRecon_8031BC38.h"
+#include "pso/enemy/recon/TObjEneRecobox_8031FCB0.h"
+#include "pso/enemy/recon/TObjEneRecon.h"
 
 #pragma readonly_strings on
 
@@ -286,5 +288,24 @@ __declspec(section ".sdata2") extern const f32 lbl_805DF3B0 = -0.100000001490116
 __declspec(section ".sdata2") extern const f32 lbl_805DF3B4 = -0.5f;
 
 const char *TObjEneReconBomb__name = "TObjEneReconBomb";
+
+}
+
+extern "C" {
+
+void *__nw__7TObjectFUl(int);
+
+void TObjEneRecon__sub_8031BC38(void) {  }
+
+void *TObjEneRecon::create_bomb(void *arg0, void *arg1, void *arg2) {
+    void *o;
+    o = __nw__7TObjectFUl(0x364);
+    if (o != NULL) {
+        o = TObjEneReconBomb__ct((TObjEneReconBomb *)((u8 *)o), (s32)arg0, (s32)arg1, (s32)arg2);
+    }
+    return o;
+}
+
+void TObjEneRecon__sub_8031BC94(void) { recon_bomb_bml_resource = TObjEneRecobox__sub_803201D0(); }
 
 }

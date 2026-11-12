@@ -483,8 +483,6 @@ u8 *load_enemy_bml_resource_named(void *, const void *);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 *mem_alloc(s32);
 extern const u8 lbl_8043AAA4[26];
-extern s32 dimedian_resource_handles[];
-extern s32 dimedian_last_draw_tick[];
 
 void __ct__13TUnk_80493450FP7TObject(void *);
 s32 create__13TUnk_80494968FUlUl(s32, s32);
@@ -699,7 +697,11 @@ u32 dimedian_boss_object_buf;
 u32 lbl_805D5074;
 u32 TObjEneDimedian__boss_objects;
 u32 dimedian_buffer_ptr;
-extern u32 dimedian_resource_ptr;
+struct E_800A884C { u8 pad[8]; s32 x8; s32 xc; };
+
+struct G_800A884C { u8 pad[0x42c]; E_800A884C *tbl; };
+
+extern G_800A884C *dimedian_resource_ptr;
 
 void TObjEneDimedian::free_boss_objects() {
     if ((u32) dimedian_boss_object_buf != 0U) {
@@ -905,3 +907,12 @@ void *TObjEneDimedian__ct(void *arg0_, void *arg1_, void *arg2_) {
 #undef arg0
 #undef arg1
 #undef arg2
+
+struct O_800A884C { u8 pad[0x24]; s32 x24; u8 pad2[0xc]; s32 x34; };
+
+
+void TObjEneDimedian::load_dimedian_param_entry(s32 i) {
+    O_800A884C *self = (O_800A884C *)this;
+    self->x34 = dimedian_resource_ptr->tbl[i].x8;
+    self->x24 = dimedian_resource_ptr->tbl[i].xc;
+}

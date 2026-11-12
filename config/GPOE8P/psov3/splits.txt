@@ -1532,14 +1532,11 @@ pso/enemy/saver/SaverLifecycle.cpp:
 	.sdata2     start:0x805D9A10 end:0x805D9AA0
 
 pso/enemy/dimedian/TObjEneDimedian.cpp:
-	.text       start:0x800A7764 end:0x800A884C
+	.text       start:0x800A7764 end:0x800A887C
 	.rodata     start:0x8043A8D8 end:0x8043AAC0
 	.data       start:0x80490D10 end:0x80491088
 	.sbss       start:0x805D5070 end:0x805D5080
 	.sdata2     start:0x805D9AA0 end:0x805D9AD4
-
-pso/enemy/dimedian/TObjEneDimedian_800A884C.cpp:
-	.text       start:0x800A884C end:0x800A887C
 
 pso/enemy/dubchik/TObjEneDubchik.cpp:
 	.text       start:0x800A887C end:0x800AB0EC
@@ -6368,13 +6365,11 @@ pso/ui/window/TWindowSubComCard_80225E0C.cpp:
 	.rodata     start:0x8044C828 end:0x8044C850
 	.data       start:0x804CA3A0 end:0x804CB7C8
 
-pso/player/TObjPlayer_8022602C.cpp:
-	.text       start:0x8022602C end:0x80226070
-
 pso/unk/TLobby_80226070.cpp:
-	.text       start:0x80226070 end:0x802268F4
+	.text       start:0x8022602C end:0x802268F4
 	.rodata     start:0x8044C850 end:0x8044C858
 	.bss        start:0x805145F0 end:0x80514C60
+	.sdata      start:0x805D3708 end:0x805D3710
 	.sdata2     start:0x805DC740 end:0x805DC748
 
 pso/unk/TLobby_802268F4.cpp:
@@ -9530,14 +9525,11 @@ pso/boss/galgryphon/Boss5GryphonActionScripts.cpp:
 	.data       start:0x804E8D58 end:0x804EC2B0
 
 pso/enemy/recon/TObjEneReconBomb.cpp:
-	.text       start:0x8031B618 end:0x8031BC38
+	.text       start:0x8031B618 end:0x8031BCB8
 	.rodata     start:0x804760A8 end:0x804760C0
 	.data       start:0x804EC2B0 end:0x804EC3EC
 	.sdata      start:0x805D4128 end:0x805D4130
 	.sdata2     start:0x805DF390 end:0x805DF3B8
-
-pso/enemy/recon/TObjEneRecon_8031BC38.cpp:
-	.text       start:0x8031BC38 end:0x8031BCB8
 
 pso/enemy/recon/TObjEneRecon.cpp:
 	.text       start:0x8031BCB8 end:0x8031E800
@@ -9683,14 +9675,10 @@ pso/boss/galgryphon/TBoss5GryphonLightning.cpp:
 	.sdata2     start:0x805DF5E0 end:0x805DF5E4
 
 pso/boss/galgryphon/TBoss5GryphonLightningEff.cpp:
-	.text       start:0x80325064 end:0x803255F8
-	.rodata     start:0x804766E8 end:0x804766F0
+	.text       start:0x80325064 end:0x80325660
+	.rodata     start:0x804766E8 end:0x80476708
 	.data       start:0x804ECD10 end:0x804ECD28
 	.sdata2     start:0x805DF5E8 end:0x805DF600
-
-pso/unk/TLobby_803255F8.cpp:
-	.text       start:0x803255F8 end:0x80325660
-	.rodata     start:0x804766F0 end:0x80476708
 
 pso/ui/frontend/TAdChrSelMovePlateGC.cpp:
 	.text       start:0x80325660 end:0x80325950
@@ -10341,11 +10329,8 @@ pso/npc/TNpcPlayer_8034DAA0.cpp:
 	.data       start:0x804F0280 end:0x804F0810
 	.sdata2     start:0x805DFDF0 end:0x805DFDF8
 
-pso/player/TObjPlayer_8034EFDC.cpp:
-	.text       start:0x8034EFDC end:0x8034F9A0
-
 pso/effect/item/TItemEffPG.cpp:
-	.text       start:0x8034F9A0 end:0x8034FE28
+	.text       start:0x8034EFDC end:0x8034FE28
 	.data       start:0x804F0BF0 end:0x804F0C08
 	.sdata2     start:0x805DFE08 end:0x805DFE14
 
@@ -12264,14 +12249,11 @@ pso/player/TObjPlayer_803E18C0.cpp:
 	.sdata2     start:0x805E1020 end:0x805E1038
 
 pso/player/TObjPlayer_803E1A58.cpp:
-	.text       start:0x803E1A58 end:0x803E1FC8
+	.text       start:0x803E1A58 end:0x803E2070
 	.data       start:0x804FC780 end:0x804FC810
 	.bss        start:0x8058DB90 end:0x8058DBB0
-	.sdata2     start:0x805E1038 end:0x805E1050
-
-pso/unk/text_803E1FC8.cpp:
-	.text       start:0x803E1FC8 end:0x803E2070
 	.sbss       start:0x805D77B8 end:0x805D77BC
+	.sdata2     start:0x805E1038 end:0x805E1050
 
 pso/unk/text_803E2070.cpp:
 	.text       start:0x803E2070 end:0x803E20B0
@@ -12317,15 +12299,12 @@ pso/unk/text_803E4CE8.cpp:
 	.text       start:0x803E4CE8 end:0x803E4D8C
 	.sdata2     start:0x805E10B0 end:0x805E10B8
 
-pso/unk/text_803E4D8C.cpp:
-	.text       start:0x803E4D8C end:0x803E5470
+pso/player/TObjPlayer_803E5470.cpp:
+	.text       start:0x803E4D8C end:0x803E5668
 	.data       start:0x804FC828 end:0x804FC854
 	.bss        start:0x8058DC00 end:0x8058DC48
 	.sbss       start:0x805D7818 end:0x805D781C
 	.sdata2     start:0x805E10B8 end:0x805E10BC
-
-pso/player/TObjPlayer_803E5470.cpp:
-	.text       start:0x803E5470 end:0x803E5668
 
 pso/quest/TQuestVmDownLoadServer_803E5668.cpp:
 	.text       start:0x803E5668 end:0x803E6610

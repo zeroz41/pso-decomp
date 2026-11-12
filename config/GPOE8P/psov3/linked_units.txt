@@ -468,7 +468,6 @@ pso/enemy/recon/TObjEneRecon.cpp
 pso/enemy/recon/TObjEneReconBomb.cpp
 pso/enemy/recon/TObjEneRecon_8029E89C.cpp
 pso/enemy/recon/TObjEneRecon_80302DB0.cpp
-pso/enemy/recon/TObjEneRecon_8031BC38.cpp
 pso/enemy/recon/TObjEneRecobox_8031E800.cpp
 pso/enemy/recon/TObjEneRecobox_8031E88C.cpp
 pso/enemy/recon/TObjEneRecon_8031ED80.cpp
@@ -966,7 +965,6 @@ pso/unk/TLobby_802E03C8.cpp
 pso/unk/TLobby_80300098.cpp
 pso/unk/TLobby_8030A6A8.cpp
 pso/unk/TLobby_8030A834.cpp
-pso/unk/TLobby_803255F8.cpp
 pso/unk/TLobby_80328F7C.cpp
 pso/unk/TLobby_80329600.cpp
 pso/unk/TLobby_80335E7C.cpp
@@ -2018,7 +2016,6 @@ pso/player/TObjPlayer_801D9E08.cpp
 pso/player/TObjPlayer_801D9E10.cpp
 pso/player/TObjPlayer_801E2D1C.cpp
 pso/player/TObjPlayer_801E483C.cpp
-pso/player/TObjPlayer_8022602C.cpp
 pso/player/TObjPlayer_8023355C.cpp
 pso/player/TObjPlayer_8023C024.cpp
 pso/player/TObjPlayer_8023E480.cpp
@@ -2042,7 +2039,6 @@ pso/player/TObjPlayer_80326578.cpp
 pso/player/TObjPlayer_8032E4C8.cpp
 pso/player/TObjPlayer_80337348.cpp
 pso/player/TObjPlayer_8033E910.cpp
-pso/player/TObjPlayer_8034EFDC.cpp
 pso/player/TObjPlayer_80351748.cpp
 pso/player/TObjPlayer_80354EC8.cpp
 pso/player/TObjPlayer_80355A58.cpp
@@ -2335,7 +2331,6 @@ pso/unk/text_80090464.cpp
 pso/unk/text_80090488.cpp
 pso/enemy/beast/TObjEneBeast_80092AE0.cpp
 pso/enemy/canadin/TObjEneMe1Canadin_EffLineFade_800A01C0.cpp
-pso/enemy/dimedian/TObjEneDimedian_800A884C.cpp
 pso/unk/text_800C2A88.cpp
 pso/unk/text_800C2CE0.cpp
 pso/unk/text_800C3088.cpp
@@ -2706,13 +2701,11 @@ pso/unk/text_803DE890.cpp
 pso/unk/text_803DE8BC.cpp
 pso/unk/text_803DEE48.cpp
 pso/unk/text_803DF204.cpp
-pso/unk/text_803E1FC8.cpp
 pso/unk/text_803E2070.cpp
 pso/player/TObjPlayer_803E20B0.cpp
 pso/unk/text_803E29B0.cpp
 pso/unk/text_803E2D70.cpp
 pso/unk/text_803E4CE8.cpp
-pso/unk/text_803E4D8C.cpp
 pso/unk/text_803F1804.cpp
 pso/unk/text_803F4D10.cpp
 pso/unk/text_803F4D84.cpp

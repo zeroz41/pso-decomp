@@ -4,16 +4,16 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
-
 #include "pso/system/vector.h"
-
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
 #include <stdlib.h>
-
+#include "pso/unk/TLobby_803255F8.h"
+#include "pso/unk/TLobby.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct Ent_80325248 { u8 b[0xC]; };
 
@@ -172,3 +172,20 @@ Self_8032537C *__ct__25TBoss5GryphonLightningEffFv(Self_8032537C *self, void *pa
 #pragma pop
 
 }
+
+#pragma readonly_strings on
+
+
+extern "C" {
+    u8 *load_gvm_texture_file(s32 arg0);
+s32 release_texture_list(void*);
+
+void TLobby::free_char_select_singleton() {
+    if ((u32) inazuma_texture_list != 0U) {
+        release_texture_list((void*)inazuma_texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((u32)inazuma_texture_list);
+        inazuma_texture_list = 0U;
+    }
+}
+}
+void load_f512_inazuma(void) { (*(int *)&inazuma_texture_list) = (int)load_gvm_texture_file((s32)(unsigned char *)"f512_inazuma.gvm"); }
