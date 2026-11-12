@@ -93,7 +93,6 @@ void *lbl_804CE964[6] = {
 };
 #define TWindowComCard__window_desc (*(RecoveredGlobal_80249BA8_lbl_804CE8D0 *)TWindowComCard__window_desc)
 #define __vt__14TWindowComCard ((s32 *)__vt__14TWindowComCard)
-#define TWindowComCard__window_desc_b ((s32 *)TWindowComCard__window_desc_b)
 #define lbl_804CE964 ((s32 *)lbl_804CE964)
 
 void TWindowComCard__sub_80249920(s32 arg0, s32 arg1, s32 arg2) {

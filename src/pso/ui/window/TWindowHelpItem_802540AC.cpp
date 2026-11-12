@@ -458,8 +458,6 @@ void *lbl_804CF850[3] = {
 void *lbl_804CF85C[3] = {
     (void *)0x0, (void *)0xffffffff, (void *)&set_flag8_and_field20__15TWindowHelpItemFl,
 };
-#define TWindowHelpItem__item_layout_entries ((s32 *)TWindowHelpItem__item_layout_entries)
-#define TWindowHelpItem__resistance_layout_entries ((u8 *)TWindowHelpItem__resistance_layout_entries)
 #define TWindowHelpItem__requirements_update_callback (*(Vec3_802551C4 *)TWindowHelpItem__requirements_update_callback)
 #define item_help_level_requirement_callback (*(Vec3_8025500C *)item_help_level_requirement_callback)
 #define TWindowHelpItem__stat_comparison_callback (*(Vec3_80254F18 *)TWindowHelpItem__stat_comparison_callback)

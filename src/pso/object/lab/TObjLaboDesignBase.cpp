@@ -175,7 +175,6 @@ void *labo_design_entry_table[66] = {
     (void *)0x1, (void *)0x10003, (void *)0x0, (void *)0x0,
     (void *)0x0, (void *)0x0,
 };
-#define labo_design_entry_table ((unsigned char *)labo_design_entry_table)
 
 void *create_instance__18TObjLaboDesignBaseFPv(void *arg0) {
     void *o = __nw__7TObjectFUl(0xC0);

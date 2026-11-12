@@ -483,7 +483,6 @@ s32 TObjFish::init_fish_school(void *arg1_arg, s32 arg2, s32 arg3) {
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-#define __nw__7TObjectFUl ((u8 * (*)(s32))__nw__7TObjectFUl)
 #define init_fish_school__8TObjFishFPvll ((s32 (*)(void *, void *, int, int))init_fish_school__8TObjFishFPvll)
 
 extern "C" {
@@ -693,5 +692,4 @@ void TObjFish::load_area_resource() {
 }
 
 }
-#undef __nw__7TObjectFUl
 #undef init_fish_school__8TObjFishFPvll

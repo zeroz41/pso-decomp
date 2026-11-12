@@ -86,7 +86,6 @@ void TUnk_804CC148::sub_8022C008() {
 
 #define sub_8022C008__13TUnk_804CC148Fv ((s32 (*)())sub_8022C008__13TUnk_804CC148Fv)
 #define count_if_within_range__13TUnk_804CC148Fv ((s32 (*)(void *))count_if_within_range__13TUnk_804CC148Fv)
-#define __vt__13TUnk_804CC148 ((s32 *)__vt__13TUnk_804CC148)
 void free_collision_body_parts(void *);
 
 void TUnk_804CC148::run_task() {
@@ -108,7 +107,6 @@ TUnk_804CC148::~TUnk_804CC148() {
 }
 #undef sub_8022C008__13TUnk_804CC148Fv
 #undef count_if_within_range__13TUnk_804CC148Fv
-#undef __vt__13TUnk_804CC148
 
 #include "pso/player/TObjPlayer.h"
 

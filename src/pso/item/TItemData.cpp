@@ -122,12 +122,9 @@ void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag
 void init__9TItemDataFv(TItemData_8010E344 *self);
 s32 memset(s8 *, s32, s32);
 }
-#define get_set_bonus_multiplier__9TItemDataFPvi ((f32 (*)(void *, s32))get_set_bonus_multiplier__9TItemDataFPvi)
 #define lookup_item_pmt_record ((Parm_8010C1E0 * (*)(void *))lookup_item_pmt_record)
 #define getS16_06__9TItemDataFPv ((s32 (*)(void *))getS16_06__9TItemDataFPv)
-#define get_bswap16_field8__9TItemDataFPv ((s16 (*)(void *))get_bswap16_field8__9TItemDataFPv)
 #define lookup_item_def__9TItemDataFPv ((s32 (*)(void *))lookup_item_def__9TItemDataFPv)
-#define get_field6_bswap__9TItemDataFPv ((s32 (*)(void *))get_field6_bswap__9TItemDataFPv)
 #define is_usable__9TItemDataFPv ((s32 (*)())is_usable__9TItemDataFPv)
 
 struct Parm_8010C1E0 { u8 pad[8]; s16 dfp; s16 evp; u8 pad2[5]; s8 x11; s8 x12; s8 x13; s8 x14; s8 x15; };
@@ -565,12 +562,9 @@ u16 TItemData::get_packed_value() {
     return 0U;
 }
 }
-#undef get_set_bonus_multiplier__9TItemDataFPvi
 #undef lookup_item_pmt_record
 #undef getS16_06__9TItemDataFPv
-#undef get_bswap16_field8__9TItemDataFPv
 #undef lookup_item_def__9TItemDataFPv
-#undef get_field6_bswap__9TItemDataFPv
 #undef is_usable__9TItemDataFPv
 
 #define is_custom_name_srank__9TItemDataFPv ((s32 (*)())is_custom_name_srank__9TItemDataFPv)
@@ -825,8 +819,6 @@ s32 TItemData::get_max_stack_size() {
 #define add_shield_stat_contribution__9TItemDataFPviiPv ((s32 (*)(void *, s32, s32, s32, s32, s32))add_shield_stat_contribution__9TItemDataFPviiPv)
 #define apply_unit_stat_bonus__9TItemDataFPviiPvPvPv ((s32 (*)(void *, s32, s32, s32, s32, s32))apply_unit_stat_bonus__9TItemDataFPviiPvPvPv)
 #define apply_bonuses ((s32 (*)(void *, s32, s32, s32, s32, s32))apply_bonuses)
-#define is_custom_name_srank__9TItemDataFPv ((s32 (*)(void *))is_custom_name_srank__9TItemDataFPv)
-#define memset ((void * (*)(void *, int, int))memset)
 
 struct Pair_8010E344 { u8 a; u8 b; };
 
@@ -1970,5 +1962,3 @@ s32 TItemData::check_item_flags() {
 #undef add_shield_stat_contribution__9TItemDataFPviiPv
 #undef apply_unit_stat_bonus__9TItemDataFPviiPvPvPv
 #undef apply_bonuses
-#undef is_custom_name_srank__9TItemDataFPv
-#undef memset

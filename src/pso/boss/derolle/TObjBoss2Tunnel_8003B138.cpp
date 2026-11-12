@@ -164,16 +164,6 @@ void enable_fog__15TObjBoss2TunnelFPv(TObjBoss2Tunnel *arg0);
 void TObjBoss2Tunnel__sub_801339EC(f32, f32, f32);
 extern u32 TObjBoss2Tunnel__global_flags;
 void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o);
-#define release_children__15TObjBoss2TunnelFPvf ((void (*)(u32, f32))release_children__15TObjBoss2TunnelFPvf)
-#define sub_8003C21C__15TObjBoss2TunnelFv ((s32 (*)(void *, void *))sub_8003C21C__15TObjBoss2TunnelFv)
-#define check_flag_or_state__15TObjBoss2TunnelFi ((s32 (*)(void *))check_flag_or_state__15TObjBoss2TunnelFi)
-#define is_flag_set__15TObjBoss2TunnelFv ((s32 (*)(void *))is_flag_set__15TObjBoss2TunnelFv)
-#define copy_ring_buffer_window__15TObjBoss2TunnelFv ((void (*)(void *))copy_ring_buffer_window__15TObjBoss2TunnelFv)
-#define init_queue_from_start__15TObjBoss2TunnelFv ((void (*)(void *))init_queue_from_start__15TObjBoss2TunnelFv)
-#define shift_queue_push_next__15TObjBoss2TunnelFPv ((void (*)(void *))shift_queue_push_next__15TObjBoss2TunnelFPv)
-#define __nw__7TObjectFUl ((void * (*)(int))__nw__7TObjectFUl)
-#define init__13TUnk_804835D8Fv ((void (*)(void *, void *))init__13TUnk_804835D8Fv)
-#define enable_fog__15TObjBoss2TunnelFv ((void (*)(void *))enable_fog__15TObjBoss2TunnelFv)
 void TObjBoss2Tunnel__sub_8003B2B0(void);
 void *__ct__7TObjectFP7TObject(void *, void *);
 
@@ -237,16 +227,6 @@ static Rec_8003C108 boss2_tunnel_particle_pos_table[4] = {
 
 }
 
-#undef release_children__15TObjBoss2TunnelFPvf
-#undef sub_8003C21C__15TObjBoss2TunnelFv
-#undef check_flag_or_state__15TObjBoss2TunnelFi
-#undef is_flag_set__15TObjBoss2TunnelFv
-#undef copy_ring_buffer_window__15TObjBoss2TunnelFv
-#undef init_queue_from_start__15TObjBoss2TunnelFv
-#undef shift_queue_push_next__15TObjBoss2TunnelFPv
-#undef __nw__7TObjectFUl
-#undef init__13TUnk_804835D8Fv
-#undef enable_fog__15TObjBoss2TunnelFv
 
 struct S_8003C21C { u8 pad[0x1f]; u8 x; };
 
@@ -275,9 +255,6 @@ struct S_8003C2E4 {
 
 
 
-#define init_queue_from_start__15TObjBoss2TunnelFv ((void (*)(Tunnel_8003C45C *))init_queue_from_start__15TObjBoss2TunnelFv)
-#define __nw__7TObjectFUl ((void * (*)(int))__nw__7TObjectFUl)
-#define __ct__7TObjectFP7TObject ((void (*)(void *))__ct__7TObjectFP7TObject)
 
 struct Tunnel_8003C45C {
     const char *name;
@@ -352,15 +329,11 @@ extern s32 __vt__13TUnk_804835D8[];
 
 }
 
-#undef init_queue_from_start__15TObjBoss2TunnelFv
-#undef __nw__7TObjectFUl
-#undef __ct__7TObjectFP7TObject
 
 #undef boss2_tunnel_instance
 
 
 #define init_queue_from_start__15TObjBoss2TunnelFv ((void (*)(Tunnel_8003C45C *))init_queue_from_start__15TObjBoss2TunnelFv)
-#define __nw__7TObjectFUl ((void * (*)(int))__nw__7TObjectFUl)
 #define __ct__7TObjectFP7TObject ((void (*)(void *))__ct__7TObjectFP7TObject)
 extern "C" {
 void *TUnk_804835D8::init() {
@@ -508,7 +481,6 @@ TObjBoss2Tunnel::~TObjBoss2Tunnel() {
 }
 
 #undef init_queue_from_start__15TObjBoss2TunnelFv
-#undef __nw__7TObjectFUl
 #undef __ct__7TObjectFP7TObject
 void TObjBoss2Tunnel::init_queue_from_start() {
     s32 k = ((Obj_8003C374 *)this)->start;
@@ -589,7 +561,6 @@ s32 TObjBoss2Tunnel__sub_8003C1C8(void) {
 #define copy_ring_buffer_window__15TObjBoss2TunnelFv ((void (*)(void *))copy_ring_buffer_window__15TObjBoss2TunnelFv)
 #define init_queue_from_start__15TObjBoss2TunnelFv ((void (*)(void *))init_queue_from_start__15TObjBoss2TunnelFv)
 #define shift_queue_push_next__15TObjBoss2TunnelFPv ((void (*)(void *))shift_queue_push_next__15TObjBoss2TunnelFPv)
-#define __nw__7TObjectFUl ((void * (*)(int))__nw__7TObjectFUl)
 #define init__13TUnk_804835D8Fv ((void (*)(void *, void *))init__13TUnk_804835D8Fv)
 #define enable_fog__15TObjBoss2TunnelFv ((void (*)(void *))enable_fog__15TObjBoss2TunnelFv)
 void TObjBoss2Tunnel::update_particles() {
@@ -988,7 +959,6 @@ void TObjBoss2Tunnel__sub_8003B2B0(void) {
 #undef copy_ring_buffer_window__15TObjBoss2TunnelFv
 #undef init_queue_from_start__15TObjBoss2TunnelFv
 #undef shift_queue_push_next__15TObjBoss2TunnelFPv
-#undef __nw__7TObjectFUl
 #undef init__13TUnk_804835D8Fv
 #undef enable_fog__15TObjBoss2TunnelFv
 void release_children__15TObjBoss2TunnelFPvf(Obj_8003B250 *arg0, f32 farg0) {

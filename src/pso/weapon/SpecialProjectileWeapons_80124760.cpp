@@ -106,9 +106,7 @@ extern "C" {
 extern void *__vt__13TUnk_804A204C[];
 extern void *__vt__13TUnk_804A2148[];
 extern void *__vt__13TUnk_804A2164[];
-#define __vt__13TUnk_804A204C ((s32 *)__vt__13TUnk_804A204C)
 #define __vt__13TUnk_804A2148 ((s32 *)__vt__13TUnk_804A2148)
-#define __vt__13TUnk_804A2164 ((s32 *)__vt__13TUnk_804A2164)
 
 }
 extern "C" {

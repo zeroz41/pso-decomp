@@ -750,8 +750,6 @@ __declspec(section ".data") void *lbl_8049C61C[2] = {
 };
 #define TLobby__disk_error_msg_table ((Msg_800F8FB8 *)TLobby__disk_error_msg_table)
 #define TLobby__disk_error_msg_last ((Msg_800F8FB8 *)TLobby__disk_error_msg_last)
-#define lobby_font_texture_prs_data ((u8 *)lobby_font_texture_prs_data)
-#define lbl_8049C61C ((u8 *)lbl_8049C61C)
 
 void TLobby::reset_keyboard_state() { area_transfer_pending_flag = 0; TKeyBoardControl::reset(); }
 

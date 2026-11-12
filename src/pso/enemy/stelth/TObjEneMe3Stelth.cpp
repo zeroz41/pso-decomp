@@ -984,14 +984,10 @@ void TObjEneMe3Stelth::draw_with_debug_info() {
 #undef get_node_world_y__16TObjEneMe3StelthFv
 void setup_move__16TObjEneMe3StelthFv(void* p);
 #define sub_800F4758__16TObjEneMe3StelthFv ((int (*)(void*))sub_800F4758__16TObjEneMe3StelthFv)
-#define get_target_info__9TObjEneDDFv ((int (*)(void*))get_target_info__9TObjEneDDFv)
-#define setup_move_bounds__16TObjEneMe3StelthFv ((int (*)(void*))setup_move_bounds__16TObjEneMe3StelthFv)
 
 void TObjEneMe3Stelth::setup_move() { if (get_target_info__9TObjEneDDFv(this) != 0) { setup_move_bounds__16TObjEneMe3StelthFv(this); sub_800F4758__16TObjEneMe3StelthFv(this); } }
 }
-#undef get_target_info__9TObjEneDDFv
 #undef sub_800F4758__16TObjEneMe3StelthFv
-#undef setup_move_bounds__16TObjEneMe3StelthFv
 
 struct VBase_14_aa9368 { char pad[0x14]; };
 
@@ -1128,7 +1124,6 @@ struct VObj_18_18102d : VBase_18_18102d {
 
 extern "C" {
 s32 is_main_phase_15__9TObjEneDDFv();
-#define sub_800F47D4__16TObjEneMe3StelthFv ((s32 (*)(void *))sub_800F47D4__16TObjEneMe3StelthFv)
 s32 draw_ginja_motion_model__10TObjMotionFv(void *);
 s32 defer_render__7TObjectFv(void *);
 s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(void *);
@@ -1285,7 +1280,6 @@ void TObjEneMe3Stelth::render() {
 
 #undef set_global_param__8TObjFishFl
 #undef TObjEneMe3Stelth__material_color_pointers
-#undef sub_800F47D4__16TObjEneMe3StelthFv
 void TObjEneMe3Stelth::add_instance() { load_projection_tex_matrix(*(int *)&stelth_projection_texture_handle); (*(int *)&TObjEneMe3Stelth__render_node_index) = ((*(int *)&TObjEneMe3Stelth__render_node_index) + 0x1); }
 }
 
@@ -1521,7 +1515,6 @@ extern const f32 TObjEneMe3Stelth__data_805DA844;
 extern const f32 TObjEneMe3Stelth__data_805DA850;
 extern const f32 lbl_805DA854;
 s32 update_linked_position__12TObjEneDD_STFf(void *, f32);
-#define set_field_378__9TObjEneDDFl ((s32 (*)(void *, int))set_field_378__9TObjEneDDFl)
 #define sub_800F47D4__16TObjEneMe3StelthFv ((s32 (*)(void *))sub_800F47D4__16TObjEneMe3StelthFv)
 extern const f32 TObjEneMe3Stelth__data_805DA848;
 extern const f32 TObjEneMe3Stelth__data_805DA84C;
@@ -1732,7 +1725,6 @@ void TObjEneMe3Stelth__sub_800F290C(u8 *arg0, s32 arg1) {
 }
 
 #undef play_sound_effect
-#undef set_field_378__9TObjEneDDFl
 #undef sub_800F47D4__16TObjEneMe3StelthFv
 void action__16TObjEneMe3StelthFPvi(u8 *arg0, s32 arg1);
 
@@ -2515,8 +2507,6 @@ struct VObj_18_347dfc : VBase_18_347dfc {
     virtual s32 m102(f32);
 };
 
-#define set_field_378__9TObjEneDDFl ((s32 (*)(void *, int))set_field_378__9TObjEneDDFl)
-#define transition_enemy_state__9TObjEneDDFl ((s32 (*)(void *, int))transition_enemy_state__9TObjEneDDFl)
 extern const f32 lbl_805DA888;
 extern const f32 lbl_805DA88C;
 extern "C" {
@@ -3192,8 +3182,6 @@ void TObjEneMe3Stelth::sub_800F42B8(s32 arg1) {
     }
 }
 
-#undef set_field_378__9TObjEneDDFl
-#undef transition_enemy_state__9TObjEneDDFl
 #undef TObjEneMe3Stelth__behavior_params_by_variant
 #undef get_flag_b4__9TObjEneDDFv
 #undef play_sound_effect
@@ -3710,7 +3698,6 @@ int vfunc_96__9TObjEneDDFv(void*);
 int vfunc_95__9TObjEneDDFv(void*);
 void TObjEneDD__sub_800BA438(void *, void *);
 s32 init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int, int);
-#define clear_attack_receipts__9TObjEneDDFv ((void (*)(void *))clear_attack_receipts__9TObjEneDDFv)
 #define transition_enemy_state__9TObjEneDDFl ((int (*)(void*, void*))transition_enemy_state__9TObjEneDDFl)
 #define exec__16TObjEneMe3StelthFPvi ((void (*)(void *, s32))exec__16TObjEneMe3StelthFPvi)
 #define TObjEneMe3Stelth__sub_800F2270 ((void (*)(void *, s32))TObjEneMe3Stelth__sub_800F2270)
@@ -3922,7 +3909,6 @@ void *__vt__20TObjEneMe3StelthReal[116] = {
     (void *)&vfunc_108__16TObjEneMe3StelthFv, (void *)&check_active_flag__16TObjEneMe3StelthFv, (void *)&check_flag__16TObjEneMe3StelthFv, (void *)&vfunc_111__20TObjEneMe3StelthRealFv,
     (void *)&vfunc_112__16TObjEneMe3StelthFv, (void *)&vfunc_113__16TObjEneMe3StelthFl, (void *)&setup_move__16TObjEneMe3StelthFv, (void *)&draw_with_debug_info__16TObjEneMe3StelthFv,
 };
-#define TObjEneMe3Stelth__collision_body_template ((u8 *)TObjEneMe3Stelth__collision_body_template)
 
 void dispatch_state__16TObjEneMe3StelthFPvii(Obj_800F4598 *self, s32 arg1, s32 arg2) {
     switch (arg1) {
@@ -4300,7 +4286,6 @@ void TObjEneMe3StelthReal::init_common() {
 
 #undef VBase_18
 #undef VObj_18
-#undef clear_attack_receipts__9TObjEneDDFv
 #undef transition_enemy_state__9TObjEneDDFl
 #undef exec__16TObjEneMe3StelthFPvi
 #undef TObjEneMe3Stelth__sub_800F2270
@@ -4499,7 +4484,6 @@ void TObjEneMe3Stelth::load_shared_resources() {
     }
 }
 
-#define draw_ginja_motion_model__10TObjMotionFv ((int (*)(void*))draw_ginja_motion_model__10TObjMotionFv)
 
 void TObjEneDD_ST::sub_800F5864(s32 arg1) {
     this->m_11c = (s16) (this->m_11c & ~arg1);
@@ -4512,4 +4496,3 @@ void TObjEneDD_ST::sub_800F5874(s32 arg1) {
 int draw_model__16TObjEneMe3StelthFPv(void* p) { return draw_ginja_motion_model__10TObjMotionFv(p); }
 
 }
-#undef draw_ginja_motion_model__10TObjMotionFv

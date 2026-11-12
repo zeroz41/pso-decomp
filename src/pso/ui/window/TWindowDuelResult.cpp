@@ -158,8 +158,6 @@ void *__vt__17TWindowDuelResult[5] = {
     (void *)0x43c20000, (void *)0x43240000, (void *)0x47437b00, (void *)0x0,
     (void *)0x3,
 };
-#define TWindowDuelResult__layout_entries ((u8 *)TWindowDuelResult__layout_entries)
-#define duel_result_window_layout_table ((u8 *)duel_result_window_layout_table)
 #define __vt__17TWindowDuelResult (*(RecoveredGlobal_8024F5B0___vt__17TWindowDuelResult *)__vt__17TWindowDuelResult)
 
 void sub_8024EF3C__17TWindowDuelResultFv(void) {  }

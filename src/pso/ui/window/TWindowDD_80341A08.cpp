@@ -227,7 +227,6 @@ void TWindowDD__sub_80341AF8(u8 *arg0) {
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
-#define sub_80341AC0__17TWindowDD_WS_WordFv ((s32 (*)(void *))sub_80341AC0__17TWindowDD_WS_WordFv)
 
 struct RecoveredGlobal_80341F9C_TWindowDD__data_804EFC50 {
     s32 value;
@@ -460,4 +459,3 @@ void TWindowDD::add_scroll_offset(int a1) { this->m_84 = (this->m_84 + a1); this
 
 }
 
-#undef sub_80341AC0__17TWindowDD_WS_WordFv

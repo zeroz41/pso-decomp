@@ -195,7 +195,6 @@ void TObjPlayer::spawn_cleanup_helper(void *arg0) {
 #undef init_vtable_804F2A10__13TUnk_804F2A10Fv
 
 extern "C" {
-#define reset_id_array__10TObjPlayerFPv ((s32 (*)(void *))reset_id_array__10TObjPlayerFPv)
 void TObjPlayer::push_id_to_list(s32 arg0) {
     if ((s32) *(s32 *)((s8 *)(*(void **)&lbl_805D6FB8) + 0xB0) == 0) {
         reset_id_array__10TObjPlayerFPv((*(void **)&lbl_805D6FB8));
@@ -204,14 +203,9 @@ void TObjPlayer::push_id_to_list(s32 arg0) {
 }
 }
 
-#undef reset_id_array__10TObjPlayerFPv
 
 extern "C" {
-#define __vt__13TUnk_804F2A10 ((unsigned char *)__vt__13TUnk_804F2A10)
-#define reset_id_array__10TObjPlayerFPv ((int (*)(void*))reset_id_array__10TObjPlayerFPv)
 void*TUnk_804F2A10::init_vtable_804F2A10() { __ct__7TObjectFP7TObject(); *(int*)((char*)this + 0x18) = (int)__vt__13TUnk_804F2A10; reset_id_array__10TObjPlayerFPv((void*)((*(int *)&lbl_805D6FB8))); return this; }
-#undef __vt__13TUnk_804F2A10
-#undef reset_id_array__10TObjPlayerFPv
 }
 
 TUnk_804F2A10::~TUnk_804F2A10() {
@@ -301,11 +295,7 @@ void TObjPlayer::create_cleanup_object(void *arg0) {
 }
 
 extern "C" {
-#define __vt__13TUnk_804F29F8 ((unsigned char *)__vt__13TUnk_804F29F8)
-#define reset_id_array__10TObjPlayerFPv ((int (*)(void*))reset_id_array__10TObjPlayerFPv)
 void* TObjPlayer__sub_80363C5C(void* a0) { __ct__7TObjectFP7TObject(); *(int*)((char*)a0 + 0x18) = (int)__vt__13TUnk_804F29F8; reset_id_array__10TObjPlayerFPv((void*)player_item_id_list); return a0; }
-#undef __vt__13TUnk_804F29F8
-#undef reset_id_array__10TObjPlayerFPv
 }
 
 TUnk_804F29F8::~TUnk_804F29F8() {
@@ -313,9 +303,7 @@ TUnk_804F29F8::~TUnk_804F29F8() {
 }
 
 extern "C" {
-#define reset_id_array__10TObjPlayerFPv ((int (*)(void*))reset_id_array__10TObjPlayerFPv)
 void TUnk_804F29F8::run_task() { reset_id_array__10TObjPlayerFPv((void*)player_item_id_list); }
-#undef reset_id_array__10TObjPlayerFPv
 }
 
 struct DrawPrefix { u8 prefix[0x18]; };

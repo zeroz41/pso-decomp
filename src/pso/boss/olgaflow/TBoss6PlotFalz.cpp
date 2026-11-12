@@ -816,7 +816,6 @@ void queue_instance_destruction__14TBoss6PlotFalzFv(void) {
 }
 
 #define get_player_data__10TObjPlayerFi ((s32 (*)(s32))get_player_data__10TObjPlayerFi)
-#define get_entity_id ((s16 (*)(s32))get_entity_id)
 
 struct Stack_802ABCDC {
     s16 spC;
@@ -951,7 +950,6 @@ void TBoss6PlotFalz::set_fade_material_color(f32 f) {
 
 }
 #undef get_player_data__10TObjPlayerFi
-#undef get_entity_id
 
 #define set_chunk_material_override_pair ((s32 (*)(int, int, int, void *, void *, int))set_chunk_material_override_pair)
 #define set_constant_material ((s32 (*)(void *, f32, f32, f32, f32))set_constant_material)
@@ -1277,13 +1275,11 @@ void TBoss6PlotFalz__sub_802AC724(u8 *boss4_dark_falz, u32 arg1) {
 }
 }
 
-#define set_visible_flag__14TBoss6PlotFalzFv ((s32 (*)(void *))set_visible_flag__14TBoss6PlotFalzFv)
 #define queue_destruction__7TObjectFv ((s32 (*)(int))queue_destruction__7TObjectFv)
 #define destroy_static_instance__14TBoss6PlotFalzFv ((s32 (*)(void *))destroy_static_instance__14TBoss6PlotFalzFv)
 #define queue_instance_destruction__14TBoss6PlotFalzFv ((s32 (*)(void *))queue_instance_destruction__14TBoss6PlotFalzFv)
 #define refresh_players_equipment__14TBoss6PlotFalzFPv ((s32 (*)())refresh_players_equipment__14TBoss6PlotFalzFPv)
 #define end_cutscene_camera__14TBoss6PlotFalzFPv ((s32 (*)())end_cutscene_camera__14TBoss6PlotFalzFPv)
-#define update_active_flag__14TBoss6PlotFalzFv ((s32 (*)())update_active_flag__14TBoss6PlotFalzFv)
 
 typedef struct Loc_802AC9EC {
     s32 a;

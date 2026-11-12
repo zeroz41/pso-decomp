@@ -101,8 +101,6 @@ void set_ring_action__10TObjPlayerFPvi(void*, s32);
 void set_stat_scale__10TObjPlayerFPvf(void*, f32);
 s32 test_flags_any(s32, s32);
 }
-#define apply_stat_multipliers__10TObjPlayerFiif ((int (*)(void*))apply_stat_multipliers__10TObjPlayerFiif)
-#define set_stat_scale__10TObjPlayerFPvf ((int (*)(void*))set_stat_scale__10TObjPlayerFPvf)
 
 extern "C" {
 
@@ -110,12 +108,7 @@ void apply_stat_multipliers_and_reset__10TObjPlayerFPv(void* p);
 s32 get_slot_value__10TObjPlayerFPvi(s32 *arg0, s32 arg1);
 
 }
-#undef apply_stat_multipliers__10TObjPlayerFiif
-#undef set_stat_scale__10TObjPlayerFPvf
 
-#define TObjPlayer__sub_801C6FCC ((s32 (*)(s32, f32))TObjPlayer__sub_801C6FCC)
-#define apply_stat_multipliers_default__10TObjPlayerFv ((int (*)(void*))apply_stat_multipliers_default__10TObjPlayerFv)
-#define set_stat_scale__10TObjPlayerFPvf ((int (*)(void*))set_stat_scale__10TObjPlayerFPvf)
 
 extern "C" {
 
@@ -127,14 +120,7 @@ s32 is_flag30_8_set__10TObjPlayerFi(s32);
 
 
 }
-#undef TObjPlayer__sub_801C6FCC
-#undef apply_stat_multipliers_default__10TObjPlayerFv
-#undef set_stat_scale__10TObjPlayerFPvf
 
-#define TObjPlayer__sub_801C6FDC ((f32* (*)(f32*))TObjPlayer__sub_801C6FDC)
-#define apply_stat_multipliers__10TObjPlayerFiif ((s32 (*)(f32))apply_stat_multipliers__10TObjPlayerFiif)
-#define get_scalar__16PlayerScaleStateFv ((f32 (*)(PlayerScaleState*))get_scalar__16PlayerScaleStateFv)
-#define set_stat_scale__10TObjPlayerFPvf ((s32 (*)(f32))set_stat_scale__10TObjPlayerFPvf)
 
 extern "C" {
 TObjPlayer* get_player_by_client_id(int);
@@ -172,13 +158,7 @@ int clear__8FlagWordFUl(void*, int);
 
 
 }
-#undef TObjPlayer__sub_801C6FDC
-#undef apply_stat_multipliers__10TObjPlayerFiif
-#undef get_scalar__16PlayerScaleStateFv
-#undef set_stat_scale__10TObjPlayerFPvf
 
-#define get_player_by_client_id ((s32 (*)(u16))get_player_by_client_id)
-#define test_flags_any ((int (*)(void*, int))test_flags_any)
 
 struct RecoveredGlobal_801C6FF8_lbl_804C4008 {
     s32 value;
@@ -241,9 +221,7 @@ int clear__8FlagWordFUl(void*, int);
 }
 namespace accessors {
 }
-#undef get_player_by_client_id
 
-#define get_player_by_client_id ((s32 (*)(u16))get_player_by_client_id)
 namespace accessors {
 }
 namespace accessors {
@@ -263,8 +241,6 @@ extern "C" {
 typedef char RecoveredGlobal_801C6FF8_lbl_804C4008_size[sizeof(RecoveredGlobal_801C6FF8_lbl_804C4008) == 0x18 ? 1 : -1];
 
 }
-#undef get_player_by_client_id
-#undef test_flags_any
 
 }
 

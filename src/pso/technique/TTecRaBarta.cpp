@@ -328,9 +328,6 @@ void TTecRaBarta::vfunc_6(void *target) {
 }
 
 #define TTecRaBarta_class_name ((u32)TTecRaBarta_class_name)
-#define __nw__7TObjectFUl ((void * (*)(int))__nw__7TObjectFUl)
-#define rabarta_band_emitter_table ((struct Profile_80237A94 *)rabarta_band_emitter_table)
-#define __dl__7TObjectFPv ((s32 (*)(void *))__dl__7TObjectFPv)
 #define calc_parameters__11TTecRaBartaFv ((void (*)(void *))calc_parameters__11TTecRaBartaFv)
 
 struct Vec_80237DAC { f32 x, y, z; };
@@ -513,7 +510,4 @@ void *TTecRaBarta::construct_area(void *source, void *origin, void *level) {
 
 #undef calc_parameters__11TTecRaBartaFv
 
-#undef __dl__7TObjectFPv
-#undef rabarta_band_emitter_table
-#undef __nw__7TObjectFUl
 #undef TTecRaBarta_class_name

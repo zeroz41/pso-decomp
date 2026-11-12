@@ -109,7 +109,6 @@ extern "C" const char *TBoss6Demo21_TYPE2_DEAD__name = TBoss6Demo21_TYPE2_DEAD__
 #define boss6_type2_death_effect_desc_c ((u8 *)boss6_type2_death_effect_desc_c)
 #define lbl_80478134 ((u8 *)lbl_80478134)
 #define boss6_type2_death_emitter_ranges ((Rng_8033E0F0 *)boss6_type2_death_emitter_ranges)
-#define lbl_8047817C ((u8 *)lbl_8047817C)
 extern "C" {
 void TBoss6Demo21_TYPE2_DEAD::draw_model_13() {
     if ((s32) this->m_50 >= 0x1AC) {
@@ -124,13 +123,6 @@ void TBoss6Demo21_TYPE2_DEAD::draw_model_13() {
         pop_matrix();
     }
 }
-
-#define arg0 ((u8 *) p)
-
-#undef arg0
-
-#define arg0 ((u8 *) p)
-
 #define arg0 ((u8 *) p)
 void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_8(void *p) {
     f32 f;

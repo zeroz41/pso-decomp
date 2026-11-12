@@ -580,7 +580,6 @@ void *__vt__12TObjEneBeast[103] = {
     (void *)&vfunc_96__12TObjEneBeastFv, (void *)&vfunc_97__12TObjEneBeastFv, (void *)&vfunc_98__12TObjEneBeastFv, (void *)&vfunc_99__12TObjEneBeastFv,
     (void *)&vfunc_100__13TUnk_80493450Fv, (void *)&vfunc_101__12TObjEneBeastFv, (void *)&request_stand_action__13TUnk_80493450Fv,
 };
-#define __vt__12TObjEneBeast ((u8 *)__vt__12TObjEneBeast)
 
 void *TObjEneBeast::create(void *arg0) {
     void *o;

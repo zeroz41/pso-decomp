@@ -721,7 +721,6 @@ void *deleting_dtor__15TObjEneMe1GiGueFPvs(void *arg0, s16 arg1) {
 
 #undef GIGUE_DATA_6838
 #define load_params__15TObjEneMe1GiGueFv ((s32 (*)(void *))load_params__15TObjEneMe1GiGueFv)
-#define sub_802CB6D4__15TObjEneMe1GiGueFv ((s32 (*)(void *))sub_802CB6D4__15TObjEneMe1GiGueFv)
 #define update_rush_attack__15TObjEneMe1GiGueFPv ((s32 (*)(void *))update_rush_attack__15TObjEneMe1GiGueFPv)
 #define TObjEneMe1GiGue__sub_802CCBAC ((s32 (*)(void *))TObjEneMe1GiGue__sub_802CCBAC)
 #define sub_802CCF2C__15TObjEneMe1GiGueFv ((s32 (*)(void *))sub_802CCF2C__15TObjEneMe1GiGueFv)
@@ -911,11 +910,9 @@ void TObjEneMe1GiGue::dispatch_state() {
 }
 
 #undef load_params__15TObjEneMe1GiGueFv
-#undef sub_802CB6D4__15TObjEneMe1GiGueFv
 #undef update_rush_attack__15TObjEneMe1GiGueFPv
 #undef TObjEneMe1GiGue__sub_802CCBAC
 #undef sub_802CCF2C__15TObjEneMe1GiGueFv
-#define rotate_matrix_y ((void (*)(s32, s32))rotate_matrix_y)
 extern "C" {
 void draw_model__15TObjEneMe1GiGueFPv(Obj_802CD058 *self) {
     s32 vis;
@@ -993,26 +990,11 @@ void draw_model__15TObjEneMe1GiGueFPv(Obj_802CD058 *self) {
 }
 }
 
-#undef rotate_matrix_y
-#define load_params__15TObjEneMe1GiGueFv ((s32 (*)(void *))load_params__15TObjEneMe1GiGueFv)
-#define sub_802CB6D4__15TObjEneMe1GiGueFv ((s32 (*)(void *))sub_802CB6D4__15TObjEneMe1GiGueFv)
-#define update_rush_attack__15TObjEneMe1GiGueFPv ((s32 (*)(void *))update_rush_attack__15TObjEneMe1GiGueFPv)
-#define TObjEneMe1GiGue__sub_802CCBAC ((s32 (*)(void *))TObjEneMe1GiGue__sub_802CCBAC)
-#define sub_802CCF2C__15TObjEneMe1GiGueFv ((s32 (*)(void *))sub_802CCF2C__15TObjEneMe1GiGueFv)
 extern "C" {
 void TObjEneMe1GiGue__sub_802CD054(void) {  }
 }
 
-#undef load_params__15TObjEneMe1GiGueFv
-#undef sub_802CB6D4__15TObjEneMe1GiGueFv
-#undef update_rush_attack__15TObjEneMe1GiGueFPv
-#undef TObjEneMe1GiGue__sub_802CCBAC
-#undef sub_802CCF2C__15TObjEneMe1GiGueFv
-#define play_sound_effect ((s32 (*)(void *, void *, int, int))play_sound_effect)
-#define update_if_active__15TObjEnemyCustomFl ((s32 (*)(void *, int))update_if_active__15TObjEnemyCustomFl)
-#define apply_actor_gravity ((s32 (*)(void *, s32, f32))apply_actor_gravity)
 #define sub_8004292C__15TObjEnemyCustomFv ((s32 (*)())sub_8004292C__15TObjEnemyCustomFv)
-#define TObjEneMe1GiGue__sub_802CB10C ((s32 (*)(void *))TObjEneMe1GiGue__sub_802CB10C)
 #define subtract_vector ((void (*)(void *, void *))subtract_vector)
 extern "C" {
 void TObjEneMe1GiGue::sub_802CCF2C() {
@@ -1165,7 +1147,6 @@ void TObjEneMe1GiGue__sub_802CCBAC(Obj_802CCBAC *o) {
 }
 }
 
-#undef TObjEneMe1GiGue__sub_802CB10C
 #undef subtract_vector
 extern "C" {
 void TObjEneMe1GiGue__sub_802CC900(u8 *arg0) {
@@ -1246,7 +1227,6 @@ void TObjEneMe1GiGue__sub_802CC900(u8 *arg0) {
 }
 }
 
-#undef play_sound_effect
 #define TObjEneMe1GiGue__sub_802CB10C ((s32 (*)(void *))TObjEneMe1GiGue__sub_802CB10C)
 extern "C" {
 void TObjEneMe1GiGue__sub_802CC614(u8 *enemy) {
@@ -1332,7 +1312,6 @@ void TObjEneMe1GiGue__sub_802CC614(u8 *enemy) {
 }
 }
 
-#define play_sound_effect ((s32 (*)(void *, void *, int, int))play_sound_effect)
 #define subtract_vector ((void (*)(void *, void *))subtract_vector)
 extern "C" {
 void TObjEneMe1GiGue__sub_802CC45C(u8 *arg0) {
@@ -1423,7 +1402,6 @@ void action__15TObjEneMe1GiGueFPv(void *enemy) {
 
 #undef TObjEneMe1GiGue__sub_802CB10C
 #define calc_velocity_toward_destination ((s32 (*)(void *, f32, Vec_802CBCC0, Vec_802CBCC0))calc_velocity_toward_destination)
-#define csnVector ((u32 (*)(void *, void *, s32))csnVector)
 #define find_open_direction__15TObjEneMe1GiGueFPvPv ((s32 (*)(void *, void *))find_open_direction__15TObjEneMe1GiGueFPvPv)
 extern "C" {
 void update_rush_attack__15TObjEneMe1GiGueFPv(Obj_802CBCC0 *o) {
@@ -1557,9 +1535,7 @@ void update_rush_attack__15TObjEneMe1GiGueFPv(Obj_802CBCC0 *o) {
 }
 
 #undef calc_velocity_toward_destination
-#undef csnVector
 #undef find_open_direction__15TObjEneMe1GiGueFPvPv
-#define TObjEneMe1GiGue__sub_802CB10C ((s32 (*)(void *))TObjEneMe1GiGue__sub_802CB10C)
 extern "C" {
 void TObjEneMe1GiGue::update_hit_reaction() {
     f32 sp10;
@@ -1740,12 +1716,8 @@ s32 TObjEneMe1GiGue::remap_sound_id(void *obj, s32 id) {
 }
 }
 
-#undef update_if_active__15TObjEnemyCustomFl
-#undef apply_actor_gravity
 #undef sub_8004292C__15TObjEnemyCustomFv
-#undef play_sound_effect
 #undef subtract_vector
-#undef TObjEneMe1GiGue__sub_802CB10C
 #define update_if_active__15TObjEnemyCustomFl ((s32 (*)(void *, s32, s32))update_if_active__15TObjEnemyCustomFl)
 void TObjEneMe1GiGue__sub_802CB378(u8 *arg0) {
     f32 temp_f3;

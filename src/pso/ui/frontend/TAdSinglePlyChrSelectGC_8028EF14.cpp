@@ -316,7 +316,6 @@ void TCharaMaking__bind_head_shape_nodes(CharacterAppearanceFields *appearance, 
 void TCharaMaking__bind_body_shape_nodes(CharacterAppearanceFields *appearance, void *model);
 void *TCMCharacter__ct(void *arg0, void *arg1);
 extern s32 creation_region_sample_index_table[24]; extern CreationShapePoint lbl_804D400C[9]; extern void* lbl_804D4054[21];
-#define lbl_804D4054 ((s32 *)lbl_804D4054)
 #pragma defer_codegen on
 }
 
@@ -371,7 +370,7 @@ u8 *TAdSinglePlyChrSelectGC__sub_802908CC(u8 *arg0, s16 arg1) {
     CreationTextureCacheEntry *p;
     CreationTextureCacheEntry *end;
     if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804D4054;
+        *(void ***)((s8 *)arg0 + 0x18) = lbl_804D4054;
         for (p = creation_texture_cache, end = creation_texture_cache + 128; p < end; p++) {
             if (p->in_use != 0) {
                 ((TAdSinglePlyChrSelectGC *)p)->update_char_panels();
@@ -580,7 +579,6 @@ void TCMCharacter::run_task() {
     (this->*modes[char_select_active_flag])();
 }
 
-#undef lbl_804D4054
 
 // The three shape samples (corners in lbl_804D400C) of each proportion region.
 s32 creation_region_sample_index_table[24] = {
@@ -607,7 +605,6 @@ void *lbl_804D4054[21] = {
     (void *)0x0,
 };
 
-#define lbl_804D4054 ((s32 *)lbl_804D4054)
 
 void TCMCharacter::apply_character_appearance() {
     struct Opaque_80290088 *app;

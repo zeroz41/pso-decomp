@@ -400,7 +400,6 @@ const char *TObjGrass__class_name = "TObjGrass";
 const Quad_800BF66C grass_spawn_descriptor = {0, TObjGrass__grass_type_param_table, 1, 0x80000};
 const Vec_800BEF8C lbl_8043B790 = {0.0f, 0.0f, 0.0f};
 const char *TObjGrassWeb__class_name = "TObjGrassWeb";
-#define bm_ene_grass_resource_descriptor ((s32 *)bm_ene_grass_resource_descriptor)
 #define TObjGrass__grass_type_param_table ((s32 *)TObjGrass__grass_type_param_table)
 #pragma fp_contract on
 

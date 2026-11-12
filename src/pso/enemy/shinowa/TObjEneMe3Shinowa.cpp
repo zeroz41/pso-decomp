@@ -2860,7 +2860,6 @@ void *__vt__23TObjEneMe3ShinowaMirage[119] = {
     (void *)&apply_effect_pair__23TObjEneMe3ShinowaMirageFv, (void *)&action__17TObjEneMe3ShinowaFl, (void *)&vfunc_114__17TObjEneMe3ShinowaFl, (void *)&TObjEneMe3ShinowaMirage__vt113,
     (void *)&vfunc_116__17TObjEneMe3ShinowaFl, (void *)&update_mirage__17TObjEneMe3ShinowaFv, (void *)&vfunc_118__17TObjEneMe3ShinowaFv,
 };
-#define shinowa_mirage_model_init_data ((u8 *)shinowa_mirage_model_init_data)
 
 // Debug viewer: the mirage and gold-texture switches, then the model posed in
 // action parameters[2] at frame parameters[3] (unposed when mode is not 0).

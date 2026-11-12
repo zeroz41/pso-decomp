@@ -2260,7 +2260,6 @@ void *__vt__16TObjEneRe7Berura[107] = {
     (void *)&vfunc_104__12TObjEneDD_STFf, (void *)&vfunc_83__16TObjEneRe7BeruraFv, (void *)&vfunc_105__16TObjEneRe7BeruraFv,
 };
 #define berura_init_params ((u8 *)berura_init_params)
-#define lbl_8048F66C ((u8 *)lbl_8048F66C)
 #define ene_berura_bml_descriptor ((u8 *)ene_berura_bml_descriptor)
 #define __vt__16TObjEneRe7Berura ((s32 *)__vt__16TObjEneRe7Berura)
 

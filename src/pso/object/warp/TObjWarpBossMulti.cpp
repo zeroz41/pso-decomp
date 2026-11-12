@@ -928,9 +928,7 @@ void TObjWarpBoss::update_warp_state() {
     }
 }
 
-#define arg0 ((u8 *)arg0_)
 
-#undef arg0
 
 void TObjWarpBoss::update_warp_confirmation() {
     u8 *arg0 = (u8 *)this;

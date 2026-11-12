@@ -144,6 +144,4 @@ void TTecGiZonde::vfunc_8(void *arg1_arg) {
 #pragma push
 #pragma opt_loop_invariants off
 #pragma opt_common_subs off
-#define self ((Self_80239070 *)self_)
-#undef self
 #pragma pop

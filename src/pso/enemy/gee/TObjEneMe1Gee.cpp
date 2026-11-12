@@ -87,23 +87,6 @@ extern const Data_800C82A4 TObjEneMe1Gee__data_8043BDB0;
 extern s32 lbl_805D2A68;
 extern s32 gee_resource_bundle_ptr;
 #pragma push
-#define vfunc_117__13TUnk_8049387CFUl ((void (*)())vfunc_117__13TUnk_8049387CFUl)
-#define vfunc_108__13TUnk_8049387CFv ((void (*)())vfunc_108__13TUnk_8049387CFv)
-#define vfunc_107__13TUnk_8049387CFv ((void (*)())vfunc_107__13TUnk_8049387CFv)
-#define vfunc_105__13TUnk_8049387CFv ((void (*)())vfunc_105__13TUnk_8049387CFv)
-#define vfunc_106__13TUnk_8049387CFv ((void (*)())vfunc_106__13TUnk_8049387CFv)
-#define vfunc_114__13TObjEneMe1GeeFv ((void (*)())vfunc_114__13TObjEneMe1GeeFv)
-#define vfunc_115__13TObjEneMe1GeeFv ((void (*)())vfunc_115__13TObjEneMe1GeeFv)
-#define vfunc_62__13TObjEneMe1GeeFv ((void (*)())vfunc_62__13TObjEneMe1GeeFv)
-#define vfunc_63__13TObjEneMe1GeeFv ((void (*)())vfunc_63__13TObjEneMe1GeeFv)
-#define dispatch_action__13TObjEneMe1GeeFUll ((void (*)())dispatch_action__13TObjEneMe1GeeFUll)
-#define vfunc_88__13TObjEneMe1GeeFv ((void (*)())vfunc_88__13TObjEneMe1GeeFv)
-#define vfunc_89__13TObjEneMe1GeeFv ((void (*)())vfunc_89__13TObjEneMe1GeeFv)
-#define vfunc_101__13TObjEneMe1GeeFPUc ((void (*)())vfunc_101__13TObjEneMe1GeeFPUc)
-#define vfunc_110__13TUnk_8049387CFl ((void (*)())vfunc_110__13TUnk_8049387CFl)
-#define vfunc_109__13TUnk_8049387CFv ((void (*)())vfunc_109__13TUnk_8049387CFv)
-#define vfunc_116__13TUnk_8049387CFv ((void (*)())vfunc_116__13TUnk_8049387CFv)
-#define vfunc_112__13TUnk_8049387CFl ((void (*)())vfunc_112__13TUnk_8049387CFl)
 extern "C" void vfunc_28__13TObjEneMe1GeeFv();
 extern "C" void vfunc_61__13TObjEneMe1GeeFv();
 
@@ -290,23 +273,6 @@ static s32 gee_shared_handler_b_table[3];
 static s32 gee_object_handle_table[3];
 static s32 gee_shared_handler_a_table[3];
 static f32 gee_camera_ctrl_vec[4];
-#undef vfunc_117__13TUnk_8049387CFUl
-#undef vfunc_108__13TUnk_8049387CFv
-#undef vfunc_107__13TUnk_8049387CFv
-#undef vfunc_105__13TUnk_8049387CFv
-#undef vfunc_106__13TUnk_8049387CFv
-#undef vfunc_114__13TObjEneMe1GeeFv
-#undef vfunc_115__13TObjEneMe1GeeFv
-#undef vfunc_62__13TObjEneMe1GeeFv
-#undef vfunc_63__13TObjEneMe1GeeFv
-#undef dispatch_action__13TObjEneMe1GeeFUll
-#undef vfunc_88__13TObjEneMe1GeeFv
-#undef vfunc_89__13TObjEneMe1GeeFv
-#undef vfunc_101__13TObjEneMe1GeeFPUc
-#undef vfunc_110__13TUnk_8049387CFl
-#undef vfunc_109__13TUnk_8049387CFv
-#undef vfunc_116__13TUnk_8049387CFv
-#undef vfunc_112__13TUnk_8049387CFl
 #pragma pop
 #pragma push
 
@@ -336,10 +302,8 @@ void TUnk_8049387C::vfunc_112(s32 arg1) {
 
 #pragma pop
 #pragma push
-#define set_flag3c8_bit2__13TObjEneMe1GeeFv ((s32 (*)(void *))set_flag3c8_bit2__13TObjEneMe1GeeFv)
 #define sub_800CBE6C__13TObjEneMe1GeeFv ((s32 (*)(void *, f32))sub_800CBE6C__13TObjEneMe1GeeFv)
 #define TObjEneMe1Gee__sub_800CB5A0 ((s32 (*)(void *, s32))TObjEneMe1Gee__sub_800CB5A0)
-#define sub_800CB764__13TUnk_8049387CFl ((s32 (*)(void *, s32))sub_800CB764__13TUnk_8049387CFl)
 struct Vec_800C82A4 { f32 x, y, z; };
 struct Data_800C82A4 { f32 a; Vec_800C82A4 v; };
 struct Gee_800C82A4 { u8 pad[0x494]; s32 count; void *arr[8]; };
@@ -505,10 +469,8 @@ void TUnk_8049387C::sub_800C84C8() {
     }
 }
 
-#undef set_flag3c8_bit2__13TObjEneMe1GeeFv
 #undef sub_800CBE6C__13TObjEneMe1GeeFv
 #undef TObjEneMe1Gee__sub_800CB5A0
-#undef sub_800CB764__13TUnk_8049387CFl
 #pragma pop
 #pragma push
 void vfunc_113__13TUnk_8049387CFv(void);
@@ -551,7 +513,6 @@ int TUnk_8049387C::vfunc_116() {
 #pragma push
 #define TObjEneMe1Gee__data_8043BDB0 ((const u8 *)&TObjEneMe1Gee__data_8043BDB0)
 #define copy_argb ((int (*)(void *, void *))copy_argb)
-#define sub_800C84C8__13TUnk_8049387CFv ((s32 (*)(void *))sub_800C84C8__13TUnk_8049387CFv)
 #define create_breakup_mdl__12TBoss3VoloptFlllll ((void (*)(s32, s32, s32, s32, s32))create_breakup_mdl__12TBoss3VoloptFlllll)
 #define TObjEneMe1Gee__fade_command_streams ((char * *)&TObjEneMe1Gee__fade_command_streams)
 #define me1_gee_dispatch_table ((s32 *)&me1_gee_dispatch_table)
@@ -3840,15 +3801,12 @@ u8 *TObjEneMe1Gee__ct(u8 *ene_me1_gee, s32 arg1, u8 *arg2, s32 arg3, s16 arg4, s
 
 #undef TObjEneMe1Gee__data_8043BDB0
 #undef copy_argb
-#undef sub_800C84C8__13TUnk_8049387CFv
 #undef create_breakup_mdl__12TBoss3VoloptFlllll
 #undef TObjEneMe1Gee__fade_command_streams
 #undef me1_gee_dispatch_table
 #pragma pop
 #pragma push
 #define sub_800CC0C4__13TObjEneMe1GeeFv ((void (*)(void *))sub_800CC0C4__13TObjEneMe1GeeFv)
-#define __ct__12TObjEneDD_STFP7TObject ((void (*)(void *))__ct__12TObjEneDD_STFP7TObject)
-#define __ct__13TUnk_80494938Fv ((void (*)(void *))__ct__13TUnk_80494938Fv)
 void invoke_initialization_hook__9TObjEneDDFPv(void *, void *);
 
 void *init__13TObjEneMe1GeeFPvPvPvPv(void *ene_me1_gee, void *arg1, void *arg2, void *arg3) {
@@ -3868,8 +3826,6 @@ void *init__13TObjEneMe1GeeFPvPvPvPv(void *ene_me1_gee, void *arg1, void *arg2, 
 }
 
 #undef sub_800CC0C4__13TObjEneMe1GeeFv
-#undef __ct__12TObjEneDD_STFP7TObject
-#undef __ct__13TUnk_80494938Fv
 #pragma pop
 #pragma push
 
@@ -3905,7 +3861,6 @@ void TObjEneMe1Gee::free_globals() {
 #pragma pop
 #pragma push
 #define TObjEneMe1Gee__ct ((void * (*)(void *, void *, void *, void *, void *, void *))TObjEneMe1Gee__ct)
-#define __nw__7TObjectFUl ((void * (*)(int))__nw__7TObjectFUl)
 void * create__13TObjEneMe1GeeFPvPvPvPv(void *arg0, void *arg1, void *arg2, void *arg3);
 
 extern void *tl_04;
@@ -3920,10 +3875,8 @@ void * create__13TObjEneMe1GeeFPvPvPvPv(void *arg0, void *arg1, void *arg2, void
 }
 
 #undef TObjEneMe1Gee__ct
-#undef __nw__7TObjectFUl
 #pragma pop
 #pragma push
-#define __nw__7TObjectFUl ((void * (*)(int))__nw__7TObjectFUl)
 
 void *TObjEneMe1Gee::create(void *arg0) {
     void *o = __nw__7TObjectFUl(0x490);
@@ -3935,7 +3888,6 @@ void *TObjEneMe1Gee::create(void *arg0) {
 
 }
 
-#undef __nw__7TObjectFUl
 #pragma pop
 #pragma push
 #define bm_ene_me1_gee_resource_descriptor ((u8 *)&bm_ene_me1_gee_resource_descriptor)

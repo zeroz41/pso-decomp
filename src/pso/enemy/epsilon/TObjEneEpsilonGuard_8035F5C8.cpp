@@ -690,7 +690,6 @@ void TObjEneEpsilonBody::run_task() {
 }
 #define handle_guard_action_state__19TObjEneEpsilonGuardFPvi ((s32 (*)(void *, void *))handle_guard_action_state__19TObjEneEpsilonGuardFPvi)
 #define transition_enemy_state__9TObjEneDDFl ((int (*)(void*, void*))transition_enemy_state__9TObjEneDDFl)
-#define VecCopy__FP3VecPC3Vec ((s32 (*)(void *, void *, void *, f32))VecCopy__FP3VecPC3Vec)
 extern "C" {
 
 void TObjEneEpsilonBody::dispatch_action(u32 arg1, s32 arg2) {
@@ -758,9 +757,6 @@ void TObjEneEpsilonBody::vfunc_89() {
 }
 #undef handle_guard_action_state__19TObjEneEpsilonGuardFPvi
 #undef transition_enemy_state__9TObjEneDDFl
-#undef VecCopy__FP3VecPC3Vec
-#define transition_enemy_state__9TObjEneDDFl ((s32 (*)(void *, int))transition_enemy_state__9TObjEneDDFl)
-#define set_field_378__9TObjEneDDFl ((s32 (*)(void *, int))set_field_378__9TObjEneDDFl)
 #pragma push
 #pragma opt_common_subs off
 void TObjEneEpsilonBody::init_params() {
@@ -821,8 +817,6 @@ void TObjEneEpsilonBody::sub_80361D4C(s32 arg1) {
         return;
     }
 }
-#undef transition_enemy_state__9TObjEneDDFl
-#undef set_field_378__9TObjEneDDFl
 
 void TObjEneEpsilonGuard__sub_80361C70(u8 *arg0, s32 arg1) {
     s32 temp_r4;

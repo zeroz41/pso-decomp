@@ -400,10 +400,7 @@ typedef char RecoveredGlobal_8019A574_lbl_8050DDAC_size[sizeof(RecoveredGlobal_8
 
 #define CFG (*(Cfg_8019A104 *)&gogo_ball_configuration)
 #define ST (*(State_8019A104 *)gogo_ball_sync_state)
-#define __dl__7TObjectFPv ((s32 (*)(void*))__dl__7TObjectFPv)
-#define gogo_ball_sync_state (*(s32 (*)[1])&gogo_ball_sync_state)
 #define gogo_ball_team_scores (*(int (*)[1])&gogo_ball_team_scores)
-#define reflect_velocity_off_collision__13TUnk_804B8E18FPvPv ((s32 (*)(void*,void*,void*))reflect_velocity_off_collision__13TUnk_804B8E18FPvPv)
 #define vector_length ((f32 (*)(void*,f32))vector_length)
 #define xyz_distance ((f32 (*)(void*,void*))xyz_distance)
 extern "C" {
@@ -630,17 +627,12 @@ void TUnk_804B8E18::update_best_time() {
 
 #undef CFG
 #undef ST
-#undef __dl__7TObjectFPv
-#undef gogo_ball_sync_state
 #undef gogo_ball_team_scores
-#undef reflect_velocity_off_collision__13TUnk_804B8E18FPvPv
 #undef vector_length
 #undef xyz_distance
 
 #define F(t, o) (*(t *)((u8 *)this + (o)))
-#define draw_shadow_on_ground ((s32 (*)(void*))draw_shadow_on_ground)
 #define normalize_vector ((s32 (*)(void*))normalize_vector)
-#define rotate_matrix_y ((s32 (*)(int,int))rotate_matrix_y)
 #define vector_length ((f32 (*)(void*))vector_length)
 extern "C" {
 void TUnk_804B8E18::render() {
@@ -748,9 +740,7 @@ void TUnk_804B8E18::render() {
 }
 
 #undef F
-#undef draw_shadow_on_ground
 #undef normalize_vector
-#undef rotate_matrix_y
 #undef vector_length
 
 
@@ -860,7 +850,6 @@ void draw_shadow_on_ground(u8 *arg0) {
 #pragma pop
 
 #define TWindowTimer__sub_8019A770 ((void (*)(void))TWindowTimer__sub_8019A770)
-#define __nw__7TObjectFUl ((void* (*)(int))__nw__7TObjectFUl)
 #define bswap_6x79_gogo_ball__12TWindowTimerFi ((s32 (*)(void))bswap_6x79_gogo_ball__12TWindowTimerFi)
 #define controller_input_state (*(s32 (*)[1])&controller_input_state)
 #define gogo_ball_configuration (*(u8 (*)[1])&gogo_ball_configuration)
@@ -1003,12 +992,10 @@ void TUnk_804B8E00::render() {
 }
 
 #undef TWindowTimer__sub_8019A770
-#undef __nw__7TObjectFUl
 #undef bswap_6x79_gogo_ball__12TWindowTimerFi
 #undef controller_input_state
 #undef gogo_ball_configuration
 
-#define language_lobby_texture_descriptor (*(u8 (*)[1])&language_lobby_texture_descriptor)
 extern "C" {
 void TLanguage::load_lobby_textures() {
     Pair_80198F14 *p = gogo_ball_team_scores;
@@ -1040,7 +1027,6 @@ void TLanguage::load_lobby_textures() {
 
 }
 
-#undef language_lobby_texture_descriptor
 
 extern "C" {
 void fn_80198E84(void) {

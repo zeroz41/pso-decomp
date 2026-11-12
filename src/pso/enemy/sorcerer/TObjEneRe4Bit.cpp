@@ -349,9 +349,6 @@ void *re4_bit_model_node_desc[11] = {
     (void *)0x0, (void *)0x0, (void *)0x0,
 };
 extern void *__vt__13TObjEneRe4Bit[];
-#define re4_bit_init_params ((u8 *)re4_bit_init_params)
-#define re4_bit_model_node_desc ((u8 *)re4_bit_model_node_desc)
-#define __vt__13TObjEneRe4Bit ((s32 *)__vt__13TObjEneRe4Bit)
 
 
 
@@ -589,14 +586,9 @@ extern void *tl_04;
 }
 
 
-#undef re4_bit_init_params
-#undef re4_bit_model_node_desc
-#undef __vt__13TObjEneRe4Bit
 extern "C" void init__13TObjEneRe4BitFPv(Bit_800ED7FC *self);
 extern "C" void TObjEneRe4Bit__sub_800EDAB4(void);
 
-#define re4_bit_init_params ((u8 *)re4_bit_init_params)
-#define re4_bit_model_node_desc ((u8 *)re4_bit_model_node_desc)
 #define __vt__13TObjEneRe4Bit ((s32 *)__vt__13TObjEneRe4Bit)
 extern "C" {
 void TObjEneRe4Bit::apply_defense_stat_status(void *) {  }
@@ -1159,6 +1151,4 @@ void render__13TObjEneRe4BitFv(Bit_800ECA40 *self) {
 }
 
 }
-#undef re4_bit_init_params
-#undef re4_bit_model_node_desc
 #undef __vt__13TObjEneRe4Bit

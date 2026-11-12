@@ -430,7 +430,6 @@ void *TObjEneBm9Mericarol__vtable[107] = {
     (void *)&vfunc_100__9TObjEneDDFv, (void *)&vfunc_101__9TObjEneDDFPUc, (void *)&vfunc_102__9TObjEneDDFv, (void *)&vfunc_103__9TObjEneDDFPUc,
     (void *)&vfunc_104__12TObjEneDD_STFf, (void *)&vfunc_105__19TObjEneBm9MericarolFv, (void *)&draw_color_variant__19TObjEneBm9MericarolFv,
 };
-#define TObjEneBm9Mericarol__vtable ((u8 *)TObjEneBm9Mericarol__vtable)
 u32 bm9_mericarol_phase_hp_table[3];
 u32 lbl_80540B64[3];
 u32 lbl_80540B70[3];

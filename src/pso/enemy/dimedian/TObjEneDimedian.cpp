@@ -735,7 +735,6 @@ void TObjEneDimedian::free_boss_objects() {
 }
 
 #define RES_800A8118 ((Res_800A8118 *)dimedian_resource_ptr)
-#define dimedian_resource_descriptor ((u8 *)dimedian_resource_descriptor)
 #define dimedian_action_table ((Act_800A8118 *)dimedian_action_table)
 #define dimedian_collision_body_table ((Part_800A8118 *)dimedian_collision_body_table)
 #define CHAIN_800A8118(p) (*(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 **)((s8 *)(*(u8 **)((s8 *)(*(u8 **)(p + 0x2C)) + 0x30)) + 0x30)) + 4)) + 4))
@@ -795,7 +794,6 @@ void TLobby::load_dimedian_resources() {
 extern "C" __declspec(section ".rodata") const u8 lbl_8043AAA4[26] = "bm_ene_df3_dimedian_a.bml";
 #undef CHAIN_800A8118
 #undef RES_800A8118
-#undef dimedian_resource_descriptor
 #undef dimedian_action_table
 #undef dimedian_collision_body_table
 

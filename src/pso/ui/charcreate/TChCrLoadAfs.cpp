@@ -42,8 +42,6 @@ s32 try_begin_load__12TChCrLoadAfsFPv(void *arg0) {
 
 }
 
-#define try_begin_load__12TChCrLoadAfsFPv (*(s32 (*)())&try_begin_load__12TChCrLoadAfsFPv)
-#define release_load_slot__12TChCrLoadAfsFv (*(void (*)(void *))&release_load_slot__12TChCrLoadAfsFv)
 
 struct L_8028B948 { u8 pad[0x1c]; s32 f1c; u8 pad2[0xc]; s32 f2c; };
 
@@ -74,13 +72,8 @@ void poll_load__12TChCrLoadAfsFv(L_8028B948 *arg0) {
 
 }
 
-#undef release_load_slot__12TChCrLoadAfsFv
-#undef try_begin_load__12TChCrLoadAfsFPv
 
 #define try_begin_load__12TChCrLoadAfsFPv (*(s32 (*)())&try_begin_load__12TChCrLoadAfsFPv)
-#define release_load_slot__12TChCrLoadAfsFv (*(int (*)(void *))&release_load_slot__12TChCrLoadAfsFv)
-#define close_adxf_handle__6TLobbyFv (*(int (*)(int))&close_adxf_handle__6TLobbyFv)
-#define TLobby__sub_803CC4C0 (*(int (*)(int))&TLobby__sub_803CC4C0)
 
 struct Te_8028BFA4 { s32 id; u8 pad[0xC]; };
 
@@ -319,7 +312,4 @@ void TChCrLoadAfsTextureReq::start_read(void *) {
     }
 }
 
-#undef TLobby__sub_803CC4C0
-#undef close_adxf_handle__6TLobbyFv
-#undef release_load_slot__12TChCrLoadAfsFv
 #undef try_begin_load__12TChCrLoadAfsFPv

@@ -1560,12 +1560,8 @@ Vec lbl_80500960;
 
 
 
-#define self ((Obj_8009AD18 *)arg0)
-#undef self
 
-#define self ((Obj_8009AF54 *)arg0)
 
-#undef self
 
 
 
@@ -1642,8 +1638,6 @@ extern int fold_flush_0;
 
 
 
-#define p ((Canadin_8009E504 *)pv)
-#undef p
 
 
 

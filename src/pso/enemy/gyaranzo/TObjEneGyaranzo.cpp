@@ -176,7 +176,6 @@ EnemyTargetCandidate TObjGyaranzoMissile_target_slots[4];
 extern u32 gyaranzo_bml_resource;
 extern u8 *tl_05;
 void update_collisions__10TObjPlayerFv(void *);
-#define update_collisions__10TObjPlayerFv ((void (*)(void *))update_collisions__10TObjPlayerFv)
 void apply_actor_gravity(void *, int, f32);
 }
 void move_with_wall_slide(u8 *arg0);
@@ -212,7 +211,6 @@ void update_walk_to_target__10TObjPlayerFPv(Ene_800D1E4C *arg0) {
     }
 }
 }
-#undef update_collisions__10TObjPlayerFv
 #pragma push
 
 #define CAT2(a, b) a##b
@@ -618,7 +616,6 @@ u16 find_nearest_visible_player(void *, int, int, f32);
 extern const f32 lbl_805DA290;
 void enemy_turn_toward_dest(void *, s32);
 void move_along_ground_avoiding_walls__15TObjEnemyCustomF3Vecff(void *, Vec_800D3314, void *, f32, f32);
-#define render_anim_model_at_pos__15TObjEnemyCustomFv ((void (*)(void *))render_anim_model_at_pos__15TObjEnemyCustomFv)
 u8 *find_active_entity_by_id(u16);
 #define play_sound_effect ((s32 (*)(void *, void *, int, int))play_sound_effect)
 extern s32 actor_frame_tick;
@@ -626,7 +623,6 @@ void TObjPlayer__sub_800D3314(u8 *arg0);
 #define spawn_missile_volley__19TObjGyaranzoMissileFPv ((s32 (*)())spawn_missile_volley__19TObjGyaranzoMissileFPv)
 extern const f32 lbl_805DA274;
 extern const f32 lbl_805DA278;
-#define check_path_obstructed ((s32 (*)(void *, Vec_800D30A8 *))check_path_obstructed)
 extern const f32 lbl_805DA280;
 void TObjPlayer__sub_800D30A8(Obj_800D30A8 *arg0);
 typedef struct Ene_800D2E8C {
@@ -1109,11 +1105,9 @@ void *gyaranzo_actor_vtable_ops[83] = {
     (void *)&vfunc_76__9TObjCharaFf, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__15TObjEnemyCustomFPl,
     (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv,
 };
-#define bm_ene_gyaranzo_resource_descriptor ((s32 *)bm_ene_gyaranzo_resource_descriptor)
 #define gyaranzo_resource_index_table ((s16 *)gyaranzo_resource_index_table)
 #define gyaranzo_flagged_resource_index_table ((s16 *)gyaranzo_flagged_resource_index_table)
 #define gyaranzo_death_breakup_params ((u8 *)gyaranzo_death_breakup_params)
-#define gyaranzo_actor_vtable_ops ((u8 *)gyaranzo_actor_vtable_ops)
 
 #pragma push
 #pragma fp_contract on

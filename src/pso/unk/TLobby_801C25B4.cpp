@@ -75,7 +75,6 @@ __declspec(section ".rodata") u32 lbl_80446FBC[2] = { 0, 0 };
 }
 #define lbl_80446F94 ((Pair_801C49B8 *)lbl_80446F94)
 #define lbl_80446F9C ((Cnt_801C49B8 *)lbl_80446F9C)
-#define lbl_80446FA4 ((u8 *)lbl_80446FA4)
 #define lbl_80446FAC ((Cnt_801C3C1C *)lbl_80446FAC)
 #define lbl_80446FB4 ((Pair_801C3AF4 *)lbl_80446FB4)
 #define lbl_80446FBC ((Team_801C343C *)lbl_80446FBC)

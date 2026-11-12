@@ -153,7 +153,6 @@ void *lbl_804C9C9C[12] = {
     (void *)&render__7TObjectFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__15TShopWindowBaseFv, (void *)&display_message__15TShopWindowBaseFPCcl,
     (void *)&vfunc_8__15TShopWindowBaseFv, (void *)&display_guild_message__15TShopWindowBaseFll, (void *)&vfunc_10__15TShopWindowBaseFv, (void *)&vfunc_11__17TQuestListOfflineFv,
 };
-#define lbl_804C9C9C ((s32 *)lbl_804C9C9C)
 
 void TQuestListOffline::vfunc_11() {
     QuestList_802171BC *self = (QuestList_802171BC *)this;
@@ -192,7 +191,7 @@ void TQuestListOffline::vfunc_11() {
 
 void *TQuestListOffline::close_shop_subwindows(s16 arg1) {
     if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = lbl_804C9C9C;
+        *(void ***)((s8 *)this + 0x18) = lbl_804C9C9C;
         if (*(void **)((s8 *)this + 0x3C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x3C)))->close(); *(s32 *)((s8 *)this + 0x3C) = 0; }
         if (this->m_38 != NULL) { ((TWindowBase *)this->m_38)->close(); *(s32 *)((s8 *)this + 0x3C) = 0; }
         if (this->m_40 != NULL) { ((TWindowBase *)this->m_40)->close(); this->m_40 = 0; }
@@ -207,7 +206,7 @@ void *TQuestListOffline::close_shop_subwindows(s16 arg1) {
 
 void *TQuestListOffline__ct(Win_80217344 *self, s32 shop_window_base, s32 arg2, s32 arg3) {
     __ct__15TShopWindowBaseFP7TObject(self, (TObject *)shop_window_base);
-    self->vt = (void *)((void * *)lbl_804C9C9C);
+    self->vt = lbl_804C9C9C;
     self->f0 = TQuestListOffline__class_name;
     self->f34 = arg2;
     self->f3C = 0;

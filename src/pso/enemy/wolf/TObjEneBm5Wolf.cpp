@@ -206,17 +206,12 @@ __declspec(section ".data") s32 wolf_stat_handle_b_table[2];
 __declspec(section ".data") s32 lbl_80500B58[2];
 }
 
-#define approach_target__14TObjEneBm5WolfFPvf ((void (*)(void *, f32))approach_target__14TObjEneBm5WolfFPvf)
 #define advance_pose_turn__14TObjEneBm5WolfFPvi ((s32 (*)(void *, s32))advance_pose_turn__14TObjEneBm5WolfFPvi)
 #define play_sound__14TObjEneBm5WolfFPv ((void * (*)(void *))play_sound__14TObjEneBm5WolfFPv)
 #define get_group_id__14TObjEneBm5WolfFPv ((s32 (*)())get_group_id__14TObjEneBm5WolfFPv)
-#define calc_rotated_vector__14TObjEneBm5WolfFPviPvPv ((void (*)(void *, s32, void *, void *))calc_rotated_vector__14TObjEneBm5WolfFPviPvPv)
 #define select_subtype__14TObjEneBm5WolfFv ((s32 (*)(void *))select_subtype__14TObjEneBm5WolfFv)
 #define find_pack_leader__14TObjEneBm5WolfFi ((u32 (*)(s32))find_pack_leader__14TObjEneBm5WolfFi)
 #define update_collision_center__14TObjEneBm5WolfFv ((s32 (*)(void *))update_collision_center__14TObjEneBm5WolfFv)
-#define vfunc_62__14TObjEneBm5WolfFv ((void (*)(void))vfunc_62__14TObjEneBm5WolfFv)
-#define vfunc_63__14TObjEneBm5WolfFv ((void (*)(void))vfunc_63__14TObjEneBm5WolfFv)
-#define vfunc_88__14TObjEneBm5WolfFv ((void (*)(void))vfunc_88__14TObjEneBm5WolfFv)
 struct Ang_800B4AD4;
 struct Arg_800B74B8;
 struct Arg_800B7530;
@@ -1070,7 +1065,6 @@ extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 void render__14TObjEneBm5WolfFv(u8 *arg0);
 u32 csnVectorUnder(void *, void *, s32);
-#define get_flag_bit0__14TObjEneBm5WolfFPv ((s32 (*)(void *))&get_flag_bit0__14TObjEneBm5WolfFPv)
 #define select_target__14TObjEneBm5WolfFPv ((s32 (*)(void *))&select_target__14TObjEneBm5WolfFPv)
 #define schedule_pack_reaction__14TObjEneBm5WolfFPvis ((s32 (*)(void *, s32, u16))&schedule_pack_reaction__14TObjEneBm5WolfFPvis)
 #define calc_death_slide_speed__14TObjEneBm5WolfFPvf ((f32 (*)(void *, void *, f32))&calc_death_slide_speed__14TObjEneBm5WolfFPvf)
@@ -2684,7 +2678,6 @@ void TObjEneBm5Wolf::apply_mourning_zalure() {
 #undef play_variant_sound__14TObjEneBm5WolfFPv
 #undef set_state_by_timer__14TObjEneBm5WolfFi
 #undef spawn_recoil_dust__14TObjEneBm5WolfFiPv
-#undef get_flag_bit0__14TObjEneBm5WolfFPv
 #undef select_target__14TObjEneBm5WolfFPv
 #undef schedule_pack_reaction__14TObjEneBm5WolfFPvis
 #undef calc_death_slide_speed__14TObjEneBm5WolfFPvf
@@ -2722,13 +2715,7 @@ struct Vec_800B79E0 { f32 x, y, z; };
 struct Obj_800B79E0 { u8 pad[0x38]; Vec_800B79E0 pos; };
 
 extern "C" {
-#define play_sound_effect ((s32 (*)(void *, void *, int, int))&play_sound_effect)
-#define play_effect_if_v2__10TObjPlayerFl ((s32 (*)(int))&play_effect_if_v2__10TObjPlayerFl)
-#define enemy_copy_target_destination__12TObjEneDD_STFv ((s32 (*)(void *))&enemy_copy_target_destination__12TObjEneDD_STFv)
-#define update_velocity__9TObjEneDDFv ((s32 (*)(void *))&update_velocity__9TObjEneDDFv)
 s32 transform_relative_position__9TObjEneDDFPv(void *, int);
-#define sin_table_lookup ((f32 (*)(int))&sin_table_lookup)
-#define cos_table_lookup ((f32 (*)(int))&cos_table_lookup)
 f32 newton_sqrtf(f32);
 #define random_ratio__9TObjCharaFv ((f32 (*)())&random_ratio__9TObjCharaFv)
 s32 select_and_apply_target__12TObjEneDD_STFf(f32);
@@ -2885,32 +2872,18 @@ void set_state_by_timer__14TObjEneBm5WolfFi(s32 arg0) {
 
 }
 
-#undef enemy_copy_target_destination__12TObjEneDD_STFv
-#undef update_velocity__9TObjEneDDFv
 #undef random_ratio__9TObjCharaFv
-#undef sin_table_lookup
-#undef cos_table_lookup
-#undef play_effect_if_v2__10TObjPlayerFl
-#undef play_sound_effect
 __declspec(section ".sdata2") f32 lbl_805D9E4C = 350.0f;
 __declspec(section ".sdata2") f32 lbl_805D9E50 = 250.0f;
-#undef approach_target__14TObjEneBm5WolfFPvf
 #undef advance_pose_turn__14TObjEneBm5WolfFPvi
 #undef play_sound__14TObjEneBm5WolfFPv
 #undef get_group_id__14TObjEneBm5WolfFPv
-#undef calc_rotated_vector__14TObjEneBm5WolfFPviPvPv
 #undef select_subtype__14TObjEneBm5WolfFv
 #undef find_pack_leader__14TObjEneBm5WolfFi
 #undef update_collision_center__14TObjEneBm5WolfFv
-#undef vfunc_62__14TObjEneBm5WolfFv
-#undef vfunc_63__14TObjEneBm5WolfFv
-#undef vfunc_88__14TObjEneBm5WolfFv
 
 #pragma fp_contract on
 
-#define atan2_float ((f64 (*)(f32, f32))atan2_float)
-#define sin_table_lookup ((f32 (*)(s32))sin_table_lookup)
-#define cos_table_lookup ((f32 (*)(s32))cos_table_lookup)
 
 extern "C" {
 
@@ -2926,14 +2899,8 @@ void calc_rotated_vector__14TObjEneBm5WolfFPviPvPv(void *arg0, s32 arg1, void *a
 }
 
 }
-#undef atan2_float
-#undef sin_table_lookup
-#undef cos_table_lookup
 
 #define random_ratio__9TObjCharaFv ((f32 (*)(void *))random_ratio__9TObjCharaFv)
-#define approach_angle_limited ((s32 (*)(s32, s32, s32))approach_angle_limited)
-#define normalize_vector_xz__FP3Vec ((f32 (*)(f32 *))normalize_vector_xz__FP3Vec)
-#define rotate_xz_pair_by_angle ((void (*)(f32 *, f32 *, s32))rotate_xz_pair_by_angle)
 
 #include <stddef.h>
 struct Stack_800B7C14 {
@@ -3059,13 +3026,9 @@ void TObjEneBm5Wolf::vfunc_88() {
 
 }
 #undef random_ratio__9TObjCharaFv
-#undef approach_angle_limited
-#undef normalize_vector_xz__FP3Vec
-#undef rotate_xz_pair_by_angle
 
 #define transition_enemy_state__9TObjEneDDFl ((int (*)(void*, void*))transition_enemy_state__9TObjEneDDFl)
 #define play_sound__14TObjEneBm5WolfFPv ((Wolf_800B850C * (*)(Node_800B850C *))play_sound__14TObjEneBm5WolfFPv)
-#define select_subtype__14TObjEneBm5WolfFv ((s32 (*)(void *))select_subtype__14TObjEneBm5WolfFv)
 #define TObjEneBm5Wolf__sub_800B8A24 ((s32 (*)(void *))TObjEneBm5Wolf__sub_800B8A24)
 #define lbl_804922F8 ((u8 *)&lbl_804922F8)
 
@@ -3538,11 +3501,9 @@ void TObjEneBm5Wolf::release_global_805D5120() {
 }
 #undef transition_enemy_state__9TObjEneDDFl
 #undef play_sound__14TObjEneBm5WolfFPv
-#undef select_subtype__14TObjEneBm5WolfFv
 #undef TObjEneBm5Wolf__sub_800B8A24
 #undef lbl_804922F8
 
-#define check_v2_mode__9TObjEneDDFv ((s32 (*)(void))check_v2_mode__9TObjEneDDFv)
 #define get_entity_id ((s16 (*)(s32))get_entity_id)
 #define TObjEneBm5Wolf__collider_params ((f32 *)&TObjEneBm5Wolf__collider_params)
 #define bm_ene_bm5_wolf_resource_descriptor ((u8 *)&bm_ene_bm5_wolf_resource_descriptor)
@@ -3706,7 +3667,6 @@ extern "C" {
 s32 get_group_id__14TObjEneBm5WolfFPv(void* p) { return *(s32*)((char*)p + 0x3dc); }
 }
 
-#undef check_v2_mode__9TObjEneDDFv
 #undef get_entity_id
 #undef TObjEneBm5Wolf__collider_params
 #undef bm_ene_bm5_wolf_resource_descriptor

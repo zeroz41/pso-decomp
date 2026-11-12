@@ -89,8 +89,6 @@ extern u8 *camera_ctrl_instance;
 
 extern const char TObjEneRe2Flower_EffCurse3__class_name_string[0x1C] = "TObjEneRe2Flower_EffCurse3";
 s32 TObjEneRe2Flower_EffCurse3__name = (s32)TObjEneRe2Flower_EffCurse3__class_name_string;
-extern void *__vt__26TObjEneRe2Flower_EffCurse3[];
-#define __vt__26TObjEneRe2Flower_EffCurse3 ((s32 *)__vt__26TObjEneRe2Flower_EffCurse3)
 #pragma push
 #pragma fp_contract on
 void TObjEneRe2Flower_EffCurse3::run_task() {
@@ -136,10 +134,9 @@ struct B_800C4D88 { u8 x[0xC]; };
 A_800C4D88 player_render_target;
 B_800C4D88 player_render_texture_name;
 __declspec(section ".data") Node_800C4D88 lbl_80500C30;
-#define lbl_80500C30 ((u8 *)&lbl_80500C30)
 
 void TObjPlayer__sub_800C4D44(void) {
-    void *p = lbl_80500C30;
+    void *p = &lbl_80500C30;
     if (p != 0) {
         release_texture_list(p);
     }
@@ -155,8 +152,8 @@ void set_texture_name(void *, void *, s32, s32);
 void TObjPlayer::create_render_texture() {
     ((TObjPlayer *)(&player_render_target))->set_render_rect((s32)(player_render_texture_buffer = mem_alloc(0x800)), 0x902, 0x20, 0x20);
     set_texture_name(&player_render_texture_name, &player_render_target, 0x18696, 0x40800000);
-    ((Node_800C4D88 *)lbl_80500C30)->p = &player_render_texture_name;
-    ((Node_800C4D88 *)lbl_80500C30)->v = 1;
-    pso_load_texture__6TLobbyFv(lbl_80500C30, &player_render_texture_name);
+    lbl_80500C30.p = &player_render_texture_name;
+    lbl_80500C30.v = 1;
+    pso_load_texture__6TLobbyFv(&lbl_80500C30, &player_render_texture_name);
 }
 }

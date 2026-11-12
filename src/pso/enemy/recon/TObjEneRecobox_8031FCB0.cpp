@@ -340,8 +340,6 @@ void *TObjEneRecobox__vtable[107] = {
     (void *)&vfunc_104__12TObjEneDD_STFf, (void *)&update_if_800BB858__14TObjEneRecoboxFv, (void *)&draw_with_debug_info__14TObjEneRecoboxFv,
 };
 #define TObjEneRecobox__attack_params ((u8 *)TObjEneRecobox__attack_params)
-#define lbl_804EC684 ((u8 *)lbl_804EC684)
-#define TObjEneRecobox__animation_entries ((u8 *)TObjEneRecobox__animation_entries)
 #define TObjEneRecobox__vtable ((u8 *)TObjEneRecobox__vtable)
 
 void dispatch_state__12TObjEneReconFiUii(s32 ene_dd, u32 arg1, s32 arg2) {
@@ -549,7 +547,6 @@ extern "C" u8 lbl_80476274[];
 extern "C" u8 lbl_80476288[];
 extern "C" u8 lbl_80476298[];
 extern "C" u8 lbl_804762AC[];
-#undef lbl_804EC684
 #define lbl_804EC684 (*(Sub_80320260 *)lbl_804EC684)
 V3_80320260 lbl_80543000;
 s32 lbl_805D6B1C;

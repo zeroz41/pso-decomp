@@ -177,7 +177,6 @@ void set_alpha_ref_override(u8 scene);
 void spawn_landing_dead_spot(s32 point, s32 delay);
 extern "C" {
 void *find_entity_by_id(u16 id);
-#define clamp_flight_height__13TObjEneBm3FlyFv (*(s32 (*)(void *))&clamp_flight_height__13TObjEneBm3FlyFv)
 #define update_dd_flag__13TObjEneBm3FlyFPv (*(s32 (*)(void *, f32, f32, f32))&update_dd_flag__13TObjEneBm3FlyFPv)
 void TObjEneBm3Fly__vt103(void);
 void TObjEneBm3Fly__vt104(TObjEneBm3Fly *arg0);
@@ -371,7 +370,6 @@ void action__13TObjEneBm3FlyFPvi(u8 *arg0, s32 arg1) {
 }
 }
 
-#undef clamp_flight_height__13TObjEneBm3FlyFv
 #undef update_dd_flag__13TObjEneBm3FlyFPv
 
 struct VBaseB0_800b07d0 { char pad[0x18]; };
@@ -923,12 +921,10 @@ void TObjEneBm3Fly::update_recoil_state(s32 arg1) {
 #define sub_800B1634__13TObjEneBm3FlyFv (*(s32 (*)(void *))&sub_800B1634__13TObjEneBm3FlyFv)
 #define approach_value__13TObjEneBm3FlyFff (*(f32 (*)(void *, f32, f32))&approach_value__13TObjEneBm3FlyFff)
 #define clamp_flight_height__13TObjEneBm3FlyFv (*(s32 (*)(void *))&clamp_flight_height__13TObjEneBm3FlyFv)
-#define transition_enemy_state__9TObjEneDDFl (*(s32 (*)(void *, int))&transition_enemy_state__9TObjEneDDFl)
 #define normalize_vector_xz__FP3Vec (*(f32 (*)(void *, s32))&normalize_vector_xz__FP3Vec)
 #define choose_attack__13TObjEneBm3FlyFPv (*(s32 (*)(void *))&choose_attack__13TObjEneBm3FlyFPv)
 #define update_dd_flag__13TObjEneBm3FlyFPv (*(s32 (*)(void *, f32, f32, f32))&update_dd_flag__13TObjEneBm3FlyFPv)
 #define play_sound_effect (*(s32 (*)(void *, void *, int, int))&play_sound_effect)
-#define update_collide_flag__13TObjEneBm3FlyFv (*(s32 (*)(void *))&update_collide_flag__13TObjEneBm3FlyFv)
             if (this->m_378 == 3) {
                 choose_attack__13TObjEneBm3FlyFPv(this);
             } else {
@@ -1482,15 +1478,12 @@ void TObjEneBm3Fly::play_pitched_cue() {
 #undef sub_800B1634__13TObjEneBm3FlyFv
 #undef approach_value__13TObjEneBm3FlyFff
 #undef clamp_flight_height__13TObjEneBm3FlyFv
-#undef transition_enemy_state__9TObjEneDDFl
 #undef normalize_vector_xz__FP3Vec
 #undef choose_attack__13TObjEneBm3FlyFPv
 #undef update_dd_flag__13TObjEneBm3FlyFPv
 #undef play_sound_effect
-#undef update_collide_flag__13TObjEneBm3FlyFv
 
 #define cos_table_lookup (*(f32 (*)())&cos_table_lookup)
-#define transition_enemy_state__9TObjEneDDFl (*(s32 (*)(void *, int))&transition_enemy_state__9TObjEneDDFl)
 #define clamp_flight_height__13TObjEneBm3FlyFv (*(int (*)(void*))&clamp_flight_height__13TObjEneBm3FlyFv)
 
 typedef struct Cand_800B1684 {
@@ -1608,7 +1601,6 @@ void TObjEneBm3Fly::vfunc_89() { vfunc_89__9TObjEneDDFv(this); clamp_flight_heig
 }
 
 #undef cos_table_lookup
-#undef transition_enemy_state__9TObjEneDDFl
 #undef clamp_flight_height__13TObjEneBm3FlyFv
 
 #define VBase_18 VBase_18__p3
@@ -2091,17 +2083,6 @@ void TObjEneBm3Fly::clamp_flight_height() {
         *(f32 *)((s8 *)arg0 + 0x42C) = (1.2f) + *(f32 *)((s8 *)arg0 + 0x3C);
     }
 #define queue_destruction__7TObjectFv (*(void (*)(void *))&queue_destruction__7TObjectFv)
-#define update_scale__15TObjBoss2TunnelFv (*(s32 (*)(void *))&update_scale__15TObjBoss2TunnelFv)
-#define clear_global_flag_400__9TObjEneDDFv (*(void (*)(void))&clear_global_flag_400__9TObjEneDDFv)
-#define set_field_378__9TObjEneDDFl (*(s32 (*)(void *, s32))&set_field_378__9TObjEneDDFl)
-#define transition_enemy_state__9TObjEneDDFl (*(s32 (*)(void *, s32))&transition_enemy_state__9TObjEneDDFl)
-#define toggle_particle_effect__10TObjPlayerFv (*(void (*)(void))&toggle_particle_effect__10TObjPlayerFv)
-#define end_effect_render__13TParticleCtrlFv (*(void (*)(void))&end_effect_render__13TParticleCtrlFv)
-#define play_sound_effect (*(s32 (*)(void *, void *, int, int))&play_sound_effect)
-#define rotate_matrix_y (*(void (*)(s32, s32))&rotate_matrix_y)
-#define set_global_param__8TObjFishFl (*(void (*)(s32))&set_global_param__8TObjFishFl)
-#define vfunc_89__9TObjEneDDFv (*(void (*)())&vfunc_89__9TObjEneDDFv)
-#define render__13TObjEneBm3FlyFv (*(void (*)())&render__13TObjEneBm3FlyFv)
     this->m_300 = *(f32 *)((s8 *)arg0 + 0x42C);
 }
 #pragma pop
@@ -2452,17 +2433,6 @@ void TObjEneBm3Fly::load_resources() {
 }
 
 #undef queue_destruction__7TObjectFv
-#undef update_scale__15TObjBoss2TunnelFv
-#undef clear_global_flag_400__9TObjEneDDFv
-#undef set_field_378__9TObjEneDDFl
-#undef transition_enemy_state__9TObjEneDDFl
-#undef toggle_particle_effect__10TObjPlayerFv
-#undef end_effect_render__13TParticleCtrlFv
-#undef play_sound_effect
-#undef rotate_matrix_y
-#undef set_global_param__8TObjFishFl
-#undef vfunc_89__9TObjEneDDFv
-#undef render__13TObjEneBm3FlyFv
 #undef VBase_18
 #undef VObj_18
 

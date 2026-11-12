@@ -110,7 +110,6 @@ public:
 #include "pso/object/TObjTailsTailsMove.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 
-struct Ent_800FE698 { s8 a; s8 b; s8 c; s8 d; u8 pad[0xC]; };
 
 struct Obj_800FE698 {
     u8 pad0[0x88D];
@@ -641,48 +640,48 @@ void *hair_bone_rotation_desc_39[5] = {
     (void *)0x600, (void *)0x1000, (void *)0x2000, (void *)0x3f99999a,
     (void *)&hair_bone_rotation_bone_list_39,
 };
-void *hair_effect_selection_table[164] = {
-    (void *)0xff07ff, (void *)&hair_bone_rotation_desc_00, (void *)0x0, (void *)0x0,
-    (void *)0xff09ff, (void *)&hair_bone_rotation_desc_01, (void *)0x0, (void *)0x0,
-    (void *)0x1ff03ff, (void *)&hair_bone_rotation_desc_02, (void *)0x0, (void *)0x0,
-    (void *)0x1ff04ff, (void *)&hair_bone_rotation_desc_03, (void *)0x0, (void *)0x0,
-    (void *)0x1ff06ff, (void *)&hair_bone_rotation_desc_04, (void *)0x0, (void *)0x0,
-    (void *)0x5ffff01, (void *)&hair_bone_rotation_desc_05, (void *)0x0, (void *)0x0,
-    (void *)0x5ffff02, (void *)&hair_bone_rotation_desc_06, (void *)0x0, (void *)0x0,
-    (void *)0x5ffff03, (void *)&hair_bone_rotation_desc_07, (void *)0x0, (void *)0x0,
-    (void *)0x6ff00ff, (void *)&hair_bone_rotation_desc_08, (void *)0x0, (void *)0x0,
-    (void *)0x602ffff, (void *)&hair_bone_rotation_desc_09, (void *)0x0, (void *)0x0,
-    (void *)0x603ffff, (void *)&hair_bone_rotation_desc_10, (void *)0x0, (void *)0x0,
-    (void *)0x6ff03ff, (void *)&hair_bone_rotation_desc_11, (void *)0x0, (void *)0x0,
-    (void *)0x6ff05ff, (void *)&hair_bone_rotation_desc_12, (void *)0x0, (void *)0x0,
-    (void *)0x6ff06ff, (void *)&hair_bone_rotation_desc_13, (void *)0x0, (void *)0x0,
-    (void *)0x609ffff, (void *)&hair_bone_rotation_desc_14, (void *)0x0, (void *)0x0,
-    (void *)0x701ffff, (void *)&hair_bone_rotation_desc_15, (void *)0x0, (void *)0x0,
-    (void *)0x7ff05ff, (void *)&hair_bone_rotation_desc_16, (void *)0x0, (void *)0x0,
-    (void *)0x7ff07ff, (void *)&hair_bone_rotation_desc_17, (void *)0x0, (void *)0x0,
-    (void *)0x709ffff, (void *)&hair_bone_rotation_desc_18, (void *)0x0, (void *)0x0,
-    (void *)0x800ffff, (void *)&hair_bone_rotation_desc_19, (void *)0x0, (void *)0x0,
-    (void *)0x8ff00ff, (void *)&hair_bone_rotation_desc_20, (void *)0x0, (void *)0x0,
-    (void *)0x8ff03ff, (void *)&hair_bone_rotation_desc_21, (void *)0x0, (void *)0x0,
-    (void *)0x805ffff, (void *)&hair_bone_rotation_desc_22, (void *)0x0, (void *)0x0,
-    (void *)0x806ffff, (void *)&hair_bone_rotation_desc_23, (void *)0x0, (void *)0x0,
-    (void *)0x8ff06ff, (void *)&hair_bone_rotation_desc_24, (void *)0x0, (void *)0x0,
-    (void *)0x809ffff, (void *)&hair_bone_rotation_desc_25, (void *)0x0, (void *)0x0,
-    (void *)0x9ffff00, (void *)&hair_bone_rotation_desc_26, (void *)0x0, (void *)0x0,
-    (void *)0x9ffff02, (void *)&hair_bone_rotation_desc_27, (void *)0x0, (void *)0x0,
-    (void *)0xa02ffff, (void *)&hair_bone_rotation_desc_28, (void *)0x0, (void *)0x0,
-    (void *)0xa03ffff, (void *)&hair_bone_rotation_desc_29, (void *)0x0, (void *)0x0,
-    (void *)0xaff05ff, (void *)&hair_bone_rotation_desc_30, (void *)0x0, (void *)0x0,
-    (void *)0xaff07ff, (void *)&hair_bone_rotation_desc_31, (void *)0x0, (void *)0x0,
-    (void *)0xa08ffff, (void *)&hair_bone_rotation_desc_32, (void *)0x0, (void *)0x0,
-    (void *)0xaff09ff, (void *)&hair_bone_rotation_desc_33, (void *)0x0, (void *)0x0,
-    (void *)0xbff01ff, (void *)&hair_bone_rotation_desc_34, (void *)0x0, (void *)0x0,
-    (void *)0xbff03ff, (void *)&hair_bone_rotation_desc_35, (void *)0x0, (void *)0x0,
-    (void *)0xbff04ff, (void *)&hair_bone_rotation_desc_36, (void *)0x0, (void *)0x0,
-    (void *)0xbff06ff, (void *)&hair_bone_rotation_desc_37, (void *)0x0, (void *)0x0,
-    (void *)0xbff07ff, (void *)&hair_bone_rotation_desc_38, (void *)0x0, (void *)0x0,
-    (void *)0xb09ffff, (void *)&hair_bone_rotation_desc_39, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x0,
+EntX_800FE5A0 hair_effect_selection_table[41] = {
+    {0, -1, 7, -1, &hair_bone_rotation_desc_00, 0, 0},
+    {0, -1, 9, -1, &hair_bone_rotation_desc_01, 0, 0},
+    {1, -1, 3, -1, &hair_bone_rotation_desc_02, 0, 0},
+    {1, -1, 4, -1, &hair_bone_rotation_desc_03, 0, 0},
+    {1, -1, 6, -1, &hair_bone_rotation_desc_04, 0, 0},
+    {5, -1, -1, 1, &hair_bone_rotation_desc_05, 0, 0},
+    {5, -1, -1, 2, &hair_bone_rotation_desc_06, 0, 0},
+    {5, -1, -1, 3, &hair_bone_rotation_desc_07, 0, 0},
+    {6, -1, 0, -1, &hair_bone_rotation_desc_08, 0, 0},
+    {6, 2, -1, -1, &hair_bone_rotation_desc_09, 0, 0},
+    {6, 3, -1, -1, &hair_bone_rotation_desc_10, 0, 0},
+    {6, -1, 3, -1, &hair_bone_rotation_desc_11, 0, 0},
+    {6, -1, 5, -1, &hair_bone_rotation_desc_12, 0, 0},
+    {6, -1, 6, -1, &hair_bone_rotation_desc_13, 0, 0},
+    {6, 9, -1, -1, &hair_bone_rotation_desc_14, 0, 0},
+    {7, 1, -1, -1, &hair_bone_rotation_desc_15, 0, 0},
+    {7, -1, 5, -1, &hair_bone_rotation_desc_16, 0, 0},
+    {7, -1, 7, -1, &hair_bone_rotation_desc_17, 0, 0},
+    {7, 9, -1, -1, &hair_bone_rotation_desc_18, 0, 0},
+    {8, 0, -1, -1, &hair_bone_rotation_desc_19, 0, 0},
+    {8, -1, 0, -1, &hair_bone_rotation_desc_20, 0, 0},
+    {8, -1, 3, -1, &hair_bone_rotation_desc_21, 0, 0},
+    {8, 5, -1, -1, &hair_bone_rotation_desc_22, 0, 0},
+    {8, 6, -1, -1, &hair_bone_rotation_desc_23, 0, 0},
+    {8, -1, 6, -1, &hair_bone_rotation_desc_24, 0, 0},
+    {8, 9, -1, -1, &hair_bone_rotation_desc_25, 0, 0},
+    {9, -1, -1, 0, &hair_bone_rotation_desc_26, 0, 0},
+    {9, -1, -1, 2, &hair_bone_rotation_desc_27, 0, 0},
+    {10, 2, -1, -1, &hair_bone_rotation_desc_28, 0, 0},
+    {10, 3, -1, -1, &hair_bone_rotation_desc_29, 0, 0},
+    {10, -1, 5, -1, &hair_bone_rotation_desc_30, 0, 0},
+    {10, -1, 7, -1, &hair_bone_rotation_desc_31, 0, 0},
+    {10, 8, -1, -1, &hair_bone_rotation_desc_32, 0, 0},
+    {10, -1, 9, -1, &hair_bone_rotation_desc_33, 0, 0},
+    {11, -1, 1, -1, &hair_bone_rotation_desc_34, 0, 0},
+    {11, -1, 3, -1, &hair_bone_rotation_desc_35, 0, 0},
+    {11, -1, 4, -1, &hair_bone_rotation_desc_36, 0, 0},
+    {11, -1, 6, -1, &hair_bone_rotation_desc_37, 0, 0},
+    {11, -1, 7, -1, &hair_bone_rotation_desc_38, 0, 0},
+    {11, 9, -1, -1, &hair_bone_rotation_desc_39, 0, 0},
+    {-1, -1, -1, -1, 0, 0, 0},
 };
 void *hair_bone_rotation_bone_list_of_descriptor[20] = {
     (void *)0x1, (void *)0x3f000000, (void *)0x0, (void *)0x3f800000,
@@ -699,7 +698,6 @@ void* __vt__12T_OWEHMS_Exp[6] = {
     0, 0, (void*)&destroy__12T_OWEHMS_ExpFs, (void*)&run_task__12T_OWEHMS_ExpFv,
     (void*)&render__7TObjectFv, (void*)&render_shadows__7TObjectFv,
 };
-#define hair_effect_selection_table ((Ent_800FE698 *)hair_effect_selection_table)
 
 }
 void TObjWaitEntryHairMoveSim::run_task() {
@@ -725,7 +723,7 @@ void create_hair_effects__24TObjWaitEntryHairMoveSimFPv(void *arg0) {
     Self_800FE5A0 *self = (Self_800FE5A0 *)arg0;
     EntX_800FE5A0 *e;
     s32 v;
-    for (e = (EntX_800FE5A0 *)hair_effect_selection_table; e->a >= 0 && e->a <= self->pl->lvl; e++) {
+    for (e = hair_effect_selection_table; e->a >= 0 && e->a <= self->pl->lvl; e++) {
         if (self->pl->lvl == e->a) {
             if (self->pl->v9C == e->b) {
                 v = self->pl->vB0;
@@ -747,7 +745,7 @@ void create_hair_effects__24TObjWaitEntryHairMoveSimFPv(void *arg0) {
 }
 
 s32 is_level_in_table__24TObjWaitEntryHairMoveSimFPv(Obj_800FE698 *o) {
-    Ent_800FE698 *e;
+    EntX_800FE5A0 *e;
     if (o->flags & 0xA) {
         return 0;
     }

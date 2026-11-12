@@ -1125,7 +1125,6 @@ struct RecoveredGlobal_8024287C_lbl_80517F9C {
 };
 
 extern "C" {
-#define lbl_80517F9C (*(RecoveredGlobal_802426E8_lbl_80517F9C *)lbl_80517F9C)
 extern int com_card_entry_count;
 #define selected_guild_card_record (*(RecoveredGlobal_8024287C_lbl_80517EE0 *)selected_guild_card_record)
 #define lbl_80517F9C (*(RecoveredGlobal_802426E8_lbl_80517F9C *)lbl_80517F9C)

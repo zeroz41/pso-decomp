@@ -58,8 +58,6 @@ extern s32 retire_equipment_effect[];
 extern s32 TItemEffEquip__sub_801088F8[];
 Obj_80108C90 *__ct__13TUnk_8049F038FP7TObjectsl(Obj_80108C90 *self, void *parent, s16 a, s32 b);
 
-#define self ((Equip_80108A20 *)arg0)
-#undef self
 
 struct VBase0x18_80108b5c { char pad[0x18]; };
 struct VObj80108B5C_80108b5c : VBase0x18_80108b5c {

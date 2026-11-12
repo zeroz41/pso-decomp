@@ -96,9 +96,6 @@ void *lbl_80485514[15] = {
     (void *)0x0, (void *)0xc1f00000, (void *)0x0, (void *)0x42700000,
     (void *)0x0, (void *)0x42f00000, (void *)0x0,
 };
-#define TObjDFDemo0__entry_table ((u8 *)TObjDFDemo0__entry_table)
-#define lbl_804854F0 ((u8 *)lbl_804854F0)
-#define lbl_80485514 ((u8 *)lbl_80485514)
 #define V90 (*(Vec_8004DA7C *)lbl_804854F0)
 void TBoss3Volopt__sub_8004DA7C(u8 *self) {
     s32 i;
@@ -201,9 +198,6 @@ void TBoss3Volopt__sub_8004DA7C(u8 *self) {
     }
 }
 
-#undef TObjDFDemo0__entry_table
-#undef lbl_804854F0
-#undef lbl_80485514
 #undef V90
 void *lbl_80485550[3] = {
     (void *)0x0, (void *)0x0, (void *)0xc2f00000,

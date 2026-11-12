@@ -752,13 +752,7 @@ void *__vt__11TBoss4Type3[83] = {
     (void *)&vfunc_76__9TObjCharaFf, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEnemyFPl,
     (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv,
 };
-#define lbl_80486FB0 ((u8 *)lbl_80486FB0)
-#define boss4_type3_index_table ((u8 *)boss4_type3_index_table)
-#define lbl_80487150 ((u8 *)lbl_80487150)
-#define boss4_type3_default_position (*(Vec_80059C20 *)boss4_type3_default_position)
-#define boss4_type3_interp_origin_vec (*(Vec_80059C20 *)boss4_type3_interp_origin_vec)
 #define boss4_type3_radar_marker_colors ((u32 *)boss4_type3_radar_marker_colors)
-#define __vt__11TBoss4Type3 ((u8 *)__vt__11TBoss4Type3)
 
 extern "C" {
 Ply_80059ABC * get_player_by_client_id(int);

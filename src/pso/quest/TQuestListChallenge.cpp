@@ -170,7 +170,6 @@ extern __declspec(section ".rodata") const PairPad_80288DA4 lbl_80450AB4[1];
 #define TQuestListChallenge__stage_table (*(RecoveredGlobal_80289200_lbl_8045080C *)TQuestListChallenge__stage_table)
 #define quest_list_challenge_stage_table (*(RecoveredGlobal_80289200_lbl_80450910 *)quest_list_challenge_stage_table)
 #define quest_list_battle_stage_table (*(RecoveredGlobal_80289200_lbl_80450A20 *)quest_list_battle_stage_table)
-#define lbl_80450AB4 ((const Pair_80288DA4 *)lbl_80450AB4)
 
 #pragma push
 #pragma opt_common_subs off
@@ -464,7 +463,6 @@ void * TObjNpcKenkyu__create(void *arg0) {
 #undef TQuestListChallenge__stage_table
 #undef quest_list_challenge_stage_table
 #undef quest_list_battle_stage_table
-#undef lbl_80450AB4
 extern "C" const char lbl_804507A8[] = "challenge2_mlt_stg1";
 extern "C" const char lbl_804507BC[] = "challenge2_mlt_stg2";
 extern "C" const char lbl_804507D0[] = "challenge2_mlt_stg3";

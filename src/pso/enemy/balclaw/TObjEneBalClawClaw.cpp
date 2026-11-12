@@ -441,10 +441,7 @@ extern void *tl_04;
 }
 
 const char *balclaw_claw_class_name = "TObjEneBalClawClaw";
-#define update_collisions__10TObjPlayerFv (*(s32 (*)(void *))&update_collisions__10TObjPlayerFv)
 #define update_enemy_wander_move (*(s32 (*)(void *, void *, int, void *, f32))&update_enemy_wander_move)
-#define update_if_active__15TObjEnemyCustomFl (*(s32 (*)(void *, int))&update_if_active__15TObjEnemyCustomFl)
-#define clear_attack_flag__14TObjEneBalClawFv (*(s32 (*)(void *))&clear_attack_flag__14TObjEneBalClawFv)
 #define RESET_80090ECC(p) ((s32 (*)(void *))reset_active_state__18TObjEneBalClawClawFPv)(p)
 #define SEEK_80090ECC(p, v, f) ((s32 (*)(void *, void *, int, f32))update_enemy_wander_move)(p, v, 1, f)
 #define RESET(p) ((s32 (*)(void *))reset_active_state__18TObjEneBalClawClawFPv)(p)
@@ -912,10 +909,7 @@ void action__18TObjEneBalClawClawFPv(u8 *ene_bal_claw_claw) {
         break;
     }
 }
-#undef update_collisions__10TObjPlayerFv
 #undef update_enemy_wander_move
-#undef update_if_active__15TObjEnemyCustomFl
-#undef clear_attack_flag__14TObjEneBalClawFv
 #undef reset_active_state__18TObjEneBalClawClawFPv
 
 void TObjEneBalClawClaw::sub_80090D3C() {
@@ -934,8 +928,6 @@ void TObjEneBalClawClaw::sub_80090D3C() {
         return;
     }
 }
-#define sub_80090798__18TObjEneBalClawClawFv (*(void (*)(void *))&sub_80090798__18TObjEneBalClawClawFv)
-#define update_if_active__15TObjEnemyCustomFl (*(s32 (*)(void *, int))&update_if_active__15TObjEnemyCustomFl)
 #define reset_active_state__18TObjEneBalClawClawFPv (*(s32 (*)())&reset_active_state__18TObjEneBalClawClawFPv)
 
 void TObjEneBalClawClaw::render() {
@@ -1052,8 +1044,6 @@ void TObjEneBalClawClaw::clear_flag() {
     this->m_388 = (s32) (this->m_388 & 0xDFFFFFFF);
     reset_active_state__18TObjEneBalClawClawFPv();
 }
-#undef sub_80090798__18TObjEneBalClawClawFv
-#undef update_if_active__15TObjEnemyCustomFl
 #undef reset_active_state__18TObjEneBalClawClawFPv
 
 void update_move_to_target__18TObjEneBalClawClawFPv(Claw_80090850 *self) {

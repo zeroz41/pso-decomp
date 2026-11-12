@@ -266,12 +266,6 @@ extern u8 * TObjEneBm5GibonU__model_archive;
 }
 extern "C" {
 #pragma push
-#define render__16TObjEneBm5GibonUFv ((void (*)())render__16TObjEneBm5GibonUFv)
-#define vfunc_88__16TObjEneBm5GibonUFv ((void (*)())vfunc_88__16TObjEneBm5GibonUFv)
-#define TObjEneBm5GibonU__sub_800D13B8 ((void (*)())TObjEneBm5GibonU__sub_800D13B8)
-#define vfunc_63__16TObjEneBm5GibonUFv ((void (*)())vfunc_63__16TObjEneBm5GibonUFv)
-#define vfunc_62__16TObjEneBm5GibonUFv ((void (*)())vfunc_62__16TObjEneBm5GibonUFv)
-#define vfunc_83__16TObjEneBm5GibonUFv ((void (*)())vfunc_83__16TObjEneBm5GibonUFv)
 extern "C" {
 void vfunc_6__8TObjBaseFPsl();
 }
@@ -682,16 +676,8 @@ __declspec(section ".data") u32 TObjEneBm5GibonU__node_list[5];
 __declspec(section ".data") u32 TObjEneBm5GibonU__enemy_list[3];
 }
 
-#undef render__16TObjEneBm5GibonUFv
-#undef vfunc_88__16TObjEneBm5GibonUFv
-#undef TObjEneBm5GibonU__sub_800D13B8
-#undef vfunc_63__16TObjEneBm5GibonUFv
-#undef vfunc_62__16TObjEneBm5GibonUFv
-#undef vfunc_83__16TObjEneBm5GibonUFv
 #pragma pop
 #pragma push
-#define find_enemy_by_id__16TObjEneBm5GibonUFi ((s32 (*)(s32))find_enemy_by_id__16TObjEneBm5GibonUFi)
-#define is_active__16TObjEneBm5GibonUFPv ((s32 (*)(void *))is_active__16TObjEneBm5GibonUFPv)
 #define gibon_collision_body_templates ((u8 *)&gibon_collision_body_templates)
 #define update_target__16TObjEneBm5GibonUFPv ((s32 (*)(void *))update_target__16TObjEneBm5GibonUFPv)
 #define update_photon_mylla__16TObjEneBm5GibonUFPv ((void * (*)(void *))update_photon_mylla__16TObjEneBm5GibonUFPv)
@@ -700,7 +686,6 @@ __declspec(section ".data") u32 TObjEneBm5GibonU__enemy_list[3];
 #define turn_toward_angle__16TObjEneBm5GibonUFPvi ((s32 (*)(void *, s32))turn_toward_angle__16TObjEneBm5GibonUFPvi)
 #define calc_anim_speed__16TObjEneBm5GibonUFPvf ((f32 (*)(void *, void *, f32))calc_anim_speed__16TObjEneBm5GibonUFPvf)
 #define TObjEneBm5GibonU__node_list ((Node_800CE060 * *)&TObjEneBm5GibonU__node_list)
-#define calc_rotated_vector__16TObjEneBm5GibonUFPviPvPv ((s32 (*)(void *, s32, Vec_800CF4BC *, s32 *))calc_rotated_vector__16TObjEneBm5GibonUFPviPvPv)
 #define update_center_position__16TObjEneBm5GibonUFv ((s32 (*)(void *))update_center_position__16TObjEneBm5GibonUFv)
 
 struct VBase_18_9e83f9
@@ -3587,8 +3572,6 @@ s32 TObjEneBm5GibonU__sub_800D0968(u8 *arg0, int _w1) {
 }
 #pragma pop
 
-#undef find_enemy_by_id__16TObjEneBm5GibonUFi
-#undef is_active__16TObjEneBm5GibonUFPv
 #undef gibon_collision_body_templates
 #undef update_target__16TObjEneBm5GibonUFPv
 #undef update_photon_mylla__16TObjEneBm5GibonUFPv
@@ -3597,7 +3580,6 @@ s32 TObjEneBm5GibonU__sub_800D0968(u8 *arg0, int _w1) {
 #undef turn_toward_angle__16TObjEneBm5GibonUFPvi
 #undef calc_anim_speed__16TObjEneBm5GibonUFPvf
 #undef TObjEneBm5GibonU__node_list
-#undef calc_rotated_vector__16TObjEneBm5GibonUFPviPvPv
 #undef update_center_position__16TObjEneBm5GibonUFv
 #pragma pop
 #pragma push
@@ -3697,8 +3679,6 @@ void TObjEneBm5GibonU::select_attack_by_range() {
 #undef random_ratio__9TObjCharaFv
 #pragma pop
 #pragma push
-#define atan2_float ((f64 (*)(f32, f32))atan2_float)
-#define sin_table_lookup ((f32 (*)(s32))sin_table_lookup)
 #define cos_table_lookup ((f32 (*)(s32))cos_table_lookup)
 
 #pragma fp_contract on
@@ -3716,14 +3696,10 @@ void calc_rotated_vector__16TObjEneBm5GibonUFPviPvPv(void *arg0, s32 arg1, void 
 
 }
 
-#undef atan2_float
-#undef sin_table_lookup
 #undef cos_table_lookup
 #pragma pop
 #pragma push
 #define random_ratio__9TObjCharaFv ((f32 (*)(void *))random_ratio__9TObjCharaFv)
-#define rotate_xz_pair_by_angle ((void (*)(f32 *, f32 *, s32))rotate_xz_pair_by_angle)
-#define normalize_vector_xz__FP3Vec ((f32 (*)(Vec_800D0E14 *))normalize_vector_xz__FP3Vec)
 
 typedef struct Vec_800D0E14 {
     f32 x, y, z;
@@ -3864,17 +3840,11 @@ void TObjEneBm5GibonU::sub_800D10A0() {
 }
 
 #undef random_ratio__9TObjCharaFv
-#undef rotate_xz_pair_by_angle
-#undef normalize_vector_xz__FP3Vec
 #pragma pop
 #pragma push
 #define transition_enemy_state__9TObjEneDDFl ((int (*)(void*, void*))transition_enemy_state__9TObjEneDDFl)
-#define lbl_80493F04 ((u8 *)&lbl_80493F04)
-#define update_collisions__10TObjPlayerFv ((void (*)(void *))update_collisions__10TObjPlayerFv)
-#define __nw__7TObjectFUl ((void * (*)(int))__nw__7TObjectFUl)
 #define update_shock_clock__9TObjCharaFv ((s32 (*)())update_shock_clock__9TObjCharaFv)
 #define update_movement_status__9TObjCharaFv ((s32 (*)())update_movement_status__9TObjCharaFv)
-#define get_entity_id ((s16 (*)(s32))get_entity_id)
 
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
@@ -4199,8 +4169,6 @@ Gibon_800D13B8 *TObjEneBm5GibonU__sub_800D13B8(Gibon_800D13B8 *arg0, s16 arg1) {
 #undef gibon_collision_body_templates
 #define gibon_collision_body_templates ((Model_800D14AC *)gibon_collision_body_templates)
 #undef gibon_u_action_table
-#define gibon_u_action_table ((u8 *)gibon_u_action_table)
-#undef lbl_80493F04
 #define lbl_80493F04 ((u8 *)lbl_80493F04)
 u8 *TObjEneBm5GibonU__ct(u8 *ene_bm5_gibon_u, s32 arg1, s32 arg2) {
     void *p;
@@ -4484,11 +4452,8 @@ s32 TObjEneBm5GibonU::try_activate() {
 
 #undef transition_enemy_state__9TObjEneDDFl
 #undef lbl_80493F04
-#undef update_collisions__10TObjPlayerFv
-#undef __nw__7TObjectFUl
 #undef update_shock_clock__9TObjCharaFv
 #undef update_movement_status__9TObjCharaFv
-#undef get_entity_id
 #pragma pop
 
 __declspec(section ".ctors") static void *const __sinit_TObjEneBm5GibonU_cpp_ref = (void *)TObjEneBm5GibonU::register_global_objects;

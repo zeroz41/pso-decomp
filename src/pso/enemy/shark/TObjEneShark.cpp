@@ -758,9 +758,7 @@ void *lbl_8049168C[103] = {
     (void *)&vfunc_96__12TObjEneSharkFv, (void *)&vfunc_97__12TObjEneSharkFv, (void *)&vfunc_98__12TObjEneSharkFv, (void *)&vfunc_99__13TUnk_80493450Fv,
     (void *)&vfunc_100__13TUnk_80493450Fv, (void *)&vfunc_101__12TObjEneSharkFv, (void *)&request_stand_action__13TUnk_80493450Fv,
 };
-#define bm_ene_bm1_shark_resource_descriptor ((u8 *)bm_ene_bm1_shark_resource_descriptor)
 #define TObjEneShark__action_table ((Act_800AC318 *)TObjEneShark__action_table)
-#define lbl_8049168C ((u8 *)lbl_8049168C)
 
 void *TObjEneShark::create(void *arg0) {
     void *o;

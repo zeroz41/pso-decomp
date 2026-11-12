@@ -134,7 +134,6 @@ void *TORockJungleL01::destroy(s16 arg1) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Inner_8029C214 { u8 pad[0x58]; s32 v; };
 
 struct Copy_8029C214 { u32 w[15]; };
 
@@ -172,16 +171,10 @@ void *bm_o_rock_jungle_model_names[6] = {
 void *TORockJungleS01_resource_descriptor[4] = {
     (void *)&lbl_804657F4, (void *)&bm_o_rock_jungle_model_names, (void *)&bm_o_rock_jungle_motion_names, (void *)0x50000,
 };
-void *rock_jungle_collision_body_parts[33] = {
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x40a00000,
-    (void *)0x0, (void *)0x0, (void *)0x10003, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x41000000, (void *)0x41400000,
-    (void *)0x1, (void *)0x10003, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x41200000, (void *)0x41a00000, (void *)0x1,
-    (void *)0x10003, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0,
+CollisionBody rock_jungle_collision_body_parts[3] = {
+    {{0.0f, 0.0f, 0.0f}, 5.0f, 0.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+    {{0.0f, 0.0f, 0.0f}, 8.0f, 12.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+    {{0.0f, 0.0f, 0.0f}, 10.0f, 20.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 void *rock_jungle_vec3_table[9] = {
     (void *)0x42000000, (void *)0x41a00000, (void *)0x41400000, (void *)0x42000000,
@@ -194,7 +187,6 @@ void *lbl_804DC448[16] = {
     (void *)&reset_motion_fields__14TObjCollidableFv, (void *)&get_center__8TObjBaseFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
     (void *)&get_name__8TObjBaseFv, (void *)&interact__14TObjCollidableFl, (void *)&vfunc_14__15TORockJungleL01Fv, (void *)&vfunc_15__15TORockJungleL01Fv,
 };
-#define rock_jungle_collision_body_parts (*(Inner_8029C214 *)rock_jungle_collision_body_parts)
 u8 *TORockJungleL01__ct(u8 *rock_cave, s32 arg1) {
     __ct__10TORockCaveFv(rock_cave);
     *(s32 **)((s8 *)rock_cave + 0x18) = (s32 *)lbl_804DC448;
@@ -204,7 +196,7 @@ u8 *TORockJungleL01__ct(u8 *rock_cave, s32 arg1) {
     ((TORockJungleL01 *)rock_cave)->model = TORockJungleS01::get_model(4);
     ((TORockJungleL01 *)rock_cave)->texlist = get_jungle_rock_texture_resource(4);
     ((TORockJungleL01 *)rock_cave)->m_b0 = 5e+01f + *(f32 *)((s8 *)(*(void **)((s8 *)(((TORockJungleL01 *)rock_cave)->model) + 4)) + 0x14);
-    ((s32 (*)(void *, void *, int, f32))init_collision_body_parts)(rock_cave, &rock_jungle_collision_body_parts.v, 1, 5e+01f);
+    ((s32 (*)(void *, void *, int, f32))init_collision_body_parts)(rock_cave, &rock_jungle_collision_body_parts[2], 1, 5e+01f);
     ((TObjCollidable *)rock_cave)->refresh_collision_body_centers();
     ((TObjPlayer *)rock_cave)->register_object_by_id();
     {
@@ -215,7 +207,6 @@ u8 *TORockJungleL01__ct(u8 *rock_cave, s32 arg1) {
     ((RenderFadeState *)(rock_cave + 0xB4))->activate_and_dispatch();
     return rock_cave;
 }
-#undef rock_jungle_collision_body_parts
 
 }
 
@@ -402,7 +393,7 @@ u8 *TORockJungleM01__ct(u8 *rock_cave_brakable, s32 arg1) {
     ((TORockJungleM01 *)rock_cave_brakable)->model = TORockJungleS01::get_model(2);
     ((TORockJungleM01 *)rock_cave_brakable)->texlist = get_jungle_rock_texture_resource(2);
     ((TORockJungleM01 *)rock_cave_brakable)->m_b0 = (f32) (5e+01f + *(f32 *)((s8 *)(*(void **)((s8 *)(((TORockJungleM01 *)rock_cave_brakable)->model) + 4)) + 0x14));
-    init_collision_body_parts(rock_cave_brakable, (void *) ((u8 *)rock_jungle_collision_body_parts + 0x2C), 1);
+    init_collision_body_parts(rock_cave_brakable, &rock_jungle_collision_body_parts[1], 1);
     ((TObjCollidable *)rock_cave_brakable)->refresh_collision_body_centers();
     ((TObjPlayer *)rock_cave_brakable)->register_object_by_id();
     ((TORockJungleM01 *)rock_cave_brakable)->m_b8 = (s32) ((TORockJungleM01 *)rock_cave_brakable)->set_params[0];
