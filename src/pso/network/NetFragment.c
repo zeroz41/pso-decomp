@@ -174,7 +174,7 @@ s32 TLobby__sub_80418D7C(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_of
   s32 TLobby__sub_8041979C(void);
   NetFragment **new_var;
   NetFragPool *g = &packet_fragment_pool_state;
-  s16 cnt;
+  u32 c16;
   NetFragment **pb;
   s16 *pn;
   NetFragment *e;
@@ -191,7 +191,7 @@ s32 TLobby__sub_80418D7C(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_of
   NetPacketFragment *ep;
   u32 off;
   NetFragment *nx;
-  u32 c16;
+  s16 cnt;
   NetBufferRef tmp;
   if (frag_off == 0)
   {
