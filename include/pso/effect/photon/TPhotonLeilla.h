@@ -28,7 +28,6 @@ struct TPhotonLeilla : public TUnk_804C3248 {
 typedef char TPhotonLeilla_size[sizeof(TPhotonLeilla) == 0x1B0 ? 1 : -1];
 
 extern "C" {
-void *__dt__13TPhotonLeillaFv(void *arg0, s16 arg1);
 void TObjPlayer__sub_801AC43C(void);
 void TObjPlayer__sub_801AC440(void);
 }

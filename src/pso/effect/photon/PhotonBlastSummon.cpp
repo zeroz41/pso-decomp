@@ -456,13 +456,8 @@ void TUnk_804C3248::update_state() {
 
 #pragma push
 s32 restore_player_cameras(void);
-void __ct__10TObjMotionFP7TObject(void *, void *);
-void __dl__7TObjectFPv(void *);
-void *__dt__10TObjMotionFv(void *arg0, s16 arg1);
 
 void TCameraCtrl::update() { restore_player_cameras(); TCameraCtrl::release_photon_blast_camera(); }
-
-extern s32 __vt__13TUnk_804C3248[];
 
 struct Vec_801A7B14
 {
@@ -521,21 +516,14 @@ void TUnk_804C3248::setup_photon_blast_camera() {
   }
 }
 
-void *destroy_photon_motion_object(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804C3248;
-        ((TUnk_804C3248 *)arg0)->m_148 = 0;
-        __dt__10TObjMotionFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
-
 extern void *tl_06;
 
 }
+
+TUnk_804C3248::~TUnk_804C3248() {
+    m_148 = 0;
+}
+
 TUnk_804C3248::TUnk_804C3248() : TObjMotion((TObject *)tl_06) {
     this->m_134 = 0;
     this->m_100 = 0;

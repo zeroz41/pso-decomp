@@ -5101,7 +5101,7 @@ pso/player/TObjPlayer_801A7080.cpp:
 pso/effect/photon/PhotonBlastSummon.cpp:
 	.text       start:0x801A70C8 end:0x801A7E40
 	.rodata     start:0x80446A08 end:0x80446A38
-	.data       start:0x804C2438 end:0x804C3248
+	.data       start:0x804C2438 end:0x804C3288
 	.bss        start:0x8050E578 end:0x8050E880
 	.sdata2     start:0x805DC0D0 end:0x805DC0F8
 
@@ -5134,6 +5134,7 @@ pso/player/TObjPlayer_801AA5C0.cpp:
 pso/effect/photon/TPhotonEstlla.cpp:
 	.text       start:0x801AA664 end:0x801AAE6C
 	.rodata     start:0x80446CD8 end:0x80446D28
+	.data       start:0x804C34B8 end:0x804C3518
 	.sdata      start:0x805D34D8 end:0x805D34E0
 	.sbss       start:0x805D5D30 end:0x805D5D38
 	.sdata2     start:0x805DC138 end:0x805DC154
@@ -5164,6 +5165,7 @@ pso/effect/photon/TPhotonLaser.cpp:
 pso/effect/photon/TPhotonLeilla.cpp:
 	.text       start:0x801AC43C end:0x801ACAF0
 	.rodata     start:0x80446DD8 end:0x80446E10
+	.data       start:0x804C3778 end:0x804C37D8
 	.sdata      start:0x805D34F8 end:0x805D3500
 	.sbss       start:0x805D5D48 end:0x805D5D50
 	.sdata2     start:0x805DC1C0 end:0x805DC1D8
@@ -5188,6 +5190,7 @@ pso/player/TObjPlayer_801AD47C.cpp:
 pso/effect/photon/TPhotonMylla.cpp:
 	.text       start:0x801AD4A8 end:0x801ADC7C
 	.rodata     start:0x80446E40 end:0x80446E98
+	.data       start:0x804C39D8 end:0x804C3A38
 	.sdata      start:0x805D3510 end:0x805D3518
 	.sbss       start:0x805D5D50 end:0x805D5D58
 	.sdata2     start:0x805DC1F8 end:0x805DC228
@@ -9073,6 +9076,7 @@ pso/boss/barbaray/TBoss7Joint_802EE814.cpp:
 pso/boss/barbaray/TBoss7Joint.cpp:
 	.text       start:0x802EE9A4 end:0x802EED20
 	.rodata     start:0x80473FB8 end:0x80473FF0
+	.data       start:0x804E45C8 end:0x804E4784
 	.sdata      start:0x805D3FC0 end:0x805D3FC4
 	.sdata2     start:0x805DEBB0 end:0x805DEBC0
 
