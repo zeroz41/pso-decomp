@@ -11,7 +11,8 @@ struct TButterfly : public TObjBase {
     void* m_9c;
     u8 unk_A0[0x4];
     f32 m_a4;
-    u8 unk_A8[0x8];
+    f32 motion_frame; // frame passed to draw_ginja_model_with_motion, randomised by the ctor (name inferred)
+    u8 unk_AC[0x4];
     f32 m_b0;
     s16 m_b4;
     s16 m_b6;

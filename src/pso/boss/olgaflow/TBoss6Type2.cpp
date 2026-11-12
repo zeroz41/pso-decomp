@@ -25,7 +25,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/boss/darkfalz/TObjDFTenchuFuru_80051D5C.h"
+#include "pso/boss/darkfalz/TObjDFJisin.h"
 #include "pso/system/SoundEffect.h"
 #include <stdlib.h>
 #include "pso/unk/text_80087278.h"

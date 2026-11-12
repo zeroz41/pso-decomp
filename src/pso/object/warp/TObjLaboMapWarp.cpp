@@ -236,6 +236,19 @@ extern void *TObjLaboMapWarp__name;
 extern u8 *city_common_model_archive;
 extern s32 city_common_texture_list;
 extern void *tl_05;
+extern const char *labo_map_warp_dest_name_table_b[];
+
+void TObjLaboMapWarp::slot4C() {
+    clamp_index();
+    TObjNpcEnemy::set_global_count(0xFF00FF);
+    debug_printf_at(0x13001C, lbl_804449C0);
+    debug_printf_at(0x13001D, lbl_804449D0);
+    debug_printf_at(0x13001E, lbl_804449E0);
+    debug_printf_at(0x130020, lbl_804449F0);
+    debug_printf_at(0x130021, lbl_80444A00);
+    debug_printf_at(0x130022, lbl_80444A10, labo_map_warp_dest_name_table_b[set_params[2]]);
+    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
+}
 
 void TObjLaboMapWarp::render() {
     u8 *arg0 = (u8 *)this;

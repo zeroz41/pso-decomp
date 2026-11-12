@@ -5,6 +5,7 @@
 #include "pso/map/TObjMapCsn.h"
 #include "pso/object/lobby/TObjButterflyLobby.h"
 #include "pso/render/render_util.h"
+#include "pso/unk/text_8007A7B8.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -982,3 +983,20 @@ void TObjButterflyLobby::free_singleton_805D4E6C() {
 }
 
 void TObjButterflyLobby::alloc_scene_buffer() { wall_query_scene_buffer = (E_80079580 *)mem_alloc(0x5000); }
+
+extern "C" {
+void __construct_array(void *, void *, s32, s32, s32);
+u8 lbl_804FF9C0[0x380];
+u32 lbl_804FFD40[0x100];
+__declspec(section ".data") s32 lbl_80500140[2];
+s32 csn_query_map_object[4];
+
+void __sinit_CsnQuery_cpp(void) {
+    __construct_array(lbl_804FF9C0, (void *)TObjPlayer__sub_8007A7B8, 0, 0x1C, 0x20);
+    TObjMapCsn::init_and_return((s32)lbl_80500140);
+    ((TObjMapCsn *)csn_query_map_object)->init();
+}
+
+}
+
+__declspec(section ".ctors") static void *const __sinit_CsnQuery_cpp_ref = (void *)__sinit_CsnQuery_cpp;

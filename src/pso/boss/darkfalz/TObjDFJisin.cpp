@@ -34,6 +34,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/ui/charcreate/CharacterAppearance.h"
 
 typedef struct Obj_8005063C {
     u8 pad0[0x2FC];
@@ -899,16 +900,6 @@ struct RecoveredGlobal_80051AD0_lbl_804858B4 {
     u8 remaining[0x8];
 };
 
-struct RecoveredGlobal_80051AD0_lbl_804FF228 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_80051AD0_lbl_804FF234 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 struct RecoveredFields_80051AD0_var_r31 {
     s32 field_0;
     u8 unknown_4[0x28];
@@ -927,8 +918,8 @@ extern int TObjDFTenchuFuru__matrix_node_index;
 extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
 extern RecoveredGlobal_80051AD0_lbl_804858B4 dark_falz_jisin_zero_vec;
-RecoveredGlobal_80051AD0_lbl_804FF228 lbl_804FF228;
-RecoveredGlobal_80051AD0_lbl_804FF234 lbl_804FF234;
+Vec lbl_804FF228;
+Vec lbl_804FF234;
 Mtx34 df_captured_matrix_pair[2];
 s32 is_active__14TBoss4DarkFalzFv();
 void TObjDFTenchuFuru__sub_80051A7C(void);
@@ -995,8 +986,6 @@ void TObjDFTenchuFuru__sub_80051A7C(void) { set_chunk_model_node_callback(0); }
 
 void TObjDFTenchuFuru::register_callback() { TObjDFTenchuFuru__matrix_node_index = 0; set_chunk_model_node_callback((s32)TObjDFTenchuFuru::capture_matrix_by_frame); }
 typedef char RecoveredGlobal_80051AD0_lbl_804858B4_size[sizeof(RecoveredGlobal_80051AD0_lbl_804858B4) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_80051AD0_lbl_804FF228_size[sizeof(RecoveredGlobal_80051AD0_lbl_804FF228) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_80051AD0_lbl_804FF234_size[sizeof(RecoveredGlobal_80051AD0_lbl_804FF234) == 0xC ? 1 : -1];
 typedef char RecoveredFields_80051AD0_var_r31_0_offset[offsetof(RecoveredFields_80051AD0_var_r31, field_0) == 0x0 ? 1 : -1];
 typedef char RecoveredFields_80051AD0_var_r31_2C_offset[offsetof(RecoveredFields_80051AD0_var_r31, field_2C) == 0x2C ? 1 : -1];
 typedef char RecoveredFields_80051AD0_var_r31_30_offset[offsetof(RecoveredFields_80051AD0_var_r31, field_30) == 0x30 ? 1 : -1];
@@ -1012,10 +1001,10 @@ void TObjDFTenchuFuru::transform_node_tree() {
         scale_current_matrix((f32 *)(var_r31 + 0x20));
         switch ((s32) (*(s32 *)&TObjDFTenchuFuru__matrix_node_index)) {
         case 0x3B:
-            matrix_mult_vec(0, &dark_falz_jisin_zero_vec.value, &lbl_804FF228.value);
+            matrix_mult_vec(0, &dark_falz_jisin_zero_vec.value, &lbl_804FF228);
             break;
         case 0x3A:
-            matrix_mult_vec(0, &dark_falz_jisin_zero_vec.value, &lbl_804FF234.value);
+            matrix_mult_vec(0, &dark_falz_jisin_zero_vec.value, &lbl_804FF234);
             break;
         }
         (*(s32 *)&TObjDFTenchuFuru__matrix_node_index) += 1;
@@ -1043,7 +1032,6 @@ s32 TObjDFHorming__name = (s32)TObjDFHorming__class_name_string;
 const char *TObjDFYutai__name = TObjDFYutai__class_name_string;
 
 extern "C" {
-s32 TCharaMaking__draw_colored_hair(int, void *, int, f32);
 
 void TObjDFTenchuFuru::draw_node_tree() { TObjDFTenchuFuru__matrix_node_index = 0; push_matrix(); set_matrix_identity((u8 *)((void*)0)); transform_node_tree(); pop_matrix(); }
 void TObjPlayer::draw_player_model_by_client(u16 arg0, s32 arg1, f32 farg0, f32 farg1) {
@@ -1100,10 +1088,112 @@ void TObjPlayer::draw_player_model_by_client(u16 arg0, s32 arg1, f32 farg0, f32 
         TCharaMaking::enable_making();
         push_matrix_from(df_captured_matrix_pair[0]);
         TObjFish::set_global_param((s32)c);
-        TCharaMaking__draw_colored_hair(b, p + 0x85C, 0, farg1);
+        TCharaMaking__draw_colored_hair(farg1, b, (CharacterAppearanceFields *)(p + 0x85C), 0);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
     }
 }
 
+}
+
+void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, u32 arg3, u32 arg4, u32 arg5, u32 arg6, s32 appearance, f32 alpha) {
+    if (lbl_805D8A30 != alpha) {
+        ((TObjDFTenchuFuru *)arg3)->draw_node_tree();
+        if (alpha < lbl_805D8A34) {
+            TObjPlayer__sub_80052390(alpha);
+        }
+        TObjFish::set_global_param(arg0);
+        draw_chunk_object((void *)arg3);
+        if (arg6 != 0U) {
+            push_matrix();
+            post_translate_matrix(&lbl_804FF234.x);
+            TObjFish::set_global_param(arg2);
+            draw_chunk_object((void *)arg6);
+            pop_matrix();
+        }
+        if (arg4 != 0U) {
+            TCharaMaking::enable_making();
+            push_matrix();
+            post_translate_matrix(&lbl_804FF228.x);
+            TObjFish::set_global_param(arg1);
+            draw_chunk_object((void *)arg4);
+            pop_matrix();
+            TCharaMaking::clear_flag_bit0();
+        }
+        if (alpha < lbl_805D8A34) {
+            TObjPlayer::sync_player_globals();
+        }
+        if (arg5 != 0U) {
+            TCharaMaking::enable_making();
+            push_matrix();
+            post_translate_matrix(&lbl_804FF228.x);
+            TObjFish::set_global_param(arg1);
+            TCharaMaking__draw_colored_hair(alpha, (s32)arg5, (CharacterAppearanceFields *)appearance, 0);
+            pop_matrix();
+            TCharaMaking::clear_flag_bit0();
+        }
+    }
+}
+
+void TObjPlayer::draw_player_model_by_id(s32 arg0, f32 alpha) {
+    u8 *p;
+    u32 m8b0;
+    u32 m8ac;
+    s32 a1c;
+    u32 m8b4;
+    s32 b88;
+    u32 m34;
+    s32 cf4;
+
+    if (lbl_805D8A30 == alpha) {
+        return;
+    }
+    if ((u16)arg0 == 0xFFFF) {
+        return;
+    }
+    p = (u8 *)get_player_by_client_id((u16)arg0);
+    if (p == NULL || *(s32 *)((s8 *)p + 0xCFC) != 0) {
+        return;
+    }
+    m34 = *(u32 *)((s8 *)p + 0x34);
+    a1c = (s32)(p + 0xA1C);
+    m8b0 = *(u32 *)((s8 *)p + 0x8B0);
+    b88 = (s32)(p + 0xB88);
+    m8ac = *(u32 *)((s8 *)p + 0x8AC);
+    m8b4 = *(u32 *)((s8 *)p + 0x8B4);
+    cf4 = (s32)(p + 0xCF4);
+    ((TObjDFTenchuFuru *)m34)->draw_node_tree();
+    if (alpha < lbl_805D8A34) {
+        TObjPlayer__sub_80052390(alpha);
+    }
+    TObjFish::set_global_param(cf4);
+    draw_chunk_object((void *)m34);
+    if (m8b4 != 0U) {
+        push_matrix();
+        post_translate_matrix(&lbl_804FF234.x);
+        TObjFish::set_global_param(b88);
+        draw_chunk_object((void *)m8b4);
+        pop_matrix();
+    }
+    if (m8b0 != 0U) {
+        TCharaMaking::enable_making();
+        push_matrix();
+        post_translate_matrix(&lbl_804FF228.x);
+        TObjFish::set_global_param(a1c);
+        draw_chunk_object((void *)m8b0);
+        pop_matrix();
+        TCharaMaking::clear_flag_bit0();
+    }
+    if (alpha < lbl_805D8A34) {
+        TObjPlayer::sync_player_globals();
+    }
+    if (m8ac != 0U) {
+        TCharaMaking::enable_making();
+        push_matrix();
+        post_translate_matrix(&lbl_804FF228.x);
+        TObjFish::set_global_param(a1c);
+        TCharaMaking__draw_colored_hair(alpha, (s32)m8ac, (CharacterAppearanceFields *)(p + 0x85C), 0);
+        pop_matrix();
+        TCharaMaking::clear_flag_bit0();
+    }
 }

@@ -6,6 +6,11 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/BmlResource.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/render/ModelDrawContext.h"
 #include <stdlib.h>
 
 __declspec(section ".data") const char *bm_o_abe_butterfly_model_names[2] = { "abecyou_fe_obj001_cyou.gj", NULL };
@@ -18,17 +23,15 @@ const char *TButterfly__name = "TButterfly";
 struct Base_8017E978 { char pad[0x18]; };
 struct VObj_8017E978 : Base_8017E978 { virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7(); virtual s32 m8(f32, f32); };
 
-struct Vec_8017EA74 { f32 x, y, z; };
-
 struct Butterfly_8017EA74 {
     u8 pad0[0x38];
-    Vec_8017EA74 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 rotY;
     u8 pad64[0x94 - 0x64];
     f32 baseY;
     u8 pad98[0x9C - 0x98];
-    Vec_8017EA74 vel;
+    Vec vel;
     f32 phase;
     f32 phaseSpeed;
     f32 lift;
@@ -40,12 +43,20 @@ struct Butterfly_8017EA74 {
 };
 
 extern "C" {
-void vec3_add_to(Vec_8017EA74 *, Vec_8017EA74 *);
-void rotate_vector_by_matrix(void *, Vec_8017EA74 *, Vec_8017EA74 *);
-extern u8 identity_matrix[];
-s32 TObjFish__sub_8001EDB0(s32, s32);
+void rotate_vector_by_matrix(void *, Vec *, Vec *);
 void __dl__7TObjectFPv(void *);
 s32 set_global_param__8TObjFishFl();
+
+BmlResource *butterfly_bml_resource;
+
+void TButterfly::draw_model() {
+    push_matrix();
+    post_translate_matrix(&this->position.x);
+    rotate_matrix_y(0, this->rotation_y);
+    rotate_matrix_x(0, -0x2000);
+    draw_ginja_model_with_motion((void *)get_bml_model(butterfly_bml_resource, 0), get_bml_motion(butterfly_bml_resource, 0), this->motion_frame);
+    pop_matrix();
+}
 
 void TButterfly::init_motion() {
     u8 *arg0 = (u8 *)this;
@@ -53,15 +64,13 @@ void TButterfly::init_motion() {
     *(f32 *)&this->m_9c = (f32) (0.0f);
     *(f32 *)&this->unk_A0 = (f32) (0.0f);
     this->m_a4 = (f32) (0.0f);
-    *(f32 *)((s8 *)arg0 + 0xA8) = (f32) ((0.5f) * ((3.0517578e-05f) * (f32) rand()));
+    this->motion_frame = (f32) ((0.5f) * ((3.0517578e-05f) * (f32) rand()));
     this->m_b0 = (f32) (0.0f);
     this->m_b8 = 0;
     this->m_b9 = 0;
     this->m_b4 = 0x1E;
     this->m_b6 = 0;
 }
-
-extern s32 butterfly_bml_resource;
 
 void TButterfly::render() {
     if (((VObj_8017E978*)this)->m8((4e+02f), (2e+01f)) != 0) {
@@ -119,8 +128,8 @@ void TButterfly::run_task() {
         break;
     case 1:
         if (self->flag == 0) {
-            Vec_8017EA74 dir;
-            Vec_8017EA74 out;
+            Vec dir;
+            Vec out;
             dir.x = 2.0f * (0.0015f * (2.0f * (3.0517578125e-05f * (f32)rand()) - 1.0f));
             dir.y = 0.0f;
             dir.z = 2.0f * (0.0015f * (3.0517578125e-05f * (f32)rand())) + 0.05f;
@@ -144,8 +153,8 @@ void TButterfly::run_task() {
             self->rotY = (f32)self->rotY - (200.0f * (3.0517578125e-05f * (f32)rand()) + 200.0f);
         }
         if (self->flag == 0) {
-            Vec_8017EA74 dir;
-            Vec_8017EA74 out;
+            Vec dir;
+            Vec out;
             dir.x = 2.0f * (0.025f * (2.0f * (3.0517578125e-05f * (f32)rand()) - 1.0f));
             dir.y = 0.0f;
             dir.z = 2.0f * (0.025f * (3.0517578125e-05f * (f32)rand())) + 0.05f;
@@ -245,21 +254,18 @@ void *TButterfly__create(void *arg0) {
 
 
 void TButterfly::destroy_instance() {
-    if ((u32) butterfly_bml_resource != 0U) {
-        free_bin_model_request((void*)butterfly_bml_resource, 1);
-        butterfly_bml_resource = 0U;
+    if (butterfly_bml_resource != NULL) {
+        free_bin_model_request(butterfly_bml_resource, 1);
+        butterfly_bml_resource = NULL;
     }
 }
 
 u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
 
 void TButterfly::load_resources() {
-    void *resource;
-    u32 loaded;
-    resource = ::operator new(0x440);
-    loaded = (u32)resource;
-    if (loaded != 0) {
-        loaded = (u32)load_resource_from_descriptor(resource, 1, &bm_o_abe_butterfly_resource_descriptor, 0, 0, 0);
+    BmlResource *loaded = (BmlResource *)::operator new(0x440);
+    if (loaded != NULL) {
+        loaded = (BmlResource *)load_resource_from_descriptor(loaded, 1, &bm_o_abe_butterfly_resource_descriptor, 0, 0, 0);
     }
     butterfly_bml_resource = loaded;
 }

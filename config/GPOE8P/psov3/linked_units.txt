@@ -2244,7 +2244,6 @@ pso/ui/window/TObjBagWarnWin.cpp
 pso/ui/window/TObjBagWarnWin_8006EF24.cpp
 pso/ui/charcreate/TObjCMHexTile.cpp
 pso/boss/darkfalz/TObjDFJisin.cpp
-pso/boss/darkfalz/TObjDFTenchuFuru_80051D5C.cpp
 pso/boss/darkfalz/TObjDFUsoTower_80052000.cpp
 pso/boss/darkfalz/TObjDFYutai.cpp
 pso/object/TObjLiveMonitor.cpp
@@ -2289,7 +2288,6 @@ pso/unk/text_80077A70.cpp
 pso/unk/text_80077AA4.cpp
 pso/unk/text_80077AE8.cpp
 pso/unk/text_80077B34.cpp
-pso/unk/text_8007A6C8.cpp
 pso/unk/text_8007A7A0.cpp
 pso/unk/text_8007A7B8.cpp
 pso/unk/text_8007B370.cpp
@@ -2365,7 +2363,6 @@ pso/object/key/TODummyKeyCave01_80165940.cpp
 pso/object/switch/TOSwitchTimer_801782A0.cpp
 pso/unk/text_8017866C.cpp
 pso/unk/text_8017B9AC.cpp
-pso/object/ambient/TButterfly_8017E900.cpp
 pso/unk/text_8018E258.cpp
 pso/unk/text_80196214.cpp
 pso/unk/text_801963A8.cpp

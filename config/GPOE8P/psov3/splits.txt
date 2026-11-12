@@ -556,15 +556,12 @@ pso/boss/darkfalz/TBoss4Type3_800505A8.cpp:
 	.text       start:0x800505A8 end:0x8005063C
 
 pso/boss/darkfalz/TObjDFJisin.cpp:
-	.text       start:0x8005063C end:0x80051D5C
+	.text       start:0x8005063C end:0x80052000
 	.rodata     start:0x804374E8 end:0x804374F8
 	.data       start:0x804858F8 end:0x80485AAC
 	.bss        start:0x804FF228 end:0x804FF2A0
 	.sdata      start:0x805D27B8 end:0x805D27D0
 	.sdata2     start:0x805D8A60 end:0x805D8AC4
-
-pso/boss/darkfalz/TObjDFTenchuFuru_80051D5C.cpp:
-	.text       start:0x80051D5C end:0x80052000
 
 pso/boss/darkfalz/TObjDFUsoTower_80052000.cpp:
 	.text       start:0x80052000 end:0x800521A8
@@ -1034,10 +1031,7 @@ pso/network/TTcpSocket.cpp:
 	.data       start:0x8048D378 end:0x8048D4C0
 
 pso/map/CsnQuery.cpp:
-	.text       start:0x800790F0 end:0x8007A6C8
-
-pso/unk/text_8007A6C8.cpp:
-	.text       start:0x8007A6C8 end:0x8007A720
+	.text       start:0x800790F0 end:0x8007A720
 	.ctors      start:0x80433F4C end:0x80433F50
 	.bss        start:0x804FF9C0 end:0x80500158
 
@@ -4492,14 +4486,12 @@ pso/object/collision/TObjBgmColCtrl.cpp:
 	.data       start:0x804B5780 end:0x804B5820
 	.sdata      start:0x805D3228 end:0x805D3230
 
-pso/object/ambient/TButterfly_8017E900.cpp:
-	.text       start:0x8017E900 end:0x8017E978
-
 pso/object/ambient/TButterfly.cpp:
-	.text       start:0x8017E978 end:0x8017F4AC
+	.text       start:0x8017E900 end:0x8017F4AC
 	.rodata     start:0x80443910 end:0x80443978
 	.data       start:0x804B5820 end:0x804B5874
 	.sdata      start:0x805D3230 end:0x805D3238
+	.sbss       start:0x805D5B10 end:0x805D5B14
 	.sdata2     start:0x805DBAD8 end:0x805DBB54
 
 pso/camera/TObjCamera.cpp:
@@ -4545,10 +4537,13 @@ pso/object/city/CitySeason.cpp:
 	.sdata2     start:0x805DBC18 end:0x805DBC80
 
 pso/unk/text_80184C2C.cpp:
-	.text       start:0x80184C2C end:0x80185248
+	.text       start:0x80184C2C end:0x80185160
+	.rodata     start:0x80444268 end:0x80444280
+	.bss        start:0x8050DC20 end:0x8050DC68
+	.sbss       start:0x805D5B30 end:0x805D5B4C
 
 pso/object/warp/TObjLaboMapWarp.cpp:
-	.text       start:0x80185248 end:0x80186C44
+	.text       start:0x80185160 end:0x80186C44
 	.rodata     start:0x80444A20 end:0x80444A28
 	.sdata2     start:0x805DBC80 end:0x805DBCA8
 
