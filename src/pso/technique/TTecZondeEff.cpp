@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/render/MaterialColorFade.h"
@@ -14,6 +15,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 
 
 struct RecoveredGlobal_8023D988___vt__12TTecZondeEff {
@@ -150,7 +152,6 @@ f32 rand_signed_unit();
 void randomize_bolt_jitter__12TTecZondeEffFv(Obj_8023D4A8 *arg0);
 s32 is_split_screen(void);
 void spawn_particle_effect(Rec_8023D568 *, s32);
-void queue_destruction__7TObjectFv(void *);
 void restore_saved_depth_alpha_state();
 extern u32 saved_model_render_flags;
 extern u32 model_render_flags;
@@ -449,7 +450,7 @@ void TTecZondeEff::run_task() {
     e += arg0->idx;
     TTecZondeEff__beam_vertex_data = e->b->c->v;
     if (arg0->timer > 0x78) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     for (i = 0; i < arg0->count; i++) {

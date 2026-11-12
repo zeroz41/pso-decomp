@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"
@@ -12,6 +13,7 @@
 
 #include <stddef.h>
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 struct Stack_80081CD0 {
     f32 sp8;
     f32 spC;
@@ -127,13 +129,13 @@ void TUnk_8048E1A4::run_task() {
         active_entity = 0U;
     }
     if (active_entity == 0U) {
-        queue_destruction__7TObjectFv(this);
-        disallow_rendering__7TObjectFv(this);
+        queue_destruction();
+        disallow_rendering();
         return;
     }
     if (all_parents_unqueued_for_destruction__7TObjectFv() == 0) {
-        disallow_rendering__7TObjectFv(this);
-        queue_destruction__7TObjectFv(this);
+        disallow_rendering();
+        queue_destruction();
         return;
     }
     switch (*(s32 *)((s8 *)this + 0x334)) {

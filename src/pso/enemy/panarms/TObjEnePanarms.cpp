@@ -29,6 +29,7 @@
 #include "pso/object/ambient/TObjFish_800E2FFC.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/system/task/TObject.h"
 
 typedef char PanarmsActionTimerOffset[offsetof(TObjEnePanBARA, action_timer) == 0x3B4 ? 1 : -1];
 
@@ -304,7 +305,6 @@ int draw__10TObjMotionFv(void*);
 void submit_cursor_candidate(void *, s32);
 u8 * get_player_by_client_id(s32);
 void minimap_render_dot(void *, s32, s32, s32);
-s32 defer_render__7TObjectFv(void *);
 s32 scale_matrix(int, f32, f32, f32);
 f32 vector_length(void *);
 s32 rotate_matrix_z(int, int);
@@ -641,7 +641,7 @@ void TObjEnePanBARA::render() {
     if (((RenderFadeState *)temp_r31)->updateFromCamera((const f32*)(((u8 *)this) + 0x2FC)) != 0) {
         temp_r31->m6();
         var_r30 = 1;
-        if (defer_render__7TObjectFv(this) != 0) {
+        if (defer_render() != 0) {
             var_r30 = 0;
         }
         if (var_r30 != 0) {

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/darkfalz/TBoss4Type2_80086C44.h"
@@ -29,6 +30,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include <stdlib.h>
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/system/task/TObject.h"
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 struct RecoveredGlobal_80184B44_lbl_804440B0 { s32 value; u8 remaining[0x28]; };
 extern "C" {
@@ -104,7 +106,7 @@ void TObjCity_Season_FireWork::run_task() {
                 self->riseDistance = 0.0f;
                 self->timer = 0;
                 self->state = 1;
-                queue_destruction__7TObjectFv(self->handle);
+                ((TObject *)self->handle)->queue_destruction();
                 self->handle = NULL;
             } else {
                 ((TParticleCtrl *)self->handle)->set_position(self->pos);
@@ -156,7 +158,7 @@ void TObjCity_Season_FireWork::run_task() {
         }
         break;
     case 4:
-        queue_destruction__7TObjectFv(self);
+        self->queue_destruction();
         break;
     }
 }
@@ -190,7 +192,7 @@ extern s32 __vt__24TObjCity_Season_FireWork[];
 }
 
 TObjCity_Season_FireWork::~TObjCity_Season_FireWork() {
-    if (handle != NULL) { queue_destruction__7TObjectFv(handle); handle = NULL; }
+    if (handle != NULL) { ((TObject *)handle)->queue_destruction(); handle = NULL; }
 }
 
 extern "C" {
@@ -777,7 +779,7 @@ extern s32 __vt__21TObjCity_Season_21_21[];
 void *__dt__21TObjCity_Season_21_21Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__21TObjCity_Season_21_21;
-        if (*(void **)((s8 *)arg0 + 0xB8) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xB8)); ((TObjCity_Season_21_21 *)arg0)->m_b8 = 0; }
+        if (*(void **)((s8 *)arg0 + 0xB8) != NULL) { ((TObject *)(*(void **)((s8 *)arg0 + 0xB8)))->queue_destruction(); ((TObjCity_Season_21_21 *)arg0)->m_b8 = 0; }
         ((TUnk_804B5E48 *)arg0)->destroy_seasonal_object(0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
@@ -1174,7 +1176,7 @@ extern s32 __vt__24TObjCity_Season_XmasTree[];
 void *TObjCity_Season_XmasTree::dt(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = __vt__24TObjCity_Season_XmasTree;
-        if (*(void * *)&this->unk_B4 != NULL) { queue_destruction__7TObjectFv(*(void * *)&this->unk_B4); *(s32 *)&this->unk_B4 = 0; }
+        if (*(void * *)&this->unk_B4 != NULL) { ((TObject *)(*(void * *)&this->unk_B4))->queue_destruction(); *(s32 *)&this->unk_B4 = 0; }
         this->destroy_seasonal_object(0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
@@ -1274,7 +1276,7 @@ extern s32 __vt__30TObjCity_Season_ValentineHeart[];
 void *__dt__30TObjCity_Season_ValentineHeartFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__30TObjCity_Season_ValentineHeart;
-        if (*(void **)((s8 *)arg0 + 0xB4) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xB4)); *(s32 *)((s8 *)arg0 + 0xB4) = 0; }
+        if (*(void **)((s8 *)arg0 + 0xB4) != NULL) { ((TObject *)(*(void **)((s8 *)arg0 + 0xB4)))->queue_destruction(); *(s32 *)((s8 *)arg0 + 0xB4) = 0; }
         ((TUnk_804B5E48 *)arg0)->destroy_seasonal_object(0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
@@ -1382,8 +1384,8 @@ extern s32 __vt__25TObjCity_Season_EasterEgg[];
 void *__dt__25TObjCity_Season_EasterEggFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__25TObjCity_Season_EasterEgg;
-        if (*(void **)((s8 *)arg0 + 0xB8) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xB8)); ((TObjCity_Season_EasterEgg *)arg0)->m_b8 = 0; }
-        if (*(void **)((s8 *)arg0 + 0xBC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xBC)); *(s32 *)((s8 *)arg0 + 0xBC) = 0; }
+        if (*(void **)((s8 *)arg0 + 0xB8) != NULL) { ((TObject *)(*(void **)((s8 *)arg0 + 0xB8)))->queue_destruction(); ((TObjCity_Season_EasterEgg *)arg0)->m_b8 = 0; }
+        if (*(void **)((s8 *)arg0 + 0xBC) != NULL) { ((TObject *)(*(void **)((s8 *)arg0 + 0xBC)))->queue_destruction(); *(s32 *)((s8 *)arg0 + 0xBC) = 0; }
         ((TUnk_804B5E48 *)arg0)->destroy_seasonal_object(0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);

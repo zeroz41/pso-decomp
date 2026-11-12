@@ -1,9 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/system/task/TObject.h"
 
 struct VBase_18_1a504b { char pad[0x18]; };
 
@@ -128,7 +130,7 @@ void deliver_technique_to_party_targets(Obj_802370D8 *arg0) {
     List_802370D8 *list;
     s32 i;
     if (*(u32 *)((s8 *)arg0 + 0xDC) == 0) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     if (get_entity_id(*(u32 *)((s8 *)arg0 + 0x1C)) < 4) {

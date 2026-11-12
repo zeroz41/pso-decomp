@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8001C5E8.h"
 #include "pso/system/TLoadCtrl.h"
@@ -8,6 +9,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject.h"
 
 extern u8 lbl_805D4A78;
 
@@ -56,7 +58,6 @@ extern s32 TLoadCtrl__fade_task;
 extern s32 tl_fade;
 u8 *TLoadCtrl__ct(TLoadCtrl *arg0, s32 arg1);
 u8 * __dt__7TObjectFv(void *, s16);
-void queue_destruction__7TObjectFv(void *arg0);
 void __dl__7TObjectFPv(s32);
 u8 *__dt__9TLoadCtrlFv(u8 *arg0, s16 arg1);
 bool TLoadCtrl__sub_8001C60C(void);
@@ -145,7 +146,7 @@ u8 *__dt__9TLoadCtrlFv(u8 *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8001C7A0___vt__9TLoadCtrl *)&__vt__9TLoadCtrl).value;
         if ((void *) (*(u8 * *)&TLoadCtrl__fade_task) != NULL) {
-            queue_destruction__7TObjectFv(((*(u8 * *)&TLoadCtrl__fade_task)));
+            ((TObject *)(*(u8 * *)&TLoadCtrl__fade_task))->queue_destruction();
             (*(u8 * *)&TLoadCtrl__fade_task) = NULL;
         }
         if ((u32) TLoadCtrl__instance != 0U) {
@@ -184,7 +185,7 @@ void TLoadCtrl::cleanup_scene() {
 
     t = TLoadCtrl__instance;
     if (t != 0U) {
-        queue_destruction__7TObjectFv((void *)t);
+        ((TObject *)t)->queue_destruction();
         TLoadCtrl__instance = 0U;
     }
     switch (TLoadCtrl__loading_mode) {

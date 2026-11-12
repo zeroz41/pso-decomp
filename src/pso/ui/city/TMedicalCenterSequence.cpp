@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/city/TMedicalCenterMes.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -8,6 +9,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/player/TObjPlayer.h"
 #include "types.h"
+#include "pso/system/task/TObject.h"
 
 struct TMedicalCenterMesMessagePos { s32 x; s32 y; };
 
@@ -18,7 +20,6 @@ void *get_player_by_client_id(s32);
 void THunterGuildSeqOffline__sub_8021E180(s32);
 s32 get_window_layout_position(int, f32);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
-void queue_destruction__7TObjectFv(void *arg0);
 void TMedicalCenterMes__sub_80216260(void);
 
 extern const char *TMedicalCenterMes__class_name;
@@ -191,7 +192,7 @@ u8 *__dt__22TMedicalCenterSequenceFv(TMedicalCenterSequence *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = &__vt__22TMedicalCenterSequence.value;
         if ((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x34));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x34)))->queue_destruction();
             *(u32 *)((s8 *)arg0 + 0x34) = 0U;
         }
         ((TShopSequence *)arg0)->close_message_window();
@@ -357,7 +358,7 @@ s32 TMedicalCenterSequence::handle_window_input() {
 void TMedicalCenterSequence::close_window() {
     if ((this->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(this) != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
         close_window__13TShopSequenceFv(this);
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 }
@@ -427,7 +428,7 @@ void TMedicalCenterMes::run_task() {
             ((TWindowCtrl *)((u16)get_entity_id((s32)player)))->unsuppress_slot();
         }
         TShopGenerator::clear_slot_active(get_entity_id((s32)player));
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         break;
     }
 }

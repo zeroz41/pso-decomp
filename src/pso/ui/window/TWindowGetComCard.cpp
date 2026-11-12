@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowGetComCard.h"
@@ -13,6 +14,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_80252FCC___vt__17TWindowGetComCard {
     s32 value;
@@ -47,7 +49,6 @@ extern void *__vt__17TWindowGetComCard[];
 extern s32 TWindowGetComCard__name;
 extern s32 local_client_id;
 u8 *TWindowGetComCard__ct(TWindowGetComCard *arg0);
-void queue_destruction__7TObjectFv(void *);
 void start_player_data_load__17TWindowSubComCardFl(void);
 void TWindowGetComCard__sub_8007B54C(void);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
@@ -104,7 +105,7 @@ void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self) {
     case 3:
         if (((TWindowMenu *)(self->win))->is_cancelled() != 0) {
             TWindowGetComCard__sub_8007B54C();
-            queue_destruction__7TObjectFv(self);
+            ((TObject *)self)->queue_destruction();
             self->state = 6;
         } else if (((TWindowMenu *)(self->win))->is_decided() != 0) {
             s32 r = ((TWindowMenu *)self->win)->get_selected_value();
@@ -113,7 +114,7 @@ void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self) {
             }
             if (r == 1) {
                 TWindowGetComCard__sub_8007B54C();
-                queue_destruction__7TObjectFv(self);
+                ((TObject *)self)->queue_destruction();
                 self->state = 6;
             }
         }
@@ -123,7 +124,7 @@ void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self) {
             TWindowGetComCard__sub_8007B594();
             start_player_data_load__17TWindowSubComCardFl();
             TWindowGetComCard__sub_8007B54C();
-            queue_destruction__7TObjectFv(self);
+            ((TObject *)self)->queue_destruction();
             self->state = 6;
         } else if (TWindowShortListCtrl__check_controller_button(controller_input_state[port].m20, 2) != 0 ||
                    test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state[4].m20, 2) != 0) {
@@ -134,7 +135,7 @@ void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self) {
     case 5:
         if (self->timer-- <= 0 || TWindowShortListCtrl__check_controller_button(controller_input_state[0].m20, 4) != 0) {
             TWindowGetComCard__sub_8007B54C();
-            queue_destruction__7TObjectFv(self);
+            ((TObject *)self)->queue_destruction();
             self->state = 6;
         }
         break;

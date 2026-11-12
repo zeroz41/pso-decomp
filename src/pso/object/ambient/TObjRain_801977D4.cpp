@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -5,6 +6,7 @@
 #include "pso/object/ambient/TObjRain.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/system/task/TObject.h"
 struct Vec_80197904 { f32 x, y, z; };
 
 struct Drop_80197904 {
@@ -86,7 +88,7 @@ void TObjRain::update_drops() {
         }
     }
     if (active == 0) {
-        queue_destruction__7TObjectFv(((struct Rain_80197904 *)this));
+        ((TObject *)((struct Rain_80197904 *)this))->queue_destruction();
     }
 }
 

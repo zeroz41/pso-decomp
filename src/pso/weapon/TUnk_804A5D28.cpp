@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/player/TObjPlayer_8012E760.h"
@@ -21,6 +22,7 @@
 #include "pso/effect/item/TItemEffFlame.h"
 #include "pso/unk/text_8011BE50.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/task/TObject.h"
 
 // Built with -inline off,deferred: functions are written last to first.
 
@@ -37,7 +39,7 @@ void TUnk_804A5D28::emit_marker_effects() { m_1fc = 1; }
 
 TUnk_804A5D28::~TUnk_804A5D28() {}
 
-void expire_weapon_casing(void *p) { queue_destruction__7TObjectFv(p); }
+void expire_weapon_casing(void *p) { ((TObject *)p)->queue_destruction(); }
 
 TUnk_804A5D10::~TUnk_804A5D10() {}
 
@@ -136,7 +138,7 @@ u8 *TObjPlayer::construct_weapon_casing(u8 *arg1, u8 *arg2, u8 *arg3, u8 *arg4, 
 void TUnk_804A5D10::run_task() {
     u8 *arg0 = (u8 *)this;
     if (find_equipped_item(*(s32 *)((s8 *)arg0 + 0x1C)) == 0U) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     vec3_add_to(arg0 + 0x2C, arg0 + 0x20);

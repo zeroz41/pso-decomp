@@ -1,9 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/charcreate/TChCrEffTagStr.h"
 #include "pso/render/render_util.h"
 
 
 #include "types.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/system/task/TObject.h"
 
 struct Stack_8029AEDC {
     f32 sp8;

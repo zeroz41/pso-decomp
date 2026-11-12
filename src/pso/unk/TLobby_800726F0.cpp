@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -12,6 +13,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjChallengeRetry.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -50,7 +52,6 @@ void TObjPlayer__sub_8024ABDC(s32 arg0);
 void play_effect_default__10TObjPlayerFii(s32 arg0, s32 arg1);
 extern s32 TLobby__designated_client_id;
 u8 is_challenge_lobby__6TLobbyFv(void);
-void queue_destruction__7TObjectFv(void *arg0);
 s32 TLobby__sub_80070DA8();
 void play_player_default_effect__6TLobbyFv(s32 _w0);
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -256,7 +257,7 @@ void TObjChallengeRetry::update_destroy_countdown() {
         TLobby::send_45_and_close_windows(this);
         close_window_2c();
         sub_80072B70();
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 void TObjChallengeRetry::handle_loss_sequence() {
@@ -267,7 +268,7 @@ void TObjChallengeRetry::handle_loss_sequence() {
         TLobby::send_45_and_close_windows(this);
         close_window_2c();
         sub_80072B70();
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     case 1:
         play_sound_effect(0x52812, 0, 0, 0);
@@ -420,7 +421,7 @@ void TObjChallengeRetry::run_task() {
         TLobby::send_45_and_close_windows(arg0);
         ((TObjChallengeRetry *)arg0)->close_window_2c();
         ((TObjChallengeRetry *)arg0)->sub_80072B70();
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 

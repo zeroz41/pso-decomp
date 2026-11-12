@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
@@ -27,6 +28,7 @@
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject.h"
 
 const char *TWindowSubSymbolChat__class_name = "TWindowSubSymbolChat";
 static const f32 lbl_8044FB20[2] = {203.0f, 78.0f};
@@ -378,7 +380,6 @@ struct VObj_18_204a81 : VBase_18_204a81 {
 extern "C" {
 extern RecoveredGlobal_8028379C_lbl_804FF968 symbol_chat_receive_buffer;
 s32 __dt__7TObjectFv(void *, int);
-s32 queue_destruction__7TObjectFv(int);
 s32 __dl__7TObjectFPv(void *);
 s32 update_selected_item__17TWindowOptionCtrlFv(int);
 s32 TWindowCtrlMain__sub_8024CE58();
@@ -540,7 +541,7 @@ void TWindowSubSymbolChat::run_task() {
         }
     case 4:
         if ((u32) this->m_58 != 0U) {
-            queue_destruction__7TObjectFv(this->m_58);
+            ((TObject *)this->m_58)->queue_destruction();
             this->m_58 = 0U;
         }
         if ((u32) this->m_44 != 0U) {
@@ -1029,7 +1030,7 @@ u8 *__dt__20TWindowSubSymbolChatFv(TWindowSubSymbolChat *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8028351C___vt__20TWindowSubSymbolChat *)&__vt__20TWindowSubSymbolChat).value;
         temp_r3 = arg0->m_58;
         if (temp_r3 != 0U) {
-            queue_destruction__7TObjectFv(temp_r3);
+            ((TObject *)temp_r3)->queue_destruction();
             arg0->m_58 = 0U;
         }
         if ((u32) arg0->m_44 != 0U) {

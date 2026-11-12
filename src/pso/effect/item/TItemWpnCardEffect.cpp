@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/NinjaTypes.h"
@@ -19,6 +20,7 @@
 #include "pso/player/TObjPlayer_8032E4C8.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_8032DC94_lbl_8050BEC0
 {
@@ -81,7 +83,6 @@ void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void *spawn_particle_effect(void *pos, s32 id);
 
 void *find_entity_by_id(u16 id);
-void queue_destruction__7TObjectFv(void *);
 s8 get_mode__5TItemFv();
 
 
@@ -209,11 +210,11 @@ void TUnk_804EDD44::run_task() {
     s32 i;
     u8 *arg0 = (u8 *)this;
     if (find_item_by_id(((TUnk_804EDD44 *)arg0)->m_60) == 0U) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     if (get_mode__5TItemFv() != 2) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     ((TUnk_804EDD44 *)arg0)->anchor_card_effect();
@@ -228,7 +229,7 @@ void TUnk_804EDD44::run_task() {
         ((TUnk_804EDD44 *)arg0)->destroy_effect_objects();
         ((TUnk_804EDD44 *)arg0)->start_card_effect_trail();
     } else if (*(s32 *)((s8 *)arg0 + 0x30) == 12) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     ((TUnk_804EDD44 *)arg0)->vfunc_8();
@@ -278,7 +279,7 @@ void TUnk_804EDD44::destroy_effect_objects() {
     s32 i;
     for (i = 0; i != 3; i++) {
         if (particles[i] != 0) {
-            queue_destruction__7TObjectFv(particles[i]);
+            ((TObject *)particles[i])->queue_destruction();
             particles[i] = 0;
         }
     }

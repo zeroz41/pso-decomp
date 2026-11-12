@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
@@ -9,6 +10,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
 
 struct VB_802E74E4 { u8 pad[0xC]; };
 
@@ -117,7 +119,6 @@ s32 scale_current_matrix(Vec_802E708C *);
 extern Col_802E708C lbl_80472C80;
 extern Vec_802E708C lbl_80472C90;
 extern const f32 lbl_805DE9F8;
-void queue_destruction__7TObjectFv(void *arg0);
 void TObjPlayer__sub_802E7640(void *);
 extern s32 lbl_80472C68[6];
 extern s32 lbl_804E3BC0[];
@@ -185,7 +186,7 @@ void TUnk_804E3BA8::run_task() {
     s32 i;
     (*(s32 *)(unk_1C + 4))++;
     if (*(s32 *)(unk_1C + 4) >= 0xA0) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     for (i = 0, off = 0; i < m_24; i++, off += 0x2C) {
@@ -281,7 +282,7 @@ void TUnk_804E3BC0::run_task() {
     s32 i;
     (*(s32 *)(unk_1C + 4))++;
     if (*(s32 *)(unk_1C + 4) >= 0xA0) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     for (i = 0, off = 0; i < m_24; i++, off += 0x2C) {
@@ -332,7 +333,7 @@ Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *arg0, s32 arg1, Vec_802E72D
             p->x24 = lbl_805DE9C8;
         }
     } else {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
     return arg0;
 }

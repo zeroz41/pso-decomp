@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/animation/MotionContext.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -39,6 +40,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/system/task/TObject.h"
 
 // Action step of a De Rol Le C attack pattern: action id and its duration in
 // seconds (the timer compares against b * 30).
@@ -240,7 +242,6 @@ extern "C" {
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32);
 f32 subtract_vector(void *, void *);
-void queue_destruction__7TObjectFv(void *arg0);
 }
 
 void TObjFish::update_attached_orientation() {
@@ -260,7 +261,7 @@ void TObjFish::update_attached_orientation() {
 void TObjFish::destroy_child() {
     Obj_802E7888 *o = (Obj_802E7888 *)this;
     if (o->f7B0 != 0) {
-        queue_destruction__7TObjectFv((void *)o->f7B0);
+        ((TObject *)o->f7B0)->queue_destruction();
         o->f7B0 = 0;
     }
 }
@@ -974,7 +975,6 @@ struct Fish_802EB90C {
 };
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 s32 fill_value_array(int);
 u8 *csnVector(s32 *, void *, s32);
 u32 __nw__7TObjectFUl(int);
@@ -1587,7 +1587,7 @@ void TObjFish__sub_802E8AD4(Fish_802E8AD4* o, u32 k) {
         TObjBoss2Tunnel::set_flag_0x200();
         return;
     case 0:
-        queue_destruction__7TObjectFv(o);
+        ((TObject *)o)->queue_destruction();
         return;
     case 1: return;
     case 2: return;
@@ -1822,7 +1822,7 @@ void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
                     *(f32 *)((s8 *)temp_r30 + 8) = (f32) lbl_805DEA10;
                 }
                 if ((u32) *(u32 *)((s8 *)arg0 + 0x7A8) != 0U) {
-                    queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x7A8));
+                    ((TObject *)(*(void **)((s8 *)arg0 + 0x7A8)))->queue_destruction();
                 }
                 boss7_laser_ptcl = __nw__7TObjectFUl(0x58);
                 if (boss7_laser_ptcl != 0U) {
@@ -1904,19 +1904,19 @@ void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x724) = (s32)(temp_r4_2 + 1);
         release_laser_light__15TBoss7LaserPtclFPv(arg0, (int)temp_r4_2);
         if ((u32) *(u32 *)((s8 *)arg0 + 0x784) != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x784));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x784)))->queue_destruction();
             *(u32 *)((s8 *)arg0 + 0x784) = 0U;
         }
         if ((u32) *(u32 *)((s8 *)arg0 + 0x71C) != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x71C));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x71C)))->queue_destruction();
             *(u32 *)((s8 *)arg0 + 0x71C) = 0U;
         }
         if ((u32) *(u32 *)((s8 *)arg0 + 0x720) != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x720));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x720)))->queue_destruction();
             *(u32 *)((s8 *)arg0 + 0x720) = 0U;
         }
         if ((u32) *(u32 *)((s8 *)arg0 + 0x7A8) != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x7A8));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x7A8)))->queue_destruction();
             *(u32 *)((s8 *)arg0 + 0x7A8) = 0U;
         }
         break;
@@ -2433,7 +2433,7 @@ void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2) {
     case 5:
         self->flags &= ~4;
         if (self->ptcl != NULL) {
-            queue_destruction__7TObjectFv(self->ptcl);
+            ((TObject *)self->ptcl)->queue_destruction();
             self->ptcl = NULL;
         }
         break;

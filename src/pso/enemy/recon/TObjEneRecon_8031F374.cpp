@@ -1,6 +1,8 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
@@ -18,7 +20,7 @@ void TObjEneRecon::handle_death_state(s32 arg1) {
     case 3:
         if ((s32) *(s32 *)((s8 *)this + 0x410) == 0) {
             send_entity_set_flags__9TObjEnemyFv();
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
         }
     case 5:
     case 0:

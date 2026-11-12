@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/GbaJoybootState.h"
 #include "pso/system/GbaDownloadRuntime.h"
 #include "pso/unk/TLobby_801F2D2C.h"
@@ -6,6 +7,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/render/TDLGraph.h"
 #include "pso/ui/Language.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 void TLobby__sub_8032CB6C(void);
@@ -28,7 +30,7 @@ extern u32 gba_download_data_size;
 
 void TLobby::destroy_singleton() {
     if ((u32) gba_download_graph != 0U) {
-        queue_destruction__7TObjectFv((void*)gba_download_graph);
+        ((TObject *)gba_download_graph)->queue_destruction();
         gba_download_graph = 0U;
     }
     *(s8 *)((s8 *)TLobby__data_805434A8 + 7) = 0;

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/TLobby_801E43E4.h"
@@ -30,6 +31,7 @@
 #include "pso/unk/text_80121180.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
+#include "pso/system/task/TObject.h"
 
 struct L_801C74BC { u16 f0; u16 f2; s32 f4; };
 
@@ -1186,7 +1188,6 @@ s32 get_current_floor(void);
 Item_801CE928 * get_item_field_6__10TObjPlayerFPv(void *);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32);
-s32 queue_destruction__7TObjectFv(void *);
 void set__8FlagWordFUl(void *, u32);
 s32 clear__8FlagWordFUl(void *, int);
 s32 test_flags_any(void *, int);
@@ -2882,7 +2883,7 @@ void TObjPlayer::init_action() {
         }
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 0x548) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x548));
+        ((TObject *)(*(void **)((s8 *)arg0 + 0x548)))->queue_destruction();
         *(u32 *)((s8 *)arg0 + 0x548) = 0U;
     }
 }

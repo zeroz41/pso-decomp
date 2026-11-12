@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -20,6 +21,7 @@
 #include "pso/boss/olgaflow/TBoss6Demo20_TYPE2_APPEAR.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
 struct RecoveredGlobal_8033DCA8_lbl_80477F2C { s32 value; u8 remaining[8]; };
 struct RecoveredGlobal_8033DCA8_lbl_804EFA08 { s32 value; u8 remaining[8]; };
 extern const RecoveredGlobal_8033DCA8_lbl_80477F2C boss6_type2_appear_origin;
@@ -264,7 +266,7 @@ void run_task__25TBoss6Demo20_TYPE2_APPEARFv(O_8033D6DC *self) {
     }
     self->frame++;
     if (self->frame >= 0x197 || ((TObjFish *)(self->fEC))->get_phase() != 5) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
     }
 }
 

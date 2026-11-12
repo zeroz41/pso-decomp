@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
 #include "pso/boss/olgaflow/TBoss6EffFlowSoul.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -11,6 +12,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 extern s32 __vt__17TBoss6EffFlowSoul[];
@@ -53,7 +55,7 @@ void TBoss6EffFlowSoul::run_task() {
             VecCopy((Vec *)&target, (const Vec *)((Vec_8036A6B0 *)(p + 0x38)));
             target.y += 10.0f;
         } else {
-            queue_destruction__7TObjectFv(self);
+            ((TObject *)self)->queue_destruction();
             return;
         }
     }
@@ -74,7 +76,7 @@ void TBoss6EffFlowSoul::run_task() {
     }
     self->age++;
     if (self->age > self->duration) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
     }
 }
 

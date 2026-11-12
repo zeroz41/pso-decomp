@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -34,6 +35,7 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/unk/text_80269FE8.h"
 #include "pso/unk/text_80271400.h"
+#include "pso/system/task/TObject.h"
 const char *TWindowCtrlMain__name = "TWindowCtrlMain";
 const char *TWindowCtrlScreen__name = "TWindowCtrlScreen";
 const char *TWindowCtrlSub__name = "TWindowCtrlSub";
@@ -116,7 +118,6 @@ u32 create_for_target__13TWindowLockOnFlUs(int, s32);
 s32 TKeyBoardControl__sub_801A58B0();
 s32 TKeyBoardControl__sub_801A58D8();
 s32 get_function_key_menu__16TKeyBoardControlFPv(void *arg0);
-void queue_destruction__7TObjectFv(void *);
 s32 fn_8002AE08(void *p);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, int);
@@ -189,12 +190,12 @@ TWindowCtrlPlayer::TWindowCtrlPlayer(TObject *parent, s32 arg2) : TObject(parent
 }
 
 TWindowCtrlPlayer::~TWindowCtrlPlayer() {
-    if (*(void **)((s8 *)this + 0x3C) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x3C)); this->m_3c = 0; }
+    if (*(void **)((s8 *)this + 0x3C) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x3C)))->queue_destruction(); this->m_3c = 0; }
     if (*(void **)((s8 *)this + 0x38) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x38)))->close(); this->m_38 = 0; }
     if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x34)))->close(); this->m_34 = 0; }
     if (*(void **)((s8 *)this + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close(); this->m_30 = 0; }
     if (*(void **)((s8 *)this + 0x2C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x2C)))->close(); this->m_2c = 0; }
-    if (*(void **)((s8 *)this + 0x28) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x28)); this->m_28 = 0; }
+    if (*(void **)((s8 *)this + 0x28) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x28)))->queue_destruction(); this->m_28 = 0; }
 }
 
 void TWindowCtrlPlayer::run_task() { sub_8024E0F0(); ((TWindowCtrl *)this)->run_all_updates(); }
@@ -314,7 +315,7 @@ void TWindowCtrl::update_main_menu_request() {
         return;
     }
     if (*(void **)((s8 *)this + 0x3C) != NULL) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x3C));
+        ((TObject *)(*(void **)((s8 *)this + 0x3C)))->queue_destruction();
         *(void **)((s8 *)this + 0x3C) = NULL;
         return;
     }
@@ -357,7 +358,7 @@ void TWindowCtrl::update_short_list_request() {
     if (*(void **)((s8 *)this + 0x34) != NULL && ((TWindowCtrl *)(*(void **)((s8 *)this + 0x34)))->is_flag_2_set() == 0) {
         if (get_player_by_client_id(*(s32 *)&this->m_24) == 0) {
             if (*(void **)((s8 *)this + 0x3C) != NULL) {
-                queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x3C));
+                ((TObject *)(*(void **)((s8 *)this + 0x3C)))->queue_destruction();
                 *(void **)((s8 *)this + 0x3C) = NULL;
             }
         } else {
@@ -367,7 +368,7 @@ void TWindowCtrl::update_short_list_request() {
                 (id != 0xFFFF && id != *(s32 *)&this->m_24) || TWindowCtrl__sub_8024C7D4(this) != 0 ||
                 TWindowCtrl::get_display_flag() != 0) {
                 if (*(void **)((s8 *)this + 0x3C) != NULL) {
-                    queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x3C));
+                    ((TObject *)(*(void **)((s8 *)this + 0x3C)))->queue_destruction();
                     *(void **)((s8 *)this + 0x3C) = NULL;
                 }
             } else if (*(void **)((s8 *)this + 0x3C) == NULL && is_enabled() == 0) {

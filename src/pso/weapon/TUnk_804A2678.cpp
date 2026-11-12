@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/weapon/TUnk_804A2678.h"
 #include "pso/system/task/TObject.h"
@@ -15,13 +16,11 @@
 #include "pso/technique/TTecGiFoie.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" s32 is_item_area_enabled(s32 area);
 
 
-extern "C" {
-void disallow_rendering__7TObjectFv(TObject *arg0);
-}
 int get_item_system_generation(void);
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
@@ -35,7 +34,6 @@ s8 get_mode__5TItemFv();
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 s32 obj_testFlags30__14TObjCollidableFUl(s32, s32);
-void queue_destruction__7TObjectFv(void *);
 
 void render__7TObjectFv();
 void render_shadows__7TObjectFv();
@@ -46,7 +44,7 @@ void TUnk_804A2660::run_task() {
     s32 var_r30;
 
     if ((u32) this->m_28 != get_item_system_generation()) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     var_r31 = 0;
@@ -67,7 +65,7 @@ void TUnk_804A2660::run_task() {
         }
     }
     if (var_r31 == 0) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 }
@@ -75,7 +73,7 @@ void TUnk_804A2660::run_task() {
 void *destroy_item_follow_effect(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = item_follow_effect_vtable;
-        if (*(void **)((s8 *)arg0 + 0x24) != NULL) { queue_destruction__7TObjectFv((void *)(*(void **)((s8 *)arg0 + 0x24))); }
+        if (*(void **)((s8 *)arg0 + 0x24) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)arg0 + 0x24))))->queue_destruction(); }
         __dt__7TObjectFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
@@ -87,7 +85,7 @@ u8 *construct_item_follow_effect(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg
     Vec position;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = item_follow_effect_vtable;
-    disallow_rendering__7TObjectFv((TObject *)(arg0));
+    ((TObject *)(arg0))->disallow_rendering();
     *(s32 *)((s8 *)arg0 + 0x1C) = ((TItem *)arg2)->get_item_id();
     ((TUnk_804A2660 *)arg0)->m_20 = arg3;
     ((TItemWeapon *)arg2)->get_joint_position(((s32)((int) (((TUnk_804A2660 *)arg0)->m_20))), &position);

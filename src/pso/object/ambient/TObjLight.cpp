@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/object/ambient/TObjLight.h"
@@ -14,6 +15,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_80194528___vt__9TObjLight {
     s32 value;
@@ -94,7 +96,7 @@ void TObjLight::run_task() {
     Light_80193FE8 *self = (Light_80193FE8 *)this;
     s32 hi;
     if (xyz_distance_squared(&self->pos, camera_ctrl_instance + 0x178) > 160000.0f) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return;
     }
     {
@@ -220,7 +222,7 @@ u8 *TObjLight__ct(TObjLight *light, s32 arg1, u8 *arg2) {
     light->m_f4 = 0.0f;
     *(f32 *)((s8 *)light + 0xF8) = 0.0f;
     light->m_fc = 0.0f;
-    disallow_rendering__7TObjectFv((light));
+    light->disallow_rendering();
     return (u8 *)light;
 }
 

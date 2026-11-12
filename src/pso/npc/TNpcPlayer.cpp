@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
@@ -7,6 +8,7 @@
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 extern "C" void render__10TNpcPlayerFv();
 #include "pso/object/collision/TObjFogCollisionPoison.h"
 
@@ -396,7 +398,6 @@ int get_player_data__10TObjPlayerFi(int a0);
 s32 get_entity_id(void *obj);
 f32 fabs_float(f32);
 f64 atan2_float(int, f32, f32, f32);
-void queue_destruction__7TObjectFv(void *arg0);
 s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
 void * __ct__12TPlyCharDataFv(void *self);
 u8 * csnVector(s32, s32, s32);
@@ -2150,11 +2151,11 @@ void TNpcPlayer::run_task() {
     {
         {
         if (refresh_npc_view_actor_lost((void *) (owner)) != 0) {
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
             return;
         }
         if (refresh_npc_view_actor_lost((void *) (*(u8 **)((s8 *)arg0 + 0x78))) != 0) {
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
             return;
         }
         if ((((TObjPlayer *)(*(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94)))->is_inactive() != 0) && (((void *) *(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) == NULL) || (((TNpcPlayer *)((void *) *(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94)))->get_action_flags() != 0xFFFF))) {
@@ -3273,7 +3274,7 @@ void *TNpcPlayer::dt(s16 arg1) {
     if (this != NULL) {
         if ((u32) *(u32 *)((s8 *)this + 0xA8) != 0U) {
             free_collision_body_parts(*(u32 *)((s8 *)this + 0xA8));
-            queue_destruction__7TObjectFv((void *)(*(u32 *)((s8 *)this + 0xA8)));
+            ((TObject *)((void *)(*(u32 *)((s8 *)this + 0xA8))))->queue_destruction();
             *(u32 *)((s8 *)this + 0xA8) = 0U;
         }
         if (arg1 > 0) {

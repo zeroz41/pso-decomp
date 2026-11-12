@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/galgryphon/TBoss5GryphonColli.h"
 #include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
@@ -11,6 +12,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
@@ -31,7 +33,7 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 TBoss5GryphonColli::~TBoss5GryphonColli() {
     for (s32 index = 0; index < 1; ++index) {
         if (objects[index] != NULL) {
-            queue_destruction__7TObjectFv(objects[index]);
+            objects[index]->queue_destruction();
             objects[index] = NULL;
         }
     }
@@ -104,7 +106,6 @@ struct Obj_800663DC {
 };
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 void *mem_alloc(u32 size);
 int refresh_collision_body_centers__14TObjCollidableFv(void*);
 extern s32 gryphon_demo_collision_body_desc[];

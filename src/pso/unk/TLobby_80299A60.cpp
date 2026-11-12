@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -15,6 +16,7 @@
 
 #include "types.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 s32 get_main_phase();
@@ -277,8 +279,6 @@ u8 TLobby__sub_8029A16C(void) {
     return (u8) (local_client_id == TLobby__designated_client_id);
 }
 
-void queue_destruction__7TObjectFv(void *arg0);
-
 void TObjChallenge4PRetry::countdown_and_destroy() {
     s32 temp_r0;
 
@@ -290,7 +290,7 @@ void TObjChallenge4PRetry::countdown_and_destroy() {
         ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(this);
         close_window();
         close_window_field30();
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 
@@ -312,7 +312,7 @@ void giveup_window_handle_select(void *arg0) {
         ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(arg0);
         ((TObjChallenge4PRetry *)arg0)->close_window();
         ((TObjChallenge4PRetry *)arg0)->close_window_field30();
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         if (is_quest_active() == 1) {
             TLobby::clear_counter();
             evt2_random_enemies_mode = 0;
@@ -443,7 +443,7 @@ void TObjChallenge4PRetry::run_task() {
         ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(arg0);
         ((TObjChallenge4PRetry *)arg0)->close_window();
         ((TObjChallenge4PRetry *)arg0)->close_window_field30();
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/galgryphon/TObjBoss5Pillar.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarDemo.h"
@@ -7,6 +8,7 @@
 
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_8028B60C___vt__15TObjBoss5Pillar {
     s32 value;
@@ -80,7 +82,7 @@ void TObjBoss5Pillar::run_task() {
         }
         if (arg0->timer++ > 0x1E) {
             if (arg0->smoke != NULL) {
-                queue_destruction__7TObjectFv(arg0->smoke);
+                ((TObject *)arg0->smoke)->queue_destruction();
                 arg0->smoke = NULL;
             }
             arg0->state = 3;
@@ -93,7 +95,7 @@ void TObjBoss5Pillar::run_task() {
 
 }
 TObjBoss5Pillar::~TObjBoss5Pillar() {
-    if (*(void **)((s8 *)this + 0x48) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x48)); this->m_48 = 0; }
+    if (*(void **)((s8 *)this + 0x48) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x48)))->queue_destruction(); this->m_48 = 0; }
 }
 
 typedef char RecoveredGlobal_8028B60C___vt__15TObjBoss5Pillar_size[sizeof(RecoveredGlobal_8028B60C___vt__15TObjBoss5Pillar) == 0x18 ? 1 : -1];

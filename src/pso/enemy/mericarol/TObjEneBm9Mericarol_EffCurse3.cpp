@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/text_800BC4C8.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -12,6 +13,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
 
 struct VBase_18_477421
 {
@@ -48,7 +50,7 @@ void TObjEneBm9Mericarol_EffCurse3::run_task() {
     Vec_800C4B78 b;
     o->timer++;
     if (o->timer > 0xa) {
-        queue_destruction__7TObjectFv(o);
+        ((TObject *)o)->queue_destruction();
         return;
     }
     if (is_alive__8TObjBaseFv((s32)o->target) != 0) {
@@ -69,7 +71,7 @@ typedef struct VBase_18_477421 VBase_18_477421;
 }
 
 TObjEneBm9Mericarol_EffCurse3::~TObjEneBm9Mericarol_EffCurse3() {
-    if (*(void * *)&this->unk_24 != NULL) { queue_destruction__7TObjectFv(*(void * *)&this->unk_24); *(s32 *)&this->unk_24 = 0; }
+    if (*(void * *)&this->unk_24 != NULL) { ((TObject *)(*(void * *)&this->unk_24))->queue_destruction(); *(s32 *)&this->unk_24 = 0; }
 }
 
 const char *TObjEneBm9Mericarol_EffCurse3__class_name = "TObjEneBm9Mericarol_EffCurse3";

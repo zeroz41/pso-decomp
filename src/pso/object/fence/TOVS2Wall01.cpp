@@ -1,6 +1,8 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TObject.h"
 struct TObjGoalWarpAncient;
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
@@ -301,7 +303,6 @@ void *TOVS2Wall01__ct(TOVS2Wall01 *arg0, void *arg1);
 int submit_cursor_candidate(void*, int);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
-void queue_destruction__7TObjectFv(void *arg0);
 // ---- TOVS2Wreck06
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
@@ -385,7 +386,7 @@ TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
 }
 TOVS2::~TOVS2() {
     if ((void *)m_c8 != NULL) {
-        queue_destruction__7TObjectFv((void *)m_c8);
+        ((TObject *)m_c8)->queue_destruction();
         m_c8 = 0;
     }
     unregister_object_by_id();
@@ -618,5 +619,5 @@ void TOVS2Wall01::run_task() {
     }
 }
 int TOVS2Wall01::interact_player_neg1() { return submit_cursor_candidate(this, -1); }
-void TOVS2Wall01::release() { set_flag8(); queue_destruction__7TObjectFv(this); }
+void TOVS2Wall01::release() { set_flag8(); queue_destruction(); }
 }

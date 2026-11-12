@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 // ---- pso/object/TObjGoalWarpAncient_8017CB60
 #pragma push
 
@@ -17,6 +18,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/system/task/TObject.h"
 
 const char *bm_o_warp_ancient_model_names[7] = {
     "dd_obj3_swarp_ksita.gj", "de_obj2_swarp_beam.gj", "de_obj1_swarp_beam_n.gj", "fd_obj1_swarp_gawa.gj",
@@ -65,7 +67,6 @@ extern "C" {
 
 
 
-s32 queue_destruction__7TObjectFv(void *);
 s32 register_warp_object__19TObjGoalWarpAncientFPv(int);
 s32 register_warp__19TObjGoalWarpAncientFPv(int);
 s32 TObjGoalWarpAncient__sub_8017D2D4(int);
@@ -192,7 +193,7 @@ u8 *TObjGoalWarpAncient__ct(TObjGoalWarpAncient *goal_warp_ancient, s32 arg1, s3
     *(s32 *)((s8 *)goal_warp_ancient + 0xE4) = register_warp__19TObjGoalWarpAncientFPv(0);
     *(s32 *)((s8 *)goal_warp_ancient + 0xE8) = register_warp__19TObjGoalWarpAncientFPv(2);
     if ((get_game_play_mode() == 1) && ((s32) goal_warp_ancient->set_params[2] >= 0)) {
-        queue_destruction__7TObjectFv(goal_warp_ancient);
+        goal_warp_ancient->queue_destruction();
     }
     if (is_split_screen() == 1) {
         temp_r3 = (int)::operator new(0x88);

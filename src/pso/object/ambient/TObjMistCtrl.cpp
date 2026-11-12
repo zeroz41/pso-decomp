@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/ambient/TObjMistCtrl.h"
 #include "pso/unk/text_803E29B0.h"
@@ -10,6 +11,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
 
 
 struct RecoveredGlobal_802AF7C0___vt__12TObjMistCtrl {
@@ -28,7 +30,7 @@ void TObjMistCtrl::run_task() { { (void)(sub_802AF64C()); return; } }
 
 }
 TObjMistCtrl::~TObjMistCtrl() {
-    if (*(void **)((s8 *)this + 0x90) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x90)); *(s32 *)((s8 *)this + 0x90) = 0; }
+    if (*(void **)((s8 *)this + 0x90) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x90)))->queue_destruction(); *(s32 *)((s8 *)this + 0x90) = 0; }
 }
 extern "C" {
 

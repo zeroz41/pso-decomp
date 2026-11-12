@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/enemy/gigue/TObjEneMe1GiGueMissile.h"
@@ -14,6 +15,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_802CE428___vt__22TObjEneMe1GiGueMissile {
     s32 value;
@@ -21,7 +23,6 @@ struct RecoveredGlobal_802CE428___vt__22TObjEneMe1GiGueMissile {
 };
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 s32 get_bml_motion(void *, int);
 s32 get_bml_model(void *, int);
 s32 push_matrix();
@@ -92,9 +93,9 @@ void TObjEneMe1GiGueMissile::explode(void *pos) {
 }
 #pragma pop
 
-int TObjEneMe1GiGueMissile::vfunc_6() { this->explode((char*)this + 0x6c); queue_destruction__7TObjectFv(this); }
+int TObjEneMe1GiGueMissile::vfunc_6() { this->explode((char*)this + 0x6c); ((TObject *)this)->queue_destruction(); }
 
-void TObjEneMe1GiGueMissile::vfunc_9(void *a1) { this->explode((char*)a1 + 0x38); queue_destruction__7TObjectFv(this); }
+void TObjEneMe1GiGueMissile::vfunc_9(void *a1) { this->explode((char*)a1 + 0x38); TObject::queue_destruction(); }
 
 void TObjEneMe1GiGueMissile::create(s32 arg0, s32 from, s32 arg2, f32 farg0, f32 farg1) {
     void *temp_r3;
@@ -115,7 +116,7 @@ void TObjEneMe1GiGueMissile::render() {
   s32 bml_motion;
   if (((void *) (*(u8 * *)&TObjEneMe1GiGue_barrier_count)) == 0)
   {
-    queue_destruction__7TObjectFv(((void *) arg0));
+    ((TObject *)arg0)->queue_destruction();
     return;
   }
   push_matrix();
@@ -142,7 +143,7 @@ void TObjEneMe1GiGueMissile::run_task() {
     f32 temp_f1;
     this->m_1c = (u32)find_entity_by_id((this->m_34));
     if ((u32) this->m_1c == 0U) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     *(f32 *)&this->unk_BC = (f32) (*(f32 *)&this->unk_BC + lbl_805DE6DC);

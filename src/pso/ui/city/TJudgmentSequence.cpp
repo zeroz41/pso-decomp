@@ -1,6 +1,8 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/TJudgmentSequence.h"
+#include "pso/system/task/TObject.h"
 struct TShopJudgmentItemWindow;
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -94,7 +96,7 @@ void TJudgmentSequence__sub_80215BF8(void *shop_window_base) {
 void TJudgmentSequence::handle_close_input() {
     if ((this->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(this) != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
         close_window__13TShopSequenceFv(this);
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 
@@ -163,7 +165,7 @@ u8 *__dt__17TJudgmentSequenceFv(u8 *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = &__vt__17TJudgmentSequence.value;
         if ((u32) *(u32 *)((s8 *)arg0 + 0x30) != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x30));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x30)))->queue_destruction();
             *(u32 *)((s8 *)arg0 + 0x30) = 0U;
         }
         ((TShopSequence *)arg0)->close_message_window();

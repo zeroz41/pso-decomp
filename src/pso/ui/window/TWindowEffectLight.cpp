@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TWindowEffectLight.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/render_util.h"
@@ -9,6 +10,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 struct Quad_802AD1CC { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 

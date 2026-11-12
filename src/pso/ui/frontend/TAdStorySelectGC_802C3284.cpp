@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -13,6 +14,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
 
 struct Obj_802C3288 { u8 pad[0x1C]; s32 f1C; s32 f20; };
 
@@ -67,7 +69,7 @@ void TAdStorySelectGC::run_task() {
             TAdStorySelectGC::set_state(1);
             break;
         }
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         TAdMultiChgGameModeGC::set_change_mode_flags();
         break;
     case 0:
@@ -93,12 +95,12 @@ Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent) {
     self->f20 = 0;
     if (get_data__23TAdSinglePlyChrSelectGCFv(id) == 0) {
         TAdMultiChgGameModeGC::request_transition();
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return self;
     }
     if (TAdSelectGameModeGC::get_mode_data() == 1) {
         TAdStorySelectGC::set_state(0);
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         if (TAdMultiPlyChrSelectGC__sub_80299454() != 0) {
             TAdMultiChgGameModeGC::set_change_game_mode();
         } else {

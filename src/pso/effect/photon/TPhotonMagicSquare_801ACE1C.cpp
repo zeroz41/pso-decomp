@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
@@ -15,6 +16,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -129,7 +131,7 @@ void TPhotonMagicSquare::run_task() {
             self->f70 = self->f70 - self->fC8;
         }
         if ((f32)this->m_b0 > (f32)this->m_c4 + (1.0f) / self->fC8) {
-            queue_destruction__7TObjectFv(self);
+            ((TObject *)self)->queue_destruction();
             return;
         }
         break;

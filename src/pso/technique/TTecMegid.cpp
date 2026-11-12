@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 // ---- pso/technique/TTecMegid
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
@@ -7,6 +8,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_80235348_lbl_804CC510
 {
@@ -192,7 +194,6 @@ s32 calc_technique_parameters(int, int, int);
 s32 is_technique_ready__8TTecCtrlFv();
 extern RecoveredGlobal_80235348_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_80235348_lbl_804CC55C lbl_804CC55C;
-void queue_destruction__7TObjectFv(void *arg0);
 void mem_free(void *p);
 void __dl__7TObjectFPv(void *);
 extern TTecGiBartaData_80230B48 TTecMegid__emitter_bands[];
@@ -366,7 +367,7 @@ void TTecMegid__vt6(Obj_80235490 *self, VObj_80235490 *target) {
         play_sound_effect(0x4002AD29, (s32)((u8 *)target + 0x38), 0, 0);
         if (self->fc8 < 12) {
             if ((get_technique_caster_flags(0x12, self->fc8) & 1) == 0) {
-                queue_destruction__7TObjectFv(self);
+                ((TObject *)self)->queue_destruction();
             }
         }
     }
@@ -398,7 +399,7 @@ TTecGiBarta_80230B48 *__dt__9TTecMegidFv(TTecGiBarta_80230B48 *self, s16 deletin
         self->vtable = __vt__9TTecMegid;
         for (u32 i = 0; i < TTecMegid__emitter_bands[self->band].count; ++i) {
             if (self->emitters[i]) {
-                queue_destruction__7TObjectFv((self->emitters[i]));
+                ((TObject *)self->emitters[i])->queue_destruction();
             }
         }
         mem_free(self->emitters);
@@ -412,7 +413,7 @@ void run_task__9TTecMegidFv(Obj_80235740 *self) {
     u32 i;
     self->source = find_entity_by_id(self->sourceId);
     if (self->source == NULL) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return;
     }
     for (i = 0; i < ((Data_80235740 *)TTecMegid__emitter_bands)[self->band].count; i++) {
@@ -478,7 +479,7 @@ u8 *TTecMegid::construct_facing(s32 _w1, s32 _w2, s32 _w3, s32 _w4) {
 void TUnk_804CCA78::run_task() {
     this->m_1e = (this->m_1e + 1);
     if ((s16) this->m_1e > (s16) *(s16 *)&this->unk_1C) {
-        queue_destruction__7TObjectFv((this));
+        queue_destruction();
     }
 }
 

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -41,6 +42,7 @@
 #include "pso/system/SoundEffect.h"
 
 #include "pso/system/NinjaTypes.h"
+#include "pso/system/task/TObject.h"
 
 BmlResource *TOTrapAncient01__bml_resource;
 
@@ -471,7 +473,7 @@ void TOTrapAncient01::vfunc_6(s16 *arg1, s32 arg2) {
         }
         this->release_trapped_player();
         set_flag8();
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 

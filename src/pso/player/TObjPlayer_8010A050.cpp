@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/player/TUnk_8049F130.h"
 
@@ -7,6 +8,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 
 struct Obj_8010A1D0 {
     u8 pad0[0x18];
@@ -99,7 +101,6 @@ s32 is_item_area_enabled();
 void *get_player_by_client_id(s32 i);
 s16 count_nearby_players_with_shield__10TObjPlayerFUsPUc(u16, s8 *);
 s32 init__9TItemDataFv(s8 *);
-void queue_destruction__7TObjectFv(void *arg0);
 
 void *create_particle_emitter(void *pos, s32 id);
 s32 get_current_floor();
@@ -117,7 +118,7 @@ void TUnk_8049F130::run_task() {
     s32 player;
 
     if ((u32) this->m_2c != get_item_system_generation()) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     if (120.0f == (f32) *(s32 *)&this->unk_1C) {
@@ -163,7 +164,7 @@ void TUnk_8049F148::run_task() {
     VObj_8010A26C *player;
 
     if ((u32) this->m_28 != get_item_system_generation()) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     player = (VObj_8010A26C *)get_player_by_client_id(*(u16 *)((s8 *)this + 0x24));
@@ -192,6 +193,6 @@ void TUnk_8049F148::run_task() {
             ((TParticleCtrl *)*(u32 *)&this->unk_1C)->set_position(sp8);
         }
     } else {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }

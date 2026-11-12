@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/ambient/TObjEnvSound.h"
 #include "pso/object/ambient/TObjEnvSoundEx.h"
@@ -7,6 +8,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal {
     s32 value;
@@ -79,7 +81,6 @@ extern void *tl_05;
 typedef char RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal_size[sizeof(RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal) == 0x34 ? 1 : -1];
 
 
-void disallow_rendering__7TObjectFv(TObject *arg0);
 extern s32 __vt__14TObjEnvSoundEx[];
 extern s32 TObjEnvSoundEx__class_name;
 void *__dt__14TObjEnvSoundExFv(void *arg0, s16 arg1);
@@ -159,8 +160,6 @@ s32 set_floor_event_flags(s32 arg0, s32 arg1, s32 arg2);
 s32 activate_first_floor_event(s32 idx, s32 id);
 extern "C" {
 void handle_6x67_trigger_set_event(Pkt_80190BA0 *pkt);
-void queue_destruction__7TObjectFv(void *);
-void disallow_rendering__7TObjectFv(TObject *);
 void copy_pair__18TObjEnvSoundGlobalFPvPv(void *p, void *q);
 
 extern s32 __vt__12TObjEnvSound[];
@@ -169,10 +168,6 @@ extern s32 TObjEnvSound__class_name;
 void *__dt__12TObjEnvSoundFv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 
-
-
-}
-extern "C" {
 
 
 }
@@ -196,7 +191,7 @@ void *TObjEnvSound__ct(Obj_80190AA0 *self, void *parent, void *arg2) {
     if (table != NULL) {
         copy_pair__18TObjEnvSoundGlobalFPvPv(&self->sound, &table[self->index]);
     } else {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return self;
     }
     self->radius = self->authoredRadius;
@@ -210,7 +205,7 @@ void *TObjEnvSound__ct(Obj_80190AA0 *self, void *parent, void *arg2) {
     if (self->attenuation > 127) {
         self->attenuation = 127;
     }
-    disallow_rendering__7TObjectFv((TObject *)self);
+    ((TObject *)self)->disallow_rendering();
     return self;
 }
 
@@ -272,7 +267,7 @@ u8 *TObjEnvSoundEx__ct(u8 *env_sound_ex, s32 arg1, s32 arg2) {
     ((TObjEnvSoundEx *)(env_sound_ex))->apply_object_set_data((void *)arg2);
     ((TObjEnvSoundEx *)env_sound_ex)->init_sound_params();
     *(f32 *)((s8 *)env_sound_ex + 0x94) = -127.0f;
-    disallow_rendering__7TObjectFv((TObject *)(env_sound_ex));
+    ((TObject *)(env_sound_ex))->disallow_rendering();
     return env_sound_ex;
 }
 

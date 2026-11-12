@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/panarms/TObjEnePanarmsAtkColli.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -8,6 +9,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TObject.h"
 
 // Stored in the object name field by the constructor.
 const char *TObjEnePanarmsAtkColli_class_name = "TObjEnePanarmsAtkColli";
@@ -364,7 +366,7 @@ void *__nw__7TObjectFUl(int);
 void TObjEnePanarmsAtkColli::run_task() {
     u8 *arg0 = (u8 *)this;
     if (--*(s32 *)&this->m_380 < 0) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     VecCopy(&this->prev_position, (const Vec *)&this->position);

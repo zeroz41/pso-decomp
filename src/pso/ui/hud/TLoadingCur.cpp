@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
@@ -8,6 +9,7 @@
 #include "pso/unk/text_80086FE0.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/task/TObject.h"
 
 struct Stack_8001CAD4 {
     s32 sp8;
@@ -261,7 +263,7 @@ void TLoadingCur::run_task() {
 
 }
 TLoadingCur::~TLoadingCur() {
-    if (*(void **)((s8 *)this + 0x1C) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x1C)); *(s32 *)((s8 *)this + 0x1C) = 0; }
+    if (*(void **)((s8 *)this + 0x1C) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x1C)))->queue_destruction(); *(s32 *)((s8 *)this + 0x1C) = 0; }
 }
 
 #pragma push

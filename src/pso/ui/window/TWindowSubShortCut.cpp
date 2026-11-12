@@ -1,7 +1,9 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowShortCut.h"
 #include "pso/ui/window/TWindowSubShortCut.h"
+#include "pso/system/task/TObject.h"
 class TChCrTagPlBack;
 struct TWindowShortCut;
 #include "pso/ui/chat/TWindowChat.h"
@@ -39,7 +41,6 @@ s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 get_window_layout_position(s32 a0);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, s32, s32, s32);
-void queue_destruction__7TObjectFv(void *);
 s32 clear_chat_shortcut();
 }
 s32 store_chat_shortcut(s32 arg0, s32 arg1);
@@ -111,7 +112,7 @@ void TWindowSubShortCut::run_task() {
     case 0:
     case 1:
         if ((u32) this->m_38 != 0U) {
-            queue_destruction__7TObjectFv(*(void * *)&this->m_38);
+            ((TObject *)(*(void * *)&this->m_38))->queue_destruction();
             this->m_38 = 0U;
         }
         if ((u32) this->m_34 != 0U) {
@@ -193,7 +194,7 @@ void TWindowSubShortCut::run_task() {
         break;
     case 7:
         if ((u32) this->m_38 != 0U) {
-            queue_destruction__7TObjectFv(*(void * *)&this->m_38);
+            ((TObject *)(*(void * *)&this->m_38))->queue_destruction();
             this->m_38 = 0U;
         }
         if ((u32) this->m_3c == 0U) {
@@ -251,7 +252,7 @@ void TWindowSubShortCut::run_task() {
 void *__dt__18TWindowSubShortCutFv(TWindowSubShortCut *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TWindowSubShortCut;
-        if (*(void **)((s8 *)arg0 + 0x38) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x38)); arg0->m_38 = 0; }
+        if (*(void **)((s8 *)arg0 + 0x38) != NULL) { ((TObject *)(*(void **)((s8 *)arg0 + 0x38)))->queue_destruction(); arg0->m_38 = 0; }
         if (*(void **)((s8 *)arg0 + 0x34) != NULL) { ((TWindowSubComCard *)(*(void **)((s8 *)arg0 + 0x34)))->close(); arg0->m_34 = 0; }
         if (*(void **)((s8 *)arg0 + 0x3C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x3C)))->close(); arg0->m_3c = 0; }
         if (*(void **)((s8 *)arg0 + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x30)))->close(); arg0->m_30 = 0; }

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/goldragon/TObjBoss8DemoRoom.h"
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -12,6 +13,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/task/TObject.h"
 
 __declspec(section ".data") const char *bm_obj_boss8_demoroom_model_names[2] = { "fe_obj_cyl_soto.nj", NULL };
 const char *bm_obj_boss8_demoroom_motion_names[1] = { NULL };
@@ -39,7 +41,7 @@ void run_task__17TObjBoss8DemoRoomFv(s32 arg0) {
     TObjPlayer__sub_8023DEE0((s16 *)(*(s32 *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom__shared_resource_object + 0x42C)) + 8)) + 0x2C)) + 4)) + 4)), 0, 1, 3);
     TObjPlayer__sub_8023DEE0((s16 *)(*(s32 *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom__shared_resource_object + 0x42C)) + 8)) + 0x2C)) + 0x30)) + 4)) + 4)), 0, 0x14, 1);
     if ((TBoss8Dragon__sub_802F3348(0) != 0U) && (TBoss8Dragon__sub_802FCCBC() != 0)) {
-        queue_destruction__7TObjectFv((void *)arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 TObjBoss8DemoRoom::~TObjBoss8DemoRoom() {}

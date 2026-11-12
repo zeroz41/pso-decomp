@@ -27,6 +27,7 @@
 #include <stdlib.h>
 #include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
+#include "pso/system/task/TObject.h"
 
 struct VBase_18_26a62c { char pad[0x18]; };
 
@@ -484,7 +485,7 @@ void TObjCityAirCar_Car::run_task() {
     t = ((Car_80180E70 *)this)->frame;
     ((Car_80180E70 *)this)->frame = t + ((Car_80180E70 *)this)->speed;
     if (((TObjCityAirCar_Car *)this)->update_path_motion() == 0) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
     if ((((Car_80180E70 *)this)->path == 1 && ((Car_80180E70 *)this)->frame >= 15.5f && ((Car_80180E70 *)this)->frame <= 35.5f) ||
         (((Car_80180E70 *)this)->path == 2 && ((Car_80180E70 *)this)->frame >= 15.0f && ((Car_80180E70 *)this)->frame <= 35.0f)) {

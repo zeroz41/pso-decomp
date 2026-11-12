@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/TUnk_8049F148.h"
 #include "pso/boss/darkfalz/TBoss4Type2_80086C44.h"
@@ -8,6 +9,7 @@
 #include "pso/effect/item/TItemEffShield.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_8010A404_lbl_8049F148 {
     s32 value;
@@ -112,7 +114,7 @@ void run_task__14TItemEffShieldFv(Shield_8010A4C0 *self);
 
 }
 TUnk_8049F148::~TUnk_8049F148() {
-    if (*(void **)((s8 *)this + 0x1C) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x1C)); *(s32 *)((s8 *)this + 0x1C) = 0; }
+    if (*(void **)((s8 *)this + 0x1C) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x1C)))->queue_destruction(); *(s32 *)((s8 *)this + 0x1C) = 0; }
 }
 
 
@@ -181,7 +183,7 @@ void run_task__14TItemEffShieldFv(Shield_8010A4C0 *self) {
             break;
         }
     } else {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
     }
 }
 
@@ -194,7 +196,7 @@ u8 *__ct__14TItemEffShieldFv(u8 *object, u8 *arg1, s16 arg2, s32 arg3) {
     *(s32 *)((s8 *)object + 0x38) = 0;
     *(s32 *)((s8 *)object + 0x3C) = 0;
     *(s32 *)((s8 *)object + 0x40) = 0x24;
-    disallow_rendering__7TObjectFv((TObject *)object);
+    ((TObject *)object)->disallow_rendering();
     return object;
 }
 

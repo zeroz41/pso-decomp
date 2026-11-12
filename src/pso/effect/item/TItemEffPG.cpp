@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -27,6 +28,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/item/TUnk_804E355C.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/task/TObject.h"
 
 struct Base_8034EFDC { char pad[0x18]; };
 struct VObj_8034EFDC : Base_8034EFDC {
@@ -228,8 +230,8 @@ void TItemEffPG::run_task() {
         return;
     }
     if ((u32) this->m_down == 0U) {
-        queue_destruction__7TObjectFv(this);
-        disallow_rendering__7TObjectFv(this);
+        queue_destruction();
+        disallow_rendering();
         return;
     }
     if ((u32) this->m_d0 != 0U) {
@@ -298,7 +300,7 @@ u8 *TItemEffPG__visual_ct(u8 *arg0, u8 *arg1, u8 *arg2) {
 }
 
 TUnk_804F0BF0::~TUnk_804F0BF0() {
-    if (this->m_38 != NULL) { queue_destruction__7TObjectFv(this->m_38); *(s32 *)((s8 *)this + 0x38) = 0; }
+    if (this->m_38 != NULL) { ((TObject *)this->m_38)->queue_destruction(); *(s32 *)((s8 *)this + 0x38) = 0; }
 }
 
 void TUnk_804F0BF0::run_task() {
@@ -324,8 +326,8 @@ void TUnk_804F0BF0::run_task() {
     } else {
         temp_f1_3 = *(f32 *)((s8 *)arg0 + 0x28);
         if (temp_f1_3 <= -1.0f) {
-            queue_destruction__7TObjectFv(arg0);
-            disallow_rendering__7TObjectFv((TObject *)arg0);
+            ((TObject *)arg0)->queue_destruction();
+            ((TObject *)arg0)->disallow_rendering();
         } else {
             *(f32 *)((s8 *)arg0 + 0x28) = (f32) (temp_f1_3 - 0.06666667f);
         }

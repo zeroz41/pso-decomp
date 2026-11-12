@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_80120FC4.h"
@@ -29,6 +30,7 @@
 #include "pso/item/TUnk_804F0FF0.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/text_801036CC.h"
+#include "pso/system/task/TObject.h"
 
 struct In_8010440C { u8 pad0; u8 idx; };
 
@@ -139,7 +141,6 @@ s32 TItemDropSub__sub_80107B74();
 extern "C" {
 int get_player_data__10TObjPlayerFi(int a0);
 s32 test_elt_flag__13TUnk_80493450Fll(void *p, s32 a, s32 mask);
-void queue_destruction__7TObjectFv(void *);
 extern void *tl_05;
 void TLobby__sub_801036CC(void);
 void set_boss_buf_entry__6TLobbyFii(s32, u16);
@@ -156,7 +157,7 @@ void TLobby__sub_801036CC(void) {
     for (i = 0; i != TLobby::get_lobby_flag(); i++) {
         p = (Player_801036CC *)get_player_data__10TObjPlayerFi(i);
         if (p != NULL && test_elt_flag__13TUnk_80493450Fll(p, 0, 0x20000) != 0 && p->owner == tl_05) {
-            queue_destruction__7TObjectFv(p);
+            ((TObject *)p)->queue_destruction();
         }
     }
     TLobby::reset_floor_items();

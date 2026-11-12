@@ -18,6 +18,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/system/task/TObject.h"
 
 struct VBase_18_26a62c { char pad[0x18]; };
 
@@ -165,7 +166,6 @@ extern const f32 lbl_805DF43C;
 s32 get_camera_mode__11TCameraCtrlFv();
 s32 is_main_phase_15__9TObjEneDDFv();
 s32 update__15RenderFadeStateFv(int);
-s32 defer_render__7TObjectFv(void *);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
@@ -251,7 +251,7 @@ void TObjEneRecobox::render() {
                 saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
                 if ((s16) ((TObjEneRecobox *)arg0)->mode == 1) {
                     if (((Fade_8031EA70 *)(arg0 + 0x3C0))->m8() != 0) {
-                        if (defer_render__7TObjectFv(arg0) != 0) {
+                        if (((TObject *)arg0)->defer_render() != 0) {
                             model_render_flags = saved_model_render_flags;
                             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
                             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
@@ -271,7 +271,7 @@ block_18:
                 update__15RenderFadeStateFv((int)temp_r29);
                 temp_r30 = ((RenderFadeState *)temp_r29)->updateFromCamera((const f32*)(arg0 + 0x2FC));
                 if ((var_r27 == 0) && (temp_r30 != 0)) {
-                    if (defer_render__7TObjectFv(arg0) != 0) {
+                    if (((TObject *)arg0)->defer_render() != 0) {
                         model_render_flags = saved_model_render_flags;
                         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
                         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;

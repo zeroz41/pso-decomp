@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdEnterBaseGC_8032B38C.h"
@@ -14,6 +15,7 @@
 #include "pso/unk/TLobby_8032BD20.h"
 #include "pso/unk/TUnk_804EDAC0.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject.h"
 
 struct Elt80364258_80364258 { s32 f0; };
 
@@ -77,7 +79,6 @@ extern s32 password_entry_dispatch_state;
 #pragma explicit_zero_data on
 RecoveredGlobal_8032BA8C_TAdEnterPasswordGC__data_804EDA20 TAdEnterPasswordGC__input_buffer = { 0 };
 #pragma explicit_zero_data off
-void queue_destruction__7TObjectFv(void *);
 extern u8 *password_entry_keyboard_control;
 extern const f32 lbl_805DF780;
 s32 create_default_callback__22TAdEnterSerialAccessGCFv(void *);
@@ -125,7 +126,7 @@ void close_window_and_destroy__18TAdEnterPasswordGCFPv(u8 *arg0) {
         *(u8 **)((s8 *)arg0 + 0x34) = NULL;
     }
     if ((void *) password_entry_keyboard_control != NULL) {
-        queue_destruction__7TObjectFv(password_entry_keyboard_control);
+        ((TObject *)password_entry_keyboard_control)->queue_destruction();
         password_entry_keyboard_control = NULL;
     }
     temp_r4 = *(s32 *)((s8 *)arg0 + 0x24) + 1;
@@ -278,7 +279,7 @@ u8 *TAdEnterPasswordGC__ct(u8 *parent) {
     if ((s8) *(u8 *)((s8 *)(TAdSinglePlyChrSelectGC::get_instance()) + 0x1154C) != 0) {
         set_password__18TAdEnterPasswordGCFi((s32)((void *) (TAdSinglePlyChrSelectGC::get_instance() + 0x1154C)));
         TKeyBoardControl__sub_8000F9CC(0xF);
-        queue_destruction__7TObjectFv(parent);
+        ((TObject *)parent)->queue_destruction();
         return parent;
     }
     ((TAdEnterBaseGC *)parent)->create_parts();

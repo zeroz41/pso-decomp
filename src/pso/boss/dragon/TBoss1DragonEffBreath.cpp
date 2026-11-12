@@ -1,15 +1,16 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/dragon/TBoss1DragonEffBreath.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 
 #include "pso/system/vector.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 extern s32 TBoss1DragonEffBreath__name;
 extern const f32 lbl_805D8138;
 s32 vec3_add_to(void *, void *);
-void queue_destruction__7TObjectFv(void *arg0);
 
 void TBoss1DragonEffBreath::render() {  }
 
@@ -23,7 +24,7 @@ void TBoss1DragonEffBreath::run_task() {
     vec3_add_to((u8 *)&this->m_1c, (u8 *)&this->m_28);
     temp_f1 = *(f32 *)((s8 *)arg0 + 0x20);
     if (temp_f1 < lbl_805D8130) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     if (temp_f1 < lbl_805D8134) {

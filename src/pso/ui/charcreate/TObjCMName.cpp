@@ -30,6 +30,7 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/unk/text_801E3F24.h"
+#include "pso/system/task/TObject.h"
 
 struct Menu_80296D68
 {
@@ -774,7 +775,7 @@ void TObjCMAutoMkData::run_task() {
     if ((self->fade += lbl_805DDAA8) <= 0.0f)
     {
       self->fade = 0.0f;
-      queue_destruction__7TObjectFv(self);
+      ((TObject *)self)->queue_destruction();
     }
     return;
   }
@@ -1110,7 +1111,7 @@ void TObjCMHairMenu::run_task() {
         fade = temp_f1;
         if (temp_f1 <= lbl_805DDA90) {
             fade = lbl_805DDA90;
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
         }
     } else {
         temp_f1_2 = fade + lbl_805DDAAC;
@@ -1471,7 +1472,7 @@ void run_task__16TObjCMAssignMenuFv(void *arg0) {
     if (fade <= lbl_805DDA90)
     {
       self->fade = lbl_805DDA90;
-      queue_destruction__7TObjectFv(self);
+      ((TObject *)self)->queue_destruction();
     }
     return;
   }
@@ -2232,7 +2233,7 @@ void TObjCMMainMenu::render() {
     draw_footer_divider();
     sub_80297B18();
     sub_802979BC();
-    render_nodes__7TObjectFv(nodes);
+    nodes->render_nodes();
     draw_root_menu();
     static void (TObjCMMainMenu::*table[7])() = {
         &TObjCMMainMenu::sub_802981BC, 0, &TObjCMMainMenu::sub_80297EF4,

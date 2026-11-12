@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -20,6 +21,7 @@
 #include "pso/ui/frontend/TAdMcSelectGC.h"
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject.h"
 
 static const ChrSelPlateLayout chr_sel_b_slot_plate_layout = { 180.0f, 38.0f, { 0xBC, 0x98, 0x36, 0x00 }, 0 };
 // Plate positions of the four entries
@@ -670,11 +672,11 @@ void close_windows__16TAdChrSelBSlotGCFPv(void *ad_chr_sel_b_slot_gc) {
 void reset_windows__16TAdChrSelBSlotGCFPv(void *ad_mc_select_gc) {
     ((TAdChrSelSlotGC *)(((TAdMcSelectGC *)ad_mc_select_gc)->m_28))->reset_all_slots();
     if ((u32) *(u32 *)((s8 *)ad_mc_select_gc + 0x38) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)ad_mc_select_gc + 0x38));
+        ((TObject *)(*(void **)((s8 *)ad_mc_select_gc + 0x38)))->queue_destruction();
         *(u32 *)((s8 *)ad_mc_select_gc + 0x38) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)ad_mc_select_gc + 0x3C) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)ad_mc_select_gc + 0x3C));
+        ((TObject *)(*(void **)((s8 *)ad_mc_select_gc + 0x3C)))->queue_destruction();
         *(u32 *)((s8 *)ad_mc_select_gc + 0x3C) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)ad_mc_select_gc + 0x40) != 0U) {
@@ -976,67 +978,67 @@ void TAdChrSelBSlotGC::sub_8030FE04() {
 
 TAdChrSelBSlotGC::~TAdChrSelBSlotGC() {
     if ((u32) *(u32 *)((s8 *)this + 0x40) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x40));
+        ((TObject *)(*(void **)((s8 *)this + 0x40)))->queue_destruction();
         *(u32 *)((s8 *)this + 0x40) = 0U;
     }
     if ((u32) this->m_44 != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x44));
+        ((TObject *)(*(void **)((s8 *)this + 0x44)))->queue_destruction();
         this->m_44 = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x48) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x48));
+        ((TObject *)(*(void **)((s8 *)this + 0x48)))->queue_destruction();
         *(u32 *)((s8 *)this + 0x48) = 0U;
     }
     if ((u32) this->m_4c != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x4C));
+        ((TObject *)(*(void **)((s8 *)this + 0x4C)))->queue_destruction();
         this->m_4c = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x50) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x50));
+        ((TObject *)(*(void **)((s8 *)this + 0x50)))->queue_destruction();
         *(u32 *)((s8 *)this + 0x50) = 0U;
     }
     if ((u32) this->m_54 != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x54));
+        ((TObject *)(*(void **)((s8 *)this + 0x54)))->queue_destruction();
         this->m_54 = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x58) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x58));
+        ((TObject *)(*(void **)((s8 *)this + 0x58)))->queue_destruction();
         *(u32 *)((s8 *)this + 0x58) = 0U;
     }
     if ((u32) this->m_5c != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x5C));
+        ((TObject *)(*(void **)((s8 *)this + 0x5C)))->queue_destruction();
         this->m_5c = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x60) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x60));
+        ((TObject *)(*(void **)((s8 *)this + 0x60)))->queue_destruction();
         *(u32 *)((s8 *)this + 0x60) = 0U;
     }
     if ((u32) this->m_64 != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x64));
+        ((TObject *)(*(void **)((s8 *)this + 0x64)))->queue_destruction();
         this->m_64 = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x68) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x68));
+        ((TObject *)(*(void **)((s8 *)this + 0x68)))->queue_destruction();
         *(u32 *)((s8 *)this + 0x68) = 0U;
     }
     if ((u32) this->m_6c != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x6C));
+        ((TObject *)(*(void **)((s8 *)this + 0x6C)))->queue_destruction();
         this->m_6c = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x70) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x70));
+        ((TObject *)(*(void **)((s8 *)this + 0x70)))->queue_destruction();
         *(u32 *)((s8 *)this + 0x70) = 0U;
     }
     if ((u32) this->m_74 != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x74));
+        ((TObject *)(*(void **)((s8 *)this + 0x74)))->queue_destruction();
         this->m_74 = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x78) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x78));
+        ((TObject *)(*(void **)((s8 *)this + 0x78)))->queue_destruction();
         *(u32 *)((s8 *)this + 0x78) = 0U;
     }
     if ((u32) this->m_7c != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x7C));
+        ((TObject *)(*(void **)((s8 *)this + 0x7C)))->queue_destruction();
         this->m_7c = 0U;
     }
 }

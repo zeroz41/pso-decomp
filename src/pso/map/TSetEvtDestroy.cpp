@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TEnemyTaskList.h"
 #include "pso/item/drop/TItemDrop_80105D0C.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -5,6 +6,7 @@
 #include "pso/system/EventShuffleTable.h"
 
 #include "pso/map/TSetEvtDestroy.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" void queue_destruction__7TObjectFv(void*);
 
@@ -21,7 +23,7 @@ void queue_destroy_event_descendants(TObject* root) {
         cur = p;
         p = p->m_next;
         if (check_value_equals__13TUnk_804B6C24Fl(cur, (s32)TSetEvtDestroy_name) != 0) {
-            queue_destruction__7TObjectFv(cur);
+            cur->queue_destruction();
         } else {
             queue_destroy_event_descendants(cur);
         }
@@ -64,14 +66,14 @@ void TSetEvtDestroy::run_task() {
             }
         }
         m_event_record->flags &= ~4;
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         break;
     }
 }
 
 TSetEvtDestroy::~TSetEvtDestroy() {
     if (m_enemy_tasks != nullptr) {
-        queue_destruction__7TObjectFv(m_enemy_tasks);
+        m_enemy_tasks->queue_destruction();
         m_enemy_tasks = nullptr;
     }
     if (m_event_record != nullptr) {
@@ -111,7 +113,7 @@ TSetEvtDestroy::TSetEvtDestroy(TObject* parent, SetDestroyEventRecord* event) : 
         t = new TEnemyTaskList(this, 0x20);
         m_enemy_tasks = (TEnemyTaskList*)t;
     } else {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 

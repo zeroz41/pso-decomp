@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/frontend/TAdLoadQuestGC.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -7,6 +8,7 @@
 #include "pso/ui/frontend/TAdLoadQuestLineGC.h"
 #include "pso/ui/frontend/TAdLoadQuestPrtTxtGC_8034A090.h"
 #include "pso/ui/frontend/TAdLdQuestPrtGC.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
@@ -38,20 +40,20 @@ TAdLoadQuestGC::~TAdLoadQuestGC() {
     TObject *cells[3];
     TObject *lines[2];
     if (quest_display != NULL) {
-        queue_destruction__7TObjectFv(quest_display);
+        quest_display->queue_destruction();
         quest_display = NULL;
     }
     for (u32 i = 0; i < 3; ++i) {
         arrows[i] = (TObject *)TAdLoadQuestGC__sub_8030987C(2 - i);
-        if (arrows[i] != NULL) queue_destruction__7TObjectFv(arrows[i]);
+        if (arrows[i] != NULL) arrows[i]->queue_destruction();
     }
     for (u32 i = 0; i < 2; ++i) {
         lines[i] = (TObject *)TAdLoadQuestGC__sub_80309868(1 - i);
-        if (lines[i] != NULL) queue_destruction__7TObjectFv(lines[i]);
+        if (lines[i] != NULL) lines[i]->queue_destruction();
     }
     for (u32 i = 0; i < 3; ++i) {
         cells[i] = (TObject *)TAdLoadQuestGC__sub_80309854(2 - i);
-        if (cells[i] != NULL) queue_destruction__7TObjectFv(cells[i]);
+        if (cells[i] != NULL) cells[i]->queue_destruction();
     }
 }
 

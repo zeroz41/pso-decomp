@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/warp/TObjWarpLobby.h"
 #include "pso/object/warp/TObjWarpJungMain.h"
@@ -18,6 +19,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -87,7 +89,6 @@ s32 align_menu_entry_positions(s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(f32 *, s32, f32);
 
-s32 queue_destruction__7TObjectFv(u32);
 s32 is_idle__6TLobbyFv();
 u32 find_warp_player_in_range(void *, u16, f32);
 extern s32 local_client_id;
@@ -145,7 +146,7 @@ void run_task__13TObjWarpLobbyFv(VO_801A0894 *arg0) {
         if (((u32) ((TObjWarpLobby *)arg0)->m_cc != 0U) && (((TWindowMenu *)(((TObjWarpLobby *)arg0)->m_cc))->is_decided() != 0)) {
             selected_menu_value = ((TWindowMenu *)(((TObjWarpLobby *)arg0)->m_cc))->get_selected_value();
             if (((TObjWarpLobby *)arg0)->m_cc != 0U) {
-                queue_destruction__7TObjectFv(((TObjWarpLobby *)arg0)->m_cc);
+                ((TObject *)(((TObjWarpLobby *)arg0)->m_cc))->queue_destruction();
                 ((TObjWarpLobby *)arg0)->m_cc = 0U;
                 TWindowCtrl::clear_flag();
             }

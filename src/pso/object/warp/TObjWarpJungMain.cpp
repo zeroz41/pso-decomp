@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/warp/TObjAreaWarp.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -24,6 +25,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/system/task/TObject.h"
 
 const char *bm_obj_warp_jung_model_names[3] = { "fe_obj_warp_dodai.gj", "fe_obj_warp_jogo_light.gj", NULL };
 __declspec(section ".data") const char *bm_obj_warp_jung_motion_names[2] = { "fe_obj_warp_jogo_light.njm", NULL };
@@ -89,7 +91,6 @@ struct Obj_801A0224 {
     f32 fC4;
 };
 
-void queue_destruction__7TObjectFv(void *);
 u8 *__dt__12TObjAreaWarpFv(u8 *arg0, s16 arg1);
 void *TObjAreaWarp__ct(void *arg0);
 int vfunc_14__12TObjWarpBaseFv(void*);
@@ -201,7 +202,7 @@ Obj_8019FF24 *TObjWarpJungMain__ct(Obj_8019FF24 *self) {
     self->fC4 = 0.0f;
     self->f8C = fabs_float(self->f8C % 2);
     if (get_game_play_mode() == 1 && self->f8C == 0) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return self;
     }
     self->fAC = 15.0f;
@@ -278,7 +279,7 @@ Obj_801A0224 *TObjWarpJung__ct(Obj_801A0224 *self) {
     self->fC4 = 0.0f;
     self->f8C = fabs_float(self->f8C % 2);
     if (get_game_play_mode() == 1 && self->f8C == 1) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return self;
     }
     self->fAC = 15.0f;

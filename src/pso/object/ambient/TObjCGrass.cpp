@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/ambient/TObjCGrass.h"
 #include "pso/object/base/TObjMotion.h"
@@ -12,6 +13,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include <stdlib.h>
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TObject.h"
 
 struct Rec_800B8B08 { u8 vec[0x18]; s32 f18; u32 flags; };
 
@@ -73,7 +75,6 @@ struct Grass_800B8EFC {
 extern "C" {
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
-void queue_destruction__7TObjectFv(void *arg0);
 u8 *csnVectorUnder(void *, void *, int);
 s32 vec3_add_to(void *, void *);
 extern s32 actor_frame_tick;
@@ -176,7 +177,7 @@ void TObjCGrass::run_task() {
         VecCopy((Vec *)&self->recs[i].v2, (const Vec *)&b);
     }
     if (self->f108-- < 0) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
     }
 }
 

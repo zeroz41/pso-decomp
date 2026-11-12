@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
@@ -12,6 +13,7 @@
 #include "pso/technique/TTecGiBarta.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_802308A0_lbl_804CC510
 {
@@ -379,7 +381,7 @@ TTecGiBarta_80230B48 *__dt__11TTecGiBartaFv(TTecGiBarta_80230B48 *self, s16 dele
         self->vtable = __vt__11TTecGiBarta;
         for (u32 i = 0; i < TTecGiBarta__emitter_profile_table[self->band].count; ++i) {
             if (self->emitters[i]) {
-                queue_destruction__7TObjectFv(self->emitters[i]);
+                ((TObject *)self->emitters[i])->queue_destruction();
             }
         }
         mem_free(self->emitters);
@@ -392,7 +394,7 @@ TTecGiBarta_80230B48 *__dt__11TTecGiBartaFv(TTecGiBarta_80230B48 *self, s16 dele
 void TTecGiBarta::run_task() {
     this->source = (u32)find_entity_by_id(this->sourceId);
     if ((u32) this->source == 0U) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     move_technique_projectile();

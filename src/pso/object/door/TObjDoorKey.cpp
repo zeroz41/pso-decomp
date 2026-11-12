@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/door/TObjDoorKey.h"
 #include "pso/render/MaterialColorFade.h"
@@ -23,6 +24,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
 
 const char *abeno_fs_obj001_fosuno_model_names[4] = { "abeno_fs_obj001_fosuno.gj", "abesu_fs_obj001_fosu.gj", "abesu_fs_obj001_fotutu.gj", NULL };
 const char *abeno_fs_obj001_fosuno_motion_names[1] = { NULL };
@@ -277,13 +279,9 @@ TObjDoorKey::~TObjDoorKey() {
     ((TObjCollidable *)this)->unregister_object_by_id();
     free_collision_body_parts(this);
     if ((u32) this->m_f8 != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0xF8));
+        ((TObject *)(*(void **)((s8 *)this + 0xF8)))->queue_destruction();
         this->m_f8 = 0U;
     }
-}
-extern "C" {
-
-
 }
 TObjDoorKey::TObjDoorKey(TObject *arg1, void *arg2) : TOKey(arg1) {
     *(const char **)((s8 *)this + 0) = TObjDoorKey__class_name;

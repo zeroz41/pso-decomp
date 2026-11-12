@@ -58,6 +58,7 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 f64 atan2_float(f32, f32);
@@ -120,7 +121,6 @@ s32 is_split_screen();
 void *__nw__7TObjectFUl(int);
 s32 get_camera_mode__11TCameraCtrlFv();
 s32 is_main_phase_15__9TObjEneDDFv();
-s32 defer_render__7TObjectFv(void *);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
@@ -1531,12 +1531,12 @@ void TObjEneDellBiter::render() {
         cam = camera_fade->updateFromCamera((const f32*)(&m_2fc));
         if (flags & 2) {
             fade.set_flags_and_apply_damage_color();
-            if (defer_render__7TObjectFv(this) != 0) {
+            if (defer_render() != 0) {
                 draw = 0;
             }
         } else if (cam != 0) {
             camera_fade->set_flags_and_apply_damage_color();
-            if (defer_render__7TObjectFv(this) != 0) {
+            if (defer_render() != 0) {
                 draw = 0;
             }
         }

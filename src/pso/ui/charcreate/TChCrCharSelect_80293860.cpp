@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/ui/charcreate/TChCrCharSelect_802937D4.h"
@@ -5,6 +6,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
@@ -27,7 +29,7 @@ void TChCrCharSelect::tick_and_apply_selection() {
         *(s8 *)((s8 *)temp_r31 + 0x30) = -1;
         *(s8 *)((s8 *)temp_r31 + 0) = 0;
         TCharaMaking::create((void *)tl_03, (void *)temp_r31);
-        queue_destruction__7TObjectFv((this));
+        queue_destruction();
     }
 }
 

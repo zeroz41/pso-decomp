@@ -1,8 +1,10 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 extern struct Obj054_8024A054 *TWindowCtrl__active_window;
@@ -25,7 +27,7 @@ void TWindowCtrl__sub_8024A08C(void) {
     if ((void *) (*(u8 * *)&TWindowCtrl__active_window) != NULL) {
         object = (u8 *)(*(u8 **)((s8 *)(*(u8 * *)&TWindowCtrl__active_window) + 0x3C));
         if (object != NULL) {
-            queue_destruction__7TObjectFv(object);
+            ((TObject *)object)->queue_destruction();
             *(u8 **)((s8 *)(*(u8 * *)&TWindowCtrl__active_window) + 0x3C) = NULL;
         }
     }

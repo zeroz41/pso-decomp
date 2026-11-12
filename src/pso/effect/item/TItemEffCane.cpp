@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/item/TItemEffCane.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/item/TItem.h"
@@ -8,6 +9,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/task/TObject.h"
 
 const char *TItemEffCane__class_name = "TItemEffCane";
 
@@ -15,12 +17,12 @@ void TItemEffCane::run_task() {
     f32 position[3];
     TItem* item = (TItem *)find_item_by_id(item_id);
     if (item == NULL) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     if (((TItem *)item)->get_mode() != 2 ||
         ((TItemWeapon *)item)->test_weapon_flags(0x10) == 0 || effect == NULL) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     ((TItemWeapon *)item)->get_joint_position(attachment_index, position);
@@ -43,5 +45,5 @@ TItemEffCane::TItemEffCane(TObject* parent, TItem* item, s32 attachment, s32 eff
     } else {
         effect = NULL;
     }
-    disallow_rendering__7TObjectFv(this);
+    disallow_rendering();
 }

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6GravBall.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -5,6 +6,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/system/task/TObject.h"
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
@@ -287,7 +289,7 @@ s32 TBoss6GravBall::clamp_to_ground() {
     Obj_803237A0 *arg0 = (Obj_803237A0 *)this;
     Vec_803237A0 v = arg0->pos;
     if (project_actor_to_ground(arg0, &v, 0) == 0) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return 1;
     }
     v.y += 1e+01f;
@@ -305,7 +307,7 @@ void TBoss6GravBall::update_lifetime(void *) {
     temp_r0 = this->m_b4 + 1;
     this->m_b4 = temp_r0;
     if (temp_r0 > 0x1E) {
-        queue_destruction__7TObjectFv((this));
+        queue_destruction();
     }
 }
 
@@ -407,7 +409,7 @@ void update_charge_effects__14TBoss6GravBallFPv(u8 *self) {
         play_sound_effect(0x4003C417, self + 0xC8, 0, 0);
         return;
     default:
-        queue_destruction__7TObjectFv((self));
+        ((TObject *)self)->queue_destruction();
         return;
     }
 }
@@ -450,7 +452,7 @@ void update_state__14TBoss6GravBallFPv(u8 *arg0) {
             break;
         case 0x20:
         default:
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
             break;
         }
     }
@@ -492,7 +494,4 @@ TBoss6GravBall::TBoss6GravBall(s32 arg1, void *arg2) : TObjCollidable((TObject *
     for (i = 0; i < 2; i++) {
         create_emitter__14TBoss6GravBallFl(((Obj_80323D20 *)this), lbl_8047667C[i]);
     }
-}
-extern "C" {
-
 }

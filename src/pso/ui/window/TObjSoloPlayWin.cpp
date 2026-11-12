@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TObjSoloPlayWin.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_8006F278.h"
@@ -5,6 +6,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/TLobby.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 u32 get_player_by_client_id(s32);
@@ -55,7 +57,7 @@ void TObjSoloPlayWin::update_close_timer() {
             m_result_window = 0;
         }
         TLobby::mark_solo_win_closing();
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 void TObjSoloPlayWin::start_win_timer() {

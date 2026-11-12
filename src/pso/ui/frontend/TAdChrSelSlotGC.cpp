@@ -7,6 +7,7 @@
 
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 NJS_TEXNAME lbl_804E0B40[1] = { { (void *)"f256_slot_eng", 0, 0 } };

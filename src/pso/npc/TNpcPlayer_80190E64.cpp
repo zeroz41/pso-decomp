@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/TUnk_804B7C1C.h"
 #include "pso/system/vector.h"
@@ -8,6 +9,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/npc/TNpcPlayer_80190E64.h"
 #include "pso/unk/TLobby_80191218.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
@@ -44,7 +46,6 @@ void free_collision_body_parts(void *);
 void *get_player_by_client_id(s32 i);
 s32 __dl__7TObjectFPv(void *);
 Obj_801910F4 *__dt__13TUnk_804B7C1CFv(Obj_801910F4 *arg0, s16 arg1);
-void queue_destruction__7TObjectFv(void *arg0);
 f32 horizontal_distance_squared(void *, void *);
 void *__nw__7TObjectFUl(int);
 extern int npc_proximity_target_id;
@@ -118,7 +119,7 @@ void TUnk_804B7C1C::run_task() {
     Ply_80190FDC *p;
     void *o;
     if (npc_proximity_target_id == arg0->f8C) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     p = (Ply_80190FDC *)get_player_by_client_id(local_client_id);
@@ -141,7 +142,7 @@ void TUnk_804B7C1C::run_task() {
             arg0->fB4 = 0;
             p = (Ply_80190FDC *)get_player_by_client_id(arg0->fAC);
             if (p != 0) {
-                queue_destruction__7TObjectFv((p));
+                ((TObject *)p)->queue_destruction();
             }
         }
     }
@@ -179,5 +180,5 @@ TUnk_804B7C04::~TUnk_804B7C04() {
     }
 }
 
-void TUnk_804B7C04::run_task() { if (this->m_2c == 1) { queue_destruction__7TObjectFv(this); } }
+void TUnk_804B7C04::run_task() { if (this->m_2c == 1) { queue_destruction(); } }
 

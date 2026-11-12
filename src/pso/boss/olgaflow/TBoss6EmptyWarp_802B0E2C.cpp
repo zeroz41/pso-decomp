@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6EmptyWarp.h"
 #include "pso/boss/olgaflow/TBoss6EmptyWarp_802B0E2C.h"
@@ -9,6 +10,7 @@
 #include "pso/render/render_util.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/system/task/TObject.h"
 
 
 const char *TBoss6EmptyWarp__name = "TBoss6EmptyWarp";
@@ -49,7 +51,7 @@ extern s32 __vt__15TBoss6EmptyWarp[];
 void TBoss6EmptyWarp::run_task() {
     u8 *arg0 = (u8 *)this;
     if (is_flag_set__14TBoss6PlotFalzFv() != 0) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     *(s32 *)&this->unk_1C = (s32) (*(s32 *)&this->unk_1C + 1);
@@ -61,7 +63,7 @@ void TBoss6EmptyWarp::run_task() {
         } else {
             play_area_music((char *)("HALL.adx"));
         }
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 

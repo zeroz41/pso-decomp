@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
@@ -17,6 +18,7 @@
 #include "pso/boss/darkfalz/TObjDFUsoTower.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TObject.h"
 
 extern const char dark_falz_state_name_editor[] = "EDITOR";
 extern const char dark_falz_state_name_wait_casket[] = "WAIT_CASKET";
@@ -51,7 +53,6 @@ struct RecoveredGlobal_8004C5E8_TBoss4DarkFalz__data_804FF1E8 {
 extern "C" {
 int VecCopy__FP3VecPC3Vec(void*, void* a1);
 int freeze_all_players__14TBoss4DarkFalzFPv(void*);
-void queue_destruction__7TObjectFv(void *arg0);
 s32 obj_setArrS16_FC(void *, s32, u16);
 extern s32 lbl_80485454[];
 extern int TBoss4DarkFalz__type3_instance;
@@ -173,7 +174,7 @@ void TBoss4DarkFalz::begin_defeat_sequence() {
     }
     if ((void *) (*(u8 * *)&TBoss4DarkFalz__type3_instance) != NULL) {
         ((TBoss4DarkFalz *)TBoss4DarkFalz__type3_instance)->get_defeat_params(&((Obj_8004C940 *)this)->f2d6, &((Obj_8004C940 *)this)->f2d4, sp8);
-        queue_destruction__7TObjectFv((*(u8 * *)&TBoss4DarkFalz__type3_instance));
+        ((TObject *)(*(u8 * *)&TBoss4DarkFalz__type3_instance))->queue_destruction();
         (*(u8 * *)&TBoss4DarkFalz__type3_instance) = NULL;
         i = 0;
         do {
@@ -348,7 +349,7 @@ void TBoss4DarkFalz::enter_demo2_phase() {
     TBoss4DarkFalz::dispatch_by_main_phase(0x35);
     if ((u32)TBoss4DarkFalz__type2_instance != 0) {
         ((TBoss4DarkFalz *)TBoss4DarkFalz__type2_instance)->get_demo2_params(&arg0->f2d6, &this->m_2d4, arr);
-        queue_destruction__7TObjectFv((void *)TBoss4DarkFalz__type2_instance);
+        ((TObject *)TBoss4DarkFalz__type2_instance)->queue_destruction();
         TBoss4DarkFalz__type2_instance = 0;
         for (i = 0; i < 4; i++) {
             obj_setArrS16_FC(arg0, i, arr[i]);
@@ -396,7 +397,7 @@ void TBoss4DarkFalz::start_demo1() {
     }
     TBoss4DarkFalz::dispatch_by_main_phase(0x33U);
     if ((void *) (*(u8 * *)&TBoss4DarkFalz__type1_instance) != NULL) {
-        queue_destruction__7TObjectFv((*(u8 * *)&TBoss4DarkFalz__type1_instance));
+        ((TObject *)(*(u8 * *)&TBoss4DarkFalz__type1_instance))->queue_destruction();
         (*(u8 * *)&TBoss4DarkFalz__type1_instance) = NULL;
     }
     *(s32 *)((s8 *)arg0 + 0x380) = 0x12C;
@@ -452,7 +453,7 @@ void TBoss4DarkFalz::update_intro_demo() {
     temp_r3 = *(s32 *)((s8 *)this + 0x380);
     if (temp_r3 > 0x145) {
         if ((u32) this->m_394 != 0U) {
-            queue_destruction__7TObjectFv(*(void * *)&this->m_394);
+            ((TObject *)(*(void * *)&this->m_394))->queue_destruction();
             this->m_394 = 0U;
         }
         TBoss4DarkFalz::dispatch_by_main_phase(0x32);

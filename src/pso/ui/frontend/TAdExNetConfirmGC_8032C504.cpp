@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/frontend/TAdExNetConfirmGC.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -9,6 +10,7 @@
 
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject.h"
 
 struct Base_8032C504 { char pad[0x18]; };
 struct VObj_8032C504 : Base_8032C504 {
@@ -75,7 +77,7 @@ u8 *TAdExNetConfirmGC__ct(u8 *object) {
         } else {
             TKeyBoardControl__sub_8000F9CC(0x13);
         }
-        queue_destruction__7TObjectFv(object);
+        ((TObject *)object)->queue_destruction();
         TAdMultiChgGameModeGC::set_game_mode();
         return object;
     }

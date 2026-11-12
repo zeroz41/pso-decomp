@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "types.h"
@@ -23,6 +24,7 @@
 #include "pso/ui/frontend/TAdDialingGC.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_801A4820_main_task { s32 value; u8 remaining[0x30]; };
 typedef char RecoveredGlobal_801A4820_main_task_size[sizeof(RecoveredGlobal_801A4820_main_task) == 0x34 ? 1 : -1];
@@ -110,7 +112,6 @@ struct Pl_801A40D8 : PlB_801A40D8 {
 extern "C" {
 s32 reset_quest_result_callbacks__22THunterGuildSeqOfflineFPv();
 void clear_enabled_main_warps(void);
-void queue_destruction__7TObjectFv(void *arg0);
 extern u32 quest_mission_manager;
 int is_quest_active(void);
 void TLobby__sub_801A4C6C(void* p);
@@ -401,7 +402,7 @@ void TLobby::free_objects() {
     TLobby::reset_floor_items();
     TNpcPlayer::enable_all_battle_ctrl();
     if ((u32) quest_mission_manager != 0U) {
-        queue_destruction__7TObjectFv((void *)quest_mission_manager);
+        ((TObject *)quest_mission_manager)->queue_destruction();
     }
     clear_enabled_main_warps();
     reset_quest_result_callbacks__22THunterGuildSeqOfflineFPv();

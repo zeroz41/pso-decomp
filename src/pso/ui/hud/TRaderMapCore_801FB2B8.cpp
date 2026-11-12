@@ -1,8 +1,10 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/hud/TRaderMapCore_801FB2B8.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/system/task/TObject.h"
 
 #pragma fp_contract on
 
@@ -188,7 +190,7 @@ Core_801FB490 *TRaderMapCore__ct(Core_801FB490 *arg0, void *parent) {
         arg0->f1a0 = TRaderMapCore__data_805DC58C;
     }
     if (TRaderMapCore__floor_map_resource == 0) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return arg0;
     }
     return arg0;

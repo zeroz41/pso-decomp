@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
@@ -7,6 +8,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -18,7 +20,6 @@ const char *TBoss5GryphonDemo__name = "TBoss5GryphonDemo";
 struct Obj_800665FC { s32 f0; u8 pad4[0x14]; void *f18; f32 f1c; f32 f20; s32 f24; };
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 void set_camera_capture_overlay_alpha(int a0);
 s32 restore_player_cameras();
 CameraPlayback *get_scripted_camera_playback();
@@ -36,7 +37,7 @@ void TBoss5GryphonDemo::run_task() {
     set_camera_capture_overlay_alpha(0x8F);
     if ((scripted_camera_playback->flags & 1) || ((s32) **(s32 **)((s8 *)arg0 + 0x24) == 0)) {
         restore_player_cameras();
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 TBoss5GryphonDemo::~TBoss5GryphonDemo() {}

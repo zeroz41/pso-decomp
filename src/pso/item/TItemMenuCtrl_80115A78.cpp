@@ -1,12 +1,13 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/TItemMenuCtrl.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
 s32 TItemMenuCtrl__ct(u32, s32);
 u32 __nw__7TObjectFUl(s32);
 s32 set_menu_flags__13TItemMenuCtrlFv(u32, s32);
-void queue_destruction__7TObjectFv(void *arg0);
 
 extern u32 TItemMenuCtrl__instance;
 extern s32 tl_05;
@@ -18,7 +19,7 @@ void TItemMenuCtrl::open_menu(u32 arg0) {
     }
     if (arg0 < 7U) {
         if (arg0 == 0) {
-            queue_destruction__7TObjectFv((void *)TItemMenuCtrl__instance);
+            ((TObject *)TItemMenuCtrl__instance)->queue_destruction();
             return;
         }
         set_menu_flags__13TItemMenuCtrlFv(TItemMenuCtrl__instance, 1 << arg0);

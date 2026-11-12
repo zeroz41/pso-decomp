@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -15,6 +16,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TObject.h"
 
 typedef char Thanks_current_motion[offsetof(TBoss6Thanks,current_motion)==0x20?1:-1];
 typedef char Thanks_frame0[offsetof(TBoss6Thanks,frame0)==0x28?1:-1];
@@ -179,7 +181,7 @@ void TBoss6Thanks::update_fade_out() {
         temp_r3 = *(s32 *)&this->m_34;
         if (temp_r3 == 0x78) {
             play_sound_effect(0x40033232, 0, 0, 0);
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
             return;
         }
         *(s32 *)&this->m_34 = (temp_r3 + 1);

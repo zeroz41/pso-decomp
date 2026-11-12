@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSetLevelUp.h"
@@ -5,6 +6,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 struct Scroll_8026D790 { u8 pad0[4]; f32 height; s32 frame; };
 
@@ -60,7 +62,6 @@ typedef struct LvUp_8026DA44 {
 } LvUp_8026DA44;
 extern "C" {
 
-void queue_destruction__7TObjectFv(void *);
 s32 *get_shared_text_buffer(void);
 void __dl__FPv(void);
 void *get_player_by_client_id(s32 i);
@@ -267,7 +268,7 @@ void TWindowSetLevelUp::update_stat_messages() {
             break;
         }
     case 9:
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         break;
     }
     self->timer = 0x16;

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/frontend/TAdSoniclogo.h"
 
 #include "types.h"
@@ -6,6 +7,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 extern void *sonic_logo_object;

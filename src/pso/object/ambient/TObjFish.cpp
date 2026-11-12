@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/task/TMainTask.h"
@@ -25,6 +26,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/network/client_id.h"
 #include <stdlib.h>
+#include "pso/system/task/TObject.h"
 
 struct VBase_18_26a62c;
 struct SVec_8029D5C8;
@@ -529,7 +531,7 @@ u8 *TObjFish__ct(u8 *fish, s32 arg1, u8 *arg2) {
         ((TObjFish *)fish)->m_94 = 1;
     }
     if (init_fish_school__8TObjFishFPvll(fish, fish + 0x68, (int) (*(s32 *)((s8 *)arg2 + 0x30)), (int) (*(s32 *)((s8 *)arg2 + 0x34))) == 0) {
-        queue_destruction__7TObjectFv((fish));
+        ((TObject *)fish)->queue_destruction();
     }
     return fish;
 }

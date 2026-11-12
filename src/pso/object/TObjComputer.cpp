@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
@@ -22,6 +23,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/system/task/TObject.h"
 
 #define CAT2(a, b) a##b
 #define CAT(a, b) CAT2(a, b)
@@ -99,7 +101,6 @@ struct Obj_8018860C {
 };
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
@@ -189,7 +190,7 @@ void *TObjComputer__ct(void *arg0, void *parent, void *row) {
     if (TObjComputer__model_archive != 0U) {
         self->model = (void *)get_bml_model((void *)TObjComputer__model_archive, TObjComputer__data_805DBCD8[self->selector]);
     } else {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return self;
     }
     init_collision_body_parts(self, &obj_computer_collision_body_parts, 1);

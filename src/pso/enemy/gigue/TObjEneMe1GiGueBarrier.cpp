@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/gigue/TObjEneMe1GiGueBarrier.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -15,6 +16,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/system/task/TObject.h"
 
 
 #pragma readonly_strings on
@@ -53,7 +55,6 @@ u16 get_entity_id(void *);
 void TObjEneMe1GiGueBarrier__sub_802CABF4(void *p);
 extern const char *TObjEneMe1GiGueBarrier__name;
 extern s32 TObjEneMe1GiGueBarrier__barrier_resource_object;
-s32 defer_render__7TObjectFv(void *);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 void TObjEneMe1GiGueBarrier__sub_80325CC0(void);
@@ -63,7 +64,7 @@ void TObjEneMe1GiGueBarrier__sub_80325CC0(void);
 void TObjEneMe1GiGueBarrier::render() {
     u8 *arg0 = (u8 *)this;
     if ((u32) (*(u32 *)&TObjEneMe1GiGueBarrier__barrier_resource_object) == 0U) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     if (get_current_floor_area() == AREA_TOWER) {
@@ -74,7 +75,7 @@ void TObjEneMe1GiGueBarrier::render() {
     }
     if (((VObj_18_ca64a0 *)(arg0))->m9(150.0f, 400.0f, 20.0f) != 0) {
 block_6:
-        if (defer_render__7TObjectFv(arg0) == 0) {
+        if (((TObject *)arg0)->defer_render() == 0) {
             push_matrix();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
@@ -92,7 +93,7 @@ void TObjEneMe1GiGueBarrier::run_task() {
     u32 temp_r0;
     temp_r0 = this->m_fc;
     if (temp_r0 == 0U) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(((TObjEneMe1GiGueBarrier *)temp_r0)->update_and_get_pos()));
@@ -113,7 +114,7 @@ void TObjEneMe1GiGueBarrier::run_task() {
         break;
     case 2:
         if (this->motion_flags & 0x10) {
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
         }
         break;
     default:

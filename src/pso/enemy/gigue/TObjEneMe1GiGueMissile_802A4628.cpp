@@ -1,5 +1,7 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/gigue/TObjEneMe1GiGueMissile.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 

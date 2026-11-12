@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
 #include "pso/boss/galgryphon/TBoss5GryphonShockWave.h"
@@ -10,6 +11,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/system/task/TObject.h"
 
 static const s32 lbl_80437F40[3] = {0x208, 0x20A, 0x20B};
 const char *lbl_805D2818 = "TBoss5GryphonShockWave";
@@ -37,7 +39,7 @@ void TBoss5GryphonShockWave::run_task() {
     s32 temp_r3;
     s32 particle_effect_with_flags;
     if (((TBoss8Dragon *)(*(s32 *)&this->m_38))->get_flag_bit6() != 0) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     switch (*(s32 *)&this->m_1c) {
@@ -68,7 +70,7 @@ void TBoss5GryphonShockWave::run_task() {
         TBoss8Dragon__sub_80064114(TBoss8Dragon::get_instance_count(), (s32)&this->m_2c);
         spawn_gryphon_tornado(*(s32 *)&this->m_up, *(s32 *)&this->m_38, (u8 *)&this->m_2c, this->m_28);
         *(s32 *)&this->m_1c = 3;
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         break;
     case 3:
         break;
@@ -77,7 +79,7 @@ void TBoss5GryphonShockWave::run_task() {
 
 }
 TBoss5GryphonShockWave::~TBoss5GryphonShockWave() {
-    if (*(void **)((s8 *)this + 0x3C) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x3C)); this->m_3c = 0; }
+    if (*(void **)((s8 *)this + 0x3C) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x3C)))->queue_destruction(); this->m_3c = 0; }
 }
 TBoss5GryphonShockWave::TBoss5GryphonShockWave(TObject *arg1_parent, s32 arg2, u8 *arg3, u8 *arg4, s32 arg5, s16 arg6) : TObject(arg1_parent) {
     s32 sp8[4];

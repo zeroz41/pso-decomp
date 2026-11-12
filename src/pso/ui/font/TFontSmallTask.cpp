@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/ui/font/TFontSmallTask.h"
@@ -8,6 +9,7 @@
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 
 struct Vec_800FD4D4 {
     f32 x, y, z;
@@ -36,9 +38,6 @@ TFontSmallTask_800FD4D4 *__ct__14TFontSmallTaskFv(TFontSmallTask_800FD4D4 *self,
 struct Vec_800FCD40 { f32 x, y, z; };
 static const Vec_800FCD40 font_small_forward_vec = {0.0f, 0.0f, -1.0f};
 extern "C" {
-void allow_rendering__7TObjectFv(TObject *arg0);
-void disallow_rendering__7TObjectFv(TObject *arg0);
-void queue_destruction__7TObjectFv(void *arg0);
 void TBoss3Volopt__sub_800FD344(s32 arg0, s32 arg1, s32 arg2, void *arg3, void *arg4);
 s32 create_font_small_task(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s32 arg5, s32 arg6);
 s32 create_font_small_task_default_color(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s32 arg5);
@@ -194,14 +193,14 @@ void TFontSmallTask::run_task() {
     case 0:
         if (--delay < 0) {
             active = 1;
-            allow_rendering__7TObjectFv(this);
+            allow_rendering();
         }
         break;
     default:
         offset_y += -1.4f;
         if (++age >= lifetime) {
-            disallow_rendering__7TObjectFv(this);
-            queue_destruction__7TObjectFv(this);
+            disallow_rendering();
+            queue_destruction();
         }
         break;
     }
@@ -362,7 +361,7 @@ TFontSmallTask_800FD4D4 *__ct__14TFontSmallTaskFv(TFontSmallTask_800FD4D4 *self,
     if (self->view >= 4) {
         self->view = 0xFFFF;
     }
-    disallow_rendering__7TObjectFv((TObject *)self);
+    ((TObject *)self)->disallow_rendering();
     strncpy(self->text, text, 0xF);
     self->text[0xF] = 0;
     self->width = calc_small_font_text_width(self->text);

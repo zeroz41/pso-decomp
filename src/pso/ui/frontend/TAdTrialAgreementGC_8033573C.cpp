@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdTrialAgreementGC.h"
@@ -25,6 +26,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/render_util.h"
+#include "pso/system/task/TObject.h"
 
 struct Base_803357EC_8033573C { char pad[0x18]; };
 struct VObj_803357EC_8033573C : Base_803357EC_8033573C {
@@ -96,7 +98,7 @@ u8 *TAdTrialAgreementGC__ct(u8 *ad_trial_agreement_gc) {
     ((TAdTrialAgreementGC *)ad_trial_agreement_gc)->m_38 = 0;
     if (TAdTrialAgreementGC::check_card_file((s32)ad_trial_agreement_gc) != 0) {
         ((TAdTrialAgreementGC *)(ad_trial_agreement_gc))->vfunc_7();
-        queue_destruction__7TObjectFv((ad_trial_agreement_gc));
+        ((TObject *)ad_trial_agreement_gc)->queue_destruction();
         return ad_trial_agreement_gc;
     }
     ad_scroll_win_gc = __nw__7TObjectFUl(0x54);

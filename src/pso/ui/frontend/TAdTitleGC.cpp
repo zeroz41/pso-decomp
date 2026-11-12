@@ -11,6 +11,7 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/system/task/TObject.h"
 
 struct Rec_802A0A60 { u8 pad[0x20]; };
 

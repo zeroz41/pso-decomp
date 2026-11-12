@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/TUnk_804A0668.h"
 #include "pso/item/TUnk_804A0688.h"
@@ -8,6 +9,7 @@
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_8011DC90___vt__15TItemTimerEvent {
     s32 value;
@@ -15,12 +17,10 @@ struct RecoveredGlobal_8011DC90___vt__15TItemTimerEvent {
 };
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 u32 get_player_by_client_id(u16);
 void fn_8011085C(u8 *arg0, s32 arg1);
 extern TItemLockCountCtrl *item_timer_event_instance;
 void fn_801108C8(u8 *arg0, s32 arg1);
-void disallow_rendering__7TObjectFv(TObject *arg0);
 s32 __ct__15TItemHeapObjectFP7TObject(void *);
 extern s32 __vt__15TItemTimerEvent[];
 extern s32 TItemTimerEvent__class_name;
@@ -70,7 +70,7 @@ void TItemTimerEvent::vfunc_7() {
 void TItemTimerEvent::run_task() {
     this->m_28 = get_player_by_client_id(this->m_1c);
     if ((u32) this->m_28 == 0U) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     if ((s32) this->m_24 == (s32) this->m_20) {
@@ -103,7 +103,7 @@ u8 *TItemTimerEvent__ct(TItemTimerEvent *item_timer_event, s32 arg1, s16 arg2, s
     *(s32 *)&item_timer_event->m_28 = 0;
     *(s32 *)&item_timer_event->m_20 = arg3;
     *(s32 *)&item_timer_event->m_24 = 0;
-    disallow_rendering__7TObjectFv((item_timer_event));
+    item_timer_event->disallow_rendering();
     return (u8 *)item_timer_event;
 }
 

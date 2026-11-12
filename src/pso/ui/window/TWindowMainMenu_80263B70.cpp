@@ -1,7 +1,9 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 struct TWindowSubItem;
 struct TWindowSubMag;
 #include "pso/ui/window/TWindowSubEquip_80275C0C.h"
@@ -230,7 +232,7 @@ void TWindowMainMenu::update_description_text(s32 arg1) {
     }
 }
 
-void TWindowMainMenu::destroy_submenu() { if (*(unsigned int *)&this->m_20 != 0) { queue_destruction__7TObjectFv(*(void* *)&this->m_20); *(int *)&this->m_20 = 0; } }
+void TWindowMainMenu::destroy_submenu() { if (*(unsigned int *)&this->m_20 != 0) { ((TObject *)(*(void* *)&this->m_20))->queue_destruction(); *(int *)&this->m_20 = 0; } }
 
 }
 

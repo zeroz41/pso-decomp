@@ -1,4 +1,6 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" void free_bin_model_request(void*, int);
 

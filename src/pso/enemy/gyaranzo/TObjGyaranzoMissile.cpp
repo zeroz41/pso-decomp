@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 #include "pso/render/NinjaUtil.h"
@@ -14,6 +15,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/map/CsnQuery.h"
+#include "pso/system/task/TObject.h"
 
 
 CollisionBody gyaranzo_missile_collision_body_b = {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8001, {0.0f, 0.0f, 0.0f}, 0.0f};
@@ -59,7 +61,6 @@ s32 rotate_matrix_x(int, int);
 extern s32 __vt__19TObjGyaranzoMissile[];
 extern f32 TObjGyaranzoMissile__speed_scale;
 u8 *TObjGyaranzoMissile__ct(u8 *arg0, u8 *arg1, u8 *arg2, s16 arg3);
-void queue_destruction__7TObjectFv(void *);
 Obj_800D47B4 *get_battle_param__10TObjPlayerFi(s32);
 s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void *find_entity_by_id(u16);
@@ -112,7 +113,7 @@ void TObjGyaranzoMissile::sub_800D47B4() {
     }
     spawn_particle_effect(&position, 0xFB);
     play_sound_effect((void *)remap_area_sound_id(0x4003A80C, 0x19), &position, 0, 0);
-    queue_destruction__7TObjectFv(this);
+    queue_destruction();
 }
 
 void TObjGyaranzoMissile::render() {

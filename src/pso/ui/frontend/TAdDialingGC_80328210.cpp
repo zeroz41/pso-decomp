@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -5,6 +6,7 @@
 #include "pso/ui/frontend/TAdDialingGC_80328210.h"
 #include "pso/ui/frontend/TAdDialingGC.h"
 #include "pso/unk/TLobby_8013AD38.h"
+#include "pso/system/task/TObject.h"
 
 struct Stack_803286AC {
     s32 sp8;

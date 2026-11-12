@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -8,6 +9,7 @@
 #include "pso/quest/BattleRules.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/item/TObjItemNameSelect.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 void qst_call_stack_push(s32 value);
@@ -1455,7 +1457,6 @@ int reset__9TCineCtrlFl(void*);
 void * get_state__23TAdSinglePlyChrSelectGCFv();
 volatile unsigned long get_actor_section_id__15TPlyPhotonChairFv(int);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
-void resume_update__7TObjectFv(void *arg0);
 u32 prs_decompress_buffer(s32, s32);
 void *TLobby__sub_800F8498(void *arg0, void *arg1, s32 arg2, s32 arg3, u8 arg4, u8 arg5, u8 arg6, u8 arg7);
 u32 get_serial_access__22TQuestVmDownLoadServerFv();
@@ -2523,7 +2524,7 @@ void qst_op_set_palettex_callback(void) {
 void qst_op_thaw_and_show_equip() {
     void *self = tl_03;
     if (self != NULL) {
-        resume_update__7TObjectFv(self);
+        ((TObject *)self)->resume_update();
     }
 }
 
@@ -2770,7 +2771,7 @@ void qst_op_toggle_freeze_everything(void) {
 void qst_op_unfreeze_enemies() {
     void *temp = tl_04;
     if (temp != 0) {
-        resume_update__7TObjectFv(temp);
+        ((TObject *)temp)->resume_update();
     }
 }
 
@@ -6448,8 +6449,6 @@ void qst_op_gset(u16 arg0);
 namespace pf2_p6 { extern "C" { s32 dispatch_by_main_phase__14TBoss4DarkFalzFUs(s32); } }
 #define dispatch_by_main_phase__14TBoss4DarkFalzFUs pf2_p6::dispatch_by_main_phase__14TBoss4DarkFalzFUs
 void qst_op_thread_stg(u16 arg0);
-extern "C" {
-}
 void qst_op_thread(u16 arg0);
 extern "C" {
 void qst_op_rev(s32 arg0);

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/TItemReverseTechBG.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -27,6 +28,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
 
 struct TItemReverseTechBG_80119658 {
     u8 pad0[0x1C];
@@ -46,11 +48,6 @@ void __ct__7TObjectFP7TObject(void *, void *);
 void *__nw__7TObjectFUl(int);
 
 extern void *__vt__18TItemReverseTechBG[];
-
-}
-
-extern "C" {
-
 
 }
 
@@ -366,7 +363,7 @@ void TItemReverseTech::run_task() {
     temp_r3_3 = (u32)part_two;
     if ((temp_r3_3 != 0U) && (((TObject *)temp_r3_3)->all_parents_unqueued_for_destruction() == 0)) {
         part_two = NULL;
-        queue_destruction__7TObjectFv((this));
+        queue_destruction();
     }
 }
 #pragma opt_common_subs reset
@@ -446,7 +443,7 @@ void TItemReverseTechPart1::run_task() {
         }
         break;
     case 4:
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         break;
     }
 }
@@ -454,7 +451,7 @@ void TItemReverseTechPart1::run_task() {
 }
 
 void TItemReverseTechPart2::destroy_and_flag() {
-    queue_destruction__7TObjectFv(this);
+    queue_destruction();
     if ((void *) TItemReverseTechPart1__instance != NULL) {
         *(s32 *)((s8 *)TItemReverseTechPart1__instance + 0x1C) = 1;
     }
@@ -602,7 +599,7 @@ void run_task__21TItemReverseTechPart2Fv(u8 *object) {
         goto block_26;
     }
     if ((u32) *(u32 *)((s8 *)object + 0x14) == 0U) {
-        queue_destruction__7TObjectFv(object);
+        ((TObject *)object)->queue_destruction();
         return;
     }
 block_26:
@@ -690,7 +687,7 @@ void TItemReverseTechBG::run_task() {
         }
         break;
     case 3:
-        queue_destruction__7TObjectFv(o);
+        ((TObject *)o)->queue_destruction();
         return;
     }
     o->color = (o->alpha << 24) | 0xFFFFFF;

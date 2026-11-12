@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/TObjBigTuitate.h"
 #include "pso/object/TObjTuitate.h"
@@ -17,6 +18,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/TObjTuitate.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/system/task/TObject.h"
 
 struct FadeBase_8019AA18 { char pad[0x14]; };
 
@@ -228,7 +230,7 @@ void *TObjTuitate__ct(void *arg0, void *arg1, void *arg2) {
 #pragma pop
 
 TObjTuitate::~TObjTuitate() {
-    if (*(void **)((s8 *)this + 0xC8) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0xC8)); *(s32 *)((s8 *)this + 0xC8) = 0; }
+    if (*(void **)((s8 *)this + 0xC8) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xC8)))->queue_destruction(); *(s32 *)((s8 *)this + 0xC8) = 0; }
     ((TObjCollidable *)this)->unregister_object_by_id();
     free_collision_body_parts(this);
     __dt__15RenderFadeStateFv((s8 *)this + 0xAC, -1);
@@ -323,7 +325,7 @@ void *TObjBigTuitate__ct(void *arg0, void *arg1, void *arg2) {
 #pragma pop
 
 TObjBigTuitate::~TObjBigTuitate() {
-    if (*(void **)((s8 *)this + 0xC8) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0xC8)); *(s32 *)((s8 *)this + 0xC8) = 0; }
+    if (*(void **)((s8 *)this + 0xC8) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xC8)))->queue_destruction(); *(s32 *)((s8 *)this + 0xC8) = 0; }
     ((TObjCollidable *)this)->unregister_object_by_id();
     free_collision_body_parts(this);
     __dt__15RenderFadeStateFv((s8 *)this + 0xAC, -1);

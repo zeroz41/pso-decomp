@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/RenderFadeState.h"
 #include "pso/system/vector.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -31,6 +32,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -114,7 +116,6 @@ struct Obj_8018CB44 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x62]; u32 f80; s32 f84; }
 struct Pkt_8018CB44 { u16 a; u16 b; s32 c; s32 d; s32 e; };
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 local_client_id;
 
@@ -125,13 +126,13 @@ void TObjContainerJungEnemy::vfunc_6(s16 *arg1, s32 arg2) {
             ((TObjContainerJungEnemy *)arg0)->vfunc_79();
             ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
             ((TObjCollidable *)arg0)->set_flag8();
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
             this->mode = 1;
         }
     } else if ((s16) *arg1 == 1) {
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
         ((TObjCollidable *)arg0)->set_flag8();
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         this->mode = 1;
     }
 }
@@ -431,12 +432,12 @@ void TObjContainerJungEx::vfunc_6(s16 *arg1, s32 arg2) {
             this->vfunc_79();
             ((TUnk_804B6C24 *)arg0)->spawn_item((s32)arg0);
             ((TObjCollidable *)arg0)->set_flag8();
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
             this->mode = 1;
         }
     } else if ((s16) *arg1 == 1) {
         ((TObjCollidable *)arg0)->set_flag8();
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         this->mode = 1;
     }
 }
@@ -629,13 +630,13 @@ void TObjContainerJung::vfunc_6(s16 *arg1, s32 arg2) {
             ((TObjChara *)arg0)->request_box_item_drop((u8 *)&this->position, 1);
             ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
             ((TObjCollidable *)arg0)->set_flag8();
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
             this->mode = 1;
         }
     } else if ((s16) *arg1 == 1) {
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
         ((TObjCollidable *)arg0)->set_flag8();
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         this->mode = 1;
     }
 }

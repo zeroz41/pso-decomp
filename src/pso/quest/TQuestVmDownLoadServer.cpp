@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/TMCFormatSequence.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -11,6 +12,7 @@
 
 
 #include "types.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 s32 wait_confirm_and_finish__17TMCFormatSequenceFPv();
@@ -54,8 +56,6 @@ struct Pair_801F6E08 { s32 a; s32 b; };extern "C" {
 s32 create_window__24TMessageWindowControllerFll(void*, s32, void*);
 s32 get_window_layout_position(s32);
 s32 TAdPlayerLoadGC__sub_801E1B50(s32);
-void allow_rendering__7TObjectFv(TObject *);
-void queue_destruction__7TObjectFv(void *);
 void set_ready__6TSceneFv(void *);
 }
 extern s32 lbl_8044A668[];
@@ -190,7 +190,6 @@ Src_801F718C quest_download_file_info;
 RecoveredGlobal_801F84AC_lbl_80512BDC quest_download_file_header;
 SubtractiveRng TQuestVmDownLoadServer__rng_cipher_state;
 __declspec(section ".data") u32 download_rng_seed_pair[2];
-void disallow_rendering__7TObjectFv(TObject *arg0);
 u32 create__13TAdMcSelectGCFPv(s32);
 s32 TAdPlayerLoadGC__sub_801E0FA4(s32);
 s32 query_memcard_capacity__15TAdPlayerLoadGCFl(s32, int);
@@ -571,7 +570,7 @@ TQuestVmDownLoadServer::~TQuestVmDownLoadServer() {
         m_260 = NULL;
     }
     if (m_29c != NULL) {
-        queue_destruction__7TObjectFv(m_29c);
+        m_29c->queue_destruction();
         m_29c = NULL;
     }
     if (m_290 != NULL) {
@@ -752,7 +751,7 @@ void TQuestVmDownLoadServer::update_mc_select() {
         if ((void *) this->m_29c == NULL) {
             TScene::reset_counter();
             if (lobby_player_construction_window != 0) {
-                disallow_rendering__7TObjectFv((TObject *)((void *)lobby_player_construction_window));
+                ((TObject *)((void *)lobby_player_construction_window))->disallow_rendering();
             }
             *(u32 *)&this->m_29c = create__13TAdMcSelectGCFPv(tl_03);
         }
@@ -794,7 +793,7 @@ void TQuestVmDownLoadServer::open() {
         TScene::reset_counter();
         u32 temp_r3 = lobby_player_construction_window;
         if (temp_r3 != 0U) {
-            disallow_rendering__7TObjectFv((TObject *)((void *)temp_r3));
+            ((TObject *)((void *)temp_r3))->disallow_rendering();
         }
         *(u32 *)&this->m_29c = create__13TAdMcSelectGCFPv(tl_03);
     }
@@ -1156,10 +1155,10 @@ void TQuestVmDownLoadServer::close_download() {
 void TQuestVmDownLoadServer::destroy() {
     set_ready__6TSceneFv(this);
     if (lobby_player_construction_window != 0) {
-        allow_rendering__7TObjectFv((TObject *)((void *)lobby_player_construction_window));
+        ((TObject *)((void *)lobby_player_construction_window))->allow_rendering();
     }
     TQuestVmDownLoadServer::free_buffers();
-    queue_destruction__7TObjectFv(this);
+    queue_destruction();
 }
 void TQuestVmDownLoadServer::close() {
     if ((u32) this->m_260 != 0U) {

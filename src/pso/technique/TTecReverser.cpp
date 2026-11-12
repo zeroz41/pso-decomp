@@ -1,6 +1,8 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TTecReverser.h"
 #include "pso/unk/TUnk_804CCC28.h"
+#include "pso/system/task/TObject.h"
 extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/system/vector.h"
 #include "pso/effect/TUnk_804CC148.h"
@@ -45,7 +47,6 @@ struct Rev_8023A364 {
 struct List_8023A244 { u32 objs[16]; s32 vals[16]; s32 count; };
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 void *find_entity_by_id(u16 id);
 s32 is_active__12TTecReverserFv();
 void run_task__12TTecReverserFv(u8 *arg0);
@@ -82,20 +83,6 @@ void __dt__7TObjectFv(void *, int);
 void *__nw__7TObjectFUl(int);
 
 }
-extern "C" {
-
-
-
-
-
-
-}
-extern "C" {
-
-
-
-
-}
 
 void TUnk_804CCC68::debug_print_tech_params() {
     Rev_8023A364 *self = (Rev_8023A364 *)this;
@@ -111,7 +98,7 @@ void TUnk_804CCC68::dispatch_all_technique_contacts() {
     List_8023A244 *list;
     s32 i;
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x128) == 0U) {
-        queue_destruction__7TObjectFv((this));
+        queue_destruction();
         return;
     }
     if ((u16) get_entity_id((int) (*(s32 *)((s8 *)((u8 *)this) + 0x1C))) < 4U) {
@@ -125,7 +112,7 @@ void TUnk_804CCC68::dispatch_all_technique_contacts() {
     }
     if (list == NULL) {
         this->vfunc_6();
-        queue_destruction__7TObjectFv((this));
+        queue_destruction();
         return;
     }
     for (i = 0; i < list->count; i++) {
@@ -142,7 +129,7 @@ void TUnk_804CCC68::dispatch_all_technique_contacts() {
 void TUnk_804CCC68::dispatch_technique_contact() {
     u8 *var_r31;
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x128) == 0U) {
-        queue_destruction__7TObjectFv((this));
+        queue_destruction();
         return;
     }
     if ((u16) get_entity_id((int) (*(s32 *)((s8 *)((u8 *)this) + 0x1C))) < 4U) {
@@ -156,7 +143,7 @@ void TUnk_804CCC68::dispatch_technique_contact() {
     }
     if (var_r31 == NULL) {
         this->vfunc_6();
-        queue_destruction__7TObjectFv((this));
+        queue_destruction();
         return;
     }
     if (TObjPlayer::is_valid_and_active((int) (*(u32 *)((s8 *)var_r31 + 0))) != 0) {
@@ -201,18 +188,18 @@ void run_task__12TTecReverserFv(u8 *tec_reverser) {
     u32 entity;
     ((TTecReverser *)tec_reverser)->source = (u32)find_entity_by_id((((TTecReverser *)tec_reverser)->m_b4));
     if ((u32) ((TTecReverser *)tec_reverser)->source == 0U) {
-        queue_destruction__7TObjectFv((tec_reverser));
+        ((TObject *)tec_reverser)->queue_destruction();
         return;
     }
     if ((s32) ((TTecReverser *)tec_reverser)->m_ec == 0) {
-        queue_destruction__7TObjectFv((tec_reverser));
+        ((TObject *)tec_reverser)->queue_destruction();
         return;
     }
     entity = (u32)find_entity_by_id((((TTecReverser *)tec_reverser)->m_f0));
     if ((is_active__12TTecReverserFv() == 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
         ((TTecReverser *)(tec_reverser))->vfunc_6((void *)entity);
     }
-    queue_destruction__7TObjectFv((tec_reverser));
+    ((TObject *)tec_reverser)->queue_destruction();
 }
 
 void TTecReverser::render() {  }
@@ -243,7 +230,7 @@ void TUnk_804CCC28::run_task() {
         spawn_particle_effect((u8 *)&this->unk_2C, 0x38);
     }
     if ((s32) this->m_28 > 0xC8) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 

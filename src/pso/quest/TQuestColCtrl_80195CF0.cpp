@@ -1,6 +1,8 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/quest/TQuestColCtrl.h"
+#include "pso/system/task/TObject.h"
 
 struct Obj_80195CF0 { u8 pad0[6]; u16 f6; u8 pad8[4]; Obj_80195CF0 *next; u8 pad10[4]; Obj_80195CF0 *child; };
 
@@ -60,7 +62,7 @@ void TQuestColCtrl::delete_by_param(s32 arg0) {
              || check_value_equals__13TUnk_804B6C24Fl(cur, TObjQuestColApcIN__name) != 0
              || check_value_equals__13TUnk_804B6C24Fl(cur, TObjQuestColApcINW__name) != 0)
             && cur->f6 == arg0) {
-            queue_destruction__7TObjectFv(cur);
+            ((TObject *)cur)->queue_destruction();
             return;
         }
     }

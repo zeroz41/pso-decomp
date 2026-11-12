@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
 #include "pso/unk/TLobby.h"
@@ -6,6 +7,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/charcreate/TChCrEffWall.h"
 #include "pso/ui/charcreate/TChCrEffTag.h"
+#include "pso/system/task/TObject.h"
 
 u8 is_selection_done__23TAdSinglePlyChrSelectGCFPv(void *arg0) {
     return (u8) (*(s32 *)((s8 *)arg0 + 0x2C) == 2);
@@ -123,7 +125,6 @@ s32 TChCrEffCtrlPl__sub_80298F6C(void);
 s32 create__14TChCrEffCtrlPlFv(s32);
 extern RecoveredGlobal_8028D940_lbl_8051C070 lbl_8051C070;
 extern s32 tl_03;
-void queue_destruction__7TObjectFv(void *arg0);
 }
 typedef char RecoveredGlobal_8028D940_lbl_8051C070_size[sizeof(RecoveredGlobal_8028D940_lbl_8051C070) == 0xC ? 1 : -1];
 
@@ -137,10 +138,10 @@ void alloc_quest_download_buffer(void) {
 
 void fn_8028D8F4(void) {
     if ((u32) *(u32 *)((s8 *)(&(*(RecoveredGlobal_8028D8F4_lbl_8051C070 *)&lbl_8051C070).value) + 0) != 0U) {
-        queue_destruction__7TObjectFv((void *)(*(u32 *)((s8 *)(&(*(RecoveredGlobal_8028D8F4_lbl_8051C070 *)&lbl_8051C070).value) + 0)));
+        ((TObject *)((void *)(*(u32 *)((s8 *)(&(*(RecoveredGlobal_8028D8F4_lbl_8051C070 *)&lbl_8051C070).value) + 0))))->queue_destruction();
     }
     if ((u32) *(u32 *)((s8 *)(&(*(RecoveredGlobal_8028D8F4_lbl_8051C070 *)&lbl_8051C070).value) + 4) != 0U) {
-        queue_destruction__7TObjectFv((void *)(*(u32 *)((s8 *)(&(*(RecoveredGlobal_8028D8F4_lbl_8051C070 *)&lbl_8051C070).value) + 4)));
+        ((TObject *)((void *)(*(u32 *)((s8 *)(&(*(RecoveredGlobal_8028D8F4_lbl_8051C070 *)&lbl_8051C070).value) + 4))))->queue_destruction();
     }
 }
 

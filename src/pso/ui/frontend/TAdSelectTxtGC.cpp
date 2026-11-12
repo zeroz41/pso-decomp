@@ -1,9 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/system/task/TObject.h"
 
 struct O_802A15BC {
     u8 a[0x10];
@@ -105,7 +107,7 @@ void TAdSelectTxtGC::reset_slots(void *arg1, void *arg2) {
     s32 i;
     for (i = 0; i < 7; i++) {
         if (((Sel_802A16CC *)this)->slots[i] != 0) {
-            queue_destruction__7TObjectFv(((Sel_802A16CC *)this)->slots[i]);
+            ((TObject *)(((Sel_802A16CC *)this)->slots[i]))->queue_destruction();
             ((Sel_802A16CC *)this)->slots[i] = 0;
         }
     }

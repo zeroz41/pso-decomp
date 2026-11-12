@@ -1,6 +1,8 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 #pragma push
 
 #include "types.h"
@@ -659,7 +661,6 @@ s32 check_room_seq_4__16TAdChrSelASlotGCFl(void *, int);
 s32 create_single_entry_window__17TWindowSubComCardFv(void);
 s32 TWindowSubComCard__sub_8027353C(void);
 s32 TWindowSubComCard__sub_8027346C(void);
-void queue_destruction__7TObjectFv(void *arg0);
 s32 TWindowSubComCard__sub_800778B4(void *, int);
 void TWindowSubComCard__sub_8007AF10(s32 arg0);
 s32 update_press__17TWindowSubComCardFv(int);
@@ -858,7 +859,7 @@ void run_task__17TWindowSubComCardFv(TWindowSubComCard *window_sub_com_card) {
     case 0x1:
         window_sub_com_card->send_state_if_dirty();
         if ((u32) window_sub_com_card->m_80 != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)window_sub_com_card + 0x80));
+            ((TObject *)(*(void **)((s8 *)window_sub_com_card + 0x80)))->queue_destruction();
             window_sub_com_card->m_80 = 0U;
         }
         if ((u32) window_sub_com_card->m_7c != 0U) {
@@ -1785,7 +1786,7 @@ void *__dt__17TWindowSubComCardFv(TWindowSubComCard *arg0, s16 arg1) {
             arg0->m_84 = 0U;
         }
         if ((u32) arg0->m_80 != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x80));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x80)))->queue_destruction();
             arg0->m_80 = 0U;
         }
         if ((u32) arg0->m_68 != 0U) {

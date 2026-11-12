@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/TItem.h"
 #include "pso/ui/window/TWindowHelpItem_8025A60C.h"
@@ -22,6 +23,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 #pragma defer_codegen on
@@ -231,7 +233,7 @@ void TWindowLockOn::bind_target(u16 id) {
     TObjCollidable *actor;
 
     if (id == 0xFFFF) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     actor = find_entity_by_id(id);

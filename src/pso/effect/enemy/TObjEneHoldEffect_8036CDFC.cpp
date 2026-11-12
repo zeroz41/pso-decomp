@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/effect/enemy/TObjEneHoldEffect_8036CDFC.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -6,6 +7,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/task/TObject.h"
 struct Vec_8036CF30 { f32 x, y, z; };
 
 struct Hold_8036CF30 {
@@ -69,7 +71,7 @@ void run_task__17TObjEneHoldEffectFv(Hold_8036CE20 *o) {
         }
     }
     if (o->x9c-- < 0) {
-        queue_destruction__7TObjectFv(o);
+        ((TObject *)o)->queue_destruction();
     }
 }
 #pragma pop

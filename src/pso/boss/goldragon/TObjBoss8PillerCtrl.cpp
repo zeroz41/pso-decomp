@@ -1,8 +1,10 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/memory.h"
 #include "pso/system/vector.h"
 #include "pso/boss/goldragon/TObjBoss8PillerCtrl.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_8035C22C___vt__19TObjBoss8PillerCtrl {
     s32 value;
@@ -81,7 +83,7 @@ void run_task__19TObjBoss8PillerCtrlFv(Self_8035C03C *self) {
         break;
     }
     if (self->f28++ > 0x32) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
     }
 }
 

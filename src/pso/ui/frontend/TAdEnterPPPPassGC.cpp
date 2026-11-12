@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdEnterPPPPassGC.h"
@@ -10,6 +11,7 @@
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestThread.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_80339480_lbl_804EF500 {
     s32 value;
@@ -37,7 +39,6 @@ typedef void (TAdEnterPPPPassGC_80339378::*Pmf_80339378)();
 struct T_8033954C { const char *f0; u8 pad[0x14]; void *vt; u8 pad2[0x40 - 0x1C]; s32 f40; };
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *);
 extern u8 *password_entry_keyboard_control;
 extern s32 password_entry_dispatch_state;
 extern const f32 lbl_805DF9E8;
@@ -88,7 +89,7 @@ void close_windows_and_advance__17TAdEnterPPPPassGCFPv(u8 *arg0) {
         *(u8 **)((s8 *)arg0 + 0x34) = NULL;
     }
     if ((void *) password_entry_keyboard_control != NULL) {
-        queue_destruction__7TObjectFv(password_entry_keyboard_control);
+        ((TObject *)password_entry_keyboard_control)->queue_destruction();
         password_entry_keyboard_control = NULL;
     }
     temp_r4 = *(s32 *)((s8 *)arg0 + 0x24) + 1;
@@ -229,7 +230,7 @@ T_8033954C *TAdEnterPPPPassGC__ct(T_8033954C *ad_enter_base_gc) {
         TLobby::init_account_entries();
     } else {
         TKeyBoardControl__sub_8000F9CC(0x13);
-        queue_destruction__7TObjectFv(ad_enter_base_gc);
+        ((TObject *)ad_enter_base_gc)->queue_destruction();
         return ad_enter_base_gc;
     }
     ok = 0;
@@ -246,7 +247,7 @@ T_8033954C *TAdEnterPPPPassGC__ct(T_8033954C *ad_enter_base_gc) {
     }
     if (ok != 0) {
         ((int (*)(void))reset_mode_state__21TAdMultiChgGameModeGCFv)();
-        queue_destruction__7TObjectFv(ad_enter_base_gc);
+        ((TObject *)ad_enter_base_gc)->queue_destruction();
         return ad_enter_base_gc;
     }
     ((TAdEnterBaseGC *)ad_enter_base_gc)->create_parts();

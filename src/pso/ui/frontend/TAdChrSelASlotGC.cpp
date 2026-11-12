@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
@@ -18,6 +19,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/quest/TQuestThread.h"
+#include "pso/system/task/TObject.h"
 
 static const ChrSelPlateLayout chr_sel_a_slot_plate_layout = { 180.0f, 38.0f, { 0xDD, 0x90, 0x48, 0x00 }, 0 };
 // Plate positions of the four entries (slot kind 0)
@@ -566,11 +568,11 @@ void TAdChrSelASlotGC::sub_8030D5DC() {
         TAdSubPlyItemGC__sub_802D6D88(*(s32 *)((s8 *)this + 0x40));
         ((TAdChrSelMovePlateGC *)(*(s32 *)((s8 *)this + 0x44)))->clear_entries();
         if ((u32) *(u32 *)((s8 *)this + 0x4C) != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x4C));
+            ((TObject *)(*(void **)((s8 *)this + 0x4C)))->queue_destruction();
             *(u32 *)((s8 *)this + 0x4C) = 0U;
         }
         if ((u32) *(u32 *)((s8 *)this + 0x50) != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x50));
+            ((TObject *)(*(void **)((s8 *)this + 0x50)))->queue_destruction();
             *(u32 *)((s8 *)this + 0x50) = 0U;
         }
         break;
@@ -600,15 +602,15 @@ void TAdChrSelASlotGC::close_windows() {
 
     ((TAdChrSelSlotGC *)(*(s32 *)&this->_pad2C))->reset_all_slots();
     if ((u32) this->m_48 != 0U) {
-        queue_destruction__7TObjectFv(*(void * *)&this->m_48);
+        ((TObject *)(*(void * *)&this->m_48))->queue_destruction();
         this->m_48 = 0U;
     }
     if ((u32) *(u32 *)&this->unk_4C != 0U) {
-        queue_destruction__7TObjectFv(*(void * *)&this->unk_4C);
+        ((TObject *)(*(void * *)&this->unk_4C))->queue_destruction();
         *(u32 *)&this->unk_4C = 0U;
     }
     if ((u32) this->m_50 != 0U) {
-        queue_destruction__7TObjectFv(*(void * *)&this->m_50);
+        ((TObject *)(*(void * *)&this->m_50))->queue_destruction();
         this->m_50 = 0U;
     }
     if ((u32) *(u32 *)&this->unk_54 != 0U) {
@@ -834,47 +836,47 @@ void TAdChrSelASlotGC::init(s32 arg1) {
 }
 TAdChrSelASlotGC::~TAdChrSelASlotGC() {
     if ((u32) *(u32 *)((s8 *)this + 0x54) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x54));
+        ((TObject *)(*(void **)((s8 *)this + 0x54)))->queue_destruction();
         *(u32 *)((s8 *)this + 0x54) = 0U;
     }
     if ((u32) this->m_58 != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x58));
+        ((TObject *)(*(void **)((s8 *)this + 0x58)))->queue_destruction();
         this->m_58 = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x5C) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x5C));
+        ((TObject *)(*(void **)((s8 *)this + 0x5C)))->queue_destruction();
         *(u32 *)((s8 *)this + 0x5C) = 0U;
     }
     if ((u32) this->m_60 != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x60));
+        ((TObject *)(*(void **)((s8 *)this + 0x60)))->queue_destruction();
         this->m_60 = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x64) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x64));
+        ((TObject *)(*(void **)((s8 *)this + 0x64)))->queue_destruction();
         *(u32 *)((s8 *)this + 0x64) = 0U;
     }
     if ((u32) this->m_68 != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x68));
+        ((TObject *)(*(void **)((s8 *)this + 0x68)))->queue_destruction();
         this->m_68 = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x6C) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x6C));
+        ((TObject *)(*(void **)((s8 *)this + 0x6C)))->queue_destruction();
         *(u32 *)((s8 *)this + 0x6C) = 0U;
     }
     if ((u32) this->m_70 != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x70));
+        ((TObject *)(*(void **)((s8 *)this + 0x70)))->queue_destruction();
         this->m_70 = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x74) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x74));
+        ((TObject *)(*(void **)((s8 *)this + 0x74)))->queue_destruction();
         *(u32 *)((s8 *)this + 0x74) = 0U;
     }
     if ((u32) this->m_78 != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x78));
+        ((TObject *)(*(void **)((s8 *)this + 0x78)))->queue_destruction();
         this->m_78 = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x7C) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x7C));
+        ((TObject *)(*(void **)((s8 *)this + 0x7C)))->queue_destruction();
         *(u32 *)((s8 *)this + 0x7C) = 0U;
     }
     if ((u32) TAdChrSel__global_slot_data != 0U) {

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
@@ -18,6 +19,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/system/task/TObject.h"
 
 struct Ent_8033CB4C
 {
@@ -148,7 +150,7 @@ void run_task__25TBoss6Demo10_TYPE1_APPEARFv(TBoss6Demo10_TYPE1_APPEAR *boss6_de
     }
     boss6_demo10_type1_appear->m_38 = (boss6_demo10_type1_appear->m_38 + 1);
     if (((s32) boss6_demo10_type1_appear->m_38 >= 0x1F4) || (((TObjFish *)(*(s32 *)((s8 *)boss6_demo10_type1_appear + 0x3C)))->get_phase() != 1)) {
-        queue_destruction__7TObjectFv((boss6_demo10_type1_appear));
+        boss6_demo10_type1_appear->queue_destruction();
     }
 }
 #pragma pop

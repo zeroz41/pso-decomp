@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/door/TODoorJungleMain.h"
 #include "pso/object/base/TObjMotion.h"
@@ -17,6 +18,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/system/task/TObject.h"
 
 struct Vec_8029B640 { s32 x, y, z; };
 struct Ids_8029B428 {
@@ -53,7 +55,6 @@ extern "C" {
 s32 update_object_view_visibility__16TODoorJungleMainFff(s32 arg0, f32 farg0, f32 farg1);
 f32 xz_distance_squared(s32, s32);
 s32 update_object_view_visibility__8TObjBaseFff(s32, f32, f32);
-void queue_destruction__7TObjectFv(void *arg0);
 
 extern s32 camera_ctrl_instance;
 
@@ -72,7 +73,7 @@ void TODoorJungleMain::vfunc_6(s16 *arg1, s32 arg2) {
             *(f32 *)&this->animation_end_frame = (f32) (*(u32 *)((s8 *)(*(void * *)&this->motion) + 4) - 1);
             set_indexed_flags(0, 8);
             if ((u32) this->m_dc != 0U) {
-                queue_destruction__7TObjectFv(*(void * *)&this->m_dc);
+                ((TObject *)(*(void * *)&this->m_dc))->queue_destruction();
                 this->m_dc = 0U;
             }
         }
@@ -339,7 +340,7 @@ void TODoorJungleMain::run_task() {
             t < (f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1)) {
             ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
             if (*(void * *)&this->m_dc != NULL) {
-                queue_destruction__7TObjectFv(*(void * *)&this->m_dc);
+                ((TObject *)(*(void * *)&this->m_dc))->queue_destruction();
                 *(void * *)&this->m_dc = NULL;
             }
         } else {
@@ -372,7 +373,7 @@ void TODoorJungleMain::run_task() {
 }
 }
 TODoorJungleMain::~TODoorJungleMain() {
-    if (*(void **)((s8 *)this + 0xDC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0xDC)); this->m_dc = 0; }
+    if (*(void **)((s8 *)this + 0xDC) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xDC)))->queue_destruction(); this->m_dc = 0; }
     ((TObjCollidable *)this)->unregister_object_by_id();
     free_collision_body_parts(this);
 }

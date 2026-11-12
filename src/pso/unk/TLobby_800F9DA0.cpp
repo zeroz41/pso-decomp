@@ -7,6 +7,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 

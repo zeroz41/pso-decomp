@@ -1,9 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
 static const f32 TContainerAncient01__data_805DBD10[1] = {1.0f};
 static const f32 TContainerAncient01__data_805DBD14[1] = {0.0f};
 #include "types.h"
@@ -201,11 +203,9 @@ s32 TObjFish__sub_8001EDB0(int, int);
 void init_collision_body_parts(void *, void *, int);
 extern s32 TContainerAncient01R__name;
 
-void queue_destruction__7TObjectFv(void *);
 u32 get_bml_motion(int, int);
 s32 get_bml_model(int, int);
 s32 submit_cursor_candidate(void *, int, f32);
-s32 run_task__7TObjectFv(void *);
 extern s32 TContainerAncient01R__bml_resource;
 
 void run_task__20TContainerAncient01RFv(u8 *arg0);
@@ -622,7 +622,7 @@ void TContainerAncient01R::run_task() {
             if (temp_f1_2 <= 0.2f) {
                 *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (*(f32 *)((s8 *)arg0 + 0x3C) - 0.025f);
                 if (*(f32 *)((s8 *)arg0 + 0x3C) <= ((-1e+01f) * this->m_368)) {
-                    queue_destruction__7TObjectFv(arg0);
+                    ((TObject *)arg0)->TObject::queue_destruction();
                 }
             } else {
                 this->m_368 = (f32) (temp_f1_2 - 0.025f);
@@ -635,7 +635,7 @@ void TContainerAncient01R::run_task() {
     if ((u32) this->current_motion == get_bml_motion(TContainerAncient01R__bml_resource, 1)) {
         *(s32 *)&this->model = get_bml_model(TContainerAncient01R__bml_resource, 1);
     }
-    run_task__7TObjectFv(arg0);
+    ((TObject *)arg0)->TObject::run_task();
 }
 
 extern void *tl_05;
@@ -898,7 +898,6 @@ extern "C" {
 u32 get_bml_motion(int, int);
 s32 get_bml_model(int, int);
 s32 submit_cursor_candidate(void *, int, f32);
-s32 run_task__7TObjectFv(void *);
 extern s32 TContainerAncient01__bml_resource;
 
 
@@ -988,7 +987,7 @@ void TContainerAncient01::run_task() {
             if (temp_f1_2 <= 0.2f) {
                 *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (*(f32 *)((s8 *)arg0 + 0x3C) - 0.025f);
                 if (*(f32 *)((s8 *)arg0 + 0x3C) <= ((-1e+01f) * *(f32 *)&this->unk_364)) {
-                    queue_destruction__7TObjectFv(arg0);
+                    ((TObject *)arg0)->TObject::queue_destruction();
                 }
             } else {
                 *(f32 *)&this->unk_364 = (f32) (temp_f1_2 - 0.025f);
@@ -1001,7 +1000,7 @@ void TContainerAncient01::run_task() {
     if ((u32) this->current_motion == get_bml_motion(TContainerAncient01__bml_resource, 1)) {
         *(s32 *)&this->model = get_bml_model(TContainerAncient01__bml_resource, 1);
     }
-    run_task__7TObjectFv(arg0);
+    ((TObject *)arg0)->TObject::run_task();
 }
 
 }

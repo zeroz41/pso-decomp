@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/gee/TObjEneMe1Gee_NEEDLE.h"
 #include "pso/enemy/TNeedleShoot_802A4754.h"
@@ -12,6 +13,7 @@
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/system/task/TObject.h"
 
 struct VBase_18_174c10 { char pad[0x18]; };
 
@@ -55,7 +57,7 @@ int TObjEneMe1Gee_NEEDLE::queue_destruction() {
     temp_r0 = this->m_c0 - 1;
     this->m_c0 = temp_r0;
     if (temp_r0 <= 0) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 
@@ -79,7 +81,7 @@ void TObjEneMe1Gee_NEEDLE::vfunc_9(void *arg1_arg) {
     t.b = *(f32 *)(arg0 + 0xBC);
     Pair_802A4AEC u = t;
     arg1->m21(*(s32 *)(arg0 + 0x1C), &u, *(s32 *)(arg0 + 0x38), -1, -1);
-    queue_destruction__7TObjectFv((arg0));
+    ((TObject *)arg0)->queue_destruction();
 }
 
 }
@@ -121,7 +123,7 @@ s32 push_matrix();
 void TObjEneMe1Gee_NEEDLE::render() {
     u8 *arg0 = (u8 *)this;
     if ((u32) me1gee_cached_model_handle == 0U) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     push_matrix();
@@ -139,7 +141,7 @@ void TObjEneMe1Gee_NEEDLE::render() {
 void TObjEneMe1Gee_NEEDLE::run_task() {
     this->m_1c = (u32)find_entity_by_id(this->m_34);
     if ((u32) this->m_1c == 0U) {
-        queue_destruction__7TObjectFv((this));
+        TObject::queue_destruction();
         return;
     }
     if ((s32) this->m_b8 == 1) {

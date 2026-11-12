@@ -8,6 +8,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 void begin_screen_draw(s32 arg0);

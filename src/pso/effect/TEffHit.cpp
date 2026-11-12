@@ -1,7 +1,9 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffHit.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/vector.h"
+#include "pso/system/task/TObject.h"
 #pragma readonly_strings on
 const char* TEffHit__class_name = "TEffHit";
 
@@ -29,7 +31,7 @@ void TEffHit::run_task() {
     case 1:
         age++;
         if (age > 60) {
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
         }
         return;
     }

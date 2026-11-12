@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -22,6 +23,7 @@
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8027FD88.h"
 #include "pso/ui/window/TWindowAddition.h"
+#include "pso/system/task/TObject.h"
 
 class TChCrTagPlBack;
 
@@ -331,7 +333,6 @@ struct ShortMail_8027EF98 {
 
 extern "C" {
 s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
-void queue_destruction__7TObjectFv(void *arg0);
 void *send_cmd_133__17TWindowSubComCardFv(void);
 void *send_command__17TWindowSubComCardFi(s32);
 void update_display_value__17TWindowSubComCardFUiUiPv(u32 arg0, u32 arg1, s32 *arg2);
@@ -376,7 +377,7 @@ void TWindowSubShortMail::run_task() {
         if (o->w48 != NULL) { ((TWindowBase *)o->w48)->close(); o->w48 = NULL; }
         if (o->w44 != NULL) { ((TWindowBase *)o->w44)->close(); o->w44 = NULL; }
         if (o->w50 != NULL) { ((TWindowSubComCard *)(o->w50))->close(); o->w50 = NULL; }
-        if (o->w5c != NULL) { queue_destruction__7TObjectFv(o->w5c); o->w5c = NULL; }
+        if (o->w5c != NULL) { ((TObject *)o->w5c)->queue_destruction(); o->w5c = NULL; }
         if (o->w38 != NULL) { ((TWindowBase *)o->w38)->close(); o->w38 = NULL; }
         if (o->w58 != NULL) { ((TWindowBase *)o->w58)->close(); o->w58 = NULL; }
         if (o->w54 != NULL) { ((TWindowBase *)o->w54)->close(); o->w54 = NULL; }
@@ -420,7 +421,7 @@ void TWindowSubShortMail::run_task() {
         break;
     case 7:
         if (o->w50 != NULL) { ((TWindowSubComCard *)(o->w50))->close(); o->w50 = NULL; }
-        if (o->w5c != NULL) { queue_destruction__7TObjectFv(o->w5c); o->w5c = NULL; }
+        if (o->w5c != NULL) { ((TObject *)o->w5c)->queue_destruction(); o->w5c = NULL; }
         if (o->w44 != NULL) { ((TWindowBase *)o->w44)->close(); o->w44 = NULL; }
         if (o->w38 == NULL) {
             o->w38 = ((void * (*)(void *)) create_list_item__19TWindowSubShortMailFv)(o);
@@ -623,7 +624,7 @@ void *__dt__19TWindowSubShortMailFv(TWindowSubShortMail *arg0, s16 arg1) {
             arg0->m_50 = 0U;
         }
         if ((u32) arg0->m_5c != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x5C));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x5C)))->queue_destruction();
             arg0->m_5c = 0U;
         }
         if ((u32) arg0->m_4c != 0U) {

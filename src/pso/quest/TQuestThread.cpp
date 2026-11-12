@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -41,6 +42,7 @@
 #include "pso/unk/text_80131ADC.h"
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -266,7 +268,7 @@ void *TObjItemNameEntry::create(void *parent) {
 
 TObjItemNameEntry::~TObjItemNameEntry() {
     if (m_20 != nullptr) { ((TWindowBase *)m_20)->close(); m_20 = nullptr; }
-    if (m_1c != nullptr) { queue_destruction__7TObjectFv(m_1c); m_1c = nullptr; }
+    if (m_1c != nullptr) { ((TObject *)m_1c)->queue_destruction(); m_1c = nullptr; }
 }
 
 TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
@@ -311,7 +313,7 @@ void TQuestThreadBoard::run_task() {
         state = ctx.dispatch();
         break;
     case QST_SUSPEND_RETURN:
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         break;
     case QST_SUSPEND_EXIT:
         TQuestThread::queue_destruction(parent);
@@ -339,7 +341,7 @@ void TQuestThreadBoard::run_task() {
             TWindowCtrl::clear_flag();
             TWindowCtrl::clear_flag_2();
             TLobby::close_windows();
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
         }
         break;
     case QST_SUSPEND_6:
@@ -367,7 +369,7 @@ void TQuestThreadBoard::run_task() {
             TWindowCtrl::clear_flag();
             TWindowCtrl::clear_flag_2();
             TLobby::close_windows();
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
         }
         break;
     case QST_WAIT_FADE:
@@ -377,7 +379,7 @@ void TQuestThreadBoard::run_task() {
         break;
     case QST_WAIT_ITEM_NAME_ENTRY:
         if (((TObjItemNameEntry *)ctx.item_name_entry)->process_keyboard_input() != 0) {
-            queue_destruction__7TObjectFv(ctx.item_name_entry);
+            ((TObject *)ctx.item_name_entry)->queue_destruction();
             ctx.item_name_entry = NULL;
             state = QST_RUNNING;
         }
@@ -386,7 +388,7 @@ void TQuestThreadBoard::run_task() {
         s32 selection = ((TObjItemNameSelect *)ctx.item_name_select)->get_result();
         if (selection >= 0) {
             TObjItemNameSelect::set_selection_index(selection);
-            queue_destruction__7TObjectFv(ctx.item_name_select);
+            ((TObject *)ctx.item_name_select)->queue_destruction();
             ctx.item_name_select = NULL;
             state = QST_RUNNING;
         }
@@ -395,7 +397,7 @@ void TQuestThreadBoard::run_task() {
     case QST_WAIT_ITEM_OK:
         if (((TObjItemOKWindow *)ctx.item_ok_window)->is_done() != 0) {
             ctx.registers[ctx.result_register] = ((TObjItemOKWindow *)ctx.item_ok_window)->get_result();
-            queue_destruction__7TObjectFv(ctx.item_ok_window);
+            ((TObject *)ctx.item_ok_window)->queue_destruction();
             ctx.item_ok_window = NULL;
             state = QST_RUNNING;
         }
@@ -485,7 +487,7 @@ void TQuestThread::destroy_all_in(TObject *parent) {
         TObject *cur = child;
         child = child->m_next;
         if (((TUnk_804B6C24 *)cur)->check_value_equals((s32)TQuestThread__class_name) != 0) {
-            queue_destruction__7TObjectFv(cur);
+            cur->queue_destruction();
         } else {
             destroy_all_in(cur);
         }
@@ -501,7 +503,7 @@ void TQuestThread::run_task() {
         state = ctx.dispatch();
         break;
     case QST_SUSPEND_RETURN:
-        queue_destruction__7TObjectFv(this);
+        ((TObject *)this)->queue_destruction();
         break;
     case QST_SUSPEND_EXIT:
         queue_destruction(parent);
@@ -527,7 +529,7 @@ void TQuestThread::run_task() {
             }
             if (TWindowShortListCtrl__check_controller_button(pad, 8) != 0) {
                 TLobby::close_windows();
-                queue_destruction__7TObjectFv(this);
+                ((TObject *)this)->queue_destruction();
             }
         }
         break;
@@ -549,7 +551,7 @@ void TQuestThread::run_task() {
         break;
     case QST_WAIT_ITEM_NAME_ENTRY:
         if (((TObjItemNameEntry *)ctx.item_name_entry)->process_keyboard_input() != 0) {
-            queue_destruction__7TObjectFv(ctx.item_name_entry);
+            ((TObject *)ctx.item_name_entry)->queue_destruction();
             ctx.item_name_entry = NULL;
             state = QST_RUNNING;
         }
@@ -558,7 +560,7 @@ void TQuestThread::run_task() {
         s32 selection = ((TObjItemNameSelect *)ctx.item_name_select)->get_result();
         if (selection >= 0) {
             TObjItemNameSelect::set_selection_index(selection);
-            queue_destruction__7TObjectFv(ctx.item_name_select);
+            ((TObject *)ctx.item_name_select)->queue_destruction();
             ctx.item_name_select = NULL;
             state = QST_RUNNING;
         }
@@ -567,7 +569,7 @@ void TQuestThread::run_task() {
     case QST_WAIT_ITEM_OK:
         if (((TObjItemOKWindow *)ctx.item_ok_window)->is_done() != 0) {
             ctx.registers[ctx.result_register] = ((TObjItemOKWindow *)ctx.item_ok_window)->get_result();
-            queue_destruction__7TObjectFv(ctx.item_ok_window);
+            ((TObject *)ctx.item_ok_window)->queue_destruction();
             ctx.item_ok_window = NULL;
             state = QST_RUNNING;
         }
@@ -635,7 +637,7 @@ TQuestThread::TQuestThread(TObject *root, s32 label) : TObject(root) {
     ctx.pc = ctx.function_table[label];
     state = QST_RUNNING;
     if (ctx.pc == -1) {
-        queue_destruction__7TObjectFv(this);
+        ((TObject *)this)->queue_destruction();
     }
 }
 
@@ -723,7 +725,7 @@ TUnk_804C8678::~TUnk_804C8678() {
 
 void TQuestThread::destroy_quest_obj() {
     if (quest_area_manager != NULL) {
-        queue_destruction__7TObjectFv(quest_area_manager);
+        quest_area_manager->queue_destruction();
         quest_area_manager = NULL;
     }
 }
@@ -774,7 +776,7 @@ TUnk_804C8678 *TQuestThread::create_by_mode() {
 TUnk_804C8678::TUnk_804C8678(TObject *parent, void *data, s32 size) : TObject(parent) {
     s32 alloc_size;
     if (size < 0) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     } else {
         alloc_size = size + 0x400;
         script = (s32)TQuestVmDownLoadServer::alloc(alloc_size);
@@ -795,7 +797,7 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : 
         copy_name((s32)"QUEST");
         size = ((TScene *)filename)->update_lobby_scene();
         if (size < 0) {
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
         } else {
             script = (s32)TQuestVmDownLoadServer::alloc(size + 0x400);
             read_disc_file((void *)filename, script);
@@ -809,7 +811,7 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : 
     case 1:
         size = ((TScene *)filename)->update_lobby_scene();
         if (size < 0) {
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
         } else {
             script = (s32)TQuestVmDownLoadServer::alloc(size + 0x400);
             read_disc_file((void *)filename, script);
@@ -818,7 +820,7 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : 
         }
         break;
     default:
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         break;
     }
 }
@@ -828,7 +830,7 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename) : TObject(pa
     copy_name((s32)"QUEST");
     size = ((TScene *)filename)->update_lobby_scene();
     if (size < 0) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     } else {
         script = (s32)TQuestVmDownLoadServer::alloc(size + 0x400);
         read_disc_file((void *)filename, script);
@@ -844,7 +846,7 @@ void TQuestThread::set_status_flag_80(void *window) { *(u16 *)((u8 *)window + 0x
 
 void TObjItemNameSelect::set_selection_index(int index) { item_name_selection_index = index; }
 
-void TQuestThread::queue_destruction(void *obj) { queue_destruction__7TObjectFv(obj); }
+void TQuestThread::queue_destruction(void *obj) { ((TObject *)obj)->queue_destruction(); }
 
 void free_menu_object(void *window) {
     void *menu = *(void **)((u8 *)window + 0x20);

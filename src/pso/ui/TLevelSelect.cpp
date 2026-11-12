@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -9,6 +10,7 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
 
 struct Self_80133068 { u8 pad[0x20]; s32 f20; s32 f24; };
 
@@ -89,7 +91,7 @@ void TLevelSelect::run_task() {
     default:
         if (TWindowShortListCtrl__check_controller_button(&controller_physical_port_bank[0x20], 2) != 0 ||
             test_flag_4c__23TAdSinglePlyChrSelectGCFv(&controller_input_state[0x160], 2) != 0) {
-            queue_destruction__7TObjectFv(self);
+            ((TObject *)self)->queue_destruction();
             TAdMultiChgGameModeGC::set_game_mode_changed();
         }
         break;
@@ -107,7 +109,7 @@ Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self) {
     self->count = ((int (*)(void *))count_unlocked_difficulties__12TLevelSelectFv)(self);
     if (self->count == 0) {
         TKeyBoardControl__sub_8000F9CC(0xE);
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return self;
     }
     if ((p = __nw__7TObjectFUl(0x24)) != NULL) {

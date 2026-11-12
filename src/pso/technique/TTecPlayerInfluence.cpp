@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
@@ -11,6 +12,7 @@
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 struct Stack_80237194 {
     s32 sp8;
     s32 spC;
@@ -122,7 +124,7 @@ void TTecPlayerInfluence::tick_lifetime() {
     u8 *arg0 = (u8 *)this;
     this->age = (this->age + 1);
     if ((f32) this->age > *(f32 *)&this->unk_70) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 

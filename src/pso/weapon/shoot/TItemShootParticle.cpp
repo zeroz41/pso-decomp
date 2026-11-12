@@ -1,9 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/text_800870BC.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/weapon/shoot/TItemShootParticle.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/task/TObject.h"
 
 struct TItemShootParticle_8011B77C { u8 pad[0x18]; void *vt; u8 pad1c[0x58 - 0x1c]; u32 parts[2]; };
 
@@ -54,7 +56,7 @@ TItemShootParticle_8011B7FC *TItemShootParticle__ct(TItemShootParticle_8011B7FC 
     for (i = 0; i < 2; i++) {
         self->parts[i] = 0;
     }
-    disallow_rendering__7TObjectFv((TObject *)self);
+    ((TObject *)self)->disallow_rendering();
     return self;
 }
 

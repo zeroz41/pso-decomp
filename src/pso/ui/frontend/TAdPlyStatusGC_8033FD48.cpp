@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 // ---- pso/ui/frontend/TAdPlyStatusGC_8033FD48
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -6,6 +7,7 @@
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 struct Vec_8034009C { f32 x, y, z; };
 
@@ -192,7 +194,7 @@ void fn_80340040(TBoss6Demo15_TYPE2_WAIT *arg0) {
     s32 i;
     for (i = 0; i < 10; i++) {
         if (arg0->csn_objects[i] != 0) {
-            queue_destruction__7TObjectFv(arg0->csn_objects[i]);
+            arg0->csn_objects[i]->queue_destruction();
             arg0->csn_objects[i] = 0;
         }
     }
@@ -257,7 +259,7 @@ void TBoss6Demo15_TYPE2_WAIT::run_task() {
         ((TBoss6Demo15_TYPE2_WAIT *)arg0)->check_any_player_near();
         play_persistent_sound(0x4003A126, (s32)arg0, (u32)(arg0 + 0x40), 0, 0);
         if (((TObjFish *)(*(u8 * *)&this->unk_1C))->get_phase() != 4) {
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
         }
     }
 }

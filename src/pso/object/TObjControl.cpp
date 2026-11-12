@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjChara.h"
@@ -7,6 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject.h"
 
 struct Ply_800F7118 {
     u8 pad0[0x28];
@@ -425,9 +427,7 @@ s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 void obj_setFlags30(void *, s32);
 s32 is_split_screen();
 s32 get_current_floor();
-void queue_destruction__7TObjectFv(void *arg0);
 s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
-void pause_update__7TObjectFv(void *arg0);
 s32 is_quest_active();
 s32 is_flag_set__6TLobbyFv();
 void subtractive_rng_seed(void *, s32);
@@ -439,7 +439,6 @@ void distribute_experience__9TObjEnemyFv(TObjPlayer_800F6B68 *self);
 void award_enemy_experience__9TObjEnemyFl(u8 *arg0, s32 arg1);
 void link_chain_nodes__10TObjPlayerFPvPvPv(void *arg0, Node_800F6E2C *arg1, Node_800F6E2C *arg2);
 void apply_by_index__9TObjEnemyFs(s16, void *);
-void resume_update__7TObjectFv(void *arg0);
 s32 get_attack_credit_slot_count(void *);
 f32 TLobby__sub_800F7A6C();
 f32 TLobby__sub_800F7A7C();
@@ -467,12 +466,12 @@ void TObjControl::run_task() {
 
     enemy = (u8 *)m_down;
     if (enemy == NULL) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     if (TObjPlayer::check_demo_mode() == 0) {
         if (((EnemyControlDispatch *)(enemy))->m31() != 0) {
-            resume_update__7TObjectFv((enemy));
+            ((TObject *)enemy)->resume_update();
             ((EnemyControlDispatch *)(enemy))->m61();
             return;
         }
@@ -484,10 +483,10 @@ void TObjControl::run_task() {
                 submit_cursor_candidate((int)enemy, -1);
                 minimap_render_dot(enemy + 0x38, -0x5DB4, 1, 0);
                 ((EnemyControlDispatch *)(enemy))->m26();
-                pause_update__7TObjectFv((enemy));
+                ((TObject *)enemy)->pause_update();
                 return;
             }
-            resume_update__7TObjectFv((enemy));
+            ((TObject *)enemy)->resume_update();
         }
         if (((EnemyControlDispatch *)(enemy))->m30() != 0) {
             ((EnemyControlDispatch *)(enemy))->m60();

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/TShopWindowBase.h"
@@ -7,6 +8,7 @@
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/quest/TQuestThread.h"
+#include "pso/system/task/TObject.h"
 
 struct Base_A_80212D9C { char pad[0x18]; };
 struct V_A_80212D9C : Base_A_80212D9C {
@@ -145,7 +147,6 @@ struct V_A_80213474 : Base_A_80213474 {
 extern "C" {
 s32 get_window_layout_position(s32);
 s32 set_service_counter_camera(void *, int);
-void queue_destruction__7TObjectFv(void *arg0);
 void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 __dl__7TObjectFPv(void *);
@@ -275,7 +276,7 @@ u8 *__dt__22THunterGuildSeqOfflineFv(u8 *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = &__vt__22THunterGuildSeqOffline.value;
         temp_r3 = *(u32 *)((s8 *)arg0 + 0x30);
         if (temp_r3 != 0U) {
-            queue_destruction__7TObjectFv((void *)temp_r3);
+            ((TObject *)temp_r3)->queue_destruction();
             *(u32 *)((s8 *)arg0 + 0x30) = 0U;
         }
         ((TShopSequence *)arg0)->close_message_window();
@@ -286,7 +287,7 @@ u8 *__dt__22THunterGuildSeqOfflineFv(u8 *arg0, s16 arg1) {
         }
         temp_r3_3 = ((THunterGuildSeqOffline *)arg0)->m_34;
         if (temp_r3_3 != 0U) {
-            queue_destruction__7TObjectFv((void *)temp_r3_3);
+            ((TObject *)temp_r3_3)->queue_destruction();
             ((THunterGuildSeqOffline *)arg0)->m_34 = 0U;
         }
         *(s32 *)((s8 *)&THunterGuildSeqOffline__instance_table.value + (sub_8022397C__15TShopWindowBaseFv(arg0) * 4)) = 0;
@@ -379,7 +380,7 @@ void THunterGuildSeqOffline__sub_80213474(void *shop_sequence) {
             break;
         }
         close_window__13TShopSequenceFv(shop_sequence);
-        queue_destruction__7TObjectFv(shop_sequence);
+        ((TObject *)shop_sequence)->queue_destruction();
     }
 }
 

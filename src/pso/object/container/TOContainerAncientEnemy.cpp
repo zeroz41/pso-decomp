@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_8030A6A8.h"
@@ -53,6 +54,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/network/client_id.h"
 #include "pso/network/TProtocol.h"
+#include "pso/system/task/TObject.h"
 
 struct BmlResourceBlock_804B0068 { const char *model_filenames[4]; BmlResourceDescriptor descriptor; };
 typedef char BmlResourceBlock_804B0068_size[(sizeof(BmlResourceBlock_804B0068) == 0x20) ? 1 : -1];
@@ -183,7 +185,7 @@ void TOContainerAncientEnemy::vfunc_6(s16 *arg1, s32 arg2) {
         }
         this->mode = 1;
         set_flag8();
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 
@@ -322,7 +324,7 @@ void TOContainerAncientItemNone::vfunc_6(s16 *arg1, s32 arg2) {
         }
         this->mode = 1;
         set_flag8();
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 
@@ -360,7 +362,7 @@ void TOContainerAncientItemRare::vfunc_6(s16 *arg1, s32 arg2) {
         }
         this->mode = 1;
         set_flag8();
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 
@@ -391,7 +393,7 @@ void TOContainerAncientItemCommon::vfunc_6(s16 *arg1, s32 arg2) {
         }
         this->mode = 1;
         set_flag8();
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 

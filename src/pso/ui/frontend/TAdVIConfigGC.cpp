@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/TLobby_80132ED0.h"
@@ -11,6 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdVIConfigGC.h"
+#include "pso/system/task/TObject.h"
 
 struct Name_80307D00 { char s[0x18]; };
 
@@ -79,11 +81,11 @@ void TAdVIConfigGC::update_visibility() {
     if (quest_vm_down_load_server != NULL) {
         if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x18) != 0) {
             ((TQuestVmDownLoadServer *)quest_vm_down_load_server)->clear_flag4_bit4();
-            allow_rendering__7TObjectFv((TObject *)(*(u8 * *)&this->m_24));
+            ((TObject *)(*(u8 * *)&this->m_24))->allow_rendering();
             return;
         }
         ((TObject *)quest_vm_down_load_server)->suspend_update();
-        disallow_rendering__7TObjectFv((TObject *)(*(u8 * *)&this->m_24));
+        ((TObject *)(*(u8 * *)&this->m_24))->disallow_rendering();
     }
 }
 
@@ -91,7 +93,7 @@ void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         if ((u32) *(u32 *)((s8 *)arg0 + 0x24) != 0U) {
             ((TQuestVmDownLoadServer *)(*(void **)((s8 *)arg0 + 0x24)))->clear_flag4_bit4();
-            allow_rendering__7TObjectFv((TObject *)((void *)(*(u32 *)((s8 *)arg0 + 0x24))));
+            ((TObject *)((void *)(*(u32 *)((s8 *)arg0 + 0x24))))->allow_rendering();
             ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x24)))->close();
             *(u32 *)((s8 *)arg0 + 0x24) = 0U;
         }

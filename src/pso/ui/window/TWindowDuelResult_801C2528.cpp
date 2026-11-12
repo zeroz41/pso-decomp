@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_801C23A8.h"
@@ -7,6 +8,7 @@
 #include "pso/player/TPlayerBattleCtrl4P_8031012C.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 u8 *__nw__7TObjectFUl(s32);
@@ -55,7 +57,7 @@ void TUnk_804C3E60::run_task() {
   if (temp_r0 <= 0)
   {
     TLobby::set_and_notify(0);
-    queue_destruction__7TObjectFv(arg0);
+    ((TObject *)arg0)->queue_destruction();
     return;
   }
   temp_r0_2 = *((s32 *) (((s8 *) arg0) + 0x1C));

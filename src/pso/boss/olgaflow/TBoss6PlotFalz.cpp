@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801542CC.h"
@@ -5,6 +6,7 @@
 #include <stdlib.h>
 #include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
+#include "pso/system/task/TObject.h"
 void set_constant_material(const NJS_ARGB *color);
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
@@ -642,7 +644,7 @@ void TBoss6PlotFalz::award_exp_and_destroy() {
     ((TObjEnemy *)arg0)->exchange_object_state((s32)&m, (s16)0);
     ((VObj_802AB490 *)arg0)->m77(&m);
     ((TObjEnemy *)arg0)->send_entity_set_flags();
-    queue_destruction__7TObjectFv(arg0);
+    ((TObject *)arg0)->queue_destruction();
 }
 
 void TBoss6PlotFalz::apply_fade_alpha(s32 arg1, f32 farg0) {
@@ -799,14 +801,14 @@ void queue_instance_destruction__14TBoss6PlotFalzFv(void);
 
 void destroy_static_instance__14TBoss6PlotFalzFv(void) {
     if ((u32) TBoss6PlotFalz__type2_instance != 0U) {
-        queue_destruction__7TObjectFv((void*)TBoss6PlotFalz__type2_instance);
+        ((TObject *)TBoss6PlotFalz__type2_instance)->queue_destruction();
         TBoss6PlotFalz__type2_instance = 0U;
     }
 }
 
 void queue_instance_destruction__14TBoss6PlotFalzFv(void) {
     if ((u32) TBoss6PlotFalz__type1_instance != 0U) {
-        queue_destruction__7TObjectFv((void*)TBoss6PlotFalz__type1_instance);
+        ((TObject *)TBoss6PlotFalz__type1_instance)->queue_destruction();
         TBoss6PlotFalz__type1_instance = 0U;
     }
 }
@@ -841,7 +843,7 @@ s32 is_locally_controlled__10TObjPlayerFPv(s32);
 f32 xyz_distance(const void *, const void *);
 u32 create__10TBoss6TubeFPv();
 
-void TBoss6PlotFalz::release_object() { if (*(unsigned int*)((char*)this + 0x384) != 0) { queue_destruction__7TObjectFv(*(void**)((char*)this + 0x384)); *(int*)((char*)this + 0x384) = 0; } }
+void TBoss6PlotFalz::release_object() { if (*(unsigned int*)((char*)this + 0x384) != 0) { ((TObject *)(*(void**)((char*)this + 0x384)))->queue_destruction(); *(int*)((char*)this + 0x384) = 0; } }
 
 s32 TBoss6PlotFalz::get_target_pos_a(s32 arg0, s32 arg1) {
     if ((u32) TBoss6PlotFalz__type2_instance == 0U) {
@@ -1385,7 +1387,7 @@ TBoss6PlotFalz::~TBoss6PlotFalz() {
         }
     }
     if (m_380 != NULL) {
-        queue_destruction__7TObjectFv((int)m_380);
+        ((TObject *)m_380)->queue_destruction();
         m_380 = NULL;
     }
     end_cutscene_camera__14TBoss6PlotFalzFPv();

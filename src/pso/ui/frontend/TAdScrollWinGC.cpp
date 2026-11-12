@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/text_8026A93C.h"
@@ -18,6 +19,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_80327698___vt__14TAdScrollWinGC { s32 value; u8 remaining[0x14]; };
 
@@ -85,7 +87,7 @@ u8 *__dt__14TAdScrollWinGCFv(u8 *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = &__vt__14TAdScrollWinGC.value;
         object = (u8 *)(*(u8 **)((s8 *)arg0 + 0x40));
         if (object != NULL) {
-            queue_destruction__7TObjectFv(object);
+            ((TObject *)object)->queue_destruction();
             *(u8 **)((s8 *)arg0 + 0x40) = NULL;
         }
         fn_8026A14C();
@@ -106,7 +108,7 @@ void TAdScrollWinGC::run_task() {
         break;
     case 1:
         if (++*(s32 *)&this->m_50 > 4.5f) {
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
             return;
         }
         break;

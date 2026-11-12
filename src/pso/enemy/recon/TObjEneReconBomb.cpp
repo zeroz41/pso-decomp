@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/recon/TObjEneReconBomb.h"
 #include "pso/math/MatrixTransforms.h"
@@ -19,6 +20,7 @@
 #include "pso/enemy/recon/TObjEneRecon_8031BC38.h"
 #include "pso/enemy/recon/TObjEneRecobox_8031FCB0.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -147,7 +149,7 @@ void TObjEneReconBomb::render() {
     s32 bml_model;
     s32 temp_r30;
     if ((u32) recon_bomb_bml_resource == 0U) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     bml_model = get_bml_model((void *)recon_bomb_bml_resource, 2);
@@ -183,7 +185,7 @@ void TObjEneReconBomb::run_task() {
     s32 i;
     VObj_8031B808 *pl;
     if (arg0->target == 0) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     if (++arg0->f360 > arg0->f358 || TObjEneRecon__sub_8031C250(arg0->target) != 0) {
@@ -240,7 +242,7 @@ void TObjEneReconBomb::run_task() {
                 }
             }
         }
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         break;
     }
 }

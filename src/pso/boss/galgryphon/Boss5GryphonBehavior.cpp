@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -26,6 +27,7 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/system/task/TObject.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -1552,7 +1554,7 @@ void TBoss5Gryphon::destroy_parts() {
     s32 i;
     for (i = 15; i >= 0; i--) {
         if (((Obj_8005E4D4 *)this)->parts[i] != 0) {
-            queue_destruction__7TObjectFv(((Obj_8005E4D4 *)this)->parts[i]);
+            ((TObject *)(((Obj_8005E4D4 *)this)->parts[i]))->queue_destruction();
             ((Obj_8005E4D4 *)this)->parts[i] = 0;
         }
     }
@@ -2192,7 +2194,7 @@ void TBoss5Gryphon::handle_message(s32 msg) {
     switch (msg) {
     case 4:
         self->flags |= 0x80;
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         break;
     case 5:
         break;
@@ -3925,7 +3927,7 @@ void TBoss5Gryphon::update_shockwave_attack(u32 arg1) {
             } else if (speed <= lbl_805D8E5C) {
                 ((TParticleCtrl *)self->fx)->set_position(&self->fxPos);
             } else {
-                queue_destruction__7TObjectFv(self->fx);
+                ((TObject *)self->fx)->queue_destruction();
                 self->fx = NULL;
             }
             if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D8E9C) != 0) {
@@ -3953,7 +3955,7 @@ void TBoss5Gryphon::update_shockwave_attack(u32 arg1) {
         break;
     case ENEMY_STATE_LEAVE:
         if (self->fx != NULL) {
-            queue_destruction__7TObjectFv(self->fx);
+            ((TObject *)self->fx)->queue_destruction();
             self->fx = NULL;
         }
         break;
@@ -4865,7 +4867,7 @@ void TBoss5Gryphon::run_task() {
     }
     if (*(s32 *)((s8 *)arg0 + 0x4C0) & 1) {
         ((TObjEnemy *)arg0)->send_entity_set_flags();
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     if (is_main_phase_15__9TObjEneDDFv() != 0) {
@@ -4930,7 +4932,7 @@ Obj_80065658 *__dt__13TBoss5GryphonFv(Obj_80065658 *o, s16 flag) {
         o->vt = __vt__13TBoss5Gryphon;
         for (i = 15; i >= 0; i--) {
             if (o->objs[i] != 0) {
-                queue_destruction__7TObjectFv(o->objs[i]);
+                ((TObject *)o->objs[i])->queue_destruction();
                 o->objs[i] = 0;
             }
         }

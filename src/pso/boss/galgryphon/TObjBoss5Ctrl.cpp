@@ -1,8 +1,10 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/galgryphon/TObjBoss5Ctrl.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarDemo.h"
 #include "pso/system/SoundEffect.h"
 #include <stdlib.h>
+#include "pso/system/task/TObject.h"
 #pragma fp_contract on
 
 extern s32 boss5_ctrl_instance;
@@ -27,10 +29,10 @@ void TObjBoss5Ctrl::run_task() {
 }
 
 TObjBoss5Ctrl::~TObjBoss5Ctrl() {
-    if (m_28 != nullptr) { queue_destruction__7TObjectFv(m_28); m_28 = nullptr; }
-    if (m_24 != nullptr) { queue_destruction__7TObjectFv(m_24); m_24 = nullptr; }
-    if (m_20 != nullptr) { queue_destruction__7TObjectFv(m_20); m_20 = nullptr; }
-    if (m_1c != nullptr) { queue_destruction__7TObjectFv(m_1c); m_1c = nullptr; }
+    if (m_28 != nullptr) { ((TObject *)m_28)->queue_destruction(); m_28 = nullptr; }
+    if (m_24 != nullptr) { ((TObject *)m_24)->queue_destruction(); m_24 = nullptr; }
+    if (m_20 != nullptr) { ((TObject *)m_20)->queue_destruction(); m_20 = nullptr; }
+    if (m_1c != nullptr) { ((TObject *)m_1c)->queue_destruction(); m_1c = nullptr; }
     boss5_ctrl_instance = 0;
 }
 

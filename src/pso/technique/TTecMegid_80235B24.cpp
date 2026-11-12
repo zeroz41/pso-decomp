@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/TUnk_804CCA90.h"
 #include "pso/technique/TTecMegid_80235B24.h"
@@ -6,6 +7,7 @@
 #include "pso/technique/TTecMegid.h"
 #include "pso/unk/text_80235BDC.h"
 #include "pso/system/vector.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
@@ -16,7 +18,7 @@ void TUnk_804CCA90::run_task() {
     *(s16 *)((s8 *)arg0 + 0x1E) = (s16) (*(s16 *)((s8 *)arg0 + 0x1E) + 1);
     if ((s16) *(s16 *)((s8 *)arg0 + 0x1E) > (s16) *(s16 *)((s8 *)arg0 + 0x1C)) {
         play_sound_effect(*(s32 *)((s8 *)arg0 + 0x20), arg0 + 0x24, 0, 0);
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 

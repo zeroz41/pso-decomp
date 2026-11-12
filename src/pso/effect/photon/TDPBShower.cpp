@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/photon/TDPBShower.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -7,6 +8,7 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_8035D7D0___vt__10TDPBShower {
     s32 value;
@@ -31,7 +33,7 @@ void TDPBShower::run_task() {
             ((TParticleCtrl *)m_2c)->set_position(m_position);
         }
         if (--m_countdown < 0) {
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
         }
     }
 }

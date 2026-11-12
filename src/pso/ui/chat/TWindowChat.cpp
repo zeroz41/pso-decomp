@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
@@ -12,6 +13,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "types.h"
+#include "pso/system/task/TObject.h"
 
 struct Win_8024701C { u8 p0[0x1E]; u16 flags; s32 f20; u8 p24[4]; s32 f28; };
 
@@ -259,11 +261,11 @@ void TWindowChat::close_all_children() {
     void *arg0 = this;
     TKeyBoardControl__sub_8025EC04((u8 *)(*(s32 *)((s8 *)arg0 + 0x28)));
     if ((u32) *(u32 *)((s8 *)arg0 + 0x30) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x30));
+        ((TObject *)(*(void **)((s8 *)arg0 + 0x30)))->queue_destruction();
         *(u32 *)((s8 *)arg0 + 0x30) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x34));
+        ((TObject *)(*(void **)((s8 *)arg0 + 0x34)))->queue_destruction();
         *(u32 *)((s8 *)arg0 + 0x34) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 0x2C) != 0U) {
@@ -458,11 +460,11 @@ TWindowChat::~TWindowChat() {
         }
     }
     if ((u32) *(u32 *)((s8 *)this + 0x30) != 0U) {
-        queue_destruction__7TObjectFv(this->symbolChatWindow);
+        ((TObject *)this->symbolChatWindow)->queue_destruction();
         *(u32 *)((s8 *)this + 0x30) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x34) != 0U) {
-        queue_destruction__7TObjectFv(this->wordSelectWindow);
+        ((TObject *)this->wordSelectWindow)->queue_destruction();
         *(u32 *)((s8 *)this + 0x34) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x2C) != 0U) {

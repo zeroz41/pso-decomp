@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -13,6 +14,7 @@
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -80,7 +82,6 @@ u8 TAdEp3Exist__sub_8036F590(u8 *arg0);
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 u32 calc_text_width(char *s);
 s32 render_status_line__15TAdSubPlyItemGCFi(int, int, f32, f32, f32);
-void queue_destruction__7TObjectFv(void *);
 s32 load_and_verify_character_save__23TAdSinglePlyChrSelectGCFPc(void *, void *);
 u8 *get_instance__23TAdSinglePlyChrSelectGCFv(void);
 void *__nw__7TObjectFUl(u32);
@@ -173,8 +174,8 @@ void TAdEp3Exist::run_task() {
 
 }
 TAdEp3Exist::~TAdEp3Exist() {
-    if (*(void **)((s8 *)this + 0x24) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x24)); this->m_24 = 0; }
-    if (*(void **)((s8 *)this + 0x20) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x20)); this->m_20 = 0; }
+    if (*(void **)((s8 *)this + 0x24) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x24)))->queue_destruction(); this->m_24 = 0; }
+    if (*(void **)((s8 *)this + 0x20) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x20)))->queue_destruction(); this->m_20 = 0; }
 }
 
 
@@ -211,7 +212,7 @@ void *TAdEp3Exist__ct(Ep3_8036F354 *o) {
     }
     if (!go) {
         ((int (*)(void))reset_and_set_mode__21TAdMultiChgGameModeGCFv)();
-        queue_destruction__7TObjectFv(o);
+        ((TObject *)o)->queue_destruction();
         return o;
     }
     p = __nw__7TObjectFUl(0x24);

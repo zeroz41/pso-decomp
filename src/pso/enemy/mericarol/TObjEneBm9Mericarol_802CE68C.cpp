@@ -19,6 +19,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/system/task/TObject.h"
 struct Stack_802CE68C {
     s32 sp8;
     s32 spC;
@@ -123,7 +124,6 @@ extern const f32 lbl_805DE704;
 s32 get_camera_mode__11TCameraCtrlFv();
 s32 is_main_phase_15__9TObjEneDDFv();
 s32 update__15RenderFadeStateFv(void *);
-s32 defer_render__7TObjectFv(void *);
 extern Vec lbl_80472490;
 extern s32 saved_model_render_flags;
 extern s32 lbl_805D686C;
@@ -278,14 +278,14 @@ void TObjEneBm9Mericarol::render() {
     if (self->f438 & 8) {
         if (self->f46C.m8() != 0) {
             self->f46C.m6();
-            if (defer_render__7TObjectFv(((u8 *)this)) == 0) {
+            if (((TObject *)this)->defer_render() == 0) {
                 ((TObjMotion *)((u8 *)this))->draw();
             }
             self->f46C.m7();
         }
     } else if (vis != 0) {
         fade->m6();
-        if (defer_render__7TObjectFv(((u8 *)this)) == 0) {
+        if (((TObject *)this)->defer_render() == 0) {
             if (mode == 1) {
                 ((TObjMotion *)((u8 *)this))->draw();
             } else {

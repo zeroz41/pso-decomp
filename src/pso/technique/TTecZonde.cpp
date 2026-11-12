@@ -1,7 +1,9 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecZonde.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_8023C558_lbl_804CC510
 {
@@ -153,7 +155,6 @@ void TTecZonde::render() {  }
 #pragma push
 #pragma fp_contract on
 
-void queue_destruction__7TObjectFv(void *arg0);
 void *find_entity_by_id(u16 id);
 void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
@@ -178,11 +179,11 @@ void TTecZonde::run_task() {
 
     self->target = find_entity_by_id(self->id);
     if (self->target == NULL) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return;
     }
     if (self->f130 == 0) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return;
     }
     t = (Tgt_8023C79C *)find_entity_by_id(self->f134);
@@ -302,7 +303,7 @@ void TTecZonde::run_task() {
     if (t != NULL && TTecLuker::is_parents_unqueued((u32)t) != 0 && TObjPlayer::is_valid_and_active((u32)t) != 0) {
         this->vfunc_8(t);
     }
-    queue_destruction__7TObjectFv(self);
+    ((TObject *)self)->queue_destruction();
 }
 
 #pragma pop

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/TDLGraph.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -5,6 +6,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/system/task/TObject.h"
 
 struct E_8007F4B8 { s32 a; f32 f; };
 
@@ -107,7 +109,7 @@ void TDLGraph::update_graph(s32 arg0, s32 arg1) {
     }
     if (arg0 == 0) {
         if (G != 0) {
-            queue_destruction__7TObjectFv((void *)TDLGraph__graph_object);
+            ((TObject *)TDLGraph__graph_object)->queue_destruction();
             return;
         }
         TDLGraph::create();

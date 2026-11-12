@@ -1,9 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TObjDeadListWin.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/TLobby.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 extern "C" {
 s32 get_player_by_client_id(s32);
 s32 obj_testFlags30__14TObjCollidableFUl(s32, s32);
@@ -45,7 +47,7 @@ void TObjDeadListWin::update_countdown() {
     s32 temp_r3;
     temp_r3 = get_player_by_client_id(local_client_id);
     if ((temp_r3 == 0) || (obj_testFlags30__14TObjCollidableFUl(temp_r3, 0x02000000) != 0)) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     if ((((TLobby *)temp_r3)->check_player_flag1() == 0) && (m_countdown > 0x5A)) m_countdown = 0x5A;
@@ -56,7 +58,7 @@ void TObjDeadListWin::update_countdown() {
             ((TWindowBase *)m_window_handle)->close();
             m_window_handle = 0U;
         }
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 
@@ -82,7 +84,7 @@ void TObjDeadListWin::refresh_names() {
 
 void TObjDeadListWin::run_task() {
     if (get_player_by_client_id(local_client_id) == 0U) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     switch (m_phase) {

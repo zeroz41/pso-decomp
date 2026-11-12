@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/berura/TObjEneRe7BeruraPunch.h"
 #include "pso/enemy/dd/TObjEneDD_800BA138.h"
@@ -21,6 +22,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -92,7 +94,6 @@ struct VObjHang_80095EA0 {
 s32 post_translate_matrix(void *);
 s32 scale_matrix(s32, f32, f32, f32);
 s32 push_matrix();
-s32 defer_render__7TObjectFv(void *);
 
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -106,7 +107,7 @@ void TObjEneRe7BeruraPunch::render() {
         TObjEneDD::clear_global_flag_400();
         if ((s32) this->m_b4 == 2) {
             ((VObjHang_80095EA0 *)(arg0 + 0xF8))->m6();
-            if (defer_render__7TObjectFv(arg0) != 0) {
+            if (((TObject *)arg0)->defer_render() != 0) {
                 model_render_flags = saved_model_render_flags;
                 return;
             }
@@ -268,7 +269,6 @@ RecoveredGlobal_80096750_lbl_8048F930 TObjEneRe7BeruraPunch__collision_body_temp
 extern s32 __vt__21TObjEneRe7BeruraPunch[];
 extern const char *TObjEneRe7BeruraPunch__name;
 u8 *TObjEneRe7BeruraPunch__ct(u8 *arg0, s32 arg1, s32 arg2);
-void queue_destruction__7TObjectFv(void *);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 void vec3_add_to(void *, void *);
 
@@ -341,7 +341,7 @@ void TObjEneRe7BeruraPunch::run_task() {
     f32 s;
     f32 c;
     if (find_entity_by_id(this->m_b0) == 0U || all_parents_unqueued_for_destruction__7TObjectFv() == 0) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     switch (*(s32 *)&this->m_b4) {
@@ -400,8 +400,8 @@ void TObjEneRe7BeruraPunch::run_task() {
 
 }
 TObjEneRe7BeruraPunch::~TObjEneRe7BeruraPunch() {
-    if (*(void **)((s8 *)this + 0xD0) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0xD0)); this->m_d0 = 0; }
-    if (*(void **)((s8 *)this + 0xD4) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0xD4)); this->m_d4 = 0; }
+    if (*(void **)((s8 *)this + 0xD0) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xD0)))->queue_destruction(); this->m_d0 = 0; }
+    if (*(void **)((s8 *)this + 0xD4) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xD4)))->queue_destruction(); this->m_d4 = 0; }
     if (*(void **)((s8 *)this + 0xD8) != NULL) { __dt__17AreaAttackHistoryFv((s32)(*(void **)((s8 *)this + 0xD8)), 1); *(s32 *)((s8 *)this + 0xD8) = 0; }
     __dt__13TUnk_80490470Fv((s8 *)this + 0xF8, -1);
 }

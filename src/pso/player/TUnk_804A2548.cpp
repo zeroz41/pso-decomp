@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/TUnk_804E355C.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -14,6 +15,7 @@
 #include "pso/weapon/TUnk_804A2564.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/task/TObject.h"
 
 // Built with -inline off,deferred: functions are written last to first.
 
@@ -141,7 +143,7 @@ void TUnk_804A2548::run_task() {
                 body.radius = radius;
             }
         } else {
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
         }
         check_hits();
     }

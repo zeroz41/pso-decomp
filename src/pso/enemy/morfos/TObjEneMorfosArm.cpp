@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/morfos/TObjEneMorfosArm.h"
 #include "pso/enemy/morfos/TObjEneMorfosArm_80335218.h"
@@ -12,6 +13,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/enemy/morfos/TObjEneMorfos.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -37,7 +39,7 @@ s32 push_matrix();
 void TObjEneMorfosArm::render() {
     u8 *arg0 = (u8 *)this;
     if ((u32) TObjEneMorfosArm__parent_morfos_instance == 0U) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     push_matrix();
@@ -56,13 +58,13 @@ void TObjEneMorfosArm::run_task() {
     advance_animation();
     temp_r3 = (u8 *)this->m_fc;
     if (temp_r3 == NULL) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(TObjEneMorfosArm__sub_803326B4(temp_r3)));
     this->rotation_y = TObjEneMorfosArm__sub_803326BC(*(u8 * *)&this->m_fc);
     if (this->motion_flags & 0x10) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 

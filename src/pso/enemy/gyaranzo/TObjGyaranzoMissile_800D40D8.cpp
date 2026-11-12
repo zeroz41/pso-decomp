@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/gyaranzo/TObjEneGyaranzo.h"
@@ -15,6 +16,7 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/task/TObject.h"
 
 struct D_800D40FC { u8 pad[0x18]; s32 arr[1]; };
 
@@ -76,7 +78,6 @@ struct Missile_800D43B4 {
 extern "C" {
 s32 project_actor_to_ground(void *, void *, int);
 s32 obj_is_hit_receivable();
-void queue_destruction__7TObjectFv(void *arg0);
 u8 *get_battle_param__10TObjPlayerFi(s32);
 s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void *find_entity_by_id(u16 id);
@@ -165,7 +166,7 @@ void TUnk_8049442C::sub_800D4200() {
     }
     spawn_particle_effect(arg0 + 0x38, 0xFB);
     play_sound_effect((void *)remap_area_sound_id(0x4003A80C, 0x19), arg0 + 0x38, 0, 0);
-    queue_destruction__7TObjectFv(arg0);
+    ((TObject *)arg0)->queue_destruction();
 }
 
 void TUnk_8049442C::render() {
@@ -249,8 +250,6 @@ u16 get_entity_id(void *);
 s32 init_collision_body_parts(void *, void *, int);
 
 extern BmlResource *gyaranzo_bml_resource;
-
-void queue_destruction__7TObjectFv(void *);
 
 s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void *find_entity_by_id(u16);

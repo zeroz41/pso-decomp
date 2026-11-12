@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/TUnk_804CC794.h"
 
@@ -6,9 +7,9 @@
 #include "pso/technique/TechniqueChargeEmitter.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
 extern "C" {
 extern u32 fire_technique_charge_effect_ids[];
-void queue_destruction__7TObjectFv(void*);
 void TObjLight__updateFireTechniqueCharge(TechniqueChargeEmitter* state);
 void *__dt__13TUnk_804CC794Fv(void *arg0, s16 arg1);
 s32 play_sound_effect(int, void *, int, int);
@@ -23,8 +24,8 @@ void TObjLight__updateFireTechniqueCharge(TechniqueChargeEmitter* state) {
     if(state->age%10==0) {
         for(int i=0;i<3;++i)spawn_particle_effect(state->position,fire_technique_charge_effect_ids[i]);
     }
-    if(!((TObjPlayer *)(state->actor))->check_flag_0x80())queue_destruction__7TObjectFv(state);
-    else if(state->age>=180)queue_destruction__7TObjectFv(state);
+    if(!((TObjPlayer *)(state->actor))->check_flag_0x80())((TObject *)state)->queue_destruction();
+    else if(state->age>=180)((TObject *)state)->queue_destruction();
 }
 
 void *__dt__13TUnk_804CC794Fv(void *arg0, s16 arg1) {

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin_EffLight.h"
@@ -13,6 +14,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/system/task/TObject.h"
 extern "C" {
 extern const char TObjEneMe1Canadin_EffLine__class_name[];
 extern const char TObjEneMe1Canadin_EffDischarge__class_name[];
@@ -283,7 +285,7 @@ void run_task__30TObjEneMe1Canadin_EffDischargeFv(u8 *ene_me1_canadin_eff_discha
     VC_B(ene_me1_canadin_eff_discharge + 0x38, ene_me1_canadin_eff_discharge + 0x50);
     if (var_r31 != 0) {
         fn_8009E1D4((u8 *)(*(s32 *)((s8 *)ene_me1_canadin_eff_discharge + 0x1C)), (s32)(ene_me1_canadin_eff_discharge + 0x44));
-        queue_destruction__7TObjectFv(ene_me1_canadin_eff_discharge);
+        ((TObject *)ene_me1_canadin_eff_discharge)->queue_destruction();
     }
 }
 

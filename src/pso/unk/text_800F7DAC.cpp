@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/TUnk_804999D0.h"
 #include "pso/unk/TUnk_804999B8.h"
@@ -15,6 +16,7 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/ModelDrawContext.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_800F81A8_lbl_80499970 {
     s32 value;
@@ -63,7 +65,6 @@ struct Fade_800F88D8 {
 };
 extern "C" {
 
-void queue_destruction__7TObjectFv(void *);
 void __ct__13TUnk_804999E8FP7TObject(void *, void *);
 void *__dt__13TUnk_804999E8Fv(void *, s16);
 void TCameraCtrl__sub_80068EF0(void);
@@ -304,7 +305,7 @@ void TUnk_80499988::run_task() {
     temp_r3 = this->m_20 + 1;
     this->m_20 = temp_r3;
     if (temp_r3 > (s32) *(s32 *)((s8 *)((u8 *)this) + 0x24)) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 

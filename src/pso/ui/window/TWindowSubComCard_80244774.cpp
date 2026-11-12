@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/ui/window/TWindowLockOn.h"
@@ -15,6 +16,7 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/system/task/TObject.h"
 
 
 struct UV_8024503C { f32 u, v; };
@@ -130,8 +132,6 @@ struct Quad_802455CC { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 struct Rect_802455CC { f32 x, y, w, h; u8 pad10[0x20 - 0x10]; f32 px, py, sx, sy; u8 pad30[0x38 - 0x30]; f32 depth; };
 
-void queue_destruction__7TObjectFv(void *);
-void allow_rendering__7TObjectFv(TObject *arg0);
 void disallow_rendering__7TObjectFv(TObject *);
 int copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void*);
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -233,7 +233,7 @@ s32 TWindowBase::sub_80244994() {
 void fn_802449E0(u8 *object) {
     *(s32 *)((s8 *)object + 0x2C) = (s32) (*(s32 *)((s8 *)object + 0x2C) & 0xFFFFFFF8);
     *(s16 *)((s8 *)object + 0x22) = 0;
-    disallow_rendering__7TObjectFv((TObject *)object);
+    ((TObject *)object)->disallow_rendering();
 }
 
 void TWindowBase::close() {
@@ -298,7 +298,7 @@ void window_request_show(void *object) {
     if (!(*(s32 *)((s8 *)object + 0x2C) & 0x20)) {
         play_sound_effect(0x53703, 0, 0, 0);
     }
-    allow_rendering__7TObjectFv((TObject *)object);
+    ((TObject *)object)->allow_rendering();
 }
 
 s32 TWindowBase::setup_window_draw_context(s32 arg1) {
@@ -935,7 +935,7 @@ void TWindowSubComCard::update_open_close() {
     temp_r5 = *(s32 *)&this->m_2c;
     if (!(temp_r5 & 2)) {
         if ((temp_r5 & 0x10) && (((s32 (*)(void *))sub_80246948__11TWindowBaseFv)(arg0) != 0)) {
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
         }
     } else if (temp_r5 & 1) {
         if ((f32) *(s32 *)&this->m_5c >= 7.5f) {
@@ -952,8 +952,8 @@ void TWindowSubComCard::update_open_close() {
         *(s16 *)((s8 *)arg0 + 0x22) = (s16) (*(s16 *)((s8 *)arg0 + 0x22) + 1);
         if ((f32) *(s16 *)((s8 *)arg0 + 0x22) >= 4.5f) {
             if (*(s32 *)&this->m_2c & 0x10) {
-                disallow_rendering__7TObjectFv((TObject *)arg0);
-                queue_destruction__7TObjectFv(arg0);
+                ((TObject *)arg0)->disallow_rendering();
+                ((TObject *)arg0)->queue_destruction();
             }
             *(s16 *)((s8 *)arg0 + 0x22) = 0;
             card_window_flags = *(s32 *)&this->m_2c;
@@ -967,7 +967,7 @@ void TWindowSubComCard::update_open_close() {
                 return;
             }
             *(s32 *)&this->m_2c = (s32) (card_window_flags & 0xFFFFFFFD);
-            disallow_rendering__7TObjectFv((TObject *)arg0);
+            ((TObject *)arg0)->disallow_rendering();
         }
     }
 }

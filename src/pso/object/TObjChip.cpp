@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/MaterialColorFade.h"
@@ -6,6 +7,7 @@
 #include <stdlib.h>
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TObject.h"
 class TObjChip : public TObject {
 public:
     virtual void render_shadows();
@@ -228,7 +230,6 @@ int vfunc_8__8TObjChipFv(void* p);
 u8 *copy_transform__8TObjChipFPvPv(u8 *arg0, u8 *arg1);
 void render__8TObjChipFv(void *arg0);
 void run_task__8TObjChipFv(void *arg0);
-void queue_destruction__7TObjectFv(void *arg0);
 
 #pragma readonly_strings on
 const char *obj_chip_class_name_ptr = "TObjChip";
@@ -321,7 +322,7 @@ void run_task__8TObjChipFv(void *object) {
     struct VObj_801809F0_801809B4 *o = (struct VObj_801809F0_801809B4 *)object;
     o->m7();
     if (o->m6() == 1) {
-        queue_destruction__7TObjectFv(object);
+        ((TObject *)object)->queue_destruction();
     }
 }
 }

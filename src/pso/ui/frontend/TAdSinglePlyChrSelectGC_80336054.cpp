@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80336054.h"
@@ -24,6 +25,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/TLobby_80335E08.h"
 #include "pso/unk/text_803369C8.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
@@ -238,7 +240,6 @@ struct Obj_80336340 { u8 pad[0x40]; void *objs[3]; };
 
 extern "C" {
 void TKeyBoardControl__sub_8000F9CC(s32 arg0);
-void queue_destruction__7TObjectFv(void *arg0);
 s32 __dl__7TObjectFPv(void *);
 s32 __dt__7TObjectFv(void *, s32);
 extern s32 lbl_804EEF64[];
@@ -248,7 +249,6 @@ NJS_TEXLIST *lobby_title_texture_list;
     extern int lbl_805D68C8;
 s32 release_texture_list(void *, s32);
 u64 call_funcs_reverse__6TLobbyFPvUi(void *, int);
-void disallow_rendering__7TObjectFv(TObject *arg0);
 void hide_title_layers_and_release(O_8033612C *arg0);
 int TKeyBoardControl__sub_8000F828(void);
 void TKeyBoardControl__sub_8000F90C(int);
@@ -263,14 +263,14 @@ extern const s32 current_language;
 s32 TAdTrialAgreementGC__sub_80335958(int);
 
 void TLobby::queue_destruction_and_cleanup() {
-    queue_destruction__7TObjectFv((this));
+    queue_destruction();
     if ((u32) title_scene_instance != 0U) {
         hide_title_layers_and_release((O_8033612C *)((void*)((void*)title_scene_instance)));
     }
 }
 
 void TLobby::destroy_download_server(void* _w0) {
-    queue_destruction__7TObjectFv((_w0));
+    ((TObject *)_w0)->queue_destruction();
     if ((u32) title_scene_instance != 0U) {
         ((TLobby *)title_scene_instance)->set_flag_and_clear_download();
     }
@@ -280,17 +280,17 @@ void hide_title_layers_and_release(O_8033612C *arg0) {
     s32 i;
     arg0->flags |= 4;
     if (arg0->f1c != 0) {
-        disallow_rendering__7TObjectFv((TObject *)arg0->f1c);
+        ((TObject *)arg0->f1c)->disallow_rendering();
     }
     if (arg0->f24 != 0) {
-        disallow_rendering__7TObjectFv((TObject *)arg0->f24);
+        ((TObject *)arg0->f24)->disallow_rendering();
     }
     if (arg0->f20 != 0) {
-        disallow_rendering__7TObjectFv((TObject *)arg0->f20);
+        ((TObject *)arg0->f20)->disallow_rendering();
     }
     for (i = 0; i != 3; i++) {
         if (arg0->h[i] != 0) {
-            queue_destruction__7TObjectFv((arg0->h[i]));
+            ((TObject *)arg0->h[i])->queue_destruction();
             arg0->h[i] = 0;
         }
     }
@@ -328,7 +328,7 @@ void TUnk_804EEF64::run_task() {
     if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
         for (i = 0; i != 3; i++) {
             if (((Obj_80336340 *)this)->objs[i] != NULL) {
-                queue_destruction__7TObjectFv(((Obj_80336340 *)this)->objs[i]);
+                ((TObject *)(((Obj_80336340 *)this)->objs[i]))->queue_destruction();
                 ((Obj_80336340 *)this)->objs[i] = NULL;
             }
         }
@@ -353,13 +353,13 @@ void TUnk_804EEF64::run_task() {
     *(s32 *)((s8 *)((Obj_80336340 *)this) + 0x34) = (s32) (*(s32 *)((s8 *)((Obj_80336340 *)this) + 0x34) + 1);
 }
 
-void TUnk_804EEF64::sub_8033645C() { if (*(unsigned int*)((char*)this + 0x2c) != 0) { queue_destruction__7TObjectFv(((void*)(*(void**)((char*)this + 0x2c)))); *(int*)((char*)this + 0x2c) = 0; } }
+void TUnk_804EEF64::sub_8033645C() { if (*(unsigned int*)((char*)this + 0x2c) != 0) { ((TObject *)((void*)(*(void**)((char*)this + 0x2c))))->queue_destruction(); *(int*)((char*)this + 0x2c) = 0; } }
 void *TUnk_804EEF64::destroy(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = lbl_804EEF64;
         (*(s32 *)&title_scene_instance) = 0;
         if ((u32) this->m_20 != 0U) {
-            queue_destruction__7TObjectFv((this->m_20));
+            ((TObject *)this->m_20)->queue_destruction();
         }
         sub_8033645C();
         end_view_override();

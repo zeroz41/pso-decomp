@@ -1,8 +1,10 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/charcreate/TObjCMHexTile.h"
 #include "pso/unk/text_802948A8.h"
 #include "types.h"
+#include "pso/system/task/TObject.h"
 
 class TObjCMHexTile : public TObject {
 public:
@@ -73,7 +75,7 @@ void run_task__13TObjCMHexTileFv(u8 *object) {
     if (temp_r6 >= ((s32 *)(object + 0x20))[temp_r5_2]) {
         *(s32 *)((s8 *)object + 0x1C) = (s32)(temp_r5_2 + 1);
         if ((s32) *(s32 *)((s8 *)object + 0x1C) == 3) {
-            queue_destruction__7TObjectFv(object);
+            ((TObject *)object)->queue_destruction();
         }
     }
 }

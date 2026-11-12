@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/weapon/TItemAttackCol_802E4798.h"
 #include "pso/object/base/TObjMotion.h"
@@ -8,6 +9,7 @@
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include <string.h>
+#include "pso/system/task/TObject.h"
 
 struct Hit_802E4798 { u8 *obj; s32 idx; };
 
@@ -19,7 +21,6 @@ s32 obj_testFlags30__14TObjCollidableFUl(void *, u32);
 u16 get_entity_id(void *);
 s32 is_technique_ready__8TTecCtrlFv();
 s32 get_type__10TObjPlayerFPv(void *);
-void queue_destruction__7TObjectFv(void *arg0);
 void TObjPlayer__sub_801542F4(s32 a);
 void TObjPlayer__sub_8015431C(u8 *arg0);
 void reset_global_table(void);
@@ -87,7 +88,7 @@ void TUnk_804E355C::check_hits() {
             ((TUnk_804E355C *)arg0)->vfunc_6((s32 *)((s32)e));
             ((TUnk_804E355C *)arg0)->hits_left -= 1;
             if (((TUnk_804E355C *)arg0)->hits_left == 0) {
-                queue_destruction__7TObjectFv(arg0);
+                ((TObject *)arg0)->queue_destruction();
                 reset_global_table();
                 return;
             }

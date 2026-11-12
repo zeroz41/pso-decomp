@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/object/collision/TOAttackableCol.h"
 #include "types.h"
@@ -11,6 +12,7 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -77,7 +79,6 @@ s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 int bswap_header__6TLobbyFv(void*);
 int clear_player_status_flag__14TObjCollidableFlUl(void*, int, int);
-void queue_destruction__7TObjectFv(void *arg0);
 void *find_entity_by_id(u16 id);
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 extern SetEntry_80157454 *quest_object_entries;
@@ -281,7 +282,7 @@ f32 TOAttackableCol::apply_hit(s32 arg1) {
   return 0.0f;
 }
 
-void TOAttackableCol::release() { set_flag8(); queue_destruction__7TObjectFv(this); }
+void TOAttackableCol::release() { set_flag8(); queue_destruction(); }
 void TOAttackableCol::check_door_trigger() {
     s32 temp_r0;
     s32 temp_r0_2;

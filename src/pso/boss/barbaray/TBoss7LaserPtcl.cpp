@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/vector.h"
 #include "pso/boss/barbaray/TBoss7LaserPtcl.h"
 #include "pso/boss/TUnk_804F1C88.h"
@@ -15,6 +16,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
 
 extern const f32 lbl_805DE9F0;
 extern "C" {
@@ -60,7 +62,6 @@ extern s32 TBoss7LaserPtcl__class_name;
 u8 *TBoss7LaserPtcl__ct(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3);
 extern s32 __vt__13TUnk_804F1C88[];
 
-void queue_destruction__7TObjectFv(void *);
 void reset_global_table(void);
 
 void *__dt__13TUnk_804F1C88Fv(void *arg0, s16 arg1);
@@ -89,7 +90,7 @@ void TUnk_804F1C88::run_task() {
     }
     reset_global_table();
     if (6e+01f < o->x40) {
-        queue_destruction__7TObjectFv(o);
+        ((TObject *)o)->queue_destruction();
     }
 }
 
@@ -170,7 +171,7 @@ void TBoss7LaserPtcl::destroy_particles() {
     object = (u8 *) (*((u8 **) (((s8 *) var_r30) + 0)));
     if (object != 0)
     {
-      queue_destruction__7TObjectFv(object);
+      ((TObject *)object)->queue_destruction();
       *((u8 **) (((s8 *) var_r30) + 0)) = 0;
     }
     var_r29 -= 1;

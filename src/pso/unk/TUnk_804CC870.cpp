@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/map/FloorArea.h"
@@ -14,6 +15,7 @@
 #include "pso/unk/TUnk_804CC888.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 // ---- pso/unk/text_80232934
 
@@ -127,7 +129,7 @@ TUnk_804CC888::~TUnk_804CC888() {
     u32 i;
     for (i = 0; i < grants_effect_emitter_table[((Obj_80232E0C *)this)->kind].count; i++) {
         if (((Obj_80232E0C *)this)->items[i] != NULL) {
-            queue_destruction__7TObjectFv(((Obj_80232E0C *)this)->items[i]);
+            ((TObject *)(((Obj_80232E0C *)this)->items[i]))->queue_destruction();
         }
     }
     stop_sound_request(((Obj_80232E0C *)this)->f20);
@@ -180,7 +182,7 @@ void TUnk_804CC888::run_task() {
         if (p != 0) {
             construct_timed_sound_voice((u8 *)p, (s32)((Ctl_80232C50 *)this)->f30, (s16)(0xF), 0x4002A60D, (s32)dir, (s32)tl_07);
         }
-        queue_destruction__7TObjectFv(((Ctl_80232C50 *)this));
+        ((TObject *)((Ctl_80232C50 *)this))->queue_destruction();
     }
 }
 
@@ -226,7 +228,7 @@ void TUnk_804CC870::run_task() {
         this->m_48 = 0;
     }
     if (this->m_38 <= 0.0f) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/TUnk_804A7260.h"
 #include "pso/unk/TLOC_ListClear.h"
@@ -32,6 +33,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
@@ -611,7 +613,7 @@ void TMainCursor::run_task() {
             TMainCursor__sub_8013F180((u8 *)&this->m_4c, distance);
             return;
         }
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         break;
     }
     }
@@ -658,12 +660,12 @@ void TMainCursor::refresh_target_marker() {
     s32 temp_r3_2;
     temp_r3 = check_field_24__11TMainCursorFv();
     if (temp_r3 == 0) {
-        queue_destruction__7TObjectFv((this));
+        queue_destruction();
         return;
     }
     temp_r3_2 = check_visible__11TMainCursorFv((void *)(temp_r3 + 0x500), (void *)temp_r3, update_sub_60__11TMainCursorFv((void *)this), (u8) this->forward_13E338_at_60());
     if (temp_r3_2 == -1) {
-        queue_destruction__7TObjectFv((this));
+        queue_destruction();
         return;
     }
     this->m_1c = 0;

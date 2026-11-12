@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -15,6 +16,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
 struct Stack_8001B8AC {
     s32 sp8;
     s32 spC;
@@ -169,7 +171,7 @@ void TAdRicoRing::run_task() {
     update_position();
     if ((*((f32 *) (((s8 *) arg0) + 0x1C))) <= lbl_805D7E54)
     {
-      queue_destruction__7TObjectFv(arg0);
+      ((TObject *)arg0)->queue_destruction();
       return;
     }
   }
@@ -290,7 +292,7 @@ TAdRicoRingCtrl::~TAdRicoRingCtrl() {
     s32 i;
     for (i = 0; i < 2; i++) {
         if (((Obj_8001B824 *)this)->slot[i] != 0) {
-            queue_destruction__7TObjectFv((void *)((Obj_8001B824 *)this)->slot[i]);
+            ((TObject *)(((Obj_8001B824 *)this)->slot[i]))->queue_destruction();
         }
     }
 }

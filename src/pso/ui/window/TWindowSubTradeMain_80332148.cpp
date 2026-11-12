@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
@@ -6,6 +7,7 @@
 #include "pso/ui/window/TWindowSubLog.h"
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
@@ -17,7 +19,6 @@ s32 __dl__7TObjectFPv(void *);
 s32 __dt__7TObjectFv(void *, s32);
 s32 end_camera_pan__10TObjPlayerFv();
 s32 TLobby__sub_802D29E8(u32 arg0);
-void queue_destruction__7TObjectFv(void *arg0);
 
 extern void* __vt__19TWindowSubTradeMain[];
 
@@ -30,7 +31,7 @@ void *__dt__19TWindowSubTradeMainFv(TWindowSubTradeMain *arg0, s16 arg1) {
             end_camera_pan__10TObjPlayerFv();
         }
         if ((u32) arg0->m_50 != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x50));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x50)))->queue_destruction();
             arg0->m_50 = 0U;
         }
         if ((u32) arg0->m_4c != 0U) {

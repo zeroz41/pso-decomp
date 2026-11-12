@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/save/TSaveChCr.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
@@ -13,6 +14,7 @@
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 
 #include <stddef.h>
+#include "pso/system/task/TObject.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -60,7 +62,7 @@ int begin_action_from_char_select__10TObjPlayerFv(void*);
 extern void *tl_03;
 }
 
-void TSaveChCr::destroy_if_keyboard_idle() { if (this->timer == 0) { queue_destruction__7TObjectFv(this); request_queued_main_phase(); } }
+void TSaveChCr::destroy_if_keyboard_idle() { if (this->timer == 0) { queue_destruction(); request_queued_main_phase(); } }
 void TSaveChCr::sub_80339B94() { close_window(); }
 void TSaveChCr::save_if_dirty() { if (sub_80339F30() != 0) { set_state((s32)((void*)4)); } }
 void TSaveChCr::close_and_advance_to_3() { close_and_advance__9TSaveChCrFPv(this, 3); }
@@ -83,7 +85,7 @@ void TSaveChCr::update_save_status() {
             set_state((s32)((void*)(4)));
             return;
         }
-        queue_destruction__7TObjectFv((this));
+        queue_destruction();
         TKeyBoardControl__sub_8000F9CC(9);
     }
 }

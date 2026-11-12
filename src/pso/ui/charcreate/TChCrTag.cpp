@@ -1,7 +1,9 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/charcreate/TChCrTag.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject_80019A50.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" void render__8TChCrTagFv();
 #include "pso/ui/charcreate/TChCrCharSelect.h"
@@ -68,7 +70,7 @@ void update_fade__8TChCrTagFPv(u8 *arg0) {
         *(f32 *)((s8 *)arg0 + 0x24) = (f32) (*(f32 *)((s8 *)arg0 + 0x24) + *(f32 *)((s8 *)arg0 + 0x2C));
         if (*(f32 *)((s8 *)arg0 + 0x24) <= 0.0f) {
             *(f32 *)((s8 *)arg0 + 0x24) = 0.0f;
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
         }
         break;
     }

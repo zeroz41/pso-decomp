@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecZonde.h"
@@ -5,6 +6,7 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TUnk_804F166C.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 
 struct Base_8035836C_80357734 { char pad[0x18]; };
 struct VObj_8035836C_80357734 : Base_8035836C_80357734 {
@@ -141,7 +143,6 @@ struct Strike_80357B2C {
 
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *);
 extern s32 tl_05;
 u16 get_entity_id(void *);
 int get_item_field_6__10TObjPlayerFPv(void *p);
@@ -299,13 +300,13 @@ void TUnk_804F166C::run_task() {
         this->m_48 = (temp_r3_2 - 1);
         return;
     }
-    queue_destruction__7TObjectFv(arg0);
+    ((TObject *)arg0)->queue_destruction();
 }
 
 void *TUnk_804F166C::dt_with_child_queue(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = inward_orbit_effect_vtable;
-        if (*(void * *)&this->unk_4C != NULL) { queue_destruction__7TObjectFv(*(void * *)&this->unk_4C); }
+        if (*(void * *)&this->unk_4C != NULL) { ((TObject *)(*(void * *)&this->unk_4C))->queue_destruction(); }
         __dt__7TObjectFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);

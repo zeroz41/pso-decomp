@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/system/vector.h"
@@ -24,6 +25,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
 
 struct VBase_18_65b835 { char pad[0x18]; };
 
@@ -127,7 +129,6 @@ struct Pair_8015D518 { s32 a; s32 b; };
 struct A_8015C9D4 { u8 pad[0x1C]; Vec pos; };
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_8015D314_lbl_804B0A10 bm_fs_obj_zombie_con_resource_descriptor;
@@ -214,7 +215,7 @@ void TOCtrlDubchik::complete_and_destroy() {
         ((VObj_18_65b835 *)(arg0))->m77(&sp8);
         ((TOCtrlDubchik *)arg0)->sub_8015CA74();
         ((TObjCollidable *)arg0)->set_flag8();
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 

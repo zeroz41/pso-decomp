@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/item/shop/TShopGenerator.h"
@@ -20,6 +21,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/system/task/TObject.h"
 
 namespace part0 {
 
@@ -131,7 +133,6 @@ struct Obj_80213980 : V_80213980 { char pad1c[0x14]; s32 state; s32 f34; s32 thr
 
 extern "C" {
 s32 get_window_layout_position(int, f32);
-void queue_destruction__7TObjectFv(void *arg0);
 void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 __dl__7TObjectFPv(void *);
@@ -287,7 +288,7 @@ u8 *__dt__28THunterGuildSeqOnline_ClientFv(u8 *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = &__vt__28THunterGuildSeqOnline_Client.value;
         temp_r3 = *(u32 *)((s8 *)arg0 + 0x2C);
         if (temp_r3 != 0U) {
-            queue_destruction__7TObjectFv((void *)temp_r3);
+            ((TObject *)temp_r3)->queue_destruction();
             *(u32 *)((s8 *)arg0 + 0x2C) = 0U;
         }
         ((TShopSequence *)arg0)->close_message_window();
@@ -531,7 +532,6 @@ struct Seq_80214104 : Base_80214104 {
 
 extern "C" {
 void *get_entity_id(void *);
-void queue_destruction__7TObjectFv(void *);
 int is_quest_active(void);
 void close_window__13TShopSequenceFv(void *);
 s32 sub_802239EC__13TShopSequenceFv(void *);
@@ -554,21 +554,21 @@ void handle_random_enemies_choice__6TLobbyFPv(Seq_80214104 *self) {
             ((TProtocol *)TLobby__protocol_instance)->send_quest_menu_closed();
         }
         close_window__13TShopSequenceFv(self);
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         break;
     case 1:
         mem = __nw__7TObjectFUl(0x28);
         if (mem != NULL) ((THunterGuildSeqOffline *)mem)->init((void *)tl_00, (void *)reset_random_enemies_mode);
         THunterGuildSeqOffline__sub_8021E180((s32)(get_entity_id(self->player)));
         close_window__13TShopSequenceFv(self);
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         break;
     case 2:
         mem = __nw__7TObjectFUl(0x28);
         if (mem != NULL) ((THunterGuildSeqOffline *)mem)->init((void *)tl_00, (void *)set_random_enemies_mode);
         THunterGuildSeqOffline__sub_8021E180((s32)(get_entity_id(self->player)));
         close_window__13TShopSequenceFv(self);
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         break;
     }
 }
@@ -901,7 +901,6 @@ struct Seq_80214978 : VObj_80214978 {
 };
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 __dl__7TObjectFPv(void *);
@@ -958,7 +957,7 @@ u8 *__dt__28THunterGuildSeqOnline_ServerFv(u8 *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804C97F0.value;
         temp_r3 = *(u32 *)((s8 *)arg0 + 0x2C);
         if (temp_r3 != 0U) {
-            queue_destruction__7TObjectFv((void *)temp_r3);
+            ((TObject *)temp_r3)->queue_destruction();
             *(u32 *)((s8 *)arg0 + 0x2C) = 0U;
         }
         ((TShopSequence *)arg0)->close_message_window();

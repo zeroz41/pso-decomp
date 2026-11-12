@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "types.h"
@@ -11,6 +12,7 @@
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 struct VBase_18_9c7b63
 {
@@ -179,7 +181,7 @@ void fn_800C2A88(void *self, s32 msg) {
     case 0:
         return;
     case 3:
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return;
     }
 }

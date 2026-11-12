@@ -1,7 +1,9 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/collision/TObjFogCollision.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/object/collision/TObjFogCollision.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_80153FD0___vt__16TObjFogCollision {
     s32 value;
@@ -34,7 +36,7 @@ u8 *TObjFogCollision__ct(u8 *fog_collision, s32 arg1, s32 arg2) {
     ((TObjFogCollision *)(fog_collision))->apply_object_set_data((void *)arg2);
     ((TObjFogCollision *)fog_collision)->m_90 = 0;
     ((TObjFogCollision *)fog_collision)->m_94 = 0;
-    disallow_rendering__7TObjectFv((TObject *)(fog_collision));
+    ((TObject *)(fog_collision))->disallow_rendering();
     return fog_collision;
 }
 

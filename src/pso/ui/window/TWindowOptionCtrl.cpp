@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/TLanguage.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -7,6 +8,7 @@
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
@@ -54,11 +56,11 @@ s32 TWindowOptionCtrl::handle_input(s32 language) {
         fn_8023F160();
         fn_8023F18C();
         if ((u32) *(u32 *)((s8 *)this + 0x34) != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x34));
+            ((TObject *)(*(void **)((s8 *)this + 0x34)))->queue_destruction();
             *(u32 *)((s8 *)this + 0x34) = 0U;
         }
         if ((u32) *(u32 *)((s8 *)this + 0x28) != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x28));
+            ((TObject *)(*(void **)((s8 *)this + 0x28)))->queue_destruction();
             *(u32 *)((s8 *)this + 0x28) = 0U;
         }
         *(u32 *)((s8 *)this + 0x28) = create_menu__17TWindowOptionCtrlFv(this);

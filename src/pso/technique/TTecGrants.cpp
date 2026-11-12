@@ -1,8 +1,10 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TTecGrants.h"
 #include "pso/system/task/TObject_80019A50.h"
 
 #include "pso/effect/TUnk_804CC148.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_80233350___vt__10TTecGrants {
     s32 value;
@@ -112,11 +114,11 @@ void run_task__10TTecGrantsFv(TTecGrants *tec_grants) {
     u8 *temp_r3_2;
     *(u8 **)((s8 *)tec_grants + 0x1C) = (u8 *)find_entity_by_id(tec_grants->m_b4);
     if ((void *) *(u8 **)((s8 *)tec_grants + 0x1C) == NULL) {
-        queue_destruction__7TObjectFv((tec_grants));
+        tec_grants->queue_destruction();
         return;
     }
     if ((s32) tec_grants->m_ec == 0) {
-        queue_destruction__7TObjectFv((tec_grants));
+        tec_grants->queue_destruction();
         return;
     }
     entity = (unsigned long) (find_entity_by_id(tec_grants->m_f0));
@@ -131,7 +133,7 @@ void run_task__10TTecGrantsFv(TTecGrants *tec_grants) {
         if ((entity != 0) && (TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
             ((TTecGrants *)(tec_grants))->vfunc_6((void *)entity);
         }
-        queue_destruction__7TObjectFv((tec_grants));
+        tec_grants->queue_destruction();
     }
 }
 

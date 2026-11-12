@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/charcreate/TCharaMaking_8028E790.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -7,6 +8,7 @@
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/system/save/TSaveChCr.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_8028E9A4___vt__12TCharaMaking { s32 value; u8 remaining[0x18]; };
 typedef char RecoveredGlobal_8028E9A4___vt__12TCharaMaking_size[sizeof(RecoveredGlobal_8028E9A4___vt__12TCharaMaking) == 0x1C ? 1 : -1];
@@ -63,11 +65,11 @@ s32 TCharaMaking::update_main_menu(s32 arg0) {
         }
         TSaveChCr::create((void *)var_r3);
         end_creation_view();
-        queue_destruction__7TObjectFv((void *)arg0);
+        ((TObject *)arg0)->queue_destruction();
         return 1;
     }
     if (is_state_4__14TObjCMMainMenuFv(creation_main_menu_obj) != 0) {
-        queue_destruction__7TObjectFv((void *)arg0);
+        ((TObject *)arg0)->queue_destruction();
         TChCrCharSelect::create((void *)tl_03);
         return 1;
     }

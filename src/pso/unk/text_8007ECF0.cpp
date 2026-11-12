@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/MenuText.h"
 #include "types.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
@@ -6,6 +7,7 @@
 #include "pso/render/TDLGraph.h"
 #include "pso/object/warp/TObjWarpString.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
+#include "pso/system/task/TObject.h"
 
 struct E_8007F3F8 { s32 a; f32 f; };
 
@@ -81,7 +83,7 @@ void fn_8007ECF0(u8 *arg0, s32 arg1, s32 arg2) {
         }
     }
     if (lbl_805D929C == *(f32 *)((s8 *)arg0 + 0x1C)) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 #pragma pop

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
@@ -20,6 +21,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
+#include "pso/system/task/TObject.h"
 
 struct RecoveredFields_8003A6F4_arg0 {
  s32 field_0;
@@ -225,7 +227,7 @@ void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o) {
     case 1:
         o->pos.y -= (3.0f);
         if (o->pos.y < (-5e+01f)) {
-            queue_destruction__7TObjectFv(o);
+            ((TObject *)o)->queue_destruction();
         }
         break;
     case 2:
@@ -281,7 +283,7 @@ void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o) {
             o->fB4 -= 0.04f;
             if (o->fB4 <= 0.0f) {
                 o->fB4 = 0.0f;
-                queue_destruction__7TObjectFv(o);
+                ((TObject *)o)->queue_destruction();
             }
         }
         break;

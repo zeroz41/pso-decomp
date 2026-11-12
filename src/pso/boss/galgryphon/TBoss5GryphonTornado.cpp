@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/galgryphon/TBoss5GryphonTornado.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
@@ -8,6 +9,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/ui/hud/TNowLoading.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 extern const f32 lbl_805DFFA8;
@@ -93,7 +95,7 @@ void TBoss5GryphonTornado::run_task() {
     Res_80355570 *r;
     f32 h;
     if (((TBoss8Dragon *)(o->f4C))->get_flag_bit6() != 0) {
-        queue_destruction__7TObjectFv(o);
+        ((TObject *)o)->queue_destruction();
         return;
     }
     switch (o->state) {
@@ -103,7 +105,7 @@ void TBoss5GryphonTornado::run_task() {
         o->pos.y = lbl_805D8D48;
         r = csnVecterUnder(&o->pos, 0x16EF);
         if (r == NULL) {
-            queue_destruction__7TObjectFv(o);
+            ((TObject *)o)->queue_destruction();
             return;
         }
         h = r->inner->f4;
@@ -160,7 +162,7 @@ void TBoss5GryphonTornado::run_task() {
             ((TParticleCtrl *)(o->p58))->enable();
         }
         if (o->timer > 0x3C) {
-            queue_destruction__7TObjectFv(o);
+            ((TObject *)o)->queue_destruction();
         } else {
             o->timer++;
         }
@@ -171,9 +173,9 @@ void TBoss5GryphonTornado::run_task() {
 
 }
 TBoss5GryphonTornado::~TBoss5GryphonTornado() {
-    if (*(void **)((s8 *)this + 0x58) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x58)); this->m_58 = 0; }
-    if (*(void **)((s8 *)this + 0x54) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x54)); this->m_54 = 0; }
-    if (*(void **)((s8 *)this + 0x50) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x50)); this->m_50 = 0; }
+    if (*(void **)((s8 *)this + 0x58) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x58)))->queue_destruction(); this->m_58 = 0; }
+    if (*(void **)((s8 *)this + 0x54) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x54)))->queue_destruction(); this->m_54 = 0; }
+    if (*(void **)((s8 *)this + 0x50) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x50)))->queue_destruction(); this->m_50 = 0; }
 }
 
 typedef char RecoveredGlobal_803558E4___vt__20TBoss5GryphonTornado_size[sizeof(RecoveredGlobal_803558E4___vt__20TBoss5GryphonTornado) == 0x18 ? 1 : -1];

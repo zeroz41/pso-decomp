@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/frontend/TAdLoadNetworkGC.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -8,6 +9,7 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/task/TObject.h"
 struct V_803084AC { f32 x, y, z; };
 
 struct Net_803084AC { u8 pad0[0x20]; void *obj[5]; V_803084AC pos; };
@@ -42,7 +44,7 @@ void TAdLoadNetworkGC::run_task() {
 TAdLoadNetworkGC::~TAdLoadNetworkGC() {
     u32 i;
     for (i = 0; i < 5; i++) {
-        queue_destruction__7TObjectFv(((Net_80308518 *)this)->obj[i]);
+        ((TObject *)(((Net_80308518 *)this)->obj[i]))->queue_destruction();
         ((Net_80308518 *)this)->obj[i] = 0;
     }
 }

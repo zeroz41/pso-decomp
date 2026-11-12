@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/olgaflow/TBoss6DPB.h"
 #include "pso/effect/photon/TDPBShower.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -11,6 +12,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TObject.h"
 
 struct V_8035D8B0 { s32 a; f32 b; s32 c; };
 
@@ -129,7 +131,7 @@ void TBoss6DPB::run_task() {
             ((TBoss6DPB *)arg0)->apply_shower_damage_to_players();
             play_sound_effect(0x40069411, (u32)(arg0 + 0x20), 0, 0);
             ((TBoss6DPB *)arg0)->sub_8035D8B0();
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
         }
     }
 }

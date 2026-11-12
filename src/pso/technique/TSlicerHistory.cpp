@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/TItem.h"
 #include "pso/render/MaterialColorFade.h"
@@ -13,6 +14,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecSlicer.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 extern const f32 lbl_805DC950;
@@ -70,7 +72,7 @@ void TSlicerHistory::run_task() {
   if ((*((f32 *) (((s8 *) arg0) + 0x3c))) < (*(new_var = &lbl_805DC950)))
   {
     *((f32 *) (((s8 *) arg0) + 0x3c)) = (f32) (*new_var);
-    queue_destruction__7TObjectFv(arg0);
+    ((TObject *)arg0)->queue_destruction();
   }
 }
 

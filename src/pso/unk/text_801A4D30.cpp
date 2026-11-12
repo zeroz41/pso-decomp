@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -8,6 +9,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/system/save/TCheckMemoryCard.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject.h"
 typedef struct Vec_801A4D30 {
     s32 x, y, z;
 } Vec_801A4D30;
@@ -28,7 +30,6 @@ typedef struct Obj_801A4D30 {
 } Obj_801A4D30;
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *);
 void set_active_camera_pose(void *, void *);
 s32 activate_camera_mode(s32 arg0);
 s32 verify_system_file__23TAdSinglePlyChrSelectGCFPv(void);
@@ -62,7 +63,7 @@ void TUnk_804C2298::run_task() {
         break;
     case 2:
         if (self->list != NULL) {
-            queue_destruction__7TObjectFv(self->list);
+            ((TObject *)self->list)->queue_destruction();
             self->list = NULL;
         }
         self->state = 3;
@@ -78,7 +79,7 @@ void TUnk_804C2298::run_task() {
         self->state = 5;
     case 5:
         if (self->card != NULL && TAdSinglePlyChrSelectGC__sub_8033B9F8(self->card) == 1) {
-            queue_destruction__7TObjectFv(self->card);
+            ((TObject *)self->card)->queue_destruction();
             self->card = NULL;
             if (verify_system_file__23TAdSinglePlyChrSelectGCFPv() != 0) {
                 pso_system_load_gc();

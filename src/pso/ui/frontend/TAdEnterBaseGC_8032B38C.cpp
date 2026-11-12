@@ -1,7 +1,9 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/frontend/TAdEnterBaseGC.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdEnterBaseGC_8032B38C.h"
+#include "pso/system/task/TObject.h"
 
 
 struct RecoveredGlobal_8032B390_lbl_80477198 {
@@ -69,9 +71,9 @@ extern s32 __vt__14TAdEnterBaseGC[];
 
 }
 TAdEnterBaseGC::~TAdEnterBaseGC() {
-    if (*(void **)((s8 *)this + 0x2C) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x2C)); *(s32 *)((s8 *)this + 0x2C) = 0; }
-    if (*(void **)((s8 *)this + 0x30) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x30)); this->m_30 = 0; }
-    if (*(void **)((s8 *)this + 0x34) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x34)); *(s32 *)((s8 *)this + 0x34) = 0; }
+    if (*(void **)((s8 *)this + 0x2C) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x2C)))->queue_destruction(); *(s32 *)((s8 *)this + 0x2C) = 0; }
+    if (*(void **)((s8 *)this + 0x30) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x30)))->queue_destruction(); this->m_30 = 0; }
+    if (*(void **)((s8 *)this + 0x34) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x34)))->queue_destruction(); *(s32 *)((s8 *)this + 0x34) = 0; }
 }
 
 

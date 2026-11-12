@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
 #include "types.h"
 #include "pso/ui/frontend/TAdDialingMessageWindow.h"
@@ -8,6 +9,7 @@
 
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
 
 struct Base_8036A248_8036A174 { char pad[0x18]; };
 struct VObj_8036A248_8036A174 : Base_8036A248_8036A174 { virtual void m0(int); };
@@ -42,7 +44,7 @@ void TAdDialingMessageWindow::render() {
 TAdDialingMessageWindow::~TAdDialingMessageWindow() {
     void *temp_r3;
     if (*(void **)((s8 *)this + 0x24) != NULL) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x24));
+        ((TObject *)(*(void **)((s8 *)this + 0x24)))->queue_destruction();
     }
     temp_r3 = *(void **)((s8 *)this + 0x28);
     if ((temp_r3 != NULL) && (temp_r3 != NULL)) {

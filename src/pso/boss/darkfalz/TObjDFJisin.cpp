@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
@@ -35,6 +36,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
+#include "pso/system/task/TObject.h"
 
 typedef struct Obj_8005063C {
     u8 pad0[0x2FC];
@@ -72,7 +74,7 @@ void steer_homing_direction(Obj_8005063C *arg0) {
     subtract_vector(&d, &arg0->f2fc);
     if (vector_length(&d) <= lbl_805D8A48 ||
         vector_length(&arg0->dir) <= lbl_805D8A48) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     normalize_vector(&d);
@@ -293,7 +295,7 @@ void run_task__13TObjDFHormingFv(u8 *arg0) {
         return;
     }
     if (((TObjDFHorming *)arg0)->m_334 == 0xFFFF || (p = (u8 *)get_player_by_client_id(((TObjDFHorming *)arg0)->m_334)) == NULL) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     VecCopy((Vec *)(arg0 + 0x36C), (const Vec *)(p + 0x2FC));
@@ -344,7 +346,7 @@ void run_task__13TObjDFHormingFv(u8 *arg0) {
     }
     minimap_render_dot(arg0 + 0x2FC, -0x5DB4, 1, 0);
     if (--*(s32 *)&((TObjDFHorming *)arg0)->m_338 < 0) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 
@@ -475,7 +477,7 @@ void TObjDFJisin::run_task() {
         }
     }
     if (((Obj_80050EB4 *)this)->radius > 300.0f && count == 0) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     ((Obj_80050EB4 *)this)->radius += 25.0f;
@@ -541,7 +543,7 @@ void TObjDFRecBall::run_task() {
     Vec d;
 
     if (--o->timer < 0 || o->model == 0) {
-        queue_destruction__7TObjectFv(o);
+        ((TObject *)o)->queue_destruction();
         return;
     }
     if ((o->speed += 0.26666668f) > 9.0f) {
@@ -568,7 +570,7 @@ void TObjDFRecBall::run_task() {
     vec3_add_to(&o->pos, &o->vel);
     ((TParticleCtrl *)o->model)->set_position(&o->pos);
     if (xyz_distance(&o->pos, &o->target) <= o->speed) {
-        queue_destruction__7TObjectFv(o);
+        ((TObject *)o)->queue_destruction();
     }
 }
 #pragma pop

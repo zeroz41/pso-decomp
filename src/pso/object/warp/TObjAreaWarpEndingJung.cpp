@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/vector.h"
@@ -46,6 +47,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/system/task/TObject.h"
 
 // The original TU was built with deferred codegen: functions below are in reverse
 // address order, and the pool (three {3, 2} initializers, then the float literals
@@ -346,8 +348,6 @@ u16 get_entity_id(void *);
 s32 is_split_screen();
 s32 get_current_floor();
 void queue_destruction__7TObjectFv(void *);
-void allow_rendering__7TObjectFv(TObject *);
-void disallow_rendering__7TObjectFv(TObject *arg0);
 s32 get_split_screen_view_index__11TCameraCtrlFUs(void *);
 u32 TLobby__sub_80070AD8(s32 arg0);
 s32 get_floor_destination_name();
@@ -781,7 +781,7 @@ void TObjMapWarp::process_player_warps() {
             } else {
                 if (d->win[i] != NULL) {
                     ((TQuestVmDownLoadServer *)(d->win[i]))->clear_flag4_bit4();
-                    allow_rendering__7TObjectFv((TObject *)d->win[i]);
+                    ((TObject *)d->win[i])->allow_rendering();
                 }
                 t = find_warp_player_in_range(this, i, d->fAC);
                 if (t != NULL) {
@@ -810,7 +810,7 @@ void TObjMapWarp::process_player_warps() {
         s32 j2;
         if (this->m_b0 != NULL) {
             ((TQuestVmDownLoadServer *)(this->m_b0))->clear_flag4_bit4();
-            allow_rendering__7TObjectFv((TObject *)this->m_b0);
+            ((TObject *)this->m_b0)->allow_rendering();
         }
         t2 = find_warp_player_in_range(((VObj_8019D250 *)this), local_client_id, d->fAC);
         if (t2 != NULL) {
@@ -984,7 +984,7 @@ void TObjAreaWarp::handle_area_selection() {
     } else {
         if (d->fB0 != NULL) {
             ((TQuestVmDownLoadServer *)(d->fB0))->clear_flag4_bit4();
-            allow_rendering__7TObjectFv((TObject *)d->fB0);
+            ((TObject *)d->fB0)->allow_rendering();
         }
         if (is_split_screen() != 0) {
             found = 0;
@@ -1483,7 +1483,7 @@ void *TObjMapForceWarp__ct(void *map_force_warp, void *parent, void *set) {
         ((TObjMapForceWarp *)map_force_warp)->m_fc = 1;
     }
     if ((u32) ((TObjMapForceWarp *)map_force_warp)->m_b4 != 0U) {
-        disallow_rendering__7TObjectFv((TObject *)(*(void **)((s8 *)map_force_warp + 0xB4)));
+        ((TObject *)(*(void **)((s8 *)map_force_warp + 0xB4)))->disallow_rendering();
         ((TObject *)(((TObjMapForceWarp *)map_force_warp)->m_b4))->suspend_update();
     }
     return map_force_warp;
@@ -1611,7 +1611,7 @@ void fade_and_destroy__14TObjWarpStringFPv(u8 *object) {
   if ((*((f32 *) (((s8 *) object) + 0x44))) < 0.0f)
   {
     *((f32 *) (((s8 *) object) + 0x44)) = 0.0f;
-    queue_destruction__7TObjectFv(object);
+    ((TObject *)object)->queue_destruction();
   }
 }
 

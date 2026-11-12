@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
@@ -12,6 +13,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
 #define CAT2(a, b) a##b
 #define CAT(a, b) CAT2(a, b)
 #define PADV4 virtual void CAT(pa, __LINE__)(); virtual void CAT(pb, __LINE__)(); virtual void CAT(pc, __LINE__)(); virtual void CAT(pd, __LINE__)();
@@ -317,7 +319,6 @@ extern const TObjChipParams lbl_80444EA8 = {
 void play_container_break_sound(s32 arg0);
 extern s32 lbl_805D5B7C;
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 s32 push_matrix(void);
 void post_translate_matrix(const void *);
 extern BmlResource *container_breakup_model_archive;
@@ -452,24 +453,18 @@ extern const f32 lbl_805DBD08;
 
 
 
-extern "C" {
-}
-extern "C" {
-
-
-}
 void TObjContainerAbeEnemy::vfunc_6(s16 *arg1, s32 arg2) {
     u8 *arg0 = (u8 *)this;
     if (arg2 != 0) {
         if ((s16) *arg1 == 1) {
             this->vfunc_79();
             ((TObjCollidable *)arg0)->set_flag8();
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
             this->mode = 1;
         }
     } else if ((s16) *arg1 == 1) {
         ((TObjCollidable *)arg0)->set_flag8();
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         this->mode = 1;
     }
 }
@@ -570,8 +565,6 @@ void TObjContainerAbeEnemy::vfunc_81() {
 
 
 extern "C" {
-}
-extern "C" {
 
 void TObjContainerAbeEnemy::vfunc_80() {
 
@@ -627,12 +620,12 @@ void TObjContainerBase::vfunc_6(s16 *arg1, s32 arg2) {
             this->vfunc_79();
             ((TUnk_804B6C24 *)arg0)->spawn_item((s32)arg0);
             ((TObjCollidable *)arg0)->set_flag8();
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
             this->mode = 1;
         }
     } else if ((s16) *arg1 == 1) {
         ((TObjCollidable *)arg0)->set_flag8();
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         this->mode = 1;
     }
 }
@@ -708,8 +701,6 @@ void TObjContainerBase::vfunc_81() {
 
 
 extern "C" {
-}
-extern "C" {
 
 void TObjContainerBase::vfunc_80() {
 
@@ -758,13 +749,13 @@ void TObjContainerNoItem::vfunc_6(s16 *arg1, s32 arg2) {
             this->vfunc_79();
             ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
             ((TObjCollidable *)arg0)->set_flag8();
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
             this->mode = 1;
         }
     } else if ((s16) *arg1 == 1) {
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
         ((TObjCollidable *)arg0)->set_flag8();
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         this->mode = 1;
     }
 }
@@ -841,8 +832,6 @@ void TObjContainerNoItem::vfunc_81() {
 
 
 extern "C" {
-}
-extern "C" {
 
 void TObjContainerNoItem::vfunc_80() {
 
@@ -900,13 +889,13 @@ void TObjContainerEnemy::vfunc_6(s16 *arg1, s32 arg2) {
             this->vfunc_79();
             ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
             ((TObjCollidable *)arg0)->set_flag8();
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
             this->mode = 1;
         }
     } else if ((s16) *arg1 == 1) {
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
         ((TObjCollidable *)arg0)->set_flag8();
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         this->mode = 1;
     }
 }
@@ -994,8 +983,6 @@ void TObjContainerEnemy::vfunc_81() {
 
 
 extern "C" {
-}
-extern "C" {
 
 void TObjContainerEnemy::vfunc_80() {
 
@@ -1054,13 +1041,13 @@ void TObjContainerItem::vfunc_6(s16 *arg1, s32 arg2) {
             ((TObjChara *)arg0)->request_box_item_drop((u8 *)&this->position, 1);
             ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
             ((TObjCollidable *)arg0)->set_flag8();
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
             this->mode = 1;
         }
     } else if ((s16) *arg1 == 1) {
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
         ((TObjCollidable *)arg0)->set_flag8();
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         this->mode = 1;
     }
 }
@@ -1123,9 +1110,6 @@ extern "C" void roll_physical_accuracy__13TUnk_804B6C24FPvlf();
 
 
 
-
-extern "C" {
-}
 
 
 

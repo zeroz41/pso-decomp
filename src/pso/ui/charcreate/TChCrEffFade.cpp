@@ -1,9 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/charcreate/TChCrEffFade.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80293D84.h"
 
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
@@ -47,7 +49,7 @@ void TChCrEffFade::run_task() {
     update_fade();
     temp_r3 = *(s32 *)((s8 *)this + 0x24);
     if ((temp_r3 <= 0) || (temp_r3 >= (s32) *(s32 *)((s8 *)this + 0x20))) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 

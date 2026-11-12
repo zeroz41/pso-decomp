@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/TItemData.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
@@ -19,6 +20,7 @@
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowInputNumber.h"
+#include "pso/system/task/TObject.h"
 
 struct VBase_18_a93f07
 {
@@ -355,14 +357,14 @@ void TShopGetItemWindow::vfunc_11() {
         if (temp_r12 != NULL) {
             temp_r12(*(s32 *)((s8 *)arg0 + 0x5C));
         }
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     case 7:
         temp_r12_2 = *(s32 (**)(s32))((s8 *)arg0 + 0x60);
         if (temp_r12_2 != NULL) {
             temp_r12_2(*(s32 *)((s8 *)arg0 + 0x5C));
         }
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     default:
         return;
     }

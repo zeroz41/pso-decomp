@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/switch/TOSwitchAttackSub.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -9,6 +10,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/switch/TOSwitchAttack.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 f32 horizontal_distance_squared(const f32*, const f32*);
@@ -22,11 +24,11 @@ void TOSwitchAttackSub::run_task() {
     f32 playerDistance;
     u8* player;
     if (is_current_floor_switch_set(stopSwitchId) == 1) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     if (is_current_floor_switch_set(requiredSwitchId) == 0) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     if (particle != 0 && (player = (u8 *)get_player_by_client_id((s32)local_client_id)) != 0 && camera_ctrl_instance != 0) {
@@ -40,7 +42,7 @@ void TOSwitchAttackSub::run_task() {
 }
 
 TOSwitchAttackSub::~TOSwitchAttackSub() {
-    if (particle != nullptr) queue_destruction__7TObjectFv(particle);
+    if (particle != nullptr) ((TObject *)particle)->queue_destruction();
 }
 
 #pragma inline_depth(1)
@@ -64,7 +66,7 @@ u8 *TOSwitchAttackSub__ct(u8 *object, u8 *arg1, s32 arg2, s32 arg3, u32 arg4, f3
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)(object + 0x18) = __vt__17TOSwitchAttackSub;
     *(s32 *)(object + 0) = TOSwitchAttackSub__name;
-    disallow_rendering__7TObjectFv((TObject *)object);
+    ((TObject *)object)->disallow_rendering();
     *(s16 *)(object + 0x1C) = arg2;
     *(s16 *)(object + 0x1E) = arg3;
     *(void **)(object + 0x20) = 0;

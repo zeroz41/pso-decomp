@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TObjResultWin.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -6,6 +7,7 @@
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/system/task/TObject.h"
 #pragma defer_codegen off
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -17,7 +19,6 @@ char* TQuestVmDownLoadServer__sub_8006EF6C(s32);
 int sprintf(char*, const char*, ...);
 int strncmp(const char*, const char*, unsigned long);
 char* strncat(char*, const char*, unsigned long);
-s32 queue_destruction__7TObjectFv(void*);
 s32 TWindowShortListCtrl__check_controller_button(void*, int);
 s32 TWindowCtrlMain__sub_8024CE58();
 s32 get_window_layout_position(s32);
@@ -130,7 +131,7 @@ void TObjResultWin::run_task() {
         if ((s32) m_close_requested != 0) {
             if ((s32) m_countdown == 0) {
                 ((TWindowBase *)m_window)->close();
-                queue_destruction__7TObjectFv(this);
+                queue_destruction();
             }
         } else if (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state.value + 0x20), 4) != 0) {
             m_close_requested = 1;

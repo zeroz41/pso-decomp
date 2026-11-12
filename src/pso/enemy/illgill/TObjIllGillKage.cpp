@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
@@ -5,6 +6,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_803655F8___vt__15TObjIllGillKage { s32 value; u8 remaining[0x30]; };
 typedef char RecoveredGlobal_803655F8___vt__15TObjIllGillKage_size[sizeof(RecoveredGlobal_803655F8___vt__15TObjIllGillKage) == 0x34 ? 1 : -1];
@@ -81,7 +83,7 @@ u8 *TObjIllGillKage__ct(u8 *ill_gill_kage, s32 arg1, u32 arg2) {
         ((TObjIllGillKage *)ill_gill_kage)->m_90 = 0;
     } else {
         ((TObjIllGillKage *)ill_gill_kage)->m_98 = 0xFFFFU;
-        queue_destruction__7TObjectFv(ill_gill_kage);
+        ((TObject *)ill_gill_kage)->queue_destruction();
     }
     return ill_gill_kage;
 }

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/unk/TLobby_801E43E4.h"
@@ -16,6 +17,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/weapon/TItemAttackCol.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 
 
@@ -207,8 +209,8 @@ void TItemEffOrgaFlowShot::run_task() {
     if (has_game_join_id() != 0) {
         check_hits();
     } else {
-        queue_destruction__7TObjectFv(this);
-        disallow_rendering__7TObjectFv(this);
+        queue_destruction();
+        disallow_rendering();
     }
     approach_value(&pad_190, 50.0f, pad_18C);
     if (pad_190 == pad_18C) {
@@ -219,7 +221,7 @@ void TItemEffOrgaFlowShot::run_task() {
     }
     if (pad_194 == pad_198) {
         if (pad_19C-- == 0) {
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
         }
     }
     update_segments();

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -12,6 +13,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/system/task/TObject.h"
 
 
 struct RecoveredGlobal_8035C83C___vt__12TBoss4Thanks { s32 value; u8 remaining[0x14]; };
@@ -179,7 +181,7 @@ void TBoss4Thanks::update_fade_out() {
         temp_r3 = this->fade_frame;
         if (temp_r3 == 0x78) {
             play_sound_effect(0x40033232, 0, 0, 0);
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
             return;
         }
         this->fade_frame = (temp_r3 + 1);

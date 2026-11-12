@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
@@ -14,6 +15,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/vector.h"
+#include "pso/system/task/TObject.h"
 
 struct O_80087638 { u8 pad[0x2e]; u16 x2e; };
 
@@ -189,7 +191,6 @@ s32 mem_alloc(s32);
 // particle_pool_limit: declared s32 above (part 1)
 // particle_global_entry_table: declared s32 above (part 1)
 u8 *create_ballistic_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5);
-int queue_destruction__7TObjectFv(void *);
 u8 *create_orbit_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5);
 u8 *create_radial_particle(u8 *arg0, u8 *arg1, s32 arg2, u16 arg3, s16 arg4);
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
@@ -358,10 +359,10 @@ void run_task__13TParticleCtrlFv(Ctrl_8008767C *self) {
         }
     }
     if (self->f30 == 1) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
     }
     if (self->lifetime != 0 && self->age >= self->lifetime) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
     }
 }
 #pragma pop

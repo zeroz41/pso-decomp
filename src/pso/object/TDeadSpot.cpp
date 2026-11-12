@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #ifndef PSO_TDEADSPOT_H
 #define PSO_TDEADSPOT_H
 #include "pso/system/task/TObject.h"
@@ -18,6 +19,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
+#include "pso/system/task/TObject.h"
 
 class TDeadSpot : public TObject {
 public:
@@ -168,7 +170,7 @@ void *init__9TDeadSpotFPv(void *arg0, u8 * _w1, u8 * _w2, s32 _w3, f32 _w4) {
 void update_lifetime__9TDeadSpotFPv(void *arg0) {
     u32 tmp34 = ((TUnk_804949F4 *)arg0)->m_34;
     if ((tmp34 == 0U) || (((TObject *)tmp34)->all_parents_unqueued_for_destruction() == 0)) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     *(s32 *)((s8 *)arg0 + 0x2C) = (s32) (*(s32 *)((s8 *)arg0 + 0x2C) + 1);
@@ -358,7 +360,7 @@ Mark_800D8314 *__ct__9TDeadSpotFv(Mark_800D8314 *self, void *parent, Vec_800D831
     probe.y += lbl_805DA3A0;
     ground = csnVecterUnder(&probe, 0x16EF);
     if (ground == NULL) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return self;
     }
     VecCopy((Vec *)&self->center, (const Vec *)&ground->plane->point);
@@ -371,7 +373,7 @@ Mark_800D8314 *__ct__9TDeadSpotFv(Mark_800D8314 *self, void *parent, Vec_800D831
     basis[1].z = TDeadSpot__data_805DA38C;
     direction_to_rotation_yx((u8 *)&ground->plane->normal, &yaw, &pitch);
     if (pitch < 0x3000 || pitch > 0x5000) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return self;
     }
     push_matrix();

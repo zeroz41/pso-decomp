@@ -33,6 +33,7 @@
 #include "pso/object/trap/TOMineIcon01.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/task/TObject.h"
 
 // ---- declarations carried over from the fragment TOMineTrapDisp_8016EDC8.cpp
 extern "C" {
@@ -247,7 +248,6 @@ f32 vec3_add_to(void *, void *);
 f32 vec_squared_length(u8 *arg0);
 f32 subtract_vector(void *, void *);
 f32 normalize_vector(void *);
-void queue_destruction__7TObjectFv(void *arg0);
 int get_player_data__10TObjPlayerFi(int a0);
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 extern s32 registered_player_count;
@@ -734,7 +734,7 @@ void TOMine::vfunc_6(s16 *arg1, s32 arg2) {
             sub_8017070C();
         }
         set_flag8();
-        queue_destruction__7TObjectFv((this));
+        queue_destruction();
         access_object_saved_state(arg1, 0);
         return;
     }
@@ -1058,7 +1058,7 @@ void TOMineTrap::destroy_matching_traps() {
     for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {
         p = (void *)get_player_data__10TObjPlayerFi(i);
         if (p != 0 && check_value_equals__13TUnk_804B6C24Fl(p, (s32)TOMineTrap__data_805D3080) != 0) {
-            queue_destruction__7TObjectFv(p);
+            ((TObject *)p)->queue_destruction();
         }
     }
 }

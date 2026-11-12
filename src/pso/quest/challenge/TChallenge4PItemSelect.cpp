@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/quest/challenge/TChallenge4PItemSelect.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -18,6 +19,7 @@
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 
 struct Stack_8034B158 {
     s8 sp8;
@@ -222,7 +224,7 @@ void TChallenge4PResult::update_wait_input() {
 }
 
 extern "C" {
-void TChallenge4PResult::queue_destruction() { queue_destruction__7TObjectFv(this); }
+void TChallenge4PResult::queue_destruction() { TObject::queue_destruction(); }
 }
 
 extern "C" {
@@ -416,7 +418,7 @@ TChallenge4PItemSelect::TChallenge4PItemSelect(TObject *parent, TChallenge4PResu
     menu_window = 0;
     waitFrames = 90;
     if (result == NULL) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 
@@ -495,5 +497,5 @@ void TChallenge4PItemSelect::close_with_callback() {
     if (temp_r12 != NULL) {
         temp_r12(result);
     }
-    queue_destruction__7TObjectFv(this);
+    queue_destruction();
 }

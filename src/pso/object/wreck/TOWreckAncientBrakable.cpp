@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/TObjChip.h"
 #include "pso/object/wreck/TOWreckAncientBrakable_8017D444.h"
@@ -10,6 +11,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -135,7 +137,7 @@ void TOWreckAncientBrakable::run_task() {
         return;
     case 1:
         ((TObjCollidable *)arg0)->set_flag8();
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         break;
     }
 }

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/quest/TQuestThread.h"
@@ -6,6 +7,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_8033F1C4___vt__12TAdMcCheckGC {
     s32 value;
@@ -48,19 +50,19 @@ void TAdMcCheckGC::run_task() {
     if (TAdPlayerLoadGC::probe_card_slot(this->m_28) == 0) {
         this->m_1c = 0;
         if ((u32) this->m_2c != 0U) {
-            queue_destruction__7TObjectFv(*(void * *)&this->m_2c);
+            ((TObject *)(*(void * *)&this->m_2c))->queue_destruction();
             this->m_2c = 0U;
         }
         if ((u32) this->m_34 != 0U) {
-            queue_destruction__7TObjectFv(*(void * *)&this->m_34);
+            ((TObject *)(*(void * *)&this->m_34))->queue_destruction();
             this->m_34 = 0U;
         }
         if ((u32) this->m_30 != 0U) {
-            queue_destruction__7TObjectFv(*(void * *)&this->m_30);
+            ((TObject *)(*(void * *)&this->m_30))->queue_destruction();
             this->m_30 = 0U;
         }
         if ((u32) this->m_38 != 0U) {
-            queue_destruction__7TObjectFv(*(void * *)&this->m_38);
+            ((TObject *)(*(void * *)&this->m_38))->queue_destruction();
             this->m_38 = 0U;
         }
     }
@@ -78,7 +80,7 @@ void TAdMcCheckGC::run_task() {
         } else {
             this->m_1c = 2;
             if ((u32) this->m_2c != 0U) {
-                queue_destruction__7TObjectFv(*(void * *)&this->m_2c);
+                ((TObject *)(*(void * *)&this->m_2c))->queue_destruction();
                 this->m_2c = 0U;
             }
         }
@@ -91,7 +93,7 @@ void TAdMcCheckGC::run_task() {
         } else {
             this->m_1c = 3;
             if ((u32) this->m_30 != 0U) {
-                queue_destruction__7TObjectFv(*(void * *)&this->m_30);
+                ((TObject *)(*(void * *)&this->m_30))->queue_destruction();
                 this->m_30 = 0U;
             }
         }
@@ -104,7 +106,7 @@ void TAdMcCheckGC::run_task() {
                 this->m_1c = 4;
             }
             if ((u32) this->m_34 != 0U) {
-                queue_destruction__7TObjectFv(*(void * *)&this->m_34);
+                ((TObject *)(*(void * *)&this->m_34))->queue_destruction();
                 this->m_34 = 0U;
             }
         } else if (((s32) this->m_24 > 0xA) && ((u32) this->m_34 == 0U)) {
@@ -115,7 +117,7 @@ void TAdMcCheckGC::run_task() {
         if (TAdPlayerLoadGC::check_memcard_status(this->m_28) == 0) {
             this->m_1c = 5;
             if ((u32) this->m_38 != 0U) {
-                queue_destruction__7TObjectFv(*(void * *)&this->m_38);
+                ((TObject *)(*(void * *)&this->m_38))->queue_destruction();
                 this->m_38 = 0U;
             }
         } else if (((s32) this->m_24 > 0xA) && ((u32) this->m_38 == 0U)) {
@@ -145,19 +147,19 @@ u8 *__dt__12TAdMcCheckGCFv(TAdMcCheckGC *arg0, s16 arg1) {
             *(s32 *)((s8 *)((u8 *)memcard_cursor_instance_table + temp_r4) + 0) = 0;
         }
         if ((u32) arg0->m_2c != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x2C));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x2C)))->queue_destruction();
             arg0->m_2c = 0U;
         }
         if ((u32) arg0->m_30 != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x30));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x30)))->queue_destruction();
             arg0->m_30 = 0U;
         }
         if ((u32) arg0->m_34 != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x34));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x34)))->queue_destruction();
             arg0->m_34 = 0U;
         }
         if ((u32) arg0->m_38 != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x38));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x38)))->queue_destruction();
             arg0->m_38 = 0U;
         }
         __dt__7TObjectFv((void *)arg0, 0);

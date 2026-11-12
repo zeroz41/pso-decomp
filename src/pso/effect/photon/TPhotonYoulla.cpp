@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
@@ -17,6 +18,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -122,7 +124,7 @@ void TPhotonYoulla::run_task() {
         }
     }
     if (123.0f == (f32) *(s32 *)&this->m_1a4) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 

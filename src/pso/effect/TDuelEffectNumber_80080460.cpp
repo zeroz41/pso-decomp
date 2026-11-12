@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma push
 
 #include "types.h"
@@ -7,6 +8,7 @@
 #include "pso/effect/TDuelEffectString.h"
 #include "pso/effect/TDuelEffectNumber.h"
 #include "pso/render/render_util.h"
+#include "pso/system/task/TObject.h"
 #pragma fp_contract on
 
 extern "C" {
@@ -71,7 +73,7 @@ void TDuelEffectString::run_task() {
     u8 *arg0 = (u8 *)this;
     *(s32 *)((s8 *)arg0 + 0x28) = (s32) (*(s32 *)((s8 *)arg0 + 0x28) + 1);
     if ((f32) *(s32 *)((s8 *)arg0 + 0x28) >= 30.0f) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 

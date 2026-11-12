@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/font/TUnk_8049CA54.h"
 #include "pso/ui/window/TWindowCtrlMain_800FC91C.h"
@@ -7,6 +8,7 @@
 #include "pso/ui/font/TFontSmallHelp.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
+#include "pso/system/task/TObject.h"
 
 struct VBase_18_7b3651 { char pad[0x18]; };
 
@@ -57,7 +59,6 @@ void __dl__7TObjectFPv(void *);
 void __dt__14TFontSmallHelpFv(void *, int);
 void *__nw__7TObjectFUl(int);
 s32 get_status_index_or_default__20TWindowSubStatusDispFPUs(void *, s32);
-void queue_destruction__7TObjectFv(void *arg0);
 s32 run_task__14TFontSmallHelpFv(void *);
 
     extern int TWindowCtrlMain__instance;
@@ -139,7 +140,7 @@ void TUnk_8049CA54::run_task() {
 
     temp_r3 = (s32)get_player_by_client_id(*(s32 *)&this->player_id);
     if (temp_r3 == 0) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     temp_r3_2 = ((s32 (*)(s32))get_card_status_bits__20TWindowShortListCtrlFv)(*(s32 *)&this->player_id);
@@ -163,8 +164,6 @@ void TUnk_8049CA54::run_task() {
 }
 TUnk_8049CA54::~TUnk_8049CA54() {
 
-}
-extern "C" {
 }
 
 struct RecoveredGlobal_800FCC78_lbl_8049CA54 {

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "types.h"
@@ -18,6 +19,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/system/task/TObject.h"
 
 struct VBase_18_9c7b63
 {
@@ -619,7 +621,6 @@ s32 is_alive__8TObjBaseFv(int);
 u32 __nw__7TObjectFUl(int);
 s32 TObjEneBm9Mericarol__sub_802D073C(void *);
 void TObjEneBm9Mericarol__sub_802CF4F8(u8 *arg0, s32 arg1);
-void queue_destruction__7TObjectFv(void *self);
 extern s32 game_difficulty_selection;
 f64 atan2_float(f32, f32);
 s32 fill_value_array(int, int, int, f32);
@@ -811,7 +812,7 @@ void TObjEneBm9Mericarol::handle_state_message(s32 msg) {
     case 0:
         return;
     case 3:
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
 }
@@ -1253,7 +1254,7 @@ void TObjEneBm9Mericarol::handle_shot_state(s32 arg1) {
         break;
     case 5:
         if (*(u32 *)((s8 *)arg0 + 0x4AC) != 0) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x4AC));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x4AC)))->queue_destruction();
             *(u32 *)((s8 *)arg0 + 0x4AC) = 0;
         }
         break;
