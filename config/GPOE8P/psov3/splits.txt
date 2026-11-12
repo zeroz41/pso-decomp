@@ -12292,26 +12292,27 @@ pso/player/TObjPlayer_803E5470.cpp:
 	.sdata2     start:0x805E10B8 end:0x805E10BC
 
 pso/quest/TQuestVmDownLoadServer_803E5668.cpp:
-	.text       start:0x803E5668 end:0x803E6610
+	.text       start:0x803E5668 end:0x803E6970
 	.bss        start:0x8058DC48 end:0x8058DE08
-	.sbss       start:0x805D7828 end:0x805D782C
+	.sbss       start:0x805D7820 end:0x805D784C
 	.sdata2     start:0x805E10C0 end:0x805E10C8
-
-pso/ui/window/TWindowKeyBoardSoft_803E6610.cpp:
-	.text       start:0x803E6610 end:0x803E6970
 
 pso/quest/TQuestVmDownLoadServer_803E6970.cpp:
 	.text       start:0x803E6970 end:0x803E8918
 	.rodata     start:0x8047EA28 end:0x8047F0F8
 	.data       start:0x804FC858 end:0x804FC8F8
 	.bss        start:0x8058DE08 end:0x80591EC8
+	.sbss       start:0x805D7850 end:0x805D7864
+	.sdata2     start:0x805E10C8 end:0x805E10D0
 
 pso/quest/TQuestVmDownLoadServer_803E8918.cpp:
 	.text       start:0x803E8918 end:0x803E9A24
 	.bss        start:0x80591EC8 end:0x80595008
+	.sbss       start:0x805D7868 end:0x805D787C
 
 pso/quest/QuestDownloadBuffers.cpp:
 	.bss        start:0x80595008 end:0x80596668
+	.sbss       start:0x805D7880 end:0x805D788C
 
 pso/quest/TQuestVmDownLoadServer_803E9A24.cpp:
 	.text       start:0x803E9A24 end:0x803F0C50

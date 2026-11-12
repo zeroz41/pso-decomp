@@ -1470,7 +1470,6 @@ pso/ui/window/TWindowKeyBoardSoft_80080798.cpp
 pso/ui/window/TWindowKeyBoardSoft_80228BEC.cpp
 pso/ui/window/TWindowKeyBoardSoft_8024E68C.cpp
 pso/ui/window/TWindowKeyBoardSoft_8025B85C.cpp
-pso/ui/window/TWindowKeyBoardSoft_803E6610.cpp
 pso/ui/window/TWindowLoadItemTexture.cpp
 pso/ui/window/TWindowLockOn_800F5DD8.cpp
 pso/ui/window/TWindowLockOn_8026CB80.cpp

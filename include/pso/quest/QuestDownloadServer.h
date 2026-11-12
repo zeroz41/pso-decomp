@@ -474,7 +474,6 @@ void release_node_chain__22TQuestVmDownLoadServerFPv(Node_803ECDC4 *p);
 s32 TQuestVmDownLoadServer__sub_803F03B4(u8 *data, Ent_803F03B4 *ents, s32 n, s32 *max);
 s32 TQuestVmDownLoadServer__sub_803F0268(const char *name, s16 len, Out_803F0268 *out);
 s32 TQuestVmDownLoadServer__sub_803E7390(u8 a, u8 b, u8 c);
-extern const u8 lbl_805E10C8[8];
 extern u8 lbl_80596258[];
 extern u8 lbl_805D7894[4];
 extern const u8 lbl_805E10D0[2];
