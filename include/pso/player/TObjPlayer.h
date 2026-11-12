@@ -1064,7 +1064,6 @@ struct TObjPlayer : public TObjChara {
     int clear_lock_flag();
     void set_flag1();
     void reset_field4();
-    void *reset_field28();
     u8 *create_state_34_alt();
     static void update_battle_control_on_unlock(void *arg0, void *arg1, void *arg2, s32 arg3);
     void handle_exp_steal_effect(s32 arg1, s32 arg2, s32 arg3);

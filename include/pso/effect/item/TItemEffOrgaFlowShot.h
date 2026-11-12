@@ -5,8 +5,9 @@
 #include "pso/item/TUnk_804E355C.h"
 
 // The spawn parameters TUnk_804F14A8::emit_marker_effects fills after
-// TObjPlayer::reset_field28 (0x80357734) and hands to create.
+// reset_field28 (0x80357734) and hands to create.
 struct S_80357734 : S_802E451C {
+    S_80357734 *reset_field28();
     s32 rotation_y;
     Vec joints[5];
 };

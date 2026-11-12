@@ -10435,9 +10435,12 @@ pso/unk/text_80357058.cpp:
 	.sdata2     start:0x805E0028 end:0x805E0048
 
 pso/player/TObjPlayer_80357734.cpp:
-	.text       start:0x80357734 end:0x80358AE8
+	.text       start:0x80357734 end:0x80357B2C
+	.data       start:0x804F14A8 end:0x804F15C4
+
+pso/player/TObjPlayer_80357B2C.cpp:
+	.text       start:0x80357B2C end:0x80358AE8
 	.rodata     start:0x804793D8 end:0x804793F8
-	.data       start:0x804F15A0 end:0x804F15C4
 	.sdata2     start:0x805E0048 end:0x805E0094
 
 pso/npc/TObjNpcNgcBase_80358AE8.cpp:

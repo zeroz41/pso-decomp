@@ -2023,6 +2023,7 @@ pso/player/TObjPlayer_80351748.cpp
 pso/player/TObjPlayer_80354EC8.cpp
 pso/player/TObjPlayer_80355A58.cpp
 pso/player/TObjPlayer_80357734.cpp
+pso/player/TObjPlayer_80357B2C.cpp
 pso/player/TObjPlayer_8035A630.cpp
 pso/player/TObjPlayer_8035A740.cpp
 pso/player/TObjPlayer_8035A778.cpp
