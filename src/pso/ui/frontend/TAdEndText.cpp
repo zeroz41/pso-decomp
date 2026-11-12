@@ -123,7 +123,7 @@ extern const f32 lbl_805D7E34;
 extern const f32 lbl_805D7E38;
 extern const f32 lbl_805D7E3C;
 int TKeyBoardControl__sub_8000F828(void);
-s32 __ct__7TObjectFP7TObject(void *);
+s32 __ct__7TObjectFP7TObject(void *, TObject *);
 extern u8 __vt__10TAdEndText[];
 extern const char *TAdEndText__class_name;
 extern const f32 lbl_805D7DF0;
@@ -355,10 +355,10 @@ TAdEndText::~TAdEndText() {}
 
 typedef struct Box_8001B190 Box_8001B190;
 typedef struct Self_8001B190 Self_8001B190;
-u8 *__ct__10TAdEndTextFv(u8 *object) {
+u8 *__ct__10TAdEndTextFv(u8 *object, TObject *parent) {
   Self_8001B190 *self = (Self_8001B190 *) object;
   s32 c;
-  __ct__7TObjectFP7TObject(object);
+  __ct__7TObjectFP7TObject(object, parent);
   self->vtable = __vt__10TAdEndText;
   self->name = (s32)TAdEndText__class_name;
   self->f1C = 0;

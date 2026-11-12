@@ -1055,10 +1055,6 @@ pso/system/movie/TMovie_80143CC8.cpp
 pso/system/movie/TMovie_80143CE8.cpp
 pso/system/movie/TMovie_80143DF0.cpp
 pso/system/movie/TMovie_80143E90.cpp
-pso/system/movie/TMovie_801443C0.cpp
-pso/system/movie/TMovie_80144484.cpp
-pso/system/movie/TMovie_801444C0.cpp
-pso/system/movie/TMovie_80144778.cpp
 pso/enemy/TNeedleShoot.cpp
 pso/enemy/TNeedleShoot_802A4540.cpp
 pso/enemy/TNeedleShoot_802A4668.cpp
