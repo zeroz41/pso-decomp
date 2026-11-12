@@ -61,7 +61,7 @@ void vfunc_80__12TOMineIcon04Fv(s32 arg0);
 s32 TObjFish__sub_8001EDB0(void *, s32);
 s32 get_bml_model(void *, s32);
 void init_collision_body_parts(void *, void *, s32);
-void __ct__6TOMineFP7TObject(void *, void *, void *);
+void __ct__6TOMineFP7TObject(void *, void *);
 extern u8 mine_collision_body_parts[];
 extern void *__vt__12TOMineIcon04[];
 extern s32 TOMineIcon04__name;
@@ -314,7 +314,7 @@ void *__dt__12TOMineIcon04Fv(void *arg0, s16 arg1) {
 #pragma push
 #pragma fp_contract on
 void *TOMineIcon04__ct(void *arg0, void *arg1, void *arg2) {
-    __ct__6TOMineFP7TObject(arg0, arg1, arg2);
+    __ct__6TOMineFP7TObject(arg0, arg1);
 #define self ((Icon_80171E7C *)arg0)
     self->vt = ((void * *)&__vt__12TOMineIcon04);
     self->f0 = TOMineIcon04__name;
