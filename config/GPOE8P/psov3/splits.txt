@@ -8818,11 +8818,8 @@ pso/ui/window/TWindowTradeRequest.cpp:
 pso/unk/text_802D23E0.cpp:
 	.text       start:0x802D23E0 end:0x802D2808
 
-pso/ui/window/TWindowSubTradeMain_802D2808.cpp:
-	.text       start:0x802D2808 end:0x802D298C
-
 pso/network/TradeSession.cpp:
-	.text       start:0x802D298C end:0x802D3924
+	.text       start:0x802D2808 end:0x802D3924
 	.data       start:0x804E1920 end:0x804E1A60
 	.bss        start:0x80540BD0 end:0x80540FB0
 
@@ -12487,13 +12484,21 @@ pso/network/NetUdp.c:
 	.bss        start:0x805C1DF0 end:0x805C1E00
 
 pso/network/text_80421620.c:
-	.text       start:0x80421620 end:0x804245DC
+	.text       start:0x80421620 end:0x80423298
+	.rodata     start:0x804800F0 end:0x80480138
+	.sbss       start:0x805D7B00 end:0x805D7B08
+
+pso/network/NetDhcp.c:
+	.text       start:0x80423298 end:0x804253A0
+	.data       start:0x804FD948 end:0x804FD9D8
 	.bss        start:0x805C1E00 end:0x805C30C0
+	.sdata      start:0x805D4820 end:0x805D4828
+	.sbss       start:0x805D7B08 end:0x805D7BA8
 
 pso/network/NetworkPacketRuntime.c:
-	.text       start:0x804245DC end:0x80425B70
-	.data       start:0x804FD948 end:0x804FD9D8
+	.text       start:0x804253A0 end:0x80425B70
 	.bss        start:0x805C30C0 end:0x805CF240
+	.sbss       start:0x805D7BA8 end:0x805D7BB0
 
 pso/network/NetworkMessageTransport.c:
 	.text       start:0x80425B70 end:0x80426CAC

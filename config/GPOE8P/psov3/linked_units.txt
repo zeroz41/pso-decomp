@@ -1662,7 +1662,6 @@ pso/ui/window/TWindowSubTradeMain_80268468.cpp
 pso/ui/window/TWindowSubEquipKind_80278300.cpp
 pso/ui/window/TWindowSubTradeMain_802785B0.cpp
 pso/ui/window/TWindowSubTradeMain_802D220C.cpp
-pso/ui/window/TWindowSubTradeMain_802D2808.cpp
 pso/ui/window/TWindowSubTradeMain_802D3924.cpp
 pso/ui/window/TWindowSubTradeMain_80330A84.cpp
 pso/ui/window/TWindowSubTradeMain_80332148.cpp
@@ -1680,6 +1679,7 @@ pso/system/data/pso_const_ids4.cpp
 pso/system/data/pso_const_ids5.cpp
 pso/system/data/pso_date.cpp
 pso/network/ModemRuntime.cpp
+pso/network/NetDhcp.c
 pso/network/NetworkInfoCodec.cpp
 pso/network/NetworkInfoLoader.cpp
 pso/network/NetworkMessageTransport.c

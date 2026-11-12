@@ -7,6 +7,7 @@
 #include "pso/network/NetworkTransport.h"
 #include "pso/network/NetworkMessageTransport.h"
 #include "pso/network/NetworkPacketPool.h"
+#include "pso/network/NetDhcp.h"
 #include "pso/network/TLobby_80428374.h"
 #include "pso/unk/text_80145A44.h"
 #include "pso/unk/text_803F4D84.h"
