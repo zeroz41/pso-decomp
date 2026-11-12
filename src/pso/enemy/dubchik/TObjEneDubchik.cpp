@@ -976,11 +976,7 @@ void TObjEneDubchik::update_fall_apart() {
         ((TObjPlayer *)this)->render_model_and_set_attach_points();
         for (i = 0; i < 3; i++) {
             if (parts[i] == NULL && random_ratio() >= 0.5f) {
-                u8 *part = (u8 *)TObject::operator new(0xFC);
-                if (part != NULL) {
-                    part = TObjPlayer__sub_800AB7A0(part, i, this, (s32)variant != 0 ? dubchik_variant_texlist : dubchik_texlist, &part_offsets[i]);
-                }
-                parts[i] = (TUnk_80491478 *)part;
+                parts[i] = new TUnk_80491478(i, this, (s32)variant != 0 ? dubchik_variant_texlist : dubchik_texlist, &part_offsets[i]);
                 m_388 |= 0x20000 << i;
             }
         }
@@ -1020,7 +1016,7 @@ void TObjEneDubchik::update_fall_apart() {
                 if (parts[j] != NULL) {
                     if (random_ratio() >= 0.5f) {
                         part_hit[j] = 1;
-                        ((TObjPlayer *)parts[j])->cancel_action();
+                        parts[j]->cancel_action();
                     } else {
                         part_hit[j] = 0;
                     }
@@ -1028,14 +1024,14 @@ void TObjEneDubchik::update_fall_apart() {
             }
             if (parts[1] != NULL && parts[2] != NULL && part_hit[1] + part_hit[2] == 0) {
                 s32 k;
-                f32 dist = xz_distance_squared(body_center(), (Vec *)&parts[1]->m_f0);
-                if (dist < xz_distance_squared(body_center(), (Vec *)&parts[2]->m_f0)) {
+                f32 dist = xz_distance_squared(body_center(), &parts[1]->pos);
+                if (dist < xz_distance_squared(body_center(), &parts[2]->pos)) {
                     k = 1;
                 } else {
                     k = 2;
                 }
                 part_hit[k] = 1;
-                ((TObjPlayer *)parts[k])->cancel_action();
+                parts[k]->cancel_action();
             }
             m_388 |= 0x800000;
             state = 3;
@@ -1048,7 +1044,7 @@ void TObjEneDubchik::update_fall_apart() {
         all_done = 1;
         for (i = 0; i < 3; i++) {
             if (part_hit[i] != 0 && parts[i] != NULL) {
-                if (((TObjPlayer *)parts[i])->get_action_priority() != 0) {
+                if (parts[i]->get_action_priority() != 0) {
                     parts[i]->queue_destruction();
                     parts[i] = NULL;
                     m_388 &= ~(0x20000 << i);

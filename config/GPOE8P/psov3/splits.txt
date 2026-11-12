@@ -1541,7 +1541,7 @@ pso/enemy/dubchik/TObjEneDubchik.cpp:
 pso/player/TObjPlayer_800AAFBC.cpp:
 	.text       start:0x800AB0EC end:0x800AB970
 	.rodata     start:0x8043ACF8 end:0x8043AD00
-	.data       start:0x80491460 end:0x80491478
+	.data       start:0x80491460 end:0x804914B0
 	.sdata2     start:0x805D9B68 end:0x805D9BA0
 
 pso/enemy/shark/TObjEneShark.cpp:
@@ -9106,7 +9106,7 @@ pso/unk/text_802F190C.cpp:
 pso/boss/derolle/TObjBoss2Tunnel_802F1A58.cpp:
 	.text       start:0x802F1A58 end:0x802F2C90
 	.rodata     start:0x804743B0 end:0x80474460
-	.data       start:0x804E4978 end:0x804E4AD4
+	.data       start:0x804E4978 end:0x804E4B3C
 	.sdata      start:0x805D3FF0 end:0x805D3FF8
 	.sbss       start:0x805D6968 end:0x805D6978
 	.sdata2     start:0x805DEC98 end:0x805DED14

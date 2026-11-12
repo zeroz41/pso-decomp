@@ -21,6 +21,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/system/vector.h"
 
 struct RecoveredGlobal_800ABA9C_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 typedef char RecoveredGlobal_800ABA9C_lbl_8058D490_size[sizeof(RecoveredGlobal_800ABA9C_lbl_8058D490) == 0x30 ? 1 : -1];
@@ -117,8 +118,6 @@ struct Vec_800AB4F4 { f32 x, y, z; };
 
 struct Vec_800AB7A0 { f32 x, y, z; };
 
-struct Arr_800AB7A0 { u8 pad[0x3D4]; Vec_800AB7A0 arr[4]; };
-
 struct VBase_14_800ABDD8
 {
   char pad[0x14];
@@ -190,9 +189,7 @@ s32 pop_matrix();
 extern s32 dubchik_texlist;
 extern s32 model_render_flags;
 
-void __dl__7TObjectFPv(void *);
 void queue_destruction__7TObjectFv(void *);
-extern s32 lbl_80491478[];
 s32 VecCopy__FP3VecPC3Vec(void *, void *);
 u32 csnVector(void *, void *, int);
 void *get_player_by_client_id(s32 i);
@@ -218,24 +215,174 @@ s32 subtract_vector(void *, void *);
 s16 get_entity_id(void *);
 u8 *csnLookAt(void *, Vec_800AB7A0 *);
 u32 TObjPlayer__sub_800A4204(void *, void *, void *, void *, int);
-s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 void *__nw__7TObjectFUl(int);
 extern s32 player_sub_800ab7a0_id_table[];
 extern void *dubchik_resource;
 
-void __dt__7TObjectFv(void *, int);
+}
 
+// Written last-to-first: the TU was compiled with deferred codegen, which emits the
+// functions (and the vtables, by key function) in reverse definition order.
+#pragma defer_codegen on
 
-s32 TUnk_80491460::try_hit_target(int arg1) {
-    u8 *e = (u8 *)arg1;
-    Obj_800AB0EC *o = (Obj_800AB0EC *)this;
-    if (e != NULL && !(*(s32 *)(e + 0x30) & 0xA00) && !(xz_distance_squared((Vec *)o->pos, (Vec *)(e + 0x2FC)) > lbl_805D9B58)) {
-        Pair_800AB0EC tmp = lbl_8043ACEC[0];
-        tmp.b = (f32)this->m_68;
-        Pair_800AB0EC arg = tmp;
-        ((VObj_800AB0EC *)e)->m21(o->f64, &arg, 0, -1, -1);
-        spawn_particle_effect(e + 0x2FC, 0xFB);
-        queue_destruction__7TObjectFv(o);
+TUnk_80491478::TUnk_80491478(s32 index, TObjEneDubchik *parent, NJS_TEXLIST *texlist, Vec *offset) : TObjCollidable((TObject *)tl_06) {
+    Vec_800AB7A0 v;
+    Vec_800AB7A0 out;
+    void *obj;
+    u8 *temp_r3;
+    s32 t;
+    part_index = index;
+    parent_id = get_entity_id(parent);
+    m_ae = 0;
+    t = player_sub_800ab7a0_id_table[index];
+    m_d8 = texlist;
+    m_c8 = find_model_node(*(s32 *)((s8 *)(*(u8 **)((s8 *)dubchik_resource + 0x42C)) + 0x18), t);
+    target = &parent->part_offsets[index];
+    VecCopy(&pos, VecCopy(&origin, offset));
+    m_e8 = 3.0f + parent->position.y;
+    ((s32 (*)(void *, f32)) push_matrix_from)((void *) &identity_matrix, 3.0f);
+    v.x = v.y = 0.0f;
+    v.z = -2.0f;
+    rotate_matrix_y(0, parent->rotation_y + ((index - 1) << 0xD));
+    rotate_vector_by_matrix(0, &v, unk_B0);
+    v.z = range = 3e+01f;
+    rotate_vector_by_matrix(0, &v, &out);
+    vec3_add_to(&out, &pos);
+    temp_r3 = csnLookAt(&pos, &out);
+    if (temp_r3 != NULL) {
+        range = (10.0f > vec_xz_distance(&pos, *(Vec **)((s8 *)temp_r3 + 4)) - 5.0f) ? 10.0f : vec_xz_distance(&pos, *(Vec **)((s8 *)temp_r3 + 4)) - 5.0f;
+    }
+    pop_matrix();
+    m_b4 = 0.0f;
+    obj = __nw__7TObjectFUl(0x348);
+    if (obj != NULL) {
+        obj = (void *) TObjPlayer__sub_800A4204(obj, this, target, &pos, 0x10);
+    }
+    m_d0 = (TObject *)obj;
+    if (m_d0 != NULL) {
+        ((TObjPlayer *)m_d0)->clear_counter();
+    }
+}
+
+TUnk_80491478::~TUnk_80491478() {
+    if (m_d0 != NULL) {
+        m_d0->queue_destruction();
+        m_d0 = NULL;
+    }
+}
+
+#pragma push
+#pragma fp_contract on
+void TUnk_80491478::run_task() {
+    f32 t;
+    f32 var_f1;
+    u8 *arg0 = (u8 *)this;
+    switch (((TUnk_80491478 *)arg0)->m_ae) {
+    case 0: {
+        Vec_800AB4F4 v = *(Vec_800AB4F4 *)(arg0 + 0xF0);
+        v.x += *(f32 *)((s8 *)arg0 + 0xB0);
+        v.z += *(f32 *)((s8 *)arg0 + 0xB8);
+        v.y += 5.0f;
+        if (project_actor_to_ground((void *) arg0, &v, 0) == 1) {
+            ((TUnk_80491478 *)arg0)->pos.x = v.x;
+            ((TUnk_80491478 *)arg0)->pos.z = v.z;
+            if (((TUnk_80491478 *)arg0)->pos.y < v.y) {
+                ((TUnk_80491478 *)arg0)->pos.y = v.y;
+                ((TUnk_80491478 *)arg0)->m_b4 = 0.6f * fabs_float(((TUnk_80491478 *)arg0)->m_b4);
+            }
+            if ((v.y - ((TUnk_80491478 *)arg0)->m_e8) > 2.0f) {
+                ((TUnk_80491478 *)arg0)->m_ae = 1;
+            } else {
+                ((TUnk_80491478 *)arg0)->m_e8 = v.y;
+            }
+        }
+        if (xz_distance_squared(&this->pos, &this->origin) >= ((TUnk_80491478 *)arg0)->range * ((TUnk_80491478 *)arg0)->range) {
+            ((TUnk_80491478 *)arg0)->m_ae = 1;
+        }
+    }
+    case 1:
+        ((TUnk_80491478 *)arg0)->pos.y += ((TUnk_80491478 *)arg0)->m_b4;
+        ((TUnk_80491478 *)arg0)->m_b4 += -0.10888889f;
+        if (((TUnk_80491478 *)arg0)->pos.y < ((TUnk_80491478 *)arg0)->m_e8) {
+            ((TUnk_80491478 *)arg0)->pos.y = ((TUnk_80491478 *)arg0)->m_e8;
+            ((TUnk_80491478 *)arg0)->m_b4 = 0.0f;
+        }
+        break;
+    case 2:
+        VecCopy__FP3VecPC3Vec((u8 *)&this->unk_B0, ((TUnk_80491478 *)arg0)->target);
+        subtract_vector((u8 *)&this->unk_B0, &this->pos);
+        if (*(f32 *)((s8 *)arg0 + 0xB0) * *(f32 *)((s8 *)arg0 + 0xB0) + *(f32 *)((s8 *)arg0 + 0xB8) * *(f32 *)((s8 *)arg0 + 0xB8) > 25.0f) {
+            t = 0.8f / newton_sqrtf();
+            ((TUnk_80491478 *)arg0)->pos.x = *(f32 *)((s8 *)arg0 + 0xB0) * t + ((TUnk_80491478 *)arg0)->pos.x;
+            ((TUnk_80491478 *)arg0)->pos.z = *(f32 *)((s8 *)arg0 + 0xB8) * t + ((TUnk_80491478 *)arg0)->pos.z;
+        } else if (fabs_float(((TUnk_80491478 *)arg0)->m_b4) > 5.0f) {
+            if (((TUnk_80491478 *)arg0)->m_b4 > 0.0f) {
+                var_f1 = 0.8f;
+            } else {
+                var_f1 = -0.8f;
+            }
+            ((TUnk_80491478 *)arg0)->pos.y += var_f1;
+        } else {
+            ((TUnk_80491478 *)arg0)->m_ae = 3;
+        }
+        break;
+    case 3:
+        VecCopy(&this->pos, ((TUnk_80491478 *)arg0)->target);
+        break;
+    }
+}
+#pragma pop
+
+void TUnk_80491478::render() {
+    TObjFish::set_global_param(dubchik_texlist);
+    TObjFish::set_global_param((s32)m_d8);
+    push_matrix();
+    post_translate_matrix(&pos);
+    rotate_matrix_y(0, rot_y);
+    scale_matrix(0, 1.3f, 1.3f, 1.3f);
+    model_render_flags &= 0xFFFFFBFF;
+    draw_chunk_object((void *)m_c8);
+    pop_matrix();
+}
+
+s32 TUnk_80491478::get_action_priority() {
+    if (m_ae == 3) {
+        return 1;
+    }
+    return 0;
+}
+
+void TUnk_80491478::cancel_action() {
+    if (get_action_priority() != 1) {
+        if (m_d0 != NULL) {
+            ((TObjPlayer *)m_d0)->set_cancel_flag();
+        }
+        m_ae = 2;
+    }
+}
+
+TUnk_80491460::TUnk_80491460(void *arg1, s32 arg2, s32 arg3, s32 arg4) : TObject((TObject *)tl_06) {
+    VecCopy__FP3VecPC3Vec(&((Obj_800AB31C *)this)->pos, arg1);
+    VecCopy__FP3VecPC3Vec(&((Obj_800AB31C *)this)->pos2, arg1);
+    ((Obj_800AB31C *)this)->f58 = lbl_805D9B64;
+    push_matrix_from(&identity_matrix);
+    Vec_800AB31C v = lbl_8043ACE0[0];
+    rotate_matrix_y(0, arg2);
+    rotate_vector_by_matrix(0, &v, ((Obj_800AB31C *)this)->mtx34);
+    pop_matrix();
+    ((Obj_800AB31C *)this)->f64 = arg3;
+    Rot_800AB31C r;
+    r.x = 0;
+    r.y = arg2 + 0x4000;
+    r.z = 0x4000;
+    ((Obj_800AB31C *)this)->f5C = (s32)spawn_particle_effect_with_rotation(arg1, &r, 0x6D, 2);
+    ((Obj_800AB31C *)this)->f60 = 0;
+    ((Obj_800AB31C *)this)->f68 = arg4;
+}
+
+TUnk_80491460::~TUnk_80491460() {
+    if (particle != NULL) {
+        particle->queue_destruction();
     }
 }
 
@@ -281,171 +428,19 @@ void TUnk_80491460::run_task() {
   while (var_r31 < 0xC);
 }
 
-TUnk_80491460::~TUnk_80491460() {
-    if (particle != NULL) {
-        particle->queue_destruction();
+s32 TUnk_80491460::try_hit_target(int arg1) {
+    u8 *e = (u8 *)arg1;
+    Obj_800AB0EC *o = (Obj_800AB0EC *)this;
+    if (e != NULL && !(*(s32 *)(e + 0x30) & 0xA00) && !(xz_distance_squared((Vec *)o->pos, (Vec *)(e + 0x2FC)) > lbl_805D9B58)) {
+        Pair_800AB0EC tmp = lbl_8043ACEC[0];
+        tmp.b = (f32)this->m_68;
+        Pair_800AB0EC arg = tmp;
+        ((VObj_800AB0EC *)e)->m21(o->f64, &arg, 0, -1, -1);
+        spawn_particle_effect(e + 0x2FC, 0xFB);
+        queue_destruction__7TObjectFv(o);
     }
 }
 
-}
-TUnk_80491460::TUnk_80491460(void *arg1, s32 arg2, s32 arg3, s32 arg4) : TObject((TObject *)tl_06) {
-    VecCopy__FP3VecPC3Vec(&((Obj_800AB31C *)this)->pos, arg1);
-    VecCopy__FP3VecPC3Vec(&((Obj_800AB31C *)this)->pos2, arg1);
-    ((Obj_800AB31C *)this)->f58 = lbl_805D9B64;
-    push_matrix_from(&identity_matrix);
-    Vec_800AB31C v = lbl_8043ACE0[0];
-    rotate_matrix_y(0, arg2);
-    rotate_vector_by_matrix(0, &v, ((Obj_800AB31C *)this)->mtx34);
-    pop_matrix();
-    ((Obj_800AB31C *)this)->f64 = arg3;
-    Rot_800AB31C r;
-    r.x = 0;
-    r.y = arg2 + 0x4000;
-    r.z = 0x4000;
-    ((Obj_800AB31C *)this)->f5C = (s32)spawn_particle_effect_with_rotation(arg1, &r, 0x6D, 2);
-    ((Obj_800AB31C *)this)->f60 = 0;
-    ((Obj_800AB31C *)this)->f68 = arg4;
-}
-
-
-void TObjPlayer::cancel_action() {
-    if (get_action_priority() != 1) {
-        if ((u32) *(u32 *)&this->override_speed != 0U) {
-            ((TObjPlayer *)(*(u32 *)&this->override_speed))->set_cancel_flag();
-        }
-        *(s16 *)((s8 *)this + 0xAE) = 2;
-    }
-}
-s32 TObjPlayer::get_action_priority() {
-    return (s32)((u32)__cntlzw(3 - *(s16 *)((s8 *)this + 0xAE)) >> 5);
-}
-void TObjPlayer::draw_model_no_fog() {
-    TObjFish::set_global_param(dubchik_texlist);
-    TObjFish::set_global_param((*(s32 *)&this->action_table));
-    push_matrix();
-    post_translate_matrix((u8 *)&this->blend.frame[1]);
-    rotate_matrix_y(0, (*(s32 *)&this->frame));
-    scale_matrix(0, 1.3f, 1.3f, 1.3f);
-    model_render_flags &= 0xFFFFFBFF;
-    draw_chunk_object((void *)(*(s32 *)&this->play_speed));
-    pop_matrix();
-}
-
-#pragma push
-#pragma fp_contract on
-void TUnk_80491478::run_task() {
-    f32 t;
-    f32 var_f1;
-    u8 *arg0 = (u8 *)this;
-    switch (((TUnk_80491478 *)arg0)->m_ae) {
-    case 0: {
-        Vec_800AB4F4 v = *(Vec_800AB4F4 *)(arg0 + 0xF0);
-        v.x += *(f32 *)((s8 *)arg0 + 0xB0);
-        v.z += *(f32 *)((s8 *)arg0 + 0xB8);
-        v.y += 5.0f;
-        if (project_actor_to_ground((void *) arg0, &v, 0) == 1) {
-            ((TUnk_80491478 *)arg0)->m_f0 = v.x;
-            ((TUnk_80491478 *)arg0)->m_f8 = v.z;
-            if (*(f32 *)((s8 *)arg0 + 0xF4) < v.y) {
-                *(f32 *)((s8 *)arg0 + 0xF4) = v.y;
-                ((TUnk_80491478 *)arg0)->m_b4 = 0.6f * fabs_float(((TUnk_80491478 *)arg0)->m_b4);
-            }
-            if ((v.y - ((TUnk_80491478 *)arg0)->m_e8) > 2.0f) {
-                ((TUnk_80491478 *)arg0)->m_ae = 1;
-            } else {
-                ((TUnk_80491478 *)arg0)->m_e8 = v.y;
-            }
-        }
-        if (xz_distance_squared((Vec *)&this->m_f0, (Vec *)&this->unk_DC) >= *(f32 *)((s8 *)arg0 + 0xEC) * *(f32 *)((s8 *)arg0 + 0xEC)) {
-            ((TUnk_80491478 *)arg0)->m_ae = 1;
-        }
-    }
-    case 1:
-        *(f32 *)((s8 *)arg0 + 0xF4) += ((TUnk_80491478 *)arg0)->m_b4;
-        ((TUnk_80491478 *)arg0)->m_b4 += -0.10888889f;
-        if (*(f32 *)((s8 *)arg0 + 0xF4) < ((TUnk_80491478 *)arg0)->m_e8) {
-            *(f32 *)((s8 *)arg0 + 0xF4) = ((TUnk_80491478 *)arg0)->m_e8;
-            ((TUnk_80491478 *)arg0)->m_b4 = 0.0f;
-        }
-        break;
-    case 2:
-        VecCopy__FP3VecPC3Vec((u8 *)&this->unk_B0, *(void **)((s8 *)arg0 + 0xCC));
-        subtract_vector((u8 *)&this->unk_B0, (u8 *)&this->m_f0);
-        if (*(f32 *)((s8 *)arg0 + 0xB0) * *(f32 *)((s8 *)arg0 + 0xB0) + *(f32 *)((s8 *)arg0 + 0xB8) * *(f32 *)((s8 *)arg0 + 0xB8) > 25.0f) {
-            t = 0.8f / newton_sqrtf();
-            ((TUnk_80491478 *)arg0)->m_f0 = *(f32 *)((s8 *)arg0 + 0xB0) * t + ((TUnk_80491478 *)arg0)->m_f0;
-            ((TUnk_80491478 *)arg0)->m_f8 = *(f32 *)((s8 *)arg0 + 0xB8) * t + ((TUnk_80491478 *)arg0)->m_f8;
-        } else if (fabs_float(((TUnk_80491478 *)arg0)->m_b4) > 5.0f) {
-            if (((TUnk_80491478 *)arg0)->m_b4 > 0.0f) {
-                var_f1 = 0.8f;
-            } else {
-                var_f1 = -0.8f;
-            }
-            *(f32 *)((s8 *)arg0 + 0xF4) += var_f1;
-        } else {
-            ((TUnk_80491478 *)arg0)->m_ae = 3;
-        }
-        break;
-    case 3:
-        VecCopy__FP3VecPC3Vec((u8 *)&this->m_f0, *(void **)((s8 *)arg0 + 0xCC));
-        break;
-    }
-}
-#pragma pop
-
-void *TUnk_80491478::destroy_with_particle_cleanup(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = lbl_80491478;
-        if (*(void * *)&(this->m_d0) != NULL) { queue_destruction__7TObjectFv(*(void * *)&(this->m_d0)); (this->m_d0) = 0; }
-        __dt__14TObjCollidableFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
-    }
-    return this;
-}
-
-u8 *TObjPlayer__sub_800AB7A0(u8 *arg0, s32 arg1, TObjEneDubchik *arg2, NJS_TEXLIST *arg3, Vec *arg4) {
-    Vec_800AB7A0 v;
-    Vec_800AB7A0 out;
-    void *obj;
-    u8 *temp_r3;
-    s32 t;
-    __ct__14TObjCollidableFP7TObject(arg0, tl_06);
-    *(s32 **)((s8 *)arg0 + 0x18) = lbl_80491478;
-    *(s16 *)((s8 *)arg0 + 0xAC) = arg1;
-    *(s16 *)((s8 *)arg0 + 0xD4) = get_entity_id(arg2);
-    ((TUnk_80491478 *)arg0)->m_ae = 0;
-    t = player_sub_800ab7a0_id_table[arg1];
-    ((TUnk_80491478 *)arg0)->m_d8 = arg3;
-    ((TUnk_80491478 *)arg0)->m_c8 = (s32)find_model_node(*(s32 *)((s8 *)(*(u8 **)((s8 *)dubchik_resource + 0x42C)) + 0x18), (s32)t);
-    *(Vec_800AB7A0 **)((s8 *)arg0 + 0xCC) = &((Arr_800AB7A0 *)arg2)->arr[arg1];
-    VecCopy__FP3VecPC3Vec(arg0 + 0xF0, (void *) VecCopy__FP3VecPC3Vec(arg0 + 0xDC, (void *)arg4));
-    ((TUnk_80491478 *)arg0)->m_e8 = 3.0f + *(f32 *)((s8 *)arg2 + 0x3C);
-    ((s32 (*)(void *, f32)) push_matrix_from)((void *) &identity_matrix, 3.0f);
-    v.x = v.y = 0.0f;
-    v.z = -2.0f;
-    rotate_matrix_y(0, *(s32 *)((s8 *)arg2 + 0x60) + ((arg1 - 1) << 0xD));
-    rotate_vector_by_matrix(0, &v, arg0 + 0xB0);
-    v.z = *(f32 *)((s8 *)arg0 + 0xEC) = 3e+01f;
-    rotate_vector_by_matrix(0, &v, &out);
-    vec3_add_to(&out, arg0 + 0xF0);
-    temp_r3 = csnLookAt(arg0 + 0xF0, &out);
-    if (temp_r3 != NULL) {
-        *(f32 *)((s8 *)arg0 + 0xEC) = (10.0f > vec_xz_distance((Vec *)(arg0 + 0xF0), *(Vec **)((s8 *)temp_r3 + 4)) - 5.0f) ? 10.0f : vec_xz_distance((Vec *)(arg0 + 0xF0), *(Vec **)((s8 *)temp_r3 + 4)) - 5.0f;
-    }
-    pop_matrix();
-    ((TUnk_80491478 *)arg0)->m_b4 = 0.0f;
-    obj = __nw__7TObjectFUl(0x348);
-    if (obj != NULL) {
-        obj = (void *) TObjPlayer__sub_800A4204(obj, arg0, *(void **)((s8 *)arg0 + 0xCC), arg0 + 0xF0, 0x10);
-    }
-    *(void **)((s8 *)arg0 + 0xD0) = obj;
-    if (*(void **)((s8 *)arg0 + 0xD0) != NULL) {
-        ((TObjPlayer *)(*(void **)((s8 *)arg0 + 0xD0)))->clear_counter();
-    }
-    return arg0;
-}
 
 typedef struct Fade_800ABDD8 Fade_800ABDD8;
 typedef struct Owner_800ABDD8 Owner_800ABDD8;

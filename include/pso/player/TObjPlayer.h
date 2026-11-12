@@ -428,9 +428,6 @@ struct TObjPlayer : public TObjChara {
     static void free_effect_resources();
     void clear_flag_04000000();
     void set_invuln_flags();
-    void cancel_action();
-    s32 get_action_priority();
-    void draw_model_no_fog();
     void update_invincibility();
     static void update_effect_sequence();
     static void toggle_particle_effect();
