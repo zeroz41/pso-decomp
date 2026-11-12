@@ -111,7 +111,7 @@ s32 TWindowCtrl__sub_8024C7F8(void *);
 s32 TWindowCtrl__sub_8024A314();
 s32 TWindowCtrl__sub_8024C7C4(void *);
 s32 TWindowCtrl__sub_8024C7E0(void *);
-s32 bind_target__13TWindowLockOnFv(void *, s32);
+s32 bind_target__13TWindowLockOnFUs(void *, s32);
 u32 create_for_target__13TWindowLockOnFlUs(int, s32);
 s32 TKeyBoardControl__sub_801A58B0();
 s32 TKeyBoardControl__sub_801A58D8();
@@ -276,7 +276,7 @@ void TWindowCtrl::update_target_info_window() {
             if (w == NULL) {
                 *(u32 *)((s8 *)arg0 + 0x38) = create_for_target__13TWindowLockOnFlUs((int) (*(s32 *)((s8 *)arg0 + 0x24)), id);
             } else {
-                bind_target__13TWindowLockOnFv(w, id);
+                bind_target__13TWindowLockOnFUs(w, id);
             }
         }
     }

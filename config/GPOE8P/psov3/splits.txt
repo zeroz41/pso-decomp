@@ -7197,7 +7197,9 @@ pso/ui/window/TWindowLoadItemTexture.cpp:
 
 pso/ui/window/TWindowLockOn_80262C3C.cpp:
 	.text       start:0x80262C3C end:0x80263A20
-	.rodata     start:0x8044F2C0 end:0x8044F2D0
+	.rodata     start:0x8044F288 end:0x8044F2D0
+	.data       start:0x804D0088 end:0x804D02C8
+	.sdata      start:0x805D3948 end:0x805D394C
 	.sdata2     start:0x805DD100 end:0x805DD138
 
 pso/unk/text_80263A20.cpp:
@@ -8470,8 +8472,8 @@ pso/boss/olgaflow/TBoss6PlotFalz_802AABEC.cpp:
 
 pso/boss/olgaflow/TBoss6PlotFalz.cpp:
 	.text       start:0x802AACF4 end:0x802ACCC8
-	.rodata     start:0x8046FDB8 end:0x804705E0
-	.data       start:0x804DE0C8 end:0x804DE210
+	.rodata     start:0x8046FDB8 end:0x804705F8
+	.data       start:0x804DE0C8 end:0x804DE35C
 	.bss        start:0x80540B28 end:0x80540B30
 	.sdata      start:0x805D3E50 end:0x805D3E58
 	.sbss       start:0x805D66E8 end:0x805D6700
