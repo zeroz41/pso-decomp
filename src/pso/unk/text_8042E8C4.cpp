@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/SharedMemory.h"
 
 // Reset-payload relocator: copies the header+image at `arg` to 0x80003100,
 // stores it, OSResetSystem(2,0,0), clears the [0xd8] region, replays the
@@ -22,7 +23,7 @@ void DCStoreRange(void*, u32);
 void ICInvalidateRange(void*, u32);
 int OSResetSystem(int, int, int);
 
-asm void LaunchDol(register void* dol) {
+asm void LaunchDol(register LaunchDolContext *context) {
 #include "orig_asm/pso/unk/text_8042E8C4/LaunchDol.inc"
 }
 
