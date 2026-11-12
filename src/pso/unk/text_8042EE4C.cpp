@@ -7,8 +7,6 @@ extern "C" {
 s32 EXIGetType(int, int, void *);
 u32 lbl_805D7CC8;
 
-extern s8 *lbl_805D7CB8;
-
 s32 TLobby__sub_8042EE4C(s32 *arg0) {
     s32 sp8;
     if ((u32) lbl_805D7CC8 == 2U) {
@@ -51,7 +49,7 @@ s32 fn_8042EF48(s8 arg0) {
     if ((s32) lbl_805D7CA8 == 0) {
         return -1;
     }
-    *lbl_805D7CB8 = arg0;
+    lbl_805D7CB8->unk_000 = arg0;
     lbl_805D7CC0->flags |= SHARED_MEMORY_DISC_MESSAGES_SET;
     return 0;
 }

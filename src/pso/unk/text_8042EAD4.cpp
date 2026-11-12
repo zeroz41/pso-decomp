@@ -5,11 +5,6 @@
 #include "pso/unk/text_8042EE4C.h"
 struct Ctx_8042EBA4 { u8 pad[0x100]; s32 f100; s32 f104; s32 f108; };
 
-typedef struct Ctx_8042ED98 {
-    u8 pad[0x8c];
-    char name[5][0x100];
-} Ctx_8042ED98;
-
 extern "C" {
 char *strcpy(char *, const char *);
 void LaunchDol(Ctx_8042EBA4 *);
@@ -17,7 +12,6 @@ extern char lbl_80480404[];
 extern Ctx_8042EBA4 *lbl_805D7CB0;
 char *strncpy(char *, const char *, unsigned long);
 unsigned long strlen(const char *);
-extern Ctx_8042ED98 *lbl_805D7CB8;
 s32 fn_8042E8B8(void);
 extern char lbl_80480240[];
 extern u32 lbl_805D7CB4;
@@ -71,7 +65,7 @@ void TAdTrialModemChkGC__sub_8042EC14(void) {
         lbl_805D7CC0 = p;
         lbl_805D7CC4 = &p->connect_param;
         lbl_805D7CBC = p->unk_6820;
-        lbl_805D7CB8 = (Ctx_8042ED98 *) p->disc_messages;
+        lbl_805D7CB8 = &p->disc_messages;
         if (p->magic == SHARED_MEMORY_MAGIC) {
             return;
         }
@@ -98,8 +92,8 @@ s32 fn_8042ED98(s32 arg0, const char *arg1) {
     if (arg0 < 0 || arg0 > 4) {
         return -2;
     }
-    memset(lbl_805D7CB8->name[arg0], 0, 0x100);
-    strncpy(lbl_805D7CB8->name[arg0], arg1, 0xFF);
+    memset(lbl_805D7CB8->message[arg0], 0, sizeof(lbl_805D7CB8->message[arg0]));
+    strncpy(lbl_805D7CB8->message[arg0], arg1, sizeof(lbl_805D7CB8->message[arg0]) - 1);
     if (strlen(arg1) >= 0x100) {
         ret = -2;
     }

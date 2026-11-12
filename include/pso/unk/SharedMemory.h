@@ -32,6 +32,13 @@ struct SharedMemoryConnectParam {
     u8 unk_361[0x49F];
 };
 
+// Disc error messages.
+struct SharedMemoryDiscMessages {
+    s8 unk_000;
+    u8 unk_001[0x8B];
+    char message[5][0x100];
+};
+
 // The 0x8000 bytes kept across the reset into the next DOL while the magic is set.
 struct SharedMemory {
     u32 magic;
@@ -48,11 +55,13 @@ struct SharedMemory {
     u8 data[0x800];
     u8 unk_6820[0x800];
     SharedMemoryConnectParam connect_param;
-    u8 disc_messages[0x7E0];
+    SharedMemoryDiscMessages disc_messages;
+    u8 unk_7DAC[0x254];
 };
 
 typedef char SharedMemory_size[sizeof(SharedMemory) == 0x8000 ? 1 : -1];
 
+extern SharedMemoryDiscMessages *lbl_805D7CB8;
 extern SharedMemory *lbl_805D7CC0;
 extern SharedMemoryConnectParam *lbl_805D7CC4;
 
