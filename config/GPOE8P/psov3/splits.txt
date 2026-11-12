@@ -7528,20 +7528,12 @@ pso/ui/window/TWindowSubEquip_80275C0C.cpp:
 pso/ui/window/TWindowSubCustomSelect_80275D84.cpp:
 	.text       start:0x80275D84 end:0x80275D9C
 
-pso/ui/window/TWindowSubCustomEquip_80275D9C.cpp:
-	.text       start:0x80275D9C end:0x802760AC
-	.sdata2     start:0x805DD550 end:0x805DD568
-
-pso/ui/window/TWindowSubCustomEquip_802760AC.cpp:
-	.text       start:0x802760AC end:0x80276114
-
-pso/ui/window/TWindowSubCustomEquip_80276114.cpp:
-	.text       start:0x80276114 end:0x80276528
-
 pso/ui/window/TWindowSubCustomEquip.cpp:
-	.text       start:0x80276528 end:0x802772B8
-	.rodata     start:0x8044F7E0 end:0x8044F7F0
-	.sdata2     start:0x805DD568 end:0x805DD5A8
+	.text       start:0x80275D9C end:0x802772B8
+	.rodata     start:0x8044F720 end:0x8044F7F0
+	.data       start:0x804D1198 end:0x804D149C
+	.sdata      start:0x805D3A20 end:0x805D3A28
+	.sdata2     start:0x805DD550 end:0x805DD5A8
 
 pso/ui/window/TWindowSubCustomSelect.cpp:
 	.text       start:0x802772B8 end:0x80277C70
