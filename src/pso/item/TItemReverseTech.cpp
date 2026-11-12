@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/frontend/TAdEndText.h"
 #include "pso/item/TItemReverseTechBG.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -94,8 +95,6 @@ extern void *TItemReverseTech__texture_archive;
 }
 
 extern "C" {
-
-void *__ct__10TAdEndTextFv(void *, void *);
 
 extern s32 __vt__16TItemReverseTech[];
 const char *TItemReverseTech__name = "TItemReverseTech";
@@ -327,7 +326,7 @@ void *TItemReverseTech__ct(void *item_reverse_tech, void *parent) {
     *(u32 *)((s8 *)item_reverse_tech + 0x24) = 0;
     o2 = __nw__7TObjectFUl(0x197C);
     if (o2 != NULL) {
-        __ct__10TAdEndTextFv(o2, item_reverse_tech);
+        __ct__10TAdEndTextFv((u8 *)o2, (TObject *)item_reverse_tech);
     }
     play_area_music((char *)lbl_8043E708);
     return item_reverse_tech;

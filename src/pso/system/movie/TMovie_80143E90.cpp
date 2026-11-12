@@ -10,6 +10,7 @@
 #include "pso/system/memory.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/ui/frontend/TAdEndText.h"
 
 s32 TMovie::stop_if_advanced() {
     if ((s32) *(s32 *)((s8 *)this + 0x58) >= 2) {
@@ -392,7 +393,6 @@ extern "C" {
 u8 *load_rel_module(u8 *arg0, s32 arg1);
 extern s32 TMovie__name;
 void queue_destruction__7TObjectFv(void *arg0);
-u8 *__ct__10TAdEndTextFv(void *, void *);
 u8 *__nw__7TObjectFUl(s32);
 }
 u8 *initialize_movie_with_soundtrack(u8 *arg0, s8 *arg1, s32 arg2, s32 arg3, s32 arg4);
