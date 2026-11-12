@@ -1,8 +1,5 @@
 #include "types.h"
-#include "pso/weapon/TItemWeapon.h"
-#include "pso/weapon/TUnk_804E1BB0.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802D50A0.h"
-#include "pso/unk/text_80120908.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
 
@@ -16,21 +13,6 @@ void fn_802D50B8(void *arg0, void *arg1, void *arg2, void *arg3) {
     copy_vec2__28TWindowSubSymbolChatPartsSetFPv((void *)((char *)arg0 + 132));
     ((void (*)(void *, void *))copy_vec2__28TWindowSubSymbolChatPartsSetFPv)((void *)((char *)arg0 + 140), arg2);
     ((void (*)(void *, void *))copy_vec2__28TWindowSubSymbolChatPartsSetFPv)((void *)((char *)arg0 + 148), arg3);
-}
-void TUnk_804E1BB0::reserved_53() {
-    u32 temp_r0;
-    u32 temp_r31;
-    s32 arg0 = (s32)this;
-    draw_weapon_at_joint(arg0, 0x30);
-    ((TItemWeapon *)arg0)->update_trail_slot(0);
-    temp_r0 = (u32)((TItemWeapon *)arg0)->second_model;
-    temp_r31 = *(u32 *)((s8 *)arg0 + 0xF4);
-    if (temp_r0 != 0U) {
-        *(u32 *)((s8 *)arg0 + 0xF4) = temp_r0;
-    }
-    draw_weapon_at_joint(arg0, 0x23);
-    ((TItemWeapon *)arg0)->update_trail_slot(1);
-    *(u32 *)((s8 *)arg0 + 0xF4) = temp_r31;
 }
 
 }

@@ -13,6 +13,24 @@
 #include "pso/weapon/TUnk_804E1BB0.h"
 #include "pso/weapon/TUnk_804E21F8.h"
 #include "pso/item/TItem.h"
+#include "pso/unk/text_80120908.h"
+
+
+void TUnk_804E1BB0::reserved_53() {
+    u32 temp_r0;
+    u32 temp_r31;
+    s32 arg0 = (s32)this;
+    draw_weapon_at_joint(arg0, 0x30);
+    ((TItemWeapon *)arg0)->update_trail_slot(0);
+    temp_r0 = (u32)((TItemWeapon *)arg0)->second_model;
+    temp_r31 = *(u32 *)((s8 *)arg0 + 0xF4);
+    if (temp_r0 != 0U) {
+        *(u32 *)((s8 *)arg0 + 0xF4) = temp_r0;
+    }
+    draw_weapon_at_joint(arg0, 0x23);
+    ((TItemWeapon *)arg0)->update_trail_slot(1);
+    *(u32 *)((s8 *)arg0 + 0xF4) = temp_r31;
+}
 
 
 struct Vec_802D52E8 { f32 x, y, z; };

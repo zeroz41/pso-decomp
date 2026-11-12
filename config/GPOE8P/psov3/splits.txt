@@ -8820,10 +8820,10 @@ pso/ui/frontend/TAdMultiSelGameModeGC_802D5098.cpp:
 	.text       start:0x802D5098 end:0x802D50A0
 
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802D50A0.cpp:
-	.text       start:0x802D50A0 end:0x802D5174
+	.text       start:0x802D50A0 end:0x802D5108
 
 pso/player/TObjPlayer_802D5174.cpp:
-	.text       start:0x802D5174 end:0x802D5B78
+	.text       start:0x802D5108 end:0x802D5B78
 	.sdata2     start:0x805DE788 end:0x805DE7A0
 
 pso/player/TObjPlayer_802D5B78.cpp:
