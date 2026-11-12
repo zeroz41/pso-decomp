@@ -506,7 +506,6 @@ struct TObjPlayer : public TObjChara {
     void set_effect_state(s32 v);
     void set_atp(s16 v);
     s16 get_stage_strike_count();
-    void draw_faust_loaded_projectile();
     static void notify_hit_target(u32 arg0, u32 arg1, u32 arg2, u32 arg3);
     static s32 is_rand_below_threshold();
     s32 get_hp_by_flag();

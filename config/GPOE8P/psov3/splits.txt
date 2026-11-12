@@ -2853,8 +2853,8 @@ pso/weapon/TUnk_804A2450.cpp:
 
 pso/player/TUnk_804A2548.cpp:
 	.text       start:0x801254D8 end:0x8012599C
-	.data       start:0x804A2548 end:0x804A2564
-	.sdata2     start:0x805DAD58 end:0x805DAD64
+	.data       start:0x804A2548 end:0x804A265C
+	.sdata2     start:0x805DAD50 end:0x805DAD64
 
 pso/weapon/TUnk_804A2678.cpp:
 	.text       start:0x8012599C end:0x80125E88
@@ -3111,7 +3111,7 @@ pso/weapon/TUnk_804A5C18.cpp:
 pso/weapon/TUnk_804A5D28.cpp:
 	.text       start:0x8012E1E8 end:0x8012E83C
 	.rodata     start:0x8043E9B8 end:0x8043E9C0
-	.data       start:0x804A5D10 end:0x804A5D28
+	.data       start:0x804A5D10 end:0x804A5E20
 	.sdata2     start:0x805DAF70 end:0x805DAF94
 
 pso/weapon/TUnk_804A5E20.cpp:
@@ -9292,7 +9292,7 @@ pso/ui/frontend/TAdGameStartBackGC.cpp:
 pso/player/TObjPlayer_80307618.cpp:
 	.text       start:0x80307618 end:0x80307A34
 	.rodata     start:0x80475448 end:0x80475450
-	.data       start:0x804E71A0 end:0x804E71B8
+	.data       start:0x804E70A8 end:0x804E71B8
 	.sdata2     start:0x805DF0A8 end:0x805DF0B0
 
 pso/ui/frontend/TAdEndText_80307A34.cpp:
@@ -9324,6 +9324,7 @@ pso/unk/text_80308328.cpp:
 
 pso/player/TObjPlayer_803083B0.cpp:
 	.text       start:0x803083B0 end:0x803084A8
+	.data       start:0x804E71F8 end:0x804E72F0
 
 pso/ui/frontend/TAdLoadNetworkGC.cpp:
 	.text       start:0x803084A8 end:0x803084AC
@@ -10282,7 +10283,7 @@ pso/npc/TNpcPlayer_8034DAA0.cpp:
 
 pso/effect/item/TItemEffPG.cpp:
 	.text       start:0x8034EFDC end:0x8034FE28
-	.data       start:0x804F0BF0 end:0x804F0C08
+	.data       start:0x804F0810 end:0x804F0C08
 	.sdata2     start:0x805DFE08 end:0x805DFE14
 
 pso/effect/item/TItemEffPG_8034FE28.cpp:

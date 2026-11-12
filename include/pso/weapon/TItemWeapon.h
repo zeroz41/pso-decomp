@@ -27,6 +27,7 @@ struct Desc_8011E5C4 {
     void *pad_70;
     void *pad_74;
     s32 pad_78;
+    s32 pad_7c;
 };
 
 struct WeaponMotionRecord { u32 unknown; u32 frame_count; };

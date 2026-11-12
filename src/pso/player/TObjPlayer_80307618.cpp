@@ -1,139 +1,30 @@
 #include "types.h"
-#include "pso/player/TUnk_804E71A0.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/player/TObjPlayer_80307618.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TUnk_804E70A8.h"
+#include "pso/player/TUnk_804E71A0.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/text_80307964.h"
+#include "pso/unk/text_80120908.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/system/task/TMainTask.h"
 
-struct RecoveredGlobal_80307784_lbl_804E70A8 {
-    s32 value;
-    u8 remaining[0xF4];
-};
+// Built with -inline off,deferred: functions are written last to first.
 
 extern "C" {
-u8 *__nw__5TItemFUl(s32);
-extern s32 tl_05;
-u8 get_item_index__5TItemFv(void *);
-u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
-extern s32 lbl_804E70A8[];
 extern char shared_capture_texture_list[];
-f32 sin_table_lookup(s32);
 void TKeyBoardControl__sub_8000F91C(s32 arg0);
 void TKeyBoardControl__sub_8000F9CC(s32 arg0);
-void draw_weapon_at_joint(s32 arg0, s8 arg1);
 s32 queue_destruction__7TObjectFv();
-
-void TUnk_804E70A8::reserved_53() {
-    s32 temp_r31;
-
-    temp_r31 = *(s32 *)((s8 *)((u8 *)this) + 0xF4);
-    draw_weapon_model();
-    *(s32 *)((s8 *)((u8 *)this) + 0xF4) = (s32) this->second_model;
-    draw_weapon_at_joint((s32)this, 0x23);
-    *(s32 *)((s8 *)((u8 *)this) + 0xF4) = temp_r31;
-}
-
-
-void TUnk_804E70A8::update_weapon() {
-    if ((s32) *(s32 *)((s8 *)this + 0x1F8) > 0) {
-        if (get_item_index__5TItemFv(this) == 1) {
-            *(s32 *)((s8 *)this + 0x1F8) = (s32) (*(s32 *)((s8 *)this + 0x1F8) - 1);
-            if ((s32) *(s32 *)((s8 *)this + 0x1F8) == 0) {
-                set_weapon_flags(0x800);
-            }
-        }
-    } else {
-        *(s32 *)&this->unk_200 = (s32) (*(s32 *)&this->unk_200 + 0xB6);
-        this->m_1fc = (s32) (182.0f * sin_table_lookup(*(s32 *)&this->unk_200));
-    }
-}
-
-void TUnk_804E70A8::vfunc_60() {
-    s32 player_list;
-    if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x1F8) == 0) {
-        player_list = TObjPlayer::get_player_list();
-        ((TItem *)((u8 *)this))->begin_particle_tev();
-        ((TItem *)((u8 *)this))->load_projection_tex((s32)((int) ((s32) (182.04445f * (f32) (((TUnk_804E70A8 *)((u8 *)this))->m_1fc + (player_list * 3))))));
-    }
-}
-
-typedef char RecoveredGlobal_80307784_lbl_804E70A8_size[sizeof(RecoveredGlobal_80307784_lbl_804E70A8) == 0xF8 ? 1 : -1];
-u8 *TObjPlayer__sub_80307784(TObjPlayer *player, u8 *arg1, s32 _w2) {
-    __ct__11TItemWeaponFP7TObjectPUc(player, arg1);
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80307784_lbl_804E70A8 *)&lbl_804E70A8).value;
-    ((TItemWeapon *)player)->set_weapon_flags(1);
-    if (get_item_index__5TItemFv(player) == 1) {
-        ((TItemWeapon *)player)->set_weapon_flags(0x800);
-    }
-    *(s32 *)((s8 *)player + 0x1F8) = 5;
-    ((TUnk_804E70A8 *)player)->m_1fc = 0;
-    *(s32 *)((s8 *)player + 0x200) = 0;
-    return (u8 *)player;
-}
-
-u8 *TObjPlayer__sub_80307800(s32 arg0) {
-    u8 *temp_r3;
-    u8 *var_r0;
-    if (arg0 != 0) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x204));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(TObjPlayer__sub_80307784((TObjPlayer *)((u8 *)temp_r3), (u8 *)((u8 *)tl_05), (s32)((s32)arg0)));
-        }
-        return var_r0;
-    }
-    return NULL;
-}
-
-void *__dt__13TUnk_804E70A8Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804E70A8;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
-}
-char *get_shared_capture_texture_list(void) {
-    return shared_capture_texture_list;
-}
-
-void TUnk_804E71A0::render() {  }
-
-extern s32 ending_movie_active_flag;
-
-void TObjPlayer::disable_keyboard_control() {
-    queue_destruction__7TObjectFv();
-    if ((s32) ending_movie_active_flag != 0) {
-        TKeyBoardControl__sub_8000F9CC(2);
-        return;
-    }
-    TKeyBoardControl__sub_8000F91C(2);
-    TKeyBoardControl__sub_8000F9CC(0x12);
-}
-
-void TUnk_804E71A0::run_task() {  }
-
-
-TUnk_804E71A0::~TUnk_804E71A0() {
-
-}
-
-extern "C" {
 void *__ct__6TMovieFP7TObjectPSclll(void *, void *, void *, void *, s32, s32, s32);
 void *__nw__7TObjectFUl(u32);
-void *__ct__7TObjectFP7TObject(void *, void *);
 extern u8 lbl_80475450[];
-extern u8 __vt__13TUnk_804E71A0[];
 extern s32 game_difficulty_selection;
-extern void *tl_00;
-extern void *tl_04;
 }
-TUnk_804E71A0::TUnk_804E71A0() : TObject((TObject *)tl_04) {
+extern s32 ending_movie_active_flag;
+
+TUnk_804E71A0::TUnk_804E71A0() : TObject(tl_04) {
     void *p;
     ending_movie_active_flag = 0;
     switch (game_difficulty_selection) {
@@ -152,4 +43,76 @@ TUnk_804E71A0::TUnk_804E71A0() : TObject((TObject *)tl_04) {
         }
         break;
     }
+}
+
+TUnk_804E71A0::~TUnk_804E71A0() {}
+
+void TUnk_804E71A0::run_task() {}
+
+void TObjPlayer::disable_keyboard_control() {
+    queue_destruction__7TObjectFv();
+    if ((s32) ending_movie_active_flag != 0) {
+        TKeyBoardControl__sub_8000F9CC(2);
+        return;
+    }
+    TKeyBoardControl__sub_8000F91C(2);
+    TKeyBoardControl__sub_8000F9CC(0x12);
+}
+
+void TUnk_804E71A0::render() {}
+
+char *get_shared_capture_texture_list(void) {
+    return shared_capture_texture_list;
+}
+
+TUnk_804E70A8::~TUnk_804E70A8() {}
+
+extern "C" {
+u8 *TObjPlayer__sub_80307800(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804E70A8(tl_05, item);
+    }
+    return NULL;
+}
+}
+
+TUnk_804E70A8::TUnk_804E70A8(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+    set_weapon_flags(1);
+    if (get_item_index() == 1) {
+        set_weapon_flags(0x800);
+    }
+    pad_1f8 = 5;
+    pad_1fc = 0;
+    pad_200 = 0;
+}
+
+void TUnk_804E70A8::vfunc_60() {
+    s32 player_list;
+    if (pad_1f8 == 0) {
+        player_list = TObjPlayer::get_player_list();
+        begin_particle_tev();
+        load_projection_tex(182.04445f * (f32)(pad_1fc + player_list * 3));
+    }
+}
+
+void TUnk_804E70A8::update_weapon() {
+    if (pad_1f8 > 0) {
+        if (get_item_index() == 1) {
+            pad_1f8--;
+            if (pad_1f8 == 0) {
+                set_weapon_flags(0x800);
+            }
+        }
+    } else {
+        pad_200 += 0xB6;
+        pad_1fc = 182.0f * sin_table_lookup(pad_200);
+    }
+}
+
+void TUnk_804E70A8::reserved_53() {
+    NJS_OBJECT *model = item_model;
+    draw_weapon_model();
+    item_model = second_model;
+    draw_weapon_at_joint((s32)this, 0x23);
+    item_model = model;
 }
