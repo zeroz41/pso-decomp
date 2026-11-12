@@ -6314,7 +6314,7 @@ pso/item/shop/ShopToolStock.cpp:
 
 pso/item/shop/ShopWeaponStock.cpp:
 	.text       start:0x80224660 end:0x802257EC
-	.rodata     start:0x8044C7B8 end:0x8044C7C0
+	.rodata     start:0x8044C488 end:0x8044C828
 	.bss        start:0x80513F30 end:0x80513F70
 	.sbss       start:0x805D6268 end:0x805D6270
 	.sdata2     start:0x805DC738 end:0x805DC73C
@@ -8735,8 +8735,9 @@ pso/object/trap/TOTrapSeabed01.cpp:
 
 pso/enemy/gigue/TObjEneMe1GiGue.cpp:
 	.text       start:0x802CAA84 end:0x802CDB1C
-	.rodata     start:0x804722A0 end:0x804722A8
+	.rodata     start:0x80472118 end:0x804722A8
 	.data       start:0x804E11C8 end:0x804E14E4
+	.sdata      start:0x805D3F18 end:0x805D3F20
 	.sdata2     start:0x805DE660 end:0x805DE6C0
 
 pso/enemy/gigue/TObjEneMe1GiGue_802CDB1C.cpp:
@@ -9271,9 +9272,10 @@ pso/enemy/dellbiter/TObjEneDellBiterEffects.cpp:
 
 pso/enemy/dellbiter/TObjEneDellBiter.cpp:
 	.text       start:0x803032EC end:0x80306994
-	.rodata     start:0x80475330 end:0x80475338
+	.rodata     start:0x80475138 end:0x80475338
 	.data       start:0x804E6B70 end:0x804E6FA8
 	.bss        start:0x80541E48 end:0x80541E54
+	.sdata      start:0x805D4078 end:0x805D4080
 	.sdata2     start:0x805DEFB8 end:0x805DF040
 
 pso/item/TUnk_804E6FA8.cpp:
