@@ -443,10 +443,10 @@ void resume_update__7TObjectFv(void *arg0);
 s32 get_attack_credit_slot_count(void *);
 f32 TLobby__sub_800F7A6C();
 f32 TLobby__sub_800F7A7C();
-s32 create_font_small_task(void *, s32, s32, s32, s32 *, s32, u16);
+s32 create_font_small_task(void *, s32, s32, s32, const char *, s32, u16);
 int send_6x60_standard_drop_item_request(void*);
 s32 fn_801B0480(void *, void *, s32);
-s32 draw_player_status(void *, void *, s32 *);
+s32 draw_player_status(void *, void *, const char *);
 s32 submit_cursor_candidate(int, int);
 Plr_800F6BF0 * get_player_by_client_id(u16);
 s32 minimap_render_dot(void *, int, int, int);
@@ -460,14 +460,6 @@ extern u8 lobby_rule_settings[];
 extern void *TObjControl__name;
 extern s32 area_random_seed;
 extern s32 game_difficulty_selection;
-extern const f32 lbl_805DA8C0;
-extern const f32 lbl_805DA8C4;
-extern const f32 lbl_805DA8C8;
-extern s32 lbl_805DA8CC;
-extern s32 lbl_805DA8D0;
-extern const f32 lbl_805DA8D4;
-extern s32 lbl_805DA8D8;
-extern const f32 lbl_805DA8DC;
 void TObjControl::run_task() {
     s16 mode;
     u8 *enemy;
@@ -519,7 +511,7 @@ void TObjControl::run_task() {
                     ((EnemyControlDispatch *)(enemy))->m58();
                     return;
                 }
-                if (*(f32 *)((s8 *)control_record + 0x24) > lbl_805DA8C0) {
+                if (*(f32 *)((s8 *)control_record + 0x24) > 0.1f) {
                     ((EnemyControlDispatch *)(enemy))->m57();
                     return;
                 }
@@ -681,12 +673,12 @@ s32 TObjEnemy::vfunc_74(s32 kind) {
         case 9:
         case 11:
             pkt.a = kind;
-            pkt.av = lbl_805DA8C0 * ((f32)TObjPlayer__sub_8001943C(this, 2) / lbl_805DA8C4 - lbl_805DA8C8);
+            pkt.av = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 2) / 30.0f - 40.0f);
             break;
         case 10:
         case 12:
             pkt.b = kind;
-            pkt.bv = lbl_805DA8C0 * ((f32)TObjPlayer__sub_8001943C(this, 3) / lbl_805DA8C4 - lbl_805DA8C8);
+            pkt.bv = 0.1f * ((f32)TObjPlayer__sub_8001943C(this, 3) / 30.0f - 40.0f);
             break;
         }
         ret = exchange_object_state__9TObjEnemyFls(this, &pkt, 0);
@@ -823,12 +815,12 @@ void TObjEnemy::award_enemy_experience(s32 arg1) {
     if ((u16)arg1 == this->m_2d4) {
         if (((TLobby *)lobby_rule_settings)->get_rule_field_0() == 1) {
             fn_801B0480(p, this, 1);
-            draw_player_status(p, p, &lbl_805DA8CC);
-            draw_player_status(p, this, &lbl_805DA8D0);
+            draw_player_status(p, p, "\tC1");
+            draw_player_status(p, this, "\tC4");
         }
         ((TObjPlayer *)p)->add_capped_counter_999(1);
     } else {
-        val = (s32)((f32)val * lbl_805DA8D4);
+        val *= 0.8f;
     }
     if (is_quest_active() == 1) {
         if (is_flag_set__6TLobbyFv() != 0) {
@@ -838,7 +830,7 @@ void TObjEnemy::award_enemy_experience(s32 arg1) {
         }
     }
     p->m12(val);
-    create_font_small_task(((u8 *)this) + 0x2FC, 0xFFFF00FF, 0x14, 0x14, &lbl_805DA8D8, val, get_entity_id(p));
+    create_font_small_task(((u8 *)this) + 0x2FC, 0xFFFF00FF, 0x14, 0x14, "EXP", val, get_entity_id(p));
 }
 
 #pragma push
@@ -849,7 +841,7 @@ void TObjEnemy::update_prev_position() {
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
     temp_r3 = (unsigned char *) (this->m_2b0);
     if (temp_r3 != NULL) {
-        this->m_300 = (f32) ((lbl_805DA8DC * *(f32 *)((s8 *)temp_r3 + 0x10)) + this->m_300);
+        this->m_300 = (f32) ((0.5f * *(f32 *)((s8 *)temp_r3 + 0x10)) + this->m_300);
     }
 }
 #pragma pop

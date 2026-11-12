@@ -54,21 +54,17 @@ void fn_800FCCC8(s32 arg0, s32 arg1) {
 }
 s32 fn_800FCCF4(void* p) { return *(s32*)((char*)p + 0x874); }
 }
-extern const f32 lbl_805DAA30;
-extern const f32 lbl_805DAA00;
-extern const f32 lbl_805DAA04;
 f32 calc_small_font_scale(void);
 void text_builder_reset(void);
 
-extern s32 lbl_805DAA34;
 
 f32 calc_small_font_scale(void) {
     f32 view_scale;
     view_scale = TCameraCtrl::get_view_scale();
     if (view_scale >= 1.0) {
-        return lbl_805DAA00;
+        return 1.4f;
     }
-    return lbl_805DAA04 / view_scale;
+    return 1.0f / view_scale;
 }
 
 struct Quad_800FCD40 { f32 x, y, right, bottom, u, v, u2, v2; };
@@ -95,16 +91,6 @@ u8 get_small_font_glyph_width(u8);
 }
 extern u8 identity_matrix[];
 extern u8 *camera_ctrl_instance;
-extern const f32 lbl_805DAA08;
-extern const f32 lbl_805DAA0C;
-extern const f32 lbl_805DAA10;
-extern const f32 lbl_805DAA14;
-extern const f32 lbl_805DAA18;
-extern const f32 lbl_805DAA1C;
-extern const f32 lbl_805DAA20;
-extern const f32 lbl_805DAA24;
-extern const f32 lbl_805DAA28;
-extern const f32 lbl_805DAA2C;
 
 #pragma push
 #pragma fp_contract on
@@ -143,11 +129,11 @@ void TFontSmallTask::render() {
         f32 xx = diff.x * diff.x;
         f32 yy = diff.y * diff.y;
         f32 zz = diff.z * diff.z;
-        if (zz + (xx + yy) > lbl_805DAA08) {
+        if (zz + (xx + yy) > 122500.0f) {
             return;
         }
     }
-    if (vec3_dot(&forward, &diff) <= lbl_805DAA0C) {
+    if (vec3_dot(&forward, &diff) <= 0.0f) {
         return;
     }
     push_matrix();
@@ -163,14 +149,14 @@ void TFontSmallTask::render() {
     y = screen[1] += offset_y;
     {
         f32 sc = get_scale__15TWindowCtrlMainFv(TCameraCtrl::get_camera_no());
-        depth = lbl_805DAA10 / (lbl_805DAA14 + sc);
+        depth = -1.0f / (0.1495f + sc);
     }
     cursor = text;
     reveal = (f32)age;
-    if (reveal > (f32)lifetime - lbl_805DAA1C) {
-        fade = lbl_805DAA18 * ((f32)lifetime - reveal);
+    if (reveal > (f32)lifetime - 8.0f) {
+        fade = 0.125f * ((f32)lifetime - reveal);
     } else {
-        fade = lbl_805DAA04;
+        fade = 1.0f;
     }
     scale = ((f32 (*)(void *))calc_small_font_scale)(this);
     begin_screen_draw(1);
@@ -179,11 +165,11 @@ void TFontSmallTask::render() {
         u8 c = *cursor++;
         u32 alpha;
         f32 adv;
-        if (reveal <= lbl_805DAA0C) {
+        if (reveal <= 0.0f) {
             continue;
         }
-        if (reveal < lbl_805DAA28) {
-            alpha = lbl_805DAA20 * (lbl_805DAA24 * reveal);
+        if (reveal < 2.0f) {
+            alpha = 0.5f * (255.0f * reveal);
         } else {
             alpha = 0xFF;
         }
@@ -197,7 +183,7 @@ void TFontSmallTask::render() {
         draw_textured_quad_at_depth(&q, depth);
         adv = (f32)(u8)get_small_font_glyph_width(c);
         x = adv * scale + x;
-        reveal = reveal - lbl_805DAA2C * (adv / text_width);
+        reveal = reveal - 5.5f * (adv / text_width);
     }
     TWindowSubStatusDisp::get_player();
 }
@@ -212,7 +198,7 @@ void TFontSmallTask::run_task() {
         }
         break;
     default:
-        offset_y += lbl_805DAA30;
+        offset_y += -1.4f;
         if (++age >= lifetime) {
             disallow_rendering__7TObjectFv(this);
             queue_destruction__7TObjectFv(this);
@@ -227,7 +213,7 @@ s32 create_font_small_task(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s3
     text_builder_reset();
     text_builder_append((u8 *)arg4);
     if (arg5 >= 0) {
-        text_builder_append((u8 *)&lbl_805DAA34);
+        text_builder_append((u8 *)"+");
     }
     TWindowSubStatusDisp__sub_80228F5C(arg5);
     var_r31 = __nw__7TObjectFUl(0x58);
@@ -243,7 +229,7 @@ s32 create_font_small_task_default_color(s32 arg0, s32 arg1, s32 arg2, s32 arg3,
     text_builder_reset();
     text_builder_append((u8 *)arg4);
     if (arg5 >= 0) {
-        text_builder_append((u8 *)&lbl_805DAA34);
+        text_builder_append((u8 *)"+");
     }
     TWindowSubStatusDisp__sub_80228F5C(arg5);
     var_r31 = __nw__7TObjectFUl(0x58);
@@ -365,8 +351,8 @@ TFontSmallTask_800FD4D4 *__ct__14TFontSmallTaskFv(TFontSmallTask_800FD4D4 *self,
     self->vt = __vt__14TFontSmallTask;
     self->f0 = TFontSmallTask__name;
     VecCopy((Vec *)&self->pos, (const Vec *)pos);
-    self->ofs_x = lbl_805DAA0C;
-    self->ofs_y = lbl_805DAA0C;
+    self->ofs_x = 0.0f;
+    self->ofs_y = 0.0f;
     self->rgb = color & 0xFFFFFF;
     self->f48 = 0;
     self->life = life;
@@ -380,7 +366,7 @@ TFontSmallTask_800FD4D4 *__ct__14TFontSmallTaskFv(TFontSmallTask_800FD4D4 *self,
     strncpy(self->text, text, 0xF);
     self->text[0xF] = 0;
     self->width = calc_small_font_text_width(self->text);
-    self->ofs_x -= lbl_805DAA20 * self->width * ((f32 (*)(void *))calc_small_font_scale)(self);
+    self->ofs_x -= 0.5f * self->width * ((f32 (*)(void *))calc_small_font_scale)(self);
     return self;
 }
 #pragma pop

@@ -65,11 +65,6 @@ extern Flags_8006835C TCameraCtrl__view_state;
 extern Scissor_8006835C TCameraCtrl__data_804FF634;
 extern u8 TCameraCtrl__up_vector[];
 extern View_8006835C *camera_ctrl_instance;
-extern const f32 TCameraCtrl__data_805D8F80;
-extern const f32 TCameraCtrl__data_805D8F84;
-extern const f32 lbl_805D8F94;
-extern const f32 lbl_805D8F98;
-extern const f32 lbl_805D8F9C;
 void apply_camera_controller_pose(Cam_80068530 *arg0);
 s32 is_split_screen();
 f32 fabs_float();
@@ -85,11 +80,7 @@ s32 pop_matrices(int);
 extern const Vec_8006835C lbl_80438168;
 extern const Vec_8006835C lbl_80438174;
 extern u8 identity_matrix[];
-extern const f32 lbl_805D8F88;
-extern const f32 lbl_805D8F8C;
-extern const f32 lbl_805D8F90;
 extern s32 __vt__13TUnk_80488A28[];
-extern const f32 lbl_805D8FA0;
 void __dt__7TObjectFv(void *, int);
 
 }
@@ -107,7 +98,6 @@ s32 TUnk_80488E00::predict_obstruction() {
     Vec_8006835C *a;
     Vec_8006835C *b;
     Hit_8006809C *hit;
-    f32 len;
     f32 dist;
     if (self->obj == NULL) {
         return 0;
@@ -117,27 +107,27 @@ s32 TUnk_80488E00::predict_obstruction() {
     d.x = pos->x - tgt->x;
     d.y = pos->y - tgt->y;
     d.z = pos->z - tgt->z;
-    len = vector_length(&d);
-    if (len < TCameraCtrl__data_805D8F80) {
+    dist = vector_length(&d);
+    if (dist < 1.0f) {
         Vec_8006835C v1 = lbl_80438168;
         Vec_8006835C v2 = lbl_80438174;
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, *(s32 *) camera_ctrl_instance->f194);
         matrix_mult_vec(0, &v1, &v1);
         pop_matrices(1);
-        v1.y = TCameraCtrl__data_805D8F84;
+        v1.y = 0.0f;
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, self->obj->angle);
         matrix_mult_vec(0, &v2, &v2);
         pop_matrices(1);
         vec3_dot(&v1, &v2);
-        if (fabs_float() > lbl_805D8F88) {
-            dist = TCameraCtrl__data_805D8F84;
+        if (fabs_float() > 0.25f) {
+            dist = 0.0f;
         } else {
-            dist = len * lbl_805D8F8C;
+            dist *= 13.0f;
         }
     } else {
-        dist = len * lbl_805D8F8C;
+        dist *= 13.0f;
     }
     if (is_split_screen() != 0) {
         s32 mode = get_camera_mode__11TCameraCtrlFv();
@@ -153,7 +143,7 @@ s32 TUnk_80488E00::predict_obstruction() {
     dir.x = a->x - b->x;
     dir.y = a->y - b->y;
     dir.z = a->z - b->z;
-    if (TCameraCtrl__data_805D8F84 != vector_length(&dir)) {
+    if (0.0f != vector_length(&dir)) {
         normalize_vector(&dir);
     }
     probe.x = dist * dir.x + self->obj->x;
@@ -164,9 +154,9 @@ s32 TUnk_80488E00::predict_obstruction() {
     hit = csnVector(a, &probe, 0x100);
     if (hit != NULL) {
         VecCopy((Vec *)&self->out, (const Vec *)hit->pos);
-        self->out.x -= lbl_805D8F90 * dir.x;
-        self->out.y -= lbl_805D8F90 * dir.y;
-        self->out.z -= lbl_805D8F90 * dir.z;
+        self->out.x -= 2.0f * dir.x;
+        self->out.y -= 2.0f * dir.y;
+        self->out.z -= 2.0f * dir.z;
         return 1;
     }
     return 0;
@@ -183,14 +173,14 @@ void TUnk_80488A28::post_update_view() {
     d.x = camera_ctrl_instance->target.x - camera_ctrl_instance->pos.x;
     d.y = camera_ctrl_instance->target.y - camera_ctrl_instance->pos.y;
     d.z = camera_ctrl_instance->target.z - camera_ctrl_instance->pos.z;
-    if (TCameraCtrl__data_805D8F84 == vector_length(&d)) {
+    if (0.0f == vector_length(&d)) {
         normalize_vector(&d);
         camera_ctrl_instance->target.x = camera_ctrl_instance->pos.x;
         camera_ctrl_instance->target.y = camera_ctrl_instance->pos.y;
-        camera_ctrl_instance->target.z = TCameraCtrl__data_805D8F80 + camera_ctrl_instance->pos.z;
-    } else if (TCameraCtrl__data_805D8F84 == d.x && TCameraCtrl__data_805D8F84 == d.z) {
-        camera_ctrl_instance->target.z += lbl_805D8F94;
-        d.z = TCameraCtrl__data_805D8F80;
+        camera_ctrl_instance->target.z = 1.0f + camera_ctrl_instance->pos.z;
+    } else if (0.0f == d.x && 0.0f == d.z) {
+        camera_ctrl_instance->target.z += 0.01f;
+        d.z = 1.0f;
     }
     direction_to_pitch_yaw((u8 *)&d, (s32 *)camera_ctrl_instance->f190, (s32 *)camera_ctrl_instance->f194);
     t = get_target__11TCameraCtrlFv(camera_ctrl_instance);
@@ -202,7 +192,7 @@ void TUnk_80488A28::post_update_view() {
     lbl_804FF5E8.y = camera_ctrl_instance->pos.y;
     lbl_804FF5E8.z = camera_ctrl_instance->pos.z;
     if (TCameraCtrl__view_state.flags & 0x200) {
-        GXSetScissorBoxOffset((s32)-(TCameraCtrl__data_804FF634.x - lbl_805D8F98), (s32)-(TCameraCtrl__data_804FF634.y - lbl_805D8F9C));
+        GXSetScissorBoxOffset((s32)-(TCameraCtrl__data_804FF634.x - 320.0f), (s32)-(TCameraCtrl__data_804FF634.y - 240.0f));
         TCameraCtrl__sub_801E32D8(TCameraCtrl__data_804FF634.x, TCameraCtrl__data_804FF634.y);
         set_viewport_scissor__11TCameraCtrlFiPv(2, TCameraCtrl__data_804FF634.f30);
     }
@@ -248,23 +238,23 @@ TUnk_80488A28::~TUnk_80488A28() {
 
 }
 TUnk_80488A28::TUnk_80488A28() : TObject(0) {
-    this->position.x = (f32) TCameraCtrl__data_805D8F84;
-    this->position.y = (f32) TCameraCtrl__data_805D8F84;
-    this->position.z = (f32) TCameraCtrl__data_805D8F84;
+    this->position.x = 0.0f;
+    this->position.y = 0.0f;
+    this->position.z = 0.0f;
     this->m_2c = 0;
     *(s32 *)((s8 *)this + 0x30) = 0;
     this->m_34 = 0;
-    this->target.x = (f32) TCameraCtrl__data_805D8F84;
-    this->target.y = (f32) TCameraCtrl__data_805D8F84;
-    this->target.z = (f32) TCameraCtrl__data_805D8F80;
-    this->m_60 = (f32) TCameraCtrl__data_805D8F84;
-    *(f32 *)((s8 *)this + 0x64) = (f32) TCameraCtrl__data_805D8F84;
-    this->m_68 = (f32) TCameraCtrl__data_805D8F84;
+    this->target.x = 0.0f;
+    this->target.y = 0.0f;
+    this->target.z = 1.0f;
+    this->m_60 = 0.0f;
+    *(f32 *)((s8 *)this + 0x64) = 0.0f;
+    this->m_68 = 0.0f;
     *(s32 *)((s8 *)this + 0x28) = 0;
     this->m_24 = 0;
     this->m_38 = 0;
-    this->m_58 = (f32) TCameraCtrl__data_805D8F84;
-    *(f32 *)((s8 *)this + 0x5C) = (f32) lbl_805D8FA0;
+    this->m_58 = 0.0f;
+    *(f32 *)((s8 *)this + 0x5C) = 0.289f;
     this->projection_angle = 0x36C1;
     this->m_20 = 0xFFFF;
 }
