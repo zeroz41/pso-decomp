@@ -46,8 +46,6 @@ __declspec(section ".data") const char* challenge_result_rank_labels[4] = {
     challenge_result_rank_a, challenge_result_rank_s
 };
 __declspec(section ".sdata2") extern const char challenge_result_newline[] = "\n";
-__declspec(section ".sdata2") extern const f32 challenge_result_split_screen_position;
-__declspec(section ".sdata2") extern const f32 challenge_result_window_depth;
 
 void TAdChrSelASlotGC::set_flag_40() { *(u16 *)&this->m_70 |= 0x40; }
 int TObjNewFloorWin__sub_8007410C(void) {  return current_lobby_id; }
@@ -143,10 +141,10 @@ void TObjResultWin::create_window() {
     m_window = create__14TWindowMessageFPvll(get_window_layout_position(0x41), challenge_result_window_extent, 1);
     if ((u32) m_window != 0U) {
         if (TCameraCtrl::get_camera_id() == 4) {
-            ((TWindowAddition *)m_window)->set_position_xy(challenge_result_split_screen_position, challenge_result_split_screen_position);
+            ((TWindowAddition *)m_window)->set_position_xy(0.75f, 0.75f);
         }
         append_line__14TWindowMessageFii(m_window, m_text, 0);
-        ((TWindowBase *)m_window)->set_depth(challenge_result_window_depth);
+        ((TWindowBase *)m_window)->set_depth(36999.0f);
     }
 }
 TObjResultWin::~TObjResultWin() {}
@@ -174,8 +172,6 @@ TObjResultWin* TObjResultWin::create(const ChallengeResultRecord* result) {
     return new TObjResultWin(tl_07, result);
 }
 
-__declspec(section ".sdata2") extern const f32 challenge_result_split_screen_position = 0.75f;
-__declspec(section ".sdata2") extern const f32 challenge_result_window_depth = 36999.0f;
 __declspec(section ".rodata") extern const char TObjResultWin_class_name[] = "TObjResultWin";
 __declspec(section ".rodata") extern const char challenge_result_time_format[] = "%s < %s%c >\n   %1d'%02d\"%02d\n";
 __declspec(section ".rodata") extern const char challenge_result_total_time_format[] = "%s\n  %02d'%02d\"%02d\n";

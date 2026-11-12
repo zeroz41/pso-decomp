@@ -101,9 +101,6 @@ s32 project_actor_to_ground(void *, void *, void *);
 s32 TObjEneRecon__sub_8031C250(u32);
 s32 vec3_add_to(void *, void *);
 extern s32 lbl_805D5868;
-extern const f32 lbl_805DF3AC;
-extern const f32 lbl_805DF3B0;
-extern const f32 lbl_805DF3B4;
 s32 TObjFish__sub_8001EDB0(void *, int);
 s32 get_bml_model(void *, int);
 s32 rotate_matrix_z(int, int);
@@ -195,9 +192,9 @@ void TObjEneReconBomb::run_task() {
     switch (arg0->state) {
     case 0:
     case 1: {
-        arg0->vel.x *= lbl_805DF3AC;
-        arg0->vel.y += lbl_805DF3B0;
-        arg0->vel.z *= lbl_805DF3AC;
+        arg0->vel.x *= 0.95f;
+        arg0->vel.y += -0.1f;
+        arg0->vel.z *= 0.95f;
         ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&pos, &arg0->pos);
         vec3_add_to(&pos, &arg0->vel);
         Vec_8031B808 g = pos;
@@ -206,7 +203,7 @@ void TObjEneReconBomb::run_task() {
             if (pos.y <= g.y) {
                 pos.y = arg0->f348;
                 if (arg0->state == 0) {
-                    arg0->vel.y *= lbl_805DF3B4;
+                    arg0->vel.y *= -0.5f;
                     arg0->state = 1;
                 } else {
                     arg0->state = 2;
@@ -282,10 +279,6 @@ u8 *TObjEneReconBomb__ct(TObjEneReconBomb *ene_recon_bomb, s32 arg1, s32 arg2, s
     ene_recon_bomb->m_35c = 0;
     return (u8 *)ene_recon_bomb;
 }
-
-__declspec(section ".sdata2") extern const f32 lbl_805DF3AC = 0.94999998807907104f;
-__declspec(section ".sdata2") extern const f32 lbl_805DF3B0 = -0.10000000149011612f;
-__declspec(section ".sdata2") extern const f32 lbl_805DF3B4 = -0.5f;
 
 const char *TObjEneReconBomb__name = "TObjEneReconBomb";
 

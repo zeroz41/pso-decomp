@@ -42,7 +42,6 @@ struct Trail_8009F7AC {
 extern "C" {
 void VecCopy__FP3VecPC3Vec(void *, const void *);
 extern Vec_8009F7AC camera_pitch_rotated_up_vector;
-extern const f32 canadin_effect_negative_one;
 void render__26TObjEneMe1Canadin_EffLightFv(Trail_8009F7AC *o);
 #pragma push
 #pragma fp_contract on
@@ -73,7 +72,7 @@ void render__26TObjEneMe1Canadin_EffLightFv(Trail_8009F7AC *o) {
             v->a.y = up.y * w + p->pos.y;
             v->a.z = up.z * w + p->pos.z;
             v->a.color = c;
-            w *= canadin_effect_negative_one;
+            w *= -1.0f;
             v->b.x = up.x * w + p->pos.x;
             v->b.y = up.y * w + p->pos.y;
             v->b.z = up.z * w + p->pos.z;
@@ -88,7 +87,7 @@ void render__26TObjEneMe1Canadin_EffLightFv(Trail_8009F7AC *o) {
             v->a.y = up.y * w + p->pos.y;
             v->a.z = up.z * w + p->pos.z;
             v->a.color = c;
-            w *= canadin_effect_negative_one;
+            w *= -1.0f;
             v->b.x = up.x * w + p->pos.x;
             v->b.y = up.y * w + p->pos.y;
             v->b.z = up.z * w + p->pos.z;
@@ -105,7 +104,7 @@ void render__26TObjEneMe1Canadin_EffLightFv(Trail_8009F7AC *o) {
             v->a.y = up.y * w + p->pos.y;
             v->a.z = up.z * w + p->pos.z;
             v->a.color = c;
-            w *= canadin_effect_negative_one;
+            w *= -1.0f;
             v->b.x = up.x * w + p->pos.x;
             v->b.y = up.y * w + p->pos.y;
             v->b.z = up.z * w + p->pos.z;
@@ -149,14 +148,11 @@ struct Obj_8009FA24 { u8 pad0[0x1C]; s32 n1c; s32 n20; s32 sel; u8 pad28[4]; Rec
 
 extern "C" {
 void push_history_entry__17TObjEneMe1CanadinFPvfPvi(Obj_8009FADC *self, f32 f, const Vec_8009FADC *pos, s32 val);
-extern const f32 canadin_effect_zero;
-extern const f32 canadin_light_width_cutoff;
 s32 fade_alpha_step__17TObjEneMe1CanadinFPvif(Obj_8009FB54 *self, s32 dec, f32 scale);
 void *mem_alloc(u32 size);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__26TObjEneMe1Canadin_EffLight[];
 extern s32 TObjEneMe1Canadin_EffLight__name;
-extern const f32 canadin_light_width_decay;
 void run_task__26TObjEneMe1Canadin_EffLightFv(Obj_8009FA24 *arg0);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
@@ -192,12 +188,12 @@ void push_history_entry__17TObjEneMe1CanadinFPvfPvi(Obj_8009FADC *self, f32 f, c
 
 s32 fade_alpha_step__17TObjEneMe1CanadinFPvif(Obj_8009FB54 *self, s32 dec, f32 scale) {
     s32 a;
-    if (canadin_effect_zero == self->alpha) {
+    if (0.0f == self->alpha) {
         return 1;
     }
     self->alpha = self->alpha * scale;
-    if (self->alpha < canadin_light_width_cutoff) {
-        self->alpha = canadin_effect_zero;
+    if (self->alpha < 0.01f) {
+        self->alpha = 0.0f;
         return 1;
     }
     a = (self->color >> 24) - dec;
@@ -233,14 +229,14 @@ TObjEneMe1Canadin_EffLight::TObjEneMe1Canadin_EffLight(TObject *parent, s32 coun
     ((Obj_8009FC44 *)this)->buf28 = mem_alloc(((Obj_8009FC44 *)this)->count << 5);
     ((Obj_8009FC44 *)this)->recs = (Rec_8009FC44 *)mem_alloc(((Obj_8009FC44 *)this)->count * 0x14);
     for (i = 0; i < ((Obj_8009FC44 *)this)->count; i++) {
-        ((Obj_8009FC44 *)this)->recs[i].a = canadin_effect_zero;
+        ((Obj_8009FC44 *)this)->recs[i].a = 0.0f;
         ((Obj_8009FC44 *)this)->recs[i].b = 0;
-        ((Obj_8009FC44 *)this)->recs[i].c = canadin_effect_zero;
-        ((Obj_8009FC44 *)this)->recs[i].d = canadin_effect_zero;
-        ((Obj_8009FC44 *)this)->recs[i].e = canadin_effect_zero;
+        ((Obj_8009FC44 *)this)->recs[i].c = 0.0f;
+        ((Obj_8009FC44 *)this)->recs[i].d = 0.0f;
+        ((Obj_8009FC44 *)this)->recs[i].e = 0.0f;
     }
     ((Obj_8009FC44 *)this)->field30 = 0x30;
-    ((Obj_8009FC44 *)this)->field34 = canadin_light_width_decay;
+    ((Obj_8009FC44 *)this)->field34 = 0.85f;
 }
 extern "C" {
 
@@ -251,7 +247,6 @@ void render__30TObjEneMe1Canadin_EffDischargeFv(void) {  }
 u32 __nw__7TObjectFUl(s32);
 void subtract_vector(void *, void *);
 extern s32 tl_05;
-extern const f32 canadin_discharge_motion_scale;
 
 void run_task__30TObjEneMe1Canadin_EffDischargeFv(u8 *ene_me1_canadin_eff_discharge) {
     s32 sp8;
@@ -262,7 +257,7 @@ void run_task__30TObjEneMe1Canadin_EffDischargeFv(u8 *ene_me1_canadin_eff_discha
     s32 var_r31;
 
     var_r31 = 0;
-    ((TObjEneMe1Canadin_EffDischarge *)ene_me1_canadin_eff_discharge)->m_28 = (f32) (((TObjEneMe1Canadin_EffDischarge *)ene_me1_canadin_eff_discharge)->m_28 + canadin_discharge_motion_scale);
+    ((TObjEneMe1Canadin_EffDischarge *)ene_me1_canadin_eff_discharge)->m_28 += 20.0f;
     temp_f1 = ((TObjEneMe1Canadin_EffDischarge *)ene_me1_canadin_eff_discharge)->m_28;
     if (temp_f1 > *(f32 *)((s8 *)ene_me1_canadin_eff_discharge + 0x34)) {
         VC_B(ene_me1_canadin_eff_discharge + 0x50, ene_me1_canadin_eff_discharge + 0x44);
@@ -347,20 +342,20 @@ Obj_8009FEB8 *TObjEneMe1Canadin_EffDischarge__ct(Obj_8009FEB8 *self, void *paren
     VC_C(&self->end, to);
     VC_C(&self->dir, &self->end);
     subtract_vector(&self->dir, &self->start);
-    self->dir.y = canadin_effect_zero;
+    self->dir.y = 0.0f;
     self->dist = normalize_vector_xz((Vec *)(&self->dir));
-    if (self->dist > canadin_discharge_motion_scale) {
-        self->duration = canadin_discharge_motion_scale;
+    if (self->dist > 20.0f) {
+        self->duration = 20.0f;
         self->remain = self->dist - self->duration;
     } else {
         self->duration = self->dist;
-        self->remain = canadin_effect_zero;
+        self->remain = 0.0f;
     }
     self->y0 = self->start.y;
     self->accel = (self->end.y - self->start.y) / (self->duration * self->duration);
-    self->time = canadin_effect_zero;
-    self->dir.x *= canadin_discharge_motion_scale;
-    self->dir.z *= canadin_discharge_motion_scale;
+    self->time = 0.0f;
+    self->dir.x *= 20.0f;
+    self->dir.z *= 20.0f;
     VC_C(&self->pos, &self->start);
     return self;
 }
@@ -401,7 +396,6 @@ extern "C" {
 s32 rand(s32);
 
 extern s32 TObjEneMe1Canadin_EffLine__name;
-extern const f32 canadin_line_initial_phase_range;
 struct CanadinRandomScale { f32 value; u32 padding; };
 __declspec(section ".sdata2") extern const CanadinRandomScale canadin_random_scale;
 
@@ -418,7 +412,7 @@ u8 *TObjEneMe1Canadin_EffLine__ct(u8 *ene_me1_canadin_eff_line, s32 arg1, s32 ar
         s32 k = (s32) 0xFFFF0000;
         ((TObjEneMe1Canadin_EffLine *)ene_me1_canadin_eff_line)->m_40 = k + 0x33;
         *(s32 *)((s8 *)ene_me1_canadin_eff_line + 0x44) = k + 0x33;
-        *(s32 *)((s8 *)ene_me1_canadin_eff_line + 0x1C) = (s32) (canadin_line_initial_phase_range * (canadin_random_scale.value * (f32) rand(k)));
+        *(s32 *)((s8 *)ene_me1_canadin_eff_line + 0x1C) = (s32) (5.0f * (canadin_random_scale.value * (f32) rand(k)));
     }
     return ene_me1_canadin_eff_line;
 }
@@ -434,11 +428,5 @@ s32 __vt__30TObjEneMe1Canadin_EffDischarge[] = {
     (s32)run_task__30TObjEneMe1Canadin_EffDischargeFv,
     (s32)render__30TObjEneMe1Canadin_EffDischargeFv, (s32)render_shadows__7TObjectFv
 };
-__declspec(section ".sdata2") const f32 canadin_effect_negative_one = -1.0f;
-__declspec(section ".sdata2") const f32 canadin_effect_zero = 0.0f;
-__declspec(section ".sdata2") const f32 canadin_light_width_cutoff = 0.01f;
-__declspec(section ".sdata2") const f32 canadin_light_width_decay = 0.85f;
-__declspec(section ".sdata2") const f32 canadin_discharge_motion_scale = 20.0f;
-__declspec(section ".sdata2") const f32 canadin_line_initial_phase_range = 5.0f;
 __declspec(section ".sdata2") const CanadinRandomScale canadin_random_scale = {0.000030517578125f, 0};
 }

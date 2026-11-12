@@ -378,7 +378,6 @@ void fn_80285314(Win_802857C4 *self, Rect_802857C4 *ctx) {
 #pragma push
 #pragma fp_contract on
 #pragma opt_propagation off
-__declspec(section ".sdata2") extern const f32 lbl_805DD808 = 8.0f;
 void fn_802855C4(Win_802857C4 *self, Rect_802857C4 *ctx) {
     f32 sc;
     f32 y;
@@ -398,7 +397,7 @@ void fn_802855C4(Win_802857C4 *self, Rect_802857C4 *ctx) {
     b = (f32 *)((TWindowBase *)self)->get_array_entry(2);
     c = (f32 *)((TWindowBase *)self)->get_array_entry(0);
     i = 0;
-    lo = *(const f32 *)&lbl_805DD808;
+    lo = 8.0f;
     hi = 32.0f;
     sc = 40.0f;
     for (; i < self->count; row++) {

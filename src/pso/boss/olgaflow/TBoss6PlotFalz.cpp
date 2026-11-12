@@ -35,7 +35,6 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/TObjControl.h"
 
-
 #pragma readonly_strings on
 const char *boss06_plotfalz_dat_model_names[15] = {
     "bossgc_laser.nj",
@@ -485,7 +484,6 @@ struct Stack_802AB684 {
     u8 trailing_storage[0x4];
 };
 
-
 struct Vec_802AB3E0 { f32 x, y, z; };
 
 struct Player_802AB3E0 { u8 pad[0x38]; Vec_802AB3E0 pos; };
@@ -834,8 +832,6 @@ struct Stack_802ABC64 {
     u8 pad_16[0x36];
     u8 sp4C;
 };
-
-
 
 extern "C" {
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
@@ -1336,7 +1332,6 @@ void TBoss6PlotFalz::run_task() {
 }
 
 void TBoss6PlotFalz::vfunc_63() {  }
-
 
 void handle_6xA3_olga_flow_boss_actions(Msg_802AC7E4 *m) {
     Boss_802AC7E4 *b;

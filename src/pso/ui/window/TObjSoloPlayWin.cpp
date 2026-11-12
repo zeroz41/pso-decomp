@@ -18,7 +18,6 @@ extern s32 local_client_id;
 extern const char TObjSoloPlayWin_class_name[] = "TObjSoloPlayWin";
 const char* TObjSoloPlayWin_name = TObjSoloPlayWin_class_name;
 __declspec(section ".data") float solo_play_result_window_extent[2] = {240.0f, 180.0f};
-__declspec(section ".sdata2") extern const f32 solo_play_result_window_depth;
 }
 
 s32 TObjSoloPlayWin::has_at_most_one_player() {
@@ -43,7 +42,7 @@ s32 TObjSoloPlayWin::can_start_win_timer() {
 void TObjSoloPlayWin::open_result_window() {
     m_result_window = create__14TWindowMessageFPvll(get_window_layout_position(0x3E), solo_play_result_window_extent, 1);
     if (m_result_window != 0) {
-        ((TWindowBase *)m_result_window)->set_depth(solo_play_result_window_depth);
+        ((TWindowBase *)m_result_window)->set_depth(70200.0f);
         append_line__14TWindowMessageFii(m_result_window, TQuestVmDownLoadServer__sub_8006EF6C(0x5F), 2);
     }
 }
@@ -82,4 +81,3 @@ TObjSoloPlayWin* TObjSoloPlayWin::create(TObject* parent) {
     return new TObjSoloPlayWin(parent);
 }
 
-__declspec(section ".sdata2") extern const f32 solo_play_result_window_depth = 70200.0f;

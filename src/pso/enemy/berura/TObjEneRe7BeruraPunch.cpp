@@ -130,7 +130,6 @@ void TObjEneRe7BeruraPunch::render() {
 }
 
 // 10.0f keeps its data symbol: declared here, defined after its first use so it lands in pool order.
-extern const f32 TObjEneRe7BeruraPunch__data_805D97A0[1];
 
 #pragma push
 #pragma fp_contract on
@@ -139,13 +138,11 @@ void TObjEneRe7BeruraPunch::update_velocity_and_snap() {
     if (((VObj_14_c1c33b *)(arg0 + (248)))->m4() != 0) {
         this->m_b4 = 0;
     }
-    *(f32 *)&this->m_dc = (f32) ((0.2f * (TObjEneRe7BeruraPunch__data_805D97A0[0] * *(f32 *)&this->unk_BC)) + *(f32 *)&this->m_dc);
-    this->m_e4 = (f32) ((0.2f * (TObjEneRe7BeruraPunch__data_805D97A0[0] * *(f32 *)&this->unk_C4)) + this->m_e4);
+    *(f32 *)&this->m_dc = (f32) ((0.2f * (10.0f * *(f32 *)&this->unk_BC)) + *(f32 *)&this->m_dc);
+    this->m_e4 = (f32) ((0.2f * (10.0f * *(f32 *)&this->unk_C4)) + this->m_e4);
     ((TObjEneRe7BeruraPunch *)arg0)->snap_to_ground();
 }
 #pragma pop
-
-__declspec(section ".sdata2") const f32 TObjEneRe7BeruraPunch__data_805D97A0[1] = {10.0f};
 
 const char *TObjEneRe7BeruraPunch__name = "TObjEneRe7BeruraPunch";
 
@@ -165,10 +162,10 @@ void TObjEneRe7BeruraPunch::update_flight() {
         this->m_f4 = (f32) 2.0f;
     }
     var_r31 = 0;
-    this->m_114 += TObjEneRe7BeruraPunch__data_805D97A0[0];
-    stack.sp8 = (TObjEneRe7BeruraPunch__data_805D97A0[0] * *(f32 *)&this->unk_BC) + *(f32 *)((s8 *)((u8 *)this) + 0x38);
+    this->m_114 += 10.0f;
+    stack.sp8 = (10.0f * *(f32 *)&this->unk_BC) + *(f32 *)((s8 *)((u8 *)this) + 0x38);
     stack.spC = *(f32 *)&this->unk_E0;
-    stack.sp10 = (TObjEneRe7BeruraPunch__data_805D97A0[0] * *(f32 *)&this->unk_C4) + *(f32 *)((s8 *)((u8 *)this) + 0x40);
+    stack.sp10 = (10.0f * *(f32 *)&this->unk_C4) + *(f32 *)((s8 *)((u8 *)this) + 0x40);
     temp_r3 = (u8 *)(csnVector((s32) (((u8 *)this) + 0xDC), (s32) &stack.sp8, 0x88E0));
     if (temp_r3 != NULL) {
         var_r31 = 1;
@@ -318,10 +315,10 @@ void TObjEneRe7BeruraPunch::snap_to_ground() {
   }
   new_var = *((f32 *) (((s8 *) arg0) + 0xE0));
   *((f32 *) (((s8 *) arg0) + 0xCC)) = (f32) (new_var - (*((f32 *) (((s8 *) arg0) + 0x3C))));
-  if ((*((f32 *) (((s8 *) arg0) + 0xCC))) < TObjEneRe7BeruraPunch__data_805D97A0[0])
+  if ((*((f32 *) (((s8 *) arg0) + 0xCC))) < 10.0f)
   {
-    *((f32 *) (((s8 *) arg0) + 0xE0)) = (f32) (TObjEneRe7BeruraPunch__data_805D97A0[0] + (*((f32 *) (((s8 *) arg0) + 0x3C))));
-    *((f32 *) (((s8 *) arg0) + 0xCC)) = (f32) TObjEneRe7BeruraPunch__data_805D97A0[0];
+    *((f32 *) (((s8 *) arg0) + 0xE0)) = (f32) (10.0f + (*((f32 *) (((s8 *) arg0) + 0x3C))));
+    *((f32 *) (((s8 *) arg0) + 0xCC)) = (f32) 10.0f;
   }
   if ((new_var && new_var) && new_var)
   {

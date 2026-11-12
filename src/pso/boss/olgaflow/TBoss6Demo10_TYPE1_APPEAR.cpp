@@ -42,8 +42,6 @@ struct Fish_8033CB4C
 };
 
 extern "C" {
-extern const f32 lbl_805DFA48;
-extern const f32 lbl_805DFA4C;
 s32 get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
@@ -87,13 +85,10 @@ void render__25TBoss6Demo10_TYPE1_APPEARFv(void* p) { ((TBoss6Demo10_TYPE1_APPEA
 #pragma push
 #pragma opt_common_subs off
 void run_task__25TBoss6Demo10_TYPE1_APPEARFv(TBoss6Demo10_TYPE1_APPEAR *boss6_demo10_type1_appear) {
-    f32 temp_f1;
     s32 temp_r0_3;
     u8 *temp_r30;
-    temp_f1 = *(f32 *)((s8 *)boss6_demo10_type1_appear + 0x34) + lbl_805DFA48;
-    *(f32 *)((s8 *)boss6_demo10_type1_appear + 0x34) = temp_f1;
-    if (temp_f1 > lbl_805DFA4C) {
-        *(f32 *)((s8 *)boss6_demo10_type1_appear + 0x34) = (f32) lbl_805DFA4C;
+    if ((*(f32 *)((s8 *)boss6_demo10_type1_appear + 0x34) += 0.7f) > 349.0f) {
+        *(f32 *)((s8 *)boss6_demo10_type1_appear + 0x34) = 349.0f;
     }
     ((TBoss6PlotFalz *)((u8 *)boss6_demo10_type1_appear + 0x40))->scroll_strips_uv(8, 0);
     if ((s32) boss6_demo10_type1_appear->m_38 == 0x78) {
@@ -200,7 +195,6 @@ TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TObject *parent) : TObject(
     ((Fish_8033CB4C *)this)->x38 = 0;
 }
 
-
 void *TBoss6Demo10_TYPE1_APPEAR__create(void *parent) {
     void *o = __nw__7TObjectFUl(0x68);
     if (o != NULL) {
@@ -219,6 +213,4 @@ __declspec(section ".rodata") CameraPlayback lbl_80477E3C = {1, 2, 0, 0.0f, 0.7f
 s32 boss6_type1_appear_motion_indices[] = {35, 36};
 extern __declspec(section ".data") const s32 __vt__25TBoss6Demo10_TYPE1_APPEAR[];
 __declspec(section ".sdata") AppearanceClassTag TBoss6Demo10_TYPE1_APPEAR__name = {TBoss6Demo10_TYPE1_APPEAR__class_name, 0};
-__declspec(section ".sdata2") const f32 lbl_805DFA48 = 0.7f;
-__declspec(section ".sdata2") const f32 lbl_805DFA4C = 349.0f;
 __declspec(section ".sdata2") const AppearanceZero lbl_805DFA50 = {0.0f, 0};
