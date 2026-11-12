@@ -14,6 +14,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80336054.h"
 
 struct Stack_80335E7C
 {
@@ -71,7 +72,6 @@ extern "C" {
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 extern s32 __vt__13TUnk_804EE470[];
-    extern unsigned char lobby_record_table[];
 s32 TCameraCtrl__sub_80068EF0();
 
 
@@ -128,7 +128,7 @@ void *get_title_texture_list(void) {
     return ((char *)&title_texture_list);
 }
 
-void*TLobby::get_record(int a0) {  return (char*)lobby_record_table + a0 * 32; }
+void *TLobby::get_record(int a0) { return &lobby_record_table[a0]; }
 
 typedef char RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270_size[sizeof(RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270) == 0xB0 ? 1 : -1];
 typedef char RecoveredGlobal_8000F7FC_lbl_80515F48_size[sizeof(RecoveredGlobal_8000F7FC_lbl_80515F48) == 0x28 ? 1 : -1];

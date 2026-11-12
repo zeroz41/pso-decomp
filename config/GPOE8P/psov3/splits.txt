@@ -138,7 +138,7 @@ pso/ui/hud/TNowLoading.cpp:
 
 pso/unk/TLobby_8001D6A0.cpp:
 	.text       start:0x8001D6A0 end:0x8001ED80
-	.rodata     start:0x80434A88 end:0x80434AA0
+	.rodata     start:0x80434A20 end:0x80434AA0
 	.sbss       start:0x805D4AC0 end:0x805D4AC8
 	.sdata2     start:0x805D7EC8 end:0x805D7F10
 
@@ -8257,13 +8257,10 @@ pso/unk/text_802A0A30.cpp:
 	.text       start:0x802A0A30 end:0x802A0A60
 
 pso/ui/frontend/TAdTitleGC.cpp:
-	.text       start:0x802A0A60 end:0x802A0F3C
+	.text       start:0x802A0A60 end:0x802A1020
 	.rodata     start:0x80466230 end:0x80466240
 	.data       start:0x804DCAA0 end:0x804DCAB8
 	.sdata2     start:0x805DDDC8 end:0x805DDDF4
-
-pso/unk/TLobby_802A0F3C.cpp:
-	.text       start:0x802A0F3C end:0x802A1020
 
 pso/unk/text_802A1020.cpp:
 	.text       start:0x802A1020 end:0x802A1438
@@ -8696,15 +8693,18 @@ pso/ui/frontend/TAdChrSelPlyPlateGC.cpp:
 	.sdata2     start:0x805DE560 end:0x805DE5A4
 
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802C6F88.cpp:
-	.text       start:0x802C6F88 end:0x802C70AC
+	.text       start:0x802C6F88 end:0x802C7314
 	.rodata     start:0x80471D08 end:0x80471D10
-	.sdata2     start:0x805DE5A8 end:0x805DE5B4
+	.data       start:0x804E0B28 end:0x804E0B40
+	.sbss       start:0x805D67E8 end:0x805D67EC
+	.sdata2     start:0x805DE5A8 end:0x805DE5C4
 
 pso/ui/frontend/TAdChrSelSlotGC.cpp:
-	.text       start:0x802C70AC end:0x802C79C8
+	.text       start:0x802C7314 end:0x802C79C8
 	.rodata     start:0x80471D10 end:0x80471D70
 	.data       start:0x804E0B40 end:0x804E0B80
 	.sdata      start:0x805D3EE8 end:0x805D3EEC
+	.sbss       start:0x805D67F0 end:0x805D67FC
 	.sdata2     start:0x805DE5C8 end:0x805DE5E8
 
 pso/ui/frontend/TAdFadeGC.cpp:
@@ -8855,14 +8855,16 @@ pso/player/TObjPlayer_802D5C0C.cpp:
 	.sdata2     start:0x805DE7A0 end:0x805DE7A4
 
 pso/weapon/TUnk_804E24F0.cpp:
-	.text       start:0x802D6348 end:0x802D655C
+	.text       start:0x802D6348 end:0x802D65B4
+	.data       start:0x804E24F0 end:0x804E25E8
 	.sdata2     start:0x805DE7A8 end:0x805DE7BC
 
 pso/ui/frontend/TAdPlayerLoadGC.cpp:
-	.text       start:0x802D655C end:0x802D7070
+	.text       start:0x802D65B4 end:0x802D7070
 	.rodata     start:0x804725E0 end:0x804725F0
 	.data       start:0x804E25E8 end:0x804E2680
 	.bss        start:0x80540FB0 end:0x80540FF0
+	.sdata2     start:0x805DE7C0 end:0x805DE7D4
 
 pso/npc/TObjNpcEnemy_802D7070.cpp:
 	.text       start:0x802D7070 end:0x802D70AC
@@ -9909,7 +9911,7 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_80336054.cpp:
 	.text       start:0x80336054 end:0x80336874
 	.ctors      start:0x80433FEC end:0x80433FF0
 	.rodata     start:0x80477668 end:0x80477830
-	.data       start:0x804EE488 end:0x804EE60C
+	.data       start:0x804EE488 end:0x804EEF64
 	.sbss       start:0x805D6D40 end:0x805D6D4C
 	.sdata2     start:0x805DF8E8 end:0x805DF90C
 

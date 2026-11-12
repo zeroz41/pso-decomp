@@ -945,7 +945,6 @@ pso/unk/TLobby_8028A7C8.cpp
 pso/unk/TLobby_8028EA28.cpp
 pso/unk/TLobby_80291D94.cpp
 pso/unk/TLobby_80299A60.cpp
-pso/unk/TLobby_802A0F3C.cpp
 pso/unk/TLobby_802A5120.cpp
 pso/object/seabed/TObjSuisoChip_802A6080.cpp
 pso/unk/TLobby_802A7290.cpp

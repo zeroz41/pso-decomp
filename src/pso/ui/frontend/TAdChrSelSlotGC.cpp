@@ -4,7 +4,6 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/render_util.h"
-#include "pso/ui/TUnk_804E0B28.h"
 
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
@@ -94,123 +93,18 @@ struct TAdChrSelSlotGC_802C7314 {
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 struct TObject;
-struct StatusWindow;
-struct CallbackTask;
-struct CharacterSelectTransitionState {
-    u8 base[0x18];
-    const void* vtable;
-    f32 position0X;
-    f32 position0Y;
-    f32 target0X;
-    f32 target0Y;
-    f32 position1X;
-    f32 position1Y;
-    f32 target1X;
-    f32 target1Y;
-    s32 client;
-    s32 timer;
-    TObject* parent;
-    StatusWindow* statusWindow;
-    CallbackTask* callback;
-};
 
 extern "C" {
 void TAdChrSelSlotGC__sub_802C754C(O_802C754C *self, s32 i);
-extern f32 char_select_slot_quad_width, char_select_slot_quad_height;
+u32 lbl_805D67F0;
+f32 char_select_slot_quad_width, char_select_slot_quad_height;
 extern const s32 current_language;
-extern u32 lbl_805D67F0;
-s32 get_main_phase();
-extern const f32 lbl_805DE5B4, lbl_805DE5B8, lbl_805DE5BC, lbl_805DE5C0;
-void* __nw__7TObjectFUl(u32 size);
-StatusWindow* TWindowSubStatusDisp__ct(void* storage, s32 client);
-CallbackTask* update_display__20TWindowSubSymbolChatFl(void (*callback)());
-extern s32 __vt__13TUnk_804E0B28[];
-extern s32 lbl_805D67E8;
-extern const f32 lbl_805DE5B8, lbl_805DE5BC, lbl_805DE5C0;
 void TAdChrSelSlotGC__sub_802C7498(struct S802C7498_802C70AC *arg0, s32 arg1);
 void release_texture_list(void*);
-s32 __dl__7TObjectFPv(void *);
-s32 __dt__7TObjectFv(void *, s32);
 void restore_saved_depth_alpha_state(void);
 s32 defer_render__7TObjectFv();
 
-void TUnk_804E0B28::render() {  }
-
-#pragma push
-#pragma opt_common_subs off
-#pragma fp_contract on
-typedef char TransitionClientOffset[offsetof(CharacterSelectTransitionState, client) == 0x3C ? 1 : -1];
-typedef char TransitionParentOffset[offsetof(CharacterSelectTransitionState, parent) == 0x44 ? 1 : -1];
-typedef char TransitionWindowOffset[offsetof(CharacterSelectTransitionState, statusWindow) == 0x48 ? 1 : -1];
-void TUnk_804E0B28::run_task() {
-    CharacterSelectTransitionState*self = (CharacterSelectTransitionState*)this;
-    self->position0X = lbl_805DE5B4 * (self->target0X - self->position0X) + self->position0X;
-    self->position0Y = lbl_805DE5B4 * (self->target0Y - self->position0Y) + self->position0Y;
-    self->position1X = lbl_805DE5B4 * (self->target1X - self->position1X) + self->position1X;
-    self->position1Y = lbl_805DE5B4 * (self->target1Y - self->position1Y) + self->position1Y;
-    if (get_main_phase() == 15) {
-        switch (self->timer) {
-        case 150:
-            self->position1X = lbl_805DE5B8;
-            self->position1Y = lbl_805DE5BC;
-            self->target1X = lbl_805DE5C0 + TLobby::calc_result_offset();
-            self->target1Y = lbl_805DE5BC;
-            break;
-        case 300:
-            self->position0X = lbl_805DE5B8;
-            self->position0Y = lbl_805DE5BC;
-            self->target0X = lbl_805DE5C0 + TLobby::calc_phase_offset();
-            self->target0Y = lbl_805DE5BC;
-            self->timer = 0;
-            break;
-        }
-        ++self->timer;
-    }
-}
-#pragma pop
-
-void *__dt__13TUnk_804E0B28Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804E0B28;
-        if ((u32) *(u32 *)((s8 *)arg0 + 0x4C) != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x4C)))->close();
-            *(u32 *)((s8 *)arg0 + 0x4C) = 0U;
-        }
-        if ((u32) ((TUnk_804E0B28 *)arg0)->m_48 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x48)))->close();
-            ((TUnk_804E0B28 *)arg0)->m_48 = 0U;
-        }
-        lbl_805D67E8 = 0;
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
-
-}
-TUnk_804E0B28::TUnk_804E0B28(TObject*parent, s32 client) : TObject((TObject*)(parent)) {
-    ((CharacterSelectTransitionState*)this)->parent = parent;
-    ((CharacterSelectTransitionState*)this)->position0X = lbl_805DE5B8;
-    ((CharacterSelectTransitionState*)this)->position0Y = lbl_805DE5BC;
-    ((CharacterSelectTransitionState*)this)->target0X = lbl_805DE5C0 + TLobby::calc_phase_offset();
-    ((CharacterSelectTransitionState*)this)->target0Y = lbl_805DE5BC;
-    ((CharacterSelectTransitionState*)this)->position1X = lbl_805DE5B8;
-    ((CharacterSelectTransitionState*)this)->position1Y = lbl_805DE5BC;
-    ((CharacterSelectTransitionState*)this)->target1X = lbl_805DE5B8;
-    ((CharacterSelectTransitionState*)this)->target1Y = lbl_805DE5BC;
-    ((CharacterSelectTransitionState*)this)->client = client;
-    ((CharacterSelectTransitionState*)this)->timer = 0;
-    (*(CharacterSelectTransitionState* *)&lbl_805D67E8) = ((CharacterSelectTransitionState*)this);
-    StatusWindow* window = (StatusWindow*)__nw__7TObjectFUl(0x74);
-    if (window) {
-        window = TWindowSubStatusDisp__ct(window, ((CharacterSelectTransitionState*)this)->client);
-    }
-    ((CharacterSelectTransitionState*)this)->statusWindow = window;
-    ((CharacterSelectTransitionState*)this)->callback = update_display__20TWindowSubSymbolChatFl(TAdMultiPlyChrSelectGC::update_transition_anim_if_active);
 }
 
 void TAdChrSelSlotGC::draw_slot_icons() {

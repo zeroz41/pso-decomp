@@ -306,10 +306,6 @@ void read_disc_file(const char *, void *);
 void mem_free(void *);
 void *mem_alloc(u32 size);
 }
-extern const char lbl_80434A20[];
-extern const char lbl_80434A38[];
-extern const char lbl_80434A50[];
-extern const char lbl_80434A6C[];
 extern s32 battle_param_lab_variant;
 void load_battle_param_entry(void) {
   extern Params_8001DC30 *TLobby__battle_parameter_buffer;
@@ -320,25 +316,25 @@ void load_battle_param_entry(void) {
   Params_8001DC30 *dst;
   Params_8001DC30 *new_var;
   s32 off;
-  name = lbl_80434A20;
+  name = "BattleParamEntry.dat";
   if (is_main_phase_15__9TObjEneDDFv() != 0)
   {
-    name = lbl_80434A38;
+    name = "BattleParamEntry_on.dat";
   }
   if (TRaderMapCore::is_not_split_screen() == 1)
   {
-    name = lbl_80434A38;
+    name = "BattleParamEntry_on.dat";
   }
   if (battle_param_lab_variant == 1)
   {
-    name = lbl_80434A50;
+    name = "BattleParamEntry_lab.dat";
     if (is_main_phase_15__9TObjEneDDFv() != 0)
     {
-      name = lbl_80434A6C;
+      name = "BattleParamEntry_lab_on.dat";
     }
     if (TRaderMapCore::is_not_split_screen() == 1)
     {
-      name = lbl_80434A6C;
+      name = "BattleParamEntry_lab_on.dat";
     }
   }
   file = (File_8001DC30 *) mem_alloc(0xF600);

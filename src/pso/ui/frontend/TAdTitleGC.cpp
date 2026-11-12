@@ -4,10 +4,12 @@
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/unk/text_802A0A30.h"
 #include "pso/render/render_util.h"
-
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/TLobby_802A0F3C.h"
+#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/unk/TLobby.h"
 
 struct Rec_802A0A60 { u8 pad[0x20]; };
 
@@ -47,7 +49,7 @@ struct Title_802A0C84 {
 extern "C" {
 u32 calc_text_width(char *s);
 s32 get_player__20TWindowSubStatusDispFv();
-extern s32 lbl_805D6630;
+extern u32 lbl_805D6630;
 extern s32 ad_title_gc_class_name;
 extern f32 title_rect_scale_table[];
 s32 get_localized_text_entry(s32, s32);
@@ -146,3 +148,36 @@ TAdTitleGC::TAdTitleGC(TObject *parent, s32 idx) : TObject(parent) {
 }
 
 #pragma pop
+
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+struct ByteBlock_14 { s32 v[5]; };
+
+extern "C" {
+extern const s32 lbl_804661E4[];
+extern const s32 lbl_804661F8[];
+extern const s32 current_language;
+void release_texture_list(void*);
+
+void TLobby::free_dialog_global() {
+    if ((u32) lbl_805D6630 != 0U) {
+        release_texture_list((void*)lbl_805D6630);
+        lbl_805D6630 = 0U;
+    }
+}
+
+    extern int lobby_cursor_active_flag;
+
+void TLobby__sub_802A0F70(void) {
+    TLobby::update_menu_cursor();
+    ByteBlock_14 a = *(const ByteBlock_14 *)lbl_804661E4;
+    ByteBlock_14 b = *(const ByteBlock_14 *)lbl_804661F8;
+    s32 r4 = b.v[current_language];
+    lbl_805D6630 = r4;
+    TLobby__sub_8023E4B4(a.v[current_language], r4);
+}
+
+int TObjPlayer__sub_802A1018(void) {  return lobby_cursor_active_flag; }
+
+}
