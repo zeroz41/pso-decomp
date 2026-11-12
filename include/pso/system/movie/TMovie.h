@@ -33,7 +33,7 @@ struct TMovie : public TObject {
     s32 decode_frame();
     void copy(void* q);
     void free_buffer();
-    static void render_until_finished();
+    void render_until_finished();
     s32 check_skip_input();
     static void run_callback();
 };
@@ -44,11 +44,5 @@ extern "C" {
 s32 close__6TMovieFis(s32 arg0, s16 arg1);
 void *__dt__6TMovieFv(TMovie *arg0, s16 arg1);
 }
-
-// --- C functions defined in TMovie.cpp ---
-extern "C" {
-s32 close__6TMovieFis(s32 arg0, s16 arg1);
-}
-// --- end of C functions
 
 #endif
