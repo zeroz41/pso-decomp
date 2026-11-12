@@ -60,6 +60,8 @@ struct CsnHit {
 
 extern "C" {
 CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask);
+// Line of sight: the hit record when a wall lies between from and to.
+CsnHit *csnLookAt(const Vec *from, const Vec *to);
 }
 
 extern "C" {
@@ -71,7 +73,6 @@ s32 TObjPlayer__sub_80079118(s32 *_w0);
 void TObjPlayer__sub_8007911C(void);
 void TObjPlayer__sub_80079120(s32 _w0);
 void TObjPlayer__sub_80079124(void *_w0, void *_w1);
-s32 *csnLookAt(s32 arg0, s32 arg1);
 s32 *csnVecterUnder(s32 origin, s32 mask);
 s32 *csnVectorUnder(Vec *arg0, u32 *arg1, s32 arg2);
 s32 get_csn_group_flags(u8 arg0);

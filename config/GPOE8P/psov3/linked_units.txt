@@ -1655,7 +1655,6 @@ pso/ui/window/TWindowSubTechnique.cpp
 pso/ui/window/TWindowSubTechnique_80286B0C.cpp
 pso/ui/window/TWindowSubTechnique_80286B64.cpp
 pso/ui/window/TWindowSubTrade.cpp
-pso/enemy/morfos/TObjEneMorfos_803323A8.cpp
 pso/ui/window/TWindowSubTradeMain_80187C98.cpp
 pso/ui/window/TWindowSubTradeMain_80266C44.cpp
 pso/ui/window/TWindowSubTradeMain_80268468.cpp
@@ -1956,7 +1955,6 @@ pso/player/TObjPlayer_8011E214.cpp
 pso/player/TObjPlayer_801542CC.cpp
 pso/player/TObjPlayer_80178150.cpp
 pso/player/TObjPlayer_801A7080.cpp
-pso/player/TObjPlayer_801A9BAC.cpp
 pso/player/TObjPlayer_801AA508.cpp
 pso/player/TObjPlayer_801AA5C0.cpp
 pso/player/TObjPlayer_801AD47C.cpp
@@ -2245,7 +2243,6 @@ pso/ui/window/TObjBagWarnWin.cpp
 pso/ui/window/TObjBagWarnWin_8006EF24.cpp
 pso/ui/charcreate/TObjCMHexTile.cpp
 pso/boss/darkfalz/TObjDFJisin.cpp
-pso/boss/darkfalz/TObjDFTenchuFuru_80051B98.cpp
 pso/boss/darkfalz/TObjDFTenchuFuru_80051D5C.cpp
 pso/boss/darkfalz/TObjDFUsoTower_80052000.cpp
 pso/boss/darkfalz/TObjDFYutai.cpp
@@ -2269,7 +2266,6 @@ pso/unk/text_8004D9A8.cpp
 pso/boss/darkfalz/TObjDFDemoF_80050050.cpp
 pso/boss/darkfalz/TObjDFDemoF_80050134.cpp
 pso/boss/darkfalz/TObjDFYutai_800502FC.cpp
-pso/unk/text_8005063C.cpp
 pso/unk/text_80052420.cpp
 pso/unk/text_80066F10.cpp
 pso/unk/text_80066F5C.cpp

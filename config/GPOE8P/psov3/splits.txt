@@ -554,19 +554,13 @@ pso/boss/darkfalz/TObjDFYutai.cpp:
 pso/boss/darkfalz/TBoss4Type3_800505A8.cpp:
 	.text       start:0x800505A8 end:0x8005063C
 
-pso/unk/text_8005063C.cpp:
-	.text       start:0x8005063C end:0x800507E8
-
 pso/boss/darkfalz/TObjDFJisin.cpp:
-	.text       start:0x800507E8 end:0x80051B98
+	.text       start:0x8005063C end:0x80051D5C
 	.rodata     start:0x804374E8 end:0x804374F8
 	.data       start:0x804858F8 end:0x80485AAC
 	.bss        start:0x804FF228 end:0x804FF2A0
 	.sdata      start:0x805D27B8 end:0x805D27D0
 	.sdata2     start:0x805D8A60 end:0x805D8AC4
-
-pso/boss/darkfalz/TObjDFTenchuFuru_80051B98.cpp:
-	.text       start:0x80051B98 end:0x80051D5C
 
 pso/boss/darkfalz/TObjDFTenchuFuru_80051D5C.cpp:
 	.text       start:0x80051D5C end:0x80052000
@@ -5093,14 +5087,11 @@ pso/effect/photon/TPhotonConcentrate.cpp:
 	.sdata2     start:0x805DC0F8 end:0x805DC104
 
 pso/player/PhotonBlastResults.cpp:
-	.text       start:0x801A826C end:0x801A9BAC
+	.text       start:0x801A826C end:0x801AA508
 	.rodata     start:0x80446CB8 end:0x80446CD8
+	.data       start:0x804C32C0 end:0x804C34B4
 	.bss        start:0x8050E880 end:0x8050E920
 	.sdata2     start:0x805DC110 end:0x805DC138
-
-pso/player/TObjPlayer_801A9BAC.cpp:
-	.text       start:0x801A9BAC end:0x801AA508
-	.data       start:0x804C32C0 end:0x804C34B4
 
 pso/player/TObjPlayer_801AA508.cpp:
 	.text       start:0x801AA508 end:0x801AA584
@@ -9861,15 +9852,11 @@ pso/ui/window/TWindowSubTradeMain_80330A84.cpp:
 	.sdata2     start:0x805DF858 end:0x805DF85C
 
 pso/ui/window/TWindowSubTradeMain_80332148.cpp:
-	.text       start:0x80332148 end:0x803323A8
-
-pso/enemy/morfos/TObjEneMorfos_803323A8.cpp:
-	.text       start:0x803323A8 end:0x803326C4
-	.rodata     start:0x80477600 end:0x80477608
+	.text       start:0x80332148 end:0x803323D8
 
 pso/enemy/morfos/TObjEneMorfos.cpp:
-	.text       start:0x803326C4 end:0x80335218
-	.rodata     start:0x80477608 end:0x80477618
+	.text       start:0x803323D8 end:0x80335218
+	.rodata     start:0x80477600 end:0x80477618
 	.data       start:0x804EE0C0 end:0x804EE3AC
 	.bss        start:0x805434D0 end:0x805434E8
 

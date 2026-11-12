@@ -148,7 +148,6 @@ void TObjPlayer__sub_80079124(void *, void *);
 u32 TObjPlayer__sub_80079DE0(void *, void *);
 f32 vec_squared_length(Vec_800798A0 *);
 extern s32 lbl_804389C0[];
-s32 *csnLookAt(s32 arg0, s32 arg1);
 s32 intersect_wall_triangle_one_sided(void *, void *, void *, E_80079580 *, u32, s32);
 f32 fabs_float(f32);
 extern const f32 lbl_805D9204;
@@ -901,18 +900,18 @@ void *query_wall_radial(Obj_8007A32C *self) {
     return r;
 }
 
-s32 *csnLookAt(s32 arg0, s32 arg1) {
-    s32 *var_r31;
+CsnHit *csnLookAt(const Vec *from, const Vec *to) {
+    CsnHit *hit;
     TObjPlayer__sub_8007911C();
-    var_r31 = lbl_80500140;
-    TObjPlayer__sub_80079124((void *)arg0, (void *)arg1);
-    if (TObjPlayer__sub_80079DE0((void *)arg0, (void *)arg1) == 0U) {
-        var_r31 = NULL;
-    } else if (check_line_hits_walls__10TObjPlayerFPvPviPv((void *)arg0, (void *)arg1, 0x8000, (Node_800797DC **)((void *) (((s32 *)&lbl_804FFD40)))) == 0) {
-        var_r31 = NULL;
+    hit = (CsnHit *)lbl_80500140;
+    TObjPlayer__sub_80079124((void *)from, (void *)to);
+    if (TObjPlayer__sub_80079DE0((void *)from, (void *)to) == 0U) {
+        hit = NULL;
+    } else if (check_line_hits_walls__10TObjPlayerFPvPviPv((void *)from, (void *)to, 0x8000, (Node_800797DC **)((void *) (((s32 *)&lbl_804FFD40)))) == 0) {
+        hit = NULL;
     }
     TObjPlayer__sub_80079118(lbl_804389C0);
-    return var_r31;
+    return hit;
 }
 
 s32 *csnVectorUnder(Vec *arg0, u32 *arg1, s32 arg2) {

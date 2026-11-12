@@ -123,3 +123,13 @@ TWindowSubTradeMain::TWindowSubTradeMain(TObject *object, void *arg2) : TObject(
         ((TObjPlayer *)x)->start_freeze();
     }
 }
+
+extern "C" {
+
+// Child-window flag setters; their only callers are TWindowSubTradeMain's
+// set_child_windows_enabled and run_task, and they follow its dtor/ctor here.
+void TWindowSubTradeMain__sub_803323A8(void* p) { *(u16*)((char*)p + 0x60) |= 0x40; }
+void TWindowSubTradeMain__sub_803323B8(void* p) { *(u16*)((char*)p + 0x60) &= 0xffffffbf; }
+void TWindowSubTradeMain__sub_803323C8(void* p) { *(u16*)((char*)p + 0x70) &= 0xfffffffb; }
+
+}

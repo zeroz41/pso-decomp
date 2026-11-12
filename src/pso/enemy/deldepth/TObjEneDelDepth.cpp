@@ -937,7 +937,7 @@ void TObjEneDelDepth::move_toward_target() {
     v.y *= lbl_805DF28C;
     v.z *= lbl_805DF28C;
     vec3_add_to((u8 *)&this->position, &v);
-    if (project_actor_to_ground(arg0, (u8 *)&this->position, (void *)0) == 0 || csnLookAt((s32)&prev_position, (s32)&position) != 0) {
+    if (project_actor_to_ground(arg0, (u8 *)&this->position, (void *)0) == 0 || csnLookAt(&prev_position, &position) != 0) {
         VecCopy(&this->position, &this->prev_position);
     }
     if (--this->timer <= 0) {
