@@ -284,6 +284,7 @@ s32 update__15RenderFadeStateFv(int, int);
 s32 try_move_with_detour__14TObjEnePanarmsFPvPv(u8 *arg0, Vec_800E18B0 *arg1);
 void calc_default_part_position__14TObjEnePanarmsFPv(u8 *arg0);
 void calc_part_position__14TObjEnePanBARAFPUcPl(u8 *arg0, u8 *arg1, s32 *arg2);
+s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
 void TObjEnePanarms__sub_800E1D38(void *arg0);
 int TObjEnePanarms__sub_800E1D94(void* p);
 void TObjEnePanarms__sub_800E1E14(u8 *arg0);
@@ -472,10 +473,10 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, void *setData, s32 index) : TObj
     apply_set_data(setData);
     // Same statements as TObjEnemy::clear_lobby_object_state (0x800F5D80); the original expands them here.
     PanBARAObjectState objectState;
-    if (exchange_object_state((s32)&objectState, 1) != 0) {
+    if (exchange_object_state__9TObjEnemyFls(this, &objectState, 1) != 0) {
         objectState.unk_0 = 0;
         objectState.unk_6 = 0;
-        exchange_object_state((s32)&objectState, 0);
+        exchange_object_state__9TObjEnemyFls(this, &objectState, 0);
     }
     m_380 = index;
     texlist = TObjFish__sub_8001EDB0(TObjEnePanarms__entry_params_resource, lbl_8043CD38[m_380]);
