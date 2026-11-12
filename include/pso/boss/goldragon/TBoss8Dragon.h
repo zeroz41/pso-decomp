@@ -3,75 +3,42 @@
 
 #include "types.h"
 #include "pso/render/RenderFadeState.h"
+#include "pso/enemy/dd/TObjEneDD_ST.h"
 
-struct TBoss8Dragon
+// The gold dragon (Episode 2's Gol Dragon) boss.
+class TBoss8Dragon : public TObjEneDD_ST
 {
+public:
+    virtual ~TBoss8Dragon();
+    virtual void run_task();
+    virtual void render();
+    virtual void render_shadows();
+    // Slot 23: kinds 0xB and 0xC do it no damage; the rest go to TObjChara's.
+    virtual f32 receive_direct_attack(void *attacker, DirectAttackPayload payload, void *arg2, s32 arg3, s32 arg4);
+    virtual void vfunc_28();
+    // Slots 44-50: the status ailments TObjChara applies; the dragon ignores them.
+    virtual void apply_poison_status();
+    virtual void apply_paralysis();
+    virtual void apply_slow_status();
+    virtual void apply_confusion_status();
+    virtual void apply_movement_ailment(s32);
+    virtual void apply_shock_status();
+    virtual void clear_harmful_statuses();
+    virtual void vfunc_61();
+    virtual void vfunc_62();
+    virtual void vfunc_63();
+    // Slot 87: runs the current action's handler (one per action, handlers[] in the body).
+    virtual void dispatch_action(u32 action, s32 event);
+    // Slot 88: moves the seven collider bodies to the model's node positions.
+    virtual void vfunc_88();
+    // Slots 105 and 106, the two the dragon adds to TObjEneDD_ST's table.
+    virtual int vfunc_105();
+    virtual void draw_motion_model();
+
     void sub_802F4098(u8 *);
-    void vfunc_63();
-    void vfunc_62();
-    void vfunc_61();
-    void vfunc_50();
-    void vfunc_49();
-    void vfunc_48(s32);
-    void vfunc_47();
-    void vfunc_46();
-    void vfunc_45();
-    void vfunc_44();
-    void vfunc_28();
-    void render_shadows();
-    void run_task();
     s32 hasActiveRenderFade();
 
-    s32 m_0;
-    u8 unk_4[0x4];
-    f32 m_8;
-    u8 unk_C[0x4];
-    f32 m_10;
-    u8 unk_14[0x4];
-    s32 * m_18;
-    u8 unk_1C[0x2];
-    s16 m_1e;
-    u8 unk_20[0x2];
-    u16 m_22;
-    u32 m_24;
-    u8 unk_28[0x4];
-    s32 m_2c;
-    u8 unk_30[0x4];
-    u32 m_34;
-    f32 m_38;
-    f32 m_3c;
-    f32 m_40;
-    u8 unk_44[0x4];
-    f32 m_48;
-    u8 unk_4C[0x4];
-    u32 m_50;
-    u8 unk_54[0x8];
-    s32 m_5c;
-    s32 m_60;
-    u8 unk_64[0x4];
-    f32 m_68;
-    u8 unk_6C[0x4];
-    f32 m_70;
-    u8 unk_74[0x30];
-    void * m_a4;
-    u8 unk_A8[0x8];
-    u32 m_b0;
-    u8 _padB4[0x4];
-    s16 m_b8;
-    u8 unk_BA[0x6];
-    f32 m_c0;
-    f32 m_c4;
-    u8 unk_C8[0x1E8];
-    u32 m_2b0;
-    u8 _pad2B4[0x4];
-    s16 m_2b8;
-    u8 _pad2BA[0x6C];
-    s16 m_326;
-    u8 unk_328[0x4];
-    s16 m_32c;
-    u8 unk_32E[0x22];
-    u32 m_350;
-    u8 unk_354[0x28];
+    u8 pad_374[0x8];
     f32 m_37c;
     u8 unk_380[0xC];
     u16 m_38c;
@@ -87,8 +54,7 @@ struct TBoss8Dragon
     s32 m_3b0;
     u8 unk_3B4[0xC];
     u32 m_3c0;
-    void* m_3c4;
-    u8 _pad3C8[0x18];
+    TObject sub_tasks;  // the dragon's collider task hangs under it; run_task runs its tasks
     u32 m_3e0;
     u32 m_3e4;
     u8 _pad3E8[0x28];
@@ -276,7 +242,6 @@ struct TBoss8Dragon
     s32 spawn_attack_object(s32 arg1, s32 arg2, s32 arg3, s32 arg4);
     u16 get_part_count_plus(s32 arg1);
     void set_mode_params(s8 arg1);
-    void draw_motion_model();
     void render_nodes_flagged();
     void copy_vectors();
     void send_swapped_packet();
@@ -284,9 +249,6 @@ struct TBoss8Dragon
     void copy_position(s32 arg1);
     int queue_destruction();
     static void trigger_switches_in_range(void *arg0, void *arg1, void *arg2);
-    void choose_next_camera_shot();
-    void update_live_camera();
-    void update_toggle_state();
     static s32 calc_binomial_coefficient(s32 n, s32 k);
     void play_animation_index(s32 arg1);
     void render_body_model();
@@ -300,7 +262,7 @@ struct TBoss8Dragon
     void draw();
     u8 *ct_attack_object(s32 arg1, s32 arg2, s32 arg3);
 
-    // Per-action event handlers, dispatched by sub_802FA4E4 (vtable slot 87).
+    // Per-action event handlers, run by dispatch_action (vtable slot 87).
     void sub_802F4B90(s32 event);
     void action(s32 event);
     void sub_802F4DD4(s32 event);
@@ -339,12 +301,13 @@ struct TBoss8Dragon
     void sub_802FA16C(s32 event);
     void sub_802FA374(s32 event);
     void sub_802FA478(s32 event);
-    void sub_802FA4E4(s32 action, s32 event);
 };
 
 #include <stddef.h>
 typedef char TBoss8DragonFadeStride[(sizeof(RenderFadeState) == 0x1C) ? 1 : -1];
 typedef char TBoss8DragonFadeOffset[(offsetof(TBoss8Dragon, renderFadeStates) == 0x6DC) ? 1 : -1];
+typedef char TBoss8DragonSize[(sizeof(TBoss8Dragon) == 0x8A4) ? 1 : -1];
+typedef char TBoss8DragonSubTasksOffset[(offsetof(TBoss8Dragon, sub_tasks) == 0x3C4) ? 1 : -1];
 typedef char TBoss8DragonAfterFadeOffset[(offsetof(TBoss8Dragon, m_74c) == 0x74C) ? 1 : -1];
 
 #endif

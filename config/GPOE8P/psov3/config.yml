@@ -5015,7 +5015,7 @@ force_active:
   - choose_next_action__11TBoss6Type1Fv
   - choose_next_action__12TBoss1DragonFv
   - choose_next_action__13TBoss5GryphonFPvPv
-  - choose_next_camera_shot__12TBoss8DragonFv
+  - choose_next_camera_shot__18TObjLiveCameraCtrlFv
   - choose_roaming_destination__14TObjEneBm5WolfFv
   - choose_turn_motion__11TBoss6Type2Fv
   - chr_select_a_slot_entry
@@ -16973,7 +16973,7 @@ force_active:
   - update_linked_state__13TUnk_804F322CFv
   - update_list__24TShopEquipmentListWindowFPv
   - update_list_scroll__22TWindowSubCustomSelectFv
-  - update_live_camera__12TBoss8DragonFv
+  - update_live_camera__18TObjLiveCameraCtrlFv
   - update_load_progress__12TChCrLoadReqFv
   - update_load_state__16TAdChrSelASlotGCFv
   - update_load_state__9TItemLoadFv
@@ -17286,7 +17286,7 @@ force_active:
   - update_title_prompt__19TAdTrialAgreementGCFv
   - update_title_rects__10TAdTitleGCFv
   - update_title_tex_positions__13TAdTitleTexGCFPv
-  - update_toggle_state__12TBoss8DragonFv
+  - update_toggle_state__18TObjLiveCameraCtrlFv
   - update_topple_state__16TBoss3VoloptCoreFv
   - update_trade_window_visibility__11TWindowCtrlFv
   - update_trail_quads__16TAdGuideButtonGCFv
