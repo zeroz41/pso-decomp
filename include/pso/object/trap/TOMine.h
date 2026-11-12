@@ -40,7 +40,11 @@ struct TOMine : public TObjChara {
     f32 m_350;                // trigger radius (squared against horizontal_distance_squared)
     DirectAttackPayload attack; // passed by value to receive_direct_attack
     u16 m_35c;
-    u8 _pad35E[0x12];
+    u8 _pad35E[0x2];
+    f32 m_360;
+    f32 m_364;
+    f32 m_368;
+    f32 m_36c;
     u32 m_370;
     int get_player_state();
     int find_target_player();

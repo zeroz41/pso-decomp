@@ -1151,6 +1151,7 @@ pso/object/trap/TOMineTrap.cpp
 pso/object/trap/TOMineTrapDisp.cpp
 pso/object/trap/TOMineTrapDisp_8016EDC8.cpp
 pso/object/trap/TOMineTrap_8016ED9C.cpp
+pso/object/trap/TOMineTrap_8016F6F8.cpp
 pso/object/mine/TOMonitorMachine01.cpp
 pso/object/ruins/TOMonumentAncient01.cpp
 pso/object/ruins/TOMonumentAncient02.cpp

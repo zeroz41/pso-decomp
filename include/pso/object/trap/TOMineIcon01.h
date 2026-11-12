@@ -5,6 +5,7 @@
 #include "pso/object/trap/TOMine.h"
 
 struct TOMineIcon01 : public TOMine {
+    TOMineIcon01(TObject *parent, void *set_data);
     virtual ~TOMineIcon01();
     virtual void vfunc_84();
     u32 m_374;
@@ -15,7 +16,6 @@ struct TOMineIcon01 : public TOMine {
 typedef char TOMineIcon01_size[sizeof(TOMineIcon01) == 0x37C ? 1 : -1];
 
 extern "C" {
-void *TOMineIcon01__ct(void *arg0, void *arg1, void *arg2);
 void *__dt__12TOMineIcon01Fv(void *arg0, s16 arg1);
 }
 

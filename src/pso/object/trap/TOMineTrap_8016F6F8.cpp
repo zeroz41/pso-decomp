@@ -12,6 +12,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/math/AngleUnits.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/BmlResource.h"
@@ -118,7 +119,6 @@ f32 vec3_add_to(void *, void *);
 f32 vec_squared_length(u8 *arg0);
 f32 subtract_vector(void *, void *);
 f32 normalize_vector(void *);
-extern const f64 lbl_80442200;
 extern const f32 lbl_805DB870;
 void queue_destruction__7TObjectFv(void *arg0);
 int get_player_data__10TObjPlayerFi(int a0);
@@ -197,6 +197,13 @@ s32 TOMineTrap::find_target_in_range() {
 void TOMineTrap::set_triggered() {
     u8 *arg0 = (u8 *)this;
     this->mode = 3;
+    ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
+    this->actorFlags = (s32) (this->actorFlags & 0xFFFBFFFF);
+}
+
+void TOMineTrap::vfunc_86() {
+    u8 *arg0 = (u8 *)this;
+    this->mode = 2;
     ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
     this->actorFlags = (s32) (this->actorFlags & 0xFFFBFFFF);
 }
@@ -294,13 +301,6 @@ void TOMineTrap::run_task() {
     }
 }
 
-void TOMineTrap::vfunc_86() {
-    u8 *arg0 = (u8 *)this;
-    this->mode = 2;
-    ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
-    this->actorFlags = (s32) (this->actorFlags & 0xFFFBFFFF);
-}
-
 void TOMineTrap::destroy_matching_traps() {
     void *p;
     s32 i;
@@ -347,10 +347,12 @@ void *__dt__10TOMineTrapFv(void *arg0, s16 arg1) {
 
 #pragma push
 #pragma fp_contract on
+#pragma opt_common_subs off
 TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
     TObjPlayer *player;
     s32 floor;
     f32 area_scale;
+    s32 trap_id;
 
     m_name = (const char *)TOMineTrap__data_805D3080;
     m_380 = 0;
@@ -396,7 +398,8 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
             attack.power = lbl_805DB85C;
             break;
         }
-        m_37e = slot + (kind * 20 + get_trap_type() * 80);
+        trap_id = slot + kind * 20 + get_trap_type() * 80;
+        m_37e = trap_id;
         VecCopy(&float_position, VecCopy(&home_position, VecCopy(&position, &owner->position)));
         ((TObjPlayer *)this)->init_position_vectors();
         calc_attach_pos();
@@ -682,6 +685,7 @@ void TOMine::vfunc_86() {
 }
 
 typedef struct Stack_80170AC8 Stack_80170AC8;
+#pragma push
 #pragma fp_contract on
 void TOMine::follow_target() {
     u8 *arg0 = (u8 *)this;
@@ -709,9 +713,10 @@ void TOMine::follow_target() {
   temp_f2 = *((f32 *) (((s8 *) arg0) + 0x48));
   *((f32 *) (((s8 *) arg0) + 0x3C)) = (f32) ((lbl_805DB884 * ((lbl_805DB888 + (*((f32 *) ((this->target) + 0x3C)))) - temp_f2)) + temp_f2);
   ((TObjChara *)arg0)->calc_attach_pos();
-  this->rotation_y = (s32) (lbl_80442200 * atan2_float((f64) stack.sp8, (f64) stack.sp10));
+  this->rotation_y = (s32) (RADIANS_TO_ANGLE * atan2_float((f64) stack.sp8, (f64) stack.sp10));
   ((TObjCollidable *)arg0)->refresh_collision_body_centers();
 }
+#pragma pop
 
 void TOMine::sub_80170BEC() {
     u8 *p;

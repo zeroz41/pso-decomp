@@ -41,8 +41,6 @@ struct VObj_801710E4 : VBase_801710E4 {
     virtual s32 m8(f32, f32);
 };
 
-struct Obj_80171278 { s32 f00; u8 pad0[0x14]; u32 vptr; u8 pad1[0x14]; u32 flags30; u8 pad2[0x30C]; s32 f340; u8 pad3[8]; f32 f34C; f32 f350; s32 f354; f32 f358; u16 f35C; u8 pad4[2]; f32 f360; f32 f364; f32 f368; f32 f36C; s32 f370; };
-
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_801711D0_lbl_804B2F2C mine_resource_desc;
@@ -55,12 +53,10 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805DB854;
 extern const f32 lbl_805DB858;
-void __ct__9TObjCharaFP7TObject(void *);
 void obj_setFlags30(void *, u32);
 extern s32 __vt__6TOMine[];
-extern s32 TOMine__name;
+extern const char *TOMine__name;
 extern const f32 lbl_805DB85C;
-Obj_80171278 *TOMine__ct(Obj_80171278 *arg0);
 void *__dt__6TOMineFv(void *arg0, s16 arg1);
 void free_bin_model_request(void*, int);
 int submit_target_to_player_cursor(void*);
@@ -177,25 +173,22 @@ void *__dt__6TOMineFv(void *arg0, s16 arg1) {
     }
     return arg0;
 }
-Obj_80171278 *TOMine__ct(Obj_80171278 *arg0) {
-    __ct__9TObjCharaFP7TObject(arg0);
-    arg0->vptr = (u32)((s32 *)&__vt__6TOMine);
-    arg0->f00 = TOMine__name;
-    ((TOMine *)arg0)->phase = 0;
-    arg0->f350 = lbl_805DB85C;
-    arg0->f34C = lbl_805DB85C;
-    arg0->f358 = lbl_805DB85C;
-    arg0->f354 = 0;
-    arg0->f35C = 0xFFFF;
-    arg0->f360 = lbl_805DB85C;
-    arg0->f364 = lbl_805DB85C;
-    arg0->f368 = lbl_805DB85C;
-    arg0->f36C = lbl_805DB85C;
-    arg0->f340 = 0;
-    arg0->f370 = 0;
-    obj_setFlags30(arg0, 0x60000000);
-    arg0->flags30 &= 0xFFFBFFFF;
-    return arg0;
+TOMine::TOMine(TObject *parent) : TObjChara(parent) {
+    m_name = TOMine__name;
+    phase = 0;
+    m_350 = lbl_805DB85C;
+    pad_34C = lbl_805DB85C;
+    attack.power = lbl_805DB85C;
+    attack.kind = 0;
+    m_35c = 0xFFFF;
+    m_360 = lbl_805DB85C;
+    m_364 = lbl_805DB85C;
+    m_368 = lbl_805DB85C;
+    m_36c = lbl_805DB85C;
+    m_340 = 0;
+    m_370 = 0;
+    obj_setFlags30(this, 0x60000000);
+    actorFlags &= ~0x40000;
 }
 
 }
