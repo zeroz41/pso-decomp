@@ -5,9 +5,8 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "dolphin/os.h"
 #include "dolphin/card.h"
+#include "pso/ui/frontend/CardFileEntry.h"
 
-// One entry of the open-file table: in use, the card slot it is on (2 = none) and its CARD handles.
-struct CardFileEntry { s16 in_use; s16 pad2; s32 channel; CARDFileInfo file_info; CARDStat stat; };
 // Per-slot card state: the last CARDProbeEx result and the sizes it reported.
 struct CardInfo_803F31D8 { s32 state; s32 mem_size; s32 sector_size; };
 

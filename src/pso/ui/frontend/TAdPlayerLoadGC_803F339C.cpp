@@ -1,18 +1,16 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_803F339C.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
+#define PSO_SDK_COMPACT_MATH
+#include "pso/ui/frontend/CardFileEntry.h"
+#undef PSO_SDK_COMPACT_MATH
 #include "pso/network/NetworkInfoLoader.h"
 #include <dolphin/os/OSAlloc.h>
 
-// One entry of the open-file table: in use, the card slot it is on (2 = none) and its CARD handles.
-struct CardFileEntry { s16 in_use; s16 pad2; s32 channel; u8 card[0x80]; }; // card: CARDFileInfo, CARDStat
-
 extern "C" {
-s32 CARDUnmount(s32 chan);
 s32 memset(void *, int, int);
 extern CardRequestSlot TAdPlayerLoadGC__load_request_slots[];
 extern CardFileEntry card_open_files[];
-s32 CARDProbe(s32 chan);
 char *strcpy(char *, const char *);
 u32 strlen(const char *);
 extern const char *lbl_805D79AC;
