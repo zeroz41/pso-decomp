@@ -8,6 +8,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80083B38.h"
 #include "pso/system/memory.h"
+#include "pso/system/main_loop.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
 
 s32 TMovie::stop_if_advanced() {
     if ((s32) *(s32 *)((s8 *)this + 0x58) >= 2) {
@@ -227,4 +229,258 @@ void TMovie__sub_80144324(MovieState *movie, const s8 *name) {
     movie->frame_rate.m_08 = 2;
     movie->frame_rate.m_0c = 0;
     lbl_805D6B28(&movie->frame_rate);
+}
+
+extern "C" {
+
+s32 render_until_finished__6TMovieFv(void *);
+s32 __dl__7TObjectFPv(void *);
+s32 __dt__7TObjectFv(void *, s32);
+s32 fn_80320358(u32, s32);
+
+extern void *__vt__6TMovie[];
+
+void *__dt__6TMovieFv(TMovie *arg0, s16 arg1) {
+    s32 (*temp_r12)(void *);
+    u32 t;
+
+    if (arg0 != NULL) {
+        *(void **)((s8 *)arg0 + 0x18) = __vt__6TMovie;
+        render_until_finished__6TMovieFv(arg0);
+        render_tick();
+        t = arg0->m_20;
+        if (t != 0U) {
+            close__6TMovieFis(t, 1);
+            arg0->m_20 = 0U;
+        }
+        render_tick();
+        render_tick();
+        t = arg0->m_1c;
+        if (t != 0U) {
+            fn_80320358(t, 1);
+            arg0->m_1c = 0U;
+        }
+        render_tick();
+        temp_r12 = *(s32 (**)(void *))((s8 *)arg0 + 0x44);
+        if (temp_r12 != NULL) {
+            temp_r12(arg0);
+        }
+        TLobby::set_pre_retrace_callback();
+        __dt__7TObjectFv(arg0, 0);
+        if (arg1 > 0) {
+            __dl__7TObjectFPv(arg0);
+        }
+    }
+    return arg0;
+}
+
+}
+
+extern "C" {
+
+s32 DVDCheckDisk();
+
+void TMovie::render_until_finished() {
+loop_1:
+    if ((DVDCheckDisk() == 0) && (TLobby::run_disk_error_check() == 0)) {
+        render_tick();
+        goto loop_1;
+    }
+}
+
+}
+
+extern "C" {
+
+s32 is_playback_finished__6TMovieFv(s32);
+s32 TWindowShortListCtrl__check_controller_button(void *, s32);
+s32 TKeyBoardControl__sub_8000F91C(s32);
+void activate_main_menu_scene();
+void fn_801449F0();
+s32 TAdEndText__sub_8001B41C();
+s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
+s8 get_opening_movie_purpose();
+s8 func_801A5E54__Fv();
+
+extern s8 controller_input_state[];
+extern s8 controller_physical_port_bank[];
+
+s32 TMovie::check_skip_input() {
+    void *var_r31;
+    s32 var_r30;
+
+    if (TAdEndText__sub_8001B41C() != 0) {
+        if ((TLobby::run_disk_error_check() == 0) || (is_playback_finished__6TMovieFv(this->m_20) != 0) || (func_801A5E54__Fv() != 0)) {
+            if ((TLobby::run_disk_error_check() == 0) || (func_801A5E54__Fv() != 0)) {
+                fn_801449F0();
+            }
+            return 1;
+        }
+        goto block_return0;
+    }
+    switch (get_opening_movie_purpose()) {
+    case 0:
+        var_r31 = controller_physical_port_bank + 0x20;
+        if (TWindowShortListCtrl__check_controller_button(var_r31, 4) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(var_r31, 2) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x400) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x200) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(var_r31, 8) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x10) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x20) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x40) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x80) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x20000) != 0) goto block_fn_8000F91C;
+        if (TWindowShortListCtrl__check_controller_button(var_r31, 0x10000) != 0) goto block_fn_8000F91C;
+        var_r31 = controller_input_state + 0x160;
+        if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(var_r31, 4) != 0) goto block_fn_8000F91C;
+        if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(var_r31, 2) != 0) goto block_fn_8000F91C;
+        if (TLobby::run_disk_error_check() == 0) goto block_fn_8000F91C;
+        if (TKeyBoardControl::check_reset_button() != 0) goto block_fn_8000F91C;
+        if (is_playback_finished__6TMovieFv(this->m_20) == 0) goto block_return0;
+block_fn_8000F91C:
+        TKeyBoardControl__sub_8000F91C(9);
+        return 1;
+    case 1:
+        var_r30 = 0;
+        if (TKeyBoardControl::check_reset_button() != 0) {
+            var_r30 = 1;
+        }
+        var_r31 = controller_physical_port_bank + 0x20;
+        if (TWindowShortListCtrl__check_controller_button(var_r31, 2) != 0) goto block_call_func;
+        if (TWindowShortListCtrl__check_controller_button(var_r31, 8) != 0) goto block_call_func;
+        var_r31 = controller_input_state + 0x160;
+        if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(var_r31, 4) != 0) goto block_call_func;
+        if (test_flag_4c__23TAdSinglePlyChrSelectGCFv(var_r31, 2) != 0) goto block_call_func;
+        if (TLobby::run_disk_error_check() == 0) goto block_call_func;
+        if (var_r30 != 0) goto block_call_func;
+        if (is_playback_finished__6TMovieFv(this->m_20) == 0) goto block_return0;
+block_call_func:
+        if ((func_801A5E54__Fv() != 0) || (var_r30 != 0)) {
+            activate_main_menu_scene();
+        }
+        return 1;
+    }
+block_return0:
+    return 0;
+}
+
+}
+
+struct TMovie_80144910 {
+    s32 name;
+    u8 pad4[0x14];
+    void *vt;
+    u8 *obj1C;
+    u8 *obj20;
+    char path[0x20];
+    s32 f44;
+    s32 f48;
+};
+
+struct VBase_18_a28850 { char pad[0x18]; };
+
+struct VObj_18_a28850 : VBase_18_a28850 {
+    virtual void m0();
+    virtual s32 m1();
+    virtual s32 m2();
+};
+
+struct Vec_80144778 { s32 x, y, z; };
+
+extern "C" {
+u8 *load_rel_module(u8 *arg0, s32 arg1);
+extern s32 TMovie__name;
+void queue_destruction__7TObjectFv(void *arg0);
+u8 *__ct__10TAdEndTextFv(void *, void *);
+u8 *__nw__7TObjectFUl(s32);
+}
+u8 *initialize_movie_with_soundtrack(u8 *arg0, s8 *arg1, s32 arg2, s32 arg3, s32 arg4);
+void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
+extern "C" {
+void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 farg2);
+void func_803DCDFC__Fv(void);
+extern Vec_80144778 lbl_8043F2E8;
+extern Vec_80144778 lbl_8043F2F4;
+extern Vec_80144778 lbl_8043F300;
+extern s32 video_initial_draw_framebuffer;
+extern s32 video_initial_display_framebuffer;
+void run_task__6TMovieFv(TMovie *arg0);
+
+void run_task__6TMovieFv(TMovie *movie) {
+    VObj_18_a28850 *txt;
+    u8 *p;
+    if (movie->m_1c == 0 || movie->m_20 == 0) {
+        queue_destruction__7TObjectFv(movie);
+        return;
+    }
+    render_tick();
+    render_tick();
+    TMovie::calc_frame_buffer_size((s32)((void *)video_initial_display_framebuffer), (s32)((void *)video_initial_draw_framebuffer));
+    txt = NULL;
+    if (TAdEndText__sub_8001B41C() != 0) {
+        p = __nw__7TObjectFUl(0x197C);
+        if (p != NULL) {
+            p = __ct__10TAdEndTextFv(p, movie);
+        }
+        txt = (VObj_18_a28850 *)p;
+    }
+    for (;;) {
+        if (movie->check_skip_input() != 0) {
+            break;
+        }
+        func_803DCDFC__Fv();
+        controller_stuff();
+        TKeyBoardControl::update_input_frame();
+        ((TMovie *)(movie->m_20))->decode_frame();
+        if (*(s32 *)&movie->m_48 != 0) {
+            ((TMovie *)(movie->m_20))->update_stop();
+            TMovie::run_callback();
+        } else {
+            Vec_80144778 eye = lbl_8043F2E8;
+            Vec_80144778 at = lbl_8043F2F4;
+            Vec_80144778 up = lbl_8043F300;
+            set_perspective_projection_from_fov(0x4B, 1.1333334f, 1.0f, 21000.0f);
+            set_camera_look_at((u8 *)&eye, (u8 *)&at, (u8 *)&up);
+            ((TMovie *)(movie->m_20))->update_stop();
+            if (txt != NULL) {
+                txt->m1();
+                txt->m2();
+            }
+            render_tick();
+        }
+    }
+    queue_destruction__7TObjectFv(movie);
+}
+}
+TMovie::TMovie(TObject *parent, s8 *name, s32 a3, s32 a4, s32 a5) : TObject(parent) {
+    u8 *p;
+    ((TMovie_80144910 *)this)->name = TMovie__name;
+    ((TMovie_80144910 *)this)->f44 = a3;
+    ((TMovie_80144910 *)this)->obj1C = 0;
+    ((TMovie_80144910 *)this)->f48 = a4;
+    ((TMovie_80144910 *)this)->obj20 = 0;
+    strncpy(((TMovie_80144910 *)this)->path, (const char *)name, 0x20);
+    p = (u8 *)::operator new(8);
+    if (p != 0) {
+        p = load_rel_module(p, (s32)"movie.rel");
+    }
+    ((TMovie_80144910 *)this)->obj1C = p;
+    p = (u8 *)::operator new(0xD0);
+    if (p != 0) {
+        p = initialize_movie_with_soundtrack(p, name, ((TMovie_80144910 *)this)->f48, (u8)!((TMovie_80144910 *)this)->f48, a5);
+    }
+    ((TMovie_80144910 *)this)->obj20 = p;
+}
+extern "C" {
+
+    extern int opening_movie_selector;
+int get_opening_movie_selector(void) {  return opening_movie_selector; }
+
+    extern unsigned char main_menu_scene_active_flag;
+void activate_main_menu_scene(void) { main_menu_scene_active_flag = 1; }
+
+    extern int ending_movie_active_flag;
+void fn_801449F0(void) { ending_movie_active_flag = 1; }
+
 }

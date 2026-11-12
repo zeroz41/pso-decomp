@@ -42,6 +42,7 @@ typedef char TMovie_size[sizeof(TMovie) == 0x4C ? 1 : -1];
 
 extern "C" {
 s32 close__6TMovieFis(s32 arg0, s16 arg1);
+void *__dt__6TMovieFv(TMovie *arg0, s16 arg1);
 }
 
 // --- C functions defined in TMovie.cpp ---

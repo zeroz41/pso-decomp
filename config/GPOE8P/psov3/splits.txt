@@ -3396,22 +3396,9 @@ pso/system/movie/TMovie_80143DF0.cpp:
 	.text       start:0x80143DF0 end:0x80143E90
 
 pso/system/movie/TMovie_80143E90.cpp:
-	.text       start:0x80143E90 end:0x801443C0
-	.sdata2     start:0x805DB178 end:0x805DB180
-
-pso/system/movie/TMovie_801443C0.cpp:
-	.text       start:0x801443C0 end:0x80144484
-
-pso/system/movie/TMovie_80144484.cpp:
-	.text       start:0x80144484 end:0x801444C0
-
-pso/system/movie/TMovie_801444C0.cpp:
-	.text       start:0x801444C0 end:0x80144778
-
-pso/system/movie/TMovie_80144778.cpp:
-	.text       start:0x80144778 end:0x801449FC
+	.text       start:0x80143E90 end:0x801449FC
 	.rodata     start:0x8043F380 end:0x8043F390
-	.sdata2     start:0x805DB180 end:0x805DB18C
+	.sdata2     start:0x805DB178 end:0x805DB18C
 
 pso/ui/font/TNECFontEORFunction.cpp:
 	.text       start:0x801449FC end:0x80144B14
