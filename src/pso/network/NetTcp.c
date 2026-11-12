@@ -12,7 +12,6 @@
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
-struct Self_803FD85C;
 
 #include <stddef.h>
 
@@ -575,15 +574,14 @@ s32 TLobby__sub_8041B3D4(void* a, void* b, s16 c, s16 d, s32 e, s32 f, u8 g_m) {
     return 0;
 }
 
-extern TcpTcb *TLobby__sub_8041B5C0(TcpTcb *arg0) {
-    TcpTcb *self;
+extern TcpTcb *TLobby__sub_8041B5C0(TcpTcb *self) {
     TcpState *g = &tcp_protocol_state;
     s16 idx;
     s32 tmp;
     s32 pad[2];
 
     (void)pad;
-    if ((self = arg0) == NULL) {
+    if (self == NULL) {
         return NULL;
     }
     if (self->flags & 0x80) {
@@ -605,7 +603,7 @@ extern TcpTcb *TLobby__sub_8041B5C0(TcpTcb *arg0) {
             }
         }
         NetDispatchSocketEvent((s16)(self - g->tcbs), self->event_ctx, 3, 0xff);
-        *(s16 *)&self->state = 0;
+        self->state = 0;
         g->freed = (s16)(self - g->tcbs);
         return NULL;
     }
@@ -664,35 +662,35 @@ extern TcpTcb *TLobby__sub_8041B774(TcpTcb *self, TcpHdr *th, u8 *a, u8 *b) {
     w = dst->maxseg;
     w = (w < n) ? w : n;
     if ((s16)w < 0) {
-        *(s16 *)&dst->state = 0;
+        dst->state = 0;
         return NULL;
     }
 
     dst->f530 = self->f530;
     dst->f534 = self->f534;
     if (TLobby__sub_8041ECA4(dst) < 0) {
-        *(s16 *)&dst->state = 0;
+        dst->state = 0;
         return NULL;
     }
     if (TLobby__sub_8041EC14(dst) < 0) {
         close_if_open(dst);
-        *(s16 *)&dst->state = 0;
+        dst->state = 0;
         return NULL;
     }
 
-    *(u32 *)&dst->event_ctx = *(u32 *)&self->event_ctx;
+    dst->event_ctx = self->event_ctx;
     dst->listener = (s16)(self - tcp_protocol_state.tcbs);
     self->pending += 1;
     dst->sack_flags = self->sack_flags;
     dst->f53C = self->f53C;
-    *(u32 *)&dst->f540 = *(u32 *)&self->f540;
+    dst->f540 = self->f540;
     dst->flags = self->flags;
     dst->maxseg = self->maxseg;
     return dst;
 }
 extern s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, u8 *p6);
 void TLobby__sub_8041A498(TcpTcb *arg0, s16 arg1);
-#define TCP_IDX(tp) ((s16)((TcpTcb *)(tp) - tcp_protocol_state.tcbs))
+#define TCP_IDX(tp) ((s16)((tp) - tcp_protocol_state.tcbs))
 #define TCP_MIN(a, b) ((a) < (b) ? (a) : (b))
 #define TCP_MAX(a, b) ((a) > (b) ? (a) : (b))
 #define TCP_REXMTTHRESH (tcp_protocol_state.rexmtthresh)
@@ -872,7 +870,7 @@ retry:
         tcp_protocol_state.iss += 0xFA00;
         ent_new->irs = hdr.seq;
         ent_new->snd_una = ent_new->snd_nxt = ent_new->snd_max =
-            ent_new->snd_up = ent_new->f2F4 = *(u32 *)&ent_new->una =
+            ent_new->snd_up = ent_new->f2F4 = ent_new->una =
             ent_new->iss;
         ent_new->rcv_adv = ent_new->rcv_nxt = ent_new->irs + 1;
         ent_new->flags |= 1;
@@ -895,8 +893,8 @@ retry:
             ent_new->snd_cwnd = get_adjusted_slot_count(ent_new);
             break;
         }
-        *(u32 *)&ent_new->event_ctx = *(u32 *)&found->accept_ctx;
-        *(u32 *)&found->accept_ctx = 0;
+        ent_new->event_ctx = found->accept_ctx;
+        found->accept_ctx = 0;
         TLobby__sub_80422AB8(TCP_IDX(found),
                              found->accept_cb,
                              (s16)(ent_new - tcp_protocol_state.tcbs), (s32)(ent_new->remote),
@@ -1169,7 +1167,7 @@ retry:
             }
             break;
         }
-        reset_slot_index((void *)found);
+        reset_slot_index(found);
         found->f2F0 = 0;
         found->f2F4 = hdr.ack;
         if (found->dupacks > TCP_REXMTTHRESH && found->snd_cwnd > found->snd_ssthresh) {
@@ -1232,7 +1230,7 @@ retry:
             found->snd_cwnd = (u16)TCP_MIN((s32)(cw + incr), 0xFFFF);
         }
         {
-            s32 n = get_score((void *)found);
+            s32 n = get_score(found);
 
             if (acked > n) {
                 ourfinisacked = 1;
@@ -1259,13 +1257,13 @@ retry:
         case 7:
             if (ourfinisacked) {
                 found->t_state = 10;
-                if ((u32)get_score((void *)found) == 0) {
-                    close_if_open((void *)found);
+                if ((u32)get_score(found) == 0) {
+                    close_if_open(found);
                 }
-                if ((u32)get_field_d8((void *)found) == 0) {
+                if ((u32)get_field_d8(found) == 0) {
                     TLobby__sub_8041EB74(found);
                 }
-                clear_position((void *)found);
+                clear_position(found);
                 found->timers[3] = 0x78;
             }
             break;
@@ -1297,7 +1295,7 @@ step6:
         changed = 1;
     }
     if ((kind & 0x20) && hdr.urp != 0 && !(found->flags & 0x08)) {
-        if ((u32)get_queue_diff((void *)found) + hdr.urp > 0x10000) {
+        if ((u32)get_queue_diff(found) + hdr.urp > 0x10000) {
             hdr.urp = 0;
             kind &= ~0x20;
         } else {
@@ -1355,13 +1353,13 @@ L1397:
         break;
     case 9:
         found->t_state = 10;
-        if ((u32)get_score((void *)found) == 0) {
-            close_if_open((void *)found);
+        if ((u32)get_score(found) == 0) {
+            close_if_open(found);
         }
-        if ((u32)get_field_d8((void *)found) == 0) {
+        if ((u32)get_field_d8(found) == 0) {
             TLobby__sub_8041EB74(found);
         }
-        clear_position((void *)found);
+        clear_position(found);
         found->timers[3] = 0x78;
         break;
     case 10:
@@ -1457,7 +1455,7 @@ s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, u8 *p6)
         case 5:
         {
           u8 *tbl = (*((u8 (*)[]) (&tcp_protocol_state))) + offsetof(TcpState, sack_opt);
-          last = *(s32 *)&self->snd_una;
+          last = self->snd_una;
           if (((sz - 2) % 8) != 0)
           {
             break;
@@ -1486,7 +1484,7 @@ s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, u8 *p6)
           TLobby__sub_8041D584(self, e, tbl, (s16) n);
           if (TLobby__sub_8041D524(self, last) != 0)
           {
-            self->edge = *(s32 *)&self->snd_una;
+            self->edge = self->snd_una;
           }
         }
           break;
@@ -1969,7 +1967,7 @@ s32 TLobby__sub_8041DBD4(s16 arg0, s32 arg1, s32 len, s32 arg3) {
     switch (e->t_state) {
     case 0:
     case 4: case 5: case 6: case 7: case 8: case 9: case 10:
-        if ((e->fA & 4) && (e->rcv_buf.kind == 0 || (u32)get_field_d8((void *)e) == 0)) {
+        if ((e->fA & 4) && (e->rcv_buf.kind == 0 || (u32)get_field_d8(e) == 0)) {
             return -4;
         }
         break;
@@ -2136,7 +2134,7 @@ s32 get_tcp_stat(s16 arg0, s16 *arg1, s16 *arg2, s32 *arg3, s32 *arg4) {
         *arg3 = get_adjusted_slot_count(e);
     }
     if (arg4 != NULL) {
-        *arg4 = get_field_d8((void *)e);
+        *arg4 = get_field_d8(e);
     }
     return 0;
 }
@@ -2191,7 +2189,7 @@ s32 abort_tcp_connection(s16 arg0) {
         e->t_state = 0;
         TLobby__sub_8041A9AC(e);
     }
-    clear_position((void *)e);
+    clear_position(e);
     return 0;
 }
 #pragma pop
@@ -2252,7 +2250,7 @@ s16 tcp_connect_start(s16 arg0, s32 arg1, s16 arg2) {
     }
     r = TLobby__sub_8041EC14(e);
     if (r < 0) {
-        close_if_open((void *)e);
+        close_if_open(e);
         return r;
     }
     e->snd_cwnd = get_adjusted_slot_count(e);
@@ -2371,7 +2369,7 @@ extern s32 TLobby__sub_8041E780(void)
     {
       idx = 0;
     }
-    rec = (TcpTcb *) (((u8 *) (new_var = entries)) + (((s16) idx) * sizeof(TcpTcb)));
+    rec = (new_var = entries) + (s16) idx;
     if (rec->state == 0)
     {
       NetMemset(rec, 0, sizeof(TcpTcb));
