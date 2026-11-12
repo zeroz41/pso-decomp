@@ -17172,8 +17172,8 @@ force_active:
   - update_slot4__16TAdChrSelASlotGCFv
   - update_slot5__16TAdChrSelASlotGCFv
   - update_slot_display_flags__26TWindowSubQuestBoardSelectFv
-  - update_slot_icon__20TWindowActionPaletteFPviii
-  - update_slot_sprites__20TWindowActionPaletteFiiUs
+  - update_slot_icon__20TWindowActionPaletteFiUsUs
+  - update_slot_sprites__20TWindowActionPaletteFiUsUs
   - update_slot_state__16TAdChrSelBSlotGCFPv
   - update_spark_toggle__16TOSparkMachine01Fl
   - update_spawn_timer__13TUnk_804E4B3CFlll

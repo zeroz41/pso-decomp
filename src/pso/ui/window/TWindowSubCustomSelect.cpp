@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
-#include "pso/ui/window/TWindowHelpItem_80243408.h"
+#include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubCustomSelect.h"
@@ -59,7 +59,6 @@ extern s32 TWindowSubCustomSelect__class_name;
 s32 clamp_list_scroll_offset(void *, void *, void *);
 s32 can_use_palette_action__10TObjPlayerFPvUcUc(s32, u8, u8);
 u8 *get_array_entry__11TWindowBaseFi(void *, s32);
-s32 draw_action_palette_icon(void *, u16, u16);
 s32 draw_visible_window_entries(void *, void *, void *);
 void __dl__7TObjectFPv(void *);
 
@@ -192,8 +191,8 @@ void TWindowSubCustomSelect::draw_palette_cells(int ctx) {
         } else {
             *(s32 *)((s8 *)w1 + 0x2C) = 0xFF404040;
         }
-        draw_action_palette_icon(w1, id, sub);
-        update_palette_item_count_label((TWindowHelpItem *)w2, (u8 *)w1, (u16)id, (u16)sub, (s32)this->m_20);
+        draw_action_palette_icon((Icon_80243630 *)w1, id, sub);
+        update_palette_item_count_label((TWindowHelpItem *)w2, (Icon_80243630 *)w1, (u16)id, (u16)sub, (s32)this->m_20);
         draw_visible_window_entries(this, &*(u8 *)((s8 *)this + 0x24), (void *)ctx);
     }
 }

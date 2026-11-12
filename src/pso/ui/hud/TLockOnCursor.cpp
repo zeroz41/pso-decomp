@@ -296,7 +296,7 @@ u8 TMainCursor::get_type() { return *(u8 *)&this->m_name; }
 
 }
 
-void TWindowActionPalette::set_slot(u8 v) { this->m_1 = v; }
+void TWindowActionPalette::set_slot(u8 v) { *(u8*)((char*)this + 0x1) = v; }
 void TWindowActionPalette::set_mode(u8 v) { *(u8*)((char*)this + 0x0) = v; }
 
 struct Obj_8013E020 { u16 a; u16 b; s32 c; };

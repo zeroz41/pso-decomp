@@ -6712,16 +6712,12 @@ pso/unk/text_802432F0.cpp:
 pso/unk/TLobby_80243370.cpp:
 	.text       start:0x80243370 end:0x80243408
 
-pso/ui/window/TWindowHelpItem_80243408.cpp:
-	.text       start:0x80243408 end:0x802437C4
-	.data       start:0x804CDCA8 end:0x804CDFE8
-
-pso/unk/text_802437C4.cpp:
-	.text       start:0x802437C4 end:0x8024391C
-
 pso/ui/window/TWindowActionPalette.cpp:
-	.text       start:0x8024391C end:0x8024420C
-	.sdata2     start:0x805DCA48 end:0x805DCAA8
+	.text       start:0x80243408 end:0x8024420C
+	.rodata     start:0x8044E5D0 end:0x8044E628
+	.data       start:0x804CDCA8 end:0x804CDFE8
+	.sdata      start:0x805D3870 end:0x805D3878
+	.sdata2     start:0x805DCA10 end:0x805DCAA8
 
 pso/ui/window/TWindowHelpItem.cpp:
 	.text       start:0x8024420C end:0x80244238
