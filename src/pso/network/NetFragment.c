@@ -142,11 +142,11 @@ inline NetFragment *take_80418D7C(NetFragment **pb, s16 *pn) {
     return 0;
 }
 inline s16 contig_80418D7C(NetFragPacket *node, s16 *pn, NetFragPool *g) {
-    NetFragment *f;
-    s16 cnt;
-    s16 n;
     s16 lim;
+    NetFragment *f;
     u32 acc;
+    s16 n;
+    s16 cnt;
     acc = 0;
     f = node->first;
     cnt = *pn;
