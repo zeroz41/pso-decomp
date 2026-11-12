@@ -3900,7 +3900,7 @@ pso/object/mine/TOComputerMachine01.cpp:
 pso/object/container/TOContainerAncientEnemy.cpp:
 	.text       start:0x8015B714 end:0x8015C9D0
 	.rodata     start:0x80440508 end:0x80440940
-	.data       start:0x804B0068 end:0x804B00C8
+	.data       start:0x804B0068 end:0x804B00F4
 	.sdata      start:0x805D2EF0 end:0x805D2F18
 
 pso/enemy/dubchik/TOCtrlDubchik_8015CA74.cpp:
