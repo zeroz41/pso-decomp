@@ -887,7 +887,6 @@ pso/unk/TLobby_8013ADF0.cpp
 pso/unk/TLobby_8013FFA8.cpp
 pso/unk/TLobby_801404CC.cpp
 pso/unk/TLobby_80140FF4.cpp
-pso/unk/TLobby_80145E40.cpp
 pso/unk/TLobby_80156B18.cpp
 pso/unk/TLobby_8015ABD0.cpp
 pso/unk/TLobby_8015C944.cpp
@@ -957,7 +956,6 @@ pso/unk/TLobby_802A7290.cpp
 pso/unk/TUnk_804887F8.cpp
 pso/unk/TUnk_80488B38.cpp
 pso/unk/TUnk_80488DA0.cpp
-pso/ui/window/TWindowSnapShot_802A7D68.cpp
 pso/unk/TLobby_802AF5FC.cpp
 pso/unk/TLobby_802D1EFC.cpp
 pso/unk/TLobby_802D22F0.cpp
@@ -971,7 +969,6 @@ pso/unk/TLobby_8030A834.cpp
 pso/unk/TLobby_803255F8.cpp
 pso/unk/TLobby_80328F7C.cpp
 pso/unk/TLobby_80329600.cpp
-pso/unk/TLobby_8032BD20.cpp
 pso/unk/TLobby_80335E7C.cpp
 pso/unk/text_802A2A00.cpp
 pso/unk/text_803369C8.cpp
@@ -1386,7 +1383,6 @@ pso/ui/window/TWindowCtrl.cpp
 pso/ui/window/TWindowCtrlMain.cpp
 pso/ui/window/TWindowCtrlMain_800FC91C.cpp
 pso/ui/window/TWindowCtrlMain_8024674C.cpp
-pso/ui/window/TWindowCtrlMain_8024EEF8.cpp
 pso/ui/window/TWindowCtrl_8006E85C.cpp
 pso/ui/window/TWindowCtrl_800FD868.cpp
 pso/ui/window/TWindowCtrl_80145A28.cpp
@@ -1649,7 +1645,6 @@ pso/ui/window/TWindowSubStatusDisp_802671F0.cpp
 pso/ui/window/TWindowSubStatusDisp_80268488.cpp
 pso/ui/window/TWindowSubStatusDisp_80268738.cpp
 pso/ui/window/TWindowSubStatusDisp_8026CE3C.cpp
-pso/ui/window/TWindowSubStatusDisp_8026F6DC.cpp
 pso/ui/window/TWindowSubStatusDisp_80281198.cpp
 pso/ui/window/TWindowSubStatusDisp_80287570.cpp
 pso/ui/window/TWindowSubStatusDisp_80288030.cpp
@@ -1657,7 +1652,6 @@ pso/ui/frontend/TAdSelectTxtSubGC.cpp
 pso/ui/frontend/TAdTitleTexGC.cpp
 pso/ui/frontend/TAdScrollWinGC.cpp
 pso/ui/window/TWindowSubStatusDisp_80338740.cpp
-pso/ui/window/TWindowSubStatusDisp_8034A938.cpp
 pso/ui/window/TWindowSubStatusDisp_803DEE6C.cpp
 pso/ui/chat/TWindowSubSymbolChat.cpp
 pso/ui/chat/TWindowSubSymbolChatFaceType.cpp
@@ -2725,7 +2719,6 @@ pso/unk/text_803F4D84.cpp
 pso/network/text_80421620.c
 pso/unk/text_8042E8C4.cpp
 pso/unk/text_8042EAD4.cpp
-pso/unk/text_8042EE4C.cpp
 si/SIBios.c
 si/SISamplingRate.c
 vi/vi.c

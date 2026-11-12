@@ -3436,10 +3436,7 @@ pso/unk/text_80145A44.cpp:
 	.text       start:0x80145A44 end:0x80145A94
 
 pso/unk/text_80145A94.cpp:
-	.text       start:0x80145A94 end:0x80145E40
-
-pso/unk/TLobby_80145E40.cpp:
-	.text       start:0x80145E40 end:0x80146158
+	.text       start:0x80145A94 end:0x80146158
 
 pso/ui/frontend/TAdExNetConfirmGC.cpp:
 	.text       start:0x80146158 end:0x8014618C
@@ -7048,11 +7045,8 @@ pso/ui/window/TWindowDeposit.cpp:
 	.sdata2     start:0x805DCC60 end:0x805DCC74
 
 pso/ui/window/TWindowKeyBoardSoft_8024E68C.cpp:
-	.text       start:0x8024E68C end:0x8024EEF8
+	.text       start:0x8024E68C end:0x8024EF3C
 	.rodata     start:0x8044ECB8 end:0x8044ECC0
-
-pso/ui/window/TWindowCtrlMain_8024EEF8.cpp:
-	.text       start:0x8024EEF8 end:0x8024EF3C
 
 pso/ui/window/TWindowDuelResult.cpp:
 	.text       start:0x8024EF3C end:0x8024F688
@@ -7523,13 +7517,10 @@ pso/ui/window/TWindowShortListCtrl_8026E7DC.cpp:
 pso/ui/window/TWindowCtrl_8026F6A4.cpp:
 	.text       start:0x8026F6A4 end:0x8026F6DC
 
-pso/ui/window/TWindowSubStatusDisp_8026F6DC.cpp:
-	.text       start:0x8026F6DC end:0x80270514
+pso/ui/window/TWindowSimpleStatus.cpp:
+	.text       start:0x8026F6DC end:0x80270748
 	.rodata     start:0x8044F608 end:0x8044F618
 	.sdata2     start:0x805DD3F0 end:0x805DD400
-
-pso/ui/window/TWindowSimpleStatus.cpp:
-	.text       start:0x80270514 end:0x80270748
 
 pso/ui/window/TWindowSoundBalance.cpp:
 	.text       start:0x80270748 end:0x80270F14
@@ -8478,11 +8469,8 @@ pso/unk/TLobby_802A7290.cpp:
 pso/system/data/pso_const_ids3.cpp:
 	.text       start:0x802A7798 end:0x802A7848
 
-pso/ui/window/TWindowSnapShot_802A7D68.cpp:
-	.text       start:0x802A7848 end:0x802A7DDC
-
 pso/ui/window/TWindowSnapShot.cpp:
-	.text       start:0x802A7DDC end:0x802A8140
+	.text       start:0x802A7848 end:0x802A8140
 	.sdata2     start:0x805DE018 end:0x805DE020
 
 pso/effect/TEffIndirectCtrl.cpp:
@@ -9852,13 +9840,10 @@ pso/ui/frontend/TAdEnterBaseGC_8032B38C.cpp:
 	.data       start:0x804EDA08 end:0x804EDA20
 
 pso/ui/frontend/TAdEnterPasswordGC.cpp:
-	.text       start:0x8032B58C end:0x8032BD20
+	.text       start:0x8032B58C end:0x8032BE48
 	.rodata     start:0x804772A0 end:0x804772A8
 	.data       start:0x804EDA20 end:0x804EDAA4
 	.sbss       start:0x805D6CB0 end:0x805D6CB8
-
-pso/unk/TLobby_8032BD20.cpp:
-	.text       start:0x8032BD20 end:0x8032BE48
 
 pso/ui/frontend/TAdSnAkPassConfirmGC.cpp:
 	.text       start:0x8032BE48 end:0x8032C0B4
@@ -10284,14 +10269,11 @@ pso/boss/darkfalz/TBoss4CheckEmpty.cpp:
 	.text       start:0x8034A7CC end:0x8034A938
 	.data       start:0x804EFFE0 end:0x804EFFF8
 
-pso/ui/window/TWindowSubStatusDisp_8034A938.cpp:
-	.text       start:0x8034A938 end:0x8034A998
-	.sdata2     start:0x805DFD60 end:0x805DFD64
-
 pso/ui/frontend/TAdGameStartShineGC.cpp:
-	.text       start:0x8034A998 end:0x8034AC4C
+	.text       start:0x8034A938 end:0x8034AC4C
 	.rodata     start:0x80478A10 end:0x80478A18
 	.data       start:0x804EFFF8 end:0x804F0010
+	.sdata2     start:0x805DFD60 end:0x805DFD64
 
 pso/ui/frontend/TAdFloorLoadGC.cpp:
 	.text       start:0x8034AC4C end:0x8034AD28
@@ -12608,10 +12590,7 @@ pso/ui/frontend/TAdTrialModemChkGC_8042E9FC.cpp:
 	.text       start:0x8042E9FC end:0x8042EAD4
 
 pso/unk/text_8042EAD4.cpp:
-	.text       start:0x8042EAD4 end:0x8042EE4C
-
-pso/unk/text_8042EE4C.cpp:
-	.text       start:0x8042EE4C end:0x8042F13C
+	.text       start:0x8042EAD4 end:0x8042F13C
 	.sbss       start:0x805D7CC8 end:0x805D7CCC
 
 exi/EXIBios.c:
