@@ -599,10 +599,6 @@ extern RecoveredGlobal_802BB180_lbl_804DFAD0 lbl_804DFAD0;
 extern Tb_802BD014 lbl_804E00DC[];
 extern s32 local_client_id;
 extern s32 game_difficulty_selection;
-extern f32 TBoss6Type2__foot_lift_height;
-extern u8 TBoss6Type2__foot_lift_height_initialized;
-extern f32 boss6_type2_footstep_height_threshold;
-extern u8 boss6_type2_footstep_threshold_initialized;
 extern s32 tl_04;
 
 extern "C" {
@@ -801,16 +797,8 @@ void TBoss6Type2::update_footstep_effects() {
   s32 var_r30;
   u8 *temp_r29;
   s32 var_r28;
-  if (((s8) TBoss6Type2__foot_lift_height_initialized) == 0)
-  {
-    TBoss6Type2__foot_lift_height_initialized = 1;
-    TBoss6Type2__foot_lift_height = 7.5f;
-  }
-  if (((s8) boss6_type2_footstep_threshold_initialized) == 0)
-  {
-    boss6_type2_footstep_threshold_initialized = 1;
-    boss6_type2_footstep_height_threshold = 5.0f;
-  }
+  static f32 foot_lift_height = 7.5f;
+  static f32 footstep_height_threshold = 5.0f;
   stack.sp8 = (long) (((u8 *) arg0) + 0x614);
   var_r28 = 0;
   var_r30 = 0;
@@ -820,7 +808,7 @@ void TBoss6Type2::update_footstep_effects() {
     temp_r4 = var_r30 + 0x554;
     if (((s32) (*((s32 *) (((s8 *) (((u8 *) arg0) + temp_r4)) + 0)))) != 0)
     {
-      if ((*((f32 *) (((s8 *) (*((u8 **) (((s8 *) (((u8 *)&stack.sp8) + var_r30)) + 0)))) + 4))) > TBoss6Type2__foot_lift_height)
+      if ((*((f32 *) (((s8 *) (*((u8 **) (((s8 *) (((u8 *)&stack.sp8) + var_r30)) + 0)))) + 4))) > foot_lift_height)
       {
         *((s32 *) (((s8 *) (((u8 *) arg0) + temp_r4)) + 0)) = 0;
       }
@@ -828,7 +816,7 @@ void TBoss6Type2::update_footstep_effects() {
     else
     {
       temp_r29 = (u8 *) (*((u8 **) (((s8 *) (((u8 *)&stack.sp8) + var_r30)) + 0)));
-      if ((*((f32 *) (((s8 *) temp_r29) + 4))) < boss6_type2_footstep_height_threshold)
+      if ((*((f32 *) (((s8 *) temp_r29) + 4))) < footstep_height_threshold)
       {
         *((s32 *) (((s8 *) (((u8 *) arg0) + temp_r4)) + 0)) = 1;
         ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x4006A300, (u32) temp_r29, 0, 0);

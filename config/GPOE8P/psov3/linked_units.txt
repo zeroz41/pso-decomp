@@ -320,7 +320,6 @@ pso/boss/goldragon/TBoss8Dragon_802F36DC.cpp
 pso/boss/goldragon/TBoss8Dragon_802F376C.cpp
 pso/boss/goldragon/TBoss8Dragon_802F3AB4.cpp
 pso/boss/goldragon/TBoss8Dragon_80324D3C.cpp
-pso/boss/goldragon/TBoss8Dragon_80325D38.cpp
 pso/boss/goldragon/TBoss8Dragon_80359A7C.cpp
 pso/boss/goldragon/TBoss8Dragon_8036AEF8.cpp
 pso/boss/dragon/TObjBoss1Crater.cpp
@@ -572,6 +571,14 @@ pso/item/armor/TItemProShield_8010A650.cpp
 pso/item/armor/TItemProUnit.cpp
 pso/item/TItemReverseTech.cpp
 pso/item/TItemReverseTechCtrl.cpp
+pso/weapon/TUnk_804ECDC0.cpp
+pso/weapon/TUnk_804ECEB8.cpp
+pso/weapon/TUnk_804ECFB0.cpp
+pso/weapon/TUnk_804ED0A8.cpp
+pso/weapon/TUnk_804ED1A0.cpp
+pso/weapon/TUnk_804ED298.cpp
+pso/weapon/TUnk_804ED390.cpp
+pso/weapon/TUnk_804ED488.cpp
 pso/weapon/shoot/TItemShoot.cpp
 pso/weapon/shoot/TItemShootGun.cpp
 pso/weapon/shoot/TItemShootGun_8011B598.cpp
@@ -2579,8 +2586,6 @@ pso/unk/text_80312C50.cpp
 pso/unk/text_8031EF14.cpp
 pso/unk/text_80320358.cpp
 pso/boss/galgryphon/TBoss5GryphonLightning_80324E10.cpp
-pso/unk/text_80325F7C.cpp
-pso/unk/text_80327338.cpp
 pso/unk/text_80327844.cpp
 pso/object/mine/TOComputerMachine01_803278B0.cpp
 pso/unk/text_803279CC.cpp

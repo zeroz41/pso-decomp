@@ -8609,6 +8609,7 @@ pso/boss/olgaflow/TBoss6Type2.cpp:
 	.text       start:0x802B97E0 end:0x802BE588
 	.rodata     start:0x80471350 end:0x804713D0
 	.data       start:0x804DFC28 end:0x804DFC4C
+	.sbss       start:0x805D6740 end:0x805D6750
 	.sdata2     start:0x805DE3F0 end:0x805DE4D8
 
 pso/boss/olgaflow/TBoss6Type2_802BE588.cpp:
@@ -9659,22 +9660,49 @@ pso/enemy/gigue/TObjEneMe1GiGueBarrier.cpp:
 	.sbss       start:0x805D6C60 end:0x805D6C68
 	.sdata2     start:0x805DF620 end:0x805DF630
 
-pso/boss/goldragon/TBoss8Dragon_80325D38.cpp:
-	.text       start:0x80325D38 end:0x80325F7C
-
-pso/unk/text_80325F7C.cpp:
-	.text       start:0x80325F7C end:0x8032627C
-	.rodata     start:0x80476758 end:0x80476760
-	.sdata2     start:0x805DF638 end:0x805DF644
-
 pso/boss/galgryphon/TBoss5GryphonLightningHorn.cpp:
-	.text       start:0x8032627C end:0x80327338
-	.rodata     start:0x80476760 end:0x80476770
-	.data       start:0x804ECDA8 end:0x804ECEB8
-	.sdata2     start:0x805DF650 end:0x805DF658
+	.text       start:0x80325D38 end:0x80326450
+	.rodata     start:0x80476738 end:0x80476760
+	.data       start:0x804ECDA8 end:0x804ECDC0
+	.sdata      start:0x805D41A0 end:0x805D41A4
+	.sdata2     start:0x805DF630 end:0x805DF658
 
-pso/unk/text_80327338.cpp:
-	.text       start:0x80327338 end:0x80327390
+pso/weapon/TUnk_804ECDC0.cpp:
+	.text       start:0x80326450 end:0x80326618
+	.data       start:0x804ECDC0 end:0x804ECEB8
+
+pso/weapon/TUnk_804ECEB8.cpp:
+	.text       start:0x80326618 end:0x80326710
+	.data       start:0x804ECEB8 end:0x804ECFB0
+
+pso/weapon/TUnk_804ECFB0.cpp:
+	.text       start:0x80326710 end:0x803269C8
+	.data       start:0x804ECFB0 end:0x804ED0A8
+	.sdata2     start:0x805DF658 end:0x805DF65C
+
+pso/weapon/TUnk_804ED0A8.cpp:
+	.text       start:0x803269C8 end:0x80326BD4
+	.data       start:0x804ED0A8 end:0x804ED1A0
+
+pso/weapon/TUnk_804ED1A0.cpp:
+	.text       start:0x80326BD4 end:0x80326D54
+	.data       start:0x804ED1A0 end:0x804ED298
+
+pso/weapon/TUnk_804ED298.cpp:
+	.text       start:0x80326D54 end:0x80326F9C
+	.rodata     start:0x80476760 end:0x80476770
+	.data       start:0x804ED298 end:0x804ED390
+	.sdata2     start:0x805DF660 end:0x805DF67C
+
+pso/weapon/TUnk_804ED390.cpp:
+	.text       start:0x80326F9C end:0x80327140
+	.data       start:0x804ED390 end:0x804ED488
+	.sdata2     start:0x805DF680 end:0x805DF690
+
+pso/weapon/TUnk_804ED488.cpp:
+	.text       start:0x80327140 end:0x80327390
+	.data       start:0x804ED488 end:0x804ED580
+	.sdata2     start:0x805DF690 end:0x805DF694
 
 pso/ui/frontend/TAdScrollWinGC.cpp:
 	.text       start:0x80327390 end:0x80327844

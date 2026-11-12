@@ -1546,7 +1546,7 @@ force_active:
   - TObjPlayer__sub_8030A9B0
   - TObjPlayer__sub_80312FB0
   - TObjPlayer__sub_80313010
-  - TObjPlayer__sub_803268D8
+  - __ct__13TUnk_804ECFB0FP7TObjectPUc
   - TObjPlayer__sub_803519D8
   - __sinit_TObjPlayer_80354EC8_cpp
   - TObjPlayer__sub_80355098
@@ -7126,7 +7126,7 @@ force_active:
   - init_sound_params__14TObjEnvSoundExFv
   - init_spin_params__10TBoss6RockFv
   - init_split_effect__15TObjEneSlimeOneFv
-  - init_state_1536__13TUnk_804ED0A8FlPv
+  - __ct__13TUnk_804ED0A8FP7TObjectPUc
   - __ct__13TUnk_804A5740FP7TObjectPUc
   - __ct__13TUnk_804A5E20FP7TObjectPUc
   - init_state_34_alt__13TUnk_804F14A8FlPv
@@ -7159,12 +7159,12 @@ force_active:
   - __ct__13TUnk_804A5A28FP7TObjectPUc
   - __ct__13TUnk_804A5F18FP7TObjectPUc
   - init_vertex_table__17TObjEneBm3FlyNestFv
-  - init_vtable_1f8__13TUnk_804ED390FlPv
+  - __ct__13TUnk_804ED390FP7TObjectPUc
   - __ct__13TUnk_804A63F0FP7TObjectPUc
   - init_vtable_804F2A10__13TUnk_804F2A10Fv
   - __ct__13TUnk_804A4E68FP7TObjectPUc
   - __ct__13TUnk_804A5150FP7TObjectPUc
-  - init_vtable_variant__13TUnk_804ECEB8FlPv
+  - __ct__13TUnk_804ECEB8FP7TObjectPUc
   - init_warp__23TAdSinglePlyChrSelectGCFv
   - init_warp_params__17TObjWarpBossMultiFv
   - init_warps__23TAdSinglePlyChrSelectGCFv
@@ -9011,7 +9011,7 @@ force_active:
   - monument_ancient01_collision_body
   - monument_ancient02_collision_parts
   - morfos_resource_descriptor
-  - morning_glory_ct__FPvlPv
+  - __ct__13TUnk_804ED1A0FP7TObjectPUc
   - motorcycle_resource_descriptor
   - move__17TObjEneMe1CanadinFl
   - move_along_angle__13TBoss5GryphonFPvif
@@ -9292,7 +9292,7 @@ force_active:
   - pad_button_map_table
   - pad_recalibration_counters
   - panarms_atk_zero_vec
-  - paralysis_curse_timer_ct__FPUcUlllf
+  - paralysis_curse_timer_ct__FPUclUslf
   - parse_action_packet__11TBoss6Type2FPv
   - parse_aix_header__6TLobbyFPviPv
   - parse_color_code__6TLobbyFPc
@@ -15477,7 +15477,7 @@ force_active:
   - set_menu_mode_2__6TLobbyFv
   - set_message_by_index__9TSaveChCrFl
   - set_min_clamped_entry_value__16TObjEneDellBiterFlf
-  - set_mode_floats__13TUnk_804ED298FlPv
+  - __ct__13TUnk_804ED298FP7TObjectPUc
   - set_mode_index_from_state__13TObjLobbyMainFv
   - __ct__13TUnk_804A6200FP7TObjectPUc
   - set_model__11TItemMagSubFPvUlPv
@@ -15574,7 +15574,7 @@ force_active:
   - set_value__6TLobbyFl
   - set_visible_flag__14TBoss6PlotFalzFv
   - set_volopt_cage_flag__Fv
-  - set_vtable_mode2_alt__13TUnk_804ECDC0FlPv
+  - __ct__13TUnk_804ECDC0FP7TObjectPUc
   - setup__13TObjTombstoneFlP19TObjTombstoneRecord
   - setup_action_channel__11TMainCursorFiPviii
   - setup_actor_draw_lighting__Fv

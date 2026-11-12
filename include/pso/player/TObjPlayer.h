@@ -1483,7 +1483,6 @@ struct TObjPlayer : public TObjChara {
     u8 *init_breakup_pieces(void *arg1, s32 arg2);
     static s32 dt_follow_particle_ctrl(s32 arg0, s16 arg1);
     u8 *create_vtable_variant();
-    void apply_container_item();
     u8 *create_state_1536();
     u8 *create_mode_floats_state();
     u8 *create_vtable_1f8_state();
