@@ -187,6 +187,8 @@ inline void end_803CA8B4(Ent_803C9608 *self) {
     }
 }
 // Inferred: CRI ADXT_ExecHndl (per-handle state step of the ADXT server).
+#pragma push
+#pragma opt_common_subs off
 void TLobby__sub_803CA8B4(Ent_803C9608 *self) {
     s8 stat = self->stat;
     if (stat == 3) {
@@ -207,6 +209,7 @@ void TLobby__sub_803CA8B4(Ent_803C9608 *self) {
         self->stat = 6;
     }
 }
+#pragma pop
 
 #define SBF50 TLobby__sub_803CBF50
 
