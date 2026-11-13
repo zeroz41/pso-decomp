@@ -40,7 +40,7 @@ inline void entry_stereo_3570(void *obj, s32 n) {
     TLobby *lobby;
     s16 *dst;
 
-    dst = o->buf + o->pos;
+    dst = (s16 *)(((s32)o->pos << 1) + (s32)o->buf);
     lobby = o->id;
     lobby->post_request((s32)o->src, n * 2, (s32)dst, (s32)(dst + o->rOff));
     TLobby__sub_803CB4A4((u8 *)lobby);
