@@ -5,22 +5,19 @@
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
-/* This file's functions. */
-u16 get_field_4(void *self);
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_804048E8.h"
 #include "pso/network/NetworkTransport.h"
 
-#include <stddef.h>
 #include "pso/network/NetStackTypes.h"
 
 #include "pso/network/PppBuffer.h"
 
 void TLobby__sub_804053B8(B_80403F4C *, u8 **);
 u8 *TLobby__sub_8040555C(B_80403F4C *, u8 *, s32);
-#define o ((Obj_80403F4C *)ov)
-#define pp ((u8 **)spp)
 s16 TLobby__sub_80403F4C(void *ov, PppFrame **spp) {
+    Obj_80403F4C *o = (Obj_80403F4C *)ov;
+    u8 **pp = (u8 **)spp;
     A_80403F4C a;
     B_80403F4C b;
     Ent_80403F4C *e;
@@ -46,7 +43,7 @@ s16 TLobby__sub_80403F4C(void *ov, PppFrame **spp) {
     *pp = TLobby__sub_8040555C(&b, *pp, 0);
     *pp = NetIPv4WriteHeader(&a, *pp, 1);
     o->n28++;
-    return get_field_4((void *)(*pp));
+    return get_field_4(*pp);
 }
 
 #pragma push
@@ -82,9 +79,7 @@ inline s32 vj_read_u16(PppFrame **src) {
     }
     return read_network_u16_be(lbl_805D7AC0);
 }
-#define comp ((Obj_80403F4C *)self)
-#define src ((PppFrame **)arg)
-s16 TLobby__sub_804040E0(void *self, void *arg) {
+s16 TLobby__sub_804040E0(Obj_80403F4C *comp, PppFrame **src) {
     B_80403F4C *th;
     Ent_80403F4C *cs;
     s16 changes;
@@ -202,9 +197,5 @@ bad:
     comp->flags |= 1;
     return 0;
 }
-#undef comp
-#undef src
 #pragma pop
 
-typedef char RecoveredFields_804143BC_arg0_0_offset[offsetof(RecoveredFields_804143BC_arg0, field_0) == 0x0 ? 1 : -1];
-typedef char RecoveredFields_804143BC_arg0_1_offset[offsetof(RecoveredFields_804143BC_arg0, field_1) == 0x1 ? 1 : -1];
