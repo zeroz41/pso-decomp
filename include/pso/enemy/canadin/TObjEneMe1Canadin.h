@@ -5,6 +5,30 @@
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/TUnk_80494938.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin_EffLight.h"
+#include "pso/system/NinjaTypes.h"
+
+struct TObjEneMe1CanadinMovement {
+    f32 m_0;
+    f32 m_4;
+    s32 m_8;
+    s32 m_C;
+    s32 m_10;
+    s32 m_14;
+    s32 m_18;
+};
+
+struct TObjEneMe1CanadinParams {
+    f32 m_0;
+    f32 m_4;
+    f32 m_8;
+    u8 unk_C[0xC];
+    s32 m_18;
+    s32 m_1C;
+    s32 m_20;
+    s32 m_24;
+    s32 m_28;
+    s32 m_2C;
+};
 
 struct TObjEneMe1Canadin : public TObjEneDD_ST {
     TObjEneMe1Canadin(TObject *parent, void *set_data, s32 kind);
@@ -33,13 +57,52 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     void vfunc_61();
     void vfunc_28();
     void render();
-    u8 pad_374[0x58];
+    u8 unk_374[0x4];
+    s32 m_378;
+    f32 m_37C;
+    u8 unk_380[0x10];
+    TObjChara *m_390;
+    Vec m_394;
+    Vec m_3A0;
+    f32 m_3AC;
+    u8 unk_3B0[0x10];
+    TObjEneMe1Canadin *m_3C0;
+    s32 m_3C4;
+    u32 m_3C8;
     TUnk_80494938 fade;
-    u8 pad_3E8[0x20];
+    f32 m_3E8;
+    f32 m_3EC;
+    f32 m_3F0;
+    f32 m_3F4;
+    f32 m_3F8;
+    s32 m_3FC;
+    s32 m_400;
+    s32 m_404;
     TObjEneMe1Canadin_EffLight *eff_light;  // created in setup_enemy, queued in the dtor
-    u8 pad_40C[0x94];
-    TObject *unk_4A0;  // queued for destruction in the dtor; writer not in this TU
-    u8 pad_4A4[0x28];
+    s32 m_40C;
+    s32 m_410;
+    Vec m_414[7];
+    TObjEneMe1CanadinParams *m_468;
+    s32 m_46C;
+    s32 m_470;
+    s32 m_474;
+    s32 m_478;
+    s32 m_47C;
+    s32 m_480;
+    f32 m_484;
+    f32 m_488;
+    f32 m_48C;
+    Vec m_490;
+    TObject *m_49C;
+    TObject *unk_4A0;  // queued for destruction in the dtor
+    NJS_ARGB m_4A4;
+    s32 m_4B4;
+    s32 m_4B8;
+    s32 m_4BC;
+    s32 m_4C0;
+    s32 m_4C4;
+    u16 m_4C8;
+    u8 unk_4CA[0x2];
     void update_by_state(s32 arg1);
     void update_walk_animation(s32 arg1);
     void run_task(s32 arg1);
@@ -47,11 +110,16 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     void action(s32 arg1);
     void handle_state(s32 arg1);
     void pack_color_rgba();
-    void reset_map_core(void * _w1);
+    void reset_map_core(void *color);
     s32 try_trigger_action();
     void advance_state_4_to_5();
     s32 check_target();
     static void update_move(void* p);
+    static void advance_state_5_to_4(void *self);
+    static void calc_move_vector(int leader, void *out);
+    void noop();
+    // Adds a point to an EffLight trail (a TObjEneMe1Canadin_EffLight).
+    static void push_history_entry(void *trail, f32 width, void *pos, int color);
     void update_angle();
     void update_hover_height();
     void set_target_speed_z();
@@ -68,33 +136,31 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
 typedef char TObjEneMe1Canadin_size[sizeof(TObjEneMe1Canadin) == 0x4CC ? 1 : -1];
 
 extern "C" {
-void TObjEneMe1CanadinLeader__sub_8009E258(u8 *arg0);
-void TObjEneMe1CanadinLeader__sub_8009E27C(void *p);
-u8 TObjEneMe1CanadinLeader__sub_8009E31C(u8 *arg0, s32 arg1);
-void TObjEneMe1CanadinLeader__sub_8009E334(u8 *arg0);
-void TObjEneMe1CanadinLeader__sub_8009E350(u8 *arg0);
-int TObjEneMe1CanadinLeader__sub_8009E36C(void *p);
-void TObjEneMe1CanadinLeader__sub_8009E4AC(u8 *arg0, s32 arg1);
-void TObjEneMe1Canadin__sub_8009BFF8(u8 *arg0, s32 arg1);
-void TObjEneMe1Canadin__sub_8009C178(u8 *arg0, s32 arg1);
-void TObjEneMe1Canadin__sub_8009C2EC(u8 *arg0, s32 arg1);
-void TObjEneMe1Canadin__sub_8009C510(u8 *arg0, s32 arg1);
-void TObjEneMe1Canadin__sub_8009C91C(void *arg0, s32 arg1);
-void TObjEneMe1Canadin__sub_8009D320(void *arg0, s32 arg1);
-void TObjEneMe1Canadin__sub_8009DE90(void *argv0, s32 arg1);
-s32 TObjEneMe1Canadin__sub_8009E76C(u8 *arg0);
-void TObjEneMe1Canadin__sub_8009E930(u8 *arg0);
-void TObjEneMe1Canadin__sub_8009E948(u8 *arg0);
-void TObjEneMe1Canadin__sub_8009EB14(u8 *arg0, f32 height);
-void TObjEneMe1Canadin__sub_8009EB98(u8 *arg0, f32 farg0);
-void advance_state_5_to_4__17TObjEneMe1CanadinFPv(void *arg0);
-void calc_move_vector__17TObjEneMe1CanadinFiPv(s32 actor, void *arg1);
+void TObjEneMe1CanadinLeader__sub_8009E258(TObjEneMe1Canadin *self);
+void TObjEneMe1CanadinLeader__sub_8009E27C(TObjEneMe1Canadin *self);
+s32 TObjEneMe1CanadinLeader__sub_8009E31C(TObjEneMe1Canadin *self, s32 mask);
+void TObjEneMe1CanadinLeader__sub_8009E334(TObjEneMe1Canadin *self);
+void TObjEneMe1CanadinLeader__sub_8009E350(TObjEneMe1Canadin *self);
+int TObjEneMe1CanadinLeader__sub_8009E36C(TObjEneMe1Canadin *self);
+void TObjEneMe1CanadinLeader__sub_8009E4AC(TObjEneMe1Canadin *self, s32 sequence);
+void TObjEneMe1Canadin__sub_8009BFF8(TObjEneMe1Canadin *self, s32 arg1);
+void TObjEneMe1Canadin__sub_8009C178(TObjEneMe1Canadin *self, s32 arg1);
+void TObjEneMe1Canadin__sub_8009C2EC(TObjEneMe1Canadin *self, s32 arg1);
+void TObjEneMe1Canadin__sub_8009C510(TObjEneMe1Canadin *self, s32 arg1);
+void TObjEneMe1Canadin__sub_8009C91C(TObjEneMe1Canadin *self, s32 arg1);
+void TObjEneMe1Canadin__sub_8009CC74(TObjEneMe1Canadin *self, s32 arg1);
+void TObjEneMe1Canadin__sub_8009D320(TObjEneMe1Canadin *self, s32 arg1);
+void TObjEneMe1Canadin__sub_8009DE90(TObjEneMe1Canadin *self, s32 arg1);
+s32 TObjEneMe1Canadin__sub_8009E76C(TObjEneMe1Canadin *self);
+void TObjEneMe1Canadin__sub_8009E930(TObjEneMe1Canadin *self);
+void TObjEneMe1Canadin__sub_8009E948(TObjEneMe1Canadin *self);
+void TObjEneMe1Canadin__sub_8009EB14(TObjEneMe1Canadin *self, f32 height);
+void TObjEneMe1Canadin__sub_8009EB98(TObjEneMe1Canadin *self, f32 height);
 void fn_8009BD00(void);
-void fn_8009E1D4(u8 *arg0, s32 arg1);
-void fn_8009E2DC(u8 *arg0);
-s32 fn_8009E300(u8 *arg0);
-void fn_8009E378(void *arg0);
-void noop__17TObjEneMe1CanadinFv(void);
+void fn_8009E1D4(TObjEneMe1Canadin *canadin, Vec *pos);
+void fn_8009E2DC(TObjEneMe1Canadin *self);
+s32 fn_8009E300(TObjEneMe1Canadin *self);
+void fn_8009E378(TObjEneMe1Canadin *self);
 }
 
 #endif

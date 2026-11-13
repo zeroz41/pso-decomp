@@ -19,7 +19,10 @@ struct TObjEneMe1CanadinLeader : public TObjEneMe1Canadin {
     virtual void vfunc_113();
     virtual int vfunc_116();
     virtual void vfunc_117(u32);
-    u8 pad_4CC[0x2C];
+    s32 m_4CC;
+    s32 m_4D0;
+    TObjEneMe1Canadin *m_4D4[8];
+    s32 m_4F4;
     static void update_formation_state(void *arg0);
     static void *create(void *arg0);
     void set_flag3c8_bit40();
