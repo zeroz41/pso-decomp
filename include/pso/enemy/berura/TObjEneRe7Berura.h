@@ -36,9 +36,9 @@ struct TObjEneRe7BeruraPart {
 typedef char TObjEneRe7BeruraPart_size[sizeof(TObjEneRe7BeruraPart) == 0x64 ? 1 : -1];
 
 struct TObjEneRe7Berura : public TObjEneDD_ST {
+    TObjEneRe7Berura(TObject *parent, void *set_data);
     virtual ~TObjEneRe7Berura();
     virtual void vfunc_88();
-    virtual void vfunc_83();
     virtual void vfunc_105();
     virtual void vfunc_106();
     void vfunc_63();

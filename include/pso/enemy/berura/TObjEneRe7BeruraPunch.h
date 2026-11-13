@@ -9,6 +9,7 @@ class TParticleCtrl;
 class AreaAttackHistory;
 
 struct TObjEneRe7BeruraPunch : public TUnk_804928CC {
+    TObjEneRe7BeruraPunch(TObject *parent, TObjBase *owner);
     virtual ~TObjEneRe7BeruraPunch();
     virtual void apply_hit_if_active(void *, f32 *);
     s32 sub_80096150();
@@ -44,5 +45,4 @@ struct TObjEneRe7BeruraPunch : public TUnk_804928CC {
 
 typedef char TObjEneRe7BeruraPunch_size[sizeof(TObjEneRe7BeruraPunch) == 0x11C ? 1 : -1];
 
-extern "C" TObjEneRe7BeruraPunch *TObjEneRe7BeruraPunch__ct(TObjEneRe7BeruraPunch *self, TObject *parent, TObjBase *owner);
 #endif

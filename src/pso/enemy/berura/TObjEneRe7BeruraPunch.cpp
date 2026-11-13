@@ -205,7 +205,6 @@ CollisionBody TObjEneRe7BeruraPunch__collision_body_templates[2] = {
     {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
-extern s32 __vt__21TObjEneRe7BeruraPunch[];
 extern const char *TObjEneRe7BeruraPunch__name;
 void queue_destruction__7TObjectFv(void *);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
@@ -343,14 +342,11 @@ void TObjEneRe7BeruraPunch::init() {
     this->m_f8.set_rate_from_divisor(0);
     reset();
 }
-TObjEneRe7BeruraPunch *TObjEneRe7BeruraPunch__ct(TObjEneRe7BeruraPunch *self, TObject *parent, TObjBase *owner) {
-    __ct__13TUnk_804928CCFP7TObjectP8TObjBasePC13CollisionBodyl(self, parent, owner, TObjEneRe7BeruraPunch__collision_body_templates, 2);
-    *(s32 **)((s8 *)self + 0x18) = __vt__21TObjEneRe7BeruraPunch;
-    __ct__13TUnk_80490470Fv(&self->m_f8);
-    self->m_name = TObjEneRe7BeruraPunch__name;
-    self->owner_id = get_entity_id(owner);
-    self->init();
-    return self;
+TObjEneRe7BeruraPunch::TObjEneRe7BeruraPunch(TObject *parent, TObjBase *owner)
+    : TUnk_804928CC(parent, owner, TObjEneRe7BeruraPunch__collision_body_templates, 2) {
+    m_name = TObjEneRe7BeruraPunch__name;
+    owner_id = get_entity_id(owner);
+    init();
 }
 
 }
