@@ -4,15 +4,8 @@
 #include "types.h"
 
 extern "C" {
-u8 TObjPlayer__sub_801D9514(s32 arg0, s16 arg1);
-void TObjPlayer__sub_801D955C(u8 *arg0, void *arg1);
+u8 TObjPlayer__sub_801D9514(s32 cls, s16 tech);
+void TObjPlayer__sub_801D955C(u8 *techs, s32 cls);
 }
-
-// --- C functions defined in text_801D9514.cpp ---
-extern "C" {
-u8 TObjPlayer__sub_801D9514(s32 arg0, s16 arg1);
-void TObjPlayer__sub_801D955C(u8 *arg0, void *arg1);
-}
-// --- end of C functions
 
 #endif

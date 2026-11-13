@@ -1,37 +1,24 @@
 #include "types.h"
 #include "pso/unk/text_803279CC.h"
+#include "pso/system/NinjaTypes.h"
 
 struct Rec_80327A38 { u8 type; u8 pad; u16 val; u8 pad2[0xC]; };
 
 struct Src_80327A38 { Rec_80327A38 *recs; u8 pad[4]; void *t0; void *t1; };
 
-struct Acc_80327A38 { s32 sum; s32 count; };
-
 extern "C" {
 s32 has_texture_scroll_entry(void *, u16);
 void fn_80327A38(Acc_80327A38 *acc, Src_80327A38 *src, s32 id);
-void visit_model_tree_recursive(s32 acc, u8 *arg1, s32 arg2) {
-  unsigned int new_var;
-  u32 src;
-  u8 *temp_r4_2;
-  u8 *var_r30;
-  var_r30 = (u8 *) arg1;
-  do
-  {
-    src = *((u32 *) (((s8 *) var_r30) + 4));
-    new_var = arg2;
-    if (src != 0U)
-    {
-      fn_80327A38((Acc_80327A38 *)((void *) acc), (Src_80327A38 *)((int) src), (s32)((void *) new_var));
-    }
-    temp_r4_2 = (u8 *) (*((u8 **) (((s8 *) var_r30) + 0x2C)));
-    if (temp_r4_2 != 0)
-    {
-      visit_model_tree_recursive(acc, temp_r4_2, new_var);
-    }
-    var_r30 = (u8 *) (*((u8 **) (((s8 *) var_r30) + 0x30)));
-  }
-  while (var_r30 != 0);
+void visit_model_tree_recursive(Acc_80327A38 *acc, NJS_OBJECT *node, s32 id) {
+    do {
+        if (node->model != NULL) {
+            fn_80327A38(acc, (Src_80327A38 *)node->model, id);
+        }
+        if (node->child != NULL) {
+            visit_model_tree_recursive(acc, node->child, id);
+        }
+        node = node->sibling;
+    } while (node != NULL);
 }
 void fn_80327A38(Acc_80327A38 *acc, Src_80327A38 *src, s32 id) {
     s32 hit = 0;
