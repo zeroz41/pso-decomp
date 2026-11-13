@@ -1089,8 +1089,8 @@ force_active:
   - TObjEneBm5Wolf__spawn_timer
   - TObjEneBm5Wolf__stat_params
   - __ct__22TObjEneBm5WolfListNodeFv
-  - TObjEneBm9Mericarol__ct
-  - TObjEneBm9Mericarol__vtable
+  - __ct__19TObjEneBm9MericarolFP7TObjectPv
+  - __vt__19TObjEneBm9Mericarol
   - TObjEneDarkGunCenter__sub_800A0B18
   - TObjEneDelDepth_collision_body_parts
   - TObjEneDelDepth_motion_file_list
@@ -2773,7 +2773,7 @@ force_active:
   - __dt__19TObjBoss5PillarDemoFv
   - __dt__19TObjBoss7RaftSplashFv
   - __dt__19TObjCityAirCar_CtrlFv
-  - __dt__19TObjEneBm9MericarolFPvs
+  - __dt__19TObjEneBm9MericarolFv
   - __dt__19TObjEneDelDepthBombFv
   - __dt__19TObjEneEpsilonGuardFv
   - __dt__19TObjGyaranzoMissileFv
@@ -5682,7 +5682,7 @@ force_active:
   - dispatch_state__17TObjEneBm3FlyNestFiUii
   - dispatch_state__19TBoss3VoloptMonitorFv
   - dispatch_state__20TBoss3VoloptHiraisinFv
-  - dispatch_state_handler__19TObjEneBm9MericarolFiUii
+  - dispatch_action__19TObjEneBm9MericarolFUll
   - display_copy_filter_enabled
   - display_exp_gain__FlUlll
   - display_guild_message__12TQuestListVMFll
