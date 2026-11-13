@@ -1,28 +1,20 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_801D9E10.h"
-
-void TObjPlayer__sub_801D9E10(void* p, s16 v) { *(s16*)((char*)p + 0x8) = v; }
-
-struct Ent_801D9E18 { u8 d[4]; };
-
-struct Obj_801D9E18 { u8 pad[0x20]; Ent_801D9E18 arr[1]; };
-
-struct Obj_801D9E2C { u8 pad[0x48]; u8 arr[1]; };
+#include "pso/player/TObjPlayer.h"
 
 extern "C" {
-Ent_801D9E18 *TObjPlayer__sub_801D9E18(Obj_801D9E18 *p, s32 i);
-void TObjPlayer__sub_801D9E2C(Obj_801D9E2C *p, s16 i);
-
-Ent_801D9E18 *TObjPlayer__sub_801D9E18(Obj_801D9E18 *p, s32 i) {
-    return &p->arr[i];
-}
-void TObjPlayer__sub_801D9E2C(Obj_801D9E2C *p, s16 i) {
-    p->arr[i] = 0xFF;
+void TObjPlayer__sub_801D9E10(Obj_801D9E10 *p, s16 v) {
+    p->m_8 = v;
 }
 
+u8 *TObjPlayer__sub_801D9E18(Obj_801D9E10 *p, s32 i) {
+    return p->m_20[i];
 }
 
-#include "pso/player/TObjPlayer.h"
+void TObjPlayer__sub_801D9E2C(Obj_801D9E10 *p, s16 i) {
+    p->m_48[i] = 0xFF;
+}
+}
 
 void TObjPlayer::set_field_1c(f32 v) { *(f32*)((char*)this + 0x1c) = v; }
 void TObjPlayer::set_field18(f32 v) { *(f32*)((char*)this + 0x18) = v; }
