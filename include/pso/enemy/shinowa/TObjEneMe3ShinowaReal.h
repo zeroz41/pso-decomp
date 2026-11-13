@@ -7,6 +7,7 @@
 struct TObjEneMe3ShinowaMirage;
 
 struct TObjEneMe3ShinowaReal : public TObjEneMe3Shinowa {
+    TObjEneMe3ShinowaReal(TObject *parent, void *set_data);
     virtual ~TObjEneMe3ShinowaReal();
     virtual void vfunc_114(s32);
     virtual void vfunc_116(s32);

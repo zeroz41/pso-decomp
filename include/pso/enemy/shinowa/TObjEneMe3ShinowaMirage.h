@@ -4,7 +4,10 @@
 #include "types.h"
 #include "pso/enemy/shinowa/TObjEneMe3Shinowa.h"
 
+struct TObjEneMe3ShinowaReal;
+
 struct TObjEneMe3ShinowaMirage : public TObjEneMe3Shinowa {
+    TObjEneMe3ShinowaMirage(TObject *parent, TObjEneMe3ShinowaReal *owner, s32 entity_id, s32 set_index);
     virtual ~TObjEneMe3ShinowaMirage();
     virtual void vfunc_105();
     virtual s32 can_hit_same_target();
@@ -13,6 +16,7 @@ struct TObjEneMe3ShinowaMirage : public TObjEneMe3Shinowa {
     virtual s32 update_effect();
     virtual void dispatch_if_active();
     virtual void apply_effect_pair();
+    virtual void vfunc_115(s32);
     void vfunc_63();
     void vfunc_62();
     static void advance_camera_ctrl_step();
@@ -31,7 +35,6 @@ struct TObjEneMe3ShinowaMirage : public TObjEneMe3Shinowa {
     static void free_shared_resources();
     u16 m_42c;
     NJS_ARGB m_430;
-    void draw_model();
 };
 
 typedef char TObjEneMe3ShinowaMirage_size[sizeof(TObjEneMe3ShinowaMirage) == 0x440 ? 1 : -1];
