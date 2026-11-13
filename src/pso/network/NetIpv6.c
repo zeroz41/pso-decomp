@@ -61,11 +61,11 @@ s32 NetIPv6Init(void) {
 
 inline s16 opts_8040FFF8(u8 *p, s16 rem, u8 *ip, s16 m, s16 id) {
     s16 TLobby__sub_80410958(u8 *, s16, u8 *, s16, s16);
-    s16 n;
+    s32 n;
     u8 *d;
     d = p + 2;
     n = ((p[1] + 1) << 3) - 2;
-    if (n > rem) {
+    if ((s16)n > rem) {
         return -1;
     }
     if (TLobby__sub_80410958(d, n, ip, m, id) < 0) {
@@ -119,6 +119,7 @@ inline NetPacket *buildrec_8040FFF8(u8 *ip, s16 m, u8 *p, s32 rem) {
 
 #pragma push
 #pragma opt_loop_invariants off
+#pragma opt_strength_reduction off
 s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
 {
   s16 TLobby__sub_8040D510(void *, u8 *, s32, s16); /* declared here with an s32 3rd argument; the definition takes s16 */
