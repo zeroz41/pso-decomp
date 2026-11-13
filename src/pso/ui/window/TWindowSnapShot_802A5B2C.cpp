@@ -25,20 +25,46 @@ s32 memset(void *, int, int);
 u32 RlcDirectoryEntry::get_size() { return read_be32(size_be); }
 u32 RlcDirectoryEntry::get_offset() { return read_be32(offset_be); }
 u32 RlcDirectoryEntry::read_be32(const s8 *bytes) {
-    u32 hi = (bytes[1] << 16) & 0xFF0000;
-    u32 value = (bytes[0] << 24) | hi;
-    value |= (bytes[2] << 8) & 0xFF00;
-    value |= bytes[3] & 0xFF;
+    u32 value;
+    u32 hi;
+    s8 b3;
+    s8 b2;
+    s8 b1;
+    s8 b0;
+
+    b0 = bytes[0];
+    b1 = bytes[1];
+    if (bytes && bytes) {}
+    hi = (b1 << 16) & 0xFF0000;
+    value = (b0 << 24) | hi;
+    b2 = bytes[2];
+    b3 = bytes[3];
+    if (bytes && bytes) {}
+    value |= (b2 << 8) & 0xFF00;
+    value |= b3 & 0xFF;
     return value;
 }
 
 u32 RlcHeader::get_directory_offset() { return read_be32(directory_offset_be); }
 u32 RlcHeader::get_chunk_count() { return read_be32(chunk_count_be); }
 u32 RlcHeader::read_be32(const s8 *bytes) {
-    u32 hi = (bytes[1] << 16) & 0xFF0000;
-    u32 value = (bytes[0] << 24) | hi;
-    value |= (bytes[2] << 8) & 0xFF00;
-    value |= bytes[3] & 0xFF;
+    u32 value;
+    u32 hi;
+    s8 b3;
+    s8 b2;
+    s8 b1;
+    s8 b0;
+
+    b0 = bytes[0];
+    b1 = bytes[1];
+    if (bytes && bytes) {}
+    hi = (b1 << 16) & 0xFF0000;
+    value = (b0 << 24) | hi;
+    b2 = bytes[2];
+    b3 = bytes[3];
+    if (bytes && bytes) {}
+    value |= (b2 << 8) & 0xFF00;
+    value |= b3 & 0xFF;
     return value;
 }
 
