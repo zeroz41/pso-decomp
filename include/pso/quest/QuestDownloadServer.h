@@ -7,11 +7,6 @@
 #include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 
-struct Node_803E95BC {
-    u8 *data;
-    Node_803E95BC *next;
-};
-
 struct RecoveredGlobal_803E6ACC_lbl_805A0470 {
     s32 value;
     u8 remaining[0x24];
@@ -37,16 +32,6 @@ struct RecoveredGlobal_803E875C_lbl_8058DE08 {
     u8 remaining[0x40];
 };
 
-struct RecoveredGlobal_803E9764_lbl_80591EC8 {
-    s32 value;
-    u8 remaining[0x1FFC];
-};
-
-struct RecoveredGlobal_803E9F20_lbl_80595998 {
-    s32 value;
-    u8 remaining[0x8BC];
-};
-
 struct RecoveredGlobal_803E6ED0_lbl_805A0470 {
     s32 value;
     u8 remaining[0x24];
@@ -65,11 +50,6 @@ struct RecoveredGlobal_803E6ED0_lbl_805A05D0 {
 struct RecoveredGlobal_803E721C_lbl_8047E698 {
     s32 value;
     u8 remaining[0x1FC];
-};
-
-struct RecoveredGlobal_803E9594_lbl_80591EC8 {
-    s32 value;
-    u8 remaining[0x1FFC];
 };
 
 struct RecoveredGlobal_803E8084_lbl_8058DE08
@@ -111,26 +91,6 @@ struct R_803E779C { u8 a; u8 b; u16 c; s16 d; s16 e; };
 struct R_803E9F54 { u8 pad[0x14]; s8 a; u8 b; u8 pad2[6]; };
 
 struct N_803E9FA4 { s16 key; u8 pad[0xA]; N_803E9FA4 *next; };
-
-struct Msg_803E92C0 {
-    u8 pad0[4];
-    s16 len;
-    u8 pad6;
-    u8 x7;
-    u8 x8;
-    u8 pad9[3];
-    u8 *text;
-};
-
-struct Msg_803E9348 {
-    u8 pad0[4];
-    s16 len;
-    u8 pad6;
-    u8 x7;
-    u8 x8;
-    u8 pad9[3];
-    u8 *text;
-};
 
 struct Item_803EA384 { u8 a; u8 b; u8 pad2[2]; u16 c; };
 
@@ -214,15 +174,7 @@ struct RecoveredGlobal_803E8150_lbl_8058DE08 {
     u8 remaining[0x40];
 };
 
-struct Msg_803E90A8 {
-    char *name;
-    s16 len;
-    u8 pad6;
-    u8 x7;
-    u8 x8;
-    u8 pad9[3];
-    u8 *text;
-};
+typedef Req_803EEF2C Msg_803E90A8;
 
 struct Node_803EB328 { u8 flags; char name[5]; u8 x6; u8 pad[9]; Node_803EB328 *next; };
 
@@ -306,23 +258,15 @@ struct Buf_803E82AC {
 
 struct Ent_803E9DE0 { u8 a; u8 b; u8 off; u8 d; };
 
-struct Msg_803E9190 {
-    char *name;
-    s16 len;
-    u8 pad6;
-    u8 x7;
-    u8 x8;
-    u8 pad9[3];
-    u8 *text;
-};
+typedef Req_803EEF2C Msg_803E9190;
 
 struct Ent_803E8B1C { u8 pad[2]; u8 len; char name[1]; };
 
 struct Node_803E8B1C { Ent_803E8B1C *ent; Node_803E8B1C *next; };
 
-struct Out_803E8B1C { s16 a; s16 id; u8 pad[8]; Ent_803E8B1C *ent; };
-
 struct Out_803E8C2C { s16 a; s16 id; s16 len; s16 pre; u8 pad[4]; Ent_803E8B1C *ent; };
+
+typedef Out_803E8C2C Out_803E8B1C;
 
 // Name cache: eight 0x400-byte record pages (lbl_80591EC8), then the hash buckets (lbl_80593EC8)
 // and the free-list node pool that __VIRetraceHandler links up.
@@ -333,6 +277,12 @@ struct NameCache_80591EC8 {
 struct NameHash_80593EC8 {
     Node_803E8B1C *hash[0x50];
     Node_803E8B1C nodes[0x200];
+};
+
+// lbl_80591EC8 and lbl_80593EC8 seen as the one area they form: three functions address both from one base.
+struct NameCacheArea_80591EC8 {
+    NameCache_80591EC8 cache;
+    NameHash_80593EC8 names;
 };
 
 struct Ent_803E7ACC {
@@ -363,7 +313,7 @@ extern s32 lbl_805D7904;
 extern RecoveredGlobal_803E8710_lbl_8058DE08 quest_vm_download_server_file_info;
 extern s32 lbl_805D78F8;
 extern NameCache_80591EC8 lbl_80591EC8;
-extern s8 lbl_805D7868;
+extern u8 lbl_805D7868;
 struct Sub_803ED9AC { u8 pad[2]; u8 type; u8 x3; u32 id; };
 struct Elem_803ED9AC {
     s16 len;
@@ -435,7 +385,7 @@ extern s32 quest_download_ask_header_size;
 extern s32 quest_download_header_name_index_hi_count;
 extern s32 lbl_805D7874;
 extern s32 lbl_805D78FC;
-void append_message_text__22TQuestVmDownLoadServerFPviPvUc(u8 *arg0, s32 arg1, Msg_803E90A8 *arg2, u8 arg3);
+void append_message_text__22TQuestVmDownLoadServerFPviPvUc(u8 *arg0, s32 arg1, Req_803EEF2C *arg2, u8 arg3);
 u32 strlen(const char *);
 extern s32 lbl_805D78A4;
 extern s32 quest_text_entry_len;
@@ -503,8 +453,8 @@ extern Tok_803E9FFC lbl_8047F8A8[4];
 extern const u8 lbl_8047F9B8[49][11];
 extern const u8 (*const lbl_8047FBD4[27])[11];
 Ent_803E9DE0 *find_longest_match_entry__22TQuestVmDownLoadServerFPviPv(u8 *arg0, s32 arg1, s32 *arg2);
-void build_message_packet__22TQuestVmDownLoadServerFPviPvUc(u8 *arg0, s32 arg1, Msg_803E9190 *arg2, u8 arg3);
-s32 lookup_name_entry__22TQuestVmDownLoadServerFPvsPv(char *arg0, s16 arg1, Out_803E8B1C *arg2);
+void build_message_packet__22TQuestVmDownLoadServerFPviPvUc(u8 *arg0, s32 arg1, Req_803EEF2C *arg2, u8 arg3);
+s32 lookup_name_entry__22TQuestVmDownLoadServerFPvsPv(char *arg0, s16 arg1, Out_803E8C2C *arg2);
 extern u8 lbl_8047E898[];
 extern u16 lbl_8047E8A4[];
 void TQuestVmDownLoadServer__sub_803EFCB4(u8 *data, s32 a1, s32 a2, s32 *cnt, s32 *total, u8 *buf, s32 flags);
