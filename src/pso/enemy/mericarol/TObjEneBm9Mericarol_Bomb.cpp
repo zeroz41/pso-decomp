@@ -14,6 +14,10 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_80086B64.h"
+#include "pso/unk/text_800870BC.h"
 
 const char *TObjEneBm9Mericarol_Bomb__class_name = "TObjEneBm9Mericarol_Bomb";
 
@@ -43,15 +47,15 @@ s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2,
         mark_enemy_body_contacts();
         mask |= 0x100000;
     }
-    if (*(u32 *)((s8 *)this->bodies + 0x18) & mask) {
+    if (this->bodies->flags & mask) {
         for (i = 0; i < 0x10; i++) {
             obj = TObjPlayer::get_battle_param(i);
             if (obj == 0) {
                 break;
             }
             if (obj_is_hit_receivable(obj) != 0 && (u32)obj != this->owner &&
-                is_area_attack_target_eligible(this, *(u32 *)((s8 *)obj + 0x30)) != 0 &&
-                !(fabs_float(pos.y - *(f32 *)((s8 *)obj + 0x300)) > 3e+01f)) {
+                is_area_attack_target_eligible(this, ((TObjBase *)obj)->actorFlags) != 0 &&
+                !(fabs_float(pos.y - ((TObjChara *)obj)->m_300) > 3e+01f)) {
                 ok = 1;
                 if (object != 0 && attack_target_history_add((s32)object, obj) == 0) {
                     ok = 0;
@@ -94,26 +98,13 @@ struct VObj_18_64db54 : VBase_18_64db54 {
     virtual s32 m14(void *, void *);
 };
 
-struct Vec_802D14F4 { f32 x, y, z; };
-
-struct Rot_802D14F4 { s32 x, y, z; };
-
-struct Hit_802D14F4 { u8 pad[4]; u8 *tri; };
-
 extern "C" {
-s32 *csnVecterUnder(s32 origin, s32 mask);
-u32 csnVector(void *, void *, int);
-void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
-void TObjEneBm9Mericarol__sub_802CED40(void *p);
-s32 vec3_add_to(void *, void *);
 
-#pragma push
-#pragma opt_common_subs off
 void TObjEneBm9Mericarol_Bomb::run_task() {
-    Vec_802D14F4 v;
-    Rot_802D14F4 r1;
-    Rot_802D14F4 r2;
-    Hit_802D14F4 *hit;
+    Vec v;
+    ParticleAngles r1;
+    ParticleAngles r2;
+    CsnHit *hit;
     f32 d;
     switch (state) {
     case 0:
@@ -123,7 +114,7 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
             return;
         }
         fall_speed -= 0.15f;
-        VecCopy((Vec *)&v, &pos);
+        VecCopy(&v, &pos);
         vec3_add_to(&v, &look_ahead);
         v.y += fall_speed - 3.0f;
         if (csnVector(&pos, &v, 0x1EFF) != 0) {
@@ -133,10 +124,10 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
         pos.x += velocity.x;
         pos.y += velocity.y;
         pos.z += velocity.z;
-        hit = (Hit_802D14F4 *)csnVecterUnder((s32)&pos, 0x16EF);
+        hit = (CsnHit *)csnVecterUnder((s32)&pos, 0x16EF);
         if (hit != NULL) {
-            position.y = *(f32 *)((s8 *)hit->tri + 4);
-            VecCopy(&shadow_pos, (const Vec *)(hit->tri + 0xC));
+            position.y = hit->contact->point.y;
+            VecCopy(&shadow_pos, &hit->contact->normal);
             shadow_visible = 1;
         } else {
             shadow_visible = 0;
@@ -153,7 +144,7 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
         }
         bodies->offset.y = d;
         if (((VObj_18_64db54 *)this)->m14((u8 *)&this->attack_power, (u8 *)&this->attack_type) != 0) {
-            TObjEneBm9Mericarol__sub_802CED40(find_entity_by_id(owner_id));
+            ((TObjEneBm9Mericarol *)(find_entity_by_id(owner_id)))->sub_802CED40();
             if (attack_type == 0 && this->m_108 != 0) {
                 attack_type = 0x12;
                 this->vfunc_16((u8 *)&this->attack_power, (u8 *)&this->attack_type);
@@ -188,7 +179,6 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
         break;
     }
 }
-#pragma pop
 
 }
 
@@ -210,8 +200,6 @@ TObjEneBm9Mericarol_Bomb::~TObjEneBm9Mericarol_Bomb() {
     }
 }
 
-#pragma push
-#pragma fp_contract on
 
 TObjEneBm9Mericarol_Bomb::TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, Vec *start, Vec *target, f32 farg0, f32 farg1, s32 arg4)
     : TUnk_804928CC(owner, owner) {
@@ -278,4 +266,3 @@ TObjEneBm9Mericarol_Bomb::TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, V
     shadow_visible = 1;
 }
 
-#pragma pop
