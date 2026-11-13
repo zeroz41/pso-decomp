@@ -30,10 +30,10 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     void sub_80319E74(s32);
     virtual void run_task();
     virtual void render();
-    u8 check_body_collision_at(s32, f32);
+    s32 check_body_collision_at(s32, f32);
     s32 sub_8031A4D0();
-    u8 is_outside_visible_range();
-    u8 sub_8031A454();
+    s32 is_outside_visible_range();
+    s32 sub_8031A454();
     void sub_8031A3D8();
     s32 render_model_if_visible();
     virtual void vfunc_88();
@@ -41,7 +41,7 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     virtual void vfunc_96();
     virtual void vfunc_89();
     virtual void sub_8031A6A0();
-    virtual u8 is_target_in_range();
+    virtual s32 is_target_in_range();
     virtual void vfunc_107();
     virtual void vfunc_108();
     virtual s32 try_run_effect_m6();
