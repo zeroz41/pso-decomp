@@ -30,114 +30,6 @@ void test_flag30_512__9TObjCharaFv();
 void test_flag_1000__9TObjCharaFv();
 void test_flag_256__9TObjCharaFv();
 
-struct VBase_18 { char pad[0x18]; };
-
-struct VObj_18_p5 : VBase_18 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual s32 m81();
-    virtual void m82();
-    virtual s32 m83();
-    virtual void m84();
-    virtual void m85();
-    virtual s32 m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual void m94();
-    virtual void m95();
-    virtual void m96();
-    virtual void m97();
-    virtual s32 m98();
-    virtual void m99();
-    virtual void m100();
-    virtual void m101();
-    virtual s32 m102();
-};
-
 void free_bin_model_request(void*, int);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 void render_with_state_debug__17TObjEneBm3FlyNestFv(u8 *arg0);
@@ -547,10 +439,10 @@ Vec *TObjEneBm3FlyNest__sub_800B2A54(TObjEneBm3FlyNest *nest) { return &nest->m_
 void TObjEneBm3FlyNest::remove_child(u8 *child) {
     s32 i;
     for (i = 0; i < 6; i++) {
-        if (find_entity_by_id(this->m_3b8[i]) == child) {
-            this->m_3b0--;
-            this->m_3b8[i] = this->m_3b8[this->m_3b0];
-            this->m_3b8[this->m_3b0] = 0xFFFF;
+        if (find_entity_by_id(this->child_ids[i]) == child) {
+            this->child_count--;
+            this->child_ids[i] = this->child_ids[this->child_count];
+            this->child_ids[this->child_count] = 0xFFFF;
             return;
         }
     }
@@ -559,8 +451,8 @@ void TObjEneBm3FlyNest::remove_child(u8 *child) {
 s32 TObjEneBm3FlyNest::has_free_attack_slot(u16 id) {
     s32 n = 0;
     s32 i;
-    for (i = 0; i < this->m_3b0; i++) {
-        TObjEneBm3Fly *fly = (TObjEneBm3Fly *)find_entity_by_id(this->m_3b8[i]);
+    for (i = 0; i < this->child_count; i++) {
+        TObjEneBm3Fly *fly = (TObjEneBm3Fly *)find_entity_by_id(this->child_ids[i]);
         if (fly != 0 && id == fly->get_active_id()) {
             n++;
         }
@@ -577,7 +469,7 @@ void handle_state__17TObjEneBm3FlyNestFPvi(TObjEneBm3FlyNest *nest, s32 arg1) {
         nest->vfunc_95();
         return;
     case 3:
-        if (nest->m_3b0 == 0) {
+        if (nest->child_count == 0) {
             nest->send_entity_set_flags();
             nest->queue_destruction();
         }
@@ -949,7 +841,7 @@ void handle_appear__17TObjEneBm3FlyNestFPvi(TObjEneBm3FlyNest *nest, s32 arg1) {
                 for (i = 0; i < 6; i++) {
                     o = __nw__7TObjectFUl(0x68);
                     if (o != 0) {
-                        ((s32 (*)(void *, void *, void *, void *, void *, void *, s32))__ct__26TObjEneBm3FlyNest_CarryFlyFP7TObjectlllll)(o, nest, &nest->m_3e0[i], &nest->m_3c8[1], &nest->position, cnt, i + 1);
+                        __ct__26TObjEneBm3FlyNest_CarryFlyFP7TObjectlllll(o, nest, &nest->m_3e0[i], &nest->m_3c8[1], &nest->position, cnt, i + 1);
                     }
                 }
             }
@@ -1013,13 +905,13 @@ void TObjEneBm3FlyNest::spawn_child() {
     Vec velocity = lbl_8043B304[0];
     Vec position;
     s32 n;
-    if (this->m_3b0 <= 6) {
-        n = (this->set_index + 1) + this->m_3b4;
+    if (this->child_count <= 6) {
+        n = (this->set_index + 1) + this->spawned_count;
         VecCopy(&position, TObjEneBm3FlyNest__sub_800B2A54(this));
-        if (((TObjEneBm3Fly *)this)->create((void *)this->m_3c4, (void *)n, &position, &velocity) != 0) {
-            this->m_3b8[this->m_3b0++] = this->m_3c4;
-            this->m_3c4++;
-            this->m_3b4++;
+        if (((TObjEneBm3Fly *)this)->create((void *)this->next_child_id, (void *)n, &position, &velocity) != 0) {
+            this->child_ids[this->child_count++] = this->next_child_id;
+            this->next_child_id++;
+            this->spawned_count++;
             spawn_particle_effect(&this->m_3c8[1], 0xC8);
             play_sound_effect(this->remap_sound_for_area(0x4003AB27), &this->position, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x400);
@@ -1037,7 +929,7 @@ void TObjEneBm3FlyNest::update_replenish() {
     s32 var_r5;
     switch (this->m_4b4) {
     case 0:
-        if ((this->m_3b0 <= this->m_390 / 2) || (this->m_3a8 != 0)) {
+        if ((this->child_count <= this->m_390 / 2) || (this->m_3a8 != 0)) {
             this->m_4b4 = 1;
             this->m_4bc = 0;
         }
@@ -1048,11 +940,11 @@ void TObjEneBm3FlyNest::update_replenish() {
             if (this->m_4bc > this->m_4c4) {
                 this->m_4bc = 0;
                 var_r5 = this->m_4c0;
-                temp_r0_2 = 6 - this->m_3b0;
+                temp_r0_2 = 6 - this->child_count;
                 if (temp_r0_2 < var_r5) {
                     var_r5 = temp_r0_2;
                 }
-                temp_r0_3 = this->m_394 - this->m_3b4;
+                temp_r0_3 = this->m_394 - this->spawned_count;
                 if (temp_r0_3 < var_r5) {
                     var_r5 = temp_r0_3;
                 }
@@ -1140,7 +1032,7 @@ void dispatch_state__17TObjEneBm3FlyNestFiUii(TObjEneBm3FlyNest *nest, u32 arg1,
 
 void TObjEneBm3FlyNest::run_task() {
     if (TObjPlayer::check_demo_mode() != 0) {
-        ((VObj_18_p5 *)(this))->m102();
+        this->vfunc_104();
         return;
     }
     if (this->vfunc_83() != 4) {
@@ -1173,7 +1065,7 @@ void *__ct__9TObjEneDDFP7TObject(void *, void *, void *);
 void __construct_array(void *, void *, void *, int, int);
 void __ct__15RenderFadeStateFv(void *);
 
-TObjEneBm3FlyNest *TObjEneBm3FlyNest__ct(TObjEneBm3FlyNest *nest, TObject *parent, void *set_data) {
+TObjEneBm3FlyNest *TObjEneBm3FlyNest__ct(TObjEneBm3FlyNest *nest, TObject *parent, Bm3FlyNestSetData *set_data) {
     s32 i;
 
     __ct__9TObjEneDDFP7TObject(nest, parent, set_data);
@@ -1198,19 +1090,19 @@ TObjEneBm3FlyNest *TObjEneBm3FlyNest__ct(TObjEneBm3FlyNest *nest, TObject *paren
     nest->initialize_enemy_state(4);
     nest->m_37c = 10.0f;
     nest->init_params();
-    if (nest->m_394 > *(s16 *)((u8 *)set_data + 2)) {
-        nest->m_394 = *(s16 *)((u8 *)set_data + 2);
+    if (nest->m_394 > set_data->unknown_02) {
+        nest->m_394 = set_data->unknown_02;
     }
     for (i = 0; i < 4; i++) {
         nest->m_398[i] = 0;
     }
     nest->m_3a8 = 0;
     nest->m_3ac = 0;
-    nest->m_3b0 = 0;
-    nest->m_3b4 = 0;
-    nest->m_3c4 = nest->entity_id + 1;
+    nest->child_count = 0;
+    nest->spawned_count = 0;
+    nest->next_child_id = nest->entity_id + 1;
     for (i = 0; i < 6; i++) {
-        nest->m_3b8[i] = 0xFFFF;
+        nest->child_ids[i] = 0xFFFF;
     }
     for (i = 0; i < 2; i++) {
         VecCopy(&nest->m_3c8[i], &nest->position);
@@ -1248,10 +1140,10 @@ void TObjEneBm3FlyNest::free_fly() {
     }
 }
 
-void *TObjEneBm3FlyNest::create(void *arg0) {
+void *TObjEneBm3FlyNest::create(void *set_data) {
     void *o = __nw__7TObjectFUl(0x4DC);
     if (o != NULL) {
-        o = TObjEneBm3FlyNest__ct((TObjEneBm3FlyNest *)o, (TObject *)tl_04, arg0);
+        o = TObjEneBm3FlyNest__ct((TObjEneBm3FlyNest *)o, (TObject *)tl_04, (Bm3FlyNestSetData *)set_data);
     }
     return o;
 }

@@ -26,11 +26,7 @@ extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
 
-struct MojaResourceEntry {u8 unknown[8];void* model;void* textures;};
-
-struct MojaResources {u8 unknown[0x42C];MojaResourceEntry* models;};
-
-extern MojaResources* lbl_805D50D8;
+extern BmlResource *lbl_805D50D8;
 extern "C" {
 s32 is_main_phase_15__9TObjEneDDFv();
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
@@ -55,8 +51,8 @@ s32 post_translate_matrix(void *);
 f32 AttackParams::get_damage_radius() { return damage_radius; }
 
 void TObjEneMoja::bindModel(int index) {
-    model=lbl_805D50D8->models[index].model;
-    (*(void * *)&this->texlist)=lbl_805D50D8->models[index].textures;
+    model = (void *)lbl_805D50D8->models[index].model;
+    texlist = lbl_805D50D8->models[index].m_c;
 }
 
 void TObjEneBm3Fly__vt104(TObjEneBm3Fly *arg0) {
@@ -155,7 +151,7 @@ void TObjEneBm3Fly::state_death_fall(s32 arg1) {
         this->m_430.z = (f32) this->m_310;
         this->m_3e4 = normalize_vector_xz(&this->m_430);
         temp_copy = this->remap_sound_for_area((s32)(0x4003E425));
-        play_sound_effect(temp_copy, (u8 *)&this->position, 0, 0);
+        play_sound_effect(temp_copy, &this->position, 0, 0);
         return;
     case 3:
         if ((this->m_42c - this->position.y) < (-2e+01f)) {
@@ -469,8 +465,8 @@ void TObjEneBm3Fly::execute_action(s32 arg1) {
         break;
     case 0:
         advance_animation();
-        if (((TObjEneEpsilon *)((u8 *)this))->update_death_check() == 0) {
-            enemy_clear_target__12TObjEneDD_STFUs(((u8 *)this));
+        if (((TObjEneEpsilon *)this)->update_death_check() == 0) {
+            enemy_clear_target__12TObjEneDD_STFUs(this);
         }
         switch (this->m_3c0) {
         case 0:
@@ -810,19 +806,13 @@ void TObjEneBm3Fly::play_pitched_cue() {
 
 }
 
-// One entry collect_enemy_target_candidates fills in.
-struct Bm3FlyTargetCandidate {
-    u16 id;
-    f32 dist;
-};
-
 extern "C" {
 void vfunc_88__13TObjEneBm3FlyFv(u8 *arg0);
 f32 fabs_float(f32);
 extern AttackParams *TObjEneBm3Fly__attack_params;
 s32 get_random_scaled__9TObjEneDDFv(void *);
 s32 enemy_set_target_id(void *, u16);
-s32 collect_enemy_target_candidates(void *, Bm3FlyTargetCandidate *, f32);
+s32 collect_enemy_target_candidates(void *, EnemyTargetCandidate *, f32);
 void vfunc_89__13TObjEneBm3FlyFv(void* p);
 
 u16 TObjEneBm3Fly::get_active_id() {
@@ -841,7 +831,7 @@ void TObjEneBm3Fly::sub_800B1634() {
 #pragma pop
 
 void choose_attack__13TObjEneBm3FlyFPv(TObjEneBm3Fly *s) {
-    Bm3FlyTargetCandidate players[4];
+    EnemyTargetCandidate players[4];
     TObjEneBm3FlyNest *nest;
     s32 count;
     u16 id;

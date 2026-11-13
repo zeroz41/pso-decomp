@@ -9,7 +9,7 @@
 class TParticleCtrl;
 struct TObjEneBm3FlyNest;
 
-// TObjEnemy::movementParameters of a fly.
+// TObjEnemy::movementParameters of a fly or its nest (same layout as MojaMovementParameters).
 struct Bm3FlyMovementParameters {
     f32 unknown_00;
     f32 unknown_04;
@@ -17,11 +17,26 @@ struct Bm3FlyMovementParameters {
     u32 unknown_0C[4];
 };
 
-// The fly's block from TLobby::dispatch_shared_handler_a.
+// The block TLobby::dispatch_shared_handler_a(0) returns; the fly's load_resources keeps it in lbl_805D50EC.
 struct Bm3FlyParameters {
     f32 unknown_00;
     u8 unknown_04[0x18];
     s32 unknown_1C;
+};
+
+// The motion binding the fly and the nest pass to TLobby::spawn_npc_enemy.
+struct Bm3FlyAnimationBinding {
+    BmlMotionEntry *motions;
+    TObjMotionAction *actions;
+    u32 unknown_08;
+    u16 actionCount;
+    u16 unknown_0E;
+};
+
+// One entry collect_enemy_target_candidates fills in.
+struct EnemyTargetCandidate {
+    u16 id;
+    f32 dist;
 };
 
 struct TObjEneBm3Fly : public TObjEneDD_ST {
