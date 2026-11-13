@@ -2792,3 +2792,4 @@ pso/boss/olgaflow/TBoss6Demo11_TYPE1_DEAD.cpp
 pso/audio/AdxtServer.cpp
 pso/ui/window/TWindowSnapShot_802A5B2C.cpp
 pso/technique/TTecGiFoie.cpp
+pso/enemy/panarms/TObjEnePanarms.cpp
