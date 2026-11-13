@@ -21,25 +21,19 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/map/CsnQuery.h"
-
-struct Vec_802CDEB4 { f32 x, y, z; };
-
-struct Vec_802CDB1C { f32 x, y, z; };
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/math/AngleUnits.h"
 
 extern "C" {
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
-s32 matrix_mult_vec(void *, Vec_802CDEB4 *, void *);
-s32 rotate_matrix_x(void *, s32);
-extern u8 identity_matrix[];
 extern f32 lbl_805D6844;
 extern f32 lbl_805D6848;
 TObjChara *find_active_entity_by_id(u16);
-s32 vec3_add_to(void *, void *);
-s32 subtract_vector(void *, void *);
 extern s32 local_client_id;
 extern const f32 lbl_805D684C;
 extern s32 lbl_805D6854;
-
 }
 
 TUnk_804E14E8::TUnk_804E14E8(Vec *start, u16 target_id, GiGueShotAngles *angles, s32 delay, s32 double_hit, u16 src_id)
@@ -52,19 +46,19 @@ TUnk_804E14E8::TUnk_804E14E8(Vec *start, u16 target_id, GiGueShotAngles *angles,
     m_e8 = 0.0f;
     push_matrix_from(identity_matrix);
     {
-        Vec_802CDEB4 v = {0.0f, 0.0f, lbl_805D6844};
-        rotate_matrix_y(0, angles->y);
-        rotate_matrix_x(0, angles->x);
-        matrix_mult_vec(0, &v, &vel);
+        Vec v = {0.0f, 0.0f, lbl_805D6844};
+        rotate_matrix_y(NULL, angles->y);
+        rotate_matrix_x(NULL, angles->x);
+        matrix_mult_vec(NULL, &v, &vel);
     }
     pop_matrix();
     timer = delay;
-    target = (Vec *)((u8 *)find_entity_by_id(target_id) + 0x2FC);
+    target = (Vec *)&((TObjChara *)find_entity_by_id(target_id))->m_2fc;
     {
     ParticleAngles ang;
     ang.x = 0;
-    ang.y = (s32)(10430.38043493439 * atan2_float(target->x - start->x, target->z - start->z)) + 0x4000;
-    ang.z = 0x4000 - (s32)(10430.38043493439 * atan2_float(target->y - start->y, vec_xz_distance(target, start)));
+    ang.y = (s32)(RADIANS_TO_ANGLE * atan2_float(target->x - start->x, target->z - start->z)) + 0x4000;
+    ang.z = 0x4000 - (s32)(RADIANS_TO_ANGLE * atan2_float(target->y - start->y, vec_xz_distance(target, start)));
     ptcl0 = (TParticleCtrl *)spawn_particle_effect_with_rotation(start, &ang, 0x201, 2);
     ptcl1 = (TParticleCtrl *)spawn_particle_effect_with_rotation(start, &ang, 0x202, 2);
     }
@@ -86,14 +80,11 @@ TUnk_804E14E8::~TUnk_804E14E8() {
     }
 }
 
-extern "C" {
-#pragma push
-#pragma opt_common_subs off
 void TUnk_804E14E8::run_task() {
-    u8 *src;
+    TObjEneMe1GiGue *src;
     TObjChara *tgt;
-    Vec_802CDB1C v;
-    src = (u8 *)find_entity_by_id(src_id);
+    Vec v;
+    src = (TObjEneMe1GiGue *)find_entity_by_id(src_id);
     if (src == NULL) {
         queue_destruction();
         return;
@@ -104,7 +95,7 @@ void TUnk_804E14E8::run_task() {
         timer--;
         if (timer <= 0) {
             timer = 0;
-            VecCopy((Vec *)&pos, start);
+            VecCopy(&pos, start);
             state = 1;
             if (get_current_floor_area() == AREA_TOWER) {
                 play_sound_effect(0x4003A313, &pos, 0, 0);
@@ -127,14 +118,14 @@ void TUnk_804E14E8::run_task() {
             return;
         }
         if (tgt != NULL) {
-            VecCopy((Vec *)&v, (const Vec *)((u8 *)tgt + 0x2FC));
+            VecCopy(&v, (Vec *)&tgt->m_2fc);
             subtract_vector(&v, &pos);
-            vec_set_length((Vec *)&v, speed);
+            vec_set_length(&v, speed);
             speed += lbl_805D684C;
             vec3_add_to(&vel, &v);
-            vec_set_length((Vec *)&vel, lbl_805D6844);
+            vec_set_length(&vel, lbl_805D6844);
         }
-        VecCopy((Vec *)&prev, (const Vec *)&pos);
+        VecCopy(&prev, &pos);
         vec3_add_to(&pos, &vel);
         if (ptcl0 != NULL) {
             ptcl0->set_position(&pos);
@@ -147,23 +138,20 @@ void TUnk_804E14E8::run_task() {
             return;
         }
         if (tgt != NULL && !(tgt->actorFlags & 0x04000A00) &&
-            xyz_distance_squared((Vec *)&pos, (Vec *)((u8 *)tgt + 0x2FC)) <= lbl_805D6844 * lbl_805D6844) {
+            xyz_distance_squared(&pos, (Vec *)&tgt->m_2fc) <= lbl_805D6844 * lbl_805D6844) {
             DirectAttackPayload hit = {1, (f32)lbl_805D6854};
             tgt->receive_direct_attack(src, hit, 0, -1, -1);
             if (double_hit == 1) {
                 hit.kind = 0x12;
                 tgt->receive_direct_attack(src, hit, 0, -1, -1);
             }
-            spawn_particle_effect((u8 *)tgt + 0x2FC, 0x8E);
+            spawn_particle_effect(&tgt->m_2fc, 0x8E);
             if (local_client_id == target_id) {
-                ((TObjEneMe1GiGue *)src)->apply_hit_shake((u32)tgt);
+                src->apply_hit_shake(tgt);
             }
             queue_destruction();
         }
         break;
     }
 }
-#pragma pop
 
-
-}
