@@ -997,21 +997,21 @@ force_active:
   - TObjEneBeast__boss4_rock_handler_ids
   - TObjEneBeast__ct
   - TObjEneBm3FlyNest__attachment_sample_origin
-  - TObjEneBm3FlyNest__ct
+  - __ct__17TObjEneBm3FlyNestFP7TObjectP17Bm3FlyNestSetData
   - TObjEneBm3FlyNest__sub_800B2A54
   - TObjEneBm3FlyNest__sub_800B318C
   - TObjEneBm3FlyNest__sub_800B3AC8
-  - TObjEneBm3FlyNest__sub_800B3E40
+  - __dt__17TObjEneBm3FlyNestFv
   - TObjEneBm3FlyNest_attachment_point_ptr
-  - TObjEneBm3Fly__ct
+  - __ct__13TObjEneBm3FlyFP7TObjectP17TObjEneBm3FlyNestllPC3VecPC3Vec
   - TObjEneBm3Fly__play_orbit_flight_sound
   - TObjEneBm3Fly__sub_800B02C8
   - TObjEneBm3Fly__sub_800B0B20
   - TObjEneBm3Fly__sub_800B0F70
   - TObjEneBm3Fly__sub_800B1214
-  - TObjEneBm3Fly__vt103
-  - TObjEneBm3Fly__vt104
-  - TObjEneBm3Fly__vt85
+  - vfunc_105__13TObjEneBm3FlyFv
+  - vfunc_106__13TObjEneBm3FlyFv
+  - dispatch_action__13TObjEneBm3FlyFUll
   - TObjEneBm5GibonU__ct
   - TObjEneBm5GibonU__data_80500E78
   - TObjEneBm5GibonU__data_805DA158
@@ -5679,7 +5679,7 @@ force_active:
   - dispatch_state__15TBoss3VoloptP02Fv
   - dispatch_state__15TObjEneMe1GiGueFv
   - dispatch_state__15TObjEnemyCustomFv
-  - dispatch_state__17TObjEneBm3FlyNestFiUii
+  - dispatch_action__17TObjEneBm3FlyNestFUll
   - dispatch_state__19TBoss3VoloptMonitorFv
   - dispatch_state__20TBoss3VoloptHiraisinFv
   - dispatch_action__19TObjEneBm9MericarolFUll
@@ -6936,7 +6936,7 @@ force_active:
   - init__15TObjEneMe1GiGueFPv
   - init__15TObjEneSlimeOneFPviii
   - init__16TAdChrSelASlotGCFl
-  - init__17TObjEneBm3FlyNestFPv
+  - init__17TObjEneBm3FlyNestFv
   - init__17TWindowSubComCardFi
   - init__18TChallenge4PResultFv
   - init__18TObjAreaWarpForestFPvPv
@@ -7436,8 +7436,6 @@ force_active:
   - shark_motion_name_walk_bm1_s_wala_body_njm
   - bm_ene_bm1_shark_bml_filename
   - bm_ene_bm1_shark_a_bml_filename
-  - bm_ene_bm3_fly_a_bml_filename
-  - lbl_8043B398
   - lbl_8043BC10
   - lbl_8043BC24
   - TObjEneRe2Flower_EffCurse3__class_name_string
@@ -7738,7 +7736,7 @@ force_active:
   - lbl_804907BC
   - lbl_80490998
   - lbl_8049168C
-  - lbl_80491EE4
+  - __vt__17TObjEneBm3FlyNest
   - __vt__14TObjEneBm5Wolf
   - lbl_80492BE4
   - lbl_80492C20
