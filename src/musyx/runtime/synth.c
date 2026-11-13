@@ -1,12 +1,5 @@
 #include "musyx/runtime/musyx_runtime_a.h"
 
-#define ARR_GET_803A3D8C(arr, offset) ((void *)(offset + (u32)arr))
-#define SEQ_CUR (*(SEQ_INSTANCE_803A49C8 **)&lbl_805D7360)
-#define SEQ_FREE_LIST ((SEQ_INSTANCE_803A49C8 *)lbl_805D7378)
-#define SEQ_RUN_LIST ((SEQ_INSTANCE_803A49C8 *)lbl_805D737C)
-#define SEQ_RUN_L (*(SEQ_INSTANCE_803A49C8 **)&lbl_805D737C)
-#define ARR_GET_803A5A78(arr, offset) ((void *)(offset + (u32)arr))
-#define ARR_GET_803A6364(arr, offset) ((void *)(offset + (u32)arr))
 extern "C" {
 
 static u32 synthTicksPerSecond[9][16];
@@ -833,18 +826,16 @@ void HandleJobQueue(Node_803A8D2C **list, void (*cb)(u8)) {
 }
 
 void HandleFaderTermination(u8 *arg0) {
-    struct Fields_arg0 { u8 pad_0[40]; s32 field_28; u8 field_2C; };
-    u8 temp_r0;
-    temp_r0 = ((Fields_arg0*)arg0)->field_2C;
-    switch ((s32) temp_r0) {
+    SYNTHMasterFader_SV *smf = (SYNTHMasterFader_SV *)arg0;
+    switch (smf->seqMode) {
     case 1:
-        seqStop(((Fields_arg0*)arg0)->field_28);
+        seqStop(smf->seqId);
         return;
     case 2:
-        seqPause((s32)(((Fields_arg0*)arg0)->field_28));
+        seqPause(smf->seqId);
         return;
     case 3:
-        seqMute(((Fields_arg0*)arg0)->field_28, 0, 0);
+        seqMute(smf->seqId, 0, 0);
         return;
     }
 }

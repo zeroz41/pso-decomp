@@ -1,18 +1,5 @@
 #include "musyx/runtime/musyx_runtime_a.h"
 
-#define ARR_GET_803A3D8C(arr, offset) ((void *)(offset + (u32)arr))
-#define SEQ_CUR (*(SEQ_INSTANCE_803A49C8 **)&lbl_805D7360)
-#define SEQ_FREE_LIST ((SEQ_INSTANCE_803A49C8 *)lbl_805D7378)
-#define SEQ_RUN_LIST ((SEQ_INSTANCE_803A49C8 *)lbl_805D737C)
-#define SEQ_RUN_L (*(SEQ_INSTANCE_803A49C8 **)&lbl_805D737C)
-#define ARR_GET_803A5A78(arr, offset) ((void *)(offset + (u32)arr))
-#define ARR_GET_803A6364(arr, offset) ((void *)(offset + (u32)arr))
-#define TBL ((Ent_803ACEC4 *)((u8 *)t + 0x4E00))
-#define macTimeQueueRoot ((SYNTH_VOICE_803B19AC *)lbl_805D7420)
-#define macActiveMacroRoot ((SYNTH_VOICE_803B19AC *)lbl_805D741C)
-#define macRealTime lbl_805D7428
-#define FLAGS (*(u64 *)&o->fh)
-#define HEAD (*(Voice_803B2128 **)&lbl_805D741C)
 #define synthVoice ((SYNTH_VOICE_803B2438 *)synthVoice)
 
 typedef struct SYNTH_VOICELIST_V {
@@ -129,8 +116,9 @@ void vidRemoveVoiceReferences(Prog_803B25CC *p) {
 }
 
 s32 vidMakeRoot(u8 *arg0) {
-    *(void **)((s8 *)arg0 + 0xFC) = (void *) *(void **)((s8 *)arg0 + 0xF8);
-    return *(s32 *)((s8 *)(*(void **)((s8 *)arg0 + 0xF8)) + 8);
+    SYNTH_VOICE_SV *svoice = (SYNTH_VOICE_SV *)arg0;
+    svoice->vidMasterList = svoice->vidList;
+    return svoice->vidList->vid;
 }
 
 #define vidCurrentId (*(u32 *)&lbl_805D7438)
@@ -326,8 +314,6 @@ void voiceSetPriority(Voice_803B2128 *svoice, u8 prio) {
 
 #pragma pop
 
-struct Cfg_803B2CF0 { u8 pad[0x210]; u8 voiceNum; u8 maxMusic; u8 maxSFX; };
-#define synthInfo_803B2CF0 (*(Cfg_803B2CF0 *)&synthInfo)
 #pragma push
 #pragma opt_common_subs on
 #pragma bool off
@@ -342,17 +328,17 @@ u32 voiceAllocate(u8 priority, u8 maxVoices, u16 allocId, u8 fxFlag) {
 
     if (!synthIdleWaitActive) {
         if (fxFlag) {
-            type_alloc = (voiceFxRunning >= synthInfo_803B2CF0.maxSFX && synthInfo_803B2CF0.voiceNum > synthInfo_803B2CF0.maxSFX);
+            type_alloc = (voiceFxRunning >= synthInfo.maxSFX && synthInfo.voiceNum > synthInfo.maxSFX);
 
-            if (synthInfo_803B2CF0.maxSFX <= maxVoices) {
+            if (synthInfo.maxSFX <= maxVoices) {
                 goto _skip_alloc;
             }
 
             goto _do_alloc;
         } else {
-            type_alloc = (voiceMusicRunning >= synthInfo_803B2CF0.maxMusic && synthInfo_803B2CF0.voiceNum > synthInfo_803B2CF0.maxMusic);
+            type_alloc = (voiceMusicRunning >= synthInfo.maxMusic && synthInfo.voiceNum > synthInfo.maxMusic);
 
-            if (synthInfo_803B2CF0.maxMusic <= maxVoices) {
+            if (synthInfo.maxMusic <= maxVoices) {
                 goto _skip_alloc;
             }
 
