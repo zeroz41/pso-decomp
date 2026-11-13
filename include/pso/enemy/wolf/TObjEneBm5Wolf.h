@@ -12,6 +12,9 @@ struct TObjEneBm5WolfListNode {
     TObjEneBm5WolfListNode *prev;
     TObjEneBm5WolfListNode *next;
     u16 entity_id;
+
+    TObjEneBm5WolfListNode();
+    ~TObjEneBm5WolfListNode();
 };
 
 struct TObjEneBm5WolfList {
@@ -20,9 +23,11 @@ struct TObjEneBm5WolfList {
 };
 
 struct TObjEneBm5Wolf : public TObjEneDD_ST {
+    TObjEneBm5Wolf(TObject *parent, void *set_data);
     virtual ~TObjEneBm5Wolf();
     virtual void run_task();
     virtual void render();
+    virtual void dispatch_action(u32 state, s32 event);
     virtual void vfunc_88();
     virtual void update_state();
     virtual void render_debug();
@@ -134,30 +139,23 @@ typedef char WolfOffset_nearTarget[offsetof(TObjEneBm5Wolf, nearTarget) == 0x468
 typedef char TObjEneBm5Wolf_size[sizeof(TObjEneBm5Wolf) == 0x46C ? 1 : -1];
 
 extern "C" {
-u8 *TObjEneBm5Wolf__ct(TObjEneBm5Wolf *wolf, void *arg1, void *arg2);
 s32 __dt__14TObjEneBm5WolfFis(s32 arg0, s16 arg1);
-u8 *__dt__14TObjEneBm5WolfFv(TObjEneBm5Wolf *wolf, s16 arg1);
 }
 s32 actor_rand_int(s32 actor, s32 arg1);
 extern "C" {
 void approach_target__14TObjEneBm5WolfFPvf(TObjEneBm5Wolf *wolf, f32 step);
 s32 calc_lunge_aim__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf);
 void calc_rotated_vector__14TObjEneBm5WolfFPviPvPv(TObjEneBm5Wolf *wolf, s32 angle, Vec *out, s32 *heading);
-TObjEneBm5WolfListNode *destroy__14TObjEneBm5WolfFis(TObjEneBm5WolfListNode *node, s16 arg1);
-void TObjEneBm5Wolf__sub_800B8A24(TObjEneBm5WolfListNode *node);
-void dispatch_state__14TObjEneBm5WolfFPvUii(TObjEneBm5Wolf *wolf, u32 state, s32 event);
 int get_flag_bit0__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf);
 s32 get_group_id__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf);
 void play_footsteps__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf);
 TObjEneBm5Wolf *play_sound__14TObjEneBm5WolfFPv(TObjEneBm5WolfListNode *node);
 s32 play_variant_sound__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf);
-void render_debug__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf);
 void returning_state__14TObjEneBm5WolfFPvi(TObjEneBm5Wolf *actor, s32 arg1);
 void schedule_pack_reaction__14TObjEneBm5WolfFPvis(TObjEneBm5Wolf *wolf, s32 delay, u16 value);
 s32 select_target__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf);
 void set_state_by_timer__14TObjEneBm5WolfFi(TObjEneBm5Wolf *wolf);
 void spawn_recoil_dust__14TObjEneBm5WolfFiPv(TObjEneBm5Wolf *wolf, Vec *dir);
-void update_state__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf);
 }
 
 #endif
