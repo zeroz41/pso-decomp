@@ -7,29 +7,16 @@
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/system/save/TSaveChCr.h"
-
-struct RecoveredGlobal_8028E9A4___vt__12TCharaMaking { s32 value; u8 remaining[0x18]; };
-typedef char RecoveredGlobal_8028E9A4___vt__12TCharaMaking_size[sizeof(RecoveredGlobal_8028E9A4___vt__12TCharaMaking) == 0x1C ? 1 : -1];
-
-struct RecoveredGlobal_8028E794_TObjLight__data_80506320 {
-    s32 value;
-    u8 remaining[0x4C];
-};
-
-struct RecoveredGlobal_8028E940___vt__12TCharaMaking {
-    s32 value;
-    u8 remaining[0x18];
-};
+#include <dolphin/mtx.h>
 
 extern "C" {
 void *__nw__7TObjectFUl(int);
-s32 __ct__7TObjectFP7TObject(void *, void *);
 void *TCMCharacter__ct(void *arg0, void *arg1);
-extern RecoveredGlobal_8028E9A4___vt__12TCharaMaking __vt__12TCharaMaking;
+extern void *__vt__12TCharaMaking[];
 extern s32 creation_main_menu_obj;
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
-extern RecoveredGlobal_8028E794_TObjLight__data_80506320 TObjLight__scene_light_state;
+extern Vec TObjLight__scene_light_state;
 u8 * __dt__7TObjectFv(void *, s16);
 void __dl__7TObjectFPv(s32);
 extern void *creation_player_character;
@@ -42,14 +29,12 @@ void TCharaMaking__sub_8028E790(void) {  }
 extern s32 tl_03;
 extern s32 creation_dressing_room_mode_flag;
 
-typedef char RecoveredGlobal_8028E794_TObjLight__data_80506320_size[sizeof(RecoveredGlobal_8028E794_TObjLight__data_80506320) == 0x50 ? 1 : -1];
 void TCharaMaking::update_light_direction() {
-    u8 *arg0 = (u8 *)this;
     f32 temp_f31;
-    *(f32 *)((s8 *)&TObjLight__scene_light_state.value + 4) = (f32) (-1.0f * sin_table_lookup(*(s32 *)((s8 *)arg0 + 0x1C)));
-    temp_f31 = cos_table_lookup(*(s32 *)((s8 *)arg0 + 0x1C));
-    *(f32 *)((s8 *)&TObjLight__scene_light_state.value + 0) = (f32) (temp_f31 * sin_table_lookup(this->m_20));
-    *(f32 *)((s8 *)&TObjLight__scene_light_state.value + 8) = (f32) (temp_f31 * cos_table_lookup(this->m_20));
+    TObjLight__scene_light_state.y = -1.0f * sin_table_lookup(m_1c);
+    temp_f31 = cos_table_lookup(m_1c);
+    TObjLight__scene_light_state.x = temp_f31 * sin_table_lookup(m_20);
+    TObjLight__scene_light_state.z = temp_f31 * cos_table_lookup(m_20);
 }
 
 s32 TCharaMaking::update_main_menu(s32 arg0) {
@@ -80,20 +65,14 @@ void TCharaMaking::run_task() {
 }
 
 void *TCharaMaking::create(void *arg0, void *arg1) {
-    void *o;
     creation_player_character = arg1;
-    o = __nw__7TObjectFUl(0x24);
-    if (o != NULL) {
-        o = TCharaMaking__ct((u8 *)o, (s32)arg0);
-    }
-    return o;
+    return new TCharaMaking((TObject *)arg0);
 }
 
-typedef char RecoveredGlobal_8028E940___vt__12TCharaMaking_size[sizeof(RecoveredGlobal_8028E940___vt__12TCharaMaking) == 0x1C ? 1 : -1];
-u8 *__dt__12TCharaMakingFv(u8 *arg0, s16 arg1) {
+TCharaMaking *__dt__12TCharaMakingFv(TCharaMaking *arg0, s16 arg1) {
     if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8028E940___vt__12TCharaMaking *)&__vt__12TCharaMaking).value;
-        (*(s32 *)&creation_player_character) = 0;
+        *(void ***)((u8 *)arg0 + 0x18) = __vt__12TCharaMaking;
+        creation_player_character = NULL;
         creation_main_menu_obj = 0;
         __dt__7TObjectFv(arg0, 0);
         if (arg1 > 0) {
@@ -103,20 +82,17 @@ u8 *__dt__12TCharaMakingFv(u8 *arg0, s16 arg1) {
     return arg0;
 }
 
-u8 *TCharaMaking__ct(u8 *arg0, s32 arg1) {
-    u32 motion;
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &__vt__12TCharaMaking.value;
-    ((TCharaMaking *)arg0)->m_name = TCharaMaking__name;
-    motion = ((u32)__nw__7TObjectFUl(0x10C));
-    if (motion != 0U) {
-        TCMCharacter__ct((void *)motion, (arg0));
-    }
-    creation_main_menu_obj = (s32)TObjCMMainMenu::create((TObject *)arg0);
-    *(s32 *)((s8 *)arg0 + 0x1C) = 0x1555;
-    ((TCharaMaking *)arg0)->m_20 = 0x9000;
-    ((TCharaMaking *)arg0)->update_light_direction();
-    return arg0;
 }
 
+TCharaMaking::TCharaMaking(TObject *parent) : TObject(parent) {
+    u32 motion;
+    m_name = TCharaMaking__name;
+    motion = ((u32)__nw__7TObjectFUl(0x10C));
+    if (motion != 0U) {
+        TCMCharacter__ct((void *)motion, this);
+    }
+    creation_main_menu_obj = (s32)TObjCMMainMenu::create(this);
+    m_1c = 0x1555;
+    m_20 = 0x9000;
+    update_light_direction();
 }

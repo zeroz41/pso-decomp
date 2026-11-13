@@ -6,152 +6,9 @@
 #include "pso/ui/charcreate/TObjCMIcon.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 
-struct RecoveredGlobal_80069094_camera_controller_registry { s32 value; u8 remaining[0x64]; };
-
-struct RecoveredGlobal_80069024_TCameraCtrl__data_804FF634 {
-    s32 value;
-    u8 remaining[0x44];
-};
-
-struct RecoveredGlobal_80069024_lbl_804FF67C {
-    s32 value;
-    u8 remaining[0x44];
-};
-
-struct RecoveredGlobal_800695E8_TCameraCtrl__data_804FF628 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_800691C8_TCameraCtrl__data_804FF6D0 {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
-struct RecoveredGlobal_800691C8_TCameraCtrl__data_804FF700 {
-    s32 value;
-    u8 remaining[0xBC];
-};
-
-struct RecoveredGlobal_800691C8_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-struct RecoveredGlobal_80069148_TCameraCtrl__data_804FF6D0 {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
-struct RecoveredGlobal_80069148_TCameraCtrl__data_804FF700 {
-    s32 value;
-    u8 remaining[0xBC];
-};
-
-struct RecoveredGlobal_80069C94_camera_controller_registry {
-    s32 value;
-    u8 remaining[0x64];
-};
-
-struct RecoveredGlobal_80069C94_TCameraCtrl__data_804FF628 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_80069D04_camera_controller_registry {
-    s32 value;
-    u8 remaining[0x64];
-};
-
-struct RecoveredGlobal_80069D04_TCameraCtrl__data_804FF628 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_800687C8_TCameraCtrl__data_804FF6C4 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_80069304_TCameraCtrl__data_804FF628 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_8006961C_TCameraCtrl__data_804FF628 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_8006961C_TCameraCtrl__data_804FF634 {
-    s32 value;
-    u8 remaining[0x44];
-};
-
-struct RecoveredGlobal_8006961C_lbl_8058CA60 {
-    s32 value;
-    u8 remaining[0x54];
-};
-
-struct RecoveredGlobal_80069258_TCameraCtrl__data_804FF6D0 {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
-struct RecoveredGlobal_80069258_TCameraCtrl__data_804FF700 {
-    s32 value;
-    u8 remaining[0xBC];
-};
-
-struct RecoveredGlobal_80069258_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-struct RecoveredGlobal_80069A6C_camera_controller_registry {
-    s32 value;
-    u8 remaining[0x64];
-};
-
-struct RecoveredGlobal_80069A6C_TCameraCtrl__data_804FF628 {
-    u8 value;
-    u8 remaining[0xB];
-};
-
-extern "C" f32 cm_icon_screen_position[];
-typedef char RecoveredGlobal_80069094_camera_controller_registry_size[sizeof(RecoveredGlobal_80069094_camera_controller_registry) == 0x68 ? 1 : -1];
-typedef char RecoveredGlobal_800687C8_TCameraCtrl__data_804FF6C4_size[sizeof(RecoveredGlobal_800687C8_TCameraCtrl__data_804FF6C4) == 0xC ? 1 : -1];
 void fn_8029945C(u8 *arg0) {
-    ((TWindowSubSymbolChatPartsSet *)cm_icon_screen_position)->copy_vec2((void*)arg0);
+    ((TWindowSubSymbolChatPartsSet *)&cm_icon_screen_position)->copy_vec2((void*)arg0);
 }
-typedef char RecoveredGlobal_80069024_TCameraCtrl__data_804FF634_size[sizeof(RecoveredGlobal_80069024_TCameraCtrl__data_804FF634) == 0x48 ? 1 : -1];
-typedef char RecoveredGlobal_80069024_lbl_804FF67C_size[sizeof(RecoveredGlobal_80069024_lbl_804FF67C) == 0x48 ? 1 : -1];
-typedef char RecoveredGlobal_800691C8_TCameraCtrl__data_804FF6D0_size[sizeof(RecoveredGlobal_800691C8_TCameraCtrl__data_804FF6D0) == 0x30 ? 1 : -1];
-typedef char RecoveredGlobal_800691C8_TCameraCtrl__data_804FF700_size[sizeof(RecoveredGlobal_800691C8_TCameraCtrl__data_804FF700) == 0xC0 ? 1 : -1];
-typedef char RecoveredGlobal_800691C8_main_task_size[sizeof(RecoveredGlobal_800691C8_main_task) == 0x34 ? 1 : -1];
-typedef char RecoveredGlobal_80069148_TCameraCtrl__data_804FF6D0_size[sizeof(RecoveredGlobal_80069148_TCameraCtrl__data_804FF6D0) == 0x30 ? 1 : -1];
-typedef char RecoveredGlobal_80069148_TCameraCtrl__data_804FF700_size[sizeof(RecoveredGlobal_80069148_TCameraCtrl__data_804FF700) == 0xC0 ? 1 : -1];
-typedef char RecoveredGlobal_80069258_TCameraCtrl__data_804FF6D0_size[sizeof(RecoveredGlobal_80069258_TCameraCtrl__data_804FF6D0) == 0x30 ? 1 : -1];
-typedef char RecoveredGlobal_80069258_TCameraCtrl__data_804FF700_size[sizeof(RecoveredGlobal_80069258_TCameraCtrl__data_804FF700) == 0xC0 ? 1 : -1];
-typedef char RecoveredGlobal_80069258_main_task_size[sizeof(RecoveredGlobal_80069258_main_task) == 0x34 ? 1 : -1];
-typedef char RecoveredGlobal_800695E8_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_800695E8_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_80069304_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_80069304_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_8006961C_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_8006961C_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_8006961C_TCameraCtrl__data_804FF634_size[sizeof(RecoveredGlobal_8006961C_TCameraCtrl__data_804FF634) == 0x48 ? 1 : -1];
-typedef char RecoveredGlobal_8006961C_lbl_8058CA60_size[sizeof(RecoveredGlobal_8006961C_lbl_8058CA60) == 0x58 ? 1 : -1];
-typedef char RecoveredGlobal_80069A6C_camera_controller_registry_size[sizeof(RecoveredGlobal_80069A6C_camera_controller_registry) == 0x68 ? 1 : -1];
-typedef char RecoveredGlobal_80069A6C_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_80069A6C_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_80069C94_camera_controller_registry_size[sizeof(RecoveredGlobal_80069C94_camera_controller_registry) == 0x68 ? 1 : -1];
-typedef char RecoveredGlobal_80069C94_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_80069C94_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
-typedef char RecoveredGlobal_80069D04_camera_controller_registry_size[sizeof(RecoveredGlobal_80069D04_camera_controller_registry) == 0x68 ? 1 : -1];
-typedef char RecoveredGlobal_80069D04_TCameraCtrl__data_804FF628_size[sizeof(RecoveredGlobal_80069D04_TCameraCtrl__data_804FF628) == 0xC ? 1 : -1];
-
-struct Grp_802995A0 {
-    s32 n;
-    s32 ids[4];
-};
-
-struct Grp_802997DC { s32 n; s32 ids[4]; };
 
 #pragma common off
 CreationIconState creation_icon_states[7];
@@ -160,7 +17,6 @@ f32 TObjCMIcon__horizontal_scroll_offset;
 
 extern "C" {
 s32 get_creation_sprite_id__14TObjCMMainMenuFl(s32);
-extern Grp_802995A0 TObjCMIcon__icon_group_table[];
 
 void TObjCMIcon::reset_icon_flags() {
     s32 i;
@@ -196,7 +52,11 @@ void TObjCMIcon::init_icon_table() {
     TObjCMIcon__horizontal_scroll_offset = 0.0f;
 }
 
-void TObjCMIcon__sub_8029957C(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(f32*)((char*)p + 0x4) = *(f32*)((char*)q + 0x4); *(f32*)((char*)p + 0x8) = *(f32*)((char*)q + 0x8); }
+void TObjCMIcon__sub_8029957C(CreationIconState *p, CreationIconState *q) {
+    p->hidden = q->hidden;
+    p->fade = q->fade;
+    p->x = q->x;
+}
 s32 TObjCMIcon__sub_80299598(s32 arg0, s32 arg1) {
     return arg1;
 }
@@ -208,7 +68,7 @@ void render__10TObjCMIconFv(s32 self) {
     s32 j;
     s32 id;
     CreationIconState *e;
-    Grp_802995A0 *g;
+    CreationIconGroup *g;
     s32 n;
     s32 tid;
     s32 s;
@@ -236,16 +96,16 @@ void render__10TObjCMIconFv(s32 self) {
     }
     set_depth_buffer_settings_1();
     set_draw_list_mask(2);
-    x0 = cm_icon_screen_position[0] - TObjCMIcon__horizontal_scroll_offset;
+    x0 = cm_icon_screen_position.x - TObjCMIcon__horizontal_scroll_offset;
     for (i = 0; i < 7; i++) {
         id = idx[i];
         depth = keys[i];
         g = &TObjCMIcon__icon_group_table[id];
         pos.x = x0 + (creation_icon_states)[id].x;
-        pos.y = cm_icon_screen_position[1] * TObjCMMainMenu::get_scale();
+        pos.y = cm_icon_screen_position.y * TObjCMMainMenu::get_scale();
         z = (-2.0f) - (1.0f - (f32)(i / 7));
-        for (n = 0; n < g->n; n++) {
-            s = TObjCMIcon__sub_80299598(self, g->ids[n]);
+        for (n = 0; n < g->count; n++) {
+            s = TObjCMIcon__sub_80299598(self, g->sprite_ids[n]);
             draw_ui_sprite(s, &pos, z, depth);
             pos.x += (f32)(get_creation_sprite_id__14TObjCMMainMenuFl(s) + 4);
         }
@@ -256,7 +116,7 @@ void render__10TObjCMIconFv(s32 self) {
 #pragma fp_contract on
 void run_task__10TObjCMIconFv(s32 arg0) {
     CreationIconState *p;
-    Grp_802997DC *g;
+    CreationIconGroup *g;
     s32 i;
     f32 v;
     f32 x;
@@ -273,7 +133,7 @@ void run_task__10TObjCMIconFv(s32 arg0) {
         }
     }
     x = 0.0f;
-    g = ((Grp_802997DC *)&TObjCMIcon__icon_group_table);
+    g = TObjCMIcon__icon_group_table;
     p = creation_icon_states;
     {
     s32 k;
@@ -287,8 +147,8 @@ void run_task__10TObjCMIconFv(s32 arg0) {
         } else {
             s32 j;
             p->x += 0.05f * (x - p->x);
-            for (j = 0; j < g->n; j++) {
-                x += (f32)(get_creation_sprite_id__14TObjCMMainMenuFl(TObjCMIcon__sub_80299598(arg0, g->ids[j])) + 4);
+            for (j = 0; j < g->count; j++) {
+                x += (f32)(get_creation_sprite_id__14TObjCMMainMenuFl(TObjCMIcon__sub_80299598(arg0, g->sprite_ids[j])) + 4);
             }
             x += 8.0f;
         }

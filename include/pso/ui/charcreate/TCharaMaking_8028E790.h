@@ -3,10 +3,12 @@
 
 #include "types.h"
 
+struct TCharaMaking;
+class TObject;
+
 extern "C" {
-u8 *TCharaMaking__ct(u8 *arg0, s32 arg1);
 void TCharaMaking__sub_8028E790(void);
-u8 *__dt__12TCharaMakingFv(u8 *arg0, s16 arg1);
+TCharaMaking *__dt__12TCharaMakingFv(TCharaMaking *arg0, s16 arg1);
 }
 
 #endif

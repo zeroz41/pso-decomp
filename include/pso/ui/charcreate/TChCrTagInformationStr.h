@@ -6,6 +6,7 @@
 
 class TChCrTagInformationStr : public TObject {
 public:
+    TChCrTagInformationStr(TObject *parent, s32 tag_index);
     virtual ~TChCrTagInformationStr();
     virtual void render();
     virtual void run_task();
@@ -21,10 +22,5 @@ public:
     f32 alpha;
     s32 frame;
 };
-
-extern "C" {
-void *__ct__22TChCrTagInformationStrFv(void *arg0, s32 arg1, s32 arg2);
-void run_task__22TChCrTagInformationStrFv(u8 *arg0);
-}
 
 #endif

@@ -6,13 +6,15 @@
 
 class TChCrCharSelect : public TObject {
 public:
+    TChCrCharSelect(TObject *parent);
     virtual ~TChCrCharSelect();
     virtual void run_task();
 public:
-    static void wrap_slot_index_to_range();
-    static void clamp_slot_index_to_range();
+    void wrap_slot_index_to_range();
+    void clamp_slot_index_to_range();
+    void handle_cursor_input();
     void handle_menu_input();
-    static void init_widgets();
+    void init_widgets();
     static void *create(void *arg0);
     static void init_and_create();
     static void reset_proportions();
@@ -21,10 +23,10 @@ public:
     static int get_instance();
 public:
     void tick_and_apply_selection();
+
+    s32 apply_delay;
 };
 
-extern "C" {
-void *__ct__15TChCrCharSelectFv(void *object, void *parent);
-}
+typedef char TChCrCharSelect_size[sizeof(TChCrCharSelect) == 0x20 ? 1 : -1];
 
 #endif

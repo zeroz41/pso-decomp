@@ -10,6 +10,7 @@ public:
     TChCrLoadAfs(TObject *arg1, void *arg2, void *arg3);
     virtual ~TChCrLoadAfs();
     void release_load_slot();
+    s32 try_begin_load();
     virtual void run_task();
     void start_download();
     void poll_load();
@@ -36,10 +37,5 @@ typedef char TChCrLoadAfs_load_state_offset[offsetof(TChCrLoadAfs, load_state) =
 typedef char TChCrLoadAfs_timer_offset[offsetof(TChCrLoadAfs, timer) == 0x34 ? 1 : -1];
 
 s32 find_player_texture_name_ordinal(u8 *arg0);
-extern "C" {
-void sub_8028B940__12TChCrLoadAfsFv(void);
-void sub_8028B944__12TChCrLoadAfsFv(void);
-s32 try_begin_load__12TChCrLoadAfsFPv(void *arg0);
-}
 
 #endif

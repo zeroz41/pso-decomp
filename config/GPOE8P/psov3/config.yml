@@ -428,9 +428,9 @@ force_active:
   - TChCrEffTagStr__name
   - TChCrEffTag__name
   - TChCrLoadAfsTextureReq__active_load_count
-  - TChCrLoadAfsTextureReq__ct
-  - TChCrLoadGmNjReq__ct
-  - TChCrLoadReq__sub_8028D360
+  - __ct__22TChCrLoadAfsTextureReqFP7TObjectP16GinjaTextureListPll
+  - __ct__16TChCrLoadGmNjReqFP7TObjectPv
+  - __ct__12TChCrLoadReqFP10TObjPlayer
   - TChCrTagName__class_name
   - TChCrTagName__sub_802A226C
   - TChCrTagName__vt4
@@ -441,7 +441,7 @@ force_active:
   - TChallenge4PItemSelect__item_table
   - TChallenge4PResult__slot_entries
   - TChallenge4P__ct
-  - TCharaMaking__ct
+  - __ct__12TCharaMakingFP7TObject
   - TCheckRoomSequence__active_instance
   - TCheckRoomSequence__error_return_state
   - TCheckRoomSequence__error_return_text_id
@@ -1897,7 +1897,7 @@ force_active:
   - __ct__12TChCrEffWallFP7TObject
   - __ct__12TChCrLoadAfsFP7TObjectPvPv
   - __ct__12TChCrLoadReqFP7TObjectPv
-  - __ct__12TChCrTagNameFv
+  - __ct__12TChCrTagNameFP7TObjectPv
   - __ct__12TChatMessageFRC12TChatMessage
   - __ct__12TEffCliticalFPv
   - __ct__12TItemProUnitFP7TObjectPUc
@@ -1976,7 +1976,7 @@ force_active:
   - __ct__14QuestListEntryFRC14QuestListEntry
   - __ct__14QuestListEntryFv
   - __ct__14TChCrEffCtrlPlFP7TObject
-  - __ct__14TChCrTagPlBackFv
+  - __ct__14TChCrTagPlBackFP7TObjectPv
   - __ct__14TFontSmallTaskFv
   - __ct__14TItemEffHeavenFP7TObjectP10TObjPlayerUsl
   - __ct__14TItemEffNeedleFP7TObjectP5TItemUsl
@@ -2045,8 +2045,8 @@ force_active:
   - __ct__16TObjRainbowLobbyFP7TObjectPv
   - __ct__16TObjWeddingLobbyFP7TObjectPv
   - __ct__17TAdGameStartSubGCFv
-  - __ct__17TChCrTagOccHeaderFv
-  - __ct__17TChCrTagPlGraphicFv
+  - __ct__17TChCrTagOccHeaderFP7TObjectPv
+  - __ct__17TChCrTagPlGraphicFP7TObjectPv
   - __ct__17TItemEffNeedlePosFP7TObjectP5TItemPC3VecP3Vec
   - __ct__17TMCFormatSequenceFP7TObjectPv
   - __ct__17TOBarrierEnergy01FP7TObjectPv
@@ -2062,7 +2062,7 @@ force_active:
   - __ct__18G_BuyShopItem_6x5EFv
   - __ct__18TAdLoadQuestCellGCFP7TObjectPv
   - __ct__18TAdLoadQuestLineGCFP7TObjectPv
-  - __ct__18TChCrTagOccupationFv
+  - __ct__18TChCrTagOccupationFP7TObjectPv
   - __ct__18TChallenge4PResultFP7TObjectUsl
   - __ct__18TEffStarLightChildFv
   - __ct__18TItemEffNeedleBaseFP7TObjectP5TItem
@@ -6170,7 +6170,7 @@ force_active:
   - finish_and_dispatch_next_phase__14TBoss6PlotFalzFv
   - finish_chr_select_scene_init__6TLobbyFv
   - finish_download__22TQuestVmDownLoadServerFv
-  - finish_request__22TChCrLoadAfsTextureReqFPv
+  - finish_request__22TChCrLoadAfsTextureReqFv
   - finish_room_check__18TCheckRoomSequenceFPv
   - fire_at_angle__12TBoss8DragonFl
   - fire_attack_a__14TObjEneEpsilonFllf
@@ -6944,7 +6944,7 @@ force_active:
   - init__19VoloptPhase2MessageFv
   - init__21TObjEneRe7BeruraPunchFv
   - init__22TAdEnterSerialAccessGCFv
-  - init__22TChCrLoadAfsTextureReqFPvPvPv
+  - __ct__22TChCrLoadAfsTextureReqFP7TObjectPv
   - init__24TBoss3VoloptAttackPacketFv
   - init__25TBoss3VoloptTargetsPacketFv
   - init__26TBoss3VoloptPositionPacketFv
@@ -7150,7 +7150,7 @@ force_active:
   - init_tech_params__9TTecJelinFv
   - init_telepipe_packet_header__FPv
   - init_text_window_layout
-  - init_texture_table__22TChCrLoadAfsTextureReqFPv
+  - init_texture_table__22TChCrLoadAfsTextureReqFv
   - init_timer__13TObjCHTimeWinFv
   - init_timer__18TChallenge4PResultFv
   - init_timer_event__13TUnk_804A0608Fv
@@ -16542,11 +16542,11 @@ force_active:
   - trigger_deactivate_sound__8TOKeyColFv
   - trigger_effect__12TBoss8DragonFPvi
   - trigger_falz_phase__11TBoss6Type1Fv
-  - try_acquire_load_slot__22TChCrLoadAfsTextureReqFPv
+  - try_acquire_load_slot__22TChCrLoadAfsTextureReqFv
   - try_attack__10TNpcPlayerFll
   - try_attack__18TObjEneRe4SorcererFff
-  - try_begin_load__12TChCrLoadAfsFPv
-  - try_begin_load__22TChCrLoadAfsTextureReqFPv
+  - try_begin_load__12TChCrLoadAfsFv
+  - try_begin_load__22TChCrLoadAfsTextureReqFv
   - try_capture_target__13TUnk_80484A94Fv
   - try_enter_appear__15TObjEneDelDepthFv
   - try_enter_low_hp_state__13TObjEneMorfosFv

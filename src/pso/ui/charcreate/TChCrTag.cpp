@@ -6,16 +6,6 @@
 extern "C" void render__8TChCrTagFv();
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 
-struct VBase_18_c1c33b { char pad[0x18]; };
-
-struct VObj_18_c1c33b : VBase_18_c1c33b {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual s32 m4();
-};
-
 extern "C" {
 void __dt__7TObjectFv(void *, s16);
 void __dl__7TObjectFPv(void *);
@@ -25,50 +15,50 @@ int TChCrTag__vt4(void) { return 0; }
 void TChCrTag::render() {  }
 
 extern void *__vt__8TChCrTag[];
-extern void *lbl_805D3D90;
+extern const char *lbl_805D3D90;
 
 #pragma push
 #pragma opt_common_subs off
-void update_fade__8TChCrTagFPv(u8 *arg0) {
-    f32 temp_f2;
-    f32 temp_f2_2;
-    f32 temp_f2_3;
-    if (((VObj_18_c1c33b *)(arg0))->m4() != 0) {
-        temp_f2 = *(f32 *)((s8 *)arg0 + 0x30);
-        if (temp_f2 < 1.0f) {
-            *(f32 *)((s8 *)arg0 + 0x30) = (f32) (temp_f2 + *(f32 *)((s8 *)arg0 + 0x34));
-            if (*(f32 *)((s8 *)arg0 + 0x30) > 1.0f) {
-                *(f32 *)((s8 *)arg0 + 0x30) = 1.0f;
+void update_fade__8TChCrTagFPv(TChCrTag *tag) {
+    f32 value;
+    f32 highlight;
+    f32 fade;
+    if (tag->vt4() != 0) {
+        value = tag->m_30;
+        if (value < 1.0f) {
+            tag->m_30 = value + tag->m_34;
+            if (tag->m_30 > 1.0f) {
+                tag->m_30 = 1.0f;
             }
         }
     } else {
-        temp_f2_2 = *(f32 *)((s8 *)arg0 + 0x30);
-        if (temp_f2_2 > 0.0f) {
-            *(f32 *)((s8 *)arg0 + 0x30) = (f32) (temp_f2_2 + *(f32 *)((s8 *)arg0 + 0x38));
-            if (*(f32 *)((s8 *)arg0 + 0x30) < 0.0f) {
-                *(f32 *)((s8 *)arg0 + 0x30) = 0.0f;
+        highlight = tag->m_30;
+        if (highlight > 0.0f) {
+            tag->m_30 = highlight + tag->m_38;
+            if (tag->m_30 < 0.0f) {
+                tag->m_30 = 0.0f;
             }
         }
     }
-    switch (*(s32 *)((s8 *)arg0 + 0x1C)) {
+    switch (tag->m_1c) {
     case 0:
-        temp_f2_3 = *(f32 *)((s8 *)arg0 + 0x24);
-        if (temp_f2_3 < 1.0f) {
-            *(f32 *)((s8 *)arg0 + 0x24) = (f32) (temp_f2_3 + *(f32 *)((s8 *)arg0 + 0x28));
-            if (*(f32 *)((s8 *)arg0 + 0x24) > 1.0f) {
-                *(f32 *)((s8 *)arg0 + 0x24) = 1.0f;
+        fade = tag->m_24;
+        if (fade < 1.0f) {
+            tag->m_24 = fade + tag->m_28;
+            if (tag->m_24 > 1.0f) {
+                tag->m_24 = 1.0f;
             }
         }
         if (TChCrCharSelect::get_selected_index() == 2) {
-            *(s32 *)((s8 *)arg0 + 0x1C) = 1;
+            tag->m_1c = 1;
             break;
         }
         break;
     case 1:
-        *(f32 *)((s8 *)arg0 + 0x24) = (f32) (*(f32 *)((s8 *)arg0 + 0x24) + *(f32 *)((s8 *)arg0 + 0x2C));
-        if (*(f32 *)((s8 *)arg0 + 0x24) <= 0.0f) {
-            *(f32 *)((s8 *)arg0 + 0x24) = 0.0f;
-            queue_destruction__7TObjectFv((arg0));
+        tag->m_24 = tag->m_24 + tag->m_2c;
+        if (tag->m_24 <= 0.0f) {
+            tag->m_24 = 0.0f;
+            queue_destruction__7TObjectFv(tag);
         }
         break;
     }
@@ -88,15 +78,15 @@ void *__dt__8TChCrTagFv(void *self, s16 arg1) {
 
 }
 TChCrTag::TChCrTag(TObject *object, void *arg2) : TObject(object) {
-    *(void * *)&this->m_name = lbl_805D3D90;
-    *(void **)((s8 *)this + 0x20) = arg2;
-    *(u32 *)((s8 *)this + 0x1C) = 0;
-    *(f32 *)((s8 *)this + 0x24) = 0.0f;
-    *(f32 *)((s8 *)this + 0x30) = 0.0f;
-    *(f32 *)((s8 *)this + 0x34) = 0.13333334f;
-    *(f32 *)((s8 *)this + 0x28) = 0.13333334f;
-    *(f32 *)((s8 *)this + 0x38) = -0.13333334f;
-    *(f32 *)((s8 *)this + 0x2C) = -0.13333334f;
+    m_name = lbl_805D3D90;
+    m_20 = (s32)arg2;
+    m_1c = 0;
+    m_24 = 0.0f;
+    m_30 = 0.0f;
+    m_34 = 0.13333334f;
+    m_28 = 0.13333334f;
+    m_38 = -0.13333334f;
+    m_2c = -0.13333334f;
 }
 
 
