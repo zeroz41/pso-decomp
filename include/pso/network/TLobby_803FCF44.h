@@ -87,7 +87,6 @@ extern "C" {
 #endif
 extern Names_80403168 lbl_805C04D8;
 extern u8 lobby_ppp_read_buf;
-s16 TLobby__sub_803FFB84(void *self, void *p, void *a, u8 *hdr, s16 c);
 u32 TLobby__sub_803FE9F8(u32 sum, PppFrame* buf, u16 count);
 void TLobby__sub_803FD0C0(void);
 /* Called across the PPP files; each line names its defining file. */
@@ -110,7 +109,6 @@ typedef struct Obj_803FEF4C {
     void *fn[11];
 } Obj_803FEF4C;
 void TLobby__sub_803FE820(s32 arg0);
-s32 set_socket_flags_by_mode(s16 arg0, u8 *arg1);
 s16 TLobby__sub_803FF304(u8 *lobby);
 void TLobby__sub_803FF468(s32 arg0);
 void TLobby__sub_803FD85C(void *arg0);
@@ -142,15 +140,9 @@ s32 TLobby__sub_803FD4D8(s16 arg0);
 s32 TLobby__sub_803FD4FC(s16 arg0);
 s32 TLobby__sub_803FE844(void);
 void TLobby__sub_803FE84C(void);
-s32 TLobby__sub_803FF2CC(u8 *arg0, s32 arg1);
 void TLobby__sub_803FF374(u8 *arg0);
 void TLobby__sub_80400988(void);
 void TLobby__sub_80400B98(u8 *arg0);
-s32 set_filter_id(u8 *arg0, s32 arg1);
-s32 set_filter_index(u8 *arg0, s32 arg1);
-s32 set_target_id(u8 *arg0, s32 arg1);
-s32 set_target_index(u8 *arg0, s32 arg1);
-s32 set_target_slot(u8 *arg0, s32 arg1);
 void *build_avetcp_net_buffer(Conn_804004DC *c);
 s32 TLobby__sub_803FE8BC(u8 *dst, void *src);
 void TLobby__sub_80400ACC(O_80400ACC *o);

@@ -6,6 +6,7 @@
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/PppLcp.h"
+#include "pso/network/PppIpcp.h"
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_804048E8.h"
 #include "pso/network/NetworkTransport.h"
@@ -104,40 +105,40 @@ s32 TLobby__sub_804038F4(s32 arg0, s32 arg1, s32 arg2) {
 }
 
 s32 TLobby__sub_804039C8(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
-    u8 *temp_r31;
+    IpcpConfig *temp_r31;
     u8 *temp_r10;
-    s16 set_socket_flags_by_mode(s16 arg0, u8 *arg1);
-    s16 TLobby__sub_803FF2CC(u8 *arg0, s32 arg1);
-    s16 set_filter_id(u8 *arg0, s32 arg1);
-    s16 set_filter_index(u8 *arg0, s32 arg1);
-    s16 set_target_id(u8 *arg0, s32 arg1);
-    s16 set_target_index(u8 *arg0, s32 arg1);
-    s16 set_target_slot(u8 *arg0, s32 arg1);
+    s16 ipcp_set_vj_compression(s16 disabled, IpcpSide *side);
+    s16 ipcp_set_local_address(IpcpSide *side, s32 addr);
+    s16 ipcp_set_local_secondary_dns(IpcpSide *side, s32 addr);
+    s16 ipcp_set_peer_primary_dns(IpcpSide *side, s32 addr);
+    s16 ipcp_set_peer_address(IpcpSide *side, s32 addr);
+    s16 ipcp_set_peer_secondary_dns(IpcpSide *side, s32 addr);
+    s16 ipcp_set_local_primary_dns(IpcpSide *side, s32 addr);
     temp_r10 = lbl_805C0038 + 0x6C;
-    temp_r31 = *(u8 **)((s8 *)temp_r10 + 0x30);
+    temp_r31 = *(IpcpConfig **)((s8 *)temp_r10 + 0x30);
     set_flags_and_state((void *)temp_r10);
-    if (set_socket_flags_by_mode(arg0, temp_r31) != 0) {
+    if (ipcp_set_vj_compression(arg0, &temp_r31->local) != 0) {
         return -0x11;
     }
-    if (set_socket_flags_by_mode(arg0, temp_r31 + 0x4C) != 0) {
+    if (ipcp_set_vj_compression(arg0, &temp_r31->peer) != 0) {
         return -0x11;
     }
-    if (TLobby__sub_803FF2CC(temp_r31, arg1) != 0) {
+    if (ipcp_set_local_address(&temp_r31->local, arg1) != 0) {
         return -0x11;
     }
-    if (set_target_slot(temp_r31, arg3) != 0) {
+    if (ipcp_set_local_primary_dns(&temp_r31->local, arg3) != 0) {
         return -0x11;
     }
-    if (set_filter_id(temp_r31, arg4) != 0) {
+    if (ipcp_set_local_secondary_dns(&temp_r31->local, arg4) != 0) {
         return -0x11;
     }
-    if (set_target_id(temp_r31 + 0x4C, arg2) != 0) {
+    if (ipcp_set_peer_address(&temp_r31->peer, arg2) != 0) {
         return -0x11;
     }
-    if (set_filter_index(temp_r31 + 0x4C, arg5) != 0) {
+    if (ipcp_set_peer_primary_dns(&temp_r31->peer, arg5) != 0) {
         return -0x11;
     }
-    if (set_target_index(temp_r31 + 0x4C, arg6) != 0) {
+    if (ipcp_set_peer_secondary_dns(&temp_r31->peer, arg6) != 0) {
         return -0x11;
     }
     return 0;
