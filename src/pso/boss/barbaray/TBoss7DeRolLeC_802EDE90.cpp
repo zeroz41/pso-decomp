@@ -20,6 +20,7 @@ extern u8 lbl_804E3C8C[];
 void *mem_alloc(u32 size);
 void fill_value_array(PointerBuffer *buffer);
 void TObjPlayer__sub_802E7EA0(void *arg0);
+s32 is_main_phase_15__9TObjEneDDFv();
 }
 
 TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(parent), unk_690(NULL) {
@@ -144,7 +145,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     unk_784 = NULL;
     unk_6AC = 0;
     unk_624 = &controller_input_state.controllers[1];
-    if (TObjEneDD::is_main_phase_15()) {
+    if (is_main_phase_15__9TObjEneDDFv()) {
         if (update_lobby_state()) {
             unk_6B8 = 0;
         } else {
