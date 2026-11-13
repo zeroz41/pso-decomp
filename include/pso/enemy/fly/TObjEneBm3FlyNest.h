@@ -4,6 +4,14 @@
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 
+// The motion binding the fly and the nest pass to TLobby::spawn_npc_enemy.
+struct Bm3FlyAnimationBinding {
+    BmlMotionEntry *motions;
+    TObjMotionAction *actions;
+    u32 unknown_08;
+    u32 unknown_0C;  // the action count in the high half
+};
+
 struct TObjEneBm3FlyNest : public TObjEneDD {
     virtual ~TObjEneBm3FlyNest();
     virtual void run_task();
