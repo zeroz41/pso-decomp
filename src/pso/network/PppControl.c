@@ -5,8 +5,7 @@
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
-/* This file's functions. */
-s32 set_flags_and_state(void *self);
+#include "pso/network/PppLcp.h"
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_804048E8.h"
 #include "pso/network/NetworkTransport.h"
@@ -189,32 +188,32 @@ s32 TLobby__sub_80403BA8(u8 *arg0, u8 *arg1, s32 arg2) {
     return 0;
 }
 
-s32 TLobby__sub_80403C60(u8 *arg0) {
-    u8 *temp_r31;
-    u8 *var_r3;
-    u8 *temp_r3;
+s32 TLobby__sub_80403C60(LcpConfig *arg0) {
+    Conn_804004DC *conn;
+    LcpSide *var_r3;
+    LcpSide *temp_r3;
     s16 wait_for_connection(int);
 
     TLobby__sub_803F808C();
-    temp_r31 = (u8 *)lbl_805C0038 + 4;
-    if (TLobby__sub_80400744((int) (temp_r31), (void *) (arg0)) != 0) {
+    conn = (Conn_804004DC *)((u8 *)lbl_805C0038 + 4);
+    if (TLobby__sub_80400744((int) conn, arg0) != 0) {
         return -0x11;
     }
-    if (wait_for_connection((int) (temp_r31)) != 0) {
+    if (wait_for_connection((int) conn) != 0) {
         return -0x11;
     }
-    if ((u16) *(u16 *)((s8 *)arg0 + 6) == 4) {
-        var_r3 = *(u8 **)((s8 *)temp_r31 + 0x30);
+    if (arg0->auth_mode == 4) {
+        var_r3 = conn->opts;
         temp_r3 = var_r3;
-        var_r3 += 0x34;
+        var_r3 += 1;
         if (lbl_805D7A90 & 2) {
             var_r3 = temp_r3;
         }
-        if (*(u16 *)((s8 *)var_r3 + 0x24) == 0xC023) {
-            *(u16 *)((s8 *)arg0 + 6) = 0x80U;
+        if (var_r3->got.auth_proto == 0xC023) {
+            arg0->auth_mode = 0x80;
         }
-        if (*(u16 *)((s8 *)var_r3 + 0x24) == 0xC223) {
-            *(u16 *)((s8 *)arg0 + 6) = 0x82U;
+        if (var_r3->got.auth_proto == 0xC223) {
+            arg0->auth_mode = 0x82;
         }
     }
     return 0;
@@ -254,78 +253,78 @@ s32 TLobby__sub_80403DA8(a, b, c, d, e, f, h)
     s16 h;
 {
     s32 open_network_transport(void *);
-struct {
-s32 v[6];
-s16 x;
-s16 y;
-void* z;
-} s;
-s32 t;
-if (a == 0) {
-t = 0;
-} else if (a == 1) {
-t = 1;
-} else {
-t = 0;
-}
-s.v[0] = t;
-if (b == 0) {
-t = 2;
-} else if (b == 1) {
-t = 1;
-} else if (b == 2) {
-t = 0;
-} else {
-t = 2;
-}
-s.v[1] = t;
-if (c == 0) {
-t = 0;
-} else if (c == 1) {
-t = 2;
-} else {
-t = 0;
-}
-s.v[2] = t;
-s.v[3] = 1;
-if (d == 0) {
-t = 0;
-} else if (d == 1) {
-t = 1;
-} else if (d == 2) {
-t = 2;
-} else if (d == 3) {
-t = 3;
-} else if (d == 4) {
-t = 4;
-} else if (d == 5) {
-t = 5;
-} else if (d == 6) {
-t = 6;
-} else {
-t = 2;
-}
-s.v[4] = t;
-if (e == 2) {
-t = 0;
-} else if (e == 3) {
-t = 1;
-} else {
-t = 1;
-}
-s.v[5] = t;
-s.x = 0;
-s.z = f;
-if (h != 0) {
-s.y = 1;
-} else {
-s.y = 0;
-}
-if (open_network_transport(&s) != 0) {
-return -1;
-}
-lbl_805D7A7E = 1;
-return 0;
+    struct {
+        s32 v[6];
+        s16 x;
+        s16 y;
+        void* z;
+    } s;
+    s32 t;
+    if (a == 0) {
+        t = 0;
+    } else if (a == 1) {
+        t = 1;
+    } else {
+        t = 0;
+    }
+    s.v[0] = t;
+    if (b == 0) {
+        t = 2;
+    } else if (b == 1) {
+        t = 1;
+    } else if (b == 2) {
+        t = 0;
+    } else {
+        t = 2;
+    }
+    s.v[1] = t;
+    if (c == 0) {
+        t = 0;
+    } else if (c == 1) {
+        t = 2;
+    } else {
+        t = 0;
+    }
+    s.v[2] = t;
+    s.v[3] = 1;
+    if (d == 0) {
+        t = 0;
+    } else if (d == 1) {
+        t = 1;
+    } else if (d == 2) {
+        t = 2;
+    } else if (d == 3) {
+        t = 3;
+    } else if (d == 4) {
+        t = 4;
+    } else if (d == 5) {
+        t = 5;
+    } else if (d == 6) {
+        t = 6;
+    } else {
+        t = 2;
+    }
+    s.v[4] = t;
+    if (e == 2) {
+        t = 0;
+    } else if (e == 3) {
+        t = 1;
+    } else {
+        t = 1;
+    }
+    s.v[5] = t;
+    s.x = 0;
+    s.z = f;
+    if (h != 0) {
+        s.y = 1;
+    } else {
+        s.y = 0;
+    }
+    if (open_network_transport(&s) != 0) {
+        return -1;
+    }
+    lbl_805D7A7E = 1;
+    return 0;
 }
 
 ConnectRecord lbl_805C0638[8];

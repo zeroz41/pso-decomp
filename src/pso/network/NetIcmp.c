@@ -16,7 +16,6 @@
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/text_80421620.h"
-/* The object header the stack's records share (laid out like TObject's fields). */
 u16 calc_ip_checksum(void *self, s16 b);
 
 #include <stddef.h>
@@ -33,7 +32,7 @@ s16 TLobby__sub_8040CB44(u8 *self, u32 d, u32 c)
 {
   s16 TLobby__sub_8040CFE8(u8 type, u8 code, u32 src, u32 dst, NetPacket *pkt);
   s32 TLobby__sub_8040F8A4(u32, void *, u32, u32, u32);
-  u8 *p;
+  NetPacketFragment *p;
   u8 stream[0xc];
   u8 hdr[8];
   u32 *new_var;
@@ -41,17 +40,18 @@ s16 TLobby__sub_8040CB44(u8 *self, u32 d, u32 c)
   u8 udp[8];
   u8 addr[4];
   u8 pad[12];
-  u8 *q;
+  NetPacketFragment *q;
   s16 r;
   u32 i;
-  u8 *rec;
+  NetPacketFragment *rec;
   NetPacket *out;
   unsigned int a;
   u32 net;
   u32 mask;
-  rec = self + 0x18;
+  NetPacket *pkt = (NetPacket *)self;
+  rec = &pkt->fragments[1];
   set_value_and_enable(stream, (s32) hdr);
-  TLobby__sub_80406FD8(stream, rec + 4, 8);
+  TLobby__sub_80406FD8(stream, &rec->buffer, 8);
   if (calc_ip_checksum(self, 0) != 0)
   {
     return -1;
@@ -81,14 +81,14 @@ s16 TLobby__sub_8040CB44(u8 *self, u32 d, u32 c)
     {
       return -0x101;
     }
-      out->fragment_count = (*((s32 *) (self + 4))) - 1;
-      out->total_bytes = (*((s32 *) (self + 8))) - (*((s16 *) (self + 0xc)));
-      p = self + (*((s32 *) (self + 4))) * 12;
-      for (i = 0, q = (u8 *) out; i < out->fragment_count; i++)
+      out->fragment_count = pkt->fragment_count - 1;
+      out->total_bytes = pkt->total_bytes - pkt->fragments[0].length;
+      p = (pkt->fragments - 1) + pkt->fragment_count;
+      for (i = 0, q = out->fragments - 1; i < out->fragment_count; i++)
     {
-      *((s16 *) (q + 0xc)) = *((s16 *) p);
-      NetMemcpy(q + 0x10, (p -= 12) + 16, 8);
-      q += 12;
+      q[1].length = p->length;
+      NetMemcpy(&q[1].buffer, &(--p)[1].buffer, 8);
+      q++;
     }
 
       r = TLobby__sub_8040CFE8(0, 0, c, d, out);
@@ -101,10 +101,10 @@ s16 TLobby__sub_8040CB44(u8 *self, u32 d, u32 c)
       return 0;
 
     case 3:
-      TLobby__sub_80406EB8((NetBufferRef *)(rec + 4), 8);
+      TLobby__sub_80406EB8(&rec->buffer, 8);
       set_value_and_enable(stream, (s32) ip);
-      TLobby__sub_80406FD8(stream, rec + 4, 20);
-      TLobby__sub_80406EB8((NetBufferRef *)(rec + 4), (ip[0] & 0xf) << 2);
+      TLobby__sub_80406FD8(stream, &rec->buffer, 20);
+      TLobby__sub_80406EB8(&rec->buffer, (ip[0] & 0xf) << 2);
       switch (ip[9])
     {
       case 6:
@@ -112,7 +112,7 @@ s16 TLobby__sub_8040CB44(u8 *self, u32 d, u32 c)
 
       case 17:
         set_value_and_enable(stream, (s32) udp);
-        TLobby__sub_80406FD8(stream, rec + 4, 8);
+        TLobby__sub_80406FD8(stream, &rec->buffer, 8);
         TLobby__sub_80420D38(*((u16 *) udp), hdr[1]);
         break;
 
@@ -121,9 +121,9 @@ s16 TLobby__sub_8040CB44(u8 *self, u32 d, u32 c)
       return 0;
 
     case 5:
-      TLobby__sub_80406EB8((NetBufferRef *)(rec + 4), 8);
+      TLobby__sub_80406EB8(&rec->buffer, 8);
       set_value_and_enable(stream, (s32) ip);
-      TLobby__sub_80406FD8(stream, rec + 4, 20);
+      TLobby__sub_80406FD8(stream, &rec->buffer, 20);
       switch (hdr[1])
     {
       case 0:

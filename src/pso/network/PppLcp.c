@@ -5,83 +5,18 @@
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
+#include "pso/network/PppLcp.h"
 typedef struct St_8040098C St_8040098C;
-typedef struct Ent_80400744 Ent_80400744;
-typedef struct Self_80400744 Self_80400744;
-typedef struct Msg_80400744 Msg_80400744;
-/* This file's functions. */
-s32 configure_mode_by_type(void *self, s16 type);
-u16 get_field_4(void *self);
-s32 mark_ready(void *self);
-s32 mark_sub_ready(void *obj);
-void queue_command_81(void);
-s32 read_2_bytes(void *self, void *src);
-void reset_connection_slot(void *self);
-void reset_connection_state(void *self);
-void reset_lcp_options(void *self);
-void set_active(void *self);
-s32 set_active_flag(void *self);
-s32 set_flags_and_state(void *self);
-u8 *write_network_u32_be(u8 *p, u32 v);
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_804048E8.h"
 extern s32 is_timed_out(void);
 extern void set_ppp_auth_protocol(u16 protocol);
 #include "pso/network/NetworkTransport.h"
 
-typedef struct LcpState {
-    Obj_803FEF4C proto;
-    u8 data[0xA8 - sizeof(Obj_803FEF4C)];
-} LcpState;
-
-/* LCP option values; mask has bit N set for option type N. */
-typedef struct LcpVals {
-    s16 mask;
-    u16 mru;
-    u32 accm;
-    u16 auth_proto;
-    u8 pad0A[2];
-    s32 magic;
-    u8 pad10[4];
-    u8 chap_alg;
-    u8 f15;
-    u8 pad16[2];
-} LcpVals;
-typedef char LcpVals_size_check[sizeof(LcpVals) == 0x18 ? 1 : -1];
-
-/* One side of the LCP negotiation: the options wanted and the ones agreed. */
-typedef struct LcpSide {
-    s16 mask;
-    u8 pad2[2];
-    LcpVals want;
-    LcpVals got;
-} LcpSide;
-typedef char LcpSide_size_check[sizeof(LcpSide) == 0x34 ? 1 : -1];
-
-/* The LCP options object (fsm->p30, lbl_805C0400's opts). */
-typedef struct LcpOpts {
-    LcpSide local;
-    LcpSide remote;
-} LcpOpts;
-typedef char LcpOpts_size_check[sizeof(LcpOpts) == 0x68 ? 1 : -1];
 struct St_8040098C { s8 f0; u8 f1; u8 f2; u8 pad3[0x69]; u8 f6C[0x9C]; s32 f108; s32 f10C; };
 
 #include <stddef.h>
 #include "pso/network/NetStackTypes.h"
-
-typedef struct Ent_80400744 { s16 f0; s16 f2; s16 f4; s16 f6; u32 f8; u32 fC; u32 f10; } Ent_80400744;
-struct Self_80400744 { u8 pad[0xC]; u8 *f0C; u8 pad10[0x20]; Ent_80400744 *f30; };
-struct Msg_80400744 { u32 f0; s16 f4; u16 f6; u32 f8; u16 fC; s16 fE; };
-
-typedef struct Cfg_804019A8 {
-    u8 pad[4];
-    s16 flags;
-    u8 pad6[6];
-    u16 mode;
-    u8 padE[0xA];
-    u8 b18;
-    u8 b19;
-} Cfg_804019A8;
 
 void TLobby__sub_803F97E8(int);
 #include "pso/network/PppBuffer.h"
@@ -109,41 +44,17 @@ s32 wait_for_connection(Conn_804004DC *c) {
 }
 
 extern u8 lbl_805E1178;
-extern LcpState lbl_805C0400;
 extern s32 TLobby__sub_8040172C(Conn_804004DC *c);
 extern s32 TLobby__sub_80400C4C(Conn_804004DC *fsm, Msg_803FA664 *msg, s32 src);
 extern s32 TLobby__sub_80400DA8(Conn_804004DC *fsm, Msg_803FA664 *msg, s32 src);
 s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, Msg_803FA664 *msg, u32 src);
 s32 TLobby__sub_80400F1C(Obj_803FF858 *arg0, Msg_803FA664 *arg1, u32 arg2);
-typedef struct LcpProto_8040059C {
-    const char *name;
-    u16 proto;
-    u16 h6;
-    u8 b8;
-    u8 b9;
-    u8 bA;
-    u8 bB;
-    s32 timeout;
-    void *f10;
-    void *f14;
-    void *f18;
-    void *f1C;
-    void *f20;
-    void *f24;
-    void *f28;
-    void *f2C;
-    void *f30;
-    void *f34;
-    void *f38;
-} LcpProto_8040059C;
-typedef struct LcpState_8040059C { LcpProto_8040059C proto; LcpOpts opts; u8 pad_a4[4]; } LcpState_8040059C;
-typedef char LcpState_8040059C_size_check[sizeof(LcpState_8040059C) == 0xA8 ? 1 : -1];
 
 void TLobby__sub_8040059C(u8 *conn)
 {
-  LcpProto_8040059C *proto = &((LcpState_8040059C *)&lbl_805C0400)->proto;
+  LcpProto_8040059C *proto = &lbl_805C0400.proto;
   Conn_804004DC *e = (Conn_804004DC *)(conn + 4);
-  LcpOpts *area = &((LcpState_8040059C *)&lbl_805C0400)->opts;
+  LcpOpts *area = &lbl_805C0400.opts;
   const LcpVals *tbl = (const LcpVals *)&lbl_8047FE50;
   proto->name = (const char *)&lbl_805E1178;
   proto->proto = 0xC021;
@@ -178,12 +89,11 @@ void TLobby__sub_8040059C(u8 *conn)
 extern s16 TLobby__sub_80400744(int a0, void *a1) {
     s32 pad[2];
     s32 *pp;
-    void *self = (void *)a0;
-    Msg_80400744 *msg = (Msg_80400744 *)a1;
-    Ent_80400744 *p;
-    Ent_80400744 *q;
-    Self_80400744 *s = (Self_80400744 *)self;
-    Ent_80400744 *t;
+    Conn_804004DC *s = (Conn_804004DC *)a0;
+    LcpConfig *msg = (LcpConfig *)a1;
+    LcpSide *p;
+    LcpSide *q;
+    LcpSide *t;
     u16 m6;
     u32 id;
     s32 sid;
@@ -191,73 +101,73 @@ extern s16 TLobby__sub_80400744(int a0, void *a1) {
     u32 w;
     pp = pad;
 
-    TLobby__sub_803FE600((O_803FE600 *)self);
-    set_flags_and_state(self);
-    *s->f0C = 1;
-    if (*s->f0C >= 1) {
-        id = msg->fC;
-        p = t = s->f30;
+    TLobby__sub_803FE600((O_803FE600 *)s);
+    set_flags_and_state(s);
+    *s->sub = 1;
+    if (*s->sub >= 1) {
+        id = msg->mru;
+        p = t = s->opts;
         sid = (s16)id;
         if (sid >= 0x80 && sid <= 0x1000) {
-            t->f4 |= 2;
-            t->f6 = (u16)id;
+            t->want.mask |= 2;
+            t->want.mru = (u16)id;
         }
-        p->f8 = msg->f0;
-        if (p->f8 != 0xffffffff) {
-            p->f4 |= 4;
-            p->f0 |= 4;
+        p->want.accm = msg->accm;
+        if (p->want.accm != 0xffffffff) {
+            p->want.mask |= 4;
+            p->mask |= 4;
         } else {
-            p->f4 &= ~4;
-            p->f0 &= ~4;
+            p->want.mask &= ~4;
+            p->mask &= ~4;
         }
-        m6 = msg->f6;
+        m6 = msg->auth_mode;
         if ((m6 & 0x80) || m6 == 4) {
-            configure_mode_by_type((void *)((u8 *)p + 0x34), m6 & 0x7f);
+            configure_mode_by_type(p + 1, m6 & 0x7f);
             if (lbl_805D7A90 & 2) {
-                configure_mode_by_type((void *)p, msg->f6 & 0x7f);
+                configure_mode_by_type(p, msg->auth_mode & 0x7f);
             }
         } else {
-            configure_mode_by_type((void *)((u8 *)p + 0x34), m6);
-            configure_mode_by_type((void *)p, (s16)msg->f6);
+            configure_mode_by_type(p + 1, m6);
+            configure_mode_by_type(p, (s16)msg->auth_mode);
         }
-        v = msg->f8;
+        v = msg->magic;
         if (v != 0) {
-            p->f4 |= 0x20;
+            p->want.mask |= 0x20;
         } else {
-            p->f4 &= ~0x20;
+            p->want.mask &= ~0x20;
         }
-        p->f10 = v;
+        p->want.magic = v;
         if (msg->fE == 0) {
-            p->f0 |= 0x80;
+            p->mask |= 0x80;
         } else {
-            p->f0 &= ~0x80;
+            p->mask &= ~0x80;
         }
         if (msg->f4 == 0) {
-            p->f0 |= 0x100;
+            p->mask |= 0x100;
         } else {
-            p->f0 &= ~0x100;
+            p->mask &= ~0x100;
         }
-        q = (Ent_80400744 *)((u8 *)p + 0x34);
-        w = msg->f8;
+        q = p + 1;
+        w = msg->magic;
         if (w != 0) {
-            q->f4 |= 0x20;
+            q->want.mask |= 0x20;
         } else {
-            q->f4 &= ~0x20;
+            q->want.mask &= ~0x20;
         }
-        q->f10 = w;
-        q = (Ent_80400744 *)((u8 *)p + 0x34);
+        q->want.magic = w;
+        q = p + 1;
         if (msg->fE == 0) {
-            q->f0 |= 0x80;
+            q->mask |= 0x80;
         } else {
-            q->f0 &= ~0x80;
+            q->mask &= ~0x80;
         }
-        q = (Ent_80400744 *)((u8 *)p + 0x34);
+        q = p + 1;
         if (msg->f4 == 0) {
-            q->f0 |= 0x100;
+            q->mask |= 0x100;
         } else {
-            q->f0 &= ~0x100;
+            q->mask &= ~0x100;
         }
-        TLobby__sub_803FD958((u8 *)self);
+        TLobby__sub_803FD958((u8 *)s);
     }
     return 0;
 }
@@ -316,10 +226,8 @@ void TLobby__sub_80400ACC(O_80400ACC *o) {
 }
 
 void reset_connection_slot(void *self) {
-    u8 *arg0 = (u8 *)self;
-    typedef struct Fields_arg0 { u8 pad_0[12]; s8 * field_C; } Fields_arg0;
     s8 *temp_r31;
-    temp_r31 = (s8 *)(((Fields_arg0*)arg0)->field_C);
+    temp_r31 = (s8 *)((Conn_804004DC *)self)->sub;
     *temp_r31 = 4;
     TLobby__sub_803FD85C(temp_r31 + 0x6C);
     reset_connection_state((void *)(temp_r31 + 0x38));
@@ -330,7 +238,7 @@ void queue_command_81(void) {
 }
 
 void TLobby__sub_80400B98(u8 *arg0) {
-    **(s8 **)((s8 *)arg0 + 0xC) = 1;
+    *((Conn_804004DC *)arg0)->sub = 1;
 }
 
 void reset_lcp_options(void *self) {
@@ -442,13 +350,13 @@ inline s32 read_80400F1C(u32 *p) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 inline u32 first2_80400F1C(Obj_803FF858 *fsm) {
-    u8 *o = (u8 *)fsm->p30;
+    LcpOpts *o = (LcpOpts *)fsm->p30;
     u32 t = 0;
     t = (u32)init_net_buffer_entry(0);
     if (t == 0) {
         return 0;
     }
-    loop_8040172C(&t, o + 0x1c, *(s16 *)(o + 0x1c));
+    loop_8040172C(&t, &o->local.got, o->local.got.mask);
     return t;
 }
 s32 TLobby__sub_80400F1C(Obj_803FF858 *arg0, Msg_803FA664 *arg1, u32 arg2) {
@@ -558,58 +466,58 @@ s16 TLobby__sub_804010A0(Obj_803FF858 *fsm, Msg_803FA664 *msg, u32 src) {
 #define rd16_804012E0(src) (TLobby__sub_80401BCC((void *)(src), lcp_read_value_buffer, 2) != 2 ? -1 : read_network_u16_be(lcp_read_value_buffer))
 #define rd32_804012E0(src) (TLobby__sub_80401BCC((void *)(src), lcp_read_value_buffer, 4) != 4 ? 0 : TLobby__sub_80402AFC(lcp_read_value_buffer))
 #define rd8_804012E0(src) (TLobby__sub_80401BCC((void *)(src), lobby_read_byte_buffer, 1) != 1 ? -1 : (s16)lobby_read_byte_buffer[0])
-#define F(t, o) (*(t *)((s8 *)(arg2) + (o)))
 s16 parse_lcp_option(s32 arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4) {
     s16 len;
     s16 res;
     s32 t;
     s16 lim;
+    LcpSide *side = (LcpSide *)arg2;
     res = 2;
     len = arg3[1] - 2;
     switch (arg3[0]) {
     case 1:
-        F(s16, 0x1E) = rd16_804012E0(arg0);
+        side->got.mru = rd16_804012E0(arg0);
         len -= 2;
-        if (F(s16, 0x1E) < 0x80) {
-            F(s16, 0x1E) = 0x80;
+        if (side->got.mru < 0x80) {
+            side->got.mru = 0x80;
             res = 3;
-        } else if (F(s16, 0x1E) > 0x1000) {
-            F(s16, 0x1E) = 0x1000;
+        } else if (side->got.mru > 0x1000) {
+            side->got.mru = 0x1000;
             res = 3;
         }
-        if (arg4 != 0 && (F(s16, 4) & 2) && F(s16, 0x1E) > (lim = F(s16, 6))) {
-            F(s16, 0x1E) = lim;
+        if (arg4 != 0 && (side->want.mask & 2) && side->got.mru > (lim = side->want.mru)) {
+            side->got.mru = lim;
             res = 3;
         }
         break;
     case 2:
-        F(u32, 0x20) = rd32_804012E0(arg0);
+        side->got.accm = rd32_804012E0(arg0);
         len -= 4;
         if (lbl_805D7A7A != 0) {
             res = 4;
-        } else if (arg4 == 0 || (F(s16, 4) & 4)) {
-            u32 v = F(u32, 0x20) | F(u32, 8);
-            if (F(u32, 0x20) != v) {
-                F(u32, 0x20) = v;
+        } else if (arg4 == 0 || (side->want.mask & 4)) {
+            u32 v = side->got.accm | side->want.accm;
+            if (side->got.accm != v) {
+                side->got.accm = v;
                 res = 3;
             }
         }
         break;
     case 3:
-        F(u16, 0x24) = rd16_804012E0(arg0);
+        side->got.auth_proto = rd16_804012E0(arg0);
         len -= 2;
-        if (F(u16, 0x24) == 0xC223) {
-            F(s8, 0x30) = rd8_804012E0(arg0);
+        if (side->got.auth_proto == 0xC223) {
+            side->got.chap_alg = (s8)rd8_804012E0(arg0);
             len -= 1;
         }
-        if (F(u8, 0x19) != 0) {
-            u16 v = F(u16, 0x24);
-            if (v == 0xC023 || (v == 0xC223 && (s32)F(u8, 0x30) == 5)) {
-                F(u16, 0xC) = v;
-                F(u8, 0x18) = F(u8, 0x30);
+        if (side->want.f15 != 0) {
+            u16 v = side->got.auth_proto;
+            if (v == 0xC023 || (v == 0xC223 && (s32)side->got.chap_alg == 5)) {
+                side->want.auth_proto = v;
+                side->want.chap_alg = side->got.chap_alg;
             } else {
-                F(u16, 0x24) = 0xC023;
-                F(s8, 0x30) = 0;
+                side->got.auth_proto = 0xC023;
+                side->got.chap_alg = 0;
                 res = 3;
                 arg3[1] = 4;
                 while (len > 0) {
@@ -620,36 +528,36 @@ s16 parse_lcp_option(s32 arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4) {
                 }
             }
         } else {
-            u16 a = F(u16, 0x24);
-            u16 b = F(u16, 0xC);
-            if (a != b || (a == 0xC223 && F(s8, 0x30) != F(s8, 0x18))) {
-                F(u16, 0x24) = b;
+            u16 a = side->got.auth_proto;
+            u16 b = side->want.auth_proto;
+            if (a != b || (a == 0xC223 && (s8)side->got.chap_alg != (s8)side->want.chap_alg)) {
+                side->got.auth_proto = b;
                 res = 3;
-                F(u8, 0x30) = F(u8, 0x18);
+                side->got.chap_alg = side->want.chap_alg;
             }
         }
         if (res == 2) {
-            set_ppp_auth_protocol(F(u16, 0x24));
+            set_ppp_auth_protocol(side->got.auth_proto);
         }
         break;
     case 5:
-        F(u32, 0x28) = rd32_804012E0(arg0);
+        side->got.magic = rd32_804012E0(arg0);
         len -= 4;
-        if (F(u32, 0x28) == 0 || *(u32 *)((s8 *)arg1 + 0x5C) == *(u32 *)((s8 *)arg1 + 0x28)) {
+        if (side->got.magic == 0 || ((LcpOpts *)arg1)->remote.got.magic == ((LcpOpts *)arg1)->local.got.magic) {
             get_time_ms(&t);
             res = 3;
-            F(u32, 0x28) += t;
+            side->got.magic += t;
         }
         break;
     case 7:
-        if (!(F(s16, 0) & 0x80)) {
+        if (!(side->mask & 0x80)) {
             res = 4;
         }
         break;
     case 8:
         if (lbl_805D7A7A != 0) {
             res = 4;
-        } else if (!(F(s16, 0) & 0x100)) {
+        } else if (!(side->mask & 0x100)) {
             res = 4;
         }
         break;
@@ -660,7 +568,7 @@ s16 parse_lcp_option(s32 arg0, u8 *arg1, u8 *arg2, u8 *arg3, s16 arg4) {
         res = 4;
         break;
     }
-    if (arg3[0] > 8 || !(F(s16, 0) & (1 << arg3[0]))) {
+    if (arg3[0] > 8 || !(side->mask & (1 << arg3[0]))) {
         res = 4;
     }
     if (len < 0) {
@@ -775,23 +683,23 @@ p->len += val;
 }
 
 s32 configure_mode_by_type(void *self, s16 type) {
-    Cfg_804019A8 *c = (Cfg_804019A8 *)self;
+    LcpSide *c = (LcpSide *)self;
     if (type == 0) {
-        c->flags |= 8;
-        c->mode = 0xC023;
+        c->want.mask |= 8;
+        c->want.auth_proto = 0xC023;
     } else if (type == 1) {
-        c->flags &= ~8;
-        c->b19 = 0;
+        c->want.mask &= ~8;
+        c->want.f15 = 0;
     } else if (type == 2) {
-        c->flags |= 8;
-        c->mode = 0xC223;
-        c->b18 = 5;
-        c->b19 = 0;
+        c->want.mask |= 8;
+        c->want.auth_proto = 0xC223;
+        c->want.chap_alg = 5;
+        c->want.f15 = 0;
     } else if (type == 4) {
-        c->flags |= 8;
-        c->mode = 0xC223;
-        c->b18 = 5;
-        c->b19 = 1;
+        c->want.mask |= 8;
+        c->want.auth_proto = 0xC223;
+        c->want.chap_alg = 5;
+        c->want.f15 = 1;
     } else {
         return 1;
     }

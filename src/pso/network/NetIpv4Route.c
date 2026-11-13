@@ -16,14 +16,11 @@
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/text_80421620.h"
-/* The object header the stack's records share (laid out like TObject's fields). */
-typedef struct RtEntry_8040F8A4 RtEntry_8040F8A4;
 
 s16 NetIPv4AddRoute(u32, u32, u32, s16, u8, u16);
 
 #include <stddef.h>
 
-typedef struct RtEntry_8040F8A4 { u16 flags; u8 pad2[2]; u32 id; u32 mask; u32 owner; u8 pad10[4]; } RtEntry_8040F8A4;
 
 
 #include "pso/network/IPv6Send.h"
@@ -52,46 +49,45 @@ s32 TLobby__sub_8040ED70(void) {
 }
 
 inline s16 chk_8040EDE4(s16 id, u32 k) {
-    s16 *p;
-    p = get_active_entry_by_index(id);
+    Ipv4Iface *p;
+    p = (Ipv4Iface *)get_active_entry_by_index(id);
     if (p == NULL) {
         return 0;
     }
-    if (*(u32 *)((s8 *)p + 8) == 0 || k == 0xFFFFFFFF || k == *(u32 *)((s8 *)p + 0xC)) {
+    if (p->addr == 0 || k == 0xFFFFFFFF || k == p->broadcast) {
         return 1;
     }
     return 0;
 }
 
 extern s16 TLobby__sub_8040EDE4(void *self, u32 key, s16 id) {
-    s16 *e;
+    Ipv4Iface *e;
 
     if (id < 0 || id >= ipv4_address_routing_state.nifaces) {
         return -0x109;
     }
-    e = (s16 *)ipv4_address_routing_state.ifaces;
-    e += id * 14;
-    if (e[0] != 1) {
+    e = ipv4_address_routing_state.ifaces;
+    e += id;
+    if (e->state != 1) {
         return -6;
     }
     if (key == 0 || chk_8040EDE4(id, key)) {
-        return call_handler_by_index(id, e[1], 1, (s32)&key, (s32)self);
+        return call_handler_by_index(id, e->handle, 1, (s32)&key, (s32)self);
     }
-    return dispatch_handler_by_index(id, e[1], (s32)&key, (s32)self);
+    return dispatch_handler_by_index(id, e->handle, (s32)&key, (s32)self);
 }
 #pragma push
 #pragma opt_common_subs on
 s32 TLobby__sub_8040EF00(s16 arg0) {
-    typedef struct Fields_temp_r3 { s16 field_0; u8 pad_2[2]; s16 field_4; } Fields_temp_r3;
-    u8 *temp_r3;
+    Ipv4Iface *ifc;
     if ((arg0 < 0) || (arg0 >= ipv4_address_routing_state.nifaces)) {
         return -0x109;
     }
-    temp_r3 = (u8 *)&ipv4_address_routing_state.ifaces[arg0];
-    if ((s16) ((Fields_temp_r3*)temp_r3)->field_0 != 1) {
+    ifc = &ipv4_address_routing_state.ifaces[arg0];
+    if (ifc->state != 1) {
         return -2;
     }
-    return ((Fields_temp_r3*)temp_r3)->field_4;
+    return ifc->mtu;
 }
 #pragma pop
 
@@ -122,40 +118,40 @@ extern s16 TLobby__sub_8040EF50(u32 *out, u32 mask, s16 c)
 {
   s16 n;
   u32 new_var;
-  u8 *tbl;
-  u8 *new_var2;
-  u8 *e;
+  Ipv4RoutingState *tbl;
+  Ipv4Iface *new_var2;
+  Ipv4Iface *e;
   s16 i;
-  u8 *node;
+  Ipv4Alias *node;
   u32 m;
-  tbl = (u8 *) (&ipv4_address_routing_state);
-  if ((c < 0) || (c >= (*((s16 *) (tbl + 0x2)))))
+  tbl = &ipv4_address_routing_state;
+  if ((c < 0) || (c >= tbl->nifaces))
   {
     return -6;
   }
-  e = (new_var2 = *((u8 **) (tbl + 0xc)));
-  e += c * 0x1c;
-  if ((*((s16 *) e)) == 1)
+  e = (new_var2 = tbl->ifaces);
+  e += c;
+  if (e->state == 1)
   {
-    u32 a = *((u32 *) (e + 0x8));
-    m = *((u32 *) (e + 0x14));
+    u32 a = e->addr;
+    m = e->mask;
     if ((m & a) == (m & mask))
     {
       *out = a;
       return 0;
     }
-    node = *((u8 **) (e + 0x18));
-    n = *((s16 *) (tbl + 0x4));
-    for (i = 0; (node != ((void *) 0)) && (i < n); i++)
+    node = e->aliases;
+    n = tbl->max_aliases;
+    for (i = 0; (node != NULL) && (i < n); i++)
     {
-      m = *((u32 *) (0x10 + node));
-      new_var = *((u32 *) (node + 0x4));
+      m = node->mask;
+      new_var = node->addr;
       if ((m & new_var) == (m & mask))
       {
         *out = new_var;
         return 0;
       }
-      node = *((u8 **) (node + 0x14));
+      node = node->next;
     }
 
   }
@@ -386,31 +382,31 @@ u32 a1;
     u32 t;
     u16 flags;
     s16 i;
-    u8 *e;
-    u8 *m1;
-    u8 *m2;
-    u8 *m3;
+    Ipv4Route *e;
+    Ipv4Route *m1;
+    Ipv4Route *m2;
+    Ipv4Route *m3;
 
     m1 = NULL;
     m2 = NULL;
     m3 = NULL;
-    e = (u8 *)ipv4_address_routing_state.routes;
-    for (i = 0; i < ipv4_address_routing_state.nroutes; i++, e += 0x14) {
-        flags = *(u16 *)e;
-        t = a0 & *(u32 *)(e + 8);
+    e = ipv4_address_routing_state.routes;
+    for (i = 0; i < ipv4_address_routing_state.nroutes; i++, e++) {
+        flags = e->flags;
+        t = a0 & e->mask;
         if (!(flags & 1)) {
             continue;
         }
-        if ((flags & 4) && *(u32 *)(e + 4) == a0) {
-            return e;
+        if ((flags & 4) && e->dst == a0) {
+            return (u8 *)e;
         }
-        if ((flags & 8) && *(s16 *)(e + 0x12) == 1) {
+        if ((flags & 8) && e->type == 1) {
             if (a0 == 0xFFFFFFFF || a0 == 0) {
-                if (*(u32 *)(e + 0xC) == a1) {
+                if (e->gateway == a1) {
                     m1 = e;
                     continue;
                 }
-            } else if (*(u32 *)(e + 4) == t) {
+            } else if (e->dst == t) {
                 m1 = e;
                 continue;
             }
@@ -418,24 +414,24 @@ u32 a1;
         if (!(flags & 2)) {
             continue;
         }
-        if (*(u32 *)(e + 4) == 0) {
+        if (e->dst == 0) {
             if (m3 == NULL) {
                 m3 = e;
             }
-        } else if (*(u32 *)(e + 4) == t) {
+        } else if (e->dst == t) {
             if (m2 == NULL) {
                 m2 = e;
             }
         }
     }
     if (m1 != NULL) {
-        return m1;
+        return (u8 *)m1;
     }
     if (m2 != NULL) {
-        return m2;
+        return (u8 *)m2;
     }
     if (m3 != NULL) {
-        return m3;
+        return (u8 *)m3;
     }
     return NULL;
 }
@@ -447,19 +443,19 @@ extern s32 TLobby__sub_8040F8A4(u32 a1, void *a2, u32 a3, u32 a4, u32 a5)
   u16 f;
   s16 i;
   s16 found = 0;
-  RtEntry_8040F8A4 *e;
+  Ipv4Route *e;
   s16 NetIPv4AddRoute(void *, void *, void *, int, int, int); /* declared here with other parameter types; the definition is s16 (u32, u32, u32, s16, u8, u16) */
-  for (i = 0, e = (RtEntry_8040F8A4 *)tbl->routes; i < tbl->nroutes; i++, e++)
+  for (i = 0, e = tbl->routes; i < tbl->nroutes; i++, e++)
   {
     if (!(e->flags & 1))
     {
       continue;
     }
-    if (e->owner != a5)
+    if (e->gateway != a5)
     {
       continue;
     }
-    new_var = e->id;
+    new_var = e->dst;
     if (new_var == 0)
     {
       a4 |= 2;
@@ -474,7 +470,7 @@ extern s32 TLobby__sub_8040F8A4(u32 a1, void *a2, u32 a3, u32 a4, u32 a5)
         continue;
       }
       e->flags = f | 0x20;
-      e->owner = (u32) a2;
+      e->gateway = (u32) a2;
       return 0;
     }
     if (e->flags & 4)
@@ -486,7 +482,7 @@ extern s32 TLobby__sub_8040F8A4(u32 a1, void *a2, u32 a3, u32 a4, u32 a5)
       continue;
     }
     e->flags = f | 0x10;
-    e->owner = (u32) a2;
+    e->gateway = (u32) a2;
     return 0;
   }
 
@@ -522,56 +518,6 @@ extern s32 TLobby__sub_8040F9CC(void *a, void *unused, void *b, s32 flag) {
         return 0;
     }
     return -2;
-}
-
-inline s16 trk_find1(u8 *p, s16 cntB, s16 cntC, u32 a)
-{
-    u8 *node;
-    s16 i;
-    s16 j;
-
-    for (i = 0; i < cntB; i++, p += 0x1c) {
-        if (*(s16 *)p == 1) {
-            if (*(u32 *)(p + 8) == a) {
-                return i;
-            }
-            node = *(u8 **)(p + 0x18);
-            j = 0;
-            while (node != 0 && j < cntC) {
-                if (*(u32 *)(node + 4) == a) {
-                    return i;
-                }
-                node = *(u8 **)(node + 0x14);
-                j++;
-            }
-        }
-    }
-    return -1;
-}
-
-inline s16 trk_find2(u8 *p, s16 cntB, s16 cntC, u32 a)
-{
-    u8 *node;
-    s16 i;
-    s16 j;
-
-    for (i = 0; i < cntB; i++, p += 0x1c) {
-        if (*(s16 *)p == 1) {
-            if (*(u32 *)(p + 0x10) == (*(u32 *)(p + 0x14) & a)) {
-                return i;
-            }
-            node = *(u8 **)(p + 0x18);
-            j = 0;
-            while (node != 0 && j < cntC) {
-                if (*(u32 *)(node + 0xC) == (*(u32 *)(node + 0x10) & a)) {
-                    return i;
-                }
-                node = *(u8 **)(node + 0x14);
-                j++;
-            }
-        }
-    }
-    return -1;
 }
 
 inline s16 find_iface_by_addr_8040FA48(Ipv4Iface *ifaces, s16 n, s16 m, u32 addr) {
@@ -767,17 +713,16 @@ s16 NetIPv4IsUnspecified(u32 arg0) {
 #pragma push
 #pragma opt_common_subs on
 s32 TLobby__sub_8040FE40(s16 arg0) {
-    typedef struct Fields_var_r3 { s16 field_0; } Fields_var_r3;
-    s16 *var_r3;
+    Ipv4Iface *ifc;
     if ((arg0 < 0) || (arg0 >= ipv4_address_routing_state.nifaces)) {
-        var_r3 = (s16 *)(NULL);
+        ifc = NULL;
     } else {
-        var_r3 = (s16 *)&ipv4_address_routing_state.ifaces[arg0];
-        if ((s16) ((Fields_var_r3*)var_r3)->field_0 != 1) {
-            var_r3 = (s16 *)(NULL);
+        ifc = &ipv4_address_routing_state.ifaces[arg0];
+        if (ifc->state != 1) {
+            ifc = NULL;
         }
     }
-    if (var_r3 != NULL) {
+    if (ifc != NULL) {
         return 1;
     }
     return 0;
@@ -787,15 +732,15 @@ s32 TLobby__sub_8040FE40(s16 arg0) {
 #pragma push
 #pragma opt_common_subs on
 s16 *get_active_entry_by_index(s16 arg0) {
-    s16 *temp_r3;
+    Ipv4Iface *ifc;
     if ((arg0 < 0) || (arg0 >= ipv4_address_routing_state.nifaces)) {
         return NULL;
     }
-    temp_r3 = (s16 *)&ipv4_address_routing_state.ifaces[arg0];
-    if ((s16) *temp_r3 != 1) {
+    ifc = &ipv4_address_routing_state.ifaces[arg0];
+    if (ifc->state != 1) {
         return NULL;
     }
-    return temp_r3;
+    return (s16 *)ifc;
 }
 #pragma pop
 
