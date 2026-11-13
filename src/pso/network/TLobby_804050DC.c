@@ -1058,6 +1058,7 @@ void set_value_and_enable(void *self, s32 arg1) {
 #pragma opt_common_subs on
 #pragma opt_propagation off
 void TLobby__sub_80406FD8(void *a, void *b, s32 v) {
+    u32 sr24;
     switch (((NetBufferRef *)b)->kind) {
     case 1:
     case 4:
@@ -1130,7 +1131,8 @@ void TLobby__sub_80406FD8(void *a, void *b, s32 v) {
             return;
         }
         word2 = ((NetBufferRef *)a)->value;
-        id2 = (s16)(word2 >> 24);
+        sr24 = word2 >> 24;
+        id2 = (s16)sr24;
         rec = (u8 *)network_buffer_pool_state.ents + id * (s32)sizeof(NetBufferPoolEntry);
         hi = word >> 16;
         ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
