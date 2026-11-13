@@ -22,6 +22,7 @@ struct TObjEneBm3Fly : public TObjEneDD_ST {
     u16 get_active_id();
     void sub_800B1634();
     s32 can_attack_target();
+    f32 approach_value(f32 current, f32 target);
     int was_hit_by_ranged();
     void clamp_flight_height();
     void store_position();
@@ -36,7 +37,7 @@ struct TObjEneBm3Fly : public TObjEneDD_ST {
     void vfunc_28();
     void render();
     void run_task();
-    s32 init_child_params();
+    void init_child_params();
     static void release_shared_data();
     void *create(void *arg1, void *arg2, void *arg3, void *arg4);
     static void load_resources();
@@ -91,7 +92,7 @@ typedef char TObjEneBm3Fly_size[sizeof(TObjEneBm3Fly) == 0x4A8 ? 1 : -1];
 
 extern "C" {
 u8 *TObjEneBm3Fly__ct(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4, u8 *arg5, u8 *arg6);
-void TObjEneBm3Fly__play_orbit_flight_sound(s32 arg0);
+void TObjEneBm3Fly__play_orbit_flight_sound(TObjEneBm3Fly *fly);
 void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *arg0, s32 arg1);
 void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *arg0, s32 arg1);
 void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1);
@@ -102,8 +103,7 @@ void TObjEneBm3Fly__vt104(TObjEneBm3Fly *arg0);
 void TObjEneBm3Fly__vt85(s32 arg0, u32 arg1, s32 arg2);
 void *__dt__13TObjEneBm3FlyFv(void *arg0, s16 arg1);
 void action__13TObjEneBm3FlyFPvi(TObjEneBm3Fly *arg0, s32 arg1);
-f32 approach_value__13TObjEneBm3FlyFff(f32 farg0, f32 farg1);
-void update_dd_flag__13TObjEneBm3FlyFPv(void *arg0);
+void update_dd_flag__13TObjEneBm3FlyFPv(TObjEneBm3Fly *fly, f32 x, f32 z, f32 speed);
 }
 
 
