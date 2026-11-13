@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include <dolphin/mtx/GeoTypes.h>
+#include "pso/animation/ActorAnimationState.h"
 
 // One of the six flies a TObjEneBm3FlyNest sends out (vtable __vt__26TObjEneBm3FlyNest_CarryFly):
 // it waits at its offset from origin until *arrived reaches its index, then flies in an arc to
@@ -23,7 +24,7 @@ public:
     f32 unk_3C;     // 0x3C, set to 1.0f
     s32 angle;      // 0x40
     s32 unk_44;     // 0x44, set to 0
-    u8 *motion;     // 0x48, drawn with draw_model_motion; +4 is the frame count
+    AnimationMotion *motion;  // 0x48, drawn with draw_model_motion
     f32 frame;      // 0x4C
     Vec velocity;   // 0x50
     f32 distance;   // 0x5C

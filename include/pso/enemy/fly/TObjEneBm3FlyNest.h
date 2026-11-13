@@ -6,6 +6,8 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/render/RenderFadeState.h"
 
+struct BmlResource;
+
 // The motion binding the fly and the nest pass to TLobby::spawn_npc_enemy.
 struct Bm3FlyAnimationBinding {
     BmlMotionEntry *motions;
@@ -77,13 +79,13 @@ typedef char TObjEneBm3FlyNest_m_4d8_offset[offsetof(TObjEneBm3FlyNest, m_4d8) =
 
 extern "C" {
 u8 *__ct__26TObjEneBm3FlyNest_CarryFlyFP7TObjectlllll(u8 *self, void *parent, s32 a, s32 b, s32 unused, s32 c, s32 d);
-void *TObjEneBm3FlyNest__ct(void *arg0, void *arg1, void *arg2);
-void *TObjEneBm3FlyNest__sub_800B2A54(void *p);
+TObjEneBm3FlyNest *TObjEneBm3FlyNest__ct(TObjEneBm3FlyNest *nest, TObject *parent, void *set_data);
+Vec *TObjEneBm3FlyNest__sub_800B2A54(TObjEneBm3FlyNest *nest);
 void TObjEneBm3FlyNest__sub_800B318C(TObjEneBm3FlyNest *nest, s32 arg1);
 s32 TObjEneBm3FlyNest__sub_800B3AC8(TObjEneBm3FlyNest *nest);
-int TObjEneBm3FlyNest__sub_800B4158(void);
+BmlResource *TObjEneBm3FlyNest__sub_800B4158(void);
 void *__dt__26TObjEneBm3FlyNest_CarryFlyFv(void *arg0, s16 arg1);
-int copy_target_state__17TObjEneBm3FlyNestFPv(void *p, s32 sound_id);
+s32 copy_target_state__17TObjEneBm3FlyNestFPv(TObjEneBm3FlyNest *nest, s32 sound_id);
 void dispatch_state__17TObjEneBm3FlyNestFiUii(TObjEneBm3FlyNest *nest, u32 arg1, s32 arg2);
 void handle_appear__17TObjEneBm3FlyNestFPvi(TObjEneBm3FlyNest *nest, s32 arg1);
 void handle_attachment_sample__17TObjEneBm3FlyNestFi(s32 arg0);

@@ -922,7 +922,6 @@ void vfunc_62__13TObjEneBm3FlyFv(void* p);
 void vfunc_63__13TObjEneBm3FlyFv(u8 *arg0);
 void vfunc_28__13TObjEneBm3FlyFv(void);
 void TObjEneBm3Fly__vt85(TObjEneBm3Fly *fly, u32 arg1, s32 arg2);
-int TObjEneBm3FlyNest__sub_800B4158(void);
 u32 TObjEneEpsilon__sub_800B92F8(void *, s32, f32);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 u32 move_with_wall_slide_commit__9TObjEneDDFfff(TObjEneDD *, f32, f32, f32);
@@ -1352,7 +1351,7 @@ void *TObjEneBm3Fly::create(void *arg1, void *arg2, void *arg3, void *arg4) {
 
 void TObjEneBm3Fly::load_resources() {
     TUnk_8048FA00 *model;
-    bm3_fly_nest_resources = (BmlResource *)TObjEneBm3FlyNest__sub_800B4158();
+    bm3_fly_nest_resources = TObjEneBm3FlyNest__sub_800B4158();
     model = (TUnk_8048FA00 *)::operator new(0x10);
     if (model != NULL) {
         model = (TUnk_8048FA00 *)((TBreakUpMdl *)model)->init_from_model(bm3_fly_nest_resources->models[0].model);
