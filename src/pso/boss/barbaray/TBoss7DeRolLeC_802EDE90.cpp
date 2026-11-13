@@ -24,7 +24,7 @@ s32 is_main_phase_15__9TObjEneDDFv();
 }
 
 TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(parent), unk_690(NULL) {
-    u32 flags;
+    u32 flags[5];
 
     m_name = TBoss7DeRolLeC__class_name;
     if (boss7_joint_state == 0) {
@@ -34,7 +34,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     unk_620 = (TBoss7DeRolLeCParams *)TLobby::dispatch_shared_handler_a(15);
     invoke_initialization_hook(set_data);
     unk_628 = 0;
-    if (exchange_object_state((s32)&flags, 1) && (flags & 0x12008) == 0x12008) {
+    if (exchange_object_state((s32)&flags, 1) && (flags[0] & 0x12008) == 0x12008) {
         unk_628 |= 0x8000;
     }
     init_position_vectors();
