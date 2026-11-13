@@ -256,6 +256,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
       case 50:
 
       case 51:
+        goto ret;
 
       case 44:
         rec = frag_8040FFF8(new_var2, p, rem, m, new_var, &sa, &ic28);
