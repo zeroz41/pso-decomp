@@ -1,26 +1,15 @@
 // CRI adx_dcd.c: ADX header and info decoding, ADX_GetCoefficient.
 #include "types.h"
-#include "pso/unk/text_803D31A4.h"
 #include "pso/unk/TLobby.h"
-#include "pso/audio/LscStream.h"
 #include "pso/unk/TLobby_803C4698.h"
-#include "pso/unk/TLobby_803CC0B4.h"
-#include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxEncoder.h"
-#include "pso/system/RefCountedWorkBuffer.h"
-#include "pso/audio/SjMemoryBuffer.h"
-#include "pso/audio/SjRingBuffer.h"
-#include "pso/unk/text_803CC294.h"
-#include "pso/unk/text_803CE568.h"
-
-struct Hdr_803C46A4 { u16 type; s16 len; };
-struct Fmt_803C46DC { s16 a; s16 b; s16 c; s16 d; s32 e; s32 f; s32 g; s32 h; };
+#include "pso/audio/AdxHeader.h"
 
 extern "C" {
 f64 cos(f64);
 
 s32 TLobby::parse_packet_header_len(s32 size, s16 *out) {
-    Hdr_803C46A4 *p = (Hdr_803C46A4 *)this;
+    AdxPacketHeader *p = (AdxPacketHeader *)this;
     if (size < 0x10) {
         return -1;
     }
@@ -32,20 +21,21 @@ s32 TLobby::parse_packet_header_len(s32 size, s16 *out) {
 }
 
 s32 __DVDPrepareResetAsync(u8 *hdr, s32 size, s32 *o1, s16 *o2, s16 *o3, s32 *o4, s32 *o5, s32 *o6, s32 *o7) {
+    AdxHeader *h = (AdxHeader *)hdr;
     s32 err;
     u8 ver;
     s32 hsz;
     s32 off;
-    Fmt_803C46DC *f;
+    AdxHeaderBlock *f;
     *o2 = err = 0;
     if (size < 0x14) {
         err = -1;
-    } else if (*(u16 *)hdr != 0x8000) {
+    } else if (h->m_00 != 0x8000) {
         err = -2;
-    } else if (*(s16 *)(hdr + 2) < 0x10) {
+    } else if (h->m_02 < 0x10) {
         err = -1;
     } else {
-        ver = hdr[0x12];
+        ver = h->m_12;
     }
     if (err != 0) {
         return err;
@@ -57,99 +47,100 @@ s32 __DVDPrepareResetAsync(u8 *hdr, s32 size, s32 *o1, s16 *o2, s16 *o3, s32 *o4
     if (size < hsz) {
         return -1;
     }
-    if (*(u16 *)hdr != 0x8000) {
+    if (h->m_00 != 0x8000) {
         return -2;
     }
-    if (*(s16 *)(hdr + 2) < hsz - 4) {
+    if (h->m_02 < hsz - 4) {
         return -1;
     }
     off = 0x14;
     if (ver == 4) {
         off = 0x20;
     }
-    *o1 = *(s16 *)(hdr + off);
-    f = (Fmt_803C46DC *)(off + (s32)hdr);
-    *o2 = f->b;
+    *o1 = ((AdxHeaderBlock *)(hdr + off))->m_00;
+    f = (AdxHeaderBlock *)(off + (s32)hdr);
+    *o2 = f->m_02;
     if (*o2 != 1) {
         return -2;
     }
-    *o3 = f->d;
-    *o4 = f->e;
-    *o5 = f->f;
-    *o6 = f->g;
-    *o7 = f->h;
+    *o3 = f->m_06;
+    *o4 = f->m_08;
+    *o5 = f->m_0C;
+    *o6 = f->m_10;
+    *o7 = f->m_14;
     return 0;
 }
 
-s32 TLobby::parse_header_loop_points(s32 arg1, u16 *arg2, u16 *arg3) {
-    u8 *arg0 = (u8 *)this;
-    s32 var_r0;
-    u8 var_r7;
-    if (arg1 < 0x14) {
-        var_r0 = -1;
-    } else if ((u16) *(u16 *)&this->m_name != 0x8000) {
-        var_r0 = -2;
-    } else if ((s16) *(s16 *)((s8 *)arg0 + 2) < 0x10) {
-        var_r0 = -1;
+s32 TLobby::parse_header_loop_points(s32 size, u16 *out0, u16 *out1) {
+    AdxHeader *h = (AdxHeader *)this;
+    s32 err;
+    u8 ver;
+    if (size < 0x14) {
+        err = -1;
+    } else if (h->m_00 != 0x8000) {
+        err = -2;
+    } else if (h->m_02 < 0x10) {
+        err = -1;
     } else {
-        var_r7 = *(u8 *)((s8 *)arg0 + 0x12);
-        var_r0 = 0;
+        ver = h->m_12;
+        err = 0;
     }
-    if (var_r0 != 0) {
+    if (err != 0) {
         return -1;
     }
-    if (var_r7 >= 4U) {
-        if (arg1 < 0x20) {
+    if (ver >= 4U) {
+        if (size < 0x20) {
             return -1;
         }
-        if ((u16) *(u16 *)&this->m_name != 0x8000) {
+        if (h->m_00 != 0x8000) {
             return -2;
         }
-        if ((s16) *(s16 *)((s8 *)arg0 + 2) < 0x1C) {
+        if (h->m_02 < 0x1C) {
             return -1;
         }
-        arg2[0] = (u16) *(u16 *)((s8 *)arg0 + 0x18);
-        arg3[0] = (u16) *(u16 *)((s8 *)arg0 + 0x1A);
-        arg2[1] = (u16) *(u16 *)((s8 *)arg0 + 0x1C);
-        arg3[1] = (u16) *(u16 *)((s8 *)arg0 + 0x1E);
+        out0[0] = h->m_18[0];
+        out1[0] = h->m_18[1];
+        out0[1] = h->m_18[2];
+        out1[1] = h->m_18[3];
     } else {
-        arg2[0] = arg3[0] = arg2[1] = arg3[1] = 0;
+        out0[0] = out1[0] = out0[1] = out1[1] = 0;
     }
     return 0;
 }
 
-s32 TLobby__sub_803C48C8(u8 *arg0, s32 arg1, u16 *arg2) {
-    if (arg1 < 0x12) {
+s32 TLobby__sub_803C48C8(u8 *hdr, s32 size, u16 *out) {
+    AdxHeader *h = (AdxHeader *)hdr;
+    if (size < 0x12) {
         return -1;
     }
-    if (*(u16 *)((s8 *)arg0 + 0) != 0x8000) {
+    if (h->m_00 != 0x8000) {
         return -2;
     }
-    if ((s16) *(s16 *)((s8 *)arg0 + 2) < 0xE) {
+    if (h->m_02 < 0xE) {
         return -1;
     }
-    *arg2 = *(u16 *)((s8 *)arg0 + 0x10);
+    *out = h->m_10;
     return 0;
 }
 
-s32 ARStartDMA(u8 *arg0, s32 arg1, s16 *arg2, u8 *arg3, s8 *arg4, s8 *arg5, u8 *arg6, s32 *arg7, s32 *arg8, s32 *arg9) {
-    if (arg1 < 0x10) {
+s32 ARStartDMA(u8 *hdr, s32 size, s16 *len, u8 *out_0C, s8 *bits, s8 *block_bytes, u8 *channels, s32 *rate, s32 *samples, s32 *block_samples) {
+    if (size < 0x10) {
         return -1;
     }
-    if ((u16)((arg0[0] << 8) | arg0[1]) != 0x8000) {
+    if ((u16)((hdr[0] << 8) | hdr[1]) != 0x8000) {
         return -2;
     }
-    *arg2 = ((arg0[2] << 8) | arg0[3]) + 4;
-    *arg3 = arg0[4];
-    *arg5 = arg0[5];
-    *arg4 = arg0[6];
-    *arg6 = arg0[7];
-    *arg7 = (arg0[8] << 24) | (arg0[9] << 16) | (arg0[10] << 8) | arg0[11];
-    *arg8 = (arg0[12] << 24) | (arg0[13] << 16) | (arg0[14] << 8) | arg0[15];
-    if (*arg4 == 0) {
-        *arg9 = 0;
+    *len = ((hdr[2] << 8) | hdr[3]) + 4;
+    *out_0C = hdr[4];
+    *block_bytes = hdr[5];
+    *bits = hdr[6];
+    *channels = hdr[7];
+    *rate = (hdr[8] << 24) | (hdr[9] << 16) | (hdr[10] << 8) | hdr[11];
+    *samples = (hdr[12] << 24) | (hdr[13] << 16) | (hdr[14] << 8) | hdr[15];
+    if (*bits == 0) {
+        *block_samples = 0;
     } else {
-        *arg9 = ((*arg5 - 2) * 8) / *arg4;
+        *block_samples = ((*block_bytes - 2) * 8) / *bits;
     }
     return 0;
 }

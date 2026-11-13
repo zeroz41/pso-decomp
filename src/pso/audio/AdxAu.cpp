@@ -1,162 +1,12 @@
 // CRI adx_bau.c: the Sun/NeXT .snd (AU) decoder (ADXB_ExecOneAu: mu-law, 8 and 16 bit).
 #include "types.h"
-#include "pso/unk/TLobby_803C4698.h"
-#include "pso/unk/TLobby_803BFE50.h"
 #include "pso/unk/TLobby_803C1A58.h"
-#include "pso/audio/AdxStreamRuntime.h"
 #include "pso/unk/TLobby.h"
-
-struct RecoveredGlobal_803C0AD8_lbl_80570AC0 {
-    s32 value;
-    u8 remaining[0x9BC];
-};
-
-struct Strm_803C1A8C {
-    u8 pad0[4];
-    s32 state;
-    s32 id;
-    u8 padC[2];
-    s8 channels;
-    u8 padF[0x40 - 0xF];
-    s32 wrap_len;       // samples; data past it is copied back to the buffer start
-    s32 wrap_offset;    // second channel's offset for that copy
-    u8 pad48[0x50 - 0x48];
-    u8 *src;
-    s32 maxLen;
-    s32 stream_channels; // 2 = two channel buffers, rOff apart
-    s32 sample_bytes;
-    s32 block_samples;
-    s16 *buf;
-    s32 bufLen;
-    s32 rOff;
-    s32 pos;
-    s32 avail;
-    s32 x78;
-    u8 pad7C[0x88 - 0x7C];
-    void (*read)(s32, s32 *, s32 *, s32 *);
-    s32 readArg;
-    void (*done)(s32, s32, s32);
-    s32 doneArg;
-    u8 pad98[0xA0 - 0x98];
-    s32 n;
-    s32 bytes;
-};
-
-struct Obj_803C34F4 { u8 pad[0xA8]; s16 state; };
-
-struct Obj_803C3ACC { u8 pad[0xA8]; s16 state; s16 sub; };
-
-struct Hdl_803C43A8 {
-    u8 pad0[2];
-    s16 f2;
-    u8 pad4[8];
-    s8 fc;
-    s8 fd;
-    s8 fe;
-    s8 ff;
-    s32 f10;
-    s32 f14;
-    s32 f18;
-    s16 f1c;
-    u8 pad1e[2];
-    s32 f20;
-    s16 f24;
-    s16 f26;
-    s32 f28;
-    s32 f2c;
-    s32 f30;
-    s32 f34;
-    u8 pad38[4];
-    s32 f3c;
-    s32 f40;
-    s32 f44;
-    s16 f48;
-    s16 f4a;
-    u8 f4c[0xC];
-    s32 f58;
-    s32 f5c;
-    s32 f60;
-    s32 f64;
-    s32 f68;
-    s32 f6c;
-    u8 pad70[0xC];
-    s16 f7c;
-    s16 f7e;
-    u8 *f80;
-    u8 pad84[0x14];
-    s32 f98;
-    s32 f9c;
-    u8 padA0[8];
-    s16 fa8;
-    s16 faa;
-};
-
-struct Hdr_803C44C0 {
-    u8 pad0[7];
-    u8 f7;
-    u8 f8;
-    u8 f9;
-    u8 padA[2];
-    s32 fc;
-    u8 pad10[0x1A];
-    u16 f2a;
-};
-
-struct Obj_803C2174 {
-    u8 pad_0[2]; s16 f2; u8 pad_4[8]; s8 fc; s8 fd; s8 fe; s8 ff; s32 f10; s32 f14; s32 f18;
-    s16 f1c; u8 pad_1e[2]; s32 f20; s16 f24; s16 f26; s32 f28; s32 f2c; s32 f30; s32 f34;
-    u8 pad_38[4]; s32 f3c; s32 f40; s32 f44; s16 f48; s16 f4a; u8 f4c[0xC];
-    s32 f58; s32 f5c; s32 f60; s32 f64; s32 f68; s32 f6c; u8 pad_70[0xC];
-    s16 f7c; s16 f7e; u8 *f80; u8 pad_84[0x98 - 0x84]; s32 f98; s32 f9c; u8 pad_a0[8];
-    s16 fa8; s16 faa;
-};
-
-struct Rec_803C3E88 {
-    s16 used; u8 pad_2[6]; u32 f8; u8 pad_c[0x38 - 0xC];
-    s32 f38; s32 f3c; s32 f40; s32 f44; u8 pad_48[0x88 - 0x48];
-    void *f88; void *f8c; void *f90; void *f94; u8 pad_98[0xB8 - 0x98];
-};
-
-struct Snd_803C1DC4
-{
-  u8 pad0[4];
-  s32 state;
-  s32 lobby;
-  u8 pad0C[2];
-  s8 channels;
-  u8 pad0F[0x50 - 0x0F];
-  u8 *src;
-  s32 max;
-  u8 pad58[0x64 - 0x58];
-  s16 *dst;
-  s32 size;
-  s32 rofs;
-  s32 pos;
-  s32 avail;
-  s32 unk78;
-  u8 pad7C[0x88 - 0x7C];
-  void (*get)(s32, s32 *, s32 *, s32 *);
-  s32 getCtx;
-  void (*put)(s32, s32, s32);
-  s32 putCtx;
-  u8 pad98[0xA0 - 0x98];
-  s32 count;
-  s32 bytes;
-};
+#include "pso/audio/AdxbDecoder.h"
 
 extern "C" {
 s32 memset(void *, int, int);
 int memcmp(const void *a, const void *b, unsigned long n);
-void TLobby__sub_803C19D8(void *);
-void TLobby__sub_803C3570(Strm_803C1A8C *o);
-void TLobby__sub_803C40D0(void *);
-void TLobby__sub_803C34F4(Obj_803C34F4 *arg0);
-s32 DVDReadPrio(void *, void *, void *);
-s32 TLobby__sub_803C44C0(Hdr_803C44C0 *hdr, s32 arg1, s16 *arg2, s8 *arg3, s8 *arg4, s8 *arg5, s8 *arg6, s32 *arg7, s32 *arg8, s32 *arg9, s16 *arg10);
-u32 adx_allocate_decoder_channel();
-Rec_803C3E88 *alloc_record__6TLobbyFiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void process_byteswapped_pcm_transfer(Snd_803C1DC4 *arg0);
-void TLobby__sub_803C2A00(Strm_803C1A8C *o);
 /* mu-law sample expansion table (8-bit code -> s16 PCM) */
 s16 stream_chunk_decode_table[256] = {
     -32124, -31100, -30076, -29052, -28028, -27004, -25980, -24956, -23932, -22908, -21884, -20860, -19836, -18812,
@@ -181,26 +31,26 @@ s16 stream_chunk_decode_table[256] = {
 #define SWAP32(x) ((((x) >> 24) & 0xFF) | (((x) >> 8) & 0xFF00) | (((x) << 8) & 0xFF0000) | ((x) << 24))
 
 void TLobby::dispatch_by_state() {
-    u8 *arg0 = (u8 *)this;
-    s16 temp_r0;
+    AdxbDecoder *o = (AdxbDecoder *)this;
+    s16 kind;
 
-    temp_r0 = *(s16 *)((s8 *)arg0 + 0xAA);
-    if (temp_r0 == 2) {
+    kind = o->m_AA;
+    if (kind == 2) {
         decode_stream_chunk();
         return;
     }
-    if (temp_r0 == 1) {
-        TLobby__sub_803C2A00((Strm_803C1A8C *)arg0);
+    if (kind == 1) {
+        TLobby__sub_803C2A00(o);
         return;
     }
-    process_byteswapped_pcm_transfer((Snd_803C1DC4 *)(arg0));
+    process_byteswapped_pcm_transfer(o);
 }
 
 void TLobby::decode_stream_chunk() {
-    Strm_803C1A8C *o = (Strm_803C1A8C *)this;
+    AdxbDecoder *o = (AdxbDecoder *)this;
     u8 *src = o->src;
 
-    if (o->state == 1 && ((TLobby *)(o->id))->get_client_count() == 0) {
+    if (o->state == 1 && o->id->get_client_count() == 0) {
         s16 *dst;
         s16 *dst2;
         s32 i;
@@ -235,9 +85,9 @@ void TLobby::decode_stream_chunk() {
     }
 }
 
-void TLobby__sub_803C2A00(Strm_803C1A8C *o) {
+void TLobby__sub_803C2A00(AdxbDecoder *o) {
     u8 *src = o->src;
-    if (o->state == 1 && ((TLobby *)(o->id))->get_client_count() == 0) {
+    if (o->state == 1 && o->id->get_client_count() == 0) {
         s16 *l;
         s16 *r;
         s32 i;
@@ -272,123 +122,113 @@ void TLobby__sub_803C2A00(Strm_803C1A8C *o) {
     }
 }
 
-void process_byteswapped_pcm_transfer(Snd_803C1DC4 *arg0) {
-  u16 *src = (u16 *) arg0->src;
-  u16 *l;
-  s32 new_var;
-  u16 *r;
-  s32 i;
-  s32 n;
-  if ((arg0->state == 1) && (((TLobby *)(arg0->lobby))->get_client_count() == 0))
-  {
-    arg0->get(arg0->getCtx, &arg0->pos, &arg0->avail, &arg0->unk78);
-    new_var = arg0->size;
-    n = new_var - arg0->pos;
-    if (n > arg0->avail)
-    {
-      n = arg0->avail;
+void process_byteswapped_pcm_transfer(AdxbDecoder *o) {
+    u16 *src = (u16 *)o->src;
+    u16 *l;
+    s32 v;
+    u16 *r;
+    s32 i;
+    s32 n;
+    if (o->state == 1 && o->id->get_client_count() == 0) {
+        o->read(o->readArg, &o->pos, &o->avail, &o->x78);
+        n = o->bufLen - o->pos;
+        if (n > o->avail) {
+            n = o->avail;
+        }
+        if (n > o->maxLen) {
+            n = o->maxLen;
+        }
+        l = (u16 *)o->buf + o->pos;
+        if (o->channels == 2) {
+            r = (u16 *)o->buf + (o->rOff + o->pos);
+            for (i = 0; i < n; i++) {
+                v = src[i * 2];
+                l[i] = (src[i * 2] >> 8) | (v << 8);
+                r[i] = (src[i * 2 + 1] >> 8) | (src[i * 2 + 1] << 8);
+            }
+        } else {
+            for (i = 0; i < n; i++) {
+                l[i] = (src[i] >> 8) | (src[i] << 8);
+            }
+        }
+        o->n = n;
+        o->bytes = o->channels * (n * 2);
+        o->state = 2;
     }
-    if (n > arg0->max)
-    {
-      n = arg0->max;
+    if (o->state == 2) {
+        o->done(o->doneArg, o->bytes, o->n);
+        o->state = 3;
     }
-    l = ((u16 *) arg0->dst) + arg0->pos;
-    if (arg0->channels == 2)
-    {
-      r = ((u16 *) arg0->dst) + (arg0->rofs + arg0->pos);
-      for (i = 0; i < n; i++)
-      {
-        new_var = src[i * 2];
-        l[i] = (src[i * 2] >> 8) | (new_var << 8);
-        r[i] = (src[(i * 2) + 1] >> 8) | (src[(i * 2) + 1] << 8);
-      }
-    }
-    else
-    {
-      for (i = 0; i < n; i++)
-      {
-        l[i] = (src[i] >> 8) | (src[i] << 8);
-      }
-    }
-    arg0->count = n;
-    arg0->bytes = arg0->channels * (n * 2);
-    arg0->state = 2;
-  }
-  if (arg0->state == 2)
-  {
-    arg0->put(arg0->putCtx, arg0->bytes, arg0->count);
-    arg0->state = 3;
-  }
 }
 
-s32 TLobby__sub_803C30E8(u8 *arg0, s32 arg1, s32 arg2) {
-    s32 sp18;
-    s32 sp14;
-    s32 sp10;
-    s32 spC;
-    s32 sp8;
-    s16 var_r31;
-    s32 var_r5;
-    u32 temp_r3;
-    u8 *temp_r3_2;
-    *(s16 *)((s8 *)arg0 + 2) = 1;
-    if (arg2 < 8) {
-        var_r31 = 0;
-        var_r5 = -1;
+s32 TLobby__sub_803C30E8(u8 *decoder, s32 hdr, s32 size) {
+    AdxbDecoder *o = (AdxbDecoder *)decoder;
+    s32 format;
+    s32 samples;
+    s32 bits;
+    s32 channels;
+    s32 rate;
+    s16 len;
+    s32 err;
+    u8 *data;
+    u8 *buf;
+    o->m_02 = 1;
+    if (size < 8) {
+        len = 0;
+        err = -1;
     } else {
-        temp_r3 = (u32)fn_803C32EC((u8 *)arg1, arg2, &sp8, &spC, &sp10, &sp14, &sp18);
-        if (temp_r3 == 0U) {
-            var_r5 = -1;
+        data = fn_803C32EC((u8 *)hdr, size, &rate, &channels, &bits, &samples, &format);
+        if (data == NULL) {
+            err = -1;
         } else {
-            var_r31 = (s16)(temp_r3 - arg1);
-            if (var_r31 <= 0) {
-                var_r5 = -1;
+            len = data - (u8 *)hdr;
+            if (len <= 0) {
+                err = -1;
             } else {
-                var_r5 = 0;
-                *(s32 *)((s8 *)arg0 + 0x14) = sp8;
-                *(u8 *)((s8 *)arg0 + 0xE) = (u8) spC;
-                *(u8 *)((s8 *)arg0 + 0xD) = (u8) sp10;
-                *(s32 *)((s8 *)arg0 + 0x18) = sp14;
-                *(s8 *)((s8 *)arg0 + 0xC) = -1;
-                *(u8 *)((s8 *)arg0 + 0xF) = (u8) ((s32) (*(s8 *)((s8 *)arg0 + 0xE) * *(s8 *)((s8 *)arg0 + 0xD)) / 8);
-                *(s32 *)((s8 *)arg0 + 0x10) = 1;
+                err = 0;
+                o->rate = rate;
+                o->channels = channels;
+                o->bits = bits;
+                o->samples = samples;
+                o->m_0C = -1;
+                o->block_bytes = (o->channels * o->bits) / 8;
+                o->block_samples = 1;
             }
         }
     }
-    if (var_r5 < 0) {
+    if (err < 0) {
         return 0;
     }
-    temp_r3_2 = (arg0 + 0x4C);
-    *(s16 *)((s8 *)arg0 + 0x1C) = 0;
-    *(s16 *)((s8 *)arg0 + 0x4A) = 0;
-    *(s16 *)((s8 *)arg0 + 0x48) = 0;
-    *(s16 *)((s8 *)arg0 + 0x26) = 0;
-    *(s16 *)((s8 *)arg0 + 0x24) = 0;
-    *(s32 *)((s8 *)arg0 + 0x34) = 0;
-    *(s32 *)((s8 *)arg0 + 0x30) = 0;
-    *(s32 *)((s8 *)arg0 + 0x2C) = 0;
-    *(s32 *)((s8 *)arg0 + 0x28) = 0;
-    *(s32 *)((s8 *)arg0 + 0x20) = 0;
-    *(s32 *)((s8 *)arg0 + 0x58) = (s32) (s8) *(u8 *)((s8 *)arg0 + 0xE);
-    *(s32 *)((s8 *)arg0 + 0x5C) = (s32) (s8) *(u8 *)((s8 *)arg0 + 0xF);
-    *(s32 *)((s8 *)arg0 + 0x60) = (s32) *(s32 *)((s8 *)arg0 + 0x10);
-    *(s32 *)((s8 *)arg0 + 0x64) = (s32) *(s32 *)((s8 *)arg0 + 0x3C);
-    *(s32 *)((s8 *)arg0 + 0x68) = (s32) *(s32 *)((s8 *)arg0 + 0x40);
-    *(s32 *)((s8 *)arg0 + 0x6C) = (s32) *(s32 *)((s8 *)arg0 + 0x44);
-    *(s16 *)((s8 *)arg0 + 0x7C) = (s16) *(s16 *)((s8 *)arg0 + 0x48);
-    *(s16 *)((s8 *)arg0 + 0x7E) = (*(s16 *)((s8 *)arg0 + 0x4A));
-    *(u8 **)((s8 *)arg0 + 0x80) = temp_r3_2;
-    *(s32 *)((s8 *)arg0 + 0x9C) = 0;
-    *(s32 *)((s8 *)arg0 + 0x98) = 0;
-    *(s16 *)((s8 *)arg0 + 0xA8) = 4;
-    *(s16 *)((s8 *)arg0 + 0xAA) = (s16) sp18;
-    memset(temp_r3_2, 0, 4);
-    return var_r31;
+    buf = o->m_4C;
+    o->m_1C = 0;
+    o->m_4A = 0;
+    o->m_48 = 0;
+    o->m_26 = 0;
+    o->m_24 = 0;
+    o->m_34 = 0;
+    o->m_30 = 0;
+    o->m_2C = 0;
+    o->m_28 = 0;
+    o->m_20 = 0;
+    o->stream_channels = o->channels;
+    o->stream_block_bytes = o->block_bytes;
+    o->stream_block_samples = o->block_samples;
+    o->buf = o->m_3C;
+    o->bufLen = o->wrap_len;
+    o->rOff = o->wrap_offset;
+    o->m_7C = o->m_48;
+    o->m_7E = o->m_4A;
+    o->m_80 = buf;
+    o->m_9C = 0;
+    o->m_98 = 0;
+    o->m_A8 = 4;
+    o->m_AA = format;
+    memset(buf, 0, 4);
+    return len;
 }
 
 s32 TLobby::is_snd_header() {
-    u8 *arg0 = (u8 *)this;
-    if (((s32)memcmp((const void *)(arg0), ".snd", (unsigned long)(4))) == 0 || ((s32)memcmp((const void *)(arg0), ".sd", (unsigned long)(4))) == 0) {
+    if (memcmp(this, ".snd", 4) == 0 || memcmp(this, ".sd", 4) == 0) {
         return 1;
     }
     return 0;
@@ -396,7 +236,6 @@ s32 TLobby::is_snd_header() {
 
 // Reads a Sun/NeXT ".snd" (AU) header, whose fields are big-endian; returns the start of
 // the sample data, or NULL when the magic, data offset or encoding is not supported.
-// (inferred name: parse_snd_header)
 u8 *fn_803C32EC(u8 *hdr, s32 size, s32 *rate, s32 *channels, s32 *bits, s32 *samples, s32 *format) {
     u32 magic;
     u32 offset;
