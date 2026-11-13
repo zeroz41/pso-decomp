@@ -5,197 +5,55 @@
 #include "pso/unk/TLobby_803C1A58.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/unk/TLobby.h"
-
-struct RecoveredGlobal_803C0AD8_lbl_80570AC0 {
-    s32 value;
-    u8 remaining[0x9BC];
-};
-
-struct Strm_803C1A8C {
-    u8 pad0[4];
-    s32 state;
-    s32 id;
-    u8 padC[2];
-    s8 channels;
-    u8 padF[0x40 - 0xF];
-    s32 wrap_len;       // samples; data past it is copied back to the buffer start
-    s32 wrap_offset;    // second channel's offset for that copy
-    u8 pad48[0x50 - 0x48];
-    u8 *src;
-    s32 maxLen;
-    s32 stream_channels; // 2 = two channel buffers, rOff apart
-    s32 sample_bytes;
-    s32 block_samples;
-    s16 *buf;
-    s32 bufLen;
-    s32 rOff;
-    s32 pos;
-    s32 avail;
-    s32 x78;
-    u8 pad7C[0x88 - 0x7C];
-    void (*read)(s32, s32 *, s32 *, s32 *);
-    s32 readArg;
-    void (*done)(s32, s32, s32);
-    s32 doneArg;
-    u8 pad98[0xA0 - 0x98];
-    s32 n;
-    s32 bytes;
-};
-
-struct Obj_803C34F4 { u8 pad[0xA8]; s16 state; };
-
-struct Obj_803C3ACC { u8 pad[0xA8]; s16 state; s16 sub; };
-
-struct Hdl_803C43A8 {
-    u8 pad0[2];
-    s16 f2;
-    u8 pad4[8];
-    s8 fc;
-    s8 fd;
-    s8 fe;
-    s8 ff;
-    s32 f10;
-    s32 f14;
-    s32 f18;
-    s16 f1c;
-    u8 pad1e[2];
-    s32 f20;
-    s16 f24;
-    s16 f26;
-    s32 f28;
-    s32 f2c;
-    s32 f30;
-    s32 f34;
-    u8 pad38[4];
-    s32 f3c;
-    s32 f40;
-    s32 f44;
-    s16 f48;
-    s16 f4a;
-    u8 f4c[0xC];
-    s32 f58;
-    s32 f5c;
-    s32 f60;
-    s32 f64;
-    s32 f68;
-    s32 f6c;
-    u8 pad70[0xC];
-    s16 f7c;
-    s16 f7e;
-    u8 *f80;
-    u8 pad84[0x14];
-    s32 f98;
-    s32 f9c;
-    u8 padA0[8];
-    s16 fa8;
-    s16 faa;
-};
-
-struct Hdr_803C44C0 {
-    u8 pad0[7];
-    u8 f7;
-    u8 f8;
-    u8 f9;
-    u8 padA[2];
-    s32 fc;
-    u8 pad10[0x1A];
-    u16 f2a;
-};
-
-struct Obj_803C2174 {
-    u8 pad_0[2]; s16 f2; u8 pad_4[8]; s8 fc; s8 fd; s8 fe; s8 ff; s32 f10; s32 f14; s32 f18;
-    s16 f1c; u8 pad_1e[2]; s32 f20; s16 f24; s16 f26; s32 f28; s32 f2c; s32 f30; s32 f34;
-    u8 pad_38[4]; s32 f3c; s32 f40; s32 f44; s16 f48; s16 f4a; u8 f4c[0xC];
-    s32 f58; s32 f5c; s32 f60; s32 f64; s32 f68; s32 f6c; u8 pad_70[0xC];
-    s16 f7c; s16 f7e; u8 *f80; u8 pad_84[0x98 - 0x84]; s32 f98; s32 f9c; u8 pad_a0[8];
-    s16 fa8; s16 faa;
-};
-
-struct Rec_803C3E88 {
-    s16 used; u8 pad_2[6]; u32 f8; u8 pad_c[0x38 - 0xC];
-    s32 f38; s32 f3c; s32 f40; s32 f44; u8 pad_48[0x88 - 0x48];
-    void *f88; void *f8c; void *f90; void *f94; u8 pad_98[0xB8 - 0x98];
-};
-
-struct Snd_803C1DC4
-{
-  u8 pad0[4];
-  s32 state;
-  s32 lobby;
-  u8 pad0C[2];
-  s8 channels;
-  u8 pad0F[0x50 - 0x0F];
-  u8 *src;
-  s32 max;
-  u8 pad58[0x64 - 0x58];
-  s16 *dst;
-  s32 size;
-  s32 rofs;
-  s32 pos;
-  s32 avail;
-  s32 unk78;
-  u8 pad7C[0x88 - 0x7C];
-  void (*get)(s32, s32 *, s32 *, s32 *);
-  s32 getCtx;
-  void (*put)(s32, s32, s32);
-  s32 putCtx;
-  u8 pad98[0xA0 - 0x98];
-  s32 count;
-  s32 bytes;
-};
+#include "pso/audio/AdxbDecoder.h"
 
 extern "C" {
 s32 memset(void *, int, int);
-Rec_803C3E88 adx_channel_record_pool[16];
-int memcmp(const void *a, const void *b, unsigned long n);
+AdxbDecoder adx_channel_record_pool[16];
 void TLobby__sub_803C19D8(void *);
-void TLobby__sub_803C3570(Strm_803C1A8C *o);
-void TLobby__sub_803C40D0(void *);
-void TLobby__sub_803C34F4(Obj_803C34F4 *arg0);
+void TLobby__sub_803C3570(AdxbDecoder *o);
+void TLobby__sub_803C34F4(AdxbDecoder *arg0);
 s32 DVDReadPrio(void *, void *, void *);
-s32 TLobby__sub_803C44C0(Hdr_803C44C0 *hdr, s32 arg1, s16 *arg2, s8 *arg3, s8 *arg4, s8 *arg5, s8 *arg6, s32 *arg7, s32 *arg8, s32 *arg9, s16 *arg10);
 u32 adx_allocate_decoder_channel();
-Rec_803C3E88 *alloc_record__6TLobbyFiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void process_byteswapped_pcm_transfer(Snd_803C1DC4 *arg0);
-void TLobby__sub_803C2A00(Strm_803C1A8C *o);
+AdxbDecoder *alloc_record__6TLobbyFiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
-void TLobby__sub_803C34F4(Obj_803C34F4 *lobby) {
-    s16 s = lobby->state;
+void TLobby__sub_803C34F4(AdxbDecoder *h) {
+    s16 s = h->m_A8;
     if (s == 0) {
-        TLobby__sub_803C3570((Strm_803C1A8C *)lobby);
+        TLobby__sub_803C3570(h);
     } else if (s == 10) {
-        TLobby__sub_803C19D8(lobby);
+        TLobby__sub_803C19D8(h);
     } else if (s == 2) {
-        TLobby__sub_803C40D0(lobby);
+        TLobby__sub_803C40D0(h);
     } else if (s == 3) {
-        ((TLobby *)lobby)->dispatch_network_state();
+        ((TLobby *)h)->dispatch_network_state();
     } else if (s == 4) {
-        ((TLobby *)lobby)->dispatch_by_state();
+        ((TLobby *)h)->dispatch_by_state();
     } else if (s == 1) {
-        TLobby__sub_803C0B3C((u8 *)lobby);
+        TLobby__sub_803C0B3C((u8 *)h);
     }
 }
 
 // Queues n blocks of both channels in the decoder and starts it (inferred: ADXB's stereo entry).
 inline void entry_stereo_3570(void *obj, s32 n) {
-    Strm_803C1A8C *o = (Strm_803C1A8C *)obj;
+    AdxbDecoder *o = (AdxbDecoder *)obj;
     TLobby *lobby;
     s16 *dst;
 
     dst = o->buf + o->pos;
-    lobby = (TLobby *)o->id;
+    lobby = o->id;
     lobby->post_request((s32)o->src, n * 2, (s32)dst, (s32)(dst + o->rOff));
     TLobby__sub_803CB4A4((u8 *)lobby);
 }
 
 // Queues n blocks of one channel in the decoder and starts it (inferred: ADXB's mono entry).
 inline void entry_mono_3570(void *obj, s32 n) {
-    Strm_803C1A8C *o = (Strm_803C1A8C *)obj;
+    AdxbDecoder *o = (AdxbDecoder *)obj;
     TLobby *lobby;
     s16 *dst;
 
     dst = o->buf + o->pos;
-    lobby = (TLobby *)o->id;
+    lobby = o->id;
     lobby->try_post_command((s32)o->src, n, (s32)dst);
     TLobby__sub_803CB4A4((u8 *)lobby);
 }
@@ -203,7 +61,7 @@ inline void entry_mono_3570(void *obj, s32 n) {
 // Queues the next decode: the least of the input blocks, the blocks that fit the write window
 // (extended by the end padding when the end is inside it), the blocks before the end and those up
 // to the ring end (+1 when a block may straddle it) (inferred: ADXB_EvokeDecode).
-inline void evoke_decode_3570(Strm_803C1A8C *o) {
+inline void evoke_decode_3570(AdxbDecoder *o) {
     s32 n;
     s32 pad;
     s32 bufsmpl;
@@ -216,7 +74,7 @@ inline void evoke_decode_3570(Strm_803C1A8C *o) {
     s32 blk;
     s32 room_end;
 
-    blk = o->block_samples;
+    blk = o->stream_block_samples;
     pos = o->pos;
     bufsmpl = o->bufLen;
     avail = o->avail;
@@ -250,15 +108,15 @@ inline void evoke_decode_3570(Strm_803C1A8C *o) {
 }
 
 // One step of the stream decoder (inferred: ADXB_ExecOneAdx, with ADXB_EvokeDecode inlined).
-void TLobby__sub_803C3570(Strm_803C1A8C *o) {
-    if (o->state == 1 && ((TLobby *)(o->id))->get_client_count() == 0) {
+void TLobby__sub_803C3570(AdxbDecoder *o) {
+    if (o->state == 1 && o->id->get_client_count() == 0) {
         o->read(o->readArg, &o->pos, &o->avail, &o->x78);
         evoke_decode_3570(o);
         o->state = 2;
     }
     if (o->state == 2) {
-        ((TLobby *)(o->id))->update_receive_check();
-        if (((TLobby *)(o->id))->get_client_count() == 3) {
+        o->id->update_receive_check();
+        if (o->id->get_client_count() == 3) {
             s32 rOff;
             s32 size;
             s32 pos;
@@ -270,8 +128,8 @@ void TLobby__sub_803C3570(Strm_803C1A8C *o) {
             s32 n;
             s32 got;
             s32 nblk;
-            blk = o->block_samples;
-            width = o->sample_bytes;
+            blk = o->stream_block_samples;
+            width = o->stream_block_bytes;
             pos = o->pos;
             last = o->x78 + blk - 1;
             nblk = last / blk;
@@ -279,7 +137,7 @@ void TLobby__sub_803C3570(Strm_803C1A8C *o) {
             buf = o->buf;
             size = o->wrap_len;
             rOff = o->wrap_offset;
-            got = ((TLobby *)(o->id))->get_size();
+            got = o->id->get_size();
             n = got * blk / o->stream_channels;
             if (nblk * o->stream_channels <= got) {
                 n -= rem;
@@ -310,7 +168,7 @@ void TLobby__sub_803C3570(Strm_803C1A8C *o) {
                     }
                 }
             }
-            ((TLobby *)(o->id))->reset_field_0C();
+            o->id->reset_field_0C();
             o->done(o->doneArg, o->bytes, o->n);
             o->state = 3;
         }
@@ -329,21 +187,24 @@ s32 TLobby::get_field_0xa4() {
 }
 
 void TLobby__sub_803C3984(u8 *arg0) {
-    if ((s32) *(s32 *)((s8 *)arg0 + 4) == 3) {
-        ((TLobby *)(*(s32 *)((s8 *)arg0 + 8)))->reset_field_0C();
-        *(s32 *)((s8 *)arg0 + 0x9C) = 0;
-        *(s32 *)((s8 *)arg0 + 4) = 0;
+    AdxbDecoder *h = (AdxbDecoder *)arg0;
+    if (h->state == 3) {
+        h->id->reset_field_0C();
+        h->m_9C = 0;
+        h->state = 0;
     }
 }
 
 void TLobby__sub_803C39CC(u8 *arg0) {
-    ((TLobby *)(*(s32 *)((s8 *)arg0 + 8)))->reset_client_state();
-    *(s32 *)((s8 *)arg0 + 4) = 0;
+    AdxbDecoder *h = (AdxbDecoder *)arg0;
+    h->id->reset_client_state();
+    h->state = 0;
 }
 
 void TLobby__sub_803C3A04(u8 *arg0) {
-    if ((s32) *(s32 *)((s8 *)arg0 + 4) == 0) {
-        *(s32 *)((s8 *)arg0 + 4) = 1;
+    AdxbDecoder *h = (AdxbDecoder *)arg0;
+    if (h->state == 0) {
+        h->state = 1;
     }
 }
 
@@ -394,30 +255,30 @@ s16 TLobby::get_slot() {
 }
 
 s32 TLobby__sub_803C3ABC(u8 *arg0) {
-    return *(s32 *)((s8 *)arg0 + 0x18);
+    return ((AdxbDecoder *)arg0)->samples;
 }
 
 s32 TLobby__sub_803C3AC4(u8 *arg0) {
-    return *(s32 *)((s8 *)arg0 + 0x10);
+    return ((AdxbDecoder *)arg0)->block_samples;
 }
 
 s32 TLobby::get_packet_flag_for_state() {
-    Obj_803C3ACC *arg0 = (Obj_803C3ACC *)this;
-    s16 s = arg0->state;
+    AdxbDecoder *arg0 = (AdxbDecoder *)this;
+    s16 s = arg0->m_A8;
     if (s == 0) {
         return 0x10;
     }
     if (s == 2) {
-        if (arg0->sub == 2) {
+        if (arg0->m_AA == 2) {
             return 4;
         }
-        if (arg0->sub == 1) {
+        if (arg0->m_AA == 1) {
             return 8;
         }
         return 0x10;
     }
     if (s == 1) {
-        if (arg0->sub == 2) {
+        if (arg0->m_AA == 2) {
             return 4;
         }
         return 0x10;
@@ -438,7 +299,7 @@ s8 TLobby__sub_803C3B38(u8 *arg0) {
 }
 
 s32 TLobby__sub_803C3B44(u8 *arg0) {
-    return *(s32 *)((s8 *)arg0 + 0x14);
+    return ((AdxbDecoder *)arg0)->rate;
 }
 
 s32 TLobby::get_field_a8() {
@@ -452,13 +313,14 @@ s32 TLobby::get_field_0x3c() {
 }
 
 void TLobby__sub_803C3B5C(u8 *arg0, s32 arg1, s32 arg2) {
-    *(s32 *)((s8 *)arg0 + 0x88) = arg1;
-    *(s32 *)((s8 *)arg0 + 0x8C) = arg2;
+    AdxbDecoder *h = (AdxbDecoder *)arg0;
+    h->read = (void (*)(s32, s32 *, s32 *, s32 *))arg1;
+    h->readArg = arg2;
 }
 
 s32 TLobby__sub_803C3B68(s32 arg0, u16 *hdr, s32 size) {
     if ((u16) *(u16 *)((s8 *)hdr + 0) == 0x8000) {
-        return TRK__write_aram((void *)((void *)arg0), hdr, (void *)((void *)size));
+        return TRK__write_aram((void *)arg0, hdr, (void *)size);
     }
     if (((TLobby *)hdr)->is_spsd_header() != 0) {
         return TLobby__sub_803C43A8((void *)arg0, (void *)hdr, (void *)size);
@@ -476,48 +338,48 @@ s32 TLobby__sub_803C3B68(s32 arg0, u16 *hdr, s32 size) {
 }
 
 s32 TRK__write_aram(void *arg0p, void *hdr, void *size) {
-    u8 *arg0 = (u8 *)arg0p;
+    AdxbDecoder *h = (AdxbDecoder *)arg0p;
     s32 sp18;
     s32 sp14;
     s16 sp10;
     u8 *temp_r3;
-    *(s16 *)((s8 *)arg0 + 2) = 1;
-    if (ARStartDMA((u8 *)hdr, (s32)size, (s16 *)&sp10, (u8 *)(arg0 + 0xC), (s8 *)(arg0 + 0xD), (s8 *)(arg0 + 0xF), (u8 *)(arg0 + 0xE), (s32 *)(arg0 + 0x14), (s32 *)(arg0 + 0x18), (s32 *)(arg0 + 0x10)) < 0) {
+    h->m_02 = 1;
+    if (ARStartDMA((u8 *)hdr, (s32)size, &sp10, (u8 *)&h->m_0C, &h->bits, &h->block_bytes, (u8 *)&h->channels, &h->rate, &h->samples, &h->block_samples) < 0) {
         return 0;
     }
-    if ((s8) *(u8 *)((s8 *)arg0 + 0xC) > 4) {
-        if ((u32) *(u32 *)((s8 *)arg0 + 0xAC) == 0U) {
+    if (h->m_0C > 4) {
+        if (h->m_AC == 0U) {
             TLobby::report_adx_error("E1060101 ADXB_DecodeHeaderAdx: ", "can't play AHX data by this handle");
             return 0;
         }
-        *(s8 *)((s8 *)arg0 + 0xD) = 8;
-        *(u8 *)((s8 *)arg0 + 0xF) = (u8) (*(u8 *)((s8 *)arg0 + 0xE) * 0xC0);
-        *(s32 *)((s8 *)arg0 + 0x10) = 0x60;
-        *(s16 *)((s8 *)arg0 + 0xA8) = 0xA;
+        h->bits = 8;
+        h->block_bytes = (u8)(h->channels * 0xC0);
+        h->block_samples = 0x60;
+        h->m_A8 = 0xA;
         goto block_11;
     }
-    if (TLobby__sub_803C48C8((u8 *)hdr, (s32)size, (u16 *)(arg0 + 0x1C)) < 0) {
+    if (TLobby__sub_803C48C8((u8 *)hdr, (s32)size, (u16 *)&h->m_1C) < 0) {
         return 0;
     }
     if (((TLobby *)hdr)->parse_header_loop_points((s32)size, (u16 *)&sp18, (u16 *)&sp14) < 0) {
         return 0;
     }
-    ((TLobby *)(*(s32 *)((s8 *)arg0 + 8)))->calc_adx_coeffs_at_offset((void *)(*(s32 *)((s8 *)arg0 + 0x14)), (s32)((int) (*(s16 *)((s8 *)arg0 + 0x1C))));
-    TLobby__sub_803CB570((u8 *)(*(s32 *)((s8 *)arg0 + 8)), (u8 *)&sp18, (s16 *)&sp14);
-    __DVDPrepareResetAsync((u8 *)hdr, (s32)size, (s32 *)(arg0 + 0x20), (s16 *)(arg0 + 0x24), (s16 *)(arg0 + 0x26), (s32 *)(arg0 + 0x28), (s32 *)(arg0 + 0x2C), (s32 *)(arg0 + 0x30), (s32 *)(arg0 + 0x34));
-    *(s16 *)((s8 *)arg0 + 0xA8) = 0;
+    h->id->calc_adx_coeffs_at_offset((void *)h->rate, (s32)h->m_1C);
+    TLobby__sub_803CB570((u8 *)h->id, (u8 *)&sp18, (s16 *)&sp14);
+    __DVDPrepareResetAsync((u8 *)hdr, (s32)size, &h->m_20, &h->m_24, &h->m_26, &h->m_28, &h->m_2C, &h->m_30, &h->m_34);
+    h->m_A8 = 0;
 block_11:
-    temp_r3 = (arg0 + 0x4C);
-    *(s32 *)((s8 *)arg0 + 0x58) = (s32) (s8) *(u8 *)((s8 *)arg0 + 0xE);
-    *(s32 *)((s8 *)arg0 + 0x5C) = (s32) (s8) *(u8 *)((s8 *)arg0 + 0xF);
-    *(s32 *)((s8 *)arg0 + 0x60) = (s32) *(s32 *)((s8 *)arg0 + 0x10);
-    *(s32 *)((s8 *)arg0 + 0x64) = (s32) *(s32 *)((s8 *)arg0 + 0x3C);
-    *(s32 *)((s8 *)arg0 + 0x68) = (s32) *(s32 *)((s8 *)arg0 + 0x40);
-    *(s32 *)((s8 *)arg0 + 0x6C) = (s32) *(s32 *)((s8 *)arg0 + 0x44);
-    *(s16 *)((s8 *)arg0 + 0x7C) = (s16) *(s16 *)((s8 *)arg0 + 0x48);
-    *(s16 *)((s8 *)arg0 + 0x7E) = (*(s16 *)((s8 *)arg0 + 0x4A));
-    *(u8 **)((s8 *)arg0 + 0x80) = temp_r3;
-    *(s32 *)((s8 *)arg0 + 0x9C) = 0;
+    temp_r3 = h->m_4C;
+    h->stream_channels = h->channels;
+    h->stream_block_bytes = h->block_bytes;
+    h->stream_block_samples = h->block_samples;
+    h->buf = h->m_3C;
+    h->bufLen = h->wrap_len;
+    h->rOff = h->wrap_offset;
+    h->m_7C = h->m_48;
+    h->m_7E = h->m_4A;
+    h->m_80 = temp_r3;
+    h->m_9C = 0;
     memset(temp_r3, 0, 4);
     return sp10;
 }
@@ -531,16 +393,16 @@ void TLobby::clear_record() {
     }
 }
 
-inline void free_803C3E88(Rec_803C3E88 *r) {
+inline void free_803C3E88(AdxbDecoder *r) {
     if (r != NULL) {
-        ((TLobby *)(r->f8))->clear_record_data();
-        memset(r, 0, 0xB8);
+        r->id->clear_record_data();
+        memset(r, 0, sizeof(AdxbDecoder));
         r->used = 0;
     }
 }
-Rec_803C3E88 *alloc_record__6TLobbyFiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+AdxbDecoder *alloc_record__6TLobbyFiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 i;
-    Rec_803C3E88 *r;
+    AdxbDecoder *r;
     for (i = 0; i < 16; i++) {
         if (adx_channel_record_pool[i].used == 0) {
             break;
@@ -550,36 +412,37 @@ Rec_803C3E88 *alloc_record__6TLobbyFiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         return NULL;
     }
     r = &adx_channel_record_pool[i];
-    memset(r, 0, 0xB8);
+    memset(r, 0, sizeof(AdxbDecoder));
     r->used = 1;
-    r->f8 = adx_allocate_decoder_channel();
-    if (r->f8 == 0) {
+    r->id = (TLobby *)adx_allocate_decoder_channel();
+    if (r->id == 0) {
         free_803C3E88(r);
         return NULL;
     }
-    r->f38 = arg0;
-    r->f3c = arg1;
-    r->f40 = arg2;
-    r->f44 = arg3;
-    r->f88 = (void *)get_progress_info__6TLobbyFPvPvPvPv;
-    r->f8c = r;
-    r->f90 = (void *)TLobby__sub_803C4020;
-    r->f94 = r;
+    r->m_38 = arg0;
+    r->m_3C = (s16 *)arg1;
+    r->wrap_len = arg2;
+    r->wrap_offset = arg3;
+    r->read = (void (*)(s32, s32 *, s32 *, s32 *))get_progress_info__6TLobbyFPvPvPvPv;
+    r->readArg = (s32)r;
+    r->done = (void (*)(s32, s32, s32))TLobby__sub_803C4020;
+    r->doneArg = (s32)r;
     return r;
 }
 
 void TLobby__sub_803C4020(u8 *arg0, s32 arg1, s32 arg2) {
-    *(s32 *)((s8 *)arg0 + 0x9C) = (s32) (*(s32 *)((s8 *)arg0 + 0x9C) + arg2);
-    *(s32 *)((s8 *)arg0 + 0x98) = (s32) (*(s32 *)((s8 *)arg0 + 0x98) + arg2);
+    AdxbDecoder *h = (AdxbDecoder *)arg0;
+    h->m_9C += arg2;
+    h->m_98 += arg2;
 }
 
 s32 get_progress_info__6TLobbyFPvPvPvPv(u8 *arg0, s32 *arg1, s32 *arg2, s32 *arg3) {
-    *arg1 = *(s32 *)((s8 *)arg0 + 0x9C);
-    *arg2 = *(s32 *)((s8 *)arg0 + 0x40) - *(s32 *)((s8 *)arg0 + 0x9C);
-    *arg3 = *(s32 *)((s8 *)arg0 + 0x18) - *(s32 *)((s8 *)arg0 + 0x98);
-    return *(s32 *)((s8 *)arg0 + 0x3C);
+    AdxbDecoder *h = (AdxbDecoder *)arg0;
+    *arg1 = h->m_9C;
+    *arg2 = h->wrap_len - h->m_9C;
+    *arg3 = h->samples - h->m_98;
+    return (s32)h->m_3C;
 }
-typedef char RecoveredGlobal_803C0AD8_lbl_80570AC0_size[sizeof(RecoveredGlobal_803C0AD8_lbl_80570AC0) == 0x9C0 ? 1 : -1];
 void TLobby__sub_803C406C(void) {
     TLobby::clear_buffer_340();
     memset(adx_channel_record_pool, 0, sizeof(adx_channel_record_pool));

@@ -7,7 +7,7 @@ class TLobby;
 
 // One ADXB decoder ("ADXB_DecodeHeaderAdx"), shared by the ADX, SPSD, AIFF and AU decoders.
 struct AdxbDecoder {
-    u8 pad_00[0x2];
+    s16 used;
     s16 m_02;
     s32 state;
     TLobby *id;
@@ -27,7 +27,7 @@ struct AdxbDecoder {
     s32 m_2C;
     s32 m_30;
     s32 m_34;
-    u8 pad_38[0x4];
+    s32 m_38;
     s16 *m_3C;
     s32 wrap_len;    // samples; data past it is copied back to the buffer start
     s32 wrap_offset; // second channel's offset for that copy
@@ -48,7 +48,7 @@ struct AdxbDecoder {
     s16 m_7C;
     s16 m_7E;
     u8 *m_80;
-    u8 pad_84[0x4];
+    s32 m_84;
     void (*read)(s32, s32 *, s32 *, s32 *);
     s32 readArg;
     void (*done)(s32, s32, s32);
@@ -59,7 +59,10 @@ struct AdxbDecoder {
     s32 bytes;
     s16 m_A8;
     s16 m_AA;
+    u32 m_AC;
+    u8 pad_B0[0x8];
 };
+typedef char AdxbDecoder_size_check[sizeof(AdxbDecoder) == 0xB8 ? 1 : -1];
 
 // SPSD header fields read by the SPSD decoder.
 struct SpsdHeader {
