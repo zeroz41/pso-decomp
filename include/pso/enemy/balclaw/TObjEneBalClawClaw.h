@@ -21,27 +21,31 @@ struct TObjEneBalClawClaw : public TObjEneBalClaw {
     void *create(void *arg1, void *arg2, void *arg3, void *arg4, void *arg5);
     void *create();
     static void spawn_child_enemy();
-    u8 unk_3C0[0x6];
-    s16 m_3c6;
-    u8 unk_3C8[0x60];
+    f32 m_3c0;             // xz distance squared to where it is moving (the body while following it)
+    u8 unk_3C4[0x2];
+    u16 m_3c6;             // entity id of the body it follows
+    s16 m_3c8;             // frames left to chase
+    u8 unk_3CA[0x5E];
     void set_claw_flags();
     void clear_flag();
     void enter_hit_state(s16 arg1);
     s32 check_active();
     void update_chase_state();
     void run_active_state();
+    static void update_chase(void *claw);
+    static void action(void *claw);
+    static void update_follow_parent(void *claw);
+    static void update_move_to_target(void *claw);
+    static int reset_active_state(void *claw);
+    static void update_drop(void *claw);
 };
 
 typedef char TObjEneBalClawClaw_size[sizeof(TObjEneBalClawClaw) == 0x428 ? 1 : -1];
 
 extern "C" {
-s32 TObjEneBalClawClaw__ct(void *arg0);
-void TObjEneBalClawClaw__sub_80090A10(u8 *arg0, u8 *arg1, s32 arg2, s16 arg3);
-void action__18TObjEneBalClawClawFPv(u8 *arg0);
-int reset_active_state__18TObjEneBalClawClawFPv(void *p);
-void run_active_state__18TObjEneBalClawClawFv(u8 *arg0);
+void TObjEneBalClawClaw__ct(TObjEneBalClawClaw *claw);
+void TObjEneBalClawClaw__sub_80090A10(TObjEneBalClawClaw *claw, Vec *pos, s32 rot_y, s16 hp);
 void spawn_lobby_npc_enemy(void);
-void update_chase_state__18TObjEneBalClawClawFv(u8 *arg0);
 }
 
 #endif
