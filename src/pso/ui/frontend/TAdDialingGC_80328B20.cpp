@@ -4,37 +4,47 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/system/NinjaTypes.h"
 
+struct VtxList_80077BC0 {
+    f32 *volatile pos;
+    u32 *volatile col;
+    s32 n;
+    s32 cap;
+};
+
 extern "C" {
 extern f32 lbl_804767B8[];
 extern f32 lbl_804767C0[];
 extern f32 lbl_804767A8[];
 extern f32 lbl_804767B0[];
+extern const f32 lbl_805DF6F8;
 
 void TAdDialingGC__sub_80328B20(void) {  }
 
 // Draws a flat dark-blue quad of `size` (w, h) at `origin` (x, y) (one 2D polygon, four points).
 void TAdDialingGC__sub_80328B24(f32 *origin, f32 *size) {
-    NJS_POINT2 pos[4];
-    NJS_POINT2COL poly;
-    NJS_COLOR col[4];
+    VtxList_80077BC0 vl;
+    u32 col[4];
+    f32 pos[8];
 
-    poly.col = col;
-    poly.num = 4;
-    poly.p = pos;
-    poly.tex = NULL;
-    poly.p[0].x = origin[0];
-    poly.p[0].y = origin[1];
-    poly.col[0].color = 0x8F;
-    poly.p[1].x = origin[0];
-    poly.p[1].y = origin[1] + size[1];
-    poly.col[1].color = 0x8F;
-    poly.p[2].x = origin[0] + size[0];
-    poly.p[2].y = origin[1] + size[1];
-    poly.col[2].color = 0x8F;
-    poly.p[3].x = origin[0] + size[0];
-    poly.p[3].y = origin[1];
-    poly.col[3].color = 0x8F;
-    ((TObjCMHairMenu *)&poly)->draw_tri_fan_2d(4, 7, -120.0f);
+    f32 x = origin[0];
+    f32 y = origin[1];
+    vl.n = 0;
+    vl.cap = 4;
+    vl.col = col;
+    vl.pos = pos;
+    pos[0] = x;
+    pos[1] = y;
+    vl.col[0] = 0x8F;
+    vl.pos[2] = origin[0];
+    vl.pos[3] = origin[1] + size[1];
+    vl.col[1] = 0x8F;
+    vl.pos[4] = origin[0] + size[0];
+    vl.pos[5] = origin[1] + size[1];
+    vl.col[2] = 0x8F;
+    vl.pos[6] = origin[0] + size[0];
+    vl.pos[7] = origin[1];
+    vl.col[3] = 0x8F;
+    ((TObjCMHairMenu *)&vl)->draw_tri_fan_2d(4, 7, lbl_805DF6F8);
 }
 void TAdDialingGC::draw_if_flag_set() {
     TAdDialingGC *self = this;
