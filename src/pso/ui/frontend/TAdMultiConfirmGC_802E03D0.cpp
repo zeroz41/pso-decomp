@@ -94,6 +94,7 @@ typedef char RecoveredGlobal_802E0B60_lbl_804E3008_size[sizeof(RecoveredGlobal_8
 
 #pragma push
 #pragma fp_contract on
+#pragma pool_data off
 
 void TUnk_804E3008::sub_802E0CB0() {
     ((Obj_802E0CB0 *)this)->f11C = 0;

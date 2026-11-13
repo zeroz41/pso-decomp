@@ -1869,6 +1869,7 @@ void TObjEneMe1GiGue::load_params() {
 #pragma push
 #pragma opt_common_subs off
 extern "C" {
+#pragma pool_data off
 void find_open_direction__15TObjEneMe1GiGueFPvPv(u8 *arg0, Vec_802CAD98 *arg1) {
     f32 best;
     s32 ang;
@@ -1907,6 +1908,7 @@ void find_open_direction__15TObjEneMe1GiGueFPvPv(u8 *arg0, Vec_802CAD98 *arg1) {
     vec3_add_to(arg0 + 0x390, arg0 + 0x2FC);
     pop_matrix();
 }
+#pragma pool_data reset
 }
 #pragma pop
 

@@ -316,6 +316,12 @@ extern const TObjChipParams lbl_80444EA8 = {
     { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, { 6, 0x32 }, { 0.0f, 0.5f }, 0, 0, 0x14,
 };
 
+// Texture archive names for load_forest_box_resources. They stay outside this unit's
+// .rodata claim: the original reaches them by address while pooling .data, and a stock
+// compiler would pool them too if this unit defined them.
+extern const char seabed_container_texture_filename[];
+extern const char forest_box_texture_filename_a[];
+extern const char forest_box_texture_filename_n[];
 void play_container_break_sound(s32 arg0);
 extern s32 lbl_805D5B7C;
 extern "C" {
@@ -1314,6 +1320,7 @@ void play_container_break_sound(s32 arg0) {
 
 
 extern "C" {
+#pragma pool_data off
 void TUnk_804B6C24::debug_print_item_box_info() {
     Obj_80189E3C *self = (Obj_80189E3C *)this;
     Item_80189E3C item;
@@ -1336,6 +1343,7 @@ void TUnk_804B6C24::debug_print_item_box_info() {
     }
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
+#pragma pool_data reset
 
 }
 
@@ -1497,7 +1505,7 @@ void load_forest_box_resources(void) {
             bundle = load_resource_from_descriptor(bundle, 5, &bm_obj_seabed_con_resource_descriptor, 0, 0, 0);
         }
         lbl_805D5B78 = (BmlResource *)bundle;
-        lbl_805D5B7C = (s32)load_gvm_texture_file((s32)"obj_seabed_con.GVM");
+        lbl_805D5B7C = (s32)load_gvm_texture_file((s32)seabed_container_texture_filename);
         lbl_805D5B80 = &forest_box_break_params[2];
         lbl_805D5B84 = &forest_box_break_params[3];
         node = (u32 *)find_object_node((NJS_OBJECT *)(get_bml_model(lbl_805D5B78, 1)), 2);
@@ -1511,7 +1519,7 @@ void load_forest_box_resources(void) {
             bundle = load_resource_from_descriptor(bundle, 5, &fe_obj_hako01_hahen02_resource_descriptor, 0, 0, 0);
         }
         lbl_805D5B78 = (BmlResource *)bundle;
-        lbl_805D5B7C = TLobby::is_online_ready() != 0 ? (s32)load_gvm_texture_file((s32)"fs_obj_hako01_a.gvm") : (s32)load_gvm_texture_file((s32)"fs_obj_hako01_n.gvm");
+        lbl_805D5B7C = TLobby::is_online_ready() != 0 ? (s32)load_gvm_texture_file((s32)forest_box_texture_filename_a) : (s32)load_gvm_texture_file((s32)forest_box_texture_filename_n);
         lbl_805D5B80 = &forest_box_break_params[0];
         lbl_805D5B84 = &forest_box_break_params[1];
         break;

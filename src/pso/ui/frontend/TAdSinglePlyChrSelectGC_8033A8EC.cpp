@@ -443,6 +443,7 @@ void TAdSinglePlyChrSelectGC::run_frame() {
 }
 
 struct RecoveredGlobal_8033B264_lbl_804EF728;
+#pragma pool_data off
 void init_single_player_char_select_scene(void) {
     u32 p;
     set_copy_clear_color_argb(0, 0, 0);
@@ -472,6 +473,7 @@ void init_single_player_char_select_scene(void) {
     ((TLobby *)lobby_rule_settings)->reset_settings_to_default();
     render_tick();
 }
+#pragma pool_data reset
 
 void close_window__23TAdSinglePlyChrSelectGCFPv(void *arg0) {
     void *object = *(void **)((s8 *)arg0 + 0x3C);

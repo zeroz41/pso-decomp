@@ -2169,6 +2169,8 @@ void TBoss1Dragon::update_fade_state(u32 arg1) {
 #define F(T, o) (*(T *)(arg0 + (o)))
 #define RES(o) (*(s32 *)((u8 *)&TBoss1Dragon__part_hp_stats + (o)))
 struct Eff_80022EE0 { u32 w[5]; };
+#pragma push
+#pragma pool_data off
 void update_death_state__12TBoss1DragonFv(u8 *arg0, u32 arg1) {
     Eff_80022EE0 eff1;
     Eff_80022EE0 eff2;
@@ -2313,6 +2315,7 @@ void update_death_state__12TBoss1DragonFv(u8 *arg0, u32 arg1) {
         break;
     }
 }
+#pragma pop
 
 struct Vec_80023450 { f32 x, y, z; };
 

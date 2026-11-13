@@ -2863,6 +2863,8 @@ void *__vt__23TObjEneMe3ShinowaMirage[119] = {
     (void *)&vfunc_116__17TObjEneMe3ShinowaFl, (void *)&update_mirage__17TObjEneMe3ShinowaFv, (void *)&vfunc_118__17TObjEneMe3ShinowaFv,
 };
 
+#pragma push
+#pragma pool_data off
 // Debug viewer: the mirage and gold-texture switches, then the model posed in
 // action parameters[2] at frame parameters[3] (unposed when mode is not 0).
 void TObjEneMe3Shinowa::vfunc_118() {
@@ -2941,6 +2943,8 @@ void TObjEneMe3Shinowa::vfunc_118() {
         TParticleCtrl::end_effect_render();
     }
 }
+
+#pragma pop
 
 void TObjEneMe3Shinowa::update_mirage() { if (get_target_info() != 0) { ((int (*)(void*))fn_800E762C)(this); sub_800E6F64(); } }
 

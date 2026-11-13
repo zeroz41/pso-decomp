@@ -1105,6 +1105,7 @@ void TObjEneBm3FlyNest::render() {
     VecCopy((Vec *)&m_2fc, &unk_3c8[0]);
 }
 
+#pragma pool_data off
 void TObjEneBm3FlyNest::render_with_state_debug() {
     u8 *arg0 = (u8 *)this;
     f32 var_f31;
@@ -1163,4 +1164,5 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
     draw_chunk_object((void *)debug_chunk_object);
     ((void (*)(void))pop_matrix)();
 }
+#pragma pool_data reset
 }

@@ -1572,6 +1572,7 @@ void TObjEneDellBiter::render() {
 
 void TObjEneDellBiter::fn_80303538() { if (get_target_info() != 0) { this->init_target_offsets(); } }
 
+#pragma pool_data off
 void TObjEneDellBiter::vfunc_106() {
     if (this->get_target_info() != 0) {
         debug_printf_at(pack_debug_text_position(0, 2), "HOWL PER(+0.3f)");
@@ -1601,6 +1602,7 @@ void TObjEneDellBiter::vfunc_106() {
         TParticleCtrl::end_effect_render();
     }
 }
+#pragma pool_data reset
 
 s32 TObjEneDellBiter::render_model_if_visible() {
     if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x20) {

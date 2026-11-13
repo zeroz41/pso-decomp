@@ -122,6 +122,7 @@ G_8030C45C *TAdChrSelASlotGC__sub_8030C45C(TAdChrSelASlotGC *self, s32 arg1, s32
     return &chr_select_a_slot_entry;
 }
 
+#pragma pool_data off
 s32 TAdChrSelASlotGC__sub_8030C4F8(TAdChrSelASlotGC *self, s32 kind) {
     V2_8030C750 pos;
     s32 w;
@@ -275,6 +276,7 @@ u32 TAdChrSelASlotGC__sub_8030CB08(TAdChrSelASlotGC *ad_chr_sel_a_slot_gc, s32 k
     ((TWindowSubComCard *)w)->calc_layout_height(190.0f);
     return (u32)w;
 }
+#pragma pool_data reset
 
 void TAdChrSelASlotGC::sub_8030CBD0() {}
 void TAdChrSelASlotGC::sub_8030CBD4() {}
@@ -304,6 +306,7 @@ void TAdChrSelASlotGC::init_selection() {
 }
 void TAdChrSelASlotGC::sub_8030CCE0() {}
 
+#pragma pool_data off
 void TAdChrSelASlotGC::sub_8030CCE4() {
     u32 i;
     u32 j;
@@ -372,6 +375,7 @@ void TAdChrSelASlotGC::sub_8030CEEC() {
         this->state = 0xD;
     }
 }
+#pragma pool_data reset
 
 void TAdChrSelASlotGC::update_window_78() {
     if (((TAdChrSelASlotGC *)(this->m_30))->get_slot_index() > 0xB) {

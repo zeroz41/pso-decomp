@@ -1445,7 +1445,7 @@ pso/enemy/bringer/BringerEffects.cpp:
 
 pso/enemy/canadin/TObjEneMe1Canadin.cpp:
 	.text       start:0x8009AB4C end:0x8009F7AC
-	.rodata     start:0x8043A180 end:0x8043A3E4
+	.rodata     start:0x8043A1B0 end:0x8043A3E4
 	.data       start:0x8048FEB0 end:0x80490410
 	.bss        start:0x80500930 end:0x80500970
 	.sdata      start:0x805D29B0 end:0x805D29B8
@@ -4588,7 +4588,7 @@ pso/object/TObjComputer.cpp:
 
 pso/object/container/TObjContainerItem.cpp:
 	.text       start:0x80188584 end:0x8018A55C
-	.rodata     start:0x80444B90 end:0x80444F94
+	.rodata     start:0x80444B90 end:0x80444F58
 	.data       start:0x804B6338 end:0x804B66F4
 	.sdata      start:0x805D32D8 end:0x805D3300
 
@@ -6300,7 +6300,7 @@ pso/item/shop/ShopToolStock.cpp:
 
 pso/item/shop/ShopWeaponStock.cpp:
 	.text       start:0x80224660 end:0x802257EC
-	.rodata     start:0x8044C488 end:0x8044C828
+	.rodata     start:0x8044C7B8 end:0x8044C828
 	.bss        start:0x80513F30 end:0x80513F70
 	.sbss       start:0x805D6268 end:0x805D6270
 	.sdata2     start:0x805DC738 end:0x805DC73C

@@ -315,6 +315,7 @@ void *__nw__7TObjectFUl(int);
 
 #pragma push
 #pragma opt_lifetimes off
+#pragma pool_data off
 #pragma opt_loop_invariants off
 #pragma opt_common_subs off
 #pragma opt_propagation off

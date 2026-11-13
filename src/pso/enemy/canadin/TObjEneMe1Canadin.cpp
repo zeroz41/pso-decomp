@@ -1495,10 +1495,10 @@ extern const f32 lbl_805D9860;
 int is_target_android(void *p);
 
 // Ids load_resources registers with the lobby for each of the three slots.
-static const s32 lbl_8043A180[3] = { 7, 8, 9 };
-static const s32 lbl_8043A18C[3] = { 7, 8, 9 };
-static const s32 lbl_8043A198[3] = { 7, 8, 9 };
-static const s32 lbl_8043A1A4[3] = { 7, 8, 9 };
+extern const s32 lbl_8043A180[3];
+extern const s32 lbl_8043A18C[3];
+extern const s32 lbl_8043A198[3];
+extern const s32 lbl_8043A1A4[3];
 
 void *canadin_setup_param_block[7] = {
     (void *)0x43610000, (void *)0x0, (void *)0x600, (void *)0x0,
@@ -3622,6 +3622,7 @@ void TObjEneMe1Canadin::update_if_ready() { if (get_target_info() != 0) { this->
 }
 
 extern "C" {
+#pragma pool_data off
 void TObjEneMe1Canadin::render_canadin_model_with_debug_type() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r3;
@@ -3648,6 +3649,7 @@ void TObjEneMe1Canadin::render_canadin_model_with_debug_type() {
         TParticleCtrl::end_effect_render();
     }
 }
+#pragma pool_data reset
 }
 
 extern "C" {

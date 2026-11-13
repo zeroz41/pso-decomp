@@ -121,35 +121,11 @@ void roll_shop_weapon_second_bonus(Obj_80224C68 *obj);
 void roll_shop_weapon_first_bonus(Obj_80224DF0 *obj);
 void sort_shop_items(s32, s32, s32);
 
-const Pair_8022525C shop_weapon_group_subtype_table[72] = {
-    {1, 0}, {1, 1}, {1, 2}, {1, 3}, {1, 4},
-    {3, 0}, {3, 1}, {3, 2}, {3, 3}, {3, 4},
-    {2, 0}, {2, 1}, {2, 2}, {2, 3}, {2, 4},
-    {5, 0}, {5, 1}, {5, 2}, {5, 3}, {5, 4},
-    {4, 0}, {4, 1}, {4, 2}, {4, 3}, {4, 4},
-    {6, 0}, {6, 1}, {6, 2}, {6, 3}, {6, 4},
-    {7, 0}, {7, 1}, {7, 2}, {7, 3}, {7, 4},
-    {8, 0}, {8, 1}, {8, 2}, {8, 3}, {8, 4},
-    {9, 0}, {9, 1}, {9, 2}, {9, 3}, {9, 4},
-    {10, 0}, {10, 1}, {10, 2}, {10, 3}, {11, 0},
-    {11, 1}, {11, 2}, {11, 3}, {12, 0}, {12, 1},
-    {12, 2}, {12, 3}, {-1, -1}, {-1, -1}, {1, 5},
-    {2, 5}, {6, 5}, {8, 5}, {10, 4}, {12, 4},
-    {11, 4}, {1, 6}, {3, 5}, {7, 5}, {10, 5},
-    {12, 5}, {11, 5},
-};
-const Pair_8022525C shop_section_id_weapon_table_a[10] = {
-    {40, 0}, {42, 0}, {43, 0}, {53, 0}, {82, 0},
-    {72, 0}, {100, 0}, {89, 0}, {138, 0}, {153, 0},
-};
-const Pair_8022525C shop_section_id_weapon_table_b[10] = {
-    {153, 0}, {100, 0}, {138, 0}, {40, 0}, {89, 0},
-    {43, 0}, {82, 0}, {42, 0}, {72, 0}, {53, 0},
-};
-const s32 shop_weapon_bonus_table[20] = {
-    -50, -45, -40, -35, -30, -25, -20, -15, -10, -5,
-    5, 10, 15, 20, 25, 30, 35, 40, 45, 50,
-};
+// The shop tables sit in .rodata just before this unit's own; the shop code reaches them by address.
+extern const Pair_8022525C shop_weapon_group_subtype_table[72];
+extern const Pair_8022525C shop_section_id_weapon_table_a[10];
+extern const Pair_8022525C shop_section_id_weapon_table_b[10];
+extern const s32 shop_weapon_bonus_table[20];
 
 u32 lobby_weapon_random_tables_ptr;
 int shop_weapon_stock_level;
@@ -692,6 +668,7 @@ void TLobby::free_lobby_resources() {
 
 #pragma push
 #pragma optimization_level 1
+#pragma pool_data off
 void load_weapon_random_tables(void) {
     s32 i;
     s32 j;

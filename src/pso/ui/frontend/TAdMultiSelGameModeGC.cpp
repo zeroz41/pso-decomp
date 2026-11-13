@@ -310,6 +310,7 @@ s32 get_max_difficulty_for_party_level(void) {
 
 TAdMultiSelGameModeGC::~TAdMultiSelGameModeGC() {}
 
+#pragma pool_data off
 Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s32 mode) {
     void *p;
     __ct__7TObjectFP7TObject(self);
@@ -408,3 +409,4 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
     create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)self, 0x10, 0.0f);
     return self;
 }
+#pragma pool_data reset

@@ -110,6 +110,7 @@ extern "C" const char *TBoss6Demo21_TYPE2_DEAD__name = TBoss6Demo21_TYPE2_DEAD__
 #define boss6_type2_death_effect_desc_c ((u8 *)boss6_type2_death_effect_desc_c)
 #define lbl_80478134 ((u8 *)lbl_80478134)
 #define boss6_type2_death_emitter_ranges ((Rng_8033E0F0 *)boss6_type2_death_emitter_ranges)
+#pragma pool_data off
 extern "C" {
 void TBoss6Demo21_TYPE2_DEAD::draw_model_13() {
     if ((s32) this->m_50 >= 0x1AC) {
@@ -224,6 +225,8 @@ void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_4() {
 
 void render__23TBoss6Demo21_TYPE2_DEADFv(void* p) { ((TBoss6Demo21_TYPE2_DEAD *)p)->draw_fading_model_4(); TBoss6Demo21_TYPE2_DEAD::draw_fading_model_5(p); TBoss6Demo21_TYPE2_DEAD::draw_fading_model_8(p); ((TBoss6Demo21_TYPE2_DEAD *)p)->draw_model_13(); }
 
+#pragma push
+#pragma pool_data off
 void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0) {
     Vec_8033E0F0 b;
     Vec_8033E0F0 mid;
@@ -344,6 +347,8 @@ void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0) {
         ((TObject *)arg0)->queue_destruction();
     }
 }
+#pragma pop
+
 }
 TBoss6Demo21_TYPE2_DEAD::~TBoss6Demo21_TYPE2_DEAD() {
     s32 i;

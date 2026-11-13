@@ -163,6 +163,7 @@ void render__14TBoss2TentacleFv(u8 *arg0) {
 typedef V3_80039DE0 V3_800394DC;
 typedef struct { u8 pad[0x30]; V3_800394DC pts[14]; } Ten_800394DC;
 #define F(t, o) (*(t *)(arg0 + (o)))
+#pragma pool_data off
 void run_task__14TBoss2TentacleFv(u8 *arg0) {
     if (F(s32, 0x20) != F(s32, 0x1C)) {
         switch (F(s32, 0x20)) {
@@ -297,6 +298,7 @@ void run_task__14TBoss2TentacleFv(u8 *arg0) {
         break;
     }
 }
+#pragma pool_data reset
 
 void TBoss2Tentacle__sub_8003998C(void) {  }
 void TBoss2Tentacle__sub_80039990(void) {  }

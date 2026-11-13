@@ -5,6 +5,7 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
+#pragma pool_data off
 struct Desc_80349C54 {
     f32 *pos;
     s32 *col;

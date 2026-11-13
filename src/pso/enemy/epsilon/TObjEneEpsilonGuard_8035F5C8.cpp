@@ -1442,6 +1442,7 @@ void TObjEneEpsilonBody::render() {
 }
 #pragma pop
 
+#pragma pool_data off
 void TObjEneEpsilonBody::sub_803606A0(s32 i) {
     Obj_803606A0 *g6 = (Obj_803606A0 *)this;
     // Joint index per guard slot.
@@ -1467,6 +1468,7 @@ void TObjEneEpsilonBody::sub_803606A0(s32 i) {
     pop_matrix();
     g6->ang[i] = (s32)(10430.38043493439 * atan2_float(g6->pts[i].x - g6->pos.x, g6->pts[i].z - g6->pos.z));
 }
+#pragma pool_data reset
 
 void TObjEneEpsilonGuard::draw_debug_line() {
     s32 arg0 = (s32)this;
