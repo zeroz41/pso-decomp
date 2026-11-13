@@ -16,15 +16,16 @@ struct Bm3FlyNestSetData {
 };
 
 struct TObjEneBm3FlyNest : public TObjEneDD {
+    TObjEneBm3FlyNest(TObject *parent, Bm3FlyNestSetData *set_data);
     virtual ~TObjEneBm3FlyNest();
     virtual void run_task();
     virtual void render();
+    virtual void dispatch_action(u32 state, s32 reason);
     virtual void vfunc_88();
-    // Slot 104, the first one TObjEneDD leaves to its subclasses: init, which run_task calls with no argument.
-    virtual void vfunc_104();
+    // Slot 104, the first one TObjEneDD leaves to its subclasses.
+    virtual void init();
     virtual void render_with_state_debug();
     virtual void render_shadows();
-    void init(void *);
     void init_params();
     void state_initial_emit(s32);
     void vfunc_63();
@@ -79,20 +80,16 @@ typedef char TObjEneBm3FlyNest_m_4d8_offset[offsetof(TObjEneBm3FlyNest, m_4d8) =
 
 extern "C" {
 void *__ct__26TObjEneBm3FlyNest_CarryFlyFP7TObjectlllll(void *self, TObject *parent, Vec *origin, Vec *target, Vec *unused, s32 *arrived, s32 index);
-TObjEneBm3FlyNest *TObjEneBm3FlyNest__ct(TObjEneBm3FlyNest *nest, TObject *parent, Bm3FlyNestSetData *set_data);
 Vec *TObjEneBm3FlyNest__sub_800B2A54(TObjEneBm3FlyNest *nest);
 void TObjEneBm3FlyNest__sub_800B318C(TObjEneBm3FlyNest *nest, s32 arg1);
 s32 TObjEneBm3FlyNest__sub_800B3AC8(TObjEneBm3FlyNest *nest);
 BmlResource *TObjEneBm3FlyNest__sub_800B4158(void);
 s32 copy_target_state__17TObjEneBm3FlyNestFPv(TObjEneBm3FlyNest *nest, s32 sound_id);
-void dispatch_state__17TObjEneBm3FlyNestFiUii(TObjEneBm3FlyNest *nest, u32 arg1, s32 arg2);
 void handle_appear__17TObjEneBm3FlyNestFPvi(TObjEneBm3FlyNest *nest, s32 arg1);
 void handle_attachment_sample__17TObjEneBm3FlyNestFi(s32 arg0);
 void handle_event__17TObjEneBm3FlyNestFPvi(TObjEneBm3FlyNest *nest, s32 arg1);
 void handle_motion_event__17TObjEneBm3FlyNestFPvi(TObjEneBm3FlyNest *nest, s32 arg1);
 void handle_state__17TObjEneBm3FlyNestFPvi(TObjEneBm3FlyNest *nest, s32 arg1);
-void render__17TObjEneBm3FlyNestFv(u8 *arg0);
-void run_task__17TObjEneBm3FlyNestFv(u8 *arg0);
 void state_dying__17TObjEneBm3FlyNestFPvi(TObjEneBm3FlyNest *nest, s32 arg1);
 void state_spawn__17TObjEneBm3FlyNestFPvi(TObjEneBm3FlyNest *nest, s32 arg1);
 void state_wait__17TObjEneBm3FlyNestFPvi(TObjEneBm3FlyNest *nest, s32 arg1);

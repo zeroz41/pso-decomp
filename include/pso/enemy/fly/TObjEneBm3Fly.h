@@ -40,12 +40,14 @@ struct EnemyTargetCandidate {
 };
 
 struct TObjEneBm3Fly : public TObjEneDD_ST {
+    TObjEneBm3Fly(TObject *parent, TObjEneBm3FlyNest *nest, s32 entity_id, s32 set_index, const Vec *position, const Vec *arg6);
     virtual ~TObjEneBm3Fly();
     virtual s32 vfunc_104(f32);
     virtual void vfunc_105();
     virtual void vfunc_106();
     virtual void vfunc_89();
     virtual void vfunc_88();
+    virtual void dispatch_action(u32 state, s32 reason);
     void handle_message(s32 arg1);
     void state_death_fall(s32 arg1);
     void update_recoil_state(s32 arg1);
@@ -124,17 +126,11 @@ typedef char TObjEneBm3Fly_alternate_phase_offset[(offsetof(TObjEneBm3Fly, alter
 typedef char TObjEneBm3Fly_size[sizeof(TObjEneBm3Fly) == 0x4A8 ? 1 : -1];
 
 extern "C" {
-TObjEneBm3Fly *TObjEneBm3Fly__ct(TObjEneBm3Fly *fly, TObject *parent, TObjEneBm3FlyNest *nest, s32 entity_id, s32 set_index, const Vec *position, const Vec *arg6);
 void TObjEneBm3Fly__play_orbit_flight_sound(TObjEneBm3Fly *fly);
 void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *arg0, s32 arg1);
 void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *arg0, s32 arg1);
 void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1);
 void TObjEneBm3Fly__sub_800B1214(TObjEneBm3Fly *arg0, s32 arg1);
-void vfunc_104__13TObjEneBm3FlyFf(void *arg0, f32 farg0);
-void TObjEneBm3Fly__vt103(void);
-void TObjEneBm3Fly__vt104(TObjEneBm3Fly *arg0);
-void TObjEneBm3Fly__vt85(TObjEneBm3Fly *fly, u32 arg1, s32 arg2);
-TObjEneBm3Fly *__dt__13TObjEneBm3FlyFv(TObjEneBm3Fly *fly, s16 arg1);
 void action__13TObjEneBm3FlyFPvi(TObjEneBm3Fly *arg0, s32 arg1);
 void update_dd_flag__13TObjEneBm3FlyFPv(TObjEneBm3Fly *fly, f32 x, f32 z, f32 speed);
 }
