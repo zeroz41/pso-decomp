@@ -8712,6 +8712,7 @@ pso/enemy/gigue/TObjEneMe1GiGue.cpp:
 	.rodata     start:0x80472118 end:0x804722A8
 	.data       start:0x804E11C8 end:0x804E14E4
 	.sdata      start:0x805D3F18 end:0x805D3F20
+	.sbss       start:0x805D6828 end:0x805D6858
 	.sdata2     start:0x805DE660 end:0x805DE6C0
 
 pso/enemy/gigue/TObjEneMe1GiGue_802CDB1C.cpp:
