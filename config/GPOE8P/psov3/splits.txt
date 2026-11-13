@@ -587,7 +587,7 @@ pso/boss/darkfalz/TBoss4Type1.cpp:
 	.data       start:0x80485AE0 end:0x80486370
 	.bss        start:0x804FF2A0 end:0x804FF5A0
 	.sdata      start:0x805D27D0 end:0x805D27D8
-	.sdata2     start:0x805D8B28 end:0x805D8B2C
+	.sdata2     start:0x805D8AF8 end:0x805D8BA0
 
 pso/player/TObjPlayer_80055678.cpp:
 	.text       start:0x80055678 end:0x8005569C
