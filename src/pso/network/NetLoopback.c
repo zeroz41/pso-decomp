@@ -1,23 +1,12 @@
-#include "pso/network/UdpRuntime.h"
-#include "pso/network/SocketEvents.h"
-#include "pso/network/NetworkDispatch.h"
-#include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
-#include "pso/network/TLobby_803FC178.h"
-#include "pso/network/NetworkPacketPool.h"
-#include "pso/network/netcfg.h"
-#include "pso/network/BufferRef.h"
-#include "pso/network/IPv6.h"
-
 #include "types.h"
-#include "pso/network/TLobby_803FCF44.h"
+#include "pso/network/NetStackTypes.h"
+#include "pso/network/netcfg.h"
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
 
-#include <stddef.h>
-
-#include "pso/network/IPv6Send.h"
-#include "pso/network/NetStackTypes.h"
+s32 TLobby__sub_80415230(s16 idx, s16 mode, u8 *addr, void *pkt);
+s32 TLobby__sub_80415320(s32 id, s32 unused, u8 *arr);
+s32 TLobby__sub_80415410(s16 id, u8 *addr);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
@@ -36,13 +25,10 @@ void TLobby__sub_804150EC(void) {
     TLobby__sub_8041510C();
 }
 
-extern s32 TLobby__sub_80415410(s16 id, u32 addr);
-s32 TLobby__sub_80415320(s32 id, s32 unused, u8 *arr);
-s32 TLobby__sub_80415230(s16 idx, s16 mode, u8 *addr, void *pkt);
 s16 TLobby__sub_8041510C(void)
 {
-    s16 TLobby__sub_80409A3C(void*, s16); /* declared here with other parameter types; the definition is s16 (u8 *, s16) */
-    void* tbl[11];
+    s16 TLobby__sub_80409A3C(Fn_8040881C *, s16); /* declared here with other parameter types; the definition is s16 (u8 *, s16) */
+    Fn_8040881C tbl[11];
     u8* base;
     LoopbackState* p;
     s16 r;
@@ -51,17 +37,17 @@ s16 TLobby__sub_8041510C(void)
 
     base = (u8*)&network_loopback_state;
     p = (LoopbackState*)base;
-    tbl[0] = fill_reply_buffer;
-    tbl[1] = alloc_conn_slot;
-    tbl[2] = clear_conn_slot;
-    tbl[3] = get_slot_offset_or_default;
-    tbl[4] = TLobby__sub_80415508;
-    tbl[5] = TLobby__sub_804154E4;
-    tbl[6] = TLobby__sub_804154C0;
-    tbl[7] = TLobby__sub_8041549C;
-    tbl[8] = TLobby__sub_80415410;
-    tbl[9] = TLobby__sub_80415320;
-    tbl[10] = TLobby__sub_80415230;
+    tbl[0] = (Fn_8040881C)fill_reply_buffer;
+    tbl[1] = (Fn_8040881C)alloc_conn_slot;
+    tbl[2] = (Fn_8040881C)clear_conn_slot;
+    tbl[3] = (Fn_8040881C)get_slot_offset_or_default;
+    tbl[4] = (Fn_8040881C)TLobby__sub_80415508;
+    tbl[5] = (Fn_8040881C)TLobby__sub_804154E4;
+    tbl[6] = (Fn_8040881C)TLobby__sub_804154C0;
+    tbl[7] = (Fn_8040881C)TLobby__sub_8041549C;
+    tbl[8] = (Fn_8040881C)TLobby__sub_80415410;
+    tbl[9] = (Fn_8040881C)TLobby__sub_80415320;
+    tbl[10] = (Fn_8040881C)TLobby__sub_80415230;
 
     r = TLobby__sub_80409A3C(tbl, 1);
     if (r < 0) {
@@ -120,69 +106,61 @@ s32 TLobby__sub_80415320(id, unused, arr)
     u8 *arr;
 {
     s32 TLobby__sub_804098B4(void *); /* declared s32 here; the definition returns s16 */
-    s32 TLobby__sub_80409908(s32, void *); /* declared here with other parameter types; the definition is s32 (void *, void *) */
     void TLobby__sub_80409818(s32, s32, s16, s16, u16); /* declared here with an s32 2nd argument; the definition takes s16 */
-  LoopbackState *p = &network_loopback_state;
-  s32 base;
-  s32 sum;
-  s16 i;
-  s16 *cnt;
-  s16 sz;
-  if (id != 0 && id != 1)
-  {
-    return -0x110;
-  }
-  sum = TLobby__sub_804098B4(arr);
-  if (p->slot_size < ((s16) sum))
-  {
-    return -0x110;
-  }
-  sz = p->slot_size;
-  cnt = p->slot_used;
-  base = (s32)p->slots;
-  for (i = 0; i < p->slot_count; i++, cnt++)
-  {
-    if ((*cnt) == 0)
-    {
-      *cnt = 1;
-      TLobby__sub_80409908(base, arr);
-      TLobby__sub_80409818(base, sum, p->handler, id, p->protos[id].type);
-      return 0;
-    }
-    base += sz;
-  }
+    LoopbackState *p = &network_loopback_state;
+    u8 *base;
+    s32 sum;
+    s16 i;
+    s16 *cnt;
+    s16 sz;
 
-  return -0x110;
+    if (id != 0 && id != 1) {
+        return -0x110;
+    }
+    sum = TLobby__sub_804098B4(arr);
+    if (p->slot_size < (s16)sum) {
+        return -0x110;
+    }
+    sz = p->slot_size;
+    cnt = p->slot_used;
+    base = p->slots;
+    for (i = 0; i < p->slot_count; i++, cnt++) {
+        if (*cnt == 0) {
+            *cnt = 1;
+            TLobby__sub_80409908(base, arr);
+            TLobby__sub_80409818((s32)base, sum, p->handler, id, p->protos[id].type);
+            return 0;
+        }
+        base += sz;
+    }
+    return -0x110;
 }
 
-extern s32 TLobby__sub_80415410(s16 id, u32 addr) {
-  LoopbackState *p = &network_loopback_state;
-  s16 size;
-  s16 count;
-  s16 i;
-  s16 *used;
-  s16 new_var;
-  u32 base;
-  if ((id != 0) && (id != 1))
-  {
-    return -0x110;
-  }
-  used = p->slot_used;
-  i = 0;
-  base = (u32)p->slots;
-  size = p->slot_size;
-  count = p->slot_count;
-  for (; i < count; i++, used++)
-  {
-    if ((((*used) != 0) && (base <= addr)) && (addr < (base + size)))
-    {
-      *used = 0;
-      return 0;
-    }
-    base += (new_var = size);
-  }
+s32 TLobby__sub_80415410(s16 id, u8 *addr) {
+    LoopbackState *p = &network_loopback_state;
+    s16 size;
+    s16 count;
+    s16 i;
+    s16 *used;
+    s16 step;
+    u8 *base;
 
-  return -0x110;
+    if (id != 0 && id != 1) {
+        return -0x110;
+    }
+    used = p->slot_used;
+    i = 0;
+    base = p->slots;
+    size = p->slot_size;
+    count = p->slot_count;
+    for (; i < count; i++, used++) {
+        if (*used != 0 && base <= addr && addr < base + size) {
+            *used = 0;
+            return 0;
+        }
+        base += (step = size);
+    }
+    return -0x110;
 }
 
 s32 TLobby__sub_8041549C(s16 arg0) {
