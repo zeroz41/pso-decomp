@@ -59,13 +59,13 @@ s32 NetIPv6Init(void) {
     return 0;
 }
 
-inline s16 opts_8040FFF8(u8 *p, s16 rem, u8 *ip, s16 m, s16 id) {
+inline s16 process_options_header(u8 *p, s16 rem, u8 *ip, s16 m, s16 id) {
     s16 TLobby__sub_80410958(u8 *, s16, u8 *, s16, s16);
-    s16 n;
+    s32 n;
     u8 *d;
     d = p + 2;
     n = ((p[1] + 1) << 3) - 2;
-    if (n > rem) {
+    if ((s16)n > rem) {
         return -1;
     }
     if (TLobby__sub_80410958(d, n, ip, m, id) < 0) {
@@ -119,6 +119,7 @@ inline NetPacket *buildrec_8040FFF8(u8 *ip, s16 m, u8 *p, s32 rem) {
 
 #pragma push
 #pragma opt_loop_invariants off
+#pragma opt_strength_reduction off
 s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
 {
   s16 TLobby__sub_8040D510(void *, u8 *, s32, s16); /* declared here with an s32 3rd argument; the definition takes s16 */
@@ -241,7 +242,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
       }
       else
       {
-        res = opts_8040FFF8(p, rem, new_var2, m, new_var);
+        res = process_options_header(p, rem, new_var2, m, new_var);
       }
         if (res < 0)
       {
@@ -256,6 +257,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
       case 50:
 
       case 51:
+        goto ret;
 
       case 44:
         rec = frag_8040FFF8(new_var2, p, rem, m, new_var, &sa, &ic28);
@@ -268,7 +270,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
         goto payload;
 
       case 60:
-        res = opts_8040FFF8(p, rem, new_var2, m, new_var);
+        res = process_options_header(p, rem, new_var2, m, new_var);
         if (res < 0)
       {
         goto ret;
@@ -353,7 +355,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
 
   g = &ipv6_protocol_state;
   ent = g->sockets;
-  for (i = 0; i < g->nsockets; i++)
+  for (i = 0; i < g->nsockets; i++, ent++)
   {
     if (((ent->used == 1) && (ent->proto == nh)) && (ent->owner != 0))
     {
@@ -366,7 +368,6 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
         }
       }
     }
-    ent++;
   }
 
   if (found == 1)
@@ -402,10 +403,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
 
 extern s32 TLobby__sub_80410958(u8* p, s16 n, u8* self, s16 c, s16 d);
 static inline s16 chk_804105E0(u8 *p, s16 lim, s16 ctx, s16 l, s16 rem, u8 *q, u8 *prev) {
-    s16 TLobby__sub_80410958(u8 *, s16, u8 *, s16, s16);
     u8 err4[8];
-    s32 n;
-    u8 *d;
     if (l != rem + 0x28) {
         err4[0] = 4;
         err4[1] = 1;
@@ -413,15 +411,7 @@ static inline s16 chk_804105E0(u8 *p, s16 lim, s16 ctx, s16 l, s16 rem, u8 *q, u
         TLobby__sub_8040D510(err4, p, lim, ctx);
         return -1;
     }
-    d = q + 2;
-    n = ((q[1] + 1) << 3) - 2;
-    if ((s16)n > rem) {
-        return -1;
-    }
-    if (TLobby__sub_80410958(d, n, p, lim, ctx) < 0) {
-        return -1;
-    }
-    return 0;
+    return process_options_header(q, rem, p, lim, ctx);
 }
 #pragma push
 #pragma opt_common_subs on
