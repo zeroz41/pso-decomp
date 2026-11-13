@@ -1,23 +1,10 @@
-#include "pso/network/UdpRuntime.h"
-#include "pso/network/SocketEvents.h"
-#include "pso/network/NetworkDispatch.h"
-#include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
-#include "pso/network/TLobby_803FC178.h"
-#include "pso/network/NetworkPacketPool.h"
-#include "pso/network/netcfg.h"
-#include "pso/network/BufferRef.h"
-#include "pso/network/IPv6.h"
-
-#include "types.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
-
 #include <stddef.h>
 
-#include "pso/network/IPv6Send.h"
+#include "types.h"
+#include "pso/network/BufferRef.h"
 #include "pso/network/NetStackTypes.h"
+#include "pso/network/netcfg.h"
+#include "pso/network/TLobby_8041112C.h"
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
@@ -32,18 +19,18 @@ s32 reset_net_value(void) {
 s32 TLobby__sub_80415690(void) {
     NetBufferPool* p;
     s16* step;
-    u32 cursor;
+    u8 *cursor;
     s16 i;
     NetBufferPoolEntry* out;
     s32 tmp;
 
     init_buffer_desc_a(&network_buffer_pool_state);
     p = &network_buffer_pool_state;
-    cursor = (u32)p->data;
+    cursor = p->data;
     step = &p->size;
     out = p->ents;
     for (i = 0; i < p->count; i++) {
-        out->buf = (u8*)cursor;
+        out->buf = cursor;
         tmp = *step;
         cursor += (u16)tmp;
         out->free_segs = 8;

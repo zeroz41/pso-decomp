@@ -1,37 +1,28 @@
-#include "pso/network/UdpRuntime.h"
-#include "pso/network/SocketEvents.h"
-#include "pso/network/NetworkDispatch.h"
-#include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
-#include "pso/network/TLobby_803FC178.h"
-#include "pso/network/NetworkPacketPool.h"
-#include "pso/network/netcfg.h"
-#include "pso/network/BufferRef.h"
-#include "pso/network/IPv6.h"
-
-#include "types.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
-s32 compare_sockaddr(NetworkAddress *a, NetworkAddress *b);
-s32 init_packet_fragment_pools(void);
-
 #include <stddef.h>
 
+#include "types.h"
+#include "pso/network/BufferRef.h"
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
+#include "pso/network/NetworkDispatch.h"
+#include "pso/network/netcfg.h"
+#include "pso/network/TLobby_804050DC.h"
+#include "pso/network/TLobby_8041112C.h"
 
+s32 init_packet_fragment_pools(void);
 u16 TUdpSocket__sub_80419864(); /* declared without a parameter list; the definition is u16 (p, n) */
 
 s32 NetUnregisterTimer(void* p);
 
+NetFragPacket *TLobby__sub_8041955C(NetworkAddress *src, s32 ident, s32 ttl);
+s32 TLobby__sub_80419470(NetworkAddress *src, u32 ident);
+s32 TLobby__sub_80419374(NetFragPacket *pkt);
+s32 TLobby__sub_8041979C(void);
+s32 TLobby__sub_80418D7C(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_off, u16 frag_len, u8 more, s16 iface);
+
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
 #pragma inline_depth(4)
-
-s32 TUdpSocket__sub_8040CE58(u8 *p, u8 *b, s16 x, s16 id);
-
-s16 TLobby__sub_8040D510(void *a, u8 *src, s16 c, s16 flag);
 
 s32 TLobby__sub_80418A7C(void) {
     NetFragPool *g = &packet_fragment_pool_state;
@@ -71,7 +62,7 @@ s32 init_packet_fragment_pools(void) {
         b->used = 0;
         b++;
     }
-    NetRegisterTimer(1000, (s16)(1), (NetTimerCallback)(update_timeout_entries));
+    NetRegisterTimer(1000, 1, update_timeout_entries);
     return 0;
 }
 
@@ -85,12 +76,9 @@ s32 TUdpSocket__sub_80418BD8(NetPacket *a) {
     return 0;
 }
 
-NetFragPacket *TLobby__sub_8041955C(NetworkAddress *src, s32 ident, s32 ttl);
-s32 TLobby__sub_80419470(void* a, void* b);
-s32 TLobby__sub_80418C40(u8* self, void* p1, s16 p2, u8 p3, u32 p4, void* p5, u16 p6, u8 p7, s16 p8)
+s32 TLobby__sub_80418C40(u8* self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident, NetworkAddress* src, u16 frag_off, u8 more, s16 iface)
 {
     NetFragPacket* TLobby__sub_8041955C(NetworkAddress *, u32, u8); /* declared here with other parameter types; the definition is NetFragPacket * (NetworkAddress *, s32, s32) */
-    s32 TLobby__sub_80418D7C(NetFragPacket*, u8*, void*, u16, u16, u8, s16); /* declared here with other parameter types; the definition is s32 (NetFragPacket *, u8 *, u16, u16, u16, u8, s16) */
     s16 compare_sockaddr(NetworkAddress *, NetworkAddress *); /* declared s16 here; the definition returns s32 */
     NetFragPool* base = &packet_fragment_pool_state;
     s16 count;
@@ -100,26 +88,26 @@ s32 TLobby__sub_80418C40(u8* self, void* p1, s16 p2, u8 p3, u32 p4, void* p5, u1
     count = 0;
     node = base->head;
     while (node != NULL && count < base->npackets) {
-        if (compare_sockaddr(&node->src, p5) == 0 && node->ident == p4) {
-            ret = TLobby__sub_80418D7C(node, self, p1, p6, p2, p7, p8);
+        if (compare_sockaddr(&node->src, src) == 0 && node->ident == ident) {
+            ret = TLobby__sub_80418D7C(node, self, hdr_len, frag_off, frag_len, more, iface);
             if (ret == 0) {
                 return 0;
             }
-            TLobby__sub_80419470(p5, (void*)p4);
+            TLobby__sub_80419470(src, ident);
             return ret;
         }
         node = node->next;
         count++;
     }
-    node = TLobby__sub_8041955C(p5, p4, p3);
+    node = TLobby__sub_8041955C(src, ident, ttl);
     if (node == NULL) {
         return 0;
     }
-    ret = TLobby__sub_80418D7C(node, self, p1, p6, p2, p7, p8);
+    ret = TLobby__sub_80418D7C(node, self, hdr_len, frag_off, frag_len, more, iface);
     if (ret == 0) {
         return 0;
     }
-    TLobby__sub_80419470(p5, (void*)p4);
+    TLobby__sub_80419470(src, ident);
     return ret;
 }
 
@@ -168,10 +156,9 @@ inline s16 contig_80418D7C(NetFragPacket *node, s16 *pn, NetFragPool *g) {
 }
 /* Adds a fragment (frag_off in 8-byte units; more = the more-fragments flag) to node; returns the reassembled
    packet once every fragment is there, else 0.  tail holds the last fragment and then the new packet, and self
-   the data and then the fragment being copied: separate typed variables colour differently. */
+   the data and then the fragment being copied. */
 s32 TLobby__sub_80418D7C(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_off, u16 frag_len, u8 more, s16 iface)
 {
-  s32 TLobby__sub_8041979C(void);
   NetFragment **new_var;
   NetFragPool *g = &packet_fragment_pool_state;
   s16 cnt;
@@ -363,8 +350,6 @@ s32 TLobby__sub_80418D7C(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_of
   return (s32) tail;
 }
 
-s32 TLobby__sub_80419374(NetFragPacket *pkt);
-
 /* Once a second: datagrams whose time ran out are dropped (after an ICMP time-exceeded message). */
 void update_timeout_entries(void) {
     NetFragPool *g;
@@ -425,50 +410,52 @@ void update_timeout_entries(void) {
 /* Sends the ICMP (family 4) or ICMPv6 (family 6) "fragment reassembly time exceeded" error for pkt, if its
    first fragment has arrived. */
 s32 TLobby__sub_80419374(NetFragPacket *pkt) {
-/* declared here with an s32 length and result; the definitions take an s16 length and TLobby__sub_8040D510 returns s16 */
-s32 TLobby__sub_8040D510(void *a, u8 *src, s32 c, s16 flag);
-s32 TUdpSocket__sub_8040CE58(u8 *p, u8 *b, s32 x, s16 id); /* declared here with an s32 3rd argument; the definition takes s16 */
-void* q;
-s32 type;
-s32 total;
-if (pkt->first == NULL) {
-return 0;
-}
-if (pkt->first->offset != 0) {
-return 0;
-}
-q = TLobby__sub_80406F0C(&pkt->first->data);
-if (q == ((void*)0) ) {
-return -1;
-}
-type = pkt->src.family;
-total = pkt->hdr_len + pkt->first->len;
-switch (type) {
-case 4: {
-struct {
-u8 type;
-u8 code;
-u16 checksum;
-u32 unused;
-} msg;
-msg.type = 0xb;
-msg.code = 1;
-msg.unused = 0;
-return TUdpSocket__sub_8040CE58((void*)(&msg), (u8*)(q), (s32)(total), pkt->iface);
-}
-case 6: {
-NetIcmpv6Header msg;
-msg.type = 3;
-msg.code = 1;
-msg.reserved = 0;
-return TLobby__sub_8040D510((void*)(&msg), (u8*)(q), (s32)(total), pkt->iface);
-}
-default:
-return -1;
-}
+    /* declared here with an s32 length and result; the definitions take an s16 length and TLobby__sub_8040D510
+       returns s16 */
+    s32 TLobby__sub_8040D510(void *a, u8 *src, s32 c, s16 flag);
+    s32 TUdpSocket__sub_8040CE58(u8 *p, u8 *b, s32 x, s16 id);
+    u8 *q;
+    s32 type;
+    s32 total;
+
+    if (pkt->first == NULL) {
+        return 0;
+    }
+    if (pkt->first->offset != 0) {
+        return 0;
+    }
+    q = TLobby__sub_80406F0C(&pkt->first->data);
+    if (q == NULL) {
+        return -1;
+    }
+    type = pkt->src.family;
+    total = pkt->hdr_len + pkt->first->len;
+    switch (type) {
+    case 4: {
+        struct {
+            u8 type;
+            u8 code;
+            u16 checksum;
+            u32 unused;
+        } msg;
+        msg.type = 0xb;
+        msg.code = 1;
+        msg.unused = 0;
+        return TUdpSocket__sub_8040CE58((u8 *)&msg, q, total, pkt->iface);
+    }
+    case 6: {
+        NetIcmpv6Header msg;
+        msg.type = 3;
+        msg.code = 1;
+        msg.reserved = 0;
+        return TLobby__sub_8040D510(&msg, q, total, pkt->iface);
+    }
+    default:
+        return -1;
+    }
 }
 
-s32 TLobby__sub_80419470(void* a, void* b) {
+s32 TLobby__sub_80419470(NetworkAddress *src, u32 ident) {
     s16 compare_sockaddr(NetworkAddress *, NetworkAddress *); /* declared s16 here; the definition returns s32 */
     NetFragPool* tbl = &packet_fragment_pool_state;
     NetFragPacket** headp;
@@ -483,7 +470,7 @@ s32 TLobby__sub_80419470(void* a, void* b) {
     prev = NULL;
     count = 0;
     while (node != NULL && count < tbl->npackets) {
-        if (compare_sockaddr(&node->src, a) == 0 && node->ident == (u32)b) {
+        if (compare_sockaddr(&node->src, src) == 0 && node->ident == ident) {
             NetFragPacket** tp;
             if (prev != NULL) {
                 prev->next = node->next;
@@ -505,99 +492,87 @@ s32 TLobby__sub_80419470(void* a, void* b) {
     return -1;
 }
 
-extern s32 TLobby__sub_8041979C(void);
 #pragma push
 #pragma opt_propagation off
 /* Takes a free datagram for (src, ident), freeing everything else if none is left, and appends it to the list. */
-NetFragPacket *TLobby__sub_8041955C(NetworkAddress *src, s32 ident, s32 ttl)
-{
-  NetFragPacket *e;
-  NetFragPacket **ent;
-  NetFragPool *base;
-  NetFragPacket **t;
-  s16 count;
-  s16 n2;
-  s16 i;
-  NetFragPacket *r;
-  base = &packet_fragment_pool_state;
-  ent = &base->packets;
-  count = base->npackets;
-  e = *ent;
-  i = 0;
-  while (i < count)
-  {
-    if (e->used == 0)
-    {
-      e->used = 1;
-      e->hdr_len = 0;
-      e->ident = 0;
-      NetMemset(&e->src, 0, sizeof(NetworkAddress));
-      e->ttl = 0;
-      e->have_last = 0;
-      e->next = 0;
-      e->last = 0;
-      e->first = 0;
-      goto found;
-    }
-    i++;
-    e++;
-  }
+NetFragPacket *TLobby__sub_8041955C(NetworkAddress *src, s32 ident, s32 ttl) {
+    NetFragPacket *e;
+    NetFragPacket **ent;
+    NetFragPool *base;
+    NetFragPacket **t;
+    s16 count;
+    s16 n2;
+    s16 i;
+    NetFragPacket *r;
 
-  e = 0;
-  found:
-  if (e == 0)
-  {
-    TLobby__sub_8041979C();
+    base = &packet_fragment_pool_state;
+    ent = &base->packets;
+    count = base->npackets;
     e = *ent;
-    n2 = base->npackets;
     i = 0;
-    while (i < n2)
-    {
-      if (e->used == 0)
-      {
-        e->used = 1;
-        e->hdr_len = 0;
-        e->ident = 0;
-        NetMemset(&e->src, 0, sizeof(NetworkAddress));
-        e->ttl = 0;
-        e->have_last = 0;
-        e->next = 0;
-        e->last = 0;
-        e->first = 0;
-        goto found2;
-      }
-      i++;
-      e++;
+    while (i < count) {
+        if (e->used == 0) {
+            e->used = 1;
+            e->hdr_len = 0;
+            e->ident = 0;
+            NetMemset(&e->src, 0, sizeof(NetworkAddress));
+            e->ttl = 0;
+            e->have_last = 0;
+            e->next = 0;
+            e->last = 0;
+            e->first = 0;
+            goto found;
+        }
+        i++;
+        e++;
     }
-
     e = 0;
+found:
+    if (e == 0) {
+        TLobby__sub_8041979C();
+        e = *ent;
+        n2 = base->npackets;
+        i = 0;
+        while (i < n2) {
+            if (e->used == 0) {
+                e->used = 1;
+                e->hdr_len = 0;
+                e->ident = 0;
+                NetMemset(&e->src, 0, sizeof(NetworkAddress));
+                e->ttl = 0;
+                e->have_last = 0;
+                e->next = 0;
+                e->last = 0;
+                e->first = 0;
+                goto found2;
+            }
+            i++;
+            e++;
+        }
+        e = 0;
     found2:
-    if (!e)
-    {
-      return 0;
+        if (!e) {
+            return 0;
+        }
     }
-  }
 
-  t = &base->head;
-  if (*t == 0)
-  {
-    base->tail = e;
-    *t = e;
-  }
-  else
-  {
-    base->tail->next = e;
-    base->tail = e;
-  }
-  NetMemcpy(&e->src, src, sizeof(NetworkAddress));
-  e->ident = ident;
-  e->have_last = 0;
-  e->ttl = (u8) ttl;
-  e->next = 0;
-  e->last = 0;
-  e->first = 0;
-  r = e;
-  return r;
+    t = &base->head;
+    if (*t == 0) {
+        base->tail = e;
+        *t = e;
+    } else {
+        base->tail->next = e;
+        base->tail = e;
+    }
+    NetMemcpy(&e->src, src, sizeof(NetworkAddress));
+    e->ident = ident;
+    e->have_last = 0;
+    e->ttl = (u8)ttl;
+    e->next = 0;
+    e->last = 0;
+    e->first = 0;
+    r = e;
+    return r;
 }
 #pragma pop
 /* Frees every other datagram being reassembled to make room for self, which becomes the only one in the list. */

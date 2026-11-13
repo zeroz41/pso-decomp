@@ -6,20 +6,15 @@
 TChCrCharSelect::~TChCrCharSelect() {}
 
 extern "C" {
-
-s32 __ct__7TObjectFP7TObject(void *, void *);
-void init_widgets__15TChCrCharSelectFv(void);
 extern u8 lbl_80464E88[];
-extern void *__vt__15TChCrCharSelect[];
 extern s32 TChCrCharSelect__name;
 extern s32 TChCrCharSelect__selected_char_index;
 extern s32 TChCrCharSelect__selected_slot_index;
 extern s32 TChCrCharSelect__input_mode;
+}
 
-void *__ct__15TChCrCharSelectFv(void *object, void *parent) {
-    __ct__7TObjectFP7TObject(object, parent);
-    *(void ***)((s8 *)object + 0x18) = __vt__15TChCrCharSelect;
-    *(s32 *)((s8 *)object + 0) = TChCrCharSelect__name;
+TChCrCharSelect::TChCrCharSelect(TObject *parent) : TObject(parent) {
+    m_name = (const char *)TChCrCharSelect__name;
     TChCrEffTag::set_eff_tag(0);
     fn_802993F0();
     if (TChCrCharSelect__selected_char_index == -1 || TChCrCharSelect__selected_slot_index == -1) {
@@ -30,8 +25,5 @@ void *__ct__15TChCrCharSelectFv(void *object, void *parent) {
         TChCrCharSelect__input_mode = 1;
     }
     fn_8029945C(lbl_80464E88);
-    ((void (*)(void *))init_widgets__15TChCrCharSelectFv)(object);
-    return object;
-}
-
+    init_widgets();
 }

@@ -18,7 +18,6 @@ extern const f32 lbl_805DFC08;
 extern const f32 lbl_805DFC2C;
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
-int update_fade__11TWindowBaseFv(void*);
 }
 
 extern "C" {
@@ -103,7 +102,7 @@ void TWindowDD__sub_8034055C(TUnk_804EFBAC *self) {
     TWindowSubStatusDisp::get_player();
 }
 
-void update_draw__9TWindowDDFPv(void* p) { ((TWindowDD *)p)->initialize_subwindow(); update_fade__11TWindowBaseFv(p); }
+void update_draw__9TWindowDDFPv(void *p) { ((TWindowDD *)p)->initialize_subwindow(); ((TWindowBase *)p)->update_fade(); }
 
 void TWindowDD::set_clamped_page(s32 arg1) {
     if (arg1 < 0) {
@@ -117,7 +116,7 @@ void TWindowDD::set_clamped_page(s32 arg1) {
     this->m_80 = arg1;
 }
 
-s32 TWindowDD__sub_80340820(void* p) { return *(s32*)((char*)p + 0x68); }
+s32 TWindowDD__sub_80340820(void *p) { return ((TUnk_804EFBAC *)p)->pad_68; }
 
 #pragma push
 #pragma opt_common_subs off
@@ -149,7 +148,7 @@ void TWindowDD::handle_input() {
 }
 #pragma pop
 
-void TWindowDD__sub_80340910(void* p) { *(s32*)((char*)p + 0x60) = 1; }
+void TWindowDD__sub_80340910(void *p) { ((TUnk_804EFBAC *)p)->pad_60 = 1; }
 
 void render_shadows__7TObjectFv();
 __declspec(section ".data") void *TWindowDD__layout_constant_pair[2] = {
@@ -194,17 +193,16 @@ void *__dt__13TUnk_804EFBACFv(void *arg0, s16 arg1) {
 
 struct W_803409A4 { u8 pad0[0x18]; void *p18; u8 pad1c[0x5C - 0x1C]; s32 f5c; s32 f60; s32 f64; s32 f68; };
 
-#define arg0 ((W_803409A4 *)arg0v)
 void *TWindowDD::construct_variant_a(void *arg0v) {
-    ((TWindowDD *)arg0)->construct_base((u8 *)TWindowDD__layout_constants, (s16)4, (u8 *)TWindowDD__layout_constant_pair);
-    arg0->p18 = lbl_804EFBAC;
-    arg0->f60 = 1;
-    arg0->f64 = 2;
-    arg0->f68 = 2;
-    arg0->f5c = 0x01000000;
-    return arg0;
+    W_803409A4 *w = (W_803409A4 *)arg0v;
+    ((TWindowDD *)w)->construct_base((u8 *)TWindowDD__layout_constants, (s16)4, (u8 *)TWindowDD__layout_constant_pair);
+    w->p18 = lbl_804EFBAC;
+    w->f60 = 1;
+    w->f64 = 2;
+    w->f68 = 2;
+    w->f5c = 0x01000000;
+    return w;
 }
-#undef arg0
 
 void *TWindowDD::create() {
     void *o = __nw__7TObjectFUl(0x6C);

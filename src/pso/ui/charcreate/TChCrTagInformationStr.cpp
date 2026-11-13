@@ -12,18 +12,11 @@ struct TagTextOrigin {
 
 extern "C" {
 void TCameraCtrl__sub_80068EF0(void);
-s32 queue_destruction__7TObjectFv();
+void queue_destruction__7TObjectFv(void *);
 extern s32 char_creation_tag_info_selected_index;
-s32 __ct__7TObjectFP7TObject();
-void *__nw__7TObjectFUl(int);
 
 void *TChCrTagInformationStr::create(void *arg0, void *arg1) {
-    void *o;
-    o = __nw__7TObjectFUl(0x38);
-    if (o != NULL) {
-        o = __ct__22TChCrTagInformationStrFv((void *)o, (s32)arg0, (s32)arg1);
-    }
-    return o;
+    return new TChCrTagInformationStr((TObject *)arg0, (s32)arg1);
 }
 }
 
@@ -69,43 +62,42 @@ void TChCrTagInformationStr::render() {
 }
 
 extern "C" {
-extern s32 __vt__22TChCrTagInformationStr[];
-extern s32 TChCrTagInformationStr__class_name;
+extern const char *TChCrTagInformationStr__class_name;
 
 #pragma push
 #pragma opt_common_subs off
-void run_task__22TChCrTagInformationStrFv(u8 *arg0) {
-    s32 temp_r0_2;
-    *(s32 *)((s8 *)arg0 + 0x34) = (s32) (*(s32 *)((s8 *)arg0 + 0x34) + 1);
-    if (((s32) *(s32 *)((s8 *)arg0 + 0x1C) != 2) && ((s32) *(s32 *)((s8 *)arg0 + 0x20) != (s32) char_creation_tag_info_selected_index)) {
-        *(s32 *)((s8 *)arg0 + 0x1C) = 2;
+void TChCrTagInformationStr::run_task() {
+    s32 remaining;
+    frame = frame + 1;
+    if (state != 2 && tag_index != char_creation_tag_info_selected_index) {
+        state = 2;
     }
-    switch (*(s32 *)((s8 *)arg0 + 0x1C)) {
+    switch (state) {
     case 0:
-        temp_r0_2 = *(s32 *)((s8 *)arg0 + 0x2C) - 1;
-        *(s32 *)((s8 *)arg0 + 0x2C) = temp_r0_2;
-        if (temp_r0_2 <= 0) {
-            *(s32 *)((s8 *)arg0 + 0x2C) = 0;
-            *(s32 *)((s8 *)arg0 + 0x1C) = 1;
+        remaining = delay - 1;
+        delay = remaining;
+        if (remaining <= 0) {
+            delay = 0;
+            state = 1;
             break;
         }
         break;
     case 1:
-        *(f32 *)((s8 *)arg0 + 0x30) += 0.026666667f;
-        if (*(f32 *)((s8 *)arg0 + 0x30) > 1.0f) {
-            *(f32 *)((s8 *)arg0 + 0x30) = 1.0f;
+        alpha += 0.026666667f;
+        if (alpha > 1.0f) {
+            alpha = 1.0f;
             break;
         }
         break;
     case 2:
-        if ((s32) char_creation_tag_info_selected_index == -1) {
-            *(f32 *)((s8 *)arg0 + 0x30) += -0.13333334f;
+        if (char_creation_tag_info_selected_index == -1) {
+            alpha += -0.13333334f;
         } else {
-            *(f32 *)((s8 *)arg0 + 0x30) += -0.033333335f;
+            alpha += -0.033333335f;
         }
-        if (*(f32 *)((s8 *)arg0 + 0x30) <= 0.0f) {
-            *(f32 *)((s8 *)arg0 + 0x30) = 0.0f;
-            queue_destruction__7TObjectFv();
+        if (alpha <= 0.0f) {
+            alpha = 0.0f;
+            queue_destruction__7TObjectFv(this);
         }
         break;
     }
@@ -114,23 +106,20 @@ void run_task__22TChCrTagInformationStrFv(u8 *arg0) {
 
 TChCrTagInformationStr::~TChCrTagInformationStr() {}
 
-void *__ct__22TChCrTagInformationStrFv(void *arg0, s32 arg1, s32 arg2) {
-    __ct__7TObjectFP7TObject();
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__22TChCrTagInformationStr;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TChCrTagInformationStr__class_name;
-    *(s32 *)((s8 *)arg0 + 0x20) = arg2;
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x20) <= 2) {
-        *(s32 *)((s8 *)arg0 + 0x24) = 0x11;
-        *(s32 *)((s8 *)arg0 + 0x28) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) * 7);
-    } else {
-        *(s32 *)((s8 *)arg0 + 0x24) = 0x12;
-        *(s32 *)((s8 *)arg0 + 0x28) = (s32) ((*(s32 *)((s8 *)arg0 + 0x20) - 3) * 7);
-    }
-    *(s32 *)((s8 *)arg0 + 0x34) = 0;
-    *(s32 *)((s8 *)arg0 + 0x2C) = 5;
-    *(f32 *)((s8 *)arg0 + 0x30) = 0.0f;
-    *(s32 *)((s8 *)arg0 + 0x1C) = 0;
-    return arg0;
 }
 
+TChCrTagInformationStr::TChCrTagInformationStr(TObject *parent, s32 tag_index) : TObject(parent) {
+    m_name = TChCrTagInformationStr__class_name;
+    this->tag_index = tag_index;
+    if (this->tag_index <= 2) {
+        text_group = 0x11;
+        first_text_entry = this->tag_index * 7;
+    } else {
+        text_group = 0x12;
+        first_text_entry = (this->tag_index - 3) * 7;
+    }
+    frame = 0;
+    delay = 5;
+    alpha = 0.0f;
+    state = 0;
 }

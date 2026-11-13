@@ -13,8 +13,9 @@ struct Sub_803CE198 { u8 pad[0x214]; Ent_803CE198 e[1]; };
 
 struct Obj_803CE198 { u8 pad[0xa0]; Sub_803CE198 sub; };
 
-#define BE32_803CDEC8(p) (((p)[0] << 24) | ((p)[1] << 16) | ((p)[2] << 8) | (p)[3])
-#define BE16_803CDEC8(p) (((p)[0] << 8) | (p)[1])
+#define READ_BE32(p) (((p)[0] << 24) | ((p)[1] << 16) | ((p)[2] << 8) | (p)[3])
+#define READ_BE16(p) (((p)[0] << 8) | (p)[1])
+
 struct Ent3_803CDEC8 { u8 b; u8 pad[3]; s32 a; u8 pad8[8]; };
 
 struct Ent1_803CDEC8 { s32 w[4]; };
@@ -36,8 +37,6 @@ struct Out_803CDEC8 {
     Ent2_803CDEC8 e2[1];
 };
 
-#define BE32_803CDB0C(p) (((p)[0] << 24) | ((p)[1] << 16) | ((p)[2] << 8) | (p)[3])
-#define BE16_803CDB0C(p) (((p)[0] << 8) | (p)[1])
 struct Stream_803CDB0C;
 struct Chunk_803CDB0C {
     u8 *data;
@@ -98,7 +97,6 @@ struct StreamSlot_803CD99C {
 };
 
 StreamSlot_803CD99C lbl_8057FFD0[4];
-void TLobby__sub_803CD99C(void);
 
 void TLobby__sub_803CD99C(void) {
     StreamSlot_803CD99C *slot;
@@ -145,15 +143,15 @@ static inline s32 parse_803CDB0C(u8 *data, u32 len, Hdr_803CDB0C *h) {
         return 0;
     }
     p = data;
-    *(u32 *)((u8 *)h + 0) = BE32_803CDB0C(p);
+    *(u32 *)((u8 *)h + 0) = READ_BE32(p);
     p += 4;
-    *(s32 *)((u8 *)h + 4) = BE32_803CDB0C(p);
+    *(s32 *)((u8 *)h + 4) = READ_BE32(p);
     p += 4;
     ((u8 *)h)[8] = *p++;
     ((u8 *)h)[9] = *p++;
-    *(s16 *)((u8 *)h + 10) = BE16_803CDB0C(p);
+    *(s16 *)((u8 *)h + 10) = READ_BE16(p);
     p += 2;
-    *(s32 *)((u8 *)h + 12) = BE32_803CDB0C(p);
+    *(s32 *)((u8 *)h + 12) = READ_BE32(p);
     p += 4;
     if (p - data != sizeof(Hdr_803CDB0C)) {
         while (1) {
@@ -161,6 +159,7 @@ static inline s32 parse_803CDB0C(u8 *data, u32 len, Hdr_803CDB0C *h) {
     }
     return 0x10;
 }
+
 s32 TLobby::demux_stream_chunks() {
     Obj_803CDB0C *o = (Obj_803CDB0C *)this;
     Stream_803CDB0C *s;
@@ -242,39 +241,39 @@ s32 parse_aix_header__6TLobbyFPviPv(u8 *arg0, s32 arg1, Out_803CDEC8 *arg2) {
     if (arg1 < 0x1800) {
         return 0;
     }
-    if (BE32_803CDEC8(arg0) != 0x41495846) {
+    if (READ_BE32(arg0) != 0x41495846) {
         return 0;
     }
-    hdr = BE32_803CDEC8(arg0 + 4);
+    hdr = READ_BE32(arg0 + 4);
     if (memcmp(arg0 + (hdr + 8 - len), cri_copyright_string, len) != 0) {
         return 0;
     }
     arg2->f0 = arg0[8];
     arg2->f1 = arg0[9];
-    arg2->f8 = (s32)BE16_803CDEC8(arg0 + 0xA);
-    arg2->f4 = BE32_803CDEC8(arg0 + 0xC);
-    arg2->n1 = BE16_803CDEC8(arg0 + 0x18);
+    arg2->f8 = (s32)READ_BE16(arg0 + 0xA);
+    arg2->f4 = READ_BE32(arg0 + 0xC);
+    arg2->n1 = READ_BE16(arg0 + 0x18);
     p = arg0 + 0x20;
     for (i = 0; i < arg2->n1; i++) {
-        arg2->e1[i].w[0] = BE32_803CDEC8(p);
-        arg2->e1[i].w[1] = BE32_803CDEC8(p + 4);
-        arg2->e1[i].w[2] = BE32_803CDEC8(p + 8);
-        arg2->e1[i].w[3] = BE32_803CDEC8(p + 12);
+        arg2->e1[i].w[0] = READ_BE32(p);
+        arg2->e1[i].w[1] = READ_BE32(p + 4);
+        arg2->e1[i].w[2] = READ_BE32(p + 8);
+        arg2->e1[i].w[3] = READ_BE32(p + 12);
         p += 0x10;
     }
     arg2->n2 = (s8)p[0];
     p += 8;
     for (i = 0; i < arg2->n2; i++) {
-        arg2->e2[i].h[0] = BE16_803CDEC8(p);
-        arg2->e2[i].h[1] = BE16_803CDEC8(p + 2);
-        arg2->e2[i].h[2] = BE16_803CDEC8(p + 4);
-        arg2->e2[i].h[3] = BE16_803CDEC8(p + 6);
+        arg2->e2[i].h[0] = READ_BE16(p);
+        arg2->e2[i].h[1] = READ_BE16(p + 2);
+        arg2->e2[i].h[2] = READ_BE16(p + 4);
+        arg2->e2[i].h[3] = READ_BE16(p + 6);
         p += 8;
     }
     arg2->n3 = p[0];
     p += 8;
     for (i = 0; i < arg2->n3; i++) {
-        arg2->e3[i].a = BE32_803CDEC8(p);
+        arg2->e3[i].a = READ_BE32(p);
         arg2->e3[i].b = p[4];
         p += 8;
     }

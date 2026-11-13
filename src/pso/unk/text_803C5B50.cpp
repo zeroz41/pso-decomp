@@ -54,7 +54,7 @@ void TLobby__sub_803C5B50(Obj_803C5B50 *arg0, s32 arg1, s32 arg2, s32 arg3) {
 }
 
 void TLobby__sub_803C5D00(u8 *arg0) {
-    lsc_get_queued_stream_count((LscStream*) (*(s32 *)((s8 *)arg0 + 0x94)));
+    lsc_get_queued_stream_count(((Ent_803C9608 *)arg0)->f94);
 }
 
 extern s32 lbl_805D7548;
@@ -86,10 +86,10 @@ void append_music_stream_segment(u8 *arg0, s32 arg1, s32 arg2) {
     s32 a;
     s32 b;
     s32 c;
-    s32 h;
-    h = *(s32 *)(arg0 + 0x94);
+    LscStream *h;
+    h = ((Ent_803C9608 *)arg0)->f94;
     if (TLobby::get_afs_file_info(arg1, arg2, music_stream_afs_filename_buffer, &a, &b, &c) == 0) {
-        lsc_enqueue_range((LscStream*)h, music_stream_afs_filename_buffer, a, b, c);
+        lsc_enqueue_range(h, music_stream_afs_filename_buffer, a, b, c);
         return;
     }
     TLobby::format_number_pair(arg1, arg2, buf, 0x10);

@@ -4,6 +4,7 @@
 #include "pso/render/render_util.h"
 #include "pso/effect/TEffect.h"
 #include "pso/system/PadRumble.h"
+#include "pso/system/MainPhaseState.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/system/task/TMainTask.h"
@@ -22,45 +23,10 @@ extern "C" {
 u8 gx_default_light_obj[256];
 }
 
-
 struct RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270 {
     s32 value;
     u8 remaining[0xAC];
 };
-
-struct RecoveredGlobal_8000F9E4_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F90C_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F9CC_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F8FC_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F8EC_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8000F91C_lbl_804FE120 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct G_8000F92C { s32 f0; s32 f4; s32 f8; s32 fc; s32 f10; };
-
-struct G_8000F9B0 { s32 f0; s32 f4; s32 f8; s32 fc; s32 f10; };
 
 typedef struct GXColor_8000FA00 { u8 r, g, b, a; } GXColor_8000FA00;
 
@@ -75,7 +41,6 @@ struct Cfg_8000FAE4 {
 
 extern s32 lbl_805D49C0;
 extern "C" {
-extern RecoveredGlobal_8000F9E4_lbl_804FE120 main_phase_state;
 void GXSetCopyClear(GXColor_8000FA00 clear_clr, u32 clear_z);
 void GXCopyDisp(void *dest, int clear);
 void GXInitLightPos(void *lt_obj, f32 x, f32 y, f32 z);
@@ -163,34 +128,58 @@ void TKeyBoardControl::update() {  }
 int TKeyBoardControl__sub_8000F828(void) { return 0; }
 }
 
-void shutdown_and_reset_system(void) { TLobby__sub_802433A8(); fn_800FFE0C(); init_depth_alpha_state(); release_blob_shadow_texture(); TAdPlayerLoadGC__sub_801E1350(); TParticleCtrl::free_system(); TParticleCtrl::reset_emitter_table(); free_effect_resources(); TAdSinglePlyChrSelectGC::free_resources(); TObjPlayer__sub_801D92A4(); TLobby__sub_8020E3BC(); TWindowSnapShot__sub_802A7DA0(); TAdWarningBaseGC__sub_8032D188(); TLobby::destroy_game_heap(); TLobby__sub_8022809C(); TLobby::shutdown_buffers(); release_all__23TAdSinglePlyChrSelectGCFv(); TWindowSubStatusDisp__sub_803386F0(); TObjBoss2Tunnel__sub_8036EF4C(); TLobby__sub_80147978(); xfree__FPv((void*)lbl_805D49A0); xfree__FPv((void*)lbl_805D49A4); xfree__FPv((void*)resource_decompress_buffer); xfree__FPv((void*)lbl_805D5680); xfree__FPv((void*)anim_model_matrix_array); xfree__FPv((void*)player_matrix_stack_buffer); VISetBlack((void*)1); VIFlush(); VIWaitForRetrace(); OSResetSystem((void*)1, (void*)0, (void*)1); }
-
-typedef char RecoveredGlobal_8000F90C_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F90C_lbl_804FE120) == 0x18 ? 1 : -1];
-
-typedef char RecoveredGlobal_8000F8FC_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F8FC_lbl_804FE120) == 0x18 ? 1 : -1];
-
-typedef char RecoveredGlobal_8000F8EC_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F8EC_lbl_804FE120) == 0x18 ? 1 : -1];
+void shutdown_and_reset_system(void) {
+    TLobby__sub_802433A8();
+    fn_800FFE0C();
+    init_depth_alpha_state();
+    release_blob_shadow_texture();
+    TAdPlayerLoadGC__sub_801E1350();
+    TParticleCtrl::free_system();
+    TParticleCtrl::reset_emitter_table();
+    free_effect_resources();
+    TAdSinglePlyChrSelectGC::free_resources();
+    TObjPlayer__sub_801D92A4();
+    TLobby__sub_8020E3BC();
+    TWindowSnapShot__sub_802A7DA0();
+    TAdWarningBaseGC__sub_8032D188();
+    TLobby::destroy_game_heap();
+    TLobby__sub_8022809C();
+    TLobby::shutdown_buffers();
+    release_all__23TAdSinglePlyChrSelectGCFv();
+    TWindowSubStatusDisp__sub_803386F0();
+    TObjBoss2Tunnel__sub_8036EF4C();
+    TLobby__sub_80147978();
+    xfree__FPv((void*)lbl_805D49A0);
+    xfree__FPv((void*)lbl_805D49A4);
+    xfree__FPv((void*)resource_decompress_buffer);
+    xfree__FPv((void*)lbl_805D5680);
+    xfree__FPv((void*)anim_model_matrix_array);
+    xfree__FPv((void*)player_matrix_stack_buffer);
+    VISetBlack((void*)1);
+    VIFlush();
+    VIWaitForRetrace();
+    OSResetSystem((void*)1, (void*)0, (void*)1);
+}
 
 s32 TKeyBoardControl__sub_8000F8EC(void) {
-    return *(s32 *)((s8 *)(&(*(RecoveredGlobal_8000F8EC_lbl_804FE120 *)&main_phase_state).value) + 0x14);
+    return main_phase_state.prev;
 }
 
 s32 get_main_phase(void) {
-    return (*(RecoveredGlobal_8000F8FC_lbl_804FE120 *)&main_phase_state).value;
+    return main_phase_state.cur;
 }
 
 void TKeyBoardControl__sub_8000F90C(s32 arg0) {
-    *(s32 *)((s8 *)(&(*(RecoveredGlobal_8000F90C_lbl_804FE120 *)&main_phase_state).value) + 0xC) = arg0;
+    main_phase_state.unkC = arg0;
 }
 
-typedef char RecoveredGlobal_8000F91C_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F91C_lbl_804FE120) == 0x18 ? 1 : -1];
 void TKeyBoardControl__sub_8000F91C(s32 arg0) {
-    *(s32 *)((s8 *)(&(*(RecoveredGlobal_8000F91C_lbl_804FE120 *)&main_phase_state).value) + 8) = arg0;
+    main_phase_state.unk8 = arg0;
 }
 
 s32 TKeyBoardControl__sub_8000F92C(void) {
-    (*(G_8000F92C *)&main_phase_state).f10 = 3;
-    return (*(G_8000F92C *)&main_phase_state).f4 = (*(G_8000F92C *)&main_phase_state).fc;
+    main_phase_state.result = 3;
+    return main_phase_state.next = main_phase_state.unkC;
 }
 
 s32 TKeyBoardControl::get_input() {
@@ -228,25 +217,22 @@ void mark_area_change_pending(void) {
 void clear_keyboard_key_state(void) {
     keyboard_key_state = 0;
 }
-typedef char RecoveredGlobal_8000F9E4_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F9E4_lbl_804FE120) == 0x18 ? 1 : -1];
-
-typedef char RecoveredGlobal_8000F9CC_lbl_804FE120_size[sizeof(RecoveredGlobal_8000F9CC_lbl_804FE120) == 0x18 ? 1 : -1];
 
 s32 request_queued_main_phase(void) {
-    (*(G_8000F9B0 *)&main_phase_state).f10 = 2;
-    return (*(G_8000F9B0 *)&main_phase_state).f4 = (*(G_8000F9B0 *)&main_phase_state).f8;
+    main_phase_state.result = 2;
+    return main_phase_state.next = main_phase_state.unk8;
 }
 
 void TKeyBoardControl__sub_8000F9CC(s32 arg0) {
-    *(s32 *)((s8 *)(&(*(RecoveredGlobal_8000F9CC_lbl_804FE120 *)&main_phase_state).value) + 4) = arg0;
-    *(s32 *)((s8 *)(&(*(RecoveredGlobal_8000F9CC_lbl_804FE120 *)&main_phase_state).value) + 0x10) = 1;
+    main_phase_state.next = arg0;
+    main_phase_state.result = 1;
 }
 
 void TKeyBoardControl__sub_8000F9E4(void) {
-    *(s32 *)((s8 *)&main_phase_state.value + 0) = 1;
-    *(s32 *)((s8 *)&main_phase_state.value + 8) = 1;
-    *(s32 *)((s8 *)&main_phase_state.value + 0xC) = 1;
-    *(s32 *)((s8 *)&main_phase_state.value + 0x14) = 1;
+    main_phase_state.cur = 1;
+    main_phase_state.unk8 = 1;
+    main_phase_state.unkC = 1;
+    main_phase_state.prev = 1;
 }
 void init_gx_lighting_defaults(void) {
     GXColor_8000FA00 c0 = lbl_805D7D00;
@@ -292,24 +278,24 @@ void init_game_systems(void) {
     init_system_heap_and_global_allocator((u8 *)start, hi - start);
     init_video_and_gx(&cfg);
     OSSetArenaLo(hi);
-    (*(s32 *)&lbl_805D49A0) = xmalloc__FUl(0x4560);
-    (*(s32 *)&lbl_805D49A4) = xmalloc__FUl(0x73A0);
-    init_record_and_slot_arrays((*(s32 *)&lbl_805D49A0), 0x2E4, (void *)(*(s32 *)&lbl_805D49A4), (void *)(0x2E4));
+    lbl_805D49A0 = xmalloc__FUl(0x4560);
+    lbl_805D49A4 = xmalloc__FUl(0x73A0);
+    init_record_and_slot_arrays(lbl_805D49A0, 0x2E4, (void *)lbl_805D49A4, (void *)(0x2E4));
     init_light_globals(0, 0);
     set_model_render_flags(0x100000);
-    (*(s32 *)&resource_decompress_buffer) = xmalloc__FUl(0x80000);
-    (*(s32 *)&lbl_805D5680) = xmalloc__FUl(0x6000);
-    (*(s32 *)&anim_model_matrix_array) = xmalloc__FUl(0x14A0);
-    TObjPlayer__sub_803E492C(((*(s32 *)&resource_decompress_buffer)), 0x2000);
+    resource_decompress_buffer = xmalloc__FUl(0x80000);
+    lbl_805D5680 = (void *)xmalloc__FUl(0x6000);
+    anim_model_matrix_array = (Mtx34 *)xmalloc__FUl(0x14A0);
+    TObjPlayer__sub_803E492C(resource_decompress_buffer, 0x2000);
     TKeyBoardControl::set_key_state((s32)TKeyBoardControl__sub_8000F764);
-    (*(s32 *)&player_matrix_stack_buffer) = xmalloc__FUl(0x600);
-    TObjPlayer::init_matrix_stack((*(s32 *)&player_matrix_stack_buffer), 0x20);
+    player_matrix_stack_buffer = xmalloc__FUl(0x600);
+    TObjPlayer::init_matrix_stack(player_matrix_stack_buffer, 0x20);
     set_matrix_identity(0);
     init_pad_slots_and_read__16TKeyBoardControlFv(0, 0, 0);
     TObjBoss2Tunnel::enable_and_trigger();
     init_pad_rumble();
     TKeyBoardControl::init_pad_state();
-    TObjPlayer::set_global_7778((s32)((void *)(*(s32 *)&lbl_805D5680)));
+    TObjPlayer::set_global_7778((s32)lbl_805D5680);
     keyboard_input_buffer = xmalloc__FUl(0x1000);
     init_debug_text_buffer(keyboard_input_buffer, 0x80, 0x800);
     TObjNpcEnemy::set_global_count(-1);

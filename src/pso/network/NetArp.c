@@ -16,7 +16,6 @@
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/text_80421620.h"
-/* The object header the stack's records share (laid out like TObject's fields). */
 NetPacket *alloc_packet_with_header(ArpFields *f, ArpIface *iface);
 ArpEntry *find_free_peer_entry(void);
 ArpEntry *find_oldest_peer_entry(s16 state);

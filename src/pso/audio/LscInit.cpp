@@ -1,6 +1,4 @@
-// CRI LSC init and finish (inferred: lsc_ini.c, from the RE4 CRI build's file of LSC_Init/LSC_Finish):
-// the stream table and the build string. lsc_shutdown calls lsc_destroy out of line under -inline auto,
-// and its .sbss starts 8-aligned after lsc.c's, so this is its own TU.
+// CRI LSC init and finish (lsc_ini.c in other CRI builds): the stream table and the build string.
 #include "pso/audio/LscStream.h"
 #include "pso/unk/TLobby.h"
 #include <string.h>
@@ -23,21 +21,21 @@ void lsc_shutdown(void) {
                 lsc_destroy(&lsc_slot_table[i]);
             }
         }
-        memset(lsc_slot_table, 0, 0x4380);
+        memset(lsc_slot_table, 0, sizeof(lsc_slot_table));
         TLobby::set_callback(0, 0);
     }
     ((void (*)(void *))notify_dvd_read__6TLobbyFv)(lock);
 }
 
 void lsc_init(void) {
-    u8 sp8[8];
+    u8 lock[8];
     lsc_version_string;
-    ((void (*)(void *))enter_lock__6TLobbyFv)(sp8);
+    ((void (*)(void *))enter_lock__6TLobbyFv)(lock);
     if (lsc_init_count == 0) {
-        memset(lsc_slot_table, 0, (unsigned long)(0x4380));
+        memset(lsc_slot_table, 0, sizeof(lsc_slot_table));
         TLobby::set_callback(0, 0);
     }
     lsc_init_count++;
-    ((void (*)(void *))notify_dvd_read__6TLobbyFv)(sp8);
+    ((void (*)(void *))notify_dvd_read__6TLobbyFv)(lock);
 }
 }

@@ -1465,7 +1465,6 @@ void InitTrackEventsSection(u8 ch) {
     }
 }
 
-#define ARR_GET_803A6364(arr, offset) ((void *)(offset + (u32)arr))
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -1569,7 +1568,6 @@ typedef struct SEQ_INSTANCE_803A65D8 {
     SND_CROSSFADE_803A65D8 syncCrossInfo; u32 *syncSeqIdPtr; u8 syncActive; u8 defStudio; u8 keyOffCheck;
     SEQ_EVENT_803A65D8 event[64]; u8 *trackSectionTab; SEQ_SECTION_803A65D8 section[16];
 } SEQ_INSTANCE_803A65D8;
-#define ARR_GET_803A65D8(arr, offset) ((void *)(offset + (u32)arr))
 
 }
 namespace seq_803A65D8 { extern "C" SEQ_INSTANCE_803A65D8 *lbl_805D7360; }

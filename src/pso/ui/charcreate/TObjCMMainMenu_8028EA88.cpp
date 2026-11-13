@@ -21,18 +21,13 @@
 #pragma readonly_strings on
 
 
-struct RecoveredGlobal_8028EC24_lbl_8051C07C {
-    s8 value;
-    u8 remaining[0x17];
+struct CreationMenuEntry {
+    s32 kind;
+    void (TObjCMMainMenu::*select)(void *);
 };
 
-struct RecoveredGlobal_8028EBCC_TObjCMMainMenu__data_804DB9C8 {
-    s32 value;
-    u8 remaining[0x9C];
-};
-
-extern RecoveredGlobal_8028EC24_lbl_8051C07C character_creation_name_buffer;
-extern RecoveredGlobal_8028EBCC_TObjCMMainMenu__data_804DB9C8 TObjCMMainMenu__data_804DB9C8;
+extern char character_creation_name_buffer[0x18];
+extern CreationMenuEntry TObjCMMainMenu__data_804DB9C8[10];
 extern "C" {
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 s32 init_menu_scene_lights(s32 *, s32);
@@ -44,8 +39,6 @@ extern s32 tl_camera;
 extern s32 tl_03;
 extern void *creation_menu_main_obj;
 extern s32 TObjCMMainMenu__data_805D659C;
-
-typedef char RecoveredGlobal_8028EBCC_TObjCMMainMenu__data_804DB9C8_size[sizeof(RecoveredGlobal_8028EBCC_TObjCMMainMenu__data_804DB9C8) == 0xA0 ? 1 : -1];
 
 void init_creation_menu_scene(void) {
     void *p;
@@ -91,8 +84,8 @@ void init_creation_menu_scene(void) {
     }
 }
 
-s32 TObjCMMainMenu__sub_8028EBCC(u8 *arg0) {
-    return *(s32 *)((s8 *)((u8 *)&TObjCMMainMenu__data_804DB9C8.value + (*(s32 *)((s8 *)(*(s32 *)((s8 *)arg0 + 0x24) + (*(s32 *)((s8 *)arg0 + 0x2C) * 4)) + 0) * 0x10)) + 0);
+s32 TObjCMMainMenu__sub_8028EBCC(TObjCMMainMenu *menu) {
+    return TObjCMMainMenu__data_804DB9C8[menu->entries[menu->selected_entry]].kind;
 }
 
 u8 TObjCMMainMenu::is_state_4() {
@@ -106,9 +99,8 @@ u8 TObjCMMainMenu::is_state_3() {
     extern int creation_dressing_room_mode_flag;
 void TObjCMMainMenu__sub_8028EC18(void) { creation_dressing_room_mode_flag = 1; }
 
-typedef char RecoveredGlobal_8028EC24_lbl_8051C07C_size[sizeof(RecoveredGlobal_8028EC24_lbl_8051C07C) == 0x18 ? 1 : -1];
 void TObjCMMainMenu__sub_8028EC24(void) {
-    character_creation_name_buffer.value = 0;
+    character_creation_name_buffer[0] = 0;
 }
 
 void TObjCMMainMenu__sub_8028EC34(void) { creation_dressing_room_mode_flag = 0; }

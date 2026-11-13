@@ -1,22 +1,22 @@
 #include "types.h"
-struct Obj_80196A20 { u8 pad[0x6]; u16 id; };
+#include "pso/object/quest/TObjQuestCol.h"
 
 extern "C" {
 void *__nw__7TObjectFUl(int);
 void *TObjQuestCol__ct(void *self, void *parent, void *arg);
-extern u32 quest_collision_task_root;
-Obj_80196A20 *create_quest_col(void *arg, s32 *out_id);
-Obj_80196A20 *create_quest_col(void *arg, s32 *out_id) {
-    Obj_80196A20 *o = (Obj_80196A20 *)__nw__7TObjectFUl(0xbc);
-    if (o != 0) {
-        o = (Obj_80196A20 *)TObjQuestCol__ct(o, (void *)quest_collision_task_root, arg);
+extern void *quest_collision_task_root;
+TObjQuestCol *create_quest_col(void *arg, s32 *out_id);
+
+TObjQuestCol *create_quest_col(void *arg, s32 *out_id) {
+    TObjQuestCol *o = (TObjQuestCol *)__nw__7TObjectFUl(sizeof(TObjQuestCol));
+    if (o != NULL) {
+        o = (TObjQuestCol *)TObjQuestCol__ct(o, quest_collision_task_root, arg);
     }
-    if (o != 0) {
-        *out_id = o->id;
+    if (o != NULL) {
+        *out_id = o->m_id;
     } else {
         *out_id = -1;
     }
     return o;
 }
-
 }

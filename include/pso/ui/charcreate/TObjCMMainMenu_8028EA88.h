@@ -3,8 +3,10 @@
 
 #include "types.h"
 
+class TObjCMMainMenu;
+
 extern "C" {
-s32 TObjCMMainMenu__sub_8028EBCC(u8 *arg0);
+s32 TObjCMMainMenu__sub_8028EBCC(TObjCMMainMenu *menu);
 void TObjCMMainMenu__sub_8028EC18(void);
 void TObjCMMainMenu__sub_8028EC24(void);
 void TObjCMMainMenu__sub_8028EC34(void);

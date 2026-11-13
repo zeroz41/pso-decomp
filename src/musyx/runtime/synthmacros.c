@@ -17,14 +17,6 @@ void synthKeyStateUpdate(Voice_803AEEF0 *svoice);
 s32 dataGetSample(u16 id, Sample_803AE4D4 *s);
 }
 
-#define ARR_GET_803A3D8C(arr, offset) ((void *)(offset + (u32)arr))
-#define SEQ_CUR (*(SEQ_INSTANCE_803A49C8 **)&lbl_805D7360)
-#define SEQ_FREE_LIST ((SEQ_INSTANCE_803A49C8 *)lbl_805D7378)
-#define SEQ_RUN_LIST ((SEQ_INSTANCE_803A49C8 *)lbl_805D737C)
-#define SEQ_RUN_L (*(SEQ_INSTANCE_803A49C8 **)&lbl_805D737C)
-#define ARR_GET_803A5A78(arr, offset) ((void *)(offset + (u32)arr))
-#define ARR_GET_803A6364(arr, offset) ((void *)(offset + (u32)arr))
-#define TBL ((Ent_803ACEC4 *)((u8 *)t + 0x4E00))
 extern "C" {
 
 #define FLAGS (*(u64 *)&o->fh)
@@ -645,9 +637,6 @@ typedef struct ADSR_803AF634 {
         struct { u16 atime; u16 dtime; u16 slevel; u16 rtime; } linear;
     } data;
 } ADSR_803AF634;
-s32 dataGetCurve(s16 arg0);
-u32 adsrConvertTimeCents(s32 arg0);
-u32 adsrSetup(u8 *arg0);
 extern u8 lbl_804F68DC[];
 
 #pragma push

@@ -1,4 +1,5 @@
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowDD_WS_ScrollBar.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -13,7 +14,6 @@ struct E_803403F8 { f32 a; f32 b; f32 c; f32 d; f32 e; s32 f; };
 struct Src_80348A9C { f32 x; f32 y; };
 
 extern "C" {
-int update_fade__11TWindowBaseFv(void*);
 
 extern s32 lbl_805D63F0;
 
@@ -39,7 +39,6 @@ extern const f32 lbl_805DFB38;
 extern const f32 lbl_805DFBCC;
 extern Src_80348A9C TWindowDD__data_805434E8[7][8];
 
-// Scroll bar render (slot 4 of the TWindowDD_WS_ScrollBar table lbl_804EFBE4).
 void TWindowDD__sub_80340A78(TWindowDD_WS_ScrollBar *self) {
     TWindowKeyBoardSoft *rect = (TWindowKeyBoardSoft *)TWindowDD::draw_default_entry((s32)self);
     E_803403F8 verts[8];
@@ -160,9 +159,10 @@ void TWindowDD__sub_80340A78(TWindowDD_WS_ScrollBar *self) {
     TWindowSubStatusDisp::get_player();
 }
 
-void TWindowDD::init() { initialize_subwindow(); update_fade__11TWindowBaseFv(this); }
-
 extern const f32 lbl_805DFC6C;
+}
+
+void TWindowDD::init() { initialize_subwindow(); ((TWindowBase *)this)->update_fade(); }
 
 void TWindowDD::set_value_f32(s32 arg1) {
     *(f32 *)&this->m_88 = (f32) arg1;
@@ -172,5 +172,4 @@ void TWindowDD::set_scale(s32 arg1, s32 arg2) {
     *(f32 *)&this->m_80 = (f32) arg1;
     *(f32 *)&this->m_84 = (f32) arg2;
     *(f32 *)&this->m_7c = (f32) (lbl_805DFC6C / *(f32 *)&this->m_80);
-}
 }

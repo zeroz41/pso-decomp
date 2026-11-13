@@ -3,14 +3,14 @@
 
 #include "types.h"
 
-extern "C" {
-void visit_model_tree_recursive(s32 acc, u8 *arg1, s32 arg2);
-}
+struct NJS_OBJECT;
+struct Acc_80327A38 {
+    s32 sum;
+    s32 count;
+};
 
-// --- C functions defined in text_803279CC.cpp ---
 extern "C" {
-void visit_model_tree_recursive(s32 acc, u8 *arg1, s32 arg2);
+void visit_model_tree_recursive(Acc_80327A38 *acc, NJS_OBJECT *node, s32 id);
 }
-// --- end of C functions
 
 #endif

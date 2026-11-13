@@ -1,12 +1,9 @@
 #include "pso/ui/charcreate/CreationInput.h"
 #include "types.h"
-#include "pso/ui/charcreate/TChCrCharSelect_802938E4.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 
 extern "C" {
 
-s32 wrap_slot_index_to_range__15TChCrCharSelectFv(void *);
-s32 clamp_slot_index_to_range__15TChCrCharSelectFv(s32);
 s32 play_sound_effect(s32, s32, s32, s32);
 
 extern s32 TChCrCharSelect__selected_slot_index;
@@ -20,7 +17,7 @@ void TChCrCharSelect::handle_menu_input() {
         TChCrCharSelect__selected_slot_index -= 1;
         play_sound_effect(0x54100, 0, 0, 0);
     }
-    wrap_slot_index_to_range__15TChCrCharSelectFv(this);
+    wrap_slot_index_to_range();
     if ((creation_buttons_pressed(2) != 0) || (creation_direction_repeated(0x40) != 0)) {
         play_sound_effect(0x53704, 0, 0, 0);
         TChCrCharSelect__input_mode = 0;
@@ -28,14 +25,14 @@ void TChCrCharSelect::handle_menu_input() {
     }
     if (creation_buttons_pressed(4) != 0) {
         play_sound_effect(0x52D01, 0, 0, 0);
-        *(s32 *)((s8 *)this + 0x1C) = 0xA;
+        apply_delay = 0xA;
         TChCrCharSelect__input_mode = 2;
     }
 }
 
 extern s32 TChCrCharSelect__selected_char_index;
 
-void handle_cursor_input__15TChCrCharSelectFv(s32 arg0) {
+void TChCrCharSelect::handle_cursor_input() {
     s32 temp_r0;
     s32 temp_r0_2;
 
@@ -56,7 +53,7 @@ void handle_cursor_input__15TChCrCharSelectFv(s32 arg0) {
     }
     if ((creation_buttons_pressed(4) != 0) || (creation_direction_repeated(0x80) != 0)) {
         play_sound_effect(0x52D01, 0, 0, 0);
-        clamp_slot_index_to_range__15TChCrCharSelectFv(arg0);
+        clamp_slot_index_to_range();
         TChCrCharSelect__input_mode = 1;
     }
 }

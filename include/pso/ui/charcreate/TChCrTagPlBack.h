@@ -5,6 +5,7 @@
 
 class TChCrTagPlBack : public TChCrTag {
 public:
+    TChCrTagPlBack(TObject *parent, void *arg);
     virtual ~TChCrTagPlBack();
     virtual void render();
     void draw_frame();

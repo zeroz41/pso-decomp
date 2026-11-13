@@ -1,69 +1,52 @@
 #include "musyx/runtime/musyx_runtime_a.h"
 
-#define ARR_GET_803A3D8C(arr, offset) ((void *)(offset + (u32)arr))
-#define SEQ_CUR (*(SEQ_INSTANCE_803A49C8 **)&lbl_805D7360)
-#define SEQ_FREE_LIST ((SEQ_INSTANCE_803A49C8 *)lbl_805D7378)
-#define SEQ_RUN_LIST ((SEQ_INSTANCE_803A49C8 *)lbl_805D737C)
-#define SEQ_RUN_L (*(SEQ_INSTANCE_803A49C8 **)&lbl_805D737C)
-#define ARR_GET_803A5A78(arr, offset) ((void *)(offset + (u32)arr))
-#define ARR_GET_803A6364(arr, offset) ((void *)(offset + (u32)arr))
-#define TBL ((Ent_803ACEC4 *)((u8 *)t + 0x4E00))
-#define macTimeQueueRoot ((SYNTH_VOICE_803B19AC *)lbl_805D7420)
-#define macActiveMacroRoot ((SYNTH_VOICE_803B19AC *)lbl_805D741C)
-#define macRealTime lbl_805D7428
-#define FLAGS (*(u64 *)&o->fh)
-#define HEAD (*(Voice_803B2128 **)&lbl_805D741C)
-#define synthVoice ((SYNTH_VOICE_803B2438 *)synthVoice)
-#define vidCurrentId (*(u32 *)&lbl_805D7438)
-#define vidRoot (*(VID_LIST_SV **)&lbl_805D743C)
-#define vidFree (*(VID_LIST_SV **)&lbl_805D7440)
 extern "C" {
 
 u32 adsrConvertTimeCents(s32 arg0) {
     return (u32)(1000.0f * powf(2.0f, 1.27156579e-08f * (f32)arg0, 1.27156579e-08f));
 }
 
-#define arg0 ((u8 *)a0)
 s32 salChangeADSRState(void *a0) {
-    s32 var_r0;
-    s32 var_r5;
-    u32 temp_r4_3;
-    u32 temp_r4_4;
-    u32 temp_r4_6;
-    u8 temp_r4;
-    u8 temp_r4_2;
-    u8 temp_r4_5;
-    temp_r4 = *(u8 *)((s8 *)arg0 + 0);
-    var_r0 = 0;
-    switch ((s32) temp_r4) {
+    ADSR_VARS_803B41C8 *adsr = (ADSR_VARS_803B41C8 *)a0;
+    s32 ret;
+    s32 index;
+    u32 aTime;
+    u32 dTime;
+    u32 dlsATime;
+    u8 mode;
+    u8 state;
+    u8 dlsState;
+    mode = adsr->mode;
+    ret = 0;
+    switch ((s32) mode) {
     case 0:
-        temp_r4_2 = *(u8 *)((s8 *)arg0 + 1);
-        switch ((s32) temp_r4_2) {
+        state = adsr->state;
+        switch ((s32) state) {
         case 0:
-            temp_r4_3 = *(u32 *)((s8 *)arg0 + 0x14);
-            *(u32 *)((s8 *)arg0 + 4) = temp_r4_3;
-            if (temp_r4_3 != 0) {
-                *(u8 *)((s8 *)arg0 + 1) = 1U;
-                *(s32 *)((s8 *)arg0 + 8) = 0;
-                *(u32 *)((s8 *)arg0 + 0x10) = (u32) (0x7FFF0000U / (u32) *(u32 *)((s8 *)arg0 + 0x14));
+            aTime = adsr->data.dls.aTime;
+            adsr->cnt = aTime;
+            if (aTime != 0) {
+                adsr->state = 1U;
+                adsr->currentVolume = 0;
+                adsr->currentDelta = (u32) (0x7FFF0000U / adsr->data.dls.aTime);
             } else {
             case 1:
-                temp_r4_4 = *(u32 *)((s8 *)arg0 + 0x18);
-                *(u32 *)((s8 *)arg0 + 4) = temp_r4_4;
-                if (temp_r4_4 != 0) {
-                    *(u8 *)((s8 *)arg0 + 1) = 2U;
-                    *(s32 *)((s8 *)arg0 + 8) = 0x7FFF0000;
-                    *(u32 *)((s8 *)arg0 + 0x10) = (u32) -(s32) ((u32) (0x7FFF0000 - (*(u16 *)((s8 *)arg0 + 0x1C) << 0x10)) / (u32) *(u32 *)((s8 *)arg0 + 0x18));
+                dTime = adsr->data.dls.dTime;
+                adsr->cnt = dTime;
+                if (dTime != 0) {
+                    adsr->state = 2U;
+                    adsr->currentVolume = 0x7FFF0000;
+                    adsr->currentDelta = (u32) -(s32) ((u32) (0x7FFF0000 - (adsr->data.dls.sLevel << 0x10)) / adsr->data.dls.dTime);
                 } else {
                 case 2:
-                    if ((u16) *(u16 *)((s8 *)arg0 + 0x1C) != 0) {
-                        *(u8 *)((s8 *)arg0 + 1) = 3U;
-                        *(s32 *)((s8 *)arg0 + 8) = (s32) (*(u16 *)((s8 *)arg0 + 0x1C) << 0x10);
-                        *(u32 *)((s8 *)arg0 + 0x10) = 0U;
+                    if (adsr->data.dls.sLevel != 0) {
+                        adsr->state = 3U;
+                        adsr->currentVolume = (s32) (adsr->data.dls.sLevel << 0x10);
+                        adsr->currentDelta = 0U;
                     } else {
                     case 4:
-                        *(s32 *)((s8 *)arg0 + 8) = 0;
-                        var_r0 = 1;
+                        adsr->currentVolume = 0;
+                        ret = 1;
                     }
                 }
             }
@@ -71,44 +54,44 @@ s32 salChangeADSRState(void *a0) {
         }
         break;
     case 1:
-        temp_r4_5 = *(u8 *)((s8 *)arg0 + 1);
-        switch ((s32) temp_r4_5) {
+        dlsState = adsr->state;
+        switch ((s32) dlsState) {
         case 0:
-            temp_r4_6 = *(u32 *)((s8 *)arg0 + 0x14);
-            *(u32 *)((s8 *)arg0 + 4) = temp_r4_6;
-            if (temp_r4_6 != 0) {
-                *(u8 *)((s8 *)arg0 + 1) = 1U;
-                if ((u8) *(u8 *)((s8 *)arg0 + 0x26) == 0) {
-                    *(s32 *)((s8 *)arg0 + 8) = 0;
-                    *(u32 *)((s8 *)arg0 + 0x10) = (u32) (0x7FFF0000U / (u32) *(u32 *)((s8 *)arg0 + 4));
+            dlsATime = adsr->data.dls.aTime;
+            adsr->cnt = dlsATime;
+            if (dlsATime != 0) {
+                adsr->state = 1U;
+                if (adsr->data.dls.aMode == 0) {
+                    adsr->currentVolume = 0;
+                    adsr->currentDelta = (u32) (0x7FFF0000U / adsr->cnt);
                 } else {
-                    *(s32 *)((s8 *)arg0 + 0xC) = 0;
-                    *(s32 *)((s8 *)arg0 + 8) = 0;
-                    *(u32 *)((s8 *)arg0 + 0x10) = (u32) (0xC10000U / (u32) *(u32 *)((s8 *)arg0 + 4));
+                    adsr->currentIndex = 0;
+                    adsr->currentVolume = 0;
+                    adsr->currentDelta = (u32) (0xC10000U / adsr->cnt);
                 }
             } else {
             case 1:
-                *(u32 *)((s8 *)arg0 + 4) = (u32) ((u32) (*(u32 *)((s8 *)arg0 + 0x18) * ((u32)((0xC1 - *(u16 *)((s8 *)arg0 + 0x1C)) << 0x10) / 193)) >> 0x10U);
-                if ((u32) *(u32 *)((s8 *)arg0 + 4) != 0) {
-                    *(u8 *)((s8 *)arg0 + 1) = 2U;
-                    *(s32 *)((s8 *)arg0 + 8) = 0x7FFF0000;
-                    *(s32 *)((s8 *)arg0 + 0xC) = 0xC10000;
-                    *(u32 *)((s8 *)arg0 + 0x10) = (u32) -(s32) ((u32) ((0xC1 - *(u16 *)((s8 *)arg0 + 0x1C)) << 0x10) / (u32) *(u32 *)((s8 *)arg0 + 4));
+                adsr->cnt = (u32) ((u32) (adsr->data.dls.dTime * ((u32)((0xC1 - adsr->data.dls.sLevel) << 0x10) / 193)) >> 0x10U);
+                if (adsr->cnt != 0) {
+                    adsr->state = 2U;
+                    adsr->currentVolume = 0x7FFF0000;
+                    adsr->currentIndex = 0xC10000;
+                    adsr->currentDelta = (u32) -(s32) ((u32) ((0xC1 - adsr->data.dls.sLevel) << 0x10) / adsr->cnt);
                 } else {
                 case 2:
-                    if ((u16) *(u16 *)((s8 *)arg0 + 0x1C) != 0) {
-                        *(u8 *)((s8 *)arg0 + 1) = 3U;
-                        *(s32 *)((s8 *)arg0 + 0xC) = (s32) (*(u16 *)((s8 *)arg0 + 0x1C) << 0x10);
-                        var_r5 = 0xC1 - ((s32) (*(s32 *)((s8 *)arg0 + 0xC) + 0x8000) >> 0x10);
-                        if (var_r5 < 0) {
-                            var_r5 = 0;
+                    if (adsr->data.dls.sLevel != 0) {
+                        adsr->state = 3U;
+                        adsr->currentIndex = (s32) (adsr->data.dls.sLevel << 0x10);
+                        index = 0xC1 - ((s32) (adsr->currentIndex + 0x8000) >> 0x10);
+                        if (index < 0) {
+                            index = 0;
                         }
-                        *(s32 *)((s8 *)arg0 + 8) = (s32) (*(u16 *)((s8 *)((u8 *)(lbl_804F6758) + (var_r5 * 2)) + 0) << 0x10);
-                        *(u32 *)((s8 *)arg0 + 0x10) = 0U;
+                        adsr->currentVolume = (s32) (lbl_804F6758[index] << 0x10);
+                        adsr->currentDelta = 0U;
                     } else {
                     case 4:
-                        *(s32 *)((s8 *)arg0 + 8) = 0;
-                        var_r0 = 1;
+                        adsr->currentVolume = 0;
+                        ret = 1;
                     }
                 }
             }
@@ -116,14 +99,12 @@ s32 salChangeADSRState(void *a0) {
         }
         break;
     }
-    return var_r0;
+    return ret;
 }
-#undef arg0
 
 u32 adsrSetup(u8 *arg0) {
-    struct Fields_arg0 { u8 pad_0[1]; s8 field_1; };
-    ((Fields_arg0*)arg0)->field_1 = 0;
-    return salChangeADSRState((void *)(arg0));
+    ((ADSR_VARS_803B41C8 *)arg0)->state = 0;
+    return salChangeADSRState(arg0);
 }
 #define dspScale2IndexTab lbl_804F68DC
 #pragma push
@@ -174,73 +155,70 @@ s32 adsrRelease(struct Envelope_803B431C *e) {
     }
 }
 
-#define e ((Env_803B4360 *)arg0)
-#define out ((u16 *)arg1)
-#define dlt ((u16 *)arg2)
 u32 adsrHandle(void *arg0, void *arg1, void *arg2) {
+    ADSR_VARS_803B41C8 *e = (ADSR_VARS_803B41C8 *)arg0;
+    u16 *out = (u16 *)arg1;
+    u16 *dlt = (u16 *)arg2;
     s32 ret = 0;
     s32 old;
     s32 d;
     s32 v;
     switch (e->mode) {
     case 0:
-        if (e->phase != 3) {
-            old = e->level;
-            e->level = old + e->step;
+        if (e->state != 3) {
+            old = e->currentVolume;
+            e->currentVolume = old + e->currentDelta;
             *out = old >> 16;
-            if (e->step >= 0) {
-                *dlt = e->step >> 21;
+            if (e->currentDelta >= 0) {
+                *dlt = e->currentDelta >> 21;
             } else {
-                *dlt = -(-e->step >> 21);
+                *dlt = -(-e->currentDelta >> 21);
             }
-            if (--e->remaining == 0) {
-                ret = salChangeADSRState(arg0);
+            if (--e->cnt == 0) {
+                ret = salChangeADSRState(e);
             }
         } else {
-            *out = e->level >> 16;
+            *out = e->currentVolume >> 16;
             *dlt = 0;
         }
         break;
     case 1:
-        if (e->phase != 3) {
-            old = e->level;
-            if (e->f26 == 0 && e->phase == 1) {
-                e->level = old + e->step;
+        if (e->state != 3) {
+            old = e->currentVolume;
+            if (e->data.dls.aMode == 0 && e->state == 1) {
+                e->currentVolume = old + e->currentDelta;
             } else {
-                e->c += e->step;
-                v = 0xC1 - ((e->c + 0x8000) >> 16);
+                e->currentIndex += e->currentDelta;
+                v = 0xC1 - ((e->currentIndex + 0x8000) >> 16);
                 if (v < 0) {
                     v = 0;
                 }
-                e->level = lbl_804F6758[v] << 16;
+                e->currentVolume = lbl_804F6758[v] << 16;
             }
             *out = old >> 16;
-            d = e->level - old;
+            d = e->currentVolume - old;
             if (d >= 0) {
                 *dlt = d >> 21;
             } else {
                 *dlt = -(-d >> 21);
             }
-            if (--e->remaining == 0) {
-                ret = salChangeADSRState(arg0);
+            if (--e->cnt == 0) {
+                ret = salChangeADSRState(e);
             }
         } else {
-            *out = e->level >> 16;
+            *out = e->currentVolume >> 16;
             *dlt = 0;
         }
         break;
     }
     return ret;
 }
-#undef e
-#undef out
-#undef dlt
 
 u32 adsrHandleLowPrecision(void *arg0, void *arg1, void *arg2) {
     u8 i;
 
     for (i = 0; i < 15; i++) {
-        if (adsrHandle((void *)(arg0), (void *)(arg1), (void *)(arg2)) != 0) {
+        if (adsrHandle(arg0, arg1, arg2) != 0) {
             return 1;
         }
     }

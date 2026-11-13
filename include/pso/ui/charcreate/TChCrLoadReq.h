@@ -4,21 +4,28 @@
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
 
+struct CharacterAppearanceFields;
+struct CharacterClassAppearance;
+struct TObjPlayer;
+
 class TChCrLoadReq : public TObject {
 public:
     TChCrLoadReq(TObject *arg1, void *arg2);
+    TChCrLoadReq(TObjPlayer *player);
     virtual ~TChCrLoadReq();
     void sub_8028CEEC(s32 *);
 public:
     u8 unk_1C[0x1C];
-    s32 m_38;
-    u8 unk_3C[0x4];
+    CharacterAppearanceFields *m_38;
+    u32 *m_3c;
     s32 m_40;
-    u8 unk_44[0x4];
-    s32 m_48;
-    u8 unk_4C[0x4];
-    s32 m_50;
-    u8 unk_54[0xC];
+    s32 *m_44;
+    s32 *m_48;
+    void *m_4c;
+    void *m_50;
+    void *m_54;
+    s32 *m_58;
+    CharacterClassAppearance *m_5c;
     s32 state;
     s32 timer;
     s32 calc_preview_last_index(s32 display_index, s32 region_index);
@@ -30,7 +37,8 @@ public:
     void reset_request();
     void copy(void* q);
     static void *create(void *arg0);
-    u8 unk_68[0x24];
+    s32 m_68[3];
+    void *m_74[6];
     s32 m_8c;
 };
 typedef char TChCrLoadReq_state_offset[(offsetof(TChCrLoadReq,state)==0x60)?1:-1];

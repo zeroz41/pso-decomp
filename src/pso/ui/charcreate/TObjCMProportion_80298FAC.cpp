@@ -1,11 +1,10 @@
 #include "types.h"
 #include "pso/ui/charcreate/TObjCMProportion.h"
 #include "pso/ui/charcreate/CreationInput.h"
+#include "pso/system/ControllerInputState.h"
 
 extern "C" {
 s32 get_creation_pad(void);
-s32 is_flag_set__11TLoadingCurFv(void *, s32);
-extern u8 controller_input_state[];
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32);
 }
@@ -99,17 +98,17 @@ void TObjCMProportion::poll_pad_buttons() {
             creation_input_state.held_buttons |= 0x20;
         } else {
             for (i = 0; i < 4; i++) {
-                if (is_flag_set__11TLoadingCurFv(controller_input_state + 0x160, cm_proportion_pad_button_masks[i]) != 0) {
+                if (is_flag_set__11TLoadingCurFv(&controller_input_state.keyboard, cm_proportion_pad_button_masks[i]) != 0) {
                     creation_input_state.held_buttons |= cm_proportion_pad_button_masks[i];
                     break;
                 }
             }
         }
     }
-    if (!(creation_input_state.held_buttons & 4) && is_flag_set__11TLoadingCurFv(controller_input_state + 0x160, 4) != 0) {
+    if (!(creation_input_state.held_buttons & 4) && is_flag_set__11TLoadingCurFv(&controller_input_state.keyboard, 4) != 0) {
         creation_input_state.held_buttons |= 4;
     }
-    if (!(creation_input_state.held_buttons & 2) && is_flag_set__11TLoadingCurFv(controller_input_state + 0x160, 2) != 0) {
+    if (!(creation_input_state.held_buttons & 2) && is_flag_set__11TLoadingCurFv(&controller_input_state.keyboard, 2) != 0) {
         creation_input_state.held_buttons |= 2;
     }
     creation_input_state.pressed_buttons = creation_input_state.held_buttons & ~old;
