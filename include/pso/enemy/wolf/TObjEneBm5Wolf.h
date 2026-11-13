@@ -4,12 +4,33 @@
 #include "types.h"
 #include <stddef.h>
 #include "pso/enemy/dd/TObjEneDD_ST.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/system/BmlResource.h"
+#include "pso/enemy/deldepth/DelDepthData.h"
+
+struct TObjEneBm5WolfListNode {
+    TObjEneBm5WolfListNode *prev;
+    TObjEneBm5WolfListNode *next;
+    u16 entity_id;
+
+    TObjEneBm5WolfListNode();
+    ~TObjEneBm5WolfListNode();
+};
+
+struct TObjEneBm5WolfList {
+    TObjEneBm5WolfListNode *head;
+    TObjEneBm5WolfListNode *tail;
+};
 
 struct TObjEneBm5Wolf : public TObjEneDD_ST {
+    TObjEneBm5Wolf(TObject *parent, void *set_data);
     virtual ~TObjEneBm5Wolf();
     virtual void run_task();
     virtual void render();
+    virtual void dispatch_action(u32 state, s32 event);
     virtual void vfunc_88();
+    virtual void update_state();
+    virtual void render_debug();
     void update_collision_center();
     void select_subtype();
     void vfunc_63();
@@ -20,50 +41,44 @@ struct TObjEneBm5Wolf : public TObjEneDD_ST {
     void choose_roaming_destination();
     u8 unk_374[0x4];
     s32 m_378;
-    u8 unk_37C[0x14];
-    void* target;
-    f32 destination[3];
-    f32 destinationDirection[3];
+    f32 m_37c;
+    u8 unk_380[0x10];
+    TObjChara *target;
+    Vec destination;
+    Vec destinationDirection;
     f32 destinationDistance;
-    u8 _pad3B0[0x10];
-    void* m_3c0;
-    u8 _pad3C4[0x8];
-    void* m_3cc;
-    u8 _pad3D0[0x8];
-    u32 m_3d8;
-    u8 _pad3DC[0x4];
+    u8 unk_3B0[0x10];
+    TObjEneBm5WolfListNode m_3c0;
+    TObjEneBm5WolfListNode m_3cc;
+    s32 m_3d8;
+    s32 m_3dc;
     u16 m_3e0;
-    u8 _pad3E2[0x2];
+    u8 unk_3E2[0x2];
     s32 turnOffset;
-    void* m_3e8;
-    u8 _pad3EC[0x8];
-    f32 groupAnchor[3];
+    Vec m_3e8;
+    Vec groupAnchor;
     f32 desiredSpeed;
     f32 currentSpeed;
     u32 m_408;
-    u8 _pad40C[0x4];
-    u32 m_410;
-    u32 m_414;
+    f32 m_40c;
+    TObjCollidable *m_410;
+    s32 m_414;
     u16 m_418;
-    u8 _pad41A[0x2];
+    u8 unk_41A[0x2];
     s32 roamingSubstate;
     s32 roamingTimer;
     s32 randomPhase;
-    u32 m_428;
-    u32 m_42c;
-    u32 m_430;
+    s32 m_428;
+    s32 m_42c;
+    s32 m_430;
     f32 stoppingDistance;
-    u8 unk_438[0x4];
+    f32 m_438;
     f32 m_43c;
-    u8 unk_440[0x4];
-    f32 m_444;
-    u8 unk_448[0x4];
-    f32 m_44c;
-    u8 unk_450[0x4];
-    f32 m_454;
-    u8 unk_458[0x4];
+    f32 m_440;
+    Vec m_444;
+    Vec m_450;
     f32 m_45c;
-    u8 unk_460[0x4];
+    f32 m_460;
     f32 m_464;
     s32 nearTarget;
     static void advance_spawn_timer();
@@ -124,37 +139,23 @@ typedef char WolfOffset_nearTarget[offsetof(TObjEneBm5Wolf, nearTarget) == 0x468
 typedef char TObjEneBm5Wolf_size[sizeof(TObjEneBm5Wolf) == 0x46C ? 1 : -1];
 
 extern "C" {
-u8 *TObjEneBm5Wolf__ct(u8 *arg0, void *arg1, void *arg2);
 s32 __dt__14TObjEneBm5WolfFis(s32 arg0, s16 arg1);
-u8 *__dt__14TObjEneBm5WolfFv(u8 *arg0, s16 arg1);
 }
 s32 actor_rand_int(s32 actor, s32 arg1);
 extern "C" {
-void anchor_state__14TObjEneBm5WolfFl(u8 *arg0, s32 arg1);
-void apply_global_to_position__14TObjEneBm5WolfFv(s32 arg0);
-void apply_to_position__14TObjEneBm5WolfFPv(void *p, void *a1);
-void approach_target__14TObjEneBm5WolfFPvf(void *arg0, f32 farg0);
-s32 calc_lunge_aim__14TObjEneBm5WolfFPv(u8 *arg0);
-void calc_rotated_vector__14TObjEneBm5WolfFPviPvPv(void *arg0, s32 arg1, void *arg2, s32 *arg3);
-s32 destroy__14TObjEneBm5WolfFis(s32 arg0, s16 arg1);
-void dispatch_state__14TObjEneBm5WolfFPvUii(TObjEneBm5Wolf *arg0, u32 state, s32 event);
-int get_flag_bit0__14TObjEneBm5WolfFPv(void *p);
-s32 get_group_id__14TObjEneBm5WolfFPv(void *p);
-void play_footsteps__14TObjEneBm5WolfFPv(u8 *arg0);
-void play_sound__14TObjEneBm5WolfFPv(void *arg0);
-void play_variant_sound__14TObjEneBm5WolfFPv(void *arg0);
-void render__14TObjEneBm5WolfFv(u8 *arg0);
-void render_debug__14TObjEneBm5WolfFPv(u8 *arg0);
-void returning_state__14TObjEneBm5WolfFPvi(u8 *actor, s32 arg1);
-void run_task__14TObjEneBm5WolfFv(u8 *arg0);
-void schedule_pack_reaction__14TObjEneBm5WolfFPvis(void *arg0, s32 arg1, s16 arg2);
-void select_target__14TObjEneBm5WolfFPv(void *arg0);
-void set_field8_from_obj__14TObjEneBm5WolfFl(void *arg0, s32 arg1);
-void set_state_by_timer__14TObjEneBm5WolfFi(s32 arg0);
-void spawn_recoil_dust__14TObjEneBm5WolfFiPv(s32 arg0, u8 *arg1);
-void update__14TObjEneBm5WolfFPv(void *p, void *a1);
-void update_default__14TObjEneBm5WolfFv(s32 arg0);
-void update_state__14TObjEneBm5WolfFPv(void *arg0);
+void approach_target__14TObjEneBm5WolfFPvf(TObjEneBm5Wolf *wolf, f32 step);
+s32 calc_lunge_aim__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf);
+void calc_rotated_vector__14TObjEneBm5WolfFPviPvPv(TObjEneBm5Wolf *wolf, s32 angle, Vec *out, s32 *heading);
+int get_flag_bit0__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf);
+s32 get_group_id__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf);
+void play_footsteps__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf);
+TObjEneBm5Wolf *play_sound__14TObjEneBm5WolfFPv(TObjEneBm5WolfListNode *node);
+s32 play_variant_sound__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf);
+void returning_state__14TObjEneBm5WolfFPvi(TObjEneBm5Wolf *actor, s32 arg1);
+void schedule_pack_reaction__14TObjEneBm5WolfFPvis(TObjEneBm5Wolf *wolf, s32 delay, u16 value);
+s32 select_target__14TObjEneBm5WolfFPv(TObjEneBm5Wolf *wolf);
+void set_state_by_timer__14TObjEneBm5WolfFi(TObjEneBm5Wolf *wolf);
+void spawn_recoil_dust__14TObjEneBm5WolfFiPv(TObjEneBm5Wolf *wolf, Vec *dir);
 }
 
 #endif

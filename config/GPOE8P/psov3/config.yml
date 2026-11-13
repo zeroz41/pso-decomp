@@ -1063,8 +1063,7 @@ force_active:
   - TObjEneBm5GibonU__sub_800D1D78
   - TObjEneBm5Wolf__bml_resource
   - TObjEneBm5Wolf__collider_params
-  - TObjEneBm5Wolf__ct
-  - TObjEneBm5Wolf__data_8043B5B0
+  - __ct__14TObjEneBm5WolfFP7TObjectPv
   - TObjEneBm5Wolf__data_805D5128
   - TObjEneBm5Wolf__data_805D9D74
   - TObjEneBm5Wolf__data_805D9D78
@@ -1089,7 +1088,7 @@ force_active:
   - TObjEneBm5Wolf__pack_member_list
   - TObjEneBm5Wolf__spawn_timer
   - TObjEneBm5Wolf__stat_params
-  - TObjEneBm5Wolf__sub_800B8A24
+  - __ct__22TObjEneBm5WolfListNodeFv
   - TObjEneBm9Mericarol__ct
   - TObjEneBm9Mericarol__vtable
   - TObjEneDarkGunCenter__sub_800A0B18
@@ -5583,7 +5582,7 @@ force_active:
   - destroy__12TPhotonPillaFPvs
   - destroy__12T_OWEHMS_ExpFs
   - destroy__13TPhotonFarllaFPvs
-  - destroy__14TObjEneBm5WolfFis
+  - __dt__22TObjEneBm5WolfListNodeFv
   - destroy__15TORockJungleL01Fs
   - destroy__15TWindowHelpItemFPvs
   - destroy__16TObjEneBm5GibonUFls
@@ -5675,7 +5674,7 @@ force_active:
   - dispatch_select_phase__16TKeyBoardControlFv
   - dispatch_state__12TObjEneReconFiUii
   - dispatch_state__13TUnk_804B5BA8Fv
-  - dispatch_state__14TObjEneBm5WolfFPvUii
+  - dispatch_action__14TObjEneBm5WolfFUll
   - dispatch_state__15TBoss3VoloptP01Fv
   - dispatch_state__15TBoss3VoloptP02Fv
   - dispatch_state__15TObjEneMe1GiGueFv
@@ -7740,7 +7739,7 @@ force_active:
   - lbl_80490998
   - lbl_8049168C
   - lbl_80491EE4
-  - lbl_804922F8
+  - __vt__14TObjEneBm5Wolf
   - lbl_80492BE4
   - lbl_80492C20
   - lbl_80492C2C
@@ -14450,7 +14449,7 @@ force_active:
   - render_by_state__18TAdLoadQuestLineGCFv
   - render_clipout_and_fade__9TMainTaskFv
   - render_cursor__19TAdMcSelectCursorGCFv
-  - render_debug__14TObjEneBm5WolfFPv
+  - render_debug__14TObjEneBm5WolfFv
   - render_debug__16TObjEneBm5GibonUFv
   - render_deferred_nodes__7TObjectFv
   - render_effect_layers__14TOTrapSeabed01Fv
@@ -17194,7 +17193,7 @@ force_active:
   - update_state__12TObjWarpBossFv
   - update_state__14TBoss6GravBallFPv
   - update_state__14TOTrapChainSawFv
-  - update_state__14TObjEneBm5WolfFPv
+  - update_state__14TObjEneBm5WolfFv
   - update_state__14TObjVoloptCageFv
   - update_state__15TBoss3VoloptP01Fv
   - update_state__15TBoss3VoloptP02Fv
