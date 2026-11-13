@@ -1210,7 +1210,7 @@ force_active:
   - TObjEneMe1GiGue__sub_802CCBAC
   - TObjEneMe1GiGue__sub_802CD054
   - TObjEneMe1GiGue__sub_802CDAE8
-  - TObjEneMe1GiGue_barrier_count
+  - lbl_805D6858
   - __ct__21TObjEneMe3ShinowaRealFP7TObjectPv
   - __ct__22TObjEneMe3SinowZoaRealFP7TObjectPv
   - TObjEneMe3SinowZoa__sub_80317B50
@@ -4993,7 +4993,7 @@ force_active:
   - check_trigger_flag__15TOTrapAncient01Fll
   - check_type_and_enabled__11TMainCursorFPvPv
   - check_valid_state__6TLobbyFi
-  - check_vector_bit__15TObjEneMe1GiGueFl
+  - check_vector_bit__15TObjEneMe1GiGueFP3Vec
   - choose_attack__13TObjEneBm3FlyFPv
   - choose_attack_heading_sector__11TBoss4Type3Fv
   - choose_attack_target__10TNpcPlayerFv
@@ -5811,7 +5811,7 @@ force_active:
   - draw_model__10TBoss6RockFv
   - draw_model__11TObjDoaEx01Fv
   - draw_model__12TObjComputerFv
-  - draw_model__15TObjEneMe1GiGueFPv
+  - render__15TObjEneMe1GiGueFv
   - draw_model__15TObjLazerFence4Fv
   - draw_model__16TObjEneMe3StelthFPv
   - draw_model__17TBoss5GryphonDemoFPvl
@@ -6584,8 +6584,8 @@ force_active:
   - get_floor_surface_type__10TObjPlayerFv
   - get_floor_switch_flag__FUls
   - get_function_key_menu__16TKeyBoardControlFPv
-  - get_gigue_float_parameter__Fll
-  - get_gigue_int_parameter__Fll
+  - get_gigue_float_parameter__FP15TObjEneMe1GiGuel
+  - get_gigue_int_parameter__FP15TObjEneMe1GiGuel
   - get_group_id__14TObjEneBm5WolfFPv
   - get_gstream_buffered_bytes__Fv
   - get_handle_6x78_entry__FUs
@@ -13904,7 +13904,7 @@ force_active:
   - rebuild_com_card_list__17TWindowSubComCardFii
   - rebuild_item_list__18TShopGetItemWindowFv
   - rebuild_parts__15TBoss3VoloptP02Fv
-  - receive_attack__15TObjEneMe1GiGueFPviii
+  - receive_direct_attack__15TObjEneMe1GiGueFPv19DirectAttackPayloadPvll
   - receive_direct_attack__11TOVS2Wall01FPv19DirectAttackPayloadPvll
   - receive_direct_attack__13TUnk_8048E1A4FPv19DirectAttackPayloadPvll
   - receive_direct_attack__15TBoss3VoloptP02FPv19DirectAttackPayloadPvll
