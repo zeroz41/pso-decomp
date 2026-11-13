@@ -171,9 +171,9 @@ void TWindowShortCut::sub_8026E1D4(s32 index, s32 *chat_shortcut) {
         size.y = 3.0f + (20.0f + text->height);
         pos.x = TWindowSubStatusDisp::round_away_from_zero(pos.x - 0.5f * size.x);
         pos.y = TWindowSubStatusDisp::round_away_from_zero(pos.y - 0.5f * size.y);
-        this->m_64 = create_quest_message_window_at((s32)&pos, (s32)&size);
-        dispatch_message_window_text((void *)this->m_64, (int)message, 0x402);
-        ((TWindowBase *)this->m_64)->set_depth(50060.0f);
+        this->message_window = (TWindowBase *)create_quest_message_window_at((s32)&pos, (s32)&size);
+        dispatch_message_window_text(this->message_window, (int)message, 0x402);
+        this->message_window->set_depth(50060.0f);
         break;
     }
     case 2:
@@ -185,9 +185,9 @@ void TWindowShortCut::sub_8026E1D4(s32 index, s32 *chat_shortcut) {
         size.y = 3.0f + (20.0f + text->height);
         pos.x = TWindowSubStatusDisp::round_away_from_zero(pos.x - 0.5f * size.x);
         pos.y = TWindowSubStatusDisp::round_away_from_zero(pos.y - 0.5f * size.y);
-        this->m_64 = create_quest_message_window_at((s32)&pos, (s32)&size);
-        dispatch_message_window_text((void *)this->m_64, (int)get_shared_text_buffer(), 2);
-        ((TWindowBase *)this->m_64)->set_depth(50060.0f);
+        this->message_window = (TWindowBase *)create_quest_message_window_at((s32)&pos, (s32)&size);
+        dispatch_message_window_text(this->message_window, (int)get_shared_text_buffer(), 2);
+        this->message_window->set_depth(50060.0f);
         break;
     case 3: {
         TWindowSubSymbolChat *preset = open_symbol_chat__11TWindowChatFPl(chat_shortcut + 1);
@@ -201,9 +201,9 @@ void TWindowShortCut::sub_8026E1D4(s32 index, s32 *chat_shortcut) {
         if (window != NULL) {
             window = (TWindowChatSymbol *)TWindowChatSymbol__ct(window, (s32)&pos, (s32)&size);
         }
-        this->m_68 = (u32)window;
-        ((TWindowSubSymbolChatPartsSet *)this->m_68)->set_selection((u32)preset);
-        ((TWindowBase *)this->m_68)->set_depth(50060.0f);
+        this->symbol_chat_window = window;
+        ((TWindowSubSymbolChatPartsSet *)this->symbol_chat_window)->set_selection((u32)preset);
+        this->symbol_chat_window->set_depth(50060.0f);
         break;
     }
     }
