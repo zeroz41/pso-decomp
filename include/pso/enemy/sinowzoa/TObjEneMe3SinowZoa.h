@@ -60,7 +60,7 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     f32 m_37c;
     u8 unk_380[0x10];
     TObjChara *m_390;
-    u8 unk_394[0xC];
+    Vec m_394;
     Vec m_3a0;
     f32 m_3ac;
     u8 unk_3B0[0x10];
