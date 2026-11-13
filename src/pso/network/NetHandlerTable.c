@@ -16,7 +16,6 @@
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/text_80421620.h"
-/* The object header the stack's records share (laid out like TObject's fields). */
 typedef struct LobbyHandler LobbyHandler;
 typedef struct LobbyHandlerTable LobbyHandlerTable;
 s32 dispatch_handler_by_id(s16 arg0, s32 arg1, s32 arg2);
@@ -150,14 +149,14 @@ s32 TLobby__sub_80409AA8(void) {
 
 s32 TLobby__sub_80409AD8(void) {
     s16 i;
-    u8 *p;
+    LobbyHandler *e;
     TLobby__sub_803F8AA0((u8 *)&lobby_handler_table_desc);
-    p = (u8 *)lobby_handler_table_desc.list;
+    e = lobby_handler_table_desc.list;
     i = 0;
     while (i < lobby_handler_table_desc.count) {
-        NetMemset(p, 0, 0x30);
+        NetMemset(e, 0, sizeof(LobbyHandler));
         i++;
-        p += 0x30;
+        e++;
     }
     return 0;
 }
