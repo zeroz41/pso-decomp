@@ -18,6 +18,7 @@ struct TWindowShortCut : public TWindowBase {
     u32 m_6c;
     u32 m_70;
     virtual void run_task();
+    void sub_8026E1D4(s32 index, s32 *chat_shortcut);
 };
 
 typedef char TWindowShortCut_size[sizeof(TWindowShortCut) == 0x74 ? 1 : -1];

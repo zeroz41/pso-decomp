@@ -28,7 +28,6 @@ s32 draw_visible_window_entries(void *, void *, int);
 s32 forward_render__20TWindowSubStatusDispFv(int, int);
 s32 construct_type1_heading__20TWindowSubStatusDispFll(s32, s32, s32);
 s32 get_message_10__20TWindowSubStatusDispFl(int);
-s32 TWindowSubStatusDisp__sub_8026E1D4(void *, void *, void *);
 extern RecoveredGlobal_8026E728_lbl_804D0AE0 window_short_cut_layout;
 extern s32 __vt__15TWindowShortCut[];
 void __dl__7TObjectFPv(void *);
@@ -72,7 +71,7 @@ u8 *TWindowShortCut__ct(TWindowShortCut *window_short_cut, s32 arg1, s32 arg2, s
     window_short_cut->m_68 = 0;
     window_short_cut->m_6c = arg2;
     window_short_cut->m_70 = arg3;
-    TWindowSubStatusDisp__sub_8026E1D4((void *)window_short_cut, (void *)arg2, (void *)arg3);
+    window_short_cut->sub_8026E1D4(arg2, (s32 *)arg3);
     return (u8 *)window_short_cut;
 }
 
