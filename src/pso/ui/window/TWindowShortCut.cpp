@@ -2,6 +2,7 @@
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowShortCut.h"
+#include "pso/ui/chat/TWindowChatSymbol.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -42,28 +43,28 @@ void render__15TWindowShortCutFv(u8 *arg0) {
 
 void TWindowShortCut::run_task() { ((TWindowSubStatusDisp *)(this->m_60))->update_subwindow(); ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list((char*)this + 0x24); }
 
-void *__dt__15TWindowShortCutFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TWindowShortCut;
-        if (((TWindowShortCut *)arg0)->symbol_chat_window != NULL) {
-            ((TWindowBase *)((TWindowShortCut *)arg0)->symbol_chat_window)->close();
-            ((TWindowShortCut *)arg0)->symbol_chat_window = NULL;
+void *__dt__15TWindowShortCutFv(TWindowShortCut *self, s16 arg1) {
+    if (self != NULL) {
+        *(s32 **)((s8 *)self + 0x18) = __vt__15TWindowShortCut;
+        if (self->symbol_chat_window != NULL) {
+            self->symbol_chat_window->close();
+            self->symbol_chat_window = NULL;
         }
-        if (((TWindowShortCut *)arg0)->message_window != NULL) {
-            ((TWindowShortCut *)arg0)->message_window->close();
-            ((TWindowShortCut *)arg0)->message_window = NULL;
+        if (self->message_window != NULL) {
+            self->message_window->close();
+            self->message_window = NULL;
         }
-        TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)arg0 + 0x60)), (s16)1);
-        ((TWindowDD *)arg0)->destroy_window_base(0);
+        TWindowSubStatusDisp::destroy_status_display((s32)self->m_60, (s16)1);
+        ((TWindowDD *)self)->destroy_window_base(0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            __dl__7TObjectFPv(self);
         }
     }
-    return arg0;
+    return self;
 }
 typedef char RecoveredGlobal_8026E728_lbl_804D0AE0_size[sizeof(RecoveredGlobal_8026E728_lbl_804D0AE0) == 0x14 ? 1 : -1];
 typedef char RecoveredGlobal_8026E728___vt__15TWindowShortCut_size[sizeof(RecoveredGlobal_8026E728___vt__15TWindowShortCut) == 0x1C ? 1 : -1];
-u8 *TWindowShortCut__ct(TWindowShortCut *window_short_cut, s32 arg1, s32 arg2, s32 arg3) {
+u8 *TWindowShortCut__ct(TWindowShortCut *window_short_cut, s32 arg1, s32 index, s32 chat_shortcut_addr) {
     s32 var_r31;
     ((TWindowDD *)window_short_cut)->construct_base((u8 *)((s32) &window_short_cut_layout.value), (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)window_short_cut + 0x18) = &(*(RecoveredGlobal_8026E728___vt__15TWindowShortCut *)&__vt__15TWindowShortCut).value;
@@ -75,9 +76,9 @@ u8 *TWindowShortCut__ct(TWindowShortCut *window_short_cut, s32 arg1, s32 arg2, s
     window_short_cut->m_60 = var_r31;
     window_short_cut->message_window = NULL;
     window_short_cut->symbol_chat_window = NULL;
-    window_short_cut->index = arg2;
-    window_short_cut->chat_shortcut = (s32 *)arg3;
-    window_short_cut->sub_8026E1D4(arg2, (s32 *)arg3);
+    window_short_cut->index = index;
+    window_short_cut->chat_shortcut = (s32 *)chat_shortcut_addr;
+    window_short_cut->sub_8026E1D4(index, (s32 *)chat_shortcut_addr);
     return (u8 *)window_short_cut;
 }
 

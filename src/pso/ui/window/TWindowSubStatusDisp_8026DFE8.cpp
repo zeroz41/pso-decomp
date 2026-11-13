@@ -96,48 +96,48 @@ u8 *TWindowSubStatusDisp::construct_item_list(s32 arg1, s32 arg2, s16 arg3) {
     return ((u8 *)this);
 }
 
-struct ShortCutTextEntry {
+struct TextEntry {
     u16 flags;
     u8 unk_2[0xE];
     f32 width;
     f32 height;
 };
 
-struct ShortCutVec2 {
+struct Vec2f {
     f32 x;
     f32 y;
 };
 
-void measure_message_text_width(ShortCutTextEntry *entry, f32 max_width);
-void refresh_status_display__9TWindowDDFv(ShortCutTextEntry *entry);
+void measure_message_text_width(TextEntry *entry, f32 max_width);
+void refresh_status_display__9TWindowDDFv(TextEntry *entry);
 
 static const u8 chat_shortcut_icons[] = {0x12, 0x10, 0x11};
 
 #pragma push
 #pragma fp_contract on
 void TWindowShortCut::sub_8026E1D4(s32 index, s32 *chat_shortcut) {
-    ShortCutTextEntry *text;
-    ShortCutTextEntry *text_label;
+    TextEntry *text;
+    TextEntry *text_label;
     s32 type;
-    ShortCutTextEntry *title;
-    ShortCutTextEntry *button_icon;
-    ShortCutTextEntry *pad_icon;
-    ShortCutTextEntry *type_label;
-    ShortCutTextEntry *type_icon;
-    ShortCutTextEntry *type_name;
-    title = (ShortCutTextEntry *)this->get_array_entry(0);
-    button_icon = (ShortCutTextEntry *)this->get_array_entry(2);
-    pad_icon = (ShortCutTextEntry *)this->get_array_entry(3);
-    type_label = (ShortCutTextEntry *)this->get_array_entry(4);
-    type_icon = (ShortCutTextEntry *)this->get_array_entry(6);
-    type_name = (ShortCutTextEntry *)this->get_array_entry(7);
-    text_label = (ShortCutTextEntry *)this->get_array_entry(8);
-    text = (ShortCutTextEntry *)this->get_array_entry(10);
+    TextEntry *title;
+    TextEntry *button_icon;
+    TextEntry *pad_icon;
+    TextEntry *type_label;
+    TextEntry *type_icon;
+    TextEntry *type_name;
+    title = (TextEntry *)this->get_array_entry(0);
+    button_icon = (TextEntry *)this->get_array_entry(2);
+    pad_icon = (TextEntry *)this->get_array_entry(3);
+    type_label = (TextEntry *)this->get_array_entry(4);
+    type_icon = (TextEntry *)this->get_array_entry(6);
+    type_name = (TextEntry *)this->get_array_entry(7);
+    text_label = (TextEntry *)this->get_array_entry(8);
+    text = (TextEntry *)this->get_array_entry(10);
     type = chat_shortcut[0];
     u8 first_icon;
     u8 second_icon;
-    ShortCutVec2 pos;
-    ShortCutVec2 size;
+    Vec2f pos;
+    Vec2f size;
     f32 *uv;
 
     set_text_entry_string((u8 *)title, (u32)TWindowSubStatusDisp::get_message_10(0xC4), 0);
