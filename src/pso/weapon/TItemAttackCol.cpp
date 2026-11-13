@@ -145,6 +145,8 @@ s32 play_weapon_hit_sound(void *);
 void apply_camera_shake__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
 extern const f32 lbl_805DE914;
 extern const f32 lbl_805DE928;
+extern const f32 lbl_805DE91C;
+extern const f64 lbl_804729C0;
 extern const float lbl_805DE918;
 extern const f32 lbl_805DE924;
 Hit_802E3D8C *csnVector(void *, void *, s32);
@@ -296,7 +298,7 @@ extern "C" f32 normalize_vector(Vec *v);
 const char *TItemAttackCol__name = "TItemAttackCol";
 
 // The particle's direction before the collider's heading is added.
-static ParticleAngles particle_direction = {0x4000, 0, 0x4000};
+static ParticleAngles lbl_804E3530 = {0x4000, 0, 0x4000};
 
 TItemAttackCol::TItemAttackCol(TObject *parent, S_802E449C *params) : TUnk_804E355C(parent, params) {
     m_name = TItemAttackCol__name;
@@ -304,12 +306,12 @@ TItemAttackCol::TItemAttackCol(TObject *parent, S_802E449C *params) : TUnk_804E3
     if (params->flags & 1) {
         VecCopy(&velocity, &params->direction);
         normalize_vector(&velocity);
-        rotation[0] = -(s32)(10430.38043493439 * atan2_float(velocity.y, newton_sqrtf(velocity.x * velocity.x + velocity.z * velocity.z)));
-        rotation[1] = (s32)(10430.38043493439 * atan2_float(velocity.x, velocity.z));
+        rotation[0] = -(s32)(lbl_804729C0 * atan2_float(velocity.y, newton_sqrtf(velocity.x * velocity.x + velocity.z * velocity.z)));
+        rotation[1] = (s32)(lbl_804729C0 * atan2_float(velocity.x, velocity.z));
         rotation[2] = 0;
     } else {
         velocity.x = sin_table_lookup(params->rotation_y);
-        velocity.y = 0.0f;
+        velocity.y = lbl_805DE914;
         velocity.z = cos_table_lookup(params->rotation_y);
         rotation[0] = 0;
         rotation[1] = params->rotation_y;
@@ -329,15 +331,15 @@ TItemAttackCol::TItemAttackCol(TObject *parent, S_802E449C *params) : TUnk_804E3
     pad_114[0] = 0;
     pad_114[1] = 0;
     pad_114[2] = 0;
-    pad_120[0] = 1.0f;
-    pad_120[1] = 1.0f;
-    pad_120[2] = 1.0f;
+    pad_120[0] = lbl_805DE918;
+    pad_120[1] = lbl_805DE918;
+    pad_120[2] = lbl_805DE918;
     hit_wall_flags.reset();
     if (params->flags & 2) {
         const StarLightParameters star = {
             params->star_width,
             7.0f,
-            {{0, 255.0f * params->star_color[0], 255.0f * params->star_color[1], 255.0f * params->star_color[2]}},
+            {{0, lbl_805DE91C * params->star_color[0], lbl_805DE91C * params->star_color[1], lbl_805DE91C * params->star_color[2]}},
             0,
             20.0f,
         };
@@ -363,8 +365,9 @@ TItemAttackCol::TItemAttackCol(TObject *parent, S_802E449C *params) : TUnk_804E3
         if (params->particle != -1) {
             particle = create_particle_emitter(&position, params->particle);
             if (particle != NULL) {
-                ParticleAngles direction = particle_direction;
-                direction.x += params->rotation_y;
+                s32 rot = params->rotation_y;
+                ParticleAngles direction = lbl_804E3530;
+                direction.x += rot;
                 particle->set_direction(&direction);
             }
         } else {
