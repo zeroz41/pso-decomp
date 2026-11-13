@@ -4952,7 +4952,7 @@ force_active:
   - check_heavy_damage_flag__9TObjCharaFf
   - check_height_ready__13TObjTombstoneFv
   - check_hit_by_id_276__10TObjPlayerFi
-  - check_hit_sphere__16TObjEneBm5GibonUFPvif
+  - check_hit_sphere__16TObjEneBm5GibonUFif
   - check_hold_player__14TOTrapSeabed01FPv
   - check_load_state__16TAdChrSelASlotGCFv
   - check_local_player_in_range__12TObjRaderColFPv
@@ -15948,7 +15948,7 @@ force_active:
   - spawn_impact_crater__12TBoss1DragonFl
   - spawn_item__10TObjPlayerFi
   - spawn_item_follow_effect__FlUlll
-  - spawn_landing_effect__16TObjEneBm5GibonUFPvPv
+  - spawn_landing_effect__16TObjEneBm5GibonUFP3Vec
   - spawn_laser__12TPhotonPillaFv
   - spawn_lightning_at_angle__16TBGLightningCtrlFl
   - spawn_lightning_effect__13TBoss5GryphonFv
