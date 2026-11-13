@@ -112,9 +112,9 @@ s32 TLobby__sub_80418C40(u8* self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident,
 }
 
 inline NetFragment *take_80418D7C(NetFragment **pb, s16 *pn) {
-    NetFragment *ent;
-    s16 i;
     s16 n;
+    s16 i;
+    NetFragment *ent;
     ent = *pb;
     n = *pn;
     for (i = 0; i < n; i++) {
@@ -130,11 +130,11 @@ inline NetFragment *take_80418D7C(NetFragment **pb, s16 *pn) {
     return 0;
 }
 inline s16 contig_80418D7C(NetFragPacket *node, s16 *pn, NetFragPool *g) {
-    NetFragment *f;
-    s16 cnt;
-    s16 n;
     s16 lim;
+    NetFragment *f;
     u32 acc;
+    s16 n;
+    s16 cnt;
     acc = 0;
     f = node->first;
     cnt = *pn;
@@ -161,7 +161,7 @@ s32 TLobby__sub_80418D7C(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_of
 {
   NetFragment **new_var;
   NetFragPool *g = &packet_fragment_pool_state;
-  s16 cnt;
+  u32 c16;
   NetFragment **pb;
   s16 *pn;
   NetFragment *e;
@@ -170,15 +170,15 @@ s32 TLobby__sub_80418D7C(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_of
   NetFragment *cur;
   NetFragment *n0;
   s16 i;
-  s16 n;
+  NetPacketFragment *ep;
   s16 res;
   s32 len;
   s16 ls;
   s32 sum;
-  NetPacketFragment *ep;
+  s16 n;
   u32 off;
   NetFragment *nx;
-  u32 c16;
+  s16 cnt;
   NetBufferRef tmp;
   if (frag_off == 0)
   {
