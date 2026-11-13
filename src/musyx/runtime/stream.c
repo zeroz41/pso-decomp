@@ -119,8 +119,6 @@ void streamInit(void) {
 }
 #pragma pop
 
-#define hwFlushStream4(b, o, l, h) hwFlushStream((u8 *)(b), (o), (l), (h), 0, 0)
-
 #pragma push
 #pragma opt_common_subs on
 #pragma dont_inline off
@@ -171,7 +169,7 @@ void streamHandle(void) {
             hwStart(si->voice, si->studio);
             si->state = 2;
             if (!(si->flags & 0x20000)) {
-                hwFlushStream4(si->buffer, 0, si->bytes, si->hwStreamHandle);
+                hwFlushStream((u8 *)si->buffer, 0, si->bytes, si->hwStreamHandle, 0, 0);
             }
             break;
         case 2: {
@@ -190,9 +188,9 @@ void streamHandle(void) {
                             cpos = (si->last + len) % si->size;
                             if (!(si->flags & 0x20000)) {
                                 if (cpos != 0) {
-                                    hwFlushStream4(si->buffer, si->last * 2, (cpos - si->last) * 2, si->hwStreamHandle);
+                                    hwFlushStream((u8 *)si->buffer, si->last * 2, (cpos - si->last) * 2, si->hwStreamHandle, 0, 0);
                                 } else {
-                                    hwFlushStream4(si->buffer, si->last * 2, (si->size - si->last) * 2, si->hwStreamHandle);
+                                    hwFlushStream((u8 *)si->buffer, si->last * 2, (si->size - si->last) * 2, si->hwStreamHandle, 0, 0);
                                 }
                             }
                             si->last = cpos;
@@ -205,9 +203,9 @@ void streamHandle(void) {
                             cpos = (si->last + len) % si->size;
                             if (!(si->flags & 0x20000)) {
                                 if (cpos != 0) {
-                                    hwFlushStream4(si->buffer, off, ((cpos + 13) / 14) * 8 - off, si->hwStreamHandle);
+                                    hwFlushStream((u8 *)si->buffer, off, ((cpos + 13) / 14) * 8 - off, si->hwStreamHandle, 0, 0);
                                 } else {
-                                    hwFlushStream4(si->buffer, off, (si->bytes) - off, si->hwStreamHandle);
+                                    hwFlushStream((u8 *)si->buffer, off, (si->bytes) - off, si->hwStreamHandle, 0, 0);
                                 }
                             }
                             si->last = cpos;
@@ -222,9 +220,9 @@ void streamHandle(void) {
                             cpos = (si->last + len) % si->size;
                             if (!(si->flags & 0x20000)) {
                                 if (cpos == 0) {
-                                    hwFlushStream4(si->buffer, si->last * 2, si->bytes - (si->last * 2), si->hwStreamHandle);
+                                    hwFlushStream((u8 *)si->buffer, si->last * 2, si->bytes - (si->last * 2), si->hwStreamHandle, 0, 0);
                                 } else {
-                                    hwFlushStream4(si->buffer, si->last * 2, (cpos - si->last) * 2, si->hwStreamHandle);
+                                    hwFlushStream((u8 *)si->buffer, si->last * 2, (cpos - si->last) * 2, si->hwStreamHandle, 0, 0);
                                 }
                             }
                             si->last = cpos;
@@ -237,9 +235,9 @@ void streamHandle(void) {
                             cpos = (si->last + len) % si->size;
                             if (!(si->flags & 0x20000)) {
                                 if (cpos == 0) {
-                                    hwFlushStream4(si->buffer, off, si->bytes - off, si->hwStreamHandle);
+                                    hwFlushStream((u8 *)si->buffer, off, si->bytes - off, si->hwStreamHandle, 0, 0);
                                 } else {
-                                    hwFlushStream4(si->buffer, off, ((cpos + 13) / 14) * 8 - off, si->hwStreamHandle);
+                                    hwFlushStream((u8 *)si->buffer, off, ((cpos + 13) / 14) * 8 - off, si->hwStreamHandle, 0, 0);
                                 }
                             }
                             si->last = cpos;
@@ -254,12 +252,12 @@ void streamHandle(void) {
                             cpos = (si->last + len) % si->size;
                             if (!(si->flags & 0x20000)) {
                                 if (len > si->size - si->last) {
-                                    hwFlushStream4(si->buffer, si->last * 2, (si->bytes - si->last * 2), si->hwStreamHandle);
-                                    hwFlushStream4(si->buffer, 0, cpos * 2, si->hwStreamHandle);
+                                    hwFlushStream((u8 *)si->buffer, si->last * 2, (si->bytes - si->last * 2), si->hwStreamHandle, 0, 0);
+                                    hwFlushStream((u8 *)si->buffer, 0, cpos * 2, si->hwStreamHandle, 0, 0);
                                 } else if (cpos == 0) {
-                                    hwFlushStream4(si->buffer, si->last * 2, (si->bytes - si->last * 2), si->hwStreamHandle);
+                                    hwFlushStream((u8 *)si->buffer, si->last * 2, (si->bytes - si->last * 2), si->hwStreamHandle, 0, 0);
                                 } else {
-                                    hwFlushStream4(si->buffer, si->last * 2, (cpos - si->last) * 2, si->hwStreamHandle);
+                                    hwFlushStream((u8 *)si->buffer, si->last * 2, (cpos - si->last) * 2, si->hwStreamHandle, 0, 0);
                                 }
                             }
                             si->last = cpos;
@@ -272,12 +270,12 @@ void streamHandle(void) {
                             cpos = (si->last + len) % si->size;
                             if (!(si->flags & 0x20000)) {
                                 if (len > si->size - si->last) {
-                                    hwFlushStream4(si->buffer, off, si->bytes - off, si->hwStreamHandle);
-                                    hwFlushStream4(si->buffer, 0, (cpos / 14) << 3, si->hwStreamHandle);
+                                    hwFlushStream((u8 *)si->buffer, off, si->bytes - off, si->hwStreamHandle, 0, 0);
+                                    hwFlushStream((u8 *)si->buffer, 0, (cpos / 14) << 3, si->hwStreamHandle, 0, 0);
                                 } else if (cpos == 0) {
-                                    hwFlushStream4(si->buffer, off, si->bytes - off, si->hwStreamHandle);
+                                    hwFlushStream((u8 *)si->buffer, off, si->bytes - off, si->hwStreamHandle, 0, 0);
                                 } else {
-                                    hwFlushStream4(si->buffer, off, ((cpos + 13) / 14) * 8 - off, si->hwStreamHandle);
+                                    hwFlushStream((u8 *)si->buffer, off, ((cpos + 13) / 14) * 8 - off, si->hwStreamHandle, 0, 0);
                                 }
                             }
                             si->last = cpos;
@@ -295,7 +293,6 @@ void streamHandle(void) {
     }
 }
 #pragma pop
-#undef hwFlushStream4
 
 void streamCorrectLoops(void) {
 

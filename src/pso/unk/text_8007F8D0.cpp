@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/system/scene/TScene.h"
+#include "pso/unk/SharedMemory.h"
 #pragma pool_data off
 
 extern "C" {
@@ -13,7 +14,7 @@ void VISetBlack(s32);
 void GXDrawDone(void);
 char *strcpy(char *, const char *);
 s32 fn_8042EAD4(u8 *arg0, u32 arg1);
-void fn_8042EBA4(s32, s32);
+void fn_8042EBA4(DolHeader *, s32);
 void *memset(void *, s32, u32);
 u32 strlen(const char *);
 extern s32 resource_decompress_buffer;
@@ -70,7 +71,7 @@ s32 launch_switcher_dol(const char *arg0) {
     memset(buf, 0, 0xFF);
     strcpy(buf, arg0);
     fn_8042EAD4((u8 *)buf, strlen(buf) + 1);
-    fn_8042EBA4(v, r);
+    fn_8042EBA4((DolHeader *) v, r);
     return 1;
 }
 

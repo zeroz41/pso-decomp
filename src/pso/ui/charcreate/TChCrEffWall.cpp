@@ -4,41 +4,35 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 
 #include "types.h"
+#include "pso/math/TMath.h"
 #include "pso/camera/TCameraCtrl.h"
-
-struct Ent_8029ACF8 { f32 x, y; };
-
-struct Args_8029ACF8 { void *a; void *b; s32 c; s32 d; };
+#include "pso/unk/TLobby_801E2F94.h"
 
 extern "C" {
-void * __ct__12TChCrEffWallFP7TObject(void *, void * = 0);
-void *__nw__7TObjectFUl(int);
 void TCameraCtrl__sub_80068EF0(void);
-void draw_default_sprite__12TChCrEffWallFv(s32, const Ent_8029ACF8 *, f32);
+void draw_default_sprite__12TChCrEffWallFv(s32, const vec2f *, f32);
 const char *TChCrEffWall__name = "TChCrEffWall";
-extern const Ent_8029ACF8 creation_effwall_sprite_position_table[6] = {
+extern const vec2f creation_effwall_sprite_position_table[6] = {
     {0.0f, 0.0f}, {0.0f, 256.0f}, {256.0f, 0.0f}, {256.0f, 128.0f}, {256.0f, 256.0f}, {256.0f, 384.0f},
 };
-extern const Ent_8029ACF8 creation_effwall_sprite_size_table[2] = {
+extern const vec2f creation_effwall_sprite_size_table[2] = {
     {384.0f, 0.0f}, {384.0f, 256.0f},
 };
 
-void *chcr_eff_wall_gradient_table[4] = {
-    (void *)0x0, (void *)0xff181818, (void *)0xff181818, (void *)0x0,
+u32 chcr_eff_wall_gradient_table[4] = {
+    0x00000000, 0xFF181818, 0xFF181818, 0x00000000,
 };
-void *lbl_804DBF68[8] = {
-    (void *)0x430c0000, (void *)0x0, (void *)0x43c00000, (void *)0x0,
-    (void *)0x43c00000, (void *)0x44160000, (void *)0x430c0000, (void *)0x44160000,
+ColorLineVertex lbl_804DBF68[4] = {
+    {140.0f, 0.0f}, {384.0f, 0.0f}, {384.0f, 600.0f}, {140.0f, 600.0f},
 };
-void *lbl_804DBF88[8] = {
-    (void *)0x44200000, (void *)0x0, (void *)0x43c00000, (void *)0x0,
-    (void *)0x43c00000, (void *)0x44160000, (void *)0x44200000, (void *)0x44160000,
+ColorLineVertex lbl_804DBF88[4] = {
+    {640.0f, 0.0f}, {384.0f, 0.0f}, {384.0f, 600.0f}, {640.0f, 600.0f},
 };
-void *lbl_804DBFA8[4] = {
-    (void *)0xec181818, (void *)0xff181818, (void *)0xff181818, (void *)0xec181818,
+u32 lbl_804DBFA8[4] = {
+    0xEC181818, 0xFF181818, 0xFF181818, 0xEC181818,
 };
 void TChCrEffWall::render() {
-    Args_8029ACF8 args;
+    ColorLineList args;
     s32 i;
     set_depth_buffer_settings_1();
     for (i = 0; i < 6; i++) {
@@ -48,13 +42,13 @@ void TChCrEffWall::render() {
         draw_default_sprite__12TChCrEffWallFv(i + 10, &creation_effwall_sprite_size_table[i], -9935.0f);
     }
     TCameraCtrl::restore_full_screen_view();
-    args.b = chcr_eff_wall_gradient_table;
-    args.c = 0;
-    args.d = 4;
-    args.a = lbl_804DBF68;
+    args.colors = chcr_eff_wall_gradient_table;
+    args.unk_8 = 0;
+    args.count = 4;
+    args.verts = lbl_804DBF68;
     ((TWindowCtrlMain *)(&args))->draw_strip_swap_color(4, 6, -9934.0f);
-    args.b = lbl_804DBFA8;
-    args.a = lbl_804DBF88;
+    args.colors = lbl_804DBFA8;
+    args.verts = lbl_804DBF88;
     ((TWindowCtrlMain *)(&args))->draw_strip_swap_color(4, 6, -9934.0f);
     TCameraCtrl__sub_80068EF0();
     restore_saved_depth_alpha_state();
@@ -67,9 +61,5 @@ TChCrEffWall::TChCrEffWall(TObject *object) : TObject(object) {
 }
 
 void *fn_8029AE88(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x1C);
-    if (o != NULL) {
-        o = __ct__12TChCrEffWallFP7TObject(o, arg0);
-    }
-    return o;
+    return new TChCrEffWall((TObject *)arg0);
 }

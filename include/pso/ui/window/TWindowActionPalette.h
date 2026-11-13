@@ -82,6 +82,5 @@ void spawn_action_palette_slot_light(TWindowActionPalette *palette, s32 slot);
 TWindowActionPalette *TWindowActionPalette__ct(TWindowActionPalette *self, s16 slot);
 }
 s32 get_palette_consumable_count(u16 slot, s32 client_id);
-s32 get_help_value(u16 slot, s32 client_id);
 
 #endif

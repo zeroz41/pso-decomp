@@ -5,11 +5,9 @@
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
-typedef struct Bits_803FF698 Bits_803FF698;
+#include "pso/network/PppIpcp.h"
 typedef struct Self_803FF698 Self_803FF698;
 typedef struct P_803FF48C P_803FF48C;
-typedef struct Q_803FF48C Q_803FF48C;
-typedef struct Opt_80400338 Opt_80400338;
 /* This file's functions. */
 void free_field_98(void *self);
 void free_field_98_and_clear(void *self);
@@ -22,16 +20,9 @@ u8 *write_network_u32_be(u8 *p, u32 v);
 extern s32 is_timed_out(void);
 #include "pso/network/NetworkTransport.h"
 
-typedef struct IpcpState {
-    Obj_803FEF4C proto;
-    u8 data[0xD8 - sizeof(Obj_803FEF4C)];
-} IpcpState;
-
 extern IpcpState lbl_805C0328;
-struct Blk36_8047FE18 { u32 w[9]; };
 
-struct Bits_803FF698 { u8 pad[0x28]; s16 f28; };
-struct Self_803FF698 { u8 f0; u8 f1; u8 pad2[0x2E]; Bits_803FF698 *f30; };
+struct Self_803FF698 { u8 f0; u8 f1; u8 pad2[0x2E]; IpcpConfig *f30; };
 
 #include <stddef.h>
 #include "pso/network/NetStackTypes.h"
@@ -118,7 +109,7 @@ extern s32 TLobby__sub_803FF698(Self_803FF698 *self, u8 *item, s32 arg);
 extern s32 TLobby__sub_803FF9A4(void *self, u8 *src, u32 bits);
 extern PppFrame *TLobby__sub_80400174(void *self);
 void TLobby__sub_803FEF4C(u8 *self) {
-    struct Blk36_8047FE18 *src = (struct Blk36_8047FE18 *)lbl_8047FE18;
+    IpcpOptions *src = (IpcpOptions *)lbl_8047FE18;
     u8 *o = (u8 *)&lbl_805C0328;
     u8 *sub;
     u8 *p;
@@ -146,93 +137,92 @@ void TLobby__sub_803FEF4C(u8 *self) {
     *(u8 **)(sub + 0xc) = self;
     *(u8 **)(sub + 0x2c) = o;
     *(u8 **)(sub + 0x30) = p;
-    *(struct Blk36_8047FE18 *)(o + 0x40) = *src;
-    *(s16 *)(o + 0x3c) = 6;
-    *(struct Blk36_8047FE18 *)(o + 0x8c) = *src;
-    *(struct Blk36_8047FE18 *)(p + 0x74) = *src;
-    *(s16 *)(p + 0x4c) = 6;
+    ((IpcpState *)o)->config.local.want = *src;
+    ((IpcpState *)o)->config.local.flags = 6;
+    ((IpcpState *)o)->config.peer.want = *src;
+    ((IpcpConfig *)p)->peer.got = *src;
+    ((IpcpConfig *)p)->peer.flags = 6;
     TLobby__sub_803FD694(sub);
 }
 
-s32 set_socket_flags_by_mode(s16 arg0, u8 *arg1) {
-    typedef struct Fields_arg1 { s16 field_0; u8 pad_2[2]; s16 field_4; u8 pad_6[10]; s16 field_10; s16 field_12; s8 field_14; u8 pad_15[19]; s16 field_28; } Fields_arg1;
-    if (arg0 == 0) {
-        ((Fields_arg1*)arg1)->field_10 = 0x2D;
-        ((Fields_arg1*)arg1)->field_12 = 0x10;
-        ((Fields_arg1*)arg1)->field_14 = 1;
-        ((Fields_arg1*)arg1)->field_4 = (s16) (((Fields_arg1*)arg1)->field_4 | 4);
-        ((Fields_arg1*)arg1)->field_28 = (s16) (((Fields_arg1*)arg1)->field_28 | 4);
-        ((Fields_arg1*)arg1)->field_0 = (s16) (((Fields_arg1*)arg1)->field_0 | 4);
-    } else if (arg0 != 0) {
-        ((Fields_arg1*)arg1)->field_4 = (s16) (((Fields_arg1*)arg1)->field_4 & 0xFFFFFFFB);
-        ((Fields_arg1*)arg1)->field_0 = (s16) (((Fields_arg1*)arg1)->field_0 & 0xFFFFFFFB);
-        ((Fields_arg1*)arg1)->field_28 = (s16) (((Fields_arg1*)arg1)->field_28 & 0xFFFFFFFB);
+s32 ipcp_set_vj_compression(s16 disabled, IpcpSide *side) {
+    if (disabled == 0) {
+        side->want.vj_protocol = 0x2D;
+        side->want.vj_slots = 0x10;
+        side->want.vj_comp_slot = 1;
+        side->want.flags |= 4;
+        side->got.flags |= 4;
+        side->flags |= 4;
+    } else if (disabled != 0) {
+        side->want.flags &= ~4;
+        side->flags &= ~4;
+        side->got.flags &= ~4;
     }
     return 0;
 }
 
-s32 set_target_index(u8 *arg0, s32 arg1) {
-    if (arg1 == -1) {
-        *(s32 *)((s8 *)arg0 + 0x1C) = 0;
-        *(s16 *)((s8 *)arg0 + 4) = (s16) (*(s16 *)((s8 *)arg0 + 4) & 0xFFFFF7FF);
+s32 ipcp_set_peer_secondary_dns(IpcpSide *side, s32 addr) {
+    if (addr == -1) {
+        side->want.dns[1] = 0;
+        side->want.flags &= ~0x800;
     } else {
-        *(s32 *)((s8 *)arg0 + 0x1C) = arg1;
-        *(s16 *)((s8 *)arg0 + 4) = (s16) (*(s16 *)((s8 *)arg0 + 4) | 0x800);
+        side->want.dns[1] = addr;
+        side->want.flags |= 0x800;
     }
     return 0;
 }
 
-s32 set_filter_index(u8 *arg0, s32 arg1) {
-    if (arg1 == -1) {
-        *(s32 *)((s8 *)arg0 + 0x18) = 0;
-        *(s16 *)((s8 *)arg0 + 4) = (s16) (*(s16 *)((s8 *)arg0 + 4) & 0xFFFFFDFF);
+s32 ipcp_set_peer_primary_dns(IpcpSide *side, s32 addr) {
+    if (addr == -1) {
+        side->want.dns[0] = 0;
+        side->want.flags &= ~0x200;
     } else {
-        *(s32 *)((s8 *)arg0 + 0x18) = arg1;
-        *(s16 *)((s8 *)arg0 + 4) = (s16) (*(s16 *)((s8 *)arg0 + 4) | 0x200);
+        side->want.dns[0] = addr;
+        side->want.flags |= 0x200;
     }
     return 0;
 }
 
-s32 set_filter_id(u8 *arg0, s32 arg1) {
-    if (arg1 == -1) {
-        *(s32 *)((s8 *)arg0 + 0x1C) = 0;
-        *(s16 *)((s8 *)arg0 + 4) = (s16) (*(s16 *)((s8 *)arg0 + 4) & 0xFFFFF7FF);
+s32 ipcp_set_local_secondary_dns(IpcpSide *side, s32 addr) {
+    if (addr == -1) {
+        side->want.dns[1] = 0;
+        side->want.flags &= ~0x800;
     } else {
-        *(s32 *)((s8 *)arg0 + 0x1C) = arg1;
-        *(s16 *)((s8 *)arg0 + 4) = (s16) (*(s16 *)((s8 *)arg0 + 4) | 0x800);
+        side->want.dns[1] = addr;
+        side->want.flags |= 0x800;
     }
     return 0;
 }
 
-s32 set_target_slot(u8 *arg0, s32 arg1) {
-    if (arg1 == -1) {
-        *(s32 *)((s8 *)arg0 + 0x18) = 0;
-        *(s16 *)((s8 *)arg0 + 4) = (s16) (*(s16 *)((s8 *)arg0 + 4) & 0xFFFFFDFF);
+s32 ipcp_set_local_primary_dns(IpcpSide *side, s32 addr) {
+    if (addr == -1) {
+        side->want.dns[0] = 0;
+        side->want.flags &= ~0x200;
     } else {
-        *(s32 *)((s8 *)arg0 + 0x18) = arg1;
-        *(s16 *)((s8 *)arg0 + 4) = (s16) (*(s16 *)((s8 *)arg0 + 4) | 0x200);
+        side->want.dns[0] = addr;
+        side->want.flags |= 0x200;
     }
     return 0;
 }
 
-s32 set_target_id(u8 *arg0, s32 arg1) {
-    if (arg1 == -1) {
-        *(s32 *)((s8 *)arg0 + 8) = 0;
-        *(s16 *)((s8 *)arg0 + 4) = (s16) (*(s16 *)((s8 *)arg0 + 4) & 0xFFFFFFF7);
+s32 ipcp_set_peer_address(IpcpSide *side, s32 addr) {
+    if (addr == -1) {
+        side->want.our_addr = 0;
+        side->want.flags &= ~8;
     } else {
-        *(s32 *)((s8 *)arg0 + 8) = arg1;
-        *(s16 *)((s8 *)arg0 + 4) = (s16) (*(s16 *)((s8 *)arg0 + 4) | 8);
+        side->want.our_addr = addr;
+        side->want.flags |= 8;
     }
     return 0;
 }
 
-s32 TLobby__sub_803FF2CC(u8 *arg0, s32 arg1) {
-    if (arg1 == -1) {
-        *(s32 *)((s8 *)arg0 + 8) = 0;
-        *(s16 *)((s8 *)arg0 + 4) = (s16) (*(s16 *)((s8 *)arg0 + 4) & 0xFFFFFFF7);
+s32 ipcp_set_local_address(IpcpSide *side, s32 addr) {
+    if (addr == -1) {
+        side->want.our_addr = 0;
+        side->want.flags &= ~8;
     } else {
-        *(s32 *)((s8 *)arg0 + 8) = arg1;
-        *(s16 *)((s8 *)arg0 + 4) = (s16) (*(s16 *)((s8 *)arg0 + 4) | 8);
+        side->want.our_addr = addr;
+        side->want.flags |= 8;
     }
     return 0;
 }
@@ -248,8 +238,7 @@ s16 TLobby__sub_803FF304(u8 *lobby) {
 
 void free_field_98(void *self) {
     u8 *arg0 = (u8 *)self;
-    typedef struct Fields_arg0 { u8 pad_0[48]; u8 * field_30; } Fields_arg0;
-    TLobby__sub_80405000((u32)(*(u32 *)((s8 *)(((Fields_arg0*)arg0)->field_30) + 0x98)));
+    TLobby__sub_80405000((*(IpcpConfig **)(arg0 + 0x30))->net_list);
 }
 
 void TLobby__sub_803FF374(u8 *arg0) {
@@ -258,22 +247,22 @@ void TLobby__sub_803FF374(u8 *arg0) {
 }
 
 void TLobby__sub_803FF384(u8 *arg0) {
-    u8 *p;
+    IpcpConfig *p;
     s16 a;
     s16 b;
     a = 0;
     b = 0;
-    p = *(u8 **)((s8 *)arg0 + 0x30);
-    TLobby__sub_80405000(*(u32 *)((s8 *)p + 0x98));
-    *(s32 *)((s8 *)p + 0x98) = 0;
-    if (*(s16 *)((s8 *)p + 0x28) & 4) {
-        a = *(s16 *)((s8 *)p + 0x36);
+    p = *(IpcpConfig **)((s8 *)arg0 + 0x30);
+    TLobby__sub_80405000(p->net_list);
+    p->net_list = 0;
+    if (p->local.got.flags & 4) {
+        a = p->local.got.vj_slots;
     }
-    if (*(s16 *)((s8 *)p + 0x74) & 4) {
-        b = *(s16 *)((s8 *)p + 0x82);
+    if (p->peer.got.flags & 4) {
+        b = p->peer.got.vj_slots;
     }
     if (a != 0 || b != 0) {
-        *(s32 *)((s8 *)p + 0x98) = init_net_list(a, b);
+        p->net_list = init_net_list(a, b);
     }
     TLobby__sub_80405304(arg0 + 0x10);
     *(s8 *)((s8 *)arg0 + 0) = 5;
@@ -281,33 +270,24 @@ void TLobby__sub_803FF384(u8 *arg0) {
 
 void free_field_98_and_clear(void *self) {
     u8 *arg0 = (u8 *)self;
-    u8 *temp_r31;
-    temp_r31 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x30));
-    TLobby__sub_80405000((u32)((u32)((int) (*(s32 *)((s8 *)temp_r31 + 0x98)))));
-    *(s32 *)((s8 *)temp_r31 + 0x98) = 0;
+    IpcpConfig *config;
+    config = *(IpcpConfig **)(arg0 + 0x30);
+    TLobby__sub_80405000(config->net_list);
+    config->net_list = 0;
 }
 
 void TLobby__sub_803FF468(s32 arg0) {
     TLobby__sub_80405304((void *)((void *) (arg0 + 0x10)));
 }
 
-struct Q_803FF48C {
-    s16 h0; s16 h2;
-    U_803FF48C u;
-    Blk_803FF48C dst;
-    s16 h4C; s16 h4E; s16 h50; s16 h52;
-    s32 w54;
-    u8 pad58[0x74 - 0x58];
-    s16 h74;
-};
-struct P_803FF48C { u8 pad[0x30]; Q_803FF48C *q; };
+struct P_803FF48C { u8 pad[0x30]; IpcpConfig *q; };
 void TLobby__sub_803FF48C(P_803FF48C *o) {
-    Q_803FF48C *q = o->q;
-    q->dst = q->u.src;
-    q->dst.w[2] = q->w54;
-    q->h0 = q->h0 | q->u.h4;
-    q->h74 = 0;
-    q->h4C = q->h4C | q->h50;
+    IpcpConfig *q = o->q;
+    q->local.got = q->local.want;
+    q->local.got.his_addr = q->peer.want.our_addr;
+    q->local.flags = q->local.flags | q->local.want.flags;
+    q->peer.got.flags = 0;
+    q->peer.flags = q->peer.flags | q->peer.want.flags;
 }
 
 inline u32 optbit_803FF50C(u32 bit) {
@@ -326,11 +306,18 @@ inline u32 optbit_803FF50C(u32 bit) {
     }
     return bit;
 }
+
+inline u32 optbit_803FFB84(u16 bit) {
+    if (bit < 8) {
+        return bit;
+    }
+    return (bit >= 0x80 && bit < 0x90) ? bit - 0x78 : 0;
+}
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
 extern s32 TLobby__sub_803FF50C(Self_803FF698 *self, u8 *item, s32 arg) {
-    Bits_803FF698 *bits = self->f30;
+    IpcpConfig *bits = self->f30;
     s32 count = *(s16 *)(item + 2);
     s16 k;
     s32 r;
@@ -349,7 +336,7 @@ extern s32 TLobby__sub_803FF50C(Self_803FF698 *self, u8 *item, s32 arg) {
             return -1;
         }
         bit = optbit_803FF50C(hdr[0]);
-        if (!(bits->f28 & (1 << bit))) {
+        if (!(bits->local.got.flags & (1 << bit))) {
             return -1;
         }
         for (k = len - 2; k-- > 0;) {
@@ -359,7 +346,7 @@ extern s32 TLobby__sub_803FF50C(Self_803FF698 *self, u8 *item, s32 arg) {
             }
         }
         bit = optbit_803FF50C(hdr[0]);
-        bits->f28 &= ~(1 << bit);
+        bits->local.got.flags &= ~(1 << bit);
     }
     return 0;
 }
@@ -369,8 +356,8 @@ extern s32 TLobby__sub_803FF50C(Self_803FF698 *self, u8 *item, s32 arg) {
 #pragma inline_depth(4)
 #pragma opt_common_subs on
 extern s32 TLobby__sub_803FF698(Self_803FF698 *self, u8 *item, s32 arg) {
-    Bits_803FF698 *bits;
-    u8 *p;
+    IpcpConfig *bits;
+    IpcpSide *p;
     s32 count;
     u8 *m;
     s16 r;
@@ -379,8 +366,8 @@ extern s32 TLobby__sub_803FF698(Self_803FF698 *self, u8 *item, s32 arg) {
     u8 hdr[2];
     m = (u8 *)self->f30;
     count = *(s16 *)(item + 2);
-    bits = (Bits_803FF698 *)m;
-    p = m;
+    bits = (IpcpConfig *)m;
+    p = (IpcpSide *)m;
     if (item[1] != self->f1) {
         return -1;
     }
@@ -390,9 +377,9 @@ extern s32 TLobby__sub_803FF698(Self_803FF698 *self, u8 *item, s32 arg) {
             return -1;
         }
         if (hdr[0] < 8) { bit = hdr[0]; } else { f = 0; if (hdr[0] >= 0x80 && hdr[0] < 0x90) { f = 1; } if (f) { bit = hdr[0] - 0x78; } else { bit = 0; } }
-        if (!(bits->f28 & (1 << bit))) {
+        if (!(bits->local.got.flags & (1 << bit))) {
             bit = optbit_803FF50C(hdr[0]);
-            bits->f28 |= 1 << bit;
+            bits->local.got.flags |= 1 << bit;
         }
         r = TLobby__sub_803FFB84(&arg, bits, p, hdr, 0);
         if (r == -1) {
@@ -400,13 +387,12 @@ extern s32 TLobby__sub_803FF698(Self_803FF698 *self, u8 *item, s32 arg) {
         }
         if (r == 4) {
             bit = optbit_803FF50C(hdr[0]);
-            bits->f28 &= ~(1 << bit);
+            bits->local.got.flags &= ~(1 << bit);
         }
     }
     return 0;
 }
 #pragma pop
-typedef struct Opt_80400338 { u8 pad0[4]; u32 f4; u32 f8; s16 fC; s16 fE; u8 f10; u8 pad11[3]; u32 f14; u32 f18; } Opt_80400338;
 
 #pragma push
 #pragma opt_lifetimes off
@@ -462,336 +448,260 @@ s32 TLobby__sub_803FF858(Obj_803FF858 *arg0, Msg_803FA664 *arg1, u32 arg2) {
 #pragma pop
 #pragma pop
 
-extern s32 TLobby__sub_803FF9A4(void *self, u8 *src, u32 bits)
-{
-  u32 sh;
-  void *buf;
-  unsigned int new_var;
-  u8 *base;
-  s32 n;
-  s16 r;
-  u8 hdr[2];
-  s16 k;
-  s16 res;
-  s32 TLobby__sub_803FE6CC(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
-  void TLobby__sub_80400338(PppFrame **pbuf, Opt_80400338 *opt, s32 type, s32 len, void *src);
-  base = *((u8 **) (((u8 *) self) + 0x30));
-  n = *((s16 *) (src + 2));
-  k = 2;
-  buf = 0;
-  *((s16 *) (base + 0x74)) = 0;
-  while ((n > 0) && (((s16) read_2_bytes((void *) hdr, &bits)) != (-1)))
-  {
-    n -= hdr[1];
-    if (n < 0)
-    {
-      return -1;
+extern s32 TLobby__sub_803FF9A4(void *self, u8 *src, u32 bits) {
+    u32 sh;
+    void *buf;
+    unsigned int new_var;
+    IpcpConfig *base;
+    s32 n;
+    s16 r;
+    u8 hdr[2];
+    s16 k;
+    s16 res;
+    s32 TLobby__sub_803FE6CC(void *, u8, u8, void *); /* declared here with other parameter types; the definition is s32 (void *, int, int, void *) */
+    void TLobby__sub_80400338(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src);
+    base = *(IpcpConfig **)((u8 *)self + 0x30);
+    n = *(s16 *)(src + 2);
+    k = 2;
+    buf = 0;
+    base->peer.got.flags = 0;
+    while (n > 0 && (s16)read_2_bytes((void *)hdr, &bits) != -1) {
+        n -= hdr[1];
+        if (n < 0) {
+            return -1;
+        }
+        res = TLobby__sub_803FFB84(&bits, base, &base->peer, hdr, 1);
+        if (res == -1) {
+            return -1;
+        }
+        if (res < k) {
+            continue;
+        }
+        if (res > k) {
+            buf = 0;
+            k = res;
+        }
+        if (res != 4) {
+            sh = (hdr[0] < 8) ? hdr[0] : (((new_var = hdr[0]) >= 0x80 && new_var < 0x90) ? new_var - 0x78 : 0);
+            base->peer.got.flags |= 1 << sh;
+        }
+        TLobby__sub_80400338((PppFrame **)&buf, &base->peer.got, hdr[0], hdr[1], &bits);
+        if (res > 3) {
+            TLobby__sub_803FE6CC(self, k, src[1], buf);
+        }
     }
-    res = TLobby__sub_803FFB84(&bits, base, base + 0x4c, hdr, 1);
-    if (res == (-1))
-    {
-      return -1;
-    }
-    if (res < k)
-    {
-      continue;
-    }
-    if (res > k)
-    {
-      buf = 0;
-      k = res;
-    }
-    if (res != 4)
-    {
-      sh = (hdr[0] < 8) ? (hdr[0]) : ((((new_var = hdr[0]) >= 0x80) && (new_var < 0x90)) ? (new_var - 0x78) : (0));
-      *((s16 *) (base + 0x74)) |= 1 << sh;
-    }
-    TLobby__sub_80400338((PppFrame **) (&buf), (Opt_80400338 *) (base + 0x74), hdr[0], hdr[1], &bits);
-    if (res > 3)
-    {
-      TLobby__sub_803FE6CC(self, k, src[1], buf);
-    }
-  }
 
-  if (k == 3)
-  {
-    if (((u8 *) self)[6] != 0)
-    {
-      ((u8 *) self)[6]--;
+    if (k == 3) {
+        if (((u8 *)self)[6] != 0) {
+            ((u8 *)self)[6]--;
+        } else {
+            k = 4;
+            TLobby__sub_803FE6CC(self, 4, src[1], buf);
+        }
     }
-    else
-    {
-      k = 4;
-      TLobby__sub_803FE6CC(self, 4, src[1], buf);
+    if (k > 3) {
+        return (s16)(2 != k);
     }
-  }
-  if (k > 3)
-  {
-    return (s16) (2 != k);
-  }
-  TLobby__sub_803FE6CC(self, k, src[1], buf);
-  return (s16) (2 != k);
+    TLobby__sub_803FE6CC(self, k, src[1], buf);
+    return (s16)(2 != k);
 }
-s16 TLobby__sub_803FFB84(void *self, void *p, void *a, u8 *hdr, s16 c)
-{
-  s16 len;
-  s16 res;
-  s16 new_var;
-  s16 ch;
-  u8 new_var2;
-  res = 2;
-  new_var2 = hdr[0];
-  len = hdr[1] - 2;
-  switch (hdr[0])
-  {
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(4)
+s16 TLobby__sub_803FFB84(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 *hdr, s16 c) {
+    s16 len;
+    s16 res;
+    s16 ch;
+    res = 2;
+    len = hdr[1] - 2;
+    switch (hdr[0]) {
     case 1:
-      *((u32 *) (((s8 *) a) + 0x2c)) = (TLobby__sub_80401BCC(self, lbl_805D7AA8, 4) != 4) ? (0) : (TLobby__sub_80402AFC(lbl_805D7AA8));
-      *((u32 *) (((s8 *) a) + 0x30)) = (TLobby__sub_80401BCC(self, lbl_805D7AA8, 4) != 4) ? (0) : (TLobby__sub_80402AFC(lbl_805D7AA8));
-      len -= 8;
-      if (c == 0)
-    {
-      if ((*((s32 *) (((s8 *) p) + 0x54))) != 0)
-      {
-        *((s32 *) (((s8 *) p) + 0x30)) = *((s32 *) (((s8 *) p) + 0x54));
-      }
-      if ((*((s32 *) (((s8 *) p) + 0x8))) != 0)
-      {
-        *((s32 *) (((s8 *) p) + 0x2c)) = *((s32 *) (((s8 *) p) + 0x8));
-      }
-    }
-    else
-    {
-      s32 y = *((s32 *) (((s8 *) p) + 0x54));
-      s32 x = *((s32 *) (((s8 *) p) + 0x78));
-      if (x == y)
-      {
-        if (y == 0)
-        {
-          res = 4;
+        side->got.our_addr = (TLobby__sub_80401BCC(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
+        side->got.his_addr = (TLobby__sub_80401BCC(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
+        len -= 8;
+        if (c == 0) {
+            if (cfg->peer.want.our_addr != 0) {
+                cfg->local.got.his_addr = cfg->peer.want.our_addr;
+            }
+            if (cfg->local.want.our_addr != 0) {
+                cfg->local.got.our_addr = cfg->local.want.our_addr;
+            }
+        } else {
+            s32 v54;
+            s32 v78;
+            v78 = cfg->peer.got.our_addr;
+            v54 = cfg->peer.want.our_addr;
+            if (v78 == v54) {
+                if (v54 == 0) {
+                    res = 4;
+                }
+            } else if (v54 == 0) {
+                cfg->local.got.his_addr = v78;
+            } else {
+                cfg->peer.got.our_addr = v54;
+                res = 3;
+            }
+            {
+                s32 v8;
+                s32 v7C;
+                v7C = cfg->peer.got.his_addr;
+                v8 = cfg->local.want.our_addr;
+                if (v7C == v8) {
+                    if (v8 == 0) {
+                        res = 4;
+                    }
+                } else if (v8 == 0) {
+                    cfg->local.got.our_addr = v7C;
+                } else {
+                    cfg->peer.got.his_addr = v8;
+                    res = 3;
+                }
+            }
         }
-      }
-      else
-        if (y == 0)
-      {
-        *((s32 *) (((s8 *) p) + 0x30)) = x;
-      }
-      else
-      {
-        *((s32 *) (((s8 *) p) + 0x78)) = y;
-        res = 3;
-      }
-      x = *((s32 *) (((s8 *) p) + 0x7c));
-      y = *((s32 *) (((s8 *) p) + 0x8));
-      if (x == y)
-      {
-        if (y == 0)
-        {
-          res = 4;
-        }
-      }
-      else
-        if (y == 0)
-      {
-        *((s32 *) (((s8 *) p) + 0x2c)) = x;
-      }
-      else
-      {
-        *((s32 *) (((s8 *) p) + 0x7c)) = y;
-        res = 3;
-      }
-    }
-      break;
+        break;
 
     case 2:
-      *((s16 *) (((s8 *) a) + 0x34)) = (s16) ((TLobby__sub_80401BCC(self, lbl_805D7AA8, 2) != 2) ? (-1) : (read_network_u16_be(lbl_805D7AA8)));
-      len -= 2;
-      if (!((*((s16 *) a)) & 4))
-    {
-      if ((*((s16 *) (((s8 *) a) + 0x34))) == 0x2d)
-      {
-        ch = (TLobby__sub_80401BCC(self, &lcp_read_byte_buffer, 1) != 1) ? (-1) : ((s16) lcp_read_byte_buffer);
-        if (ch == (-1))
-        {
-          return -1;
-        }
-        *((s16 *) (((s8 *) a) + 0x36)) = ch + 1;
-        ch = (TLobby__sub_80401BCC(self, &lcp_read_byte_buffer, 1) != 1) ? (-1) : ((s16) lcp_read_byte_buffer);
-        if (ch == (-1))
-        {
-          return -1;
-        }
-        *((u8 *) (((s8 *) a) + 0x38)) = ch;
-      }
-      *((s16 *) (((s8 *) a) + 0x28)) = (*((s16 *) (((s8 *) a) + 4))) | 4;
-      res = 4;
-    }
-    else
-    {
-      switch (*((s16 *) (((s8 *) a) + 0x34)))
-      {
-        case 0x2d:
-        {
-          ch = (TLobby__sub_80401BCC(self, &lcp_read_byte_buffer, 1) != 1) ? (-1) : ((s16) lcp_read_byte_buffer);
-          if (ch == (-1))
-          {
-            return -1;
-          }
-          new_var = (*((s16 *) (((s8 *) a) + 0x36)) = ch + 1);
-          if (new_var < 1)
-          {
-            *((s16 *) (((s8 *) a) + 0x36)) = 1;
-            res = 3;
-          }
-          else
-            if ((*((s16 *) (((s8 *) a) + 0x36))) > 0x10)
-          {
-            *((s16 *) (((s8 *) a) + 0x36)) = 0x10;
-            res = 3;
-          }
-          ch = (TLobby__sub_80401BCC(self, &lcp_read_byte_buffer, 1) != 1) ? (-1) : ((s16) lcp_read_byte_buffer);
-          if (ch == (-1))
-          {
-            return -1;
-          }
-          *((u8 *) (((s8 *) a) + 0x38)) = ch;
-          if (((u8) ch) > 1)
-          {
-            *((u8 *) (((s8 *) a) + 0x38)) = 1;
-            res = 3;
-          }
-          len -= 2;
-        }
-          break;
+        side->got.vj_protocol = (s16)((TLobby__sub_80401BCC(cursor, lbl_805D7AA8, 2) != 2) ? -1 : read_network_u16_be(lbl_805D7AA8));
+        len -= 2;
+        if (!(side->flags & 4)) {
+            if (side->got.vj_protocol == 0x2d) {
+                ch = (TLobby__sub_80401BCC(cursor, &lcp_read_byte_buffer, 1) != 1) ? -1 : (s16)lcp_read_byte_buffer;
+                if (ch == -1) {
+                    return -1;
+                }
+                side->got.vj_slots = ch + 1;
+                ch = (TLobby__sub_80401BCC(cursor, &lcp_read_byte_buffer, 1) != 1) ? -1 : (s16)lcp_read_byte_buffer;
+                if (ch == -1) {
+                    return -1;
+                }
+                side->got.vj_comp_slot = ch;
+            }
+            side->got.flags = side->want.flags | 4;
+            res = 4;
+        } else {
+            switch (side->got.vj_protocol) {
+            case 0x2d:
+                ch = (TLobby__sub_80401BCC(cursor, &lcp_read_byte_buffer, 1) != 1) ? -1 : (s16)lcp_read_byte_buffer;
+                if (ch == -1) {
+                    return -1;
+                }
+                if ((side->got.vj_slots = ch + 1) < 1) {
+                    side->got.vj_slots = 1;
+                    res = 3;
+                } else if (side->got.vj_slots > 0x10) {
+                    side->got.vj_slots = 0x10;
+                    res = 3;
+                }
+                ch = (TLobby__sub_80401BCC(cursor, &lcp_read_byte_buffer, 1) != 1) ? -1 : (s16)lcp_read_byte_buffer;
+                if (ch == -1) {
+                    return -1;
+                }
+                side->got.vj_comp_slot = ch;
+                if ((u8)ch > 1) {
+                    side->got.vj_comp_slot = 1;
+                    res = 3;
+                }
+                len -= 2;
+                break;
 
-        default:
-        {
-          if ((*((s16 *) (((s8 *) a) + 4))) & 4)
-          {
-            *((s16 *) (((s8 *) a) + 0x34)) = *((s16 *) (((s8 *) a) + 0x10));
-            *((s16 *) (((s8 *) a) + 0x36)) = *((s16 *) (((s8 *) a) + 0x12));
-            *((u8 *) (((s8 *) a) + 0x38)) = *((u8 *) (((s8 *) a) + 0x14));
-          }
-          else
-          {
-            *((s16 *) (((s8 *) a) + 0x34)) = 0x2d;
-            *((s16 *) (((s8 *) a) + 0x36)) = 0x10;
-            *((u8 *) (((s8 *) a) + 0x38)) = 1;
-          }
-          res = 3;
+            default:
+                if (side->want.flags & 4) {
+                    side->got.vj_protocol = side->want.vj_protocol;
+                    side->got.vj_slots = side->want.vj_slots;
+                    side->got.vj_comp_slot = side->want.vj_comp_slot;
+                } else {
+                    side->got.vj_protocol = 0x2d;
+                    side->got.vj_slots = 0x10;
+                    side->got.vj_comp_slot = 1;
+                }
+                res = 3;
+            }
         }
-
-      }
-
-    }
-      break;
+        break;
 
     case 3:
-      *((u32 *) (((s8 *) a) + 0x2c)) = (TLobby__sub_80401BCC(self, lbl_805D7AA8, 4) != 4) ? (0) : (TLobby__sub_80402AFC(lbl_805D7AA8));
-      len -= 4;
-      if (c == 0)
-    {
-      *((s32 *) (((s8 *) p) + 0x8)) = *((s32 *) (((s8 *) a) + 0x2c));
-      *((s32 *) (((s8 *) p) + 0x58)) = *((s32 *) (((s8 *) a) + 0x2c));
-    }
-    else
-      if ((*((s32 *) (((s8 *) a) + 0x2c))) != 0)
-    {
-      *((s32 *) (((s8 *) p) + 0x54)) = *((s32 *) (((s8 *) a) + 0x2c));
-      *((s32 *) (((s8 *) p) + 0xc)) = *((s32 *) (((s8 *) a) + 0x2c));
-    }
-    else
-    {
-      *((s32 *) (((s8 *) p) + 0x78)) = *((s32 *) (((s8 *) p) + 0x54));
-      res = 3;
-    }
-      break;
+        side->got.our_addr = (TLobby__sub_80401BCC(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
+        len -= 4;
+        if (c == 0) {
+            cfg->local.want.our_addr = side->got.our_addr;
+            cfg->peer.want.his_addr = side->got.our_addr;
+        } else if (side->got.our_addr != 0) {
+            cfg->peer.want.our_addr = side->got.our_addr;
+            cfg->local.want.his_addr = side->got.our_addr;
+        } else {
+            cfg->peer.got.our_addr = cfg->peer.want.our_addr;
+            res = 3;
+        }
+        break;
 
     case 0x81:
-      *((u32 *) (((s8 *) a) + 0x3c)) = (TLobby__sub_80401BCC(self, lbl_805D7AA8, 4) != 4) ? (0) : (TLobby__sub_80402AFC(lbl_805D7AA8));
-      len -= 4;
-      if (c == 0)
-    {
-      *((s32 *) (((s8 *) p) + 0x18)) = *((s32 *) (((s8 *) a) + 0x3c));
-      *((s32 *) (((s8 *) p) + 0x6c)) = *((s32 *) (((s8 *) a) + 0x3c));
-    }
-    else
-      if ((*((s32 *) (((s8 *) a) + 0x3c))) != 0)
-    {
-      *((s32 *) (((s8 *) p) + 0x64)) = *((s32 *) (((s8 *) a) + 0x3c));
-      *((s32 *) (((s8 *) p) + 0x20)) = *((s32 *) (((s8 *) a) + 0x3c));
-    }
-    else
-    {
-      *((s32 *) (((s8 *) p) + 0x88)) = *((s32 *) (((s8 *) p) + 0x64));
-      res = 3;
-    }
-      break;
+        side->got.dns[0] = (TLobby__sub_80401BCC(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
+        len -= 4;
+        if (c == 0) {
+            cfg->local.want.dns[0] = side->got.dns[0];
+            cfg->peer.want.his_dns[0] = side->got.dns[0];
+        } else if (side->got.dns[0] != 0) {
+            cfg->peer.want.dns[0] = side->got.dns[0];
+            cfg->local.want.his_dns[0] = side->got.dns[0];
+        } else {
+            cfg->peer.got.dns[0] = cfg->peer.want.dns[0];
+            res = 3;
+        }
+        break;
 
     case 0x83:
-      *((u32 *) (((s8 *) a) + 0x40)) = (TLobby__sub_80401BCC(self, lbl_805D7AA8, 4) != 4) ? (0) : (TLobby__sub_80402AFC(lbl_805D7AA8));
-      len -= 4;
-      if (c == 0)
-    {
-      *((s32 *) (((s8 *) p) + 0x1c)) = *((s32 *) (((s8 *) a) + 0x40));
-      *((s32 *) (((s8 *) p) + 0x70)) = *((s32 *) (((s8 *) a) + 0x40));
-    }
-    else
-      if ((*((s32 *) (((s8 *) a) + 0x40))) != 0)
-    {
-      *((s32 *) (((s8 *) p) + 0x68)) = *((s32 *) (((s8 *) a) + 0x40));
-      *((s32 *) (((s8 *) p) + 0x24)) = *((s32 *) (((s8 *) a) + 0x40));
-    }
-    else
-    {
-      *((s32 *) (((s8 *) p) + 0x8c)) = *((s32 *) (((s8 *) p) + 0x68));
-      res = 3;
-    }
-      break;
+        side->got.dns[1] = (TLobby__sub_80401BCC(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
+        len -= 4;
+        if (c == 0) {
+            cfg->local.want.dns[1] = side->got.dns[1];
+            cfg->peer.want.his_dns[1] = side->got.dns[1];
+        } else if (side->got.dns[1] != 0) {
+            cfg->peer.want.dns[1] = side->got.dns[1];
+            cfg->local.want.his_dns[1] = side->got.dns[1];
+        } else {
+            cfg->peer.got.dns[1] = cfg->peer.want.dns[1];
+            res = 3;
+        }
+        break;
 
     default:
-      res = 4;
-      break;
-
-  }
-
-  if (!((*((s16 *) a)) & (1 << ((hdr[0] < 8) ? (hdr[0]) : (((new_var2 >= 0x80) && (new_var2 < 0x90)) ? (new_var2 - 0x78) : (0))))))
-  {
-    res = 4;
-  }
-  if (len < 0)
-  {
-    return -1;
-  }
-  if ((c == 0) && (len > 0))
-  {
-    while ((len--) > 0)
-    {
-      if (((TLobby__sub_80401BCC(self, &lcp_read_byte_buffer, 1) != 1) ? (-1) : ((s16) lcp_read_byte_buffer)) == (-1))
-      {
-        return -1;
-      }
+        res = 4;
+        break;
     }
 
-  }
-  return res;
+    if (!(side->flags & (1 << optbit_803FFB84(hdr[0])))) {
+        res = 4;
+    }
+    if (len < 0) {
+        return -1;
+    }
+    if (c == 0 && len > 0) {
+        while (len-- > 0) {
+            if (((TLobby__sub_80401BCC(cursor, &lcp_read_byte_buffer, 1) != 1) ? -1 : (s16)lcp_read_byte_buffer) == -1) {
+                return -1;
+            }
+        }
+    }
+    return res;
 }
+#pragma pop
 
-void TLobby__sub_80400338(PppFrame **pbuf, Opt_80400338 *opt, s32 type, s32 len, void *src);
+void TLobby__sub_80400338(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src);
 extern PppFrame *TLobby__sub_80400174(void *self) {
     PppFrame *blk;
     s16 i;
     s16 flags;
     u8 *p;
-    u8 *base;
+    IpcpConfig *base;
     extern u8 lbl_8047FE3C[];
-    base = *(u8 **)((u8 *)self + 0x30);
+    base = *(IpcpConfig **)((u8 *)self + 0x30);
     blk = 0;
 
     blk = init_net_buffer_entry(0);
     if (blk == 0) {
         return 0;
     }
-    flags = *(s16 *)(base + 0x28);
+    flags = base->local.got.flags;
     if (blk == 0) {
         blk = init_net_buffer_entry(0);
         if (blk == 0) {
@@ -801,7 +711,7 @@ extern PppFrame *TLobby__sub_80400174(void *self) {
     p = lbl_8047FE3C + 1;
     for (i = 1; i < 0x20; i++) {
         if (flags & (1 << i)) {
-            TLobby__sub_80400338(&blk, (Opt_80400338 *)(base + 0x28), (i < 8) ? i : ((i < 0x20) ? i + 0x78 : 0), *p, 0);
+            TLobby__sub_80400338(&blk, &base->local.got, (i < 8) ? i : ((i < 0x20) ? i + 0x78 : 0), *p, 0);
         }
         p++;
     }
@@ -809,7 +719,6 @@ done:
     return blk;
 }
 
-struct Opt_80400338;
 extern u8 lbl_8047FE3C[];
 inline s32 optnum_80400270(s32 bit) {
     if (bit < 8) {
@@ -824,31 +733,25 @@ inline s32 optnum_80400270(s32 bit) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void TLobby__sub_80400270(u32 *self, void *opt, s32 mask)
-{
-  s16 new_var;
-  s16 i;
-  s32 m;
-  if ((*self) == 0)
-  {
-    *self = (u32) init_net_buffer_entry(0);
-    if ((*self) == 0)
-    {
-      return;
+void TLobby__sub_80400270(u32 *self, void *opt, s32 mask) {
+    s16 new_var;
+    s16 i;
+    s32 m;
+    if (*self == 0) {
+        *self = (u32)init_net_buffer_entry(0);
+        if (*self == 0) {
+            return;
+        }
     }
-  }
-  m = (new_var = (s16) mask);
-  for (i = 1; i < 0x20; i++)
-  {
-    if (m & (1 << i))
-    {
-      TLobby__sub_80400338((PppFrame **) self, (Opt_80400338 *) opt, optnum_80400270(i), lbl_8047FE3C[i], 0);
+    m = (new_var = (s16)mask);
+    for (i = 1; i < 0x20; i++) {
+        if (m & (1 << i)) {
+            TLobby__sub_80400338((PppFrame **)self, (IpcpOptions *)opt, optnum_80400270(i), lbl_8047FE3C[i], 0);
+        }
     }
-  }
-
 }
 #pragma pop
-void TLobby__sub_80400338(PppFrame **pbuf, Opt_80400338 *opt, s32 type, s32 len, void *src) {
+void TLobby__sub_80400338(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src) {
     PppFrame *buf;
     s16 n;
     u8 *p;
@@ -871,28 +774,28 @@ void TLobby__sub_80400338(PppFrame **pbuf, Opt_80400338 *opt, s32 type, s32 len,
     p += 2;
     switch (type) {
     case 1:
-        p = write_network_u32_be(write_network_u32_be(p, opt->f4), opt->f8);
+        p = write_network_u32_be(write_network_u32_be(p, opt->our_addr), opt->his_addr);
         n -= 8;
         break;
     case 2:
-        k = opt->fC;
+        k = opt->vj_protocol;
         if (k == 0x2D) {
             p = write_network_u16_be(p, k);
-            *p++ = opt->fE - 1;
+            *p++ = opt->vj_slots - 1;
             n -= 4;
-            *p++ = opt->f10;
+            *p++ = opt->vj_comp_slot;
         }
         break;
     case 3:
-        p = write_network_u32_be(p, opt->f4);
+        p = write_network_u32_be(p, opt->our_addr);
         n -= 4;
         break;
     case 0x81:
-        p = write_network_u32_be(p, opt->f14);
+        p = write_network_u32_be(p, opt->dns[0]);
         n -= 4;
         break;
     case 0x83:
-        p = write_network_u32_be(p, opt->f18);
+        p = write_network_u32_be(p, opt->dns[1]);
         n -= 4;
         break;
     }

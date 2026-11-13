@@ -9,6 +9,7 @@
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdRicoRingCtrl.h"
+#include "pso/ui/frontend/TAdEndText.h"
 
 extern "C" {
 void TAdRicoRingCtrl__sub_8001B4A0(TAdRicoRingCtrl *, f32);
@@ -17,7 +18,6 @@ u32 __cvt_fp2unsigned(f32);
 int TKeyBoardControl__sub_8000F828(void);
 u8 *__ct__10TEndingPicFv(u8 *arg0, u8 *arg1);
 u8 *TAdRicoRingCtrl__ct(TAdRicoRingCtrl *arg0, s32 arg1);
-void __ct__10TAdEndTextFv(void *, TObject *);
 extern u32 ending_frame_counter;
 extern s32 ending_scene_active;
 extern TObject *tl_fade;
@@ -89,7 +89,7 @@ TEnding::TEnding() : TObject(tl_window) {
     if (ring_controller != NULL)
         ((TAdRicoRingCtrl *)ring_controller)->start_fade_all(2.0f * (f32)timing_rate);
     void *text = TObject::operator new(0x197C);
-    if (text != NULL) __ct__10TAdEndTextFv(text, this);
+    if (text != NULL) __ct__10TAdEndTextFv((u8 *)text, this);
 }
 
 void TEnding__sub_8008C9F8() {}

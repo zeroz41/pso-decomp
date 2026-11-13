@@ -14,6 +14,7 @@ extern const char *TCharaMaking__name;
 extern const s32 lbl_8045122C[19];
 
 struct TCharaMaking : public TObject {
+    TCharaMaking(TObject *parent);
     virtual ~TCharaMaking();
     u32 m_1c;
     u32 m_20;

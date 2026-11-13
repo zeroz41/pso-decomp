@@ -13,7 +13,7 @@ struct TObjEneMe1GiGueMissile : public TNeedleShoot {
     virtual void render();
     virtual void run_task();
     void update_lifetime();
-    u8 unk_BC[0x4];
+    f32 m_bc;
     f32 m_c0;
 };
 

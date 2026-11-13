@@ -1,21 +1,13 @@
 #include "pso/ui/UISprite.h"
+#include "pso/ui/charcreate/TChCrTag.h"
 
 
 extern "C" f32 sin_table_lookup(s32 angle);
 extern u8 lbl_80466454[];
-struct VBase_802A2A00 { char pad[0x18]; };
-struct TChCrTag_802A2A00 : VBase_802A2A00 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual s32 m4();
-};
-/* The self-assignment, the identical if/else branches and the goto below keep the
-   original code shape; tidying them changes the output. */
 #pragma push
 #pragma fp_contract on
-extern "C" void fn_802A2A00(u8* self) {
+extern "C" void fn_802A2A00(TChCrTag *tag) {
+  u8 *self = (u8 *)tag;
   vec2f pos;
   vec2f scale;
   f32 f31;
@@ -32,7 +24,7 @@ extern "C" void fn_802A2A00(u8* self) {
   {
     return;
   }
-  if (((TChCrTag_802A2A00 *) self)->m4())
+  if (tag->vt4())
   {
     depth = -2.4375f;
   }
@@ -65,15 +57,10 @@ extern "C" void fn_802A2A00(u8* self) {
     id = ((n - 3) / 4) + 0x63;
   }
   draw_ui_sprite_shaded(id, &pos, &scale, depth, alpha, 1.0f);
-  if (((TChCrTag_802A2A00 *) self)->m4())
+  if (!tag->vt4() || f31 <= 0.4f)
   {
-    if (!(f31 <= 0.4f))
-    {
-      goto post;
-    }
+    return;
   }
-  return;
-  post:
   f31 = (f31 - 0.4f) / 0.6f;
 
   if ((*((s32 *) (self + 0x20))) < 3)
@@ -85,7 +72,7 @@ extern "C" void fn_802A2A00(u8* self) {
     id = (*((s32 *) (self + 0x20))) + 0xad;
   }
   f31 = f31;
-  if (((TChCrTag_802A2A00 *) self)->m4())
+  if (tag->vt4())
   {
     f32 s = sin_table_lookup((*((s32 *) (self + 0x3c))) << 9);
     f31 = (0.25f * s) + f31;

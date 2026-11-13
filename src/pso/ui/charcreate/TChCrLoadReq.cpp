@@ -3,52 +3,39 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028C8E0.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
+#include "pso/ui/charcreate/CharacterAppearanceTables.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/system/task/TObject.h"
+#include "pso/unk/TLobby_8028D714.h"
 
 #pragma push
 #pragma readonly_strings on
 const char *TChCrLoadReq__name = "TChCrLoadReq";
 #pragma pop
 
-struct RecoveredGlobal_8028D360___vt__12TChCrLoadReq { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_8028D360___vt__12TChCrLoadReq_size[sizeof(RecoveredGlobal_8028D360___vt__12TChCrLoadReq) == 0x18 ? 1 : -1];
-
  s32 chr_select_load_slot_count;
-
-struct B_8028D214 { s32 a0; s32 a4; s32 a8; };
-
-struct Rq_8028D214 { u8 pad0[0x38]; void *f38; s32 f3c; s32 f40; s32 *f44; B_8028D214 *f48; u8 pad4c[0xC]; s32 f58; u8 *f5c; s32 f60; s32 f64; u8 pad68[0xC]; s32 w[6]; s32 f8c; };
 
 extern "C" {
 u16 get_entity_id(void *);
-void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__12TChCrLoadReq[];
-u8 *TChCrLoadReq__sub_8028D360(TChCrLoadReq *arg0, s32 arg1);
-void TLobby__sub_8028D738(s32, s32);
-extern u8 class_appearance_table[];
-void *__ct__12TChCrLoadReqFP7TObjectPv(void *arg0, void *arg1, void *arg2);
-void *__dt__12TChCrLoadReqFv(void *arg0, s16 arg1);
-void sub_8028CEEC__12TChCrLoadReqFPl(void *);
+void sub_8028CEEC__12TChCrLoadReqFPl(TChCrLoadReq *);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
-void *__nw__7TObjectFUl(int);
 }
 void * create_ch_cr_load_req(void *arg0, void *arg1);
 void TChCrLoadReq::update_load_progress() {
-    void *arg0 = this;
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x64) > 0x1512) {
+    if (timer > 0x1512) {
         if (TAdSinglePlyChrSelectGC__sub_8028CF6C() == 0) {
-            *(s32 *)((s8 *)arg0 + 0x64) = 0x1512;
-            goto block_3;
+            timer = 0x1512;
+            goto claim;
         }
     } else {
-block_3:
-        if (((TAdSinglePlyChrSelectGC *)arg0)->try_claim_load_slot() != 0) {
-            ((TAdSinglePlyChrSelectGC *)arg0)->request_model_loads();
-            ((TAdSinglePlyChrSelectGC *)arg0)->request_texture_loads();
-            *(s32 *)((s8 *)arg0 + 0x60) = 1;
+claim:
+        if (((TAdSinglePlyChrSelectGC *)this)->try_claim_load_slot() != 0) {
+            ((TAdSinglePlyChrSelectGC *)this)->request_model_loads();
+            ((TAdSinglePlyChrSelectGC *)this)->request_texture_loads();
+            state = 1;
         }
     }
 }
@@ -62,38 +49,36 @@ void TChCrLoadReq::run_task() {
     (this->*tbl[state])();
 }
 
-void *__dt__12TChCrLoadReqFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TChCrLoadReq;
-        sub_8028CEEC__12TChCrLoadReqFPl(arg0);
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+extern "C" TChCrLoadReq *__dt__12TChCrLoadReqFv(TChCrLoadReq *req, s16 free) {
+    if (req != NULL) {
+        *(s32 **)((u8 *)req + 0x18) = __vt__12TChCrLoadReq;
+        sub_8028CEEC__12TChCrLoadReqFPl(req);
+        __dt__7TObjectFv(req, 0);
+        if (free > 0) {
+            __dl__7TObjectFPv(req);
         }
     }
-    return arg0;
+    return req;
 }
 
 void TChCrLoadReq::reset_request() {
-    Rq_8028D214 *arg0 = (Rq_8028D214 *)this;
     s32 i;
-    s32 t;
-    arg0->f58 = (s32)((u8 *)arg0->f48 + 8);
-    t = ((TCharaMaking *)(arg0->f38))->get_display_index() * 0x2C;
-    arg0->f5c = class_appearance_table + t;
-    TLobby__sub_8028D738(arg0->f40, t);
-    arg0->f44[0] = 0;
-    arg0->f48->a4 = 0;
-    arg0->f48->a0 = 0;
-    arg0->f48->a8 = 0;
+    s32 index;
+    m_58 = m_48 + 2;
+    index = ((TCharaMaking *)m_38)->get_display_index();
+    m_5c = &class_appearance_table[index];
+    TLobby__sub_8028D738(m_40);
+    m_44[0] = 0;
+    m_48[1] = 0;
+    m_48[0] = 0;
+    m_48[2] = 0;
     for (i = 0; i < 6; i++) {
-        arg0->w[i] = 0;
+        m_74[i] = 0;
     }
-    arg0->f8c = 0;
-    arg0->f64 = 0x1518;
-    arg0->f60 = 0;
+    m_8c = 0;
+    timer = 0x1518;
+    state = 0;
 }
-
 TChCrLoadReq::TChCrLoadReq(TObject *object, void *arg2) : TObject(object) {
     m_name = TChCrLoadReq__name;
     ((TChCrLoadReq *)((char *)this + 56))->copy(arg2);
@@ -102,35 +87,24 @@ TChCrLoadReq::TChCrLoadReq(TObject *object, void *arg2) : TObject(object) {
 
 void TChCrLoadReq::copy(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); *(u32 *)&this->m_flags = *(u32*)((char*)q + 0x4); *(u32 *)&this->m_prev = *(u32*)((char*)q + 0x8); *(u32 *)&this->m_next = *(u32*)((char*)q + 0xc); *(u32 *)&this->m_up = *(u32*)((char*)q + 0x10); *(u32 *)&this->m_down = *(u32*)((char*)q + 0x14); *(u32*)((char*)this + 0x18) = *(u32*)((char*)q + 0x18); *(u32*)((char*)this + 0x1c) = *(u32*)((char*)q + 0x1c); }
 
-u8 *TChCrLoadReq__sub_8028D360(TChCrLoadReq *ch_cr_load_req, s32 arg1) {
-    __ct__7TObjectFP7TObject((void *)ch_cr_load_req, (void *)arg1);
-    *(s32 **)((s8 *)ch_cr_load_req + 0x18) = &(*(RecoveredGlobal_8028D360___vt__12TChCrLoadReq *)&__vt__12TChCrLoadReq).value;
-    ch_cr_load_req->m_name = TChCrLoadReq__name;
-    ch_cr_load_req->m_38 = (arg1 + 0x85C);
-    *(s32 *)((s8 *)ch_cr_load_req + 0x3C) = (arg1 + 0xCFC);
-    ch_cr_load_req->m_40 = (s32) get_entity_id((void *)arg1);
-    *(s32 *)((s8 *)ch_cr_load_req + 0x44) = (arg1 + 0x34);
-    ch_cr_load_req->m_48 = (arg1 + 0x8AC);
-    *(s32 *)((s8 *)ch_cr_load_req + 0x4C) = (arg1 + 0xCF4);
-    ch_cr_load_req->m_50 = (arg1 + 0xB88);
-    *(s32 *)((s8 *)ch_cr_load_req + 0x54) = (arg1 + 0xA1C);
-    ch_cr_load_req->reset_request();
-    return (u8 *)ch_cr_load_req;
+// TObjPlayer has no fields yet at 0xCF4, 0xB88 and 0xA1C.
+TChCrLoadReq::TChCrLoadReq(TObjPlayer *player) : TObject(player) {
+    m_name = TChCrLoadReq__name;
+    m_38 = (CharacterAppearanceFields *)player->name;
+    m_3c = (u32 *)&player->m_cfc;
+    m_40 = get_entity_id(player);
+    m_44 = (s32 *)&player->model;
+    m_48 = (s32 *)&player->m_8ac;
+    m_4c = (u8 *)player + 0xCF4;
+    m_50 = (u8 *)player + 0xB88;
+    m_54 = (u8 *)player + 0xA1C;
+    reset_request();
 }
 
-void * create_ch_cr_load_req(void *arg0, void *arg1) {
-    void *o;
-    o = __nw__7TObjectFUl(0x90);
-    if (o != NULL) {
-        o = __ct__12TChCrLoadReqFP7TObjectPv(o, arg0, arg1);
-    }
-    return o;
+void *create_ch_cr_load_req(void *parent, void *arg1) {
+    return new TChCrLoadReq((TObject *)parent, arg1);
 }
 
-void *TChCrLoadReq::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x90);
-    if (o != NULL) {
-        o = TChCrLoadReq__sub_8028D360((TChCrLoadReq *)((u8 *)o), (s32)arg0);
-    }
-    return o;
+void *TChCrLoadReq::create(void *parent) {
+    return new TChCrLoadReq((TObjPlayer *)parent);
 }

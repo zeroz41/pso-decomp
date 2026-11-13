@@ -22,7 +22,6 @@ typedef struct P_8040EC38 P_8040EC38;
 u16 calc_ip_checksum(void *self, s16 b);
 u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag);
 s32 init_ipv4_interfaces(void);
-void release_entry(void *self);
 
 #include <stddef.h>
 
@@ -171,7 +170,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   }
   else
   {
-    ip = alloc_free_entry();
+    ip = (u8 *) alloc_free_entry();
     if (ip == 0)
     {
       return -257;
@@ -205,14 +204,14 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
       {
         TUdpSocket__sub_80418BD8((NetPacket *) ip);
       }
-      release_entry(ip);
+      release_entry((NetPacket *) ip);
       return -1;
     }
       if (n == 1)
     {
       TUdpSocket__sub_80418BD8((NetPacket *) ip);
     }
-      release_entry(ip);
+      release_entry((NetPacket *) ip);
       break;
 
     case 6:
@@ -223,14 +222,14 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
       {
         TUdpSocket__sub_80418BD8((NetPacket *) ip);
       }
-      release_entry(ip);
+      release_entry((NetPacket *) ip);
       return -1;
     }
       if (n == 1)
     {
       TUdpSocket__sub_80418BD8((NetPacket *) ip);
     }
-      release_entry(ip);
+      release_entry((NetPacket *) ip);
       return 0;
 
     case 17:
@@ -248,7 +247,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
         {
           TUdpSocket__sub_80418BD8((NetPacket *) ip);
         }
-          release_entry(ip);
+          release_entry((NetPacket *) ip);
           return rr;
 
         default:
@@ -256,7 +255,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
         {
           TUdpSocket__sub_80418BD8((NetPacket *) ip);
         }
-          release_entry(ip);
+          release_entry((NetPacket *) ip);
           return -1;
 
       }
@@ -266,7 +265,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
     {
       TUdpSocket__sub_80418BD8((NetPacket *) ip);
     }
-      release_entry(ip);
+      release_entry((NetPacket *) ip);
       return 0;
 
     default:
@@ -302,7 +301,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
     {
       TUdpSocket__sub_80418BD8((NetPacket *) ip);
     }
-    release_entry(ip);
+    release_entry((NetPacket *) ip);
     return 0;
   }
   ic.type = 3;
@@ -313,7 +312,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   {
     TUdpSocket__sub_80418BD8((NetPacket *) ip);
   }
-  release_entry(ip);
+  release_entry((NetPacket *) ip);
   return -1;
 }
 
@@ -330,7 +329,7 @@ s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
   s16 mtu;
   s16 ifidx;
   u8 *target;
-  u8 *rec;
+  NetPacket *rec;
   u16 flagsHi;
   s16 units;
   s32 frag;
@@ -431,15 +430,15 @@ s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
       s += s >> 16;
       t44 = ~s;
       NetMemcpy(pkt + 10, &t44, 2);
-      *((s32 *) (rec + 4)) = 0;
-      *((s32 *) (rec + 8)) = (u16) fl;
-      *((s16 *) ((rec + ((*((s32 *) (rec + 4))) * 12)) + 12)) = fl;
-      set_value_and_enable((rec + 0x10) + ((*((s32 *) (rec + 4))) * 12), (s32) payload);
-      *((s32 *) (rec + 4)) += 1;
-      *((s32 *) (rec + 8)) += hdr;
-      *((s16 *) ((rec + ((*((s32 *) (rec + 4))) * 12)) + 12)) = hdr;
-      set_value_and_enable((rec + 0x10) + ((*((s32 *) (rec + 4))) * 12), (s32) pkt);
-      *((s32 *) (rec + 4)) += 1;
+      rec->fragment_count = 0;
+      rec->total_bytes = (u16) fl;
+      rec->fragments[rec->fragment_count].length = fl;
+      set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32) payload);
+      rec->fragment_count += 1;
+      rec->total_bytes += hdr;
+      rec->fragments[rec->fragment_count].length = hdr;
+      set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32) pkt);
+      rec->fragment_count += 1;
       r = TLobby__sub_8040EDE4(rec, (u32) target, ifidx);
       if (r < 0)
       {
@@ -474,23 +473,15 @@ s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
     {
       return -257;
     }
-    *((s32 *) (rec + 4)) = 0;
-    *((s32 *) (rec + 8)) = len;
-    ((struct 
-    {
-      s16 v;
-      u8 pad[10];
-    } *) (rec + 0xc))[*((s32 *) (rec + 4))].v = len;
-    set_value_and_enable((rec + 0x10) + ((*((s32 *) (rec + 4))) * 12), (s32) (pkt + hdr));
-    *((s32 *) (rec + 4)) += 1;
-    *((s32 *) (rec + 8)) += hdr;
-    ((struct 
-    {
-      s16 v;
-      u8 pad[10];
-    } *) (rec + 0xc))[*((s32 *) (rec + 4))].v = hdr;
-    set_value_and_enable((rec + 0x10) + ((*((s32 *) (rec + 4))) * 12), (s32) pkt);
-    *((s32 *) (rec + 4)) += 1;
+    rec->fragment_count = 0;
+    rec->total_bytes = len;
+    rec->fragments[rec->fragment_count].length = len;
+    set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32) (pkt + hdr));
+    rec->fragment_count += 1;
+    rec->total_bytes += hdr;
+    rec->fragments[rec->fragment_count].length = hdr;
+    set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (s32) pkt);
+    rec->fragment_count += 1;
     r = TLobby__sub_8040EDE4(rec, (u32) target, ifidx);
     release_entry(rec);
   }

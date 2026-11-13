@@ -16,13 +16,6 @@ struct FloatColor { f32 a, r, g, b; };
 
 struct ByteColor { u8 r, g, b, a; };
 
-typedef s32 (*RecoveredCallback_92513335c3ed)(void *);
-typedef void (*RecoveredCallback_2be3cacebb2e)(void);
-struct RecoveredGlobal_803DCBD8_lbl_8058D380 {
-    s32 value;
-    u8 remaining[0xEC];
-};
-
 struct Mtx_803DC994 { f32 m[3][4]; };
 struct ChunkNode_803E2F78 {
     u32 flags;
@@ -37,49 +30,24 @@ struct ChunkNode_803E2F78 {
 
 struct Hdr_803E34B0 { u8 *dst; u8 *src; s32 count; };
 
+typedef union {
+    u8 u8;
+    u16 u16;
+    s16 s16;
+    u32 u32;
+    f32 f32;
+} PPCWGPipe;
+
+volatile PPCWGPipe GXWGFifo : 0xCC008000;
+
 
 typedef struct Vtx_803E36C4 { f32 x, y, z, nx, ny, nz; u32 pad[2]; } Vtx_803E36C4;
-
-typedef union WGPipe_803E36C4 {
-    u8 u8;
-    u16 u16;
-    u32 u32;
-    f32 f32;
-} WGPipe_803E36C4;
-
-typedef struct Vtx_803E46FC { f32 x, y, z, nx, ny, nz; u32 pad[2]; } Vtx_803E46FC;
-
-typedef union WGPipe_803E46FC {
-    u8 u8;
-    u16 u16;
-    u32 u32;
-    f32 f32;
-} WGPipe_803E46FC;
-
-typedef struct Vtx_803E47E0 { f32 x, y, z, nx, ny, nz; u32 pad[2]; } Vtx_803E47E0;
-
-typedef union WGPipe_803E47E0 {
-    u8 u8;
-    u16 u16;
-    u32 u32;
-    f32 f32;
-} WGPipe_803E47E0;
 
 struct Sub_803E3B6C { u8 pad[0xC]; u8 *q; };
 
 struct Rec_803E3B6C { u8 pad[8]; Sub_803E3B6C *p; };
 
 struct Holder_803E3B6C { Rec_803E3B6C *recs; };
-
-typedef struct Vtx_803E352C { f32 x, y, z, nx, ny, nz; u32 pad[2]; } Vtx_803E352C;
-
-typedef union WGPipe_803E352C {
-    u8 u8;
-    u16 u16;
-    s16 s16;
-    u32 u32;
-    f32 f32;
-} WGPipe_803E352C;
 
 typedef f32 Mtx_803E4354[3][4];
 extern "C" {
@@ -125,8 +93,8 @@ void draw_strip_list_pos_nrm__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts
 void GXSetChanCtrl(s32 chan, u8 enable, s32 ambSrc, s32 matSrc, u32 lightMask, s32 diffFn, s32 attnFn);
 extern u32 gx_chan_ctrl_light_mask;
 extern u32 chunk_has_vertex_colors;
-void draw_strip_pos_normal__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E46FC *verts, u32 info);
-void draw_triangle_strips__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E47E0 *verts, u32 info);
+void draw_strip_pos_normal__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u32 info);
+void draw_triangle_strips__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u32 info);
 s32 GXSetBlendMode(int, int, int, int);
 extern s32 material_alpha_compare_reference;
 extern u8 *current_render_context;
@@ -135,7 +103,7 @@ extern const u32 lbl_805E1098;
 extern const f32 lbl_805E109C;
 extern const f32 lbl_805E10A0;
 void GXSetVtxAttrFmt(int, int, int, int, u8);
-void draw_chunk_textured_strips(s16 *list, Vtx_803E352C *verts, u32 info, s32 large);
+void draw_chunk_textured_strips(s16 *list, Vtx_803E36C4 *verts, u32 info, s32 large);
 struct ChunkModel_803E44D4 { u32 *vertices; s16 *polygons; };
 struct ChunkBuffer_803E44D4 { void *vertices; s32 bytes; };
 struct ChunkRecording_803E44D4 { ChunkBuffer_803E44D4 buffers[32]; s32 index; };
@@ -158,7 +126,6 @@ extern s32 chunk_previous_strip_flags;
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-typedef char RecoveredGlobal_803DCBD8_lbl_8058D380_size[sizeof(RecoveredGlobal_803DCBD8_lbl_8058D380) == 0xF0 ? 1 : -1];
 void TObjPlayer::copy_matrix3x3_for_chunk_tree() {
     struct Mtx_803DC994 *src = (struct Mtx_803DC994 *)this;
     struct Mtx_803DC994 *dst = (struct Mtx_803DC994 *)current_matrix;
@@ -250,38 +217,25 @@ void TObjPlayer::transform_vertex_list() {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-static inline void GXPosition3f32_803E36C4(f32 x, f32 y, f32 z) {
-    (*(volatile WGPipe_803E36C4 *)0xCC008000).f32 = x;
-    (*(volatile WGPipe_803E36C4 *)0xCC008000).f32 = y;
-    (*(volatile WGPipe_803E36C4 *)0xCC008000).f32 = z;
+static inline void GXPosition3f32(f32 x, f32 y, f32 z) {
+    GXWGFifo.f32 = x;
+    GXWGFifo.f32 = y;
+    GXWGFifo.f32 = z;
 }
-static inline void GXNormal3f32_803E36C4(f32 x, f32 y, f32 z) {
-    (*(volatile WGPipe_803E36C4 *)0xCC008000).f32 = x;
-    (*(volatile WGPipe_803E36C4 *)0xCC008000).f32 = y;
-    (*(volatile WGPipe_803E36C4 *)0xCC008000).f32 = z;
+static inline void GXNormal3f32(f32 x, f32 y, f32 z) {
+    GXWGFifo.f32 = x;
+    GXWGFifo.f32 = y;
+    GXWGFifo.f32 = z;
+}
+static inline void GXTexCoord2s16(s16 s, s16 t) {
+    GXWGFifo.s16 = s;
+    GXWGFifo.s16 = t;
 }
 
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
-static inline void GXPosition3f32_803E352C(f32 x, f32 y, f32 z) {
-    (*(volatile WGPipe_803E352C *)0xCC008000).f32 = x;
-    (*(volatile WGPipe_803E352C *)0xCC008000).f32 = y;
-    (*(volatile WGPipe_803E352C *)0xCC008000).f32 = z;
-}
-static inline void GXNormal3f32_803E352C(f32 x, f32 y, f32 z) {
-    (*(volatile WGPipe_803E352C *)0xCC008000).f32 = x;
-    (*(volatile WGPipe_803E352C *)0xCC008000).f32 = y;
-    (*(volatile WGPipe_803E352C *)0xCC008000).f32 = z;
-}
-static inline void GXTexCoord2s16_803E352C(s16 s, s16 t) {
-    (*(volatile WGPipe_803E352C *)0xCC008000).s16 = s;
-    (*(volatile WGPipe_803E352C *)0xCC008000).s16 = t;
-}
-void draw_chunk_textured_strips(s16 *list, Vtx_803E352C *verts, u32 info, s32 large) {
+void draw_chunk_textured_strips(s16 *list, Vtx_803E36C4 *verts, u32 info, s32 large) {
     s16 s;
     s16 t;
-    Vtx_803E352C *v;
+    Vtx_803E36C4 *v;
     s32 skip;
     s32 n;
     s32 draw;
@@ -321,15 +275,14 @@ void draw_chunk_textured_strips(s16 *list, Vtx_803E352C *verts, u32 info, s32 la
             s = *list++;
             t = *list++;
             if (draw) {
-                GXPosition3f32_803E352C(v->x, v->y, v->z);
-                GXNormal3f32_803E352C(v->nx, v->ny, v->nz);
-                GXTexCoord2s16_803E352C(s, t);
+                GXPosition3f32(v->x, v->y, v->z);
+                GXNormal3f32(v->nx, v->ny, v->nz);
+                GXTexCoord2s16(s, t);
             }
             list += skip;
         } while (--n != 0);
     } while (--count != 0);
 }
-#pragma pop
 
 void draw_strip_list_pos_nrm__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u32 info) {
     s32 skip;
@@ -349,8 +302,8 @@ void draw_strip_list_pos_nrm__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts
         GXBegin(0x98, 0, n);
         do {
             v = &verts[*list++];
-            GXPosition3f32_803E36C4(v->x, v->y, v->z);
-            GXNormal3f32_803E36C4(v->nx, v->ny, v->nz);
+            GXPosition3f32(v->x, v->y, v->z);
+            GXNormal3f32(v->nx, v->ny, v->nz);
             list += skip;
         } while (--n != 0);
     } while (--count != 0);
@@ -640,7 +593,7 @@ void dispatch_chunk_polygon_list(s16 *list, s32 buffer) {
                     set_chunk_blend_depth_mode(cmd, 1);
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 0, 1, 0x2A, 0, 0x7D);
-                    draw_strip_pos_normal__10TObjPlayerFPvPvUi(list, (Vtx_803E46FC *) buffer, info);
+                    draw_strip_pos_normal__10TObjPlayerFPvPvUi(list, (Vtx_803E36C4 *) buffer, info);
                 } else {
                     set_chunk_blend_depth_mode(cmd, 0);
                     TObjPlayer::setup_tev_passclr();
@@ -653,7 +606,7 @@ void dispatch_chunk_polygon_list(s16 *list, s32 buffer) {
                 if (cmd & 0x40) {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 0, 1, 0x2A, 0, 0x7D);
-                    draw_triangle_strips__10TObjPlayerFPvPvUi(list, (Vtx_803E47E0 *) buffer, info);
+                    draw_triangle_strips__10TObjPlayerFPvPvUi(list, (Vtx_803E36C4 *) buffer, info);
                 } else if (chunk_has_vertex_colors != 0) {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 1, 4, 0x3C, 0, 0x7D);
@@ -661,7 +614,7 @@ void dispatch_chunk_polygon_list(s16 *list, s32 buffer) {
                 } else {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 1, 4, 0x3C, 0, 0x7D);
-                    draw_chunk_textured_strips(list, (Vtx_803E352C *) buffer, info, type == 0x42);
+                    draw_chunk_textured_strips(list, (Vtx_803E36C4 *) buffer, info, type == 0x42);
                 }
                 break;
             }
@@ -812,21 +765,11 @@ void draw_chunk_object(void *child) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-static inline void GXPosition3f32_803E46FC(f32 x, f32 y, f32 z) {
-    (*(volatile WGPipe_803E46FC *)0xCC008000).f32 = x;
-    (*(volatile WGPipe_803E46FC *)0xCC008000).f32 = y;
-    (*(volatile WGPipe_803E46FC *)0xCC008000).f32 = z;
-}
-static inline void GXNormal3f32_803E46FC(f32 x, f32 y, f32 z) {
-    (*(volatile WGPipe_803E46FC *)0xCC008000).f32 = x;
-    (*(volatile WGPipe_803E46FC *)0xCC008000).f32 = y;
-    (*(volatile WGPipe_803E46FC *)0xCC008000).f32 = z;
-}
-void draw_strip_pos_normal__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E46FC *verts, u32 info) {
+void draw_strip_pos_normal__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u32 info) {
     s32 skip;
     s32 n;
     u32 count;
-    Vtx_803E46FC *v;
+    Vtx_803E36C4 *v;
     skip = (info >> 14) & 3;
     count = info & 0x3FFF;
     GXClearVtxDesc();
@@ -840,8 +783,8 @@ void draw_strip_pos_normal__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E46FC *verts, 
         GXBegin(0x98, 0, n);
         do {
             v = &verts[*list++];
-            GXPosition3f32_803E46FC(v->x, v->y, v->z);
-            GXNormal3f32_803E46FC(v->nx, v->ny, v->nz);
+            GXPosition3f32(v->x, v->y, v->z);
+            GXNormal3f32(v->nx, v->ny, v->nz);
             list += skip;
         } while (--n != 0);
     } while (--count != 0);
@@ -852,22 +795,12 @@ void draw_strip_pos_normal__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E46FC *verts, 
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma optimization_level 4
-static inline void GXPosition3f32_803E47E0(f32 x, f32 y, f32 z) {
-    (*(volatile WGPipe_803E47E0 *)0xCC008000).f32 = x;
-    (*(volatile WGPipe_803E47E0 *)0xCC008000).f32 = y;
-    (*(volatile WGPipe_803E47E0 *)0xCC008000).f32 = z;
-}
-static inline void GXNormal3f32_803E47E0(f32 x, f32 y, f32 z) {
-    (*(volatile WGPipe_803E47E0 *)0xCC008000).f32 = x;
-    (*(volatile WGPipe_803E47E0 *)0xCC008000).f32 = y;
-    (*(volatile WGPipe_803E47E0 *)0xCC008000).f32 = z;
-}
-void draw_triangle_strips__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E47E0 *verts, u32 info) {
+void draw_triangle_strips__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u32 info) {
     s32 skip;
     s32 n;
     s32 draw;
     u32 count;
-    Vtx_803E47E0 *v;
+    Vtx_803E36C4 *v;
     draw = 1;
     skip = (info >> 14) & 3;
     count = info & 0x3FFF;
@@ -899,8 +832,8 @@ void draw_triangle_strips__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E47E0 *verts, u
         do {
             v = &verts[*list++];
             if (draw) {
-                GXPosition3f32_803E47E0(v[2].x, v[2].y, v[2].z);
-                GXNormal3f32_803E47E0(v[2].nx, v[2].ny, v[2].nz);
+                GXPosition3f32(v[2].x, v[2].y, v[2].z);
+                GXNormal3f32(v[2].nx, v[2].ny, v[2].nz);
             }
             list += skip;
         } while (--n != 0);

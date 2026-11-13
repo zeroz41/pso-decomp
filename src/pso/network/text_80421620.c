@@ -11,7 +11,6 @@
 #include "types.h"
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
-void release_entry(void *entry);
 
 #include <stddef.h>
 #include "pso/network/BufferRef.h"
@@ -334,7 +333,7 @@ s16 TUdpSocket__sub_80421BAC(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n
         unlock_mutex(network_dispatch_state.lock_handle);
         return -2;
     }
-    pkt = (NetPacket *)alloc_free_entry();
+    pkt = alloc_free_entry();
     if (pkt == NULL) {
         unlock_mutex(network_dispatch_state.lock_handle);
         return -0x101;
@@ -343,7 +342,7 @@ s16 TUdpSocket__sub_80421BAC(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n
     pkt->total_bytes = 0;
     for (i = n; i != 0; i--) {
         if (bufs[i - 1].len < 0) {
-            release_entry((void *)pkt);
+            release_entry(pkt);
             unlock_mutex(network_dispatch_state.lock_handle);
             return -2;
         }
@@ -353,17 +352,17 @@ s16 TUdpSocket__sub_80421BAC(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n
         pkt->fragment_count++;
     }
     if (pkt->total_bytes > 0x7FE3) {
-        release_entry((void *)pkt);
+        release_entry(pkt);
         unlock_mutex(network_dispatch_state.lock_handle);
         return -2;
     }
     if (pkt->total_bytes == 0) {
-        release_entry((void *)pkt);
+        release_entry(pkt);
         unlock_mutex(network_dispatch_state.lock_handle);
         return 0;
     }
     r = udp_sendto(h, pkt, (NetworkAddress *)src, (NetworkAddress *)dst, port, (s32)opt);
-    release_entry((void *)pkt);
+    release_entry(pkt);
     unlock_mutex(network_dispatch_state.lock_handle);
     return r;
 }
@@ -562,7 +561,7 @@ s32 set_slot_state_and_resume(s32 idx, void (*cb)(s16, s16), s16 state) {
 
 s16 tcp_send(s32 a, void (*notify)(s16, s16), char bufnum, struct send_buffs *sb) {
     TcpTcb *s;
-    s32 *entry;
+    NetPacket *entry;
     struct send_buffs *p;
     u8 *cur;
     s16 r;
@@ -592,30 +591,30 @@ s16 tcp_send(s32 a, void (*notify)(s16, s16), char bufnum, struct send_buffs *sb
         unlock_mutex(network_dispatch_state.lock_handle);
         return -9;
     }
-    entry = (s32 *)alloc_free_entry();
+    entry = alloc_free_entry();
     if (entry == NULL) {
         unlock_mutex(network_dispatch_state.lock_handle);
         return -0x101;
     }
-    entry[1] = (u16)bufnum;
+    entry->fragment_count = (u16)bufnum;
     n = bufnum;
     p = sb + (u16)n;
-    cur = (u8 *)entry + (entry[2] = 0) * 12;
+    cur = (u8 *)entry + (entry->total_bytes = 0) * 12;
     while ((u16)n != 0) {
         p--;
         n--;
         if (p->len < 0) {
-            release_entry((void *)entry);
+            release_entry(entry);
             unlock_mutex(network_dispatch_state.lock_handle);
             return -2;
         }
         init_packet_header((void *)(cur + 0x10), (s32)p->buff);
         *(s16 *)(cur + 0xc) = p->len;
-        entry[2] += *(s16 *)(cur + 0xc);
+        entry->total_bytes += *(s16 *)(cur + 0xc);
         cur += 0xc;
     }
-    if ((u32)entry[2] == 0) {
-        release_entry((void *)entry);
+    if (entry->total_bytes == 0) {
+        release_entry(entry);
         unlock_mutex(network_dispatch_state.lock_handle);
         return -2;
     }
@@ -623,12 +622,12 @@ s16 tcp_send(s32 a, void (*notify)(s16, s16), char bufnum, struct send_buffs *sb
     s->waits[2].flags |= 1;
     if (s->flags & 0x40) {
         s->waits[2].flags |= 8;
-        ret = tcp_start_send(a, (NetPacket *)entry, notify, 0);
+        ret = tcp_start_send(a, entry, notify, 0);
         s->waits[2].flags &= ~8;
     } else {
-        ret = tcp_start_send(a, (NetPacket *)entry, notify, 0);
+        ret = tcp_start_send(a, entry, notify, 0);
     }
-    release_entry((void *)entry);
+    release_entry(entry);
     if (ret < 0) {
         s->waits[2].flags &= ~1;
         unlock_mutex(network_dispatch_state.lock_handle);

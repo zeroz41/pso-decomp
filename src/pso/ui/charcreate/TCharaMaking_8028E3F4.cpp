@@ -2,17 +2,10 @@
 #include "pso/ui/charcreate/TCharaMaking_8028E3F4.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
+#include "pso/ui/charcreate/CharacterAppearanceTables.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 
 #pragma readonly_strings on
-
-struct Ent_8028E6B4 { s32 id; u8 pad[4]; void *name; u8 pad2[4]; };
-
-struct TextureList {u8 **entries; s32 count;};
-
-struct Appearance {u8 name[0x30]; u8 section, classId, flags, spare; u32 classFlags; s16 costume,skin,face,head,hair,red,green,blue; float width,height;};
-
-struct ClassAppearance {s16 counts[8]; void **hair; void **caps; void **heads; void *body; struct TextureList **hairTextures; struct TextureList **headTextures; struct TextureList *bodyTextures;};
 
 struct OutputSlot {u8 *name; unsigned int field4,field8;};
 
@@ -21,7 +14,6 @@ struct TextureOutput {int loaded; u8 names[8][32]; struct OutputSlot slots[8]; s
 extern "C" {
 s32 TLobby__sub_801E3E9C(s32, const void *, void *, s32);
 extern void *player_class_texture_buffer_table[];
-extern Ent_8028E6B4 player_class_texture_archive_table[];
 u8 lbl_80518880[0x228];
 u8 lbl_80518AA8[0x384];
 u8 lbl_80518E2C[0x354];
@@ -42,7 +34,7 @@ u8 lbl_8051B8C8[0x134];
 u8 lbl_8051B9FC[0x134];
 u8 lbl_8051BB30[0x134];
 u8 chara_making_load_buffer[0x40C];
-void build_appearance_texture_names__12TCharaMakingFv(TextureOutput *output, Appearance *appearance, ClassAppearance *definition, TextureList *source);
+void build_appearance_texture_names__12TCharaMakingFv(TextureOutput *output, CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source);
 int is_quest_active(void);
 
 s32 TCharaMaking::is_end() {
@@ -55,23 +47,23 @@ s32 TCharaMaking::is_end() {
 s32 TCharaMaking::get_display_index() {
     s8 temp;
 
-    if (!(*(s8 *)((s8 *)this + 0x32) & 0xA)) {
-        return *(s8 *)((s8 *)this + 0x31);
+    if (!(((CharacterAppearanceFields *)this)->flags & 0xA)) {
+        return ((CharacterAppearanceFields *)this)->classId;
     }
-    if ((*(s8 *)((s8 *)this + 0x33) <= 0) ||
-        ((temp = *(s8 *)((s8 *)this + 0x1C)) < 0) ||
+    if (((s8)((CharacterAppearanceFields *)this)->version <= 0) ||
+        ((temp = *(s8 *)&((CharacterAppearanceFields *)this)->extraModel) < 0) ||
         (temp >= 7)) {
-        return *(s8 *)((s8 *)this + 0x31);
+        return ((CharacterAppearanceFields *)this)->classId;
     }
     if (TCharaMaking::is_end() != 0) {
-        return 0x12 - *(s8 *)((s8 *)this + 0x1C);
+        return 0x12 - *(s8 *)&((CharacterAppearanceFields *)this)->extraModel;
     }
-    return *(s8 *)((s8 *)this + 0x31);
+    return ((CharacterAppearanceFields *)this)->classId;
 }
 
 struct TextureOutput;
 unsigned int strlen(u8 *); u8 *strncpy(u8 *,u8 *,unsigned int);
-void build_appearance_texture_names__12TCharaMakingFv(TextureOutput *output, Appearance *appearance, ClassAppearance *definition, TextureList *source) {
+void build_appearance_texture_names__12TCharaMakingFv(TextureOutput *output, CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source) {
     if (source->count <= 8) {
         int index;
         OutputSlot *slot;
@@ -80,7 +72,7 @@ void build_appearance_texture_names__12TCharaMakingFv(TextureOutput *output, App
         slot = output->entries = output->slots;
         index = 0;
         output->count = source->count;
-        entry = source->entries;
+        entry = (u8 **)source->entries;
         for (; index < source->count; ++index, ++entry, ++slot) {
             name = output->names[index];
             strlen(*entry);
@@ -128,7 +120,7 @@ void request_chara_making_archives(void) {
         if (TQuestVmDownLoadServer::is_ready() != 0) {
             return;
         }
-        if (TLobby__sub_801E3E9C(player_class_texture_archive_table[i].id, player_class_texture_archive_table[i].name, player_class_texture_buffer_table[i], lbl_8045122C[i]) != 0) {
+        if (TLobby__sub_801E3E9C(player_class_texture_archive_table[i].archiveId, player_class_texture_archive_table[i].archiveName, player_class_texture_buffer_table[i], lbl_8045122C[i]) != 0) {
             if (TQuestVmDownLoadServer::is_ready() == 0) {
                 return;
             }

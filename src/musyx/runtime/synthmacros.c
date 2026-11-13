@@ -637,9 +637,6 @@ typedef struct ADSR_803AF634 {
         struct { u16 atime; u16 dtime; u16 slevel; u16 rtime; } linear;
     } data;
 } ADSR_803AF634;
-s32 dataGetCurve(s16 arg0);
-u32 adsrConvertTimeCents(s32 arg0);
-u32 adsrSetup(u8 *arg0);
 
 #pragma push
 #pragma bool off

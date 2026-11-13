@@ -187,7 +187,6 @@ void run_task__10TTecGiFoieFv(u8 *self);
 void * TTecGiFoie__ct(void *self_, void *source, void *origin, void *level);
 void matrix_mult_vec(void *, void *, void *);
 
-extern const f32 TTecGiFoie__data_805DC81C;
 extern RecoveredGlobal_80231638___vt__10TTecGiFoie __vt__10TTecGiFoie;
 extern Profile_802312E4 TTecGiFoie__emitter_profile_table[];
 extern u8 lbl_8044D324[];
@@ -198,10 +197,6 @@ extern void *lbl_804CC800[];
 extern const f32 lbl_8044D338[3];
 extern const Vec lbl_8044D344;
 extern u32 TTecGiFoie__name;
-extern const f32 lbl_805DC810;
-extern const f32 lbl_805DC818;
-extern const f32 lbl_805DC820;
-extern const f32 lbl_805DC824;
 extern s32 tl_07;
 
 void TTecGiFoie::calc_params() {
@@ -277,10 +272,12 @@ void TUnk_804CC800::run_task() {
         pad_1C[0]->set_position(&pad_2C);
         pad_1C[0]->set_direction(rot);
     } else {
-        u32 i = 0;
+        u32 i;
+        s16 roll;
         rot[1] = (s32)(10430.38043493439 * atan2_float(pad_2C.x - pad_20.x, pad_2C.z - pad_20.z));
+        roll = i = 0;
         rot[0] = rot[1] - 0x8000;
-        rot[1] = 0;
+        rot[1] = roll;
         rot[2] = 0x4000;
         for (; i < TTecGiFoie__emitter_profile_table[pad_44].count; i++) {
             pad_1C[i]->set_position(&pad_2C);
@@ -320,7 +317,7 @@ Task_802312E4 *construct_orbit__10TTecGiFoieFPvPviUciPvUc(Task_802312E4 *self, V
     self->x45 = arg4;
     VecCopy((Vec *)&self->pos2, (const Vec *)&self->pos);
     self->x3c = arg2;
-    self->x38 = lbl_805DC810;
+    self->x38 = 0.0f;
     self->x40 = 0;
     self->single = single;
     if (self->single != 0) {
@@ -330,7 +327,7 @@ Task_802312E4 *construct_orbit__10TTecGiFoieFPvPviUciPvUc(Task_802312E4 *self, V
         r.y = 0;
         r.z = 0x4000;
         self->emitters[0] = (u32)spawn_continuous_particle_with_direction(&self->pos, &r, 0x19D);
-        self->x38 = TTecGiFoie__data_805DC81C;
+        self->x38 = 5.0f;
     } else {
         s32 i;
         self->emitters = (u32 *)mem_alloc(TTecGiFoie__emitter_profile_table[self->band].count * 4);
@@ -345,11 +342,11 @@ Task_802312E4 *construct_orbit__10TTecGiFoieFPvPviUciPvUc(Task_802312E4 *self, V
             if (self->band == 2) {
                 if (arg4 >= 0xF && arg4 < 0x19) {
                     if (i <= 1 && self->emitters[i] != 0) {
-                        ((TParticleCtrl *)(self->emitters[i]))->set_scale(lbl_805DC820, lbl_805DC820);
+                        ((TParticleCtrl *)(self->emitters[i]))->set_scale(1.3f, 1.3f);
                     }
                 } else if (arg4 >= 0x19 && arg4 < 0x1E) {
                     if (i <= 1 && self->emitters[i] != 0) {
-                        ((TParticleCtrl *)(self->emitters[i]))->set_scale(lbl_805DC820, lbl_805DC824);
+                        ((TParticleCtrl *)(self->emitters[i]))->set_scale(1.3f, 1.8f);
                     }
                 }
             }
@@ -447,7 +444,7 @@ void run_task__10TTecGiFoieFv(u8 *self) {
     if (TTecLuker::is_parents_unqueued(((TTecGiFoie *)self)->m_ec) != 0) {
         distance = newton_sqrtf(horizontal_distance_squared((Vec *)(*(u8 **)((s8 *)self + 0xEC) + 0x2C), (Vec *)(self + 0x20)));
         if (*(u8 **)((s8 *)self + 0xE8) != NULL) {
-            *(f32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 **)((s8 *)self + 0xE8)) + 0xA4)) + 0xC) = TTecGiFoie__data_805DC81C + distance;
+            *(f32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 **)((s8 *)self + 0xE8)) + 0xA4)) + 0xC) = 5.0f + distance;
         }
         ((TUnk_804CC148 *)self)->apply_technique_to_area_targets();
         if (distance >= ((TTecGiFoie *)self)->m_90) {
@@ -468,7 +465,7 @@ void *TTecGiFoie__ct(void *self_, void *source, void *origin, void *level) {
     self->x0 = TTecGiFoie__name;
     ((TTecGiFoie *)self_)->calc_params();
     if (self->effect != NULL) {
-        *(f32 *)((s8 *)(*(u8 **)((s8 *)self->effect + 0xA4)) + 0xC) = TTecGiFoie__data_805DC81C + self->radius;
+        *(f32 *)((s8 *)(*(u8 **)((s8 *)self->effect + 0xA4)) + 0xC) = 5.0f + self->radius;
     }
     for (i = 0; i < 32; i++) {
         self->ids[i] = 0xFFFF;
@@ -483,7 +480,7 @@ void *TTecGiFoie__ct(void *self_, void *source, void *origin, void *level) {
         s32 angle;
         s32 step;
         void *o;
-        step = (s32)(lbl_805DC818 * (f32)(360 / lbl_8044D324[self->band]));
+        step = (s32)(182.04445f * (f32)(360 / lbl_8044D324[self->band]));
         angle = step * k + 0x4000;
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, angle);

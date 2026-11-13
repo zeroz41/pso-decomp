@@ -10,7 +10,7 @@
 // TObjEneMe3Stelth.cpp addresses each object on its own.
 extern "C" {
 // TObjEneMe3Stelth.cpp .data; both attack bindings point at it.
-extern void *TObjEneMe3Stelth__animation_descriptors[52];
+extern TObjMotionAction TObjEneMe3Stelth__animation_descriptors[13];
 extern const NJS_ARGB me3_stelth_offset_vec;
 extern const TBoss3VoloptBreakupParams me3_stelth_breakup_params;
 // TLobby kind ids, one list per TLobby table load_shared_resources registers them with.

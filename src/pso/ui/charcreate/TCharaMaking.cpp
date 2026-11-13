@@ -4,6 +4,7 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
+#include "pso/ui/charcreate/CharacterAppearanceTables.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
@@ -54,76 +55,18 @@ const s32 lbl_8045122C[19] = {
 };
 #pragma pop
 
-struct TextureList
-{
-  void *entries;
-  s32 count;
-};
-
-struct Appearance
-{
-  u8 name[0x30];
-  u8 section;
-  u8 classId;
-  u8 flags;
-  u8 spare;
-  u32 classFlags;
-  s16 costume;
-  s16 skin;
-  s16 face;
-  s16 head;
-  s16 hair;
-  s16 red;
-  s16 green;
-  s16 blue;
-  float width;
-  float height;
-};
-
-struct ClassAppearance
-{
-  s16 counts[8];
-  void **hair;
-  void **caps;
-  void **heads;
-  void *body;
-  struct TextureList **hairTextures;
-  struct TextureList **headTextures;
-  struct TextureList *bodyTextures;
-};
-
-struct CharData_8028DF98 {
-    s8 name[0x18];
-    s32 f18;
-    u8 pad1c[0x14];
-    s8 f30;
-    s8 f31;
-    u8 fl32;
-    u8 pad33;
-    s32 f34;
-    s16 f38[8];
-    f32 f48;
-};
-
-extern struct ClassAppearance class_appearance_table[19];
 extern "C" {
-void build_appearance_texture_names__12TCharaMakingFv(void *, struct Appearance *, struct ClassAppearance *, struct TextureList *);
-void TCharaMaking__bind_appearance_texture_lists(s32 *arg0, s32 *arg1, s32 *arg2, struct Appearance *arg3);
+void build_appearance_texture_names__12TCharaMakingFv(void *, CharacterAppearanceFields *, CharacterClassAppearance *, CharacterTextureList *);
+void TCharaMaking__bind_appearance_texture_lists(s32 *arg0, s32 *arg1, s32 *arg2, CharacterAppearanceFields *arg3);
 s32 TCharaMaking__sub_8028E3A0(f32 *arg0);
 }
 extern s32 player_class_trait_table[];
 s32 validate_player_visual_record(void *arg0);
 
-struct RecoveredGlobal_8028DE78_lbl_804D9164 {
-    s32 value;
-    u8 remaining[0x410];
-};
-
 struct P_8028DCCC { f32 a; f32 b; };
 
-extern RecoveredGlobal_8028DE78_lbl_804D9164 class_appearance_preset_table;
 extern "C" {
-u8 *get_class_appearance_preset(s32 arg0);
+CharacterAppearanceFields *get_class_appearance_preset(s32 arg0);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
@@ -141,7 +84,7 @@ s32 TCharaMaking::query_state() {
     if ((u32) creation_main_menu_obj == 0U) {
         return -1;
     }
-    return TObjCMMainMenu__sub_8028EBCC((u8 *)creation_main_menu_obj);
+    return TObjCMMainMenu__sub_8028EBCC((TObjCMMainMenu *)creation_main_menu_obj);
 }
 
 s32 calc_section_id_from_name(s8 *arg0) {
@@ -216,14 +159,13 @@ void TCharaMaking::setup_from_data(s32 model, CharacterAppearanceFields *appeara
     TCharaMaking__draw_colored_hair(1.0f, model, appearance, 0);
 }
 
-typedef char RecoveredGlobal_8028DE78_lbl_804D9164_size[sizeof(RecoveredGlobal_8028DE78_lbl_804D9164) == 0x414 ? 1 : -1];
-u8 *get_class_appearance_preset(s32 arg0) {
+CharacterAppearanceFields *get_class_appearance_preset(s32 arg0) {
     s32 var_r3;
     var_r3 = arg0;
     if ((var_r3 < 0) || (var_r3 >= 0xD)) {
         var_r3 = 0;
     }
-    return (u8 *)&class_appearance_preset_table.value + (var_r3 * 0x50);
+    return &class_appearance_preset_table[var_r3];
 }
 
 void TCharaMaking::free_loaded_buffers() {
@@ -260,12 +202,12 @@ s32 validate_player_visual_record(void *arg0) {
     s32 bad;
     s32 ok;
     s32 flags;
-    CharData_8028DF98 *d;
+    CharacterAppearanceFields *d;
     s32 i;
-    ClassAppearance *row;
+    CharacterClassAppearance *row;
     s32 v;
     s32 lim;
-    d = (CharData_8028DF98 *)arg0;
+    d = (CharacterAppearanceFields *)arg0;
     bad = 0;
     ok = 1;
     flags = 0;
@@ -273,8 +215,8 @@ s32 validate_player_visual_record(void *arg0) {
         bad = 1;
     }
     if (bad == 0) {
-        s8 *p;
-        s8 *end;
+        char *p;
+        char *end;
         s32 found;
         end = d->name + 0xD;
         found = 0;
@@ -289,7 +231,7 @@ s32 validate_player_visual_record(void *arg0) {
         }
     }
     if (bad == 0) {
-        s8 *q;
+        char *q;
         for (q = d->name; *q != 0; q++) {
             if (*q < 0x20 || *q >= 0x7F) {
                 bad = 1;
@@ -298,7 +240,7 @@ s32 validate_player_visual_record(void *arg0) {
         }
     }
     if (bad == 0) {
-        s8 *q;
+        char *q;
         q = d->name;
         while (*q == 0x20) {
             q++;
@@ -312,48 +254,48 @@ s32 validate_player_visual_record(void *arg0) {
         ok = 0;
         d->name[3] = 0;
     }
-    if ((u32)(d->f18 & 0xFF000000) != 0xFF000000) {
-        d->f18 = -1;
+    if ((u32)(d->nameColor & 0xFF000000) != 0xFF000000) {
+        d->nameColor = -1;
     }
-    if (d->f30 == -1) {
-        d->f30 = 0;
+    if (d->section == -1) {
+        d->section = 0;
     }
-    if (d->f30 < 0 || d->f30 >= 10) {
+    if (d->section < 0 || d->section >= 10) {
         flags |= 1;
         ok = 0;
-        d->f30 %= 10;
+        d->section %= 10;
     }
-    if (d->f31 < 0 || d->f31 >= 12) {
+    if (d->classId < 0 || d->classId >= 12) {
         flags |= 2;
-        d->f31 = 0;
+        d->classId = 0;
         ok = 0;
     }
-    if (d->f34 != player_class_trait_table[d->f31]) {
-        d->f34 = player_class_trait_table[d->f31];
+    if ((s32)d->classFlags != player_class_trait_table[d->classId]) {
+        d->classFlags = player_class_trait_table[d->classId];
         flags |= 4;
         ok = 0;
     }
-    row = &class_appearance_table[d->f31];
+    row = &class_appearance_table[d->classId];
     for (i = 0; i < 5; i++) {
         lim = row->counts[i];
-        v = d->f38[i];
+        v = (&d->costume)[i];
         if (v < 0 || (lim == 0 && v != 0) || (lim > 0 && v >= lim)) {
-            d->f38[i] = 0;
+            (&d->costume)[i] = 0;
             ok = 0;
         }
     }
     for (; i < 8; i++) {
-        v = d->f38[i];
+        v = (&d->costume)[i];
         if (v < 0 || v > 0xFF) {
-            d->f38[i] = 0;
+            (&d->costume)[i] = 0;
             ok = 0;
         }
     }
-    if (TCharaMaking__sub_8028E3A0(&d->f48) != 0) {
+    if (TCharaMaking__sub_8028E3A0(&d->width) != 0) {
         ok = 0;
     }
     if (flags != 0) {
-        d->fl32 |= flags;
+        d->flags |= flags;
     }
     return ok;
 }
@@ -361,17 +303,14 @@ s32 validate_player_visual_record(void *arg0) {
 void TCharaMaking::clear_flag_bit0() { restore_alpha_ref(); model_render_flags = (model_render_flags & 0xfffffffe); }
 
 void TCharaMaking::enable_making() { model_render_flags = (model_render_flags | 0x1); set_alpha_ref_override((u8)((void*)31)); }
-typedef struct Appearance Appearance;
-typedef struct ClassAppearance ClassAppearance;
-typedef struct TextureList TextureList;
-void TCharaMaking__bind_appearance_texture_lists(s32 *output, s32 *arg1, s32 *arg2, struct Appearance *appearance) {
-  struct ClassAppearance *definition;
-  struct TextureList **temp_r3;
-  struct TextureList **temp_r3_2;
-  struct TextureList *temp_r6;
-  ClassAppearance *new_var;
-  struct TextureList *temp_r6_2;
-  new_var = (ClassAppearance *) (((u8 *) class_appearance_table) + (((TCharaMaking *)appearance)->get_display_index() * 0x2C));
+void TCharaMaking__bind_appearance_texture_lists(s32 *output, s32 *arg1, s32 *arg2, CharacterAppearanceFields *appearance) {
+  CharacterClassAppearance *definition;
+  CharacterTextureList **temp_r3;
+  CharacterTextureList **temp_r3_2;
+  CharacterTextureList *temp_r6;
+  CharacterClassAppearance *new_var;
+  CharacterTextureList *temp_r6_2;
+  new_var = &class_appearance_table[((TCharaMaking *)appearance)->get_display_index()];
   *output = 0;
   definition = new_var;
   temp_r3 = definition->hairTextures;

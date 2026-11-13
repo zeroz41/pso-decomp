@@ -1,6 +1,5 @@
-/* The network stack's UDP layer and TCP receive helpers (a C library, built with GC/1.2.5n): UDP control blocks
- * (create, bind, connect, close, input, sendto, ephemeral ports) and the TCP receive-queue, reassembly-range and
- * SACK-list helpers. */
+/* The network stack's UDP layer (a C library, built with GC/1.2.5n): UDP control blocks (create, bind, connect,
+ * close, input, sendto, ephemeral ports). */
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/UdpRuntime.h"
 #include "types.h"
@@ -11,22 +10,15 @@
 
 typedef struct Hdr_80420DE4 { u16 src; u16 dst; u16 len; u16 sum; } Hdr_80420DE4;
 
-typedef struct O_80420DE4 { u8 pad0[8]; s32 f8; u8 padC[0xC]; s16 f18; u8 pad1A[2]; u8 f1C[4]; } O_80420DE4;
-
-/* An entry of a TCB's send ring while f204_b7 is set: a queued user buffer and its completion callback. */
-
 void TLobby__sub_803F87C8(u8 *arg0);
 s32 TLobby__sub_803F87C4(void *);
 s32 TLobby__sub_80420D38(u16 arg0, u8 arg1);
 s16 TLobby__sub_8040D8F0(void *, void *, int, void *, int);
 s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, s32 arg5);
-s16 compare_sockaddr(void *, void *);
+s16 compare_sockaddr(NetworkAddress *a, NetworkAddress *b);
 s16 TLobby__sub_80421F10(void *, void *, void *, u16, s32, s16);
-s16 udp_input(O_80420DE4 *arg0, NetworkAddress *src, NetworkAddress *dst, s16 arg3);
+s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 arg3);
 UdpRuntimeState udp_runtime_state;
-
-/* Queues an out-of-order segment: copies it into the receive ring at its sequence offset and merges its range into
-   the SACK/reassembly list.  Returns -1 when the connection no longer receives (f204_b6). */
 
 s32 reset_stack_module(void) {
     TLobby__sub_803F87C4(&udp_runtime_state.count);
@@ -86,17 +78,17 @@ inline void add_item_80420FC8(NetPacket *pkt, void *data, s32 len) {
     pkt->fragment_count++;
 }
 
-s16 udp_input(O_80420DE4 *arg0, NetworkAddress *src, NetworkAddress *dst, s16 arg3) {
+s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 arg3) {
     u8 sp20[8];
     Hdr_80420DE4 hdr;
     UdpRuntimeState *g;
     s16 i;
-    s16 *plen;
+    NetPacketFragment *frag;
     UdpControlBlock *e;
-    plen = &arg0->f18;
+    frag = &pkt->fragments[1];
     set_value_and_enable(sp20, (s32)&hdr);
-    TLobby__sub_80406FD8(sp20, plen + 2, 8);
-    if (hdr.sum != 0 && (u16)TLobby__sub_8040D8F0(src, dst, 0x11, arg0, 0) != 0) {
+    TLobby__sub_80406FD8(sp20, &frag->buffer, 8);
+    if (hdr.sum != 0 && (u16)TLobby__sub_8040D8F0(src, dst, 0x11, pkt, 0) != 0) {
         return -1;
     }
     g = &udp_runtime_state;
@@ -126,10 +118,10 @@ s16 udp_input(O_80420DE4 *arg0, NetworkAddress *src, NetworkAddress *dst, s16 ar
         if (e->localPort != hdr.dst) {
             goto next;
         }
-        arg0->f8 -= 8;
-        *plen -= 8;
-        TLobby__sub_80406EB8((NetBufferRef *)(plen + 2), 8);
-        if (TLobby__sub_80421F10(arg0, src, dst, hdr.src, e->receiveCallback, i) != 0) {
+        pkt->total_bytes -= 8;
+        frag->length -= 8;
+        TLobby__sub_80406EB8(&frag->buffer, 8);
+        if (TLobby__sub_80421F10(pkt, src, dst, hdr.src, e->receiveCallback, i) != 0) {
             return -1;
         }
         return 0;

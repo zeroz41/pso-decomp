@@ -288,6 +288,7 @@ s32 update__15RenderFadeStateFv(int, int);
 s32 try_move_with_detour__14TObjEnePanarmsFPvPv(u8 *arg0, Vec_800E18B0 *arg1);
 void calc_default_part_position__14TObjEnePanarmsFPv(u8 *arg0);
 void calc_part_position__14TObjEnePanBARAFPUcPl(u8 *arg0, u8 *arg1, s32 *arg2);
+s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
 void TObjEnePanarms__sub_800E1D38(void *arg0);
 int TObjEnePanarms__sub_800E1D94(void* p);
 void TObjEnePanarms__sub_800E1E14(u8 *arg0);
@@ -356,35 +357,10 @@ struct PanBARAState {
     PanBARAStateFn update;
 };
 
-/* Indexed by the half's state (0x378): set_state runs enter, run_task runs update. */
-static PanBARAState TObjEnePanarms__state_fn_table[17] = {
-    { &TObjEnePanBARA::reset_state, &TObjEnePanBARA::snap_to_parent_position },
-    { &TObjEnePanBARA::init_split, &TObjEnePanBARA::handle_split_flag },
-    { &TObjEnePanBARA::start_action, &TObjEnePanBARA::sub_800E10D0 },
-    { &TObjEnePanBARA::init_state_1, &TObjEnePanBARA::update_move_to_target },
-    { &TObjEnePanBARA::init_state_16, &TObjEnePanBARA::sub_800E0D1C },
-    { &TObjEnePanBARA::restore_from_linked_object, &TObjEnePanBARA::update_hit_state },
-    { &TObjEnePanBARA::sub_800E0B9C, &TObjEnePanBARA::apply_effect_if_flagged },
-    { &TObjEnePanBARA::sub_800E0A44, &TObjEnePanBARA::sub_800E0950 },
-    { &TObjEnePanBARA::sub_800E0930, &TObjEnePanBARA::sub_800E092C },
-    { &TObjEnePanBARA::init_state_2, &TObjEnePanBARA::update_chase_target },
-    { &TObjEnePanBARA::init_action, &TObjEnePanBARA::sub_800E055C },
-    { &TObjEnePanBARA::init_attack_state2, &TObjEnePanBARA::update_attack },
-    { &TObjEnePanBARA::sub_800E0344, &TObjEnePanBARA::sub_800E0214 },
-    { &TObjEnePanBARA::start_phase2_timer150, &TObjEnePanBARA::sub_800E0048 },
-    { &TObjEnePanBARA::start_phase3_timer12, &TObjEnePanBARA::update_move_timer },
-    { &TObjEnePanBARA::init_open_state, &TObjEnePanBARA::sub_800DFE08 },
-    { &TObjEnePanBARA::init_attack_state, &TObjEnePanBARA::update_action_timer },
-};
-
-TObjFishNodeEntry lbl_804958F4[2] = {
-    { 3 },
-    { -1 },
-};
-
-PanarmsMotionParam *lbl_80495914[2] = { lbl_80495484, lbl_80495524 };
-
-s32 panarms_turn_delta_table[2] = { 0x4000, -0x4000 };
+void __sinit_TObjEnePanarms_cpp();
+__declspec(section ".ctors") static void *const panarms_global_initializer = (void *)__sinit_TObjEnePanarms_cpp;
+// Indexed by the half's state: set_state runs enter, run_task runs update.
+extern PanBARAState TObjEnePanarms__state_fn_table[17];
 
 void clear_render_callback__8TObjFishFv(void) { set_chunk_model_node_callback(0); }
 
@@ -448,6 +424,54 @@ void TObjMotion::clear_motion_flags(s32 arg1) {
   *new_var = (s32) ((this->motion_flags) & new_var2);
 }
 
+void __sinit_TObjEnePanarms_cpp() {
+    TObjEnePanarms__state_fn_table[0].enter = &TObjEnePanBARA::reset_state;
+    TObjEnePanarms__state_fn_table[0].update = &TObjEnePanBARA::snap_to_parent_position;
+    TObjEnePanarms__state_fn_table[1].enter = &TObjEnePanBARA::init_split;
+    TObjEnePanarms__state_fn_table[1].update = &TObjEnePanBARA::handle_split_flag;
+    TObjEnePanarms__state_fn_table[2].enter = &TObjEnePanBARA::start_action;
+    TObjEnePanarms__state_fn_table[2].update = &TObjEnePanBARA::sub_800E10D0;
+    TObjEnePanarms__state_fn_table[3].enter = &TObjEnePanBARA::init_state_1;
+    TObjEnePanarms__state_fn_table[3].update = &TObjEnePanBARA::update_move_to_target;
+    TObjEnePanarms__state_fn_table[4].enter = &TObjEnePanBARA::init_state_16;
+    TObjEnePanarms__state_fn_table[4].update = &TObjEnePanBARA::sub_800E0D1C;
+    TObjEnePanarms__state_fn_table[5].enter = &TObjEnePanBARA::restore_from_linked_object;
+    TObjEnePanarms__state_fn_table[5].update = &TObjEnePanBARA::update_hit_state;
+    TObjEnePanarms__state_fn_table[6].enter = &TObjEnePanBARA::sub_800E0B9C;
+    TObjEnePanarms__state_fn_table[6].update = &TObjEnePanBARA::apply_effect_if_flagged;
+    TObjEnePanarms__state_fn_table[7].enter = &TObjEnePanBARA::sub_800E0A44;
+    TObjEnePanarms__state_fn_table[7].update = &TObjEnePanBARA::sub_800E0950;
+    TObjEnePanarms__state_fn_table[8].enter = &TObjEnePanBARA::sub_800E0930;
+    TObjEnePanarms__state_fn_table[8].update = &TObjEnePanBARA::sub_800E092C;
+    TObjEnePanarms__state_fn_table[9].enter = &TObjEnePanBARA::init_state_2;
+    TObjEnePanarms__state_fn_table[9].update = &TObjEnePanBARA::update_chase_target;
+    TObjEnePanarms__state_fn_table[10].enter = &TObjEnePanBARA::init_action;
+    TObjEnePanarms__state_fn_table[10].update = &TObjEnePanBARA::sub_800E055C;
+    TObjEnePanarms__state_fn_table[11].enter = &TObjEnePanBARA::init_attack_state2;
+    TObjEnePanarms__state_fn_table[11].update = &TObjEnePanBARA::update_attack;
+    TObjEnePanarms__state_fn_table[12].enter = &TObjEnePanBARA::sub_800E0344;
+    TObjEnePanarms__state_fn_table[12].update = &TObjEnePanBARA::sub_800E0214;
+    TObjEnePanarms__state_fn_table[13].enter = &TObjEnePanBARA::start_phase2_timer150;
+    TObjEnePanarms__state_fn_table[13].update = &TObjEnePanBARA::sub_800E0048;
+    TObjEnePanarms__state_fn_table[14].enter = &TObjEnePanBARA::start_phase3_timer12;
+    TObjEnePanarms__state_fn_table[14].update = &TObjEnePanBARA::update_move_timer;
+    TObjEnePanarms__state_fn_table[15].enter = &TObjEnePanBARA::init_open_state;
+    TObjEnePanarms__state_fn_table[15].update = &TObjEnePanBARA::sub_800DFE08;
+    TObjEnePanarms__state_fn_table[16].enter = &TObjEnePanBARA::init_attack_state;
+    TObjEnePanarms__state_fn_table[16].update = &TObjEnePanBARA::update_action_timer;
+}
+
+PanBARAState TObjEnePanarms__state_fn_table[17] = {};
+
+TObjFishNodeEntry lbl_804958F4[2] = {
+    { 3 },
+    { -1 },
+};
+
+PanarmsMotionParam *lbl_80495914[2] = { lbl_80495484, lbl_80495524 };
+
+s32 panarms_turn_delta_table[2] = { 0x4000, -0x4000 };
+
 s32 TObjEnePanarms::create_bara(void *setData, s32 index) {
     return (s32)new TObjEnePanBARA(new TObjControl(tl_04), setData, index);
 }
@@ -474,10 +498,10 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, void *setData, s32 index) : TObj
     apply_set_data(setData);
     // Same statements as TObjEnemy::clear_lobby_object_state (0x800F5D80); the original expands them here.
     PanBARAObjectState objectState;
-    if (exchange_object_state((s32)&objectState, 1) != 0) {
+    if (exchange_object_state__9TObjEnemyFls(this, &objectState, 1) != 0) {
         objectState.unk_0 = 0;
         objectState.unk_6 = 0;
-        exchange_object_state((s32)&objectState, 0);
+        exchange_object_state__9TObjEnemyFls(this, &objectState, 0);
     }
     m_380 = index;
     texlist = TObjFish__sub_8001EDB0(TObjEnePanarms__entry_params_resource, lbl_8043CD38[m_380]);

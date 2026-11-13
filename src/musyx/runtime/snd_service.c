@@ -76,9 +76,9 @@ u16 sndRand(void) {
     return lbl_805D4630 >> 6;
 }
 
-s16 sndSin(s32 arg0) {
+s16 sndSin(s32 angle) {
     s16 *tbl = lbl_804F7168;
-    u32 t = arg0 & 0xFFF;
+    u32 t = angle & 0xFFF;
     if (t < 0x400U) {
         return tbl[t];
     }
@@ -101,7 +101,7 @@ void *sndBSearch(void *key, void *base, s32 num, s32 len, s32 (*cmp)(void *, voi
         l = 1;
         r = num;
         do {
-            if ((c = cmp(key, (ptr = (void *)((u32)base + len * ((m = (l + r) >> 1) - 1))))) == 0) {
+            if ((c = cmp(key, (ptr = (u8 *)base + len * ((m = (l + r) >> 1) - 1)))) == 0) {
                 return ptr;
             }
             if (c < 0) {
@@ -114,16 +114,16 @@ void *sndBSearch(void *key, void *base, s32 num, s32 len, s32 (*cmp)(void *, voi
     return 0;
 }
 
-void sndConvertMs(s32 *arg0) {
-    *arg0 <<= 8;
+void sndConvertMs(s32 *time) {
+    *time <<= 8;
 }
 
-void sndConvertTicks(u32 *arg0, s32 arg1) {
-    *(u32 *)((s8 *)arg0 + 0) = (u32) (((u32) (*(u32 *)((s8 *)arg0 + 0) << 0x10) / synthGetTicksPerSecond((void *) (arg1))) * 0x3E8) >> 5U;
+void sndConvertTicks(u32 *ticks, s32 seqId) {
+    *ticks = ((*ticks << 16) / synthGetTicksPerSecond((void *)seqId) * 1000) >> 5;
 }
 
-u32 sndConvert2Ms(u32 arg0) {
-    return arg0 >> 8U;
+u32 sndConvert2Ms(u32 time) {
+    return time >> 8;
 }
 
 }

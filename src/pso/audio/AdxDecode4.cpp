@@ -1,17 +1,7 @@
 // CRI adx_dcd5.c: the 4-bit ADX block decoders (mono, stereo, stereo as mono).
 #include "types.h"
-#include "pso/unk/text_803D31A4.h"
 #include "pso/unk/TLobby.h"
-#include "pso/audio/LscStream.h"
 #include "pso/unk/TLobby_803C4698.h"
-#include "pso/unk/TLobby_803CC0B4.h"
-#include "pso/audio/AdxStreamRuntime.h"
-#include "pso/audio/AdxEncoder.h"
-#include "pso/system/RefCountedWorkBuffer.h"
-#include "pso/audio/SjMemoryBuffer.h"
-#include "pso/audio/SjRingBuffer.h"
-#include "pso/unk/text_803CC294.h"
-#include "pso/unk/text_803CE568.h"
 
 struct AdxFrame {
     s16 scale;
@@ -23,9 +13,7 @@ extern "C" {
 extern const s32 adx_signed_nibbles[16] = {
     0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, -1,
 };
-}
 
-extern "C" {
 s32 lbl_805D7520;
 }
 
@@ -34,7 +22,7 @@ void TLobby::set_global_805D7520(s32 arg0) {
 }
 
 void TLobby::dispatch_receive_update() {
-    if ((s32) lbl_805D7520 == 0) {
+    if (lbl_805D7520 == 0) {
         ((s32 (*)())decode_adx_stereo)();
         return;
     }
@@ -185,7 +173,6 @@ s32 decode_adx_stereo(s8 *src, s32 nblk, s16 *outl, s16 *dlyl, s16 *outr, s16 *d
     dlyr[1] = r2;
     return nblk;
 }
-
 
 s32 decode_adx_mono_blocks(s8 *src, s32 nblk, s16 *out, s16 *dly, s16 k0, s16 k1) {
     s32 i;

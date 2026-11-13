@@ -107,8 +107,9 @@ void vidRemoveVoiceReferences(Prog_803B25CC *p) {
 }
 
 s32 vidMakeRoot(u8 *arg0) {
-    *(void **)((s8 *)arg0 + 0xFC) = (void *) *(void **)((s8 *)arg0 + 0xF8);
-    return *(s32 *)((s8 *)(*(void **)((s8 *)arg0 + 0xF8)) + 8);
+    SYNTH_VOICE_SV *svoice = (SYNTH_VOICE_SV *)arg0;
+    svoice->vidMasterList = svoice->vidList;
+    return svoice->vidList->vid;
 }
 
 #pragma push
@@ -300,8 +301,6 @@ void voiceSetPriority(Voice_803B2128 *svoice, u8 prio) {
 
 #pragma pop
 
-struct Cfg_803B2CF0 { u8 pad[0x210]; u8 voiceNum; u8 maxMusic; u8 maxSFX; };
-#define synthInfo_803B2CF0 (*(Cfg_803B2CF0 *)&synthInfo)
 #pragma push
 #pragma opt_common_subs on
 #pragma bool off
@@ -316,17 +315,17 @@ u32 voiceAllocate(u8 priority, u8 maxVoices, u16 allocId, u8 fxFlag) {
 
     if (!synthIdleWaitActive) {
         if (fxFlag) {
-            type_alloc = (voiceFxRunning >= synthInfo_803B2CF0.maxSFX && synthInfo_803B2CF0.voiceNum > synthInfo_803B2CF0.maxSFX);
+            type_alloc = (voiceFxRunning >= synthInfo.maxSFX && synthInfo.voiceNum > synthInfo.maxSFX);
 
-            if (synthInfo_803B2CF0.maxSFX <= maxVoices) {
+            if (synthInfo.maxSFX <= maxVoices) {
                 goto _skip_alloc;
             }
 
             goto _do_alloc;
         } else {
-            type_alloc = (voiceMusicRunning >= synthInfo_803B2CF0.maxMusic && synthInfo_803B2CF0.voiceNum > synthInfo_803B2CF0.maxMusic);
+            type_alloc = (voiceMusicRunning >= synthInfo.maxMusic && synthInfo.voiceNum > synthInfo.maxMusic);
 
-            if (synthInfo_803B2CF0.maxMusic <= maxVoices) {
+            if (synthInfo.maxMusic <= maxVoices) {
                 goto _skip_alloc;
             }
 

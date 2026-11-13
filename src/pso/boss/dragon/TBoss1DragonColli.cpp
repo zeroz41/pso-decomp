@@ -4,15 +4,8 @@
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/dragon/TBoss1DragonColli_C.h"
+#include "pso/boss/dragon/TBoss1DragonColli.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/system/task/TObject.h"
-class TBoss1DragonColli : public TObject {
-public:
-    TObject *objects[3];
-public:
-    virtual void render();
-    virtual ~TBoss1DragonColli();
-};
 
 #include "types.h"
 

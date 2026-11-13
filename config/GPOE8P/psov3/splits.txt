@@ -1859,7 +1859,7 @@ pso/enemy/panarms/TObjEnePanarmsAtkColli.cpp:
 pso/enemy/shinowa/TObjEneMe3Shinowa.cpp:
 	.text       start:0x800E3970 end:0x800E80A4
 	.rodata     start:0x8043CFA0 end:0x8043D008
-	.data       start:0x80495BE0 end:0x80495F3C
+	.data       start:0x80495BE0 end:0x804962F4
 	.bss        start:0x80500FC0 end:0x80501010
 	.sdata2     start:0x805DA5B8 end:0x805DA668
 
@@ -3402,22 +3402,9 @@ pso/system/movie/TMovie_80143DF0.cpp:
 	.text       start:0x80143DF0 end:0x80143E90
 
 pso/system/movie/TMovie_80143E90.cpp:
-	.text       start:0x80143E90 end:0x801443C0
-	.sdata2     start:0x805DB178 end:0x805DB180
-
-pso/system/movie/TMovie_801443C0.cpp:
-	.text       start:0x801443C0 end:0x80144484
-
-pso/system/movie/TMovie_80144484.cpp:
-	.text       start:0x80144484 end:0x801444C0
-
-pso/system/movie/TMovie_801444C0.cpp:
-	.text       start:0x801444C0 end:0x80144778
-
-pso/system/movie/TMovie_80144778.cpp:
-	.text       start:0x80144778 end:0x801449FC
+	.text       start:0x80143E90 end:0x801449FC
 	.rodata     start:0x8043F380 end:0x8043F390
-	.sdata2     start:0x805DB180 end:0x805DB18C
+	.sdata2     start:0x805DB178 end:0x805DB18C
 
 pso/ui/font/TNECFontEORFunction.cpp:
 	.text       start:0x801449FC end:0x80144B14
@@ -6458,6 +6445,7 @@ pso/technique/TTecGiBarta.cpp:
 pso/technique/TTecGiFoie.cpp:
 	.text       start:0x80230D9C end:0x80231AF0
 	.rodata     start:0x8044D350 end:0x8044D368
+	.sdata2     start:0x805DC810 end:0x805DC828
 
 pso/technique/TTecGiZonde_80231AF0.cpp:
 	.text       start:0x80231AF0 end:0x80231BF4

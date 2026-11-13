@@ -2,14 +2,24 @@
 #define PSO_ENEMY_FLY_TOBJENEBM3FLYNEST_H
 
 #include "types.h"
+#include <stddef.h>
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/render/RenderFadeState.h"
+
+struct BmlResource;
+
+// The set entry TObjEneBm3FlyNest::create passes to the constructor; the constructor caps
+// total_num with the s16 at +2.
+struct Bm3FlyNestSetData {
+    u16 unknown_00;
+    s16 unknown_02;
+};
 
 // The nest of the Bm3 flies: it keeps up to six TObjEneBm3Fly children alive (start_num at
 // first, total_num in all, both from its set parameters) and sends TObjEneBm3FlyNest_CarryFly
 // effects out when it is hit.
 struct TObjEneBm3FlyNest : public TObjEneDD {
-    TObjEneBm3FlyNest(TObject *parent, void *set_data);
+    TObjEneBm3FlyNest(TObject *parent, Bm3FlyNestSetData *set_data);
     virtual ~TObjEneBm3FlyNest();
     virtual void run_task();
     virtual void render();
@@ -41,14 +51,14 @@ struct TObjEneBm3FlyNest : public TObjEneDD {
     s32 copy_target_state(s32 sound_id);
     static void capture_attachment(void * _w0);
     static void handle_attachment_sample(s32);
-    static u8 *sub_800B4158();
+    static BmlResource *sub_800B4158();
     void remove_child(u8 *child);
     s32 has_free_attack_slot(u16 id);
     void spawn_child();
     void update_replenish();
     void copy_pos();
     static void free_fly();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     static void load_resources();
     static void init_vertex_table();
 
@@ -62,10 +72,10 @@ struct TObjEneBm3FlyNest : public TObjEneDD {
     s32 unk_398[4];
     s32 unk_3a8;
     s32 unk_3ac;
-    s32 unk_3b0;
-    s32 unk_3b4;
-    u16 unk_3b8[6];
-    u16 unk_3c4;
+    s32 child_count;     // live children in child_ids
+    s32 spawned_count;   // children spawned so far (capped by total_num)
+    u16 child_ids[6];
+    u16 next_child_id;   // entity id the next child gets
     Vec unk_3c8[2];
     Vec unk_3e0[8];
     RenderFadeState fades[4];  // one per camera (render)
@@ -83,6 +93,9 @@ struct TObjEneBm3FlyNest : public TObjEneDD {
 };
 
 typedef char TObjEneBm3FlyNest_size[sizeof(TObjEneBm3FlyNest) == 0x4DC ? 1 : -1];
+typedef char TObjEneBm3FlyNest_child_count_offset[offsetof(TObjEneBm3FlyNest, child_count) == 0x3B0 ? 1 : -1];
+typedef char TObjEneBm3FlyNest_fades_offset[offsetof(TObjEneBm3FlyNest, fades) == 0x440 ? 1 : -1];
+typedef char TObjEneBm3FlyNest_unk_4d8_offset[offsetof(TObjEneBm3FlyNest, unk_4d8) == 0x4D8 ? 1 : -1];
 
 
 #endif

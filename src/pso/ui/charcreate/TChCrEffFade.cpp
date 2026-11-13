@@ -16,13 +16,13 @@ void TChCrEffFade::render() {
     f32 temp_f0;
 
     TCameraCtrl::restore_full_screen_view();
-    switch (*(s32 *)((s8 *)this + 0x2C)) {
+    switch (mode) {
     case 0:
-        draw_fade_strip__12TChCrEffFadeFf(this, *(f32 *)((s8 *)this + 0x28));
+        draw_fade_strip__12TChCrEffFadeFf(this, alpha);
         break;
     case 1:
-        fn_80293E58(this, *(f32 *)((s8 *)this + 0x28));
-        temp_f0 = *(f32 *)((s8 *)this + 0x28);
+        fn_80293E58(this, alpha);
+        temp_f0 = alpha;
         draw_fade_strip__12TChCrEffFadeFf(this, temp_f0 * temp_f0);
         break;
     }
@@ -31,24 +31,23 @@ void TChCrEffFade::render() {
 
 
 void TChCrEffFade::update_fade() {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r6;
 
-    temp_r6 = *(s32 *)((s8 *)arg0 + 0x24);
+    temp_r6 = frame;
     if (temp_r6 <= 3) {
-        *(f32 *)((s8 *)arg0 + 0x28) = 1.0f;
+        alpha = 1.0f;
         return;
     }
-    *(f32 *)((s8 *)arg0 + 0x28) = (f32) (1.0f - ((temp_r6 - 3) / (f32) (*(s32 *)((s8 *)arg0 + 0x20) - 3)));
+    alpha = (f32) (1.0f - ((temp_r6 - 3) / (f32) (length - 3)));
 }
 
 void TChCrEffFade::run_task() {
     s32 temp_r3;
 
-    *(s32 *)((s8 *)this + 0x24) = (s32) (*(s32 *)((s8 *)this + 0x24) + *(s32 *)((s8 *)this + 0x1C));
+    frame = (s32) (frame + step);
     update_fade();
-    temp_r3 = *(s32 *)((s8 *)this + 0x24);
-    if ((temp_r3 <= 0) || (temp_r3 >= (s32) *(s32 *)((s8 *)this + 0x20))) {
+    temp_r3 = frame;
+    if ((temp_r3 <= 0) || (temp_r3 >= (s32) length)) {
         queue_destruction();
     }
 }
@@ -61,24 +60,24 @@ TChCrEffFade::~TChCrEffFade() {}
 TChCrEffFade::TChCrEffFade(s32 arg1, s32 arg2, s32 arg3) : TObject((TObject *)tl_fade) {
     s32 temp_r0;
     s32 temp_r0_2;
-    *(s32 *)((s8 *)this + 0) = (s32) lbl_805D3CC0;
-    *(s32 *)((s8 *)this + 0x1C) = arg1;
-    *(s32 *)((s8 *)this + 0x20) = (arg2 + 3);
-    temp_r0 = *(s32 *)((s8 *)this + 0x20);
+    m_name = (const char *)lbl_805D3CC0;
+    step = arg1;
+    length = (arg2 + 3);
+    temp_r0 = length;
     if (temp_r0 < 4) {
-        *(s32 *)((s8 *)this + 0x20) = 4;
+        length = 4;
     } else if (temp_r0 > 0x1C2) {
-        *(s32 *)((s8 *)this + 0x20) = 0x1C2;
+        length = 0x1C2;
     }
-    temp_r0_2 = *(s32 *)((s8 *)this + 0x1C);
+    temp_r0_2 = step;
     if (temp_r0_2 == 1) {
-        *(s32 *)((s8 *)this + 0x24) = 0;
+        frame = 0;
     } else if (temp_r0_2 == -1) {
-        *(s32 *)((s8 *)this + 0x24) = (s32) *(s32 *)((s8 *)this + 0x20);
+        frame = (s32) length;
     } else {
-        *(s32 *)((s8 *)this + 0x1C) = 1;
-        *(s32 *)((s8 *)this + 0x24) = 0;
+        step = 1;
+        frame = 0;
     }
     this->update_fade();
-    *(s32 *)((s8 *)this + 0x2C) = arg3;
+    mode = arg3;
 }

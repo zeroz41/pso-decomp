@@ -2,26 +2,19 @@
 #include "types.h"
 #include "pso/enemy/berura/TObjEneRe7BeruraPunch.h"
 #include "pso/enemy/dd/TObjEneDD_800BA138.h"
-#include "pso/enemy/berura/TObjEneRe7BeruraPunch_80095E18.h"
-#include "pso/enemy/berura/TObjEneRe7BeruraPunch.h"
-#include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
-#include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TUnk_804928CC.h"
-#include "pso/render/TUnk_80490470.h"
-#include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/enemy/dellbiter/TObjEneDellBiter.h"
-#include "pso/ui/hud/TNowLoading.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/unk/text_80086B64.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/enemy/AttackTargetHistory.h"
 #include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
@@ -33,7 +26,7 @@ s32 apply_hit_if_active__13TUnk_804928CCFPvPf();
 f32 random_ratio__9TObjCharaFv();
 u16 get_entity_id(void *);
 
-int TObjEneRe7BeruraPunch::is_patrol_active() { return (*(u32 *)&this->m_b0 >> 2) & 0x1; }
+int TObjEneRe7BeruraPunch::is_patrol_active() { return (*(u32 *)&this->owner_id >> 2) & 0x1; }
 
 void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *) {
     s32 entity;
@@ -42,7 +35,7 @@ void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *) {
     if (TObjEneDD::check_v2_mode() != 0) {
         get_entity_id((void *)target);
         if (is_player_entity_id() != 0) {
-            entity = (s32)find_entity_by_id(this->m_b0);
+            entity = (s32)find_entity_by_id(this->owner_id);
             if ((entity != 0) && (random_ratio__9TObjCharaFv() < 0.1f)) {
                 TObjEneDD__sub_800BA438(entity, (u8 *)target);
             }
@@ -52,44 +45,15 @@ void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *) {
 
 }
 
-struct VBase_14_c1c33b { char pad[0x14]; };
-
-struct VObj_14_c1c33b : VBase_14_c1c33b {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual s32 m4();
-};
-
-struct Stack_80096030 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 struct Pair_80096150 { s32 a; s32 b; };
 
 extern "C" {
 
-u8 * csnVector(s32, s32, s32);
 s32 TObjEneRe7Berura__sub_80094D98();
 
 void TObjEneRe7Berura__sub_80094C68(TObjEneRe7Berura *self);
 s32 refresh_collision_body_centers__14TObjCollidableFv(void *, void *, f32, f32);
 extern Pair_80096150 lbl_80439F28[];
-
-struct VObjHang_80095EA0 {
-    char pad[0x14];
-    virtual s32 m0();
-    virtual s32 m1();
-    virtual s32 m2();
-    virtual s32 m3();
-    virtual s32 m4();
-    virtual s32 m5();
-    virtual s32 m6();
-    virtual s32 m7();
-};
 
 s32 post_translate_matrix(void *);
 s32 scale_matrix(s32, f32, f32, f32);
@@ -99,49 +63,45 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 
 void TObjEneRe7BeruraPunch::render() {
-    u8 *arg0 = (u8 *)this;
     f32 temp_f1;
 
-    if ((s32) this->m_b4 != 0) {
+    if (this->m_b4 != 0) {
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
-        if ((s32) this->m_b4 == 2) {
-            ((VObjHang_80095EA0 *)(arg0 + 0xF8))->m6();
-            if (((TObject *)arg0)->defer_render() != 0) {
+        if (this->m_b4 == 2) {
+            this->m_f8.set_flags_and_apply_damage_color();
+            if (this->defer_render() != 0) {
                 model_render_flags = saved_model_render_flags;
                 return;
             }
         }
-        ((TObjEneDD *)(arg0 + 0x38))->draw_oriented_shadow((s32)(arg0 + 0xE8), 0, (u32)0);
+        ((TObjEneDD *)&this->position)->draw_oriented_shadow((s32)&this->ground_normal, 0, (u32)0);
         TObjPlayer::toggle_particle_effect();
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
-        translate_matrix(0, 0.0f, *(f32 *)&this->unk_CC, 0.0f);
+        post_translate_matrix(&this->position);
+        translate_matrix(0, 0.0f, this->m_cc, 0.0f);
         rotate_matrix_y(0, this->rotation_y);
         temp_f1 = this->m_f4;
         scale_matrix(0, temp_f1, temp_f1, 1.0f);
         TObjEneRe7Berura::init_part(this->m_b8);
         pop_matrix();
-        if ((s32) this->m_b4 == 2) {
-            ((VObjHang_80095EA0 *)(arg0 + 0xF8))->m7();
+        if (this->m_b4 == 2) {
+            this->m_f8.clear_flag_and_notify();
         }
         TParticleCtrl::end_effect_render();
         model_render_flags = saved_model_render_flags;
     }
 }
 
-// 10.0f keeps its data symbol: declared here, defined after its first use so it lands in pool order.
-
 #pragma push
 #pragma fp_contract on
 void TObjEneRe7BeruraPunch::update_velocity_and_snap() {
-    u8 *arg0 = (u8 *)this;
-    if (((VObj_14_c1c33b *)(arg0 + (248)))->m4() != 0) {
+    if (this->m_f8.decay_value_toward_floor() != 0) {
         this->m_b4 = 0;
     }
-    *(f32 *)&this->m_dc = (f32) ((0.2f * (10.0f * *(f32 *)&this->unk_BC)) + *(f32 *)&this->m_dc);
-    this->m_e4 = (f32) ((0.2f * (10.0f * *(f32 *)&this->unk_C4)) + this->m_e4);
-    ((TObjEneRe7BeruraPunch *)arg0)->snap_to_ground();
+    this->m_dc.x = (0.2f * (10.0f * this->m_bc)) + this->m_dc.x;
+    this->m_dc.z = (0.2f * (10.0f * this->m_c4)) + this->m_dc.z;
+    this->snap_to_ground();
 }
 #pragma pop
 
@@ -152,34 +112,32 @@ const char *TObjEneRe7BeruraPunch__name = "TObjEneRe7BeruraPunch";
 #pragma opt_propagation off
 #pragma fp_contract on
 void TObjEneRe7BeruraPunch::update_flight() {
-    typedef char sp8_offset[(offsetof(Stack_80096030, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80096030, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80096030, sp10) == 0x8) ? 1 : -1];
-    Stack_80096030 stack;
-    s32 var_r31;
-    u8 *temp_r3;
+    Vec target;
+    s32 blocked;
+    CsnHit *hit;
+
     this->m_f4 += 0.15f;
     if (this->m_f4 > 2.0f) {
         this->m_f4 = 2.0f;
     }
-    var_r31 = 0;
+    blocked = 0;
     this->m_114 += 10.0f;
-    stack.sp8 = (10.0f * *(f32 *)&this->unk_BC) + *(f32 *)((s8 *)((u8 *)this) + 0x38);
-    stack.spC = *(f32 *)&this->unk_E0;
-    stack.sp10 = (10.0f * *(f32 *)&this->unk_C4) + *(f32 *)((s8 *)((u8 *)this) + 0x40);
-    temp_r3 = (u8 *)(csnVector((s32) (((u8 *)this) + 0xDC), (s32) &stack.sp8, 0x88E0));
-    if (temp_r3 != NULL) {
-        var_r31 = 1;
-        *(f32 *)&this->m_dc = (f32) **(f32 **)((s8 *)temp_r3 + 4);
-        *(f32 *)&this->m_dc = (f32) **(f32 **)((s8 *)temp_r3 + 4);
+    target.x = (10.0f * this->m_bc) + this->position.x;
+    target.y = this->m_dc.y;
+    target.z = (10.0f * this->m_c4) + this->position.z;
+    hit = csnVector(&this->m_dc, &target, 0x88E0);
+    if (hit != NULL) {
+        blocked = 1;
+        this->m_dc.x = hit->contact->point.x;
+        this->m_dc.x = hit->contact->point.x;
     } else {
-        *(f32 *)&this->m_dc = stack.sp8;
-        this->m_e4 = stack.sp10;
+        this->m_dc.x = target.x;
+        this->m_dc.z = target.z;
     }
     this->snap_to_ground();
-    if ((var_r31 != 0) || (sub_80096150() != 0) || (this->m_114 > this->m_c8)) {
+    if ((blocked != 0) || (sub_80096150() != 0) || (this->m_114 > this->m_c8)) {
         this->m_b4 = 2;
-        if (find_entity_by_id(this->m_b0) != NULL) {
+        if (find_entity_by_id(this->owner_id) != NULL) {
             TObjEneRe7Berura__sub_80094D98();
         }
     }
@@ -187,259 +145,205 @@ void TObjEneRe7BeruraPunch::update_flight() {
 #pragma pop
 
 s32 TObjEneRe7BeruraPunch::sub_80096150() {
-    u8 *entity;
-    void *temp_r4_2;
-    entity = (u8 *)find_entity_by_id(this->m_b0);
-    *(f32 *)((s8 *)this->bodies + 4) = *(f32 *)&this->unk_CC;
-    *(f32 *)((s8 *)this->bodies + 0x30) = *(f32 *)&this->unk_CC;
-    temp_r4_2 = this->bodies;
-    *(f32 *)((s8 *)temp_r4_2 + 0x34) = 1.8f * (3.0f * this->m_f4);
-    refresh_collision_body_centers__14TObjCollidableFv(this, temp_r4_2, 3.0f, 1.8f);
-    ((TObjPlayer *)this)->update_enemy_collision_flags();
-    temp_r4_2 = this->bodies;
-    if ((*(s32 *)((s8 *)temp_r4_2 + 0x18) | *(s32 *)((s8 *)temp_r4_2 + 0x44)) & 0x200000) {
+    TObjEneRe7Berura *owner;
+    CollisionBody *bodies;
+
+    owner = (TObjEneRe7Berura *)find_entity_by_id(this->owner_id);
+    this->bodies[0].offset.y = this->m_cc;
+    this->bodies[1].offset.y = this->m_cc;
+    bodies = this->bodies;
+    bodies[1].offset.z = 1.8f * (3.0f * this->m_f4);
+    refresh_collision_body_centers__14TObjCollidableFv(this, bodies, 3.0f, 1.8f);
+    this->update_enemy_collision_flags();
+    bodies = this->bodies;
+    if ((bodies[0].flags | bodies[1].flags) & 0x200000) {
         return 1;
     }
-    if (entity != 0) {
-        ((TObjEneRe7Berura *)entity)->reload_stats_from_tables();
+    if (owner != 0) {
+        owner->reload_stats_from_tables();
     }
     Pair_80096150 p = lbl_80439F28[0];
     if (TObjEneDD::check_v2_mode() != 0) {
         p.b &= ~2;
     }
-    this->call_vt16_with_default((void *)&p, (void *)(*(s32 *)&this->_padD8));
-    if (entity != 0) {
-        TObjEneRe7Berura__sub_80094C68((TObjEneRe7Berura *)entity);
+    this->call_vt16_with_default(&p, this->attack_history);
+    if (owner != 0) {
+        TObjEneRe7Berura__sub_80094C68(owner);
     }
     return 0;
 }
 
 void TObjEneRe7BeruraPunch::launch(s32 arg1, s32 arg2) {
-    u8 *arg0 = (u8 *)this;
-    u8 *entity;
+    TObjCollidable *owner;
 
     this->m_b8 = arg1;
-    VecCopy((Vec *)&this->m_dc, (const Vec *)arg2);
-    ((TObjEneRe7BeruraPunch *)arg0)->snap_to_ground();
-    entity = (u8 *)find_entity_by_id(this->m_b0);
-    if (entity != NULL) {
-        this->rotation_y = (s32) *(s32 *)((s8 *)entity + 0x60);
+    VecCopy(&this->m_dc, (const Vec *)arg2);
+    this->snap_to_ground();
+    owner = find_entity_by_id(this->owner_id);
+    if (owner != NULL) {
+        this->rotation_y = owner->rotation_y;
     } else {
         this->rotation_y = 0;
     }
-    *(f32 *)&this->unk_BC = sin_table_lookup(this->rotation_y);
+    this->m_bc = sin_table_lookup(this->rotation_y);
     this->m_c0 = 0.0f;
-    *(f32 *)&this->unk_C4 = cos_table_lookup(this->rotation_y);
-    this->m_c8 = (f32) 3e+02f;
-    ((TObjEneRe7BeruraPunch *)arg0)->reset();
+    this->m_c4 = cos_table_lookup(this->rotation_y);
+    this->m_c8 = 300.0f;
+    this->reset();
     this->m_b4 = 1;
 }
 
 }
 
-struct Stack_80096300
-{
-  s32 sp8;
-  f32 spC;
-};
-
-// The punch's two collision spheres (radius 3), handed to the TUnk_804928CC ctor as an array of 2.
-struct RecoveredGlobal_80096750_lbl_8048F930 {
-    CollisionBody value;
-    CollisionBody remaining;
-};
-
-struct RecoveredGlobal_80096750___vt__21TObjEneRe7BeruraPunch {
-    s32 value;
-    u8 remaining[0x5C];
-};
-
-struct Vec_8009640C { f32 x, y, z; };
-
-struct Ang_8009640C { s32 x, y, z; };
-
 extern "C" {
-s32 *csnVecterUnder(s32 origin, s32 mask);
 
-u16 get_entity_id(void *);
-RecoveredGlobal_80096750_lbl_8048F930 TObjEneRe7BeruraPunch__collision_body_templates = {
+// The punch's two collision spheres (radius 3).
+CollisionBody TObjEneRe7BeruraPunch__collision_body_templates[2] = {
     {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
-extern s32 __vt__21TObjEneRe7BeruraPunch[];
 extern const char *TObjEneRe7BeruraPunch__name;
-u8 *TObjEneRe7BeruraPunch__ct(u8 *arg0, s32 arg1, s32 arg2);
+void queue_destruction__7TObjectFv(void *);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 void vec3_add_to(void *, void *);
 
-struct BeruraBase_800962F4 { char pad[0x14]; };
-struct BeruraObj_800962F4 : BeruraBase_800962F4 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-};
-struct EneBBase_800962F4 { char pad[0x14]; };
-struct EneBVObj_800962F4 : EneBBase_800962F4 {
-    virtual void m0();
-    virtual void m1(s32);
-};
+void TObjEneRe7BeruraPunch__sub_800962F4(TObjEneRe7BeruraPunch *p);
+s32 fill_value_array(void *);
 
-void TObjEneRe7BeruraPunch__sub_800962F4(void* p);
-void *__dt__21TObjEneRe7BeruraPunchFv(void *arg0, s16 arg1);
-s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
-u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
-void *__dt__13TUnk_80490470Fv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
-s32 fill_value_array(s32);
+void TObjEneRe7BeruraPunch__sub_800962F4(TObjEneRe7BeruraPunch *p) { p->m_b4 = 0; }
 
-void TObjEneRe7BeruraPunch__sub_800962F4(void* p) { *(s32*)((char*)p + 0xb4) = 0; }
-
-typedef struct Stack_80096300 Stack_80096300;
 void TObjEneRe7BeruraPunch::snap_to_ground() {
-    u8 *arg0 = (u8 *)this;
-  Stack_80096300 stack;
-  f32 new_var;
-  u8 *temp_r3;
-  VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0xDC));
-  stack.spC = 2e+01f;
-  temp_r3 = (u8 *)csnVecterUnder((s32)&stack.sp8, 0x16EF);
-  if (temp_r3 != 0)
-  {
-    VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(*((s32 *) (((s8 *) temp_r3) + 4))));
-    VecCopy((Vec *)(arg0 + 0xE8), (const Vec *)((*((s32 *) (((s8 *) temp_r3) + 4))) + 0xC));
-  }
-  else
-  {
-    *((f32 *) (((s8 *) arg0) + 0x38)) = (f32) (*((f32 *) (((s8 *) arg0) + 0xDC)));
-    *((f32 *) (((s8 *) arg0) + 0x40)) = this->m_e4;
-  }
-  new_var = *((f32 *) (((s8 *) arg0) + 0xE0));
-  *((f32 *) (((s8 *) arg0) + 0xCC)) = (f32) (new_var - (*((f32 *) (((s8 *) arg0) + 0x3C))));
-  if ((*((f32 *) (((s8 *) arg0) + 0xCC))) < 10.0f)
-  {
-    *((f32 *) (((s8 *) arg0) + 0xE0)) = (f32) (10.0f + (*((f32 *) (((s8 *) arg0) + 0x3C))));
-    *((f32 *) (((s8 *) arg0) + 0xCC)) = 10.0f;
-  }
-  if ((new_var && new_var) && new_var)
-  {
-  }
+    Vec origin;
+    f32 y;
+    CsnHit *hit;
+
+    VecCopy(&origin, &this->m_dc);
+    origin.y = 20.0f;
+    hit = (CsnHit *)csnVecterUnder((s32)&origin, 0x16EF);
+    if (hit != 0) {
+        VecCopy(&this->position, &hit->contact->point);
+        VecCopy(&this->ground_normal, &hit->contact->normal);
+    } else {
+        this->position.x = this->m_dc.x;
+        this->position.z = this->m_dc.z;
+    }
+    y = ((f32 *)&this->m_dc)[1];
+    this->m_cc = y - this->position.y;
+    if (this->m_cc < 10.0f) {
+        ((f32 *)&this->m_dc)[1] = 10.0f + this->position.y;
+        this->m_cc = 10.0f;
+    }
+    if ((y && y) && y) {
+    }
 }
 
 void TObjEneRe7BeruraPunch::reset() {
-    u8 *arg0 = (u8 *)this;
-    fill_value_array(*(s32 *)&this->_padD8);
+    fill_value_array(this->attack_history);
     this->m_f4 = 1.0f;
-    ((BeruraObj_800962F4*)(arg0 + 0xF8))->m2();
-    *(s32 *)&this->unk_118 = 0;
+    this->m_f8.reset_color();
+    this->m_118 = 0;
     this->m_114 = 0.0f;
 }
 
 void TObjEneRe7BeruraPunch::run_task() {
-    u8 *arg0 = (u8 *)this;
-    Ang_8009640C ang;
-    Vec_8009640C v;
+    ParticleAngles ang;
+    Vec v;
     f32 s;
     f32 c;
-    if (find_entity_by_id(this->m_b0) == 0U || all_parents_unqueued_for_destruction__7TObjectFv() == 0) {
-        ((TObject *)arg0)->queue_destruction();
+    if (find_entity_by_id(this->owner_id) == NULL || all_parents_unqueued_for_destruction__7TObjectFv() == 0) {
+        queue_destruction__7TObjectFv(this);
         return;
     }
-    switch (*(s32 *)&this->m_b4) {
+    switch (this->m_b4) {
     case 0:
         break;
     case 1:
-        ((TObjEneRe7BeruraPunch *)arg0)->update_flight();
+        this->update_flight();
         break;
     case 2:
-        ((TObjEneRe7BeruraPunch *)arg0)->update_velocity_and_snap();
+        this->update_velocity_and_snap();
         break;
     }
-    if (*(s32 *)&this->m_b4 == 1) {
+    if (this->m_b4 == 1) {
         ang.x = 0;
         ang.y = this->rotation_y + 0x4000;
         ang.z = -0x4000;
         s = -sin_table_lookup(this->rotation_y);
         c = -cos_table_lookup(this->rotation_y);
-        if (*(void * *)&this->m_d0 == NULL) {
-            *(void * *)&this->m_d0 = create_particle_emitter(&this->position, 0xDD);
-            if (*(void * *)&this->m_d0 != NULL) {
-                ((TParticleCtrl *)(*(void * *)&this->m_d0))->set_flags(2);
-                ((TParticleCtrl *)(*(void * *)&this->m_d0))->enable();
+        if (this->m_d0 == NULL) {
+            this->m_d0 = create_particle_emitter(&this->position, 0xDD);
+            if (this->m_d0 != NULL) {
+                this->m_d0->set_flags(2);
+                this->m_d0->enable();
             }
         } else {
-            v.x = 4e+01f * s;
+            v.x = 40.0f * s;
             v.y = 3.0f;
-            v.z = 4e+01f * c;
-            vec3_add_to(&v, (u8 *)&this->m_dc);
-            ((TParticleCtrl *)*(void * *)&this->m_d0)->set_position(&v);
-            ((TParticleCtrl *)(*(void * *)&this->m_d0))->set_direction(&ang);
+            v.z = 40.0f * c;
+            vec3_add_to(&v, &this->m_dc);
+            this->m_d0->set_position(&v);
+            this->m_d0->set_direction(&ang);
         }
-        if (*(void * *)&this->m_d4 == NULL) {
-            *(void * *)&this->m_d4 = create_particle_emitter(&this->position, 0x150);
-            if (*(void * *)&this->m_d4 != NULL) {
-                ((TParticleCtrl *)(*(void * *)&this->m_d4))->set_flags(2);
-                ((TParticleCtrl *)(*(void * *)&this->m_d4))->enable();
+        if (this->m_d4 == NULL) {
+            this->m_d4 = create_particle_emitter(&this->position, 0x150);
+            if (this->m_d4 != NULL) {
+                this->m_d4->set_flags(2);
+                this->m_d4->enable();
             }
         } else {
-            v.x = (-2e+01f) * s;
+            v.x = -20.0f * s;
             v.y = 5.0f;
-            v.z = (-2e+01f) * c;
-            vec3_add_to(&v, (u8 *)&this->m_dc);
-            ((TParticleCtrl *)*(void * *)&this->m_d4)->set_position(&v);
-            ((TParticleCtrl *)(*(void * *)&this->m_d4))->set_direction(&ang);
+            v.z = -20.0f * c;
+            vec3_add_to(&v, &this->m_dc);
+            this->m_d4->set_position(&v);
+            this->m_d4->set_direction(&ang);
         }
     } else {
-        if (*(void * *)&this->m_d0 != NULL) {
-            ((TParticleCtrl *)(*(void * *)&this->m_d0))->enable();
+        if (this->m_d0 != NULL) {
+            this->m_d0->enable();
         }
-        if (*(void * *)&this->m_d4 != NULL) {
-            ((TParticleCtrl *)(*(void * *)&this->m_d4))->enable();
+        if (this->m_d4 != NULL) {
+            this->m_d4->enable();
         }
     }
 }
 
 }
 TObjEneRe7BeruraPunch::~TObjEneRe7BeruraPunch() {
-    if (*(void **)((s8 *)this + 0xD0) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xD0)))->queue_destruction(); this->m_d0 = 0; }
-    if (*(void **)((s8 *)this + 0xD4) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xD4)))->queue_destruction(); this->m_d4 = 0; }
-    if (*(void **)((s8 *)this + 0xD8) != NULL) { __dt__17AreaAttackHistoryFv((s32)(*(void **)((s8 *)this + 0xD8)), 1); *(s32 *)((s8 *)this + 0xD8) = 0; }
-    __dt__13TUnk_80490470Fv((s8 *)this + 0xF8, -1);
+    if (this->m_d0 != NULL) {
+        queue_destruction__7TObjectFv(this->m_d0);
+        this->m_d0 = 0;
+    }
+    if (this->m_d4 != NULL) {
+        queue_destruction__7TObjectFv(this->m_d4);
+        this->m_d4 = 0;
+    }
+    if (this->attack_history != NULL) {
+        delete this->attack_history;
+        this->attack_history = 0;
+    }
 }
 extern "C" {
 
 void TObjEneRe7BeruraPunch::init() {
-    u8 *arg0 = (u8 *)this;
-    s32 var_r0;
-    u32 var_a;
-
     this->m_b4 = 0;
     this->m_b8 = 0;
-    *(f32 *)&this->unk_BC = 0.0f;
+    this->m_bc = 0.0f;
     this->m_c0 = 0.0f;
-    *(f32 *)&this->unk_C4 = 0.0f;
+    this->m_c4 = 0.0f;
     this->m_c8 = 0.0f;
-    *(f32 *)&this->unk_CC = 0.0f;
+    this->m_cc = 0.0f;
     this->m_d0 = 0;
     this->m_d4 = 0;
-    var_a = (int)::operator new(0x10);
-    var_r0 = var_a;
-    if (var_r0 != 0) {
-        var_r0 = (s32)__ct__17AreaAttackHistoryFl((u8 *)var_a, 9);
-    }
-    *(s32 *)&this->_padD8 = var_r0;
-    ((EneBVObj_800962F4*)(arg0 + 0xF8))->m1(0);
+    this->attack_history = new AreaAttackHistory(9);
+    this->m_f8.set_rate_from_divisor(0);
     reset();
 }
-typedef char RecoveredGlobal_80096750_lbl_8048F930_size[sizeof(RecoveredGlobal_80096750_lbl_8048F930) == 0x58 ? 1 : -1];
-typedef char RecoveredGlobal_80096750___vt__21TObjEneRe7BeruraPunch_size[sizeof(RecoveredGlobal_80096750___vt__21TObjEneRe7BeruraPunch) == 0x60 ? 1 : -1];
-u8 *TObjEneRe7BeruraPunch__ct(u8 *ene_re7_berura_punch, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804928CCFP7TObjectP8TObjBasePC13CollisionBodyl(ene_re7_berura_punch, (void *)arg1, (void *)arg2, &TObjEneRe7BeruraPunch__collision_body_templates.value, 2);
-    *(s32 **)((s8 *)ene_re7_berura_punch + 0x18) = &(*(RecoveredGlobal_80096750___vt__21TObjEneRe7BeruraPunch *)&__vt__21TObjEneRe7BeruraPunch).value;
-    __ct__13TUnk_80490470Fv((ene_re7_berura_punch + 0xF8));
-    *(s32 *)((s8 *)ene_re7_berura_punch + 0) = (s32) ((s32)TObjEneRe7BeruraPunch__name);
-    ((TObjEneRe7BeruraPunch *)ene_re7_berura_punch)->m_b0 = get_entity_id((void *)arg2);
-    ((TObjEneRe7BeruraPunch *)ene_re7_berura_punch)->init();
-    return ene_re7_berura_punch;
+TObjEneRe7BeruraPunch::TObjEneRe7BeruraPunch(TObject *parent, TObjBase *owner)
+    : TUnk_804928CC(parent, owner, TObjEneRe7BeruraPunch__collision_body_templates, 2) {
+    m_name = TObjEneRe7BeruraPunch__name;
+    owner_id = get_entity_id(owner);
+    init();
 }
 
 }

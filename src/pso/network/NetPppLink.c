@@ -5,14 +5,12 @@
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
-/* This file's functions. */
-s32 clear_socket_slot(s16 i);
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_804048E8.h"
 #include "pso/network/NetworkTransport.h"
 
-#include <stddef.h>
 #include "pso/network/NetStackTypes.h"
+#include "pso/network/PppFsm.h"
 
 extern u8 lbl_805C0038[];
 
@@ -25,28 +23,28 @@ void TLobby__sub_803FD0C0(void) {
     TLobby__sub_803F7980(g);
 }
 
-typedef void (*Fn_803FD10C)(void);
-s32 TLobby__sub_803FD404(s16 ch, u32 addr);
+typedef void (*PppLinkHandler)(void);
+s32 TLobby__sub_803FD404(s16 ch, u8 *addr);
 s32 TLobby__sub_803FD60C();
 
 s16 TLobby__sub_803FD10C(void) {
-    Fn_803FD10C fns[11];
+    PppLinkHandler fns[11];
     s16 r;
     s16 i;
     s16 *p;
 
     init_buffer_desc_b(&lobby_net_buffer_desc_b);
-    fns[0] = (Fn_803FD10C)TLobby__sub_803FD60C;
-    fns[1] = (void (*)())TLobby__sub_803FD5A4;
-    fns[2] = (Fn_803FD10C)clear_socket_slot;
-    fns[3] = (Fn_803FD10C)get_checked_status_value;
-    fns[4] = (Fn_803FD10C)TLobby__sub_803FD4FC;
-    fns[5] = (Fn_803FD10C)TLobby__sub_803FD4D8;
-    fns[6] = (Fn_803FD10C)TLobby__sub_803FD4B4;
-    fns[7] = (Fn_803FD10C)TLobby__sub_803FD490;
-    fns[8] = (Fn_803FD10C)TLobby__sub_803FD404;
-    fns[9] = (void (*)())TLobby__sub_803FD310;
-    fns[10] = (void (*)())TLobby__sub_803FD21C;
+    fns[0] = (PppLinkHandler)TLobby__sub_803FD60C;
+    fns[1] = (PppLinkHandler)TLobby__sub_803FD5A4;
+    fns[2] = (PppLinkHandler)clear_socket_slot;
+    fns[3] = (PppLinkHandler)get_checked_status_value;
+    fns[4] = (PppLinkHandler)TLobby__sub_803FD4FC;
+    fns[5] = (PppLinkHandler)TLobby__sub_803FD4D8;
+    fns[6] = (PppLinkHandler)TLobby__sub_803FD4B4;
+    fns[7] = (PppLinkHandler)TLobby__sub_803FD490;
+    fns[8] = (PppLinkHandler)TLobby__sub_803FD404;
+    fns[9] = (PppLinkHandler)TLobby__sub_803FD310;
+    fns[10] = (PppLinkHandler)TLobby__sub_803FD21C;
     r = TLobby__sub_80409A3C((u8 *)fns, 2);
     if (r < 0) {
         return r;
@@ -116,33 +114,32 @@ s32 TLobby__sub_803FD310(s16 arg0, s32 arg1, u8 *arg2) {
 }
 #pragma pop
 
-extern s32 TLobby__sub_803FD404(s16 ch, u32 addr) {
-  PppLink *p = &lobby_net_buffer_desc_b;
-  s16 new_var;
-  s16 size;
-  s16 i;
-  s16 *used;
-  u32 base;
-  s16 count;
-  if ((ch != 0) && (ch != 1))
-  {
-    return -0x112;
-  }
-  used = p->used;
-  base = (u32)p->buffers;
-  size = p->size;
-  count = p->count;
-  for (i = 0; i < count; i++, used++)
-  {
-    if ((((*used) != 0) && (base <= addr)) && (addr < (base + size)))
+s32 TLobby__sub_803FD404(s16 ch, u8 *addr) {
+    PppLink *p = &lobby_net_buffer_desc_b;
+    s16 size;
+    s16 i;
+    s16 *used;
+    u8 *base;
+    s16 count;
+    if ((ch != 0) && (ch != 1))
     {
-      *used = 0;
-      return 0;
+        return -0x112;
     }
-    base += (new_var = size);
-  }
+    used = p->used;
+    base = p->buffers;
+    size = p->size;
+    count = p->count;
+    for (i = 0; i < count; i++, used++)
+    {
+        if ((((*used) != 0) && (base <= addr)) && (addr < (base + size)))
+        {
+            *used = 0;
+            return 0;
+        }
+        base += (s16)size;
+    }
 
-  return -0x112;
+    return -0x112;
 }
 
 s32 TLobby__sub_803FD490(s16 arg0) {
@@ -219,28 +216,28 @@ s32 TLobby__sub_803FD60C(ch, dst)
     s16 ch;
     u8 *dst;
 {
-    u8 *q;
+    PppFsm *fsm;
     NetConfigEntry_805BC238 *e;
-    unsigned short new_var;
+    u16 low;
     u32 a;
     u32 b;
     u8 *p;
     if (ch != lobby_net_buffer_desc_b.id) {
         return -0x112;
     }
-    q = lbl_805C0038 + 0xd4;
-    e = *(NetConfigEntry_805BC238 **)(q + 0x30);
-    if (*q != 5) {
+    fsm = (PppFsm *)(lbl_805C0038 + 0xd4);
+    e = (NetConfigEntry_805BC238 *)fsm->opts;
+    if (fsm->state != 5) {
         return -0x112;
     }
     a = e->unk8;
     b = e->unkC;
     p = dst + 1;
     dst[0] = a >> 24;
-    new_var = a;
+    low = a;
     p[0] = a >> 16;
-    p[1 & 0xFFFFFFFFu] = new_var >> 8;
-    p[2] = new_var;
+    p[1] = low >> 8;
+    p[2] = low;
     p[3] = b >> 24;
     p[4] = b >> 16;
     p[5] = b >> 8;

@@ -479,7 +479,7 @@ void update_palette_item_count_label(TWindowHelpItem *window_help_item, Icon_802
             v = clamp_char_at__10TObjPlayerFl(p + 0x7C4, index - 0xD);
         }
     } else {
-        v = get_help_value(index, client_id);
+        v = TWindowHelpItem::get_help_value(index, client_id);
     }
     if (v <= 0) {
         window_help_item->set_flag0_bit2();
@@ -511,7 +511,7 @@ s32 get_palette_consumable_count(u16 slot, s32 client_id) {
 
 // The amount of the item in palette slot `slot` of the player `client_id`
 // (0 when the slot holds no item).
-s32 get_help_value(u16 slot, s32 client_id) {
+s32 TWindowHelpItem::get_help_value(u16 slot, s32 client_id) {
     s32 id = get_palette_consumable_count(slot, client_id);
     if (id == -1) {
         return 0;

@@ -3,15 +3,39 @@
 
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
+#include "pso/render/TUnk_80490470.h"
+#include <stddef.h>
+
+struct TObjEneRe4Sorcerer;
+
+struct TObjEneRe4InitParams {
+    f32 max_distance;
+    f32 min_distance;
+    s32 turn_speed;
+    u32 unk_c[4];
+};
 
 struct TObjEneRe4Bit : public TObjEneDD_ST {
+    TObjEneRe4Bit(TObject *parent, TObjEneRe4Sorcerer *owner, Vec *anchor, s32 enabled, u16 id, s32 set_index);
     virtual ~TObjEneRe4Bit();
     virtual void vfunc_88();
     virtual void vfunc_105();
     virtual void vfunc_106();
     virtual void dispatch_action(u32 state, s32 reason);
-    void sub_800ED408();
+    void set_flag3cc_bit2000();
     void call_vt_90_91();
+    void invoke_state_callbacks();
+    void set_state_flags();
+    void clear_state_flag_0x10();
+    void set_hold_flags();
+    void set_flag_and_notify();
+    void sub_800ED408();
+    void set_attack_flag();
+    void set_state_flag_and_mode(s32 kind);
+    void sub_800ED47C();
+    Vec *get_spell_data();
+    s32 get_state();
+    s32 sub_800ED498();
     void clear_state_flags_when_done();
     void vfunc_63();
     void vfunc_62();
@@ -28,51 +52,43 @@ struct TObjEneRe4Bit : public TObjEneDD_ST {
     void vfunc_28();
     void render();
     void run_task();
-    u8 unk_374[0x30];
-    u32 m_3c0;
-    u16 m_3c4;
-    u8 _pad3C6[0x2];
-    u32 m_3c8;
-    u32 m_3cc;
-    u32 m_3d0;
-    u8 _pad3D4[0x8];
-    void* m_3dc;
-    u8 _pad3E0[0x8];
-    s32 pad_3cc; // true offset 0x3cc: state bits (0x8, 0x10, 0x400); m_3cc above sits at 0x3b0
-    u8 _pad3E8[0x4];
-    u32 m_3f0;
-    u8 _pad3F4[0x10];
-    u32 m_404;
-    u8 unk_3EC[0x1C];
-    s32 m_408;
-    u8 unk_40C[0x4];
     s32 handle_event(s32 arg1);
     void handle_state_message(s32 msg);
     void reset_transform();
     void update_homing_velocity();
     void update_position_flag();
     void copy_pos();
-    void create_enabled(s32 arg1, s32 arg2, s32 arg3);
-    void create_disabled(s32 arg1, s32 arg2, s32 arg3);
-    static void *create(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
+    void init();
+    static TObjEneRe4Bit *create(TObjEneRe4Sorcerer *owner, Vec *anchor, s32 enabled, u16 id, s32 set_index);
+
+    u8 unk_374[0x8];
+    f32 m_37c;
+    u8 unk_380[0x40];
+    Vec *m_3c0;
+    s16 m_3c4;
+    u8 unk_3C6[0x2];
+    s32 m_3c8;
+    u32 m_3cc;
+    s32 m_3d0;
+    s32 m_3d4;
+    f32 m_3d8;
+    TUnk_80490470 fade;
+    Vec m_3f8;
+    s32 m_404;
+    s32 m_408;
+    s32 m_40c;
 };
 
+typedef char TObjEneRe4Bit_fade_offset[offsetof(TObjEneRe4Bit, fade) == 0x3DC ? 1 : -1];
 typedef char TObjEneRe4Bit_size[sizeof(TObjEneRe4Bit) == 0x410 ? 1 : -1];
 
 extern "C" {
-u8 *TObjEneRe4Bit__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s16 arg5, s16 arg6);
-void TObjEneRe4Bit__sub_800ECC14(u8 *arg0, s32 arg1);
-void TObjEneRe4Bit__sub_800ECD28(u8 *arg0, s32 arg1);
+void TObjEneRe4Bit__sub_800ECC14(TObjEneRe4Bit *arg0, s32 arg1);
+void TObjEneRe4Bit__sub_800ECD28(TObjEneRe4Bit *arg0, s32 arg1);
 void TObjEneRe4Bit__sub_800ECE04(TObjEneRe4Bit *arg0, s32 arg1);
 void TObjEneRe4Bit__sub_800ECED0(TObjEneRe4Bit *arg0, s32 arg1);
 void TObjEneRe4Bit__sub_800EDAB0(void);
 void TObjEneRe4Bit__sub_800EDAB4(void);
-void TObjEneRe4Sorcerer__sub_800ED47C(void *p);
-int TObjEneRe4Sorcerer__sub_800ED498(u8 *arg0);
-void *__dt__13TObjEneRe4BitFv(void *arg0, s16 arg1);
-void run_task__13TObjEneRe4BitFv(u8 *arg0);
-void set_hold_flags__18TObjEneRe4SorcererFPv(u8 *arg0);
-void set_state_flags__18TObjEneRe4SorcererFPv(u8 *arg0);
 }
 
 #endif

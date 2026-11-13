@@ -3,6 +3,22 @@
 
 #include "types.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
+#include "pso/render/TUnk_80494938.h"
+#include "pso/system/NinjaTypes.h"
+#include <dolphin/mtx/GeoTypes.h>
+
+class TParticleCtrl;
+
+// The guard's tuning values (TObjEneEpsilonGuard__movement_params, from the
+// shared handler table, entry 0x24).
+struct TObjEneEpsilonGuardParams {
+    f32 orbit_radius;  // around the body (set_orbit_destination)
+    f32 m_4;
+    f32 m_8;
+    f32 m_c;
+    u8 pad_10[0x8];
+    s32 m_18;
+};
 
 struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     virtual ~TObjEneEpsilonGuard();
@@ -21,15 +37,24 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     void vfunc_28();
     void render();
     void run_task();
-    u8 pad_430[0x10];
-    TObject *emitter;          // 0x440: queued for destruction with the guard
-    u8 pad_444[0x18];
-    TObjCollidable *collider;  // 0x45C: the second collision body (model_desc[1]), built in init_model_and_state
-    u8 pad_460[0xC];
-    s32 flags;                 // 0x46C: state bits; bit 4 while it follows the body
-    u16 body_id;               // 0x470: entity id of the TObjEneEpsilonBody that spawned it
-    u8 pad_472[0x32];
-    void *create(void *arg1, void *arg2, void *arg3, void *arg4);
+    s32 state_step;        // sub-step of the current state (orbit 0/1/2; 1 once the break is done)
+    s32 break_timer;       // frames counted in the break state
+    s32 orbit_angle;       // angle around the body handed to set_orbit_destination
+    s32 orbit_angle_step;  // added to orbit_angle each frame (state_orbit)
+    TParticleCtrl *emitter;    // queued for destruction with the guard
+    void *effect_model;        // BML model 3, drawn by render_guard_effect
+    NJS_MOTION *effect_motion; // BML motion 3
+    s32 effect_step;           // sub-step of sub_8035EA90 (grow, hold, shrink)
+    s32 effect_timer;          // frames the effect is held (sub_8035EA90)
+    f32 effect_frame;          // motion frame of effect_motion
+    f32 effect_scale;          // 0..1 scale of the effect model and of model_desc[1]
+    TObjCollidable *collider;  // the second collision body (model_desc[1]), built in init_model_and_state
+    Vec effect_anchor;         // filled by the camera-ctrl callback; the effects spawn there
+    s32 flags;                 // state bits; bit 4 while it follows the body
+    u16 body_id;               // entity id of the TObjEneEpsilonBody that spawned it
+    u8 pad_472[0x4A];
+    TUnk_80494938 fade;
+    TObjEneEpsilonGuard *create(void *arg1, void *arg2, void *arg3, void *arg4);
     void init_model_and_state();
     s32 all_children_gone();
     static void update_attack_pattern(void *arg0);
@@ -38,7 +63,6 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     static s32 create_damage_font(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     static void free_shared_resources();
     static void load_assets();
-    u8 pad_4A4[0x34];
     s32 is_guard_active();
     s32 is_state_flag_set();
     s32 is_guard_ready();
@@ -57,4 +81,8 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
 };
 
 typedef char TObjEneEpsilonGuard_size[sizeof(TObjEneEpsilonGuard) == 0x4D8 ? 1 : -1];
+// Hands the camera-ctrl callback a point to fill.
+extern "C" void get_camera_ctrl__9TObjEneDDFv(void *ctrl, Vec *out);
+extern "C" s32 is_main_phase_15__9TObjEneDDFv();
+
 #endif

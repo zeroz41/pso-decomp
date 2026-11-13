@@ -30,7 +30,10 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
+#include "pso/boss/barbaray/Boss7DeRolLeCBehavior.h"
+#include "pso/boss/barbaray/TBoss7Crawfish.h"
 #include "pso/boss/barbaray/TBoss7Crawfish_8030908C.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
 #include "pso/boss/barbaray/TBoss7PhotonBullet_802EF26C.h"
@@ -233,6 +236,86 @@ const Ent_802E88F8 *lbl_804E3C2C[4] = {lbl_80472DA4, lbl_80472FC4, lbl_8047327C,
 const Vec *lbl_804E3C3C[4] = {lbl_804739FC, lbl_80473A68, lbl_80473AD4, lbl_80473B40};
 const s32 *lbl_804E3C4C[4] = {lbl_80473BAC, lbl_80473BD0, lbl_80473BF4, lbl_80473C18};
 
+extern "C" {
+void TObjPlayer__sub_802F0D30(void);
+void TObjPlayer__sub_802F0D2C(void);
+void TObjPlayer__sub_802E7470(void);
+void TObjPlayer__sub_802E7084(void);
+void TObjPlayer__sub_802E7088(void);
+void TObjPlayer__sub_802E746C(void);
+void TObjPlayer__sub_802EFEC4(void);
+void fn_802EFEA8(void);
+void TBoss7LaserPtcl__sub_8035AF10(void);
+void TBoss7LaserPtcl__sub_8035AF0C(void);
+}
+
+Boss7LoadCallback lbl_804E3C5C[6] = {
+    {TObjPlayer__sub_802F0D30, TObjPlayer__sub_802F0D2C},
+    {TObjPlayer__sub_802E7470, TObjPlayer__sub_802E7084},
+    {TObjPlayer__sub_802E7088, TObjPlayer__sub_802E746C},
+    {TBoss7Crawfish::load_static_resource, TBoss7Crawfish::destroy_instance},
+    {TObjPlayer__sub_802EFEC4, fn_802EFEA8},
+    {TBoss7LaserPtcl__sub_8035AF10, TBoss7LaserPtcl__sub_8035AF0C},
+};
+TBoss7DeRolLeCMovement lbl_804E3C8C = {{225.0f, 0.0f, 0x600}, {0, 0, 0, 0}};
+const char *bm_boss7_de_rol_le_c_model_names[7] = {
+    boss7_de_rol_le_c_model_name_boss2_b_derorure_body_nj,
+    boss7_de_rol_le_c_model_name_boss2_b_derorure_tentacle_nj,
+    boss7_de_rol_le_c_model_name_boss2_b_helm_break_nj,
+    boss7_de_rol_le_c_model_name_boss2_b_shell_break_nj,
+    lbl_80473CD4,
+    boss7_de_rol_le_c_model_name_hige_at01_tentacle_nj,
+    NULL,
+};
+const char *bm_boss7_de_rol_le_c_motion_names[22] = {
+    boss7_de_rol_le_c_motion_name_beam02_boss2_b_body_njm,
+    boss7_de_rol_le_c_motion_name_beamwait_boss2_b_body_njm,
+    boss7_de_rol_le_c_motion_name_beam_a_boss2_b_body_njm,
+    boss7_de_rol_le_c_motion_name_beam_b_boss2_b_body_njm,
+    boss7_de_rol_le_c_motion_name_beam_c_boss2_b_body_njm,
+    boss7_de_rol_le_c_motion_name_bite_lloop_boss2_b_body_njm,
+    boss7_de_rol_le_c_motion_name_bite_rloop_boss2_b_body_njm,
+    boss7_de_rol_le_c_motion_name_ed_boss2_b_derorure_body_njm,
+    boss7_de_rol_le_c_motion_name_op_boss2_b_derorure_body_njm,
+    boss7_de_rol_le_c_motion_name_fd02_boss2_b_body_njm,
+    boss7_de_rol_le_c_motion_name_fjump_boss2_b_body_njm,
+    boss7_de_rol_le_c_motion_name_forward_boss2_b_body_njm,
+    boss7_de_rol_le_c_motion_name_lrjump_boss2_b_body_njm,
+    boss7_de_rol_le_c_motion_name_l_bite_boss2_b_body_njm,
+    boss7_de_rol_le_c_motion_name_rljump_boss2_b_body_njm,
+    boss7_de_rol_le_c_motion_name_r_bite_boss2_b_body_njm,
+    boss7_de_rol_le_c_motion_name_scatter_boss2_b_body_njm,
+    boss7_de_rol_le_c_motion_name_tloop_boss2_b_tentacle_njm,
+    boss7_de_rol_le_c_motion_name_hige_down_hige_down_tentacle_njm,
+    boss7_de_rol_le_c_motion_name_hige_up_hige_up_tentacle_njm,
+    boss7_de_rol_le_c_motion_name_hige_wait_hige_wait_tentacle_njm,
+    NULL,
+};
+TBoss7DeRolLeCResources lbl_804E3D1C = {
+    {bm_boss7_de_rol_le_c_bml_filename, bm_boss7_de_rol_le_c_model_names, bm_boss7_de_rol_le_c_motion_names, 6, 21},
+    {
+        {3, 0, 8, 0.7f, ACTION_NO_BLEND_IN | ACTION_NO_BLEND_OUT},
+        {1, 0, 11, 0.6f, 0x0},
+        {1, 0, 9, 1.0f, 0x0},
+        {3, 0, 0, 0.4f, 0x0},
+        {2, 1, 10, 0.3f, 0x0},
+        {2, 1, 14, 0.5f, 0x0},
+        {2, 1, 12, 0.5f, 0x0},
+        {2, 9, 15, 0.28f, 0x0},
+        {2, 10, 13, 0.28f, 0x0},
+        {1, 0, 6, 2.0f, 0x0},
+        {1, 0, 5, 2.0f, 0x0},
+        {3, 0, 16, 0.6f, 0x0},
+        {2, 15, 2, 0.4f, 0x0},
+        {3, 0, 3, 0.3f, 0x0},
+        {2, 1, 4, 0.4f, 0x0},
+        {1, 0, 1, 0.5f, 0x0},
+        {3, 0, 7, 0.7f, 0x0},
+    },
+};
+s32 particle_pos_index_table[3] = {0, 5, 9};
+f32 lbl_804E3E48[3] = {32.0f, 30.0f, 30.0f};
+
 struct Vec_802E7888 { f32 x, y, z; };
 
 struct Obj_802E7888 {
@@ -275,9 +358,6 @@ void TBoss7DeRolLeC__try_spawn_pattern_crawfish(TBoss7DeRolLeC *self, s32 varian
 void TBoss7DeRolLeC__handle_crawfish_spawn_state(u8 *arg0, u32 arg1, s32 arg2);
 }
 
-extern const f32 lbl_805DEA10[1];
-#define lbl_805DEA10 (lbl_805DEA10[0])
-#define lbl_805DEA30 (20.0f)
 
 typedef struct Vec_802E79B0 { f32 x, y, z; } Vec_802E79B0;
 
@@ -691,21 +771,21 @@ void TObjPlayer__sub_802E8274(void) {
     typedef char sp28_offset[(offsetof(Stack_802E8274, sp28) == 0x20) ? 1 : -1];
     Stack_802E8274 stack;
     if ((s32) boss7_derolle_c_motion_id == 0x5F) {
-        stack.sp20 = lbl_805DEA10;
-        stack.sp24 = lbl_805DEA10;
-        stack.sp28 = lbl_805DEA10;
+        stack.sp20 = 0.0f;
+        stack.sp24 = 0.0f;
+        stack.sp28 = 0.0f;
         transform_point_by_current_matrix((void *)&stack.sp20, (void *)lbl_805D6944);
     }
     if ((s32) boss7_derolle_c_motion_id == 0x71) {
-        stack.sp14 = lbl_805DEA10;
-        stack.sp18 = lbl_805DEA10;
-        stack.sp1C = lbl_805DEA10;
+        stack.sp14 = 0.0f;
+        stack.sp18 = 0.0f;
+        stack.sp1C = 0.0f;
         transform_point_by_current_matrix((void *)&stack.sp14, (void *)(lbl_805D6944 + 0xC));
     }
     if ((s32) boss7_derolle_c_motion_id == lbl_80472CB0[lbl_805D6920]) {
-        stack.sp8 = lbl_805DEA10;
-        stack.spC = lbl_805DEA10;
-        stack.sp10 = lbl_805DEA10;
+        stack.sp8 = 0.0f;
+        stack.spC = 0.0f;
+        stack.sp10 = 0.0f;
         transform_point_by_current_matrix((void *)&stack.sp8, (void *)lbl_805D6928);
         lbl_805D6920 += 1;
         lbl_805D6928 += 0xC;
@@ -1018,8 +1098,6 @@ void spawn_particle_201__8TObjFishFii(s32 arg1, s32 arg2);
 void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
 void *create_particle_controller_with_angles(void *arg0, void *arg1, s32 arg2, s32 arg3, u16 arg4);
 void fn_802EC52C(s32 arg0, s32 arg1);
-extern s32 particle_pos_index_table[];
-extern f32 lbl_804E3E48[];
 void TParticleCtrl__sub_802EC550(PCtrl_802EC550 *o);
 void assign_slots_from_list(void *arg0, s32 arg1);
 }
@@ -1600,9 +1678,6 @@ void TObjFish__sub_802E8AD4(Fish_802E8AD4* o, u32 k) {
     }
 }
 
-#undef lbl_805DEA10
-__declspec(section ".sdata2") const f32 lbl_805DEA10[1] = { 0.0f };
-#define lbl_805DEA10 (lbl_805DEA10[0])
 void TObjFish::handle_death_state(u32 arg1) {
     Fish_802E8B50 *o = (Fish_802E8B50 *)this;
     CameraPlayback cam;
@@ -1616,7 +1691,7 @@ void TObjFish::handle_death_state(u32 arg1) {
         o->dir = 3;
         TObjFish__sub_802ED4AC((u8 *)o, o->dir);
         o->f5C = 0;
-        o->f6F0 = lbl_805DEA10;
+        o->f6F0 = 0.0f;
         o->phase = 0;
         o->timer = 0;
         o->f73C = 0;
@@ -1633,7 +1708,7 @@ void TObjFish::handle_death_state(u32 arg1) {
             cam.index = 0;
             cam.bank = 2;
             cam.flags = 0;
-            cam.frame = lbl_805DEA10;
+            cam.frame = 0.0f;
             cam.frame_step = 0.7f;
             activate_camera_mode(5);
             cam.cache_target_and_forward(0x1C71);
@@ -1663,7 +1738,7 @@ void TObjFish::handle_death_state(u32 arg1) {
             create_timed_particle_emitter_with_flags(&v, 0x20C, 0, 0xA0, 0x40);
             play_sound_effect((void *)0x39614, 0, 0, 0);
         }
-        if (((TObjMotion *)o)->is_passing_frame((f32)lbl_805DEA30) != 0) {
+        if (((TObjMotion *)o)->is_passing_frame(20.0f) != 0) {
             ((TObjFish *)o)->destroy_child();
             o->f7B0 = (s32)spawn_continuous_particle_effect_with_flags(o->f7B4, 0x20F, 0x40);
         }
@@ -1675,7 +1750,7 @@ void TObjFish::handle_death_state(u32 arg1) {
     case 5: {
         Vec_802E8B50 saved;
         VecCopy__FP3VecPC3Vec((int)&saved, &o->pos);
-        o->pos.x = lbl_805DEA10;
+        o->pos.x = 0.0f;
         o->pos.y = 12.0f;
         o->pos.z = -90.0f;
         ((TObjEnemy *)o)->update_prev_position();
@@ -1702,7 +1777,7 @@ void TObjFish__sub_802E8E34(u8 *boss7_de_rol_le_c, u32 arg1) {
         *(s32 *)((s8 *)boss7_de_rol_le_c + 0x628) = *(s32 *)((s8 *)boss7_de_rol_le_c + 0x628) & 0xFFFFFEFF;
         ((s32 (*)(void *))TObjFish__sub_802ECC44)(boss7_de_rol_le_c);
         *(s32 *)((s8 *)boss7_de_rol_le_c + 0x5C) = 0;
-        *(f32 *)((s8 *)boss7_de_rol_le_c + 0x6F0) = lbl_805DEA10;
+        *(f32 *)((s8 *)boss7_de_rol_le_c + 0x6F0) = 0.0f;
         return;
     case 9:
         if (*(s16 *)((s8 *)boss7_de_rol_le_c + 0xB8) == 1) {
@@ -1711,7 +1786,7 @@ void TObjFish__sub_802E8E34(u8 *boss7_de_rol_le_c, u32 arg1) {
         return;
     case 8:
         if (*(f32 *)((s8 *)boss7_de_rol_le_c + 0x6F0) < -200.0f) {
-            ((TBoss7DeRolLeC *)boss7_de_rol_le_c)->set_state_and_send(0x1C);
+            set_state_and_send__14TBoss7DeRolLeCFl(boss7_de_rol_le_c, 0x1C);
         }
         return;
     case 0:
@@ -1782,10 +1857,10 @@ void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x72C) = 0;
         *(s32 *)((s8 *)arg0 + 0x730) = 0;
         *(s32 *)((s8 *)arg0 + 0x73C) = 0;
-        *(f32 *)((s8 *)arg0 + 0x748) = (f32) lbl_805DEA10;
-        *(f32 *)((s8 *)arg0 + 0x76C) = (f32) lbl_805DEA10;
-        *(f32 *)((s8 *)temp_r30 + 4) = (f32) lbl_805DEA10;
-        *(f32 *)((s8 *)temp_r30 + 8) = (f32) lbl_805DEA10;
+        *(f32 *)((s8 *)arg0 + 0x748) = 0.0f;
+        *(f32 *)((s8 *)arg0 + 0x76C) = 0.0f;
+        *(f32 *)((s8 *)temp_r30 + 4) = 0.0f;
+        *(f32 *)((s8 *)temp_r30 + 8) = 0.0f;
         *(u32 *)((s8 *)arg0 + 0x784) = 0U;
         return;
     case 2:
@@ -1817,9 +1892,9 @@ void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
                 if (((TObjEneDD_ST *)arg0)->enemy_check_target_valid() != 0) {
                     VecCopy__FP3VecPC3Vec((int)((int)temp_r30), (void *)((int) (*(s32 *)((s8 *)arg0 + 0x390) + 0x38)));
                 } else {
-                    *(f32 *)((s8 *)arg0 + 0x76C) = (f32) lbl_805DEA10;
-                    *(f32 *)((s8 *)temp_r30 + 4) = (f32) lbl_805DEA10;
-                    *(f32 *)((s8 *)temp_r30 + 8) = (f32) lbl_805DEA10;
+                    *(f32 *)((s8 *)arg0 + 0x76C) = 0.0f;
+                    *(f32 *)((s8 *)temp_r30 + 4) = 0.0f;
+                    *(f32 *)((s8 *)temp_r30 + 8) = 0.0f;
                 }
                 if ((u32) *(u32 *)((s8 *)arg0 + 0x7A8) != 0U) {
                     ((TObject *)(*(void **)((s8 *)arg0 + 0x7A8)))->queue_destruction();
@@ -2057,9 +2132,9 @@ void TObjFish__sub_802E979C(Fish_802E979C *o, u32 k, s32 dir) {
         }
         o->state = 0;
         o->fired = 0;
-        o->v744 = lbl_805DEA10;
+        o->v744 = 0.0f;
         o->v750 = -1.0f;
-        o->v74C = lbl_805DEA10;
+        o->v74C = 0.0f;
         o->angle = 0x500;
         TObjBoss2Tunnel::clear_flags_0x3000();
         o->flags &= 0xFFFFFDFF;
@@ -2098,15 +2173,15 @@ void TObjFish__sub_802E979C(Fish_802E979C *o, u32 k, s32 dir) {
                 TObjFish__sub_802ED4AC((u8 *)o, o->dir);
                 o->depth = -137.0f;
                 ((TObjMotion *)o)->set_field_b8(1);
-                o->v750 = lbl_805DEA10;
+                o->v750 = 0.0f;
                 o->flags &= ~4;
                 o->flags |= 0x100;
             }
             break;
         case 1:
             o->depth += 2.0f;
-            if (o->depth >= lbl_805DEA10) {
-                o->depth = lbl_805DEA10;
+            if (o->depth >= 0.0f) {
+                o->depth = 0.0f;
                 o->state = 2;
             }
             break;
@@ -2234,14 +2309,14 @@ void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2) {
         self->flags &= ~0x100;
         self->mode = arg2;
         TObjFish__sub_802ED4AC((u8 *)self, self->mode);
-        self->f744 = lbl_805DEA10;
-        self->f750 = lbl_805DEA10;
-        self->f74C = lbl_805DEA10;
-        self->f748 = lbl_805DEA10;
+        self->f744 = 0.0f;
+        self->f750 = 0.0f;
+        self->f74C = 0.0f;
+        self->f748 = 0.0f;
         self->f754 = -0.2f;
-        self->f758 = lbl_805DEA10;
+        self->f758 = 0.0f;
         self->f75C = self->z;
-        self->f760 = lbl_805DEA10;
+        self->f760 = 0.0f;
         self->timer = 0;
         self->state = 0;
         self->tick = 0;
@@ -2295,29 +2370,29 @@ void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2) {
         case 2:
             if (self->frame >= 6.0f) {
                 self->state = 3;
-                self->f750 = lbl_805DEA10;
+                self->f750 = 0.0f;
                 self->f748 = self->x;
                 self->f74C = (100.0f * self->f744 - self->f748) / 7.0f;
                 self->f754 = -(self->f758 / 7.0f);
                 self->f75C = self->z;
-                self->f758 = lbl_805DEA10;
+                self->f758 = 0.0f;
             }
             break;
         case 3:
             if (self->frame >= 13.0f) {
                 self->state = 4;
-                self->f750 = lbl_805DEA10;
+                self->f750 = 0.0f;
                 self->f748 = 100.0f * self->f744;
                 self->f74C = (135.0f * self->f744 - self->f748) / 7.0f;
                 self->f75C = self->z;
                 self->f754 = (2.0f * (10.0f - self->z)) / 144.0f;
-                self->f758 = lbl_805DEA10;
+                self->f758 = 0.0f;
             }
             break;
         case 4:
-            if (self->frame >= lbl_805DEA30) {
+            if (self->frame >= 20.0f) {
                 self->state = 5;
-                self->f750 = lbl_805DEA10;
+                self->f750 = 0.0f;
                 self->f748 = 135.0f * self->f744;
                 self->f74C = (100.0f * self->f744 - self->f748) / 5.0f;
                 self->f760 = (1280.0f * -self->f744) / 5.0f;
@@ -2459,10 +2534,10 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x728) = 0;
         *(s32 *)((s8 *)arg0 + 0x730) = 0;
         *(s32 *)((s8 *)arg0 + 0x72C) = 0;
-        *(f32 *)((s8 *)arg0 + 0x744) = lbl_805DEA10;
-        *(f32 *)((s8 *)arg0 + 0x748) = lbl_805DEA10;
-        *(f32 *)((s8 *)arg0 + 0x74C) = lbl_805DEA10;
-        *(f32 *)((s8 *)arg0 + 0x750) = lbl_805DEA10;
+        *(f32 *)((s8 *)arg0 + 0x744) = 0.0f;
+        *(f32 *)((s8 *)arg0 + 0x748) = 0.0f;
+        *(f32 *)((s8 *)arg0 + 0x74C) = 0.0f;
+        *(f32 *)((s8 *)arg0 + 0x750) = 0.0f;
         *(s32 *)((s8 *)arg0 + 0x734) = 0;
         break;
     case 2:
@@ -2500,7 +2575,7 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1) {
             case 0:
                 if (*(f32 *)((s8 *)arg0 + 0xC0) >= 10.5f) {
                     *(s32 *)((s8 *)arg0 + 0x72C) = 1;
-                    *(f32 *)((s8 *)arg0 + 0x750) = ((49.102562f * -*(f32 *)((s8 *)arg0 + 0x74C)) + (300.0f - *(f32 *)((s8 *)arg0 + 0x40))) / 732.1581f;
+                    *(f32 *)((s8 *)arg0 + 0x750) = ((300.0f - *(f32 *)((s8 *)arg0 + 0x40)) + 49.102562f * -*(f32 *)((s8 *)arg0 + 0x74C)) / 732.1581f;
                     *(s32 *)((s8 *)arg0 + 0x734) = 0;
                 }
                 break;
@@ -2516,7 +2591,7 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1) {
                 if (*(f32 *)((s8 *)arg0 + 0xC0) >= 22.0f) {
                     *(s32 *)((s8 *)arg0 + 0x72C) = 3;
                     *(f32 *)((s8 *)arg0 + 0x74C) *= 0.5f;
-                    *(f32 *)((s8 *)arg0 + 0x750) = lbl_805DEA10;
+                    *(f32 *)((s8 *)arg0 + 0x750) = 0.0f;
                 }
                 break;
             case 3:
@@ -2583,9 +2658,9 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1) {
                 break;
             case 3:
             case 4:
-                if (*(f32 *)((s8 *)arg0 + 0x750) <= lbl_805DEA10) {
+                if (*(f32 *)((s8 *)arg0 + 0x750) <= 0.0f) {
                     *(f32 *)((s8 *)arg0 + 0x74C) -= 0.2f;
-                    if (*(f32 *)((s8 *)arg0 + 0x74C) <= lbl_805DEA10) {
+                    if (*(f32 *)((s8 *)arg0 + 0x74C) <= 0.0f) {
                         *(f32 *)((s8 *)arg0 + 0x750) = 1.0f;
                         ((TUnk_80036250 *)(arg0 + 0x670))->set_move_params(7.0f, fabs_float(500.0f - *(f32 *)((s8 *)arg0 + 0x40)), 0.2f, 0.05f);
                         *(f32 *)((s8 *)arg0 + 0x74C) = *(f32 *)((s8 *)arg0 + 0x40);
@@ -2632,11 +2707,11 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
         self->phase = 0;
         self->f72C = 0;
         self->step = 0;
-        self->f748 = lbl_805DEA10;
-        self->f74C = lbl_805DEA10;
-        self->vx = lbl_805DEA10;
-        self->ay = lbl_805DEA10;
-        self->vy = lbl_805DEA10;
+        self->f748 = 0.0f;
+        self->f74C = 0.0f;
+        self->vx = 0.0f;
+        self->ay = 0.0f;
+        self->vy = 0.0f;
         self->tick = 0;
         break;
     case 2:
@@ -2683,10 +2758,10 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
                 }
                 break;
             case 1:
-                if (self->frame >= lbl_805DEA30) {
+                if (self->frame >= 20.0f) {
                     self->step = 2;
                     self->vx = -5.625f * self->dir;
-                    self->ay = (72.666664f * -self->vy + (270.0f - self->z)) / 1034.6666f;
+                    self->ay = ((270.0f - self->z) + 72.666664f * -self->vy) / 1034.6666f;
                     self->ptcl = (s32)spawn_continuous_particle_effect_with_flags(self->ppos, 0x20F, 0x40);
                 }
                 break;
@@ -2722,7 +2797,7 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
                 break;
             }
             if (self->fB8 != 1) {
-                if (((TObjMotion *)self)->is_passing_frame(10.0f) != 0 || ((TObjMotion *)self)->is_passing_frame(41.0f) != 0) {
+                if (((TObjMotion *)self)->is_passing_frame(10.0f) != 0 || ((TObjMotion *)self)->is_passing_frame((f32)(41.0f)) != 0) {
                     TObjFish::set_effect_target_position(self, (void *) 0x39905, self->eff);
                 } else if (((TObjMotion *)self)->is_passing_frame(25.0f) != 0) {
                     TObjFish::set_effect_target_position(self, (void *) 0x39906, self->eff);
@@ -2739,14 +2814,14 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
                         self->tick = 0;
                         ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->x);
                         for (i = 0; i < 10; i++) {
-                            if (v.y * self->recs[i].y < lbl_805DEA10) {
+                            if (v.y * self->recs[i].y < 0.0f) {
                                 break;
                             }
                             ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->recs[i]);
                         }
-                        v.x = v.x - self->dir * (lbl_805DEA30 * ((TObjChara *)self)->random_ratio() + 40.0f);
+                        v.x = v.x - self->dir * (20.0f * ((TObjChara *)self)->random_ratio() + 40.0f);
                         v.y = -5.0f;
-                        v.z = v.z + (lbl_805DEA30 * calc_elapsed_scaled__9TObjEneDDFv(self) + 70.0f);
+                        v.z = v.z + (20.0f * calc_elapsed_scaled__9TObjEneDDFv(self) + 70.0f);
                         ((void (*)(void *, void *)) spawn_particle_201__8TObjFishFii)(self, &v);
                     }
                 } else if (frame >= 41.0f && frame <= 46.0f && self->tick >= 3) {
@@ -2870,7 +2945,7 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
         if (unk_6C4 < 5) {
             speed = 3.0f;
             accel = 0.08f;
-            if (unk_750 > lbl_805DEA10) {
+            if (unk_750 > 0.0f) {
                 z_accel = accel;
                 z_speed = 5.0f;
             } else {
@@ -2880,7 +2955,7 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
         } else {
             speed = 6.0f;
             accel = 0.16f;
-            if (unk_750 > lbl_805DEA10) {
+            if (unk_750 > 0.0f) {
                 z_accel = accel;
                 z_speed = 10.0f;
             } else {
@@ -2890,33 +2965,33 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
         }
         motion_x.init_params(speed, fabs_float(lbl_80472D04[unk_6C4].x - position.x), accel);
         motion_y.init_params(speed, fabs_float(lbl_80472D04[unk_6C4].y - position.y), accel);
-        if (unk_750 > lbl_805DEA10) {
+        if (unk_750 > 0.0f) {
             motion_z.init_params(z_speed, fabs_float(lbl_80472D04[unk_6C4].z - position.z), z_accel);
         } else {
             motion_z.set_move_params(z_speed, fabs_float(lbl_80472D04[unk_6C4].z - position.z), z_accel, 0.05f);
         }
-        if (lbl_805DEA10 != unk_750) {
+        if (0.0f != unk_750) {
             unk_6C8 = 0;
         } else {
             unk_6C8 = 1;
         }
         unk_6CC = 0;
-        if (unk_750 > lbl_805DEA10) {
-            if (lbl_805DEA10 != unk_74C) {
+        if (unk_750 > 0.0f) {
+            if (0.0f != unk_74C) {
                 unk_6D0 = 1;
             } else {
                 unk_6D0 = 3;
             }
         } else {
-            if (lbl_805DEA10 != unk_74C) {
+            if (0.0f != unk_74C) {
                 unk_6D0 = 0;
             } else {
                 unk_6D0 = 2;
             }
         }
-        if (lbl_805DEA10 != unk_758) {
+        if (0.0f != unk_758) {
             unk_72C = 4;
-            if (unk_758 > lbl_805DEA10) {
+            if (unk_758 > 0.0f) {
                 TObjFish__sub_802E7B40(this);
                 TObjFish::set_effect_target_position(this, (void *)0x39902, unk_50C);
                 unk_628 &= ~0x400;
@@ -3005,7 +3080,7 @@ void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
                 if (play_speed > 0.9f) {
                     done = 1;
                 }
-            } else if (unk_758 < lbl_805DEA10) {
+            } else if (unk_758 < 0.0f) {
                 play_speed = 0.3f;
             }
             position.z = unk_748 - motion_z.travelled;
@@ -3035,7 +3110,7 @@ void TObjFish__sub_802EB90C(Fish_802EB90C *arg0, u32 arg1) {
         TObjFish__sub_802ECBDC((Fish_802ECBDC *)arg0);
         arg0->flags628 &= ~4;
         arg0->flags628 |= 0x100;
-        arg0->f6F0 = lbl_805DEA10;
+        arg0->f6F0 = 0.0f;
         arg0->f64 = 0;
         arg0->f72C = 1;
         arg0->f730 = 0;
@@ -3057,7 +3132,7 @@ void TObjFish__sub_802EB90C(Fish_802EB90C *arg0, u32 arg1) {
                 ((TBoss7DeRolLeC *)arg0)->set_state_and_send(0xF);
             } else if (b & 2) {
                 arg0->f40 = -210.0f;
-                ((TBoss7DeRolLeC *)arg0)->set_state_and_send(1);
+                set_state_and_send__14TBoss7DeRolLeCFl(arg0, 1);
             }
             break;
         case 1:
@@ -3138,7 +3213,7 @@ void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1) {
         TObjFish__sub_802ECC44((Fish_802ECC44 *) arg0);
         *(s32 *)((s8 *)arg0 + 0x628) &= ~4;
         *(s32 *)((s8 *)arg0 + 0x628) &= ~0x100;
-        *(f32 *)((s8 *)arg0 + 0x6F0) = lbl_805DEA10;
+        *(f32 *)((s8 *)arg0 + 0x6F0) = 0.0f;
         *(s32 *)((s8 *)arg0 + 0x728) = 0;
         *(s32 *)((s8 *)arg0 + 0x72C) = 0;
         TWindowCtrl::init_all_slots();
@@ -3163,7 +3238,7 @@ void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1) {
                 cam.index = 0;
                 cam.bank = 1;
                 cam.flags = 0;
-                cam.frame = lbl_805DEA10;
+                cam.frame = 0.0f;
                 cam.frame_step = 0.7f;
                 activate_camera_mode(5);
                 cam.cache_target_and_forward(0x1C71);
@@ -3432,7 +3507,7 @@ void TBoss7DeRolLeC::update_projectile_spawns() {
     *(f32 *)((s8 *)temp_r31 + 0) *= 0.5f;
     *(f32 *)((s8 *)temp_r31 + 4) *= 0.5f;
     *(f32 *)((s8 *)temp_r31 + 8) *= 0.5f;
-    if ((*(s32 *)((s8 *)arg0 + 0x628) & 0x100) && ((((TObjMotion *)arg0)->is_passing_frame(3.0f) != 0) || (((TObjMotion *)arg0)->is_passing_frame(lbl_805DEA30) != 0))) {
+    if ((*(s32 *)((s8 *)arg0 + 0x628) & 0x100) && ((((TObjMotion *)arg0)->is_passing_frame(3.0f) != 0) || (((TObjMotion *)arg0)->is_passing_frame(20.0f) != 0))) {
         *(s32 *)((s8 *)arg0 + 0x6BC) = 0;
     }
     if ((s32) *(s32 *)((s8 *)arg0 + 0x6BC) <= 0x10) {
@@ -3528,7 +3603,7 @@ void TParticleCtrl__sub_802EC550(PCtrl_802EC550 *o) {
         } else {
             ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v, &o->pos[o->idx]);
             v.y = -5.0f;
-            v.x += lbl_805DEA30;
+            v.x += 20.0f;
             ((TParticleCtrl *)o->objs[0])->set_position(&v);
             v.x -= 40.0f;
             ((TParticleCtrl *)o->objs[1])->set_position(&v);
@@ -3553,7 +3628,7 @@ void TBoss7DeRolLeC::advance_action_sequence() {
         var_r4 = lbl_804E3C2C[game_difficulty_selection][this->action_index].a;
         switch (var_r4) {
         case 0x1E:
-            if (calc_elapsed_scaled__9TObjEneDDFv(this) > lbl_805DEA10) {
+            if (calc_elapsed_scaled__9TObjEneDDFv(this) > 0.0f) {
                 var_r4 = 8;
             } else {
                 var_r4 = 6;
@@ -3567,7 +3642,7 @@ void TBoss7DeRolLeC::advance_action_sequence() {
             }
             break;
         case 0x20:
-            if (calc_elapsed_scaled__9TObjEneDDFv(this) > lbl_805DEA10) {
+            if (calc_elapsed_scaled__9TObjEneDDFv(this) > 0.0f) {
                 var_r4 = 0xC;
             } else {
                 var_r4 = 0xE;
@@ -3777,7 +3852,7 @@ void TObjFish__sub_802ECE90(void *arg0, int idx, int arg) {
     void *o;
     angle = 0x3800 - idx * 51;
     dir.x = sin_table_lookup(angle);
-    dir.y = lbl_805DEA10;
+    dir.y = 0.0f;
     dir.z = cos_table_lookup(angle);
     if (((Boss_802ECE90 *)arg0)->mode == 2) {
         dir.x *= -1.0f;
@@ -3953,25 +4028,20 @@ s32 TObjFish::is_all_parts_done() {
 }
 
 void TObjFish::update_wobble_angle() {
-    f32 temp_f2;
-
-    temp_f2 = *(f32 *)((s8 *)this + 0x6F0);
-    if (temp_f2 > 0.4f) {
-        *(f32 *)((s8 *)this + 0x6F0) = (f32) (temp_f2 - 0.4f);
-        return;
-    }
-    if (temp_f2 < -0.4f) {
+    if (*(f32 *)((s8 *)this + 0x6F0) > 0.4f) {
+        *(f32 *)((s8 *)this + 0x6F0) -= 0.4f;
+    } else if (*(f32 *)((s8 *)this + 0x6F0) < -0.4f) {
         *(f32 *)((s8 *)this + 0x6F0) += 0.4f;
-        return;
+    } else {
+        *(f32 *)((s8 *)this + 0x6F0) = 0.0f;
     }
-    *(f32 *)((s8 *)this + 0x6F0) = (f32) lbl_805DEA10;
 }
 
 f32 TObjFish__sub_802ED3E4(u8 *arg0) {
     Vec_802ED3E4 v;
-    v.x = lbl_805DEA10;
-    v.y = lbl_805DEA10;
-    v.z = lbl_805DEA10;
+    v.x = 0.0f;
+    v.y = 0.0f;
+    v.z = 0.0f;
     push_matrix_from(identity_matrix);
     scale_matrix(0, 2.5f, 2.5f, 2.5f);
     bind_motion_context((NJS_MOTION *)*(s32 *)((s8 *)arg0 + 0xF8), *(f32 *)((s8 *)arg0 + 0xC0));
@@ -3995,7 +4065,7 @@ void set_swim_direction__8TObjFishFPv(void *arg0) {
 
 void TObjFish__sub_802ED4AC(u8 *arg0, s32 arg1) {
     VecCopy__FP3VecPC3Vec(arg0 + 0x38, (void *)&lbl_80472D04[arg1]);
-    *(f32 *)((s8 *)arg0 + 0x6F0) = (f32) (*(const f32 *)&lbl_805DEA10);
+    *(f32 *)((s8 *)arg0 + 0x6F0) = 0.0f;
     *(s32 *)((s8 *)arg0 + 0x64) = 0;
 }
 

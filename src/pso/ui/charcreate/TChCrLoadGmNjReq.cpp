@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
-#include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TLobby.h"
 
 extern "C" void free_bin_model_request(void*, int);
 
@@ -11,33 +12,34 @@ extern "C" void free_bin_model_request(void*, int);
 const char *TChCrLoadGmNjReq__name = "TChCrLoadGmNjReq";
 #pragma pop
 
+// The argument block create_ch_cr_load_gm_nj_req passes to the constructor.
+struct TChCrLoadGmNjReqArgs {
+    const char *name;
+    u32 *m_1c;
+    TLobby *m_24;
+    s32 m_20;
+    s32 *m_28;
+};
+
 extern "C" {
-s32 queue_destruction__7TObjectFv();
-s32 update_model_load__6TLobbyFv();
-s32 start_character_load_task__23TAdSinglePlyChrSelectGCFv();
-struct VOff_8028C7BC_arg0_8028C6EC { char pad_0[0x30]; char f_30[1]; };
+s32 queue_destruction__7TObjectFv(void *);
 
-void __ct__7TObjectFP7TObject(void *);
-void *__nw__7TObjectFUl(int);
-void strncpy(void *, void *, int);
-
-extern s32 __vt__16TChCrLoadGmNjReq[];
+void strncpy(void *, const void *, int);
 
 void TChCrLoadGmNjReq::run_task() {
-    u8 *arg0 = (u8 *)this;
-    s32 temp_r0;
-    temp_r0 = *(s32 *)((s8 *)arg0 + 0x70) - 1;
-    *(s32 *)((s8 *)arg0 + 0x70) = temp_r0;
-    if (temp_r0 < 0) {
-        queue_destruction__7TObjectFv();
+    s32 timer;
+    timer = m_70 - 1;
+    m_70 = timer;
+    if (timer < 0) {
+        queue_destruction__7TObjectFv(this);
         return;
     }
-    switch (*(s32 *)((s8 *)arg0 + 0x2C)) {
+    switch (state) {
     case 0:
-        start_character_load_task__23TAdSinglePlyChrSelectGCFv();
+        ((TAdSinglePlyChrSelectGC *)this)->start_character_load_task();
         return;
     case 1:
-        update_model_load__6TLobbyFv();
+        ((TLobby *)this)->update_model_load();
         return;
     }
 }
@@ -48,31 +50,23 @@ TChCrLoadGmNjReq::~TChCrLoadGmNjReq() {
         free_bin_model_request(m_68, 1);
     }
 }
-void *TChCrLoadGmNjReq__ct(void *ch_cr_load_gm_nj_req, void *arg1, void *arg2) {
-    struct VOff_8028C7BC_arg0_8028C6EC *self = (struct VOff_8028C7BC_arg0_8028C6EC *)ch_cr_load_gm_nj_req;
-    __ct__7TObjectFP7TObject(ch_cr_load_gm_nj_req);
-    *(s32 **)((s8 *)ch_cr_load_gm_nj_req + 0x18) = __vt__16TChCrLoadGmNjReq;
-    ((TChCrLoadGmNjReq *)ch_cr_load_gm_nj_req)->m_name = TChCrLoadGmNjReq__name;
-    *(void **)((s8 *)ch_cr_load_gm_nj_req + 0x24) = *(void **)((s8 *)arg2 + 0x8);
-    ((TChCrLoadGmNjReq *)ch_cr_load_gm_nj_req)->m_28 = *(void **)((s8 *)arg2 + 0x10);
-    *(void **)((s8 *)ch_cr_load_gm_nj_req + 0x1C) = *(void **)((s8 *)arg2 + 0x4);
-    ((TChCrLoadGmNjReq *)ch_cr_load_gm_nj_req)->m_20 = *(void **)((s8 *)arg2 + 0xC);
-    strncpy(self->f_30, *(void **)((s8 *)arg2 + 0x0), 48);
-    ((TChCrLoadGmNjReq *)ch_cr_load_gm_nj_req)->m_60 = self->f_30;
-    *(u32 *)((s8 *)ch_cr_load_gm_nj_req + 0x64) = 0;
-    *(u32 *)((s8 *)ch_cr_load_gm_nj_req + 0x68) = 0;
-    *(u32 *)((s8 *)ch_cr_load_gm_nj_req + 0x6C) = 0;
-    *(u32 *)((s8 *)ch_cr_load_gm_nj_req + 0x70) = 5370;
-    *(u32 *)((s8 *)ch_cr_load_gm_nj_req + 0x2C) = 0;
-    return ch_cr_load_gm_nj_req;
-}
 }
 
-void * create_ch_cr_load_gm_nj_req(void *arg0, void *arg1) {
-    void *o;
-    o = __nw__7TObjectFUl(0x78);
-    if (o != NULL) {
-        o = TChCrLoadGmNjReq__ct(o, arg0, arg1);
-    }
-    return o;
+TChCrLoadGmNjReq::TChCrLoadGmNjReq(TObject *parent, void *args) : TObject(parent) {
+    m_name = TChCrLoadGmNjReq__name;
+    m_24 = ((TChCrLoadGmNjReqArgs *)args)->m_24;
+    m_28 = ((TChCrLoadGmNjReqArgs *)args)->m_28;
+    m_1c = ((TChCrLoadGmNjReqArgs *)args)->m_1c;
+    m_20 = ((TChCrLoadGmNjReqArgs *)args)->m_20;
+    strncpy(name, ((TChCrLoadGmNjReqArgs *)args)->name, 48);
+    m_60 = name;
+    m_64 = 0;
+    m_68 = 0;
+    m_6c = 0;
+    m_70 = 5370;
+    state = 0;
+}
+
+void *create_ch_cr_load_gm_nj_req(void *parent, void *args) {
+    return new TChCrLoadGmNjReq((TObject *)parent, args);
 }
