@@ -278,6 +278,7 @@ extern const f32 lbl_805DEA20[1];
 extern const f32 lbl_805DEA24[1];
 extern const f32 lbl_805DEA28[1];
 extern const f32 lbl_805DEA2C[1];
+extern const f32 lbl_805DEA30[1];
 extern const f32 lbl_805DEA34[1];
 extern const f32 lbl_805DEA38[1];
 extern const f32 lbl_805DEA3C[1];
@@ -378,7 +379,7 @@ extern const f32 lbl_805DEBA0[1];
 #define lbl_805DEA24 (lbl_805DEA24[0])
 #define lbl_805DEA28 (lbl_805DEA28[0])
 #define lbl_805DEA2C (lbl_805DEA2C[0])
-#define lbl_805DEA30 (20.0f)
+#define lbl_805DEA30 (lbl_805DEA30[0])
 #define lbl_805DEA34 (lbl_805DEA34[0])
 #define lbl_805DEA38 (lbl_805DEA38[0])
 #define lbl_805DEA3C (lbl_805DEA3C[0])
@@ -1833,6 +1834,9 @@ __declspec(section ".sdata2") const f32 lbl_805DEA28[1] = { 0.7f };
 #undef lbl_805DEA2C
 __declspec(section ".sdata2") const f32 lbl_805DEA2C[1] = { 85.0f };
 #define lbl_805DEA2C (lbl_805DEA2C[0])
+#undef lbl_805DEA30
+__declspec(section ".sdata2") const f32 lbl_805DEA30[1] = { 20.0f };
+#define lbl_805DEA30 (lbl_805DEA30[0])
 void TObjFish::handle_death_state(u32 arg1) {
     Fish_802E8B50 *o = (Fish_802E8B50 *)this;
     CameraPlayback cam;
