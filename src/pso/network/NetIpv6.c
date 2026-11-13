@@ -355,7 +355,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
 
   g = &ipv6_protocol_state;
   ent = g->sockets;
-  for (i = 0; i < g->nsockets; i++)
+  for (i = 0; i < g->nsockets; i++, ent++)
   {
     if (((ent->used == 1) && (ent->proto == nh)) && (ent->owner != 0))
     {
@@ -368,7 +368,6 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
         }
       }
     }
-    ent++;
   }
 
   if (found == 1)
