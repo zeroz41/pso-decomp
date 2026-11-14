@@ -30,6 +30,7 @@
 #include "pso/item/TItem.h"
 #include "pso/unk/text_801036CC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/ui/city/TShopEquipmentSellWindow_801047B4.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
@@ -452,24 +453,23 @@ s32 compare_item_data_masked(void *arg0, void *arg1, s32 arg2) {
 
 extern "C" {
 
-void cleanup_game_objects__9TMainTaskFv(void);
 void TEnding__sub_8008C9F8(void);
 s32 get_current_floor();
 s32 get_game_play_mode();
 
 s32 get_main_phase();
-extern s32 tl_item_equip;
-extern s32 tl_particlemodel;
 
-void cleanup_game_objects__9TMainTaskFv(void) {
+}
+
+void TMainTask::cleanup_game_objects() {
     s32 floor;
     s32 main_phase;
     s32 area;
 
     TEnding__sub_8008C9F8();
     TItemLoad::create();
-    TObjPlayer::spawn_cleanup_helper((void *)tl_particlemodel);
-    TObjPlayer::create_cleanup_object((void *)tl_item_equip);
+    TObjPlayer::spawn_cleanup_helper(tl_particlemodel);
+    TObjPlayer::create_cleanup_object(tl_item_equip);
     main_phase = get_main_phase();
     area = get_current_floor_area();
     floor = get_current_floor();
@@ -489,8 +489,6 @@ void cleanup_game_objects__9TMainTaskFv(void) {
         new TItemDisconnectCtrl;
     }
     item_ground_placement_enabled = 1;
-}
-
 }
 
 // ---- TItemData_80104D0C.cpp
