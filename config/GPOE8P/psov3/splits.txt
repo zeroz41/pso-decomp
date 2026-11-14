@@ -7238,25 +7238,11 @@ pso/ui/window/TWindowMessageLog_8026A360.cpp:
 	.text       start:0x8026A360 end:0x8026A3CC
 
 pso/ui/window/TWindowMessageLog.cpp:
-	.text       start:0x8026A3CC end:0x8026A52C
-
-pso/ui/window/TWindowMessageLog_8026A52C.cpp:
-	.text       start:0x8026A52C end:0x8026A5A0
-
-pso/ui/window/TWindowMessageLog_8026A5A0.cpp:
-	.text       start:0x8026A5A0 end:0x8026A5F8
-
-pso/ui/frontend/TAdScrollWinGC_8026A5F8.cpp:
-	.text       start:0x8026A5F8 end:0x8026A93C
-	.bss        start:0x805187D8 end:0x80518850
-
-pso/unk/text_8026A93C.cpp:
-	.text       start:0x8026A93C end:0x8026AA38
-
-pso/ui/window/TWindowMessageLog_8026AA38.cpp:
-	.text       start:0x8026AA38 end:0x8026AC50
+	.text       start:0x8026A3CC end:0x8026AC50
 	.rodata     start:0x8044F418 end:0x8044F438
+	.bss        start:0x805187D8 end:0x80518850
 	.sdata      start:0x805D3990 end:0x805D3998
+	.sdata2     start:0x805DD240 end:0x805DD260
 
 pso/unk/text_8026AC50.cpp:
 	.text       start:0x8026AC50 end:0x8026ACDC

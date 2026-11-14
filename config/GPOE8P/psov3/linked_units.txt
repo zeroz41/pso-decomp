@@ -1455,9 +1455,6 @@ pso/ui/window/TWindowMeseta_802690B4.cpp
 pso/ui/window/TWindowMessage.cpp
 pso/ui/window/TWindowMessageInfomation.cpp
 pso/ui/window/TWindowMessageLog.cpp
-pso/ui/window/TWindowMessageLog_8026A52C.cpp
-pso/ui/window/TWindowMessageLog_8026A5A0.cpp
-pso/ui/window/TWindowMessageLog_8026AA38.cpp
 pso/ui/window/TWindowMessagePage.cpp
 pso/ui/window/TWindowMessageQuest.cpp
 pso/ui/window/TWindowMessageScroll.cpp
@@ -2147,7 +2144,6 @@ pso/ui/frontend/TAdPsoPassSaveGC.cpp
 pso/ui/frontend/TAdRayGC.cpp
 pso/ui/frontend/TAdRicoRingCtrl.cpp
 pso/ui/frontend/TAdSEGAlogo.cpp
-pso/ui/frontend/TAdScrollWinGC_8026A5F8.cpp
 pso/ui/frontend/TAdSelectCurGC.cpp
 pso/ui/frontend/TAdSelectCurGC_802AEA38.cpp
 pso/ui/frontend/TAdSelectCurGC_802AED98.cpp
@@ -2454,7 +2450,6 @@ pso/unk/text_80269FE8.cpp
 pso/unk/text_8026A14C.cpp
 pso/unk/text_8026A328.cpp
 pso/ui/window/TWindowMessageLog_8026A360.cpp
-pso/unk/text_8026A93C.cpp
 pso/unk/text_8026AC50.cpp
 pso/unk/text_8026ACDC.cpp
 pso/unk/text_8026C664.cpp
