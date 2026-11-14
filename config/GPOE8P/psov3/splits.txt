@@ -10905,6 +10905,7 @@ pso/enemy/illgill/TObjEneIllGill.cpp:
 	.bss        start:0x80543A60 end:0x80543AA0
 	.sdata      start:0x805D44A8 end:0x805D44B0
 	.sbss       start:0x805D6FD0 end:0x805D6FE8
+	.sdata2     start:0x805E02B8 end:0x805E0310
 
 pso/boss/olgaflow/TBoss6MagMine.cpp:
 	.text       start:0x8036897C end:0x80369654
