@@ -2740,6 +2740,7 @@ pso/item/TItemTimer.cpp:
 	.text       start:0x8011D414 end:0x8011DA9C
 	.rodata     start:0x8043E820 end:0x8043E828
 	.data       start:0x804A0550 end:0x804A0568
+	.sdata2     start:0x805DAC78 end:0x805DAC80
 
 pso/item/TItemTimerEvent.cpp:
 	.text       start:0x8011DA9C end:0x8011E214
@@ -8812,6 +8813,7 @@ pso/ui/frontend/TAdSelectGameModeGC_802C4748.cpp:
 	.text       start:0x802C4748 end:0x802C4CA0
 	.rodata     start:0x80471A78 end:0x80471A80
 	.data       start:0x804E0A18 end:0x804E0A30
+	.sdata2     start:0x805DE540 end:0x805DE548
 
 pso/ui/frontend/TAdPlyChrSelPlateGC.cpp:
 	.text       start:0x802C4CA0 end:0x802C50EC
@@ -10016,6 +10018,7 @@ pso/ui/frontend/TAdExNetConfirmGC_8032C504.cpp:
 pso/system/GbaDownloadRuntime.cpp:
 	.text       start:0x8032C6AC end:0x8032CE1C
 	.rodata     start:0x80477310 end:0x80477320
+	.sdata2     start:0x805DF7A8 end:0x805DF7B0
 
 pso/ui/frontend/TAdWarningBaseGC_8032CE1C.cpp:
 	.text       start:0x8032CE1C end:0x8032D154
@@ -10412,6 +10415,7 @@ pso/unk/text_8034960C.cpp:
 	.text       start:0x8034960C end:0x8034999C
 	.rodata     start:0x80478718 end:0x80478778
 	.sdata      start:0x805D42F8 end:0x805D42FC
+	.sdata2     start:0x805DFD00 end:0x805DFD18
 
 pso/ui/frontend/TAdLoadQuestCellGC.cpp:
 	.text       start:0x8034999C end:0x80349B8C
@@ -10592,6 +10596,7 @@ pso/system/scene/TEndingPic.cpp:
 	.rodata     start:0x804790F0 end:0x80479100
 	.data       start:0x804F10A8 end:0x804F10C0
 	.sdata      start:0x805D4378 end:0x805D4380
+	.sdata2     start:0x805DFEF0 end:0x805DFF28
 
 pso/item/TUnk_804F112C.cpp:
 	.text       start:0x80353018 end:0x8035346C

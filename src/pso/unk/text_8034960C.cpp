@@ -48,12 +48,6 @@ const char *TAdLoadQuestCellGC__name = "TAdLoadQuestCellGC";
 extern "C" {
 void draw_color_lines(Desc_80349844 *, s32, s32, f32);
 }
-extern const f32 lbl_805DFD04;
-extern const f32 lbl_805DFD08;
-extern const f32 lbl_805DFD0C;
-extern const f32 lbl_805DFD10;
-extern const f32 lbl_805DFD14;
-extern const f32 lbl_805DFD00;
 
 void draw_quest_load_panel_overlays(void) {
     f32 pos[8];
@@ -78,7 +72,7 @@ void draw_quest_load_panel_overlays(void) {
         d.pos[6] = d.pos[0] + quest_load_panel_overlay_offsets[i].x;
         d.pos[7] = d.pos[1];
         d.col[3] = 0x77;
-        ((TObjCMHairMenu *)(&d))->draw_tri_fan_2d(4, 7, lbl_805DFD00);
+        ((TObjCMHairMenu *)(&d))->draw_tri_fan_2d(4, 7, (-490.0f));
         i++;
     } while (i < 2);
 }
@@ -106,7 +100,7 @@ void draw_quest_load_letterbox_bars(void) {
         d.pos[6] = d.pos[0] + quest_load_letterbox_bar_sizes[i].x;
         d.pos[7] = d.pos[1];
         d.col[3] = 0xFF;
-        ((TObjCMHairMenu *)(&d))->draw_tri_fan_2d(4, 3, lbl_805DFD00);
+        ((TObjCMHairMenu *)(&d))->draw_tri_fan_2d(4, 3, (-490.0f));
         i++;
     } while (i < 2);
 }
@@ -123,20 +117,20 @@ void fn_80349844(void) {
     d.a = 0;
     d.b = 4;
     for (i = 0; i < 0x78; i++) {
-        d.pos[0] = lbl_805DFD04;
-        y = lbl_805DFD08 * (f32) i;
+        d.pos[0] = 0.0f;
+        y = 8.0f * (f32) i;
         d.pos[1] = y;
         d.col[0] = 0xFF001A36;
-        d.pos[2] = lbl_805DFD0C;
-        y2 = lbl_805DFD10 + y;
+        d.pos[2] = 640.0f;
+        y2 = 4.0f + y;
         d.pos[3] = y;
         d.col[1] = 0xFF001A36;
-        d.pos[4] = lbl_805DFD0C;
+        d.pos[4] = 640.0f;
         d.pos[5] = y2;
         d.col[2] = 0xFF001A36;
-        d.pos[6] = lbl_805DFD0C;
+        d.pos[6] = 640.0f;
         d.pos[7] = y2;
         d.col[3] = 0xFF001A36;
-        draw_color_lines(&d, 4, 3, lbl_805DFD14);
+        draw_color_lines(&d, 4, 3, (-500.0f));
     }
 }

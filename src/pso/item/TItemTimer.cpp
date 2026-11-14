@@ -114,15 +114,13 @@ void TItemTimer__sub_8011D598(u8 *arg0, s32 arg1, s32 arg2) {
 
 void TItemTimer::reset_fields() { *(s32 *)&this->m_name = 0; *(s32 *)&this->m_flags = 0; }
 
-extern const f32 lbl_805DAC78;
-extern const f32 lbl_805DAC7C;
 void TUnk_804A0568::vfunc_6() {
     Timer_8011D5B4 *arg0 = (Timer_8011D5B4 *)this;
     Rec_8011D5B4 a;
     ((TBoss3Volopt *)(arg0->obj))->get_field_3e0();
-    if (is_item_area_enabled() == 1 && lbl_805DAC78 * (f32)rand() < arg0->f2c) {
+    if (is_item_area_enabled() == 1 && 3.0517578e-05f * (f32)rand() < arg0->f2c) {
         a.k1 = 0x10;
-        a.v2 = lbl_805DAC7C;
+        a.v2 = 0.0f;
         a.k2 = 0x10;
         a.v1 = *(s32 *)&a.v2;
         arg0->obj->m21(arg0->obj, &a, 0, -1, -1);
@@ -133,9 +131,9 @@ void TUnk_804A0588::vfunc_6() {
     Timer_8011D5B4 *arg0 = (Timer_8011D5B4 *)this;
     Rec_8011D5B4 a;
     ((TBoss3Volopt *)(arg0->obj))->get_field_3e0();
-    if (is_item_area_enabled() == 1 && lbl_805DAC78 * (f32)rand() < arg0->f2c) {
+    if (is_item_area_enabled() == 1 && 3.0517578e-05f * (f32)rand() < arg0->f2c) {
         a.k1 = 0x12;
-        a.v2 = lbl_805DAC7C;
+        a.v2 = 0.0f;
         a.k2 = 0x12;
         a.v1 = *(s32 *)&a.v2;
         arg0->obj->m21(arg0->obj, &a, 0, -1, -1);
@@ -146,9 +144,9 @@ void TUnk_804A05A8::vfunc_6() {
     Timer_8011D5B4 *arg0 = (Timer_8011D5B4 *)this;
     Rec_8011D5B4 a;
     ((TBoss3Volopt *)(arg0->obj))->get_field_3e0();
-    if (is_item_area_enabled() == 1 && lbl_805DAC78 * (f32)rand() < arg0->f2c) {
+    if (is_item_area_enabled() == 1 && 3.0517578e-05f * (f32)rand() < arg0->f2c) {
         a.k1 = 0x11;
-        a.v2 = lbl_805DAC7C;
+        a.v2 = 0.0f;
         a.k2 = 0x11;
         a.v1 = *(s32 *)&a.v2;
         arg0->obj->m21(arg0->obj, &a, 0, -1, -1);
@@ -174,7 +172,7 @@ void TUnk_804A05E8::vfunc_6() {
     if (((TObjChara *)(*(void * *)&this->m_28))->obj_isState2_324() == 0) {
         if (((TObjPlayer *)this->m_28)->has_flag_0x800() == 0) {
             ((TBoss3Volopt *)(this->m_28))->get_field_3e0();
-            if ((is_item_area_enabled() == 1) && ((lbl_805DAC78 * (f32) rand()) < *(f32 *)&this->unk_2C)) {
+            if ((is_item_area_enabled() == 1) && ((3.0517578e-05f * (f32) rand()) < *(f32 *)&this->unk_2C)) {
                 ((TObjPlayer *)this->m_28)->apply_movement_ailment(0);
                 ((TObjPlayer *)this->m_28)->vfunc_74(0);
             }
