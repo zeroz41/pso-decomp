@@ -6387,6 +6387,9 @@ pso/item/shop/ShopToolStock.cpp:
 	.sbss       start:0x805D6260 end:0x805D6268
 	.sdata2     start:0x805DC730 end:0x805DC734
 
+pso/item/shop/ShopWeaponTables.cpp:
+	.rodata     start:0x8044C488 end:0x8044C7B8
+
 pso/item/shop/ShopWeaponStock.cpp:
 	.text       start:0x80224660 end:0x802257EC
 	.rodata     start:0x8044C7B8 end:0x8044C828

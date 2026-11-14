@@ -708,6 +708,7 @@ pso/ui/keyboard/KeyboardCharacterMaps.cpp
 pso/quest/QuestDownloadBuffers.cpp
 pso/render/RenderFadeState.cpp
 pso/item/shop/ShopToolStock.cpp
+pso/item/shop/ShopWeaponTables.cpp
 pso/item/shop/ShopWeaponStock.cpp
 pso/ui/chat/ShortMail.cpp
 pso/effect/TAttackTrace.cpp
