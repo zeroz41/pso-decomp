@@ -37,15 +37,9 @@ void TObjWarpBoss03::sub_8019F9E4() {
 extern "C" {
 
 void *TObjWarpJungMain__create(void *arg0);
-void *__dt__14TObjWarpBoss03Fv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
-u8 *__dt__12TObjAreaWarpFv(u8 *arg0, s16 arg1);
-void *__nw__7TObjectFUl(int);
 
 void TObjWarpBoss03::debug_print_area_num() { this->TObjAreaWarp::debug_print_area_num(); sub_8019F9E4(); }
-void TObjWarpBoss03::run_task() { { (void)(handle_area_selection()); return; } }
-
-extern s32 __vt__14TObjWarpBoss03[];
+void TObjWarpBoss03::run_task() { handle_area_selection(); }
 
 }
 TObjWarpBoss03::~TObjWarpBoss03() {
