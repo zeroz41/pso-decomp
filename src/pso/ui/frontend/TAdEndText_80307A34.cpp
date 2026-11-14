@@ -28,9 +28,8 @@ void process_async_file_reads(void);
 void set_screen_size(f32 farg0, f32 farg1);
 extern int ending_sequence_active;
 extern "C" {
-int TLobby__sub_800FC3CC(void);
 
-void TAdEndText::cleanup() { ending_sequence_active = 0; main_task.delete_layer_children(); TLobby__sub_800FC3CC(); TLobby::free_keyboard_soft_resources(); TAdEndText::free_resources(); render_tick(); }
+void TAdEndText::cleanup() { ending_sequence_active = 0; main_task.delete_layer_children(); TLobby::free_ending_callback(); TLobby::free_keyboard_soft_resources(); TAdEndText::free_resources(); render_tick(); }
 typedef char RecoveredGlobal_80307A74_main_task_size[sizeof(RecoveredGlobal_80307A74_main_task) == 0x34 ? 1 : -1];
 void TKeyBoardControl::run_main_frame() {
     s32 *var_r3;

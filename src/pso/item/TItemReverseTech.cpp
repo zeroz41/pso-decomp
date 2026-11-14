@@ -15,6 +15,7 @@
 #include "pso/ui/frontend/TAdRicoRingCtrl_8001B4A0.h"
 #include "pso/ui/frontend/TAdRicoRingCtrl.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/TLobby_800FC3CC.h"
 #include "pso/item/TItemReverseTech.h"
 #include "pso/camera/TCameraCtrl_800687BC.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -59,9 +60,12 @@ extern "C" {
 
 extern RecoveredGlobal_80119B28___vt__21TItemReverseTechPart2 __vt__21TItemReverseTechPart2;
 
-extern void *TItemReverseTechPart1__instance;
-
 }
+
+void *TItemReverseTech__texture_archive;
+int TItemReverseTech__entry_table;
+int TItemReverseTech__name_buffer;
+void *TItemReverseTechPart1__instance;
 
 static const f32 lbl_805DAC08[1] = {0.0f};
 static const f32 lbl_805DAC0C[1] = {480.0f};
@@ -87,27 +91,15 @@ extern s32 destroy_and_flag__21TItemReverseTechPart2Fv[];
 }
 
 extern "C" {
-extern void *TItemReverseTech__texture_archive;
-
-}
-
-extern "C" {
 
 extern s32 __vt__16TItemReverseTech[];
 const char *TItemReverseTech__name = "TItemReverseTech";
-extern s32 lbl_8043E708[];
 
 }
 
 struct RecoveredGlobal_8011A350_main_task {
     s32 value;
     u8 remaining[0x30];
-};
-
-struct RecoveredGlobal_8011A3D8_lbl_804A03A8
-{
-  s32 value;
-  u8 remaining[0x34];
 };
 
 struct RecoveredGlobal_8011A3D8_main_task
@@ -120,26 +112,25 @@ struct Ent_8011A270 { int name; int a; int b; };
 
 struct Hdr_8011A270 { int entries; int x4; };
 
-struct Name_8011A270 { char s[0x1C]; };
-
 struct Vec_8011A43C { f32 x, y, z; };
 
-struct Ent_8011A43C { void (*fn)(); s32 arg; };
+// One load/release pair of the reverse tech scene: init_scene calls each load,
+// run_cleanup_callbacks each release, last pair first.
+struct TItemReverseTechSceneHook {
+    void (*load)(void);
+    void (*release)(void);
+};
 
 extern "C" {
 s32 TKeyBoardControl__sub_8000F92C();
 void TKeyBoardControl__sub_8000F9CC(s32 arg0);
 s8 func_801A5E54__Fv();
-extern RecoveredGlobal_8011A3D8_lbl_804A03A8 TItemReverseTech__cleanup_callback_table;
 s32 prs_decompress_alloc(int, int, int);
-int set_stream_and_load_file__6TLobbyFi(char *);
+int set_stream_and_load_file__6TLobbyFi(const char *);
 void mem_free(void *p);
 void *mem_alloc(u32 size);
 char *strncpy(char *, const char *, u32);
 void load_gvm_texture_archive(int, void *);
-extern Name_8011A270 lbl_8043E714;
-extern int TItemReverseTech__entry_table;
-extern int TItemReverseTech__name_buffer;
 void TKeyBoardControl__sub_8000F90C(s32);
 void TKeyBoardControl__sub_8000F91C(s32);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
@@ -158,10 +149,20 @@ void TItemReverseTech__sub_8011A54C(void* a0);
 int TItemReverseTech__sub_8011A55C(void);
 int TItemReverseTech__sub_8011A580(void);
 void TItemReverseTech__sub_8011A5A4(void);
-void free__16TItemReverseTechFv(void);
+void reset__11TCameraCtrlFv(void);
 s32 free_texture_if_valid(u32 arg0);
 int set_global_flags__6TLobbyFl(void*);
 }
+
+TItemReverseTechSceneHook TItemReverseTech__cleanup_callback_table[7] = {
+    {TCameraCtrl::reset_view_state, reset__11TCameraCtrlFv},
+    {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
+    {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
+    {TLobby::set_ending_callback, TLobby::free_ending_callback},
+    {TAdRicoRingCtrl::load_static_resource, TAdRicoRingCtrl::release_global_805D4A00},
+    {TAdEndText::load_ending_font, TAdEndText::free_resources},
+    {TItemReverseTech::load_textures, TItemReverseTech::free},
+};
 
 #pragma defer_codegen on
 
@@ -173,7 +174,7 @@ int TItemReverseTech__sub_8011A55C(void) { return set_global_flags__6TLobbyFl((v
 void TItemReverseTech__sub_8011A54C(void* a0) { *(float*)((char*)a0 + 0x20) = 1.0f; *(float*)((char*)a0 + 0x24) = 1.0f; }
 
 void TItemReverseTech::init_scene() {
-    Ent_8011A43C *e;
+    TItemReverseTechSceneHook *e;
     u32 i;
     void (*fn)();
     void *cam;
@@ -181,9 +182,9 @@ void TItemReverseTech::init_scene() {
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
     clear_resource_load_tasks();
-    e = ((Ent_8011A43C *)&TItemReverseTech__cleanup_callback_table);
+    e = TItemReverseTech__cleanup_callback_table;
     for (i = 0; i != 7; i++) {
-        fn = e->fn;
+        fn = e->load;
         e++;
         if (fn != NULL) {
             fn();
@@ -205,29 +206,24 @@ void TItemReverseTech::init_scene() {
     render_tick();
 }
 
-typedef struct RecoveredGlobal_8011A3D8_lbl_804A03A8 RecoveredGlobal_8011A3D8_lbl_804A03A8;
 typedef struct RecoveredGlobal_8011A3D8_main_task RecoveredGlobal_8011A3D8_main_task;
-typedef char RecoveredGlobal_8011A3D8_lbl_804A03A8_size[((sizeof(RecoveredGlobal_8011A3D8_lbl_804A03A8)) == 0x38) ? (1) : (-1)];
 typedef char RecoveredGlobal_8011A3D8_main_task_size[((sizeof(RecoveredGlobal_8011A3D8_main_task)) == 0x34) ? (1) : (-1)];
 void TItemReverseTech::run_cleanup_callbacks() {
-  s32 (*temp_r12)();
-  u8 *var_r31;
-  s32 var_r30;
-  main_task.delete_layer_children();
-  var_r30 = 6;
-  var_r31 = ((u8 *)&TItemReverseTech__cleanup_callback_table.value) + 0x30;
-  do
-  {
-    temp_r12 = *((s32 (**)()) (((s8 *) var_r31) + 4));
-    var_r31 -= 8;
-    if (temp_r12 != 0)
-    {
-      temp_r12();
-    }
-    var_r30 -= 1;
-  }
-  while (var_r30 >= 0);
-  render_tick();
+    void (*fn)(void);
+    TItemReverseTechSceneHook *e;
+    s32 i;
+    main_task.delete_layer_children();
+    i = 6;
+    e = &TItemReverseTech__cleanup_callback_table[6];
+    do {
+        fn = e->release;
+        e--;
+        if (fn != NULL) {
+            fn();
+        }
+        i--;
+    } while (i >= 0);
+    render_tick();
 }
 
 void TItemReverseTech::run_frame() {
@@ -264,14 +260,14 @@ typedef char RecoveredGlobal_8011A350_main_task_size[sizeof(RecoveredGlobal_8011
 #pragma push
 #pragma opt_propagation off
 void TItemReverseTech::load_textures() {
-    Name_8011A270 *name = &lbl_8043E714;
+    const char *name = "ItemRTT.prs";
     Ent_8011A270 *e;
     s32 i;
     Hdr_8011A270 *hdr;
     int file;
     int buf;
     TItemReverseTech__name_buffer = (int)mem_alloc(0x1C);
-    strncpy((char *)TItemReverseTech__name_buffer, name->s, 0x1B);
+    strncpy((char *)TItemReverseTech__name_buffer, name, 0x1B);
     e = (Ent_8011A270 *)mem_alloc(0xCC);
     TItemReverseTech__entry_table = (int)e;
     for (i = 0; i < 17; i++, e++) {
@@ -282,7 +278,7 @@ void TItemReverseTech::load_textures() {
     hdr = (Hdr_8011A270 *)::operator new(8);
     TItemReverseTech__texture_archive = hdr;
     hdr->entries = TItemReverseTech__entry_table;
-    file = set_stream_and_load_file__6TLobbyFi(name->s);
+    file = set_stream_and_load_file__6TLobbyFi(name);
     if (file != 0) {
         buf = (int)mem_alloc(0x200000);
         if (buf != 0 && prs_decompress_alloc(file, buf, 0x200000) > 0) {
@@ -294,7 +290,7 @@ void TItemReverseTech::load_textures() {
 }
 #pragma pop
 
-void free__16TItemReverseTechFv(void) { free_texture_if_valid((u32)TItemReverseTech__texture_archive); mem_free((void *)TItemReverseTech__name_buffer); TItemReverseTech__name_buffer = 0; mem_free((void *)TItemReverseTech__entry_table); TItemReverseTech__entry_table = 0; ::operator delete((void *)TItemReverseTech__texture_archive); TItemReverseTech__texture_archive = 0; }
+void TItemReverseTech::free() { free_texture_if_valid((u32)TItemReverseTech__texture_archive); mem_free((void *)TItemReverseTech__name_buffer); TItemReverseTech__name_buffer = 0; mem_free((void *)TItemReverseTech__entry_table); TItemReverseTech__entry_table = 0; ::operator delete((void *)TItemReverseTech__texture_archive); TItemReverseTech__texture_archive = 0; }
 
 void TItemReverseTech::create() {
     void *obj = __nw__7TObjectFUl(0x28);
@@ -323,7 +319,7 @@ void *TItemReverseTech__ct(void *item_reverse_tech, void *parent) {
     if (o2 != NULL) {
         __ct__10TAdEndTextFv((u8 *)o2, (TObject *)item_reverse_tech);
     }
-    play_area_music((char *)lbl_8043E708);
+    play_area_music("ending.adx");
     return item_reverse_tech;
 }
 

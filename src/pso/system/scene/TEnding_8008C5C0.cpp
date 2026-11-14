@@ -47,7 +47,7 @@ void (*ending_scene_callbacks[26])(void) = {
     TCameraCtrl::reset_view_state, reset__11TCameraCtrlFv,
     TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view,
     TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources,
-    TLobby::set_ending_callback, TLobby__sub_800FC3CC,
+    TLobby::set_ending_callback, TLobby::free_ending_callback,
     ending_scene_nop_load, ending_scene_nop_release,
     register_texture_ed_512kabe_c, release_lobby__8TEndingCFv,
     TScene::bind_ending_wall_textures, TEndingAB::destroy_instance,

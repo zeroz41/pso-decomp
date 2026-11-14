@@ -647,7 +647,7 @@ pso/boss/darkfalz/TBoss4Zako.cpp:
 	.data       start:0x804872E8 end:0x80487844
 	.sdata      start:0x805D27E8 end:0x805D27F8
 	.sbss       start:0x805D4D88 end:0x805D4D90
-	.sdata2     start:0x805D8D20 end:0x805D8D28
+	.sdata2     start:0x805D8CB8 end:0x805D8D48
 
 original_padding_80487844:
 	.data       start:0x80487844 end:0x80487848 align:4
@@ -2635,9 +2635,10 @@ pso/item/TItemLockCountCtrl_80119238.cpp:
 
 pso/item/TItemReverseTech.cpp:
 	.text       start:0x80119600 end:0x8011A5A8
-	.rodata     start:0x8043E678 end:0x8043E708
-	.data       start:0x804A03E0 end:0x804A0440
+	.rodata     start:0x8043E678 end:0x8043E720
+	.data       start:0x804A03A8 end:0x804A0440
 	.sdata      start:0x805D2C48 end:0x805D2C58
+	.sbss       start:0x805D54D0 end:0x805D54E0
 	.sdata2     start:0x805DAC08 end:0x805DAC58
 
 pso/item/TItemReverseTechCtrl.cpp:
@@ -9647,7 +9648,7 @@ pso/enemy/sinowzoa/TObjEneMe3SinowZoa.cpp:
 	.bss        start:0x80542FB0 end:0x80543000
 	.sdata      start:0x805D4120 end:0x805D4128
 	.sbss       start:0x805D6AD8 end:0x805D6AE8
-	.sdata2     start:0x805DF320 end:0x805DF368
+	.sdata2     start:0x805DF2F0 end:0x805DF390
 
 pso/boss/galgryphon/Boss5GryphonActionScripts.cpp:
 	.data       start:0x804E8D58 end:0x804EC2B0
