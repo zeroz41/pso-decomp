@@ -6400,7 +6400,8 @@ pso/technique/TTecGiBarta.cpp:
 
 pso/technique/TTecGiFoie.cpp:
 	.text       start:0x80230D9C end:0x80231AF0
-	.rodata     start:0x8044D350 end:0x8044D368
+	.rodata     start:0x8044D2A0 end:0x8044D368
+	.sdata      start:0x805D37C0 end:0x805D37C4
 	.sdata2     start:0x805DC810 end:0x805DC828
 
 pso/technique/TTecGiZonde_80231AF0.cpp:

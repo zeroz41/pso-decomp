@@ -663,7 +663,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/technique/TTecGiBarta.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -fp_contract on: TUnk_804CC800::run_task fuses its three orbit sums (radius * cos + centre) into
     # fmadds; the unit's other functions are the same either way.
-    "pso/technique/TTecGiFoie.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
+    # TTecGiFoie.cpp keeps its class name string in .rodata (-str readonly) and reaches each .rodata
+    # object with its own lis/addi: -pool off.
+    "pso/technique/TTecGiFoie.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-str reuse,readonly", "-pool off")},
     "pso/object/TObjSinBoard.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/ambient/TObjGrass.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/object/lobby/LobbyGoGoBall.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
