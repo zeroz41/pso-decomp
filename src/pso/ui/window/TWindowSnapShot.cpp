@@ -13,6 +13,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct RecoveredGlobal_802A7AF8_lbl_804DDD28 { s32 value; u8 remaining[0x134]; };
 typedef char RecoveredGlobal_802A7AF8_lbl_804DDD28_size[sizeof(RecoveredGlobal_802A7AF8_lbl_804DDD28) == 0x138 ? 1 : -1];
@@ -255,9 +256,30 @@ struct RecoveredGlobal_802A7FB0_lbl_8050E208 {
     u8 remaining[0x1AC];
 };
 
-struct RecoveredGlobal_802A80A0_lbl_804DDEB4 {
-    s32 value;
-    u8 remaining[0x10];
+#pragma push
+#pragma readonly_strings on
+const char *TWindowSnapShot__name = "TWindowSnapShot";
+#pragma pop
+
+// inferred: window_snapshot_layout_entries, the layout table window_snapshot_layout points at
+// (a sprite part and a text line).
+struct SnapShotWindowLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+};
+
+extern s32 lbl_805D63F0;
+
+SnapShotWindowLayout window_snapshot_layout_entries = {
+    2, 1,
+    {6, {372.0f, 240.0f}, {18.0f, 18.0f}, 178.0f, 203.0f, 0.5f, -1, &lbl_805D63F0, 0, 4},
+    {3, {399.0f, 240.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+};
+
+WindowDescriptor window_snapshot_layout = {
+    {512.0f, 280.0f}, 50100.0f, &window_snapshot_layout_entries, 3,
 };
 
 struct RecoveredGlobal_802A80A0___vt__15TWindowSnapShot {
@@ -274,9 +296,7 @@ s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
 extern RecoveredGlobal_802A7FB0_lbl_8050E208 controller_input_state;
 s32 verify_snapshot_checksum__15TObjBoss2TunnelFv(void);
-extern RecoveredGlobal_802A80A0_lbl_804DDEB4 window_snapshot_layout;
 extern s32 __vt__15TWindowSnapShot[];
-extern s32 TWindowSnapShot__name;
 s32 play_sound_effect(s32, s32, s32, s32);
 void __dl__7TObjectFPv(void *);
 
@@ -362,11 +382,10 @@ void *__dt__15TWindowSnapShotFv(void *arg0, s16 arg1) {
     }
     return arg0;
 }
-typedef char RecoveredGlobal_802A80A0_lbl_804DDEB4_size[sizeof(RecoveredGlobal_802A80A0_lbl_804DDEB4) == 0x14 ? 1 : -1];
 typedef char RecoveredGlobal_802A80A0___vt__15TWindowSnapShot_size[sizeof(RecoveredGlobal_802A80A0___vt__15TWindowSnapShot) == 0x18 ? 1 : -1];
 u8 *TWindowSnapShot__ct(TWindowSnapShot *window_snap_shot, s32 arg1) {
     s32 temp_r31;
-    ((TWindowDD *)window_snap_shot)->construct_base((u8 *)((s32) &window_snapshot_layout.value), (s16)4, (u8 *)arg1);
+    ((TWindowDD *)window_snap_shot)->construct_base((u8 *)&window_snapshot_layout, (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)window_snap_shot + 0x18) = &(*(RecoveredGlobal_802A80A0___vt__15TWindowSnapShot *)&__vt__15TWindowSnapShot).value;
     *(s32 *)((s8 *)window_snap_shot + 0) = (s32) TWindowSnapShot__name;
     window_snap_shot->m_60 = 0U;

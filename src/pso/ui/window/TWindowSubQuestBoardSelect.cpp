@@ -9,6 +9,12 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/WindowLayoutRecord.h"
+
+#pragma push
+#pragma readonly_strings on
+const char *TWindowSubQuestBoardSelect__class_name = "TWindowSubQuestBoardSelect";
+#pragma pop
 
 struct RecoveredGlobal_8027D230_lbl_805129F8 {
     s32 value;
@@ -50,9 +56,33 @@ struct Ent_8027D6A0 { u8 pad0[0x20]; u8 f20[0x30]; };
 
 struct Win_8027D6A0 { u8 pad0[0x61]; s8 f61; };
 
-struct RecoveredGlobal_8027DA14_lbl_804D19A8 {
-    s32 value;
-    u8 remaining[0x10];
+extern s32 lbl_805D63F0;
+
+// inferred: window_sub_quest_board_select_layout_entries, the layout table
+// TWindowSubQuestBoardSelect__window_parameters points at (two text entries, six slot sprites).
+struct SubQuestBoardSelectWindowLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord text[2];
+    SpritePartLayoutRecord slot[6];
+};
+SubQuestBoardSelectWindowLayout window_sub_quest_board_select_layout_entries = {
+    8, 1,
+    {
+        {3, {210.0f, 6.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+        {3, {385.0f, 53.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
+    },
+    {
+        {6, {39.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &lbl_805D63F0, 2, 4},
+        {6, {103.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &lbl_805D63F0, 2, 4},
+        {6, {167.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &lbl_805D63F0, 2, 4},
+        {6, {231.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &lbl_805D63F0, 2, 4},
+        {6, {295.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &lbl_805D63F0, 2, 4},
+        {6, {392.0f, 97.0f}, {56.0f, 56.0f}, 151.0f, 0.0f, 0.5f, -1, &lbl_805D63F0, 2, 4},
+    },
+};
+WindowDescriptor TWindowSubQuestBoardSelect__window_parameters = {
+    {434.0f, 184.0f}, 50150.0f, &window_sub_quest_board_select_layout_entries, 3,
 };
 
 struct RecoveredGlobal_8027DA14___vt__26TWindowSubQuestBoardSelect {
@@ -296,16 +326,13 @@ s32 construct_type1_heading__20TWindowSubStatusDispFll(s32, s32, s32);
 s32 get_message_10__20TWindowSubStatusDispFl(int);
 u32 calc_text_width();
 s32 update_slot_display_flags__26TWindowSubQuestBoardSelectFv(void *, f32, f32);
-extern RecoveredGlobal_8027DA14_lbl_804D19A8 TWindowSubQuestBoardSelect__window_parameters;
-extern s32 TWindowSubQuestBoardSelect__class_name;
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_8027DA14_lbl_804D19A8_size[sizeof(RecoveredGlobal_8027DA14_lbl_804D19A8) == 0x14 ? 1 : -1];
 u8 *TWindowSubQuestBoardSelect__ct(TWindowSubQuestBoardSelect *window_sub_quest_board_select) {
     f32 temp_f2;
     s32 temp_r30;
     s32 var_r30;
-    ((TWindowDD *)window_sub_quest_board_select)->construct_base((u8 *)&TWindowSubQuestBoardSelect__window_parameters.value, (s16)(4), (u8 *)(get_window_layout_position(0x70)));
+    ((TWindowDD *)window_sub_quest_board_select)->construct_base((u8 *)&TWindowSubQuestBoardSelect__window_parameters, (s16)(4), (u8 *)(get_window_layout_position(0x70)));
     *(s32 **)((s8 *)window_sub_quest_board_select + 0x18) = __vt__26TWindowSubQuestBoardSelect;
     *(s32 *)((s8 *)window_sub_quest_board_select + 0) = (s32) TWindowSubQuestBoardSelect__class_name;
     var_r30 = (int)::operator new(0x24);

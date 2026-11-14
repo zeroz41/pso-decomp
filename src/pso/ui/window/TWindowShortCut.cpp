@@ -7,6 +7,11 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowDD.h"
 
+#pragma push
+#pragma readonly_strings on
+const char *TWindowShortCut__name = "TWindowShortCut";
+#pragma pop
+
 struct RecoveredGlobal_8026E728_lbl_804D0AE0 {
     s32 value;
     u8 remaining[0x10];
@@ -26,7 +31,6 @@ s32 get_message_10__20TWindowSubStatusDispFl(int);
 s32 TWindowSubStatusDisp__sub_8026E1D4(void *, void *, void *);
 extern RecoveredGlobal_8026E728_lbl_804D0AE0 window_short_cut_layout;
 extern s32 __vt__15TWindowShortCut[];
-extern s32 TWindowShortCut__name;
 void __dl__7TObjectFPv(void *);
 
 void render__15TWindowShortCutFv(u8 *arg0) {

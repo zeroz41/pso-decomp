@@ -15,6 +15,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct Disp_8026F9F4 { u8 p0[0x20]; s16 id; u8 p1[0x42]; void *windows[5]; };
 
@@ -24,6 +25,51 @@ struct Params_80270244 { f32 x; f32 y; u8 pad8[0x18]; f32 f20; f32 f24; f32 f28;
 
 struct Prim_8026FC5C { f32 *verts; u32 *colors; s32 flags; s32 count; };
 
+#pragma push
+#pragma readonly_strings on
+const char *TWindowSimpleStatus__name = "TWindowSimpleStatus";
+#pragma pop
+
+// inferred: photon_blast_gauge_ring_offset, the ring's offset inside the window that
+// draw_background passes to draw_photon_blast_gauge_ring.
+static const Vec2_80270244 photon_blast_gauge_ring_offset = {24.0f, 19.0f};
+
+// One colour per hundred points of photon blast charge (0..500); the ring draws [n] and [n + 1].
+const u32 photon_blast_gauge_ring_color_table[7] = {
+    0xFF3C3C3C, 0xFFD8CF00, 0xFFD88A00, 0xFFD84500, 0xFFD80000, 0xFFFFFFFF, 0,
+};
+
+extern s32 lbl_805D63F0;
+
+// inferred: simple_status_window_layout_entries, the layout table simple_status_window_layout
+// points at (frame sprite, two text/value entries, the HP and TP gauges, three icon sprites).
+struct SimpleStatusWindowLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+    ValueLayoutRecord rec_2;
+    LayoutEntryCopyRecord rec_3;
+    LayoutEntryCopyRecord rec_4;
+    SpritePartLayoutRecord rec_5;
+    SpritePartLayoutRecord rec_6;
+    SpritePartLayoutRecord rec_7;
+};
+SimpleStatusWindowLayout simple_status_window_layout_entries = {
+    8, 1,
+    {6, {7.0f, 5.0f}, {34.0f, 29.0f}, 112.0f, 84.0f, 0.5f, -1, &lbl_805D63F0, 0, 4},
+    {3, {47.0f, 26.0f}, 0.5f, 0xFFFFFFFF, 4, NULL},
+    {4, {47.0f, 39.0f}, 0.5f, 0xFFFFFFFF, 4, 1},
+    {2, {67.0f, 4.0f}, 0.5f, 0xFF00FF15, 0x28, 85.0f, 0, 0, 0xFF00CA9E, 0xFFFF2924},
+    {2, {67.0f, 16.0f}, 0.5f, 0xFF008CFC, 0x28, 85.0f, 0, 0, 0xFF008DEE, 0xFFFF2924},
+    {6, {2.0f, 39.0f}, {15.0f, 11.0f}, 230.0f, 104.0f, 0.5f, -1, &lbl_805D63F0, 0xB, 4},
+    {6, {47.0f, 3.0f}, {19.0f, 10.0f}, 230.0f, 80.0f, 0.5f, -1, &lbl_805D63F0, 0xB, 4},
+    {6, {47.0f, 15.0f}, {19.0f, 10.0f}, 230.0f, 92.0f, 0.5f, -1, &lbl_805D63F0, 0xB, 4},
+};
+WindowDescriptor simple_status_window_layout = {
+    {153.0f, 50.0f}, 50100.0f, &simple_status_window_layout_entries, 0xB28,
+};
+
 extern "C" {
 int obj_getArrWord_254(void *p, int i);
 void * get_player_by_client_id();
@@ -31,7 +77,6 @@ void *__nw__7TObjectFUl(int);
 void TWindowComCard__sub_80249D7C(u8 *arg0, s32 arg1);
 void *TWindowComCard__sub_80249ED8(void *, void *, void *, s32, s32, s32);
 void draw_photon_blast_fan(s32, Vec2_80270244 *, Params_80270244 *, u32, f32, s32, s32, f32);
-extern u32 photon_blast_gauge_ring_color_table[];
 void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const Vec2_80270244 *arg2, f32 farg0, f32 farg1);
 struct VtBase4_8026f71c_more_8026f8cc_0 { void *vtable; };
 
@@ -118,9 +163,7 @@ void begin_screen_draw(s32 arg0);
 s32 draw_textured_quad_at_depth(Rect_80270394 *, f32);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 
-extern s32 lbl_8044F5E4[];
 extern s32 lobby_rule_settings[];
-extern s32 lbl_805D63F0;
 
 void TWindowSubStatusDisp::start_hp_text_color_transition() {
     u8 *arg0 = (u8 *)this;
@@ -482,7 +525,7 @@ void TWindowSimpleStatus::draw_background(u8 *arg1) {
     } else {
         f = 0.0f;
     }
-    draw_photon_blast_gauge_ring((s32)this, (Params_80270244 *)(arg1), (const Vec2_80270244 *)(lbl_8044F5E4), f, 17.0f);
+    draw_photon_blast_gauge_ring((s32)this, (Params_80270244 *)(arg1), &photon_blast_gauge_ring_offset, f, 17.0f);
     pos.x = 6.0f + *(f32 *)((s8 *)arg1 + 0x10);
     pos.y = 2.0f + *(f32 *)((s8 *)arg1 + 0x14);
     size.x = 36.0f;
@@ -512,7 +555,7 @@ void TWindowSimpleStatus::draw_background(u8 *arg1) {
 
 struct SS_802705D8 { u8 pad0[0x18]; void *vt; u8 pad1c[0x64 - 0x1c]; void *w[4]; };
 
-struct SS_80270668 { s32 f0; u8 pad4[0x14]; void *vt; s16 f1c; s16 f1e; s16 f20; u8 pad22[0x36]; f32 f58; u8 pad5c[4]; s32 f60; s32 w[5]; };
+struct SS_80270668 { const char *m_name; u8 pad4[0x14]; void *vt; s16 f1c; s16 f1e; s16 f20; u8 pad22[0x36]; f32 f58; u8 pad5c[4]; s32 f60; s32 w[5]; };
 
 extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
@@ -520,7 +563,6 @@ s32 draw_visible_window_entries(void *, void *, int);
 void __dl__7TObjectFPv(void *);
 extern u8 __vt__19TWindowSimpleStatus[];
 u8 *__dt__19TWindowSimpleStatusFv(SS_802705D8 *arg0, s16 arg1);
-extern s32 TWindowSimpleStatus__name;
 SS_80270668 *TWindowSimpleStatus__ct(SS_80270668 *arg0, void *arg1, s32 arg2, void *arg3);
 s32 get_window_layout_position(s32);
 s32 update_hp_tp_level__20TWindowSubStatusDispFv();
@@ -544,7 +586,6 @@ void TWindowSimpleStatus::run_task() {
     ((TWindowSimpleStatus *)arg0)->apply_random_shake();
 }
 
-extern unsigned char simple_status_window_layout[];
 
 u8 *__dt__19TWindowSimpleStatusFv(SS_802705D8 *arg0, s16 arg1) {
     s32 i;
@@ -568,7 +609,7 @@ SS_80270668 *TWindowSimpleStatus__ct(SS_80270668 *arg0, void *arg1, s32 arg2, vo
     s32 i;
     ((TWindowDD *)arg0)->construct_base((u8 *)arg3, (s16)arg2, (u8 *)arg1);
     arg0->vt = __vt__19TWindowSimpleStatus;
-    arg0->f0 = TWindowSimpleStatus__name;
+    arg0->m_name = TWindowSimpleStatus__name;
     arg0->f20 = arg2;
     arg0->f60 = 0;
     arg0->f58 = -1.0f;
@@ -582,7 +623,7 @@ void *TWindowSimpleStatus::create(void *arg1) {
     void *o;
     o = __nw__7TObjectFUl(0x78);
     if (o != NULL) {
-        o = TWindowSimpleStatus__ct((SS_80270668 *)(o), (void *)this, (s32)arg1, (void *)simple_status_window_layout);
+        o = TWindowSimpleStatus__ct((SS_80270668 *)(o), (void *)this, (s32)arg1, &simple_status_window_layout);
     }
     return o;
 }

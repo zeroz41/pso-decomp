@@ -99,7 +99,7 @@ void *__vt__17TWindowSetLevelUp[6] = {
 extern char lbl_8044F534[];
 extern char lbl_8044F53C[];
 extern char lbl_8044F544[];
-extern void *lbl_805D39C8;
+const char *TWindowSetLevelUp__name = "TWindowSetLevelUp";
 extern void *lbl_805D63F0;
 extern const f32 lbl_805DD2FC;
 extern const f32 lbl_805DD300;
@@ -320,7 +320,7 @@ void *__ct__17TWindowSetLevelUpFv(void *window_set_level_up, void *arg1, void *a
     __ct__7TObjectFP7TObject(window_set_level_up);
     *(s32 **)((s8 *)window_set_level_up + 0x18) = (s32 *)__vt__17TWindowSetLevelUp;
     ((TObjPlayer *)(self->f_24))->reset_sub_status_disp();
-    *(void * *)&((TWindowSetLevelUp *)window_set_level_up)->m_name = lbl_805D39C8;
+    ((TWindowSetLevelUp *)window_set_level_up)->m_name = TWindowSetLevelUp__name;
     ((TWindowSetLevelUp *)(self->f_24))->copy_stat_block((s32)arg2);
     *(u16 *)((s8 *)window_set_level_up + 0x1E) = 0;
     *(void **)((s8 *)window_set_level_up + 0x20) = arg3;

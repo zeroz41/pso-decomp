@@ -14,8 +14,43 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 #pragma readonly_strings on
+
+// inferred: GaugeLayoutRecord, the type 1 record (0x24 bytes) behind entries 2 and 3, which
+// set_music_gain (entry 2) and set_sound_effect_gain (entry 3) drive as gauges (TUnk_804CF930::target).
+struct GaugeLayoutRecord {
+    s32 type;
+    f32 pos[2];
+    f32 pad_0C;
+    u32 pad_10;
+    s32 pad_14;
+    f32 pad_18;
+    f32 pad_1C;
+    f32 pad_20;
+};
+
+// inferred: window_sound_balance_layout_entries, the layout table window_sound_balance_settings
+// points at (the "BGM" and "SE" labels and their two gauges).
+struct SoundBalanceWindowLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+    GaugeLayoutRecord rec_2;
+    GaugeLayoutRecord rec_3;
+};
+SoundBalanceWindowLayout window_sound_balance_layout_entries = {
+    4, 1,
+    {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, "BGM"},
+    {3, {0.0f, 18.0f}, 0.5f, 0xFFFFFFFF, 0, "SE"},
+    {1, {288.0f, 4.0f}, 0.5f, 0xFFFF0000, 8, 100.0f, 250.0f, 250.0f},
+    {1, {288.0f, 22.0f}, 0.5f, 0xFF0000FF, 8, 100.0f, 100.0f, 100.0f},
+};
+WindowDescriptor window_sound_balance_settings = {
+    {470.0f, 60.0f}, 50100.0f, &window_sound_balance_layout_entries, 3,
+};
 
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
@@ -26,7 +61,6 @@ u32 calc_text_width();
 u8 *get_array_entry__11TWindowBaseFi(void *, s32);
 s32 get_field_20__17TWindowSubComCardFv();
 s32 refresh_status_display__9TWindowDDFv(u8 *);
-extern s32 window_sound_balance_settings[];
 extern s32 __vt__19TWindowSoundBalance[];
 const char *TWindowSoundBalance__name = "TWindowSoundBalance";
 s32 draw_visible_window_entries(s32, s32, void *);
@@ -173,7 +207,7 @@ void *__dt__19TWindowSoundBalanceFv(void *arg0, s16 arg1) {
 u8 *TWindowSoundBalance__ct(u8 *arg0, s32 arg1) {
     u8 *e;
     SoundBalanceSettings *st;
-    ((TWindowDD *)arg0)->construct_base((u8 *)window_sound_balance_settings, (s16)4, (u8 *)arg1);
+    ((TWindowDD *)arg0)->construct_base((u8 *)&window_sound_balance_settings, (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowSoundBalance;
     *(const char **)((s8 *)arg0 + 0) = TWindowSoundBalance__name;
     ((TWindowSoundBalance *)arg0)->m_60 = 0;
