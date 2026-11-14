@@ -1038,6 +1038,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/collision/TObjFogCollisionPoison.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TLobby_801F3A24.cpp reaches each .rodata object with its own lis/addi: -pool off.
     "pso/unk/TLobby_801F3A24.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    # TWindowChatSymbol.cpp reaches each .rodata object with its own lis/addi: -pool off.
+    "pso/ui/chat/TWindowChatSymbol.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
 }
 
 # MusyX (Factor 5). Its objects carry extab/extabindex for every non-leaf

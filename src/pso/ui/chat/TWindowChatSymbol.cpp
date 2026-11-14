@@ -10,6 +10,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/chat/TWindowChatSymbol_802486A8.h"
@@ -432,12 +433,13 @@ int forward_trade_action_default__16TObjCityMainWarpFPviii(void *, int, int, int
 u8 *__nw__7TObjectFUl(s32);
 s32 __ct__7TObjectFP7TObject();
 s32 align_menu_entry_positions(void *);
-u8 *check_room_seq_4__16TAdChrSelASlotGCFl(s32 *, s32);
-extern s32 lbl_8044EAC0[];
-extern s32 lbl_8044EAC8[];
-extern s32 lbl_8044EAD0[];
+u8 *check_room_seq_4__16TAdChrSelASlotGCFl(const NJS_POINT2 *, s32);
 extern s32 lbl_804CE7D0[];
 u8 *construct_symbol_chat_selection(u8 *arg0) {
+    // preset_list_pos: where the list of the 12 symbol chat presets opens.
+    static const NJS_POINT2 preset_list_pos = {30.0f, 314.0f};
+    static const NJS_POINT2 lbl_8044EAC8 = {250.0f, 314.0f};
+    static const NJS_POINT2 lbl_8044EAD0 = {168.0f, 120.0f};
     s32 i;
     u8 *temp_r30;
     u8 *symbol_chat_preset;
@@ -445,7 +447,7 @@ u8 *construct_symbol_chat_selection(u8 *arg0) {
     u8 *var_r0;
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = lbl_804CE7D0;
-    *(u8 **)((s8 *)arg0 + 0x1C) = check_room_seq_4__16TAdChrSelASlotGCFl(lbl_8044EAC0, 0xC);
+    *(u8 **)((s8 *)arg0 + 0x1C) = check_room_seq_4__16TAdChrSelASlotGCFl(&preset_list_pos, 0xC);
     i = 0;
     do {
         symbol_chat_preset = (u8 *)(get_symbol_chat_preset(i));
@@ -463,7 +465,7 @@ u8 *construct_symbol_chat_selection(u8 *arg0) {
     window_chat_symbol = (u8 *)(__nw__7TObjectFUl(0x68));
     var_r0 = window_chat_symbol;
     if (var_r0 != NULL) {
-        var_r0 = (u8 *)(TWindowChatSymbol__ct((TWindowChatSymbol *)window_chat_symbol, (s32)lbl_8044EAC8, (s32)lbl_8044EAD0));
+        var_r0 = (u8 *)(TWindowChatSymbol__ct((TWindowChatSymbol *)window_chat_symbol, (s32)&lbl_8044EAC8, (s32)&lbl_8044EAD0));
     }
     *(u8 **)((s8 *)arg0 + 0x20) = var_r0;
     return arg0;

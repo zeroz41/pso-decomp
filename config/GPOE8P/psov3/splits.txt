@@ -6715,7 +6715,7 @@ pso/ui/chat/TWindowChat.cpp:
 
 pso/ui/chat/TWindowChatSymbol.cpp:
 	.text       start:0x80247EFC end:0x80248940
-	.rodata     start:0x8044E7D8 end:0x8044EAC0
+	.rodata     start:0x8044E7D8 end:0x8044EAD8
 	.data       start:0x804CE2E8 end:0x804CE7B4
 	.sdata      start:0x805D38A8 end:0x805D38B0
 	.sdata2     start:0x805DCBA0 end:0x805DCBA8
