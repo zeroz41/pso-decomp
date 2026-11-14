@@ -27,7 +27,7 @@ void *VIGetDTVStatus(void *);
 void *get_player_by_client_id(s32 i);
 s32 get_window_layout_position(s32);
 char *strncpy(char *, const char *, u32);
-extern u8 player_names_window_pos[];
+__declspec(section ".data") f32 player_names_window_pos[2] = {229.0f, 104.0f};
 extern s32 local_client_id;
 void *TAdVIConfigGC__ct(TAdVIConfigGC *arg0);
 void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1);

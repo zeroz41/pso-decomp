@@ -783,7 +783,7 @@ pso/ui/window/TWindowCtrl_8006E85C.cpp:
 
 pso/ui/window/TObjBagWarnWin4P.cpp:
 	.text       start:0x8006E8F0 end:0x8006EBC4
-	.data       start:0x80488E50 end:0x80488E68
+	.data       start:0x80488E48 end:0x80488E68
 
 pso/unk/text_8006EBC4.cpp:
 	.text       start:0x8006EBC4 end:0x8006EC20
@@ -4793,6 +4793,7 @@ pso/object/collision/TObjRaderCol.cpp:
 
 pso/object/ambient/TObjRain_801977D4.cpp:
 	.text       start:0x801977D4 end:0x80197998
+	.data       start:0x804B8978 end:0x804B89A8
 	.sdata2     start:0x805DBF10 end:0x805DBF18
 
 pso/object/ambient/TObjRain_80197998.cpp:
@@ -6009,6 +6010,7 @@ pso/ui/city/THunterGuildWarning.cpp:
 
 pso/ui/city/THunterGuildSeqOffline_80211FEC.cpp:
 	.text       start:0x80211FEC end:0x802123E0
+	.data       start:0x804C96B8 end:0x804C96C0
 
 pso/system/TMemberCheck.cpp:
 	.text       start:0x802123E0 end:0x8021250C
@@ -6984,7 +6986,7 @@ pso/ui/window/TWindowFukidasi_80252BF8.cpp:
 
 pso/ui/window/TWindowGetComCard.cpp:
 	.text       start:0x80252C38 end:0x802530D0
-	.data       start:0x804CF128 end:0x804CF140
+	.data       start:0x804CF120 end:0x804CF140
 
 pso/ui/window/TWindowHelpItem_802530D0.cpp:
 	.text       start:0x802530D0 end:0x80253154
@@ -9246,7 +9248,7 @@ pso/unk/text_80307BE8.cpp:
 
 pso/ui/frontend/TAdVIConfigGC.cpp:
 	.text       start:0x80307D00 end:0x8030818C
-	.data       start:0x804E71C0 end:0x804E71F8
+	.data       start:0x804E71B8 end:0x804E71F8
 
 pso/ui/TLogo_8030818C.cpp:
 	.text       start:0x8030818C end:0x80308200
@@ -9911,6 +9913,7 @@ pso/ui/window/TWindowSubStatusDisp_80338740.cpp:
 pso/effect/enemy/TEneParticleCtrl.cpp:
 	.text       start:0x80338BB4 end:0x80338E9C
 	.rodata     start:0x80477C18 end:0x80477C20
+	.data       start:0x804EF458 end:0x804EF484
 
 pso/unk/TLobby_80338E9C.cpp:
 	.text       start:0x80338E9C end:0x80338F9C

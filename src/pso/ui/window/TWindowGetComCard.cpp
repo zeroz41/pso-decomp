@@ -56,7 +56,7 @@ s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 void play_sound_effect(s32, s32, s32, s32);
 s32 is_player_input_active(s32);
 u8 *init_shop_judgment_window(void *p);
-extern u8 TWindowGetComCard__window_rect[];
+__declspec(section ".data") f32 TWindowGetComCard__window_rect[2] = {152.0f, 370.0f};
 extern Pad_80252CCC controller_input_state[];
 void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self);
 void TWindowFukidasi__sub_80252C38(void* p);
