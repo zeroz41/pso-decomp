@@ -43,7 +43,14 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/math/AngleLookup.h"
 #include "pso/player/TPlyDispData.h"
 
-struct Spawn_800D1990 { s32 a, b, c, d; };
+// The motion-binding block TLobby::spawn_npc_enemy takes (same layout as GeeAnimationBinding).
+struct GibonUAnimationBinding {
+    BmlMotionEntry *motions;
+    TObjMotionAction *actions;
+    u32 unknown_08;
+    u16 actionCount;
+    u16 unknown_0E;
+};
 
 extern "C" {
 s32 get_target_info__9TObjEneDDFv();
@@ -55,14 +62,6 @@ s32 translate_matrix(s32, f32, f32, f32);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
-extern char lbl_8043C07C[];
-extern char lbl_8043C088[];
-extern char lbl_8043C094[];
-extern char lbl_8043C0A0[];
-extern char lbl_8043C0AC[];
-extern char lbl_8043C0B8[];
-extern char lbl_8043C0C8[];
-extern char lbl_8043C0D8[];
 void render_debug__16TObjEneBm5GibonUFv(u8 *arg0);
 s32 enemy_validate_retained_target(void *);
 s32 TObjEneDD__sub_800BA378(void *, void *);
@@ -80,7 +79,6 @@ extern const s32 lbl_8043BF30[];
 extern const s32 lbl_8043BF38[];
 extern const s32 lbl_8043BF40[];
 extern const s32 lbl_8043BF48[];
-extern const Spawn_800D1990 TObjEneBm5GibonU__spawn_params;
 TObjEneBm5GibonU *TObjEneBm5GibonU__sub_800D13B8(TObjEneBm5GibonU *self, s16 arg1);
 void rotate_xz_pair_by_angle(f32 *, f32 *, s32);
 s32 update_collisions__10TObjPlayerFv(void *);
@@ -315,51 +313,6 @@ extern "C" {
 void is_target_in_attack_range__9TObjCharaFv();
 }
 extern "C" {
-extern const char lbl_8043BF50[];
-}
-extern "C" {
-extern const char lbl_8043BF5C[];
-}
-extern "C" {
-extern const char lbl_8043BF6C[];
-}
-extern "C" {
-extern const char lbl_8043BF80[];
-}
-extern "C" {
-extern const char lbl_8043BF90[];
-}
-extern "C" {
-extern const char lbl_8043BFA4[];
-}
-extern "C" {
-extern const char lbl_8043BFB4[];
-}
-extern "C" {
-extern const char lbl_8043BFC4[];
-}
-extern "C" {
-extern const char lbl_8043BFD4[];
-}
-extern "C" {
-extern const char lbl_8043BFE4[];
-}
-extern "C" {
-extern const char lbl_8043BFF4[];
-}
-extern "C" {
-extern const char lbl_8043C004[];
-}
-extern "C" {
-extern const char lbl_8043C01C[];
-}
-extern "C" {
-extern const char lbl_8043C028[];
-}
-extern "C" {
-extern const char lbl_8043C03C[];
-}
-extern "C" {
 void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
 }
 extern "C" {
@@ -424,24 +377,24 @@ CollisionBody gibon_collision_body_templates[4] = {
     { { 0.0f, 0.0f, 0.0f }, 6.0f, 0.0f, 0, 0x9D03, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 const char *lbl_80493D6C[3] = {
-    lbl_8043BF50, lbl_8043BF5C, NULL,
+    "gibon.nj", "gibonb_gibon.nj", NULL,
 };
 const char *gibon_u_animation_name_table[10] = {
-    lbl_8043BF6C, lbl_8043BF80, lbl_8043BF90, lbl_8043BFA4, lbl_8043BFB4,
-    lbl_8043BFC4, lbl_8043BFD4, lbl_8043BFE4, lbl_8043BFF4, NULL,
+    "attack_gibon.njm", "back_gibon.njm", "damage_gibon.njm", "dead_gibon.njm", "fire_gibon.njm",
+    "hoe_gibon.njm", "run_gibon.njm", "wait_gibon.njm", "walk_gibon.njm", NULL,
 };
 BmlResourceDescriptor lbl_80493DA0 = {
-    lbl_8043C004, lbl_80493D6C, gibon_u_animation_name_table, 2, 9,
+    "bm_ene_bm5_gibon_u.bml", lbl_80493D6C, gibon_u_animation_name_table, 2, 9,
 };
 const char *lbl_80493DB0[3] = {
-    lbl_8043C01C, lbl_8043C028, NULL,
+    "lo_gibon.nj", "lo_gibonb_gibon.nj", NULL,
 };
 const char *gibon_u_animation_file_table[10] = {
-    lbl_8043BF6C, lbl_8043BF80, lbl_8043BF90, lbl_8043BFA4, lbl_8043BFB4,
-    lbl_8043BFC4, lbl_8043BFD4, lbl_8043BFE4, lbl_8043BFF4, NULL,
+    "attack_gibon.njm", "back_gibon.njm", "damage_gibon.njm", "dead_gibon.njm", "fire_gibon.njm",
+    "hoe_gibon.njm", "run_gibon.njm", "wait_gibon.njm", "walk_gibon.njm", NULL,
 };
 BmlResourceDescriptor lbl_80493DE4 = {
-    lbl_8043C03C, lbl_80493DB0, gibon_u_animation_file_table, 2, 9,
+    "bm_ene_bm5_gibon_u_low.bml", lbl_80493DB0, gibon_u_animation_file_table, 2, 9,
 };
 TObjMotionAction gibon_u_action_table[17] = {
     { MOTION_MODE_LOOP, 0, 7, 1.0f, 0 },
@@ -462,6 +415,8 @@ TObjMotionAction gibon_u_action_table[17] = {
     { MOTION_MODE_ONCE, 0, 0, 1.0f, 0 },
     { MOTION_MODE_ONCE, 0, 6, 1.0f, 0 },
 };
+const char *TObjEneBm5GibonU__class_name = "TObjEneBm5GibonU";
+const GibonUAnimationBinding TObjEneBm5GibonU__spawn_params = { NULL, gibon_u_action_table, 1, 17, 0 };
 void *lbl_80493F04[107] = {
     (void *)0x0, (void *)0x0, (void *)TObjEneBm5GibonU__sub_800D13B8, (void *)run_task__16TObjEneBm5GibonUFv,
     (void *)render__16TObjEneBm5GibonUFv, (void *)render_shadows__9TObjEnemyFv, (void *)vfunc_6__8TObjBaseFPsl, (void *)apply_object_set_data__8TObjBaseFPv,
@@ -652,6 +607,7 @@ void TObjEneBm5GibonU__sub_800CCE28(TObjEneBm5GibonU *self) {
     }
 }
 
+#pragma pool_data off
 void TObjEneBm5GibonU::render_debug() {
     Vec v;
     s32 idx;
@@ -659,20 +615,20 @@ void TObjEneBm5GibonU::render_debug() {
     AnimationMotion *motion;
     TObjEneBm5GibonU *other;
     if (get_target_info__9TObjEneDDFv() != 0) {
-        debug_printf_at(pack_debug_text_position(0, 2), lbl_8043C07C, m_46c);
+        debug_printf_at(pack_debug_text_position(0, 2), "GROUP:%2d", m_46c);
         if (m_470 == 1) {
-            debug_printf_at(pack_debug_text_position(0, 3), lbl_8043C088);
+            debug_printf_at(pack_debug_text_position(0, 3), "SPOT APPEAR");
         } else {
-            debug_printf_at(pack_debug_text_position(0, 3), lbl_8043C094);
+            debug_printf_at(pack_debug_text_position(0, 3), "JUMP APPEAR");
         }
         if (m_464 != 0) {
-            debug_printf_at(pack_debug_text_position(0, 9), lbl_8043C0A0);
+            debug_printf_at(pack_debug_text_position(0, 9), "L/M:LEADER");
         } else {
-            debug_printf_at(pack_debug_text_position(0, 9), lbl_8043C0AC);
+            debug_printf_at(pack_debug_text_position(0, 9), "L/M:MEMBER");
         }
-        debug_printf_at(pack_debug_text_position(0, 4), lbl_8043C0B8);
-        debug_printf_at(pack_debug_text_position(0, 5), lbl_8043C0C8);
-        debug_printf_at(pack_debug_text_position(0, 6), lbl_8043C0D8);
+        debug_printf_at(pack_debug_text_position(0, 4), "BACKJUMP(+0.4f)");
+        debug_printf_at(pack_debug_text_position(0, 5), "RUN_FOIE(+0.3f)");
+        debug_printf_at(pack_debug_text_position(0, 6), "BACK_FOIE(+0.3f)");
     }
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
         draw_ground_shadow(0, 0);
@@ -715,6 +671,7 @@ void TObjEneBm5GibonU::render_debug() {
     v.y += 50.0f;
     debug_draw_line(&m_2fc, &v, 0xFFC0C0C0, 0xFF6060FF);
 }
+#pragma pool_data reset
 
 void TObjEneBm5GibonU::vfunc_105() {
     s32 temp_r31;
@@ -2639,7 +2596,6 @@ void init_collision_body_parts(TObjCollidable *, const CollisionBody *, s32);
 void *__ct__14TObjCollidableFP7TObject(void *, s32);
 void __construct_array(void *, void *, void *, int, int);
 void __ct__15RenderFadeStateFv();
-extern const char *lbl_805D2A70;
 void vfunc_61__16TObjEneBm5GibonUFv(void);
 void vfunc_28__16TObjEneBm5GibonUFv(void);
 void free_bin_model_request(BmlResource *, int);
@@ -2744,7 +2700,7 @@ TObjEneBm5GibonU *TObjEneBm5GibonU__ct(TObjEneBm5GibonU *self, s32 arg1, s32 arg
     __ct__13TUnk_80494938Fv(&self->m_3d8);
     __construct_array(self->m_3f4, (void *)&__ct__15RenderFadeStateFv, (void *)&__dt__15RenderFadeStateFv, 0x1C, 4);
     ((TObjPlayer *)&self->m_4b0)->construct_target_cursor_records();
-    self->m_name = lbl_805D2A70;
+    self->m_name = TObjEneBm5GibonU__class_name;
     invoke_initialization_hook__9TObjEneDDFPv(self, arg2);
     self->sub_800D10A0();
     self->init_position_vectors();
@@ -2870,7 +2826,6 @@ void *TObjEneBm5GibonU::create(void *arg0) {
 }
 
 void TObjEneBm5GibonU::load_resources() {
-    Spawn_800D1990 sp;
     s32 i;
     BmlResource *m;
     f32 *v;
@@ -2894,12 +2849,9 @@ void TObjEneBm5GibonU::load_resources() {
         lbl_80500E88[i] = register_object__6TLobbyFl(lbl_8043BF40[i]);
         lbl_80500E90[i] = dispatch_shared_handler_a__6TLobbyFl(lbl_8043BF48[i]);
     }
-    sp.a = TObjEneBm5GibonU__spawn_params.a;
-    sp.b = TObjEneBm5GibonU__spawn_params.b;
-    sp.c = TObjEneBm5GibonU__spawn_params.c;
-    sp.d = TObjEneBm5GibonU__spawn_params.d;
+    GibonUAnimationBinding sp = TObjEneBm5GibonU__spawn_params;
     m = TObjEneBm5GibonU__model_archive;
-    sp.a = (s32)m->motions;
+    sp.motions = m->motions;
     TLobby::spawn_npc_enemy(0xE, m->models[0].model, (NJS_TEXLIST *)m->models[0].m_c, &sp, gibon_collision_body_templates[0].radius, 0.0f);
     TLobby::spawn_npc_enemy(0xF, TObjEneBm5GibonU__model_archive->models[1].model, (NJS_TEXLIST *)TObjEneBm5GibonU__model_archive->models[1].m_c, &sp, gibon_collision_body_templates[1].radius, 0.0f);
 }

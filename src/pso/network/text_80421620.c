@@ -74,9 +74,21 @@ s16 init_packet_fragment_pools();
 s16 TLobby__sub_80419A34(int); /* declared here with an int argument and an s16 return; the definition takes no arguments and returns s32 */
 s16 NetInitializeDispatcher();
 s16 NetTCPInit();
+/* inferred: the avetcp.a version strings (names from their contents); init_network_stack checks the banner's
+   leading '\n' through avetcp_version_banner_ptr */
+const u8 avetcp_version_banner[] =
+    "\nAVE-TCPv6.0 for GC Ver 1.16.1 Build:Oct 23 2002 17:47:54 SDKVER 12Dec2001Patch3\n";
+const char avetcp_sdk_release[] = "AVE-TCPv6.0 SDK Release 2.0";
+const char avetcp_copyright[] =
+    "Copyright (C) 1992-2001 ACCESS CO.,LTD. All rights are reserved by ACCESS CO.,LTD., whether the whole or part "
+    "of the source code including any modifications is concerned. ";
+const char avetcp_build_date[] = "Built on Oct 23 2002 17:47:54.";
+const char avetcp_module_list[] =
+    "The AVE-TCPv6.0 contains loopback dix arp ppp ipv4 ipv4_forward ipv6 ipv6_forward tcp_fast_recovery "
+    "tcp_keep_ooo_segment tcp_sack tcp_large_window dns module(s).";
+const u8 *const avetcp_version_banner_ptr = avetcp_version_banner;
 const char lbl_804800F0[] = "<< Network SDK - avetcp.a  Ver.1.16.1 build:Oct 23 2002 17:47:54>>\n";
 u32 TLobby__network_stack_init_count;
-extern u8 *lbl_805E1188;
 s16 TLobby__sub_8041DBD4(int, void *, s16, void *);
 s16 tcp_receive(s32 a, void *cb, s32 len, void *buf);
 void TLobby__sub_8041E2EC(int, void *, void *); /* declared here with an s32 1st argument; the definition takes s16 */
@@ -116,7 +128,7 @@ s16 init_network_stack(void) {
     s16 init_ucb_entries(void);
     s16 result;
     u32 count;
-    if ((s32) *lbl_805E1188 != 0xA) {
+    if ((s32) *avetcp_version_banner_ptr != 0xA) {
         return -1;
     }
     if ((u32) TLobby__network_stack_init_count == 0U) {

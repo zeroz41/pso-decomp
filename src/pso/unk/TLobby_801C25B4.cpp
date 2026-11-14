@@ -28,6 +28,22 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
+extern "C" {
+void *TLobby__battle_mode_data_ptr;
+s32 lbl_805D5D9C;
+s32 TLobby__battle_config_ptr;
+s32 lbl_805D5DA4;
+s32 lbl_805D5DA8;
+s32 lbl_805D5DAC;
+s32 lbl_805D5DB0;
+s32 lbl_805D5DB4;
+extern void *lobby_char_slot_array;
+extern u8 TLobby__battle_player_ready_flags[4];
+extern s32 TLobby__battle_ctrl_default_value;
+extern f32 lbl_805D5DC4;
+extern f32 lbl_805D5DC8;
+}
+
 typedef struct Lobby_801C2898 {
     u8 pad0[0x268];
     s8 pending[8];
@@ -37,9 +53,7 @@ typedef struct Lobby_801C2898 {
 struct Ent_801C26A8 { u16 id; s16 active; u8 pad[4]; };
 
 extern "C" {
-extern u8 *TLobby__battle_mode_data_ptr;
 u8 TLobby__sub_801C2614(void);
-extern s32 TLobby__battle_ctrl_default_value;
 s32 TLobby__sub_801C2678(void);
 u8 check_timeout__6TLobbyFPv(void *arg0);
 void show_score_results__6TLobbyFPv(void *);
@@ -215,7 +229,6 @@ void TLobby::send_battle_mode_data(void * _w0) {
     ((TLobby *)(&sp8))->send_set_battle_mode_data();
 }
 
-    extern int lbl_805D5DB0;
 void clear_counter__6TLobbyFPv(void* a0) { *(int*)((char*)a0 + 0x270) = 0; lbl_805D5DB0 = 0; }
 
 }
@@ -279,7 +292,6 @@ void show_score_results__6TLobbyFPv(void *self);
 u8 check_timeout__6TLobbyFPv(void *arg0);
 void set_flag_270__6TLobbyFPv(void *arg0);
 
-extern s32 lbl_805D5DB0;
 
 u8 check_timeout__6TLobbyFPv(void *arg0) {
     if ((s32) lbl_805D5DB0 >= TLobby::get_game_mode()) {
@@ -372,7 +384,6 @@ typedef struct Msg_801C2D54 {
 
 extern "C" {
 void TLobby__sub_801C2C34(void);
-extern u8 TLobby__battle_player_ready_flags;
 void clear_battle_player_ready_flags(void);
 u64 OSGetTime(void);
 void obj_clear_flag30_20000(void *);
@@ -415,7 +426,7 @@ s32 check_all_players_ready__6TLobbyFv(void) {
     s32 var_r30;
     s32 var_r29;
 
-    var_r31 = &TLobby__battle_player_ready_flags;
+    var_r31 = TLobby__battle_player_ready_flags;
     var_r30 = 1;
     var_r29 = 0;
 loop_1:
@@ -445,7 +456,7 @@ void TLobby__sub_801C2C34(void) {
 void clear_battle_player_ready_flags(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        (&TLobby__battle_player_ready_flags)[i] = 0;
+        TLobby__battle_player_ready_flags[i] = 0;
     }
 }
 
@@ -746,15 +757,11 @@ struct V_801C418C : Base_801C418C {
 
 extern "C" {
 void handle_6x7E(void);
-extern void *TLobby__battle_mode_data_ptr;
 void TLobby__sub_801C38A4(void);
 void TLobby__sub_801B09A4(void);
-    extern int lbl_805D5DB4;
 void init_and_set_flag__6TLobbyFv(void);
 u32 __nw__7TObjectFUl(s32);
 void strncpy(void *, void *, int);
-extern void *TLobby__battle_mode_data_ptr;
-extern s32 TLobby__battle_config_ptr;
 extern s32 tl_00;
 void init_battle_ctrl__6TLobbyFii(s32 arg0, s32 arg1);
 void build_6x7D_set_battle_mode_data(void *p);
@@ -769,9 +776,7 @@ void begin_player_keyboard_hold(s32 arg0);
 extern s32 local_client_id;
 void request_active_window_close(void);
 void close_and_play_effect__6TLobbyFii(int arg0, s32 arg1);
-extern s32 TLobby__battle_config_ptr;
 s32 TLobby__sub_801C417C(void);
-extern void *lobby_char_slot_array;
 void __destroy_new_array(void *, void *);
 void TLobby__sub_801C3A40(void);
 int TKeyBoardControl__sub_8000F828(void);
@@ -782,10 +787,6 @@ void TAdSinglePlyChrSelectGC__sub_801C5158(void);
 void *__construct_new_array(void *, void *, void *, s32, s32);
 s32 destroy_char_data__10TObjPlayerFis(s32 arg0, s16 arg1);
 void init_char_data__10TObjPlayerFv(void);
-extern void *TLobby__battle_mode_data_ptr;
-extern s32 lbl_805D5D9C;
-extern void *lobby_char_slot_array;
-extern s32 TLobby__battle_ctrl_default_value;
 void init_char_slots__6TLobbyFv(void);
 void close_and_play_effect__6TLobbyFii(int arg0, s32 arg1);
 void set_slot__23TAdSinglePlyChrSelectGCFi(u16);
@@ -799,10 +800,6 @@ void set_flag_270__6TLobbyFPv(void *);
 extern s32 TLobby__battle_team_table[];
 extern s16 battle_mode_data_table[];
 extern s32 local_client_id;
-extern void *TLobby__battle_mode_data_ptr;
-extern s32 lbl_805D5DA4;
-extern s32 lbl_805D5DB0;
-extern u8 TLobby__battle_player_ready_flags[4];
 void handle_6x7D_set_battle_mode_data(Pkt_801C374C *pkt);
 void send_battle_mode_params__6TLobbyFcii(s8 arg0, s32 arg1, s32 arg2);
 s64 OSGetTime();
@@ -840,9 +837,6 @@ extern const f32 lbl_805D3544;
 extern const f32 lbl_805D3548;
 extern const f32 lbl_805D354C;
 extern const f32 lbl_805D3550;
-extern s32 TLobby__battle_config_ptr;
-extern const f32 lbl_805D5DC4;
-extern const f32 lbl_805D5DC8;
 void apply_game_settings__6TLobbyFii(s32 arg0, s32 arg1);
 void obj_clear_flag30_20000(void *arg0);
 s32 __ct__15TDuelEffectCtrlFP7TObjectUc(void *, void *, int);
@@ -873,8 +867,6 @@ extern Flags_801C3AF4 *controller_input_state[];
 extern s32 TLobby__duel_result_table[];
 extern s32 local_client_id;
 extern s32 TLobby__designated_client_id;
-extern s32 lbl_805D5DA8;
-extern s32 lbl_805D5DAC;
 void update_duel_result__6TLobbyFPv(u8 *arg0);
 s32 __ct__15TDuelEffectCtrlFP7TObjectUc(void *, void *, int);
 u32 get_player_by_client_id(u16);
@@ -890,7 +882,6 @@ void strncpy(void *, void *, int);
 extern s32 lobby_rule_settings[];
 extern s32 battle_intro_value_table[];
 extern char battle_intro_message_buffer[];
-extern s32 lbl_805D5DA4;
 void update_battle_intro__6TLobbyFPv(Lobby_801C49B8 *self);
 u32 get_player_by_client_id(u16);
 s16 get_entity_id(u32);
@@ -905,7 +896,6 @@ s32 update_battle_controller__10TObjPlayerFv();
 void TLobby__sub_8020BC50(void);
 void TLobby__sub_801C38A4(void);
 void init_and_set_flag__6TLobbyFv(void);
-extern int lbl_805D5DB4;
 extern u32 quest_mission_manager;
 void TLobby__sub_801C38E8(void *arg0);
 u32 get_player_by_client_id(u16);
@@ -1127,7 +1117,6 @@ void TLobby__sub_801C36E4(void *arg0, void *arg1) {
 }
 
 extern s32 TLobby__duel_result_table[];
-extern s32 lbl_805D5DAC;
 
 void handle_6x7F_battle_scores(s32 arg0) {
     bswap_packet_header__6TLobbyFv();

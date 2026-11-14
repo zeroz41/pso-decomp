@@ -90,8 +90,12 @@ pso/ui/frontend/TAdEndText.cpp:
 
 pso/ui/frontend/TAdRicoRingCtrl.cpp:
 	.text       start:0x8001B424 end:0x8001BED8
-	.data       start:0x80480A40 end:0x80480A70
+	.rodata     start:0x804347D0 end:0x80434848
+	.data       start:0x804809B0 end:0x80480A70
+	.bss        start:0x804FE138 end:0x804FE148
+	.sdata      start:0x805D2618 end:0x805D2620
 	.sbss       start:0x805D4A00 end:0x805D4A38
+	.sdata2     start:0x805D7E48 end:0x805D7E70
 
 pso/system/data/FlagWord.cpp:
 	.text       start:0x8001BED8 end:0x8001BF4C
@@ -1723,9 +1727,10 @@ pso/enemy/gee/TObjEneMe1Gee.cpp:
 pso/enemy/gibon/TObjEneBm5GibonU.cpp:
 	.text       start:0x800CCB24 end:0x800D1E4C
 	.ctors      start:0x80433F5C end:0x80433F60
-	.rodata     start:0x8043C0F0 end:0x8043C100
+	.rodata     start:0x8043BF50 end:0x8043C100
 	.data       start:0x80493CA0 end:0x80494104
 	.bss        start:0x80500E78 end:0x80500ED0
+	.sdata      start:0x805D2A70 end:0x805D2A78
 	.sbss       start:0x805D51D0 end:0x805D51E0
 	.sdata2     start:0x805DA158 end:0x805DA258
 
@@ -1882,9 +1887,10 @@ pso/enemy/panarms/TObjEnePanarmsAtkColli.cpp:
 
 pso/enemy/shinowa/TObjEneMe3Shinowa.cpp:
 	.text       start:0x800E3970 end:0x800E80A4
-	.rodata     start:0x8043CFA0 end:0x8043D008
+	.rodata     start:0x8043CF40 end:0x8043D008
 	.data       start:0x80495BE0 end:0x804962F4
 	.bss        start:0x80500FC0 end:0x80501010
+	.sdata      start:0x805D2AC8 end:0x805D2AD8
 	.sbss       start:0x805D5298 end:0x805D52B0
 	.sdata2     start:0x805DA5B8 end:0x805DA668
 
@@ -5376,6 +5382,7 @@ pso/unk/TLobby_801C25B4.cpp:
 	.rodata     start:0x80446F80 end:0x80447020
 	.data       start:0x804C3EA0 end:0x804C3F44
 	.bss        start:0x80511C80 end:0x80511DD8
+	.sbss       start:0x805D5D98 end:0x805D5DB8
 	.sdata2     start:0x805DC2F8 end:0x805DC300
 
 pso/player/TPlayerBattleCtrl4P_801C4F70.cpp:
@@ -5840,9 +5847,10 @@ pso/quest/QuestOpcodeTables.cpp:
 
 pso/quest/QuestOpcodeHandlers.cpp:
 	.text       start:0x801E6544 end:0x801F2D2C
-	.rodata     start:0x80449B10 end:0x80449CD8
+	.rodata     start:0x80449A40 end:0x80449CD8
 	.data       start:0x804C81D8 end:0x804C8230
 	.bss        start:0x80512220 end:0x80512790
+	.sbss       start:0x805D5ED0 end:0x805D5ED8
 	.sdata2     start:0x805DC4A0 end:0x805DC4E0
 
 pso/unk/TLobby_801F2D2C.cpp:
@@ -5991,6 +5999,7 @@ pso/unk/TLobby_80207DA8.cpp:
 	.text       start:0x80207DA8 end:0x8020910C
 	.rodata     start:0x8044BA50 end:0x8044BAC8
 	.data       start:0x804C8C60 end:0x804C93A8
+	.sbss       start:0x805D6068 end:0x805D6078
 
 pso/map/TSetEvtDestroy.cpp:
 	.text       start:0x8020910C end:0x80209524
@@ -6617,6 +6626,7 @@ pso/technique/TTecJelin.cpp:
 pso/technique/TTecLuker.cpp:
 	.text       start:0x80233A90 end:0x8023508C
 	.rodata     start:0x8044D660 end:0x8044D7A8
+	.data       start:0x804CC988 end:0x804CC990
 	.sdata      start:0x805D37E0 end:0x805D37E8
 	.sdata2     start:0x805DC858 end:0x805DC87C
 
@@ -12768,8 +12778,9 @@ pso/network/NetUdp.c:
 
 pso/network/text_80421620.c:
 	.text       start:0x80421620 end:0x80423298
-	.rodata     start:0x804800F0 end:0x80480138
+	.rodata     start:0x8047FF10 end:0x80480138
 	.sbss       start:0x805D7B00 end:0x805D7B08
+	.sdata2     start:0x805E1188 end:0x805E1190
 
 pso/network/NetDhcp.c:
 	.text       start:0x80423298 end:0x804253A0

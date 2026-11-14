@@ -333,6 +333,26 @@ struct Tbl_801E9AF8 { s32 w[5]; };
 
 struct Tbl_801E6CA4 { u32 w[18]; };
 
+struct Tbl_801EDC98 { u32 w[18]; };
+
+const Tbl_801EDC98 lobby_sub_801edc98_id_table = { { 16, 17, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 } };
+
+// inferred names: each qst_op_ba_* setter maps its argument through its own table into the battle_rules field
+// the name gives (trap_count_slots maps qst_op_ba_set_trap_count's slot to the battle_rules.trap_counts index).
+const s32 tech_disk_mode_values[3] = { 1, 0, 2 };
+const s32 lobby_menu_byte_1_map[4] = { 2, 0, 1, 3 };
+const s32 mag_mode_values[2] = { 1, 0 };
+const s32 tool_mode_values[3] = { 2, 0, 1 };
+const s32 trap_mode_values[2] = { 0, 1 };
+const s32 unused_F817_values[2] = { 0, 1 };
+const s32 respawn_mode_values[3] = { 1, 0, 2 };
+const s32 replace_char_values[2] = { 0, 1 };
+const s32 drop_weapon_values[2] = { 1, 0 };
+const s32 teams_values[2] = { 0, 1 };
+const s32 trap_count_slots[4] = { 0, 2, 3, 1 };
+const s32 meseta_mode_values[3] = { 0, 1, 2 };
+const s32 enable_sonar_values[2] = { 0, 1 };
+
 // inferred: qst_op_ba_forbid_scape_dolls maps its 0/1 argument through it
 const s32 forbid_scape_dolls_values[2] = { 0, 1 };
 
@@ -543,7 +563,7 @@ s32 parse_r_index(const char *arg0) {
     return -1;
 }
 
-extern u8 *TLobby__quest_script_read_ptr;
+u8 *TLobby__quest_script_read_ptr;
 
 void append_split_screen_hero_name(void) {
     char buf[0x40];
@@ -615,7 +635,7 @@ u8 read_byte_advance__6TLobbyFv(void) {
     return *temp_r3;
 }
 
-extern char *quest_string_append_cursor;
+char *quest_string_append_cursor;
 
 void append_string(const char *s) {
     u32 len = strlen(s);
@@ -993,11 +1013,6 @@ struct RecoveredGlobal_801EB73C_lbl_80512340 {
     u8 remaining[0xC];
 };
 
-struct RecoveredGlobal_801EC90C_lbl_80449AFC {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 struct RecoveredGlobal_801ECF84_lbl_8050D3E0 {
     s32 value;
     u8 remaining[0x4C];
@@ -1039,8 +1054,6 @@ typedef char RecoveredGlobal_801EB6B8_lbl_80512350_size[sizeof(RecoveredGlobal_8
 
 typedef char RecoveredGlobal_801EB73C_lbl_80512340_size[sizeof(RecoveredGlobal_801EB73C_lbl_80512340) == 0x10 ? 1 : -1];
 
-typedef char RecoveredGlobal_801EC90C_lbl_80449AFC_size[sizeof(RecoveredGlobal_801EC90C_lbl_80449AFC) == 0xC ? 1 : -1];
-
 typedef char RecoveredGlobal_801ECF84_lbl_8050D3E0_size[sizeof(RecoveredGlobal_801ECF84_lbl_8050D3E0) == 0x50 ? 1 : -1];
 
 struct Item_801ED7BC {
@@ -1048,36 +1061,6 @@ struct Item_801ED7BC {
     s32 id;
     u32 f10;
 };
-
-struct RecoveredGlobal_801EDA70_lbl_80449AC8 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_801EDB4C_lbl_80449AAC {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct RecoveredGlobal_801EDBDC_lbl_80449A94 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_801EDC24_lbl_80449A88 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-struct Tbl_801EDC98 { u32 w[18]; };
-
-typedef char RecoveredGlobal_801EDA70_lbl_80449AC8_size[sizeof(RecoveredGlobal_801EDA70_lbl_80449AC8) == 0xC ? 1 : -1];
-
-typedef char RecoveredGlobal_801EDB4C_lbl_80449AAC_size[sizeof(RecoveredGlobal_801EDB4C_lbl_80449AAC) == 0xC ? 1 : -1];
-
-typedef char RecoveredGlobal_801EDBDC_lbl_80449A94_size[sizeof(RecoveredGlobal_801EDBDC_lbl_80449A94) == 0x10 ? 1 : -1];
-
-typedef char RecoveredGlobal_801EDC24_lbl_80449A88_size[sizeof(RecoveredGlobal_801EDC24_lbl_80449A88) == 0xC ? 1 : -1];
 
 struct Pkt_801EE048 {
     u8 cmd;
@@ -1652,7 +1635,6 @@ void qst_op_ba_set_char_level(void);
 void qst_op_ba_set_lives(void);
 void qst_op_ba_hide_target_reticle(void);
 void qst_op_ba_set_trap_count(s32 reg);
-extern const s32 lbl_80449AEC[];
 void qst_op_set_cmode_base_time(s32 arg0);
 int qst_op_enable_npc_visual(void* p);
 void qst_op_set_shrink_cam2(u8 arg0);
@@ -2017,19 +1999,6 @@ extern int evt2_random_enemies_mode;
 extern RecoveredGlobal_8000F7FC_lbl_80515F48 fn_801F3480;
 extern RecoveredGlobal_801F196C_lbl_804499A8 quest_sound_effect_ids;
 extern Pair_801F1838 lbl_80449A38[];
-extern Tbl_801EDC98 lobby_sub_801edc98_id_table;
-extern RecoveredGlobal_801EDC24_lbl_80449A88 lbl_80449A88;
-extern RecoveredGlobal_801EDBDC_lbl_80449A94 lobby_menu_byte_1_map;
-extern RecoveredGlobal_801EDB4C_lbl_80449AAC lbl_80449AA4;
-extern RecoveredGlobal_801EDB4C_lbl_80449AAC lbl_80449AAC;
-extern RecoveredGlobal_801EDB4C_lbl_80449AAC lbl_80449AB8;
-extern RecoveredGlobal_801EDB4C_lbl_80449AAC lbl_80449AC0;
-extern RecoveredGlobal_801EDA70_lbl_80449AC8 lbl_80449AC8;
-extern RecoveredGlobal_801EDA70_lbl_80449AC8 lbl_80449AD4;
-extern RecoveredGlobal_801EDB4C_lbl_80449AAC lbl_80449ADC;
-extern RecoveredGlobal_801EDB4C_lbl_80449AAC lbl_80449AE4;
-extern RecoveredGlobal_801EC90C_lbl_80449AFC lbl_80449AFC;
-extern RecoveredGlobal_801EC90C_lbl_80449AFC lbl_80449B08;
 extern RecoveredGlobal_801ECF84_lbl_8050D3E0 lbl_8050D3E0;
 extern s32 symbolchat_colli_param_table[];
 extern E_801E93B4 controller_input_state[];
@@ -4136,7 +4105,7 @@ void qst_op_ba_sonar_count(void) {
 
 void qst_op_ba_enable_sonar() {
     if ((u32)qst_args[0] <= 0x1U) {
-        battle_rules.enable_sonar = (s8) *(s32 *)((s8 *)((u8 *)(&lbl_80449B08.value) + ((u32)qst_args[0] * 4)) + 0);
+        battle_rules.enable_sonar = (s8) enable_sonar_values[(u32)qst_args[0]];
     }
 }
 
@@ -4197,7 +4166,7 @@ void qst_op_set_area_total() {
 
 void qst_op_ba_set_meseta_drop_mode(void) {
     if ((u32)qst_args[0] <= 2U) {
-        battle_rules.meseta_mode = (s8) *(s32 *)((s8 *)((u8 *)(&lbl_80449AFC.value) + ((u32)qst_args[0] * 4)) + 0);
+        battle_rules.meseta_mode = (s8) meseta_mode_values[(u32)qst_args[0]];
     }
 }
 
@@ -4251,7 +4220,7 @@ void qst_op_ba_set_trap_count(s32 reg) {
     s32 slot = qst_registers[(u8)reg++];
     s32 value = qst_registers[(u8)reg];
     if (slot >= 0 && slot <= 3) {
-        battle_rules.trap_counts[lbl_80449AEC[slot]] = value;
+        battle_rules.trap_counts[trap_count_slots[slot]] = value;
     }
 }
 
@@ -4585,82 +4554,82 @@ void qst_op_ba_start(void) {
 
 void qst_op_ba_teams() {
     if ((u32)qst_args[0] <= 0x1U) {
-        battle_rules.is_teams = (s8) (&lbl_80449AE4.value)[(u32)qst_args[0]];
+        battle_rules.is_teams = (s8) teams_values[(u32)qst_args[0]];
         return;
     }
-    battle_rules.is_teams = (s8) lbl_80449AE4.value;
+    battle_rules.is_teams = (s8) teams_values[0];
 }
 
 void qst_op_ba_dropwep() {
     if ((u32)qst_args[0] <= 0x1U) {
-        battle_rules.drop_weapon = (s8) (&lbl_80449ADC.value)[(u32)qst_args[0]];
+        battle_rules.drop_weapon = (s8) drop_weapon_values[(u32)qst_args[0]];
         return;
     }
-    battle_rules.drop_weapon = (s8) lbl_80449ADC.value;
+    battle_rules.drop_weapon = (s8) drop_weapon_values[0];
 }
 
 void qst_op_ba_set_replace_char() {
     if ((u32)qst_args[0] <= 0x1U) {
-        battle_rules.replace_char = (s8) *(s32 *)((s8 *)((u8 *)(&lbl_80449AD4.value) + ((u32)qst_args[0] * 4)) + 0);
+        battle_rules.replace_char = (s8) replace_char_values[(u32)qst_args[0]];
         return;
     }
-    battle_rules.replace_char = (s8) *(s32 *)((s8 *)(&lbl_80449AD4.value) + 0x4);
+    battle_rules.replace_char = (s8) replace_char_values[1];
 }
 
 void qst_op_ba_set_respawn(void) {
     if ((u32)qst_args[0] <= 2U) {
-        battle_rules.respawn_mode = (s8) *(s32 *)((s8 *)((u8 *)(&lbl_80449AC8.value) + ((u32)qst_args[0] * 4)) + 0);
+        battle_rules.respawn_mode = (s8) respawn_mode_values[(u32)qst_args[0]];
         return;
     }
-    battle_rules.respawn_mode = (s8) *(s32 *)((s8 *)(&lbl_80449AC8.value) + 8);
+    battle_rules.respawn_mode = (s8) respawn_mode_values[2];
 }
 
 void qst_op_ba_set_unused_F817(void) {
     if ((u32)qst_args[0] <= 0x1U) {
-        battle_rules.unused_F817 = (s8) (&lbl_80449AC0.value)[(u32)qst_args[0]];
+        battle_rules.unused_F817 = (s8) unused_F817_values[(u32)qst_args[0]];
         return;
     }
-    battle_rules.unused_F817 = (s8) lbl_80449AC0.value;
+    battle_rules.unused_F817 = (s8) unused_F817_values[0];
 }
 
 void qst_op_ba_set_trap_mode(void) {
     if ((u32)qst_args[0] <= 0x1U) {
-        battle_rules.trap_mode = (s8) (&lbl_80449AB8.value)[(u32)qst_args[0]];
+        battle_rules.trap_mode = (s8) trap_mode_values[(u32)qst_args[0]];
         return;
     }
-    battle_rules.trap_mode = (s8) lbl_80449AB8.value;
+    battle_rules.trap_mode = (s8) trap_mode_values[0];
 }
 
 void qst_op_ba_set_tool_mode(void) {
     if ((u32)qst_args[0] <= 2U) {
-        battle_rules.tool_mode = (s8) (&lbl_80449AAC.value)[(u32)qst_args[0]];
+        battle_rules.tool_mode = (s8) tool_mode_values[(u32)qst_args[0]];
         return;
     }
-    battle_rules.tool_mode = (s8) lbl_80449AAC.value;
+    battle_rules.tool_mode = (s8) tool_mode_values[0];
 }
 
 void qst_op_ba_set_forbid_mags() {
     if ((u32)qst_args[0] <= 0x1U) {
-        battle_rules.mag_mode = (s8) (&lbl_80449AA4.value)[(u32)qst_args[0]];
+        battle_rules.mag_mode = (s8) mag_mode_values[(u32)qst_args[0]];
         return;
     }
-    battle_rules.mag_mode = (s8) lbl_80449AA4.value;
+    battle_rules.mag_mode = (s8) mag_mode_values[0];
 }
 
 void qst_op_ba_set_weapon_and_armor_mode() {
     if ((u32)qst_args[0] <= 3U) {
-        battle_rules.weapon_and_armor_mode = (s8) (&lobby_menu_byte_1_map.value)[(u32)qst_args[0]];
+        battle_rules.weapon_and_armor_mode = (s8) lobby_menu_byte_1_map[(u32)qst_args[0]];
         return;
     }
-    battle_rules.weapon_and_armor_mode = (s8) lobby_menu_byte_1_map.value;
+    battle_rules.weapon_and_armor_mode = (s8) lobby_menu_byte_1_map[0];
 }
 
 void qst_op_ba_set_tech_disk_mode() {
     s8 var_r0;
     if ((u32)qst_args[0] <= 2U) {
-        var_r0 = (s8) *(s32 *)((s8 *)((u8 *)(&lbl_80449A88.value) + ((u32)qst_args[0] * 4)) + 0);
+        var_r0 = (s8) tech_disk_mode_values[(u32)qst_args[0]];
     } else {
-        var_r0 = (s8) *(s32 *)((s8 *)(&lbl_80449A88.value) + 8);
+        var_r0 = (s8) tech_disk_mode_values[2];
     }
     battle_rules.tech_disk_mode = var_r0;
 }

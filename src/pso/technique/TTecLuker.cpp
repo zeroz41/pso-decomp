@@ -183,7 +183,7 @@ s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 extern RecoveredGlobal_80233D18_lbl_804CC9A8 telepipe_field_collision_body_template;
 extern s32 telepipe_field_collider_vtable[];
 bool TTecLuker__sub_8023401C(u8 *arg0);
-extern u32 recovery_technique_charge_particle_ids[];
+u32 recovery_technique_charge_particle_ids[2] = { 0xB7, 0xB8 };
 void* spawn_particle_effect(float*,u32);
 void TTecLuker__updateRecoveryTechniqueCharge(TechniqueChargeEmitter* state);
 u8 TTecLuker__visit_counts[4] = { 0, 0, 0, 0 };
