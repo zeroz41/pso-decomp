@@ -8,10 +8,10 @@
 #include "pso/object/collision/TObjBgmCol_8017E7F0.h"
 #include "pso/object/collision/TObjRaderCol.h"
 #include "pso/unk/text_801A2B38.h"
+#include "pso/object/warp/TObjCityMainWarpChallenge.h"
 
 extern "C" {
 
-void *TObjCityMainWarpChallenge__ct(void *, void *, void *);
 void *__nw__7TObjectFUl(int);
 
 void *TOContainerAncientItemRare__create(void *arg0) {
@@ -59,11 +59,7 @@ void *TObjItemLight__create(void *arg0) {
 }
 
 void *TObjCityMainWarpChallenge__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x180);
-    if (o != NULL) {
-        o = TObjCityMainWarpChallenge__ct(o, tl_05, arg0);
-    }
-    return o;
+    return new TObjCityMainWarpChallenge(tl_05, arg0);
 }
 
 }

@@ -5,6 +5,7 @@
 #include "pso/object/warp/TObjAreaWarp.h"
 
 struct TObjCityAreaWarp : public TObjAreaWarp {
+    TObjCityAreaWarp(TObject *parent, void *set_data);
     virtual ~TObjCityAreaWarp();
     virtual void debug_print_area_num();
     virtual void confirm_area_transfer(s32);
@@ -12,13 +13,6 @@ struct TObjCityAreaWarp : public TObjAreaWarp {
     void do_warp();
     void run_task();
     static void *create(void *arg0);
-    u8 unk_AC[0x4];
-    u32 m_b0;
-    u8 unk_B4[0x4];
-    s16 m_b8;
-    u8 unk_BA[0x2];
-    u32 m_bc;
-    u8 unk_C0[0x4];
     f32 m_c4;
 };
 

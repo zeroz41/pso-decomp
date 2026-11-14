@@ -9254,6 +9254,7 @@ pso/unk/text_802F0E24.cpp:
 
 pso/unk/text_802F0F04.cpp:
 	.text       start:0x802F0F04 end:0x802F105C
+	.data       start:0x804E48D8 end:0x804E4930
 
 pso/boss/barbaray/TObjBoss7Dust.cpp:
 	.text       start:0x802F105C end:0x802F1200

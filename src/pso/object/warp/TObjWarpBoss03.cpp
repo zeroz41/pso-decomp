@@ -2,8 +2,10 @@
 #include "pso/object/warp/TObjWarpBoss03.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/object/warp/TObjWarpBoss03.h"
 #include "pso/object/warp/TObjAreaWarp.h"
+#include "pso/object/warp/TObjWarpJungMain.h"
 
 #pragma readonly_strings on
 
@@ -34,11 +36,8 @@ void TObjWarpBoss03::sub_8019F9E4() {
 
 extern "C" {
 
-void *TObjWarpBoss03__ct(void *arg0);
 void *TObjWarpJungMain__create(void *arg0);
 void *__dt__14TObjWarpBoss03Fv(void *arg0, s16 arg1);
-void *TObjAreaWarp__ct(void *arg0);
-void *TObjWarpJungMain__ct(void *, void *, void *);
 void __dl__7TObjectFPv(void *);
 u8 *__dt__12TObjAreaWarpFv(u8 *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
@@ -56,22 +55,14 @@ extern "C" {
 
 const char *TObjWarpBoss03__name = "TObjWarpBoss03";
 
-void *TObjWarpBoss03__ct(void *warp_boss03) {
-    TObjAreaWarp__ct(warp_boss03);
-    *(s32 **)((s8 *)warp_boss03 + 0x18) = __vt__14TObjWarpBoss03;
-    ((TObjWarpBoss03 *)warp_boss03)->m_name = TObjWarpBoss03__name;
-    *(f32 *)((s8 *)warp_boss03 + 0xAC) = 2e+01f;
-    return warp_boss03;
+TObjWarpBoss03::TObjWarpBoss03(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+    m_name = TObjWarpBoss03__name;
+    warp_range = 2e+01f;
 }
 
-extern void *tl_05;
 
 void *TObjWarpJungMain__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xC8);
-    if (o != NULL) {
-        o = TObjWarpJungMain__ct(o, tl_05, arg0);
-    }
-    return o;
+    return new TObjWarpJungMain(tl_05, arg0);
 }
 
 }

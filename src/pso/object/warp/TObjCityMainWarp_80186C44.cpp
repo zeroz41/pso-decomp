@@ -37,9 +37,9 @@ void TObjCityMainWarpChallenge::close_windows() {
         ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x168)))->close();
         *(u32 *)((s8 *)this + 0x168) = 0U;
     }
-    if (this->m_b0 != 0U) {
-        ((TWindowBase *)this->m_b0)->close();
-        (this->m_b0) = 0U;
+    if (this->menu_window != 0U) {
+        ((TWindowBase *)this->menu_window)->close();
+        (this->menu_window) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x164) != 0U) {
         ((TWindowBase *)(*(void **)((s8 *)this + 0x164)))->close();

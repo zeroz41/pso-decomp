@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/warp/TObjWarpBase.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
@@ -243,12 +244,9 @@ s32 lbl_805D5CA4;
 extern s32 __vt__12TObjWarpBoss[];
 extern "C" {
 extern u8 lbl_80446480[];
-void *TObjAreaWarp__ct(void *arg0);
 s32 get_boss_warp_destination(void);
 extern "C" {
 void *__nw__7TObjectFUl(int);
-extern void *tl_05;
-Obj_8019F578 *TObjWarpBoss__ct(Obj_8019F578 *self, int _w1, void * _w2);
 extern "C" {
 extern "C" {
 s32 get_bml_motion(s32, s32);
@@ -387,7 +385,6 @@ void debug_print_area_num__17TObjWarpBossMultiFv(Wb_8019DE74 *arg0);
 void render__17TObjWarpBossMultiFv(u8 *arg0);
 void run_task__17TObjWarpBossMultiFv(Obj_8019DFE8 *self);
 void *__dt__17TObjWarpBossMultiFv(void *arg0, s16 arg1);
-Obj_8019E238 *TObjWarpBossMulti__ct(Obj_8019E238 *self, void * _w1, void * _w2);
 void update_warp_boss_visibility__12TObjWarpBossFv(void *arg0);
 void render_shadows__7TObjectFv();
 void vfunc_6__8TObjBaseFPsl();
@@ -399,7 +396,7 @@ void classify_actor_view_detail__8TObjBaseFfff();
 void get_name__8TObjBaseFv();
 void interact__14TObjCollidableFl();
 void vfunc_14__12TObjWarpBaseFv();
-void open_confirm_window__12TObjAreaWarpFUs();
+void open_confirm_window__12TObjAreaWarpFl();
 void is_warp_enabled__12TObjAreaWarpFv();
 void vfunc_17__12TObjWarpBaseFv();
 void vfunc_18__12TObjWarpBaseFl(s32 arg0, s32 arg1);
@@ -456,7 +453,7 @@ s32 __vt__17TObjWarpBossMulti[21] = {
     (s32)&get_name__8TObjBaseFv,
     (s32)&interact__14TObjCollidableFl,
     (s32)&vfunc_14__12TObjWarpBaseFv,
-    (s32)&open_confirm_window__12TObjAreaWarpFUs,
+    (s32)&open_confirm_window__12TObjAreaWarpFl,
     (s32)&is_warp_enabled__12TObjAreaWarpFv,
     (s32)&vfunc_17__12TObjWarpBaseFv,
     (s32)&vfunc_18__12TObjWarpBaseFl,
@@ -464,11 +461,7 @@ s32 __vt__17TObjWarpBossMulti[21] = {
     (s32)&debug_print_area_num__17TObjWarpBossMultiFv
 };
 void *TObjWarpBossMulti::create() {
-    void *o = __nw__7TObjectFUl(0x100);
-    if (o != NULL) {
-        o = TObjWarpBossMulti__ct((Obj_8019E238 *)(o), tl_05, this);
-    }
-    return o;
+    return new TObjWarpBossMulti(tl_05, this);
 }
 
 void TObjWarpBossMulti::init_warp_params() { this->m_f0 = get_boss_warp_base_model(); this->m_f4 = get_boss_warp_confirmation_model(); *(int*)((char*)this + 0xdc) = get_boss_warp_model(); *(int*)((char*)this + 0xe0) = get_boss_warp_motion(); *(int*)((char*)this + 0xe4) = get_boss_warp_bml_motion(); *(int*)((char*)this + 0xe8) = get_boss_warp_model_handle(); *(int*)((char*)this + 0xec) = fn_8019F9AC(); this->m_f8 = 0.0f; *(float*)((char*)this + 0xfc) = 4.0f; }
@@ -506,7 +499,7 @@ void TObjWarpBossMulti::debug_print_area_num() {
 
 void render__17TObjWarpBossMultiFv(u8 *warp_boss_multi) {
 
-    if ((s32) ((TObjWarpBossMulti *)warp_boss_multi)->m_d8 == 0xE) {
+    if ((s32) ((TObjWarpBossMulti *)warp_boss_multi)->dest_floor == 0xE) {
         if (xz_distance_squared(camera_ctrl_instance + 0x178, warp_boss_multi + 0x38) > 160000.0f) {
             return;
         }
@@ -593,30 +586,28 @@ void *__dt__17TObjWarpBossMultiFv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-Obj_8019E238 *TObjWarpBossMulti__ct(Obj_8019E238 *self, void * _w1, void * _w2) {
+TObjWarpBossMulti::TObjWarpBossMulti(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+    Obj_8019E238 *self = (Obj_8019E238 *)this;
     int i;
-    TObjAreaWarp__ct(self);
-    self->vt18 = ((s32 *)&__vt__17TObjWarpBossMulti);
-    self->f0 = (s32)TObjWarpBossMulti__name;
-    self->fBC = get_boss_warp_destination();
-    self->fA4 = 0;
-    register_entity_by_id(self);
-    ((TObjWarpBossMulti *)self)->update();
-    ((TObjWarpBossMulti *)self)->init_warp_params();
+    m_name = TObjWarpBossMulti__name;
+    dest_floor = get_boss_warp_destination();
+    bodies = NULL;
+    register_entity_by_id(this);
+    update();
+    init_warp_params();
     if (TRaderMapCore::is_not_split_screen() == 1) {
         void *p = ::operator new(0x88);
         if (p != NULL) {
-            p = init__13TAdVIConfigGCFf(p, self->f38, 19.0f);
+            p = init__13TAdVIConfigGCFf(p, &position, 19.0f);
         }
-        self->fC0 = p;
+        vi_config = (TAdVIConfigGC *)p;
     } else {
-        self->fC0 = NULL;
+        vi_config = NULL;
     }
-    self->fAC = 19.0f;
+    warp_range = 19.0f;
     for (i = 0; i < 4; i++) {
         self->fC4[i] = 0;
     }
-    return self;
 }
 
 void TObjWarpBoss::update_warp_boss_visibility() {
@@ -636,9 +627,9 @@ void TObjWarpBoss::update_warp_boss_visibility() {
             ((TObject *)(*(void **)((s8 *)this + 0x168)))->suspend_update();
             ((TObject *)((void *)(*(u32 *)((s8 *)this + 0x168))))->disallow_rendering();
         }
-        if ((u32) this->m_b0 != 0U) {
+        if ((u32) this->menu_window != 0U) {
             ((TObject *)(*(void **)((s8 *)this + 0xB0)))->suspend_update();
-            ((TObject *)(this->m_b0))->disallow_rendering();
+            ((TObject *)(this->menu_window))->disallow_rendering();
         }
         if ((u32) this->m_180 != 0U) {
             ((TObject *)(*(void **)((s8 *)this + 0x164)))->suspend_update();
@@ -649,9 +640,9 @@ void TObjWarpBoss::update_warp_boss_visibility() {
             ((TQuestVmDownLoadServer *)(*(void **)((s8 *)this + 0x168)))->clear_flag4_bit4();
             ((TObject *)((void *)(*(u32 *)((s8 *)this + 0x168))))->allow_rendering();
         }
-        if ((u32) this->m_b0 != 0U) {
+        if ((u32) this->menu_window != 0U) {
             ((TQuestVmDownLoadServer *)(*(void **)((s8 *)this + 0xB0)))->clear_flag4_bit4();
-            ((TObject *)(this->m_b0))->allow_rendering();
+            ((TObject *)(this->menu_window))->allow_rendering();
         }
         if ((u32) this->m_180 != 0U) {
             ((TQuestVmDownLoadServer *)(*(void **)((s8 *)this + 0x164)))->clear_flag4_bit4();
@@ -718,9 +709,9 @@ void TObjWarpBoss::close_windows() {
         ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x168)))->close();
         *(u32 *)((s8 *)this + 0x168) = 0U;
     }
-    if ((u32) this->m_b0 != 0U) {
+    if ((u32) this->menu_window != 0U) {
         ((TWindowBase *)(*(void **)((s8 *)this + 0xB0)))->close();
-        this->m_b0 = 0U;
+        this->menu_window = 0U;
     }
     if ((u32) this->m_180 != 0U) {
         ((TWindowBase *)(*(void **)((s8 *)this + 0x164)))->close();
@@ -1208,25 +1199,24 @@ TObjWarpBoss::~TObjWarpBoss() {
     unregister_object_by_id();
     close_windows();
 }
-Obj_8019F578 *TObjWarpBoss__ct(Obj_8019F578 *self, int _w1, void * _w2) {
+TObjWarpBoss::TObjWarpBoss(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+    Obj_8019F578 *self = (Obj_8019F578 *)this;
     int i;
-    TObjAreaWarp__ct(self);
-    self->vt18 = ((s32 *)&__vt__12TObjWarpBoss);
-    self->f0 = (s32)TObjWarpBoss__name;
+    m_name = TObjWarpBoss__name;
     self->fC4 = 0.0f;
-    self->fAC = 19.0f;
-    self->fBC = get_boss_warp_destination();
-    self->fA4 = 0;
-    register_entity_by_id(self);
+    warp_range = 19.0f;
+    dest_floor = get_boss_warp_destination();
+    bodies = NULL;
+    register_entity_by_id(this);
     self->f164 = 0;
     self->f168 = 0;
     self->f180 = 0;
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {
         self->f16C = -1;
-    } else if (self->f88 < 0 || self->f88 > 0xFF) {
+    } else if (set_params[1] < 0 || set_params[1] > 0xFF) {
         self->f16C = -1;
     } else {
-        self->f16C = self->f88;
+        self->f16C = set_params[1];
     }
     if (self->f16C >= 0) {
         self->fDC = 4;
@@ -1239,30 +1229,22 @@ Obj_8019F578 *TObjWarpBoss__ct(Obj_8019F578 *self, int _w1, void * _w2) {
     self->fE2 = 0;
     self->fD0 = 0;
     self->fD4 = 0;
-    if (self->fB4 != NULL) {
-        ((TObject *)self->fB4)->queue_destruction();
-        self->fB4 = NULL;
+    if (field_collider != NULL) {
+        ((TObject *)field_collider)->queue_destruction();
+        field_collider = NULL;
     }
     for (i = 0; i < 4; i++) {
         self->f144[i] = 0;
     }
-    return self;
 }
 s32 TObjWarpBossMulti__create(s32 arg0) {
-    s32 temp_r3;
-    s32 var_r0;
     if ((TRaderMapCore::is_not_split_screen() == 0) && (get_main_phase() == 0xE)) {
         return ((s32)((TObjWarpBossMulti *)arg0)->create());
     }
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return ((s32)((TObjWarpBossMulti *)arg0)->create());
     }
-    temp_r3 = ((s32)__nw__7TObjectFUl(0x184));
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = ((s32)TObjWarpBoss__ct((Obj_8019F578 *)(temp_r3), (int)((int) ((*(s32 *)&tl_05))), (void *)arg0));
-    }
-    return var_r0;
+    return (s32)new TObjWarpBoss(tl_05, (void *)arg0);
 }
 void TObjFish__sub_8019F72C(void) {
     if ((u32) boss_warp_resource_bundle != 0U) {

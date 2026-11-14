@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/object/warp/TObjAreaWarp.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
@@ -90,12 +91,10 @@ struct Obj_801A0224 {
 };
 
 u8 *__dt__12TObjAreaWarpFv(u8 *arg0, s16 arg1);
-void *TObjAreaWarp__ct(void *arg0);
 s32 TObjWarpJungMain__vt16(TObjWarpJungMain *arg0);
 void * __dt__16TObjWarpJungMainFv(void *arg0, s16 arg1);
 void * TObjWarpJung__create(void *arg0);
 void * __dt__12TObjWarpJungFv(void *arg0, s16 arg1);
-Obj_801A0224 * TObjWarpJung__ct(Obj_801A0224 *self);
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(int);
 void * init__13TAdVIConfigGCFf(void *, void *, f32);
@@ -103,7 +102,6 @@ s32 get_game_play_mode(void);
 
 extern s32 __vt__12TObjWarpJung[];
 extern s32 __vt__16TObjWarpJungMain[];
-extern void *tl_05;
 
 void TObjWarpJungMain::render() {
     s32 i;
@@ -147,7 +145,7 @@ s32 TObjWarpJungMain__vt16(TObjWarpJungMain *warp_jung_main) {
     u8 *window_menu;
     window_menu = (u8 *)(*(u8 **)((s8 *)warp_jung_main + 0xB0));
     if ((window_menu != NULL) && (((TWindowMenu *)window_menu)->is_decided() != 0)) {
-        warp_jung_main->m_bc = jungle_warp_destination_ids[((TWindowMenu *)(*(u8 **)((s8 *)warp_jung_main + 0xB0)))->get_selected_value()];
+        warp_jung_main->dest_floor = jungle_warp_destination_ids[((TWindowMenu *)(*(u8 **)((s8 *)warp_jung_main + 0xB0)))->get_selected_value()];
         return 1;
     }
     return 0;
@@ -159,17 +157,17 @@ void TObjWarpJungMain::vfunc_14() { TObjWarpBase::vfunc_14(); TWindowCtrl::clear
 
 void TObjWarpJungMain__vt13(TObjWarpJungMain *warp_jung_main, s16 arg1) {
     s32 i;
-    if ((u32) warp_jung_main->m_b0 == 0U) {
-        warp_jung_main->m_b0 = create_window_menu(get_window_layout_position(0x32), 3, arg1);
+    if ((u32) warp_jung_main->menu_window == 0U) {
+        warp_jung_main->menu_window = create_window_menu(get_window_layout_position(0x32), 3, arg1);
         for (i = 0; i < 3; i++) {
-            forward_trade_action_default__16TObjCityMainWarpFPviii(warp_jung_main->m_b0, get_localized_text_entry(9, jungle_warp_destination_text_ids[i]), 0xE, i);
+            forward_trade_action_default__16TObjCityMainWarpFPviii(warp_jung_main->menu_window, get_localized_text_entry(9, jungle_warp_destination_text_ids[i]), 0xE, i);
         }
-        ((TWindowSubComCard *)(warp_jung_main->m_b0))->calc_window_size();
-        align_menu_entry_positions(warp_jung_main->m_b0);
-        ((TWindowSubComCardList *)(warp_jung_main->m_b0))->set_flag70_bit10();
-        ((TLobby *)(warp_jung_main->m_b0))->set_loss_flag();
+        ((TWindowSubComCard *)(warp_jung_main->menu_window))->calc_window_size();
+        align_menu_entry_positions(warp_jung_main->menu_window);
+        ((TWindowSubComCardList *)(warp_jung_main->menu_window))->set_flag70_bit10();
+        ((TLobby *)(warp_jung_main->menu_window))->set_loss_flag();
         request_active_window_close();
-        warp_jung_main->m_b8 = arg1;
+        warp_jung_main->user_client_id = arg1;
     }
 }
 
@@ -192,35 +190,28 @@ void *__dt__16TObjWarpJungMainFv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-Obj_8019FF24 *TObjWarpJungMain__ct(Obj_8019FF24 *self) {
-    TObjAreaWarp__ct(self);
-    self->vt18 = __vt__16TObjWarpJungMain;
-    self->f0 = TObjWarpJungMain__name;
-    self->fC4 = 0.0f;
-    self->f8C = fabs_float(self->f8C % 2);
-    if (get_game_play_mode() == 1 && self->f8C == 0) {
-        ((TObject *)self)->queue_destruction();
-        return self;
+TObjWarpJungMain::TObjWarpJungMain(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+    m_name = TObjWarpJungMain__name;
+    m_c4 = 0.0f;
+    set_params[2] = fabs_float(set_params[2] % 2);
+    if (get_game_play_mode() == 1 && set_params[2] == 0) {
+        ((TObject *)this)->queue_destruction();
+        return;
     }
-    self->fAC = 15.0f;
+    warp_range = 15.0f;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         void *p = ::operator new(0x88);
         if (p != NULL) {
-            p = init__13TAdVIConfigGCFf(p, self->f38, 20.0f);
+            p = init__13TAdVIConfigGCFf(p, &position, 20.0f);
         }
-        self->fC0 = p;
+        vi_config = (TAdVIConfigGC *)p;
     } else {
-        self->fC0 = NULL;
+        vi_config = NULL;
     }
-    return self;
 }
 
 void *TObjWarpJung__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xC8);
-    if (o != NULL) {
-        o = ((void * (*)(void *, void *, void *))TObjWarpJung__ct)(o, tl_05, arg0);
-    }
-    return o;
+    return new TObjWarpJung(tl_05, arg0);
 }
 
 void TObjWarpJung::render() {
@@ -269,27 +260,24 @@ void *__dt__12TObjWarpJungFv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-Obj_801A0224 *TObjWarpJung__ct(Obj_801A0224 *self) {
-    TObjAreaWarp__ct(self);
-    self->vt18 = __vt__12TObjWarpJung;
-    self->f0 = TObjWarpJung__name;
-    self->fC4 = 0.0f;
-    self->f8C = fabs_float(self->f8C % 2);
-    if (get_game_play_mode() == 1 && self->f8C == 1) {
-        ((TObject *)self)->queue_destruction();
-        return self;
+TObjWarpJung::TObjWarpJung(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
+    m_name = TObjWarpJung__name;
+    beam_frame = 0.0f;
+    set_params[2] = fabs_float(set_params[2] % 2);
+    if (get_game_play_mode() == 1 && set_params[2] == 1) {
+        ((TObject *)this)->queue_destruction();
+        return;
     }
-    self->fAC = 15.0f;
+    warp_range = 15.0f;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         void *p = ::operator new(0x88);
         if (p != NULL) {
-            p = init__13TAdVIConfigGCFf(p, self->f38, 20.0f);
+            p = init__13TAdVIConfigGCFf(p, &position, 20.0f);
         }
-        self->fC0 = p;
+        vi_config = (TAdVIConfigGC *)p;
     } else {
-        self->fC0 = NULL;
+        vi_config = NULL;
     }
-    return self;
 }
 
 }

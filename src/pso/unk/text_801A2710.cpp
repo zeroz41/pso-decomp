@@ -3,6 +3,13 @@
 #include "pso/object/collision/TObjInfoCol.h"
 #include "pso/unk/text_801A2710.h"
 #include "pso/system/vector.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/object/warp/TObjWarpLobby.h"
+#include "pso/object/warp/TObjAreaWarpEnding.h"
+#include "pso/object/warp/TObjAreaWarpQuest.h"
+#include "pso/object/warp/TObjAreaWarpForest.h"
+#include "pso/object/warp/TObjMapWarpForest.h"
+#include "pso/object/warp/TObjMapForceWarp.h"
 
 extern "C" {
 u8 *TODoorFourLightRuins__ct(u8 *arg0, s32 arg1, s32 arg2);
@@ -11,15 +18,8 @@ void *TODoorFourLightSeabed__ct(void *, void *, void *);
 u8 *TODoorFourLightSpace__ct(u8 *arg0, s32 arg1, s32 arg2);
 void *TODoorLaboNormal__ct(void *, void *, void *);
 void *TODoorLabo__ct(void *, void *, void *);
-u8 *TObjAreaWarpEnding__ct(u8 *arg0, s32 arg1, s32 arg2);
-u8 *TObjAreaWarpForest__ct(u8 *arg0, s32 arg1, s32 arg2);
-u8 *TObjAreaWarpQuest__ct(u8 *arg0, s32 arg1, s32 arg2);
-void *TObjMapForceWarp__ct(void *, void *, void *);
-void *TObjMapWarpForest__ct(void *, void *, void *);
-void *TObjWarpLobby__ct(void *, void *, void *);
 void *__nw__7TObjectFUl(int);
 
-extern void *tl_05;
 
 }
 void *TODoorFourLightSeabed__create(void *arg0) {
@@ -79,50 +79,26 @@ void *TObjInfoCol__create(void *arg0) {
 }
 
 void *TObjWarpLobby__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xE0);
-    if (o != NULL) {
-        o = TObjWarpLobby__ct(o, tl_05, arg0);
-    }
-    return o;
+    return new TObjWarpLobby(tl_05, arg0);
 }
 
 void *TObjAreaWarpEnding__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xDC);
-    if (o != NULL) {
-        o = TObjAreaWarpEnding__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
-    return o;
+    return new TObjAreaWarpEnding(tl_05, arg0);
 }
 
 void *TObjAreaWarpQuest__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xE0);
-    if (o != NULL) {
-        o = TObjAreaWarpQuest__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
-    return o;
+    return new TObjAreaWarpQuest(tl_05, arg0);
 }
 
 void *TObjAreaWarpForest__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xDC);
-    if (o != NULL) {
-        o = TObjAreaWarpForest__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
-    return o;
+    return new TObjAreaWarpForest(tl_05, arg0);
 }
 
 void *TObjMapWarpForest__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x110);
-    if (o != NULL) {
-        o = TObjMapWarpForest__ct(o, tl_05, arg0);
-    }
-    return o;
+    return new TObjMapWarpForest(tl_05, arg0);
 }
 
 void *TObjMapForceWarp__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x100);
-    if (o != NULL) {
-        o = TObjMapForceWarp__ct(o, tl_05, arg0);
-    }
-    return o;
+    return new TObjMapForceWarp(tl_05, arg0);
 }
 

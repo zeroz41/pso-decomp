@@ -5,6 +5,7 @@
 #include "pso/object/warp/TObjAreaWarp.h"
 
 struct TObjWarpJung : public TObjAreaWarp {
+    TObjWarpJung(TObject *parent, void *set_data);
     virtual ~TObjWarpJung();
     virtual void confirm_area_transfer(s32);
     void render();
@@ -14,7 +15,6 @@ struct TObjWarpJung : public TObjAreaWarp {
     static void render_warp_effect(s32 arg0, s32 arg1);
     static void render_warp(s32 model_index);
     static s32 update_warp_display();
-    u8 unk_AC[0x18];
     f32 beam_frame; /* beam motion frame: += 4.0 per tick, wraps past frameCount - 1 (name inferred) */
 };
 

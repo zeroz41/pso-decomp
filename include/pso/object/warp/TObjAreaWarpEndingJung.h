@@ -5,6 +5,7 @@
 #include "pso/object/warp/TObjAreaWarpEnding.h"
 
 struct TObjAreaWarpEndingJung : public TObjAreaWarpEnding {
+    TObjAreaWarpEndingJung(TObject *parent, void *set_data);
     virtual ~TObjAreaWarpEndingJung();
     virtual void debug_print_area_num();
     void render();

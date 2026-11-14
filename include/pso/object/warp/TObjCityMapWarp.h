@@ -5,6 +5,7 @@
 #include "pso/object/warp/TObjMapWarp.h"
 
 struct TObjCityMapWarp : public TObjMapWarp {
+    TObjCityMapWarp(TObject *parent, void *set_data);
     virtual ~TObjCityMapWarp();
     virtual void slot4C();
     virtual void render();

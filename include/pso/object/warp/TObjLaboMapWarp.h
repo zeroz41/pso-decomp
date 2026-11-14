@@ -5,6 +5,7 @@
 #include "pso/object/warp/TObjMapWarp.h"
 
 struct TObjLaboMapWarp : public TObjMapWarp {
+    TObjLaboMapWarp(TObject *parent, void *set_data);
     virtual ~TObjLaboMapWarp();
     virtual void slot4C();
     virtual void run_task();

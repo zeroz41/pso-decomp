@@ -4,6 +4,7 @@
 #include "pso/object/warp/TObjMapWarp.h"
 struct ForestWarpMotion { u32 data,frameCount; };
 struct TObjMapWarpForest : public TObjMapWarp {
+    TObjMapWarpForest(TObject *parent, void *set_data);
     virtual ~TObjMapWarpForest();
     f32 frame;
     void* baseModel;

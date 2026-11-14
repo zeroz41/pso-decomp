@@ -5,13 +5,17 @@
 #include "pso/object/warp/TObjWarpBase.h"
 
 struct TObjAreaWarp : public TObjWarpBase {
+    TObjAreaWarp(TObject *parent, void *set_data);
     virtual ~TObjAreaWarp();
     void handle_area_selection();
     virtual void confirm_area_transfer(s32);
     virtual void debug_print_area_num();
-    virtual void open_confirm_window(u16 arg1);
+    virtual void open_confirm_window(s32 arg1);
     u16 find_active_player();
     virtual u8 is_warp_enabled();
+    s32 dest_floor;            // set data value, or the current floor + 1 while lobby_quest_progress_flag is set
+    TAdVIConfigGC *vi_config;  // created by derived constructors, destroyed by ~TObjAreaWarp
 };
+typedef char TObjAreaWarp_size[sizeof(TObjAreaWarp) == 0xC4 ? 1 : -1];
 
 #endif

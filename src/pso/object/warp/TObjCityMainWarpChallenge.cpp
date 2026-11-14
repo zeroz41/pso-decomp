@@ -82,7 +82,6 @@ s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, s32, s32, f32);
 s32 get_main_phase();
 extern s32 city_main_warp_destination_id;
 s32 register_entity_by_id(void *, int, f32);
-s32 TObjAreaWarp__ct();
 extern s32 __vt__25TObjCityMainWarpChallenge[];
 extern u8 *city_common_model_archive;
 s32 post_translate_matrix(void *);
@@ -98,53 +97,50 @@ s32 update_state__16TObjCityMainWarpFv();
 extern s32 camera_ctrl_instance;
 extern s32 city_common_texture_list;
 
-u8 *TObjCityMainWarpChallenge__ct(u8 *city_main_warp_challenge) {
+TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
     s32 var_r3;
     s32 temp_r0;
     s32 temp_r0_2;
     s32 temp_r4;
     s32 var_ctr;
-    TObjAreaWarp__ct();
-    *(s32 **)((s8 *)city_main_warp_challenge + 0x18) = __vt__25TObjCityMainWarpChallenge;
-    *(s32 *)((s8 *)city_main_warp_challenge + 0) = (s32) lbl_805D32B8;
-    *(f32 *)((s8 *)city_main_warp_challenge + 0xC4) = 0.0f;
-    *(f32 *)((s8 *)city_main_warp_challenge + 0xAC) = 19.0f;
-    *(s32 *)((s8 *)city_main_warp_challenge + 0xBC) = (s32) ((TObjCityMainWarpChallenge *)city_main_warp_challenge)->set_params[0];
-    temp_r4 = *(s32 *)((s8 *)city_main_warp_challenge + 0xBC);
+    m_name = lbl_805D32B8;
+    *(f32 *)((s8 *)this + 0xC4) = 0.0f;
+    warp_range = 19.0f;
+    dest_floor = (s32) set_params[0];
+    temp_r4 = dest_floor;
     city_main_warp_destination_id = temp_r4;
-    *(s32 *)((s8 *)city_main_warp_challenge + 0xA4) = 0;
-    register_entity_by_id(city_main_warp_challenge, temp_r4, 0.0f);
-    *(s32 *)((s8 *)city_main_warp_challenge + 0x164) = 0;
-    *(s32 *)((s8 *)city_main_warp_challenge + 0x168) = 0;
+    *(s32 *)((s8 *)this + 0xA4) = 0;
+    register_entity_by_id(this, temp_r4, 0.0f);
+    *(s32 *)((s8 *)this + 0x164) = 0;
+    *(s32 *)((s8 *)this + 0x168) = 0;
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {
-        *(s32 *)((s8 *)city_main_warp_challenge + 0x16C) = -1;
+        *(s32 *)((s8 *)this + 0x16C) = -1;
     } else {
-        temp_r0 = *(s32 *)((s8 *)city_main_warp_challenge + 0x88);
+        temp_r0 = *(s32 *)((s8 *)this + 0x88);
         if ((temp_r0 < 0) || (temp_r0 > 0xFF)) {
-            *(s32 *)((s8 *)city_main_warp_challenge + 0x16C) = -1;
+            *(s32 *)((s8 *)this + 0x16C) = -1;
         } else {
-            *(s32 *)((s8 *)city_main_warp_challenge + 0x16C) = temp_r0;
+            *(s32 *)((s8 *)this + 0x16C) = temp_r0;
         }
     }
-    if ((s32) *(s32 *)((s8 *)city_main_warp_challenge + 0x16C) >= 0) {
-        *(s16 *)((s8 *)city_main_warp_challenge + 0xDC) = 4;
-        *(s16 *)((s8 *)city_main_warp_challenge + 0xDE) = 4;
+    if ((s32) *(s32 *)((s8 *)this + 0x16C) >= 0) {
+        *(s16 *)((s8 *)this + 0xDC) = 4;
+        *(s16 *)((s8 *)this + 0xDE) = 4;
     } else {
-        *(s16 *)((s8 *)city_main_warp_challenge + 0xDC) = 0;
-        *(s16 *)((s8 *)city_main_warp_challenge + 0xDE) = 0;
+        *(s16 *)((s8 *)this + 0xDC) = 0;
+        *(s16 *)((s8 *)this + 0xDE) = 0;
     }
-    *(s16 *)((s8 *)city_main_warp_challenge + 0xE0) = 0;
-    *(s16 *)((s8 *)city_main_warp_challenge + 0xE2) = 0;
-    *(s32 *)((s8 *)city_main_warp_challenge + 0xD0) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)city_common_model_archive + 0x42C)) + 8);
-    *(s32 *)((s8 *)city_main_warp_challenge + 0xD4) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)city_common_model_archive + 0x430)) + 0x2C);
-    if ((u32) ((TObjCityMainWarpChallenge *)city_main_warp_challenge)->m_b4 != 0U) {
-        ((TObject *)(*(void **)((s8 *)city_main_warp_challenge + 0xB4)))->queue_destruction();
-        ((TObjCityMainWarpChallenge *)city_main_warp_challenge)->m_b4 = 0U;
+    *(s16 *)((s8 *)this + 0xE0) = 0;
+    *(s16 *)((s8 *)this + 0xE2) = 0;
+    *(s32 *)((s8 *)this + 0xD0) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)city_common_model_archive + 0x42C)) + 8);
+    *(s32 *)((s8 *)this + 0xD4) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)city_common_model_archive + 0x430)) + 0x2C);
+    if ((u32) field_collider != 0U) {
+        ((TObject *)(*(void **)((s8 *)this + 0xB4)))->queue_destruction();
+        field_collider = 0U;
     }
     for (var_ctr = 0; var_ctr < 4; var_ctr++) {
-        ((Warp_80187B50 *)city_main_warp_challenge)->arr[var_ctr] = 0;
+        ((Warp_80187B50 *)this)->arr[var_ctr] = 0;
     }
-    return city_main_warp_challenge;
 }
 
 TObjCityMainWarpChallenge::~TObjCityMainWarpChallenge() {

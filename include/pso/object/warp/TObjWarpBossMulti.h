@@ -5,14 +5,11 @@
 #include "pso/object/warp/TObjAreaWarp.h"
 
 struct TObjWarpBossMulti : public TObjAreaWarp {
+    TObjWarpBossMulti(TObject *parent, void *set_data);
     virtual ~TObjWarpBossMulti();
     virtual void debug_print_area_num();
     void render();
     void run_task();
-    u8 unk_AC[0xC];
-    u32 m_d4;
-    u32 m_d8;
-    u32 m_dc;
     u32 m_e0;
     u32 m_e4;
     u32 m_e8;

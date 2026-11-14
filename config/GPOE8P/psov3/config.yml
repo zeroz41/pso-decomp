@@ -867,7 +867,7 @@ force_active:
   - TOWreckAncientBrakable__name
   - TOWreckAncientBrakable__sub_8017D444
   - TOWreckAncient__resource_descriptor
-  - TObjAreaWarpEndingJung__ct
+  - __ct__22TObjAreaWarpEndingJungFP7TObjectPv
   - TObjBgmColCtrl__name
   - TObjBgmCol__name
   - TObjBigTuitate__ct
@@ -910,7 +910,7 @@ force_active:
   - TObjCMMainMenu__sub_8028EC34
   - TObjChallengeRetry__class_name
   - TObjChallengeRetry__ct
-  - TObjCityAreaWarp__ct
+  - __ct__16TObjCityAreaWarpFP7TObjectPv
   - TObjCityDoor_Guild__class_name
   - TObjCityDoor_Guild__ct
   - TObjCityDoor_Guild__name
@@ -928,8 +928,8 @@ force_active:
   - TObjCityDoor_Warp__class_name
   - TObjCityDoor_Warp__ct
   - TObjCityDoor_Warp__name
-  - TObjCityMainWarp__ct
-  - TObjCityMapWarp__ct
+  - __ct__16TObjCityMainWarpFP7TObjectPv
+  - __ct__15TObjCityMapWarpFP7TObjectPv
   - TObjCity_Season_21_21__ct
   - TObjCity_Season_21_21__name
   - TObjCity_Season_Board__ct
@@ -1349,7 +1349,7 @@ force_active:
   - TObjItemOKWindow__class_name
   - TObjItemOKWindow__text_format
   - TObjLaboDesignBase__ct
-  - TObjLaboMapWarp__ct
+  - __ct__15TObjLaboMapWarpFP7TObjectPv
   - TObjLazerFence4__ct
   - __ct__19TObjLazerFenceExtraFP7TObjectPv
   - __ct__18TObjLazerFenceNormFP7TObjectPv
@@ -1365,7 +1365,7 @@ force_active:
   - TObjLiveCamera__ct
   - TObjLuker__ct
   - TObjMapCsn__ct
-  - TObjMapWarpAncient__ct
+  - __ct__18TObjMapWarpAncientFP7TObjectPv
   - TObjMapWarp__name
   - TObjMotion__class_name
   - TObjNpcAHM01__name
@@ -1601,13 +1601,13 @@ force_active:
   - TObjWaitEntryHairMoveSim__sub_800FE3BC
   - TObjWarnChime_class_name
   - TObjWarnChime_name
-  - TObjWarpBase__ct
-  - TObjWarpBossMulti__ct
+  - __ct__12TObjWarpBaseFP7TObjectPv
+  - __ct__17TObjWarpBossMultiFP7TObjectPv
   - TObjWarpBossMulti__name
   - TObjWarpBossMulti__sub_8019E570
-  - TObjWarpBoss__ct
+  - __ct__12TObjWarpBossFP7TObjectPv
   - TObjWarpBoss__name
-  - TObjWarpJung__ct
+  - __ct__12TObjWarpJungFP7TObjectPv
   - TObjWarpString__sub_8019B728
   - TObject_name
   - TParticleCtrl__particle_entry_path

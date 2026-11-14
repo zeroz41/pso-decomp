@@ -3,6 +3,7 @@
 #pragma push
 
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/object/warp/TObjMapWarp.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/object/warp/TObjGoalWarpAncient_8017CB60.h"
@@ -70,7 +71,6 @@ extern "C" {
 s32 register_warp_object__19TObjGoalWarpAncientFPv(int);
 s32 register_warp__19TObjGoalWarpAncientFPv(int);
 s32 TObjGoalWarpAncient__sub_8017D2D4(int);
-s32 TObjAreaWarp__ct(void *, void *, void *);
 s32 init__13TAdVIConfigGCFf(int, void *, f32);
 extern s32 __vt__19TObjGoalWarpAncient[];
 
@@ -169,51 +169,43 @@ struct VObj_8017CED8_more_8017cca4_1 : VObjBase_8017CED8_more_8017cca4_1 {
 extern "C" {
 void *__nw__7TObjectFUl(int);
 
-extern void *tl_05;
 
 typedef char RecoveredGlobal_8017CDB4___vt__19TObjGoalWarpAncient_size[sizeof(RecoveredGlobal_8017CDB4___vt__19TObjGoalWarpAncient) == 0x54 ? 1 : -1];
-u8 *TObjGoalWarpAncient__ct(TObjGoalWarpAncient *goal_warp_ancient, s32 arg1, s32 arg2) {
+TObjGoalWarpAncient::TObjGoalWarpAncient(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
     s32 temp_r3;
     s32 var_r0;
-    TObjAreaWarp__ct((void *)goal_warp_ancient, (void *)arg1, (void *)arg2);
-    *(s32 **)((s8 *)goal_warp_ancient + 0x18) = &(*(RecoveredGlobal_8017CDB4___vt__19TObjGoalWarpAncient *)&__vt__19TObjGoalWarpAncient).value;
-    *(s32 *)((s8 *)goal_warp_ancient + 0) = (s32)TObjGoalWarpAncient__class_name;
-    *(f32 *)((s8 *)goal_warp_ancient + 0xC8) = 0.0f;
-    *(f32 *)((s8 *)goal_warp_ancient + 0xC4) = 0.0f;
-    goal_warp_ancient->m_e8 = TObjGoalWarpAncient__sub_8017D2D4(1);
-    *(s32 *)((s8 *)goal_warp_ancient + 0xD0) = TObjGoalWarpAncient__sub_8017D2D4(3);
-    *(s32 *)((s8 *)goal_warp_ancient + 0xD4) = TObjGoalWarpAncient__sub_8017D2D4(5);
-    if ((s32) goal_warp_ancient->set_params[2] < 0) {
-        *(s32 *)((s8 *)goal_warp_ancient + 0xD8) = TObjGoalWarpAncient::get_instance();
+    m_name = TObjGoalWarpAncient__class_name;
+    *(f32 *)((s8 *)this + 0xC8) = 0.0f;
+    *(f32 *)((s8 *)this + 0xC4) = 0.0f;
+    this->m_e8 = TObjGoalWarpAncient__sub_8017D2D4(1);
+    *(s32 *)((s8 *)this + 0xD0) = TObjGoalWarpAncient__sub_8017D2D4(3);
+    *(s32 *)((s8 *)this + 0xD4) = TObjGoalWarpAncient__sub_8017D2D4(5);
+    if ((s32) this->set_params[2] < 0) {
+        *(s32 *)((s8 *)this + 0xD8) = TObjGoalWarpAncient::get_instance();
     } else {
-        *(s32 *)((s8 *)goal_warp_ancient + 0xD8) = register_warp_object__19TObjGoalWarpAncientFPv(1);
+        *(s32 *)((s8 *)this + 0xD8) = register_warp_object__19TObjGoalWarpAncientFPv(1);
     }
-    *(s32 *)((s8 *)goal_warp_ancient + 0xDC) = register_warp_object__19TObjGoalWarpAncientFPv(3);
-    *(s32 *)((s8 *)goal_warp_ancient + 0xE0) = register_warp_object__19TObjGoalWarpAncientFPv(5);
-    *(s32 *)((s8 *)goal_warp_ancient + 0xE4) = register_warp__19TObjGoalWarpAncientFPv(0);
-    *(s32 *)((s8 *)goal_warp_ancient + 0xE8) = register_warp__19TObjGoalWarpAncientFPv(2);
-    if ((get_game_play_mode() == 1) && ((s32) goal_warp_ancient->set_params[2] >= 0)) {
-        goal_warp_ancient->queue_destruction();
+    *(s32 *)((s8 *)this + 0xDC) = register_warp_object__19TObjGoalWarpAncientFPv(3);
+    *(s32 *)((s8 *)this + 0xE0) = register_warp_object__19TObjGoalWarpAncientFPv(5);
+    *(s32 *)((s8 *)this + 0xE4) = register_warp__19TObjGoalWarpAncientFPv(0);
+    *(s32 *)((s8 *)this + 0xE8) = register_warp__19TObjGoalWarpAncientFPv(2);
+    if ((get_game_play_mode() == 1) && ((s32) this->set_params[2] >= 0)) {
+        this->queue_destruction();
     }
     if (is_split_screen() == 1) {
         temp_r3 = (int)::operator new(0x88);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
-            var_r0 = init__13TAdVIConfigGCFf(temp_r3, (u8 *)goal_warp_ancient + 0x38, 2e+01f);
+            var_r0 = init__13TAdVIConfigGCFf(temp_r3, (u8 *)&position, 2e+01f);
         }
-        goal_warp_ancient->m_dc = var_r0;
+        this->vi_config = (TAdVIConfigGC *)var_r0;
     } else {
-        goal_warp_ancient->m_dc = 0;
+        this->vi_config = 0;
     }
-    return (u8 *)goal_warp_ancient;
 }
 
 void *TObjMapWarpAncient__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x11C);
-    if (o != NULL) {
-        o = TObjMapWarpAncient__ct((TObjMapWarpAncient *)o, tl_05, arg0);
-    }
-    return o;
+    return new TObjMapWarpAncient(tl_05, arg0);
 }
 
 void TObjMapWarpAncient::render() {
@@ -279,7 +271,6 @@ extern "C" {
 
 void free_bin_model_request(void*, int);
 s32 TObjGoalWarpAncient__sub_8017D2D4(int);
-s32 TObjMapWarp__ct();
 void __dl__7TObjectFPv(void *);
 void *__dt__11TObjMapWarpFv(void *arg0, s16 arg1);
 s32 register_warp__19TObjGoalWarpAncientFPv(int);
@@ -300,19 +291,16 @@ void *__dt__18TObjMapWarpAncientFv(void *arg0, s16 arg1) {
 
 
 
-u8 *TObjMapWarpAncient__ct(TObjMapWarpAncient *map_warp_ancient, void *parent, void *set) {
-    TObjMapWarp__ct();
-    *(s32 **)((s8 *)map_warp_ancient + 0x18) = __vt__18TObjMapWarpAncient;
-    *(s32 *)((s8 *)map_warp_ancient + 0) = (s32)TObjMapWarpAncient__class_name;
-    *(f32 *)((s8 *)map_warp_ancient + 0xFC) = 0.0f;
-    map_warp_ancient->m_100 = TObjGoalWarpAncient__sub_8017D2D4(2);
-    map_warp_ancient->m_104 = TObjGoalWarpAncient__sub_8017D2D4(0);
-    map_warp_ancient->m_108 = TObjGoalWarpAncient__sub_8017D2D4(4);
-    map_warp_ancient->m_10c = register_warp_object__19TObjGoalWarpAncientFPv(2);
-    map_warp_ancient->m_110 = register_warp_object__19TObjGoalWarpAncientFPv(0);
-    map_warp_ancient->m_114 = register_warp_object__19TObjGoalWarpAncientFPv(4);
-    map_warp_ancient->m_118 = register_warp__19TObjGoalWarpAncientFPv(1);
-    return (u8 *)map_warp_ancient;
+TObjMapWarpAncient::TObjMapWarpAncient(TObject *parent, void *set_data) : TObjMapWarp(parent, set_data) {
+    m_name = TObjMapWarpAncient__class_name;
+    *(f32 *)((s8 *)this + 0xFC) = 0.0f;
+    this->m_100 = TObjGoalWarpAncient__sub_8017D2D4(2);
+    this->m_104 = TObjGoalWarpAncient__sub_8017D2D4(0);
+    this->m_108 = TObjGoalWarpAncient__sub_8017D2D4(4);
+    this->m_10c = register_warp_object__19TObjGoalWarpAncientFPv(2);
+    this->m_110 = register_warp_object__19TObjGoalWarpAncientFPv(0);
+    this->m_114 = register_warp_object__19TObjGoalWarpAncientFPv(4);
+    this->m_118 = register_warp__19TObjGoalWarpAncientFPv(1);
 }
 
 

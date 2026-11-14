@@ -5,6 +5,7 @@
 #include "pso/object/warp/TObjMapWarp.h"
 
 struct TObjMapWarpAncient : public TObjMapWarp {
+    TObjMapWarpAncient(TObject *parent, void *set_data);
     virtual ~TObjMapWarpAncient();
     virtual void slot4C();
     u8 unk_FC[0x4];
