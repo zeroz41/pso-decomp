@@ -738,7 +738,6 @@ pso/ui/charcreate/TChCrCharSelect_80293BEC.cpp
 pso/ui/charcreate/TChCrCharSelect_80293D10.cpp
 pso/ui/charcreate/TChCrCharSelect_80293D58.cpp
 pso/ui/charcreate/TChCrCharSelect_802993CC.cpp
-pso/ui/charcreate/TChCrTagInformation_802A1BFC.cpp
 pso/ui/charcreate/TChCrCharSelect_802A207C.cpp
 pso/ui/charcreate/TChCrEffCtrlPl.cpp
 pso/ui/charcreate/TChCrEffCtrlPl_80339658.cpp
@@ -751,7 +750,6 @@ pso/ui/charcreate/TChCrLoadAfsTextureReq.cpp
 pso/ui/charcreate/TChCrLoadReq.cpp
 pso/ui/charcreate/TChCrTag.cpp
 pso/ui/charcreate/TChCrTagInformation.cpp
-pso/ui/charcreate/TChCrTagInformation_802A200C.cpp
 pso/ui/charcreate/TChCrTagInformationStr.cpp
 pso/ui/charcreate/TChCrTagName.cpp
 pso/ui/charcreate/TChCrTagOccupation.cpp

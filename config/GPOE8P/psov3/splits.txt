@@ -8208,15 +8208,9 @@ pso/ui/charcreate/TChCrTag.cpp:
 	.data       start:0x804DCBD8 end:0x804DCBF4
 	.sdata2     start:0x805DDE00 end:0x805DDE10
 
-pso/ui/charcreate/TChCrTagInformation_802A1BFC.cpp:
-	.text       start:0x802A1BFC end:0x802A1E6C
-	.sdata2     start:0x805DDE10 end:0x805DDE1C
-
 pso/ui/charcreate/TChCrTagInformation.cpp:
-	.text       start:0x802A1E6C end:0x802A200C
-
-pso/ui/charcreate/TChCrTagInformation_802A200C.cpp:
-	.text       start:0x802A200C end:0x802A207C
+	.text       start:0x802A1BFC end:0x802A207C
+	.sdata2     start:0x805DDE10 end:0x805DDE28
 
 pso/ui/charcreate/TChCrCharSelect_802A207C.cpp:
 	.text       start:0x802A207C end:0x802A208C
