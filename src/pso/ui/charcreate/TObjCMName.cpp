@@ -1,4 +1,5 @@
 #pragma defer_codegen on
+#pragma readonly_strings on
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/MenuText.h"
@@ -67,12 +68,9 @@ struct Menu_80297B18 {
     f32 tmax;
 };
 
-struct Pair_80297B18 { s32 a, b; };
-
 extern "C" {
 extern const char *lbl_804DBC0C[];
 extern s32 lbl_804DBC40[];
-extern char lbl_805D3CD8[4];
 }
 
 typedef void (TObjCMMainMenu::*MenuFn_802987AC)();
@@ -88,12 +86,6 @@ struct Making_802952E0
 struct Limits_802952E0
 {
   s16 lim[22];
-};
-
-struct Icons_802952E0
-{
-  s32 a;
-  s32 b;
 };
 
 struct Auto_802952E0
@@ -123,15 +115,9 @@ s32 rand();
 void TObjCMMainMenu__sub_80298DA0(int a0);
 }
 
-extern Pair_80297B18 lbl_80464FC8[];
 extern s32 creation_resource_ready_state;
 extern s32 TObjCMMainMenu__data_805D659C;
-extern const s32 lbl_805DDA5C;
-extern const s32 lbl_805DDA60;
-extern const s32 lbl_805DDA64;
-extern const s32 lbl_805DDA68;
 void request_creation_motion(s32 arg0);
-extern const Icons_802952E0 lbl_80465118;
 
 struct Ent_802964B0 {
     u8 pad0[8];
@@ -140,7 +126,7 @@ struct Ent_802964B0 {
 };
 
 struct Hair_802964B0 {
-    s32 f0;
+    const char *name;
     u8 pad4[0x14];
     void *vt;
     s32 f1c;
@@ -308,40 +294,30 @@ void TObjCMMainMenu__sub_80298310(void);
 u8 is_not_dressing_room_mode__14TObjCMMainMenuFv(void);
 s32 * TObjCMMainMenu__sub_80298DD4(void);
 void fn_802993F0(void);
-void fn_8029945C(u8 *arg0);
+void fn_8029945C(const vec2f *position);
 u32 __cvt_fp2unsigned(f32);
 char * strncpy(char *, const char *, u32);
 extern u8 __vt__14TObjCMHairMenu[];
 extern void *__vt__16TObjCMAssignMenu[];
-extern u8 lbl_80464F50[];
-extern s32 char_creation_root_menu_tab_table[];
-extern f32 char_creation_assign_menu_tab_positions[];
-extern vec2f lbl_80465048[];
-extern vec2f lbl_80465050[];
-extern vec2f lbl_80465058[];
-extern s32 char_creation_assign_sprite_id_table[];
-extern s32 char_creation_assign_icon_sprite_id_table[];
 extern Ent_802964B0 class_appearance_table[];
 extern Cols_80297DB8 footer_divider_colors[2];
 extern Quad_80297DB8 footer_divider_vertices[2];
 extern vec2f lbl_804DBCC8[];
 extern RecoveredGlobal_80298DD4_lbl_8051C07C character_creation_name_buffer;
 extern f32 ui_sprite_scale;
-extern const char *lbl_805D3CD0;
-extern const char *TObjCMAssignMenu__name;
-extern s32 TObjCMHairMenu__name;
-extern const char *TObjCMAutoMkData__name;
-extern const char *TObjCMProportion__name;
-extern const char *TObjCMName__name;
 extern s32 creation_dressing_room_mode_flag;
 extern int creation_figure_rotation_y;
 extern void *creation_figure_object;
-extern s32 lbl_805D3CD4[];
 extern s32 lbl_804DBA68[8];
 extern s32 lbl_804DBA88[6];
 extern s32 lbl_804DBAA0[2];
 extern s32 lbl_804DBAA8[3];
 extern s32 lbl_804DBAB4[5];
+
+const char *TObjCMMainMenu__name = "TObjCMMainMenu";
+
+// inferred: main_menu_icon_position (fn_8029945C copies it into cm_icon_screen_position)
+const vec2f lbl_80464F50 = {614.0f, 434.0f};
 
 CreationMenuEntry TObjCMMainMenu__data_804DB9C8[10] = {
     {3, &TObjCMMainMenu::open_assign_menu},
@@ -366,6 +342,8 @@ s32 lbl_804DBAA8[3] = {2, 3, 9};
 
 s32 lbl_804DBAB4[5] = {0, 5, 9, 7, 9};
 
+s32 lbl_805D3CD4[1] = {9};
+
 CreationMenuModeList creation_menu_mode_lists[6] = {
     {8, lbl_804DBA68}, {6, lbl_804DBA88},
     {2, lbl_804DBAA0}, {3, lbl_804DBAA8},
@@ -387,10 +365,6 @@ union HairBarColor {
     u8 c[4];
 };
 
-extern const f32 lbl_8046509C[10];
-extern const f32 lbl_804650C4[4];
-extern const vec2f lbl_804650D4[4];
-extern const HairBarColor lbl_804650F4[4];
 extern vec2f lbl_804DBCD0[3];
 
 extern "C" {
@@ -428,7 +402,7 @@ f32 TObjCMMainMenu::get_scale() {
 void TObjCMMainMenu::clear_task_state() { (*(int *)&TObjCMMainMenu__data_805D659C) = 0; }
 
 TObjCMMainMenu::TObjCMMainMenu(TObject *parent) : TObject(parent) {
-    m_name = lbl_805D3CD0;
+    m_name = TObjCMMainMenu__name;
     character = creation_player_character;
     if (!(character->flags & 0xA) && character->classId == TObjCMMainMenu__sub_8028D9A8()->classId) {
         copy_player_visual_record(character, TObjCMMainMenu__sub_8028D9A8());
@@ -468,7 +442,7 @@ TObjCMMainMenu::TObjCMMainMenu(TObject *parent) : TObject(parent) {
     set_speed(30.0f);
     nodes = new TObject(NULL);
     fn_802947A8();
-    fn_8029945C(lbl_80464F50);
+    fn_8029945C(&lbl_80464F50);
     sub_802972C4();
 }
 
@@ -741,35 +715,12 @@ void TObjCMMainMenu::render() {
 
 void TObjCMMainMenu::sub_802981BC() {  }
 
-extern const char lbl_80464F58[];
-extern const char lbl_80464F60[];
-extern const char lbl_80464F6C[];
-extern const char lbl_80464F74[];
-extern const char lbl_80464F7C[];
-extern const char lbl_80464F84[];
-extern const char lbl_80464F90[];
-extern const char lbl_80464F98[];
-extern const char lbl_80464FA0[];
-extern const char lbl_80464FAC[];
-extern const char lbl_80464FB8[];
-extern const char lbl_80464FC0[];
-extern const char lbl_805DDA58[];
 const char *lbl_804DBC0C[13] = {
-    lbl_80464F58,
-    lbl_80464F60,
-    lbl_80464F6C,
-    lbl_80464F74,
-    lbl_80464F7C,
-    lbl_80464F84,
-    lbl_80464F90,
-    lbl_80464F98,
-    lbl_80464FA0,
-    lbl_80464FAC,
-    lbl_80464FB8,
-    lbl_80464FC0,
-    lbl_805DDA58,
+    "HUmar", "HUnewearl", "HUcast", "RAmar", "RAcast", "RAcaseal", "FOmarl",
+    "FOnewm", "FOnewearl", "HUcaseal", "FOmar", "RAmarl", "???",
 };
 s32 lbl_804DBC40[10] = {42, 43, 44, 45, 46, 47, 48, 49, 50, 51};
+char lbl_805D3CD8[4] = "???";
 
 void TObjCMMainMenu::sub_80297EF4() {
     f32 scale = get_scale();
@@ -875,10 +826,6 @@ void TObjCMMainMenu::draw_footer_divider() {
 extern "C" {
 void TObjCMMainMenu::sub_80297B18() {
     Menu_80297B18 *m = (Menu_80297B18 *)this;
-    s32 v14;
-    s32 v10;
-    s32 vC;
-    s32 v8;
     u32 color;
     s32 i;
     f32 s;
@@ -902,14 +849,14 @@ void TObjCMMainMenu::sub_80297B18() {
     case 0:
         if (is_active__23TAdSinglePlyChrSelectGCFv() != 0) {
             if (m->ids[m->sel] == 9 && TObjCMMainMenu::validate_character_name((s8 *)m->f1C) == 0) {
-                v14 = lbl_805DDA5C;
-                TObjCMIcon__sub_802994C8(1, &v14);
+                s32 icon_ids[] = {1};
+                TObjCMIcon__sub_802994C8(1, icon_ids);
             } else if (((s8 *)m->f1C)[0x30] == -1) {
-                Pair_80297B18 p18 = lbl_80464FC8[0];
-                TObjCMIcon__sub_802994C8(2, (s32 *)&p18);
+                s32 icon_ids[] = {1, 4};
+                TObjCMIcon__sub_802994C8(2, icon_ids);
             } else {
-                v10 = lbl_805DDA60;
-                TObjCMIcon__sub_802994C8(1, &v10);
+                s32 icon_ids[] = {4};
+                TObjCMIcon__sub_802994C8(1, icon_ids);
             }
         } else {
             TObjCMIcon::reset_icon_flags();
@@ -923,15 +870,15 @@ void TObjCMMainMenu::sub_80297B18() {
         case 8:
             break;
         default:
-            vC = lbl_805DDA64;
-            TObjCMIcon__sub_802994C8(1, &vC);
+            s32 icon_ids[] = {3};
+            TObjCMIcon__sub_802994C8(1, icon_ids);
             break;
         }
         break;
     case 2:
         if (m->f30 == 0 || creation_resource_ready_state == 2) {
-            v8 = lbl_805DDA68;
-            TObjCMIcon__sub_802994C8(1, &v8);
+            s32 icon_ids[] = {6};
+            TObjCMIcon__sub_802994C8(1, icon_ids);
         } else {
             TObjCMIcon::reset_icon_flags();
         }
@@ -975,6 +922,10 @@ void TObjCMMainMenu::sub_802979BC() {
     TCameraCtrl__sub_80068EF0();
 }
 }
+
+const s32 char_creation_root_menu_tab_table[15] = {
+    0xA7, 0xB4, 0xC1, 0xCE, 0xDB, 0xE7, 0xF3, 0x101, 0x10F, 0x11C, 0x129, 0x136, 0x143, 0x14F, 0x15B,
+};
 
 #pragma push
 #pragma fp_contract on
@@ -1165,6 +1116,8 @@ void TObjCMMainMenu::sub_802972C4() {  }
 void fn_802972C0(void) {  }
 
 void fn_802972BC(void) {  }
+
+const char *TObjCMAssignMenu__name = "TObjCMAssignMenu";
 
 void *__ct__16TObjCMAssignMenuFv(void *obj_cm_assign_menu, void *parent, void *kind) {
     u32 bit;
@@ -1395,6 +1348,15 @@ void TObjCMAssignMenu::calc_grid_layout() {
 
 __declspec(section ".data") vec2f lbl_804DBCC8[1] = {{56.0f, 146.0f}};
 
+const f32 char_creation_assign_menu_tab_positions[10] = {
+    206.0f, 219.0f, 243.0f, 271.0f, 271.0f, 284.0f, 297.0f, 323.0f, 347.0f, 347.0f,
+};
+const vec2f lbl_80465048 = {0.75f, 0.75f};
+const vec2f lbl_80465050 = {1.0f, 0.5f};
+const vec2f lbl_80465058 = {0.75f, 0.75f};
+const s32 char_creation_assign_sprite_id_table[7] = {0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x29};
+const s32 char_creation_assign_icon_sprite_id_table[4] = {0x29, 0x28, 0x27, 0x26};
+
 #pragma push
 #pragma fp_contract on
 #pragma opt_loop_invariants off
@@ -1470,7 +1432,7 @@ void render__16TObjCMAssignMenuFv(Menu_80296928 *self) {
             s32 n = self->page;
             pos2.x += 6.0f;
             pos2.y += 20.0f;
-            draw_ui_sprite_scaled(n + 0x14, &pos2, lbl_80465048, -2.4375f, alpha);
+            draw_ui_sprite_scaled(n + 0x14, &pos2, &lbl_80465048, -2.4375f, alpha);
         }
         w = base - 347.0f;
         pos3.x = 299.0f + w;
@@ -1534,12 +1496,12 @@ void TObjCMAssignMenu::render_assign_slots() {
         }
         step = 17.0f;
         for (j = 0; j < n; j++) {
-            draw_ui_sprite_scaled(0x1F, &pos, lbl_80465050, -3.0625f, a);
+            draw_ui_sprite_scaled(0x1F, &pos, &lbl_80465050, -3.0625f, a);
             pos.x += step;
         }
         pos.x += 10.0f;
         pos.y += 5.0f;
-        draw_ui_sprite_scaled(i + 0x14, &pos, lbl_80465058, -3.0625f, a);
+        draw_ui_sprite_scaled(i + 0x14, &pos, &lbl_80465058, -3.0625f, a);
     }
 }
 
@@ -1601,11 +1563,13 @@ void TObjCMAssignMenu::draw_assign_icons() {
 }
 
 #pragma pop
+const char *TObjCMHairMenu__name = "TObjCMHairMenu";
+
 Hair_802964B0 *__ct__14TObjCMHairMenuFv(Hair_802964B0 *arg0, void *arg1) {
     s32 i;
     ((void * (*)(void *, void *))__ct__7TObjectFP7TObject)(arg0, arg1);
     arg0->vt = __vt__14TObjCMHairMenu;
-    arg0->f0 = TObjCMHairMenu__name;
+    arg0->name = TObjCMHairMenu__name;
     arg0->f1c = (*(s32 *)&creation_player_character);
     arg0->f20 = 0;
     arg0->f24 = 0;
@@ -1711,6 +1675,15 @@ vec2f lbl_804DBCD0[3] = {{105.0f, 194.0f}, {105.0f, 238.0f}, {105.0f, 282.0f}};
 
 #pragma push
 #pragma fp_contract on
+const f32 lbl_8046509C[10] = {
+    206.0f, 219.0f, 243.0f, 271.0f, 271.0f, 284.0f, 297.0f, 323.0f, 347.0f, 347.0f,
+};
+const f32 lbl_804650C4[4] = {0.0f, 244.0f, 244.0f, 244.0f};
+const vec2f lbl_804650D4[4] = {{107.0f, 210.0f}, {99.0f, 224.0f}, {241.0f, 224.0f}, {249.0f, 210.0f}};
+const HairBarColor lbl_804650F4[4] = {{0xFF000000}, {0x00FF0000}, {0x0000FF00}, {0x80808000}};
+
+// render reaches each of the four hair arrays with its own lis/addi (no shared base): pool_data off
+#pragma pool_data off
 void TObjCMHairMenu::render() {
     ColorLineVertex pts[4];
     u32 cols[4];
@@ -1892,6 +1865,8 @@ void TObjCMHairMenu::render() {
 }
 
 #pragma pop
+const char *TObjCMAutoMkData__name = "TObjCMAutoMkData";
+
 TObjCMAutoMkData::TObjCMAutoMkData(TObject *parent) : TObject(parent) {
     m_name = TObjCMAutoMkData__name;
     appearance = creation_player_character;
@@ -1955,8 +1930,8 @@ void TObjCMAutoMkData::run_task() {
   {
     case 1:
     {
-      Icons_802952E0 icons = lbl_80465118;
-      TObjCMIcon__sub_802994C8(2, &icons.a);
+      s32 icon_ids[] = {2, 5};
+      TObjCMIcon__sub_802994C8(2, icon_ids);
       break;
     }
     case 2:
@@ -2046,6 +2021,8 @@ void TObjCMAutoMkData::run_task() {
 void TObjCMAutoMkData::render() {
     draw_creation_ruler_lines(*(f32 *)((s8 *)this + 0x38));
 }
+
+const char *TObjCMProportion__name = "TObjCMProportion";
 
 TObjCMProportion::TObjCMProportion(TObject *parent) : TObject(parent) {
     m_name = TObjCMProportion__name;
@@ -2188,6 +2165,8 @@ void TObjCMProportion::render() {
 }
 
 #pragma pop
+const char *TObjCMName__name = "TObjCMName";
+
 TObjCMName::TObjCMName(TObject *parent) : TObject(parent) {
     m_name = TObjCMName__name;
     appearance = creation_player_character;

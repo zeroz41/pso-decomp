@@ -2699,3 +2699,4 @@ pso/network/PppIpcp.c
 pso/ui/window/TWindowSnapShot_802A5B2C.cpp
 pso/technique/TTecGiFoie.cpp
 pso/enemy/panarms/TObjEnePanarms.cpp
+pso/ui/charcreate/TObjCMName.cpp
