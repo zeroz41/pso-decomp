@@ -8695,11 +8695,8 @@ pso/enemy/mericarol/TObjEneBm9Mericarol_802CE68C.cpp:
 	.sdata2     start:0x805DE708 end:0x805DE70C
 
 pso/enemy/mericarol/TObjEneBm9Mericarol_802CECE0.cpp:
-	.text       start:0x802CECE0 end:0x802D04C0
+	.text       start:0x802CECE0 end:0x802D05BC
 	.rodata     start:0x804724B8 end:0x804724C8
-
-pso/enemy/mericarol/TObjEneBm9Mericarol_802D04C0.cpp:
-	.text       start:0x802D04C0 end:0x802D05BC
 
 pso/enemy/mericarol/TObjEneBm9Mericarol_802D05BC.cpp:
 	.text       start:0x802D05BC end:0x802D073C

@@ -401,7 +401,6 @@ pso/enemy/gibon/TObjEneBm5GibonU.cpp
 pso/enemy/wolf/TObjEneBm5Wolf.cpp
 pso/enemy/mericarol/TObjEneBm9Mericarol.cpp
 pso/enemy/mericarol/TObjEneBm9Mericarol_802CECE0.cpp
-pso/enemy/mericarol/TObjEneBm9Mericarol_802D04C0.cpp
 pso/enemy/mericarol/TObjEneBm9Mericarol_802D05BC.cpp
 pso/enemy/mericarol/TObjEneBm9Mericarol_Bomb.cpp
 pso/enemy/mericarol/TObjEneBm9Mericarol_EffCurse3.cpp
