@@ -7181,7 +7181,7 @@ pso/ui/window/TWindowMakeTeam_80265298.cpp:
 pso/ui/window/TWindowSubComCard_80265410.cpp:
 	.text       start:0x80265410 end:0x80266BC4
 	.rodata     start:0x8044F320 end:0x8044F330
-	.sdata2     start:0x805DD150 end:0x805DD154
+	.sdata2     start:0x805DD148 end:0x805DD180
 
 pso/ui/window/TWindowSubComCard_80266BC4.cpp:
 	.text       start:0x80266BC4 end:0x80266BD0
