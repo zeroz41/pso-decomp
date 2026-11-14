@@ -99,7 +99,6 @@ void GXSetChanMatColor(s32, C_803DB9A0);
 void convert_color_f32_to_u8(const F_803DB9A0 *, C_803DB9A0 *);
 void convert_color_u8_to_f32(const C_803DB9A0 *, F_803DB9A0 *);
 extern F_803DB9A0 model_material_color;
-extern const C_803DB9A0 lbl_805E0F68;
 void traverse_model_node_tree(void *, void *);
 void GXSetChanCtrl(s32,s32,s32,s32,s32,s32,s32);
 extern s32 gx_chan_ctrl_light_mask;
@@ -259,7 +258,7 @@ void set_ginja_channel_counts(s32 flags, s32 arg1) {
 #pragma scheduling off
 #pragma peephole off
 void set_ginja_material_color(u32 v) {
-    C_803DB9A0 fallback = lbl_805E0F68;
+    C_803DB9A0 fallback = {0, 0, 0, 0x7F};
     C_803DB9A0 *mat;
     F_803DB9A0 add;
     C_803DB9A0 converted;
