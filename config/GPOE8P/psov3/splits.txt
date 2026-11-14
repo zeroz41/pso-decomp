@@ -7420,7 +7420,7 @@ pso/ui/window/TWindowCtrl_8026F6A4.cpp:
 pso/ui/window/TWindowSimpleStatus.cpp:
 	.text       start:0x8026F6DC end:0x80270748
 	.rodata     start:0x8044F608 end:0x8044F618
-	.sdata2     start:0x805DD3D8 end:0x805DD400
+	.sdata2     start:0x805DD388 end:0x805DD400
 
 pso/ui/window/TWindowSoundBalance.cpp:
 	.text       start:0x80270748 end:0x80270F14
