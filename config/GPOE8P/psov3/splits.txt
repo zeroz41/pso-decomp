@@ -3309,6 +3309,7 @@ pso/unk/text_8013F810.cpp:
 
 pso/unk/TLobby_8013FFA8.cpp:
 	.text       start:0x8013FFA8 end:0x801404CC
+	.data       start:0x804A7358 end:0x804A7368
 	.sdata2     start:0x805DB0F0 end:0x805DB120
 
 pso/unk/TLobby_801404CC.cpp:
@@ -9125,6 +9126,7 @@ pso/unk/text_802FE908.cpp:
 
 pso/unk/text_802FE9E0.cpp:
 	.text       start:0x802FE9E0 end:0x802FEA38
+	.data       start:0x804E6218 end:0x804E6240
 
 pso/npc/TObjNpcKenkyu2_802FEA38.cpp:
 	.text       start:0x802FEA38 end:0x802FEAA0
@@ -10022,6 +10024,7 @@ pso/ui/frontend/TAdPlyStatusGC.cpp:
 pso/ui/frontend/TAdPlyStatusGC_8033FD48.cpp:
 	.text       start:0x8033FD48 end:0x803403F8
 	.rodata     start:0x80478430 end:0x80478568
+	.data       start:0x804EFB70 end:0x804EFB78
 	.sdata2     start:0x805DFB10 end:0x805DFB14
 
 pso/ui/window/TWindowDD.cpp:
@@ -12105,6 +12108,7 @@ pso/unk/text_803DCDFC.cpp:
 
 pso/unk/text_803DD5E0.cpp:
 	.text       start:0x803DD5E0 end:0x803DE778
+	.data       start:0x804FC688 end:0x804FC698
 	.bss        start:0x8058D528 end:0x8058D880
 	.sdata      start:0x805D46D8 end:0x805D46E0
 	.sbss       start:0x805D77A0 end:0x805D77A8
@@ -12253,6 +12257,7 @@ pso/quest/TQuestVmDownLoadServer_803E9A24.cpp:
 
 pso/ui/keyboard/TKeyBoardControl_803F0C50.cpp:
 	.text       start:0x803F0C50 end:0x803F1804
+	.data       start:0x804FCD38 end:0x804FCD48
 	.bss        start:0x805A2720 end:0x805A28C0
 	.sbss       start:0x805D7930 end:0x805D7934
 
@@ -12312,6 +12317,7 @@ pso/network/NetworkRuntime.c:
 
 pso/network/NetworkThreadRuntime.c:
 	.text       start:0x803F97B8 end:0x803FAEA0
+	.data       start:0x804FD380 end:0x804FD3A8
 	.bss        start:0x805BFEC0 end:0x805BFF68
 
 pso/network/TLobby_803FAEA0.c:

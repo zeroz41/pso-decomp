@@ -94,11 +94,7 @@ extern s32 TObjLiveCameraCtrl__class_name;
 extern s32 tl_particlemodel;
 extern s32 live_camera_controller_next_slot;
 extern s32 TObjLiveCameraCtrl__instances;
-void fn_8030C058(void);
 s32 memset(s32 *, s32, s32);
-}
-void reset_globals_805D6A84(void);
-extern "C" {
 }
 
 void reset_globals_805D6A84(void) {

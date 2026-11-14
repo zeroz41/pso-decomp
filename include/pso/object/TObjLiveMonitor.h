@@ -22,11 +22,13 @@ public:
 };
 
 class TObjLiveMonitor;
+void reset_globals_805D6A84(void);
 extern "C" {
 int TBoss8Dragon__sub_8030B80C(void);
 void *TObjLiveCamera__create(void *arg0);
 u8 *TObjLiveCamera__ct(u8 *arg0, s32 parent, s32 arg2);
 void TObjLiveCamera__sub_8030B630(void);
+void fn_8030C058(void);
 void *__ct__15TObjLiveMonitorFv(void *arg0);
 void *__dt__14TObjLiveCameraFv(void *arg0, s16 arg1);
 int call_null__12TBoss8DragonFv(void);
