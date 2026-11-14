@@ -2209,11 +2209,9 @@ pso/object/TObjEZBoneRotBase.cpp:
 	.sdata2     start:0x805DAA40 end:0x805DAA54
 
 pso/object/TObjHMS_EZRope_Player_800FEFCC.cpp:
-	.text       start:0x800FEFCC end:0x800FF580
+	.text       start:0x800FEFCC end:0x800FF9B8
 	.rodata     start:0x8043DF40 end:0x8043DF48
-
-pso/unk/text_800FF580.cpp:
-	.text       start:0x800FF580 end:0x800FF9B8
+	.sdata2     start:0x805DAA58 end:0x805DAA68
 
 pso/object/TObjEZRopeBase.cpp:
 	.text       start:0x800FF9B8 end:0x800FFA88
@@ -10277,15 +10275,12 @@ pso/ui/window/TWindowDD_8034055C.cpp:
 	.sdata2     start:0x805DFC40 end:0x805DFC50
 
 pso/ui/window/TWindowDD_80340A78.cpp:
-	.text       start:0x80340A78 end:0x80340EA8
-	.rodata     start:0x804785D8 end:0x804785E0
-
-pso/ui/window/TWindowDD_80340EA8.cpp:
-	.text       start:0x80340EA8 end:0x80341108
+	.text       start:0x80340A78 end:0x80341108
 	.ctors      start:0x80434004 end:0x80434008
+	.rodata     start:0x804785D8 end:0x804785E0
 	.data       start:0x804EFBC8 end:0x804EFC00
 	.sbss       start:0x805D6DC8 end:0x805D6DCC
-	.sdata2     start:0x805DFC70 end:0x805DFC90
+	.sdata2     start:0x805DFC50 end:0x805DFC90
 
 pso/ui/window/TWindowDD_80341334.cpp:
 	.text       start:0x80341108 end:0x80341500

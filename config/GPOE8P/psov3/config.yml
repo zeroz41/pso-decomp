@@ -1736,7 +1736,7 @@ force_active:
   - TWindowCtrlSub__name
   - TWindowCtrl__sub_8024DAAC
   - TWindowCtrl__sub_8026D4E8
-  - __sinit_TWindowDD_80340EA8_cpp
+  - __sinit_TWindowDD_80340A78_cpp
   - TWindowDD__sub_8034138C
   - __sinit_TWindowDD_80341334_cpp
   - TWindowDD__sub_803422F0
