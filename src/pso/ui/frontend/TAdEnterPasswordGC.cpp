@@ -80,7 +80,6 @@ extern s32 password_entry_dispatch_state;
 RecoveredGlobal_8032BA8C_TAdEnterPasswordGC__data_804EDA20 TAdEnterPasswordGC__input_buffer = { 0 };
 #pragma explicit_zero_data off
 extern u8 *password_entry_keyboard_control;
-extern const f32 lbl_805DF780;
 s32 create_default_callback__22TAdEnterSerialAccessGCFv(void *);
 void strncpy(s32, s32, s32);
 s32 memset(void *, int, int);
@@ -131,7 +130,7 @@ void close_window_and_destroy__18TAdEnterPasswordGCFPv(u8 *arg0) {
     }
     temp_r4 = *(s32 *)((s8 *)arg0 + 0x24) + 1;
     *(s32 *)((s8 *)arg0 + 0x24) = temp_r4;
-    if ((f32) temp_r4 > lbl_805DF780) {
+    if ((f32) temp_r4 > 5.5f) {
         password_entry_dispatch_state = *(s32 *)((s8 *)arg0 + 0x20);
     }
 }
