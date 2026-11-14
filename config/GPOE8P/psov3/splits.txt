@@ -8184,7 +8184,7 @@ pso/unk/text_802948A8.cpp:
 	.text       start:0x802948A8 end:0x802948F4
 
 pso/ui/charcreate/TObjCMName.cpp:
-	.text       start:0x802948F4 end:0x80298F38
+	.text       start:0x802948F4 end:0x80298F08
 	.ctors      start:0x80433FC0 end:0x80433FC4
 	.rodata     start:0x80465140 end:0x80465150
 	.data       start:0x804DB950 end:0x804DBDC0
@@ -8193,7 +8193,7 @@ pso/ui/charcreate/TObjCMName.cpp:
 	.sdata2     start:0x805DDA6C end:0x805DDC20
 
 pso/ui/charcreate/TChCrEffCtrlPl.cpp:
-	.text       start:0x80298F38 end:0x80298F8C
+	.text       start:0x80298F08 end:0x80298F8C
 
 pso/unk/text_80298F8C.cpp:
 	.text       start:0x80298F8C end:0x80298FAC

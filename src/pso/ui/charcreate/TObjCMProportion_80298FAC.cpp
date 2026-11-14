@@ -4,7 +4,6 @@
 #include "pso/system/ControllerInputState.h"
 
 extern "C" {
-s32 get_creation_pad(void);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32);
 }

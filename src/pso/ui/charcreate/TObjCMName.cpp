@@ -126,8 +126,6 @@ void TObjCMMainMenu__sub_80298DA0(int a0);
 extern Pair_80297B18 lbl_80464FC8[];
 extern s32 creation_resource_ready_state;
 extern s32 TObjCMMainMenu__data_805D659C;
-extern const u32 lbl_805DDB9C;
-extern const u32 lbl_805DDBB8;
 extern const s32 lbl_805DDA5C;
 extern const s32 lbl_805DDA60;
 extern const s32 lbl_805DDA64;
@@ -259,11 +257,6 @@ struct CreationMenuEntry {
     void (TObjCMMainMenu::*select)(void *);
 };
 
-struct RecoveredGlobal_80298F08_lbl_8050E3B8 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
 struct RecoveredGlobal_80298DD4_lbl_8051C07C {
     s32 value;
     u8 remaining[0x14];
@@ -274,7 +267,6 @@ struct CreationMenuModeList {
     s32 *entries;
 };
 
-typedef char RecoveredGlobal_80298F08_lbl_8050E3B8_size[sizeof(RecoveredGlobal_80298F08_lbl_8050E3B8) == 0x1B0 ? 1 : -1];
 typedef char RecoveredGlobal_80298DD4_lbl_8051C07C_size[sizeof(RecoveredGlobal_80298DD4_lbl_8051C07C) == 0x18 ? 1 : -1];
 
 struct Menu_802975DC {
@@ -315,7 +307,6 @@ void fn_802972C0(void);
 void TObjCMMainMenu__sub_80298310(void);
 u8 is_not_dressing_room_mode__14TObjCMMainMenuFv(void);
 s32 * TObjCMMainMenu__sub_80298DD4(void);
-s32 get_creation_pad(void);
 void fn_802993F0(void);
 void fn_8029945C(u8 *arg0);
 u32 __cvt_fp2unsigned(f32);
@@ -334,7 +325,6 @@ extern Ent_802964B0 class_appearance_table[];
 extern Cols_80297DB8 footer_divider_colors[2];
 extern Quad_80297DB8 footer_divider_vertices[2];
 extern vec2f lbl_804DBCC8[];
-extern RecoveredGlobal_80298F08_lbl_8050E3B8 controller_physical_port_bank;
 extern RecoveredGlobal_80298DD4_lbl_8051C07C character_creation_name_buffer;
 extern f32 ui_sprite_scale;
 extern const char *lbl_805D3CD0;
@@ -407,10 +397,6 @@ extern "C" {
 void restore_saved_depth_alpha_state();
 void render_nodes__7TObjectFv(void*);
 void update_menu_reveal__14TObjCMMainMenuFv(M_80298450 *self);
-}
-
-s32 get_creation_pad(void) {
-    return *(s32 *)((s8 *)&controller_physical_port_bank.value + (TChCrEffCtrlPl::get_clamped_player_index() * 4));
 }
 
 s32 *TObjCMMainMenu__sub_80298DD4(void) {
@@ -817,7 +803,9 @@ void TObjCMMainMenu::sub_80297EF4() {
     if (!(name_color & 0xFF000000)) {
         name_color = 0xFFFFFFFF;
     }
-    name_color &= lbl_805DDBB8;
+    // the name keeps its RGB; the alpha comes from the fade
+    static const u32 rgb_mask = 0x00FFFFFF;
+    name_color &= rgb_mask;
     TCameraCtrl::restore_full_screen_view();
     draw_menu_text(263.0f, 209.0f * scale, character->name, name_color | (color & 0xFF000000));
     TCameraCtrl__sub_80068EF0();
@@ -978,7 +966,9 @@ void TObjCMMainMenu::sub_802979BC() {
     if (!(name_color & 0xFF000000)) {
         name_color = 0xFFFFFFFF;
     }
-    name_color &= lbl_805DDB9C;
+    // the name keeps its RGB; the alpha comes from the fade
+    static const u32 rgb_mask = 0x00FFFFFF;
+    name_color &= rgb_mask;
     u32 color = ((u32)(255.0f * unknown44) << 24) | name_color;
     TCameraCtrl::restore_full_screen_view();
     draw_menu_text(x, 396.0f * get_scale(), name, color);
