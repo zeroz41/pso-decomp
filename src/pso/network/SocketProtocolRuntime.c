@@ -849,28 +849,23 @@ s32 TLobby__sub_80420410(u32 off, u32 len, NetPacket *pkt, TcpTcb *o) {
         return 0;
     }
 
-    i = 0;
-    it = &o->req.fragments[i];
-    for (; i < o->req.fragment_count; i++) {
-        if (len <= (u32)it->length) {
+    for (i = 0; i < o->req.fragment_count; i++) {
+        if (len <= (u32)o->req.fragments[i].length) {
             pkt->fragment_count = 1;
-            NetMemcpy(&pkt->fragments[0].buffer, &it->buffer, 8);
+            NetMemcpy(&pkt->fragments[0].buffer, &o->req.fragments[i].buffer, 8);
             pkt->total_bytes = len;
             pkt->fragments[0].length = len;
             k = 1;
             break;
         }
-        len -= it->length;
-        it++;
+        len -= o->req.fragments[i].length;
     }
-    it--;
     i--;
     while (i > -1) {
         pkt->fragment_count++;
-        NetMemcpy(&pkt->fragments[k].buffer, &it->buffer, 8);
-        pkt->total_bytes += pkt->fragments[k].length = it->length;
+        NetMemcpy(&pkt->fragments[k].buffer, &o->req.fragments[i].buffer, 8);
+        pkt->total_bytes += pkt->fragments[k].length = o->req.fragments[i].length;
         k++;
-        it--;
         i--;
     }
     slot = &pkt->fragments[k];
