@@ -5,6 +5,16 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/unk/TLobby.h"
+#include "pso/unk/text_800F9B84.h"
+#include "pso/system/scene/TScene.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/map/FloorArea.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/system/TLanguage_801E4874.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/hud/TRaderMapCore_801FB964.h"
 
 #pragma fp_contract on
 
@@ -44,9 +54,8 @@ u16 get_entity_id(void *);
 s32 get_player_by_client_id(int);
 s32 update_radar_auto_discovery(void *, int, void *);
 s32 update_pan_zoom_input__13TRaderMapCoreFv();
-extern u32 TRaderMapCore__floor_map_resource;
+extern u8 *TRaderMapCore__floor_map_resource;
 extern s32 TRaderMapCore__view_mode;
-s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_801FB430___vt__13TRaderMapCore __vt__13TRaderMapCore;
 extern s32 TRaderMapCore__instance;
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
@@ -124,7 +133,7 @@ u8 *__dt__13TRaderMapCoreFv(u8 *arg0, s16 arg1) {
         TRaderMapCore__instance = 0;
         __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+            TObject::operator delete(arg0);
         }
     }
     return arg0;
@@ -196,5 +205,160 @@ Core_801FB490 *TRaderMapCore__ct(Core_801FB490 *arg0, void *parent) {
     return arg0;
 }
 #pragma pop
+
+}
+
+struct Ent_801FB798 { s32 a; char *name; };
+
+extern "C" {
+extern u32 TRaderMapCore__data_805D5F4C;
+s32 get_current_floor();
+s32 save_floor_discovery__13TRaderMapCoreFiPv(int, int);
+extern s32 TRaderMapCore__render_mode;
+void copy_name(s32 arg0);
+s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
+void init_radar_floor_flags(s32, u8 *);
+s32 get_floor_scene_table(s32 arg0);
+void bind_gvm_texture_list(char *, u8 *);
+extern s32 lbl_805D49B4;
+extern s32 TRaderMapCore__data_805D5F30;
+extern s8 lbl_805D5F34;
+extern s32 lbl_805D5F38;
+extern const char lbl_805DC5AC[2];
+extern const char lbl_805DC5B0[3];
+
+void TRaderMapCore::create() {
+    Core_801FB490 *obj;
+    if ((TRaderMapCore::is_not_split_screen() != 1) || (TLobby::is_ready() != 1)) {
+        if (TRaderMapCore::is_not_split_screen() == 1) {
+            if ((obj = (Core_801FB490 *)TObject::operator new(0x1A4)) != 0) {
+                TRaderMapCore__ct(obj, tl_clipout);
+            }
+        } else if ((obj = (Core_801FB490 *)TObject::operator new(0x1A4)) != 0) {
+            TRaderMapCore__ct(obj, tl_radermap);
+        }
+    }
+}
+
+void TRaderMapCore::unload_floor_map() {
+    GinjaTextureList *texlist;
+    u8 *temp_r31;
+    temp_r31 = (u8 *)TRaderMapCore__floor_map_resource;
+    if (temp_r31 != NULL) {
+        save_floor_discovery__13TRaderMapCoreFiPv((int) (get_current_floor()), (int)temp_r31);
+    }
+    TRaderMapCore::free_statics();
+    if ((void *) TRaderMapCore__floor_map_resource != NULL) {
+        texlist = *(GinjaTextureList **)(TRaderMapCore__floor_map_resource + 4);
+        if (texlist != NULL) {
+            release_texture_list(texlist);
+        }
+    }
+    if ((void *) TRaderMapCore__floor_map_resource != NULL) {
+        TLobby::free_nodes_with_id((int)TRaderMapCore__floor_map_resource);
+        TRaderMapCore__floor_map_resource = NULL;
+    }
+    TRaderMapCore__render_mode = 0;
+}
+
+void TRaderMapCore::load_map_resources() {
+    char buf[32];
+    Ent_801FB798 *e;
+    s32 status;
+    s32 area;
+    area = get_current_floor_area();
+    status = TScene::get_status();
+    e = (Ent_801FB798 *)get_floor_scene_table(area);
+    replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)e[status].name, (char *)"r.rel");
+    TRaderMapCore__floor_map_resource = (u8 *)create_named_object((s32)buf);
+    if (TRaderMapCore__floor_map_resource != NULL && *(u32 *)(TRaderMapCore__floor_map_resource + 4) != 0) {
+        replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)e[status].name, (char *)lbl_805DC5AC);
+        bind_gvm_texture_list(buf, *(u8 **)(TRaderMapCore__floor_map_resource + 4));
+    }
+    copy_name((s32)lbl_805DC5B0);
+    lbl_805D49B4 = 0;
+    TRaderMapCore::load_frame_texture();
+    e = (Ent_801FB798 *)TRaderMapCore__floor_map_resource;
+    if (e != NULL) {
+        init_radar_floor_flags(get_current_floor(), (u8 *)e);
+    }
+    TRaderMapCore__data_805D5F30 = 0;
+    lbl_805D5F34 = 0;
+    lbl_805D5F38 = 0;
+    TRaderMapCore__render_mode = 1;
+}
+
+s32 TRaderMapCore::apply_compass_param(s32 *counter) {
+    if ((u32) TRaderMapCore__data_805D5F4C != 0U) {
+        TObjFish::set_global_param((s32) TRaderMapCore__data_805D5F4C);
+        return 1;
+    }
+    return -1;
+}
+}
+
+struct RecoveredGlobal_8019A9B8_lbl_804B8F60 {
+    s32 value;
+    u8 remaining[0xC];
+};
+
+extern "C" {
+extern u32 TRaderMapCore__frame_model_resource;
+u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
+extern RecoveredGlobal_8019A9B8_lbl_804B8F60 obj_f_enemy_resource_descriptor;
+void free_bin_model_request(void*, int);
+
+void TRaderMapCore::free_statics() {
+    if ((u32) TRaderMapCore__data_805D5F4C != 0U) {
+        release_texture_list((GinjaTextureList *)TRaderMapCore__data_805D5F4C);
+        TAdSinglePlyChrSelectGC::safe_free(TRaderMapCore__data_805D5F4C);
+        TRaderMapCore__data_805D5F4C = 0U;
+    }
+    if ((u32) TRaderMapCore__frame_model_resource != 0U) {
+        free_bin_model_request((void*)TRaderMapCore__frame_model_resource, 1);
+        TRaderMapCore__frame_model_resource = 0U;
+    }
+}
+typedef char RecoveredGlobal_8019A9B8_lbl_804B8F60_size[sizeof(RecoveredGlobal_8019A9B8_lbl_804B8F60) == 0x10 ? 1 : -1];
+void TRaderMapCore::load_frame_texture() {
+    s32 temp_r3;
+    s32 var_r0;
+    temp_r3 = (int)::operator new(0x440);
+    var_r0 = temp_r3;
+    if (var_r0 != 0) {
+        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &obj_f_enemy_resource_descriptor.value, 0, 0, 0));
+    }
+    (*(s32 *)&TRaderMapCore__frame_model_resource) = var_r0;
+    (*(u8 * *)&TRaderMapCore__data_805D5F4C) = load_gvm_texture_file((s32)"RaderMapFrame.gvm");
+}
+
+}
+
+extern "C" {
+
+s32 get_bml_model(s32);
+void __dt__7TObjectFv(void *, int);
+
+    extern const float TRaderMapCore__data_805DC528;
+    extern const float TRaderMapCore__data_805DC534;
+void TRaderMapCore::reset() { *(float *)&this->m_prev = TRaderMapCore__data_805DC528; *(float *)&this->m_flags = TRaderMapCore__data_805DC528; *(float *)&this->m_name = TRaderMapCore__data_805DC528; *(int *)&this->m_next = 0; *(float *)&this->m_up = TRaderMapCore__data_805DC534; *(short *)&this->m_down = 0; *(short*)((char*)this + 0x16) = -1; *(float *)&this->texlist = TRaderMapCore__data_805DC534; *(float *)&this->m_20 = TRaderMapCore__data_805DC534; *(float *)&this->entity_id = TRaderMapCore__data_805DC534; *(float*)((char*)this + 0x18) = TRaderMapCore__data_805DC534; }
+
+
+void TRaderMapCore::init_map_ptr() {
+    get_bml_model(TRaderMapCore__frame_model_resource);
+}
+
+extern s32 lbl_804C88A8[];
+
+void *__dt__13TUnk_804C88A8Fv(void *arg0, s16 arg1) {
+    if (arg0 != NULL) {
+        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804C88A8;
+        __dt__7TObjectFv(arg0, 0);
+        if (arg1 > 0) {
+            TObject::operator delete(arg0);
+        }
+    }
+    return arg0;
+}
 
 }

@@ -5837,14 +5837,8 @@ pso/ui/hud/TRaderMapCore.cpp:
 	.sdata2     start:0x805DC540 end:0x805DC560
 
 pso/ui/hud/TRaderMapCore_801FB2B8.cpp:
-	.text       start:0x801FB2B8 end:0x801FB6A8
-
-pso/ui/hud/TRaderMapCore_801FB6A8.cpp:
-	.text       start:0x801FB6A8 end:0x801FB8AC
-	.rodata     start:0x8044A7B0 end:0x8044A7B8
-
-pso/ui/hud/TRaderMapCore_801FB8AC.cpp:
-	.text       start:0x801FB8AC end:0x801FBA20
+	.text       start:0x801FB2B8 end:0x801FBA20
+	.rodata     start:0x8044A7B0 end:0x8044A7D0
 
 pso/system/scene/TScene_801FBA20.cpp:
 	.text       start:0x801FBA20 end:0x801FBA28
