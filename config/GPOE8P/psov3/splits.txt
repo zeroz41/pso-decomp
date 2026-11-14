@@ -10312,8 +10312,13 @@ pso/ui/window/TWindowDD_80342E40.cpp:
 	.text       start:0x80342E40 end:0x803430BC
 
 pso/ui/window/TWindowDD_803430BC.cpp:
-	.text       start:0x803430BC end:0x80346A84
-	.data       start:0x804EFD68 end:0x804EFF1C
+	.text       start:0x803430BC end:0x8034435C
+	.data       start:0x804EFD68 end:0x804EFDBC
+
+pso/ui/window/TWindowDD_8034435C.cpp:
+	.text       start:0x8034435C end:0x80346A84
+	.data       start:0x804EFDC0 end:0x804EFF1C
+	.sdata2     start:0x805DFCC0 end:0x805DFCC6
 
 pso/ui/window/TWindowDD_80346A84.cpp:
 	.text       start:0x80346A84 end:0x80346F48
