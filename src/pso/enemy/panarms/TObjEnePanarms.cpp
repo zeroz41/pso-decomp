@@ -53,40 +53,7 @@ s32 angle_diff_s16(s32, s32);
 s32 vec3_add_to(void *, void *);
 s32 subtract_vector(void *, void *);
 s32 TObjEnePanarms__sub_800E1774(void *);
-extern f32 lbl_8043CD98[];
-struct Stack_800DFC18
-{
-  s32 sp8;
-  s32 spC;
-  s32 sp10;
-  s32 sp14;
-  s32 sp18;
-  s32 sp1C;
-  s32 sp20;
-  s32 sp24;
-};
 
-struct RecoveredGlobal_800DFC18_lbl_8043CDA8
-{
-  s32 value;
-  u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_800DFC18_lbl_8043CDB8
-{
-  s32 value;
-  u8 remaining[0xC];
-};
-
-typedef struct RecoveredGlobal_800DFC18_lbl_8043CDA8 RecoveredGlobal_800DFC18_lbl_8043CDA8;
-
-typedef struct RecoveredGlobal_800DFC18_lbl_8043CDB8 RecoveredGlobal_800DFC18_lbl_8043CDB8;
-
-typedef struct Stack_800DFC18 Stack_800DFC18;
-
-typedef char RecoveredGlobal_800DFC18_lbl_8043CDA8_size[((sizeof(RecoveredGlobal_800DFC18_lbl_8043CDA8)) == 0x10) ? (1) : (-1)];
-
-typedef char RecoveredGlobal_800DFC18_lbl_8043CDB8_size[((sizeof(RecoveredGlobal_800DFC18_lbl_8043CDB8)) == 0x10) ? (1) : (-1)];
 
 struct Stack_800E0950 {
     s32 sp8;
@@ -317,20 +284,8 @@ s32 push_matrix();
 s32 post_translate_matrix(void *, f32);
 
 extern BmlResource *TObjEnePanarms__entry_params_resource;
-extern Vec_800E1A44 panarms_part_offset_table[];
-extern s32 lbl_8043CD58[];
-extern Vec_800E1A44 panarms_parent_offset_table[];
-extern s32 lbl_8043CD78[];
-extern Hit_800E1608 lbl_8043CD88[];
-extern Hit_800E1608 lbl_8043CD90[];
-extern s32 lbl_8043CDA0[];
-extern RecoveredGlobal_800DFC18_lbl_8043CDA8 panarms_npc_binding_desc_a;
-extern RecoveredGlobal_800DFC18_lbl_8043CDB8 panarms_npc_binding_desc_b;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-
-extern const char *lbl_805D2AB8;
-extern const s32 lbl_8043CD38[2];
 
 /* A half's one collision sphere (init_collision_body_parts in the constructor). */
 CollisionBody lbl_80495458[1] = {
@@ -348,6 +303,42 @@ PanarmsMotionParam lbl_80495524[10] = {
     { 0x10000, 0x19, 0.8f, 0 }, { 0x10000, 0x1c, 0.7f, 0 }, { 0x10000, 0x16, 1.0f, 0 }, { 0x30000, 1, 0.8f, 0 },
     { 0, 0, 0.0f, 0 },          { 0x30000, 0xb, 1.3f, 0 },  { 0x30000, 0xe, 0.7f, 0 },  { 0x30000, 0x11, 0.7f, 0 },
     { 0x30000, 0x13, 0.7f, 0 }, { 0x30000, 7, 0.6f, 0 },
+};
+
+// The TU's .rodata, in this order (the functions that read each table come in the same order in this last-to-first
+// source); every table is indexed by the half (m_380) unless noted.
+extern const char TObjEnePanBARA__class_name[] = "TObjEnePanBARA";
+const char *TObjEnePanBARA__name = TObjEnePanBARA__class_name;
+
+// The half's bml model/texlist index (ctor).
+const s32 lbl_8043CD38[2] = {1, 2};
+
+const Vec_800E1A44 panarms_part_offset_table[2] = {{14.851f, 0.0f, -5.1765f}, {-14.1604f, 0.0f, -5.2659f}};
+
+const s32 lbl_8043CD58[2] = {-26578, 26578};
+
+const Vec_800E1A44 panarms_parent_offset_table[2] = {{17.3438f, 0.0f, 5.6544f}, {-17.3438f, 0.0f, 5.6544f}};
+
+const s32 lbl_8043CD78[2] = {-10558, 10558};
+
+const f32 lbl_8043CD80[2] = {100.0f, 80.0f};
+
+// attack_target_player copies these (not indexed).
+const Hit_800E1608 lbl_8043CD88[1] = {{0, 0.0f}};
+
+const Hit_800E1608 lbl_8043CD90[1] = {{0, 0.0f}};
+
+const f32 lbl_8043CD98[2] = {0.6f, 0.3f};
+
+const s32 lbl_8043CDA0[2] = {0x800, -0x800};
+
+// spawn_npc_pair's NPC descriptors (local initialisers; their templates end the TU's .rodata). spawn_npc_pair fills
+// in the bml's motion table before TLobby::spawn_npc_enemy.
+struct PanarmsNpcBinding {
+    BmlMotionEntry *motions;
+    PanarmsMotionParam *motion_params;
+    s32 pad_8;
+    s32 pad_c;
 };
 
 typedef void (TObjEnePanBARA::*PanBARAStateFn)();
@@ -493,7 +484,7 @@ struct PanBARAObjectState {
 TObjEnePanBARA::TObjEnePanBARA(TObject *parent, void *setData, s32 index) : TObjEnemy(parent) {
     s32 i;
 
-    m_name = lbl_805D2AB8;
+    m_name = TObjEnePanBARA__name;
     add_flags_2e4(2);
     apply_set_data(setData);
     // Same statements as TObjEnemy::clear_lobby_object_state (0x800F5D80); the original expands them here.
@@ -938,7 +929,6 @@ s32 try_move_with_detour__14TObjEnePanarmsFPvPv(u8 *arg0, Vec_800E18B0 *arg1) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-extern f32 lbl_8043CD80[];
 
 s32 TObjEnePanarms__sub_800E1774(void * self_) {
     f32 vec[3];
@@ -1697,33 +1687,17 @@ void TObjEnePanBARA::update_action_timer() {
     }
 }
 
-#pragma push
-#pragma opt_common_subs off
-#pragma opt_propagation off
-#pragma opt_dead_assignments off
 void TObjEnePanarms::spawn_npc_pair() {
-  s8 *new_var;
-  Stack_800DFC18 stack;
-  s32 temp_r8;
-  u8 *temp_r5;
-  u8 *temp_r5_2;
-  stack.sp18 = *((s32 *) (((s8 *)&panarms_npc_binding_desc_a.value) + 0));
-  stack.sp1C = *((s32 *) (((s8 *)&panarms_npc_binding_desc_a.value) + 4));
-  stack.sp20 = *((s32 *) (((s8 *)&panarms_npc_binding_desc_a.value) + 8));
-  stack.sp24 = *((s32 *) (((s8 *)&panarms_npc_binding_desc_a.value) + 0xC));
-  temp_r8 = *((s32 *) ((new_var = (s8 *) TObjEnePanarms__entry_params_resource) + 0x430));
-  stack.sp8 = *((s32 *) (((s8 *)&panarms_npc_binding_desc_b.value) + 0));
-  stack.sp18 = temp_r8;
-  stack.spC = *((s32 *) (((s8 *)&panarms_npc_binding_desc_b.value) + 4));
-  stack.sp10 = *((s32 *) (((s8 *)&panarms_npc_binding_desc_b.value) + 8));
-  stack.sp14 = *((s32 *) (((s8 *)&panarms_npc_binding_desc_b.value) + 0xC));
-  stack.sp8 = temp_r8;
-  temp_r5 = (u8 *) (*((u8 **) (new_var + 0x42C)));
-  TLobby::spawn_npc_enemy((s16)(0x24), (s32)((int) (*((s32 *) (((s8 *) temp_r5) + 0x18)))), (NJS_TEXLIST *)((int) (*((s32 *) (((s8 *) temp_r5) + 0x1C)))), &stack.sp18, 7.5f, 0.0f);
-  temp_r5_2 = (u8 *) (*((u8 **) (((s8 *) TObjEnePanarms__entry_params_resource) + 0x42C)));
-  TLobby::spawn_npc_enemy((s16)(0x25), (s32)((int) (*((s32 *) (((s8 *) temp_r5_2) + 0x28)))), (NJS_TEXLIST *)((int) (*((s32 *) (((s8 *) temp_r5_2) + 0x2C)))), &stack.sp8, 7.5f, 0.0f);
+    PanarmsNpcBinding binding_a = {0, lbl_80495484, 1, 0xA0000};
+    BmlMotionEntry *motions = TObjEnePanarms__entry_params_resource->motions;
+    binding_a.motions = motions;
+    PanarmsNpcBinding binding_b = {0, lbl_80495524, 1, 0xA0000};
+    binding_b.motions = motions;
+    BmlModelEntry *models = TObjEnePanarms__entry_params_resource->models;
+    TLobby::spawn_npc_enemy(0x24, models[1].model, (NJS_TEXLIST *)models[1].m_c, &binding_a, 7.5f, 0.0f);
+    models = TObjEnePanarms__entry_params_resource->models;
+    TLobby::spawn_npc_enemy(0x25, models[2].model, (NJS_TEXLIST *)models[2].m_c, &binding_b, 7.5f, 0.0f);
 }
-#pragma pop
 
 int TObjEnePanarms::find_nearest_enemy_with_flag(s32 arg1, f32 farg0) {
     u8 *arg0 = (u8 *)this;
