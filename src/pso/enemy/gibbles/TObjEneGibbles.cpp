@@ -83,7 +83,8 @@ struct Sub_802D8984 { u8 pad[0x18]; u32 f18; };
 
 struct Prm_802D8984 { u8 pad[0xC]; f32 fC; u8 pad10[8]; s32 f18; };
 
-struct Spawn_802DB7C0 { s32 a; s32 b; s32 c; s32 d; };
+// inferred: actions/action_count hold gibbles_action_table and its 10 entries (same layout as GeeAnimationBinding)
+struct Spawn_802DB7C0 { s32 a; TObjMotionAction *actions; s32 c; u16 action_count; u16 pad_0E; };
 
 struct O_802DBC94;
 struct VBase_14_802DBA18 { char pad[0x14]; };
@@ -161,7 +162,6 @@ s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
 void *mem_alloc(u32 size);
-extern Spawn_802DB7C0 gibbles_resource_binding_desc;
 extern s32 gibbles_boss_stat_handle;
 extern s32 gibbles_combat_stats_handle;
 extern u32 TObjEneGibbles__resource_bundle;
@@ -172,7 +172,6 @@ void * __nw__7TObjectFUl(int);
 void __construct_array(void *, void *, void *, int, int);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 void __ct__15RenderFadeStateFv(void);
-extern s32 lbl_805D3F60;
 u8 *TObjEneGibbles__ct(u8 *arg0, void *arg1, s32 arg2);
 s32 update_movement_status__9TObjCharaFv();
 s32 update_movement_status__14TObjEneGibblesFv(u8 *arg0);
@@ -350,7 +349,6 @@ s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_x(s32, s32);
 f32 post_translate_matrix(void *);
 
-extern RecoveredGlobal_802D7ED4_lbl_80472780 gibbles_joint_zero_vec;
 extern RecoveredGlobal_802D7ED4_lbl_8058D490 identity_matrix;
 extern s32 local_client_id;
 extern s32 lbl_805D5868;
@@ -557,48 +555,6 @@ extern "C" {
 void is_actor_cadence_frame__9TObjCharaFl();
 }
 extern "C" {
-extern u8 lbl_80472628[];
-}
-extern "C" {
-extern u8 lbl_80472638[];
-}
-extern "C" {
-extern u8 lbl_80472650[];
-}
-extern "C" {
-extern u8 lbl_80472668[];
-}
-extern "C" {
-extern u8 lbl_8047267C[];
-}
-extern "C" {
-extern u8 lbl_80472690[];
-}
-extern "C" {
-extern u8 lbl_804726A4[];
-}
-extern "C" {
-extern u8 lbl_804726B8[];
-}
-extern "C" {
-extern u8 lbl_804726D0[];
-}
-extern "C" {
-extern u8 lbl_804726E4[];
-}
-extern "C" {
-extern u8 lbl_804726F8[];
-}
-extern "C" {
-extern u8 lbl_8047270C[];
-}
-extern "C" {
-extern u8 lbl_80472720[];
-}
-extern "C" {
-extern u8 lbl_80472730[];
-}
-extern "C" {
 void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
 }
 extern "C" {
@@ -650,32 +606,32 @@ void update_object_view_visibility__8TObjBaseFff();
 extern "C" {
 void update_poison_status__9TObjCharaFv();
 }
-extern void *TObjEneGibbles__model_filenames[2];
-extern void *TObjEneGibbles__motion_names_and_resource_descriptor[11];
-extern void *lbl_804E286C[2];
-extern void *gibbles_motion_name_table[11];
+extern const char *TObjEneGibbles__model_filenames[2];
+extern const char *TObjEneGibbles__motion_names_and_resource_descriptor[11];
+extern const char *lbl_804E286C[2];
+extern const char *gibbles_motion_name_table[11];
 void vfunc_59__14TObjEneGibblesFv(void *arg0);
-__declspec(section ".data") void *TObjEneGibbles__model_filenames[2] = {
-    (void *)&lbl_80472628, (void *)0x0,
+__declspec(section ".data") const char *TObjEneGibbles__model_filenames[2] = {
+    "gibb_body.nj", NULL,
 };
-void *TObjEneGibbles__motion_names_and_resource_descriptor[11] = {
-    (void *)&lbl_80472638, (void *)&lbl_80472650, (void *)&lbl_80472668, (void *)&lbl_8047267C,
-    (void *)&lbl_80472690, (void *)&lbl_804726A4, (void *)&lbl_804726B8, (void *)&lbl_804726D0,
-    (void *)&lbl_804726E4, (void *)&lbl_804726F8, (void *)0x0,
+const char *TObjEneGibbles__motion_names_and_resource_descriptor[11] = {
+    "attack_gibb_body.njm", "damage_gibb_body.njm", "dead_gibb_body.njm", "guard_gibb_body.njm",
+    "jump_gibb_body.njm", "kamae_gibb_body.njm", "landing_gibb_body.njm", "punch_gibb_body.njm",
+    "wait_gibb_body.njm", "walk_gibb_body.njm", NULL,
 };
 void *lbl_804E285C[4] = {
-    (void *)&lbl_8047270C, (void *)&TObjEneGibbles__model_filenames, (void *)&TObjEneGibbles__motion_names_and_resource_descriptor, (void *)0x1000a,
+    (void *)"bm_ene_gibbles.bml", (void *)&TObjEneGibbles__model_filenames, (void *)&TObjEneGibbles__motion_names_and_resource_descriptor, (void *)0x1000a,
 };
-__declspec(section ".data") void *lbl_804E286C[2] = {
-    (void *)&lbl_80472720, (void *)0x0,
+__declspec(section ".data") const char *lbl_804E286C[2] = {
+    "lo_gibb_body.nj", NULL,
 };
-void *gibbles_motion_name_table[11] = {
-    (void *)&lbl_80472638, (void *)&lbl_80472650, (void *)&lbl_80472668, (void *)&lbl_8047267C,
-    (void *)&lbl_80472690, (void *)&lbl_804726A4, (void *)&lbl_804726B8, (void *)&lbl_804726D0,
-    (void *)&lbl_804726E4, (void *)&lbl_804726F8, (void *)0x0,
+const char *gibbles_motion_name_table[11] = {
+    "attack_gibb_body.njm", "damage_gibb_body.njm", "dead_gibb_body.njm", "guard_gibb_body.njm",
+    "jump_gibb_body.njm", "kamae_gibb_body.njm", "landing_gibb_body.njm", "punch_gibb_body.njm",
+    "wait_gibb_body.njm", "walk_gibb_body.njm", NULL,
 };
 void *lbl_804E28A0[4] = {
-    (void *)&lbl_80472730, (void *)&lbl_804E286C, (void *)&gibbles_motion_name_table, (void *)0x1000a,
+    (void *)"bm_ene_gibbles_low.bml", (void *)&lbl_804E286C, (void *)&gibbles_motion_name_table, (void *)0x1000a,
 };
 TObjMotionAction gibbles_action_table[10] = {
     {1, 0, 8, 0.3f, 1},
@@ -689,6 +645,16 @@ TObjMotionAction gibbles_action_table[10] = {
     {2, 0, 1, 0.8f, 8},
     {3, 0, 2, 0.7f, 0x10},
 };
+
+const char *TObjEneGibbles__class_name = "TObjEneGibbles";
+
+const Spawn_802DB7C0 gibbles_resource_binding_desc = {0, gibbles_action_table, 1, 10, 0};
+
+const Vec_800A6B14 lbl_80472768 = {0.0f, 0.0f, 0.0f};
+
+const Vec_800A6B14 lbl_80472774 = {0.0f, 0.0f, 0.0f};
+
+const RecoveredGlobal_802D7ED4_lbl_80472780 gibbles_joint_zero_vec = {0};
 void *lbl_804E2950[7] = {
     (void *)0x437a0000, (void *)0x3fa00000, (void *)0x400, (void *)0x0,
     (void *)0x64, (void *)0x0, (void *)0x0,
@@ -886,8 +852,6 @@ extern s32 TObjEneGibbles__render_rotation_x;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-extern s32 lbl_80472768[];
-extern s32 lbl_80472774[];
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 void move_with_wall_slide(u8 *arg0);
@@ -2225,7 +2189,7 @@ void update_target__14TObjEneGibblesFPv(Obj_802DAD50 *self) {
         u16 tid;
         i = 0;
         best_id = 0xFFFF;
-        Vec_800A6B14 v = *(Vec_800A6B14 *)lbl_80472768;
+        Vec_800A6B14 v = lbl_80472768;
         best = *self->range * *self->range;
         for (; i < registered_player_count + lbl_805D5870; i++) {
             p = get_player_data__10TObjPlayerFi(i);
@@ -2270,7 +2234,7 @@ void update_target__14TObjEneGibblesFPv(Obj_802DAD50 *self) {
         f32 best2;
         f32 best;
         f32 d;
-        Vec_800A6B14 v = *(Vec_800A6B14 *)lbl_80472774;
+        Vec_800A6B14 v = lbl_80472774;
         best_id = 0xFFFF;
         best_p2 = NULL;
         best_id2 = best_id;
@@ -2628,7 +2592,7 @@ u8 *TObjEneGibbles__ct(u8 *arg0, void *parent, s32 arg2) {
     *(void **)((s8 *)arg0 + 0x18) = (void *)lbl_804E29F0;
     __ct__13TUnk_80494938Fv((arg0 + 0x3C0));
     __construct_array(arg0 + 0x3DC, (void *)__ct__15RenderFadeStateFv, (void *)__dt__15RenderFadeStateFv, 0x1C, 4);
-    *(s32 *)((s8 *)arg0 + 0) = lbl_805D3F60;
+    ((TObjEneGibbles *)arg0)->m_name = TObjEneGibbles__class_name;
     ((TObjEneGibbles *)arg0)->apply_set_data((void *)arg2);
     ((TObjPlayer *)arg0)->init_position_vectors();
     ((TObjEneGibbles *)arg0)->scale.x = ((TObjEneGibbles *)arg0)->scale.y = *(f32 *)((s8 *)arg0 + 0x70) = 1.0f;

@@ -567,6 +567,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/lappy/TObjEneLappy.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/wolf/TObjEneBm5Wolf.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/gee/TObjEneMe1Gee.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/enemy/gibbles/TObjEneGibbles.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/unk/text_8019DBB4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdEnterSerialAccessGC_8032AD30.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/photon/TPhotonGolla.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/photon/TPhotonPilla.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

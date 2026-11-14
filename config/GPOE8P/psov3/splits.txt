@@ -4956,6 +4956,7 @@ pso/object/warp/TObjAreaWarpEndingJung.cpp:
 
 pso/unk/text_8019DBB4.cpp:
 	.text       start:0x8019DBB4 end:0x8019DC14
+	.rodata     start:0x80446470 end:0x80446480
 
 pso/ui/frontend/TAdStorySelectGC_8019DC14.cpp:
 	.text       start:0x8019DC14 end:0x8019DC78
@@ -9018,8 +9019,9 @@ pso/unk/TLobby_802D79EC.cpp:
 
 pso/enemy/gibbles/TObjEneGibbles.cpp:
 	.text       start:0x802D7A2C end:0x802DBCC4
-	.rodata     start:0x80472790 end:0x804727A0
+	.rodata     start:0x80472628 end:0x804727A0
 	.data       start:0x804E2828 end:0x804E2B8C
+	.sdata      start:0x805D3F60 end:0x805D3F68
 	.sbss       start:0x805D68A8 end:0x805D68C8
 	.sdata2     start:0x805DE7E0 end:0x805DE888
 
