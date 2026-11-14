@@ -4940,15 +4940,11 @@ pso/object/TObjBigTuitate.cpp:
 	.sdata2     start:0x805DBFA8 end:0x805DBFC4
 
 pso/object/warp/TObjAreaWarpEndingJung.cpp:
-	.text       start:0x8019B124 end:0x8019DBB4
-	.rodata     start:0x804462E0 end:0x80446470
+	.text       start:0x8019B124 end:0x8019DC14
+	.rodata     start:0x804462E0 end:0x80446480
 	.data       start:0x804B91E0 end:0x804B91F8
 	.sdata      start:0x805D3458 end:0x805D3484
 	.sdata2     start:0x805DBFC8 end:0x805DC000
-
-pso/unk/text_8019DBB4.cpp:
-	.text       start:0x8019DBB4 end:0x8019DC14
-	.rodata     start:0x80446470 end:0x80446480
 
 pso/ui/frontend/TAdStorySelectGC_8019DC14.cpp:
 	.text       start:0x8019DC14 end:0x8019DC78

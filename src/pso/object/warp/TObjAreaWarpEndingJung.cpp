@@ -49,6 +49,9 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/TLanguage_801E4874.h"
+#include "pso/unk/text_8019DBB4.h"
 
 // The original TU was built with deferred codegen: functions below are in reverse
 // address order, and the pool (three {3, 2} initializers, then the float literals
@@ -549,14 +552,24 @@ struct VObj_8019DA54_8019D964 : Base_8019DA54_8019D964 {
     virtual void m12(); virtual void m13();
 };
 
-s32 free_bin_model_request(s32, s32);
 s32 release_texture_list(void*);
 
-extern s32 forest_warp_bml_resource;
+extern BmlResource *forest_warp_bml_resource;
 extern u32 forest_warp_texture_list;
 }
 
+extern BmlResourceDescriptor forest_warp_resource_descriptor;
+
 // Function definitions in reverse address order (defer_codegen emits them reversed).
+
+void load_forest_warp_resources(void) {
+    BmlResource *resource = (BmlResource *)::operator new(0x440);
+    if (resource != 0) {
+        resource = load_resource_from_descriptor(resource, 5, &forest_warp_resource_descriptor, 0, 0, 0);
+    }
+    forest_warp_bml_resource = resource;
+    forest_warp_texture_list = (u32)load_gvm_texture_file((s32)"fs_obj_warp.gvm");
+}
 
 extern "C" {
 

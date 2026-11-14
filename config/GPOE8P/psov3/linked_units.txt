@@ -2309,7 +2309,6 @@ pso/unk/text_80196A20.cpp
 pso/object/quest/TObjQuestCol_80196A8C.cpp
 pso/object/ambient/TObjRain_801977D4.cpp
 pso/object/ambient/TObjRain_80197998.cpp
-pso/unk/text_8019DBB4.cpp
 pso/unk/text_801A2710.cpp
 pso/unk/text_801A2B38.cpp
 pso/unk/text_801A3014.cpp
