@@ -75,8 +75,12 @@ extern const Entry_802C2C48 seabed_dolphin_path_profiles[5] = {
     {3, 0.2f, 0.6f, 0.1f, 182},
     {4, 0.2f, 0.6f, 0.1f, 182},
 };
-extern u8 lbl_804E0888[];
-extern const Q_802C2958 seabed_dolphin_anim_binding[1] = {{0, (s32)lbl_804E0888, 0, 0x10000}};
+// The dolphin's one action (mode 1, motion 5 at 0.6 speed); inferred name: the action table of
+// seabed_dolphin_anim_binding, which load_seabed_dolphin hands to TLobby::spawn_npc_enemy.
+TObjMotionAction seabed_dolphin_actions[1] = {
+    {1, 0, 5, 0.6f, 0},
+};
+extern const Q_802C2958 seabed_dolphin_anim_binding[1] = {{0, (s32)seabed_dolphin_actions, 0, 0x10000}};
 extern const Entry_802C2548 jungle_ebi_path_profiles[3] = {
     {1, 0.01f, 0.6f, 0.1f, 182, 5},
     {2, 0.01f, 0.6f, 0.1f, 182, 5},

@@ -8772,6 +8772,7 @@ pso/object/lobby/LobbyPigeonTheme.cpp:
 pso/object/lobby/LobbyPigeonPath.cpp:
 	.text       start:0x802C0A74 end:0x802C3284
 	.rodata     start:0x804717C8 end:0x804719D0
+	.data       start:0x804E0888 end:0x804E0898
 	.sdata      start:0x805D3EC0 end:0x805D3EC4
 	.sbss       start:0x805D6798 end:0x805D67B8
 	.sdata2     start:0x805DE4F8 end:0x805DE528
@@ -12650,7 +12651,9 @@ pso/network/NetByteOrder.c:
 
 pso/network/PppPap.c:
 	.text       start:0x80402B60 end:0x804036FC
+	.rodata     start:0x8047FEB8 end:0x8047FF10
 	.bss        start:0x805C04D8 end:0x805C0638
+	.sdata2     start:0x805E1180 end:0x805E1188
 
 pso/network/PppControl.c:
 	.text       start:0x804036FC end:0x80403F4C

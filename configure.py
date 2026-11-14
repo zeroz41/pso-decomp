@@ -1140,7 +1140,7 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         "pso/network/PppBuffer.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/PppMd5.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetByteOrder.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
-        "pso/network/PppPap.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        "pso/network/PppPap.c": {"cflags": _switch(cflags_middleware, "-opt nocse", "-str reuse,readonly")},
         "pso/network/PppControl.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/PppVj.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/TLobby_804048E8.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
