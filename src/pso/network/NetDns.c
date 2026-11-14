@@ -465,8 +465,8 @@ s32 TLobby__sub_8040A8B0(u8 *self, s16 idx, s32 type)
         if (i < 0)
         {
           e->timer = 1;
-          e->status = e->status + 1;
         }
+        e->status = e->status + 1;
         break;
       }
 
@@ -480,8 +480,8 @@ s32 TLobby__sub_8040A8B0(u8 *self, s16 idx, s32 type)
         if (i < 0)
         {
           e->timer = 1;
-          e->status = e->status + 1;
         }
+        e->status = e->status + 1;
         break;
       }
 
