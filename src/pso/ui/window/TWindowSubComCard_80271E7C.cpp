@@ -14,6 +14,7 @@
 class TChCrTagPlBack;
 #include "pso/ui/window/TWindowComCard.h"
 #include "pso/network/TProtocol.h"
+#include "pso/unk/GuildCardRecord.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TUnk_804D0658.h"
@@ -290,8 +291,6 @@ void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
 s32 create_player_select_window__17TWindowSubComCardFv(void);
 void *get_com_card_entry__6TLobbyFi(int a0);
-s32 TLobby__sub_802428F8(void *p);
-int get_com_card_data__6TLobbyFv(void);
 void rebuild_com_card_list__17TWindowSubComCardFii(s32 arg0, s32 arg1);
 s32 create__17TWindowSubComCardFv(void);
 s32 create_keyboard__17TWindowSubComCardFi(s32 arg0);
@@ -610,11 +609,11 @@ void rebuild_com_card_list__17TWindowSubComCardFii(s32 arg0, s32 arg1) {
     TLobby::clear_flag_bit2();
     pos = ((TWindowShortListCtrl *)arg1)->get_cursor_pos();
     ((TWindowSubComCardList *)arg1)->reset_entries();
-    n = get_com_card_data__6TLobbyFv();
+    n = TLobby::get_com_card_data();
     for (i = n - 1; i >= 0; i--) {
         e = get_com_card_entry__6TLobbyFi(i);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)arg1, (int)(((TWindowSubComCard *)e)->get_sub_obj()), 7, (int)(TLobby__sub_802428F8((void *)e)));
-        if (cur == TLobby__sub_802428F8(e)) {
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)arg1, (int)(((TWindowSubComCard *)e)->get_sub_obj()), 7, (int)(((GuildCardRecord *)e)->get_serial()));
+        if (cur == ((GuildCardRecord *)e)->get_serial()) {
             sel = (n - 1) - i;
         }
     }

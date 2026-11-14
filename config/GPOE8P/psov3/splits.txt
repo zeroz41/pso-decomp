@@ -6785,18 +6785,12 @@ pso/unk/TLobby_8023F734.cpp:
 	.sdata2     start:0x805DC9C0 end:0x805DC9E0
 
 pso/unk/TLobby_802409AC.cpp:
-	.text       start:0x802409AC end:0x80242908
+	.text       start:0x802409AC end:0x80242938
 	.ctors      start:0x80433FB8 end:0x80433FBC
 	.rodata     start:0x8044E5C0 end:0x8044E5C8
 	.data       start:0x804CDA50 end:0x804CDC88
-	.bss        start:0x80517EE0 end:0x80518580
+	.bss        start:0x80517EE0 end:0x8051857C
 	.sdata2     start:0x805DC9E0 end:0x805DCA00
-
-pso/ui/window/TWindowSubStatusDisp_80242908.cpp:
-	.text       start:0x80242908 end:0x80242910
-
-pso/unk/TLobby_80242910.cpp:
-	.text       start:0x80242910 end:0x80242938
 
 pso/system/PadRumble.cpp:
 	.text       start:0x80242938 end:0x80243218

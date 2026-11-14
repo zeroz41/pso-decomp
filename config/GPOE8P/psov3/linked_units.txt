@@ -932,7 +932,7 @@ pso/unk/TLobby_80226070.cpp
 pso/unk/TLobby_802268F4.cpp
 pso/unk/TLobby_80228C84.cpp
 pso/unk/TLobby_8023F734.cpp
-pso/unk/TLobby_80242910.cpp
+pso/unk/TLobby_802409AC.cpp
 pso/unk/TLobby_8024A148.cpp
 pso/unk/TLobby_8026B06C.cpp
 pso/ui/window/TWindowMenuIconLine_8026DE30.cpp
@@ -1577,7 +1577,6 @@ pso/ui/window/TWindowSubStatusDisp_80144B14.cpp
 pso/ui/window/TWindowSubStatusDisp_801A5228.cpp
 pso/ui/window/TWindowSubStatusDisp_80228C30.cpp
 pso/ui/window/TWindowSubStatusDisp_80228CC0.cpp
-pso/ui/window/TWindowSubStatusDisp_80242908.cpp
 pso/ui/window/TWindowSubStatusDisp_80248968.cpp
 pso/ui/window/TWindowSubStatusDisp_80248ADC.cpp
 pso/ui/window/TWindowSubStatusDisp_80248BE8.cpp

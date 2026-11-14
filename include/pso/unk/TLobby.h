@@ -386,6 +386,7 @@ struct TLobby : public TObject {
     static void refresh_player_status();
     s32 get_id();
     static void clear_flag_bit2();
+    static int get_com_card_data();
     static int get_global_63e0();
     static void load_player_data();
     static void send_card_window_state();
