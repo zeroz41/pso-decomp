@@ -582,12 +582,12 @@ pso/boss/darkfalz/TBoss4Type3_800505A8.cpp:
 
 pso/boss/darkfalz/TObjDFJisin.cpp:
 	.text       start:0x8005063C end:0x800521A8
-	.rodata     start:0x804374E8 end:0x804374F8
+	.rodata     start:0x804374C0 end:0x804374F8
 	.data       start:0x804858F8 end:0x80485AAC
 	.bss        start:0x804FF228 end:0x804FF2A0
 	.sdata      start:0x805D27B8 end:0x805D27D0
 	.sbss       start:0x805D4D78 end:0x805D4D80
-	.sdata2     start:0x805D8A60 end:0x805D8AC4
+	.sdata2     start:0x805D8A60 end:0x805D8AD8
 
 pso/boss/darkfalz/TObjDFUsoTower.cpp:
 	.text       start:0x800521A8 end:0x80052374
@@ -6311,7 +6311,9 @@ pso/ui/city/TShopItemTecSequence.cpp:
 
 pso/ui/city/TShopJudgmentItemWindow.cpp:
 	.text       start:0x802205E4 end:0x80221820
+	.rodata     start:0x8044C198 end:0x8044C1E8
 	.data       start:0x804CA1C0 end:0x804CA1F0
+	.sdata      start:0x805D36E0 end:0x805D36E8
 	.sdata2     start:0x805DC708 end:0x805DC70C
 
 pso/unk/TLobby_80221820.cpp:

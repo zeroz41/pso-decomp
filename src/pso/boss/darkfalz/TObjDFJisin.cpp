@@ -38,6 +38,16 @@
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/system/task/TObject.h"
 
+extern char TObjDFRecover__class_name_string[];
+extern char TObjDFRecBall__class_name_string[];
+extern char TObjDFBeamCursor__class_name_string[];
+const char *TObjDFRecover__name = TObjDFRecover__class_name_string;
+s32 TObjDFRecBall__name = (s32)TObjDFRecBall__class_name_string;
+void *TObjDFBeamCursor__name = TObjDFBeamCursor__class_name_string;
+const char *TObjDFJisin__name = "TObjDFJisin";
+const char *TObjDFHorming__name = "TObjDFHorming";
+const char *TObjDFYutai__name = "TObjDFYutai";
+
 typedef struct Obj_8005063C {
     u8 pad0[0x2FC];
     Vec f2fc;
@@ -94,9 +104,9 @@ void TObjDFHorming::sub_8005076C() {
     f32 temp_f1;
     temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x370) - this->m_300;
     if (temp_f1 > lbl_805D8A30) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x34C) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x34C) + lbl_805D8A58);
+        *(f32 *)((s8 *)((u8 *)this) + 0x34C) += lbl_805D8A58;
     } else {
-        *(f32 *)((s8 *)((u8 *)this) + 0x34C) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x34C) - lbl_805D8A58);
+        *(f32 *)((s8 *)((u8 *)this) + 0x34C) -= lbl_805D8A58;
     }
     if (fabs_float(temp_f1) < lbl_805D8A5C) {
         this->m_368 = 1;
@@ -279,8 +289,6 @@ extern void *__vt__16TObjDFBeamCursor[];
 extern s32 TObjDFJisin__particle_emitter_id_table[];
 extern s32 TObjDFRecBall__name;
 extern void *TObjDFBeamCursor__name;
-extern s32 TObjDFJisin__name;
-extern s32 TObjDFHorming__name;
 extern s32 game_difficulty_selection;
 
 int queue_destruction__13TObjDFHormingFPv(void* p) { return ((int (*)(void*))queue_destruction__7TObjectFv)(p); }
@@ -378,7 +386,7 @@ u8 *TObjDFHorming__ct(u8 *arg0, s32 parent, s32 arg2, u16 arg3) {
 
     __ct__9TObjCharaFP7TObject(arg0, parent);
     *(u8 **)((s8 *)arg0 + 0x18) = (u8 *)__vt__13TObjDFHorming;
-    *(s32 *)((s8 *)arg0 + 0) = TObjDFHorming__name;
+    *(const char **)((s8 *)arg0 + 0) = TObjDFHorming__name;
     ((TObjDFHorming *)arg0)->m_334 = arg3;
     *(s32 *)&((TObjDFHorming *)arg0)->m_338 = 0x96;
     if (game_difficulty_selection == 3) {
@@ -490,7 +498,7 @@ extern "C" {
 u8 *TObjDFJisin__ct(u8 *object, u8 *arg1, s32 arg2) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__11TObjDFJisin;
-    *(s32 *)((s8 *)object + 0) = (s32) TObjDFJisin__name;
+    *(const char **)((s8 *)object + 0) = TObjDFJisin__name;
     *(f32 *)((s8 *)object + 0x1C) = (f32) (300.0f * sin_table_lookup(arg2));
     *(f32 *)((s8 *)object + 0x20) = (f32) lbl_805D8A30;
     *(f32 *)((s8 *)object + 0x24) = (f32) (-300.0f * cos_table_lookup(arg2));
@@ -1020,18 +1028,6 @@ void TObjDFTenchuFuru::transform_node_tree() {
 }
 }
 
-extern char TObjDFRecover__class_name_string[];
-extern char TObjDFRecBall__class_name_string[];
-extern char TObjDFBeamCursor__class_name_string[];
-extern char TObjDFJisin__class_name_string[];
-extern char TObjDFHorming__class_name_string[];
-extern char TObjDFYutai__class_name_string[];
-const char *TObjDFRecover__name = TObjDFRecover__class_name_string;
-s32 TObjDFRecBall__name = (s32)TObjDFRecBall__class_name_string;
-void *TObjDFBeamCursor__name = TObjDFBeamCursor__class_name_string;
-s32 TObjDFJisin__name = (s32)TObjDFJisin__class_name_string;
-s32 TObjDFHorming__name = (s32)TObjDFHorming__class_name_string;
-const char *TObjDFYutai__name = TObjDFYutai__class_name_string;
 
 extern "C" {
 
@@ -1214,11 +1210,6 @@ typedef struct Obj_80052090 {
 
 extern "C" {
 extern u8 *camera_ctrl_instance;
-extern const f32 lbl_805D8AC4;
-extern const f32 lbl_805D8AC8;
-extern const f32 lbl_805D8ACC;
-extern const f32 lbl_805D8AD0;
-extern const f32 lbl_805D8AD4;
 
 void TObjDFUsoTower::render() {
     f32 temp_f1;
@@ -1250,27 +1241,23 @@ void TObjDFUsoTower::run_task() {
         subtract_vector(&v, &arg0->pos);
         v.y = lbl_805D8A30;
         d = vector_length(&v);
-        if (d <= lbl_805D8AC4) {
+        if (d <= 150.0f) {
             r = lbl_805D8A30;
-        } else if (d >= lbl_805D8AC8) {
+        } else if (d >= 200.0f) {
             r = lbl_805D8A34;
         } else {
-            r = (d - lbl_805D8AC4) / lbl_805D8A5C;
+            r = (d - 150.0f) / lbl_805D8A5C;
         }
-        arg0->f94 = lbl_805D8ACC * r;
+        arg0->f94 = 0.4f * r;
         break;
     }
     case 1:
-        r = arg0->f94 + lbl_805D8AD0;
-        arg0->f94 = r;
-        if (r > lbl_805D8A34) {
+        if ((arg0->f94 += 0.033333335f) > lbl_805D8A34) {
             arg0->f94 = lbl_805D8A34;
         }
         break;
     case 2:
-        r = arg0->f94 + lbl_805D8AD4;
-        arg0->f94 = r;
-        if (r < lbl_805D8A30) {
+        if ((arg0->f94 += -0.033333335f) < lbl_805D8A30) {
             arg0->f94 = lbl_805D8A30;
         }
         break;
