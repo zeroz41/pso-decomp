@@ -784,9 +784,6 @@ pso/effect/TDuelEffectNumber.cpp
 pso/effect/TDuelEffectString.cpp
 pso/system/scene/TEnding.cpp
 pso/system/scene/TEndingAB.cpp
-pso/system/scene/TEndingAB_8008C9FC.cpp
-pso/system/scene/TEndingAB_8008CCC4.cpp
-pso/system/scene/TEndingAB_8008CE08.cpp
 pso/system/scene/TEndingC.cpp
 pso/system/scene/TEndingC_8008D00C.cpp
 pso/system/scene/TEndingPic.cpp

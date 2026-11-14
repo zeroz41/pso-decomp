@@ -1333,21 +1333,12 @@ pso/system/scene/TEnding.cpp:
 	.data       start:0x8048E828 end:0x8048E840
 	.sdata2     start:0x805D9578 end:0x805D957C
 
-pso/system/scene/TEndingAB_8008C9FC.cpp:
-	.text       start:0x8008C9FC end:0x8008CCC0
-	.sdata2     start:0x805D9580 end:0x805D9584
-
 pso/system/scene/TEndingAB.cpp:
-	.text       start:0x8008CCC0 end:0x8008CCC4
-
-pso/system/scene/TEndingAB_8008CCC4.cpp:
-	.text       start:0x8008CCC4 end:0x8008CE08
-
-pso/system/scene/TEndingAB_8008CE08.cpp:
-	.text       start:0x8008CE08 end:0x8008D00C
+	.text       start:0x8008C9FC end:0x8008D00C
 	.rodata     start:0x804395A0 end:0x804398E0
 	.data       start:0x8048E840 end:0x8048EB18
 	.sdata      start:0x805D2958 end:0x805D2960
+	.sdata2     start:0x805D9580 end:0x805D95C0
 
 pso/system/scene/TEndingC_8008D00C.cpp:
 	.text       start:0x8008D00C end:0x8008D68C

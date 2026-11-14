@@ -2,7 +2,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/scene/TEndingPicStage.h"
 #include "pso/effect/particle/ParticleRadial.h"
-#include "pso/system/scene/TEndingAB_8008CE08.h"
+#include "pso/system/scene/TEndingAB.h"
 #include "pso/system/scene/TEndingC_8008D00C.h"
 #include "pso/system/task/TMainTask_80104C40.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
