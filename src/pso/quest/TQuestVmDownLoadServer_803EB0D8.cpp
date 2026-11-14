@@ -1891,8 +1891,75 @@ inline u8 ascii_to_upper(u8 c) {
     return c;
 }
 
-// Looks up a one- or two-letter key: lbl_8047FBD4 holds, per initial
-// letter, the first 11-byte row of lbl_8047F9B8 (second letter, then text).
+// Romaji to kana rows: the second letter of the key (0 for none), then the
+// kana of the five vowels a i u e o, each as two JIS row-4 (hiragana) cells,
+// the second 0 for a single kana. Row 0 is the bare vowels.
+// inferred: name from the lookup in TQuestVmDownLoadServer__sub_803EDDA4
+const u8 romaji_kana_rows[49][11] = {
+    {0, 0x22, 0x00, 0x24, 0x00, 0x26, 0x00, 0x28, 0x00, 0x2A, 0x00}, // a i u e o
+    {0, 0x50, 0x00, 0x53, 0x00, 0x56, 0x00, 0x59, 0x00, 0x5C, 0x00}, // ba bi bu be bo
+    {'Y', 0x53, 0x63, 0x53, 0x23, 0x53, 0x65, 0x53, 0x27, 0x53, 0x67}, // bya byi byu bye byo
+    {0, 0x2B, 0x00, 0x37, 0x00, 0x2F, 0x00, 0x3B, 0x00, 0x33, 0x00}, // ca ci cu ce co
+    {'H', 0x41, 0x63, 0x41, 0x00, 0x41, 0x65, 0x41, 0x27, 0x41, 0x67}, // cha chi chu che cho
+    {'Y', 0x41, 0x63, 0x41, 0x23, 0x41, 0x65, 0x41, 0x27, 0x41, 0x67}, // cya cyi cyu cye cyo
+    {0, 0x40, 0x00, 0x42, 0x00, 0x45, 0x00, 0x47, 0x00, 0x49, 0x00}, // da di du de do
+    {'H', 0x47, 0x63, 0x47, 0x23, 0x47, 0x65, 0x47, 0x27, 0x47, 0x67}, // dha dhi dhu dhe dho
+    {'Y', 0x42, 0x63, 0x42, 0x23, 0x42, 0x65, 0x42, 0x27, 0x42, 0x67}, // dya dyi dyu dye dyo
+    {0, 0x55, 0x21, 0x55, 0x23, 0x55, 0x00, 0x55, 0x27, 0x55, 0x29}, // fa fi fu fe fo
+    {'Y', 0x55, 0x63, 0x55, 0x23, 0x55, 0x65, 0x55, 0x27, 0x55, 0x67}, // fya fyi fyu fye fyo
+    {0, 0x2C, 0x00, 0x2E, 0x00, 0x30, 0x00, 0x32, 0x00, 0x34, 0x00}, // ga gi gu ge go
+    {'W', 0x30, 0x21, 0x30, 0x23, 0x30, 0x00, 0x30, 0x27, 0x30, 0x29}, // gwa gwi gwu gwe gwo
+    {'Y', 0x2E, 0x63, 0x2E, 0x23, 0x2E, 0x65, 0x2E, 0x27, 0x2E, 0x67}, // gya gyi gyu gye gyo
+    {0, 0x4F, 0x00, 0x52, 0x00, 0x55, 0x00, 0x58, 0x00, 0x5B, 0x00}, // ha hi hu he ho
+    {'Y', 0x52, 0x63, 0x52, 0x23, 0x52, 0x65, 0x52, 0x27, 0x52, 0x67}, // hya hyi hyu hye hyo
+    {0, 0x38, 0x63, 0x38, 0x00, 0x38, 0x65, 0x38, 0x27, 0x38, 0x67}, // ja ji ju je jo
+    {'Y', 0x38, 0x63, 0x38, 0x23, 0x38, 0x65, 0x38, 0x27, 0x38, 0x67}, // jya jyi jyu jye jyo
+    {0, 0x2B, 0x00, 0x2D, 0x00, 0x2F, 0x00, 0x31, 0x00, 0x33, 0x00}, // ka ki ku ke ko
+    {'W', 0x2F, 0x6E, 0x2F, 0x23, 0x2F, 0x00, 0x2F, 0x27, 0x2F, 0x29}, // kwa kwi kwu kwe kwo
+    {'Y', 0x2D, 0x63, 0x2D, 0x23, 0x2D, 0x65, 0x2D, 0x27, 0x2D, 0x67}, // kya kyi kyu kye kyo
+    {0, 0x21, 0x00, 0x23, 0x00, 0x25, 0x00, 0x27, 0x00, 0x29, 0x00}, // la li lu le lo
+    {'Y', 0x63, 0x00, 0x23, 0x00, 0x65, 0x00, 0x27, 0x00, 0x67, 0x00}, // lya lyi lyu lye lyo
+    {0, 0x5E, 0x00, 0x5F, 0x00, 0x60, 0x00, 0x61, 0x00, 0x62, 0x00}, // ma mi mu me mo
+    {'Y', 0x5F, 0x63, 0x5F, 0x23, 0x5F, 0x65, 0x5F, 0x27, 0x5F, 0x67}, // mya myi myu mye myo
+    {0, 0x4A, 0x00, 0x4B, 0x00, 0x4C, 0x00, 0x4D, 0x00, 0x4E, 0x00}, // na ni nu ne no
+    {'Y', 0x4B, 0x63, 0x4B, 0x23, 0x4B, 0x65, 0x4B, 0x27, 0x4B, 0x67}, // nya nyi nyu nye nyo
+    {0, 0x51, 0x00, 0x54, 0x00, 0x57, 0x00, 0x5A, 0x00, 0x5D, 0x00}, // pa pi pu pe po
+    {'Y', 0x54, 0x63, 0x54, 0x23, 0x54, 0x65, 0x54, 0x27, 0x54, 0x67}, // pya pyi pyu pye pyo
+    {0, 0x2F, 0x21, 0x2F, 0x23, 0x2F, 0x00, 0x2F, 0x27, 0x2F, 0x29}, // qa qi qu qe qo
+    {'Y', 0x2F, 0x63, 0x2F, 0x23, 0x2F, 0x65, 0x2F, 0x27, 0x2F, 0x67}, // qya qyi qyu qye qyo
+    {0, 0x69, 0x00, 0x6A, 0x00, 0x6B, 0x00, 0x6C, 0x00, 0x6D, 0x00}, // ra ri ru re ro
+    {'Y', 0x6A, 0x63, 0x6A, 0x23, 0x6A, 0x65, 0x6A, 0x27, 0x6A, 0x67}, // rya ryi ryu rye ryo
+    {0, 0x35, 0x00, 0x37, 0x00, 0x39, 0x00, 0x3B, 0x00, 0x3D, 0x00}, // sa si su se so
+    {'H', 0x37, 0x63, 0x37, 0x00, 0x37, 0x65, 0x37, 0x27, 0x37, 0x67}, // sha shi shu she sho
+    {'Y', 0x37, 0x63, 0x37, 0x23, 0x37, 0x65, 0x37, 0x27, 0x37, 0x67}, // sya syi syu sye syo
+    {0, 0x3F, 0x00, 0x41, 0x00, 0x44, 0x00, 0x46, 0x00, 0x48, 0x00}, // ta ti tu te to
+    {'H', 0x46, 0x63, 0x46, 0x23, 0x46, 0x65, 0x46, 0x27, 0x46, 0x67}, // tha thi thu the tho
+    {'S', 0x44, 0x21, 0x44, 0x23, 0x44, 0x00, 0x44, 0x27, 0x44, 0x29}, // tsa tsi tsu tse tso
+    {'Y', 0x41, 0x63, 0x41, 0x23, 0x41, 0x65, 0x41, 0x27, 0x41, 0x67}, // tya tyi tyu tye tyo
+    {0, 0x74, 0x21, 0x74, 0x23, 0x74, 0x00, 0x74, 0x27, 0x74, 0x29}, // va vi vu ve vo
+    {0, 0x6F, 0x00, 0x26, 0x23, 0x26, 0x00, 0x26, 0x27, 0x72, 0x00}, // wa wi wu we wo
+    {'H', 0x26, 0x21, 0x26, 0x23, 0x26, 0x00, 0x26, 0x27, 0x26, 0x29}, // wha whi whu whe who
+    {0, 0x21, 0x00, 0x23, 0x00, 0x25, 0x00, 0x27, 0x00, 0x29, 0x00}, // xa xi xu xe xo
+    {'Y', 0x63, 0x00, 0x23, 0x00, 0x65, 0x00, 0x27, 0x00, 0x67, 0x00}, // xya xyi xyu xye xyo
+    {0, 0x64, 0x00, 0x24, 0x00, 0x66, 0x00, 0x24, 0x27, 0x68, 0x00}, // ya yi yu ye yo
+    {0, 0x36, 0x00, 0x38, 0x00, 0x3A, 0x00, 0x3C, 0x00, 0x3E, 0x00}, // za zi zu ze zo
+    {'Y', 0x38, 0x63, 0x38, 0x23, 0x38, 0x65, 0x38, 0x27, 0x38, 0x67}, // zya zyi zyu zye zyo
+    {0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}, // end of the table
+};
+
+// inferred: the first row per initial letter A-Z, then the end row; NULL for a vowel
+const u8 (*const romaji_kana_rows_by_initial[27])[11] = {
+    NULL, &romaji_kana_rows[1], &romaji_kana_rows[3], &romaji_kana_rows[6],
+    NULL, &romaji_kana_rows[9], &romaji_kana_rows[11], &romaji_kana_rows[14],
+    NULL, &romaji_kana_rows[16], &romaji_kana_rows[18], &romaji_kana_rows[21],
+    &romaji_kana_rows[23], &romaji_kana_rows[25], NULL, &romaji_kana_rows[27],
+    &romaji_kana_rows[29], &romaji_kana_rows[31], &romaji_kana_rows[33], &romaji_kana_rows[36],
+    NULL, &romaji_kana_rows[40], &romaji_kana_rows[41], &romaji_kana_rows[43],
+    &romaji_kana_rows[45], &romaji_kana_rows[46], &romaji_kana_rows[48],
+};
+
+// Looks up a one- or two-letter key: romaji_kana_rows_by_initial holds, per initial
+// letter, the first 11-byte row of romaji_kana_rows (second letter, then text).
 const u8 *TQuestVmDownLoadServer__sub_803EDDA4(u16 *start, u16 *end) {
     s32 len;
     s32 c;
@@ -1903,7 +1970,7 @@ const u8 *TQuestVmDownLoadServer__sub_803EDDA4(u16 *start, u16 *end) {
     const u8 (*next)[11];
     len = end - start;
     if (len == 0) {
-        return &lbl_8047F9B8[0][1];
+        return &romaji_kana_rows[0][1];
     }
     if (len == 1 || len == 2) {
         c = start[0] & 0xFF;
@@ -1914,7 +1981,7 @@ const u8 *TQuestVmDownLoadServer__sub_803EDDA4(u16 *start, u16 *end) {
         } else {
             return NULL;
         }
-        grp = &lbl_8047FBD4[idx];
+        grp = &romaji_kana_rows_by_initial[idx];
         row = *grp;
         if (len == 1) {
             return &(*row)[1];
@@ -1932,9 +1999,21 @@ const u8 *TQuestVmDownLoadServer__sub_803EDDA4(u16 *start, u16 *end) {
 }
 #pragma pop
 
-u8 *TQuestVmDownLoadServer::find_keyword_entry(u16 *start, u16 *end) {
+// Keys that only make a small kana: the key length, the key, then the JIS
+// row-4 cell (small tsu, small wa) and its terminator; 0 ends the table.
+const u8 quest_download_keyword_table[] = {
+    4, 'L', 'T', 'S', 'U', 0x43, 0,
+    3, 'L', 'T', 'U', 0x43, 0,
+    3, 'L', 'W', 'A', 0x6E, 0,
+    4, 'X', 'T', 'S', 'U', 0x43, 0,
+    3, 'X', 'T', 'U', 0x43, 0,
+    3, 'X', 'W', 'A', 0x6E, 0,
+    0,
+};
+
+const u8 *TQuestVmDownLoadServer::find_keyword_entry(u16 *start, u16 *end) {
     u8 c;
-    u8 *p;
+    const u8 *p;
     u16 *s;
     s32 rem;
     s32 len;
@@ -1988,7 +2067,7 @@ s32 TQuestVmDownLoadServer__sub_803EDF64(u16 *src, s32 n, u16 *out, s32 *count) 
         if (kind <= 5) {
             len = 1;
             p = src;
-            e = &lbl_8047F9B8[0][1];
+            e = &romaji_kana_rows[0][1];
             goto vowel;
         }
         if (kind <= 8 || lbl_805D78E4 == 0) {
@@ -2365,8 +2444,8 @@ struct Tbl_803EEB10 {
     u8 units[0x14];
     u8 fullwidth_digits[0x18];
     u8 kanji_digits[0x18];
-    u8 *sets[2];
-    u8 *units_text;
+    const u8 *sets[2];
+    const u8 *units_text;
 };
 struct Out_803EEB10 {
     u16 mode;
@@ -2374,7 +2453,17 @@ struct Out_803EEB10 {
     u8 x4;
     u8 text[1];
 };
-extern Tbl_803EEB10 quest_download_number_text_table;
+// The digit and unit kanji the number formatter writes (Shift-JIS):
+// units = 拾壱弐参十百千万億兆 (no terminator), fullwidth_digits = ０..９,
+// kanji_digits = 〇一二三四五六七八九; units_text doubles as set 2 (壱弐参).
+const Tbl_803EEB10 quest_download_number_text_table = {
+    {0x8F, 0x45, 0x88, 0xEB, 0x93, 0xF3, 0x8E, 0x51, 0x8F, 0x5C,
+     0x95, 0x53, 0x90, 0xE7, 0x96, 0x9C, 0x89, 0xAD, 0x92, 0x9B},
+    "\x82\x4F\x82\x50\x82\x51\x82\x52\x82\x53\x82\x54\x82\x55\x82\x56\x82\x57\x82\x58",
+    "\x81\x5A\x88\xEA\x93\xF1\x8E\x4F\x8E\x6C\x8C\xDC\x98\x5A\x8E\xB5\x94\xAA\x8B\xE3",
+    {quest_download_number_text_table.fullwidth_digits, quest_download_number_text_table.kanji_digits},
+    quest_download_number_text_table.units,
+};
 
 #pragma push
 #pragma dont_inline off
@@ -2391,10 +2480,10 @@ inline s32 IsSmall_803EEB10(s32 d) {
 void *format_number_text__22TQuestVmDownLoadServerFiiPvi(s32 arg0, s32 arg1, void *arg2, s32 mode) {
     u8 *s = (u8 *)arg0;
     Out_803EEB10 *o = (Out_803EEB10 *)arg2;
-    Tbl_803EEB10 *t = &quest_download_number_text_table;
+    const Tbl_803EEB10 *t = &quest_download_number_text_table;
     s32 u;
-    u8 **mp;
-    u8 **up;
+    const u8 *const *mp;
+    const u8 *const *up;
     u8 *p;
     u8 *mark;
     s32 i;
@@ -2410,7 +2499,7 @@ void *format_number_text__22TQuestVmDownLoadServerFiiPvi(s32 arg0, s32 arg1, voi
     o->x2 = 0;
     o->x4 = 0;
     p = o->text;
-    mp = (u8 **)((u8 *)t->sets + mode * 4);
+    mp = (const u8 *const *)((const u8 *)t->sets + mode * 4);
     mark = p;
     up = &t->units_text;
     for (i = 0; i < n; i++, s++) {
@@ -2424,8 +2513,8 @@ void *format_number_text__22TQuestVmDownLoadServerFiiPvi(s32 arg0, s32 arg1, voi
         pos = rem % 4;
         if (d != 0 && !(mode == 2 && d == 1 && (u32)(pos - 1) <= 1)) {
             set = IsSmall_803EEB10(d) ? mode - 1 : 1;
-            *p++ = (*(u8 **)((u8 *)t->sets + set * 4))[d * 2];
-            *p++ = (*(u8 **)((u8 *)t->sets + set * 4))[d * 2 + 1];
+            *p++ = (*(const u8 *const *)((const u8 *)t->sets + set * 4))[d * 2];
+            *p++ = (*(const u8 *const *)((const u8 *)t->sets + set * 4))[d * 2 + 1];
         }
         if (rem == 0) {
             continue;
@@ -3372,6 +3461,8 @@ s32 TQuestVmDownLoadServer__sub_803F09FC(void *arg0, int arg1, int arg2) {
     }
     return lbl_805D7914.pos;
 }
+
+const char aram_dma_timeout_message[] = "ASKDIC:ARAM DMA Timeout!!\n";
 
 u32 TQuestVmDownLoadServer::aram_dma_read(void *h, void *dst, int size) {
     u32 n;
