@@ -26,8 +26,10 @@ struct ProtectionTimer {
 
 struct TObjPlayer : public TObjChara {
     TObjPlayer(TObject *arg1, void *arg2);
-    virtual ~TObjPlayer();
+    // The key function: __vt__10TObjPlayer is emitted with the TU at 0x801AF290
+    // (TObjPlayer_801AF2F0.cpp), which defines this; the destructor is in a later fragment.
     virtual void reset_motion_fields();
+    virtual ~TObjPlayer();
     virtual const char *get_name();
     void update_swim_flag(void *);
     void setup_radar_marker(void *, void *);
@@ -62,6 +64,14 @@ struct TObjPlayer : public TObjChara {
     virtual void enemy_spawn_jellen_effect();
     virtual void trigger_switch_attack();
     virtual void enemy_spawn_zalure_effect();
+    virtual f32 receive_physical_attack(void *attacker, f32 scale);
+    virtual s32 update_poison_status();
+    virtual s32 update_action_hold_status();
+    virtual s32 update_flag30_timer();
+    virtual s32 update_movement_status();
+    virtual s32 update_shock_clock();
+    virtual void vfunc_78(s32);
+    virtual s32 vfunc_79();
     void set_floor(s32);
     void set_input_mode(s32);
     void set_move_mode(s32);
@@ -1579,4 +1589,8 @@ typedef char PlayerHairWaitOffset[(offsetof(TObjPlayer, m_cfc) == 0xCFC) ? 1 : -
 typedef char PlayerInventoryObjectOffset[(offsetof(TObjPlayer, inventory_objects) == 0xD00) ? 1 : -1];
 
 typedef char TObjPlayer_size[sizeof(TObjPlayer) == 0xDB8 ? 1 : -1];
+
+// The owner joint each item attach slot hangs the equipped model from
+// (TItemEquipBase::set_attach_slot); defined with the player.
+extern s16 item_equip_attach_equip_flag_table[];
 #endif

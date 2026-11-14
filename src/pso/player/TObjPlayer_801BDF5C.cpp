@@ -174,7 +174,7 @@ void TObjPlayer::vfunc_76(f32 charge) { subtract_photon_blast_charge((char*)this
 
 void TObjPlayer::vfunc_77() { add_photon_blast_chain_charge((char*)this + 0x4ac); }
 
-int TObjPlayer__vt77(void) { return 0; }
+s32 TObjPlayer::vfunc_79() { return 0; }
 u8 TObjPlayer::check_camera_mode() {
     return (u8) (is_quest_active() == 1);
 }
