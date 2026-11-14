@@ -126,7 +126,6 @@ void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 void *find_entity_by_id(u16 id);
 }
-extern const f32 lbl_805DC7A8;
 
 const TechniqueEmitterSourceRow lbl_8044CC78[3] = {
     {0x190, 2, 1.0f}, {0x191, 0, 1.0f}, {0x192, 0, 1.0f},
@@ -156,8 +155,6 @@ u8 *construct_tec_barta_facing(TTecBarta *arg0, void *_w1, void *_w2, void *_w3,
 void move_ground_technique_projectile(void *p);
 extern s32 technique_effect_bml;
 extern s32 lbl_805D63B0;
-extern const f32 lbl_805DC7A0;
-extern const f32 lbl_805DC7A4;
 extern "C" {
 s32 get_bml_motion(s32, s32);
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
@@ -239,7 +236,7 @@ void TTecBarta::create_particle_emitters() {
         if (self->emitters[i] != NULL) {
             row = &TTecBarta__emitter_bands[self->band].rows[i];
             if (row->flags & 0x20) {
-                attach_particle_model((u8 *)self->emitters[i], (s32)(get_bml_model(technique_effect_bml, 0)), (s32)lbl_805D63B0, (s32)(get_bml_motion(technique_effect_bml, 0)), 0, (f32)lbl_805DC7A0);
+                attach_particle_model((u8 *)self->emitters[i], (s32)(get_bml_model(technique_effect_bml, 0)), (s32)lbl_805D63B0, (s32)(get_bml_motion(technique_effect_bml, 0)), 0, 1.0f);
             } else {
                 ((TParticleCtrl *)(self->emitters[i]))->set_scale(row->scale, row->scale);
             }
@@ -334,7 +331,7 @@ void TTecBarta::run_task() {
     for (i = 0; i < TTecBarta__emitter_bands[this->band].count; i++) {
         Vec_8022BA98 pos = *(Vec_8022BA98 *)&this->position;
         if (TTecBarta__emitter_bands[this->band].rows[i].flags & 0x20) {
-            pos.y -= lbl_805DC7A4;
+            pos.y -= 10.0f;
         }
         if (this->emitters[i] != NULL) {
             ((TParticleCtrl *)this->emitters[i])->set_position(&pos);
@@ -346,7 +343,7 @@ void TTecBarta::run_task() {
     if (this->band == 5) {
         TechniqueParticleEmitter *e = (TechniqueParticleEmitter *)create_timed_particle_emitter(&this->position.x, 0x18A, 0x14, 1);
         if (e != NULL) {
-            attach_particle_model((u8 *)e, (s32)(get_bml_model(technique_effect_bml, 5)), (s32)lbl_805D63B0, 0, 0, (f32)lbl_805DC7A0);
+            attach_particle_model((u8 *)e, (s32)(get_bml_model(technique_effect_bml, 5)), (s32)lbl_805D63B0, 0, 0, 1.0f);
         }
     }
     move_ground_technique_projectile(this);
@@ -387,7 +384,7 @@ u8 *construct_tec_barta_facing(TTecBarta *tec_barta, void * _w1, void * _w2, voi
     }
     tec_barta->hitCursor = 0;
     *(s32 *)((s8 *)tec_barta + 0x114) = 0x40003;
-    *(f32 *)((s8 *)tec_barta + 0x24) = *(f32 *)((s8 *)tec_barta + 0x24) + lbl_805DC7A8;
+    *(f32 *)((s8 *)tec_barta + 0x24) += 5.0f;
     tec_barta->create_particle_emitters();
     tec_barta->update_technique_by_state();
     if (*(void **)((s8 *)tec_barta + 0x1C) != 0) {

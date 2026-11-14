@@ -6355,6 +6355,7 @@ pso/technique/TTecBarta.cpp:
 	.text       start:0x8022B418 end:0x8022BE64
 	.rodata     start:0x8044CC78 end:0x8044CDE0
 	.sdata      start:0x805D3798 end:0x805D379C
+	.sdata2     start:0x805DC7A0 end:0x805DC7B0
 
 pso/unk/text_8022BE64.cpp:
 	.text       start:0x8022BE64 end:0x8022C444
