@@ -1213,7 +1213,7 @@ pso/player/TObjPlayer_80083594.cpp:
 	.rodata     start:0x80438F08 end:0x80439370
 	.data       start:0x8048E318 end:0x8048E5A8
 	.sbss       start:0x805D4EE0 end:0x805D4EE4
-	.sdata2     start:0x805D9428 end:0x805D9430
+	.sdata2     start:0x805D93C0 end:0x805D9448
 
 pso/effect/TEffGuard.cpp:
 	.text       start:0x80084864 end:0x800849F8
