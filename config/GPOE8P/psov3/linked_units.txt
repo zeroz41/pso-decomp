@@ -892,7 +892,6 @@ pso/unk/TLobby_801F487C.cpp
 pso/unk/TLobby_80207644.cpp
 pso/unk/TLobby_80207DA8.cpp
 pso/unk/TLobby_80209524.cpp
-pso/unk/TLobby_8020A188.cpp
 pso/unk/TLobby_8020BC08.cpp
 pso/unk/TLobby_8020BF68.cpp
 pso/unk/TLobby_8020BFC4.cpp
@@ -2629,7 +2628,6 @@ pso/object/ambient/TObjFish.cpp
 pso/ui/city/TShopItemListWindow.cpp
 pso/unk/text_803C1780.cpp
 pso/map/CsnQuery.cpp
-pso/unk/text_80209D34.cpp
 pso/unk/text_803C5B50.cpp
 pso/ui/chat/TWindowSubSymbolChatParts.cpp
 pso/ui/frontend/TAdSelectGameModeGC_802C4748.cpp
