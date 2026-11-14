@@ -324,8 +324,6 @@ extern "C" {
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, int);
 s32 draw_window_scrollbar(int, int, void *);
-void *__dt__14TWindowMessageFv(void *arg0, s16 arg1);
-s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_8026AB3C___vt__17TWindowMessageLog __vt__17TWindowMessageLog;
 u8 *TWindowMessage__ct(u8 *arg0, s32 arg1, u32 arg2, s32 arg3);
 s32 reset_selection__20TWindowSubStatusDispFv(int, void *);
@@ -350,17 +348,9 @@ void TWindowMessageLog::run_task() {
     update_fade_offset();
     update_window_entry_list(((u8 *)this) + 0x24);
 }
-u8 *__dt__17TWindowMessageLogFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__17TWindowMessageLog.value;
-        TWindowSubStatusDisp::destroy_allocation(*(s32 *)((s8 *)arg0 + 0x90), 1);
-        TWindowCtrl__sub_8026AD60();
-        __dt__14TWindowMessageFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TWindowMessageLog::~TWindowMessageLog() {
+    TWindowSubStatusDisp::destroy_allocation(*(s32 *)((s8 *)this + 0x90), 1);
+    TWindowCtrl__sub_8026AD60();
 }
 typedef char RecoveredGlobal_8026ABA8___vt__17TWindowMessageLog_size[sizeof(RecoveredGlobal_8026ABA8___vt__17TWindowMessageLog) == 0x18 ? 1 : -1];
 u8 *TWindowMessageLog__ct(TWindowMessageLog *window_message_log, s32 arg1, s32 arg2) {
