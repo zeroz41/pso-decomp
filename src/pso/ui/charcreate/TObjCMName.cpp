@@ -1730,13 +1730,10 @@ void TObjCMHairMenu::render() {
     vec2f pos2;
     vec2f pos3;
     vec2f pos4;
-    s32 i;
     f32 pulse;
     f32 v;
     f32 w;
-    s32 sprite;
     f32 off;
-    s32 j;
     f32 a;
     f32 base;
     f32 alpha;
@@ -1769,8 +1766,8 @@ void TObjCMHairMenu::render() {
         }
         scl.y = 1.0f;
         pos.y = 146.0f;
-        for (i = 0; i < 4; i++) {
-            sprite = 0;
+        for (s32 i = 0; i < 4; i++) {
+            s32 sprite = 0;
             if (i == 0) {
                 w = r * (base - 75.0f) + 75.0f;
             } else {
@@ -1797,8 +1794,8 @@ void TObjCMHairMenu::render() {
         }
         pos2.x = 56.0f;
         pos2.y = 146.0f;
-        for (i = 0; i < 4; i++) {
-            sprite = 0;
+        for (s32 i = 0; i < 4; i++) {
+            s32 sprite = 0;
             if (i == selection) {
                 sprite = -1;
             }
@@ -1811,9 +1808,9 @@ void TObjCMHairMenu::render() {
         pos3.x = 103.0f;
         pos3.y = 150.0f;
         alpha = t * t;
-        for (i = 0; i < count; i++) {
+        for (s32 i = 0; i < count; i++) {
             f32 s = alpha;
-            sprite = 0x1F;
+            s32 sprite = 0x1F;
             if (selection != 0) {
                 s *= 0.6f;
             }
@@ -1830,10 +1827,11 @@ void TObjCMHairMenu::render() {
         }
         off = base - 347.0f;
         dim = alpha;
+        hi = alpha;
         if (selection == 0) {
-            hi = alpha * pulse;
+            hi *= pulse;
         } else {
-            hi = alpha * 0.6f;
+            hi *= 0.6f;
             dim = hi;
         }
         pos4.x = 299.0f + off;
@@ -1845,7 +1843,7 @@ void TObjCMHairMenu::render() {
         pos4.x = 324.0f + off;
         pos4.y = 167.0f;
         draw_ui_sprite(count + 19, &pos4, -2.4375f, dim);
-        for (i = 1; i < 4; i++) {
+        for (s32 i = 1; i < 4; i++) {
             f32 s = alpha;
             if (i == selection) {
                 s *= pulse;
@@ -1858,16 +1856,16 @@ void TObjCMHairMenu::render() {
         TCameraCtrl::restore_full_screen_view();
         scale = TObjCMMainMenu::get_scale();
         step = 44.0f * scale;
-        pts[0].y = pts[3].y = 0.1f * (lbl_804650D4[1].y - lbl_804650D4[0].y) + lbl_804650D4[0].y;
-        pts[1].y = pts[2].y = 1.1f * (lbl_804650D4[1].y - lbl_804650D4[0].y) + lbl_804650D4[0].y;
         list.verts = pts;
         list.colors = cols;
         list.unk_8 = 0;
-        HairBarColor color = lbl_804650F4[3];
         pts[0].x = 0.1f * (lbl_804650D4[1].x - lbl_804650D4[0].x) + lbl_804650D4[0].x;
         pts[1].x = 1.1f * (lbl_804650D4[1].x - lbl_804650D4[0].x) + lbl_804650D4[0].x;
         pts[2].x = 1.1f * (lbl_804650D4[2].x - lbl_804650D4[3].x) + lbl_804650D4[3].x;
         pts[3].x = 0.1f * (lbl_804650D4[2].x - lbl_804650D4[3].x) + lbl_804650D4[3].x;
+        pts[0].y = pts[3].y = 0.1f * (lbl_804650D4[1].y - lbl_804650D4[0].y) + lbl_804650D4[0].y;
+        pts[1].y = pts[2].y = 1.1f * (lbl_804650D4[1].y - lbl_804650D4[0].y) + lbl_804650D4[0].y;
+        HairBarColor color = lbl_804650F4[3];
         pts[0].y *= scale;
         pts[1].y *= scale;
         pts[2].y *= scale;
@@ -1875,21 +1873,21 @@ void TObjCMHairMenu::render() {
         color.c[3] = 255.0f * t;
         TObjCMHairMenu__sub_801E3F54(&cols[0], TObjCMHairMenu__sub_801E3F54(&cols[1],
             TObjCMHairMenu__sub_801E3F54(&cols[2], TObjCMHairMenu__sub_801E3F54(&cols[3], &color))));
-        for (i = 0; i < 3; i++) {
+        for (s32 i = 0; i < 3; i++) {
             ((TObjCMHairMenu *)&list)->draw_tri_fan_2d(4, 6, -2.75f);
             pts[0].y += step;
             pts[1].y += step;
             pts[2].y += step;
             pts[3].y += step;
         }
-        for (i = 0; i < 3; i++) {
+        for (s32 i = 0; i < 3; i++) {
             v = (&appearance->red)[i] / 255.0f;
             if (v != 0.0f) {
                 pts[0].x = lbl_804650D4[0].x;
                 pts[1].x = lbl_804650D4[1].x;
                 pts[2].x = v * (lbl_804650D4[2].x - lbl_804650D4[1].x) + lbl_804650D4[1].x;
                 pts[3].x = v * (lbl_804650D4[3].x - lbl_804650D4[0].x) + lbl_804650D4[0].x;
-                for (j = 0; j < 4; j++) {
+                for (s32 j = 0; j < 4; j++) {
                     pts[j].y = scale * lbl_804650D4[j].y + i * step;
                 }
                 HairBarColor bar_color = lbl_804650F4[i];
