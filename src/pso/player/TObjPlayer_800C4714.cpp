@@ -14,8 +14,9 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/system/task/TObject.h"
-extern "C" { __declspec(section ".sdata2") extern const f32 lbl_805DA000[1] = { 30.0f }; }
 
 typedef struct Vec_800C4A5C {
     f32 x, y, z;
@@ -79,9 +80,9 @@ typedef struct Obj_800C55E0 {
 
 extern "C" {
 s32 vec3_add_to(void *, void *);
+s32 is_area_attack_target_eligible(s32, s32);
 
 void __dl__7TObjectFPv(void *);
-u16 get_entity_id(void *);
 u8 *__ct__13TUnk_804928CCFP7TObjectP8TObjBase(u8 *arg0, s32 arg1, u32 arg2);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
@@ -194,6 +195,53 @@ void *lbl_804933D8[24] = {
     (void *)&vfunc_16__13TUnk_804928CCFPvPv, (void *)&call_vt16_with_default__13TUnk_804928CCFPvPv, (void *)&area_attack_deliver_physical__13TUnk_804928CCFPvPvf, (void *)&vfunc_19__13TUnk_804928CCFPv,
     (void *)&area_attack_apply_recoil__13TUnk_804928CCFPvf, (void *)&area_attack_receive_direct__13TUnk_804928CCFPvPfPv, (void *)&apply_hit_if_active__13TUnk_804928CCFPvPf, (void *)0x0,
 };
+
+// The bomb's first function: its 30.0 opens this file's literal pool at
+// 0x805DA000, while the Flower file's pool already holds 30.0 at 0x805D9FEC.
+s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2, void *object, f32 range) {
+    s32 result;
+    s32 flags;
+    s32 p;
+    s32 i;
+    s32 ok;
+    result = 0;
+    flags = 0;
+    if (this->owner == 0) {
+        return 0;
+    }
+    TObjPlayer::init_all_slots();
+    if (*(s32 *)((s8 *)((u8 *)recoil) + 4) & 1) {
+        this->update_body_contact_flag(range);
+        flags |= 0x80000;
+    }
+    if (*(s32 *)((s8 *)((u8 *)recoil) + 4) & 2) {
+        this->mark_enemy_body_contacts();
+        flags |= 0x100000;
+    }
+    if (*(s32 *)((s8 *)(this->bodies) + 0x18) & flags) {
+        for (i = 0; i < 0x10; i++) {
+            p = TObjPlayer::get_battle_param(i);
+            if (p == 0) {
+                break;
+            }
+            if (obj_is_hit_receivable((u8 *)p) != 0 && (u32)p != this->owner &&
+                is_area_attack_target_eligible((s32)this, *(s32 *)((s8 *)p + 0x30)) != 0 &&
+                !(fabs_float(*(f32 *)&(this->m_b8) - *(f32 *)((s8 *)p + 0x300)) > 30.0f)) {
+                ok = 1;
+                if (object != 0 && attack_target_history_add((s32)object, p) == 0) {
+                    ok = 0;
+                }
+                if (ok != 0) {
+                    this->area_attack_receive_direct((void *)p, (f32 *)((u8 *)recoil), (void *)arg2);
+                    result = 1;
+                }
+            }
+        }
+    }
+    return result;
+}
+
+
 void TObjEneRe2Flower_Bomb::render() {
     u8 *arg0 = (u8 *)this;
     if ((s32) this->m_100 != 0) {
@@ -290,7 +338,7 @@ Obj_800C4A5C *TObjPlayer__sub_800C4A5C(Obj_800C4A5C *o, void *owner, Vec_800C4A5
     o->f0 = lbl_805D2A50;
     o->coll->radius = lbl_8043BC10.radius;
     o->angle = angle;
-    o->ownerId = get_entity_id(owner);
+    o->ownerId = get_entity_id((TObjBase *)owner);
     VecCopy((Vec *)&o->start, (const Vec *)start);
     VecCopy((Vec *)&o->pos, (const Vec *)&o->start);
     o->accel.x = (0.0f);

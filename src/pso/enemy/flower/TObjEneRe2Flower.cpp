@@ -61,7 +61,6 @@ extern char lbl_8043BB38[];
 extern char lbl_8043BB50[];
 extern char lbl_8043BB64[];
 s32 TObjEneRe2Flower__sub_800C2E64(void *, void *);
-s32 is_area_attack_target_eligible(s32, s32);
 s32 obj_isState2_324__9TObjCharaFv(void *);
 s32 is_valid_target__9TObjEneDDFv(void *);
 f32 horizontal_distance_squared(void *, void *);
@@ -76,7 +75,6 @@ extern const f32 lbl_805D9FD8; // 15.0
 extern const f32 lbl_805D9FF4;
 extern const f32 lbl_805D9FF8;
 extern const f32 lbl_805D9FFC; // 0.002
-extern const f32 lbl_805DA000;
 
 // Stat block ids by variant (0 normal, 1 rare, 2 the tower's): base stats,
 // resistances, attack stats, and the movement block.
@@ -131,49 +129,6 @@ TObjMotionAction TObjEneRe2Flower__animation_descriptors[8] = {
 
 // The file is compiled -inline off,deferred, which emits the functions in the
 // reverse of the order they are written in.
-s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2, void *object, f32 range) {
-    s32 result;
-    s32 flags;
-    s32 p;
-    s32 i;
-    s32 ok;
-    result = 0;
-    flags = 0;
-    if (this->owner == 0) {
-        return 0;
-    }
-    TObjPlayer::init_all_slots();
-    if (*(s32 *)((s8 *)((u8 *)recoil) + 4) & 1) {
-        this->update_body_contact_flag(range);
-        flags |= 0x80000;
-    }
-    if (*(s32 *)((s8 *)((u8 *)recoil) + 4) & 2) {
-        this->mark_enemy_body_contacts();
-        flags |= 0x100000;
-    }
-    if (*(s32 *)((s8 *)(this->bodies) + 0x18) & flags) {
-        for (i = 0; i < 0x10; i++) {
-            p = TObjPlayer::get_battle_param(i);
-            if (p == 0) {
-                break;
-            }
-            if (obj_is_hit_receivable((u8 *)p) != 0 && (u32)p != this->owner &&
-                is_area_attack_target_eligible((s32)this, *(s32 *)((s8 *)p + 0x30)) != 0 &&
-                !(fabs_float(*(f32 *)&(this->m_b8) - *(f32 *)((s8 *)p + 0x300)) > lbl_805DA000)) {
-                ok = 1;
-                if (object != 0 && attack_target_history_add((s32)object, p) == 0) {
-                    ok = 0;
-                }
-                if (ok != 0) {
-                    this->area_attack_receive_direct((void *)p, (f32 *)((u8 *)recoil), (void *)arg2);
-                    result = 1;
-                }
-            }
-        }
-    }
-    return result;
-}
-
 void TObjPlayer__sub_800C44C4(void) {
     Stack_800C44C4 stack;
     BmlModelEntry *models;

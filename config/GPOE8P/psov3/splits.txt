@@ -1627,11 +1627,11 @@ pso/unk/text_800C3A60.cpp:
 	.text       start:0x800C3A60 end:0x800C3B80
 
 pso/enemy/flower/TObjEneRe2Flower.cpp:
-	.text       start:0x800C3B80 end:0x800C4714
+	.text       start:0x800C3B80 end:0x800C45AC
 	.data       start:0x80493078 end:0x804933D8
 
 pso/player/TObjPlayer_800C4714.cpp:
-	.text       start:0x800C4714 end:0x800C4B78
+	.text       start:0x800C45AC end:0x800C4B78
 	.rodata     start:0x8043BC10 end:0x8043BC48
 	.data       start:0x804933D8 end:0x80493438
 	.sdata      start:0x805D2A50 end:0x805D2A54
