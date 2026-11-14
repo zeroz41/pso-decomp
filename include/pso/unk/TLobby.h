@@ -311,6 +311,7 @@ struct TLobby : public TObject {
     void copy_table_entries(u32 size);
     static void reset_story_select_state();
     static int get_team_state(void* p);
+    static void call_funcs_reverse(void* table, unsigned int size);
     static void load_set_event_gsl();
     static void free_heap();
     static void create_heap_8000();

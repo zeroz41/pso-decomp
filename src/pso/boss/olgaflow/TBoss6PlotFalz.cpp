@@ -1301,7 +1301,7 @@ s32 query_teammate_state__9TObjEneDDFv();
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void fn_802E52AC(void);
 void TItemEffOrgaFlowShot__sub_80357210(void);
-void TLobby__sub_8036DDE8(void);
+void clear_boss6_player_snapshots(void);
 int obj_fish_count;
 s32 restore_player_cameras();
 void play_area_music(char *name);
@@ -1459,7 +1459,7 @@ void TBoss6PlotFalz::load_resources() {
     }
     (*(u8 * *)&obj_fish_count) = (unsigned char *) ((void *) var_r0);
     if ((u32) var_r0 != 0U) {
-        TLobby__sub_8036DDE8();
+        clear_boss6_player_snapshots();
         TItemEffOrgaFlowShot__sub_80357210();
         TBoss6Rock::load_resources();
         TBoss6Tube::load_resources();

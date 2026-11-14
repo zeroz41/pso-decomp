@@ -24,6 +24,12 @@
 #include "pso/ui/frontend/TAdDialingGC.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
+#include "pso/map/FloorResourceCallbacks.h"
+#include "pso/unk/TLobby_8020B03C.h"
+#include "pso/object/switch/TSwitch.h"
+#include "pso/ui/city/TShopGetItemWindow_8021F0A4.h"
+#include "pso/ui/city/TShopGetItemWindow_8021F074.h"
+#include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
 #include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_801A4820_main_task { s32 value; u8 remaining[0x30]; };
@@ -35,11 +41,6 @@ typedef char RecoveredGlobal_801A46D8_main_task_size[sizeof(RecoveredGlobal_801A
 struct RecoveredGlobal_801A4610_lbl_804C20E8 {
     s32 value;
     u8 remaining[0x154];
-};
-
-struct RecoveredGlobal_801A4610_lbl_804C2240 {
-    s32 value;
-    u8 remaining[0x44];
 };
 
 struct RecoveredGlobal_801A4610_lbl_80515BA0 {
@@ -130,7 +131,6 @@ s32 TAdPlayerLoadGC__sub_801E1B50(int);
 s32 render_tick__Fv();
 s32 run_save_load_sequence__23TAdSinglePlyChrSelectGCFv();
 s32 func_803DCDFC__Fv();
-s32 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 s32 cleanup__6TLobbyFv();
 void run_area_scene_cleanup(u8 *arg0);
 s32 PPCSync();
@@ -141,10 +141,8 @@ void bswap_32__FPUl(void *);
 s32 handle_game_join__6TLobbyFPv(void *);
 char *strcpy(char *, const char *);
 void *memset(void *, int, u32);
-Pair_801A3CFC lobby_udp_test_game_entries[2] = {
-    {0x9D6D3202, 0},
-    {0x9D6D3201, 0},
-};
+void get_team_state__6TLobbyFPv();
+void clear_floor_population();
 extern s32 TLobby__designated_client_id;
 extern s32 game_protocol_instance;
 s32 __dt__7TObjectFv(void *, s32);
@@ -157,8 +155,6 @@ int reset_controller_input_state(void);
 s32 TObjPlayer__sub_801B1BA4();
 s32 TObjPlayer__sub_801B1C8C();
 void *get_player_by_client_id(s32);
-s32 get_team_state__6TLobbyFPv();
-s32 TLobby__sub_8020DC78();
 s32 load_area_scene_and_init(void *);
 s32 promote_area_floor(void *);
 void *__nw__7TObjectFUl(s32);
@@ -193,8 +189,25 @@ s32 reset_story_select__6TLobbyFPv();
 s32 init_key_slots__15TOKeyJungleMainFPv();
 s32 depart_floor_population();
 }
+
+// Area resources reloaded on a floor change and released with the lobby scene.
+FloorResourceCallbacks lobby_area_reload_callbacks[9] = {
+    { TLobby::init_on_main_phase, NULL },
+    { TLobby::update_drop_item, NULL },
+    { clear_floor_population, NULL },
+    { TLobby::load_set_gsl_files, clear_map_set_data },
+    { TLobby::load_set_event_gsl, get_team_state__6TLobbyFPv },
+    { init_switch_table, clear_switch_table },
+    { reset_shop_stock_and_params, clear_all_shop_stock },
+    { TLobby::update_difficulty, NULL },
+    { clear_boss6_player_snapshots, NULL },
+};
+Pair_801A3CFC lobby_udp_test_game_entries[2] = {
+    {0x9D6D3202, 0},
+    {0x9D6D3201, 0},
+};
+
 void deactivate_keyboard(void);
-void clear_switch_table(void);
 void send_keepalive(u8 *arg0);
 extern s32 actor_frame_tick;
 extern u32 TLobby__protocol_instance;
@@ -207,7 +220,6 @@ extern s16 TLobby__data_805D5CE8;
 extern s32 TLobby__online_lobby_frame_counter;
 void clear_resource_load_tasks(void);
 extern RecoveredGlobal_801A4610_lbl_804C20E8 online_lobby_scene_callback_table;
-extern RecoveredGlobal_801A4610_lbl_804C2240 lobby_area_reload_callbacks;
 extern unsigned char lbl_80515BA0[];
 extern s32 local_client_id;
 extern s32 online_lobby_scene_handle;
@@ -290,7 +302,7 @@ void reload_lobby_floor_scene(void) {
     TLobby::reset_counter();
     reset_story_select__6TLobbyFPv();
     get_team_state__6TLobbyFPv();
-    TLobby__sub_8020DC78();
+    clear_floor_population();
     TKeyBoardControl::update();
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
@@ -374,7 +386,7 @@ void TLobby::reload_floor_scene() {
     load_floor_scene();
     init_area_lights();
     depart_floor_population();
-    TLobby__sub_8020DC78();
+    clear_floor_population();
     TLobby__sub_8020A6B0(0xF);
     arrive_floor_population();
     TLobby::create_tasks();
@@ -415,7 +427,6 @@ void TLobby::free_objects() {
 }
 
 typedef char RecoveredGlobal_801A4610_lbl_804C20E8_size[sizeof(RecoveredGlobal_801A4610_lbl_804C20E8) == 0x158 ? 1 : -1];
-typedef char RecoveredGlobal_801A4610_lbl_804C2240_size[sizeof(RecoveredGlobal_801A4610_lbl_804C2240) == 0x48 ? 1 : -1];
 typedef char RecoveredGlobal_801A4610_lbl_80515BA0_size[sizeof(RecoveredGlobal_801A4610_lbl_80515BA0) == 0x28 ? 1 : -1];
 typedef char RecoveredGlobal_801A4610_main_task_size[sizeof(RecoveredGlobal_801A4610_main_task) == 0x34 ? 1 : -1];
 
@@ -448,7 +459,7 @@ s32 start_quest_mission(void) {
     TKeyBoardControl::update();
     TLobby::free_objects();
     get_team_state__6TLobbyFPv();
-    TLobby__sub_8020DC78();
+    clear_floor_population();
     TQuestThread::clear_all_floor_handlers();
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
@@ -517,7 +528,7 @@ s32 change_floor_reload_area(void) {
         TAdDialingGC__sub_801A4C90();
         TLobby__sub_80207E24(game_variations, 0x80);
         apply_phase_keyboard_mode();
-        run_load_callback_table(&lobby_area_reload_callbacks.value, 0x48);
+        run_load_callback_table(lobby_area_reload_callbacks, sizeof(lobby_area_reload_callbacks));
         TLobby::reset_item_id_counters();
         TLobby::reset_floor_items();
     }
@@ -585,14 +596,11 @@ void cleanup_online_lobby_scene(void) {
     }
     TLobby::free_single_player_chr_select();
     TLobby::update_photon_chairs();
-    var_r3 = &lobby_area_reload_callbacks.value;
-    var_r4 = 0x48;
-    var_r3 = &lobby_area_reload_callbacks.value;
-    call_funcs_reverse__6TLobbyFPvUi(&lobby_area_reload_callbacks.value, 0x48);
+    TLobby::call_funcs_reverse(lobby_area_reload_callbacks, sizeof(lobby_area_reload_callbacks));
     var_r3 = &online_lobby_scene_callback_table.value;
     var_r4 = 0x158;
     var_r3 = &online_lobby_scene_callback_table.value;
-    call_funcs_reverse__6TLobbyFPvUi(&online_lobby_scene_callback_table.value, 0x158);
+    TLobby::call_funcs_reverse(&online_lobby_scene_callback_table.value, 0x158);
     local_client_id = 0;
     TLobby__lobby_state_flags = 0;
     clear_resource_load_tasks();

@@ -138,7 +138,7 @@ s32 for_each_player_slot__10TObjPlayerFv(void *);
 s32 rebuild_player_inventory(void *);
 s32 TLobby__sub_80207E48();
 s32 get_team_state__6TLobbyFPv();
-s32 TLobby__sub_8020DC78();
+s32 clear_floor_population();
 s32 get_game_play_mode();
 s32 TKeyBoardControl__sub_8000F95C();
 s32 clear_keyboard_key_state();
@@ -229,7 +229,7 @@ void TLobby::reload_offline_area() {
     TLobby::backup_story_select();
     TKeyBoardControl::update();
     get_team_state__6TLobbyFPv();
-    TLobby__sub_8020DC78();
+    clear_floor_population();
     TLobby__sub_80207E48();
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
@@ -289,7 +289,7 @@ void TLobby::rebuild_area_keep_players() {
     TKeyBoardControl::update();
     TLobby::reset_quest_state();
     get_team_state__6TLobbyFPv();
-    TLobby__sub_8020DC78();
+    clear_floor_population();
     TQuestThread::clear_all_floor_handlers();
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();

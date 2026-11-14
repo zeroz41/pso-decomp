@@ -78,7 +78,8 @@ void TBoss6Type2::capture_player_snapshots() {
     }
 }
 
-void TLobby__sub_8036DDE8(void) {
+// inferred: clears the active flag of the four snapshots capture_player_snapshots fills
+void clear_boss6_player_snapshots(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
         ((E_8036DDE8 *)boss6_type2_player_snapshot_table)[i].f0 = 0;
