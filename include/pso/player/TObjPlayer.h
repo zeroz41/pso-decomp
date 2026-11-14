@@ -398,7 +398,7 @@ struct TObjPlayer : public TObjChara {
     static s32 check_demo_mode();
     static s32 is_locally_controlled(void *player);
     static TObjPlayer *get_player_data(int index);
-    int queue_destruction();
+    void queue_destruction();
     s32 test_action_mask(s32 arg1);
     static void free_singleton();
     static void init_render_target_singleton();

@@ -850,7 +850,7 @@ pso/unk/TLobby_80073DAC.cpp
 pso/unk/TLobby_80077B60.cpp
 pso/unk/TLobby_8007B858.cpp
 pso/unk/TLobby_8007C550.cpp
-pso/unk/TLobby_80082048.cpp
+pso/unk/TUnk_8048E1A4.cpp
 pso/unk/TLobby_800F5CF0.cpp
 pso/unk/TLobby_800F7744.cpp
 pso/unk/TLobby_800F795C.cpp
@@ -1895,9 +1895,6 @@ pso/player/TObjPlayer_800666B0.cpp
 pso/player/TObjPlayer_80072218.cpp
 pso/player/TObjPlayer_8007B4F8.cpp
 pso/player/TObjPlayer_80080750.cpp
-pso/player/TObjPlayer_80081B2C.cpp
-pso/player/TObjPlayer_80081FC8.cpp
-pso/player/TObjPlayer_800822D0.cpp
 pso/player/TObjPlayer_80083594.cpp
 pso/player/TObjPlayer_80084B84.cpp
 pso/player/TObjPlayer_80090448.cpp
@@ -2269,8 +2266,6 @@ pso/unk/text_8007C0CC.cpp
 pso/unk/text_8007F8D0.cpp
 pso/unk/text_8007FA24.cpp
 pso/effect/TDuelEffectCtrl.cpp
-pso/unk/text_80081B7C.cpp
-pso/unk/text_80081BB0.cpp
 pso/unk/text_80086B64.cpp
 pso/unk/text_80086D50.cpp
 pso/unk/text_80086E28.cpp
