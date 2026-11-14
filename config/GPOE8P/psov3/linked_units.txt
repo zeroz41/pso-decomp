@@ -2412,7 +2412,6 @@ pso/technique/TTecFoie_8022FB70.cpp
 pso/technique/TTecFoie_8022FC94.cpp
 pso/technique/TTecGiZonde_80231AF0.cpp
 pso/technique/TTecGiZonde_80231BF4.cpp
-pso/technique/TTecGrants_80232830.cpp
 pso/unk/text_802333D4.cpp
 pso/unk/text_80236EE8.cpp
 pso/effect/TUnk_804CCC68_8023A434.cpp

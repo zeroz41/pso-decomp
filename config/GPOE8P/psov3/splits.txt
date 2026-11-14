@@ -6581,13 +6581,11 @@ pso/technique/TTecGiZonde.cpp:
 	.text       start:0x80231C58 end:0x80232830
 	.sdata2     start:0x805DC828 end:0x805DC83C
 
-pso/technique/TTecGrants_80232830.cpp:
-	.text       start:0x80232830 end:0x80232934
-	.rodata     start:0x8044D5C8 end:0x8044D5D0
-
 pso/unk/TUnk_804CC870.cpp:
-	.text       start:0x80232934 end:0x80233120
+	.text       start:0x80232830 end:0x80233120
+	.rodata     start:0x8044D380 end:0x8044D5D0
 	.data       start:0x804CC870 end:0x804CC8A0
+	.sdata      start:0x805D37D0 end:0x805D37D8
 	.sdata2     start:0x805DC840 end:0x805DC858
 
 pso/technique/TTecGrants.cpp:
