@@ -340,8 +340,9 @@ inline void sack_remove_8041F914(TcpTcb *o, s16 idx) {
    the SACK/reassembly list.  Returns -1 when the connection no longer receives (f204_b6). */
 s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th) {
     if (!o->f204_b6) {
-    u32 skip;
     u32 i;
+    u32 skip;
+    u32 n;
     u32 pos;
     s32 total;
     s32 d;
@@ -384,21 +385,23 @@ s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th) {
         if (skip != 0) {
             TLobby__sub_80406EB8(&src, skip);
         }
-        skip = pkt->fragments[i].length - skip;
+        n = pkt->fragments[i].length - skip;
         room = o->f534 - o->fD8;
-        if (skip > room) {
-            skip = room;
+        if (!o && !o) {
         }
-        total += skip;
-        if (pos + skip >= o->f534) {
+        if (n > room) {
+            n = room;
+        }
+        total += n;
+        if (pos + n >= o->f534) {
             TLobby__sub_80406FD8(&dst, &src, o->f534 - pos);
             NetMemcpy(&dst, &o->rcv_buf, 8);
             TLobby__sub_80406EB8(&src, o->f534 - pos);
-            skip -= o->f534 - pos;
+            n -= o->f534 - pos;
         }
-        if (skip != 0) {
-            TLobby__sub_80406FD8(&dst, &src, skip);
-            TLobby__sub_80406EB8(&dst, (s16)skip);
+        if (n != 0) {
+            TLobby__sub_80406FD8(&dst, &src, n);
+            TLobby__sub_80406EB8(&dst, (s16)n);
         }
         skip = 0;
     }
