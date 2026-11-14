@@ -10,12 +10,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowDD.h"
-
-struct RecoveredGlobal_8024E548_lbl_804CEB70
-{
-  s32 value;
-  u8 remaining[0x10];
-};
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct RecoveredGlobal_8024E548___vt__14TWindowDeposit
 {
@@ -23,11 +18,28 @@ struct RecoveredGlobal_8024E548___vt__14TWindowDeposit
   u8 remaining[0x18];
 };
 
+// inferred: window_deposit_layout_entries, the layout table window_deposit_layout points at.
+struct DepositWindowLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+    ValueLayoutRecord rec_1;
+};
+
+DepositWindowLayout window_deposit_layout_entries = {
+    2, 1,
+    {3, {8.0f, 4.0f}, 0.7f, 0xFFFFFFFF, 0x40, NULL},
+    {4, {8.0f, 4.0f}, 0.7f, 0xFFFFFFFF, 0, 0},
+};
+
+WindowDescriptor window_deposit_layout = {
+    {160.0f, 27.0f}, 50100.0f, &window_deposit_layout_entries, 0x82B,
+};
+
 extern "C" {
 s32 draw_visible_window_entries(void *, void *, int);
 s32 construct_base__9TWindowDDFPUcsPUc(void *, void *, void *, int);
 s32 get_window_layout_position(int);
-extern RecoveredGlobal_8024E548_lbl_804CEB70 window_deposit_layout;
 extern s32 __vt__14TWindowDeposit[];
 extern s32 TWindowDeposit__name;
 s32 draw_window_tab(s32, s32, s32, f32);
@@ -57,7 +69,6 @@ void *__dt__14TWindowDepositFv(void *arg0, s16 arg1) {
     return arg0;
 }
 typedef struct RecoveredGlobal_8024E548___vt__14TWindowDeposit RecoveredGlobal_8024E548___vt__14TWindowDeposit;
-typedef struct RecoveredGlobal_8024E548_lbl_804CEB70 RecoveredGlobal_8024E548_lbl_804CEB70;
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
@@ -69,7 +80,7 @@ u8 *TWindowDeposit__ct(u8 *arg0, s32 arg1) {
   s32 str;
   u32 temp_r3_2;
   u8 *temp_r31;
-  construct_base__9TWindowDDFPUcsPUc((void *) arg0, &window_deposit_layout.value, (void *) arg1, (int) get_window_layout_position(0x29));
+  construct_base__9TWindowDDFPUcsPUc((void *) arg0, &window_deposit_layout, (void *) arg1, (int) get_window_layout_position(0x29));
   *((s32 **) (((s8 *) arg0) + (((((0x18 & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu))) = &(*(RecoveredGlobal_8024E548___vt__14TWindowDeposit *)&__vt__14TWindowDeposit).value;
   *((s32 *) (((s8 *) arg0) + 0)) = (s32) TWindowDeposit__name;
   str = TQuestVmDownLoadServer__sub_8006EF6C(2);

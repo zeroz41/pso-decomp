@@ -11,6 +11,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 #pragma push
 #pragma opt_common_subs off
@@ -42,10 +43,26 @@ TWindowLoadItemTexture *fn_802628C0(void *layout, void *table, void *id) {
 
 #pragma pop
 
+// inferred: TWindowLoadItemTexture__window_descriptor (passed to construct_base by the window's constructor) and
+// TWindowLoadItemTexture__layout_entries, the layout table it points at.
+struct LoadItemTextureWindowLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec_0;
+};
+
+LoadItemTextureWindowLayout TWindowLoadItemTexture__layout_entries = {
+    1, 1,
+    {6, {-4.0f, -10.0f}, {0.0f, 0.0f}, 0.0f, 0.0f, 0.5f, -1, NULL, 0, 6},
+};
+
+WindowDescriptor TWindowLoadItemTexture__window_descriptor = {
+    {0.0f, 0.0f}, 38000.0f, &TWindowLoadItemTexture__layout_entries, 0x2B,
+};
+
 extern "C" {
 
 void get_array_entry__11TWindowBaseFi(void *, int);
-extern s32 lbl_804D0058[];
 extern s32 __vt__22TWindowLoadItemTexture[];
 extern s32 lbl_805D3940;
 extern s32 tl_07;
@@ -99,7 +116,7 @@ void *__dt__22TWindowLoadItemTextureFv(void *arg0, s16 arg1) {
 
 void *TWindowLoadItemTexture__ct(TWindowLoadItemTexture *window_load_item_texture, void *arg1, void *arg2, void *arg3) {
     void *e;
-    ((TWindowDD *)window_load_item_texture)->construct_base((u8 *)lbl_804D0058, (s16)((s16)(s32)arg3), (u8 *)arg1);
+    ((TWindowDD *)window_load_item_texture)->construct_base((u8 *)&TWindowLoadItemTexture__window_descriptor, (s16)((s16)(s32)arg3), (u8 *)arg1);
     *(s32 **)((s8 *)window_load_item_texture + 0x18) = __vt__22TWindowLoadItemTexture;
     *(s32 *)((s8 *)window_load_item_texture + 0) = lbl_805D3940;
     switch (TCameraCtrl::get_camera_id()) {

@@ -6938,6 +6938,7 @@ pso/ui/window/TWindowMainMenu_8024E3CC.cpp:
 pso/ui/window/TWindowDeposit.cpp:
 	.text       start:0x8024E434 end:0x8024E68C
 	.rodata     start:0x8044EC68 end:0x8044EC70
+	.data       start:0x804CEB30 end:0x804CEB84
 	.sdata2     start:0x805DCC60 end:0x805DCC74
 
 pso/ui/window/TWindowKeyBoardSoft_8024E68C.cpp:
@@ -7032,6 +7033,7 @@ pso/ui/window/TWindowSubMag_80255E14.cpp:
 pso/ui/window/TWindowInputNumber.cpp:
 	.text       start:0x80255E3C end:0x80256B94
 	.rodata     start:0x8044EE28 end:0x8044EE40
+	.data       start:0x804CF8C8 end:0x804CF900
 	.sdata2     start:0x805DCE18 end:0x805DCE58
 
 pso/ui/window/TWindowSubStatusDisp_80256B94.cpp:
@@ -7132,6 +7134,7 @@ pso/ui/window/TWindowSubMag_802627D8.cpp:
 
 pso/ui/window/TWindowLoadItemTexture.cpp:
 	.text       start:0x802628C0 end:0x80262C3C
+	.data       start:0x804D0020 end:0x804D006C
 	.sdata2     start:0x805DD0D8 end:0x805DD100
 
 pso/ui/window/TWindowLockOn_80262C3C.cpp:
@@ -7226,6 +7229,7 @@ pso/unk/text_802693B4.cpp:
 pso/ui/window/TWindowMessage.cpp:
 	.text       start:0x802694F4 end:0x80269FB0
 	.rodata     start:0x8044F3F0 end:0x8044F3F8
+	.data       start:0x804D06F8 end:0x804D0730
 	.sdata2     start:0x805DD218 end:0x805DD240
 
 pso/ui/window/TWindowCtrl_80269FB0.cpp:
@@ -7355,6 +7359,7 @@ pso/ui/city/TShopEquipmentSellWindow_8026CE78.cpp:
 pso/ui/window/TWindowQuantity.cpp:
 	.text       start:0x8026CEEC end:0x8026D18C
 	.rodata     start:0x8044F4F0 end:0x8044F4F8
+	.data       start:0x804D0830 end:0x804D0884
 	.sdata2     start:0x805DD2D0 end:0x805DD2E4
 
 pso/ui/window/TWindowReturnCity.cpp:
@@ -7365,6 +7370,7 @@ pso/ui/window/TWindowReturnCity.cpp:
 
 pso/ui/window/TWindowRoom.cpp:
 	.text       start:0x8026D504 end:0x8026D790
+	.data       start:0x804D08B8 end:0x804D08F0
 	.sdata2     start:0x805DD2F0 end:0x805DD2FC
 
 pso/ui/window/TWindowSetLevelUp.cpp:
@@ -7420,6 +7426,7 @@ pso/ui/window/TWindowSubAreaMap.cpp:
 pso/ui/window/TWindowSubAreaMapDisp.cpp:
 	.text       start:0x802717B8 end:0x80271DFC
 	.rodata     start:0x8044F690 end:0x8044F698
+	.data       start:0x804D0FC0 end:0x804D0FD4
 	.sdata2     start:0x805DD480 end:0x805DD4F4
 
 pso/ui/window/TWindowCtrl_80271DFC.cpp:
@@ -7648,6 +7655,7 @@ pso/ui/chat/TWindowSubSymbolChatFaceType.cpp:
 pso/ui/chat/TWindowSubSymbolChatHelp.cpp:
 	.text       start:0x8028429C end:0x80284C04
 	.rodata     start:0x8044FB58 end:0x8044FBE8
+	.data       start:0x804D2D10 end:0x804D2D24
 	.sdata      start:0x805D3AB8 end:0x805D3ABC
 	.sdata2     start:0x805DD788 end:0x805DD7C4
 
@@ -7689,6 +7697,7 @@ pso/unk/text_80287AD8.cpp:
 pso/ui/window/TWindowTimer.cpp:
 	.text       start:0x80287C18 end:0x80288030
 	.rodata     start:0x8044FCE0 end:0x8044FCF0
+	.data       start:0x804D2E50 end:0x804D2E88
 
 pso/ui/window/TWindowSubStatusDisp_80288030.cpp:
 	.text       start:0x80288030 end:0x80288298
@@ -8389,6 +8398,7 @@ pso/boss/olgaflow/TBoss6PlotFalz.cpp:
 
 pso/ui/window/TWindowCallBack.cpp:
 	.text       start:0x802ACCC8 end:0x802ACF04
+	.data       start:0x804DE360 end:0x804DE374
 
 pso/ui/frontend/TAdEnterSerialAccessGC_802ACF04.cpp:
 	.text       start:0x802ACF04 end:0x802ACF5C
@@ -8410,6 +8420,7 @@ pso/ui/window/TWindowMainMenu_802AD538.cpp:
 
 pso/ui/window/TWindowMenuMainMenu.cpp:
 	.text       start:0x802AE730 end:0x802AE928
+	.data       start:0x804DE3C8 end:0x804DE3DC
 
 pso/ui/window/TWindowMainMenu_802AE928.cpp:
 	.text       start:0x802AE928 end:0x802AE978

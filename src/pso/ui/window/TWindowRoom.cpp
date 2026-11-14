@@ -6,11 +6,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
-
-struct RecoveredGlobal_8026D674_lbl_804D08DC {
-    s32 value;
-    u8 remaining[0x10];
-};
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct RecoveredGlobal_8026D674___vt__11TWindowRoom {
     s32 value;
@@ -26,11 +22,26 @@ struct RoomTitleEntry {
     f32 width;
 };
 
+// inferred: room_window_layout_entries, the layout table room_window_base_parameters points at.
+struct RoomWindowLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+};
+
+RoomWindowLayout room_window_layout_entries = {
+    1, 1,
+    {3, {10.0f, 4.0f}, 0.7f, 0xFFFFFFFF, 0x40, NULL},
+};
+
+WindowDescriptor room_window_base_parameters = {
+    {160.0f, 27.0f}, 37000.0f, &room_window_layout_entries, 0x82B,
+};
+
 extern "C" {
 void construct_base__9TWindowDDFPUcsPUc(void *, void *, s16, void *);
 void refresh_status_display__9TWindowDDFv(void *);
 s32 get_window_layout_position(int);
-extern RecoveredGlobal_8026D674_lbl_804D08DC room_window_base_parameters;
 extern s32 __vt__11TWindowRoom[];
 extern s32 TWindowRoom__class_name;
 s32 clamp_list_scroll_offset(struct Pos_8026D740 *a, struct Pos_8026D740 *b, struct Pos_8026D740 *c);
@@ -73,12 +84,11 @@ void *__dt__11TWindowRoomFv(void *arg0, s16 arg1) {
     }
     return arg0;
 }
-typedef char RecoveredGlobal_8026D674_lbl_804D08DC_size[sizeof(RecoveredGlobal_8026D674_lbl_804D08DC) == 0x14 ? 1 : -1];
 typedef char RecoveredGlobal_8026D674___vt__11TWindowRoom_size[sizeof(RecoveredGlobal_8026D674___vt__11TWindowRoom) == 0x18 ? 1 : -1];
 
 TWindowRoom::TWindowRoom(char *title) {
     RoomTitleEntry *entry;
-    construct_base__9TWindowDDFPUcsPUc(this, &room_window_base_parameters.value, 4,
+    construct_base__9TWindowDDFPUcsPUc(this, &room_window_base_parameters, 4,
                                     (void *)get_window_layout_position(0xAF));
     objectVtable = __vt__11TWindowRoom;
     className = TWindowRoom__class_name;

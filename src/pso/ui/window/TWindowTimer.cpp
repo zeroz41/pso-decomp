@@ -12,17 +12,29 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 #pragma readonly_strings on
-
-struct RecoveredGlobal_80287FBC_lbl_804D2E74 {
-    s32 value;
-    u8 remaining[0x10];
-};
 
 struct RecoveredGlobal_80287FBC___vt__12TWindowTimer {
     s32 value;
     u8 remaining[0x14];
+};
+
+// inferred: window_timer_layout_entries, the layout table window_timer_layout points at.
+struct TimerWindowLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+};
+
+TimerWindowLayout window_timer_layout_entries = {
+    1, 1,
+    {3, {0.0f, 4.0f}, 0.7f, 0xFFFFFFFF, 0x40, NULL},
+};
+
+WindowDescriptor window_timer_layout = {
+    {104.0f, 27.0f}, 50100.0f, &window_timer_layout_entries, 0x828,
 };
 
 extern "C" {
@@ -30,7 +42,6 @@ s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
 s32 draw_window_tab(void *, void *, int, f32);
 extern const f32 lbl_805DD890;
-extern RecoveredGlobal_80287FBC_lbl_804D2E74 window_timer_layout;
 extern s32 __vt__12TWindowTimer[];
 extern s32 TWindowTimer__name;
 extern s32 lbl_805DD888;
@@ -144,10 +155,9 @@ void *__dt__12TWindowTimerFv(void *arg0, s16 arg1) {
     }
     return arg0;
 }
-typedef char RecoveredGlobal_80287FBC_lbl_804D2E74_size[sizeof(RecoveredGlobal_80287FBC_lbl_804D2E74) == 0x14 ? 1 : -1];
 typedef char RecoveredGlobal_80287FBC___vt__12TWindowTimer_size[sizeof(RecoveredGlobal_80287FBC___vt__12TWindowTimer) == 0x18 ? 1 : -1];
 u8 *TWindowTimer__ct(TWindowTimer *window_timer) {
-    ((TWindowDD *)window_timer)->construct_base((u8 *)&window_timer_layout.value, (s16)4, (u8 *)(get_zero_vec2()));
+    ((TWindowDD *)window_timer)->construct_base((u8 *)&window_timer_layout, (s16)4, (u8 *)(get_zero_vec2()));
     *(s32 **)((s8 *)window_timer + 0x18) = &(*(RecoveredGlobal_80287FBC___vt__12TWindowTimer *)&__vt__12TWindowTimer).value;
     *(s32 *)((s8 *)window_timer + 0) = (s32) TWindowTimer__name;
     window_timer->m_60 = 0;
