@@ -36,12 +36,14 @@ struct TMovie : public TObject {
     void render_until_finished();
     s32 check_skip_input();
     static void run_callback();
+    static s32 close(int arg0, short arg1);
 };
 
 typedef char TMovie_size[sizeof(TMovie) == 0x4C ? 1 : -1];
 
+u8 *initialize_movie_with_soundtrack(u8 *arg0, s8 *arg1, s32 arg2, s32 arg3, s32 arg4);
+
 extern "C" {
-s32 close__6TMovieFis(s32 arg0, s16 arg1);
 void *__dt__6TMovieFv(TMovie *arg0, s16 arg1);
 }
 

@@ -1045,11 +1045,6 @@ pso/object/TMotorcycle.cpp
 pso/object/TMotorcycle_802D712C.cpp
 pso/system/movie/TMovie.cpp
 pso/system/movie/TMovie_80143BBC.cpp
-pso/system/movie/TMovie_80143CA4.cpp
-pso/system/movie/TMovie_80143CC8.cpp
-pso/system/movie/TMovie_80143CE8.cpp
-pso/system/movie/TMovie_80143DF0.cpp
-pso/system/movie/TMovie_80143E90.cpp
 pso/enemy/TNeedleShoot.cpp
 pso/enemy/TNeedleShoot_802A4540.cpp
 pso/enemy/TNeedleShoot_802A4668.cpp

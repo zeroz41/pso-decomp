@@ -3382,25 +3382,12 @@ pso/system/movie/TMovie_80143988.cpp:
 	.text       start:0x80143988 end:0x80143BBC
 
 pso/system/movie/TMovie_80143BBC.cpp:
-	.text       start:0x80143BBC end:0x80143CA4
-
-pso/system/movie/TMovie_80143CA4.cpp:
-	.text       start:0x80143CA4 end:0x80143CC8
-
-pso/system/movie/TMovie_80143CC8.cpp:
-	.text       start:0x80143CC8 end:0x80143CE8
-
-pso/system/movie/TMovie_80143CE8.cpp:
-	.text       start:0x80143CE8 end:0x80143D9C
+	.text       start:0x80143BBC end:0x80143D9C
+	.sdata      start:0x805D2CE8 end:0x805D2CEC
+	.sbss       start:0x805D5688 end:0x805D56AC
 
 pso/system/movie/TMovie.cpp:
-	.text       start:0x80143D9C end:0x80143DF0
-
-pso/system/movie/TMovie_80143DF0.cpp:
-	.text       start:0x80143DF0 end:0x80143E90
-
-pso/system/movie/TMovie_80143E90.cpp:
-	.text       start:0x80143E90 end:0x801449FC
+	.text       start:0x80143D9C end:0x801449FC
 	.rodata     start:0x8043F380 end:0x8043F390
 	.sdata2     start:0x805DB178 end:0x805DB18C
 
