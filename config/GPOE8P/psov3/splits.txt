@@ -12208,21 +12208,12 @@ pso/unk/text_803D31A4.cpp:
 	.rodata     start:0x8047DEF0 end:0x8047DF90
 	.bss        start:0x8058B480 end:0x8058B6F0
 
-pso/unk/text_803D39F8.cpp:
-	.text       start:0x803D39F8 end:0x803D3B84
-
-pso/unk/TLobby_803D3B84.cpp:
-	.text       start:0x803D3B84 end:0x803D3BE8
-
 pso/system/movie/Mfci.cpp:
-	.text       start:0x803D3BE8 end:0x803D439C
+	.text       start:0x803D39F8 end:0x803D43C8
+	.rodata     start:0x8047DF90 end:0x8047E220
 	.bss        start:0x8058B6F0 end:0x8058C0E0
-
-pso/unk/TLobby_803D439C.cpp:
-	.text       start:0x803D439C end:0x803D43A8
-
-pso/unk/text_803D43A8.cpp:
-	.text       start:0x803D43A8 end:0x803D43C8
+	.sbss       start:0x805D7678 end:0x805D7680
+	.sdata2     start:0x805E0DC0 end:0x805E0DC8
 
 pso/unk/TLobby_803D43C8.cpp:
 	.text       start:0x803D43C8 end:0x803D4418
