@@ -9899,29 +9899,13 @@ pso/ui/frontend/TAdMcSelectMcGC.cpp:
 	.sbss       start:0x805D6C98 end:0x805D6C9C
 	.sdata2     start:0x805DF748 end:0x805DF764
 
-pso/unk/text_8032AACC.cpp:
-	.text       start:0x8032AACC end:0x8032AC94
-	.rodata     start:0x80477258 end:0x80477260
-
 pso/ui/frontend/TAdEnterBaseGC.cpp:
-	.text       start:0x8032AC94 end:0x8032AC9C
-
-pso/unk/text_8032AC9C.cpp:
-	.text       start:0x8032AC9C end:0x8032AD30
-	.sdata2     start:0x805DF778 end:0x805DF77C
-
-pso/ui/frontend/TAdEnterSerialAccessGC_8032AD30.cpp:
-	.text       start:0x8032AD30 end:0x8032B318
-	.rodata     start:0x80477260 end:0x80477270
+	.text       start:0x8032AACC end:0x8032B58C
+	.rodata     start:0x80477200 end:0x80477278
+	.data       start:0x804ED9F0 end:0x804EDA20
 	.bss        start:0x80543468 end:0x805434A8
-
-pso/unk/text_8032B318.cpp:
-	.text       start:0x8032B318 end:0x8032B38C
-	.rodata     start:0x80477270 end:0x80477278
-
-pso/ui/frontend/TAdEnterBaseGC_8032B38C.cpp:
-	.text       start:0x8032B38C end:0x8032B58C
-	.data       start:0x804EDA08 end:0x804EDA20
+	.sdata      start:0x805D41E0 end:0x805D41E4
+	.sdata2     start:0x805DF768 end:0x805DF77C
 
 pso/ui/frontend/TAdEnterPasswordGC.cpp:
 	.text       start:0x8032B58C end:0x8032BE48

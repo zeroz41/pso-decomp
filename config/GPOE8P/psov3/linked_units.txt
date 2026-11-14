@@ -2046,14 +2046,12 @@ pso/ui/frontend/TAdDialingMessageWindow_8036A064.cpp
 pso/ui/frontend/TAdDrawLineCtrl.cpp
 pso/ui/frontend/TAdDrawLineTask.cpp
 pso/ui/frontend/TAdEnterBaseGC.cpp
-pso/ui/frontend/TAdEnterBaseGC_8032B38C.cpp
 pso/ui/frontend/TAdEnterPPPPassGC.cpp
 pso/ui/frontend/TAdEnterPasswordGC.cpp
 pso/ui/frontend/TAdEnterSerialAccessGC.cpp
 pso/ui/frontend/TAdEnterSerialAccessGC_8023EA94.cpp
 pso/ui/frontend/TAdEnterSerialAccessGC_802ACF04.cpp
 pso/ui/frontend/TAdEnterSerialAccessGC_802E0110.cpp
-pso/ui/frontend/TAdEnterSerialAccessGC_8032AD30.cpp
 pso/ui/frontend/TAdEp3Exist.cpp
 pso/ui/frontend/TAdExNetConfirmGC.cpp
 pso/ui/frontend/TAdExNetConfirmGC_8032C504.cpp
@@ -2508,9 +2506,6 @@ pso/boss/galgryphon/TBoss5GryphonLightning_80324E10.cpp
 pso/unk/text_80327844.cpp
 pso/object/mine/TOComputerMachine01_803278B0.cpp
 pso/unk/text_803279CC.cpp
-pso/unk/text_8032AACC.cpp
-pso/unk/text_8032AC9C.cpp
-pso/unk/text_8032B318.cpp
 pso/unk/text_803374F0.cpp
 pso/unk/text_8033F314.cpp
 pso/unk/text_8034960C.cpp
