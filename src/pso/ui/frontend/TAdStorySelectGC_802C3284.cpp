@@ -26,7 +26,10 @@ struct CE_802C3400 { s32 a; f32 x, y; };
 
 struct C_802C3400 { CE_802C3400 e[2]; };
 
-struct Self_802C3400 { s32 f0; u8 pad4[0x14]; void *vt; void *f1C; void *f20; };
+struct Self_802C3400 { const char *name; u8 pad4[0x14]; void *vt; void *f1C; void *f20; };
+
+__declspec(section ".rodata") extern const char TAdStorySelectGC__class_name_string[] = "TAdStorySelectGC";
+const char *TAdStorySelectGC__class_name = TAdStorySelectGC__class_name_string;
 
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
@@ -44,12 +47,7 @@ void __ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, void *, s32);
 void __ct__13TAdTitleTexGCFv(void *, void *);
 void *__ct__14TAdSelectCurGCFv(void *, void *, void *, void *);
 void *__ct__13TAdGuideTxtGCFv(void *, void *);
-s32 get_data__23TAdSinglePlyChrSelectGCFv(s32);
-extern C_802C3400 story_select_colors_and_positions;
-extern A_802C3400 lbl_804719FC[];
-extern B_802C3400 story_select_rect_table;
 extern void *__vt__16TAdStorySelectGC[];
-extern s32 lbl_805D3EC8;
 Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent);
 void TAdStorySelectGC::render() {  }
 void TAdStorySelectGC::run_task() {
@@ -85,15 +83,13 @@ void TAdStorySelectGC::run_task() {
 TAdStorySelectGC::~TAdStorySelectGC() {}
 Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent) {
     void *p;
-    s32 id;
     __ct__7TObjectFP7TObject(self, parent);
     self->vt = __vt__16TAdStorySelectGC;
-    id = lbl_805D3EC8;
-    self->f0 = id;
+    self->name = TAdStorySelectGC__class_name;
     lbl_805D67C0 = 0;
     self->f1C = 0;
     self->f20 = 0;
-    if (get_data__23TAdSinglePlyChrSelectGCFv(id) == 0) {
+    if (TAdSinglePlyChrSelectGC::get_data() == 0) {
         TAdMultiChgGameModeGC::request_transition();
         ((TObject *)self)->queue_destruction();
         return self;
@@ -129,7 +125,7 @@ Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent) {
         __ct__13TAdTitleTexGCFv(p, self);
     }
     {
-        C_802C3400 c = story_select_colors_and_positions;
+        C_802C3400 c = {{{-1, 208.0f, 197.0f}, {-1, 178.0f, 249.0f}}};
         p = __nw__7TObjectFUl(0xE0);
         if (p != NULL) {
             __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &c.e[0], 4);
@@ -139,8 +135,8 @@ Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent) {
             __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &c.e[1], 5);
         }
         {
-        A_802C3400 a = lbl_804719FC[0];
-        B_802C3400 b = story_select_rect_table;
+        A_802C3400 a = {302.0f, 28.0f};
+        B_802C3400 b = {{{185.0f, 198.0f}, {155.0f, 250.0f}}};
         p = __nw__7TObjectFUl(0x708);
         if (p != NULL) {
             p = __ct__14TAdSelectCurGCFv(p, self, &b, &a);
