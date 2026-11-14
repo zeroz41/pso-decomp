@@ -479,11 +479,7 @@ pso/enemy/recon/TObjEneRecon_8031F408.cpp
 pso/enemy/recon/TObjEneRecon_8031F4A8.cpp
 pso/enemy/recon/TObjEneRecon_8031F600.cpp
 pso/enemy/recon/TObjEneRecon_8031F6C0.cpp
-pso/enemy/recon/TObjEneRecon_8031F800.cpp
-pso/enemy/recon/TObjEneRecon_8031FA64.cpp
-pso/enemy/recon/TObjEneRecon_8031FACC.cpp
-pso/enemy/recon/TObjEneRecon_8031FC2C.cpp
-pso/enemy/recon/TObjEneRecobox_8031FCB0.cpp
+pso/enemy/recon/TObjEneRecobox_8031F800.cpp
 pso/enemy/recon/TObjEneRecon_80320350.cpp
 pso/enemy/saver/TObjEneSaver.cpp
 pso/enemy/shark/TObjEneShark.cpp

@@ -9484,21 +9484,9 @@ pso/enemy/recon/TObjEneRecon_8031F600.cpp:
 pso/enemy/recon/TObjEneRecon_8031F6C0.cpp:
 	.text       start:0x8031F6C0 end:0x8031F800
 
-pso/enemy/recon/TObjEneRecon_8031F800.cpp:
-	.text       start:0x8031F800 end:0x8031FA64
-
-pso/enemy/recon/TObjEneRecon_8031FA64.cpp:
-	.text       start:0x8031FA64 end:0x8031FACC
-
-pso/enemy/recon/TObjEneRecon_8031FACC.cpp:
-	.text       start:0x8031FACC end:0x8031FC2C
+pso/enemy/recon/TObjEneRecobox_8031F800.cpp:
+	.text       start:0x8031F800 end:0x80320350
 	.rodata     start:0x80476458 end:0x80476460
-
-pso/enemy/recon/TObjEneRecon_8031FC2C.cpp:
-	.text       start:0x8031FC2C end:0x8031FCB0
-
-pso/enemy/recon/TObjEneRecobox_8031FCB0.cpp:
-	.text       start:0x8031FCB0 end:0x80320350
 	.data       start:0x804EC668 end:0x804EC968
 	.bss        start:0x80543000 end:0x80543010
 	.sbss       start:0x805D6B10 end:0x805D6B20

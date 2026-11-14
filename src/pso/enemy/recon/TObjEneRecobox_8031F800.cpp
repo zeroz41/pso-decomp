@@ -8,19 +8,203 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/recon/TObjEneRecobox.h"
 #include "pso/map/FloorArea.h"
-#include "pso/enemy/dd/TObjEneDD.h"
-extern "C" void has_flag_0x800__9TObjCharaFv();
-extern "C" void test_flag30_512__9TObjCharaFv();
-extern "C" void test_flag_1000__9TObjCharaFv();
-extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/system/vector.h"
 #include "pso/render/TUnk_80494938.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
-
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/enemy/recon/TObjEneRecon_8031FACC.h"
+#include "pso/ui/window/TWindowSubComCard.h"
+
+struct Vec_8031F8C4 { f32 x, y, z; };
+
+struct Recon_8031F8C4 {
+    u8 pad0[0x1C];
+    u16 f1C;
+    u8 pad1E[2];
+    u8 pad20[0x2C - 0x20];
+    s16 f2C;
+    u8 pad2E[0x38 - 0x2E];
+    u8 pos38[0x60 - 0x38];
+    s32 f60;
+    u8 pad64[0x3DC - 0x64];
+    s32 f3DC;
+    u8 pad3E0[0x3F4 - 0x3E0];
+    s32 f3F4;
+    s32 f3F8;
+    u8 pad3FC[0x410 - 0x3FC];
+    s32 f410;
+    s32 f414;
+    u16 ids[(0x4D8 - 0x418) / 2];
+    s32 f4D8;
+    s32 f4DC;
+};
+
+extern "C" {
+extern const f32 lbl_805DF44C;
+u32 create__12TObjEneReconFPvPvPvPvPv(void *, u16, s32, Vec_8031F8C4 *, Vec_8031F8C4 *);
+s32 alloc_child_id__12TObjEneReconFv(void *);
+s32 remap_area_sound_id__14TObjEneRecoboxFUl(s32, s32, s32);
+Vec_8031F8C4 *get_field_38_ptr__12TObjEneReconFv(void *, s32);
+extern Vec_8031F8C4 lbl_804762E4;
+extern const f32 lbl_805DF450;
+extern const f32 lbl_805DF454;
+extern const f32 lbl_805DF458;
+#pragma push
+#pragma opt_common_subs off
+void TObjEneRecobox::sub_8031F800() {
+    u8 *arg0 = (u8 *)this;
+    s32 temp_r0;
+    *(s32 *)&this->m_3f8 = (s32) *(s32 *)&this->variant;
+    if ((s32) *(s32 *)&this->m_3f8 <= 0) {
+        *(s32 *)&this->m_3f8 = 0;
+    } else if ((s32) *(s32 *)&this->variant >= 2) {
+        *(s32 *)&this->m_3f8 = 2;
+    }
+    *(f32 *)&this->m_4ec = (f32) *(f32 *)((s8 *)arg0 + 0x354);
+    *(f32 *)((s8 *)arg0 + 0x4D4) = (f32) *(f32 *)((s8 *)arg0 + 0x358);
+    if (*(f32 *)((s8 *)arg0 + 0x4D4) <= lbl_805DF44C) {
+        *(f32 *)((s8 *)arg0 + 0x4D4) = (f32) lbl_805DF44C;
+    }
+    *(s32 *)&this->m_414 = (s32) *(f32 *)((s8 *)arg0 + 0x360);
+    temp_r0 = *(s32 *)&this->m_414;
+    if (temp_r0 < 0) {
+        *(s32 *)&this->m_414 = 0;
+    } else if (temp_r0 > 6) {
+        *(s32 *)&this->m_414 = 6;
+    }
+    if ((s32) *(s32 *)&this->m_414 == 0) {
+        *(s32 *)&this->m_410 = 0;
+        return;
+    }
+    *(s32 *)&this->m_410 = 0x1E;
+}
+#pragma pop
+
+void TObjEneRecon::update_child_spawn() {
+    Recon_8031F8C4 *o = (Recon_8031F8C4 *)this;
+    Vec_8031F8C4 dir = lbl_804762E4;
+    Vec_8031F8C4 pos;
+    s32 id;
+    s32 arg;
+    s32 n;
+    o->f4D8++;
+    if (o->f4D8 < o->f4DC) {
+        return;
+    }
+    o->f4D8 = 0;
+    if (o->f410 >= o->f3F8 || o->f414 >= o->f3F4) {
+        return;
+    }
+    switch (o->f3DC) {
+    case 0:
+        dir.y = lbl_805DF450;
+        break;
+    case 1:
+        dir.y = lbl_805DF454;
+        break;
+    case 2:
+        dir.x = lbl_805DF458 * sin_table_lookup(o->f60);
+        dir.z = lbl_805DF458 * cos_table_lookup(o->f60);
+        break;
+    }
+    id = alloc_child_id__12TObjEneReconFv(o);
+    arg = o->f2C + (id - o->f1C);
+    VecCopy((Vec *)&pos, (const Vec *)(get_field_38_ptr__12TObjEneReconFv(o, o->f2C)));
+    if (id == 0xFFFF) {
+        o->f414 = o->f3F4;
+        return;
+    }
+    if (create__12TObjEneReconFPvPvPvPvPv(o, id, arg, &pos, &dir) != 0) {
+        n = o->f410++;
+        o->ids[n] = id;
+        play_sound_effect(remap_area_sound_id__14TObjEneRecoboxFUl(0x4003A80F, o->f414++, n), o->pos38, 0, 0);
+    }
+}
+
+}
+
+extern "C" {
+
+s32 has_child_in_anim_5__12TObjEneReconFv();
+
+u8 TObjEneRecon::is_out_of_range() {
+    int var_r4;
+
+    if (has_child_in_anim_5__12TObjEneReconFv() == 1) {
+        return 1;
+    }
+    var_r4 = 0;
+    if (((s32) *(s32 *)((s8 *)this + 0x410) >= (s32) *(s32 *)((s8 *)this + 0x3F8)) || ((s32) *(s32 *)((s8 *)this + 0x414) >= (s32) *(s32 *)((s8 *)this + 0x3F4))) {
+        var_r4 = 1;
+    }
+    return (u8) var_r4;
+}
+
+}
+
+struct Stack_8031FB6C {
+    s32 sp8;
+    f32 spC;
+};
+
+struct Obj_8031FACC { u8 pad[0x3F4]; s32 f3F4; s32 f3F8; u8 pad2[0x410 - 0x3FC]; s32 f410; s32 f414; };
+
+extern "C" {
+extern const f32 lbl_805DF450;
+extern const f32 lbl_805DF460;
+s32 has_child_in_anim_5__12TObjEneReconFv();
+extern const f32 lbl_805DF45C;
+u8 TObjEneRecon__sub_8031FACC(Obj_8031FACC *arg0);
+
+u8 TObjEneRecon__sub_8031FACC(Obj_8031FACC *arg0) {
+    s32 r;
+    s32 t;
+    if (has_child_in_anim_5__12TObjEneReconFv() == 1) {
+        return 0;
+    }
+    t = (s32)TWindowSubComCard::trunc_float((f32)arg0->f3F8 * lbl_805DF45C);
+    r = 0;
+    if (arg0->f410 <= t && arg0->f414 < arg0->f3F4) {
+        r = 1;
+    }
+    return (u8)r;
+}
+
+void TObjEneRecon__sub_8031FB6C(u8 *ene_recobox) {
+    Stack_8031FB6C stack;
+    u8 *temp_r3;
+    VecCopy((Vec *)(&stack.sp8), (const Vec *)(ene_recobox + 0x2FC));
+    if ((s32) ((TObjEneRecobox *)ene_recobox)->m_3f8 == 1) {
+        stack.spC -= lbl_805DF450;
+    } else {
+        stack.spC += lbl_805DF450;
+    }
+    temp_r3 = (u8 *)(csnVectorUnder((Vec *)&stack.sp8, (u32 *)(ene_recobox + 0x120), 0x15));
+    if ((temp_r3 == NULL) || (((TObjEneRecobox *)ene_recobox)->m_300 >= (lbl_805DF460 + *(f32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 4)) + 4)))) {
+        ((TObjEneRecobox *)(ene_recobox))->vfunc_97();
+    }
+    ((TObjEneDD *)ene_recobox)->set_part_local_pos(ene_recobox + 0x2FC, 0);
+}
+
+}
+
+void TObjEneRecon::restore_position() { VecCopy((Vec *)((char*)this + 0x74), (const Vec *)((char*)this + 0x2fc)); }
+void TObjEneRecobox::vfunc_61() {  }
+void TObjEneRecobox::vfunc_62() { clear_attack_receipts(); }
+void TObjEneRecobox::vfunc_63() { if (this->mode != 6) { transition_enemy_state((s16)((void*)6)); } }
+void TObjEneRecobox::vfunc_28() {  }
+
+extern "C" void has_flag_0x800__9TObjCharaFv();
+extern "C" void test_flag30_512__9TObjCharaFv();
+extern "C" void test_flag_1000__9TObjCharaFv();
+extern "C" void test_flag_256__9TObjCharaFv();
+
 
 extern "C" {
 
