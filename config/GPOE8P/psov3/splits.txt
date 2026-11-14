@@ -9455,7 +9455,7 @@ pso/enemy/recon/TObjEneRecon.cpp:
 	.data       start:0x804EC3F0 end:0x804EC668
 	.sdata      start:0x805D4130 end:0x805D4138
 	.sbss       start:0x805D6AF0 end:0x805D6B10
-	.sdata2     start:0x805DF3D8 end:0x805DF3E8
+	.sdata2     start:0x805DF3B8 end:0x805DF438
 
 pso/enemy/recon/TObjEneRecobox_8031E800.cpp:
 	.text       start:0x8031E800 end:0x8031E88C
