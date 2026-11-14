@@ -6,6 +6,9 @@
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/city/TShopArmorListWindow.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 struct Obj_8027E558 { s32 f0; u8 pad[0x14]; void *vt; u8 pad2[0x88 - 0x1C]; void *list; };
 
@@ -23,10 +26,7 @@ s32 get_shared_text_buffer();
 s32 fn_80076BC4(s32 *);
 int get_chat_shortcut(s32 arg0);
 s32 get_symbol_chat_data__20TWindowSubSymbolChatFv();
-s8 get_type__20TWindowSubStatusDispFv(s32);
-s32 clamp_selection_to_valid_entry__20TShopArmorListWindowFv(void *);
 s32 save_cursor_selection__20TShopArmorListWindowFv();
-s32 reset_list__19TWindowMenuIconLineFv(void *);
 s32 update_state__9TWindowDDFv(s32 *, s32, u16);
 void *__dt__22TWindowSubShortCutListFv(void *arg0, s16 arg1);
 void render__22TWindowSubShortCutListFv(u8 *arg0);
@@ -44,8 +44,8 @@ void TWindowSubShortCutList::refresh_entries() {
     s32 var_r30;
     s32 var_r29;
     save_cursor_selection__20TShopArmorListWindowFv();
-    reset_list__19TWindowMenuIconLineFv(this);
-    var_r29 = get_type__20TWindowSubStatusDispFv(this->m_88);
+    reset_list();
+    var_r29 = ((TWindowSubStatusDisp *)this->m_88)->get_type();
     var_r30 = 0;
     var_r29 *= 4;
     do {
@@ -73,7 +73,7 @@ void TWindowSubShortCutList::refresh_entries() {
         var_r30 += 1;
         var_r29 += 1;
     } while (var_r30 < 4);
-    clamp_selection_to_valid_entry__20TShopArmorListWindowFv(this);
+    ((TShopArmorListWindow *)this)->clamp_selection_to_valid_entry();
 }
 
 void *TWindowSubShortCutList::create(void *arg1) {

@@ -8,7 +8,7 @@ struct S_803DC850 { u8 pad[0x78]; u8 f; };
 
 extern S_803DC83C ginja_material_cache;
 
-extern s32 lbl_805D76E0;
+s32 lbl_805D76E0;
 
 void TObjPlayer::set_global_effect_state(s32 arg0) {
     lbl_805D76E0 = arg0;

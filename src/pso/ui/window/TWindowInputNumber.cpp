@@ -12,6 +12,23 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/WindowLayoutRecord.h"
+
+// inferred: window_input_number_layout_entries, the layout table window_input_number_layout points at.
+struct InputNumberWindowLayout {
+    u32 cols;
+    u32 rows;
+    ValueLayoutRecord rec_0;
+};
+
+InputNumberWindowLayout window_input_number_layout_entries = {
+    1, 6,
+    {4, {52.0f, 18.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+};
+
+WindowDescriptor window_input_number_layout = {
+    {104.0f, 74.0f}, 50050.0f, &window_input_number_layout_entries, 3,
+};
 
 extern "C" {
 
@@ -97,11 +114,6 @@ void TWindowInputNumber::set_value(f32 farg0) {
 
 }
 
-struct RecoveredGlobal_80256A60_lbl_804CF8EC {
-    s32 value;
-    u8 remaining[0x10];
-};
-
 struct RecoveredGlobal_80256B0C_lbl_8050E208 {
     s32 value;
     u8 remaining[0x1AC];
@@ -142,7 +154,6 @@ struct Win_80256354 { u8 p0[0x62]; s8 f62; u8 p63[5]; s32 f68; };
 
 extern "C" {
 void construct_base__9TWindowDDFPUcsPUc(void *, void *, s16, void *);
-extern RecoveredGlobal_80256A60_lbl_804CF8EC window_input_number_layout;
 extern s32 __vt__18TWindowInputNumber[];
 extern s32 TWindowInputNumber__name;
 extern s8 controller_input_state[];
@@ -372,12 +383,11 @@ void *__dt__18TWindowInputNumberFv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-typedef char RecoveredGlobal_80256A60_lbl_804CF8EC_size[sizeof(RecoveredGlobal_80256A60_lbl_804CF8EC) == 0x14 ? 1 : -1];
 }
 
 TWindowInputNumber::TWindowInputNumber(void *position, s32 low, s32 high,
                                      s32 initial, s16 client) {
-    construct_base__9TWindowDDFPUcsPUc(this, &window_input_number_layout.value, client, position);
+    construct_base__9TWindowDDFPUcsPUc(this, &window_input_number_layout, client, position);
     objectVtable = __vt__18TWindowInputNumber;
     className = TWindowInputNumber__name;
     clientIndex = client;

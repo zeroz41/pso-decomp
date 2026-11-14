@@ -12,9 +12,10 @@ public:
     virtual void run_task();
     virtual void render();
     // 0x1C: the screen position the ctor copies from its second argument; 0x24: its third argument.
+    // 0x28: frames since the effect started; run_task destroys it at 30.
     f32 pad_1C[2];
     void *pad_24;
-    u32 pad_28;
+    s32 pad_28;
 };
 
 #endif

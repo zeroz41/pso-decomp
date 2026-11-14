@@ -12,6 +12,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/unk/text_80271400.h"
+#include "pso/ui/window/TWindowBase.h"
 
 struct Quad_802710C4 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
@@ -203,7 +204,7 @@ void TWindowStatus::render() {
   s32 temp_r31;
   f32 new_var2;
   s32 ctx;
-  temp_r31 = (s32)get_array_entry__11TWindowBaseFi(arg0, 0xE);
+  temp_r31 = (s32)((TWindowBase *)arg0)->get_array_entry(0xE);
   ((s32 (*)(void))draw_right_aligned_number)();
   new_var2 = (f32) lbl_805DD474;
   new_var = arg0;

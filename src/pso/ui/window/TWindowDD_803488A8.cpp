@@ -51,7 +51,7 @@ void TWindowDD_WS_String::draw(s32 arg1, s32 idx, f32 farg0) {
     ((TWindowDD *)(&sp8))->copy_point_table(idx);
     TWindowDD__sub_80348A2C((void *)arg1, &sp8);
     TWindowDD__sub_803489B8((A_803489B8 *)(arg1), (B_803489B8 *)(&sp8), 0);
-    ((TWindowDD *)(&sp8))->draw_transformed_primitive((void*)8, (void*)temp_r31, (void*)1);
+    ((TWindowDD *)(&sp8))->draw_transformed_primitive(8, temp_r31, 1);
 }
 
 #pragma push

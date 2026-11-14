@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/TLogo.h"
@@ -17,6 +18,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 s32 TKeyBoardControl__sub_8000F90C(int);
@@ -32,7 +34,6 @@ extern u8 default_scene_light_config[];
 s32 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 void TKeyBoardControl__sub_8000F9CC(s32 arg0);
 u32 __ct__10TAdADXlogoFP7TObject(void *, void *);
-void queue_destruction__7TObjectFv(void *arg0);
 u32 __ct__11TAdSEGAlogoFv(void *, void *);
 u32 __ct__12TAdSoniclogoFP7TObject(void *, void *);
 u32 __nw__7TObjectFUl(int);
@@ -232,7 +233,7 @@ void TLogo::run_task() {
         return;
     case 4:
         if (((s32)is_sega_logo_done((int)((int) (sega_logo)))) != 0) {
-            queue_destruction__7TObjectFv((void *)(sega_logo));
+            ((TObject *)sega_logo)->queue_destruction();
             sega_logo = 0U;
             var_r0_7 = __nw__7TObjectFUl(0x20);
             if (var_r0_7 != 0U) {
@@ -245,7 +246,7 @@ void TLogo::run_task() {
         break;
     case 5:
         if (((s32)is_logo_exit_requested((int)((int) (sonic_logo)))) != 0) {
-            queue_destruction__7TObjectFv((void *)(sonic_logo));
+            ((TObject *)sonic_logo)->queue_destruction();
             sonic_logo = 0U;
             var_r0_8 = __nw__7TObjectFUl(0x20);
             if (var_r0_8 != 0U) {
@@ -258,7 +259,7 @@ void TLogo::run_task() {
         break;
     case 6:
         if (((s32)TLogo__sub_8013F7E8((int)((int) (adx_logo)))) != 0) {
-            queue_destruction__7TObjectFv((void *)(adx_logo));
+            ((TObject *)adx_logo)->queue_destruction();
             adx_logo = 0U;
             state = 7U;
             return;

@@ -5,6 +5,8 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/camera/TCameraCtrl.h"
 
+#pragma readonly_strings on
+
 struct RecoveredGlobal_80077FA0___vt__9TCineCtrl {
     s32 value;
     u8 remaining[0x14];
@@ -24,15 +26,7 @@ u8 * __dt__7TObjectFv(void *, s16);
 void __dl__7TObjectFPv(s32);
 extern s32 __vt__9TCineCtrl[];
 void * TCineCtrl__instance;
-extern const f32 lbl_805D91E0;
-extern const f32 lbl_805D91E4;
-extern const f32 lbl_805D91E8;
-extern const f32 lbl_805D91EC;
-extern const f32 TCineCtrl__data_805D91D0;
 void TCameraCtrl__sub_80068EF0(void);
-extern const f32 lbl_805D91D4;
-extern const f32 lbl_805D91D8;
-extern const f32 lbl_805D91DC;
 
 extern void *TCineCtrl__instance;
 
@@ -41,7 +35,7 @@ void TCineCtrl::render() {
     VtxList_80077BC0 vl;
     u32 col[4];
     f32 pos[8];
-    if (!(*(f32 *)((s8 *)arg0 + 0x1C) <= TCineCtrl__data_805D91D0)) {
+    if (!(*(f32 *)((s8 *)arg0 + 0x1C) <= 0.0f)) {
         TCameraCtrl::restore_full_screen_view();
         set_color_blending_mode(0, 8);
         set_color_blending_mode(1, 6);
@@ -50,32 +44,32 @@ void TCineCtrl::render() {
         vl.n = 0;
         vl.cap = 4;
         this->m_27 = (s8) *(f32 *)((s8 *)arg0 + 0x1C);
-        vl.pos[0] = TCineCtrl__data_805D91D0;
-        vl.pos[1] = TCineCtrl__data_805D91D0;
+        vl.pos[0] = 0.0f;
+        vl.pos[1] = 0.0f;
         vl.col[0] = *(u32 *)((s8 *)arg0 + 0x24);
-        vl.pos[2] = lbl_805D91D4;
-        vl.pos[3] = TCineCtrl__data_805D91D0;
+        vl.pos[2] = 640.0f;
+        vl.pos[3] = 0.0f;
         vl.col[1] = *(u32 *)((s8 *)arg0 + 0x24);
-        vl.pos[4] = lbl_805D91D4;
+        vl.pos[4] = 640.0f;
         vl.pos[5] = this->m_20;
         vl.col[2] = *(u32 *)((s8 *)arg0 + 0x24);
-        vl.pos[6] = TCineCtrl__data_805D91D0;
+        vl.pos[6] = 0.0f;
         vl.pos[7] = this->m_20;
         vl.col[3] = *(u32 *)((s8 *)arg0 + 0x24);
-        ((TObjCMHairMenu *)(&vl))->draw_tri_fan_2d(4U, 0x16, lbl_805D91D8);
-        vl.pos[0] = TCineCtrl__data_805D91D0;
-        vl.pos[1] = lbl_805D91DC - this->m_20;
+        ((TObjCMHairMenu *)(&vl))->draw_tri_fan_2d(4U, 0x16, -10.0f);
+        vl.pos[0] = 0.0f;
+        vl.pos[1] = 480.0f - this->m_20;
         vl.col[0] = *(u32 *)((s8 *)arg0 + 0x24);
-        vl.pos[2] = lbl_805D91D4;
-        vl.pos[3] = lbl_805D91DC - this->m_20;
+        vl.pos[2] = 640.0f;
+        vl.pos[3] = 480.0f - this->m_20;
         vl.col[1] = *(u32 *)((s8 *)arg0 + 0x24);
-        vl.pos[4] = lbl_805D91D4;
-        vl.pos[5] = lbl_805D91DC;
+        vl.pos[4] = 640.0f;
+        vl.pos[5] = 480.0f;
         vl.col[2] = *(u32 *)((s8 *)arg0 + 0x24);
-        vl.pos[6] = TCineCtrl__data_805D91D0;
-        vl.pos[7] = lbl_805D91DC;
+        vl.pos[6] = 0.0f;
+        vl.pos[7] = 480.0f;
         vl.col[3] = *(u32 *)((s8 *)arg0 + 0x24);
-        ((TObjCMHairMenu *)(&vl))->draw_tri_fan_2d(4U, 0x16, lbl_805D91D8);
+        ((TObjCMHairMenu *)(&vl))->draw_tri_fan_2d(4U, 0x16, -10.0f);
         TCameraCtrl__sub_80068EF0();
     }
 }
@@ -84,13 +78,13 @@ void TCineCtrl::render() {
 #pragma opt_common_subs off
 void TCineCtrl::update_letterbox_hide() {
     s32 (*temp_r12)(void *);
-    *(f32 *)((s8 *)((u8 *)this) + 0x1C) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x1C) - lbl_805D91E0);
-    this->m_20 = (f32) (this->m_20 - lbl_805D91E4);
-    if (*(f32 *)((s8 *)((u8 *)this) + 0x1C) <= TCineCtrl__data_805D91D0) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x1C) = (f32) TCineCtrl__data_805D91D0;
+    *(f32 *)((s8 *)((u8 *)this) + 0x1C) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x1C) - 8.0f);
+    this->m_20 = (f32) (this->m_20 - 2.0f);
+    if (*(f32 *)((s8 *)((u8 *)this) + 0x1C) <= 0.0f) {
+        *(f32 *)((s8 *)((u8 *)this) + 0x1C) = 0.0f;
     }
-    if (this->m_20 <= TCineCtrl__data_805D91D0) {
-        this->m_20 = (f32) TCineCtrl__data_805D91D0;
+    if (this->m_20 <= 0.0f) {
+        this->m_20 = 0.0f;
         temp_r12 = *(s32 (**)(void *))((s8 *)((u8 *)this) + 0x2C);
         if (temp_r12 != NULL) {
             temp_r12(this);
@@ -103,8 +97,8 @@ void TCineCtrl::update_letterbox_hide() {
 void TCineCtrl::reset_state(s32 arg0) {
     if ((void *) TCineCtrl__instance != NULL) {
         *(s32 *)((s8 *)TCineCtrl__instance + 0x2C) = arg0;
-        *(f32 *)((s8 *)TCineCtrl__instance + 0x1C) = (f32) lbl_805D91E8;
-        *(f32 *)((s8 *)TCineCtrl__instance + 0x20) = (f32) lbl_805D91EC;
+        *(f32 *)((s8 *)TCineCtrl__instance + 0x1C) = 255.0f;
+        *(f32 *)((s8 *)TCineCtrl__instance + 0x20) = 70.0f;
         *(s8 *)((s8 *)TCineCtrl__instance + 0x26) = 0;
         *(s8 *)((s8 *)TCineCtrl__instance + 0x25) = 0;
         *(s8 *)((s8 *)TCineCtrl__instance + 0x24) = 0;
@@ -116,13 +110,13 @@ void TCineCtrl::reset_state(s32 arg0) {
 #pragma opt_common_subs off
 void TCineCtrl::update_letterbox_show() {
     s32 (*temp_r12)(void *);
-    *(f32 *)((s8 *)((u8 *)this) + 0x1C) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x1C) + lbl_805D91E0);
-    this->m_20 = (f32) (this->m_20 + lbl_805D91E4);
-    if (*(f32 *)((s8 *)((u8 *)this) + 0x1C) >= lbl_805D91E8) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x1C) = (f32) lbl_805D91E8;
+    *(f32 *)((s8 *)((u8 *)this) + 0x1C) += 8.0f;
+    this->m_20 += 2.0f;
+    if (*(f32 *)((s8 *)((u8 *)this) + 0x1C) >= 255.0f) {
+        *(f32 *)((s8 *)((u8 *)this) + 0x1C) = 255.0f;
     }
-    if (this->m_20 >= lbl_805D91EC) {
-        this->m_20 = (f32) lbl_805D91EC;
+    if (this->m_20 >= 70.0f) {
+        this->m_20 = 70.0f;
         temp_r12 = *(s32 (**)(void *))((s8 *)((u8 *)this) + 0x2C);
         if (temp_r12 != NULL) {
             temp_r12(this);
@@ -135,8 +129,8 @@ void TCineCtrl::update_letterbox_show() {
 void TCineCtrl::reset(s32 arg0) {
     if ((void *) TCineCtrl__instance != NULL) {
         *(s32 *)((s8 *)TCineCtrl__instance + 0x2C) = arg0;
-        *(f32 *)((s8 *)TCineCtrl__instance + 0x1C) = (f32) TCineCtrl__data_805D91D0;
-        *(f32 *)((s8 *)TCineCtrl__instance + 0x20) = (f32) TCineCtrl__data_805D91D0;
+        *(f32 *)((s8 *)TCineCtrl__instance + 0x1C) = 0.0f;
+        *(f32 *)((s8 *)TCineCtrl__instance + 0x20) = 0.0f;
         *(s8 *)((s8 *)TCineCtrl__instance + 0x26) = 0;
         *(s8 *)((s8 *)TCineCtrl__instance + 0x25) = 0;
         *(s8 *)((s8 *)TCineCtrl__instance + 0x24) = 0;
@@ -145,7 +139,7 @@ void TCineCtrl::reset(s32 arg0) {
 }
 
 extern void *tl_fade;
-extern void *TCineCtrl__class_name;
+const char *TCineCtrl__class_name = "TCineCtrl";
 
 typedef char RecoveredGlobal_80077FA0___vt__9TCineCtrl_size[sizeof(RecoveredGlobal_80077FA0___vt__9TCineCtrl) == 0x18 ? 1 : -1];
 
@@ -177,9 +171,9 @@ u8 *__dt__9TCineCtrlFv(u8 *arg0, s16 arg1) {
 
 }
 TCineCtrl::TCineCtrl() : TObject((TObject *)tl_fade) {
-    *(void * *)&this->m_name = TCineCtrl__class_name;
-    *(f32 *)((s8 *)this + 0x1C) = TCineCtrl__data_805D91D0;
-    this->m_20 = TCineCtrl__data_805D91D0;
+    this->m_name = TCineCtrl__class_name;
+    *(f32 *)((s8 *)this + 0x1C) = 0.0f;
+    this->m_20 = 0.0f;
     *(u32 *)((s8 *)this + 0x24) = 0;
     *(u32 *)((s8 *)this + 0x28) = 0;
     TCineCtrl__instance = this;

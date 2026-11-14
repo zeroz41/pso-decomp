@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/weapon/TItemAttackCol_802E4798.h"
 #include "pso/object/base/TObjMotion.h"
@@ -8,6 +9,9 @@
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include <string.h>
+#include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/technique/TTecCtrl.h"
 
 struct Hit_802E4798 { u8 *obj; s32 idx; };
 
@@ -15,11 +19,8 @@ struct Rec_802E4798 { u8 pad[0x18]; s32 flags; u8 pad2[0x2C - 0x1C]; };
 
 extern "C" {
 s32 obj_is_hit_receivable(void *);
-s32 obj_testFlags30__14TObjCollidableFUl(void *, u32);
 u16 get_entity_id(void *);
-s32 is_technique_ready__8TTecCtrlFv();
 s32 get_type__10TObjPlayerFPv(void *);
-void queue_destruction__7TObjectFv(void *arg0);
 void TObjPlayer__sub_801542F4(s32 a);
 void TObjPlayer__sub_8015431C(u8 *arg0);
 void reset_global_table(void);
@@ -40,11 +41,11 @@ s32 TUnk_804E355C::try_add_hit_target(void *arg1_arg) {
         return 0;
     }
     ok = 1;
-    if (is_technique_ready__8TTecCtrlFv() == 0 && obj_testFlags30__14TObjCollidableFUl(arg1->obj, 0x60000000) == 0x20000000
+    if (TTecCtrl::is_technique_ready() == 0 && ((TObjCollidable *)arg1->obj)->obj_testFlags30(0x60000000) == 0x20000000
         && *(s16 *)((s8 *)arg0 + 0xAA) != ((TObjBase *)(arg1->obj))->get_room()) {
         ok = 0;
     }
-    if (obj_testFlags30__14TObjCollidableFUl(arg1->obj, 0x04000000) != 0
+    if (((TObjCollidable *)arg1->obj)->obj_testFlags30(0x04000000) != 0
         || ((flags = (*(Rec_802E4798 **)((s8 *)arg1->obj + 0xA4))[arg1->idx].flags) & 0x02000000)
         || (flags & 0x1000) || (flags & 0x80)) {
         ok = 0;
@@ -87,7 +88,7 @@ void TUnk_804E355C::check_hits() {
             ((TUnk_804E355C *)arg0)->vfunc_6((s32 *)((s32)e));
             ((TUnk_804E355C *)arg0)->hits_left -= 1;
             if (((TUnk_804E355C *)arg0)->hits_left == 0) {
-                queue_destruction__7TObjectFv(arg0);
+                ((TObject *)arg0)->queue_destruction();
                 reset_global_table();
                 return;
             }

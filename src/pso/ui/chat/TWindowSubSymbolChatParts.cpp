@@ -12,6 +12,34 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
+#include "pso/ui/chat/TWindowSubSymbolChat.h"
+#include "pso/unk/WindowLayoutRecord.h"
+
+#pragma push
+#pragma readonly_strings on
+const char *TWindowSubSymbolChatParts__name = "TWindowSubSymbolChatParts";
+#pragma pop
+
+extern s32 lbl_805D63F0;
+
+// inferred: symbol_chat_parts_layout_entries, the layout table symbol_chat_parts_window_layout
+// points at (three sprite parts).
+struct SymbolChatPartsWindowLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec[3];
+};
+SymbolChatPartsWindowLayout symbol_chat_parts_layout_entries = {
+    3, 1,
+    {
+        {6, {89.0f, 14.0f}, {50.0f, 40.0f}, 178.0f, 168.0f, 0.4f, -1, &lbl_805D63F0, 0xA, 4},
+        {6, {14.0f, 14.0f}, {32.0f, 32.0f}, 0.0f, 192.0f, 0.5f, -1, &lbl_805D63F0, 0xA, 4},
+        {6, {94.0f, 14.0f}, {32.0f, 32.0f}, 128.0f, 208.0f, 0.6f, -1, &lbl_805D63F0, 0xA, 4},
+    },
+};
+WindowDescriptor symbol_chat_parts_window_layout = {
+    {178.0f, 188.0f}, 50050.0f, &symbol_chat_parts_layout_entries, 0xC3,
+};
 struct Stack_80285274 {
     f32 sp8;
     f32 spC;
@@ -151,9 +179,7 @@ Parts_80285D38 * TWindowSubSymbolChatParts__ct(Parts_80285D38 *arg0, void *arg1,
 s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
 
 extern s32 __vt__25TWindowSubSymbolChatParts[];
-extern u8 symbol_chat_parts_window_layout[];
 extern RecoveredGlobal_80285054_lbl_8050E208 controller_input_state;
-extern s32 TWindowSubSymbolChatParts__name;
 
 #pragma push
 #pragma fp_contract on
@@ -328,7 +354,7 @@ void fn_80285314(Win_802857C4 *self, Rect_802857C4 *ctx) {
 
     col = 0;
     row = 0;
-    chat = (Chat_80285314 *)((u8 *)get_instance__20TWindowSubSymbolChatFv() + 0x1C);
+    chat = (Chat_80285314 *)((u8 *)TWindowSubSymbolChat::get_instance() + 0x1C);
     e1 = (Part_80285314 *)((TWindowBase *)self)->get_array_entry(1);
     e2 = (Part_80285314 *)((TWindowBase *)self)->get_array_entry(2);
     e0 = (Part_80285314 *)((TWindowBase *)self)->get_array_entry(0);
@@ -378,7 +404,6 @@ void fn_80285314(Win_802857C4 *self, Rect_802857C4 *ctx) {
 #pragma push
 #pragma fp_contract on
 #pragma opt_propagation off
-__declspec(section ".sdata2") extern const f32 lbl_805DD808 = 8.0f;
 void fn_802855C4(Win_802857C4 *self, Rect_802857C4 *ctx) {
     f32 sc;
     f32 y;
@@ -398,7 +423,7 @@ void fn_802855C4(Win_802857C4 *self, Rect_802857C4 *ctx) {
     b = (f32 *)((TWindowBase *)self)->get_array_entry(2);
     c = (f32 *)((TWindowBase *)self)->get_array_entry(0);
     i = 0;
-    lo = *(const f32 *)&lbl_805DD808;
+    lo = 8.0f;
     hi = 32.0f;
     sc = 40.0f;
     for (; i < self->count; row++) {
@@ -566,9 +591,9 @@ Parts_80285D38 *TWindowSubSymbolChatParts__ct(Parts_80285D38 *arg0, void *arg1, 
     Vec2_80285D38 v;
     void *p;
     void *q;
-    construct_with_parent__15TWindowAdditionFPv(arg0, symbol_chat_parts_window_layout, 4, arg1);
+    construct_with_parent__15TWindowAdditionFPv(arg0, &symbol_chat_parts_window_layout, 4, arg1);
     arg0->vt = __vt__25TWindowSubSymbolChatParts;
-    arg0->f0 = TWindowSubSymbolChatParts__name;
+    arg0->f0 = (s32)TWindowSubSymbolChatParts__name;
     arg0->f70 = 0;
     arg0->f72 = 0;
     arg0->f73 = 0;

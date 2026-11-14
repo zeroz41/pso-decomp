@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/galgryphon/TBoss5GryphonSnarl.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
@@ -10,6 +11,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -98,7 +100,7 @@ void TBoss5GryphonSnarl::run_task() {
         }
         frame++;
         if (frame > 30) {
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
         }
         break;
     }
@@ -108,11 +110,11 @@ void TBoss5GryphonSnarl::run_task() {
 TBoss5GryphonSnarl::~TBoss5GryphonSnarl() {
     for (s32 index = 31; index >= 0; --index) {
         if (children_a0[index] != NULL) {
-            queue_destruction__7TObjectFv(children_a0[index]);
+            children_a0[index]->queue_destruction();
             children_a0[index] = NULL;
         }
         if (children_20[index] != NULL) {
-            queue_destruction__7TObjectFv(children_20[index]);
+            children_20[index]->queue_destruction();
             children_20[index] = NULL;
         }
     }

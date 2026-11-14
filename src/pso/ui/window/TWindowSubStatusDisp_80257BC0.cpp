@@ -48,7 +48,6 @@ void step_gauge_bar_width(Gauge_802571B4 *g);
 void draw_status_gauge_bar__13TUnk_804CF930FPvPvff(Gauge_80256E0C *self, void *ctx, Pos_80256E0C *pos, f32 depth, f32 len);
 void *destroy__13TUnk_804CF930Fs(void *arg0, s16 arg1);
 
-#define draw_status_gauge_bar__13TUnk_804CF930FPvPvff ((s32 (*)(void *, void *, void *, f32, f32))draw_status_gauge_bar__13TUnk_804CF930FPvPvff)
 struct RecoveredGlobal_80257B4C_lbl_804CF948 {
     s32 value;
     u8 remaining[0x14];
@@ -101,8 +100,6 @@ typedef void *(*Ctor_80257D44)(void *, void *, s32);
 void mem_free(void *);
 s32 mem_alloc(s32);
 #define destroy__13TUnk_804CF930Fs ((s32 (*)(s32, s32 *))destroy__13TUnk_804CF930Fs)
-#define calc_bar_width__13TUnk_804CF930Fv ((s32 (*)())calc_bar_width__13TUnk_804CF930Fv)
-#define step_gauge_bar_width ((void (*)(void *))step_gauge_bar_width)
 void* init_from__13TUnk_804CF930FPvi(void* a0, void* a1, int a2);
 u8 * init_layout_entry_copy__20TWindowSubStatusDispFPUc(u8 *arg0, u8 *arg1);
 void draw_visible_window_entries(void *self, List_80257BC0 *list, void *ctx);
@@ -117,7 +114,6 @@ extern "C" {
 void * init_part_direct__20TWindowSubStatusDispFPUcl(void *, void *, s32);
 void * init_part_scaled__20TWindowSubStatusDispFPvPvi(void *, void *, s32);
 
-#define lbl_804CF930 (*(unsigned char (*)[1])&lbl_804CF930)
 extern s32 lbl_804CF998[];
 extern const float lbl_805DCE58;
 __declspec(section ".sdata2") f32 lbl_805DCEF0 = 7.5f;
@@ -316,11 +312,7 @@ void *TWindowSubStatusDisp::deleting_destructor(s16 arg1) {
 }
 }
 
-#undef draw_status_gauge_bar__13TUnk_804CF930FPvPvff
 #undef destroy__13TUnk_804CF930Fs
-#undef calc_bar_width__13TUnk_804CF930Fv
-#undef step_gauge_bar_width
-#undef lbl_804CF930
 
 
 
@@ -850,8 +842,6 @@ extern "C" {
 s32 get_item_group__5TItemFv(void *);
 s32 get_item_type__5TItemFv(void *);
 s32 TObjPlayer__sub_801C1AC8(void *);
-#define update_stat_line_if_positive__20TWindowSubStatusDispFPvi ((s32 (*)(void *, s32))update_stat_line_if_positive__20TWindowSubStatusDispFPvi)
-#define update_item_icon_colors__20TWindowSubStatusDispFPvPv ((s32 (*)(void *, void *))update_item_icon_colors__20TWindowSubStatusDispFPvPv)
 #define select_item_icon__20TWindowSubStatusDispFPviUcUci ((s32 (*)(void *, s32, s32, s32, s32))select_item_icon__20TWindowSubStatusDispFPviUcUci)
 void TWindowSubStatusDisp::set_inventory_item(void *arg1, s32 arg2, s32 arg3) {
     s32 temp_r29;
@@ -903,12 +893,9 @@ void TWindowSubStatusDisp::init_item_row(void *arg1, s32 arg2) {
     *(u16 *)((s8 *)this + 0) = (u16) (*(u16 *)((s8 *)this + 0) | 0x45);
 }
 
-#undef update_stat_line_if_positive__20TWindowSubStatusDispFPvi
-#undef update_item_icon_colors__20TWindowSubStatusDispFPvPv
 #undef select_item_icon__20TWindowSubStatusDispFPviUcUci
 
 #define is_wrapped__9TItemDataFPv ((int (*)(void*))is_wrapped__9TItemDataFPv)
-#define get_shared_text_buffer ((int (*)(void))get_shared_text_buffer)
 #define update_stat_line_if_positive__20TWindowSubStatusDispFPvi ((int (*)(void*, void*))update_stat_line_if_positive__20TWindowSubStatusDispFPvi)
 #define select_item_icon__20TWindowSubStatusDispFPviUcUci ((int (*)(void*, void*, void*, void*, void*))select_item_icon__20TWindowSubStatusDispFPviUcUci)
 #define replace_owned_string__20TWindowSubStatusDispFPviiii ((int (*)(void*, void*, void*, void*, void*))replace_owned_string__20TWindowSubStatusDispFPviiii)
@@ -938,7 +925,6 @@ void TWindowSubStatusDisp::set_item_info(void* a1, int a2, void* a3) {
 }
 
 #undef is_wrapped__9TItemDataFPv
-#undef get_shared_text_buffer
 #undef update_stat_line_if_positive__20TWindowSubStatusDispFPvi
 #undef select_item_icon__20TWindowSubStatusDispFPviUcUci
 #undef replace_owned_string__20TWindowSubStatusDispFPviiii
@@ -976,9 +962,6 @@ s32 measure_string_len__20TWindowSubStatusDispFv(s32);
 char *strncpy(char *, const char *, unsigned long);
 s32 replace_owned_string__20TWindowSubStatusDispFPviiii(void *arg0, s32 src, s32 buf, s32 mask, s32 copy);
 #define is_wrapped__9TItemDataFPv ((s32 (*)(void *))is_wrapped__9TItemDataFPv)
-#define select_item_icon__20TWindowSubStatusDispFPviUcUci ((s32 (*)(void *, s32, u8, u8, s32))select_item_icon__20TWindowSubStatusDispFPviUcUci)
-#define forward_message__6TLobbyFlUl ((s32 (*)(s32, void *))forward_message__6TLobbyFlUl)
-#define get_item_data__6TLobbyFUl ((s32 (*)(void *))get_item_data__6TLobbyFUl)
 
 void TWindowSubStatusDisp::set_ground_item(void *it, s32 arg2) {
     s32 temp_r31;
@@ -1178,9 +1161,6 @@ void TWindowSubStatusDisp::check_flag_4_noop() {
 }
 
 #undef is_wrapped__9TItemDataFPv
-#undef select_item_icon__20TWindowSubStatusDispFPviUcUci
-#undef forward_message__6TLobbyFlUl
-#undef get_item_data__6TLobbyFUl
 
 s32 deleting_destructor__20TWindowSubStatusDispFs(void *, s32);
 

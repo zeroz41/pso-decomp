@@ -1,6 +1,8 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/ambient/TObjCGrass.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/vector.h"
 
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -12,6 +14,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include <stdlib.h>
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TObject.h"
 
 struct Rec_800B8B08 { u8 vec[0x18]; s32 f18; u32 flags; };
 
@@ -49,7 +52,7 @@ struct Src_800B8EFC { u8 pad0[8]; s32 f8; s32 fC; };
 struct Mgr_800B8EFC { u8 pad0[0x42C]; Src_800B8EFC *src; s32 f430; };
 
 struct Grass_800B8EFC {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x18 - 0x4];
     void *vt;
     u8 pad1C[0x24 - 0x1C];
@@ -73,49 +76,41 @@ struct Grass_800B8EFC {
 extern "C" {
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
-void queue_destruction__7TObjectFv(void *arg0);
 u8 *csnVectorUnder(void *, void *, int);
 s32 vec3_add_to(void *, void *);
 extern s32 actor_frame_tick;
 s32 __ct__10TObjMotionFP7TObject(void *, s32);
 void *mem_alloc(u32 size);
 s32 rotate_vector_by_matrix(int, void *, void *);
-extern s32 cgrass_action_desc[];
 extern s32 __vt__10TObjCGrass[];
 extern u8 identity_matrix[];
-extern s32 lbl_805D2A28;
 u32 TObjCGrass_bml_resource;
 extern s32 tl_06;
 u8 *TObjCGrass__ct(Grass_800B8EFC *self, u8 *arg1, s32 arg2, s32 arg3);
 void free_bin_model_request(void*, int);
 void mem_free(void *);
 
-struct Stack_800B8DC4 {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-    s32 sp14;
+u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
+u8 *load_enemy_bml_resource_named(BmlResourceDescriptor *, const char *);
+
+// The motion-binding block TLobby::spawn_npc_enemy takes (same layout as DelDepthAnimationBinding).
+struct CGrassAnimBinding {
+    s32 motions;
+    TObjMotionAction *actions;
+    u32 unknown_08;
+    u16 actionCount;
+    u16 unknown_0E;
 };
-u8 *load_resource_from_descriptor(void *, s32, s32 *, s32, s32, s32);
-u8 *load_enemy_bml_resource_named(s32 *, s32 *);
-struct RecoveredGlobal_800B8DC4_lbl_8043B628 {
-    s32 value;
-    u8 remaining[0xC];
+
+const char *bm_ene_cgrass_model_names[2] = {"re1c_b_cgrass_base.nj", NULL};
+const char *bm_ene_cgrass_motion_names[2] = {"re1c_b_cgrass_base.njm", NULL};
+BmlResourceDescriptor bm_ene_cgrass_resource_descriptor = {
+    "bm_ene_cgrass.bml", bm_ene_cgrass_model_names, bm_ene_cgrass_motion_names, 1, 1,
 };
-typedef char RecoveredGlobal_800B8DC4_lbl_8043B628_size[sizeof(RecoveredGlobal_800B8DC4_lbl_8043B628) == 0x10 ? 1 : -1];
-extern RecoveredGlobal_800B8DC4_lbl_8043B628 cgrass_anim_binding;
-struct RecoveredGlobal_800B8DC4_lbl_8043B638 {
-    s32 value;
-    u8 remaining[0x10];
-};
-typedef char RecoveredGlobal_800B8DC4_lbl_8043B638_size[sizeof(RecoveredGlobal_800B8DC4_lbl_8043B638) == 0x14 ? 1 : -1];
-extern RecoveredGlobal_800B8DC4_lbl_8043B638 lbl_8043B638;
-struct RecoveredGlobal_800B8DC4_lbl_80492500 {
-    s32 value;
-    u8 remaining[0xC];
-};
-typedef char RecoveredGlobal_800B8DC4_lbl_80492500_size[sizeof(RecoveredGlobal_800B8DC4_lbl_80492500) == 0x10 ? 1 : -1];
-extern RecoveredGlobal_800B8DC4_lbl_80492500 bm_ene_cgrass_resource_descriptor;
+TObjMotionAction cgrass_action_desc[1] = {{1, 0, 0, 4.0f, 1}};
+// inferred: the class name pointer TObjCGrass__ct stores in the object's name field
+const char *TObjCGrass__name = "TObjCGrass";
+const CGrassAnimBinding cgrass_anim_binding = {0, cgrass_action_desc, 0, 1, 0};
 
 void* fn_800B8B00(void* p) { return (char*)p + 0x3e8; }
 
@@ -176,7 +171,7 @@ void TObjCGrass::run_task() {
         VecCopy((Vec *)&self->recs[i].v2, (const Vec *)&b);
     }
     if (self->f108-- < 0) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
     }
 }
 
@@ -188,29 +183,25 @@ void TObjCGrass::release_global_805D5130() {
 }
 
 void TObjCGrass::load_resources() {
-    Stack_800B8DC4 stack;
 
     u8 *temp_r3;
     u8 *temp_r5;
     u8 *var_r0;
 
     if (TObjEneDD::check_v2_mode() != 0) {
-        TObjCGrass_bml_resource = (u32) load_enemy_bml_resource_named(&bm_ene_cgrass_resource_descriptor.value, &lbl_8043B638.value);
+        TObjCGrass_bml_resource = (u32) load_enemy_bml_resource_named(&bm_ene_cgrass_resource_descriptor, "bm_ene_cgrass_a.bml");
     } else {
         temp_r3 = (u8 *)((int)::operator new(0x440));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
-            var_r0 = (u8 *)(load_resource_from_descriptor(temp_r3, 1, &bm_ene_cgrass_resource_descriptor.value, 0, 0, 0));
+            var_r0 = (u8 *)(load_resource_from_descriptor(temp_r3, 1, &bm_ene_cgrass_resource_descriptor, 0, 0, 0));
         }
         TObjCGrass_bml_resource = (u32) var_r0;
     }
-    stack.sp8 = *(s32 *)((s8 *)&cgrass_anim_binding.value + 0);
-    stack.spC = *(s32 *)((s8 *)&cgrass_anim_binding.value + 4);
-    stack.sp10 = *(s32 *)((s8 *)&cgrass_anim_binding.value + 8);
-    stack.sp14 = *(s32 *)((s8 *)&cgrass_anim_binding.value + 0xC);
-    stack.sp8 = *(s32 *)((s8 *)TObjCGrass_bml_resource + 0x430);
+    CGrassAnimBinding binding = cgrass_anim_binding;
+    binding.motions = *(s32 *)((s8 *)TObjCGrass_bml_resource + 0x430);
     temp_r5 = (u8 *)(*(u8 **)((s8 *)TObjCGrass_bml_resource + 0x42C));
-    TLobby::spawn_npc_enemy((s16)(0x36), (s32)((int) (*(s32 *)((s8 *)temp_r5 + 8))), (NJS_TEXLIST *)((int) (*(s32 *)((s8 *)temp_r5 + 0xC))), &stack.sp8, 2.0f, 0.0f);
+    TLobby::spawn_npc_enemy((s16)(0x36), (s32)((int) (*(s32 *)((s8 *)temp_r5 + 8))), (NJS_TEXLIST *)((int) (*(s32 *)((s8 *)temp_r5 + 0xC))), &binding, 2.0f, 0.0f);
 }
 
 }
@@ -225,7 +216,7 @@ u8 *TObjCGrass__ct(Grass_800B8EFC *self, u8 *arg1, s32 arg2, s32 arg3) {
     __ct__10TObjMotionFP7TObject(self, tl_06);
     self->vt = __vt__10TObjCGrass;
     ((TObjPlayer *)(self->f10C))->register_object();
-    self->f0 = lbl_805D2A28;
+    self->f0 = TObjCGrass__name;
     hit = csnVectorUnder(arg1, self->f10C, 1);
     if (hit != NULL) {
         VecCopy((Vec *)&self->f38, (const Vec *)(*(void **)(hit + 4)));

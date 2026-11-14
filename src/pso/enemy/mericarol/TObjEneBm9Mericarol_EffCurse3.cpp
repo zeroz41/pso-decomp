@@ -7,6 +7,8 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjMotion.h"
 
 extern "C" TCameraCtrl *camera_ctrl_instance;
 

@@ -19,6 +19,7 @@ public:
 
 extern "C" {
 void TEndingAB__sub_8008CCC0(TEndingAB *self);
+u8 *__ct__9TEndingABFv(u8 *ending_ab, u8 *arg1);
 }
 
 #endif

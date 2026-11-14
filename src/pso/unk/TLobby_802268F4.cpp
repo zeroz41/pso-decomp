@@ -252,7 +252,7 @@ void TLobby::release_bgm_resource() {
 }
 
 extern void *lbl_80514C60[];
-extern const char *lbl_804CB85C[];
+extern const char *bgm_stream_files[];
 int get_music_base_gain(void);
 
 void TLoadCtrl__sub_80226DA0(s32 index) {
@@ -263,7 +263,7 @@ void TLoadCtrl__sub_80226DA0(s32 index) {
         void *buf;
         TLoadCtrl::step();
         /* the original marks the stream busy while evaluating the call's arguments */
-        ((void (*)(const char *, void *))TLobby::set_stream_state)(lbl_804CB85C[index],
+        ((void (*)(const char *, void *))TLobby::set_stream_state)(bgm_stream_files[index],
                                                                     (lbl_805D6330 = 1, buf = lbl_80514C60[0]));
         ((TLobby *)lbl_804CB850[1])->adxt_start_mem_idx((u8 *)buf, 0);
         set_field_40_and_notify__6TLobbyFs(lbl_804CB850[1], get_music_base_gain());
@@ -288,14 +288,14 @@ void TLobby__sub_803C5D24(u8 *arg0);
 char *strncpy(char *dst, const char *src, u32 n);
 }
 extern s16 lbl_805D371C;
-extern Program_80226FA0 *lbl_804CBE74[];
+extern Program_80226FA0 *music_programs[];
 
 void init_music_sequencer(s32 program) {
     unlock_sequencer_flag(program);
     lbl_805D371C = 0;
     TLobby::release_bgm_resource();
     lbl_805D6300 = program;
-    lbl_805D6304 = lbl_804CBE74[program];
+    lbl_805D6304 = music_programs[program];
     lbl_805D6310 = 0;
     TLobby::stop_audio_streams();
     lbl_805D62E0 = 1;
@@ -478,6 +478,176 @@ extern s32 lbl_805D62FC;
 }
 extern RecoveredGlobal_8000F7FC_lbl_80515F48 TLobby__sub_80227A6C;
 s32 lbl_804CB850[3] = { 0, 0, 0 };
+
+// inferred: the four .acx streams TLoadCtrl__sub_80226DA0 starts by index.
+const char *bgm_stream_files[] = {"bass.acx", "map1.acx", "map2.acx", "quest.acx", NULL};
+
+// Area music: each program names its .afs archive and two passage lists (modes[0]/[1]).
+static Passage_80226FA0 forest_mode0_passages[6] = {
+    {0, 24, 4, 25, 1},
+    {4, 4, 4, 26, 2},
+    {8, 8, 4, 27, 3},
+    {12, 12, 4, 28, 4},
+    {16, 16, 4, 29, 5},
+    {20, 20, 4, 30, 0},
+};
+static Passage_80226FA0 forest_mode1_passages[6] = {
+    {31, 55, 4, 56, 1},
+    {35, 35, 4, 57, 2},
+    {39, 39, 4, 58, 3},
+    {43, 43, 4, 59, 4},
+    {47, 47, 4, 60, 5},
+    {51, 51, 4, 61, 0},
+};
+static Program_80226FA0 forest_music = {"slbgm_forest.afs", 6, 146, 242, {forest_mode0_passages, forest_mode1_passages}};
+
+static Passage_80226FA0 ancient_mode0_passages[6] = {
+    {0, 0, 4, 24, 1},
+    {4, 23, 4, 25, 2},
+    {8, 8, 2, 26, 3},
+    {10, 10, 4, 27, 4},
+    {14, 14, 5, 28, 5},
+    {19, 19, 4, 29, 1},
+};
+static Passage_80226FA0 ancient_mode1_passages[6] = {
+    {30, 49, 4, 50, 2},
+    {30, 49, 4, 50, 2},
+    {34, 34, 2, 51, 3},
+    {36, 36, 4, 52, 4},
+    {40, 40, 5, 53, 5},
+    {45, 45, 4, 54, 1},
+};
+static Program_80226FA0 ancient_music = {"slbgm_ancient.afs", 6, 184, 298, {ancient_mode0_passages, ancient_mode1_passages}};
+
+static Passage_80226FA0 dark_mode0_passages[2] = {
+    {0, 0, 2, -1, 1},
+    {2, 12, 10, -1, 1},
+};
+static Passage_80226FA0 dark_mode1_passages[2] = {
+    {13, 21, 8, -1, 0},
+    {13, 21, 8, -1, 0},
+};
+static Program_80226FA0 dark_music = {"slbgm_dark.afs", 2, 321, 268, {dark_mode0_passages, dark_mode1_passages}};
+
+static Passage_80226FA0 cave_mode0_passages[6] = {
+    {0, 24, 4, 25, 1},
+    {4, 4, 4, 26, 2},
+    {8, 8, 4, 27, 3},
+    {12, 12, 4, 28, 4},
+    {16, 16, 4, 29, 5},
+    {20, 20, 4, 30, 0},
+};
+static Passage_80226FA0 cave_mode1_passages[6] = {
+    {31, 55, 4, 56, 1},
+    {35, 35, 4, 57, 2},
+    {39, 39, 4, 58, 3},
+    {43, 43, 4, 59, 4},
+    {47, 47, 4, 60, 5},
+    {51, 51, 4, 61, 0},
+};
+static Program_80226FA0 cave_music = {"slbgm_cave.afs", 6, 157, 260, {cave_mode0_passages, cave_mode1_passages}};
+
+static Passage_80226FA0 machine_mode0_passages[5] = {
+    {0, 20, 4, 21, 1},
+    {4, 4, 4, 22, 2},
+    {8, 8, 4, 23, 3},
+    {12, 12, 4, 24, 4},
+    {16, 16, 4, 25, 0},
+};
+static Passage_80226FA0 machine_mode1_passages[5] = {
+    {26, 46, 4, 47, 1},
+    {30, 30, 4, 48, 2},
+    {34, 34, 4, 49, 3},
+    {38, 38, 4, 50, 4},
+    {42, 42, 4, 51, 0},
+};
+static Program_80226FA0 machine_music = {"slbgm_machine.afs", 5, 121, 206, {machine_mode0_passages, machine_mode1_passages}};
+
+static Passage_80226FA0 jungle_mode0_passages[7] = {
+    {7, 35, 4, 0, 1},
+    {11, 11, 4, 1, 2},
+    {15, 15, 4, 2, 3},
+    {19, 19, 4, 3, 4},
+    {23, 23, 4, 4, 5},
+    {27, 27, 4, 5, 6},
+    {31, 31, 4, 6, 0},
+};
+static Passage_80226FA0 jungle_mode1_passages[7] = {
+    {36, 64, 4, 65, 1},
+    {40, 40, 4, 66, 2},
+    {44, 44, 4, 67, 3},
+    {48, 48, 4, 68, 4},
+    {52, 52, 4, 69, 5},
+    {56, 56, 4, 70, 6},
+    {60, 60, 4, 71, 0},
+};
+static Program_80226FA0 jungle_music = {"slbgm_jungle.afs", 7, 156, 206, {jungle_mode0_passages, jungle_mode1_passages}};
+
+static Passage_80226FA0 seabed_mode0_passages[6] = {
+    {0, 0, 4, 27, 1},
+    {4, 26, 4, 28, 2},
+    {8, 8, 4, 29, 3},
+    {12, 12, 4, 30, 4},
+    {16, 16, 4, 31, 5},
+    {20, 20, 6, 32, 1},
+};
+static Passage_80226FA0 seabed_mode1_passages[6] = {
+    {33, 33, 4, 60, 1},
+    {37, 59, 4, 61, 2},
+    {41, 41, 4, 62, 3},
+    {45, 45, 4, 63, 4},
+    {49, 49, 4, 64, 5},
+    {53, 53, 6, 65, 1},
+};
+static Program_80226FA0 seabed_music = {"slbgm_seabed.afs", 6, 171, 206, {seabed_mode0_passages, seabed_mode1_passages}};
+
+static Passage_80226FA0 space_mode0_passages[8] = {
+    {0, 0, 4, 29, 1},
+    {4, 28, 4, 30, 2},
+    {8, 8, 2, 31, 3},
+    {10, 10, 4, 32, 4},
+    {14, 14, 2, 33, 5},
+    {16, 16, 4, 34, 6},
+    {20, 20, 4, 35, 7},
+    {24, 24, 4, 36, 1},
+};
+static Passage_80226FA0 space_mode1_passages[8] = {
+    {41, 65, 4, 66, 1},
+    {41, 65, 4, 66, 2},
+    {45, 45, 2, 67, 3},
+    {47, 47, 4, 68, 4},
+    {51, 51, 2, 69, 5},
+    {53, 53, 4, 70, 6},
+    {57, 57, 4, 71, 7},
+    {61, 61, 4, 72, 1},
+};
+static Program_80226FA0 space_music = {"slbgm_space.afs", 8, 192, 206, {space_mode0_passages, space_mode1_passages}};
+
+static Passage_80226FA0 ruin_mode0_passages[7] = {
+    {0, 22, 2, 23, 1},
+    {2, 2, 4, 24, 2},
+    {6, 6, 2, 25, 3},
+    {8, 8, 4, 26, 4},
+    {12, 12, 2, 27, 5},
+    {14, 14, 4, 28, 6},
+    {18, 18, 4, 29, 0},
+};
+static Passage_80226FA0 ruin_mode1_passages[7] = {
+    {30, 52, 2, 53, 1},
+    {32, 32, 4, 54, 2},
+    {36, 36, 2, 55, 3},
+    {38, 38, 4, 56, 4},
+    {42, 42, 2, 57, 5},
+    {44, 44, 4, 58, 6},
+    {48, 48, 4, 59, 0},
+};
+static Program_80226FA0 ruin_music = {"slbgm_ruin.afs", 7, 171, 206, {ruin_mode0_passages, ruin_mode1_passages}};
+
+// inferred: the area music programs init_music_sequencer selects by index.
+Program_80226FA0 *music_programs[] = {
+    &forest_music, &cave_music, &machine_music, &ancient_music, &dark_music,
+    &jungle_music, &seabed_music, &ruin_music, &space_music,
+};
 extern f32 music_fade_volumes[];
 extern s32 music_fade_frames_remaining;
 extern const f32 lbl_805DC764;

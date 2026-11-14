@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-s32 TLobby__sub_80140C7C(void);
+s32 init_spaceship_area(void);
 }
 s32 init_cave_b_stage(void);
 s32 init_forest_b(void);

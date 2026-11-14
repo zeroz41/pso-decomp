@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
@@ -10,14 +11,22 @@
 #include <stdlib.h>
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
+
+const char *bm_obj_boss8_piller_model_names[5] = {
+    "fe_obj_gol_hasira5m.nj", "fe_obj_gol_hasira1m.nj", "fe_obj_gol_hasira5m_m.nj", "fe_obj_gol_hasira1m_m.nj", NULL,
+};
+const char *bm_obj_boss8_piller_motion_names[3] = { "fe_obj_gol_hasira5m.njm", "fe_obj_gol_hasira1m.njm", NULL };
+BmlResourceDescriptor bm_obj_boss8_piller_resource_descriptor = {
+    "bm_obj_boss8_piller.bml", bm_obj_boss8_piller_model_names, bm_obj_boss8_piller_motion_names, 4, 2,
+};
+const char *TObjBoss8Piller__class_name = "TObjBoss8Piller";
 
 extern "C" {
 
-extern u32 TObjBoss8Piller__shared_resource;
+u32 TObjBoss8Piller__shared_resource;
 u8 *get_enemy_entity(u16 arg0);
 s32 TBoss8Dragon__sub_802FB1B0(int, f32, void *);
-extern const f32 lbl_805DF150;
-extern const f32 lbl_805DF154;
 s32 post_translate_matrix(void *);
 s32 scale_matrix(int, f32, f32, f32);
 s32 draw_model_motion(int, int, f32);
@@ -37,7 +46,7 @@ void TObjBoss8Piller::render() {
         TObjFish::set_global_param((s32)((void *) (*(s32 *)((s8 *)(*(void **)((s8 *)TObjBoss8Piller__shared_resource + 0x42C)) + 0xC))));
         push_matrix();
         post_translate_matrix(arg0 + 0x1C);
-        scale_matrix(0, lbl_805DF150, lbl_805DF150, lbl_805DF150);
+        scale_matrix(0, 1.0f, 1.0f, 1.0f);
         draw_model_motion(var_r31, (int) (*(s32 *)((s8 *)arg0 + 0x2C)), (f32) (*(f32 *)((s8 *)arg0 + 0x28)));
         pop_matrix();
         set_default_alpha_blend();
@@ -47,15 +56,15 @@ void TObjBoss8Piller::run_task() {
     u8 *arg0 = (u8 *)this;
     u32 enemy_entity;
     u32 temp_r3_2;
-    *(f32 *)((s8 *)arg0 + 0x28) = (f32) (*(f32 *)((s8 *)arg0 + 0x28) + lbl_805DF150);
+    *(f32 *)((s8 *)arg0 + 0x28) += 1.0f;
     enemy_entity = (u32)get_enemy_entity((*(u16 *)((s8 *)arg0 + 0x30)));
     if (enemy_entity != 0U) {
-        TBoss8Dragon__sub_802FB1B0(enemy_entity, lbl_805DF154, arg0 + 0x1C);
+        TBoss8Dragon__sub_802FB1B0(enemy_entity, 25.0f, arg0 + 0x1C);
     }
     temp_r3_2 = *(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x2C)) + 4) - 1;
     if (*(f32 *)((s8 *)arg0 + 0x28) >= (f32) temp_r3_2) {
         *(f32 *)((s8 *)arg0 + 0x28) = (f32) temp_r3_2;
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 
@@ -71,18 +80,15 @@ struct RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller {
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern BmlResourceDescriptor bm_obj_boss8_piller_resource_descriptor;
-extern u32 TObjBoss8Piller__shared_resource;
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller __vt__15TObjBoss8Piller;
-extern s32 TObjBoss8Piller__class_name;
 void free_bin_model_request(void*, int);
 
 typedef char RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller_size[sizeof(RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller) == 0x18 ? 1 : -1];
 u8 *__ct__15TObjBoss8PillerFv(u8 *object, u8 *arg1, u8 *arg2, s16 arg3) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__15TObjBoss8Piller.value;
-    *(s32 *)((s8 *)object + 0) = (s32) TObjBoss8Piller__class_name;
+    *(const char **)((s8 *)object + 0) = TObjBoss8Piller__class_name;
     VecCopy((Vec *)(object + 0x1C), (const Vec *)arg2);
     *(f32 *)((s8 *)object + 0x20) = 0.0f;
     *(f32 *)((s8 *)object + 0x28) = 0.0f;
@@ -109,14 +115,4 @@ void TObjBoss8Piller::load_resource_descriptor() {
     (*(s32 *)&TObjBoss8Piller__shared_resource) = var_r0;
 }
 
-extern char lbl_80475658[];
-extern char lbl_80475670[];
-extern char lbl_80475688[];
-extern char lbl_804756A4[];
-extern char lbl_804756C0[];
-extern char lbl_804756D8[];
-extern char lbl_804756F0[];
-__declspec(section ".data") const char *bm_obj_boss8_piller_model_names[5] = { lbl_80475658, lbl_80475670, lbl_80475688, lbl_804756A4, NULL };
-__declspec(section ".data") const char *bm_obj_boss8_piller_motion_names[3] = { lbl_804756C0, lbl_804756D8, NULL };
-BmlResourceDescriptor bm_obj_boss8_piller_resource_descriptor = { lbl_804756F0, bm_obj_boss8_piller_model_names, bm_obj_boss8_piller_motion_names, 4, 2 };
 }

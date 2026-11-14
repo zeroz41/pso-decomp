@@ -308,9 +308,9 @@ s16 TLobby__sub_8041A9AC(TcpTcb *tp)
             if ((u32)win >= (u32)lim) {
                 goto send;
             }
-        }
-        if (win * 2 >= get_field_534(tp)) {
-            goto send;
+            if (win * 2 >= get_field_534(tp)) {
+                goto send;
+            }
         }
         if ((u32)get_score(tp) != 0 && tp->timers[0] == 0 && tp->timers[1] == 0) {
             tp->rxtshift = 0;
@@ -346,10 +346,10 @@ send:
             NetMemcpy(optp + 2, &tmp, 2);
             optlen = 4;
             if (tp->sack_flags & 1) {
-                optp[4] = 4;
-                optp[5] = 2;
-                optp[6] = 1;
-                optp[7] = 1;
+                opt[4] = 4;
+                opt[5] = 2;
+                opt[6] = 1;
+                opt[7] = 1;
                 optlen = 8;
             }
         }
@@ -376,7 +376,7 @@ send:
             opt[sackoff] = (u8)win;
         }
         while ((optlen % 4) != 0) {
-            opt[optlen] = 1;
+            optp[optlen] = 1;
             optlen++;
         }
         i = optlen;
@@ -985,12 +985,13 @@ retry:
             todrop--;
         }
         if (todrop > rem || (todrop == rem && !(kind & 1))) {
-            if (!(kind & 1) || todrop != rem + 1) {
+            if ((kind & 1) && todrop == rem + 1) {
+                todrop = rem;
+                kind &= ~1;
+                found->flags |= 1;
+            } else {
                 goto dropafterack;
             }
-            todrop = rem;
-            kind &= ~1;
-            found->flags |= 1;
         }
         total += todrop;
         hdr.seq += todrop;
@@ -1322,25 +1323,25 @@ step6:
             } else {
                 found->flags |= 1;
             }
-            goto L1397;
-        } else if ((s32)(hdr.seq - found->rcv_nxt) > 0) {
-            TLobby__sub_8041F914((NetPacket *)pkt, (u16)(s32)(len + total), found, ti);
+        } else {
+            if ((s32)(hdr.seq - found->rcv_nxt) > 0) {
+                TLobby__sub_8041F914((NetPacket *)pkt, (u16)(s32)(len + total), found, ti);
+            }
             kind &= ~1;
             found->flags |= 1;
-            goto L1397;
         }
+    } else {
+        kind &= ~1;
     }
-    kind &= ~1;
-L1397:
     if (!(kind & 1)) {
         goto L1469;
     }
     NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 2);
     if (!(found->flags & 0x08)) {
         TLobby__sub_8041F11C(found);
+        found->flags |= 1;
+        found->rcv_nxt += 1;
     }
-    found->flags |= 1;
-    found->rcv_nxt += 1;
     found->flags |= 8;
     switch (found->t_state) {
     case 3:

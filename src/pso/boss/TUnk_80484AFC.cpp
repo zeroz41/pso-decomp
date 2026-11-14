@@ -20,7 +20,7 @@
 #include "pso/unk/text_803E2D70.h"
 #include <stdlib.h>
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/object/lobby/TObjButterflyLobby_8007A5D8.h"
+#include "pso/map/CsnQuery.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/effect/particle/TParticleCtrl.h"

@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/TLobby.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/unk/TLobby_802268F4.h"
@@ -6,6 +8,21 @@
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/vector.h"
 #include "pso/object/trap/TOTrapAncient01.h"
+
+extern "C" {
+
+s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
+
+s8 sound_mode_value = 1;
+s32 last_sound_effect_slot = -1;
+
+void TObjPlayer::play_effect_if_v2(s32 arg0) {
+    if (TObjEneDD::check_v2_mode() != 0) {
+        update_technique_slot__10TTecRaFoieFl(last_sound_effect_slot, arg0, 0);
+    }
+}
+
+}
 
 struct Vec_8022675C { f32 x, y, z; };
 
@@ -58,7 +75,6 @@ extern s32 lbl_805D62B0;
 int release_sound_with_fade(void *p);
 void stop_sound_request(s32 idx);
 u32 OSGetSoundMode();
-extern s8 sound_mode_value;
 int TLobby__sub_80227D38(void);
 void TLobby__sub_8022644C(void);
 void set_menu_index_main__6TLobbyFPUc(void);
@@ -198,7 +214,6 @@ extern "C" {
 SndEnt_8022675C lbl_805145F0[40];
 u8 lbl_80514C30[0x20];
 f32 lbl_80514C50[4];
-extern s32 last_sound_effect_slot;
 s32 play_sound_effect(s32 id, Vec_8022675C *src, s32 a2, s32 flags);
 
 s32 TOTrapAncient01::check_trigger_flag(s32 arg0, s32 arg1) {

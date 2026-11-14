@@ -6,12 +6,31 @@
 #include "pso/ui/window/TWindowMeseta.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 #pragma readonly_strings on
 
 extern "C" {
 const char *TWindowMeseta__class_name = "TWindowMeseta";
 }
+
+// inferred: window_meseta_layout_entries, the layout table TWindowMeseta__window_descriptor points at
+// (a label and the meseta counter, then an all-zero record).
+struct MesetaWindowLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+    ValueLayoutRecord rec_1;
+    TextLayoutRecord rec_2;
+};
+MesetaWindowLayout window_meseta_layout_entries = {
+    2, 1,
+    {3, {10.0f, 4.0f}, 0.7f, 0xFFFFFFFF, 0x40, NULL},
+    {5, {152.0f, 4.0f}, 0.7f, 0xFFFFFFFF, 8, 0},
+};
+WindowDescriptor TWindowMeseta__window_descriptor = {
+    {226.0f, 27.0f}, 50100.0f, &window_meseta_layout_entries, 0x82B,
+};
 
 
 struct Sub_80269244 { u8 pad0[8]; f32 x8; };
@@ -34,7 +53,6 @@ struct Meseta_80269244 {
 
 extern "C" {
 s32 get_meseta_value__13TWindowMesetaFv();
-extern s32 TWindowMeseta__window_descriptor[];
 extern s32 __vt__13TWindowMeseta[];
 extern const char *TWindowMeseta__class_name;
 void *TWindowMeseta__ct(void *arg0, s32 arg1, s32 arg2, s32 arg3);
@@ -69,7 +87,7 @@ void *__dt__13TWindowMesetaFv(void *arg0, s16 arg1) {
 void *TWindowMeseta__ct(void *arg0, s32 arg1, s32 arg2, s32 str) {
     Sub_80269244 *a;
     Sub_80269244 *b;
-    ((TWindowDD *)arg0)->construct_base((u8 *)TWindowMeseta__window_descriptor, (s16)arg2, (u8 *)arg1);
+    ((TWindowDD *)arg0)->construct_base((u8 *)&TWindowMeseta__window_descriptor, (s16)arg2, (u8 *)arg1);
     self->vt = __vt__13TWindowMeseta;
     self->name = ((s32)TWindowMeseta__class_name);
     self->x64 = arg2;

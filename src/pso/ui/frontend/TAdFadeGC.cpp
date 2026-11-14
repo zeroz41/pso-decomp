@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/frontend/TAdFadeGC.h"
 
 #include "types.h"
@@ -5,6 +6,7 @@
 #include "pso/object/collision/TObjTradeCollision.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/ModelDrawContext.h"
+#include "pso/system/task/TObject.h"
 
 struct Desc_802C79C8 { f32 *pos; u32 *col; s32 a; s32 b; };
 
@@ -13,7 +15,6 @@ s32 get_main_phase(void);
 s32 get_current_floor(void);
 void *get_player_by_client_id(s32 i);
 f32 xz_distance_squared(void *, void *);
-void queue_destruction__7TObjectFv(void *arg0);
 s32 draw_color_lines(void *, int, int, f32);
 s32 draw_tri_fan_2d__14TObjCMHairMenuFllf(void *, int, int, f32, f32, f32);
 f32 lbl_805D6800;
@@ -103,7 +104,7 @@ void TAdFadeGC::run_task() {
             *(f32 *)((s8 *)this + 0x2C) = (f32) (*(f32 *)((s8 *)this + 0x2C) + *(f32 *)((s8 *)this + 0x34));
             if (*(f32 *)((s8 *)this + 0x2C) > 1.0f) {
                 *(f32 *)((s8 *)this + 0x2C) = 1.0f;
-                queue_destruction__7TObjectFv(this);
+                queue_destruction();
                 return;
             }
             *(s32 *)((s8 *)this + 0x30) = (s32) (((s32) ((255.0f) * (*(f32 *)((s8 *)this + 0x2C))) << 0x18) | 0xFF0000 | 0xFFFF);
@@ -114,7 +115,7 @@ void TAdFadeGC::run_task() {
             temp_f1_2 = *(f32 *)((s8 *)this + 0x2C);
             if (temp_f1_2 < 0.0f) {
                 *(f32 *)((s8 *)this + 0x2C) = 0.0f;
-                queue_destruction__7TObjectFv(this);
+                queue_destruction();
                 return;
             }
             *(s32 *)((s8 *)this + 0x30) = (s32) ((s32) ((255.0f) * temp_f1_2) << 0x18);

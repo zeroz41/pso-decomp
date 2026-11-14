@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/FloatRounding.h"
 #include "types.h"
 #include "pso/ui/charcreate/TChCrLoadAfs.h"
@@ -5,6 +6,9 @@
 #include "pso/unk/text_803CC294.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/system/task/TObject.h"
+#include "pso/ui/charcreate/TChCrLoadAfs.h"
+#include "pso/unk/TLobby.h"
 
 int TChCrLoadAfs::is_unloaded() { return *(u32*)((char*)this + 0x4a8) == 0; }
 
@@ -184,7 +188,7 @@ s32 find_player_texture_name_ordinal(u8 *object) {
             step = 1;
         }
     }
-    queue_destruction__7TObjectFv(object);
+    ((TObject *)object)->queue_destruction();
     return 0;
 }
 

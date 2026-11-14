@@ -29,6 +29,24 @@ extern "C" void apply_anti_technique__9TObjCharaFl();
 #include "pso/unk/TLobby.h"
 #include "pso/enemy/dubchik/TOCtrlDubchik.h"
 #include "pso/map/FloorArea.h"
+#include "pso/ui/TLogo.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC_8023F4E4.h"
+#include "pso/unk/text_8023F3F8.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/ui/keyboard/TKeyBoardControl_802A1180.h"
+#include "pso/unk/text_802A1154.h"
+#include "pso/unk/text_80290BEC.h"
+#include "pso/ui/frontend/TAdEndText.h"
+#include "pso/ui/frontend/TAdEndText_80307A34.h"
+#include "pso/system/scene/TEnding.h"
+#include "pso/unk/text_8008C4F4.h"
+#include "pso/unk/text_801A3014.h"
+#include "pso/unk/TLobby_801A3C48.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8033A8EC.h"
+#include "pso/ui/frontend/TAdTrialModemChkGC.h"
+#include "pso/item/TItemReverseTech.h"
 
 struct VBase_800172CC { u8 pad[0x18]; };
 
@@ -917,7 +935,7 @@ int bswap_16__FPUs(void*);
 s32 play_sound_effect(s32, s32, s32, s32);
 void __dl__7TObjectFPv(void *);
 u32 __nw__7TObjectFUl(s32);
-s32 construct_actor_light_task(f32, void *, void *, void *, s32, void *, s32);
+s32 construct_actor_light_task(f32, void *, const f32 *, const f32 *, s32, void *, s32);
 s32 rand();
 f64 atan2(f64 y, f64 x);
 s32 vec3_add_to(void *, void *);
@@ -935,18 +953,36 @@ s32 push_matrix();
 s32 pop_matrix();
 void post_translate_matrix(void *);
 
-extern s32 TObjPlayer__data_80434060[];
 extern const f64 TObjPlayer__data_804340B8;
 extern int TObjPlayer__data_8050D460[];
-extern s32 player_attack_stat_status_light_colors[];
-extern s32 player_defense_stat_status_light_colors[];
-extern s16 lbl_8043406C[];
-extern Vec_800115C4 lbl_80434074;
 extern const f64 lbl_80434098;
 extern const f64 lbl_804340A0;
 extern u8 lbl_804340A8[];
 extern s32 lbl_804340B0[];
-extern SceneEntry_8000FD54 main_phase_table[];
+SceneEntry_8000FD54 main_phase_table[] = {
+    { NULL, NULL, NULL },
+    { TLogo::init_logo_scene, TLogo::run_frame, TLogo__sub_8013F5AC },
+    { TAdMultiChgGameModeGC__sub_8023F62C, fn_8023F3F8, TLobby::release_scene_resources },
+    { TKeyBoardControl::update_menu_scene, update_movie_phase, fn_802A1154 },
+    { TAdMultiChgGameModeGC__sub_8023F4E4, fn_8023F3F8, TLobby::release_scene_resources },
+    { TKeyBoardControl::update_main_menu_scene, run_main_frame, fn_80290BEC },
+    { TAdMultiChgGameModeGC::render_game_mode_change, fn_8023F3F8, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC__sub_8023F5B4, fn_8023F3F8, TLobby::release_scene_resources },
+    { start_ending_sequence, TKeyBoardControl::run_main_frame, TAdEndText::cleanup },
+    { TAdMultiChgGameModeGC::render_scene, fn_8023F3F8, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC__sub_8023F564, fn_8023F3F8, TLobby::release_scene_resources },
+    { TAdMultiChgGameModeGC__sub_8023F58C, fn_8023F3F8, TLobby::release_scene_resources },
+    { TEnding::set_flag_and_advance, run_game_frame, fn_8008C4F4 },
+    { TAdMultiChgGameModeGC__sub_8023F50C, fn_8023F3F8, TLobby::release_scene_resources },
+    { init_offline_game_scene, dispatch_offline_main_frame, TLobby::teardown_scene },
+    { run_online_lobby_scene, TLobby::update_camera_state, cleanup_online_lobby_scene },
+    { TEnding::start_ending_scene, run_game_frame, fn_8008C4F4 },
+    { NULL, NULL, NULL },
+    { init_single_player_char_select_scene, TAdSinglePlyChrSelectGC::run_frame, TAdSinglePlyChrSelectGC__sub_8033B264 },
+    { TAdTrialModemChkGC__sub_803354E8, TAdTrialModemChkGC::check_modem_result, TAdTrialModemChkGC__sub_803354A4 },
+    { NULL, NULL, NULL },
+    { TItemReverseTech::init_scene, TItemReverseTech::run_frame, TItemReverseTech::run_cleanup_callbacks },
+};
 extern SceneState_8000FD54 main_phase_state;
 extern Vec_800182A0 scratch_vec;
 extern RecoveredGlobal_80010E44_lbl_8050EA40 lobby_rule_settings;
@@ -960,6 +996,13 @@ extern s32 tl_07;
 extern "C" {
 void obj_setField96_1(ObjFlags* p);
 }
+const f32 player_attack_stat_status_light_colors[4] = {1.0f, 0.9f, 0.5f, 0.2f};
+const f32 player_defense_stat_status_light_colors[4] = {1.0f, 0.4f, 0.8f, 1.0f};
+const f32 TObjPlayer__data_80434060[3] = {0.0f, 1.0f, 0.0f};
+// inferred: update_poison_status adds entry [game_difficulty_selection] to each poison tick's damage
+const s16 poison_damage_bonus_by_difficulty[4] = {0, 2, 5, 10};
+// inferred: the zero vector find_nearest_visible_player starts its player-distance vector from
+const Vec_800115C4 nearest_player_zero_vec = {0.0f, 0.0f, 0.0f};
 
 void main(void) {
     SceneFn_8000FD54 fn;
@@ -1159,9 +1202,9 @@ s32 calc_shock_chance(TObjPlayer *actor, TObjPlayer *arg1, TObjPlayer *arg2) {
 extern "C" {
 
 void TObjPlayer__sub_8001053C(u8 *arg0) {
-    *(f32 *)((s8 *)arg0 + 0x310) = (f32) (0.0f);
-    *(f32 *)((s8 *)arg0 + 0x30C) = (f32) (0.0f);
-    *(f32 *)((s8 *)arg0 + 0x308) = (f32) (0.0f);
+    *(f32 *)((s8 *)arg0 + 0x310) = 0.0f;
+    *(f32 *)((s8 *)arg0 + 0x30C) = 0.0f;
+    *(f32 *)((s8 *)arg0 + 0x308) = 0.0f;
 }
 
 void TObjPlayer::apply_velocity() {
@@ -1743,7 +1786,7 @@ u16 find_nearest_hittable_enemy__10TObjPlayerFiPvf(s32 arg0, Vec_800114D8 *arg1,
 u16 find_nearest_visible_player(u8 *arg0, Vec_800115C4 *arg1, f32 farg0) {
     f32 best = farg0 * farg0;
     u16 result = 0xFFFF;
-    Vec_800115C4 diff = lbl_80434074;
+    Vec_800115C4 diff = nearest_player_zero_vec;
     f32 dist;
     Player_800115C4 *player;
     s32 i;
@@ -1791,7 +1834,7 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0) {
         position.y = temp_f1;
         if (*(f32 *)((s8 *)enemy + 0x3C) <= temp_f1) {
             *(f32 *)((s8 *)enemy + 0x3C) = temp_f1;
-            *(f32 *)((s8 *)enemy + 0x30C) = (f32) (0.0f);
+            *(f32 *)((s8 *)enemy + 0x30C) = 0.0f;
             enemy->actorFlags = (s32) (enemy->actorFlags | 0x800000);
             return;
         }
@@ -3209,7 +3252,7 @@ void TObjChara::apply_defense_stat_status(void *receipt_arg) {
         if (((s32 (*)(TObjChara *, s32))obj_testFlags30__14TObjCollidableFUl)(this, 0x02000000) == 0) {
             u32 temp_obj = __nw__7TObjectFUl(0x64);
             if (temp_obj != 0U) {
-                ((s32 (*)(u32, s32 *, s32 *, s32, s32, f32, s32))construct_actor_light_task)(temp_obj, player_defense_stat_status_light_colors, TObjPlayer__data_80434060, 0x2D, (s32)this, (0.1f), tl_07);
+                ((s32 (*)(u32, const f32 *, const f32 *, s32, s32, f32, s32))construct_actor_light_task)(temp_obj, player_defense_stat_status_light_colors, TObjPlayer__data_80434060, 0x2D, (s32)this, (0.1f), tl_07);
             }
         }
     }
@@ -3252,7 +3295,7 @@ void TObjChara::apply_attack_stat_status(void *arg1_arg) {
         if (((s32 (*)(TObjPlayer*, s32))obj_testFlags30__14TObjCollidableFUl)(((TObjPlayer *)this), 0x02000000) == 0) {
             u32 temp_obj = __nw__7TObjectFUl(0x64);
             if (temp_obj != 0U) {
-                ((s32 (*)(u32, s32 *, s32 *, s32, TObjPlayer*, f32, s32))construct_actor_light_task)(temp_obj, player_attack_stat_status_light_colors, TObjPlayer__data_80434060, 0x2D, ((TObjPlayer *)this), (0.1f), tl_07);
+                ((s32 (*)(u32, const f32 *, const f32 *, s32, TObjPlayer*, f32, s32))construct_actor_light_task)(temp_obj, player_attack_stat_status_light_colors, TObjPlayer__data_80434060, 0x2D, ((TObjPlayer *)this), (0.1f), tl_07);
             }
         }
     }
@@ -3678,7 +3721,7 @@ s32 TObjChara::update_defense_stat_status() {
                 }
                 obj = ((void * (*)(u32))__nw__7TObjectFUl)(0x64);
                 if (obj != 0) {
-                    construct_actor_light_task((0.1f), obj, ((u8 *)&player_defense_stat_status_light_colors), ((u8 *)&TObjPlayer__data_80434060), 0x2D, ((u8 *)this), tl_07);
+                    construct_actor_light_task((0.1f), obj, player_defense_stat_status_light_colors, TObjPlayer__data_80434060, 0x2D, ((u8 *)this), tl_07);
                 }
             }
             return 1;
@@ -3718,7 +3761,7 @@ s32 TObjChara::update_attack_stat_status() {
                 }
                 obj = ((void * (*)(u32))__nw__7TObjectFUl)(0x64);
                 if (obj != 0) {
-                    construct_actor_light_task((0.1f), obj, ((u8 *)&player_attack_stat_status_light_colors), ((u8 *)&TObjPlayer__data_80434060), 0x2D, ((u8 *)this), tl_07);
+                    construct_actor_light_task((0.1f), obj, player_attack_stat_status_light_colors, TObjPlayer__data_80434060, 0x2D, ((u8 *)this), tl_07);
                 }
             }
             return 1;
@@ -3885,7 +3928,7 @@ s32 TObjChara::update_poison_status() {
             if ((s16) dmg < 1) {
                 dmg = 1;
             }
-            ((s32 (*)(u8 *, s32, void *))TObjectV8047c128_subtract_hp)(((u8 *)this), dmg + lbl_8043406C[game_difficulty_selection], lbl_8043406C);
+            ((s32 (*)(u8 *, s32, const s16 *))TObjectV8047c128_subtract_hp)(((u8 *)this), dmg + poison_damage_bonus_by_difficulty[game_difficulty_selection], poison_damage_bonus_by_difficulty);
             if (this->clamp_hp() <= 0) {
                 if (((s32 (*)(void *, s32))obj_testFlags30__14TObjCollidableFUl)(this, 0x800) == 0) {
                     ((TObjPlayer *)((u8 *)this))->set_hp_clamped(1);
@@ -4626,7 +4669,7 @@ s16 TObjChara::get_s16_2c4() { return (this->m_2c4); }
 
 void reset_status_effect_row(u8 *arg0) {
     *(s32 *)((s8 *)arg0 + 0) = 0;
-    *(f32 *)((s8 *)arg0 + 4) = (f32) (0.0f);
+    *(f32 *)((s8 *)arg0 + 4) = 0.0f;
     *(s32 *)((s8 *)arg0 + 8) = 0;
 }
 

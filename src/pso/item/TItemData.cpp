@@ -122,12 +122,9 @@ void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag
 void init__9TItemDataFv(TItemData_8010E344 *self);
 s32 memset(s8 *, s32, s32);
 }
-#define get_set_bonus_multiplier__9TItemDataFPvi ((f32 (*)(void *, s32))get_set_bonus_multiplier__9TItemDataFPvi)
 #define lookup_item_pmt_record ((Parm_8010C1E0 * (*)(void *))lookup_item_pmt_record)
 #define getS16_06__9TItemDataFPv ((s32 (*)(void *))getS16_06__9TItemDataFPv)
-#define get_bswap16_field8__9TItemDataFPv ((s16 (*)(void *))get_bswap16_field8__9TItemDataFPv)
 #define lookup_item_def__9TItemDataFPv ((s32 (*)(void *))lookup_item_def__9TItemDataFPv)
-#define get_field6_bswap__9TItemDataFPv ((s32 (*)(void *))get_field6_bswap__9TItemDataFPv)
 #define is_usable__9TItemDataFPv ((s32 (*)())is_usable__9TItemDataFPv)
 
 struct Parm_8010C1E0 { u8 pad[8]; s16 dfp; s16 evp; u8 pad2[5]; s8 x11; s8 x12; s8 x13; s8 x14; s8 x15; };
@@ -565,12 +562,9 @@ u16 TItemData::get_packed_value() {
     return 0U;
 }
 }
-#undef get_set_bonus_multiplier__9TItemDataFPvi
 #undef lookup_item_pmt_record
 #undef getS16_06__9TItemDataFPv
-#undef get_bswap16_field8__9TItemDataFPv
 #undef lookup_item_def__9TItemDataFPv
-#undef get_field6_bswap__9TItemDataFPv
 #undef is_usable__9TItemDataFPv
 
 #define is_custom_name_srank__9TItemDataFPv ((s32 (*)())is_custom_name_srank__9TItemDataFPv)
@@ -825,8 +819,6 @@ s32 TItemData::get_max_stack_size() {
 #define add_shield_stat_contribution__9TItemDataFPviiPv ((s32 (*)(void *, s32, s32, s32, s32, s32))add_shield_stat_contribution__9TItemDataFPviiPv)
 #define apply_unit_stat_bonus__9TItemDataFPviiPvPvPv ((s32 (*)(void *, s32, s32, s32, s32, s32))apply_unit_stat_bonus__9TItemDataFPviiPvPvPv)
 #define apply_bonuses ((s32 (*)(void *, s32, s32, s32, s32, s32))apply_bonuses)
-#define is_custom_name_srank__9TItemDataFPv ((s32 (*)(void *))is_custom_name_srank__9TItemDataFPv)
-#define memset ((void * (*)(void *, int, int))memset)
 
 struct Pair_8010E344 { u8 a; u8 b; };
 
@@ -875,13 +867,6 @@ extern const f32 lbl_805DAB7C;
 s32 get_technique_name(s32 arg0);
 s32 get_text_collection(s32 arg0);
 s8 *get_item_by_slot_flag__10TObjPlayerFUc(u8);
-extern char lbl_8043E358[];
-extern char lbl_8043E360[];
-extern char lbl_8043E368[];
-extern char lbl_8043E374[];
-extern char lbl_8043E37C[];
-extern char lbl_8043E384[];
-extern char lbl_8043E390[];
 extern char lbl_805DAB8C;
 void TItemData__clear_unidentified_flag(void *arg0);
 void add_mag_stat_bonuses__9TItemDataFv(u8 *item, s32 player, u8 *a, u8 *b, EquipStats *st, s32 w5);
@@ -1755,7 +1740,7 @@ void TItemData::format_item_name(char *buf) {
         return;
     }
     if (item->type == 4) {
-        sprintf(buf, lbl_8043E358, item->meseta, TWindowSubStatusDisp::get_download_server());
+        sprintf(buf, "%d%s", item->meseta, TWindowSubStatusDisp::get_download_server());
         return;
     }
     pmt = (s32 *)lookup_item_pmt_record(arg0);
@@ -1775,14 +1760,14 @@ void TItemData::format_item_name(char *buf) {
             ((TItemData *)arg0)->decode_packed_name_chars(tmp);
             if (tmp[0] - 0x41 == 1) {
                 if (item->grind != 0) {
-                    sprintf(buf, lbl_8043E360, &tmp[1], item->grind);
+                    sprintf(buf, "%s +%d", &tmp[1], item->grind);
                 } else {
                     sprintf(buf, &lbl_805DAB8C, &tmp[1]);
                 }
             } else if (item->grind != 0) {
-                sprintf(buf, lbl_8043E368, &tmp[1], name, item->grind);
+                sprintf(buf, "%s %s +%d", &tmp[1], name, item->grind);
             } else {
-                sprintf(buf, lbl_8043E374, &tmp[1], name);
+                sprintf(buf, "%s %s", &tmp[1], name);
             }
             return;
         }
@@ -1790,7 +1775,7 @@ void TItemData::format_item_name(char *buf) {
         if (is_rare_item__9TItemDataFPv(arg0) != 0) {
             if (check_item_flags() == 1) {
                 if (item->grind != 0) {
-                    sprintf(buf, lbl_8043E360, name, item->grind);
+                    sprintf(buf, "%s +%d", name, item->grind);
                 } else {
                     sprintf(buf, &lbl_805DAB8C, name);
                 }
@@ -1801,12 +1786,12 @@ void TItemData::format_item_name(char *buf) {
         }
         if (*slot != 0) {
             if (item->grind != 0) {
-                sprintf(buf, lbl_8043E368, slot, name, item->grind);
+                sprintf(buf, "%s %s +%d", slot, name, item->grind);
             } else {
-                sprintf(buf, lbl_8043E374, slot, name);
+                sprintf(buf, "%s %s", slot, name);
             }
         } else if (item->grind != 0) {
-            sprintf(buf, lbl_8043E360, name, item->grind);
+            sprintf(buf, "%s +%d", name, item->grind);
         } else {
             sprintf(buf, &lbl_805DAB8C, name);
         }
@@ -1817,16 +1802,16 @@ void TItemData::format_item_name(char *buf) {
             case 0xE:
             case 0x11:
                 if (current_language == LANGUAGE_JAPANESE) {
-                    sprintf(buf, lbl_8043E37C, get_technique_name(f), name);
+                    sprintf(buf, "%s%s", get_technique_name(f), name);
                 } else {
-                    sprintf(buf, lbl_8043E37C, name, get_technique_name(f));
+                    sprintf(buf, "%s%s", name, get_technique_name(f));
                 }
                 break;
             default:
                 if (current_language == LANGUAGE_JAPANESE) {
-                    sprintf(buf, lbl_8043E384, get_technique_name(f), item->b2 + 1, name);
+                    sprintf(buf, "%sLV%d%s", get_technique_name(f), item->b2 + 1, name);
                 } else {
-                    sprintf(buf, lbl_8043E390, name, get_technique_name(f), item->b2 + 1);
+                    sprintf(buf, "%s%s Lv.%d", name, get_technique_name(f), item->b2 + 1);
                 }
                 break;
             }
@@ -1853,7 +1838,7 @@ void TItemData::format_item_name(char *buf) {
                 sign[1] = '+';
             }
         }
-        sprintf(buf, lbl_8043E37C, name, sign);
+        sprintf(buf, "%s%s", name, sign);
     } else {
         sprintf(buf, name);
     }
@@ -1970,5 +1955,3 @@ s32 TItemData::check_item_flags() {
 #undef add_shield_stat_contribution__9TItemDataFPviiPv
 #undef apply_unit_stat_bonus__9TItemDataFPviiPvPvPv
 #undef apply_bonuses
-#undef is_custom_name_srank__9TItemDataFPv
-#undef memset

@@ -12,10 +12,8 @@
 
 const char *TWindowKeyBoardHard__name = "TWindowKeyBoardHard";
 u8 keyboard_key_repeat_mask_table[4] = { 0x1D, 0x1F, 0x07, 0x00 };
-// "AaEeIiOoUuNnYy": the vowels and N/Y that take an accent. It shares the
-// unclaimed .rodata 0x8044F0BC-0x8044F110 with the status labels below.
-extern u8 lbl_8044F0BC[];
-u8 *keyboard_accent_base_chars = lbl_8044F0BC;
+// The vowels and N/Y that take an accent, upper and lower case in pairs.
+const u8 *keyboard_accent_base_chars = (const u8 *)"AaEeIiOoUuNnYy";
 
 struct RecoveredFields_8025FC60_arg0 {
     u8 unknown_0[0x60];
@@ -292,7 +290,7 @@ u8 keyboard_accent_composed_chars[7][7] = {
 u8 TWindowKeyBoardHard::sub_8025F2F8(u8 arg1) {
     u32 idx;
     s32 bit;
-    u8 *p;
+    const u8 *p;
     u32 i;
     u8 modes;
     u8 c;

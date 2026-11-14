@@ -710,12 +710,12 @@ void TObjPlayer::set_visibility_flags_by_count(void *arg0, s32 arg1) {
     s32 j;
     NJS_OBJECT *e;
     for (i = 0; i < arg1; i++) {
-        for (j = 0; (e = lbl_805006F8[i][j]) != NULL; j++) {
+        for (j = 0; (e = balclaw_arm_part_models[i][j]) != NULL; j++) {
             e->evalflags &= ~NJD_EVAL_HIDE;
         }
     }
     for (; i < 4; i++) {
-        for (j = 0; (e = lbl_805006F8[i][j]) != NULL; j++) {
+        for (j = 0; (e = balclaw_arm_part_models[i][j]) != NULL; j++) {
             e->evalflags |= NJD_EVAL_HIDE;
         }
     }

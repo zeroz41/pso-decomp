@@ -8,11 +8,13 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
 
+#pragma readonly_strings on
+
 extern "C" {
 
 extern void *lbl_805D4DD8;
 extern s32 boss5_common_texture_list;
-extern const char *TObjBoss5FloorGrass__name;
+const char *TObjBoss5FloorGrass__name = "TObjBoss5FloorGrass";
 
 void TObjBoss5FloorGrass::render() {
     if (TObjPlayer::is_any_teammate_in_state() == 0) {

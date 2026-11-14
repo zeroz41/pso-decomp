@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include <dolphin/mtx.h>
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/object/base/TObjMotion.h"
@@ -31,6 +32,9 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/render/render_util.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/system/task/TObject.h"
 
 const char *bm_boss7_crawfish_model_names[3] = { "minibaru_body.nj", "minibaru_body_b.nj", NULL };
 const char *bm_boss7_crawfish_motion_names[7] = {
@@ -115,7 +119,6 @@ struct VObj_18_405891 : VBase_18_405891 {
 struct Pair_8030895C { s32 id; f32 v; };
 
 extern "C" {
-s32 obj_isState2_324__9TObjCharaFv(int);
 extern s32 game_difficulty_selection;
 
 s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
@@ -190,7 +193,7 @@ block_5:
     return 1;
 }
 
-void TBoss7Crawfish::free_child() { if (*(unsigned int *)&this->m_3cc != 0) { queue_destruction__7TObjectFv((*(void* *)&this->m_3cc)); *(int *)&this->m_3cc = 0; } }
+void TBoss7Crawfish::free_child() { if (*(unsigned int *)&this->m_3cc != 0) { ((TObject *)(*(void* *)&this->m_3cc))->queue_destruction(); *(int *)&this->m_3cc = 0; } }
 
 void TBoss7Crawfish::spawn_ground_effects() {
     u8 *arg0 = (u8 *)this;
@@ -215,7 +218,7 @@ s32 apply_hit_to_target__14TBoss7CrawfishFPvPv(void *arg0_, void *arg1_) {
             if (((VObj_18_405891 *)(temp_r31))->m18(arg0, 1.0f) != 0) {
                 ((VObj_18_405891 *)(temp_r31))->m20(arg0, 1.0f);
             }
-        } else if (obj_isState2_324__9TObjCharaFv((int)temp_r31) == 0) {
+        } else if (((TObjChara *)temp_r31)->obj_isState2_324() == 0) {
             if ((s32) game_difficulty_selection == 3) {
                 if ((3.0517578125e-05f * (f32) rand()) <= 0.5f) {
                     p.id = 0x10;
@@ -260,7 +263,7 @@ void TBoss7Crawfish::check_band_and_destroy() {
         spawn_ground_effects();
     }
     if (0.0f == ((TBoss7Crawfish *)arg0)->get_health()) {
-        queue_destruction__7TObjectFv((void *)arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 
@@ -275,7 +278,7 @@ void TBoss7Crawfish::update(s32 arg0) {
     }
     ((TBoss7Crawfish *)arg0)->register_attack_hits();
     if (0.0f == ((TBoss7Crawfish *)arg0)->get_health()) {
-        queue_destruction__7TObjectFv((void *)arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 
@@ -450,12 +453,11 @@ void free_bin_model_request(void*, int);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 s32 __dl__7TObjectFPv(void *);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
-s32 obj_testFlags30__14TObjCollidableFUl(void *, int);
 
 void TBoss7Crawfish::run_task() {
     u8 *arg0 = (u8 *)this;
 
-    if (((s16) this->mode != 5) && (obj_testFlags30__14TObjCollidableFUl(arg0, 0x800) != 0)) {
+    if (((s16) this->mode != 5) && (((TObjCollidable *)arg0)->obj_testFlags30(0x800) != 0)) {
         ((TBoss7Crawfish *)arg0)->change_state(4);
     }
     switch (this->mode) {

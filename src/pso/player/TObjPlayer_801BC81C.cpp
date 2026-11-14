@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_801BC81C.h"
@@ -7,6 +8,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer_801BCD28.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
@@ -42,7 +44,7 @@ void TObjPlayer::reset_area_entry_state() {
     }
 }
 
-void TObjPlayer::destroy_owned_object() { if (*(unsigned int *)&this->unk_548 != 0) { queue_destruction__7TObjectFv(*(void* *)&this->unk_548); *(int *)&this->unk_548 = 0; } }
+void TObjPlayer::destroy_owned_object() { if (*(unsigned int *)&this->unk_548 != 0) { ((TObject *)(*(void* *)&this->unk_548))->queue_destruction(); *(int *)&this->unk_548 = 0; } }
 
 }
 

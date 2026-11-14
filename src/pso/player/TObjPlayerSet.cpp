@@ -1,9 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/player/TObjPlayerSet.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/object/quest/TObjQuestCol2.h"
 #include "pso/player/TObjPlayerSet.h"
+#include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_80195720___vt__13TObjPlayerSet {
@@ -59,7 +61,7 @@ u8 *TObjPlayerSet__ct(TObjPlayerSet *player_set, s32 arg1, s32 arg2) {
     if ((s32) player_set->set_params[0] < 0) {
         player_set->set_params[0] = 0;
     }
-    disallow_rendering__7TObjectFv((TObject *)player_set);
+    ((TObject *)player_set)->disallow_rendering();
     return (u8 *)player_set;
 }
 #pragma pop

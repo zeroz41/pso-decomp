@@ -5,8 +5,8 @@
 
 class TUnk_804ECEB8 : public TItemWeapon {
 public:
+    TUnk_804ECEB8(TObject *parent, u8 *item);
     virtual ~TUnk_804ECEB8();
-    void *init_vtable_variant(s32, void *);
 };
 
 #endif

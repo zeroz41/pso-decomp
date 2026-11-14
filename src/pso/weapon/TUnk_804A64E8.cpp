@@ -6,6 +6,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer.h"
 
 void TUnk_804A64E8::vfunc_60() {
     switch (TObjPlayer::get_player_list()) {
@@ -56,7 +57,6 @@ struct Tec_8012F704 {
 };
 
 s16 get_entity_id(void *);
-f32 query_extended_state__10TObjPlayerFv(void *);
 struct SlicerState_801295FC;
 void init_slicer_launch_state(void *arg0);
 s16 get_validated_attack_stage(u8 *arg0);
@@ -75,7 +75,7 @@ void TUnk_804A64E8::emit_marker_effects() {
     tec.f8 = ((Self_8012F704 *)this)->f188;
     tec.f10 = TObjPlayer__sub_801D2F4C((s16 *)((u8 *)((Self_8012F704 *)this)->owner + 0x7CC));
     tec.f12 = get_validated_attack_stage((u8 *)((Self_8012F704 *)this)->owner + 0x7CC);
-    tec.f14 = query_extended_state__10TObjPlayerFv(((Self_8012F704 *)this)->owner);
+    tec.f14 = ((TObjPlayer *)(((Self_8012F704 *)this)->owner))->query_extended_state();
     tec.f18 = 1.0f;
     tec.f1C = 0.0f;
     tec.f20 = 1.0f;

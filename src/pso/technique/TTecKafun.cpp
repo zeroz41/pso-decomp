@@ -1,5 +1,7 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TTecKafun.h"
+#include "pso/system/task/TObject.h"
 extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
@@ -41,12 +43,12 @@ void TTecKafun::render() {  }
 void TTecKafun::run_task() {
     u8 *arg0 = (u8 *)this;
     if ((u32) this->m_e8 == 0U) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     this->source = (u32)find_entity_by_id((this->m_b4));
     if ((u32) this->source == 0U) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     spawn_particle_effect((arg0 + 0x20), (this->m_f0));
@@ -54,7 +56,7 @@ void TTecKafun::run_task() {
         spawn_particle_effect((arg0 + 0x20), (this->m_f4));
     }
     ((TUnk_804CC148 *)arg0)->apply_technique_to_area_targets();
-    queue_destruction__7TObjectFv((arg0));
+    ((TObject *)arg0)->queue_destruction();
 }
 
 u8 *TTecKafun__ct(TTecKafun *tec_kafun, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s16 arg6, f32 farg0, f32 farg1) {

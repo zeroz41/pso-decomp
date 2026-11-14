@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/TLobby.h"
@@ -14,6 +15,8 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/system/task/TObject.h"
+#include "pso/object/ambient/TObjFish.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -319,7 +322,6 @@ f32 normalize_vector(void *);
 void TBoss6Type2__sub_8032F5C4(void *arg0);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
-s32 clear_render_callback__8TObjFishFv(s32);
 }
 void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);
 extern "C" {
@@ -500,7 +502,7 @@ void TBoss6Type2::enforce_min_distance() {
     {
       if (temp_f1 <= (1e-05f))
       {
-        stack.sp8 = apply_direction_sign((f32) (1.0f));
+        stack.sp8 = apply_direction_sign(1.0f);
       }
       normalize_vector(&stack.sp8);
       stack.sp8 *= (4e+01f);
@@ -676,15 +678,15 @@ s32 TBoss6Mag::is_action_ready() {
 
 void TBoss6Mag::update_rotation_ramp() {
     if ((is_action_ready() == 0) || (is_target_in_front_range() == 0)) {
-        *(f32 *)((s8 *)this + 0x3BC) = (f32) (0.0f);
+        *(f32 *)((s8 *)this + 0x3BC) = 0.0f;
         *(f32 *)((s8 *)this + 0x3B8) += (-0.06666667f);
         if (*(f32 *)((s8 *)this + 0x3B8) < (0.0f)) {
-            *(f32 *)((s8 *)this + 0x3B8) = (f32) (0.0f);
+            *(f32 *)((s8 *)this + 0x3B8) = 0.0f;
         }
     } else if ((1.0f) == *(f32 *)((s8 *)this + 0x3B8)) {
         *(f32 *)((s8 *)this + 0x3BC) += (0.033333335f);
         if (*(f32 *)((s8 *)this + 0x3BC) > (1.0f)) {
-            *(f32 *)((s8 *)this + 0x3BC) = (f32) (1.0f);
+            *(f32 *)((s8 *)this + 0x3BC) = 1.0f;
         }
         if ((1.0f) == *(f32 *)((s8 *)this + 0x3BC)) {
             if (is_local_client_floor_leader() != 0) {
@@ -695,14 +697,14 @@ void TBoss6Mag::update_rotation_ramp() {
                     }
                 }
             }
-            *(f32 *)((s8 *)this + 0x3B8) = (f32) (0.0f);
-            *(f32 *)((s8 *)this + 0x3BC) = (f32) (0.0f);
+            *(f32 *)((s8 *)this + 0x3B8) = 0.0f;
+            *(f32 *)((s8 *)this + 0x3BC) = 0.0f;
         }
     } else {
-        *(f32 *)((s8 *)this + 0x3BC) = (f32) (0.0f);
+        *(f32 *)((s8 *)this + 0x3BC) = 0.0f;
         *(f32 *)((s8 *)this + 0x3B8) += (0.06666667f);
         if (*(f32 *)((s8 *)this + 0x3B8) > (1.0f)) {
-            *(f32 *)((s8 *)this + 0x3B8) = (f32) (1.0f);
+            *(f32 *)((s8 *)this + 0x3B8) = 1.0f;
         }
     }
 }
@@ -1003,7 +1005,7 @@ void TBoss6Type2::init_segment_angle_range() {
 void TBoss6Mag::decay_glow_and_calc_hp_ratio() {
     *(f32 *)((s8 *)this + 0x3F8) += (-0.06666667f);
     if (*(f32 *)((s8 *)this + 0x3F8) < (0.0f)) {
-        *(f32 *)((s8 *)this + 0x3F8) = (f32) (0.0f);
+        *(f32 *)((s8 *)this + 0x3F8) = 0.0f;
     }
     *(f32 *)((s8 *)this + 0x3FC) = (f32) ((f32) *(s16 *)((s8 *)this + 0x32C) / (f32) *(s16 *)((s8 *)this + 0x33E));
 }
@@ -1037,7 +1039,7 @@ void TBoss6Mag::draw_model_motion_blend() {
     if ((0.0f) == *(f32 *)((s8 *)this + 0x3E8)) {
         ((TObjFish *)(*(s32 *)((s8 *)this + 0x458)))->set_draw_callback_list();
         draw_model_motion((void *)bml_model, (void *)(*(s32 *)((s8 *)this + 0x3DC)), *(f32 *)((s8 *)this + 0x3E0));
-        clear_render_callback__8TObjFishFv(*(s32 *)((s8 *)this + 0x458));
+        ((TObjFish *)(*(s32 *)((s8 *)this + 0x458)))->clear_render_callback();
     } else {
         stack.sp8 = *(s32 *)((s8 *)this + 0x3F0);
         stack.sp10 = *(f32 *)((s8 *)this + 0x3F4);
@@ -1045,7 +1047,7 @@ void TBoss6Mag::draw_model_motion_blend() {
         stack.sp14 = *(f32 *)((s8 *)this + 0x3E0);
         ((TObjFish *)(*(s32 *)((s8 *)this + 0x458)))->set_draw_callback_list();
         draw_model_blend_motion((void *)bml_model, &stack.sp8, *(f32 *)((s8 *)this + 0x3E8));
-        clear_render_callback__8TObjFishFv(*(s32 *)((s8 *)this + 0x458));
+        ((TObjFish *)(*(s32 *)((s8 *)this + 0x458)))->clear_render_callback();
     }
     clear_motion_packed_rotation();
 }
@@ -1067,7 +1069,7 @@ void TBoss6Mag::change_motion(s32 arg1) {
         *(f32 *)((s8 *)arg0 + 0x3F4) = (f32) *(f32 *)((s8 *)arg0 + 0x3E0);
         *(f32 *)((s8 *)arg0 + 0x3E4) = (f32) *(f32 *)((s8 *)((u8 *)(&(*(RecoveredGlobal_8032FF24_lbl_804EDD94 *)&boss6_type2_motion_table).value) + temp_r31) + 0xC);
         *(s32 *)((s8 *)arg0 + 0x3DC) = bml_motion;
-        *(f32 *)((s8 *)arg0 + 0x3E0) = (f32) (0.0f);
+        *(f32 *)((s8 *)arg0 + 0x3E0) = 0.0f;
     }
 }
 #pragma pop
@@ -1173,7 +1175,7 @@ void TBoss6Mag::vfunc_63() {
         return;
     default:
         TBoss6Type2__sub_802BD340((int) (*(s32 *)((s8 *)arg0 + 0x378)));
-        *(f32 *)((s8 *)arg0 + 0x3F8) = (f32) (1.0f);
+        *(f32 *)((s8 *)arg0 + 0x3F8) = 1.0f;
         ((TBoss6Mag *)arg0)->set_action(4);
         play_sound_effect(0x69E17, arg0 + 0x38, 0, 0);
         break;
@@ -1181,16 +1183,15 @@ void TBoss6Mag::vfunc_63() {
 }
 
 void spawn_ground_effect__10TObjPlayerFPv(u8 *arg0) {
-    *(f32 *)((s8 *)arg0 + 0x3F8) = (f32) (1.0f);
+    *(f32 *)((s8 *)arg0 + 0x3F8) = 1.0f;
     *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) & 0xFFFFFDFF);
     play_sound_effect(0x6A816, arg0 + 0x38, 0, 0);
-    *(f32 *)((s8 *)arg0 + 0x3BC) = (f32) (0.0f);
+    *(f32 *)((s8 *)arg0 + 0x3BC) = 0.0f;
 }
 void TBoss6PlotFalz__sub_802AC008(f32, f32);
 s32 rotate_matrix_x(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-void queue_destruction__7TObjectFv(void *object);
 s32 submit_cursor_candidate(void *, int);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
@@ -1251,7 +1252,7 @@ void TBoss6Mag::run_task() {
     if (TObjPlayer::check_demo_mode() == 0) {
         if (TBoss6PlotFalz::is_boss_active() == 0) {
             *(s32 *)((s8 *)arg0 + 0x378) = 0;
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
             return;
         }
         VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(arg0 + 0x38));
@@ -1273,7 +1274,7 @@ void TBoss6Mag::run_task() {
         if ((s32) *(s32 *)((s8 *)arg0 + 0x388) != 0) {
             var_r4 = -0x5DB4;
         }
-        add_radar_scaled_marker(arg0 + 0x38, var_r4, 1, 1, (f32) (2.0f));
+        add_radar_scaled_marker(arg0 + 0x38, var_r4, 1, 1, 2.0f);
         ((TBoss6Mag *)arg0)->decay_glow_and_calc_hp_ratio();
         ((TBoss6Mag *)arg0)->sync_hp_apply_damage();
         ((TBoss6Mag *)arg0)->spawn_trap_by_stat();

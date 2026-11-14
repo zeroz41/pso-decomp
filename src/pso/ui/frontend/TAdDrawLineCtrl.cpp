@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -11,11 +12,12 @@
 #include "pso/unk/TLobby.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 void *__ct__15TAdDrawLineCtrlFP7TObjectPvf(void *arg0, void *arg1, void *arg2, f32 farg0);
 void *__nw__7TObjectFUl(int);
-extern u32 lbl_805D49D8;
+u32 lbl_805D49D8;
 void __ct__7TObjectFP7TObject(void *);
 s32 defer_render__7TObjectFv();
 
@@ -47,7 +49,7 @@ void TAdDrawLineCtrl::run_task() {
         ((TObject *)temp_r0)->run_tasks();
         return;
     }
-    queue_destruction__7TObjectFv(arg0);
+    ((TObject *)arg0)->queue_destruction();
 }
 
 }
@@ -88,7 +90,7 @@ struct RecoveredGlobal_80019E60_lbl_804340D8 { char value[0x13]; };
 typedef char RecoveredGlobal_80019E60_lbl_804340D8_size[sizeof(RecoveredGlobal_80019E60_lbl_804340D8) == 0x13 ? 1 : -1];
 
 extern RecoveredGlobal_80019E60_lbl_804340D8 lbl_804340D8;
-extern u32 item_loader_instance;
+u32 item_loader_instance;
 
 void TLobby::free_item_loader() {
     if ((u32) item_loader_instance != 0U) {

@@ -18,6 +18,10 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/TUnk_80493450.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjMotion.h"
 
 extern const Vec lbl_8043BC68 = { 0.0f, 0.0f, 0.0f };
 
@@ -75,15 +79,9 @@ s32 apply_actor_gravity(void *, int, f32);
 }
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
-s32 obj_testFlags30__14TObjCollidableFUl(void *, int);
-int unlink_enemy_group_relations__13TUnk_80493450Fv(void*);
-int send_entity_set_flags__9TObjEnemyFv(void*);
 s32 obj_setFlags30(void *, s32);
-s32 update_movement_status__9TObjCharaFv(void *);
-s32 update_action_hold_status__9TObjCharaFv(void *);
 u16 get_entity_id(void *);
 int queue_destruction__7TObjectFv(void*);
-f32 random_ratio__9TObjCharaFv(s32 arg0);
 s32 enemy_move_toward(void *, s32, void *, int, f32);
 s32 test_elt_flag__13TUnk_80493450Fll(void *, int, int);
 s32 enemy_turn_toward_dest(void *, s32);
@@ -92,7 +90,7 @@ u8 *get_enemy_entity(u16 arg0);
 f32 enemy_backstep_from_point(void *, void *, f32);
 s32 angle_difference_abs(s32, s32);
 void TUnk_80493450::sub_800C4E08() {
-    if (obj_testFlags30__14TObjCollidableFUl(this, 0x100000) != 0) {
+    if (obj_testFlags30(0x100000) != 0) {
         this->unk_394 = this->unk_39C;
         this->play_speed = this->unk_3A4;
         return;
@@ -115,7 +113,7 @@ s32 TUnk_80493450::update_target_near_flag() {
         temp_f31 = horizontal_distance_squared(temp_r31 + 0x38, (void *) ((u8 *)this + 0x38));
         switch (((TObjPlayer *)temp_r31)->class_flags & CLASS_FLAG_TYPE_MASK) {
         case CLASS_FLAG_HUNTER:
-            if (obj_testFlags30__14TObjCollidableFUl(this, 0x100000) != 0) {
+            if (obj_testFlags30(0x100000) != 0) {
                 if (BEAST_HUNTER_NEAR_EXIT_DISTANCE_SQ < temp_f31) {
                     obj_clearFlags30(0x100000);
                 }
@@ -124,7 +122,7 @@ s32 TUnk_80493450::update_target_near_flag() {
             }
             break;
         default:
-            if (obj_testFlags30__14TObjCollidableFUl(this, 0x100000) != 0) {
+            if (obj_testFlags30(0x100000) != 0) {
                 if (BEAST_OTHER_NEAR_EXIT_DISTANCE_SQ < temp_f31) {
                     obj_clearFlags30(0x100000);
                 }
@@ -153,7 +151,7 @@ void TUnk_80493450::beast_update_dead() {
         move_with_wall_slide((arg0));
         x_speed *= BEAST_HORIZONTAL_SPEED_DAMPING;
         m_310 *= BEAST_HORIZONTAL_SPEED_DAMPING;
-    } else if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x800000) == 0) {
+    } else if (((TObjCollidable *)arg0)->obj_testFlags30(0x800000) == 0) {
         apply_actor_gravity(arg0, 0, BEAST_GROUND_HEIGHT_OFFSET);
     }
     this->unk_380 -= this->m_384;
@@ -161,7 +159,7 @@ void TUnk_80493450::beast_update_dead() {
         this->beast_retire_corpse();
     }
 }
-void TUnk_80493450::vfunc_63() { if (this->mode != 8) { this->mode = 8; this->requested_action = 8; unlink_enemy_group_relations__13TUnk_80493450Fv(this); clear_player_status_flag((s32)((void*)0), (u32)((void*)1)); ((TObjPlayer *)this)->refresh_lobby_state(); send_entity_set_flags__9TObjEnemyFv(this); } }
+void TUnk_80493450::vfunc_63() { if (this->mode != 8) { this->mode = 8; this->requested_action = 8; unlink_enemy_group_relations(); clear_player_status_flag((s32)((void*)0), (u32)((void*)1)); ((TObjPlayer *)this)->refresh_lobby_state(); send_entity_set_flags(); } }
 void TUnk_80493450::beast_update_hurt() {
     u8 *arg0 = (u8 *)this;
     Vec v;
@@ -279,7 +277,7 @@ void TUnk_80493450::vfunc_60() {
     default:
         this->mode = 5;
         this->phase = 1;
-        if (BEAST_ATTACK_CHOICE_THRESHOLD < random_ratio__9TObjCharaFv((s32)this)) {
+        if (BEAST_ATTACK_CHOICE_THRESHOLD < ((TObjChara *)this)->random_ratio()) {
             this->requested_action = 3;
         } else {
             this->requested_action = 4;
@@ -293,7 +291,7 @@ void TUnk_80493450::vfunc_60() {
 
 s32 TUnk_80493450::update_movement_status() {
     u8 *arg0 = (u8 *)this;
-  if (update_movement_status__9TObjCharaFv((void *) arg0) != 0)
+  if (((TObjChara *)arg0)->TObjChara::update_movement_status() != 0)
   {
     if ((this->mode) != 0)
     {
@@ -317,7 +315,7 @@ s32 TUnk_80493450::update_movement_status() {
 
 s32 TUnk_80493450::update_action_hold_status() {
     u8 *arg0 = (u8 *)this;
-  if (update_action_hold_status__9TObjCharaFv((void *) arg0) != 0)
+  if (((TObjChara *)arg0)->TObjChara::update_action_hold_status() != 0)
   {
     if ((this->mode) != 0)
     {
@@ -469,7 +467,7 @@ void TUnk_80493450::update_turn_toward_target() {
 
 void TUnk_80493450::vfunc_59() {
     u8 *arg0 = (u8 *)this;
-    if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x1000) != 0) {
+    if (((TObjCollidable *)arg0)->obj_testFlags30(0x1000) != 0) {
         this->mode = 4;
     }
     switch (this->mode) {
@@ -601,7 +599,7 @@ void TUnk_80493450::beast_idle_update() {
         this->request_stand_action();
     }
 end:
-    if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x800000) == 0) {
+    if (((TObjCollidable *)arg0)->obj_testFlags30(0x800000) == 0) {
         apply_actor_gravity(arg0, 0, BEAST_GROUND_HEIGHT_OFFSET);
     }
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();

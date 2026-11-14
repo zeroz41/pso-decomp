@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/collision/TObjTradeCollision.h"
 #include "pso/ui/window/TWindowSubTradeMain_802D3924.h"
@@ -5,6 +6,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/collision/TObjTradeCollision.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -56,7 +58,7 @@ u8 *TObjTradeCollision__ct(u8 *trade_collision, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)trade_collision + 0) = (s32) ((s32)TObjTradeCollision__name);
     ((TObjTradeCollision *)(trade_collision))->apply_object_set_data((void *)arg2);
     *(f32 *)((s8 *)trade_collision + 0xAC) = (f32) ((TObjTradeCollision *)trade_collision)->scale.x;
-    disallow_rendering__7TObjectFv((TObject *)(trade_collision));
+    ((TObject *)(trade_collision))->disallow_rendering();
     return trade_collision;
 }
 

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/PlayerAttackParams.h"
 #include "types.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
@@ -14,6 +15,8 @@
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 
 #include <stddef.h>
+#include "pso/system/task/TObject.h"
+#include "pso/enemy/flower/TObjEneRe2Flower.h"
 struct Stack_800C32DC {
     f32 sp8;
     f32 spC;
@@ -147,7 +150,6 @@ struct RecoveredFields_800C3088_arg0
 };
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 void *create_particle_emitter(void *pos, s32 id);
 s32 noop__9TObjEneDDFv(void *);
 s32 check_hit_flag__16TObjEneRe2FlowerFv(void *);
@@ -248,7 +250,7 @@ void fn_800C32DC(u8 *owner, s32 arg1) {
         *(u32 *)((s8 *)owner + 0x428) = 0U;
         break;
     case 3:
-        if ((check_hit_flag__16TObjEneRe2FlowerFv(owner) == 0) && (((TObjEneDD *)owner)->get_flag_b4() != 0)) {
+        if ((((TObjEneRe2Flower *)owner)->check_hit_flag() == 0) && (((TObjEneDD *)owner)->get_flag_b4() != 0)) {
             ((TObjEneDD *)owner)->transition_enemy_state(3);
             break;
         }
@@ -291,7 +293,7 @@ void fn_800C32DC(u8 *owner, s32 arg1) {
     case 5:
         temp_r3_4 = *(u32 *)((s8 *)owner + 0x428);
         if (temp_r3_4 != 0U) {
-            queue_destruction__7TObjectFv((void *)temp_r3_4);
+            ((TObject *)temp_r3_4)->queue_destruction();
             *(u32 *)((s8 *)owner + 0x428) = 0U;
         }
         break;

@@ -1,9 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/player/TObjPlayer_801C1FF8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_801BE778.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
@@ -46,6 +48,6 @@ void TObjPlayer::update_recobox(s32 arg0) {
     }
     ((TObjPlayer *)arg0)->set_flag_20000();
 }
-void TObjPlayer::destroy_child() { void* m = this->inventory_objects; if (m) queue_destruction__7TObjectFv(m); }
+void TObjPlayer::destroy_child() { void* m = this->inventory_objects; if (m) ((TObject *)m)->queue_destruction(); }
 
 }

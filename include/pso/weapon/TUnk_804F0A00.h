@@ -9,9 +9,11 @@ public:
     virtual void vfunc_60();
     virtual void update_idle();
     virtual void update_attack();
-    u8 unk_1F8[0x4];
+    virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
+    TUnk_804F0A00(TObject *parent, u8 *item);
+    s32 unk_1F8;
     s32 m_1fc;
-    u8 unk_200[0x4];
+    s32 unk_200;
 };
 
 #endif

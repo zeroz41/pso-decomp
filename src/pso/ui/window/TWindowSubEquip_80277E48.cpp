@@ -10,6 +10,7 @@
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubMag.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
 
 struct VBase_80277F4C { u8 pad[0x18]; };
 
@@ -34,7 +35,6 @@ s32 play_sound_effect(s32, s32, s32, s32);
 s32 is_player_input_active(s32);
 s32 fn_80255A38(s32);
 s32 TWindowSubEquip__sub_80263AF4(void *, s32);
-s32 get_cursor_value__19TWindowMenuIconLineFv(u32);
 extern u8 controller_input_state[];
 void *__nw__7TObjectFUl(u32);
 s32 __ct__15TWindowHelpItemFPvUs(void *, void *, s32);
@@ -116,7 +116,7 @@ void TWindowSubEquip::run_task() {
     case 3:
         ((TWindowSubStatusDisp *)(this->m_34))->init_scroll_pos();
         if ((u32) this->m_38 == 0U) {
-            this->m_38 = open_equip_kind_list(get_cursor_value__19TWindowMenuIconLineFv(this->m_34));
+            this->m_38 = open_equip_kind_list(((TWindowMenuIconLine *)this->m_34)->get_cursor_value());
         }
         ((TWindowMenuIconLine *)(this->m_38))->clear_decided();
         this->m_1c = 4U;

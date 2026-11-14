@@ -11,15 +11,11 @@ struct TChCrTagInformation : public TChCrTag {
     void render();
     void update_selected_char();
     void run_task();
+    virtual s32 vt4();
     static void *create(void *arg0);
     static void *create_default();
 };
 
 typedef char TChCrTagInformation_size[sizeof(TChCrTagInformation) == 0x3C ? 1 : -1];
-
-extern "C" {
-int TChCrTagInformation__vt4(void);
-TChCrTagInformation *__dt__19TChCrTagInformationFv(TChCrTagInformation *tag, s16 free);
-}
 
 #endif

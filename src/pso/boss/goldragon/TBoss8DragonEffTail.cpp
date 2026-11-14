@@ -225,9 +225,9 @@ void TBoss8DragonEffTail::free_statics() {
 
 extern "C" {
 u8 *load_gvm_texture_file(s32 arg0);
-void fn_802FE8CC(void) {
-    boss8_eff_tail_bml_resource = load_enemy_bml_resource((u8 *)&bm_obj_boss1_common_j_resource_descriptor);
-    dragon_tail_gvm_texture_handle = (s32)load_gvm_texture_file((s32)obj_boss1_common_j_texture_filename);
 }
 
+void TBoss8DragonEffTail::load_statics() {
+    boss8_eff_tail_bml_resource = load_enemy_bml_resource((u8 *)&bm_obj_boss1_common_j_resource_descriptor);
+    dragon_tail_gvm_texture_handle = (s32)load_gvm_texture_file((s32)obj_boss1_common_j_texture_filename);
 }

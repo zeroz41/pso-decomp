@@ -168,34 +168,9 @@ void TPhotonLeilla::run_task() {
 }
 }
 
-extern "C" {
-
-s32 __dl__7TObjectFPv(void *);
-
-extern s32 __vt__13TPhotonLeilla[];
-
-struct Base_801AC794 { char pad[0x18]; };
-struct VObj_801AC794 : Base_801AC794 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13();
-};
-
-void *__dt__13TPhotonLeillaFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        struct VObj_801AC794 *o = (struct VObj_801AC794 *)arg0;
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TPhotonLeilla;
-        o->m13();
-        ((TUnk_804C3248 *)arg0)->free_photon();
-        destroy_photon_motion_object(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
-
+TPhotonLeilla::~TPhotonLeilla() {
+    update_if_active();
+    free_photon();
 }
 
 #define NEW_801AC808(n) (((u8 *(*)(int))__nw__7TObjectFUl)(n))
@@ -231,9 +206,13 @@ u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3,
 extern "C" {
 void TPhotonRainbow__ct(void *, void *, void *, s32);
 u8 *__nw__7TObjectFUl(s32, f32);
-extern u8 photon_blast_leilla_params[];
 extern s32 __vt__13TPhotonLeilla[];
 extern Game_801AC808 *photon_blast_shared_resource;
+
+TObjMotionAction photon_blast_leilla_params[2] = {
+    {MOTION_MODE_ONCE, 0, 1, 1.0f, 0},
+    {MOTION_MODE_LOOP, 0, 9, 1.0f, 0},
+};
 
 void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
     Vec_801AC808 v;

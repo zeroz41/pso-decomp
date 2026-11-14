@@ -1,4 +1,6 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/system/task/TObject.h"
 
 const char *TPhotonLine__class_name = "TPhotonLine";
 
@@ -69,7 +71,6 @@ extern s32 __vt__11TPhotonLine[];
 Line_801ACD14 *TPhotonLine__ct(Line_801ACD14 *self, Params_801ACD14 *p, void *parent, u16 arg3);
 s32 check_path_obstructed(void *, Vec_801ACD14 *);
 u16 get_entity_id(void *);
-void queue_destruction__7TObjectFv(void *);
 u8 *get_battle_param__10TObjPlayerFi(s32);
 void *spawn_particle_effect(void *pos, s32 id);
 void queue_photon_blast_hit(s32, s32, s32, f32);
@@ -91,7 +92,7 @@ void run_task__11TPhotonLineFv(Line_801ACB14 *self) {
     self->f2FC.y += 60.0f;
     v.y += 60.0f;
     if (check_path_obstructed(self, &v) == 1) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return;
     }
     TObjPlayer::init_all_slots();

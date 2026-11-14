@@ -1,9 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/frontend/TAdSEGAlogo.h"
 #include "types.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject.h"
 
 #pragma push
 #pragma readonly_strings on

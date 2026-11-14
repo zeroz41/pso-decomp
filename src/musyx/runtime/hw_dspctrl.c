@@ -1,51 +1,26 @@
 #include "musyx/runtime/musyx_runtime_a.h"
 
-#define ARR_GET_803A3D8C(arr, offset) ((void *)(offset + (u32)arr))
-#define SEQ_CUR (*(SEQ_INSTANCE_803A49C8 **)&lbl_805D7360)
-#define SEQ_FREE_LIST ((SEQ_INSTANCE_803A49C8 *)lbl_805D7378)
-#define SEQ_RUN_LIST ((SEQ_INSTANCE_803A49C8 *)lbl_805D737C)
-#define SEQ_RUN_L (*(SEQ_INSTANCE_803A49C8 **)&lbl_805D737C)
-#define ARR_GET_803A5A78(arr, offset) ((void *)(offset + (u32)arr))
-#define ARR_GET_803A6364(arr, offset) ((void *)(offset + (u32)arr))
-#define TBL ((Ent_803ACEC4 *)((u8 *)t + 0x4E00))
-#define macTimeQueueRoot ((SYNTH_VOICE_803B19AC *)lbl_805D7420)
-#define macActiveMacroRoot ((SYNTH_VOICE_803B19AC *)lbl_805D741C)
-#define macRealTime lbl_805D7428
-#define FLAGS (*(u64 *)&o->fh)
-#define HEAD (*(Voice_803B2128 **)&lbl_805D741C)
-#define synthVoice ((SYNTH_VOICE_803B2438 *)synthVoice)
-#define vidCurrentId (*(u32 *)&lbl_805D7438)
-#define vidRoot (*(VID_LIST_SV **)&lbl_805D743C)
-#define vidFree (*(VID_LIST_SV **)&lbl_805D7440)
 extern "C" {
 
 Rec_803B59E4 lbl_805663D8[8];
 
-u32 lbl_805D7458;
-u16 *lbl_805D745C;
-u16 *lbl_805D7460;
-u16 lbl_805D7464;
-u16 *lbl_805D7468;
-u16 *lbl_805D746C;
-u16 *lbl_805D7470;
-u16 lbl_805D7474;
-u16 *lbl_805D7478;
-u32 lbl_805D747C;
-s32 lbl_805D7480;
-s32 *lbl_805D7484;
-void *lbl_805D7488;
-DSPvoice_803B5500 *lbl_805D748C;
+u32 dspARAMZeroBuffer;
+u16 *dspCmdLastLoad;
+u16 *dspCmdLastBase;
+u16 dspCmdLastSize;
+u16 *dspCmdCurBase;
+u16 *dspCmdMaxPtr;
+u16 *dspCmdPtr;
+u16 dspCmdFirstSize;
+u16 *dspCmdList;
+u32 dspHRTFOn;
+void *dspHrtfHistoryBuffer;
+s32 *dspSurround;
+void *dspITDBuffer;
+DSPvoice_803B5500 *dspVoice;
 s32 (*salMessageCallback)(s32, s32);
 
 #define dspStudio lbl_805663D8
-#define salNumVoices lbl_805D74C5
-#define salMaxStudioNum lbl_805D74C4
-#define dspARAMZeroBuffer lbl_805D7458
-#define dspCmdList lbl_805D7478
-#define dspSurround lbl_805D7484
-#define dspVoice lbl_805D748C
-#define dspITDBuffer lbl_805D7488
-#define dspHrtfHistoryBuffer (*(void **)&lbl_805D7480)
 
 #pragma push
 #pragma opt_common_subs on
@@ -138,8 +113,8 @@ u32 salInitDspCtrl(u8 numVoices, u8 numStudios, u32 defaultStudioDPL2) {
 #undef dspStudio
 
 void salInitHRTFBuffer(void) {
-    memset((void *) (lbl_805D7480), (int) (0), (int) (0x100));
-    DCFlushRangeNoSync((void *) (lbl_805D7480), (int) (0x100));
+    memset(dspHrtfHistoryBuffer, 0, 0x100);
+    DCFlushRangeNoSync(dspHrtfHistoryBuffer, 0x100);
 }
 
 #define dspStudio lbl_805663D8
@@ -303,36 +278,14 @@ void SortVoices(Ent_803B5DB0 **v, s32 left, s32 right) {
 
 #undef dspStudio
 #define dspStudio ((DSPstudioinfo *)lbl_805663D8)
-#define dspCmdLastLoad lbl_805D745C
-#define dspCmdLastBase lbl_805D7460
-#define dspCmdLastSize lbl_805D7464
-#define dspCmdCurBase lbl_805D7468
-#define dspCmdMaxPtr lbl_805D746C
-#define dspCmdPtr lbl_805D7470
-#define dspCmdFirstSize lbl_805D7474
-#define dspHRTFOn lbl_805D747C
-#define salAuxFrame lbl_805D74C6
-#define salFrame lbl_805D74C7
-#define dspMixerCycles lbl_8047C2B8
-#define pbOffsets lbl_8047C2F8
-#define dspSRCCycles lbl_804F6EE0
-extern u16 *lbl_805D745C;
-extern u16 *lbl_805D7460;
-extern u16 lbl_805D7464;
-extern u16 *lbl_805D7468;
-extern u16 *lbl_805D746C;
-extern u16 *lbl_805D7470;
-extern u16 lbl_805D7474;
-extern u32 lbl_805D747C;
-extern u8 lbl_805D74C7;
 u32 __OSBusClock : 0x800000F8;
 
-const u16 lbl_8047C2B8[32] = {
+const u16 dspMixerCycles[32] = {
     1470, 2940, 2940, 4410, 2230, 4460, 4460, 6690, 2470, 4940, 4940, 7410, 3735, 7470, 7470, 11205,
     2940, 3386, 2940, 3386, 2940, 3386, 2940, 3386, 4940, 5687, 4940, 5687, 4940, 5687, 4940, 5687,
 };
-const u16 lbl_8047C2F8[9] = {10, 12, 24, 14, 16, 26, 18, 20, 22};
-u16 lbl_804F6EE0[3][3] = {
+const u16 pbOffsets[9] = {10, 12, 24, 14, 16, 26, 18, 20, 22};
+u16 dspSRCCycles[3][3] = {
     {2990, 2990, 1115},
     {3300, 3300, 1115},
     {3700, 3700, 1115},
@@ -1610,20 +1563,6 @@ void salBuildCommandList(s16 *dest, u32 nsDelay) {
 #pragma pop
 
 #undef dspStudio
-#define dspStudio lbl_805663D8
-#undef dspCmdLastLoad
-#undef dspCmdLastBase
-#undef dspCmdLastSize
-#undef dspCmdCurBase
-#undef dspCmdMaxPtr
-#undef dspCmdPtr
-#undef dspCmdFirstSize
-#undef dspHRTFOn
-#undef salAuxFrame
-#undef salFrame
-#undef dspMixerCycles
-#undef pbOffsets
-#undef dspSRCCycles
 
 s32 salSynthSendMessage(u8 *arg0, s32 arg1) {
     struct Fields_arg0 { u8 pad_0[24]; s32 field_18; };
@@ -1704,22 +1643,22 @@ void salHandleAuxProcessing(void) {
 
     i = 0;
     v = (Voice_803B8B40 *)lbl_805663D8;
-    while (i < lbl_805D74C4) {
+    while (i < salMaxStudioNum) {
         if (v->b50 == 1) {
             if (v->cbA != 0) {
-                buf = v->bufA[(lbl_805D74C6 + 2) % 3];
+                buf = v->bufA[(salAuxFrame + 2) % 3];
                 bufs[0] = buf;
                 bufs[1] = buf + 0x280;
                 bufs[2] = buf + 0x500;
-                v->cbA(0, bufs, v->argA, lbl_805D74C6 + 2);
+                v->cbA(0, bufs, v->argA, salAuxFrame + 2);
                 DCFlushRangeNoSync((void *)buf, 0x780);
             }
             if (v->i54 == 0 && v->cbB != 0) {
-                buf = v->bufB[(lbl_805D74C6 + 2) % 3];
+                buf = v->bufB[(salAuxFrame + 2) % 3];
                 bufs[0] = buf;
                 bufs[1] = buf + 0x280;
                 bufs[2] = buf + 0x500;
-                v->cbB(0, bufs, v->argB, lbl_805D74C6 + 2);
+                v->cbB(0, bufs, v->argB, salAuxFrame + 2);
                 DCFlushRangeNoSync((void *)buf, 0x780);
             }
         }

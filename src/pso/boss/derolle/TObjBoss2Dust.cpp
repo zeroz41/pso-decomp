@@ -1,7 +1,9 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/derolle/TObjBoss2Dust.h"
 #include "pso/system/vector.h"
 
 #include "types.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_8003AA9C___vt__13TObjBoss2Dust {
     s32 value;

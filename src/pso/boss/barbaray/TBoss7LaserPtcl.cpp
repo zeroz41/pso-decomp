@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/vector.h"
 #include "pso/boss/barbaray/TBoss7LaserPtcl.h"
 #include "pso/boss/TUnk_804F1C88.h"
@@ -15,6 +16,9 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
+
+#pragma readonly_strings on
 
 extern const f32 lbl_805DE9F0;
 extern "C" {
@@ -55,12 +59,11 @@ struct Ptcl_8035AD68 {
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__15TBoss7LaserPtcl[];
-extern s32 TBoss7LaserPtcl__class_name;
+const char *TBoss7LaserPtcl__class_name = "TBoss7LaserPtcl";
 
 u8 *TBoss7LaserPtcl__ct(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3);
 extern s32 __vt__13TUnk_804F1C88[];
 
-void queue_destruction__7TObjectFv(void *);
 void reset_global_table(void);
 
 void *__dt__13TUnk_804F1C88Fv(void *arg0, s16 arg1);
@@ -89,7 +92,7 @@ void TUnk_804F1C88::run_task() {
     }
     reset_global_table();
     if (6e+01f < o->x40) {
-        queue_destruction__7TObjectFv(o);
+        ((TObject *)o)->queue_destruction();
     }
 }
 
@@ -98,7 +101,7 @@ void TUnk_804F1C88::render() {  }
 u8 *TBoss7LaserPtcl__ct(u8 *boss7_laser_ptcl, u8 *arg1, u8 *arg2, u8 *arg3) {
     __ct__7TObjectFP7TObject(boss7_laser_ptcl, arg1);
     *(s32 **)((s8 *)boss7_laser_ptcl + 0x18) = &(*(RecoveredGlobal_8035ACBC___vt__15TBoss7LaserPtcl *)&__vt__15TBoss7LaserPtcl).value;
-    *(s32 *)((s8 *)boss7_laser_ptcl + 0) = (s32) TBoss7LaserPtcl__class_name;
+    *(const char **)((s8 *)boss7_laser_ptcl + 0) = TBoss7LaserPtcl__class_name;
     *(f32 *)((s8 *)boss7_laser_ptcl + 0x4C) = (f32) 8e+01f;
     *(s32 *)((s8 *)boss7_laser_ptcl + 0x54) = 0;
     *(s32 *)((s8 *)boss7_laser_ptcl + 0x1C) = 0;
@@ -170,7 +173,7 @@ void TBoss7LaserPtcl::destroy_particles() {
     object = (u8 *) (*((u8 **) (((s8 *) var_r30) + 0)));
     if (object != 0)
     {
-      queue_destruction__7TObjectFv(object);
+      ((TObject *)object)->queue_destruction();
       *((u8 **) (((s8 *) var_r30) + 0)) = 0;
     }
     var_r29 -= 1;
@@ -194,7 +197,7 @@ void TBoss7LaserPtcl::init_laser() {
     this->destroy_particles();
     subtract_vector(arg0 + 0x2C, arg0 + 0x20);
     normalize_vector_xz((Vec *)(arg0 + 0x2C));
-    *(f32 *)((s8 *)arg0 + 0x30) = (f32) 0.0f;
+    *(f32 *)((s8 *)arg0 + 0x30) = 0.0f;
     this->m_54 = (s32) (10430.38043493439 * atan2_float((f32) (*(f32 *)((s8 *)arg0 + 0x2C)), (f32) (*(f32 *)((s8 *)arg0 + 0x34))));
     spawn_particle_effect_with_flags((arg0 + 0x20), 0x20A, 0x40);
     *(s32 *)((s8 *)arg0 + 0x44) = (s32)spawn_continuous_particle_effect_with_flags((arg0 + 0x20), 0x177, 0x40);

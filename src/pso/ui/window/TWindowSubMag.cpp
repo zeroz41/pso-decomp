@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/MagStats.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "types.h"
@@ -23,6 +24,9 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/item/TItem.h"
+#include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 struct Obj_8027C0C4 { u8 pad[0x61]; s8 f61; u8 pad2[2]; s32 arr[1]; };
 
@@ -97,7 +101,6 @@ void *__ct__15TWindowHelpItemFPvUs(void *, s32, s32);
 void *fn_802628C0(s32, void *, s32);
 void queue_destruction__7TObjectFv(void *arg0);
 s32 call_if_split_screen(void *, s32);
-s32 get_cursor_value__19TWindowMenuIconLineFv(s32);
 s32 update_help_item__13TWindowSubMagFv(void *, s32);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
@@ -146,7 +149,7 @@ void TWindowSubMag::update_mag_help() {
 void TWindowSubMag::update_displayed_item() {
     s32 temp_r3;
 
-    temp_r3 = get_cursor_value__19TWindowMenuIconLineFv(this->m_34);
+    temp_r3 = ((TWindowMenuIconLine *)this->m_34)->get_cursor_value();
     if (temp_r3 != (s32) this->m_24) {
         this->m_24 = temp_r3;
         TWindowHelpItem__set_displayed_item_by_id((u8 *)this->m_40, temp_r3);
@@ -200,12 +203,12 @@ void *TWindowSubMag::create_learned_blast_toast() {
         return 0;
     }
     text_builder_reset();
-    get_message_10__20TWindowSubStatusDispFl(0x64);
+    TWindowSubStatusDisp::get_message_10(0x64);
     text_builder_append();
     append_text_space();
     TWindowSubMag__sub_8027C0B0(n);
     text_builder_append();
-    get_message_10__20TWindowSubStatusDispFl(0x4C);
+    TWindowSubStatusDisp::get_message_10(0x4C);
     text_builder_append();
     get_shared_text_buffer();
     n = calc_text_width();
@@ -253,7 +256,7 @@ void *TWindowSubMag::create_action_menu(s32 id) {
     TWindowSubEquip__sub_80263AF8(menu->field_0x30, 1);
     set_depth__11TWindowBaseFf(window);
     if (((s32 (*)(u8 *))is_mag_full)(item) != 0) {
-        TWindowSubComCard::draw_text_gray((s32)window, (s32)(get_message_10__20TWindowSubStatusDispFl(0x65)), 6, 1);
+        TWindowSubComCard::draw_text_gray((s32)window, (s32)(TWindowSubStatusDisp::get_message_10(0x65)), 6, 1);
     } else {
         forward_trade_action_default__16TObjCityMainWarpFPviii(window, get_message_10__20TWindowSubStatusDispFl(0x65), 6, 1);
     }
@@ -261,7 +264,7 @@ void *TWindowSubMag::create_action_menu(s32 id) {
     if (((MagStats *)mag)->get_photon_blast(0) != -1) {
         forward_trade_action_default__16TObjCityMainWarpFPviii(window, get_message_10__20TWindowSubStatusDispFl(0x64), 6, 0);
     } else {
-        TWindowSubComCard::draw_text_gray((s32)window, (s32)(get_message_10__20TWindowSubStatusDispFl(0x64)), 6, 0);
+        TWindowSubComCard::draw_text_gray((s32)window, (s32)(TWindowSubStatusDisp::get_message_10(0x64)), 6, 0);
     }
     ((TWindowSubComCardList *)window)->set_flag70_bit10();
     ((TWindowSubComCardList *)window)->update_layout_height((172.0f));
@@ -504,7 +507,7 @@ void *__dt__13TWindowSubMagFv(TWindowSubMag *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TWindowSubMag;
         if ((u32) arg0->m_4c != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x4C));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x4C)))->queue_destruction();
             arg0->m_4c = 0U;
         }
         if ((u32) arg0->m_48 != 0U) {

@@ -38,6 +38,10 @@ void set_network_config_card_channel(s32 channel);
 s32 get_network_config_buffer_size(s32 backup_mode);
 s32 get_network_info_file_size(void);
 s32 get_network_info_card_key(int channel, u8 *key);
+u32 calc_crc32(s32 buf, s32 len);
+extern "C" {
+u32 fn_803F4D10(u32 crc, u8 *buf, s32 len);
+}
 
 s32 get_network_config_backup_mode(void);
 s32 get_network_config_buffer_size(s32 mode);

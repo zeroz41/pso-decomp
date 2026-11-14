@@ -1,9 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/TUnk_804F3640.h"
 #include "pso/unk/text_80076E84.h"
 #include "pso/unk/TLobby_8036B204.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject.h"
 
 
 struct Obj_8036B2E8 { u8 pad0[0x1C]; u32 base; s32 t[4]; };
@@ -89,7 +91,7 @@ Mgr_8036B424 *TLobby__sub_8036B424(Mgr_8036B424 *arg0, void * _w1) {
             arg0->ptrs[i] = 0;
         }
     } else {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
     slot_entity_dispatcher_instance = (u32)arg0;
     return arg0;

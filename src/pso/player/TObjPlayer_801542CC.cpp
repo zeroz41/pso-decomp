@@ -7,6 +7,8 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/collision/ActorBodyContact.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer.h"
 
 struct Elt_801542CC { char pad[0x18]; s32 f18; char pad2[0x2C - 0x1C]; };
 
@@ -191,7 +193,6 @@ void TObjPlayer__sub_801542F4(s32 a);
 void reset_global_table(void);
 u8 test_elt_flag__13TUnk_80493450Fll(void *arg0, s32 arg1, s32 arg2);
 s32 obj_is_hit_receivable(void *);
-s32 obj_testFlags30__14TObjCollidableFUl(void *, u32);
 void *resolve_hittable_target(u16 actorId, s16 collider);
 u16 register_entity_by_id(void*);
 int memset(void*, void*, void*);
@@ -372,7 +373,7 @@ void *resolve_hittable_target(u16 actorId, s16 collider) {
     if (target == NULL) {
         return NULL;
     }
-    if (((TObject *)target)->all_parents_unqueued_for_destruction() == 0 || obj_testFlags30__14TObjCollidableFUl(target, 0x04040800) != 0) {
+    if (((TObject *)target)->all_parents_unqueued_for_destruction() == 0 || ((TObjCollidable *)target)->obj_testFlags30(0x04040800) != 0) {
         return NULL;
     }
     if (((s32 (*)(void *, s32, s32))test_elt_flag__13TUnk_80493450Fll)(target, collider, 1) == 0) {
@@ -883,8 +884,8 @@ s32 test_player_overlap_with_players(void *arg0, Obj_801559D0 *self, CollisionVe
         VecCopy__FP3VecPC3Vec(&a.position, pos);
         a.facing = self->f60;
         for (i = registered_player_count; i < lbl_805D5868; i++) {
-            o = (Obj_801559D0 *)get_player_data__10TObjPlayerFi(i);
-            if (o != 0 && o != self && obj_testFlags30__14TObjCollidableFUl(o, 0x80000800) == 0 && o->a4 != 0 &&
+            o = (Obj_801559D0 *)TObjPlayer::get_player_data(i);
+            if (o != 0 && o != self && ((TObjCollidable *)o)->obj_testFlags30(0x80000800) == 0 && o->a4 != 0 &&
                 horizontal_distance_squared(&self->pos, &o->pos) < 10000.0f) {
                 b.colliders = (void *)o->a4;
                 b.count = o->a8;
@@ -916,7 +917,7 @@ s32 test_player_body_overlap_at(s32 arg0, u8 *self, void *pos) {
         VecCopy__FP3VecPC3Vec(&source.position, pos);
         source.facing = *(s32 *)(self + 0x60);
         for (i = 0; i < lbl_805D5868; i++) {
-            other = (u8 *)get_player_data__10TObjPlayerFi(i);
+            other = (u8 *)TObjPlayer::get_player_data(i);
             if (other != NULL && other != self && (data = *(void **)(other + 0xA4)) != NULL) {
                 destination.colliders = data;
                 destination.count = *(s32 *)(other + 0xA8);
@@ -1123,7 +1124,7 @@ void check_enemy_body_collisions(void *arg0) {
     if (self->coll != 0) {
         self->coll->flags &= ~0x900000;
         for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
-            other = (Player_801564A0 *)get_player_data__10TObjPlayerFi(i);
+            other = (Player_801564A0 *)TObjPlayer::get_player_data(i);
             if (other != 0) {
                 if (self->room == other->room || self->id < 0x1000) {
                     ct = (Coll_801564A0 *)((TObjCollidable *)self)->find_actor_body_contact((u8 *)other, 10000.0f);
@@ -1151,7 +1152,7 @@ void TObjCollidable::check_object_collisions() {
     if (temp_r5 != NULL) {
         *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) & 0xFFB7FFFF);
         for (j = 0; j < (s32) registered_player_count; j++) {
-            temp_r3 = ((void *)get_player_data__10TObjPlayerFi(j));
+            temp_r3 = ((void *)TObjPlayer::get_player_data(j));
             if ((temp_r3 != NULL) && ((u16) *(u16 *)((s8 *)temp_r3 + 0x1C) < 0x1000U)) {
                 actor_body_contact = find_actor_body_contact((u8*)temp_r3, 10000.0f);
                 if (actor_body_contact != NULL) {

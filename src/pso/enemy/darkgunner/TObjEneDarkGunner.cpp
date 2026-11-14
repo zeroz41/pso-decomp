@@ -1,9 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin_EffLineFade.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/enemy/darkgunner/TObjEneDarkGunner.h"
 #include "pso/unk/text_800A02AC.h"
 #include "pso/system/vector.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
@@ -17,7 +19,7 @@ void TObjEneMe1Canadin_EffLineFade::run_task() {
     var_r31 -= 0x10;
     if (var_r31 < 0) {
         var_r31 = 0;
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
     this->m_37 = (u8) var_r31;
     this->m_3b = (s8) var_r31;
@@ -27,9 +29,6 @@ extern s32 __vt__29TObjEneMe1Canadin_EffLineFade[];
 
 }
 TObjEneMe1Canadin_EffLineFade::~TObjEneMe1Canadin_EffLineFade() {
-
-}
-extern "C" {
 
 }
 

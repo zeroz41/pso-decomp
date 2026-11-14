@@ -11,6 +11,10 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/render/RenderFadeState.h"
+#include "pso/system/task/TObject.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();

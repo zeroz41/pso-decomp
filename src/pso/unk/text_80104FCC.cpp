@@ -18,6 +18,53 @@
 #include "pso/item/armor/TItemProUnit.h"
 #include "pso/item/mag/TItemMag.h"
 #include "pso/player/TObjPlayer_80121010.h"
+#include "pso/player/TObjPlayer_80104860.h"
+#include "pso/item/TItem.h"
+#include "pso/system/data/FlagWord.h"
+#include "pso/player/TObjPlayer_80105874.h"
+#include "pso/unk/text_80103674.h"
+#include "pso/unk/text_8010F168.h"
+#include "pso/item/TItemLoad.h"
+#include "pso/item/TItemBuff.h"
+#include "pso/item/MagStats.h"
+#include "pso/network/protocol/protocol_types.h"
+#include "pso/unk/TLobby_80105A2C.h"
+#include "pso/unk/TLobby_801E43E4.h"
+#include "pso/system/byteswap.h"
+#include "pso/item/item_pmt.h"
+#include "pso/player/TObjPlayer_8012105C.h"
+#include "pso/item/TItemDisconnectCtrl_80105BE8.h"
+#include "pso/item/TItemLockCountCtrl.h"
+#include "pso/item/TItemTimerEvent.h"
+#include "pso/item/TItemTexLoad.h"
+#include "pso/effect/item/TItemEffectWeapon.h"
+#include "pso/item/drop/TItemDrop_80105D0C.h"
+#include "pso/unk/TLobby_80103F5C.h"
+
+// The item class resource sets, one {load, unload} pair each, ended by a null pair;
+// init_game_resources hands the table to create_load_unload_set.
+struct ItemClassLoadUnloadEntry {  // inferred: from item_class_load_unload_table
+    void (*load)();
+    void (*unload)();
+};
+
+ItemClassLoadUnloadEntry item_class_load_unload_table[15] = {
+    { load_items, unload_items },
+    { TObjPlayer__sub_80121060, TObjPlayer__sub_8012105C },
+    { TItemMag::load_data_files, TItemMag::cleanup },
+    { TItemProArmor::load_data, TItemProArmor::free },
+    { TItemProShield::load_data, TItemProShield::free },
+    { TItemProUnit::load_data, TItemProUnit::free },
+    { TLobby::alloc_objects, TLobby::free_boss_rocks },
+    { TItemDisconnectCtrl__sub_80105BE8, NULL },
+    { TItemLockCountCtrl::create_instance, TItemTimerEvent::clear_active },
+    { TItemLockCountCtrl::init_effect_table, TItemLockCountCtrl::free_all },
+    { load_item_kt_afs, TItemTexLoad::free_textures },
+    { TItemEffectWeapon::initialize_static_effects, TItemEffectWeapon::free_static_effects },
+    { init_item_drop_globals, unload_item_drop_globals },
+    { TLobby::handle_select_confirm, TLobby__sub_80104464 },
+    { NULL, NULL },
+};
 
 struct Blk_8010542C { u32 w[4]; };
 struct Item_8010542C { u32 a; Blk_8010542C b; };
@@ -109,7 +156,6 @@ s32 is_valid_drop_floor();
 }
 void *build_6x06_send_guild_card(void *arg0);
 extern Rec_80105538 *TLobby__data_805D6144;
-extern const f32 lbl_805DAAB4;
 extern "C" {
 void send_6x60_standard_drop_item_request(Obj_80105538 *self);
 
@@ -394,6 +440,15 @@ TItem *TLobby__sub_801054E0(u8 *item) {
     return 0;
 }
 
+// Dead-stripped by the linker: its 0.0f is the only trace left. The DOL pools 0.0f (0x805DAAB0)
+// ahead of send_6x60_standard_drop_item_request's 100.0f, so a 0.0f user came first in this TU.
+// inferred: minimal body, the real function is unknown.
+void clear_drop_request_position(Vec_80105538 *v) {
+    v->x = 0.0f;
+    v->y = 0.0f;
+    v->z = 0.0f;
+}
+
 void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
     void *p1;
     void *p2;
@@ -419,7 +474,7 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
                         pkt.f14 = get_current_floor_area();
                         Vec_80105538 v;
                         v.x = pkt.x;
-                        v.y = lbl_805DAAB4;
+                        v.y = 100.0f;
                         v.z = pkt.z;
                         if (csnVecterUnder((s32)&v, 1) != 0) {
                             ((TLobby *)(&pkt))->dispatch_packet_wrapper();
@@ -464,4 +519,127 @@ void TObjChara::request_box_item_drop(void *unused, s16 arg2) {
         }
     }
 }
+}
+
+struct Msg_801057A8 {
+    s8 client;
+    u8 pad1[3];
+    f32 x;
+    f32 z;
+    s16 area;
+    u8 pad2[2];
+    u8 item[1];
+};
+
+struct Item_801057A8 {
+    u8 pad[0x28];
+    s16 area;
+    u8 pad2[0xE];
+    f32 x;
+    f32 y;
+    f32 z;
+};
+
+extern "C" {
+Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *arg0, s32 arg1);
+Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *arg0, s32 arg1) {
+    Item_801057A8 *item;
+    s8 me;
+    s32 act;
+    u8 ok;
+    item = NULL;
+    if (arg0 != NULL) {
+        me = get_current_floor();
+        act = is_local_player_off_current_floor();
+        ok = 0;
+        if (arg0->client == me && act != 1) {
+            ok = 1;
+        }
+        if (ok != 0) {
+            item = (Item_801057A8 *)construct_item((TItemData *)arg0->item);
+            if (item != NULL) {
+                item->x = arg0->x;
+                item->z = arg0->z;
+                item->area = arg0->area;
+                ((TItem *)item)->place_on_ground(arg0->client, &item->x, 1);
+            }
+        }
+        if (arg1 == 0) {
+            ((void (*)(s32, s32, u8 *, f32, f32))add_item_condition)(arg0->client, arg0->area, arg0->item, arg0->x, arg0->z);
+        }
+    }
+    return item;
+}
+
+}
+
+extern "C" {
+s32 create_load_unload_set(ItemClassLoadUnloadEntry *table);
+extern s32 lbl_805D5440;
+extern int item_class_load_handle;
+
+void TObjPlayer::free_item_globals() { TItemDrop__sub_8010F168((void *)item_class_load_handle, (s16)((void*)1)); item_class_load_handle = 0; TItemLoad::free_all(); TItemBuff::free_all_and_init(); }
+
+void TObjPlayer::init_game_resources() {
+    init_item_chunk_buffers();
+    TItemLoad::init_resources();
+    item_class_load_handle = create_load_unload_set(item_class_load_unload_table);
+    ((FlagWord *)(&lbl_805D5440))->reset();
+}
+
+void fn_801058E8(void* p) { *(u8*)((char*)p + 0x7) |= 0x1; }
+
+s32 TObjPlayer::is_script_controlled() {
+    return this->control_state == 6;
+}
+
+int TObjPlayer::activate_d04_slot() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 1); }
+
+}
+
+extern "C" {
+
+int TItemData::test_flag3() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 3); }
+int TItemData::get_item_field_2() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 2); }
+
+
+}
+
+MagStats *MagStats::init() { clear(); return this; }
+
+void TWindowSubStatusDisp::clear_fields() { *(s16*)((char*)this + 0xa) = 0; *(s16 *)&this->m_prev = 0; *(s16 *)&this->m_id = 0; *(s16 *)&this->m_flags = 0; *(s16*)((char*)this + 0x2) = 0; *(s16 *)&this->m_name = 0; *(s16 *)&this->m_down = 0; *(s16*)((char*)this + 0x12) = 0; *(s16 *)&this->m_up = 0; *(s16*)((char*)this + 0xe) = 0; *(s16 *)&this->m_next = 0; }
+
+extern "C" {
+
+s32 test_flags_any(s32, s32);
+
+extern u32 TItemMenuCtrl__instance;
+
+s32 TItemMenuCtrl::query_flag(s32 arg0) {
+    if ((u32) TItemMenuCtrl__instance != 0U) {
+        return test_flags_any(TItemMenuCtrl__instance + 0x1C, 1 << arg0);
+    }
+    return 0;
+}
+
+}
+
+void TLobby::dispatch_packet_wrapper() { bswap_6x60_drop_request_fields(this); send_subcommand_to_leader(this); }
+
+void bswap_6x60_drop_request_fields(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x6)); bswap_16((u16 *)((char*)p + 0x10)); bswap_16((u16 *)((char*)p + 0x12)); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); }
+void *build_6x06_send_guild_card(void *arg0) {
+    build_6x05_write_switch_flag(arg0);
+    *(s8 *)((s8 *)arg0 + 0) = 0x60;
+    *(s8 *)((s8 *)arg0 + 1) = 6;
+    return arg0;
+}
+void build_6x05_write_switch_flag(void* a0) { *(float*)((char*)a0 + 0xc) = 0.0f; *(float*)((char*)a0 + 0x8) = 0.0f; *(short*)((char*)a0 + 0x10) = 0; *(short*)((char*)a0 + 0x12) = 0; *(unsigned char*)((char*)a0 + 0x5) = 0; *(unsigned char*)((char*)a0 + 0x4) = 0; *(unsigned char*)((char*)a0 + 0x0) = 96; *(unsigned char*)((char*)a0 + 0x1) = 5; }
+
+void TLobby::process_and_dispatch_packet() { bswap_6xa2_fields(); send_subcommand_to_leader(this); }
+void TLobby::bswap_6xa2_fields() { bswap_6x60_drop_request_fields(this); bswap_32((u32 *)((char*)this + 0x18)); bswap_32((u32 *)((char*)this + 0x1c)); bswap_32((u32 *)((char*)this + 0x20)); bswap_32((u32 *)((char*)this + 0x24)); }
+void *TLobby::build_6x06_guild_card_packet() {
+    build_6x06_send_guild_card(this);
+    *((u8 *)this + 0) = 0xA2;
+    *((u8 *)this + 1) = 0x0A;
+    return this;
 }

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/math/MatrixVector.h"
@@ -10,6 +11,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/system/task/TObject.h"
 
 struct Base_802ED928 { char pad[0x18]; };
 struct VObj_802ED928 : Base_802ED928 {
@@ -161,7 +163,7 @@ void TBoss7DeRolLeC::run_task() {
     temp_r3 = this->unk_628;
     if (temp_r3 & 0x8000) {
         this->send_entity_set_flags();
-        queue_destruction__7TObjectFv((this));
+        queue_destruction();
         return;
     }
     if (temp_r3 & 0x80) {

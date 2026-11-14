@@ -11,6 +11,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 GinjaTextureEntry lbl_804ED990 = { "f256_memorycard_select", 0, NULL };

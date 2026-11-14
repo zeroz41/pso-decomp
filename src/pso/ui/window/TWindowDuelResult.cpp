@@ -7,6 +7,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/window/TWindowBase.h"
 
 #pragma readonly_strings on
 
@@ -158,8 +159,6 @@ void *__vt__17TWindowDuelResult[5] = {
     (void *)0x43c20000, (void *)0x43240000, (void *)0x47437b00, (void *)0x0,
     (void *)0x3,
 };
-#define TWindowDuelResult__layout_entries ((u8 *)TWindowDuelResult__layout_entries)
-#define duel_result_window_layout_table ((u8 *)duel_result_window_layout_table)
 #define __vt__17TWindowDuelResult (*(RecoveredGlobal_8024F5B0___vt__17TWindowDuelResult *)__vt__17TWindowDuelResult)
 
 void sub_8024EF3C__17TWindowDuelResultFv(void) {  }
@@ -178,7 +177,7 @@ void sub_8024EF40__17TWindowDuelResultFv(Win_8024EF40 *arg0) {
     set_default_status__17TWindowDuelResultFPvi(c, get_localized_text_entry(0x10, 5));
     pl = (u8 *)get_player_by_client_id(arg0->player);
     if (pl != 0) {
-        set_text_entry_string((u8 *)(get_array_entry__11TWindowBaseFi(arg0, 1)), (u32)(pl + 0x85C), 0x20);
+        set_text_entry_string((u8 *)(((TWindowBase *)arg0)->get_array_entry(1)), (u32)(pl + 0x85C), 0x20);
         vals[0] = TWindowDuelResult__sub_801C19AC((f32 *)(pl + 0x75C));
         vals[1] = TWindowDuelResult__sub_801C19AC((f32 *)(pl + 0x76C));
         vals[2] = TWindowDuelResult__sub_801C19AC((f32 *)(pl + 0x78C));

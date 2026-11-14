@@ -2,6 +2,8 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowAddition.h"
 
+#pragma readonly_strings on
+
 struct Ctx_80244364 { u8 pad[0x10]; f32 x; f32 y; };
 
 struct Obj_80244364 { u8 pad[0x60]; f32 a[2]; f32 x; f32 y; };
@@ -23,7 +25,7 @@ typedef struct Disp_80244238 {
 
 extern "C" {
 s32 set_position_xy__15TWindowAdditionFff(f32, f32);
-extern s32 lbl_805D3878;
+const char *lbl_805D3878 = "TWindowAddition";
 Ctx_80244364 *setup_window_draw_context__11TWindowBaseFl(Obj_80244364 *self, f32 *p);
 Ctx_80244364 *get_draw_context__11TWindowBaseFPv(Obj_80244364 *self);
 
@@ -57,7 +59,7 @@ Ctx_80244364 *get_draw_context__11TWindowBaseFPv(Obj_80244364 *self) {
 
 void TWindowAddition::sub_802443B4() {
     u8 *arg0 = (u8 *)this;
-    *(s32 *)&this->m_name = (s32) lbl_805D3878;
+    this->m_name = lbl_805D3878;
     *(f32 *)((s8 *)arg0 + 0x68) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x6C) = 0.0f;
     set_position_xy__15TWindowAdditionFff(1.0f, 1.0f);

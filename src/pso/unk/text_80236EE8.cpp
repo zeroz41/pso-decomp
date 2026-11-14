@@ -1,9 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/system/task/TObject.h"
 
 struct VBase_18_1a504b { char pad[0x18]; };
 
@@ -47,8 +49,8 @@ List_802370D8 *gather_contacts_for_self__10TObjPlayerFl(void *, u32);
 void deliver_technique_to_party_targets(Obj_802370D8 *arg0);
 void *spawn_particle_effect(void *pos, s32 id);
 void *get_player_by_client_id(s32 i);
-extern s32 support_tec_range_effect_id_table[];
-extern Arr_80236EE8 lbl_8044D908;
+const s32 support_tec_range_effect_id_table[4] = {493, 505, 506, 507};
+const Arr_80236EE8 lbl_8044D908 = {{0, 0, 0}};
 void spawn_support_tec_range_effect(Tec_80236EE8 *self);
 
 void spawn_support_tec_range_effect(Tec_80236EE8 *self) {
@@ -128,7 +130,7 @@ void deliver_technique_to_party_targets(Obj_802370D8 *arg0) {
     List_802370D8 *list;
     s32 i;
     if (*(u32 *)((s8 *)arg0 + 0xDC) == 0) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     if (get_entity_id(*(u32 *)((s8 *)arg0 + 0x1C)) < 4) {

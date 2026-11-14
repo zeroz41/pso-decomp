@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/map/FloorArea.h"
@@ -14,6 +15,10 @@
 #include "pso/unk/TUnk_804CC888.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
+#include "pso/technique/TTecGrants.h"
+#include "pso/technique/TTecAnti.h"
+#include "pso/technique/TTecCtrl.h"
 
 // ---- pso/unk/text_80232934
 
@@ -38,8 +43,6 @@ void scale_matrix(s32, f32, f32, f32);
 void push_matrix(void);
 void post_translate_matrix(void *);
 void draw_ginja_object(void);
-extern Vec_80232934 lbl_8044D5A8;
-extern Quad_80232934 grants_flash_quad_vertices;
 extern u8 lbl_804CC868[];
 extern u8 technique_ringwave_texture_list[];
 extern s32 saved_model_render_flags;
@@ -61,8 +64,7 @@ void *find_entity_by_id(u16 id);
 
 struct Part_80232EC0 { s32 id; u32 flags; u8 pad8[4]; };
 
-struct Profile_80232EC0 { Part_80232EC0 *parts; u32 count; };
-extern Profile_80232EC0 grants_effect_emitter_table[];
+struct Profile_80232EC0 { const Part_80232EC0 *parts; u32 count; };
 
 struct Obj_80232E0C {
     u8 pad0[0x18];
@@ -91,7 +93,7 @@ struct Obj_80232B7C {
 struct Obj_80232B7C;
 struct SEnt_80232C50 { s32 a; u32 flags; s32 c; };
 
-struct SGrp_80232C50 { SEnt_80232C50 *ents; u32 count; };
+struct SGrp_80232C50 { const SEnt_80232C50 *ents; u32 count; };
 
 struct Ctl_80232C50 {
     u8 pad0[0x24];
@@ -115,7 +117,35 @@ void *find_entity_by_id(u16 id);
 void *__nw__7TObjectFUl(u32);
 }
 u8 *construct_timed_sound_voice(u8 *arg0, s32 arg1, s16 arg2, s32 arg3, s32 arg4, s32 arg5);
-extern SGrp_80232C50 technique_effect_entry_table[];
+
+// Per level tier (TObjPlayer::get_level_tier): the particle emitters TUnk_804CC888 keeps alive and
+// the effects it spawns when it ends.
+// inferred names: grants_emitter_parts_<tier> and grants_effect_entries_<tier> are the rows of
+// grants_effect_emitter_table and technique_effect_entry_table for each tier.
+static const Part_80232EC0 grants_emitter_parts_0[3] = { { 0xB4, 0 }, { 0xB5, 0 }, { 0xB6, 0 } };
+static const SEnt_80232C50 grants_effect_entries_0[3] = { { 0x1D3, 0, 0 }, { 0x1D4, 0, 0 }, { 0x1CB, 0, 0 } };
+static const Part_80232EC0 grants_emitter_parts_1[3] = { { 0xB4, 0 }, { 0xB5, 0 }, { 0xB6, 0 } };
+static const SEnt_80232C50 grants_effect_entries_1[3] = { { 0x1D3, 0, 0 }, { 0x1D4, 0, 0 }, { 0x1D5, 0, 0 } };
+static const Part_80232EC0 grants_emitter_parts_2[3] = { { 0xB4, 0 }, { 0xB5, 0 }, { 0xB6, 0 } };
+static const SEnt_80232C50 grants_effect_entries_2[3] = { { 0x1D3, 0, 0 }, { 0x1D4, 0, 0 }, { 0x1CC, 0, 0 } };
+static const Part_80232EC0 grants_emitter_parts_3[3] = { { 0xB4, 0 }, { 0xB5, 0 }, { 0xB6, 0 } };
+static const SEnt_80232C50 grants_effect_entries_3[3] = { { 0x1C0, 0, 0 }, { 0x1D4, 0, 0 }, { 0x10F, 0, 0 } };
+static const Part_80232EC0 grants_emitter_parts_4[3] = { { 0xB4, 0 }, { 0xB5, 0 }, { 0xB6, 0 } };
+static const SEnt_80232C50 grants_effect_entries_4[3] = { { 0x1C0, 0, 0 }, { 0x1D4, 0, 0 }, { 0x1A4, 0, 0 } };
+static const Part_80232EC0 grants_emitter_parts_5[3] = { { 0xB4, 0 }, { 0xB5, 0 }, { 0xB6, 0 } };
+static const SEnt_80232C50 grants_effect_entries_5[4] = { { 0x1C2, 0, 0 }, { 0x1D4, 0, 0 }, { 0x1C9, 0, 0 }, { 0x1DA, 0, 0 } };
+
+const Profile_80232EC0 grants_effect_emitter_table[6] = {
+    { grants_emitter_parts_0, 3 }, { grants_emitter_parts_1, 3 }, { grants_emitter_parts_2, 3 },
+    { grants_emitter_parts_3, 3 }, { grants_emitter_parts_4, 3 }, { grants_emitter_parts_5, 3 },
+};
+
+const SGrp_80232C50 technique_effect_entry_table[6] = {
+    { grants_effect_entries_0, 3 }, { grants_effect_entries_1, 3 }, { grants_effect_entries_2, 3 },
+    { grants_effect_entries_3, 3 }, { grants_effect_entries_4, 3 }, { grants_effect_entries_5, 4 },
+};
+
+const char *tec_grants_class_name = "TTecGrants";
 extern void *tl_07;
 extern s32 technique_effect_bml;
 extern s32 lbl_805D63B0;
@@ -127,7 +157,7 @@ TUnk_804CC888::~TUnk_804CC888() {
     u32 i;
     for (i = 0; i < grants_effect_emitter_table[((Obj_80232E0C *)this)->kind].count; i++) {
         if (((Obj_80232E0C *)this)->items[i] != NULL) {
-            queue_destruction__7TObjectFv(((Obj_80232E0C *)this)->items[i]);
+            ((TObject *)(((Obj_80232E0C *)this)->items[i]))->queue_destruction();
         }
     }
     stop_sound_request(((Obj_80232E0C *)this)->f20);
@@ -151,11 +181,11 @@ void TUnk_804CC888::run_task() {
         for (i = 0; i < technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].count; i++) {
             obj = (u8 *)find_entity_by_id(((Ctl_80232C50 *)this)->id);
             if (obj != 0) {
-                SEnt_80232C50 *e = &technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i];
+                const SEnt_80232C50 *e = &technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i];
                 if (e->flags & 0x20) {
                     r = (s32)spawn_particle_effect(obj + 0x38, e->a);
                     if (r != 0) {
-                        attach_particle_model((u8 *)r, (s32)(get_bml_model(technique_effect_bml, technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i].flags >> 16)), (s32)lbl_805D63B0, 0, 1, (f32)1.0f);
+                        attach_particle_model((u8 *)r, (s32)(get_bml_model(technique_effect_bml, technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i].flags >> 16)), (s32)lbl_805D63B0, 0, 1, 1.0f);
                     }
                 } else {
                     spawn_particle_effect(obj + 0x38, e->a);
@@ -180,7 +210,7 @@ void TUnk_804CC888::run_task() {
         if (p != 0) {
             construct_timed_sound_voice((u8 *)p, (s32)((Ctl_80232C50 *)this)->f30, (s16)(0xF), 0x4002A60D, (s32)dir, (s32)tl_07);
         }
-        queue_destruction__7TObjectFv(((Ctl_80232C50 *)this));
+        ((TObject *)((Ctl_80232C50 *)this))->queue_destruction();
     }
 }
 
@@ -226,7 +256,7 @@ void TUnk_804CC870::run_task() {
         this->m_48 = 0;
     }
     if (this->m_38 <= 0.0f) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 
@@ -239,8 +269,8 @@ void TUnk_804CC870::render() {
         return;
     }
     init_texture_copy_rect(&ctx, lbl_804CC868, technique_ringwave_texture_list, 0, this->m_48 + 1);
-    Vec_80232934 v = lbl_8044D5A8;
-    Quad_80232934 q = grants_flash_quad_vertices;
+    Vec_80232934 v = { 1.2f, 1.2f, 1.2f };
+    Quad_80232934 q = { 0, 0, 0, 0 };
     approach_alpha_clamped((f32 *)arg0->f38, (const f32 *)&q, 0.1f);
     approach_position_if_far(&arg0->pos, &v, arg0->f4c);
     copy_anim_frame_to_slot(&ctx);
@@ -261,6 +291,50 @@ void TUnk_804CC870::render() {
     copy_slot_to_anim_frame(&ctx);
     restore_draw_list_mask();
     model_render_flags = saved_model_render_flags;
+}
+
+struct RecoveredGlobal_80232830_lbl_804CC510
+{
+  s32 value;
+  u8 remaining[0x48];
+};
+
+struct RecoveredGlobal_80232830_lbl_804CC55C
+{
+  s32 value;
+  u8 remaining[0x94];
+};
+
+extern "C" {
+s32 calc_technique_parameters(int, int, int);
+extern RecoveredGlobal_80232830_lbl_804CC510 tech_high_level_linear_power_table;
+extern RecoveredGlobal_80232830_lbl_804CC55C lbl_804CC55C;
+typedef struct RecoveredGlobal_80232830_lbl_804CC510 RecoveredGlobal_80232830_lbl_804CC510;
+typedef struct RecoveredGlobal_80232830_lbl_804CC55C RecoveredGlobal_80232830_lbl_804CC55C;
+typedef char RecoveredGlobal_80232830_lbl_804CC510_size[((sizeof(RecoveredGlobal_80232830_lbl_804CC510)) == 0x4C) ? (1) : (-1)];
+typedef char RecoveredGlobal_80232830_lbl_804CC55C_size[((sizeof(RecoveredGlobal_80232830_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
+void TTecGrants::init_parameters() {
+    u8 *arg0 = (u8 *)this;
+  s32 *new_var2;
+  int new_var3;
+  s8 *new_var;
+  new_var = (s8 *) arg0;
+  new_var3 = (int) calc_technique_parameters(9, this->m_78, 0xFFFF);
+  ((TTecAnti *)(arg0 + 0x88))->copy_params((u8 *)new_var3);
+  if ((((s16) (*((s16 *)(new_var + 0x78)))) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
+  {
+    new_var2 = &tech_high_level_linear_power_table.value;
+    new_var = new_var;
+    *((f32 *)(new_var + 0x88)) = (f32) ((*((s16 *) (((s8 *) new_var2) + 0x24))) + ((*((s16 *) (((s8 *) new_var2) + 0x26))) * (*((s16 *)(new_var + 0x78)))));
+    return;
+  }
+  *((f32 *)(new_var + 0x88)) = (f32) ((*((f32 *)(new_var + 0x88))) + ((f32) ((*((s16 *)(new_var + 0xAC))) * (*((s16 *)(new_var + 0x78))))));
+  if (TTecCtrl::is_technique_ready() != 0)
+  {
+    *((f32 *)(new_var + 0x88)) = (f32) ((*((f32 *)(new_var + 0x88))) * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x48))));
+  }
+}
+
 }
 
 #pragma defer_codegen off

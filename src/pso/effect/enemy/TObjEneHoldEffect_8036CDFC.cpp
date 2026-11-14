@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/effect/enemy/TObjEneHoldEffect_8036CDFC.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -6,6 +7,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjMotion.h"
 struct Vec_8036CF30 { f32 x, y, z; };
 
 struct Hold_8036CF30 {
@@ -28,7 +31,6 @@ struct Hold_8036CE20 {
 };
 
 extern "C" {
-s32 obj_testFlags30__14TObjCollidableFUl(void *, int);
 void *get_player_by_client_id(int);
 void subtract_vector(Vec_8036CF30 *, void *);
 void normalize_vector(Vec_8036CF30 *);
@@ -52,7 +54,7 @@ u8 validate_attack_target_count(s32 *count) {
 void run_task__17TObjEneHoldEffectFv(Hold_8036CE20 *o) {
     void *p = get_player_by_client_id(o->x94);
     if (p != NULL && ((TObject *)p)->all_parents_unqueued_for_destruction() != 0 &&
-        obj_testFlags30__14TObjCollidableFUl(p, 0x800) == 0 && o->x90 != NULL &&
+        ((TObjCollidable *)p)->obj_testFlags30(0x800) == 0 && o->x90 != NULL &&
         ((TObject *)(o->x90))->all_parents_unqueued_for_destruction() != 0) {
         if (o->x98 == 0x20F && is_split_screen() == 0) {
             Vec_8036CF30 d;
@@ -69,7 +71,7 @@ void run_task__17TObjEneHoldEffectFv(Hold_8036CE20 *o) {
         }
     }
     if (o->x9c-- < 0) {
-        queue_destruction__7TObjectFv(o);
+        ((TObject *)o)->queue_destruction();
     }
 }
 #pragma pop
@@ -80,7 +82,7 @@ void TObjEneHoldEffect::render() {
     Hold_8036CF30 *o = (Hold_8036CF30 *)this;
     void *p = get_player_by_client_id(o->x94);
     if (p != NULL && ((TObject *)p)->all_parents_unqueued_for_destruction() != 0 &&
-        obj_testFlags30__14TObjCollidableFUl(p, 0x800) == 0 && o->x90 != NULL &&
+        ((TObjCollidable *)p)->obj_testFlags30(0x800) == 0 && o->x90 != NULL &&
         ((TObject *)(o->x90))->all_parents_unqueued_for_destruction() != 0) {
         Vec_8036CF30 d;
         Vec_8036CF30 out;

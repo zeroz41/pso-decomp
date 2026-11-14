@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/TFogCtrl_EOR.h"
@@ -16,6 +17,8 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/collision/TObjFogCollisionPoison.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_800FA95C_lbl_8049C700 {
     s32 value;
@@ -29,9 +32,11 @@ s32 request_fog__8TFogCtrlFPvii(u8 *arg0, s32 arg1, s32 arg2);
 extern s32 TFogCtrl__fog_instance_table[];
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__12TFogCtrl_EOR[];
-extern s32 TFogCtrl_EOR__name;
+static const char lbl_8043DA20[] = "fogentry.dat";
+static const char lbl_8043DA30[] = "fogentry_a.dat";
+const char *TFogCtrl__name = "TFogCtrl";
+const char *TFogCtrl_EOR__name = "TFogCtrl_EOR";
 s32 TFogCtrl__sub_800FAC84(void *p);
-void queue_destruction__7TObjectFv(void *arg0);
 int update_all__8TFogCtrlFv(void*);
 
 s32 TQuestVmDownLoadServer::get_serial_access() { return TAdEnterSerialAccessGC::parse_serial_value(); }
@@ -49,13 +54,13 @@ u8 *TFogCtrl_EOR::init_object() {
     u8 *arg0 = (u8 *)this;
     __ct__7TObjectFP7TObject(arg0, &end_of_render_root);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_800FA95C_lbl_8049C700 *)&__vt__12TFogCtrl_EOR).value;
-    *(s32 *)&this->m_name = (s32) TFogCtrl_EOR__name;
+    m_name = TFogCtrl_EOR__name;
     return arg0;
 }
 
 void TQuestVmDownLoadServer::destroy_instance() {
     if ((u32) fog_ctrl_instance != 0U) {
-        queue_destruction__7TObjectFv((void *)fog_ctrl_instance);
+        ((TObject *)fog_ctrl_instance)->queue_destruction();
     }
     fog_ctrl_instance = 0U;
 }
@@ -227,10 +232,6 @@ typedef char RecoveredGlobal_800FB8A0___vt__8TFogCtrl_size[sizeof(RecoveredGloba
 
 typedef char RecoveredGlobal_800FB8A0_TFogCtrl__data_80501188_size[sizeof(RecoveredGlobal_800FB8A0_TFogCtrl__data_80501188) == 0x10 ? 1 : -1];
 
-struct RecoveredGlobal_800FBB68_lbl_8049C670 { s32 value; u8 remaining[0x8C]; };
-
-typedef char RecoveredGlobal_800FBB68_lbl_8049C670_size[sizeof(RecoveredGlobal_800FBB68_lbl_8049C670) == 0x90 ? 1 : -1];
-
 struct FogParam_800FBC5C {
     s32 f0;
     s32 f4;
@@ -286,8 +287,7 @@ struct FogCtrl_800FB134;
 extern "C" {
 
 s32 is_split_screen();
-s32 get_camera_mode__11TCameraCtrlFv();
-void read_disc_file(void *, void *);
+void read_disc_file(const char *, void *);
 s32 TFogCtrl__sub_800FAC84(void* p);
 s32 request_fog__8TFogCtrlFPvii(u8 *arg0, s32 arg1, s32 arg2);
 void TFogCtrl__sub_800FB400(O_800FB400 *self, s32 i, s32 j);
@@ -307,12 +307,9 @@ void GXSetFogRangeAdj(s32, s32, GXFogAdjTable_800FAE1C *);
 f32 sin_table_lookup(s32);
 
 extern RecoveredGlobal_800FB8A0___vt__8TFogCtrl __vt__8TFogCtrl;
-extern u8 lbl_8043DA20[];
-extern u8 lbl_8043DA30[];
-extern RecoveredGlobal_800FBB68_lbl_8049C670 area_fog_row_table;
-extern u8 fog_default_entry[];
+extern s32 area_fog_row_table[];
+extern FogParam_800FBC5C fog_default_entry;
 extern u8 scene_projection_state[];
-extern s32 TFogCtrl__name;
 extern u32 fog_entry_array;
 extern s32 fog_update_flags;
 extern s32 actor_frame_tick;
@@ -408,7 +405,7 @@ void*TFogCtrl::get_entry(int a0) {  return (char*)((*(int *)&fog_entry_array)) +
 void TFogCtrl::clear_split_screen_fog() {
     u32 temp_r3;
     if (is_split_screen() == 1) {
-        temp_r3 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_800FAD08_TFogCtrl__data_80501188 *)&TFogCtrl__fog_instance_table).value) + ((TCameraCtrl::get_nth_view_player_id((int) (get_camera_mode__11TCameraCtrlFv())) * 4) & 0x3FFFC));
+        temp_r3 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_800FAD08_TFogCtrl__data_80501188 *)&TFogCtrl__fog_instance_table).value) + ((TCameraCtrl::get_nth_view_player_id((int) (TCameraCtrl::get_camera_mode())) * 4) & 0x3FFFC));
         if (temp_r3 != 0U) {
             ((TFogCtrl *)temp_r3)->clear_active_flag();
         }
@@ -792,7 +789,7 @@ u8 *__dt__8TFogCtrlFv(u8 *arg0, s16 arg1) {
 TFogCtrl::TFogCtrl(TObject *parent, s32 index) : TObject(parent) {
     s32 i;
     f32 one;
-    ((TFogCtrl_800FB92C *)this)->f0 = TFogCtrl__name;
+    m_name = TFogCtrl__name;
     ((TFogCtrl_800FB92C *)this)->index = index;
     if (((TFogCtrl_800FB92C *)this)->index >= 0 && ((TFogCtrl_800FB92C *)this)->index < 4) {
         ((TFogCtrl_800FB92C **)&TFogCtrl__fog_instance_table)[((TFogCtrl_800FB92C *)this)->index] = ((TFogCtrl_800FB92C *)this);
@@ -801,7 +798,7 @@ TFogCtrl::TFogCtrl(TObject *parent, s32 index) : TObject(parent) {
     one = FOG_ZERO;
     for (i = 0; i < 4; i++) {
         ((TFogCtrl_800FB92C *)this)->fogs[i].entry = 0;
-        copy_fog_entry((u8 *)&((TFogCtrl_800FB92C *)this)->fogs[i], fog_default_entry);
+        copy_fog_entry((u8 *)&((TFogCtrl_800FB92C *)this)->fogs[i], (u8 *)&fog_default_entry);
         ((TFogCtrl_800FB92C *)this)->fogs[i].f44 = one;
         ((TFogCtrl_800FB92C *)this)->ptrs[i] = &((TFogCtrl_800FB92C *)this)->fogs[i];
     }
@@ -899,9 +896,9 @@ void create_area_fog_ctrl(void) {
         }
     }
     TObjFogCollisionPoison::create();
-    var_r4 = (s32 *)&area_fog_row_table.value;
-    var_r3 = (s32 *)&area_fog_row_table.value;
-    var_r3 = (s32 *)(*(s32 *)((s8 *)&area_fog_row_table.value + (get_current_floor_area() * 4)));
+    var_r4 = area_fog_row_table;
+    var_r3 = area_fog_row_table;
+    var_r3 = (s32 *)area_fog_row_table[get_current_floor_area()];
     var_r4 = (s32 *)((u8 *)((s32 *)1));
     TFogCtrl::update_all((int)var_r3, 1);
 }
@@ -922,17 +919,17 @@ void TFogCtrl::reset() {
 void init_scene_fog_system(void) {
     s32 i;
     fog_update_flags = 0;
-    (*(FogParam_800FBC5C *)&fog_default_entry).f0 = 1;
-    (*(FogParam_800FBC5C *)&fog_default_entry).f4 = 0;
-    (*(FogParam_800FBC5C *)&fog_default_entry).f8 = 4000.0f;
-    (*(FogParam_800FBC5C *)&fog_default_entry).fC = 100.0f;
-    (*(FogParam_800FBC5C *)&fog_default_entry).f10 = 0.01f;
-    (*(FogParam_800FBC5C *)&fog_default_entry).f14 = 0;
+    fog_default_entry.f0 = 1;
+    fog_default_entry.f4 = 0;
+    fog_default_entry.f8 = 4000.0f;
+    fog_default_entry.fC = 100.0f;
+    fog_default_entry.f10 = 0.01f;
+    fog_default_entry.f14 = 0;
     for (i = 0; i < 8; i++) {
-        (*(FogParam_800FBC5C *)&fog_default_entry).f18[i] = FOG_ZERO;
-        (*(FogParam_800FBC5C *)&fog_default_entry).f38[i] = 0;
+        fog_default_entry.f18[i] = FOG_ZERO;
+        fog_default_entry.f38[i] = 0;
     }
-    (*(FogParam_800FBC5C *)&fog_default_entry).f18[6] = FOG_MAX;
+    fog_default_entry.f18[6] = FOG_MAX;
     fog_entry_array = (u32)mem_alloc(0x2000);
     for (i = 0; i < 0x80; i++) {
         copy_fog_entry((u8 *)&((FogParam_800FBC5C *)fog_entry_array)[i], (u8 *)&fog_default_entry);
@@ -944,4 +941,16 @@ void init_scene_fog_system(void) {
     TParticleCtrl::end_effect_render();
     TFogCtrl::create_instance();
     TObjFogCollisionPoison::clear_state_array();
+}
+
+extern "C" {
+s32 area_fog_row_table[36] = {
+    33, 1, 2, 3, 4, 5, 14, 15, 30, 31, 32, 23, 16, 34, 35, 34, 19, 47,
+    96, 97, 98, 64, 65, 24, 25, 26, 27, 28, 40, 41, 66, 99, 100, 16, 73, 75,
+};
+s32 TFogCtrl__fog_instance_table[4];
+FogParam_800FBC5C fog_default_entry;
+u32 fog_entry_array;
+s32 fog_update_flags;
+u32 fog_ctrl_instance;
 }

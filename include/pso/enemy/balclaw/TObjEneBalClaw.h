@@ -59,7 +59,7 @@ struct BalClawSpawnParams {
 // The Bal Claw BML archive, loaded by TObjEneBalClaw__sub_8008D924.
 extern BmlResource *lbl_805D4F20;
 // Per claw slot, the visible model nodes of that claw (NULL-terminated).
-extern NJS_OBJECT *lbl_805006F8[4][11];
+extern NJS_OBJECT *balclaw_arm_part_models[4][11];
 // The body's combat-stat tables from TLobby, filled by TObjEneBalClaw__sub_8008D924.
 extern u8 *lbl_805007A8[];
 extern u8 *lbl_805007B0[];

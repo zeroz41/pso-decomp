@@ -61,7 +61,7 @@ s32 mcmdWait(Obj_803AE8F8 *o, Op_803AE8F8 *op) {
             if (op->w4 & 1) {
                 o->deadline = o->f90 + v;
             } else {
-                o->deadline = lbl_805D7428 + v;
+                o->deadline = macRealTime + v;
             }
         } else {
             if (op->w4 & 1) {
@@ -70,7 +70,7 @@ s32 mcmdWait(Obj_803AE8F8 *o, Op_803AE8F8 *op) {
                 o->deadline = o->fa0 + v;
             }
         }
-        if (o->deadline <= lbl_805D7428) {
+        if (o->deadline <= macRealTime) {
             o->fa0 = o->deadline;
             o->deadline = 0;
         }
@@ -473,7 +473,7 @@ void mcmdSetADSR(Voice_803AF3DC *svoice, MSTEP_803AF3DC *cstep) {
             adsr.data.linear.rtime = adsr_ptr->data.linear.rtime >> 8 | adsr_ptr->data.linear.rtime << 8;
             hwSetADSR(svoice->id & 0xFF, &adsr, 0);
         } else {
-            sScale = lbl_804F6CDC[(u16)(adsr_ptr->data.dls.slevel >> 8 | adsr_ptr->data.dls.slevel << 8) >> 5];
+            sScale = dspDLSVolTab[(u16)(adsr_ptr->data.dls.slevel >> 8 | adsr_ptr->data.dls.slevel << 8) >> 5];
             adsr.data.dls.atime =
                 ((u8 *)&adsr_ptr->data.dls.atime)[0] << 0 | ((u8 *)&adsr_ptr->data.dls.atime)[1] << 8 |
                 ((u8 *)&adsr_ptr->data.dls.atime)[2] << 16 | ((u8 *)&adsr_ptr->data.dls.atime)[3] << 24;
@@ -637,7 +637,6 @@ typedef struct ADSR_803AF634 {
         struct { u16 atime; u16 dtime; u16 slevel; u16 rtime; } linear;
     } data;
 } ADSR_803AF634;
-extern u8 lbl_804F68DC[];
 
 #pragma push
 #pragma bool off
@@ -692,7 +691,7 @@ void mcmdSetPitchADSR(Voice_803AF634 *svoice, MSTEP_803AF634 *cstep) {
         sl = 0x3ff;
     }
 
-    svoice->pitchADSR.data.dls.sLevel = 193 - lbl_804F68DC[sl];
+    svoice->pitchADSR.data.dls.sLevel = 193 - dspScale2IndexTab[sl];
     svoice->pitchADSR.data.dls.rTime = adsr.data.dls.rtime;
     adsrSetup((u8 *)&svoice->pitchADSR);
     svoice->cFlags |= 0x20000000000;
@@ -1450,7 +1449,7 @@ typedef struct CHANNEL_DEFAULTS_803B04A0 {
     u8 pbRange;
 } CHANNEL_DEFAULTS_803B04A0;
 #pragma pack()
-extern u8 lbl_805D7418;
+extern u8 DebugMacroSteps;
 extern CTRL_DEST_803B04A0 inpAuxB[8][4];
 extern CTRL_DEST_803B04A0 inpAuxA[8][4];
 void inpInit(SYNTH_VOICE_803B04A0 *svoice);
@@ -1461,11 +1460,7 @@ void hwSetPriority(u32 v, u32 prio);
 void hwSetSRCType(u32 v, u8 salSRCType);
 void hwSetPolyPhaseFilter(u32 v, u8 salCoefSel);
 
-#define DebugMacroSteps lbl_805D7418
-#define macRealTime lbl_805D7428
 #define synthVoice (*(SYNTH_VOICE_803B04A0 **)&synthVoice)
-#define dspDLSVolTab lbl_804F6CDC
-#define dspScale2IndexTab lbl_804F68DC
 #define mcmdWait(s, c) mcmdWait((Obj_803AE8F8 *)(s), (Op_803AE8F8 *)(c))
 #define mcmdLoop(s, c) mcmdLoop((Obj_803AEC00 *)(s), (Op_803AEC00 *)(c))
 #define mcmdPlayMacro(s, c) mcmdPlayMacro((Voice_803AED58 *)(s), (MSTEP_803AED58 *)(c))
@@ -1967,8 +1962,7 @@ static inline void mcmdSetupTremolo_803B04A0(SYNTH_VOICE_803B04A0 *svoice, MSTEP
     svoice->treModAddScale = cstep->para[1];
     svoice->treCurScale = 1.f;
 }
-extern MSTEP_803B04A0 lbl_805D7430;
-#define cstep lbl_805D7430
+extern MSTEP_803B04A0 cstep;
 void macHandleActive(SYNTH_VOICE_803B04A0 *svoice) {
     u8 i;
     u8 lastNote;
@@ -2294,17 +2288,12 @@ void macHandleActive(SYNTH_VOICE_803B04A0 *svoice) {
         }
     } while (!ex);
 }
-#undef cstep
 
-#undef DebugMacroSteps
-#undef macRealTime
 #undef synthVoice
 #undef synthInfo
 #undef synthGlobalVariable
 #undef inpAuxA
 #undef inpAuxB
-#undef dspDLSVolTab
-#undef dspScale2IndexTab
 #undef mcmdWait
 #undef mcmdLoop
 #undef mcmdPlayMacro
@@ -2337,7 +2326,6 @@ void macHandleActive(SYNTH_VOICE_803B04A0 *svoice) {
 
 #define macTimeQueueRoot ((SYNTH_VOICE_803B19AC *)lbl_805D7420)
 #define macActiveMacroRoot ((SYNTH_VOICE_803B19AC *)lbl_805D741C)
-#define macRealTime lbl_805D7428
 
 #pragma push
 #pragma opt_common_subs on
@@ -2466,7 +2454,6 @@ void macSetPedalState(Voice_803B1C98 *v, u32 hold) {
     FLAGS &= ~0x50000000000ULL;
 }
 #undef FLAGS
-#define FLAGS (*(u64 *)&o->fh)
 
 void TimeQueueAdd(Program_803B1DA4 *self) {
     Program_803B1DA4 *p;
@@ -2514,13 +2501,12 @@ void UnYieldMacro(Ch_803B1E48 *o, u32 arg1) {
             synthForceLowPrecisionUpdate(o);
         }
         o->f98 = 0;
-        o->fa0 = lbl_805D7428;
+        o->fa0 = macRealTime;
         o->flags &= ~0x40004ULL;
     }
 }
 
 #define p1F24 ((V_803B1F24 *)arg0)
-#undef FLAGS
 #define FLAGS (*(u64 *)&p1F24->fh)
 void macMakeActive(void *arg0) {
     if (p1F24->i4C != 0) {
@@ -2537,7 +2523,7 @@ void macMakeActive(void *arg0) {
             }
             synthForceLowPrecisionUpdate(p1F24);
             p1F24->deadline = 0;
-            p1F24->started = lbl_805D7428;
+            p1F24->started = macRealTime;
             FLAGS &= ~0x40004ULL;
         }
         if ((p1F24->vnext = lbl_805D741C) != 0) {
@@ -2550,7 +2536,6 @@ void macMakeActive(void *arg0) {
 }
 #undef p1F24
 #undef FLAGS
-#define FLAGS (*(u64 *)&o->fh)
 
 #define o ((Ch_803B202C *)ov)
 void macMakeInactive(Obj_803B312C *ov, s32 state) {
@@ -2580,7 +2565,7 @@ void macMakeInactive(Obj_803B312C *ov, s32 state) {
                 }
             }
             o->f98 = 0;
-            o->fa0 = lbl_805D7428;
+            o->fa0 = macRealTime;
             o->flags &= ~0x40004ULL;
         }
     }
@@ -2699,7 +2684,7 @@ void macInit(void) {
     u32 i;
     lbl_805D741C = 0;
     lbl_805D7420 = 0;
-    lbl_805D7428 = 0;
+    macRealTime = 0;
     for (i = 0; i < synthInfo.voiceNum; ++i) {
         synthVoice[i].addr = 0;
         synthVoice[i].macState = 2;
@@ -2708,10 +2693,10 @@ void macInit(void) {
 }
 #pragma pop
 
-u8 lbl_805D7418;
+u8 DebugMacroSteps;
 V_803B1F24 *lbl_805D741C;
 Program_803B1DA4 *lbl_805D7420;
-u64 lbl_805D7428;
-MSTEP_803B04A0 lbl_805D7430;
+u64 macRealTime;
+MSTEP_803B04A0 cstep;
 
 }

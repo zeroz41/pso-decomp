@@ -245,10 +245,10 @@ TOMonumentAncient02::TOMonumentAncient02(TObject *parent, void *set_data) : TObj
     cursor_action.set_use();
     view_range = 500.0f;
     model_radius = 50.0f;
-    light_color.a = (f32) 0.0f;
-    light_color.r = (f32) 0.0f;
-    light_color.g = (f32) 0.0f;
-    light_color.b = (f32) 0.0f;
+    light_color.a = 0.0f;
+    light_color.r = 0.0f;
+    light_color.g = 0.0f;
+    light_color.b = 0.0f;
     effect = create_particle_emitter(&position, 0x7F);
     in_view = 1;
     if (enable_v2_features == 1) {

@@ -123,7 +123,6 @@ void TLobby__sub_803D34B0(s32 arg0, void (*arg1)(s32), s32 arg2) {
     }
 }
 
-#define CB765C (*(P_803D3860 *)&lbl_805D765C)
 
 #define CB765C (*(P_803D3860 *)&lbl_805D765C)
 void TLobby::SVM_SetCbSvrId(s32 arg0, s32 arg1, s32 fn, s32 arg) {

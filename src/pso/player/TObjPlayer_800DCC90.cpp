@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/nanodrago/TObjEneNanoDrago.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
@@ -7,6 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
+#include "pso/system/task/TObject.h"
 
 struct Vec_800DCD04 { f32 x, y, z; };
  extern const Vec_800DCD04 lbl_8043C920 = {0.0f, 0.0f, 0.0f};
@@ -47,7 +49,6 @@ struct Me_800DC9EC {
 
 extern "C" { u8 *find_entity_by_id(s16);
 Obj_800DC4B4 *find_active_entity_by_id(u16);
-void queue_destruction__7TObjectFv(void *);
 s32 play_sound_effect(int, void *, int, int);
 s32 subtract_vector(void *, void *);
 s32 vec3_add_to(void *, void *);
@@ -65,7 +66,7 @@ void TObjPlayer::update_homing_shot() {
     Me_800DC9EC *arg0 = (Me_800DC9EC *)this;
     att = ((void *(*)(u16))find_entity_by_id)(arg0->attacker);
     if (att == NULL) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     obj = find_active_entity_by_id(arg0->owner);
@@ -86,7 +87,7 @@ void TObjPlayer::update_homing_shot() {
     case 1:
         arg0->timer++;
         if (arg0->timer >= 0x5A) {
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
             return;
         }
         if (obj != NULL) {
@@ -103,7 +104,7 @@ void TObjPlayer::update_homing_shot() {
             ((TParticleCtrl *)arg0->effect)->set_position(&arg0->pos);
         }
         if (csnVector(&arg0->prev, &arg0->pos, -1) != 0) {
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
             return;
         }
         if (obj == NULL) {
@@ -124,7 +125,7 @@ void TObjPlayer::update_homing_shot() {
             if (is_split_screen() == 0 && local_client_id == arg0->owner) {
                 ((TObjEneNanoDrago *)att)->trigger_hit_camera_shake((u32)obj);
             }
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
         }
         break;
     }
@@ -167,7 +168,7 @@ void __dl__7TObjectFPv(void *);
 void *TUnk_80494E48::destroy_particle_obj(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = lbl_80494E48;
-        if (this->m_f8 != NULL) { queue_destruction__7TObjectFv(this->m_f8); this->m_f8 = 0; }
+        if (this->m_f8 != NULL) { ((TObject *)this->m_f8)->queue_destruction(); this->m_f8 = 0; }
         __dt__14TObjCollidableFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);

@@ -6,6 +6,8 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowSubComCard.h"
 
 extern "C" {
 
@@ -17,7 +19,7 @@ s32 get_array_entry__11TWindowBaseFi(void * a0 = 0, s16 a1 = 0);
 s32 get_entry_id__17TWindowSubComCardFv();
 
 void TWindowSubComCard::update_selected_entry() {
-    get_array_entry__11TWindowBaseFi(this, *(s16 *)((s8 *)this + 0x74));
+    ((TWindowBase *)this)->get_array_entry(*(s16 *)((s8 *)this + 0x74));
     get_entry_id__17TWindowSubComCardFv();
 }
 
@@ -26,7 +28,7 @@ s32 TWindowSubComCard::find_entry_value_by_id(s32 arg1) {
     Ent_802684BC *e;
     for (i = 0; i < ((Win_802684BC *)this)->f76; i++) {
         e = ((Ent_802684BC *(*)(void *, s32))get_array_entry__11TWindowBaseFi)(this, i);
-        if (e != NULL && is_flag_4_set__17TWindowSubComCardFv(e) != 0 && arg1 == ((s32 (*)(void *))get_entry_id__17TWindowSubComCardFv)(e)) {
+        if (e != NULL && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && arg1 == ((s32 (*)(void *))get_entry_id__17TWindowSubComCardFv)(e)) {
             return e->f1C;
         }
     }
@@ -70,7 +72,7 @@ void TWindowSubComCard::update_next_entry(s32 arg1, s32 arg2, s32 arg3) {
 
     temp_r4 = *(s16 *)((s8 *)this + 0x72);
     if (temp_r4 < (s16) *(s16 *)((s8 *)this + 0x76)) {
-        ((TWindowSubStatusDisp *)(get_array_entry__11TWindowBaseFi(this, temp_r4)))->set_text(arg1, arg2, arg3);
+        ((TWindowSubStatusDisp *)(((TWindowBase *)this)->get_array_entry(temp_r4)))->set_text(arg1, arg2, arg3);
         *(s16 *)((s8 *)this + 0x72) = (s16) (*(s16 *)((s8 *)this + 0x72) + 1);
     }
 }

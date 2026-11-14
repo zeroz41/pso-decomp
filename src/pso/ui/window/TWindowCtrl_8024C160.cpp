@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -8,6 +9,7 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 struct TWindowCtrl_8024C160 {
     u8 pad0[0x18];
     void *vt;
@@ -86,11 +88,11 @@ TWindowCtrl_8024C160 *__dt__11TWindowCtrlFv(TWindowCtrl_8024C160 *self, s16 flag
             self->f30 = NULL;
         }
         if (self->f40 != NULL) {
-            queue_destruction__7TObjectFv(self->f40);
+            ((TObject *)self->f40)->queue_destruction();
             self->f40 = NULL;
         }
         if (self->f3C != NULL) {
-            queue_destruction__7TObjectFv(self->f3C);
+            ((TObject *)self->f3C)->queue_destruction();
             self->f3C = NULL;
         }
         for (i = 2; i >= 0; i--) {
@@ -101,12 +103,12 @@ TWindowCtrl_8024C160 *__dt__11TWindowCtrlFv(TWindowCtrl_8024C160 *self, s16 flag
         }
         for (i = 11; i >= 0; i--) {
             if (self->objs[i] != NULL) {
-                queue_destruction__7TObjectFv(self->objs[i]);
+                ((TObject *)self->objs[i])->queue_destruction();
                 self->objs[i] = NULL;
             }
         }
         if (self->f38 != NULL) {
-            queue_destruction__7TObjectFv(self->f38);
+            ((TObject *)self->f38)->queue_destruction();
             self->f38 = NULL;
         }
         if (self->f2C != NULL) {
@@ -130,7 +132,7 @@ TWindowCtrl_8024C308 *TWindowCtrl__ct(TWindowCtrl_8024C308 *self) {
     self->vt = __vt__11TWindowCtrl;
     self->f0 = lbl_805D38C8;
     if (TWindowCtrl__active_window != NULL) {
-        queue_destruction__7TObjectFv(TWindowCtrl__active_window);
+        ((TObject *)TWindowCtrl__active_window)->queue_destruction();
     }
     TWindowCtrl__active_window = self;
     self->f1C = 0;

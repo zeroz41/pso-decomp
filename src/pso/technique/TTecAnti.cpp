@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/unk/TUnk_804CC0E8.h"
@@ -8,6 +9,7 @@
 #include "pso/technique/TTecAnti.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -152,19 +154,6 @@ int spawn_support_tec_range_effect(void*);
 
 
 }
-extern "C" {
-
-
-
-
-}
-extern "C" {
-
-
-
-
-
-}
 
 void TTecAnti::render() {  }
 
@@ -226,7 +215,7 @@ void run_task__8TTecAntiFv(Anti_8022B150 *self) {
     s32 i;
     self->source = (u32)find_entity_by_id(self->source_id);
     if (self->source == 0) {
-        queue_destruction__7TObjectFv((self));
+        ((TObject *)self)->queue_destruction();
         return;
     }
     if (self->captured != 0) {
@@ -248,7 +237,7 @@ void run_task__8TTecAntiFv(Anti_8022B150 *self) {
     } else {
         deliver_technique_to_party_targets(self);
     }
-    queue_destruction__7TObjectFv((self));
+    ((TObject *)self)->queue_destruction();
 }
 
 TTecAnti::~TTecAnti() {
@@ -330,7 +319,7 @@ TUnk_804CC0E8::~TUnk_804CC0E8() {
 
 }
 
-void TUnk_804CC0E8::run_task() { queue_destruction__7TObjectFv(this); }
+void TUnk_804CC0E8::run_task() { queue_destruction(); }
 
 void TTecAnti__sub_8022AD94(void * _w0) {  }
 

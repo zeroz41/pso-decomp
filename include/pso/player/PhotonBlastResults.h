@@ -16,9 +16,18 @@ struct PhotonBlastChain {
 
 extern PhotonBlastChain photon_blast_sequence_table[4];
 
+// What get_photon_blast_chain copies out of a chain: its kinds and
+// participants, without the state (callers pass a 0x20-byte buffer).
+struct PhotonBlastChainCopy {
+    s32 kinds[4];
+    u32 participants[4];
+};
+
 void apply_photon_blast_action_hold(s32 arg0, s32 arg1, s32 arg2);
 
 extern "C" {
+// Copies player's chain into output while it is pending or running; returns its state.
+s32 get_photon_blast_chain(PhotonBlastChainCopy *output, s32 player);
 void deliver_photon_blast_results_animated(TUnk_804C349C *seq);
 void deliver_photon_blast_results_delayed(TUnk_804C349C *seq);
 void step_photon_blast_sequence(TUnk_804C349C *seq);

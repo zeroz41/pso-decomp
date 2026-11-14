@@ -4,13 +4,7 @@
 #include "types.h"
 
 extern "C" {
-int TMovie__sub_80143CC8(void *p);
+void TMovie__sub_80143CC8(void);
 }
-
-// --- C functions defined in TMovie_80143CC8.cpp ---
-extern "C" {
-int TMovie__sub_80143CC8(void *p);
-}
-// --- end of C functions
 
 #endif

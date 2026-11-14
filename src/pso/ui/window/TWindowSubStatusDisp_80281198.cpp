@@ -251,7 +251,6 @@ void *TWindowSubStatusDisp__window_layout[5] = {
     (void *)0x439c0000, (void *)0x43200000, (void *)0x47438200, (void *)0x0,
     (void *)0x3,
 };
-#define TWindowSubStatusDisp__window_layout ((u8 *)TWindowSubStatusDisp__window_layout)
 
 }
 

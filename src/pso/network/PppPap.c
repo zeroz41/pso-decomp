@@ -63,7 +63,6 @@ s16 TLobby__sub_80402BB4(void *arg0, u32 timeout) {
 }
 
 PppFrame *TLobby__sub_80403634(PppFsm *fsm, PppFsmProtocol *proto);
-extern u8 lbl_805E1180;
 void TLobby__sub_80402CE0(u8 *arg0) {
     u8 *g;
     PppFsmProtocol *p;
@@ -75,7 +74,7 @@ void TLobby__sub_80402CE0(u8 *arg0) {
     fsm = (PppFsm *)(arg0 + 0x38);
     if (fsm->opts == NULL) {
         timer = &fsm->timer;
-        p->name = (const char *)&lbl_805E1180;
+        p->name = "Pap";
         p->proto = 0xC023;
         p->h6 = 0xE;
         p->b8 = 1;
@@ -274,17 +273,15 @@ void handle_request_timeout(void *self) {
     fsm = (PppFsm *)self;
     opts = (PapOptions *)fsm->opts;
     if (fsm->retries != 0) {
-        opts->message = (u8 *)lbl_8047FEB8;
+        opts->message = (u8 *)"Request timeout";
         TLobby__sub_803FE658(self);
         return;
     }
-    opts->message = (u8 *)lbl_8047FEC8;
+    opts->message = (u8 *)"Request retry exceeded";
     update_connection_state((int)(fsm->sub + 4));
     fsm->f8 = 1;
 }
 
-extern u8 lbl_8047FEE0[];
-extern u8 lbl_8047FEEC[];
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -365,10 +362,10 @@ zero:
 
     if (res == 0) {
         *(u8 **)(fsm->sub + 0x10c) = p1;
-        ptr = lbl_8047FEE0;
+        ptr = (u8 *)" Welcome";
         st = 2;
     } else {
-        ptr = lbl_8047FEEC;
+        ptr = (u8 *)" Invalid username or password";
         st = 3;
     }
     n = (s16)NetStringLength((const char *)(ptr));

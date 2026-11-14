@@ -5,6 +5,8 @@
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer.h"
 
 struct VBase { char pad[0x18]; };
 
@@ -105,7 +107,6 @@ struct P_800BC250 : VB_800BC250 {
 
 extern "C" {
 void subtract_vector(Vec_800BBFD0 *a, Vec_800BBFD0 *b);
-s32 obj_isState2_324__9TObjCharaFv(void *);
 s32 obj_is_hit_receivable();
 Tgt_800BC080 *get_battle_param__10TObjPlayerFi(s32);
 s32 is_area_attack_target_eligible(void *, int);
@@ -137,7 +138,7 @@ struct VObj_800bbe90 : Base_800bbe90 {
 
 void TUnk_804928CC::apply_hit_if_active(void *arg1, f32 *arg2) {
     ((VObj_800bbe90*)arg1)->m20(this->owner, 1.0f);
-    if (obj_isState2_324__9TObjCharaFv(arg1) == 0) {
+    if (((TObjChara *)arg1)->obj_isState2_324() == 0) {
         this->area_attack_apply_recoil(arg1, *arg2);
     }
 }
@@ -149,7 +150,7 @@ void TUnk_804928CC::area_attack_receive_direct(void *dst, f32 *recoil, void *des
         rec = &((Actor_800BBF08 *)dst)->recs[i];
         if (rec->flags & 0x04000000) {
             ((Actor_800BBF08 *)dst)->m21(((Actor_800BBF08 *)this)->owner, *((Desc_800BBF08 *)desc), rec, -1, -1);
-            if (obj_isState2_324__9TObjCharaFv(((Actor_800BBF08 *)dst)) == 0) {
+            if (((TObjChara *)((Actor_800BBF08 *)dst))->obj_isState2_324() == 0) {
                 ((Actor_800BBF08 *)this)->m18(((Actor_800BBF08 *)dst), *recoil);
             }
             return;
@@ -253,7 +254,7 @@ s32 TUnk_804928CC::area_attack_deliver_direct(void *recoil, s32 arg2, void *obje
     }
     if (((P_800BC250 *)this)->info->mask & mask) {
         for (i = 0; i < 0x10; i++) {
-            t = ((Tgt_800BC250 *)get_battle_param__10TObjPlayerFi(i));
+            t = ((Tgt_800BC250 *)TObjPlayer::get_battle_param(i));
             if (t == NULL) {
                 break;
             }

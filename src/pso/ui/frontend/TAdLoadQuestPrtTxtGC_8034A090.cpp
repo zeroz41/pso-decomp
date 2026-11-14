@@ -1,9 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdLoadQuestPrtTxtGC_8034A090.h"
 #include "pso/ui/frontend/TAdLoadQuestPrtTxtGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
+#include "pso/system/task/TObject.h"
 
 struct Vec3_8034A090 {
     f32 x;
@@ -73,7 +75,7 @@ TAdLoadQuestPrtTxtGC::~TAdLoadQuestPrtTxtGC() {
     }
     for (i = 0; i < ((T_8034A198 *)this)->count; i++) {
         if (((T_8034A198 *)this)->objs[i] != NULL) {
-            queue_destruction__7TObjectFv(((T_8034A198 *)this)->objs[i]);
+            ((TObject *)(((T_8034A198 *)this)->objs[i]))->queue_destruction();
             ((T_8034A198 *)this)->objs[i] = NULL;
         }
     }

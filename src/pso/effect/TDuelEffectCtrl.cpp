@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/TLobby_801C25B4.h"
 #include "pso/unk/TLobby_802268F4.h"
@@ -7,6 +8,7 @@
 #include "pso/effect/TDuelEffectCtrl.h"
 #include "pso/effect/TDuelEffectNumber.h"
 #include "pso/effect/TDuelEffectString.h"
+#include "pso/system/task/TObject.h"
 
 const char* TDuelEffectCtrl__class_name = "TDuelEffectCtrl";
 
@@ -23,7 +25,7 @@ void TDuelEffectCtrl::update_duel_end_effect() {
         send_neg50__6TLobbyFPvPv((void *)"end.adx", (void *)0x96);
         break;
     case 30:
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         break;
     }
 }
@@ -58,7 +60,7 @@ void TDuelEffectCtrl::update_duel_start_countdown() {
         play_cue_stream_file((s32)"start.adx");
         break;
     case 0xB4:
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         break;
     }
 }
@@ -81,7 +83,7 @@ void TDuelEffectCtrl::run_task() {
 
 TDuelEffectCtrl::~TDuelEffectCtrl() {
     if (m_effect != NULL) {
-        queue_destruction__7TObjectFv(m_effect);
+        m_effect->queue_destruction();
         m_effect = NULL;
     }
 }

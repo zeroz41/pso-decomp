@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/render/render_util.h"
@@ -8,6 +9,7 @@
 #include <stddef.h>
 #include "pso/unk/TLobby.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/task/TObject.h"
 
 struct Stack_8001D19C {
     f32 sp8;
@@ -117,10 +119,10 @@ void TNowLoading::run_task() {
 
 }
 TNowLoading::~TNowLoading() {
-    if (*(void **)((s8 *)this + 0x1C) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x1C)); this->m_1c = 0; }
-    if (*(void **)((s8 *)this + 0x20) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x20)); this->m_20 = 0; }
-    if (*(void **)((s8 *)this + 0x24) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x24)); this->m_24 = 0; }
-    if (*(void **)((s8 *)this + 0x28) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x28)); this->m_28 = 0; }
+    if (*(void **)((s8 *)this + 0x1C) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x1C)))->queue_destruction(); this->m_1c = 0; }
+    if (*(void **)((s8 *)this + 0x20) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x20)))->queue_destruction(); this->m_20 = 0; }
+    if (*(void **)((s8 *)this + 0x24) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x24)))->queue_destruction(); this->m_24 = 0; }
+    if (*(void **)((s8 *)this + 0x28) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x28)))->queue_destruction(); this->m_28 = 0; }
 }
 
 

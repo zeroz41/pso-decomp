@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/warp/TObjWarpBossMulti.h"
@@ -24,6 +25,10 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/system/task/TObject.h"
+const char *lbl_805D32B8 = "TObjCityMainWarpChallenge";
+static const char lbl_80444A44[] = "<- NEXT STAGE No.%d";
+static const char lbl_80444A58[] = "<- KEY ID : %d";
 
 void initialize_option_dialog(void *dialog, s32 message, s32 position, f32 width);
 
@@ -79,10 +84,7 @@ extern s32 city_main_warp_destination_id;
 s32 register_entity_by_id(void *, int, f32);
 s32 TObjAreaWarp__ct();
 extern s32 __vt__25TObjCityMainWarpChallenge[];
-extern s32 lbl_805D32B8;
 extern u8 *city_common_model_archive;
-extern char lbl_80444A44[];
-extern char lbl_80444A58[];
 s32 post_translate_matrix(void *);
 s32 update_floor_switch_state__16TObjCityMainWarpFv();
 s32 update_warp_sequence__16TObjCityMainWarpFv();
@@ -136,7 +138,7 @@ u8 *TObjCityMainWarpChallenge__ct(u8 *city_main_warp_challenge) {
     *(s32 *)((s8 *)city_main_warp_challenge + 0xD0) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)city_common_model_archive + 0x42C)) + 8);
     *(s32 *)((s8 *)city_main_warp_challenge + 0xD4) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)city_common_model_archive + 0x430)) + 0x2C);
     if ((u32) ((TObjCityMainWarpChallenge *)city_main_warp_challenge)->m_b4 != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)city_main_warp_challenge + 0xB4));
+        ((TObject *)(*(void **)((s8 *)city_main_warp_challenge + 0xB4)))->queue_destruction();
         ((TObjCityMainWarpChallenge *)city_main_warp_challenge)->m_b4 = 0U;
     }
     for (var_ctr = 0; var_ctr < 4; var_ctr++) {

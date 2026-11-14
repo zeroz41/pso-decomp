@@ -23,6 +23,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/render/RenderFadeState.h"
 
 extern "C" {
 __declspec(section ".data") const char *fe_obj_hako_i_rail_model_names[3] = { "fe_obj_hako_i_rail.gj", "fe_obj_hako_ido.gj", NULL };
@@ -181,7 +182,6 @@ u8 is_current_floor_switch_set(u16);
 f32 xyz_distance(void *, void *);
 void rotate_vector_by_matrix(int, void *, void *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-int update__15RenderFadeStateFv(void*);
 extern u8 identity_matrix[];
 
 #pragma push
@@ -271,7 +271,7 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
             pop_matrix();
         }
     }
-    update__15RenderFadeStateFv(self->f0);
+    ((RenderFadeState *)self->f0)->update();
 }
 #pragma pop
 

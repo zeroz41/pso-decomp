@@ -12,6 +12,8 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct RecoveredFields_802698C4_arg0 {
     u8 unknown_0[0x6C];
@@ -243,7 +245,7 @@ s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 ar
     if (text == 0) {
         return 0;
     }
-    e = (Entry_80269A0C *)get_array_entry__11TWindowBaseFi(self, self->next_line);
+    e = (Entry_80269A0C *)self->get_array_entry(self->next_line);
     rec = &self->lines[self->next_line];
     if (((TWindowSubComCard *)e)->get_field_20() != 0U) {
         self->scroll_up_line((u8 *)e);
@@ -312,47 +314,42 @@ s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 ar
 
 }
 
-struct RecoveredGlobal_80269CA4_lbl_804D071C {
-    s32 value;
-    u8 remaining[0x10];
+// inferred: message_window_layout_entries, the layout table message_window_settings points at: one
+// text record per row, rows set to the line count by TLobby__sub_80269DA4.
+struct MessageWindowLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
 };
 
-struct RecoveredGlobal_80269CB4_lbl_804D071C {
-    s32 value;
-    u8 remaining[0x10];
+MessageWindowLayout message_window_layout_entries = {
+    1, 0,
+    {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
 };
 
-struct RecoveredGlobal_80269C90_lbl_804D071C {
-    s32 value;
-    u8 remaining[0x10];
+WindowDescriptor message_window_settings = {
+    {0.0f, 0.0f}, 50100.0f, &message_window_layout_entries, 3,
 };
 
 struct V2_80269DA4 { f32 x; f32 y; };
-struct G_80269DA4 { s32 a; s32 b; };
 
 extern "C" {
 s32 TLobby__sub_80269DA4(V2_80269DA4 size, void *arg1);
-extern G_80269DA4 lbl_804D06F8[];
 u8 *TWindowMessage__ct(u8 *arg0, s32 arg1, u32 arg2, s32 arg3);
 u8 *__nw__7TObjectFUl(s32);
-extern RecoveredGlobal_80269CA4_lbl_804D071C message_window_settings;
 
 int TWindowMessage::append_line(int a1, int a2) { return append_message_window_line((TWindowMessage *)this, a1, a2, -1); }
 
-typedef char RecoveredGlobal_80269CA4_lbl_804D071C_size[sizeof(RecoveredGlobal_80269CA4_lbl_804D071C) == 0x14 ? 1 : -1];
-
-typedef char RecoveredGlobal_80269C90_lbl_804D071C_size[sizeof(RecoveredGlobal_80269C90_lbl_804D071C) == 0x14 ? 1 : -1];
 void TLobby__sub_80269C90(void) {
-    *(s32 *)((s8 *)(&(*(RecoveredGlobal_80269C90_lbl_804D071C *)&message_window_settings).value) + 0x10) = 3;
+    message_window_settings.flags = 3;
 }
 
 void TLobby__sub_80269CA4(s32 arg0) {
-    *(s32 *)((s8 *)&message_window_settings.value + 0x10) = arg0;
+    message_window_settings.flags = arg0;
 }
 
-typedef char RecoveredGlobal_80269CB4_lbl_804D071C_size[sizeof(RecoveredGlobal_80269CB4_lbl_804D071C) == 0x14 ? 1 : -1];
-s32 *TLobby__sub_80269CB4(void) {
-    return &(*(RecoveredGlobal_80269CB4_lbl_804D071C *)&message_window_settings).value;
+WindowDescriptor *TLobby__sub_80269CB4(void) {
+    return &message_window_settings;
 }
 
 u8 *TWindowMessage::create(s32 arg0, const f32 *size, u32 arg2, s32 arg3) {
@@ -380,7 +377,7 @@ s32 TLobby__sub_80269DA4(V2_80269DA4 size, void *arg1) {
     V2_80269DA4 *dst = (V2_80269DA4 *)&message_window_settings;
     dst->x = size.x;
     dst->y = size.y;
-    lbl_804D06F8[0].b = (s32)arg1;
+    message_window_layout_entries.rows = (u32)arg1;
 }
 
 }

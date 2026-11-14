@@ -1,6 +1,10 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TTecRaBarta.h"
 #include "types.h"
+#include "pso/technique/TTecRaBarta.h"
+#include "pso/system/task/TObject.h"
+#include "pso/technique/TTecCtrl.h"
 #include "pso/technique/TTecRaBarta.h"
 extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
@@ -160,7 +164,6 @@ void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32
 void *mem_alloc(u32 size);
 extern void *technique_effect_bml;
 extern void *lbl_805D63B0;
-s32 is_technique_ready__8TTecCtrlFv();
 s32 calc_technique_parameters(s32, s32, s32);
 extern Params_802377FC tech_high_level_linear_power_table;
 extern Scale_802377FC lbl_804CC55C;
@@ -292,12 +295,12 @@ void TTecRaBarta::calc_parameters() {
     RaBarta_802377FC *self = (RaBarta_802377FC *)this;
     s32 res = calc_technique_parameters(5, self->level, 0xFFFF);
     ((TTecAnti *)(&self->amount))->copy_params((u8 *)res);
-    if (self->level >= 0xF && is_technique_ready__8TTecCtrlFv() == 0) {
+    if (self->level >= 0xF && TTecCtrl::is_technique_ready() == 0) {
         self->amount = tech_high_level_linear_power_table.base + tech_high_level_linear_power_table.per_level * self->level;
         return;
     }
     self->amount = self->amount + (f32)(self->per_level * self->level);
-    if (is_technique_ready__8TTecCtrlFv() != 0) {
+    if (TTecCtrl::is_technique_ready() != 0) {
         self->amount = self->amount * lbl_804CC55C.boost;
     }
 }
@@ -328,9 +331,6 @@ void TTecRaBarta::vfunc_6(void *target) {
 }
 
 #define TTecRaBarta_class_name ((u32)TTecRaBarta_class_name)
-#define __nw__7TObjectFUl ((void * (*)(int))__nw__7TObjectFUl)
-#define rabarta_band_emitter_table ((struct Profile_80237A94 *)rabarta_band_emitter_table)
-#define __dl__7TObjectFPv ((s32 (*)(void *))__dl__7TObjectFPv)
 #define calc_parameters__11TTecRaBartaFv ((void (*)(void *))calc_parameters__11TTecRaBartaFv)
 
 struct Vec_80237DAC { f32 x, y, z; };
@@ -426,7 +426,7 @@ TTecRaBarta::~TTecRaBarta() {
     for (i = 0; i < rabarta_band_emitter_table[((struct Self_80237A94 *)this)->band].count; i++) {
         obj = ((struct Self_80237A94 *)this)->objs[i];
         if (obj != NULL) {
-            queue_destruction__7TObjectFv(obj);
+            ((TObject *)obj)->queue_destruction();
         }
     }
     stop_sound_request((s32)((struct Self_80237A94 *)this)->emitters);
@@ -440,19 +440,19 @@ void TTecRaBarta::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r4;
     if ((u32) this->m_e8 == 0U) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     this->source = (u32)find_entity_by_id((this->m_b4));
     if ((u32) this->source == 0U) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     temp_r4 = this->age;
     this->age = (temp_r4 + 1);
     apply_technique_to_area_targets__13TUnk_804CC148Fv(arg0, temp_r4);
     if ((s32) this->age > (s16) this->m_a8) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 
@@ -467,7 +467,7 @@ void *TTecRaBarta__ct(void *self_, void *source, void *origin, void *pos, void *
     construct_area_technique_base((u8 *)self_, (s32)source, (s32)origin, (s32)pos, (s32)level);
     self->vt = __vt__11TTecRaBarta;
     self->f0 = TTecRaBarta_class_name;
-    calc_parameters__11TTecRaBartaFv(self);
+    ((TTecRaBarta *)self)->calc_parameters();
     self->ff0 = 1;
     ((VecCopyFn_80237BD8)VecCopy)(self->pos, ((VecCopyFn_80237BD8)VecCopy)(self->src_pos, pos));
     if (self->holder != 0) {
@@ -493,7 +493,7 @@ void *TTecRaBarta::construct_area(void *source, void *origin, void *level) {
     *(s32 **)((s8 *)this + 0x18) = __vt__11TTecRaBarta;
     *(u32 *)&this->m_name = TTecRaBarta_class_name;
     this->m_f0 = 0;
-    calc_parameters__11TTecRaBartaFv(this);
+    calc_parameters();
     if (this->m_e8 != NULL) {
         *(f32 *)((s8 *)(*(u8 **)(this->m_e8 + 0xA4)) + 0xC) = this->m_90;
     }
@@ -513,7 +513,4 @@ void *TTecRaBarta::construct_area(void *source, void *origin, void *level) {
 
 #undef calc_parameters__11TTecRaBartaFv
 
-#undef __dl__7TObjectFPv
-#undef rabarta_band_emitter_table
-#undef __nw__7TObjectFUl
 #undef TTecRaBarta_class_name

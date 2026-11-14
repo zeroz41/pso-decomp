@@ -22,7 +22,7 @@ extern "C" {
 void vfunc_12__8TObjChipFv(u8 *arg0);
 int vfunc_8__8TObjChipFv(void *p);
 u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *arg0, u8 *arg1, u8 *arg2);
-u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
+u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 void copy_debris_params__8TObjChipFPvPv(u8 *arg0, u8 *arg1);
 u8 *copy_transform__8TObjChipFPvPv(u8 *arg0, u8 *arg1);
 void render__8TObjChipFv(void *arg0);
@@ -54,7 +54,7 @@ struct TObjChipPiece {
 class TObjChip : public TObject {
 public:
     TObjChip(TObject *parent, TObjChipSpawnParams *params);
-    TObjChip(TObject *parent, TObjChipParams *params);
+    TObjChip(TObject *parent, const TObjChipParams *params);
     virtual ~TObjChip();
     virtual void run_task();
     virtual void render();

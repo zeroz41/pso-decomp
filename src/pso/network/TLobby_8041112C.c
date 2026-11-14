@@ -799,7 +799,7 @@ s16 idx;
   s16 TLobby__sub_8040A0C0(s16, void *); /* declared s16 here; the definition returns s32 */
   s16 TLobby__sub_80409D7C(s16, s32, s32, void *); /* declared s16 here; the definition is s32 (s16, s32, s32, s32) */
   s16 TLobby__sub_80409CE0(s16, s32, s32, s32); /* declared s16 here; the definition returns s32 */
-  s16 NetCompareBitPrefix(void *, void *); /* declared with 2 parameters, so calls here pass 2 arguments; the definition is s32 (u8 *, u8 *, s16) */
+  s16 NetCompareBitPrefix(void *, void *, s16); /* declared s16 here; the definition returns s32 */
   s16 is_entry_flag10_set(s16); /* declared s16 here; the definition returns s32 */
   s16 is_socket_flag_set(s16); /* declared s16 here; the definition returns s32 */
   s16 TLobby__sub_8041347C(u8 *, s16, u8 *, s16, s16, s16); /* declared s16 here; the definition returns s32 */
@@ -825,6 +825,7 @@ s16 idx;
   u8 a68[16];
   u8 a52[16];
   s16 err;
+  u8 *node;
   if ((idx <= 0) || (idx >= (*(pn = &g->count))))
   {
     return -266;
@@ -864,34 +865,34 @@ s16 idx;
   }
   if ((*((u8 **) (e + offsetof(Ipv6Iface, addrs)))) != 0)
   {
-    cur = *((u8 **) (e + offsetof(Ipv6Iface, addrs)));
+    node = *((u8 **) (e + offsetof(Ipv6Iface, addrs)));
     found = 0;
     i = 0;
-    for (; (cur != 0) && (i < ((s16 *) g)[2]); cur = *((u8 **) (cur + offsetof(Ipv6AddrNode, next))), i++)
+    for (; (node != 0) && (i < ((s16 *) g)[2]); node = *((u8 **) (node + offsetof(Ipv6AddrNode, next))), i++)
     {
-      if ((*((s16 *) (cur + offsetof(Ipv6AddrNode, f16)))) == 0)
+      if ((*((s16 *) (node + offsetof(Ipv6AddrNode, f16)))) == 0)
       {
-        if (cmp16_80412618(tmp, cur + offsetof(Ipv6AddrNode, addr)) == 0)
+        if (cmp16_80412618(tmp, node + offsetof(Ipv6AddrNode, addr)) == 0)
         {
           found = 1;
         }
       }
       else
-        if ((*((s16 *) (pi + 4))) == (*((s16 *) (cur + offsetof(Ipv6AddrNode, prefix_len)))))
+        if ((*((s16 *) (pi + 4))) == (*((s16 *) (node + offsetof(Ipv6AddrNode, prefix_len)))))
       {
-        if (NetCompareBitPrefix(*((void **) pi), cur + offsetof(Ipv6AddrNode, addr)) == 0)
+        if (NetCompareBitPrefix(*((void **) pi), node + offsetof(Ipv6AddrNode, addr), *((s16 *) (pi + 4))) == 0)
         {
           found = 1;
           v = *((u32 *) (pi + 12));
-          if ((v > 7200) || (v > (*((u32 *) (cur + offsetof(Ipv6AddrNode, valid_lifetime))))))
+          if ((v > 7200) || (v > (*((u32 *) (node + offsetof(Ipv6AddrNode, valid_lifetime))))))
           {
-            *((u32 *) (cur + offsetof(Ipv6AddrNode, valid_lifetime))) = v;
-            *((u32 *) (cur + offsetof(Ipv6AddrNode, preferred_lifetime))) = *((u32 *) (pi + 8));
+            *((u32 *) (node + offsetof(Ipv6AddrNode, valid_lifetime))) = v;
+            *((u32 *) (node + offsetof(Ipv6AddrNode, preferred_lifetime))) = *((u32 *) (pi + 8));
           }
           else
-            if (((*((u32 *) (cur + offsetof(Ipv6AddrNode, valid_lifetime)))) > 7200) || (v > (*((u32 *) (cur + offsetof(Ipv6AddrNode, valid_lifetime))))))
+            if (((*((u32 *) (node + offsetof(Ipv6AddrNode, valid_lifetime)))) > 7200) || (v > (*((u32 *) (node + offsetof(Ipv6AddrNode, valid_lifetime))))))
           {
-            *((u32 *) (cur + offsetof(Ipv6AddrNode, valid_lifetime))) = 7200;
+            *((u32 *) (node + offsetof(Ipv6AddrNode, valid_lifetime))) = 7200;
           }
         }
       }

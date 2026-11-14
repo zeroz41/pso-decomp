@@ -9,10 +9,11 @@
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/ui/charcreate/TCharaMaking_8028E3F4.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/quest/TQuestVmDownLoadServer.h"
 #include <stddef.h>
 
-#pragma push
-#pragma readonly_strings on
 // The character-creation motion archive: no models, 49 body motions.
 const char *charamakingmot_model_names[1] = {NULL};
 const char *charamakingmot_motion_names[50] = {
@@ -53,17 +54,57 @@ const s32 lbl_8045122C[19] = {
     137, 310, 286, 208, 311, 386, 337, 355, 516, 386, 321, 333,
     16, 17, 14, 14, 14, 14, 14,
 };
-#pragma pop
 
-extern "C" {
-void build_appearance_texture_names__12TCharaMakingFv(void *, CharacterAppearanceFields *, CharacterClassAppearance *, CharacterTextureList *);
-void TCharaMaking__bind_appearance_texture_lists(s32 *arg0, s32 *arg1, s32 *arg2, CharacterAppearanceFields *arg3);
-s32 TCharaMaking__sub_8028E3A0(f32 *arg0);
-}
-extern s32 player_class_trait_table[];
-s32 validate_player_visual_record(void *arg0);
+struct OutputSlot {u8 *name; unsigned int field4,field8;};
+
+struct TextureOutput {int loaded; u8 names[8][32]; struct OutputSlot slots[8]; struct OutputSlot *entries; int count;};
 
 struct P_8028DCCC { f32 a; f32 b; };
+
+extern "C" {
+u8 lbl_80518880[0x228];
+u8 lbl_80518AA8[0x384];
+u8 lbl_80518E2C[0x354];
+u8 lbl_80519180[0x2B8];
+u8 lbl_80519438[0x384];
+u8 lbl_805197BC[0x41C];
+u8 lbl_80519BD8[0x3B8];
+u8 lbl_80519F90[0x3DC];
+u8 lbl_8051A36C[0x520];
+u8 lbl_8051A88C[0x41C];
+u8 lbl_8051ACA8[0x398];
+u8 lbl_8051B040[0x3B0];
+u8 lbl_8051B3F0[0x138];
+u8 lbl_8051B528[0x138];
+u8 lbl_8051B660[0x134];
+u8 lbl_8051B794[0x134];
+u8 lbl_8051B8C8[0x134];
+u8 lbl_8051B9FC[0x134];
+u8 lbl_8051BB30[0x134];
+u8 chara_making_load_buffer[0x40C];
+}
+
+void *player_class_texture_buffer_table[19] = {
+    lbl_80518880, lbl_80518AA8, lbl_80518E2C, lbl_80519180, lbl_80519438,
+    lbl_805197BC, lbl_80519BD8, lbl_80519F90, lbl_8051A36C, lbl_8051A88C,
+    lbl_8051ACA8, lbl_8051B040, lbl_8051B3F0, lbl_8051B528, lbl_8051B660,
+    lbl_8051B794, lbl_8051B8C8, lbl_8051B9FC, lbl_8051BB30,
+};
+s32 player_class_trait_table[12] = {
+    0x25, 0x2A, 0x31, 0x45, 0x51, 0x52, 0x86, 0x89, 0x8A, 0x32, 0x85, 0x46,
+};
+P_8028DCCC character_proportion_height_table[12] = {
+    {15.0f, 20.0f}, {14.0f, 18.0f}, {18.0f, 21.5f}, {16.0f, 20.0f},
+    {17.0f, 21.0f}, {14.5f, 19.0f}, {14.5f, 17.5f}, {16.5f, 20.0f},
+    {14.0f, 17.5f}, {13.0f, 18.0f}, {14.8f, 20.5f}, {14.2f, 18.3f},
+};
+
+extern "C" {
+void build_appearance_texture_names__12TCharaMakingFv(TextureOutput *, CharacterAppearanceFields *, CharacterClassAppearance *, CharacterTextureList *);
+void TCharaMaking__bind_appearance_texture_lists(TextureOutput *arg0, TextureOutput *arg1, TextureOutput *arg2, CharacterAppearanceFields *arg3);
+s32 TCharaMaking__sub_8028E3A0(f32 *arg0);
+}
+s32 validate_player_visual_record(void *arg0);
 
 extern "C" {
 CharacterAppearanceFields *get_class_appearance_preset(s32 arg0);
@@ -99,7 +140,6 @@ s32 calc_section_id_from_name(s8 *arg0) {
     return sum;
 }
 }
-extern P_8028DCCC character_proportion_height_table[];
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
@@ -303,7 +343,7 @@ s32 validate_player_visual_record(void *arg0) {
 void TCharaMaking::clear_flag_bit0() { restore_alpha_ref(); model_render_flags = (model_render_flags & 0xfffffffe); }
 
 void TCharaMaking::enable_making() { model_render_flags = (model_render_flags | 0x1); set_alpha_ref_override((u8)((void*)31)); }
-void TCharaMaking__bind_appearance_texture_lists(s32 *output, s32 *arg1, s32 *arg2, CharacterAppearanceFields *appearance) {
+void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureOutput *arg1, TextureOutput *arg2, CharacterAppearanceFields *appearance) {
   CharacterClassAppearance *definition;
   CharacterTextureList **temp_r3;
   CharacterTextureList **temp_r3_2;
@@ -311,7 +351,7 @@ void TCharaMaking__bind_appearance_texture_lists(s32 *output, s32 *arg1, s32 *ar
   CharacterClassAppearance *new_var;
   CharacterTextureList *temp_r6_2;
   new_var = &class_appearance_table[((TCharaMaking *)appearance)->get_display_index()];
-  *output = 0;
+  output->loaded = 0;
   definition = new_var;
   temp_r3 = definition->hairTextures;
   if (temp_r3 != 0)
@@ -320,10 +360,10 @@ void TCharaMaking__bind_appearance_texture_lists(s32 *output, s32 *arg1, s32 *ar
     if (temp_r6 != 0)
     {
       build_appearance_texture_names__12TCharaMakingFv(output, appearance, definition, temp_r6);
-      *output = 1;
+      output->loaded = 1;
     }
   }
-  *arg1 = 0;
+  arg1->loaded = 0;
   temp_r3_2 = definition->headTextures;
   if (temp_r3_2 != 0)
   {
@@ -331,11 +371,11 @@ void TCharaMaking__bind_appearance_texture_lists(s32 *output, s32 *arg1, s32 *ar
     if (temp_r6_2 != 0)
     {
       build_appearance_texture_names__12TCharaMakingFv(arg1, appearance, definition, temp_r6_2);
-      *arg1 = 1;
+      arg1->loaded = 1;
     }
   }
   build_appearance_texture_names__12TCharaMakingFv(arg2, appearance, definition, definition->bodyTextures);
-  *arg2 = 1;
+  arg2->loaded = 1;
 }
 s32 TCharaMaking__sub_8028E3A0(f32 *arg0) {
     if (arg0[0] < 0.0f || arg0[0] >= 1.0f || arg0[1] < 0.0f || arg0[1] >= 1.0f) {
@@ -344,4 +384,109 @@ s32 TCharaMaking__sub_8028E3A0(f32 *arg0) {
         return 1;
     }
     return 0;
+}
+
+extern "C" {
+s32 TLobby__sub_801E3E9C(s32, const void *, void *, s32);
+int is_quest_active(void);
+
+s32 TCharaMaking::is_end() {
+    if ((get_main_phase() == 0xF) || (is_quest_active() != 0)) {
+        return 1;
+    }
+    return 0;
+}
+
+s32 TCharaMaking::get_display_index() {
+    s8 temp;
+
+    if (!(((CharacterAppearanceFields *)this)->flags & 0xA)) {
+        return ((CharacterAppearanceFields *)this)->classId;
+    }
+    if (((s8)((CharacterAppearanceFields *)this)->version <= 0) ||
+        ((temp = *(s8 *)&((CharacterAppearanceFields *)this)->extraModel) < 0) ||
+        (temp >= 7)) {
+        return ((CharacterAppearanceFields *)this)->classId;
+    }
+    if (TCharaMaking::is_end() != 0) {
+        return 0x12 - *(s8 *)&((CharacterAppearanceFields *)this)->extraModel;
+    }
+    return ((CharacterAppearanceFields *)this)->classId;
+}
+
+unsigned int strlen(u8 *); u8 *strncpy(u8 *,u8 *,unsigned int);
+void build_appearance_texture_names__12TCharaMakingFv(TextureOutput *output, CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source) {
+    if (source->count <= 8) {
+        int index;
+        OutputSlot *slot;
+        u8 **entry;
+        u8 *name;
+        slot = output->entries = output->slots;
+        index = 0;
+        output->count = source->count;
+        entry = (u8 **)source->entries;
+        for (; index < source->count; ++index, ++entry, ++slot) {
+            name = output->names[index];
+            strlen(*entry);
+            strncpy(name, *entry, 31);
+            name[31] = 0;
+            if (definition->counts[0] > 0) {
+                char *digit = (char *)&name[6];
+                if (*digit++ != '0' || *digit != '0') {
+                switch ((s8)name[4]) {
+                case 'b': case 't':
+                    { int costume = appearance->costume + 1;
+                    name[6] = costume / 10 + '0';
+                    *digit = costume % 10 + '0'; }
+                    break;
+                }
+            }
+            }
+            if (definition->counts[1] > 0 && name[8] != 'z') {
+                switch ((s8)name[4]) {
+                case 'b': case 'f': case 't': name[8] = appearance->skin + 'a'; break;
+                }
+            }
+            if (definition->counts[2] > 0 && name[7] != '0') {
+                switch (name[4]) {
+                case 'f': name[7] = appearance->face + '1'; break;
+                }
+            }
+            if (name[4] == 'c') {
+                if (appearance->flags & 1 || (s8)appearance->section == -1) name[8] = 'z';
+                else name[8] = appearance->section + 'a';
+            }
+            slot->name = name;
+            slot->field8 = 0;
+            slot->field4 = 0;
+        }
+    }
+}
+
+void request_chara_making_archives(void) {
+    s32 i;
+    if (TQuestVmDownLoadServer::is_ready() != 0) {
+        return;
+    }
+    for (i = 0; i < 0x13; i++) {
+        if (TQuestVmDownLoadServer::is_ready() != 0) {
+            return;
+        }
+        if (TLobby__sub_801E3E9C(player_class_texture_archive_table[i].archiveId, player_class_texture_archive_table[i].archiveName, player_class_texture_buffer_table[i], lbl_8045122C[i]) != 0) {
+            if (TQuestVmDownLoadServer::is_ready() == 0) {
+                return;
+            }
+            return;
+        }
+    }
+    if (TQuestVmDownLoadServer::is_ready() != 0) {
+        return;
+    }
+    if (TLobby__sub_801E3E9C(0xDB, "PLZSMPNJ.AFS", chara_making_load_buffer, 0x17A) != 0) {
+        if (TQuestVmDownLoadServer::is_ready() == 0) {
+            return;
+        }
+    }
+}
+
 }

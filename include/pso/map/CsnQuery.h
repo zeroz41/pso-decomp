@@ -58,8 +58,37 @@ struct CsnHit {
     u8 pad_8[0x38];
 };
 
+// A radial wall query (select_deepest_wall_ray's input): count rays from
+// origin, one per entry of rays (field names inferred).
+struct WallRayQuery {
+    s32 count;
+    f32 radius;
+    u32 mask;
+    Vec origin;
+    Vec *rays;
+};
+
+// One ray's wall contact (field names inferred).
+struct WallRayHit {
+    Vec point;
+    Vec normal;
+    u8 pad_18[0x4];
+};
+
+// The deepest contact of a wall ray query (field names inferred).
+struct WallRayResult {
+    s32 hit;
+    WallRayHit *hits;
+    s32 index;  // the ray that went deepest
+    f32 depth;
+};
+
 extern "C" {
 CsnHit *csnVector(const Vec *from, const Vec *to, u32 mask);
+// The deepest wall the rays of query reach within its radius, NULL for none.
+WallRayResult *query_wall_radial(WallRayQuery *query);
+// Line of sight: the hit record when a wall lies between from and to.
+CsnHit *csnLookAt(const Vec *from, const Vec *to);
 }
 
 extern "C" {
@@ -67,11 +96,10 @@ void TObjPlayer__sub_80079108(void);
 void TObjPlayer__sub_8007910C(CsnContact *contact, NJS_ARGB *color);
 void TObjPlayer__sub_80079110(CsnHit *hit);
 void TObjPlayer__sub_80079114(void);
-s32 TObjPlayer__sub_80079118(s32 *_w0);
+s32 TObjPlayer__sub_80079118(const char *name);
 void TObjPlayer__sub_8007911C(void);
 void TObjPlayer__sub_80079120(s32 _w0);
 void TObjPlayer__sub_80079124(void *_w0, void *_w1);
-s32 *csnLookAt(s32 arg0, s32 arg1);
 s32 *csnVecterUnder(s32 origin, s32 mask);
 s32 *csnVectorUnder(Vec *arg0, u32 *arg1, s32 arg2);
 s32 get_csn_group_flags(u8 arg0);

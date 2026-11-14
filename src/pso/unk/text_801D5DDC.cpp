@@ -146,11 +146,10 @@ s32 TFontSmallLobby__sub_801D698C(void *);
 s32 validate_6x38_donate_to_photon_blast(void *);
 }
 void handle_6x38_donate_to_photon_blast(s32 arg0);
-extern const f32 lbl_805DC3D8;
 
 s32 TFontSmallLobby::is_ready() {
     u8 *arg0 = (u8 *)this;
-    if ((((TFontSmallLobby *)(arg0 + 0x4C))->get_field_04() < 3) && (*(f32 *)((s8 *)arg0 + 0x3C) > lbl_805DC3D8) && (((TFontSmallLobby *)(arg0 + 0x4C))->get_state() < 0)) {
+    if ((((TFontSmallLobby *)(arg0 + 0x4C))->get_field_04() < 3) && (*(f32 *)((s8 *)arg0 + 0x3C) > 10.0f) && (((TFontSmallLobby *)(arg0 + 0x4C))->get_state() < 0)) {
         return 1;
     }
     return 0;
@@ -192,7 +191,7 @@ void draw_party_label__15TFontSmallLobbyFiUis(s32 font_small_lobby, u32 arg1, s1
     Sp801D6230_801d6230 sp8;
 
     set_flag_40_bit5__15TFontSmallLobbyFv();
-    subtract_photon_blast_charge((TFontSmallLobby *)((u8 *)font_small_lobby), lbl_805DC3D8);
+    subtract_photon_blast_charge((TFontSmallLobby *)((u8 *)font_small_lobby), 10.0f);
     ((TFontSmallLobby *)(font_small_lobby + 0x4C))->set_target_index(8);
     TFontSmallLobby__sub_801D671C((void *)(font_small_lobby + 0x4C), 1);
     create_party_effect__11TWindowCtrlFPvPv(get_entity_id(arg1), arg2);

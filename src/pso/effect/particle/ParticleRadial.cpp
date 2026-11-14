@@ -13,6 +13,7 @@
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/player/TObjPlayer_80083594.h"
+#include "pso/system/task/TObject.h"
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -91,7 +92,6 @@ struct Scr_8008BAF8 { f32 x, y; };
 
 extern "C" {
 void *alloc_particle_memory(int);
-void queue_destruction__7TObjectFv(void *arg0);
 f32 vec_squared_length(u8 *arg0);
 u8 *__dt__13TUnk_8048E728Fv(u8 *arg0, s16 arg1);
 u8 *create_radial_particle(u8 *arg0, u8 *arg1, s32 arg2, u16 arg3, s16 arg4);
@@ -218,7 +218,7 @@ void * create_random_particle(void *arg0, void *arg1, void *arg2) {
 void TUnk_8048E7A8::check_radial_particle_retire() {
     u8 *arg0 = (u8 *)this;
     if ((this->age >= 1.0f) || (0.0f == vec_squared_length((arg0 + 0x3C)))) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 
@@ -510,4 +510,4 @@ u8 *TParticleCtrl::init_random_particle(u8 *arg1, u8 *arg2, s32 arg3) {
 }
 #pragma pop
 
-void destroy_keyboard_objects(void * _w0) { queue_destruction__7TObjectFv((_w0)); TKeyBoardControl__sub_8000F91C(2); TKeyBoardControl__sub_8000F9CC(18); TLobby::stop_audio_streams(); stop_cue_stream(); }
+void destroy_keyboard_objects(void * _w0) { ((TObject *)_w0)->queue_destruction(); TKeyBoardControl__sub_8000F91C(2); TKeyBoardControl__sub_8000F9CC(18); TLobby::stop_audio_streams(); stop_cue_stream(); }

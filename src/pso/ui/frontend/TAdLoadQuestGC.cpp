@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/frontend/TAdLoadQuestGC.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -7,6 +8,9 @@
 #include "pso/ui/frontend/TAdLoadQuestLineGC.h"
 #include "pso/ui/frontend/TAdLoadQuestPrtTxtGC_8034A090.h"
 #include "pso/ui/frontend/TAdLdQuestPrtGC.h"
+#include "pso/system/task/TObject.h"
+
+#pragma readonly_strings on
 
 extern "C" {
 
@@ -38,20 +42,20 @@ TAdLoadQuestGC::~TAdLoadQuestGC() {
     TObject *cells[3];
     TObject *lines[2];
     if (quest_display != NULL) {
-        queue_destruction__7TObjectFv(quest_display);
+        quest_display->queue_destruction();
         quest_display = NULL;
     }
     for (u32 i = 0; i < 3; ++i) {
         arrows[i] = (TObject *)TAdLoadQuestGC__sub_8030987C(2 - i);
-        if (arrows[i] != NULL) queue_destruction__7TObjectFv(arrows[i]);
+        if (arrows[i] != NULL) arrows[i]->queue_destruction();
     }
     for (u32 i = 0; i < 2; ++i) {
         lines[i] = (TObject *)TAdLoadQuestGC__sub_80309868(1 - i);
-        if (lines[i] != NULL) queue_destruction__7TObjectFv(lines[i]);
+        if (lines[i] != NULL) lines[i]->queue_destruction();
     }
     for (u32 i = 0; i < 3; ++i) {
         cells[i] = (TObject *)TAdLoadQuestGC__sub_80309854(2 - i);
-        if (cells[i] != NULL) queue_destruction__7TObjectFv(cells[i]);
+        if (cells[i] != NULL) cells[i]->queue_destruction();
     }
 }
 
@@ -60,13 +64,13 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, TObject *);
 
 extern s32 __vt__14TAdLoadQuestGC[];
-extern void *TAdLoadQuestGC__class_name;
+const char *TAdLoadQuestGC__class_name = "TAdLoadQuestGC";
 
 void *TAdLoadQuestGC__ct(void *ad_load_quest_gc, TObject *parent) {
     void *o;
     __ct__7TObjectFP7TObject(ad_load_quest_gc, parent);
     *(s32 **)((s8 *)ad_load_quest_gc + 0x18) = __vt__14TAdLoadQuestGC;
-    *(void * *)&((TAdLoadQuestGC *)ad_load_quest_gc)->m_name = TAdLoadQuestGC__class_name;
+    ((TAdLoadQuestGC *)ad_load_quest_gc)->m_name = TAdLoadQuestGC__class_name;
     get_or_create_cell__14TAdLoadQuestGCFii((s32)ad_load_quest_gc, 0);
     get_or_create_prt_txt__14TAdLoadQuestGCFii((s32)ad_load_quest_gc, 0);
     get_or_create_cell__14TAdLoadQuestGCFii((s32)ad_load_quest_gc, 1);

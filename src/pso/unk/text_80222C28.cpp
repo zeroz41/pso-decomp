@@ -18,7 +18,7 @@ struct RecoveredGlobal_80222CBC_lbl_8044C308
 };
 
 extern s32 quest_and_shop_error_text;
-extern s32 **lbl_805D6258;
+s32 ** lbl_805D6258;
 extern RecoveredGlobal_80222C54_lbl_8044C330 guild_text_play_mode_table;
 extern RecoveredGlobal_80222CBC_lbl_8044C308 appraisal_text_group_table;
 extern s32 lbl_805D6238;

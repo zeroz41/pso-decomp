@@ -184,11 +184,9 @@ s32 read_disc_file(const char *, void *);
 s32 init_floor_enemy_count__6TLobbyFlPUcUl(s32, u8 *, s32);
 s32 load_object_set_entries__6TLobbyFlPUcUl(s32, u8 *, s32);
 void reserve_enemy_set_actor_ids(struct SpawnRecord_8020A9C4 *, s32, s32);
-extern char lbl_8044BBA8[];
 extern u8 *TLobby__map_set_file_buffer;
 extern s32 TLobby__map_set_file_buffer_size;
 }
-extern u8 lbl_8044BBB0[];
 s32 load_enemy_set_file(s32 idx, s32 arg1) {
     Name_8020A768 name;
     s32 size;
@@ -196,7 +194,7 @@ s32 load_enemy_set_file(s32 idx, s32 arg1) {
     s32 n;
     s32 i;
     s32 floor;
-    replace_file_extension__6TLobbyFPvPvPv((char *)&name, (char *)arg1, (char *)lbl_8044BBA8);
+    replace_file_extension__6TLobbyFPvPvPv((char *)&name, (char *)arg1, "e.dat");
     size = read_disc_file(name.s, TLobby__map_set_file_buffer);
     if (size < 0) {
         return 0;
@@ -222,7 +220,7 @@ s32 load_object_set_file(s32 idx, s32 arg1) {
     s32 n;
     s32 i;
     s32 floor;
-    replace_file_extension__6TLobbyFPvPvPv(name.s, (char *)arg1, (char *)lbl_8044BBB0);
+    replace_file_extension__6TLobbyFPvPvPv(name.s, (char *)arg1, "o.dat");
     size = read_disc_file(name.s, TLobby__map_set_file_buffer);
     if (size < 0) {
         return 0;
@@ -354,9 +352,6 @@ int TLobby::rebuild_entry() { return clear_record_flags_a__6TLobbyFv(this); }
 #include "pso/unk/text_8020AB50.h"
 #include "pso/unk/TLobby.h"
 
-extern char lbl_8044BBB8[];
-extern char lbl_8044BBC8[];
-extern char lbl_8044BBD4[];
 s32 load_area_enemy_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     char buf[0x28];
     s32 name;
@@ -368,29 +363,29 @@ s32 load_area_enemy_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     MapSetEntry *t3;
     t2 = TLobby__data_805D6068[arg1].variants;
     if (t2 == NULL || TLobby__data_805D6068[arg1].count - 1 < arg2) {
-        TLobby::debug_print(lbl_8044BBB8);
+        TLobby::debug_print("NOT FOUND SET");
         return 0;
     }
     t3 = t2[arg2].entries;
     if (t3 == NULL || t2[arg2].count - 1 < arg3) {
-        TLobby::debug_print(lbl_8044BBB8);
+        TLobby::debug_print("NOT FOUND SET");
         return 0;
     }
     name = t3[arg3].enemy_set_name;
     if (arg1 == 0 || arg1 == 0x12) {
         switch (get_game_play_mode()) {
         case 0:
-            replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)name, (char *)lbl_8044BBA8);
+            replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)name, "e.dat");
             break;
         case 1:
-            replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)name, (char *)lbl_8044BBC8);
+            replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)name, "e_c1.dat");
             break;
         case 2:
-            replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)name, (char *)lbl_8044BBD4);
+            replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)name, "e_d.dat");
             break;
         }
     } else {
-        replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)name, (char *)lbl_8044BBA8);
+        replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)name, "e.dat");
     }
     size = read_disc_file(buf, TLobby__map_set_file_buffer);
     if (size < 0) {
@@ -451,10 +446,6 @@ s32 is_area_transfer_pending();
 void advance_enemy_id_counter(s32 arg0);
 s32 load_area_enemy_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void advance_object_id_counter(s32 arg0);
-extern u8 lbl_8044BBB0[];
-extern char lbl_8044BBB8[];
-extern u8 lbl_8044BBDC[];
-extern u8 lbl_8044BBE8[];
 
 s32 load_area_object_set(s32 arg0, s32 lobby, s32 arg2, s32 arg3) {
     char name[0x20];
@@ -467,29 +458,29 @@ s32 load_area_object_set(s32 arg0, s32 lobby, s32 arg2, s32 arg3) {
     s32 i;
     subs = TLobby__data_805D6068[lobby].variants;
     if (subs == NULL || TLobby__data_805D6068[lobby].count - 1 < arg2) {
-        TLobby::debug_print(lbl_8044BBB8);
+        TLobby::debug_print("NOT FOUND SET");
         return 0;
     }
     items = subs[arg2].entries;
     if (items == NULL || subs[arg2].count - 1 < arg3) {
-        TLobby::debug_print(lbl_8044BBB8);
+        TLobby::debug_print("NOT FOUND SET");
         return 0;
     }
     id = items[arg3].object_set_name;
     if (lobby == 0 || lobby == 0x12) {
         switch (get_game_play_mode()) {
         case 0:
-            replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)id, (char *)lbl_8044BBB0);
+            replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)id, "o.dat");
             break;
         case 1:
-            replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)id, (char *)lbl_8044BBDC);
+            replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)id, "o_c1.dat");
             break;
         case 2:
-            replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)id, (char *)lbl_8044BBE8);
+            replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)id, "o_d.dat");
             break;
         }
     } else {
-        replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)id, (char *)lbl_8044BBB0);
+        replace_file_extension__6TLobbyFPvPvPv((char *)name, (char *)id, "o.dat");
     }
     len = read_disc_file(name, TLobby__map_set_file_buffer);
     if (len < 0) {
@@ -603,11 +594,7 @@ void clear_map_set_data(void) {
     }
 }
 
-struct RecoveredGlobal_8020B118_lbl_8044BBF0 { char value[0x13]; };
-typedef char RecoveredGlobal_8020B118_lbl_8044BBF0_size[sizeof(RecoveredGlobal_8020B118_lbl_8044BBF0) == 0x13 ? 1 : -1];
 
-struct RecoveredGlobal_8020B118_lbl_8044BC04 { char value[0x12]; };
-typedef char RecoveredGlobal_8020B118_lbl_8044BC04_size[sizeof(RecoveredGlobal_8020B118_lbl_8044BC04) == 0x12 ? 1 : -1];
 
 // Saved set-flag row of a floor's object or enemy list.
 struct SetFlagRow_8020B47C {
@@ -627,8 +614,6 @@ struct FloorSetFlags_8020B47C {
     SetFlagRow_8020B47C *enemy_rows;
 };
 
-extern RecoveredGlobal_8020B118_lbl_8044BBF0 lbl_8044BBF0;
-extern RecoveredGlobal_8020B118_lbl_8044BC04 lbl_8044BC04;
 extern "C" {
 // Per-floor enemy and object row counts (written by init_floor_enemy_count and load_object_set_entries).
 extern s32 TLobby__data_80513CC8[];
@@ -645,7 +630,7 @@ void TLobby::load_set_gsl_files() {
     TLobby__map_set_file_buffer_size = 0;
     TLobby__data_805D6134 = 0;
     if (TLobby::init_handle(0x8000) != 0) {
-        open_gsl_archive((char *)&lbl_8044BBF0.value);
+        open_gsl_archive("gsl_set_object.gsl");
         if (TLobby::load_all_floor_object_sets() == 0) {
             close_gsl_archive();
             TLobby::free_data_60F0();
@@ -653,7 +638,7 @@ void TLobby::load_set_gsl_files() {
             return;
         }
         close_gsl_archive();
-        open_gsl_archive((char *)&lbl_8044BC04.value);
+        open_gsl_archive("gsl_set_enemy.gsl");
         if (TLobby::load_all_floor_enemy_sets() == 0) {
             close_gsl_archive();
             TLobby::free_data_60F0();

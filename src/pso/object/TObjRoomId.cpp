@@ -30,7 +30,11 @@ struct RecoveredGlobal_801A1CD8___vt__10TObjRoomId {
 struct Obj_801A1888 { u8 pad[0x38]; f32 pos[3]; };
 
 struct Vec_801A1A60 { f32 x, y, z; };
-struct I3_801A1A60 { s32 a, b, c; };
+// The class name, then the direction run_task rotates by the object's yaw into normal, the plane
+// normal its vec3_dot side test uses (room_id_base_normal is an inferred name).
+const char *TObjRoomId__name = "TObjRoomId";
+static const Vec_801A1A60 room_id_base_normal = {0.0f, 0.0f, -1.0f};
+
 struct TObjRoomId {
     u8 pad0[0x38];
     Vec_801A1A60 pos;
@@ -60,19 +64,14 @@ struct RoomId_801A18EC {
 extern "C" {
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__10TObjRoomId[];
-extern s32 lbl_805D34B0;
 u8 *TObjRoomId__ct(u8 *arg0, s32 arg1, s32 arg2);
 u16 TObjRoomId__sub_801A1DB8(u16 x);
 f32 horizontal_distance_squared(f32 *a, f32 *b);
 s32 is_player_in_range__10TObjRoomIdFPvUsf(Obj_801A1888 *self, u16 id, f32 range);
-void draw_debug_line__10TObjRoomIdFUllll(void *, int, int, void *);
+void draw_debug_line__10TObjRoomIdFUllll(void *, int, int, const char *);
 void debug_draw_line(Vec_801A18EC *, Vec_801A18EC *, u32, u32);
 void fn_80141CBC(void *a, void *b, f32 s);
 void debug_draw_sphere(const Vec_801A18EC *pos, const NJS_ARGB *color, f32 radius);
-extern u8 lbl_804468B8[];
-extern u8 lbl_804468C4[];
-extern u8 lbl_804468D0[];
-extern u8 lbl_804468DC[];
 void render__10TObjRoomIdFv(RoomId_801A18EC *self);
 s32 matrix_mult_vec(int, void *, void *);
 f32 vec3_dot(Vec_801A1A60 *, Vec_801A1A60 *);
@@ -103,14 +102,13 @@ void render__10TObjRoomIdFv(RoomId_801A18EC *self) {
         end.z = 10.0f * self->dir.z + self->pos.z;
         debug_draw_line(&self->pos, &end, 0xFFFF0000, 0xFFFF0000);
         debug_draw_sphere(&end, &c2, 2.0f);
-        draw_debug_line__10TObjRoomIdFUllll(self, 0x13, 0x1C, lbl_804468B8);
-        draw_debug_line__10TObjRoomIdFUllll(self, 0x13, 0x1D, lbl_804468C4);
-        draw_debug_line__10TObjRoomIdFUllll(self, 0x13, 0x1E, lbl_804468D0);
-        draw_debug_line__10TObjRoomIdFUllll(self, 0x13, 0x22, lbl_804468DC);
+        draw_debug_line__10TObjRoomIdFUllll(self, 0x13, 0x1C, "<- SCL_TAMA");
+        draw_debug_line__10TObjRoomIdFUllll(self, 0x13, 0x1D, "<- + NUMBER");
+        draw_debug_line__10TObjRoomIdFUllll(self, 0x13, 0x1E, "<- - NUMBER");
+        draw_debug_line__10TObjRoomIdFUllll(self, 0x13, 0x22, "<- - 10000 : BLOCK ID ");
     }
 }
 }
-extern Vec_801A1A60 lbl_8044688C[];
 extern u8 identity_matrix[];
 void set_player_room_control_flag(TObjPlayer *arg0);
 #pragma pop
@@ -119,14 +117,11 @@ void set_player_room_control_flag(TObjPlayer *arg0);
 #pragma fp_contract on
 void TObjRoomId::run_task() {
     TObjRoomId *o = this;
-    Vec_801A1A60 v;
+    Vec_801A1A60 v = room_id_base_normal;
     Vec_801A1A60 d;
     s32 absent;
     f32 r;
 
-    ((I3_801A1A60 *)&v)->a = ((I3_801A1A60 *)lbl_8044688C)->a;
-    ((I3_801A1A60 *)&v)->b = ((I3_801A1A60 *)lbl_8044688C)->b;
-    ((I3_801A1A60 *)&v)->c = ((I3_801A1A60 *)lbl_8044688C)->c;
     absent = 1;
     if (TObjPlayer::check_demo_mode() == 0) {
         for (s32 i = 0; i < 4; i++) {
@@ -193,7 +188,7 @@ typedef char RecoveredGlobal_801A1CD8___vt__10TObjRoomId_size[sizeof(RecoveredGl
 u8 *TObjRoomId__ct(u8 *arg0, s32 parent, s32 arg2) {
     __ct__8TObjBaseFP7TObject((void *)arg0, (void *)parent);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_801A1CD8___vt__10TObjRoomId *)&__vt__10TObjRoomId).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D34B0;
+    *(const char **)((s8 *)arg0 + 0) = TObjRoomId__name;
     ((VObj_18_1a504b *)(arg0))->m5(arg2);
     *(f32 *)((s8 *)arg0 + 0x90) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x94) = 0.0f;

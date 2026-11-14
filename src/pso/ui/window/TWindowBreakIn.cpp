@@ -3,15 +3,41 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowBreakIn.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 #pragma push
 #pragma readonly_strings on
 const char *TWindowBreakIn__name = "TWindowBreakIn";
 #pragma pop
 
-struct RecoveredGlobal_80246C58_lbl_804CE1B8 {
-    s32 value;
-    u8 remaining[0x10];
+// inferred: window_break_in_layout_entries, the layout table window_break_in_layout points at
+// (eight sprite parts, cf. window_timer_layout_entries).
+struct BreakInWindowLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec[8];
+};
+
+extern s32 lbl_805D63F0;
+
+BreakInWindowLayout window_break_in_layout_entries = {
+    8, 1,
+    {
+        {6, {72.0f, 0.0f}, {40.0f, 30.0f}, 137.0f, 203.0f, 0.4f, -1, &lbl_805D63F0, 0, 6},
+        {6, {76.0f, 0.0f}, {32.0f, 30.0f}, 185.0f, 62.0f, 0.6f, -1, &lbl_805D63F0, 0, 10},
+        {6, {48.0f, 0.0f}, {40.0f, 30.0f}, 137.0f, 203.0f, 0.4f, -1, &lbl_805D63F0, 0, 6},
+        {6, {52.0f, 0.0f}, {32.0f, 30.0f}, 224.0f, 185.0f, 0.6f, -1, &lbl_805D63F0, 0, 10},
+        {6, {24.0f, 0.0f}, {40.0f, 30.0f}, 137.0f, 203.0f, 0.4f, -1, &lbl_805D63F0, 0, 6},
+        {6, {28.0f, 0.0f}, {32.0f, 30.0f}, 224.0f, 152.0f, 0.6f, -1, &lbl_805D63F0, 0, 10},
+        {6, {0.0f, 0.0f}, {40.0f, 30.0f}, 137.0f, 203.0f, 0.4f, -1, &lbl_805D63F0, 0, 6},
+        {6, {4.0f, 0.0f}, {32.0f, 30.0f}, 224.0f, 119.0f, 0.6f, -1, &lbl_805D63F0, 0, 10},
+    },
+};
+
+WindowDescriptor window_break_in_layout = {
+    {112.0f, 30.0f}, 50000.0f, &window_break_in_layout_entries, 0x823,
 };
 
 struct RecoveredGlobal_80246C58___vt__14TWindowBreakIn {
@@ -21,12 +47,10 @@ struct RecoveredGlobal_80246C58___vt__14TWindowBreakIn {
 
 extern "C" {
 u8 * get_window_layout_position(s32);
-extern RecoveredGlobal_80246C58_lbl_804CE1B8 window_break_in_layout;
 extern s32 __vt__14TWindowBreakIn[];
 s32 draw_visible_window_entries(s32, s32, s32);
 void __dl__7TObjectFPv(void *);
 s32 draw_default_entry__9TWindowDDFl();
-int initialize_subwindow__9TWindowDDFv(void*);
 
 void TWindowBreakIn::render() {
     s32 arg0 = (s32)this;
@@ -34,7 +58,7 @@ void TWindowBreakIn::render() {
     draw_visible_window_entries(arg0, arg0 + 0x24, tmp);
 }
 
-void TWindowBreakIn::run_task() { update_entry_visibility__20TWindowSubStatusDispFv((s32)this); initialize_subwindow__9TWindowDDFv(this); update_window_entry_list((char*)this + 0x24); }
+void TWindowBreakIn::run_task() { ((TWindowSubStatusDisp *)this)->update_entry_visibility(); ((TWindowDD *)this)->initialize_subwindow(); update_window_entry_list((char*)this + 0x24); }
 
 void *__dt__14TWindowBreakInFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
@@ -46,10 +70,9 @@ void *__dt__14TWindowBreakInFv(void *arg0, s16 arg1) {
     }
     return arg0;
 }
-typedef char RecoveredGlobal_80246C58_lbl_804CE1B8_size[sizeof(RecoveredGlobal_80246C58_lbl_804CE1B8) == 0x14 ? 1 : -1];
 typedef char RecoveredGlobal_80246C58___vt__14TWindowBreakIn_size[sizeof(RecoveredGlobal_80246C58___vt__14TWindowBreakIn) == 0x1C ? 1 : -1];
 u8 *TWindowBreakIn__ct(u8 *window_dd) {
-    ((TWindowDD *)window_dd)->construct_base((u8 *)&window_break_in_layout.value, (s16)(4), (u8 *)(get_window_layout_position(0xAA)));
+    ((TWindowDD *)window_dd)->construct_base((u8 *)&window_break_in_layout, (s16)(4), (u8 *)(get_window_layout_position(0xAA)));
     *(s32 **)((s8 *)window_dd + 0x18) = &(*(RecoveredGlobal_80246C58___vt__14TWindowBreakIn *)&__vt__14TWindowBreakIn).value;
     *(s32 *)((s8 *)window_dd + 0) = (s32) TWindowBreakIn__name;
     return window_dd;

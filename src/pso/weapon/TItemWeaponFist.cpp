@@ -65,7 +65,7 @@ extern "C" {
 s32 reflect_matrix_in_plane(s32, f32 *, f32);
 s16 get_validated_attack_stage(u8 *arg0);
 }
-extern s32 knuckle_second_hand_pass;
+s32 knuckle_second_hand_pass;
 
 extern s32 knuckle_marker_joint_table[];
 void TUnk_804A2B98::vfunc_60() {

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
 #include "pso/ui/frontend/TAdRayGC.h"
 
@@ -7,6 +8,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/system/task/TObject.h"
 
 struct E_8029BCB4 { u8 b[0x14]; };
 

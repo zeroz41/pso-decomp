@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/dragon/TObjBoss1Crater.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
@@ -16,6 +17,7 @@
 #include <stdlib.h>
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 s32 isV2Mode__12TBoss1DragonFv(void);
@@ -144,7 +146,6 @@ extern "C" {
 s32 post_translate_matrix(void *);
 s32 push_matrix();
 void __dl__7TObjectFPv(void *);
-void queue_destruction__7TObjectFv(void *);
 
 extern s32 model_render_flags;
 
@@ -222,7 +223,7 @@ void TObjBoss1Crater::area_attack_receive_direct(void *self_arg, f32 *arg2, void
 }
 TObjBoss1Crater::~TObjBoss1Crater() {
     if (this->m_b4 != NULL) { __dt__17AreaAttackHistoryFv((s32)(this->m_b4), 1); *(s32 *)((s8 *)this + 0xB4) = 0; }
-    if (*(void **)((s8 *)this + 0xB0) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0xB0)); *(s32 *)((s8 *)this + 0xB0) = 0; }
+    if (*(void **)((s8 *)this + 0xB0) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xB0)))->queue_destruction(); *(s32 *)((s8 *)this + 0xB0) = 0; }
 }
 extern "C" {
 

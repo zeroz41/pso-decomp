@@ -27,7 +27,8 @@ void play_area_music(void *);
 void load_floor_sound_bank();
 extern char lbl_8043F260[];
 
-s32 fn_80140D50(void) {
+// inferred: the VERSUS02/RUINS01/RUINS02 init of area_initializer_dispatch_table
+s32 init_temple_area(void) {
     get_current_floor_area();
     load_floor_sound_bank();
     if (TLobby::check_disconnect_conditions() != 0) {

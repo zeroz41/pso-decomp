@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TDuelEffectNumber.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -8,6 +9,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/system/task/TObject.h"
 
 const char* TDuelEffectNumber__class_name = "TDuelEffectNumber";
 
@@ -115,8 +117,16 @@ void TDuelEffectNumber::run_task() {
     u8 *arg0 = (u8 *)this;
     *(s32 *)((s8 *)arg0 + 0x28) = (s32) (*(s32 *)((s8 *)arg0 + 0x28) + 1);
     if ((f32) *(s32 *)((s8 *)arg0 + 0x28) >= (3e+01f)) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 
 TDuelEffectNumber::~TDuelEffectNumber() {}
+
+TDuelEffectNumber::TDuelEffectNumber(TObject *object, void *arg2, void *arg3) : TObject(object) {
+    m_name = TDuelEffectNumber__class_name;
+    pad_1C[0] = ((f32 *)arg2)[0];
+    pad_1C[1] = ((f32 *)arg2)[1];
+    pad_24 = arg3;
+    pad_28 = 0;
+}

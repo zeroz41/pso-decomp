@@ -12,6 +12,8 @@
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/item/TItem.h"
+#include "pso/item/TItem.h"
+#include "pso/unk/TLobby.h"
 
 struct O_801C1C68 { u8 pad[4]; u8 a[0x10]; u8 b[0x10]; };
 
@@ -27,10 +29,7 @@ int set__8FlagWordFUl(void*, int);
 int clear__8FlagWordFUl(void*, int);
 int TWindowActionPalette__sub_801C1C20(void* p);
 int test_flags_any(void*, int);
-void reset_settings_to_default__6TLobbyFv(void *);
 void *TWindowActionPalette__sub_801C1C68(O_801C1C68 *self, s32 i);
-u8 get_item_group__5TItemFv(void *p);
-u8 get_item_type__5TItemFv(void *p);
 S_801C1BA8 *fn_801C1BA8(S_801C1BA8 *arg0, S_801C1BA8 *arg1);
 }
 
@@ -89,7 +88,7 @@ void* TObjPlayer__sub_801C1A00(void* p) { TObjPlayer__sub_801C1A30(p); return p;
 void TObjPlayer__sub_801C1A30(void* p) { *(s32*)((char*)p + 0x0) = 0; *(s32*)((char*)p + 0x4) = 0; }
 
 void *TObjPlayer::reset_lobby_settings() {
-    reset_settings_to_default__6TLobbyFv(this);
+    ((TLobby *)this)->reset_settings_to_default();
     return this;
 }
 
@@ -102,7 +101,7 @@ s32 is_item_equipped(TItem *item) {
 }
 
 void TObjPlayer__sub_801C1AC8(void *self) {
-    is_item_stackable(get_item_type__5TItemFv(self), get_item_group__5TItemFv(self));
+    is_item_stackable(((TItem *)self)->get_item_type(), ((TItem *)self)->get_item_group());
 }
 
 void TObjPlayer__sub_801C1B0C(void) {  }

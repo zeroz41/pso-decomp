@@ -1,15 +1,16 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/text_801C51D4.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801C50A8.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TUnk_804C3F48.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 extern int active_character_save_record;
     extern int duel_result_window;
-void queue_destruction__7TObjectFv(void *arg0);
-extern u32 ad_single_ply_chr_select_instance;
+u32 ad_single_ply_chr_select_instance;
 u32 __nw__7TObjectFUl(s32);
 extern s32 tl_00;
 void TAdSinglePlyChrSelectGC::set_slot(int a0) { *(short*)((char*)active_character_save_record + 0x21b0) = a0; }
@@ -35,7 +36,7 @@ u16 TAdSinglePlyChrSelectGC__sub_801C5114(void) {
 void TAdSinglePlyChrSelectGC__sub_801C5120(void) { duel_result_window = 0; }
 void TAdSinglePlyChrSelectGC::destroy() {
     if ((u32) ad_single_ply_chr_select_instance != 0U) {
-        queue_destruction__7TObjectFv((void *)ad_single_ply_chr_select_instance);
+        ((TObject *)ad_single_ply_chr_select_instance)->queue_destruction();
     }
 }
 void TAdSinglePlyChrSelectGC__sub_801C5158(void) { (*(int *)&ad_single_ply_chr_select_instance) = 0; }
@@ -82,7 +83,6 @@ u8 * __dt__7TObjectFv(void *, s16);
 void __dl__7TObjectFPv(s32);
 u8 *__dt__13TUnk_804C3F48Fv(u8 *arg0, s16 arg1);
 f32 newton_sqrtf(f32);
-void queue_destruction__7TObjectFv(void *);
 f32 xz_distance_squared(void *, void *);
 void *get_player_by_client_id(s32 i);
 void update_technique_slot__10TTecRaFoieFl(void *, s32, s32);
@@ -101,7 +101,7 @@ void TUnk_804C3F48::run_task() {
     f32 d;
     f32 f;
     if (--self->life <= 0) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return;
     }
     if (self->life > 0x5A) {

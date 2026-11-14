@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 // ---- pso/ui/frontend/TAdPlyStatusGC_8033FD48
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -6,18 +7,32 @@
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer.h"
 
-struct RecoveredGlobal_8033FDB0_lbl_80478430
-{
-  s32 value;
-  u8 remaining[0x8];
+struct Vec_8034009C { f32 x, y, z; };
+
+struct E_8034009C { Vec_8034009C a; Vec_8034009C b; s32 f18; };
+
+static const Vec lbl_80478430 = {-10000.0f, 0.0f, 0.0f};
+// Ten map CSN objects created by fn_8034009C: position, scale, angle.
+static const E_8034009C lbl_8047843C[10] = {
+    {{-10010.0f, 0.0f, -30.0f}, {145.0f, 100.0f, 80.0f}, 0},
+    {{-10040.0f, 0.0f, 50.0f}, {110.0f, 75.0f, 100.0f}, 0},
+    {{-10095.0f, 0.0f, -35.0f}, {80.0f, 15.0f, 15.0f}, 0xD800},
+    {{-10000.0f, 0.0f, -125.0f}, {30.0f, 10.0f, 150.0f}, 0xEE00},
+    {{-9958.0f, 0.0f, -95.0f}, {15.0f, 10.0f, 50.0f}, 0},
+    {{-9930.0f, 0.0f, -37.0f}, {38.0f, 40.0f, 100.0f}, 0xEE00},
+    {{-9982.0f, 0.0f, 125.0f}, {17.0f, 10.0f, 75.0f}, 0xFA00},
+    {{-9958.0f, 0.0f, 140.0f}, {45.0f, 10.0f, 5.0f}, 0x1000},
+    {{-10005.0f, 0.0f, 137.0f}, {45.0f, 10.0f, 5.0f}, 0xDC00},
+    {{-10112.0f, 0.0f, 125.0f}, {20.0f, 10.0f, 120.0f}, 0xF2C0},
 };
+static const Vec lbl_80478554 = {-10000.0f, 0.0f, 0.0f};
 
 extern "C" {
 s32 push_matrix();
 f32 post_translate_matrix(void *);
-extern RecoveredGlobal_8033FDB0_lbl_80478430 lbl_80478430;
-extern const f32 lbl_805DFAF8;
 u32 TAdPlyStatusGC__ct(u32, s32, s32);
 u32 __nw__7TObjectFUl(s32);
 
@@ -38,22 +53,20 @@ u32 TAdPlyStatusGC::get_instance(s32 arg0, s32 arg1) {
 
     extern int guide_button_instance;
 int TAdPlyStatusGC::get_player_index() {  return guide_button_instance; }
-typedef struct RecoveredGlobal_8033FDB0_lbl_80478430 RecoveredGlobal_8033FDB0_lbl_80478430;
-typedef char RecoveredGlobal_8033FDB0_lbl_80478430_size[((sizeof(RecoveredGlobal_8033FDB0_lbl_80478430)) == 0xC) ? (1) : (-1)];
 void TObjPlayer__sub_8033FDB0(s32 arg0) {
   s32 var_r31;
   u8 *temp_r30;
   s32 var_r29;
   push_matrix();
   set_motion_packed_rotation();
-  post_translate_matrix(&lbl_80478430.value);
+  post_translate_matrix((Vec *)&lbl_80478430);
   var_r29 = 0;
   var_r31 = 0;
   do
   {
     temp_r30 = (u8 *) (arg0 + (var_r31 & 0xFFFFFFFFFFFFFFFF));
     TObjFish::set_global_param((int) (*((s32 *) (((s8 *) temp_r30) + 0x2C))));
-    draw_model_motion((void *)(*((s32 *) (((s8 *) temp_r30) + 0x28))), (void *)(*((s32 *) (((s8 *) temp_r30) + 0x30))), (f32) lbl_805DFAF8);
+    draw_model_motion((void *)(*((s32 *) (((s8 *) temp_r30) + 0x28))), (void *)(*((s32 *) (((s8 *) temp_r30) + 0x30))), 0.0f);
     var_r29 += 1;
     var_r31 += 0xC;
   }
@@ -76,31 +89,22 @@ s32 TObjPlayer::get_plot_state() { return this->texlist; }
 #include "pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT.h"
 #include "pso/math/AngleLookup.h"
 
-struct RecoveredGlobal_8033FE30_lbl_80478554 {
-    s32 value;
-    u8 remaining[0x8];
-};
 
 extern "C" {
-extern RecoveredGlobal_8033FE30_lbl_80478554 lbl_80478554;
-extern const f32 lbl_805DFAFC;
-extern const f32 lbl_805DFB00;
-extern const f32 lbl_805DFB04;
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_8033FE30_lbl_80478554_size[sizeof(RecoveredGlobal_8033FE30_lbl_80478554) == 0xC ? 1 : -1];
 void TBoss6Demo15_TYPE2_WAIT::sub_8033FE30() {
     u8 *arg0 = (u8 *)this;
     f32 temp_f29;
     f32 temp_f30;
     f32 temp_f31;
-    temp_f29 = (lbl_805DFB00 * sin_table_lookup(*(s32 *)((s8 *)arg0 + 0x5C))) + lbl_805DFAFC;
+    temp_f29 = (40.0f * sin_table_lookup(*(s32 *)((s8 *)arg0 + 0x5C))) + 230.0f;
     temp_f30 = sin_table_lookup(*(s32 *)&this->m_58);
     temp_f31 = cos_table_lookup(*(s32 *)&this->m_58);
-    VecCopy((Vec *)&this->m_40, (const Vec *)&lbl_80478554.value);
+    VecCopy((Vec *)&this->m_40, &lbl_80478554);
     this->m_40 = (f32) ((temp_f30 * temp_f29) + this->m_40);
     this->m_48 = (f32) ((temp_f31 * temp_f29) + this->m_48);
-    *(f32 *)((s8 *)arg0 + 0x44) = (f32) (*(f32 *)((s8 *)arg0 + 0x44) + lbl_805DFB04);
+    *(f32 *)((s8 *)arg0 + 0x44) += 20.0f;
 }
 #pragma pop
 
@@ -112,12 +116,10 @@ void TBoss6Demo15_TYPE2_WAIT::sub_8033FE30() {
 #include "pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 
-extern const f32 lbl_805DFB08;
-extern const f32 lbl_805DFB0C;
 
 void TBoss6Demo15_TYPE2_WAIT::advance_offset() {
-    *(s32 *)&(this->m_58) = (s32) ((f32) *(s32 *)&(this->m_58) + lbl_805DFB08);
-    *(s32 *)((s8 *)this + 0x5C) = (s32) ((f32) *(s32 *)((s8 *)this + 0x5C) + lbl_805DFB0C);
+    *(s32 *)&(this->m_58) += 54.613335f;
+    *(s32 *)((s8 *)this + 0x5C) += 873.81335f;
 }
 
 void TObjFish__sub_8033FF64(void* p) { *(s32*)((char*)p + 0x58) = 24576; *(s32*)((char*)p + 0x5c) = 0; }
@@ -136,10 +138,6 @@ struct O_8033FF78 { u8 pad[0x24]; s32 f24; u8 pad28[0x40 - 0x28]; Vec_8033FF78 p
 
 struct P_8033FF78 { u8 pad[0x38]; Vec_8033FF78 pos; };
 
-struct Vec_8034009C { f32 x, y, z; };
-
-struct E_8034009C { Vec_8034009C a; Vec_8034009C b; s32 f18; };
-
 struct P_8034009C {
     u8 pad0[0xC];
     Vec_8034009C a;
@@ -154,12 +152,9 @@ struct P_8034009C {
 
 extern "C" {
 void fn_80340040(TBoss6Demo15_TYPE2_WAIT *arg0);
-int get_player_data__10TObjPlayerFi(int a0);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
-extern const f32 lbl_805DFAF8;
 s32 create__10TObjMapCsnFl(void *);
-extern E_8034009C lbl_8047843C[];
 void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *arg0);
 
 void TBoss6Demo15_TYPE2_WAIT::check_any_player_near() {
@@ -172,10 +167,10 @@ void TBoss6Demo15_TYPE2_WAIT::check_any_player_near() {
     P_8033FF78 *p;
     arg0->f24 = 0;
     n = TLobby::get_game_mode();
-    y = lbl_805DFAF8;
+    y = 0.0f;
     lim = 25.0f;
     for (i = 0; i < n; i++) {
-        p = (P_8033FF78 *)get_player_data__10TObjPlayerFi(i);
+        p = (P_8033FF78 *)TObjPlayer::get_player_data(i);
         if (((TBoss6PlotFalz *)p)->is_active() != 0) {
             VecCopy((Vec *)&v, (const Vec *)&arg0->pos);
             subtract_vector(&v, &p->pos);
@@ -192,7 +187,7 @@ void fn_80340040(TBoss6Demo15_TYPE2_WAIT *arg0) {
     s32 i;
     for (i = 0; i < 10; i++) {
         if (arg0->csn_objects[i] != 0) {
-            queue_destruction__7TObjectFv(arg0->csn_objects[i]);
+            arg0->csn_objects[i]->queue_destruction();
             arg0->csn_objects[i] = 0;
         }
     }
@@ -207,7 +202,7 @@ void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *arg0) {
     prm.f30 = 2;
     prm.f34 = 0;
     for (i = 0; i < 10; i++) {
-        E_8034009C *e = &lbl_8047843C[i];
+        const E_8034009C *e = &lbl_8047843C[i];
         VecCopy((Vec *)&prm.a, (const Vec *)&e->a);
         prm.f18 = 0;
         prm.f1c = e->f18;
@@ -257,7 +252,7 @@ void TBoss6Demo15_TYPE2_WAIT::run_task() {
         ((TBoss6Demo15_TYPE2_WAIT *)arg0)->check_any_player_near();
         play_persistent_sound(0x4003A126, (s32)arg0, (u32)(arg0 + 0x40), 0, 0);
         if (((TObjFish *)(*(u8 * *)&this->unk_1C))->get_phase() != 4) {
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
         }
     }
 }
@@ -295,7 +290,7 @@ struct WaitDemoLayout {
 void __ct__7TObjectFP7TObject(TObject *self, TObject *parent);
 extern const char *lbl_805D42C8;
 extern s32 lbl_804DF614[];
-extern s32 lbl_804EFB70[];
+__declspec(section ".data") s32 lbl_804EFB70[2] = {0x1F, 0x21};
 s32 get_bml_model(s32 bml, s32 index);
 s32 TObjFish__sub_8001EDB0(s32 bml, s32 index);
 s32 get_bml_motion(s32 bml, s32 index);

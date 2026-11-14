@@ -50,6 +50,150 @@
 #include "pso/system/byteswap.h"
 #include "pso/math/AngleLookup.h"
 
+#include "pso/system/NinjaTypes.h"
+
+// Two debug chunk models other units draw with draw_chunk_object: debug_chunk_object (TObjEneBm3FlyNest,
+// TObjEneRecobox, and TObjHMS_EZRope_Player through lbl_8048DEF4) and lbl_805D28BC (TBoss1Dragon, TBoss2Mine,
+// TObjFogCollision, TBoss8Dragon). Each is a strip list, an NJD_CV_VN vertex list, an NJS_CNK_MODEL and its NJS_OBJECT.
+struct DebugChunkVertexVN {
+    f32 pos[3];
+    f32 nrm[3];
+};
+struct DebugChunkVertices16 {
+    s32 head;   // NJD_CV_VN chunk header
+    s32 range;  // index offset 0, vertex count
+    DebugChunkVertexVN vertex[16];
+    s32 end;    // NJD_CE
+};
+struct DebugChunkVertices58 {
+    s32 head;
+    s32 range;
+    DebugChunkVertexVN vertex[58];
+    s32 end;
+};
+
+static s16 debug_chunk_a_strips[59] = {
+    0x2517, 0x0006, 0xB2B2, 0xFFB2, 0x7F7F, 0xFF7F, 0xFFFF, 0x0BFF, 0x0040, 0x0030, 0x0006, 0xFFFA,
+    0x0006, 0x000A, 0x0004, 0x000C, 0x0002, 0x000E, 0x0003, 0x0008, 0x0009, 0x0007, 0x0003, 0x0000,
+    0x0001, 0x000F, 0xFFEE, 0x0005, 0x0007, 0x0006, 0x0008, 0x000A, 0x0009, 0x000B, 0x0007, 0x000D,
+    0x0005, 0x000F, 0x0003, 0x0001, 0x0002, 0x0000, 0x000E, 0x000F, 0x000D, 0xFFFB, 0x0002, 0x0003,
+    0x0004, 0x0005, 0x0006, 0x0005, 0x000E, 0x000D, 0x000C, 0x000B, 0x000A, 0x0000, 0x00FF,
+};
+static DebugChunkVertices16 debug_chunk_a_vertices = {
+    0x00610029, 0x00100000,
+    {
+        {{2.0f, -5.0f, 0.0f}, {0.77638215f, -0.63026243f, 5.3428018e-08f}},
+        {{2.0f, 5.0f, 0.0f}, {0.77638215f, 0.63026243f, 5.3428018e-08f}},
+        {{1.4142135f, -5.0f, -1.4142135f}, {0.54898506f, -0.6302625f, -0.54898506f}},
+        {{1.4142135f, 5.0f, -1.4142135f}, {0.54898506f, 0.6302625f, -0.54898506f}},
+        {{0.0f, -5.0f, -1.9999999f}, {-1.7809338e-08f, -0.6302625f, -0.7763821f}},
+        {{0.0f, 5.0f, -1.9999999f}, {-1.7809338e-08f, 0.6302625f, -0.7763821f}},
+        {{-1.4142134f, -5.0f, -1.4142134f}, {-0.54898506f, -0.6302625f, -0.54898506f}},
+        {{-1.4142134f, 5.0f, -1.4142134f}, {-0.54898506f, 0.6302625f, -0.54898506f}},
+        {{-1.9999998f, -5.0f, 0.0f}, {-0.77638215f, -0.63026243f, 0.0f}},
+        {{-1.9999998f, 5.0f, 0.0f}, {-0.77638215f, 0.63026243f, 0.0f}},
+        {{-1.4142134f, -5.0f, 1.4142134f}, {-0.54898506f, -0.6302625f, 0.54898506f}},
+        {{-1.4142134f, 5.0f, 1.4142134f}, {-0.54898506f, 0.6302625f, 0.54898506f}},
+        {{0.0f, -5.0f, 1.9999998f}, {0.0f, -0.63026243f, 0.77638215f}},
+        {{0.0f, 5.0f, 1.9999998f}, {0.0f, 0.63026243f, 0.77638215f}},
+        {{1.4142134f, -5.0f, 1.4142134f}, {0.54898506f, -0.63026243f, 0.5489851f}},
+        {{1.4142134f, 5.0f, 1.4142134f}, {0.54898506f, 0.63026243f, 0.5489851f}},
+    },
+    0x000000FF,
+};
+static NJS_CNK_MODEL debug_chunk_a_model = {&debug_chunk_a_vertices, debug_chunk_a_strips, {0.0f, 0.0f, -0.0f}, 5.385165f};
+static NJS_OBJECT debug_chunk_a_object = {
+    NJD_EVAL_UNIT_POS | NJD_EVAL_UNIT_ANG | NJD_EVAL_UNIT_SCL | NJD_EVAL_BREAK, &debug_chunk_a_model,
+    {0.0f, 0.0f, 0.0f}, {0, 0, 0}, {1.0f, 1.0f, 1.0f}, NULL, NULL,
+};
+static s16 debug_chunk_b_strips[161] = {
+    0x2517, 0x0006, 0xB2B2, 0xFFB2, 0x7F7F, 0xFF7F, 0xFFFF, 0x0BFF, 0x0040, 0x0096, 0x000C, 0xFFF4,
+    0x0000, 0x0009, 0x0010, 0x000A, 0x0011, 0x000B, 0x0012, 0x000C, 0x0013, 0x000D, 0x0014, 0x000E,
+    0xFFF9, 0x0013, 0x0019, 0x0012, 0x0018, 0x0011, 0x0017, 0x0010, 0xFFF9, 0x0019, 0x001F, 0x0018,
+    0x001E, 0x0017, 0x0000, 0x0010, 0x0004, 0x0023, 0x0024, 0x001D, 0x0001, 0x0004, 0x001F, 0x001E,
+    0x0025, 0x0000, 0xFFFA, 0x0029, 0x0023, 0x002A, 0x0024, 0x002B, 0x0001, 0x000A, 0x0000, 0x002C,
+    0x0025, 0x0026, 0x001F, 0x0020, 0x0019, 0x001A, 0x0013, 0x0014, 0xFFF8, 0x002F, 0x0029, 0x0030,
+    0x002A, 0x0031, 0x002B, 0x0032, 0x0001, 0xFFF5, 0x0035, 0x002F, 0x0036, 0x0030, 0x0037, 0x0031,
+    0x0038, 0x0032, 0x0039, 0x0001, 0x0008, 0xFFF2, 0x0002, 0x0033, 0x0034, 0x002D, 0x002E, 0x0027,
+    0x0028, 0x0021, 0x0022, 0x001B, 0x001C, 0x0015, 0x0016, 0x000F, 0x002A, 0x0002, 0x0003, 0x0034,
+    0x0035, 0x002E, 0x002F, 0x0028, 0x0029, 0x0022, 0x0023, 0x001C, 0x001D, 0x0016, 0x0001, 0x000F,
+    0x0008, 0x000E, 0x0007, 0x000D, 0x0006, 0x000C, 0x0005, 0x000B, 0x0004, 0x000A, 0x0003, 0x0009,
+    0x0002, 0x0000, 0x0033, 0x002C, 0x002D, 0x0026, 0x0027, 0x0020, 0x0021, 0x001A, 0x001B, 0x0014,
+    0x0015, 0x000E, 0x000F, 0xFFF5, 0x0003, 0x0035, 0x0004, 0x0036, 0x0005, 0x0037, 0x0006, 0x0038,
+    0x0007, 0x0039, 0x0008, 0x0000, 0x00FF,
+};
+static DebugChunkVertices58 debug_chunk_b_vertices = {
+    0x015D0029, 0x003A0000,
+    {
+        {{0.0f, -5.0f, 0.0f}, {-8.297286e-09f, -1.0f, -6.914405e-10f}},
+        {{0.0f, 5.0f, 0.0f}, {0.0f, 1.0f, -6.9144046e-10f}},
+        {{1.9134172f, -4.6193976f, 0.0f}, {0.42258298f, -0.9063242f, 1.6794909e-08f}},
+        {{3.535534f, -3.535534f, 0.0f}, {0.7296192f, -0.6838536f, 3.5057905e-08f}},
+        {{4.6193976f, -1.9134171f, 0.0f}, {0.9303025f, -0.3667931f, 1.2089442e-08f}},
+        {{5.0f, 1.6391772e-07f, 0.0f}, {1.0f, 0.0f, 2.4487974e-08f}},
+        {{4.6193976f, 1.9134173f, 0.0f}, {0.9303025f, 0.36679316f, 3.626833e-08f}},
+        {{3.5355337f, 3.5355341f, 0.0f}, {0.72961915f, 0.68385375f, 4.090089e-08f}},
+        {{1.9134169f, 4.6193976f, 0.0f}, {0.42258295f, 0.90632427f, 1.8194486e-08f}},
+        {{1.3529903f, -4.6193976f, -1.3529903f}, {0.2988113f, -0.90632427f, -0.29881132f}},
+        {{2.5f, -3.535534f, -2.5f}, {0.51591873f, -0.68385357f, -0.5159188f}},
+        {{3.2664073f, -1.9134171f, -3.2664073f}, {0.6578232f, -0.3667931f, -0.65782326f}},
+        {{3.535534f, 1.6391772e-07f, -3.535534f}, {0.70710677f, 0.0f, -0.70710677f}},
+        {{3.2664073f, 1.9134173f, -3.2664073f}, {0.65782315f, 0.36679316f, -0.6578232f}},
+        {{2.4999998f, 3.5355341f, -2.4999998f}, {0.5159186f, 0.6838537f, -0.5159187f}},
+        {{1.35299f, 4.6193976f, -1.35299f}, {0.29881126f, 0.90632427f, -0.2988113f}},
+        {{0.0f, -4.6193976f, -1.9134171f}, {-1.1196606e-08f, -0.90632427f, -0.42258298f}},
+        {{0.0f, -3.535534f, -3.535534f}, {-2.3371937e-08f, -0.68385357f, -0.7296193f}},
+        {{0.0f, -1.9134171f, -4.619397f}, {-2.4178881e-08f, -0.3667931f, -0.93030256f}},
+        {{0.0f, 1.6391772e-07f, -5.0f}, {0.0f, 0.0f, -1.0f}},
+        {{0.0f, 1.9134173f, -4.619397f}, {-3.6268325e-08f, 0.36679325f, -0.93030256f}},
+        {{0.0f, 3.5355341f, -3.5355334f}, {-6.427282e-08f, 0.6838536f, -0.72961915f}},
+        {{0.0f, 4.6193976f, -1.9134169f}, {-2.3792788e-08f, 0.90632427f, -0.42258298f}},
+        {{-1.3529902f, -4.6193976f, -1.3529902f}, {-0.29881132f, -0.90632427f, -0.2988113f}},
+        {{-2.5f, -3.535534f, -2.5f}, {-0.5159188f, -0.6838535f, -0.5159188f}},
+        {{-3.266407f, -1.9134171f, -3.266407f}, {-0.6578232f, -0.3667931f, -0.65782326f}},
+        {{-3.535534f, 1.6391772e-07f, -3.535534f}, {-0.70710677f, 0.0f, -0.70710677f}},
+        {{-3.266407f, 1.9134173f, -3.266407f}, {-0.6578232f, 0.36679327f, -0.65782315f}},
+        {{-2.4999995f, 3.5355341f, -2.4999995f}, {-0.51591873f, 0.6838536f, -0.5159187f}},
+        {{-1.35299f, 4.6193976f, -1.35299f}, {-0.2988113f, 0.90632427f, -0.2988113f}},
+        {{-1.913417f, -4.6193976f, 0.0f}, {-0.42258298f, -0.90632427f, 0.0f}},
+        {{-3.535534f, -3.535534f, 0.0f}, {-0.7296193f, -0.6838535f, 0.0f}},
+        {{-4.619397f, -1.9134171f, 0.0f}, {-0.93030256f, -0.36679313f, 0.0f}},
+        {{-5.0f, 1.6391772e-07f, 0.0f}, {-1.0f, 0.0f, 0.0f}},
+        {{-4.619397f, 1.9134173f, 0.0f}, {-0.93030244f, 0.36679327f, -6.0447207e-09f}},
+        {{-3.5355332f, 3.5355341f, 0.0f}, {-0.7296192f, 0.6838536f, -5.8429834e-09f}},
+        {{-1.9134169f, 4.6193976f, 0.0f}, {-0.42258295f, 0.90632427f, -4.1987276e-09f}},
+        {{-1.3529902f, -4.6193976f, 1.3529902f}, {-0.2988113f, -0.90632427f, 0.29881132f}},
+        {{-2.5f, -3.535534f, 2.5f}, {-0.5159188f, -0.6838535f, 0.5159188f}},
+        {{-3.266407f, -1.9134171f, 3.266407f}, {-0.65782326f, -0.3667931f, 0.6578232f}},
+        {{-3.535534f, 1.6391772e-07f, 3.535534f}, {-0.70710677f, 0.0f, 0.70710677f}},
+        {{-3.266407f, 1.9134173f, 3.266407f}, {-0.65782315f, 0.36679327f, 0.6578232f}},
+        {{-2.4999995f, 3.5355341f, 2.4999995f}, {-0.51591873f, 0.6838536f, 0.5159187f}},
+        {{-1.35299f, 4.6193976f, 1.35299f}, {-0.2988113f, 0.90632427f, 0.29881126f}},
+        {{0.0f, -4.6193976f, 1.913417f}, {0.0f, -0.90632427f, 0.42258298f}},
+        {{0.0f, -3.535534f, 3.535534f}, {0.0f, -0.6838535f, 0.7296193f}},
+        {{0.0f, -1.9134171f, 4.619397f}, {0.0f, -0.36679313f, 0.93030256f}},
+        {{0.0f, 1.6391772e-07f, 5.0f}, {0.0f, 0.0f, 1.0f}},
+        {{0.0f, 1.9134173f, 4.619397f}, {-6.0447207e-09f, 0.36679327f, 0.93030244f}},
+        {{0.0f, 3.5355341f, 3.5355332f}, {-5.8429834e-09f, 0.6838536f, 0.7296192f}},
+        {{0.0f, 4.6193976f, 1.9134169f}, {-4.1987276e-09f, 0.90632427f, 0.42258295f}},
+        {{1.3529902f, -4.6193976f, 1.3529902f}, {0.29881132f, -0.90632427f, 0.29881132f}},
+        {{2.5f, -3.535534f, 2.5f}, {0.5159188f, -0.68385357f, 0.5159188f}},
+        {{3.266407f, -1.9134171f, 3.266407f}, {0.6578232f, -0.3667931f, 0.65782326f}},
+        {{3.535534f, 1.6391772e-07f, 3.535534f}, {0.70710677f, 0.0f, 0.7071069f}},
+        {{3.266407f, 1.9134173f, 3.266407f}, {0.6578232f, 0.3667932f, 0.6578232f}},
+        {{2.4999995f, 3.5355341f, 2.4999995f}, {0.5159187f, 0.6838537f, 0.51591873f}},
+        {{1.35299f, 4.6193976f, 1.35299f}, {0.29881126f, 0.90632427f, 0.2988113f}},
+    },
+    0x000000FF,
+};
+static NJS_CNK_MODEL debug_chunk_b_model = {&debug_chunk_b_vertices, debug_chunk_b_strips, {0.0f, 0.0f, 0.0f}, 7.071068f};
+NJS_OBJECT lbl_8048DEF4 = {
+    NJD_EVAL_UNIT_POS | NJD_EVAL_UNIT_ANG | NJD_EVAL_UNIT_SCL | NJD_EVAL_BREAK, &debug_chunk_b_model,
+    {0.0f, 0.0f, 0.0f}, {0, 0, 0}, {1.0f, 1.0f, 1.0f}, NULL, NULL,
+};
+NJS_OBJECT *debug_chunk_object = &lbl_8048DEF4;
+NJS_OBJECT *lbl_805D28BC = &debug_chunk_a_object;
+
 struct Stack_8007CBC4 {
     s32 sp8;
     u8 pad_C[0x54];
@@ -141,10 +285,9 @@ void draw_projected_quads__15TObjBoss2TunnelFPvi(Vtx_8007D828 *, s32);
 extern s32 lbl_805D63F0;
 s32 TAdPlayerLoadGC__sub_801E0FA4(s32);
 s32 query_memcard_capacity__15TAdPlayerLoadGCFl(s32, s32);
-s32 set_stream_and_load_file__6TLobbyFi(s32);
+s32 set_stream_and_load_file__6TLobbyFi(const char *);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 }
-extern s32 screen_binary_filename;
 // A velocity/position ramp: accelerate from v0 to peak, cruise, brake to rest over dist.
 // init_piecewise_curve fills it, eval_piecewise_curve reads the speed, sample_piecewise_curve the distance.
 struct PiecewiseCurve {
@@ -194,26 +337,14 @@ s32 *boss2_tunnel_snapshot_buffer;
 void *TObjBoss2Tunnel__snapshot_buffer;
 s32 TObjBoss2Tunnel__snapshot_saved_flag;
 
-// Defined outside this file: no in-file definition would leave them in .rodata unpooled.
 // The snapshot's memory card file: name, comment and icon; screen.bin is the same capture on disc.
-extern const char TObjBoss2Tunnel__data_80438A08[32];
-extern const char lbl_80438A28[36];
-extern const u8 lbl_80438A4C[16];
-extern const char screen_binary_filename_string[];
-// Centre of the capture frame, moved with the C stick; defined with the rest of the .data words.
-extern Vec2_8007DD28 TObjBoss2Tunnel__data_8048DF2C;
-// Owner name of the lobby temp buffer the snapshot borrows (TLobby::tmp_buf_use_req/tmp_buf_release).
-extern char lbl_8048DF34[];
-// Window text positions and widths, computed once from the window rectangles (the guards are the
-// statics' init flags).
-extern f32 lbl_8048DF44[2];
-extern s8 lbl_805D4E98;
-extern f32 lbl_805D4E9C;
-extern s8 boss2_tunnel_message_shown_flag;
-extern f32 lbl_8048DF4C[2];
-extern s8 boss2_tunnel_confirm_loop_flag;
-extern f32 lbl_805D4EA4;
-extern s8 lbl_805D4EA8;
+const char TObjBoss2Tunnel__data_80438A08[32] = "PSO_SCREEN";
+const char snapshot_card_title[36] = "SNAPSHOT_FILE"; // inferred: copied into the card header's title
+const u8 snapshot_card_icon[16] = {0x35, 0x04, 0x08, 0x1A, 0x0A, 0x07, 0x57, 0x54, 0x54, 0x54}; // inferred: copied into the card header's icon
+const char screen_binary_filename_string[] = "screen.bin";
+const char *screen_binary_filename = screen_binary_filename_string;
+// Centre of the capture frame, moved with the C stick.
+Vec2_8007DD28 TObjBoss2Tunnel__data_8048DF2C = {320.0f, 240.0f};
 
 void TObjBoss2Tunnel__sub_8007EAE4(u8 *arg0) {
     *(u8 *)((s8 *)arg0 + 0) = 0xB2;
@@ -789,6 +920,7 @@ void draw_snapshot_capture_overlay(void) {
 
 /* Takes a snapshot of the screen with the C stick frame and saves it to the memory card. */
 s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
+    static char buffer_owner[] = "GetFrameBuffer";
     SnapshotFrameBuffer *frame;
     ScreenSnapshot *snap;
     u32 *sum;
@@ -873,7 +1005,7 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
     set_display_copy_filter(filter);
     render_tick();
     if (TLobby::tmp_buf_is_free() != 0) {
-        frame = (SnapshotFrameBuffer *)TLobby::tmp_buf_use_req(lbl_8048DF34);
+        frame = (SnapshotFrameBuffer *)TLobby::tmp_buf_use_req(buffer_owner);
         p = (u8 *)frame;
         sum = (u32 *)p;
         snap = (ScreenSnapshot *)p;
@@ -917,8 +1049,8 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
         *countp = count;
         memset(&card, 0, sizeof(card));
         strcpy(card.file, episode_i_and_ii_card_filename);
-        strcpy(card.title, lbl_80438A28);
-        memcpy(card.icon, lbl_80438A4C, 0x10);
+        strcpy(card.title, snapshot_card_title);
+        memcpy(card.icon, snapshot_card_icon, 0x10);
         TAdPlayerLoadGC__sub_801E14E8((u8 *)&card, 4);
         card.f4c = 1;
         card.f4e = 1;
@@ -981,7 +1113,7 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
                 TObjBoss2Tunnel::show_message_and_wait(-2);
             }
         }
-        TLobby::tmp_buf_release(lbl_8048DF34);
+        TLobby::tmp_buf_release(buffer_owner);
         return 1;
     }
     return 0;
@@ -1140,8 +1272,8 @@ s32 TObjBoss2Tunnel::save_snapshot_to_card() {
     memset(TObjBoss2Tunnel__snapshot_buffer, 0, 4);
     memset(&c, 0, 0x60);
     strcpy(c.file, episode_i_and_ii_card_filename);
-    strcpy(c.title, lbl_80438A28);
-    memcpy(c.icon, lbl_80438A4C, 0x10);
+    strcpy(c.title, snapshot_card_title);
+    memcpy(c.icon, snapshot_card_icon, 0x10);
     TAdPlayerLoadGC__sub_801E14E8((u8 *)&c, 4);
     c.f4c = 1;
     p = boss2_tunnel_snapshot_buffer;
@@ -1222,17 +1354,11 @@ void TObjBoss2Tunnel__sub_8007CAE8(u32 arg0) {
 void TObjBoss2Tunnel::show_message_and_wait(s32 arg0) {
     static const f32 window_pos[2] = {46.0f, 131.0f};
     static const f32 window_size[2] = {548.0f, 220.0f};
+    // Text position and width inside the window, set on first call (the retail build never reads them).
+    static f32 text_pos[2] = {20.0f + window_pos[0], 10.0f + (window_pos[1] + window_size[1])};
+    static f32 text_width = window_size[0] - 40.0f;
     VObj_8007C8AC *win;
     s32 frames;
-    if (lbl_805D4E98 == 0) {
-        lbl_8048DF44[0] = 20.0f + window_pos[0];
-        lbl_8048DF44[1] = 10.0f + (window_pos[1] + window_size[1]);
-        lbl_805D4E98 = 1;
-    }
-    if (boss2_tunnel_message_shown_flag == 0) {
-        lbl_805D4E9C = window_size[0] - 40.0f;
-        boss2_tunnel_message_shown_flag = 1;
-    }
     win = (VObj_8007C8AC *)TWindowMessage::create((s32)window_pos, window_size, (u32)1, 4);
     if (win != NULL) {
         switch (arg0) {
@@ -1287,19 +1413,12 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
     s32 result = 0;
     static const f32 window_pos[2] = {46.0f, 131.0f};
     static const f32 window_size[2] = {548.0f, 220.0f};
+    static f32 text_pos[2] = {20.0f + window_pos[0], 10.0f + (window_pos[1] + window_size[1])};
+    static f32 text_width = window_size[0] - 40.0f;
     ControllerInputContext *pad;
     VObj_8007C5C0 *win;
     VObj_8007C5C0 *graph;
     s32 frames;
-    if (boss2_tunnel_confirm_loop_flag == 0) {
-        lbl_8048DF4C[0] = 20.0f + window_pos[0];
-        lbl_8048DF4C[1] = 10.0f + (window_pos[1] + window_size[1]);
-        boss2_tunnel_confirm_loop_flag = 1;
-    }
-    if (lbl_805D4EA8 == 0) {
-        lbl_805D4EA4 = window_size[0] - 40.0f;
-        lbl_805D4EA8 = 1;
-    }
     win = (VObj_8007C5C0 *)TWindowMessage::create((s32)window_pos, window_size, (u32)1, 4);
     if (win != NULL) {
         ((TWindowMessage *)win)->append_line(get_localized_text_entry(0x24, 0xB), 3);

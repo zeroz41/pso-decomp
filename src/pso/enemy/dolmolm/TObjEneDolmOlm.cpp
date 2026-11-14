@@ -495,7 +495,7 @@ void restore_render_scissor(s32 arg0);
 int initialize_enemy_photon_effect(void *p);
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
-extern s32 obj_ene_dolm_olm_class_name;
+extern const char *obj_ene_dolm_olm_class_name;
 extern "C" {
 void vfunc_6__8TObjBaseFPsl();
 }
@@ -875,8 +875,8 @@ extern const u8 dolmolm_model_name_lo_abgc01l_wola_body_nj[0x18];
 __declspec(section ".rodata") const u8 dolmolm_model_name_lo_abgc01l_wola_body_nj[0x18] ATTRIBUTE_ALIGN(4) = "lo_abgc01l_wola_body.nj";
 extern const u8 bm_ene_abgc01_wola_body_low_bml_filename[0x20];
 __declspec(section ".rodata") const u8 bm_ene_abgc01_wola_body_low_bml_filename[0x20] ATTRIBUTE_ALIGN(4) = "bm_ene_abgc01_wola_body_low.bml";
-extern const u8 TObjEneDolmOlm__class_name_string[0xF];
-__declspec(section ".rodata") const u8 TObjEneDolmOlm__class_name_string[0xF] ATTRIBUTE_ALIGN(4) = "TObjEneDolmOlm";
+extern const char TObjEneDolmOlm__class_name_string[0xF];
+__declspec(section ".rodata") const char TObjEneDolmOlm__class_name_string[0xF] ATTRIBUTE_ALIGN(4) = "TObjEneDolmOlm";
 
 void TObjEneDolmOlm::load_params_from_table(s32 i) {
     O_80302D80 *self = (O_80302D80 *)this;
@@ -887,7 +887,7 @@ void TObjEneDolmOlm::load_params_from_table(s32 i) {
 TObjEneDolmOlm::TObjEneDolmOlm(s32 arg1, s32 arg2) : TUnk_80493450((TObject *)arg1) {
     u32 col;
     __ct__13TUnk_80494938Fv((((u8 *)this) + 0x3A8));
-    *(s32 *)((s8 *)this + 0) = obj_ene_dolm_olm_class_name;
+    m_name = obj_ene_dolm_olm_class_name;
     this->apply_set_data((void *)arg2);
     ((TObjPlayer *)this)->init_position_vectors();
     this->sub_80301148();
@@ -1731,4 +1731,18 @@ s32 TObjEneDolmOlm__sub_80300CF0(void) {
 void TObjEneDolmOlm::reset_count() { lbl_805D69E8 = 0; }
 
 __declspec(section ".rodata") const f64 lbl_804750C8[] = {10430.38043493439};
+}
+
+extern "C" {
+const char *obj_ene_dolm_olm_class_name = TObjEneDolmOlm__class_name_string;
+
+
+u32 dolm_olm_combat_stat_id_pair;
+u32 TObjEneDolmOlm__shared_handler_ids;
+u32 TObjEneDolmOlm__registered_object_ids;
+u32 TObjEneDolmOlm__behavior_params_by_variant;
+u32 TObjEneDolmOlm__resource_bundle;
+u32 TObjEneDolmOlm__data_805D6A14;
+u32 TObjEneDolmOlm__data_805D6A18;
+s32 TObjEneDolmOlm__effect_render_state;
 }

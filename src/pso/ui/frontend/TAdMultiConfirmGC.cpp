@@ -48,7 +48,7 @@ s32 is_multiplayer_character_slot_selected(u32);
 void *get_or_create_player__22TAdMultiPlyChrSelectGCFiiii(void *, u32, u32, s32);
 void fn_802FF7EC(void *);
 void *__ct__12TAdMultiOkGCFv(void *, void *, OkArg_802FFA3C *);
-extern s32 TAdMultiConfirmGC__name;
+extern const char *TAdMultiConfirmGC__name;
 extern u8 lbl_805DEF30;
 void fn_802FF760(void *);
 
@@ -110,7 +110,7 @@ TAdMultiConfirmGC::TAdMultiConfirmGC(TObject *parent) : TObject(parent) {
     u32 j;
     u32 n;
     void *p;
-    ((TAdMultiConfirmGC_802FFA3C *)this)->x0 = TAdMultiConfirmGC__name;
+    m_name = TAdMultiConfirmGC__name;
     ((TAdMultiConfirmGC_802FFA3C *)this)->state = 0;
     ((TAdMultiConfirmGC_802FFA3C *)this)->guide = 0;
     for (i = 0; i < 4; i++) {

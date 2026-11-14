@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/ui/charcreate/TChCrCharSelect_802937D4.h"

@@ -1,9 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/effect/TUnk_804CCC68.h"
 #include <stddef.h>
 #include "pso/technique/TTecGiZonde.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 struct Stack_8023A510 {
     s32 sp8;
@@ -59,7 +61,6 @@ struct RecoveredFields_8023A510_temp_r6 {
 extern "C" {
 s32 check_technique_projectile_wall_hit__13TUnk_804CCC68Fv(void *, f32, f32);
 f32 fabs_float(f32);
-s32 queue_destruction__7TObjectFv(void *);
 u8 *csnVecterUnder(s32 *, s32);
 u8 *csnVector(f32 *, f32 *, s32);
 s32 angle_difference_abs(int, int);
@@ -75,7 +76,7 @@ void TUnk_804CCC68::advance_lifetime_or_destroy() {
 
     temp_f1 = this->traveled;
     if (temp_f1 > this->range) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     this->traveled = (f32) (temp_f1 + *(f32 *)((s8 *)this + 0x64));
@@ -129,7 +130,7 @@ void step_ground_technique_projectile(RecoveredFields_8023A510_arg0 *arg0) {
     }
     if (fabs_float(arg0->field_7C - arg0->field_24) > 12.0f) {
         arg0->field_24 = (f32) arg0->field_7C;
-        queue_destruction__7TObjectFv((void *)((void *) (((u8 *)arg0))));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     stack.sp28 = arg0->field_78;
@@ -147,7 +148,7 @@ void step_ground_technique_projectile(RecoveredFields_8023A510_arg0 *arg0) {
         stack.sp18 = ((RecoveredFields_8023A510_temp_r6 *)temp_r6)->field_14;
         direction_to_rotation_xy((u8 *)&stack.sp10, &stack.spC, &stack.sp8);
         if (angle_difference_abs(0, stack.spC) >= 0x1555) {
-            queue_destruction__7TObjectFv((void *)((void *) (((u8 *)arg0))));
+            ((TObject *)arg0)->queue_destruction();
         }
     }
 }

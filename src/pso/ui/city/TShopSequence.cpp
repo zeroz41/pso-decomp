@@ -5,6 +5,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TMessageWindowController.h"
 
+#pragma readonly_strings on
+
 struct VObj_802235A0_8022356C {
     virtual void m0(int);
 };
@@ -21,9 +23,8 @@ u32 create_message_window__24TMessageWindowControllerFlll(void *, s32, s32, s32)
 u32 create_window__24TMessageWindowControllerFll(void *, s32, s32);
 u8 * __ct__24TMessageWindowControllerFv(void *);
 extern RecoveredGlobal_802238D8___vt__13TShopSequence __vt__13TShopSequence;
-extern s32 TShopSequence__class_name;
+const char *TShopSequence__class_name = "TShopSequence";
 u8 *TShopSequence__ct(u8 *self, TObject *parent);
-s32 __dl__7TObjectFPv(void *);
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32);
 s32 activate_body_collision__10TObjPlayerFv();
 s32 deactivate_body_collision__10TObjPlayerFv();
@@ -112,26 +113,18 @@ void TShopSequence::restore_player_state() {
         suppress_slot__11TWindowCtrlFv(get_entity_id(*(u32 *)((s8 *)this + 0x24)));
     }
 }
-void *__dt__13TShopSequenceFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TShopSequence.value;
-        if (*(Del_80223850 **)((s8 *)arg0 + 0x28) != NULL) {
-            delete *(Del_80223850 **)((s8 *)arg0 + 0x28);
-            *(Del_80223850 **)((s8 *)arg0 + 0x28) = NULL;
-        }
-        __dt__15TShopWindowBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
+TShopSequence::~TShopSequence() {
+    if (*(Del_80223850 **)((s8 *)this + 0x28) != NULL) {
+        delete *(Del_80223850 **)((s8 *)this + 0x28);
+        *(Del_80223850 **)((s8 *)this + 0x28) = NULL;
     }
-    return arg0;
 }
 u8 *TShopSequence__ct(u8 *shop_window_base, TObject *parent) {
     s32 temp_r3;
     s32 var_r0;
     __ct__15TShopWindowBaseFP7TObject(shop_window_base, parent);
     *(s32 **)((s8 *)shop_window_base + 0x18) = &__vt__13TShopSequence.value;
-    *(s32 *)((s8 *)shop_window_base + 0) = (s32) TShopSequence__class_name;
+    *(const char **)((s8 *)shop_window_base + 0) = TShopSequence__class_name;
     temp_r3 = (int)::operator new(0x210);
     var_r0 = temp_r3;
     if (var_r0 != 0) {

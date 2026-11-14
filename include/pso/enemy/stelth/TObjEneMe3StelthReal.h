@@ -5,6 +5,7 @@
 #include "pso/enemy/stelth/TObjEneMe3Stelth.h"
 
 struct TObjEneMe3StelthReal : public TObjEneMe3Stelth {
+    TObjEneMe3StelthReal(TObject *parent, void *set_data);
     virtual ~TObjEneMe3StelthReal();
     virtual void vfunc_107();
     virtual void vfunc_111();

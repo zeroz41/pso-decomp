@@ -22,6 +22,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
 #include "pso/unk/text_80086B64.h"
+#include "pso/system/task/TObject.h"
 struct VBase_18_f2ea1e { char pad[0x18]; };
 
 struct VObj_18_f2ea1e : VBase_18_f2ea1e {

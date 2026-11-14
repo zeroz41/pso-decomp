@@ -8,8 +8,6 @@ s32 __nw__7TObjectFUl(int);
 s32 TWindowChoiceSetting__ct(int, void *, void *);
 void *get_array_entry__11TWindowBaseFi(void *, s16);
 s32 get_field_74__20TWindowChoiceSettingFv(void *);
-extern const f32 lbl_805DCBB8;
-extern const f32 lbl_805DCBBC;
 int fn_80268C5C(void*);
 
 void TWindowSubComCard::begin_scroll(f32 farg0) {
@@ -30,9 +28,9 @@ void TWindowSubComCard__sub_80249144(void *window_choice_setting) {
     if (!(temp_r4 & 1)) {
         ((TWindowChoiceSetting *)window_choice_setting)->m_80 = (u16) (temp_r4 | 1);
         e = get_array_entry__11TWindowBaseFi(window_choice_setting, get_field_74__20TWindowChoiceSettingFv(window_choice_setting));
-        ((TWindowChoiceSetting *)window_choice_setting)->m_3c = lbl_805DCBB8 + *(f32 *)((s8 *)e + 0x14);
+        ((TWindowChoiceSetting *)window_choice_setting)->m_3c = 20.0f + *(f32 *)((s8 *)e + 0x14);
         if (((TWindowChoiceSetting *)window_choice_setting)->m_2c & 0x40) {
-            ((TWindowChoiceSetting *)window_choice_setting)->m_3c = (f32) (((TWindowChoiceSetting *)window_choice_setting)->m_3c + lbl_805DCBBC);
+            ((TWindowChoiceSetting *)window_choice_setting)->m_3c += 6.0f;
         }
         *(s32 *)((s8 *)window_choice_setting + 0x50) = 3;
     }

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowReturnCity.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
@@ -7,6 +8,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/warp/TObjAreaWarpQuest.h"
+#include "pso/system/task/TObject.h"
 
 struct Base_8026D208 { char pad[0x18]; };
 struct VObj_8026D208 : Base_8026D208 {
@@ -49,7 +51,6 @@ s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, int, int, int);
 extern s32 __vt__17TWindowReturnCity[];
 extern s32 TWindowReturnCity__class_name;
 u8 *TWindowReturnCity__ct(TWindowReturnCity *arg0, s32 arg1, s32 arg2);
-void queue_destruction__7TObjectFv(void *arg0);
 u32 __nw__7TObjectFUl(s32);
 void TWindowReturnCity__sub_8024ACA8(s32 arg0);
 extern s32 tl_00;
@@ -97,7 +98,7 @@ void TWindowReturnCity::run_task() {
                 TWindowReturnCity::clear_flag_bit5();
                 TWindowReturnCity__sub_8024ACA8(this->m_24);
                 TWindowCtrl::clear_flag_2();
-                queue_destruction__7TObjectFv(this);
+                queue_destruction();
                 this->m_20 = 2;
                 return;
             }
@@ -105,7 +106,7 @@ void TWindowReturnCity::run_task() {
                 TWindowReturnCity::clear_flag_bit5();
                 TWindowReturnCity__sub_8024ACA8(this->m_24);
                 TWindowCtrl::clear_flag_2();
-                queue_destruction__7TObjectFv(this);
+                queue_destruction();
                 this->m_20 = 2;
                 return;
             }
@@ -123,7 +124,7 @@ void TWindowReturnCity::run_task() {
                     TWindowReturnCity::clear_flag_bit5();
                     TWindowReturnCity__sub_8024ACA8(this->m_24);
                     TWindowCtrl::clear_flag_2();
-                    queue_destruction__7TObjectFv(this);
+                    queue_destruction();
                     this->m_20 = 2;
                 }
             }

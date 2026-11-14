@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -6,6 +7,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/system/task/TObject.h"
 
 struct VBase_18_204a81 { char pad[0x18]; };
 
@@ -132,7 +134,7 @@ void TWindowSubInformationBoard::run_task() {
         break;
     case 11:
         if ((u32) this->m_3c != 0U) {
-            queue_destruction__7TObjectFv(*(void * *)&this->m_3c);
+            ((TObject *)(*(void * *)&this->m_3c))->queue_destruction();
             this->m_3c = 0U;
         }
         this->m_1c = 1U;
@@ -145,7 +147,7 @@ void TWindowSubInformationBoard::run_task() {
 void *__dt__26TWindowSubInformationBoardFv(TWindowSubInformationBoard *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__26TWindowSubInformationBoard;
-        if (*(void **)((s8 *)arg0 + 0x3C) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x3C)); arg0->m_3c = 0; }
+        if (*(void **)((s8 *)arg0 + 0x3C) != NULL) { ((TObject *)(*(void **)((s8 *)arg0 + 0x3C)))->queue_destruction(); arg0->m_3c = 0; }
         if (*(void **)((s8 *)arg0 + 0x38) != NULL) { ((TWindowSubComCard *)(*(void **)((s8 *)arg0 + 0x38)))->close(); arg0->m_38 = 0; }
         if (*(void **)((s8 *)arg0 + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x34)))->close(); arg0->m_34 = 0; }
         if (*(void **)((s8 *)arg0 + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x30)))->close(); arg0->m_30 = 0; }

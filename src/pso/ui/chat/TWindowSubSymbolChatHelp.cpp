@@ -6,11 +6,8 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
-
-struct RecoveredGlobal_80284B84_lbl_804D2D10 {
-    s32 value;
-    u8 remaining[0x10];
-};
+#include "pso/ui/window/TWindowDD.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct RecoveredGlobal_80284B84___vt__24TWindowSubSymbolChatHelp {
     s32 value;
@@ -53,10 +50,13 @@ const UV_802844C8 symbol_chat_help_entry_uv_table[7] = {
     {0.0f, 64.0f}, {0.0f, 80.0f}, {0.0f, 96.0f},
 };
 
+WindowDescriptor symbol_chat_help_window_layout = {
+    {242.0f, 116.0f}, 50050.0f, NULL, 3,
+};
+
 extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
 u8 * get_window_layout_position(s32);
-extern RecoveredGlobal_80284B84_lbl_804D2D10 symbol_chat_help_window_layout;
 extern s32 __vt__24TWindowSubSymbolChatHelp[];
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 extern s8 controller_input_state[];
@@ -64,7 +64,6 @@ int TWindowSubSymbolChatHelp__sub_80247EE8(int);
 void apply_context_transform_to_rect(void *, void *);
 void draw_help_icon__24TWindowSubSymbolChatHelpFiPvii(s32 arg0, Win_802845EC *arg1, s32 arg2, s32 arg3);
 void __dl__7TObjectFPv(void *);
-int initialize_subwindow__9TWindowDDFv(void*);
 
 extern s32 lbl_805D63F0;
 
@@ -266,7 +265,7 @@ void TWindowSubSymbolChatHelp::render() {
     draw_help_entries((void *)temp_r3);
 }
 
-void TWindowSubSymbolChatHelp::run_task() { handle_page_input(); handle_toggle_input(); initialize_subwindow__9TWindowDDFv(this); }
+void TWindowSubSymbolChatHelp::run_task() { handle_page_input(); handle_toggle_input(); ((TWindowDD *)this)->initialize_subwindow(); }
 
 void *__dt__24TWindowSubSymbolChatHelpFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
@@ -278,10 +277,9 @@ void *__dt__24TWindowSubSymbolChatHelpFv(void *arg0, s16 arg1) {
     }
     return arg0;
 }
-typedef char RecoveredGlobal_80284B84_lbl_804D2D10_size[sizeof(RecoveredGlobal_80284B84_lbl_804D2D10) == 0x14 ? 1 : -1];
 typedef char RecoveredGlobal_80284B84___vt__24TWindowSubSymbolChatHelp_size[sizeof(RecoveredGlobal_80284B84___vt__24TWindowSubSymbolChatHelp) == 0x1C ? 1 : -1];
 u8 *TWindowSubSymbolChatHelp__ct(TWindowSubSymbolChatHelp *window_sub_symbol_chat_help, s32 arg1, s32 arg2) {
-    ((TWindowDD *)window_sub_symbol_chat_help)->construct_base((u8 *)&symbol_chat_help_window_layout.value, (s16)(4), (u8 *)(get_window_layout_position(0x7E)));
+    ((TWindowDD *)window_sub_symbol_chat_help)->construct_base((u8 *)&symbol_chat_help_window_layout, (s16)(4), (u8 *)(get_window_layout_position(0x7E)));
     *(s32 **)((s8 *)window_sub_symbol_chat_help + 0x18) = &(*(RecoveredGlobal_80284B84___vt__24TWindowSubSymbolChatHelp *)&__vt__24TWindowSubSymbolChatHelp).value;
     *(s32 *)((s8 *)window_sub_symbol_chat_help + 0) = (s32) TWindowSubSymbolChatHelp__name;
     window_sub_symbol_chat_help->m_60 = 0;

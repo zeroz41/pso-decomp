@@ -28,8 +28,4 @@ struct TPhotonEstlla : public TUnk_804C3248 {
 
 typedef char TPhotonEstlla_size[sizeof(TPhotonEstlla) == 0x1A4 ? 1 : -1];
 
-extern "C" {
-void *__dt__13TPhotonEstllaFv(void *arg0, s16 arg1);
-}
-
 #endif

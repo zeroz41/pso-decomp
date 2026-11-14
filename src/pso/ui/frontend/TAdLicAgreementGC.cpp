@@ -5,6 +5,8 @@
 
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 
+#pragma readonly_strings on
+
 struct Base_80329BB8 { char pad[0x18]; };
 struct VObj_80329BB8 : Base_80329BB8 {
     virtual void m0();
@@ -64,13 +66,13 @@ TAdLicAgreementGC::~TAdLicAgreementGC() {
 }
 
 
-extern void *lbl_805D41C0;
+const char *lbl_805D41C0 = "TAdLicAgreementGC";
 
 void *TAdLicAgreementGC__ct(void *ad_lic_agreement_gc) {
     void *o;
     TAdAgreementBaseGC__ct(ad_lic_agreement_gc);
     *(s32 **)((s8 *)ad_lic_agreement_gc + 0x18) = __vt__17TAdLicAgreementGC;
-    *(void * *)&((TAdLicAgreementGC *)ad_lic_agreement_gc)->m_name = lbl_805D41C0;
+    ((TAdLicAgreementGC *)ad_lic_agreement_gc)->m_name = lbl_805D41C0;
     ((TAdLicAgreementGC *)ad_lic_agreement_gc)->m_34 = 0;
     ((TAdLicAgreementGC *)ad_lic_agreement_gc)->m_38 = 0;
     o = __nw__7TObjectFUl(0x54);

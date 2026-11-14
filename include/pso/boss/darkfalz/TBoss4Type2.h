@@ -111,7 +111,6 @@ struct TBoss4Type2
     void set_attack_pattern_by_index(s32 arg1);
     void update_phase_timer();
     void advance_afterimage();
-    void update_main();
     static s32 create(s32 arg0);
     static s32 pick_weighted_random(s32 n, f32 *w, s32 *t);
     void calc_scale_slot_indices(s32 *a, s32 *b);

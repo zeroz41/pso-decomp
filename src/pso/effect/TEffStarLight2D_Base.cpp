@@ -8,6 +8,7 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 extern TObject *tl_particle;
@@ -72,7 +73,6 @@ void *__nw__7TObjectFUl(u32);
 void matrix_mult_vec(int, void *, void *);
 void __ct__7TObjectFP7TObject(void *, void *);
 void project_world_to_screen(int, void *, void *);
-void queue_destruction__7TObjectFv(void *arg0);
 f32 vector_length(void *);
 s32 normalize_vector(void *);
 f32 newton_sqrtf(f32);
@@ -151,9 +151,9 @@ void run_task__18TEffStarLightChildFv(Star_80085424 *self) {
         }
     }
     if (inside == 0) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
     } else if (c.x == b.x && c.y == b.y) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
     }
 }
 

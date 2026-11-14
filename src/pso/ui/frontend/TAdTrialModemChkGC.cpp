@@ -7,6 +7,8 @@
 
 #include "pso/unk/TLobby.h"
 
+#pragma readonly_strings on
+
 struct Base_80335508_803354A4 { char pad[0x18]; };
 struct VObj_80335508_803354A4 : Base_80335508_803354A4 {
     virtual void m0();
@@ -32,7 +34,6 @@ struct VObj_80335580_803354A4 : Base_80335580_803354A4 {
 extern "C" {
 
 int TKeyBoardControl__sub_8000F9CC(void*);
-int stop_audio_streams__6TLobbyFv(void*);
 
 void TAdTrialModemChkGC__sub_803354A4(void) {  }
 void TAdTrialModemChkGC::check_modem_result() {
@@ -43,7 +44,7 @@ void TAdTrialModemChkGC::check_modem_result() {
     }
     TAdTrialModemChkGC__sub_8007FA24(1);
 }
-int TAdTrialModemChkGC__sub_803354E8(void* p) { return stop_audio_streams__6TLobbyFv(p); }
+void TAdTrialModemChkGC__sub_803354E8(void) { TLobby::stop_audio_streams(); }
 
 void TAdTrialModemChkGC::render() {
     struct VObj_80335508_803354A4 *o = (struct VObj_80335508_803354A4 *)this;
@@ -66,12 +67,12 @@ TAdTrialModemChkGC::~TAdTrialModemChkGC() {
 }
 
 
-extern void *TAdTrialModemChkGC__name;
+const char *TAdTrialModemChkGC__name = "TAdTrialModemChkGC";
 
 void *TAdTrialModemChkGC__ct(void *ad_trial_modem_chk_gc) {
     TAdWarningBaseGC__ct((TAdWarningBaseGC *)ad_trial_modem_chk_gc);
     *(s32 **)((s8 *)ad_trial_modem_chk_gc + 0x18) = __vt__18TAdTrialModemChkGC;
-    *(void * *)&((TAdTrialModemChkGC *)ad_trial_modem_chk_gc)->m_name = TAdTrialModemChkGC__name;
+    ((TAdTrialModemChkGC *)ad_trial_modem_chk_gc)->m_name = TAdTrialModemChkGC__name;
     return ad_trial_modem_chk_gc;
 }
 

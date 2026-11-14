@@ -5,9 +5,9 @@ struct TObjPlayer;
 class TPlayerLobbyMarker : public TObject {
 public:
     TPlayerLobbyMarker(TObject*, s16, s8);
-    virtual ~TPlayerLobbyMarker() {}
     virtual void run_task();
     virtual void render();
+    virtual ~TPlayerLobbyMarker();
     u8 get_material_index();
     u8 material_index;
     u8 flags;

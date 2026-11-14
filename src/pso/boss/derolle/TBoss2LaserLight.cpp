@@ -6,6 +6,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/vector.h"
 
+#pragma readonly_strings on
+
 struct V3_80037264 { f32 x, y, z; };
 
 struct S_80037264 {
@@ -29,7 +31,7 @@ struct Obj_800372F0 {
 extern "C" {
 s32 noop_laser__23TAdSinglePlyChrSelectGCFv(void *);
 s32 TAdSinglePlyChrSelectGC__sub_80133508(void *);
-extern const char *lbl_805D26C8;
+const char *lbl_805D26C8 = "TBoss2LaserLight";
 extern void *__vt__16TBoss2LaserLight[];
 void __ct__7TObjectFP7TObject(TObject *self, TObject *parent);
 

@@ -9,7 +9,6 @@
 extern "C" {
 int get_field_38_ptr__16TEneParticleCtrlFv(void*);
     extern unsigned char lbl_804EF440[];
-    extern const float lbl_805DF9CC;
 int reset_entry__20TWindowSubStatusDispFPv(void*, int);
 s32 deleting_destructor__20TWindowSubStatusDispFs(void *, s32);
 void mem_free(void *p);
@@ -55,16 +54,6 @@ typedef struct
   f32 x48;
 } Win_80338890;
 void draw_item_list_icon(Win_80338890 *, V2_80338890 *, s8, s32, f32);
-extern s32 *lbl_805D6D68;
-extern u8 lbl_805D6D6C;
-extern s32 lbl_805DF9C0;
-extern const f32 lbl_805DF9C4;
-extern const f32 lbl_805DF9C8;
-extern const f32 lbl_805DF9D0;
-extern const f32 lbl_805DF9D4;
-extern const f32 lbl_805DF9D8;
-extern const f32 lbl_805DF9DC;
-extern const f32 lbl_805DF9E0;
 
 void TWindowSubStatusDisp__sub_80338740(u8 *arg0, s32 arg1, s32 arg2, s8 arg3, s8 arg4, s8 arg5, s8 arg6, s8 arg7, s32 arg_sp8) {
     s32 temp_r3;
@@ -106,11 +95,7 @@ void draw_item_row__20TWindowSubStatusDispFPvPv(Item_80338890 *arg0, Win_8033889
   f32 scale;
   f32 y;
   V2_80338890 pos;
-  if (((s8) lbl_805D6D6C) == 0)
-  {
-    lbl_805D6D68 = &lbl_805DF9C0;
-    lbl_805D6D6C = 1;
-  }
+  static const char *separator = "/";
   if (TWindowSubStatusDisp__sub_80338B88(arg0) == 0)
   {
     return;
@@ -130,23 +115,23 @@ void draw_item_row__20TWindowSubStatusDispFPvPv(Item_80338890 *arg0, Win_8033889
   }
   pos.x = arg1->x10 + arg0->x8;
   pos.y = arg1->x14 + arg0->xc;
-  scale = lbl_805DF9C4 / (lbl_805DF9C8 + arg1->x38);
+  scale = -1.0f / (0.1495f + arg1->x38);
   draw_item_list_icon(arg1, &pos, arg0->c1c, -1, scale);
-  pos.x += lbl_805DF9CC;
-  set_text_draw_params((s32)arg1, 1, 1, (f32)scale, (f32)lbl_805DF9D0);
-  draw_window_text((f32 *)&pos, (const char *)arg0->x24, -1, 1, (f32)lbl_805DF9D0);
-  pos.x += lbl_805DF9D4;
-  draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::get_flag_or_zero(arg0, arg0->c1d)), -1, 0, (f32)lbl_805DF9D0);
-  pos.x += lbl_805DF9D8;
-  draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::query_status_field(arg0, arg0->c1e)), -1, 0, (f32)lbl_805DF9D0);
-  pos.x += lbl_805DF9DC;
-  draw_window_text((f32 *)&pos, (const char *)(((s32 (*)(void *, s8)) TWindowSubStatusDisp__sub_803387F8)(arg0, arg0->c1f)), -1, 0, (f32)lbl_805DF9D0);
-  pos.x += lbl_805DF9E0;
+  pos.x += 18.0f;
+  set_text_draw_params((s32)arg1, 1, 1, (f32)scale, 100000.0f);
+  draw_window_text((f32 *)&pos, (const char *)arg0->x24, -1, 1, 100000.0f);
+  pos.x += 210.0f;
+  draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::get_flag_or_zero(arg0, arg0->c1d)), -1, 0, 100000.0f);
+  pos.x += 108.0f;
+  draw_window_text((f32 *)&pos, (const char *)(TWindowSubStatusDisp::query_status_field(arg0, arg0->c1e)), -1, 0, 100000.0f);
+  pos.x += 96.0f;
+  draw_window_text((f32 *)&pos, (const char *)(((s32 (*)(void *, s8)) TWindowSubStatusDisp__sub_803387F8)(arg0, arg0->c1f)), -1, 0, 100000.0f);
+  pos.x += 126.0f;
   text_builder_reset();
   TWindowSubStatusDisp__sub_80228F5C(arg0->c20);
-  text_builder_append((u8 *)lbl_805D6D68);
+  text_builder_append((u8 *)separator);
   TWindowSubStatusDisp__sub_80228F5C(arg0->c21);
-  draw_window_text((f32 *)&pos, (const char *)(get_shared_text_buffer()), -1, 0, (f32)lbl_805DF9D0);
+  draw_window_text((f32 *)&pos, (const char *)(get_shared_text_buffer()), -1, 0, 100000.0f);
 }
 
 void TWindowSubStatusDisp__sub_80338A9C(void) {  }
@@ -166,7 +151,7 @@ void *TWindowSubStatusDisp::destroy_with_free(s16 arg1) {
     return this;
 }
 
-void*TWindowSubStatusDisp::init_state(int a1, int a2) { reset_entry__20TWindowSubStatusDispFPv(this, a2); *(int*)((char*)this + 0x4) = (int)lbl_804EF440; *(float*)((char*)this + 0x14) = lbl_805DF9CC; *(unsigned char *)&this->unk_1C = 51; *(signed char *)&this->m_1d = -1; *(signed char *)&this->unk_1E = -1; this->m_1f = -1; *(signed char*)((char*)this + 0x20) = -1; *(signed char*)((char*)this + 0x21) = -1; *(int*)((char*)this + 0x24) = 0; *(int*)((char*)this + 0x18) = 0; return this; }
+void*TWindowSubStatusDisp::init_state(int a1, int a2) { reset_entry__20TWindowSubStatusDispFPv(this, a2); *(int*)((char*)this + 0x4) = (int)lbl_804EF440; *(float*)((char*)this + 0x14) = 18.0f; *(unsigned char *)&this->unk_1C = 51; *(signed char *)&this->m_1d = -1; *(signed char *)&this->unk_1E = -1; this->m_1f = -1; *(signed char*)((char*)this + 0x20) = -1; *(signed char*)((char*)this + 0x21) = -1; *(int*)((char*)this + 0x24) = 0; *(int*)((char*)this + 0x18) = 0; return this; }
 
 int TWindowSubStatusDisp__sub_80338B88(void* p) { return (*(u16*)((char*)p + 0x0) >> 2) & 0x1; }
 

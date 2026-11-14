@@ -20,7 +20,7 @@ public:
     TAdRicoRingCtrl *ring_controller;
 public:
     static void set_flag_and_advance();
-    static int start_ending_scene();
+    static void start_ending_scene();
 };
 
 #include <stddef.h>

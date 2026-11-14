@@ -10,6 +10,8 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowTimer.h"
 #include "pso/object/switch/TOChatSensorCapture.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer.h"
 struct Stack_8024A228 {
     s32 sp8;
     s32 spC;
@@ -83,8 +85,6 @@ s32 find_farthest_balloon_slot__11TWindowCtrlFPvUs(Ctrl_8024A714 *ctrl, u16 spea
 void *__nw__7TObjectFUl(u32);
 u8 *TWindowFukidasi__sub_80252B74(u8 *arg0, s32 arg1, s32 str, s32 arg3, f32 farg0);
 void *acquire_balloon_slot__11TWindowCtrlFPviiPv(Ctrl_8024A928 *self, s32 player, s32 flags, void *local);
-s32 is_locally_controlled__10TObjPlayerFPv(u8 *);
-s32 obj_isState2_324__9TObjCharaFv(u8 *);
 s32 obj_is_hit_receivable();
 void get_speaker_balloon_anchor__11TWindowCtrlFPviPvPv(Ctrl_8024A928 *arg0, s32 arg1, f32 *arg2, s32 *arg3);
 s32 TWindowCtrl__sub_8024C5C4(u32);
@@ -259,7 +259,7 @@ void get_speaker_balloon_anchor__11TWindowCtrlFPviPvPv(Ctrl_8024A928 *arg0, s32 
     } else {
         *arg2 = 0.92f * *(f32 *)((u8 *)q + 0x10);
     }
-    if (obj_isState2_324__9TObjCharaFv(obj) != 0 || is_locally_controlled__10TObjPlayerFPv(obj) != 0) {
+    if (((TObjChara *)obj)->obj_isState2_324() != 0 || TObjPlayer::is_locally_controlled(obj) != 0) {
         u8 *p = obj + 0x85C;
         if (p == NULL) {
             *arg3 = 0;

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/frontend/TAdFadeGC.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -23,6 +24,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802D50A0.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/player/TPlyCharData.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_802D4730_lbl_804C89BC { s32 value; u8 remaining[0x74]; };
 typedef char RecoveredGlobal_802D4730_lbl_804C89BC_size[sizeof(RecoveredGlobal_802D4730_lbl_804C89BC) == 0x78 ? 1 : -1];
@@ -313,7 +315,7 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
         *(u32 *)&this->m_4c = 0U;
     }
     if (this->m_54 != 0U) {
-        queue_destruction__7TObjectFv((void *)this->m_54);
+        ((TObject *)this->m_54)->queue_destruction();
         this->m_54 = 0U;
     }
     if ((TWindowShortListCtrl__check_controller_button((void *)((u8 *)controller_physical_port_bank + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)) {
@@ -539,7 +541,7 @@ void TAdSinglePlyChrSelectGC::cleanup() {
         *(u32 *)((s8 *)this + 0x40) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x54) != 0U) {
-        queue_destruction__7TObjectFv((void *)(*(void **)((s8 *)this + 0x54)));
+        ((TObject *)((void *)(*(void **)((s8 *)this + 0x54))))->queue_destruction();
         *(u32 *)((s8 *)this + 0x54) = 0U;
     }
     if ((TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)) {
@@ -608,11 +610,11 @@ void TAdSinglePlyChrSelectGC::sub_802D4E08() {
 
 }
 TAdSinglePlyChrSelectGC::~TAdSinglePlyChrSelectGC() {
-    if (*(void **)((s8 *)this + 0x38) != NULL) { queue_destruction__7TObjectFv((void *)(*(void **)((s8 *)this + 0x38))); *(s32 *)((s8 *)this + 0x38) = 0; }
-    if (*(void **)((s8 *)this + 0x3C) != NULL) { queue_destruction__7TObjectFv((void *)(*(void **)((s8 *)this + 0x3C))); *(s32 *)((s8 *)this + 0x3C) = 0; }
-    if (*(void **)((s8 *)this + 0x40) != NULL) { queue_destruction__7TObjectFv((void *)(*(void **)((s8 *)this + 0x40))); *(s32 *)((s8 *)this + 0x40) = 0; }
-    if (*(void **)((s8 *)this + 0x44) != NULL) { queue_destruction__7TObjectFv((void *)(*(void **)((s8 *)this + 0x44))); *(s32 *)((s8 *)this + 0x44) = 0; }
-    if (*(void **)((s8 *)this + 0x48) != NULL) { queue_destruction__7TObjectFv((void *)(*(void **)((s8 *)this + 0x48))); *(s32 *)((s8 *)this + 0x48) = 0; }
+    if (*(void **)((s8 *)this + 0x38) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x38))))->queue_destruction(); *(s32 *)((s8 *)this + 0x38) = 0; }
+    if (*(void **)((s8 *)this + 0x3C) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x3C))))->queue_destruction(); *(s32 *)((s8 *)this + 0x3C) = 0; }
+    if (*(void **)((s8 *)this + 0x40) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x40))))->queue_destruction(); *(s32 *)((s8 *)this + 0x40) = 0; }
+    if (*(void **)((s8 *)this + 0x44) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x44))))->queue_destruction(); *(s32 *)((s8 *)this + 0x44) = 0; }
+    if (*(void **)((s8 *)this + 0x48) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x48))))->queue_destruction(); *(s32 *)((s8 *)this + 0x48) = 0; }
 }
 extern "C" {
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent) {

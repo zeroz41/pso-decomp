@@ -9,6 +9,7 @@
 #include "pso/boss/barbaray/TBoss7Joint.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 struct RecoveredGlobal_802EEC60___vt__11TBoss7Joint {
     s32 value;
@@ -23,13 +24,11 @@ const char *TBoss7Joint__name = "TBoss7Joint";
 
 extern "C" {
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
-void initialize_enemy_state__9TObjEneDDFl(void *, s32);
 extern s32 __vt__11TBoss7Joint[];
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 s32 reset_hp__9TObjEneDDFPUcPUcPUc(void *, int, int, int);
-extern s32 boss7_joint_params[];
 struct VOff_802EE9A4_arg0_802EE9A4 { char pad_0[0x2FC]; char f_2FC[1]; };
 
 s32 apply_damage_and_set_effect__8TObjFishFl(int, int, int);
@@ -78,19 +77,20 @@ void TBoss7Joint::run_task() {
     }
 }
 
-void *__dt__11TBoss7JointFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TBoss7Joint;
-        ((TObjCollidable *)arg0)->clear_collision_bodies();
-        __dt__9TObjEneDDFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TBoss7Joint::~TBoss7Joint() {
+    clear_collision_bodies();
 }
 
 typedef char RecoveredGlobal_802EEC60___vt__11TBoss7Joint_size[sizeof(RecoveredGlobal_802EEC60___vt__11TBoss7Joint) == 0x1A4 ? 1 : -1];
+
+// The table init_params hands to TObjEneDD at +0x350; only its first word (225.0) is a float.
+struct Boss7JointParams {
+    f32 pad_0;
+    s32 pad_4;
+    s32 pad_8;
+    s32 pad_C[4];
+};
+Boss7JointParams boss7_joint_params = { 225.0f, 0, 0x600 };
 
 #pragma opt_common_subs off
 s32 TBoss7Joint::init_params() {
@@ -102,7 +102,7 @@ s32 TBoss7Joint::init_params() {
     *(s16 *)((s8 *)this + 0x32C) = 0x4E20;
     *(s16 *)((s8 *)this + 0x2B8) = 0x4E20;
     check_state_flag_2();
-    *(s32 **)((s8 *)this + 0x350) = boss7_joint_params;
+    *(Boss7JointParams **)((s8 *)this + 0x350) = &boss7_joint_params;
     *(s16 *)((s8 *)this + 0x33E) = *(s16 *)((s8 *)this + 0x2B8);
     *(f32 *)((s8 *)this + 0x37C) = 3.0f;
     this->vfunc_96();
@@ -119,12 +119,12 @@ u8 *TBoss7Joint__ct(u8 *boss7_joint, u8 *arg1, s16 arg2, s16 arg3, s32 arg4, s32
     *(s16 *)((s8 *)boss7_joint + 0x2C) = arg3;
     *(s32 *)((s8 *)boss7_joint + 0x3C0) = arg4;
     *(s32 *)((s8 *)boss7_joint + 0x3B8) = arg5;
-    initialize_enemy_state__9TObjEneDDFl(boss7_joint, 0x49);
+    ((TObjEneDD *)boss7_joint)->initialize_enemy_state(0x49);
     ((TBoss7Joint *)boss7_joint)->init_params();
     return boss7_joint;
 }
 
-void TBoss7Joint__vt85(void) {  }
+void TBoss7Joint::dispatch_action(u32, s32) {  }
 void TBoss7Joint::vfunc_28() {  }
 
 void TBoss7Joint::vfunc_63() { this->actorFlags &= 0xfffff7ff; }

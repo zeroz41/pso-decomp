@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/unk/text_80087278.h"
@@ -19,6 +20,7 @@
 #include "pso/item/TItemLoad.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 u16 get_entity_id(void *);
@@ -263,7 +265,7 @@ void TItemEffArmor::run_task() {
     }
     *(f32 *)&this->unk_5C = (f32) (*(f32 *)&this->unk_5C + *(f32 *)&this->unk_64);
     if (29.0f == this->m_24) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
     this->m_24 += 1.0f;
 }

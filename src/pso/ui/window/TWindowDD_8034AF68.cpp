@@ -151,7 +151,7 @@ extern H_8034AF68 *TWindowDD__ws_data_base;
 extern H_8034AF68 *TWindowDD__ws_data_table;
 extern Ent_8034B050 lbl_804F0040[4];
 extern s32 TWindowDD__window_mode;
-extern s8 lbl_805D6E90;
+s8 lbl_805D6E90;
 extern s32 lbl_805DFD84;
 extern s32 lbl_805DFD88;
 extern s32 lbl_805DFD8C;

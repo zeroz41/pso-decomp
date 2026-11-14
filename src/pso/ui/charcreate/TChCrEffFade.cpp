@@ -5,6 +5,7 @@
 
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 

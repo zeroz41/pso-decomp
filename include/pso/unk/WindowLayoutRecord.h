@@ -57,6 +57,18 @@ struct SpritePartLayoutRecord {
     s32 pad_2C;
 };
 
+// Types 8, 9 and 12 (4 bytes): the entry reads nothing but the type.
+struct TypeLayoutRecord {
+    s32 type;
+};
+
+// Types 10 and 11 (0xC bytes), read by TWindowHelpItem__sub_8025A95C and
+// TWindowHelpItem__sub_8025A594.
+struct PointLayoutRecord {
+    s32 type;
+    f32 pos[2];
+};
+
 // Window descriptor passed to TWindowDD::construct_base and read by
 // TWindowBase::sub_80244F2C: layout goes to init_window_layout_entries, flags bits 1/2/0x20
 // select rendering and the open sound.

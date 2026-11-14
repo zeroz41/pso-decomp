@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/TUnk_804F322C.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -11,6 +12,8 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 struct Vec_80368C14 { f32 x, y, z; };
 
@@ -24,6 +27,8 @@ struct Mine_80368C14 { u8 pad[0x38]; Vec_80368C14 pos; };
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+
+#pragma readonly_strings on
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 struct VBase_18_5673ef { char pad[0x18]; };
 
@@ -107,8 +112,6 @@ s32 query_teammate_state__9TObjEneDDFv();
 void add_radar_scaled_marker(void *, int, int, int, f32);
 void vt2__13TBoss6MagMineFv(u8 *arg0);
 void vt1__13TBoss6MagMineFv(u8 *arg0);
-s32 is_locally_controlled__10TObjPlayerFPv(void *);
-int get_player_data__10TObjPlayerFi(int a0);
 f32 vector_length(Vec_80368C14 *);
 void subtract_vector(Vec_80368C14 *, void *);
 void explode__13TBoss6MagMineFPv(Mine_80368C14 *o);
@@ -120,7 +123,7 @@ u8 *dispatch_shared_handler_a__6TLobbyFl(int);
 s32 init_collision_body_parts(void *, void *, int);
 s32 normalize_vector(void *);
 extern s32 __vt__13TUnk_804F322C[];
-extern s32 lbl_805D44B0;
+const char *lbl_805D44B0 = "TBoss6MagMine";
 s32 TBoss6MagMine__ct(s32 arg0, s32 arg1, s32 arg2);
 s32 is_player_in_range__13TBoss6MagMineFPv(void *arg0_);
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
@@ -144,7 +147,6 @@ int push_matrix(void*);
 void __dl__7TObjectFPv(void *);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 s32 __nw__7TObjectFUl(s32);
-void queue_destruction__7TObjectFv(void *arg0);
 
 void TUnk_804F322C::vfunc_63() {
     if ((s32) *(s32 *)((s8 *)this + 0x390) != 4) {
@@ -228,8 +230,8 @@ void explode__13TBoss6MagMineFPv(Mine_80368C14 *o) {
     s32 n = TLobby::get_game_mode();
     s32 i;
     for (i = 0; i < n; i++) {
-        u8 *pl = (u8 *)get_player_data__10TObjPlayerFi(i);
-        if (((TBoss6PlotFalz *)pl)->is_active() != 0 && is_locally_controlled__10TObjPlayerFPv(pl) != 0) {
+        u8 *pl = (u8 *)TObjPlayer::get_player_data(i);
+        if (((TBoss6PlotFalz *)pl)->is_active() != 0 && TObjPlayer::is_locally_controlled(pl) != 0) {
             Vec_80368C14 v = o->pos;
             subtract_vector(&v, pl + 0x38);
             v.y = 0.0f;
@@ -249,7 +251,7 @@ s32 is_player_in_range__13TBoss6MagMineFPv(void *arg0_) {
     void *p;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        p = (void *)get_player_data__10TObjPlayerFi(i);
+        p = (void *)TObjPlayer::get_player_data(i);
         if (((TBoss6PlotFalz *)p)->is_active() != 0) {
             ((void (*)(Vec_80368C14 *, Vec_80368C14 *))VecCopy__FP3VecPC3Vec)(&d, &((P_80368CE4 *)p)->pos);
             subtract_vector(&d, &arg0->home);
@@ -262,14 +264,14 @@ s32 is_player_in_range__13TBoss6MagMineFPv(void *arg0_) {
     return 0;
 }
 
-void vt4__13TBoss6MagMineFv(void* p) { spawn_particle_effect_with_flags(((char*)p + 0x38), (s32)((void*)252), (s32)((void*)64)); queue_destruction__7TObjectFv(p); }
+void vt4__13TBoss6MagMineFv(void* p) { spawn_particle_effect_with_flags(((char*)p + 0x38), (s32)((void*)252), (s32)((void*)64)); ((TObject *)p)->queue_destruction(); }
 
 void vt3__13TBoss6MagMineFv(s32 arg0) {
     explode__13TBoss6MagMineFPv((Mine_80368C14 *)(arg0));
     spawn_particle_effect_with_flags((void *)(arg0 + 0x38), 0xFB, 0x40);
     spawn_particle_effect_with_flags((void *)(arg0 + 0x38), 0xFC, 0x40);
     TBoss6PlotFalz::apply_radial_effect_to_players((void *)(arg0 + 0x38), (s16)0xC0, (s16)0xF, (f32)100.0f);
-    queue_destruction__7TObjectFv((void *)arg0);
+    ((TObject *)arg0)->queue_destruction();
 }
 
 #pragma push
@@ -424,7 +426,7 @@ s32 TBoss6MagMine__ct(s32 arg0, s32 parent, s32 arg2) {
     u8 *d;
     __ct__9TObjEnemyFP7TObject(self, (void*)parent);
     *(s32 **)((s8 *)self + 0x18) = __vt__13TUnk_804F322C;
-    *(s32 *)((s8 *)self + 0) = lbl_805D44B0;
+    *(const char **)((s8 *)self + 0) = lbl_805D44B0;
     VecCopy__FP3VecPC3Vec(arg0 + 0x38, arg2 + 0x40);
     VecCopy__FP3VecPC3Vec(arg0 + 0x384, arg2 + 0x4C);
     ((TObjChara *)self)->add_flags_2e4(8);

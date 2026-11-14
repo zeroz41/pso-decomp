@@ -27,6 +27,7 @@ struct StelthMovementParams {
 };
 
 struct TObjEneMe3Stelth : public TObjEneDD_ST {
+    TObjEneMe3Stelth(TObject *parent);
     virtual ~TObjEneMe3Stelth();
     virtual s32 vfunc_104(f32);
     virtual f32 receive_direct_attack(void *source, DirectAttackPayload payload, void *collider, s32 technique, s32 flags);
@@ -121,8 +122,11 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
 typedef char TObjEneMe3Stelth_size[sizeof(TObjEneMe3Stelth) == 0x44C ? 1 : -1];
 
 extern "C" {
-void *TObjEneMe3Stelth__ct(TObjEneMe3Stelth *stelth);
 void TObjEneMe3Stelth__sub_800F0C90(TObjEneMe3Stelth *stelth);
+s32 TObjEneMe3Stelth__sub_800F0F84(TObjEneMe3Stelth *stelth, Vec *pos);
+void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 arg1);
+void TObjEneMe3Stelth__sub_800F1440(TObjEneMe3Stelth *stelth, s32 arg1);
+void exec__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1);
 }
 
 #endif

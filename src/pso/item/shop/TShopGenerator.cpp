@@ -1,8 +1,10 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/shop/TShopGenerator.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_8021E110_TShopGenerator__data_80513ED0 {
     s32 value;
@@ -75,7 +77,6 @@ void *__dt__14TShopGeneratorFv(void *arg0, s16 arg1);
 s32 __ct__8TObjBaseFP7TObject(void *, s32);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
-void queue_destruction__7TObjectFv(void *arg0);
 
 extern s32 __vt__14TShopGenerator[];
 
@@ -200,11 +201,11 @@ void *TShopGenerator__ct(void *shop_generator, s32 arg1) {
     ((TShopGenerator *)shop_generator)->m_94 = 5;
     temp_r0 = ((TShopGenerator *)shop_generator)->set_params[0];
     if (temp_r0 < 0) {
-        queue_destruction__7TObjectFv(shop_generator);
+        ((TObject *)shop_generator)->queue_destruction();
         return shop_generator;
     }
     if (temp_r0 > 6) {
-        queue_destruction__7TObjectFv(shop_generator);
+        ((TObject *)shop_generator)->queue_destruction();
         return shop_generator;
     }
     return shop_generator;

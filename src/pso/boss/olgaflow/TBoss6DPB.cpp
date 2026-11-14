@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/olgaflow/TBoss6DPB.h"
 #include "pso/effect/photon/TDPBShower.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -11,6 +12,8 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer.h"
 
 struct V_8035D8B0 { s32 a; f32 b; s32 c; };
 
@@ -97,7 +100,7 @@ void TBoss6DPB::apply_shower_damage_to_players() {
     s32 power;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        pl = (Pl_8035D924 *)get_player_data__10TObjPlayerFi(i);
+        pl = (Pl_8035D924 *)TObjPlayer::get_player_data(i);
         if (((TBoss6PlotFalz *)pl)->is_active() != 0) {
             VecCopy((Vec *)&v, (const Vec *)((u8 *)pl + 0x38));
             subtract_vector(&v, &arg0->pos);
@@ -129,7 +132,7 @@ void TBoss6DPB::run_task() {
             ((TBoss6DPB *)arg0)->apply_shower_damage_to_players();
             play_sound_effect(0x40069411, (u32)(arg0 + 0x20), 0, 0);
             ((TBoss6DPB *)arg0)->sub_8035D8B0();
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
         }
     }
 }
@@ -145,7 +148,7 @@ u8 *__ct__9TBoss6DPBFv(u8 *object, s32 arg1, s32 arg2, f32 farg0) {
     *(s32 *)((s8 *)object + 0) = (s32) TBoss6DPB__class_name;
     *(s32 *)((s8 *)object + 0x1C) = arg1;
     VecCopy((Vec *)(object + 0x20), (const Vec *)(arg2));
-    *(f32 *)((s8 *)object + 0x24) = (f32) 0.0f;
+    *(f32 *)((s8 *)object + 0x24) = 0.0f;
     *(f32 *)((s8 *)object + 0x2C) = farg0;
     temp_f2 = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x2C)) + 8);
     *(s32 *)((s8 *)object + 0x34) = (s32) temp_f2;
@@ -155,7 +158,7 @@ u8 *__ct__9TBoss6DPBFv(u8 *object, s32 arg1, s32 arg2, f32 farg0) {
     temp_f1 = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x2F)) + 8);
     *(f32 *)((s8 *)object + 0x38) = temp_f1;
     if (0.0f == temp_f1) {
-        *(f32 *)((s8 *)object + 0x38) = (f32) 1.0f;
+        *(f32 *)((s8 *)object + 0x38) = 1.0f;
     }
     play_sound_effect(0x40069410, (u32)(object + 0x20), 0, 0);
     *(s32 *)((s8 *)object + 0x30) = 0;

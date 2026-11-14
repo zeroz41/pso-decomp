@@ -1,9 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/charcreate/TChCrTagInformationStr.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/MenuText.h"
 #include "pso/unk/TLobby_80132ED0.h"
+#include "pso/system/task/TObject.h"
 
 // Where the first line of the tag text is drawn; each line goes 20 below the last.
 struct TagTextOrigin {

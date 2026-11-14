@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/NinjaTypes.h"
@@ -38,6 +39,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/task/TObject.h"
 struct RecoveredGlobal_801982D4_lbl_804B8DAC { s32 value; u8 remaining[0x20]; };
 typedef char RecoveredGlobal_801982D4_lbl_804B8DAC_size[sizeof(RecoveredGlobal_801982D4_lbl_804B8DAC) == 0x24 ? 1 : -1];
 #pragma inline_depth(1)
@@ -89,7 +91,6 @@ struct RecoveredGlobal_80198DCC_lbl_8050E208;
 struct Vec_80199674;
 struct Vec_8019978C;
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 extern Sys_80198A2C gogo_ball_configuration;
 extern Vec_80198E84 gogo_ball_sync_state[];
 void TWindowTimer__sub_8019A6F8(void*);
@@ -240,15 +241,6 @@ struct Pair_80198F14 { s32 a; s32 b; };
 extern "C" {
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 u8 *load_gvm_texture_file(s32 arg0);
-extern char lbl_80446088[];
-extern char lbl_80446098[];
-extern char lbl_804460A8[];
-extern char lbl_804460B8[];
-extern char lbl_804460C8[];
-extern char lbl_804460E0[];
-extern char lbl_804460FC[];
-extern char lbl_8044610C[];
-extern char lbl_80446124[];
 }
 struct ByteBlock_C { u8 bytes[0xc]; };
 struct RecoveredGlobal_80199470_lbl_8050DDAC {
@@ -389,10 +381,7 @@ void TWindowTimer__sub_8019A098(void);
 void rotate_vec_xz(void *, void *, s32);
 s32 get_entity_id(void *);
 void vec3_add_to(void *, void *);
-extern u8 lbl_8044613C[];
 f32 atan2_float(f32, f32);
-extern u8 lbl_80446148[];
-extern const f64 lbl_80446150[];
 typedef char RecoveredGlobal_8019A574_lbl_8050DD58_size[sizeof(RecoveredGlobal_8019A574_lbl_8050DD58) == 0x54 ? 1 : -1];
 typedef char RecoveredGlobal_8019A574_lbl_8050DDAC_size[sizeof(RecoveredGlobal_8019A574_lbl_8050DDAC) == 0x1C ? 1 : -1];
 }
@@ -400,10 +389,7 @@ typedef char RecoveredGlobal_8019A574_lbl_8050DDAC_size[sizeof(RecoveredGlobal_8
 
 #define CFG (*(Cfg_8019A104 *)&gogo_ball_configuration)
 #define ST (*(State_8019A104 *)gogo_ball_sync_state)
-#define __dl__7TObjectFPv ((s32 (*)(void*))__dl__7TObjectFPv)
-#define gogo_ball_sync_state (*(s32 (*)[1])&gogo_ball_sync_state)
 #define gogo_ball_team_scores (*(int (*)[1])&gogo_ball_team_scores)
-#define reflect_velocity_off_collision__13TUnk_804B8E18FPvPv ((s32 (*)(void*,void*,void*))reflect_velocity_off_collision__13TUnk_804B8E18FPvPv)
 #define vector_length ((f32 (*)(void*,f32))vector_length)
 #define xyz_distance ((f32 (*)(void*,void*))xyz_distance)
 extern "C" {
@@ -536,7 +522,7 @@ void TUnk_804B8E18::update_goal_checks(u16 id) {
         }
     }
     if ((ST.flags & 2 || ST.flags & 1 || ST.flags & 0x20 || ST.flags & 0x10) && !(ST.flags & 8) && !(ST.flags & 4)) {
-        TWindowCtrl::open((s32)(get_entity_id(self)), (s32)lbl_80446148, 0x1B);
+        TWindowCtrl::open((s32)(get_entity_id(self)), (s32)"\tC4Goal", 0x1B);
     }
     if (!(ST.flags & 0x33) && self->f360 != 0) {
         self->f360 = 0;
@@ -556,7 +542,7 @@ void TUnk_804B8E18::update_goal_checks(u16 id) {
     }
     if (self->f30 != 1) {
         self->f30 = 1;
-        ang = lbl_80446150[0] * atan2_float(self->pos.x - p->pos.x, self->pos.z - p->pos.z);
+        ang = 10430.38043493439 * atan2_float(self->pos.x - p->pos.x, self->pos.z - p->pos.z);
         if ((0.0f) == len) {
             ((TWindowTimer *)((u8 *)&self->pos))->throw_gogo_ball((s32)ang, (s32)self->time);
             ((void (*)(void *))TWindowTimer__sub_8019A098)(self);
@@ -592,14 +578,14 @@ void TUnk_804B8E18::run_task() {
         p.y += ((Tbl_80199F14 *)&(*(RecoveredGlobal_8019A574_lbl_8050DD58 *)&gogo_ball_configuration))->yofs;
         spawn_particle_effect_with_flags(&p, 0x45, 0x40);
         spawn_particle_effect_with_flags(&p, 0x46, 0x40);
-        TWindowCtrl::open((s32)(get_entity_id(this)), (s32)lbl_8044613C, 0x1B);
-        queue_destruction__7TObjectFv(this);
+        TWindowCtrl::open((s32)(get_entity_id(this)), (s32)"Good Bye", 0x1B);
+        queue_destruction();
         return;
     }
     update_goal_checks(local_client_id);
     update_best_time();
     if (position.y <= (-5e+02f)) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
     VecCopy((Vec *)&q, &position);
     velocity.y += gravity;
@@ -630,17 +616,12 @@ void TUnk_804B8E18::update_best_time() {
 
 #undef CFG
 #undef ST
-#undef __dl__7TObjectFPv
-#undef gogo_ball_sync_state
 #undef gogo_ball_team_scores
-#undef reflect_velocity_off_collision__13TUnk_804B8E18FPvPv
 #undef vector_length
 #undef xyz_distance
 
 #define F(t, o) (*(t *)((u8 *)this + (o)))
-#define draw_shadow_on_ground ((s32 (*)(void*))draw_shadow_on_ground)
 #define normalize_vector ((s32 (*)(void*))normalize_vector)
-#define rotate_matrix_y ((s32 (*)(int,int))rotate_matrix_y)
 #define vector_length ((f32 (*)(void*))vector_length)
 extern "C" {
 void TUnk_804B8E18::render() {
@@ -748,9 +729,7 @@ void TUnk_804B8E18::render() {
 }
 
 #undef F
-#undef draw_shadow_on_ground
 #undef normalize_vector
-#undef rotate_matrix_y
 #undef vector_length
 
 
@@ -860,7 +839,6 @@ void draw_shadow_on_ground(u8 *arg0) {
 #pragma pop
 
 #define TWindowTimer__sub_8019A770 ((void (*)(void))TWindowTimer__sub_8019A770)
-#define __nw__7TObjectFUl ((void* (*)(int))__nw__7TObjectFUl)
 #define bswap_6x79_gogo_ball__12TWindowTimerFi ((s32 (*)(void))bswap_6x79_gogo_ball__12TWindowTimerFi)
 #define controller_input_state (*(s32 (*)[1])&controller_input_state)
 #define gogo_ball_configuration (*(u8 (*)[1])&gogo_ball_configuration)
@@ -1003,13 +981,12 @@ void TUnk_804B8E00::render() {
 }
 
 #undef TWindowTimer__sub_8019A770
-#undef __nw__7TObjectFUl
 #undef bswap_6x79_gogo_ball__12TWindowTimerFi
 #undef controller_input_state
 #undef gogo_ball_configuration
 
-#define language_lobby_texture_descriptor (*(u8 (*)[1])&language_lobby_texture_descriptor)
 extern "C" {
+#pragma pool_data off
 void TLanguage::load_lobby_textures() {
     Pair_80198F14 *p = gogo_ball_team_scores;
     Cfg_80198F14 *c = &(*(Cfg_80198F14 *)&gogo_ball_sync_state);
@@ -1027,20 +1004,20 @@ void TLanguage::load_lobby_textures() {
         obj = load_resource_from_descriptor(obj, 5, language_lobby_texture_descriptor, 0, 0, 0);
     }
     (*(void**)&gogo_ball_bml_resource) = obj;
-    lobby_gvm_texture_handles[0] = (s32)load_gvm_texture_file((s32)lbl_80446088);
-    lobby_gvm_texture_handles[1] = (s32)load_gvm_texture_file((s32)lbl_80446098);
-    lobby_gvm_texture_handles[2] = (s32)load_gvm_texture_file((s32)lbl_804460A8);
-    lobby_gvm_texture_handles[3] = (s32)load_gvm_texture_file((s32)lbl_804460B8);
-    lobby_gvm_texture_handles[4] = (s32)load_gvm_texture_file((s32)lbl_804460C8);
-    lobby_gvm_texture_handles[5] = (s32)load_gvm_texture_file((s32)lbl_804460E0);
-    lobby_gvm_texture_handles[6] = (s32)load_gvm_texture_file((s32)lbl_804460FC);
-    lobby_gvm_texture_handles[7] = (s32)load_gvm_texture_file((s32)lbl_8044610C);
-    lobby_gvm_texture_handles[8] = (s32)load_gvm_texture_file((s32)lbl_80446124);
+    lobby_gvm_texture_handles[0] = (s32)load_gvm_texture_file((s32)"robby_chu.gvm");
+    lobby_gvm_texture_handles[1] = (s32)load_gvm_texture_file((s32)"biri_ball.gvm");
+    lobby_gvm_texture_handles[2] = (s32)load_gvm_texture_file((s32)"bom_ball.gvm");
+    lobby_gvm_texture_handles[3] = (s32)load_gvm_texture_file((s32)"soft_ball.gvm");
+    lobby_gvm_texture_handles[4] = (s32)load_gvm_texture_file((s32)"rokeorange_churoke.gvm");
+    lobby_gvm_texture_handles[5] = (s32)load_gvm_texture_file((s32)"rokeblue_pso_churoke.gvm");
+    lobby_gvm_texture_handles[6] = (s32)load_gvm_texture_file((s32)"robby_cat.gvm");
+    lobby_gvm_texture_handles[7] = (s32)load_gvm_texture_file((s32)"fd_obj804_gorl03.gvm");
+    lobby_gvm_texture_handles[8] = (s32)load_gvm_texture_file((s32)"fd_obj804_gorl03_b.gvm");
 }
+#pragma pool_data reset
 
 }
 
-#undef language_lobby_texture_descriptor
 
 extern "C" {
 void fn_80198E84(void) {
@@ -1104,7 +1081,7 @@ TUnk_804B8DE8::TUnk_804B8DE8(Vec *position, s32 limit, s32 arg3, s32 arg4, TObje
 
 TUnk_804B8DE8::~TUnk_804B8DE8() {
     if (effect != NULL) {
-        queue_destruction__7TObjectFv(effect);
+        effect->queue_destruction();
         effect = NULL;
     }
 }
@@ -1120,7 +1097,7 @@ void TUnk_804B8DE8::run_task() {
     if (this->counter++ >= self->limit) {
         spawn_particle_effect_with_flags(&self->pos, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->pos, 0x46, 0x40);
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return;
     }
     state = this->state;
@@ -1149,7 +1126,7 @@ void TUnk_804B8DE8::run_task() {
             }
         }
         if (self->timer++ >= 1000) {
-            queue_destruction__7TObjectFv(self);
+            ((TObject *)self)->queue_destruction();
             return;
         }
         this->rot += 0x16C;
@@ -1299,7 +1276,7 @@ void TUnk_804B8DD0::run_task() {
     t = this->age;
     this->age = t + 1;
     if (t >= this->lifetime) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 

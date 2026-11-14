@@ -16,11 +16,11 @@ public:
 
 #include "pso/unk/TLobby.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/render/GinjaTexture.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct ByteBlock_14 { s32 v[5]; };
 
 typedef struct TAdSelectCurGC_802AED98 {
     u8 pad0[0xA4];
@@ -37,7 +37,7 @@ typedef struct TAdSelectCurGC_802AED98 {
 } TAdSelectCurGC_802AED98;
 
 struct TAdSelectCurGC_802AF0E0 {
-    s32 f0;
+    const char *name;
     u8 pad4[0x14];
     void *vt18;
     u8 pad1C[0x9C - 0x1C];
@@ -48,11 +48,18 @@ struct TAdSelectCurGC_802AF0E0 {
     s32 f6FC, f700;
 };
 
+/* inferred: the two one-texture lists apply_menu_cursor_selection picks from by language
+   (f256_ad for Japanese, f256_ad_eng otherwise) and keeps in menu_selection_cursor_texture_list */
+GinjaTextureEntry select_cursor_eng_texture_entry = {"f256_ad_eng", 0, NULL};
+GinjaTextureList select_cursor_eng_texture_list = {&select_cursor_eng_texture_entry, 1};
+GinjaTextureEntry select_cursor_texture_entry = {"f256_ad", 0, NULL};
+GinjaTextureList select_cursor_texture_list = {&select_cursor_texture_entry, 1};
+/* inferred: TObject name the constructor stores */
+const char *TAdSelectCurGC__name = "TAdSelectCurGC";
+GinjaTextureList *menu_selection_cursor_texture_list;
+
 extern "C" {
-extern const s32 lbl_80470764[];
-extern const s32 lbl_80470778[];
 extern const s32 current_language;
-extern u32 menu_selection_cursor_texture_list;
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 check_flag_0x48__14TAdSelectCurGCFv(void *, int);
@@ -63,9 +70,7 @@ extern u8 controller_physical_port_bank[];
 void run_task__14TAdSelectCurGCFv(TAdSelectCurGC_802AED98 *o);
 void __ct__7TObjectFP7TObject(void *);
 extern void *__vt__14TAdSelectCurGC[];
-extern s32 lbl_805D3E70;
 TAdSelectCurGC_802AF0E0 *__ct__14TAdSelectCurGCFv(TAdSelectCurGC_802AF0E0 *o, void *unused, void *a, void *b);
-void release_texture_list(void*);
 void *__nw__7TObjectFUl(int);
 
 void run_task__14TAdSelectCurGCFv(TAdSelectCurGC_802AED98 *o) {
@@ -142,7 +147,7 @@ TAdSelectCurGC_802AF0E0 *__ct__14TAdSelectCurGCFv(TAdSelectCurGC_802AF0E0 *o, vo
     s32 i;
     __ct__7TObjectFP7TObject(o);
     o->vt18 = __vt__14TAdSelectCurGC;
-    o->f0 = lbl_805D3E70;
+    o->name = TAdSelectCurGC__name;
     ((TWindowSubSymbolChatPartsSet *)((u8 *)o + 0x1C))->copy_vec2(a);
     ((TWindowSubSymbolChatPartsSet *)((u8 *)o + 0x9C))->copy_vec2(b);
     o->fA4 = 0;
@@ -161,19 +166,22 @@ TAdSelectCurGC_802AF0E0 *__ct__14TAdSelectCurGCFv(TAdSelectCurGC_802AF0E0 *o, vo
 }
 
 void TLobby__sub_802AF198(void) {
-    if ((u32) menu_selection_cursor_texture_list != 0U) {
-        release_texture_list((void*)menu_selection_cursor_texture_list);
-        menu_selection_cursor_texture_list = 0U;
+    if (menu_selection_cursor_texture_list != NULL) {
+        release_texture_list(menu_selection_cursor_texture_list);
+        menu_selection_cursor_texture_list = NULL;
     }
 }
 
 void TLobby::apply_menu_cursor_selection() {
     TLobby::update_menu_cursor();
-    ByteBlock_14 a = *(const ByteBlock_14 *)lbl_80470764;
-    ByteBlock_14 b = *(const ByteBlock_14 *)lbl_80470778;
-    s32 r4 = b.v[current_language];
-    menu_selection_cursor_texture_list = r4;
-    TLobby__sub_8023E4B4(a.v[current_language], r4);
+    const char *names[5] = {"f256_ad", "f256_ad_eng", "f256_ad_eng", "f256_ad_eng", "f256_ad_eng"};
+    GinjaTextureList *lists[5] = {
+        &select_cursor_texture_list, &select_cursor_eng_texture_list, &select_cursor_eng_texture_list,
+        &select_cursor_eng_texture_list, &select_cursor_eng_texture_list,
+    };
+    GinjaTextureList *list = lists[current_language];
+    menu_selection_cursor_texture_list = list;
+    TLobby__sub_8023E4B4((s32)names[current_language], (s32)list);
 }
 
 void TAdSelectCurGC__sub_802AF274(void* p, f32 v) { *(f32*)((char*)p + 0x704) = v; }

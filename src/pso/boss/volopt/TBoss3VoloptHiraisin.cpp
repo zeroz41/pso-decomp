@@ -20,6 +20,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/player/TObjPlayer.h"
 
 extern "C" {
 s32 minimap_render_dot(Vec *pos, s32 color, s16 a2, s32 a3);
@@ -27,8 +28,6 @@ void init_collision_body_parts(TObject *obj, void *parts, s32 count);
 void free_collision_body_parts(TObject *obj);
 
 TUnk_8048FA00 *init_from_model__11TBreakUpMdlFl(TUnk_8048FA00 *obj, s32 model);
-void trigger_dell_biter_events__10TObjPlayerFv(Vec *pos);
-void update_collisions__10TObjPlayerFv(TObjEnemy *obj);
 
 extern u32 model_render_flags;
 extern u32 saved_model_render_flags;
@@ -145,7 +144,7 @@ void TBoss3VoloptHiraisin::start_attack() {
     u32 flags;
     TBoss3Volopt::create_breakup_mdl((s32)volopt_hiraisin_breakup_model, (s32)&volopt_hiraisin_breakup_params,
                                      TObjFish__sub_8001EDB0(volopt_hiraisin_resources, 0x10), (s32)&m_2fc, rotation_y);
-    trigger_dell_biter_events__10TObjPlayerFv((Vec *)&m_2fc);
+    ((TObjPlayer *)((Vec *)&m_2fc))->trigger_dell_biter_events();
     play_sound_effect(0x4001C112, &position, 0, 0);
     m_388 &= ~1;
     max_hp = hpmax;
@@ -201,7 +200,7 @@ void TBoss3VoloptHiraisin::update_drop() {
     case 3:
         break;
     }
-    update_collisions__10TObjPlayerFv(this);
+    ((TObjPlayer *)this)->update_collisions();
 }
 
 void TBoss3VoloptHiraisin::sub_80041314() {

@@ -1,4 +1,6 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TLobby_801E43E4.h"
+#include "pso/npc/TNpcPlayer.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/TUnk_804AF7B0.h"
@@ -7,6 +9,7 @@
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 extern "C" void render__10TNpcPlayerFv();
 #include "pso/object/collision/TObjFogCollisionPoison.h"
 
@@ -396,7 +399,6 @@ int get_player_data__10TObjPlayerFi(int a0);
 s32 get_entity_id(void *obj);
 f32 fabs_float(f32);
 f64 atan2_float(int, f32, f32, f32);
-void queue_destruction__7TObjectFv(void *arg0);
 s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
 void * __ct__12TPlyCharDataFv(void *self);
 u8 * csnVector(s32, s32, s32);
@@ -421,7 +423,6 @@ void select_path_waypoint__10TNpcPlayerFv(Self_801501A0 *self);
 void request_technique_cast__10TNpcPlayerFPvi(Npc_80150A34 *self, s32 kind);
 s32 select_recovery_action__10TNpcPlayerFv(Npc_801510F8 *self, s32 arg1);
 void run_task__10TNpcPlayerFv(u8 *arg0);
-u8 * __dt__10TNpcPlayerFv(u8 *arg0, s16 arg1);
 Npc_80152168 * TNpcPlayer__ct(Npc_80152168 *self, s32 a, s32 b, s16 kind, s32 arg4, void *parent);
 Npc_80152330 * construct_partner__10TNpcPlayerFPviisPv(Npc_80152330 *self, s32 a, s32 b, s16 kind, void *parent);
 void set_technique_seed_level(Obj_801528A8 *self, s16 i, u8 v);
@@ -459,9 +460,7 @@ s8 get_cast_technique_level(void *, s16);
 int bswap_16__FPUs(void*);
 int bswap_32__FPUl(void*);
 void update_players__6TLobbyFv(s32 arg0);
-void __dl__7TObjectFPv(s32);
 void * __nw__7TObjectFUl(u32);
-s32 __dt__7TObjectFv(void *, int);
 void __ct__7TObjectFP7TObject(void *, void *);
 Tec_80150B90 * calc_technique_parameters(s32, s32, s32);
 }
@@ -1626,10 +1625,7 @@ void *lbl_804AF630[64] = {
     (void *)&lbl_804AE4F8, (void *)&lbl_804AE958, (void *)&lbl_804AE46C, (void *)&lbl_804ADD6C,
     (void *)&lbl_804AE840, (void *)&lbl_804AE840, (void *)&lbl_804AE2C8, (void *)&lbl_804AE958,
 };
-void *__vt__10TNpcPlayer[6] = {
-    (void *)0x0, (void *)0x0, (void *)&__dt__10TNpcPlayerFv, (void *)&run_task__10TNpcPlayerFv,
-    (void *)&render__10TNpcPlayerFv, (void *)&render_shadows__7TObjectFv,
-};
+extern void *__vt__10TNpcPlayer[];
 
 struct Info_8014E7A0 {
     u8 pad0[0xC];
@@ -1696,22 +1692,22 @@ void TUnk_804AF7B0::run_task() {
     s32 temp_r0;
     s32 temp_r31;
 
-    temp_r31 = *(s32 *)((s8 *)this + 0x10);
+    temp_r31 = (s32)m_up;
     if (check_switch__22TObjFogCollisionPoisonFv(temp_r31) != 0) {
-        if (((TObjFogCollision *)temp_r31)->check_collision(*(u16 *)((s8 *)this + 0x28)) != 0) {
-            ((TObjFogCollisionPoison *)temp_r31)->record_poison_hit(*(u16 *)((s8 *)this + 0x28));
-            *(s32 *)((s8 *)this + 0x20) = (s32) (*(s32 *)((s8 *)this + 0x20) + 1);
-            if ((s32) *(s32 *)((s8 *)this + 0x20) >= (s32) *(s32 *)((s8 *)this + 0x1C)) {
-                ((TObjFogCollisionPoison *)temp_r31)->apply_poison_damage(*(u16 *)((s8 *)this + 0x28));
-                *(s32 *)((s8 *)this + 0x20) = 0;
-                *(s32 *)((s8 *)this + 0x1C) = 0x1E;
+        if (((TObjFogCollision *)temp_r31)->check_collision(client) != 0) {
+            ((TObjFogCollisionPoison *)temp_r31)->record_poison_hit(client);
+            damage_timer++;
+            if (damage_timer >= damage_interval) {
+                ((TObjFogCollisionPoison *)temp_r31)->apply_poison_damage(client);
+                damage_timer = 0;
+                damage_interval = 0x1E;
             }
-            *(s32 *)((s8 *)this + 0x24) = (s32) (*(s32 *)((s8 *)this + 0x24) + 1);
+            contact_ticks++;
         } else {
-            *(s32 *)((s8 *)this + 0x1C) = 0x96;
-            *(s32 *)((s8 *)this + 0x24) = 0;
+            damage_interval = 0x96;
+            contact_ticks = 0;
         }
-        temp_r0 = *(s32 *)((s8 *)this + 0x24);
+        temp_r0 = contact_ticks;
         if (temp_r0 == 1) {
             TObjFogCollisionPoison__sub_801535D0(temp_r31);
             return;
@@ -2112,32 +2108,24 @@ Npc_80152168 *TNpcPlayer__ct(Npc_80152168 *self, s32 a, s32 b, s16 kind, s32 arg
     return self;
 }
 
-u8 *__dt__10TNpcPlayerFv(u8 *arg0, s16 arg1) {
+TNpcPlayer::~TNpcPlayer() {
     u32 player;
     u8 *npc_player;
     u8 *temp_r3_2;
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = ((s32 *)__vt__10TNpcPlayer);
-        npc_player = (u8 *)(*(u8 **)((s8 *)arg0 + 0x74));
-        if (npc_player != NULL) {
-            ((TNpcPlayer *)npc_player)->dt(1);
-            *(u8 **)((s8 *)arg0 + 0x74) = NULL;
-        }
-        temp_r3_2 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x78));
-        if (temp_r3_2 != NULL) {
-            player = (u32)get_player_by_client_id((get_npc_type__10TNpcPlayerFPv((void*)(temp_r3_2))));
-            if (player != 0U) {
-                TObjPlayer::send_item_pickup_request((s32) player);
-            }
-            ((TNpcPlayer *)(*(u8 **)((s8 *)arg0 + 0x78)))->dt(1);
-            *(u8 **)((s8 *)arg0 + 0x78) = NULL;
-        }
-        __dt__7TObjectFv((void *) (arg0), 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
-        }
+    npc_player = (u8 *)(*(u8 **)((s8 *)this + 0x74));
+    if (npc_player != NULL) {
+        ((TNpcPlayer *)npc_player)->dt(1);
+        *(u8 **)((s8 *)this + 0x74) = NULL;
     }
-    return arg0;
+    temp_r3_2 = (u8 *)(*(u8 **)((s8 *)this + 0x78));
+    if (temp_r3_2 != NULL) {
+        player = (u32)get_player_by_client_id((get_npc_type__10TNpcPlayerFPv((void*)(temp_r3_2))));
+        if (player != 0U) {
+            TObjPlayer::send_item_pickup_request((s32) player);
+        }
+        ((TNpcPlayer *)(*(u8 **)((s8 *)this + 0x78)))->dt(1);
+        *(u8 **)((s8 *)this + 0x78) = NULL;
+    }
 }
 
 void TNpcPlayer::run_task() {
@@ -2150,11 +2138,11 @@ void TNpcPlayer::run_task() {
     {
         {
         if (refresh_npc_view_actor_lost((void *) (owner)) != 0) {
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
             return;
         }
         if (refresh_npc_view_actor_lost((void *) (*(u8 **)((s8 *)arg0 + 0x78))) != 0) {
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
             return;
         }
         if ((((TObjPlayer *)(*(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94)))->is_inactive() != 0) && (((void *) *(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94) == NULL) || (((TNpcPlayer *)((void *) *(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x78)) + 0x94)))->get_action_flags() != 0xFFFF))) {
@@ -3273,7 +3261,7 @@ void *TNpcPlayer::dt(s16 arg1) {
     if (this != NULL) {
         if ((u32) *(u32 *)((s8 *)this + 0xA8) != 0U) {
             free_collision_body_parts(*(u32 *)((s8 *)this + 0xA8));
-            queue_destruction__7TObjectFv((void *)(*(u32 *)((s8 *)this + 0xA8)));
+            ((TObject *)((void *)(*(u32 *)((s8 *)this + 0xA8))))->queue_destruction();
             *(u32 *)((s8 *)this + 0xA8) = 0U;
         }
         if (arg1 > 0) {

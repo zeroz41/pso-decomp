@@ -277,7 +277,7 @@ void TObjEneNanoDrago::load_resources() {
     lbl_805D5254 = dispatch_shared_handler_a__6TLobbyFl(0x1A);
     NanoDragoAnimationBinding binding = { nano_drago_entry_params_resource->motions, nanodrago_action_table, 1, 0xC0000 };
     modelEntries = nano_drago_entry_params_resource->models;
-    TLobby::spawn_npc_enemy((s16)(0x22), modelEntries[0].model, (NJS_TEXLIST *)modelEntries[0].m_c, &binding, (f32)((f32) (15.0f)), (f32)((f32) (0.0f)));
+    TLobby::spawn_npc_enemy((s16)(0x22), modelEntries[0].model, (NJS_TEXLIST *)modelEntries[0].m_c, &binding, (f32)(15.0f), (f32)(0.0f));
 }
 void TObjEneNanoDrago::free_resources() {
     if ((u32) nano_drago_entry_params_resource != 0U) {
@@ -469,7 +469,7 @@ void TObjEneNanoDrago::update_idle_state() {
     case 1:
         advance_animation();
         wander_around(&home_position, parameters[1]);
-        if (is_passing_frame((f32)(4.0f)) != 0 || is_passing_frame((f32)(20.0f)) != 0) {
+        if (is_passing_frame(4.0f) != 0 || is_passing_frame(20.0f) != 0) {
             play_sound_effect(0x4003AD23, (u8 *)(&position), 0, 0);
         }
         m_384 = m_384 - 1;
@@ -524,7 +524,7 @@ void TObjEneNanoDrago::update_circling_state() {
     case 1:
         advance_animation();
         apply_actor_gravity(((u8 *)this), 0, 0.0f);
-        if (is_passing_frame((f32)(4.0f)) != 0 || is_passing_frame((f32)(20.0f)) != 0) {
+        if (is_passing_frame(4.0f) != 0 || is_passing_frame(20.0f) != 0) {
             play_sound_effect(0x4003AD23, (Vec *)&position, 0, 0);
         }
         if (target != NULL) {
@@ -562,7 +562,7 @@ void TObjEneNanoDrago::update_circling_state() {
         enemy_wander_home(speed, 100.0f, 50.0f, ((NanoDragoMovementParams *)movementParameters)->turnSpeed);
         advance_animation();
         apply_actor_gravity(((u8 *)this), 0, 0.0f);
-        if (is_passing_frame((f32)(4.0f)) != 0 || is_passing_frame((f32)(20.0f)) != 0) {
+        if (is_passing_frame(4.0f) != 0 || is_passing_frame(20.0f) != 0) {
             play_sound_effect(0x4003AD23, (Vec *)&position, 0, 0);
         }
         wanderDistance += speed;
@@ -632,7 +632,7 @@ void TObjEneNanoDrago::update_single_beam_state() {
         enemy_turn_half_toward_dest(((u8 *)this));
         advance_animation();
         if (!(actorFlags & 0x01000000)) {
-            apply_actor_gravity(((u8 *)this), 0, (f32) (0.0f));
+            apply_actor_gravity(((u8 *)this), 0, 0.0f);
         }
         ((TObjPlayer *)((u8 *)this))->update_collisions();
         remainingFrames = m_384 - 1;
@@ -710,7 +710,7 @@ void TObjEneNanoDrago::update_multi_beam_state() {
         advance_animation();
         apply_actor_gravity(((u8 *)this), 0, 0.0f);
         ((TObjPlayer *)((u8 *)this))->update_collisions();
-        if (is_passing_frame((f32)(4.0f)) != 0 || is_passing_frame((f32)(20.0f)) != 0) {
+        if (is_passing_frame(4.0f) != 0 || is_passing_frame(20.0f) != 0) {
             play_sound_effect(0x4003AD23, &position, 0, 0);
         }
         if (find_nearest_visible_player(this, 0, 50.0f) != 0xFFFF) {
@@ -785,7 +785,7 @@ void TObjEneNanoDrago::update_flight_state() {
                 m_310 = 0.0f;
                 x_speed = 0.0f;
             }
-            if (is_passing_frame((f32)(10.0f)) != 0) {
+            if (is_passing_frame(10.0f) != 0) {
                 spawn_particle_effect(&position, 0xF0);
                 play_sound_effect(0x4003AD20, &position, 0, 0);
             }
@@ -957,7 +957,7 @@ void TObjEneNanoDrago::update_dying_state() {
         return;
     case 1:
         advance_animation();
-        apply_actor_gravity(((u8 *)this), 0, (f32) (0.0f));
+        apply_actor_gravity(((u8 *)this), 0, 0.0f);
         if (frame >= 30.0f) {
             spawn_particle_effect((&position), 0xF0);
             state = 3;
@@ -966,7 +966,7 @@ void TObjEneNanoDrago::update_dying_state() {
         break;
     case 2:
         advance_animation();
-        apply_actor_gravity(((u8 *)this), 0, (f32) (0.0f));
+        apply_actor_gravity(((u8 *)this), 0, 0.0f);
         {
         f32 lim = 0.0f;
         flightHeight = max_float(flightHeight + descentSpeed, lim);

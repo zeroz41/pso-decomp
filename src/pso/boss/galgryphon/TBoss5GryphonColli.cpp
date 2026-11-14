@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/galgryphon/TBoss5GryphonColli.h"
 #include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
@@ -11,6 +12,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjMotion.h"
 
 #pragma readonly_strings on
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
@@ -31,7 +34,7 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 TBoss5GryphonColli::~TBoss5GryphonColli() {
     for (s32 index = 0; index < 1; ++index) {
         if (objects[index] != NULL) {
-            queue_destruction__7TObjectFv(objects[index]);
+            objects[index]->queue_destruction();
             objects[index] = NULL;
         }
     }
@@ -104,9 +107,7 @@ struct Obj_800663DC {
 };
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 void *mem_alloc(u32 size);
-int refresh_collision_body_centers__14TObjCollidableFv(void*);
 extern s32 gryphon_demo_collision_body_desc[];
 extern s32 lbl_804886AC[];
 extern const char *lbl_805D2808;
@@ -121,7 +122,7 @@ s32 __dl__7TObjectFPv(void *);
 
 void TBoss5GryphonColli_C::render() {  }
 void TBoss5GryphonDemo__sub_8006626C(void* p) { ((TBoss5GryphonColli_C *)p)->clear_entry_flags(); }
-void TBoss5GryphonDemo::draw_model(void* a1, s32 a2) { push_matrix(this); set_matrix_identity((void*)0); post_translate_matrix(a1); rotate_matrix_y((void*)0, a2); matrix_mult_vec((void*)0, (char*)this + 0xac, (char*)this + 0x38); pop_matrix(); *(s32*)((char*)this + 0x60) = a2; refresh_collision_body_centers__14TObjCollidableFv(this); set_all_entry_flags(); }
+void TBoss5GryphonDemo::draw_model(void* a1, s32 a2) { push_matrix(this); set_matrix_identity((void*)0); post_translate_matrix(a1); rotate_matrix_y((void*)0, a2); matrix_mult_vec((void*)0, (char*)this + 0xac, (char*)this + 0x38); pop_matrix(); *(s32*)((char*)this + 0x60) = a2; ((TObjCollidable *)this)->refresh_collision_body_centers(); set_all_entry_flags(); }
 
 void TBoss5GryphonColli_C::clear_entry_flags() {
     Obj_800663DC *self = (Obj_800663DC *)this;
@@ -181,7 +182,7 @@ TBoss5GryphonColli_C *TBoss5GryphonDemo__sub_800663DC(TBoss5GryphonColli_C *self
         s->flags = 0x10003;
         s++;
     }
-    refresh_collision_body_centers__14TObjCollidableFv(obj);
+    ((TObjCollidable *)obj)->refresh_collision_body_centers();
     register_entity_by_id(obj);
     self->clear_entry_flags();
     return self;

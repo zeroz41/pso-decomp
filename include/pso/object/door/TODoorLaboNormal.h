@@ -6,6 +6,8 @@
 
 struct TODoorLaboNormal : public TODoorFourLightBase {
     virtual ~TODoorLaboNormal();
+    virtual s32 vfunc_21();
+    virtual s32 vfunc_22();
     void init_field_d4();
 };
 

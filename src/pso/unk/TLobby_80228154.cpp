@@ -13,28 +13,20 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/model_render_state.h"
+#include "pso/unk/TLobby_801404CC.h"
+#include "pso/unk/TLobby_8013FFA8.h"
+#include "pso/unk/text_80140D50.h"
 
-
-struct RecoveredGlobal_80228634_lbl_804CBE98 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
-struct RecoveredGlobal_80228754_lbl_804CBE98 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
-struct RecoveredGlobal_802286C4_lbl_804CBE98 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
+// Area set-up functions of TLobby_80299A60/B90/C4C.cpp, which have no header.
+s32 initialize_boss_scene();
+s32 init_scene_delo2();
+s32 load_dragon2_scene();
 
 
 extern "C" {
 s32 select_area_entrance(void *arg0);
 s32 lookup_scene_object__6TLobbyFPv(s32, void *);
-extern RecoveredGlobal_80228634_lbl_804CBE98 area_initializer_dispatch_table;
+s32 init_jungle_area(void);
 void run_area_scene_cleanup(u8 *arg0);
 void promote_area_floor(u8 *arg0);
 void load_area_scene_and_init(u8 *arg0);
@@ -197,10 +189,55 @@ s32 select_area_entrance(void *arg0) {
 }
 #pragma pop
 
-typedef char RecoveredGlobal_80228634_lbl_804CBE98_size[sizeof(RecoveredGlobal_80228634_lbl_804CBE98) == 0x1B0 ? 1 : -1];
+// inferred: the area's name, the function that loads and sets it up, and the one that tears it down
+// (load_area_scene_and_init calls init; run_area_scene_cleanup and promote_area_floor call cleanup).
+struct AreaInitializer {
+    const char *name;
+    s32 (*init)();
+    void (*cleanup)();
+};
+
+AreaInitializer area_initializer_dispatch_table[] = {
+    { "CITY", TLobby::setup_scene, TLobby::cleanup_boss3_scene },
+    { "FOREST01", init_stage_forest_b, TLobby::update_floor_objects },
+    { "FOREST02", init_forest_b, TLobby::update_all },
+    { "CAVE01", init_cave_b_stage, TLobby::run_floor_update },
+    { "CAVE02", load_scene_cave_b, TLobby::update_floor_and_windows },
+    { "CAVE03", init_stage_cave_b, TLobby::update_scene },
+    { "MACHINE01", init_machine_scene, TLobby::update_floor_alt },
+    { "MACHINE02", init_machine_b_scene, TLobby::update_floor_b },
+    { "ANCIENT01", ship_scene_update, TLobby::update_floor },
+    { "ANCIENT02", init_ship_scene, TLobby::update_floor_a },
+    { "ANCIENT03", load_scene_ship_b, TLobby::update_floor_state },
+    { "BOSS01", init_dragon_area_scene, cleanup_dragon_area_scene },
+    { "BOSS02", TLobby::setup_area, cleanup_boss2_area },
+    { "BOSS03", TLobby::spawn_boss3_volopt_ctrl, cleanup_boss3_area },
+    { "BOSS04", TLobby::init_lobby_scene, TLobby::reset_subsystems },
+    { "LOBBY", TLobby::init_lobby_floor_scene, TLobby::update_floor_download },
+    { "VERSUS01", init_spaceship_area, TLobby::refresh_floor_state },
+    { "VERSUS02", init_temple_area, TLobby::run_floor_update_2 },
+    { "LABO", TLobby::setup_scene, TLobby::cleanup_boss3_scene },
+    { "RUINS01", init_temple_area, TLobby::run_floor_update_2 },
+    { "RUINS02", init_temple_area, TLobby::run_floor_update_2 },
+    { "SPACE01", init_spaceship_area, TLobby::refresh_floor_state },
+    { "SPACE02", init_spaceship_area, TLobby::refresh_floor_state },
+    { "JUNGLE01", init_jungle_area, TLobby::update_floor_state_deferred },
+    { "JUNGLE02", init_jungle_area, TLobby::update_floor_state_deferred },
+    { "JUNGLE03", init_jungle_area, TLobby::update_floor_state_deferred },
+    { "JUNGLE04", init_jungle_area, TLobby::update_floor_state_deferred },
+    { "JUNGLE05", init_jungle_area, TLobby::update_floor_state_deferred },
+    { "SEABED01", initialize_boss_scene, TLobby::update_scene_alt },
+    { "SEABED02", initialize_boss_scene, TLobby::update_scene_alt },
+    { "BOSS05", TLobby::init_gryphon_area, TLobby::cleanup_floor_state },
+    { "BOSS06", TLobby::init_particle_model, TLobby::refresh_lobby_state },
+    { "BOSS07", init_scene_delo2, TLobby::update_subsystems },
+    { "BOSS08", load_dragon2_scene, TLobby::update_field_state },
+    { "JUNGLE06", init_jungle_area, TLobby::update_floor_state_deferred },
+    { "JUNGLE07", init_jungle_area, TLobby::update_floor_state_deferred },
+};
+
 void run_area_scene_cleanup(u8 *arg0) {
     s32 sp8;
-    s32 (*var_r12)(s32);
     s32 *var_r4;
     s32 var_r3;
     u8 *var_r31;
@@ -208,29 +245,17 @@ void run_area_scene_cleanup(u8 *arg0) {
     var_r31 = arg0;
     var_r3 = *(s32 *)((s8 *)arg0 + 4);
     if (lookup_scene_object__6TLobbyFPv(var_r3, var_r4) != 0) {
-        var_r3 = (s32) &area_initializer_dispatch_table.value;
-        var_r3 = (s32) &area_initializer_dispatch_table.value;
-        var_r3 += sp8 * 0xC;
-        var_r12 = *(s32 (**)(s32))((s8 *)var_r3 + 8);
-        var_r12(var_r3);
+        area_initializer_dispatch_table[sp8].cleanup();
     } else {
-        var_r3 = (s32) &area_initializer_dispatch_table.value;
-        var_r3 = (s32) &area_initializer_dispatch_table.value;
-        var_r3 += *(s32 *)((s8 *)var_r31 + 4) * 0xC;
-        var_r12 = *(s32 (**)(s32))((s8 *)var_r3 + 8);
-        var_r12(var_r3);
+        area_initializer_dispatch_table[*(s32 *)((s8 *)var_r31 + 4)].cleanup();
     }
     *(s32 *)((s8 *)var_r31 + 4) = 0;
     *(s32 *)((s8 *)var_r31 + 8) = 0;
     *(s32 *)((s8 *)var_r31 + 0xC) = 0;
 }
 
-typedef char RecoveredGlobal_80228754_lbl_804CBE98_size[sizeof(RecoveredGlobal_80228754_lbl_804CBE98) == 0x1B0 ? 1 : -1];
-
-typedef char RecoveredGlobal_802286C4_lbl_804CBE98_size[sizeof(RecoveredGlobal_802286C4_lbl_804CBE98) == 0x1B0 ? 1 : -1];
 void load_area_scene_and_init(u8 *arg0) {
     s32 sp8;
-    s32 (*var_r12)(s32);
     s32 *var_r4;
     s32 var_r3;
     u8 *var_r31;
@@ -242,23 +267,14 @@ void load_area_scene_and_init(u8 *arg0) {
     var_r3 = *(s32 *)((s8 *)var_r31 + 4);
     var_r4 = &sp8;
     if (lookup_scene_object__6TLobbyFPv(var_r3, var_r4) != 0) {
-        var_r3 = (s32) &(*(RecoveredGlobal_802286C4_lbl_804CBE98 *)&area_initializer_dispatch_table).value;
-        var_r3 = (s32) &(*(RecoveredGlobal_802286C4_lbl_804CBE98 *)&area_initializer_dispatch_table).value;
-        var_r3 += sp8 * 0xC;
-        var_r12 = *(s32 (**)(s32))((s8 *)var_r3 + 4);
-        var_r12(var_r3);
+        area_initializer_dispatch_table[sp8].init();
         return;
     }
-    var_r3 = (s32) &(*(RecoveredGlobal_802286C4_lbl_804CBE98 *)&area_initializer_dispatch_table).value;
-    var_r3 = (s32) &(*(RecoveredGlobal_802286C4_lbl_804CBE98 *)&area_initializer_dispatch_table).value;
-    var_r3 += *(s32 *)((s8 *)var_r31 + 4) * 0xC;
-    var_r12 = *(s32 (**)(s32))((s8 *)var_r3 + 4);
-    var_r12(var_r3);
+    area_initializer_dispatch_table[*(s32 *)((s8 *)var_r31 + 4)].init();
 }
 
 void promote_area_floor(u8 *arg0) {
     s32 sp8;
-    s32 (*var_r12)(s32);
     s32 *var_r4;
     s32 var_r3;
     u8 *var_r31;
@@ -266,17 +282,9 @@ void promote_area_floor(u8 *arg0) {
     var_r31 = arg0;
     var_r3 = *(s32 *)((s8 *)arg0 + 4);
     if (lookup_scene_object__6TLobbyFPv(var_r3, var_r4) != 0) {
-        var_r3 = (s32) &(*(RecoveredGlobal_80228754_lbl_804CBE98 *)&area_initializer_dispatch_table).value;
-        var_r3 = (s32) &(*(RecoveredGlobal_80228754_lbl_804CBE98 *)&area_initializer_dispatch_table).value;
-        var_r3 += sp8 * 0xC;
-        var_r12 = *(s32 (**)(s32))((s8 *)var_r3 + 8);
-        var_r12(var_r3);
+        area_initializer_dispatch_table[sp8].cleanup();
     } else {
-        var_r3 = (s32) &(*(RecoveredGlobal_80228754_lbl_804CBE98 *)&area_initializer_dispatch_table).value;
-        var_r3 = (s32) &(*(RecoveredGlobal_80228754_lbl_804CBE98 *)&area_initializer_dispatch_table).value;
-        var_r3 += *(s32 *)((s8 *)var_r31 + 4) * 0xC;
-        var_r12 = *(s32 (**)(s32))((s8 *)var_r3 + 8);
-        var_r12(var_r3);
+        area_initializer_dispatch_table[*(s32 *)((s8 *)var_r31 + 4)].cleanup();
     }
     *(s32 *)((s8 *)var_r31 + 0) = (s32) *(s32 *)((s8 *)var_r31 + 4);
     *(s32 *)((s8 *)var_r31 + 4) = (s32) *(s32 *)((s8 *)var_r31 + 0xC);

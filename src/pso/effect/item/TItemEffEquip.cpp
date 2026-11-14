@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/effect/item/TItemEffEquip.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -11,6 +12,8 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/item/TUnk_8049F038.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/system/task/TObject.h"
 
 // The collision sphere TUnk_8049F038 copies into its own body (radius 3).
 extern const CollisionBody lbl_8043E1A0 = {
@@ -25,14 +28,11 @@ void __dt__7TObjectFv(void *, s16);
 s32 __dl__7TObjectFPv(void *);
 
 }
-extern "C" {
-}
 #include "types.h"
 #include "pso/unk/text_801036CC.h"
 
 extern "C" {
 
-s32 set_entity_id__8TObjBaseFUs(void *, s32);
 void *get_player_by_client_id(s32 i);
 struct Obj_80108C90 {
     u8 pad0[0x18];
@@ -58,8 +58,6 @@ extern s32 retire_equipment_effect[];
 extern s32 TItemEffEquip__sub_801088F8[];
 Obj_80108C90 *__ct__13TUnk_8049F038FP7TObjectsl(Obj_80108C90 *self, void *parent, s16 a, s32 b);
 
-#define self ((Equip_80108A20 *)arg0)
-#undef self
 
 struct VBase0x18_80108b5c { char pad[0x18]; };
 struct VObj80108B5C_80108b5c : VBase0x18_80108b5c {
@@ -217,7 +215,7 @@ TUnk_8049F038::TUnk_8049F038(TObject *parent, s16 a, s32 b) : TObjCollidable(par
     }
     ((TObjCollidable *)this)->set_collision_body(((Obj_80108C90 *)this)->sub);
     ((TObjPlayer *)this)->register_object_by_id();
-    disallow_rendering__7TObjectFv((TObject *)this);
+    ((TObject *)this)->disallow_rendering();
 }
 
 TUnk_8049F038::~TUnk_8049F038() {
@@ -225,7 +223,7 @@ TUnk_8049F038::~TUnk_8049F038() {
         unregister_object_by_id();
         clear_collision_bodies();
         push_free_entity_id(get_entity_id(this));
-        set_entity_id__8TObjBaseFUs(this, 0xFFFF);
+        set_entity_id(0xFFFF);
     }
 }
 
@@ -265,7 +263,7 @@ void *TItemEffEquip__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *ar
     __ct__7TObjectFP7TObject(arg0, arg1);
     self->vt = __vt__13TItemEffEquip;
     self->x0 = TItemEffEquip__class_name;
-    disallow_rendering__7TObjectFv((TObject *)arg0);
+    ((TObject *)arg0)->disallow_rendering();
     mem = __nw__7TObjectFUl(0xE0);
     if (mem != NULL) {
         mem = ((void *(*)(void *, void *, void *, void *))__ct__13TUnk_8049F038FP7TObjectsl)(mem, arg0, arg2, arg3);
@@ -278,7 +276,7 @@ void *TItemEffEquip__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *ar
         TItemAttacker::spawn_item_timer((TObject *)arg0, (ItemTimerCallback)TItemEffEquip__sub_801088F8, 0xA);
         TItemAttacker::spawn_item_timer((TObject *)arg0, (ItemTimerCallback)retire_equipment_effect, 0x14);
     } else {
-        queue_destruction__7TObjectFv((TObject *)arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
     return arg0;
 }
@@ -293,7 +291,7 @@ extern "C" {
 void run_task__13TItemEffEquipFv(Equip_Self *self) {
     if (((TObject *)((TObject*)self->m_1c))->all_parents_unqueued_for_destruction() == 0) {
         self->m_1c = NULL;
-        queue_destruction__7TObjectFv((TObject*)self);
+        ((TObject*)self)->queue_destruction();
     }
 }
 

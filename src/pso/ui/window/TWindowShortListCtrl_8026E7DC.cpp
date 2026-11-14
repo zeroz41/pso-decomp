@@ -23,6 +23,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/technique/TTecCtrl.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
 
 extern "C" {
 s32 canSetMenuCursorAction(s32, s32, u8, u8);
@@ -40,7 +42,6 @@ void play_sound_effect(int, int, int, int);
 void *__nw__7TObjectFUl(u32);
 s32 TWindowCtrl__sub_8024A228(s32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, s32);
-s32 get_cursor_value__19TWindowMenuIconLineFv(void *);
 s32 get_window_layout_position(int);
 void *create_equip_kind_window(s32, const NJS_POINT2 *, s32);
 s32 update_selection__19TWindowSubTechniqueFPsPl(void *, void *, s32);
@@ -50,7 +51,6 @@ s32 end_player_keyboard_hold(s32);
 s32 TWindowCtrl__sub_8024A1A8();
 s32 has_player_active_menu__11TWindowCtrlFv(s32);
 s32 TWindowHelpItem__set_displayed_item_by_id(void *);
-s32 is_technique_ready__8TTecCtrlFv();
 s32 set_flag70_bit10__21TWindowSubComCardListFv();
 void TWindowShortListCtrl__sub_8026E884(s16 *dst);
 }
@@ -171,7 +171,7 @@ void TWindowShortListCtrl::run_task() {
                 TWindowCtrl::set_flag_active();
             }
         }
-        set_displayed_item(get_cursor_value__19TWindowMenuIconLineFv(list_window));
+        set_displayed_item(((TWindowMenuIconLine *)list_window)->get_cursor_value());
         if (((TWindowMenuIconLine *)list_window)->is_cancelled() != 0) {
             queue_destruction();
             return;
@@ -190,7 +190,7 @@ void TWindowShortListCtrl::run_task() {
         if (TWindowSubItem::is_usable((s32)player) == 0) {
             break;
         }
-        assign_shortcut(6, get_cursor_value__19TWindowMenuIconLineFv(list_window), client_id);
+        assign_shortcut(6, ((TWindowMenuIconLine *)list_window)->get_cursor_value(), client_id);
         queue_destruction();
         return;
     case 3:
@@ -202,7 +202,7 @@ void TWindowShortListCtrl::run_task() {
         }
         state = 4;
     case 4:
-        assign_item_to_palette(get_cursor_value__19TWindowMenuIconLineFv(list_window), client_id);
+        assign_item_to_palette(((TWindowMenuIconLine *)list_window)->get_cursor_value(), client_id);
         if (((TWindowMenuIconLine *)list_window)->is_cancelled() != 0) {
             queue_destruction();
             return;
@@ -212,7 +212,7 @@ void TWindowShortListCtrl::run_task() {
         }
         break;
     case 5:
-        assign_item_to_palette(get_cursor_value__19TWindowMenuIconLineFv(list_window), client_id);
+        assign_item_to_palette(((TWindowMenuIconLine *)list_window)->get_cursor_value(), client_id);
         if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[idx], 2) != 0 ||
             test_flag_4c__23TAdSinglePlyChrSelectGCFv(&controller_input_state.keyboard, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
@@ -222,7 +222,7 @@ void TWindowShortListCtrl::run_task() {
         if (TWindowSubItem::is_usable((s32)player) == 0) {
             break;
         }
-        sel = get_cursor_value__19TWindowMenuIconLineFv(list_window);
+        sel = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
         if (find_item_by_id(sel) == NULL) {
             return;
         }
@@ -238,7 +238,7 @@ void TWindowShortListCtrl::run_task() {
         }
         state = 7;
     case 7:
-        assign_item_to_palette(get_cursor_value__19TWindowMenuIconLineFv(list_window), client_id);
+        assign_item_to_palette(((TWindowMenuIconLine *)list_window)->get_cursor_value(), client_id);
         if (((TWindowMenuIconLine *)list_window)->is_cancelled() != 0) {
             queue_destruction();
             return;
@@ -257,7 +257,7 @@ void TWindowShortListCtrl::run_task() {
         if (TWindowSubItem::is_usable((s32)player) == 0) {
             return;
         }
-        sel = get_cursor_value__19TWindowMenuIconLineFv(list_window);
+        sel = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
         if ((sel & 0xF) == 4) {
             if (TAdSinglePlyChrSelectGC::create_if_key_pressed() == 0) {
                 break;
@@ -448,7 +448,7 @@ s32 TWindowShortListCtrl::is_technique_usable() {
     if (appearance == NULL) {
         return 0;
     }
-    if (is_technique_ready__8TTecCtrlFv() != 0) {
+    if (TTecCtrl::is_technique_ready() != 0) {
         return 1;
     }
     return (appearance->classFlags >> 4) & 1;

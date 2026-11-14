@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/boss/olgaflow/Boss6Type1Appearance.h"
@@ -13,6 +14,7 @@
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/system/task/TObject.h"
 
 // The Falz plot script: one {name, enter, idle, update, advance} entry per
 // plot state, run by TBoss6PlotFalz::run_phase_action. Built with deferred
@@ -133,7 +135,7 @@ void TBoss6PlotFalz::update_cutscene_fade() {
 // --- DEMO_APP_T2 ---
 void TBoss6PlotFalz::stop_adx_audio() {
     if ((u32) *(u32 *)((s8 *)this + 0x3DC) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x3DC));
+        ((TObject *)(*(void **)((s8 *)this + 0x3DC)))->queue_destruction();
     }
     *(u32 *)((s8 *)this + 0x3DC) = 0U;
     TBoss6PlotFalz::freeze_all_players();

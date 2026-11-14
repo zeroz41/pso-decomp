@@ -4,8 +4,9 @@
 typedef struct Slot_8010F210 { u32 a; u32 b; } Slot_8010F210;
 
 extern "C" {
-s32 fn_8010F210(Slot_8010F210 *arg0);
-s32 fn_8010F210(Slot_8010F210 *arg0) {
+s32 create_load_unload_set(Slot_8010F210 *arg0);
+// inferred: counts the {load, unload} pairs up to the null pair and builds a 0x10-byte set over them.
+s32 create_load_unload_set(Slot_8010F210 *arg0) {
     s32 found;
     s32 i;
     s32 r;

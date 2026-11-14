@@ -66,7 +66,18 @@ struct RecoveredGlobal_803E8084_lbl_80590AC4
 
 struct Node_803EB894 { u8 flags; u8 pad[0xF]; Node_803EB894 *next; };
 
-struct Node_803EB794 { u8 flags; u8 data[5]; u8 len; u8 pad[9]; Node_803EB794 *next; };
+struct Sub_803ED9AC;
+
+struct Node_803EB420 {
+    u8 flags;
+    u8 data[5];
+    u8 len;
+    u8 pad7;
+    Sub_803ED9AC *sub;
+    u16 key;
+    u8 padE[2];
+    Node_803EB420 *next;
+};
 
 struct Node_803ECD54 { u8 pad[0x10]; Node_803ECD54 *next; };
 
@@ -139,18 +150,6 @@ struct Obj_803EADD4 {
     s8 x19;
 };
 
-struct Sub_803ED9AC;
-
-struct Node_803EB420 {
-    u8 flags;
-    u8 data[5];
-    u8 len;
-    u8 pad7;
-    Sub_803ED9AC *sub;
-    u16 key;
-    u8 padE[2];
-    Node_803EB420 *next;
-};
 
 struct Ent_803EDB90 { s32 a; s32 size; };
 
@@ -217,7 +216,7 @@ struct Seg_803E9FFC { s16 off; u8 x2; u8 x3; u8 a; u8 b; u8 pad2[2]; Seg_803E9FF
 
 struct Out_803E9FFC {
     s16 off; u8 a; u8 b;
-    Tok_803E9FFC *src;
+    const Tok_803E9FFC *src;
     s16 x8; s16 xa;
     Out_803E9FFC *next;
 };
@@ -327,7 +326,7 @@ struct Elem_803ED9AC {
 struct Slot_803ED9AC {
     u8 pad[8];
     Elem_803ED9AC *head;
-    Node_803EB794 *chain;
+    Node_803EB420 *chain;
     u8 pad10[5];
     s8 x15;
     s8 x16;
@@ -352,7 +351,7 @@ s32 TQuestVmDownLoadServer__sub_803EC69C(u32);
 extern RecoveredGlobal_803E8084_lbl_80590AC4 quest_name_index_table;
 void __VIRetraceHandler(void);
 Node_803EB894 *detach_node_chain__22TQuestVmDownLoadServerFPv(Node_803EB894 *p);
-Node_803EB794 *advance_nodes__22TQuestVmDownLoadServerFPvi(Node_803EB794 *p, s32 n);
+Node_803EB420 *advance_nodes__22TQuestVmDownLoadServerFPvi(Node_803EB420 *p, s32 n);
 extern s32 lbl_805D78AC;
 extern s32 *lbl_805D78B0;
 Node_803EB878 *TQuestVmDownLoadServer__sub_803EB878(Node_803EB878 *p);
@@ -370,7 +369,6 @@ Node_803EA384 *build_item_list__22TQuestVmDownLoadServerFiPv(s32 arg0, Hdr_803EA
 void TQuestVmDownLoadServer__sub_803EADD4(Obj_803EADD4 *arg0, s32 arg1);
 s32 TQuestVmDownLoadServer__sub_803EC95C(u16 *, const u8 *, int);
 s32 TQuestVmDownLoadServer__sub_803EB420(s32 arg0, s32 arg1, Node_803EB420 *arg2, u16 *arg3);
-extern u8 quest_download_keyword_table[];
 char *strncpy(char *, const char *, u32);
 s32 TQuestVmDownLoadServer__sub_803E8DA0(char *, Req_803EEF2C *, s32);
 extern s32 lbl_805D7900;
@@ -397,7 +395,7 @@ extern u8 *quest_download_text_write_ptr;
 void TQuestVmDownLoadServer__sub_803EBA98(s32 arg0, Node_803EBA98 *arg1);
 extern u16 lbl_805A02A8[];
 extern s32 quest_page_node_index;
-extern Node_803EB794 *lbl_805D78A0;
+extern Node_803EB420 *lbl_805D78A0;
 extern s32 lbl_805D78E8;
 extern s32 quest_text_cursor_pos;
 u8 *get_cached_page__22TQuestVmDownLoadServerFi(s32 page);
@@ -410,7 +408,6 @@ void *memcpy(void *, const void *, u32);
 void OSReport(const char *, ...);
 void ARQRemoveRequest(void *);
 extern u8 quest_download_aram_dma_buffer[];
-extern const char aram_dma_timeout_message[];
 extern u32 lbl_805D791C;
 extern u32 lbl_805D7920;
 extern u32 lbl_805D7924;
@@ -424,7 +421,6 @@ void release_node_chain__22TQuestVmDownLoadServerFPv(Node_803ECDC4 *p);
 s32 TQuestVmDownLoadServer__sub_803F03B4(u8 *data, Ent_803F03B4 *ents, s32 n, s32 *max);
 s32 TQuestVmDownLoadServer__sub_803F0268(const char *name, s16 len, Out_803F0268 *out);
 s32 TQuestVmDownLoadServer__sub_803E7390(u8 a, u8 b, u8 c);
-extern const u8 lbl_805E10C8[8];
 extern u8 lbl_80596258[];
 extern u8 lbl_805D7894[4];
 extern const u8 lbl_805E10D0[2];
@@ -438,7 +434,7 @@ s32 TQuestVmDownLoadServer__sub_803F06B8(const char *name, s16 len, Out_803F0268
 void TQuestVmDownLoadServer__sub_803ECA1C(u16 *arg0, s32 arg1, s32 arg2);
 Seg_803E9FFC *TQuestVmDownLoadServer__sub_803E9A74(s32, s32, u8, u8);
 void *TQuestVmDownLoadServer__sub_803ECF48(void);
-void *TQuestVmDownLoadServer__sub_803E9FFC(s32 arg0, s32 arg1, Tok_803E9FFC *t);
+void *TQuestVmDownLoadServer__sub_803E9FFC(s32 arg0, s32 arg1, const Tok_803E9FFC *t);
 void *TQuestVmDownLoadServer__sub_803ECED0(void);
 void *TQuestVmDownLoadServer__sub_803ECF0C(void);
 extern u8 *file_page_cache_head;
@@ -446,13 +442,7 @@ extern NameHash_80593EC8 lbl_80593EC8;
 s32 TQuestVmDownLoadServer__sub_803E8C2C(char *arg0, s16 arg1, Out_803E8C2C *arg2);
 void TQuestVmDownLoadServer__sub_803EFF20(u8 *data, s32 a1, s32 a2, s32 *best, u8 *dst, s32 flags);
 extern const char ask_header_signature[];
-extern const s16 quest_download_lz_match_index_table[];
-extern Ent_803E9DE0 quest_download_lz_match_entry_table[];
-extern u8 lbl_8047F0F8[];
-extern Tok_803E9FFC lbl_8047F8A8[4];
-extern const u8 lbl_8047F9B8[49][11];
-extern const u8 (*const lbl_8047FBD4[27])[11];
-Ent_803E9DE0 *find_longest_match_entry__22TQuestVmDownLoadServerFPviPv(u8 *arg0, s32 arg1, s32 *arg2);
+const Ent_803E9DE0 *find_longest_match_entry__22TQuestVmDownLoadServerFPviPv(u8 *arg0, s32 arg1, s32 *arg2);
 void build_message_packet__22TQuestVmDownLoadServerFPviPvUc(u8 *arg0, s32 arg1, Req_803EEF2C *arg2, u8 arg3);
 s32 lookup_name_entry__22TQuestVmDownLoadServerFPvsPv(char *arg0, s16 arg1, Out_803E8C2C *arg2);
 extern u8 lbl_8047E898[];

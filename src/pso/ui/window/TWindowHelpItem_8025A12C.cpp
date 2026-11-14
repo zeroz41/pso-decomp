@@ -142,7 +142,7 @@ void render_summary_row__15TWindowHelpItemFv(Item_8025A354 *self, Win_8025A354 *
     }
     pos.x = w->x + self->x;
     pos.y = w->y + self->y;
-    set_text_draw_params((s32)w, 1, 0, (f32)(-1.0f / (0.0897f + w->f38)), (f32)(100000.0f));
+    set_text_draw_params((s32)w, 1, 0, (f32)(-1.0f / (0.0897f + w->f38)), 100000.0f);
     draw_window_text((f32 *)&pos, self->label, -1, 1, 100000.0f);
     pos.x += 86.0f;
     draw_window_text((f32 *)&pos, (const char *)((void *)":"), -1, 0, 100000.0f);

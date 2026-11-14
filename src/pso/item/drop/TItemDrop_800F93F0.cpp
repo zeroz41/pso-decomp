@@ -3,6 +3,7 @@
 #include "pso/item/TUnk_8049C658.h"
 #include "pso/item/drop/TItemDrop.h"
 #include "pso/unk/TLobby.h"
+#include "pso/item/TUnk_8049C658.h"
 
 struct B_800F957C { u8 pad[0x18]; };
 
@@ -19,7 +20,6 @@ extern "C" {
 extern Head_800F957C resource_load_task_root[];
 int safe_free__23TAdSinglePlyChrSelectGCFUl(void*);
 s32 apply_rel_relocations(void *);
-void *construct__13TUnk_8049C658Fv(void *);
 s32 read_disc_file(void *, void *);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
@@ -49,7 +49,7 @@ struct Drop_800F9448 {
     s32 a;
     s32 b;
     u8 pad_24[0x14];
-    Drop_800F9448() { construct__13TUnk_8049C658Fv(this); }
+    Drop_800F9448() { ((TUnk_8049C658 *)this)->construct(); }
 };
 
 static inline s32 finish_800F9448(Drop_800F9448 *d, s32 r) {

@@ -24,6 +24,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include <stdlib.h>
+#include "pso/player/TObjPlayer.h"
 
 // TBreakUpMdl.h still derives TBreakUpMdl from TObject; the real class keeps
 // its vtable at +0xC, which only this view of it can delete through.
@@ -38,7 +39,6 @@ s32 push_matrix(void);
 void post_translate_matrix(const Vec *v);
 void create_breakup_mdl__12TBoss3VoloptFlllll(TBreakUpMdlPieces *model, VoloptBreakUpParams *params, s32 textures,
                                               Vec *pos, s32 angle);
-s32 check_flag__10TObjPlayerFl(void *player, s32 flag);
 }
 
 extern BmlResource *lbl_805D4CE4;
@@ -303,7 +303,7 @@ void obj_clear_flag30_20000(TObjBase *actor) {
 }
 
 s32 TLobby::check_player_flag1() {
-    return check_flag__10TObjPlayerFl(this, 1);
+    return ((TObjPlayer *)this)->check_flag(1);
 }
 
 s32 TObjPlayer::check_flag(s32 flag) {

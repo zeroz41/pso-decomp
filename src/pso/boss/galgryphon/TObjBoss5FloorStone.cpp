@@ -4,10 +4,12 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer.h"
 
+#pragma readonly_strings on
+
 extern "C" {
 extern void *lbl_805D4DD8;
 extern s32 boss5_common_texture_list;
-extern const char *TObjBoss5FloorStone__name;
+const char *TObjBoss5FloorStone__name = "TObjBoss5FloorStone";
 }
 
 void TObjBoss5FloorStone::render() {

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/TLanguage.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -7,17 +8,18 @@
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
+#include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern "C" {
 
-void *get_global_state__23TAdSinglePlyChrSelectGCFv();
 s32 play_area_music();
 u32 create_menu__17TWindowOptionCtrlFv(void *);
 
 void TWindowOptionCtrl::set_params(void *arg0, s16 arg1, s8 arg2) {
     void *temp_r3;
 
-    temp_r3 = get_global_state__23TAdSinglePlyChrSelectGCFv();
+    temp_r3 = TAdSinglePlyChrSelectGC::get_global_state();
     if (temp_r3 != NULL) {
         *(s16 *)((s8 *)temp_r3 + 4) = arg1;
         *(s8 *)((s8 *)temp_r3 + 6) = arg2;
@@ -54,11 +56,11 @@ s32 TWindowOptionCtrl::handle_input(s32 language) {
         fn_8023F160();
         fn_8023F18C();
         if ((u32) *(u32 *)((s8 *)this + 0x34) != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x34));
+            ((TObject *)(*(void **)((s8 *)this + 0x34)))->queue_destruction();
             *(u32 *)((s8 *)this + 0x34) = 0U;
         }
         if ((u32) *(u32 *)((s8 *)this + 0x28) != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x28));
+            ((TObject *)(*(void **)((s8 *)this + 0x28)))->queue_destruction();
             *(u32 *)((s8 *)this + 0x28) = 0U;
         }
         *(u32 *)((s8 *)this + 0x28) = create_menu__17TWindowOptionCtrlFv(this);

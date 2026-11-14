@@ -15,6 +15,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/warp/TObjCityMainWarp.h"
 
 void initialize_option_dialog(void *dialog, s32 message, s32 position, f32 width);
 
@@ -74,7 +75,7 @@ void TObjCityMainWarp::update_state() {
         return;
     case 1:
         if (TObjCityMainWarp::get_phase_flag() == 0) {
-            temp_r3 = find_local_player_in_range__16TObjCityMainWarpFf(this, *(f32 *)((s8 *)this + 0xAC));
+            temp_r3 = find_local_player_in_range(*(f32 *)((s8 *)this + 0xAC));
             if (temp_r3 != 0) {
                 TObjCityMainWarp::notify_player_warp(this, local_client_id);
                 *(s32 *)((s8 *)this + 0xBC) = (s32) city_main_warp_destination_id;

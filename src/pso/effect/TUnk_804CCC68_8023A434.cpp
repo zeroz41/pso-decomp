@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/effect/TUnk_804CCC68_8023A434.h"
@@ -5,6 +6,7 @@
 #include "pso/effect/TUnk_804CCC68.h"
 
 #include <stddef.h>
+#include "pso/system/task/TObject.h"
 struct Stack_8023A434 {
     f32 sp8;
     f32 spC;
@@ -37,7 +39,7 @@ void TUnk_804CCC68::check_technique_projectile_wall_hit() {
     if (temp_r3 != NULL) {
         VecCopy((Vec *)(((u8 *)this) + 0x20), (const Vec *)(*(s32 *)((s8 *)temp_r3 + 4)));
         this->vfunc_6();
-        queue_destruction__7TObjectFv((this));
+        queue_destruction();
     }
 }
 #pragma pop

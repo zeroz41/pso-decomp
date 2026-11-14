@@ -15,8 +15,4 @@ struct TOMineIcon01 : public TOMine {
 
 typedef char TOMineIcon01_size[sizeof(TOMineIcon01) == 0x37C ? 1 : -1];
 
-extern "C" {
-void *__dt__12TOMineIcon01Fv(void *arg0, s16 arg1);
-}
-
 #endif

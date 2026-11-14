@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/enemy/dd/TObjEneDD_800B9A34.h"
@@ -5,6 +6,7 @@
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/system/task/TObject.h"
 
 struct Obj_802EDCF0 {
     u8 pad0[0x6D4];
@@ -33,23 +35,23 @@ u8 *__dt__14TBoss7DeRolLeCFv(u8 *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = TBoss7DeRolLeC__vtable;
         if (o->f784 != 0) {
-            queue_destruction__7TObjectFv(o->f784);
+            ((TObject *)o->f784)->queue_destruction();
             o->f784 = 0;
         }
         for (i = 0; i < 6; i++) {
             if (o->f788[i] != 0) {
-                queue_destruction__7TObjectFv(o->f788[i]);
+                ((TObject *)o->f788[i])->queue_destruction();
                 o->f788[i] = 0;
             }
         }
         mem_free((void *)o->f6D4);
         o->f6D4 = 0;
         if (o->f71C != 0) {
-            queue_destruction__7TObjectFv(o->f71C);
+            ((TObject *)o->f71C)->queue_destruction();
             o->f71C = 0;
         }
         if (o->f720 != 0) {
-            queue_destruction__7TObjectFv(o->f720);
+            ((TObject *)o->f720)->queue_destruction();
             o->f720 = 0;
         }
         if (o->f718 != 0) {
@@ -57,11 +59,11 @@ u8 *__dt__14TBoss7DeRolLeCFv(u8 *arg0, s16 arg1) {
             o->f718 = 0;
         }
         if (o->f708 != 0) {
-            queue_destruction__7TObjectFv(o->f708);
+            ((TObject *)o->f708)->queue_destruction();
             o->f708 = 0;
         }
         for (i = 3; i >= 0; i--) {
-            queue_destruction__7TObjectFv(o->f6DC[i]);
+            ((TObject *)o->f6DC[i])->queue_destruction();
             o->f6DC[i] = 0;
         }
         mem_free((void *)o->f6D8);

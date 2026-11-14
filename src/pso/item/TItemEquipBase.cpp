@@ -30,9 +30,6 @@ struct ItemModelResource {
 
 const char *item_equip_base_class_name = "TItemEquipBase";
 
-// The owner joint each attach slot hangs the equipped model from.
-extern s16 item_equip_attach_equip_flag_table[];
-
 extern "C" {
 // The attack parameter getters (TObjPlayer_80011014.cpp), seen here as
 // returning int: the stat helpers take the values without re-extending them.

@@ -28,15 +28,7 @@ s32 get_message_10__20TWindowSubStatusDispFl(s32);
 u32 calc_text_width(void);
 void draw_window_tab(Win_8027831C *, V2_8027831C *, u8, f32);
 extern s32 status_disp_tab_label_message_ids[];
-extern const u8 lbl_805DD5F8[4];
-extern const f32 lbl_805DD5FC;
-extern const f32 lbl_805DD600;
-extern const f32 lbl_805DD604;
-extern const f32 lbl_805DD608;
-extern const f32 lbl_805DD60C;
-extern const f32 lbl_805DD610;
-extern const f32 lbl_805DD614;
-extern const f32 lbl_805DD618;
+static const u8 lbl_805DD5F8[4] = {1, 2, 2, 1};
 void TWindowSubTradeMain::set_trade_state(s16 arg1) {
     this->m_88 = arg1;
     if ((s16) this->m_88 == 3) {
@@ -54,7 +46,7 @@ void TWindowSubEquipKind::draw_tab_label(void *win) {
 
     if (((Win_8027831C *)win)->f30 >= 0) {
         pos.x = ((Win_8027831C *)win)->x + TWindowSubStatusDisp__sub_80287570((void *)((Disp_8027831C *)this)->f80);
-        pos.y = ((Win_8027831C *)win)->y - lbl_805DD5FC;
+        pos.y = ((Win_8027831C *)win)->y - 13.0f;
         col = lbl_805DD5F8[((Disp_8027831C *)this)->f88];
         fl = ((Disp_8027831C *)this)->f8A;
         if (fl != 0) {
@@ -64,13 +56,13 @@ void TWindowSubEquipKind::draw_tab_label(void *win) {
                 col = 2;
             }
         }
-        draw_window_tab(((Win_8027831C *)win), &pos, col, lbl_805DD600);
-        pos.x += lbl_805DD604;
-        pos.y += lbl_805DD608;
-        set_text_draw_params((s32)((Win_8027831C *)win), 0, 0, (f32)(lbl_805DD60C / (lbl_805DD610 + ((Win_8027831C *)win)->f38)), (f32)lbl_805DD614);
+        draw_window_tab(((Win_8027831C *)win), &pos, col, 0.0f);
+        pos.x += 80.0f;
+        pos.y += 4.0f;
+        set_text_draw_params((s32)((Win_8027831C *)win), 0, 0, (f32)(-1.0f / (0.1794f + ((Win_8027831C *)win)->f38)), 100000.0f);
         msg = get_message_10__20TWindowSubStatusDispFl(status_disp_tab_label_message_ids[((Disp_8027831C *)this)->f88]);
-        pos.x -= lbl_805DD618 * (f32)calc_text_width();
-        draw_window_text((f32 *)&pos, (const char *)msg, (0xFF000000), 0, (f32)lbl_805DD614);
+        pos.x -= 0.5f * (f32)calc_text_width();
+        draw_window_text((f32 *)&pos, (const char *)msg, (0xFF000000), 0, 100000.0f);
     }
 }
 #pragma pop

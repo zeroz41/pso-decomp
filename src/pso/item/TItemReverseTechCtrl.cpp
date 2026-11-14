@@ -2,6 +2,8 @@
 #include "pso/item/TItemReverseTech_8011A1E8.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 
+#pragma readonly_strings on
+
 struct ReverseTechCode {
     s8 *keys;
     s32 length;
@@ -9,7 +11,7 @@ struct ReverseTechCode {
 };
 
 extern "C" {
-extern const char *lbl_805D2C58;
+const char *lbl_805D2C58 = "TItemReverseTechCtrl";
 extern ReverseTechCode lbl_804A0468[3];
 }
 

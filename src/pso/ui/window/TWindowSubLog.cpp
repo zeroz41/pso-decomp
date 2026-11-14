@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubLog.h"
@@ -10,6 +11,7 @@
 
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/ui/frontend/TAdScrollWinGC.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -48,8 +50,8 @@ s32 TWindowCtrl__sub_8024701C(int);
 void TWindowChat__sub_80247DFC(u8 *arg0);
 void TWindowChat__sub_80247E50(u8 *arg0);
 extern RecoveredGlobal_8027AF58_lbl_8050E208 controller_input_state;
-extern u8 lbl_8044F9C8[];
-extern u8 lbl_8044F9D0[];
+const u8 lbl_8044F9C8[8] = {65, 136, 0, 0, 66, 16, 0, 0};
+const u8 lbl_8044F9D0[8] = {67, 151, 128, 0, 67, 204, 0, 0};
 extern const char *TWindowSubLog__class_name;
 int show_child_window__17TWindowMainMenu4PFv(void*);
 int update_trade_submenu__15TWindowMainMenuFv(void*);
@@ -89,7 +91,7 @@ void TWindowSubLog::run_task() {
 
 }
 TWindowSubLog::~TWindowSubLog() {
-    if (*(void **)((s8 *)this + 0x28) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x28)); this->m_28 = 0; }
+    if (*(void **)((s8 *)this + 0x28) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x28)))->queue_destruction(); this->m_28 = 0; }
     if (*(void **)((s8 *)this + 0x24) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x24)))->close(); this->m_24 = 0; }
     if (*(void **)((s8 *)this + 0x20) != NULL) { ((TWindowSubLog *)(*(void **)((s8 *)this + 0x20)))->clear_flag4c_bit8(); ((TWindowSubLog *)(*(void **)((s8 *)this + 0x20)))->cleanup(); }
     TWindowCtrl__sub_8024ADF0((s32)(*(void **)((s8 *)this + 0x1C)));

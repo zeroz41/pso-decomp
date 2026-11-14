@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/task/TObject.h"
@@ -5,6 +6,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/render/ModelDrawContext.h"
+#include "pso/system/task/TObject.h"
 class TAdGameStartGC : public TObject {
 public:
     virtual void render();
@@ -48,7 +50,6 @@ struct Slot_802E655C { u8 pad[0x10]; };
 struct GS_802E655C { u8 pad0[0x1C]; Slot_802E655C slots[8]; s32 count; s32 active; s32 subs[8]; };
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 u32 __nw__7TObjectFUl(int);
 u8 *__ct__18TAdGameStartBackGCFv(u8 *arg0, u8 *arg1);
 u32 __ct__20TAdGameStartShadowGCFv(int, void *);
@@ -71,24 +72,24 @@ void render__14TAdGameStartGCFv(void) {  }
 void destroy_windows__14TAdGameStartGCFPv(Obj_802E6380 *o) {
     u32 i;
     if (o->fC4 != NULL) {
-        queue_destruction__7TObjectFv(o->fC4);
+        ((TObject *)o->fC4)->queue_destruction();
         o->fC4 = NULL;
     }
     if (o->fC8 != NULL) {
-        queue_destruction__7TObjectFv(o->fC8);
+        ((TObject *)o->fC8)->queue_destruction();
         o->fC8 = NULL;
     }
     if (o->fCC != NULL) {
-        queue_destruction__7TObjectFv(o->fCC);
+        ((TObject *)o->fCC)->queue_destruction();
         o->fCC = NULL;
     }
     if (o->fD0 != NULL) {
-        queue_destruction__7TObjectFv(o->fD0);
+        ((TObject *)o->fD0)->queue_destruction();
         o->fD0 = NULL;
     }
     for (i = 0; i < 8; i++) {
         if (o->list[i] != NULL) {
-            queue_destruction__7TObjectFv(o->list[i]);
+            ((TObject *)o->list[i])->queue_destruction();
             o->list[i] = NULL;
         }
     }
@@ -112,22 +113,22 @@ void create_effects__14TAdGameStartGCFPv(u8 *parent) {
     *(s32 *)((s8 *)parent + 0xA0) = 1;
     temp_r3 = *(u32 *)((s8 *)parent + 0xC4);
     if (temp_r3 != 0U) {
-        queue_destruction__7TObjectFv((void *)temp_r3);
+        ((TObject *)temp_r3)->queue_destruction();
         *(u32 *)((s8 *)parent + 0xC4) = 0U;
     }
     temp_r3_2 = *(u32 *)((s8 *)parent + 0xC8);
     if (temp_r3_2 != 0U) {
-        queue_destruction__7TObjectFv((void *)temp_r3_2);
+        ((TObject *)temp_r3_2)->queue_destruction();
         *(u32 *)((s8 *)parent + 0xC8) = 0U;
     }
     temp_r3_3 = *(u32 *)((s8 *)parent + 0xCC);
     if (temp_r3_3 != 0U) {
-        queue_destruction__7TObjectFv((void *)temp_r3_3);
+        ((TObject *)temp_r3_3)->queue_destruction();
         *(u32 *)((s8 *)parent + 0xCC) = 0U;
     }
     temp_r3_4 = *(u32 *)((s8 *)parent + 0xD0);
     if (temp_r3_4 != 0U) {
-        queue_destruction__7TObjectFv((void *)temp_r3_4);
+        ((TObject *)temp_r3_4)->queue_destruction();
         *(u32 *)((s8 *)parent + 0xD0) = 0U;
     }
     temp_r3_5 = __nw__7TObjectFUl(0xC8);

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/text_8023F160.h"
 #include "pso/system/task/TMainTask.h"
@@ -7,6 +8,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_8023F1B8_lbl_804CCDA8 {
@@ -27,7 +29,6 @@ struct RecoveredGlobal_8023F1B8_main_task {
 struct Vec_8023F22C { f32 x, y, z; };
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 s32 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 extern RecoveredGlobal_8023F1B8_lbl_804CCDA8 lbl_804CCDA8;
 extern RecoveredGlobal_8023F1B8_lbl_804CCE60 lobby_scene_release_callback_table;
@@ -67,7 +68,7 @@ void TLobby::release_scene_resources() {
     TLobby::refresh_render_state();
     TLobby::stop_audio_streams();
     if ((u32) game_mode_scene_instance != 0U) {
-        queue_destruction__7TObjectFv((void *)game_mode_scene_instance);
+        ((TObject *)game_mode_scene_instance)->queue_destruction();
         game_mode_scene_instance = 0U;
     }
     main_task.delete_layer_children();

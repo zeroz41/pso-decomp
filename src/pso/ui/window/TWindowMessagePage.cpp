@@ -3,6 +3,7 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowMessage.h"
+#include "pso/ui/window/TWindowMessage.h"
 
 #pragma readonly_strings on
 
@@ -34,8 +35,6 @@ s32 run_task__14TWindowMessageFv();
 extern RecoveredGlobal_8026AF24_lbl_8050E208 controller_input_state;
 s32 get_shared_text_buffer();
 u32 copy_message_page_text__20TWindowSubStatusDispFv(u32);
-void render__14TWindowMessageFv(s32 arg0);
-s32 append_line__14TWindowMessageFii(void *, s32, s32);
 
 s32 TWindowMessagePage::is_ready() {
     if ((u32) this->m_94 != 0U) {
@@ -48,7 +47,7 @@ void TWindowMessagePage::update_message() {
     if ((u32) this->m_94 != 0U) {
         text_builder_reset();
         this->m_94 = copy_message_page_text__20TWindowSubStatusDispFv(this->m_94);
-        append_line__14TWindowMessageFii(this, get_shared_text_buffer(), *(s32 *)((s8 *)this + 0x90));
+        append_line(get_shared_text_buffer(), *(s32 *)((s8 *)this + 0x90));
     }
 }
 
@@ -80,7 +79,7 @@ void TWindowMessagePage::set_text(s32 a, s32 b, s32 c) {
     TWindowMessagePage::create(a, b, c, local_client_id);
 }
 
-void TWindowMessagePage::render() { { (void)(render__14TWindowMessageFv((s32)this)); return; } }
+void TWindowMessagePage::render() { { (void)(((TWindowMessage *)this)->TWindowMessage::render()); return; } }
 
 typedef char RecoveredGlobal_8026AF24_lbl_8050E208_size[sizeof(RecoveredGlobal_8026AF24_lbl_8050E208) == 0x1B0 ? 1 : -1];
 void TWindowMessagePage::run_task() {

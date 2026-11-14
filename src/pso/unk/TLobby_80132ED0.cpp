@@ -2,18 +2,18 @@
 #include "pso/unk/TLobby.h"
 #include "pso/system/TLanguage.h"
 #include "pso/ui/Language.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern s32 text_language_group_table;
 extern "C" {
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 }
 extern "C" {
-void *get_global_state__23TAdSinglePlyChrSelectGCFv();
 
 void TLobby::update_menu_cursor() {
     void *temp_r3;
 
-    temp_r3 = get_global_state__23TAdSinglePlyChrSelectGCFv();
+    temp_r3 = TAdSinglePlyChrSelectGC::get_global_state();
     if (temp_r3 == NULL) {
         current_language = (language) TLanguage::get_default_language();
         return;

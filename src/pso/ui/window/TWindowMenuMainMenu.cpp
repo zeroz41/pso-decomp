@@ -4,12 +4,16 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 struct W_802AE864 { u8 pad[0x124]; void *a[8]; };
 
+WindowDescriptor window_menu_main_menu_params = {
+    {116.0f, 0.0f}, 50050.0f, NULL, 0x803,
+};
+
 extern "C" {
 s32 setup_content_frame__15TWindowMainMenuFPv();
-extern s32 window_menu_main_menu_params[];
 extern s32 __vt__19TWindowMenuMainMenu[];
 extern const char *TWindowMenuMainMenu__class_name;
 void __dl__7TObjectFPv(void *);
@@ -61,7 +65,7 @@ void *__dt__19TWindowMenuMainMenuFv(void *arg0, s16 arg1) {
 u8 *TWindowMenuMainMenu__ct(TWindowMenuMainMenu *window_menu_main_menu, s32 arg1, s16 arg2) {
     s32 i;
     u8 *p;
-    ((TWindowDD *)window_menu_main_menu)->construct_base((u8 *)window_menu_main_menu_params, (s16)arg2, (u8 *)arg1);
+    ((TWindowDD *)window_menu_main_menu)->construct_base((u8 *)&window_menu_main_menu_params, (s16)arg2, (u8 *)arg1);
     *(s32 **)((s8 *)window_menu_main_menu + 0x18) = __vt__19TWindowMenuMainMenu;
     p = (u8 *)window_menu_main_menu + 0x64;
     i = 0;

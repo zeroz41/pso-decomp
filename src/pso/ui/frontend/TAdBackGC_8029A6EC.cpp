@@ -8,6 +8,7 @@
 #include "pso/render/render_util.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/system/task/TObject.h"
 
 // texture archive list: {archive name, 0, 0} per entry, as TAdMultiOkGC's multi_confirm_texture_entries
 void *lbl_804DBEC0[8][3] = {

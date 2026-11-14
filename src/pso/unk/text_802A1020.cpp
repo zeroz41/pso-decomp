@@ -37,17 +37,6 @@ u8 *__nw__7TObjectFUl(s32);
 extern s32 lobby_cursor_active_flag;
 extern s8 movie_finished_flag;
 extern s32 opening_movie_selector;
-extern const char lbl_80466240[]; // "ending_normal.sfd"
-extern const char lbl_80466254[]; // "psogc_j.sfd"
-extern const char lbl_80466260[]; // "psogc_j2.sfd"
-extern const char lbl_80466270[]; // "ult01.sfd"
-extern const char lbl_8046627C[]; // "ult02.sfd"
-extern const char lbl_80466288[]; // "ult03.sfd"
-extern const char lbl_80466294[]; // "ult04.sfd"
-extern const char lbl_804662A0[]; // "ItemPMT.prs"
-extern const char lbl_804662AC[]; // "itemrt.gsl"
-extern const char lbl_804662B8[]; // "itempt.gsl"
-extern const char lbl_804662C4[]; // "PlyLevelTbl.cpt"
 }
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
@@ -55,23 +44,23 @@ extern u8 opening_movie_purpose;
 
 // File size and CRC-32 of the files checked by verify_game_file_integrity (crc 0: size check only).
 Entry_802A1020 file_integrity_table[11] = {
-    {lbl_80466240, 0x75C7800, 0},
-    {lbl_80466254, 0x35FC7D8, 0},
-    {lbl_80466260, 0x512229E, 0},
-    {lbl_80466270, 0x15FA000, 0},
-    {lbl_8046627C, 0x1940000, 0},
-    {lbl_80466288, 0x1973000, 0},
-    {lbl_80466294, 0x541000, 0},
-    {lbl_804662A0, 0x3D39, 0x67F7CD63},
-    {lbl_804662AC, 0x3F000, 0x55A2BDA0},
-    {lbl_804662B8, 0xA3000, 0x976CE1D9},
-    {lbl_804662C4, 0x2DFE, 0x4A62F666},
+    {"ending_normal.sfd", 0x75C7800, 0},
+    {"psogc_j.sfd", 0x35FC7D8, 0},
+    {"psogc_j2.sfd", 0x512229E, 0},
+    {"ult01.sfd", 0x15FA000, 0},
+    {"ult02.sfd", 0x1940000, 0},
+    {"ult03.sfd", 0x1973000, 0},
+    {"ult04.sfd", 0x541000, 0},
+    {"ItemPMT.prs", 0x3D39, 0x67F7CD63},
+    {"itemrt.gsl", 0x3F000, 0x55A2BDA0},
+    {"itempt.gsl", 0xA3000, 0x976CE1D9},
+    {"PlyLevelTbl.cpt", 0x2DFE, 0x4A62F666},
 };
 
 // [opening_movie_selector][current_language]
 const char *opening_movie_path_table[10] = {
-    lbl_80466254, lbl_80466254, lbl_80466254, lbl_80466254, lbl_80466254,
-    lbl_80466260, lbl_80466260, lbl_80466260, lbl_80466260, lbl_80466260,
+    "psogc_j.sfd", "psogc_j.sfd", "psogc_j.sfd", "psogc_j.sfd", "psogc_j.sfd",
+    "psogc_j2.sfd", "psogc_j2.sfd", "psogc_j2.sfd", "psogc_j2.sfd", "psogc_j2.sfd",
 };
 
 extern "C" {

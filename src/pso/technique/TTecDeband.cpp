@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TTecDeband.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -5,6 +6,8 @@
 #include "pso/technique/TTecAnti.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -78,7 +81,6 @@ s32 is_parents_unqueued__9TTecLukerFUl();
 s32 deliver_technique_to_party_targets(void *);
 void run_task__10TTecDebandFv(Deband_8022F73C *self);
 s32 is_split_screen();
-s32 is_script_controlled__10TObjPlayerFv(void *);
 void copy_technique_target_list(void *, void *, s32);
 s32 calc_technique_parameters(s32, s16, s32);
 u32 __nw__7TObjectFUl(s32 a0 = 0);
@@ -100,7 +102,7 @@ void TTecDeband::vfunc_7(void *arg1_arg) {
     HitInfo_8022F588 h;
     h.type = 0xA;
     h.power = arg0->power;
-    if (is_script_controlled__10TObjPlayerFv(player) == 0) {
+    if (((TObjPlayer *)player)->is_script_controlled() == 0) {
         HitInfo_8022F588 c = h;
         player->m21(arg0->source, &c, 0, 0xA, -1);
         if (is_split_screen() == 0) {
@@ -136,12 +138,12 @@ void run_task__10TTecDebandFv(Deband_8022F73C *self) {
     u32 target;
     s32 i;
     if (self->proxy == 0) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return;
     }
     self->source = (u32)find_entity_by_id(self->source_id);
     if (self->source == 0) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return;
     }
     if (self->captured != 0) {
@@ -163,7 +165,7 @@ void run_task__10TTecDebandFv(Deband_8022F73C *self) {
     } else {
         deliver_technique_to_party_targets(self);
     }
-    queue_destruction__7TObjectFv(self);
+    ((TObject *)self)->queue_destruction();
 }
 
 #pragma opt_common_subs off

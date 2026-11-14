@@ -54,16 +54,16 @@ void TUnk_80490470::calc_recoil_offsets() {
     temp_f1 = phase;
     if (temp_f1 > 1.0f) {
         if (temp_f1 > 2.0f) {
-            this->color.a = (f32) 0.0f;
+            this->color.a = 0.0f;
         } else {
             this->color.a = (f32) (temp_f1 - 2.0f);
         }
-        this->color.r = (f32) 0.0f;
-        this->color.g = (f32) 0.0f;
-        this->color.b = (f32) 0.0f;
+        this->color.r = 0.0f;
+        this->color.g = 0.0f;
+        this->color.b = 0.0f;
         return;
     }
-    this->color.a = (f32) (-1.0f);
+    this->color.a = -1.0f;
     var_f0 = phase - 1.0f;
     if (var_f0 < (-1.0f)) {
         var_f0 = (-1.0f);

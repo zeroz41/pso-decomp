@@ -3,6 +3,8 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/frontend/TAdPsoPassSaveGC.h"
 
+#pragma readonly_strings on
+
 extern "C" {
 
 void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *arg0);
@@ -41,13 +43,13 @@ TAdPsoPassSaveGC::~TAdPsoPassSaveGC() {
 
 }
 
-extern void *lbl_805D4310;
+const char *lbl_805D4310 = "TAdPsoPassSaveGC";
 
 void *TAdPsoPassSaveGC__ct(void *parent) {
     void *o;
     TAdYesNoBaseGC__ct((TAdYesNoBaseGC *)parent);
     *(s32 **)((s8 *)parent + 0x18) = __vt__16TAdPsoPassSaveGC;
-    *(void * *)&((TAdPsoPassSaveGC *)parent)->m_name = lbl_805D4310;
+    ((TAdPsoPassSaveGC *)parent)->m_name = lbl_805D4310;
     o = __nw__7TObjectFUl(0x138);
     if (o != NULL) {
         __ct__10TAdTitleGCFP7TObjectl(o, parent, 18);

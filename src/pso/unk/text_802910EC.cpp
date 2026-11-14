@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/UISpriteConstants.h"
 #include "types.h"
 #include "pso/unk/text_802910EC.h"
@@ -6,6 +7,7 @@
 #include "pso/ui/charcreate/TObjCMIcon.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/Language.h"
+#include "pso/system/task/TObject.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -13,7 +15,6 @@
 
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 s32 release_texture_list(void *);
 u32 cmicon_instance;
 s32 creation_sprite_table_index;
@@ -40,7 +41,7 @@ void TCharaMaking__resolve_creation_sprite_table(u8 **table, s32 *id) {
 
 void fn_80291138(void) {
     if ((u32) cmicon_instance != 0U) {
-        queue_destruction__7TObjectFv((void *)cmicon_instance);
+        ((TObject *)cmicon_instance)->queue_destruction();
     }
     cmicon_instance = 0U;
     release_texture_list(&creation_sprite_table);

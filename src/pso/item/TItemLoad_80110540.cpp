@@ -1,7 +1,9 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/TItemLoad_80110540.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/item/TItemLoad.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 
@@ -17,7 +19,7 @@ void *__ct__9TItemLoadFv(void *item_load) {
     __ct__7TObjectFP7TObject(item_load);
     *(s32 **)((s8 *)item_load + 0x18) = __vt__9TItemLoad;
     *(void * *)&((TItemLoad *)item_load)->m_name = TItemLoad__name;
-    disallow_rendering__7TObjectFv((TObject *)item_load);
+    ((TObject *)item_load)->disallow_rendering();
     return item_load;
 }
 

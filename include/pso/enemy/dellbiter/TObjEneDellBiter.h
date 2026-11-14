@@ -24,11 +24,13 @@ struct DelbiterContactAttack {
     s32 flags;
 };
 
+// What TLobby::spawn_npc_enemy animates the NPC copy with (laid out like MojaAnimationBinding).
 struct DelbiterAttackDefinition {
     void *motion;
-    s32 field_4;
-    s32 field_8;
-    s32 field_c;
+    TObjMotionAction *actions;
+    u32 unknown_08;
+    u16 action_count;
+    u16 pad_0E;
 };
 
 struct DelbiterMovementParameters {

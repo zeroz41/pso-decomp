@@ -62,7 +62,7 @@ void TBoss8Dragon__sub_802F3C74(void) {  }
 void clear_boss8_dragon_leader_part(void) { boss8_dragon_leader_part = 0; }
 
 u16 TBoss8Dragon::get_part_count_plus(s32 arg1) {
-    return (u16) (this->m_22 + arg1);
+    return (u16) (*(u16 *)((u8 *)this + 0x22) + arg1);
 }
 
 s32 TBoss8Dragon__sub_802F3C94(void *arg0, s32 arg1) {

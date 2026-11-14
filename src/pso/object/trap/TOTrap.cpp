@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
@@ -6,6 +7,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/task/TObject.h"
 
 struct Obj_80178CF8 {
     u8 pad[0x38];
@@ -158,7 +160,7 @@ void TOTrap::vfunc_6(s16 *arg1, s32 arg2) {
             ((VObj_80178EF8_80178BC0 *)this)->m83();
         }
         set_flag8();
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 

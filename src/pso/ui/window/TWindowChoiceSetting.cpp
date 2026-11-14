@@ -10,6 +10,11 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/unk/WindowLayoutRecord.h"
+
+const char *lbl_805D3970 = "TWindowMenuInfomation";
+static const f32 lbl_8044F3A0[2] = {425.0f, 188.0f};
 
 struct Stack_80268A6C {
     f32 sp8;
@@ -34,7 +39,7 @@ void TUnk_804D0658::request_close() {
     }
 }
 void TUnk_804D0658::draw() {
-    get_array_entry__11TWindowBaseFi(this, this->m_74);
+    get_array_entry(this->m_74);
     if (TWindowSubComCard__sub_8026906C() == 0) {
         play_sound_effect(0x52D01, 0, 0, 0);
         this->m_70 = (u16) (this->m_70 | 2);
@@ -147,13 +152,12 @@ void TUnk_804D0658::draw_setting(s32 window_key_board_soft) {
     }
 }
 
-extern s32 lbl_805D3970;
 extern const f32 lbl_805DD1F4;
 
 void TWindowMenuInfomation__ct(u8 *lobby, u32 arg1) {
     u32 i;
     u8 *e;
-    *(s32 *)lobby = lbl_805D3970;
+    *(s32 *)lobby = (s32) lbl_805D3970;
     *(s16 *)(lobby + 0x72) = 0;
     *(s16 *)(lobby + 0x74) = 0;
     *(u16 *)(lobby + 0x76) = arg1;
@@ -172,8 +176,17 @@ void TWindowMenuInfomation__ct(u8 *lobby, u32 arg1) {
 #pragma dont_inline off
 struct V_80268C5C { f32 x; f32 y; };
 
-extern V_80268C5C choice_setting_popup_window_descriptor[];
-extern s32 lbl_804D0638[];
+// inferred: choice_setting_popup_layout_entries, the layout table choice_setting_popup_window_descriptor
+// points at (one type-9 record; fn_80268C5C fills in the row count).
+struct ChoiceSettingPopupLayout {
+    u32 cols;
+    u32 rows;
+    TypeLayoutRecord rec;
+};
+ChoiceSettingPopupLayout choice_setting_popup_layout_entries = {1, 0, {9}};
+WindowDescriptor choice_setting_popup_window_descriptor = {
+    {0.0f, 0.0f}, 50050.0f, &choice_setting_popup_layout_entries, 3,
+};
 struct Obj_80269004 { u8 p0[0x18]; void *f18; };
 
 extern "C" {
@@ -182,23 +195,22 @@ s32 __nw__7TObjectFUl(s32);
 Obj_80269004 *fn_80269004(Obj_80269004 *self, void *parent, void *arg2);
 s32 get_window_layout_position(s32);
 }
-extern s32 lbl_8044F3A0[];
-extern s32 lbl_8044F3B8[];
 s32 create_information_counter_window(s32 arg0) {
     s32 var_r31;
 
-    ((s32 (*)(s32 *, s32))fn_80268C5C)(lbl_8044F3A0, arg0);
+    ((s32 (*)(const f32 *, s32))fn_80268C5C)(lbl_8044F3A0, arg0);
     var_r31 = __nw__7TObjectFUl(0x80);
     if (var_r31 != 0) {
         var_r31 = (s32)fn_80269004((Obj_80269004 *)var_r31, (void *)get_window_layout_position(0xAE), (void *)arg0);
     }
-    ((s32 (*)(s32, s32 *))create_sub_window__20TWindowChoiceSettingFPvi)(var_r31, lbl_8044F3B8);
+    ((s32 (*)(s32, const char *))create_sub_window__20TWindowChoiceSettingFPvi)(var_r31, "Information Counter");
     return var_r31;
 }
 
 void fn_80268C5C(V_80268C5C v, s32 x) {
-    choice_setting_popup_window_descriptor[0] = v;
-    lbl_804D0638[1] = x;
+    choice_setting_popup_window_descriptor.pad_00[0] = v.x;
+    choice_setting_popup_window_descriptor.pad_00[1] = v.y;
+    choice_setting_popup_layout_entries.rows = x;
 }
 
 struct RecoveredGlobal_80268D08_lbl_8050E208 {
@@ -304,7 +316,7 @@ extern "C" {
 void construct_with_parent__15TWindowAdditionFPv(void *, void *, s32, void *);
 void TWindowMenuInfomation__ct(u8 *arg0, u32 arg1);
 Obj_80269004 *fn_80269004(Obj_80269004 *self, void *parent, void *arg2) {
-    construct_with_parent__15TWindowAdditionFPv(self, choice_setting_popup_window_descriptor, 4, parent);
+    construct_with_parent__15TWindowAdditionFPv(self, &choice_setting_popup_window_descriptor, 4, parent);
     self->f18 = choice_setting_popup_vtable;
     TWindowMenuInfomation__ct((u8 *)self, (u32)arg2);
     return self;

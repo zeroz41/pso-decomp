@@ -187,7 +187,7 @@ u8 *__dt__13TUnk_8048E728Fv(u8 *arg0, s16 arg1);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_8048E6A8[];
 extern s32 __vt__13TUnk_8048E6DC[];
-extern s32 lbl_805D2930;
+s32 lbl_805D2930 = 1;
 void set_color_blend_mode(s32 a, s32 b, s32 c, s32 d);
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 GXSetNumTexGens(int);

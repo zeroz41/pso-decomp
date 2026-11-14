@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -30,6 +31,11 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/render/RenderFadeState.h"
+#include "pso/system/task/TObject.h"
 
 struct Stack_800DDFDC
 {
@@ -194,7 +200,6 @@ s32 TObjEnePanarms__sub_800DFB44(s32);
 void TObjEnePanarms__sub_800E1E14(u8 *arg0);
 void TObjEnePanarms__sub_800DE430(s32 arg0, s32 arg1, s32 arg2);
 f32 vec3_add_to(void *, void *);
-s32 queue_destruction__7TObjectFv(void *);
 s32 TObjEnePanarms__sub_800DFB74(void *);
 s32 TObjEnePanarms__sub_800DFB9C(void *);
 s32 TObjEnePanarms__sub_800DFBB0(void *);
@@ -239,7 +244,6 @@ void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
 s32 scale_current_matrix(Vec_800DEDC4 *);
 int check_demo_mode__10TObjPlayerFv(void*);
-int clear_render_callback__8TObjFishFv(void*);
 }
 
 
@@ -262,9 +266,6 @@ struct VFade_800DEF5C {
 
 extern "C" {
 s32 is_split_screen();
-s32 get_camera_mode__11TCameraCtrlFv();
-void update__15RenderFadeStateFv(RenderFadeState *);
-s32 defer_render__7TObjectFv(void *);
 extern s32 model_render_flags;
 extern s32 saved_model_render_flags;
 s32 minimap_render_dot(void *, s32, s32, s32);
@@ -389,8 +390,8 @@ TObjEnePanarms::TObjEnePanarms(TObject *parent, void *setData) : TObjEnemy(paren
 
 TObjEnePanarms::~TObjEnePanarms() {
     TObjFish::init_state_1(*(u8 **)((s8 *)this + 0x39C));
-    queue_destruction__7TObjectFv(*(u8 **)((s8 *)this + 0x3E4));
-    queue_destruction__7TObjectFv(*(u8 **)((s8 *)this + 0x3E8));
+    ((TObject *)(*(u8 **)((s8 *)this + 0x3E4)))->queue_destruction();
+    ((TObject *)(*(u8 **)((s8 *)this + 0x3E8)))->queue_destruction();
     free_collision_body_parts(this);
     this->collision_body_parts = 0;
     this->destroy_handles();
@@ -442,7 +443,7 @@ void TObjEnePanarms::render() {
     }
     cam = 0;
     if (is_split_screen() != 0) {
-        cam = get_camera_mode__11TCameraCtrlFv();
+        cam = TCameraCtrl::get_camera_mode();
     }
     if (*(s32 *)&this->m_3dc == 0) {
         return;
@@ -450,11 +451,11 @@ void TObjEnePanarms::render() {
     TObjPlayer::toggle_particle_effect();
     saved_model_render_flags = model_render_flags;
     fade = &((Obj_800DEF5C *)this)->fades[cam];
-    update__15RenderFadeStateFv(fade);
+    fade->update();
     if (fade->updateFromCamera(&this->m_2fc) != 0) {
         ((VFade_800DEF5C *)fade)->begin_draw();
         draw = 1;
-        if (defer_render__7TObjectFv(this) != 0) {
+        if (defer_render() != 0) {
             draw = 0;
         }
         if (draw != 0) {
@@ -472,7 +473,7 @@ void TObjEnePanarms::render() {
     }
 }
 
-void TObjEnePanarms__sub_800DEEF8(void* p) { push_matrix(p); post_translate_matrix((char*)p + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)p + 0x60)); TObjFish::set_global_param((s32)(*(void**)((char*)p + 0x24))); ((TObjFish *)(((TObjEneRe7Berura *)p)->m_39c))->set_draw_callback_list(); ((TObjMotion *)p)->draw(); clear_render_callback__8TObjFishFv(((TObjEneRe7Berura *)p)->m_39c); pop_matrix(); }
+void TObjEnePanarms__sub_800DEEF8(void* p) { push_matrix(p); post_translate_matrix((char*)p + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)p + 0x60)); TObjFish::set_global_param((s32)(*(void**)((char*)p + 0x24))); ((TObjFish *)(((TObjEneRe7Berura *)p)->m_39c))->set_draw_callback_list(); ((TObjMotion *)p)->draw(); ((TObjFish *)(((TObjEneRe7Berura *)p)->m_39c))->clear_render_callback(); pop_matrix(); }
 
 #pragma push
 #pragma fp_contract on
@@ -1011,7 +1012,7 @@ void TObjEnePanarms::update_dead() {
         }
         this->position.y = (f32) (this->position.y - 0.104166664f);
         if ((s32) this->m_388 <= 0) {
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
         }
     }
 }
@@ -1022,7 +1023,7 @@ void TObjEnePanarms::set_state_flags_6() {
     temp_r5 = (u8 *)this->collision_body_parts;
     *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) | 1);
     obj_clearFlags30(0x04040000U);
-    set_field_b8__10TObjMotionFs(this, 6);
+    set_field_b8(6);
 }
 
 void TObjEnePanarms::update_particle_emitters_set2() {
@@ -1057,7 +1058,7 @@ void TObjEnePanarms::enter_arm_attack_0() {
     buffer_8[0] = sin_table_lookup((int) (this->rotation_y));
     buffer_8[2] = cos_table_lookup((int) (this->rotation_y));
     ((TObjEnePanarmsAtkColli *)this)->create(this->unk_3B8, &buffer_8[0], NULL);
-    set_field_b8__10TObjMotionFs(this, 7);
+    set_field_b8(7);
     this->m_388 = 0x5A;
 }
 
@@ -1083,7 +1084,7 @@ void TObjEnePanarms::set_flags_and_field_b8() {
     temp_r5 = (u8 *)this->collision_body_parts;
     *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) | 1);
     obj_clearFlags30(0x04040000U);
-    set_field_b8__10TObjMotionFs(this, 8);
+    set_field_b8(8);
 }
 
 void TObjEnePanarms::update_particle_emitters() {
@@ -1119,7 +1120,7 @@ void TObjEnePanarms::enter_arm_attack_1() {
     buffer_8[0] = sin_table_lookup((int) (this->rotation_y));
     buffer_8[2] = cos_table_lookup((int) (this->rotation_y));
     ((TObjEnePanarmsAtkColli *)this)->create(this->unk_3D0, &buffer_8[0], (void *)1);
-    set_field_b8__10TObjMotionFs(this, 9);
+    set_field_b8(9);
     this->m_388 = 0x5A;
 }
 
@@ -1153,7 +1154,7 @@ void TObjEnePanarms::enter_split() {
     TObjEnePanarms__sub_800DE430((s32)this, 0x22, 0x3C);
     play_sound_effect((s32)((void *) (((s32)this->remap_sound_for_area((s32)(0x4003BC2D))))), (u8 *)this + 0x3AC, 0, 0);
     play_sound_effect((s32)((void *) (((s32)this->remap_sound_for_area((s32)(0x4003BC2C))))), (u8 *)this + 0x3C4, 0, 0);
-    set_field_b8__10TObjMotionFs(this, 0xA);
+    set_field_b8(0xA);
 }
 
 void TObjEnePanarms::update_hit_effect() {
@@ -1190,7 +1191,7 @@ void TObjEnePanarms::update_separated_parts() {
     this->hp = (s16) ((*(s16 *)(this->m_3e4 + 0x32C)) + *(s16 *)(this->m_3e8 + 0x32C));
     if ((TObjEnePanarms__sub_800DFBB0((void *)this->m_3e4) != 0) && (TObjEnePanarms__sub_800DFBB0((void *)this->m_3e8) != 0)) {
         this->send_entity_set_flags();
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     if (TObjEnePanarms__sub_800DFB44(this->m_3e4) == 0) {
@@ -1290,7 +1291,7 @@ void TObjEnePanarms::enter_down_state() {
     obj_clearFlags30(0x04040000U);
     this->m_388 = 0x1E;
     this->spin_count = this->spin_count + 1;
-    set_field_b8__10TObjMotionFs(this, 0xB);
+    set_field_b8(0xB);
 }
 
 void TObjEnePanarms::update_spin() {

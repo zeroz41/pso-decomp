@@ -1,48 +1,37 @@
 #include "types.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/object/trap/TOMineIcon03.h"
+#include "pso/unk/text_80087278.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/object/trap/TOMine.h"
+#include "pso/object/trap/TOMineIcon03.h"
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/BmlResource.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
-extern "C" {
-
-s32 __dl__7TObjectFPv(void *);
-void *__dt__6TOMineFv(void *arg0, s16 arg1);
-s32 free_collision_body_parts(void *);
-
+extern s32 game_difficulty_selection;
 extern void *tl_05;
+
+const char *TOMineIcon03__name = "TOMineIcon03";
+
+void TOMineIcon03::vfunc_84() {  }
+
+void TOMineIcon03::vfunc_82() {
+    s32 arg0 = (s32)this;
+    spawn_particle_effect((void *)(arg0 + 0x2FC), 0x8D);
+    spawn_particle_effect((void *)(arg0 + 0x2FC), 0x8D);
+}
 
 void *TOMineIcon03::create(void *arg0) {
     return new TOMineIcon03((TObject *)tl_05, arg0);
 }
 
-extern s32 __vt__12TOMineIcon03[];
-
-void *__dt__12TOMineIcon03Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOMineIcon03;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__6TOMineFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TOMineIcon03::~TOMineIcon03() {
+    unregister_object_by_id();
+    free_collision_body_parts(this);
 }
 
-}
-
-extern "C" {
-s32 TObjFish__sub_8001EDB0(void *, s32);
-s32 get_bml_model(void *, s32);
-void init_collision_body_parts(void *, void *, s32);
-extern u8 mine_collision_body_parts[];
-extern const char *TOMineIcon03__name;
-extern s32 game_difficulty_selection;
-extern void *lbl_805D5A50;
 #pragma push
 #pragma fp_contract on
 TOMineIcon03::TOMineIcon03(TObject *parent, void *set_data) : TOMine(parent) {
@@ -78,8 +67,6 @@ TOMineIcon03::TOMineIcon03(TObject *parent, void *set_data) : TOMine(parent) {
     actorFlags |= 0x60000000;
     init_collision_body_parts(this, mine_collision_body_parts, 1);
     refresh_collision_body_centers();
-    ((TObjPlayer *)this)->register_object_by_id();
+    register_object_by_id();
 }
 #pragma pop
-
-}

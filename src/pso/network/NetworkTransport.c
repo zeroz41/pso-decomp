@@ -68,23 +68,15 @@ s32 send_at_compression_cmd__23TAdSinglePlyChrSelectGCFl(s32 mode);
 s32 send_atx_command__23TAdSinglePlyChrSelectGCFl(s32 mode);
 s32 copy_default_and_get_state__23TAdSinglePlyChrSelectGCFv(void *self);
 
-extern s16 lbl_805D7A00[4];
 void TLobby__sub_803F97E8(s32);
 s32 TLobby__sub_80428094(s16);
 void TAdSinglePlyChrSelectGC__sub_8042D604(void);
-extern s16 net_slot_id;
-extern s32 queue_thread_handle;
-extern u32 TLobby__send_ring_mutex;
-extern s16 network_pppoe_transport_enabled;
-extern s32 send_ring_buffer_base;
-extern s32 lobby_ring_buffer_size;
 extern s16 lbl_805D47F8;
 extern s16 lbl_805D4804;
 extern s32 lbl_805D4808;
 extern s32 lbl_805D480C;
 extern s32 net_param_word_h;
 extern s32 net_param_word_i;
-extern s32 lobby_map_state_code;
 extern E_803F7684 lbl_804FD350[];
 extern u8 run_net_thread_loop[];
 s16 TLobby__sub_803F96AC(void *);
@@ -92,16 +84,10 @@ s16 TLobby__sub_803F9B94(void *, void *);
 s32 TAdSinglePlyChrSelectGC__sub_8042DD70(s32 arg0, s32 arg1, s32 arg2);
 s32 TAdSinglePlyChrSelectGC__sub_8042E184(void);
 s32 TAdSinglePlyChrSelectGC__sub_8042E320(s32, s32, void *);
-extern s32 TLobby__queue_timeout_remaining;
 void subtract_network_queue_timeout(s32 arg0);
 void set_lobby_map_state_code(s32 arg0);
-extern s32 lobby_send_ring_read_pos;
-extern s32 lobby_send_ring_pending_bytes;
-extern Q_803F7AF4 TLobby__next_send_chunk;
-extern s32 lobby_send_chunk_size;
 Q_803F7AF4 *get_next_send_chunk(void);
 s32 OSIsThreadSuspended(s32);
-extern s32 lobby_ring_buffer_write_pos;
 s16 TLobby__sub_804281DC(void *);
 s32 TAdSinglePlyChrSelectGC__sub_8042CEF8(char *);
 void TAdSinglePlyChrSelectGC__sub_8042E488(s32);
@@ -122,7 +108,24 @@ void TLobby__sub_803F79AC(void);
 void TLobby__sub_803F79BC(void);
 u32 compute_range_end(NetTransportParams *params, s32 base, u32 limit);
 
-extern s32 lbl_805D79F8;
+/* CodeWarrior emits these .sbss globals in reverse order of definition. */
+s16 net_slot_id = -1;
+s32 lobby_send_chunk_size;
+s16 network_pppoe_transport_enabled;
+s32 TLobby__queue_timeout_remaining;
+s32 lobby_map_state_code;
+Q_803F7AF4 TLobby__next_send_chunk;
+s32 lobby_send_ring_pending_bytes;
+s32 lobby_send_ring_read_pos;
+s32 lobby_ring_buffer_write_pos;
+s32 lobby_ring_buffer_size;
+s32 send_ring_buffer_base;
+u32 TLobby__send_ring_mutex;
+s32 queue_thread_handle;
+/* inferred: PppLink.used for the 4 packet slots init_buffer_desc_b hands out */
+s16 packet_buffer_used[4];
+/* inferred: one in-use flag per modem buffer, the 4 that init_modem_buffer_config hands out (like PppLink.used) */
+s16 modem_buffer_used[4];
 
 __declspec(section ".sdata2") const char modem_tone_dial_command[] = "ATDT";
 __declspec(section ".sdata2") const char modem_pulse_dial_command[] = "ATDP";
@@ -230,7 +233,7 @@ void init_modem_buffer_config(void *arg0) {
     o->fE = 0x80;
     o->f10 = lbl_805A9E70;
     o->f14 = 4;
-    o->f18 = &lbl_805D79F8;
+    o->f18 = modem_buffer_used;
     o->f1C = 4;
     o->f20 = lbl_805A9DF0;
     o->f24 = lbl_805A9D70;
@@ -274,7 +277,7 @@ void TLobby__sub_803F7980(void) {
 }
 
 void init_buffer_desc_b(PppLink *link) {
-    link->used = lbl_805D7A00;
+    link->used = packet_buffer_used;
     link->buffers = network_packet_buffer_storage.packet_slots[0];
     link->count = 4;
     link->size = 0x5DC;

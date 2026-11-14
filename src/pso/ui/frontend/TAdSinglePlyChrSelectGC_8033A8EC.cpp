@@ -1,6 +1,9 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
+#include "pso/system/task/TObject.h"
+#include "pso/ui/TUnk_804EF8C0.h"
 #pragma push
 
 #include "types.h"
@@ -10,6 +13,7 @@
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/system/main_loop.h"
 #include "pso/system/save/TCheckMemoryCard.h"
+#include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
@@ -42,9 +46,19 @@ struct O_8033ACF4 { u8 pad[0x24]; s32 f24; s32 f28; s32 f2C; };
 
 struct O_8033AFC8 { u8 pad[0x20]; u32 f20; s32 f24; s32 f28; s32 f2C; };
 
-struct V3_8033B2AC { s32 x, y, z; };
-
 struct V3_8033B39C { f32 x, y, z; };
+
+// Window position and size setup passes to update_window_mode_from_progress
+static const f32 lbl_80477D48[2] = { 80.0f, 146.0f };
+static const f32 lbl_80477D50[2] = { 479.0f, 267.0f };
+// Window position init_warp and init_warps pass to check_room_seq_4
+static const f32 lbl_80477D58[2] = { 324.0f, 374.0f };
+// Camera position and target of init_single_player_char_select_scene
+static const V3_8033B39C lbl_80477D60 = { 0.0f, 0.0f, 0.0f };
+static const V3_8033B39C lbl_80477D6C = { 0.0f, 0.0f, -100.0f };
+// Camera position and target of run_frame
+static const V3_8033B39C lbl_80477D78 = { 0.0f, 0.0f, 0.0f };
+static const V3_8033B39C lbl_80477D84 = { 0.0f, 0.0f, -100.0f };
 
 s32 lbl_805D6D80;
 s32 lbl_805D6D84;
@@ -52,7 +66,6 @@ s32 lbl_805D6D88;
 s32 single_ply_quest_download_server;
 s32 lbl_805D6D90;
 extern "C" {
-void free_buffer__13TUnk_804EF8C0Fv(void* p);
 int memset(void*, void*, void*);
 int queue_destruction__7TObjectFv(void*);
 struct TAdSinglePlyChrSelectGC__sub_8033B5F0;
@@ -64,7 +77,6 @@ s32 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 extern void *character_select_scene_resource_callbacks[];
 int check_room_seq_4__16TAdChrSelASlotGCFl(void*, void*);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void*, void*, void*, void*);
-    extern unsigned char lbl_80477D58[];
 u32 __nw__7TObjectFUl(int);
 
 s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(int, void *, int);
@@ -88,19 +100,13 @@ void process_async_file_reads(void);
 void update_sound_request_slots(void);
 extern "C" {
 s32 func_803DCDFC__Fv();
-extern V3_8033B2AC lbl_80477D78[];
-extern V3_8033B2AC lbl_80477D84[];
 s32 TKeyBoardControl__sub_8000F90C(int);
 s32 TCameraCtrl__ct(u32, TObject *);
 s32 run_load_callback_table(void *, int);
 s32 init_menu_scene_lights(void *, int);
 s32 reset_controller_input_state();
 s32 set_copy_clear_color_argb(int, int, int);
-s32 play_area_music(void *);
 s32 __ct__15TWindowCtrlMainFv(u32);
-extern V3_8033B39C lbl_80477D60[];
-extern V3_8033B39C lbl_80477D6C[];
-extern u8 lbl_80477D90[];
 extern u8 default_scene_light_config[];
 
 extern u8 lobby_rule_settings[];
@@ -115,11 +121,9 @@ s32 init_and_register__23TAdSinglePlyChrSelectGCFi(int);
 s32 get_field_118__22TAdEnterSerialAccessGCFv();
 s32 get_character_save_record(int);
 s32 memcpy(int, void *, int);
-s32 update_window_mode_from_progress__6TLobbyFPv(s32 *, s32 *);
+s32 update_window_mode_from_progress__6TLobbyFPv(const f32 *, const f32 *);
 
 struct TAdSinglePlyChrSelectGC__sub_8033B9F8;
-extern s32 lbl_80477D48[];
-extern s32 lbl_80477D50[];
 void TAdSinglePlyChrSelectGC::reset_quest_id() {
     single_ply_quest_download_server = 0xFFFF;
 }
@@ -363,7 +367,7 @@ void TAdSinglePlyChrSelectGC::sub_8033B0AC() {
     u32 o;
     if (*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40) != 0) {
         if (((s32 (*)(void *))TAdSinglePlyChrSelectGC__sub_8033B9F8)(*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40)) == 1) {
-            queue_destruction__7TObjectFv((void*)(*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40)));
+            ((TObject *)((void*)(*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40))))->queue_destruction();
             *(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40) = 0;
             *(s32 *)((s8 *)ad_single_ply_chr_select_gc + 0x2C) = 2;
             *(s32 *)((s8 *)ad_single_ply_chr_select_gc + 0x38) = update_window_mode_from_progress__6TLobbyFPv(lbl_80477D48, lbl_80477D50);
@@ -371,7 +375,7 @@ void TAdSinglePlyChrSelectGC::sub_8033B0AC() {
             return;
         }
         if (((TAdSinglePlyChrSelectGC *)(*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40)))->get_field_44() == 1) {
-            queue_destruction__7TObjectFv((void*)(*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40)));
+            ((TObject *)((void*)(*(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40))))->queue_destruction();
             *(void **)((s8 *)ad_single_ply_chr_select_gc + 0x40) = 0;
             *(s32 *)((s8 *)ad_single_ply_chr_select_gc + 0x2C) = 0xE;
             ((s32 (*)(void *))TAdSinglePlyChrSelectGC__sub_8033B5F0)(ad_single_ply_chr_select_gc);
@@ -414,8 +418,8 @@ void TAdSinglePlyChrSelectGC::run_frame() {
     func_803DCDFC__Fv();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
-    V3_8033B2AC a = lbl_80477D78[0];
-    V3_8033B2AC b = lbl_80477D84[0];
+    V3_8033B39C a = lbl_80477D78;
+    V3_8033B39C b = lbl_80477D84;
     activate_camera_mode(9);
     set_active_camera_pose(&a, &b);
     main_task.begin_frame();
@@ -439,6 +443,7 @@ void TAdSinglePlyChrSelectGC::run_frame() {
 }
 
 struct RecoveredGlobal_8033B264_lbl_804EF728;
+#pragma pool_data off
 void init_single_player_char_select_scene(void) {
     u32 p;
     set_copy_clear_color_argb(0, 0, 0);
@@ -449,8 +454,8 @@ void init_single_player_char_select_scene(void) {
     if (p != 0) {
         TCameraCtrl__ct(p, tl_camera);
     }
-    V3_8033B39C a = lbl_80477D60[0];
-    V3_8033B39C b = lbl_80477D6C[0];
+    V3_8033B39C a = lbl_80477D60;
+    V3_8033B39C b = lbl_80477D6C;
     TCameraCtrl::select_active_controller(9);
     set_active_camera_pose(&a, &b);
     p = __nw__7TObjectFUl(0x1C);
@@ -463,11 +468,12 @@ void init_single_player_char_select_scene(void) {
     }
     TKeyBoardControl__sub_8000F90C(2);
     lbl_805D6D90 = 0;
-    play_area_music(lbl_80477D90);
+    play_area_music("title.adx");
     TLobby::set_and_notify(-900);
     ((TLobby *)lobby_rule_settings)->reset_settings_to_default();
     render_tick();
 }
+#pragma pool_data reset
 
 void close_window__23TAdSinglePlyChrSelectGCFPv(void *arg0) {
     void *object = *(void **)((s8 *)arg0 + 0x3C);
@@ -478,8 +484,8 @@ void close_window__23TAdSinglePlyChrSelectGCFPv(void *arg0) {
         }
     }
 }
-void TAdSinglePlyChrSelectGC::init_warp() { close_window__23TAdSinglePlyChrSelectGCFPv(this); *(int*)((char*)this + 0x3c) = check_room_seq_4__16TAdChrSelASlotGCFl(lbl_80477D58, (void*)2); forward_trade_action_default__16TObjCityMainWarpFPviii((void*)(*(int*)((char*)this + 0x3c)), (void*)((int)TQuestVmDownLoadServer__sub_8006EF6C((s32)((void*)14))), (void*)6, (void*)1); ((TWindowSubComCardList *)(*(int*)((char*)this + 0x3c)))->update_layout_height(289.0f); }
-void TAdSinglePlyChrSelectGC::init_warps() { close_window__23TAdSinglePlyChrSelectGCFPv(this); *(int*)((char*)this + 0x3c) = check_room_seq_4__16TAdChrSelASlotGCFl(lbl_80477D58, (void*)2); forward_trade_action_default__16TObjCityMainWarpFPviii((void*)(*(int*)((char*)this + 0x3c)), (void*)((int)TQuestVmDownLoadServer__sub_8006EF6C((s32)((void*)13))), (void*)6, (void*)0); forward_trade_action_default__16TObjCityMainWarpFPviii((void*)(*(int*)((char*)this + 0x3c)), (void*)((int)TQuestVmDownLoadServer__sub_8006EF6C((s32)((void*)14))), (void*)6, (void*)1); ((TWindowSubComCardList *)(*(int*)((char*)this + 0x3c)))->update_layout_height(289.0f); }
+void TAdSinglePlyChrSelectGC::init_warp() { close_window__23TAdSinglePlyChrSelectGCFPv(this); *(int*)((char*)this + 0x3c) = check_room_seq_4__16TAdChrSelASlotGCFl((void *)lbl_80477D58, (void*)2); forward_trade_action_default__16TObjCityMainWarpFPviii((void*)(*(int*)((char*)this + 0x3c)), (void*)((int)TQuestVmDownLoadServer__sub_8006EF6C((s32)((void*)14))), (void*)6, (void*)1); ((TWindowSubComCardList *)(*(int*)((char*)this + 0x3c)))->update_layout_height(289.0f); }
+void TAdSinglePlyChrSelectGC::init_warps() { close_window__23TAdSinglePlyChrSelectGCFPv(this); *(int*)((char*)this + 0x3c) = check_room_seq_4__16TAdChrSelASlotGCFl((void *)lbl_80477D58, (void*)2); forward_trade_action_default__16TObjCityMainWarpFPviii((void*)(*(int*)((char*)this + 0x3c)), (void*)((int)TQuestVmDownLoadServer__sub_8006EF6C((s32)((void*)13))), (void*)6, (void*)0); forward_trade_action_default__16TObjCityMainWarpFPviii((void*)(*(int*)((char*)this + 0x3c)), (void*)((int)TQuestVmDownLoadServer__sub_8006EF6C((s32)((void*)14))), (void*)6, (void*)1); ((TWindowSubComCardList *)(*(int*)((char*)this + 0x3c)))->update_layout_height(289.0f); }
 
 typedef char RecoveredGlobal_8033B264_lbl_804EF728_size[sizeof(RecoveredGlobal_8033B264_lbl_804EF728) == 0x198 ? 1 : -1];
 typedef char RecoveredGlobal_8033B264_main_task_size[sizeof(RecoveredGlobal_8033B264_main_task) == 0x34 ? 1 : -1];
@@ -510,7 +516,6 @@ s32 __ct__9TAdBackGCFv(void *, void *);
 
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
-void free_buffer__13TUnk_804EF8C0Fv(void *);
 extern void* lbl_804EF8C0[];
 extern RecoveredGlobal_8033B9C4_lbl_80513910 chr_select_serial_seeds;
 extern char pso_system_card_filename[];
@@ -560,7 +565,7 @@ void TUnk_804EF8C0::run_task() {
 void *TAdSinglePlyChrSelectGC::destroy(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = (s32*)lbl_804EF8C0;
-        free_buffer__13TUnk_804EF8C0Fv(this);
+        ((TUnk_804EF8C0 *)this)->free_buffer();
         __dt__7TObjectFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);

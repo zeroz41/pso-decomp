@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/unk/TUnk_804CCBC0.h"
@@ -11,6 +12,7 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -155,15 +157,6 @@ int spawn_support_tec_range_effect(void*);
 
 typedef struct RecoveredGlobal_802394B0_lbl_804CC55C RecoveredGlobal_802394B0_lbl_804CC55C;
 typedef char RecoveredGlobal_802394B0_lbl_804CC55C_size[((sizeof(RecoveredGlobal_802394B0_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
-
-
-
-}
-extern "C" {
-
-
-
-
 
 
 

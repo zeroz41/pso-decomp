@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/item/TItemEffBringer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/vector.h"
@@ -5,6 +6,7 @@
 
 #include "types.h"
 #include "dolphin/mtx.h"
+#include "pso/system/task/TObject.h"
 
 const char *TItemEffBringer__class_name = "TItemEffBringer";
 
@@ -26,7 +28,6 @@ struct Bringer_8010834C {
 
 extern "C" {
 f32 atan2_float(f32 y, f32 x);
-void disallow_rendering__7TObjectFv(TObject *);
 void *__ct__10TItemShootFPvPC3VecPC3Vecf(void *, u32, s32, s32, f32);
 f32 sin_table_lookup(s32);
 void subtract_vector(Vec*, Vec*);
@@ -89,7 +90,7 @@ void *__ct__15TItemEffBringerFv(Bringer_8010834C *self, u32 arg1, Vec_8010834C *
     for (i = 0; i != self->m_particle_count; i++) {
         self->m_particles[i] = 0;
     }
-    disallow_rendering__7TObjectFv((TObject *)self);
+    ((TObject *)self)->disallow_rendering();
     return self;
 }
 #pragma pop

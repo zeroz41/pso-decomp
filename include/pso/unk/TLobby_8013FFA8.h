@@ -4,9 +4,9 @@
 #include "types.h"
 
 extern "C" {
-void TLobby__sub_80140308(void);
+void cleanup_boss2_area(void);
 void TLobby__sub_801403B4(s32 _w0);
-void TLobby__sub_801403B8(void);
+void cleanup_boss3_area(void);
 }
 void cleanup_dragon_area_scene(void);
 s32 init_dragon_area_scene(void);

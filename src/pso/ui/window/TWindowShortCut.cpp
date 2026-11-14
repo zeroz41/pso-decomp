@@ -5,6 +5,12 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/window/TWindowDD.h"
+
+#pragma push
+#pragma readonly_strings on
+const char *TWindowShortCut__name = "TWindowShortCut";
+#pragma pop
 
 struct RecoveredGlobal_8026E728_lbl_804D0AE0 {
     s32 value;
@@ -25,9 +31,7 @@ s32 get_message_10__20TWindowSubStatusDispFl(int);
 s32 TWindowSubStatusDisp__sub_8026E1D4(void *, void *, void *);
 extern RecoveredGlobal_8026E728_lbl_804D0AE0 window_short_cut_layout;
 extern s32 __vt__15TWindowShortCut[];
-extern s32 TWindowShortCut__name;
 void __dl__7TObjectFPv(void *);
-int initialize_subwindow__9TWindowDDFv(void*);
 
 void render__15TWindowShortCutFv(u8 *arg0) {
     s32 temp_r3;
@@ -37,7 +41,7 @@ void render__15TWindowShortCutFv(u8 *arg0) {
     forward_render__20TWindowSubStatusDispFv((int) (((TWindowShortCut *)arg0)->m_60), temp_r3);
 }
 
-void TWindowShortCut::run_task() { ((TWindowSubStatusDisp *)(this->m_60))->update_subwindow(); initialize_subwindow__9TWindowDDFv(this); update_fade(); update_window_entry_list((char*)this + 0x24); }
+void TWindowShortCut::run_task() { ((TWindowSubStatusDisp *)(this->m_60))->update_subwindow(); ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list((char*)this + 0x24); }
 
 void *__dt__15TWindowShortCutFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

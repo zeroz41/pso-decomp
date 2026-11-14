@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "types.h"
@@ -11,6 +12,7 @@
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 struct VBase_18_9c7b63
 {
@@ -165,8 +167,6 @@ f32 cos_table_lookup(int);
 f32 vec3_add_to(void *, void *);
 extern const f32 lbl_805D9FAC;
 extern const f32 lbl_805D9FC4;
-extern const f32 lbl_805D9FC8;
-extern const f32 lbl_805D9FCC;
 typedef struct RecoveredFields_800C2AC4_arg0 RecoveredFields_800C2AC4_arg0;
 typedef struct Stack_800C2AC4 Stack_800C2AC4;
 typedef struct VBase_14_00f1d1 VBase_14_00f1d1;
@@ -179,7 +179,7 @@ void fn_800C2A88(void *self, s32 msg) {
     case 0:
         return;
     case 3:
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return;
     }
 }
@@ -247,9 +247,9 @@ void fn_800C2AC4(u8 *arg0, int arg1) {
       }
       else
       {
-        ((RecoveredFields_800C2AC4_arg0 *) arg0)->field_3C = (f32) (((RecoveredFields_800C2AC4_arg0 *) arg0)->field_3C - lbl_805D9FC8);
-        ((RecoveredFields_800C2AC4_arg0 *) arg0)->field_424 = (f32) (((RecoveredFields_800C2AC4_arg0 *) arg0)->field_424 + lbl_805D9FC8);
-        if (((RecoveredFields_800C2AC4_arg0 *) arg0)->field_424 > lbl_805D9FCC)
+        ((RecoveredFields_800C2AC4_arg0 *) arg0)->field_3C -= 0.1f;
+        ((RecoveredFields_800C2AC4_arg0 *) arg0)->field_424 += 0.1f;
+        if (((RecoveredFields_800C2AC4_arg0 *) arg0)->field_424 > 20.0f)
         {
           ((RecoveredFields_800C2AC4_arg0 *) arg0)->field_410 = 2;
         }

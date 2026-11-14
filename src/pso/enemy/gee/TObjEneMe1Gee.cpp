@@ -48,48 +48,40 @@ void queue_destruction__7TObjectFv(void *arg0);
 
 void * __nw__7TObjectFUl(u32);
 
-extern BmlResource *TObjEneMe1Gee__resource_bundle;
-extern const NJS_ARGB TObjEneMe1Gee__data_8043BDB0;
-extern const char *lbl_805D2A68;
-extern s32 gee_resource_bundle_ptr;
+BmlResource * TObjEneMe1Gee__resource_bundle;
+u8 * lbl_805D51B4;
+s32 TObjEneMe1Gee__render_node_index;
+s32 gee_camera_ctrl_step_ptr;
+TUnk_8048FA00 * TObjEneMe1Gee__data_805D51C0;
+TUnk_8048FA00 * TObjEneMe1Gee__data_805D51C4;
+s32 gee_resource_bundle_ptr;
 }
 
 extern "C" {
-extern const char lbl_8043BD08[];
-extern const char lbl_8043BD14[];
-extern const char lbl_8043BD24[];
-extern const char lbl_8043BD38[];
-extern const char lbl_8043BD4C[];
-extern const char lbl_8043BD60[];
-extern const char lbl_8043BD74[];
-extern const char lbl_8043BD88[];
-extern const char lbl_8043BD98[];
-extern const char lbl_8043BDE0[];
-extern const char lbl_8043BDFC[];
-extern const char lbl_8043BE08[];
-extern const char lbl_8043BE28[];
-extern const char lbl_8043BE38[];
-
 GeeMovementParameters me1_gee_init_params = {225.0f, 0.0f, 0x600};
 
 CollisionBody lbl_8049379C = {
     {0.0f, 0.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f,
 };
 
-const char *bm_ene_me1_gee_model_names[3] = {lbl_8043BD08, lbl_8043BD14, NULL};
+const char *bm_ene_me1_gee_model_names[3] = {"me1_y_mb.nj", "needle_body.gj", NULL};
 
-const char *bm_ene_me1_gee_motion_names[5] = {lbl_8043BD24, lbl_8043BD38, lbl_8043BD4C, lbl_8043BD60, NULL};
-
-BmlResourceDescriptor bm_ene_me1_gee_resource_descriptor = {
-    lbl_8043BD74, bm_ene_me1_gee_model_names, bm_ene_me1_gee_motion_names, 2, 4,
+const char *bm_ene_me1_gee_motion_names[5] = {
+    "attack_me1_y_mb.njm", "damage_me1_y_mb.njm", "tuki_me1_y_mb.njm", "wait_me1_y_mb.njm", NULL,
 };
 
-const char *bm_ene_me1_gee_low_model_names[3] = {lbl_8043BD88, lbl_8043BD14, NULL};
+BmlResourceDescriptor bm_ene_me1_gee_resource_descriptor = {
+    "bm_ene_me1_gee.bml", bm_ene_me1_gee_model_names, bm_ene_me1_gee_motion_names, 2, 4,
+};
 
-const char *bm_ene_me1_gee_low_motion_names[5] = {lbl_8043BD24, lbl_8043BD38, lbl_8043BD4C, lbl_8043BD60, NULL};
+const char *bm_ene_me1_gee_low_model_names[3] = {"lo_me1_y_mb.nj", "needle_body.gj", NULL};
+
+const char *bm_ene_me1_gee_low_motion_names[5] = {
+    "attack_me1_y_mb.njm", "damage_me1_y_mb.njm", "tuki_me1_y_mb.njm", "wait_me1_y_mb.njm", NULL,
+};
 
 BmlResourceDescriptor bm_ene_me1_gee_low_resource_descriptor = {
-    lbl_8043BD98, bm_ene_me1_gee_low_model_names, bm_ene_me1_gee_low_motion_names, 2, 4,
+    "bm_ene_me1_gee_low.bml", bm_ene_me1_gee_low_model_names, bm_ene_me1_gee_low_motion_names, 2, 4,
 };
 
 TObjMotionAction TObjEneMe1Gee__motion_parameters[4] = {
@@ -99,16 +91,24 @@ TObjMotionAction TObjEneMe1Gee__motion_parameters[4] = {
     {2, 0, 1, 0.8f, 0},
 };
 
+const NJS_ARGB TObjEneMe1Gee__data_8043BDB0 = {1.0f, 0.0f, 0.2f, 1.0f};
+
+const NJS_ARGB TObjEneMe1Gee__data_8043BDC0 = {1.0f, 1.0f, 0.0f, 0.2f};
+
+const NJS_ARGB lbl_8043BDD0 = {1.0f, 0.2f, 1.0f, 0.0f};
+
 const char *TObjEneMe1Gee__fade_command_streams[5] = {
-    lbl_8043BDE0, lbl_8043BDFC, lbl_8043BE08, lbl_8043BE28, lbl_8043BE38,
+    "ababaababaabbababbabbbbc", "abbabbababc", "ababaaabbaaabbbabbabababbbbc", "abaaabababbac",
+    "ababababaabbaabbababaabaabaaabbbbc",
 };
+
+const char *TObjEneMe1Gee__class_name = "TObjEneMe1Gee";
 
 static s32 gee_boss_stat_handle_table[3];
 static s32 gee_shared_handler_b_table[3];
 static s32 gee_object_handle_table[3];
 static TObjEneMe1GeeParams *gee_shared_handler_a_table[3];
 static f32 gee_camera_ctrl_vec[4];
-extern TUnk_8048FA00 *TObjEneMe1Gee__data_805D51C0;
 extern const f32 TObjEneMe1Gee__data_805DA0A8;
 extern const f32 lbl_805DA0AC;
 }
@@ -128,8 +128,6 @@ void TObjEneEpsilon__sub_800B92F8(u8 *arg0, s32 arg1, f32 farg0);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void matrix_mult_vec(void *, Vec *, Vec *);
 s32 post_translate_matrix(void *);
-extern const NJS_ARGB TObjEneMe1Gee__data_8043BDC0;
-extern Vec lbl_8043BE7C[];
 s16 get_entity_id(void *);
 s32 set_part_position__9TObjEneDDFPvPvi(void *, int, int);
 s32 rand(f32);
@@ -159,9 +157,6 @@ s32 pack_debug_text_position(s32, s32);
 void TBoss3Volopt__sub_800D8D88(s32);
 
 s32 push_matrix();
-extern s32 TObjEneMe1Gee__render_node_index;
-extern TUnk_8048FA00 *TObjEneMe1Gee__data_805D51C4;
-extern NJS_ARGB lbl_8043BDD0;
 extern s32 lbl_8043BE98[];
 extern s32 lbl_8043BEA8[];
 extern s32 lbl_8043BEBC[];
@@ -169,7 +164,6 @@ extern s32 lbl_8043BEC8[];
 extern s32 lbl_8043BED8[];
 extern s32 lbl_8043BEEC[];
 extern s32 lbl_8043BF0C[];
-extern s32 gee_camera_ctrl_step_ptr;
 extern const f32 lbl_805DA0BC;
 extern const f32 lbl_805DA0C4;
 extern const f32 lbl_805DA0CC;
@@ -178,7 +172,6 @@ extern const f32 lbl_805DA0D0;
 
 extern "C" {
 void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
-extern DirectAttackPayload lbl_8043BE88[];
 }
 
 extern "C" {
@@ -196,8 +189,6 @@ extern s32 lbl_8043BCD8[];
 extern s32 lbl_8043BCE4[];
 extern s32 lbl_8043BCF0[];
 extern s32 lbl_8043BCFC[];
-extern GeeAnimationBinding lbl_8043BE6C;
-extern u8 *lbl_805D51B4;
 
 void TObjEneMe1Gee::load_resources() {
     s32 i;
@@ -236,7 +227,7 @@ void TObjEneMe1Gee::load_resources() {
     gee_resource_bundle_ptr = t + 4;
     TObjPlayer__sub_800F0928(t);
     {
-        GeeAnimationBinding sp8 = lbl_8043BE6C;
+        GeeAnimationBinding sp8 = {NULL, TObjEneMe1Gee__motion_parameters, 0, 4, 0};
         sp8.motions = TObjEneMe1Gee__resource_bundle->motions;
         TLobby::spawn_npc_enemy((s16)0x10, TObjEneMe1Gee__resource_bundle->models->model, (NJS_TEXLIST *)TObjEneMe1Gee__resource_bundle->models->m_c, &sp8, 8.0f, (f32)TObjEneMe1Gee__data_805DA0C0);
     }
@@ -267,7 +258,7 @@ void TObjEneMe1Gee::free_globals() {
 }
 
 TObjEneMe1Gee::TObjEneMe1Gee(TObject *parent, void *set_data, s32 kind) : TObjEneDD_ST(parent) {
-    m_name = lbl_805D2A68;
+    m_name = TObjEneMe1Gee__class_name;
     invoke_initialization_hook(set_data);
     m_3c8 = 0;
     sub_800CC0C4();
@@ -278,7 +269,7 @@ TObjEneMe1Gee::TObjEneMe1Gee(TObject *parent, void *set_data, s32 kind) : TObjEn
 
 TObjEneMe1Gee::TObjEneMe1Gee(TObject *parent, TObjEneMe1Gee *leader, Vec *pos, u16 id, s32 index)
     : TObjEneDD_ST(parent) {
-    m_name = lbl_805D2A68;
+    m_name = TObjEneMe1Gee__class_name;
     m_3c0 = leader;
     init_common_from((u8 *)m_3c0);
     entity_id = id;
@@ -1187,6 +1178,7 @@ void TObjEneMe1Gee::state_attack(s32 arg1) {
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
+#pragma pool_data off
 extern "C" {
 void TObjEneMe1Gee::sub_800CA454(s32 arg1) {
     Vec *dir = &this->m_454;
@@ -1289,7 +1281,7 @@ void TObjEneMe1Gee::sub_800CA454(s32 arg1) {
                 push_matrix_from(anim_model_matrix_array[7]);
                 {
                     Vec out;
-                    Vec in = lbl_8043BE7C[0];
+                    Vec in = {0.0f, 0.0f, 0.0f};
                     void *p;
                     matrix_mult_vec(0, &in, &out);
                     pop_matrix();
@@ -1484,7 +1476,7 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
                         this->m_390->receive_physical_attack(this, 1.0f);
                         this->m_390->apply_knockback_from_attacker((u8 *)this, 3.0f);
                         if (this->random_ratio() <= 0.25f) {
-                            DirectAttackPayload p = lbl_8043BE88[0];
+                            DirectAttackPayload p = {0x11, 0.0f};
                             this->m_390->receive_direct_attack(this, p, 0, -1, -1);
                         }
                     }

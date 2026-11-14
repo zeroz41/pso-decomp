@@ -43,9 +43,9 @@ TAdLoadQuestCellGC::~TAdLoadQuestCellGC() {
     }
 }
 
-extern void *lbl_805D42F8;
+extern const char *TAdLoadQuestCellGC__name;
 TAdLoadQuestCellGC::TAdLoadQuestCellGC(TObject *object, void *arg2) : TObject(object) {
-    *(void * *)&this->m_name = lbl_805D42F8;
+    this->m_name = TAdLoadQuestCellGC__name;
     *(void **)((s8 *)this + 0x1C) = arg2;
     this->m_frameCount = -1;
 }

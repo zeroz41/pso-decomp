@@ -6,6 +6,9 @@
 #include "pso/ui/window/TWindowSubCustomSelect.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/unk/WindowLayoutRecord.h"
+
+#pragma readonly_strings on
 
 struct Stack_80277638 {
     f32 sp8;
@@ -38,6 +41,27 @@ struct Stack_80277368
 
 struct Ent_802776D0 { u16 id; u16 sub; };
 
+extern s32 lbl_805D63F0;
+
+// inferred: window_sub_custom_select_layout_entries, the layout table
+// TWindowSubCustomSelect__window_settings points at (two sprite parts and a value entry).
+struct SubCustomSelectWindowLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec_0;
+    SpritePartLayoutRecord rec_1;
+    ValueLayoutRecord rec_2;
+};
+SubCustomSelectWindowLayout window_sub_custom_select_layout_entries = {
+    3, 1,
+    {6, {3.0f, 9.0f}, {56.0f, 47.0f}, 196.0f, 0.0f, 0.2f, -1, &lbl_805D63F0, 1, 4},
+    {6, {6.0f, 11.0f}, {50.0f, 43.0f}, 0.0f, 0.0f, 0.3f, -1, &lbl_805D63F0, 3, 4},
+    {4, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 4, 0},
+};
+WindowDescriptor TWindowSubCustomSelect__window_settings = {
+    {204.0f, 188.0f}, 50050.0f, &window_sub_custom_select_layout_entries, 0x43,
+};
+
 extern "C" {
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_window_scrollbar(int, int, void *);
@@ -53,13 +77,11 @@ void *get_player_by_client_id(s32 i);
 s32 construct_with_parent__15TWindowAdditionFPv(void *, void *, s16, s32);
 s32 get_window_layout_position(int);
 void *reset_selection__20TWindowSubStatusDispFv(void *, Pos_80277AEC *);
-extern u8 TWindowSubCustomSelect__window_settings[];
 extern s32 __vt__22TWindowSubCustomSelect[];
-extern s32 TWindowSubCustomSelect__class_name;
+const char *TWindowSubCustomSelect__class_name = "TWindowSubCustomSelect";
 s32 clamp_list_scroll_offset(void *, void *, void *);
 s32 can_use_palette_action__10TObjPlayerFPvUcUc(s32, u8, u8);
 u8 *get_array_entry__11TWindowBaseFi(void *, s32);
-s32 draw_action_palette_icon(void *, u16, u16);
 s32 draw_visible_window_entries(void *, void *, void *);
 void __dl__7TObjectFPv(void *);
 
@@ -192,8 +214,8 @@ void TWindowSubCustomSelect::draw_palette_cells(int ctx) {
         } else {
             *(s32 *)((s8 *)w1 + 0x2C) = 0xFF404040;
         }
-        draw_action_palette_icon(w1, id, sub);
-        update_palette_item_count_label((TWindowHelpItem *)w2, (u8 *)w1, (u16)id, (u16)sub, (s32)this->m_20);
+        draw_action_palette_icon((Icon_80243630 *)w1, id, sub);
+        update_palette_item_count_label((TWindowHelpItem *)w2, (Icon_80243630 *)w1, (u16)id, (u16)sub, (s32)this->m_20);
         draw_visible_window_entries(this, &*(u8 *)((s8 *)this + 0x24), (void *)ctx);
     }
 }
@@ -272,9 +294,9 @@ u8 *TWindowSubCustomSelect__ct(TWindowSubCustomSelect *window_sub_custom_select,
     Sub_80277AEC *q;
     Ent_80277AEC *e;
     void *o;
-    construct_with_parent__15TWindowAdditionFPv(window_sub_custom_select, TWindowSubCustomSelect__window_settings, arg1, get_window_layout_position(0x10));
+    construct_with_parent__15TWindowAdditionFPv(window_sub_custom_select, &TWindowSubCustomSelect__window_settings, arg1, get_window_layout_position(0x10));
     *(s32 **)((s8 *)window_sub_custom_select + 0x18) = __vt__22TWindowSubCustomSelect;
-    *(s32 *)((s8 *)window_sub_custom_select + 0) = TWindowSubCustomSelect__class_name;
+    *(const char **)((s8 *)window_sub_custom_select + 0) = TWindowSubCustomSelect__class_name;
     window_sub_custom_select->m_20 = arg1;
     p = (Big_80277AEC *)get_player_by_client_id(window_sub_custom_select->m_20);
     if (p == NULL) {

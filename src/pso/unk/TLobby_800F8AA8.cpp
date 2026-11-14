@@ -23,11 +23,6 @@ s32 lbl_80499A10[4] = { 0, 0, 0, 0 };
 u32 lbl_80499A20[4] = { 0, 0, 0, 0 };
 u32 lbl_80499A30[4] = { 0, 0, 0, 0 };
     extern unsigned char area_transfer_pending_flag;
-extern "C" u8 lbl_8043D7A8[];
-extern "C" u8 lbl_8043D820[];
-extern "C" u8 lbl_8043D854[];
-extern "C" u8 lbl_8043D8AC[];
-extern "C" u8 lbl_8043D914[];
 extern "C" u8 lbl_8043D984[];
 extern "C" u8 lbl_8043D9B8[];
 extern "C" u8 lbl_8043D9C4[];
@@ -36,11 +31,18 @@ extern "C" u8 lbl_8043D9DC[];
 extern "C" u8 lbl_8043D9E8[];
 extern void *lbl_8049C5E0[15];
 char load_file_prc_buffer_tag[] = "MallocLoadFilePrc";
-void *TLobby__disk_error_msg_table[15] = {
-    (void *)&lbl_8043D7A8, (void *)0x42a00000, (void *)0x43660000, (void *)&lbl_8043D820,
-    (void *)0x42a00000, (void *)0x43660000, (void *)&lbl_8043D854, (void *)0x42a00000,
-    (void *)0x43660000, (void *)&lbl_8043D8AC, (void *)0x42a00000, (void *)0x43660000,
-    (void *)&lbl_8043D914, (void *)0x42a00000, (void *)0x43660000,
+typedef struct {
+    const char *str;
+    f32 x;
+    f32 y;
+} Msg_800F8FB8;
+
+Msg_800F8FB8 TLobby__disk_error_msg_table[5] = {
+    { "An error has occurred.\nTurn the power off and refer to the Nintendo\nGameCube Instruction Booklet \nfor more information.", 80.0f, 230.0f },
+    { "Please insert the PSO Episode 1 & 2 Plus Game Disc.", 80.0f, 230.0f },
+    { "The Disc Cover is open. \nIf you want to continue the game,\nplease close the Disc Cover.", 80.0f, 230.0f },
+    { "This is not the PSO Episode 1 & 2 Plus Game Disc.\nPlease insert the PSO Episode 1 & 2 Plus Game Disc.", 80.0f, 230.0f },
+    { "The Game Disc could not be read.\nPlease read the Nintendo GameCube Instruction\nBooklet for more information.", 80.0f, 230.0f },
 };
 void *TLobby__disk_error_msg_last[4] = {
     (void *)&lbl_8043D984, (void *)0x43020000, (void *)0x43700000, (void *)0x0,
@@ -748,10 +750,6 @@ void *lbl_8049C5E0[15] = {
 __declspec(section ".data") void *lbl_8049C61C[2] = {
     (void *)&lbl_8049C5E0, (void *)0x5,
 };
-#define TLobby__disk_error_msg_table ((Msg_800F8FB8 *)TLobby__disk_error_msg_table)
-#define TLobby__disk_error_msg_last ((Msg_800F8FB8 *)TLobby__disk_error_msg_last)
-#define lobby_font_texture_prs_data ((u8 *)lobby_font_texture_prs_data)
-#define lbl_8049C61C ((u8 *)lbl_8049C61C)
 
 void TLobby::reset_keyboard_state() { area_transfer_pending_flag = 0; TKeyBoardControl::reset(); }
 
@@ -961,19 +959,14 @@ typedef struct {
     s32 n;
 } Desc_800F8FB8;
 
-typedef struct {
-    u8 *str;
-    f32 x;
-    f32 y;
-} Msg_800F8FB8;
-
 s32 DVDGetDriveStatus(void);
 void TCameraCtrl__sub_80068EF0(void);
 
 s8 func_801A5E54__Fv(void);
 s32 DVDCheckDisk(void);
 
-#define show_msg_800F8FB8(arr, i) draw_menu_text(arr[i].x, arr[i].y, (const char *)arr[i].str, 0x8FFFFFFF)
+#define TLobby__disk_error_msg_last ((Msg_800F8FB8 *)TLobby__disk_error_msg_last)
+#define show_msg_800F8FB8(arr, i) draw_menu_text(arr[i].x, arr[i].y, arr[i].str, 0x8FFFFFFF)
 
 #pragma push
 #pragma dont_inline off

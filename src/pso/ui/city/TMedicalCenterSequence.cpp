@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/city/TMedicalCenterMes.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -8,6 +9,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/player/TObjPlayer.h"
 #include "types.h"
+#include "pso/system/task/TObject.h"
 
 struct TMedicalCenterMesMessagePos { s32 x; s32 y; };
 
@@ -18,7 +20,6 @@ void *get_player_by_client_id(s32);
 void THunterGuildSeqOffline__sub_8021E180(s32);
 s32 get_window_layout_position(int, f32);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
-void queue_destruction__7TObjectFv(void *arg0);
 void TMedicalCenterMes__sub_80216260(void);
 
 extern const char *TMedicalCenterMes__class_name;
@@ -137,12 +138,9 @@ struct VObj_8021658C : Base_8021658C {
 extern "C" {
 s32 create_meseta_window(unsigned short);
 s32 set_service_counter_camera(void *, int);
-void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
-s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_802169A8___vt__22TMedicalCenterSequence __vt__22TMedicalCenterSequence;
 extern RecoveredGlobal_802169A8_TMedicalCenterSequence__data_80513E90 TMedicalCenterSequence__data_80513E90;
-u8 *__dt__22TMedicalCenterSequenceFv(TMedicalCenterSequence *arg0, s16 arg1);
 u8 *TShopSequence__ct(u8 *arg0);
 extern s32 TMedicalCenterSequence__class_name;
 u8 *TMedicalCenterSequence__ct(u8 *arg0, s32 arg1, s32 arg2);
@@ -186,30 +184,21 @@ u8 *TMedicalCenterSequence__ct(u8 *medical_center_sequence, s32 arg1, s32 arg2) 
     *(s32 *)((s8 *)(&(*(RecoveredGlobal_80216A70_TMedicalCenterSequence__data_80513E90 *)&TMedicalCenterSequence__data_80513E90).value) + (sub_8022397C__15TShopWindowBaseFv(medical_center_sequence) * 4)) = 1;
     return medical_center_sequence;
 }
-
-u8 *__dt__22TMedicalCenterSequenceFv(TMedicalCenterSequence *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__22TMedicalCenterSequence.value;
-        if ((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x34));
-            *(u32 *)((s8 *)arg0 + 0x34) = 0U;
-        }
-        ((TShopSequence *)arg0)->close_message_window();
-        if ((u32) arg0->m_2c != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x2C)))->close();
-            arg0->m_2c = 0U;
-        }
-        if ((u32) arg0->m_30 != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x30)))->close();
-            arg0->m_30 = 0U;
-        }
-        *(s32 *)((s8 *)&TMedicalCenterSequence__data_80513E90.value + (sub_8022397C__15TShopWindowBaseFv(arg0) * 4)) = 0;
-        __dt__13TShopSequenceFv((arg0), 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
+TMedicalCenterSequence::~TMedicalCenterSequence() {
+    if ((u32) *(u32 *)((s8 *)this + 0x34) != 0U) {
+        ((TObject *)(*(void **)((s8 *)this + 0x34)))->queue_destruction();
+        *(u32 *)((s8 *)this + 0x34) = 0U;
     }
-    return (u8 *)arg0;
+    ((TShopSequence *)this)->close_message_window();
+    if ((u32) this->m_2c != 0U) {
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x2C)))->close();
+        this->m_2c = 0U;
+    }
+    if ((u32) this->m_30 != 0U) {
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close();
+        this->m_30 = 0U;
+    }
+    *(s32 *)((s8 *)&TMedicalCenterSequence__data_80513E90.value + (sub_8022397C__15TShopWindowBaseFv(this) * 4)) = 0;
 }
 
 typedef char RecoveredGlobal_802169A8___vt__22TMedicalCenterSequence_size[sizeof(RecoveredGlobal_802169A8___vt__22TMedicalCenterSequence) == 0x38 ? 1 : -1];
@@ -357,7 +346,7 @@ s32 TMedicalCenterSequence::handle_window_input() {
 void TMedicalCenterSequence::close_window() {
     if ((this->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(this) != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
         close_window__13TShopSequenceFv(this);
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 }
@@ -427,7 +416,7 @@ void TMedicalCenterMes::run_task() {
             ((TWindowCtrl *)((u16)get_entity_id((s32)player)))->unsuppress_slot();
         }
         TShopGenerator::clear_slot_active(get_entity_id((s32)player));
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         break;
     }
 }

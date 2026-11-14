@@ -16,7 +16,6 @@ typedef char TObjBoss7TunnelCol_size[sizeof(TObjBoss7TunnelCol) == 0xD8 ? 1 : -1
 
 extern "C" {
 void *TObjBoss7TunnelCol__ct(void *arg0, TObject *parent);
-void *__dt__18TObjBoss7TunnelColFv(void *arg0, s16 arg1);
 }
 
 #endif

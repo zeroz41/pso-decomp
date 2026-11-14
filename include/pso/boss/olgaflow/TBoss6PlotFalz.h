@@ -13,6 +13,7 @@ s32 TBoss6Type1__sub_802ABDEC(s32 seed);
 }
 
 struct TBoss6PlotFalz : public TObjEnemy {
+    TBoss6PlotFalz(TObject *parent, void *set_data);
     virtual ~TBoss6PlotFalz();
     void ensure_field384();
     void set_visible_flag();
@@ -26,7 +27,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     u8 * m_380;
     u8 unk_384[0x6];
     s16 m_38a;
-    u8 unk_38C[0x28];
+    u8 unk_38C[0x40];
     u32 m_3cc;
     u32 m_3d0;
     u32 m_3d4;

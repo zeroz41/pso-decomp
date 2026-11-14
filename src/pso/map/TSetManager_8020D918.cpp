@@ -43,7 +43,7 @@ extern "C" {
 void TLobby__sub_8020D94C(void);
 extern s16 TLobby__data_805D6134;
 s32 get_current_floor(void);
-void TLobby__sub_8020DC78(void);
+void clear_floor_population(void);
 Archive_8020E08C TLobby__data_80513A40[18];
 Floor_8020E08C TLobby__floor_enemy_group_table[18];
 u32 TLobby__data_80513C80[18];
@@ -196,7 +196,8 @@ void TLobby::reset_id_tables() {
     }
 }
 
-void TLobby__sub_8020DC78(void) {
+// inferred: clears the set object and enemy rows and frees every floor's enemy and object arrays; a lobby area reload callback
+void clear_floor_population(void) {
     s32 n;
     s32 i;
     TLobby__data_805D6134 = 0;

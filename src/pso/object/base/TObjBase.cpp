@@ -37,11 +37,11 @@ s32 project_world_to_screen(int, const Vec *, f32 *);
 f32 transform_point_by_current_matrix(const Vec *, Vec *);
 }
 
-extern u16 lbl_805D5CD0;
-extern u16 lbl_805D5CD2;
-extern u16 lbl_805D5CD4;
-extern u16 lbl_805D5CD6;
-extern u16 lbl_805D5CD8;
+u16 lbl_805D5CD0;
+u16 lbl_805D5CD2;
+u16 lbl_805D5CD4;
+u16 lbl_805D5CD6;
+u16 lbl_805D5CD8;
 
 const char *TObjBase::get_name() { return NULL; }
 void TObjBase::set_room(s16 room) {

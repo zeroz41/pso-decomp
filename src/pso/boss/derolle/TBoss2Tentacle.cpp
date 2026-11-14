@@ -19,6 +19,10 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 
+static const int TBoss2Tentacle__rest_angles[] = {-2048, 2048, -4864, 4864};
+static const s32 boss2_tentacle_angle_limit_table[] = {4096, -4096, 6144, -6144};
+const char *TBoss2Tentacle__name = "TBoss2Tentacle";
+
 struct V3_80039DE0 { f32 x, y, z; };
 
 struct Obj_80039DE0 { u8 pad[0x30]; V3_80039DE0 pts[14]; s32 vals[14]; };
@@ -30,7 +34,7 @@ struct Vec_8003933C { f32 x, y, z; };
 struct Ten_8003933C { char pad0[0x30]; Vec_8003933C pos[14]; s32 vals[14]; };
 
 struct Obj_80039F50 {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x18 - 4];
     void *vt;
     s32 f1C;
@@ -79,13 +83,13 @@ void TBoss2Tentacle__sub_80039DB0(void* p);
 extern V3_80039DE0 TBoss2Tentacle__segment_points[];
 extern s32 TBoss2Tentacle__segment_point_defaults[];
 void TBoss2Tentacle__sub_8003A0AC(void);
-extern DragonMotion *TBoss2Tentacle__motion_data;
+s32 * lbl_805D4BD0;
+DragonMotion * TBoss2Tentacle__motion_data;
+s32 lbl_805D4BD8;
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern DragonModelNode tentacle_model_nodes[];
-extern s32 *lbl_805D4BD0;
-extern s32 lbl_805D4BD8;
 void render__14TBoss2TentacleFv(u8 *arg0);
 s32 emit_effect_and_step__13TBoss2DeRolLeFPvPv(void *, void *);
 void *get_instance__13TBoss2DeRolLeFv(void);
@@ -97,10 +101,7 @@ void TBoss2Tentacle__sub_80039DBC(void* p);
 void TBoss2Tentacle__sub_80039DD4(void* p);
 s32 matrix_mult_vec(int, void *, void *);
 s32 subtract_vector(void *, void *);
-extern int TBoss2Tentacle__rest_angles[];
-extern s32 boss2_tentacle_angle_limit_table[];
 void run_task__14TBoss2TentacleFv(u8 *arg0);
-extern s32 TBoss2Tentacle__name;
 void TBoss2Tentacle__sub_80039990(void);
 void TBoss2Tentacle__sub_80039994(Obj_80039994 *o, f32 len);
 void TBoss2Tentacle__sub_80039D98(void* p);
@@ -162,6 +163,7 @@ void render__14TBoss2TentacleFv(u8 *arg0) {
 typedef V3_80039DE0 V3_800394DC;
 typedef struct { u8 pad[0x30]; V3_800394DC pts[14]; } Ten_800394DC;
 #define F(t, o) (*(t *)(arg0 + (o)))
+#pragma pool_data off
 void run_task__14TBoss2TentacleFv(u8 *arg0) {
     if (F(s32, 0x20) != F(s32, 0x1C)) {
         switch (F(s32, 0x20)) {
@@ -285,7 +287,7 @@ void run_task__14TBoss2TentacleFv(u8 *arg0) {
     }
     case 4:
         ((TBoss2Tentacle *)arg0)->advance_motion_position();
-        F(s32, 0x11C) = approach_angle_limited(F(s32, 0x11C), ((s32 *)&TBoss2Tentacle__rest_angles)[F(s32, 0x2C)], 0x80);
+        F(s32, 0x11C) = approach_angle_limited(F(s32, 0x11C), TBoss2Tentacle__rest_angles[F(s32, 0x2C)], 0x80);
         break;
     case 5:
         ((TBoss2Tentacle *)arg0)->advance_motion_position();
@@ -296,6 +298,7 @@ void run_task__14TBoss2TentacleFv(u8 *arg0) {
         break;
     }
 }
+#pragma pool_data reset
 
 void TBoss2Tentacle__sub_8003998C(void) {  }
 void TBoss2Tentacle__sub_80039990(void) {  }

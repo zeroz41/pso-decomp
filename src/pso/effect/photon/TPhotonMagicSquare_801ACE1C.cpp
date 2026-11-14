@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
@@ -15,6 +16,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -129,7 +131,7 @@ void TPhotonMagicSquare::run_task() {
             self->f70 = self->f70 - self->fC8;
         }
         if ((f32)this->m_b0 > (f32)this->m_c4 + (1.0f) / self->fC8) {
-            queue_destruction__7TObjectFv(self);
+            ((TObject *)self)->queue_destruction();
             return;
         }
         break;
@@ -182,13 +184,13 @@ u8 *TPhotonMagicSquare__ct(u8 *photon_magic_square, s32 arg1, s32 arg2, s32 arg3
     *(s32 *)((s8 *)photon_magic_square + 0) = (s32) ((s32)TPhotonMagicSquare__data_805D3508);
     *(s32 *)((s8 *)photon_magic_square + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x28);
     *(u8 **)((s8 *)photon_magic_square + 0x90) = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x430)) + 0x14));
-    *(f32 *)((s8 *)photon_magic_square + 0x9C) = (f32) (0.0f);
+    *(f32 *)((s8 *)photon_magic_square + 0x9C) = 0.0f;
     *(f32 *)((s8 *)photon_magic_square + 0x94) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)photon_magic_square + 0x90)) + 4) - (1.0f));
-    ((TPhotonMagicSquare *)photon_magic_square)->m_98 = (f32) (0.1f);
+    ((TPhotonMagicSquare *)photon_magic_square)->m_98 = 0.1f;
     ((TPhotonMagicSquare *)photon_magic_square)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x2C);
-    ((TPhotonMagicSquare *)photon_magic_square)->scale.x = (f32) (0.0f);
-    ((TPhotonMagicSquare *)photon_magic_square)->scale.y = (f32) (0.0f);
-    *(f32 *)((s8 *)photon_magic_square + 0x70) = (f32) (0.0f);
+    ((TPhotonMagicSquare *)photon_magic_square)->scale.x = 0.0f;
+    ((TPhotonMagicSquare *)photon_magic_square)->scale.y = 0.0f;
+    *(f32 *)((s8 *)photon_magic_square + 0x70) = 0.0f;
     copy_argb((NJS_ARGB *)(photon_magic_square + 0xA0), (NJS_ARGB *)((u8 *)TPhotonMagicSquare__color_palette + (arg2 * 0x10)));
     VecCopy((Vec *)(photon_magic_square + 0xB8), (const Vec *)(arg3));
     ((TPhotonMagicSquare *)photon_magic_square)->m_b0 = 0;
@@ -205,19 +207,19 @@ u8 *construct_photon_magic_square_normal(u8 *photon_magic_square, s32 arg1, s32 
     *(s32 *)((s8 *)photon_magic_square + 0) = (s32) ((s32)TPhotonMagicSquare__data_805D3508);
     *(s32 *)((s8 *)photon_magic_square + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x28);
     *(u8 **)((s8 *)photon_magic_square + 0x90) = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x430)) + 0x14));
-    *(f32 *)((s8 *)photon_magic_square + 0x9C) = (f32) (0.0f);
+    *(f32 *)((s8 *)photon_magic_square + 0x9C) = 0.0f;
     *(f32 *)((s8 *)photon_magic_square + 0x94) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)photon_magic_square + 0x90)) + 4) - (1.0f));
-    ((TPhotonMagicSquare *)photon_magic_square)->m_98 = (f32) (0.1f);
+    ((TPhotonMagicSquare *)photon_magic_square)->m_98 = 0.1f;
     ((TPhotonMagicSquare *)photon_magic_square)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x2C);
-    ((TPhotonMagicSquare *)photon_magic_square)->scale.x = (f32) (0.0f);
-    ((TPhotonMagicSquare *)photon_magic_square)->scale.y = (f32) (0.0f);
-    *(f32 *)((s8 *)photon_magic_square + 0x70) = (f32) (0.0f);
+    ((TPhotonMagicSquare *)photon_magic_square)->scale.x = 0.0f;
+    ((TPhotonMagicSquare *)photon_magic_square)->scale.y = 0.0f;
+    *(f32 *)((s8 *)photon_magic_square + 0x70) = 0.0f;
     copy_argb((NJS_ARGB *)(photon_magic_square + 0xA0), (NJS_ARGB *)((u8 *)TPhotonMagicSquare__color_palette + (arg2 * 0x10)));
     VecCopy((Vec *)(photon_magic_square + 0xB8), (const Vec *)(arg3));
     ((TPhotonMagicSquare *)photon_magic_square)->m_b0 = 0;
     ((TPhotonMagicSquare *)photon_magic_square)->m_b4 = 0;
     ((TPhotonMagicSquare *)photon_magic_square)->m_c4 = arg4;
-    *(f32 *)((s8 *)photon_magic_square + 0xC8) = (f32) (0.04f);
+    *(f32 *)((s8 *)photon_magic_square + 0xC8) = 0.04f;
     ((TPhotonMagicSquare *)photon_magic_square)->m_cc = 0xFFFFFF;
     return photon_magic_square;
 }
@@ -228,13 +230,13 @@ TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 color, u16 owner_id)
     *(s32 *)&this->m_name = (s32) ((s32)TPhotonMagicSquare__data_805D3508);
     *(s32 *)&this->model = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x28);
     *(u8 * *)&this->m_90 = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x430)) + 0x14));
-    *(f32 *)&this->unk_9C = (f32) (0.0f);
+    *(f32 *)&this->unk_9C = 0.0f;
     *(f32 *)((s8 *)((u8 *)this) + 0x94) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 * *)&this->m_90) + 4) - (1.0f));
-    this->m_98 = (f32) (0.1f);
+    this->m_98 = 0.1f;
     this->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x2C);
-    this->scale.x = (f32) (0.0f);
-    this->scale.y = (f32) (0.0f);
-    this->scale.z = (f32) (0.0f);
+    this->scale.x = 0.0f;
+    this->scale.y = 0.0f;
+    this->scale.z = 0.0f;
     copy_argb((NJS_ARGB *)(((u8 *)this) + 0xA0), (NJS_ARGB *)((u8 *)TPhotonMagicSquare__color_palette + (color * 0x10)));
     entity = find_entity_by_id(owner_id);
     if (entity != NULL) {
@@ -244,7 +246,7 @@ TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 color, u16 owner_id)
     *(s32 *)&this->m_b0 = 0;
     *(s32 *)&this->m_b4 = 0;
     *(s32 *)&this->m_c4 = 0x37;
-    *(f32 *)&this->_padC8 = (f32) (0.1f);
+    *(f32 *)&this->_padC8 = 0.1f;
     *(s32 *)&this->m_cc = 2;
     play_sound_effect(0x4002AD2E, 0, 0, 0);
 }

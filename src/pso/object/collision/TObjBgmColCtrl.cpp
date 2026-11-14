@@ -25,14 +25,6 @@ const char *area_music_filename_table[6] = {
 
 struct Names_8017E1E4 { const char *name[2]; };
 
-extern char lbl_804438A0[];
-extern char lbl_804438B0[];
-extern char lbl_804438C0[];
-extern char lbl_804438D0[];
-extern char lbl_804438DC[];
-extern char lbl_804438EC[];
-extern char lbl_804438F8[];
-extern char lbl_80443904[];
 
 extern u32 TLobby__event_theme_id;
 extern u32 TObjBgmColCtrl__current_theme_id;
@@ -307,30 +299,30 @@ void TObjBgmColCtrl::play_lobby_theme_music() {
     }
     switch (TObjBgmColCtrl__current_theme_id) {
     case 1:
-        play_area_music(lbl_804438A0);
+        play_area_music("Jinglebell.adx");
         break;
     case 7:
-        play_area_music(lbl_804438B0);
+        play_area_music("Zarathustra.adx");
         break;
     case 3:
     case 9:
-        play_area_music(lbl_804438C0);
+        play_area_music("Valentine.adx");
         break;
     case 4:
-        play_area_music(lbl_804438D0);
+        play_area_music("Easter.adx");
         break;
     case 5:
-        play_area_music(lbl_804438DC);
+        play_area_music("HALLOWEEN.adx");
         break;
     case 6:
-        play_area_music(lbl_804438EC);
+        play_area_music("open.adx");
         break;
     case 12:
     case 14:
-        play_area_music(lbl_804438F8);
+        play_area_music("Event.adx");
         break;
     case 10:
-        play_area_music(lbl_80443904);
+        play_area_music("WEDDING.adx");
         break;
     default:
         play_area_music((char *)name);

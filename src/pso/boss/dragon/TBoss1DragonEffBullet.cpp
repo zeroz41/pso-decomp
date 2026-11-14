@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/dragon/TBoss1DragonEffBullet.h"
 #include "pso/system/vector.h"
@@ -8,6 +9,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_8002BCE0_lbl_80435410 {
     s32 value;
@@ -49,7 +51,6 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 f32 subtract_vector(void *, void *);
 extern s32 __vt__21TBoss1DragonEffBullet[];
 extern s32 TBoss1DragonEffBullet__name;
-void queue_destruction__7TObjectFv(void *);
 
 void TBoss1DragonEffBullet::render() {  }
 
@@ -96,12 +97,12 @@ void TBoss1DragonEffBullet::run_task() {
             spawn_particle_effect_with_flags(&arg0->field_1C, *(s32 *)((s8 *)(*(u8 * *)&dragon_fireball_particle_ids) + 4), 0x40);
             temp_r3_3 = arg0->field_48;
             if (temp_r3_3 != NULL) {
-                queue_destruction__7TObjectFv(temp_r3_3);
+                ((TObject *)temp_r3_3)->queue_destruction();
                 arg0->field_48 = NULL;
             }
             temp_r3_4 = arg0->field_44;
             if (temp_r3_4 != NULL) {
-                queue_destruction__7TObjectFv(temp_r3_4);
+                ((TObject *)temp_r3_4)->queue_destruction();
                 arg0->field_44 = NULL;
             }
             play_sound_effect(0x4003AD0C, &arg0->field_1C, 0, 0);
@@ -116,7 +117,7 @@ void TBoss1DragonEffBullet::run_task() {
     case 2:
         arg0->field_34 += 1;
         if ((s32) arg0->field_34 > 0x64) {
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
         }
         break;
     }
@@ -125,8 +126,8 @@ void TBoss1DragonEffBullet::run_task() {
 
 }
 TBoss1DragonEffBullet::~TBoss1DragonEffBullet() {
-    if (*(void **)((s8 *)this + 0x48) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x48)); this->m_48 = 0; }
-    if (*(void **)((s8 *)this + 0x44) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x44)); this->m_44 = 0; }
+    if (*(void **)((s8 *)this + 0x48) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x48)))->queue_destruction(); this->m_48 = 0; }
+    if (*(void **)((s8 *)this + 0x44) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x44)))->queue_destruction(); this->m_44 = 0; }
 }
 
 typedef char RecoveredGlobal_8002BCE0_lbl_80435410_size[sizeof(RecoveredGlobal_8002BCE0_lbl_80435410) == 0xC ? 1 : -1];

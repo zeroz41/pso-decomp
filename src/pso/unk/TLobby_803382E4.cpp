@@ -12,6 +12,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/camera/TCameraCtrl_803D6538.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -40,15 +41,7 @@ extern s32 lbl_805D63F0;
 int info_icon_texture;
 f32 cos_table_lookup(s32);
 s32 lobby_pulse_color_phase;
-extern const f32 lbl_805DF9A0;
-extern const f32 lbl_805DF9A4;
-extern const f32 lbl_805DF9A8;
-extern const f32 lbl_805DF9B4;
-extern const f32 lbl_805DF9B8;
 u32 __cvt_fp2unsigned(f32);
-void set_perspective_projection_from_fov(s32, f32, f32, f32, f32, f32);
-extern const f32 lbl_805DF9AC;
-extern const f32 lbl_805DF9B0;
 u8 *load_gvm_texture_file(s32 arg0);
 s32 release_texture_list(s32 *);
 int free_if_valid__10TObjPlayerFl(void*);
@@ -123,15 +116,13 @@ static inline s32 step_803382E4(Fx_803382E4 *fx) {
 #pragma fp_contract on
 void TLobby__sub_803382E4(void) {
     Fx_803382E4 *fx;
-    f32 v;
     f32 alpha;
 
     if (lobby_request_flags & 2) {
         fx = (Fx_803382E4 *)(lbl_804EF3E0);
         fx->angle += 0x16C;
-        v = lbl_805DF9A4 + cos_table_lookup(fx->angle);
-        alpha = v * lbl_805DF9A8 + lbl_805DF9A0;
-        set_perspective_projection_from_fov(0x3555, lbl_805DF9AC, lbl_805DF9A4, lbl_805DF9B0, lbl_805DF9A8, v);
+        alpha = 0.5f + (1.0f + cos_table_lookup(fx->angle)) / 4.0f;
+        set_perspective_projection_from_fov(0x3555, 1.1333334f, 1.0f, 21000.0f);
         set_depth_buffer_settings_2();
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
@@ -146,7 +137,7 @@ void TLobby__sub_803382E4(void) {
         draw_projected_textured_strip(lbl_804EF344, 4);
         TLobby::reset_player_state();
         set_additive_blend();
-        ((TObjPlayer *)lbl_804EF3E0)->draw_compass_sprite(2, (__cvt_fp2unsigned(lbl_805DF9B4 * alpha) << 24) | 0xFFFFFF, 0x21, lbl_805DF9A0);
+        ((TObjPlayer *)lbl_804EF3E0)->draw_compass_sprite(2, (__cvt_fp2unsigned(255.0f * alpha) << 24) | 0xFFFFFF, 0x21, 0.5f);
         set_default_alpha_blend();
         TCameraCtrl__sub_80068EF0();
         TParticleCtrl::end_effect_render();
@@ -241,11 +232,10 @@ void TLobby::update_pulse_colors(s32 arg0) {
     s32 i;
     B_80338608 *b;
     A_80338608 *a;
-    f32 s = lbl_805DF9A4 + cos_table_lookup(lobby_pulse_color_phase);
-    t = s * lbl_805DF9A8 + lbl_805DF9A0;
+    t = 0.5f + (1.0f + cos_table_lookup(lobby_pulse_color_phase)) / 4.0f;
     lobby_pulse_color_phase += 0xCCC;
-    c0 = ((u32)(lbl_805DF9B4 * t) << 24) | 0xFFFFFF;
-    c1 = (u32)(lbl_805DF9B8 * t) << 24;
+    c0 = ((u32)(255.0f * t) << 24) | 0xFFFFFF;
+    c1 = (u32)(178.0f * t) << 24;
     a = lobby_pulse_color_table;
     b = title_pulse_color_table;
     for (i = 0; i < 4; i++) {

@@ -24,14 +24,16 @@ struct RecoveredFields_802FFCE4_arg0
   s32 field_2C;
 };
 
-struct Txt_802FFE58 { s32 v[9]; };
+struct TxtSlot_802FFE58 { s32 id; f32 x; f32 y; };
 
-struct Pos_802FFE58 { s32 v[6]; };
+struct Txt_802FFE58 { TxtSlot_802FFE58 v[3]; };
 
-struct Cur_802FFE58 { s32 v[2]; };
+struct Pos_802FFE58 { f32 v[6]; };
+
+struct Cur_802FFE58 { f32 v[2]; };
 
 struct Obj_802FFE58 {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x14];
     void *vt;
     s32 f1C;
@@ -56,14 +58,15 @@ void __ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, void *, s32);
 void __ct__13TAdTitleTexGCFv(void *, void *);
 void *__ct__14TAdSelectCurGCFv(void *, void *, void *, void *);
 void *__ct__13TAdGuideTxtGCFv(void *, void *);
-extern Txt_802FFE58 multi_chg_game_mode_text_layout;
-extern Cur_802FFE58 lbl_80474E1C[];
-extern Pos_802FFE58 multi_chg_game_mode_position_table;
 extern void *__vt__21TAdMultiChgGameModeGC[];
-extern s32 TAdMultiChgGameModeGC__name;
 Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self);
 s32 is_multiplayer_character_slot_selected(u32);
 s32 TAdMultiPlyChrSelectGC__sub_802C658C(u32);
+const char *TAdMultiChgGameModeGC__name = "TAdMultiChgGameModeGC";
+
+static const Txt_802FFE58 multi_chg_game_mode_text_layout = { { { -1, 223.0f, 169.0f }, { -1, 193.0f, 221.0f }, { -1, 163.0f, 273.0f } } };
+static const Cur_802FFE58 lbl_80474E1C[1] = { { { 302.0f, 28.0f } } };
+static const Pos_802FFE58 multi_chg_game_mode_position_table = { { 200.0f, 170.0f, 170.0f, 222.0f, 140.0f, 274.0f } };
 
 void fn_802FFC78(void) {  }
 void fn_802FFC7C(void) {  }
@@ -156,10 +159,10 @@ Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self) {
             __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &txt.v[0], 0xC);
         }
         if ((p = __nw__7TObjectFUl(0xE0)) != NULL) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &txt.v[3], 0xD);
+            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &txt.v[1], 0xD);
         }
         if ((p = __nw__7TObjectFUl(0xE0)) != NULL) {
-            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &txt.v[6], 0xE);
+            __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &txt.v[2], 0xE);
         }
         if ((p = __nw__7TObjectFUl(0x9C)) != NULL) {
             __ct__13TAdTitleTexGCFv(p, self);

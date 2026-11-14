@@ -6,8 +6,10 @@
 
 struct TODoorFourLightBase : public TODoorBase {
     virtual ~TODoorFourLightBase();
-    virtual void vfunc_21() = 0;
-    virtual void vfunc_22() = 0;
+    // Texture lists the derived doors return for draw_node_tree: vfunc_22 for nodes flagged 0x100000
+    // (light lit by render_lights), vfunc_21 otherwise (inferred: lit/unlit light textures).
+    virtual s32 vfunc_21() = 0;
+    virtual s32 vfunc_22() = 0;
     virtual s32 init_door_switch_binding();
     virtual void update_door_switch_state();
     virtual void vfunc_6(s16 *, s32);

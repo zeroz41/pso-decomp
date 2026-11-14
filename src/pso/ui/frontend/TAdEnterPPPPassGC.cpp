@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdEnterPPPPassGC.h"
@@ -10,16 +11,15 @@
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestThread.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_80339480_lbl_804EF500 {
     s32 value;
     u8 remaining[0x94];
 };
 
-struct RecoveredGlobal_803392F4_lbl_80477C20 {
-    s32 value;
-    u8 remaining[0x1C];
-};
+static const f32 TAdEnterPPPPassGC__selection_positions[4][2] = {{155.0f, 231.0f}, {155.0f, 251.0f}, {87.0f, 231.0f}, {87.0f, 251.0f}};
+const char *TAdEnterPPPPassGC__name = "TAdEnterPPPPassGC";
 
 struct TAdEnterPPPPassGC {
     virtual void m0();
@@ -36,10 +36,9 @@ struct TAdEnterPPPPassGC {
 typedef TAdEnterPPPPassGC TAdEnterPPPPassGC_80339378;
 typedef void (TAdEnterPPPPassGC_80339378::*Pmf_80339378)();
 
-struct T_8033954C { s32 f0; u8 pad[0x14]; void *vt; u8 pad2[0x40 - 0x1C]; s32 f40; };
+struct T_8033954C { const char *f0; u8 pad[0x14]; void *vt; u8 pad2[0x40 - 0x1C]; s32 f40; };
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *);
 extern u8 *password_entry_keyboard_control;
 extern s32 password_entry_dispatch_state;
 extern const f32 lbl_805DF9E8;
@@ -47,7 +46,6 @@ void strncpy(s32, s32, s32);
 s32 memset(void *, int, int);
 extern TAdEnterBaseGC::Position password_screen_status_line_position[];
 s32 create_default_callback__22TAdEnterSerialAccessGCFv(void *);
-extern RecoveredGlobal_803392F4_lbl_80477C20 TAdEnterPPPPassGC__selection_positions;
 void TKeyBoardControl__sub_8000F9CC(int);
 s32 TLobby__sub_80145A94(void);
 s32 TLobby__sub_80145DB4(int);
@@ -56,7 +54,6 @@ s8 *TLobby__sub_80146D44(void);
 int reset_mode_state__21TAdMultiChgGameModeGCFv(void*);
 void TAdEnterBaseGC__ct(void *);
 extern s32 __vt__17TAdEnterPPPPassGC[];
-extern s32 TAdEnterPPPPassGC__name;
 T_8033954C *TAdEnterPPPPassGC__ct(T_8033954C *arg0);
 char *realloc_buffer__17TWindowSubComCardFv(u8 *);
 void mem_free(void *);
@@ -92,7 +89,7 @@ void close_windows_and_advance__17TAdEnterPPPPassGCFPv(u8 *arg0) {
         *(u8 **)((s8 *)arg0 + 0x34) = NULL;
     }
     if ((void *) password_entry_keyboard_control != NULL) {
-        queue_destruction__7TObjectFv(password_entry_keyboard_control);
+        ((TObject *)password_entry_keyboard_control)->queue_destruction();
         password_entry_keyboard_control = NULL;
     }
     temp_r4 = *(s32 *)((s8 *)arg0 + 0x24) + 1;
@@ -107,7 +104,6 @@ int request_transition__17TAdEnterPPPPassGCFPv(void* p) { return request_transit
 
 typedef char RecoveredGlobal_80339480_lbl_804EF500_size[sizeof(RecoveredGlobal_80339480_lbl_804EF500) == 0x98 ? 1 : -1];
 
-typedef char RecoveredGlobal_803392F4_lbl_80477C20_size[sizeof(RecoveredGlobal_803392F4_lbl_80477C20) == 0x20 ? 1 : -1];
 
 void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc) {
     char *buf;
@@ -151,11 +147,11 @@ void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc
         if (cur != 0) {
             if (*(u32 *)((s8 *)ad_enter_serial_access_gc + 0x2C) != 0) {
                 ((TAdEnterSerialAccessGC *)(*(s32 *)((s8 *)ad_enter_serial_access_gc + 0x2C)))->reset_input_state();
-                ((TLevelSelect *)(*(s32 *)((s8 *)ad_enter_serial_access_gc + 0x2C)))->add_item_rect((u8 *)&TAdEnterPPPPassGC__selection_positions.value + 0x18);
+                ((TLevelSelect *)(*(s32 *)((s8 *)ad_enter_serial_access_gc + 0x2C)))->add_item_rect((void *)TAdEnterPPPPassGC__selection_positions[3]);
             }
         } else if (*(u32 *)((s8 *)ad_enter_serial_access_gc + 0x2C) != 0) {
             ((TAdEnterSerialAccessGC *)(*(s32 *)((s8 *)ad_enter_serial_access_gc + 0x2C)))->reset_input_state();
-            ((TLevelSelect *)(*(s32 *)((s8 *)ad_enter_serial_access_gc + 0x2C)))->add_item_rect((u8 *)&TAdEnterPPPPassGC__selection_positions.value + 0x10);
+            ((TLevelSelect *)(*(s32 *)((s8 *)ad_enter_serial_access_gc + 0x2C)))->add_item_rect((void *)TAdEnterPPPPassGC__selection_positions[2]);
         }
     }
     if (((TAdSinglePlyChrSelectGC *)(*(s32 *)((s8 *)ad_enter_serial_access_gc + 0x2C)))->get_selected_slot() == 1 &&
@@ -175,7 +171,7 @@ void open_keyboard_window__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc)
     temp_r3 = *(u32 *)((s8 *)ad_enter_serial_access_gc + 0x2C);
     if (temp_r3 != 0U) {
         ((TAdEnterSerialAccessGC *)temp_r3)->reset_input_state();
-        ((TLevelSelect *)(*(u32 *)((s8 *)ad_enter_serial_access_gc + 0x2C)))->add_item_rect((void *) ((u8 *)&TAdEnterPPPPassGC__selection_positions.value + 0x10));
+        ((TLevelSelect *)(*(u32 *)((s8 *)ad_enter_serial_access_gc + 0x2C)))->add_item_rect((void *)TAdEnterPPPPassGC__selection_positions[2]);
         ((TAdEnterSerialAccessGC *)(*(u32 *)((s8 *)ad_enter_serial_access_gc + 0x2C)))->set_active();
     }
     (*(s32 *)&password_entry_keyboard_control) = TAdEnterSerialAccessGC::create_keyboard_control((s32)ad_enter_serial_access_gc, 3);
@@ -234,7 +230,7 @@ T_8033954C *TAdEnterPPPPassGC__ct(T_8033954C *ad_enter_base_gc) {
         TLobby::init_account_entries();
     } else {
         TKeyBoardControl__sub_8000F9CC(0x13);
-        queue_destruction__7TObjectFv(ad_enter_base_gc);
+        ((TObject *)ad_enter_base_gc)->queue_destruction();
         return ad_enter_base_gc;
     }
     ok = 0;
@@ -251,7 +247,7 @@ T_8033954C *TAdEnterPPPPassGC__ct(T_8033954C *ad_enter_base_gc) {
     }
     if (ok != 0) {
         ((int (*)(void))reset_mode_state__21TAdMultiChgGameModeGCFv)();
-        queue_destruction__7TObjectFv(ad_enter_base_gc);
+        ((TObject *)ad_enter_base_gc)->queue_destruction();
         return ad_enter_base_gc;
     }
     ((TAdEnterBaseGC *)ad_enter_base_gc)->create_parts();

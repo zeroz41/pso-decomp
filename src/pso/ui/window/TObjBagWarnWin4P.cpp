@@ -51,7 +51,7 @@ s32 TObjBagWarnWin4P::check_can_open(void * _w0) {
     return i;
 }
 
-extern s32 TObjBagWarnWin4P__message_window_size[];
+__declspec(section ".data") f32 TObjBagWarnWin4P__message_window_size[2] = {350.0f, 120.0f};
 
 void TObjBagWarnWin4P::run_task() {
     u8 *arg0 = (u8 *)this;

@@ -11,8 +11,8 @@ public:
     virtual void update_attack();
     virtual void reserved_53();
     virtual void emit_marker_effects();
-    void *enter_timed_state(s32, void *);
-    u8 unk_1F8[0x4];
+    TUnk_804F0810(TObject *parent, u8 *item);
+    s32 unk_1F8;
 };
 
 #endif

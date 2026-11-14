@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/derolle/TBoss2PhotonPad.h"
 
@@ -16,6 +17,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
 
 
 struct VBase_18_39be15 { char pad[0x18]; };
@@ -53,7 +55,6 @@ const char *TBoss2PhotonPad__name = "TBoss2PhotonPad";
 const char *TBoss2PhotonBullet__name = "TBoss2PhotonBullet";
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *);
 f32 TBoss2DeRolLe__sub_80034CF8(void);
 s32 project_actor_to_ground(void *, void *, void *);
 extern const f32 lbl_805D8268;
@@ -100,13 +101,13 @@ void run_task__18TBoss2PhotonBulletFv(u8 *arg0) {
         Pair_80038E2C p = lbl_80435B38[0];
         p.b = TBoss2DeRolLe__sub_80034CF8();
         if (((VObj_18_39be15 *)arg0)->m14((s32 *)lbl_80435B40, (s32 *)&p) != 0) {
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
             return;
         }
     }
     (*(s32 *)((s8 *)arg0 + 0xD8))++;
     if (*(s32 *)((s8 *)arg0 + 0xD8) >= 0x78) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 #pragma pop
@@ -114,7 +115,7 @@ void run_task__18TBoss2PhotonBulletFv(u8 *arg0) {
 void *__dt__18TBoss2PhotonBulletFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(void ***)((s8 *)arg0 + 0x18) = __vt__18TBoss2PhotonBullet;
-        if (*(void **)((s8 *)arg0 + 0xE4) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xE4)); *(s32 *)((s8 *)arg0 + 0xE4) = 0; }
+        if (*(void **)((s8 *)arg0 + 0xE4) != NULL) { ((TObject *)(*(void **)((s8 *)arg0 + 0xE4)))->queue_destruction(); *(s32 *)((s8 *)arg0 + 0xE4) = 0; }
         __dt__13TUnk_804928CCFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
@@ -194,7 +195,7 @@ void TBoss2PhotonPad::run_task() {
         rotate_xz_pair_by_angle((f32 *)self->pos, (f32 *)self->unk28, (s32)(TBoss2PhotonPad__bullet_level_param_table[self->level].c / TBoss2PhotonPad__bullet_level_param_table[self->level].a));
         self->shots--;
         if (self->shots == 0) {
-            queue_destruction__7TObjectFv(self);
+            ((TObject *)self)->queue_destruction();
         }
     }
 }

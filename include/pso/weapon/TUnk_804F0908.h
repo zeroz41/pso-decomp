@@ -6,7 +6,8 @@
 class TUnk_804F0908 : public TItemWeapon {
 public:
     virtual ~TUnk_804F0908();
-    void *construct_rappys_fan(s32, void *);
+    virtual void emit_marker_effects();
+    TUnk_804F0908(TObject *parent, u8 *item);
 };
 
 #endif

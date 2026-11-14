@@ -26,12 +26,6 @@ u32 calc_text_width(char *s);
 void render_status_line__15TAdSubPlyItemGCFi(const char *, u32, f32, f32, f32);
 extern const char *TAdPlayerLoadGC__class_name;
 extern const char *TAdSubPlyItemGC__name;
-extern const f32 lbl_805DE7C0;
-extern const f32 lbl_805DE7C4;
-extern const f32 lbl_805DE7C8;
-extern const f32 lbl_805DE7CC;
-extern const f32 lbl_805DE7D0;
-extern s32 lbl_804E24F0[];
 extern int TAdPlayerLoadGC__load_state;
 extern int TAdChrSelBSlotGC__global_state;
 }
@@ -57,8 +51,8 @@ TAdSubPlyItemGC::~TAdSubPlyItemGC() {}
 void TAdSubPlyItemGC::run_task() {
     u32 i;
     for (i = 0; i < 4; i++) {
-        level_pos[i].x = (lbl_805DE7CC + name_pos[i].x) - (f32)calc_text_width((char *)format_level_text(levels[i]));
-        level_pos[i].y = lbl_805DE7D0 + name_pos[i].y;
+        level_pos[i].x = (180.0f + name_pos[i].x) - (f32)calc_text_width((char *)format_level_text(levels[i]));
+        level_pos[i].y = 20.0f + name_pos[i].y;
         if (visible[i] != 0) {
             alpha[i] += 0xB;
             alpha[i] = (alpha[i] > 0xFF) ? 0xFF : alpha[i];
@@ -72,9 +66,9 @@ void set_entry_text__15TAdSubPlyItemGCFPvPv(TAdSubPlyItemGC *self, Entry_802D6DA
     strncpy(self->names[i], e->str, 0xFE);
     self->levels[i] = e->id;
     ((TWindowSubSymbolChatPartsSet *)(&self->name_pos[i]))->copy_vec2(&e->pos);
-    self->level_pos[i].x = (lbl_805DE7CC + self->name_pos[i].x) -
+    self->level_pos[i].x = (180.0f + self->name_pos[i].x) -
                            (f32)calc_text_width((char *)self->format_level_text(self->levels[i]));
-    self->level_pos[i].y = lbl_805DE7D0 + self->name_pos[i].y;
+    self->level_pos[i].y = 20.0f + self->name_pos[i].y;
     self->alpha[i] = 0;
     self->visible[i] = 1;
 }
@@ -101,14 +95,14 @@ void TAdSubPlyItemGC::render() {
             if (visible[i] != 0 && names[i][0] != 0) {
                 pos = name_pos;
                 render_status_line__15TAdSubPlyItemGCFi(names[i], (alpha[i] << 24) | 0x111111,
-                    lbl_805DE7C0 + pos[i].x, name_pos[i].y, lbl_805DE7C4);
+                    1.0f + pos[i].x, name_pos[i].y, 0.39f);
                 render_status_line__15TAdSubPlyItemGCFi(names[i], (alpha[i] << 24) | 0xFFFFFF,
-                    pos[i].x, pos[i].y, lbl_805DE7C8);
+                    pos[i].x, pos[i].y, 0.4f);
                 if (levels[i] != 0) {
                     render_status_line__15TAdSubPlyItemGCFi((const char *)format_level_text(levels[i]),
-                        (alpha[i] << 24) | 0x111111, lbl_805DE7C0 + level_pos[i].x, level_pos[i].y, lbl_805DE7C4);
+                        (alpha[i] << 24) | 0x111111, 1.0f + level_pos[i].x, level_pos[i].y, 0.39f);
                     render_status_line__15TAdSubPlyItemGCFi((const char *)format_level_text(levels[i]),
-                        (alpha[i] << 24) | 0xFFFFFF, level_pos[i].x, level_pos[i].y, lbl_805DE7C8);
+                        (alpha[i] << 24) | 0xFFFFFF, level_pos[i].x, level_pos[i].y, 0.4f);
                 }
             }
         }
@@ -298,16 +292,3 @@ void TAdPlayerLoadGC::run_task() {
 }
 
 void TAdPlayerLoadGC::render() {}
-
-// TUnk_804E24F0's dtor: the weapon class's vtable (lbl_804E24F0) sits right before this
-// unit's data, so this copy probably belongs to the weapon unit's tail.
-extern "C" void *__dt__13TUnk_804E24F0Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804E24F0;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}

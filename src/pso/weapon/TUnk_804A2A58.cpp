@@ -129,14 +129,13 @@ TUnk_804A2A58::~TUnk_804A2A58() {
 
 }
 
-extern "C" const float lbl_805DAD78;
 
 TUnk_804A2A58::TUnk_804A2A58(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(2);
     shot_callback = (WeaponShotCallback)baranz_launcher_create_shot;
     spin_speed = 0;
     rotation_y = 0;
-    shot_speed = lbl_805DAD78;
+    shot_speed = 7.0f;
 }
 
 // ---- pso/unk/text_80126740

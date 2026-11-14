@@ -21,6 +21,7 @@
 #include "pso/object/key/TOKey.h"
 #include "pso/object/key/TOKeyMachine01.h"
 #include "pso/npc/TObjNpcEnemy.h"
+#include "pso/object/base/TObjMotion.h"
 
 #pragma readonly_strings on
 
@@ -73,7 +74,6 @@ s32 get_bml_motion(s32, s32);
 Node_80193188 *get_bml_model(s32, s32);
 extern s32 lazer_fence_norm_bml_resource;
 f32 xz_distance_squared(void *, s32);
-s32 update_object_view_visibility__8TObjBaseFff(void *, f32, f32);
 
 extern s32 camera_ctrl_instance;
 
@@ -86,7 +86,7 @@ s32 TObjLazerFence4::update_object_view_visibility(f32 farg0, f32 farg1) {
         this->visibility = 1;
         return this->visibility;
     }
-    return update_object_view_visibility__8TObjBaseFff(arg0, farg0, farg1);
+    return ((TObjBase *)arg0)->TObjBase::update_object_view_visibility(farg0, farg1);
 }
 
 void TObjLazerFence4::init_models() {

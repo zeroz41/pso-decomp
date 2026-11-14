@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/olgaflow/TBoss6CrushRock.h"
 #include "pso/boss/olgaflow/TBoss6CrushPtcl.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
@@ -14,6 +15,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "types.h"
 #include <stdlib.h>
+#include "pso/system/task/TObject.h"
 
 const char TBoss6CrushRock__class_name_string[] = "TBoss6CrushRock";
 const char TBoss6CrushPtcl__class_name_string[] = "TBoss6CrushPtcl";
@@ -125,7 +127,7 @@ TBoss6CrushRock::~TBoss6CrushRock() {}
 void TBoss6CrushRock::run_task() {
     u8 *arg0 = (u8 *)this;
     if (((s32)is_falz_alive()) == 0) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     *(s32 *)((s8 *)arg0 + 0x3C) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C) + *(s32 *)((s8 *)arg0 + 0x48));
@@ -139,7 +141,7 @@ void TBoss6CrushRock::run_task() {
         *(f32 *)((s8 *)arg0 + 0x34) = (f32) (*(f32 *)((s8 *)arg0 + 0x34) * lbl_805E00B8);
         *(f32 *)((s8 *)arg0 + 0x38) = (f32) (*(f32 *)((s8 *)arg0 + 0x38) * lbl_805E00C0);
         if (vector_length(arg0 + 0x30) < lbl_805E00C4) {
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
         }
     }
 }
@@ -183,7 +185,7 @@ void TBoss6CrushPtcl::run_task() {
             TParticleCtrl::release((void *)m_24);
             m_24 = 0;
         }
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 

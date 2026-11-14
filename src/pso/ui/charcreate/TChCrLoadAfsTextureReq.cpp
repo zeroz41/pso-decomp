@@ -21,10 +21,7 @@ void queue_destruction__7TObjectFv(void *);
 u32 get_bml_model(void *, int);
 s32 free_bin_model_request(void *, int);
 void *init_bin_model_request(void *, int, char **, u32 *, int, int, int);
-extern s32 __vt__22TChCrLoadAfsTextureReq[];
 extern const char *lbl_805D3B50;
-void __dt__7TObjectFv(void *, s32);
-void __dl__7TObjectFPv(void *);
 s32 TLobby__sub_803CC4C0(s32);
 f64 log();
 
@@ -81,38 +78,29 @@ s32 TChCrLoadAfsTextureReq::try_acquire_load_slot() {
     m_68 = 1;
     return 1;
 }
-
-TChCrLoadAfsTextureReq *__dt__22TChCrLoadAfsTextureReqFv(TChCrLoadAfsTextureReq *req, s16 free) {
+TChCrLoadAfsTextureReq::~TChCrLoadAfsTextureReq() {
     s32 i;
-    if (req != NULL) {
-        *(s32 **)((u8 *)req + 0x18) = __vt__22TChCrLoadAfsTextureReq;
-        if (req->m_1c == 0 && req->buffers[0] != 0) {
-            if (TLobby__sub_803CC4C0(req->load_handle) == 2) {
-                ((TLobby *)req->load_handle)->adxf_stop();
-            }
-            ((TLobby *)req->load_handle)->close_adxf_handle();
-            req->load_handle = 0;
+    if (this->m_1c == 0 && this->buffers[0] != 0) {
+        if (TLobby__sub_803CC4C0(this->load_handle) == 2) {
+            ((TLobby *)this->load_handle)->adxf_stop();
         }
-        req->finish_request();
-        for (i = 0; i < req->count; i++) {
-            if (req->buffers[i] != 0) {
-                TAdSinglePlyChrSelectGC::safe_free(req->buffers[i]);
-                req->buffers[i] = 0;
-            }
-        }
-        if (req->m_1c == 1) {
-            if (req->m_6c != 0) {
-                *req->m_34 &= ~req->m_6c;
-            } else if (req->m_34 != NULL) {
-                *req->m_34 = 1;
-            }
-        }
-        __dt__7TObjectFv(req, 0);
-        if (free > 0) {
-            __dl__7TObjectFPv(req);
+        ((TLobby *)this->load_handle)->close_adxf_handle();
+        this->load_handle = 0;
+    }
+    this->finish_request();
+    for (i = 0; i < this->count; i++) {
+        if (this->buffers[i] != 0) {
+            TAdSinglePlyChrSelectGC::safe_free(this->buffers[i]);
+            this->buffers[i] = 0;
         }
     }
-    return req;
+    if (this->m_1c == 1) {
+        if (this->m_6c != 0) {
+            *this->m_34 &= ~this->m_6c;
+        } else if (this->m_34 != NULL) {
+            *this->m_34 = 1;
+        }
+    }
 }
 
 }

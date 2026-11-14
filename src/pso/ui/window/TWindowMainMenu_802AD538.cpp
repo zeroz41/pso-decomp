@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowMainMenu_802AD538.h"
+#include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 struct TWindowSubComCard;
 #include "pso/ui/window/TWindowMenuMainMenu.h"
 #include "pso/ui/window/TWindowMainMenu.h"
@@ -110,7 +111,6 @@ struct Item_802AD7F0 {
 };
 
 s32 is_split_screen();
-int copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *, void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(int, int);
 s32 apply_choice__20TWindowChoiceSettingFllll(void *, int, int, int);
@@ -215,7 +215,7 @@ void TWindowMainMenu__sub_802AD74C(void* p) { *(u8*)((char*)p + 0x13) |= 0x2; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TWindowMainMenu::set_symbol_chat_parts(void * _w1) { copy_vec2__28TWindowSubSymbolChatPartsSetFPv(this, _w1); *(unsigned char *)&this->m_down = 8; }
+void TWindowMainMenu::set_symbol_chat_parts(void * _w1) { ((TWindowSubSymbolChatPartsSet *)this)->copy_vec2(_w1); *(unsigned char *)&this->m_down = 8; }
 #pragma pop
 
 #pragma push
@@ -223,8 +223,8 @@ void TWindowMainMenu::set_symbol_chat_parts(void * _w1) { copy_vec2__28TWindowSu
 #pragma auto_inline off
 #pragma dont_inline off
 void init_row_entry__15TWindowMainMenuFPvicc(u8 *window_sub_symbol_chat_parts_set, s32 arg1, s8 arg2, s8 arg3) {
-    copy_vec2__28TWindowSubSymbolChatPartsSetFPv((void *)window_sub_symbol_chat_parts_set, (void *)arg1);
-    copy_vec2__28TWindowSubSymbolChatPartsSetFPv(window_sub_symbol_chat_parts_set + 8, (void *)arg1);
+    ((TWindowSubSymbolChatPartsSet *)window_sub_symbol_chat_parts_set)->copy_vec2((void *)arg1);
+    ((TWindowSubSymbolChatPartsSet *)(window_sub_symbol_chat_parts_set + 8))->copy_vec2((void *)arg1);
     *(s8 *)((s8 *)window_sub_symbol_chat_parts_set + 0x10) = arg3;
     *(s8 *)((s8 *)window_sub_symbol_chat_parts_set + 0x11) = arg2;
     *(s8 *)((s8 *)window_sub_symbol_chat_parts_set + 0x12) = 0;

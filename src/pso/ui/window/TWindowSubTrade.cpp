@@ -2,6 +2,8 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/ui/window/TWindowMessage.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer.h"
 class TChCrTagPlBack;
 #include "pso/ui/window/TWindowSubTrade.h"
 #include "pso/unk/TLobby.h"
@@ -65,7 +67,7 @@ s32 TWindowSubTrade::open_trade_confirm_prompt(s32 arg1) {
     TWindowSubStatusDisp::get_message_10(0xD6);
     text_builder_append();
     temp_r29 = create__19TWindowMessageYesNoFPvPvPvPv(arg0, this->m_20, 0, 0);
-    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (u32)(TWindowSubStatusDisp::get_message_10(0x20)), (s32)(get_shared_text_buffer()), (s32)(get_window_layout_position(0x5B)), (f32)(384.0f));
+    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (u32)(TWindowSubStatusDisp::get_message_10(0x20)), (s32)(get_shared_text_buffer()), (s32)(get_window_layout_position(0x5B)), 384.0f);
     free_member__17TWindowSubComCardFv(temp_r29, 1);
     ((TWindowSubShortMail *)temp_r29)->notify_warp_flag70();
     return temp_r29;
@@ -98,10 +100,6 @@ TWindowSubComCardList *draw_card_icon__17TWindowSubComCardFll(s32 layout, s32 ki
 extern s32 local_client_id;
 s32 draw_text_gray__17TWindowSubComCardFllll(void *list, void *text, int kind, int id);
 s32 is_trade_range_bit_set(s32 client);
-s32 is_script_controlled__10TObjPlayerFv(TObjPlayer *player);
-s32 obj_isState3_324__9TObjCharaFv(TObjPlayer *player);
-extern const f32 lbl_805DE29C;
-extern const f32 lbl_805DE2A0;
 
 // The caller passes its TWindowSubTrade in r3; the body never reads it.
 TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
@@ -118,10 +116,10 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
         if (player == NULL) {
             continue;
         }
-        if (is_script_controlled__10TObjPlayerFv(player) != 0) {
+        if (player->is_script_controlled() != 0) {
             continue;
         }
-        if (obj_isState3_324__9TObjCharaFv(player) != 0) {
+        if (player->obj_isState3_324() != 0) {
             continue;
         }
         if (is_trade_range_bit_set(i)) {
@@ -134,7 +132,7 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
         draw_text_gray__17TWindowSubComCardFllll(list, TWindowSubStatusDisp::get_message_10(0xD2), 7, 0);
     }
     list->set_flag70_bit10();
-    list->set_scroll_target(lbl_805DE29C, lbl_805DE2A0);
+    list->set_scroll_target(224.0f, 88.0f);
     return list;
 }
 

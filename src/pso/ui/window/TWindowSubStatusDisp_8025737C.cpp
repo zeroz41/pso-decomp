@@ -119,14 +119,12 @@ struct Bar_8025799C {
 
 void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(u32, s32, s32, s32);
-#define destroy__13TUnk_804CF930Fs ((s32 (*)(s32, s32 *))destroy__13TUnk_804CF930Fs)
 #define calc_bar_width__13TUnk_804CF930Fv ((s32 (*)())calc_bar_width__13TUnk_804CF930Fv)
 #define step_gauge_bar_width ((void (*)(void *))step_gauge_bar_width)
 void* init_from__13TUnk_804CF930FPvi(void* a0, void* a1, int a2);
 u32 update_text_color_transition(Fade_802575C0 *fade);
 void start_text_color_transition(Fade_802575C0 *arg0, u32 rgb, f32 time);
 
-#define lbl_804CF930 (*(unsigned char (*)[1])&lbl_804CF930)
 extern s32 lbl_804CF948[];
 extern const float lbl_805DCE58;
 
@@ -335,7 +333,5 @@ u8 *TWindowSubStatusDisp::init_layout_entry_copy(u8 *arg1) {
 }
 
 #undef draw_status_gauge_bar__13TUnk_804CF930FPvPvff
-#undef destroy__13TUnk_804CF930Fs
 #undef calc_bar_width__13TUnk_804CF930Fv
 #undef step_gauge_bar_width
-#undef lbl_804CF930

@@ -62,10 +62,10 @@ void TWindowDD__sub_8034055C(TUnk_804EFBAC *self) {
         TWindowDD__sub_803489B8(ctx, points, i);
         if (i == sel) {
             ((TWindowDD *)points)->copy_point_table(1);
-            ((TWindowDD *)points)->draw_transformed_primitive((void *)8, (void *)count, (void *)1);
+            ((TWindowDD *)points)->draw_transformed_primitive(8, count, 1);
             ((TWindowDD *)points)->copy_point_table(0);
         } else {
-            ((TWindowDD *)points)->draw_transformed_primitive((void *)8, (void *)count, (void *)1);
+            ((TWindowDD *)points)->draw_transformed_primitive(8, count, 1);
         }
     }
     depth = TWindowDD__sub_80348AD4(self->pad_54, 0.2f);
@@ -151,19 +151,16 @@ void TWindowDD::handle_input() {
 void TWindowDD__sub_80340910(void *p) { ((TUnk_804EFBAC *)p)->pad_60 = 1; }
 
 void render_shadows__7TObjectFv();
-__declspec(section ".data") void *TWindowDD__layout_constant_pair[2] = {
-    (void *)0x0, (void *)0x0,
-};
-void *TWindowDD__layout_constants[5] = {
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x3,
-};
+// Window placement read by TWindowBase::sub_80244F2C: position, depth, layout
+// entry count and window flags.
+struct TWindowPlacement { f32 x; f32 y; f32 depth; s32 entry_count; s32 flags; };
+
+__declspec(section ".data") f32 TWindowDD__layout_constant_pair[2] = { TWindowDD__data_805DFBFC, lbl_805DFC00 };
+TWindowPlacement TWindowDD__layout_constants = { lbl_805DFC04, lbl_805DFC08, lbl_805DFC2C, 0, 3 };
 void *lbl_804EFBAC[7] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__13TUnk_804EFBACFv, (void *)&update_draw__9TWindowDDFPv,
     (void *)&TWindowDD__sub_8034055C, (void *)&render_shadows__7TObjectFv, (void *)0x0,
 };
-#define TWindowDD__layout_constant_pair ((f32 *)TWindowDD__layout_constant_pair)
-#define TWindowDD__layout_constants ((f32 *)TWindowDD__layout_constants)
 #define lbl_804EFBAC ((s32 *)lbl_804EFBAC)
 
 void TWindowDD::set_clamped_selection(s32 arg1) {
@@ -195,7 +192,7 @@ struct W_803409A4 { u8 pad0[0x18]; void *p18; u8 pad1c[0x5C - 0x1C]; s32 f5c; s3
 
 void *TWindowDD::construct_variant_a(void *arg0v) {
     W_803409A4 *w = (W_803409A4 *)arg0v;
-    ((TWindowDD *)w)->construct_base((u8 *)TWindowDD__layout_constants, (s16)4, (u8 *)TWindowDD__layout_constant_pair);
+    ((TWindowDD *)w)->construct_base((u8 *)&TWindowDD__layout_constants, (s16)4, (u8 *)TWindowDD__layout_constant_pair);
     w->p18 = lbl_804EFBAC;
     w->f60 = 1;
     w->f64 = 2;
@@ -210,13 +207,5 @@ void *TWindowDD::create() {
         o = TWindowDD::construct_variant_a(o);
     }
     return o;
-}
-
-void TWindowDD::init_layout_constants() {
-    TWindowDD__layout_constant_pair[0] = TWindowDD__data_805DFBFC;
-    TWindowDD__layout_constant_pair[1] = lbl_805DFC00;
-    TWindowDD__layout_constants[0] = lbl_805DFC04;
-    TWindowDD__layout_constants[1] = lbl_805DFC08;
-    TWindowDD__layout_constants[2] = lbl_805DFC2C;
 }
 }

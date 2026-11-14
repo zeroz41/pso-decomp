@@ -1,116 +1,20 @@
 #include "types.h"
 #include "pso/ui/UISprite.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/ui/charcreate/TChCrTagOccHeader.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/charcreate/TChCrTagOccupation.h"
-extern "C" void render__18TChCrTagOccupationFv();
 #include "pso/ui/charcreate/TChCrCharSelect.h"
-
-extern "C" {
-
-int render__17TChCrTagOccHeaderFv(void* p);
-int fn_802A2A00(void*);
-
-void TChCrTagOccHeader::render() { fn_802A2A00(this); }
-
-}
-
-extern "C" {
-s32 TChCrTagOccHeader__vt4(TChCrTagOccHeader *tag);
-void run_task__17TChCrTagOccHeaderFv(TChCrTagOccHeader *tag);
-
-void TChCrTagOccHeader::run_task() {
-    update_fade__8TChCrTagFPv(this);
-    m_3c = m_3c + 1;
-}
-s32 TChCrTagOccHeader__vt4(TChCrTagOccHeader *tag) {
-    switch (TChCrCharSelect::get_selected_index()) {
-    case 0:
-        if (tag->m_20 < 3 && tag->m_20 == TChCrCharSelect::get_selected_char()) {
-            return 1;
-        }
-        break;
-    default:
-        if (tag->m_20 >= 3 && tag->m_20 - 3 == TChCrCharSelect::get_instance()) {
-            return 1;
-        }
-        break;
-    }
-    return 0;
-}
-
-extern void *__vt__17TChCrTagOccHeader[];
-void __dl__7TObjectFPv(void *);
-TChCrTagOccHeader *__dt__17TChCrTagOccHeaderFv(TChCrTagOccHeader *tag, s16 free) {
-    if (tag != NULL) {
-        *(void ***)((u8 *)tag + 0x18) = __vt__17TChCrTagOccHeader;
-        __dt__8TChCrTagFv(tag, 0);
-        if (free > 0) {
-            __dl__7TObjectFPv(tag);
-        }
-    }
-    return tag;
-}
-
-void render_shadows__7TObjectFv();
-void *__vt__17TChCrTagOccHeader[] = {
-    0, 0,
-    (void *)__dt__17TChCrTagOccHeaderFv,
-    (void *)run_task__17TChCrTagOccHeaderFv,
-    (void *)render__17TChCrTagOccHeaderFv,
-    (void *)render_shadows__7TObjectFv,
-    (void *)TChCrTagOccHeader__vt4,
-    0,
-};
-
-
-extern const f32 lbl_805DDECC;
-extern const f32 lbl_805DDED0;
-extern const char *chcr_tag_occ_header_class_name;
-
-}
-
-TChCrTagOccHeader::TChCrTagOccHeader(TObject *parent, void *arg) : TChCrTag(parent, arg) {
-    m_name = chcr_tag_occ_header_class_name;
-    m_28 = lbl_805DDECC;
-    m_2c = lbl_805DDED0;
-    m_34 = lbl_805DDECC;
-    m_38 = lbl_805DDED0;
-}
-
-void *create_ch_cr_tag_occ_header(void *arg0) {
-    return new TChCrTagOccHeader(tl_03, arg0);
-}
-
-void create_all_ch_cr_tag_headers(void) {
-    int i;
-    for (i = 0; i < 15; i++) {
-        create_ch_cr_tag_occ_header((void *)i);
-    }
-}
-
 #include "pso/math/TMath.h"
 
+extern "C" void render__18TChCrTagOccupationFv();
+
 extern "C" {
-extern const f32 lbl_805DDED8;
-extern const f32 lbl_805DDEDC;
-extern const f32 lbl_805DDEE0;
-extern const f32 lbl_805DDEE4;
-extern const f32 lbl_805DDEE8;
-extern const f32 lbl_805DDEEC;
-extern const f32 lbl_805DDEF0;
-extern const f32 lbl_805DDEF4;
-extern const f32 lbl_805DDEF8;
-extern const f32 lbl_805DDEFC;
+void render_shadows__7TObjectFv();
+}
+
+extern "C" {
 extern void *__vt__18TChCrTagOccupation[];
 const char *chcr_tag_occupation_class_name = "TChCrTagOccupation";
-extern const f32 lbl_805DDF00;
-extern const f32 lbl_805DDF04;
-extern const f32 lbl_805DDF08;
-extern const f32 lbl_805DDF0C;
-extern const f32 lbl_805DDF10;
-extern const f32 lbl_805DDF14;
 int TChCrTagOccupation__vt4(TChCrTagOccupation *tag);
 #pragma push
 #pragma fp_contract on
@@ -128,20 +32,20 @@ void TChCrTagOccupation::sub_802A2DF4() {
     }
     switch (TChCrCharSelect::get_selected_index()) {
     case 0:
-        s = lbl_805DDEDC * m_30 + lbl_805DDED8;
+        s = 0.4f * m_30 + 0.6f;
         break;
     default:
         s = m_30;
         break;
     }
     if (vt4() != 0) {
-        depth = lbl_805DDEE0;
+        depth = -3.375f;
     } else {
-        depth = lbl_805DDEE8 * s + lbl_805DDEE4;
+        depth = 0.3125f * s + -3.6875f;
     }
-    pos.x = lbl_805DDEEC * (lbl_805DDEF0 - t) + pos.x;
-    pos.y = lbl_805DDEF4 * (f32)m_20 + pos.y;
-    draw_ui_sprite_shaded(id, &pos, &scale, depth, lbl_805DDEF0, lbl_805DDEFC * (s * s) + lbl_805DDEF8);
+    pos.x = 25.0f * (1.0f - t) + pos.x;
+    pos.y = 108.0f * (f32)m_20 + pos.y;
+    draw_ui_sprite_shaded(id, &pos, &scale, depth, 1.0f, 0.75f * (s * s) + 0.25f);
 }
 #pragma pop
 
@@ -157,7 +61,7 @@ TChCrTagOccupation *__dt__18TChCrTagOccupationFv(TChCrTagOccupation *tag, s16 fr
         *(void ***)((u8 *)tag + 0x18) = __vt__18TChCrTagOccupation;
         __dt__8TChCrTagFv(tag, 0);
         if (free > 0) {
-            __dl__7TObjectFPv(tag);
+            TObject::operator delete(tag);
         }
     }
     return tag;
@@ -168,12 +72,12 @@ TChCrTagOccupation *__dt__18TChCrTagOccupationFv(TChCrTagOccupation *tag, s16 fr
 #pragma fp_contract on
 TChCrTagOccupation::TChCrTagOccupation(TObject *parent, void *arg) : TChCrTag(parent, arg) {
     m_name = chcr_tag_occupation_class_name;
-    m_28 = lbl_805DDF00;
-    m_2c = lbl_805DDF04;
-    m_34 = lbl_805DDF08;
-    m_38 = lbl_805DDF0C;
-    m_3c = lbl_805DDF14 * (f32)m_20 + lbl_805DDF10;
-    m_40 = lbl_805DDEF0;
+    m_28 = 0.033333335f;
+    m_2c = -0.022222223f;
+    m_34 = 0.6666667f;
+    m_38 = -0.06666667f;
+    m_3c = 0.053333331f * (f32)m_20 + 0.8f;
+    m_40 = 1.0f;
 }
 #pragma pop
 

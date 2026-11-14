@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TObjResultWin.h"
@@ -8,6 +9,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
+#include "pso/system/task/TObject.h"
 
 struct TObjNewFloorWin_80073DCC { u8 pad[0x1C]; s32 state; void *window; s32 timer24; s32 timer28; };
 
@@ -17,7 +19,6 @@ s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32);
 s32 get_window_layout_position(s32);
 s32 sprintf(void *, const char *, ...);
-void queue_destruction__7TObjectFv(void *);
 s32 TWindowCtrlMain__sub_8024CE58();
 void TShopWindowBase::set_field_20(s32 v) { *(s32 *)&(*(u32 *)((u8 *)this + 0x20)) = v; }
 
@@ -28,7 +29,7 @@ void TObjNewFloorWin::run_task() {
         if (self->window == NULL) {
             if (TWindowCtrlMain__sub_8024CE58() == 0) {
                 if (--self->timer24 <= 0) {
-                    queue_destruction__7TObjectFv(self);
+                    ((TObject *)self)->queue_destruction();
                     return;
                 }
                 return;
@@ -49,7 +50,7 @@ void TObjNewFloorWin::run_task() {
         break;
     case 2:
         if (--self->timer28 <= 0) {
-            queue_destruction__7TObjectFv(self);
+            ((TObject *)self)->queue_destruction();
         }
         break;
     }

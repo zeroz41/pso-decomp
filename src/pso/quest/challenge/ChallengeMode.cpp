@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/TObjWarnChime.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TObjSoloPlayWin.h"
@@ -11,6 +12,7 @@
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/object/TObjTombstone.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 typedef char TChallenge_state_offset[(offsetof(TChallenge, state) == 0x1C) ? 1 : -1];
 typedef char TChallenge_frame_offset[(offsetof(TChallenge, frame_count) == 0x20) ? 1 : -1];
 typedef char TChallenge_size[(sizeof(TChallenge) == 0x30) ? 1 : -1];
@@ -86,7 +88,6 @@ void TLobby__sub_80070358(void);
 void clear_four_slots__6TLobbyFv(void);
 void TLobby__sub_800738F4(void *, s32);
 s32 get_main_phase(void);
-void queue_destruction__7TObjectFv(void *);
 s32 get_current_floor(void);
 }
 void *create_obj_tag_challenge(void *arg0);
@@ -534,15 +535,15 @@ s32 TLobby::destroy_on_phase_change() {
     switch (get_main_phase()) {
     case 15:
         if (get_current_floor_area() == AREA_LOBBY) {
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
             return 1;
         }
         break;
     case 14:
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return 1;
     default:
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return 1;
     }
     return 0;

@@ -2,6 +2,7 @@
 #include "pso/render/render_util.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer.h"
 
 struct Msg_8014DC5C { s16 hdr; s16 type; s16 angle; s16 flag; };
 
@@ -91,7 +92,7 @@ void TNpcPlayer::send_partner_attack_stage_request() {
             if (tgt != NULL) {
                 m0.angle = calc_angle_to((Vec *)(self->npc->pl->pos), (Vec *)(tgt + 0x38));
                 pl = self->npc->pl;
-                ((TNpcPlayer *)(get_state_ptr__10TObjPlayerFv(pl->state)))->set_state(1);
+                ((TNpcPlayer *)(((TObjPlayer *)pl->state)->get_state_ptr()))->set_state(1);
                 set_field_0__10TNpcPlayerFs(get_state_ptr__10TObjPlayerFv(pl->state) + 4, ((GetState_8014DC5C)get_npc_state__10TNpcPlayerFv)(self->npc));
                 set_field2__10TNpcPlayerFs(get_state_ptr__10TObjPlayerFv(pl->state) + 4, TNpcPlayer__sub_801528DC(self->npc));
                 ((TNpcPlayer *)(&m0))->update_lobby();
@@ -108,7 +109,7 @@ void TNpcPlayer::send_partner_attack_stage_request() {
             if (tgt != NULL) {
                 m1.angle = calc_angle_to((Vec *)(self->npc->pl->pos), (Vec *)(tgt + 0x38));
                 pl = self->npc->pl;
-                ((TNpcPlayer *)(get_state_ptr__10TObjPlayerFv(pl->state)))->set_state(1);
+                ((TNpcPlayer *)(((TObjPlayer *)pl->state)->get_state_ptr()))->set_state(1);
                 set_field_0__10TNpcPlayerFs(get_state_ptr__10TObjPlayerFv(pl->state) + 4, ((GetState_8014DC5C)get_npc_state__10TNpcPlayerFv)(self->npc));
                 set_field2__10TNpcPlayerFs(get_state_ptr__10TObjPlayerFv(pl->state) + 4, TNpcPlayer__sub_801528DC(self->npc));
                 ((TNpcPlayer *)(&m1))->update_players();
@@ -125,7 +126,7 @@ void TNpcPlayer::send_partner_attack_stage_request() {
             if (tgt != NULL) {
                 m2.angle = calc_angle_to((Vec *)(self->npc->pl->pos), (Vec *)(tgt + 0x38));
                 pl = self->npc->pl;
-                ((TNpcPlayer *)(get_state_ptr__10TObjPlayerFv(pl->state)))->set_state(1);
+                ((TNpcPlayer *)(((TObjPlayer *)pl->state)->get_state_ptr()))->set_state(1);
                 set_field_0__10TNpcPlayerFs(get_state_ptr__10TObjPlayerFv(pl->state) + 4, ((GetState_8014DC5C)get_npc_state__10TNpcPlayerFv)(self->npc));
                 set_field2__10TNpcPlayerFs(get_state_ptr__10TObjPlayerFv(pl->state) + 4, TNpcPlayer__sub_801528DC(self->npc));
                 ((TNpcPlayer *)(&m2))->update();

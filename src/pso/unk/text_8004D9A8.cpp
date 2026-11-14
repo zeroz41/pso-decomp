@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
@@ -20,6 +21,12 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/darkfalz/TObjDFDemo0.h"
+#include "pso/system/task/TObject.h"
+
+const char *TObjDFDemo0__name = "TObjDFDemo0";
+const ModelNodeSpec TObjDFDemo0__model_node_entries[7] = {
+    {9, 1, 0}, {7, 1, 0}, {5, 2, 0}, {4, 2, 0}, {6, 2, 0}, {3, 5, 0}, {3, 0x5E, 0},
+};
 
 extern "C" {
 
@@ -96,9 +103,6 @@ void *lbl_80485514[15] = {
     (void *)0x0, (void *)0xc1f00000, (void *)0x0, (void *)0x42700000,
     (void *)0x0, (void *)0x42f00000, (void *)0x0,
 };
-#define TObjDFDemo0__entry_table ((u8 *)TObjDFDemo0__entry_table)
-#define lbl_804854F0 ((u8 *)lbl_804854F0)
-#define lbl_80485514 ((u8 *)lbl_80485514)
 #define V90 (*(Vec_8004DA7C *)lbl_804854F0)
 void TBoss3Volopt__sub_8004DA7C(u8 *self) {
     s32 i;
@@ -197,13 +201,10 @@ void TBoss3Volopt__sub_8004DA7C(u8 *self) {
     }
     S->node_tables.scroll_strips();
     if (++*(s32 *)((s8 *)self + 0x90) >= 0x118) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
     }
 }
 
-#undef TObjDFDemo0__entry_table
-#undef lbl_804854F0
-#undef lbl_80485514
 #undef V90
 void *lbl_80485550[3] = {
     (void *)0x0, (void *)0x0, (void *)0xc2f00000,
@@ -243,7 +244,7 @@ S_8004DE44 *__dt__11TObjDFDemo0Fv(S_8004DE44 *o, s16 flag) {
 }
 
 typedef struct Obj_8004DEE0 {
-    s32 f0;
+    const char *name;
     u8 pad4[0x18 - 0x4];
     void *vt;
     u8 pad1c[0x90 - 0x1c];
@@ -271,9 +272,7 @@ s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
 void set_scripted_camera_pose(void *, void *, void *);
 void __ct__8TObjBaseFP7TObject(void *, void *);
-extern const ModelNodeSpec TObjDFDemo0__model_node_entries[7];
 extern s32 lbl_80485EB0[];
-extern s32 TObjDFDemo0__name;
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
 extern "C" void get_name__8TObjBaseFv();
@@ -302,7 +301,7 @@ Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
 
     __ct__8TObjBaseFP7TObject(self, parent);
     self->vt = (void *)__vt__11TObjDFDemo0;
-    self->f0 = TObjDFDemo0__name;
+    self->name = TObjDFDemo0__name;
     h = TBoss4Uro::get_instance_count();
     for (i = 0; i < 6; i++) {
         {

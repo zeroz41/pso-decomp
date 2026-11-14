@@ -283,7 +283,6 @@ u32 TCheckRoomSequence__slot_active_flags[4];
 #define bank_item_records_by_slot (*(Rec_80211034 *(*)[4])bank_item_records_by_slot)
 #define lbl_80513D98 (*(s32 (*)[4])lbl_80513D98)
 #define lbl_80513DA8 (*(s32 (*)[4])lbl_80513DA8)
-#define TCheckRoomSequence__slot_active_flags (*(s32 (*)[4])TCheckRoomSequence__slot_active_flags)
 
 s32 check_room_ready__18TCheckRoomSequenceFv(void) {
     if (TRaderMapCore::is_not_split_screen() == 0) {

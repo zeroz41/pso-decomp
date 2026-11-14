@@ -10,6 +10,7 @@
 #include "pso/item/TItemEquipVariant_8012AEA8.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/item/TItem.h"
 
 struct VBase_18 { char pad[0x18]; };
 struct VObj_18 : VBase_18 {
@@ -189,7 +190,6 @@ struct Pl_8012AC68 : PlB_8012AC68 {
 };
 
 extern "C" {
-s32 send_activate_effect__5TItemFl(void *, int);
 u32 *copy_attack_targets(u32 *dst, u32 *src);
 s32 get_captured_target_collider_index(s32);
 s32 get_captured_target_entry(void *, s32);
@@ -249,7 +249,7 @@ void TUnk_804A4B80::emit_marker_effects() {
         if (!((TLobby::get_internet_beat() / 100) & 1)) {
             var_r31 = 1;
         }
-        send_activate_effect__5TItemFl(this, var_r31);
+        send_activate_effect(var_r31);
         return;
     }
     ((TItemWeapon *)((u8 *)this))->get_gun_point(&sp8);

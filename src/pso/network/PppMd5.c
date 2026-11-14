@@ -11,7 +11,7 @@
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/PppMd5.h"
 
-extern u8 lbl_8047FE78[];
+const u8 lbl_8047FE78[64] = {128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 void TLobby__sub_80401D2C(u8 *dst, u32 *self_m) {
     u8 buf[8];
     u32 x;

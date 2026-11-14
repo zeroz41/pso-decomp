@@ -17,7 +17,7 @@ void TLobby__sub_80227A6C(void) {  }
 int TLobby__sub_80227A70(void* p) { return ((int (*)(void*))TLobby__sub_8022804C)(p); }
 void TLobby__sub_80227A90(void) {  }
 
-    extern int lbl_805D3710;
+    int lbl_805D3710 = -140;
     extern int lbl_805D6314;
 void __sinit_TLobby_80227A2C_cpp(void) { lbl_805D6314 = lbl_805D3710; }
 }

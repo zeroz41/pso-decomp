@@ -10,6 +10,8 @@
 #include "pso/item/mag/TItemMag.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/Language.h"
+#include "pso/item/TItemData.h"
+#include "pso/ui/window/TWindowBase.h"
 struct Stack_80253268 {
     s32 sp8;
     s16 spC;
@@ -42,7 +44,6 @@ extern "C" {
 s32 build_player_equipment_requirement_stats(int, void *);
 void *get_player_by_client_id(s32 i);
 u8 *get_array_entry__11TWindowBaseFi(void *, s32);
-void deserialize_mag__9TItemDataFPvPv(void *, MagData_80253564 *);
 void draw_action_palette_icon(void *, int, u16);
 void init_window_layout_entries(void *, const void *, s16);
 s32 *get_shared_text_buffer(void);
@@ -92,7 +93,7 @@ void TWindowHelpItem__sub_80253268(u8 *arg0) {
     if (temp_r3 != 0) {
         temp_r31 = (u8 *)(temp_r3 + 0x85C);
         if (temp_r31 != NULL) {
-            temp_r31_2 = (u8 *)(get_array_entry__11TWindowBaseFi(arg0, 5));
+            temp_r31_2 = (u8 *)(((TWindowBase *)arg0)->get_array_entry(5));
             if (!(*(s32 *)((s8 *)temp_r31 + 0x34) & 0x10) && (build_player_equipment_requirement_stats(temp_r3, &stack.sp8) != 0)) {
                 *(s32 *)((s8 *)temp_r31_2 + 0x20) = (s32) stack.spC;
             }
@@ -168,13 +169,13 @@ void TWindowHelpItem__vt11(u8 *window) {
     ((MagStats *)(&mag))->init();
     init_window_layout_entries(window + 0x24, lbl_804CF4E4, *(s16 *)((s8 *)window + 0x20));
     *(Callback_80253564 *) (window + 0xB0) = TWindowHelpItem__photon_blast_update_callback;
-    deserialize_mag__9TItemDataFPvPv(*(void **)((s8 *)window + 0x68), &mag);
+    TItemData::deserialize_mag(*(void **)((s8 *)window + 0x68), &mag);
     for (slot = 0; slot < 3; slot++) {
         blast = ((MagStats *)(&mag))->get_photon_blast(slot);
         if (blast != -1) {
-            draw_action_palette_icon(((void *)get_array_entry__11TWindowBaseFi(window, slot + 1)), 5, (u16) blast);
+            draw_action_palette_icon(((void *)((TWindowBase *)window)->get_array_entry(slot + 1)), 5, (u16) blast);
         } else {
-            draw_action_palette_icon(((void *)get_array_entry__11TWindowBaseFi(window, slot + 1)), 0, 0);
+            draw_action_palette_icon(((void *)((TWindowBase *)window)->get_array_entry(slot + 1)), 0, 0);
         }
     }
 }

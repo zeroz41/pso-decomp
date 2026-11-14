@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/effect/TUnk_80494968.h"
 #include "types.h"
@@ -13,6 +14,12 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/render/RenderFadeState.h"
+#include "pso/system/task/TObject.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -23,6 +30,7 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 #include "pso/enemy/beast/TObjEneBeast.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/BmlResourceDescriptor.h"
 
 #include <stddef.h>
 extern "C" {
@@ -33,7 +41,6 @@ s32 restore_scene_lighting();
 s32 select_actor_lighting(void *);
 s32 push_matrix();
 s32 set_global_param__8TObjFishFl(s32);
-s32 defer_render__7TObjectFv(void *);
 extern s32 model_render_flags;
 }
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -118,8 +125,6 @@ void mult_vec_array__10TObjPlayerFUll(int, u32, void *, int);
 void set_matrix_identity(u8 *arg0);
 extern void *beast_claw_trail_instance;
 extern void *boss4_type3_instance;
-s32 get_camera_mode__11TCameraCtrlFv();
-s32 update__15RenderFadeStateFv(void *);
 extern s32 saved_model_render_flags;
 #define play_sound_effect (*(s32 (*)(s32, s32, s32, s32))&play_sound_effect)
 extern "C" void render_shadows__9TObjEnemyFv(u8 *arg0);
@@ -247,7 +252,7 @@ void TObjEneBeast::vfunc_83() {
             *(s32 *)((s8 *)arg0 + 0x390) = 0;
             *(s16 *)((s8 *)arg0 + 0xB8) = 0;
             ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0x0A000000);
-            obj_clearFlags30__8TObjBaseFUl(arg0, 0x04000000);
+            ((TObjBase *)arg0)->obj_clearFlags30(0x04000000);
         }
         break;
     case 2:
@@ -264,7 +269,7 @@ void render__12TObjEneBeastFPv(Obj_8009211C *o) {
 
     cam = 0;
     if (is_split_screen() != 0) {
-        cam = get_camera_mode__11TCameraCtrlFv();
+        cam = TCameraCtrl::get_camera_mode();
     }
     drawMode = o->m9(2e+02f, 4e+02f, 3e+01f);
     if (drawMode == 0) {
@@ -273,12 +278,12 @@ void render__12TObjEneBeastFPv(Obj_8009211C *o) {
     fade = 0;
     if (TObjEneDD::check_v2_mode() != 0) {
         fade = (s32)&o->fades[cam];
-        update__15RenderFadeStateFv((void *)fade);
+        ((RenderFadeState *)fade)->update();
         fade = ((RenderFadeState *)fade)->updateFromCamera((const f32*)(&o->f2FC));
     }
     saved_model_render_flags = model_render_flags;
     select_actor_lighting(o);
-    set_global_param__8TObjFishFl(o->f24);
+    TObjFish::set_global_param(o->f24);
     push_matrix();
     translate_matrix(0, 0.0f, o->f380, 0.0f);
     post_translate_matrix(o->f38);
@@ -290,7 +295,7 @@ void render__12TObjEneBeastFPv(Obj_8009211C *o) {
         doDraw = 1;
         if (fade != 0) {
             o->fades[cam].m6();
-            if (defer_render__7TObjectFv(o) != 0) {
+            if (((TObject *)o)->defer_render() != 0) {
                 doDraw = 0;
             }
         }
@@ -368,7 +373,7 @@ struct Ent_8009241C { u8 pad0[0xC]; f32 radius; u8 pad10[0x2C - 0x10]; };
 struct Mdl_8009241C { u8 pad0[8]; s32 f8; NJS_TEXLIST *texlist; };
 struct Mot_8009241C { u8 pad0[4]; s32 f4; };
 struct Data_8009241C { u8 pad0[0x42C]; Mdl_8009241C *f42c; Mot_8009241C *f430; };
-struct Quad_8009241C { s32 a; s32 b; s32 c; s32 d; };
+struct Quad_8009241C { s32 a; void *b; s32 c; s32 d; };
 struct Ids_8009241C { s16 id[3]; };
 
 struct O_80092724 { u8 pad0[0x18]; void *vptr; u8 pad1c[0x38c]; void *objs[2]; };
@@ -385,11 +390,8 @@ s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
-u8 *load_enemy_bml_resource_named(void *, void *);
+u8 *load_enemy_bml_resource_named(void *, const char *);
 void *mem_alloc(u32 size);
-extern Ids_8009241C lbl_80439D68[];
-extern Quad_8009241C lbl_80439D70[];
-extern s32 lbl_80439D80[];
 void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void *__nw__7TObjectFUl(int);
@@ -461,22 +463,6 @@ extern "C" void get_name__9TObjEnemyFv();
 extern "C" void get_pos__9TObjCharaFl();
 extern "C" void is_actor_cadence_frame__9TObjCharaFl();
 extern "C" void is_target_in_attack_range__9TObjCharaFv();
-extern "C" u8 beast_body_model_filename[];
-extern "C" u8 beast_red_body_model_filename[];
-extern "C" u8 beast_super_red_body_model_filename[];
-extern "C" u8 beast_appear_motion_filename[];
-extern "C" u8 beast_attack_left_motion_filename[];
-extern "C" u8 beast_attack_right_motion_filename[];
-extern "C" u8 beast_damage_motion_filename[];
-extern "C" u8 beast_deadb_motion_filename[];
-extern "C" u8 beast_dead_motion_filename[];
-extern "C" u8 beast_leader_motion_filename[];
-extern "C" u8 beast_mihari_motion_filename[];
-extern "C" u8 beast_run_motion_filename[];
-extern "C" u8 beast_stund_motion_filename[];
-extern "C" u8 beast_wakeup_motion_filename[];
-extern "C" u8 beast_walk_motion_filename[];
-extern "C" u8 beast_bml_filename[];
 extern "C" void vfunc_95__12TObjEneBeastFv();
 extern "C" void vfunc_97__12TObjEneBeastFv();
 extern "C" void vfunc_98__12TObjEneBeastFv();
@@ -505,20 +491,21 @@ extern "C" s32 update_defense_stat_status__9TObjCharaFv(u8 *player);
 extern "C" void update_flag30_timer__9TObjCharaFv();
 extern "C" void update_object_view_visibility__8TObjBaseFff();
 extern "C" void update_poison_status__9TObjCharaFv();
-extern void *beast_model_name_table[4];
-extern void *beast_motion_name_table[13];
-void *beast_model_name_table[4] = {
-    (void *)&beast_body_model_filename, (void *)&beast_red_body_model_filename, (void *)&beast_super_red_body_model_filename, (void *)0x0,
+const char *beast_model_name_table[4] = {
+    "re8_b_beast_wola_body.nj", "re8_b_rdbeast_wola_body.nj", "re8_b_srdbeast_wola_body.nj", NULL,
 };
-void *beast_motion_name_table[13] = {
-    (void *)&beast_appear_motion_filename, (void *)&beast_attack_left_motion_filename, (void *)&beast_attack_right_motion_filename, (void *)&beast_damage_motion_filename,
-    (void *)&beast_deadb_motion_filename, (void *)&beast_dead_motion_filename, (void *)&beast_leader_motion_filename, (void *)&beast_mihari_motion_filename,
-    (void *)&beast_run_motion_filename, (void *)&beast_stund_motion_filename, (void *)&beast_wakeup_motion_filename, (void *)&beast_walk_motion_filename,
-    (void *)0x0,
+const char *beast_motion_name_table[13] = {
+    "appear_bm1_s_wala_body.njm", "atackl_bm1_s_wala_body.njm", "atackr_bm1_s_wala_body.njm", "damage_bm1_s_wala_body.njm",
+    "deadb_bm1_s_wala_body.njm", "dead_bm1_s_wala_body.njm", "leader_bm1_s_wala_body.njm", "mihari_bm1_s_wala_body.njm",
+    "run_bm1_s_wala_body.njm", "stund_bm1_s_wala_body.njm", "wakeup_bm1_s_wala_body.njm", "walk_bm1_s_wala_body.njm",
+    NULL,
 };
-void *beast_resource_descriptor[4] = {
-    (void *)&beast_bml_filename, (void *)&beast_model_name_table, (void *)&beast_motion_name_table, (void *)0x3000c,
+BmlResourceDescriptor beast_resource_descriptor = {
+    "bm_ene_re8_b_beast.bml", beast_model_name_table, beast_motion_name_table, 3, 12,
 };
+// inferred: stored to the object's name field by the constructor
+const char *beast_class_name = "TObjEneBeast";
+extern const char beast_a_bml_filename[25];
 void *beast_action_table[48] = {
     (void *)0x10000, (void *)0x9, (void *)0x3f19999a, (void *)0x1,
     (void *)0x20000, (void *)0x7, (void *)0x3f19999a, (void *)0x20,
@@ -580,7 +567,6 @@ void *__vt__12TObjEneBeast[103] = {
     (void *)&vfunc_96__12TObjEneBeastFv, (void *)&vfunc_97__12TObjEneBeastFv, (void *)&vfunc_98__12TObjEneBeastFv, (void *)&vfunc_99__12TObjEneBeastFv,
     (void *)&vfunc_100__13TUnk_80493450Fv, (void *)&vfunc_101__12TObjEneBeastFv, (void *)&request_stand_action__13TUnk_80493450Fv,
 };
-#define __vt__12TObjEneBeast ((u8 *)__vt__12TObjEneBeast)
 
 void *TObjEneBeast::create(void *arg0) {
     void *o;
@@ -640,14 +626,14 @@ void TObjEneBeast::load_resources() {
     s32 i;
 
     if (TObjEneDD::check_v2_mode() != 0) {
-        ene_beast_bml_resource = (u32)load_enemy_bml_resource_named(beast_resource_descriptor, lbl_80439D80);
+        ene_beast_bml_resource = (u32)load_enemy_bml_resource_named(&beast_resource_descriptor, beast_a_bml_filename);
         ((Ent_8009241C *)beast_collision_body_table)[0].radius = 1e+01f;
         ((Ent_8009241C *)beast_collision_body_table)[1].radius = 1e+01f;
         ((Ent_8009241C *)beast_collision_body_table)[2].radius = 9.0f;
     } else {
         p = (u8 *)::operator new(0x440);
         if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1, beast_resource_descriptor, 0, 0, 0);
+            p = load_resource_from_descriptor(p, 1, &beast_resource_descriptor, 0, 0, 0);
         }
         ene_beast_bml_resource = (u32)p;
         ((Ent_8009241C *)beast_collision_body_table)[0].radius = 7.0f;
@@ -677,8 +663,8 @@ void TObjEneBeast::load_resources() {
     ((s32 *)boss4_rock_shared_handler_ids)[1] = dispatch_shared_handler_a__6TLobbyFl(0x4B);
     ((s32 *)boss4_rock_shared_handler_ids)[2] = dispatch_shared_handler_a__6TLobbyFl(0x4C);
     {
-        Ids_8009241C ids = lbl_80439D68[0];
-        Quad_8009241C q = lbl_80439D70[0];
+        Ids_8009241C ids = {{2, 3, 4}};
+        Quad_8009241C q = {0, beast_action_table, 2, 0xC0000};
         q.a = (s32)((Data_8009241C *)ene_beast_bml_resource)->f430;
         for (i = 0; i < 3; i++) {
             TLobby::spawn_npc_enemy(ids.id[i], ((Data_8009241C *)ene_beast_bml_resource)->f42c[i].f8,
@@ -689,13 +675,18 @@ void TObjEneBeast::load_resources() {
 }
 
 #pragma pop
+// Archive loaded instead of beast_resource_descriptor's when TObjEneDD::check_v2_mode() is set. Defined after
+// load_resources (it follows that function's initialisers and is not pooled there); the declaration above it would
+// otherwise send it to .data.
+__declspec(section ".rodata") const char beast_a_bml_filename[25] = "bm_ene_re8_b_beast_a.bml"; // inferred: from the string
+
 O_80092724 *TObjPlayer__sub_80092724(O_80092724 *arg0, s16 arg1) {
     s32 i;
     if (arg0 != NULL) {
         arg0->vptr = __vt__12TObjEneBeast;
         for (i = 0; i < 2; i++) {
             if (arg0->objs[i] != NULL) {
-                queue_destruction__7TObjectFv(arg0->objs[i]);
+                ((TObject *)arg0->objs[i])->queue_destruction();
                 arg0->objs[i] = NULL;
             }
         }
@@ -744,7 +735,6 @@ struct Rec2C_800927DC { u8 b[0x2C]; };
 struct Rec1C_800927DC { u8 b[0x1C]; };
 struct Elem_800927DC { u8 b[0x1C]; };
 struct Obj_800927DC { u8 pad[0x3B0]; Elem_800927DC arr[4]; };
-extern s32 lbl_805D2980;
 
 #define arg0 ((u8 *)arg0v)
 
@@ -754,7 +744,7 @@ void *TObjEneBeast__ct(void *arg0v, void *arg1, void *arg2) {
     __ct__13TUnk_80493450FP7TObject(arg0, arg1);
     F(arg0, u8 *, 0x18) = (u8 *)__vt__12TObjEneBeast;
     __construct_array(arg0 + 0x3B0, __ct__15RenderFadeStateFv, __dt__15RenderFadeStateFv, 0x1C, 4);
-    F(arg0, s32, 0) = lbl_805D2980;
+    F(arg0, const char *, 0) = beast_class_name;
     ((VObj_800927DC *)arg0)->m79(arg2);
     ((TObjPlayer *)arg0)->init_position_vectors();
     F(arg0, s32, 0x334) = F(arg0, s32, 0x368);
@@ -773,7 +763,7 @@ void *TObjEneBeast__ct(void *arg0v, void *arg1, void *arg2) {
     ((TObjEnemy *)arg0)->update_prev_position();
     ((TBoss3VoloptHiraisin *)arg0)->copy_position();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    F(arg0, s32, 0x2AC) = (s32)(182.04445f * (3.6e+02f * random_ratio__9TObjCharaFv((s32)arg0)));
+    F(arg0, s32, 0x2AC) = (s32)(182.04445f * (3.6e+02f * ((TObjChara *)arg0)->random_ratio()));
     F(arg0, s16, 0x33A) = 0xF;
     F(arg0, s16, 0x33C) = F(arg0, s16, 0x33A);
     F(arg0, s16, 0x328) = 0;

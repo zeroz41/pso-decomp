@@ -24,7 +24,7 @@ u16 lbl_804F6758[194] ATTRIBUTE_ALIGN(8) = {
 
 // Half-decibel attenuation rounds 40 * log10(1023/i) to hundredths,
 // then to an integer. A zero gain uses the silence index.
-u8 lbl_804F68DC[1024] = {
+u8 dspScale2IndexTab[1024] = {
     193, 120, 108, 101, 96, 92, 89, 87, 84, 82, 80, 79, 77, 76, 75, 73,
     72, 71, 70, 69, 68, 68, 67, 66, 65, 64, 64, 63, 63, 62, 61, 61,
     60, 60, 59, 59, 58, 58, 57, 57, 56, 56, 55, 55, 55, 54, 54, 54,
@@ -93,7 +93,7 @@ u8 lbl_804F68DC[1024] = {
 
 // DLS volume is (i/127)^2, rounded to six decimal places. The last
 // sample repeats full volume for interpolation.
-f32 lbl_804F6CDC[129] = {
+f32 dspDLSVolTab[129] = {
     0.000000f, 0.000062f, 0.000248f, 0.000558f, 0.000992f, 0.001550f, 0.002232f, 0.003038f,
     0.003968f, 0.005022f, 0.006200f, 0.007502f, 0.008928f, 0.010478f, 0.012152f, 0.013950f,
     0.015872f, 0.017918f, 0.020088f, 0.022382f, 0.024800f, 0.027342f, 0.030008f, 0.032798f,

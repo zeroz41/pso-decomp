@@ -5,9 +5,9 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/TLobby.h"
 
 extern "C" {
-s32 is_flag_set__6TLobbyFv();
 int is_quest_active(void);
 
 extern s32 game_difficulty_selection;
@@ -45,7 +45,7 @@ s32 TLobby__sub_8030A770(void) {
 s32 get_game_play_mode(void) {
     s32 n;
     s32 r;
-    if (is_flag_set__6TLobbyFv() == 1) {
+    if (TLobby::is_flag_set() == 1) {
         return 1;
     }
     if (is_challenge_mode_active() == 1) {

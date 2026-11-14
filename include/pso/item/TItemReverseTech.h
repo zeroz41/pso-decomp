@@ -15,6 +15,7 @@ public:
 public:
     static void create();
     static void load_textures();
+    static void free();
     static void run_frame();
     static void run_cleanup_callbacks();
     static void init_scene();

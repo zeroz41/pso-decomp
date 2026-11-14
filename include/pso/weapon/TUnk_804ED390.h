@@ -5,11 +5,12 @@
 
 class TUnk_804ED390 : public TItemWeapon {
 public:
+    TUnk_804ED390(TObject *parent, u8 *item);
     virtual ~TUnk_804ED390();
-    virtual void update_idle();
     virtual void update_attack();
-    void*init_vtable_1f8(s32, void *);
-    u8 unk_1F8[0x4];
+    virtual void update_idle();
+    virtual void vfunc_60();
+    f32 pad_1f8;  // scale_matrix y/z for passes 1 and 2
 };
 
 #endif

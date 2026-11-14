@@ -1,4 +1,6 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
+#include "pso/effect/photon/TPhotonYoulla.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"
@@ -17,6 +19,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -58,11 +61,13 @@ extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void *find_entity_by_id(u16 id);
 s32 spawn_photon_blast_attachment_effects(void *, s32);
-extern u8 photon_blast_youlla_params[];
+TObjMotionAction photon_blast_youlla_params[2] = {
+    {3, 0, 7, 1.0f, 0},
+    {1, 0, 14, 1.0f, 0},
+};
 extern s32 __vt__13TPhotonYoulla[];
 extern const char *TPhotonYoulla__name;
 extern u8 *photon_blast_shared_resource;
-void __dl__7TObjectFPv(void *);
 
 
 void TPhotonYoulla::sub_801AE72C(u8) { *(float *)&this->m_184 = 0.0f; *(float*)((char*)this + 0x188) = 0.0f; this->m_18c = 0.0f; *(float *)&this->unk_190 = 0.0f; }
@@ -122,20 +127,12 @@ void TPhotonYoulla::run_task() {
         }
     }
     if (123.0f == (f32) *(s32 *)&this->m_1a4) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 
-void *__dt__13TPhotonYoullaFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TPhotonYoulla;
-        ((TUnk_804C3248 *)arg0)->free_photon();
-        destroy_photon_motion_object(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TPhotonYoulla::~TPhotonYoulla() {
+    free_photon();
 }
 
     extern int lbl_805D5D60;

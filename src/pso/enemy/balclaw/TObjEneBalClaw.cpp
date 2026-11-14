@@ -66,6 +66,8 @@ static BalClawPartEntry balclaw_parts[7] = {
 };
 static s32 balclaw_part_base[4] = { 0x1C, 0x26, 0x30, 0x3A };
 const char *balclaw_class_name = balclaw_class_name_text;
+// inferred: per arm, the visible model nodes (NULL-terminated), filled by the loader
+NJS_OBJECT *balclaw_arm_part_models[4][11];
 
 
 extern "C" {
@@ -175,11 +177,11 @@ void TObjEneBalClaw__sub_8008D924(void) {
         for (j = 0; j < 10; j++) {
             part = (NJS_OBJECT *)find_model_node(model, base + j);
             if (part != NULL && !(part->evalflags & NJD_EVAL_HIDE)) {
-                lbl_805006F8[k][count] = part;
+                balclaw_arm_part_models[k][count] = part;
                 count++;
             }
         }
-        lbl_805006F8[k][count] = NULL;
+        balclaw_arm_part_models[k][count] = NULL;
     }
     for (m = 0; m < 7; m++) {
         e = &balclaw_parts[m];

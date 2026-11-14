@@ -660,7 +660,7 @@ extern "C" __declspec(section ".rodata") u8 shark_motion_name_stund_bm1_s_wala_b
 extern "C" __declspec(section ".rodata") u8 shark_motion_name_wakeup_bm1_s_wala_body_njm[] = "wakeup_bm1_s_wala_body.njm";
 extern "C" __declspec(section ".rodata") u8 shark_motion_name_walk_bm1_s_wala_body_njm[] = "walk_bm1_s_wala_body.njm";
 extern "C" __declspec(section ".rodata") u8 bm_ene_bm1_shark_bml_filename[] = "bm_ene_bm1_shark.bml";
-extern "C" __declspec(section ".rodata") u8 TObjEneShark__class_name_string[] = "TObjEneShark";
+extern "C" __declspec(section ".rodata") char TObjEneShark__class_name_string[] = "TObjEneShark";
 extern "C" void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
 extern "C" void receive_physical_attack__9TObjCharaFPvf();
 extern "C" void receive_weapon_special_attack__9TObjCharaFPvPv();
@@ -758,9 +758,7 @@ void *lbl_8049168C[103] = {
     (void *)&vfunc_96__12TObjEneSharkFv, (void *)&vfunc_97__12TObjEneSharkFv, (void *)&vfunc_98__12TObjEneSharkFv, (void *)&vfunc_99__13TUnk_80493450Fv,
     (void *)&vfunc_100__13TUnk_80493450Fv, (void *)&vfunc_101__12TObjEneSharkFv, (void *)&request_stand_action__13TUnk_80493450Fv,
 };
-#define bm_ene_bm1_shark_resource_descriptor ((u8 *)bm_ene_bm1_shark_resource_descriptor)
 #define TObjEneShark__action_table ((Act_800AC318 *)TObjEneShark__action_table)
-#define lbl_8049168C ((u8 *)lbl_8049168C)
 
 void *TObjEneShark::create(void *arg0) {
     void *o;
@@ -971,7 +969,7 @@ extern "C" {
 void init_collision_body_parts(void *, void *, s32);
 void *__construct_array(void *, void *, void *, s32, s32);
 void __ct__15RenderFadeStateFv(void *);
-extern s32 TObjEneShark_name_ref;
+extern const char *TObjEneShark_name_ref;
 #define lbl_804915B4 ((u8 *)lbl_804915B4)
 #define lbl_80491608 ((u8 *)lbl_80491608)
 void *TObjEneShark__ct(void *arg0, void *arg1, void *arg2) {
@@ -983,7 +981,7 @@ void *TObjEneShark__ct(void *arg0, void *arg1, void *arg2) {
     *(void **)((u8 *)self + 0x18) = lbl_8049168C;
     __ct__13TUnk_80494938Fv(((u8 *)arg0 + 0x3A8));
     __construct_array(self->f3CC, (void *)__ct__15RenderFadeStateFv, __dt__15RenderFadeStateFv, 0x1C, 4);
-    *(s32 *)self = TObjEneShark_name_ref;
+    *(const char **)self = TObjEneShark_name_ref;
     self->m79(arg2);
     ((TObjPlayer *)self)->init_position_vectors();
     self->f334 = self->f368;
@@ -1085,4 +1083,17 @@ s32 TObjEneMoja::calc_technique_level() {
     }
     return v;
 }
+}
+
+extern "C" {
+const char *TObjEneShark_name_ref = TObjEneShark__class_name_string;
+
+u32 TObjEneShark__resource_node;
+u32 TObjEneShark__resource_buf;
+u32 shark_resource_data;
+u32 shark_resource_buffer;
+u32 shark_bml_resource;
+u32 TObjEneShark__attack_motion_3_trail;
+u32 shark_attack4_trail_buffer;
+s32 shark_render_node_index;
 }

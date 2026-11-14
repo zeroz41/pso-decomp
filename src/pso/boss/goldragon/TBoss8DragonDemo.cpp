@@ -16,11 +16,6 @@ struct RecoveredGlobal_802F2D8C___vt__16TBoss8DragonDemo {
     u8 remaining[0x14];
 };
 
-struct RecoveredGlobal_802F2CC4_lbl_804E4A44 {
-    s32 value;
-    u8 remaining[0x8C];
-};
-
 struct Obj_8002B118 { u8 pad[0x1c]; void *colli[3]; };
 
 extern "C" {
@@ -28,20 +23,6 @@ CameraPlayback *get_scripted_camera_playback();
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_802F2D8C___vt__16TBoss8DragonDemo __vt__16TBoss8DragonDemo;
 extern const char *TBoss8DragonDemo__name;
-extern const f32 lbl_805DED18;
-extern RecoveredGlobal_802F2CC4_lbl_804E4A44 lbl_804E4A44;
-extern const f32 lbl_805DE9F4;
-int VecCopy__FP3VecPC3Vec(void*);
-
-int TBoss8DragonDemo::copy_position() { return VecCopy__FP3VecPC3Vec((char*)this + 0x78); }
-f32 TBoss8DragonDemo__sub_802F2CB4(void* p) { return *(f32*)((char*)p + 0x5c); }
-f32 TBoss8DragonDemo__sub_802F2CBC(void* p) { return *(f32*)((char*)p + 0x54); }
-
-typedef char RecoveredGlobal_802F2CC4_lbl_804E4A44_size[sizeof(RecoveredGlobal_802F2CC4_lbl_804E4A44) == 0x90 ? 1 : -1];
-void __sinit_TBoss8DragonDemo_cpp(void) {
-    *(f32 *)((s8 *)&lbl_804E4A44.value + 4) = (f32) lbl_805DE9F4;
-    *(f32 *)((s8 *)&lbl_804E4A44.value + 0x10) = (f32) lbl_805DE9F4;
-}
 
 void TBoss8DragonDemo::render() {  }
 
@@ -60,7 +41,7 @@ u8 *__ct__16TBoss8DragonDemoFv(u8 *object, s32 arg1, s32 arg2, f32 farg0) {
     *(s32 **)((s8 *)object + 0x18) = &__vt__16TBoss8DragonDemo.value;
     *(s32 *)((s8 *)object + 0) = (s32) ((s32)TBoss8DragonDemo__name);
     *(f32 *)((s8 *)object + 0x1C) = farg0;
-    *(f32 *)((s8 *)object + 0x20) = (f32) lbl_805DED18;
+    *(f32 *)((s8 *)object + 0x20) = 0.0f;
     *(s32 *)((s8 *)object + 0x24) = arg2;
     playback.bank = 1;
     playback.index = 0;
@@ -80,8 +61,6 @@ void TBoss8Dragon::update_colli_parts() {
 }
 
 }
-
-__declspec(section ".ctors") static void *const __sinit_TBoss8DragonDemo_cpp_ref = (void *)__sinit_TBoss8DragonDemo_cpp;
 
 extern "C" {
 const char *TBoss8DragonDemo__name = "TBoss8DragonDemo";

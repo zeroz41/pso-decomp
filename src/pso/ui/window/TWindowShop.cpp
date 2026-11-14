@@ -6,14 +6,16 @@
 #include "pso/ui/window/TUnk_804D0948.h"
 #include "pso/unk/TLobby.h"
 
+#pragma readonly_strings on
+
 extern "C" {
 
 s32 ensure_status_display__19TWindowMenuIconLineFl();
 
-extern s32 lbl_805D39D0;
+const char *lbl_805D39D0 = "TWindowShop";
 
 void TUnk_804D0948::sub_8026DE94() {
-    *(s32 *)&this->m_name = (s32) lbl_805D39D0;
+    this->m_name = lbl_805D39D0;
     ensure_status_display__19TWindowMenuIconLineFl();
     create_menu_scroll_bar();
     this->set_depth(39000.0f);

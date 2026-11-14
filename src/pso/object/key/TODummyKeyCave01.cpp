@@ -192,15 +192,15 @@ u8 *TODummyKeyCave01__ct(u8 *dummy_key_cave01, s32 arg1, s32 arg2) {
     *(s32 **)((s8 *)dummy_key_cave01 + 0x18) = &(*(RecoveredGlobal_80165EE8___vt__16TODummyKeyCave01 *)&__vt__16TODummyKeyCave01).value;
     *(s32 *)((s8 *)dummy_key_cave01 + 0) = (s32) TODummyKeyCave01__class_name;
     ((TODummyKeyCave01 *)(dummy_key_cave01))->apply_object_set_data((void *)arg2);
-    *(f32 *)((s8 *)dummy_key_cave01 + 0xA8) = (f32) 1.0f;
-    ((TODummyKeyCave01 *)dummy_key_cave01)->m_a4 = (f32) 1.0f;
-    *(f32 *)((s8 *)dummy_key_cave01 + 0xA0) = (f32) 1.0f;
-    *(f32 *)((s8 *)dummy_key_cave01 + 0x9C) = (f32) 1.0f;
-    ((TODummyKeyCave01 *)dummy_key_cave01)->m_b4 = (f32) (0.0f);
-    *(f32 *)((s8 *)dummy_key_cave01 + 0xB0) = (f32) (0.0f);
-    *(f32 *)((s8 *)dummy_key_cave01 + 0xAC) = (f32) (0.0f);
+    *(f32 *)((s8 *)dummy_key_cave01 + 0xA8) = 1.0f;
+    ((TODummyKeyCave01 *)dummy_key_cave01)->m_a4 = 1.0f;
+    *(f32 *)((s8 *)dummy_key_cave01 + 0xA0) = 1.0f;
+    *(f32 *)((s8 *)dummy_key_cave01 + 0x9C) = 1.0f;
+    ((TODummyKeyCave01 *)dummy_key_cave01)->m_b4 = 0.0f;
+    *(f32 *)((s8 *)dummy_key_cave01 + 0xB0) = 0.0f;
+    *(f32 *)((s8 *)dummy_key_cave01 + 0xAC) = 0.0f;
     ((TODummyKeyCave01 *)dummy_key_cave01)->m_b8 = 1;
-    sub_80165940__16TODummyKeyCave01Fv(dummy_key_cave01, (f32) (1.0f));
+    sub_80165940__16TODummyKeyCave01Fv(dummy_key_cave01, 1.0f);
     ((TODummyKeyCave01 *)dummy_key_cave01)->m_cc = 0;
     return dummy_key_cave01;
 }

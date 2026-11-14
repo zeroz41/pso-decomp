@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer.h"
 
 struct Pkt_80186CC8 { u8 cmd; u8 size; u16 id; u16 value; u16 pad; };
 
@@ -27,7 +28,6 @@ u8 is_current_floor_switch_set(int);
 void end_player_keyboard_hold(s32 arg0);
 void obj_clear_flag30_20000(void *arg0);
 void obj_set_flag_20000(void *arg0);
-void play_effect_default__10TObjPlayerFii(s32 arg0, s32 arg1);
 s32 send_code_45_1__10TObjPlayerFl();
 
 extern s32 local_client_id;
@@ -74,7 +74,7 @@ void TObjCityMainWarpChallenge::trigger_warp_effect(s32 arg1) {
 
     player = (s32)get_player_by_client_id(arg1);
     if (player != 0) {
-        play_effect_default__10TObjPlayerFii(player, -1);
+        TObjPlayer::play_effect_default(player, -1);
         obj_set_flag_20000((void *)player);
         this->m_174 = 0x12C;
     }

@@ -29,6 +29,9 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/player/TUnk_804B6C24.h"
+#include "pso/technique/TTecCtrl.h"
 
 struct Shape_801D3C38 {
     u8 pad0[0xC];
@@ -139,7 +142,6 @@ s32 fn_801D40D4(s32 arg0, Rec_801D40D4 *arg1, u8 *arg2);
 s32 is_both_confirmed__23TAdSinglePlyChrSelectGCFv(void *);
 void memcpy(void *, void *, s32);
 s32 is_quest_active();
-s32 is_technique_ready__8TTecCtrlFv();
 int memset(void*, int, int);
 u8 *__nw__FUl(u32);
 void TLobby__sub_801D4C28(void* a0, int a1, int a2, int a3);
@@ -147,7 +149,6 @@ s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 s32 lookup_item_def__9TItemDataFPv(s32);
 s32 item_identity_matches(u8 *arg0, u8 *arg1);
 s32 is_at_tekker__5TItemFv();
-s32 get_slot_value__10TObjPlayerFPvi(s32 *arg0, s32 arg1);
 s32 export_inventory_entry__10TObjPlayerFiPv(s32 arg0, u8 *arg1);
 }
 s32 compare_item_data_masked(void *arg0, void *arg1, s32 arg2);
@@ -283,7 +284,7 @@ void TObjPlayer::unequip_invalid_items_recursive() {
         if (TItemList::is_item_valid((s32)n) != 0) {
             o = (TItem *)((TObjPlayer *)n)->get_owner_if_alive();
             if ((o != NULL) && (is_item_equipped(o) != 0) && (o->is_unit() == 0) &&
-                (get_slot_value__10TObjPlayerFPvi((s32 *)(item_reduce_target_player + 0xD04), o->get_attach_slot()) != 0U)) {
+                (TObjPlayer::get_slot_value((s32 *)(item_reduce_target_player + 0xD04), o->get_attach_slot()) != 0U)) {
                 unequip_item__10TObjPlayerFiPv(item_reduce_target_player, o);
             }
         }
@@ -813,7 +814,7 @@ extern "C" void remove_list_entry_by_id(s32 arg0) {
 }
 
 extern "C" s32 check_player_action_allowed(void) {
-    if ((get_main_phase() == 0xE) || (is_technique_ready__8TTecCtrlFv() != 0) || ((is_quest_active() == 1) && (get_game_play_mode() == 1))) {
+    if ((get_main_phase() == 0xE) || (TTecCtrl::is_technique_ready() != 0) || ((is_quest_active() == 1) && (get_game_play_mode() == 1))) {
         return 0;
     }
     return TAdSinglePlyChrSelectGC::get_game_mode();
@@ -1044,7 +1045,6 @@ s32 TItemList__sub_801D5868(Arr_801D5868 *, s32);
 Ent_801D5854 *TItemList__sub_801D5854(Obj_801D5854 *p, s32 i);
 s32 TItemList__sub_801D598C(Obj_801D598C *arg0, s32 arg1);
 int copy_from__9TItemDataFP9TItemData(void*);
-s32 check_value_equals__13TUnk_804B6C24Fl(s32, s32);
 }
 
 TItemList::TItemList(TObject *parent) : TObject(parent) {
@@ -1126,7 +1126,7 @@ s32 TItemList::is_item_valid(s32 arg0) {
     u8 valid;
 
     valid = 0;
-    if ((check_value_equals__13TUnk_804B6C24Fl(arg0, (s32)TItemList__name) != 0) && (((TObject *)arg0)->all_parents_unqueued_for_destruction() != 0)) {
+    if ((((TUnk_804B6C24 *)arg0)->check_value_equals((s32)TItemList__name) != 0) && (((TObject *)arg0)->all_parents_unqueued_for_destruction() != 0)) {
         valid = 1;
     }
     return valid;

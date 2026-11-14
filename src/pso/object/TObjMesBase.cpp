@@ -9,6 +9,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjMotion.h"
 
 struct Mc_80194EC4 { u8 pad0[0x68]; f32 f68; u8 pad6C[0x50]; s32 fBC; };
 
@@ -33,7 +34,6 @@ void *__dt__11TObjMesBaseFv(void *arg0, s16 arg1);
 s32 __ct__14TObjCollidableFP7TObject();
 void __dl__7TObjectFPv(void *);
 f32 xz_distance_squared(s32, s32);
-s32 update_object_view_visibility__8TObjBaseFff(s32, f32, f32);
 
 void TObjMesBase::debug_draw_label() {
     Mes_80194AEC *arg0 = (Mes_80194AEC *)this;
@@ -127,7 +127,7 @@ s32 TMotorcycle__vt8(s32 arg0, f32 farg0, f32 farg1) {
     if (xz_distance_squared(camera_ctrl_instance + 0x178, arg0 + 0x38) < (farg1 * farg1)) {
         return 1;
     }
-    return update_object_view_visibility__8TObjBaseFff(arg0, farg0, farg1);
+    return ((TObjBase *)arg0)->TObjBase::update_object_view_visibility(farg0, farg1);
 }
 void TMotorcycle::debug_draw_label() {
     Mc_80194EC4 *arg0 = (Mc_80194EC4 *)this;

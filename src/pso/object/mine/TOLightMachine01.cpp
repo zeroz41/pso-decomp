@@ -12,6 +12,8 @@
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 
+#pragma readonly_strings on
+
 struct Base_8016E9F4_8016E998 { char pad[0x18]; };
 struct VObj_8016E9F4_8016E998 : Base_8016E9F4_8016E998 {
     virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
@@ -19,12 +21,9 @@ struct VObj_8016E9F4_8016E998 : Base_8016E9F4_8016E998 {
     virtual s32 m8(f32, f32);
 };
 
-extern char lbl_80441EE0[];
-extern char lbl_80441EF0[];
-extern char lbl_80441F04[];
-extern const char *bm_o_light_machine01_motion_names[1];
-const char *bm_o_light_machine01_model_names[3] = { lbl_80441EE0, lbl_80441EF0, NULL };
-BmlResourceDescriptor light_machine01_resource_desc = { lbl_80441F04, bm_o_light_machine01_model_names, bm_o_light_machine01_motion_names, 2, 0 };
+const char *bm_o_light_machine01_motion_names[1] = {0};
+const char *bm_o_light_machine01_model_names[3] = { "fs_obj_light.gj", "fs_obj_toudai.gj", NULL };
+BmlResourceDescriptor light_machine01_resource_desc = { "bm_o_light_machine01.bml", bm_o_light_machine01_model_names, bm_o_light_machine01_motion_names, 2, 0 };
 
 struct RecoveredGlobal_8016EC04___vt__16TOLightMachine01 { s32 value; u8 remaining[0x30]; };
 
@@ -32,12 +31,12 @@ extern "C" {
 s32 TObjFish__sub_8001EDB0(void *, s32);
 s32 get_bml_model(void *, s32);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern u32 TOLightMachine01__shared_bml_archive;
-extern s32 light_machine_ginja_model_handle;
-extern s32 light_machine_ginja_param;
+u32 TOLightMachine01__shared_bml_archive;
+s32 light_machine_ginja_model_handle;
+s32 light_machine_ginja_param;
 s32 __ct__8TObjBaseFP7TObject(void *, int);
 extern s32 __vt__16TOLightMachine01[];
-extern s32 TOLightMachine01__name;
+const char *TOLightMachine01__name = "TOLightMachine01";
 extern s32 tl_05;
 void free_bin_model_request(void*, int);
 s32 post_translate_matrix(void *);
@@ -112,7 +111,7 @@ extern "C" {
 u8 *TOLightMachine01__ct(TOLightMachine01 *light_machine01, s32 arg1) {
     __ct__8TObjBaseFP7TObject(light_machine01, tl_05);
     *(s32 **)((s8 *)light_machine01 + 0x18) = &(*(RecoveredGlobal_8016EC04___vt__16TOLightMachine01 *)&__vt__16TOLightMachine01).value;
-    *(s32 *)((s8 *)light_machine01 + 0) = (s32) TOLightMachine01__name;
+    *(const char **)((s8 *)light_machine01 + 0) = TOLightMachine01__name;
     ((TOLightMachine01 *)(light_machine01))->apply_object_set_data((void *)arg1);
     light_machine01->model = ((u8 *)get_bml_model((void *)((*(s32 *)&TOLightMachine01__shared_bml_archive)), 1));
     light_machine01->texlist = TObjFish__sub_8001EDB0((void *)((int) ((*(s32 *)&TOLightMachine01__shared_bml_archive))), 1);

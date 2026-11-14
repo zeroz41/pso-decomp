@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/TLobby_801E43E4.h"
@@ -30,6 +31,9 @@
 #include "pso/unk/text_80121180.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
+#include "pso/system/task/TObject.h"
+
+#pragma readonly_strings on
 
 struct L_801C74BC { u16 f0; u16 f2; s32 f4; };
 
@@ -1186,7 +1190,6 @@ s32 get_current_floor(void);
 Item_801CE928 * get_item_field_6__10TObjPlayerFPv(void *);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32);
-s32 queue_destruction__7TObjectFv(void *);
 void set__8FlagWordFUl(void *, u32);
 s32 clear__8FlagWordFUl(void *, int);
 s32 test_flags_any(void *, int);
@@ -1644,9 +1647,8 @@ extern const f32 TObjPlayer__data_805DC378;
 extern const f32 TObjPlayer__data_805DC39C;
 extern const f32 TObjPlayer__data_805DC3AC;
 extern s32 fn_80152EF8[];
-extern const f64 lbl_80447128;
-extern u8 lbl_80447138[0x20];
-extern const f64 lbl_80447148;
+const f64 lbl_80447128 = 0.1;
+const f64 lbl_80447148 = 10430.38043493439;
 extern RecoveredGlobal_801D2CF4_lbl_804C43CC attack_type_accuracy_scales;
 extern RecoveredGlobal_801D2CF4_lbl_804C43D8 attack_combo_accuracy_multipliers;
 extern f32 scratch_vec[];
@@ -2882,7 +2884,7 @@ void TObjPlayer::init_action() {
         }
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 0x548) != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x548));
+        ((TObject *)(*(void **)((s8 *)arg0 + 0x548)))->queue_destruction();
         *(u32 *)((s8 *)arg0 + 0x548) = 0U;
     }
 }
@@ -3221,7 +3223,7 @@ void TObjPlayer::enter_death_state() {
         }
         draw_player_status((void *) (arg0), (void *) (arg0), (void *) (&lbl_805DC384));
         if (is_locally_controlled__10TObjPlayerFPv((void *) (arg0)) != 0) {
-            send_neg50__6TLobbyFPvPv((void *) (&lbl_80447138), 0x96);
+            send_neg50__6TLobbyFPvPv((void *) ("death.adx"), 0x96);
         }
     }
     if ((is_locally_controlled__10TObjPlayerFPv((void *) (arg0)) != 0) && (is_camera_mode_active__10TObjPlayerFv() == 0) && (is_technique_ready__8TTecCtrlFv() == 0)) {

@@ -8,6 +8,7 @@
 #include "pso/unk/text_8020EEFC.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdlib.h>
+#include "pso/item/TItemData.h"
 struct SRock_80224544_8022448C;
 
 
@@ -106,7 +107,6 @@ const s32 shop_technique_pool_table[19] = {
 
 extern "C" {
 s32 memset(void *, int, int);
-void init__9TItemDataFv(void *);
 void roll_shop_technique_level(Obj_80223EE0 *arg0, s32 arg1);
 void push_shop_pool_entry(void *, u8);
 s32 TLobby__sub_80223DD8(Item_802242F8 *, s32);
@@ -299,7 +299,7 @@ void generate_shop_technique_pool(s32 shop) {
         while (i < n) {
             s32 b = ((TLobby *)(&ctr))->pop_byte();
             if (b != -1) {
-                init__9TItemDataFv(&it);
+                ((TItemData *)(&it))->init();
                 it.b[0] = 3;
                 it.b[1] = 2;
                 it.b[4] = shop_technique_pool_table[b];
@@ -352,7 +352,7 @@ void generate_shop_rare_tool_pool(s32 shop) {
                         n--;
                     }
                 } else if (b != -1) {
-                    init__9TItemDataFv(&it);
+                    ((TItemData *)(&it))->init();
                     it.b[0] = 3;
                     it.b[1] = shop_tool_group_subtype_table[b].a;
                     it.b[2] = shop_tool_group_subtype_table[b].b;
@@ -381,7 +381,7 @@ void generate_shop_common_tool_pool(s32 arg0) {
         p = t->base + row;
         for (i = 0; i < t->count; i++, p++) {
             if (*p != 0xf) {
-                init__9TItemDataFv(&it);
+                ((TItemData *)(&it))->init();
                 it.b[0] = 3;
                 it.b[1] = shop_tool_group_subtype_table[*p].a;
                 it.b[2] = shop_tool_group_subtype_table[*p].b;

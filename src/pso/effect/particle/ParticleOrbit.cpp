@@ -18,6 +18,7 @@
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/player/TObjPlayer_80083594.h"
+#include "pso/system/task/TObject.h"
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -159,7 +160,6 @@ struct OIVec_8008B060 { s32 x, y, z; };
 
 extern "C" {
 void *alloc_particle_memory(int);
-void queue_destruction__7TObjectFv(void *arg0);
 extern s32 TParticleCtrl__data_8048E790[];
 s32 rand(void);
 s32 is_particle_sprite_additive__13TUnk_8048E728Fv(void *, s32);
@@ -263,7 +263,7 @@ void *TParticleCtrl::alloc_child_particle(void *arg1, void *arg2, void *arg3) {
 void TUnk_8048E790::retire_orbit_particle() {
     u8 *arg0 = (u8 *)this;
     if (this->age >= 1.0f) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 

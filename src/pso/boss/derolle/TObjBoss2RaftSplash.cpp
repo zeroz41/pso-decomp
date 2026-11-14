@@ -4,6 +4,8 @@
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include <stdlib.h>
 
+#pragma readonly_strings on
+
 struct Stack_8003AED4 {
     s32 sp8;
     f32 spC;
@@ -32,11 +34,11 @@ struct RecoveredGlobal_8003AFBC___vt__19TObjBoss2RaftSplash { s32 value; u8 rema
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8003AFBC___vt__19TObjBoss2RaftSplash __vt__19TObjBoss2RaftSplash;
-extern s32 lbl_805D2700;
+const char *lbl_805D2700 = "TObjBoss2RaftSplash";
 u8 *TObjBoss2RaftSplash__ct(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__19TObjBoss2RaftSplash.value;
-    *(s32 *)((s8 *)object + 0) = (s32) lbl_805D2700;
+    *(const char **)((s8 *)object + 0) = lbl_805D2700;
     *(f32 *)((s8 *)object + 0x20) = (f32) (lbl_805D85B0 * (3.0f + rand_signed_unit()));
     *(f32 *)((s8 *)object + 0x1C) = (f32) (*(f32 *)((s8 *)object + 0x20) * (3.0517578e-05f * (f32) rand()));
     VecCopy((Vec *)(object + 0x28), (const Vec *)arg2);

@@ -165,6 +165,8 @@ struct TLobby : public TObject {
     static void init_download_state();
     void link_into_list();
     static void set_ending_callback();
+    // inferred: empty free half of set_ending_callback in the scene load/free tables
+    static void free_ending_callback();
     static void clear_object_count();
     static void reset_floor_items();
     static void free_boss_rocks();
@@ -309,6 +311,7 @@ struct TLobby : public TObject {
     void copy_table_entries(u32 size);
     static void reset_story_select_state();
     static int get_team_state(void* p);
+    static void call_funcs_reverse(void* table, unsigned int size);
     static void load_set_event_gsl();
     static void free_heap();
     static void create_heap_8000();
@@ -386,6 +389,7 @@ struct TLobby : public TObject {
     static void refresh_player_status();
     s32 get_id();
     static void clear_flag_bit2();
+    static int get_com_card_data();
     static int get_global_63e0();
     static void load_player_data();
     static void send_card_window_state();

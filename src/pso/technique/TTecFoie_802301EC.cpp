@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TTecFoie_802301EC.h"
 #include "pso/technique/TTecGiZonde_8023A4CC.h"
@@ -6,6 +7,7 @@
 #include "pso/technique/TTecFoie.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_802302A0___vt__8TTecFoie { s32 value; u8 remaining[0x24]; };
 typedef char RecoveredGlobal_802302A0___vt__8TTecFoie_size[sizeof(RecoveredGlobal_802302A0___vt__8TTecFoie) == 0x28 ? 1 : -1];
@@ -32,7 +34,7 @@ void run_task__8TTecFoieFv(Foie_802301EC *self) {
     u32 i;
     self->owner = (u32)find_entity_by_id(self->ownerId);
     if (self->owner == 0) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return;
     }
     for (i = 0; i < TTecFoie__emitter_profile_table[self->band].count; i++) {

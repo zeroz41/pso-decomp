@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
@@ -7,6 +8,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/system/task/TObject.h"
 
 struct VBase_18 { char pad[0x18]; };
 struct VObj_18 : VBase_18 {
@@ -139,8 +141,8 @@ extern s32 __vt__14TAdYesNoBaseGC[];
 
 }
 TAdYesNoBaseGC::~TAdYesNoBaseGC() {
-    if (*(void **)((s8 *)this + 0x40) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x40)); this->m_40 = 0; }
-    if (*(void **)((s8 *)this + 0x44) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x44)); this->m_44 = 0; }
+    if (*(void **)((s8 *)this + 0x40) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x40)))->queue_destruction(); this->m_40 = 0; }
+    if (*(void **)((s8 *)this + 0x44) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x44)))->queue_destruction(); this->m_44 = 0; }
 }
 
 

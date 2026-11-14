@@ -261,17 +261,9 @@ struct Ch_803CA3C4 {
 };
 
 extern "C" {
-extern const u32 lbl_805E0D58[1];
 
 extern s32 lbl_805D7540;
 }
-extern const u32 lbl_805E0D5C[1];
-extern const u32 lbl_805E0D60[1];
-extern const u32 lbl_805E0D64[1];
-#define lbl_805E0D58 (*(const f32 *)lbl_805E0D58)
-#define lbl_805E0D5C (*(const f32 *)lbl_805E0D5C)
-#define lbl_805E0D60 (*(const f32 *)lbl_805E0D60)
-#define lbl_805E0D64 (*(const f32 *)lbl_805E0D64)
 
 extern "C" {
 s32 TLobby__sub_803CC030(int, int);
@@ -531,7 +523,7 @@ void TLobby__sub_803C97F4(u8 *arg0, s32 *pos, s32 *rate) {
         get_play_position_803C97F4(p, pos, rate);
         return;
     }
-    lbl_805D756C = lbl_805E0D58;
+    lbl_805D756C = 0.0f;
     st = p->f1;
     if (st == 3 || st == 4) {
         if (p->f72 == 0) {
@@ -540,8 +532,8 @@ void TLobby__sub_803C97F4(u8 *arg0, s32 *pos, s32 *rate) {
             *pos = p->f9C;
         }
         get_play_position_803C97F4(p, &cur_pos, &cur_rate);
-        lbl_805D756C = lbl_805E0D5C * ((f32)cur_pos / (f32)cur_rate - (f32)*pos / (f32)lbl_805D7570);
-        if (lbl_805D756C > lbl_805E0D60 || lbl_805D756C < lbl_805E0D64) {
+        lbl_805D756C = 1000.0f * ((f32)cur_pos / (f32)cur_rate - (f32)*pos / (f32)lbl_805D7570);
+        if (lbl_805D756C > 60.0f || lbl_805D756C < -60.0f) {
             if (lbl_805D4678 == 1) {
                 s32 save = lbl_805D7560;
                 lbl_805D7560 = 0;
@@ -812,19 +804,6 @@ void TLobby__sub_803CA194(Obj_803CA194 *arg0) {
     arg0->f0 = 0;
     TLobby::release_ref();
 }
-
-#undef lbl_805E0D58
-#undef lbl_805E0D5C
-#undef lbl_805E0D60
-#undef lbl_805E0D64
-__declspec(section ".sdata2") extern const u32 lbl_805E0D58[1] = { 0x00000000 };
-__declspec(section ".sdata2") extern const u32 lbl_805E0D5C[1] = { 0x447a0000 };
-__declspec(section ".sdata2") extern const u32 lbl_805E0D60[1] = { 0x42700000 };
-__declspec(section ".sdata2") extern const u32 lbl_805E0D64[1] = { 0xc2700000 };
-#define lbl_805E0D58 (*(const f32 *)lbl_805E0D58)
-#define lbl_805E0D5C (*(const f32 *)lbl_805E0D5C)
-#define lbl_805E0D60 (*(const f32 *)lbl_805E0D60)
-#define lbl_805E0D64 (*(const f32 *)lbl_805E0D64)
 
 Ch_803CA3C4 *adx_create_stream_player(s32 n, s32 base, s32 size) {
     Ch_803CA3C4 *c;

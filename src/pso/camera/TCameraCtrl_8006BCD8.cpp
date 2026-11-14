@@ -18,55 +18,17 @@
 #pragma fp_contract on
 #pragma pop
 
-struct Stack_8006C03C {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-    f32 sp14;
-    f32 sp18;
-    f32 sp1C;
-    f32 sp20;
-    f32 sp24;
-    f32 sp28;
-};
-
-struct RecoveredGlobal_8006C03C_lbl_804383E0 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 struct RecoveredGlobal_8006C03C_lbl_804FF5E8 {
     s32 value;
     u8 remaining[0x24];
-};
-
-struct RecoveredFields_8006C03C_arg0 {
-    u8 unknown_0[0x3C];
-    f32 field_3C;
-    f32 field_40;
-    f32 field_44;
-    f32 field_48;
-    f32 field_4C;
-    f32 field_50;
-};
-
-struct RecoveredFields_8006C03C_lbl_805D4DF0 {
-    u8 unknown_0[0x178];
-    f32 field_178;
-    f32 field_17C;
-    f32 field_180;
-    f32 field_184;
-    f32 field_188;
-    f32 field_18C;
 };
 
 extern "C" {
 void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
 }
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
-extern RecoveredGlobal_8006C03C_lbl_804383E0 camera_look_at_up_vec;
 extern RecoveredGlobal_8006C03C_lbl_804FF5E8 lbl_804FF5E8;
-extern void *camera_ctrl_instance;
+extern TCameraCtrl *camera_ctrl_instance;
 extern void* camera_controller_registry[];
 void* camera_controller_registry[];
 
@@ -89,13 +51,11 @@ typedef char ScriptedCameraPlaybackOffset[(offsetof(ScriptedCameraState, playbac
 extern "C" {
 f32 vector_length(const Vec*);
 void approach_vector_fixed_distance(const Vec*, const Vec*, Vec*, f32);
-extern const f64 lbl_804383D8;
 
 u16 TCameraCtrl__sub_8006A5DC();
 f32 fabs_float(f32);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32);
-extern const f64 lbl_804383D0;
 s32 angle_difference_abs(s32, s32);
 s32 approach_angle_limited(s32, s32, s32);
 
@@ -135,11 +95,11 @@ void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2) {
   f32 new_var;
   f32 temp_f0;
   f32 temp_f1;
-  *arg2 = (s32) (lbl_804383D0 * atan2_float(-(*((f32 *) (((s8 *) arg0) + 0))), -(*((f32 *) (((s8 *) arg0) + 8)))));
+  *arg2 = (s32) (10430.38043493439 * atan2_float(-(*((f32 *) (((s8 *) arg0) + 0))), -(*((f32 *) (((s8 *) arg0) + 8)))));
   temp_f1 = *((f32 *) (((s8 *) arg0) + 0));
   temp_f0 = *((f32 *) (((s8 *) arg0) + 8));
   new_var = newton_sqrtf((temp_f1 * temp_f1) + (temp_f0 * temp_f0));
-  *arg1 = (s32) (lbl_804383D0 * atan2_float((f64) (*((f32 *) (((s8 *) arg0) + 4))), new_var));
+  *arg1 = (s32) (10430.38043493439 * atan2_float((f64) (*((f32 *) (((s8 *) arg0) + 4))), new_var));
 }
 
 BOOL approach_camera_vector(Vec *current, Vec *target, f32 rate) {
@@ -152,7 +112,7 @@ BOOL approach_camera_vector(Vec *current, Vec *target, f32 rate) {
     base_step = 0.16f * distance;
     f32 step = base_step * rate;
     if (distance > step) {
-        if (step >= lbl_804383D8) {
+        if (step >= 5.0) {
             step = 12.0f;
         }
         approach_vector_fixed_distance(current, target, current, step);
@@ -183,50 +143,23 @@ void set_scripted_camera_pose(const Vec* position, const Vec* target, const Came
 extern s32 TCameraCtrl__saved_projection_angle;
 extern s32 scripted_camera_projection_angle;
 
-#pragma push
-#pragma opt_common_subs off
-typedef char RecoveredGlobal_8006C03C_lbl_804383E0_size[sizeof(RecoveredGlobal_8006C03C_lbl_804383E0) == 0x10 ? 1 : -1];
 typedef char RecoveredGlobal_8006C03C_lbl_804FF5E8_size[sizeof(RecoveredGlobal_8006C03C_lbl_804FF5E8) == 0x28 ? 1 : -1];
-typedef char RecoveredFields_8006C03C_arg0_3C_offset[offsetof(RecoveredFields_8006C03C_arg0, field_3C) == 0x3C ? 1 : -1];
-typedef char RecoveredFields_8006C03C_arg0_40_offset[offsetof(RecoveredFields_8006C03C_arg0, field_40) == 0x40 ? 1 : -1];
-typedef char RecoveredFields_8006C03C_arg0_44_offset[offsetof(RecoveredFields_8006C03C_arg0, field_44) == 0x44 ? 1 : -1];
-typedef char RecoveredFields_8006C03C_arg0_48_offset[offsetof(RecoveredFields_8006C03C_arg0, field_48) == 0x48 ? 1 : -1];
-typedef char RecoveredFields_8006C03C_arg0_4C_offset[offsetof(RecoveredFields_8006C03C_arg0, field_4C) == 0x4C ? 1 : -1];
-typedef char RecoveredFields_8006C03C_arg0_50_offset[offsetof(RecoveredFields_8006C03C_arg0, field_50) == 0x50 ? 1 : -1];
-typedef char RecoveredFields_8006C03C_lbl_805D4DF0_178_offset[offsetof(RecoveredFields_8006C03C_lbl_805D4DF0, field_178) == 0x178 ? 1 : -1];
-typedef char RecoveredFields_8006C03C_lbl_805D4DF0_17C_offset[offsetof(RecoveredFields_8006C03C_lbl_805D4DF0, field_17C) == 0x17C ? 1 : -1];
-typedef char RecoveredFields_8006C03C_lbl_805D4DF0_180_offset[offsetof(RecoveredFields_8006C03C_lbl_805D4DF0, field_180) == 0x180 ? 1 : -1];
-typedef char RecoveredFields_8006C03C_lbl_805D4DF0_184_offset[offsetof(RecoveredFields_8006C03C_lbl_805D4DF0, field_184) == 0x184 ? 1 : -1];
-typedef char RecoveredFields_8006C03C_lbl_805D4DF0_188_offset[offsetof(RecoveredFields_8006C03C_lbl_805D4DF0, field_188) == 0x188 ? 1 : -1];
-typedef char RecoveredFields_8006C03C_lbl_805D4DF0_18C_offset[offsetof(RecoveredFields_8006C03C_lbl_805D4DF0, field_18C) == 0x18C ? 1 : -1];
 void TUnk_80488B68::post_update_view() {
-    u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_8006C03C, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8006C03C, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8006C03C, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_8006C03C, sp14) == 0xC) ? 1 : -1];
-    typedef char sp18_offset[(offsetof(Stack_8006C03C, sp18) == 0x10) ? 1 : -1];
-    typedef char sp1C_offset[(offsetof(Stack_8006C03C, sp1C) == 0x14) ? 1 : -1];
-    typedef char sp20_offset[(offsetof(Stack_8006C03C, sp20) == 0x18) ? 1 : -1];
-    typedef char sp24_offset[(offsetof(Stack_8006C03C, sp24) == 0x1C) ? 1 : -1];
-    typedef char sp28_offset[(offsetof(Stack_8006C03C, sp28) == 0x20) ? 1 : -1];
-    Stack_8006C03C stack;
-    stack.sp14 = ((RecoveredFields_8006C03C_arg0 *)arg0)->field_48 - ((RecoveredFields_8006C03C_arg0 *)arg0)->field_3C;
-    stack.sp18 = ((RecoveredFields_8006C03C_arg0 *)arg0)->field_4C - ((RecoveredFields_8006C03C_arg0 *)arg0)->field_40;
-    stack.sp1C = ((RecoveredFields_8006C03C_arg0 *)arg0)->field_50 - ((RecoveredFields_8006C03C_arg0 *)arg0)->field_44;
-    direction_to_pitch_yaw((u8 *)((void *)&stack.sp14), (s32 *)((void *) ((*(u8 * *)&camera_ctrl_instance) + 0x190)), (s32 *)((void *) ((*(u8 * *)&camera_ctrl_instance) + 0x194)));
-    stack.sp20 = ((RecoveredFields_8006C03C_lbl_805D4DF0 *)(*(u8 * *)&camera_ctrl_instance))->field_184;
-    stack.sp24 = ((RecoveredFields_8006C03C_lbl_805D4DF0 *)(*(u8 * *)&camera_ctrl_instance))->field_188;
-    stack.sp28 = ((RecoveredFields_8006C03C_lbl_805D4DF0 *)(*(u8 * *)&camera_ctrl_instance))->field_18C;
-    stack.sp8 = *(s32 *)((s8 *)&camera_look_at_up_vec.value + 0);
-    stack.spC = *(s32 *)((s8 *)&camera_look_at_up_vec.value + 4);
-    stack.sp10 = *(s32 *)((s8 *)&camera_look_at_up_vec.value + 8);
-    set_camera_look_at(((*(u8 * *)&camera_ctrl_instance) + 0x178), (u8 *)&stack.sp20, (u8 *)&stack.sp8);
-    *(f32 *)((s8 *)&lbl_804FF5E8.value + 0) = (f32) ((RecoveredFields_8006C03C_lbl_805D4DF0 *)(*(u8 * *)&camera_ctrl_instance))->field_178;
-    *(f32 *)((s8 *)&lbl_804FF5E8.value + 4) = (f32) ((RecoveredFields_8006C03C_lbl_805D4DF0 *)(*(u8 * *)&camera_ctrl_instance))->field_17C;
-    *(f32 *)((s8 *)&lbl_804FF5E8.value + 8) = (f32) ((RecoveredFields_8006C03C_lbl_805D4DF0 *)(*(u8 * *)&camera_ctrl_instance))->field_180;
+    Vec at;
+    Vec dir;
+    dir.x = target.x - position.x;
+    dir.y = target.y - position.y;
+    dir.z = target.z - position.z;
+    direction_to_pitch_yaw((u8 *)&dir, (s32 *)&camera_ctrl_instance->pitch, (s32 *)&camera_ctrl_instance->yaw);
+    at.x = camera_ctrl_instance->tgt_x;
+    at.y = camera_ctrl_instance->tgt_y;
+    at.z = camera_ctrl_instance->tgt_z;
+    Vec up = {0.0f, 1.0f, 0.0f};
+    set_camera_look_at((u8 *)&camera_ctrl_instance->pos_x, (u8 *)&at, (u8 *)&up);
+    *(f32 *)((s8 *)&lbl_804FF5E8.value + 0) = camera_ctrl_instance->pos_x;
+    *(f32 *)((s8 *)&lbl_804FF5E8.value + 4) = camera_ctrl_instance->pos_y;
+    *(f32 *)((s8 *)&lbl_804FF5E8.value + 8) = camera_ctrl_instance->pos_z;
 }
-#pragma pop
 
 void CameraPlayback::cache_target_and_forward(s32 angle) const {
     if ((void *) camera_ctrl_instance != NULL) {

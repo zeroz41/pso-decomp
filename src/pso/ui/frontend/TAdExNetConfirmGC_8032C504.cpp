@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/frontend/TAdExNetConfirmGC.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -9,6 +10,9 @@
 
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject.h"
+
+#pragma readonly_strings on
 
 struct Base_8032C504 { char pad[0x18]; };
 struct VObj_8032C504 : Base_8032C504 {
@@ -37,7 +41,7 @@ typedef char RecoveredGlobal_8032C618___vt__17TAdExNetConfirmGC_size[sizeof(Reco
 
 extern "C" {
 extern s32 __vt__17TAdExNetConfirmGC[];
-extern s32 lbl_805D4200;
+const char *lbl_805D4200 = "TAdExNetConfirmGC";
 int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
 
 void TAdExNetConfirmGC::render() {
@@ -68,14 +72,14 @@ TAdExNetConfirmGC::~TAdExNetConfirmGC() {
 u8 *TAdExNetConfirmGC__ct(u8 *object) {
     TAdWarningBaseGC__ct((TAdWarningBaseGC *)object);
     *(s32 **)((s8 *)object + 0x18) = &(*(RecoveredGlobal_8032C618___vt__17TAdExNetConfirmGC *)&__vt__17TAdExNetConfirmGC).value;
-    *(s32 *)((s8 *)object + 0) = (s32) lbl_805D4200;
+    *(const char **)((s8 *)object + 0) = lbl_805D4200;
     if ((TLobby__sub_80145DB4(1) != 0) || (TLobby__sub_80145DB4(4) != 0)) {
         if (TLobby__sub_80145A94() != 0) {
             TLobby::init_account_entries();
         } else {
             TKeyBoardControl__sub_8000F9CC(0x13);
         }
-        queue_destruction__7TObjectFv(object);
+        ((TObject *)object)->queue_destruction();
         TAdMultiChgGameModeGC::set_game_mode();
         return object;
     }

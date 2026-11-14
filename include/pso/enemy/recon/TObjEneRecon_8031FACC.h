@@ -7,7 +7,7 @@ extern "C" {
 void TObjEneRecon__sub_8031FB6C(u8 *arg0);
 }
 
-// --- C functions defined in TObjEneRecon_8031FACC.cpp ---
+// --- C functions defined in TObjEneRecobox_8031F800.cpp ---
 extern "C" {
 void TObjEneRecon__sub_8031FB6C(u8 *arg0);
 }

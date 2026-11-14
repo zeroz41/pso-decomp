@@ -147,7 +147,6 @@ void present_frame_and_wait_vsync(void) {
 }
 
 
-#define frame_update_callback (*(s32 (**)())&frame_update_callback)
 
 void TMovie::run_callback() {
     if (((s32 (*)()) frame_update_callback) != NULL) {
@@ -229,7 +228,6 @@ void fn_803DD294(void) {
         VIWaitForRetrace();
     }
 }
-#undef frame_update_callback
 
 
 typedef struct { u8 pad[0x28]; } Elem_803DD300;

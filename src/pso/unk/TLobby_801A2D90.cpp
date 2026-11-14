@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_801A2D90.h"
@@ -10,6 +11,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/object/door/TObjDoor.h"
+#include "pso/system/task/TObject.h"
 
 struct Base_801A2E00 { u8 pad0[0x18]; };
 
@@ -23,7 +25,6 @@ s32 is_split_screen();
 extern s32 local_client_id;
 extern s32 lbl_805D53A8;
 s32 reset_quest_result_callbacks__22THunterGuildSeqOfflineFPv();
-void queue_destruction__7TObjectFv(void *arg0);
 extern u32 quest_mission_manager;
 void *get_player_by_client_id(s32 i);
 
@@ -82,7 +83,7 @@ void TLobby::reset_quest_state() {
     TLobby::reset_floor_items();
     TNpcPlayer::enable_all_battle_ctrl();
     if ((u32) quest_mission_manager != 0U) {
-        queue_destruction__7TObjectFv((void *)quest_mission_manager);
+        ((TObject *)quest_mission_manager)->queue_destruction();
     }
     clear_enabled_main_warps();
     reset_quest_result_callbacks__22THunterGuildSeqOfflineFPv();

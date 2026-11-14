@@ -93,7 +93,7 @@ struct TObjEneDD : public TObjEnemy {
     static void create_instance();
     static int get_enemy_count();
     void handle_state(s32 arg1);
-    static void noop();
+    void noop();
     void state_damaged(s32 arg1);
     void state_chase_target(s32 arg1);
     int get_target_info();

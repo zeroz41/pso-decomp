@@ -878,7 +878,7 @@ void TBoss2Mine::init_params(s32 arg1, f32 farg0) {
     *(f32 *)((s8 *)((u8 *)this) + 0x3B8) = farg0;
     *(s32 *)((s8 *)((u8 *)this) + 0x3C0) = arg1;
     *(s32 *)((s8 *)((u8 *)this) + 0x3C4) = 0;
-    *(f32 *)((s8 *)((u8 *)this) + 0x3B4) = (f32) (0.0f);
+    *(f32 *)((s8 *)((u8 *)this) + 0x3B4) = 0.0f;
     *(s32 *)((s8 *)((u8 *)this) + 0x3BC) = 0;
 }
 
@@ -1158,7 +1158,7 @@ void TUnk_80482EC0::vfunc_105(s32 arg1) {
         temp_f1 = newton_sqrtf(temp_r3, ((2.0f) * (temp_f2 - *(f32 *)((s8 *)arg0 + 0x394))) / (0.2f), temp_f2, (2.0f));
         *(f32 *)((s8 *)arg0 + 0x3E4) = (1e+01f) * temp_f1;
         *(f32 *)((s8 *)arg0 + 0x3EC) = (f32) (1e+01f);
-        *(f32 *)((s8 *)arg0 + 0x3E8) = (f32) 0.0f;
+        *(f32 *)((s8 *)arg0 + 0x3E8) = 0.0f;
         *(s32 *)((s8 *)arg0 + 0x3D8) = 0;
         *(f32 *)((s8 *)arg0 + 0x3E0) = (f32) *(f32 *)((s8 *)arg0 + 0x3DC);
         break;
@@ -1299,7 +1299,7 @@ void init_launch__10TBoss2MineFPvPvii(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3) {
     temp_r31 = arg3 * 0x5555;
     *(s32 *)((s8 *)arg0 + 0x3F4) = arg3;
     *(f32 *)((s8 *)arg0 + 0x3F8) = (f32) ((2e+01f) * sin_table_lookup(temp_r31));
-    *(f32 *)((s8 *)arg0 + 0x3FC) = (f32) (0.0f);
+    *(f32 *)((s8 *)arg0 + 0x3FC) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x400) = (f32) ((2e+01f) * cos_table_lookup(temp_r31));
     if (arg3 == 0) {
         var_r31 = 0x8000;
@@ -1309,12 +1309,12 @@ void init_launch__10TBoss2MineFPvPvii(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3) {
         var_r31 = 0x9800;
     }
     *(f32 *)((s8 *)arg0 + 0x404) = sin_table_lookup(var_r31);
-    *(f32 *)((s8 *)arg0 + 0x408) = (f32) (0.0f);
+    *(f32 *)((s8 *)arg0 + 0x408) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x40C) = cos_table_lookup(var_r31);
     *(s32 *)((s8 *)arg0 + 0x60) = var_r31;
-    *(f32 *)((s8 *)arg0 + 0x390) = (f32) (0.0f);
-    *(f32 *)((s8 *)arg0 + 0x394) = (f32) (0.0f);
-    *(f32 *)((s8 *)arg0 + 0x398) = (f32) (0.0f);
+    *(f32 *)((s8 *)arg0 + 0x390) = 0.0f;
+    *(f32 *)((s8 *)arg0 + 0x394) = 0.0f;
+    *(f32 *)((s8 *)arg0 + 0x398) = 0.0f;
     ((TUnk_80482D04 *)arg0)->move_mine();
     *(s32 *)((s8 *)arg0 + 0x5C) = 0x4000;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg0 + 0x2FC));

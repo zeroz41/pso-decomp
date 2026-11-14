@@ -9,15 +9,13 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TUnk_804EF4E0.h"
 
-struct RecoveredGlobal_80338C88_lbl_804EF458 {
-    s32 value;
-    u8 remaining[0x28];
-};
-
 struct RecoveredGlobal_80338C88___vt__16TEneParticleCtrl {
     s32 value;
     u8 remaining[0x38];
 };
+
+// inferred: TEneParticleCtrl__collision_body, the one body TEneParticleCtrl__ct registers.
+CollisionBody TEneParticleCtrl__collision_body = {{0.0f, 0.0f, 0.0f}, 20.0f, 0.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 struct O_80338D58 { u8 pad[0x72]; s16 idx; u8 pad2[2]; s16 count; };
 
@@ -26,7 +24,6 @@ u16 get_entity_id(void *);
 void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);
-extern RecoveredGlobal_80338C88_lbl_804EF458 lbl_804EF458;
 extern s32 __vt__16TEneParticleCtrl[];
 extern s32 TEneParticleCtrl__name;
 void *get_array_entry__11TWindowBaseFi(void *, s16);
@@ -52,7 +49,6 @@ void *__dt__16TEneParticleCtrlFv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-typedef char RecoveredGlobal_80338C88_lbl_804EF458_size[sizeof(RecoveredGlobal_80338C88_lbl_804EF458) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_80338C88___vt__16TEneParticleCtrl_size[sizeof(RecoveredGlobal_80338C88___vt__16TEneParticleCtrl) == 0x3C ? 1 : -1];
 u8 *TEneParticleCtrl__ct(u8 *arg0, s32 arg1, s32 arg2) {
     u32 temp_r3;
@@ -60,7 +56,7 @@ u8 *TEneParticleCtrl__ct(u8 *arg0, s32 arg1, s32 arg2) {
     __ct__14TObjCollidableFP7TObject((void *)arg0, (void *)arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80338C88___vt__16TEneParticleCtrl *)&__vt__16TEneParticleCtrl).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TEneParticleCtrl__name;
-    init_collision_body_parts(arg0, &lbl_804EF458.value, 1);
+    init_collision_body_parts(arg0, &TEneParticleCtrl__collision_body, 1);
     ((TObjPlayer *)arg0)->register_object_by_id();
     temp_r4 = (u8 *)(((TEneParticleCtrl *)arg0)->bodies);
     *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) & 0xFFFFFFFE);
@@ -86,15 +82,14 @@ void fn_80338D58(O_80338D58 *arg0, void *a1, void *a2, void *a3, void *a4, void 
 
 }
 
-extern "C" {
-extern const char *lbl_805D4260;
-}
+// inferred: named after the class-name string it points to (TUnk_804EF4E0's m_name)
+const char *TWindowMenuTeamStatus__name = "TWindowMenuTeamStatus";
 
 void TUnk_804EF4E0::vfunc_6(u32 count, s32 id) {
     s32 i;
     TUnk_804EF4E0::Entry *entry;
 
-    m_name = lbl_805D4260;
+    m_name = TWindowMenuTeamStatus__name;
     m_20 = id;
     entry_count = 0;
     cursor = 0;

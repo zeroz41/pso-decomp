@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/text_803281B8.h"
 #include "pso/system/scene/TSceneSora_8029F428.h"
@@ -8,6 +9,7 @@
 
 #include <stddef.h>
 #include "pso/system/scene/TScene.h"
+#include "pso/system/task/TObject.h"
 struct RecoveredGlobal_80069094_camera_controller_registry { s32 value; u8 remaining[0x64]; };
 
 struct RecoveredGlobal_80069024_TCameraCtrl__data_804FF634 {
@@ -144,7 +146,7 @@ void *TUnk_804DC7C4::destroy(s16 arg1) {
         scene_sora_recon_active_flag = 0;
         lbl_805D65F0 = 0;
         if ((u32) this->m_20 != 0U) {
-            queue_destruction__7TObjectFv(*(void * *)&this->m_20);
+            ((TObject *)(*(void * *)&this->m_20))->queue_destruction();
             this->m_20 = 0U;
         }
         TScene::set_id(0);

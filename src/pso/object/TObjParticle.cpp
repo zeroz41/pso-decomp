@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/TObjParticle.h"
@@ -13,6 +14,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TObject.h"
 
 struct P_8019527C { u8 pad[0x90]; u32 f90; };
 
@@ -76,7 +78,7 @@ void TObjParticle::run_task() {
         var_f31 = 100000000.0f;
     }
     if (xyz_distance_squared((Vec *)&this->position, (Vec *)(camera_ctrl_instance + 0x178)) > var_f31) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     if ((u32) this->m_90 != 0U) {
@@ -87,7 +89,7 @@ void TObjParticle::run_task() {
 
 }
 TObjParticle::~TObjParticle() {
-    if (*(void **)((s8 *)this + 0x90) != NULL) { queue_destruction__7TObjectFv((void *)(*(void **)((s8 *)this + 0x90))); this->m_90 = 0; }
+    if (*(void **)((s8 *)this + 0x90) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x90))))->queue_destruction(); this->m_90 = 0; }
     ((TObjBase *)this)->mask_object_set_row_flags(-3);
 }
 extern "C" {
@@ -155,7 +157,7 @@ Part_80195400 *TObjParticle__ct(Part_80195400 *arg0, s32 parent, Src_80195400 *a
             arg0->emitter = spawn_continuous_particle_with_direction(&arg0->pos, &arg0->ang, entry);
         }
     }
-    disallow_rendering__7TObjectFv((TObject *)arg0);
+    ((TObject *)arg0)->disallow_rendering();
     return arg0;
 }
 

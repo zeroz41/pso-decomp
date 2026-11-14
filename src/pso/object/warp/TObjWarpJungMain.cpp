@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/warp/TObjAreaWarp.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -24,6 +25,8 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/system/task/TObject.h"
+#include "pso/object/warp/TObjWarpBase.h"
 
 const char *bm_obj_warp_jung_model_names[3] = { "fe_obj_warp_dodai.gj", "fe_obj_warp_jogo_light.gj", NULL };
 __declspec(section ".data") const char *bm_obj_warp_jung_motion_names[2] = { "fe_obj_warp_jogo_light.njm", NULL };
@@ -47,9 +50,6 @@ s32 warp_jung_beam_blue_tex_entry;               // texture entry "ts064_beam_ao
 s32 warp_jung_nakalight_tex_entry;               // texture entry "ts032_warp_nakalight"
 void *warp_jung_beam_models[6];
 // The texture entry names load_warp_beam_resources looks up.
-extern const char lbl_80446718[];
-extern const char lbl_80446728[];
-extern const char lbl_80446738[];
 
 extern "C" {
 s32 PPCSync();
@@ -89,10 +89,8 @@ struct Obj_801A0224 {
     f32 fC4;
 };
 
-void queue_destruction__7TObjectFv(void *);
 u8 *__dt__12TObjAreaWarpFv(u8 *arg0, s16 arg1);
 void *TObjAreaWarp__ct(void *arg0);
-int vfunc_14__12TObjWarpBaseFv(void*);
 s32 TObjWarpJungMain__vt16(TObjWarpJungMain *arg0);
 void * __dt__16TObjWarpJungMainFv(void *arg0, s16 arg1);
 void * TObjWarpJung__create(void *arg0);
@@ -157,7 +155,7 @@ s32 TObjWarpJungMain__vt16(TObjWarpJungMain *warp_jung_main) {
 
 void TObjWarpJungMain::confirm_area_transfer(s32 arg1) { TObjAreaWarp::confirm_area_transfer(arg1); }
 
-void TObjWarpJungMain::vfunc_14() { vfunc_14__12TObjWarpBaseFv(this); TWindowCtrl::clear_flag(); }
+void TObjWarpJungMain::vfunc_14() { TObjWarpBase::vfunc_14(); TWindowCtrl::clear_flag(); }
 
 void TObjWarpJungMain__vt13(TObjWarpJungMain *warp_jung_main, s16 arg1) {
     s32 i;
@@ -201,7 +199,7 @@ Obj_8019FF24 *TObjWarpJungMain__ct(Obj_8019FF24 *self) {
     self->fC4 = 0.0f;
     self->f8C = fabs_float(self->f8C % 2);
     if (get_game_play_mode() == 1 && self->f8C == 0) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return self;
     }
     self->fAC = 15.0f;
@@ -278,7 +276,7 @@ Obj_801A0224 *TObjWarpJung__ct(Obj_801A0224 *self) {
     self->fC4 = 0.0f;
     self->f8C = fabs_float(self->f8C % 2);
     if (get_game_play_mode() == 1 && self->f8C == 1) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return self;
     }
     self->fAC = 15.0f;
@@ -371,7 +369,7 @@ void load_warp_beam_resources(void) {
     warp_jung_beam_models[5] = root->sibling->model;
     warp_jung_beam_mesh_node = root->sibling->sibling->sibling->model;
     warp_jung_last_scroll_tick = 0;
-    warp_jung_beam_entry_index = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name(lbl_80446718);
-    warp_jung_beam_blue_tex_entry = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name(lbl_80446728);
-    warp_jung_nakalight_tex_entry = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name(lbl_80446738);
+    warp_jung_beam_entry_index = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name("ts064_beam_aka");
+    warp_jung_beam_blue_tex_entry = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name("ts064_beam_ao");
+    warp_jung_nakalight_tex_entry = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name("ts032_warp_nakalight");
 }

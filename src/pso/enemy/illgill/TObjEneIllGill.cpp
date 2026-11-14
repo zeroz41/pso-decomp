@@ -20,6 +20,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/unk/TLobby.h"
 extern "C" void render__15TObjIllGillKageFv();
 #include "pso/render/TUnk_80494938.h"
 
@@ -73,7 +74,11 @@ s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);
 s32 is_split_screen();
 extern s32 game_difficulty_selection;
 extern s32 local_client_id;
-extern IllGillAttackBehavior *illGillAttackBehavior;
+BmlResource * illGillResource;
+s32 TObjEneIllGill__boss_registration_id;
+s32 lbl_805D6FD8;
+IllGillAttackBehavior * illGillAttackBehavior;
+s32 illGillModelNodeIndex;
 extern const f32 lbl_805E02B8;
 extern const f32 TObjEneIllGill__data_805E02C0;
 extern const f32 lbl_805E02C4;
@@ -83,9 +88,6 @@ extern const f32 lbl_805E02D0;
 extern const f32 lbl_805E02D4;
 s32 init_collision_body_parts(void *, void *, int);
 
-extern BmlResource *illGillResource;
-extern s32 TObjEneIllGill__boss_registration_id;
-extern s32 lbl_805D6FD8;
 extern const f32 lbl_805E0308;
 
 }
@@ -502,7 +504,6 @@ void TObjEneIllGill::update_shadow_attack() {
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 extern u8 lbl_804FF5E8[];
-extern s32 illGillModelNodeIndex;
 void TObjEneIllGill::capture_effect_positions() {
     Vec *v;
     switch (illGillModelNodeIndex) {
@@ -1473,7 +1474,6 @@ void TObjEneIllGill::free_effect() {
 }
 
 s32 register_object__6TLobbyFl(int);
-s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void TObjEneIllGill::load_shared_resources() {
@@ -1487,10 +1487,10 @@ void TObjEneIllGill::load_shared_resources() {
     }
     illGillResource = (BmlResource *)p;
     TObjEneIllGill__boss_registration_id = register_boss__6TLobbyFl(0x26);
-    ill_gill_combat_parameter_variants[0] = (AttackParams *)dispatch_shared_handler_b__6TLobbyFl(0x26);
-    ill_gill_combat_parameter_variants[1] = (AttackParams *)dispatch_shared_handler_b__6TLobbyFl(0x27);
-    ill_gill_combat_parameter_variants[2] = (AttackParams *)dispatch_shared_handler_b__6TLobbyFl(0x28);
-    ill_gill_combat_parameter_variants[3] = (AttackParams *)dispatch_shared_handler_b__6TLobbyFl(0x29);
+    ill_gill_combat_parameter_variants[0] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x26);
+    ill_gill_combat_parameter_variants[1] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x27);
+    ill_gill_combat_parameter_variants[2] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x28);
+    ill_gill_combat_parameter_variants[3] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x29);
     lbl_805D6FD8 = register_object__6TLobbyFl(0x26);
     illGillAttackBehavior = (IllGillAttackBehavior *)TLobby::dispatch_shared_handler_a(0x26);
     illGillModelNodeIndex = 0;

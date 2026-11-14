@@ -21,7 +21,7 @@ extern s32 TItemLoad__bml_resource;
 extern void *TItemLoad__model_load_task_root;
 extern void *TItemLoad__completed_model_load_task_root;
 extern s32 TItemLoad__model_slot_in_use;
-extern s32 item_load_resource_handle;
+s32 item_load_resource_handle;
 s32 free_bin_model_request(s32, s32);
 s32 __ct__9TItemLoadFv(void *, s32);
 void mem_free(void *p);

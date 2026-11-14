@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/font/TUnk_8049CA54.h"
 #include "pso/ui/window/TWindowCtrlMain_800FC91C.h"
@@ -7,6 +8,9 @@
 #include "pso/ui/font/TFontSmallHelp.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
+#include "pso/system/task/TObject.h"
+#include "pso/ui/font/TFontSmallHelp.h"
+#include "pso/ui/window/TWindowShortListCtrl.h"
 
 struct VBase_18_7b3651 { char pad[0x18]; };
 
@@ -57,8 +61,6 @@ void __dl__7TObjectFPv(void *);
 void __dt__14TFontSmallHelpFv(void *, int);
 void *__nw__7TObjectFUl(int);
 s32 get_status_index_or_default__20TWindowSubStatusDispFPUs(void *, s32);
-void queue_destruction__7TObjectFv(void *arg0);
-s32 run_task__14TFontSmallHelpFv(void *);
 
     extern int TWindowCtrlMain__instance;
 int TWindowCtrlMain::get_instance() {  return TWindowCtrlMain__instance; }
@@ -66,7 +68,7 @@ int TWindowCtrlMain::get_instance() {  return TWindowCtrlMain__instance; }
 void TWindowCtrlMain::advance_card_status(s32 arg0) {
     s32 var_r4;
 
-    var_r4 = get_card_status_bits__20TWindowShortListCtrlFv() + 1;
+    var_r4 = TWindowShortListCtrl::get_card_status_bits() + 1;
     if (var_r4 >= 5) {
         var_r4 = 0;
     }
@@ -79,7 +81,7 @@ s32 TWindowSubStatusDisp::build_status_text(s32 arg0) {
     s32 idx;
     s32 lvl;
     VObj_18_7b3651 *p;
-    mode = get_card_status_bits__20TWindowShortListCtrlFv();
+    mode = TWindowShortListCtrl::get_card_status_bits();
     p = get_player_by_client_id(arg0);
     if (p == NULL) {
         return 0;
@@ -139,7 +141,7 @@ void TUnk_8049CA54::run_task() {
 
     temp_r3 = (s32)get_player_by_client_id(*(s32 *)&this->player_id);
     if (temp_r3 == 0) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     temp_r3_2 = ((s32 (*)(s32))get_card_status_bits__20TWindowShortListCtrlFv)(*(s32 *)&this->player_id);
@@ -156,15 +158,13 @@ void TUnk_8049CA54::run_task() {
             }
         }
     }
-    run_task__14TFontSmallHelpFv(this);
+    TFontSmallHelp::run_task();
 }
 
 
 }
 TUnk_8049CA54::~TUnk_8049CA54() {
 
-}
-extern "C" {
 }
 
 struct RecoveredGlobal_800FCC78_lbl_8049CA54 {

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
@@ -54,13 +55,12 @@ extern CollisionBody TBoss1DragonColli_sphere_chain_desc;
 extern s32 __vt__19TBoss1DragonColli_C[];
 extern s32 TBoss1DragonColli_C__name;
 s32 TBoss1DragonColli_C__ct(int arg0, void *arg1, int arg2, void *arg3, f32 scale);
-void queue_destruction__7TObjectFv(void*);
 }
 
 TBoss1DragonColli::~TBoss1DragonColli() {
     for (s32 index = 0; index < 3; ++index) {
         if (objects[index] != NULL) {
-            queue_destruction__7TObjectFv(objects[index]);
+            objects[index]->queue_destruction();
             objects[index] = NULL;
         }
     }

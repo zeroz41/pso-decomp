@@ -26,6 +26,7 @@
 #include "pso/unk/text_80121180.h"
 #include "pso/player/TObjPlayer_8012121C.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/item/TItemEquipBase.h"
 
 // ---- pso/unk/text_80120908
 
@@ -70,7 +71,7 @@ s32 TItemWeapon::draw_weapon_model() {
             var_r30 = ((VObj_18_26a62c *)(this))->m8(400.0f, 20.0f);
         }
         set_texlist((int) (*(s32 *)((s8 *)this + 0x24)));
-        push_matrix_from((void *)((TObjMotion *)(this->owner))->get_item_ptr((s32)((void *) ((s8)get_attach_joint__14TItemEquipBaseFv(this)))));
+        push_matrix_from((void *)((TObjMotion *)(this->owner))->get_item_ptr((s32)((void *) ((s8)get_attach_joint()))));
         if ((var_r30 != 0) && (((TItem *)this)->is_hidden() == 0)) {
             weapon_render_callback_object = (u8 *)this;
             weapon_node_material_index = *(s16 *)((s8 *)this + 0x1CC);
@@ -149,9 +150,7 @@ void draw_weapon_at_joint(s32 arg0, s8 arg1) {
 
 extern "C" {
 
-int release_model__14TItemEquipBaseFv(void*);
-
-void TItemWeapon::release_model() { memset((char*)this + 0x18c, 0, 16); clear_weapon_flags((u32)((void*)12)); release_model__14TItemEquipBaseFv(this); }
+void TItemWeapon::release_model() { memset((char*)this + 0x18c, 0, 16); clear_weapon_flags((u32)((void*)12)); TItemEquipBase::release_model(); }
 
 }
 
@@ -206,7 +205,6 @@ struct T_80120C5C { s32 a; s32 b; s32 c; u16 d; u8 e; };
 
 extern "C" {
 u8 get_item_group__5TItemFv();
-void request_model_load__14TItemEquipBaseFUc(void *, u8);
 extern T_80120C5C lbl_8043E828[];
 void TItemWeapon::request_equipped_model() {
     Pl_80120C5C *arg0 = (Pl_80120C5C *)this;
@@ -220,7 +218,7 @@ void TItemWeapon::request_equipped_model() {
         t.e = lbl_8043E828[0].e;
         v = ((u8 *)&t)[arg0->m41()];
     }
-    request_model_load__14TItemEquipBaseFUc(arg0, v);
+    ((TItemEquipBase *)arg0)->request_model_load(v);
     ((TItemWeapon *)arg0)->create_weapon_trail_effects();
 }
 

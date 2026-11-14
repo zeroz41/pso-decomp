@@ -5,6 +5,11 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/BmlResourceLoader.h"
+#include "pso/unk/text_80365348.h"
+
+#pragma readonly_strings on
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -72,77 +77,74 @@ void queue_destruction__7TObjectFv(void *);
 s32 set_global_param__8TObjFishFl();
 
 
-extern "C" u8 lbl_8047A0A8[];
-extern "C" u8 lbl_8047A0C4[];
-extern "C" u8 lbl_8047A0DC[];
-extern "C" u8 lbl_8047A0F8[];
-extern "C" u8 lbl_8047A110[];
-extern "C" u8 lbl_8047A124[];
-extern "C" u8 lbl_8047A134[];
-extern "C" u8 lbl_8047A150[];
-extern "C" u8 lbl_8047A16C[];
-extern "C" u8 lbl_8047A188[];
-extern "C" u8 lbl_8047A1A4[];
-extern "C" u8 lbl_8047A1B8[];
-extern "C" u8 lbl_805D4488[];
-extern "C" u8 lbl_805D448C[];
-extern "C" u8 lbl_805D4490[];
-extern "C" u8 lbl_805D4494[];
-extern "C" u8 lbl_805D4498[];
-extern "C" u8 lbl_805D449C[];
-extern void *lbl_804F2B78[2];
-extern void *lbl_804F2B80[4];
-extern void *lbl_804F2B90[2];
-extern void *lbl_804F2B98[4];
-extern void *lbl_804F2BA8[2];
-extern void *lbl_804F2BB0[4];
-extern void *lbl_804F2BC0[2];
-extern void *lbl_804F2BC8[4];
-extern void *lbl_804F2BD8[2];
-extern void *lbl_804F2BE0[4];
-extern void *lbl_804F2BF0[2];
-extern void *lbl_804F2BF8[4];
-__declspec(section ".data") void *lbl_804F2B78[2] = {
-    (void *)&lbl_8047A0A8, (void *)0x0,
+const char *lbl_805D4488[1] = {0};
+const char *lbl_805D448C[1] = {0};
+const char *lbl_805D4490[1] = {0};
+const char *lbl_805D4494[1] = {0};
+const char *lbl_805D4498[1] = {0};
+const char *lbl_805D449C[1] = {0};
+extern const char *lbl_804F2B78[2];
+extern BmlResourceDescriptor lbl_804F2B80;
+extern const char *lbl_804F2B90[2];
+extern BmlResourceDescriptor lbl_804F2B98;
+extern const char *lbl_804F2BA8[2];
+extern BmlResourceDescriptor lbl_804F2BB0;
+extern const char *lbl_804F2BC0[2];
+extern BmlResourceDescriptor lbl_804F2BC8;
+extern const char *lbl_804F2BD8[2];
+extern BmlResourceDescriptor lbl_804F2BE0;
+extern const char *lbl_804F2BF0[2];
+extern BmlResourceDescriptor lbl_804F2BF8;
+__declspec(section ".data") const char *lbl_804F2B78[2] = {
+    "labocity_computer_army.gj", NULL,
 };
-void *lbl_804F2B80[4] = {
-    (void *)&lbl_8047A0C4, (void *)&lbl_804F2B78, (void *)&lbl_805D4488, (void *)0x10000,
+BmlResourceDescriptor lbl_804F2B80 = {
+    "bm_obj_comp_army.bml", lbl_804F2B78, lbl_805D4488, 1, 0,
 };
-__declspec(section ".data") void *lbl_804F2B90[2] = {
-    (void *)&lbl_8047A0DC, (void *)0x0,
+__declspec(section ".data") const char *lbl_804F2B90[2] = {
+    "labocity_computer_norm.gj", NULL,
 };
-void *lbl_804F2B98[4] = {
-    (void *)&lbl_8047A0F8, (void *)&lbl_804F2B90, (void *)&lbl_805D448C, (void *)0x10000,
+BmlResourceDescriptor lbl_804F2B98 = {
+    "bm_obj_comp_norm.bml", lbl_804F2B90, lbl_805D448C, 1, 0,
 };
-__declspec(section ".data") void *lbl_804F2BA8[2] = {
-    (void *)&lbl_8047A110, (void *)0x0,
+__declspec(section ".data") const char *lbl_804F2BA8[2] = {
+    "labocity_desk.gj", NULL,
 };
-void *lbl_804F2BB0[4] = {
-    (void *)&lbl_8047A124, (void *)&lbl_804F2BA8, (void *)&lbl_805D4490, (void *)0x10000,
+BmlResourceDescriptor lbl_804F2BB0 = {
+    "bm_obj_desk.bml", lbl_804F2BA8, lbl_805D4490, 1, 0,
 };
-__declspec(section ".data") void *lbl_804F2BC0[2] = {
-    (void *)&lbl_8047A134, (void *)0x0,
+__declspec(section ".data") const char *lbl_804F2BC0[2] = {
+    "labocity_partition_army.gj", NULL,
 };
-void *lbl_804F2BC8[4] = {
-    (void *)&lbl_8047A150, (void *)&lbl_804F2BC0, (void *)&lbl_805D4494, (void *)0x10000,
+BmlResourceDescriptor lbl_804F2BC8 = {
+    "bm_obj_partition_army.bml", lbl_804F2BC0, lbl_805D4494, 1, 0,
 };
-__declspec(section ".data") void *lbl_804F2BD8[2] = {
-    (void *)&lbl_8047A16C, (void *)0x0,
+__declspec(section ".data") const char *lbl_804F2BD8[2] = {
+    "labocity_partition_norm.gj", NULL,
 };
-void *lbl_804F2BE0[4] = {
-    (void *)&lbl_8047A188, (void *)&lbl_804F2BD8, (void *)&lbl_805D4498, (void *)0x10000,
+BmlResourceDescriptor lbl_804F2BE0 = {
+    "bm_obj_partition_norm.bml", lbl_804F2BD8, lbl_805D4498, 1, 0,
 };
-__declspec(section ".data") void *lbl_804F2BF0[2] = {
-    (void *)&lbl_8047A1A4, (void *)0x0,
+__declspec(section ".data") const char *lbl_804F2BF0[2] = {
+    "labocity_table.gj", NULL,
 };
-void *lbl_804F2BF8[4] = {
-    (void *)&lbl_8047A1B8, (void *)&lbl_804F2BF0, (void *)&lbl_805D449C, (void *)0x10000,
+BmlResourceDescriptor lbl_804F2BF8 = {
+    "bm_obj_table_labo.bml", lbl_804F2BF0, lbl_805D449C, 1, 0,
 };
-void *lbl_804F2C08[14] = {
-    (void *)0x0, (void *)&lbl_804F2B80, (void *)0x1, (void *)&lbl_804F2B98,
-    (void *)0x2, (void *)&lbl_804F2BB0, (void *)0x3, (void *)&lbl_804F2BC8,
-    (void *)0x4, (void *)&lbl_804F2BE0, (void *)0x5, (void *)&lbl_804F2BF8,
-    (void *)0xffffffff, (void *)0x0,
+// Archive descriptors of the six laboratory design objects, by object id.
+struct LaboDesignObjectEntry {
+    s32 id;
+    BmlResourceDescriptor *descriptor;
+};
+
+LaboDesignObjectEntry lbl_804F2C08[7] = {
+    {0, &lbl_804F2B80},
+    {1, &lbl_804F2B98},
+    {2, &lbl_804F2BB0},
+    {3, &lbl_804F2BC8},
+    {4, &lbl_804F2BE0},
+    {5, &lbl_804F2BF8},
+    {-1, NULL},
 };
 void *labo_design_entry_table[66] = {
     (void *)0x0, (void *)0x41a00000, (void *)0x0, (void *)0x40a00000,
@@ -163,7 +165,6 @@ void *labo_design_entry_table[66] = {
     (void *)0x1, (void *)0x10003, (void *)0x0, (void *)0x0,
     (void *)0x0, (void *)0x0,
 };
-#define labo_design_entry_table ((unsigned char *)labo_design_entry_table)
 
 void *create_instance__18TObjLaboDesignBaseFPv(void *arg0) {
     void *o = __nw__7TObjectFUl(0xC0);
@@ -174,9 +175,11 @@ void *create_instance__18TObjLaboDesignBaseFPv(void *arg0) {
 }
 }
 void* get_labo_design_entry(int a0);
+extern "C" u32 labo_design_object_table[];
+
 int get_labo_design_object(int a0);
 extern s32 __vt__18TObjLaboDesignBase[];
-extern s32 TObjLaboDesignBase_class_name;
+const char *TObjLaboDesignBase_class_name = "TObjLaboDesignBase";
 void *create_labo_design_base(void *arg0);
 void *create_obj_labo_design_base(void *arg0);
 void *create_obj_labo_design_base(void *arg0) {
@@ -319,7 +322,7 @@ u8 *TObjLaboDesignBase__ct(u8 *player, s32 arg1, s32 arg2, s32 arg3) {
     s32 temp_r0;
     __ct__14TObjCollidableFP7TObject();
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80365210___vt__18TObjLaboDesignBase *)&__vt__18TObjLaboDesignBase).value;
-    *(s32 *)((s8 *)player + 0) = (s32) TObjLaboDesignBase_class_name;
+    *(const char **)((s8 *)player + 0) = TObjLaboDesignBase_class_name;
     ((VObj_18_1a504b *)(player))->m5(arg2);
     *(s32 *)((s8 *)player + 0xB0) = arg3;
     *(s32 *)((s8 *)player + 0xAC) = ((s32)get_labo_design_object((int) (*(s32 *)((s8 *)player + 0xB0))));
@@ -341,5 +344,40 @@ u8 *TObjLaboDesignBase__ct(u8 *player, s32 arg1, s32 arg2, s32 arg3) {
 
 void* get_labo_design_entry(int a0) {  return (char*)labo_design_entry_table + a0 * 44; }
 
-    extern int labo_design_object_table[];
+extern "C" u32 labo_design_object_table[];
+
 int get_labo_design_object(int a0) {  return labo_design_object_table[a0]; }
+
+void free_object_table(void) {
+    s32 i;
+    for (i = 5; i >= 0; i--) {
+        if (labo_design_object_table[i] != 0) {
+            free_bin_model_request((void *)labo_design_object_table[i], 1);
+            labo_design_object_table[i] = 0;
+        }
+    }
+}
+
+void load_labo_design_object_table(void) {
+    s32 i;
+    LaboDesignObjectEntry *e;
+    void *p;
+    for (i = 0; i < 6; i++) {
+        labo_design_object_table[i] = 0;
+    }
+    e = lbl_804F2C08;
+    if (e != NULL) {
+        while (e->id != -1) {
+            p = ::operator new(0x440);
+            if (p != NULL) {
+                p = load_resource_from_descriptor(p, 5, e->descriptor, 0, 0, 0);
+            }
+            labo_design_object_table[e->id] = (u32)p;
+            e++;
+        }
+    }
+}
+
+extern "C" {
+u32 labo_design_object_table[6];
+}

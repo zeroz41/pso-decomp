@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/effect/photon/TPhotonConcentrate.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -9,6 +10,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/system/task/TObject.h"
 
 const char *TPhotonConcentrate__class_name = "TPhotonConcentrate";
 
@@ -81,15 +83,15 @@ void run_task__18TPhotonConcentrateFv(PC_801A7E7C *self) {
   self->dist = vector_length(&delta);
   if (self->dist < 10.0f)
   {
-    queue_destruction__7TObjectFv(self->emitter);
+    ((TObject *)self->emitter)->queue_destruction();
     self->emitter = 0;
     spawn_particle_effect(&self->pos, 0xC6);
-    queue_destruction__7TObjectFv(self);
+    ((TObject *)self)->queue_destruction();
     return;
   }
   if (xyz_distance(&self->origin, &self->pos) > self->range)
   {
-    queue_destruction__7TObjectFv(self);
+    ((TObject *)self)->queue_destruction();
     return;
   }
   vec3_add_to(&self->pos, &self->vel);
@@ -139,10 +141,7 @@ void run_task__18TPhotonConcentrateFv(PC_801A7E7C *self) {
 
 }
 TPhotonConcentrate::~TPhotonConcentrate() {
-    if (*(void **)((s8 *)this + 0xF8) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0xF8)); this->m_f8 = 0; }
-}
-extern "C" {
-
+    if (*(void **)((s8 *)this + 0xF8) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xF8)))->queue_destruction(); this->m_f8 = 0; }
 }
 TPhotonConcentrate::TPhotonConcentrate(u8 *arg1, s32 arg2, s32 arg3) : TObjCollidable((TObject *)arg2) {
     f32 temp_f1;
@@ -160,7 +159,4 @@ TPhotonConcentrate::TPhotonConcentrate(u8 *arg1, s32 arg2, s32 arg3) : TObjColli
     this->m_ec = (s32) *(s32 *)((s8 *)arg1 + 0x34);
     this->m_fc = find_entity_by_id(arg3, temp_f1);
     this->m_f8 = (s32)create_particle_emitter(((u8 *)this) + 0xB8, 0x135);
-}
-extern "C" {
-
 }

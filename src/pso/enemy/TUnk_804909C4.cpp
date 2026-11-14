@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/enemy/TUnk_804909C4.h"
@@ -25,6 +26,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/task/TObject.h"
 
 struct VBase_18_4a35f9 { char pad[0x18]; };
 
@@ -70,7 +72,6 @@ VObj_18_4a35f9 *get_battle_param__10TObjPlayerFi(s32);
 s32 obj_is_hit_receivable();
 s32 TObjPlayer__sub_800A3210(s32 i, s32 _w1, s32 _w2);
 s32 vec3_add_to(void *, void *);
-void queue_destruction__7TObjectFv(void *arg0);
 s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);
@@ -133,13 +134,13 @@ void TUnk_804909C4::run_task() {
         }
     }
     if (((TUnk_804909C4 *)arg0)->sub_800A3290((s32)((int) (*(u16 *)((s8 *)arg0 + 0xC8)))) != 0) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     temp_r0 = this->m_c4 - 1;
     this->m_c4 = temp_r0;
     if (temp_r0 <= 0) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 
@@ -147,11 +148,8 @@ void TUnk_804909C4::run_task() {
 TUnk_804909C4::~TUnk_804909C4() {
     free_collision_body_parts(this);
     if ((u32) *(u32 *)((s8 *)this + 0xD0) != 0U) {
-        queue_destruction__7TObjectFv(this->m_d0);
+        ((TObject *)this->m_d0)->queue_destruction();
     }
-}
-extern "C" {
-
 }
 TUnk_804909C4::TUnk_804909C4(u8 *player, s32 arg2, s32 arg3) : TObjCollidable((TObject *)tl_04) {
     s32 var_r0;
@@ -186,6 +184,4 @@ TUnk_804909C4::TUnk_804909C4(u8 *player, s32 arg2, s32 arg3) : TObjCollidable((T
     } else {
         this->m_c4 = (s32) (500.0f / player_scale_factor);
     }
-}
-extern "C" {
 }

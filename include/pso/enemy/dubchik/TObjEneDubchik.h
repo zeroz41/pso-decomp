@@ -9,6 +9,14 @@ class TUnk_80494968;
 
 class TUnk_80491478;
 
+// The dubchik's loaded BML resource and its model table (TObjEneDubchik's TU loads it).
+struct Mdl_800AA82C { u8 pad[8]; s32 f8; s32 fC; };
+struct Res_800AA82C { u8 pad[0x42C]; Mdl_800AA82C *mdl; s32 f430; };
+extern "C" {
+extern Res_800AA82C *dubchik_resource;
+extern NJS_TEXLIST *dubchik_texlist;
+}
+
 class TObjEneDubchik : public TObjEnemyCustom {
 public:
     TObjEneDubchik(TObject *parent, void *set_data);

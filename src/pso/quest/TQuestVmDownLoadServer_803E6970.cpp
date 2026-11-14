@@ -9,6 +9,11 @@ RecoveredGlobal_803E8710_lbl_8058DE08 quest_vm_download_server_file_info;
 R_803E76A4 quest_download_slot_table[0x2C78 / sizeof(R_803E76A4)];
 RecoveredGlobal_803E8084_lbl_80590AC4 quest_name_index_table;
 u8 lbl_80591AC4[0x404];
+s32 quest_download_ask_header_size;
+s32 quest_download_header_name_index_hi_count;
+u8 *file_page_cache_head;
+s32 quest_download_name_search_lo;
+s32 quest_download_name_search_hi;
 
 s32 TQuestVmDownLoadServer__sub_803E6970(s32 start, s32 count, u16 *buf, s32 flag) {
     Ent_803E6970 *e;
@@ -491,6 +496,7 @@ static const u8 glyph_col[0x100] = {
 };
 
 s32 TQuestVmDownLoadServer__sub_803E7390(u8 a, u8 b, u8 c) {
+    static const u8 bit_mask[8] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
     u8 col;
     const Row_803E7390 *row;
     s16 bit;
@@ -518,10 +524,10 @@ s32 TQuestVmDownLoadServer__sub_803E7390(u8 a, u8 b, u8 c) {
     }
     if (a < 0x80 || a >= 0xC0) {
         bit = row->single + col;
-        return glyph_bits[bit >> 3] & lbl_805E10C8[bit & 7];
+        return glyph_bits[bit >> 3] & bit_mask[bit & 7];
     }
     bit = row->pair + col + b - 1;
-    return glyph_bits[bit >> 3] & lbl_805E10C8[bit & 7];
+    return glyph_bits[bit >> 3] & bit_mask[bit & 7];
 }
 
 void TQuestVmDownLoadServer::invalidate_entries_by_id(s32 id) {

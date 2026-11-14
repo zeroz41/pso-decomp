@@ -5,6 +5,7 @@
 
 #include "types.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/system/task/TObject.h"
 
 struct Stack_8029AEDC {
     f32 sp8;

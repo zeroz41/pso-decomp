@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/audio/SjRingBuffer.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 struct RecoveredGlobal_803C0B08_lbl_80570AC0 {
     s32 value;
@@ -146,7 +147,6 @@ void TLobby__sub_803C3984(u8 *arg0);
 void TLobby__sub_803C34F4(TLobby *decoder);
 s32 TLobby__sub_803C3B38(int);
 s32 TLobby__sub_803C3B44(u8 *arg0);
-s32 get_field_a8__6TLobbyFv(int);
 void TLobby__sub_803BFFC0(u8 *arg0);
 void TLobby__sub_803BFFFC(u8 *arg0, s32 arg1, s32 arg2);
 s32 TLobby__sub_803C0010(u8 *arg0);
@@ -217,7 +217,7 @@ void TLobby::notify_field_4() {
     TLobby__sub_803C3B44((u8 *)(*(s32 *)((s8 *)arg0 + 4)));
 }
 void TLobby__sub_803BFFC0(u8 *arg0) {
-    get_field_a8__6TLobbyFv((int) (*(s32 *)((s8 *)arg0 + 4)));
+    ((TLobby *)((int) (*(s32 *)((s8 *)arg0 + 4))))->get_field_a8();
 }
 void TLobby::set_field_44(s32 arg1) {
     u8 *arg0 = (u8 *)this;

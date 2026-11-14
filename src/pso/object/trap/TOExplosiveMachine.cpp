@@ -125,11 +125,11 @@ void TOExplosiveMachine::run_task() {
             spawn_particle_effect(&position, 0x46);
             void *chip = TObject::operator new(0x234);
             if (chip != NULL) {
-                __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)chip, (u8 *)tl_05, (u8 *)&first);
+                __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)chip, (u8 *)tl_05, (u8 *)&first);
             }
             chip = TObject::operator new(0x234);
             if (chip != NULL) {
-                __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)chip, (u8 *)tl_05, (u8 *)&second);
+                __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)chip, (u8 *)tl_05, (u8 *)&second);
             }
             queue_destruction();
             break;

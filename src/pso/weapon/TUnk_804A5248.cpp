@@ -29,7 +29,7 @@ void TUnk_804A5248::vfunc_60() {
 void TUnk_804A5248::update_idle() {
     s32 arg0 = (s32)this;
     if (get_item_index__5TItemFv() == 5) {
-        TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1F8), (f32)0.1f, (f32)0.6f);
+        TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1F8), 0.1f, 0.6f);
     }
 }
 
@@ -38,7 +38,7 @@ void TUnk_804A5248::update_idle() {
 void TUnk_804A5248::update_attack() {
     s32 arg0 = (s32)this;
     if (get_item_index__5TItemFv() == 5) {
-        TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1F8), (f32)0.2f, (f32)1.0f);
+        TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1F8), 0.2f, 1.0f);
     }
 }
 

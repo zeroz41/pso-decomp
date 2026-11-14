@@ -1,8 +1,8 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/gee/TObjEneMe1Gee_NEEDLE.h"
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include "pso/enemy/TNeedleShoot.h"
-#include "pso/enemy/TNeedleShoot_802A4668.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
@@ -17,14 +17,14 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/enemy/gigue/TObjEneMe1GiGueMissile.h"
 
 extern "C" {
 s32 TObjPlayer__sub_802A445C(void *, s32);
-s32 update_lifetime__22TObjEneMe1GiGueMissileFv(void *);
 u8 *TNeedleShoot__ct(void *, s32, void *, void *);
 }
 
-void *TNeedleShoot::get_shoot_data() { return unk_28; }
+void *TNeedleShoot::get_shoot_data() { return &prev_pos; }
 
 int TObjEneMe1Gee_NEEDLE::queue_destruction() {
     s32 remaining;
@@ -37,9 +37,9 @@ int TObjEneMe1Gee_NEEDLE::queue_destruction() {
 
 int TObjEneMe1Gee_NEEDLE::vfunc_6() {
     if (get_current_floor_area() == AREA_SEASIDE_NIGHT) {
-        play_sound_effect(0x4003B20E, &m_6c, 0, 0);
+        play_sound_effect(0x4003B20E, &pos, 0, 0);
     } else {
-        play_sound_effect(0x3A847, &m_6c, 0, 0);
+        play_sound_effect(0x3A847, &pos, 0, 0);
     }
     m_b8 = 0;
 }
@@ -78,7 +78,7 @@ void TObjEneMe1Gee_NEEDLE::render() {
     }
     push_matrix();
     TParticleCtrl::begin_effect_render();
-    post_translate_matrix((const f32 *)&m_6c);
+    post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, m_a4);
     rotate_matrix_x(NULL, m_a0);
     TObjFish::set_global_param(TObjFish__sub_8001EDB0(me1gee_cached_model_handle, 1));
@@ -95,7 +95,7 @@ void TObjEneMe1Gee_NEEDLE::run_task() {
     }
     if ((s32)m_b8 == 1) {
         update_position();
-        update_lifetime__22TObjEneMe1GiGueMissileFv(this);
+        ((TObjEneMe1GiGueMissile *)this)->update_lifetime();
         TObjPlayer__sub_802A445C(this, 1);
         return;
     }

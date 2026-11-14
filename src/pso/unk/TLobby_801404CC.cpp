@@ -294,7 +294,8 @@ s32 init_machine_b_scene(void) {
 
 void TLobby::refresh_floor_state() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
 
-s32 TLobby__sub_80140C7C(void) {
+// inferred: the VERSUS01/SPACE01/SPACE02 init of area_initializer_dispatch_table
+s32 init_spaceship_area(void) {
     get_current_floor_area();
     load_floor_sound_bank();
     if (TLobby::check_disconnect_conditions() != 0) {

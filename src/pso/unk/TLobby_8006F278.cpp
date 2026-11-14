@@ -3,6 +3,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/ui/window/TObjResultWin.h"
+#include "pso/unk/TLobby.h"
 
 struct RecoveredGlobal_8006F5B0_lbl_8048C9D8 { s32 value; u8 remaining[0x744]; };
 typedef char RecoveredGlobal_8006F5B0_lbl_8048C9D8_size[sizeof(RecoveredGlobal_8006F5B0_lbl_8048C9D8) == 0x748 ? 1 : -1];
@@ -11,11 +12,10 @@ struct G_8006F2CC { u8 pad[0x28]; s32 x28; };
 
 extern "C" {
 extern RecoveredGlobal_8006F5B0_lbl_8048C9D8 challenge_mode_state;
-s32 is_flag_set__6TLobbyFv();
 s32 TLobby::calc_challenge_time_limit() {
     s32 valid_slot;
 
-    if (is_flag_set__6TLobbyFv() == 0) {
+    if (TLobby::is_flag_set() == 0) {
         return 0x12C;
     }
     valid_slot = TLobby::get_valid_slot(*(s32 *)((s8 *)&challenge_mode_state + 0x10));
@@ -25,7 +25,7 @@ s32 TLobby::calc_challenge_time_limit() {
     return valid_slot;
 }
 void TLobby::advance_state_if_flag_set() {
-    if (is_flag_set__6TLobbyFv() != 0) {
+    if (TLobby::is_flag_set() != 0) {
         switch ((*(G_8006F2CC *)&challenge_mode_state).x28) {
         case 0:
             (*(G_8006F2CC *)&challenge_mode_state).x28 = 1;
@@ -396,7 +396,7 @@ loop_1:
     return var_r30;
 }
 void TLobby::mark_solo_win_closing() {
-    if (is_flag_set__6TLobbyFv() != 0) {
+    if (TLobby::is_flag_set() != 0) {
         *(s32 *)((s8 *)&challenge_mode_state.value + 0x30) = 1;
     }
 }

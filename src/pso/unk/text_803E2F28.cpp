@@ -67,7 +67,6 @@ void GXSetChanMatColor(s32, ByteColor);
 void convert_color_f32_to_u8(const FloatColor*,ByteColor*);
 void convert_color_u8_to_f32(const ByteColor*,FloatColor*);
 extern FloatColor model_material_color;
-extern const ByteColor lbl_805E1090;
 extern s32 model_render_flags,ginja_draw_flags;
 extern u32 chunk_blend_header_bits;
 extern u32 chunk_strip_dirty_flags;
@@ -98,10 +97,6 @@ void draw_triangle_strips__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u
 s32 GXSetBlendMode(int, int, int, int);
 extern s32 material_alpha_compare_reference;
 extern u8 *current_render_context;
-extern u32 lbl_805E1094;
-extern const u32 lbl_805E1098;
-extern const f32 lbl_805E109C;
-extern const f32 lbl_805E10A0;
 void GXSetVtxAttrFmt(int, int, int, int, u8);
 void draw_chunk_textured_strips(s16 *list, Vtx_803E36C4 *verts, u32 info, s32 large);
 struct ChunkModel_803E44D4 { u32 *vertices; s16 *polygons; };
@@ -318,7 +313,7 @@ s32 dispatch_chunk_vertex_list(u32*, s32);
 void submit_chunk_material_color(u8 type, s16* data) {
     FloatColor add;
     ByteColor color;
-    ByteColor fallback=lbl_805E1090;
+    ByteColor fallback = {0, 0, 0, 0x7F};
     ByteColor converted;
     ByteColor convertedAdd;
     if ((u32)((type-0x10)&1)!=0U) {
@@ -432,6 +427,10 @@ s32 set_chunk_alpha_compare_ref(int ref) {
 #pragma pop
 
 void set_chunk_blend_depth_mode(s32 arg0, s32 arg1) {
+    // Inferred names: the two reasons the blended pass may keep depth writes,
+    // loaded from .sdata2 like the original's static constants.
+    static const u32 texture_alpha_reason = 1;
+    static const u32 model_alpha_reason = 2;
     s32 var_r31;
     s32 temp_r30;
     s32 temp_r29;
@@ -459,23 +458,23 @@ void set_chunk_blend_depth_mode(s32 arg0, s32 arg1) {
         var_r28 = 1U;
         temp_r4 = (u8 *)((*(Holder_803E3B6C **)(current_render_context + 0x20))->recs[chunk_texture_record_index].p->q);
         id = model_render_flags;
-        if (((u32) (id & 0x10) != 0) && (lbl_805E109C != model_material_color.a)) {
+        if (((u32) (id & 0x10) != 0) && (1.0f != model_material_color.a)) {
             var_r28 = 0U;
         }
-        if (((u32) (id & 0x20) != 0) && (lbl_805E10A0 != model_material_color.a)) {
+        if (((u32) (id & 0x20) != 0) && (0.0f != model_material_color.a)) {
             var_r28 = 0U;
         }
         if ((u32) *(u32 *)((s8 *)temp_r4 + 4) == 0xEU) {
             if ((u32) (id & 0x400000) != 0) {
                 if ((u32) (*(s32 *)((s8 *)temp_r4 + 0x1C) & 0x40000000) != 0) {
-                    var_r6 |= lbl_805E1094;
+                    var_r6 |= texture_alpha_reason;
                 }
             } else {
-                var_r6 |= lbl_805E1094;
+                var_r6 |= texture_alpha_reason;
             }
         }
         if ((u32) (id & 1) != 0) {
-            var_r6 |= lbl_805E1098;
+            var_r6 |= model_alpha_reason;
         }
         if ((var_r28 != 0U) && (var_r6 != 0) && (temp_r30 == 4) && (temp_r29 == 5)) {
             if ((u32) chunk_render_flags != 0) {

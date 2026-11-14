@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6GravBall.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -5,6 +6,9 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/system/task/TObject.h"
+#include "pso/boss/olgaflow/TBoss6GravBall.h"
+#include "pso/player/TObjPlayer.h"
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
@@ -182,7 +186,7 @@ void TBoss6GravBall__sub_803233AC(u8 *self) {
     f32 d;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        pl = (PL_803233AC *)get_player_data__10TObjPlayerFi(i);
+        pl = (PL_803233AC *)TObjPlayer::get_player_data(i);
         id = get_entity_id(pl) + 5;
         if (((TBoss6PlotFalz *)pl)->is_active() == 0) {
             ((TBoss6GravBall *)self)->destroy_part((s32)((void *)id));
@@ -228,7 +232,7 @@ void TBoss6GravBall__sub_80323544(u8 *self) {
     f32 d;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        pl = (PL_80323544 *)get_player_data__10TObjPlayerFi(i);
+        pl = (PL_80323544 *)TObjPlayer::get_player_data(i);
         id = get_entity_id(pl) + 5;
         if (((TBoss6PlotFalz *)pl)->is_active() == 0) {
             ((TBoss6GravBall *)self)->destroy_part((s32)((void *)id));
@@ -287,7 +291,7 @@ s32 TBoss6GravBall::clamp_to_ground() {
     Obj_803237A0 *arg0 = (Obj_803237A0 *)this;
     Vec_803237A0 v = arg0->pos;
     if (project_actor_to_ground(arg0, &v, 0) == 0) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return 1;
     }
     v.y += 1e+01f;
@@ -305,7 +309,7 @@ void TBoss6GravBall::update_lifetime(void *) {
     temp_r0 = this->m_b4 + 1;
     this->m_b4 = temp_r0;
     if (temp_r0 > 0x1E) {
-        queue_destruction__7TObjectFv((this));
+        queue_destruction();
     }
 }
 
@@ -335,19 +339,15 @@ extern "C" {
 s32 check_demo_mode__10TObjPlayerFv(void *);
 s32 query_teammate_state__9TObjEneDDFv(void);
 void VecCopy__FP3VecPC3Vec(void *, void *);
-s32 create_emitter__14TBoss6GravBallFl(void *, int);
 extern s32 __vt__14TBoss6GravBall[];
 
 s32 play_persistent_sound(int, void *, void *, int, int);
-s32 get_state__14TBoss6GravBallFv(int);
-s32 destroy_part__14TBoss6GravBallFl(void *, int);
 void TBoss6GravBall__sub_80323544(u8 *self);
 s32 clamp_to_ground__14TBoss6GravBallFv();
 
 
 void clear_player_grav_flags__14TBoss6GravBallFv(void *);
 void __dl__7TObjectFPv(void *);
-void init_parts__14TBoss6GravBallFv(void *);
 
 void update_charge_effects__14TBoss6GravBallFPv(u8 *self) {
     s32 temp_r0;
@@ -359,26 +359,26 @@ void update_charge_effects__14TBoss6GravBallFPv(u8 *self) {
     temp_r0 = *(s32 *)((s8 *)self + 0xB8);
     if (temp_r0 >= 0x96) {
         if (temp_r0 == 0x96) {
-            create_emitter__14TBoss6GravBallFl(self, 3);
+            ((TBoss6GravBall *)self)->create_emitter(3);
         }
     } else if (temp_r0 > 0x4B) {
         temp_r0_2 = temp_r0 & 0xF;
         if (temp_r0_2 == 0) {
-            create_emitter__14TBoss6GravBallFl(self, 3);
+            ((TBoss6GravBall *)self)->create_emitter(3);
         } else if (temp_r0_2 == 0xE) {
-            destroy_part__14TBoss6GravBallFl(self, 3);
+            ((TBoss6GravBall *)self)->destroy_part(3);
         }
     } else {
         temp_r0_3 = temp_r0 & 0xF;
         if (temp_r0_3 == 0) {
-            create_emitter__14TBoss6GravBallFl(self, 3);
+            ((TBoss6GravBall *)self)->create_emitter(3);
         } else if (temp_r0_3 == 0xA) {
-            destroy_part__14TBoss6GravBallFl(self, 3);
+            ((TBoss6GravBall *)self)->destroy_part(3);
         }
     }
     *(s32 *)((s8 *)self + 0xB8) = (s32) (*(s32 *)((s8 *)self + 0xB8) + 1);
     *(s32 *)((s8 *)self + 0xB4) = (s32) (*(s32 *)((s8 *)self + 0xB4) + 1);
-    switch (get_state__14TBoss6GravBallFv((int) (*(s32 *)((s8 *)self + 0xAC)))) {
+    switch (((TBoss6GravBall *)((int) (*(s32 *)((s8 *)self + 0xAC))))->get_state()) {
     case 29:
     case 30:
     case 39:
@@ -389,25 +389,25 @@ void update_charge_effects__14TBoss6GravBallFPv(u8 *self) {
             spawn_particle_effect((self + 0xC8), 0x21D);
             *(s32 *)((s8 *)self + 0xC4) = 1;
         }
-        destroy_part__14TBoss6GravBallFl(self, 5);
-        destroy_part__14TBoss6GravBallFl(self, 6);
-        destroy_part__14TBoss6GravBallFl(self, 7);
-        destroy_part__14TBoss6GravBallFl(self, 8);
+        ((TBoss6GravBall *)self)->destroy_part(5);
+        ((TBoss6GravBall *)self)->destroy_part(6);
+        ((TBoss6GravBall *)self)->destroy_part(7);
+        ((TBoss6GravBall *)self)->destroy_part(8);
         return;
     case 32:
-        destroy_part__14TBoss6GravBallFl(self, 4);
-        destroy_part__14TBoss6GravBallFl(self, 3);
-        destroy_part__14TBoss6GravBallFl(self, 5);
-        destroy_part__14TBoss6GravBallFl(self, 6);
-        destroy_part__14TBoss6GravBallFl(self, 7);
-        destroy_part__14TBoss6GravBallFl(self, 8);
+        ((TBoss6GravBall *)self)->destroy_part(4);
+        ((TBoss6GravBall *)self)->destroy_part(3);
+        ((TBoss6GravBall *)self)->destroy_part(5);
+        ((TBoss6GravBall *)self)->destroy_part(6);
+        ((TBoss6GravBall *)self)->destroy_part(7);
+        ((TBoss6GravBall *)self)->destroy_part(8);
         *(s32 *)((s8 *)self + 0xB4) = 0;
         clear_player_grav_flags__14TBoss6GravBallFv(self);
         *(s32 *)((s8 *)self + 0xB0) = 2;
         play_sound_effect(0x4003C417, self + 0xC8, 0, 0);
         return;
     default:
-        queue_destruction__7TObjectFv((self));
+        ((TObject *)self)->queue_destruction();
         return;
     }
 }
@@ -422,26 +422,26 @@ void update_state__14TBoss6GravBallFPv(u8 *arg0) {
     }
     fn_80323134((Obj_80323134 *)arg0);
     if (temp_r3 != 0) {
-        create_emitter__14TBoss6GravBallFl(arg0, 2);
+        ((TBoss6GravBall *)arg0)->create_emitter(2);
         temp_f2 = *(f32 *)((s8 *)arg0 + 0xBC);
         if (temp_f2 < 1.0f) {
             *(f32 *)((s8 *)arg0 + 0xBC) += 0.033333335f;
             if (*(f32 *)((s8 *)arg0 + 0xBC) > 1.0f) {
-                *(f32 *)((s8 *)arg0 + 0xBC) = (f32) 1.0f;
+                *(f32 *)((s8 *)arg0 + 0xBC) = 1.0f;
             }
         }
         TBoss6GravBall__sub_80323544((arg0));
         play_persistent_sound(0x4003B51A, arg0, arg0 + 0xC8, 0, 0);
-        switch (get_state__14TBoss6GravBallFv((int) (*(s32 *)((s8 *)arg0 + 0xAC)))) {
+        switch (((TBoss6GravBall *)((int) (*(s32 *)((s8 *)arg0 + 0xAC))))->get_state()) {
         case 0x27:
             return;
         case 0x1D:
             break;
         case 0x1E:
         case 0x1F:
-            destroy_part__14TBoss6GravBallFl(arg0, 0);
-            destroy_part__14TBoss6GravBallFl(arg0, 1);
-            destroy_part__14TBoss6GravBallFl(arg0, 2);
+            ((TBoss6GravBall *)arg0)->destroy_part(0);
+            ((TBoss6GravBall *)arg0)->destroy_part(1);
+            ((TBoss6GravBall *)arg0)->destroy_part(2);
             TBoss6GravBall__sub_80323214((s32)arg0, 4);
             *(s32 *)((s8 *)arg0 + 0xB8) = 0;
             *(s32 *)((s8 *)arg0 + 0xB4) = 0;
@@ -450,7 +450,7 @@ void update_state__14TBoss6GravBallFPv(u8 *arg0) {
             break;
         case 0x20:
         default:
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
             break;
         }
     }
@@ -475,7 +475,7 @@ void run_task__14TBoss6GravBallFv(TBoss6GravBall_80323BBC *arg0) {
 
 }
 TBoss6GravBall::~TBoss6GravBall() {
-    init_parts__14TBoss6GravBallFv(this);
+    init_parts();
     clear_player_grav_flags__14TBoss6GravBallFv(this);
 }
 TBoss6GravBall::TBoss6GravBall(s32 arg1, void *arg2) : TObjCollidable((TObject *)arg1) {
@@ -490,9 +490,6 @@ TBoss6GravBall::TBoss6GravBall(s32 arg1, void *arg2) : TObjCollidable((TObject *
     ((Obj_80323D20 *)this)->fC4 = 0;
     TBoss6GravBall__sub_80323320((T_80323320 *)this);
     for (i = 0; i < 2; i++) {
-        create_emitter__14TBoss6GravBallFl(((Obj_80323D20 *)this), lbl_8047667C[i]);
+        ((TBoss6GravBall *)((Obj_80323D20 *)this))->create_emitter(lbl_8047667C[i]);
     }
-}
-extern "C" {
-
 }

@@ -106,7 +106,6 @@ u32 adsrSetup(u8 *arg0) {
     ((ADSR_VARS_803B41C8 *)arg0)->state = 0;
     return salChangeADSRState(arg0);
 }
-#define dspScale2IndexTab lbl_804F68DC
 #pragma push
 #pragma opt_common_subs on
 
@@ -143,7 +142,6 @@ u32 adsrStartRelease(ADSR_VARS_803B41C8 *adsr, u32 rtime) {
 }
 
 #pragma pop
-#undef dspScale2IndexTab
 
 s32 adsrRelease(struct Envelope_803B431C *e) {
     switch (e->mode) {

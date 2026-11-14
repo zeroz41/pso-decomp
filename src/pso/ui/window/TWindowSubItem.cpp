@@ -24,6 +24,10 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/map/FloorArea.h"
+#include "pso/ui/city/TShopArmorListWindow.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 struct Base_A_80279714 { char pad[0x18]; };
 struct V_A_80279714 : Base_A_80279714 {
@@ -151,11 +155,8 @@ void *TWindowSubItem__ct(TWindowSubItem *arg0, s32 arg1, s32 arg2);
 void *__dt__14TWindowSubItemFv(TWindowSubItem *arg0, s16 arg1);
 s32 send_6x26_unequip_item__10TObjPlayerFPvPv(s32, s32);
 s32 send_6x25_equip_item(s32, s32, s32);
-int clamp_selection_to_valid_entry__20TShopArmorListWindowFv(void*);
-int reset_list__19TWindowMenuIconLineFv(void*);
 s32 TWindowHelpItem__set_displayed_item_by_id(u32);
 s32 __ct__18TWindowInputNumberFPvllls(s32, s32, s32, s32, s32, s16);
-int clamp_scroll_offset__20TWindowSubStatusDispFv(void*);
 s32 __ct__7TObjectFP7TObject();
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
@@ -165,7 +166,6 @@ s32 create_sub_item_list_window(s32, s32 *, s32);
 s32 get_array_entry__11TWindowBaseFi(void *, s16);
 s32 get_cursor_pos__14TWindowSubItemFv();
 s32 get_item_id__5TItemFv();
-int save_cursor_selection__20TShopArmorListWindowFv(void*);
 
 void TWindowSubItem::set_displayed_item(s32 arg1) {
     if (((u32) this->m_40 != 0U) && (arg1 != (s32) this->m_20)) {
@@ -204,7 +204,7 @@ void TWindowSubItem::use_selected_item() {
     s32 player;
     player = get_player_by_client_id(this->m_24);
     if (player != 0) {
-        TObjPlayer__sub_801B7B58(player, (int) (get_cursor_value__19TWindowMenuIconLineFv(this->m_30)), ((TWindowSubItem *)(this->m_30))->get_selected_entry());
+        TObjPlayer__sub_801B7B58(player, (int) (((TWindowMenuIconLine *)this->m_30)->get_cursor_value()), ((TWindowSubItem *)(this->m_30))->get_selected_entry());
     }
 }
 #pragma pop
@@ -297,11 +297,11 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, s32 arg1, s32 arg
     {
       if ((((TItem *)item)->get_usable_action_flags(1, 0) != 0U) || (get_current_floor_area() == AREA_LOBBY))
       {
-        TWindowSubComCard::draw_text_gray((s32)((void *) arg1), (s32)((int) get_message_10__20TWindowSubStatusDispFl(0x60)), 6, 0);
+        TWindowSubComCard::draw_text_gray((s32)((void *) arg1), (s32)((int) TWindowSubStatusDisp::get_message_10(0x60)), 6, 0);
       }
       else
       {
-        forward_trade_action_default__16TObjCityMainWarpFPviii((s32)((void *) arg1), (s32)((int) get_message_10__20TWindowSubStatusDispFl(0x60)), 6, 0);
+        forward_trade_action_default__16TObjCityMainWarpFPviii((s32)((void *) arg1), (s32)((int) TWindowSubStatusDisp::get_message_10(0x60)), 6, 0);
       }
     }
     ((TItem *)(0, (int) (item & 0xFFFFFFFFu)))->get_item_type();
@@ -311,11 +311,11 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, s32 arg1, s32 arg
       {
         if (get_current_floor_area() == AREA_LOBBY)
         {
-          TWindowSubComCard::draw_text_gray((s32)((void *) arg1), (s32)((int) get_message_10__20TWindowSubStatusDispFl(0x61)), 6, 2);
+          TWindowSubComCard::draw_text_gray((s32)((void *) arg1), (s32)((int) TWindowSubStatusDisp::get_message_10(0x61)), 6, 2);
         }
         else
         {
-          forward_trade_action_default__16TObjCityMainWarpFPviii((s32)((void *) arg1), (s32)((int) get_message_10__20TWindowSubStatusDispFl(0x61)), 6, 2);
+          forward_trade_action_default__16TObjCityMainWarpFPviii((s32)((void *) arg1), (s32)((int) TWindowSubStatusDisp::get_message_10(0x61)), 6, 2);
         }
       }
       else
@@ -325,29 +325,29 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, s32 arg1, s32 arg
         {
           if (((check_equip_requirements__5TItemFP10TObjPlayerPs((int) item, (int) player, &sp8) != 0) && (has_armor_with_unit_slot((TWindowSubItem *)((void *)((void *) window_sub_item)), (int)((int) item)) != 0)) && (get_current_floor_area() != AREA_LOBBY))
           {
-            forward_trade_action_default__16TObjCityMainWarpFPviii((s32)((void *) arg1), (s32)((int) get_message_10__20TWindowSubStatusDispFl(0x62)), 6, 1);
+            forward_trade_action_default__16TObjCityMainWarpFPviii((s32)((void *) arg1), (s32)((int) TWindowSubStatusDisp::get_message_10(0x62)), 6, 1);
           }
           else
           {
-            TWindowSubComCard::draw_text_gray((s32)((void *) arg1), (s32)((int) get_message_10__20TWindowSubStatusDispFl(0x62)), 6, 1);
+            TWindowSubComCard::draw_text_gray((s32)((void *) arg1), (s32)((int) TWindowSubStatusDisp::get_message_10(0x62)), 6, 1);
           }
         }
       }
     }
     if ((get_current_floor_area() == AREA_LOBBY) || (((TItem *)item)->get_usable_action_flags(0x10, 0) != 0U))
     {
-      TWindowSubComCard::draw_text_gray((s32)((void *) arg1), (s32)((int) get_message_10__20TWindowSubStatusDispFl(0x5F)), 6, 3);
+      TWindowSubComCard::draw_text_gray((s32)((void *) arg1), (s32)((int) TWindowSubStatusDisp::get_message_10(0x5F)), 6, 3);
     }
     else
     {
-      forward_trade_action_default__16TObjCityMainWarpFPviii((s32)((void *) arg1), (s32)((int) get_message_10__20TWindowSubStatusDispFl(0x5F)), 6, 3);
+      forward_trade_action_default__16TObjCityMainWarpFPviii((s32)((void *) arg1), (s32)((int) TWindowSubStatusDisp::get_message_10(0x5F)), 6, 3);
     }
     if (get_current_floor_area() == AREA_LOBBY)
     {
-      TWindowSubComCard::draw_text_gray((s32)((void *) arg1), (s32)((int) get_message_10__20TWindowSubStatusDispFl(0x63)), 6, 7);
+      TWindowSubComCard::draw_text_gray((s32)((void *) arg1), (s32)((int) TWindowSubStatusDisp::get_message_10(0x63)), 6, 7);
       return;
     }
-    forward_trade_action_default__16TObjCityMainWarpFPviii((s32)((void *) arg1), (s32)((int) get_message_10__20TWindowSubStatusDispFl(0x63)), 6, 7);
+    forward_trade_action_default__16TObjCityMainWarpFPviii((s32)((void *) arg1), (s32)((int) TWindowSubStatusDisp::get_message_10(0x63)), 6, 7);
   }
 }
 
@@ -366,10 +366,10 @@ void TWindowSubItem::draw_slot(s32 arg1, s32 arg2, s32 arg3) {
 
 void TWindowSubItem::add_meseta_purpose_actions(s32 arg0, s32 arg1) {
     if (get_current_floor_area() == AREA_LOBBY) {
-        TWindowSubComCard::draw_text_gray(arg1, (s32)(get_message_10__20TWindowSubStatusDispFl(0x5F)), 6, 6);
+        TWindowSubComCard::draw_text_gray(arg1, (s32)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
         return;
     }
-    forward_trade_action_default__16TObjCityMainWarpFPviii(arg1, (s32)(get_message_10__20TWindowSubStatusDispFl(0x5F)), 6, 6);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(arg1, (s32)(TWindowSubStatusDisp::get_message_10(0x5F)), 6, 6);
 }
 
 
@@ -391,8 +391,8 @@ s32 TWindowSubItem::create_count_input(s32 maximum) {
 s32 TWindowSubItem::create_menu_window() {
     s32 titled_window_menu;
     titled_window_menu = create_titled_window_menu(((int)get_window_layout_position(6)), 2, get_message_10__20TWindowSubStatusDispFl(0x27), this->m_24);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (s32)((int) (get_message_10__20TWindowSubStatusDispFl(0x5D))), 6, 0);
-    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (s32)((int) (get_message_10__20TWindowSubStatusDispFl(0x5E))), 6, 1);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (s32)((int) (TWindowSubStatusDisp::get_message_10(0x5D))), 6, 0);
+    forward_trade_action_default__16TObjCityMainWarpFPviii(titled_window_menu, (s32)((int) (TWindowSubStatusDisp::get_message_10(0x5E))), 6, 1);
     TWindowSubEquip__sub_80263AF8(this->m_2c, 2);
     set_depth__11TWindowBaseFf(titled_window_menu);
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit10();
@@ -741,7 +741,7 @@ void TWindowSubItem__sub_8027AA30(u8 *arg0) {
 void TWindowSubItem::reset_selected() { *(s16*)((char*)this + 0x88) = -1; }
 void TWindowSubItem::set_field_74(s16 v) { *(s16*)((char*)this + 0x74) = v; }
 s32 TWindowSubItem::get_selected_entry() {
-    get_array_entry__11TWindowBaseFi(this, *(s16 *)((s8 *)this + 0x88));
+    ((TWindowBase *)this)->get_array_entry(*(s16 *)((s8 *)this + 0x88));
     get_cursor_pos__14TWindowSubItemFv();
 }
 
@@ -777,7 +777,7 @@ void TWindowSubItem__sub_8027AB10(Wn_8027AB10 *arg0) {
     }
 }
 
-void TWindowSubItem::refresh() { save_cursor_selection__20TShopArmorListWindowFv(this); reset_list__19TWindowMenuIconLineFv(this); populate_sub_item_list((Win_8027ABFC*)(this)); clamp_selection_to_valid_entry__20TShopArmorListWindowFv(this); clamp_scroll_offset__20TWindowSubStatusDispFv(this); reset_selected(); }
+void TWindowSubItem::refresh() { ((TShopArmorListWindow *)this)->save_cursor_selection(); ((TWindowMenuIconLine *)this)->reset_list(); populate_sub_item_list((Win_8027ABFC*)(this)); ((TShopArmorListWindow *)this)->clamp_selection_to_valid_entry(); ((TWindowSubStatusDisp *)this)->clamp_scroll_offset(); reset_selected(); }
 
 void populate_sub_item_list(Win_8027ABFC *arg0) {
     s32 ids[30];

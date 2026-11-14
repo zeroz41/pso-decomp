@@ -2,6 +2,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_800F9B84.h"
+#include "pso/item/TItemData.h"
 
 struct RecoveredGlobal_80215ABC_lbl_804CA0B8 {
     s32 value;
@@ -52,7 +53,6 @@ extern RecoveredGlobal_80215ABC_lbl_804CA0B8 section_id_favored_grind_table;
 extern s32 lbl_805D6238;
 extern G_802156E0 *item_appraisal_rules;
 u8 lookup_key_value__6TLobbyFc(s8 x);
-s32 is_rare_item__9TItemDataFPv(Item_8021587C *);
 u8 get_entry_field16__9TItemDataFv(Item_8021587C *);
 void shuffle_shop_pool_n_times(void *, s32);
 void push_shop_pool_entry(void *, u8);
@@ -135,7 +135,7 @@ void TLobby::roll_item_grind_bonus() {
     s32 n;
     s32 c;
     s32 r;
-    if (is_rare_item__9TItemDataFPv(((Item_8021587C *)this)) == 0) {
+    if (TItemData::is_rare_item(((Item_8021587C *)this)) == 0) {
         ((TLobby *)buf)->reset_counter_64();
         Tbl_8021587C *t = (*(G_8021587C **)&item_appraisal_rules)->t;
         n = t->count;

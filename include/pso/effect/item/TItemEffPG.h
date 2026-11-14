@@ -25,6 +25,7 @@ struct TItemEffPG : public TUnk_804E355C {
     u8 *create();
     virtual void run_task();
     static void create(void *arg0, void *arg1);
+    static void create(void *parent, void *params, void *count); // makes a TUnk_804F0C08
 };
 
 typedef char TItemEffPG_size[sizeof(TItemEffPG) == 0xD4 ? 1 : -1];
