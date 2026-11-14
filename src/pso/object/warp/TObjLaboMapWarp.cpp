@@ -111,30 +111,6 @@ struct VObj80185B58_80185AFC : VBase80185B58_80185AFC {
     virtual s32 m8(f32, f32);
 };
 
-struct Obj_80185E14 { u8 pad0[0x88]; s32 f88; u8 pad1[0xC4]; s32 f150; };
-
-struct VBase80185EC8_80185EC8 { char pad[0x18]; };
-
-struct VObj80185EC8_80185EC8 : VBase80185EC8_80185EC8 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
-struct Obj_801864B4 {
-    u8 pad[0x38];
-    u8 pos[0x88 - 0x38];
-    s32 mode;
-    u8 pad8c[0xAC - 0x8C];
-    f32 xac;
-    u8 padb0[0xC0 - 0xB0];
-    void *vi;
-    f32 xc4;
-    s32 a[17];
-    s32 b[17];
-    s32 x150;
-};
-
 struct Obj_80185824 { u8 pad[0xFC]; f32 fFC; };
 
 struct Info_80185BE8 { u32 f0; u32 n; };
@@ -163,23 +139,12 @@ s32 get_localized_text_entry(s32, s32);
 
 void run_task__15TObjLaboMapWarpFv(u8 *arg0);
 
-s32 TObjCityMainWarp__vt15(u8 *arg0);
-
-void * __dt__16TObjCityMainWarpFv(void *arg0, s16 arg1);
-
 
 void unlock_main_warp_destination(s32 id);
 
 void clear_enabled_main_warps(void);
 
 s32 get_floor_warp_bit__16TObjCityMainWarpFl();
-
-u8 *__dt__12TObjAreaWarpFv(u8 *arg0, s16 arg1);
-
-
-
-
-void __dl__7TObjectFPv(void *);
 
 void * __nw__7TObjectFUl(int);
 
@@ -204,26 +169,11 @@ s32 draw_ginja_object(s32);
 
 s32 draw_ginja_model_with_motion(s32, s32, f32);
 
-struct Win_8018615C { u8 pad0[0x3C]; f32 f3C; };
-
-struct Warp_8018615C {
-    u8 pad0[0xB0];
-    Win_8018615C *win;
-    u8 padB4[0x4];
-    s16 fB8;
-    u8 padBA[0xE];
-    s32 fC8[17];
-    s32 f10C[17];
-    s32 f150;
-};
-
 extern void request_active_window_close();
 
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 
 extern s16 TLobby__data_805D5CE8;
-
-extern s32 __vt__16TObjCityMainWarp[];
 
 extern u8 *city_common_model_archive;
 
@@ -286,7 +236,7 @@ const s32 city_warp_floor_destination_table[16] = {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
 };
 
-// inferred: the lobby counterpart of city_warp_floor_destination_table; TObjCityMainWarp__vt15 reads it
+// inferred: the lobby counterpart of city_warp_floor_destination_table; TObjCityMainWarp::vfunc_17 reads it
 // when TLobby::get_instance() != 0, indexed by the f10C list the lobby branch of __vt13 fills.
 const s32 city_warp_floor_destination_table_b[17] = {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
@@ -542,47 +492,37 @@ void unlock_main_warp_destination(s32 id) {
 }
 
 TObjCityMainWarp::TObjCityMainWarp(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
-    Obj_801864B4 *self = (Obj_801864B4 *)this;
     s32 i;
     s32 j;
     void *p;
     m_name = TObjCityMainWarp__name;
     warp_range = 25.0f;
-    self->xc4 = 0.0f;
+    m_c4 = 0.0f;
     for (i = 0; i < 17; i++) {
-        self->a[i] = 0;
+        menu_destinations[i] = 0;
     }
     for (j = 0; j < 17; j++) {
-        self->b[j] = 0;
+        lobby_menu_destinations[j] = 0;
     }
     if (is_split_screen() == 1) {
-        p = ((void * (*)(s32))::operator new)(0x88);
+        p = ::operator new(0x88);
         if (p != NULL) {
-            p = init__13TAdVIConfigGCFf(p, self->pos, 25.0f);
+            p = init__13TAdVIConfigGCFf(p, &position, 25.0f);
         }
-        self->vi = p;
+        vi_config = (TAdVIConfigGC *)p;
     } else {
-        self->vi = NULL;
+        vi_config = NULL;
     }
-    self->x150 = self->mode;
-    if (self->x150 < 0) {
-        self->x150 = 0;
+    select_type = set_params[1];
+    if (select_type < 0) {
+        select_type = 0;
     }
-    if (self->x150 > 2) {
-        self->x150 = 2;
+    if (select_type > 2) {
+        select_type = 2;
     }
 }
 
-void *__dt__16TObjCityMainWarpFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjCityMainWarp;
-        __dt__12TObjAreaWarpFv((u8 *)arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TObjCityMainWarp::~TObjCityMainWarp() {}
 
 void *TObjCityMainWarp::create() {
     return new TObjCityMainWarp(tl_05, this);
@@ -590,7 +530,7 @@ void *TObjCityMainWarp::create() {
 
 #pragma push
 #pragma opt_lifetimes off
-void TObjCityMainWarp__vt13(Warp_8018615C *w, s16 arg1) {
+void TObjCityMainWarp::open_confirm_window(s32 client_id) {
     s32 i;
     s32 n;
     s32 j;
@@ -598,45 +538,45 @@ void TObjCityMainWarp__vt13(Warp_8018615C *w, s16 arg1) {
     s32 j2;
     s32 k2;
 
-    if (w->win != NULL) {
+    if (menu_window != 0) {
         return;
     }
     if (is_quest_active() == 0) {
-        update_main_warp_visible_mask(w->f150);
+        update_main_warp_visible_mask(select_type);
     } else {
         TObjCityMainWarp__visible_destination_mask = TObjCityMainWarp__enabled_destinations;
     }
     if (TLobby::get_instance() == 0) {
         for (i = 0; i < 17; i++) {
-            w->fC8[i] = 0;
+            menu_destinations[i] = 0;
         }
         n = 0;
         for (i = 0; i < 17; i++) {
             if (TObjCityMainWarp__visible_destination_mask & (1 << i)) {
-                w->fC8[n++] = i;
+                menu_destinations[n++] = i;
             }
         }
     } else {
         for (i = 0; i < 17; i++) {
-            w->f10C[i] = 0;
+            lobby_menu_destinations[i] = 0;
         }
         n = 0;
         for (i = 0; i < 17; i++) {
             if (TObjCityMainWarp__visible_destination_mask & (1 << i)) {
-                w->f10C[n++] = i;
+                lobby_menu_destinations[n++] = i;
             }
         }
     }
     if (n > 0) {
-        w->win = ((Win_8018615C *(*)(s32, s32, s16))create_window_menu)(get_window_layout_position(0x32), n, arg1);
-        if (w->win != NULL) {
+        menu_window = create_window_menu(get_window_layout_position(0x32), n, client_id);
+        if (menu_window != 0) {
             if (TLobby::get_instance() == 0) {
                 for (j = 0, k = 0; j < 17; j++) {
                     if (TObjCityMainWarp__visible_destination_mask & (1 << j)) {
                         if (get_game_play_mode() == 1) {
-                            forward_trade_action_default__16TObjCityMainWarpFPviii((void *)w->win, (int)(TObjCityMainWarp__sub_80186AF4()), 0xE, (int)k);
+                            forward_trade_action_default__16TObjCityMainWarpFPviii((void *)menu_window, (int)(TObjCityMainWarp__sub_80186AF4()), 0xE, (int)k);
                         } else {
-                            forward_trade_action_default__16TObjCityMainWarpFPviii(w->win, get_localized_text_entry(9, city_warp_group9_text_table[j]), 0xE, k);
+                            forward_trade_action_default__16TObjCityMainWarpFPviii((void *)menu_window, get_localized_text_entry(9, city_warp_group9_text_table[j]), 0xE, k);
                         }
                         k++;
                     }
@@ -645,61 +585,42 @@ void TObjCityMainWarp__vt13(Warp_8018615C *w, s16 arg1) {
                 for (j2 = 0, k2 = 0; j2 < 17; j2++) {
                     if (TObjCityMainWarp__visible_destination_mask & (1 << j2)) {
                         if (get_game_play_mode() == 1) {
-                            forward_trade_action_default__16TObjCityMainWarpFPviii((void *)w->win, (int)(TObjCityMainWarp__sub_80186AF4()), 0xE, (int)k2);
+                            forward_trade_action_default__16TObjCityMainWarpFPviii((void *)menu_window, (int)(TObjCityMainWarp__sub_80186AF4()), 0xE, (int)k2);
                         } else {
-                            forward_trade_action_default__16TObjCityMainWarpFPviii(w->win, get_localized_text_entry(9, city_warp_group9_text_table_b[j2]), 0xE, k2);
+                            forward_trade_action_default__16TObjCityMainWarpFPviii((void *)menu_window, get_localized_text_entry(9, city_warp_group9_text_table_b[j2]), 0xE, k2);
                         }
                         k2++;
                     }
                 }
             }
-            ((TWindowSubComCardList *)(w->win))->set_flag70_bit10();
-            ((TLobby *)(w->win))->set_loss_flag();
-            ((TWindowSubComCardList *)(w->win))->update_layout_height(288.0f);
-            if (w->win->f3C > 160.0f) {
-                ((TWindowSubComCardList *)(w->win))->set_scroll_target(288.0f, 160.0f);
+            ((TWindowSubComCardList *)menu_window)->set_flag70_bit10();
+            ((TLobby *)menu_window)->set_loss_flag();
+            ((TWindowSubComCardList *)menu_window)->update_layout_height(288.0f);
+            if (((TWindowSubComCardList *)menu_window)->pad_3c > 160.0f) {
+                ((TWindowSubComCardList *)menu_window)->set_scroll_target(288.0f, 160.0f);
             }
-            ((void (*)(void *))align_menu_entry_positions)(w->win);
+            align_menu_entry_positions(menu_window);
         }
     }
-    ((void (*)())request_active_window_close)();
-    w->fB8 = arg1;
+    request_active_window_close();
+    user_client_id = client_id;
 }
 #pragma pop
 
 void TObjCityMainWarp::vfunc_14() { if (menu_window != 0) { TObjWarpBase::vfunc_14(); TWindowCtrl::clear_flag(); } }
 
-s32 TObjCityMainWarp__vt15(u8 *arg0) {
-    const s32 *var_r4;
-    u8 *var_r31;
-    u8 *var_r3;
-    u8 *var_r5;
-    var_r31 = arg0;
+s32 TObjCityMainWarp::vfunc_17() {
     if (TLobby::get_instance() == 0) {
-        var_r3 = (u8 *)(*(u8 **)((s8 *)var_r31 + 0xB0));
-        if ((var_r3 != NULL) && (((TWindowMenu *)var_r3)->is_decided() != 0)) {
-            var_r3 = (u8 *)(*(u8 **)((s8 *)var_r31 + 0xB0));
-            var_r4 = city_warp_floor_destination_table;
-            var_r5 = (u8 *)(var_r31 + (((TWindowMenu *)var_r3)->get_selected_value() * 4));
-            var_r3 = (u8 *)((void *)1U);
-            var_r4 = city_warp_floor_destination_table;
-            *(s32 *)((s8 *)var_r31 + 0xBC) = city_warp_floor_destination_table[*(s32 *)((s8 *)var_r5 + 0xC8)];
+        if (menu_window != 0 && ((TWindowMenu *)menu_window)->is_decided() != 0) {
+            dest_floor = city_warp_floor_destination_table[menu_destinations[((TWindowMenu *)menu_window)->get_selected_value()]];
             return 1;
         }
-        var_r3 = NULL;
         return 0;
     }
-    var_r3 = (u8 *)(*(u8 **)((s8 *)var_r31 + 0xB0));
-    if ((var_r3 != NULL) && (((TWindowMenu *)var_r3)->is_decided() != 0)) {
-        var_r3 = (u8 *)(*(u8 **)((s8 *)var_r31 + 0xB0));
-        var_r4 = city_warp_floor_destination_table_b;
-        var_r5 = (u8 *)(var_r31 + (((TWindowMenu *)var_r3)->get_selected_value() * 4));
-        var_r3 = (u8 *)((void *)1U);
-        var_r4 = city_warp_floor_destination_table_b;
-        *(s32 *)((s8 *)var_r31 + 0xBC) = city_warp_floor_destination_table_b[*(s32 *)((s8 *)var_r5 + 0x10C)];
+    if (menu_window != 0 && ((TWindowMenu *)menu_window)->is_decided() != 0) {
+        dest_floor = city_warp_floor_destination_table_b[lobby_menu_destinations[((TWindowMenu *)menu_window)->get_selected_value()]];
         return 1;
     }
-    var_r3 = NULL;
     return 0;
 }
 
@@ -723,8 +644,7 @@ void run_task__16TObjCityMainWarpFv(TObjCityMainWarp *city_main_warp) {
 }
 
 void TObjCityMainWarp::render() {
-    u8 *arg0 = (u8 *)this;
-    if (((VObj80185EC8_80185EC8 *) arg0)->m8(400.0f, 35.0f) != 0) {
+    if (update_object_view_visibility(400.0f, 35.0f) != 0) {
         TObjFish::set_global_param(city_common_texture_list);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
@@ -738,17 +658,16 @@ void TObjCityMainWarp::render() {
 }
 
 void TObjCityMainWarp::debug_print_area_num() {
-    Obj_80185E14 *arg0 = (Obj_80185E14 *)this;
-    arg0->f150 = arg0->f88;
-    if (arg0->f150 < 0) {
-        arg0->f150 = 0;
+    select_type = set_params[1];
+    if (select_type < 0) {
+        select_type = 0;
     }
-    if (arg0->f150 > 2) {
-        arg0->f150 = 2;
+    if (select_type > 2) {
+        select_type = 2;
     }
     const char *type_names[3] = {"SELECT TYPE NORMAL", "SELECT TYPE VR", "SELECT TYPE CTRL CENTER"};
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x130021, "%s", type_names[arg0->f150]);
+    debug_printf_at(0x130021, "%s", type_names[select_type]);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 

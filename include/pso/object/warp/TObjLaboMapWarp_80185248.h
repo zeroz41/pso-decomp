@@ -10,10 +10,8 @@ struct TObjLaboMapWarp;
 extern "C" {
 void *TObjCityAreaWarp__ct(TObjCityAreaWarp *arg0);
 void *TObjCityMainWarp__ct(void *arg0, void *arg1, void *arg2);
-s32 TObjCityMainWarp__vt15(u8 *arg0);
 void *TObjCityMapWarp__ct(void *arg0);
 void *TObjLaboMapWarp__ct(void *arg0);
-void *__dt__16TObjCityMainWarpFv(void *arg0, s16 arg1);
 void clear_enabled_main_warps(void);
 void run_task__15TObjLaboMapWarpFv(u8 *arg0);
 void run_task__16TObjCityMainWarpFv(TObjCityMainWarp *arg0);

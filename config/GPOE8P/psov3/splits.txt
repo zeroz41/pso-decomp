@@ -4568,7 +4568,7 @@ pso/unk/text_80184C2C.cpp:
 pso/object/warp/TObjLaboMapWarp.cpp:
 	.text       start:0x80185160 end:0x80186C44
 	.rodata     start:0x80444720 end:0x80444A28
-	.data       start:0x804B5FF8 end:0x804B6130
+	.data       start:0x804B5FF8 end:0x804B6188
 	.sdata      start:0x805D32A8 end:0x805D32B8
 	.sbss       start:0x805D5B50 end:0x805D5B60
 	.sdata2     start:0x805DBC80 end:0x805DBCA8

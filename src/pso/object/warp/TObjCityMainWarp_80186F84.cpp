@@ -98,21 +98,22 @@ void TObjCityMainWarp::update_state() {
 }
 
 void TObjCityMainWarp::update_warp_sequence() {
-    u8 *arg0 = (u8 *)this;
+    // The object is a TObjCityMainWarpChallenge: its update_state runs this as state 1.
+    TObjCityMainWarpChallenge *arg0 = (TObjCityMainWarpChallenge *)this;
     s32 r;
-    switch (this->m_e0) {
+    switch (arg0->m_e0) {
     case 0:
         *(s32 *)((s8 *)arg0 + 0x160) = 0x12C;
-        play_sound_effect(0x40003205, (u8 *)&this->position, 0, 0);
-        this->m_e0 = 1;
-        this->m_d0 = *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 8);
-        *(s32 *)((s8 *)arg0 + 0xD4) = *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x2C);
+        play_sound_effect(0x40003205, (u8 *)&arg0->position, 0, 0);
+        arg0->m_e0 = 1;
+        arg0->m_d0 = *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 8);
+        arg0->m_d4 = *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x2C);
         break;
     case 1:
-        if (((u32 (*)(f32))find_local_player_in_range__16TObjCityMainWarpFf)(*(f32 *)((s8 *)arg0 + 0xAC)) != 0) {
-            TObjCityMainWarp__sub_801875F8((TObjCityMainWarpChallenge *)arg0);
+        if (((u32 (*)(f32))find_local_player_in_range__16TObjCityMainWarpFf)(arg0->warp_range) != 0) {
+            TObjCityMainWarp__sub_801875F8(arg0);
             if (*(s32 *)((s8 *)arg0 + 0x170) == 0) {
-                ((TObjCityMainWarpChallenge *)arg0)->trigger_warp_effect(local_client_id);
+                arg0->trigger_warp_effect(local_client_id);
                 *(s32 *)((s8 *)arg0 + 0x170) = 1;
             }
         }
@@ -121,11 +122,11 @@ void TObjCityMainWarp::update_warp_sequence() {
                 if (*(s32 *)((s8 *)arg0 + 0x160) <= 0) {
                     r = 1;
                 } else {
-                    r = ((TObjCityMainWarpChallenge *)arg0)->are_all_players_in_range();
+                    r = arg0->are_all_players_in_range();
                 }
                 if (r != 0) {
-                    ((TObjCityMainWarpChallenge *)arg0)->send_6x6A_set_boss_warp_flags(2);
-                    this->m_e0 = 2;
+                    arg0->send_6x6A_set_boss_warp_flags(2);
+                    arg0->m_e0 = 2;
                 }
             }
         }
