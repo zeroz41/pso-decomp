@@ -253,11 +253,15 @@ void DVDConvertEntrynumToPath(f32 *q);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 
 extern Cam_802511E4 TCameraCtrl__data_804FF634;
-extern s32 TWindowFukidasi__balloon_color_table[];
-extern Vec_80251380 fukidasi_forward_vec;
+__declspec(section ".rodata") extern const char TWindowFukidasi__class_name_string[] = "TWindowFukidasi";
+extern const u32 TWindowFukidasi__balloon_color_table[16] = {
+    0xFFFFC8C8, 0xFFA2FF9D, 0xFFFBFFB5, 0xFFB0F8FF, 0xFFD1ADFF, 0xFFFFBF7C, 0xFFA5B6FB, 0xFFFFB99C,
+    0xFF90D29B, 0xFF8BB5EE, 0xFFFFB5DA, 0xFFFFFF8C, 0xFFE6E8CA, 0xFFDEFFBD, 0xFFC6C2FF, 0xFFFFE1EB,
+};
+extern const Vec_80251380 fukidasi_forward_vec = {0.0f, 0.0f, -1.0f};
 extern RecoveredGlobal_80251BA0_lbl_804CF080 window_fukidasi_layout_entries;
 extern u8 identity_matrix[];
-extern s32 window_fukidasi_class_name;
+const char *window_fukidasi_class_name = TWindowFukidasi__class_name_string;
 extern Cam_80251380 *camera_ctrl_instance;
 extern void *lbl_805D63F0;
 void complete_speech_balloon(u8 *arg0) {
