@@ -4460,7 +4460,7 @@ pso/object/trap/TOTrapAncient02.cpp:
 	.sdata2     start:0x805DBA78 end:0x805DBAA8
 
 pso/object/fence/TOVS2Wall01.cpp:
-	.text       start:0x8017B9AC end:0x8017CB60
+	.text       start:0x8017B9AC end:0x8017CB14
 	.rodata     start:0x80442F40 end:0x80443168
 	.data       start:0x804B4E78 end:0x804B52C4
 	.sdata      start:0x805D31C0 end:0x805D31E8
@@ -4468,9 +4468,9 @@ pso/object/fence/TOVS2Wall01.cpp:
 	.sdata2     start:0x805DBAA8 end:0x805DBAB8
 
 pso/object/warp/TObjMapWarpAncient.cpp:
-	.text       start:0x8017CB60 end:0x8017D2FC
+	.text       start:0x8017CB14 end:0x8017D2FC
 	.rodata     start:0x80443168 end:0x80443328
-	.data       start:0x804B52C8 end:0x804B5304
+	.data       start:0x804B52C8 end:0x804B53B0
 	.sdata      start:0x805D31E8 end:0x805D31F0
 	.sbss       start:0x805D5AF0 end:0x805D5AF8
 	.sdata2     start:0x805DBAB8 end:0x805DBACC

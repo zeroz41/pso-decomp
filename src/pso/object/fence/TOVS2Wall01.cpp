@@ -7,7 +7,6 @@
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/unk/TLobby.h"
-struct TObjGoalWarpAncient;
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/fence/TOVS2Wall01.h"
@@ -38,7 +37,6 @@ struct TObjGoalWarpAncient;
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/object/TObjChip.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/warp/TObjGoalWarpAncient.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/object/fence/TOVS2Wall01_8017BCC8.h"
@@ -335,9 +333,6 @@ void *__nw__7TObjectFUl(int);
 #pragma defer_codegen on
 
 extern "C" {
-void *TObjGoalWarpAncient__create(void *arg0) {
-    return new TObjGoalWarpAncient(tl_05, arg0);
-}
 void*TOVS2Wall01::init() { ((TOBarrierEnergy01 *)this)->TOBarrierEnergy01::init(); *(short *)&this->m_next = 0; *(short*)((char*)this + 0xe) = 0; *(unsigned char*)(this) = 134; *(unsigned char*)((char*)this + 0x1) = 4; return this; }
 void TOVS2Wall01::update_and_send() { byteswap_hit_packet(); send_subcommand((u8 *)this); }
 void TOVS2Wall01::byteswap_hit_packet() { ((TLobby *)this)->bswap_header(); bswap_16((u16 *)((char*)this + 0xc)); bswap_16((u16 *)((char*)this + 0xe)); }
