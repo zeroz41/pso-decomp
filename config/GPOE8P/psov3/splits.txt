@@ -1065,7 +1065,10 @@ pso/network/TTcpSocket.cpp:
 pso/map/CsnQuery.cpp:
 	.text       start:0x800790F0 end:0x8007A810
 	.ctors      start:0x80433F4C end:0x80433F50
+	.rodata     start:0x80438988 end:0x80438A08
 	.bss        start:0x804FF9C0 end:0x80500158
+	.sbss       start:0x805D4E68 end:0x805D4E80
+	.sdata2     start:0x805D91F0 end:0x805D9210
 
 pso/ui/window/TWindowSubComCard_8007A810.cpp:
 	.text       start:0x8007A810 end:0x8007B370
@@ -1959,7 +1962,7 @@ pso/enemy/stelth/TObjEneMe3Stelth.cpp:
 	.bss        start:0x805010E0 end:0x80501130
 	.sdata      start:0x805D2AF8 end:0x805D2B00
 	.sbss       start:0x805D5300 end:0x805D5318
-	.sdata2     start:0x805DA830 end:0x805DA838
+	.sdata2     start:0x805DA828 end:0x805DA884
 
 pso/render/ChunkTextureStripCollector.cpp:
 	.text       start:0x800F58A4 end:0x800F5BC0
@@ -4761,8 +4764,9 @@ pso/object/TObjMesBase.cpp:
 
 pso/object/TMotorcycle.cpp:
 	.text       start:0x80194F68 end:0x8019527C
+	.rodata     start:0x80445DB8 end:0x80445E08
 	.data       start:0x804B8558 end:0x804B85A0
-	.sdata      start:0x805D33D0 end:0x805D33D4
+	.sdata      start:0x805D33D0 end:0x805D33D8
 	.sbss       start:0x805D5C40 end:0x805D5C48
 	.sdata2     start:0x805DBED0 end:0x805DBEE0
 

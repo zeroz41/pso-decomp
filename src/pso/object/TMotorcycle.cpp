@@ -11,9 +11,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D96A8.h"
 
-extern char lbl_80445DB8[];
-extern char lbl_80445DC8[];
-extern char lbl_80445DE0[];
 extern const char *fe_obj_baiku_model_names[3];
 extern BmlResourceDescriptor motorcycle_resource_descriptor;
 extern const char *fe_obj_baiku_motion_names[1];
@@ -38,7 +35,7 @@ typedef char RecoveredGlobal_801950B8_lbl_80445E18_size[sizeof(RecoveredGlobal_8
 struct RecoveredGlobal_801950B8_lbl_804B8564 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_801950B8_lbl_804B8564_size[sizeof(RecoveredGlobal_801950B8_lbl_804B8564) == 0x10 ? 1 : -1];
 
-struct Moto_801951C8 { s32 x0; u8 pad4[0x30 - 4]; u32 flags; u8 pad34[0x68 - 0x34]; f32 x68; u8 pad6C[0xBC - 0x6C]; s32 xBC; };
+struct Moto_801951C8 { const char *x0; u8 pad4[0x30 - 4]; u32 flags; u8 pad34[0x68 - 0x34]; f32 x68; u8 pad6C[0xBC - 0x6C]; s32 xBC; };
 
 extern "C" {
 s32 get_bml_model(void *, int);
@@ -55,10 +52,10 @@ u8 * load_gvm_texture_file(s32);
 extern RecoveredGlobal_801950B8_lbl_80445E18 lbl_80445E18;
 s32 init_collision_body_parts(void *, void *, int);
 void *TObjMesBase__ct(TObjMesBase *arg0, s32 arg1, s32 arg2);
-extern s32 lbl_80445DF4[];
+extern const s32 lbl_80445DF4[];
 extern CollisionBody TMotorcycle__collision_parts[1];
 extern s32 __vt__11TMotorcycle[];
-extern s32 motorcycle_class_name;
+extern const char *motorcycle_class_name;
 void *TMotorcycle__ct(void *arg0, void *arg1, void *arg2);
 void *__dt__11TMotorcycleFv(void *arg0, s16 arg1);
 void free_bin_model_request(void*, int);
@@ -67,6 +64,16 @@ s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 void *__dt__11TObjMesBaseFv(void *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
+
+__declspec(section ".data") const char *fe_obj_baiku_model_names[3] = { "fe_obj_baiku.gj", "fe_obj_baiku_jimen.gj", NULL };
+BmlResourceDescriptor motorcycle_resource_descriptor = { "fe_obj_baiku.bml", fe_obj_baiku_model_names, fe_obj_baiku_motion_names, 2, 0 };
+CollisionBody TMotorcycle__collision_parts[1] = {
+    {{0.0f, 5.0f, 0.0f}, 24.0f, 7.0f, 1, 0x30003},
+};
+// model index picked by placement parity (TMotorcycle__ct; debug_draw_label prints it)
+const s32 lbl_80445DF4[2] = { 1, 0 };
+__declspec(section ".sdata") const char *fe_obj_baiku_motion_names[1] = { NULL };
+const char *motorcycle_class_name = "TMotorcycle";
 
 void TMotorcycle::render() {
     u8 *arg0 = (u8 *)this;
@@ -148,10 +155,4 @@ void *TMotorcycle__ct(void *arg0, void *arg1, void *arg2) {
     return arg0;
 }
 
-__declspec(section ".data") const char *fe_obj_baiku_model_names[3] = { lbl_80445DB8, lbl_80445DC8, NULL };
-BmlResourceDescriptor motorcycle_resource_descriptor = { lbl_80445DE0, fe_obj_baiku_model_names, fe_obj_baiku_motion_names, 2, 0 };
-CollisionBody TMotorcycle__collision_parts[1] = {
-    {{0.0f, 5.0f, 0.0f}, 24.0f, 7.0f, 1, 0x30003},
-};
-__declspec(section ".sdata") const char *fe_obj_baiku_motion_names[1] = { NULL };
 }

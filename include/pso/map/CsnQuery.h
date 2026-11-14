@@ -96,7 +96,7 @@ void TObjPlayer__sub_80079108(void);
 void TObjPlayer__sub_8007910C(CsnContact *contact, NJS_ARGB *color);
 void TObjPlayer__sub_80079110(CsnHit *hit);
 void TObjPlayer__sub_80079114(void);
-s32 TObjPlayer__sub_80079118(s32 *_w0);
+s32 TObjPlayer__sub_80079118(const char *name);
 void TObjPlayer__sub_8007911C(void);
 void TObjPlayer__sub_80079120(s32 _w0);
 void TObjPlayer__sub_80079124(void *_w0, void *_w1);
