@@ -21,6 +21,34 @@ struct TWindowSubMag;
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowMainMenu.h"
+#include "pso/ui/window/TWindowSubEquip_80263AB0.h"
+#include "pso/ui/window/TWindowSubEquip.h"
+
+extern "C" {
+s32 create_submenu__15TWindowMainMenuFUl(s32, s16);
+s32 is_split_screen();
+
+void call_if_split_screen(u32 object, s32 client_id) {
+    if ((is_split_screen() != 0) && (object != 0U)) {
+        fn_802449E0((u8 *)object);
+    }
+}
+void TWindowSubEquip__sub_80263AF4(void) {  }
+
+
+f32 TWindowSubEquip__sub_80263AF8(u8 *arg0, u32 arg1) {
+    return *(f32 *)((s8 *)arg0 + 0x58) - (f32) arg1;
+}
+
+void TWindowMainMenu::set_scale_f() { *(float*)((char*)this + 0x58) = 50300.0f; }
+
+void TWindowSubEquip::open_submenu(s32 arg0, s32 arg1) {
+    ((TWindowMainMenu *)arg0)->destroy_submenu();
+    create_submenu__15TWindowMainMenuFUl(arg0, (s16) arg1);
+}
+
+}
+
 
 extern "C" {
 
@@ -135,7 +163,6 @@ extern s32 local_client_id;
 u32 create__14TWindowMessageFlPCfUll(u32, s32 *, s32, s32);
 
 u32 get_window_layout_position(s32);
-s32 call_if_split_screen(u32, s32);
 s32 select_main_menu_item_10(s32);
 
 void TWindowMainMenu::update_keyboard_card_state() {
@@ -218,7 +245,6 @@ void TWindowMainMenu::sub_80263FE0() {
 void TWindowMainMenu::close_child_window() { if (*(unsigned int*)((char*)this + 0x24) != 0) { ((TWindowBase *)(*(void**)((char*)this + 0x24)))->close(); *(int*)((char*)this + 0x24) = 0; } }
 
 extern s32 lbl_8044F2E0[];
-extern const f32 lbl_805DD13C;
 
 void TWindowMainMenu::update_description_text(s32 arg1) {
     if ((s32) *(s32 *)((s8 *)this + 0x48) != arg1) {
@@ -226,7 +252,7 @@ void TWindowMainMenu::update_description_text(s32 arg1) {
         if ((u32) *(u32 *)((s8 *)this + 0x24) == 0U) {
             u32 tmp = get_window_layout_position(0x1B);
             *(u32 *)((s8 *)this + 0x24) = create__14TWindowMessageFlPCfUll(tmp, lbl_8044F2E0, 1, *(s32 *)((s8 *)this + 0x54));
-            ((TWindowBase *)(*(u32 *)((s8 *)this + 0x24)))->set_depth(lbl_805DD13C);
+            ((TWindowBase *)(*(u32 *)((s8 *)this + 0x24)))->set_depth(49999.0f);
             call_if_split_screen(*(u32 *)((s8 *)this + 0x24), *(s32 *)((s8 *)this + 0x54));
         }
         ((TWindowMessage *)(*(u32 *)((s8 *)this + 0x24)))->append_line(select_main_menu_item_10(arg1), 0x80);

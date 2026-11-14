@@ -7139,14 +7139,11 @@ pso/ui/window/TWindowLockOn_80262C3C.cpp:
 pso/unk/text_80263A20.cpp:
 	.text       start:0x80263A20 end:0x80263AB0
 
-pso/ui/window/TWindowSubEquip_80263AB0.cpp:
-	.text       start:0x80263AB0 end:0x80263B70
+pso/ui/window/TWindowMainMenu_80263AB0.cpp:
+	.text       start:0x80263AB0 end:0x802644D4
 	.rodata     start:0x8044F2E8 end:0x8044F2F0
-	.sdata2     start:0x805DD138 end:0x805DD13C
-
-pso/ui/window/TWindowMainMenu_80263B70.cpp:
-	.text       start:0x80263B70 end:0x802644D4
 	.data       start:0x804D0308 end:0x804D03F0
+	.sdata2     start:0x805DD138 end:0x805DD140
 
 pso/ui/window/TWindowMainMenu.cpp:
 	.text       start:0x802644D4 end:0x80264A90

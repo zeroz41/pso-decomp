@@ -1444,7 +1444,7 @@ pso/ui/window/TWindowMainMenu.cpp
 pso/ui/window/TWindowMainMenu1P.cpp
 pso/ui/window/TWindowMainMenu4P.cpp
 pso/ui/window/TWindowMainMenu_8024E3CC.cpp
-pso/ui/window/TWindowMainMenu_80263B70.cpp
+pso/ui/window/TWindowMainMenu_80263AB0.cpp
 pso/ui/window/TWindowMainMenu_802AD538.cpp
 pso/ui/window/TWindowMainMenu_802AE928.cpp
 pso/ui/window/TWindowMakeTeam.cpp
@@ -1536,7 +1536,6 @@ pso/ui/window/TWindowSubCustomSelect_80275D84.cpp
 pso/ui/window/TWindowSubEquip.cpp
 pso/ui/window/TWindowSubEquipKind.cpp
 pso/ui/window/TWindowSubEquipList.cpp
-pso/ui/window/TWindowSubEquip_80263AB0.cpp
 pso/ui/window/TWindowSubEquip_80275C0C.cpp
 pso/ui/window/TWindowSubEquip_80277E48.cpp
 pso/ui/window/TWindowSubEquip_80279044.cpp
