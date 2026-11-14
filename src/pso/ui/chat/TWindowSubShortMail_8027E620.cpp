@@ -19,6 +19,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8027FD88.h"
@@ -73,7 +74,6 @@ s32 get_shared_text_buffer();
 void send_simple_mail__6TLobbyFiPv(s32 arg0, void *arg1);
 int send_find_user_self_tag__6TLobbyFi(void*);
 s32 __nw__7TObjectFUl(s32);
-u8 *fn_80267F38(s32 arg0, s32 arg1, s32 arg2, s16 arg3);
 int get_flag_bit0__6TLobbyFv(void);
 }
 void update_chat_window(void *p);

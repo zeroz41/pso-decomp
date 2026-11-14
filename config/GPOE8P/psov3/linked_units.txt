@@ -2416,7 +2416,6 @@ pso/unk/text_80255A38.cpp
 pso/unk/text_8025CD10.cpp
 pso/ui/window/TWindowLockOn_80262C3C.cpp
 pso/unk/text_80263A20.cpp
-pso/unk/text_80268384.cpp
 pso/unk/text_8026934C.cpp
 pso/unk/text_802693B4.cpp
 pso/unk/text_80269FE8.cpp
