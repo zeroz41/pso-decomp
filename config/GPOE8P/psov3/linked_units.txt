@@ -2357,7 +2357,6 @@ pso/boss/darkfalz/TBoss4DarkFalz_801F4830.cpp
 pso/unk/text_801F498C.cpp
 pso/system/TMCFormatSequence_801F6554.cpp
 pso/unk/text_80203284.cpp
-pso/unk/text_8020A2AC.cpp
 pso/unk/text_8020BC50.cpp
 pso/unk/text_8020BFE4.cpp
 pso/unk/text_8020C354.cpp
