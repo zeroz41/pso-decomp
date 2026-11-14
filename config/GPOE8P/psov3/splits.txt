@@ -1344,6 +1344,8 @@ pso/effect/particle/ParticleRadial.cpp:
 
 pso/system/scene/TEnding_8008C5C0.cpp:
 	.text       start:0x8008C4F4 end:0x8008C6F4
+	.rodata     start:0x80439570 end:0x80439598
+	.data       start:0x8048E7C0 end:0x8048E828
 	.sdata2     start:0x805D9570 end:0x805D9578
 
 pso/system/scene/TEndingC.cpp:
@@ -6202,7 +6204,11 @@ pso/ui/city/TShopWindowBase_80217454.cpp:
 
 pso/quest/TQuestListOnline.cpp:
 	.text       start:0x80217464 end:0x802183B4
-	.data       start:0x804C9D18 end:0x804C9D4C
+	.rodata     start:0x8044BEB0 end:0x8044BEE8
+	.data       start:0x804C9CE8 end:0x804C9D4C
+	.sdata      start:0x805D3688 end:0x805D3690
+	.sbss       start:0x805D61E0 end:0x805D6200
+	.sdata2     start:0x805DC6A0 end:0x805DC6B0
 
 pso/ui/window/TWindowSubComCard.cpp:
 	.text       start:0x802183B4 end:0x802183F8
@@ -8362,6 +8368,7 @@ pso/ui/frontend/TAdTitleGC.cpp:
 
 pso/unk/text_802A1020.cpp:
 	.text       start:0x802A1020 end:0x802A1438
+	.rodata     start:0x80466240 end:0x804662D8
 	.data       start:0x804DCAB8 end:0x804DCB7C
 
 pso/ui/frontend/TAdSelectGameModeGC.cpp:
