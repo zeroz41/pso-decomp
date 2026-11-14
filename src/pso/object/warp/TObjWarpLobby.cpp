@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/warp/TObjWarpLobby.h"
-#include "pso/object/warp/TObjWarpJungMain.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
@@ -38,11 +37,9 @@ const char *TObjWarpLobby__name = "TObjWarpLobby";
 s32 TObjWarpLobby__instance;
 
 extern "C" {
-s32 debug_print_area_num__12TObjAreaWarpFv();
-void TObjWarpJungMain::debug_print_area_num() {  }
 void TObjWarpLobby::debug_print_area_num() {
     s32 base;
-    debug_print_area_num__12TObjAreaWarpFv();
+    TObjAreaWarp::debug_print_area_num();
     if ((s32) this->set_params[1] < 0) {
         this->set_params[1] = 0;
     }

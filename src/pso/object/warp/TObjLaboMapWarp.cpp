@@ -120,27 +120,6 @@ struct VObj80185EC8_80185EC8 : VBase80185EC8_80185EC8 {
     virtual s32 m8(f32, f32);
 };
 
-struct Base_80186030_80185EC8 { char pad[0x18]; };
-
-struct VObj_80186030_80185EC8 : Base_80186030_80185EC8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-};
-
 struct Obj_801864B4 {
     u8 pad[0x38];
     u8 pos[0x88 - 0x38];
@@ -746,10 +725,7 @@ s32 TObjCityMainWarp__vt15(u8 *arg0) {
     return 0;
 }
 
-void TObjCityMainWarp::vfunc_18(s32) {
-    struct VObj_80186030_80185EC8 *o = (struct VObj_80186030_80185EC8 *)this;
-    o->m15();
-}
+s32 TObjCityMainWarp::vfunc_18(s32) { return vfunc_17(); }
 
 u8 TObjCityMainWarp::is_warp_enabled() {
     if ((get_game_play_mode() == 1) && (is_quest_active() == 0)) {

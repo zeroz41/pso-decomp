@@ -53,6 +53,7 @@
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/text_8019DBB4.h"
+#include "pso/system/ControllerInputState.h"
 
 // The original TU was built with deferred codegen: functions below are in reverse
 // address order, and the pool (three {3, 2} initializers, then the float literals
@@ -467,20 +468,9 @@ struct VObj_8019D880_8019D4E4 : Base_8019D880_8019D4E4 {
     virtual s32 m31();
 };
 
-struct RecoveredGlobal_8019D850_lbl_8050E208 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
-struct RecoveredGlobal_8019D818_lbl_8050E208 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
-
 extern "C" {
 
-u8 TWindowShortListCtrl__check_controller_button(void *, int);
-extern RecoveredGlobal_8019D850_lbl_8050E208 controller_input_state;
+s32 TWindowShortListCtrl__check_controller_button(ControllerInputContext *context, s32 button);
 void fn_8019DD24(void *p, u32 v);
 extern s32 __vt__11TObjMapWarp[];
 struct Base_8019D6F8_8019D4E4 { char pad[0x18]; };
@@ -494,10 +484,6 @@ struct VObj_8019D6F8_8019D4E4 : Base_8019D6F8_8019D4E4 {
 int is_flag_400_set__10TObjPlayerFPv(void *p);
 
 extern s32 lbl_805D55C0;
-
-typedef char RecoveredGlobal_8019D850_lbl_8050E208_size[sizeof(RecoveredGlobal_8019D850_lbl_8050E208) == 0x1B0 ? 1 : -1];
-
-typedef char RecoveredGlobal_8019D818_lbl_8050E208_size[sizeof(RecoveredGlobal_8019D818_lbl_8050E208) == 0x1B0 ? 1 : -1];
 
 }
 
@@ -630,12 +616,12 @@ u8 TObjWarpBase::is_warp_enabled() {
     return 1U;
 }
 
-void TObjWarpBase::vfunc_17() {
-    TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state.value + 0x20), 4);
+s32 TObjWarpBase::vfunc_17() {
+    return TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 4);
 }
 
-void TObjWarpBase::vfunc_18(s32 arg1) {
-    TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&(*(RecoveredGlobal_8019D818_lbl_8050E208 *)&controller_input_state).value + (arg1 * 0x50) + 0x20), 4);
+s32 TObjWarpBase::vfunc_18(s32 client_id) {
+    return TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[client_id], 4);
 }
 
 const char *TObjMapWarp__name = "TObjMapWarp";

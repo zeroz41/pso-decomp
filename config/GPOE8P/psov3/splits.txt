@@ -4953,16 +4953,16 @@ pso/object/warp/TObjWarpBoss03.cpp:
 	.sdata2     start:0x805DC030 end:0x805DC03C
 
 pso/object/warp/TObjWarpJungMain.cpp:
-	.text       start:0x8019FB8C end:0x801A069C
+	.text       start:0x8019FB8C end:0x801A06A0
 	.rodata     start:0x80446678 end:0x80446750
-	.data       start:0x804B9628 end:0x804B9664
+	.data       start:0x804B9628 end:0x804B9710
 	.bss        start:0x8050DDC8 end:0x8050DDE0
 	.sdata      start:0x805D3498 end:0x805D34A0
 	.sbss       start:0x805D5CA8 end:0x805D5CC8
 	.sdata2     start:0x805DC040 end:0x805DC058
 
 pso/object/warp/TObjWarpLobby.cpp:
-	.text       start:0x801A069C end:0x801A0B94
+	.text       start:0x801A06A0 end:0x801A0B94
 	.rodata     start:0x80446750 end:0x80446870
 	.data       start:0x804B9710 end:0x804B97C0
 	.sdata      start:0x805D34A0 end:0x805D34A4

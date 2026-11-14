@@ -28,6 +28,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/warp/TObjWarpBase.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 
 const char *bm_obj_warp_jung_model_names[3] = { "fe_obj_warp_dodai.gj", "fe_obj_warp_jogo_light.gj", NULL };
 __declspec(section ".data") const char *bm_obj_warp_jung_motion_names[2] = { "fe_obj_warp_jogo_light.njm", NULL };
@@ -57,51 +58,11 @@ s32 PPCSync();
 s32 get_localized_text_entry(s32, s32);
 s32 request_active_window_close();
 s32 align_menu_entry_positions(u32);
-s32 forward_trade_action_default__16TObjCityMainWarpFPviii(u32, s32, s32, s32);
-u32 create_window_menu(s32, s32, s16);
 s32 get_window_layout_position(s32);
-void TObjWarpJungMain__vt13(TObjWarpJungMain *arg0, s16 arg1);
 
-struct Obj_8019FF24 {
-    const char *f0;
-    u8 pad4[0x18 - 4];
-    void *vt18;
-    u8 pad1C[0x38 - 0x1C];
-    u8 f38[0x8C - 0x38];
-    s32 f8C;
-    u8 pad90[0xAC - 0x90];
-    f32 fAC;
-    u8 padB0[0xC0 - 0xB0];
-    void *fC0;
-    f32 fC4;
-};
-
-struct Obj_801A0224 {
-    const char *f0;
-    u8 pad4[0x18 - 4];
-    void *vt18;
-    u8 pad1C[0x38 - 0x1C];
-    u8 f38[0x8C - 0x38];
-    s32 f8C;
-    u8 pad90[0xAC - 0x90];
-    f32 fAC;
-    u8 padB0[0xC0 - 0xB0];
-    void *fC0;
-    f32 fC4;
-};
-
-u8 *__dt__12TObjAreaWarpFv(u8 *arg0, s16 arg1);
-s32 TObjWarpJungMain__vt16(TObjWarpJungMain *arg0);
-void * __dt__16TObjWarpJungMainFv(void *arg0, s16 arg1);
 void * TObjWarpJung__create(void *arg0);
-void * __dt__12TObjWarpJungFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
-void * __nw__7TObjectFUl(int);
 void * init__13TAdVIConfigGCFf(void *, void *, f32);
 s32 get_game_play_mode(void);
-
-extern s32 __vt__12TObjWarpJung[];
-extern s32 __vt__16TObjWarpJungMain[];
 
 void TObjWarpJungMain::render() {
     s32 i;
@@ -141,11 +102,10 @@ void TObjWarpJungMain::render() {
     }
 }
 
-s32 TObjWarpJungMain__vt16(TObjWarpJungMain *warp_jung_main) {
-    u8 *window_menu;
-    window_menu = (u8 *)(*(u8 **)((s8 *)warp_jung_main + 0xB0));
-    if ((window_menu != NULL) && (((TWindowMenu *)window_menu)->is_decided() != 0)) {
-        warp_jung_main->dest_floor = jungle_warp_destination_ids[((TWindowMenu *)(*(u8 **)((s8 *)warp_jung_main + 0xB0)))->get_selected_value()];
+// Returns 1 once the destination menu is decided, with dest_floor set to the chosen area.
+s32 TObjWarpJungMain::vfunc_18(s32) {
+    if (menu_window != 0 && ((TWindowMenu *)menu_window)->is_decided() != 0) {
+        dest_floor = jungle_warp_destination_ids[((TWindowMenu *)menu_window)->get_selected_value()];
         return 1;
     }
     return 0;
@@ -155,19 +115,20 @@ void TObjWarpJungMain::confirm_area_transfer(s32 arg1) { TObjAreaWarp::confirm_a
 
 void TObjWarpJungMain::vfunc_14() { TObjWarpBase::vfunc_14(); TWindowCtrl::clear_flag(); }
 
-void TObjWarpJungMain__vt13(TObjWarpJungMain *warp_jung_main, s16 arg1) {
+// Opens the three-entry destination menu for the player with this client id.
+void TObjWarpJungMain::open_confirm_window(s32 client_id) {
     s32 i;
-    if ((u32) warp_jung_main->menu_window == 0U) {
-        warp_jung_main->menu_window = create_window_menu(get_window_layout_position(0x32), 3, arg1);
+    if (menu_window == 0) {
+        menu_window = create_window_menu(get_window_layout_position(0x32), 3, client_id);
         for (i = 0; i < 3; i++) {
-            forward_trade_action_default__16TObjCityMainWarpFPviii(warp_jung_main->menu_window, get_localized_text_entry(9, jungle_warp_destination_text_ids[i]), 0xE, i);
+            forward_trade_action_default__16TObjCityMainWarpFPviii((void *)menu_window, get_localized_text_entry(9, jungle_warp_destination_text_ids[i]), 0xE, i);
         }
-        ((TWindowSubComCard *)(warp_jung_main->menu_window))->calc_window_size();
-        align_menu_entry_positions(warp_jung_main->menu_window);
-        ((TWindowSubComCardList *)(warp_jung_main->menu_window))->set_flag70_bit10();
-        ((TLobby *)(warp_jung_main->menu_window))->set_loss_flag();
+        ((TWindowSubComCard *)menu_window)->calc_window_size();
+        align_menu_entry_positions(menu_window);
+        ((TWindowSubComCardList *)menu_window)->set_flag70_bit10();
+        ((TLobby *)menu_window)->set_loss_flag();
         request_active_window_close();
-        warp_jung_main->user_client_id = arg1;
+        user_client_id = client_id;
     }
 }
 
@@ -179,16 +140,7 @@ void TObjWarpJungMain::run_task() {
     handle_area_selection();
 }
 
-void *__dt__16TObjWarpJungMainFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjWarpJungMain;
-        __dt__12TObjAreaWarpFv((u8 *)arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TObjWarpJungMain::~TObjWarpJungMain() {}
 
 TObjWarpJungMain::TObjWarpJungMain(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = TObjWarpJungMain__name;
@@ -249,16 +201,7 @@ void TObjWarpJung::run_task() {
     handle_area_selection();
 }
 
-void *__dt__12TObjWarpJungFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjWarpJung;
-        __dt__12TObjAreaWarpFv((u8 *)arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TObjWarpJung::~TObjWarpJung() {}
 
 TObjWarpJung::TObjWarpJung(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = TObjWarpJung__name;
@@ -361,3 +304,5 @@ void load_warp_beam_resources(void) {
     warp_jung_beam_blue_tex_entry = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name("ts064_beam_ao");
     warp_jung_nakalight_tex_entry = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name("ts032_warp_nakalight");
 }
+
+void TObjWarpJungMain::debug_print_area_num() {}
