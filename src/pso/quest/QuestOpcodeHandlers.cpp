@@ -778,8 +778,6 @@ void qst_op_va_call(s32 arg0) {
 extern "C" {
 s16 get_actor_hp(u8 *);
 }
-extern const f32 lbl_805DC4C4;
-extern const f32 lbl_805DC4D0;
 void qst_op_p_hpstat(void);
 extern "C" {
 f32 sin_table_lookup(int);
@@ -2033,13 +2031,6 @@ extern s32 resource_decompress_buffer;
 extern s32 game_difficulty_selection;
 extern f32 lbl_805D5DC4;
 extern u32 quest_mission_manager;
-extern const f32 lbl_805DC4B8;
-extern const f32 lbl_805DC4BC;
-extern const f32 lbl_805DC4C0;
-extern const f32 lbl_805DC4C8;
-extern const f32 lbl_805DC4CC;
-extern const f32 lbl_805DC4D4;
-extern const f32 lbl_805DC4D8;
 
 void qst_op_va_end() {
     qst_op_stack_popm(1, 7);
@@ -2065,8 +2056,8 @@ void qst_op_scroll_text() {
     }
     pos.x = x;
     pos.y = y;
-    size.x = lbl_805DC4B8 + (f32)(cols * 0x12);
-    size.y = (lbl_805DC4BC + (f32)(rows * 0x14)) - lbl_805DC4C0;
+    size.x = 8.0f + (f32)(cols * 0x12);
+    size.y = (20.0f + (f32)(rows * 0x14)) - 2.0f;
     win = open_message_scroll_window__6TLobbyFlll(&pos, &size, &qst_registers[msg]);
     ((TLobby *)win)->set_field_90(field90);
     dispatch_message_window_text(win, arg, 0x13);
@@ -2158,8 +2149,8 @@ void qst_op_chat_box() {
     }
     pos.x = x;
     pos.y = y;
-    size.x = lbl_805DC4B8 + (f32)(cols * 0x12);
-    size.y = (lbl_805DC4BC + (f32)(rows * 0x14)) - lbl_805DC4C0;
+    size.x = 8.0f + (f32)(cols * 0x12);
+    size.y = (20.0f + (f32)(rows * 0x14)) - 2.0f;
     qst_message_window = (void *)create_quest_message_window_at((s32)&pos, (s32)&size);
     ((TLobby *)qst_message_window)->set_field_90(field90);
     dispatch_message_window_text(qst_message_window, arg, 3);
@@ -2281,7 +2272,7 @@ void qst_op_get_coord_player_detect(u8 i, u8 out) {
     u8 *player;
 
     pos.x = qst_registers[i++];
-    pos.y = lbl_805DC4C4;
+    pos.y = 0.0f;
     pos.z = qst_registers[i++];
     r = qst_registers[i];
     r2 = r * r;
@@ -3403,7 +3394,7 @@ void qst_op_get_random(s32 arg0, s32 arg1) {
   s32 temp_r30;
   temp_r31 = qst_registers[(u8)arg0];
   temp_r30 = qst_registers[(u8)(arg0 + 1)];
-  var_r4 = (s32) (((f32) temp_r30) * (lbl_805DC4C8 * ((f32) rand())));
+  var_r4 = (s32) (((f32) temp_r30) * (3.0517578125e-05f * ((f32) rand())));
   if (var_r4 < temp_r31)
   {
     var_r4 = temp_r31;
@@ -5253,7 +5244,7 @@ void qst_op_npc_talk_pl(u8 arg0) {
     set.y = qst_registers[i++];
     set.z = qst_registers[i++];
     set.f24 = qst_registers[i++];
-    set.f1C = (*(f32 *)&lbl_805DC4CC) * qst_registers[i++];
+    set.f1C = 182.04445f * qst_registers[i++];
     set.f30 = qst_registers[i++];
     set.f34 = qst_registers[i++];
     set.f38 = qst_registers[i];
@@ -5495,7 +5486,7 @@ void qst_op_p_setpos(void) {
     pos.x = qst_registers[i++];
     pos.y = qst_registers[i++];
     pos.z = qst_registers[i++];
-    send_6x24_teleport_player(player, &pos, lbl_805DC4CC * qst_registers[i]);
+    send_6x24_teleport_player(player, &pos, 182.04445f * qst_registers[i]);
     obj = (void *)((s32 (*)(s32))get_player_by_client_id)(player);
     if (obj != NULL && player == local_client_id) {
         reset_cameras_to_actor(obj, 0);
@@ -5549,11 +5540,11 @@ void qst_op_p_hpstat(void) {
     reg = args[0];
     pct = regs[reg];
     player = args[1];
-    if (lbl_805DC4C4 == pct) {
+    if (0.0f == pct) {
         qst_registers[reg] = 0;
         return;
     }
-    limit = lbl_805DC4D0 / pct;
+    limit = 1.0f / pct;
     obj = (void *)((s32)get_player_by_client_id(player));
     if (obj != NULL) {
         hp = get_actor_hp((u8 *)obj);
@@ -5574,7 +5565,7 @@ void qst_op_p_move(u8 arg0) {
     pos.x = (f32) qst_registers[i++];
     pos.y = (f32) qst_registers[i++];
     pos.z = (f32) qst_registers[i++];
-    yaw = (s32) (lbl_805DC4CC * (f32) qst_registers[i++]);
+    yaw = (s32) (182.04445f * (f32) qst_registers[i++]);
     id = qst_registers[i++];
     send_stop_at_position__10TNpcPlayerFUsPvs(id, &pos, yaw);
 }
@@ -5788,7 +5779,7 @@ void qst_op_npc_crp_id(u8 first) {
     pos[0] = (f32)qst_registers[i++];
     pos[1] = (f32)qst_registers[i++];
     pos[2] = (f32)qst_registers[i++];
-    heading = (int)(lbl_805DC4CC * (f32)qst_registers[i++]);
+    heading = (int)(182.04445f * (f32)qst_registers[i++]);
     leader = qst_registers[i++];
     slot = qst_registers[i++];
     appearance = qst_registers[i++];
@@ -5807,7 +5798,7 @@ void qst_op_npc_crp(u8 first) {
     pos[0] = (f32)qst_registers[i++];
     pos[1] = (f32)qst_registers[i++];
     pos[2] = (f32)qst_registers[i++];
-    heading = (int)(lbl_805DC4CC * (f32)qst_registers[i++]);
+    heading = (int)(182.04445f * (f32)qst_registers[i++]);
     leader = qst_registers[i++];
     appearance = qst_registers[i++];
     TLobby::free_luker_object();
@@ -5837,7 +5828,7 @@ void qst_op_npc_crptalk_id(u8 first) {
     pos[0] = (f32)qst_registers[i++];
     pos[1] = (f32)qst_registers[i++];
     pos[2] = (f32)qst_registers[i++];
-    heading = (int)(lbl_805DC4CC * (f32)qst_registers[i++]);
+    heading = (int)(182.04445f * (f32)qst_registers[i++]);
     injured = qst_registers[i++];
     appearance = qst_registers[i++];
     slot = qst_registers[i++];
@@ -5870,7 +5861,7 @@ void qst_op_npc_crptalk(u8 first) {
     pos[0] = (f32)qst_registers[i++];
     pos[1] = (f32)qst_registers[i++];
     pos[2] = (f32)qst_registers[i++];
-    heading = (int)(lbl_805DC4CC * (f32)qst_registers[i++]);
+    heading = (int)(182.04445f * (f32)qst_registers[i++]);
     injured = qst_registers[i++];
     appearance = qst_registers[i++];
     TLobby::free_luker_object();
@@ -5903,7 +5894,7 @@ void qst_op_npc_crppk(u8 arg0) {
     v.x = qst_registers[i++];
     v.y = qst_registers[i++];
     v.z = qst_registers[i++];
-    angle = lbl_805DC4CC * qst_registers[i++];
+    angle = 182.04445f * qst_registers[i++];
     a = qst_registers[i++];
     b = qst_registers[i++];
     c = qst_registers[i];
@@ -6064,7 +6055,7 @@ void qst_op_disp_msg_qb(void) {
     }
     qst_message_window_qb = (void *)update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0x71), &pr);
     ((TWindowMessage *)qst_message_window_qb)->append_line(t, 3);
-    ((TWindowBase *)qst_message_window_qb)->set_depth(lbl_805DC4D4);
+    ((TWindowBase *)qst_message_window_qb)->set_depth(50030.0f);
     qst_suspend_reason = QST_WAIT_MESSAGE_QB;
 }
 
@@ -6119,7 +6110,7 @@ void qst_op_list(void) {
     ((TWindowSubComCard *)qst_list_window)->calc_window_size();
     align_menu_entry_positions((s32)qst_list_window);
     ((TCheckRoomSequence *)qst_list_window)->set_ready_flag();
-    ((TWindowBase *)qst_list_window)->set_depth(lbl_805DC4D8);
+    ((TWindowBase *)qst_list_window)->set_depth(39000.0f);
     qst_registers[idx] = 0;
     qst_result_register = idx;
     qst_suspend_reason = QST_WAIT_LIST;

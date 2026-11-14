@@ -5836,6 +5836,7 @@ pso/quest/QuestOpcodeHandlers.cpp:
 	.rodata     start:0x80449CB8 end:0x80449CD8
 	.data       start:0x804C81D8 end:0x804C8230
 	.bss        start:0x80512220 end:0x80512790
+	.sdata2     start:0x805DC4B8 end:0x805DC4E0
 
 pso/unk/TLobby_801F2D2C.cpp:
 	.text       start:0x801F2D2C end:0x801F3710
@@ -9302,11 +9303,12 @@ pso/boss/goldragon/TBoss8Dragon_802F3AB4.cpp:
 pso/boss/goldragon/TBoss8Dragon.cpp:
 	.text       start:0x802F3CA0 end:0x802FDF34
 	.ctors      start:0x80433FE0 end:0x80433FE4
-	.rodata     start:0x80474B08 end:0x80474B18
+	.rodata     start:0x804744A8 end:0x80474B50
 	.data       start:0x804E4C08 end:0x804E5E78
 	.bss        start:0x80541DC8 end:0x80541E48
+	.sdata      start:0x805D4008 end:0x805D4010
 	.sbss       start:0x805D6980 end:0x805D69C8
-	.sdata2     start:0x805DED50 end:0x805DEEA0
+	.sdata2     start:0x805DED50 end:0x805DEEF0
 
 pso/boss/goldragon/TBoss8DragonEffBreath.cpp:
 	.text       start:0x802FDF34 end:0x802FE0E0

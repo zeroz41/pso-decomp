@@ -122,7 +122,7 @@ public:
     u32 m_754;
     u32 m_758;
     s32 m_75c;
-    s32 * m_760;
+    const s32 *m_760;
     void* m_764;
     u8 unk_768[0xC];
     s32 m_774;
