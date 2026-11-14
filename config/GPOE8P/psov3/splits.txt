@@ -9133,8 +9133,9 @@ pso/weapon/TItemAttackCol_802E4798.cpp:
 
 pso/object/ending/TObjOnlineEnding_802E4B80.cpp:
 	.text       start:0x802E4B80 end:0x802E530C
-	.rodata     start:0x80472BB8 end:0x80472BE8
+	.rodata     start:0x804729C8 end:0x80472BE8
 	.data       start:0x804E3578 end:0x804E3A98
+	.sdata      start:0x805D3F90 end:0x805D3FA0
 	.sbss       start:0x805D68F0 end:0x805D6900
 	.sdata2     start:0x805DE930 end:0x805DE958
 
