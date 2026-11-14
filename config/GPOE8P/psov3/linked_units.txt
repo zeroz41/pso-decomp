@@ -1527,7 +1527,7 @@ pso/ui/window/TWindowSubComCard_80268494.cpp
 pso/ui/window/TWindowSubComCard_80269064.cpp
 pso/ui/window/TWindowSubComCard_80271E7C.cpp
 pso/ui/window/TWindowSubComCard_80275484.cpp
-pso/ui/window/TWindowSubComCard_802A55E0.cpp
+pso/ui/window/TWindowSubComCard_802A559C.cpp
 pso/ui/window/TWindowSubComCard_802A5748.cpp
 pso/ui/window/TWindowSubComCard_8034CD98.cpp
 pso/ui/window/TWindowSubCustomEquip.cpp

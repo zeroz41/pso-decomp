@@ -100,21 +100,6 @@ void *TChCrTagPlBack::create(void *arg0) {
 
 void *TChCrTagPlBack::create_default() { return TChCrTagPlBack::create(NULL); }
 
-extern const f32 lbl_805DDFF0;
-extern const f32 lbl_805DDFF4;
-
-void TChCrTagPlBack::get_position_offset(void *arg1) {
-    void *temp_r3;
-    void *temp_r5;
-
-    temp_r5 = *(void **)((s8 *)this + 0x28);
-    if (temp_r5 != NULL) {
-        *(f32 *)((s8 *)arg1 + 0) = (f32) ((*(f32 *)((s8 *)temp_r5 + 0x30) + *(f32 *)((s8 *)temp_r5 + 0x38)) - lbl_805DDFF0);
-        temp_r3 = *(void **)((s8 *)this + 0x28);
-        *(f32 *)((s8 *)arg1 + 4) = (f32) ((*(f32 *)((s8 *)temp_r3 + 0x34) + *(f32 *)((s8 *)temp_r3 + 0x3C)) - lbl_805DDFF4);
-    }
-}
-
 }
 
 // The frame sprites' positions (and the edge scale), defined after their use so

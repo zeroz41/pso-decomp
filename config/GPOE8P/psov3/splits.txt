@@ -8288,14 +8288,15 @@ pso/unk/TLobby_802A5120.cpp:
 	.text       start:0x802A5120 end:0x802A5208
 
 pso/ui/charcreate/TChCrTagPlBack.cpp:
-	.text       start:0x802A5208 end:0x802A55E0
+	.text       start:0x802A5208 end:0x802A559C
 	.rodata     start:0x80466710 end:0x80466760
 	.data       start:0x804DD060 end:0x804DD078
 	.sdata      start:0x805D3DF0 end:0x805D3DF8
 	.sdata2     start:0x805DDFC8 end:0x805DDFEC
 
-pso/ui/window/TWindowSubComCard_802A55E0.cpp:
-	.text       start:0x802A55E0 end:0x802A571C
+pso/ui/window/TWindowSubComCard_802A559C.cpp:
+	.text       start:0x802A559C end:0x802A571C
+	.sdata2     start:0x805DDFF0 end:0x805DDFF8
 
 pso/ui/chat/TWindowSubShortMail_802A571C.cpp:
 	.text       start:0x802A571C end:0x802A5748

@@ -16,6 +16,21 @@ struct V_802A5628 { f32 x, y; };
 
 extern "C" {
 void TWindowSubTradeMain__sub_802448E4(void *, void *);
+
+// Reads this->m_28 the way TWindowSubComCard::free_windows does, and its only caller is
+// TWindowSubComCard::update_label_positions: probably a TWindowSubComCard member (inferred).
+void TChCrTagPlBack::get_position_offset(void *arg1) {
+    void *temp_r3;
+    void *temp_r5;
+
+    temp_r5 = *(void **)((s8 *)this + 0x28);
+    if (temp_r5 != NULL) {
+        *(f32 *)((s8 *)arg1 + 0) = (f32) ((*(f32 *)((s8 *)temp_r5 + 0x30) + *(f32 *)((s8 *)temp_r5 + 0x38)) - 111.0f);
+        temp_r3 = *(void **)((s8 *)this + 0x28);
+        *(f32 *)((s8 *)arg1 + 4) = (f32) ((*(f32 *)((s8 *)temp_r3 + 0x34) + *(f32 *)((s8 *)temp_r3 + 0x3C)) - 10.0f);
+    }
+}
+
 void update_label_positions__17TWindowSubComCardFPvPv(O_802A5628 *arg0, V_802A5628 *arg1);
 void TWindowSubComCard::free_windows() {
     if ((u32) this->m_28 != 0U) {
