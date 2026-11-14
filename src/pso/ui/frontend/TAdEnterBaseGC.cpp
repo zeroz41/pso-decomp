@@ -50,6 +50,29 @@ struct Lim_8032B1A4 { u32 n[4]; };
 
 struct B4_8032AD30 { u8 b[4]; };
 
+// The TU's .rodata starts at 0x80477178, right after TAdMcSelectMcGC's int->float double; only this file uses these.
+// show_message_window: position and size of the message window it opens.
+const f32 lbl_80477178[2] = {46.0f, 110.0f};
+
+const f32 lbl_80477180[2] = {548.0f, 120.0f};
+
+// create_default_callback: the two rects passed to TAdEnterSerialAccessGC::create_callback.
+const f32 lbl_80477188[2] = {73.0f, 220.0f};
+
+const f32 lbl_80477190[2] = {494.0f, 60.0f};
+
+// create_parts: TAdSelectCurGC rects; entry mode 3 starts at the third position and the second size.
+const TAdEnterBaseGC::Position lbl_80477198[4] = {{155.0f, 231.0f}, {155.0f, 251.0f}, {87.0f, 231.0f}, {87.0f, 251.0f}};
+
+const TAdEnterBaseGC::Position lbl_804771B8[2] = {{330.0f, 20.0f}, {466.0f, 18.0f}};
+
+const s32 serial_keyboard_field_width_table[4] = {10, 12, 8, 31};
+
+// fn_8032B318: anchor of the centred text.
+const f32 lbl_804771D8[2] = {320.0f, 250.0f};
+
+const f32 serial_keyboard_position_table[4][2] = {{234.0f, 500.0f}, {234.0f, 500.0f}, {256.0f, 230.0f}, {87.0f, 500.0f}};
+
 // inferred: names follow the users. fn_8032AC24 and draw_masked_password_field each draw a box
 // (TAdEnterSerialAccessGC__sub_802C4B64: position, 4-byte vertex color) on a TAdPlyChrSelPlateGC of the given size.
 const f32 entry_field_box_pos[2] = {256.0f, 230.0f};
@@ -75,6 +98,13 @@ TAdEnterBaseGC::Position password_screen_status_line_position[1] = {0.0f, 0.0f};
 
 u32 serial_access_entered_value_table[4] = {0};
 
+// The TU's .sbss, in this order; TAdEnterPasswordGC and TAdEnterPPPPassGC share the first two.
+void *password_entry_keyboard_control;
+
+s32 password_entry_dispatch_state;
+
+s32 TAdEnterBaseGC__entry_mode;
+
 extern "C" {
 
 char *realloc_buffer__17TWindowSubComCardFv(void *);
@@ -97,29 +127,17 @@ u32 strlen(const char *);
 
 extern s32 tl_clipout;
 
-extern void *password_entry_keyboard_control;
-
 extern "C" {
 
 void draw_window_frame__11TWindowBaseFPv();
 
 void render_status_line__15TAdSubPlyItemGCFi(s32, int, f32, f32, f32);
 
-extern s32 TAdEnterBaseGC__entry_mode;
-
 }
-
-extern char lbl_80477188[];
-
-extern char lbl_80477190[];
 
 extern "C" {
 
-s32 update_window_mode_from_progress__6TLobbyFPv(void *, void *);
-
-extern u8 lbl_80477178[];
-
-extern u8 lbl_80477180[];
+s32 update_window_mode_from_progress__6TLobbyFPv(const void *, const void *);
 
 int sprintf(char *, const char *, ...);
 
@@ -135,8 +153,6 @@ u8 *TAdEnterPasswordGC__sub_8013ADE4();
 
 u32 get_field_118__22TAdEnterSerialAccessGCFv();
 
-extern u8 lbl_805DF77C[4];
-
 s32 TAdEndText__sub_8001B3BC(int);
 
 s32 TAdEndText__sub_8001B3EC(int);
@@ -147,10 +163,6 @@ u32 __nw__7TObjectFUl(int);
 
 int get_keyboard_field_6c__15TWindowMakeTeamFv(void* p);
 
-extern s32 serial_keyboard_field_width_table[];
-
-extern u8 serial_keyboard_position_table[][8];
-
 extern s32 local_client_id;
 
 s32 strncpy(s32, s32, s32);
@@ -159,35 +171,15 @@ s32 strncpy(s32, s32, s32);
 
 char serial_access_hex_string_buf[0x40];
 
-extern const f32 lbl_804771D8[];
-
-struct RecoveredGlobal_8032B390_lbl_80477198 {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
-struct RecoveredGlobal_8032B390_lbl_804771B8 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 extern "C" {
 
 s32 __ct__9TAdBackGCFv(int, void *);
 
 s32 __ct__12TAdBackTxtGCFv(int, void *);
 
-u32 __ct__14TAdSelectCurGCFv(int, int, void *, void *);
-
-extern RecoveredGlobal_8032B390_lbl_80477198 lbl_80477198;
-
-extern RecoveredGlobal_8032B390_lbl_804771B8 lbl_804771B8;
+u32 __ct__14TAdSelectCurGCFv(int, int, const void *, const void *);
 
 void __ct__7TObjectFP7TObject(void *);
-
-typedef char RecoveredGlobal_8032B390_lbl_80477198_size[sizeof(RecoveredGlobal_8032B390_lbl_80477198) == 0x20 ? 1 : -1];
-
-typedef char RecoveredGlobal_8032B390_lbl_804771B8_size[sizeof(RecoveredGlobal_8032B390_lbl_804771B8) == 0x10 ? 1 : -1];
 
 extern s32 __vt__14TAdEnterBaseGC[];
 
@@ -236,7 +228,7 @@ void TAdEnterBaseGC::create_parts() {
         temp_r3_3 = __nw__7TObjectFUl(0x708);
         var_r0 = temp_r3_3;
         if (var_r0 != 0U) {
-            var_r0 = __ct__14TAdSelectCurGCFv(temp_r3_3, tl_clipout, (void *) ((u8 *)&lbl_80477198.value + 0x10), (void *) ((u8 *)&lbl_804771B8.value + 8));
+            var_r0 = __ct__14TAdSelectCurGCFv(temp_r3_3, tl_clipout, &lbl_80477198[2], &lbl_804771B8[1]);
         }
         *(u32 *)&this->unk_2C = var_r0;
         return;
@@ -244,7 +236,7 @@ void TAdEnterBaseGC::create_parts() {
     temp_r3_4 = __nw__7TObjectFUl(0x708);
     var_r0_2 = temp_r3_4;
     if (var_r0_2 != 0U) {
-        var_r0_2 = __ct__14TAdSelectCurGCFv(temp_r3_4, tl_clipout, &lbl_80477198.value, &lbl_804771B8.value);
+        var_r0_2 = __ct__14TAdSelectCurGCFv(temp_r3_4, tl_clipout, lbl_80477198, lbl_804771B8);
     }
     *(u32 *)&this->unk_2C = var_r0_2;
 }
@@ -350,10 +342,10 @@ s32 has_serial_input__22TAdEnterSerialAccessGCFv(void) {
 
 u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 arg0, s32 arg1) {
     if (arg1 == 3) {
-        return lbl_805DF77C;
+        return (u8 *)"";
     }
     if (arg1 == 2 && TAdPsoPassSaveGC__sub_8032B584() == 0) {
-        return lbl_805DF77C;
+        return (u8 *)"";
     }
     if (*(s8 *) (TAdSinglePlyChrSelectGC::get_instance() + 0x1152C) != 0) {
         switch (arg1) {
@@ -374,7 +366,7 @@ u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 arg0, s32 arg1) {
             return TAdEnterPasswordGC__sub_8013ADE4();
         }
     }
-    return lbl_805DF77C;
+    return (u8 *)"";
 }
 
 s32 TAdEnterSerialAccessGC::show_message_window(void *arg0, void *arg1) {
@@ -384,7 +376,7 @@ s32 TAdEnterSerialAccessGC::show_message_window(void *arg0, void *arg1) {
 }
 
 void TAdEnterSerialAccessGC::create_default_callback() {
-    TAdEnterSerialAccessGC::create_callback(lbl_80477188, lbl_80477190, (void *)fn_8032AC9C);
+    TAdEnterSerialAccessGC::create_callback((void *)lbl_80477188, (void *)lbl_80477190, (void *)fn_8032AC9C);
 }
 
 u32 TAdEnterSerialAccessGC::create_keyboard_control(s32 arg0, s32 arg1) {
@@ -400,7 +392,7 @@ u32 TAdEnterSerialAccessGC::create_keyboard_control(s32 arg0, s32 arg1) {
     if (kb == NULL) {
         return 0;
     }
-    ((TWindowMakeTeam *)kb)->set_sub_position(serial_keyboard_position_table[arg1]);
+    ((TWindowMakeTeam *)kb)->set_sub_position((u8 *)serial_keyboard_position_table[arg1]);
     if (((s32 (*)(s32, s32))has_serial_input__22TAdEnterSerialAccessGCFv)(arg0, arg1) != 0) {
         ((int (*)(void *, u8 *))get_keyboard_field_6c__15TWindowMakeTeamFv)(kb, get_serial_text__22TAdEnterSerialAccessGCFii(arg0, arg1));
     }

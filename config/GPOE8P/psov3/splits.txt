@@ -9927,11 +9927,12 @@ pso/ui/frontend/TAdMcSelectMcGC.cpp:
 
 pso/ui/frontend/TAdEnterBaseGC.cpp:
 	.text       start:0x8032AACC end:0x8032B58C
-	.rodata     start:0x80477200 end:0x80477278
+	.rodata     start:0x80477178 end:0x80477278
 	.data       start:0x804ED9F0 end:0x804EDA20
 	.bss        start:0x80543468 end:0x805434A8
 	.sdata      start:0x805D41E0 end:0x805D41E4
-	.sdata2     start:0x805DF768 end:0x805DF77C
+	.sbss       start:0x805D6CA0 end:0x805D6CB0
+	.sdata2     start:0x805DF768 end:0x805DF780
 
 pso/ui/frontend/TAdEnterPasswordGC.cpp:
 	.text       start:0x8032B58C end:0x8032BE48
