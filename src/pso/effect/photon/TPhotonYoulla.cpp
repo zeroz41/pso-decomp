@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
+#include "pso/effect/photon/TPhotonYoulla.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"
@@ -67,7 +68,6 @@ TObjMotionAction photon_blast_youlla_params[2] = {
 extern s32 __vt__13TPhotonYoulla[];
 extern const char *TPhotonYoulla__name;
 extern u8 *photon_blast_shared_resource;
-void __dl__7TObjectFPv(void *);
 
 
 void TPhotonYoulla::sub_801AE72C(u8) { *(float *)&this->m_184 = 0.0f; *(float*)((char*)this + 0x188) = 0.0f; this->m_18c = 0.0f; *(float *)&this->unk_190 = 0.0f; }
@@ -131,16 +131,8 @@ void TPhotonYoulla::run_task() {
     }
 }
 
-void *__dt__13TPhotonYoullaFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TPhotonYoulla;
-        ((TUnk_804C3248 *)arg0)->free_photon();
-        __dt__13TUnk_804C3248Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TPhotonYoulla::~TPhotonYoulla() {
+    free_photon();
 }
 
     extern int lbl_805D5D60;

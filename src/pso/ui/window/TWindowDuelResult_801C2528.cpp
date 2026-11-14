@@ -14,9 +14,7 @@ extern "C" {
 u8 *__nw__7TObjectFUl(s32);
 extern u8 *duel_result_window;
 extern s32 tl_00;
-u8 * __dt__7TObjectFv(void *, s16);
-void __dl__7TObjectFPv(s32);
-extern s32 duel_result_window_dispatch_table[];
+extern s32 __vt__13TUnk_804C3E60[];
 
 void show_duel_result_window(s32 arg0, s32 arg1) {
     u8 *window_duel_result;
@@ -35,16 +33,8 @@ void show_duel_result_window(s32 arg0, s32 arg1) {
     duel_result_window = var_r0;
 }
 
-u8 *__dt__13TUnk_804C3E60Fv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = duel_result_window_dispatch_table;
-        (*(s32 *)&duel_result_window) = 0;
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
-        }
-    }
-    return arg0;
+TUnk_804C3E60::~TUnk_804C3E60() {
+    duel_result_window = NULL;
 }
 
 void TUnk_804C3E60::run_task() {
@@ -81,7 +71,7 @@ void __ct__7TObjectFP7TObject(void *);
 
 void *TWindowDuelResult::init(void *arg1, void *arg2, void *arg3) {
     __ct__7TObjectFP7TObject(this);
-    *(s32 **)((s8 *)this + 0x18) = duel_result_window_dispatch_table;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804C3E60;
     *(void * *)&this->_pad1C = arg3;
     *(void **)((s8 *)this + 0x20) = arg2;
     TLobby::set_and_notify((int)arg2);

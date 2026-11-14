@@ -5253,7 +5253,7 @@ pso/effect/photon/TPhotonRainbow.cpp:
 pso/effect/photon/TPhotonYoulla.cpp:
 	.text       start:0x801AE72C end:0x801AEB84
 	.rodata     start:0x80446F08 end:0x80446F20
-	.data       start:0x804C3B48 end:0x804C3B68
+	.data       start:0x804C3B48 end:0x804C3BA8
 	.sdata      start:0x805D3528 end:0x805D3530
 	.sbss       start:0x805D5D60 end:0x805D5D68
 	.sdata2     start:0x805DC260 end:0x805DC278
@@ -5348,6 +5348,7 @@ pso/player/TObjPlayer_801C1FF8.cpp:
 pso/ui/window/TWindowDuelResult_801C2528.cpp:
 	.text       start:0x801C23A8 end:0x801C25B4
 	.rodata     start:0x80446F78 end:0x80446F80
+	.data       start:0x804C3E60 end:0x804C3E78
 	.sdata2     start:0x805DC2E0 end:0x805DC2E4
 
 pso/unk/TLobby_801C25B4.cpp:

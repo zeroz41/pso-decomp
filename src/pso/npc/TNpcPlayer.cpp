@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TLobby_801E43E4.h"
+#include "pso/npc/TNpcPlayer.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/TUnk_804AF7B0.h"
@@ -422,7 +423,6 @@ void select_path_waypoint__10TNpcPlayerFv(Self_801501A0 *self);
 void request_technique_cast__10TNpcPlayerFPvi(Npc_80150A34 *self, s32 kind);
 s32 select_recovery_action__10TNpcPlayerFv(Npc_801510F8 *self, s32 arg1);
 void run_task__10TNpcPlayerFv(u8 *arg0);
-u8 * __dt__10TNpcPlayerFv(u8 *arg0, s16 arg1);
 Npc_80152168 * TNpcPlayer__ct(Npc_80152168 *self, s32 a, s32 b, s16 kind, s32 arg4, void *parent);
 Npc_80152330 * construct_partner__10TNpcPlayerFPviisPv(Npc_80152330 *self, s32 a, s32 b, s16 kind, void *parent);
 void set_technique_seed_level(Obj_801528A8 *self, s16 i, u8 v);
@@ -460,9 +460,7 @@ s8 get_cast_technique_level(void *, s16);
 int bswap_16__FPUs(void*);
 int bswap_32__FPUl(void*);
 void update_players__6TLobbyFv(s32 arg0);
-void __dl__7TObjectFPv(s32);
 void * __nw__7TObjectFUl(u32);
-s32 __dt__7TObjectFv(void *, int);
 void __ct__7TObjectFP7TObject(void *, void *);
 Tec_80150B90 * calc_technique_parameters(s32, s32, s32);
 }
@@ -1627,10 +1625,7 @@ void *lbl_804AF630[64] = {
     (void *)&lbl_804AE4F8, (void *)&lbl_804AE958, (void *)&lbl_804AE46C, (void *)&lbl_804ADD6C,
     (void *)&lbl_804AE840, (void *)&lbl_804AE840, (void *)&lbl_804AE2C8, (void *)&lbl_804AE958,
 };
-void *__vt__10TNpcPlayer[6] = {
-    (void *)0x0, (void *)0x0, (void *)&__dt__10TNpcPlayerFv, (void *)&run_task__10TNpcPlayerFv,
-    (void *)&render__10TNpcPlayerFv, (void *)&render_shadows__7TObjectFv,
-};
+extern void *__vt__10TNpcPlayer[];
 
 struct Info_8014E7A0 {
     u8 pad0[0xC];
@@ -2113,32 +2108,24 @@ Npc_80152168 *TNpcPlayer__ct(Npc_80152168 *self, s32 a, s32 b, s16 kind, s32 arg
     return self;
 }
 
-u8 *__dt__10TNpcPlayerFv(u8 *arg0, s16 arg1) {
+TNpcPlayer::~TNpcPlayer() {
     u32 player;
     u8 *npc_player;
     u8 *temp_r3_2;
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = ((s32 *)__vt__10TNpcPlayer);
-        npc_player = (u8 *)(*(u8 **)((s8 *)arg0 + 0x74));
-        if (npc_player != NULL) {
-            ((TNpcPlayer *)npc_player)->dt(1);
-            *(u8 **)((s8 *)arg0 + 0x74) = NULL;
-        }
-        temp_r3_2 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x78));
-        if (temp_r3_2 != NULL) {
-            player = (u32)get_player_by_client_id((get_npc_type__10TNpcPlayerFPv((void*)(temp_r3_2))));
-            if (player != 0U) {
-                TObjPlayer::send_item_pickup_request((s32) player);
-            }
-            ((TNpcPlayer *)(*(u8 **)((s8 *)arg0 + 0x78)))->dt(1);
-            *(u8 **)((s8 *)arg0 + 0x78) = NULL;
-        }
-        __dt__7TObjectFv((void *) (arg0), 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
-        }
+    npc_player = (u8 *)(*(u8 **)((s8 *)this + 0x74));
+    if (npc_player != NULL) {
+        ((TNpcPlayer *)npc_player)->dt(1);
+        *(u8 **)((s8 *)this + 0x74) = NULL;
     }
-    return arg0;
+    temp_r3_2 = (u8 *)(*(u8 **)((s8 *)this + 0x78));
+    if (temp_r3_2 != NULL) {
+        player = (u32)get_player_by_client_id((get_npc_type__10TNpcPlayerFPv((void*)(temp_r3_2))));
+        if (player != 0U) {
+            TObjPlayer::send_item_pickup_request((s32) player);
+        }
+        ((TNpcPlayer *)(*(u8 **)((s8 *)this + 0x78)))->dt(1);
+        *(u8 **)((s8 *)this + 0x78) = NULL;
+    }
 }
 
 void TNpcPlayer::run_task() {
