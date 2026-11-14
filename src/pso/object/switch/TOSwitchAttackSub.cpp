@@ -12,6 +12,9 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
 
+const char *TOSwitchAttack__name = "TOSwitchAttack";
+const char *TOSwitchAttackSub__name = "TOSwitchAttackSub";
+
 extern "C" {
 f32 horizontal_distance_squared(const f32*, const f32*);
 u8 is_current_floor_switch_set(int);
@@ -48,36 +51,32 @@ TOSwitchAttackSub::~TOSwitchAttackSub() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Tbl_80177608 { s32 v[18]; };
-
 struct Parm_80177608 { s32 a; s32 b; s32 c; };
 
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
-extern Tbl_80177608 switch_attack_sub_id_table;
-extern Tbl_80177608 switch_attack_sub_init_table;
 extern s32 __vt__17TOSwitchAttackSub[];
-extern s32 TOSwitchAttackSub__name;
 
 u8 *TOSwitchAttackSub__ct(u8 *object, u8 *arg1, s32 arg2, s32 arg3, u32 arg4, f32 farg0) {
     Parm_80177608 p;
-    Tbl_80177608 a;
-    Tbl_80177608 b;
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)(object + 0x18) = __vt__17TOSwitchAttackSub;
-    *(s32 *)(object + 0) = TOSwitchAttackSub__name;
+    *(const char **)(object + 0) = TOSwitchAttackSub__name;
     ((TObject *)object)->disallow_rendering();
     *(s16 *)(object + 0x1C) = arg2;
     *(s16 *)(object + 0x1E) = arg3;
     *(void **)(object + 0x20) = 0;
     VecCopy((Vec *)(object + 0x24), (const Vec *)(arg1 + 0x38));
-    a = switch_attack_sub_id_table;
-    b = switch_attack_sub_init_table;
+    // Particle effect id and z rotation per sub type (arg4); the rotation is
+    // the third word of the direction spawn_particle_effect_with_rotation reads.
+    s32 effect_ids[18] = {132, 149, 175, 196, 207, 223, 225, 371, 430,
+                          34, 69, 232, 332, 333, 412, 200, 244, 452};
+    s32 rotation_z[18] = {0x8000, 0, 0x8000, 0x8000};
     if (arg4 < 18) {
         p.b = 0;
         p.a = 0;
-        p.c = b.v[arg4];
-        *(void **)(object + 0x20) = spawn_particle_effect_with_rotation(object + 0x24, &p, a.v[arg4], 0x40);
+        p.c = rotation_z[arg4];
+        *(void **)(object + 0x20) = spawn_particle_effect_with_rotation(object + 0x24, &p, effect_ids[arg4], 0x40);
         if (*(void **)(object + 0x20) != 0) {
             if ((s32) arg4 == 10) {
                 ((TParticleCtrl *)(*(void **)(object + 0x20)))->set_scale(1.25f * farg0, 1.25f * farg0);

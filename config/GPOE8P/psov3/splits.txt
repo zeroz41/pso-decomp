@@ -4328,8 +4328,9 @@ pso/object/mine/TOSparkMachine01.cpp:
 
 pso/object/switch/TOSwitchAttackSub.cpp:
 	.text       start:0x801774BC end:0x801778A4
-	.rodata     start:0x80442C78 end:0x80442C80
+	.rodata     start:0x80442BC0 end:0x80442C80
 	.data       start:0x804B4438 end:0x804B4450
+	.sdata      start:0x805D3178 end:0x805D3180
 	.sdata2     start:0x805DBA00 end:0x805DBA08
 
 pso/object/switch/TOSwitchAttack_801778A4.cpp:
