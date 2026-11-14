@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/item/TItem.h"
@@ -22,6 +23,11 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/Language.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/player/TPlayerBattleCtrl4P.h"
+#include "pso/player/TUnk_804B6C24.h"
+#include "pso/system/task/TObject.h"
 struct Base_803107D0_8031058C { char pad[0x18]; };
 struct VObj_803107D0_8031058C : Base_803107D0_8031058C {
     virtual void v0();
@@ -101,8 +107,6 @@ int obj_getPtr2B0_20(u8 *p);
 f32 fn_801C19A4(void *);
 s32 TWindowDuelResult__sub_801C19AC(void *);
 void set_split_screen_battle_phase__19TPlayerBattleCtrl4PFl(u8 *arg0, s32 arg1);
-s32 check_value_equals__13TUnk_804B6C24Fl(void *, int);
-void queue_destruction__7TObjectFv(void *);
 extern s32 lbl_805D2A98;
 void destroy_matching_children__19TPlayerBattleCtrl4PFPvPv(void *self, Par_80311304 *p);
 void TObjPlayer__send_selected_spawn_position(void *self, u16 id);
@@ -153,8 +157,6 @@ void TLobby__sub_8020BCE4(void);
 void end_player_keyboard_hold(s32 arg0);
 void clear_trap_counts(s8 *arg0);
 void begin_player_keyboard_hold(s32 arg0);
-s32 obj_testFlags30__14TObjCollidableFUl(u32, s32);
-void play_effect_default__10TObjPlayerFii(s32 arg0, s32 arg1);
 s32 release_attached_resource__10TObjPlayerFv();
 void request_active_window_close(void);
 s32 send_code_45_1__10TObjPlayerFl();
@@ -226,7 +228,6 @@ void append_line__14TWindowMessageFii(void *, void *, int);
 char *strncpy(char *, const char *, u32);
 void update__19TPlayerBattleCtrl4PFv(void *);
 s32 __ct__15TDuelEffectCtrlFP7TObjectUc(void *, void *, s32);
-void set_frames__15ProtectionTimerFl(void *, s32);
 s32 update_all_players__19TPlayerBattleCtrl4PFv();
 s32 check_all_players_flag__19TPlayerBattleCtrl4PFv(void *);
 }
@@ -534,7 +535,7 @@ void TPlayerBattleCtrl4P::begin_battle_results() {
     for (i = 0; i < 4; i++) {
         p = (VObj_18_26c590 *)get_player_by_client_id(i);
         if (p != 0) {
-            set_frames__15ProtectionTimerFl((u8 *)p + 0x644, 0xE10);
+            ((ProtectionTimer *)((u8 *)p + 0x644))->set_frames(0xE10);
         }
     }
     ((s32 (*)(void *))update_all_players__19TPlayerBattleCtrl4PFv)(this);
@@ -544,7 +545,7 @@ void TPlayerBattleCtrl4P::begin_battle_results() {
 void TPlayerBattleCtrl4P::wait_after_battle_end() {
     s32 temp_r0;
 
-    update_all_players__19TPlayerBattleCtrl4PFv();
+    TPlayerBattleCtrl4P::update_all_players();
     temp_r0 = frame_timer - 1;
     frame_timer = temp_r0;
     if (temp_r0 <= 0) {
@@ -556,7 +557,7 @@ void TPlayerBattleCtrl4P::wait_after_battle_end() {
 void TPlayerBattleCtrl4P::wait_before_recording_results() {
     s32 temp_r0;
 
-    update_all_players__19TPlayerBattleCtrl4PFv();
+    TPlayerBattleCtrl4P::update_all_players();
     temp_r0 = frame_timer - 1;
     frame_timer = temp_r0;
     if (temp_r0 <= 0) {
@@ -725,7 +726,7 @@ void TPlayerBattleCtrl4P::begin_battle_reload() {
     do {
         ret = get_player_by_client_id(var_r31);
         if (ret != 0U) {
-            play_effect_default__10TObjPlayerFii(ret, -1);
+            TObjPlayer::play_effect_default(ret, -1);
         }
         var_r31 += 1;
     } while (var_r31 < 4);
@@ -763,7 +764,7 @@ void TPlayerBattleCtrl4P::return_to_hunters_guild() {
     if (o != NULL) {
         ((THunterGuildSeqOffline *)o)->init(tl_00, (s32 *)TPlayerBattleCtrl4P::reset_random_enemies_mode);
     }
-    queue_destruction__7TObjectFv(this);
+    queue_destruction();
 }
 
 void TPlayerBattleCtrl4P::reset_random_enemies_mode() { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); ((TLobby *)lobby_rule_settings)->reset_settings_to_default(); }
@@ -891,7 +892,7 @@ void TPlayerBattleCtrl4P::shuffle_order() {
         this->menu_window = NULL;
     }
     close_player_windows();
-    set_split_screen_battle_phase__19TPlayerBattleCtrl4PFl((u8 *)o, 5);
+    ((TPlayerBattleCtrl4P *)o)->set_split_screen_battle_phase(5);
 }
 
 void TPlayerBattleCtrl4P::reset_players() {
@@ -915,8 +916,8 @@ void destroy_matching_children__19TPlayerBattleCtrl4PFPvPv(void *self, Par_80311
     while (p->head != 0 && n != 0) {
         cur = n;
         n = cur->next;
-        if (check_value_equals__13TUnk_804B6C24Fl(cur, lbl_805D2A98) != 0) {
-            queue_destruction__7TObjectFv(cur);
+        if (((TUnk_804B6C24 *)cur)->check_value_equals(lbl_805D2A98) != 0) {
+            ((TObject *)cur)->queue_destruction();
         } else {
             destroy_matching_children__19TPlayerBattleCtrl4PFPvPv(self, (Par_80311304 *)cur);
         }
@@ -1049,7 +1050,7 @@ void TPlayerBattleCtrl4P::remove_player(void *arg0, u16 arg1, s32 arg2) {
     id = arg1;
     temp = get_player_by_client_id(id);
     if (temp != 0U) {
-        play_effect_default__10TObjPlayerFii(temp, -1);
+        TObjPlayer::play_effect_default(temp, -1);
     }
     if (arg2 != 0) {
         begin_player_keyboard_hold(id);
@@ -1130,7 +1131,7 @@ s32 TPlayerBattleCtrl4P::check_all_players_flag() {
     var_r31 = 0;
 loop_1:
     var_r3 = get_player_by_client_id(var_r31);
-    if ((var_r3 != 0U) && (obj_testFlags30__14TObjCollidableFUl(var_r3, 0x02000000) != 0)) {
+    if ((var_r3 != 0U) && (((TObjCollidable *)var_r3)->obj_testFlags30(0x02000000) != 0)) {
         return 0;
     }
     var_r31 += 1;

@@ -32,7 +32,7 @@ void TUnk_804A6DC0::update_weapon() {
     case 1:
         this->m_200 = (f32) (this->m_200 - 0.90000004f);
         if (this->m_200 <= 0.0f) {
-            this->m_200 = (f32) 0.0f;
+            this->m_200 = 0.0f;
             *(s32 *)((s8 *)((u8 *)this) + 0x1F8) = 0;
             break;
         }
@@ -40,7 +40,7 @@ void TUnk_804A6DC0::update_weapon() {
     case 2:
         this->m_200 += 0.90000004f;
         if (2.7f <= this->m_200) {
-            this->m_200 = (f32) 2.7f;
+            this->m_200 = 2.7f;
             *(s32 *)((s8 *)((u8 *)this) + 0x1F8) = 3;
             break;
         }

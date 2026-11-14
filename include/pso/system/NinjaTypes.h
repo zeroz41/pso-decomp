@@ -27,6 +27,16 @@ struct NJS_POINT3 {
     f32 x, y, z;
 };
 
+// A 2D sprite: position, scale and angle, drawn from cells of `tanim`
+// (texture ids into `tlist`).
+struct NJS_SPRITE {
+    NJS_POINT3 p;
+    f32 sx, sy;
+    s32 ang;
+    NJS_TEXLIST *tlist;
+    NJS_TEXANIM *tanim;
+};
+
 struct NJS_POINT2 {
     f32 x, y;
 };

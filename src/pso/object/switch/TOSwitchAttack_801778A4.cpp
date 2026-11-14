@@ -60,7 +60,7 @@ struct Sw_801778A8 {
 extern "C" {
 s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__14TOSwitchAttack[];
-extern s32 TOSwitchAttack__name;
+extern const char *TOSwitchAttack__name;
 u8 *TOSwitchAttack__ct(u8 *arg0, s32 arg1, s32 arg2);
 f32 horizontal_distance_squared(void *, void *);
 u8 is_current_floor_switch_set(u16);
@@ -195,7 +195,7 @@ typedef char RecoveredGlobal_80177C80___vt__14TOSwitchAttack_size[sizeof(Recover
 u8 *TOSwitchAttack__ct(u8 *switch_attack, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(switch_attack);
     *(s32 **)((s8 *)switch_attack + 0x18) = &(*(RecoveredGlobal_80177C80___vt__14TOSwitchAttack *)&__vt__14TOSwitchAttack).value;
-    *(s32 *)((s8 *)switch_attack + 0) = (s32) TOSwitchAttack__name;
+    *(const char **)((s8 *)switch_attack + 0) = TOSwitchAttack__name;
     ((TOSwitchAttack *)(switch_attack))->apply_object_set_data((void *)arg2);
     ((TOSwitchAttack *)switch_attack)->init_params();
     ((TOSwitchAttack *)switch_attack)->m_a6 = 0;

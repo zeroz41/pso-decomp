@@ -4,7 +4,7 @@
 
 struct MfciFileEntry {
     s8 used;
-    u8 state;
+    s8 state;
     u8 reserved_02[2];
     s32 block_size;
     s32 file_size;
@@ -32,11 +32,12 @@ s32 mfci_seek(MfciFileEntry* file, s32 sectors, s32 origin);
 void mfci_close(MfciFileEntry* file);
 MfciFileEntry* mfci_open(const char* name, s32 entry, s32 mode);
 u32 mfci_parse_file_size(char* name);
+void mfci_set_error_callback(s32 arg0, s32 arg1);
 
 extern "C" {
-MfciFileEntry *find_free_803D4058(void);
-void parse_803D4058(char *s, u32 *hi, u32 *lo);
-void parse_803D4290(char *s, u32 *hi, u32 *lo);
+s32 mfci_request_read(void *handle, s32 sectors, void *buffer);
+void TLobby__sub_803D43A8(void);
+char *TLobby__sub_803D43B8(void);
 }
 
 #endif

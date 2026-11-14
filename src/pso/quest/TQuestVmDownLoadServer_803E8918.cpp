@@ -9,13 +9,15 @@
 extern "C" {
 NameCache_80591EC8 lbl_80591EC8;
 NameHash_80593EC8 lbl_80593EC8;
+u8 lbl_805D7868;
+u8 *lbl_805D786C;
+u8 *lbl_805D7870;
+s32 lbl_805D7874;
+Node_803E8B1C *lbl_805D7878;
 void TQuestVmDownLoadServer__sub_803E8918(void) {
     lbl_805D7868 = 1;
 }
 
-extern u8 *lbl_805D786C;
-extern u8 *lbl_805D7870;
-extern Node_803E8B1C *lbl_805D7878;
 void TQuestVmDownLoadServer__sub_803E95BC(void);
 
 inline int Hash_80591EC8(char *s) {

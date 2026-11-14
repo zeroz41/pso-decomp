@@ -1,7 +1,9 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarSmoke.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -41,11 +43,11 @@ TObjBoss5PillarSmoke::~TObjBoss5PillarSmoke() {
     s32 i;
     for (i = ((Smoke_8028AEA4 *)this)->count - 1; i >= 0; i--) {
         if (((Smoke_8028AEA4 *)this)->b[i] != NULL) {
-            queue_destruction__7TObjectFv(((Smoke_8028AEA4 *)this)->b[i]);
+            ((TObject *)(((Smoke_8028AEA4 *)this)->b[i]))->queue_destruction();
             ((Smoke_8028AEA4 *)this)->b[i] = NULL;
         }
         if (((Smoke_8028AEA4 *)this)->a[i] != NULL) {
-            queue_destruction__7TObjectFv(((Smoke_8028AEA4 *)this)->a[i]);
+            ((TObject *)(((Smoke_8028AEA4 *)this)->a[i]))->queue_destruction();
             ((Smoke_8028AEA4 *)this)->a[i] = NULL;
         }
     }
@@ -62,14 +64,14 @@ Smoke_8028AF6C *TObjBoss5PillarSmoke__ct(Smoke_8028AF6C *arg0, void *arg1, Node_
     arg0->a = NULL;
     arg0->b = NULL;
     if (arg2 == NULL) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return arg0;
     }
     for (arg2 = arg2->child; arg2 != NULL; arg2 = arg2->next) {
         arg0->count++;
     }
     if (arg0->count <= 0) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return arg0;
     }
     arg0->a = (void **)mem_alloc(arg0->count * 4);

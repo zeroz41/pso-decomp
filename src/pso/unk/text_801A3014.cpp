@@ -1,5 +1,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "types.h"
+#include "pso/unk/text_801A3014.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/system/main_loop.h"
 #include "pso/system/vector.h"
@@ -20,6 +21,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer.h"
 
 struct RecoveredGlobal_801A3540_lbl_804C1F68 {
     s32 value;
@@ -119,7 +121,6 @@ s32 run_area_scene_cleanup(void *);
 extern RecoveredGlobal_801A3540_lbl_804C1F68 offline_game_scene_callbacks;
 extern RecoveredGlobal_801A3540_lbl_80515BA0 lbl_80515BA0;
 void __dt__7TObjectFv(void *, int);
-void *get_player_data__10TObjPlayerFi(s32);
 s32 get_current_floor();
 void find_leader_section_id(void *, s32);
 void unlock_main_warp_destination(s32);
@@ -137,7 +138,7 @@ s32 for_each_player_slot__10TObjPlayerFv(void *);
 s32 rebuild_player_inventory(void *);
 s32 TLobby__sub_80207E48();
 s32 get_team_state__6TLobbyFPv();
-s32 TLobby__sub_8020DC78();
+s32 clear_floor_population();
 s32 get_game_play_mode();
 s32 TKeyBoardControl__sub_8000F95C();
 s32 clear_keyboard_key_state();
@@ -187,10 +188,8 @@ extern Cam_801A37D0 *camera_ctrl_instance;
 void run_split_screen_frame(void);
 extern s32 local_client_id;
 extern s32 actor_frame_tick;
-extern s32 lbl_805D5CE0;
+s32 lbl_805D5CE0;
 extern s32 TLobby__lobby_state_flags;
-void init_offline_game_scene(void);
-void dispatch_offline_main_frame(void);
 
 typedef char RecoveredGlobal_801A3540_lbl_804C1F68_size[sizeof(RecoveredGlobal_801A3540_lbl_804C1F68) == 0x180 ? 1 : -1];
 typedef char RecoveredGlobal_801A3540_lbl_80515BA0_size[sizeof(RecoveredGlobal_801A3540_lbl_80515BA0) == 0x28 ? 1 : -1];
@@ -208,7 +207,7 @@ void TLobby::reload_offline_area() {
     render_tick();
     TLobby__sub_801A2E00();
     for (i = 0; i < TLobby::get_game_mode(); i++) {
-        void *q = get_player_data__10TObjPlayerFi(i);
+        void *q = TObjPlayer::get_player_data(i);
         if (q != NULL) {
             ((TObject *)q)->set_parent((TObject *)(&holder));
         }
@@ -230,7 +229,7 @@ void TLobby::reload_offline_area() {
     TLobby::backup_story_select();
     TKeyBoardControl::update();
     get_team_state__6TLobbyFPv();
-    TLobby__sub_8020DC78();
+    clear_floor_population();
     TLobby__sub_80207E48();
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
@@ -252,7 +251,7 @@ void TLobby::reload_offline_area() {
     main_task.run_task();
     main_task.render_screen_overlay();
     for (j = 0; j < TLobby::get_game_mode(); j++) {
-        p = get_player_data__10TObjPlayerFi(j);
+        p = TObjPlayer::get_player_data(j);
         if (p != NULL) {
             ((TObject *)p)->set_parent((TObject *)tl_03);
             ((VObj_801A3014 *)p)->m6();
@@ -278,7 +277,7 @@ void TLobby::rebuild_area_keep_players() {
     TObjPlayer::refresh_player_lobby_headers();
     TObjPlayer::create_active_players();
     for (i = 0; i < TLobby::get_game_mode(); i++) {
-        void *q = get_player_data__10TObjPlayerFi(i);
+        void *q = TObjPlayer::get_player_data(i);
         if (q != NULL) {
             ((TObject *)q)->set_parent((TObject *)(&holder));
         }
@@ -290,7 +289,7 @@ void TLobby::rebuild_area_keep_players() {
     TKeyBoardControl::update();
     TLobby::reset_quest_state();
     get_team_state__6TLobbyFPv();
-    TLobby__sub_8020DC78();
+    clear_floor_population();
     TQuestThread::clear_all_floor_handlers();
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
@@ -327,7 +326,7 @@ void TLobby::rebuild_area_keep_players() {
     main_task.run_task();
     main_task.render_screen_overlay();
     for (j = 0; j < TLobby::get_game_mode(); j++) {
-        p = get_player_data__10TObjPlayerFi(j);
+        p = TObjPlayer::get_player_data(j);
         if (p != NULL) {
             ((TObject *)p)->set_parent((TObject *)tl_03);
             ((VObj_801A31D8 *)p)->m6();
@@ -350,7 +349,7 @@ void run_offline_area_transfer(void) {
     render_tick();
     render_tick();
     for (i = 0; i < TLobby::get_game_mode(); i++) {
-        void *q = get_player_data__10TObjPlayerFi(i);
+        void *q = TObjPlayer::get_player_data(i);
         if (q != NULL) {
             ((TObject *)q)->set_parent((TObject *)(&holder));
         }
@@ -369,7 +368,7 @@ void run_offline_area_transfer(void) {
     main_task.run_task();
     main_task.render_screen_overlay();
     for (j = 0; j < TLobby::get_game_mode(); j++) {
-        p = get_player_data__10TObjPlayerFi(j);
+        p = TObjPlayer::get_player_data(j);
         if (p != NULL) {
             ((TObject *)p)->set_parent((TObject *)tl_03);
             ((VObj_801A33DC *)p)->m6();
@@ -580,7 +579,7 @@ void init_offline_game_scene(void) {
     main_task.render_screen_overlay();
     game_mode = TLobby::get_game_mode();
     for (i = 0; i < game_mode; i++) {
-        temp_r3 = get_player_data__10TObjPlayerFi(i);
+        temp_r3 = TObjPlayer::get_player_data(i);
         if (temp_r3 != NULL) {
             ((PV_801A39BC *)temp_r3)->m6();
         }

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/barbaray/TBoss7PhotonPad.h"
 
@@ -10,6 +11,7 @@
 #include "pso/boss/barbaray/TBoss7PhotonBullet.h"
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
 extern "C" void render__15TBoss7PhotonPadFv();
 
 #include "pso/boss/barbaray/TBoss7Joint.h"
@@ -120,13 +122,13 @@ void run_task__18TBoss7PhotonBulletFv(Bullet_802EF2AC *arg0) {
         V2_802EF2AC v = lbl_80474038[0];
         v.y = TBoss7PhotonBullet::get_target_pos_y();
         if (((VObj_18_39be15 *)(arg0))->m14((s32 *)lbl_80474040, &v) != 0) {
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
             return;
         }
     }
     arg0->e4++;
     if (arg0->e4 >= 0x78) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 #pragma pop
@@ -134,8 +136,8 @@ void run_task__18TBoss7PhotonBulletFv(Bullet_802EF2AC *arg0) {
 void *__dt__18TBoss7PhotonBulletFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(void ***)((s8 *)arg0 + 0x18) = __vt__18TBoss7PhotonBullet;
-        if (*(void **)((s8 *)arg0 + 0xF0) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xF0)); }
-        if (*(void **)((s8 *)arg0 + 0xF4) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xF4)); }
+        if (*(void **)((s8 *)arg0 + 0xF0) != NULL) { ((TObject *)(*(void **)((s8 *)arg0 + 0xF0)))->queue_destruction(); }
+        if (*(void **)((s8 *)arg0 + 0xF4) != NULL) { ((TObject *)(*(void **)((s8 *)arg0 + 0xF4)))->queue_destruction(); }
         __dt__13TUnk_804928CCFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
@@ -149,17 +151,17 @@ u8 *TBoss7PhotonBullet__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32
     *(const char **)((s8 *)arg0 + 0) = TBoss7PhotonBullet__name;
     VecCopy__FP3VecPC3Vec(arg0 + 0x38, (void *) (VecCopy__FP3VecPC3Vec(arg0 + 0xC0, (void *)arg3)));
     VecCopy__FP3VecPC3Vec(arg0 + 0xB4, (void *)arg4);
-    *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xA4)) + 0xC) = (f32) (3.0f);
-    *(f32 *)((s8 *)arg0 + 0xCC) = (f32) (0.0f);
-    *(f32 *)((s8 *)arg0 + 0xD0) = (f32) (0.0f);
-    *(f32 *)((s8 *)arg0 + 0xD4) = (f32) (0.0f);
-    *(f32 *)((s8 *)arg0 + 0xD8) = (f32) (1.0f);
-    *(f32 *)((s8 *)arg0 + 0xDC) = (f32) (1.0f);
-    *(f32 *)((s8 *)arg0 + 0xE0) = (f32) (1.0f);
+    *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xA4)) + 0xC) = 3.0f;
+    *(f32 *)((s8 *)arg0 + 0xCC) = 0.0f;
+    *(f32 *)((s8 *)arg0 + 0xD0) = 0.0f;
+    *(f32 *)((s8 *)arg0 + 0xD4) = 0.0f;
+    *(f32 *)((s8 *)arg0 + 0xD8) = 1.0f;
+    *(f32 *)((s8 *)arg0 + 0xDC) = 1.0f;
+    *(f32 *)((s8 *)arg0 + 0xE0) = 1.0f;
     *(f32 *)((s8 *)arg0 + 0xB0) = farg0;
     *(s32 *)((s8 *)arg0 + 0xE4) = 0;
     *(s32 *)((s8 *)arg0 + 0xE8) = 0;
-    *(f32 *)((s8 *)arg0 + 0xEC) = (f32) (0.0f);
+    *(f32 *)((s8 *)arg0 + 0xEC) = 0.0f;
     *(s32 *)((s8 *)arg0 + 0xF0) = (s32)spawn_continuous_particle_effect_with_flags((arg0 + 0xC0), 0x202, 0x40);
     *(s32 *)((s8 *)arg0 + 0xF4) = (s32)spawn_continuous_particle_effect_with_flags((arg0 + 0xC0), 0x203, 0x40);
     return arg0;
@@ -208,7 +210,7 @@ void TBoss7PhotonPad::run_task() {
         rotate_xz_pair_by_angle((f32 *)self->pos, (f32 *)self->unk28, (s32)(boss7_photon_bullet_level_table[self->level].c / boss7_photon_bullet_level_table[self->level].a));
         self->shots--;
         if (self->shots == 0) {
-            queue_destruction__7TObjectFv(self);
+            ((TObject *)self)->queue_destruction();
         }
     }
 }

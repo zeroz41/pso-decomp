@@ -6,6 +6,8 @@
 #include "pso/ui/window/TWindowSubAreaMapDisp.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 
+#pragma readonly_strings on
+
 struct VBase_18_204a81 { char pad[0x18]; };
 
 struct VObj_18_204a81 : VBase_18_204a81 {
@@ -36,8 +38,6 @@ s32 play_sound_effect(int, int, int, int);
 extern RecoveredGlobal_80271480_lbl_8050E208 controller_input_state;
 s32 is_flag_set__11TLoadingCurFv(void *, int);
 s32 is_on_current_screen__11TCameraCtrlFv(int, int);
-extern const f32 lbl_805DD478;
-extern const f32 lbl_805DD47C;
 void *__nw__7TObjectFUl(int);
 
 void TWindowSubAreaMap::render() {  }
@@ -55,10 +55,10 @@ void TWindowSubAreaMap::run_task() {
 TWindowSubAreaMap::~TWindowSubAreaMap() {
     if (*(void **)((s8 *)this + 0x24) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x24)))->close(); this->m_24 = 0; }
 }
-extern void *TWindowSubAreaMap__name;
+const char *TWindowSubAreaMap__name = "TWindowSubAreaMap";
 TWindowSubAreaMap::TWindowSubAreaMap(TObject *object, void *arg2) : TObject(object) {
     void *o;
-    *(void * *)&this->m_name = TWindowSubAreaMap__name;
+    this->m_name = TWindowSubAreaMap__name;
     *(void **)((s8 *)this + 0x20) = object;
     *(void **)((s8 *)this + 0x1C) = arg2;
     o = __nw__7TObjectFUl(0x78);
@@ -74,28 +74,28 @@ void TWindowSubAreaMapDisp::update_manual_scroll() {
     if ((s32) this->m_6c != 0) {
         temp_r31 = (u8 *)&(*(RecoveredGlobal_802715F0_lbl_8050E208 *)&controller_input_state).value + 0x20;
         if ((is_on_current_screen__11TCameraCtrlFv((int)temp_r31, 0x10) != 0) || (is_flag_set__11TLoadingCurFv((void *) ((u8 *)&(*(RecoveredGlobal_802715F0_lbl_8050E208 *)&controller_input_state).value + 0x160), 0x10) != 0)) {
-            this->m_64 = (f32) (this->m_64 + lbl_805DD478);
+            this->m_64 += 6.0f;
         }
         if ((is_on_current_screen__11TCameraCtrlFv((int)temp_r31, 0x20) != 0) || (is_flag_set__11TLoadingCurFv((void *) ((u8 *)&(*(RecoveredGlobal_802715F0_lbl_8050E208 *)&controller_input_state).value + 0x160), 0x20) != 0)) {
-            this->m_64 = (f32) (this->m_64 - lbl_805DD478);
+            this->m_64 -= 6.0f;
         }
         if ((is_on_current_screen__11TCameraCtrlFv((int)temp_r31, 0x40) != 0) || (is_flag_set__11TLoadingCurFv((void *) ((u8 *)&(*(RecoveredGlobal_802715F0_lbl_8050E208 *)&controller_input_state).value + 0x160), 0x40) != 0)) {
-            *(f32 *)&this->unk_60 = (f32) (*(f32 *)&this->unk_60 + lbl_805DD478);
+            *(f32 *)&this->unk_60 += 6.0f;
         }
         if ((is_on_current_screen__11TCameraCtrlFv((int)temp_r31, 0x80) != 0) || (is_flag_set__11TLoadingCurFv((void *) ((u8 *)&(*(RecoveredGlobal_802715F0_lbl_8050E208 *)&controller_input_state).value + 0x160), 0x80) != 0)) {
-            *(f32 *)&this->unk_60 = (f32) (*(f32 *)&this->unk_60 - lbl_805DD478);
+            *(f32 *)&this->unk_60 -= 6.0f;
         }
         if (is_on_current_screen__11TCameraCtrlFv((int)temp_r31, 0x20000) != 0) {
-            *(f32 *)&this->unk_68 = (f32) (*(f32 *)&this->unk_68 - lbl_805DD478);
+            *(f32 *)&this->unk_68 -= 6.0f;
         }
         if (is_on_current_screen__11TCameraCtrlFv((int)temp_r31, 0x10000) != 0) {
-            *(f32 *)&this->unk_68 = (f32) (*(f32 *)&this->unk_68 + lbl_805DD478);
+            *(f32 *)&this->unk_68 += 6.0f;
         }
         TRaderMapCore::pan_horizontal((f32) (*(f32 *)&this->unk_60));
         TRaderMapCore::pan_vertical(this->m_64);
         TRaderMapCore::add_zoom_distance((f32) (*(f32 *)&this->unk_68));
-        *(f32 *)&this->unk_60 = (f32) (*(f32 *)&this->unk_60 * lbl_805DD47C);
-        this->m_64 = (f32) (this->m_64 * lbl_805DD47C);
-        *(f32 *)&this->unk_68 = (f32) (*(f32 *)&this->unk_68 * lbl_805DD47C);
+        *(f32 *)&this->unk_60 *= 0.8f;
+        this->m_64 *= 0.8f;
+        *(f32 *)&this->unk_68 *= 0.8f;
     }
 }

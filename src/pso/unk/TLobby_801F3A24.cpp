@@ -118,9 +118,6 @@ struct Sel_801F3E1C { s32 area; s32 terrain; s32 entities; };
 struct RecoveredGlobal_801F3DEC_TLobby__data_805127D0;
 extern "C" {
 s32 memset(void *, int, int);
-extern u8 lbl_80449D08[];
-extern u8 lbl_80449D1C[];
-extern u8 lbl_80449D30[];
 int init_sub_state__6TLobbyFv(void);
 int rebuild_entry__6TLobbyFv(void);
 
@@ -189,13 +186,13 @@ void populate_quest_floor_sets(void) {
         case 1:
         case 2:
             if (get_floor_map_selection(i, (u8 *)&sel) == 1 && sel.area >= 0) {
-                open_gsl_archive((char *)lbl_80449D08);
+                open_gsl_archive("gsl_set_object.gsl");
                 load_area_object_set(i, sel.area, sel.terrain, sel.entities);
                 close_gsl_archive();
-                open_gsl_archive((char *)lbl_80449D1C);
+                open_gsl_archive("gsl_set_enemy.gsl");
                 load_area_enemy_set(i, sel.area, sel.terrain, sel.entities);
                 close_gsl_archive();
-                open_gsl_archive((char *)lbl_80449D30);
+                open_gsl_archive("gsl_set_event.gsl");
                 load_area_event_set(i, sel.area, sel.terrain, sel.entities);
                 close_gsl_archive();
             }

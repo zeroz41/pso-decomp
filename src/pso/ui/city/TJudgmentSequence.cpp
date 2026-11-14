@@ -1,6 +1,8 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/TJudgmentSequence.h"
+#include "pso/system/task/TObject.h"
 struct TShopJudgmentItemWindow;
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -8,6 +10,8 @@ struct TShopJudgmentItemWindow;
 #include "pso/ui/city/TShopSequence.h"
 
 #include "pso/ui/city/TShopWindowBase.h"
+
+#pragma readonly_strings on
 
 struct Base_80215BF8_80215BA0 { char pad[0x18]; };
 struct VObj_80215BF8_80215BA0 : Base_80215BF8_80215BA0 {
@@ -57,9 +61,7 @@ struct Seq_80215CB8 { u8 pad[0x24]; s32 f24; };
 extern "C" {
 s32 set_service_counter_camera(void *, int);
 s32 get_window_layout_position(int, f32);
-void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
-s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_80215EF8___vt__17TJudgmentSequence __vt__17TJudgmentSequence;
 RecoveredGlobal_80215EF8_TJudgmentSequence__data_80513E80 TJudgmentSequence__slot_flags;
 s32 judgment_sequence_instance;
@@ -94,7 +96,7 @@ void TJudgmentSequence__sub_80215BF8(void *shop_window_base) {
 void TJudgmentSequence::handle_close_input() {
     if ((this->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(this) != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
         close_window__13TShopSequenceFv(this);
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 
@@ -158,36 +160,27 @@ void TJudgmentSequence::vfunc_11() {
         break;
     }
 }
-
-u8 *__dt__17TJudgmentSequenceFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__17TJudgmentSequence.value;
-        if ((u32) *(u32 *)((s8 *)arg0 + 0x30) != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x30));
-            *(u32 *)((s8 *)arg0 + 0x30) = 0U;
-        }
-        ((TShopSequence *)arg0)->close_message_window();
-        if ((u32) ((TJudgmentSequence *)arg0)->m_2c != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x2C)))->close();
-            ((TJudgmentSequence *)arg0)->m_2c = 0U;
-        }
-        judgment_sequence_instance = 0;
-        *(s32 *)((s8 *)&TJudgmentSequence__slot_flags.value + (sub_8022397C__15TShopWindowBaseFv(arg0) * 4)) = 0;
-        __dt__13TShopSequenceFv((arg0), 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
+TJudgmentSequence::~TJudgmentSequence() {
+    if ((u32) *(u32 *)((s8 *)this + 0x30) != 0U) {
+        ((TObject *)(*(void **)((s8 *)this + 0x30)))->queue_destruction();
+        *(u32 *)((s8 *)this + 0x30) = 0U;
     }
-    return arg0;
+    ((TShopSequence *)this)->close_message_window();
+    if ((u32) ((TJudgmentSequence *)this)->m_2c != 0U) {
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x2C)))->close();
+        ((TJudgmentSequence *)this)->m_2c = 0U;
+    }
+    judgment_sequence_instance = 0;
+    *(s32 *)((s8 *)&TJudgmentSequence__slot_flags.value + (sub_8022397C__15TShopWindowBaseFv(this) * 4)) = 0;
 }
 
 u8 *TShopSequence__ct(u8 *arg0);
-extern s32 TJudgmentSequence__class_name;
+const char *TJudgmentSequence__class_name = "TJudgmentSequence";
 
 u8 *TJudgmentSequence__ct(u8 *judgment_sequence, s32 arg1, s32 arg2) {
     TShopSequence__ct((judgment_sequence));
     *(s32 **)((s8 *)judgment_sequence + 0x18) = &__vt__17TJudgmentSequence.value;
-    *(s32 *)((s8 *)judgment_sequence + 0) = (s32) TJudgmentSequence__class_name;
+    *(const char **)((s8 *)judgment_sequence + 0) = TJudgmentSequence__class_name;
     *(s32 *)((s8 *)judgment_sequence + 0x24) = arg2;
     ((TJudgmentSequence *)judgment_sequence)->m_2c = 0;
     *(s32 *)((s8 *)judgment_sequence + 0x30) = 0;

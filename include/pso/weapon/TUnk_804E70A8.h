@@ -10,9 +10,10 @@ public:
     virtual void reserved_53();
     virtual void update_weapon();
     virtual void emit_marker_effects();
-    u8 unk_1F8[0x4];
-    s32 m_1fc;
-    u8 unk_200[0x4];
+    TUnk_804E70A8(TObject *parent, u8 *item);
+    s32 pad_1f8;   // 5 at construction, counted down by update_weapon
+    s32 pad_1fc;   // 182 * sin(pad_200) once pad_1f8 is 0
+    s32 pad_200;   // angle, +0xB6 per update_weapon
 };
 
 #endif

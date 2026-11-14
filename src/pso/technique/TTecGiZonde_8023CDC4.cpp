@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/TUnk_804CCD78.h"
 #include "pso/technique/TTecGiZonde_8023CDC4.h"
@@ -5,6 +6,7 @@
 #include "pso/system/vector.h"
 
 #include "pso/technique/TTecGiZonde.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_8023CE54_lbl_804CCD78 {
     s32 value;

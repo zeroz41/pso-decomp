@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/TUnk_804C2298.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -6,6 +7,7 @@
 
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_801A51C0_lbl_80446980 {
     s32 value;
@@ -29,9 +31,9 @@ void *TUnk_804C2298::destroy(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804C2298;
         TLobby::stop_audio_streams();
-        if (*(void * *)&(this->unk_2C) != NULL) { queue_destruction__7TObjectFv(*(void * *)&(this->unk_2C)); *(s32 *)&(this->unk_2C) = 0; }
-        if (*(void * *)&(this->m_28) != NULL) { queue_destruction__7TObjectFv(*(void * *)&(this->m_28)); *(s32 *)&(this->m_28) = 0; }
-        if (*(void * *)&(*(u32 *)((u8 *)this + 0x24)) != NULL) { queue_destruction__7TObjectFv(*(void * *)&(*(u32 *)((u8 *)this + 0x24))); *(s32 *)&(*(u32 *)((u8 *)this + 0x24)) = 0; }
+        if (*(void * *)&(this->unk_2C) != NULL) { ((TObject *)(*(void * *)&(this->unk_2C)))->queue_destruction(); *(s32 *)&(this->unk_2C) = 0; }
+        if (*(void * *)&(this->m_28) != NULL) { ((TObject *)(*(void * *)&(this->m_28)))->queue_destruction(); *(s32 *)&(this->m_28) = 0; }
+        if (*(void * *)&(*(u32 *)((u8 *)this + 0x24)) != NULL) { ((TObject *)(*(void * *)&(*(u32 *)((u8 *)this + 0x24))))->queue_destruction(); *(s32 *)&(*(u32 *)((u8 *)this + 0x24)) = 0; }
         __dt__7TObjectFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);

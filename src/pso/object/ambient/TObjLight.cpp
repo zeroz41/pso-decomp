@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/object/ambient/TObjLight.h"
@@ -14,6 +15,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_80194528___vt__9TObjLight {
     s32 value;
@@ -94,7 +96,7 @@ void TObjLight::run_task() {
     Light_80193FE8 *self = (Light_80193FE8 *)this;
     s32 hi;
     if (xyz_distance_squared(&self->pos, camera_ctrl_instance + 0x178) > 160000.0f) {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return;
     }
     {
@@ -206,21 +208,21 @@ u8 *TObjLight__ct(TObjLight *light, s32 arg1, u8 *arg2) {
     *(s32 *)((s8 *)light + 0) = (s32) lbl_805D33B8;
     ((TObjLight *)(light))->apply_object_set_data(arg2);
     light->m_90 = (s32) *(s16 *)((s8 *)arg2 + 8);
-    *(f32 *)((s8 *)light + 0xF0) = (f32) 0.5f;
+    *(f32 *)((s8 *)light + 0xF0) = 0.5f;
     light->m_f4 = (f32) light->scale.x;
     *(f32 *)((s8 *)light + 0xF8) = (f32) light->scale.y;
     light->m_fc = (f32) *(f32 *)((s8 *)light + 0x70);
-    light->m_e4 = (f32) (0.0f);
-    *(f32 *)((s8 *)light + 0xE8) = (f32) (0.0f);
-    light->m_ec = (f32) (0.0f);
+    light->m_e4 = 0.0f;
+    *(f32 *)((s8 *)light + 0xE8) = 0.0f;
+    light->m_ec = 0.0f;
     light->m_9c = 0;
     copy_argb((NJS_ARGB *)((u8 *)light + 0xBC), (NJS_ARGB *)((u8 *)&TObjLight__scene_light_state.value + 0x24));
     VecCopy((Vec *)((u8 *)light + 0xD8), (const Vec *)((u8 *)&TObjLight__scene_light_state.value + 0xC));
-    *(f32 *)((s8 *)light + 0xF0) = (f32) 0.5f;
-    light->m_f4 = (f32) (0.0f);
-    *(f32 *)((s8 *)light + 0xF8) = (f32) (0.0f);
-    light->m_fc = (f32) (0.0f);
-    disallow_rendering__7TObjectFv((light));
+    *(f32 *)((s8 *)light + 0xF0) = 0.5f;
+    light->m_f4 = 0.0f;
+    *(f32 *)((s8 *)light + 0xF8) = 0.0f;
+    light->m_fc = 0.0f;
+    light->disallow_rendering();
     return (u8 *)light;
 }
 

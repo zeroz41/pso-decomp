@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/TObjBigTuitate.h"
 #include "pso/object/TObjTuitate.h"
@@ -17,6 +18,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/TObjTuitate.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/system/task/TObject.h"
+#include "pso/render/RenderFadeState.h"
 
 struct FadeBase_8019AA18 { char pad[0x14]; };
 
@@ -56,13 +59,13 @@ extern "C" {
 void __ct__15RenderFadeStateFv(void *);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
-s32 isFading__15RenderFadeStateCFv(void *);
 s32 matrix_mult_vec(int, void *, void *);
 void push_matrix(void);
 void post_translate_matrix(void *);
 void set_global_param__8TObjFishFl(void);
 void draw_ginja_object(void);
-extern u32 TObjBigTuitate__bml_resource;
+u32 TObjTuitate__bml_resource;
+u32 TObjBigTuitate__bml_resource;
 
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject();
@@ -88,7 +91,6 @@ extern s32 __vt__14TObjBigTuitate[];
 
 void free_bin_model_request(void*, int);
 void free_collision_body_parts(void *);
-int update__15RenderFadeStateFv(void*);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
@@ -147,13 +149,11 @@ struct Vec_8019ADA0 { f32 x, y, z; };
 extern "C" {
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
-s32 isFading__15RenderFadeStateCFv(void *);
 s32 matrix_mult_vec(int, void *, void *);
 void push_matrix(void);
 void post_translate_matrix(void *);
 void set_global_param__8TObjFishFl(void);
 void draw_ginja_object(void);
-extern u32 TObjTuitate__bml_resource;
 
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject();
@@ -161,7 +161,6 @@ extern s32 __vt__11TObjTuitate[];
 
 void free_bin_model_request(void*, int);
 void free_collision_body_parts(void *);
-int update__15RenderFadeStateFv(void*);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
@@ -228,13 +227,13 @@ void *TObjTuitate__ct(void *arg0, void *arg1, void *arg2) {
 #pragma pop
 
 TObjTuitate::~TObjTuitate() {
-    if (*(void **)((s8 *)this + 0xC8) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0xC8)); *(s32 *)((s8 *)this + 0xC8) = 0; }
+    if (*(void **)((s8 *)this + 0xC8) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xC8)))->queue_destruction(); *(s32 *)((s8 *)this + 0xC8) = 0; }
     ((TObjCollidable *)this)->unregister_object_by_id();
     free_collision_body_parts(this);
     __dt__15RenderFadeStateFv((s8 *)this + 0xAC, -1);
 }
 
-void TObjTuitate::run_task() { { (void)(update__15RenderFadeStateFv((char*)this + 0xac)); return; } }
+void TObjTuitate::run_task() { { (void)(((RenderFadeState *)((char*)this + 0xac))->update()); return; } }
 
 void TObjTuitate::render() {
     Obj_8019ADA0 *self = (Obj_8019ADA0 *)this;
@@ -254,7 +253,7 @@ void TObjTuitate::render() {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         fading = 0;
     } else {
-        fading = isFading__15RenderFadeStateCFv(arg0 + 0xAC);
+        fading = ((RenderFadeState *)(arg0 + 0xAC))->isFading();
     }
     if (fading != 0) {
         ((Fade_8019ADA0 *)(arg0 + 0xAC))->begin();
@@ -323,13 +322,13 @@ void *TObjBigTuitate__ct(void *arg0, void *arg1, void *arg2) {
 #pragma pop
 
 TObjBigTuitate::~TObjBigTuitate() {
-    if (*(void **)((s8 *)this + 0xC8) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0xC8)); *(s32 *)((s8 *)this + 0xC8) = 0; }
+    if (*(void **)((s8 *)this + 0xC8) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xC8)))->queue_destruction(); *(s32 *)((s8 *)this + 0xC8) = 0; }
     ((TObjCollidable *)this)->unregister_object_by_id();
     free_collision_body_parts(this);
     __dt__15RenderFadeStateFv((s8 *)this + 0xAC, -1);
 }
 
-void TObjBigTuitate::run_task() { { (void)(update__15RenderFadeStateFv((char*)this + 0xac)); return; } }
+void TObjBigTuitate::run_task() { { (void)(((RenderFadeState *)((char*)this + 0xac))->update()); return; } }
 
 void TObjBigTuitate::render() {
     Obj_8019AA18 *self = (Obj_8019AA18 *)this;
@@ -349,7 +348,7 @@ void TObjBigTuitate::render() {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         fading = 0;
     } else {
-        fading = isFading__15RenderFadeStateCFv(arg0 + 0xAC);
+        fading = ((RenderFadeState *)(arg0 + 0xAC))->isFading();
     }
     if (fading != 0) {
         ((Fade_8019AA18 *)(arg0 + 0xAC))->begin();

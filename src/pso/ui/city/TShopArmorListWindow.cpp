@@ -16,6 +16,8 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 
+#pragma readonly_strings on
+
 struct Base_8021A394 { char pad[0x18]; };
 struct VObj_8021A394 : Base_8021A394 {
     virtual void m0();
@@ -196,7 +198,7 @@ struct Win_8021AE18 {
 extern "C" {
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 extern s32 __vt__20TShopArmorListWindow[];
-extern s32 TShopArmorListWindow__class_name;
+const char *TShopArmorListWindow__class_name = "TShopArmorListWindow";
 u8 *TShopArmorListWindow__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 void queue_destruction__7TObjectFv(void *arg0);
 int set_field_20__15TShopWindowBaseFl(void*, int);
@@ -597,7 +599,7 @@ u8 *TShopArmorListWindow__ct(u8 *shop_armor_list_window, s32 arg1, s32 arg2, s32
     s32 sp8;
     __ct__15TShopWindowBaseFP7TObject(shop_armor_list_window, (TObject *)arg1);
     *(s32 **)((s8 *)shop_armor_list_window + 0x18) = &(*(RecoveredGlobal_8021B1CC___vt__20TShopArmorListWindow *)&__vt__20TShopArmorListWindow).value;
-    *(s32 *)((s8 *)shop_armor_list_window + 0) = (s32) TShopArmorListWindow__class_name;
+    *(const char **)((s8 *)shop_armor_list_window + 0) = TShopArmorListWindow__class_name;
     ((TShopArmorListWindow *)shop_armor_list_window)->m_24 = arg3;
     ((TShopArmorListWindow *)shop_armor_list_window)->m_28 = arg2;
     ((TShopArmorListWindow *)shop_armor_list_window)->m_2c = 0;

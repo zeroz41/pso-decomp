@@ -17,6 +17,7 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/boss/volopt/TBoss3VoloptP01.h"
 #include "pso/enemy/EnemyTargetCandidate.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/TUnk_80484840.h"
@@ -29,16 +30,10 @@
 
 #pragma inline_depth(1)
 // Joint index per guard slot and the joint-local point the guard angle is measured from (sub_803606A0).
-extern EpsilonGuardSlotValues epsilon_guard_attack_offset_table;
-extern Vec lbl_80479D10;
 // 20 rows of per-guard attack flags (update_attack_pattern).
-extern EpsilonGuardAttackPatterns epsilon_guard_attack_pattern_table;
 // Guard slot visiting order {2, 0, 1, 3} (TObjEneEpsilonGuard__sub_8035FD50).
-extern EpsilonGuardSlotValues lbl_80479E5C;
 // Per-colour value {1, 2, 3, 5} (get_table_value_by_index).
-extern EpsilonGuardSlotValues epsilon_guard_table_value_set;
 // Per-colour value {9, 7, 10, 11} (sub_8035F8A8).
-extern EpsilonGuardSlotValues16 lbl_80479E7C;
 
 
 extern "C" {
@@ -63,16 +58,14 @@ s32 TObjEneEpsilonGuard__sub_8035FCEC(TObjEneEpsilonBody *body);
 s32 TObjEneEpsilonGuard__sub_8035DD74(TObjEneEpsilonGuard *guard);
 void handle_guard_action_state__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg1);
 void TObjEneEpsilonGuard__sub_803610D0(TObjEneEpsilonBody *body, s32 arg1);
-extern u8 epsilon_guard_destroy_breakup_params[];
 extern s32 lbl_805D6FA4;
 s32 TObjEneMe3SinowZoa__sub_800D72A4(void *);
-extern s32 epsilon_guard_camera_sample_phase;
-extern s32 *epsilon_guard_angle_sample_write_ptr;
-extern Vec *epsilon_guard_camera_sample_read_ptr;
-extern Vec *epsilon_guard_camera_sample_end_ptr;
+s32 epsilon_guard_camera_sample_phase;
+s32 * epsilon_guard_angle_sample_write_ptr;
+Vec * epsilon_guard_camera_sample_read_ptr;
+Vec * epsilon_guard_camera_sample_end_ptr;
 void draw_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg1);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-extern NJS_ARGB lbl_80479CAC[];
 s32 check_path_obstructed(void *, void *);
 }
 
@@ -117,7 +110,16 @@ CollisionBody lbl_804F226C[2] = {
 VoloptLineColor lbl_804F22C4[2] = {{0x80, 0xFF, 0x40, 0x40}, {0x80, 0xFF, 0x40, 0x40}};
 VoloptLineList TObjEneEpsilonGuard__debug_line_list = {lbl_805439FC, lbl_804F22C4, 0, 4};
 
-extern const char *lbl_805D4460;
+const TBoss3VoloptBreakupParams epsilon_guard_destroy_breakup_params = { 0x14, { 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f } };
+// Body colour per color_index, copied into the guard parts.
+const NJS_ARGB lbl_80479CAC[4] = {
+    {255.0f, 255.0f, 0.0f, 0.0f},
+    {255.0f, 0.0f, 0.0f, 255.0f},
+    {255.0f, 255.0f, 255.0f, 0.0f},
+    {255.0f, 255.0f, 0.0f, 255.0f},
+};
+const char *TObjEneEpsilonBody__class_name = "TObjEneEpsilonBody";
+
 
 extern u8 *epsilon_guard_part_color_table[];
 
@@ -133,7 +135,7 @@ void TObjEneEpsilonBody::set_guard_part_colors(NJS_ARGB *color) {
 
 TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEneEpsilon(parent) {
     s32 i;
-    m_name = lbl_805D4460;
+    m_name = TObjEneEpsilonBody__class_name;
     invoke_initialization_hook(set_data);
     init_params();
     set_param(0x54);
@@ -154,7 +156,7 @@ TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEn
     enemy_init_acquire_period(30);
     enemy_init_validate_period(30);
     color_index = (s32)(4.0f * random_ratio()) % 4;
-    copy_argb(&color, &lbl_80479CAC[color_index]);
+    copy_argb(&color, (NJS_ARGB *)&lbl_80479CAC[color_index]);
     fire_phase_timer = fire_phase_frames;
     guard_phase_timer = guard_phase_frames;
     attack_pattern_timer = lbl_805D6F8C->m_20;
@@ -745,7 +747,7 @@ void TObjEneEpsilonGuard::handle_warp_state(s32 arg1) {
                 body->m_4f8 = 1.0f;
                 body->action_step = 1;
                 body->action_timer = 0x1E;
-                copy_argb(&body->color, &lbl_80479CAC[body->color_index]);
+                copy_argb(&body->color, (NJS_ARGB *)&lbl_80479CAC[body->color_index]);
                 body->color_index = (body->color_index + 1) % 4;
                 body->color_step.r = (lbl_80479CAC[body->color_index].r - body->color.r) / 30.0f;
                 body->color_step.g = (lbl_80479CAC[body->color_index].g - body->color.g) / 30.0f;
@@ -759,7 +761,7 @@ void TObjEneEpsilonGuard::handle_warp_state(s32 arg1) {
             body->color.g += body->color_step.g;
             body->color.b += body->color_step.b;
             if (body->action_timer <= 0) {
-                copy_argb(&body->color, &lbl_80479CAC[body->color_index]);
+                copy_argb(&body->color, (NJS_ARGB *)&lbl_80479CAC[body->color_index]);
                 body->m_4f8 = 1.0f;
                 body->action_step = 2;
             }
@@ -908,7 +910,7 @@ void TObjEneEpsilonBody::action_destroy(s32 reason) {
             action_timer++;
             if (action_timer >= 0x14) {
                 vfunc_95();
-                TBoss3Volopt::create_breakup_mdl((s32)lbl_805D6FA4, (s32)epsilon_guard_destroy_breakup_params, (s32)texlist, (s32)body_center(), (s32)rotation_y);
+                TBoss3Volopt::create_breakup_mdl((s32)lbl_805D6FA4, (s32)&epsilon_guard_destroy_breakup_params, (s32)texlist, (s32)body_center(), (s32)rotation_y);
                 play_sound_effect(0x4003AD4C, &m_2fc, 0, 0);
                 ((TObjPlayer *)body_center())->trigger_dell_biter_events();
                 flags |= 1;
@@ -966,8 +968,10 @@ void TObjEneEpsilonBody::render() {
 }
 #pragma pop
 
+#pragma pool_data off
 void TObjEneEpsilonBody::sub_803606A0(s32 i) {
-    EpsilonGuardSlotValues t = epsilon_guard_attack_offset_table;
+    // Joint index per guard slot.
+    EpsilonGuardSlotValues t = {{28, 38, 48, 58}};
 
     if (i < 0) {
         i = 0;
@@ -983,12 +987,13 @@ void TObjEneEpsilonBody::sub_803606A0(s32 i) {
     pop_matrix();
     push_matrix_from(anim_model_matrix_array[t.v[i]]);
     {
-        Vec v = lbl_80479D10;
+        Vec v = {0.0f, 0.0f, 0.0f};
         matrix_mult_vec(0, &v, &guard_position[i]);
     }
     pop_matrix();
     guard_rotation_y[i] = (s32)(10430.38043493439 * atan2_float(guard_position[i].x - position.x, guard_position[i].z - position.z));
 }
+#pragma pool_data reset
 
 void TObjEneEpsilonGuard::draw_debug_line() {
     TObjEneEpsilonBody *body = (TObjEneEpsilonBody *)this;
@@ -1150,7 +1155,14 @@ void TObjEneEpsilonBody::tick_stun_timer() {
 }
 void TObjEneEpsilonGuard::update_attack_pattern(void *arg0) {
     TObjEneEpsilonBody *body = (TObjEneEpsilonBody *)arg0;
-    EpsilonGuardAttackPatterns t = epsilon_guard_attack_pattern_table;
+    // 20 rows of per-guard attack flags.
+    EpsilonGuardAttackPatterns t = {{
+        {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0},
+        {0, 0, 0, 0}, {1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0},
+        {0, 0, 0, 1}, {1, 1, 0, 0}, {1, 0, 1, 0}, {1, 0, 0, 1},
+        {0, 1, 1, 0}, {0, 1, 0, 1}, {0, 0, 1, 1}, {1, 1, 1, 0},
+        {1, 1, 0, 1}, {1, 0, 1, 1}, {0, 1, 1, 1}, {1, 1, 1, 1},
+    }};
     s32 *row;
     s32 i;
     if (body->flags & 0x400) {
@@ -1173,7 +1185,7 @@ void TObjEneEpsilonGuard::update_attack_pattern(void *arg0) {
 // Picks the player for guard slot `slot`: the up to four nearest players in
 // range with a clear path, sorted by distance and repeated to fill four slots.
 u32 TObjEneEpsilonGuard__sub_8035FD50(TObjEneEpsilonBody *body, s32 slot) {
-    EpsilonGuardSlotValues order = lbl_80479E5C;
+    EpsilonGuardSlotValues order = {{2, 0, 1, 3}};
     EnemyTargetCandidate list[4];
     Vec d;
     EnemyTargetCandidate tmp;
@@ -1334,7 +1346,7 @@ int TObjEneEpsilonGuard__sub_8035F950(TObjEneEpsilonBody *body) { return ((u32)b
 
 s16 TObjEneEpsilonBody::get_table_value_by_index() {
     s16 i = this->color_index;
-    EpsilonGuardSlotValues t = epsilon_guard_table_value_set;
+    EpsilonGuardSlotValues t = {{1, 2, 3, 5}};
     if (i < 0 || i > 3) {
         return 0;
     }
@@ -1343,7 +1355,7 @@ s16 TObjEneEpsilonBody::get_table_value_by_index() {
 
 s16 TObjEneEpsilonBody::sub_8035F8A8() {
     s16 i = this->color_index;
-    EpsilonGuardSlotValues16 t = lbl_80479E7C;
+    EpsilonGuardSlotValues16 t = {{9, 7, 10, 11}};
     if (i < 0 || i > 3) {
         return 0;
     }

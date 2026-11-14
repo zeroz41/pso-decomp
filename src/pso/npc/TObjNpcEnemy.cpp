@@ -50,9 +50,6 @@ extern s32 __vt__12TObjNpcEnemy[];
 u8 *TObjNpcEnemy__ct(u8 *arg0, s32 arg1, s32 arg2);
 s32 draw_debug_info__11TObjNpcBaseFv();
 void debug_printf_at(s32, const char *, ...);
-extern char lbl_80472600[];
-extern char lbl_80472610[];
-extern char lbl_80472620[];
 void *memmove(void *, const void *, u32);
 struct NpcBase_802d7748_802D745C { char pad[0x18]; };
 struct NpcV_802d7748_802D745C : NpcBase_802d7748_802D745C {
@@ -173,8 +170,8 @@ void TObjNpcEnemy::draw_debug_info() {
     s16 *p;
     draw_debug_info__11TObjNpcBaseFv();
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x130018, lbl_80472600);
-    debug_printf_at(0x13001A, lbl_80472610);
+    debug_printf_at(0x130018, "<- ENEMY NUMBER");
+    debug_printf_at(0x13001A, "<- MOTION TEST");
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
     p = TObjNpcEnemy::get_entry_by_index((s16) this->rotation_x);
     if (p != *(s16 * *)&this->m_3b8) {
@@ -183,7 +180,7 @@ void TObjNpcEnemy::draw_debug_info() {
     p = *(s16 * *)&this->m_3b8;
     if (p == NULL) {
         TObjNpcEnemy::set_global_count(0xFF0000FF);
-        debug_printf_at(0x240018, lbl_80472620);
+        debug_printf_at(0x240018, "ERROR");
         TObjNpcEnemy::set_global_count(0xF0F0F0FF);
         return;
     }
@@ -196,7 +193,7 @@ void TObjNpcEnemy::draw_debug_info() {
     case 3:
         if (p[0x10] <= this->rotation_z || this->rotation_z < 0) {
             TObjNpcEnemy::set_global_count(0xFF0000FF);
-            debug_printf_at(0x24001A, lbl_80472620);
+            debug_printf_at(0x24001A, "ERROR");
             TObjNpcEnemy::set_global_count(0xF0F0F0FF);
             this->requested_action = 0;
         } else {

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
@@ -22,6 +23,9 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 struct O_8033E5A8 {
     u8 pad0[0x18];
@@ -67,7 +71,6 @@ extern "C" {
 void *__nw__7TObjectFUl(int);
 s32 refresh_players_equipment__14TBoss6PlotFalzFPv();
 extern void *__vt__23TBoss6Demo21_TYPE2_DEAD[];
-void clear_render_callback__8TObjFishFv(int);
 void push_matrix();
 void post_translate_matrix(void *);
 s32 get_bml_motion(void *, int);
@@ -83,8 +86,6 @@ void subtract_vector(void *, void *);
 void normalize_vector(void *);
 #define __vt__23TBoss6Demo21_TYPE2_DEAD ((u8 *)__vt__23TBoss6Demo21_TYPE2_DEAD)
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-int get_player_data__10TObjPlayerFi(int a0);
-s32 is_locally_controlled__10TObjPlayerFPv(void *);
 s32 is_state_1f__14TBoss6PlotFalzFUi(u32 arg0);
 void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0);
 
@@ -109,7 +110,6 @@ extern "C" const char *TBoss6Demo21_TYPE2_DEAD__name = TBoss6Demo21_TYPE2_DEAD__
 #define boss6_type2_death_effect_desc_c ((u8 *)boss6_type2_death_effect_desc_c)
 #define lbl_80478134 ((u8 *)lbl_80478134)
 #define boss6_type2_death_emitter_ranges ((Rng_8033E0F0 *)boss6_type2_death_emitter_ranges)
-#define lbl_8047817C ((u8 *)lbl_8047817C)
 #pragma pool_data off
 extern "C" {
 void TBoss6Demo21_TYPE2_DEAD::draw_model_13() {
@@ -120,18 +120,11 @@ void TBoss6Demo21_TYPE2_DEAD::draw_model_13() {
         TObjFish::set_global_param((int) (*(s32 *)((s8 *)((u8 *)this) + 0x44)));
         ((TObjFish *)(this->m_9c))->set_draw_callback_list();
         draw_model_motion((void *)this->m_40, (void *)this->m_48, (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x4C)));
-        clear_render_callback__8TObjFishFv(this->m_9c);
+        ((TObjFish *)this->m_9c)->clear_render_callback();
         clear_motion_packed_rotation();
         pop_matrix();
     }
 }
-
-#define arg0 ((u8 *) p)
-
-#undef arg0
-
-#define arg0 ((u8 *) p)
-
 #define arg0 ((u8 *) p)
 void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_8(void *p) {
     f32 f;
@@ -155,7 +148,7 @@ void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_8(void *p) {
         TObjFish::set_global_param(*(s32 *)(arg0 + 0x38));
         ((TObjFish *)(*(s32 *)(arg0 + 0x80)))->set_draw_callback_list();
         draw_model_motion((void *)(*(s32 *)(arg0 + 0x34)), (void *)(*(s32 *)(arg0 + 0x3C)), *(f32 *)(arg0 + 0x4C));
-        clear_render_callback__8TObjFishFv(*(s32 *)(arg0 + 0x80));
+        ((TObjFish *)(*(s32 *)(arg0 + 0x80)))->clear_render_callback();
         clear_motion_packed_rotation();
         pop_matrix();
         if (f < 1.0f) {
@@ -190,7 +183,7 @@ void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_5(void *p) {
         TObjFish::set_global_param(*(s32 *)(arg0 + 0x2C));
         ((TObjFish *)(*(s32 *)(arg0 + 0x70)))->set_draw_callback_list();
         draw_model_motion((void *)(*(s32 *)(arg0 + 0x28)), (void *)(*(s32 *)(arg0 + 0x30)), *(f32 *)(arg0 + 0x4C));
-        clear_render_callback__8TObjFishFv(*(s32 *)(arg0 + 0x70));
+        ((TObjFish *)(*(s32 *)(arg0 + 0x70)))->clear_render_callback();
         clear_motion_packed_rotation();
         pop_matrix();
         if (f < 1.0f) {
@@ -221,7 +214,7 @@ void TBoss6Demo21_TYPE2_DEAD::draw_fading_model_4() {
         TObjFish::set_global_param(this->m_20);
         ((TObjFish *)(this->m_70))->set_draw_callback_list();
         draw_model_motion((void *)(*(s32 *)((s8 *)((u8 *)this) + 0x1C)), (void *)(*(s32 *)((s8 *)((u8 *)this) + 0x24)), *(f32 *)((s8 *)((u8 *)this) + 0x4C));
-        clear_render_callback__8TObjFishFv(this->m_70);
+        ((TObjFish *)this->m_70)->clear_render_callback();
         clear_motion_packed_rotation();
         pop_matrix();
         if (var_f31 < (1.0f)) {
@@ -326,8 +319,8 @@ void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0) {
         VecCopy((Vec *)&c, (const Vec *)&arg0->pos);
         vec3_add_to(&c, lbl_804780B8);
         for (i = 0; i < n; i++) {
-            Pl_8033E0F0 *p = (Pl_8033E0F0 *)get_player_data__10TObjPlayerFi(i);
-            if (is_locally_controlled__10TObjPlayerFPv(p) != 0 && is_state_1f__14TBoss6PlotFalzFUi((u32)p) != 0) {
+            Pl_8033E0F0 *p = (Pl_8033E0F0 *)TObjPlayer::get_player_data(i);
+            if (TObjPlayer::is_locally_controlled(p) != 0 && is_state_1f__14TBoss6PlotFalzFUi((u32)p) != 0) {
                 Vec_8033E0F0 d;
                 VecCopy((Vec *)&d, (const Vec *)&p->pos);
                 subtract_vector(&d, &c);
@@ -351,7 +344,7 @@ void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0) {
     }
     arg0->timer++;
     if (arg0->timer >= 0x2CA || ((TObjFish *)(arg0->f54))->get_phase() != 7) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 #pragma pop

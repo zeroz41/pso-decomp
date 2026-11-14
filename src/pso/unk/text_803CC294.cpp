@@ -54,7 +54,9 @@ extern Ent_803CC294 *afs_archive_toc_table[];
 extern s32 lobby_adxf_current_file_id;
 extern Slot_803CD16C *lobby_adxf_open_file_handle;
 extern s32 lobby_afs_toc_entry_index;
-extern u8 *lbl_805D75EC;
+s32 lbl_805D75E8;
+u8 * lbl_805D75EC;
+u8 *lbl_805D75F0;
 u32 adxstm_open_fname_range__6TLobbyFPviiii(Buf_803CD16C *, s32, s32, s32, s32);
 extern u16 lbl_8057B7B0[16];
 extern LogEnt_803CD16C lbl_8057B7D0[];
@@ -65,7 +67,6 @@ u32 TLobby__sub_803C8CDC(u32, s32, s32);
 Slot_803CD16C *adxf_open__6TLobbyFUii(u32 arg0, s32 arg1);
 s32 invalidate_cache__6TLobbyFv(s32, s32);
 extern s32 lbl_805D75E4;
-extern s32 lbl_805D75E8;
 
 // Command history: one entry per call (phase 0) and per return (phase 1) of an ADXF command.
 inline void hist_803CC294(s32 cmd, s32 phase, s32 a, s32 b, s32 c) {
@@ -708,7 +709,6 @@ void TLobby__sub_803CD804(void) {
 }
 
 u8 adxf_open_file_buffer[0x2080];
-u8 *lbl_805D75F0;
 
 // ADXF_LoadPartitionNw (named by its messages)
 s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 arg2, Ent_803CC294 *e) {

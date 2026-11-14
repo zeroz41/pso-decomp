@@ -125,7 +125,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
             v[1].e = v1;
             v += 2;
         }
-        ((TWindowDD *)verts)->draw_transformed_primitive((void *)8, (void *)tex, (void *)1);
+        ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
         y0 = yb;
     }
     if (count > 0) {
@@ -144,7 +144,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
                 v[1].b = y1;
                 v += 2;
             }
-            ((TWindowDD *)verts)->draw_transformed_primitive((void *)8, (void *)tex, (void *)1);
+            ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
             y0 = y1;
         }
     }
@@ -158,7 +158,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
             v[1].e = v0 - frac * TWindowDD__data_805DFB18;
             v += 2;
         }
-        ((TWindowDD *)verts)->draw_transformed_primitive((void *)8, (void *)tex, (void *)1);
+        ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
     }
     if (self->m_74 > 0 && self->sub_80342254() != 0) {
         ((TWindowDD *)verts)->reset_entries(TWindowDD__sub_80348AD4(self->pad_54, 0.1f), -1);
@@ -176,7 +176,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
             v->b = y1;
             v++;
         }
-        ((TWindowDD *)verts)->draw_transformed_primitive((void *)8, (void *)tex, (void *)1);
+        ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
     }
 }
 
@@ -227,7 +227,6 @@ void TWindowDD__sub_80341AF8(u8 *arg0) {
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
-#define sub_80341AC0__17TWindowDD_WS_WordFv ((s32 (*)(void *))sub_80341AC0__17TWindowDD_WS_WordFv)
 
 struct RecoveredGlobal_80341F9C_TWindowDD__data_804EFC50 {
     s32 value;
@@ -460,4 +459,3 @@ void TWindowDD::add_scroll_offset(int a1) { this->m_84 = (this->m_84 + a1); this
 
 }
 
-#undef sub_80341AC0__17TWindowDD_WS_WordFv

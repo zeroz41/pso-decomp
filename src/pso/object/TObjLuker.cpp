@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -17,6 +18,7 @@
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -79,9 +81,7 @@ struct Luker_801A1260
 };
 
 extern "C" {
-void allow_rendering__7TObjectFv(TObject *);
 s32 play_sound_effect(s32, u32, s16, s32);
-void disallow_rendering__7TObjectFv(TObject *w);
 void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self);
 Ctrl_801A0E38 *get_player_by_client_id(u16 id);
 s32 is_split_screen(void);
@@ -100,7 +100,6 @@ void *TObjLuker__ct(void *arg0, void *arg1, void *arg2);
 f32 horizontal_distance_squared(void *, void *);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 check_flag_100__10TObjPlayerFPv(void *);
-void queue_destruction__7TObjectFv(void *);
 s32 play_effect_default__10TObjPlayerFii(void *, int);
 s32 play_persistent_sound(int, void *, void *, int, int);
 void *__nw__7TObjectFUl(int);
@@ -121,7 +120,7 @@ void *TObjLuker__create(void *arg0);
 void hide_part__9TObjLukerFPvUs(Obj_801A0C38 *self, u16 i) {
     if (self->parts[i] != 0) {
         ((TObject *)(self->parts[i]))->suspend_update();
-        disallow_rendering__7TObjectFv((TObject *)self->parts[i]);
+        ((TObject *)self->parts[i])->disallow_rendering();
     }
 }
 
@@ -138,7 +137,7 @@ void TObjLuker::show_part(s32 arg1) {
             play_sound_effect(0x53703, 0U, 0, 0);
         }
         ((TQuestVmDownLoadServer *)(*(u8 **)((s8 *)temp_r31 + 0x90)))->clear_flag4_bit4();
-        allow_rendering__7TObjectFv((TObject *)(*(u8 **)((s8 *)temp_r31 + 0x90)));
+        ((TObject *)(*(u8 **)((s8 *)temp_r31 + 0x90)))->allow_rendering();
     }
 }
 #pragma pop
@@ -171,7 +170,7 @@ void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self) {
                 play_sound_effect(0x53704, 0, 0, 0);
             }
             ((TObject *)(self->wins[i]))->suspend_update();
-            disallow_rendering__7TObjectFv((TObject *)self->wins[i]);
+            ((TObject *)self->wins[i])->disallow_rendering();
         }
     }
 }
@@ -194,7 +193,7 @@ void TObjLuker::open_destination_windows() {
                 ((TWindowSubComCard *)(self->wins[i]))->calc_window_size();
                 align_menu_entry_positions(self->wins[i]);
                 ((TObject *)(self->wins[i]))->suspend_update();
-                disallow_rendering__7TObjectFv((TObject *)self->wins[i]);
+                ((TObject *)self->wins[i])->disallow_rendering();
             }
         }
     }
@@ -402,7 +401,7 @@ void TObjLuker::run_task() {
     }
     if (p == NULL) {
         if (*(void * *)&this->m_a4 != NULL) {
-            queue_destruction__7TObjectFv(*(void * *)&this->m_a4);
+            ((TObject *)(*(void * *)&this->m_a4))->queue_destruction();
             *(void * *)&this->m_a4 = NULL;
         }
         *(s32 *)&this->m_b4 = 1;
@@ -459,7 +458,7 @@ void TObjLuker::run_task() {
                 break;
             case 2:
                 transfer_to_town();
-                queue_destruction__7TObjectFv(arg0);
+                ((TObject *)arg0)->queue_destruction();
                 break;
             }
         } else {
@@ -471,7 +470,7 @@ void TObjLuker::run_task() {
             }
             this->m_ac = 0;
             if (*(void * *)&this->m_a4 != NULL) {
-                queue_destruction__7TObjectFv(*(void * *)&this->m_a4);
+                ((TObject *)(*(void * *)&this->m_a4))->queue_destruction();
                 *(void * *)&this->m_a4 = NULL;
             }
             *(s32 *)&this->m_b4 = 1;

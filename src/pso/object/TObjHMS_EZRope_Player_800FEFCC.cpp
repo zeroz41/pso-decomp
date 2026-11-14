@@ -12,6 +12,9 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/math/MatrixTransforms.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -46,13 +49,11 @@ typedef struct Obj_800FF070 {
     D2_800FF070 *c;
 } Obj_800FF070;
 
-struct Vec_800FF2D0 { f32 x, y, z; };
-
 struct Rec_800FF2D0 { s8 n; u8 pad1[0x10 - 1]; void *f10; void *f14; };
 
 struct Ang_800FF2D0 { s32 a; u8 pad4[0xC]; };
 
-struct Blob_800FF2D0 { f32 scale; Vec_800FF2D0 pos; };
+struct Blob_800FF2D0 { f32 scale; Vec pos; };
 
 struct Obj_800FF2D0 {
     u8 pad0[0x1C];
@@ -60,7 +61,7 @@ struct Obj_800FF2D0 {
     Rec_800FF2D0 *recs;
     Ang_800FF2D0 *angs;
     Blob_800FF2D0 *blobs;
-    Vec_800FF2D0 *pts;
+    Vec *pts;
 };
 
 extern "C" {
@@ -72,12 +73,9 @@ extern u8 ezrope_chunk_material_color_table[];
 extern s32 TObjHMS_EZRope_Player__name;
 void *TObjHMS_EZRope_Player__ct(void *arg0, void *arg1, void *arg2, void *arg3);
 f32 get_scale_factor__10TObjPlayerFv(f32);
-f32 vector_length(void *);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
-s32 subtract_vector(void *, void *);
-s32 normalize_vector(void *);
+void normalize_vector(Vec *v);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
-extern const f64 lbl_8043DF40;
 extern u8 lbl_8048DEF4[];
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -85,9 +83,6 @@ extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-extern const f32 lbl_805DAA58;
-extern const f32 lbl_805DAA5C;
-extern const f32 lbl_805DAA60;
 void *__dt__21TObjHMS_EZRope_PlayerFv(TObjHMS_EZRope_Player *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 void __dt__14TObjEZRopeBaseFv(void *, int);
@@ -191,10 +186,10 @@ void *TObjPlayer::create_hairmove(void *arg1, void *arg2) {
 }
 void TObjHMS_EZRope_Player::sub_800FF2D0() {
     Obj_800FF2D0 *arg0 = (Obj_800FF2D0 *)this;
-    Vec_800FF2D0 d;
+    Vec d;
     Rec_800FF2D0 *rec;
     Ang_800FF2D0 *ang;
-    Vec_800FF2D0 *pt;
+    Vec *pt;
     s32 n;
     s32 yaw;
     Blob_800FF2D0 *b;
@@ -208,21 +203,21 @@ void TObjHMS_EZRope_Player::sub_800FF2D0() {
         for (n = rec->n - 1; n > 0; n--, pt++) {
             push_matrix();
             translate_matrix_vec3((u8 *)(0), (u8 *)pt);
-            VecCopy((Vec *)&d, (const Vec *)&pt[1]);
+            VecCopy(&d, &pt[1]);
             subtract_vector(&d, pt);
-            if (lbl_805DAA58 == vector_length(&d)) {
-                d.x = lbl_805DAA58;
-                d.y = lbl_805DAA5C;
-                d.z = lbl_805DAA58;
+            if (0.0f == vector_length(&d)) {
+                d.x = 0.0f;
+                d.y = -1.0f;
+                d.z = 0.0f;
             } else {
                 normalize_vector(&d);
             }
             yaw = 0;
-            if (lbl_805DAA58 != fabs_float(d.x) + fabs_float(d.z)) {
-                yaw = (s32)(lbl_8043DF40 * atan2_float(-d.x, -d.z));
+            if (0.0f != fabs_float(d.x) + fabs_float(d.z)) {
+                yaw = (s32)(10430.38043493439 * atan2_float(-d.x, -d.z));
                 rotate_matrix_y(0, yaw);
             }
-            rotate_matrix_x(0, (s32)(lbl_8043DF40 * get_scale_factor__10TObjPlayerFv(-d.y)));
+            rotate_matrix_x(0, (s32)(10430.38043493439 * get_scale_factor__10TObjPlayerFv(-d.y)));
             rotate_matrix_y(0, ang->a - yaw);
             if (n == 1) {
                 if (rec->f14 != NULL) {
@@ -242,11 +237,11 @@ void TObjHMS_EZRope_Player::sub_800FF2D0() {
         model_render_flags |= 0x10;
         set_chunk_material_override_pair(0, 0x800);
         set_constant_material((const NJS_ARGB *)ezrope_chunk_material_color_table);
-        for (b = arg0->blobs; b->scale >= lbl_805DAA58; b++) {
+        for (b = arg0->blobs; b->scale >= 0.0f; b++) {
             f32 s;
             push_matrix();
             translate_matrix_vec3((u8 *)(0), (u8 *)&b->pos);
-            s = lbl_805DAA60 * b->scale;
+            s = 0.2f * b->scale;
             scale_matrix(0, s, s, s);
             draw_chunk_object(lbl_8048DEF4);
             pop_matrix();
@@ -254,6 +249,175 @@ void TObjHMS_EZRope_Player::sub_800FF2D0() {
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         model_render_flags = saved_model_render_flags;
+    }
+}
+
+}
+
+struct Src_800FF8CC {
+    s8 count;
+    u8 pad[3];
+    Vec rot;
+    u8 pad2[8];
+};
+
+struct Pos_800FF8CC {
+    u32 f0;
+    Vec v;
+};
+
+struct Self_800FF8CC {
+    u8 pad[0x1C];
+    s32 num;
+    Src_800FF8CC *src;
+    Pos_800FF8CC *pos;
+    s32 arg;
+    Vec *out;
+};
+
+struct Seg_800FF788 { s8 n; u8 pad1[3]; Vec dir; u8 pad10[8]; };
+
+struct Src_800FF788 { s32 a; Vec v; };
+
+struct Obj_800FF788 {
+    u8 pad0[0x20];
+    Seg_800FF788 *segs;
+    Src_800FF788 *srcs;
+    u32 flag;
+    Vec *out;
+};
+
+extern "C" {
+void fn_800FF580(Obj_800FF788 *self, Vec *p, f32 len);
+
+// One of the rope's collision spheres; the list ends at a negative radius.
+struct Collider_800FF580 {
+    f32 radius;
+    Vec center;
+};
+
+void fn_800FF580(Obj_800FF788 *self, Vec *p, f32 len) {
+    Vec v = *p;
+    Vec hit;
+    s32 iter;
+    Collider_800FF580 *c;
+    f32 push;
+    f32 d;
+    f32 best;
+    f32 reach;
+
+    iter = 16;
+    while (1) {
+        best = 0.0f;
+        for (c = (Collider_800FF580 *)self->flag; c->radius >= 0.0f; c++) {
+            reach = 0.5f * len + c->radius;
+            d = xyz_distance(&v, &c->center);
+            if (d < reach && reach - d > best) {
+                best = reach - d;
+                push = reach;
+                VecCopy(&hit, &c->center);
+            }
+        }
+        if (iter <= 0 || 0.0f == best) {
+            VecCopy(p, &v);
+            return;
+        }
+        subtract_vector(&v, &hit);
+        if (0.0f == vector_length(&v)) {
+            v.x = 0.0f;
+            v.y = -1.0f;
+            v.z = 0.0f;
+        } else {
+            normalize_vector(&v);
+        }
+        v.x *= push;
+        v.y *= push;
+        v.z *= push;
+        vec3_add_to(&v, &hit);
+        subtract_vector(&v, p - 1);
+        if (0.0f == vector_length(&v)) {
+            v.x = 0.0f;
+            v.y = -1.0f;
+            v.z = 0.0f;
+        } else {
+            normalize_vector(&v);
+        }
+        v.x *= len;
+        v.y *= len;
+        v.z *= len;
+        vec3_add_to(&v, p - 1);
+        iter--;
+    }
+}
+
+void TObjEZRopeBase::sub_800FF788(void *mtx) {
+    Seg_800FF788 *seg;
+    Src_800FF788 *src;
+    Vec *p;
+    s32 n;
+    f32 zero;
+    f32 len;
+    zero = 0.0f;
+    seg = ((Obj_800FF788 *)this)->segs;
+    src = ((Obj_800FF788 *)this)->srcs;
+    p = ((Obj_800FF788 *)this)->out;
+    while (seg->n >= 2) {
+        len = vector_length(&seg->dir);
+        VecCopy(p, &src->v);
+        p++;
+        n = seg->n - 1;
+        while (n > 0) {
+            vec3_add_to(p, (Vec *)mtx);
+            subtract_vector(p, p - 1);
+            if (zero == vector_length(p)) {
+                p->x = zero;
+                p->y = -1.0f;
+                p->z = zero;
+            } else {
+                normalize_vector(p);
+            }
+            p->x *= len;
+            p->y *= len;
+            p->z *= len;
+            vec3_add_to(p, p - 1);
+            if (((Obj_800FF788 *)this)->flag != 0) {
+                fn_800FF580(((Obj_800FF788 *)this), p, len);
+            }
+            n--;
+            p++;
+        }
+        seg++;
+        src++;
+    }
+}
+
+void TObjEZRopeBase::sub_800FF8CC(void *src_arg, void *pos_arg, s32 arg) {
+    Src_800FF8CC *src = (Src_800FF8CC *)src_arg;
+    Pos_800FF8CC *pos = (Pos_800FF8CC *)pos_arg;
+    s32 total;
+    Src_800FF8CC *s;
+    Pos_800FF8CC *p;
+    Vec *out;
+    s32 n;
+    total = 0;
+    ((Self_800FF8CC *)this)->src = src;
+    ((Self_800FF8CC *)this)->pos = pos;
+    ((Self_800FF8CC *)this)->arg = arg;
+    ((Self_800FF8CC *)this)->num = 0;
+    for (s = src; s->count >= 2; s++) {
+        total += s->count;
+        ((Self_800FF8CC *)this)->num++;
+    }
+    ((Self_800FF8CC *)this)->out = (Vec *)TQuestVmDownLoadServer::alloc(total * 0xC);
+    s = ((Self_800FF8CC *)this)->src;
+    p = ((Self_800FF8CC *)this)->pos;
+    out = ((Self_800FF8CC *)this)->out;
+    for (; s->count >= 2; s++, p++) {
+        Vec v = p->v;
+        for (n = s->count; n > 0; n--, out++) {
+            VecCopy(out, &v);
+            vec3_add_to(&v, &s->rot);
+        }
     }
 }
 

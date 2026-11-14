@@ -23,19 +23,27 @@ struct VObj_8008194C_80081278 : Base_8008194C_80081278 {
     virtual void m1();
 };
 
-struct RecoveredGlobal_800818D8_lbl_8048E040 {
-    s32 value;
-    u8 remaining[0xEC];
-};
-
 struct RecoveredGlobal_800818D8_lbl_8048E130 {
     s32 value;
     u8 remaining[0x34];
 };
 
+// The reflections TEF_LensFlare__ct hands to every flare (render() draws the first nine).
+LensFlareElement lens_flare_reflected_element_descriptors[10] = {
+    {1, 0.1f, 0.8f, 0.0f, 0.7f, -10.0f},
+    {2, 0.4f, 0.6f, 0.5f, 0.7f, -10.1f},
+    {3, 0.6f, 0.8f, 0.6f, 0.7f, -10.2f},
+    {1, 0.8f, 1.2f, 0.6f, 0.4f, -10.3f},
+    {3, 1.0f, 1.2f, -0.3f, 0.7f, -10.4f},
+    {4, 1.2f, 0.7f, 1.0f, 0.7f, -10.5f},
+    {2, 1.4f, 1.7f, 0.0f, 0.7f, -10.6f},
+    {5, 1.5f, 0.6f, 1.0f, 0.7f, -10.7f},
+    {6, 1.8f, 1.5f, 0.0f, 0.7f, -10.8f},
+    {2, 0.0f, 4.0f, 2.0f, 0.4f, -10.9f},
+};
+
 extern "C" {
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
-extern RecoveredGlobal_800818D8_lbl_8048E040 lens_flare_reflected_element_descriptors;
 extern s32 __vt__13TEF_LensFlare[];
 extern s32 TEF_LensFlare__class_name;
 u8 *TEF_LensFlare__ct(u8 *arg0, s32 arg1, s32 arg2);
@@ -255,14 +263,13 @@ void TEF_LensFlare::render() {
 }
 extern "C" {
 
-typedef char RecoveredGlobal_800818D8_lbl_8048E040_size[sizeof(RecoveredGlobal_800818D8_lbl_8048E040) == 0xF0 ? 1 : -1];
 typedef char RecoveredGlobal_800818D8_lbl_8048E130_size[sizeof(RecoveredGlobal_800818D8_lbl_8048E130) == 0x38 ? 1 : -1];
 u8 *TEF_LensFlare__ct(u8 *ef_lens_flare, s32 parent, s32 arg2) {
     __ct__8TObjBaseFP7TObject((void *)ef_lens_flare, (void *)parent);
     *(s32 **)((s8 *)ef_lens_flare + 0x18) = &(*(RecoveredGlobal_800818D8_lbl_8048E130 *)&__vt__13TEF_LensFlare).value;
     *(s32 *)((s8 *)ef_lens_flare + 0) = (s32) TEF_LensFlare__class_name;
     ((TEF_LensFlare *)(ef_lens_flare))->apply_object_set_data((void *)arg2);
-    *(s32 **)((s8 *)ef_lens_flare + 0x90) = &lens_flare_reflected_element_descriptors.value;
+    ((TEF_LensFlare *)ef_lens_flare)->elements = lens_flare_reflected_element_descriptors;
     return ef_lens_flare;
 }
 

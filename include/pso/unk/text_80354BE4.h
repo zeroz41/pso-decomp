@@ -6,7 +6,7 @@
 extern "C" {
 void TObjPlayer__sub_80354BE4(s32 arg0);
 void TObjPlayer__sub_80354C2C(s32 arg0, s32 arg1);
-s32 TObjPlayer__sub_80354C7C(s32 arg0);
+u8 TObjPlayer__sub_80354C7C(s32 arg0);
 void TObjPlayer__sub_80354CCC(s32 arg0);
 void TObjPlayer__sub_80354D14(s32 arg0);
 s32 TObjPlayer__sub_80354D5C(s32 arg0);

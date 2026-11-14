@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -8,6 +9,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/task/TObject.h"
 
 typedef struct Vec_800502FC {
     f32 x, y, z;
@@ -91,19 +93,19 @@ void TObjDFYutai::run_task() {
     u8 *arg0 = (u8 *)this;
     f32 temp_f1;
     if (TBoss4Type3__sub_8005254C((*(u16 *)((s8 *)arg0 + 0x20))) == 0) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     *(f32 *)((s8 *)arg0 + 0x24) = (f32) (*(f32 *)((s8 *)arg0 + 0x24) + *(f32 *)((s8 *)arg0 + 0x28));
     temp_f1 = *(f32 *)((s8 *)arg0 + 0x24);
     if (temp_f1 <= lbl_805D8A30) {
         *(f32 *)((s8 *)arg0 + 0x24) = (f32) lbl_805D8A30;
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     if (temp_f1 >= lbl_805D8A34) {
         *(f32 *)((s8 *)arg0 + 0x24) = (f32) lbl_805D8A34;
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 #pragma pop

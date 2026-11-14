@@ -4,16 +4,17 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
-
 #include "pso/system/vector.h"
-
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
 #include <stdlib.h>
-
+#include "pso/unk/TLobby_803255F8.h"
+#include "pso/unk/TLobby.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/technique/TTecZondeEff.h"
 
 struct Ent_80325248 { u8 b[0xC]; };
 
@@ -48,7 +49,6 @@ struct L2_80325070 { u8 pad[0xC]; s32 *p; };
 struct L1_80325070 { u8 pad[8]; L2_80325070 *a; u8 pad2[8]; L2_80325070 *b; };
 
 extern "C" {
-void run_task__12TTecZondeEffFv(void *);
 void eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, void *, s32, void *, f32);
 void subtract_vector(void *, void *);
 extern s32 __vt__25TBoss5GryphonLightningEff[];
@@ -107,10 +107,10 @@ void TBoss5GryphonLightningEff::render() {
     set_additive_blend();
     project_lightning_points(this, pts_arg, sp3C, sp8);
     build_lightning_strip((void *)sp10C, (void *)pts_arg, (f32 *)sp3C, (f32 *)sp8);
-    ((TWindowDD *)sp10C)->draw_transformed_primitive((void*)(*(s32 *)((s8 *)this + 0x38) * 2), (void*)(calc_segment_uvs(sp10C)), (void*)1);
+    ((TWindowDD *)sp10C)->draw_transformed_primitive(*(s32 *)((s8 *)this + 0x38) * 2, calc_segment_uvs(sp10C), 1);
     if ((u8) *(u8 *)((s8 *)this + 0x260) == 1) {
         build_lightning_strip((void *)sp10C, (void *)pts_arg, (f32 *)sp8, (f32 *)sp3C);
-        ((TWindowDD *)sp10C)->draw_transformed_primitive((void*)(*(s32 *)((s8 *)this + 0x38) * 2), (void*)(calc_segment_uvs(sp10C)), (void*)1);
+        ((TWindowDD *)sp10C)->draw_transformed_primitive(*(s32 *)((s8 *)this + 0x38) * 2, calc_segment_uvs(sp10C), 1);
     }
     set_default_alpha_blend();
     TParticleCtrl::end_effect_render();
@@ -120,7 +120,7 @@ void TBoss5GryphonLightningEff::render() {
 }
 void TBoss5GryphonLightningEff::run_task() {
     Obj_80325248 *arg0 = (Obj_80325248 *)this;
-    run_task__12TTecZondeEffFv(arg0);
+    ((TTecZondeEff *)arg0)->TTecZondeEff::run_task();
     if ((3.0517578e-05f) * (f32)rand() > (0.95f)) {
         s32 i = (f32)arg0->n * ((3.0517578e-05f) * (f32)rand());
         spawn_particle_effect_with_flags(&arg0->ents[i], 0x215, 0x40);
@@ -172,3 +172,20 @@ Self_8032537C *__ct__25TBoss5GryphonLightningEffFv(Self_8032537C *self, void *pa
 #pragma pop
 
 }
+
+#pragma readonly_strings on
+
+
+extern "C" {
+    u8 *load_gvm_texture_file(s32 arg0);
+s32 release_texture_list(void*);
+
+void TLobby::free_char_select_singleton() {
+    if ((u32) inazuma_texture_list != 0U) {
+        release_texture_list((void*)inazuma_texture_list);
+        TAdSinglePlyChrSelectGC::safe_free((u32)inazuma_texture_list);
+        inazuma_texture_list = 0U;
+    }
+}
+}
+void load_f512_inazuma(void) { (*(int *)&inazuma_texture_list) = (int)load_gvm_texture_file((s32)(unsigned char *)"f512_inazuma.gvm"); }

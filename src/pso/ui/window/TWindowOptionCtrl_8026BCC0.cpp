@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -14,6 +15,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/system/task/TObject.h"
 
 struct Opt_8026BCC0 {
     u8 pad0[0x1C];
@@ -200,7 +202,7 @@ void TWindowOptionCtrl::run_task() {
     case 15: {
         s32 r = ((TWindowOptionCtrl *)(self->f48))->get_field_24();
         if (r == 1 || r == 2) {
-            queue_destruction__7TObjectFv(self->f48);
+            ((TObject *)self->f48)->queue_destruction();
             self->f48 = NULL;
             if (r == 1) {
                 self->state = 0xB;

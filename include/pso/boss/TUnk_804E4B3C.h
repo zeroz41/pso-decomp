@@ -24,17 +24,22 @@ public:
     void update_spawn_timer(s32 arg1, s32 arg2, s32 arg3);
     void double_scroll_speed();
     void advance_effect_timer();
+    // Out-of-line helpers at the end of the tunnel file (0x802F2C90..0x802F2CC4),
+    // called by its segments (TUnk_804E4B24).
+    void copy_position(const Vec *position);
+    f32 sub_802F2CB4();
+    f32 sub_802F2CBC();
     // Size 0x94 (TObjBoss2Tunnel__sub_802F2C50's operator new); its constructor
     // TObjBoss2Tunnel__sub_802F2A2C installs the vtable at 0x804E4B3C.
     s32 phase;          // index into run_task's phase handlers
     u8 pad_20[0x34];
-    f32 segment_x;      // TBoss8DragonDemo__sub_802F2CBC: a segment's position.x
+    f32 segment_x;      // sub_802F2CBC: a segment's position.x
     f32 scroll_offset;  // update_spawn_timer adds scroll_speed, spawns a segment per 800
-    f32 scroll_speed;   // TBoss8DragonDemo__sub_802F2CB4: a segment's z step per frame
+    f32 scroll_speed;   // sub_802F2CB4: a segment's z step per frame
     u8 pad_60[0x10];
     s32 spawn_index;    // update_spawn_timer's index into its spawn table
-    u8 pad_74[0xC];
-    f32 unk_80;
+    u8 pad_74[0x4];
+    Vec unk_78;         // copy_position: the position of the kind-4 segment
     f32 half_length;
     TObject *tunnel_col; // the TObjBoss7TunnelCol the constructor creates
     TObject *effect_nodes; // parent of the segments spawn creates

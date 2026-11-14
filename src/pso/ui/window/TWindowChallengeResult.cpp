@@ -9,6 +9,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/window/TWindowBase.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -101,7 +102,7 @@ Win_80246DCC *TWindowChallengeResult__ct(Win_80246DCC *self, s32 str, s32 arg2, 
         refresh_status_display__9TWindowDDFv(e);
         e->f8 = 233.0f - e->f10;
     }
-    set_text_entry_string((u8 *)(get_array_entry__11TWindowBaseFi(self, 1)), str, 0x20);
+    set_text_entry_string((u8 *)(((TWindowBase *)self)->get_array_entry(1)), str, 0x20);
     e = get_array_entry__11TWindowBaseFi(self, 3);
     text_builder_reset();
     m = arg2 / 3600;

@@ -1,6 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/ui/window/TWindowSubComCard.h"
 #pragma push
 
 #include "types.h"
@@ -9,6 +14,7 @@
 class TChCrTagPlBack;
 #include "pso/ui/window/TWindowComCard.h"
 #include "pso/network/TProtocol.h"
+#include "pso/unk/GuildCardRecord.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TUnk_804D0658.h"
@@ -281,14 +287,10 @@ s32 init_card__17TWindowSubComCardFv();
 s32 TWindowSubComCard__sub_802728CC(void);
 ChrSel_80272B60 *get_chr_select__17TWindowSubComCardFv();
 void *find_entry_value_by_id__17TWindowSubComCardFl(s32, s32);
-s32 obj_isState3_324__9TObjCharaFv(void *);
-s32 is_script_controlled__10TObjPlayerFv(void *);
 void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
 s32 create_player_select_window__17TWindowSubComCardFv(void);
 void *get_com_card_entry__6TLobbyFi(int a0);
-s32 TLobby__sub_802428F8(void *p);
-int get_com_card_data__6TLobbyFv(void);
 void rebuild_com_card_list__17TWindowSubComCardFii(s32 arg0, s32 arg1);
 s32 create__17TWindowSubComCardFv(void);
 s32 create_keyboard__17TWindowSubComCardFi(s32 arg0);
@@ -391,7 +393,7 @@ s32 create_player_select_window__17TWindowSubComCardFv(void) {
     i = 0;
     do {
         if (i != local_client_id && (p = (VObj_18_80272714 *)get_player_by_client_id(i)) != NULL &&
-            is_script_controlled__10TObjPlayerFv(p) == 0 && obj_isState3_324__9TObjCharaFv(p) == 0) {
+            ((TObjPlayer *)p)->is_script_controlled() == 0 && ((TObjChara *)p)->obj_isState3_324() == 0) {
             forward_trade_action_default__16TObjCityMainWarpFPviii((void *)w, (int)(p->m10()), 7, (int)i);
         }
         i++;
@@ -467,7 +469,7 @@ u32 TWindowSubComCard__sub_80272A98(void *) {
     ComCardRec_80272A98 *e;
     ComCardList_80272A98 *l;
     w = draw_card_icon__17TWindowSubComCardFll(get_window_layout_position(0x8E), 0x20, TWindowSubStatusDisp::get_message_10(0x54));
-    l = (ComCardList_80272A98 *)get_com_count__17TWindowSubComCardFv();
+    l = (ComCardList_80272A98 *)TWindowSubComCard::get_com_count();
     count = l->count;
     e = l->entries;
     for (i = 0; i < count; i++, e++) {
@@ -607,11 +609,11 @@ void rebuild_com_card_list__17TWindowSubComCardFii(s32 arg0, s32 arg1) {
     TLobby::clear_flag_bit2();
     pos = ((TWindowShortListCtrl *)arg1)->get_cursor_pos();
     ((TWindowSubComCardList *)arg1)->reset_entries();
-    n = get_com_card_data__6TLobbyFv();
+    n = TLobby::get_com_card_data();
     for (i = n - 1; i >= 0; i--) {
         e = get_com_card_entry__6TLobbyFi(i);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)arg1, (int)(((TWindowSubComCard *)e)->get_sub_obj()), 7, (int)(TLobby__sub_802428F8((void *)e)));
-        if (cur == TLobby__sub_802428F8(e)) {
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)arg1, (int)(((TWindowSubComCard *)e)->get_sub_obj()), 7, (int)(((GuildCardRecord *)e)->get_serial()));
+        if (cur == ((GuildCardRecord *)e)->get_serial()) {
             sel = (n - 1) - i;
         }
     }
@@ -659,7 +661,6 @@ s32 check_room_seq_4__16TAdChrSelASlotGCFl(void *, int);
 s32 create_single_entry_window__17TWindowSubComCardFv(void);
 s32 TWindowSubComCard__sub_8027353C(void);
 s32 TWindowSubComCard__sub_8027346C(void);
-void queue_destruction__7TObjectFv(void *arg0);
 s32 TWindowSubComCard__sub_800778B4(void *, int);
 void TWindowSubComCard__sub_8007AF10(s32 arg0);
 s32 update_press__17TWindowSubComCardFv(int);
@@ -768,7 +769,7 @@ u32 TWindowSubComCard__sub_8027337C() {
     i = 0;
     do {
         if (i != local_client_id && (p = get_player_by_client_id(i)) != NULL &&
-            is_script_controlled__10TObjPlayerFv(p) == 0 && obj_isState3_324__9TObjCharaFv(p) == 0 &&
+            ((TObjPlayer *)p)->is_script_controlled() == 0 && ((TObjChara *)p)->obj_isState3_324() == 0 &&
             (name = (u8 *)p + 0x85C) != NULL) {
             forward_trade_action_default__16TObjCityMainWarpFPviii((void *)w, (int)name, 7, (int)i);
         }
@@ -858,7 +859,7 @@ void run_task__17TWindowSubComCardFv(TWindowSubComCard *window_sub_com_card) {
     case 0x1:
         window_sub_com_card->send_state_if_dirty();
         if ((u32) window_sub_com_card->m_80 != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)window_sub_com_card + 0x80));
+            ((TObject *)(*(void **)((s8 *)window_sub_com_card + 0x80)))->queue_destruction();
             window_sub_com_card->m_80 = 0U;
         }
         if ((u32) window_sub_com_card->m_7c != 0U) {
@@ -1785,7 +1786,7 @@ void *__dt__17TWindowSubComCardFv(TWindowSubComCard *arg0, s16 arg1) {
             arg0->m_84 = 0U;
         }
         if ((u32) arg0->m_80 != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x80));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x80)))->queue_destruction();
             arg0->m_80 = 0U;
         }
         if ((u32) arg0->m_68 != 0U) {

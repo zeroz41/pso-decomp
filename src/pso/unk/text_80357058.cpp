@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/unk/TLobby_801E43E4.h"
@@ -16,6 +17,9 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/weapon/TItemAttackCol.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
+
+#pragma readonly_strings on
 
 
 
@@ -48,7 +52,7 @@ extern "C" {
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 f32 normalize_vector(void *);
-extern const char *TItemEffOrgaFlowShot__name;
+const char *TItemEffOrgaFlowShot__name = "TItemEffOrgaFlowShot";
 s32 is_local_client_floor_leader();
 void grid_to_world_pos__11TBoss6Type2FccPv(u8, u8, Vec_803570E4 *);
 void clear_rock_state__10TBoss6RockFl(s32 i, s32 a, s32 b);
@@ -207,8 +211,8 @@ void TItemEffOrgaFlowShot::run_task() {
     if (has_game_join_id() != 0) {
         check_hits();
     } else {
-        queue_destruction__7TObjectFv(this);
-        disallow_rendering__7TObjectFv(this);
+        queue_destruction();
+        disallow_rendering();
     }
     approach_value(&pad_190, 50.0f, pad_18C);
     if (pad_190 == pad_18C) {
@@ -219,7 +223,7 @@ void TItemEffOrgaFlowShot::run_task() {
     }
     if (pad_194 == pad_198) {
         if (pad_19C-- == 0) {
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
         }
     }
     update_segments();

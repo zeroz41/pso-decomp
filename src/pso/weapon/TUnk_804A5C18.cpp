@@ -34,7 +34,7 @@ void TUnk_804A5C18::vfunc_60() {
     }
 }
 
-extern "C" s32 basic_shot_angle_table[];
+const s32 basic_shot_angle_table[6] = {0, 2184, -2184, 4551, -4551, 0};
 
 void TUnk_804A5C18::emit_marker_effects() {
     s32 pos[3];

@@ -1,9 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarCtrl.h"
 #include "pso/system/task/TObject_80019A50.h"
 
 #include "pso/boss/galgryphon/TObjBoss5Pillar.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -50,7 +52,7 @@ TObjBoss5PillarCtrl::~TObjBoss5PillarCtrl() {
     s32 i;
     for (i = ((Pc_8028B198 *)this)->count - 1; i >= 0; i--) {
         if (((Pc_8028B198 *)this)->a[i] != NULL) {
-            queue_destruction__7TObjectFv(((Pc_8028B198 *)this)->a[i]);
+            ((TObject *)(((Pc_8028B198 *)this)->a[i]))->queue_destruction();
             ((Pc_8028B198 *)this)->a[i] = NULL;
         }
     }
@@ -71,7 +73,7 @@ Ctrl_8028B23C *TObjBoss5PillarCtrl__ct(Ctrl_8028B23C *arg0, void *arg1) {
         arg0->count++;
     }
     if (arg0->count <= 0) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return arg0;
     }
     lst = lbl_805D4DD8->owner->list;

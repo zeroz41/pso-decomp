@@ -89,6 +89,8 @@ void load_boss2_common_resource(void) {
     }
 }
 
+void *lbl_804FE9C8[7];
+
 }
 
 __declspec(section ".ctors") static void *const __sinit_TObjBoss2CeilJunk_8003A81C_cpp_ref = (void *)__sinit_TObjBoss2CeilJunk_8003A81C_cpp;

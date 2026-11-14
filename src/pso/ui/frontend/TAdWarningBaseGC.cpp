@@ -5,6 +5,10 @@
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/system/task/TMainTask.h"
 
+const char *lbl_805D4208 = "TAdWarningBaseGC";
+static const f32 lbl_80477334[2] = {46.0f, 131.0f};
+static const f32 lbl_8047733C[2] = {548.0f, 220.0f};
+
 struct B_8032D214 { u8 pad[0x18]; };
 
 struct V_8032D214 : B_8032D214 {
@@ -19,8 +23,6 @@ struct V_8032D214 : B_8032D214 {
 extern "C" {
 void append_line__14TWindowMessageFii(s32, void *, int);
 s32 update_window_mode_from_progress__6TLobbyFPv(void *, void *);
-extern u8 lbl_80477334[];
-extern u8 lbl_8047733C[];
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
 void play_sound_effect(int, int, int, int);
@@ -45,7 +47,7 @@ void TAdWarningBaseGC::vfunc_9() {
 
 s32 TAdWarningBaseGC::sub_8032D214() {
     V_8032D214 *arg0 = (V_8032D214 *)this;
-    s32 r = update_window_mode_from_progress__6TLobbyFPv(lbl_80477334, lbl_8047733C);
+    s32 r = update_window_mode_from_progress__6TLobbyFPv((void *)lbl_80477334, (void *)lbl_8047733C);
     append_line__14TWindowMessageFii(r, arg0->m5(), 3);
     return r;
 }
@@ -98,14 +100,13 @@ TAdWarningBaseGC::~TAdWarningBaseGC() {
     }
 }
 
-extern void *lbl_805D4208;
 
 void *TAdWarningBaseGC__ct(TAdWarningBaseGC *ad_warning_base_gc) {
     void *o;
     void *o2;
     __ct__7TObjectFP7TObject(ad_warning_base_gc);
     *(s32 **)((s8 *)ad_warning_base_gc + 0x18) = __vt__16TAdWarningBaseGC;
-    *(void * *)&ad_warning_base_gc->m_name = lbl_805D4208;
+    ad_warning_base_gc->m_name = lbl_805D4208;
     ad_warning_base_gc->m_28 = 0;
     ad_warning_base_gc->m_1c = 0;
     ad_warning_base_gc->m_24 = 0;

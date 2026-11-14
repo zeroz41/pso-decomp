@@ -10,17 +10,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/base/TObjMotion.h"
 
-extern char lbl_80465938[];
-extern char lbl_80465950[];
-extern char lbl_80465964[];
-extern char TOGrassJungle__class_name_string[];
-extern const char *bm_o_grass_jungle_model_names[3];
-extern BmlResourceDescriptor ograss_jungle_resource_descriptor;
-extern const char *bm_o_grass_jungle_motion_names[1];
-
-struct RecoveredGlobal_8029CD0C_lbl_8046598C { char value[0x13]; };
-typedef char RecoveredGlobal_8029CD0C_lbl_8046598C_size[sizeof(RecoveredGlobal_8029CD0C_lbl_8046598C) == 0x13 ? 1 : -1];
-
 struct RecoveredGlobal_8029CD0C_lbl_804DC534 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_8029CD0C_lbl_804DC534_size[sizeof(RecoveredGlobal_8029CD0C_lbl_804DC534) == 0x10 ? 1 : -1];
 
@@ -31,9 +20,12 @@ struct RecoveredGlobal_8029CE64___vt__13TOGrassJungle {
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern RecoveredGlobal_8029CD0C_lbl_8046598C lbl_8046598C;
 BmlResource *TOGrassJungle__bml_resource;
 u32 TOGrassJungle__grass_gvm_texture;
+const char *bm_o_grass_jungle_motion_names[1] = { NULL };
+const char *bm_o_grass_jungle_model_names[3] = { "fe_obj_kusa_hinata.gj", "fe_obj_kusa_kage.gj", NULL };
+BmlResourceDescriptor ograss_jungle_resource_descriptor = { "bm_o_grass_jungle.bml", bm_o_grass_jungle_model_names, bm_o_grass_jungle_motion_names, 2, 0 };
+const char *grass_jungle_class_name = "TOGrassJungle";
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 void *__nw__7TObjectFUl(int);
@@ -68,14 +60,9 @@ void TOGrassJungle::load_resources() {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &ograss_jungle_resource_descriptor, 0, 0, 0));
     }
     (*(u8 * *)&TOGrassJungle__bml_resource) = (unsigned char *) ((void *) var_r0);
-    (*(u8 * *)&TOGrassJungle__grass_gvm_texture) = load_gvm_texture_file((s32) &lbl_8046598C.value);
+    (*(u8 * *)&TOGrassJungle__grass_gvm_texture) = load_gvm_texture_file((s32)"o_grass_jungle.gvm");
     TMotorcycle::add_entry(0x3F, (int) (get_bml_model(TOGrassJungle__bml_resource, 0)), (int) ((*(u8 * *)&TOGrassJungle__grass_gvm_texture)), 12.0f, -10.0f);
 }
-
-__declspec(section ".data") const char *bm_o_grass_jungle_model_names[3] = { lbl_80465938, lbl_80465950, NULL };
-BmlResourceDescriptor ograss_jungle_resource_descriptor = { lbl_80465964, bm_o_grass_jungle_model_names, bm_o_grass_jungle_motion_names, 2, 0 };
-__declspec(section ".sdata") const char *bm_o_grass_jungle_motion_names[1] = { NULL };
-const char *grass_jungle_class_name = TOGrassJungle__class_name_string;
 
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__13TOGrassJungle[];

@@ -21,6 +21,7 @@
 #include "pso/unk/text_800C3088.h"
 #include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/player/TObjPlayer.h"
 
 struct Stack_800C44C4 {
     s32 sp8;
@@ -33,23 +34,11 @@ struct RecoveredGlobal_800C44C4_lbl_8043BB90 {
     u8 remaining[0xC];
 };
 typedef char RecoveredGlobal_800C44C4_lbl_8043BB90_size[sizeof(RecoveredGlobal_800C44C4_lbl_8043BB90) == 0x10 ? 1 : -1];
-struct RecoveredGlobal_800C44C4_lbl_8043BBE0 {
-    s32 value;
-    u8 remaining[0x10];
-};
-typedef char RecoveredGlobal_800C44C4_lbl_8043BBE0_size[sizeof(RecoveredGlobal_800C44C4_lbl_8043BBE0) == 0x14 ? 1 : -1];
-struct RecoveredGlobal_800C44C4_lbl_8043BBF4 {
-    s32 value;
-    u8 remaining[0x14];
-};
-typedef char RecoveredGlobal_800C44C4_lbl_8043BBF4_size[sizeof(RecoveredGlobal_800C44C4_lbl_8043BBF4) == 0x18 ? 1 : -1];
 
 extern "C" {
-u8 *load_enemy_bml_resource_named(s32 *, s32 *);
+u8 *load_enemy_bml_resource_named(s32 *, const char *);
 s32 load_enemy_bml_resource(u8 *arg0);
 extern RecoveredGlobal_800C44C4_lbl_8043BB90 lbl_8043BB90;
-extern RecoveredGlobal_800C44C4_lbl_8043BBE0 lbl_8043BBE0;
-extern RecoveredGlobal_800C44C4_lbl_8043BBF4 lbl_8043BBF4;
 extern char lbl_8043BAAC[];
 extern char lbl_8043BAC4[];
 extern char lbl_8043BADC[];
@@ -60,7 +49,6 @@ extern char lbl_8043BB38[];
 extern char lbl_8043BB50[];
 extern char lbl_8043BB64[];
 s32 TObjEneRe2Flower__sub_800C2E64(void *, void *);
-s32 is_area_attack_target_eligible(s32, s32);
 s32 obj_isState2_324__9TObjCharaFv(void *);
 s32 is_valid_target__9TObjEneDDFv(void *);
 f32 horizontal_distance_squared(void *, void *);
@@ -75,7 +63,6 @@ extern const f32 lbl_805D9FD8; // 15.0
 extern const f32 lbl_805D9FF4;
 extern const f32 lbl_805D9FF8;
 extern const f32 lbl_805D9FFC; // 0.002
-extern const f32 lbl_805DA000;
 
 // Stat block ids by variant (0 normal, 1 rare, 2 the tower's): base stats,
 // resistances, attack stats, and the movement block.
@@ -130,57 +117,14 @@ TObjMotionAction TObjEneRe2Flower__animation_descriptors[8] = {
 
 // The file is compiled -inline off,deferred, which emits the functions in the
 // reverse of the order they are written in.
-s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2, void *object, f32 range) {
-    s32 result;
-    s32 flags;
-    s32 p;
-    s32 i;
-    s32 ok;
-    result = 0;
-    flags = 0;
-    if (this->owner == 0) {
-        return 0;
-    }
-    TObjPlayer::init_all_slots();
-    if (*(s32 *)((s8 *)((u8 *)recoil) + 4) & 1) {
-        this->update_body_contact_flag(range);
-        flags |= 0x80000;
-    }
-    if (*(s32 *)((s8 *)((u8 *)recoil) + 4) & 2) {
-        this->mark_enemy_body_contacts();
-        flags |= 0x100000;
-    }
-    if (*(s32 *)((s8 *)(this->bodies) + 0x18) & flags) {
-        for (i = 0; i < 0x10; i++) {
-            p = TObjPlayer::get_battle_param(i);
-            if (p == 0) {
-                break;
-            }
-            if (obj_is_hit_receivable((u8 *)p) != 0 && (u32)p != this->owner &&
-                is_area_attack_target_eligible((s32)this, *(s32 *)((s8 *)p + 0x30)) != 0 &&
-                !(fabs_float(*(f32 *)&(this->m_b8) - *(f32 *)((s8 *)p + 0x300)) > lbl_805DA000)) {
-                ok = 1;
-                if (object != 0 && attack_target_history_add((s32)object, p) == 0) {
-                    ok = 0;
-                }
-                if (ok != 0) {
-                    this->area_attack_receive_direct((void *)p, (f32 *)((u8 *)recoil), (void *)arg2);
-                    result = 1;
-                }
-            }
-        }
-    }
-    return result;
-}
-
 void TObjPlayer__sub_800C44C4(void) {
     Stack_800C44C4 stack;
     BmlModelEntry *models;
 
     if (get_current_floor_area() == AREA_TOWER) {
-        lbl_805D5174 = (BmlResource *)load_enemy_bml_resource_named((s32 *)&TObjEneRe2Flower__resource_descriptor, &lbl_8043BBE0.value);
+        lbl_805D5174 = (BmlResource *)load_enemy_bml_resource_named((s32 *)&TObjEneRe2Flower__resource_descriptor, "bm_ene_dkflower.bml");
     } else if (TObjEneDD::check_v2_mode() != 0) {
-        lbl_805D5174 = (BmlResource *)load_enemy_bml_resource_named((s32 *)&TObjEneRe2Flower__resource_descriptor, &lbl_8043BBF4.value);
+        lbl_805D5174 = (BmlResource *)load_enemy_bml_resource_named((s32 *)&TObjEneRe2Flower__resource_descriptor, "bm_ene_re2_flower_a.bml");
     } else {
         lbl_805D5174 = (BmlResource *)load_enemy_bml_resource((u8 *)&TObjEneRe2Flower__resource_descriptor);
     }
@@ -435,7 +379,7 @@ u8 *TObjEneRe2Flower::find_target_in_range() {
     result = NULL;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        p = (u8 *)get_player_data__10TObjPlayerFi(i);
+        p = (u8 *)TObjPlayer::get_player_data(i);
         if (is_valid_target__9TObjEneDDFv(p) != 0 && obj_isState2_324__9TObjCharaFv(p) == 0) {
             result = p;
             break;

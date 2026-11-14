@@ -72,7 +72,6 @@ static f32 pan_tab_dpl2[4] = {
     1.f,
 };
 
-#define dspDLSVolTab lbl_804F6CDC
 
 #pragma push
 #pragma dont_inline off

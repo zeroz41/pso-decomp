@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
@@ -17,6 +18,9 @@
 #include "pso/boss/darkfalz/TObjDFUsoTower.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
+#include "pso/player/TObjPlayer.h"
 
 extern const char dark_falz_state_name_editor[] = "EDITOR";
 extern const char dark_falz_state_name_wait_casket[] = "WAIT_CASKET";
@@ -51,7 +55,6 @@ struct RecoveredGlobal_8004C5E8_TBoss4DarkFalz__data_804FF1E8 {
 extern "C" {
 int VecCopy__FP3VecPC3Vec(void*, void* a1);
 int freeze_all_players__14TBoss4DarkFalzFPv(void*);
-void queue_destruction__7TObjectFv(void *arg0);
 s32 obj_setArrS16_FC(void *, s32, u16);
 extern s32 lbl_80485454[];
 extern int TBoss4DarkFalz__type3_instance;
@@ -63,7 +66,6 @@ extern s32 game_difficulty_selection;
 s32 TBoss4DarkFalz__sub_8004B730(void *, f32, int);
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 extern RecoveredGlobal_8004C5E8_TBoss4DarkFalz__data_804FF1E8 TBoss4DarkFalz__data_804FF1E8;
-s32 is_ending_or_split_screen__14TBoss4DarkFalzFv();
 int TBoss4DarkFalz__sub_8004C1AC(void);
 s32 TBoss4DarkFalz__sub_8004C1B4(void);
 int bswap_16__FPUs(void*);
@@ -118,12 +120,12 @@ void TBoss4DarkFalz::update_ol_ending() {
     }
 }
 
-void TBoss4DarkFalz::set_state() { freeze_all_players__14TBoss4DarkFalzFPv(this); TObjOnlineEnding::create(this); *(int*)((char*)this + 0x380) = 454; }
+void TBoss4DarkFalz::set_state() { TBoss4DarkFalz::freeze_all_players(this); TObjOnlineEnding::create(this); *(int*)((char*)this + 0x380) = 454; }
 
 void TBoss4DarkFalz::update_fade_countdown() {
     f32 v;
     s32 t;
-    if (is_ending_or_split_screen__14TBoss4DarkFalzFv() != 0) {
+    if (TBoss4DarkFalz::is_ending_or_split_screen() != 0) {
         t = *(s32 *)((s8 *)this + 0x380);
         if (t < 0xA) {
             v = (f32)(0xA - t) / 6.0f;
@@ -136,7 +138,7 @@ void TBoss4DarkFalz::update_fade_countdown() {
     t = *(s32 *)((s8 *)this + 0x380) - 1;
     *(s32 *)((s8 *)this + 0x380) = t;
     if (t < 0) {
-        if (is_ending_or_split_screen__14TBoss4DarkFalzFv() != 0) {
+        if (TBoss4DarkFalz::is_ending_or_split_screen() != 0) {
             change_state(0xF);
             return;
         }
@@ -162,7 +164,7 @@ typedef struct Obj_8004C940 {
 void TBoss4DarkFalz::begin_defeat_sequence() {
     u16 sp8[4];
     s32 i;
-    freeze_all_players__14TBoss4DarkFalzFPv(this);
+    TBoss4DarkFalz::freeze_all_players(this);
     TLobby::stop_audio_streams();
     TBoss4DarkFalz::dispatch_by_main_phase(0x37);
     TBoss4Thanks::check_ready();
@@ -173,7 +175,7 @@ void TBoss4DarkFalz::begin_defeat_sequence() {
     }
     if ((void *) (*(u8 * *)&TBoss4DarkFalz__type3_instance) != NULL) {
         ((TBoss4DarkFalz *)TBoss4DarkFalz__type3_instance)->get_defeat_params(&((Obj_8004C940 *)this)->f2d6, &((Obj_8004C940 *)this)->f2d4, sp8);
-        queue_destruction__7TObjectFv((*(u8 * *)&TBoss4DarkFalz__type3_instance));
+        ((TObject *)(*(u8 * *)&TBoss4DarkFalz__type3_instance))->queue_destruction();
         (*(u8 * *)&TBoss4DarkFalz__type3_instance) = NULL;
         i = 0;
         do {
@@ -234,7 +236,7 @@ void TBoss4DarkFalz::update_countdown_shrink() {
 }
 
 void TBoss4DarkFalz::init_state() {
-    freeze_all_players__14TBoss4DarkFalzFPv(this);
+    TBoss4DarkFalz::freeze_all_players(this);
     TObjDFDemo4::create(this, (void *)((char *)this + 924), *(void **)((s8 *)this + 0x3A8));
     play_area_music("dark2.adx");
     *(u32 *)((s8 *)this + 0x380) = 114;
@@ -243,7 +245,7 @@ void TBoss4DarkFalz::init_state() {
 void TBoss4DarkFalz::update_get_ring() {
     f32 v;
     s32 t;
-    if (is_ending_or_split_screen__14TBoss4DarkFalzFv() != 0) {
+    if (TBoss4DarkFalz::is_ending_or_split_screen() != 0) {
         t = *(s32 *)((s8 *)this + 0x380);
         if (t < 0xA) {
             v = (f32)(0xA - t) / 6.0f;
@@ -256,7 +258,7 @@ void TBoss4DarkFalz::update_get_ring() {
     t = *(s32 *)((s8 *)this + 0x380) - 1;
     *(s32 *)((s8 *)this + 0x380) = t;
     if (t < 0) {
-        if (is_ending_or_split_screen__14TBoss4DarkFalzFv() != 0) {
+        if (TBoss4DarkFalz::is_ending_or_split_screen() != 0) {
             change_state(0xF);
             return;
         }
@@ -265,7 +267,7 @@ void TBoss4DarkFalz::update_get_ring() {
 }
 
 void TBoss4DarkFalz::update_leader_get_ring() {  }
-void TBoss4DarkFalz::enter_state_142() { freeze_all_players__14TBoss4DarkFalzFPv(this); TObjDFDemo3::create(this, (char*)this + 0x39c, *(void**)((char*)this + 0x3a8)); *(int*)((char*)this + 0x380) = 142; }
+void TBoss4DarkFalz::enter_state_142() { TBoss4DarkFalz::freeze_all_players(this); TObjDFDemo3::create(this, (char*)this + 0x39c, *(void**)((char*)this + 0x3a8)); *(int*)((char*)this + 0x380) = 142; }
 void TBoss4DarkFalz::update_timer() {
     s32 temp_r0;
     temp_r0 = *(s32 *)((s8 *)this + 0x380) - 1;
@@ -348,7 +350,7 @@ void TBoss4DarkFalz::enter_demo2_phase() {
     TBoss4DarkFalz::dispatch_by_main_phase(0x35);
     if ((u32)TBoss4DarkFalz__type2_instance != 0) {
         ((TBoss4DarkFalz *)TBoss4DarkFalz__type2_instance)->get_demo2_params(&arg0->f2d6, &this->m_2d4, arr);
-        queue_destruction__7TObjectFv((void *)TBoss4DarkFalz__type2_instance);
+        ((TObject *)TBoss4DarkFalz__type2_instance)->queue_destruction();
         TBoss4DarkFalz__type2_instance = 0;
         for (i = 0; i < 4; i++) {
             obj_setArrS16_FC(arg0, i, arr[i]);
@@ -396,7 +398,7 @@ void TBoss4DarkFalz::start_demo1() {
     }
     TBoss4DarkFalz::dispatch_by_main_phase(0x33U);
     if ((void *) (*(u8 * *)&TBoss4DarkFalz__type1_instance) != NULL) {
-        queue_destruction__7TObjectFv((*(u8 * *)&TBoss4DarkFalz__type1_instance));
+        ((TObject *)(*(u8 * *)&TBoss4DarkFalz__type1_instance))->queue_destruction();
         (*(u8 * *)&TBoss4DarkFalz__type1_instance) = NULL;
     }
     *(s32 *)((s8 *)arg0 + 0x380) = 0x12C;
@@ -452,7 +454,7 @@ void TBoss4DarkFalz::update_intro_demo() {
     temp_r3 = *(s32 *)((s8 *)this + 0x380);
     if (temp_r3 > 0x145) {
         if ((u32) this->m_394 != 0U) {
-            queue_destruction__7TObjectFv(*(void * *)&this->m_394);
+            ((TObject *)(*(void * *)&this->m_394))->queue_destruction();
             this->m_394 = 0U;
         }
         TBoss4DarkFalz::dispatch_by_main_phase(0x32);
@@ -537,7 +539,7 @@ void TBoss4DarkFalz::update_demo_warp0() {
     }
 }
 
-void TBoss4DarkFalz::start_demo() { TBoss4DarkFalz__sub_8004B8F8((TBoss4DarkFalz *)((void *)this)); TBoss4DarkFalz::push_players_out_of_zone((s32)this, (s32)((void*)1)); freeze_all_players__14TBoss4DarkFalzFPv(this); TObjDFDemoF::create(this); set_dark_falz_music_request((s32)((void*)1)); unlock_music_flag((s32)((void*)23)); *(int*)((char*)this + 0x380) = 120; }
+void TBoss4DarkFalz::start_demo() { TBoss4DarkFalz__sub_8004B8F8((TBoss4DarkFalz *)((void *)this)); TBoss4DarkFalz::push_players_out_of_zone((s32)this, (s32)((void*)1)); TBoss4DarkFalz::freeze_all_players(this); TObjDFDemoF::create(this); set_dark_falz_music_request((s32)((void*)1)); unlock_music_flag((s32)((void*)23)); *(int*)((char*)this + 0x380) = 120; }
 
 void TBoss4DarkFalz::check_players_near_center() {
     V_8004D1E4 v;
@@ -548,7 +550,7 @@ void TBoss4DarkFalz::check_players_near_center() {
     v.z = -240.0f;
     lim = 900.0f;
     for (i = 0; i < registered_player_count; i++) {
-        p = (void *)get_player_data__10TObjPlayerFi(i);
+        p = (void *)TObjPlayer::get_player_data(i);
         if (p != 0 && horizontal_distance_squared(&v, (u8 *)p + 0x2FC) <= lim) {
             send_action_packet(2);
             return;

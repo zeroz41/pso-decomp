@@ -12,6 +12,9 @@
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer.h"
 
 // One TU: TLobby__sub_8034DAA0 (jumptable after the TUnk_804F07C8 vtable in .data),
 // the party-area task, TTecReverser::is_active, the 4-player notifiers and the
@@ -261,11 +264,9 @@ s32 get_entity_id(s32);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 void TNpcPlayer__sub_8034EDB8(void);
 s32 end_camera_pan__10TObjPlayerFv();
-s32 init_photon_blast__10TObjPlayerFs(u32, s16);
 void set_npc_control_flag__10TNpcPlayerFPvs(void* p, s16 v);
 void build_6x69_npc_control(void* p);
 void clear_partner_dialogue_flags(void);
-s32 obj_testFlags30__14TObjCollidableFUl(void *, int);
 int sprintf(char *, const char *, ...);
 char *strcpy(char *, const char *);
 u32 strlen(const char *);
@@ -276,7 +277,6 @@ Obj_8034E814 *create_player_object(u16, s32, s32);
 extern s32 local_client_id;
 void handle_6x69_npc_control(Pkt_8034E814 *pkt);
 void send_6x55_intra_map_warp(u16 id, void *pos, s32 c);
-void play_effect_default__10TObjPlayerFii(s32 arg0, s32 arg1);
 
 s32 obj_isState2_324__9TObjCharaFv();
 }
@@ -334,7 +334,7 @@ s32 TNpcPlayer::get_field_67c() { return *(s32*)((char*)this + 0x67c); }
 void TNpcPlayer::apply_to_battle_player_slot(u16 arg0, s16 arg1) {
     u32 temp_r3;
     if ((arg1 < 0x10) && ((temp_r3 = ((u32)get_player_by_client_id(arg0))) != 0U)) {
-        init_photon_blast__10TObjPlayerFs(temp_r3, arg1);
+        ((TObjPlayer *)temp_r3)->init_photon_blast(arg1);
     }
 }
 
@@ -588,7 +588,7 @@ void TNpcPlayer::send_6x3e_to_all_players(void *pos, s16 arg) {
         p = get_player_by_client_id(i);
         if (p != 0 && obj_isState3_324__9TObjCharaFv() != 0 && ((TNpcPlayer *)p)->get_action_flags() != 0xFFFF) {
             flag = 0;
-            if (obj_testFlags30__14TObjCollidableFUl((void *)p, 0x100000) != 0) {
+            if (((TObjCollidable *)p)->obj_testFlags30(0x100000) != 0) {
                 flag = 1;
             }
             ((TNpcPlayer *)(&pkt))->init_6x3E_packet();
@@ -663,7 +663,7 @@ void TNpcPlayer::send_stop_at_position(u16 id, void *pos, s16 arg) {
     p = (u8 *) get_player_by_client_id(id);
     flag = 0;
     if (p != NULL) {
-        if (obj_testFlags30__14TObjCollidableFUl(p, 0x100000) != 0) {
+        if (((TObjCollidable *)p)->obj_testFlags30(0x100000) != 0) {
             flag = 1;
         }
         pkt.id = id;
@@ -709,7 +709,7 @@ void quest_player_look_at_partner(u16 src) {
     }
     ((TNpcPlayer *)(&pkt))->init_6x3E_packet();
     flag = 0;
-    if (obj_testFlags30__14TObjCollidableFUl(a, 0x100000) != 0) {
+    if (((TObjCollidable *)a)->obj_testFlags30(0x100000) != 0) {
         flag = 1;
     }
     heading = (s32) ((65536.0 / (2.0 * 3.141592f)) * atan2_float(c->x - a->x, c->z - a->z));
@@ -738,7 +738,7 @@ void quest_player_face_actor(u16 src, u16 dst) {
         return;
     }
     ((TNpcPlayer *)(&pkt))->init_6x3E_packet();
-    obj_testFlags30__14TObjCollidableFUl(a, 0x100000);
+    ((TObjCollidable *)a)->obj_testFlags30(0x100000);
     heading = (s32) ((65536.0 / (2.0 * 3.141592f)) * atan2_float(c->x - a->x, c->z - a->z));
     pkt.id = src;
     VecCopy((Vec *)&pkt.x, (const Vec *)&a->x);
@@ -751,7 +751,7 @@ void TNpcPlayer::play_effect(int arg0) {
 
     player = get_player_by_client_id((u16) arg0);
     if ((player != 0) && (obj_isState2_324__9TObjCharaFv() == 0)) {
-        play_effect_default__10TObjPlayerFii(player, -1);
+        TObjPlayer::play_effect_default(player, -1);
     }
 }
 

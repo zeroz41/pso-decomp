@@ -17,6 +17,7 @@ struct TBoss8DragonEffTail : public TUnk_804928CC {
     void enable();
     void disable();
     int get_state();
+    static void load_statics(); // inferred: loads what free_statics frees (its pair in static_resource_callback_table)
     static void free_statics();
     u8 unk_C4[0x8];
 };
@@ -40,7 +41,6 @@ void run_task__19TBoss8DragonEffTailFv(u8 *arg0p);
 // --- end of C functions
 
 extern "C" {
-void fn_802FE8CC(void);
 }
 
 #endif

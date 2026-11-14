@@ -4,9 +4,11 @@
 #include <stddef.h>
 #include "pso/math/TMath.h"
 
+const char *TChCrEffTag__name = "TChCrEffTag";
+s32 TChCrEffTag__selected_heading = -1;
+static const s32 lbl_804652A4[] = {0xA4, 0xA5, 0xA6, 0x9B, 0x9C, 0x9D, 0x9E, 0x9F, 0xA0, 0xA1, 0xA2, 0xA3};
+
 extern "C" {
-extern const s32 lbl_804652A4[13];
-extern s32 TChCrEffTag__selected_heading;
 
 int restore_saved_depth_alpha_state(void);
 int draw_chcr_tag_heading_frame(void*);
@@ -73,30 +75,20 @@ void TChCrEffTag::run_task()
   }
   if (temp_f1 > 294.0f)
   {
-    width = (f32) 294.0f;
+    width = 294.0f;
   }
 }
 #pragma pop
 
 TChCrEffTag::~TChCrEffTag() {}
 
-extern "C" {
-extern void *TChCrEffTag__name;
-}
-
 TChCrEffTag::TChCrEffTag(TObject *parent) : TObject(parent) {
-    m_name = (const char *)TChCrEffTag__name;
+    m_name = TChCrEffTag__name;
     heading = -1;
     TChCrEffTag__selected_heading = -1;
     label = NULL;
     targetWidth = 1e+02f;
     width = 1e+02f;
-}
-
-extern "C" {
-extern char TChCrEffTag__class_name_string[];
-void *TChCrEffTag__name = TChCrEffTag__class_name_string;
-s32 TChCrEffTag__selected_heading = -1;
 }
 
 extern "C" {

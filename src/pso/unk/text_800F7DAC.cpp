@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/TUnk_804999D0.h"
 #include "pso/unk/TUnk_804999B8.h"
@@ -15,6 +16,8 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/ModelDrawContext.h"
+#include "pso/system/task/TObject.h"
+#include "pso/unk/TUnk_80499970.h"
 
 struct RecoveredGlobal_800F81A8_lbl_80499970 {
     s32 value;
@@ -63,7 +66,6 @@ struct Fade_800F88D8 {
 };
 extern "C" {
 
-void queue_destruction__7TObjectFv(void *);
 void __ct__13TUnk_804999E8FP7TObject(void *, void *);
 void *__dt__13TUnk_804999E8Fv(void *, s16);
 void TCameraCtrl__sub_80068EF0(void);
@@ -71,7 +73,6 @@ u32 prs_decompress_buffer(s32 arg0, s32 arg1);
 }
 void step_fade_opacity_increase(u8 *arg0);
 extern "C" {
-void step_fade_opacity_decrease__13TUnk_80499970Fv(u8 *arg0);
 u8 * __dt__13TUnk_80499988Fv(u8 *arg0, s16 arg1);
 void * TLobby__sub_800F8498(void *arg0, void *arg1, s32 arg2, s32 arg3, u8 arg4, u8 arg5, u8 arg6, u8 arg7);
 void * __dt__13TUnk_804999A0Fv(void *arg0, s16 arg1);
@@ -89,7 +90,7 @@ extern RecoveredGlobal_800F8428_lbl_80499988 lbl_80499988;
 extern s32 lbl_804999A0[];
 extern s32 lbl_804999B8[];
 extern s32 lbl_804999D0[];
-extern void *screen_fade_controller;
+void * screen_fade_controller;
 extern s32 local_client_id;
 extern void *tl_fade;
 
@@ -170,7 +171,7 @@ void TLobby::dispatch_state() {
 
     switch (*(s32 *)((s8 *)this + 0x24)) {
     case 1:
-        step_fade_opacity_decrease__13TUnk_80499970Fv((u8 *)this);
+        ((TUnk_80499970 *)this)->step_fade_opacity_decrease();
         return;
     case 2:
         step_fade_opacity_increase((u8 *)this);
@@ -189,7 +190,7 @@ void TLobby::tick_fade_counter() {
     s32 (*temp_r12)();
     *(f32 *)((s8 *)arg0 + 0x1C) += 1.0f;
     if (*(f32 *)((s8 *)arg0 + 0x1C) >= (128.0f)) {
-        *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (128.0f);
+        *(f32 *)((s8 *)arg0 + 0x1C) = 128.0f;
         temp_r12 = *(s32 (**)())((s8 *)arg0 + 0x28);
         if (temp_r12 != NULL) {
             temp_r12();
@@ -206,7 +207,7 @@ void step_fade_opacity_increase(u8 *arg0) {
     s32 (*temp_r12)();
     *(f32 *)((s8 *)arg0 + 0x1C) += 8.0f;
     if (*(f32 *)((s8 *)arg0 + 0x1C) >= (255.0f)) {
-        *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (255.0f);
+        *(f32 *)((s8 *)arg0 + 0x1C) = 255.0f;
         temp_r12 = *(s32 (**)())((s8 *)arg0 + 0x28);
         if (temp_r12 != NULL) {
             temp_r12();
@@ -219,7 +220,7 @@ void step_fade_opacity_increase(u8 *arg0) {
 void TLobby::init_fadeout_state(s32 arg0) {
     if ((void *) screen_fade_controller != NULL) {
         *(s32 *)((s8 *)screen_fade_controller + 0x28) = arg0;
-        *(f32 *)((s8 *)screen_fade_controller + 0x1C) = (f32) (0.0f);
+        *(f32 *)((s8 *)screen_fade_controller + 0x1C) = 0.0f;
         *(s8 *)((s8 *)screen_fade_controller + 0x20) = 0;
         *(s8 *)((s8 *)screen_fade_controller + 0x21) = 0;
         *(s8 *)((s8 *)screen_fade_controller + 0x22) = 0;
@@ -234,7 +235,7 @@ void TUnk_80499970::step_fade_opacity_decrease() {
     s32 (*temp_r12)();
     *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (*(f32 *)((s8 *)arg0 + 0x1C) - (8.0f));
     if (*(f32 *)((s8 *)arg0 + 0x1C) <= (0.0f)) {
-        *(f32 *)((s8 *)arg0 + 0x1C) = (f32) (0.0f);
+        *(f32 *)((s8 *)arg0 + 0x1C) = 0.0f;
         temp_r12 = *(s32 (**)())((s8 *)arg0 + 0x28);
         if (temp_r12 != NULL) {
             temp_r12();
@@ -247,7 +248,7 @@ void TUnk_80499970::step_fade_opacity_decrease() {
 void TLobby::set_fade_params(s32 arg0) {
     if ((void *) screen_fade_controller != NULL) {
         *(s32 *)((s8 *)screen_fade_controller + 0x28) = arg0;
-        *(f32 *)((s8 *)screen_fade_controller + 0x1C) = (f32) (255.0f);
+        *(f32 *)((s8 *)screen_fade_controller + 0x1C) = 255.0f;
         *(s8 *)((s8 *)screen_fade_controller + 0x20) = 0;
         *(s8 *)((s8 *)screen_fade_controller + 0x21) = 0;
         *(s8 *)((s8 *)screen_fade_controller + 0x22) = 0;
@@ -304,7 +305,7 @@ void TUnk_80499988::run_task() {
     temp_r3 = this->m_20 + 1;
     this->m_20 = temp_r3;
     if (temp_r3 > (s32) *(s32 *)((s8 *)((u8 *)this) + 0x24)) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 
@@ -377,7 +378,7 @@ void TUnk_804999B8::run_task() {
     s32 (*temp_r12)();
     *(f32 *)((s8 *)((u8 *)this) + 0x1C) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x1C) - (8.0f));
     if (*(f32 *)((s8 *)((u8 *)this) + 0x1C) <= 0.0f) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x1C) = (f32) 0.0f;
+        *(f32 *)((s8 *)((u8 *)this) + 0x1C) = 0.0f;
         temp_r12 = *(s32 (**)())((s8 *)((u8 *)this) + 0x24);
         if (temp_r12 != NULL) {
             temp_r12();
@@ -415,7 +416,7 @@ void TUnk_804999D0::run_task() {
     s32 (*temp_r12)();
     *(f32 *)((s8 *)((u8 *)this) + 0x1C) += 8.0f;
     if (*(f32 *)((s8 *)((u8 *)this) + 0x1C) >= (255.0f)) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x1C) = (f32) (255.0f);
+        *(f32 *)((s8 *)((u8 *)this) + 0x1C) = 255.0f;
         temp_r12 = *(s32 (**)())((s8 *)((u8 *)this) + 0x24);
         if (temp_r12 != NULL) {
             temp_r12();

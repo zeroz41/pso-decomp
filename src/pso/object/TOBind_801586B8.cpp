@@ -13,13 +13,11 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 
-extern char lbl_80440220[];
-extern char lbl_80440234[];
-extern char lbl_8044024C[];
-extern char lbl_80440268[];
-__declspec(section ".data") const char *bm_o_bind_model_names[3] = { lbl_80440220, lbl_80440234, NULL };
-__declspec(section ".data") const char *bm_o_bind_motion_names[2] = { lbl_8044024C, NULL };
-BmlResourceDescriptor bm_o_bind_resource_descriptor = { lbl_80440268, bm_o_bind_model_names, bm_o_bind_motion_names, 2, 1 };
+#pragma readonly_strings on
+
+__declspec(section ".data") const char *bm_o_bind_model_names[3] = { "fe_obj_bind_moto.gj", "fs_obj_bind_laz_moto.gj", NULL };
+__declspec(section ".data") const char *bm_o_bind_motion_names[2] = { "fs_obj_bind_laz_moto.njm", NULL };
+BmlResourceDescriptor bm_o_bind_resource_descriptor = { "bm_o_bind.bml", bm_o_bind_model_names, bm_o_bind_motion_names, 2, 1 };
 CollisionBody bind_collision_body_parts[2] = {
     {{0.0f, 20.0f, 0.0f}, 10.0f, 0.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
     {{0.0f, 20.0f, -10.0f}, 5.0f, 10.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -32,13 +30,13 @@ struct RecoveredGlobal_80158890___vt__6TOBind {
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern u32 TOBind__static_model_resource;
+u32 TOBind__static_model_resource;
 u8 *get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(int, int);
 s32 get_bml_model(int, int);
 s32 __ct__14TObjCollidableFP7TObject(void *, int);
 extern s32 __vt__6TOBind[];
-extern s32 lbl_805D2EA8;
+const char *lbl_805D2EA8 = "TOBind";
 extern s32 tl_05;
 struct BindBase_801586B8 { char pad[0x18]; };
 struct BindObj_801586B8 : BindBase_801586B8 {
@@ -115,7 +113,7 @@ typedef char RecoveredGlobal_80158890___vt__6TOBind_size[sizeof(RecoveredGlobal_
 u8 *TOBind__ct(TOBind *bind, s32 arg1) {
     __ct__14TObjCollidableFP7TObject(bind, tl_05);
     *(s32 **)((s8 *)bind + 0x18) = &(*(RecoveredGlobal_80158890___vt__6TOBind *)&__vt__6TOBind).value;
-    *(s32 *)((s8 *)bind + 0) = (s32) lbl_805D2EA8;
+    *(const char **)((s8 *)bind + 0) = lbl_805D2EA8;
     ((TOBind *)(bind))->apply_object_set_data((void *)arg1);
     bind->m_b0 = 0;
     *(s32 *)((s8 *)bind + 0x34) = get_bml_model((int) ((*(s32 *)&TOBind__static_model_resource)), 0);

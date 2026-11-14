@@ -2,6 +2,7 @@
 #define MUSYX_RUNTIME_A_H
 
 #include "types.h"
+#include "musyx/runtime/musyx_dspvoice.h"
 
 struct RecoveredGlobal_803AA0C0_lbl_80556E88 {
     s32 value;
@@ -28,7 +29,6 @@ struct Rec_803B59E4 {
     u8 padB4[0xBC - 0xB4];
 };
 
-struct Node_803B2598 { Node_803B2598 *next; u32 pad; u32 key; };
 
 struct Rec_803A9944 { u8 pad[0x2d]; u8 f2d; u8 pad2[2]; };
 
@@ -84,8 +84,6 @@ struct Obj_803B3B24 { u8 pad0[0xF4]; u32 id; u8 pad1[0x29]; u8 b121; u8 b122; };
 
 struct Obj_803B3B80 { u8 pad0[0xF4]; u32 id; u8 pad1[0x29]; u8 b121; u8 b122; };
 
-struct Node_803BA1B8 { Node_803BA1B8 *next; Node_803BA1B8 *prev; u8 pad8[8]; u32 f10; u8 pad14[0x28]; u32 id; };
-
 struct Node_803A8D2C { Node_803A8D2C *next; u32 f4; u8 idx; u8 f9; };
 
 struct Rec_803A8D2C { u8 pad[0x11C]; u8 busy; u8 pad11D[0x404 - 0x11D]; };
@@ -132,49 +130,39 @@ struct Obj_803AF0CC { u8 pad0[0x114]; u32 fh; u32 fl; u8 pad11C[0x24]; s8 b140; 
 
 struct Op_803AF0CC { u32 w0; u32 w4; };
 
-struct Node_803B2598;
-struct Node_803B24A0;
+struct VID_LIST_SV;
 struct Rec_803A8D2C;
 struct Obj_803B3B80;
-#define HEAD_803B25CC (*(Node_803B25CC **)&lbl_805D743C)
-#define FREE_803B25CC (*(Node_803B25CC **)&lbl_805D7440)
 #define VOICES_803B25CC (*(Prog_803B25CC **)&synthVoice)
 #define UNLINK_803B25CC(n)                         \
     {                                              \
-        Node_803B25CC *q = (n)->prev;              \
+        VID_LIST_SV *q = (n)->prev;              \
         if (q != NULL) {                           \
             q->next = (n)->next;                   \
         } else {                                   \
-            HEAD_803B25CC = (n)->next;              \
+            vidRoot = (n)->next;              \
         }                                          \
     }                                              \
     {                                              \
-        Node_803B25CC *q = (n)->next;              \
+        VID_LIST_SV *q = (n)->next;              \
         if (q != NULL) {                           \
             q->prev = (n)->prev;                   \
         }                                          \
     }
 #define PUSH_803B25CC(n)                           \
-    (n)->next = FREE_803B25CC;                      \
-    if (FREE_803B25CC != NULL) {                    \
-        FREE_803B25CC->prev = (n);                  \
+    (n)->next = vidFree;                      \
+    if (vidFree != NULL) {                    \
+        vidFree->prev = (n);                  \
     }                                              \
     (n)->prev = NULL;                              \
-    FREE_803B25CC = (n);
-struct Node_803B25CC {
-    Node_803B25CC *next;
-    Node_803B25CC *prev;
-    u32 pad8;
-    u32 owner;
-};
-
+    vidFree = (n);
 struct Prog_803B25CC {
     u8 pad0[0xEC];
     u32 nextId;
     u32 prevId;
     u32 id;
-    Node_803B25CC *node;
-    Node_803B25CC *node2;
+    VID_LIST_SV *node;
+    VID_LIST_SV *node2;
     u8 pad100[0x404 - 0x100];
 };
 
@@ -195,7 +183,6 @@ struct Req_803AA1E0 {
 
 struct Tbl_803AA1E0 { u8 b0; u8 b1; };
 
-struct Node_803B2A30 { Node_803B2A30 *next; u32 pad4; u32 key; s32 val; };
 
 struct Env_803B4360 {
     u8 mode; u8 phase; u8 pad2[2];
@@ -216,12 +203,6 @@ struct SynthInfo_803BAB54 {
     u8 maxSFX;
     u8 studioNum;
 };
-
-struct Vec_803B9438 { f32 x; f32 y; f32 z; };
-
-struct A_803B9438 { A_803B9438 *next; u8 pad4[0xC]; Vec_803B9438 pos; };
-
-struct B_803B9438 { B_803B9438 *next; u8 pad4[8]; Vec_803B9438 pos; f32 distance; u8 studio; };
 
 struct SYNTH_VOICE_803B2438 {
     u8 pad0[0x34];
@@ -541,19 +522,9 @@ void CheckOutputMode(s8 *arg0, s8 *arg1);
 u32 adsrSetup(u8 *arg0);
 s32 DCFlushRangeNoSync(void *, int);
 s32 memset(void *, int, int);
-extern s32 lbl_805D7480;
 void salInitHRTFBuffer(void);
 extern s32 (*salMessageCallback)(s32, s32);
 s32 salSynthSendMessage(u8 *arg0, s32 arg1);
-extern s8 lbl_805D7498;
-extern s32 lbl_805D749C;
-extern s32 lbl_805D74A0;
-extern s32 lbl_805D74A4;
-extern s32 lbl_805D74A8;
-extern s32 lbl_805D74AC;
-extern s8 lbl_805D74B0;
-extern s8 lbl_805D74B1;
-extern s8 lbl_805D74B2;
 void s3dInit(s32 arg0);
 #pragma pack(push, 4)
 struct Obj_803A8C5C { u8 pad0[0x24]; s64 p24; s64 p2C; };
@@ -566,8 +537,7 @@ s32 seqPlaySong(u16, u16, s32, s32, u8, s32);
 void sndSeqPlayEx(u16 arg0, u16 arg1, s32 arg2, s32 arg3, s32 arg4);
 extern Rec_803B59E4 lbl_805663D8[];
 void salDeactivateStudio(u8 i);
-extern Node_803B2598 *lbl_805D743C;
-Node_803B2598 *get_vidlist(u32 key);
+VID_LIST_SV *get_vidlist(u32 key);
 extern u8 sndActive;
 extern SYNTHMasterFader_SV synthMasterFader[];
 void synthSetMusicVolumeType(u8 i, u8 v);
@@ -579,14 +549,12 @@ s32 curvecmp(u8 *arg0, u8 *arg1);
 s32 *sndBSearch(Req_803AE60C *, void *, u16, s32, s32 (*)(u8 *, u8 *));
 extern Req_803AE60C lbl_805D73F8;
 extern u8 lbl_8055A470[];
-extern u16 lbl_805D73D2;
 extern s32 *lbl_805D7400;
 s32 dataGetCurve(s16 arg0);
 s32 curvecmp(u8 *arg0, u8 *arg1);
 s32 *sndBSearch(Req_803AE60C *, void *, u16, s32, s32 (*)(u8 *, u8 *));
 extern Req_803AE60C lbl_805D7404;
 extern u8 lbl_8055E470[];
-extern u16 lbl_805D73D4;
 extern s32 *lbl_805D740C;
 s32 dataGetKeymap(s16 arg0);
 extern Owner_803A3C24 *lbl_805D7360;
@@ -604,7 +572,6 @@ void salDeactivateVoice(Ent_803B89B4 *arg0);
 u32 sndStreamAllocLength(u32 arg0, u32 arg1);
 s32 *sndBSearch(Req_803AE60C *, void *, u16, s32, s32 (*)(u8 *, u8 *));
 s32 layercmp(u8 *arg0, u8 *arg1);
-extern u16 lbl_805D73D6;
 extern Res_803AE6DC *lbl_805D7410;
 s32 dataGetLayer(s16 arg0, u16 *arg1);
 u16 inpGetExCtrl(void *, s32);
@@ -616,17 +583,9 @@ s16 varGet(Obj_803AFF9C *arg0, u32 arg1, u32 arg2);
 void inpSetExCtrl(void *, s32, s16);
 extern s32 synthGlobalVariable[];
 void varSet32(Obj_803B0004 *arg0, u32 arg1, u32 arg2, s32 arg3);
-extern u8 lbl_80564CC8[][16];
-extern u8 lbl_80564D48[];
 s32 voiceIsLastStarted(Obj_803B3AA8 *arg0);
-extern u8 lbl_80564CC8[][16];
-extern u8 lbl_80564D48[];
 void voiceSetLastStarted(Obj_803B3B24 *arg0);
-extern u8 lbl_80564CC8[][16];
-extern u8 lbl_80564D48[];
 void voiceResetLastStarted(Obj_803B3B80 *arg0);
-extern s32 lbl_805D749C;
-void EmitterShutdown(Node_803BA1B8 *arg0);
 extern Rec_803A8D2C *synthVoice;
 void HandleJobQueue(Node_803A8D2C **list, void (*cb)(u8));
 u32 synthStartSound(u16 id, u8 prio, u8 max, u8 key, u8 vol, u8 panning, u8 midi, u8 midiSet, u8 section, u16 step, u16 trackid, u8 vGroup, s16 prioOffset, u8 studio, u32 itd);
@@ -651,12 +610,10 @@ extern Slot_803A4EB8 lbl_8054AB48[];
 void seqContinue(s32 arg0);
 void hwEnableIrq(void);
 void hwDisableIrq(void);
-extern u16 lbl_805D73DA;
 s32 dataInsertFX(u16 arg0, Rec_803ADBF0 *arg1, u16 arg2);
 void hwEnableIrq(void);
 void hwDisableIrq(void);
 extern Ent_803ADD18 lbl_80564070[];
-extern u16 lbl_805D73DA;
 s32 dataRemoveFX(u16 id);
 u16 sndRand(void);
 u32 hwIsActive(s32 i);
@@ -680,7 +637,6 @@ s32 synthFXSetCtrl14(u32 id, u8 a1, u16 a2);
 void hwEnableIrq(void);
 void hwDisableIrq(void);
 s32 sndFXStartParaInfo(s16 arg0, u8 arg1, u8 arg2, s32 arg3, Req_803AA1E0 *req);
-extern Node_803B2598 *lbl_805D743C;
 u32 vidGetInternalId(u32 arg0);
 extern f32 lbl_804F6358[];
 extern f32 lbl_804F6558[];
@@ -703,12 +659,10 @@ s32 hwInit(u32 *frq, u32 numVoices, u32 numStudios, u32 flags);
 extern u8 sndActive;
 extern u8 synthIdleWaitActive;
 s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aramSize);
-extern s32 lbl_805D74A0;
-extern s32 lbl_805D74A4;
 void UpdateRoomDistances(void);
 extern Rec_803A8D2C *synthVoice;
 extern Program_803B1DA4 *lbl_805D7420;
-extern u64 lbl_805D7428;
+extern u64 macRealTime;
 void macInit(void);
 extern Node_803A4964 *lbl_805D7378;
 extern Node_803A4964 *lbl_805D737C;
@@ -769,19 +723,15 @@ void hwDisableIrq(void);
 void synthDeactivateStudio(u8 studio);
 void hwEnableIrq(void);
 void hwDisableIrq(void);
-extern u16 lbl_805D73D4;
 s32 dataRemoveKeymap(u16 arg0);
 void hwEnableIrq(void);
 void hwDisableIrq(void);
-extern u16 lbl_805D73D6;
 s32 dataInsertLayer(u16 key, void *p, u16 f6);
 void hwEnableIrq(void);
 void hwDisableIrq(void);
-extern u16 lbl_805D73D6;
 s32 dataRemoveLayer(u16 key);
 void hwEnableIrq(void);
 void hwDisableIrq(void);
-extern u16 lbl_805D73D2;
 s32 dataRemoveCurve(u16 arg0);
 }
 
@@ -822,22 +772,14 @@ struct Ent_803ADB58 { u16 id; u16 ref; s32 f4; s32 f8; s32 fc; u8 pad10[0x10]; }
 struct Tbl_803ADB58 { Ent_803ADB58 *list; s32 base; s32 f8; };
 
 s32 hwRemoveSample(void *, s32);
-extern u16 lbl_805D73D0;
 struct Grp_803AE76C { u16 f0; u16 n; void *base; };
 struct Key_803AE76C { s16 key; };
 struct Grps_803AE76C { Grp_803AE76C g[0x85]; };
 struct Blk_803AE76C { u8 pad0[0xA200]; Grps_803AE76C grps; u8 pad428[4]; Key_803AE76C k; };
-extern u16 lbl_805D73DA;
 struct Slot_803AE814 { u16 count; u16 start; };
 
 void hwInitSampleMem(void *, void *);
 extern Slot_803AE814 lbl_8055F870[];
-extern u16 lbl_805D73D0;
-extern u16 lbl_805D73D2;
-extern u16 lbl_805D73D4;
-extern u16 lbl_805D73D6;
-extern u16 lbl_805D73D8;
-extern u16 lbl_805D73DA;
 #pragma pack(push, 4)
 struct Rec_803B1AF4 {
     u8 pad0[0x34]; u32 f34; s32 f38; u8 pad3c[0x10]; s32 f4c; u8 pad50[4]; u32 f54; u8 pad58[8]; s32 f60;
@@ -851,28 +793,17 @@ struct Ch_803B1BA4 {
     u8 pad60[8]; u8 f68; u8 pad69[0x114 - 0x69]; u64 flags;
 };
 #pragma pack(pop)
-struct Node_803B24A0 { Node_803B24A0 *next; Node_803B24A0 *prev; u32 f8; u32 fc; };
 
-extern Node_803B24A0 lbl_805644C8[];
-extern s32 lbl_805D7438;
-extern Node_803B24A0 *lbl_805D7440;
-struct Slot_803B312C { u8 prev; u8 next; u16 refs; };
 struct Obj_803B312C { u8 pad0[0x34]; s32 f34; u8 pad38[0xBC]; s32 id; u8 padF8[0x14]; u8 grp; u8 pad10d[0x10]; u8 f11d; };
 
 void macMakeInactive(Obj_803B312C *, s32);
 void voiceRemovePriority(Obj_803B312C *);
-extern Slot_803B312C lbl_80565388[];
-extern u8 lbl_805D7446;
-extern u8 lbl_805D7447;
-extern u8 lbl_805D7448;
-extern u8 lbl_805D7449;
 struct Ent_803B5DB0 {
     u8 pad[0x1C];
     u32 key;
 };
 struct Slot_803B8ABC { u32 a; u32 b; u32 src; };
 struct Obj_803B8ABC { u8 pad[0x52]; u8 count; u8 pad53[5]; Slot_803B8ABC slots[7]; };
-struct Node_803BA228 { Node_803BA228 *next; Node_803BA228 *prev; u8 pad8[8]; u32 f10; u8 pad14[0x30]; u16 id; };
 struct Ent_803BA228 { u16 id; u8 pad[8]; };
 }
 
@@ -930,12 +861,10 @@ void inpAddCtrl(s32, u8, s32, u8, bool);
 void inpSetMidiCtrl(s32, u8, u8, s32);
 u16 inpGetMidiCtrl(s32, u8, u8);
 extern Ent_803B5398 lbl_80565DD8[];
-extern u8 lbl_805D74C4;
-extern u8 lbl_805D74C6;
-extern Row_803AE4D4 *lbl_805D73F0;
-extern Part_803AE4D4 *lbl_805D73F4;
+extern u8 salMaxStudioNum;
+extern u8 salAuxFrame;
+extern u8 salFrame;
 extern V_803B1F24 *lbl_805D741C;
-extern u64 lbl_805D7428;
 void streamCorrectLoops(void);
 s32 maccmp(u8 *arg0, u8 *arg1);
 s32 smpcmp(u16 *arg0, u16 *arg1);
@@ -1089,7 +1018,6 @@ void sndConvertTicks(void *, void *);
 u32 hwIsActive(s32 i);
 void TimeQueueAdd(Program_803B1DA4 *self);
 void macMakeInactive(Obj_803B312C *, s32);
-extern u64 lbl_805D7428;
 
 #pragma pack(push, 4)
 typedef struct MSTEP_803AED58 { u32 para[2]; } MSTEP_803AED58;
@@ -1345,7 +1273,7 @@ typedef struct ADSR_803AF3DC {
 } ADSR_803AF3DC;
 s32 dataGetCurve(s16 arg0);
 void hwSetADSR(u8, void *, s32);
-extern f32 lbl_804F6CDC[];
+extern f32 dspDLSVolTab[];
 
 #pragma pack(push, 4)
 typedef struct MSTEP_803AF954 { u32 para[2]; } MSTEP_803AF954;
@@ -2016,7 +1944,6 @@ void macHandleActive(SYNTH_VOICE_803B19AC *);
 u32 hwIsActive(s32 i);
 extern Program_803B1DA4 *lbl_805D7420;
 extern V_803B1F24 *lbl_805D741C;
-extern u64 lbl_805D7428;
 
 struct Prog_803B25CC;
 struct Ch_803B1E48;
@@ -2089,7 +2016,6 @@ void hwBreak(u32);
 }
 struct Program_803B1DA4;
 
-extern s16 lbl_805D7450;
 
 typedef struct ADSR_VARS_803B41C8 {
     u8 mode;
@@ -2110,8 +2036,7 @@ typedef struct ADSR_VARS_803B41C8 {
     } data;
 } ADSR_VARS_803B41C8;
 
-extern u8 lbl_804F68DC[];
-extern u8 lbl_804F68DC[];
+extern u8 dspScale2IndexTab[];
 
 typedef struct LAYER_803B4CF8 {
     u16 id;
@@ -2155,43 +2080,13 @@ s32 dataRemoveCurve(u16 sid);
 s32 dataAddSampleReference(u16 sid);
 s32 dataRemoveSampleReference(u16 id);
 
-typedef struct _PB_803B5500 {
-    u8 pad0[0x4];
-    u16 currHi;
-    u16 currLo;
-    u8 pad8[0x38 - 0x8];
-    u16 itdBufferHi;
-    u16 itdBufferLo;
-    u8 pad3C[0x4E - 0x3C];
-    u16 updateDataHi;
-    u16 updateDataLo;
-    u8 pad52[0xBC - 0x52];
-} _PB_803B5500;
-typedef struct DSPvoice_803B5500 {
-    _PB_803B5500 *pb;
-    void *patchData;
-    void *itdBuffer;
-    u8 padC[0x24 - 0xC];
-    u32 changed[5];
-    u8 pad38[0xE4 - 0x38];
-    u8 lastUpdatePitch;
-    u8 lastUpdateVol;
-    u8 lastUpdateVolA;
-    u8 lastUpdateVolB;
-    u32 virtualSampleID;
-    u8 state;
-    u8 postBreak;
-    u8 startupBreak;
-    u8 padEF[0xF4 - 0xEF];
-} DSPvoice_803B5500;
 
-extern u8 lbl_805D74C5;
-extern u32 lbl_805D7458;
-extern u16 *lbl_805D7478;
-extern s32 *lbl_805D7484;
-extern DSPvoice_803B5500 *lbl_805D748C;
-extern void *lbl_805D7488;
-extern s32 lbl_805D7480;
+extern u8 salNumVoices;
+extern u32 dspARAMZeroBuffer;
+extern u16 *dspCmdList;
+extern s32 *dspSurround;
+extern void *dspITDBuffer;
+extern void *dspHrtfHistoryBuffer;
 
 u32 aramGetZeroBuffer(void);
 void *salMalloc(u32 size);
@@ -2319,15 +2214,15 @@ struct Emitter_S3D {
     f32 fade;
 };
 
-extern s8 lbl_805D7498;
-extern s32 lbl_805D749C;
-extern s32 lbl_805D74A0;
-extern s32 lbl_805D74A4;
-extern s32 lbl_805D74A8;
-extern s32 lbl_805D74AC;
-extern s8 lbl_805D74B0;
-extern s8 lbl_805D74B1;
-extern s8 lbl_805D74B2;
+extern u8 s3dCallCnt;
+extern Emitter_S3D *s3dEmitterRoot;
+extern Listener_S3D *s3dListenerRoot;
+extern Room_S3D *s3dRoomRoot;
+extern Door_S3D *s3dDoorRoot;
+extern u32 snd_used_studios;
+extern u8 snd_base_studio;
+extern u8 snd_max_studios;
+extern u8 s3dUseMaxVoices;
 
 s32 synthSendKeyOff(int id);
 void synthActivateStudio(u8 studio, u32 isMaster, u32 type);
@@ -2362,9 +2257,9 @@ struct StartGroup_S3D {
     RunList_S3D *running;
     u16 numRunning;
 };
-extern u8 lbl_805D74B3;
-extern u8 lbl_805D74B4;
-extern u8 lbl_805D74B5;
+extern u8 startGroupNum;
+extern u8 startListNum;
+extern u8 runListNum;
 
 void SetFXParameters(Emitter_S3D *em, f32 vol, f32 xPan, f32 yPan, f32 zPan, f32 doppler);
 
@@ -2496,7 +2391,7 @@ u32 macStart(u16 arg0, u8 arg1, u8 arg2, u16 arg3, u8 arg4, u8 arg5, u8 arg6, u8
                       u8 arg8, u8 arg9, u16 arg10, u16 arg11, u8 arg12, u8 arg13, u8 arg14, u32 arg15);
 void macInit(void);
 void vidInit(void);
-Node_803B2598 *get_vidlist(u32 key);
+VID_LIST_SV *get_vidlist(u32 key);
 void vidRemoveVoiceReferences(Prog_803B25CC *p);
 s32 vidMakeRoot(u8 *arg0);
 u32 vidMakeNew(SYNTH_VOICE_SV *svoice, u32 isMaster);
@@ -2546,7 +2441,7 @@ void CheckRoomStatus(void);
 void CheckDoorStatus(void);
 void CalcEmitter(Emitter_S3D *em, f32 *vol, f32 *doppler, f32 *xPan, f32 *yPan, f32 *zPan);
 void SetFXParameters(Emitter_S3D *const em, f32 vol, f32 xPan, f32 yPan, f32 zPan, f32 doppler);
-void EmitterShutdown(Node_803BA1B8 *arg0);
+void EmitterShutdown(Emitter_S3D *arg0);
 void s3dKillEmitterByFXID(Ent_803BA228 *arg0, u32 arg1);
 void AddRunningEmitter(Emitter_S3D *em, f32 vol);
 u32 AddStartingEmitter(Emitter_S3D *em, f32 vol, f32 xPan, f32 yPan, f32 zPan, f32 pitch);

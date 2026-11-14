@@ -14,7 +14,8 @@ struct WeaponVector { f32 x,y,z; };
 struct Desc_8011E5C4 {
     u8 pad_0[0x10];
     s32 pad_10;
-    u8 pad_14[0x40 - 0x14];
+    u8 pad_14[0x3C - 0x14];
+    f32 pad_3c;          // 160.0 for TUnk_804ED488
     u32 flags;
     NJS_OBJECT *model;   // the weapon's second_model
     u8 pad_48[0x4C - 0x48];
@@ -27,6 +28,7 @@ struct Desc_8011E5C4 {
     void *pad_70;
     void *pad_74;
     s32 pad_78;
+    s32 pad_7c;
 };
 
 struct WeaponMotionRecord { u32 unknown; u32 frame_count; };

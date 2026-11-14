@@ -37,6 +37,10 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/system/task/TObject.h"
 
 struct Vec_800A9C38 { f32 x, y, z; };
 struct VBase_800AA704 { u8 pad[0xC]; };
@@ -113,10 +117,6 @@ struct VObj_18_fe09eb : VBase_18_fe09eb {
     virtual s32 m63(s32, void *);
 };
 
-struct Mdl_800AA82C { u8 pad[8]; s32 f8; s32 fC; };
-
-struct Res_800AA82C { u8 pad[0x42C]; Mdl_800AA82C *mdl; s32 f430; };
-
 struct Node_800AA82C { u32 flags; u8 pad[0x30 - 4]; s32 f30; };
 
 struct Desc_800AA82C { s32 a; void *b; s32 c; s32 d; };
@@ -127,7 +127,6 @@ s32 check_path_obstructed(void *, void *);
 s32 TObjPlayer__sub_800AAF98(void *, s32);
 void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
 s32 enemy_turn_toward_dest(void *, s32);
-void queue_destruction__7TObjectFv(void *arg0);
 s32 __ct__13TUnk_80491460FPvlll(void *, void *, s32, void *, s32);
 s32 render_anim_model_at_pos__15TObjEnemyCustomFv();
 void *__nw__7TObjectFUl(int);
@@ -136,7 +135,6 @@ void TObjPlayer__sub_800A8FB4(void *arg0_);
 void free_bin_model_request(void *, s32);
 extern s32 lbl_80500AF0[];
 extern s32 lbl_80500AF8[];
-struct Res_800AA82C;
 Res_800AA82C *dubchik_resource;
 NJS_TEXLIST *dubchik_texlist;
 NJS_TEXLIST *dubchik_variant_texlist;
@@ -218,7 +216,6 @@ void dubchik_start_dying(u8 *arg0);
 s32 find_active_entity_by_id(u16);
 void TObjPlayer__sub_800AA330(void *);
 s32 minimap_render_dot(void *, s32, s32, s32);
-s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 extern void *tl_04;
 void TObjPlayer__sub_800AAFF0(void *p, f32 v);
 f32 fabs_float(f32);
@@ -231,13 +228,10 @@ s32 calc_velocity_toward_destination(void *, Vec_800A8C4C, Vec_800A8C4C, f32);
 void TObjPlayer__sub_800A8C4C(u8 *arg0);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
-s32 defer_render__7TObjectFv(void *);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-f32 random_ratio__9TObjCharaFv(s32 arg0);
-s32 find_target_in_range__15TObjEnemyCustomFf(void *, f32);
 s32 update_enemy_wander_move(void *, Vec_800A9E9C *, s32, f32);
 s32 sub_8004292C__15TObjEnemyCustomFv();
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
@@ -682,7 +676,7 @@ void TObjEneDubchik::run_task() {
     ((TObjEneDubchik *)arg0)->sub_800AB068();
     ((TObjEnemy *)arg0)->update_prev_position();
     VecCopy(&this->center, (const Vec *)&this->m_2fc);
-    if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x04000000) == 0) {
+    if (((TObjCollidable *)arg0)->obj_testFlags30(0x04000000) == 0) {
         submit_cursor_candidate(arg0, -1);
     }
     minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);
@@ -733,7 +727,7 @@ void TObjEneDubchik::render() {
                 if (((Self_800AA334 *)arg0)->sub.m8() != 0) {
                     ((Self_800AA334 *)arg0)->sub.m6();
                     var_r29 = 1;
-                    if (defer_render__7TObjectFv(arg0) != 0) {
+                    if (((TObject *)arg0)->defer_render() != 0) {
                         var_r29 = 0;
                     }
                     if (var_r29 != 0) {
@@ -773,13 +767,13 @@ void TObjEneDubchik::sub_800AA10C() {
     switch (this->mode) {
     case 8:
     case 0:
-        if ((this->is_actor_cadence_frame(0x1E) != 0) && (find_target_in_range__15TObjEnemyCustomFf(this, this->search_range) != 0)) {
+        if ((this->is_actor_cadence_frame(0x1E) != 0) && (find_target_in_range(this->search_range) != 0)) {
             ((TObjEnemyCustom *)((u8 *)this))->update_if_active(1);
         }
         break;
     case 1:
         if (this->is_actor_cadence_frame(0x1E) != 0) {
-            find_target_in_range__15TObjEnemyCustomFf(this, (f32) (50.0f + this->search_range));
+            find_target_in_range((f32) (50.0f + this->search_range));
         }
         temp_r0_2 = *(u32 *)((s8 *)((u8 *)this) + 0x2A8);
         if (temp_r0_2 == 0U) {
@@ -788,14 +782,14 @@ void TObjEneDubchik::sub_800AA10C() {
         }
         if (this->chase_distance >= 80.0f) {
             this->chase_distance = 0.0f;
-            if ((*(f32 *)((s8 *)((u8 *)this) + 0x354) >= 0.0f) && (random_ratio__9TObjCharaFv((s32)this) < 0.35f)) {
+            if ((*(f32 *)((s8 *)((u8 *)this) + 0x354) >= 0.0f) && (((TObjChara *)this)->random_ratio() < 0.35f)) {
                 this->targetId = pick_random_nearby_player(150.0f);
                 if (this->targetId != 0xFFFF) {
                     *(u32 *)((s8 *)((u8 *)this) + 0x2A8) = find_active_entity_by_id(this->targetId);
                     ((TObjEnemyCustom *)((u8 *)this))->update_if_active(9);
                     return;
                 }
-                find_target_in_range__15TObjEnemyCustomFf(this, (f32) (50.0f + this->search_range));
+                find_target_in_range((f32) (50.0f + this->search_range));
                 return;
             }
         } else if (temp_r0_2 != 0U) {
@@ -809,7 +803,7 @@ void TObjEneDubchik::sub_800AA10C() {
                 return;
             }
         } else if (this->is_actor_cadence_frame(0x1E) != 0) {
-            find_target_in_range__15TObjEnemyCustomFf(this, (f32) (50.0f + this->search_range));
+            ((TObjEnemyCustom *)this)->find_target_in_range((f32) (50.0f + this->search_range));
         }
         break;
     }
@@ -894,7 +888,7 @@ extern "C" void TObjPlayer__sub_800A9E9C(void *arg0_) {
 extern "C" void TObjPlayer__sub_800A9C38(void *arg0_) {
     switch (*(s32 *)((s8 *)arg0 + 0x37C)) {
     case 0:
-        if (TObjEneDD::check_v2_mode() != 0 && random_ratio__9TObjCharaFv((s32)arg0) > 0.2f) {
+        if (TObjEneDD::check_v2_mode() != 0 && ((TObjChara *)arg0)->random_ratio() > 0.2f) {
             *(s32 *)((s8 *)arg0 + 0x37C) = -1;
         } else {
             *(s16 *)((s8 *)arg0 + 0xB8) = 3;
@@ -976,11 +970,7 @@ void TObjEneDubchik::update_fall_apart() {
         ((TObjPlayer *)this)->render_model_and_set_attach_points();
         for (i = 0; i < 3; i++) {
             if (parts[i] == NULL && random_ratio() >= 0.5f) {
-                u8 *part = (u8 *)TObject::operator new(0xFC);
-                if (part != NULL) {
-                    part = TObjPlayer__sub_800AB7A0(part, i, this, (s32)variant != 0 ? dubchik_variant_texlist : dubchik_texlist, &part_offsets[i]);
-                }
-                parts[i] = (TUnk_80491478 *)part;
+                parts[i] = new TUnk_80491478(i, this, (s32)variant != 0 ? dubchik_variant_texlist : dubchik_texlist, &part_offsets[i]);
                 m_388 |= 0x20000 << i;
             }
         }
@@ -1020,7 +1010,7 @@ void TObjEneDubchik::update_fall_apart() {
                 if (parts[j] != NULL) {
                     if (random_ratio() >= 0.5f) {
                         part_hit[j] = 1;
-                        ((TObjPlayer *)parts[j])->cancel_action();
+                        parts[j]->cancel_action();
                     } else {
                         part_hit[j] = 0;
                     }
@@ -1028,14 +1018,14 @@ void TObjEneDubchik::update_fall_apart() {
             }
             if (parts[1] != NULL && parts[2] != NULL && part_hit[1] + part_hit[2] == 0) {
                 s32 k;
-                f32 dist = xz_distance_squared(body_center(), (Vec *)&parts[1]->m_f0);
-                if (dist < xz_distance_squared(body_center(), (Vec *)&parts[2]->m_f0)) {
+                f32 dist = xz_distance_squared(body_center(), &parts[1]->pos);
+                if (dist < xz_distance_squared(body_center(), &parts[2]->pos)) {
                     k = 1;
                 } else {
                     k = 2;
                 }
                 part_hit[k] = 1;
-                ((TObjPlayer *)parts[k])->cancel_action();
+                parts[k]->cancel_action();
             }
             m_388 |= 0x800000;
             state = 3;
@@ -1048,7 +1038,7 @@ void TObjEneDubchik::update_fall_apart() {
         all_done = 1;
         for (i = 0; i < 3; i++) {
             if (part_hit[i] != 0 && parts[i] != NULL) {
-                if (((TObjPlayer *)parts[i])->get_action_priority() != 0) {
+                if (parts[i]->get_action_priority() != 0) {
                     parts[i]->queue_destruction();
                     parts[i] = NULL;
                     m_388 &= ~(0x20000 << i);
@@ -1129,7 +1119,7 @@ extern "C" void TObjPlayer__sub_800A93E4(void *arg0_) {
             if (e->target != NULL && e->target->m18(arg0, 1.0f) != 0) {
                 e->target->m20(arg0, 1.0f);
                 e->target->m23(arg0, 3.0f);
-                if (e->f368 != 0 && random_ratio__9TObjCharaFv((s32)arg0) <= 0.16666667f) {
+                if (e->f368 != 0 && ((TObjChara *)arg0)->random_ratio() <= 0.16666667f) {
                     Pair_800A93E4 p = {0x11, 0};
                     e->target->m21(arg0, &p, 0, -1, -1);
                 }
@@ -1241,7 +1231,7 @@ extern "C" void TObjPlayer__sub_800A8FB4(void *arg0_) {
             }
             *(s32 *)((s8 *)arg0 + 0x37C) = 4;
             if (*(u32 *)((s8 *)arg0 + 0x3A8) != 0U) {
-                queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x3A8));
+                ((TObject *)(*(void **)((s8 *)arg0 + 0x3A8)))->queue_destruction();
                 *(u32 *)((s8 *)arg0 + 0x3A8) = 0U;
             }
             play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003AD04)), arg0 + 0x38, 0, 0);
@@ -1292,7 +1282,7 @@ extern "C" void TObjPlayer__sub_800A8FB4(void *arg0_) {
         break;
     case -1:
         if (*(u32 *)((s8 *)arg0 + 0x3A8) != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x3A8));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x3A8)))->queue_destruction();
             *(u32 *)((s8 *)arg0 + 0x3A8) = 0U;
         }
         break;
@@ -1488,6 +1478,6 @@ extern "C" void dubchik_update_dying(u8 *arg0) {
     ((TObjEnemy *)arg0)->send_entity_set_flags();
     ((TObjPlayer *)(arg0 + 0x2FC))->trigger_dell_biter_events();
     obj_setFlags30((void *) arg0, 0x800);
-    queue_destruction__7TObjectFv(arg0);
+    ((TObject *)arg0)->queue_destruction();
   }
 }

@@ -36,6 +36,10 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/camera/TCameraCtrl.h"
 #include <stdlib.h>
+#include "pso/item/TItem.h"
+#include "pso/item/TItemEquipBase.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer.h"
 
 // ---- pso/item/WeaponAttackActions
 
@@ -333,13 +337,9 @@ struct Self_8011EDFC {
 };
 
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
-s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 s32 get_entity_id(void *);
 s32 get_mode__11TCameraCtrlFPv(void *);
 u8 * csnVector(void *, void *, s32);
-s32 test_action_mask__10TObjPlayerFl(void *, s32);
-s32 is_model_shown__5TItemFv(void *);
-void send_activate_effect__5TItemFl(void *, s32);
 s32 init__9TItemDataFv(s32 *);
 void get_weapon_special_type_amount(u32 x, s16 *a, s16 *b);
 void query_extended_state__10TObjPlayerFv(void *);
@@ -374,7 +374,7 @@ void TObjPlayer::drain_owner_hp_fraction(f32 farg0) {
 }
 
 s32 TItemWeapon::is_mode_two_and_ready() {
-    if ((is_status_subsystem_ready__10TObjPlayerFv(*(s32 *)&owner) == 2) &&
+    if ((((TObjPlayer *)(*(s32 *)&owner))->is_status_subsystem_ready() == 2) &&
         (is_identified() == 1)) {
         return 1;
     }
@@ -447,7 +447,7 @@ void TItemWeapon::activate_effect(s32 effect) {
 
 void TItemWeapon::roll_technique() {
     previous_technique_roll = technique_roll;
-    send_activate_effect__5TItemFl(this, (s32) ((f32) technique_roll_range * (3.0517578e-05f * (f32) rand())));
+    send_activate_effect((s32) ((f32) technique_roll_range * (3.0517578e-05f * (f32) rand())));
 }
 
 void TObjPlayer::set_flag_8_if_check_passes() {
@@ -510,7 +510,7 @@ void TItemWeapon::update_trail_slot(s32 slot) {
     Vec_8011E87C a;
     Vec_8011E87C b;
     if (is_default_camera() != 0 && has_no_defer_render() == 0 &&
-        test_action_mask__10TObjPlayerFl(owner, 0xE0) != 0 &&
+        owner->test_action_mask(0xE0) != 0 &&
         owner->is_flag_b0_4() == 0 &&
         !(get_mode__11TCameraCtrlFPv(((u8 *)&main_task)) & 0x78)) {
         if (trails[slot] != NULL) {
@@ -534,7 +534,7 @@ void TItemWeapon::create_weapon_trail_effects() {
                 }
                 ((Pl_8011E950 *)this)->eff[i] = p;
             }
-            if (((Pl_8011E950 *)this)->eff[i] != NULL && obj_testFlags30__14TObjCollidableFUl(((Pl_8011E950 *)this), 0x2000) != 0) {
+            if (((Pl_8011E950 *)this)->eff[i] != NULL && ((TObjCollidable *)((Pl_8011E950 *)this))->obj_testFlags30(0x2000) != 0) {
                 TObjPlayer__sub_80121228(((Pl_8011E950 *)this)->eff[i], 1);
             }
         }
@@ -621,7 +621,7 @@ void TObjPlayer::fill_status_info(void *arg1) {
     *(s16 *)((s8 *)arg1 + 0x16) = ((TObjBase *)(*(s32 *)&this->blend.frame[1]))->get_room();
     *(s32 *)((s8 *)arg1 + 0x18) = ((TItem *)this)->get_item_id();
     *(f32 *)((s8 *)arg1 + 0x1C) = get_attack_accuracy_scale((s16 *)(*(s32 *)&this->blend.frame[1] + 0x7CC));
-    *(s32 *)((s8 *)arg1 + 0x24) = (s32) is_status_subsystem_ready__10TObjPlayerFv(*(s32 *)&this->blend.frame[1]);
+    *(s32 *)((s8 *)arg1 + 0x24) = (s32) ((TObjPlayer *)(*(s32 *)&this->blend.frame[1]))->is_status_subsystem_ready();
     *(f32 *)((s8 *)arg1 + 0x20) = ((f32 (*)(s32))query_extended_state__10TObjPlayerFv)(*(s32 *)&this->blend.frame[1]);
     ((TItemWeapon *)this)->restore_action_type();
 }
@@ -645,7 +645,7 @@ void TObjPlayer::launch_rare_weapon_special(void *origin, s32 enable, f32 scale)
     found = 0;
     if (get_captured_target_count((s32 *)ext) != 0) {
         void *e = get_captured_target_entry(ext, get_captured_target_count((s32 *)ext) - 1);
-        Obj_8011EDFC *t = ((Obj_8011EDFC *(*)(u16, s16))resolve_hittable_target)(get_uid__10TObjPlayerFv(e), get_captured_target_collider_index(e));
+        Obj_8011EDFC *t = ((Obj_8011EDFC *(*)(u16, s16))resolve_hittable_target)(((TObjPlayer *)e)->get_uid(), get_captured_target_collider_index(e));
         if (t != NULL) {
             Part_8011EDFC *part = &t->parts[get_captured_target_collider_index(e)];
             VecCopy((Vec *)&pos, (const Vec *)&part->pos);
@@ -675,7 +675,7 @@ void TObjPlayer::launch_rare_weapon_special(void *origin, s32 enable, f32 scale)
     if (enable != 0) {
         for (s32 i = 0; i != get_captured_target_count((s32 *)ext); i++) {
             void *e = get_captured_target_entry(ext, i);
-            Obj_8011EDFC *t = ((Obj_8011EDFC *(*)(u16, s16))resolve_hittable_target)(get_uid__10TObjPlayerFv(e), get_captured_target_collider_index(e));
+            Obj_8011EDFC *t = ((Obj_8011EDFC *(*)(u16, s16))resolve_hittable_target)(((TObjPlayer *)e)->get_uid(), get_captured_target_collider_index(e));
             if (t != NULL) {
                 Part_8011EDFC *part = &t->parts[get_captured_target_collider_index(e)];
                 void *e2 = get_captured_target_entry(ext, i);
@@ -695,7 +695,7 @@ void TObjPlayer::launch_rare_weapon_special(void *origin, s32 enable, f32 scale)
     if (n < 0) {
         n = 0;
     }
-    if (((Self_8011EDFC *)this)->cb != NULL && is_model_shown__5TItemFv(((Self_8011EDFC *)this)) == 1) {
+    if (((Self_8011EDFC *)this)->cb != NULL && ((TItem *)((Self_8011EDFC *)this))->is_model_shown() == 1) {
         ((Self_8011EDFC *)this)->cb(((Self_8011EDFC *)this), origin, &pos, (f32)n);
     }
 }
@@ -806,12 +806,12 @@ void TUnk_804A69DC::for_each_target_in_range(f32 range) {
         if (state != NULL) {
             for (i = 0; i != get_captured_target_count((s32 *)state); i++) {
                 ent = get_captured_target_entry(state, i);
-                uid = get_uid__10TObjPlayerFv(ent);
+                uid = ((TObjPlayer *)ent)->get_uid();
                 id = get_captured_target_collider_index(ent);
                 obj = resolve_hittable_target(uid, id);
                 if (obj != NULL && horizontal_distance_squared(((PlSelf_8011F474 *)this)->owner->pos, obj->pos) < range) {
                     ready = ((s16 (*)(void *))is_status_subsystem_ready__10TObjPlayerFv)(((PlSelf_8011F474 *)this)->owner);
-                    query_extended_state__10TObjPlayerFv(((PlSelf_8011F474 *)this)->owner);
+                    ((TObjPlayer *)(((PlSelf_8011F474 *)this)->owner))->query_extended_state();
                     ((PlSelf_8011F474 *)this)->on_near(((PlSelf_8011F474 *)this)->owner, obj, ready, id);
                 }
             }
@@ -889,13 +889,13 @@ s32 TItemWeapon::get_attack_stage() {
     u32 temp_r3;
     temp_r3 = *(u32 *)&this->owner;
     if (temp_r3 != 0U) {
-        if (test_action_mask__10TObjPlayerFl((void *)temp_r3, 0x20) != 0) {
+        if (((TObjPlayer *)temp_r3)->test_action_mask(0x20) != 0) {
             return 0;
         }
-        if (test_action_mask__10TObjPlayerFl(this->owner, 0x40) != 0) {
+        if (this->owner->test_action_mask(0x40) != 0) {
             return 1;
         }
-        if (test_action_mask__10TObjPlayerFl(this->owner, 0x80) != 0) {
+        if (this->owner->test_action_mask(0x80) != 0) {
             return 2;
         }
         goto block_7;
@@ -1149,8 +1149,6 @@ void TItemEffectWeapon__sub_8036340C(void*);
 void TItemEffectWeapon__sub_80363410(void*);
 extern const f32 lbl_805DAC9C;
 
-s32 get_item_id__5TItemFv(void *);
-
 void TItemWeapon::update_trails() {
     u8 *arg0 = (u8 *)this;
     if (((TItemWeapon *)arg0)->test_weapon_flags(0x400U) != 0U) {
@@ -1192,7 +1190,7 @@ void TItemWeapon::render_equipped() {
     s32 count;
     if (((u32) this->owner != 0U) && (test_weapon_flags(0xCU) == 0xCU) && (test_weapon_flags(0x80U) == 0U)) {
         if (test_weapon_flags(0x800U) != 0U) {
-            TObjPlayer::push_id_to_list(get_item_id__5TItemFv(this));
+            TObjPlayer::push_id_to_list(get_item_id());
             return;
         }
         this->reserved_53();
@@ -1640,7 +1638,6 @@ struct Player_8012065C : VBase_8012065C {
 };
 
 extern "C" {
-void clear_technique_boosts__14TItemEquipBaseFv(s32 arg0);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
 void set_flag_8_if_check_passes__10TObjPlayerFv();
@@ -1651,7 +1648,7 @@ void TItemWeapon::on_unequip() {
         ((TObjPlayer *)(arg0->ctl))->set_action_provider_variant(0);
     }
     arg0->m56();
-    clear_technique_boosts__14TItemEquipBaseFv((s32)arg0);
+    ((TItemEquipBase *)arg0)->clear_technique_boosts();
     ((TItemWeapon *)arg0)->clear_weapon_flags(0x03000000);
 }
 

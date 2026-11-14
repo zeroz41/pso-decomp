@@ -461,26 +461,28 @@ s32 TLobby::get_drop_item_mode() {
 
 s32 load_relocatable_file(s32 arg0, s32 arg1);
 
-extern s32 TLobby__data_805D6068;
-extern s32 lbl_805D606C;
-extern s32 *lbl_805D6070;
-extern u32 forest_rel_work_buffer;
+s32 TLobby__data_805D6068;
+// inferred: first word of the loaded SetDataTable*.rel module (update_drop_item/load_item_data)
+s32 forest_rel_set_data_table;
+// inferred: the SetDataTable*.rel module load_relocatable_file returns
+s32 *forest_rel_module;
+u32 forest_rel_work_buffer;
 
 void TLobby::update_drop_item() {
     s32 *temp_r3;
     s32 temp_r0;
     s32 drop_item_mode;
 
-    lbl_805D606C = 0;
-    lbl_805D6070 = NULL;
+    forest_rel_set_data_table = 0;
+    forest_rel_module = NULL;
     if ((u32) forest_rel_work_buffer != 0U) {
         drop_item_mode = TLobby::get_drop_item_mode();
         if (((TScene *)(forest_rel_filename_table[drop_item_mode]))->update_lobby_scene() <= 0x24B8) {
             temp_r3 = (s32 *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
-            lbl_805D6070 = temp_r3;
+            forest_rel_module = temp_r3;
             if (temp_r3 != NULL) {
                 temp_r0 = *temp_r3;
-                lbl_805D606C = temp_r0;
+                forest_rel_set_data_table = temp_r0;
                 TLobby__data_805D6068 = temp_r0;
             }
         }
@@ -489,20 +491,20 @@ void TLobby::update_drop_item() {
 
 void TLobby__sub_802083C0(void);
 
-#define lbl_805D6070 (*(s32 *)&lbl_805D6070)
+#define forest_rel_module (*(s32 *)&forest_rel_module)
 
 void TLobby__sub_802083C0(void) {
     if ((u32) forest_rel_work_buffer != 0U) {
         TAdSinglePlyChrSelectGC::safe_free((u32)((void*)forest_rel_work_buffer));
         forest_rel_work_buffer = 0U;
-        lbl_805D6070 = 0;
-        lbl_805D606C = 0;
+        forest_rel_module = 0;
+        forest_rel_set_data_table = 0;
         TLobby__data_805D6068 = 0;
     }
 }
 }
 
-#undef lbl_805D6070
+#undef forest_rel_module
 
 struct Pkt_802084B0 { u8 hdr[2]; u16 a; s32 b; s32 c; s32 d; };
 
@@ -529,18 +531,18 @@ void TLobby::load_item_data() {
     s32 drop_item_mode;
     u32 temp_r3;
 
-    lbl_805D606C = 0;
-    lbl_805D6070 = NULL;
+    forest_rel_set_data_table = 0;
+    forest_rel_module = NULL;
     temp_r3 = (s32)TQuestVmDownLoadServer::alloc(0x24B8);
     forest_rel_work_buffer = temp_r3;
     if (temp_r3 != 0U) {
         drop_item_mode = TLobby::get_drop_item_mode();
         if (((TScene *)(forest_rel_filename_table[drop_item_mode]))->update_lobby_scene() <= 0x24B8) {
             temp_r3_2 = (s32 *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
-            lbl_805D6070 = temp_r3_2;
+            forest_rel_module = temp_r3_2;
             if (temp_r3_2 != NULL) {
                 temp_r0 = *temp_r3_2;
-                lbl_805D606C = temp_r0;
+                forest_rel_set_data_table = temp_r0;
                 TLobby__data_805D6068 = temp_r0;
             }
         }
@@ -757,7 +759,7 @@ void activate_triggered_floor_events(void);
 u8 * heap_alloc__5THeapFUl(void *, s32);
 }
 s32 activate_first_floor_event(s32 idx, s32 id);
-extern RecoveredGlobal_80208D28_lbl_805139F8 lobby_slot_ptr_table;
+RecoveredGlobal_80208D28_lbl_805139F8 lobby_slot_ptr_table;
 extern u8 *area_event_set_heap;
 s32 set_floor_event_flags(s32 arg0, s32 arg1, s32 arg2);
 #define BS16 ((void (*)(void *))bswap_16__FPUs)

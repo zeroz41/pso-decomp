@@ -1,20 +1,19 @@
 #include "musyx/runtime/musyx_runtime_a.h"
 
-#define synthVoice ((SYNTH_VOICE_803B2438 *)synthVoice)
 extern "C" {
 
-s8 lbl_805D7498;
-s32 lbl_805D749C;
-s32 lbl_805D74A0;
-s32 lbl_805D74A4;
-s32 lbl_805D74A8;
-s32 lbl_805D74AC;
-s8 lbl_805D74B0;
-s8 lbl_805D74B1;
-s8 lbl_805D74B2;
-u8 lbl_805D74B3;
-u8 lbl_805D74B4;
-u8 lbl_805D74B5;
+u8 s3dCallCnt;
+Emitter_S3D *s3dEmitterRoot;
+Listener_S3D *s3dListenerRoot;
+Room_S3D *s3dRoomRoot;
+Door_S3D *s3dDoorRoot;
+u32 snd_used_studios;
+u8 snd_base_studio;
+u8 snd_max_studios;
+u8 s3dUseMaxVoices;
+u8 startGroupNum;
+u8 startListNum;
+u8 runListNum;
 
 #pragma push
 #pragma dont_inline off
@@ -22,18 +21,18 @@ u8 lbl_805D74B5;
 #pragma auto_inline on
 #pragma opt_common_subs on
 void UpdateRoomDistances(void) {
-    Vec_803B9438 d;
-    B_803B9438 *r;
-    A_803B9438 *li;
+    FVec_S3D d;
+    Room_S3D *r;
+    Listener_S3D *li;
     f32 distance;
     u32 n;
-    for (n = 0, li = (*(A_803B9438 * *)&lbl_805D74A0); li != 0; li = li->next, ++n)
+    for (n = 0, li = s3dListenerRoot; li != 0; li = li->next, ++n)
         ;
     if (n != 0) {
-        for (r = (*(B_803B9438 * *)&lbl_805D74A4); r != 0; r = r->next) {
+        for (r = s3dRoomRoot; r != 0; r = r->next) {
             if (r->studio != 0xFF) {
                 distance = 0.f;
-                for (li = (*(A_803B9438 * *)&lbl_805D74A0); li != 0; li = li->next) {
+                for (li = s3dListenerRoot; li != 0; li = li->next) {
                     d.x = r->pos.x - li->pos.x;
                     d.y = r->pos.y - li->pos.y;
                     d.z = r->pos.z - li->pos.z;
@@ -46,15 +45,6 @@ void UpdateRoomDistances(void) {
 }
 #pragma pop
 
-#define s3dCallCnt (*(u8 *)&lbl_805D7498)
-#define s3dEmitterRoot (*(Emitter_S3D **)&lbl_805D749C)
-#define s3dListenerRoot (*(Listener_S3D **)&lbl_805D74A0)
-#define s3dRoomRoot (*(Room_S3D **)&lbl_805D74A4)
-#define s3dDoorRoot (*(Door_S3D **)&lbl_805D74A8)
-#define snd_used_studios (*(u32 *)&lbl_805D74AC)
-#define snd_base_studio (*(u8 *)&lbl_805D74B0)
-#define snd_max_studios (*(u8 *)&lbl_805D74B1)
-#define s3dUseMaxVoices (*(u8 *)&lbl_805D74B2)
 
 #pragma push
 #pragma dont_inline off
@@ -393,34 +383,34 @@ void SetFXParameters(Emitter_S3D *const em, f32 vol, f32 xPan, f32 yPan, f32 zPa
 }
 #pragma pop
 
-void EmitterShutdown(Node_803BA1B8 *arg0) {
+void EmitterShutdown(Emitter_S3D *arg0) {
     if (arg0->next != 0) {
         arg0->next->prev = arg0->prev;
     }
     if (arg0->prev != 0) {
         arg0->prev->next = arg0->next;
     } else {
-        (*(Node_803BA1B8 * *)&lbl_805D749C) = arg0->next;
+        s3dEmitterRoot = arg0->next;
     }
-    arg0->f10 = (u16)arg0->f10;
-    if (arg0->id != 0xFFFFFFFF) {
-        synthSendKeyOff((int)(arg0->id));
+    arg0->flags = (u16)arg0->flags;
+    if (arg0->vid != 0xFFFFFFFF) {
+        synthSendKeyOff((int)(arg0->vid));
     }
 }
 
 void s3dKillEmitterByFXID(Ent_803BA228 *arg0, u32 arg1) {
-    Node_803BA228 *n;
-    Node_803BA228 *next;
+    Emitter_S3D *n;
+    Emitter_S3D *next;
     u32 i;
 
-    for (n = *(Node_803BA228 **)&lbl_805D749C; n != 0; n = next) {
+    for (n = s3dEmitterRoot; n != 0; n = next) {
         next = n->next;
         for (i = 0; i < arg1; i++) {
-            if (n->id == arg0[i].id) {
+            if (n->fxid == arg0[i].id) {
                 if (sndActive != 0) {
                     hwDisableIrq();
-                    if (n->f10 & 0x10000) {
-                        EmitterShutdown((Node_803BA1B8 *)n);
+                    if (n->flags & 0x10000) {
+                        EmitterShutdown(n);
                     }
                     hwEnableIrq();
                 }
@@ -431,17 +421,11 @@ void s3dKillEmitterByFXID(Ent_803BA228 *arg0, u32 arg1) {
 }
 
 Emitter_S3D tmp_em_S3D;
-static StartGroup_S3D startGroup_S3D[64];
-static StartList_S3D startListNum_S3D[64];
-static RunList_S3D runList_S3D[64];
+static StartGroup_S3D startGroup[64];
+static StartList_S3D startList[64];
+static RunList_S3D runList[64];
 Emitter_S3D em_80567908_S3D;
 
-#define startGroup startGroup_S3D
-#define startListNum startListNum_S3D
-#define runList runList_S3D
-#define startGroupNum lbl_805D74B3
-#define startListNumnum lbl_805D74B4
-#define runListNum lbl_805D74B5
 
 #pragma push
 #pragma dont_inline off
@@ -516,7 +500,7 @@ u32 AddStartingEmitter(Emitter_S3D *em, f32 vol, f32 xPan, f32 yPan, f32 zPan, f
         ++startGroupNum;
     }
 
-    if (startListNumnum == 64) {
+    if (startListNum == 64) {
         return 0;
     }
 
@@ -526,19 +510,19 @@ u32 AddStartingEmitter(Emitter_S3D *em, f32 vol, f32 xPan, f32 yPan, f32 zPan, f
                 break;
             }
         }
-        startListNum[startListNumnum].next = sl->next;
-        sl->next = &startListNum[startListNumnum];
+        startList[startListNum].next = sl->next;
+        sl->next = &startList[startListNum];
     } else {
-        startListNum[startListNumnum].next = startGroup[i].list;
-        startGroup[i].list = &startListNum[startListNumnum];
+        startList[startListNum].next = startGroup[i].list;
+        startGroup[i].list = &startList[startListNum];
     }
 
-    startListNum[startListNumnum].em = em;
-    startListNum[startListNumnum].pitch = pitch;
-    startListNum[startListNumnum].xPan = xPan;
-    startListNum[startListNumnum].yPan = yPan;
-    startListNum[startListNumnum].zPan = zPan;
-    startListNum[startListNumnum++].vol = vol;
+    startList[startListNum].em = em;
+    startList[startListNum].pitch = pitch;
+    startList[startListNum].xPan = xPan;
+    startList[startListNum].yPan = yPan;
+    startList[startListNum].zPan = zPan;
+    startList[startListNum++].vol = vol;
 
     return 1;
 }
@@ -613,7 +597,7 @@ void StartContinousEmitters(void) {
 #pragma bool off
 static inline void ClearStartList_S3D(void) {
     startGroupNum = 0;
-    startListNumnum = 0;
+    startListNum = 0;
     runListNum = 0;
 }
 
@@ -733,15 +717,15 @@ void s3dHandle(void) {
 #pragma pop
 
 void s3dInit(s32 arg0) {
-    lbl_805D749C = 0;
-    lbl_805D74A0 = 0;
-    lbl_805D74A4 = 0;
-    lbl_805D74A8 = 0;
-    lbl_805D74AC = 0;
-    lbl_805D74B0 = 1;
-    lbl_805D74B1 = 3;
-    lbl_805D7498 = 0;
-    lbl_805D74B2 = (arg0 & 2) != 0;
+    s3dEmitterRoot = 0;
+    s3dListenerRoot = 0;
+    s3dRoomRoot = 0;
+    s3dDoorRoot = 0;
+    snd_used_studios = 0;
+    snd_base_studio = 1;
+    snd_max_studios = 3;
+    s3dCallCnt = 0;
+    s3dUseMaxVoices = (arg0 & 2) != 0;
 }
 
 }

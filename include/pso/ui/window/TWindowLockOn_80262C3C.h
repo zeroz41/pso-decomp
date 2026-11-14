@@ -4,15 +4,11 @@
 #include "types.h"
 
 struct TWindowLockOn;
+// Constructor and destructor stay free functions until the TWindowBase constructor and
+// destructor (TWindowDD::construct_base, TWindowDD::destroy_window_base) carry their real names.
 extern "C" {
-u8 *TWindowLockOn__ct(TWindowLockOn *arg0, s16 arg1, s32 arg2);
-void TWindowLockOn__update_for_enemy(s32 a0, s32 a1);
-s32 TWindowLockOn__update_for_item(s32 a0, s32 a1);
-s32 TWindowLockOn__update_for_other_player(s32 a0, s32 a1);
-void *__dt__13TWindowLockOnFv(void *arg0, s16 arg1);
-bool is_lockable_target__13TWindowLockOnFi(s32 arg0);
-void render__13TWindowLockOnFv(TWindowLockOn *arg0);
-void update_for_target__13TWindowLockOnFii(s32 arg0, s32 arg1);
+u8 *TWindowLockOn__ct(TWindowLockOn *self, s32 player, u16 id);
+void *__dt__13TWindowLockOnFv(void *self, s16 flags);
 }
 
 #endif

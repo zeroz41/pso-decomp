@@ -3,6 +3,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
 extern "C" {
 
@@ -24,20 +25,35 @@ void *__dt__28TWindowSubSymbolChatFaceTypeFv(void *arg0, s16 arg1) {
 
 }
 
-struct RecoveredGlobal_802841FC_lbl_804D2CE0 {
-    s32 value;
-    u8 remaining[0x10];
+extern s32 lbl_805D63F0;
+
+// inferred: symbol_chat_face_type_layout_entries, the layout table
+// symbol_chat_face_type_window_layout points at (a 2x2 grid of face-type sprites).
+struct SymbolChatFaceTypeWindowLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec[4];
+};
+SymbolChatFaceTypeWindowLayout symbol_chat_face_type_layout_entries = {
+    4, 1,
+    {
+        {6, {16.0f, 16.0f}, {60.0f, 60.0f}, 2.0f, 194.0f, 0.5f, -1, &lbl_805D63F0, 0xA, 4},
+        {6, {96.0f, 16.0f}, {60.0f, 60.0f}, 2.0f, 130.0f, 0.5f, -1, &lbl_805D63F0, 0xA, 4},
+        {6, {16.0f, 96.0f}, {60.0f, 60.0f}, 66.0f, 130.0f, 0.5f, -1, &lbl_805D63F0, 0xA, 4},
+        {6, {96.0f, 96.0f}, {60.0f, 60.0f}, 66.0f, 194.0f, 0.5f, -1, &lbl_805D63F0, 0xA, 4},
+    },
+};
+WindowDescriptor symbol_chat_face_type_window_layout = {
+    {178.0f, 188.0f}, 50050.0f, &symbol_chat_face_type_layout_entries, 0x43,
 };
 
 extern "C" {
 s32 construct_type1_heading__20TWindowSubStatusDispFll(s32, s32, s32);
 s32 get_message_10__20TWindowSubStatusDispFl(int);
-extern RecoveredGlobal_802841FC_lbl_804D2CE0 symbol_chat_face_type_window_layout;
 extern s32 TWindowSubSymbolChatFaceType__name;
-typedef char RecoveredGlobal_802841FC_lbl_804D2CE0_size[sizeof(RecoveredGlobal_802841FC_lbl_804D2CE0) == 0x14 ? 1 : -1];
 u8 *TWindowSubSymbolChatFaceType__ct(TWindowSubSymbolChatFaceType *window_sub_symbol_chat_face_type, s32 arg1, s32 arg2) {
     s32 var_r31;
-    ((TWindowDD *)window_sub_symbol_chat_face_type)->construct_base((u8 *)((s32) &symbol_chat_face_type_window_layout.value), (s16)4, (u8 *)arg1);
+    ((TWindowDD *)window_sub_symbol_chat_face_type)->construct_base((u8 *)&symbol_chat_face_type_window_layout, (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)window_sub_symbol_chat_face_type + 0x18) = __vt__28TWindowSubSymbolChatFaceType;
     *(s32 *)((s8 *)window_sub_symbol_chat_face_type + 0) = (s32) TWindowSubSymbolChatFaceType__name;
     window_sub_symbol_chat_face_type->m_60 = 0;

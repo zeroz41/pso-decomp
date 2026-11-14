@@ -47,11 +47,16 @@ struct Ent_80207478 { s32 f0; char *name; };
 
 struct Res_80207478 { void *buf; s32 n; };
 
+#pragma readonly_strings on
+
 extern "C" {
+s32 TSceneSora__sky_active_flag = 1;
+const char *TSceneSora__name = "TSceneSora";
+s32 TSceneSora__instance;
+u32 TSceneSora__sky_bml_resource;
+s32 TSceneSora__has_sky_motion;
+
 u8 * free_bin_model_request(void *, s16);
-extern s32 TSceneSora__sky_active_flag;
-extern s32 TSceneSora__instance;
-extern u32 TSceneSora__sky_bml_resource;
 void TSceneSora__sub_80207430(void);
 s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_802072E0___vt__10TSceneSora __vt__10TSceneSora;
@@ -60,8 +65,6 @@ s32 get_bml_motion(int, int);
 s32 TObjFish__sub_8001EDB0(int, int);
 s32 get_bml_model(int, int);
 s32 __ct__8TObjBaseFP7TObject(void *);
-extern s32 TSceneSora__name;
-extern s32 TSceneSora__has_sky_motion;
 u8 *TSceneSora__ct(TSceneSora *arg0, s32 _w1);
 s32 draw_ginja_model_with_motion(int, int, f32);
 s32 rotate_matrix_y(int, int);
@@ -131,7 +134,7 @@ typedef char RecoveredGlobal_80207340___vt__10TSceneSora_size[sizeof(RecoveredGl
 u8 *TSceneSora__ct(TSceneSora *scene_sora, s32 _w1) {
     __ct__8TObjBaseFP7TObject(scene_sora);
     *(s32 **)((s8 *)scene_sora + 0x18) = &(*(RecoveredGlobal_80207340___vt__10TSceneSora *)&__vt__10TSceneSora).value;
-    *(s32 *)((s8 *)scene_sora + 0) = TSceneSora__name;
+    scene_sora->m_name = TSceneSora__name;
     scene_sora->m_90 = get_bml_model((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);
     if (TSceneSora__has_sky_motion != 0) {
         scene_sora->m_94 = get_bml_motion((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);

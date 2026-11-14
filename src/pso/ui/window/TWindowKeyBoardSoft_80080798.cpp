@@ -36,11 +36,11 @@ struct F_80080A08 { u16 *buffer; u32 cursor; };
 struct F_80080B34 { u16 *buffer; u32 cursor; };
 
 extern "C" {
-extern u16 lbl_8048E020[];
+u16 TWindowKeyBoardSoft__hiragana_sjis_table[20] = {33449, 33451, 33453, 33455, 33457, 33459, 33461, 33463, 33465, 33467, 33469, 33471, 33474, 33476, 33478, 33485, 33488, 33491, 33494, 33497};
+u16 lbl_8048E020[6] = {33485, 33488, 33491, 33494, 33497, 0};
+u16 keyboard_soft_small_kana_sjis[10] = {33440, 33442, 33444, 33446, 33448, 33474, 33506, 33508, 33510, 33517};
 s32 TWindowKeyBoardSoft__sub_80080F68(F_80080F68 *arg0, u16 arg1);
 void TWindowKeyBoardSoft__sub_800808FC(Kb_800808FC *kb, u16 ch);
-extern u16 keyboard_soft_small_kana_sjis[];
-extern u16 TWindowKeyBoardSoft__hiragana_sjis_table[];
 s32 TWindowKeyBoardSoft__sub_80080B34(F_80080B34 *arg0);
 void append_text__19TWindowKeyBoardSoftFPvPv(F_80080798 *arg0, u8 *arg1);
 

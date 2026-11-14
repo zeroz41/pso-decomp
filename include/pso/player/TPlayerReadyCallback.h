@@ -5,8 +5,8 @@ struct TObjPlayer;
 class TPlayerReadyCallback : public TObject {
 public:
     TPlayerReadyCallback(TObject*, u16, void (*)(TObjPlayer*));
-    virtual ~TPlayerReadyCallback();
     virtual void run_task();
+    virtual ~TPlayerReadyCallback();
     u16 player_id;
     void (*callback)(TObjPlayer*);
 };

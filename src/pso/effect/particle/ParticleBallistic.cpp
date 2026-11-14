@@ -20,6 +20,7 @@
 
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/player/TObjPlayer_80083594.h"
+#include "pso/system/task/TObject.h"
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -152,7 +153,6 @@ struct Part_800890F4 {
 
 extern "C" {
 void *alloc_particle_memory(int);
-void queue_destruction__7TObjectFv(void *arg0);
 f32 vec_squared_length(u8 *arg0);
 extern s32 TParticleCtrl__data_8048E778[];
 s32 rand(void);
@@ -269,12 +269,12 @@ void TUnk_8048E778::retire_ballistic_particle_if_done() {
         stack.spC = this->pos.y - *(f32 *)((s8 *)arg0 + 0x34);
         stack.sp10 = this->pos.z - this->origin.z;
         if (0.0f == vec_squared_length((u8 *)&stack.sp8)) {
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
             return;
         }
     }
     if (this->age >= 1.0f) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 

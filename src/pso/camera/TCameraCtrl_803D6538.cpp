@@ -23,7 +23,7 @@ extern u8 *current_matrix;
 s32 translate_matrix(s32, f32, f32, f32);
 void set_matrix_identity(u8 *arg0);
 }
-extern u8 camera_look_at_up_vector[];
+f32 camera_look_at_up_vector[3] = {0.0f, 1.0f, 0.0f};
 
 void TCameraCtrl::update_camera_state(f32 _w0, f32 _w1, f32 _w2) {
     TCameraCtrl::translate_view_negated(_w0, _w1, _w2);
@@ -37,7 +37,7 @@ void TCameraCtrl::look_at_position(f32 farg0, f32 farg1, f32 farg2) {
     v.y = farg1;
     v.z = farg2;
     set_matrix_identity(0);
-    set_camera_look_at(eye, (u8*)((u8 *)&v), camera_look_at_up_vector);
+    set_camera_look_at(eye, (u8*)((u8 *)&v), (u8 *)camera_look_at_up_vector);
 }
 
 #pragma push

@@ -9,19 +9,7 @@ struct RecoveredGlobal_80288838___vt__17TWindowMainMenu1P { s32 value; u8 remain
 typedef char RecoveredGlobal_80288838___vt__17TWindowMainMenu1P_size[sizeof(RecoveredGlobal_80288838___vt__17TWindowMainMenu1P) == 0x28 ? 1 : -1];
 
 extern "C" {
-void __dl__7TObjectFPv(s32);
 extern s32 __vt__17TWindowMainMenu1P[];
-extern const f32 lbl_805DD8A0;
-extern const f32 lbl_805DD8A4;
-extern const f32 lbl_805DD8A8;
-extern const f32 lbl_805DD8AC;
-extern const f32 lbl_805DD8B0;
-extern const f32 lbl_805DD8B4;
-extern const f32 lbl_805DD8B8;
-extern const f32 lbl_805DD8BC;
-extern const f32 lbl_805DD8C0;
-extern const f32 lbl_805DD8C4;
-extern const f32 lbl_805DD8C8;
 void TWindowMainMenu__ct(void *);
 
 #pragma fp_contract on
@@ -58,7 +46,7 @@ void TWindowMainMenu1P::update_backdrop_transition() {
   {
     *((u8 *) (((s8 *) arg0) + 0x60)) = (u8) ((*((u8 *) (((s8 *) arg0) + 0x60))) + 1);
     *((u8 *) (((s8 *) arg0) + 0x61)) = (u8) ((*((u8 *) (((s8 *) arg0) + 0x61))) - 1);
-    if (((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x60))))) > lbl_805DD8A0)
+    if (((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x60))))) > 6.0f)
     {
       *((u8 *) (((s8 *) arg0) + 0x60)) = 6U;
     }
@@ -71,27 +59,27 @@ void TWindowMainMenu1P::update_backdrop_transition() {
   {
     *((u8 *) (((s8 *) arg0) + 0x60)) = (u8) ((*((u8 *) (((s8 *) arg0) + 0x60))) + 1);
     *((u8 *) (((s8 *) arg0) + 0x61)) = (u8) ((*((u8 *) (((s8 *) arg0) + 0x61))) + 1);
-    if (((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x60))))) > lbl_805DD8A4)
+    if (((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x60))))) > 3.0f)
     {
       *((u8 *) (((s8 *) arg0) + 0x60)) = 3U;
     }
-    if (((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x61))))) > lbl_805DD8A4)
+    if (((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x61))))) > 3.0f)
     {
       *((u8 *) (((s8 *) arg0) + 0x61)) = 3U;
     }
   }
-  this->m_6c = (f32) ((lbl_805DD8AC * ((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x60)))))) + lbl_805DD8A8);
-  *((f32 *) (((s8 *) arg0) + 0x70)) = (f32) (-((lbl_805DD8B4 * ((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x61)))))) - lbl_805DD8B0));
-  TWindowCtrlMain::set_depth(lbl_805DD8B8 * ((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x60))))), *((s32 *) (((s8 *) arg0) + 0x54)));
-  TWindowCtrlMain::set_field18(-((lbl_805DD8C0 * ((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x61)))))) - lbl_805DD8BC), *((s32 *) (((s8 *) arg0) + 0x54)));
-  this->m_a4 = (f32) ((lbl_805DD8C4 - (this->m_6c)) / lbl_805DD8A8);
-  *((f32 *) (((s8 *) arg0) + 0xA8)) = (f32) ((*((f32 *) (((s8 *) arg0) + 0x70))) / lbl_805DD8B0);
+  this->m_6c = (f32) ((26.666666f * ((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x60)))))) + 320.0f);
+  *((f32 *) (((s8 *) arg0) + 0x70)) = (f32) (240.0f - 37.333332f * ((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x61))))));
+  TWindowCtrlMain::set_depth(53.333332f * ((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x60))))), *((s32 *) (((s8 *) arg0) + 0x54)));
+  TWindowCtrlMain::set_field18(480.0f - 74.666664f * ((f32) ((s8) (*((u8 *) (((s8 *) arg0) + 0x61))))), *((s32 *) (((s8 *) arg0) + 0x54)));
+  this->m_a4 = (f32) ((640.0f - (this->m_6c)) / 320.0f);
+  *((f32 *) (((s8 *) arg0) + 0xA8)) = (f32) ((*((f32 *) (((s8 *) arg0) + 0x70))) / 240.0f);
   temp_f1 = *((f32 *) (((s8 *) arg0) + 0xA8));
   if ((this->m_a4) < (*((f32 *) (((s8 *) arg0) + 0xA8))))
   {
     this->m_a4 = *((f32 *) (((s8 *) arg0) + 0xA8));
   }
-  *((f32 *) (((s8 *) arg0) + 0xA8)) = (f32) (lbl_805DD8C8 * (this->m_a4));
+  *((f32 *) (((s8 *) arg0) + 0xA8)) = (f32) (0.85f * (this->m_a4));
   if ((*((s32 *) (((s8 *) arg0) + 0x4C))) & 2)
   {
     ((CameraViewParams *)(((u8 *) arg0) + 0x64))->apply_if_overridden();
@@ -102,23 +90,10 @@ void TWindowMainMenu1P::render() {  }
 void TWindowMainMenu1P::run_task() { handle_menu_selection(); sub_80263FE0(); update_backdrop_transition(); }
 
 extern void *TWindowMainMenu1P__name;
-extern const f32 lbl_805DD8CC;
-extern const f32 lbl_805DD8D0;
-extern const f32 lbl_805DD8D4;
-extern const f32 lbl_805DD8D8;
-
-u8 *__dt__17TWindowMainMenu1PFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80288838___vt__17TWindowMainMenu1P *)&__vt__17TWindowMainMenu1P).value;
-        if (*(s32 *)((s8 *)arg0 + 0x4C) & 2) {
-            end_view_override();
-        }
-        __dt__15TWindowMainMenuFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
-        }
+TWindowMainMenu1P::~TWindowMainMenu1P() {
+    if (*(s32 *)((s8 *)this + 0x4C) & 2) {
+        end_view_override();
     }
-    return arg0;
 }
 
 void *TWindowMainMenu1P__ct(TWindowMainMenu1P *window_main_menu1_p) {
@@ -127,16 +102,16 @@ void *TWindowMainMenu1P__ct(TWindowMainMenu1P *window_main_menu1_p) {
     *(void * *)&window_main_menu1_p->m_name = TWindowMainMenu1P__name;
     *(u8 *)((s8 *)window_main_menu1_p + 0x60) = 0;
     *(u8 *)((s8 *)window_main_menu1_p + 0x61) = 0;
-    window_main_menu1_p->m_6c = lbl_805DD8A8;
-    *(f32 *)((s8 *)window_main_menu1_p + 0x70) = lbl_805DD8B0;
-    window_main_menu1_p->m_8c = lbl_805DD8C4;
-    *(f32 *)((s8 *)window_main_menu1_p + 0x90) = lbl_805DD8BC;
-    window_main_menu1_p->m_94 = lbl_805DD8CC;
-    *(f32 *)((s8 *)window_main_menu1_p + 0x98) = lbl_805DD8CC;
-    window_main_menu1_p->m_9c = lbl_805DD8D0;
-    *(f32 *)((s8 *)window_main_menu1_p + 0xA0) = lbl_805DD8D4;
-    window_main_menu1_p->m_a4 = lbl_805DD8D8;
-    *(f32 *)((s8 *)window_main_menu1_p + 0xA8) = lbl_805DD8C8;
+    window_main_menu1_p->m_6c = 320.0f;
+    *(f32 *)((s8 *)window_main_menu1_p + 0x70) = 240.0f;
+    window_main_menu1_p->m_8c = 640.0f;
+    *(f32 *)((s8 *)window_main_menu1_p + 0x90) = 480.0f;
+    window_main_menu1_p->m_94 = 0.0f;
+    *(f32 *)((s8 *)window_main_menu1_p + 0x98) = 0.0f;
+    window_main_menu1_p->m_9c = 20.0f;
+    *(f32 *)((s8 *)window_main_menu1_p + 0xA0) = 15.0f;
+    window_main_menu1_p->m_a4 = 1.0f;
+    *(f32 *)((s8 *)window_main_menu1_p + 0xA8) = 0.85f;
     return window_main_menu1_p;
 }
 

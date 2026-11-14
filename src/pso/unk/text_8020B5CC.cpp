@@ -20,7 +20,8 @@ struct Tbl_8020B970 { s32 count; s32 count2; u8 pad8[8]; Dst_8020B970 *list; Dst
 struct Slot_8020B970 { void *entry; void *entry2; };
 
 // Set flags of every floor's object and enemy sets, packed for the network (serialize_area_set_flags).
-struct AreaSetFlags_8020B5CC {
+// inferred: the buffer serialize_area_set_flags fills
+struct SerializedAreaSetFlags {
     u32 header_size;
     s32 object_count;
     u32 enemy_offset;
@@ -49,72 +50,75 @@ extern Src_8020B7C4 *TLobby__data_805D6114;
 s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32 idx, Src_8020B970 *src, u32 size);
 s32 init_quest_floor_enemies(s32 idx, Src_8020B7C4 *src, u32 size);
 
-int TLobby__sub_8020B5CC(AreaSetFlags_8020B5CC *out) {
+int TLobby__sub_8020B5CC(void *buf) {
     s16 *p;
+    SerializedAreaSetFlags *out;
+    Dst_8020B970 *e;
+    s32 n;
+    s32 i;
+    s32 j;
+    s32 count;
 
+    out = (SerializedAreaSetFlags *)buf;
     out->header_size = 0x10;
     p = out->flags;
-    {
-        s32 count = 0;
-        for (s32 i = 0; i < 18; i++) {
-            s32 n = TLobby__floor_enemy_group_table[i].count;
-            if (n > 0) {
-                Dst_8020B970 *e = TLobby__floor_enemy_group_table[i].list;
-                if (i == get_current_floor()) {
-                    Src_8020B970 *s = TLobby__data_805D610C;
-                    if (s != NULL) {
-                        for (s32 j = 0; j < n; j++) {
-                            s16 flags = s->flags & ~2;
-                            bswap_16((u16 *)&flags);
-                            *p++ = flags;
-                            s++;
-                            count++;
-                        }
-                    }
-                } else {
-                    for (s32 j = 0; j < n; j++) {
-                        s16 flags = e->flags & ~2;
+    count = 0;
+    for (i = 0; i < 18; i++) {
+        n = TLobby__floor_enemy_group_table[i].count;
+        if (n > 0) {
+            e = TLobby__floor_enemy_group_table[i].list;
+            if (i == get_current_floor()) {
+                Src_8020B970 *s = TLobby__data_805D610C;
+                if (s != NULL) {
+                    for (j = 0; j < n; j++) {
+                        s16 flags = s->flags & ~2;
                         bswap_16((u16 *)&flags);
                         *p++ = flags;
-                        e++;
+                        s++;
                         count++;
                     }
                 }
+            } else {
+                for (j = 0; j < n; j++) {
+                    s16 flags = e->flags & ~2;
+                    bswap_16((u16 *)&flags);
+                    *p++ = flags;
+                    e++;
+                    count++;
+                }
             }
         }
-        out->object_count = count;
     }
+    out->object_count = count;
     out->enemy_offset = out->object_count * 2 + 0x10;
-    {
-        s32 count = 0;
-        for (s32 i = 0; i < 18; i++) {
-            s32 n = TLobby__floor_enemy_group_table[i].count2;
-            if (n > 0) {
-                Dst_8020B970 *e = TLobby__floor_enemy_group_table[i].list2;
-                if (i == get_current_floor()) {
-                    Src_8020B7C4 *s2 = TLobby__data_805D6114;
-                    if (s2 != NULL) {
-                        for (s32 j = 0; j < n; j++) {
-                            s16 flags = s2->flags & ~2;
-                            bswap_16((u16 *)&flags);
-                            *p++ = flags;
-                            s2++;
-                            count++;
-                        }
-                    }
-                } else {
-                    for (s32 j = 0; j < n; j++) {
-                        s16 flags = e->flags & ~2;
+    count = 0;
+    for (i = 0; i < 18; i++) {
+        n = TLobby__floor_enemy_group_table[i].count2;
+        if (n > 0) {
+            e = TLobby__floor_enemy_group_table[i].list2;
+            if (i == get_current_floor()) {
+                Src_8020B7C4 *s = TLobby__data_805D6114;
+                if (s != NULL) {
+                    for (j = 0; j < n; j++) {
+                        s16 flags = s->flags & ~2;
                         bswap_16((u16 *)&flags);
                         *p++ = flags;
-                        e++;
+                        s++;
                         count++;
                     }
                 }
+            } else {
+                for (j = 0; j < n; j++) {
+                    s16 flags = e->flags & ~2;
+                    bswap_16((u16 *)&flags);
+                    *p++ = flags;
+                    e++;
+                    count++;
+                }
             }
         }
-        out->enemy_count = count;
     }
+    out->enemy_count = count;
     ((TLobby *)out)->bswap_4_words();
     return TLobby__sub_8020BF88();
 }

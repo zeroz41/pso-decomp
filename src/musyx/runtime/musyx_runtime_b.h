@@ -3,6 +3,7 @@
 
 #pragma dont_inline on
 #include "types.h"
+#include "musyx/runtime/musyx_dspvoice.h"
 #include "pso/audio/SoundMixVoice.h"
 #include "pso/audio/SoundReverb.h"
 
@@ -102,8 +103,6 @@ struct Slot_803BDA2C {
 };
 
 struct Obj_803BDCB8 { u8 pad[0x281]; volatile u8 busy; };
-
-struct Rec_803BE1EC { u32 f0; u32 f4; u32 f8; u32 fc; };
 
 struct Slot_803BD138 {
     u8 pad_0[0x1c]; s32 f1c; u32 f20; u32 f24[4]; u8 pad_34[0x70 - 0x34];
@@ -273,7 +272,7 @@ struct Hdr_803BD93C { u32 f0; u32 info; };
 
 typedef u8 * (*RecoveredCallback_fa840eeea008)(u8 *, u32);
 
-#define SLOTS_803BCD1C (*(Slot_803BCD1C **)&lbl_805D748C)
+#define SLOTS_803BCD1C (*(Slot_803BCD1C **)&dspVoice)
 struct Blk_803BCD1C { s32 w[8]; };
 
 struct Slot_803BCD1C {
@@ -283,7 +282,7 @@ struct Slot_803BCD1C {
     u8 fe4; u8 fe5; u8 fe6; u8 fe7; u8 pad_e8[0xF0 - 0xE8]; s32 ff0;
 };
 
-#define SLOTS_803BCF18 (*(Slot_803BCF18 **)&lbl_805D748C)
+#define SLOTS_803BCF18 (*(Slot_803BCF18 **)&dspVoice)
 struct Slot_803BCF18 {
     u8 pad_0[0x24]; s32 f24; u8 pad_28[0xA4 - 0x28]; s8 fa4; u8 pad_a5[0xB8 - 0xA5];
     s32 fb8; s32 fbc; u16 fc0; u8 pad_c2[2]; s32 fc4; s8 fc8; s8 fc9; s8 fca; u8 pad_cb[0xF4 - 0xCB];
@@ -371,8 +370,6 @@ struct Info_803BF884 {
     s32 *surround;
 };
 
-struct Pair_803BD9E4 { s32 a; s32 b; };
-
 typedef struct Src_803BBB30 {
     u8 midiCtrl;
     u8 combine;
@@ -415,26 +412,22 @@ extern s8 salTimeOffset;
 u8 hwGetTimeOffset(void);
 extern s32 salMessageCallback;
 void hwSetMesgCallback(s32 arg0);
-extern s32 lbl_805D748C;
 void hwSetSRCType(s32 index, u8 entry);
-extern s32 lbl_805D748C;
 void hwSetPolyPhaseFilter(s32 index, u8 entry);
 void hwSetITDMode(s32 i, u8 mode);
 s32 salDeactivateVoice(void *);
 void hwOff(s32 arg0);
 void hwTransAddr(void);
 void hwFrameDone(void);
-extern s32 lbl_805D747C;
+extern u32 dspHRTFOn;
 void hwDisableHRTF(void);
-extern s32 lbl_805D748C;
 s32 hwGetVirtualSampleID(s32 arg0);
-extern s32 lbl_805D74CC;
 void aramRemoveData(s32 arg0, s32 arg1);
-extern s32 lbl_805D74F0;
-extern s32 lbl_805D7500;
-extern void (*lbl_805D74E8)(void);
-extern s32 lbl_805D74F4;
-extern s32 lbl_805D74F8;
+extern volatile u32 salDspIsDone;
+extern volatile u32 salDspInitIsDone;
+extern void (*userCallback)(void);
+extern volatile u32 salLogicIsWaiting;
+extern volatile u32 salLogicActive;
 void AIInitDMA(u32 addr, u32 length);
 void AIRegisterDMACallback(void (*)(void));
 void salCallback(void);
@@ -498,23 +491,19 @@ u8 inpTranslateExCtrl(u8 arg0);
 s32 OSDisableInterrupts(void);
 void hwIRQEnterCritical(void);
 s32 OSRestoreInterrupts(s32 level);
-extern s32 lbl_805D7508;
-extern u16 lbl_805D7504;
+extern volatile s32 oldState;
+extern volatile u16 hwIrqLevel;
 void hwEnableIrq(void);
 s32 ReverbHICreate(SoundReverb *self, f32 a, f32 b, f32 c, f32 d, f32 e, f32 f);
 void sndAuxCallbackPrepareReverbHI(Obj_803BE860 *self);
 s32 OSEnableInterrupts(void);
 void hwIRQLeaveCritical(void);
 s32 OSDisableInterrupts(void);
-extern s32 lbl_805D7508;
-extern u16 lbl_805D7504;
 void hwInitIrq(void);
-extern u8 lbl_805D750C;
-extern Rec_803BE528 *lbl_805D74EC;
+extern u8 salAIBufferIndex;
+extern Rec_803BE528 *salAIBufferBase;
 Rec_803BE528 *salAiGetDest(void);
 s32 OSDisableInterrupts(void);
-extern s32 lbl_805D7508;
-extern u16 lbl_805D7504;
 void hwDisableIrq(void);
 struct ChannelDefaults_803BADF8 { u8 pbRange; };
 struct SynthVoice_803BADF8 {
@@ -533,7 +522,6 @@ struct SynthVoice_803BADF8 {
 extern SynthVoice_803BADF8 *synthVoice;
 void synthKeyStateUpdate(SynthVoice_803BADF8 *svoice);
 void inpFXCopyCtrl(u8 ctrl, SynthVoice_803BADF8 *dvoice, SynthVoice_803BADF8 *svoice);
-#define lbl_8056DE98 inpGlobalMIDIDirtyFlags
 #define lbl_8056E098 ((u8 (*)[16])inpChannelDefaults)
 #define lbl_8056E118 ((u8 *)inpFXChannelDefaults)
 u8 *inpGetChannelDefaults(u8 a, u8 b);
@@ -543,23 +531,15 @@ extern Inp_803BBB30 inpAuxA[8][4];
 extern u32 lbl_804F7120[];
 extern u32 lbl_804F7130[];
 void inpSetGlobalMIDIDirtyFlag(u8 a, u8 b, u32 v);
-extern s32 lbl_805D748C;
 bool hwIsActive(s32 i);
-extern s32 lbl_805D748C;
 u16 hwGetSampleID(s32 i);
-extern s32 lbl_805D748C;
 void hwSetStreamLoopPS(s32 i, u8 v);
 extern u32 lbl_805D4630;
 u16 sndRand(void);
-extern s32 lbl_805D748C;
 u8 hwGetSampleType(s32 i);
-extern s32 lbl_805D748C;
 void hwSetPriority(s32 i, s32 v);
-extern s32 lbl_805D748C;
 void hwSetVirtualSampleLoopBuffer(s32 i, s32 a, s32 b);
-extern s32 lbl_805D748C;
 u8 hwGetVirtualSampleState(s32 i);
-extern s32 lbl_805D748C;
 extern s8 salTimeOffset;
 void hwKeyOff(s32 i);
 void salActivateStudio(u8 i, s32 a, s32 b);
@@ -569,24 +549,20 @@ void hwSyncSampleMem(void);
 void aramInit(u32 length);
 u32 ARGetSize(void);
 void InitStreamBuffers(void);
-extern u32 lbl_805D74C8;
 void hwInitSampleMem(void *self, void *p);
 void aramFreeStreamBuffer(u8 i);
 void hwExitStream(u8 i);
 void salDeactivateStudio(u8 i);
 void hwDeactivateStudio(u8 i);
-extern s32 lbl_805D748C;
 bool hwVoiceInStartup(s32 i);
 void *hwInitStream(u32 size);
 u32 ARGetBaseAddress(void);
 u32 aramGetZeroBuffer(void);
 extern AramQueues_803BDCD0 lbl_8056E158;
 void aramSyncTransferQueue(void);
-extern Rec_803BE1EC lbl_8056E660[];
 u32 aramGetStreamBufferAddress(u8 i, u32 *out);
 void AIStartDMA(void);
 void salStartAi(void);
-extern s32 lbl_805D748C;
 extern s8 salTimeOffset; void salActivateVoice(Slot_803BD138 *s, s32 x);
 void hwStart(s32 i, s32 x);
 extern SoundStudioMixView lbl_805663D8[];
@@ -615,30 +591,26 @@ extern s16 lbl_804F7168[];
 s16 sndSin(s32 arg0);
 u32 synthGetTicksPerSecond(void *);
 void sndConvertTicks(u32 *arg0, s32 arg1);
-extern s32 lbl_805D748C;
 extern s8 salTimeOffset;
 void hwBreak(s32 i);
-extern s32 lbl_805D748C;
 extern s8 salTimeOffset;
 void hwSetPitch(s32 i, u16 v);
 s32 PPCSync();
 u32 DSPCheckMailToDSP();
 s32 DSPSendMailToDSP(void *);
 s32 salBuildCommandList(void *, int);
-extern u16 lbl_805D7474;
-extern s32 lbl_805D7478;
-extern s32 lbl_805D74F0;
+extern u16 dspCmdFirstSize;
+extern u16 *dspCmdList;
 void salCtrlDsp(s32 arg0);
 s32 OSGetTick();
-extern s32 lbl_805D74FC;
+extern volatile u32 salLastTick;
 u32 salGetStartDelay(void);
 typedef struct SND_HOOKS {
     void *(*malloc)(u32 addr);
     void (*free)(void *addr);
 } SND_HOOKS;
-extern SND_HOOKS lbl_805D74BC;
+extern SND_HOOKS salHooks;
 f32* salMalloc(s32 bytes);
-extern SND_HOOKS lbl_805D74BC;
 void salFree(s32 arg0);
 void sndAuxCallbackReverbHI(u8 arg0, u8 *arg1, u8 *arg2);
 u8 inpTranslateExCtrl(u8 arg0);
@@ -648,7 +620,6 @@ u16 inpGetMidiCtrl(u8 arg0, u8 arg1, u8 arg2);
 u16 inpGetExCtrl(Obj_803BC7E4 *arg0, u8 arg1);
 u8 inpTranslateExCtrl(u8 arg0);
 void inpSetExCtrl(Obj_803BC884 *arg0, u8 arg1, s16 arg2);
-extern s32 lbl_805D748C;
 u32 hwGetPos(s32 arg0);
 void DCStoreRange(void *addr, u32 nBytes);
 u32 aramGetStreamBufferAddress(u8 i, u32 *out);
@@ -664,9 +635,9 @@ u32 salInitDspCtrl(u8 arg0, u8 arg1, bool arg2);
 u32 salInitDsp(u32 arg0);
 void snd_handle_irq(void);
 extern s32 salMessageCallback;
-extern u8 lbl_805D74C6;
-extern u8 lbl_805D74C7;
-extern u8 lbl_805D74C5;
+extern u8 salAuxFrame;
+extern u8 salFrame;
+extern u8 salNumVoices;
 extern u8 sndActive;
 void seqHandle(s32);
 void synthHandle(s32);
@@ -678,16 +649,7 @@ void s3dHandle(void);
 struct Slot_803BCAA0 { u8 pad0[0x24]; u32 changed[5]; u8 pad38[0xF4 - 0x38]; };
 s32 hwInit(u32 arg0, s32 arg1, s32 arg2, u32 arg3);
 void DCFlushRange(void *addr, u32 nBytes);
-extern s32 lbl_805D74CC;
-extern RecoveredCallback_fa840eeea008 lbl_805D74D4;
-extern u32 lbl_805D74D8;
 s32 aramStoreData(u8 *src, u32 size);
-extern Rec_803BE1EC lbl_8056E660[];
-extern s32 lbl_805D74CC;
-extern s32 lbl_805D74D0;
-extern Rec_803BE1EC *lbl_805D74DC;
-extern Rec_803BE1EC *lbl_805D74E0;
-extern Rec_803BE1EC *lbl_805D74E4;
 void *aramAllocateStreamBuffer(u32 arg0);
 void hwSetSRCType(s32 index, u8 entry);
 void hwSetPolyPhaseFilter(s32 index, u8 entry);
@@ -695,7 +657,7 @@ void hwSetITDMode(s32 i, u8 mode);
 extern s8 salTimeOffset;
 void hwInitSamplePlayback(s32 n, s16 arg1, Blk_803BCD1C *arg2, u32 arg3, s32 arg4, s32 arg5, u32 arg6, u8 arg7);
 u16 adsrConvertTimeCents(s32);
-extern u8 lbl_804F68DC[];
+extern u8 dspScale2IndexTab[];
 void hwSetADSR(s32 n, void *arg1, u8 mode);
 s32 OSDisableInterrupts(void);
 s32 OSRestoreInterrupts(s32 level);
@@ -707,7 +669,6 @@ void aramUploadData(u8 *src, u32 dst, u32 len, s32 dir, void *cb, void *arg);
 void DoCrossTalk(void *, void *, f32, f32);
 void HandleReverb(void *, void *, int);
 void ReverbHICallback(void *arg0, void *arg1, void *arg2, S_803BF408 *arg3);
-extern s32 lbl_805D748C;
 extern SoundStudioMixView lbl_805663D8[];
 void salCalcVolume(u32 p, SoundMixCurveOutput *out, s32 x, s32 a3, bool f7, bool f8, f32 a, f32 b, f32 c);
 void hwSetVolume(s32 idx, u32 p, u32 x, s32 a3, f32 a, f32 b, f32 c);
@@ -717,8 +678,7 @@ void sndAuxCallbackChorus(u8 reason, Info_803BF884 *info, Work_803BF884 *c);
 extern u32 synthInfo[];
 extern const f32 lbl_805E0C48;
 u32 hwFrq2Pitch(u32 arg0);
-extern SND_HOOKS lbl_805D74BC;
-void sndSetHooks(Pair_803BD9E4 *arg0);
+void sndSetHooks(SND_HOOKS *hooks);
 s16 varGet(Voice_803BBB30 *, u32, u32);
 u16 inpGetMidiCtrl(u8 arg0, u8 arg1, u8 arg2);
 extern u64 synthRealTime;
@@ -855,7 +815,6 @@ void hwSaveSample(Hdr_803BD8A8 **arg0, u32 *arg1);
 void hwRemoveSample(Hdr_803BD93C *arg0, u32 arg1);
 void hwSyncSampleMem(void);
 void hwFrameDone(void);
-void sndSetHooks(Pair_803BD9E4 *arg0);
 void hwDisableHRTF(void);
 s32 hwGetVirtualSampleID(s32 arg0);
 bool hwVoiceInStartup(s32 i);

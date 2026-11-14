@@ -7,6 +7,7 @@
 #include "pso/system/vector.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer.h"
 
 void TUnk_804A4E68::vfunc_60() {
     if (TObjPlayer::get_player_list() == 0) {
@@ -19,7 +20,6 @@ void TUnk_804A4E68::update_idle() {
 }
 
 extern "C" {
-s32 test_action_mask__10TObjPlayerFl(void *, s32);
 #pragma push
 #pragma fp_contract on
 void TUnk_804A4E68::update_attack() {
@@ -34,17 +34,17 @@ void TUnk_804A4E68::update_attack() {
         speed = ((TObjChara *)(this->owner))->get_frame();
         flag = ((TObjPlayer *)(this->owner))->is_flag_b0_4();
         ok = 1;
-        if (test_action_mask__10TObjPlayerFl(this->owner, 0x20) != 0) {
+        if (this->owner->test_action_mask(0x20) != 0) {
             flo = 15.6f;
             lo = 0;
             fhi = 20.4f;
             hi = 0x4000;
-        } else if (test_action_mask__10TObjPlayerFl(this->owner, 0x40) != 0) {
+        } else if (this->owner->test_action_mask(0x40) != 0) {
             flo = 12.0f;
             lo = 0x4000;
             fhi = 24.0f;
             hi = -0x4000;
-        } else if (test_action_mask__10TObjPlayerFl(this->owner, 0x80) != 0) {
+        } else if (this->owner->test_action_mask(0x80) != 0) {
             flo = 14.4f;
             lo = -0x4000;
             fhi = 20.0f;

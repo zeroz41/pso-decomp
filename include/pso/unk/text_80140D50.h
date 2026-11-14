@@ -4,18 +4,10 @@
 #include "types.h"
 
 extern "C" {
-s32 fn_80140D50(void);
+s32 init_temple_area(void);
 void fn_80140DFC(s32 arg0, s32 arg1);
 void fn_80140EA8(s32 arg0, s32 arg1);
 }
 void remove_value_from_id_list(s32 arg0, u32 arg1);
-
-// --- C functions defined in text_80140D50.cpp ---
-extern "C" {
-s32 fn_80140D50(void);
-void fn_80140DFC(s32 arg0, s32 arg1);
-void fn_80140EA8(s32 arg0, s32 arg1);
-}
-// --- end of C functions
 
 #endif

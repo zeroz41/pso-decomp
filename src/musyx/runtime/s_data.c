@@ -1,6 +1,5 @@
 #include "musyx/runtime/musyx_runtime_a.h"
 
-#define synthVoice ((SYNTH_VOICE_803B2438 *)synthVoice)
 #include "types.h"
 typedef struct GROUP_DATA_803B50E8 {
     u32 nextOff;
@@ -36,7 +35,7 @@ typedef struct FX_DATA_803B50E8 {
 } FX_DATA_803B50E8;
 
 extern "C" {
-extern s16 lbl_805D7450;
+extern s16 sp;
 extern u8 sndActive;
 void *hwTransAddr(void *samples);
 u32 dataInsertSDir(void *sdir, void *smp_data);
@@ -49,7 +48,7 @@ u32 sndPushGroup(void *prj_data, u16 gid, void *samples, void *sdir, void *pool)
 extern "C" {
 
 void dataInitStack(void) {
-    lbl_805D7450 = 0;
+    sp = 0;
 }
 
 #pragma push
@@ -205,7 +204,6 @@ void ScanIDListReverse(u16 *start, void *a, void *b, void *c) {
 }
 
 static GSTACK_803B50E8 gs[128];
-#define sp lbl_805D7450
 struct Rec_803ADBF0;
 #pragma push
 #pragma opt_common_subs on
@@ -316,7 +314,7 @@ s32 seqPlaySong(u16 id, u16 sub, s32 a2, s32 a3, u8 locked, s32 a5) {
 
     e = tbl;
     i = 0;
-    while (i < lbl_805D7450) {
+    while (i < sp) {
         if (id == e->desc->id) {
             d = tbl[i].desc;
             if (d->kind == 0) {
@@ -351,6 +349,6 @@ void sndSeqPlayEx(u16 arg0, u16 arg1, s32 arg2, s32 arg3, s32 arg4) {
     seqPlaySong(arg0, arg1, arg2, arg3, 0U, arg4);
 }
 
-s16 lbl_805D7450;
+s16 sp;
 
 }

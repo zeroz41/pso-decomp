@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/ambient/TObjEnvSound.h"
 #include "pso/object/ambient/TObjEnvSoundEx.h"
@@ -7,6 +8,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal {
     s32 value;
@@ -28,10 +30,13 @@ struct Env_80190624 {
     f32 range;
 };
 
+const char *TObjEnvSound__class_name = "TObjEnvSound";
+const char *TObjEnvSoundEx__class_name = "TObjEnvSoundEx";
+const char *TObjEnvSoundGlobal__class_name = "TObjEnvSoundGlobal";
+
 extern "C" {
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__18TObjEnvSoundGlobal[];
-extern s32 TObjEnvSoundGlobal__class_name;
 u8 *TObjEnvSoundGlobal__ct(u8 *arg0, s32 arg1, s32 arg2);
 u8 *TObjEnvSoundEx__ct(u8 *arg0, s32 arg1, s32 arg2);
 void copy_pair__18TObjEnvSoundGlobalFPvPv(void* p, void* q);
@@ -79,9 +84,7 @@ extern void *tl_05;
 typedef char RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal_size[sizeof(RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal) == 0x34 ? 1 : -1];
 
 
-void disallow_rendering__7TObjectFv(TObject *arg0);
 extern s32 __vt__14TObjEnvSoundEx[];
-extern s32 TObjEnvSoundEx__class_name;
 void *__dt__14TObjEnvSoundExFv(void *arg0, s16 arg1);
 struct RecoveredGlobal_8019080C___vt__14TObjEnvSoundEx {
     s32 value;
@@ -120,7 +123,7 @@ f32 xyz_distance_squared(void *, void *, void *);
 
 
 struct Obj_80190AA0 {
-    s32 unk0;
+    const char *unk0;
     u8 pad4[0x18 - 0x4];
     void *vtbl;
     u8 pad1C[0x70 - 0x1C];
@@ -159,20 +162,13 @@ s32 set_floor_event_flags(s32 arg0, s32 arg1, s32 arg2);
 s32 activate_first_floor_event(s32 idx, s32 id);
 extern "C" {
 void handle_6x67_trigger_set_event(Pkt_80190BA0 *pkt);
-void queue_destruction__7TObjectFv(void *);
-void disallow_rendering__7TObjectFv(TObject *);
 void copy_pair__18TObjEnvSoundGlobalFPvPv(void *p, void *q);
 
 extern s32 __vt__12TObjEnvSound[];
-extern s32 TObjEnvSound__class_name;
 
 void *__dt__12TObjEnvSoundFv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 
-
-
-}
-extern "C" {
 
 
 }
@@ -196,7 +192,7 @@ void *TObjEnvSound__ct(Obj_80190AA0 *self, void *parent, void *arg2) {
     if (table != NULL) {
         copy_pair__18TObjEnvSoundGlobalFPvPv(&self->sound, &table[self->index]);
     } else {
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         return self;
     }
     self->radius = self->authoredRadius;
@@ -210,7 +206,7 @@ void *TObjEnvSound__ct(Obj_80190AA0 *self, void *parent, void *arg2) {
     if (self->attenuation > 127) {
         self->attenuation = 127;
     }
-    disallow_rendering__7TObjectFv((TObject *)self);
+    ((TObject *)self)->disallow_rendering();
     return self;
 }
 
@@ -268,11 +264,11 @@ s32 TObjEnvSound::is_sound_enabled(void *self, s32 cue) {
 u8 *TObjEnvSoundEx__ct(u8 *env_sound_ex, s32 arg1, s32 arg2) {
     ((s32 (*)(void *))__ct__8TObjBaseFP7TObject)(env_sound_ex);
     *(s32 **)((s8 *)env_sound_ex + 0x18) = &(*(RecoveredGlobal_8019080C___vt__14TObjEnvSoundEx *)&__vt__14TObjEnvSoundEx).value;
-    *(s32 *)((s8 *)env_sound_ex + 0) = (s32) TObjEnvSoundEx__class_name;
+    *(const char **)((s8 *)env_sound_ex + 0) = TObjEnvSoundEx__class_name;
     ((TObjEnvSoundEx *)(env_sound_ex))->apply_object_set_data((void *)arg2);
     ((TObjEnvSoundEx *)env_sound_ex)->init_sound_params();
-    *(f32 *)((s8 *)env_sound_ex + 0x94) = (f32) (-127.0f);
-    disallow_rendering__7TObjectFv((TObject *)(env_sound_ex));
+    *(f32 *)((s8 *)env_sound_ex + 0x94) = -127.0f;
+    ((TObject *)(env_sound_ex))->disallow_rendering();
     return env_sound_ex;
 }
 
@@ -361,7 +357,7 @@ void * TObjEnvSoundEx__create(void *rader_map_core) {
 u8 *TObjEnvSoundGlobal__ct(u8 *env_sound_global, s32 parent, s32 arg2) {
     __ct__8TObjBaseFP7TObject((void *)env_sound_global, (void *)parent);
     *(s32 **)((s8 *)env_sound_global + 0x18) = &(*(RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal *)&__vt__18TObjEnvSoundGlobal).value;
-    *(s32 *)((s8 *)env_sound_global + 0) = (s32) TObjEnvSoundGlobal__class_name;
+    *(const char **)((s8 *)env_sound_global + 0) = TObjEnvSoundGlobal__class_name;
     ((TObjEnvSoundGlobal *)(env_sound_global))->apply_object_set_data((void *)arg2);
     ((TObjEnvSoundGlobal *)env_sound_global)->setup_sound();
     return env_sound_global;
@@ -405,10 +401,10 @@ s32 TObjEnvSoundGlobal::setup_sound() {
     }
     *(f32 *)&this->unk_90 = (f32) *(s32 *)&this->set_params[1];
     if (*(f32 *)&this->unk_90 < (-127.0f)) {
-        *(f32 *)&this->unk_90 = (f32) (-127.0f);
+        *(f32 *)&this->unk_90 = -127.0f;
     }
     if (*(f32 *)&this->unk_90 > (127.0f)) {
-        *(f32 *)&this->unk_90 = (f32) (127.0f);
+        *(f32 *)&this->unk_90 = 127.0f;
     }
     return var_r31;
 }

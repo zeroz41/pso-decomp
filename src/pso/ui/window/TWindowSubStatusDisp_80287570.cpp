@@ -47,7 +47,7 @@ void apply_context_transform_to_rect(void *, Rect_80287580 *);
 void begin_screen_draw(s32 arg0);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
-extern const UV_80287580 window_tab_uv_table[];
+const UV_80287580 window_tab_uv_table[4] = {{0.0f, 98.0f}, {0.0f, 125.0f}, {0.0f, 152.0f}, {80.0f, 98.0f}};
 extern s32 lbl_805D63F0;
 void draw_window_tab(Obj_80287580 *obj, f32 *pos, u8 idx, f32 width);
 void __dl__FPv(void);

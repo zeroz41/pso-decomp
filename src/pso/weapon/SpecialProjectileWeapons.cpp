@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffStarLight2D.h"
 #include "pso/weapon/TUnk_804A204C.h"
 #include "pso/weapon/shoot/TUnk_804A2148.h"
@@ -22,6 +23,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/system/task/TObject.h"
 struct TItemEquipBase;
 #include "pso/weapon/shoot/TItemShootParticle.h"
 
@@ -101,7 +103,6 @@ void __dt__7TObjectFv(void *, int);
 void *TObjPlayer__sub_8012417C(void *arg0, s16 arg1);
 s8 get_mode__5TItemFv();
 
-void queue_destruction__7TObjectFv(void *arg0);
 void run_task__13TUnk_804A2018Fv(void *arg0);
 void *__dt__13TUnk_804A204CFv(void *arg0, s16 arg1);
 void *TObjPlayer__sub_80124694(TObjPlayer *arg0);
@@ -116,13 +117,12 @@ void *__vt__13TUnk_804A2018[6] = {
     (void *)0x0, (void *)0x0, (void *)&TObjPlayer__sub_8012417C, (void *)&run_task__13TUnk_804A2018Fv,
     (void *)&render__7TObjectFv, (void *)&render_shadows__7TObjectFv,
 };
-#define __vt__13TUnk_804A2018 ((u8 *)__vt__13TUnk_804A2018)
 
 void TUnk_804A2018::run_task() {
     s32 sp8;
     s32 item;
     if ((u32) this->m_28 != ((u32)get_item_system_generation())) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     if ((u32) *(u32 *)&this->unk_24 != 0U) {
@@ -136,7 +136,7 @@ void TUnk_804A2018::run_task() {
             return;
         }
     }
-    queue_destruction__7TObjectFv(this);
+    queue_destruction();
 }
 
 void *TObjPlayer__sub_8012417C(void *arg0, s16 arg1) {
@@ -287,8 +287,6 @@ extern void *__vt__13TUnk_804A204C[];
 extern void *__vt__13TUnk_804A2148[];
 extern void *__vt__13TUnk_804A2164[];
 #define __vt__13TUnk_804A204C ((s32 *)__vt__13TUnk_804A204C)
-#define __vt__13TUnk_804A2148 ((s32 *)__vt__13TUnk_804A2148)
-#define __vt__13TUnk_804A2164 ((s32 *)__vt__13TUnk_804A2164)
 
 }
 TUnk_804A204C::~TUnk_804A204C() {

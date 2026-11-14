@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -8,6 +9,8 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TUnk_804CE964.h"
+#include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowDD.h"
 
 struct RecoveredGlobal_80249BA8_lbl_804CE8D0 {
     s32 value;
@@ -93,7 +96,6 @@ void *lbl_804CE964[6] = {
 };
 #define TWindowComCard__window_desc (*(RecoveredGlobal_80249BA8_lbl_804CE8D0 *)TWindowComCard__window_desc)
 #define __vt__14TWindowComCard ((s32 *)__vt__14TWindowComCard)
-#define TWindowComCard__window_desc_b ((s32 *)TWindowComCard__window_desc_b)
 #define lbl_804CE964 ((s32 *)lbl_804CE964)
 
 void TWindowComCard__sub_80249920(s32 arg0, s32 arg1, s32 arg2) {
@@ -177,7 +179,7 @@ void render__14TWindowComCardFv(s32 arg0) {
     draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)temp_r3);
 }
 
-void run_task__14TWindowComCardFv(void* p) { initialize_subwindow__9TWindowDDFv(p); ((TWindowBase *)p)->update_fade(); ((TWindowBase *)p)->update_window_entry_list((char*)p + 0x24); }
+void run_task__14TWindowComCardFv(void* p) { ((TWindowDD *)p)->initialize_subwindow(); ((TWindowBase *)p)->update_fade(); ((TWindowBase *)p)->update_window_entry_list((char*)p + 0x24); }
 
 void *__dt__14TWindowComCardFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
@@ -371,7 +373,7 @@ void TWindowTradeRequest::close_request_window() {
     if ((void *) (*(u8 * *)&TWindowCtrl__active_window) != NULL) {
         object = (u8 *)(*(u8 **)((s8 *)(*(u8 * *)&TWindowCtrl__active_window) + 0x40));
         if (object != NULL) {
-            queue_destruction__7TObjectFv(object);
+            ((TObject *)object)->queue_destruction();
             *(u8 **)((s8 *)(*(u8 * *)&TWindowCtrl__active_window) + 0x40) = NULL;
         }
     }

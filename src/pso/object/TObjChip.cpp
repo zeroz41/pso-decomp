@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/MaterialColorFade.h"
@@ -6,6 +7,7 @@
 #include <stdlib.h>
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TObject.h"
 class TObjChip : public TObject {
 public:
     virtual void render_shadows();
@@ -196,7 +198,7 @@ void copy_debris_params__8TObjChipFPvPv(u8 *arg0, u8 *arg1);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern void *__vt__8TObjChip[];
 u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *arg0, u8 *arg1, u8 *arg2);
-u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
+u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 void matrix_mult_vec(int, Vec_8018085C *, Vec_8018085C *);
@@ -228,7 +230,6 @@ int vfunc_8__8TObjChipFv(void* p);
 u8 *copy_transform__8TObjChipFPvPv(u8 *arg0, u8 *arg1);
 void render__8TObjChipFv(void *arg0);
 void run_task__8TObjChipFv(void *arg0);
-void queue_destruction__7TObjectFv(void *arg0);
 
 #pragma readonly_strings on
 const char *obj_chip_class_name_ptr = "TObjChip";
@@ -265,7 +266,7 @@ u8 *copy_transform__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
 }
 
 extern "C" {
-u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *object, u8 *arg1, u8 *arg2) {
+u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *object, u8 *arg1, u8 *arg2) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__8TObjChip;
     *(s32 *)((s8 *)object + 0) = (s32) obj_chip_class_name_ptr;
@@ -321,7 +322,7 @@ void run_task__8TObjChipFv(void *object) {
     struct VObj_801809F0_801809B4 *o = (struct VObj_801809F0_801809B4 *)object;
     o->m7();
     if (o->m6() == 1) {
-        queue_destruction__7TObjectFv(object);
+        ((TObject *)object)->queue_destruction();
     }
 }
 }

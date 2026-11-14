@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -10,6 +11,7 @@
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/Language.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_8036E8DC_lbl_804C88C0 { s32 value; u8 remaining[0x50]; };
 typedef char RecoveredGlobal_8036E8DC_lbl_804C88C0_size[sizeof(RecoveredGlobal_8036E8DC_lbl_804C88C0) == 0x54 ? 1 : -1];
@@ -57,7 +59,6 @@ void refresh_char_slots__23TAdSinglePlyChrSelectGCFv(void);
 s32 encrypt_save_and_write__23TAdSinglePlyChrSelectGCFv();
 int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
 int init_change_mode__21TAdMultiChgGameModeGCFv(void*);
-void queue_destruction__7TObjectFv(void *arg0);
 s32 TAdPlayerLoadGC__sub_801E1B50(s32);
 extern RecoveredGlobal_8036E8DC_lbl_804C88C0 pso_character_card_filename;
 extern RecoveredGlobal_8036E8DC_lbl_804C8914 pso_system_card_filename;
@@ -205,12 +206,12 @@ void TAdMultiChgGameModeGC::close_windows_on_selection() {
     if (handle_mode_selection() == 0) {
         temp_r3 = *(void **)((s8 *)this + 0x30);
         if ((u32) temp_r3 != 0U) {
-            queue_destruction__7TObjectFv(temp_r3);
+            ((TObject *)temp_r3)->queue_destruction();
             *(u32 *)((s8 *)this + 0x30) = 0U;
         }
         temp_r3 = *(void **)((s8 *)this + 0x34);
         if ((u32) temp_r3 != 0U) {
-            queue_destruction__7TObjectFv(temp_r3);
+            ((TObject *)temp_r3)->queue_destruction();
             *(u32 *)((s8 *)this + 0x34) = 0U;
         }
         set_state(3);
@@ -561,8 +562,8 @@ void TUnk_804F3A20::run_task() {
 }
 
 TUnk_804F3A20::~TUnk_804F3A20() {
-    if (*(void **)((s8 *)this + 0x30) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x30)); this->m_30 = 0; }
-    if (*(void **)((s8 *)this + 0x34) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x34)); *(s32 *)((s8 *)this + 0x34) = 0; }
+    if (*(void **)((s8 *)this + 0x30) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x30)))->queue_destruction(); this->m_30 = 0; }
+    if (*(void **)((s8 *)this + 0x34) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x34)))->queue_destruction(); *(s32 *)((s8 *)this + 0x34) = 0; }
 }
 
 TUnk_804F3A20::TUnk_804F3A20(TObject *object) : TObject(object) {

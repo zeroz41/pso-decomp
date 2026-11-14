@@ -513,7 +513,6 @@ void controller_stuff(void) {
 #pragma push
 #define controller_input_state ((s32 *)&controller_input_state)
 #define controller_physical_port_bank ((s32 *)controller_physical_port_bank)
-#define pad_recalibration_counters ((s32 *)pad_recalibration_counters)
 #define TKeyBoardControl__global_key_state ((u8 *)&TKeyBoardControl__global_key_state)
 
 struct Sub_801A67A4
@@ -745,7 +744,6 @@ s32 TKeyBoardControl::poll_key_state() {
 
 #undef controller_input_state
 #undef controller_physical_port_bank
-#undef pad_recalibration_counters
 #undef TKeyBoardControl__global_key_state
 #pragma pop
 

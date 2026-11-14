@@ -18,4 +18,10 @@ s32 TQuestVmDownLoadServer__sub_803E60CC(s32 *arg0);
 s32 TQuestVmDownLoadServer__sub_803E6134(s32 *arg0);
 }
 
+// Request senders for the keyboard_soft_dispatch_fn_table handlers (same TU).
+extern "C" {
+void TWindowKeyBoardSoft__sub_803E67D4(s32 a, s32 b);
+void TWindowKeyBoardSoft__sub_803E6868(s32 a, s32 b);
+}
+
 #endif

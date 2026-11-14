@@ -9,6 +9,8 @@
 
 #include "types.h"
 
+#pragma readonly_strings on
+
 struct Obj_803C5B50 { u8 pad_0[0x14]; Strm_803C5B50 *f14; };
 
 extern "C" {
@@ -57,7 +59,7 @@ void TLobby__sub_803C5D00(u8 *arg0) {
     lsc_get_queued_stream_count(((Ent_803C9608 *)arg0)->f94);
 }
 
-extern s32 lbl_805D7548;
+s32 lbl_805D7548;
 
 void TLobby__sub_803C5D24(u8 *lobby) {
     struct Fields_arg0 { u8 pad_0[2]; s8 field_2; u8 pad_3[13]; s32 field_10; void ** field_14; u8 pad_18[38]; s16 field_3E; u8 pad_40[84]; u8 * field_94; s8 field_98; };
@@ -78,7 +80,6 @@ void TLobby__sub_803C5D24(u8 *lobby) {
     TLobby::release_ref();
 }
 }
-extern char lbl_8047C5D8[];
 extern char music_stream_afs_filename_buffer[];
 void append_music_stream_segment(u8 *arg0, s32 arg1, s32 arg2);
 void append_music_stream_segment(u8 *arg0, s32 arg1, s32 arg2) {
@@ -93,7 +94,7 @@ void append_music_stream_segment(u8 *arg0, s32 arg1, s32 arg2) {
         return;
     }
     TLobby::format_number_pair(arg1, arg2, buf, 0x10);
-    TLobby::report_adx_error((const char *)lbl_8047C5D8, buf);
+    TLobby::report_adx_error("E0071301 ADXT_EntryAfs: can't entry ", buf);
 }
 extern "C" {
 

@@ -17,6 +17,8 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/unk/text_8026C664.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowDD.h"
 
 struct UV_80262038 {
     f32 u;
@@ -62,12 +64,6 @@ struct RecoveredGlobal_80260808_lbl_8050E208 {
     u8 remaining[0x1AC];
 };
 
-struct RecoveredGlobal_8026062C_TWindowKeyBoardSoft__data_8044F124
-{
-  s32 value;
-  u8 remaining[0x10];
-};
-
 struct RecoveredGlobal_8026062C_TWindowKeyBoardSoft__data_804CB7C8
 {
   s32 value;
@@ -76,11 +72,7 @@ struct RecoveredGlobal_8026062C_TWindowKeyBoardSoft__data_804CB7C8
 
 struct Win_802605DC { u8 p0[0x65]; s8 f65; s8 f66; };
 
-typedef struct RecoveredGlobal_8026062C_TWindowKeyBoardSoft__data_8044F124 RecoveredGlobal_8026062C_TWindowKeyBoardSoft__data_8044F124;
-
 typedef struct RecoveredGlobal_8026062C_TWindowKeyBoardSoft__data_804CB7C8 RecoveredGlobal_8026062C_TWindowKeyBoardSoft__data_804CB7C8;
-
-typedef char RecoveredGlobal_8026062C_TWindowKeyBoardSoft__data_8044F124_size[((sizeof(RecoveredGlobal_8026062C_TWindowKeyBoardSoft__data_8044F124)) == 0x14) ? (1) : (-1)];
 
 typedef char RecoveredGlobal_8026062C_TWindowKeyBoardSoft__data_804CB7C8_size[((sizeof(RecoveredGlobal_8026062C_TWindowKeyBoardSoft__data_804CB7C8)) == 0x70) ? (1) : (-1)];
 
@@ -108,7 +100,6 @@ f32 TWindowKeyBoardSoft__sub_802606E0(TWindowKeyBoardSoft *);
 void TWindowKeyBoardSoft__sub_80260760(void *self, s32 key, s32 *count, u32 *color);
 void TWindowKeyBoardSoft__sub_80260E30(void *self, s32 port);
 void TWindowKeyBoardSoft__sub_80261134(void *self);
-extern u8 lbl_8044F138[];
 void TKeyBoardControl__sub_802613A4(TKeyBoardControl *arg0);
 f32 TWindowKeyBoardSoft__sub_802614DC(u8 *, u8 *, f32, f32, f32, f32);
 void TWindowKeyBoardSoft__sub_802616BC(TWindowKeyBoardSoft *, TWindowKeyBoardSoft *);
@@ -117,14 +108,34 @@ void TWindowKeyBoardSoft__sub_8026227C(TWindowKeyBoardSoft *, TWindowKeyBoardSof
 extern s32 lbl_805D63F0;
 s32 get_flag_bit5__19TWindowKeyBoardSoftFv();
 
-extern RecoveredGlobal_8026062C_TWindowKeyBoardSoft__data_8044F124 TWindowKeyBoardSoft__data_8044F124;
 extern RecoveredGlobal_8026062C_TWindowKeyBoardSoft__data_804CB7C8 TWindowKeyBoardSoft__data_804CB7C8;
 extern u8 *TWindowKeyBoardSoft__language_text_resources;
 extern RecoveredGlobal_80260808_lbl_8050E208 controller_input_state;
 extern void *local_client_id;
 void apply_context_transform_to_rect(void *, void *);
 void draw_color_lines(Lines_80261DD8 *l, s32 n, s32 flags, f32 scale);
-extern UV_80262038 keyboard_key_frame_uv_table[];
+
+const char *keyboard_soft_type_name_pointer = "TWindowKeyBoardSoft";
+
+/* Per key class (indexed through TWindowKeyBoardSoft__data_804CB7C8): steps back to the class's first column,
+   and lbl_8044F138 the columns left to its last one (read from the cursor moves in sub_80260E30). */
+const s8 TWindowKeyBoardSoft__data_8044F124[20] = { 0, 0, 0, -1, 0, -1, -2, -3, 0, -1, -2, -3, -4, -5, -6, -7, -8, -9, 0, 0 };
+const u8 lbl_8044F138[20] = { 0, 0, 1, 0, 3, 2, 1, 0, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0, 0 };
+const UV_80262038 keyboard_key_frame_uv_table[3] = { { 185.0f, 0.0f }, { 185.0f, 119.0f }, { 185.0f, 141.0f } };
+
+/* Function keys below the character grid: grid cell, size and texture origin. */
+const Vec2_802615B8 lbl_8044F164[10] = {
+    { 0.0f, 6.0f }, { 12.0f, 6.0f }, { 0.0f, 5.0f }, { 0.0f, 0.0f }, { 14.0f, 0.0f },
+    { 2.0f, 6.0f }, { 0.0f, 1.0f }, { 0.0f, 2.0f }, { 0.0f, 3.0f }, { 0.0f, 4.0f },
+};
+const Vec2_802615B8 lbl_8044F1B4[10] = {
+    { 37.0f, 18.0f }, { 37.0f, 18.0f }, { 37.0f, 18.0f }, { 37.0f, 18.0f }, { 37.0f, 18.0f },
+    { 66.0f, 18.0f }, { 18.0f, 18.0f }, { 18.0f, 18.0f }, { 18.0f, 18.0f }, { 18.0f, 18.0f },
+};
+const UV_80262038 lbl_8044F204[10] = {
+    { 62.0f, 0.0f }, { 62.0f, 18.0f }, { 62.0f, 36.0f }, { 62.0f, 54.0f }, { 62.0f, 72.0f },
+    { 62.0f, 108.0f }, { 107.0f, 0.0f }, { 107.0f, 18.0f }, { 107.0f, 36.0f }, { 107.0f, 54.0f },
+};
 
 void calc_cursor_step__19TWindowKeyBoardSoftFiPvPv(TWindowKeyBoardSoft *arg0, s32 *arg1, s32 *arg2) {
     switch (current_language) {
@@ -174,7 +185,7 @@ void calc_cursor_step__19TWindowKeyBoardSoftFiPvPv(TWindowKeyBoardSoft *arg0, s3
 #pragma fp_contract on
 s32 TWindowKeyBoardSoft::sub_802605DC() {
     s32 idx = calc_key_index__19TWindowKeyBoardSoftFiii(this, (s32)(((Win_802605DC *)this)->f65), (s32)(((Win_802605DC *)this)->f66));
-    return idx + ((s8 *)&TWindowKeyBoardSoft__data_8044F124)[((u8 *)&TWindowKeyBoardSoft__data_804CB7C8)[idx]];
+    return idx + TWindowKeyBoardSoft__data_8044F124[((u8 *)&TWindowKeyBoardSoft__data_804CB7C8)[idx]];
 }
 #pragma pop
 
@@ -186,7 +197,7 @@ f32 calc_key_x__19TWindowKeyBoardSoftFiii(TWindowKeyBoardSoft *arg0, s32 arg1, s
   s32 temp_r31;
   s32 temp_r3;
   temp_r3 = calc_key_index__19TWindowKeyBoardSoftFiii(arg0, arg1, arg2);
-  temp_r31 = arg1 + ((s8) (*((u8 *) (((s8 *) (((u8 *)&TWindowKeyBoardSoft__data_8044F124.value) + (*((u8 *) (((s8 *) (((u8 *)&TWindowKeyBoardSoft__data_804CB7C8.value) + temp_r3)) + 0))))) + 0))));
+  temp_r31 = arg1 + TWindowKeyBoardSoft__data_8044F124[((u8 *)&TWindowKeyBoardSoft__data_804CB7C8.value)[temp_r3]];
   TWindowKeyBoardSoft__sub_80260760((void *) arg0, (int) temp_r3, &sp8, NULL);
   new_var = TWindowKeyBoardSoft::calc_key_coord((s32)arg0, sp8);
   return 1.0f + ((19.0f * ((f32) temp_r31)) + (0.5f * new_var));
@@ -431,7 +442,7 @@ void TWindowKeyBoardSoft__sub_80260E30(void *self, s32 port) {
         kb->cursor_x += lbl_8044F138[((u8 *)&TWindowKeyBoardSoft__data_804CB7C8.value)[(s8)kb->cursor_x + (s8)kb->cursor_y * 16]] + 1;
     }
     if (dx < 0) {
-        kb->cursor_x += ((u8 *)&TWindowKeyBoardSoft__data_8044F124.value)[((u8 *)&TWindowKeyBoardSoft__data_804CB7C8.value)[(s8)kb->cursor_x + (s8)kb->cursor_y * 16]] - 1;
+        kb->cursor_x += TWindowKeyBoardSoft__data_8044F124[((u8 *)&TWindowKeyBoardSoft__data_804CB7C8.value)[(s8)kb->cursor_x + (s8)kb->cursor_y * 16]] - 1;
     }
     kb->cursor_y += dy;
     if ((s8)kb->cursor_x < 0) {
@@ -617,13 +628,10 @@ void TWindowKeyBoardSoft::spawn_key_effect(s32 arg1, s32 arg2) {
 }
 #pragma pop
 
-/* Function keys below the character grid: grid cell, size and texture origin. */
-extern const Vec2_802615B8 lbl_8044F164[10];
-extern const Vec2_802615B8 lbl_8044F1B4[10];
-extern const UV_80262038 lbl_8044F204[10];
 
 #pragma push
 #pragma fp_contract on
+#pragma pool_data off
 void TWindowKeyBoardSoft__sub_802616BC(TWindowKeyBoardSoft *self, TWindowKeyBoardSoft *ctx) {
     u32 tab_color;
     u32 page;
@@ -812,7 +820,7 @@ void TWindowKeyBoardSoft::draw_key_frame(void *self, f32 *rect, f32 x0, f32 y, f
     f32 x2;
     f32 x3;
     f32 x4;
-    UV_80262038 *uv;
+    const UV_80262038 *uv;
 
     v = ((f32 (*)(void *, f32, f32, f32, f32))TWindowKeyBoardSoft__sub_802614DC)(self, x0, y, w, 20.0f);
     if (v <= 0.0f) {
@@ -947,8 +955,6 @@ void TWindowKeyBoardSoft::render() {
 extern "C" {
 
 s32 sub_80244994__11TWindowBaseFv();
-s32 update_fade__11TWindowBaseFv(void *);
-s32 initialize_subwindow__9TWindowDDFv(void *);
 
 
 void TWindowKeyBoardSoft::run_task() {
@@ -964,8 +970,8 @@ void TWindowKeyBoardSoft::run_task() {
             update_keyboard_child_input_from_controller(temp_r3);
             sub_80260808(temp_r3);
         }
-        initialize_subwindow__9TWindowDDFv(this);
-        update_fade__11TWindowBaseFv(this);
+        ((TWindowDD *)this)->initialize_subwindow();
+        ((TWindowBase *)this)->update_fade();
         *(f32 *)((s8 *)this + 0x68) -= 0.15f * *(f32 *)((s8 *)this + 0x68);
     }
 }
@@ -983,7 +989,6 @@ extern "C" {
 s32 construct_base__9TWindowDDFPUcsPUc(void *, void *, void *, int);
 s32 get_window_layout_position(int);
 extern s32 __vt__19TWindowKeyBoardSoft[];
-extern s32 keyboard_soft_type_name_pointer;
 void __dl__7TObjectFPv(void *);
 
 void *__dt__19TWindowKeyBoardSoftFv(void *arg0, s16 arg1) {
@@ -1000,7 +1005,7 @@ typedef char RecoveredGlobal_80262740_lbl_804D0004_size[sizeof(RecoveredGlobal_8
 u8 *TWindowKeyBoardSoft__ct(u8 *arg0, s32 arg1, s16 arg2) {
     construct_base__9TWindowDDFPUcsPUc((void *)arg0, &soft_keyboard_window_and_action_data, (void *)arg2, (int) (get_window_layout_position(0xBA)));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80262740_lbl_804D0004 *)&__vt__19TWindowKeyBoardSoft).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) keyboard_soft_type_name_pointer;
+    *(const char **)((s8 *)arg0 + 0) = keyboard_soft_type_name_pointer;
     *(s32 *)((s8 *)arg0 + 0x60) = 0;
     *(s8 *)((s8 *)arg0 + 0x64) = 0;
     *(s8 *)((s8 *)arg0 + 0x65) = 2;

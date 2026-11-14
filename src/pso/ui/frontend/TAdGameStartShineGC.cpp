@@ -1,10 +1,23 @@
-#include "pso/ui/frontend/TAdGameStartShineGC.h"
-#include "pso/render/ModelDrawContext.h"
-
 #include "types.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/frontend/TAdGameStartShineGC.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/render/ModelDrawContext.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/player/TObjPlayer.h"
+
+s32 lbl_805D6E88;
+
+void TAdGameStartShineGC::render_status_box() {
+    u8 *arg0 = (u8 *)this;
+    begin_screen_draw(1);
+    TObjFish::set_global_param(lbl_805D6E88);
+    set_draw_texture_and_color(0, ((*(s32 *)((s8 *)arg0 + 0x74) << 0x18) | 0xFF0000 | 0xFFFF));
+    draw_textured_quad_at_depth((f32 *)(arg0 + 0x54), 0.899f);
+    TWindowSubStatusDisp::get_player();
+}
 
 struct Shine_8034AB4C {
     s32 name;
@@ -39,7 +52,6 @@ extern f32 lbl_804789E8[];
 extern const f32 lbl_804789F0[];
 extern s32 __vt__19TAdGameStartShineGC[];
 extern s32 lbl_805D4320;
-extern s32 lbl_805D6E88;
 extern const f32 lbl_805DFD6C;
 extern const f32 lbl_805DFD70;
 extern const f32 lbl_805DFD74;

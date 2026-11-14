@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/render/render_util.h"
@@ -17,6 +18,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
+#include "pso/system/task/TObject.h"
 
 extern const char *bm_ply_photon_chair_model_names[3];
 extern const char *bm_ply_photon_chair_motion_names[3];
@@ -209,7 +211,7 @@ void TPlyPhotonChair::render() {
 void TPlyPhotonChair::run_task() {
     u8 *arg0 = (u8 *)this;
     if (get_player_by_client_id((((TPlyPhotonChair *)arg0)->sub_8035B530())) == 0U) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     if (((u32) this->m_94 == 0U) && (is_mounted__15TPlyPhotonChairFv() == 0)) {
@@ -228,7 +230,7 @@ void TPlyPhotonChair::run_task() {
         ((TUnk_804A7478 *)(arg0 + 0x98))->play_backward();
         ((TUnk_804A7478 *)(arg0 + 0xB4))->play_backward();
         if (((TUnk_804A7478 *)(arg0 + 0x98))->get_frame() <= 0.0f) {
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
         }
         return;
     }
@@ -277,7 +279,7 @@ u8 *TPlyPhotonChair__ct(u8 *ply_photon_chair, s32 arg1, s32 parent) {
     ((TPlyPhotonChair *)ply_photon_chair)->m_94 = 0;
     player = (u32)get_player_by_client_id((s32)((void *) ((s32) (u16) arg1)));
     if (player == 0U) {
-        queue_destruction__7TObjectFv((ply_photon_chair));
+        ((TObject *)ply_photon_chair)->queue_destruction();
         return ply_photon_chair;
     }
     get_rader_map__11TMainCursorFv(ply_photon_chair + 0xD0, (void *)&TPlyPhotonChair__section_id_color_table[get_actor_section_id__15TPlyPhotonChairFv(player)]);

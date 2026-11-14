@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/system/vector.h"
 
@@ -7,6 +8,7 @@
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -34,7 +36,6 @@ u8 *TItemTimer__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 void deliver_delayed_weapon_hit(u8 *arg0);
 s32 __nw__7TObjectFUl(int);
 void *mem_alloc(u32 size);
-void queue_destruction__7TObjectFv(void *arg0);
 
 }
 
@@ -188,7 +189,7 @@ void TItemAttacker__sub_8010349C(u32 arg0) {
 }
 
 TItemAttacker::~TItemAttacker() {}
-void TItemAttacker::run_task() { if (*(int*)((char*)this + 0x34) != 0) { queue_destruction__7TObjectFv(this); } }
+void TItemAttacker::run_task() { if (*(int*)((char*)this + 0x34) != 0) { queue_destruction(); } }
 
     extern int item_nj_chunk_buffer_table[];
 int get_item_chunk_buffer(int a0) {  return item_nj_chunk_buffer_table[a0]; }

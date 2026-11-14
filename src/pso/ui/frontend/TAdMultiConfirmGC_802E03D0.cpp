@@ -1,4 +1,7 @@
 #include "pso/render/ChunkMaterialState.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/ui/TUnk_804E3008.h"
+#include "pso/ui/frontend/TAdPlyStatusGC.h"
 #pragma defer_codegen on
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"
@@ -57,15 +60,9 @@ s32 set_global_param__8TObjFishFl();
 
 }
 
-struct RecoveredGlobal_802E0784_lbl_804E2F78 {
-    s32 value;
-    u8 remaining[0x8C];
-};
-
 extern "C" {
-extern RecoveredGlobal_802E0784_lbl_804E2F78 lbl_804E2F78;
+extern TObjMotionAction lbl_804E2F78[9];
 extern u8 *TAdMultiPlyChrSelectGC__resource_bundle;
-typedef char RecoveredGlobal_802E0784_lbl_804E2F78_size[sizeof(RecoveredGlobal_802E0784_lbl_804E2F78) == 0x90 ? 1 : -1];
 
 s32 copy_player_visual_record(void *, void *);
 u8 *get_entry__23TAdSinglePlyChrSelectGCFi(int);
@@ -95,59 +92,6 @@ extern RecoveredGlobal_802E0B60_lbl_804E3008 multi_chr_select_player_actor_ops;
 typedef char RecoveredGlobal_802E0B60_lbl_804E2F68_size[sizeof(RecoveredGlobal_802E0B60_lbl_804E2F68) == 0x10 ? 1 : -1];
 typedef char RecoveredGlobal_802E0B60_lbl_804E3008_size[sizeof(RecoveredGlobal_802E0B60_lbl_804E3008) == 0x38 ? 1 : -1];
 
-__declspec(section ".sdata2") void *const lbl_805DE8A8[1] = {
-    (void *)0x3f800000,
-};
-__declspec(section ".sdata2") void *const lbl_805DE8AC[1] = {
-    (void *)0x3b808081,
-};
-__declspec(section ".sdata2") void *const lbl_805DE8B0[1] = {
-    (void *)0x41880000,
-};
-__declspec(section ".sdata2") void *const lbl_805DE8B4[1] = {
-    (void *)0xc1280000,
-};
-__declspec(section ".sdata2") void *const lbl_805DE8B8[1] = {
-    (void *)0xc2200000,
-};
-__declspec(section ".sdata2") void *const lbl_805DE8BC[1] = {
-    (void *)0x0,
-};
-__declspec(section ".sdata2") void *const lbl_805DE8C0[1] = {
-    (void *)0xc1600000,
-};
-__declspec(section ".sdata2") void *const lbl_805DE8C4[1] = {
-    (void *)0x41e00000,
-};
-__declspec(section ".sdata2") void *const lbl_805DE8C8[1] = {
-    (void *)0xc1200000,
-};
-__declspec(section ".sdata2") void *const lbl_805DE8CC[1] = {
-    (void *)0xc2dc0000,
-};
-__declspec(section ".sdata2") void *const lbl_805DE8D0[1] = {
-    (void *)0x43360b61,
-};
-__declspec(section ".sdata2") void *const lbl_805DE8D4[1] = {
-    (void *)0x40e80000,
-};
-__declspec(section ".sdata2") void *const lbl_805DE8D8[1] = {
-    (void *)0x41680000,
-};
-#define lbl_805DE8A8 (*(const f32 *)lbl_805DE8A8)
-#define lbl_805DE8AC (*(const f32 *)lbl_805DE8AC)
-#define lbl_805DE8B0 (*(const f32 *)lbl_805DE8B0)
-#define lbl_805DE8B4 (*(const f32 *)lbl_805DE8B4)
-#define lbl_805DE8B8 (*(const f32 *)lbl_805DE8B8)
-#define lbl_805DE8BC (*(const f32 *)lbl_805DE8BC)
-#define lbl_805DE8C0 (*(const f32 *)lbl_805DE8C0)
-#define lbl_805DE8C4 (*(const f32 *)lbl_805DE8C4)
-#define lbl_805DE8C8 (*(const f32 *)lbl_805DE8C8)
-#define lbl_805DE8CC (*(const f32 *)lbl_805DE8CC)
-#define lbl_805DE8D0 (*(const f32 *)lbl_805DE8D0)
-#define lbl_805DE8D4 (*(const f32 *)lbl_805DE8D4)
-#define lbl_805DE8D8 (*(const f32 *)lbl_805DE8D8)
-
 #pragma push
 #pragma fp_contract on
 #pragma pool_data off
@@ -156,9 +100,9 @@ void TUnk_804E3008::sub_802E0CB0() {
     ((Obj_802E0CB0 *)this)->f11C = 0;
     switch (((Obj_802E0CB0 *)this)->mode) {
     case 0:
-        ((Obj_802E0CB0 *)this)->x = lbl_805DE8B0;
-        ((Obj_802E0CB0 *)this)->y = lbl_805DE8B4;
-        ((Obj_802E0CB0 *)this)->z = lbl_805DE8B8;
+        ((Obj_802E0CB0 *)this)->x = 17.0f;
+        ((Obj_802E0CB0 *)this)->y = -10.5f;
+        ((Obj_802E0CB0 *)this)->z = -40.0f;
         ((Obj_802E0CB0 *)this)->rx = 0;
         ((Obj_802E0CB0 *)this)->ry = 0xF3D5;
         ((Obj_802E0CB0 *)this)->rz = 0;
@@ -166,28 +110,28 @@ void TUnk_804E3008::sub_802E0CB0() {
         break;
     case 1:
     case 2:
-        ((Obj_802E0CB0 *)this)->x = lbl_805DE8BC;
-        ((Obj_802E0CB0 *)this)->y = lbl_805DE8B4;
-        ((Obj_802E0CB0 *)this)->z = lbl_805DE8B8;
+        ((Obj_802E0CB0 *)this)->x = 0.0f;
+        ((Obj_802E0CB0 *)this)->y = -10.5f;
+        ((Obj_802E0CB0 *)this)->z = -40.0f;
         ((Obj_802E0CB0 *)this)->rx = 0;
         ((Obj_802E0CB0 *)this)->ry = 0xF3D5;
         ((Obj_802E0CB0 *)this)->rz = 0;
         ((Obj_802E0CB0 *)this)->f11C = 1;
         break;
     case 3:
-        ((Obj_802E0CB0 *)this)->x = lbl_805DE8C4 * ((Obj_802E0CB0 *)this)->idx + lbl_805DE8C0;
-        ((Obj_802E0CB0 *)this)->y = lbl_805DE8C8;
-        ((Obj_802E0CB0 *)this)->z = lbl_805DE8CC;
+        ((Obj_802E0CB0 *)this)->x = 28.0f * ((Obj_802E0CB0 *)this)->idx + -14.0f;
+        ((Obj_802E0CB0 *)this)->y = -10.0f;
+        ((Obj_802E0CB0 *)this)->z = -110.0f;
         ((Obj_802E0CB0 *)this)->rx = 0;
-        ((Obj_802E0CB0 *)this)->ry = lbl_805DE8D0 * (lbl_805DE8D4 - lbl_805DE8D8 * ((Obj_802E0CB0 *)this)->idx);
+        ((Obj_802E0CB0 *)this)->ry = 182.04445f * (7.25f - 14.5f * ((Obj_802E0CB0 *)this)->idx);
         ((Obj_802E0CB0 *)this)->rz = 0;
         break;
     case 4:
         ((Obj_802E0CB0 *)this)->x = 19.0f * ((Obj_802E0CB0 *)this)->idx + -19.0f;
-        ((Obj_802E0CB0 *)this)->y = lbl_805DE8C8;
-        ((Obj_802E0CB0 *)this)->z = lbl_805DE8CC;
+        ((Obj_802E0CB0 *)this)->y = -10.0f;
+        ((Obj_802E0CB0 *)this)->z = -110.0f;
         ((Obj_802E0CB0 *)this)->rx = 0;
-        ((Obj_802E0CB0 *)this)->ry = lbl_805DE8D0 * (9.8f - 9.8f * ((Obj_802E0CB0 *)this)->idx);
+        ((Obj_802E0CB0 *)this)->ry = 182.04445f * (9.8f - 9.8f * ((Obj_802E0CB0 *)this)->idx);
         ((Obj_802E0CB0 *)this)->rz = 0;
         break;
     case 5: {
@@ -195,10 +139,10 @@ void TUnk_804E3008::sub_802E0CB0() {
         f32 zs[4] = { -110.0f, -118.56f, -110.0f, -118.56f };
         f32 rs[4] = { 11.6f, 3.86f, -3.64f, -11.21f };
         ((Obj_802E0CB0 *)this)->x = xs[((Obj_802E0CB0 *)this)->idx];
-        ((Obj_802E0CB0 *)this)->y = lbl_805DE8C8;
+        ((Obj_802E0CB0 *)this)->y = -10.0f;
         ((Obj_802E0CB0 *)this)->z = zs[((Obj_802E0CB0 *)this)->idx];
         ((Obj_802E0CB0 *)this)->rx = 0;
-        ((Obj_802E0CB0 *)this)->ry = lbl_805DE8D0 * rs[((Obj_802E0CB0 *)this)->idx];
+        ((Obj_802E0CB0 *)this)->ry = 182.04445f * rs[((Obj_802E0CB0 *)this)->idx];
         ((Obj_802E0CB0 *)this)->rz = 0;
         break;
     }
@@ -209,7 +153,7 @@ void TUnk_804E3008::sub_802E0CB0() {
 void TAdMultiPlyChrSelectGC::set_index_and_close_status(s32 arg1) {
     *(s32 *)((s8 *)this + 0x104) = arg1;
     ((s32 (*)(void *, s32))sub_802E0CB0__13TUnk_804E3008Fv)(this, *(s32 *)((s8 *)this + 0x104));
-    u32 temp_r3 = ((u32)get_index__14TAdPlyStatusGCFv());
+    u32 temp_r3 = ((u32)TAdPlyStatusGC::get_index());
     if (temp_r3 != 0U) {
         ((TAdPlyStatusGC *)temp_r3)->close_window(arg1);
     }
@@ -244,7 +188,7 @@ u8 *__dt__13TUnk_804E3008Fv(u8 *arg0, s16 arg1) {
         if (temp_r3_2 != 0U) {
             free_chcr_resources((u8 *)temp_r3_2, 1);
             ((TUnk_804E3008 *)arg0)->m_170 = 0U;
-            temp_r3_3 = (u32) get_index__14TAdPlyStatusGCFv();
+            temp_r3_3 = (u32) TAdPlyStatusGC::get_index();
             if (temp_r3_3 != 0U) {
                 TAdPlyStatusGC::set_status_param((int)temp_r3_3, (int)((void *) (((TUnk_804E3008 *)arg0)->m_170)));
             }
@@ -373,9 +317,9 @@ void TUnk_804E3008::run_task() {
 }
 
 void TUnk_804E3008::sub_802E0784() {
-    this->set_field_d8((s32)&lbl_804E2F78.value);
+    this->set_field_d8((s32)lbl_804E2F78);
     this->set_field_dc((int) (*(s32 *)((s8 *)TAdMultiPlyChrSelectGC__resource_bundle + 0x430)));
-    set_cursor_index__13TUnk_804E3008Fl(this, 0);
+    set_cursor_index(0);
     set_animation((this->requested_action));
 }
 
@@ -439,7 +383,7 @@ void TObjPlayer::update_chara_making() {
 void TObjPlayer::draw_model_with_arg(void* a1) { this->model = a1; set_motion_interpolation_flag(); draw_saving_joints_checked(); }
 
 void TObjPlayer__sub_802E0580(void * _w0, int _w1, void * _w2) {
-    ((s32 (*)(f32))TObjPlayer__sub_802E0468)(lbl_805DE8A8);
+    ((s32 (*)(f32))TObjPlayer__sub_802E0468)(1.0f);
 }
 
 void TObjPlayer__sub_802E0468(long long arg1, u8 *arg2, f32 farg0) {
@@ -450,16 +394,16 @@ void TObjPlayer__sub_802E0468(long long arg1, u8 *arg2, f32 farg0) {
   saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
   model_render_flags |= 0x10;
   new_var = 1;
-  if (farg0 < lbl_805DE8A8)
+  if (farg0 < 1.0f)
   {
     set_chunk_material_override_pair(-new_var, 0x800);
   }
   stack.sp8 = farg0;
-  stack.spC = lbl_805DE8AC * ((f32) (*((s16 *) (((s8 *) arg2) + 0x42))));
-  stack.sp10 = lbl_805DE8AC * ((f32) (*((s16 *) (((s8 *) arg2) + 0x44))));
-  stack.sp14 = lbl_805DE8AC * ((f32) (*((s16 *) (((s8 *) arg2) + 0x46))));
+  stack.spC = 0.003921569f * ((f32) (*((s16 *) (((s8 *) arg2) + 0x42))));
+  stack.sp10 = 0.003921569f * ((f32) (*((s16 *) (((s8 *) arg2) + 0x44))));
+  stack.sp14 = 0.003921569f * ((f32) (*((s16 *) (((s8 *) arg2) + 0x46))));
   set_constant_material((const NJS_ARGB *)((&stack.sp8)));
-  play_phase_transition_sound__10TObjPlayerFl(arg1);
+  TObjPlayer::play_phase_transition_sound(arg1);
   chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
   chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
   model_render_flags = saved_model_render_flags;
@@ -480,3 +424,15 @@ int TAdMultiConfirmGC::set_cursor_index_2(void* p) { return ((int (*)(void *, in
 void TAdMultiConfirmGC__sub_802E03D0(void* p) { *(s32*)((char*)p + 0x118) = 0; }
 
 }
+
+TObjMotionAction lbl_804E2F78[9] = {
+    { 1, 0, 0x21, 1.0f, 0 },
+    { 1, 0, 0x1, 1.0f, 0 },
+    { 1, 0, 0x0, 1.0f, 0 },
+    { 1, 0, 0x1F, 1.0f, 0 },
+    { 1, 0, 0x20, 1.0f, 0 },
+    { 1, 0, 0x1E, 1.0f, 0 },
+    { 1, 0, 0x2F, 1.0f, 0 },
+    { 1, 0, 0x30, 1.0f, 0 },
+    { 1, 0, 0x2E, 1.0f, 0 },
+};

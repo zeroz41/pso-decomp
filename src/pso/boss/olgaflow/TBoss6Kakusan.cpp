@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6Kakusan.h"
 #include "pso/system/vector.h"
@@ -13,6 +14,10 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer.h"
+
+#pragma readonly_strings on
 
 struct RecoveredGlobal_80322994___vt__13TBoss6Kakusan { s32 value; u8 remaining[0x14]; };
 
@@ -72,9 +77,8 @@ u8 *__nw__7TObjectFUl(s32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 f32 vector_length(void *);
 extern s32 __vt__13TBoss6Kakusan[];
-extern s32 TBoss6Kakusan__name;
+const char *TBoss6Kakusan__name = "TBoss6Kakusan";
 u8 *TBoss6Kakusan__ct(u8 *arg0, TObject *parent, Vec *pos, Vec *dir, u16 target_client, f32 speed);
-void queue_destruction__7TObjectFv(void *);
 s32 query_teammate_state__9TObjEneDDFv();
 }
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
@@ -84,10 +88,10 @@ int TBoss6Kakusan__sub_8032263C(void);
 void vec3_add_to(void *, void *);
 void subtract_vector(void *, void *);
 f32 normalize_vector(void *);
-extern s32 TBoss6Kakusan__homing_start_frame;
-extern u8 boss6_kakusan_homing_start_initialized;
-extern s32 boss6_kakusan_homing_end_frame;
-extern u8 TBoss6Kakusan__homing_end_frame_initialized;
+s32 TBoss6Kakusan__homing_start_frame;
+u8 boss6_kakusan_homing_start_initialized;
+s32 boss6_kakusan_homing_end_frame;
+u8 TBoss6Kakusan__homing_end_frame_initialized;
 
 #pragma push
 #pragma opt_propagation off
@@ -112,7 +116,7 @@ void TBoss6Kakusan::check_beam_player_hits() {
   n = TLobby::get_game_mode();
   for (i = 0; i < n; i++)
   {
-    pl = (u8 *)get_player_data__10TObjPlayerFi(i);
+    pl = (u8 *)TObjPlayer::get_player_data(i);
     if (pl == 0)
     {
       continue;
@@ -235,7 +239,7 @@ void TBoss6Kakusan::run_task() {
         ((TParticleCtrl *)(*(void * *)&this->m_54))->set_direction(&b);
     }
     if (is_out_of_range() != 0 || ((int (*)(void *))TBoss6Kakusan__sub_8032263C)(arg0) != 0) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     check_beam_player_hits();
@@ -255,7 +259,7 @@ u8 *TBoss6Kakusan__ct(u8 *boss6_kakusan, TObject *parent, Vec *pos, Vec *dir, u1
     u32 temp_r3;
     __ct__7TObjectFP7TObject((void *)boss6_kakusan, parent);
     *(s32 **)((s8 *)boss6_kakusan + 0x18) = &(*(RecoveredGlobal_80322994___vt__13TBoss6Kakusan *)&__vt__13TBoss6Kakusan).value;
-    *(s32 *)((s8 *)boss6_kakusan + 0) = (s32) TBoss6Kakusan__name;
+    *(const char **)((s8 *)boss6_kakusan + 0) = TBoss6Kakusan__name;
     ((TBoss6Kakusan *)boss6_kakusan)->m_20 = target_client;
     ((TBoss6Kakusan *)boss6_kakusan)->m_24 = speed;
     if (((TBoss6Kakusan *)boss6_kakusan)->m_24 <= 0.0f) {

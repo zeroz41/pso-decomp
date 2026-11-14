@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/object/collision/TOAttackableCol.h"
 #include "types.h"
@@ -11,6 +12,11 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/player/TUnk_804B6C24.h"
+#include "pso/unk/TLobby.h"
 
 #pragma readonly_strings on
 
@@ -75,11 +81,8 @@ s32 TOAttackableCol__sub_80157C28(void* p);
 void *__dt__15TOAttackableColFv(void *arg0, s16 arg1);
 s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
-int bswap_header__6TLobbyFv(void*);
 int clear_player_status_flag__14TObjCollidableFlUl(void*, int, int);
-void queue_destruction__7TObjectFv(void *arg0);
 void *find_entity_by_id(u16 id);
-s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 extern SetEntry_80157454 *quest_object_entries;
 
 void TOAttackableCol__sub_80157310(void * _w0) {  }
@@ -112,7 +115,7 @@ void TOAttackableCol::init_params() {
     if (this->scale.y < 0.0f) {
         set_indexed_flags(0, 0x08000000);
     } else {
-        clear_player_status_flag__14TObjCollidableFlUl(this, 0, 0x08000000);
+        clear_player_status_flag(0, 0x08000000);
     }
     if ((s32) this->m_344 == 0) {
         *(s32 *)&this->unk_348 = (s32) this->scale.z;
@@ -134,7 +137,7 @@ void handle_6x91_update_attackable_col_state(Msg_801575AC *msg) {
         if (msg->room != 0xFFFF && msg->room >= 0x4000) {
             col = (TOAttackableCol *)find_entity_by_id(msg->room);
             if (col != NULL) {
-                if (check_value_equals__13TUnk_804B6C24Fl(col, (s32)TOAttackableCol__name) != 0) {
+                if (((TUnk_804B6C24 *)col)->check_value_equals((s32)TOAttackableCol__name) != 0) {
                     SetEntry_80157454 saved;
                     switch (msg->state) {
                     case 0:
@@ -231,7 +234,7 @@ f32 TOAttackableCol::apply_hit(s32 arg1) {
   u32 var_r0;
   u32 var_r0_2;
   var_r30 = 0;
-  if (((arg1 != 0) && (get_entity_id((void *) arg1) < 4U)) && (is_locally_controlled__10TObjPlayerFPv((void *) arg1) != 0))
+  if (((arg1 != 0) && (get_entity_id((void *) arg1) < 4U)) && (TObjPlayer::is_locally_controlled((void *) arg1) != 0))
   {
     var_r30 = 1;
   }
@@ -281,7 +284,7 @@ f32 TOAttackableCol::apply_hit(s32 arg1) {
   return 0.0f;
 }
 
-void TOAttackableCol::release() { set_flag8(); queue_destruction__7TObjectFv(this); }
+void TOAttackableCol::release() { set_flag8(); queue_destruction(); }
 void TOAttackableCol::check_door_trigger() {
     s32 temp_r0;
     s32 temp_r0_2;
@@ -365,7 +368,7 @@ void TOAttackableCol::apply_knockback_from_attacker(u8 *, f32) {  }
 
 void TOAttackableCol__sub_80157C20(void* p, s32 v) { *(s32*)((char*)p + 0x33c) = v; }
 s32 TOAttackableCol__sub_80157C28(void* p) { return *(s32*)((char*)p + 0x33c); }
-void TOAttackableCol::bswap_state() { bswap_header__6TLobbyFv(this); bswap_16((u16 *)((char*)this + 0xc)); bswap_16((u16 *)((char*)this + 0xe)); bswap_16((u16 *)((char*)this + 0x10)); }
+void TOAttackableCol::bswap_state() { ((TLobby *)this)->bswap_header(); bswap_16((u16 *)((char*)this + 0xc)); bswap_16((u16 *)((char*)this + 0xe)); bswap_16((u16 *)((char*)this + 0x10)); }
 void TOAttackableCol::broadcast_state() { bswap_state(); send_subcommand((u8 *)this); }
 
 void *fn_80157CA8(void *barrier_energy01) {

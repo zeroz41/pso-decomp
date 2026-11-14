@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/TUnk_804ED598.h"
 #include "pso/unk/TUnk_804ED5B0.h"
@@ -17,6 +18,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 #pragma defer_codegen on
 
 struct RecoveredGlobal_80327F88_lbl_804ED598 {
@@ -112,7 +114,7 @@ u8 *create_telepipe_marker(u8 *arg0, s32 arg1, s8 arg2, s8 arg3, s32 arg4, s32 a
 }
 
 TUnk_804ED598::~TUnk_804ED598() {
-    if (*(void **)((s8 *)this + 0x40) != NULL) { queue_destruction__7TObjectFv((*(void **)((s8 *)this + 0x40))); *(s32 *)((s8 *)this + 0x40) = 0; }
+    if (*(void **)((s8 *)this + 0x40) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x40)))->queue_destruction(); *(s32 *)((s8 *)this + 0x40) = 0; }
     *(s32 *)((s8 *)this + 0x40) = 0;
 }
 
@@ -121,7 +123,7 @@ void TUnk_804ED598::run_task() {
     s32 temp_r4;
 
     if ((u32) *(u32 *)&this->unk_40 == 0U) {
-        queue_destruction__7TObjectFv((this));
+        queue_destruction();
         return;
     }
     temp_r4 = this->m_3c;
@@ -129,7 +131,7 @@ void TUnk_804ED598::run_task() {
         temp_r0 = temp_r4 - 1;
         this->m_3c = temp_r0;
         if (temp_r0 == 0) {
-            queue_destruction__7TObjectFv((this));
+            queue_destruction();
         }
     }
 }

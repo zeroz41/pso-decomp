@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdTrialAgreementGC.h"
@@ -25,6 +26,9 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/render_util.h"
+#include "pso/system/task/TObject.h"
+
+#pragma readonly_strings on
 
 struct Base_803357EC_8033573C { char pad[0x18]; };
 struct VObj_803357EC_8033573C : Base_803357EC_8033573C {
@@ -50,7 +54,7 @@ extern "C" {
 s32 __nw__7TObjectFUl(int);
 s32 TAdAgreementBaseGC__ct(void *);
 extern s32 __vt__19TAdTrialAgreementGC[];
-extern s32 TAdTrialAgreementGC__name;
+const char *TAdTrialAgreementGC__name = "TAdTrialAgreementGC";
 s32 wait_for_load__19TAdTrialAgreementGCFv(s32);
 
 extern s32 pso_system_card_filename[];
@@ -92,11 +96,11 @@ u8 *TAdTrialAgreementGC__ct(u8 *ad_trial_agreement_gc) {
     s32 var_r0;
     TAdAgreementBaseGC__ct(ad_trial_agreement_gc);
     *(s32 **)((s8 *)ad_trial_agreement_gc + 0x18) = &(*(RecoveredGlobal_80335870___vt__19TAdTrialAgreementGC *)&__vt__19TAdTrialAgreementGC).value;
-    *(s32 *)((s8 *)ad_trial_agreement_gc + 0) = (s32) TAdTrialAgreementGC__name;
+    *(const char **)((s8 *)ad_trial_agreement_gc + 0) = TAdTrialAgreementGC__name;
     ((TAdTrialAgreementGC *)ad_trial_agreement_gc)->m_38 = 0;
     if (TAdTrialAgreementGC::check_card_file((s32)ad_trial_agreement_gc) != 0) {
         ((TAdTrialAgreementGC *)(ad_trial_agreement_gc))->vfunc_7();
-        queue_destruction__7TObjectFv((ad_trial_agreement_gc));
+        ((TObject *)ad_trial_agreement_gc)->queue_destruction();
         return ad_trial_agreement_gc;
     }
     ad_scroll_win_gc = __nw__7TObjectFUl(0x54);
@@ -185,7 +189,7 @@ void TAdTrialAgreementGC::update_title_prompt() {
 void TAdTrialAgreementGC::handle_cursor_input() {
     u8 *input;
     input = (u8 *)&controller_physical_port_bank.value + 0x20;
-    *(f32 *)&this->m_28 = (f32) 1.0f;
+    *(f32 *)&this->m_28 = 1.0f;
     if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state.value + 0x160)), 0x10, 6, 1) != 0)) {
         *(s32 *)&this->_pad20 = (s32) (*(s32 *)&this->_pad20 - 1);
         if ((s32) *(s32 *)&this->_pad20 < 0) {

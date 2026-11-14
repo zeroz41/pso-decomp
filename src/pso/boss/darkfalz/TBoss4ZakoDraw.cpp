@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"
@@ -14,6 +15,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TObject.h"
 
 void set_constant_material(const NJS_ARGB *color);
 
@@ -92,7 +94,7 @@ void TBoss4ZakoDraw::render() { TObjPlayer::toggle_particle_effect(); TCameraCtr
 void TBoss4ZakoDraw::run_task() {
     s32 old;
     if (dark_falz_controller_instance == 0U) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     old = TBoss4ZakoDraw__draw_buffer_index;

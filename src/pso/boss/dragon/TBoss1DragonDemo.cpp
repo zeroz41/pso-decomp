@@ -7,6 +7,8 @@
 
 #include "pso/camera/TCameraCtrl.h"
 
+#pragma readonly_strings on
+
 struct RecoveredGlobal_8002B744___vt__16TBoss1DragonDemo {
     s32 value;
     u8 remaining[0x14];
@@ -17,7 +19,7 @@ CameraPlayback *get_scripted_camera_playback();
 s32 isV2Mode__12TBoss1DragonFv();
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8002B744___vt__16TBoss1DragonDemo __vt__16TBoss1DragonDemo;
-extern s32 TBoss1DragonDemo__name;
+const char *TBoss1DragonDemo__name = "TBoss1DragonDemo";
 
 void TBoss1DragonDemo__sub_8002B68C(void) {  }
 void TBoss1DragonDemo__sub_8002B690(void) {  }
@@ -37,7 +39,7 @@ u8 *__ct__16TBoss1DragonDemoFv(u8 *object, s32 arg1, s32 arg2, f32 farg0) {
     CameraPlayback playback;
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__16TBoss1DragonDemo.value;
-    *(s32 *)((s8 *)object + 0) = TBoss1DragonDemo__name;
+    *(const char **)((s8 *)object + 0) = TBoss1DragonDemo__name;
     *(f32 *)((s8 *)object + 0x1C) = farg0;
     *(f32 *)((s8 *)object + 0x20) = 0.0f;
     *(s32 *)((s8 *)object + 0x24) = arg2;

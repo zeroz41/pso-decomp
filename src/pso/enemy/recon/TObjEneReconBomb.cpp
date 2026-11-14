@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/recon/TObjEneReconBomb.h"
 #include "pso/math/MatrixTransforms.h"
@@ -10,13 +11,17 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/enemy/recon/TObjEneReconBomb.h"
 #include "pso/enemy/recon/TObjEneRecobox.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/enemy/recon/TObjEneRecon_8031BC38.h"
+#include "pso/enemy/recon/TObjEneRecobox_8031FCB0.h"
+#include "pso/enemy/recon/TObjEneRecon.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer.h"
 
 #pragma readonly_strings on
 
@@ -93,15 +98,11 @@ extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, void *, int);
 s16 get_entity_id(int);
 s32 fn_8031B618(Obj_8031B618 *arg0);
-int get_player_data__10TObjPlayerFi(int a0);
 u32 csnVector(void *, void *, int);
 s32 project_actor_to_ground(void *, void *, void *);
 s32 TObjEneRecon__sub_8031C250(u32);
 s32 vec3_add_to(void *, void *);
 extern s32 lbl_805D5868;
-extern const f32 lbl_805DF3AC;
-extern const f32 lbl_805DF3B0;
-extern const f32 lbl_805DF3B4;
 s32 TObjFish__sub_8001EDB0(void *, int);
 s32 get_bml_model(void *, int);
 s32 rotate_matrix_z(int, int);
@@ -109,7 +110,7 @@ s32 rotate_matrix_x(int, void *);
 s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 find_nearest_visible_player(void *, int, f32);
-extern u32 recon_bomb_bml_resource;
+u32 recon_bomb_bml_resource;
 s32 calc_scaled_value__12TObjEneReconFv(int);
 f32 TObjEneRecon__sub_8031C2BC(int);
 f32 TObjEneRecon__sub_8031C2C8(int);
@@ -148,7 +149,7 @@ void TObjEneReconBomb::render() {
     s32 bml_model;
     s32 temp_r30;
     if ((u32) recon_bomb_bml_resource == 0U) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     bml_model = get_bml_model((void *)recon_bomb_bml_resource, 2);
@@ -184,7 +185,7 @@ void TObjEneReconBomb::run_task() {
     s32 i;
     VObj_8031B808 *pl;
     if (arg0->target == 0) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     if (++arg0->f360 > arg0->f358 || TObjEneRecon__sub_8031C250(arg0->target) != 0) {
@@ -193,9 +194,9 @@ void TObjEneReconBomb::run_task() {
     switch (arg0->state) {
     case 0:
     case 1: {
-        arg0->vel.x *= lbl_805DF3AC;
-        arg0->vel.y += lbl_805DF3B0;
-        arg0->vel.z *= lbl_805DF3AC;
+        arg0->vel.x *= 0.95f;
+        arg0->vel.y += -0.1f;
+        arg0->vel.z *= 0.95f;
         ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&pos, &arg0->pos);
         vec3_add_to(&pos, &arg0->vel);
         Vec_8031B808 g = pos;
@@ -204,7 +205,7 @@ void TObjEneReconBomb::run_task() {
             if (pos.y <= g.y) {
                 pos.y = arg0->f348;
                 if (arg0->state == 0) {
-                    arg0->vel.y *= lbl_805DF3B4;
+                    arg0->vel.y *= -0.5f;
                     arg0->state = 1;
                 } else {
                     arg0->state = 2;
@@ -230,7 +231,7 @@ void TObjEneReconBomb::run_task() {
         spawn_particle_effect_with_flags(&arg0->pos, 0x45, 0x40);
         spawn_particle_effect_with_flags(&arg0->pos, 0x46, 0x40);
         for (i = 0; i < lbl_805D5868; i++) {
-            pl = (VObj_8031B808 *)get_player_data__10TObjPlayerFi(i);
+            pl = (VObj_8031B808 *)TObjPlayer::get_player_data(i);
             if (TObjPlayer::is_valid_and_active((u32)pl) != 0 && pl != 0 && (u16)get_entity_id((int)pl) < 0x1000 && pl->m31() == 0) {
                 if (horizontal_distance_squared((const Vec *)((u8 *)pl + 0x2FC), (const Vec *)&arg0->pos2) <= arg0->range * arg0->range) {
                     P_8031B808 d;
@@ -241,7 +242,7 @@ void TObjEneReconBomb::run_task() {
                 }
             }
         }
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         break;
     }
 }
@@ -274,17 +275,32 @@ u8 *TObjEneReconBomb__ct(TObjEneReconBomb *ene_recon_bomb, s32 arg1, s32 arg2, s
     temp_f31 = sin_table_lookup(ene_recon_bomb->rotation_y);
     temp_f1 = cos_table_lookup(ene_recon_bomb->rotation_y);
     *(f32 *)((s8 *)ene_recon_bomb + 0x33C) = (f32) (*(f32 *)((s8 *)ene_recon_bomb + 0x354) * temp_f31);
-    *(f32 *)((s8 *)ene_recon_bomb + 0x340) = (f32) (0.0f);
+    *(f32 *)((s8 *)ene_recon_bomb + 0x340) = 0.0f;
     ene_recon_bomb->m_344 = (f32) (*(f32 *)((s8 *)ene_recon_bomb + 0x354) * temp_f1);
     ene_recon_bomb->m_360 = 0;
     ene_recon_bomb->m_35c = 0;
     return (u8 *)ene_recon_bomb;
 }
 
-__declspec(section ".sdata2") extern const f32 lbl_805DF3AC = 0.94999998807907104f;
-__declspec(section ".sdata2") extern const f32 lbl_805DF3B0 = -0.10000000149011612f;
-__declspec(section ".sdata2") extern const f32 lbl_805DF3B4 = -0.5f;
-
 const char *TObjEneReconBomb__name = "TObjEneReconBomb";
+
+}
+
+extern "C" {
+
+void *__nw__7TObjectFUl(int);
+
+void TObjEneRecon__sub_8031BC38(void) {  }
+
+void *TObjEneRecon::create_bomb(void *arg0, void *arg1, void *arg2) {
+    void *o;
+    o = __nw__7TObjectFUl(0x364);
+    if (o != NULL) {
+        o = TObjEneReconBomb__ct((TObjEneReconBomb *)((u8 *)o), (s32)arg0, (s32)arg1, (s32)arg2);
+    }
+    return o;
+}
+
+void TObjEneRecon__sub_8031BC94(void) { recon_bomb_bml_resource = TObjEneRecobox__sub_803201D0(); }
 
 }

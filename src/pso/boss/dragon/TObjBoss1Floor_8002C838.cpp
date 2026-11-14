@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/dragon/TObjBoss1Floor.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
@@ -21,6 +22,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/task/TObject.h"
 
 struct Obj_8002CACC { s32 f0; u8 pad4[0x14]; void *vt; f32 f1c; f32 f20; f32 f24; s32 f28[4]; };
 
@@ -99,7 +101,7 @@ void run_task__14TObjBoss1FloorFv(Floor_8002C968 *self) {
                     ((TParticleCtrl *)self->objs[i])->set_position(&pos);
                 }
             } else if (self->objs[i] != NULL) {
-                queue_destruction__7TObjectFv(self->objs[i]);
+                ((TObject *)self->objs[i])->queue_destruction();
                 self->objs[i] = NULL;
             }
         }
@@ -111,7 +113,7 @@ TObjBoss1Floor::~TObjBoss1Floor() {
     s32 i;
     for (i = 0; i * 0x10 != 0; i++) {
         if (((Obj_8002CA38 *)this)->slot[i] != 0) {
-            queue_destruction__7TObjectFv((void *)((Obj_8002CA38 *)this)->slot[i]);
+            ((TObject *)(((Obj_8002CA38 *)this)->slot[i]))->queue_destruction();
             ((Obj_8002CA38 *)this)->slot[i] = 0;
         }
     }

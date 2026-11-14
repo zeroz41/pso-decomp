@@ -17,16 +17,22 @@ struct Item_80105EA4 { u8 type; u8 b1; u8 b2; };
 struct Names_80105DB0 { char *n[4]; };
 
 extern "C" {
+s32 TItemDrop__relocatable_load_buffer;
+s32 TItemDrop__second_relocatable_load_buffer;
+void *TItemDrop__common_probability_table;
+s32 *TItemDrop__rare_item_table_file;
+u8 *TItemDrop__unit_star_classes;
+u8 *TItemDrop__unit_star_bucket_counts;
+s32 TItemDrop__drop_table_mode_flags;
+s32 TItemDrop__section_id;
+
 s32 get_game_play_mode();
 s32 get_drop_table_mode_flags(void);
 void *memset(void *dst, int c, u32 n);
-extern u8 *TItemDrop__unit_star_classes;
-extern u8 *TItemDrop__unit_star_bucket_counts;
 void TItemDrop__vt0(void);
 extern u8 TLobby__data_805011D8[];
-extern s32 item_drop_cached_offset;
-extern s32 TItemDrop__drop_table_mode_flags;
-extern s32 TItemDrop__section_id;
+s32 item_drop_cached_offset = -1;
+const char *item_drop_class_name = "TItemDrop";
 u8 can_drop__9TItemDropFv(void);
 s8 get_bool_from_1d6ddc__9TItemDropFPv(void *p);
 u8 TItemDrop__sub_80107B04(void *);
@@ -40,17 +46,12 @@ u8 fn_801D71D0(void *);
 u8 fn_801D7204(void *);
 extern s32 lobby_rule_settings[];
 void apply_drop_restrictions(s32 arg0, Item_80105EA4 *it);
-s32 sprintf(void *, void *, ...);
-extern Names_80105DB0 item_drop_difficulty_name_table;
-extern char lbl_8043E0E4[];
+s32 sprintf(void *, const char *, ...);
 extern s32 game_difficulty_selection;
-extern char lbl_805DAAC8;
-extern char lbl_805DAACC;
-extern char lbl_805DAAD0;
 void format_drop_table_filename(void *out, s32 arg1);
 u32 roll_channel_below__9TItemDropFPviUi(u8 *arg0, s32 count, u32 arg2);
 void *lookup_item_pmt_record(u8 *item);
-void TItemDrop__sub_80105D10(void);
+void init_item_drop_globals(void);
 u8 is_enabled__9TItemDropFv(void);
 u8 is_not_special__9TItemDropFv(void);
 s8 select_weighted_byte__9TItemDropFiiiii(s32, s32, s32, s32, s32);
@@ -62,7 +63,8 @@ void unload_item_drop_globals(void) {  }
 
     extern int item_desync_detected;
 
-void TItemDrop__sub_80105D10(void) { item_desync_detected = 0; }
+// inferred: the load half of unload_item_drop_globals' pair in item_class_load_unload_table.
+void init_item_drop_globals(void) { item_desync_detected = 0; }
 
 void TItemDrop::clear_item_if_player_picked_up(void* p, void* a1) { if (is_unsealable_item((u8 *)a1) == 1) { ((TItemData *)a1)->set_packed_value((u16)((void*)0)); } }
 
@@ -82,18 +84,18 @@ s32 get_drop_table_mode_flags(void) {
 }
 
 void format_drop_table_filename(void *out, s32 arg1) {
-    Names_80105DB0 names = item_drop_difficulty_name_table;
+    Names_80105DB0 names = {{"n", "h", "v", "u"}};
     char *s1;
     char *s2;
     s32 n;
     if (TItemDrop__drop_table_mode_flags & 1) {
-        s1 = &lbl_805DAAC8;
+        s1 = "c";
         n = 0;
     } else {
-        s1 = &lbl_805DAACC;
+        s1 = "";
         n = TItemDrop__section_id;
     }
-    sprintf(out, lbl_8043E0E4, arg1, s1, (TItemDrop__drop_table_mode_flags & 2) ? &lbl_805DAAD0 : &lbl_805DAACC, names.n[game_difficulty_selection], n);
+    sprintf(out, "%s%s%s%s%1d.rel", arg1, s1, (TItemDrop__drop_table_mode_flags & 2) ? "l" : "", names.n[game_difficulty_selection], n);
 }
 
 s32 TItemDrop::calc_drop_offset(s32 arg0) {
@@ -201,7 +203,6 @@ u8 can_drop__9TItemDropFv(void) {
     return (u8)var_r31;
 }
 
-extern void *TItemDrop__common_probability_table;
 
 void TItemDrop::set_drop_index(void *rng, void *arg1) {
     *(s8 *)((s8 *)arg1 + 5) = select_weighted_byte__9TItemDropFiiiii((s32)rng, *(s32 *)((s8 *)TItemDrop__common_probability_table + 0x14), 0, 5, 1);
@@ -339,7 +340,7 @@ struct Tbl_80106E04 {
 };
 
 struct TItemDrop_80107900 {
-    s32 name;
+    const char *name;
     u8 pad4[0x14];
     void *vt;
     s32 unk1C;
@@ -382,7 +383,6 @@ u8 roll_technique_level__9TItemDropFv(s32 self, s32 table, s32 row, s32 col, s32
 u8 select_weighted_column_u16__9TItemDropFiiiii(s32, s32, s32, s32, s32);
 s32 init__9TItemDataFv(void *);
 s32 find_tool_pmt_base_id(u8, void *);
-extern void *TItemDrop__common_probability_table;
 void generate_tool_drop__9TItemDropFiiPv(s32 arg0, s32 arg1, void *arg2);
 s32 get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
 u8 *__nw__7TObjectFUl(s32);
@@ -399,21 +399,17 @@ void *TItemDrop__sub_8010F168(void *arg0, s16 arg1);
 void mem_free(void *p);
 s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_80107840_lbl_8049EF88 lbl_8049EF88;
-extern s32 TItemDrop__relocatable_load_buffer;
-extern s32 TItemDrop__second_relocatable_load_buffer;
 u8 *TItemDrop__sub_80107840(u8 *arg0, s16 arg1);
 u32 roll_channel_below__9TItemDropFPviUi(u8 *arg0, s32 arg1, u32 arg2);
 u8 select_weighted_byte__9TItemDropFiiiii(s32 rng, s32 base, s32 off, s32 count, s32 stride);
 void prune_weapon_attributes__9TItemDropFPvPv(void *self, Obj_80106F4C *o);
 s32 can_drop__9TItemDropFv();
 s32 try_generate_rare_item__9TItemDropFiPvPv(s32 arg0, u8 *arg1, u8 *arg2);
-extern s32 *TItemDrop__rare_item_table_file;
 s32 select_rare_box_item__9TItemDropFiiPv(s32 arg0, s32 arg1, u8 *arg2);
 void roll_table_ratio__9TItemDropFPvUi(u8 *arg0, u32 arg1);
 u32 roll_channel_below__9TItemDropFPviUi(u8 *arg0, s32 arg1, u32 arg2);
 s32 is_rare_item__9TItemDataFPv(u8 *item);
 u8 roll_weapon_special_for_stars(u8);
-extern void *TItemDrop__common_probability_table;
 void roll_weapon_special__9TItemDropFiPvi(s32 rng, u8 *item, s32 idx);
 s32 apply_drop_restrictions(void *, void *);
 void roll_table_ratio__9TItemDropFPvUi(u8 *arg0, u32 arg1);
@@ -421,20 +417,15 @@ void calc_drop_rarity__9TItemDropFiiPv(s32 arg0, s32 arg1, void *arg2);
 void apply_item_data__9TItemDropFPvPv(void *arg0, void *arg1);
 void generate_tool_drop__9TItemDropFiiPv(s32 arg0, s32 arg1, void *arg2);
 s32 init__9TItemDataFv(void *);
-extern void *TItemDrop__common_probability_table;
 extern const f32 lbl_805DAADC;
 void generate_drop_item__9TItemDropFPviPv(u8 *self, s32 idx, u8 *item);
 s32 run_step__9TItemDropFl(s32, u32);
-s32 fn_8010F210(void *);
+s32 create_load_unload_set(void *);
 void *mem_alloc(u32 size);
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 __cvt_fp2unsigned(f32);
 extern s32 __vt__9TItemDrop[];
 extern RecoveredGlobal_80107840_lbl_8049EF88 lbl_8049EF88;
-extern s32 item_drop_class_name;
-extern s32 TItemDrop__relocatable_load_buffer;
-extern s32 TItemDrop__second_relocatable_load_buffer;
-extern s32 TItemDrop__section_id;
 extern const f32 lbl_805DAAD4;
 extern const f32 lbl_805DAAD8;
 extern const f32 lbl_805DAAE4;
@@ -444,18 +435,15 @@ u32 roll_channel_below__9TItemDropFPviUi(u8 *arg0, s32 arg1, u32 arg2);
 void generate_drop_item__9TItemDropFPviPv(u8 *self, s32 idx, u8 *item);
 s32 drop_item__9TItemDropFiii(s32 arg0, s32 arg1, s32 arg2);
 s32 init__9TItemDataFv(void *);
-extern void *TItemDrop__common_probability_table;
 void select_enemy_drop__9TItemDropFPviiPv(u8 *self, s32 area, s32 idx, Item_8010663C *item);
 void generate_drop_item__9TItemDropFPviPv(u8 *self, s32 idx, u8 *item);
 s32 select_rare_box_item__9TItemDropFiiPv(s32 arg0, s32 arg1, u8 *arg2);
 u8 select_weighted_byte__9TItemDropFiiiii(s32 rng, s32 base, s32 off, s32 count, s32 stride);
 s32 init__9TItemDataFv(void *);
-extern void *TItemDrop__common_probability_table;
 void select_box_item__9TItemDropFiiPv(s32 arg0, s32 arg1, u8 *arg2);
 void prune_weapon_attributes__9TItemDropFPvPv(void *self, Obj_80106F4C *o);
 u8 select_weighted_column_u16__9TItemDropFiiiii(s32 rng, s32 base, s32 off, s32 count, s32 stride);
 u8 select_weighted_byte__9TItemDropFiiiii(s32 rng, s32 base, s32 off, s32 count, s32 stride);
-extern void *TItemDrop__common_probability_table;
 void roll_rare_weapon_attributes__9TItemDropFiPvi(s32 rng, Obj_80106F4C *item, s32 idx);
 u32 roll_channel_below__9TItemDropFPviUi(u8 *arg0, s32 arg1, u32 arg2);
 u16 roll_meseta_range__9TItemDropFPviiii(void *self, s32 arg1, s32 a, s32 b, s32 c);
@@ -466,24 +454,12 @@ void calc_drop_item__9TItemDropFiPvi(s32 arg0, void *arg1, s32 arg2);
 u8 select_weighted_byte__9TItemDropFiiiii(s32 rng, s32 base, s32 off, s32 count, s32 stride);
 s32 init__9TItemDataFv(void *);
 void *memcpy(void *, const void *, u32);
-extern void *TItemDrop__common_probability_table;
 void select_weapon_drop__9TItemDropFv(s32 rng, s32 level, u8 *item);
 void *load_relocatable_file(char *, s32);
 void close_gsl_archive(void);
 void open_gsl_archive(char *);
 s32 get_drop_table_mode_flags(void);
 void format_drop_table_filename(char *, char *);
-extern char lbl_8043E0F4[];
-extern char lbl_8043E100[];
-extern char lbl_8043E108[];
-extern char lbl_8043E114[];
-extern s32 item_drop_cached_offset;
-extern s32 TItemDrop__relocatable_load_buffer;
-extern s32 TItemDrop__second_relocatable_load_buffer;
-extern void *TItemDrop__common_probability_table;
-extern s32 *TItemDrop__rare_item_table_file;
-extern s32 TItemDrop__drop_table_mode_flags;
-extern s32 TItemDrop__section_id;
 void TItemDrop__vt0(void);
 int TItemDrop__sub_80107B04(void);
 void TItemDrop__vt1(void);
@@ -507,8 +483,6 @@ void mem_free(void *p);
 s32 init__9TItemDataFv(void *);
 s32 is_enabled__9TItemDropFv();
 
-extern s32 TItemDrop__unit_star_classes;
-extern s32 TItemDrop__unit_star_bucket_counts;
 
 void run_task__9TItemDropFv(void) {
     mem_free((void *)TItemDrop__unit_star_bucket_counts);
@@ -517,30 +491,27 @@ void run_task__9TItemDropFv(void) {
     TItemDrop__unit_star_classes = 0;
 }
 
-extern s32 TItemDrop__unit_star_classes;
-extern s32 TItemDrop__unit_star_bucket_counts;
 
 void __dt__9TItemDropFv(void) {
-    TItemDrop__unit_star_classes = (s32)mem_alloc(0x88);
-    TItemDrop__unit_star_bucket_counts = (s32)mem_alloc(0xD);
+    TItemDrop__unit_star_classes = (u8 *)mem_alloc(0x88);
+    TItemDrop__unit_star_bucket_counts = (u8 *)mem_alloc(0xD);
     TItemDrop::count_unit_star_buckets();
 }
 
 void TItemDrop__vt1(void) {  }
 
-extern s32 *TItemDrop__rare_item_table_file;
 
 void TItemDrop__vt0(void) {
     char path[0x48];
     item_drop_cached_offset = TItemDrop::calc_drop_offset(TItemDrop__section_id);
     TItemDrop__drop_table_mode_flags = get_drop_table_mode_flags();
     if (item_drop_cached_offset >= 0 && item_drop_cached_offset <= 0xA0) {
-        open_gsl_archive(lbl_8043E0F4);
-        format_drop_table_filename(path, lbl_8043E100);
+        open_gsl_archive("ItemPT.gsl");
+        format_drop_table_filename(path, "ItemPT");
         TItemDrop__common_probability_table = load_relocatable_file(path, TItemDrop__relocatable_load_buffer);
         close_gsl_archive();
-        open_gsl_archive(lbl_8043E108);
-        format_drop_table_filename(path, lbl_8043E114);
+        open_gsl_archive("ItemRT.gsl");
+        format_drop_table_filename(path, "ItemRT");
         TItemDrop__rare_item_table_file = (s32 *)load_relocatable_file(path, TItemDrop__second_relocatable_load_buffer);
         close_gsl_archive();
     }
@@ -727,7 +698,6 @@ s32 drop_item__9TItemDropFiii(s32 arg0, s32 arg1, s32 arg2) {
     return 0;
 }
 
-extern void *TItemDrop__common_probability_table;
 
 void calc_drop_rarity__9TItemDropFiiPv(s32 rng, s32 arg1, void *item_) {
     u8 temp_r3;
@@ -822,7 +792,6 @@ void set_flag__9TItemDropFPvPv(void *arg0, void *item) {
     }
 }
 
-extern void *TItemDrop__common_probability_table;
 
 void prune_weapon_attributes__9TItemDropFPvPv(void *self, Obj_80106F4C *o) {
     s32 i;
@@ -1141,7 +1110,7 @@ TItemDrop_80107900 *TItemDrop__ct(TItemDrop_80107900 *self, void *parent, s8 arg
     }
     TItemDrop__second_relocatable_load_buffer = (s32)TQuestVmDownLoadServer::alloc(0xC00);
     TItemDrop__relocatable_load_buffer = (s32)TQuestVmDownLoadServer::alloc(0xC00);
-    self->unk1C = fn_8010F210(__vt__9TItemDrop);
+    self->unk1C = create_load_unload_set(__vt__9TItemDrop);
     return self;
 }
 

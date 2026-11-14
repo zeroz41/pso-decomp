@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/enemy/berura/TObjEneRe7BeruraPunch.h"
 #include "pso/enemy/dd/TObjEneDD_800BA138.h"
@@ -14,6 +15,7 @@
 #include "pso/unk/text_80086B64.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/enemy/AttackTargetHistory.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -56,7 +58,6 @@ extern Pair_80096150 lbl_80439F28[];
 s32 post_translate_matrix(void *);
 s32 scale_matrix(s32, f32, f32, f32);
 s32 push_matrix();
-s32 defer_render__7TObjectFv(void *);
 
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -69,7 +70,7 @@ void TObjEneRe7BeruraPunch::render() {
         TObjEneDD::clear_global_flag_400();
         if (this->m_b4 == 2) {
             this->m_f8.set_flags_and_apply_damage_color();
-            if (defer_render__7TObjectFv(this) != 0) {
+            if (this->defer_render() != 0) {
                 model_render_flags = saved_model_render_flags;
                 return;
             }
@@ -92,21 +93,17 @@ void TObjEneRe7BeruraPunch::render() {
     }
 }
 
-extern const f32 TObjEneRe7BeruraPunch__data_805D97A0[1];
-
 #pragma push
 #pragma fp_contract on
 void TObjEneRe7BeruraPunch::update_velocity_and_snap() {
     if (this->m_f8.decay_value_toward_floor() != 0) {
         this->m_b4 = 0;
     }
-    this->m_dc.x = (0.2f * (TObjEneRe7BeruraPunch__data_805D97A0[0] * this->m_bc)) + this->m_dc.x;
-    this->m_dc.z = (0.2f * (TObjEneRe7BeruraPunch__data_805D97A0[0] * this->m_c4)) + this->m_dc.z;
+    this->m_dc.x = (0.2f * (10.0f * this->m_bc)) + this->m_dc.x;
+    this->m_dc.z = (0.2f * (10.0f * this->m_c4)) + this->m_dc.z;
     this->snap_to_ground();
 }
 #pragma pop
-
-__declspec(section ".sdata2") const f32 TObjEneRe7BeruraPunch__data_805D97A0[1] = {10.0f};
 
 const char *TObjEneRe7BeruraPunch__name = "TObjEneRe7BeruraPunch";
 
@@ -124,10 +121,10 @@ void TObjEneRe7BeruraPunch::update_flight() {
         this->m_f4 = 2.0f;
     }
     blocked = 0;
-    this->m_114 += TObjEneRe7BeruraPunch__data_805D97A0[0];
-    target.x = (TObjEneRe7BeruraPunch__data_805D97A0[0] * this->m_bc) + this->position.x;
+    this->m_114 += 10.0f;
+    target.x = (10.0f * this->m_bc) + this->position.x;
     target.y = this->m_dc.y;
-    target.z = (TObjEneRe7BeruraPunch__data_805D97A0[0] * this->m_c4) + this->position.z;
+    target.z = (10.0f * this->m_c4) + this->position.z;
     hit = csnVector(&this->m_dc, &target, 0x88E0);
     if (hit != NULL) {
         blocked = 1;
@@ -232,9 +229,9 @@ void TObjEneRe7BeruraPunch::snap_to_ground() {
     }
     y = ((f32 *)&this->m_dc)[1];
     this->m_cc = y - this->position.y;
-    if (this->m_cc < TObjEneRe7BeruraPunch__data_805D97A0[0]) {
-        ((f32 *)&this->m_dc)[1] = TObjEneRe7BeruraPunch__data_805D97A0[0] + this->position.y;
-        this->m_cc = TObjEneRe7BeruraPunch__data_805D97A0[0];
+    if (this->m_cc < 10.0f) {
+        ((f32 *)&this->m_dc)[1] = 10.0f + this->position.y;
+        this->m_cc = 10.0f;
     }
     if ((y && y) && y) {
     }

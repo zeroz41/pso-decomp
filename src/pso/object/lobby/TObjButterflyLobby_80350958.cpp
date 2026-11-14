@@ -15,16 +15,13 @@
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 
-extern char lbl_80478D80[];
-extern char lbl_80478D98[];
-extern char lbl_80478DAC[];
-extern char lbl_80478DC4[];
-
-const char *bm_butterfly_lobby_model_names[3] = {lbl_80478D80, lbl_80478D98, NULL};
-__declspec(section ".data") const char *bm_butterfly_lobby_motion_names[2] = {lbl_80478DAC, NULL};
+const char *bm_butterfly_lobby_model_names[3] = {"lobby_chou00_bule.gj", "lobby_chou01_red.gj", NULL};
+const char *bm_butterfly_lobby_motion_names[2] = {"lobby_chou00_bule.njm", NULL};
 BmlResourceDescriptor bm_butterfly_lobby_resource_descriptor = {
-    lbl_80478DC4, bm_butterfly_lobby_model_names, bm_butterfly_lobby_motion_names, 2, 1,
+    "bm_butterfly_lobby.bml", bm_butterfly_lobby_model_names, bm_butterfly_lobby_motion_names, 2, 1,
 };
+/* inferred: TObject name the constructor stores */
+const char *TObjButterflyLobby__name = "TObjButterflyLobby";
 
 struct ButterflyLobbyBase_80350958 { char pad[0x18]; };
 struct ButterflyLobbyVObj_80350958 : ButterflyLobbyBase_80350958 {
@@ -298,7 +295,6 @@ s32 TObjFish__sub_8001EDB0(void *, int);
 s32 get_bml_model(void *, int);
 s32 __ct__8TObjBaseFP7TObject();
 extern s32 __vt__18TObjButterflyLobby[];
-extern s32 lbl_805D4360;
 void free_bin_model_request(void*, int);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
@@ -314,7 +310,7 @@ extern void *tl_05;
 u8 *TObjButterflyLobby__ct(TObjButterflyLobby *butterfly_lobby, int arg1, u8 *arg2) {
     __ct__8TObjBaseFP7TObject();
     *(s32 **)((s8 *)butterfly_lobby + 0x18) = __vt__18TObjButterflyLobby;
-    *(s32 *)((s8 *)butterfly_lobby + 0) = (s32) lbl_805D4360;
+    butterfly_lobby->m_name = TObjButterflyLobby__name;
     VecCopy((Vec *)((u8 *)butterfly_lobby + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz((u8 *)butterfly_lobby + 0x5C, arg2 + 0x18);
     VecCopy((Vec *)((u8 *)butterfly_lobby + 0x68), (const Vec *)(arg2 + 0x24));

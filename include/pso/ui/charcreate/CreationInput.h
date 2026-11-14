@@ -27,4 +27,9 @@ s32 creation_direction_repeated(s32 mask);
 void update_creation_direction_repeat();
 void get_creation_pad_stick(s32 *angle, f32 *magnitude);
 
+extern "C" {
+// Pad word of the player doing the character creation (TChCrEffCtrlPl.cpp).
+s32 get_creation_pad(void);
+}
+
 #endif

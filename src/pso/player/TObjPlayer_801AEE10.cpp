@@ -34,7 +34,7 @@ u8 TObjPlayer::is_camera_mode_active() {
     }
     return (u8)var_r31;
 }
-u8 TObjPlayer::is_single_screen() {
+s32 TObjPlayer::is_single_screen() {
     return (u8) (TRaderMapCore::is_not_split_screen() == 1);
 }
 s32 TObjPlayer::is_player_valid_target(s32 arg0) {

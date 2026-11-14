@@ -11,6 +11,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 
+#pragma readonly_strings on
+
 struct RecoveredGlobal_800A4204_lbl_80490A18 {
     s32 value;
     u8 remaining[0x14];
@@ -69,7 +71,7 @@ extern "C" {
 void build_beam_points__12TTecZondeEffFPv(struct Obj_800A39A8 *);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__21TeneFakeTecThunderEff[];
-extern s32 lbl_805D29E0;
+const char *lbl_805D29E0 = "TeneFakeTecThunderEff";
 u8 *TObjPlayer__sub_800A4204(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, s32 arg4);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -350,7 +352,7 @@ void TeneFakeTecThunderEff::render() {
     p[1].v = vv;
     p[1].color = color;
     set_additive_blend();
-    ((TWindowDD *)verts)->draw_transformed_primitive((void*)(this->m_38 * 2), (void*)TObjPlayer__effect_count, (void*)1);
+    ((TWindowDD *)verts)->draw_transformed_primitive(this->m_38 * 2, TObjPlayer__effect_count, 1);
     set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
 }
@@ -387,7 +389,7 @@ typedef char RecoveredGlobal_800A4204_lbl_80490A18_size[sizeof(RecoveredGlobal_8
 u8 *TObjPlayer__sub_800A4204(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, s32 arg4) {
     __ct__7TObjectFP7TObject(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_800A4204_lbl_80490A18 *)&__vt__21TeneFakeTecThunderEff).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D29E0;
+    *(const char **)((s8 *)arg0 + 0) = lbl_805D29E0;
     ((TeneFakeTecThunderEff *)arg0)->m_338 = arg2;
     *(s32 *)((s8 *)arg0 + 0x33C) = arg3;
     ((TeneFakeTecThunderEff *)arg0)->m_330 = 0;

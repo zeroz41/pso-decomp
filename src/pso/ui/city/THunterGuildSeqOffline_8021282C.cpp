@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/quest/TQuestListChallenge.h"
@@ -14,6 +15,7 @@
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/quest/TQuestThread.h"
+#include "pso/system/task/TObject.h"
 
 #define CAT2(a, b) a##b
 #define CAT(a, b) CAT2(a, b)
@@ -213,7 +215,7 @@ void THunterGuildSeqOffline::close_window() {
     close_window__13TShopSequenceFv(arg0);
     fn_802233F8(arg0);
     THunterGuildWarning::queue_destruction();
-    queue_destruction__7TObjectFv(arg0);
+    ((TObject *)arg0)->queue_destruction();
 }
 
 void THunterGuildSeqOffline::open_quest_list() {

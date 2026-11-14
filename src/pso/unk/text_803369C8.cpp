@@ -29,7 +29,7 @@ f32 sin_table_lookup(void *);
 f32 cos_table_lookup(void *);
 void draw_title_background_layer(void *,s32,s32,f32);
 void render_logo_with_default(void *,s32,s32,f32);
-extern int lobby_global_flags;
+int lobby_global_flags;
 
 void TCameraCtrl__sub_80068EF0(void);
 }

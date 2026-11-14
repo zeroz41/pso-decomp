@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
@@ -16,6 +17,10 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TObject.h"
+#include "pso/system/BmlResourceDescriptor.h"
+
+#pragma readonly_strings on
 
 extern "C" {
 
@@ -27,33 +32,6 @@ extern "C" void get_name__8TObjBaseFv();
 extern "C" void get_center__8TObjBaseFv();
 extern "C" void apply_object_set_data__8TObjBaseFPv();
 extern "C" void classify_actor_view_detail__8TObjBaseFfff();
-extern "C" u8 lbl_804729C8[];
-extern "C" u8 lbl_804729DC[];
-extern "C" u8 lbl_804729EC[];
-extern "C" u8 lbl_804729FC[];
-extern "C" u8 lbl_80472A0C[];
-extern "C" u8 lbl_80472A1C[];
-extern "C" u8 lbl_80472A2C[];
-extern "C" u8 lbl_80472A3C[];
-extern "C" u8 lbl_80472A4C[];
-extern "C" u8 lbl_80472A5C[];
-extern "C" u8 lbl_80472A6C[];
-extern "C" u8 lbl_80472A7C[];
-extern "C" u8 lbl_80472A8C[];
-extern "C" u8 lbl_80472A9C[];
-extern "C" u8 lbl_80472AAC[];
-extern "C" u8 lbl_80472ABC[];
-extern "C" u8 lbl_80472ACC[];
-extern "C" u8 lbl_80472ADC[];
-extern "C" u8 lbl_80472AEC[];
-extern "C" u8 lbl_80472AFC[];
-extern "C" u8 lbl_80472B0C[];
-extern "C" u8 lbl_80472B1C[];
-extern "C" u8 lbl_80472B2C[];
-extern "C" u8 lbl_80472B3C[];
-extern "C" u8 lbl_80472B4C[];
-extern "C" u8 lbl_80472B5C[];
-extern "C" u8 lbl_80472B70[];
 extern "C" void render_shadows__7TObjectFv();
 extern "C" void reset_motion_fields__8TObjBaseFv();
 extern "C" void update_object_view_visibility__8TObjBaseFff();
@@ -62,22 +40,40 @@ struct Obj_802E4C70;
 void *destroy__16TObjOnlineEndingFPvs(void *arg0, s16 arg1);
 void run_task__16TObjOnlineEndingFv(Obj_802E4E44 *arg0);
 void render__16TObjOnlineEndingFv(Obj_802E4C70 *arg0);
-extern void *onlineending_dat_model_names[2];
-extern void *onlineending_dat_motion_names[26];
-__declspec(section ".data") void *onlineending_dat_model_names[2] = {
-    (void *)&lbl_804729C8, (void *)0x0,
+__declspec(section ".data") const char *onlineending_dat_model_names[2] = {
+    "ending_blue_oya.nj", NULL,
 };
-void *onlineending_dat_motion_names[26] = {
-    (void *)&lbl_804729DC, (void *)&lbl_804729EC, (void *)&lbl_804729FC, (void *)&lbl_80472A0C,
-    (void *)&lbl_80472A1C, (void *)&lbl_80472A2C, (void *)&lbl_80472A3C, (void *)&lbl_80472A4C,
-    (void *)&lbl_80472A5C, (void *)&lbl_80472A6C, (void *)&lbl_80472A7C, (void *)&lbl_80472A8C,
-    (void *)&lbl_80472A9C, (void *)&lbl_80472AAC, (void *)&lbl_80472ABC, (void *)&lbl_80472ACC,
-    (void *)&lbl_80472ADC, (void *)&lbl_80472AEC, (void *)&lbl_80472AFC, (void *)&lbl_80472B0C,
-    (void *)&lbl_80472B1C, (void *)&lbl_80472B2C, (void *)&lbl_80472B3C, (void *)&lbl_80472B4C,
-    (void *)&lbl_80472B5C, (void *)0x0,
+const char *onlineending_dat_motion_names[26] = {
+    "ed_A_a_body.njm",
+    "ed_A_b_body.njm",
+    "ed_B_a_body.njm",
+    "ed_B_b_body.njm",
+    "ed_C_a_body.njm",
+    "ed_C_b_body.njm",
+    "ed_D_a_body.njm",
+    "ed_D_b_body.njm",
+    "ed_E_a_body.njm",
+    "ed_E_b_body.njm",
+    "ed_F_a_body.njm",
+    "ed_F_b_body.njm",
+    "ed_G_a_body.njm",
+    "ed_G_b_body.njm",
+    "ed_H_a_body.njm",
+    "ed_H_b_body.njm",
+    "ed_I_a_body.njm",
+    "ed_I_b_body.njm",
+    "ed_J_a_body.njm",
+    "ed_J_b_body.njm",
+    "ed_K_a_body.njm",
+    "ed_K_b_body.njm",
+    "ed_L_a_body.njm",
+    "ed_L_b_body.njm",
+    "ending_blue_oya.njm",
+    NULL,
 };
-void *lbl_804E35E8[4] = {
-    (void *)&lbl_80472B70, (void *)&onlineending_dat_model_names, (void *)&onlineending_dat_motion_names, (void *)0x10019,
+// inferred: onlineending_dat_resource_descriptor, named after its archive.
+BmlResourceDescriptor onlineending_dat_resource_descriptor = {
+    "onlineending_dat.bml", onlineending_dat_model_names, onlineending_dat_motion_names, 1, 25,
 };
 void *lbl_804E35F8[240] = {
     (void *)0xc1973333, (void *)0xc1000000, (void *)0xc1100000, (void *)0x24fa,
@@ -222,19 +218,21 @@ struct Obj_802E4C70 {
 extern "C" {
 s32 activate_camera_mode(s32);
 void set_active_camera_pose_from_params(u8 *arg0);
-void queue_destruction__7TObjectFv(void *arg0);
-extern Vec_802E4E44 lbl_80472B9C;
-extern Vec_802E4E44 lbl_80472BA8;
+const char *TObjOnlineEnding__name = "TObjOnlineEnding";
+// inferred: the camera position and target run_task gives the ending scene.
+static const Vec_802E4E44 online_ending_camera_eye = {20000.0f, 0.0f, 0.0f};
+static const Vec_802E4E44 online_ending_camera_target = {20000.0f, 0.0f, -100.0f};
 u32 calc_text_width(char *s);
 s32 render_status_line__15TAdSubPlyItemGCFi(void *, int, f32, f32, f32);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
-extern const f32 online_ending_scene_scale;
-extern f32 online_ending_quad_y_offset;
+f32 online_ending_scene_scale = 0.88f;
+f32 online_ending_quad_y_offset = -24.0f;
 f32 online_ending_scene_z_offset;
-extern s8 online_ending_scene_translation_initialized;
-extern s8 online_ending_quad_vertices_initialized;
+u32 lbl_805D68F4;
+s8 online_ending_scene_translation_initialized;
+s8 online_ending_quad_vertices_initialized;
 s32 restore_player_cameras();
 s32 TLobby__sub_80070ACC();
 s32 TWindowChallengeResult__ct(s32, s32, s32, s32);
@@ -326,8 +324,8 @@ void TObjOnlineEnding::run_task() {
         break;
     case 1: {
         activate_camera_mode(9);
-        Vec_802E4E44 t1 = lbl_80472B9C;
-        Vec_802E4E44 t2 = lbl_80472BA8;
+        Vec_802E4E44 t1 = online_ending_camera_eye;
+        Vec_802E4E44 t2 = online_ending_camera_target;
         Cam_802E4E44 cam;
         VecCopy((Vec *)&cam.a, (const Vec *)&t1);
         VecCopy((Vec *)&cam.b, (const Vec *)&t2);
@@ -341,7 +339,7 @@ void TObjOnlineEnding::run_task() {
             arg0->fade = 17.0f;
         }
         if (++arg0->timer >= 450) {
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
         }
         break;
     }
@@ -364,7 +362,7 @@ struct TObject_802E4FFC;
 struct Tbl_802E4FFC { u8 pad[0xC]; s32 fC; f32 f10; };
 struct Ent_802E4FFC { s32 active; s16 id; char name[0x12]; Tbl_802E4FFC *f18; s32 f1C; f32 f20; s32 f24; };
 struct Obj_802E4FFC {
-    void *f0;
+    const char *f0;
     u8 pad4[0x14];
     void *vt;
     u8 pad1C[0x90 - 0x1C];
@@ -388,8 +386,6 @@ void play_area_music(char *name);
 void *fn_802E6218(void *arg0);
 void fn_802E6260();
 char *strncpy(char *, const char *, unsigned long);
-extern void *TObjOnlineEnding__name;
-extern u32 lbl_805D68F4;
 #pragma push
 #pragma opt_common_subs off
 #define SELF ((Obj_802E4FFC *)arg0)
@@ -413,7 +409,7 @@ void *TObjOnlineEnding__ct(void *arg0, void *parent) {
         SELF->f9C = 1;
         break;
     default:
-        queue_destruction__7TObjectFv(obj);
+        ((TObject *)obj)->queue_destruction();
         return arg0;
     }
     SELF->f90 = get_bml_model(lbl_805D68F4, 0);
@@ -494,7 +490,7 @@ void fn_802E52AC() {
     if (lbl_805D68F4 == 0) {
         r = (int)::operator new(0x440);
         if (r != 0) {
-            r = load_resource_from_descriptor(r, 5, lbl_804E35E8, 0, 0, 0);
+            r = load_resource_from_descriptor(r, 5, &onlineending_dat_resource_descriptor, 0, 0, 0);
         }
         lbl_805D68F4 = r;
         if (lbl_805D68F4 == 0) {

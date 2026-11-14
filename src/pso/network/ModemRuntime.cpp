@@ -134,7 +134,6 @@ typedef struct Ent_80427C6C {
 } Ent_80427C6C;
 
 extern "C" {
-extern OSThreadQueue lbl_805D7CA0;
 void TAdSinglePlyChrSelectGC__sub_8042DE20(void);
 static RecoveredGlobal_8042E768_lbl_805D1D20 modem_connection_info;
 static ModemResponseState modem_command_response_state;
@@ -142,9 +141,7 @@ int atoi(const char *);
 void *memcpy(void *, const void *, unsigned long);
 void *memmove(void *, const void *, unsigned long);
 int sscanf(const char *, const char *, ...);
-extern s32 lbl_805D7C98;
 void TAdSinglePlyChrSelectGC__sub_8042D6A4(char *str);
-extern s32 lbl_805D4918;
 typedef struct Ent_804267F0 {
     s16 count;
     u8 id[6];
@@ -158,33 +155,17 @@ typedef struct Tbl_804267F0 {
 char *strcat(char *, const char *);
 char *strcpy(char *, const char *);
 s32 TAdSinglePlyChrSelectGC__sub_8042D49C(char *cmd);
-extern Names_8042E57C TAdSinglePlyChrSelectGC__modem_type_names;
-extern char lbl_805D48AC[2];
-extern char lbl_805D489C[5];
-extern char lbl_805D48A4[8];
-extern char lbl_805D48B0[6];
-extern char lbl_805D495C[7];
-extern Names_8042E628 TAdSinglePlyChrSelectGC__modem_error_correction_names;
-extern char modem_error_correction_command_prefix[7];
-extern Names_8042E6C4 TAdSinglePlyChrSelectGC__modem_compression_names;
-extern char lbl_805D4980[5];
-extern Names_8042E7B8 lbl_80480234;
-extern char lbl_805D4988[4];
 void *memset(void *, int, unsigned long);
 struct ModemRegs_805D7C90 { u16 f0; u16 f2; u8 f4; u8 f5; u8 f6; u8 f7; };
-extern ModemRegs_805D7C90 lbl_805D7C90;
+ModemRegs_805D7C90 lbl_805D7C90;
+s32 lbl_805D7C98;
+s32 lbl_805D7C9C;
+OSThreadQueue lbl_805D7CA0;
 static ModemSendState modem_send_state;
 static ModemRecvState modem_recv_state;
-extern s32 lbl_805D7C9C;
 s32 TAdSinglePlyChrSelectGC__sub_8042E184(void);
 unsigned long strlen(const char *);
 int memcmp(const void *, const void *, unsigned long);
-extern char lbl_805D4914[4];
-extern char lbl_805D4920[5];
-extern char lbl_805D4928[7];
-extern char lbl_805D4930[5];
-extern char lbl_805D4938[7];
-extern char *modem_exi_ptr_table[22];
 s32 modem_wait_ok_or_error(void);
 void TAdSinglePlyChrSelectGC__sub_8042D604(void);
 void TAdSinglePlyChrSelectGC__sub_8042E488(s32 value);
@@ -738,14 +719,14 @@ s32 TAdSinglePlyChrSelectGC__sub_8042CEF8(char *country)
     EXISync(0);
     EXIDeselect(0);
 
-    TAdSinglePlyChrSelectGC__sub_8042D6A4(lbl_805D489C);
+    TAdSinglePlyChrSelectGC__sub_8042D6A4("ATZ\r");
     modem_wait_ok_or_error();
-    strcpy(buf, lbl_805D48A4);
+    strcpy(buf, "AT+GCI=");
     strcat(buf, country);
-    strcat(buf, lbl_805D48AC);
+    strcat(buf, "\r");
     TAdSinglePlyChrSelectGC__sub_8042D6A4(buf);
     modem_wait_ok_or_error();
-    TAdSinglePlyChrSelectGC__sub_8042D6A4(lbl_805D48B0);
+    TAdSinglePlyChrSelectGC__sub_8042D6A4("ATE0\r");
     modem_wait_ok_or_error();
     TAdSinglePlyChrSelectGC__sub_8042D6A4("ATW1\\V0\r");
     modem_wait_ok_or_error();
@@ -767,6 +748,12 @@ s32 TAdSinglePlyChrSelectGC__sub_8042CEF8(char *country)
     return 1;
 }
 
+// AT commands a caller may not send through TAdSinglePlyChrSelectGC__sub_8042D49C.
+char *modem_exi_ptr_table[22] = {
+    "Z", "+V", "+G", "&F", "&Y", "&W", "&Z", "E", "Q", "V", "W",
+    "L", "M", "&V", "\\V", "*B", "*D", "+MS?", "#UD", "S24", "S95", "!",
+};
+
 s32 TAdSinglePlyChrSelectGC__sub_8042D49C(char *cmd) {
     u32 length;
     u32 i;
@@ -784,7 +771,7 @@ s32 TAdSinglePlyChrSelectGC__sub_8042D49C(char *cmd) {
         }
         cmd[i] = c;
     }
-    if (memcmp(cmd, lbl_805D4914, 2) != 0) {
+    if (memcmp(cmd, "AT", 2) != 0) {
         return -8;
     }
     for (i = 0; i < 22; i++) {
@@ -812,7 +799,7 @@ void TAdSinglePlyChrSelectGC__sub_8042D604(void) {
         OSSleepThread(&lbl_805D7CA0);
         OSRestoreInterrupts(e);
     }
-    TAdSinglePlyChrSelectGC__sub_8042D6A4((char *)&lbl_805D4918);
+    TAdSinglePlyChrSelectGC__sub_8042D6A4("ATH0\r");
     EXIUnlock(0);
 }
 
@@ -1084,19 +1071,19 @@ s32 TAdSinglePlyChrSelectGC__sub_8042E320(const char *number, s32 mode, void (*c
     modem_command_response_state.callback = callback;
     switch (mode) {
     case 1:
-        strcpy(buf, lbl_805D4920);
+        strcpy(buf, "ATDT");
         break;
     case 2:
-        result = TAdSinglePlyChrSelectGC__sub_8042D49C(lbl_805D4928);
-        strcpy(buf, lbl_805D4930);
+        result = TAdSinglePlyChrSelectGC__sub_8042D49C("AT&P0\r");
+        strcpy(buf, "ATDP");
         break;
     case 3:
-        result = TAdSinglePlyChrSelectGC__sub_8042D49C(lbl_805D4938);
-        strcpy(buf, lbl_805D4930);
+        result = TAdSinglePlyChrSelectGC__sub_8042D49C("AT&P2\r");
+        strcpy(buf, "ATDP");
         break;
     }
     strcat(buf, number);
-    strcat(buf, lbl_805D48AC);
+    strcat(buf, "\r");
     lbl_805D7C98 = 2;
     ModemLockExi();
     TAdSinglePlyChrSelectGC__sub_8042D6A4(buf);
@@ -1116,13 +1103,13 @@ typedef char RecoveredGlobal_8042E768_lbl_805D1D20_size[sizeof(RecoveredGlobal_8
 s32 TAdSinglePlyChrSelectGC::send_at_ms_command(s32 arg0) {
     char buf[0x80];
     s32 result;
-    Names_8042E57C names = TAdSinglePlyChrSelectGC__modem_type_names;
+    Names_8042E57C names = {{"", "V90", "V34", "V32B", "V22B", ""}};
     if (arg0 <= 0 || arg0 >= 5) {
         return -2;
     }
-    strcpy(buf, lbl_805D495C);
+    strcpy(buf, "AT+MS=");
     strcat(buf, names.name[arg0]);
-    strcat(buf, lbl_805D48AC);
+    strcat(buf, "\r");
     result = TAdSinglePlyChrSelectGC__sub_8042D49C(buf);
     return 1;
 }
@@ -1130,13 +1117,13 @@ s32 TAdSinglePlyChrSelectGC::send_at_ms_command(s32 arg0) {
 s32 TAdSinglePlyChrSelectGC::send_at_error_correction_cmd(s32 arg0) {
     char buf[0x80];
     s32 result;
-    Names_8042E628 names = TAdSinglePlyChrSelectGC__modem_error_correction_names;
+    Names_8042E628 names = {{"", "3", "4", "0"}};
     if (arg0 <= 0 || arg0 > 3) {
         return -2;
     }
-    strcpy(buf, modem_error_correction_command_prefix);
+    strcpy(buf, "AT+ES=");
     strcat(buf, names.name[arg0]);
-    strcat(buf, lbl_805D48AC);
+    strcat(buf, "\r");
     result = TAdSinglePlyChrSelectGC__sub_8042D49C(buf);
     return 1;
 }
@@ -1144,13 +1131,13 @@ s32 TAdSinglePlyChrSelectGC::send_at_error_correction_cmd(s32 arg0) {
 s32 TAdSinglePlyChrSelectGC::send_at_compression_cmd(s32 arg0) {
     char buf[0x80];
     s32 result;
-    Names_8042E6C4 names = TAdSinglePlyChrSelectGC__modem_compression_names;
+    Names_8042E6C4 names = {{"", "2", "1", "0", "3"}};
     if (arg0 <= 0 || arg0 > 4) {
         return -2;
     }
-    strcpy(buf, lbl_805D4980);
+    strcpy(buf, "AT%C");
     strcat(buf, names.name[arg0]);
-    strcat(buf, lbl_805D48AC);
+    strcat(buf, "\r");
     result = TAdSinglePlyChrSelectGC__sub_8042D49C(buf);
     return 1;
 }
@@ -1165,14 +1152,14 @@ s32 TAdSinglePlyChrSelectGC::copy_default_and_get_state() {
 
 s32 TAdSinglePlyChrSelectGC::send_atx_command(s32 arg0) {
     char buf[0x80];
-    Names_8042E7B8 names = lbl_80480234;
+    Names_8042E7B8 names = {{"", "3", "4"}};
     s32 result;
     if (arg0 <= 0 || arg0 > 2) {
         return -2;
     }
-    strcpy(buf, lbl_805D4988);
+    strcpy(buf, "ATX");
     strcat(buf, names.name[arg0]);
-    strcat(buf, lbl_805D48AC);
+    strcat(buf, "\r");
     result = TAdSinglePlyChrSelectGC__sub_8042D49C(buf);
     return 1;
 }
@@ -1183,7 +1170,7 @@ s32 TAdSinglePlyChrSelectGC::send_modem_hangup(s32 arg0) {
         if (EXILock(0, 2U, NULL) == 0) {
             return 1;
         }
-        TAdSinglePlyChrSelectGC__sub_8042D6A4((char *)&lbl_805D4918);
+        TAdSinglePlyChrSelectGC__sub_8042D6A4("ATH0\r");
         EXIUnlock(0);
         goto block_5;
     }

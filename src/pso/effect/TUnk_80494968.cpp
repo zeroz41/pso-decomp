@@ -6,6 +6,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_800D7950.h"
 #include "pso/effect/TAttackTrace.h"
+#include "pso/system/task/TObject.h"
 
 typedef struct Ent_800D76E8 {
     f32 ax, ay, az;

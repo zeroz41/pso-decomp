@@ -58,8 +58,6 @@ void copy_4word_struct__6TLobbyFPvPv(S_803DDD94 *d, S_803DDD94 *s);
 void TObjPlayer__sub_803DD6DC(struct Obj_803DD6DC *arg0, s32 arg1);
 extern S_803DA7E0 lbl_8058D470;
 s32 load_texture_list(struct Obj_803DD6DC *arg0);
-typedef void (*Fn_803DD6DC)(struct Obj_803DD6DC *, s32);
-extern Fn_803DD6DC lbl_804FC688[];
 s32 TObjPlayer__sub_803D9E38(s32 *arg0, u32 arg1, s32 *arg2, u32 *arg3);
 s32 TObjPlayer__sub_803DAC48(Obj_803DDA68 *, s32, s32, s32, Desc_803DDA68 *, s32 *);
 s32 TObjPlayer__sub_803DD91C(Obj_803DDA68 *obj, s32 idx);
@@ -80,6 +78,11 @@ extern Slot_803DD784 *record_array_ptr;
 s32 read_gvrt_file_header(Obj_803DDA68 *obj, s32 idx);
 void TObjPlayer__sub_803DD5E8(GvmTextureList_803DDDC8 *list, GvmTextureEntry_803DDDC8 *entries, u32 names, s32 count);
 }
+
+// The texture loaders TObjPlayer__sub_803DD6DC picks from an entry's format bits.
+s32 (*lbl_804FC688[4])(Obj_803DDA68 *, s32) = {
+    read_gvrt_file_header, TObjPlayer__sub_803DD91C, TObjPlayer__sub_803DDA68, TObjPlayer__sub_803DDB34,
+};
 u32 *find_gvrt_texture_chunk(TLobby *arg0, u32 *arg1, u32 *arg2);
 extern s32 ginja_draw_flags;
 
@@ -116,7 +119,7 @@ void TObjPlayer__sub_803DD6DC(struct Obj_803DD6DC *arg0, s32 arg1) {
         idx = 2;
         break;
     }
-    lbl_804FC688[idx](arg0, arg1);
+    lbl_804FC688[idx]((Obj_803DDA68 *)arg0, arg1);
 }
 
 s32 lbl_805D77A4;

@@ -36,13 +36,34 @@ struct TMovie : public TObject {
     void render_until_finished();
     s32 check_skip_input();
     static void run_callback();
+    static s32 close(int arg0, short arg1);
 };
 
 typedef char TMovie_size[sizeof(TMovie) == 0x4C ? 1 : -1];
 
+u8 *initialize_movie_with_soundtrack(u8 *arg0, s8 *arg1, s32 arg2, s32 arg3, s32 arg4);
+
 extern "C" {
-s32 close__6TMovieFis(s32 arg0, s16 arg1);
 void *__dt__6TMovieFv(TMovie *arg0, s16 arg1);
+}
+
+// Planes of one decoded movie frame, filled by the decoder callback that
+// TMovie::flip_frame_buffer() calls (inferred from pack_movie_frame's use:
+// three 8-bit planes Y, U, V and their pitches in bytes).
+struct MovieFramePlanes {
+    u32 *y;
+    u32 *u;
+    u32 *v;
+    u32 y_pitch;
+    u32 uv_pitch;
+};
+
+extern "C" {
+extern void *movie_current_frame_buffer;
+extern s32 lbl_805D56A4;
+extern s32 lbl_805D56A8;
+
+void pack_movie_frame(MovieFramePlanes *planes);
 }
 
 #endif

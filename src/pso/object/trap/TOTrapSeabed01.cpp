@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TMainTask.h"
@@ -43,6 +44,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
 #include <dolphin/base/PPCArch.h>
+#include "pso/system/task/TObject.h"
 
 // One fragment chip play_sounds throws when the trap breaks: model index,
 // position in the trap's frame and the chip's y angle.
@@ -122,7 +124,7 @@ void TOTrapSeabed01::vfunc_6(s16 *arg1, s32 arg2) {
         }
         sub_802C9D38();
         set_flag8();
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 

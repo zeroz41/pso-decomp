@@ -24,6 +24,7 @@
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
 #include "pso/player/TObjPlayer_801BE778.h"
 #include "pso/player/TObjPlayer_801BEB0C.h"
+#include "pso/player/TObjPlayer.h"
 
 struct VBase_801BDE60 { u8 pad[0x18]; };
 
@@ -58,7 +59,7 @@ u8 *create_player_object(s16 slot, s32 role, u8 *arg2) {
     player = (u8 *)(__nw__7TObjectFUl(0xDB8));
     var_r0 = player;
     if (var_r0 != NULL) {
-        var_r0 = (u8 *)(construct_player_instance__10TObjPlayerFlslPUc(player, tl_03, slot, role, arg2));
+        var_r0 = (u8 *)(((TObjPlayer *)player)->construct_player_instance(tl_03, slot, role, arg2));
     }
     return var_r0;
 }
@@ -173,7 +174,7 @@ void TObjPlayer::vfunc_76(f32 charge) { subtract_photon_blast_charge((char*)this
 
 void TObjPlayer::vfunc_77() { add_photon_blast_chain_charge((char*)this + 0x4ac); }
 
-int TObjPlayer__vt77(void) { return 0; }
+s32 TObjPlayer::vfunc_79() { return 0; }
 u8 TObjPlayer::check_camera_mode() {
     return (u8) (is_quest_active() == 1);
 }
@@ -576,13 +577,12 @@ void TObjPlayer::update_battle_controller() { get_player_by_client_id((local_cli
 extern "C" {
 
 int TFontSmallLobby__sub_801C0228(void*);
-int check_flag__10TObjPlayerFl(void*, int);
 int set_state_flags__10TObjPlayerFUl(void*, int);
 
 void TObjPlayer::set_flag_200000() {
     sub_8011E204(0x200000);
 }
-int TObjPlayer::check_flag_4() { return check_flag__10TObjPlayerFl(this, 4); }
+int TObjPlayer::check_flag_4() { return check_flag(4); }
 void*TObjPlayer::set_invisible() { TFontSmallLobby__sub_801C0228(this); return this; }
 void TObjPlayer::clear_flag_4000_callback() { set_flag_4000(); }
 void TObjPlayer::set_flag_4000() { sub_8011E204(16384); }
@@ -679,7 +679,7 @@ void TObjPlayer::set_flag_2000000() {
     sub_8011E204(0x02000000);
 }
 void TObjPlayer::set_flag_02000000() {
-    check_flag__10TObjPlayerFl(this, 0x02000000);
+    check_flag(0x02000000);
 }
 
 void TObjPlayer::set_position_history_entry(s32 arg1, f32 farg0, f32 farg1) {
@@ -697,7 +697,7 @@ void TObjPlayer::set_action_flag_2() { this->m_334 |= 0x2; }
 void set_flag_400000__10TObjPlayerFi(s32 arg0) {
     ((TObjPlayer *)arg0)->set_state_flags(0x400000);
 }
-int TObjPlayer::check_flag_48() { return check_flag__10TObjPlayerFl(this, 48); }
+int TObjPlayer::check_flag_48() { return check_flag(48); }
 int TObjPlayer::is_status_locked() { return this->actorFlags & 0x10000; }
 int TObjPlayer::is_status_flag_200() { return this->actorFlags & 0x200; }
 int TObjPlayer__sub_801BEABC(void* p) { return ((TObjPlayer *)p)->end_camera_pan(); }

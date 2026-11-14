@@ -1697,11 +1697,8 @@ void TBoss1Dragon__sub_80022740(TBoss1Dragon *arg0, u32 arg1) {
 }
 #undef self
 
-#define filter_input_flags__12TBoss1DragonFiii ((s32 (*)(s32, s32, s32))filter_input_flags__12TBoss1DragonFiii)
-#define check_attack_ready__12TBoss1DragonFPv ((u8 (*)(void *))check_attack_ready__12TBoss1DragonFPv)
 #define TBoss1Dragon__sub_80027010 ((f32 (*)(void *, f32, f32, f32))TBoss1Dragon__sub_80027010)
 #define send_state_sync__12TBoss1DragonFPv ((void (*)(void *))send_state_sync__12TBoss1DragonFPv)
-#define TBoss1Dragon__sub_80028BE0 ((void (*)(u8 *))TBoss1Dragon__sub_80028BE0)
 void TBoss1Dragon__sub_800228E8(TBoss1Dragon *arg0, u32 arg1) {
     f32 temp_f31;
     f32 temp_f30;
@@ -1809,11 +1806,8 @@ void TBoss1Dragon__sub_800228E8(TBoss1Dragon *arg0, u32 arg1) {
         return;
     }
 }
-#undef filter_input_flags__12TBoss1DragonFiii
-#undef check_attack_ready__12TBoss1DragonFPv
 #undef TBoss1Dragon__sub_80027010
 #undef send_state_sync__12TBoss1DragonFPv
-#undef TBoss1Dragon__sub_80028BE0
 
 #define self ((TBoss1Dragon *)arg0)
 void TBoss1Dragon__sub_80022C38(TBoss1Dragon *arg0, u32 arg1) {
@@ -1931,10 +1925,6 @@ void TBoss1Dragon::update_fade_state(u32 arg1) {
     }
 }
 
-#define TBoss1Dragon__sub_800277D8 ((void (*)(u8 *))TBoss1Dragon__sub_800277D8)
-#define clear_work__12TBoss1DragonFi ((void (*)(s32))clear_work__12TBoss1DragonFi)
-#define calc_burrow_speed__12TBoss1DragonFPv ((f32 (*)(void *))calc_burrow_speed__12TBoss1DragonFPv)
-#define spawn_trap__12TBoss1DragonFii ((void (*)(s32, s32))spawn_trap__12TBoss1DragonFii)
 
 #define RES(o) (*(s32 *)((u8 *)&TBoss1Dragon__part_hp_stats + (o)))
 struct Eff_80022EE0 { u32 w[5]; };
@@ -2333,18 +2323,8 @@ void TBoss1Dragon__sub_80023A2C(TBoss1Dragon *arg0, u32 arg1) {
     }
 }
 #pragma pop
-#undef TBoss1Dragon__sub_800277D8
-#undef clear_work__12TBoss1DragonFi
-#undef calc_burrow_speed__12TBoss1DragonFPv
-#undef spawn_trap__12TBoss1DragonFii
 
 #define VecCopy__FP3VecPC3Vec ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)
-#define TBoss1Dragon__sub_800277D8 ((void (*)(u8 *))TBoss1Dragon__sub_800277D8)
-#define clear_work__12TBoss1DragonFi ((void (*)(s32))clear_work__12TBoss1DragonFi)
-#define calc_burrow_speed__12TBoss1DragonFPv ((f32 (*)(void *))calc_burrow_speed__12TBoss1DragonFPv)
-#define spawn_trap__12TBoss1DragonFii ((void (*)(s32, s32))spawn_trap__12TBoss1DragonFii)
-#define sin_table_lookup ((f32 (*)(int))sin_table_lookup)
-#define cos_table_lookup ((f32 (*)(int))cos_table_lookup)
 
 #pragma push
 #pragma fp_contract on
@@ -2513,12 +2493,6 @@ void TBoss1Dragon::update_burrow_inward_run(u32 arg1, s32 arg2) {
 }
 #pragma pop
 #undef VecCopy__FP3VecPC3Vec
-#undef TBoss1Dragon__sub_800277D8
-#undef clear_work__12TBoss1DragonFi
-#undef calc_burrow_speed__12TBoss1DragonFPv
-#undef spawn_trap__12TBoss1DragonFii
-#undef sin_table_lookup
-#undef cos_table_lookup
 
 #pragma push
 #pragma fp_contract on
@@ -2790,7 +2764,6 @@ void TBoss1Dragon::update_stretch_state(u32 arg1) {
 }
 #undef play_cue_stream_file
 
-#define filter_input_flags__12TBoss1DragonFiii ((s32 (*)(s32, s32, s32))filter_input_flags__12TBoss1DragonFiii)
 #define TBoss1Dragon__sub_80027010 ((f32 (*)(void *, f32, f32, f32))TBoss1Dragon__sub_80027010)
 #define spawn_trap__12TBoss1DragonFii ((void (*)(s32, s32))spawn_trap__12TBoss1DragonFii)
 #define play_se_at_pos__12TBoss1DragonFii ((void (*)(s32, s32))play_se_at_pos__12TBoss1DragonFii)
@@ -2891,7 +2864,6 @@ void TBoss1Dragon::update_head_down_attack_state(u32 arg1) {
         return;
     }
 }
-#undef filter_input_flags__12TBoss1DragonFiii
 #undef TBoss1Dragon__sub_80027010
 #undef spawn_trap__12TBoss1DragonFii
 #undef play_se_at_pos__12TBoss1DragonFii
@@ -3558,10 +3530,6 @@ void TBoss1Dragon::update_tail_attack_state(u32 arg1) {
 #undef next_sequence_action__12TBoss1DragonFv
 
 #define next_sequence_action__12TBoss1DragonFv ((s32 (*)(void))next_sequence_action__12TBoss1DragonFv)
-#define spawn_trap__12TBoss1DragonFii ((void (*)(s32, s32))spawn_trap__12TBoss1DragonFii)
-#define calc_target_vector__12TBoss1DragonFPv ((void (*)(u8 *))calc_target_vector__12TBoss1DragonFPv)
-#define sin_table_lookup ((f32 (*)(int))sin_table_lookup)
-#define cos_table_lookup ((f32 (*)(int))cos_table_lookup)
 #pragma push
 #pragma fp_contract on
 #pragma push
@@ -3709,10 +3677,6 @@ void TBoss1Dragon::update_breath_attack_state(u32 arg1) {
 #pragma pop
 #pragma pop
 #undef next_sequence_action__12TBoss1DragonFv
-#undef spawn_trap__12TBoss1DragonFii
-#undef calc_target_vector__12TBoss1DragonFPv
-#undef sin_table_lookup
-#undef cos_table_lookup
 
 #define LINKED_800267B8 ((s32 (*)(void))TBoss1Dragon::update_linked_epsilon_position)
 #define NEAR_800267B8 ((s32 (*)(void *))is_destination_ahead__12TBoss1DragonFPv)
@@ -5904,7 +5868,7 @@ s32 fn_8002AE08(void *p) {
 
 int TBoss8Dragon::test_card_flag_2() { return TWindowKeyBoardHard::test_card_flag((s32)this, 2); }
 
-void TBoss8Dragon::set_speed(f32 v) { this->m_10 = v; }
+void TBoss8Dragon::set_speed(f32 v) { *(f32 *)((u8 *)this + 0x10) = v; }
 
 void TObjEnemy::sub_8002AE64() {
     this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFFE);

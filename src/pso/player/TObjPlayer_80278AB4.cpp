@@ -4,13 +4,13 @@
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer.h"
 
 extern "C" {
 
 u8 get_item_type__5TItemFv();
 s32 get_item_id__5TItemFv();
 s32 check_equip_requirements__5TItemFP10TObjPlayerPs(s32, void *, s32 *);
-s32 get_slot_value__10TObjPlayerFPvi(s32 *arg0, s32 arg1);
 void *get_player_by_client_id(s32 i);
 
 void TObjPlayer::build_shop_item_list() {
@@ -32,7 +32,7 @@ void TObjPlayer::build_shop_item_list() {
                 ((TShopJudgmentItemWindow *)((u8 *)this))->add_list_entry(temp_r3_2, spC[i]);
             }
         }
-        temp_r3_3 = get_slot_value__10TObjPlayerFPvi((s32 *)(player + 0xD04), 6);
+        temp_r3_3 = TObjPlayer::get_slot_value((s32 *)(player + 0xD04), 6);
         if (temp_r3_3 != 0) {
             temp_r5 = get_item_id__5TItemFv();
             ((TShopJudgmentItemWindow *)((u8 *)this))->add_list_entry(temp_r3_3, temp_r5);

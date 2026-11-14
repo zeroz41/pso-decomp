@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -18,6 +19,7 @@
 #include "pso/ui/city/TShopKeepItemWindow.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowMenu.h"
+#include "pso/system/task/TObject.h"
 
 struct Base_80221844 { char pad[0x18]; };
 struct VObj_80221844 : Base_80221844 {
@@ -346,7 +348,7 @@ s32 TShopKeepItemWindow::close_with_ok_callback() {
         temp_r12(this->message_window);
     }
     sort_bank_items(sub_8022397C__15TShopWindowBaseFv(this));
-    queue_destruction__7TObjectFv(this);
+    queue_destruction();
 }
 
 s32 TShopKeepItemWindow::close_with_cancel_callback() {
@@ -357,7 +359,7 @@ s32 TShopKeepItemWindow::close_with_cancel_callback() {
         temp_r12(this->message_window);
     }
     sort_bank_items(sub_8022397C__15TShopWindowBaseFv(this));
-    queue_destruction__7TObjectFv(this);
+    queue_destruction();
 }
 
 void TShopKeepItemWindow::vfunc_6() {

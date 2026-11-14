@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/render/MaterialColorFade.h"
@@ -14,6 +15,10 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
+#include "pso/technique/TTecZondeEff.h"
+
+#pragma readonly_strings on
 
 
 struct RecoveredGlobal_8023D988___vt__12TTecZondeEff {
@@ -141,16 +146,14 @@ struct Obj_8023CED4
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8023D988___vt__12TTecZondeEff __vt__12TTecZondeEff;
-extern s32 TTecZondeEff_class_name;
+const char *TTecZondeEff_class_name = "TTecZondeEff";
 u8 *__ct__12TTecZondeEffFv(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, f32 farg0);
 extern P_8023DBB4 tec_zonde_effect_task_list;
 extern char lbl_804CC8C8[];
-extern s32 TTecZondeEff__beam_vertex_data;
+s32 TTecZondeEff__beam_vertex_data;
 f32 rand_signed_unit();
-void randomize_bolt_jitter__12TTecZondeEffFv(Obj_8023D4A8 *arg0);
 s32 is_split_screen(void);
 void spawn_particle_effect(Rec_8023D568 *, s32);
-void queue_destruction__7TObjectFv(void *);
 void restore_saved_depth_alpha_state();
 extern u32 saved_model_render_flags;
 extern u32 model_render_flags;
@@ -429,7 +432,7 @@ void TTecZondeEff::render() {
     set_depth_buffer_settings_1();
     if (project_lightning_points((Obj_8023D128 *)(self), (Vec_8023D128 *)(m70), (f32 *)m3c, (f32 *)m8) != 0 && ((TTecZondeEff *)self)->build_lightning_strip((Vtx_8023CED4 *)(verts), (Vec_8023CED4 *)(m70), (f32 *)m3c, (f32 *)m8) != 0) {
         set_additive_blend();
-        ((TWindowDD *)verts)->draw_transformed_primitive((void*)(self->count * 2), (void*)TTecZondeEff__beam_vertex_data, (void*)1);
+        ((TWindowDD *)verts)->draw_transformed_primitive(self->count * 2, TTecZondeEff__beam_vertex_data, 1);
         set_default_alpha_blend();
     }
     TParticleCtrl::end_effect_render();
@@ -449,7 +452,7 @@ void TTecZondeEff::run_task() {
     e += arg0->idx;
     TTecZondeEff__beam_vertex_data = e->b->c->v;
     if (arg0->timer > 0x78) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     for (i = 0; i < arg0->count; i++) {
@@ -485,7 +488,7 @@ TTecZondeEff::~TTecZondeEff() {}
 u8 *__ct__12TTecZondeEffFv(u8 *object, u8 *arg1, s32 arg2, s32 arg3, f32 farg0) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__12TTecZondeEff.value;
-    *(s32 *)((s8 *)object + 0) = (s32) TTecZondeEff_class_name;
+    *(const char **)((s8 *)object + 0) = TTecZondeEff_class_name;
     *(f32 *)((s8 *)object + 0x244) = farg0;
     *(s32 *)((s8 *)object + 0x254) = arg2;
     *(s32 *)((s8 *)object + 0x258) = arg3;
@@ -504,7 +507,7 @@ typedef char RecoveredGlobal_8023DA10___vt__12TTecZondeEff_size[sizeof(Recovered
 u8 *TTecZonde::construct_bolt_effect(u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1) {
     __ct__7TObjectFP7TObject(this, arg1);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_8023DA10___vt__12TTecZondeEff *)&__vt__12TTecZondeEff).value;
-    *(s32 *)&this->m_name = (s32) TTecZondeEff_class_name;
+    this->m_name = TTecZondeEff_class_name;
     *(f32 *)((s8 *)((u8 *)this) + 0x244) = farg1;
     *(s32 *)((s8 *)((u8 *)this) + 0x254) = arg4;
     *(s32 *)((s8 *)((u8 *)this) + 0x258) = arg5;
@@ -515,7 +518,7 @@ u8 *TTecZonde::construct_bolt_effect(u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, s32
     *(s16 *)((s8 *)((u8 *)this) + 0x25C) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x38) = 0xD;
     ((TTecZondeEff *)((u8 *)this))->init_bolt_points();
-    randomize_bolt_jitter__12TTecZondeEffFv((Obj_8023D4A8 *)(this));
+    ((TTecZondeEff *)((Obj_8023D4A8 *)(this)))->randomize_bolt_jitter();
     *(s32 *)((s8 *)((u8 *)this) + 0x248) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x24C) = 0xFF000000;
     *(s16 *)((s8 *)((u8 *)this) + 0x25E) = 0;
@@ -525,7 +528,7 @@ u8 *TTecZonde::construct_bolt_effect(u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, s32
 u8 *TTecZondeEff::construct(u8 *arg1, u8 *arg2, u8 *arg3, f32 farg0) {
     __ct__7TObjectFP7TObject(this, arg1);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_8023DADC___vt__12TTecZondeEff *)&__vt__12TTecZondeEff).value;
-    *(s32 *)&this->m_name = (s32) TTecZondeEff_class_name;
+    this->m_name = TTecZondeEff_class_name;
     *(f32 *)((s8 *)((u8 *)this) + 0x244) = 1.0f;
     *(s32 *)((s8 *)((u8 *)this) + 0x254) = 0x08000000;
     *(s32 *)((s8 *)((u8 *)this) + 0x258) = 0x14;
@@ -536,7 +539,7 @@ u8 *TTecZondeEff::construct(u8 *arg1, u8 *arg2, u8 *arg3, f32 farg0) {
     *(s16 *)((s8 *)((u8 *)this) + 0x25C) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x38) = 0xD;
     this->init_bolt_points();
-    randomize_bolt_jitter__12TTecZondeEffFv((Obj_8023D4A8 *)(this));
+    ((TTecZondeEff *)((Obj_8023D4A8 *)(this)))->randomize_bolt_jitter();
     *(s32 *)((s8 *)((u8 *)this) + 0x248) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x24C) = 0xFF000000;
     *(s16 *)((s8 *)((u8 *)this) + 0x25E) = 0;

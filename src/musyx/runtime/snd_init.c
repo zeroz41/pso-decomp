@@ -1,6 +1,5 @@
 #include "musyx/runtime/musyx_runtime_a.h"
 
-#define synthVoice ((SYNTH_VOICE_803B2438 *)synthVoice)
 extern "C" {
 
 #define synthInfo (*(SynthInfo_803BAB54 *)&synthInfo)

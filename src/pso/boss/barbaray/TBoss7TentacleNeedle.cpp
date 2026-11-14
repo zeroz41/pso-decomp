@@ -22,6 +22,8 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjMotion.h"
 
 struct Ten_802F08A8;
 extern "C" {
@@ -110,7 +112,6 @@ struct Ten_802F0A5C;
 
 typedef struct Anim_802F0BE8 { u8 pad0[4]; u32 n; } Anim_802F0BE8;
 
-s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 s32 attach_particle_model(int, int, int, int, int, f32);
 f32 horizontal_distance_squared(void *, void *);
 void __dl__7TObjectFPv(void *);
@@ -693,7 +694,7 @@ void damage_nearby_players__14TBoss7TentacleFPv(u8 *boss7_tentacle) {
             if (*(s32 *)(boss7_tentacle + 0x3C) == 0 && ((VObj_18_9935f6 *)p)->m25(*(s32 *)(boss7_tentacle + 0x10), 0, 10.0f) != 0) {
                 ((VObj_18_9935f6 *)p)->m20(*(s32 *)(boss7_tentacle + 0x10), 1.0f);
             }
-            if (obj_testFlags30__14TObjCollidableFUl(p, 0x801) == 0) {
+            if (((TObjCollidable *)p)->obj_testFlags30(0x801) == 0) {
                 Hit_802EF99C b;
                 b.a = 15;
                 b.f = 100.0f;
@@ -716,7 +717,7 @@ void damage_nearby_players__14TBoss7TentacleFPv(u8 *boss7_tentacle) {
     }
 }
 
-void TBoss7Tentacle__sub_802EF954(void* p) { if (((TBoss7Tentacle *)p)->advance_toward_limit(1.0f) != 0) { queue_destruction__7TObjectFv(p); disallow_rendering__7TObjectFv((TObject *)p); } }
+void TBoss7Tentacle__sub_802EF954(void* p) { if (((TBoss7Tentacle *)p)->advance_toward_limit(1.0f) != 0) { ((TObject *)p)->queue_destruction(); ((TObject *)((TObject *)p))->disallow_rendering(); } }
 
 s32 TBoss7Tentacle::advance_toward_limit(f32 farg0) {
     f32 temp_f4;
@@ -745,7 +746,7 @@ void TBoss7Tentacle::restart_particle_effect() {
   s32 temp_r3;
   if (((u32) (*((u32 *) (((s8 *) arg0) + 0x40)))) != 0U)
   {
-    queue_destruction__7TObjectFv((*((void **) (((s8 *) arg0) + 0x40))));
+    ((TObject *)(*((void **) (((s8 *) arg0) + 0x40))))->queue_destruction();
     *((u32 *) (((s8 *) arg0) + 0x40)) = 0U;
   }
   particle_effect = (s32)spawn_particle_effect((arg0 + 0x1C), 0x215);

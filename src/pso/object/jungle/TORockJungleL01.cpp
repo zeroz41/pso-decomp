@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/render_util.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -6,6 +7,8 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/map/FloorArea.h"
+#include "pso/render/RenderFadeState.h"
+#include "pso/system/task/TObject.h"
 
 struct Base_8029c054_8029C030 { char pad[0x14]; };
 struct VObj_8029c054_8029C030 : Base_8029c054_8029C030 {
@@ -43,12 +46,9 @@ struct Rd_8029C094 {
 
 extern "C" {
 void __ct__15RenderFadeStateFv(void *);
-s32 isFading__15RenderFadeStateCFv(void *);
 void matrix_mult_vec(s32, void *, void *);
 
-int update__15RenderFadeStateFv(void*);
-
-void TORockJungleL01::run_task() { update__15RenderFadeStateFv((char*)this + 0xb4); }
+void TORockJungleL01::run_task() { ((RenderFadeState *)((char*)this + 0xb4))->update(); }
 
 void TORockJungleL01::vfunc_15() {
     u8 *arg0 = (u8 *)this;
@@ -70,7 +70,7 @@ void TORockJungleL01::vfunc_14() {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         arg0->fading = 0;
     } else {
-        arg0->fading = isFading__15RenderFadeStateCFv(&arg0->fade);
+        arg0->fading = ((RenderFadeState *)(&arg0->fade))->isFading();
     }
     if (arg0->fading != 0) {
         arg0->fade.m6();
@@ -106,7 +106,7 @@ extern void *lbl_804DC448[];
 void *TORockJungleL01::destroy(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = (s32 *)lbl_804DC448;
-        if (*(void * *)&this->m_d4 != NULL) { queue_destruction__7TObjectFv(*(void * *)&this->m_d4); *(s32 *)&this->m_d4 = 0; }
+        if (*(void * *)&this->m_d4 != NULL) { ((TObject *)(*(void * *)&this->m_d4))->queue_destruction(); *(s32 *)&this->m_d4 = 0; }
         unregister_object_by_id();
         free_collision_body_parts(this);
         __dt__15RenderFadeStateFv((s8 *)this + 0xB4, -1);
@@ -134,7 +134,6 @@ void *TORockJungleL01::destroy(s16 arg1) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Inner_8029C214 { u8 pad[0x58]; s32 v; };
 
 struct Copy_8029C214 { u32 w[15]; };
 
@@ -172,16 +171,10 @@ void *bm_o_rock_jungle_model_names[6] = {
 void *TORockJungleS01_resource_descriptor[4] = {
     (void *)&lbl_804657F4, (void *)&bm_o_rock_jungle_model_names, (void *)&bm_o_rock_jungle_motion_names, (void *)0x50000,
 };
-void *rock_jungle_collision_body_parts[33] = {
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x40a00000,
-    (void *)0x0, (void *)0x0, (void *)0x10003, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x41000000, (void *)0x41400000,
-    (void *)0x1, (void *)0x10003, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x41200000, (void *)0x41a00000, (void *)0x1,
-    (void *)0x10003, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0x0,
+CollisionBody rock_jungle_collision_body_parts[3] = {
+    {{0.0f, 0.0f, 0.0f}, 5.0f, 0.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+    {{0.0f, 0.0f, 0.0f}, 8.0f, 12.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+    {{0.0f, 0.0f, 0.0f}, 10.0f, 20.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 void *rock_jungle_vec3_table[9] = {
     (void *)0x42000000, (void *)0x41a00000, (void *)0x41400000, (void *)0x42000000,
@@ -194,7 +187,6 @@ void *lbl_804DC448[16] = {
     (void *)&reset_motion_fields__14TObjCollidableFv, (void *)&get_center__8TObjBaseFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
     (void *)&get_name__8TObjBaseFv, (void *)&interact__14TObjCollidableFl, (void *)&vfunc_14__15TORockJungleL01Fv, (void *)&vfunc_15__15TORockJungleL01Fv,
 };
-#define rock_jungle_collision_body_parts (*(Inner_8029C214 *)rock_jungle_collision_body_parts)
 u8 *TORockJungleL01__ct(u8 *rock_cave, s32 arg1) {
     __ct__10TORockCaveFv(rock_cave);
     *(s32 **)((s8 *)rock_cave + 0x18) = (s32 *)lbl_804DC448;
@@ -204,7 +196,7 @@ u8 *TORockJungleL01__ct(u8 *rock_cave, s32 arg1) {
     ((TORockJungleL01 *)rock_cave)->model = TORockJungleS01::get_model(4);
     ((TORockJungleL01 *)rock_cave)->texlist = get_jungle_rock_texture_resource(4);
     ((TORockJungleL01 *)rock_cave)->m_b0 = 5e+01f + *(f32 *)((s8 *)(*(void **)((s8 *)(((TORockJungleL01 *)rock_cave)->model) + 4)) + 0x14);
-    ((s32 (*)(void *, void *, int, f32))init_collision_body_parts)(rock_cave, &rock_jungle_collision_body_parts.v, 1, 5e+01f);
+    ((s32 (*)(void *, void *, int, f32))init_collision_body_parts)(rock_cave, &rock_jungle_collision_body_parts[2], 1, 5e+01f);
     ((TObjCollidable *)rock_cave)->refresh_collision_body_centers();
     ((TObjPlayer *)rock_cave)->register_object_by_id();
     {
@@ -215,7 +207,6 @@ u8 *TORockJungleL01__ct(u8 *rock_cave, s32 arg1) {
     ((RenderFadeState *)(rock_cave + 0xB4))->activate_and_dispatch();
     return rock_cave;
 }
-#undef rock_jungle_collision_body_parts
 
 }
 
@@ -320,7 +311,6 @@ void *__ct__18TORockCaveBrakableFv(void *arg0);
 extern s32 __vt__15TORockJungleM01[];
 extern s32 TORockJungleM01_name_ref;
 
-s32 isFading__15RenderFadeStateCFv(void *);
 void matrix_mult_vec(s32, void *, void *);
 
 void *__nw__7TObjectFUl(int);
@@ -333,11 +323,10 @@ extern u8 identity_matrix[];
 extern void *tl_05;
 s32 play_sound_effect(s32, s32, s32, s32);
 void free_collision_body_parts(void *);
-int update__15RenderFadeStateFv(void*);
 void __dl__7TObjectFPv(void *);
 void *__dt__18TORockCaveBrakableFv(void *arg0, s16 arg1);
 
-void TORockJungleM01::run_task() { update__15RenderFadeStateFv((char*)this + 0xbc); TORockCaveBrakable::run_task(); }
+void TORockJungleM01::run_task() { ((RenderFadeState *)((char*)this + 0xbc))->update(); TORockCaveBrakable::run_task(); }
 
 void TORockJungleM01::vfunc_18() {
     s32 arg0 = (s32)this;
@@ -367,7 +356,7 @@ void TORockJungleM01::vfunc_16() {
         chip.res2 = get_jungle_rock_texture_resource(3);
         o = __nw__7TObjectFUl(0x234);
         if (o != NULL) {
-            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&chip);
+            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&chip);
         }
     }
 }
@@ -381,7 +370,7 @@ void *TORockJungleM01::create(void *arg0) {
 }
 
 TORockJungleM01::~TORockJungleM01() {
-    if (*(void **)((s8 *)this + 0xDC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0xDC)); this->m_dc = 0; }
+    if (*(void **)((s8 *)this + 0xDC) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xDC)))->queue_destruction(); this->m_dc = 0; }
     ((TObjCollidable *)this)->unregister_object_by_id();
     free_collision_body_parts(this);
     __dt__15RenderFadeStateFv((s8 *)this + 0xBC, -1);
@@ -402,7 +391,7 @@ u8 *TORockJungleM01__ct(u8 *rock_cave_brakable, s32 arg1) {
     ((TORockJungleM01 *)rock_cave_brakable)->model = TORockJungleS01::get_model(2);
     ((TORockJungleM01 *)rock_cave_brakable)->texlist = get_jungle_rock_texture_resource(2);
     ((TORockJungleM01 *)rock_cave_brakable)->m_b0 = (f32) (5e+01f + *(f32 *)((s8 *)(*(void **)((s8 *)(((TORockJungleM01 *)rock_cave_brakable)->model) + 4)) + 0x14));
-    init_collision_body_parts(rock_cave_brakable, (void *) ((u8 *)rock_jungle_collision_body_parts + 0x2C), 1);
+    init_collision_body_parts(rock_cave_brakable, &rock_jungle_collision_body_parts[1], 1);
     ((TObjCollidable *)rock_cave_brakable)->refresh_collision_body_centers();
     ((TObjPlayer *)rock_cave_brakable)->register_object_by_id();
     ((TORockJungleM01 *)rock_cave_brakable)->m_b8 = (s32) ((TORockJungleM01 *)rock_cave_brakable)->set_params[0];
@@ -437,7 +426,7 @@ void TORockJungleM01::vfunc_14() {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         arg0->fading = 0;
     } else {
-        arg0->fading = isFading__15RenderFadeStateCFv(&arg0->fade);
+        arg0->fading = ((RenderFadeState *)(&arg0->fade))->isFading();
     }
     if (arg0->fading != 0) {
         arg0->fade.m6();
@@ -556,7 +545,7 @@ void TORockJungleS01::vfunc_16() {
         p.f44 = get_jungle_rock_texture_resource(1);
         o = __nw__7TObjectFUl(0x234);
         if (o != NULL) {
-            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&p);
+            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&p);
         }
     }
 }
@@ -572,7 +561,7 @@ void *TORockJungleS01::create(void *arg0) {
 void *__dt__15TORockJungleS01Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TORockJungleS01;
-        if (*(void **)((s8 *)arg0 + 0xBC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xBC)); ((TORockJungleS01 *)arg0)->m_bc = 0; }
+        if (*(void **)((s8 *)arg0 + 0xBC) != NULL) { ((TObject *)(*(void **)((s8 *)arg0 + 0xBC)))->queue_destruction(); ((TORockJungleS01 *)arg0)->m_bc = 0; }
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         __dt__18TORockCaveBrakableFv(arg0, 0);

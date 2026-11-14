@@ -19,4 +19,7 @@ void run_task__13TObjDFHormingFv(u8 *arg0);
 void run_task__16TObjDFBeamCursorFv(u8 *arg0);
 }
 
+// Draws a player-like model set (body, two attached parts, hair) at alpha; used by TBoss6Type2.
+void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, u32 arg3, u32 arg4, u32 arg5, u32 arg6, s32 appearance, f32 alpha);
+
 #endif

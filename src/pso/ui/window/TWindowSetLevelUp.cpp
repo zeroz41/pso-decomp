@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSetLevelUp.h"
@@ -5,6 +6,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 struct Scroll_8026D790 { u8 pad0[4]; f32 height; s32 frame; };
 
@@ -60,7 +62,6 @@ typedef struct LvUp_8026DA44 {
 } LvUp_8026DA44;
 extern "C" {
 
-void queue_destruction__7TObjectFv(void *);
 s32 *get_shared_text_buffer(void);
 void __dl__FPv(void);
 void *get_player_by_client_id(s32 i);
@@ -98,7 +99,7 @@ void *__vt__17TWindowSetLevelUp[6] = {
 extern char lbl_8044F534[];
 extern char lbl_8044F53C[];
 extern char lbl_8044F544[];
-extern void *lbl_805D39C8;
+const char *TWindowSetLevelUp__name = "TWindowSetLevelUp";
 extern void *lbl_805D63F0;
 extern const f32 lbl_805DD2FC;
 extern const f32 lbl_805DD300;
@@ -267,7 +268,7 @@ void TWindowSetLevelUp::update_stat_messages() {
             break;
         }
     case 9:
-        queue_destruction__7TObjectFv(self);
+        ((TObject *)self)->queue_destruction();
         break;
     }
     self->timer = 0x16;
@@ -319,7 +320,7 @@ void *__ct__17TWindowSetLevelUpFv(void *window_set_level_up, void *arg1, void *a
     __ct__7TObjectFP7TObject(window_set_level_up);
     *(s32 **)((s8 *)window_set_level_up + 0x18) = (s32 *)__vt__17TWindowSetLevelUp;
     ((TObjPlayer *)(self->f_24))->reset_sub_status_disp();
-    *(void * *)&((TWindowSetLevelUp *)window_set_level_up)->m_name = lbl_805D39C8;
+    ((TWindowSetLevelUp *)window_set_level_up)->m_name = TWindowSetLevelUp__name;
     ((TWindowSetLevelUp *)(self->f_24))->copy_stat_block((s32)arg2);
     *(u16 *)((s8 *)window_set_level_up + 0x1E) = 0;
     *(void **)((s8 *)window_set_level_up + 0x20) = arg3;

@@ -30,7 +30,10 @@ typedef struct Quad_803594EC
   u32 col[4];
 } Quad_803594EC;
 
-extern u8 TBoss4Fade__fullscreen_vertices[];
+// The 640x480 screen corners the fade quad is drawn over.
+f32 TBoss4Fade__fullscreen_vertices[4][2] = {
+    {0.0f, 0.0f}, {640.0f, 0.0f}, {640.0f, 480.0f}, {0.0f, 480.0f},
+};
 
 typedef struct Ent_803594EC Ent_803594EC;
 typedef struct Fade_803594EC Fade_803594EC;

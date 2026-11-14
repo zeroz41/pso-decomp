@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/TDLGraph.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -5,6 +6,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/system/task/TObject.h"
 
 struct E_8007F4B8 { s32 a; f32 f; };
 
@@ -72,14 +74,11 @@ void TDLGraph::sub_8007F5A4() {
 struct TDLGraph_8007F66C { u8 pad[0x24]; s32 frame; };
 
 extern "C" {
-extern TDLGraph *TDLGraph__graph_object;
+TDLGraph * TDLGraph__graph_object;
 void TCameraCtrl__sub_80068EF0(void);
 void fn_8007F27C(TDLGraph_8007F66C *self, void *a, void *b);
 extern u8 lbl_80438AA4[];
 extern u8 lbl_80438AAC[];
-extern const f32 lbl_805D92CC;
-extern const f32 lbl_805D92D0;
-extern const f32 lbl_805D92D4;
 void TDLGraph::sub_8007F644() {
     this->m_3c = 0;
     sub_8007F5A4();
@@ -90,8 +89,8 @@ void TDLGraph::render() {
     set_default_alpha_blend();
     TCameraCtrl::restore_full_screen_view();
     fn_8007F27C(self, lbl_80438AA4, lbl_80438AAC);
-    ((TDLGraph *)self)->draw_countdown_timer(lbl_805D92CC, lbl_805D92D0);
-    ((TDLGraph *)self)->draw_percent_text(lbl_805D92D4, lbl_805D92D0);
+    ((TDLGraph *)self)->draw_countdown_timer(543.0f, 418.0f);
+    ((TDLGraph *)self)->draw_percent_text(615.0f, 418.0f);
     TCameraCtrl__sub_80068EF0();
     ((TDLGraph *)self)->sub_8007F5A4();
     self->frame++;
@@ -107,7 +106,7 @@ void TDLGraph::update_graph(s32 arg0, s32 arg1) {
     }
     if (arg0 == 0) {
         if (G != 0) {
-            queue_destruction__7TObjectFv((void *)TDLGraph__graph_object);
+            ((TObject *)TDLGraph__graph_object)->queue_destruction();
             return;
         }
         TDLGraph::create();

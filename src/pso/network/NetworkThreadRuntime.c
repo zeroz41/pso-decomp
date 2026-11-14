@@ -257,7 +257,7 @@ s32 check_connection_status(void *connection) {
 
 extern u32 ppp_ipv6cp_protocol_state[0x2A];
 extern u8 lbl_805E1150;
-extern u8 lbl_804FD380[];
+Blk_803FA2A8 lbl_804FD380 = {0};
 extern s16 lbl_805D4818;
 void *TLobby__sub_803FABDC(void *self);
 s32 TLobby__sub_803FA4A4(u8 *self, u8 *src, s32 h);
@@ -266,7 +266,7 @@ s32 TLobby__sub_803FA318(u8* self, u8* src, s32 n);
 void TLobby__sub_803FD694(u8 *arg0);
 s32 verify_message_sequence();
 void TLobby__sub_803F9FAC(u8 *ctx) {
-    Blk_803FA2A8 *src = (Blk_803FA2A8 *)lbl_804FD380;
+    Blk_803FA2A8 *src = &lbl_804FD380;
     u8 *base = (u8 *)ppp_ipv6cp_protocol_state;
     u8 *sub;
     u8 *blk;
@@ -668,7 +668,8 @@ s32 NetIPv6CPParseConfigureOption(void *self, u8 *out, u8 *src, u8 *c, s16 flag)
     return r;
 }
 
-extern u8 lbl_804FD398[];
+/* Option lengths indexed by IPv6CP option number. */
+u8 lbl_804FD398[16] = {0x00, 0x0A, 0x06, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x00, 0x06, 0x00, 0x00, 0x00, 0x00};
 void *TLobby__sub_803FABDC(void *self) {
     s16 i;
     s16 bits;

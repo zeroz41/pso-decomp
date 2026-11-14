@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include <dolphin/mtx.h>
 #include "pso/map/CsnQuery.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningWing.h"
@@ -7,6 +8,7 @@
 
 #include "types.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/system/task/TObject.h"
 
 struct Stack_80351DA8 {
     f32 sp8;
@@ -91,7 +93,7 @@ void run_task__26TBoss5GryphonLightningWingFv(TBoss5GryphonLightningWing *boss5_
     }
     ((TBoss5GryphonLightning *)boss5_gryphon_lightning_wing)->spawn_gryphon_lightning();
     if ((s32) *(s32 *)((s8 *)boss5_gryphon_lightning_wing + 0x94) >= (s32) *(s32 *)((s8 *)boss5_gryphon_lightning_wing + 0x9C)) {
-        queue_destruction__7TObjectFv((boss5_gryphon_lightning_wing));
+        boss5_gryphon_lightning_wing->queue_destruction();
     }
 }
 #pragma pop

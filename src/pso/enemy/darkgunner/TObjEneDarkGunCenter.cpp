@@ -7,6 +7,24 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/TObjControl.h"
 #include "pso/enemy/darkgunner/DarkGunner.h"
+#include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/system/vector.h"
+
+const char *TObjEneDarkGunCenter__name = "TObjEneDarkGunCenter";
+
+typedef struct Obj_800A0EDC {
+    u8 pad0[0x30];
+    s32 flags;
+    u8 pad34[0x38 - 0x34];
+    u8 pos[0x2FC - 0x38];
+    u8 home[0x374 - 0x2FC];
+    s32 f374;
+    u8 pad378[0x37C - 0x378];
+    s32 count;
+    s32 sel;
+    u16 ids[16];
+    s32 f3A4;
+} Obj_800A0EDC;
 struct EBase_800A0798 { u8 pad[0x18]; };
 
 struct Ent_800A0798 : EBase_800A0798 {
@@ -506,6 +524,30 @@ void *__dt__20TObjEneDarkGunCenterFv(void *arg0, s16 arg1) {
             __dl__7TObjectFPv(arg0);
         }
     }
+    return arg0;
+}
+
+s32 __ct__9TObjEnemyFP7TObject(void *);
+
+u8 *TObjEneDarkGunCenter__ct(u8 *arg0, s32 arg1, s32 arg2) {
+    Obj_800A0EDC *o;
+    s32 i;
+    __ct__9TObjEnemyFP7TObject(arg0);
+    *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__20TObjEneDarkGunCenter;
+    *(s32 *)((s8 *)arg0 + 0) = (s32)TObjEneDarkGunCenter__name;
+    ((TObjEneDarkGunCenter *)(arg0))->apply_set_data((void *)arg2);
+    ((TBoss3Volopt *)arg0)->reset_photon_effect();
+    o = (Obj_800A0EDC *)arg0;
+    VecCopy((Vec *)o->home, (const Vec *)o->pos);
+    o->flags = o->flags | 0x06000000 | 0x800;
+    o->f374 = 0;
+    ((TObjEnemy *)arg0)->set_param(0x22);
+    o->sel = -1;
+    o->count = 0;
+    for (i = 0; i < 16; i++) {
+        o->ids[i] = 0xFFFF;
+    }
+    o->f3A4 = -1;
     return arg0;
 }
 

@@ -2,13 +2,6 @@
 
 extern "C" {
 
-#define userCallback lbl_805D74E8
-#define salAIBufferBase lbl_805D74EC
-#define salDspIsDone (*(volatile u32 *)&lbl_805D74F0)
-#define salLogicIsWaiting (*(volatile u32 *)&lbl_805D74F4)
-#define salLogicActive (*(volatile u32 *)&lbl_805D74F8)
-#define salLastTick (*(volatile u32 *)&lbl_805D74FC)
-#define salAIBufferIndex lbl_805D750C
 #define OSCachedToPhysical(caddr) ((u32)((u8 *)(caddr) - 0x80000000))
 #pragma push
 #pragma dont_inline off
@@ -40,8 +33,8 @@ void salCallback(void) {
 }
 
 void dspInitCallback(void) {
-    lbl_805D74F0 = 1;
-    lbl_805D7500 = 1;
+    salDspIsDone = 1;
+    salDspInitIsDone = 1;
 }
 
 void dspResumeCallback(void) {
@@ -79,7 +72,7 @@ void salStartAi(void) {
 }
 
 Rec_803BE528 *salAiGetDest(void) {
-    return &lbl_805D74EC[(u8)((lbl_805D750C + 2) % 4)];
+    return &salAIBufferBase[(u8)((salAIBufferIndex + 2) % 4)];
 }
 
 typedef struct DSPTaskInfo_803BE554 {
@@ -106,17 +99,12 @@ typedef struct DSPTaskInfo_803BE554 {
 
 void DSPInit(void);
 void DSPAddTask(void *);
-extern u8 lbl_804F7980[];
-extern u16 lbl_805D4648;
+extern u8 dspSlave[];
+extern u16 dspSlaveLength;
 
-static DSPTaskInfo_803BE554 dsp_task_803BE554 __attribute__((aligned(8)));
-static u16 dram_image_803BE554[4096] __attribute__((aligned(32)));
+static DSPTaskInfo_803BE554 dsp_task __attribute__((aligned(8)));
+static u16 dram_image[4096] __attribute__((aligned(32)));
 
-#define dsp_task dsp_task_803BE554
-#define dram_image dram_image_803BE554
-#define dspSlave lbl_804F7980
-#define dspSlaveLength lbl_805D4648
-#define salDspInitIsDone (*(volatile u32 *)&lbl_805D7500)
 
 u32 salInitDsp(u32 flags) {
     dsp_task.iram_mmem_addr = (u16 *)dspSlave;
@@ -142,47 +130,39 @@ u32 salInitDsp(u32 flags) {
     return 1;
 }
 
-#undef dsp_task
-#undef dram_image
-#undef dspSlave
-#undef dspSlaveLength
-#undef salDspInitIsDone
 
 void salCtrlDsp(s32 arg0) {
-    s32 temp_r31;
+    u16 *temp_r31;
     salBuildCommandList((void *) (arg0), (int) (salGetStartDelay()));
-    temp_r31 = lbl_805D7478;
-    lbl_805D74F0 = 0;
+    temp_r31 = dspCmdList;
+    salDspIsDone = 0;
     PPCSync();
-    DSPSendMailToDSP((void *) (lbl_805D7474 | 0xBABE0000));
+    DSPSendMailToDSP((void *) (dspCmdFirstSize | 0xBABE0000));
     do {
     } while (DSPCheckMailToDSP() != 0U);
-    DSPSendMailToDSP((void *) (temp_r31));
+    DSPSendMailToDSP(temp_r31);
     do {
     } while (DSPCheckMailToDSP() != 0U);
 }
 
 u32 salGetStartDelay(void) {
-    return (u32)((OSGetTick() - lbl_805D74FC) * 8) / (*(u32 *)0x800000F8 / 4 / 125000);
+    return (u32)((OSGetTick() - salLastTick) * 8) / (*(u32 *)0x800000F8 / 4 / 125000);
 }
 
-#pragma push
-#pragma scheduling off
 void hwInitIrq(void) {
-    lbl_805D7508 = OSDisableInterrupts();
-    lbl_805D7504 = 1;
+    oldState = OSDisableInterrupts();
+    hwIrqLevel = 1;
 }
-#pragma pop
 
 void hwEnableIrq(void) {
-    if (--lbl_805D7504 == 0) {
-        OSRestoreInterrupts(lbl_805D7508);
+    if (--hwIrqLevel == 0) {
+        OSRestoreInterrupts(oldState);
     }
 }
 
 void hwDisableIrq(void) {
-    if (lbl_805D7504++ == 0) {
-        lbl_805D7508 = OSDisableInterrupts();
+    if (hwIrqLevel++ == 0) {
+        oldState = OSDisableInterrupts();
     }
 }
 
@@ -194,15 +174,15 @@ void hwIRQLeaveCritical(void) {
     OSEnableInterrupts();
 }
 
-void (*lbl_805D74E8)(void);
-Rec_803BE528 *lbl_805D74EC;
-s32 lbl_805D74F0;
-s32 lbl_805D74F4;
-s32 lbl_805D74F8;
-s32 lbl_805D74FC;
-s32 lbl_805D7500;
-u16 lbl_805D7504;
-s32 lbl_805D7508;
-u8 lbl_805D750C;
+void (*userCallback)(void);
+Rec_803BE528 *salAIBufferBase;
+volatile u32 salDspIsDone;
+volatile u32 salLogicIsWaiting;
+volatile u32 salLogicActive;
+volatile u32 salLastTick;
+volatile u32 salDspInitIsDone;
+volatile u16 hwIrqLevel;
+volatile s32 oldState;
+u8 salAIBufferIndex;
 
 }

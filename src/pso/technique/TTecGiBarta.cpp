@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
@@ -12,6 +13,8 @@
 #include "pso/technique/TTecGiBarta.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
+#include "pso/technique/TTecCtrl.h"
 
 struct RecoveredGlobal_802308A0_lbl_804CC510
 {
@@ -140,7 +143,6 @@ extern void *technique_effect_bml;
 extern void *lbl_805D63B0;
 
 s32 calc_technique_parameters(int, int, int);
-s32 is_technique_ready__8TTecCtrlFv();
 extern RecoveredGlobal_802308A0_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_802308A0_lbl_804CC55C lbl_804CC55C;
 u16 get_entity_id(void *);
@@ -320,14 +322,14 @@ void TTecGiBarta::calc_params() {
   s32 new_var;
   new_var = calc_technique_parameters(4, (int) ((RecoveredFields_802308A0_arg0 *) arg0)->field_C4, 0xFFFF);
   ((TTecAnti *)(arg0 + 0xCC))->copy_params((u8 *)new_var);
-  if ((((s16) ((RecoveredFields_802308A0_arg0 *) arg0)->field_C4) >= 0xF) && (is_technique_ready__8TTecCtrlFv() == 0))
+  if ((((s16) ((RecoveredFields_802308A0_arg0 *) arg0)->field_C4) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
   {
     ((RecoveredFields_802308A0_arg0 *) arg0)->field_CC = (f32) ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x10))) + ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x12))) * ((RecoveredFields_802308A0_arg0 *) arg0)->field_C4));
   }
   else
   {
     ((RecoveredFields_802308A0_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_802308A0_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_802308A0_arg0 *) arg0)->field_F0 * ((RecoveredFields_802308A0_arg0 *) arg0)->field_C4)));
-    if (is_technique_ready__8TTecCtrlFv() != 0)
+    if (TTecCtrl::is_technique_ready() != 0)
     {
       ((RecoveredFields_802308A0_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_802308A0_arg0 *) arg0)->field_CC * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x20))));
     }
@@ -379,7 +381,7 @@ TTecGiBarta_80230B48 *__dt__11TTecGiBartaFv(TTecGiBarta_80230B48 *self, s16 dele
         self->vtable = __vt__11TTecGiBarta;
         for (u32 i = 0; i < TTecGiBarta__emitter_profile_table[self->band].count; ++i) {
             if (self->emitters[i]) {
-                queue_destruction__7TObjectFv(self->emitters[i]);
+                ((TObject *)self->emitters[i])->queue_destruction();
             }
         }
         mem_free(self->emitters);
@@ -392,7 +394,7 @@ TTecGiBarta_80230B48 *__dt__11TTecGiBartaFv(TTecGiBarta_80230B48 *self, s16 dele
 void TTecGiBarta::run_task() {
     this->source = (u32)find_entity_by_id(this->sourceId);
     if ((u32) this->source == 0U) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     move_technique_projectile();

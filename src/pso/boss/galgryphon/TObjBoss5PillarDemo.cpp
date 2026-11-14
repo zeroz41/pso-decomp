@@ -16,7 +16,7 @@ extern s32 __vt__19TObjBoss5PillarDemo[];
 extern s32 lbl_805D3B28;
 void transform_to_view__11TCameraCtrlFii(s32 arg0, s32 arg1);
 extern u8 lbl_80450CDC[];
-extern s32 boss5_pillar_demo_index;
+s32 boss5_pillar_demo_index;
 void TObjBoss5PillarDemo__sub_8028ACE8(Pd_8028ACE8 *arg0, void* _w1);
 s32 clear_child_target_refs(s32, s32);
 s32 clear_chain_flags(s32, s32);
@@ -72,7 +72,7 @@ s32 TObjBoss5PillarDemo::create() {
 void TObjBoss5PillarDemo__sub_8028ACE0(void) {  }
 void TObjBoss5PillarDemo__sub_8028ACE4(void) {  }
 
-extern void *boss5_pillar_demo_ptr;
+void * boss5_pillar_demo_ptr;
 
 void TObjBoss5PillarDemo__sub_8028ACE8(Pd_8028ACE8 *arg0, void* _w1) {
     f32 sp[3];

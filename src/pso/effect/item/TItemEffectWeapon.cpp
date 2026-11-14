@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/item/TItemEffectWeapon.h"
 #include "pso/item/TItemEquipVariant_8012A82C.h"
 #include "pso/render/render_util.h"
@@ -5,6 +6,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItem.h"
+#include "pso/system/task/TObject.h"
 
 
 #pragma readonly_strings on
@@ -14,7 +16,6 @@ extern "C" {
 s32 get_mode__11TCameraCtrlFPv(void *p);
 void restore_saved_depth_alpha_state();
 void TObjPlayer__sub_803DF768(s32);
-void set_render_deferred__7TObjectFv(void*);
 void *mem_alloc(u32 size);
 extern u32 saved_model_render_flags;
 extern u32 model_render_flags;
@@ -142,7 +143,7 @@ void TItemEffectWeapon::render_trail() {
             TParticleCtrl::end_effect_render();
         }
     } else {
-        set_render_deferred__7TObjectFv(this);
+        set_render_deferred();
     }
 }
 
@@ -159,8 +160,8 @@ TItemEffectWeapon::TItemEffectWeapon(s32 arg1, s32 param) : TItemHeapObject((TOb
     this->field_28 = 0;
 }
 
-    extern TItemEffectWeapon::TrailVertex* item_weapon_trail_vertex_buffer;
-    extern s32* weapon_trail_slot_bitmap;
+    TItemEffectWeapon::TrailVertex* item_weapon_trail_vertex_buffer;
+    s32* weapon_trail_slot_bitmap;
 
 void TItemEffectWeapon::release_trail_buffer(void* buffer) {
     if (buffer != NULL) {

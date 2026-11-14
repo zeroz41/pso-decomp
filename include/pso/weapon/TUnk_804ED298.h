@@ -5,12 +5,13 @@
 
 class TUnk_804ED298 : public TItemWeapon {
 public:
+    TUnk_804ED298(TObject *parent, u8 *item);
     virtual ~TUnk_804ED298();
-    virtual void update_idle();
     virtual void update_attack();
-    void*set_mode_floats(s32, void *);
-    u8 unk_1F8[0x4];
-    float m_1fc;
+    virtual void update_idle();
+    virtual void vfunc_60();
+    f32 pad_1f8;  // translate_matrix z offset for passes 3 and 4
+    f32 pad_1fc;  // offset material colour alpha for pass 2
 };
 
 #endif

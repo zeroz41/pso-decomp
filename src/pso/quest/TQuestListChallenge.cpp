@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -10,6 +11,8 @@
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/system/task/TObject.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
 
 struct Base_80288C78_80288B5C { char pad[0x18]; };
 struct VObj_80288C78_80288B5C : Base_80288C78_80288B5C {
@@ -111,7 +114,6 @@ s32 get_entity_id(s32);
 s32 get_quest_list_text(int, int, int);
 f32 get_scale__15TShopWindowBaseFv(void *);
 void *create_yes_no_window(s32, u16, s32, s32);
-s32 get_cursor_value__19TWindowMenuIconLineFv(s32);
 void *create__14TWindowMessageFlPCfUll(s32, Pair_80288DA4 *, s32, u16);
 s32 get_window_layout_position(s32);
 void update_selection__19TQuestListChallengeFv(QLC_80288DA4 *self);
@@ -156,7 +158,6 @@ void *__ct__11TObjControlFP7TObject(void *, void *);
 u8 *TObjNpcKenkyu__ct(u8 *arg0, s32 arg1, s32 arg2);
 s32 __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
-void queue_destruction__7TObjectFv(void *arg0);
 
 extern "C" {
 struct QLCStage_80289200 { s32 a; s32 b; s32 c; const char *name; };
@@ -170,7 +171,6 @@ extern __declspec(section ".rodata") const PairPad_80288DA4 lbl_80450AB4[1];
 #define TQuestListChallenge__stage_table (*(RecoveredGlobal_80289200_lbl_8045080C *)TQuestListChallenge__stage_table)
 #define quest_list_challenge_stage_table (*(RecoveredGlobal_80289200_lbl_80450910 *)quest_list_challenge_stage_table)
 #define quest_list_battle_stage_table (*(RecoveredGlobal_80289200_lbl_80450A20 *)quest_list_battle_stage_table)
-#define lbl_80450AB4 ((const Pair_80288DA4 *)lbl_80450AB4)
 
 #pragma push
 #pragma opt_common_subs off
@@ -179,7 +179,7 @@ s32 get_selected_quest_text__19TQuestListChallengeFv(void) {
     if ((void *) (*(u8 * *)&TQuestListChallenge__active_instance) != NULL) {
         temp_r3 = *(u32 *)((s8 *)(*(u8 * *)&TQuestListChallenge__active_instance) + 0x38);
         if (temp_r3 != 0U) {
-            return get_quest_list_text((int) (*(s32 *)((s8 *)(*(u8 * *)&TQuestListChallenge__active_instance) + 0x50)), (int) (*(s32 *)((s8 *)(*(s32 *)((s8 *)(*(u8 * *)&TQuestListChallenge__active_instance) + 0x58) + (get_cursor_value__19TWindowMenuIconLineFv(temp_r3) * 0x10)) + 0)), (int) ((*(u8 * *)&TQuestListChallenge__active_instance)));
+            return get_quest_list_text((int) (*(s32 *)((s8 *)(*(u8 * *)&TQuestListChallenge__active_instance) + 0x50)), (int) (*(s32 *)((s8 *)(*(s32 *)((s8 *)(*(u8 * *)&TQuestListChallenge__active_instance) + 0x58) + (((TWindowMenuIconLine *)temp_r3)->get_cursor_value() * 0x10)) + 0)), (int) ((*(u8 * *)&TQuestListChallenge__active_instance)));
         }
     }
     return 0;
@@ -213,7 +213,7 @@ void invoke_callback_and_destroy__19TQuestListChallengeFv(void *object) {
     if (temp_r12 != NULL) {
         temp_r12(*(s32 *)((s8 *)object + 0x30));
     }
-    queue_destruction__7TObjectFv(object);
+    ((TObject *)object)->queue_destruction();
 }
 
 void destroy__19TQuestListChallengeFv(void *object) {
@@ -223,7 +223,7 @@ void destroy__19TQuestListChallengeFv(void *object) {
     if (temp_r12 != NULL) {
         temp_r12(*(s32 *)((s8 *)object + 0x30));
     }
-    queue_destruction__7TObjectFv(object);
+    ((TObject *)object)->queue_destruction();
 }
 
 void handle_confirm_select__19TQuestListChallengeFv(void *quest_list_challenge) {
@@ -237,7 +237,7 @@ void handle_confirm_select__19TQuestListChallengeFv(void *quest_list_challenge) 
         if ((*(void **)((s8 *)quest_list_challenge + 0x34) != NULL) && (((TWindowMenu *)(*(void **)((s8 *)quest_list_challenge + 0x34)))->is_decided() == 1)) {
             selected_menu_value = ((TWindowMenu *)(*(u32 *)((s8 *)quest_list_challenge + 0x34)))->get_selected_value();
             if (selected_menu_value == 0) {
-                temp_r0 = get_cursor_value__19TWindowMenuIconLineFv(*(s32 *)((s8 *)quest_list_challenge + 0x38));
+                temp_r0 = ((TWindowMenuIconLine *)(*(s32 *)((s8 *)quest_list_challenge + 0x38)))->get_cursor_value();
                 identity = *(Entry_80288C78_80288B5C **)((s8 *)quest_list_challenge + 0x58);
                 prepare_offline_quest_filenames(identity[temp_r0].fieldC, (s32) identity);
                 ((TShopWindowBase *)quest_list_challenge)->set_field_20(3);
@@ -464,7 +464,6 @@ void * TObjNpcKenkyu__create(void *arg0) {
 #undef TQuestListChallenge__stage_table
 #undef quest_list_challenge_stage_table
 #undef quest_list_battle_stage_table
-#undef lbl_80450AB4
 extern "C" const char lbl_804507A8[] = "challenge2_mlt_stg1";
 extern "C" const char lbl_804507BC[] = "challenge2_mlt_stg2";
 extern "C" const char lbl_804507D0[] = "challenge2_mlt_stg3";

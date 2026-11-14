@@ -10,21 +10,14 @@
 // TUnk_80494938 (callers pass &fade) although their symbols name TObjEneMe3SinowZoa.
 
 extern "C" {
-extern const f32 lbl_805DA348;
-extern const f32 lbl_805DA34C;
-extern const f32 lbl_805DA350;
-extern const f32 lbl_805DA354;
-extern const f32 lbl_805DA358;
-extern const f32 lbl_805DA35C;
-extern const f32 lbl_805DA360;
 s32 TObjEneMe3SinowZoa__sub_800D72A4(TUnk_80494938 *fade);
 
 s32 TObjEneMe3SinowZoa__sub_800D72A4(TUnk_80494938 *fade) {
-    return fade->value > lbl_805DA348 && fade->value < lbl_805DA34C;
+    return fade->value > 0.0f && fade->value < 2.0f;
 }
 
 s32 TUnk_80494938::has_visible_opacity() {
-    return this->value > lbl_805DA348;
+    return this->value > 0.0f;
 }
 
 void TUnk_80494938::set_flags_and_apply_damage_color() { MaterialColorFade::set_flags_and_apply_damage_color(); set_chunk_blend(8448); }
@@ -38,30 +31,30 @@ s32 TObjEneMe3SinowZoa::advance_timer(f32 farg0) {
 s32 TUnk_80494938::advance_toward_max() {
     this->value = this->value + this->rate;
     sub_800D741C();
-    return this->value >= lbl_805DA34C;
+    return this->value >= 2.0f;
 }
 
 s32 TUnk_80494938::decay_value_toward_floor() {
     this->value = this->value - this->rate;
     sub_800D741C();
-    return this->value <= lbl_805DA348;
+    return this->value <= 0.0f;
 }
 
 void TUnk_80494938::sub_800D741C() {
     f32 temp_f2;
     temp_f2 = this->value;
-    if (temp_f2 <= lbl_805DA348) {
-        this->color.a = lbl_805DA350;
+    if (temp_f2 <= 0.0f) {
+        this->color.a = -1.0f;
         return;
     }
-    if (temp_f2 < lbl_805DA34C) {
-        this->color.a = temp_f2 - lbl_805DA354;
-        if (lbl_805DA348 == this->color.a) {
-            this->color.a = lbl_805DA358;
+    if (temp_f2 < 2.0f) {
+        this->color.a = temp_f2 - 1.0f;
+        if (0.0f == this->color.a) {
+            this->color.a = 0.01f;
         }
         return;
     }
-    this->color.a = lbl_805DA354;
+    this->color.a = 1.0f;
 }
 
 void TObjEneMe3SinowZoa::copy_position_vector(void *q) {
@@ -72,39 +65,39 @@ void TObjEneMe3SinowZoa::copy_position_vector(void *q) {
     ((TUnk_80494938 *)this)->color.b = ((NJS_ARGB *)q)->b;
 }
 
-void TUnk_80494938::reset_obstruction_fade() { this->value = lbl_805DA348; this->color.a = lbl_805DA350; this->color.r = lbl_805DA348; this->color.g = lbl_805DA348; this->color.b = lbl_805DA348; }
+void TUnk_80494938::reset_obstruction_fade() { this->value = 0.0f; this->color.a = -1.0f; this->color.r = 0.0f; this->color.g = 0.0f; this->color.b = 0.0f; }
 
-void TUnk_80494938::reset_color() { this->value = lbl_805DA34C; this->color.a = lbl_805DA348; this->color.r = lbl_805DA348; this->color.g = lbl_805DA348; this->color.b = lbl_805DA348; }
+void TUnk_80494938::reset_color() { this->value = 2.0f; this->color.a = 0.0f; this->color.r = 0.0f; this->color.g = 0.0f; this->color.b = 0.0f; }
 
 void TObjEneMe3SinowZoa::set_field_10(f32 v) { ((TUnk_80494938 *)this)->rate = v; }
 
 void TUnk_80494938::set_rate_from_divisor(s32 arg1) {
-    this->rate = lbl_805DA34C / (f32)arg1;
+    this->rate = 2.0f / (f32)arg1;
 }
 
 #pragma push
 #pragma fp_contract on
 void TObjEneMe3SinowZoa::init_death_params() {
     ((TUnk_80494938 *)this)->set_rate_from_divisor(10);
-    ((TUnk_80494938 *)this)->value = lbl_805DA35C * ((TUnk_80494938 *)this)->rate + lbl_805DA34C;
-    ((TUnk_80494938 *)this)->color.a = lbl_805DA354;
-    ((TUnk_80494938 *)this)->color.r = lbl_805DA348;
-    ((TUnk_80494938 *)this)->color.g = lbl_805DA348;
-    ((TUnk_80494938 *)this)->color.b = lbl_805DA348;
+    ((TUnk_80494938 *)this)->value = 10.0f * ((TUnk_80494938 *)this)->rate + 2.0f;
+    ((TUnk_80494938 *)this)->color.a = 1.0f;
+    ((TUnk_80494938 *)this)->color.r = 0.0f;
+    ((TUnk_80494938 *)this)->color.g = 0.0f;
+    ((TUnk_80494938 *)this)->color.b = 0.0f;
 }
 #pragma pop
 
 void TUnk_80494938::start_fade_in() {
     set_rate_from_divisor(10);
-    value = -(lbl_805DA360 * rate);
-    color.a = lbl_805DA350;
-    color.r = lbl_805DA348;
-    color.g = lbl_805DA348;
-    color.b = lbl_805DA348;
+    value = -(30.0f * rate);
+    color.a = -1.0f;
+    color.r = 0.0f;
+    color.g = 0.0f;
+    color.b = 0.0f;
 }
 
 TUnk_80494938::~TUnk_80494938() {}
 
-TUnk_80494938::TUnk_80494938() : value(lbl_805DA348) {}
+TUnk_80494938::TUnk_80494938() : value(0.0f) {}
 
 }

@@ -23,12 +23,6 @@ __declspec(section ".rodata") extern const char TObjEneMe1Canadin_EffDischarge__
 __declspec(section ".rodata") extern const char TObjEneMe1Canadin_EffLight__class_name[] ATTRIBUTE_ALIGN(4) = "TObjEneMe1Canadin_EffLight";
 
 extern Vec camera_pitch_rotated_up_vector;
-extern const f32 canadin_effect_negative_one;
-extern const f32 canadin_effect_zero;
-extern const f32 canadin_light_width_cutoff;
-extern const f32 canadin_light_width_decay;
-extern const f32 canadin_discharge_motion_scale;
-extern const f32 canadin_line_initial_phase_range;
 struct CanadinRandomScale { f32 value; u32 padding; };
 __declspec(section ".sdata2") extern const CanadinRandomScale canadin_random_scale;
 extern const char *TObjEneMe1Canadin_EffLight__name;
@@ -72,7 +66,7 @@ void TObjEneMe1Canadin_EffLight::render() {
             v[0].pos.y = up.y * w + p->pos.y;
             v[0].pos.z = up.z * w + p->pos.z;
             v[0].color = c;
-            w *= canadin_effect_negative_one;
+            w *= -1.0f;
             v[1].pos.x = up.x * w + p->pos.x;
             v[1].pos.y = up.y * w + p->pos.y;
             v[1].pos.z = up.z * w + p->pos.z;
@@ -87,7 +81,7 @@ void TObjEneMe1Canadin_EffLight::render() {
             v[0].pos.y = up.y * w + p->pos.y;
             v[0].pos.z = up.z * w + p->pos.z;
             v[0].color = c;
-            w *= canadin_effect_negative_one;
+            w *= -1.0f;
             v[1].pos.x = up.x * w + p->pos.x;
             v[1].pos.y = up.y * w + p->pos.y;
             v[1].pos.z = up.z * w + p->pos.z;
@@ -104,7 +98,7 @@ void TObjEneMe1Canadin_EffLight::render() {
             v[0].pos.y = up.y * w + p->pos.y;
             v[0].pos.z = up.z * w + p->pos.z;
             v[0].color = c;
-            w *= canadin_effect_negative_one;
+            w *= -1.0f;
             v[1].pos.x = up.x * w + p->pos.x;
             v[1].pos.y = up.y * w + p->pos.y;
             v[1].pos.z = up.z * w + p->pos.z;
@@ -147,12 +141,12 @@ void TObjEneMe1Canadin::push_history_entry(void *trail, f32 width, void *pos, in
 
 s32 fade_alpha_step__17TObjEneMe1CanadinFPvif(TObjEneMe1Canadin_EffLightPoint *point, f32 scale, s32 step) {
     s32 a;
-    if (canadin_effect_zero == point->width) {
+    if (0.0f == point->width) {
         return 1;
     }
     point->width = point->width * scale;
-    if (point->width < canadin_light_width_cutoff) {
-        point->width = canadin_effect_zero;
+    if (point->width < 0.01f) {
+        point->width = 0.0f;
         return 1;
     }
     a = (point->color >> 24) - step;
@@ -191,14 +185,14 @@ TObjEneMe1Canadin_EffLight::TObjEneMe1Canadin_EffLight(TObject *parent, s32 coun
     m_28 = (TObjEneMe1Canadin_EffLightVertex *)mem_alloc(m_1C << 5);
     m_2C = (TObjEneMe1Canadin_EffLightPoint *)mem_alloc(m_1C * 0x14);
     for (i = 0; i < m_1C; i++) {
-        m_2C[i].width = canadin_effect_zero;
+        m_2C[i].width = 0.0f;
         m_2C[i].color = 0;
-        m_2C[i].pos.x = canadin_effect_zero;
-        m_2C[i].pos.y = canadin_effect_zero;
-        m_2C[i].pos.z = canadin_effect_zero;
+        m_2C[i].pos.x = 0.0f;
+        m_2C[i].pos.y = 0.0f;
+        m_2C[i].pos.z = 0.0f;
     }
     m_30 = 0x30;
-    m_34 = canadin_light_width_decay;
+    m_34 = 0.85f;
 }
 
 void TObjEneMe1Canadin_EffDischarge::render() {}
@@ -211,7 +205,7 @@ void TObjEneMe1Canadin_EffDischarge::run_task() {
     s32 done;
 
     done = 0;
-    m_28 = m_28 + canadin_discharge_motion_scale;
+    m_28 += 20.0f;
     if (m_28 > m_34) {
         VecCopy(&m_50, &m_44);
         done = 1;
@@ -260,20 +254,20 @@ TObjEneMe1Canadin_EffDischarge::TObjEneMe1Canadin_EffDischarge(TObjEneMe1Canadin
     VecCopy(&m_44, to);
     VecCopy(&m_5C, &m_44);
     subtract_vector(&m_5C, &m_38);
-    m_5C.y = canadin_effect_zero;
+    m_5C.y = 0.0f;
     m_34 = normalize_vector_xz(&m_5C);
-    if (m_34 > canadin_discharge_motion_scale) {
-        m_2C = canadin_discharge_motion_scale;
+    if (m_34 > 20.0f) {
+        m_2C = 20.0f;
         m_30 = m_34 - m_2C;
     } else {
         m_2C = m_34;
-        m_30 = canadin_effect_zero;
+        m_30 = 0.0f;
     }
     m_24 = m_38.y;
     m_20 = (m_44.y - m_38.y) / (m_2C * m_2C);
-    m_28 = canadin_effect_zero;
-    m_5C.x *= canadin_discharge_motion_scale;
-    m_5C.z *= canadin_discharge_motion_scale;
+    m_28 = 0.0f;
+    m_5C.x *= 20.0f;
+    m_5C.z *= 20.0f;
     VecCopy(&m_50, &m_38);
 }
 
@@ -311,7 +305,7 @@ TObjEneMe1Canadin_EffLine::TObjEneMe1Canadin_EffLine(TObject *parent, Vec *from,
     VecCopy(&m_34, m_24);
     m_40 = 0xFFFF0033;
     m_44 = 0xFFFF0033;
-    m_1C = canadin_line_initial_phase_range * (canadin_random_scale.value * (f32)rand());
+    m_1C = 5.0f * (canadin_random_scale.value * (f32)rand());
 }
 
 extern "C" {
@@ -330,11 +324,5 @@ s32 __vt__30TObjEneMe1Canadin_EffDischarge[] = {
     (s32)run_task__30TObjEneMe1Canadin_EffDischargeFv,
     (s32)render__30TObjEneMe1Canadin_EffDischargeFv, (s32)render_shadows__7TObjectFv
 };
-__declspec(section ".sdata2") const f32 canadin_effect_negative_one = -1.0f;
-__declspec(section ".sdata2") const f32 canadin_effect_zero = 0.0f;
-__declspec(section ".sdata2") const f32 canadin_light_width_cutoff = 0.01f;
-__declspec(section ".sdata2") const f32 canadin_light_width_decay = 0.85f;
-__declspec(section ".sdata2") const f32 canadin_discharge_motion_scale = 20.0f;
-__declspec(section ".sdata2") const f32 canadin_line_initial_phase_range = 5.0f;
 __declspec(section ".sdata2") const CanadinRandomScale canadin_random_scale = {0.000030517578125f, 0};
 }

@@ -7,6 +7,7 @@
 #include "pso/network/NetworkTransport.h"
 #include "pso/network/NetworkMessageTransport.h"
 #include "pso/network/NetworkPacketPool.h"
+#include "pso/network/NetDhcp.h"
 #include "pso/network/TLobby_80428374.h"
 #include "pso/unk/text_80145A44.h"
 #include "pso/unk/text_803F4D84.h"
@@ -72,7 +73,7 @@ void fn_80147A68(void);
 void TLobby__sub_804073B8(void);
 s16 TLobby__sub_804150EC(void);
 s16 TLobby__sub_8042315C(s16, void *);
-extern s32 lobby_net_session_id;
+s32 lobby_net_session_id = -1;
 extern s32 TLobby__connect_pending_flags;
 extern s32 lobby_connect_active_flag;
 s32 TLobby__sub_801478C4(s32 arg0);

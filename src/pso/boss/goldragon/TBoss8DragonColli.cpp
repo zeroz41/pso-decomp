@@ -1,9 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/goldragon/TBoss8DragonColli_C.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/task/TObject.h"
 class TBoss8DragonColli : public TObject {
 public:
     virtual void render();
@@ -42,13 +44,12 @@ extern u8 boss8_collision_segment_desc[];
 extern s32 lbl_804E4BB4[];
 extern s32 lbl_805D4000;
 s32 init_collision_segments__17TBoss8DragonColliFiPviPvf(int arg0, void *arg1, int arg2, void *arg3, f32 scale);
-void queue_destruction__7TObjectFv(void *);
 }
 
 TBoss8DragonColli::~TBoss8DragonColli() {
     for (s32 index = 0; index < 3; ++index) {
         if (objects[index] != NULL) {
-            queue_destruction__7TObjectFv(objects[index]);
+            objects[index]->queue_destruction();
             objects[index] = NULL;
         }
     }

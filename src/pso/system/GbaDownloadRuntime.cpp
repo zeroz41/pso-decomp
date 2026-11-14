@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/GbaJoybootState.h"
 #include "pso/system/GbaDownloadRuntime.h"
 #include "pso/unk/TLobby_801F2D2C.h"
@@ -6,6 +7,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/render/TDLGraph.h"
 #include "pso/ui/Language.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 void TLobby__sub_8032CB6C(void);
@@ -28,7 +30,7 @@ extern u32 gba_download_data_size;
 
 void TLobby::destroy_singleton() {
     if ((u32) gba_download_graph != 0U) {
-        queue_destruction__7TObjectFv((void*)gba_download_graph);
+        ((TObject *)gba_download_graph)->queue_destruction();
         gba_download_graph = 0U;
     }
     *(s8 *)((s8 *)TLobby__data_805434A8 + 7) = 0;
@@ -146,8 +148,6 @@ void *memmove(void *, const void *, u32);
 s32 rand();
 void *memset(void *, int, u32);
 extern u8 *TLobby__gba_joyboot_send_buffer;
-extern const f32 lbl_805DF7A8;
-extern const f32 lbl_805DF7AC;
 s32 GBAJoyBootAsync(s32, s32, s32, u8 *, s32, u8 *, void (*)(s32, s32));
 extern s32 gba_joyboot_send_buffer;
 extern u8 gba_joyboot_status;
@@ -171,7 +171,7 @@ void TLobby__sub_8032C9A8(s32 arg0, s32 arg1) {
         if (arg1 != 0) {
             getDateStamp((DateStamp *)&ds);
             DateToSeconds((DateStamp *)&ds, (int *)&secs);
-            secs = lbl_805DF7A8 * (lbl_805DF7AC * rand()) + secs;
+            secs = 100.0f * (3.0517578e-05f * rand()) + secs;
             memmove(&rec.a, (void *)(st + 0x118), 4);
             memmove(&rec.b, &secs, 4);
             memmove(obj + 0x2C0, &rec, 8);

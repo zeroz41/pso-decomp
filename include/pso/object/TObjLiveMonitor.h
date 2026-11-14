@@ -14,17 +14,24 @@ public:
     static void *create(void *arg0);
 public:
     void update_camera();
+
+    s32 pad_1c;
+    s32 pad_20;
+    u32 camera_index; // name inferred: TObjLiveCameraCtrl::get_table_entry index the screen shows
+    s32 camera_timer; // name inferred: frames until fn_8030B370 picks another camera_index
 };
 
 class TObjLiveMonitor;
+void reset_live_camera_ctrl_globals(void); // inferred: clears the live camera controller slot and instance globals
+void release_live_camera_ctrl_globals(void);
 extern "C" {
 int TBoss8Dragon__sub_8030B80C(void);
 void *TObjLiveCamera__create(void *arg0);
 u8 *TObjLiveCamera__ct(u8 *arg0, s32 parent, s32 arg2);
-void TObjLiveCamera__sub_8030B630(void);
 void *__ct__15TObjLiveMonitorFv(void *arg0);
 void *__dt__14TObjLiveCameraFv(void *arg0, s16 arg1);
 int call_null__12TBoss8DragonFv(void);
+void fn_8030B370(TObjLiveMonitor *live_monitor);
 void fn_8030B7B4(void);
 void fn_8030B7B8(void);
 void render__14TObjLiveCameraFv(void);

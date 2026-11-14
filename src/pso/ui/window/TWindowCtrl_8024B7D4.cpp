@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowCtrl_8024B7D4.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -15,6 +16,7 @@
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/task/TObject.h"
 
 typedef struct Ctrl_8024B8A0 {
     u8 pad0[0x1E];
@@ -155,7 +157,7 @@ void TWindowCtrl::update_trade_request_window() {
 
     if ((is_trade_active() == 0) || (has_player_active_menu__11TWindowCtrlFv(local_client_id) != 0) || (is_slot_visible__11TWindowCtrlFv(local_client_id) != 0) || ((u32) this->m_3c != 0U) || (((u32) *(void * *)&this->m_38 != 0U) && (TWindowCtrl__sub_8024701C(*(void * *)&this->m_38) != 0))) {
         if ((u32) this->m_40 != 0U) {
-            queue_destruction__7TObjectFv(*(void * *)&this->m_40);
+            ((TObject *)(*(void * *)&this->m_40))->queue_destruction();
             this->m_40 = 0U;
         }
     } else if ((u32) this->m_40 == 0U) {
@@ -186,7 +188,7 @@ void TWindowCtrl::update_com_card_window() {
     if ((is_guild_card_receive_active() == 0) || (has_player_active_menu__11TWindowCtrlFv(local_client_id) != 0) || (is_slot_visible__11TWindowCtrlFv(local_client_id) != 0) || (TWindowCtrl::get_flag_bit5() != 0) || ((u32) this->m_40 != 0U) || ((temp_r3_2 = this->m_38, ((temp_r3_2 == 0U) == 0)) && (TWindowCtrl__sub_8024701C((void *)temp_r3_2) != 0))) {
         temp_r3_3 = this->m_3c;
         if (temp_r3_3 != 0U) {
-            queue_destruction__7TObjectFv((void *)temp_r3_3);
+            ((TObject *)temp_r3_3)->queue_destruction();
             this->m_3c = 0U;
         }
     } else if ((u32) this->m_3c == 0U) {

@@ -35,7 +35,7 @@ extern TObject *menu_font_object;
 void draw_menu_font_string(const char *s, s32 arg1, u32 flags, f32 x, f32 y, f32 scale);
 
 void TAdSinglePlyChrSelectGC::render_status_disp(f32 arg1, f32 arg2) {
-    draw_menu_font_string((const char *)this, -1, (u32)(0), (f32)arg1, (f32)arg2, (f32)0.5f);
+    draw_menu_font_string((const char *)this, -1, (u32)(0), (f32)arg1, (f32)arg2, 0.5f);
 }
 #pragma push
 #pragma fp_contract on

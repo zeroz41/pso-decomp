@@ -12,6 +12,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/ui/window/TWindowKeyBoardSoft.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -143,8 +145,6 @@ void TWindowKeyBoardSoft__sub_8025D8C8(KbSoft_8025D8C8 *self);
 void TWindowKeyBoardSoft__sub_8025DBDC(void *, s32);
 s32 dispatch_request_0f__19TWindowKeyBoardSoftFll(void *, void *);
 s32 dispatch_request_0x10__19TWindowKeyBoardSoftFll(void *, void *);
-s32 is_alpha_char__20TWindowSubStatusDispFUs(u16);
-void delete_chars__19TWindowKeyBoardSoftFll(void *, s32, s32);
 void fn_8025DE10(void *, void *);
 void TWindowSubStatusDisp__sub_8025E148(TWindowKeyBoardBase *, TWindowKeyBoardSoft *, f32 *, u16 *, u32);
 void TWindowSubStatusDisp__sub_8025E530(TWindowKeyBoardBase *, TWindowKeyBoardSoft *, f32 *, u16 *, u32, s32);
@@ -448,7 +448,7 @@ void TWindowKeyBoardSoft::write_name_and_text(char *name, char *text) {
 #pragma optimization_level 2
 s32 TWindowKeyBoardSoft__sub_8025D544(void *arg0, s32 *name, s8 *text) {
     s32 name_len = strnlen__19TWindowKeyBoardSoftFPScUl(name, 0x100);
-    s32 text_len = strnlen__19TWindowKeyBoardSoftFPScUl(text, 0x100);
+    s32 text_len = TWindowKeyBoardSoft::strnlen(text, 0x100);
     s32 room = 0x94 - (((KbSoft_8025D47C *)arg0)->buf - ((KbSoft_8025D47C *)arg0)->base);
 
     room -= 3;
@@ -689,7 +689,7 @@ void TWindowKeyBoardSoft__sub_8025DBDC(void *arg0, s32 arg1) {
     lim = cnt;
     n = 0;
     if ((s32)cnt > 4) lim = 4;
-    while (is_alpha_char__20TWindowSubStatusDispFUs(*p) != 0) { lim--; p--; n++; if (lim <= 0) break; }
+    while (TWindowSubStatusDisp::is_alpha_char(*p) != 0) { lim--; p--; n++; if (lim <= 0) break; }
     p++; j = 0;
     while (j < n) { out[j] = (u8)*p; j++; p++; }
     out[j] = 0;
@@ -722,7 +722,7 @@ void TWindowKeyBoardSoft__sub_8025DBDC(void *arg0, s32 arg1) {
             dst++;
         }
         s32 m = (n + 1) - bytes;
-        delete_chars__19TWindowKeyBoardSoftFll((s8 *)self + 0x84, self->count - m, m);
+        ((TWindowKeyBoardSoft *)((s8 *)self + 0x84))->delete_chars(self->count - m, m);
         self->count = self->count - m;
         break;
     }

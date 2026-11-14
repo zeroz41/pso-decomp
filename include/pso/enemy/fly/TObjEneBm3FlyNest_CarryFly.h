@@ -10,7 +10,7 @@
 // target and bursts there. Field names are inferred from run_task/render/the ctor.
 class TObjEneBm3FlyNest_CarryFly : public TObject {
 public:
-    TObjEneBm3FlyNest_CarryFly(TObject *parent, s32 a, s32 b, s32 unused, s32 c, s32 d);
+    TObjEneBm3FlyNest_CarryFly(TObject *parent, Vec *origin, Vec *target, Vec *unused, s32 *arrived, s32 index);
     virtual ~TObjEneBm3FlyNest_CarryFly();
     virtual void run_task();
     virtual void render();

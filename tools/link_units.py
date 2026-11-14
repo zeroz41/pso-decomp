@@ -383,7 +383,12 @@ def section_size_mismatch(u: dict) -> list[str]:
         # records both parts, and MWLD drops the superseded one. Never
         # discount arbitrary uncovered bytes.
         b[".text"] -= mwcat_discarded_text_bytes(obj)
-    starts = {x["name"]: int((x.get("metadata") or {}).get("virtual_address") or -1)
+    for section, size in unreferenced_weak_object_bytes(obj).items():
+        if section in b:
+            b[section] -= size
+            if not b[section]:
+                del b[section]
+    starts ={x["name"]: int((x.get("metadata") or {}).get("virtual_address") or -1)
               for x in u.get("sections") or []}
     return sorted(f"{s}:{a.get(s, 0)}!={b.get(s, 0)}" for s in set(a) | set(b)
                   if a.get(s, 0) != b.get(s, 0)
@@ -482,6 +487,10 @@ def _is_alignment_pad(split: Path, section: str, start: int, split_size: int, si
     if split_size - size < 8 and end % 8 == 0:
         return tail is None or not any(tail[size:])
     alignment = _following_section_alignment(section, end)
+    if split_size - size < 8:
+        # A partial claim can end inside a TU's pool, before a 4-aligned object.
+        return (alignment is not None and alignment >= 4 and (tail is None or not any(tail[size:]))
+                and ((start + size + alignment - 1) & -alignment) == end)
     if alignment is None or alignment <= 8 or tail is None or any(tail[size:]):
         return False
     return ((start + size + alignment - 1) & -alignment) == end
@@ -521,6 +530,38 @@ def elf_function_sizes(path: Path, local: bool = False) -> dict[str, int]:
             name_off, st_size, info, shndx = be(o), be(o + 8), b[o + 12], be(o + 14, 2)
             if (info >> 4 in (1, 2) or local) and info & 0xF == 2 and 0 < shndx < 0xFF00:
                 out[strtab[name_off:strtab.index(b"\0", name_off)].decode()] = st_size
+    return out
+
+
+def unreferenced_weak_object_bytes(path: Path) -> dict[str, int]:
+    """{section: bytes} of WEAK data objects that no relocation in the object
+    references and the DOL does not name: the local statics of an SDK inline
+    the unit never calls (math.h sqrtf's _half/_three). mwld dead-strips them."""
+    b = path.read_bytes()
+    if b[:4] != b"\x7fELF":
+        return {}
+    be = lambda o, n=4: int.from_bytes(b[o:o + n], "big")
+    shoff, shentsize, shnum, shstrndx = be(0x20), be(0x2E, 2), be(0x30, 2), be(0x32, 2)
+    hdrs = [(be(shoff + i * shentsize), be(shoff + i * shentsize + 4),
+             be(shoff + i * shentsize + 16), be(shoff + i * shentsize + 20),
+             be(shoff + i * shentsize + 24)) for i in range(shnum)]  # name, type, off, size, link
+    shstr = b[hdrs[shstrndx][2]:hdrs[shstrndx][2] + hdrs[shstrndx][3]]
+    referenced = {be(o + 4) >> 8 for _, typ, off, size, _ in hdrs if typ == 4  # SHT_RELA
+                  for o in range(off, off + size, 12)}
+    dol = _dol_symbol_names()
+    out: dict[str, int] = {}
+    for _, typ, off, size, link in hdrs:
+        if typ != 2:
+            continue
+        strtab = b[hdrs[link][2]:hdrs[link][2] + hdrs[link][3]]
+        for i, o in enumerate(range(off, off + size, 16)):
+            name_off, st_size, info, shndx = be(o), be(o + 8), b[o + 12], be(o + 14, 2)
+            if info >> 4 != 2 or info & 0xF != 1 or not 0 < shndx < 0xFF00 or i in referenced:
+                continue
+            if strtab[name_off:strtab.index(b"\0", name_off)].decode() in dol:
+                continue
+            sec_name = shstr[hdrs[shndx][0]:shstr.index(b"\0", hdrs[shndx][0])].decode()
+            out[sec_name] = out.get(sec_name, 0) + st_size
     return out
 
 

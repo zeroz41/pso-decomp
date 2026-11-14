@@ -30,6 +30,11 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/unk/TLobby.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 f32 random_ratio__9TObjCharaFv(s32);
@@ -279,7 +284,6 @@ f32 horizontal_distance_squared(int, void *);
 u16 find_nearest_visible_player(void *, int, f32);
 s32 check_path_obstructed(void *, void *);
 u8 *get_player_data__10TObjPlayerFi(s32);
-s32 obj_testFlags30__14TObjCollidableFUl(void *, int);
 s32 get_entity_id(void *);
 s32 get_current_floor();
 u32 csnVector(void *, void *, int);
@@ -310,11 +314,9 @@ f32 newton_sqrtf(f32);
 extern s32 local_client_id;
 extern s32 lbl_805D5868;
 
-s32 get_camera_mode__11TCameraCtrlFv();
 s32 update__15RenderFadeStateFv(void *, s32, s32, s32);
 s32 restore_scene_lighting(s32, s32);
 s32 select_actor_lighting(void *);
-s32 defer_render__7TObjectFv(void *);
 s32 translate_matrix(s32, f32, f32, f32);
 
 s32 draw_chunk_object(s32);
@@ -654,7 +656,7 @@ void TObjEneMoja::render() {
     s32 id;
     cam = 0;
     if (is_split_screen() != 0) {
-        cam = get_camera_mode__11TCameraCtrlFv();
+        cam = TCameraCtrl::get_camera_mode();
     }
     vis = ((Ene_800AF080 *)this)->m9(250.0f, 500.0f, 30.0f);
     if (vis == 0) {
@@ -672,7 +674,7 @@ void TObjEneMoja::render() {
     draw = 1;
     if (((RenderFadeState *)fade)->updateFromCamera((const f32 *)&position) == 1) {
         fade->m6();
-        if (defer_render__7TObjectFv(this) != 0) {
+        if (defer_render() != 0) {
             draw = 0;
         } else {
             model_render_flags &= ~1;
@@ -732,7 +734,7 @@ void TObjEneMoja::vfunc_28() {
     u8 *q;
     u16 tid;
     if (appearance != 1 && ((mode != 0 && target == NULL) || is_actor_cadence_frame(0x1E) != 0)) {
-        if (obj_testFlags30__14TObjCollidableFUl(this, 0x10) != 0) {
+        if (obj_testFlags30(0x10) != 0) {
             i = 0;
             best_id = 0xFFFF;
             Vec_800AEE54 v = { 0.0f, 0.0f, 0.0f };
@@ -927,7 +929,7 @@ void TObjEneMoja::update_appearance_jump() {
         }
         phase = 2;
         for (i = 0; i < lbl_805D5868; i++) {
-            p = (VObj_800AE7F4 *)get_player_data__10TObjPlayerFi(i);
+            p = (VObj_800AE7F4 *)TObjPlayer::get_player_data(i);
             if (p == NULL) {
                 break;
             }
@@ -1007,7 +1009,7 @@ void TObjEneMoja::update_appearance_drop() {
         }
         phase = 2;
         for (i = 0; i < lbl_805D5868; i++) {
-            p = (VObj_800AE450 *)get_player_data__10TObjPlayerFi(i);
+            p = (VObj_800AE450 *)TObjPlayer::get_player_data(i);
             if (p == NULL) {
                 break;
             }
@@ -1237,7 +1239,7 @@ s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
             TObjPlayer::play_effect_if_v2(-0x300);
         }
         if (((TObjMotion *)arg0)->is_passing_frame(12.0f) != 0) {
-            t = obj_testFlags30__14TObjCollidableFUl(arg0, 0x10);
+            t = ((TObjCollidable *)arg0)->obj_testFlags30(0x10);
             n = registered_player_count;
             if (t != 0) {
                 n += lbl_805D5870;
@@ -1699,7 +1701,7 @@ void TObjEneMoja::select_rare_variant() {
         return;
     }
     if (temp_r0 <= 0) {
-        if (random_ratio__9TObjCharaFv((s32) arg0) < 0.002f) {
+        if (((TObjChara *)arg0)->random_ratio() < 0.002f) {
             (this->variant) = 1;
             ((TObjEnemy *)arg0)->set_param(2);
             ((TObjEneMoja *)arg0)->bindModel(2);

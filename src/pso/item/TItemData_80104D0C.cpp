@@ -4,6 +4,7 @@
 #include "pso/unk/text_80104F4C.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/TItem.h"
+#include "pso/item/TItemData.h"
 
 struct ObjBase_80104DAC { u8 pad[0x18]; };
 
@@ -34,14 +35,12 @@ struct Rec_80104DAC { u8 pad0[6]; u8 b6; u8 b7; u8 b8; u8 b9; u8 bA; u8 bB; u8 b
 extern "C" {
 s32 get_actor_section_id__15TPlyPhotonChairFv(void *);
 s32 check_equip_requirements(void *, void *, int);
-void deserialize_mag__9TItemDataFPvPv(void *, void *);
 void init__9TItemDataFv(void *);
 Rec_80104DAC *find_item_combination_recipe(u8 *, void *);
-s32 is_wrapped__9TItemDataFPv(u8 *);
 void *lookup_item_pmt_record(u8 *);
 
 u8 TItemData::is_item_usable(s32 arg0, u8 *item) {
-    if (is_wrapped__9TItemDataFPv(item) != 0) {
+    if (TItemData::is_wrapped(item) != 0) {
         return 1U;
     }
     if ((u8) *item == 3) {
@@ -77,7 +76,7 @@ s32 find_eligible_combination_recipe(s32 arg0, u8 *item) {
                 return 0;
             }
             ((MagStats *)(&mag))->init();
-            deserialize_mag__9TItemDataFPvPv(&d, &mag);
+            TItemData::deserialize_mag(&d, &mag);
             m = rec->b9;
             if (((MagStats *)(&mag))->get_level() < m) {
                 return 0;

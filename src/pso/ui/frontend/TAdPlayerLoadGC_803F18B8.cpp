@@ -11,37 +11,64 @@
 struct CardInfo_803F31D8 { s32 state; s32 mem_size; s32 sector_size; };
 
 extern "C" {
-extern s32 lbl_805D7940;
 void *CARDGetDiskID(s32);
 s32 CARDSetDiskID(s32, void *);
-extern void *saved_card_disk_id;
-extern u8 lbl_805E10EC[4];
-extern u8 lbl_805E10F4[2];
+// memory-card library version banner
+static const char *const mcfs_version = "\nmcFsGc Ver 1.10.00 Build:Sep 17 2002 20:22:41\n";
+// inferred: the DVDDiskID gameName/company pair CARDSetDiskID is given in place of the disk's own
+static const char card_game_name[] = "G9AE";
+static const char card_company[] = "8P";
 u8 card_disk_id[0x20];
 CardRequestSlot TAdPlayerLoadGC__load_request_slots[2];
 CardFileEntry card_open_files[100];
 CardInfo_803F31D8 card_slot_info[4];
 
-extern s32 player_load_channel_flags;
+s32 player_load_channel_flags[2] = {0, 0};
+// inferred: set to 1 by the init function (TAdPlayerLoadGC__sub_803F31D8) and checked first by every entry point
+extern s32 card_lib_state;
+// inferred: re-entrancy count of the card poll (TAdPlayerLoadGC__sub_803F2F1C), raised on entry, dropped on exit
+extern u8 card_poll_depth;
+// inferred: called when a slot's probe turns ready (0), with the card's sizes
+extern void (*card_attach_callback)(s32, s32, s32);
+// inferred: called when a ready slot's probe turns to no card (-3), with the sizes it had
+extern void (*card_detach_callback)(s32, s32, s32);
+extern void *saved_card_disk_id;
+// inferred: the init function stores the version banner pointer here
+extern const char *mcfs_version_ref;
 
 s32 TAdPlayerLoadGC::get_or_set_channel_flag(s32 arg0, s32 arg1) {
     if (((arg0 != 0) && (arg0 != 1)) || (arg1 < 0) || (arg1 > 2)) {
         return 0;
     }
     if (arg1 != 2) {
-        (&player_load_channel_flags)[arg0] = arg1;
+        player_load_channel_flags[arg0] = arg1;
     }
-    return (&player_load_channel_flags)[arg0];
+    return player_load_channel_flags[arg0];
 }
 
 s32 TAdPlayerLoadGC::get_load_state() {
-    return lbl_805D7940;
+    return card_lib_state;
 }
 extern void *lbl_805D7960;
-// "%4d/%02d/%02d %02d:%02d:%02d" (.rodata, outside this unit's split)
-extern const char lbl_8047FD08[];
+
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(4)
+// inferred: fills the game name and company that card files are matched against
+// (CARDStat.gameName/company below): the card's disk id, or the fixed card_game_name/
+// card_company codes when the channel flag says the disk id is overridden.
+static inline void get_game_name_and_company(s32 card_channel, u8 *game_name, u8 *company) {
+    if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) != 1) {
+        u8 *disk_id = (u8 *)CARDGetDiskID(card_channel);
+        memcpy(game_name, disk_id, 4);
+        memcpy(company, disk_id + 4, 2);
+    } else {
+        memcpy(game_name, card_game_name, 4);
+        memcpy(company, card_company, 2);
+    }
+}
+
 void TAdPlayerLoadGC__sub_803F1908(s32 card_channel) {
-    u8 *disk_id;
     s32 i;
     s32 found;
     CARDStat stat;
@@ -99,23 +126,16 @@ void TAdPlayerLoadGC__sub_803F1908(s32 card_channel) {
             if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1) {
                 saved_card_disk_id = CARDGetDiskID(card_channel);
                 memcpy(card_disk_id, saved_card_disk_id, 0x20);
-                memcpy(card_disk_id, lbl_805E10EC, 4);
-                memcpy(card_disk_id + 4, lbl_805E10F4, 2);
+                memcpy(card_disk_id, card_game_name, 4);
+                memcpy(card_disk_id + 4, card_company, 2);
                 CARDSetDiskID(card_channel, card_disk_id);
             }
-            if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) != 1) {
-                disk_id = (u8 *)CARDGetDiskID(card_channel);
-                memcpy(game_name, disk_id, 4);
-                memcpy(company, disk_id + 4, 2);
-            } else {
-                memcpy(game_name, lbl_805E10EC, 4);
-                memcpy(company, lbl_805E10F4, 2);
-            }
+            get_game_name_and_company(card_channel, game_name, company);
             found = 0;
             for (i = 0; i < 127; i++) {
                 if (CARDGetStatus(card_channel, i, &stat) >= 0) {
                     OSTicksToCalendarTime(stat.time * (__OSBusClock / 4), &ct);
-                    sprintf(date, lbl_8047FD08, ct.year, ct.mon + 1, ct.mday, ct.hour, ct.min, ct.sec);
+                    sprintf(date, "%4d/%02d/%02d %02d:%02d:%02d", ct.year, ct.mon + 1, ct.mday, ct.hour, ct.min, ct.sec);
                     if (strcmp(stat.fileName, TAdPlayerLoadGC__load_request_slots[card_channel].name) == 0 &&
                         memcmp(stat.gameName, game_name, 4) == 0 && memcmp(stat.company, company, 2) == 0) {
                         found = 1;
@@ -140,6 +160,7 @@ void TAdPlayerLoadGC__sub_803F1908(s32 card_channel) {
         return;
     }
 }
+#pragma pop
 
 void TAdPlayerLoadGC::step_set_attributes(s32 card_channel) {
 
@@ -149,8 +170,8 @@ void TAdPlayerLoadGC::step_set_attributes(s32 card_channel) {
         if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(card_channel);
             memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, lbl_805E10EC, 4);
-            memcpy(card_disk_id + 4, lbl_805E10F4, 2);
+            memcpy(card_disk_id, card_game_name, 4);
+            memcpy(card_disk_id + 4, card_company, 2);
             CARDSetDiskID(card_channel, card_disk_id);
         }
         TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDSetAttributesAsync(card_channel, TAdPlayerLoadGC__load_request_slots[card_channel].file_no, TAdPlayerLoadGC__load_request_slots[card_channel].attr, 0);
@@ -191,8 +212,8 @@ void TAdPlayerLoadGC::update_card_delete(s32 card_channel) {
         if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(card_channel);
             memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, lbl_805E10EC, 4);
-            memcpy(card_disk_id + 4, lbl_805E10F4, 2);
+            memcpy(card_disk_id, card_game_name, 4);
+            memcpy(card_disk_id + 4, card_company, 2);
             CARDSetDiskID(card_channel, card_disk_id);
         }
         TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDDeleteAsync(card_channel, TAdPlayerLoadGC__load_request_slots[card_channel].name, 0);
@@ -232,8 +253,8 @@ void TAdPlayerLoadGC::update_card_rename(s32 card_channel) {
         if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(card_channel);
             memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, lbl_805E10EC, 4);
-            memcpy(card_disk_id + 4, lbl_805E10F4, 2);
+            memcpy(card_disk_id, card_game_name, 4);
+            memcpy(card_disk_id + 4, card_company, 2);
             CARDSetDiskID(card_channel, card_disk_id);
         }
         TAdPlayerLoadGC__load_request_slots[card_channel].result = CARDRenameAsync(card_channel, TAdPlayerLoadGC__load_request_slots[card_channel].name, TAdPlayerLoadGC__load_request_slots[card_channel].new_name, 0);
@@ -287,8 +308,8 @@ void TAdPlayerLoadGC__sub_803F2240(s32 file) {
         if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(id);
             memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, lbl_805E10EC, 4);
-            memcpy(card_disk_id + 4, lbl_805E10F4, 2);
+            memcpy(card_disk_id, card_game_name, 4);
+            memcpy(card_disk_id + 4, card_company, 2);
             CARDSetDiskID(id, card_disk_id);
         }
         {
@@ -339,8 +360,8 @@ void TAdPlayerLoadGC__sub_803F2240(s32 file) {
         if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(id);
             memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, lbl_805E10EC, 4);
-            memcpy(card_disk_id + 4, lbl_805E10F4, 2);
+            memcpy(card_disk_id, card_game_name, 4);
+            memcpy(card_disk_id + 4, card_company, 2);
             CARDSetDiskID(id, card_disk_id);
         }
         {
@@ -415,8 +436,8 @@ void TAdPlayerLoadGC__sub_803F2610(s32 file) {
         if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(id);
             memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, lbl_805E10EC, 4);
-            memcpy(card_disk_id + 4, lbl_805E10F4, 2);
+            memcpy(card_disk_id, card_game_name, 4);
+            memcpy(card_disk_id + 4, card_company, 2);
             CARDSetDiskID(id, card_disk_id);
         }
         {
@@ -491,8 +512,8 @@ void TAdPlayerLoadGC__sub_803F282C(s32 file) {
         if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(id);
             memcpy(card_disk_id, saved_card_disk_id, 0x20);
-            memcpy(card_disk_id, lbl_805E10EC, 4);
-            memcpy(card_disk_id + 4, lbl_805E10F4, 2);
+            memcpy(card_disk_id, card_game_name, 4);
+            memcpy(card_disk_id + 4, card_company, 2);
             CARDSetDiskID(id, card_disk_id);
         }
         res = CARDOpen(*channel, TAdPlayerLoadGC__load_request_slots[*channel].name, &((CardFileEntry *)((u8 *)card_open_files + off))->file_info);
@@ -565,8 +586,8 @@ void TAdPlayerLoadGC__sub_803F2A4C(s32 file) {
     {
       saved_card_disk_id = CARDGetDiskID(id);
       memcpy(card_disk_id, saved_card_disk_id, 0x20);
-      memcpy(card_disk_id, lbl_805E10EC, 4);
-      memcpy(card_disk_id + 4, lbl_805E10F4, 2);
+      memcpy(card_disk_id, card_game_name, 4);
+      memcpy(card_disk_id + 4, card_company, 2);
       CARDSetDiskID(id, card_disk_id);
     }
       res = CARDCreateAsync(*channel, TAdPlayerLoadGC__load_request_slots[*channel].name, TAdPlayerLoadGC__load_request_slots[*channel].length, &((CardFileEntry *)((u8 *)card_open_files + off))->file_info, 0);
@@ -728,10 +749,6 @@ void TAdPlayerLoadGC__sub_803F2D20(s32 card_channel) {
     }
 }
 
-extern u8 lbl_805D7944;
-extern void (*lbl_805D7948)(s32, s32, s32);
-extern void (*lbl_805D794C)(s32, s32, s32);
-
 s32 TAdPlayerLoadGC__sub_803F2F1C(void) {
     s32 i;
     s32 result;
@@ -739,13 +756,13 @@ s32 TAdPlayerLoadGC__sub_803F2F1C(void) {
     s32 sector_size;
     BOOL enabled;
 
-    if (lbl_805D7940 < 1) {
+    if (card_lib_state < 1) {
         return -1;
     }
-    if (lbl_805D7944 != 0) {
+    if (card_poll_depth != 0) {
         return 0;
     }
-    lbl_805D7944++;
+    card_poll_depth++;
     for (i = 0; i < 2; i++) {
         result = CARDProbeEx(i, &mem_size, &sector_size);
         switch (result) {
@@ -765,9 +782,9 @@ s32 TAdPlayerLoadGC__sub_803F2F1C(void) {
                     card_slot_info[i].state = result;
                     card_slot_info[i].mem_size = 0;
                     card_slot_info[i].sector_size = 0;
-                    if (lbl_805D794C != NULL) {
+                    if (card_detach_callback != NULL) {
                         enabled = OSDisableInterrupts();
-                        lbl_805D794C(i, mem_size, sector_size);
+                        card_detach_callback(i, mem_size, sector_size);
                         OSRestoreInterrupts(enabled);
                     }
                 }
@@ -788,9 +805,9 @@ s32 TAdPlayerLoadGC__sub_803F2F1C(void) {
                 card_slot_info[i].state = result;
                 card_slot_info[i].mem_size = mem_size;
                 card_slot_info[i].sector_size = sector_size;
-                if (lbl_805D7948 != NULL) {
+                if (card_attach_callback != NULL) {
                     enabled = OSDisableInterrupts();
-                    lbl_805D7948(i, card_slot_info[i].mem_size, card_slot_info[i].sector_size);
+                    card_attach_callback(i, card_slot_info[i].mem_size, card_slot_info[i].sector_size);
                     OSRestoreInterrupts(enabled);
                 }
             }
@@ -830,27 +847,22 @@ s32 TAdPlayerLoadGC__sub_803F2F1C(void) {
             break;
         }
     }
-    lbl_805D7944--;
+    card_poll_depth--;
     return 0;
 }
 
 s32 TAdPlayerLoadGC__sub_803F31BC(void) {
-    if (lbl_805D7940 == 0) {
+    if (card_lib_state == 0) {
         return -1;
     }
     return 0;
 }
 
-// lbl_8047FCD8: "mcFsGc Ver 1.10.00 Build:Sep 17 2002 20:22:41" (memory-card library version banner)
-extern const char lbl_8047FCD8[];
-static const char *const lbl_805E10E8 = lbl_8047FCD8;
-extern const char *lbl_805D7954;
-
 s32 TAdPlayerLoadGC__sub_803F31D8(void *work_area) {
     s32 i;
 
-    lbl_805D7954 = lbl_805E10E8;
-    if (lbl_805D7940 > 0) {
+    mcfs_version_ref = mcfs_version;
+    if (card_lib_state > 0) {
         return -1;
     }
     if (work_area == NULL) {
@@ -864,9 +876,9 @@ s32 TAdPlayerLoadGC__sub_803F31D8(void *work_area) {
         TAdPlayerLoadGC::reset_slot_entry(i);
     }
     lbl_805D7960 = work_area;
-    lbl_805D7948 = NULL;
-    lbl_805D794C = NULL;
-    lbl_805D7940 = 1;
+    card_attach_callback = NULL;
+    card_detach_callback = NULL;
+    card_lib_state = 1;
     memset(card_open_files, 0, sizeof(card_open_files));
     return 0;
 }

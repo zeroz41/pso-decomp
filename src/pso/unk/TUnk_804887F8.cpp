@@ -14,8 +14,10 @@ struct Stack_80067AB0 {
     f32 sp10;
 };
 
-struct RecoveredGlobal_80067AB0_lbl_80438150 { s32 value; u8 remaining[0x14]; };
-typedef char RecoveredGlobal_80067AB0_lbl_80438150_size[sizeof(RecoveredGlobal_80067AB0_lbl_80438150) == 0x18 ? 1 : -1];
+const Vec camera_ctrl_default_offset_vecs[2] = {
+    {0.0f, 25.43f, 45.42f},
+    {0.0f, 30.0f, 40.0f},
+};
 
 struct Stack_8006786C {
     f32 sp8;
@@ -25,7 +27,6 @@ struct Stack_8006786C {
 
 extern "C" {
 f32 vector_length(void *);
-extern RecoveredGlobal_80067AB0_lbl_80438150 camera_ctrl_default_offset_vecs;
 extern u8 *camera_ctrl_instance;
 void normalize_vector(void *);
 void __dl__7TObjectFPv(void *);
@@ -124,7 +125,7 @@ void TUnk_804887F8::update_follow_flags() {
     this->m_e8 = 0.0f;
     *(f32 *)((s8 *)arg0 + 0xEC) = 19.8f;
     this->m_f0 = -5.0f;
-    VecCopy((Vec *)(arg0 + 0xDC), (const Vec *)(&camera_ctrl_default_offset_vecs.value));
+    VecCopy((Vec *)(arg0 + 0xDC), &camera_ctrl_default_offset_vecs[0]);
 }
 
 void *TCameraCtrl__vt12(void) {

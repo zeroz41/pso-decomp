@@ -142,7 +142,6 @@ void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
 s32 TObjPlayer__sub_800A04F0(void *);
-#define step_angle_clamped__10TObjPlayerFPvi ((s32 (*)(void*, int))(step_angle_clamped__10TObjPlayerFPvi))
 struct VDisp_800a42c4_800A4288 { char pad[0x18]; virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(void *, void *); };
 
 void TObjPlayer__sub_800A42C0(void);
@@ -466,7 +465,6 @@ void TObjEneSaver::update_entry_motion() {
 }
 }
 
-#undef step_angle_clamped__10TObjPlayerFPvi
 
 typedef struct Vec_800A48C4 {
     f32 x, y, z;
@@ -501,9 +499,6 @@ s32 angle_difference_abs(s32, s32);
 u8 *get_player_by_client_id(s32);
 s32 subtract_vector(void *, void *);
 void update_knockback_state__12TObjEneSaverFv(u8 *arg0);
-#define step_angle_clamped__10TObjPlayerFPvi ((s32 (*)(void*, s32))(step_angle_clamped__10TObjPlayerFPvi))
-#define submit_cursor_candidate ((s32 (*)(void*, s32))(submit_cursor_candidate))
-#define minimap_render_dot ((s32 (*)(void*, s32, s32, s32))(minimap_render_dot))
 
 void TObjEneSaver::update_knockback_state() {
 
@@ -571,9 +566,6 @@ void TObjEneSaver::vfunc_62() {
 
 }
 
-#undef step_angle_clamped__10TObjPlayerFPvi
-#undef submit_cursor_candidate
-#undef minimap_render_dot
 
 struct Base14 { char pad[0x14]; };
 
@@ -690,14 +682,9 @@ s32 calc_velocity_toward_destination(void *, Vec_800A5DC4, Vec_800A5DC4, f32);
 s32 get_current_floor();
 s32 get_floor__10TObjPlayerFv(void *);
 f32 newton_sqrtf(f32);
-#define step_angle_clamped__10TObjPlayerFPvi ((s32 (*)(void*, int))(step_angle_clamped__10TObjPlayerFPvi))
 u8 *get_enemy_entity(u16);
 
-#define get_player_by_client_id ((u8* (*)(u16))(get_player_by_client_id))
-#define play_sound_effect ((s32 (*)(int, void*, int, int))(play_sound_effect))
-#define mult_vec_array__10TObjPlayerFUll ((s32 (*)(int, s32, void*, int))(mult_vec_array__10TObjPlayerFUll))
 void TObjPlayer__sub_800A54B4(u8 *arg0);
-#define apply_lookup_entry_effect__12TObjEneSaverFv ((s32 (*)(void*))(apply_lookup_entry_effect__12TObjEneSaverFv))
 s32 check_path_obstructed(void *, void *);
 s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 u16 get_entity_id(void *);
@@ -970,7 +957,6 @@ struct Pl_800A5154 {
     VCb_800A5154 *cb;
 };
 
-#define calc_move_state__12TObjEneSaverFv ((s32 (*)(void*))(calc_move_state__12TObjEneSaverFv))
 #define o ((Pl_800A5154 *)arg0)
 void TObjPlayer__sub_800A5154(void *arg0) {
     Vec_800A5154 w;
@@ -1386,12 +1372,6 @@ void TObjEneSaver::advance_motion_state() {
 
 #undef atan2_float
 #undef turn_toward_target__12TObjEneSaverFv
-#undef step_angle_clamped__10TObjPlayerFPvi
-#undef get_player_by_client_id
-#undef play_sound_effect
-#undef mult_vec_array__10TObjPlayerFUll
-#undef apply_lookup_entry_effect__12TObjEneSaverFv
-#undef calc_move_state__12TObjEneSaverFv
 
 struct VBase800A64E8_800a64e8_800A4288 { char pad[0x14]; };
 struct VObj800A64E8_800a64e8_800A4288 : VBase800A64E8_800a64e8_800A4288 {
@@ -1462,7 +1442,6 @@ struct Obj_800A677C : VObj_800A677C {
 extern "C" {
 s32 rotate_matrix_x(int, void *);
 extern RecoveredGlobal_800A6BE0_lbl_804FF5E8 lbl_804FF5E8;
-#define subtract_vector ((f32 (*)(void*, void*))(subtract_vector))
 s32 angle_diff_s16(s32, s32);
 void step_angle_clamped__10TObjPlayerFPvi(void *arg0, s32 arg1);
 void turn_toward_target__12TObjEneSaverFv(Obj_800A6B14 *self);
@@ -1473,7 +1452,6 @@ void turn_toward_target__12TObjEneSaverFv(Obj_800A6B14 *self);
 void TObjPlayer__sub_800A49B4(TObjEneSaver *self);
 #define update_move_toward_target__12TObjEneSaverFv ((s32 (*)(void*))(update_move_toward_target__12TObjEneSaverFv))
 #define advance_motion_state__12TObjEneSaverFv ((s32 (*)(void*))(advance_motion_state__12TObjEneSaverFv))
-#define sub_800A62D4__12TObjEneSaverFv ((s32 (*)(void*))(sub_800A62D4__12TObjEneSaverFv))
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
 extern s32 actor_frame_tick;
 
@@ -1490,10 +1468,8 @@ extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 
 #define get_player_data__10TObjPlayerFi ((u8* (*)(s32))(get_player_data__10TObjPlayerFi))
-#define obj_testFlags30__14TObjCollidableFUl ((s32 (*)(void*, int))(obj_testFlags30__14TObjCollidableFUl))
 #define get_entity_id ((s32 (*)(void*))(get_entity_id))
 #define get_floor__10TObjPlayerFv ((s32 (*)(int))(get_floor__10TObjPlayerFv))
-#define get_player_by_client_id ((u8* (*)(u16))(get_player_by_client_id))
 void * create_ene_saver(void *arg0);
 void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
@@ -1564,7 +1540,6 @@ struct VObj62D4 : VBase62D4 {
 };
 
 
-#undef sub_800A62D4__12TObjEneSaverFv
 void TObjEneSaver::sub_800A62D4() {
     s16 temp_r4_2;
 
@@ -2172,7 +2147,6 @@ void TObjEneSaver::sub_800A7734(s32 i) {
 }
 
 }
-#undef subtract_vector
 #undef TObjPlayer__sub_800A42C0
 #undef sub_800A435C__12TObjEneSaverFv
 #undef update_entry_motion__12TObjEneSaverFv
@@ -2181,7 +2155,5 @@ void TObjEneSaver::sub_800A7734(s32 i) {
 #undef advance_motion_state__12TObjEneSaverFv
 #undef sub_800A62D4__12TObjEneSaverFv
 #undef get_player_data__10TObjPlayerFi
-#undef obj_testFlags30__14TObjCollidableFUl
 #undef get_entity_id
 #undef get_floor__10TObjPlayerFv
-#undef get_player_by_client_id

@@ -1,7 +1,9 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/RenderFadeState.h"
 #include "pso/system/vector.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
@@ -31,6 +33,8 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/system/task/TObject.h"
+#include "pso/object/container/TObjContainerJungEx.h"
 
 #pragma readonly_strings on
 
@@ -114,7 +118,6 @@ struct Obj_8018CB44 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x62]; u32 f80; s32 f84; }
 struct Pkt_8018CB44 { u16 a; u16 b; s32 c; s32 d; s32 e; };
 
 extern "C" {
-void queue_destruction__7TObjectFv(void *arg0);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 local_client_id;
 
@@ -125,13 +128,13 @@ void TObjContainerJungEnemy::vfunc_6(s16 *arg1, s32 arg2) {
             ((TObjContainerJungEnemy *)arg0)->vfunc_79();
             ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
             ((TObjCollidable *)arg0)->set_flag8();
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
             this->mode = 1;
         }
     } else if ((s16) *arg1 == 1) {
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
         ((TObjCollidable *)arg0)->set_flag8();
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         this->mode = 1;
     }
 }
@@ -149,7 +152,7 @@ struct Obj_8018C9F0 {
     s32 f370;
 };
 
-u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
+u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 }
 void play_container_break_sound(s32 arg0);
 
@@ -188,11 +191,11 @@ void TObjContainerJungEnemy__vt77(const Obj_8018C9F0 *self) {
         spawn_particle_effect_with_flags((void *)&self->pos, 0x46, 0x40);
         void *o = __nw__7TObjectFUl(0x234);
         if (o != 0) {
-            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
+            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
         }
         o = __nw__7TObjectFUl(0x234);
         if (o != 0) {
-            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
+            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
         play_container_break_sound((s32)self);
     }
@@ -414,11 +417,11 @@ void TObjContainerJungEx__vt77(const Obj_8018CFD4 *self) {
     spawn_particle_effect_with_flags((void *)&self->pos, 0x46, 0x40);
     void *o = __nw__7TObjectFUl(0x234);
     if (o != NULL) {
-        __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
+        __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
     }
     o = __nw__7TObjectFUl(0x234);
     if (o != NULL) {
-        __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
+        __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
     }
     play_container_break_sound((s32)self);
 }
@@ -431,12 +434,12 @@ void TObjContainerJungEx::vfunc_6(s16 *arg1, s32 arg2) {
             this->vfunc_79();
             ((TUnk_804B6C24 *)arg0)->spawn_item((s32)arg0);
             ((TObjCollidable *)arg0)->set_flag8();
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
             this->mode = 1;
         }
     } else if ((s16) *arg1 == 1) {
         ((TObjCollidable *)arg0)->set_flag8();
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         this->mode = 1;
     }
 }
@@ -451,9 +454,9 @@ void TObjContainerJungEx::vfunc_81() {
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, 0.85f, 0.85f, 0.85f);
-        draw_ginja_object((void *)get_model__19TObjContainerJungExFl(0));
+        draw_ginja_object((void *)TObjContainerJungEx::get_model(0));
         TParticleCtrl::begin_effect_render();
-        draw_ginja_object((void *)get_model__19TObjContainerJungExFl(3));
+        draw_ginja_object((void *)TObjContainerJungEx::get_model(3));
         TParticleCtrl::end_effect_render();
         pop_matrix();
     case 1:
@@ -519,7 +522,6 @@ struct Obj_8018D4DC {
 
 extern "C" {
 u8 * get_bml_model(void *, int);
-s32 TObjFish__sub_8001EDB0(void *, s32);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u32 init_collision_body_parts(void *, s32, s32);
 u8 * init_container_base(void *, s32);
@@ -572,7 +574,7 @@ void TObjContainerJung::load_resources() {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &TObjContainerJung__resource_descriptor, 0, 0, 0));
     }
     (*(u8 * *)&TObjContainerJung__bml_model_resource) = (unsigned char *) ((void *) var_r0);
-    TObjContainerJung__bml_aux_handle = TObjFish__sub_8001EDB0((void *) var_r0, 0);
+    TObjContainerJung__bml_aux_handle = TObjFish__sub_8001EDB0((BmlResource *) var_r0, 0);
 }
 
 #pragma push
@@ -610,11 +612,11 @@ void TObjContainerJung__vt77(const Obj_8018D4DC *self) {
         spawn_particle_effect_with_flags((void *)&self->pos, 0x46, 0x40);
         o = __nw__7TObjectFUl(0x234);
         if (o != 0) {
-            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
+            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
         }
         o = __nw__7TObjectFUl(0x234);
         if (o != 0) {
-            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
+            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
         play_container_break_sound((s32)self);
     }
@@ -629,13 +631,13 @@ void TObjContainerJung::vfunc_6(s16 *arg1, s32 arg2) {
             ((TObjChara *)arg0)->request_box_item_drop((u8 *)&this->position, 1);
             ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
             ((TObjCollidable *)arg0)->set_flag8();
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
             this->mode = 1;
         }
     } else if ((s16) *arg1 == 1) {
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
         ((TObjCollidable *)arg0)->set_flag8();
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         this->mode = 1;
     }
 }
@@ -703,7 +705,7 @@ u8 *TObjContainerJung__ct(u8 *arg0, s32 arg1, s32 _w2) {
 
 s32 TObjContainerJungEx__sub_8018D900(s32 index) {
     if (TObjContainerJungEx__resource_bundle != NULL) {
-        return TObjFish__sub_8001EDB0(TObjContainerJungEx__resource_bundle, index);
+        return TObjFish__sub_8001EDB0((BmlResource *)TObjContainerJungEx__resource_bundle, index);
     }
     return 0;
 }

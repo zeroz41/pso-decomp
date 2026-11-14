@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffClitical.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -11,6 +12,7 @@
 #include "pso/system/NinjaTypes.h"
 
 #include "types.h"
+#include "pso/system/task/TObject.h"
 
 struct Stack_80082688 {
     f32 sp8;
@@ -106,7 +108,7 @@ void TEffClitical::run_task() {
         break;
     }
     if (approach_alpha_clamped(&color.a, &target_color.a, TEffClitical__alpha_approach_step) != 0) {
-        queue_destruction__7TObjectFv((arg0));
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     approach_vector_in_place(&scale, &target_scale, 0.2f);

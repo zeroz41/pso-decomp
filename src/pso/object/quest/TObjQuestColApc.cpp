@@ -3,11 +3,11 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/object/quest/TObjQuestColApc.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/object/base/TObjChara.h"
 
 struct Obj_80196448 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0xac - 0x44]; f32 radius; };
 
 extern "C" {
-s32 obj_isState3_324__9TObjCharaFv(void *);
 void TObjQuestColBase__ct(void *);
 
 int TObjQuestColApc::vfunc_16() { TQuestThreadBoard::destroy_board(); TQuestThread::create(this->m_b0); }
@@ -21,7 +21,7 @@ int TObjQuestColApc::vfunc_15() {
     Obj_80196448 *p;
     for (i = 0; i < 12; i++) {
         p = (Obj_80196448 *)get_player_by_client_id(i);
-        if (p != 0 && obj_isState3_324__9TObjCharaFv(p) == 1) {
+        if (p != 0 && ((TObjChara *)p)->obj_isState3_324() == 1) {
             if (xyz_distance_squared((Vec *)p->pos, (Vec *)self->pos) < self->radius * self->radius) {
                 return 1;
             }

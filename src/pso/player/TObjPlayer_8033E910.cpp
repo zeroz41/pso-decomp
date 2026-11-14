@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/player/TObjPlayer_8033E910.h"
 #include "pso/ui/frontend/TAdMcCheckGC.h"
@@ -7,6 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
+#include "pso/system/task/TObject.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -37,7 +39,6 @@ s32 GXSetTevOp(int, int);
 s32 GXSetTevOrder(int, int, int, int);
 s32 push_matrix();
 s32 pop_matrix();
-void queue_destruction__7TObjectFv(void *);
 s32 rotate_matrix_by_node_angles(void *, int);
 s32 post_translate_matrix(void *);
 int set_global_param__8TObjFishFl(void);
@@ -134,7 +135,7 @@ void TUnk_804EFA88::run_task() {
     O_8033EC40 *arg0 = (O_8033EC40 *)this;
     s32 i;
     if (arg0->items == 0) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     for (i = 0; i < this->m_20; i++) {

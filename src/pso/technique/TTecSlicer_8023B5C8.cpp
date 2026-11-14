@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffStarLight2D.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -15,6 +16,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_8023B770_lbl_8044DC20
 {
@@ -175,9 +177,7 @@ s32 test_flags_any(void *, s32);
 u32 get_player_by_client_id(u16);
 s32 __ct__14TSlicerHistoryFv(void *, void *, s32, void *, s32);
 u32 __nw__7TObjectFUl(s32);
-s32 allow_rendering__7TObjectFv(void *);
 
-s32 queue_destruction__7TObjectFv(s32);
 void __dl__7TObjectFPv(void *);
 void dt__10TTecSlicerFls(void *, int);
 extern s32 __vt__10TTecSlicer[];
@@ -200,7 +200,6 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805DC95C;
 extern const f32 lbl_805DC960;
-void disallow_rendering__7TObjectFv(TObject *);
 void set_entity_id__8TObjBaseFUs(void *, s32);
 f32 *get_weapon_range_record(s32, s32);
 s32 get_extended_state__10TObjPlayerFv(s32);
@@ -240,7 +239,7 @@ void TTecSlicer::deliver_target_hit() {
 
 void destroy_on_collision__10TTecSlicerFi(s32 arg0, s32 _w1) {
     if (csnVector(arg0 + 0x44, arg0 + 0x38, 0x8100) != 0U) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 
@@ -368,10 +367,10 @@ void run_task__10TTecSlicerFv(u8 *object) {
     *(u32 *)((s8 *)object + 0x10C) = get_player_by_client_id(*(u16 *)((s8 *)object + 0x114));
     *(u32 *)((s8 *)object + 0x108) = (s32)find_equipped_item(((TTecSlicer *)object)->weaponHandle);
     if (((u32) *(u32 *)((s8 *)object + 0x108) == 0U) || ((u32) *(u32 *)((s8 *)object + 0x10C) == 0U)) {
-        queue_destruction__7TObjectFv((s32)object);
+        ((TObject *)object)->queue_destruction();
         return;
     }
-    allow_rendering__7TObjectFv(object);
+    ((TObject *)object)->allow_rendering();
     if ((s32) ((TTecSlicer *)object)->useColorOverride != 0) {
         var_r31 = object + 0x128;
     } else {
@@ -389,7 +388,7 @@ void run_task__10TTecSlicerFv(u8 *object) {
         ((TEffStarLight2D *)((TTecSlicer *)object)->star)->copy_position((const Vec *)(object + 0x38));
     }
     if (test_flags_any(object + 0xC0, 2) != 0) {
-        queue_destruction__7TObjectFv((s32)object);
+        ((TObject *)object)->queue_destruction();
         return;
     }
     temp_r4 = *(s32 *)((s8 *)object + 0x5C);
@@ -401,7 +400,7 @@ void run_task__10TTecSlicerFv(u8 *object) {
 void *__dt__10TTecSlicerFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__10TTecSlicer;
-        if (((TTecSlicer *)arg0)->star != NULL) { queue_destruction__7TObjectFv((s32)((void *)(((TTecSlicer *)arg0)->star))); }
+        if (((TTecSlicer *)arg0)->star != NULL) { ((TObject *)(((TTecSlicer *)arg0)->star))->queue_destruction(); }
         dt__10TTecSlicerFls((s8 *)arg0 + 0xE8, -1);
         dt__10TTecSlicerFls((s8 *)arg0 + 0xC8, -1);
         __dt__8TObjBaseFv(arg0, 0);
@@ -427,7 +426,7 @@ s32 TTecSlicer__ct(void *arg0, void *arg1, void *arg2, void *arg3, int arg4) {
     ((TTecSlicer *)(self->fc8))->reset_fields_1e();
     ((TTecSlicer *)(self->fe8))->reset_fields_1e();
     self->f0 = TTecSlicer__name;
-    disallow_rendering__7TObjectFv((TObject *)self);
+    ((TObject *)((TObject *)self))->TObject::disallow_rendering();
     ((TObjBase *)self)->set_entity_id(pop_free_entity_id());
     self->f110 = init->f8;
     self->f24 = init->f4;

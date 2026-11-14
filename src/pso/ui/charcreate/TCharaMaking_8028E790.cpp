@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/charcreate/TCharaMaking_8028E790.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -48,11 +49,11 @@ s32 TCharaMaking::update_main_menu(s32 arg0) {
         }
         TSaveChCr::create((void *)var_r3);
         end_creation_view();
-        queue_destruction__7TObjectFv((void *)arg0);
+        ((TObject *)arg0)->queue_destruction();
         return 1;
     }
     if (is_state_4__14TObjCMMainMenuFv(creation_main_menu_obj) != 0) {
-        queue_destruction__7TObjectFv((void *)arg0);
+        ((TObject *)arg0)->queue_destruction();
         TChCrCharSelect::create((void *)tl_03);
         return 1;
     }

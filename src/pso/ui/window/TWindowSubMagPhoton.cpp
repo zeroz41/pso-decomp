@@ -17,19 +17,44 @@
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/ui/window/TWindowSubQuestBoard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+
+#pragma push
+#pragma readonly_strings on
+const char *TWindowSubMagPhoton__class_name = "TWindowSubMagPhoton";
+#pragma pop
+
+extern s32 lbl_805D63F0;
+
+// inferred: window_sub_mag_photon_layout_entries, the layout table
+// TWindowSubMagPhoton__layout_descriptor points at (a frame sprite and three photon blast icons).
+struct SubMagPhotonWindowLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec[4];
+};
+SubMagPhotonWindowLayout window_sub_mag_photon_layout_entries = {
+    4, 1,
+    {
+        {6, {14.0f, 19.0f}, {150.0f, 107.0f}, 0.0f, 0.0f, 0.2f, -1, &lbl_805D63F0, 2, 4},
+        {6, {64.0f, 51.0f}, {50.0f, 43.0f}, 0.0f, 0.0f, 0.7f, -1, &lbl_805D63F0, 3, 4},
+        {6, {108.0f, 25.0f}, {50.0f, 43.0f}, 0.0f, 0.0f, 0.7f, -1, &lbl_805D63F0, 3, 4},
+        {6, {20.0f, 77.0f}, {50.0f, 43.0f}, 0.0f, 0.0f, 0.7f, -1, &lbl_805D63F0, 3, 4},
+    },
+};
+WindowDescriptor TWindowSubMagPhoton__layout_descriptor = {
+    {186.0f, 160.0f}, 50050.0f, &window_sub_mag_photon_layout_entries, 3,
+};
 
 struct RecoveredGlobal_8027C56C_lbl_8050E208 {
     s32 value;
     u8 remaining[0x1AC];
 };
 
-struct RecoveredGlobal_8027C6B4_lbl_804D17E8 {
-    s32 value;
-    u8 remaining[0x10];
-};
 
 struct RecoveredGlobal_8027C6B4___vt__19TWindowSubMagPhoton {
     s32 value;
@@ -52,14 +77,11 @@ s32 TWindowShortListCtrl__check_controller_button(int, int);
 extern RecoveredGlobal_8027C56C_lbl_8050E208 controller_input_state;
 s32 init_photon_blast_entries__19TWindowSubMagPhotonFv(void *, int);
 s32 construct_base__9TWindowDDFPUcsPUc(void *, void *, void *, void *);
-extern RecoveredGlobal_8027C6B4_lbl_804D17E8 TWindowSubMagPhoton__layout_descriptor;
 extern s32 __vt__19TWindowSubMagPhoton[];
-extern s32 TWindowSubMagPhoton__class_name;
 u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *arg0, s32 arg1, s32 arg2, s16 arg3);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 apply_choice__20TWindowChoiceSettingFllll(void *, int, int, int);
 void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(void *, void *, int, f32);
-extern const f32 lbl_805DD680;
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 fn_801A51F0(int);
 s32 set_depth__11TWindowBaseFf(s32);
@@ -122,7 +144,7 @@ void TWindowSubMagPhoton::update_selection_input() {
 s32 TWindowSubMagPhoton::draw_cursor(int arg1) {
     u8 sp8[16];
     get_cursor_origin(sp8);
-    ((void (*)(f32, void *, void *, int))draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif)(lbl_805DD680, (void *)arg1, sp8, ((Win_8027C4C8 *)this)->f62);
+    ((void (*)(f32, void *, void *, int))draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif)(0.8f, (void *)arg1, sp8, ((Win_8027C4C8 *)this)->f62);
 }
 
 void render__19TWindowSubMagPhotonFv(s32 arg0) {
@@ -165,11 +187,10 @@ void *__dt__19TWindowSubMagPhotonFv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-typedef char RecoveredGlobal_8027C6B4_lbl_804D17E8_size[sizeof(RecoveredGlobal_8027C6B4_lbl_804D17E8) == 0x14 ? 1 : -1];
 typedef char RecoveredGlobal_8027C6B4___vt__19TWindowSubMagPhoton_size[sizeof(RecoveredGlobal_8027C6B4___vt__19TWindowSubMagPhoton) == 0x1C ? 1 : -1];
 u8 *TWindowSubMagPhoton__ct(TWindowSubMagPhoton *window_sub_mag_photon, s32 arg1, s32 arg2, s16 arg3) {
     s16 temp_r4;
-    construct_base__9TWindowDDFPUcsPUc((void *)window_sub_mag_photon, &TWindowSubMagPhoton__layout_descriptor.value, (void *)arg3, (void *)arg1);
+    construct_base__9TWindowDDFPUcsPUc((void *)window_sub_mag_photon, &TWindowSubMagPhoton__layout_descriptor, (void *)arg3, (void *)arg1);
     *(s32 **)((s8 *)window_sub_mag_photon + 0x18) = &(*(RecoveredGlobal_8027C6B4___vt__19TWindowSubMagPhoton *)&__vt__19TWindowSubMagPhoton).value;
     *(s32 *)((s8 *)window_sub_mag_photon + 0) = (s32) TWindowSubMagPhoton__class_name;
     ((TWindowSubSymbolChatPartsSet *)((u8 *)window_sub_mag_photon + 0x30))->copy_vec2((void *)arg1);
@@ -235,45 +256,45 @@ s32 TUnk_804D1818::sub_8027C884(s32 arg1) {
     temp_r31 = (s32)TWindowSubStatusDisp__sub_80248BE8((s32)(get_window_layout_position(0x16)), (s32)lbl_8044FA28, (s32)this->m_20);
     switch (arg1) {
     case 0:
-        ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((int) (get_message_10__20TWindowSubStatusDispFl(0x66)));
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (get_message_10__20TWindowSubStatusDispFl(0x6F)), 0);
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (get_message_10__20TWindowSubStatusDispFl(0x70)), 1);
+        ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x66)));
+        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x6F)), 0);
+        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x70)), 1);
         var_r29 = ((TWindowKeyBoardHard *)(this->m_20))->is_card_flag_set();
         break;
     case 1:
-        ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((int) (get_message_10__20TWindowSubStatusDispFl(0x67)));
-        TWindowSubStatusDisp::draw_status(temp_r31, (int) (get_message_10__20TWindowSubStatusDispFl(0x71)), 0);
-        TWindowSubStatusDisp::draw_status(temp_r31, (int) (get_message_10__20TWindowSubStatusDispFl(0x72)), 1);
+        ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x67)));
+        TWindowSubStatusDisp::draw_status(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x71)), 0);
+        TWindowSubStatusDisp::draw_status(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x72)), 1);
         var_r29 = ((TBoss8Dragon *)(this->m_20))->test_card_flag_2();
         break;
     case 2:
-        ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((int) (get_message_10__20TWindowSubStatusDispFl(0x68)));
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (get_message_10__20TWindowSubStatusDispFl(0x73)), 0);
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (get_message_10__20TWindowSubStatusDispFl(0x74)), 1);
+        ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x68)));
+        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x73)), 0);
+        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x74)), 1);
         var_r29 = test_keyboard_card_flag4((void *)this->m_20);
         break;
     case 4:
-        ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((int) (get_message_10__20TWindowSubStatusDispFl(0x6A)));
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (get_message_10__20TWindowSubStatusDispFl(0xA6)), 0);
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (get_message_10__20TWindowSubStatusDispFl(0xA7)), 1);
+        ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x6A)));
+        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0xA6)), 0);
+        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0xA7)), 1);
         temp_r3 = TWindowKeyBoardHard::test_card_flag_8(this->m_20);
         this->m_1d = temp_r3;
         var_r29 = (s16) temp_r3;
         break;
     case 3:
-        ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((int) (get_message_10__20TWindowSubStatusDispFl(0x69)));
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (get_message_10__20TWindowSubStatusDispFl(0x75)), 0);
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (get_message_10__20TWindowSubStatusDispFl(0x76)), 1);
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (get_message_10__20TWindowSubStatusDispFl(0x77)), 2);
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (get_message_10__20TWindowSubStatusDispFl(0x78)), 3);
+        ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x69)));
+        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x75)), 0);
+        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x76)), 1);
+        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x77)), 2);
+        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x78)), 3);
         var_r29 = TWindowSubStatusDisp::get_card_window_flags(this->m_20);
         break;
     case 5:
-        ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((int) (get_message_10__20TWindowSubStatusDispFl(0x6E)));
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (get_message_10__20TWindowSubStatusDispFl(0x79)), 0);
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (get_message_10__20TWindowSubStatusDispFl(0x7A)), 1);
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (get_message_10__20TWindowSubStatusDispFl(0x7B)), 2);
-        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (get_message_10__20TWindowSubStatusDispFl(0x7C)), 3);
+        ((TWindowMenuIconLine *)temp_r31)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x6E)));
+        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x79)), 0);
+        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x7A)), 1);
+        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x7B)), 2);
+        TWindowSubStatusDisp::dispatch_without_flags(temp_r31, (int) (TWindowSubStatusDisp::get_message_10(0x7C)), 3);
         var_r29 = fn_801A51F0(this->m_20);
         break;
     }

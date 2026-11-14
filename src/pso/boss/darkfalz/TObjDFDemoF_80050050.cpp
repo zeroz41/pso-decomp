@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_803D96A8.h"
@@ -5,6 +6,7 @@
 #include "pso/boss/darkfalz/TObjDFDemoF.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_80050050_lbl_80485864
 {
@@ -14,8 +16,6 @@ struct RecoveredGlobal_80050050_lbl_80485864
 
 extern "C" {
 s32 queue_destruction__7TObjectFv();
-extern const f32 lbl_805D8A20;
-extern const f32 lbl_805D8A24;
 s32 push_matrix();
 f32 post_translate_matrix(void *);
 extern RecoveredGlobal_80050050_lbl_80485864 three_part_model_translate_offset;
@@ -57,16 +57,13 @@ void TObjDFDemoF::render() {
 #pragma push
 #pragma opt_common_subs off
 void TObjDFDemoF::run_task() {
-    f32 temp_f1;
-    s32 temp_r0;
-    temp_f1 = this->m_b8 + lbl_805D8A20;
-    this->m_b8 = temp_f1;
-    if (temp_f1 >= lbl_805D8A24) {
-        this->m_b8 = (f32) lbl_805D8A24;
+    s32 count;
+    if ((this->m_b8 += 1.0f) >= 120.0f) {
+        this->m_b8 = 120.0f;
     }
-    temp_r0 = this->m_90 + 1;
-    this->m_90 = temp_r0;
-    if (temp_r0 >= 0x78) {
+    count = this->m_90 + 1;
+    this->m_90 = count;
+    if (count >= 120) {
         queue_destruction__7TObjectFv();
     }
 }

@@ -230,7 +230,7 @@ void *destroy__13TPhotonFarllaFPvs(void *arg0, s16 arg1) {
         ((TUnk_804C3248 *)arg0)->free_photon();
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        destroy_photon_motion_object(arg0, 0);
+        __dt__13TUnk_804C3248Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }

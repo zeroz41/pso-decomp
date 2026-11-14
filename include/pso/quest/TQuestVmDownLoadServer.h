@@ -129,7 +129,7 @@ public:
     static void reset_slot_chain_timers(s32 arg0);
     static s32 select_best_slot_entry(s32 idx, s32 max, s32 want);
     static s32 sum_entry_sizes(s32 start, s32 n);
-    static u8 *find_keyword_entry(u16 *start, u16 *end);
+    static const u8 *find_keyword_entry(u16 *start, u16 *end);
     static s32 get_download_state();
     u8 *find_insert_position(s32 key, s32 n, s32 len);
     static s32 read_quest_chunk(u32 id, u8 a1, u8 a2, u8 *buf, s32 *out);

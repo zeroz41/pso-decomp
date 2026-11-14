@@ -9,9 +9,10 @@ extern "C" {
 u16 to_be_uint16_t__FUs(u16);
 void handle_command__9TProtocolFP6packet(void *, void *);
 extern void *TLobby__protocol_instance;
-extern s32 deferred_packet_buffer;
-extern s32 deferred_packet_buffer_used;
-extern s32 lbl_805D5D04;
+s32 deferred_packet_buffer;
+s32 deferred_packet_buffer_used;
+s32 lbl_805D5D00;
+s32 lbl_805D5D04;
 void *get_character_save_record();
 s32 memcpy(s32, void *, u16);
 s32 memset(s32, s32, s32);
@@ -69,7 +70,6 @@ void copy_packet(packet *arg0) {
         deferred_packet_buffer_used += len;
     }
 }
-extern s32 lbl_805D5D00;
 
 void buffer_reset(void) {
     deferred_packet_buffer_used = 0;

@@ -78,13 +78,11 @@ extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
 u32 find_entity_by_id(int);
 void apply_technique_to_area_targets__13TUnk_804CC148Fv(void *);
-#define apply_technique_to_area_targets__13TUnk_804CC148Fv ((s32 (*)(void *, int))apply_technique_to_area_targets__13TUnk_804CC148Fv)
 void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 void spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv(Obj_80237DAC *self);
 
 u16 get_entity_id(void *);
 void construct_area_technique_base(void *, void *, void *, void *, int);
-#define construct_area_technique_base ((void (*)(void *, void *, void *, void *, void *))construct_area_technique_base)
 s32 is_split_screen();
 void get_bml_model(void *, s32);
 #define get_bml_model ((void * (*)(void *, int))get_bml_model)
@@ -98,14 +96,11 @@ extern void *technique_effect_bml;
 extern void *lbl_805D63B0;
 
 void __dl__7TObjectFPv(void *);
-#define __dl__7TObjectFPv ((s32 (*)(void *))__dl__7TObjectFPv)
 void __dt__13TUnk_804CC148Fv(void *, int);
-#define __dt__13TUnk_804CC148Fv ((s32 (*)(void *, int))__dt__13TUnk_804CC148Fv)
 s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 #define play_sound_effect ((s32 (*)(s32, s32, s32, s32))play_sound_effect)
 void *__nw__7TObjectFUl(int);
 void update_technique_slot__10TTecRaFoieFl(s32 handle, s32 pitch, s32 c);
-#define update_technique_slot__10TTecRaFoieFl ((s32 (*)(s32, s32, s32))update_technique_slot__10TTecRaFoieFl)
 
 struct RecoveredGlobal_80238388_lbl_8044DAF0 {
     s32 value;
@@ -128,8 +123,6 @@ extern const RecoveredGlobal_80238388_lbl_8044DAF0 lbl_8044DAF0 = {0};
 #pragma opt_common_subs off
 struct Vec_80237DAC;
 
-#define self ((Self_80237BD8 *)self_)
-#undef self
 #pragma pop
 
 void TUnk_804CCB28::spawn_rafoie_explosion_bursts() {
@@ -224,14 +217,9 @@ void TTecRaFoie::vfunc_8(void *) {
 }
 
 #undef get_bml_model
-#undef update_technique_slot__10TTecRaFoieFl
 #undef play_sound_effect
-#undef construct_area_technique_base
-#undef __dl__7TObjectFPv
 #undef is_valid_and_active__10TObjPlayerFUl
-#undef apply_technique_to_area_targets__13TUnk_804CC148Fv
 
-#undef __dt__13TUnk_804CC148Fv
 #undef spawn_particle_effect
 #define spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv ((s32 (*)(void *))spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv)
 
@@ -777,8 +765,6 @@ u8 *construct_targeted__10TTecRaFoieFPvPvPvPvi(u8 *self, void *source, void *ori
 #pragma push
 #pragma opt_loop_invariants off
 #pragma opt_common_subs off
-#define self ((Self_80239070 *)self_)
-#undef self
 #pragma pop
 
 #undef spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv

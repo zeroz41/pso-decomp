@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TTecZarua.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -9,6 +10,7 @@
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -192,7 +194,7 @@ void run_task__9TTecZaruaFv(struct Self_8023C1B8 *self) {
     u32 id;
     self->target = (u32)find_entity_by_id(self->owner);
     if (self->target == 0) {
-        queue_destruction__7TObjectFv((self));
+        ((TObject *)self)->queue_destruction();
         return;
     }
     if (self->flag != 0) {
@@ -205,7 +207,7 @@ void run_task__9TTecZaruaFv(struct Self_8023C1B8 *self) {
     } else {
         ((TUnk_804CC148 *)self)->apply_technique_to_area_targets();
     }
-    queue_destruction__7TObjectFv((self));
+    ((TObject *)self)->queue_destruction();
 }
 
 }

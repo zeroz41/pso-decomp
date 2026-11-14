@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/TItemTimer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/item/TUnk_804A0668.h"
@@ -12,18 +13,17 @@
 #include "pso/player/TObjPlayer.h"
 #include <stdlib.h>
 #include "pso/unk/text_80087278.h"
-
-extern "C" {
-void queue_destruction__7TObjectFv(void*);
-}
+#include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjMotion.h"
 
 void TItemTimer::run_task() {
     m_1C--;
     if (((TObject *)m_20)->all_parents_unqueued_for_destruction() == 0) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     } else if (m_1C == 0) {
         ((TItemTimer *)(&m_20))->invoke_callback();
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 
@@ -77,11 +77,8 @@ s32 add_actor_tp(u8 *arg0, s32 arg1);
 s32 set_owner_id__13TParticleCtrlFUs(s32, s32);
 s32 is_item_area_enabled();
 s32 __ct__7TObjectFP7TObject();
-void disallow_rendering__7TObjectFv(TObject *arg0);
 s32 is_flag_20000_set__10TObjPlayerFv(s32);
 s32 get_entity_id(s32);
-s32 obj_isState2_324__9TObjCharaFv(void *);
-s32 obj_isState3_324__9TObjCharaFv(s32);
 s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 
 extern s32 __vt__10TItemTimer[];
@@ -97,7 +94,7 @@ u8 *TItemTimer__ct(u8 *item_timer, s32 arg1, s32 arg2, s32 arg3) {
         ((TItemTimer *)item_timer)->m_1C = 1;
     }
     TItemTimer__sub_8011D598(item_timer + 0x20, arg1, arg2);
-    disallow_rendering__7TObjectFv((TObject *)(item_timer));
+    ((TObject *)(item_timer))->disallow_rendering();
     return item_timer;
 }
 
@@ -117,15 +114,13 @@ void TItemTimer__sub_8011D598(u8 *arg0, s32 arg1, s32 arg2) {
 
 void TItemTimer::reset_fields() { *(s32 *)&this->m_name = 0; *(s32 *)&this->m_flags = 0; }
 
-extern const f32 lbl_805DAC78;
-extern const f32 lbl_805DAC7C;
 void TUnk_804A0568::vfunc_6() {
     Timer_8011D5B4 *arg0 = (Timer_8011D5B4 *)this;
     Rec_8011D5B4 a;
     ((TBoss3Volopt *)(arg0->obj))->get_field_3e0();
-    if (is_item_area_enabled() == 1 && lbl_805DAC78 * (f32)rand() < arg0->f2c) {
+    if (is_item_area_enabled() == 1 && 3.0517578e-05f * (f32)rand() < arg0->f2c) {
         a.k1 = 0x10;
-        a.v2 = lbl_805DAC7C;
+        a.v2 = 0.0f;
         a.k2 = 0x10;
         a.v1 = *(s32 *)&a.v2;
         arg0->obj->m21(arg0->obj, &a, 0, -1, -1);
@@ -136,9 +131,9 @@ void TUnk_804A0588::vfunc_6() {
     Timer_8011D5B4 *arg0 = (Timer_8011D5B4 *)this;
     Rec_8011D5B4 a;
     ((TBoss3Volopt *)(arg0->obj))->get_field_3e0();
-    if (is_item_area_enabled() == 1 && lbl_805DAC78 * (f32)rand() < arg0->f2c) {
+    if (is_item_area_enabled() == 1 && 3.0517578e-05f * (f32)rand() < arg0->f2c) {
         a.k1 = 0x12;
-        a.v2 = lbl_805DAC7C;
+        a.v2 = 0.0f;
         a.k2 = 0x12;
         a.v1 = *(s32 *)&a.v2;
         arg0->obj->m21(arg0->obj, &a, 0, -1, -1);
@@ -149,9 +144,9 @@ void TUnk_804A05A8::vfunc_6() {
     Timer_8011D5B4 *arg0 = (Timer_8011D5B4 *)this;
     Rec_8011D5B4 a;
     ((TBoss3Volopt *)(arg0->obj))->get_field_3e0();
-    if (is_item_area_enabled() == 1 && lbl_805DAC78 * (f32)rand() < arg0->f2c) {
+    if (is_item_area_enabled() == 1 && 3.0517578e-05f * (f32)rand() < arg0->f2c) {
         a.k1 = 0x11;
-        a.v2 = lbl_805DAC7C;
+        a.v2 = 0.0f;
         a.k2 = 0x11;
         a.v1 = *(s32 *)&a.v2;
         arg0->obj->m21(arg0->obj, &a, 0, -1, -1);
@@ -174,10 +169,10 @@ void TUnk_804A05C8::vfunc_6() {
 
 void TUnk_804A05E8::vfunc_6() {
 
-    if (obj_isState2_324__9TObjCharaFv(*(void * *)&this->m_28) == 0) {
+    if (((TObjChara *)(*(void * *)&this->m_28))->obj_isState2_324() == 0) {
         if (((TObjPlayer *)this->m_28)->has_flag_0x800() == 0) {
             ((TBoss3Volopt *)(this->m_28))->get_field_3e0();
-            if ((is_item_area_enabled() == 1) && ((lbl_805DAC78 * (f32) rand()) < *(f32 *)&this->unk_2C)) {
+            if ((is_item_area_enabled() == 1) && ((3.0517578e-05f * (f32) rand()) < *(f32 *)&this->unk_2C)) {
                 ((TObjPlayer *)this->m_28)->apply_movement_ailment(0);
                 ((TObjPlayer *)this->m_28)->vfunc_74(0);
             }
@@ -190,27 +185,27 @@ extern f32 lbl_805DAC80;
 void TUnk_804A0608::vfunc_6() {
     struct VObj_8011D94C_8011D414 *o;
 
-    if (obj_testFlags30__14TObjCollidableFUl((void *)this->m_28, 0x800) == 0) {
+    if (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0) {
         o = (struct VObj_8011D94C_8011D414 *)this->m_28;
         o->m73(lbl_805DAC80);
     }
 }
 
 void TUnk_804A0628::vfunc_6() {
-    if (obj_testFlags30__14TObjCollidableFUl((void *)this->m_28, 0x800) == 0) {
+    if (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0) {
         add_actor_tp((u8 *)this->m_28, 1);
     }
 }
 
 void TUnk_804A0648::vfunc_6() {
-    if (obj_testFlags30__14TObjCollidableFUl((void *)this->m_28, 0x800) == 0) {
+    if (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0) {
         add_actor_hp((u8 *)this->m_28, 1);
     }
 }
 
 void TUnk_804A0668::vfunc_6() {
     ((TBoss3Volopt *)(this->m_28))->get_field_3e0();
-    if ((is_item_area_enabled() == 1) && (obj_isState3_324__9TObjCharaFv(this->m_28) == 0) && (obj_testFlags30__14TObjCollidableFUl((void *)this->m_28, 0x800) == 0)) {
+    if ((is_item_area_enabled() == 1) && (((TObjChara *)this->m_28)->obj_isState3_324() == 0) && (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0)) {
         ((TObjChara *)(this->m_28))->subtract_actor_tp(1);
     }
 }

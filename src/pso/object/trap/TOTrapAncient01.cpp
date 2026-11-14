@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -41,6 +42,8 @@
 #include "pso/system/SoundEffect.h"
 
 #include "pso/system/NinjaTypes.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TUnk_804B6C24.h"
 
 BmlResource *TOTrapAncient01__bml_resource;
 
@@ -107,7 +110,6 @@ struct Trap_801797D4 : VObj_801797D4 {
 
 extern "C" {
 VObj_801797D4 *get_battle_param__10TObjPlayerFi(s32);
-s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 extern s32 lbl_805D3530;
 }
 
@@ -323,7 +325,7 @@ void TOTrapAncient01::vfunc_82() {
             if (obj_is_hit_receivable((u8 *)p) == 0) {
                 break;
             }
-            if (check_value_equals__13TUnk_804B6C24Fl(p, lbl_805D3530) == 0) {
+            if (((TUnk_804B6C24 *)p)->check_value_equals(lbl_805D3530) == 0) {
                 break;
             }
             {
@@ -409,9 +411,9 @@ void TOTrapAncient01::play_sounds() {
         {0x800, 0x100, 0x800}, {4, 30}, {position.y, 1.0f},
         get_bml_model(TOTrapAncient01__bml_resource, 2), TObjFish__sub_8001EDB0(TOTrapAncient01__bml_resource, 2), 22,
     };
-    new TObjChip(tl_06, (TObjChipParams *)&chip0);
-    new TObjChip(tl_06, (TObjChipParams *)&chip1);
-    new TObjChip(tl_06, (TObjChipParams *)&chip2);
+    new TObjChip(tl_06, &chip0);
+    new TObjChip(tl_06, &chip1);
+    new TObjChip(tl_06, &chip2);
     TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect(&position, 0x8B);
     if (particle != NULL) {
         particle->set_scale(1.25f, 1.25f);
@@ -471,7 +473,7 @@ void TOTrapAncient01::vfunc_6(s16 *arg1, s32 arg2) {
         }
         this->release_trapped_player();
         set_flag8();
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 

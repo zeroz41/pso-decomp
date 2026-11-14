@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
@@ -18,6 +19,8 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/system/task/TObject.h"
+#include "pso/object/ambient/TObjFish.h"
 
 struct Ent_8033CB4C
 {
@@ -42,8 +45,6 @@ struct Fish_8033CB4C
 };
 
 extern "C" {
-extern const f32 lbl_805DFA48;
-extern const f32 lbl_805DFA4C;
 s32 get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
@@ -66,7 +67,6 @@ s32 refresh_players_equipment__14TBoss6PlotFalzFPv();
 s32 post_translate_matrix(s32 *);
 s32 push_matrix();
 void *__nw__7TObjectFUl(int);
-s32 clear_render_callback__8TObjFishFv(s32);
 
 void TBoss6Demo10_TYPE1_APPEAR::sub_8033C7C8() {
     push_matrix();
@@ -77,7 +77,7 @@ void TBoss6Demo10_TYPE1_APPEAR::sub_8033C7C8() {
     TObjFish::set_global_param(*(s32 *)((s8 *)this + 0x2C));
     ((TObjFish *)(this->m_60))->set_draw_callback_list();
     draw_model_motion((void *)this->m_28, (void *)this->m_30, *(f32 *)((s8 *)this + 0x34));
-    clear_render_callback__8TObjFishFv(this->m_60);
+    ((TObjFish *)this->m_60)->clear_render_callback();
     clear_motion_packed_rotation();
     pop_matrix();
 }
@@ -87,13 +87,10 @@ void render__25TBoss6Demo10_TYPE1_APPEARFv(void* p) { ((TBoss6Demo10_TYPE1_APPEA
 #pragma push
 #pragma opt_common_subs off
 void run_task__25TBoss6Demo10_TYPE1_APPEARFv(TBoss6Demo10_TYPE1_APPEAR *boss6_demo10_type1_appear) {
-    f32 temp_f1;
     s32 temp_r0_3;
     u8 *temp_r30;
-    temp_f1 = *(f32 *)((s8 *)boss6_demo10_type1_appear + 0x34) + lbl_805DFA48;
-    *(f32 *)((s8 *)boss6_demo10_type1_appear + 0x34) = temp_f1;
-    if (temp_f1 > lbl_805DFA4C) {
-        *(f32 *)((s8 *)boss6_demo10_type1_appear + 0x34) = (f32) lbl_805DFA4C;
+    if ((*(f32 *)((s8 *)boss6_demo10_type1_appear + 0x34) += 0.7f) > 349.0f) {
+        *(f32 *)((s8 *)boss6_demo10_type1_appear + 0x34) = 349.0f;
     }
     ((TBoss6PlotFalz *)((u8 *)boss6_demo10_type1_appear + 0x40))->scroll_strips_uv(8, 0);
     if ((s32) boss6_demo10_type1_appear->m_38 == 0x78) {
@@ -153,7 +150,7 @@ void run_task__25TBoss6Demo10_TYPE1_APPEARFv(TBoss6Demo10_TYPE1_APPEAR *boss6_de
     }
     boss6_demo10_type1_appear->m_38 = (boss6_demo10_type1_appear->m_38 + 1);
     if (((s32) boss6_demo10_type1_appear->m_38 >= 0x1F4) || (((TObjFish *)(*(s32 *)((s8 *)boss6_demo10_type1_appear + 0x3C)))->get_phase() != 1)) {
-        queue_destruction__7TObjectFv((boss6_demo10_type1_appear));
+        boss6_demo10_type1_appear->queue_destruction();
     }
 }
 #pragma pop
@@ -200,7 +197,6 @@ TBoss6Demo10_TYPE1_APPEAR::TBoss6Demo10_TYPE1_APPEAR(TObject *parent) : TObject(
     ((Fish_8033CB4C *)this)->x38 = 0;
 }
 
-
 void *TBoss6Demo10_TYPE1_APPEAR__create(void *parent) {
     void *o = __nw__7TObjectFUl(0x68);
     if (o != NULL) {
@@ -219,6 +215,4 @@ __declspec(section ".rodata") CameraPlayback lbl_80477E3C = {1, 2, 0, 0.0f, 0.7f
 s32 boss6_type1_appear_motion_indices[] = {35, 36};
 extern __declspec(section ".data") const s32 __vt__25TBoss6Demo10_TYPE1_APPEAR[];
 __declspec(section ".sdata") AppearanceClassTag TBoss6Demo10_TYPE1_APPEAR__name = {TBoss6Demo10_TYPE1_APPEAR__class_name, 0};
-__declspec(section ".sdata2") const f32 lbl_805DFA48 = 0.7f;
-__declspec(section ".sdata2") const f32 lbl_805DFA4C = 349.0f;
 __declspec(section ".sdata2") const AppearanceZero lbl_805DFA50 = {0.0f, 0};

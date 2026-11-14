@@ -6,6 +6,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_80202A68.h"
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/item/TItemData.h"
 
 struct Ent_80202B38 { s32 a; s32 b; s32 c[5]; };
 
@@ -105,7 +106,6 @@ s32 __destroy_arr(s32, s32 *, s32, s32);
 extern int card_character_save_buffer;
 extern s32 *active_character_save_record;
 extern int TAdSinglePlyChrSelectGC__selection_index;
-void init__9TItemDataFv(void *);
 s32 *TAdSinglePlyChrSelectGC__sub_80202B38(Obj_80202B38 *self, s32 i);
 Ent_80202B1C *TAdSinglePlyChrSelectGC__sub_80202B1C(Obj_80202B1C *self, s32 i);
 void __construct_array(void *, void *, void *, int, int);
@@ -303,7 +303,7 @@ void TAdSinglePlyChrSelectGC::clear_inventory_slot() {
     *(s8 *)&this->m_name = 0;
     *(s8 *)((s8 *)arg0 + 1) = -1;
     *(s32 *)&this->m_flags = 0;
-    init__9TItemDataFv((u8 *)&this->m_prev);
+    ((TItemData *)((u8 *)&this->m_prev))->init();
 }
 
 int fn_8020325C(void *arg0) {

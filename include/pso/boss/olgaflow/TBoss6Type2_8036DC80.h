@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void TLobby__sub_8036DDE8(void);
+void clear_boss6_player_snapshots(void);
 }
 
 #endif

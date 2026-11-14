@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
 
 #include "types.h"
@@ -18,6 +19,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/memory.h"
+#include "pso/system/task/TObject.h"
 
 struct E_802A9568 { s32 a; s32 b; };
 
@@ -415,7 +417,7 @@ Ctrl_802A8B58 *TEffIndirectCtrl__ct(Ctrl_802A8B58 *self, s32 kind, void *parent)
     {
     void *obj = self;
     if (self->f2c == NULL || self->f28 == NULL) {
-        queue_destruction__7TObjectFv(obj);
+        ((TObject *)obj)->queue_destruction();
         return self;
     }
     }

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffStarLight2D.h"
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/item/TItem.h"
@@ -11,6 +12,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" void disallow_rendering__7TObjectFv(TObject *arg0);
 extern "C" void allow_rendering__7TObjectFv(TObject *arg0);
@@ -68,10 +70,10 @@ extern "C" const f32 lbl_805DAC60;
 
 void TItemShoot::run_task() {
     if (find_equipped_item((s32)this->m_54) == NULL) {
-        disallow_rendering__7TObjectFv(this);
-        queue_destruction__7TObjectFv(this);
+        disallow_rendering();
+        queue_destruction();
     }
-    allow_rendering__7TObjectFv(this);
+    allow_rendering();
     vec3_add_to(&this->m_pos, &this->m_dir);
     if (this->m_50 != nullptr) {
         ((TEffStarLight2D *)this->m_50)->copy_position(&this->m_pos);
@@ -79,13 +81,13 @@ void TItemShoot::run_task() {
     this->hook();
     this->m_life -= kLifeDecay;
     if (this->m_life <= kLifeFloor) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 
 TItemShoot::~TItemShoot() {
     if (this->m_50 != nullptr) {
-        queue_destruction__7TObjectFv(this->m_50);
+        this->m_50->queue_destruction();
     }
 }
 TItemShoot::TItemShoot(void* owner, const Vec* pos, const Vec* dir, f32 life)
@@ -105,5 +107,5 @@ TItemShoot::TItemShoot(void* owner, const Vec* pos, const Vec* dir, f32 life)
     direction_to_rotation_xz((u8 *)&this->m_dir, &this->m_28, &this->m_30);
     this->m_50 = NULL;
     this->m_54 = get_item_id__5TItemFv(owner);
-    disallow_rendering__7TObjectFv(this);
+    disallow_rendering();
 }

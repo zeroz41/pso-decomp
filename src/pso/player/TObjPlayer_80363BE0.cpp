@@ -15,6 +15,8 @@
 #include "pso/player/TUnk_804F29F8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemLoad.h"
+#include "pso/item/EquippedItemDrawQueue.h"
+#include "pso/render/model_render_state.h"
 
 #pragma defer_codegen on
 
@@ -22,21 +24,13 @@ extern "C" {
 void* init_vtable_804F2A10__13TUnk_804F2A10Fv(void*);
 extern s32 __vt__13TUnk_804F29F8[];
 extern s32 __vt__13TUnk_804F2A10[];
-extern u8 model_material_color[];
 u8 * lbl_805D6FB8;
-int player_item_id_list;
+EquippedItemDrawQueue *player_item_id_list;
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 int __ct__7TObjectFP7TObject(void);
 void *__nw__7TObjectFUl(int);
-extern u8 saved_model_draw_color[];
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
 extern u8 *lbl_805D6FB8;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern s32 model_render_flags;
 void* init_vtable_804F2A10__13TUnk_804F2A10Fv(void* a0);
 }
 
@@ -94,7 +88,7 @@ struct RecoveredGlobal_803640F8_lbl_8058D4C0 {
 
 struct Rec_80364028 { f32 a; s32 b; s32 c; s32 d; };
 
-extern Rec_80364028 lbl_80479FF8;
+const Rec_80364028 lbl_80479FF8 = {0.0f, 0, 0, 0};
 struct Elt80364258_80364258 { s32 f0; };
 typedef char RecoveredGlobal_803640C8_lbl_8058D4C0_size[sizeof(RecoveredGlobal_803640C8_lbl_8058D4C0) == 0x10 ? 1 : -1];
 typedef char RecoveredGlobal_8036414C_lbl_8058D4C0_size[sizeof(RecoveredGlobal_8036414C_lbl_8058D4C0) == 0x10 ? 1 : -1];
@@ -201,7 +195,6 @@ void TObjPlayer::spawn_cleanup_helper(void *arg0) {
 #undef init_vtable_804F2A10__13TUnk_804F2A10Fv
 
 extern "C" {
-#define reset_id_array__10TObjPlayerFPv ((s32 (*)(void *))reset_id_array__10TObjPlayerFPv)
 void TObjPlayer::push_id_to_list(s32 arg0) {
     if ((s32) *(s32 *)((s8 *)(*(void **)&lbl_805D6FB8) + 0xB0) == 0) {
         reset_id_array__10TObjPlayerFPv((*(void **)&lbl_805D6FB8));
@@ -210,14 +203,9 @@ void TObjPlayer::push_id_to_list(s32 arg0) {
 }
 }
 
-#undef reset_id_array__10TObjPlayerFPv
 
 extern "C" {
-#define __vt__13TUnk_804F2A10 ((unsigned char *)__vt__13TUnk_804F2A10)
-#define reset_id_array__10TObjPlayerFPv ((int (*)(void*))reset_id_array__10TObjPlayerFPv)
 void*TUnk_804F2A10::init_vtable_804F2A10() { __ct__7TObjectFP7TObject(); *(int*)((char*)this + 0x18) = (int)__vt__13TUnk_804F2A10; reset_id_array__10TObjPlayerFPv((void*)((*(int *)&lbl_805D6FB8))); return this; }
-#undef __vt__13TUnk_804F2A10
-#undef reset_id_array__10TObjPlayerFPv
 }
 
 TUnk_804F2A10::~TUnk_804F2A10() {
@@ -245,7 +233,7 @@ void TUnk_804F2A10::render() {
     saved_model_render_flags = model_render_flags;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-    copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
+    copy_argb(&saved_model_draw_color, &model_material_color);
     n = *(s32 *)(lbl_805D6FB8 + 0xB0);
     p = (s32 *)(lbl_805D6FB8 + 0x30);
     while (n != 0) {
@@ -254,14 +242,14 @@ void TUnk_804F2A10::render() {
             set_draw_list_mask(1);
             obj->m26();
             set_default_alpha_blend();
-            copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
+            copy_argb(&model_material_color, &saved_model_draw_color);
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             model_render_flags = saved_model_render_flags;
             set_draw_list_mask(2);
             obj->m26();
             set_default_alpha_blend();
-            copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
+            copy_argb(&model_material_color, &saved_model_draw_color);
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             model_render_flags = saved_model_render_flags;
@@ -307,11 +295,7 @@ void TObjPlayer::create_cleanup_object(void *arg0) {
 }
 
 extern "C" {
-#define __vt__13TUnk_804F29F8 ((unsigned char *)__vt__13TUnk_804F29F8)
-#define reset_id_array__10TObjPlayerFPv ((int (*)(void*))reset_id_array__10TObjPlayerFPv)
 void* TObjPlayer__sub_80363C5C(void* a0) { __ct__7TObjectFP7TObject(); *(int*)((char*)a0 + 0x18) = (int)__vt__13TUnk_804F29F8; reset_id_array__10TObjPlayerFPv((void*)player_item_id_list); return a0; }
-#undef __vt__13TUnk_804F29F8
-#undef reset_id_array__10TObjPlayerFPv
 }
 
 TUnk_804F29F8::~TUnk_804F29F8() {
@@ -319,7 +303,61 @@ TUnk_804F29F8::~TUnk_804F29F8() {
 }
 
 extern "C" {
-#define reset_id_array__10TObjPlayerFPv ((int (*)(void*))reset_id_array__10TObjPlayerFPv)
 void TUnk_804F29F8::run_task() { reset_id_array__10TObjPlayerFPv((void*)player_item_id_list); }
-#undef reset_id_array__10TObjPlayerFPv
+}
+
+struct DrawPrefix { u8 prefix[0x18]; };
+
+struct DrawTarget : DrawPrefix {
+    virtual void reserved0();
+    virtual void reserved1();
+    virtual void reserved2();
+    virtual void reserved3();
+    virtual void reserved4();
+    virtual void reserved5();
+    virtual void reserved6();
+    virtual void reserved7();
+    virtual void reserved8();
+    virtual void reserved9();
+    virtual void reserved10();
+    virtual void reserved11();
+    virtual void reserved12();
+    virtual void reserved13();
+    virtual void reserved14();
+    virtual void reserved15();
+    virtual void reserved16();
+    virtual void reserved17();
+    virtual void reserved18();
+    virtual void reserved19();
+    virtual void reserved20();
+    virtual void reserved21();
+    virtual void reserved22();
+    virtual void reserved23();
+    virtual void render();
+};
+
+extern "C" {
+void TUnk_804F29F8::render() {
+    set_default_alpha_blend();
+    saved_model_render_flags = model_render_flags;
+    saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+    saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
+    copy_argb(&saved_model_draw_color, &model_material_color);
+    u32 *id = player_item_id_list->item_ids;
+    s32 remaining = player_item_id_list->count;
+    while (remaining != 0) {
+        DrawTarget *item = (DrawTarget *)find_equipped_item(*id++);
+        if (item) {
+            item->render();
+            set_default_alpha_blend();
+            copy_argb(&model_material_color, &saved_model_draw_color);
+            chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+            chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+            model_render_flags = saved_model_render_flags;
+        }
+        --remaining;
+    }
+}
+
+void TItem::push_equipped_id(s32 id) { ((TObjPlayer *)player_item_id_list)->push_to_list(id); }
 }

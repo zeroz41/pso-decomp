@@ -10,8 +10,11 @@ extern "C" {
 
 struct CollisionSphere { Vec_803E1B1C center; f32 radius; };
 struct EdgeOrder_803E112C { s32 v[5]; };
-extern const Faces_803E0ED4 box_face_vertex_index_table, box_edge_adjacent_face_table;
-extern const EdgeOrder_803E112C lbl_8047E558;
+static const Faces_803E0ED4 box_face_vertex_index_table = {
+    {{0, 1, 2, 3}, {4, 7, 6, 5}, {0, 3, 7, 4}, {2, 1, 5, 6}, {0, 4, 5, 1}, {3, 2, 6, 7}}};
+static const Faces_803E0ED4 box_edge_adjacent_face_table = {
+    {{4, 3, 5, 2}, {2, 5, 3, 4}, {0, 5, 1, 4}, {0, 4, 1, 5}, {2, 1, 3, 0}, {0, 3, 1, 2}}};
+static const EdgeOrder_803E112C lbl_8047E558 = {{0, 1, 2, 3, 0}};
 
 #pragma use_lmw_stmw off
 

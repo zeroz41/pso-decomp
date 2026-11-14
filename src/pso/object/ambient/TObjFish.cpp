@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/task/TMainTask.h"
@@ -25,6 +26,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/network/client_id.h"
 #include <stdlib.h>
+#include "pso/system/task/TObject.h"
 
 struct VBase_18_26a62c;
 struct SVec_8029D5C8;
@@ -35,7 +37,7 @@ extern "C" {
 void * __nw__7TObjectFUl(int);
 void render__8TObjFishFv(u8 *arg0);
 s32 init_fish_school__8TObjFishFPvll(u8 *arg0, Vec_8029E170 *arg1, s32 arg2, s32 arg3);
-extern s32 TObjFish__area_bml_resource;
+s32 TObjFish__area_bml_resource;
 extern void* __vt__8TObjFish[];
 extern void* fish_resource_name_table[];
 }
@@ -51,7 +53,7 @@ s32 get_bml_model(s32, s32);
 s32 push_matrix();
 s32 set_global_param__8TObjFishFl();
 void __dl__7TObjectFPv(void *);
-extern s32 TObjFish__area_event_stage;
+s32 TObjFish__area_event_stage;
 u8 update_state__8TObjFishFv(void *arg0);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void free_bin_model_request(void*, int);
@@ -481,7 +483,6 @@ s32 TObjFish::init_fish_school(void *arg1_arg, s32 arg2, s32 arg3) {
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-#define __nw__7TObjectFUl ((u8 * (*)(s32))__nw__7TObjectFUl)
 #define init_fish_school__8TObjFishFPvll ((s32 (*)(void *, void *, int, int))init_fish_school__8TObjFishFPvll)
 
 extern "C" {
@@ -529,7 +530,7 @@ u8 *TObjFish__ct(u8 *fish, s32 arg1, u8 *arg2) {
         ((TObjFish *)fish)->m_94 = 1;
     }
     if (init_fish_school__8TObjFishFPvll(fish, fish + 0x68, (int) (*(s32 *)((s8 *)arg2 + 0x30)), (int) (*(s32 *)((s8 *)arg2 + 0x34))) == 0) {
-        queue_destruction__7TObjectFv((fish));
+        ((TObject *)fish)->queue_destruction();
     }
     return fish;
 }
@@ -691,5 +692,4 @@ void TObjFish::load_area_resource() {
 }
 
 }
-#undef __nw__7TObjectFUl
 #undef init_fish_school__8TObjFishFPvll

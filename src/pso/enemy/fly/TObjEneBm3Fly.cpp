@@ -14,6 +14,7 @@
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/boss/volopt/TBoss3VoloptP01.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/enemy/fly/TObjEneBm3FlyNest.h"
 #include "pso/system/BmlResource.h"
@@ -29,7 +30,6 @@ s32 is_main_phase_15__9TObjEneDDFv();
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 push_matrix();
 s32 set_global_param__8TObjFishFl(s32);
-extern Vec lbl_8043B10C;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 void update_dd_flag__13TObjEneBm3FlyFPv(TObjEneBm3Fly *fly, f32 x, f32 z, f32 speed);
@@ -43,8 +43,12 @@ extern "C" {
 void *find_entity_by_id(u16 id);
 s32 TBoss8Dragon__sub_800BB7D8(void *, s32, f32);
 s32 post_translate_matrix(void *);
-extern s32 bm3_fly_breakup_params[];
-extern TUnk_8048FA00 *TObjEneBm3Fly__breakup_model;
+u8 * bm3_fly_boss_stat_handle;
+AttackParams * TObjEneBm3Fly__attack_params;
+u8 * lbl_805D50E8;
+Bm3FlyParameters * lbl_805D50EC;
+BmlResource * bm3_fly_nest_resources;
+TUnk_8048FA00 * TObjEneBm3Fly__breakup_model;
 s32 vec3_add_to(void *, void *);
 f32 vec3_dot(void *, void *);
 s32 subtract_vector(void *, void *);
@@ -57,16 +61,13 @@ s32 noop__12TBoss8DragonFv(void *);
 f32 atan2_float(f32, f32);
 f32 update_scale__15TObjBoss2TunnelFv(void *);
 s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
-extern const f64 TObjEneBm3Fly__data_8043B118[];
 extern const f32 lbl_805D9E80;
 void TObjEneBm3Fly__sub_800B1214(TObjEneBm3Fly *arg0, s32 arg1);
 s32 is_vec_xz_cross_negative(void *, void *);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1);
 s32 select_nearest_target__12TObjEneDD_STFf(void *, f32);
-extern Bm3FlyParameters *lbl_805D50EC;
 f32 fabs_float(f32);
-extern AttackParams *TObjEneBm3Fly__attack_params;
 s32 get_random_scaled__9TObjEneDDFv(void *);
 s32 enemy_set_target_id(void *, u16);
 s32 collect_enemy_target_candidates(void *, EnemyTargetCandidate *, f32);
@@ -75,12 +76,10 @@ void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *arg0, s32 arg1);
 u32 TObjEneEpsilon__sub_800B92F8(void *, s32, f32);
 u32 move_with_wall_slide_commit__9TObjEneDDFfff(TObjEneDD *, f32, f32, f32);
 void free_collision_body_parts(void *);
-extern const Bm3FlyAnimationBinding bm3_fly_resource_binding_desc;
-extern const char *TObjEneBm3Fly__name;
-extern u8 *bm3_fly_boss_stat_handle;
-extern u8 *lbl_805D50E8;
-extern BmlResource *bm3_fly_nest_resources;
 extern void *tl_04;
+
+const TBoss3VoloptBreakupParams bm3_fly_breakup_params = { 0x14, { 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f } };
+const char *TObjEneBm3Fly__name = "TObjEneBm3Fly";
 
 Bm3FlyMovementParameters bm3_fly_decision_row = {
     225.0f, 0.92592591f, 0x600, { 0, 0, 0, 0 },
@@ -98,9 +97,11 @@ TObjMotionAction bm3_fly_action_table[5] = {
     { 3, 4, 0x3, 1.0f, 0x0 },
 };
 
+const Bm3FlyAnimationBinding bm3_fly_resource_binding_desc = { NULL, bm3_fly_action_table, 1, 5, 0 };
+
 void TObjEneBm3Fly::load_resources() {
     TUnk_8048FA00 *model;
-    bm3_fly_nest_resources = TObjEneBm3FlyNest__sub_800B4158();
+    bm3_fly_nest_resources = TObjEneBm3FlyNest::sub_800B4158();
     model = (TUnk_8048FA00 *)::operator new(0x10);
     if (model != NULL) {
         model = (TUnk_8048FA00 *)((TBreakUpMdl *)model)->init_from_model(bm3_fly_nest_resources->models[0].model);
@@ -518,7 +519,7 @@ void TObjEneBm3Fly__sub_800B1214(TObjEneBm3Fly *arg0, s32 arg1) {
         p->x = (3e+01f) * sin_table_lookup(arg0->m_448) + arg0->m_41c.x;
         p->y = arg0->m_444;
         p->z = (3e+01f) * cos_table_lookup(arg0->m_448) + arg0->m_41c.z;
-        arg0->rotation_y = (s32)(TObjEneBm3Fly__data_8043B118[0] * atan2_float(arg0->m_40c.x, arg0->m_40c.z));
+        arg0->rotation_y = (s32)(10430.38043493439 * atan2_float(arg0->m_40c.x, arg0->m_40c.z));
         enemy_clear_target__12TObjEneDD_STFUs(arg0);
         break;
     case 3:
@@ -562,7 +563,7 @@ void TObjEneBm3Fly__sub_800B1214(TObjEneBm3Fly *arg0, s32 arg1) {
                 arg0->m_42c = arg0->m_430.y * arg0->m_43c + arg0->m_42c;
                 arg0->position.z = arg0->m_430.z * arg0->m_43c + arg0->position.z;
             }
-            arg0->rotation_y = (s32)(TObjEneBm3Fly__data_8043B118[0] * atan2_float(arg0->m_430.x, arg0->m_430.z));
+            arg0->rotation_y = (s32)(10430.38043493439 * atan2_float(arg0->m_430.x, arg0->m_430.z));
             break;
         }
         arg0->update_collide_flag();
@@ -747,7 +748,7 @@ void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *arg0, s32 arg1) {
         arg0->m_42c = arg0->approach_value(pos->y, arg0->m_394.y);
         pos->y = arg0->m_42c;
         arg0->clamp_flight_height();
-        arg0->rotation_y = (s32)(TObjEneBm3Fly__data_8043B118[0] * atan2_float(arg0->m_430.x, arg0->m_430.z));
+        arg0->rotation_y = (s32)(10430.38043493439 * atan2_float(arg0->m_430.x, arg0->m_430.z));
         arg0->vfunc_89();
         pos->x -= arg0->position.x;
         pos->y -= arg0->m_42c;
@@ -933,7 +934,7 @@ void TObjEneBm3Fly::state_circle_target(s32 arg1) {
         update_dd_flag__13TObjEneBm3FlyFPv(this, this->m_430.x, this->m_430.z, speed);
         this->m_42c = this->approach_value(this->m_42c, this->m_394.y + vertical);
         this->clamp_flight_height();
-        this->rotation_y = (s32)(TObjEneBm3Fly__data_8043B118[0] * atan2_float(
+        this->rotation_y = (s32)(10430.38043493439 * atan2_float(
             this->m_390->position.x - this->position.x, this->m_390->position.z - this->position.z));
         this->vfunc_89();
         this->play_pitched_cue();
@@ -1058,7 +1059,7 @@ void action__13TObjEneBm3FlyFPvi(TObjEneBm3Fly *arg0, s32 arg1) {
         TBoss8Dragon__sub_800BB7DC(arg0);
         TBoss8Dragon__sub_800BB7D8(arg0, 0xF1, (1.0f));
         play_sound_effect(arg0->remap_sound_for_area((s32)(0x4003E425)), &arg0->position, 0, 0);
-        TBoss3Volopt::create_breakup_mdl((s32)TObjEneBm3Fly__breakup_model, (s32)bm3_fly_breakup_params, (s32)(arg0->texlist), (s32)&arg0->m_2fc, (s32)(arg0->rotation_y));
+        TBoss3Volopt::create_breakup_mdl((s32)TObjEneBm3Fly__breakup_model, (s32)&bm3_fly_breakup_params, (s32)(arg0->texlist), (s32)&arg0->m_2fc, (s32)(arg0->rotation_y));
         arg0->m_3c0 = 0;
         return;
     case 3:
@@ -1173,7 +1174,7 @@ void TObjEneBm3Fly::render() {
     }
     if (kind != 0) {
         if (this->m_428 & 2) {
-            Vec v = lbl_8043B10C;
+            Vec v = {0.8f, 1.0f, 0.8f};
             this->draw_ground_shadow(&v, 0);
         }
         this->update_secondary_light();

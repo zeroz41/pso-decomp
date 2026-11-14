@@ -1,8 +1,10 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/technique/TTecZonde.h"
 #include "pso/technique/TTecGiZonde.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
 
 typedef struct GTarget_80232598 {
     u16 id;
@@ -289,17 +291,17 @@ void TTecGiZonde::deliver_chain_hits() {
 void TTecGiZonde::run_task() {
     this->source = (u32)find_entity_by_id(this->sourceId);
     if ((u32) this->source == 0U) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     if ((s32) *(s32 *)((s8 *)this + 0x130) == 0) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     if (find_chain_targets() == 1) {
         deliver_chain_hits();
     }
-    queue_destruction__7TObjectFv(this);
+    queue_destruction();
 }
 u8 *TTecGiZonde__ct(u8 *arg0, void *arg1, void *arg2, void *arg3, void * _w4) {
     s32 h;

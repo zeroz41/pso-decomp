@@ -1,7 +1,9 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
+#include "pso/system/task/TObject.h"
 struct Vec_8036D0C0 { f32 x, y, z; };
 
 struct Hold_8036D0C0 {
@@ -45,12 +47,12 @@ Hold_8036D0C0 *TObjEneHoldEffect__ct(Hold_8036D0C0 *o, u8 *parent, s32 type, s32
             o->x98 = 0x223;
             break;
         default:
-            queue_destruction__7TObjectFv(o);
+            ((TObject *)o)->queue_destruction();
             return o;
         }
         o->x90 = create_particle_emitter(&o->pos, o->x98);
     } else {
-        queue_destruction__7TObjectFv(o);
+        ((TObject *)o)->queue_destruction();
     }
     return o;
 }

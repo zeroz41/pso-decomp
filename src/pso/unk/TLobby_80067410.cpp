@@ -1,9 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/galgryphon/TBoss5GryphonSnarl.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80066F10.h"
 #include "pso/unk/TLobby.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarDemo.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 void fn_802898EC(void);
@@ -14,7 +16,7 @@ s32 update_pillar__19TObjBoss5PillarCtrlFv();
 
 void TLobby::cleanup_pillar_demo() {
     if ((u32) boss5_ctrl_instance != 0U) {
-        queue_destruction__7TObjectFv((void*)boss5_ctrl_instance);
+        ((TObject *)boss5_ctrl_instance)->queue_destruction();
         boss5_ctrl_instance = 0U;
     }
     TObjBoss5PillarDemo__sub_8028ACE0();

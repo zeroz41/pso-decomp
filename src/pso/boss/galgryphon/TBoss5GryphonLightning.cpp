@@ -1,13 +1,15 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/galgryphon/TBoss5GryphonLightning.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "types.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/task/TObject.h"
 
 TBoss5GryphonLightning::~TBoss5GryphonLightning() {
-    if (m_44 != nullptr) { queue_destruction__7TObjectFv(m_44); m_44 = nullptr; }
-    if (m_40 != nullptr) { queue_destruction__7TObjectFv(m_40); m_40 = nullptr; }
-    if (m_3c != nullptr) { queue_destruction__7TObjectFv(m_3c); m_3c = nullptr; }
-    if (m_38 != nullptr) { queue_destruction__7TObjectFv(m_38); m_38 = nullptr; }
+    if (m_44 != nullptr) { ((TObject *)m_44)->queue_destruction(); m_44 = nullptr; }
+    if (m_40 != nullptr) { ((TObject *)m_40)->queue_destruction(); m_40 = nullptr; }
+    if (m_3c != nullptr) { ((TObject *)m_3c)->queue_destruction(); m_3c = nullptr; }
+    if (m_38 != nullptr) { ((TObject *)m_38)->queue_destruction(); m_38 = nullptr; }
 }
 
 struct Vec_80324F4C { f32 x, y, z; };

@@ -1,6 +1,8 @@
 #include "pso/map/TSetManager.h"
 #include "types.h"
 
+#pragma readonly_strings on
+
 extern "C" {
 extern "C" void apply_floor_set_rows__11TSetManagerFv();
 extern "C" void update_decoration_spawning__11TSetManagerFv();
@@ -36,12 +38,12 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 
 extern s32 __vt__11TSetManager[];
-extern void *lbl_805D3638;
+const char *lbl_805D3638 = "TSetManager";
 
 void *TSetManager__ct(void *set_manager, void *parent) {
     __ct__7TObjectFP7TObject(set_manager, parent);
     *(s32 **)((s8 *)set_manager + 0x18) = __vt__11TSetManager;
-    *(void * *)&((TSetManager *)set_manager)->m_name = lbl_805D3638;
+    ((TSetManager *)set_manager)->m_name = lbl_805D3638;
     *(u32 *)((s8 *)set_manager + 0x1C) = 0;
     return set_manager;
 }

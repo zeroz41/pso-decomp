@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -10,6 +11,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_801F6548_lbl_80512790 {
     s32 value;
@@ -58,7 +60,7 @@ void wait_confirm_and_finish__17TMCFormatSequenceFPv(void *arg0) {
         temp_r12 = *(s32 (**)(void *))((s8 *)self + 0x20);
         if (temp_r12 != NULL) {
             temp_r12(self);
-            queue_destruction__7TObjectFv(self);
+            ((TObject *)self)->queue_destruction();
         }
     }
 }
@@ -71,7 +73,7 @@ void update_wait_confirm__17TMCFormatSequenceFPv(void *arg0) {
         temp_r12 = *(s32 (**)(void *))((s8 *)self + 0x1C);
         if (temp_r12 != NULL) {
             temp_r12(self);
-            queue_destruction__7TObjectFv(self);
+            ((TObject *)self)->queue_destruction();
         }
     }
 }

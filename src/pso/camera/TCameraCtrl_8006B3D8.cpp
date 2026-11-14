@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/TUnk_80488AD8.h"
 #include "pso/system/vector.h"
@@ -5,6 +6,7 @@
 #include "pso/unk/TUnk_80488AF0.h"
 
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_8006BA08_lbl_80488B08 {
     s32 value;
@@ -123,7 +125,6 @@ void normalize_vector(void *);
 f32 xyz_distance(void *, void *);
 extern s32 lbl_80488AF0[];
 s32 TCameraCtrl__sub_8006B798(void *p, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-void queue_destruction__7TObjectFv(void *);
 s32 TCameraCtrl__sub_8006BADC(void);
 void approach_vector_fixed_distance(Vec_8006B6A8 *, Vec_8006B6A8 *, Vec_8006B6A8 *, f32);
 void *TCameraCtrl__vt9(void);
@@ -216,7 +217,7 @@ void TUnk_80488AF0::run_task() {
     }
     arg0->f20++;
     if (arg0->f20 == arg0->f22 + arg0->f24 || TCameraCtrl__sub_8006BADC() == 0) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 

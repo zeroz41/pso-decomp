@@ -5,6 +5,8 @@
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/npc/TUnk_804A9F50.h"
+#include "pso/enemy/TNeedleShoot.h"
+#include "pso/player/TObjPlayer.h"
 
 
 struct RecoveredGlobal_802A3CD8___vt__14TObjNpcKenkyuW {
@@ -85,7 +87,6 @@ extern s32 __vt__14TObjNpcKenkyuW[];
 s32 obj_is_hit_receivable(void *);
 Vec_802A3DE8 *get_shoot_data__12TNeedleShootFv(void *);
 void vector_length(void *);
-int get_player_data__10TObjPlayerFi(int a0);
 s32 get_entity_id(void *);
 TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src);
 void *find_entity_by_id(u16 id);
@@ -164,7 +165,7 @@ TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src) {
     VecCopy((Vec *)(self->body + 0x38), (const Vec *)&a);
     copy_xyz(self->body + 0x5C, &self->fA0);
     for (i = 0; i < TLobby::get_lobby_flag(); i++) {
-        p = (Pl_802A3DE8 *)get_player_data__10TObjPlayerFi(i);
+        p = (Pl_802A3DE8 *)TObjPlayer::get_player_data(i);
         if (p == 0) continue;
         if ((p->flags & 0x20000000) || (p->flags & 0x10000000)) {
             if ((u16)get_entity_id(p) == (u16)get_entity_id(src)) continue;
@@ -198,7 +199,7 @@ TechniqueContactList *TObjPlayer__sub_802A3FDC(Obj_802A3FDC *self, void *src) {
     VecCopy((Vec *)&a, (const Vec *)&self->pos);
     ((void (*)(void *))clear_technique_contacts__10TObjPlayerFv)(self);
     if (self->body == 0) return &L_802A3FDC;
-    sd = ((Vec_802A3FDC *)get_shoot_data__12TNeedleShootFv(self));
+    sd = ((Vec_802A3FDC *)((TNeedleShoot *)self)->get_shoot_data());
     d.x = a.x - sd->x;
     d.y = a.y - sd->y;
     d.z = a.z - sd->z;
@@ -209,7 +210,7 @@ TechniqueContactList *TObjPlayer__sub_802A3FDC(Obj_802A3FDC *self, void *src) {
     VecCopy((Vec *)(self->body + 0x38), (const Vec *)&a);
     copy_xyz(self->body + 0x5C, &self->fA0);
     for (i = TLobby::get_game_mode(); i < TLobby::get_lobby_flag(); i++) {
-        p = ((Pl_802A3FDC *)get_player_data__10TObjPlayerFi(i));
+        p = ((Pl_802A3FDC *)TObjPlayer::get_player_data(i));
         if (p == 0) continue;
         if (p->flags & 0x20000000) {
             if ((u16)get_entity_id(p) != (u16)get_entity_id(src)) {
@@ -241,7 +242,7 @@ TechniqueContactList *TObjPlayer::collect_technique_contacts(void *src) {
     VecCopy((Vec *)&a, (const Vec *)(&((Obj_802A41CC *)this)->pos));
     ((void (*)(void *))clear_technique_contacts__10TObjPlayerFv)(this);
     if (((Obj_802A41CC *)this)->body == 0) return &L_802A41CC;
-    sd = (Vec_802A41CC *)get_shoot_data__12TNeedleShootFv(this);
+    sd = (Vec_802A41CC *)((TNeedleShoot *)this)->get_shoot_data();
     d.x = a.x - sd->x;
     d.y = a.y - sd->y;
     d.z = a.z - sd->z;
@@ -254,7 +255,7 @@ TechniqueContactList *TObjPlayer::collect_technique_contacts(void *src) {
     if ((u16)get_entity_id(src) < 4) {
         n = TLobby::get_lobby_flag();
         for (i = 0; i < n; i++) {
-            p = (Pl_802A41CC *)get_player_data__10TObjPlayerFi(i);
+            p = (Pl_802A41CC *)TObjPlayer::get_player_data(i);
             if (p == 0) continue;
             if ((u16)get_entity_id(p) == (u16)get_entity_id(src)) continue;
             r = (TechniqueContactBody *)((TObjCollidable *)(((Obj_802A41CC *)this)->body))->find_actor_body_contact((u8 *)p, 10000.0f);

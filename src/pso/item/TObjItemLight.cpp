@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/TObjItemLight.h"
 #include "pso/item/TObjItemLight.h"
@@ -6,15 +7,17 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/task/TObject.h"
+#include "pso/player/TObjPlayer.h"
+
+#pragma readonly_strings on
 
 struct Light_80191F90 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x18]; f32 rot[3]; u8 pad68[0x28]; f32 f90; void *f94; };
 
 struct Ply_80191F90 { u8 pad0[0x38]; f32 pos[3]; };
 
 extern "C" {
-s32 is_locally_controlled__10TObjPlayerFPv(void *);
 s32 get_current_floor();
-void queue_destruction__7TObjectFv(void *);
 s32 is_item_light_interaction_blocked();
 f32 xz_distance_squared(void *, void *);
 Ply_80191F90 *get_player_by_client_id(s32);
@@ -40,10 +43,10 @@ void run_task__13TObjItemLightFv(Light_80191F90 *arg0) {
     for (i = 0; i < 4; i++) {
         p = get_player_by_client_id(i);
         if (p != 0 && ((TObjPlayer *)p)->get_floor() == get_current_floor()
-            && is_locally_controlled__10TObjPlayerFPv(p) != 0
+            && TObjPlayer::is_locally_controlled(p) != 0
             && xz_distance_squared(p->pos, arg0->pos) < arg0->f90 * arg0->f90) {
             ((TObjBase *)arg0)->set_event_source_flag(8);
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
             return;
         }
     }
@@ -55,12 +58,12 @@ TObjItemLight::~TObjItemLight() {
 }
 extern "C" {
 
-extern s32 TObjItemLight__class_name;
+const char *TObjItemLight__class_name = "TObjItemLight";
 
 u8 *TObjItemLight__ct(TObjItemLight *item_light, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject();
     *(s32 **)((s8 *)item_light + 0x18) = __vt__13TObjItemLight;
-    *(s32 *)((s8 *)item_light + 0) = (s32) TObjItemLight__class_name;
+    *(const char **)((s8 *)item_light + 0) = TObjItemLight__class_name;
     item_light->apply_object_set_data((void *)arg2);
     item_light->m_94 = 0;
     *(f32 *)((s8 *)item_light + 0x90) = (f32) item_light->scale.x;

@@ -4,6 +4,8 @@
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/player/TObjPlayer.h"
 
+#pragma readonly_strings on
+
 struct RecoveredGlobal_802889A8_lbl_804D04F8 { s32 value; u8 remaining[0x34]; };
 typedef char RecoveredGlobal_802889A8_lbl_804D04F8_size[sizeof(RecoveredGlobal_802889A8_lbl_804D04F8) == 0x38 ? 1 : -1];
 
@@ -53,12 +55,12 @@ TWindowMainMenu4P::~TWindowMainMenu4P() {
 }
 
 
-extern void *TWindowMainMenu4P__name;
+const char *TWindowMainMenu4P__name = "TWindowMainMenu4P";
 
 void *TWindowMainMenu4P__ct(void *window_main_menu4_p) {
     TWindowMainMenu__ct(window_main_menu4_p);
     *(s32 **)((s8 *)window_main_menu4_p + 0x18) = __vt__17TWindowMainMenu4P;
-    *(void * *)&((TWindowMainMenu4P *)window_main_menu4_p)->m_name = TWindowMainMenu4P__name;
+    ((TWindowMainMenu4P *)window_main_menu4_p)->m_name = TWindowMainMenu4P__name;
     return window_main_menu4_p;
 }
 

@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
@@ -8,6 +9,8 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/map/FloorArea.h"
 #include "pso/render/render_util.h"
+#include "pso/system/task/TObject.h"
+#include "pso/technique/TTecCtrl.h"
 
 struct RecoveredGlobal_801FA964_lbl_804C8784 {
     s32 value;
@@ -305,9 +308,7 @@ extern u32 TRaderMapCore__floor_map_resource;
 extern s32 lbl_805D5F2C;
 extern s32 TRaderMapCore__data_805D5F30;
 extern s32 TRaderMapCore__view_mode;
-void disallow_rendering__7TObjectFv(TObject *);
 extern void *TRaderMapCore__instance;
-void allow_rendering__7TObjectFv(TObject *);
 void TCameraCtrl__sub_801E32D8(f32 farg0, f32 farg1);
 s32 GXSetScissorBoxOffset(int, int);
 extern Rect_801F9228 radar_map_view_scissor_table[3];
@@ -405,7 +406,6 @@ extern const f32 radar_screen_height_f32;
 
 int __dt__5THeapFv(void*, void*);
 s32 is_card_flag_set__19TWindowKeyBoardHardFv(u16);
-s32 is_technique_ready__8TTecCtrlFv();
 
 s32 TRaderMapCore::is_render_admitted_default() {
     return is_render_admitted((void *)TRaderMapCore__view_mode);
@@ -425,21 +425,21 @@ s32 should_show_map__13TRaderMapCoreFv(void) {
     if ((TRaderMapCore::is_not_split_screen() == 1) && (TLobby::is_ready() == 0)) {
         return 0;
     }
-    return is_technique_ready__8TTecCtrlFv();
+    return TTecCtrl::is_technique_ready();
 }
 void TRaderMapCore::reset_counter() { this->m_184 = 0; }
 
 void TRaderMapCore::hide_radar() {
     if ((void *) (*(u8 * *)&TRaderMapCore__instance) != NULL) {
         ((TRaderMapCore *)(*(u8 * *)&TRaderMapCore__instance))->reset_counter();
-        disallow_rendering__7TObjectFv((TObject *)(*(u8 * *)&TRaderMapCore__instance));
+        ((TObject *)(*(u8 * *)&TRaderMapCore__instance))->disallow_rendering();
     }
 }
 
 void TRaderMapCore::show_radar() {
     if ((void *) (*(u8 * *)&TRaderMapCore__instance) != NULL) {
         ((TRaderMapCore *)(*(u8 * *)&TRaderMapCore__instance))->reset_counter();
-        allow_rendering__7TObjectFv((TObject *)(*(u8 * *)&TRaderMapCore__instance));
+        ((TObject *)(*(u8 * *)&TRaderMapCore__instance))->allow_rendering();
     }
 }
 }

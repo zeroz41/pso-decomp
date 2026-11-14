@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/collision/TObjEvtCollision.h"
 #include "pso/object/base/TObjMotion.h"
@@ -5,6 +6,9 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/task/TObject.h"
+
+#pragma readonly_strings on
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 struct RecoveredGlobal_80190DE4___vt__16TObjEvtCollision {
@@ -17,11 +21,9 @@ struct Pkt_80190CFC { u8 hdr[2]; u16 id; s32 player; s32 x10; s32 x14; };
 struct Obj_80190CFC { u8 pad0[0x1C]; u16 id; u8 pad1E[0x84 - 0x1E]; s32 x84; u8 pad88[0xAC - 0x88]; f32 radius; u8 padB0[4]; s32 timer; };
 
 extern "C" {
-void disallow_rendering__7TObjectFv(TObject *arg0);
 extern s32 __vt__16TObjEvtCollision[];
-extern s32 TObjEvtCollision__class_name;
+const char *TObjEvtCollision__class_name = "TObjEvtCollision";
 u8 *TObjEvtCollision__ct(TObjEvtCollision *arg0, s32 arg1, s32 arg2);
-void queue_destruction__7TObjectFv(void *arg0);
 extern s32 local_client_id;
 void *TObjEvtCollision__create(void *arg0);
 void *__dt__16TObjEvtCollisionFv(void *arg0, s16 arg1);
@@ -77,7 +79,7 @@ void TObjEvtCollision::run_task() {
             pkt.x14 = local_client_id;
             ((TLobby *)(&pkt))->byteswap_and_send();
             ((TObjBase *)arg0)->set_event_source_flag(8);
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
         }
     }
 }
@@ -91,12 +93,12 @@ typedef char RecoveredGlobal_80190DE4___vt__16TObjEvtCollision_size[sizeof(Recov
 u8 *TObjEvtCollision__ct(TObjEvtCollision *evt_collision, s32 arg1, s32 arg2) {
     __ct__14TObjCollidableFP7TObject(evt_collision, arg1);
     *(s32 **)((s8 *)evt_collision + 0x18) = &(*(RecoveredGlobal_80190DE4___vt__16TObjEvtCollision *)&__vt__16TObjEvtCollision).value;
-    *(s32 *)((s8 *)evt_collision + 0) = (s32) TObjEvtCollision__class_name;
+    *(const char **)((s8 *)evt_collision + 0) = TObjEvtCollision__class_name;
     ((TObjEvtCollision *)(evt_collision))->apply_object_set_data((void *)arg2);
     *(f32 *)((s8 *)evt_collision + 0xAC) = (f32) evt_collision->scale.x;
     evt_collision->m_b0 = (s32) evt_collision->set_params[0];
     evt_collision->m_b4 = 3;
-    disallow_rendering__7TObjectFv((evt_collision));
+    evt_collision->disallow_rendering();
     return (u8 *)evt_collision;
 }
 

@@ -8,6 +8,7 @@
 #include "pso/weapon/TUnk_804A5B20.h"
 #include "pso/player/TObjPlayer_8012D8E4.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer.h"
 
 extern "C" {
 struct Owner_8012D708 { u8 pad[0x60]; s32 f60; };
@@ -33,7 +34,6 @@ struct Tec_8012D708 {
 };
 
 s16 get_entity_id(void *);
-f32 query_extended_state__10TObjPlayerFv(void *);
 struct SlicerState_801295FC;
 void init_slicer_launch_state(void *arg0);
 s16 get_validated_attack_stage(u8 *arg0);
@@ -51,7 +51,7 @@ void TUnk_804A5A28::emit_marker_effects() {
     tec.f8 = ((Self_8012D708 *)this)->f188;
     tec.f10 = TObjPlayer__sub_801D2F4C((s16 *)((u8 *)((Self_8012D708 *)this)->owner + 0x7CC));
     tec.f12 = get_validated_attack_stage((u8 *)((Self_8012D708 *)this)->owner + 0x7CC);
-    tec.f14 = query_extended_state__10TObjPlayerFv(((Self_8012D708 *)this)->owner);
+    tec.f14 = ((TObjPlayer *)(((Self_8012D708 *)this)->owner))->query_extended_state();
     tec.f18 = 1.0f;
     tec.f1C = 0.0f;
     tec.f20 = 1.0f;

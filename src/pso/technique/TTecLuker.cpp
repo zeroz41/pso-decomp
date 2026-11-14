@@ -1,7 +1,11 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/map/FloorArea.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/system/task/TObject.h"
+#include "pso/technique/TTecLuker.h"
 extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/unk/TUnk_804CCA0C.h"
 #include "pso/unk/TUnk_804CC990.h"
@@ -92,7 +96,7 @@ struct Owner_80234D50 {
 };
 
 struct Luker_80234D50 {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x18 - 0x4];
     void *vt;
     Owner_80234D50 *owner;
@@ -179,21 +183,49 @@ s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 extern RecoveredGlobal_80233D18_lbl_804CC9A8 telepipe_field_collision_body_template;
 extern s32 telepipe_field_collider_vtable[];
 bool TTecLuker__sub_8023401C(u8 *arg0);
-extern u32 recovery_technique_charge_particle_ids[];
+u32 recovery_technique_charge_particle_ids[2] = { 0xB7, 0xB8 };
 void* spawn_particle_effect(float*,u32);
-s32 queue_destruction__7TObjectFv(void *);
 void TTecLuker__updateRecoveryTechniqueCharge(TechniqueChargeEmitter* state);
-extern u8 TTecLuker__visit_counts[4];
+u8 TTecLuker__visit_counts[4] = { 0, 0, 0, 0 };
 void reset_telepipe_visit_counts(void);
 void TTecLuker__sub_80234F08(void);
 void reset_telepipe_record(O_802340A0 *o);
 void TTecLuker__sub_80234F48(void);
 s32 TObjPlayer__sub_801BFFA0(void *p);
 void set_state__9TTecLukerFl(void *p, s32 v);
-extern s32 telepipe_town_heading_table[];
-extern Vec_80233E78 telepipe_town_position_table[];
-extern Vec_80233E78 telepipe_town_position_table_b[];
-Vec_80233E78 *consume_telepipe_arrival(u16 slot, s32 *heading);
+static const s32 telepipe_visual_template_table[12][3] = {
+    { 177, 178, 176 },
+    { 177, 178, 176 },
+    { 177, 178, 176 },
+    { 176, 177, 178 },
+    { 0, 0, 0 },
+    { 0, 0, 0 },
+    { 0, 0, 0 },
+    { 0, 0, 0 },
+    { 0, 0, 0 },
+    { 0, 0, 0 },
+    { 0, 0, 0 },
+    { 0, 0, 0 },
+};
+static const s32 telepipe_owner_tint_table[12] = {
+    0x00FFB2B2, 0x0099FFB2, 0x00FFFFB2, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+};
+const char *TTecLuker__name = "TTecLuker";
+static const Vec_80234D50 lbl_8044D72C = { 0.0f, 0.0f, 0.2f };
+static const Vec_80233E78 telepipe_town_position_table[4] = {
+    { -312.0f, 0.0f, -113.0f },
+    { -306.0f, 0.0f, -135.0f },
+    { -285.0f, 0.0f, -172.0f },
+    { -249.0f, 0.0f, -190.0f },
+};
+static const Vec_80233E78 telepipe_town_position_table_b[4] = {
+    { 270.0f, -30.0f, -220.0f },
+    { 300.0f, -30.0f, -220.0f },
+    { 330.0f, -30.0f, -215.0f },
+    { 360.0f, -30.0f, -185.0f },
+};
+static const s32 telepipe_town_heading_table[4] = { 16384, 16384, 16384, 16384 };
+const Vec_80233E78 *consume_telepipe_arrival(u16 slot, s32 *heading);
 s16 get_field_2__9TTecLukerFPv(void* p);
 s32 get_current_floor(void);
 void restore_floor_telepipes(void);
@@ -217,13 +249,10 @@ s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, s32);
 s32 push_matrix_from(void *);
 s32 pop_matrices(int);
-extern Vec_80234D50 lbl_8044D72C;
 extern void* __vt__9TTecLuker[];
 extern u8 identity_matrix[];
-extern s32 TTecLuker__name;
 void *TTecLuker__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 s32 mark_area_change_pending();
-s32 obj_isState3_324__9TObjCharaFv(void *);
 s32 play_effect_default__10TObjPlayerFii(void *, s32);
 s32 send_6x21_inter_level_warp(void *, s32);
 s32 get_floor_map_terrain(s32);
@@ -243,8 +272,6 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
 void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
 extern s32 lbl_80515BA0[];
 u8 *create_telepipe_marker(u8 *arg0, s32 arg1, s8 arg2, s8 arg3, s32 arg4, s32 arg5, s32 arg6, f32 farg0, f32 farg1);
-extern s32 telepipe_visual_template_table[][3];
-extern s32 telepipe_owner_tint_table[];
 extern s32 tl_particlemodel;
 extern "C" {
 void *create_telepipe_visual(void *self, Vec_802347B4 *pos, u32 id, s32 res);
@@ -259,8 +286,8 @@ void TTecLuker__updateRecoveryTechniqueCharge(TechniqueChargeEmitter* state) {
     if(state->age%10==0) {
         for(int i=0;i<2;++i)spawn_particle_effect(state->position,recovery_technique_charge_particle_ids[i]);
     }
-    if(!((TObjPlayer *)(state->actor))->check_flag_0x80())queue_destruction__7TObjectFv(state);
-    else if(state->age>=180)queue_destruction__7TObjectFv(state);
+    if(!((TObjPlayer *)(state->actor))->check_flag_0x80())((TObject *)state)->queue_destruction();
+    else if(state->age>=180)((TObject *)state)->queue_destruction();
 }
 
 void *TTecLuker::destroy(s16 arg1) {
@@ -361,7 +388,7 @@ void create_quest_telepipe_for_client(u16 arg0) {
     }
 }
 
-Vec_80233E78 *consume_telepipe_arrival(u16 slot, s32 *heading) {
+const Vec_80233E78 *consume_telepipe_arrival(u16 slot, s32 *heading) {
     Player_80233E78 *p;
     u16 owner;
     if (slot >= 4) {
@@ -373,7 +400,7 @@ Vec_80233E78 *consume_telepipe_arrival(u16 slot, s32 *heading) {
         if (owner == 0xffff) {
             return 0;
         }
-        set_state__9TTecLukerFl(p->arrival, 0xffff);
+        ((TTecLuker *)p->arrival)->set_state(0xffff);
         if (get_current_floor_area() == AREA_PIONEER2_EP1) {
             *heading = telepipe_town_heading_table[slot];
             return &telepipe_town_position_table[slot];
@@ -597,13 +624,13 @@ Obj_8023448C *__dt__13TUnk_804CCA0CFv(Obj_8023448C *arg0, s16 arg1) {
         arg0->vt = lbl_804CCA0C;
         do {
             if (TTecLuker::is_parents_unqueued(arg0->kids[i]) != 0) {
-                queue_destruction__7TObjectFv((void *)arg0->kids[i]);
+                ((TObject *)arg0->kids[i])->queue_destruction();
                 arg0->kids[i] = z;
             }
             i++;
         } while (i < 3);
         if (arg0->f28 != 0) {
-            queue_destruction__7TObjectFv((void *)arg0->f28);
+            ((TObject *)arg0->f28)->queue_destruction();
             arg0->f28 = 0;
         }
         __dt__7TObjectFv(arg0, 0);
@@ -628,9 +655,9 @@ void *create_telepipe_visual(void *self, Vec_802347B4 *pos, u32 id, s32 res) {
   long long off;
   Hit_8023453C *hit;
   void *p;
-  s32 *row;
+  const s32 *row;
   s32 i;
-  u8 *pt;
+  const u8 *pt;
   __ct__7TObjectFP7TObject(self, (void *) res);
   ((Fx_8023453C *) self)->vt = lbl_804CCA0C;
   VecCopy((Vec *)(&((Fx_8023453C *) self)->pos), (const Vec *)pos);
@@ -642,7 +669,7 @@ void *create_telepipe_visual(void *self, Vec_802347B4 *pos, u32 id, s32 res) {
   }
   row = telepipe_visual_template_table[id];
   off = id * 4;
-  pt = (u8 *) telepipe_owner_tint_table;
+  pt = (const u8 *) telepipe_owner_tint_table;
   for (i = 0; i < 3; i++)
   {
     switch (i)
@@ -746,7 +773,7 @@ void run_task__9TTecLukerFv(u8 *arg0) {
     *(u8 **)((s8 *)arg0 + 0x1C) = find_entity_by_id(((TTecLuker *)arg0)->m_b4);
     owner = *(u8 **)((s8 *)arg0 + 0x1C);
     if (owner == NULL) {
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         return;
     }
     switch (((TTecLuker *)arg0)->m_108) {
@@ -765,7 +792,7 @@ void run_task__9TTecLukerFv(u8 *arg0) {
             if (TTecLuker__sub_80235054(tgt) != 0) {
                 VecCopy((Vec *)(arg0 + 0xFC), (const Vec *)(*(u8 **)((s8 *)arg0 + 0x1C) + 0x38));
                 if ((telepipe_record_differs((Rec_8023402C *)(*(u8 **)((s8 *)arg0 + 0x1C) + 0x830), ((TTecLuker *)arg0)->m_f4, (Vec_8023402C *)(arg0 + 0xFC), ((TTecLuker *)arg0)->m_f6) == 0) && ((s8) *(TTecLuker__visit_counts + ((TTecLuker *)arg0)->m_b4) >= 1)) {
-                    queue_destruction__7TObjectFv(arg0);
+                    ((TObject *)arg0)->queue_destruction();
                     return;
                 }
                 ((TTecLuker *)arg0)->setup_telepipe_field();
@@ -778,12 +805,12 @@ void run_task__9TTecLukerFv(u8 *arg0) {
             *(TTecLuker__visit_counts + temp_r5) = *(TTecLuker__visit_counts + temp_r5) + 1;
         }
         if (telepipe_record_differs((Rec_8023402C *)(*(u8 **)((s8 *)arg0 + 0x1C) + 0x830), ((TTecLuker *)arg0)->m_f4, (Vec_8023402C *)(arg0 + 0xFC), ((TTecLuker *)arg0)->m_f6) != 0) {
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
             return;
         }
         play_persistent_sound(0x4002B219, arg0, arg0 + 0xFC, 0, 0);
         if ((u32) ((TTecLuker *)arg0)->m_f0 == 0U) {
-            queue_destruction__7TObjectFv(arg0);
+            ((TObject *)arg0)->queue_destruction();
             return;
         }
         if ((get_player_by_client_id(((TTecLuker *)arg0)->m_f6) != 0) && (get_pipe_interaction_latch(*(void **)((s8 *)arg0 + 0xF0)) != 0) && (are_players_gathered_near(arg0 + 0xFC, 0, 10.0f) != 0)) {
@@ -814,7 +841,7 @@ void run_task__9TTecLukerFv(u8 *arg0) {
                 ((TTecLuker *)arg0)->m_108 = 1;
                 TWindowCtrl::init_all_slots2();
                 if ((u32) ((TTecLuker *)arg0)->m_f0 == 0U) {
-                    queue_destruction__7TObjectFv(arg0);
+                    ((TObject *)arg0)->queue_destruction();
                     return;
                 }
                 clear_pipe_interaction_latch((void*)(*(void **)((s8 *)arg0 + 0xF0)));
@@ -846,7 +873,7 @@ block_43:
                     } else {
                         send_6x21_inter_level_warp(p, 0);
                     }
-                } else if (obj_isState3_324__9TObjCharaFv(p) != 0) {
+                } else if (((TObjChara *)p)->obj_isState3_324() != 0) {
                     ((void (*)(void *, u16))set_state__9TTecLukerFl)(p + 0x848, st2);
                     if (TLobby::get_instance() == 1) {
                         send_6x21_inter_level_warp(p, 0);
@@ -865,7 +892,7 @@ block_43:
         mark_area_change_pending();
         return;
     case 4:
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
         break;
     }
 }
@@ -877,7 +904,7 @@ void *__dt__9TTecLukerFv(TTecLuker *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(void **)((s8 *)arg0 + 0x18) = (void *) __vt__9TTecLuker;
         if ((u32) arg0->m_f8 != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xF8));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0xF8)))->queue_destruction();
             arg0->m_f8 = 0U;
         }
         temp_r3 = *(void **)((s8 *)arg0 + 0xEC);
@@ -888,7 +915,7 @@ void *__dt__9TTecLukerFv(TTecLuker *arg0, s16 arg1) {
             *(void **)((s8 *)arg0 + 0xEC) = NULL;
         }
         if ((u32) arg0->m_f0 != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xF0));
+            ((TObject *)(*(void **)((s8 *)arg0 + 0xF0)))->queue_destruction();
             arg0->m_f0 = 0U;
         }
         arg0->m_f0 = 0U;

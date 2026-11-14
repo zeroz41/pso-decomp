@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
 #include "pso/unk/TLobby_801E2F94.h"
@@ -8,10 +9,11 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/charcreate/TChCrLoadAfs.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
+#include "pso/system/task/TObject.h"
 
 struct Obj_8028C8A8 { u8 pad[0x6c]; s32 f6c; };
 
-extern s32 chr_select_slot_state;
+s32 chr_select_slot_state;
 
 void TChCrLoadGmNjReq::sub_8028C8A8() {
     Obj_8028C8A8 *o = (Obj_8028C8A8 *)this;
@@ -329,7 +331,7 @@ void close_and_destroy__12TChCrLoadReqFv(void *arg0) {
         temp_r4 = *(s32 **)((s8 *)arg0 + 0x3C);
         *temp_r4 &= 0xFFFFFF7F;
         ((TChCrLoadReq *)arg0)->sub_8028CEEC(temp_r4);
-        queue_destruction__7TObjectFv(arg0);
+        ((TObject *)arg0)->queue_destruction();
     }
 }
 

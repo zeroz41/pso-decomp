@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
@@ -9,6 +10,7 @@
 #include "pso/ui/window/TWindowMakeTeam.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/system/task/TObject.h"
 
 typedef struct Self_80264EB8 {
     u8 pad0[0x1C];
@@ -62,7 +64,7 @@ void TWindowMakeTeam::run_task() {
     case 0:
     case 1:
         if (self->keyboard != NULL) {
-            queue_destruction__7TObjectFv(self->keyboard);
+            ((TObject *)self->keyboard)->queue_destruction();
             self->keyboard = NULL;
         }
         if (self->window != NULL) {

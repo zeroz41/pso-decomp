@@ -61,10 +61,8 @@ s32 is_player_entity_id(u16);
 s32 enemy_set_target_id(void *, u16);
 void fn_800E762C(TObjEneMe3Shinowa *);
 u16 TObjEneMe3ShinowaReal__sub_800E45CC(TObjEneMe3Shinowa *shinowa);
-extern const char *lbl_805D2AD0;
 extern s32 model_render_flags;
 TObjEneMe3ShinowaMirage *create__23TObjEneMe3ShinowaMirageFPvPv(void *, s32, s32, s32);
-extern const char *TObjEneMe3ShinowaReal_class_name;
 }
 
 extern "C" {
@@ -72,7 +70,12 @@ u32 csnVecterUnder(void *, int);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-extern SampledMotionPoints *TObjEneMe3ShinowaMirage__data_805D52AC;
+BmlResource * TObjEneMe3ShinowaMirage__data_805D5298;
+s32 TObjEneMe3ShinowaMirage__render_node_index;
+TUnk_8048FA00 * TObjEneMe3ShinowaMirage__data_805D52A0;
+SampledMotionPoints * TObjEneMe3ShinowaMirage__data_805D52A4;
+SampledMotionPoints * TObjEneMe3ShinowaMirage__data_805D52A8;
+SampledMotionPoints * TObjEneMe3ShinowaMirage__data_805D52AC;
 void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *, s32);
 struct EnemyTargetCandidate { u16 id; u8 unk_2[6]; };
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
@@ -110,12 +113,7 @@ s32 get_room__8TObjBaseFv(TObjBase *);
 s32 create__10TTecDebandFlll(void *, void *, s32);
 void compose_motion_node_matrix(void *arg0);
 s32 translate_matrix(int, f32, f32, f32);
-extern BmlResource *TObjEneMe3ShinowaMirage__data_805D5298;
-extern TUnk_8048FA00 *TObjEneMe3ShinowaMirage__data_805D52A0;
-extern SampledMotionPoints *TObjEneMe3ShinowaMirage__data_805D52A4;
-extern SampledMotionPoints *TObjEneMe3ShinowaMirage__data_805D52A8;
 extern u8 shinowa_mirage_breakup_params[];
-extern Vec lbl_8043CF94;
 
 // Per-variant parameter tables fetched from TLobby (TObjEneMe3Stelth names the same four
 // base/attack/resistance/behavior_params_by_variant).
@@ -129,8 +127,6 @@ __declspec(section ".data") TObjEneMe3ShinowaParams *TObjEneMe3ShinowaMirage__mi
 __declspec(section ".data") NJS_TEXLIST lbl_80500FEC;
 Vec lbl_80500FF4;
 s32 *lbl_80501000[4];
-extern const char *TObjEneMe3Shinowa__name;
-extern s32 TObjEneMe3ShinowaMirage__render_node_index;
 extern s32 saved_model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
@@ -184,6 +180,15 @@ TObjMotionAction shinowa_mirage_motion_param_table[11] = {
     {3, 0, 6, 0.7f, ACTION_NO_BLEND_IN},
 };
 
+const char *TObjEneMe3Shinowa__name = "TObjEneMe3Shinowa";
+const char *TObjEneMe3ShinowaReal_class_name = "TObjEneMe3ShinowaReal";
+// inferred: TObjEneMe3ShinowaMirage__class_name (was lbl_805D2AD0; the mirage ctor stores it to m_name)
+const char *TObjEneMe3ShinowaMirage__class_name = "TObjEneMe3ShinowaMirage";
+// inferred: motion binding load_shinowa_mirage_resources hands to TLobby::spawn_npc_enemy
+const DelDepthAnimationBinding shinowa_mirage_spawn_binding = { NULL, shinowa_mirage_motion_param_table, 0x80009, 11, 0 };
+// inferred: shadow scale handed to draw_ground_shadow by update_player_state_default
+const Vec shinowa_shadow_scale = { 2.5f, 1.0f, 1.5f };
+
 s32 free_bin_model_request(void *, s32);
 void mem_free(void *p);
 int create__21TObjEneMe3ShinowaRealFv(void*);
@@ -192,7 +197,6 @@ extern s32 lbl_8043CE1C[];
 extern s32 lbl_8043CE24[];
 extern s32 lbl_8043CE2C[];
 extern s32 lbl_8043CE34[];
-extern DelDepthAnimationBinding lbl_8043CF84;
 
 // Floor resource callback (inferred: load_shared_resources, the TObjEneMe3SinowZoa::load_resources twin):
 // loads the shared Shinowa BML, a texture-list copy for the mirage, the per-variant parameter tables,
@@ -306,7 +310,7 @@ void load_shinowa_mirage_resources() {
         TObjEneMe3ShinowaMirage__data_805D52A8->sample_node_offsets(model, trail, 0x15, &first, &second);
     }
     {
-        DelDepthAnimationBinding binding = lbl_8043CF84;
+        DelDepthAnimationBinding binding = shinowa_mirage_spawn_binding;
         binding.motions = TObjEneMe3ShinowaMirage__data_805D5298->motions;
         TLobby::spawn_npc_enemy(0x26, TObjEneMe3ShinowaMirage__data_805D5298->models->model, (NJS_TEXLIST *)TObjEneMe3ShinowaMirage__data_805D5298->models->m_c, &binding, 8.0f, 0.0f);
         TLobby::spawn_npc_enemy(0x27, TObjEneMe3ShinowaMirage__data_805D5298->models->model, &lbl_80500FEC, &binding, 8.0f, 0.0f);
@@ -532,7 +536,7 @@ void TObjEneMe3Shinowa::vfunc_105() {
 
 void TObjEneMe3Shinowa::update_player_state_default() {
     if (!(m_3c4 & 0x80000)) {
-        Vec stack = lbl_8043CF94;
+        Vec stack = shinowa_shadow_scale;
         draw_ground_shadow(&stack, 0);
     }
 }
@@ -1964,7 +1968,7 @@ TObjEneMe3ShinowaMirage *TObjEneMe3ShinowaMirage::create(void *arg1, void *arg2)
 TObjEneMe3ShinowaMirage::TObjEneMe3ShinowaMirage(TObject *parent, TObjEneMe3ShinowaReal *owner, s32 entity_id, s32 set_index) : TObjEneMe3Shinowa(parent) {
     CollisionBody *body;
 
-    m_name = lbl_805D2AD0;
+    m_name = TObjEneMe3ShinowaMirage__class_name;
     m_42c = get_entity_id(owner);
     init_common_from((u8 *)owner);
     parameters[1] = owner->parameters[1];

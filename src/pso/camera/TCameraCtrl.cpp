@@ -13,6 +13,7 @@
 #include "pso/camera/CreationCamera.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/camera/TCameraCtrl.h"
 
 struct RecoveredGlobal_8006ABAC_lbl_804FF61C {
     s32 value;
@@ -319,7 +320,6 @@ extern s16 TCameraCtrl__viewport_x;
 extern s16 TCameraCtrl__viewport_y;
 s32 set_perspective_projection_from_fov(int, f32, f32, f32);
 s32 get_entity_id(void *);
-s32 get_camera_mode__11TCameraCtrlFv();
 s32 TCameraCtrl__sub_8006B358(void *p);
 extern void *camera_controller_registry[13];
 extern u8 *camera_ctrl_instance;
@@ -443,7 +443,6 @@ extern void *lbl_80488AC0[6];
 struct A_8006A35C { s8 f0; u8 pad1; s16 f2; s32 f4; s32 f8; };
 struct B_8006A35C { u8 pad[8]; f32 f8; f32 fc; u8 pad10[8]; f32 f18; u8 pad1c[0xC]; f32 f28; f32 f2c; f32 f30; f32 f34; f32 f38; f32 f3c; f32 f40; f32 f44; };
 struct C_8006A35C { f32 f0; f32 f4; f32 f8; };
-#define camera_controller_registry (*(RecoveredGlobal_8006A788_camera_controller_registry *)camera_controller_registry)
 extern "C" {
 
 
@@ -599,12 +598,9 @@ typedef struct VBase_18_9639c7 VBase_18_9639c7;
 typedef struct VObj_18_9639c7 VObj_18_9639c7;
 typedef char RecoveredGlobal_8006A7D8_camera_controller_registry_size[((sizeof(RecoveredGlobal_8006A7D8_camera_controller_registry)) == 0x68) ? (1) : (-1)];
 typedef char RecoveredGlobal_8006A7D8_TCameraCtrl__data_804FF628_size[((sizeof(RecoveredGlobal_8006A7D8_TCameraCtrl__data_804FF628)) == 0xC) ? (1) : (-1)];
-#undef camera_controller_registry
 #define PSO_VCALL_VObj_18_9639c7_m1(_self) (((VObj_18_9639c7 *)(_self))->m1())
 #define PSO_VCALL_VObj_18_9639c7_m4(_self, _arg0) (((VObj_18_9639c7 *)(_self))->m4((_arg0)))
 #define PSO_VCALL_VObj_18_9639c7_m9(_self) (((VObj_18_9639c7 *)(_self))->m9())
-#define camera_controller_registry ((Ctl_8006AA90 **)camera_controller_registry)
-#define lbl_80488AC0 ((u8 *)lbl_80488AC0)
 
 struct Ctl_8006AA90 {
     u8 pad[0x18];
@@ -623,8 +619,6 @@ Ctl_8006AA90 *TCameraCtrl__sub_8006AA90(Ctl_8006AA90 *self, s16 arg1);
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#undef camera_controller_registry
-#undef lbl_80488AC0
 struct ByteBlock_30 { u8 bytes[0x30]; };
 
 struct RecoveredGlobal_8006ABAC_lbl_8058D490 {
@@ -1942,7 +1936,7 @@ s32 TCameraCtrl::get_camera_target_id(s32 arg0) {
         if (arg0 < 0) {
             var_r3 = arg0;
         } else {
-            var_r3 = get_camera_mode__11TCameraCtrlFv();
+            var_r3 = TCameraCtrl::get_camera_mode();
         }
         if (var_r3 >= 4) {
             return 0xFFFF;

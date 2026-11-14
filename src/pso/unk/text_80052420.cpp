@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_80052420.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/object/base/TObjChara.h"
 struct VBase_80052420 { u8 pad[0x18]; };
 
 struct VObj_80052420 : VBase_80052420 {
@@ -81,7 +82,6 @@ struct VObj_80052420 : VBase_80052420 {
 };
 
 extern "C" {
-s32 obj_isState2_324__9TObjCharaFv(VObj_80052420 *);
 s16 get_actor_hp(VObj_80052420 *);
 s32 TBoss4Type3__sub_8005254C(s32);
 void send_6x2F_change_player_hp(s32, s32, s16);
@@ -100,7 +100,7 @@ u32 drain_player_hp(s32 id, u32 arg1) {
     if (v < n) {
         n = v;
     }
-    if (obj_isState2_324__9TObjCharaFv(p) != 0) {
+    if (((TObjChara *)p)->obj_isState2_324() != 0) {
         return n;
     }
     v -= n;

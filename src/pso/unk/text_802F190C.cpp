@@ -15,7 +15,7 @@ struct Obj_802F1960 { u8 pad0[0x14]; Ch_802F1960 *child; };
 
 extern "C" {
 s32 vec3_add_to(void *, void *);
-extern void *lbl_805D6960;
+void * lbl_805D6960;
 void fn_802F190C(Obj_8003B1FC *self, void *arg);
 void fn_802F1960(Obj_802F1960 *o, f32 d);
 void fn_802F190C(Obj_8003B1FC *self, void *arg) {

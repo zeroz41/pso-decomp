@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/effect/photon/TPhotonLaser.h"
 #include "pso/system/vector.h"
@@ -7,6 +8,7 @@
 #include "pso/effect/photon/TPhotonLaser.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
+#include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
@@ -66,7 +68,6 @@ void *create_particle_emitter(void *pos, s32 id);
 extern s32 __vt__12TPhotonLaser[];
 extern const char *TPhotonLaser__name;
 Laser_801AC36C *TPhotonLaser__ct(Laser_801AC36C *self, Params_801AC36C *p, void *parent, s16 arg3);
-void queue_destruction__7TObjectFv(void *arg0);
 void *spawn_particle_effect(void *pos, s32 id);
 void *find_entity_by_id(u16);
 void vec3_add_to(void *, void *);
@@ -102,7 +103,7 @@ void run_task__12TPhotonLaserFv(Laser_801AC17C *o) {
     owner = find_entity_by_id(o->f370);
     if (owner == 0) {
         if (o->f364 != 0) {
-            queue_destruction__7TObjectFv(o->f364);
+            ((TObject *)o->f364)->queue_destruction();
             o->f364 = 0;
         }
         o->f34C.x = 0.0f;
@@ -110,14 +111,14 @@ void run_task__12TPhotonLaserFv(Laser_801AC17C *o) {
         o->f34C.z = 0.0f;
     } else if (o->f340.y < *(f32 *)((u8 *)owner + 0x3C)) {
         if (o->f364 != 0) {
-            queue_destruction__7TObjectFv(o->f364);
+            ((TObject *)o->f364)->queue_destruction();
             o->f364 = 0;
         }
         o->f34C.x = 0.0f;
         o->f34C.y = 0.0f;
         o->f34C.z = 0.0f;
         spawn_particle_effect(&o->f340, 0x13D);
-        queue_destruction__7TObjectFv(o);
+        ((TObject *)o)->queue_destruction();
     }
 }
 
@@ -126,7 +127,7 @@ TPhotonLaser::~TPhotonLaser() {
     ((TObjCollidable *)this)->unregister_object_by_id();
     free_collision_body_parts(this);
     if ((u32) this->m_364 != 0U) {
-        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x364));
+        ((TObject *)(*(void **)((s8 *)this + 0x364)))->queue_destruction();
         this->m_364 = 0U;
     }
 }

@@ -24,7 +24,7 @@ extern AsyncFileReadRequest *async_file_read_current_request;
 extern s32 async_file_read_state;
 extern u32 async_file_read_sector_buffer;
 extern u32 lobby_download_state_ptr;
-extern u32 async_file_read_texture_buffer;
+u32 async_file_read_texture_buffer;
 void process_async_file_reads(void) {
     switch (async_file_read_state) {
     case 0:

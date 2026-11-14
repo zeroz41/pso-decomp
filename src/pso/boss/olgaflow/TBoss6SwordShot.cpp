@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/olgaflow/TBoss6SwordShot.h"
 #include "pso/system/task/TObject.h"
@@ -11,6 +12,9 @@
 #include <stddef.h>
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
+#include "pso/unk/TLobby.h"
 extern "C" {
 void *__dt__15TBoss6SwordShotFv(void *arg0, s16 arg1);
 void run_task__15TBoss6SwordShotFv(u8 *arg0);
@@ -65,7 +69,6 @@ void fn_80356E30(s32 *p);
 extern RecoveredGlobal_80356B18___vt__15TBoss6SwordWave __vt__15TBoss6SwordWave;
 extern const char *TBoss6SwordWave__name;
 u8 *__ct__15TBoss6SwordWaveFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-void queue_destruction__7TObjectFv(void *arg0);
 s32 query_teammate_state__9TObjEneDDFv();
 void clear_bit__15TBoss6SwordWaveFPvUc(W_80356D10 *arg0, u8 arg1);
 u8 TBoss6SwordWave__sub_80356D08(u32 arg1, u32 arg2);
@@ -125,7 +128,7 @@ void damage_players_in_radius(u8 *arg0) {
 
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        pl = (u8 *)get_player_data__10TObjPlayerFi(i);
+        pl = (u8 *)TObjPlayer::get_player_data(i);
         if (((s32 (*)(void *))is_active__14TBoss6PlotFalzFv)(pl) != 0) {
             VecCopy((Vec *)&v, (const Vec *)(pl + 0x38));
             subtract_vector(&v, arg0 + 0x20);
@@ -146,7 +149,7 @@ void run_task__15TBoss6SwordShotFv(u8 *arg0) {
         damage_players_in_radius(arg0);
         *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) + 1);
         if ((s32) *(s32 *)((s8 *)arg0 + 0x30) > 7) {
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
         }
     }
 }
@@ -275,7 +278,7 @@ s32 TBoss6SwordWave::check_player_hits() {
     Vec_8035663C dir;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        pl = (VObj_8035663C *)get_player_data__10TObjPlayerFi(i);
+        pl = (VObj_8035663C *)TObjPlayer::get_player_data(i);
         if (is_active__14TBoss6PlotFalzFv() != 0) {
             VecCopy((Vec *)&dir, (const Vec *)((u8 *)pl + 0x38));
             subtract_vector(&dir, arg0 + 0x20);
@@ -382,7 +385,7 @@ void TBoss6SwordWave::run_task() {
         *(f32 *)((s8 *)arg0 + 0x50) = (f32) *(f32 *)((s8 *)arg0 + 0x54);
         *(f32 *)((s8 *)arg0 + 0x54) = (f32) (*(f32 *)((s8 *)arg0 + 0x54) + lbl_805E0010);
         if (*(f32 *)((s8 *)arg0 + 0x54) > *(f32 *)((s8 *)arg0 + 0x2C)) {
-            queue_destruction__7TObjectFv((arg0));
+            ((TObject *)arg0)->queue_destruction();
         }
     }
 }
@@ -408,7 +411,7 @@ u8 *__ct__15TBoss6SwordWaveFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, 
     if (0.0f == temp_f2) {
         *(s32 *)((s8 *)arg0 + 0x5C) = 0x14;
     }
-    temp_f1 = *(f32 *)((s8 *)(dispatch_shared_handler_a__6TLobbyFl(0x2F)) + 8);
+    temp_f1 = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x2F)) + 8);
     *(f32 *)((s8 *)arg0 + 0x60) = temp_f1;
     if (0.0f == temp_f1) {
         *(f32 *)((s8 *)arg0 + 0x60) = (f32) 1.0f;

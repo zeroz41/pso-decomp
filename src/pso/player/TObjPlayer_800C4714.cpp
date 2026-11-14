@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -13,7 +14,9 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
-extern "C" { __declspec(section ".sdata2") extern const f32 lbl_805DA000[1] = { 30.0f }; }
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/system/task/TObject.h"
 
 typedef struct Vec_800C4A5C {
     f32 x, y, z;
@@ -77,14 +80,13 @@ typedef struct Obj_800C55E0 {
 
 extern "C" {
 s32 vec3_add_to(void *, void *);
+s32 is_area_attack_target_eligible(s32, s32);
 
 void __dl__7TObjectFPv(void *);
-u16 get_entity_id(void *);
 u8 *__ct__13TUnk_804928CCFP7TObjectP8TObjBase(u8 *arg0, s32 arg1, u32 arg2);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 Obj_800C4A5C *TObjPlayer__sub_800C4A5C(Obj_800C4A5C *o, void *owner, Vec_800C4A5C *start, s32 angle);
-void queue_destruction__7TObjectFv(void *arg0);
 void *destroy_and_free__21TObjEneRe2Flower_BombFs(void *arg0, s16 arg1);
 void render__21TObjEneRe2Flower_BombFv(u8 *arg0);
 
@@ -175,7 +177,14 @@ void reset_motion_fields__14TObjCollidableFv();
 void render_shadows__7TObjectFv();
 void update_object_view_visibility__8TObjBaseFff();
 void run_task__21TObjEneRe2Flower_BombFv(Obj_800C4754 *o);
-extern const u32 lbl_8043BC10[5] = { 0xF, 0x40000000, 0x40000000, 0x0, 0x1 };
+struct Hit_800C4A5C {
+    s32 f0;
+    f32 f4;
+    f32 radius;
+    s32 fC;
+    s32 f10;
+};
+extern const Hit_800C4A5C lbl_8043BC10 = { 0xF, 2.0f, 2.0f, 0, 1 };
 extern const char lbl_8043BC24[] = "TObjEneRe2Flower_Bomb";
 s32 lbl_805D2A50 = (s32)lbl_8043BC24;
 void *lbl_804933D8[24] = {
@@ -186,8 +195,53 @@ void *lbl_804933D8[24] = {
     (void *)&vfunc_16__13TUnk_804928CCFPvPv, (void *)&call_vt16_with_default__13TUnk_804928CCFPvPv, (void *)&area_attack_deliver_physical__13TUnk_804928CCFPvPvf, (void *)&vfunc_19__13TUnk_804928CCFPv,
     (void *)&area_attack_apply_recoil__13TUnk_804928CCFPvf, (void *)&area_attack_receive_direct__13TUnk_804928CCFPvPfPv, (void *)&apply_hit_if_active__13TUnk_804928CCFPvPf, (void *)0x0,
 };
-#define lbl_8043BC10 ((const Vec_800C4A5C *)lbl_8043BC10)
-#define lbl_804933D8 ((s32 *)lbl_804933D8)
+
+// The bomb's first function: its 30.0 opens this file's literal pool at
+// 0x805DA000, while the Flower file's pool already holds 30.0 at 0x805D9FEC.
+s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2, void *object, f32 range) {
+    s32 result;
+    s32 flags;
+    s32 p;
+    s32 i;
+    s32 ok;
+    result = 0;
+    flags = 0;
+    if (this->owner == 0) {
+        return 0;
+    }
+    TObjPlayer::init_all_slots();
+    if (*(s32 *)((s8 *)((u8 *)recoil) + 4) & 1) {
+        this->update_body_contact_flag(range);
+        flags |= 0x80000;
+    }
+    if (*(s32 *)((s8 *)((u8 *)recoil) + 4) & 2) {
+        this->mark_enemy_body_contacts();
+        flags |= 0x100000;
+    }
+    if (*(s32 *)((s8 *)(this->bodies) + 0x18) & flags) {
+        for (i = 0; i < 0x10; i++) {
+            p = TObjPlayer::get_battle_param(i);
+            if (p == 0) {
+                break;
+            }
+            if (obj_is_hit_receivable((u8 *)p) != 0 && (u32)p != this->owner &&
+                is_area_attack_target_eligible((s32)this, *(s32 *)((s8 *)p + 0x30)) != 0 &&
+                !(fabs_float(*(f32 *)&(this->m_b8) - *(f32 *)((s8 *)p + 0x300)) > 30.0f)) {
+                ok = 1;
+                if (object != 0 && attack_target_history_add((s32)object, p) == 0) {
+                    ok = 0;
+                }
+                if (ok != 0) {
+                    this->area_attack_receive_direct((void *)p, (f32 *)((u8 *)recoil), (void *)arg2);
+                    result = 1;
+                }
+            }
+        }
+    }
+    return result;
+}
+
+
 void TObjEneRe2Flower_Bomb::render() {
     u8 *arg0 = (u8 *)this;
     if ((s32) this->m_100 != 0) {
@@ -205,7 +259,7 @@ void TObjEneRe2Flower_Bomb::run_task() {
     case 0:
         o->fF4++;
         if ((f32)o->fF4 >= (1.5e+02f)) {
-            queue_destruction__7TObjectFv(o);
+            ((TObject *)o)->queue_destruction();
             return;
         }
         if (o->fF4 >= 0x12) {
@@ -215,7 +269,7 @@ void TObjEneRe2Flower_Bomb::run_task() {
         vec3_add_to(&tmp, &o->velB);
         tmp.y += o->fF0 - (3.0f);
         if (csnVector(&o->start, &tmp, 0x1EFF) != 0) {
-            queue_destruction__7TObjectFv(o);
+            ((TObject *)o)->queue_destruction();
             return;
         }
         o->start.x += o->velA.x;
@@ -243,9 +297,9 @@ void TObjEneRe2Flower_Bomb::run_task() {
         if (o->fF4 >= 0x14) {
             o->fE8 |= 2;
         }
-        if (o->m14(&o->fE4, lbl_8043BC10) != 0) {
+        if (o->m14(&o->fE4, &lbl_8043BC10) != 0) {
             TObjEneDD__sub_800C2618(find_entity_by_id(o->ownerId));
-            queue_destruction__7TObjectFv(o);
+            ((TObject *)o)->queue_destruction();
             return;
         }
     case 1:
@@ -266,8 +320,8 @@ void TObjEneRe2Flower_Bomb::run_task() {
 
 void *TObjEneRe2Flower_Bomb::destroy_and_free(s16 arg1) {
     if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = lbl_804933D8;
-        if (this->m_fc != NULL) { queue_destruction__7TObjectFv((this->m_fc)); this->m_fc = 0; }
+        *(void ***)((s8 *)this + 0x18) = lbl_804933D8;
+        if (this->m_fc != NULL) { ((TObject *)this->m_fc)->queue_destruction(); this->m_fc = 0; }
         __dt__13TUnk_804928CCFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
@@ -282,9 +336,9 @@ Obj_800C4A5C *TObjPlayer__sub_800C4A5C(Obj_800C4A5C *o, void *owner, Vec_800C4A5
     __ct__13TUnk_804928CCFP7TObjectP8TObjBase((u8 *)o, (s32)owner, (u32)owner);
     o->vptr = lbl_804933D8;
     o->f0 = lbl_805D2A50;
-    o->coll->radius = lbl_8043BC10[0].z;
+    o->coll->radius = lbl_8043BC10.radius;
     o->angle = angle;
-    o->ownerId = get_entity_id(owner);
+    o->ownerId = get_entity_id((TObjBase *)owner);
     VecCopy((Vec *)&o->start, (const Vec *)start);
     VecCopy((Vec *)&o->pos, (const Vec *)&o->start);
     o->accel.x = (0.0f);

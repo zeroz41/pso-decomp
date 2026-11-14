@@ -21,18 +21,14 @@ extern "C" {
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(void *, int);
-extern const f32 lbl_805DE890;
 s32 free_member__17TWindowSubComCardFv(int, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, int, void *, f32);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, int, int, int);
 extern s32 lbl_804728A8[];
-extern const f32 lbl_805DE888;
 extern s32 lbl_804728A0[];
-extern const f32 lbl_805DE88C;
 s32 align_menu_entry_positions(int);
 s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 extern s32 lbl_80472890[];
-extern const f32 lbl_805DE894;
 extern u8 lbl_80472898[];
 extern u8 player_number_text_buffer[];
 void *memset(void *, int, u32);
@@ -57,7 +53,7 @@ void TAdMultiPlyChrSelectGC::render() {
 s32 TAdMultiPlyChrSelectGC__sub_802DBCE8(s32 arg0) {
     s32 temp_r31;
     temp_r31 = create__19TWindowMessageYesNoFPvPvPvPv((void *)arg0, (int) (TAdMultiPlyChrSelectGC::get_clamped_cursor()), 0, 0);
-    forward_slot_selection__16TAdChrSelASlotGCFPvPv(temp_r31, (int) (get_localized_text_entry(0x1F, 0xA)), lbl_804728A8, lbl_805DE888);
+    forward_slot_selection__16TAdChrSelASlotGCFPvPv(temp_r31, (int) (get_localized_text_entry(0x1F, 0xA)), lbl_804728A8, 209.0f);
     free_member__17TWindowSubComCardFv(temp_r31, 1);
     return temp_r31;
 }
@@ -65,7 +61,7 @@ s32 TAdMultiPlyChrSelectGC__sub_802DBCE8(s32 arg0) {
 s32 TAdMultiPlyChrSelectGC__sub_802DBD64(s32 arg0) {
     s32 temp_r31;
     temp_r31 = create__19TWindowMessageYesNoFPvPvPvPv((void *)arg0, (int) (TAdMultiPlyChrSelectGC::get_clamped_cursor()), 0, 0);
-    forward_slot_selection__16TAdChrSelASlotGCFPvPv(temp_r31, (int) (get_localized_text_entry(0x1F, 9)), lbl_804728A0, lbl_805DE88C);
+    forward_slot_selection__16TAdChrSelASlotGCFPvPv(temp_r31, (int) (get_localized_text_entry(0x1F, 9)), lbl_804728A0, 196.0f);
     free_member__17TWindowSubComCardFv(temp_r31, 1);
     return temp_r31;
 }
@@ -74,7 +70,7 @@ s32 TAdMultiPlyChrSelectGC::create_confirm_window() {
     void *u1;
     int u2;
     s32 r = create__19TWindowMessageYesNoFPvPvPvPv(u1, u2, 0, 0);
-    forward_slot_selection__16TAdChrSelASlotGCFPvPv(r, get_localized_text_entry(0x1F, 8), lbl_80472898, lbl_805DE88C);
+    forward_slot_selection__16TAdChrSelASlotGCFPvPv(r, get_localized_text_entry(0x1F, 8), lbl_80472898, 196.0f);
     free_member__17TWindowSubComCardFv(r, 1);
     return r;
 }
@@ -85,7 +81,7 @@ s32 TAdMultiPlyChrSelectGC__sub_802DBE4C(long long arg1) {
   forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((int) get_localized_text_entry(0x1F, 7)), 0x21, 0);
   ((TAdChrSelASlotGC *)temp_r31)->set_flag_40();
   TQuestThread::set_status_flag_80((void *)temp_r31);
-  ((TWindowSubComCard *)temp_r31)->calc_layout_height((f32) lbl_805DE890);
+  ((TWindowSubComCard *)temp_r31)->calc_layout_height(190.0f);
   return temp_r31;
 }
 
@@ -95,7 +91,7 @@ s32 TAdMultiPlyChrSelectGC__sub_802DBEC4(unsigned long long arg1) {
   forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((int) get_localized_text_entry(0x1F, 6)), 0x21, 0);
   ((TAdChrSelASlotGC *)temp_r31)->set_flag_40();
   TQuestThread::set_status_flag_80((void *)temp_r31);
-  ((TWindowSubComCard *)temp_r31)->calc_layout_height((f32) lbl_805DE890);
+  ((TWindowSubComCard *)temp_r31)->calc_layout_height(190.0f);
   return temp_r31;
 }
 
@@ -106,7 +102,7 @@ s32 TAdMultiPlyChrSelectGC::create_choice_menu() {
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu, (int)(get_localized_text_entry(0x1F, 3)), 6, 1);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu, (int)(get_localized_text_entry(0x1F, 4)), 6, 2);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)window_menu, (int)(get_localized_text_entry(0x1F, 5)), 6, 3);
-    ((TWindowSubComCardList *)window_menu)->update_layout_height(lbl_805DE894);
+    ((TWindowSubComCardList *)window_menu)->update_layout_height(224.0f);
     ((TWindowSubComCardList *)window_menu)->set_selected_index(0);
     align_menu_entry_positions(window_menu);
     return window_menu;
