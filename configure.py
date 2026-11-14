@@ -1013,6 +1013,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TBoss6Thanks.cpp keeps its class name string in .rodata (-str readonly) and reaches each
     # .rodata object with its own lis/addi: -pool off.
     "pso/boss/olgaflow/TBoss6Thanks.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    # text_8034960C.cpp keeps TAdLoadQuestCellGC's name string in .rodata (-str readonly) and
+    # reaches each .rodata table with its own lis/addi: -pool off.
+    "pso/unk/text_8034960C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/object/TObjRoomId.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/object/switch/TOSwitchAttackSub.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/object/switch/TOSensorAncient01.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly", "-pool off")},

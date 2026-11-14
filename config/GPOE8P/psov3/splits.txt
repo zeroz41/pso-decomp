@@ -10129,7 +10129,8 @@ pso/ui/frontend/TAdMultiPlyChrSelectGC_803495B4.cpp:
 
 pso/unk/text_8034960C.cpp:
 	.text       start:0x8034960C end:0x8034999C
-	.rodata     start:0x80478770 end:0x80478778
+	.rodata     start:0x80478718 end:0x80478778
+	.sdata      start:0x805D42F8 end:0x805D42FC
 
 pso/ui/frontend/TAdLoadQuestCellGC.cpp:
 	.text       start:0x8034999C end:0x80349B8C

@@ -32,6 +32,19 @@ struct Vec2_8034960C {
     f32 y;
 };
 
+// Top-left corner and size of the two black bars draw_quest_load_letterbox_bars fills
+// (quest_load_letterbox_bar_positions and _sizes are inferred names).
+static const Vec2_80349728 quest_load_letterbox_bar_positions[2] = {{0.0f, 0.0f}, {0.0f, 416.0f}};
+static const Vec2_80349728 quest_load_letterbox_bar_sizes[2] = {{640.0f, 64.0f}, {640.0f, 64.0f}};
+// Top-left corner and size of the two panels draw_quest_load_panel_overlays shades
+// (quest_load_panel_overlay_positions is an inferred name).
+static const Vec2_8034960C quest_load_panel_overlay_positions[2] = {{31.0f, 73.0f}, {543.0f, 75.0f}};
+static const Vec2_8034960C quest_load_panel_overlay_offsets[2] = {{455.0f, 332.0f}, {72.0f, 332.0f}};
+
+// TAdLoadQuestCellGC's code follows these functions in the same translation unit; its name
+// string sits after the tables above in .rodata.
+const char *TAdLoadQuestCellGC__name = "TAdLoadQuestCellGC";
+
 extern "C" {
 void draw_color_lines(Desc_80349844 *, s32, s32, f32);
 }
@@ -40,11 +53,7 @@ extern const f32 lbl_805DFD08;
 extern const f32 lbl_805DFD0C;
 extern const f32 lbl_805DFD10;
 extern const f32 lbl_805DFD14;
-extern const Vec2_80349728 lbl_80478718[2];
-extern const Vec2_80349728 lbl_80478728[2];
 extern const f32 lbl_805DFD00;
-extern const Vec2_8034960C lbl_80478738[2];
-extern const Vec2_8034960C quest_load_panel_overlay_offsets[2];
 
 void draw_quest_load_panel_overlays(void) {
     f32 pos[8];
@@ -57,10 +66,10 @@ void draw_quest_load_panel_overlays(void) {
     d.b = 4;
     i = 0;
     do {
-        d.pos[0] = lbl_80478738[i].x;
-        d.pos[1] = lbl_80478738[i].y;
+        d.pos[0] = quest_load_panel_overlay_positions[i].x;
+        d.pos[1] = quest_load_panel_overlay_positions[i].y;
         d.col[0] = 0x77;
-        d.pos[2] = lbl_80478738[i].x;
+        d.pos[2] = quest_load_panel_overlay_positions[i].x;
         d.pos[3] = d.pos[1] + quest_load_panel_overlay_offsets[i].y;
         d.col[1] = 0x77;
         d.pos[4] = d.pos[0] + quest_load_panel_overlay_offsets[i].x;
@@ -85,16 +94,16 @@ void draw_quest_load_letterbox_bars(void) {
     d.b = 4;
     i = 0;
     do {
-        d.pos[0] = lbl_80478718[i].x;
-        d.pos[1] = lbl_80478718[i].y;
+        d.pos[0] = quest_load_letterbox_bar_positions[i].x;
+        d.pos[1] = quest_load_letterbox_bar_positions[i].y;
         d.col[0] = 0xFF;
-        d.pos[2] = lbl_80478718[i].x;
-        d.pos[3] = d.pos[1] + lbl_80478728[i].y;
+        d.pos[2] = quest_load_letterbox_bar_positions[i].x;
+        d.pos[3] = d.pos[1] + quest_load_letterbox_bar_sizes[i].y;
         d.col[1] = 0xFF;
-        d.pos[4] = d.pos[0] + lbl_80478728[i].x;
-        d.pos[5] = d.pos[1] + lbl_80478728[i].y;
+        d.pos[4] = d.pos[0] + quest_load_letterbox_bar_sizes[i].x;
+        d.pos[5] = d.pos[1] + quest_load_letterbox_bar_sizes[i].y;
         d.col[2] = 0xFF;
-        d.pos[6] = d.pos[0] + lbl_80478728[i].x;
+        d.pos[6] = d.pos[0] + quest_load_letterbox_bar_sizes[i].x;
         d.pos[7] = d.pos[1];
         d.col[3] = 0xFF;
         ((TObjCMHairMenu *)(&d))->draw_tri_fan_2d(4, 3, lbl_805DFD00);
