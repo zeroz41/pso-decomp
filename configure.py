@@ -1170,7 +1170,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/item/TItemData.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     # TObjNpcEnemy.cpp reaches each .rodata object with its own lis/addi: -pool off.
     "pso/npc/TObjNpcEnemy.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
-    "pso/object/collision/TObjFogCollisionPoison.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # TObjFogCollision.cpp: create/ct/dtor of each class come last in .text and the vtables run in reverse key-function
+    # order (deferred); every string is in .rodata; draw_volume reaches each colour template with its own lis/addi.
+    "pso/object/collision/TObjFogCollision.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-pool off")},
     # TLobby_801F3A24.cpp reaches each .rodata object with its own lis/addi: -pool off.
     "pso/unk/TLobby_801F3A24.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     # TWindowChatSymbol.cpp reaches each .rodata object with its own lis/addi: -pool off.
@@ -1185,8 +1187,6 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/unk/text_8035B750.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/object/ambient/TObjCGrass.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/object/TObjLiveMonitor.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    # Each debug string is reached with its own lis/addi (no pooled base register).
-    "pso/object/collision/TObjFogCollisionSwitch.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
 }
 
 # MusyX (Factor 5). Its objects carry extab/extabindex for every non-leaf

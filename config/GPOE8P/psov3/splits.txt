@@ -3804,21 +3804,13 @@ pso/npc/TNpcPlayer.cpp:
 	.sdata      start:0x805D2E70 end:0x805D2E78
 	.sdata2     start:0x805DB1F0 end:0x805DB250
 
-pso/object/collision/TObjFogCollisionPoison.cpp:
-	.text       start:0x8015302C end:0x80153674
-	.rodata     start:0x80440078 end:0x80440088
-	.data       start:0x804AF7B0 end:0x804AF7C8
-	.bss        start:0x8050D430 end:0x8050D460
-
-pso/object/collision/TObjFogCollisionSwitch.cpp:
-	.text       start:0x80153674 end:0x80153F78
-	.rodata     start:0x80440088 end:0x804400EB
-	.data       start:0x804AF7E0 end:0x804AF860
-	.sdata2     start:0x805DB250 end:0x805DB270
-
 pso/object/collision/TObjFogCollision.cpp:
-	.text       start:0x80153F78 end:0x80154090
-	.data       start:0x804AF860 end:0x804AF8A0
+	.text       start:0x8015302C end:0x80154090
+	.rodata     start:0x8043FFE8 end:0x804400EB
+	.data       start:0x804AF7B0 end:0x804AF8A0
+	.bss        start:0x8050D430 end:0x8050D460
+	.sdata      start:0x805D2E78 end:0x805D2E88
+	.sdata2     start:0x805DB250 end:0x805DB270
 
 pso/ui/hud/TMainCursor_80154090.cpp:
 	.text       start:0x80154090 end:0x801542CC

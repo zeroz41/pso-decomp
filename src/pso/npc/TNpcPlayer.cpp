@@ -1697,22 +1697,22 @@ void TUnk_804AF7B0::run_task() {
     s32 temp_r0;
     s32 temp_r31;
 
-    temp_r31 = *(s32 *)((s8 *)this + 0x10);
+    temp_r31 = (s32)m_up;
     if (check_switch__22TObjFogCollisionPoisonFv(temp_r31) != 0) {
-        if (((TObjFogCollision *)temp_r31)->check_collision(*(u16 *)((s8 *)this + 0x28)) != 0) {
-            ((TObjFogCollisionPoison *)temp_r31)->record_poison_hit(*(u16 *)((s8 *)this + 0x28));
-            *(s32 *)((s8 *)this + 0x20) = (s32) (*(s32 *)((s8 *)this + 0x20) + 1);
-            if ((s32) *(s32 *)((s8 *)this + 0x20) >= (s32) *(s32 *)((s8 *)this + 0x1C)) {
-                ((TObjFogCollisionPoison *)temp_r31)->apply_poison_damage(*(u16 *)((s8 *)this + 0x28));
-                *(s32 *)((s8 *)this + 0x20) = 0;
-                *(s32 *)((s8 *)this + 0x1C) = 0x1E;
+        if (((TObjFogCollision *)temp_r31)->check_collision(client) != 0) {
+            ((TObjFogCollisionPoison *)temp_r31)->record_poison_hit(client);
+            damage_timer++;
+            if (damage_timer >= damage_interval) {
+                ((TObjFogCollisionPoison *)temp_r31)->apply_poison_damage(client);
+                damage_timer = 0;
+                damage_interval = 0x1E;
             }
-            *(s32 *)((s8 *)this + 0x24) = (s32) (*(s32 *)((s8 *)this + 0x24) + 1);
+            contact_ticks++;
         } else {
-            *(s32 *)((s8 *)this + 0x1C) = 0x96;
-            *(s32 *)((s8 *)this + 0x24) = 0;
+            damage_interval = 0x96;
+            contact_ticks = 0;
         }
-        temp_r0 = *(s32 *)((s8 *)this + 0x24);
+        temp_r0 = contact_ticks;
         if (temp_r0 == 1) {
             TObjFogCollisionPoison__sub_801535D0(temp_r31);
             return;

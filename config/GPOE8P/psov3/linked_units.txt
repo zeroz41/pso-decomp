@@ -1748,8 +1748,6 @@ pso/object/ambient/TObjEnvSoundGlobal.cpp
 pso/object/collision/TObjEvtCollision.cpp
 pso/object/ambient/TObjFish_800E2FFC.cpp
 pso/object/collision/TObjFogCollision.cpp
-pso/object/collision/TObjFogCollisionPoison.cpp
-pso/object/collision/TObjFogCollisionSwitch.cpp
 pso/object/ambient/TObjGrass.cpp
 pso/enemy/gyaranzo/TObjEneGyaranzo.cpp
 pso/enemy/gyaranzo/TObjGyaranzoMissile.cpp
