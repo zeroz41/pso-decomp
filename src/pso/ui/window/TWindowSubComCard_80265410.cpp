@@ -22,6 +22,8 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 
+#pragma readonly_strings on
+
 extern "C" {
 s32 get_selected_entry__11TWindowMenuFv(u8 *arg0);
 struct Stack_80265500 {
@@ -140,11 +142,11 @@ void set_text_entry_string(u8 *arg0, u32 str, s32 arg2);
 void update_chat_window(void* p);
 s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 __vt__11TWindowMenu[];
-extern const f64 lbl_8044F330;
+const f64 lbl_8044F330 = 0.0;
 extern RecoveredGlobal_80266378_lbl_804D05A8 lbl_804D05A8;
 extern u8 lbl_804D05CC[];
 extern s8 controller_input_state[];
-extern s32 lbl_805D3960;
+const char *lbl_805D3960 = "TWindowMenu";
 extern s32 actor_frame_tick;
 
 void update_chat_window(void* p) { void* m = *(void**)((char*)p + 0x20); if (m) TWindowChat__sub_80247D2C(m); }
@@ -831,7 +833,7 @@ u8 *TWindowMenu__ct(u8 *window_menu, u32 arg1, s32 arg2, s32 arg3) {
     u8 *p;
     construct_with_parent__15TWindowAdditionFPv(window_menu, lbl_804D05CC, arg2, arg3);
     *(void **)(window_menu + 0x18) = ((s32 *)&__vt__11TWindowMenu);
-    *(s32 *)window_menu = lbl_805D3960;
+    *(const char **)window_menu = lbl_805D3960;
     *(s16 *)(window_menu + 0x72) = 0;
     *(s16 *)(window_menu + 0x74) = 0;
     *(u16 *)(window_menu + 0x76) = arg1;

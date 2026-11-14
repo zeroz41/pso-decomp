@@ -5402,7 +5402,7 @@ pso/player/PlayerTaskEffects.cpp:
 
 pso/player/TObjPlayer_801C7430.cpp:
 	.text       start:0x801C7430 end:0x801D34E0
-	.rodata     start:0x80447130 end:0x80447138
+	.rodata     start:0x80447128 end:0x80447150
 	.data       start:0x804C4020 end:0x804C43C0
 	.sdata2     start:0x805DC360 end:0x805DC374
 
@@ -7323,7 +7323,8 @@ pso/ui/window/TWindowMakeTeam_80265298.cpp:
 
 pso/ui/window/TWindowSubComCard_80265410.cpp:
 	.text       start:0x80265410 end:0x80266BC4
-	.rodata     start:0x8044F320 end:0x8044F330
+	.rodata     start:0x8044F310 end:0x8044F338
+	.sdata      start:0x805D3960 end:0x805D3968
 	.sdata2     start:0x805DD148 end:0x805DD180
 
 pso/ui/window/TWindowSubComCard_80266BC4.cpp:
@@ -8760,7 +8761,7 @@ pso/object/lobby/LobbyPigeonTheme.cpp:
 
 pso/object/lobby/LobbyPigeonPath.cpp:
 	.text       start:0x802C0A74 end:0x802C3284
-	.rodata     start:0x804717C8 end:0x80471978
+	.rodata     start:0x804717C8 end:0x804719D0
 	.sdata      start:0x805D3EC0 end:0x805D3EC4
 	.sbss       start:0x805D6798 end:0x805D67B8
 	.sdata2     start:0x805DE4F8 end:0x805DE528
