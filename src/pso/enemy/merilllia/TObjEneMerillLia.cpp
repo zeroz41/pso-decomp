@@ -43,6 +43,8 @@ struct Pl_800D5614 { u8 pad0[0x38]; u8 pos[0xC]; };
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/object/ambient/TObjFish.h"
 
+#pragma readonly_strings on
+
 struct Stack_800D5060 {
     f32 sp8;
     f32 spC;
@@ -489,7 +491,11 @@ extern const f32 lbl_805DA328;
 extern const f32 lbl_805DA32C;
 extern const f32 lbl_805DA330;
 void render__16TObjEneMerillLiaFv(u8 *arg0);
-extern u32 TObjEneMerillLia__entry_params_resource;
+u32 TObjEneMerillLia__rock_stats_table;
+u32 merill_lia_rock_buffer;
+u32 merill_lia_rock_aux_buffer;
+u32 TObjEneMerillLia__rock_param_table;
+u32 TObjEneMerillLia__entry_params_resource;
 extern s32 game_difficulty_selection;
 void vfunc_59__16TObjEneMerillLiaFv(Ene_800D51C8 *arg0);
 s16 find_nearest_visible_player(void *, s32, f32);
@@ -499,7 +505,6 @@ void vfunc_60__16TObjEneMerillLiaFv(Ene_800D52DC *arg0);
 s32 minimap_render_dot(void *, int, int, int);
 s32 create__9TTecKafunFlllllff(void *, void *, int, int, int, f32, f32);
 s32 matrix_mult_vec(int, void *, void *);
-extern u32 TObjEneMerillLia__rock_param_table;
 extern const f32 lbl_805DA30C;
 extern const f32 lbl_805DA310;
 s32 apply_actor_gravity(void *, int, f32);
@@ -607,24 +612,6 @@ extern "C" void get_name__9TObjEnemyFv();
 extern "C" void get_pos__9TObjCharaFl();
 extern "C" void is_actor_cadence_frame__9TObjCharaFl();
 extern "C" void is_target_in_attack_range__9TObjCharaFv();
-extern "C" u8 lbl_8043C478[];
-extern "C" u8 lbl_8043C494[];
-extern "C" u8 lbl_8043C4B0[];
-extern "C" u8 lbl_8043C4D4[];
-extern "C" u8 lbl_8043C4F4[];
-extern "C" u8 lbl_8043C514[];
-extern "C" u8 lbl_8043C538[];
-extern "C" u8 lbl_8043C558[];
-extern "C" u8 lbl_8043C578[];
-extern "C" u8 lbl_8043C598[];
-extern "C" u8 lbl_8043C5BC[];
-extern "C" u8 lbl_8043C5DC[];
-extern "C" u8 lbl_8043C5F4[];
-extern "C" u8 lbl_8043C614[];
-extern "C" u8 lbl_8043C634[];
-extern "C" u8 lbl_8043C650[];
-extern "C" u8 lbl_8043C66C[];
-extern "C" u8 lbl_8043C68C[];
 extern "C" void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
 extern "C" void receive_physical_attack__9TObjCharaFPvf();
 extern "C" void receive_weapon_special_attack__9TObjCharaFPvPv();
@@ -646,34 +633,31 @@ extern "C" s32 update_defense_stat_status__9TObjCharaFv(u8 *player);
 extern "C" void update_flag30_timer__9TObjCharaFv();
 extern "C" void update_object_view_visibility__8TObjBaseFff();
 extern "C" void update_poison_status__9TObjCharaFv();
-extern void *lbl_804944D0[3];
-extern void *lbl_804944DC[13];
-extern void *lbl_80494520[3];
-extern void *lbl_8049452C[13];
-void *lbl_804944D0[3] = {
-    (void *)&lbl_8043C478, (void *)&lbl_8043C494, (void *)0x0,
+const char *lbl_804944D0[3] = {
+    "re8_b_beast_wola_body.nj", "re8_b_srbeast_wola_body.nj", 0,
 };
-void *lbl_804944DC[13] = {
-    (void *)&lbl_8043C4B0, (void *)&lbl_8043C4D4, (void *)&lbl_8043C4F4, (void *)&lbl_8043C514,
-    (void *)&lbl_8043C538, (void *)&lbl_8043C558, (void *)&lbl_8043C578, (void *)&lbl_8043C598,
-    (void *)&lbl_8043C5BC, (void *)&lbl_8043C5DC, (void *)&lbl_8043C5F4, (void *)&lbl_8043C614,
-    (void *)0x0,
+const char *lbl_804944DC[13] = {
+    "appear_re8_b_beast_wola_body.njm", "atk_a_re8_b_beast_wola_body.njm", "atk_b_re8_b_beast_wola_body.njm", "damage_re8_b_beast_wola_body.njm",
+    "dead_re8_b_beast_wola_body.njm", "stand_re8_b_beast_wola_body.njm", "wait_re8_b_beast_wola_body.njm", "wakeup_re8_b_beast_wola_body.njm",
+    "walk_re8_b_beast_wola_body.njm", "run_bm1_s_wala_body.njm", "kahun_re8_b_beast_wola_body.njm", "umari_re8_b_beast_wola_body.njm",
+    0,
 };
 BmlResourceDescriptor bm_ene_re8_merill_lia_resource_descriptor = {
-    (const char *)lbl_8043C634, (const char *const *)lbl_804944D0, (const char *const *)lbl_804944DC, 2, 12,
+    "bm_ene_re8_merill_lia.bml", lbl_804944D0, lbl_804944DC, 2, 12,
 };
-void *lbl_80494520[3] = {
-    (void *)&lbl_8043C650, (void *)&lbl_8043C66C, (void *)0x0,
+const char *lbl_80494520[3] = {
+    "lo_re8_b_beast_wola_body.nj", "lo_re8_b_srbeast_wola_body.nj", 0,
 };
-void *lbl_8049452C[13] = {
-    (void *)&lbl_8043C4B0, (void *)&lbl_8043C4D4, (void *)&lbl_8043C4F4, (void *)&lbl_8043C514,
-    (void *)&lbl_8043C538, (void *)&lbl_8043C558, (void *)&lbl_8043C578, (void *)&lbl_8043C598,
-    (void *)&lbl_8043C5BC, (void *)&lbl_8043C5DC, (void *)&lbl_8043C5F4, (void *)&lbl_8043C614,
-    (void *)0x0,
+const char *lbl_8049452C[13] = {
+    "appear_re8_b_beast_wola_body.njm", "atk_a_re8_b_beast_wola_body.njm", "atk_b_re8_b_beast_wola_body.njm", "damage_re8_b_beast_wola_body.njm",
+    "dead_re8_b_beast_wola_body.njm", "stand_re8_b_beast_wola_body.njm", "wait_re8_b_beast_wola_body.njm", "wakeup_re8_b_beast_wola_body.njm",
+    "walk_re8_b_beast_wola_body.njm", "run_bm1_s_wala_body.njm", "kahun_re8_b_beast_wola_body.njm", "umari_re8_b_beast_wola_body.njm",
+    0,
 };
 BmlResourceDescriptor bm_ene_re8_merill_lia_low_resource_descriptor = {
-    (const char *)lbl_8043C68C, (const char *const *)lbl_80494520, (const char *const *)lbl_8049452C, 2, 12,
+    "bm_ene_re8_merill_lia_low.bml", lbl_80494520, lbl_8049452C, 2, 12,
 };
+const char *TObjEneMerillLia__class_name = "TObjEneMerillLia";
 void *lbl_80494570[56] = {
     (void *)0x10000, (void *)0x5, (void *)0x3f19999a, (void *)0x1,
     (void *)0x10001, (void *)0x6, (void *)0x3f4ccccd, (void *)0x1,
@@ -1665,9 +1649,6 @@ void * TObjEneMerillLia__create(void *arg0) {
     return o2;
 }
 
-extern u32 TObjEneMerillLia__rock_stats_table;
-extern u32 merill_lia_rock_buffer;
-extern u32 merill_lia_rock_aux_buffer;
 extern const f32 lbl_805DA33C;
 
 void TObjEneMerillLia::destroy_rocks() {
@@ -1757,7 +1738,6 @@ struct O_800D7274;
 struct Obj_800D5150;
 s32 __ct__13TUnk_80493450FP7TObject(void *, s32);
 s32 init_collision_body_parts(void *, void *, int);
-extern s32 lbl_805D2A88;
 extern const f32 lbl_805DA340;
 extern const f32 lbl_805DA344;
 #define arg0 ((u8 *)arg0v)
@@ -1769,7 +1749,7 @@ void *TObjEneMerillLia__ct(void *arg0v, void *arg1, void *arg2) {
     __ct__13TUnk_80493450FP7TObject(arg0, (s32)arg1);
     *(void **)((s8 *)arg0 + 0x18) = lbl_80494728;
     __ct__13TUnk_80494938Fv((arg0 + 0x3A8));
-    *(s32 *)((s8 *)arg0 + 0) = lbl_805D2A88;
+    *(const char **)((s8 *)arg0 + 0) = TObjEneMerillLia__class_name;
     ((VObj_18_4c2345 *) arg0)->m79((s32)arg2);
     ((TObjEneMerillLia *)arg0)->init_params_from_position();
     ((TObjPlayer *)arg0)->init_position_vectors();
