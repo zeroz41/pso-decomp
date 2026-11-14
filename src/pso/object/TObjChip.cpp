@@ -198,7 +198,7 @@ void copy_debris_params__8TObjChipFPvPv(u8 *arg0, u8 *arg1);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern void *__vt__8TObjChip[];
 u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *arg0, u8 *arg1, u8 *arg2);
-u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
+u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 void matrix_mult_vec(int, Vec_8018085C *, Vec_8018085C *);
@@ -266,7 +266,7 @@ u8 *copy_transform__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
 }
 
 extern "C" {
-u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *object, u8 *arg1, u8 *arg2) {
+u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *object, u8 *arg1, u8 *arg2) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__8TObjChip;
     *(s32 *)((s8 *)object + 0) = (s32) obj_chip_class_name_ptr;

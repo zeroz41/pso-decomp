@@ -334,7 +334,7 @@ u32 init_collision_body_parts(void *, void *, s32);
 u8 *load_gvm_texture_file(s32 arg0);
 extern s32 local_client_id;
 extern const f32 lbl_805DBCF4;
-u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
+u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 s32 dispatch_fish_event__6TLobbyFPv(void *a0);
 void *__nw__7TObjectFUl(int);
 extern void *tl_05;
@@ -509,11 +509,11 @@ void TObjContainerAbeEnemy__vt77(const Obj_8018860C *self) {
         spawn_particle_effect_with_flags((void *)&self->pos, 0x46, 0x40);
         void *o = __nw__7TObjectFUl(0x234);
         if (o != NULL) {
-            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
+            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
         }
         o = __nw__7TObjectFUl(0x234);
         if (o != NULL) {
-            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
+            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
         play_container_break_sound((s32)self);
     }
@@ -669,11 +669,11 @@ void TObjContainerBase__vt77(const Obj_80188B3C *self) {
     spawn_particle_effect_with_flags((void *)&self->x, 0x46, 0x40);
     void *o = __nw__7TObjectFUl(0x234);
     if (o != NULL) {
-        __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
+        __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
     }
     o = __nw__7TObjectFUl(0x234);
     if (o != NULL) {
-        __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
+        __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
     }
     play_container_break_sound((s32)self);
 }
@@ -785,11 +785,11 @@ void TObjContainerNoItem::vfunc_79() {
         spawn_particle_effect_with_flags(&self->x, 0x46, 0x40);
         o = __nw__7TObjectFUl(0x234);
         if (o != NULL) {
-            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
+            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
         }
         o = __nw__7TObjectFUl(0x234);
         if (o != NULL) {
-            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
+            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
         play_container_break_sound((s32)self);
     }
@@ -925,11 +925,11 @@ void TObjContainerEnemy::vfunc_79() {
         spawn_particle_effect_with_flags(&self->x, 0x46, 0x40);
         o = __nw__7TObjectFUl(0x234);
         if (o != NULL) {
-            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
+            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
         }
         o = __nw__7TObjectFUl(0x234);
         if (o != NULL) {
-            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
+            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
         play_container_break_sound((s32)self);
     }
@@ -1076,11 +1076,11 @@ void TObjContainerItem::vfunc_79() {
         spawn_particle_effect_with_flags(&self->x, 0x46, 0x40);
         o = __nw__7TObjectFUl(0x234);
         if (o != NULL) {
-            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
+            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
         }
         o = __nw__7TObjectFUl(0x234);
         if (o != NULL) {
-            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
+            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
         play_container_break_sound((s32)self);
     }

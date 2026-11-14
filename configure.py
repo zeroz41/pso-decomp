@@ -751,7 +751,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/darkfalz/TBoss4Type1.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-sdata 4", "-fp_contract on", "-str reuse,readonly")},
     # -sdata 4: the 8-byte name list lbl_80487858 sits in .data, not .sdata.
     "pso/boss/galgryphon/Boss5GryphonBehavior.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
-    "pso/enemy/gyaranzo/TObjEneGyaranzo.cpp": {"mw_version": "GC/2.0"},
+    "pso/enemy/gyaranzo/TObjEneGyaranzo.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/object/trap/TOExplosiveMachine.cpp": {"mw_version": "GC/2.0"},
     # The debris-chip spawners below build const TObjChipParams aggregates whose position, model and
     # texture loads all come before the stores into the locals, which only 2.0 schedules that way

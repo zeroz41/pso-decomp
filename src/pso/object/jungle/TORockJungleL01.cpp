@@ -356,7 +356,7 @@ void TORockJungleM01::vfunc_16() {
         chip.res2 = get_jungle_rock_texture_resource(3);
         o = __nw__7TObjectFUl(0x234);
         if (o != NULL) {
-            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&chip);
+            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&chip);
         }
     }
 }
@@ -545,7 +545,7 @@ void TORockJungleS01::vfunc_16() {
         p.f44 = get_jungle_rock_texture_resource(1);
         o = __nw__7TObjectFUl(0x234);
         if (o != NULL) {
-            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&p);
+            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&p);
         }
     }
 }

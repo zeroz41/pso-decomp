@@ -1728,9 +1728,10 @@ pso/enemy/gibon/TObjEneBm5GibonU.cpp:
 
 pso/enemy/gyaranzo/TObjEneGyaranzo.cpp:
 	.text       start:0x800D1E4C end:0x800D40D8
-	.rodata     start:0x8043C3A8 end:0x8043C428
+	.rodata     start:0x8043C100 end:0x8043C440
 	.data       start:0x80494108 end:0x804943FC
 	.bss        start:0x80500ED0 end:0x80500F80
+	.sdata      start:0x805D2A78 end:0x805D2A80
 	.sbss       start:0x805D51E0 end:0x805D5210
 	.sdata2     start:0x805DA258 end:0x805DA2A0
 

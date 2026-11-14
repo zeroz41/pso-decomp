@@ -1777,6 +1777,7 @@ pso/object/collision/TObjFogCollision.cpp
 pso/object/collision/TObjFogCollisionPoison.cpp
 pso/object/collision/TObjFogCollisionSwitch.cpp
 pso/object/ambient/TObjGrass.cpp
+pso/enemy/gyaranzo/TObjEneGyaranzo.cpp
 pso/enemy/gyaranzo/TObjGyaranzoMissile.cpp
 pso/enemy/gyaranzo/TObjGyaranzoMissile_800D40D8.cpp
 pso/object/TObjHashi.cpp

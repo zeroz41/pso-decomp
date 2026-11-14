@@ -123,7 +123,7 @@ extern u32 actor_frame_tick;
 s32 get_current_floor();
 extern s32 local_client_id;
 extern const f32 lbl_805DBCF4;
-u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
+u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 }
 void load_computer_resources(void);
 void play_container_break_sound(s32 arg0);
