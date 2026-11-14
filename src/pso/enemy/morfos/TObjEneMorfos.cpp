@@ -71,12 +71,17 @@ struct O_803323D8 {
     u8 pad328[0x354 - 0x328]; f32 f354; f32 frame;
 };
 
+// inferred: the three names below, from their only users (get_camera_ctrl in record_camera_path_point,
+// the draw_ground_shadow scale in render and in vfunc_106).
+static const Vec morfos_camera_path_origin = {0.0f, 0.0f, 0.0f};
+static const Vec morfos_render_shadow_scale = {2.0f, 1.0f, 2.0f};
+static const Vec morfos_vfunc_106_shadow_scale = {2.0f, 1.0f, 2.0f};
+
 extern "C" {
 extern s32 actor_frame_tick;
 extern const f32 TObjEneMorfos__data_805DF870;
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-extern const Vec lbl_804775F0;
 extern const f32 TObjEneMorfos__data_805DF86C;
 extern const f32 TObjEneMorfos__data_805DF874;
 void* TObjEneMorfosArm__sub_803326B4(void* p);
@@ -90,7 +95,7 @@ void TObjEneMorfos::vfunc_106() {
     ((TObjEneDD *)arg0)->get_target_info();
     if (((VObj_803323D8 *)arg0)->m8(TObjEneMorfos__data_805DF86C, TObjEneMorfos__data_805DF870) != 0) {
         if (arg0->f326 != 0xB) {
-            Vec v = lbl_804775F0;
+            Vec v = morfos_vfunc_106_shadow_scale;
             ((TObjEneDD *)(arg0))->draw_ground_shadow(&v, 0);
         }
         TObjPlayer::toggle_particle_effect();
@@ -527,7 +532,6 @@ void TObjEneMorfos__sub_80332FD4(TObjEneMorfos *arg0, s32 arg1);
 s32 is_split_screen();
 s32 get_camera_mode__11TCameraCtrlFv();
 s32 is_main_phase_15__9TObjEneDDFv();
-extern Vec lbl_804775E4;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
@@ -705,19 +709,6 @@ struct RecoveredFields_803326CC_arg0 {
     s32 field_3C0;
 };
 
-struct Stack_80332B7C
-{
-  s32 sp8;
-  s32 spC;
-  s32 sp10;
-};
-
-struct RecoveredGlobal_80332B7C_lbl_804775D8
-{
-  s32 value;
-  u8 remaining[0x8];
-};
-
 struct V3_80334588 { f32 x, y, z; };
 
 struct O_80334588 { u8 pad[0x60]; s32 f60; u8 pad2[0x2FC - 0x64]; V3_80334588 pos; };
@@ -749,11 +740,6 @@ typedef char RecoveredFields_803326CC_arg0_60_offset[offsetof(RecoveredFields_80
 
 typedef char RecoveredFields_803326CC_arg0_3C0_offset[offsetof(RecoveredFields_803326CC_arg0, field_3C0) == 0x3C0 ? 1 : -1];
 
-typedef struct RecoveredGlobal_80332B7C_lbl_804775D8 RecoveredGlobal_80332B7C_lbl_804775D8;
-
-typedef struct Stack_80332B7C Stack_80332B7C;
-
-typedef char RecoveredGlobal_80332B7C_lbl_804775D8_size[((sizeof(RecoveredGlobal_80332B7C_lbl_804775D8)) == 0xC) ? (1) : (-1)];
 
 struct RecoveredGlobal_80334CC8___vt__13TObjEneMorfos {
     s32 value;
@@ -923,7 +909,6 @@ extern s32 TObjEneMorfos__camera_path_cursor;
 extern const f32 TObjEneMorfos__data_805DF89C;
 extern s32 __dt__15RenderFadeStateFv[];
 extern s32 __ct__15RenderFadeStateFv[];
-extern RecoveredGlobal_80332B7C_lbl_804775D8 lbl_804775D8;
 extern void *morfos_class_name;
 extern u8 *lbl_805D6D20;
 extern u8 *lbl_805D6D24;
@@ -1093,7 +1078,7 @@ void render__13TObjEneMorfosFv(u8 *ene_morfos) {
         ((TObject *)ene_morfos)->defer_render();
         ((TObjEneMorfos *)ene_morfos)->render_part(cam, vis);
         if (((TObjEneMorfos *)ene_morfos)->mode != 0xB && !(*(u32 *)((s8 *)ene_morfos + 0x3C4) & 0x4000)) {
-            Vec v = lbl_804775E4;
+            Vec v = morfos_render_shadow_scale;
             ((TObjEneDD *)(ene_morfos))->draw_ground_shadow(&v, 0);
         }
         ((TObjEneDD *)ene_morfos)->update_secondary_light();
@@ -1150,35 +1135,16 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
 }
 
 void TObjEneMorfos::record_camera_path_point() {
-  int new_var;
-  Stack_80332B7C stack;
-  if (((s32) TObjEneMorfos__phase) != 0xA)
-  {
-    if (((s32) TObjEneMorfos__phase) < 0xA)
-    {
-      if (((s32) TObjEneMorfos__phase) != 6)
-      {
-      }
-      else
-      {
-        goto block_4;
-      }
+    switch (TObjEneMorfos__phase) {
+    case 6:
+    case 10: {
+        Vec pos = morfos_camera_path_origin;
+        get_camera_ctrl__9TObjEneDDFv(&pos, TObjEneMorfos__camera_path_cursor);
+        TObjEneMorfos__camera_path_cursor += 0xC;
+        break;
     }
-    if (((!TObjEneMorfos__phase) && (!TObjEneMorfos__phase)) && (!TObjEneMorfos__phase))
-    {
     }
-  }
-  else
-  {
-    new_var = 0;
-    block_4:
-    stack.sp8 = *((s32 *) (((s8 *)&lbl_804775D8.value) + new_var));
-    stack.spC = *((s32 *) (((s8 *)&lbl_804775D8.value) + 4));
-    stack.sp10 = *((s32 *) (((s8 *)&lbl_804775D8.value) + 8));
-    get_camera_ctrl__9TObjEneDDFv((void *)&stack.sp8, (int) TObjEneMorfos__camera_path_cursor);
-    TObjEneMorfos__camera_path_cursor += 0xC;
-  }
-  TObjEneMorfos__phase += 1;
+    TObjEneMorfos__phase += 1;
 }
 
 void TObjEneMorfos::state_death(s32 arg1) {

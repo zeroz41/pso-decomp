@@ -1917,9 +1917,10 @@ pso/enemy/sorcerer/TObjEneRe4Bit.cpp:
 
 pso/enemy/sorcerer/TObjEneRe4Sorcerer_800EDB98.cpp:
 	.text       start:0x800EDB98 end:0x800F05A0
-	.rodata     start:0x8043D410 end:0x8043D418
+	.rodata     start:0x8043D2F0 end:0x8043D438
 	.data       start:0x80496EE0 end:0x804971BC
 	.bss        start:0x80501070 end:0x80501080
+	.sdata      start:0x805D2AF0 end:0x805D2AF8
 	.sbss       start:0x805D52D0 end:0x805D52F8
 	.sdata2     start:0x805DA788 end:0x805DA7F0
 
@@ -10071,7 +10072,7 @@ pso/ui/window/TWindowSubTradeMain_80332148.cpp:
 
 pso/enemy/morfos/TObjEneMorfos.cpp:
 	.text       start:0x803323D8 end:0x80335218
-	.rodata     start:0x80477600 end:0x80477618
+	.rodata     start:0x804775D8 end:0x80477618
 	.data       start:0x804EE0C0 end:0x804EE3AC
 	.bss        start:0x805434D0 end:0x805434E8
 	.sbss       start:0x805D6D08 end:0x805D6D38

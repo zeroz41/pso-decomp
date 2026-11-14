@@ -16,6 +16,8 @@ extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
+#include "pso/math/AngleUnits.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -93,7 +95,6 @@ f64 atan2_float(f32, f32);
 s32 set_field_378__9TObjEneDDFl(void *, s32);
 void TObjEneRe4Sorcerer__sub_800EF214(TObjEneRe4Sorcerer *self);
 void *find_entity_by_id(u16 id);
-extern const f64 TObjEneRe4Sorcerer__data_8043D408;
 void TObjEneRe4Sorcerer__sub_800EE7DC(TObjEneRe4Sorcerer *arg0, s32 arg1);
 s32 is_split_screen();
 s32 get_camera_mode__11TCameraCtrlFv();
@@ -121,7 +122,7 @@ f32 horizontal_distance_squared(void *, void *);
 s32 select_attack_target__18TObjEneRe4SorcererFiff(TObjEneRe4Sorcerer *self, f32 farg0, f32 farg1);
 void scale_matrix(s32, s32, f32, f32, f32);
 
-struct Params_800F0464 { s32 a, b, c, d; };
+struct Params_800F0464 { s32 a; void *actions; s32 c, d; };
 
 void queue_destruction__7TObjectFv(void *arg0);
 s32 dispatch_shared_handler_a__6TLobbyFl(int);
@@ -138,7 +139,7 @@ s32 init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int, int);
 u32 vfunc_102__9TObjEneDDFv();
 u32 vfunc_101__9TObjEneDDFPUc();
 void invoke_initialization_hook__9TObjEneDDFPv(void *, void *);
-u32 load_enemy_bml_resource_named(void *, void *);
+u32 load_enemy_bml_resource_named(void *, const char *);
 s32 load_enemy_bml_resource(u8 *arg0);
 void TObjEneRe4Bit__sub_800EDAB0(void);
 void TObjEneRe4Bit__sub_800EDAB4();
@@ -182,10 +183,7 @@ s32 subtract_vector(void *, void *);
 
 extern s32 __dt__15RenderFadeStateFv[];
 extern s32 __ct__15RenderFadeStateFv[];
-extern Params_800F0464 re4_sorcerer_spawn_descriptor;
-extern u8 lbl_8043D418[];
 Vec lbl_80501070;
-extern void *lbl_805D2AF0;
 extern s32 lbl_805D52D0;
 extern s32 TObjEneRe4Sorcerer__attack_params;
 extern s32 TObjEneRe4Sorcerer__resistance_params;
@@ -398,39 +396,6 @@ extern "C" {
 void is_target_in_attack_range__9TObjCharaFv();
 }
 extern "C" {
-extern u8 lbl_8043D2F0[];
-}
-extern "C" {
-extern u8 lbl_8043D308[];
-}
-extern "C" {
-extern u8 lbl_8043D318[];
-}
-extern "C" {
-extern u8 lbl_8043D330[];
-}
-extern "C" {
-extern u8 lbl_8043D348[];
-}
-extern "C" {
-extern u8 lbl_8043D360[];
-}
-extern "C" {
-extern u8 lbl_8043D374[];
-}
-extern "C" {
-extern u8 lbl_8043D38C[];
-}
-extern "C" {
-extern u8 lbl_8043D3A0[];
-}
-extern "C" {
-extern u8 lbl_8043D3B8[];
-}
-extern "C" {
-extern u8 lbl_8043D3CC[];
-}
-extern "C" {
 void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
 }
 extern "C" {
@@ -488,24 +453,30 @@ void update_object_view_visibility__8TObjBaseFff();
 extern "C" {
 void update_poison_status__9TObjCharaFv();
 }
-extern void *bm_ene_re4_sorcerer_model_names[3];
-extern void *bm_ene_re4_sorcerer_motion_names[9];
 TObjEneRe4InitParams re4_sorcerer_init_params = {225.0f, 0.0f, 0x600};
 void *re4_sorcerer_collision_body_part_table[11] = {
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x41000000,
     (void *)0x0, (void *)0x0, (void *)0x8003, (void *)0x0,
     (void *)0x0, (void *)0x0, (void *)0x0,
 };
-void *bm_ene_re4_sorcerer_model_names[3] = {
-    (void *)&lbl_8043D2F0, (void *)&lbl_8043D308, (void *)0x0,
+const char *bm_ene_re4_sorcerer_model_names[3] = {
+    "re4_b_sorcer_body.nj",
+    "re4_b_bit.nj",
+    NULL
 };
-void *bm_ene_re4_sorcerer_motion_names[9] = {
-    (void *)&lbl_8043D318, (void *)&lbl_8043D330, (void *)&lbl_8043D348, (void *)&lbl_8043D360,
-    (void *)&lbl_8043D374, (void *)&lbl_8043D38C, (void *)&lbl_8043D3A0, (void *)&lbl_8043D3B8,
-    (void *)0x0,
+const char *bm_ene_re4_sorcerer_motion_names[9] = {
+    "attack2_re4_b_body.njm",
+    "attack3_re4_b_body.njm",
+    "attack1_re4_b_body.njm",
+    "cure_re4_b_body.njm",
+    "damage_re4_b_body.njm",
+    "die_re4_b_body.njm",
+    "enter_re4_b_body.njm",
+    "wait_re4_b_body.njm",
+    NULL
 };
-void *bm_ene_re4_sorcerer_resource_descriptor[4] = {
-    (void *)&lbl_8043D3CC, (void *)&bm_ene_re4_sorcerer_model_names, (void *)&bm_ene_re4_sorcerer_motion_names, (void *)0x20008,
+BmlResourceDescriptor bm_ene_re4_sorcerer_resource_descriptor = {
+    "bm_ene_re4_sorcerer.bml", bm_ene_re4_sorcerer_model_names, bm_ene_re4_sorcerer_motion_names, 2, 8
 };
 void *re4_sorcerer_action_params[32] = {
     (void *)0x10000, (void *)0x7, (void *)0x3f19999a, (void *)0x0,
@@ -517,6 +488,9 @@ void *re4_sorcerer_action_params[32] = {
     (void *)0x30000, (void *)0x5, (void *)0x3f000000, (void *)0x0,
     (void *)0x20000, (void *)0x6, (void *)0x3f19999a, (void *)0x80000000,
 };
+// inferred: TObjEneRe4Sorcerer__name, from the string it holds (the ctor stores it as the object's m_name).
+const char *TObjEneRe4Sorcerer__name = "TObjEneRe4Sorcerer";
+const Params_800F0464 re4_sorcerer_spawn_descriptor = {0, re4_sorcerer_action_params, 0, 0x80000};
 void *__vt__18TObjEneRe4Sorcerer[107] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__18TObjEneRe4SorcererFv, (void *)&run_task__18TObjEneRe4SorcererFv,
     (void *)&render__18TObjEneRe4SorcererFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
@@ -547,7 +521,6 @@ void *__vt__18TObjEneRe4Sorcerer[107] = {
     (void *)&vfunc_104__12TObjEneDD_STFf, (void *)&vfunc_105__18TObjEneRe4SorcererFv, (void *)&vfunc_106__18TObjEneRe4SorcererFv,
 };
 #define re4_sorcerer_collision_body_part_table ((f32 *)re4_sorcerer_collision_body_part_table)
-#define bm_ene_re4_sorcerer_resource_descriptor ((u8 *)bm_ene_re4_sorcerer_resource_descriptor)
 #define __vt__18TObjEneRe4Sorcerer ((s32 *)__vt__18TObjEneRe4Sorcerer)
 
 void TObjEneRe4Sorcerer::render() {
@@ -749,7 +722,7 @@ void TObjEneRe4Sorcerer__sub_800EE1CC(TObjEneRe4Sorcerer *self, s32 arg1) {
                             self->m_3c8 |= 8;
                             self->apply_mylla_effect();
                         }
-                        self->rotation_y = (s32)(TObjEneRe4Sorcerer__data_8043D408 * atan2_float(self->m_3a0.x, self->m_3a0.z));
+                        self->rotation_y = (s32)(RADIANS_TO_ANGLE * atan2_float(self->m_3a0.x, self->m_3a0.z));
                     } else {
                         self->m_4e8 = 1;
                         self->requested_action = 1;
@@ -946,7 +919,7 @@ void TObjEneRe4Sorcerer__sub_800EE7DC(TObjEneRe4Sorcerer *self, s32 arg1) {
                         self->m_3c8 |= 8;
                         self->set_photon_state();
                     }
-                    self->rotation_y = (s32)(TObjEneRe4Sorcerer__data_8043D408 * atan2_float(self->m_3a0.x, self->m_3a0.z));
+                    self->rotation_y = (s32)(RADIANS_TO_ANGLE * atan2_float(self->m_3a0.x, self->m_3a0.z));
                 }
             } else if (self->m_4e4 >= 0xF0) {
                 self->m_4e8 = 5;
@@ -1175,7 +1148,7 @@ void TObjEneRe4Sorcerer__sub_800EEFE4(TObjEneRe4Sorcerer *self, s32 arg1) {
         if (self->try_attack(160000.0f, 62500.0f) != 0) {
             self->enemy_copy_target_destination();
             self->update_velocity();
-            self->m_3f0 = (s32)(TObjEneRe4Sorcerer__data_8043D408 * atan2_float(-self->m_3a0.x, -self->m_3a0.z));
+            self->m_3f0 = (s32)(RADIANS_TO_ANGLE * atan2_float(-self->m_3a0.x, -self->m_3a0.z));
             TObjEneRe4Sorcerer__sub_800EF95C(self, 50.0f);
             self->transition_enemy_state(2);
         }
@@ -1298,7 +1271,7 @@ s32 TObjEneRe4Sorcerer::cast_technique() {
             VecCopy(&v, &m_390->position);
             subtract_vector(&v, src);
             frame = TObjEneDD::clamp_frame_index(sorcerer_behavior_params[7]);
-            create_ex__11TTecGiBartaFPvPvPv(this, src, (s32)(TObjEneRe4Sorcerer__data_8043D408 * atan2_float(v.x, v.z)), frame);
+            create_ex__11TTecGiBartaFPvPvPv(this, src, (s32)(RADIANS_TO_ANGLE * atan2_float(v.x, v.z)), frame);
         }
         return 1;
     }
@@ -1308,7 +1281,7 @@ s32 TObjEneRe4Sorcerer::cast_technique() {
 void TObjEneRe4Sorcerer::turn_to_target() {
     enemy_copy_target_destination();
     update_velocity();
-    rotation_y = approach_angle_limited(rotation_y, (s32)(TObjEneRe4Sorcerer__data_8043D408 * atan2_float(m_3a0.x, m_3a0.z)), 0xA00);
+    rotation_y = approach_angle_limited(rotation_y, (s32)(RADIANS_TO_ANGLE * atan2_float(m_3a0.x, m_3a0.z)), 0xA00);
 }
 
 void TObjEneRe4Sorcerer::calc_orb_positions() {
@@ -1693,7 +1666,7 @@ TObjEneRe4Sorcerer *TObjEneRe4Sorcerer__ct(TObjEneRe4Sorcerer *self, void *arg1,
     __ct__13TUnk_80490470Fv(&self->fade);
     ((TObjPlayer *)&self->targets)->construct_target_cursor_records();
     __construct_array(self->fades, __ct__15RenderFadeStateFv, __dt__15RenderFadeStateFv, sizeof(RenderFadeState), 4);
-    *(void **)((s8 *)self + 0x0) = lbl_805D2AF0;
+    self->m_name = TObjEneRe4Sorcerer__name;
     invoke_initialization_hook__9TObjEneDDFPv(self, arg2);
     ((void (*)(void *))TObjEneRe4Sorcerer__sub_800EFE30)(self);
     self->init_enemy();
@@ -1726,9 +1699,9 @@ void TObjEneRe4Sorcerer::load_resources() {
     lbl_80501070.y = 0.0f;
     lbl_80501070.z = 0.0f;
     if (TObjEneDD::check_v2_mode() != 0) {
-        sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource_named(bm_ene_re4_sorcerer_resource_descriptor, lbl_8043D418);
+        sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource_named(&bm_ene_re4_sorcerer_resource_descriptor, "bm_ene_re4_sorcerer_a.bml");
     } else {
-        sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource(bm_ene_re4_sorcerer_resource_descriptor);
+        sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource((u8 *)&bm_ene_re4_sorcerer_resource_descriptor);
     }
     lbl_805D52D0 = register_boss__6TLobbyFl(0xA);
     TObjEneRe4Sorcerer__attack_params = dispatch_shared_handler_b__6TLobbyFl(0xA);
