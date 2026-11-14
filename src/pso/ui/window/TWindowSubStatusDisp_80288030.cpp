@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -17,6 +18,28 @@ s32 strcmp(void *, int);
 extern u8 lbl_805DD898;
 u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *arg0, u8 *arg1, s32 arg2, s8 arg3, s32 arg4);
 extern const f32 lbl_8044FCF0[2] = { 0.0f, -13.0f };
+}
+
+// The HUD palette texture names; load_hud_palette_textures loads the archive into this list.
+NJS_TEXNAME f256_hyouji_texname[13] = { // inferred: the name array of f256_hyouji_texlist
+    { (void *)"f256_hyouji_a", 0, 0 },
+    { (void *)"f256_hyouji_b", 0, 0 },
+    { (void *)"f256_hyouji_c", 0, 0 },
+    { (void *)"f256_actionpallet_a", 0, 0 },
+    { (void *)"f256_actionpallet_b", 0, 0 },
+    { (void *)"f256_actionpallet_c", 0, 0 },
+    { (void *)"f256_duelcount", 0, 0 },
+    { (void *)"r256_symobj01", 0, 0 },
+    { (void *)"r256_symobj02", 0, 0 },
+    { (void *)"r256_symobj03", 0, 0 },
+    { (void *)"r256_symparts", 0, 0 },
+    { (void *)"b256_mainmenu", 0, 0 },
+    { (void *)"f256_carsol", 0, 0 },
+};
+
+NJS_TEXLIST f256_hyouji_texlist = { f256_hyouji_texname, 13 };
+
+extern "C" {
 int update__20TWindowSubStatusDispFPv(void*);
 int TWindowSubStatusDisp__sub_802879B0(void*);
 
