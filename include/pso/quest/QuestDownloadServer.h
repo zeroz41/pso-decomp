@@ -66,7 +66,18 @@ struct RecoveredGlobal_803E8084_lbl_80590AC4
 
 struct Node_803EB894 { u8 flags; u8 pad[0xF]; Node_803EB894 *next; };
 
-struct Node_803EB794 { u8 flags; u8 data[5]; u8 len; u8 pad[9]; Node_803EB794 *next; };
+struct Sub_803ED9AC;
+
+struct Node_803EB420 {
+    u8 flags;
+    u8 data[5];
+    u8 len;
+    u8 pad7;
+    Sub_803ED9AC *sub;
+    u16 key;
+    u8 padE[2];
+    Node_803EB420 *next;
+};
 
 struct Node_803ECD54 { u8 pad[0x10]; Node_803ECD54 *next; };
 
@@ -139,18 +150,6 @@ struct Obj_803EADD4 {
     s8 x19;
 };
 
-struct Sub_803ED9AC;
-
-struct Node_803EB420 {
-    u8 flags;
-    u8 data[5];
-    u8 len;
-    u8 pad7;
-    Sub_803ED9AC *sub;
-    u16 key;
-    u8 padE[2];
-    Node_803EB420 *next;
-};
 
 struct Ent_803EDB90 { s32 a; s32 size; };
 
@@ -327,7 +326,7 @@ struct Elem_803ED9AC {
 struct Slot_803ED9AC {
     u8 pad[8];
     Elem_803ED9AC *head;
-    Node_803EB794 *chain;
+    Node_803EB420 *chain;
     u8 pad10[5];
     s8 x15;
     s8 x16;
@@ -352,7 +351,7 @@ s32 TQuestVmDownLoadServer__sub_803EC69C(u32);
 extern RecoveredGlobal_803E8084_lbl_80590AC4 quest_name_index_table;
 void __VIRetraceHandler(void);
 Node_803EB894 *detach_node_chain__22TQuestVmDownLoadServerFPv(Node_803EB894 *p);
-Node_803EB794 *advance_nodes__22TQuestVmDownLoadServerFPvi(Node_803EB794 *p, s32 n);
+Node_803EB420 *advance_nodes__22TQuestVmDownLoadServerFPvi(Node_803EB420 *p, s32 n);
 extern s32 lbl_805D78AC;
 extern s32 *lbl_805D78B0;
 Node_803EB878 *TQuestVmDownLoadServer__sub_803EB878(Node_803EB878 *p);
@@ -397,7 +396,7 @@ extern u8 *quest_download_text_write_ptr;
 void TQuestVmDownLoadServer__sub_803EBA98(s32 arg0, Node_803EBA98 *arg1);
 extern u16 lbl_805A02A8[];
 extern s32 quest_page_node_index;
-extern Node_803EB794 *lbl_805D78A0;
+extern Node_803EB420 *lbl_805D78A0;
 extern s32 lbl_805D78E8;
 extern s32 quest_text_cursor_pos;
 u8 *get_cached_page__22TQuestVmDownLoadServerFi(s32 page);
