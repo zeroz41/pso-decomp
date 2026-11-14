@@ -3379,6 +3379,7 @@ pso/ui/font/TNECFontEORFunction.cpp:
 pso/ui/window/TWindowSubStatusDisp_80144B14.cpp:
 	.text       start:0x80144B14 end:0x8014572C
 	.rodata     start:0x8043F3D0 end:0x8043F3D8
+	.sdata2     start:0x805DB190 end:0x805DB1A8
 
 pso/ui/frontend/TAdSubPlyItemGC.cpp:
 	.text       start:0x8014572C end:0x80145750
