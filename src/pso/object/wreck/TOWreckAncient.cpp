@@ -23,23 +23,12 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 // The wreck family is one TU built with -inline off,deferred: its code runs Brakable05, Brakable, 07, 06, 05,
 // 04, 01, TOWreckAncient while its strings, name pointers and vtables run the other way, so the source is
 // written last function first.
-
-struct Base1_8017dce0 { char pad[0x18]; };
-struct VObj1_8017dce0 : Base1_8017dce0 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
-struct RecoveredGlobal_8017DE94___vt__14TOWreckAncient {
-    s32 value;
-    u8 remaining[0x38];
-};
-typedef char RecoveredGlobal_8017DE94___vt__14TOWreckAncient_size[sizeof(RecoveredGlobal_8017DE94___vt__14TOWreckAncient) == 0x3C ? 1 : -1];
 
 struct Vec_8017D448 { f32 x, y, z; };
 
@@ -141,35 +130,11 @@ u32 wreck_ancient_brakable_bml_resource;
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-s32 __ct__14TObjCollidableFP7TObject(void *, int);
 s32 TObjFish__sub_8001EDB0(void *, s32);
 s32 get_bml_model(void *, s32);
-extern s32 __vt__14TOWreckAncient[];
-extern s32 __vt__16TOWreckAncient01[];
-extern s32 __vt__16TOWreckAncient04[];
-extern s32 __vt__16TOWreckAncient05[];
-extern s32 __vt__16TOWreckAncient06[];
-extern s32 __vt__16TOWreckAncient07[];
-extern s32 __vt__22TOWreckAncientBrakable[];
-extern s32 __vt__24TOWreckAncientBrakable05[];
-extern s32 tl_05;
-u8 *TOWreckAncient__ct(u8 *arg0, s32 arg1);
-void *__dt__14TOWreckAncientFv(void *arg0, s16 arg1);
-void *TOWreckAncientBrakable__ct(TOWreckAncientBrakable *arg0, s32 arg1);
-void *__dt__22TOWreckAncientBrakableFv(void *arg0, s16 arg1);
-void *TOWreckAncientBrakable05__create(void *arg0);
-void *__dt__24TOWreckAncientBrakable05Fv(void *arg0, s16 arg1);
-u8 *TOWreckAncient04__ct(u8 *wreck_ancient, s32 arg1);
-u8 *TOWreckAncient05__ct(u8 *wreck_ancient, s32 arg1);
-u8 *TOWreckAncient06__ct(u8 *wreck_ancient, s32 arg1);
-u8 *TOWreckAncient07__ct(u8 *wreck_ancient, s32 arg1);
 void free_bin_model_request(void*, int);
 s32 post_translate_matrix(void *);
-s32 free_collision_body_parts(void *);
-s32 init_collision_body_parts(void *, CollisionBody *, s32);
 s32 push_matrix();
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(u32);
 void vec3_add_to(Vec_8017D448 *, Vec_8017D448 *);
 void rotate_vector_by_matrix(int, Vec_8017D448 *, Vec_8017D448 *);
 extern u8 identity_matrix[];
@@ -178,28 +143,17 @@ u8 is_current_floor_switch_set(u16);
 
 // --- TOWreckAncient ---
 
-u8 *TOWreckAncient__ct(u8 *wreck_ancient, s32 arg1) {
-    __ct__14TObjCollidableFP7TObject(wreck_ancient, tl_05);
-    *(s32 **)((s8 *)wreck_ancient + 0x18) = &(*(RecoveredGlobal_8017DE94___vt__14TOWreckAncient *)&__vt__14TOWreckAncient).value;
-    *(s32 *)((s8 *)wreck_ancient + 0) = (s32) TOWreckAncient__name;
-    *(s32 *)((s8 *)wreck_ancient + 0x34) = get_bml_model((void *) wreck_ancient_bml_resource, arg1);
-    ((TOWreckAncient *)wreck_ancient)->texlist = TObjFish__sub_8001EDB0((void *) wreck_ancient_bml_resource, arg1);
-    *(f32 *)((s8 *)wreck_ancient + 0xAC) = 400.0f;
-    ((TOWreckAncient *)wreck_ancient)->m_b0 = 40.0f;
-    return wreck_ancient;
+TOWreckAncient::TOWreckAncient(s32 model_index) : TObjCollidable(tl_05) {
+    m_name = TOWreckAncient__name;
+    model = (void *)get_bml_model((void *)wreck_ancient_bml_resource, model_index);
+    texlist = TObjFish__sub_8001EDB0((void *)wreck_ancient_bml_resource, model_index);
+    view_far_depth = 400.0f;
+    view_radius = 40.0f;
 }
 
-void *__dt__14TOWreckAncientFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TOWreckAncient;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__14TObjCollidableFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TOWreckAncient::~TOWreckAncient() {
+    unregister_object_by_id();
+    free_collision_body_parts(this);
 }
 
 void TOWreckAncient::load_resources() {
@@ -233,249 +187,155 @@ void TOWreckAncient::free_statics() {
 }
 
 void TOWreckAncient::render() {
-    u8 *arg0 = (u8 *)this;
-    VObj1_8017dce0 *self = (VObj1_8017dce0 *)arg0;
-    if (self->m8(*(f32 *)&this->unk_AC, this->m_b0) != 0) {
+    if (update_object_view_visibility(view_far_depth, view_radius) != 0) {
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
-        rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(this->texlist);
-        draw_ginja_object(this->model);
+        post_translate_matrix(&position);
+        rotate_matrix_y(0, rotation_y);
+        TObjFish::set_global_param(texlist);
+        draw_ginja_object(model);
         pop_matrix();
     }
 }
 
 // --- TOWreckAncient01 ---
 
-u8 *TOWreckAncient01__ct(u8 *wreck_ancient, s32 arg1) {
-    TOWreckAncient__ct(wreck_ancient, 1);
-    *(s32 **)((s8 *)wreck_ancient + 0x18) = __vt__16TOWreckAncient01;
-    *(s32 *)((s8 *)wreck_ancient + 0) = (s32) TOWreckAncient01__name;
-    ((TOWreckAncient01 *)(wreck_ancient))->apply_object_set_data((void *)arg1);
-    init_collision_body_parts(wreck_ancient, &TOWreckAncient__collision_body_templates[1], 1);
-    ((TObjPlayer *)wreck_ancient)->register_object_by_id();
-    return wreck_ancient;
+TOWreckAncient01::TOWreckAncient01(void *set_data) : TOWreckAncient(1) {
+    m_name = TOWreckAncient01__name;
+    apply_object_set_data(set_data);
+    init_collision_body_parts(this, &TOWreckAncient__collision_body_templates[1], 1);
+    register_object_by_id();
 }
 
-void *__dt__16TOWreckAncient01Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TOWreckAncient01;
-        __dt__14TOWreckAncientFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TOWreckAncient01::~TOWreckAncient01() {
 }
 
-void *TOWreckAncient01__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xB4);
-    if (o != NULL) {
-        o = TOWreckAncient01__ct((u8 *)o, (s32)arg0);
-    }
-    return o;
+void *TOWreckAncient01__create(void *set_data) {
+    return new TOWreckAncient01(set_data);
 }
 
 // --- TOWreckAncient04 ---
 
-u8 *TOWreckAncient04__ct(u8 *wreck_ancient, s32 arg1) {
-    TOWreckAncient__ct(wreck_ancient, 4);
-    *(s32 **)((s8 *)wreck_ancient + 0x18) = __vt__16TOWreckAncient04;
-    *(s32 *)((s8 *)wreck_ancient + 0) = (s32) TOWreckAncient04__name;
-    ((TOWreckAncient04 *)(wreck_ancient))->apply_object_set_data((void *)arg1);
-    init_collision_body_parts(wreck_ancient, &TOWreckAncient__collision_body_templates[4], 1);
-    ((TObjPlayer *)wreck_ancient)->register_object_by_id();
-    return wreck_ancient;
+TOWreckAncient04::TOWreckAncient04(void *set_data) : TOWreckAncient(4) {
+    m_name = TOWreckAncient04__name;
+    apply_object_set_data(set_data);
+    init_collision_body_parts(this, &TOWreckAncient__collision_body_templates[4], 1);
+    register_object_by_id();
 }
 
-void *__dt__16TOWreckAncient04Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TOWreckAncient04;
-        __dt__14TOWreckAncientFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TOWreckAncient04::~TOWreckAncient04() {
 }
 
-void *TOWreckAncient04__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xB4);
-    if (o != NULL) {
-        o = TOWreckAncient04__ct((u8 *)o, (s32)arg0);
-    }
-    return o;
+void *TOWreckAncient04__create(void *set_data) {
+    return new TOWreckAncient04(set_data);
 }
 
 // --- TOWreckAncient05 ---
 
-u8 *TOWreckAncient05__ct(u8 *wreck_ancient, s32 arg1) {
-    TOWreckAncient__ct(wreck_ancient, 3);
-    *(s32 **)((s8 *)wreck_ancient + 0x18) = __vt__16TOWreckAncient05;
-    *(s32 *)((s8 *)wreck_ancient + 0) = (s32) TOWreckAncient05__name;
-    ((TOWreckAncient05 *)(wreck_ancient))->apply_object_set_data((void *)arg1);
-    init_collision_body_parts(wreck_ancient, &TOWreckAncient__collision_body_templates[3], 1);
-    ((TObjPlayer *)wreck_ancient)->register_object_by_id();
-    return wreck_ancient;
+TOWreckAncient05::TOWreckAncient05(void *set_data) : TOWreckAncient(3) {
+    m_name = TOWreckAncient05__name;
+    apply_object_set_data(set_data);
+    init_collision_body_parts(this, &TOWreckAncient__collision_body_templates[3], 1);
+    register_object_by_id();
 }
 
-void *__dt__16TOWreckAncient05Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TOWreckAncient05;
-        __dt__14TOWreckAncientFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TOWreckAncient05::~TOWreckAncient05() {
 }
 
-void *TOWreckAncient05__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xB4);
-    if (o != NULL) {
-        o = TOWreckAncient05__ct((u8 *)o, (s32)arg0);
-    }
-    return o;
+void *TOWreckAncient05__create(void *set_data) {
+    return new TOWreckAncient05(set_data);
 }
 
 // --- TOWreckAncient06 ---
 
-u8 *TOWreckAncient06__ct(u8 *wreck_ancient, s32 arg1) {
-    TOWreckAncient__ct(wreck_ancient, 6);
-    *(s32 **)((s8 *)wreck_ancient + 0x18) = __vt__16TOWreckAncient06;
-    *(s32 *)((s8 *)wreck_ancient + 0) = (s32) TOWreckAncient06__name;
-    ((TOWreckAncient06 *)(wreck_ancient))->apply_object_set_data((void *)arg1);
-    init_collision_body_parts(wreck_ancient, &TOWreckAncient__collision_body_templates[6], 1);
-    ((TObjPlayer *)wreck_ancient)->register_object_by_id();
-    return wreck_ancient;
+TOWreckAncient06::TOWreckAncient06(void *set_data) : TOWreckAncient(6) {
+    m_name = TOWreckAncient06__name;
+    apply_object_set_data(set_data);
+    init_collision_body_parts(this, &TOWreckAncient__collision_body_templates[6], 1);
+    register_object_by_id();
 }
 
-void *__dt__16TOWreckAncient06Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TOWreckAncient06;
-        __dt__14TOWreckAncientFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TOWreckAncient06::~TOWreckAncient06() {
 }
 
-void *TOWreckAncient06__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xB4);
-    if (o != NULL) {
-        o = TOWreckAncient06__ct((u8 *)o, (s32)arg0);
-    }
-    return o;
+void *TOWreckAncient06__create(void *set_data) {
+    return new TOWreckAncient06(set_data);
 }
 
 // --- TOWreckAncient07 ---
 
-u8 *TOWreckAncient07__ct(u8 *wreck_ancient, s32 arg1) {
-    TOWreckAncient__ct(wreck_ancient, 5);
-    *(s32 **)((s8 *)wreck_ancient + 0x18) = __vt__16TOWreckAncient07;
-    *(s32 *)((s8 *)wreck_ancient + 0) = (s32) TOWreckAncient07__name;
-    ((TOWreckAncient07 *)(wreck_ancient))->apply_object_set_data((void *)arg1);
-    init_collision_body_parts(wreck_ancient, &TOWreckAncient__collision_body_templates[5], 1);
-    ((TObjPlayer *)wreck_ancient)->register_object_by_id();
-    return wreck_ancient;
+TOWreckAncient07::TOWreckAncient07(void *set_data) : TOWreckAncient(5) {
+    m_name = TOWreckAncient07__name;
+    apply_object_set_data(set_data);
+    init_collision_body_parts(this, &TOWreckAncient__collision_body_templates[5], 1);
+    register_object_by_id();
 }
 
-void *__dt__16TOWreckAncient07Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TOWreckAncient07;
-        __dt__14TOWreckAncientFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TOWreckAncient07::~TOWreckAncient07() {
 }
 
-void *TOWreckAncient07__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xB4);
-    if (o != NULL) {
-        o = TOWreckAncient07__ct((u8 *)o, (s32)arg0);
-    }
-    return o;
+void *TOWreckAncient07__create(void *set_data) {
+    return new TOWreckAncient07(set_data);
 }
 
 // --- TOWreckAncientBrakable ---
 
 
-void *TOWreckAncientBrakable__ct(TOWreckAncientBrakable *wreck_ancient_brakable, s32 model) {
-    TOWreckAncient__ct((u8 *)wreck_ancient_brakable, model);
-    *(s32 **)((s8 *)wreck_ancient_brakable + 0x18) = __vt__22TOWreckAncientBrakable;
-    wreck_ancient_brakable->m_name = TOWreckAncientBrakable__name;
-    wreck_ancient_brakable->m_b4 = 0;
-    wreck_ancient_brakable->m_b8 = -1;
-    return wreck_ancient_brakable;
+TOWreckAncientBrakable::TOWreckAncientBrakable(s32 model_index) : TOWreckAncient(model_index) {
+    m_name = TOWreckAncientBrakable__name;
+    state = 0;
+    switch_id = -1;
 }
 
-void *__dt__22TOWreckAncientBrakableFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__22TOWreckAncientBrakable;
-        __dt__14TOWreckAncientFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TOWreckAncientBrakable::~TOWreckAncientBrakable() {
 }
 
 void TOWreckAncientBrakable::run_task() {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r0_2;
 
     if (TObjPlayer::check_demo_mode() == 1) {
-        TOWreckAncientBrakable__sub_8017D444(arg0);
+        TOWreckAncientBrakable__sub_8017D444(this);
         return;
     }
-    switch (this->m_b4) {
+    switch (state) {
     default:
-        this->m_b4 = 0;
+        state = 0;
     case 0:
-        temp_r0_2 = this->m_b8;
+        temp_r0_2 = switch_id;
         if ((temp_r0_2 >= 0) && (temp_r0_2 < 0x100) && (is_current_floor_switch_set((u16) temp_r0_2) == 1)) {
-            this->m_b4 = 1;
+            state = 1;
             play_sound_effect(0x43C11, (u8 *)&this->position, 0, 0);
             spawn_particle_effect(&this->position, 0x45);
             spawn_particle_effect(&this->position, 0x46);
-            ((TOWreckAncientBrakable *)arg0)->spawn_debris();
+            spawn_debris();
         }
         return;
     case 1:
-        ((TObjCollidable *)arg0)->set_flag8();
-        ((TObject *)arg0)->queue_destruction();
+        set_flag8();
+        queue_destruction();
         break;
     }
 }
 
 void TOWreckAncientBrakable::spawn_debris() {
-    u8 *arg0 = (u8 *)this;
     Vec_8017D448 tmp;
     Arr_8017D448 arr = TOWreckAncientBrakable__debris_table;
     Param_8017D448 p = TOWreckAncientBrakable__debris_param_table;
     s32 i;
-    void *obj;
-    p.pos.x = *(f32 *)(arg0 + 0x38);
-    p.pos.y = *(f32 *)(arg0 + 0x3C);
-    p.pos.z = *(f32 *)(arg0 + 0x40);
+    p.pos.x = position.x;
+    p.pos.y = position.y;
+    p.pos.z = position.z;
     p.f38 = p.pos.y;
     for (i = 0; i < 9; i++) {
         VecCopy((Vec *)&tmp, (const Vec *)&arr.v[i]);
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, *(s32 *)(arg0 + 0x60));
+        rotate_matrix_y(0, rotation_y);
         rotate_vector_by_matrix(0, &tmp, &tmp);
         pop_matrix();
-        VecCopy((Vec *)&p.pos, (const Vec *)((Vec_8017D448 *)(arg0 + 0x38)));
+        VecCopy((Vec *)&p.pos, &position);
         vec3_add_to(&p.pos, &tmp);
         p.f40 = get_bml_model((void *) wreck_ancient_brakable_bml_resource, i);
         p.f44 = TObjFish__sub_8001EDB0((void *) wreck_ancient_brakable_bml_resource, i);
-        obj = __nw__7TObjectFUl(0x234);
-        if (obj != 0) {
-            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)obj, (u8 *)tl_05, (u8 *)&p);
-        }
+        new TObjChip(tl_05, (const TObjChipParams *)&p);
     }
 }
 
@@ -484,37 +344,20 @@ void TOWreckAncientBrakable__sub_8017D444(void *) {  }
 
 // --- TOWreckAncientBrakable05 ---
 
-u8 *TOWreckAncientBrakable05__ct(TOWreckAncientBrakable05 *wreck_ancient_brakable05, s32 arg1) {
-    s32 temp_r0;
-    TOWreckAncientBrakable__ct(wreck_ancient_brakable05, 3);
-    *(s32 **)((s8 *)wreck_ancient_brakable05 + 0x18) = __vt__24TOWreckAncientBrakable05;
-    *(s32 *)((s8 *)wreck_ancient_brakable05 + 0) = (s32) TOWreckAncientBrakable05__name;
-    ((TOWreckAncientBrakable05 *)(wreck_ancient_brakable05))->apply_object_set_data((void *)arg1);
-    init_collision_body_parts(wreck_ancient_brakable05, &TOWreckAncient__collision_body_templates[3], 1);
-    ((TObjPlayer *)wreck_ancient_brakable05)->register_object_by_id();
-    wreck_ancient_brakable05->m_b8 = (s32) wreck_ancient_brakable05->set_params[0];
-    temp_r0 = wreck_ancient_brakable05->m_b8;
-    if ((temp_r0 < 0) || (temp_r0 >= 0x100)) {
-        wreck_ancient_brakable05->m_b8 = -1;
+TOWreckAncientBrakable05::TOWreckAncientBrakable05(void *set_data) : TOWreckAncientBrakable(3) {
+    m_name = TOWreckAncientBrakable05__name;
+    apply_object_set_data(set_data);
+    init_collision_body_parts(this, &TOWreckAncient__collision_body_templates[3], 1);
+    register_object_by_id();
+    switch_id = set_params[0];
+    if (switch_id < 0 || switch_id >= 0x100) {
+        switch_id = -1;
     }
-    return (u8 *)wreck_ancient_brakable05;
 }
 
-void *__dt__24TOWreckAncientBrakable05Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__24TOWreckAncientBrakable05;
-        __dt__22TOWreckAncientBrakableFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TOWreckAncientBrakable05::~TOWreckAncientBrakable05() {
 }
 
-void *TOWreckAncientBrakable05__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xBC);
-    if (o != NULL) {
-        o = TOWreckAncientBrakable05__ct((TOWreckAncientBrakable05 *)((u8 *)o), (s32)arg0);
-    }
-    return o;
+void *TOWreckAncientBrakable05__create(void *set_data) {
+    return new TOWreckAncientBrakable05(set_data);
 }
