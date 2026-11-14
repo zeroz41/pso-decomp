@@ -309,8 +309,6 @@ pso/boss/goldragon/TBoss8DragonEffBullet.cpp
 pso/boss/goldragon/TBoss8DragonEffTail.cpp
 pso/boss/goldragon/TBoss8Dragon_8005D6F4.cpp
 pso/boss/goldragon/TBoss8Dragon_8005D700.cpp
-pso/boss/galgryphon/TBoss5Gryphon_8005D708.cpp
-pso/boss/goldragon/TBoss8Dragon_8005D860.cpp
 pso/boss/goldragon/TBoss8Dragon_80067034.cpp
 pso/boss/goldragon/TBoss8Dragon_800BC53C.cpp
 pso/boss/goldragon/TBoss8Dragon_8028A8F8.cpp
