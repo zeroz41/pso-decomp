@@ -490,10 +490,8 @@ pso/weapon/TItemAttackCol_802E4798.cpp
 pso/weapon/TItemAttacker.cpp
 pso/item/TItemBuff.cpp
 pso/item/TItemData.cpp
-pso/item/TItemData_80104D0C.cpp
 pso/item/TItemData_8010EDA8.cpp
 pso/item/TItemDisconnectCtrl.cpp
-pso/item/TItemDisconnectCtrl_80105BE8.cpp
 pso/item/drop/TItemDrop.cpp
 pso/item/drop/TItemDropSub.cpp
 pso/item/drop/TItemDropSub_80107B74.cpp
@@ -1015,7 +1013,6 @@ pso/ui/hud/TMainCursor_80154090.cpp
 pso/ui/hud/TMainCursor_801D7A78.cpp
 pso/ui/hud/TMainCursor_801D7AC8.cpp
 pso/system/task/TMainTask_8001A430.cpp
-pso/system/task/TMainTask_80104C40.cpp
 pso/map/TMapCsnCtrl.cpp
 pso/ui/city/TMedicalCenterSequence.cpp
 pso/ui/window/TMessageBox.cpp
@@ -1246,7 +1243,6 @@ pso/ui/city/TShopEquipmentGearSequence_8021E3A4.cpp
 pso/ui/city/TShopEquipmentListWindow.cpp
 pso/ui/city/TShopEquipmentListWindow_8010ED54.cpp
 pso/ui/city/TShopEquipmentSellWindow.cpp
-pso/ui/city/TShopEquipmentSellWindow_801047B4.cpp
 pso/ui/city/TShopEquipmentSellWindow_802115F4.cpp
 pso/ui/city/TShopEquipmentSellWindow_8026CE78.cpp
 pso/ui/city/TShopEquipmentSellWindow_803094E8.cpp
@@ -1873,7 +1869,6 @@ pso/player/TObjPlayer_800EBE2C.cpp
 pso/player/TObjPlayer_800F0810.cpp
 pso/object/TObjHMS_EZRope_Player_800FEFCC.cpp
 pso/player/TObjPlayer_800FFA88.cpp
-pso/player/TObjPlayer_80104860.cpp
 pso/player/TObjPlayer_8010853C.cpp
 pso/player/TObjPlayer_80108854.cpp
 pso/player/TObjPlayer_80109344.cpp
@@ -2261,8 +2256,6 @@ pso/unk/text_800FA7E0.cpp
 pso/unk/text_800FD930.cpp
 pso/unk/text_800FFE04.cpp
 pso/unk/text_80103674.cpp
-pso/unk/text_80104F4C.cpp
-pso/unk/text_80104FCC.cpp
 pso/effect/item/TItemEffEquip_80108860.cpp
 pso/unk/text_801094D8.cpp
 pso/unk/text_8010EF14.cpp

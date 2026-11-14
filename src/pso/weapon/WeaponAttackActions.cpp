@@ -38,6 +38,7 @@
 #include <stdlib.h>
 #include "pso/item/TItem.h"
 #include "pso/item/TItemEquipBase.h"
+#include "pso/player/TObjPlayer_8011C000.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -341,7 +342,6 @@ s32 get_entity_id(void *);
 s32 get_mode__11TCameraCtrlFPv(void *);
 u8 * csnVector(void *, void *, s32);
 s32 init__9TItemDataFv(s32 *);
-void get_weapon_special_type_amount(u32 x, s16 *a, s16 *b);
 void query_extended_state__10TObjPlayerFv(void *);
 s32 set_action_type__10TObjPlayerFs(int, int);
 f32 get_attack_accuracy_scale(s16 *arg0);

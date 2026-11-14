@@ -13,8 +13,6 @@ public:
     TItemDisconnectCtrl();
     virtual ~TItemDisconnectCtrl();
     virtual void run_task();
-public:
-    static void init_forward();
 };
 
 #include <stddef.h>

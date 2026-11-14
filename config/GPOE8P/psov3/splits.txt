@@ -2267,33 +2267,12 @@ pso/unk/TLobby_80103F5C.cpp:
 	.sbss       start:0x805D5418 end:0x805D5438
 
 pso/unk/TLobby_80104374.cpp:
-	.text       start:0x80104374 end:0x801047B4
-	.rodata     start:0x8043E068 end:0x8043E0B0
-	.data       start:0x8049EE00 end:0x8049EE60
-
-pso/ui/city/TShopEquipmentSellWindow_801047B4.cpp:
-	.text       start:0x801047B4 end:0x80104860
-
-pso/player/TObjPlayer_80104860.cpp:
-	.text       start:0x80104860 end:0x80104C40
-
-pso/system/task/TMainTask_80104C40.cpp:
-	.text       start:0x80104C40 end:0x80104D0C
-
-pso/item/TItemData_80104D0C.cpp:
-	.text       start:0x80104D0C end:0x80104F4C
-
-pso/unk/text_80104F4C.cpp:
-	.text       start:0x80104F4C end:0x80104FCC
-
-pso/unk/text_80104FCC.cpp:
-	.text       start:0x80104FCC end:0x80105BE8
-	.data       start:0x8049EE60 end:0x8049EF54
-	.sdata2     start:0x805DAAB0 end:0x805DAAB8
-
-pso/item/TItemDisconnectCtrl_80105BE8.cpp:
-	.text       start:0x80105BE8 end:0x80105C18
+	.text       start:0x80104374 end:0x80105C18
 	.ctors      start:0x80433F7C end:0x80433F80
+	.rodata     start:0x8043E068 end:0x8043E0B0
+	.data       start:0x8049EE00 end:0x8049EF54
+	.sbss       start:0x805D5438 end:0x805D5450
+	.sdata2     start:0x805DAAB0 end:0x805DAAB8
 
 pso/item/TItemDisconnectCtrl.cpp:
 	.text       start:0x80105C18 end:0x80105D0C
