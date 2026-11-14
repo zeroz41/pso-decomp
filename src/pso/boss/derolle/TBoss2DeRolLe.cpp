@@ -3570,7 +3570,6 @@ void dispatch_action__13TBoss2DeRolLeFiUii(s32 arg0, u32 arg1, s32 arg2) {
 #pragma fp_contract on
 #pragma dont_inline off
 #pragma inline_depth(4)
-static inline u32 pack_80033684(u32 a, u32 r, u32 g, u32 b) { u32 c = a << 24; c |= r << 16; c |= g << 8; c |= b; return c; }
 static inline u32 swap_80033684(u32 x) { return ((x & 0xFF00) << 16) | (x >> 16) | ((x & 0xFF) << 16); }
 void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0) {
     s32 i;
@@ -3583,9 +3582,15 @@ void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0) {
         t = 2.0f - t;
     }
     v = __cvt_fp2unsigned(255.0f * (0.9f * t + 0.1f));
-    c = swap_80033684(pack_80033684(0xFF, v, 0, v >> 2));
+    c = 0xFF000000;
+    c |= v << 16;
+    c |= v >> 2;
+    c = swap_80033684(c);
     *boss2_derolle_primary_color_targets[2] = *boss2_derolle_primary_color_targets[0] = c;
-    *boss2_derolle_primary_color_targets[1] = swap_80033684(pack_80033684(0xFF, v, v, 0));
+    c = 0xFF000000;
+    c |= v << 16;
+    c |= v << 8;
+    *boss2_derolle_primary_color_targets[1] = swap_80033684(c);
     ph = *(f32 *)((s8 *)arg0 + 0x6D4);
     for (i = 0; i < 10; i++) {
         ph += 0.2f;
@@ -3597,7 +3602,10 @@ void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0) {
             t = 2.0f - ph;
         }
         v = __cvt_fp2unsigned(255.0f * (0.9f * t + 0.1f));
-        *boss2_derolle_segment_color_targets[i] = swap_80033684(pack_80033684(0xFF, v, v, 0));
+        c = 0xFF000000;
+        c |= v << 16;
+        c |= v << 8;
+        *boss2_derolle_segment_color_targets[i] = swap_80033684(c);
     }
 }
 #pragma pop

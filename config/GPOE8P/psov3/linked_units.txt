@@ -214,6 +214,7 @@ pso/boss/dragon/TBoss1DragonEffBullet.cpp
 pso/boss/dragon/TBoss1DragonEffTail.cpp
 pso/boss/dragon/TBoss1Dragon_8002B108.cpp
 pso/boss/dragon/TBoss1Dragon_800BC3C4.cpp
+pso/boss/derolle/TBoss2DeRolLe.cpp
 pso/boss/derolle/TBoss2Fin.cpp
 pso/boss/derolle/TBoss2Joint.cpp
 pso/boss/derolle/TBoss2LaserLight.cpp
