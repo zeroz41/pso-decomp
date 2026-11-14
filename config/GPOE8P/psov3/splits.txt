@@ -6949,14 +6949,12 @@ pso/ui/window/TWindowDuelResult.cpp:
 pso/ui/window/TWindowSubStatusDisp_8024F688.cpp:
 	.text       start:0x8024F688 end:0x8024F690
 
-pso/ui/window/TWindowEffectParty_8024F690.cpp:
-	.text       start:0x8024F690 end:0x8024F93C
-	.data       start:0x804CF050 end:0x804CF07C
-
 pso/ui/window/TWindowEffectParty.cpp:
-	.text       start:0x8024F93C end:0x8024FBA8
+	.text       start:0x8024F690 end:0x8024FBA8
 	.rodata     start:0x8044ECD8 end:0x8044ECF0
+	.data       start:0x804CF050 end:0x804CF07C
 	.sdata      start:0x805D38F8 end:0x805D3900
+	.sdata2     start:0x805DCCB8 end:0x805DCCD8
 
 pso/ui/window/TWindowSubStatusDisp_8024FBA8.cpp:
 	.text       start:0x8024FBA8 end:0x8025010C
