@@ -97,11 +97,6 @@ extern const f32 lbl_805DA380;
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 lbl_804949F4[];
 u32 __cvt_fp2unsigned(f32);
-extern const f32 TDeadSpot__data_805DA388;
-extern const f32 TDeadSpot__data_805DA38C;
-extern const f32 lbl_805DA390;
-extern const f32 lbl_805DA394;
-extern const f32 lbl_805DA398;
 void update_fade_in_alpha__9TDeadSpotFPv(Obj_800D7FD4 *arg0);
 extern s32 lbl_80494A10[];
 Obj_800D80E4 *init_corner_vertices__9TDeadSpotFPv(Obj_800D80E4 *arg0, void * _w1, Vec_800D8314 * _w2, void * _w3, s32 _w4, s32 _w5, f32 _w6);
@@ -115,13 +110,6 @@ s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, int);
 extern void *__vt__9TDeadSpot[];
 extern s32 lbl_805D2A98;
-extern const f32 lbl_805DA3A0;
-extern const f32 lbl_805DA3A4;
-extern const f32 lbl_805DA3A8;
-extern const f32 lbl_805DA3AC;
-extern const f32 lbl_805DA3B0;
-extern const f32 lbl_805DA3B4;
-extern const f32 lbl_805DA3B8;
 Mark_800D8314 *__ct__9TDeadSpotFv(Mark_800D8314 *self, void *parent, Vec_800D8314 *point, void *texture, s32 selector, s32 delay, f32 maxScale);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
@@ -225,18 +213,18 @@ void update_fade_in_alpha__9TDeadSpotFPv(Obj_800D7FD4 *arg0) {
     s32 i;
     u32 c;
     if (arg0->c4 <= arg0->c0) {
-        arg0->c4 = arg0->c4 + TDeadSpot__data_805DA388;
-        if (arg0->c4 <= TDeadSpot__data_805DA38C) {
+        arg0->c4 += 0.2f;
+        if (arg0->c4 <= 0.0f) {
             return;
         }
     }
-    if (arg0->c8 < lbl_805DA390) {
-        arg0->c8 = arg0->c8 + lbl_805DA394;
-        if (arg0->c8 > lbl_805DA390) {
-            arg0->c8 = lbl_805DA390;
+    if (arg0->c8 < 1.0f) {
+        arg0->c8 += 0.05f;
+        if (arg0->c8 > 1.0f) {
+            arg0->c8 = 1.0f;
         }
         p = arg0->e;
-        c = __cvt_fp2unsigned(lbl_805DA398 * arg0->c8) << 24 | 0xFF0000 | 0xFFFF;
+        c = __cvt_fp2unsigned(255.0f * arg0->c8) << 24 | 0xFF0000 | 0xFFFF;
         for (i = 0; i < 4; i++) {
             p->col = c;
             p++;
@@ -258,7 +246,6 @@ void *__dt__13TUnk_80494A10Fv(void *arg0, s16 arg1) {
 extern s32 camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-extern const f32 lbl_805DA39C;
 
 #pragma push
 #pragma fp_contract on
@@ -269,7 +256,7 @@ Obj_800D80E4 *init_corner_vertices__9TDeadSpotFPv(Obj_800D80E4 *arg0, void * par
     __ct__9TDeadSpotFv((Mark_800D8314 *)(arg0), parent, (Vec_800D8314 *)(point), texture, selector, delay, _w6);
     arg0->vt = ((u8 *)&lbl_80494A10);
     p = arg0->e;
-    arg0->c8 = TDeadSpot__data_805DA38C;
+    arg0->c8 = 0.0f;
     s = arg0->sc;
     bx = arg0->base.x;
     by = arg0->base.y;
@@ -286,7 +273,7 @@ Obj_800D80E4 *init_corner_vertices__9TDeadSpotFPv(Obj_800D80E4 *arg0, void * par
 #pragma pop
 
 void render__9TDeadSpotFv(u8 *arg0) {
-    if ((TMainTask::get_render_pass() != 1) && (*(f32 *)((s8 *)arg0 + 0xC4) > TDeadSpot__data_805DA38C) && (horizontal_distance_squared((const Vec *)(arg0 + 0x7C), (const Vec *)(camera_ctrl_instance + 0x178)) < lbl_805DA39C)) {
+    if ((TMainTask::get_render_pass() != 1) && (*(f32 *)((s8 *)arg0 + 0xC4) > 0.0f) && (horizontal_distance_squared((const Vec *)(arg0 + 0x7C), (const Vec *)(camera_ctrl_instance + 0x178)) < 22500.0f)) {
         saved_model_render_flags = model_render_flags;
         set_default_alpha_blend();
         setup_alpha_test_render_state(0x8F);
@@ -303,8 +290,8 @@ void run_task__9TDeadSpotFv(Obj_800D8228 *arg0) {
     s32 i;
     f32 bx, by, bz;
     if (arg0->t <= arg0->sc) {
-        arg0->t += TDeadSpot__data_805DA388;
-        if (arg0->t <= TDeadSpot__data_805DA38C) {
+        arg0->t += 0.2f;
+        if (arg0->t <= 0.0f) {
             return;
         }
         p = arg0->e;
@@ -343,34 +330,34 @@ Mark_800D8314 *__ct__9TDeadSpotFv(Mark_800D8314 *self, void *parent, Vec_800D831
     self->texture = texture;
     self->selector = selector;
     self->maxScale = maxScale;
-    self->scale = -(TDeadSpot__data_805DA388 * (f32)delay);
-    self->vtx[0].u = TDeadSpot__data_805DA38C;
-    self->vtx[0].v = TDeadSpot__data_805DA38C;
+    self->scale = -(0.2f * (f32)delay);
+    self->vtx[0].u = 0.0f;
+    self->vtx[0].v = 0.0f;
     self->vtx[0].color = -1;
-    self->vtx[1].u = TDeadSpot__data_805DA38C;
-    self->vtx[1].v = lbl_805DA390;
+    self->vtx[1].u = 0.0f;
+    self->vtx[1].v = 1.0f;
     self->vtx[1].color = -1;
-    self->vtx[2].u = lbl_805DA390;
-    self->vtx[2].v = TDeadSpot__data_805DA38C;
+    self->vtx[2].u = 1.0f;
+    self->vtx[2].v = 0.0f;
     self->vtx[2].color = -1;
-    self->vtx[3].u = lbl_805DA390;
-    self->vtx[3].v = lbl_805DA390;
+    self->vtx[3].u = 1.0f;
+    self->vtx[3].v = 1.0f;
     self->vtx[3].color = -1;
     VecCopy((Vec *)&probe, (const Vec *)point);
-    probe.y += lbl_805DA3A0;
+    probe.y += 5.0f;
     ground = csnVecterUnder(&probe, 0x16EF);
     if (ground == NULL) {
         ((TObject *)self)->queue_destruction();
         return self;
     }
     VecCopy((Vec *)&self->center, (const Vec *)&ground->plane->point);
-    self->center.y += lbl_805DA3A8 * (lbl_805DA3AC * (f32)rand()) + lbl_805DA3A4;
-    basis[0].x = TDeadSpot__data_805DA38C;
-    basis[0].y = TDeadSpot__data_805DA38C;
-    basis[0].z = lbl_805DA390;
-    basis[1].x = TDeadSpot__data_805DA38C;
-    basis[1].y = lbl_805DA390;
-    basis[1].z = TDeadSpot__data_805DA38C;
+    self->center.y += 0.5f * (3.0517578125e-05f * (f32)rand()) + 0.213456f;
+    basis[0].x = 0.0f;
+    basis[0].y = 0.0f;
+    basis[0].z = 1.0f;
+    basis[1].x = 0.0f;
+    basis[1].y = 1.0f;
+    basis[1].z = 0.0f;
     direction_to_rotation_yx((u8 *)&ground->plane->normal, &yaw, &pitch);
     if (pitch < 0x3000 || pitch > 0x5000) {
         ((TObject *)self)->queue_destruction();
@@ -389,31 +376,31 @@ Mark_800D8314 *__ct__9TDeadSpotFv(Mark_800D8314 *self, void *parent, Vec_800D831
     b1x = basis[1].x;
     b1y = basis[1].y;
     b1z = basis[1].z;
-    first = lerp__9TDeadSpotFff(lbl_805DA3B0, lbl_805DA3B4);
-    second = lerp__9TDeadSpotFff(lbl_805DA3B0, lbl_805DA3B4);
+    first = lerp__9TDeadSpotFff(0.35f, 1.55f);
+    second = lerp__9TDeadSpotFff(0.35f, 1.55f);
     self->corners[0].x = b1x * second + b0x * first;
     self->corners[0].y = b1y * second + b0y * first;
     self->corners[0].z = b1z * second + b0z * first;
-    first = lerp__9TDeadSpotFff(lbl_805DA3B0, lbl_805DA3B4);
-    second = lerp__9TDeadSpotFff(lbl_805DA3B0, lbl_805DA3B4);
+    first = lerp__9TDeadSpotFff(0.35f, 1.55f);
+    second = lerp__9TDeadSpotFff(0.35f, 1.55f);
     self->corners[1].x = b1x * second - b0x * first;
     self->corners[1].y = b1y * second - b0y * first;
     self->corners[1].z = b1z * second - b0z * first;
-    first = lerp__9TDeadSpotFff(lbl_805DA3B0, lbl_805DA3B4);
-    second = lerp__9TDeadSpotFff(lbl_805DA3B0, lbl_805DA3B4);
+    first = lerp__9TDeadSpotFff(0.35f, 1.55f);
+    second = lerp__9TDeadSpotFff(0.35f, 1.55f);
     n1x = -b1x;
     n1y = -b1y;
     n1z = -b1z;
     self->corners[2].x = n1x * second + b0x * first;
     self->corners[2].y = n1y * second + b0y * first;
     self->corners[2].z = n1z * second + b0z * first;
-    first = lerp__9TDeadSpotFff(lbl_805DA3B0, lbl_805DA3B4);
-    second = lerp__9TDeadSpotFff(lbl_805DA3B0, lbl_805DA3B4);
+    first = lerp__9TDeadSpotFff(0.35f, 1.55f);
+    second = lerp__9TDeadSpotFff(0.35f, 1.55f);
     self->corners[3].x = n1x * second - b0x * first;
     self->corners[3].y = n1y * second - b0y * first;
     self->corners[3].z = n1z * second - b0z * first;
     scale = self->maxScale;
-    if (scale > lbl_805DA3A0) {
+    if (scale > 5.0f) {
         for (i = 0; i < 4; i++) {
             VecCopy((Vec *)&tmp, (const Vec *)&self->center);
             Mark_800D8314 *c = (Mark_800D8314 *)((u8 *)self + i * 12);
@@ -423,16 +410,16 @@ Mark_800D8314 *__ct__9TDeadSpotFv(Mark_800D8314 *self, void *parent, Vec_800D831
             bad = 0;
             ground = csnVecterUnder(&tmp, 0x16EF);
             if (ground != NULL) {
-                if (ground->plane->point.y - tmp.y < lbl_805DA3B8) {
+                if (ground->plane->point.y - tmp.y < -3.0f) {
                     bad = 1;
                 }
             } else {
                 bad = 1;
             }
             if (bad != 0) {
-                self->corners[i].x *= TDeadSpot__data_805DA388;
-                self->corners[i].y *= TDeadSpot__data_805DA388;
-                self->corners[i].z *= TDeadSpot__data_805DA388;
+                self->corners[i].x *= 0.2f;
+                self->corners[i].y *= 0.2f;
+                self->corners[i].z *= 0.2f;
             }
         }
     }

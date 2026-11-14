@@ -1810,6 +1810,7 @@ pso/object/TDeadSpot.cpp:
 	.text       start:0x800D7CF4 end:0x800D87A8
 	.rodata     start:0x8043C720 end:0x8043C728
 	.data       start:0x80494A28 end:0x80494A40
+	.sdata2     start:0x805DA388 end:0x805DA3C0
 
 pso/npc/TNpcPlayer_800D87A8.cpp:
 	.text       start:0x800D87A8 end:0x800D8830
@@ -4759,6 +4760,7 @@ pso/object/fence/TLazerFenceSw.cpp:
 	.data       start:0x804B8318 end:0x804B840C
 	.bss        start:0x8050DCE8 end:0x8050DD08
 	.sdata      start:0x805D33B0 end:0x805D33B4
+	.sbss       start:0x805D5C30 end:0x805D5C40
 	.sdata2     start:0x805DBE78 end:0x805DBE94
 
 pso/object/ambient/TObjLight.cpp:
@@ -8649,7 +8651,10 @@ pso/ui/TLevelSelect_802AEBA8.cpp:
 
 pso/ui/frontend/TAdSelectCurGC_802AED98.cpp:
 	.text       start:0x802AED98 end:0x802AF27C
-	.data       start:0x804DE420 end:0x804DE438
+	.rodata     start:0x80470740 end:0x80470790
+	.data       start:0x804DE3F8 end:0x804DE438
+	.sdata      start:0x805D3E70 end:0x805D3E78
+	.sbss       start:0x805D6700 end:0x805D6708
 	.sdata2     start:0x805DE1E0 end:0x805DE1E4
 
 pso/object/lab/TOCapsuleLabo.cpp:
@@ -12525,8 +12530,10 @@ pso/unk/text_803F1804.cpp:
 
 pso/ui/frontend/TAdPlayerLoadGC_803F18B8.cpp:
 	.text       start:0x803F18B8 end:0x803F339C
+	.rodata     start:0x8047FCD8 end:0x8047FD28
 	.data       start:0x804FCD48 end:0x804FCE38
 	.bss        start:0x805A28C0 end:0x805A5F00
+	.sdata      start:0x805D4700 end:0x805D4708
 	.sdata2     start:0x805E10E8 end:0x805E10F8
 
 pso/ui/frontend/TAdPlayerLoadGC_803F339C.cpp:

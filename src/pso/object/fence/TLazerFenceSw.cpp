@@ -84,9 +84,6 @@ extern s32 __vt__13TLazerFenceSw[];
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u8 *load_gvm_texture_file(s32 arg0);
 
-extern void *lazer_fence_switch_bml_resource;
-extern s32 TLazerFenceSw__texture_list;
-extern u8 *lazer_fence_switch_scroll_node;
 extern s32 game_difficulty_selection;
 extern u8 lbl_80445CF0[];
 extern u8 lbl_80445D08[];
@@ -110,6 +107,10 @@ CollisionBody lazer_fence_sw_collision_body_part[] = {
 };
 const u16 lbl_80445CB8[4] = { 0, 1, 2, 3 };
 const char *TLazerFenceSw__class_name = "TLazerFenceSw";
+
+void *lazer_fence_switch_bml_resource;
+s32 TLazerFenceSw__texture_list;
+u8 *lazer_fence_switch_scroll_node;
 
 #pragma push
 #pragma opt_common_subs off

@@ -669,6 +669,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/unk/TUnk_8048E1A4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TUnk_804CC870.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowSubStatusDisp_80288030.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    # -str reuse,readonly: the three string literals sit in .rodata; -sdata 4: the
+    # 8-byte texture lists sit in .data, the 4-byte pointers in .sdata/.sbss.
+    "pso/ui/frontend/TAdSelectCurGC_802AED98.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     # .sdata2 starts with the {44, 46} template of sub_800D6D64 (near the end of .text), then the floats in
     # forward .text order; .rodata has the two templates in reverse .text order: -inline off,deferred.
     "pso/enemy/merilllia/TObjEneMerillLia.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
@@ -1209,7 +1212,8 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         "pso/unk/text_803F1804.cpp": {"mw_version": "GC/1.2.5n"},
         # Its loops keep base + index offsets instead of walking pointers
         # (0x803F2F1C, 0x803F31D8); the rest of the file is the same either way.
-        "pso/ui/frontend/TAdPlayerLoadGC_803F18B8.cpp": {"cflags": _switch(cflags_middleware, "-opt nostrength")},
+        # -str reuse,readonly: the version banner and sprintf format strings sit in .rodata.
+        "pso/ui/frontend/TAdPlayerLoadGC_803F18B8.cpp": {"cflags": _switch(cflags_middleware, "-opt nostrength", "-str reuse,readonly")},
     }),
     # ntInf ("Ver 1.17.00 Build:Jul 9 2002").
     ("ntinf", 0x803F3BF8, "GC/2.6", cflags_middleware, {
