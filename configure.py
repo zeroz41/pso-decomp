@@ -669,6 +669,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/unk/TUnk_8048E1A4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TUnk_804CC870.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowSubStatusDisp_80288030.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    # .sdata2 starts with the {44, 46} template of sub_800D6D64 (near the end of .text), then the floats in
+    # forward .text order; .rodata has the two templates in reverse .text order: -inline off,deferred.
+    "pso/enemy/merilllia/TObjEneMerillLia.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # the class name sits in .rodata 0x804349C0; run_task reaches now_loading_pos and both Vec templates with a lis/addi each: -str reuse,readonly, -pool off.
     # The 1-byte chr_select_state at 0x805D4A78 is followed by 7 pad bytes, so 0x805D4A80 starts a new TU: 0x8001C5F8 cuts the unit.
     "pso/system/TLoadCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
