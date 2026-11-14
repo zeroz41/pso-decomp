@@ -6,6 +6,22 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
+
+// The select screen's text textures, English set then Japanese set. inferred: names from the f256_selectgamen_*
+// texture files they list; TLobby__sub_802A194C picks a set by current_language (0 = Japanese).
+static NJS_TEXNAME select_gamen_eng_texture_names[2] = {
+    {(void *)"f256_selectgamen_a_eng", 0, 0},
+    {(void *)"f256_selectgamen_b_eng", 0, 0},
+};
+static NJS_TEXLIST select_gamen_eng_texture_list = {select_gamen_eng_texture_names, 2};
+static NJS_TEXNAME select_gamen_texture_names[2] = {
+    {(void *)"f256_selectgamen_a", 0, 0},
+    {(void *)"f256_selectgamen_b", 0, 0},
+};
+static NJS_TEXLIST select_gamen_texture_list = {select_gamen_texture_names, 2};
+// inferred: same <Class>__class_name pattern as the other frontend tasks
+const char *TAdSelectTxtGC__class_name = "TAdSelectTxtGC";
 
 struct O_802A15BC {
     u8 a[0x10];
@@ -85,13 +101,9 @@ struct Src_802A1838 {
     u8 v[8];
 };
 
-struct Tbl_802A194C { s32 v[5]; };
-
 extern "C" {
 void *__nw__7TObjectFUl(s32);
 void *__ct__17TAdSelectTxtSubGCFv(void *, void *, void *);
-extern Tbl_802A194C select_gamen_resource_name_table;
-extern Tbl_802A194C select_gamen_resource_name_table_b;
 extern const s32 current_language;
 extern u32 ad_select_text_texture_handle;
 void release_texture_list(void*);
@@ -113,8 +125,6 @@ void TAdSelectTxtGC::reset_slots(void *arg1, void *arg2) {
     }
     ((TAdSelectTxtGC *)((Sel_802A16CC *)this))->init_slot_entries((Src_802A1838 *)(arg1), arg2);
 }
-
-extern void *lbl_805D3D88;
 
 void TAdSelectTxtGC::run_task() {
     Sel_802A1740 *arg0 = (Sel_802A1740 *)this;
@@ -148,7 +158,7 @@ void TAdSelectTxtGC::init_slot_entries(void *arg1_arg, void *arg2) {
 
 }
 TAdSelectTxtGC::TAdSelectTxtGC(TObject *object, void *arg1_arg, void *arg3) : TObject(object) {
-    *(void * *)&this->m_name = lbl_805D3D88;
+    this->m_name = TAdSelectTxtGC__class_name;
     this->init_slot_entries((Src_802A1838 *)(arg1_arg), arg3);
 }
 
@@ -160,10 +170,12 @@ void TLobby__sub_802A1918(void) {
 }
 void TLobby__sub_802A194C(void) {
     TLobby::update_menu_cursor();
-    Tbl_802A194C a = select_gamen_resource_name_table;
-    Tbl_802A194C b = select_gamen_resource_name_table_b;
-    s32 i = current_language;
-    s32 v = b.v[i];
-    ad_select_text_texture_handle = v;
-    TLobby__sub_8023E4B4(a.v[i], v);
+    const char *texture_files[5] = {"f256_selectgamen_a", "f256_selectgamen_a_eng", "f256_selectgamen_a_eng",
+                                    "f256_selectgamen_a_eng", "f256_selectgamen_a_eng"};
+    NJS_TEXLIST *texture_lists[5] = {&select_gamen_texture_list, &select_gamen_eng_texture_list,
+                                     &select_gamen_eng_texture_list, &select_gamen_eng_texture_list,
+                                     &select_gamen_eng_texture_list};
+    NJS_TEXLIST *list = texture_lists[current_language];
+    ad_select_text_texture_handle = (u32)list;
+    TLobby__sub_8023E4B4((s32)texture_files[current_language], (s32)list);
 }

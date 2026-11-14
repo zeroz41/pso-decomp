@@ -8390,7 +8390,9 @@ pso/player/TObjPlayer_802A1440.cpp:
 
 pso/ui/frontend/TAdSelectTxtGC.cpp:
 	.text       start:0x802A15BC end:0x802A19F4
-	.data       start:0x804DCBC0 end:0x804DCBD8
+	.rodata     start:0x804662D8 end:0x80466368
+	.data       start:0x804DCB80 end:0x804DCBD8
+	.sdata      start:0x805D3D88 end:0x805D3D90
 	.sdata2     start:0x805DDDF8 end:0x805DDDFC
 
 pso/ui/charcreate/TChCrTag.cpp:

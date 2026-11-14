@@ -543,6 +543,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -sdata 4: the 8-byte texlists 0x804DCA78/98 sit in .data.
     "pso/ui/frontend/TAdTitleGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-sdata 4")},
     "pso/ui/frontend/TAdMultiPlayerNoGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # -str reuse,readonly: the f256_selectgamen names 0x804662D8 and the class name sit in .rodata.
+    # -sdata 4: the 8-byte texlists 0x804DCB98/B8 sit in .data.
+    "pso/ui/frontend/TAdSelectTxtGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     # -inline off: the TPlyItem part sits in a defer_codegen region (written backwards),
     # the TItemList part after it is forward. readonly: the class-name strings are in .rodata.
     "pso/player/TPlyItem.cpp": {"cflags": _switch(cflags_pso, "-inline off", "-str reuse,readonly")},
