@@ -1274,7 +1274,8 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
     # The modem driver (AT command strings).
     ("modem", 0x8042BF48, "GC/1.2.5", cflags_middleware, {}),
     # ntUtl ("Ver 1.16.00 Build:Jul 8 2002"); the SDK's EXI library follows.
-    ("ntutl", 0x8042E8C4, "GC/2.6", cflags_middleware, {}),
+    # -str reuse,readonly: its version and message strings sit in .rodata 0x80480240-0x804805C8.
+    ("ntutl", 0x8042E8C4, "GC/2.6", _switch(cflags_middleware, "-str reuse,readonly"), {}),
 ]
 MIDDLEWARE_END = 0x8042F13C
 
