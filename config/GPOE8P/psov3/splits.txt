@@ -5996,15 +5996,12 @@ pso/ui/city/TCheckRoomSequence_80211614.cpp:
 	.text       start:0x80211614 end:0x80211648
 
 pso/ui/city/THunterGuildWarning.cpp:
-	.text       start:0x80211648 end:0x80211B10
+	.text       start:0x80211648 end:0x80211FEC
 	.rodata     start:0x8044BC68 end:0x8044BC90
 	.data       start:0x804C96A0 end:0x804C96B8
 	.sdata      start:0x805D3648 end:0x805D3650
 	.sbss       start:0x805D6178 end:0x805D6180
-	.sdata2     start:0x805DC640 end:0x805DC644
-
-pso/unk/text_80211B10.cpp:
-	.text       start:0x80211B10 end:0x80211FEC
+	.sdata2     start:0x805DC640 end:0x805DC648
 
 pso/ui/city/THunterGuildSeqOffline_80211FEC.cpp:
 	.text       start:0x80211FEC end:0x802123E0
