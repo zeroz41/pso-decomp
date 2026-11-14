@@ -487,6 +487,10 @@ def _is_alignment_pad(split: Path, section: str, start: int, split_size: int, si
     if split_size - size < 8 and end % 8 == 0:
         return tail is None or not any(tail[size:])
     alignment = _following_section_alignment(section, end)
+    if split_size - size < 8:
+        # A partial claim can end inside a TU's pool, before a 4-aligned object.
+        return (alignment is not None and alignment >= 4 and (tail is None or not any(tail[size:]))
+                and ((start + size + alignment - 1) & -alignment) == end)
     if alignment is None or alignment <= 8 or tail is None or any(tail[size:]):
         return False
     return ((start + size + alignment - 1) & -alignment) == end
