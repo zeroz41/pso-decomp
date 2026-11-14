@@ -6548,7 +6548,8 @@ pso/technique/TTecFoie_8022FB70.cpp:
 
 pso/technique/TTecFoie_8022FC94.cpp:
 	.text       start:0x8022FC94 end:0x802301E8
-	.rodata     start:0x8044D178 end:0x8044D180
+	.rodata     start:0x8044D0B8 end:0x8044D180
+	.sdata      start:0x805D37B0 end:0x805D37B8
 	.sdata2     start:0x805DC7F8 end:0x805DC7FC
 
 pso/technique/TTecFoie.cpp:

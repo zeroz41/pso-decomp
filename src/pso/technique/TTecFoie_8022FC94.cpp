@@ -54,8 +54,6 @@ struct Target_80230004 : Base_80230004 {
 
 struct Tec_80230004 { u8 pad[0x1C]; s32 owner; u8 pad20[0xCC - 0x20]; f32 power; u8 padd0[0xF8 - 0xD0]; s32 f8; };
 
-struct TTecFoieData_80230144 { u8 pad[4]; u32 count; };
-
 struct TTecFoie_80230144 {
     u8 pad0[0x18];
     void *vtable;
@@ -78,6 +76,8 @@ struct Binding_8022FC94
   u32 flags;
   f32 scale;
 };
+
+struct TTecFoieData_80230144 { const Binding_8022FC94 *parts; u32 count; };
 
 struct Foie_8022FC94
 {
@@ -102,7 +102,22 @@ extern "C" {
 s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 void mem_free(void *p);
 void __dl__7TObjectFPv(void *);
-extern TTecFoieData_80230144 TTecFoie__emitter_profile_table[];
+// foie_emitter_parts_N (inferred, after TTecGiFoie's emitter_parts_N): the particle parts entry N of
+// TTecFoie__emitter_profile_table spawns; the scale of part 0x14 grows with the band.
+static const Binding_8022FC94 foie_emitter_parts_0[1] = {{0x14, 2, 1.0f}};
+static const Binding_8022FC94 foie_emitter_parts_1[1] = {{0x14, 2, 1.2f}};
+static const Binding_8022FC94 foie_emitter_parts_2[1] = {{0x14, 2, 1.4f}};
+static const Binding_8022FC94 foie_emitter_parts_3[2] = {{0x14, 2, 1.6f}, {0xAC, 1, 1.0f}};
+static const Binding_8022FC94 foie_emitter_parts_4[2] = {{0x14, 2, 1.8f}, {0xAC, 1, 1.0f}};
+static const Binding_8022FC94 foie_emitter_parts_5[4] = {
+    {0x19E, 0x1000, 1.0f}, {0x14, 2, 2.2f}, {0xAC, 1, 1.0f}, {0x19C, 2, 1.0f},
+};
+extern const TTecFoieData_80230144 TTecFoie__emitter_profile_table[6];
+const TTecFoieData_80230144 TTecFoie__emitter_profile_table[6] = {
+    {foie_emitter_parts_0, 1}, {foie_emitter_parts_1, 1}, {foie_emitter_parts_2, 1},
+    {foie_emitter_parts_3, 2}, {foie_emitter_parts_4, 2}, {foie_emitter_parts_5, 4},
+};
+const char *TTecFoie__name = "TTecFoie";
 extern void *__vt__8TTecFoie[];
 TTecFoie_80230144 *__dt__8TTecFoieFv(TTecFoie_80230144 *self, s16 deleting);
 s32 attach_particle_model(int, int, int, int, int, f32);
@@ -138,19 +153,19 @@ void TTecFoie::create_particle_emitters() {
   self->emitters = (void **) mem_alloc(TTecFoie__emitter_profile_table[self->band].count * 4);
   for (i = 0; i < TTecFoie__emitter_profile_table[self->band].count; i++)
   {
-    Binding_8022FC94 *b = &(*((Binding_8022FC94 **) (&TTecFoie__emitter_profile_table[self->band])))[i];
+    const Binding_8022FC94 *b = &TTecFoie__emitter_profile_table[self->band].parts[i];
     f = (b->flags & 0x1000) ? (0x2000) : (0);
-    if ((&(*((Binding_8022FC94 **) (&TTecFoie__emitter_profile_table[self->band])))[i])->flags & 1)
+    if (TTecFoie__emitter_profile_table[self->band].parts[i].flags & 1)
     {
       rev.x = self->ax + 0x8000;
       rev.y = 0;
       rev.z = self->az;
-      self->emitters[i] = spawn_particle_effect_with_rotation(self->pos, &rev, (*((Binding_8022FC94 **) (&TTecFoie__emitter_profile_table[self->band])))[i].entry, f);
+      self->emitters[i] = spawn_particle_effect_with_rotation(self->pos, &rev, TTecFoie__emitter_profile_table[self->band].parts[i].entry, f);
     }
     else
-      if ((&(*((Binding_8022FC94 **) (&TTecFoie__emitter_profile_table[self->band])))[i])->flags & 2)
+      if (TTecFoie__emitter_profile_table[self->band].parts[i].flags & 2)
     {
-      self->emitters[i] = spawn_particle_effect_with_rotation(self->pos, &fwd, (&(*((Binding_8022FC94 **) (&TTecFoie__emitter_profile_table[self->band])))[i])->entry, f);
+      self->emitters[i] = spawn_particle_effect_with_rotation(self->pos, &fwd, TTecFoie__emitter_profile_table[self->band].parts[i].entry, f);
     }
     else
     {
@@ -158,11 +173,11 @@ void TTecFoie::create_particle_emitters() {
     }
     if (self->emitters[i] != 0)
     {
-      if ((*((Binding_8022FC94 **) (&TTecFoie__emitter_profile_table[self->band])))[i].flags & 0x20)
+      if (TTecFoie__emitter_profile_table[self->band].parts[i].flags & 0x20)
       {
         attach_particle_model((int) self->emitters[i], TParticleCtrl::get_particle_model(0), lbl_805D63B0, 0, 1, 1.0f);
       }
-      ((TParticleCtrl *)(self->emitters[i]))->set_scale((*((Binding_8022FC94 **) (&TTecFoie__emitter_profile_table[self->band])))[i].scale, (*((Binding_8022FC94 **) (&TTecFoie__emitter_profile_table[self->band])))[i].scale);
+      ((TParticleCtrl *)(self->emitters[i]))->set_scale(TTecFoie__emitter_profile_table[self->band].parts[i].scale, TTecFoie__emitter_profile_table[self->band].parts[i].scale);
     }
   }
 }
