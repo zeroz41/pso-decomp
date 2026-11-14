@@ -6,7 +6,7 @@
 #include "pso/technique/TechniqueBoost.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
-extern u32 dark_technique_charge_effect_ids[];
+u32 dark_technique_charge_effect_ids[3] = {0x1E7, 0x1E8, 0x1EF};
 TechniqueBoostTable::TechniqueBoostTable() {
     clear();
 }

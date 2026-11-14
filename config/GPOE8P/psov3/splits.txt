@@ -5150,6 +5150,7 @@ pso/effect/photon/TPhotonRainbow.cpp:
 pso/effect/photon/TPhotonYoulla.cpp:
 	.text       start:0x801AE72C end:0x801AEB84
 	.rodata     start:0x80446F08 end:0x80446F20
+	.data       start:0x804C3B48 end:0x804C3B68
 	.sdata      start:0x805D3528 end:0x805D3530
 	.sbss       start:0x805D5D60 end:0x805D5D68
 	.sdata2     start:0x805DC260 end:0x805DC278
@@ -6366,6 +6367,7 @@ pso/item/TItemEquipBase_8022F1C0.cpp:
 
 pso/unk/text_8022F258.cpp:
 	.text       start:0x8022F258 end:0x8022F34C
+	.data       start:0x804CC740 end:0x804CC74C
 
 pso/object/ambient/TObjLight_8022F34C.cpp:
 	.text       start:0x8022F34C end:0x8022F4EC
@@ -6379,6 +6381,7 @@ pso/technique/TTecDeband.cpp:
 
 pso/object/ambient/TObjLight_8022F9E8.cpp:
 	.text       start:0x8022F9E8 end:0x8022FB70
+	.data       start:0x804CC788 end:0x804CC794
 
 pso/technique/TTecFoie_8022FB70.cpp:
 	.text       start:0x8022FB70 end:0x8022FC94
@@ -6432,6 +6435,7 @@ pso/technique/TTecGrants.cpp:
 
 pso/unk/text_802333D4.cpp:
 	.text       start:0x802333D4 end:0x8023347C
+	.data       start:0x804CC940 end:0x804CC948
 
 pso/object/ambient/TObjLight_8023347C.cpp:
 	.text       start:0x8023347C end:0x8023355C
@@ -6469,6 +6473,7 @@ pso/object/ambient/TObjLight_80235C44.cpp:
 
 pso/object/ambient/TObjLight_80236D60.cpp:
 	.text       start:0x80236D60 end:0x80236EE8
+	.data       start:0x804CCAC0 end:0x804CCAC8
 
 pso/unk/text_80236EE8.cpp:
 	.text       start:0x80236EE8 end:0x80237194
@@ -7967,6 +7972,7 @@ pso/ui/charcreate/TChCrCharSelect_80293D58.cpp:
 
 pso/unk/text_80293D84.cpp:
 	.text       start:0x80293D84 end:0x8029400C
+	.data       start:0x804DB900 end:0x804DB920
 	.sdata2     start:0x805DD9E0 end:0x805DD9F8
 
 pso/ui/charcreate/TChCrEffFade.cpp:
@@ -10396,6 +10402,7 @@ pso/npc/TObjNpcNgcBase.cpp:
 
 pso/boss/darkfalz/TBoss4Fade_803594EC.cpp:
 	.text       start:0x803594EC end:0x803595C0
+	.data       start:0x804F19F0 end:0x804F1A10
 	.sdata2     start:0x805E0098 end:0x805E00A0
 
 pso/boss/darkfalz/TBoss4Fade.cpp:
@@ -11960,6 +11967,7 @@ pso/unk/text_803D64F8.cpp:
 
 pso/camera/TCameraCtrl_803D6538.cpp:
 	.text       start:0x803D6538 end:0x803D66DC
+	.data       start:0x804FA4F0 end:0x804FA500
 	.sdata2     start:0x805E0E00 end:0x805E0E0C
 
 pso/camera/TCameraCtrl_803D66DC.cpp:

@@ -74,7 +74,7 @@ void fn_80293E58(void *arg0, f32 scale) {
 }
 
 struct Stack_80293F98 {
-    s32 * sp8;
+    void *sp8;
     s32 * spC;
     s32 sp10;
     s32 sp14;
@@ -84,16 +84,13 @@ struct Stack_80293F98 {
     s32 sp24;
 };
 
-struct RecoveredGlobal_80293F98_lbl_804DB900 {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
 extern "C" {
 
-extern RecoveredGlobal_80293F98_lbl_804DB900 chcr_eff_fade_strip_rect;
+// The 640x480 screen corners the fade strip is drawn over.
+f32 chcr_eff_fade_strip_rect[4][2] = {
+    {0.0f, 0.0f}, {640.0f, 0.0f}, {640.0f, 480.0f}, {0.0f, 480.0f},
+};
 
-typedef char RecoveredGlobal_80293F98_lbl_804DB900_size[sizeof(RecoveredGlobal_80293F98_lbl_804DB900) == 0x20 ? 1 : -1];
 void TChCrEffFade::draw_fade_strip(f32 farg0) {
     typedef char sp8_offset[(offsetof(Stack_80293F98, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_80293F98, spC) == 0x4) ? 1 : -1];
@@ -113,7 +110,7 @@ void TChCrEffFade::draw_fade_strip(f32 farg0) {
     stack.spC = &stack.sp18;
     stack.sp10 = 0;
     stack.sp14 = 4;
-    stack.sp8 = &chcr_eff_fade_strip_rect.value;
+    stack.sp8 = chcr_eff_fade_strip_rect;
     ((TWindowCtrlMain *)(&stack.sp8))->draw_strip_swap_color(4, 6, (-1.5f));
 }
 

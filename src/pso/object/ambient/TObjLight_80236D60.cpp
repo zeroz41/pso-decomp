@@ -9,7 +9,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
 extern "C" {
-extern u32 TObjLight__support_charge_effect_ids[];
+__declspec(section ".data") u32 TObjLight__support_charge_effect_ids[2] = {0x1F4, 0x1F5};
 void TObjLight__updateSupportTechniqueCharge(TechniqueChargeEmitter* state);
 void *__dt__13TUnk_804CCAC8Fv(void *arg0, s16 arg1);
 s32 play_sound_effect(int, void *, int, int);

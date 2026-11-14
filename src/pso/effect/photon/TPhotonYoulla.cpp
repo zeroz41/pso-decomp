@@ -60,7 +60,10 @@ extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void *find_entity_by_id(u16 id);
 s32 spawn_photon_blast_attachment_effects(void *, s32);
-extern u8 photon_blast_youlla_params[];
+TObjMotionAction photon_blast_youlla_params[2] = {
+    {3, 0, 7, 1.0f, 0},
+    {1, 0, 14, 1.0f, 0},
+};
 extern s32 __vt__13TPhotonYoulla[];
 extern const char *TPhotonYoulla__name;
 extern u8 *photon_blast_shared_resource;

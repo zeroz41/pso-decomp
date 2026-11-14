@@ -9,7 +9,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
 extern "C" {
-extern u32 fire_technique_charge_effect_ids[];
+u32 fire_technique_charge_effect_ids[3] = {0x3C, 0x3D, 0x3E};
 void TObjLight__updateFireTechniqueCharge(TechniqueChargeEmitter* state);
 void *__dt__13TUnk_804CC794Fv(void *arg0, s16 arg1);
 s32 play_sound_effect(int, void *, int, int);

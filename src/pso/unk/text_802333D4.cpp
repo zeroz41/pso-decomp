@@ -5,7 +5,7 @@
 #include "pso/unk/text_802333D4.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
-extern u32 ice_technique_charge_particle_ids[];
+__declspec(section ".data") u32 ice_technique_charge_particle_ids[2] = {0xBB, 0xBC};
 void updateIceTechniqueCharge(TechniqueChargeEmitter* state) {
     ++state->age;
     if(state->age%10==0) {
