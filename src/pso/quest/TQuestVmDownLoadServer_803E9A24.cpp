@@ -459,7 +459,8 @@ extern Work_80595008 lbl_80595008;
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline void append_item_node(Node_803EA384 **pp, Node_803EA384 *node) {
+inline void append_item_node(Slot_803EA428 *slot, Node_803EA384 *node) {
+    Node_803EA384 **pp = &slot->list;
     while (*pp != NULL) {
         pp = &(*pp)->next;
     }
@@ -475,10 +476,11 @@ inline void add_text_node(Slot_803EA428 *slot, s32 len, u8 kind) {
         node->c = 0;
         node->next = NULL;
         slot->width = len + 1;
-        append_item_node(&slot->list, node);
+        append_item_node(slot, node);
     }
 }
 s32 TQuestVmDownLoadServer__sub_803EA428(s32 start, s32 end) {
+    char *text;
     u32 i;
     s32 j;
     Work_80595008 *work;
@@ -486,7 +488,6 @@ s32 TQuestVmDownLoadServer__sub_803EA428(s32 start, s32 end) {
     Slot_803EA428 *slot;
     u8 kind;
     u32 len;
-    char *text;
     char *p;
     Ent_803E6970 *e;
     u8 attr;
@@ -596,7 +597,7 @@ lookup:
             i = len;
             slot->width = work->match.len2;
         } else {
-            append_item_node(&slot->list, build_item_list__22TQuestVmDownLoadServerFiPv(start, (Hdr_803EA384 *)&work->match));
+            append_item_node(slot, build_item_list__22TQuestVmDownLoadServerFiPv(start, (Hdr_803EA384 *)&work->match));
             slot->width = work->match.len2;
             i = work->match.len - 1;
         }
@@ -619,7 +620,7 @@ emit:
             if (slot->width == -1) {
                 slot->width = work->match.len2;
             }
-            append_item_node(&work->slots[start].list, build_item_list__22TQuestVmDownLoadServerFiPv(start, (Hdr_803EA384 *)&work->match));
+            append_item_node(&work->slots[start], build_item_list__22TQuestVmDownLoadServerFiPv(start, (Hdr_803EA384 *)&work->match));
         }
     }
     return 1;
@@ -666,13 +667,13 @@ void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 end, s32 mode, s32 coun
     Work_80595008 *work;
     Slot_803EA428 *first;
     Slot_803EA428 *next;
-    Slot_803EA428 *last;
     Out_803E9FFC *o;
+    Slot_803EA428 *last;
     Out_803E9FFC **pp;
-    u8 *text;
     Ent_803E9DE0 *e;
     s32 n;
     Slot_803EA428 *slot;
+    u8 *text;
     s32 k;
     s32 len;
     s32 mark;
@@ -788,7 +789,7 @@ void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 end, s32 mode, s32 coun
             last = &work->slots[pos + len];
         }
         release_slot_chains(last);
-        slot->x15 = n;
+        work->slots[pos].x15 = n;
         o = (Out_803E9FFC *)TQuestVmDownLoadServer__sub_803ECF48();
         if (o != NULL) {
             o->off = n;

@@ -18,10 +18,10 @@ void TAdDialingGC__sub_80328B24(f32 *origin, f32 *size) {
     NJS_POINT2COL poly;
     NJS_COLOR col[4];
 
-    poly.col = col;
-    poly.num = 4;
     poly.p = pos;
     poly.tex = NULL;
+    poly.col = col;
+    poly.num = 4;
     poly.p[0].x = origin[0];
     poly.p[0].y = origin[1];
     poly.col[0].color = 0x8F;

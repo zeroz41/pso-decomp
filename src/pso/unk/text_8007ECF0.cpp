@@ -180,9 +180,9 @@ void fn_8007F27C(TDLGraph *self, f32 *pos, f32 *size) {
     u32 col[4];
     f32 v[8];
     f32 x0 = pos[0] - 2.0f;
-    f32 x1 = 2.0f + (pos[0] + size[0]);
     f32 y0 = pos[1] - 2.0f;
     f32 y1 = 2.0f + (pos[1] + size[1]);
+    f32 x1 = 2.0f + (pos[0] + size[0]);
     VtxList_8007F27C vl = { NULL, NULL, 0, 4 };
     vl.pos = v;
     vl.col = col;
@@ -193,8 +193,8 @@ void fn_8007F27C(TDLGraph *self, f32 *pos, f32 *size) {
     v[5] = v[7] = y1;
     ((TObjCMHairMenu *)&vl)->draw_tri_fan_2d(4, 2, -2.0f);
     x0 = pos[0];
-    x1 = size[0];
     y0 = pos[1];
+    x1 = size[0];
     y1 = size[1] + y0;
     col[0] = col[1] = col[2] = col[3] = self->m_34;
     v[0] = v[6] = x0;
