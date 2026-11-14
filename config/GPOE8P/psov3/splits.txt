@@ -653,7 +653,7 @@ pso/boss/galgryphon/Boss5GryphonBehavior.cpp:
 	.bss        start:0x804FF5A0 end:0x804FF5E8
 	.sdata      start:0x805D27F8 end:0x805D2808
 	.sbss       start:0x805D4D90 end:0x805D4DC8
-	.sdata2     start:0x805D8D60 end:0x805D8ED0
+	.sdata2     start:0x805D8D48 end:0x805D8ED0
 
 pso/boss/galgryphon/TBoss5GryphonColli.cpp:
 	.text       start:0x80066128 end:0x80066540
@@ -787,7 +787,7 @@ pso/unk/TUnk_80488DA0.cpp:
 pso/camera/TCameraCtrl_8006CC30.cpp:
 	.text       start:0x8006CCEC end:0x8006E82C
 	.rodata     start:0x80438528 end:0x80438548
-	.data       start:0x80488DE8 end:0x80488E00
+	.data       start:0x80488DD0 end:0x80488E00
 	.sdata      start:0x805D2840 end:0x805D2848
 	.sdata2     start:0x805D9050 end:0x805D90B8
 
@@ -2021,6 +2021,7 @@ pso/unk/text_800F8A78.cpp:
 
 pso/unk/TLobby_800F8AA8.cpp:
 	.text       start:0x800F8AA8 end:0x800F93B4
+	.rodata     start:0x8043D7A8 end:0x8043D984
 	.data       start:0x80499A00 end:0x8049C658
 	.sdata2     start:0x805DA918 end:0x805DA948
 
@@ -4696,8 +4697,9 @@ pso/object/door/TObjDoorKey.cpp:
 
 pso/object/ambient/TObjEnvSoundGlobal.cpp:
 	.text       start:0x801902D8 end:0x80190BFC
-	.rodata     start:0x804458F0 end:0x804458F8
+	.rodata     start:0x804458B8 end:0x804458F8
 	.data       start:0x804B7A70 end:0x804B7B9C
+	.sdata      start:0x805D3348 end:0x805D3358
 	.sdata2     start:0x805DBE10 end:0x805DBE20
 
 pso/object/collision/TObjEvtCollision.cpp:

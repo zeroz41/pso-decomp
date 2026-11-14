@@ -295,9 +295,14 @@ s32 conversation_camera_obstructed(FollowController *self,s32 heading);
 void apply_follow_camera_offsets(void *arg0, void *arg1, s32 arg2, u16 arg3);
 s32 approach_camera_scalar(f32 *arg0, f32 *target, f32 farg0);
 void get_dragon_follow_camera_offsets(u8 *arg0, u8 *arg1);
+// inferred: 0x18 bytes in the DOL and only the first vector is read; a pair like the (a, b) offsets that
+// request_follow_camera_offsets takes.
+Vec_8006D9F0 follow_camera_offset_default[2] = {
+    { 0.0f, 25.43f, 45.42f },
+    { 0.0f, 0.0f, 0.0f },
+};
 extern "C" {
 void get_camera_offsets__12TBoss8DragonFPvPv(Vec_8006D9F0 *, Vec_8006D9F0 *);
-extern Vec_8006D9F0 follow_camera_offset_default;
 s32 is_flag_set__11TCameraCtrlFv(void);
 s32 fn_8006E82C(s32);
 s32 approach_angle_limited(s32, s32, s32);
@@ -727,9 +732,9 @@ void TUnk_80488E00::select_follow_camera_offsets() {
             arg0->fE8 = (0.0f);
             arg0->fEC = (19.8f);
             arg0->fF0 = (-5.0f);
-            arg0->pos.x = follow_camera_offset_default.x;
-            arg0->pos.y = follow_camera_offset_default.y;
-            arg0->pos.z = follow_camera_offset_default.z;
+            arg0->pos.x = follow_camera_offset_default[0].x;
+            arg0->pos.y = follow_camera_offset_default[0].y;
+            arg0->pos.z = follow_camera_offset_default[0].z;
             if (is_split_screen() != 0 && TCameraCtrl::get_camera_id() == 2) {
                 arg0->pos.z *= (1.4f);
                 arg0->pos.y *= (0.9f);
