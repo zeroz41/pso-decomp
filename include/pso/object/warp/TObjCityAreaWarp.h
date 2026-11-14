@@ -7,6 +7,7 @@
 struct TObjCityAreaWarp : public TObjAreaWarp {
     TObjCityAreaWarp(TObject *parent, void *set_data);
     virtual ~TObjCityAreaWarp();
+    virtual void open_confirm_window(s32 client_id);
     virtual void debug_print_area_num();
     virtual void confirm_area_transfer(s32);
     void render();

@@ -7,6 +7,7 @@
 struct TObjCityMapWarp : public TObjMapWarp {
     TObjCityMapWarp(TObject *parent, void *set_data);
     virtual ~TObjCityMapWarp();
+    virtual void open_confirm_window(s32 client_id);
     virtual void slot4C();
     virtual void render();
     virtual void run_task();
