@@ -8,9 +8,9 @@
 
 // Load and release hooks in pairs, run forwards by run_load_callback_table and backwards by call_funcs_reverse.
 void (*static_resource_callback_table[10])(void) = {
-    fn_802FE8CC, TBoss8DragonEffTail::free_statics,
-    reset_globals_805D6A84, fn_8030C058,
-    TObjLiveCamera::load_static_resource, TObjLiveCamera__sub_8030B630,
+    TBoss8DragonEffTail::load_statics, TBoss8DragonEffTail::free_statics,
+    reset_live_camera_ctrl_globals, release_live_camera_ctrl_globals,
+    TObjLiveCamera::load_static_resource, TObjLiveCamera::free_static_resource,
     TObjBoss8Piller::load_resource_descriptor, TObjBoss8Piller::free_held_object,
     TObjBoss8DemoRoom::load_resource, TObjBoss8DemoRoom::free_static_instance,
 };

@@ -97,12 +97,13 @@ extern s32 TObjLiveCameraCtrl__instances;
 s32 memset(s32 *, s32, s32);
 }
 
-void reset_globals_805D6A84(void) {
+void reset_live_camera_ctrl_globals(void) {
     live_camera_controller_next_slot = 0;
     memset(&TObjLiveCameraCtrl__instances, 0, 4);
 }
 
-void fn_8030C058(void) {  }
+// inferred: the release hook paired with reset_live_camera_ctrl_globals in static_resource_callback_table
+void release_live_camera_ctrl_globals(void) {}
 
 s32 TObjLiveMonitor__sub_8030C050(void* p) { return *(s32*)((char*)p + 0x20); }
 
@@ -373,7 +374,7 @@ void TObjLiveCamera::load_static_resource() {
     (*(s32 *)&live_monitor_shared_resource) = var_r0;
 }
 
-void TObjLiveCamera__sub_8030B630(void) { free_bin_model_request((void*)live_monitor_shared_resource, (void*)1); }
+void TObjLiveCamera::free_static_resource() { free_bin_model_request((void*)live_monitor_shared_resource, (void*)1); }
 
 void *TObjLiveMonitor::create(void *arg0) {
     void *o = __nw__7TObjectFUl(0x2C);
