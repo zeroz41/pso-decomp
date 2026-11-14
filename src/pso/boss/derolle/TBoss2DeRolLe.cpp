@@ -52,8 +52,19 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/math/AngleUnits.h"
 
 #include <stddef.h>
+
+extern const char TBoss2DeRolLe__class_name_string[];
+
+s32 de_rol_le_base_param_ids[1] = {0xF};
+s32 de_rol_le_resistance_param_ids[1] = {0xF};
+// inferred: the ids load_resources passes to TLobby::dispatch_shared_handler_a, the
+// counterpart of TBoss2DeRolLe__shared_handler_id_table (dispatch_shared_handler_b)
+s32 de_rol_le_shared_handler_a_ids[1] = {0xF};
+const char *boss2_de_rol_le_class_name = TBoss2DeRolLe__class_name_string;
+
 #pragma push
 namespace constructor_data {
 extern "C" {
@@ -1184,7 +1195,6 @@ void *__nw__7TObjectFUl(u32);
 s32 vec3_add_to(int, void *);
 void subtract_vector(void *, void *);
 extern Inst_8002FE60 lbl_804356FC[];
-extern const f64 lbl_80435A10[];
 extern u8 *TBoss2DeRolLe__data_805D4BA0;
 void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1);
 u32 __cvt_fp2unsigned(f32);
@@ -1812,7 +1822,7 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
                 subtract_vector(vel, &self->pos);
                 normalize_vector_xz((Vec *)vel);
                 vel->y = 0.0f;
-                self->f6F4 = lbl_80435A10[0] * atan2_float(vel->x, vel->z);
+                self->f6F4 = RADIANS_TO_ANGLE * atan2_float(vel->x, vel->z);
                 self->speed = 80.0f;
                 spawn_particle_effect_with_flags(&self->pos, 0x126, 0x40);
             }
@@ -4884,15 +4894,11 @@ s32 register_boss__6TLobbyFl(int);
 void TObjPlayer__sub_8002E7C8(void);
 void TBoss2Mine__sub_80038D88(void);
 void TBoss2Tentacle__sub_8003A0AC(void);
-u8 *load_enemy_bml_resource_named(void *, void *);
+u8 *load_enemy_bml_resource_named(void *, const char *);
 s32 load_enemy_bml_resource(u8 *arg0);
 extern u8 lbl_804356C0[];
-extern u8 lbl_80435A18[];
 extern s32 TBoss2DeRolLe__shared_handler_id_table[];
 extern u8 boss2_derolle_bml_descriptor[];
-extern s32 de_rol_le_base_param_ids[1];
-extern s32 de_rol_le_resistance_param_ids[1];
-extern s32 lbl_805D26B0[1];
 extern s32 TBoss2DeRolLe__base_params[1];
 extern s32 TBoss2DeRolLe__resistance_params[1];
 extern s32 TBoss2DeRolLe__data_805D4BA0[1];
@@ -5260,7 +5266,6 @@ s32 set_matrix_identity(void *);
 struct W3_8003563C;
 extern W3_8003563C lbl_804359C0[];
 extern u8 controller_input_state[];
-extern s32 boss2_de_rol_le_class_name;
 extern s32 TBoss2DeRolLe__base_params;
 extern s32 TBoss2DeRolLe__resistance_params;
 extern u8 *TBoss2DeRolLe__data_805D4BA0;
@@ -5414,7 +5419,7 @@ u32 boss2_derolle_segment_color_targets[10];
 u32 TBoss2DeRolLe__attack_params_table[3];
 
 struct Self_8003563C {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x20];
     s32 f24;
     u8 pad28[0x34 - 0x28];
@@ -5699,7 +5704,7 @@ void load_resources__13TBoss2DeRolLeFv(void) {
     Node_80035D24 *m;
     Slot_80035D24 *p;
     if (TObjEneDD::check_v2_mode() != 0) {
-        res = load_enemy_bml_resource_named(boss2_derolle_bml_descriptor, lbl_80435A18);
+        res = load_enemy_bml_resource_named(boss2_derolle_bml_descriptor, "bm_boss2_de_rol_le_a.bml");
     } else {
         res = (u8 *)load_enemy_bml_resource(boss2_derolle_bml_descriptor);
     }
@@ -5728,7 +5733,7 @@ void load_resources__13TBoss2DeRolLeFv(void) {
         TBoss2DeRolLe__resistance_params[i] = register_object__6TLobbyFl(de_rol_le_resistance_param_ids[i]);
     }
     for (i = 0; i < 1; i++) {
-        TBoss2DeRolLe__data_805D4BA0[i] = dispatch_shared_handler_a__6TLobbyFl(lbl_805D26B0[i]);
+        TBoss2DeRolLe__data_805D4BA0[i] = dispatch_shared_handler_a__6TLobbyFl(de_rol_le_shared_handler_a_ids[i]);
     }
     TBoss2DeRolLe__instance = 0;
     TBoss2Tentacle__sub_8003A0AC();
