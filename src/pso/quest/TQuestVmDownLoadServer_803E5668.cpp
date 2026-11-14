@@ -88,7 +88,7 @@ extern s32 quest_download_server_state;
 extern s32 lbl_805D78F8;
 extern s32 lbl_805D78FC;
 extern s32 lbl_805D7900;
-extern s32 lbl_805D7904;
+extern s32 quest_download_file_handle;
 s32 TQuestVmDownLoadServer__sub_803EC69C(s32);
 u8 TQuestVmDownLoadServer__sub_803EC8D8();
 s32 TQuestVmDownLoadServer__sub_803ECC7C(u32 arg0);
@@ -240,7 +240,7 @@ s32 TQuestVmDownLoadServer__sub_803E5B94(s32 *arg0) {
     quest_download_initialized = 1;
     lbl_805D7828 = 0;
     lbl_805D7824 = lbl_80591AC4 + 0x4E;
-    lbl_805D7904 = -1;
+    quest_download_file_handle = -1;
     lbl_805D7820 = 0;
     lbl_805D7900 = 0;
     lbl_805D78FC = 0;
