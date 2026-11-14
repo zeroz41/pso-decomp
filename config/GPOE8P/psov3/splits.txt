@@ -9344,7 +9344,7 @@ pso/boss/goldragon/TObjBoss8Piller.cpp:
 	.text       start:0x8030ADBC end:0x8030B098
 	.rodata     start:0x80475718 end:0x80475728
 	.data       start:0x804E7668 end:0x804E76B0
-	.sdata2     start:0x805DF158 end:0x805DF164
+	.sdata2     start:0x805DF150 end:0x805DF164
 
 pso/object/TObjLiveMonitor.cpp:
 	.text       start:0x8030B098 end:0x8030C090

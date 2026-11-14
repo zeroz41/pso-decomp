@@ -18,8 +18,6 @@ extern "C" {
 extern u32 TObjBoss8Piller__shared_resource;
 u8 *get_enemy_entity(u16 arg0);
 s32 TBoss8Dragon__sub_802FB1B0(int, f32, void *);
-extern const f32 lbl_805DF150;
-extern const f32 lbl_805DF154;
 s32 post_translate_matrix(void *);
 s32 scale_matrix(int, f32, f32, f32);
 s32 draw_model_motion(int, int, f32);
@@ -39,7 +37,7 @@ void TObjBoss8Piller::render() {
         TObjFish::set_global_param((s32)((void *) (*(s32 *)((s8 *)(*(void **)((s8 *)TObjBoss8Piller__shared_resource + 0x42C)) + 0xC))));
         push_matrix();
         post_translate_matrix(arg0 + 0x1C);
-        scale_matrix(0, lbl_805DF150, lbl_805DF150, lbl_805DF150);
+        scale_matrix(0, 1.0f, 1.0f, 1.0f);
         draw_model_motion(var_r31, (int) (*(s32 *)((s8 *)arg0 + 0x2C)), (f32) (*(f32 *)((s8 *)arg0 + 0x28)));
         pop_matrix();
         set_default_alpha_blend();
@@ -49,10 +47,10 @@ void TObjBoss8Piller::run_task() {
     u8 *arg0 = (u8 *)this;
     u32 enemy_entity;
     u32 temp_r3_2;
-    *(f32 *)((s8 *)arg0 + 0x28) = (f32) (*(f32 *)((s8 *)arg0 + 0x28) + lbl_805DF150);
+    *(f32 *)((s8 *)arg0 + 0x28) += 1.0f;
     enemy_entity = (u32)get_enemy_entity((*(u16 *)((s8 *)arg0 + 0x30)));
     if (enemy_entity != 0U) {
-        TBoss8Dragon__sub_802FB1B0(enemy_entity, lbl_805DF154, arg0 + 0x1C);
+        TBoss8Dragon__sub_802FB1B0(enemy_entity, 25.0f, arg0 + 0x1C);
     }
     temp_r3_2 = *(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x2C)) + 4) - 1;
     if (*(f32 *)((s8 *)arg0 + 0x28) >= (f32) temp_r3_2) {
