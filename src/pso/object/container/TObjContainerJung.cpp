@@ -3,6 +3,7 @@
 #include "pso/system/vector.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
@@ -521,7 +522,6 @@ struct Obj_8018D4DC {
 
 extern "C" {
 u8 * get_bml_model(void *, int);
-s32 TObjFish__sub_8001EDB0(void *, s32);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u32 init_collision_body_parts(void *, s32, s32);
 u8 * init_container_base(void *, s32);
@@ -574,7 +574,7 @@ void TObjContainerJung::load_resources() {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &TObjContainerJung__resource_descriptor, 0, 0, 0));
     }
     (*(u8 * *)&TObjContainerJung__bml_model_resource) = (unsigned char *) ((void *) var_r0);
-    TObjContainerJung__bml_aux_handle = TObjFish__sub_8001EDB0((void *) var_r0, 0);
+    TObjContainerJung__bml_aux_handle = TObjFish__sub_8001EDB0((BmlResource *) var_r0, 0);
 }
 
 #pragma push
@@ -705,7 +705,7 @@ u8 *TObjContainerJung__ct(u8 *arg0, s32 arg1, s32 _w2) {
 
 s32 TObjContainerJungEx__sub_8018D900(s32 index) {
     if (TObjContainerJungEx__resource_bundle != NULL) {
-        return TObjFish__sub_8001EDB0(TObjContainerJungEx__resource_bundle, index);
+        return TObjFish__sub_8001EDB0((BmlResource *)TObjContainerJungEx__resource_bundle, index);
     }
     return 0;
 }

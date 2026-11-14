@@ -856,7 +856,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TODoorBase's vtable precedes its switch tables: deferred, written from
     # its last function back.
     "pso/object/door/TODoorBase.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    "pso/enemy/dubchik/TOCtrlDubchik_8015CA74.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
+    # vtable before run_task's jump table: written last to first, deferred. -str readonly: strings in
+    # .rodata 0x80440940; -sdata 4: the 8-byte model-name table sits in .data.
+    "pso/enemy/dubchik/TOCtrlDubchik_8015CA74.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-fp_contract on", "-str reuse,readonly", "-sdata 4")},
     # TOBarrierEnergy01's vtable precedes its switch table too.
     "pso/object/fence/TOBarrierEnergy01.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/object/door/TODoorAncient01.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},

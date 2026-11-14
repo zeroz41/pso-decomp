@@ -3871,8 +3871,9 @@ pso/object/container/TOContainerAncientEnemy.cpp:
 
 pso/enemy/dubchik/TOCtrlDubchik_8015CA74.cpp:
 	.text       start:0x8015C9D0 end:0x8015D5D4
-	.rodata     start:0x80440990 end:0x80440998
-	.data       start:0x804B0B98 end:0x804B0BB4
+	.rodata     start:0x80440940 end:0x80440998
+	.data       start:0x804B0A08 end:0x804B0BB4
+	.sdata      start:0x805D2F18 end:0x805D2F20
 	.sbss       start:0x805D58F0 end:0x805D58F8
 	.sdata2     start:0x805DB3A8 end:0x805DB3D0
 
