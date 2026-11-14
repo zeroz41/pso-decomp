@@ -1617,7 +1617,6 @@ pso/ui/chat/TWindowSubSymbolChat_80281814.cpp
 pso/ui/chat/TWindowSubSymbolChat_802838C4.cpp
 pso/ui/chat/TWindowSubSymbolChat_80283954.cpp
 pso/ui/chat/TWindowSubSymbolChatFaceType_802839C0.cpp
-pso/ui/chat/TWindowSubSymbolChat_80285E10.cpp
 pso/ui/chat/TWindowSubSymbolChat_802ACF5C.cpp
 pso/ui/window/TWindowSubTechnique.cpp
 pso/ui/window/TWindowSubTechnique_80286B0C.cpp

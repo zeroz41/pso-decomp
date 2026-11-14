@@ -7667,15 +7667,12 @@ pso/ui/chat/TWindowSubSymbolChatParts.cpp:
 	.rodata     start:0x8044FC08 end:0x8044FC10
 	.sdata2     start:0x805DD7C8 end:0x805DD810
 
-pso/ui/chat/TWindowSubSymbolChat_80285E10.cpp:
-	.text       start:0x80285E10 end:0x80286120
-	.sdata2     start:0x805DD810 end:0x805DD814
-
 pso/ui/chat/TWindowSubSymbolChatPartsSet.cpp:
-	.text       start:0x80286120 end:0x80286AA8
+	.text       start:0x80285E10 end:0x80286AA8
 	.rodata     start:0x8044FC10 end:0x8044FC40
 	.data       start:0x804D2E08 end:0x804D2E20
 	.sdata      start:0x805D3AC8 end:0x805D3ACC
+	.sdata2     start:0x805DD810 end:0x805DD838
 
 pso/ui/window/TWindowSubTechnique_80286AA8.cpp:
 	.text       start:0x80286AA8 end:0x80286B0C
