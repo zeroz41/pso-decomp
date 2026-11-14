@@ -5839,10 +5839,10 @@ pso/quest/QuestOpcodeTables.cpp:
 
 pso/quest/QuestOpcodeHandlers.cpp:
 	.text       start:0x801E6544 end:0x801F2D2C
-	.rodata     start:0x80449CB8 end:0x80449CD8
+	.rodata     start:0x80449B10 end:0x80449CD8
 	.data       start:0x804C81D8 end:0x804C8230
 	.bss        start:0x80512220 end:0x80512790
-	.sdata2     start:0x805DC4B8 end:0x805DC4E0
+	.sdata2     start:0x805DC4A0 end:0x805DC4E0
 
 pso/unk/TLobby_801F2D2C.cpp:
 	.text       start:0x801F2D2C end:0x801F3710
