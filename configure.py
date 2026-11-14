@@ -774,7 +774,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/TObjSinBoard.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/ambient/TObjGrass.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/object/lobby/LobbyGoGoBall.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    "pso/object/door/TODoorJungleMain.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # -inline off,deferred: .rodata is in reverse .text order: run_task's (0x8029B640) Vec templates 0x804653E8/0x804653F4,
+    # then render's (0x8029B428) id template 0x80465400, then load_resources' (0x8029B3C8) gvm string 0x80465418.
+    # -sdata 4: the 8-byte bm_o_jungle_doormain_motion_names 0x804DBFFC sits in .data, not .sdata.
+    "pso/object/door/TODoorJungleMain.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-sdata 4", "-str reuse,readonly")},
     "pso/object/door/TObjDoorJung.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/door/TObjDoorKey.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/TObjDoaEx01.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

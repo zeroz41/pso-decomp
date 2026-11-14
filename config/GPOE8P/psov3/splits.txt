@@ -8290,8 +8290,9 @@ pso/ui/charcreate/TChCrEffTag_8029B098.cpp:
 
 pso/object/door/TODoorJungleMain.cpp:
 	.text       start:0x8029B0F0 end:0x8029BA3C
-	.rodata     start:0x80465410 end:0x80465430
+	.rodata     start:0x80465340 end:0x80465430
 	.data       start:0x804DBFE8 end:0x804DC094
+	.sdata      start:0x805D3D20 end:0x805D3D28
 	.sbss       start:0x805D65B8 end:0x805D65C0
 	.sdata2     start:0x805DDCD0 end:0x805DDCF4
 
