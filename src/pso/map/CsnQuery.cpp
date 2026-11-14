@@ -18,8 +18,6 @@ struct RecoveredGlobal_800790F0_lbl_804F5800 {
     u8 remaining[0xFC];
 };
 
-struct Obj_8007A32C { s32 f0; f32 f4; s32 f8; u8 fc[4]; };
-
 struct E_80079580 { u8 pad[0x24]; u32 f24; };
 
 struct Vec_80079608 {
@@ -145,7 +143,6 @@ void TObjPlayer__sub_80079120(s32 _w0);
 extern u32 lbl_804FFD40[];
 extern s32 lbl_804389E8[];
 s32 *csnVecterUnder(s32 arg0, s32 arg1);
-void *query_wall_radial(Obj_8007A32C *self);
 void TObjPlayer__sub_80079124(void *, void *);
 u32 TObjPlayer__sub_80079DE0(void *, void *);
 f32 vec_squared_length(Vec_800798A0 *);
@@ -889,13 +886,13 @@ void *query_prepared_wall_polygons(void *self) {
     return r;
 }
 
-void *query_wall_radial(Obj_8007A32C *self) {
-    void *r;
+WallRayResult *query_wall_radial(WallRayQuery *query) {
+    WallRayResult *r;
     TObjPlayer__sub_8007911C();
-    r = csn_query_map_object;
-    if (prepare_wall_query_polygons(self->fc, self->f4, self->f8) == 0) {
+    r = (WallRayResult *)csn_query_map_object;
+    if (prepare_wall_query_polygons(&query->origin, query->radius, query->mask) == 0) {
         r = 0;
-    } else if (select_deepest_wall_ray((Query_80079608 *)(self), (Result_80079608 *)(r)) == 0) {
+    } else if (select_deepest_wall_ray((Query_80079608 *)(query), (Result_80079608 *)(r)) == 0) {
         r = 0;
     }
     TObjPlayer__sub_80079118(lbl_804389A8);

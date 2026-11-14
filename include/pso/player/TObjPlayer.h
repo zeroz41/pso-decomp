@@ -38,7 +38,7 @@ struct TObjPlayer : public TObjChara {
     s32 destroy_char_data(int, s16);
     s32 create_shoot_model(int, int, int, f32);
     void create_cane_effect_from_state(void *);
-    u32 apply_wall_response();
+    void *apply_wall_response();
     void apply_battle_level_reset(s32 level);
     void set_action_provider_variant(s16);
     void update_position_from_target();
@@ -162,9 +162,7 @@ struct TObjPlayer : public TObjChara {
     s32 m_3ec;
     u8 unk_3F0[0x4];
     s32 m_3f4;
-    u8 unk_3F8[0x4];
-    f32 m_3fc;
-    u8 unk_400[0x4];
+    Vec move_target;  // (name inferred) run/walk-to target: calc_movement_target and handle_6x40/6x42 set x/z, update_*_movement steer to it
     f32 m_404;
     u8 unk_408[0x4];
     f32 m_40c;
@@ -535,7 +533,7 @@ struct TObjPlayer : public TObjChara {
     static u8 is_final_phase();
     static u8 is_camera_ready();
     static u8 is_camera_mode_active();
-    static u8 is_single_screen();
+    static s32 is_single_screen();
     static s32 is_player_valid_target(s32 arg0);
     void update_movement_effects();
     static int get_max_level();

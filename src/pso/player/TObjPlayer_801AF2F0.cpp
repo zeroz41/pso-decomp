@@ -57,6 +57,8 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/map/FloorArea.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/object/trap/TOTrap.h"
 
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/player/PhotonBlastGauge.h"
@@ -966,7 +968,7 @@ typedef struct Player_801B6110 {
     s32 flags;
 } Player_801B6110;
 
-typedef struct Vec_801B5DDC { f32 x, y, z; } Vec_801B5DDC;
+typedef Vec Vec_801B5DDC;
 
 struct Hit_801B5DDC {
     u8 pad0[0x18];
@@ -2005,7 +2007,6 @@ s32 check_flag__10TObjPlayerFl(void *, s32);
 s32 get_position_ptr__10TObjPlayerFv();
 s32 get_mode__11TCameraCtrlFPv(void *p);
 void copy_player_visual_record(void *, void *);
-u8 * csnVectorUnder(s32 *, void *, s32);
 s32 test_action_mask__10TObjPlayerFl(s32, s32);
 s32 is_in_shadow_range(u8 *arg0, f32 farg0);
 s32 get_item_id__5TItemFv();
@@ -2046,7 +2047,6 @@ s32 reset_motion_fields__8TObjBaseFv();
 s32 is_final_phase__10TObjPlayerFv();
 s32 is_camera_ready__10TObjPlayerFv();
 s32 is_camera_mode_active__10TObjPlayerFv();
-s32 is_single_screen__10TObjPlayerFv();
 void handle_6x9B_level_up_all_techniques(void *arg0);
 void TObjPlayer__sub_801AF554(void *arg0, s8 arg1);
 void play_voice_pair__10TObjPlayerFPv(TObjPlayer *arg0);
@@ -2273,6 +2273,7 @@ void TObjPlayer__sub_801BF6C0(void *p, f32 v);
 void TObjPlayer__sub_801BF6C8(s32, f32, f32);
 void TObjPlayer__sub_801BF6D4(void *p, s16 v);
 void TObjPlayer__sub_801BF6DC(void *p, s16 v);
+f32 TObjPlayer__sub_801BF814(void *p);
 s32 set_anim_state__10TObjPlayerFs(void *, s16);
 s32 set_action_id__10TObjPlayerFs(void *, s32);
 int TObjPlayer__sub_801BF840(void *p);
@@ -2506,7 +2507,7 @@ f32 cos_table_lookup(s32);
 s32 matrix_mult_vec(int, void *, void *);
 f32 vec3_dot(Vec_801B5DDC *, Vec_801B5DDC *);
 void scale_matrix(int, f32, f32, f32);
-int vector_length(void*);
+f32 vector_length(void*);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 s32 rotate_matrix_y(s32, s32);
 void rotate_matrix_z(int, s32);
@@ -2551,6 +2552,8 @@ extern const f32 lbl_805DC290;
 extern const f32 lbl_805DC298;
 extern const f32 lbl_805DC29C;
 extern const f32 lbl_805DC2B0;
+extern const f32 lbl_805DC2B4;
+extern const f32 lbl_805DC2B8;
 extern const f32 lbl_805DC2C0;
 extern const f32 lbl_805DC2C4;
 extern const f32 lbl_805DC2C8;
@@ -2694,7 +2697,7 @@ void TObjPlayer::refill_traps() {
 }
 
 void TObjPlayer::update_movement_by_screen() {
-    if (is_single_screen__10TObjPlayerFv() != 0) {
+    if (is_single_screen() != 0) {
         get_battle_ctrl_default__6TLobbyFv();
         return;
     }
@@ -2711,7 +2714,7 @@ s16 TObjPlayer__sub_801AF868(void *arg0) {
     int i;
 
     id = get_entity_id(arg0);
-    if (is_single_screen__10TObjPlayerFv() != 0) {
+    if (TObjPlayer::is_single_screen() != 0) {
         e = get_split_screen_battle_rankings();
     } else {
         e = TWindowDuelResult__sub_801C257C();
@@ -5642,7 +5645,7 @@ void TObjPlayer::rewind_position_history() {
     }
     TObjPlayer__sub_801BE918(this, *(s32 *)((s8 *)((u8 *)this) + 0x6AC), &stack.sp8, &stack.sp10);
     stack.spC = *(f32 *)((s8 *)((u8 *)this) + 0x3C);
-    temp_r3 = csnVectorUnder(&stack.sp8, ((u8 *)this) + 0x120, 0x41);
+    temp_r3 = (u8 *)csnVectorUnder((Vec *)&stack.sp8, (u32 *)&this->m_120, 0x41);
     if (temp_r3 != NULL) {
         *(f32 *)((s8 *)((u8 *)this) + 0x38) = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 4)) + 0);
         *(f32 *)((s8 *)((u8 *)this) + 0x3C) = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 4)) + 4);
@@ -6097,6 +6100,160 @@ void TObjPlayer::init_effect_5f0() {
 
 void TObjPlayer::get_hand_joint_position(s32 arg1) {
     this->get_anim_node_position(*(s32 *)((s8 *)(TObjPlayer__sub_801D8DCC()) + 0x10), (Vec *)arg1);
+}
+
+// Pushes the move in velocity off the walls it runs into: slides it along a
+// wall it meets at a shallow angle, steps around a corner. Returns the wall
+// contact that stops it, NULL when the move may go on.
+void *TObjPlayer::apply_wall_response() {
+    if (is_single_screen()) {
+        s32 angle;
+        f32 dx;
+        f32 dz;
+        f32 reach;
+        f32 speed;
+        Vec from;
+        Vec to;
+        angle = (s32)(lbl_80446F68 * atan2_float(x_speed, m_310));
+        speed = vector_length((Vec *)unk_308);
+        reach = speed + TObjPlayer__sub_8017A1A4(this, 0);
+        dx = reach * sin_table_lookup(angle);
+        dz = reach * cos_table_lookup(angle);
+        from.x = position.x;
+        from.y = lbl_805DC2B0 + position.y;
+        from.z = position.z;
+        to.x = from.x + dx;
+        to.y = from.y;
+        to.z = from.z + dz;
+        return csnVector(&from, &to, 0x28A0);
+    }
+
+    s32 ray;
+    s32 angle;
+    Vec *normal;
+    WallRayResult *blocked;
+    Vec *offset;
+    s32 i;
+    f32 radius = TObjPlayer__sub_8017A1A4(this, 0);
+    Vec move;
+    WallRayQuery query;
+    Vec rays[8];
+    VecCopy(&move, (Vec *)unk_308);
+    move.y = TObjPlayer__data_805DC278;
+    Vec *origin = &query.origin;
+    f32 reach = radius + vector_length(&move);
+    query.count = 1;
+    query.mask = 0x28A0;
+    origin->x = position.x;
+    origin->y = lbl_805DC2B0 + position.y;
+    origin->z = position.z;
+    query.rays = rays;
+    angle = (s32)(lbl_80446F68 * atan2_float(move.x, move.z));
+    rays[0].x = reach * sin_table_lookup(angle);
+    rays[0].y = TObjPlayer__data_805DC278;
+    rays[0].z = reach * cos_table_lookup(angle);
+    query.radius = lbl_805DC2B4 + reach;
+    blocked = query_wall_radial(&query);
+    Vec dir;
+    if (blocked != NULL) {
+        ray = blocked->index;
+        normal = &blocked->hits[ray].normal;
+        VecCopy(&dir, &move);
+        ((TObjBoss2Tunnel *)&dir)->update_scale();
+        if (vec3_dot(&dir, normal) > lbl_805DC2B8) {
+            Vec end;
+            Vec slide;
+            Vec step;
+            Vec *hit_ray = &query.rays[ray];
+            end.x = origin->x + hit_ray->x;
+            end.y = origin->y + hit_ray->y;
+            end.z = origin->z + hit_ray->z;
+            vsub(&blocked->hits->point, &end, &dir);
+            ((TObjPlayer *)&dir)->calc_wall_slide_point(normal, &slide);
+            vsub(origin, &move_target, &dir);
+            dir.y = TObjPlayer__data_805DC278;
+            ((TObjPlayer *)&dir)->calc_move(&slide, &step);
+            move_target.x = position.x + step.x;
+            move_target.z = position.z + step.z;
+            ((TObjPlayer *)unk_308)->calc_move(&slide, &step);
+            VecCopy((Vec *)unk_308, &step);
+            blocked = NULL;
+        }
+    }
+
+    VecCopy(&move, (Vec *)unk_308);
+    query.radius = radius;
+    query.count = 8;
+    origin->x = position.x + move.x;
+    origin->z = position.z + move.z;
+    offset = rays;
+    for (i = 0; i < 8; i++) {
+        offset->x = radius * sin_table_lookup(angle);
+        offset->y = TObjPlayer__data_805DC278;
+        offset->z = radius * cos_table_lookup(angle);
+        angle += 0x2000;
+        offset++;
+    }
+    WallRayResult *wall = (WallRayResult *)query_prepared_wall_polygons(&query);
+    if (wall != NULL) {
+        ray = wall->index;
+        normal = &wall->hits[ray].normal;
+        VecCopy(&dir, &move);
+        ((TObjBoss2Tunnel *)&dir)->update_scale();
+        f32 facing = vec3_dot(&dir, normal);
+        if (facing <= lbl_805DC2B8) {
+            blocked = wall;
+        } else if (facing > TObjPlayer__data_805DC278) {
+            blocked = NULL;
+        } else {
+            f32 push = lbl_805DC298 + wall->depth;
+            Vec *wall_normal = &wall->hits[ray].normal;
+            f32 px = wall_normal->x * push;
+            f32 pz = wall_normal->z * push;
+            Vec corner;
+            corner.x = origin->x + px;
+            corner.y = origin->y;
+            corner.z = origin->z + pz;
+            s32 target = calc_angle_to(&corner, &move_target);
+            angle = lerp_angle_half(approach_angle_adaptive(rotation_y, target), target);
+            move.x = TObjPlayer__sub_801BF814(&m_5e0) * sin_table_lookup(angle);
+            move.y = TObjPlayer__data_805DC278;
+            move.z = TObjPlayer__sub_801BF814(&m_5e0) * cos_table_lookup(angle);
+            origin->x = corner.x + move.x;
+            origin->z = corner.z + move.z;
+            Vec first_ray;
+            VecCopy(&first_ray, &query.rays[ray]);
+            angle = (s32)(lbl_80446F68 * atan2_float(move.x, move.z));
+            offset = rays;
+            for (i = 0; i < 8; i++) {
+                offset->x = radius * sin_table_lookup(angle);
+                offset->y = TObjPlayer__data_805DC278;
+                offset->z = radius * cos_table_lookup(angle);
+                angle += 0x2000;
+                offset++;
+            }
+            WallRayResult *next = (WallRayResult *)query_prepared_wall_polygons(&query);
+            if (next == NULL) {
+                blocked = NULL;
+                position.x += px;
+                position.z += pz;
+            } else {
+                Vec next_ray;
+                VecCopy(&next_ray, &query.rays[next->index]);
+                move.x = -m_310;
+                move.z = x_speed;
+                f32 side = vec3_dot(&move, &first_ray);
+                if (side * vec3_dot(&move, &next_ray) >= TObjPlayer__data_805DC278) {
+                    blocked = NULL;
+                    position.x += px;
+                    position.z += pz;
+                } else {
+                    blocked = wall;
+                }
+            }
+        }
+    }
+    return blocked;
 }
 
 void TObjPlayer::calc_move(void* a1, void* a2) { vector_length(this); ((int (*)(void*, void*))calc_move_velocity__10TObjPlayerFPvPvf)(a1, a2); }
@@ -7749,7 +7906,7 @@ void TObjPlayer::reset_motion_fields() {
         if (check_camera_mode__10TObjPlayerFv() != 0) {
             ((s32 (*)(void *))send_code_49_1__10TObjPlayerFi)((void *)arg0);
         } else {
-            if (is_single_screen__10TObjPlayerFv() == 0) {
+            if (is_single_screen() == 0) {
                 ((TObjPlayer *)arg0)->set_meseta(0);
             }
             ((s32 (*)(u16, s32, s32))send_6x24_teleport_player)(((u16 (*)(void *))get_entity_id)((void *)arg0), get_hospital_position__10TObjPlayerFv((void *)arg0), get_hospital_yaw__10TObjPlayerFv((void *)arg0));
@@ -7917,7 +8074,7 @@ void TObjPlayer::create_lockon_cursor() {
     u32 var_r31;
     u32 var_r31_2;
 
-    if (is_single_screen__10TObjPlayerFv() != 0) {
+    if (is_single_screen() != 0) {
         if ((u32) this->m_424 == 0U) {
             var_r31 = __nw__7TObjectFUl(0x52C);
             if (var_r31 != 0U) {
