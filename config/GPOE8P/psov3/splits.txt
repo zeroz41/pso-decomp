@@ -661,7 +661,7 @@ pso/boss/goldragon/TBoss8Dragon_8005D700.cpp:
 pso/boss/galgryphon/Boss5GryphonBehavior.cpp:
 	.text       start:0x8005D708 end:0x80066128
 	.ctors      start:0x80433F44 end:0x80433F48
-	.rodata     start:0x80437E48 end:0x80437EF0
+	.rodata     start:0x804378C8 end:0x80437EF0
 	.data       start:0x80487848 end:0x80488668
 	.bss        start:0x804FF5A0 end:0x804FF5E8
 	.sdata      start:0x805D27F8 end:0x805D2808

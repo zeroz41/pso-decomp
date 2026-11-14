@@ -105,7 +105,7 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     u32 m_578;
     TBoss5GryphonDemo *demo;
     RenderFadeState renderFadeStates[4];
-    s32 *effect_ids;
+    const s32 *effect_ids;
     u8 rng[0xE8];
     s32 m_6dc;
     s32 m_6e0;
