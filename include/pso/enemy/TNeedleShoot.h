@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 struct TechniqueContactBody;
 
@@ -15,9 +16,7 @@ struct TNeedleShoot : public TObject {
     u32 m_1c;
     u8 unk_20[0x4];
     f32 m_24;
-    u8 unk_28[0x4];
-    f32 m_2c;
-    u8 unk_30[0x4];
+    Vec prev_pos;
     u16 m_34;
     u8 _pad36[0x2];
     TechniqueContactBody *m_38;
@@ -26,14 +25,10 @@ struct TNeedleShoot : public TObject {
     u32 m_50;
     u32 m_54;
     u8 _pad58[0x10];
-    u32 m_68;
-    void* m_6c;
-    u8 unk_70[0x4];
-    f32 m_74;
+    void *m_68;
+    Vec pos;
     u8 unk_78[0x1C];
-    void* m_94;
-    u8 unk_98[0x4];
-    f32 m_9c;
+    Vec dir;
     u32 m_a0;
     u32 m_a4;
     u32 m_a8;

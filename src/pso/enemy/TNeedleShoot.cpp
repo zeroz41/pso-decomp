@@ -98,15 +98,15 @@ void TNeedleShoot::check_wall_hit() {
     typedef char sp1C_offset[(offsetof(Stack_802A4544, sp1C) == 0x14) ? 1 : -1];
     Stack_802A4544 stack;
     u8 *temp_r3;
-    stack.sp8 = *(f32 *)((s8 *)((u8 *)this) + 0x28);
-    stack.spC = this->m_2c;
-    stack.sp10 = *(f32 *)&this->unk_30;
-    stack.sp14 = *(f32 *)&this->m_6c;
-    stack.sp18 = *(f32 *)&this->unk_70;
-    stack.sp1C = this->m_74;
+    stack.sp8 = this->prev_pos.x;
+    stack.spC = this->prev_pos.y;
+    stack.sp10 = this->prev_pos.z;
+    stack.sp14 = this->pos.x;
+    stack.sp18 = this->pos.y;
+    stack.sp1C = this->pos.z;
     temp_r3 = (u8 *)(csnVector(&stack.sp8, &stack.sp14, 0x100));
     if (temp_r3 != NULL) {
-        VecCopy((Vec *)(((u8 *)this) + 0x6C), (const Vec *)(*(s32 *)((s8 *)temp_r3 + 4)));
+        VecCopy(&this->pos, (const Vec *)(*(s32 *)((s8 *)temp_r3 + 4)));
         this->vfunc_6();
     }
 }
@@ -114,7 +114,7 @@ void TNeedleShoot::check_wall_hit() {
 
 void TNeedleShoot::render() {
     NJS_ARGB color = {1.0f, 1.0f, 1.0f, 1.0f};
-    debug_draw_sphere((const Vec *)((u8 *)this + 0x6C), &color, 10.0f);
+    debug_draw_sphere(&this->pos, &color, 10.0f);
 }
 
 void TObjEneMe1GiGueMissile::update_lifetime() {
@@ -136,10 +136,10 @@ void TNeedleShoot__sub_802A4668(void *arg0) {
 #pragma push
 #pragma fp_contract on
 void TNeedleShoot::update_position() {
-    VecCopy((Vec *)((u8 *)this + 0x28), (const Vec *)((u8 *)this + 0x6C));
-    *(f32 *)&this->m_6c = (*(f32 *)&this->m_94 * *(f32 *)&this->_padAC) + *(f32 *)&this->m_6c;
-    *(f32 *)&this->unk_70 = (*(f32 *)&this->unk_98 * *(f32 *)&this->_padAC) + *(f32 *)&this->unk_70;
-    this->m_74 = (this->m_9c * *(f32 *)&this->_padAC) + this->m_74;
+    VecCopy(&this->prev_pos, &this->pos);
+    this->pos.x = (this->dir.x * *(f32 *)&this->_padAC) + this->pos.x;
+    this->pos.y = (this->dir.y * *(f32 *)&this->_padAC) + this->pos.y;
+    this->pos.z = (this->dir.z * *(f32 *)&this->_padAC) + this->pos.z;
     check_wall_hit();
 }
 #pragma pop
@@ -156,7 +156,7 @@ void TNeedleShoot::run_task() {
 }
 
 TNeedleShoot::~TNeedleShoot() {
-    if (*(void **)((s8 *)this + 0x68) != NULL) { free_collision_body_parts(*(void **)((s8 *)this + 0x68)); this->m_68 = 0; }
+    if (this->m_68 != NULL) { free_collision_body_parts(this->m_68); this->m_68 = 0; }
 }
 
 

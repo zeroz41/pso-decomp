@@ -66,7 +66,7 @@ void TObjEneMe1GiGueMissile::explode(void *pos) {
     }
 }
 
-int TObjEneMe1GiGueMissile::vfunc_6() { explode(&m_6c); TObject::queue_destruction(); }
+int TObjEneMe1GiGueMissile::vfunc_6() { explode(&pos); TObject::queue_destruction(); }
 
 void TObjEneMe1GiGueMissile::vfunc_9(void *a1) { explode(&((TObjBase *)a1)->position); TObject::queue_destruction(); }
 
@@ -89,7 +89,7 @@ void TObjEneMe1GiGueMissile::render() {
     }
     push_matrix();
     TParticleCtrl::begin_effect_render();
-    post_translate_matrix((f32 *)&m_6c);
+    post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, m_a4);
     rotate_matrix_x(NULL, m_a0);
     TObjFish::set_global_param(lbl_805D6858->models[1].m_c);
@@ -127,7 +127,7 @@ TObjEneMe1GiGueMissile *TObjEneMe1GiGueMissile__ct(TObjEneMe1GiGueMissile *self,
     self->m_name = lbl_805D3F20;
     self->m_c0 = power;
     *(f32 *)self->_padAC = speed;
-    play_sound_effect(0x4002A600, &self->m_6c, 0, 0);
+    play_sound_effect(0x4002A600, &self->pos, 0, 0);
     if ((void *)self->m_1c != NULL) {
         self->m_34 = get_entity_id((void *)self->m_1c);
     }
