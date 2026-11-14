@@ -916,7 +916,7 @@ u8 *TObjDFTenchuFuru__ct(u8 *arg0, u8 *arg1, u8 *arg2);
 }
 void get_current_matrix(void *m);
 extern Mtx34 df_captured_matrix_pair[2];
-extern int TObjDFTenchuFuru__matrix_node_index;
+int TObjDFTenchuFuru__matrix_node_index;
 extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
 extern RecoveredGlobal_80051AD0_lbl_804858B4 dark_falz_jisin_zero_vec;

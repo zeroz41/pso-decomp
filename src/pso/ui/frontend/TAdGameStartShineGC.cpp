@@ -8,7 +8,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/player/TObjPlayer.h"
 
-extern s32 lbl_805D6E88;
+s32 lbl_805D6E88;
 
 void TAdGameStartShineGC::render_status_box() {
     u8 *arg0 = (u8 *)this;

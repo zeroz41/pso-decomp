@@ -100,8 +100,8 @@ struct Rect_801E317C { f32 x0, y0, x1, y1; };
 extern "C" {
 int current_line_width = 12;
 s32 lbl_805D3584 = 1;
-f32 viewport_scissor_origin_x = 3.2e+02f;
-f32 camera_viewport_center_y = 2.4e+02f;
+f32 viewport_scissor_origin_x = 320.0f;
+f32 camera_viewport_center_y = 240.0f;
 void TCameraCtrl__sub_801E32D8(f32 farg0, f32 farg1);
 void GXSetScissor(u32, u32, u32, u32);
 void set_viewport_scissor__11TCameraCtrlFiPv(s32 mode, Rect_801E317C *r);

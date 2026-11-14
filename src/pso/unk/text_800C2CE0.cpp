@@ -119,7 +119,7 @@ extern "C" {
 u16 get_entity_id(void *);
 s32 is_player_entity_id(u16);
 void send_6x2F_change_player_hp(s32, u16, s32);
-extern Pair_800C2E64 lbl_8043BA60[];
+const Pair_800C2E64 lbl_8043BA60[1] = {{16, 0}};
 void TObjEneRe2Flower__sub_800C2E64(Obj_800C2E64 *self, s32 state);
 s32 get_flag_b4__9TObjEneDDFv();
 s32 TBoss8Dragon__sub_800BB7D4(void *, int);

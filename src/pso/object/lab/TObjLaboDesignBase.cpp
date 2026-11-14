@@ -9,6 +9,8 @@
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/unk/text_80365348.h"
 
+#pragma readonly_strings on
+
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -75,24 +77,12 @@ void queue_destruction__7TObjectFv(void *);
 s32 set_global_param__8TObjFishFl();
 
 
-extern "C" const char lbl_8047A0A8[];
-extern "C" const char lbl_8047A0C4[];
-extern "C" const char lbl_8047A0DC[];
-extern "C" const char lbl_8047A0F8[];
-extern "C" const char lbl_8047A110[];
-extern "C" const char lbl_8047A124[];
-extern "C" const char lbl_8047A134[];
-extern "C" const char lbl_8047A150[];
-extern "C" const char lbl_8047A16C[];
-extern "C" const char lbl_8047A188[];
-extern "C" const char lbl_8047A1A4[];
-extern "C" const char lbl_8047A1B8[];
-extern "C" const char *lbl_805D4488[];
-extern "C" const char *lbl_805D448C[];
-extern "C" const char *lbl_805D4490[];
-extern "C" const char *lbl_805D4494[];
-extern "C" const char *lbl_805D4498[];
-extern "C" const char *lbl_805D449C[];
+const char *lbl_805D4488[1] = {0};
+const char *lbl_805D448C[1] = {0};
+const char *lbl_805D4490[1] = {0};
+const char *lbl_805D4494[1] = {0};
+const char *lbl_805D4498[1] = {0};
+const char *lbl_805D449C[1] = {0};
 extern const char *lbl_804F2B78[2];
 extern BmlResourceDescriptor lbl_804F2B80;
 extern const char *lbl_804F2B90[2];
@@ -106,40 +96,40 @@ extern BmlResourceDescriptor lbl_804F2BE0;
 extern const char *lbl_804F2BF0[2];
 extern BmlResourceDescriptor lbl_804F2BF8;
 __declspec(section ".data") const char *lbl_804F2B78[2] = {
-    lbl_8047A0A8, NULL,
+    "labocity_computer_army.gj", NULL,
 };
 BmlResourceDescriptor lbl_804F2B80 = {
-    lbl_8047A0C4, lbl_804F2B78, lbl_805D4488, 1, 0,
+    "bm_obj_comp_army.bml", lbl_804F2B78, lbl_805D4488, 1, 0,
 };
 __declspec(section ".data") const char *lbl_804F2B90[2] = {
-    lbl_8047A0DC, NULL,
+    "labocity_computer_norm.gj", NULL,
 };
 BmlResourceDescriptor lbl_804F2B98 = {
-    lbl_8047A0F8, lbl_804F2B90, lbl_805D448C, 1, 0,
+    "bm_obj_comp_norm.bml", lbl_804F2B90, lbl_805D448C, 1, 0,
 };
 __declspec(section ".data") const char *lbl_804F2BA8[2] = {
-    lbl_8047A110, NULL,
+    "labocity_desk.gj", NULL,
 };
 BmlResourceDescriptor lbl_804F2BB0 = {
-    lbl_8047A124, lbl_804F2BA8, lbl_805D4490, 1, 0,
+    "bm_obj_desk.bml", lbl_804F2BA8, lbl_805D4490, 1, 0,
 };
 __declspec(section ".data") const char *lbl_804F2BC0[2] = {
-    lbl_8047A134, NULL,
+    "labocity_partition_army.gj", NULL,
 };
 BmlResourceDescriptor lbl_804F2BC8 = {
-    lbl_8047A150, lbl_804F2BC0, lbl_805D4494, 1, 0,
+    "bm_obj_partition_army.bml", lbl_804F2BC0, lbl_805D4494, 1, 0,
 };
 __declspec(section ".data") const char *lbl_804F2BD8[2] = {
-    lbl_8047A16C, NULL,
+    "labocity_partition_norm.gj", NULL,
 };
 BmlResourceDescriptor lbl_804F2BE0 = {
-    lbl_8047A188, lbl_804F2BD8, lbl_805D4498, 1, 0,
+    "bm_obj_partition_norm.bml", lbl_804F2BD8, lbl_805D4498, 1, 0,
 };
 __declspec(section ".data") const char *lbl_804F2BF0[2] = {
-    lbl_8047A1A4, NULL,
+    "labocity_table.gj", NULL,
 };
 BmlResourceDescriptor lbl_804F2BF8 = {
-    lbl_8047A1B8, lbl_804F2BF0, lbl_805D449C, 1, 0,
+    "bm_obj_table_labo.bml", lbl_804F2BF0, lbl_805D449C, 1, 0,
 };
 // Archive descriptors of the six laboratory design objects, by object id.
 struct LaboDesignObjectEntry {
@@ -189,7 +179,7 @@ extern "C" u32 labo_design_object_table[];
 
 int get_labo_design_object(int a0);
 extern s32 __vt__18TObjLaboDesignBase[];
-extern s32 TObjLaboDesignBase_class_name;
+const char *TObjLaboDesignBase_class_name = "TObjLaboDesignBase";
 void *create_labo_design_base(void *arg0);
 void *create_obj_labo_design_base(void *arg0);
 void *create_obj_labo_design_base(void *arg0) {
@@ -332,7 +322,7 @@ u8 *TObjLaboDesignBase__ct(u8 *player, s32 arg1, s32 arg2, s32 arg3) {
     s32 temp_r0;
     __ct__14TObjCollidableFP7TObject();
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80365210___vt__18TObjLaboDesignBase *)&__vt__18TObjLaboDesignBase).value;
-    *(s32 *)((s8 *)player + 0) = (s32) TObjLaboDesignBase_class_name;
+    *(const char **)((s8 *)player + 0) = TObjLaboDesignBase_class_name;
     ((VObj_18_1a504b *)(player))->m5(arg2);
     *(s32 *)((s8 *)player + 0xB0) = arg3;
     *(s32 *)((s8 *)player + 0xAC) = ((s32)get_labo_design_object((int) (*(s32 *)((s8 *)player + 0xB0))));

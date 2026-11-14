@@ -9,6 +9,8 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
 
+#pragma readonly_strings on
+
 struct RecoveredGlobal_801976F4___vt__12TObjRaderCol {
     s32 value;
     u8 remaining[0x34];
@@ -21,7 +23,7 @@ struct Ply_8019750C { u8 pad0[0x38]; f32 pos[3]; };
 extern "C" {
 s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__12TObjRaderCol[];
-extern s32 TObjRaderCol__name;
+const char *TObjRaderCol__name = "TObjRaderCol";
 f32 xz_distance_squared(void *, void *);
 void check_any_player_in_range__12TObjRaderColFPv(Col_8019750C *arg0);
 extern s32 local_client_id;
@@ -102,7 +104,7 @@ typedef char RecoveredGlobal_801976F4___vt__12TObjRaderCol_size[sizeof(Recovered
 u8 *TObjRaderCol__ct(TObjRaderCol *rader_col, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(rader_col);
     *(s32 **)((s8 *)rader_col + 0x18) = &(*(RecoveredGlobal_801976F4___vt__12TObjRaderCol *)&__vt__12TObjRaderCol).value;
-    *(s32 *)((s8 *)rader_col + 0) = (s32) TObjRaderCol__name;
+    *(const char **)((s8 *)rader_col + 0) = TObjRaderCol__name;
     ((TObjRaderCol *)(rader_col))->apply_object_set_data((void *)arg2);
     *(f32 *)((s8 *)rader_col + 0x90) = (f32) rader_col->scale.x;
     rader_col->m_94 = (s32) rader_col->set_params[0];

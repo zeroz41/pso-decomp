@@ -123,10 +123,10 @@ int set_mode__20TWindowActionPaletteFUc(void*);
 int set_slot__20TWindowActionPaletteFUc(void*);
 s32 try_add_item_count__10TObjPlayerFlllUc(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0);
 
-    extern int shared_flag;
+int lbl_805D5D70;
+int shared_flag;
 void TObjPlayer::set_shared_flag(int a0) { shared_flag = a0; }
 
-    extern int lbl_805D5D70;
 void TObjPlayer::set_shared_count(int a0) { lbl_805D5D70 = a0; }
 
 void TObjPlayer::add_item_count_kind4(s32 arg0, s32 arg1, s32 arg2) {

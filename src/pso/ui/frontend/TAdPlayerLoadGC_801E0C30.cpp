@@ -5,6 +5,8 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
+#pragma readonly_strings on
+
 struct RecoveredGlobal_801E14E8_TAdPlayerLoadGC__data_80511ED0 {
     s32 value;
     u8 remaining[0x14];
@@ -74,14 +76,12 @@ extern RecoveredGlobal_801E14E8_TAdPlayerLoadGC__data_80511ED0 TAdPlayerLoadGC__
 s32 CARDGetResultCode(void *);
 s32 CARDUnmount();
 s32 read_disc_file(const char*, void*);
-extern Names_801E13C4 memory_card_banner_filenames;
-extern char lbl_804496A8[];
+const Names_801E13C4 memory_card_banner_filenames = {{"vms_sys.tp", "vms_icon1.tp", "vms_icon2.tp", "vms_down.tp", "vms_capt.tp", "vms_net.tp"}};
 s32 calc_crc32_bitwise(void *, s32, s32);
 int sprintf(char *, const char *, ...);
 char *strncpy(char *, const char *, u32);
 void *memcpy(void *, const void *, u32);
 void *memset(void *, int, u32);
-extern char lbl_804496B8[];
 s32 build_save_file_image__15TAdPlayerLoadGCFPvPv(u8 *arg0, Src_801E17F4 *arg1);
 s32 CARDGetStatus(s32, s32, CARDStat_801E2048 *);
 int strncmp(const char *, const char *, u32);
@@ -361,7 +361,7 @@ void TAdPlayerLoadGC__sub_801E1350(void) {
 
 void TAdPlayerLoadGC::load_banner_files() {
     Names_801E13C4 names = memory_card_banner_filenames;
-    const char* path = lbl_804496A8;
+    const char* path = "pso_bana_f.tp";
     s32 i;
     for (i = 0; i < 6; i++) {
         ((void**)&TAdPlayerLoadGC__banner_buffers)[i] = NULL;
@@ -487,7 +487,7 @@ s32 build_save_file_image__15TAdPlayerLoadGCFPvPv(u8 *arg0, Src_801E17F4 *arg1) 
     h = (Hdr_801E17F4 *)::operator new(0x2048);
     memset(h->title, 0, 0x20);
     memset(h->sub, 0, 0x20);
-    strncpy(h->title, lbl_804496B8, 0x20);
+    strncpy(h->title, "PSO EPISODE I & II Plus", 0x20);
     getDateStamp((DateStamp *)&ds);
     memset(buf, 0, 0x80);
     if (arg1->flag != 0) {

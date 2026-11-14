@@ -177,8 +177,8 @@ extern s32 city_aircar_model_indices[];
 s32 alloc_tables__6TLobbyFll(s32, s32, s32, Ent_801817AC *);
 void subtract_vector(Vec_801817AC *, Vec_801817AC *);
 extern s32 city_traffic_car_chunk_index_table[];
-extern Lob_801817AC *city_air_car_model_resource;
-extern void **city_air_car_model_handle;
+Lob_801817AC * city_air_car_model_resource;
+void ** city_air_car_model_handle;
 }
 
 struct E_801819CC { s32 a; s32 b; };

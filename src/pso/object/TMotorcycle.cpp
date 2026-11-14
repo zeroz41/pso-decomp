@@ -48,8 +48,8 @@ extern "C" {
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object();
-extern u32 TMotorcycle__bml_resource;
-extern u32 TMotorcycle__texture_list;
+u32 TMotorcycle__bml_resource;
+u32 TMotorcycle__texture_list;
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u8 * load_gvm_texture_file(s32);
 extern RecoveredGlobal_801950B8_lbl_80445E18 lbl_80445E18;

@@ -20,7 +20,7 @@ extern const f32 lbl_805DA9D0;
 extern const f32 lbl_805DA9D4;
 extern const f32 lbl_805DA9D8;
 extern const f32 lbl_805DA9DC;
-extern const Vec lbl_8043DA90;
+const Vec lbl_8043DA90 = {0.0f, 0.0f, -1.0f};
 extern u8 identity_matrix[];
 extern TCameraCtrl *camera_ctrl_instance;
 void push_matrix_from(void *src);

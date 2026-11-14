@@ -14,8 +14,8 @@ const char *TChCrEffCtrlPl__name = "TChCrEffCtrlPl";
 
 
 extern "C" {
-extern const vec2f lbl_80477C70;
-extern const vec2f lbl_80477C78;
+const vec2f lbl_80477C70 = {714.0f, 82.0f};
+const vec2f lbl_80477C78 = {542.0f, 82.0f};
 f32 sin_table_lookup(s32);
 
 #pragma push

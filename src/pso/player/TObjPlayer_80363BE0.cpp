@@ -88,7 +88,7 @@ struct RecoveredGlobal_803640F8_lbl_8058D4C0 {
 
 struct Rec_80364028 { f32 a; s32 b; s32 c; s32 d; };
 
-extern Rec_80364028 lbl_80479FF8;
+const Rec_80364028 lbl_80479FF8 = {0.0f, 0, 0, 0};
 struct Elt80364258_80364258 { s32 f0; };
 typedef char RecoveredGlobal_803640C8_lbl_8058D4C0_size[sizeof(RecoveredGlobal_803640C8_lbl_8058D4C0) == 0x10 ? 1 : -1];
 typedef char RecoveredGlobal_8036414C_lbl_8058D4C0_size[sizeof(RecoveredGlobal_8036414C_lbl_8058D4C0) == 0x10 ? 1 : -1];

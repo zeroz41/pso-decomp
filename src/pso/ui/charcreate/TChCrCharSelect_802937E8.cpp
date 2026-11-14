@@ -2,7 +2,7 @@
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 struct Range_802937E8 { s32 min; s32 max; };
 
-extern Range_802937E8 char_select_class_group_range_table[];
+const Range_802937E8 char_select_class_group_range_table[3] = {{0, 3}, {4, 7}, {8, 11}};
 extern s32 TChCrCharSelect__selected_char_index;
 extern s32 TChCrCharSelect__selected_slot_index;
 

@@ -49,8 +49,8 @@ List_802370D8 *gather_contacts_for_self__10TObjPlayerFl(void *, u32);
 void deliver_technique_to_party_targets(Obj_802370D8 *arg0);
 void *spawn_particle_effect(void *pos, s32 id);
 void *get_player_by_client_id(s32 i);
-extern s32 support_tec_range_effect_id_table[];
-extern Arr_80236EE8 lbl_8044D908;
+const s32 support_tec_range_effect_id_table[4] = {493, 505, 506, 507};
+const Arr_80236EE8 lbl_8044D908 = {{0, 0, 0}};
 void spawn_support_tec_range_effect(Tec_80236EE8 *self);
 
 void spawn_support_tec_range_effect(Tec_80236EE8 *self) {

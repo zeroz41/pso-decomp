@@ -9,6 +9,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 
+#pragma readonly_strings on
+
 extern "C" {
 
 void *__dt__19TWindowSubTradeMainFv(TWindowSubTradeMain *arg0, s16 arg1);
@@ -90,13 +92,13 @@ int fn_8027B288(void *p);
 void fn_8027B2A8(void *);
 s32 TLobby__sub_802D2A0C(u32 arg0);
 
-extern void *TWindowSubTradeMain__name;
+const char *TWindowSubTradeMain__name = "TWindowSubTradeMain";
 
 }
 TWindowSubTradeMain::TWindowSubTradeMain(TObject *object, void *arg2) : TObject(object) {
     void *o;
     void *x;
-    *(void * *)&this->m_name = TWindowSubTradeMain__name;
+    this->m_name = TWindowSubTradeMain__name;
     this->m_1c = 0;
     this->m_1d = 0;
     this->m_20 = 0;
