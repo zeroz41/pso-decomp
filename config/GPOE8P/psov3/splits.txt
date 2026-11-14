@@ -10570,6 +10570,7 @@ pso/ui/window/TWindowMessageScroll.cpp:
 pso/effect/photon/TDPBShower.cpp:
 	.text       start:0x8035D6F4 end:0x8035D8B0
 	.data       start:0x804F1FD8 end:0x804F1FF0
+	.sdata2     start:0x805E01C0 end:0x805E01C8
 
 pso/boss/olgaflow/TBoss6DPB.cpp:
 	.text       start:0x8035D8B0 end:0x8035DCC0
