@@ -10563,15 +10563,12 @@ pso/object/lobby/TObjWeddingLobby.cpp:
 	.sbss       start:0x805D6F60 end:0x805D6F68
 	.sdata2     start:0x805E0158 end:0x805E0168
 
-pso/unk/text_8035BFF8.cpp:
-	.text       start:0x8035BFF8 end:0x8035C034
-	.sdata2     start:0x805E0168 end:0x805E016C
-
 pso/boss/goldragon/TObjBoss8PillerCtrl.cpp:
-	.text       start:0x8035C034 end:0x8035C2B4
+	.text       start:0x8035BFF8 end:0x8035C2B4
 	.rodata     start:0x804799C8 end:0x80479B30
 	.data       start:0x804F1E58 end:0x804F1E98
 	.sdata      start:0x805D4430 end:0x805D4438
+	.sdata2     start:0x805E0168 end:0x805E0180
 
 pso/boss/darkfalz/TBoss4Thanks.cpp:
 	.text       start:0x8035C2B4 end:0x8035C8F0

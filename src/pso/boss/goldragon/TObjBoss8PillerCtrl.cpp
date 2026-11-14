@@ -39,18 +39,18 @@ const Ent_8035C03C boss8_piller_ctrl_params[41] = {
 extern "C" {
 s32 __ct__7TObjectFP7TObject();
 extern s32 __vt__19TObjBoss8PillerCtrl[];
-extern const f32 lbl_805E017C;
 void *__nw__7TObjectFUl(u32);
 void __ct__15TObjBoss8PillerFv(void *, s32, Vec_8035C03C *, f32, u16);
-s32 fn_8035BFF8(void *, Vec_8035C03C *);
 extern s32 tl_05;
-extern const f32 lbl_805E016C;
-extern const f32 lbl_805E0170;
-extern const f32 lbl_805E0174;
-extern const f32 lbl_805E0178;
 void run_task__19TObjBoss8PillerCtrlFv(Self_8035C03C *self);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
+
+s32 fn_8035BFF8(void *self, const Vec_8035C03C *pos) {
+    Vec position;
+    VecCopy(&position, (const Vec *)pos);
+    return normalize_vector_xz(&position) > 373.0f;
+}
 
 void TObjBoss8PillerCtrl__sub_8035C034(void * _w0, void * _w1) {  }
 void TObjBoss8PillerCtrl::render() {  }
@@ -66,15 +66,15 @@ void run_task__19TObjBoss8PillerCtrlFv(Self_8035C03C *self) {
     case 15:
         while (self->list->y != 0xFFFF) {
             VecCopy((Vec *)&v, (const Vec *)&self->pos);
-            v.x = lbl_805E016C * self->list->y + v.x;
-            v.z = lbl_805E0170 * self->list->x + v.z;
+            v.x = 37.5f * self->list->y + v.x;
+            v.z = 43.3f * self->list->x + v.z;
             if (self->list->y & 1) {
-                v.z += lbl_805E0174;
+                v.z += -21.65f;
             }
             if (fn_8035BFF8(self, &v) == 0) {
                 p = __nw__7TObjectFUl(0x34);
                 if (p != NULL) {
-                    __ct__15TObjBoss8PillerFv(p, tl_05, &v, lbl_805E0178, self->f2C);
+                    __ct__15TObjBoss8PillerFv(p, tl_05, &v, 100.0f, self->f2C);
                 }
             }
             self->list++;
@@ -105,7 +105,7 @@ u8 *TObjBoss8PillerCtrl__ct(u8 *boss8_piller_ctrl, s32 arg1, s32 arg2, s16 arg3)
     ((TObject *)boss8_piller_ctrl)->m_name = TObjBoss8PillerCtrl__class_name;
     VecCopy((Vec *)(boss8_piller_ctrl + 0x1C), (const Vec *)(arg2));
     TObjBoss8PillerCtrl__sub_8035C034(boss8_piller_ctrl, boss8_piller_ctrl + 0x1C);
-    *(f32 *)((s8 *)boss8_piller_ctrl + 0x20) = (f32) lbl_805E017C;
+    *(f32 *)((s8 *)boss8_piller_ctrl + 0x20) = 0.0f;
     ((TObjBoss8PillerCtrl *)boss8_piller_ctrl)->m_28 = 0;
     ((TObjBoss8PillerCtrl *)boss8_piller_ctrl)->m_2c = arg3;
     ((TObjBoss8PillerCtrl *)boss8_piller_ctrl)->m_30 = 0;
