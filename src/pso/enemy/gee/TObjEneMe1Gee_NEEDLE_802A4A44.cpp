@@ -3,7 +3,6 @@
 #include "pso/enemy/gee/TObjEneMe1Gee_NEEDLE.h"
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include "pso/enemy/TNeedleShoot.h"
-#include "pso/enemy/TNeedleShoot_802A4668.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"

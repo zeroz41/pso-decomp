@@ -434,7 +434,6 @@ pso/enemy/gee/TObjEneMe1Gee.cpp
 pso/enemy/gigue/TObjEneMe1GiGue.cpp
 pso/enemy/gigue/TObjEneMe1GiGueBarrier.cpp
 pso/enemy/gigue/TObjEneMe1GiGueMissile.cpp
-pso/enemy/gigue/TObjEneMe1GiGueMissile_802A4628.cpp
 pso/enemy/gigue/TObjEneMe1GiGue_802CDB1C.cpp
 pso/enemy/shinowa/TObjEneMe3Shinowa.cpp
 pso/enemy/sinowzoa/TObjEneMe3SinowZoa.cpp
@@ -1038,9 +1037,6 @@ pso/object/TMotorcycle_802D712C.cpp
 pso/system/movie/TMovie.cpp
 pso/system/movie/TMovie_80143BBC.cpp
 pso/enemy/TNeedleShoot.cpp
-pso/enemy/TNeedleShoot_802A4540.cpp
-pso/enemy/TNeedleShoot_802A4668.cpp
-pso/enemy/TNeedleShoot_802A4754.cpp
 pso/enemy/gee/TObjEneMe1Gee_NEEDLE_802A4A44.cpp
 pso/ui/hud/TNowLoading.cpp
 pso/npc/TNpcPlayer.cpp

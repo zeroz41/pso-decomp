@@ -49,4 +49,8 @@ struct TNeedleShoot : public TObject {
 };
 
 typedef char TNeedleShoot_size[sizeof(TNeedleShoot) == 0xBC ? 1 : -1];
+
+extern "C" {
+void TNeedleShoot__sub_802A4668(void *arg0);
+}
 #endif

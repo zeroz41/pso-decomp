@@ -8262,29 +8262,19 @@ pso/npc/TObjNpcHosa.cpp:
 
 pso/npc/TObjNpcKenkyuW.cpp:
 	.text       start:0x802A3BF8 end:0x802A4540
-	.rodata     start:0x80466628 end:0x80466664
+	.rodata     start:0x80466628 end:0x80466668
 	.data       start:0x804DCE40 end:0x804DCFD0
 	.bss        start:0x80540A38 end:0x80540AC0
 	.sdata      start:0x805D3DD0 end:0x805D3DD8
 	.sbss       start:0x805D6658 end:0x805D6660
 	.sdata2     start:0x805DDF60 end:0x805DDF68
 
-pso/enemy/TNeedleShoot_802A4540.cpp:
-	.text       start:0x802A4540 end:0x802A4628
-	.sdata2     start:0x805DDF68 end:0x805DDF6C
-
-pso/enemy/gigue/TObjEneMe1GiGueMissile_802A4628.cpp:
-	.text       start:0x802A4628 end:0x802A4668
-
-pso/enemy/TNeedleShoot_802A4668.cpp:
-	.text       start:0x802A4668 end:0x802A470C
-
 pso/enemy/TNeedleShoot.cpp:
-	.text       start:0x802A470C end:0x802A4754
-
-pso/enemy/TNeedleShoot_802A4754.cpp:
-	.text       start:0x802A4754 end:0x802A4A44
+	.text       start:0x802A4540 end:0x802A4A44
+	.rodata     start:0x80466668 end:0x80466690
 	.data       start:0x804DCFD0 end:0x804DCFF8
+	.sdata      start:0x805D3DD8 end:0x805D3DDC
+	.sdata2     start:0x805DDF68 end:0x805DDF80
 
 pso/enemy/gee/TObjEneMe1Gee_NEEDLE_802A4A44.cpp:
 	.text       start:0x802A4A44 end:0x802A4D74
