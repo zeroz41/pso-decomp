@@ -12175,7 +12175,7 @@ pso/unk/text_803E2D70.cpp:
 pso/unk/text_803E2F28.cpp:
 	.text       start:0x803E2F28 end:0x803E4954
 	.bss        start:0x8058DBD0 end:0x8058DC00
-	.sdata2     start:0x805E109C end:0x805E10B0
+	.sdata2     start:0x805E1090 end:0x805E10B0
 
 pso/player/TObjPlayer_803E4954.cpp:
 	.text       start:0x803E4954 end:0x803E4CE0
