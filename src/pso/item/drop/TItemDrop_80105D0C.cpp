@@ -31,7 +31,8 @@ s32 get_drop_table_mode_flags(void);
 void *memset(void *dst, int c, u32 n);
 void TItemDrop__vt0(void);
 extern u8 TLobby__data_805011D8[];
-extern s32 item_drop_cached_offset;
+s32 item_drop_cached_offset = -1;
+const char *item_drop_class_name = "TItemDrop";
 u8 can_drop__9TItemDropFv(void);
 s8 get_bool_from_1d6ddc__9TItemDropFPv(void *p);
 u8 TItemDrop__sub_80107B04(void *);
@@ -45,17 +46,12 @@ u8 fn_801D71D0(void *);
 u8 fn_801D7204(void *);
 extern s32 lobby_rule_settings[];
 void apply_drop_restrictions(s32 arg0, Item_80105EA4 *it);
-s32 sprintf(void *, void *, ...);
-extern Names_80105DB0 item_drop_difficulty_name_table;
-extern char lbl_8043E0E4[];
+s32 sprintf(void *, const char *, ...);
 extern s32 game_difficulty_selection;
-extern char lbl_805DAAC8;
-extern char lbl_805DAACC;
-extern char lbl_805DAAD0;
 void format_drop_table_filename(void *out, s32 arg1);
 u32 roll_channel_below__9TItemDropFPviUi(u8 *arg0, s32 count, u32 arg2);
 void *lookup_item_pmt_record(u8 *item);
-void TItemDrop__sub_80105D10(void);
+void init_item_drop_globals(void);
 u8 is_enabled__9TItemDropFv(void);
 u8 is_not_special__9TItemDropFv(void);
 s8 select_weighted_byte__9TItemDropFiiiii(s32, s32, s32, s32, s32);
@@ -67,7 +63,8 @@ void unload_item_drop_globals(void) {  }
 
     extern int item_desync_detected;
 
-void TItemDrop__sub_80105D10(void) { item_desync_detected = 0; }
+// inferred: the load half of unload_item_drop_globals' pair in item_class_load_unload_table.
+void init_item_drop_globals(void) { item_desync_detected = 0; }
 
 void TItemDrop::clear_item_if_player_picked_up(void* p, void* a1) { if (is_unsealable_item((u8 *)a1) == 1) { ((TItemData *)a1)->set_packed_value((u16)((void*)0)); } }
 
@@ -87,18 +84,18 @@ s32 get_drop_table_mode_flags(void) {
 }
 
 void format_drop_table_filename(void *out, s32 arg1) {
-    Names_80105DB0 names = item_drop_difficulty_name_table;
+    Names_80105DB0 names = {{"n", "h", "v", "u"}};
     char *s1;
     char *s2;
     s32 n;
     if (TItemDrop__drop_table_mode_flags & 1) {
-        s1 = &lbl_805DAAC8;
+        s1 = "c";
         n = 0;
     } else {
-        s1 = &lbl_805DAACC;
+        s1 = "";
         n = TItemDrop__section_id;
     }
-    sprintf(out, lbl_8043E0E4, arg1, s1, (TItemDrop__drop_table_mode_flags & 2) ? &lbl_805DAAD0 : &lbl_805DAACC, names.n[game_difficulty_selection], n);
+    sprintf(out, "%s%s%s%s%1d.rel", arg1, s1, (TItemDrop__drop_table_mode_flags & 2) ? "l" : "", names.n[game_difficulty_selection], n);
 }
 
 s32 TItemDrop::calc_drop_offset(s32 arg0) {
@@ -343,7 +340,7 @@ struct Tbl_80106E04 {
 };
 
 struct TItemDrop_80107900 {
-    s32 name;
+    const char *name;
     u8 pad4[0x14];
     void *vt;
     s32 unk1C;
@@ -423,13 +420,12 @@ s32 init__9TItemDataFv(void *);
 extern const f32 lbl_805DAADC;
 void generate_drop_item__9TItemDropFPviPv(u8 *self, s32 idx, u8 *item);
 s32 run_step__9TItemDropFl(s32, u32);
-s32 fn_8010F210(void *);
+s32 create_load_unload_set(void *);
 void *mem_alloc(u32 size);
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 __cvt_fp2unsigned(f32);
 extern s32 __vt__9TItemDrop[];
 extern RecoveredGlobal_80107840_lbl_8049EF88 lbl_8049EF88;
-extern s32 item_drop_class_name;
 extern const f32 lbl_805DAAD4;
 extern const f32 lbl_805DAAD8;
 extern const f32 lbl_805DAAE4;
@@ -464,11 +460,6 @@ void close_gsl_archive(void);
 void open_gsl_archive(char *);
 s32 get_drop_table_mode_flags(void);
 void format_drop_table_filename(char *, char *);
-extern char lbl_8043E0F4[];
-extern char lbl_8043E100[];
-extern char lbl_8043E108[];
-extern char lbl_8043E114[];
-extern s32 item_drop_cached_offset;
 void TItemDrop__vt0(void);
 int TItemDrop__sub_80107B04(void);
 void TItemDrop__vt1(void);
@@ -515,12 +506,12 @@ void TItemDrop__vt0(void) {
     item_drop_cached_offset = TItemDrop::calc_drop_offset(TItemDrop__section_id);
     TItemDrop__drop_table_mode_flags = get_drop_table_mode_flags();
     if (item_drop_cached_offset >= 0 && item_drop_cached_offset <= 0xA0) {
-        open_gsl_archive(lbl_8043E0F4);
-        format_drop_table_filename(path, lbl_8043E100);
+        open_gsl_archive("ItemPT.gsl");
+        format_drop_table_filename(path, "ItemPT");
         TItemDrop__common_probability_table = load_relocatable_file(path, TItemDrop__relocatable_load_buffer);
         close_gsl_archive();
-        open_gsl_archive(lbl_8043E108);
-        format_drop_table_filename(path, lbl_8043E114);
+        open_gsl_archive("ItemRT.gsl");
+        format_drop_table_filename(path, "ItemRT");
         TItemDrop__rare_item_table_file = (s32 *)load_relocatable_file(path, TItemDrop__second_relocatable_load_buffer);
         close_gsl_archive();
     }
@@ -1119,7 +1110,7 @@ TItemDrop_80107900 *TItemDrop__ct(TItemDrop_80107900 *self, void *parent, s8 arg
     }
     TItemDrop__second_relocatable_load_buffer = (s32)TQuestVmDownLoadServer::alloc(0xC00);
     TItemDrop__relocatable_load_buffer = (s32)TQuestVmDownLoadServer::alloc(0xC00);
-    self->unk1C = fn_8010F210(__vt__9TItemDrop);
+    self->unk1C = create_load_unload_set(__vt__9TItemDrop);
     return self;
 }
 

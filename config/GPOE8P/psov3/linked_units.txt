@@ -491,7 +491,6 @@ pso/weapon/TItemAttacker.cpp
 pso/item/TItemBuff.cpp
 pso/item/TItemData.cpp
 pso/item/TItemData_80104D0C.cpp
-pso/item/TItemData_80105934.cpp
 pso/item/TItemData_8010EDA8.cpp
 pso/item/TItemDisconnectCtrl.cpp
 pso/item/TItemDisconnectCtrl_80105BE8.cpp
@@ -542,7 +541,6 @@ pso/item/mag/TItemMag.cpp
 pso/item/mag/TItemMagSub.cpp
 pso/item/mag/TItemMag_8001A468.cpp
 pso/item/TItemMenuCtrl.cpp
-pso/item/TItemMenuCtrl_801059E8.cpp
 pso/item/TItemMenuCtrl_80115A78.cpp
 pso/item/TItemMenuCtrl_80115AF0.cpp
 pso/item/TItemMoney.cpp
@@ -856,7 +854,6 @@ pso/unk/TLobby_800FA774.cpp
 pso/unk/TLobby_800FA848.cpp
 pso/unk/TLobby_800FD78C.cpp
 pso/unk/TLobby_80103F5C.cpp
-pso/unk/TLobby_80105A2C.cpp
 pso/unk/TLobby_80131794.cpp
 pso/unk/TLobby_8013292C.cpp
 pso/unk/TLobby_80132ED0.cpp
@@ -930,7 +927,6 @@ pso/unk/TLobby_8028A7C8.cpp
 pso/unk/TLobby_8028EA28.cpp
 pso/unk/TLobby_80291D94.cpp
 pso/unk/TLobby_80299A60.cpp
-pso/unk/TLobby_802A5120.cpp
 pso/object/seabed/TObjSuisoChip_802A6080.cpp
 pso/unk/TLobby_802A7290.cpp
 pso/unk/TUnk_804887F8.cpp
@@ -1553,7 +1549,6 @@ pso/ui/window/TWindowSubStatusDisp_80071774.cpp
 pso/ui/window/TWindowSubStatusDisp_80077760.cpp
 pso/ui/window/TWindowSubStatusDisp_800FBD74.cpp
 pso/ui/window/TWindowSubStatusDisp_800FC3E0.cpp
-pso/ui/window/TWindowSubStatusDisp_801059B4.cpp
 pso/ui/window/TWindowSubStatusDisp_8010EEF0.cpp
 pso/ui/window/TWindowSubStatusDisp_80144B14.cpp
 pso/ui/window/TWindowSubStatusDisp_801A5228.cpp
@@ -1882,7 +1877,6 @@ pso/player/TObjPlayer_800F0810.cpp
 pso/object/TObjHMS_EZRope_Player_800FEFCC.cpp
 pso/player/TObjPlayer_800FFA88.cpp
 pso/player/TObjPlayer_80104860.cpp
-pso/player/TObjPlayer_80105874.cpp
 pso/player/TObjPlayer_8010853C.cpp
 pso/player/TObjPlayer_80108854.cpp
 pso/player/TObjPlayer_80109344.cpp
@@ -2273,7 +2267,6 @@ pso/unk/text_800FFE04.cpp
 pso/unk/text_80103674.cpp
 pso/unk/text_80104F4C.cpp
 pso/unk/text_80104FCC.cpp
-pso/unk/text_801057A8.cpp
 pso/effect/item/TItemEffEquip_80108860.cpp
 pso/unk/text_801094D8.cpp
 pso/unk/text_8010EF14.cpp

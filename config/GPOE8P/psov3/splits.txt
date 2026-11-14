@@ -2266,27 +2266,9 @@ pso/unk/text_80104F4C.cpp:
 	.text       start:0x80104F4C end:0x80104FCC
 
 pso/unk/text_80104FCC.cpp:
-	.text       start:0x80104FCC end:0x801057A8
-	.data       start:0x8049EED8 end:0x8049EF54
-
-pso/unk/text_801057A8.cpp:
-	.text       start:0x801057A8 end:0x80105874
-
-pso/player/TObjPlayer_80105874.cpp:
-	.text       start:0x80105874 end:0x80105934
-
-pso/item/TItemData_80105934.cpp:
-	.text       start:0x80105934 end:0x801059B4
-
-pso/ui/window/TWindowSubStatusDisp_801059B4.cpp:
-	.text       start:0x801059B4 end:0x801059E8
-
-pso/item/TItemMenuCtrl_801059E8.cpp:
-	.text       start:0x801059E8 end:0x80105A2C
-
-pso/unk/TLobby_80105A2C.cpp:
-	.text       start:0x80105A2C end:0x80105BE8
-	.sdata2     start:0x805DAAB0 end:0x805DAAB4
+	.text       start:0x80104FCC end:0x80105BE8
+	.data       start:0x8049EE60 end:0x8049EF54
+	.sdata2     start:0x805DAAB0 end:0x805DAAB8
 
 pso/item/TItemDisconnectCtrl_80105BE8.cpp:
 	.text       start:0x80105BE8 end:0x80105C18
@@ -2300,8 +2282,10 @@ pso/item/TItemDisconnectCtrl.cpp:
 
 pso/item/drop/TItemDrop_80105D0C.cpp:
 	.text       start:0x80105D0C end:0x80107B74
-	.rodata     start:0x8043E120 end:0x8043E130
+	.rodata     start:0x8043E0C8 end:0x8043E130
+	.sdata      start:0x805D2B78 end:0x805D2B80
 	.sbss       start:0x805D5458 end:0x805D5478
+	.sdata2     start:0x805DAAB8 end:0x805DAAD4
 
 pso/item/drop/TItemDropSub_80107B74.cpp:
 	.text       start:0x80107B74 end:0x80107B90
@@ -8473,13 +8457,11 @@ pso/enemy/gee/TObjEneMe1Gee_NEEDLE_802A4A44.cpp:
 	.sbss       start:0x805D6660 end:0x805D6668
 
 pso/ui/frontend/TAdTitleTexGC.cpp:
-	.text       start:0x802A4D74 end:0x802A5120
-	.rodata     start:0x80466708 end:0x80466710
-	.data       start:0x804DD048 end:0x804DD060
+	.text       start:0x802A4D74 end:0x802A5208
+	.rodata     start:0x804666A8 end:0x80466710
+	.data       start:0x804DD020 end:0x804DD060
+	.sdata      start:0x805D3DE8 end:0x805D3DEC
 	.sdata2     start:0x805DDF80 end:0x805DDFC4
-
-pso/unk/TLobby_802A5120.cpp:
-	.text       start:0x802A5120 end:0x802A5208
 
 pso/ui/charcreate/TChCrTagPlBack.cpp:
 	.text       start:0x802A5208 end:0x802A559C

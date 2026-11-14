@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void fn_80103674(void);
+void init_item_chunk_buffers(void);
 }
 
 // --- C functions defined in text_80103674.cpp ---
 extern "C" {
-void fn_80103674(void);
+void init_item_chunk_buffers(void);
 }
 // --- end of C functions
 
