@@ -6613,7 +6613,8 @@ pso/technique/TTecLuker.cpp:
 
 pso/technique/TTecMegid.cpp:
 	.text       start:0x8023508C end:0x80235B24
-	.rodata     start:0x8044D8C0 end:0x8044D8C8
+	.rodata     start:0x8044D7A8 end:0x8044D8C8
+	.sdata      start:0x805D37E8 end:0x805D37F0
 	.sdata2     start:0x805DC880 end:0x805DC888
 
 pso/technique/TTecMegid_80235B24.cpp:

@@ -11,6 +11,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/technique/TTecBarta.h"
 
 struct RecoveredGlobal_80235348_lbl_804CC510
 {
@@ -191,18 +192,43 @@ struct Obj_802351B4
   void **emitters;
 };
 
+// inferred: the per-band emitter lists of TTecMegid__emitter_bands, named after their band (technique level tier)
+static const TechniqueEmitterSourceRow megid_band0_emitters[2] = {
+    {0x1C5, 0, 0.0f}, {0x1C8, 0, 0.0f},
+};
+static const TechniqueEmitterSourceRow megid_band1_emitters[2] = {
+    {0x1C5, 0x40, 1.4f}, {0x1C8, 0x40, 1.4f},
+};
+static const TechniqueEmitterSourceRow megid_band2_emitters[2] = {
+    {0x1C5, 0x40, 1.8f}, {0x1C8, 0x40, 1.8f},
+};
+static const TechniqueEmitterSourceRow megid_band3_emitters[3] = {
+    {0x1C4, 2, 1.0f}, {0x1C5, 0x40, 2.2f}, {0x1C8, 0x40, 2.2f},
+};
+static const TechniqueEmitterSourceRow megid_band4_emitters[3] = {
+    {0x1C4, 2, 1.0f}, {0x1C5, 0x40, 2.6f}, {0x1C8, 0x40, 2.6f},
+};
+static const TechniqueEmitterSourceRow megid_band5_emitters[5] = {
+    {0x1C4, 2, 1.0f}, {0x1C5, 0x40, 3.0f}, {0x1C8, 0x40, 3.0f}, {0x1C7, 0, 1.0f}, {0x1CF, 0x1002, 1.0f},
+};
+const TechniqueEmitterSourceTable TTecMegid__emitter_bands[6] = {
+    {megid_band0_emitters, 2}, {megid_band1_emitters, 2}, {megid_band2_emitters, 2},
+    {megid_band3_emitters, 3}, {megid_band4_emitters, 3}, {megid_band5_emitters, 5},
+};
+// inferred: same <Class>__class_name pattern as TTecBarta__class_name
+const char *TTecMegid__class_name = "TTecMegid";
+static const Vec_80235740 tec_megid_offset_vec = {0.0f, 0.0f, -5.0f};
+
 extern "C" {
 s32 calc_technique_parameters(int, int, int);
 extern RecoveredGlobal_80235348_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_80235348_lbl_804CC55C lbl_804CC55C;
 void mem_free(void *p);
 void __dl__7TObjectFPv(void *);
-extern TTecGiBartaData_80230B48 TTecMegid__emitter_bands[];
 extern void *__vt__9TTecMegid[];
 TTecGiBarta_80230B48 *__dt__9TTecMegidFv(TTecGiBarta_80230B48 *self, s16 deleting);
 u16 get_entity_id(void *);
 void __ct__13TUnk_804CCC68FlPUcPUcl();
-extern s32 lbl_805D37E8;
 u8 *TTecMegid__ct(TTecMegid *arg0, s32 _w1, s32 _w2, s32 _w3, s32 _w4);
 void construct_facing_technique__10TObjPlayerFPviPvii();
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -214,7 +240,6 @@ void rotate_matrix_y(s32, s32);
 void matrix_mult_vec(s32, Vec_80235740 *, Vec_80235740 *);
 s32 pop_matrices(s32 arg0);
 void dispatch_technique_contact__13TUnk_804CCC68Fv(Obj_80235740 *, s32);
-extern Vec_80235740 tec_megid_offset_vec;
 extern u8 identity_matrix[];
 void run_task__9TTecMegidFv(Obj_80235740 *self);
 void *get_bml_model(s32, u32);
@@ -441,7 +466,7 @@ u8 *TTecMegid__ct(TTecMegid *tec_megid, s32 _w1, s32 _w2, s32 _w3, s32 _w4) {
     s32 i;
     __ct__13TUnk_804CCC68FlPUcPUcl();
     *(void **)((s8 *)tec_megid + 0x18) = __vt__9TTecMegid;
-    *(s32 *)((s8 *)tec_megid + 0) = lbl_805D37E8;
+    tec_megid->m_name = TTecMegid__class_name;
     tec_megid->init_parameters();
     *(f32 *)((s8 *)tec_megid + 0x178) = 0.0f;
     for (i = 0; i < 0x20; i++) {
@@ -461,7 +486,7 @@ u8 *TTecMegid::construct_facing(s32 _w1, s32 _w2, s32 _w3, s32 _w4) {
     s32 i;
     construct_facing_technique__10TObjPlayerFPviPvii();
     *(void **)((s8 *)arg0 + 0x18) = __vt__9TTecMegid;
-    *(s32 *)&this->m_name = lbl_805D37E8;
+    this->m_name = TTecMegid__class_name;
     init_parameters();
     *(f32 *)((s8 *)arg0 + 0x178) = 0.0f;
     for (i = 0; i < 0x20; i++) {

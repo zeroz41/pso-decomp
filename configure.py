@@ -717,6 +717,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/technique/TTecBarta.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # consume_telepipe_arrival reaches each .rodata object with its own lis/addi (no shared base): -pool off.
     "pso/technique/TTecLuker.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    # -str reuse,readonly: the class name 0x8044D8A4 sits in .rodata between the emitter bands and the offset vector.
+    "pso/technique/TTecMegid.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/saver/SaverLifecycle.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/darkgunner/DarkGunner.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/darkgunner/TObjEneDarkGunCenter.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
