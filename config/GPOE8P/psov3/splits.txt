@@ -4903,7 +4903,8 @@ pso/technique/TTecLuker_801A1880.cpp:
 
 pso/object/TObjRoomId.cpp:
 	.text       start:0x801A1888 end:0x801A1E2C
-	.rodata     start:0x80446898 end:0x804468B8
+	.rodata     start:0x80446880 end:0x804468F8
+	.sdata      start:0x805D34B0 end:0x805D34B4
 	.sdata2     start:0x805DC088 end:0x805DC098
 
 pso/object/base/TObjBase.cpp:
