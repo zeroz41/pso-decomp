@@ -124,13 +124,12 @@ s32 TChCrTagOccHeader__vt4(TChCrTagOccHeader *tag) {
 }
 
 extern void *__vt__17TChCrTagOccHeader[];
-void __dl__7TObjectFPv(void *);
 TChCrTagOccHeader *__dt__17TChCrTagOccHeaderFv(TChCrTagOccHeader *tag, s16 free) {
     if (tag != NULL) {
         *(void ***)((u8 *)tag + 0x18) = __vt__17TChCrTagOccHeader;
         __dt__8TChCrTagFv(tag, 0);
         if (free > 0) {
-            __dl__7TObjectFPv(tag);
+            TObject::operator delete(tag);
         }
     }
     return tag;

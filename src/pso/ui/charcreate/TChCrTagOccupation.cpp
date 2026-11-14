@@ -9,7 +9,6 @@
 extern "C" void render__18TChCrTagOccupationFv();
 
 extern "C" {
-void __dl__7TObjectFPv(void *);
 void render_shadows__7TObjectFv();
 }
 
@@ -62,7 +61,7 @@ TChCrTagOccupation *__dt__18TChCrTagOccupationFv(TChCrTagOccupation *tag, s16 fr
         *(void ***)((u8 *)tag + 0x18) = __vt__18TChCrTagOccupation;
         __dt__8TChCrTagFv(tag, 0);
         if (free > 0) {
-            __dl__7TObjectFPv(tag);
+            TObject::operator delete(tag);
         }
     }
     return tag;
