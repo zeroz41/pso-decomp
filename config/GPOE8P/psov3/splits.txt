@@ -8078,6 +8078,7 @@ pso/ui/frontend/TAdBackGC_8029A6EC.cpp:
 
 pso/unk/text_8029A97C.cpp:
 	.text       start:0x8029A97C end:0x8029AA34
+	.sdata2     start:0x805DDC70 end:0x805DDC90
 
 pso/ui/charcreate/TChCrEffTag.cpp:
 	.text       start:0x8029AA34 end:0x8029ACF8
