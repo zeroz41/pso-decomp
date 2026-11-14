@@ -1613,6 +1613,7 @@ pso/enemy/dd/TObjEneDD_800C2614.cpp:
 
 pso/unk/text_800C2A88.cpp:
 	.text       start:0x800C2A88 end:0x800C2CE0
+	.sdata2     start:0x805D9FC8 end:0x805D9FD0
 
 pso/unk/text_800C2CE0.cpp:
 	.text       start:0x800C2CE0 end:0x800C3088
