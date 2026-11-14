@@ -479,6 +479,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/ending/TObjOnlineEnding_802E4B80.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdPlayerLoadGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/TLogo.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # vtables come out 1BB0, 1CA8, the create_object_by_type jump table, then
+    # 1E08..23F0 (text order of their dtors): written last to first, deferred.
+    "pso/player/TObjPlayer_802D5174.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # vtables come out TUnk_804E70A8 then TUnk_804E71A0: written last to first, deferred.
     "pso/player/TObjPlayer_80307618.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # vtables come out 0810, 0908, 0A00, 0AF8 then 0BF0: written last to first, deferred.

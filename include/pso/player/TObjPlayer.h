@@ -32,14 +32,11 @@ struct TObjPlayer : public TObjChara {
     virtual ~TObjPlayer();
     virtual const char *get_name();
     void update_swim_flag(void *);
-    void setup_radar_marker(void *, void *);
-    void fire_spread_shot(void *);
     void draw_weapon_if_not_hidden(void *);
     void draw_chunk_vertices_cached(void *);
     void draw_actor_model(void *);
     s32 destroy_char_data(int, s16);
     s32 create_shoot_model(int, int, int, f32);
-    void create_cane_effect_from_state(void *);
     void *apply_wall_response();
     void apply_battle_level_reset(s32 level);
     void set_action_provider_variant(s16);
@@ -1472,9 +1469,9 @@ struct TObjPlayer : public TObjChara {
     void build_shop_item_list();
     void reset_action_palette();
     u8 *create_state_513();
-    int do_action_447();
-    static void set_radar_marker_pos(int a0, void* a1);
-    static void spawn_item_from_arg(s32 arg0, s32 arg1);
+    void *do_action_447();
+    // A hit callback of TUnk_804E1CA8 (its pad_208).
+    static void do_action_447_from_packet(void *item, void *hit, void *dir);
     u8 *init_breakup_pieces(void *arg1, s32 arg2);
     static s32 dt_follow_particle_ctrl(s32 arg0, s16 arg1);
     u8 *create_vtable_variant();

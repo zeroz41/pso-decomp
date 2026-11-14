@@ -5699,7 +5699,7 @@ force_active:
   - display_message__12TQuestListVMFPCcl
   - distribute_part_damage__15TBoss3VoloptP02Fv
   - do_action_447__10TObjPlayerFv
-  - do_action_447_from_packet__10TObjPlayerFPvPv
+  - do_action_447_from_packet__10TObjPlayerFPvPvPv
   - do_src1
   - do_src2
   - do_voice_portamento
@@ -7133,7 +7133,7 @@ force_active:
   - __ct__13TUnk_804A5740FP7TObjectPUc
   - __ct__13TUnk_804A5E20FP7TObjectPUc
   - init_state_34_alt__13TUnk_804F14A8FlPv
-  - init_state_513__13TUnk_804E1BB0FlPv
+  - init_state_513__13TUnk_804E1BB0FP7TObjectPUc
   - init_state_90__11TBoss6Type1Fv
   - init_state__10TNpcPlayerFv
   - __ct__13TUnk_804A5550FP7TObjectPUc
