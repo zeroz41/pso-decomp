@@ -7554,6 +7554,7 @@ pso/ui/window/TWindowSubEquip_80279044.cpp:
 
 pso/player/TObjPlayer_802790CC.cpp:
 	.text       start:0x802790CC end:0x8027929C
+	.sdata2     start:0x805DD620 end:0x805DD628
 
 pso/ui/window/TWindowSubEquipList.cpp:
 	.text       start:0x8027929C end:0x80279444
