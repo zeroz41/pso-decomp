@@ -8285,14 +8285,14 @@ pso/ui/frontend/TAdTitleTexGC.cpp:
 	.sdata2     start:0x805DDF80 end:0x805DDFC4
 
 pso/unk/TLobby_802A5120.cpp:
-	.text       start:0x802A5120 end:0x802A5450
-	.rodata     start:0x80466710 end:0x80466760
-	.sdata      start:0x805D3DF0 end:0x805D3DF8
-	.sdata2     start:0x805DDFC8 end:0x805DDFE4
+	.text       start:0x802A5120 end:0x802A5208
 
 pso/ui/charcreate/TChCrTagPlBack.cpp:
-	.text       start:0x802A5450 end:0x802A55E0
+	.text       start:0x802A5208 end:0x802A55E0
+	.rodata     start:0x80466710 end:0x80466760
 	.data       start:0x804DD060 end:0x804DD078
+	.sdata      start:0x805D3DF0 end:0x805D3DF8
+	.sdata2     start:0x805DDFC8 end:0x805DDFEC
 
 pso/ui/window/TWindowSubComCard_802A55E0.cpp:
 	.text       start:0x802A55E0 end:0x802A571C
