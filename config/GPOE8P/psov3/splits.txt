@@ -2260,9 +2260,14 @@ pso/unk/text_80103674.cpp:
 	.text       start:0x80103674 end:0x801036CC
 
 pso/unk/TLobby_80103F5C.cpp:
-	.text       start:0x801036CC end:0x801047B4
+	.text       start:0x801036CC end:0x80104374
 	.ctors      start:0x80433F78 end:0x80433F7C
-	.rodata     start:0x8043E048 end:0x8043E0B0
+	.rodata     start:0x8043E048 end:0x8043E068
+	.sbss       start:0x805D5418 end:0x805D5438
+
+pso/unk/TLobby_80104374.cpp:
+	.text       start:0x80104374 end:0x801047B4
+	.rodata     start:0x8043E068 end:0x8043E0B0
 	.data       start:0x8049EE00 end:0x8049EE60
 
 pso/ui/city/TShopEquipmentSellWindow_801047B4.cpp:
