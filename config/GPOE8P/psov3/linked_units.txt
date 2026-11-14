@@ -1771,7 +1771,6 @@ pso/object/TObjLuker_801329B0.cpp
 pso/map/TObjMapCsn.cpp
 pso/object/base/TObjMapObject.cpp
 pso/object/warp/TObjMapWarpAncient.cpp
-pso/object/warp/TObjMapWarpForest.cpp
 pso/object/TObjMesBase.cpp
 pso/object/ambient/TObjMistCtrl.cpp
 pso/object/base/TObjMotion.cpp
@@ -2145,7 +2144,6 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_8033A8EC.cpp
 pso/ui/frontend/TAdSnAkPassConfirmGC.cpp
 pso/ui/frontend/TAdSoniclogo.cpp
 pso/ui/frontend/TAdStorySelectGC.cpp
-pso/ui/frontend/TAdStorySelectGC_8019DC14.cpp
 pso/ui/frontend/TAdStorySelectGC_802C3284.cpp
 pso/ui/frontend/TAdSubPlyItemGC.cpp
 pso/ui/frontend/TAdTitleGC.cpp

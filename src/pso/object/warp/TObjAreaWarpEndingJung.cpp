@@ -39,6 +39,7 @@
 #include "pso/object/warp/TObjWarpJung.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/object/warp/TObjWarpBase.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/object/base/TObjMotion.h"
@@ -508,6 +509,36 @@ extern u32 forest_warp_texture_list;
 extern BmlResourceDescriptor forest_warp_resource_descriptor;
 
 // Function definitions in reverse address order (defer_codegen emits them reversed).
+
+// The weak tail after load_forest_warp_resources (inline helpers and the implicit
+// ~TObjMapWarpForest), in reverse address order like the rest.
+extern "C" {
+
+extern s32 lbl_805D67C0;
+void *__dt__17TObjMapWarpForestFv(void *arg0, s16 arg1);
+
+void *__dt__17TObjMapWarpForestFv(void *arg0, s16 arg1) {
+    if (arg0 != NULL) {
+        *(void **)((s8 *)arg0 + 0x18) = &__vt__17TObjMapWarpForest;
+        __dt__11TObjMapWarpFv(arg0, 0);
+        if (arg1 > 0) {
+            __dl__7TObjectFPv(arg0);
+        }
+    }
+    return arg0;
+}
+
+void TObjMapForceWarp::slot3C() {  }
+
+void TObjMapForceWarp::register_warp(void *a0) { get_bml_model(forest_warp_bml_resource, (s32)a0); }
+
+void TAdStorySelectGC::register_area_warp_object(void *a0) { get_bml_motion(forest_warp_bml_resource, (s32)a0); }
+
+int TAdStorySelectGC::get_story_select() { return forest_warp_texture_list; }
+
+int TAdStorySelectGC__sub_8019DC14(void) { return lbl_805D67C0; }
+
+}
 
 void load_forest_warp_resources(void) {
     BmlResource *resource = (BmlResource *)::operator new(0x440);
