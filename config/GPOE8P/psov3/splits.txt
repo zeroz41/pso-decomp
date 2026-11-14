@@ -1432,6 +1432,7 @@ pso/enemy/berura/TObjEneRe7Berura.cpp:
 	.bss        start:0x805007C8 end:0x805008A4
 	.sdata      start:0x805D2988 end:0x805D2990
 	.sbss       start:0x805D4F58 end:0x805D4FA8
+	.sdata2     start:0x805D9718 end:0x805D9790
 
 pso/enemy/berura/TObjEneRe7BeruraPunch.cpp:
 	.text       start:0x80095E18 end:0x800967C0
@@ -5998,8 +5999,8 @@ pso/map/TSetEvtDestroy.cpp:
 pso/unk/TLobby_80209524.cpp:
 	.text       start:0x80209524 end:0x8020B5CC
 	.rodata     start:0x8044BAF8 end:0x8044BC18
-	.sbss       start:0x805D60B8 end:0x805D60BC
-	.sdata2     start:0x805DC618 end:0x805DC620
+	.sbss       start:0x805D60A0 end:0x805D60D0
+	.sdata2     start:0x805DC618 end:0x805DC628
 
 pso/unk/text_8020B5CC.cpp:
 	.text       start:0x8020B5CC end:0x8020BBA0
