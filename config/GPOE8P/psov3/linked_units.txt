@@ -1695,7 +1695,6 @@ pso/object/base/ObjectFactoryTables.cpp
 pso/object/fence/TLazerFenceSw.cpp
 pso/object/key/TOKeyJungleMain.cpp
 pso/object/warp/TObjAreaWarpEndingJung.cpp
-pso/object/warp/TObjAreaWarpQuest.cpp
 pso/object/warp/TObjAreaWarp_80307B70.cpp
 pso/ui/window/TObjBagWarnWin4P.cpp
 pso/object/base/TObjBase.cpp

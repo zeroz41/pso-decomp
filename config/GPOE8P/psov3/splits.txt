@@ -4925,14 +4925,11 @@ pso/object/TObjBigTuitate.cpp:
 	.sdata2     start:0x805DBFA8 end:0x805DBFC4
 
 pso/object/warp/TObjAreaWarpEndingJung.cpp:
-	.text       start:0x8019B124 end:0x8019DCD0
+	.text       start:0x8019B124 end:0x8019DD34
 	.rodata     start:0x80446208 end:0x80446480
 	.data       start:0x804B90D0 end:0x804B9490
 	.sdata      start:0x805D3458 end:0x805D3484
 	.sdata2     start:0x805DBFC8 end:0x805DC000
-
-pso/object/warp/TObjAreaWarpQuest.cpp:
-	.text       start:0x8019DCD0 end:0x8019DD34
 
 pso/object/warp/TObjWarpBossMulti.cpp:
 	.text       start:0x8019DD34 end:0x8019F9E4

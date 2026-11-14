@@ -56,6 +56,8 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/text_8019DBB4.h"
 #include "pso/system/ControllerInputState.h"
+#include "pso/network/protocol/protocol_types.h"
+#include "pso/system/byteswap.h"
 
 // The original TU was built with deferred codegen: functions below are in reverse
 // address order, and the pool (three {3, 2} initializers, then the float literals
@@ -471,13 +473,23 @@ WarpStringScreenPos warp_string_screen_position_table[10] = {
     { 480.0f, 120.0f }, { 160.0f, 260.0f }, { 480.0f, 260.0f },
 };
 
-// The weak tail after load_forest_warp_resources (inline helpers and the implicit
+// The tail after load_forest_warp_resources (the original's inline helpers and
 // ~TObjMapWarpForest), in reverse address order like the rest.
+void fn_8019DD24(void *p, u32 v) { *(u32 *)((char *)p + 0x8) |= v; }
+
+void mask_action_buttons(void *p, u32 v) { *(u32 *)((char *)p + 0x8) &= ~v; }
+
+void bswap_6x94_inter_level_warp(void *p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char *)p + 0x4)); }
+
+void TObjAreaWarpQuest__sub_8019DCD8(void *p, s32 v) { *(s32 *)((char *)p + 0x3c8) = v; }
+
+s32 TObjAreaWarpQuest::get_dest_area() { return *(s32 *)&this->m_next; }
+
+TObjMapWarpForest::~TObjMapWarpForest() {}
+
 extern "C" {
 
 extern s32 lbl_805D67C0;
-
-// ~TObjMapWarpForest is implicit: the compiler emits it here, after the inline helpers above.
 
 void TObjMapForceWarp::open_confirm_window(s32) {}
 
