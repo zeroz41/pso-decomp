@@ -25,14 +25,28 @@
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/system/task/TObject.h"
+#include "pso/math/TMath.h"
 
 struct RecoveredGlobal_802D4730_lbl_804C89BC { s32 value; u8 remaining[0x74]; };
 typedef char RecoveredGlobal_802D4730_lbl_804C89BC_size[sizeof(RecoveredGlobal_802D4730_lbl_804C89BC) == 0x78 ? 1 : -1];
 
+extern const vec2f single_chr_select_item_rect_table[4];
+extern const vec2f lbl_80472530;
+extern const vec2f lbl_80472538;
+extern const vec2f lbl_80472540;
+extern const vec2f lbl_80472548;
+extern const vec2f lbl_80472550;
+
+struct P_802D4F2C { f32 x, y; };
+
+struct T_802D4F2C { P_802D4F2C p[3]; };
+
+extern const char TAdSinglePlyChrSelectGC__class_name_string[];
+const char *TAdSinglePlyChrSelectGC__class_name = TAdSinglePlyChrSelectGC__class_name_string;
+extern const T_802D4F2C single_chr_select_position_table;
+
 extern "C" {
-extern const f32 lbl_805DE780;
 void *__nw__7TObjectFUl(u32);
-extern u8 single_chr_select_item_rect_table[];
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
@@ -44,19 +58,14 @@ extern RecoveredGlobal_802D4730_lbl_804C89BC pso_guildcard_card_filename;
 void TKeyBoardControl__sub_8000F91C(s32 arg0);
 void TKeyBoardControl__sub_8000F9CC(s32 arg0);
 s32 TAdChrSelASlotGC__sub_8030C978(void *arg0, s32 arg1, s32 arg2);
-extern s32 lbl_80472538[];
 s32 TAdSinglePlyChrSelectGC__sub_801334DC(s32);
 s32 load_tables();
 u32 TAdSinglePlyChrSelectGC__sub_801FE4BC();
 s32 is_slot_active__23TAdSinglePlyChrSelectGCFUi();
 u32 check_flag__23TAdSinglePlyChrSelectGCFl(s32);
 s32 TAdChrSelASlotGC__sub_8030C3C0(s32, s32);
-u32 TAdChrSelASlotGC__sub_8030CA84(s32, s32 *);
-extern s32 lbl_80472540[];
-extern s32 lbl_80472548[];
-extern s32 lbl_80472550[];
+u32 TAdChrSelASlotGC__sub_8030CA84(s32, const vec2f *);
 extern s32 controller_physical_port_bank[];
-extern s32 lbl_805DE784;
 s32 clear_entry__23TAdSinglePlyChrSelectGCFi();
 s32 TAdSinglePlyChrSelectGC__sub_802D4D9C();
 s32 align_menu_entry_positions(s32);
@@ -109,7 +118,7 @@ void TAdSinglePlyChrSelectGC::finish_character_selection_transition() {
     }
     temp_r4 = *(s32 *)((s8 *)arg0 + 0x1C) + 1;
     *(s32 *)((s8 *)arg0 + 0x1C) = temp_r4;
-    if ((f32) temp_r4 > lbl_805DE780) {
+    if ((f32) temp_r4 > 4.5f) {
         switch (*(s32 *)((s8 *)arg0 + 0x5C)) {
         case 0:
             if (((s32)TAdSinglePlyChrSelectGC::get_data()) == 0) {
@@ -147,7 +156,7 @@ void TAdSinglePlyChrSelectGC::close_and_change_scene() {
     }
     temp_r4 = *(s32 *)&this->m_1c + 1;
     *(s32 *)&this->m_1c = temp_r4;
-    if ((f32) temp_r4 > lbl_805DE780) {
+    if ((f32) temp_r4 > 4.5f) {
         switch (TAdSinglePlyChrSelectGC::get_data()) {
         case 0:
             TAdMultiChgGameModeGC::request_scene_change();
@@ -273,7 +282,7 @@ void TAdSinglePlyChrSelectGC::handle_menu_selection() {
             return;
         case 1:
             ((TWindowOptionCtrl *)(*(s32 *)&this->unk_38))->open();
-            this->m_4c = TAdChrSelASlotGC::create_format_message_window((s32)((int) (*(s32 *)&this->m_28)), (s32)lbl_80472538, 0);
+            this->m_4c = TAdChrSelASlotGC::create_format_message_window((s32)((int) (*(s32 *)&this->m_28)), (s32)&lbl_80472538, 0);
             *(s32 *)&this->m_20 = 9;
             return;
         case 2:
@@ -282,7 +291,7 @@ void TAdSinglePlyChrSelectGC::handle_menu_selection() {
             return;
         case 3:
             ((TWindowOptionCtrl *)(*(s32 *)&this->unk_38))->open();
-            *(s32 *)&this->unk_50 = TAdChrSelASlotGC__sub_8030C978((void *)(*(s32 *)&this->m_28), (s32)lbl_80472538, 0);
+            *(s32 *)&this->unk_50 = TAdChrSelASlotGC__sub_8030C978((void *)(*(s32 *)&this->m_28), (s32)&lbl_80472538, 0);
             *(s32 *)&this->m_20 = 0xA;
             return;
         }
@@ -343,7 +352,7 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
         }
         if (var_r30 == 0) {
             ((TAdMultiPlyChrSelectGC *)(*(s32 *)&this->m_34))->set_entry_value(0, get_localized_text_entry(0x1E, 0));
-            ((TAdMultiPlyChrSelectGC *)(*(s32 *)&this->m_34))->set_entry_value(1, (s32)&lbl_805DE784);
+            ((TAdMultiPlyChrSelectGC *)(*(s32 *)&this->m_34))->set_entry_value(1, (s32)"");
         }
         *(s32 *)&this->unk_58 = TAdSinglePlyChrSelectGC__sub_801334DC(*(s32 *)&this->m_2c);
     }
@@ -354,15 +363,15 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
         if (is_slot_active__23TAdSinglePlyChrSelectGCFUi() != 0) {
             if (TAdChrSelASlotGC__sub_8030C3C0(*(s32 *)&this->m_28, TAdSinglePlyChrSelectGC__sub_801334DC(*(s32 *)&this->m_2c)) != 0) {
                 this->m_54 = (u32)new TAdFadeGC(tl_fade, NULL);
-                *(u32 *)&this->unk_48 = TAdChrSelASlotGC::open_yes_no_window((s32)(*(s32 *)&this->m_28), (s32)lbl_80472540, 0);
+                *(u32 *)&this->unk_48 = TAdChrSelASlotGC::open_yes_no_window((s32)(*(s32 *)&this->m_28), (s32)&lbl_80472540, 0);
                 *(s32 *)&this->m_20 = 7;
                 return;
             }
-            *(u32 *)&this->unk_38 = TAdSinglePlyChrSelectGC::create_chr_warp((s32)this, (s32)lbl_80472548);
+            *(u32 *)&this->unk_38 = TAdSinglePlyChrSelectGC::create_chr_warp((s32)this, (s32)&lbl_80472548);
             *(s32 *)&this->m_20 = 6;
             return;
         }
-        *(u32 *)&this->m_44 = TAdChrSelASlotGC__sub_8030CA84(*(s32 *)&this->m_28, lbl_80472550);
+        *(u32 *)&this->m_44 = TAdChrSelASlotGC__sub_8030CA84(*(s32 *)&this->m_28, &lbl_80472550);
         *(s32 *)&this->m_20 = 8;
     }
 }
@@ -378,10 +387,10 @@ void TAdSinglePlyChrSelectGC::sub_802D4570() {
         *(s32 *)((s8 *)arg0 + 0x20) = 0;
         return;
     }
-    ((TLevelSelect *)(*(s32 *)((s8 *)arg0 + 0x2C)))->add_item_rect(single_chr_select_item_rect_table);
-    ((TLevelSelect *)(*(s32 *)((s8 *)arg0 + 0x2C)))->add_item_rect(single_chr_select_item_rect_table + 8);
-    ((TLevelSelect *)(*(s32 *)((s8 *)arg0 + 0x2C)))->add_item_rect(single_chr_select_item_rect_table + 0x10);
-    ((TLevelSelect *)(*(s32 *)((s8 *)arg0 + 0x2C)))->add_item_rect(single_chr_select_item_rect_table + 0x18);
+    ((TLevelSelect *)(*(s32 *)((s8 *)arg0 + 0x2C)))->add_item_rect((void *)&single_chr_select_item_rect_table[0]);
+    ((TLevelSelect *)(*(s32 *)((s8 *)arg0 + 0x2C)))->add_item_rect((void *)&single_chr_select_item_rect_table[1]);
+    ((TLevelSelect *)(*(s32 *)((s8 *)arg0 + 0x2C)))->add_item_rect((void *)&single_chr_select_item_rect_table[2]);
+    ((TLevelSelect *)(*(s32 *)((s8 *)arg0 + 0x2C)))->add_item_rect((void *)&single_chr_select_item_rect_table[3]);
     *(s32 *)((s8 *)arg0 + 0x20) = 5;
 }
 
@@ -471,9 +480,6 @@ void TAdSinglePlyChrSelectGC::sub_802D486C() {
     }
 }
 
-struct P_802D4F2C { f32 x, y; };
-
-struct T_802D4F2C { P_802D4F2C p[3]; };
 
 struct Self_802D4B6C {
     s32 pad[7];
@@ -493,24 +499,19 @@ void *__ct__13TAdTitleTexGCFv(void *, void *);
 void *__ct__14TAdSelectCurGCFv(void *, void *, void *, void *);
 void *__ct__13TAdGuideTxtGCFv(void *, void *);
 u8 *get_or_create_slot_window__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1);
-extern u8 lbl_80472530[];
-extern T_802D4F2C single_chr_select_position_table;
 extern s32 __vt__23TAdSinglePlyChrSelectGC[];
-extern s32 lbl_805D3F40;
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent);
 void *__dt__23TAdSinglePlyChrSelectGCFv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
-s32 set_entry_value__22TAdMultiPlyChrSelectGCFlUl(s32, s32, s32 *);
 TPlyCharData *get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
 
-extern s32 lbl_805DE784;
 
 void TAdSinglePlyChrSelectGC::cleanup() {
     ((TAdEnterSerialAccessGC *)(*(s32 *)((s8 *)this + 0x2C)))->reset_input_state();
     ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)this + 0x30)))->set_field_100(1);
-    set_entry_value__22TAdMultiPlyChrSelectGCFlUl(*(s32 *)((s8 *)this + 0x34), 0, &lbl_805DE784);
-    set_entry_value__22TAdMultiPlyChrSelectGCFlUl(*(s32 *)((s8 *)this + 0x34), 1, &lbl_805DE784);
+    ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)this + 0x34)))->set_entry_value(0, (u32)"");
+    ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)this + 0x34)))->set_entry_value(1, (u32)"");
     *(s32 *)((s8 *)this + 0x58) = -1;
     if ((u32) *(u32 *)((s8 *)this + 0x38) != 0U) {
         ((TWindowBase *)(*(void **)((s8 *)this + 0x38)))->close();
@@ -551,7 +552,7 @@ void TAdSinglePlyChrSelectGC::cleanup() {
     }
     if (((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)this + 0x28)))->get_player_index() == 0xE) {
         ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)this + 0x34)))->set_entry_value(0, get_localized_text_entry(0x1E, 0));
-        set_entry_value__22TAdMultiPlyChrSelectGCFlUl(*(s32 *)((s8 *)this + 0x34), 1, &lbl_805DE784);
+        ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)this + 0x34)))->set_entry_value(1, (u32)"");
         *(s32 *)((s8 *)this + 0x20) = 1;
     }
 }
@@ -621,7 +622,7 @@ u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent) {
     void *p;
     __ct__7TObjectFP7TObject(arg0, parent);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__23TAdSinglePlyChrSelectGC;
-    *(s32 *)((s8 *)arg0 + 0) = lbl_805D3F40;
+    ((TObject *)arg0)->m_name = TAdSinglePlyChrSelectGC__class_name;
     ((TAdSinglePlyChrSelectGC *)arg0)->sub_802D4E08();
     p = __nw__7TObjectFUl(0x24);
     if (p != NULL) {
@@ -644,7 +645,7 @@ u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent) {
     *(void **)((s8 *)arg0 + 0x34) = p;
     p = __nw__7TObjectFUl(0x708);
     if (p != NULL) {
-        p = __ct__14TAdSelectCurGCFv(p, arg0, single_chr_select_item_rect_table, lbl_80472530);
+        p = __ct__14TAdSelectCurGCFv(p, arg0, (void *)single_chr_select_item_rect_table, (void *)&lbl_80472530);
     }
     *(void **)((s8 *)arg0 + 0x2C) = p;
     p = __nw__7TObjectFUl(0x9C);

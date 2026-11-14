@@ -8964,7 +8964,9 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC.cpp:
 	.text       start:0x802D3AB8 end:0x802D5098
 	.rodata     start:0x80472588 end:0x80472590
 	.data       start:0x804E1A60 end:0x804E1BB0
+	.sdata      start:0x805D3F40 end:0x805D3F48
 	.sbss       start:0x805D68A0 end:0x805D68A8
+	.sdata2     start:0x805DE780 end:0x805DE788
 
 pso/ui/frontend/TAdMultiSelGameModeGC_802D5098.cpp:
 	.text       start:0x802D5098 end:0x802D50A0
