@@ -8113,8 +8113,11 @@ pso/camera/CreationCamera.cpp:
 pso/unk/TLobby_80291D94.cpp:
 	.text       start:0x80291D94 end:0x802937D4
 	.ctors      start:0x80433FBC end:0x80433FC0
-	.rodata     start:0x80464E40 end:0x80464E48
+	.rodata     start:0x80464E40 end:0x80464E60
 	.data       start:0x804DAB60 end:0x804DB8A0
+	.bss        start:0x80540968 end:0x80540988
+	.sdata      start:0x805D3CA8 end:0x805D3CB0
+	.sbss       start:0x805D6578 end:0x805D6590
 	.sdata2     start:0x805DD9D0 end:0x805DD9D8
 
 pso/ui/charcreate/TChCrCharSelect_802937D4.cpp:
@@ -8221,8 +8224,18 @@ pso/ui/charcreate/TObjCMIcon_802999C4.cpp:
 	.data       start:0x804DBDE0 end:0x804DBE90
 
 pso/unk/TLobby_80299A60.cpp:
-	.text       start:0x80299A60 end:0x8029A6EC
+	.text       start:0x80299A60 end:0x80299B90
+	.rodata     start:0x804651A0 end:0x804651B0
+
+pso/unk/TLobby_80299B90.cpp:
+	.text       start:0x80299B90 end:0x80299C4C
+	.rodata     start:0x804651B0 end:0x804651C0
+
+pso/unk/TLobby_80299C4C.cpp:
+	.text       start:0x80299C4C end:0x8029A6EC
+	.rodata     start:0x804651C0 end:0x804651F8
 	.data       start:0x804DBE90 end:0x804DBEBC
+	.sdata      start:0x805D3CF8 end:0x805D3D00
 
 pso/ui/frontend/TAdBackGC_8029A6EC.cpp:
 	.text       start:0x8029A6EC end:0x8029A97C

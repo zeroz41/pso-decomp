@@ -669,6 +669,13 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/unk/TUnk_8048E1A4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TUnk_804CC870.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowSubStatusDisp_80288030.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    "pso/unk/TLobby_80299C4C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/unk/TLobby_80299B90.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # the scene music names and the retry class name sit in .rodata 0x804651A0-0x804651F8: -str reuse,readonly.
+    # Each zero word before an 8-aligned string restart (0x804651B0, 0x804651C0) ends one TU string pool.
+    "pso/unk/TLobby_80299A60.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # "TChallenge4P" and "Area00" sit in .rodata 0x80464E48-0x80464E60: -str reuse,readonly.
+    "pso/unk/TLobby_80291D94.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # the class name and ":%04d:%02d'" sit in .rodata, ":%s" in .sdata2: -str reuse,readonly.
     "pso/ui/frontend/TAdPlyStatusGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # the five model, archive and class-name strings 0x80465938-0x804659A0 sit in .rodata: -str reuse,readonly.
