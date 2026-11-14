@@ -8219,15 +8219,19 @@ pso/ui/charcreate/TChCrTagName.cpp:
 	.sdata      start:0x805D3DA0 end:0x805D3DA4
 	.sdata2     start:0x805DDE28 end:0x805DDEA4
 
-pso/unk/text_802A2A00.cpp:
-	.text       start:0x802A2A00 end:0x802A2BD8
-	.sdata2     start:0x805DDEA8 end:0x805DDECC
+pso/ui/charcreate/TChCrTagOccHeader.cpp:
+	.text       start:0x802A2A00 end:0x802A2DF4
+	.rodata     start:0x80466440 end:0x80466460
+	.data       start:0x804DCC38 end:0x804DCC58
+	.sdata      start:0x805D3DA8 end:0x805D3DB0
+	.sdata2     start:0x805DDEA8 end:0x805DDED4
 
 pso/ui/charcreate/TChCrTagOccupation.cpp:
-	.text       start:0x802A2BD8 end:0x802A3138
+	.text       start:0x802A2DF4 end:0x802A3138
 	.rodata     start:0x80466460 end:0x80466490
-	.data       start:0x804DCC38 end:0x804DCC78
+	.data       start:0x804DCC58 end:0x804DCC78
 	.sdata      start:0x805D3DB0 end:0x805D3DB8
+	.sdata2     start:0x805DDED8 end:0x805DDF18
 
 pso/ui/charcreate/TChCrTagPlGraphic.cpp:
 	.text       start:0x802A3138 end:0x802A35B4

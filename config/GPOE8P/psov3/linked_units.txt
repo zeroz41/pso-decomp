@@ -957,7 +957,7 @@ pso/unk/TLobby_8030A834.cpp
 pso/unk/TLobby_80328F7C.cpp
 pso/unk/TLobby_80329600.cpp
 pso/unk/TLobby_80335E7C.cpp
-pso/unk/text_802A2A00.cpp
+pso/ui/charcreate/TChCrTagOccHeader.cpp
 pso/unk/text_803369C8.cpp
 pso/unk/TLobby_803382E4.cpp
 pso/unk/TLobby_80338E9C.cpp
