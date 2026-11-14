@@ -6,7 +6,7 @@
 class TParticleCtrl;
 
 extern "C" {
-TParticleCtrl *create_particle_emitter(void *pos, s32 id);
+TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 }
 
 #endif

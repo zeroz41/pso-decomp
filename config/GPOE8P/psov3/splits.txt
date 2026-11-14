@@ -10513,7 +10513,8 @@ pso/unk/text_8035C9E8.cpp:
 
 pso/boss/olgaflow/TBoss6Thanks.cpp:
 	.text       start:0x8035CAE0 end:0x8035D1F4
-	.rodata     start:0x80479C08 end:0x80479C18
+	.rodata     start:0x80479B98 end:0x80479C18
+	.sdata      start:0x805D4440 end:0x805D4444
 	.sdata2     start:0x805E0198 end:0x805E01B8
 
 pso/boss/olgaflow/TBoss6Thanks_8035D1F4.cpp:

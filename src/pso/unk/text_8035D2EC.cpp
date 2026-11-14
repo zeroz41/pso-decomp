@@ -13,7 +13,7 @@
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
-extern u8 listed_equipment_table[][3];
+extern const u8 listed_equipment_table[][3];
 void get_weapon_color__11TItemWeaponFPv(void *, void *);
 }
 s32 any_player_has_listed_equipment(void) {
@@ -24,7 +24,7 @@ s32 any_player_has_listed_equipment(void) {
         if (pl != NULL && ((TBoss6PlotFalz *)pl)->is_active() != 0) {
             s32 j;
             for (j = 0; j < 10; j++) {
-                u8 *e = listed_equipment_table[j];
+                const u8 *e = listed_equipment_table[j];
                 s32 k;
                 for (k = 0; k < 13; k++) {
                     void *it = ((TObjPlayer *)pl)->get_equipped_item(k);

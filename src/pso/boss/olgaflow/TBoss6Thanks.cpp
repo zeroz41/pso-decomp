@@ -39,8 +39,7 @@ extern "C" {
 
 s32 scale_matrix(int, f32, f32, f32);
 s32 push_matrix();
-s32 post_translate_matrix(void *);
-extern u8 TBoss6Thanks__data_80479BA8[];
+s32 post_translate_matrix(const void *);
 
 }
 
@@ -59,21 +58,36 @@ struct Ent_8035CB88 { s32 id; s32 lo; s32 hi; };
 
 struct Obj_8035CB88 { u8 pad[0x34]; s32 x30; u8 pad38[0x1C]; void *p[4]; };
 
+const char *TBoss6Thanks__class_name = "TBoss6Thanks";
+
+// Where the object sits: render translates both models there, is_player_near measures the
+// players' distance to it and the emitters spawn at it (boss6_thanks_position is an inferred name).
+static const Vec boss6_thanks_position = {-10000.0f, 0.0f, -1.7f};
+
+// Item type, group and index that any_player_has_listed_equipment looks for in each slot.
+extern const u8 listed_equipment_table[10][3] = {
+    {0, 0x2D, 0}, {0, 0x34, 0}, {0, 0x39, 0}, {0, 0x3E, 0}, {0, 0x41, 0},
+    {0, 0x44, 0}, {0, 0x4C, 0}, {1, 2, 0x27}, {1, 2, 0x31}, {1, 2, 0x32},
+};
+
+// Particle effect id and the m_34 range in which update_particle_emitters keeps each emitter.
+static const Ent_8035CB88 boss6_thanks_particle_emitter_table[4] = {
+    {141, 0, 50}, {178, 30, 110}, {510, 50, 90}, {450, 70, 120},
+};
+
 extern "C" {
 s32 get_bml_motion(void *, s32);
 s32 TObjFish__sub_8001EDB0(void *, s32);
 s32 get_bml_model(void *, s32);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8035D10C___vt__12TBoss6Thanks __vt__12TBoss6Thanks;
-extern s32 TBoss6Thanks__class_name;
 u8 *TBoss6Thanks__ct(TBoss6Thanks *arg0, u8 *arg1);
 u8 * __dt__7TObjectFv(void *, s16);
 void __dl__7TObjectFPv(s32);
 int TBoss6Thanks__sub_8035CB40(void);
 u8 *__dt__12TBoss6ThanksFv(u8 *arg0, s16 arg1);
 void TBoss6Thanks__sub_8035CCAC(s32 arg0);
-extern Ent_8035CB88 boss6_thanks_particle_emitter_table[];
-f32 xyz_distance(void *, void *);
+f32 xyz_distance(const void *, const void *);
 u8 fn_8035CAE0(void);
 int dispatch_by_main_phase__14TBoss4DarkFalzFUs(void*);
 
@@ -90,10 +104,10 @@ void TBoss6Thanks::update_particle_emitters() {
     Obj_8035CB88 *o = (Obj_8035CB88 *)this;
     s32 i;
     for (i = 0; i < 4; i++) {
-        Ent_8035CB88 *e = &boss6_thanks_particle_emitter_table[i];
+        const Ent_8035CB88 *e = &boss6_thanks_particle_emitter_table[i];
         if (*(s32 *)&this->m_34 >= e->lo && *(s32 *)&this->m_34 <= e->hi) {
             if (o->p[i] == NULL) {
-                o->p[i] = create_particle_emitter(TBoss6Thanks__data_80479BA8, e->id);
+                o->p[i] = create_particle_emitter(&boss6_thanks_position, e->id);
                 if (o->p[i] != NULL) {
                     ((TParticleCtrl *)(o->p[i]))->set_flags(0x40);
                 }
@@ -136,7 +150,7 @@ int TBoss6Thanks::is_player_near(void *arg0) {
     for (i = 0; i < n; i++) {
         p = (u8 *)TObjPlayer::get_player_data(i);
         if (p != NULL && ((TBoss6PlotFalz *)p)->is_active() != 0 &&
-            xyz_distance(p + 0x38, TBoss6Thanks__data_80479BA8) <= r) {
+            xyz_distance(p + 0x38, &boss6_thanks_position) <= r) {
             return 1;
         }
     }
@@ -153,13 +167,13 @@ void TBoss6Thanks::render() {
     TBoss6PlotFalz::set_fade_material_color(o->opacity);
     set_motion_packed_rotation();
     push_matrix();
-    post_translate_matrix(TBoss6Thanks__data_80479BA8);
+    post_translate_matrix(&boss6_thanks_position);
     TObjFish::set_global_param(o->texture0);
     scale_matrix(0, 1.2f, 1.2f, 1.2f);
     draw_model_motion(o->model0, o->motions[o->current_motion], o->frame0);
     pop_matrix();
     push_matrix();
-    post_translate_matrix(TBoss6Thanks__data_80479BA8);
+    post_translate_matrix(&boss6_thanks_position);
     TObjFish::set_global_param(o->texture1);
     scale_matrix(0, 1.2f, 1.2f, 1.2f);
     draw_model_motion(o->model1, o->motion1, o->frame1);
@@ -251,7 +265,7 @@ u8 *TBoss6Thanks__ct(TBoss6Thanks *boss6_thanks, u8 *arg1) {
     u8 *fish_count;
     __ct__7TObjectFP7TObject(boss6_thanks, arg1);
     *(s32 **)((s8 *)boss6_thanks + 0x18) = &__vt__12TBoss6Thanks.value;
-    *(s32 *)((s8 *)boss6_thanks + 0) = (s32) TBoss6Thanks__class_name;
+    *(const char **)((s8 *)boss6_thanks + 0) = TBoss6Thanks__class_name;
     fish_count = (u8 *)(TObjFish::get_fish_count());
     *(s32 *)((s8 *)boss6_thanks + 0x38) = get_bml_model(fish_count, 7);
     boss6_thanks->texture0 = TObjFish__sub_8001EDB0(fish_count, 7);
