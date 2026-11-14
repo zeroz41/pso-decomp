@@ -18,6 +18,8 @@
 #include "pso/item/TItem.h"
 #include "pso/system/task/TObject.h"
 
+#pragma readonly_strings on
+
 struct Base_8021FEE0_8021FE6C { char pad[0x18]; };
 struct VObj_8021FEE0_8021FE6C : Base_8021FEE0_8021FE6C {
     virtual void m0();
@@ -107,11 +109,11 @@ s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_802203E4___vt__20TShopItemTecSequence __vt__20TShopItemTecSequence;
 extern RecoveredGlobal_802203E4_TShopItemTecSequence__data_80513EE0 TShopItemTecSequence__slot_table;
-extern s32 lbl_805D6250;
+s32 lbl_805D6248;
+s32 lbl_805D624C;
+s32 lbl_805D6250;
 u8 *TShopSequence__ct(u8 *arg0);
-extern s32 TShopItemTecSequence__class_name;
-extern s32 lbl_805D6248;
-extern s32 lbl_805D624C;
+const char *TShopItemTecSequence__class_name = "TShopItemTecSequence";
 s32 restore_player_state__13TShopSequenceFv(void *);
 void *__nw__7TObjectFUl(u32);
 extern void *tl_05;
@@ -302,7 +304,7 @@ typedef char RecoveredGlobal_802204B0_TShopItemTecSequence__data_80513EE0_size[s
 u8 *TShopItemTecSequence__ct(u8 *shop_item_tec_sequence, s32 arg1, s32 arg2) {
     TShopSequence__ct((shop_item_tec_sequence));
     *(s32 **)((s8 *)shop_item_tec_sequence + 0x18) = &(*(RecoveredGlobal_802204B0___vt__20TShopItemTecSequence *)&__vt__20TShopItemTecSequence).value;
-    *(s32 *)((s8 *)shop_item_tec_sequence + 0) = (s32) TShopItemTecSequence__class_name;
+    *(const char **)((s8 *)shop_item_tec_sequence + 0) = TShopItemTecSequence__class_name;
     ((TShopItemTecSequence *)shop_item_tec_sequence)->m_20 = 0;
     *(s32 *)((s8 *)shop_item_tec_sequence + 0x24) = arg2;
     *(s32 *)((s8 *)shop_item_tec_sequence + 0x30) = 0;

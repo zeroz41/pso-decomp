@@ -23,6 +23,8 @@ struct TWindowShortCut;
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 
+#pragma readonly_strings on
+
 struct Win_8027DBB8 { u8 pad[0x20]; s32 f20; };
 
 struct VBase_18_204a81 { char pad[0x18]; };
@@ -267,9 +269,9 @@ void *__dt__18TWindowSubShortCutFv(TWindowSubShortCut *arg0, s16 arg1) {
 }
 }
 
-extern void *TWindowSubShortCut__class_name;
+const char *TWindowSubShortCut__class_name = "TWindowSubShortCut";
 TWindowSubShortCut::TWindowSubShortCut(TObject *object, void *arg2) : TObject(object) {
-    *(void * *)&this->m_name = TWindowSubShortCut__class_name;
+    this->m_name = TWindowSubShortCut__class_name;
     *(void **)((s8 *)this + 0x28) = object;
     *(void **)((s8 *)this + 0x20) = arg2;
     this->m_2c = 0;

@@ -10,6 +10,8 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
+
+#pragma readonly_strings on
 struct V_803084AC { f32 x, y, z; };
 
 struct Net_803084AC { u8 pad0[0x20]; void *obj[5]; V_803084AC pos; };
@@ -28,9 +30,9 @@ void __dl__7TObjectFPv(void *);
 extern u8 __vt__16TAdLoadNetworkGC[];
 Net_80308518 *__dt__16TAdLoadNetworkGCFv(Net_80308518 *self, s16 flag);
 void *__ct__7TObjectFP7TObject(void *, void *);
-extern const s32 load_network_object_id_table[];
+const s32 load_network_object_id_table[5] = {19, 21, 23, 29, 110};
 extern Ray_803085A0 lbl_804FF5E8;
-extern s32 TAdLoadNetworkGC__class_name;
+const char *TAdLoadNetworkGC__class_name = "TAdLoadNetworkGC";
 Net_803084AC *TAdLoadNetworkGC__ct(Net_803084AC *self, void *parent, V_803084AC *pos);
 void TAdLoadNetworkGC::run_task() {
     Net_803084AC *o = (Net_803084AC *)this;
@@ -56,7 +58,7 @@ Net_803084AC *TAdLoadNetworkGC__ct(Net_803084AC *self, void *parent, V_803084AC 
     u32 i;
     __ct__7TObjectFP7TObject(self, parent);
     *(void **)((u8 *)self + 0x18) = __vt__16TAdLoadNetworkGC;
-    *(s32 *)self = TAdLoadNetworkGC__class_name;
+    *(const char **)self = TAdLoadNetworkGC__class_name;
     VecCopy((Vec *)&self->pos, (const Vec *)pos);
     self->pos.x = 100.0f * lbl_804FF5E8.b.x + lbl_804FF5E8.a.x;
     self->pos.y = 100.0f * lbl_804FF5E8.b.y + lbl_804FF5E8.a.y;

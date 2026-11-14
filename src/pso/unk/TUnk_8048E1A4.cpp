@@ -82,7 +82,7 @@ s32 get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
 void *spawn_particle_effect(void *pos, s32 id);
-extern s32 freeze_shell_bml_resource;
+s32 freeze_shell_bml_resource;
 extern s32 technique_effect_bml;
 extern s32 lbl_805D63B0;
 s32 push_matrix();

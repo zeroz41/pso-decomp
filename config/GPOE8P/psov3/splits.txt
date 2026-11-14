@@ -1219,6 +1219,7 @@ pso/unk/TUnk_8048E1A4.cpp:
 	.text       start:0x80081B2C end:0x80082308
 	.rodata     start:0x80438E60 end:0x80438EA8
 	.data       start:0x8048E180 end:0x8048E2E0
+	.sbss       start:0x805D4ED0 end:0x805D4ED8
 	.sdata2     start:0x805D9378 end:0x805D93A4
 
 pso/effect/TEffClitical.cpp:
@@ -6312,7 +6313,10 @@ pso/ui/city/TShopItemListWindow.cpp:
 
 pso/ui/city/TShopItemTecSequence.cpp:
 	.text       start:0x8021FE6C end:0x802205E4
+	.rodata     start:0x8044C180 end:0x8044C198
 	.data       start:0x804CA170 end:0x804CA190
+	.sdata      start:0x805D36D8 end:0x805D36E0
+	.sbss       start:0x805D6248 end:0x805D6258
 	.sdata2     start:0x805DC700 end:0x805DC708
 
 pso/ui/city/TShopJudgmentItemWindow.cpp:
@@ -7540,6 +7544,8 @@ pso/ui/window/TWindowMenuIconLine_8026DE30.cpp:
 
 pso/ui/window/TWindowShop.cpp:
 	.text       start:0x8026DE94 end:0x8026DF00
+	.rodata     start:0x8044F550 end:0x8044F55C
+	.sdata      start:0x805D39D0 end:0x805D39D8
 	.sdata2     start:0x805DD340 end:0x805DD348
 
 pso/ui/city/TShopJudgmentItemWindow_8026DF00.cpp:
@@ -7773,7 +7779,9 @@ pso/ui/window/TWindowSubQuestBoardSelect.cpp:
 
 pso/ui/window/TWindowSubShortCut.cpp:
 	.text       start:0x8027DB20 end:0x8027E278
+	.rodata     start:0x8044FA78 end:0x8044FA90
 	.data       start:0x804D19F0 end:0x804D1A20
+	.sdata      start:0x805D3A88 end:0x805D3A90
 	.sdata2     start:0x805DD6C0 end:0x805DD6C4
 
 pso/ui/window/TWindowSubShortCutList.cpp:
@@ -7884,7 +7892,9 @@ pso/ui/window/TWindowMainMenu1P.cpp:
 
 pso/ui/window/TWindowMainMenu4P.cpp:
 	.text       start:0x80288940 end:0x80288B04
+	.rodata     start:0x80450790 end:0x804507A8
 	.data       start:0x804D30A0 end:0x804D30C8
+	.sdata      start:0x805D3AF0 end:0x805D3AF8
 
 pso/quest/TQuestListChallenge.cpp:
 	.text       start:0x80288B04 end:0x802893C8
@@ -9477,7 +9487,9 @@ pso/ui/frontend/TAdLoadNetworkGC.cpp:
 
 pso/ui/frontend/TAdLoadNetworkGC_803084AC.cpp:
 	.text       start:0x803084AC end:0x80308688
+	.rodata     start:0x80475478 end:0x804754A0
 	.data       start:0x804E72F0 end:0x804E7344
+	.sdata      start:0x805D4098 end:0x805D40A0
 	.sdata2     start:0x805DF0C0 end:0x805DF0C4
 
 pso/boss/barbaray/TBoss7Crawfish.cpp:
