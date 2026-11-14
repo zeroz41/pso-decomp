@@ -27,18 +27,13 @@ u16 get_entity_id(void *);
 void *TNeedleShoot__ct(void *, s32, Vec *, Vec *);
 extern void *__vt__22TObjEneMe1GiGueMissile[];
 extern const char *lbl_805D3F20;
-extern const f32 lbl_805DE6DC;
 TObjEneMe1GiGueMissile *TObjEneMe1GiGueMissile__ct(TObjEneMe1GiGueMissile *self, s32 owner, Vec *from, Vec *to, f32 speed, f32 power);
 s32 TObjPlayer__sub_802A445C(void *, int);
-extern const f32 lbl_805DE6E0;
 void TObjEneMe1GiGue__sub_802CE4E8(void);
 void TObjEneMe1GiGue__sub_802CE4EC(void);
 void obj_setFlags30(void *, int);
 void create_fire_explosion_effect(void *, f32, void *, int, void *);
 extern void *tl_07;
-extern const f32 lbl_805DE6D0;
-extern const f32 lbl_805DE6D4;
-extern const f32 lbl_805DE6D8;
 
 void TObjEneMe1GiGueMissile::explode(void *pos) {
     void *fx;
@@ -46,15 +41,15 @@ void TObjEneMe1GiGueMissile::explode(void *pos) {
     s32 i;
     fx = TObject::operator new(0x64);
     if (fx != NULL) {
-        create_fire_explosion_effect(fx, lbl_805DE6D0, pos, 0, tl_07);
+        create_fire_explosion_effect(fx, 40.0f, pos, 0, tl_07);
     }
     for (i = 0; i < 4; i++) {
         p = get_player_by_client_id(i);
-        if (p != NULL && horizontal_distance_squared(&p->position, (Vec *)pos) <= lbl_805DE6D4) {
+        if (p != NULL && horizontal_distance_squared(&p->position, (Vec *)pos) <= 1600.0f) {
             DirectAttackPayload hit;
             hit.kind = 0;
             hit.power = m_c0;
-            if (p->receive_direct_attack((void *)m_1c, hit, NULL, -1, -1) > lbl_805DE6D8) {
+            if (p->receive_direct_attack((void *)m_1c, hit, NULL, -1, -1) > 0.0f) {
                 obj_setFlags30(p, 0x600);
             }
             if (get_current_floor_area() == AREA_TOWER) {
@@ -109,10 +104,10 @@ void TObjEneMe1GiGueMissile::run_task() {
         TObject::queue_destruction();
         return;
     }
-    m_bc = m_bc + lbl_805DE6DC;
+    m_bc += 1.0f;
     frame = m_bc;
-    if (frame >= lbl_805DE6E0) {
-        m_bc = frame - lbl_805DE6E0;
+    if (frame >= 20.0f) {
+        m_bc = frame - 20.0f;
     }
     update_position();
     update_lifetime();
@@ -133,7 +128,7 @@ TObjEneMe1GiGueMissile *TObjEneMe1GiGueMissile__ct(TObjEneMe1GiGueMissile *self,
     }
     target = (TObjCollidable *)self->m_68;
     if (target != NULL) {
-        target->bodies->radius = lbl_805DE6DC;
+        target->bodies->radius = 1.0f;
     }
     self->m_b0 = 1;
     return self;

@@ -8678,6 +8678,7 @@ pso/enemy/gigue/TObjEneMe1GiGueMissile.cpp:
 	.text       start:0x802CE088 end:0x802CE510
 	.data       start:0x804E1520 end:0x804E1548
 	.sbss       start:0x805D6858 end:0x805D685C
+	.sdata2     start:0x805DE6D0 end:0x805DE6E8
 
 pso/unk/text_802CE510.cpp:
 	.text       start:0x802CE510 end:0x802CE68C
