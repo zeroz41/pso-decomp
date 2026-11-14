@@ -759,7 +759,7 @@ void activate_triggered_floor_events(void);
 u8 * heap_alloc__5THeapFUl(void *, s32);
 }
 s32 activate_first_floor_event(s32 idx, s32 id);
-extern RecoveredGlobal_80208D28_lbl_805139F8 lobby_slot_ptr_table;
+RecoveredGlobal_80208D28_lbl_805139F8 lobby_slot_ptr_table;
 extern u8 *area_event_set_heap;
 s32 set_floor_event_flags(s32 arg0, s32 arg1, s32 arg2);
 #define BS16 ((void (*)(void *))bswap_16__FPUs)

@@ -1383,6 +1383,7 @@ pso/enemy/balclaw/TObjEneBalClaw.cpp:
 	.text       start:0x8008D68C end:0x8008DC18
 	.rodata     start:0x80439910 end:0x80439B40
 	.data       start:0x8048EB78 end:0x8048EDE8
+	.bss        start:0x805006F8 end:0x805007A8
 	.sdata      start:0x805D2968 end:0x805D296C
 	.sdata2     start:0x805D9600 end:0x805D9614
 
@@ -5981,6 +5982,7 @@ pso/unk/TLobby_80207DA8.cpp:
 	.text       start:0x80207DA8 end:0x8020910C
 	.rodata     start:0x8044BA50 end:0x8044BAC8
 	.data       start:0x804C8C60 end:0x804C93A8
+	.bss        start:0x805139F8 end:0x80513A40
 	.sbss       start:0x805D6068 end:0x805D6078
 
 pso/map/TSetEvtDestroy.cpp:
@@ -12338,6 +12340,7 @@ pso/render/GinjaModelQueue.cpp:
 pso/render/GinjaMaterial.cpp:
 	.text       start:0x803DB470 end:0x803DC82C
 	.data       start:0x804FC540 end:0x804FC668
+	.bss        start:0x8058CD80 end:0x8058CE10
 	.sdata2     start:0x805E0F68 end:0x805E0F80
 
 pso/enemy/stelth/TObjEneMe3Stelth_803DC82C.cpp:
@@ -12420,6 +12423,7 @@ pso/object/ambient/TObjLight_803DF220.cpp:
 
 pso/player/TObjPlayer_803DF7A8.cpp:
 	.text       start:0x803DF7A8 end:0x803E112C
+	.rodata     start:0x8047E438 end:0x8047E498
 	.sdata2     start:0x805E0FD8 end:0x805E1000
 
 pso/player/TObjPlayer_803E112C.cpp:

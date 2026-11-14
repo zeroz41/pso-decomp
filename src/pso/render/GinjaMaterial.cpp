@@ -112,6 +112,8 @@ extern RecoveredCallback_b52dc2a08a00 ginja_post_channel_callback;
 extern RecoveredCallback_b52dc2a08a00 ginja_post_texgen_callback;
 extern RecoveredCallback_b52dc2a08a00 ginja_post_tev_callback;
 
+GinjaMaterialCache ginja_material_cache;
+
 void draw_ginja_object(void *child) {
     prepare_ginja_model();
     init_model_draw_queue(draw_ginja_model_lists);
