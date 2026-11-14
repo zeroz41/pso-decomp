@@ -746,6 +746,7 @@ pso/unk/TUnk_80488B38.cpp:
 
 pso/camera/TCameraCtrl_8006BCD8.cpp:
 	.text       start:0x8006BCD8 end:0x8006C254
+	.rodata     start:0x804383D0 end:0x804383EC
 	.sdata2     start:0x805D9018 end:0x805D9024
 
 pso/camera/TCameraCtrl_8006C254.cpp:
