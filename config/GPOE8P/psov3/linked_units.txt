@@ -467,15 +467,6 @@ pso/enemy/recon/TObjEneReconBomb.cpp
 pso/enemy/recon/TObjEneRecon_8029E89C.cpp
 pso/enemy/recon/TObjEneRecon_80302DB0.cpp
 pso/enemy/recon/TObjEneRecobox_8031E800.cpp
-pso/enemy/recon/TObjEneRecobox_8031E88C.cpp
-pso/enemy/recon/TObjEneRecon_8031ED80.cpp
-pso/enemy/recon/TObjEneRecon_8031EDBC.cpp
-pso/enemy/recon/TObjEneRecon_8031EF00.cpp
-pso/enemy/recon/TObjEneRecon_8031F374.cpp
-pso/enemy/recon/TObjEneRecon_8031F408.cpp
-pso/enemy/recon/TObjEneRecon_8031F4A8.cpp
-pso/enemy/recon/TObjEneRecon_8031F600.cpp
-pso/enemy/recon/TObjEneRecon_8031F6C0.cpp
 pso/enemy/recon/TObjEneRecobox_8031F800.cpp
 pso/enemy/recon/TObjEneRecon_80320350.cpp
 pso/enemy/saver/TObjEneSaver.cpp
@@ -1141,15 +1132,8 @@ pso/object/trap/TOTrapChainSawEdge.cpp
 pso/object/trap/TOTrapSeabed01.cpp
 pso/object/fence/TOVS2Wall01.cpp
 pso/object/wreck/TOWreckAncient.cpp
-pso/object/wreck/TOWreckAncient01.cpp
 pso/object/wreck/TOWreckAncient02.cpp
 pso/object/wreck/TOWreckAncient03.cpp
-pso/object/wreck/TOWreckAncient04.cpp
-pso/object/wreck/TOWreckAncient05.cpp
-pso/object/wreck/TOWreckAncient06.cpp
-pso/object/wreck/TOWreckAncient07.cpp
-pso/object/wreck/TOWreckAncientBrakable.cpp
-pso/object/wreck/TOWreckAncientBrakable05.cpp
 pso/network/TPacket.cpp
 pso/effect/particle/ParticleBallistic.cpp
 pso/effect/particle/ParticleOrbit.cpp
@@ -1718,7 +1702,6 @@ pso/object/city/CitySeason.cpp
 pso/object/city/CityVerticalModel.cpp
 pso/object/lobby/LobbyGoGoBall.cpp
 pso/object/lobby/LobbyPigeonPath.cpp
-pso/object/lobby/LobbyPigeonTheme.cpp
 pso/object/base/ObjectFactoryTables.cpp
 pso/object/fence/TLazerFenceSw.cpp
 pso/object/key/TOKeyJungleMain.cpp
@@ -2474,7 +2457,6 @@ pso/unk/text_80287AD8.cpp
 pso/unk/text_8028A714.cpp
 pso/unk/text_8028A820.cpp
 pso/unk/text_8028A998.cpp
-pso/unk/text_8028D490.cpp
 pso/unk/text_8028EC70.cpp
 pso/unk/text_80290B3C.cpp
 pso/unk/text_80290BE0.cpp
@@ -2504,7 +2486,6 @@ pso/unk/text_802AEAA4.cpp
 pso/ui/TLevelSelect_802AEBA8.cpp
 pso/object/ambient/TObjMistCtrl_802AF64C.cpp
 pso/unk/text_802C095C.cpp
-pso/player/TObjPlayer_802C09E0.cpp
 pso/unk/text_802C39F8.cpp
 pso/unk/text_802C3AC0.cpp
 pso/unk/text_802CE510.cpp
@@ -2530,7 +2511,6 @@ pso/unk/text_80308328.cpp
 pso/unk/text_80309890.cpp
 pso/unk/text_803098DC.cpp
 pso/unk/text_80312C50.cpp
-pso/unk/text_8031EF14.cpp
 pso/unk/text_80320358.cpp
 pso/boss/galgryphon/TBoss5GryphonLightning_80324E10.cpp
 pso/unk/text_80327844.cpp

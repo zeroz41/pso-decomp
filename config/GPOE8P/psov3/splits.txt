@@ -4498,32 +4498,12 @@ pso/object/warp/TObjMapWarpAncient.cpp:
 	.sbss       start:0x805D5AF0 end:0x805D5AF8
 	.sdata2     start:0x805DBAB8 end:0x805DBACC
 
-pso/object/wreck/TOWreckAncientBrakable05.cpp:
-	.text       start:0x8017D2FC end:0x8017D444
-
-pso/object/wreck/TOWreckAncientBrakable.cpp:
-	.text       start:0x8017D444 end:0x8017D72C
-	.rodata     start:0x80443528 end:0x80443614
-	.sdata      start:0x805D3210 end:0x805D3214
-
-pso/object/wreck/TOWreckAncient07.cpp:
-	.text       start:0x8017D72C end:0x8017D850
-
-pso/object/wreck/TOWreckAncient06.cpp:
-	.text       start:0x8017D850 end:0x8017D974
-
-pso/object/wreck/TOWreckAncient05.cpp:
-	.text       start:0x8017D974 end:0x8017DA98
-
-pso/object/wreck/TOWreckAncient04.cpp:
-	.text       start:0x8017DA98 end:0x8017DBBC
-
-pso/object/wreck/TOWreckAncient01.cpp:
-	.text       start:0x8017DBBC end:0x8017DCE0
-
 pso/object/wreck/TOWreckAncient.cpp:
-	.text       start:0x8017DCE0 end:0x8017DF10
-	.data       start:0x804B53E0 end:0x804B5418
+	.text       start:0x8017D2FC end:0x8017DF10
+	.rodata     start:0x80443328 end:0x80443614
+	.data       start:0x804B53B0 end:0x804B554C
+	.sdata      start:0x805D31F0 end:0x805D3218
+	.sbss       start:0x805D5AF8 end:0x805D5B00
 	.sdata2     start:0x805DBAD0 end:0x805DBAD8
 
 pso/object/wreck/TOWreckAncient02.cpp:
@@ -8042,14 +8022,11 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_8028C8E0.cpp:
 	.sbss       start:0x805D64E8 end:0x805D64F0
 
 pso/ui/charcreate/TChCrLoadReq.cpp:
-	.text       start:0x8028D088 end:0x8028D490
+	.text       start:0x8028D088 end:0x8028D5D4
 	.rodata     start:0x80450D60 end:0x80450D70
-	.data       start:0x804D3740 end:0x804D3788
+	.data       start:0x804D3740 end:0x804D3820
 	.sdata      start:0x805D3B60 end:0x805D3B68
-	.sbss       start:0x805D6510 end:0x805D6518
-
-pso/unk/text_8028D490.cpp:
-	.text       start:0x8028D490 end:0x8028D5D4
+	.sbss       start:0x805D64F0 end:0x805D6518
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.cpp:
 	.text       start:0x8028D5D4 end:0x8028D9A8
@@ -8779,20 +8756,12 @@ pso/unk/text_802C095C.cpp:
 pso/player/TObjPlayer_802C09A8.cpp:
 	.text       start:0x802C09A8 end:0x802C09E0
 
-pso/player/TObjPlayer_802C09E0.cpp:
-	.text       start:0x802C09E0 end:0x802C0A38
-	.rodata     start:0x80471738 end:0x804717C8
-	.data       start:0x804E0858 end:0x804E0888
-
-pso/object/lobby/LobbyPigeonTheme.cpp:
-	.text       start:0x802C0A38 end:0x802C0A74
-
 pso/object/lobby/LobbyPigeonPath.cpp:
-	.text       start:0x802C0A74 end:0x802C3284
-	.rodata     start:0x804717C8 end:0x804719D0
-	.data       start:0x804E0888 end:0x804E0898
+	.text       start:0x802C09E0 end:0x802C3284
+	.rodata     start:0x80471540 end:0x804719D0
+	.data       start:0x804E07A0 end:0x804E0898
 	.sdata      start:0x805D3EC0 end:0x805D3EC4
-	.sbss       start:0x805D6798 end:0x805D67B8
+	.sbss       start:0x805D6798 end:0x805D67C0
 	.sdata2     start:0x805DE4F8 end:0x805DE528
 
 pso/ui/frontend/TAdStorySelectGC_802C3284.cpp:
@@ -9696,44 +9665,14 @@ pso/enemy/recon/TObjEneRecon.cpp:
 pso/enemy/recon/TObjEneRecobox_8031E800.cpp:
 	.text       start:0x8031E800 end:0x8031E88C
 
-pso/enemy/recon/TObjEneRecobox_8031E88C.cpp:
-	.text       start:0x8031E88C end:0x8031ED80
-
-pso/enemy/recon/TObjEneRecon_8031ED80.cpp:
-	.text       start:0x8031ED80 end:0x8031EDBC
-
-pso/enemy/recon/TObjEneRecon_8031EDBC.cpp:
-	.text       start:0x8031EDBC end:0x8031EF00
-	.sdata2     start:0x805DF448 end:0x805DF44C
-
-pso/enemy/recon/TObjEneRecon_8031EF00.cpp:
-	.text       start:0x8031EF00 end:0x8031EF14
-
-pso/unk/text_8031EF14.cpp:
-	.text       start:0x8031EF14 end:0x8031F374
-	.rodata     start:0x804762F0 end:0x804763D4
-
-pso/enemy/recon/TObjEneRecon_8031F374.cpp:
-	.text       start:0x8031F374 end:0x8031F408
-
-pso/enemy/recon/TObjEneRecon_8031F408.cpp:
-	.text       start:0x8031F408 end:0x8031F4A8
-
-pso/enemy/recon/TObjEneRecon_8031F4A8.cpp:
-	.text       start:0x8031F4A8 end:0x8031F600
-
-pso/enemy/recon/TObjEneRecon_8031F600.cpp:
-	.text       start:0x8031F600 end:0x8031F6C0
-
-pso/enemy/recon/TObjEneRecon_8031F6C0.cpp:
-	.text       start:0x8031F6C0 end:0x8031F800
-
 pso/enemy/recon/TObjEneRecobox_8031F800.cpp:
-	.text       start:0x8031F800 end:0x80320350
-	.rodata     start:0x80476458 end:0x80476460
+	.text       start:0x8031E88C end:0x80320350
+	.rodata     start:0x80476118 end:0x80476460
 	.data       start:0x804EC668 end:0x804EC968
 	.bss        start:0x80543000 end:0x80543010
-	.sbss       start:0x805D6B10 end:0x805D6B20
+	.sdata      start:0x805D4138 end:0x805D4140
+	.sbss       start:0x805D6B10 end:0x805D6B28
+	.sdata2     start:0x805DF438 end:0x805DF470
 
 pso/enemy/recon/TObjEneRecon_80320350.cpp:
 	.text       start:0x80320350 end:0x80320358

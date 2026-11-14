@@ -4,13 +4,8 @@
 #include "types.h"
 
 extern "C" {
-s32 filter_lobby_pigeon_theme(void);
+// The callers pass the pigeon; the theme does not depend on it.
+s32 filter_lobby_pigeon_theme(void *);
 }
-
-// --- C functions defined in LobbyPigeonTheme.cpp ---
-extern "C" {
-s32 filter_lobby_pigeon_theme(void);
-}
-// --- end of C functions
 
 #endif
