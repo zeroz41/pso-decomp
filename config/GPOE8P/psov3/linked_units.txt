@@ -781,8 +781,7 @@ pso/render/TDLGraph.cpp
 pso/render/TDLGraph_8007F85C.cpp
 pso/object/TDeadSpot.cpp
 pso/effect/TDuelEffectNumber.cpp
-pso/effect/TDuelEffectNumber_80080290.cpp
-pso/effect/TDuelEffectNumber_80080460.cpp
+pso/effect/TDuelEffectString.cpp
 pso/system/scene/TEnding.cpp
 pso/system/scene/TEndingAB.cpp
 pso/system/scene/TEndingAB_8008C9FC.cpp

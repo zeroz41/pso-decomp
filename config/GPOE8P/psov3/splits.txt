@@ -1148,23 +1148,18 @@ pso/effect/TDuelEffectCtrl.cpp:
 	.sdata      start:0x805D28D8 end:0x805D28E0
 
 pso/effect/TDuelEffectNumber.cpp:
-	.text       start:0x8007FE78 end:0x80080290
+	.text       start:0x8007FE78 end:0x800802F8
 	.rodata     start:0x80438D68 end:0x80438DC0
 	.data       start:0x8048DFC8 end:0x8048DFE0
 	.sdata      start:0x805D28E0 end:0x805D28E8
 	.sdata2     start:0x805D92D8 end:0x805D9308
 
-pso/effect/TDuelEffectNumber_80080290.cpp:
-	.text       start:0x80080290 end:0x80080460
-	.rodata     start:0x80438DC0 end:0x80438E20
-	.sdata      start:0x805D28E8 end:0x805D28F0
-	.sdata2     start:0x805D9308 end:0x805D9310
-
-pso/effect/TDuelEffectNumber_80080460.cpp:
-	.text       start:0x80080460 end:0x80080750
-	.rodata     start:0x80438E20 end:0x80438E28
+pso/effect/TDuelEffectString.cpp:
+	.text       start:0x800802F8 end:0x80080750
+	.rodata     start:0x80438DC0 end:0x80438E28
 	.data       start:0x8048DFE0 end:0x8048DFF8
-	.sdata2     start:0x805D9310 end:0x805D9338
+	.sdata      start:0x805D28E8 end:0x805D28F0
+	.sdata2     start:0x805D9308 end:0x805D9338
 
 pso/player/TObjPlayer_80080750.cpp:
 	.text       start:0x80080750 end:0x80080788

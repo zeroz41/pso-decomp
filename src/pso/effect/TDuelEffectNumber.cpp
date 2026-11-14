@@ -122,3 +122,11 @@ void TDuelEffectNumber::run_task() {
 }
 
 TDuelEffectNumber::~TDuelEffectNumber() {}
+
+TDuelEffectNumber::TDuelEffectNumber(TObject *object, void *arg2, void *arg3) : TObject(object) {
+    m_name = TDuelEffectNumber__class_name;
+    pad_1C[0] = ((f32 *)arg2)[0];
+    pad_1C[1] = ((f32 *)arg2)[1];
+    pad_24 = arg3;
+    pad_28 = 0;
+}
