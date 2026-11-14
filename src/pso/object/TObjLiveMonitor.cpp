@@ -14,6 +14,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 
@@ -28,12 +29,27 @@ s32 get_bml_model(s32, s32);
 s32 is_split_screen();
 void *__nw__7TObjectFUl(s32);
 extern s32 __vt__20TObjLiveMonitorSmall[];
-extern void *TObjLiveMonitorSmall__name;
 s32 live_monitor_shared_resource;
 s32 live_camera_controller_next_slot;
 s32 TObjLiveCameraCtrl__instances;
 s32 live_monitor_small_spawned_flag;
 u8 TObjLiveMonitorSmall__fish_spawned_flag;
+}
+extern "C" {
+const char *bm_obj_boss8_monitor_model_names[4] = {
+    "fe_obj_monitor_sho.gj",
+    "fe_obj_monitor_dai.gj",
+    "fe_obj_monitor_dai_4bunkatu.gj",
+    NULL,
+};
+const char *bm_obj_boss8_monitor_motion_names[1] = {NULL};
+BmlResourceDescriptor bm_obj_boss8_monitor_resource_descriptor = {
+    "bm_obj_boss8_monitor.bml", bm_obj_boss8_monitor_model_names, bm_obj_boss8_monitor_motion_names, 3, 0,
+};
+const char *TObjLiveCameraCtrl__class_name = "TObjLiveCameraCtrl";
+const char *TObjLiveCamera__class_name = "TObjLiveCamera";
+const char *TObjLiveMonitor__name = "TObjLiveMonitor";
+const char *TObjLiveMonitorSmall__name = "TObjLiveMonitorSmall";
 }
 /* TObjLiveCameraCtrl: model ids passed to fn_800832EC, indexed by its f4c */
 const s32 lbl_804757E0[2] = { 0xF44E8, 0xF44E9 };
@@ -43,20 +59,15 @@ s32 draw_ginja_object(int);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 __ct__7TObjectFP7TObject();
 extern s32 __vt__15TObjLiveMonitor[];
-extern s32 TObjLiveMonitor__name;
 }
-struct RecoveredGlobal_8030B658_lbl_804E76C0 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_8030B658_lbl_804E76C0_size[sizeof(RecoveredGlobal_8030B658_lbl_804E76C0) == 0x10 ? 1 : -1];
 struct RecoveredGlobal_8030B708___vt__14TObjLiveCamera {
     s32 value;
     u8 remaining[0x30];
 };
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern RecoveredGlobal_8030B658_lbl_804E76C0 bm_obj_boss8_monitor_resource_descriptor;
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__14TObjLiveCamera[];
-extern s32 TObjLiveCamera__class_name;
 int free_bin_model_request(void*, void*);
 extern void *tl_05;
 typedef char RecoveredGlobal_8030B708___vt__14TObjLiveCamera_size[sizeof(RecoveredGlobal_8030B708___vt__14TObjLiveCamera) == 0x34 ? 1 : -1];
@@ -72,7 +83,7 @@ void TObjPlayer__sub_80082CCC(void *effect);
 extern int local_client_id;
 }
 struct Cam_8030BED4 {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x18 - 4];
     s32 *vt;
     s16 f1c, f1e;
@@ -92,7 +103,6 @@ void subtractive_rng_seed(void *, s32);
 s32 __ct__14SubtractiveRngFv(void *);
 u8 *fn_800832EC(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 s32 is_room_enemy_set_cleared(s32 floor, s16 room);
-extern s32 TObjLiveCameraCtrl__class_name;
 extern s32 tl_particlemodel;
 s32 memset(s32 *, s32, s32);
 }
@@ -369,7 +379,7 @@ void TObjLiveCamera::load_static_resource() {
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_boss8_monitor_resource_descriptor.value, 0, 0, 0));
+        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_boss8_monitor_resource_descriptor, 0, 0, 0));
     }
     (*(s32 *)&live_monitor_shared_resource) = var_r0;
 }
@@ -504,7 +514,7 @@ s32 TObjLiveMonitorSmall::spawn_for_each_fish() {
 void *__ct__20TObjLiveMonitorSmallFv(void *live_monitor_small, void *arg1, void *arg2) {
     __ct__15TObjLiveMonitorFv(live_monitor_small);
     *(s32 **)((s8 *)live_monitor_small + 0x18) = __vt__20TObjLiveMonitorSmall;
-    *(void * *)&((TObjLiveMonitorSmall *)live_monitor_small)->m_name = TObjLiveMonitorSmall__name;
+    ((TObjLiveMonitorSmall *)live_monitor_small)->m_name = TObjLiveMonitorSmall__name;
     *(void **)((s8 *)live_monitor_small + 0x1C) = arg2;
     return live_monitor_small;
 }

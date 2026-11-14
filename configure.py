@@ -1083,6 +1083,12 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/keyboard/TKeyBoardControl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/goldragon/TObjBoss8Piller.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/text_803626A8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # -sdata 4: the 8-byte name tables sit in .data while 4-byte objects sit in .sdata.
+    "pso/unk/text_8035B750.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    "pso/object/ambient/TObjCGrass.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    "pso/object/TObjLiveMonitor.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # Each debug string is reached with its own lis/addi (no pooled base register).
+    "pso/object/collision/TObjFogCollisionSwitch.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
 }
 
 # MusyX (Factor 5). Its objects carry extab/extabindex for every non-leaf

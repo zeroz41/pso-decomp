@@ -58,9 +58,6 @@ extern s32 TObjFogCollisionPoison__name;
 extern s32 local_client_id;
 s32 vfunc_13__16TObjFogCollisionFl();
 void debug_printf_at(int, void *, ...);
-extern char lbl_80440090[];
-extern char lbl_804400A4[];
-extern char lbl_804400B8[];
 void record_fog_collision_hit(s32 arg0, s32 arg1, s32 arg2);
 u8 is_current_floor_switch_set(u16);
 
@@ -86,9 +83,6 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 
-extern char lbl_804400C8[];
-extern char lbl_804400D4[];
-extern char lbl_804400E0[];
 f32 horizontal_distance_squared(void *, s32);
 s32 get_player_by_client_id(u16);
 
@@ -151,11 +145,11 @@ void TObjFogCollision::run_task() {
 void TObjFogCollision::vfunc_14() {
     O_80153D98 *arg0 = (O_80153D98 *)this;
     debug_printf_at(0x13001C, (void *)"Rad");
-    debug_printf_at(0x130020, lbl_804400C8);
+    debug_printf_at(0x130020, (void *)"Param No");
     if (arg0->mode == 0) {
-        debug_printf_at(0x130021, lbl_804400D4);
+        debug_printf_at(0x130021, (void *)"LINK : ON");
     } else {
-        debug_printf_at(0x130021, lbl_804400E0);
+        debug_printf_at(0x130021, (void *)"LINK : OFF");
     }
 }
 
@@ -269,11 +263,11 @@ void TObjFogCollisionSwitch::vfunc_14() {
     O_801538D4 *arg0 = (O_801538D4 *)this;
     ((TObjFogCollision *)arg0)->TObjFogCollision::vfunc_14();
     if (((TObjFogCollisionSwitch *)arg0)->sub_80153A0C() != 0) {
-        debug_printf_at(0x13001E, lbl_80440090);
+        debug_printf_at(0x13001E, (void *)"SwitchMode:ON->ON");
     } else {
-        debug_printf_at(0x13001E, lbl_804400A4);
+        debug_printf_at(0x13001E, (void *)"SwitchMode:ON->OFF");
     }
-    debug_printf_at(0x130022, lbl_804400B8, this->set_params[2]);
+    debug_printf_at(0x130022, (void *)"SwitchID:%3d", this->set_params[2]);
 }
 
 void *create__22TObjFogCollisionPoisonFPv(void *arg0) {

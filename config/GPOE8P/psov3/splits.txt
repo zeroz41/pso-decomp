@@ -1594,8 +1594,9 @@ pso/enemy/wolf/TObjEneBm5Wolf.cpp:
 
 pso/object/ambient/TObjCGrass.cpp:
 	.text       start:0x800B8B00 end:0x800B9194
-	.rodata     start:0x8043B650 end:0x8043B658
-	.data       start:0x80492520 end:0x80492558
+	.rodata     start:0x8043B5D8 end:0x8043B658
+	.data       start:0x804924F0 end:0x80492558
+	.sdata      start:0x805D2A28 end:0x805D2A2C
 	.sbss       start:0x805D5130 end:0x805D5134
 	.sdata2     start:0x805D9E60 end:0x805D9E7C
 
@@ -3802,7 +3803,7 @@ pso/object/collision/TObjFogCollisionPoison.cpp:
 
 pso/object/collision/TObjFogCollisionSwitch.cpp:
 	.text       start:0x80153674 end:0x80153F78
-	.rodata     start:0x80440088 end:0x80440090
+	.rodata     start:0x80440088 end:0x804400EB
 	.data       start:0x804AF7E0 end:0x804AF860
 	.sdata2     start:0x805DB250 end:0x805DB270
 
@@ -9580,8 +9581,9 @@ pso/boss/goldragon/TObjBoss8Piller.cpp:
 
 pso/object/TObjLiveMonitor.cpp:
 	.text       start:0x8030B098 end:0x8030C090
-	.rodata     start:0x804757E0 end:0x804757F0
-	.data       start:0x804E76D0 end:0x804E774C
+	.rodata     start:0x80475728 end:0x804757F0
+	.data       start:0x804E76B0 end:0x804E774C
+	.sdata      start:0x805D40E0 end:0x805D40F4
 	.sbss       start:0x805D6A80 end:0x805D6A98
 	.sdata2     start:0x805DF168 end:0x805DF1E4
 
@@ -10777,7 +10779,8 @@ pso/unk/text_8035B6B0.cpp:
 
 pso/unk/text_8035B750.cpp:
 	.text       start:0x8035B750 end:0x8035B87C
-	.data       start:0x804F1D48 end:0x804F1D6C
+	.rodata     start:0x80479870 end:0x804798EC
+	.data       start:0x804F1D48 end:0x804F1D8C
 	.sbss       start:0x805D6F50 end:0x805D6F58
 	.sdata2     start:0x805E0140 end:0x805E0148
 
@@ -12797,9 +12800,11 @@ pso/network/TLobby_80429598.c:
 
 pso/network/ModemRuntime.cpp:
 	.text       start:0x8042BF48 end:0x8042E8C4
+	.rodata     start:0x804801F8 end:0x80480240
 	.data       start:0x804FDA20 end:0x804FDAD0
 	.bss        start:0x805D1D20 end:0x805D1E40
-	.sdata      start:0x805D4840 end:0x805D4940
+	.sdata      start:0x805D4840 end:0x805D498C
+	.sbss       start:0x805D7C90 end:0x805D7CA8
 
 pso/unk/text_8042E8C4.cpp:
 	.text       start:0x8042E8C4 end:0x8042E9FC
