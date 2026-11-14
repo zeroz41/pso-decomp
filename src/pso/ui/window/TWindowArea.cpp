@@ -17,6 +17,8 @@
 #include "pso/ui/window/TWindowBase.h"
 
 extern "C" {
+const char *TWindowArea__name = "TWindowArea";
+
 extern s32 TWindowSubStatusDisp__count_ratio_value;
 void sub_802443B4__15TWindowAdditionFv(void *, void *);
 void construct_base__9TWindowDDFPUcsPUc(void *);
@@ -113,7 +115,6 @@ extern "C" {
 u8 * get_window_layout_position(s32);
 u8 * __ct__11TWindowRoomFPc(void *, s32);
 extern s32 __vt__11TWindowArea[];
-extern s32 lbl_805D3880;
 void __dl__7TObjectFPv(void *);
 
 void TWindowArea::run_task() { ((TWindowDD *)this)->initialize_subwindow(); ((TWindowBase *)this)->update_window_entry_list((char*)this + 0x24); }
@@ -139,7 +140,7 @@ u8 *TWindowArea__ct(u8 *window_room) {
     window_layout_position = (s32 *)(&(*(RecoveredGlobal_8024470C___vt__11TWindowArea *)&__vt__11TWindowArea).value);
     var_r3 = (u8 *)((void *)0x25);
     *(s32 **)((s8 *)var_r31 + 0x18) = &(*(RecoveredGlobal_8024470C___vt__11TWindowArea *)&__vt__11TWindowArea).value;
-    *(s32 *)((s8 *)var_r31 + 0) = (s32) lbl_805D3880;
+    *(s32 *)((s8 *)var_r31 + 0) = (s32) TWindowArea__name;
     var_r3 = (var_r31 + 0x40);
     window_layout_position = (s32 *)(get_window_layout_position(0x25));
     ((TWindowSubSymbolChatPartsSet *)var_r3)->copy_vec2((void*)window_layout_position);

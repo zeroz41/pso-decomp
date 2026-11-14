@@ -6663,7 +6663,8 @@ pso/ui/window/TWindowAddition_80244238.cpp:
 
 pso/ui/window/TWindowArea.cpp:
 	.text       start:0x802443F0 end:0x80244774
-	.rodata     start:0x8044E650 end:0x8044E658
+	.rodata     start:0x8044E640 end:0x8044E658
+	.sdata      start:0x805D3880 end:0x805D3888
 	.sdata2     start:0x805DCAB8 end:0x805DCAC8
 
 pso/ui/window/TWindowSubComCard_80244774.cpp:
