@@ -1222,6 +1222,7 @@ force_active:
   - TObjEneMe1GiGue__sub_802CD054
   - TObjEneMe1GiGue__sub_802CDAE8
   - lbl_805D6858
+  - __ct__20TObjEneMe3StelthRealFP7TObjectPv
   - __ct__21TObjEneMe3ShinowaRealFP7TObjectPv
   - __ct__22TObjEneMe3SinowZoaRealFP7TObjectPv
   - TObjEneMe3SinowZoa__sub_80317B50
@@ -1234,7 +1235,6 @@ force_active:
   - TObjEneMe3SinowZoa__sub_80319748
   - TObjEneMe3SinowZoa__sub_80319B8C
   - TObjEneMe3SinowZoa__sub_8031A820
-  - TObjEneMe3StelthReal__ct
   - TObjEneMe3Stelth__alternate_texture_list
   - TObjEneMe3Stelth__attack_params_by_variant
   - TObjEneMe3Stelth__base_params_by_variant
