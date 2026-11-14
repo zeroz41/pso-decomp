@@ -1866,6 +1866,7 @@ pso/enemy/sorcerer/TObjEneRe4Bit.cpp:
 	.text       start:0x800ECA40 end:0x800EDB98
 	.data       start:0x80496CD0 end:0x80496EE0
 	.bss        start:0x80501050 end:0x80501070
+	.sdata2     start:0x805DA768 end:0x805DA788
 
 pso/enemy/sorcerer/TObjEneRe4Sorcerer_800EDB98.cpp:
 	.text       start:0x800EDB98 end:0x800F05A0

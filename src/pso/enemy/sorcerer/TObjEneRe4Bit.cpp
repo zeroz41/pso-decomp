@@ -25,15 +25,7 @@
 #pragma defer_codegen on
 
 extern "C" {
-extern const f32 TObjEneRe4Bit__data_805DA770;
 extern const f32 lbl_805D9E84;
-extern const f32 lbl_805DA768;
-extern const f32 lbl_805DA76C;
-extern const f32 lbl_805DA774;
-extern const f32 lbl_805DA778;
-extern const f32 lbl_805DA77C;
-extern const f32 lbl_805DA780;
-extern const f32 lbl_805DA784;
 extern const Vec re4_bit_render_vec;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -132,15 +124,15 @@ void TObjEneRe4Bit::init() {
     } else {
         initialize_enemy_state(0x21);
     }
-    m_37c = lbl_805DA784;
+    m_37c = 3.0f;
     m_3cc = 0;
     m_3d0 = 3;
     m_3d4 = 3;
-    m_3d8 = TObjEneRe4Bit__data_805DA770;
+    m_3d8 = 0.0f;
     fade.reset_obstruction_fade();
-    m_3f8.x = TObjEneRe4Bit__data_805DA770;
-    m_3f8.y = TObjEneRe4Bit__data_805DA770;
-    m_3f8.z = TObjEneRe4Bit__data_805DA770;
+    m_3f8.x = 0.0f;
+    m_3f8.y = 0.0f;
+    m_3f8.z = 0.0f;
     m_404 = 0;
     m_408 = 0;
     m_40c = 0;
@@ -221,10 +213,10 @@ void TObjEneRe4Bit::update_homing_velocity() {
     VecCopy(&dir, m_3c0);
     dir.y = dir.y + m_3d8;
     subtract_vector(&dir, (Vec *)&m_2fc);
-    s = lbl_805DA77C * ((TObjBoss2Tunnel *)&dir)->update_scale();
-    m_3f8.x = lbl_805DA780 * (dir.x * s + m_3f8.x);
-    m_3f8.y = lbl_805DA780 * (dir.y * s + m_3f8.y);
-    m_3f8.z = lbl_805DA780 * (dir.z * s + m_3f8.z);
+    s = 0.01f * ((TObjBoss2Tunnel *)&dir)->update_scale();
+    m_3f8.x = 0.9f * (dir.x * s + m_3f8.x);
+    m_3f8.y = 0.9f * (dir.y * s + m_3f8.y);
+    m_3f8.z = 0.9f * (dir.z * s + m_3f8.z);
     vec3_add_to((Vec *)&m_2fc, &m_3f8);
     position.x = m_2fc;
     position.z = m_304;
@@ -307,9 +299,9 @@ void TObjEneRe4Bit::set_flag3cc_bit2000() { m_3cc |= 0x2000; }
 
 void TObjEneRe4Bit::reset_transform() {
     VecCopy((Vec *)&m_2fc, m_3c0);
-    m_3f8.x = TObjEneRe4Bit__data_805DA770;
-    m_3f8.y = TObjEneRe4Bit__data_805DA770;
-    m_3f8.z = TObjEneRe4Bit__data_805DA770;
+    m_3f8.x = 0.0f;
+    m_3f8.y = 0.0f;
+    m_3f8.z = 0.0f;
     update_position_flag();
     transform_part_positions();
 }
@@ -416,9 +408,9 @@ extern "C" void TObjEneRe4Bit__sub_800ECED0(TObjEneRe4Bit *bit, s32 arg1) {
         case 1:
             break;
         case 0:
-            bit->m_3d8 = bit->m_3d8 + lbl_805DA778;
-            if (bit->m_3d8 > lbl_805DA76C) {
-                bit->m_3d8 = lbl_805DA76C;
+            bit->m_3d8 += 0.8f;
+            if (bit->m_3d8 > 20.0f) {
+                bit->m_3d8 = 20.0f;
                 bit->m_408 = 1;
                 bit->m_404 = 2;
             }
@@ -445,16 +437,16 @@ extern "C" void TObjEneRe4Bit__sub_800ECE04(TObjEneRe4Bit *bit, s32 arg1) {
         bit->m_3d0 = 3;
         break;
     case 3:
-        if (bit->m_3d8 <= TObjEneRe4Bit__data_805DA770) {
+        if (bit->m_3d8 <= 0.0f) {
             bit->transition_enemy_state(1);
             break;
         }
     case 5:
         break;
     case 0:
-        bit->m_3d8 = bit->m_3d8 - lbl_805DA778;
-        if (bit->m_3d8 < TObjEneRe4Bit__data_805DA770) {
-            bit->m_3d8 = TObjEneRe4Bit__data_805DA770;
+        bit->m_3d8 -= 0.8f;
+        if (bit->m_3d8 < 0.0f) {
+            bit->m_3d8 = 0.0f;
         }
         bit->rotation_y = bit->rotation_y - 0x1800;
         bit->update_homing_velocity();
@@ -520,7 +512,7 @@ extern "C" void TObjEneRe4Bit__sub_800ECC14(TObjEneRe4Bit *bit, s32 arg1) {
         bit->actorFlags &= ~0x800;
         bit->hp = bit->hpmax;
         bit->sub_800ED47C();
-        bit->m_3d8 = TObjEneRe4Bit__data_805DA770;
+        bit->m_3d8 = 0.0f;
         break;
     }
 }
@@ -538,12 +530,12 @@ void TObjEneRe4Bit::render() {
     if (is_main_phase_15__9TObjEneDDFv() != 0) {
         range = lbl_805D9E84;
     } else {
-        range = lbl_805DA768;
+        range = 400.0f;
     }
     if (!(m_3cc & 0x100)) {
         return;
     }
-    if (update_object_view_visibility(range, lbl_805DA76C) == 0) {
+    if (update_object_view_visibility(range, 20.0f) == 0) {
         return;
     }
     if (m_3cc & 0x800) {
@@ -568,9 +560,9 @@ void TObjEneRe4Bit::render() {
     if (draw != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
-        translate_matrix(0, TObjEneRe4Bit__data_805DA770, m_300 - position.y, TObjEneRe4Bit__data_805DA770);
+        translate_matrix(0, 0.0f, m_300 - position.y, 0.0f);
         rotate_matrix_y(0, rotation_y);
-        scale_matrix(0, lbl_805DA774, lbl_805DA774, lbl_805DA774);
+        scale_matrix(0, 2.0f, 2.0f, 2.0f);
         draw_chunk_object(model);
         pop_matrix();
     }
