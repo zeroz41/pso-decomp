@@ -39,16 +39,13 @@ struct RecoveredGlobal_802E02D4___vt__19TWindowTradeRequest
 struct Obj_802E0174 { u8 pad[0x1C]; s32 state; void *card; };
 
 extern "C" {
-s32 __dt__7TObjectFv(void *, int);
 s32 init_parts__10TObjPlayerFv();
 void *get_player_by_client_id(s32 i);
-s32 __dl__7TObjectFPv(void *);
 void fn_8024AADC(s32 arg0, s32 arg1);
 void TLobby__sub_8024AC20(s32 arg0);
 void TWindowReturnCity__sub_8024ACA8(s32 arg0);
 extern RecoveredGlobal_802E0224___vt__19TWindowTradeRequest __vt__19TWindowTradeRequest;
 extern s32 local_client_id;
-u8 *__dt__19TWindowTradeRequestFv(TWindowTradeRequest *arg0, s16 arg1);
 s32 *get_shared_text_buffer(void);
 u8 *get_window_layout_position(s32);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(s32, s32, s32, s32);
@@ -100,28 +97,19 @@ void TWindowTradeRequest::run_task() {
         break;
     }
 }
-
-u8 *__dt__19TWindowTradeRequestFv(TWindowTradeRequest *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__19TWindowTradeRequest.value;
-        if ((u32) arg0->m_20 != 0U) {
-            ((TWindowSubComCard *)(*(void **)((s8 *)arg0 + 0x20)))->close();
-            arg0->m_20 = 0U;
-        }
-        TWindowReturnCity__sub_8024ACA8((local_client_id));
-        TLobby__sub_8024AC20((local_client_id));
-        if (get_player_by_client_id((local_client_id)) != 0U) {
-            init_parts__10TObjPlayerFv();
-        }
-        if ((u32) arg0->m_1c == 2U) {
-            fn_8024AADC((local_client_id), 0x1D);
-        }
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
+TWindowTradeRequest::~TWindowTradeRequest() {
+    if ((u32) this->m_20 != 0U) {
+        ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x20)))->close();
+        this->m_20 = 0U;
     }
-    return (u8 *)arg0;
+    TWindowReturnCity__sub_8024ACA8((local_client_id));
+    TLobby__sub_8024AC20((local_client_id));
+    if (get_player_by_client_id((local_client_id)) != 0U) {
+        init_parts__10TObjPlayerFv();
+    }
+    if ((u32) this->m_1c == 2U) {
+        fn_8024AADC((local_client_id), 0x1D);
+    }
 }
 typedef struct RecoveredGlobal_802E02D4___vt__19TWindowTradeRequest RecoveredGlobal_802E02D4___vt__19TWindowTradeRequest;
 typedef struct VBase_18_f23ffb VBase_18_f23ffb;

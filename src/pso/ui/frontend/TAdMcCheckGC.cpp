@@ -15,10 +15,7 @@ struct RecoveredGlobal_8033F1C4___vt__12TAdMcCheckGC {
 };
 
 extern "C" {
-s32 __dt__7TObjectFv(void *, int);
-s32 __dl__7TObjectFPv(void *);
 extern s32 memcard_cursor_instance_table[];
-extern s32 __vt__12TAdMcCheckGC[];
 s32 GXSetTexCoordGen2(s32, s32, s32, s32, s32, s32);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(void *, s32, s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
@@ -138,36 +135,28 @@ void TAdMcCheckGC::run_task() {
 extern void *TAdMcCheckGC__name;
 
 typedef char RecoveredGlobal_8033F1C4___vt__12TAdMcCheckGC_size[sizeof(RecoveredGlobal_8033F1C4___vt__12TAdMcCheckGC) == 0x18 ? 1 : -1];
-u8 *__dt__12TAdMcCheckGCFv(TAdMcCheckGC *arg0, s16 arg1) {
+TAdMcCheckGC::~TAdMcCheckGC() {
     s32 temp_r4;
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8033F1C4___vt__12TAdMcCheckGC *)&__vt__12TAdMcCheckGC).value;
-        temp_r4 = arg0->m_28 * 4;
-        if ((u32) *(u32 *)((s8 *)((u8 *)memcard_cursor_instance_table + temp_r4) + 0) != 0U) {
-            *(s32 *)((s8 *)((u8 *)memcard_cursor_instance_table + temp_r4) + 0) = 0;
-        }
-        if ((u32) arg0->m_2c != 0U) {
-            ((TObject *)(*(void **)((s8 *)arg0 + 0x2C)))->queue_destruction();
-            arg0->m_2c = 0U;
-        }
-        if ((u32) arg0->m_30 != 0U) {
-            ((TObject *)(*(void **)((s8 *)arg0 + 0x30)))->queue_destruction();
-            arg0->m_30 = 0U;
-        }
-        if ((u32) arg0->m_34 != 0U) {
-            ((TObject *)(*(void **)((s8 *)arg0 + 0x34)))->queue_destruction();
-            arg0->m_34 = 0U;
-        }
-        if ((u32) arg0->m_38 != 0U) {
-            ((TObject *)(*(void **)((s8 *)arg0 + 0x38)))->queue_destruction();
-            arg0->m_38 = 0U;
-        }
-        __dt__7TObjectFv((void *)arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((void *)arg0);
-        }
+    temp_r4 = this->m_28 * 4;
+    if ((u32) *(u32 *)((s8 *)((u8 *)memcard_cursor_instance_table + temp_r4) + 0) != 0U) {
+        *(s32 *)((s8 *)((u8 *)memcard_cursor_instance_table + temp_r4) + 0) = 0;
     }
-    return (u8 *)arg0;
+    if ((u32) this->m_2c != 0U) {
+        ((TObject *)(*(void **)((s8 *)this + 0x2C)))->queue_destruction();
+        this->m_2c = 0U;
+    }
+    if ((u32) this->m_30 != 0U) {
+        ((TObject *)(*(void **)((s8 *)this + 0x30)))->queue_destruction();
+        this->m_30 = 0U;
+    }
+    if ((u32) this->m_34 != 0U) {
+        ((TObject *)(*(void **)((s8 *)this + 0x34)))->queue_destruction();
+        this->m_34 = 0U;
+    }
+    if ((u32) this->m_38 != 0U) {
+        ((TObject *)(*(void **)((s8 *)this + 0x38)))->queue_destruction();
+        this->m_38 = 0U;
+    }
 }
 TAdMcCheckGC::TAdMcCheckGC(TObject *object, void *arg2) : TObject(object) {
     *(void * *)&this->m_name = TAdMcCheckGC__name;

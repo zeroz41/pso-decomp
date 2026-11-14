@@ -23,7 +23,6 @@ u8 * __ct__24TMessageWindowControllerFv(void *);
 extern RecoveredGlobal_802238D8___vt__13TShopSequence __vt__13TShopSequence;
 extern s32 TShopSequence__class_name;
 u8 *TShopSequence__ct(u8 *self, TObject *parent);
-s32 __dl__7TObjectFPv(void *);
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32);
 s32 activate_body_collision__10TObjPlayerFv();
 s32 deactivate_body_collision__10TObjPlayerFv();
@@ -112,19 +111,11 @@ void TShopSequence::restore_player_state() {
         suppress_slot__11TWindowCtrlFv(get_entity_id(*(u32 *)((s8 *)this + 0x24)));
     }
 }
-void *__dt__13TShopSequenceFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TShopSequence.value;
-        if (*(Del_80223850 **)((s8 *)arg0 + 0x28) != NULL) {
-            delete *(Del_80223850 **)((s8 *)arg0 + 0x28);
-            *(Del_80223850 **)((s8 *)arg0 + 0x28) = NULL;
-        }
-        __dt__15TShopWindowBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
+TShopSequence::~TShopSequence() {
+    if (*(Del_80223850 **)((s8 *)this + 0x28) != NULL) {
+        delete *(Del_80223850 **)((s8 *)this + 0x28);
+        *(Del_80223850 **)((s8 *)this + 0x28) = NULL;
     }
-    return arg0;
 }
 u8 *TShopSequence__ct(u8 *shop_window_base, TObject *parent) {
     s32 temp_r3;

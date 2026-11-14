@@ -63,7 +63,6 @@ void TChCrTagInformation::draw_char_info_sprites() {
 }
 
 s32 get_char_select_class_id();
-void __dl__7TObjectFPv(void *);
 
 void TChCrTagInformation::render() { draw_char_info_sprites(); }
 
@@ -88,20 +87,10 @@ void TChCrTagInformation::update_selected_char() {
 }
 
 void TChCrTagInformation::run_task() { update_fade__8TChCrTagFPv(this); update_selected_char(); }
-int TChCrTagInformation__vt4(void) { return 0; }
+s32 TChCrTagInformation::vt4() { return 0; }
 
-extern s32 __vt__19TChCrTagInformation[];
-
-TChCrTagInformation *__dt__19TChCrTagInformationFv(TChCrTagInformation *tag, s16 free) {
-    if (tag != NULL) {
-        *(s32 **)((u8 *)tag + 0x18) = __vt__19TChCrTagInformation;
-        fn_803098DC();
-        __dt__8TChCrTagFv(tag, 0);
-        if (free > 0) {
-            __dl__7TObjectFPv(tag);
-        }
-    }
-    return tag;
+TChCrTagInformation::~TChCrTagInformation() {
+    fn_803098DC();
 }
 
 extern const char *TChCrTagInformation__class_name;

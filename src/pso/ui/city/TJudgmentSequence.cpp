@@ -59,9 +59,7 @@ struct Seq_80215CB8 { u8 pad[0x24]; s32 f24; };
 extern "C" {
 s32 set_service_counter_camera(void *, int);
 s32 get_window_layout_position(int, f32);
-void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
-s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_80215EF8___vt__17TJudgmentSequence __vt__17TJudgmentSequence;
 RecoveredGlobal_80215EF8_TJudgmentSequence__data_80513E80 TJudgmentSequence__slot_flags;
 s32 judgment_sequence_instance;
@@ -160,27 +158,18 @@ void TJudgmentSequence::vfunc_11() {
         break;
     }
 }
-
-u8 *__dt__17TJudgmentSequenceFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__17TJudgmentSequence.value;
-        if ((u32) *(u32 *)((s8 *)arg0 + 0x30) != 0U) {
-            ((TObject *)(*(void **)((s8 *)arg0 + 0x30)))->queue_destruction();
-            *(u32 *)((s8 *)arg0 + 0x30) = 0U;
-        }
-        ((TShopSequence *)arg0)->close_message_window();
-        if ((u32) ((TJudgmentSequence *)arg0)->m_2c != 0U) {
-            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x2C)))->close();
-            ((TJudgmentSequence *)arg0)->m_2c = 0U;
-        }
-        judgment_sequence_instance = 0;
-        *(s32 *)((s8 *)&TJudgmentSequence__slot_flags.value + (sub_8022397C__15TShopWindowBaseFv(arg0) * 4)) = 0;
-        __dt__13TShopSequenceFv((arg0), 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
+TJudgmentSequence::~TJudgmentSequence() {
+    if ((u32) *(u32 *)((s8 *)this + 0x30) != 0U) {
+        ((TObject *)(*(void **)((s8 *)this + 0x30)))->queue_destruction();
+        *(u32 *)((s8 *)this + 0x30) = 0U;
     }
-    return arg0;
+    ((TShopSequence *)this)->close_message_window();
+    if ((u32) ((TJudgmentSequence *)this)->m_2c != 0U) {
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x2C)))->close();
+        ((TJudgmentSequence *)this)->m_2c = 0U;
+    }
+    judgment_sequence_instance = 0;
+    *(s32 *)((s8 *)&TJudgmentSequence__slot_flags.value + (sub_8022397C__15TShopWindowBaseFv(this) * 4)) = 0;
 }
 
 u8 *TShopSequence__ct(u8 *arg0);

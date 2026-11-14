@@ -9,7 +9,6 @@ struct RecoveredGlobal_80288838___vt__17TWindowMainMenu1P { s32 value; u8 remain
 typedef char RecoveredGlobal_80288838___vt__17TWindowMainMenu1P_size[sizeof(RecoveredGlobal_80288838___vt__17TWindowMainMenu1P) == 0x28 ? 1 : -1];
 
 extern "C" {
-void __dl__7TObjectFPv(s32);
 extern s32 __vt__17TWindowMainMenu1P[];
 extern const f32 lbl_805DD8A0;
 extern const f32 lbl_805DD8A4;
@@ -106,19 +105,10 @@ extern const f32 lbl_805DD8CC;
 extern const f32 lbl_805DD8D0;
 extern const f32 lbl_805DD8D4;
 extern const f32 lbl_805DD8D8;
-
-u8 *__dt__17TWindowMainMenu1PFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80288838___vt__17TWindowMainMenu1P *)&__vt__17TWindowMainMenu1P).value;
-        if (*(s32 *)((s8 *)arg0 + 0x4C) & 2) {
-            end_view_override();
-        }
-        __dt__15TWindowMainMenuFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
-        }
+TWindowMainMenu1P::~TWindowMainMenu1P() {
+    if (*(s32 *)((s8 *)this + 0x4C) & 2) {
+        end_view_override();
     }
-    return arg0;
 }
 
 void *TWindowMainMenu1P__ct(TWindowMainMenu1P *window_main_menu1_p) {

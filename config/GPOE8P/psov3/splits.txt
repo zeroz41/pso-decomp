@@ -6060,13 +6060,14 @@ pso/ui/city/THunterGuildSeqOnlineTask_802156A0.cpp:
 
 pso/ui/city/TJudgmentSequence.cpp:
 	.text       start:0x80215BA0 end:0x80216084
+	.data       start:0x804C9840 end:0x804C9878
 	.bss        start:0x80513E80 end:0x80513E90
 	.sbss       start:0x805D61D0 end:0x805D61D4
 	.sdata2     start:0x805DC680 end:0x805DC688
 
 pso/ui/city/TMedicalCenterSequence.cpp:
 	.text       start:0x80216084 end:0x80216B44
-	.data       start:0x804C9878 end:0x804C98C8
+	.data       start:0x804C9878 end:0x804C9900
 	.bss        start:0x80513E90 end:0x80513EB0
 	.sdata2     start:0x805DC688 end:0x805DC690
 
@@ -6223,6 +6224,7 @@ pso/unk/text_8022350C.cpp:
 
 pso/ui/city/TShopSequence.cpp:
 	.text       start:0x8022356C end:0x80223938
+	.data       start:0x804CA338 end:0x804CA370
 
 pso/ui/city/TShopWindowBase.cpp:
 	.text       start:0x80223938 end:0x80223B88
@@ -7690,6 +7692,7 @@ pso/ui/window/TWindowUserSort.cpp:
 pso/ui/window/TWindowMainMenu1P.cpp:
 	.text       start:0x80288520 end:0x80288940
 	.rodata     start:0x80450788 end:0x80450790
+	.data       start:0x804D3078 end:0x804D30A0
 
 pso/ui/window/TWindowMainMenu4P.cpp:
 	.text       start:0x80288940 end:0x80288B04
@@ -7798,7 +7801,7 @@ pso/ui/charcreate/TChCrLoadAfs.cpp:
 
 pso/ui/charcreate/TChCrLoadAfsTextureReq.cpp:
 	.text       start:0x8028C054 end:0x8028C650
-	.data       start:0x804D36C8 end:0x804D3710
+	.data       start:0x804D36C8 end:0x804D3728
 	.sbss       start:0x805D64E0 end:0x805D64E8
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8028C650.cpp:
@@ -8183,6 +8186,7 @@ pso/ui/charcreate/TChCrTag.cpp:
 
 pso/ui/charcreate/TChCrTagInformation.cpp:
 	.text       start:0x802A1BFC end:0x802A207C
+	.data       start:0x804DCBF8 end:0x804DCC18
 	.sdata2     start:0x805DDE10 end:0x805DDE28
 
 pso/ui/charcreate/TChCrCharSelect_802A207C.cpp:
@@ -8840,6 +8844,7 @@ pso/ui/frontend/TAdMultiPlyChrSelectGC_802E011C.cpp:
 
 pso/ui/window/TWindowTradeRequest_802E0170.cpp:
 	.text       start:0x802E0170 end:0x802E03C8
+	.data       start:0x804E2F50 end:0x804E2F68
 	.sdata2     start:0x805DE8A0 end:0x805DE8A4
 
 pso/unk/TLobby_802E03C8.cpp:
@@ -9978,6 +9983,7 @@ pso/unk/TLobby_8033ECB0.cpp:
 
 pso/ui/frontend/TAdMcCheckGC.cpp:
 	.text       start:0x8033EE10 end:0x8033F314
+	.data       start:0x804EFAA8 end:0x804EFAC0
 	.sdata2     start:0x805DFAD8 end:0x805DFADC
 
 pso/unk/text_8033F314.cpp:
