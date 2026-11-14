@@ -156,7 +156,8 @@ s32 init_dragon_area_scene(void) {
     return 1;
 }
 
-void TLobby__sub_80140308(void) {
+// inferred: the BOSS02 cleanup of area_initializer_dispatch_table
+void cleanup_boss2_area(void) {
     TLobby::refresh_render_state();
     TLobby::stop_audio_streams();
     call_funcs_reverse__6TLobbyFPvUi(lbl_804A7360, 8);
@@ -181,7 +182,8 @@ s32 TLobby::setup_area() {
 }
 
 void TLobby__sub_801403B4(s32 _w0) {  }
-void TLobby__sub_801403B8(void) { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); stop_cue_stream(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
+// inferred: the BOSS03 cleanup of area_initializer_dispatch_table
+void cleanup_boss3_area(void) { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); stop_cue_stream(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
 s32 TLobby::spawn_boss3_volopt_ctrl() {
     get_current_floor_area();
     load_floor_sound_bank();

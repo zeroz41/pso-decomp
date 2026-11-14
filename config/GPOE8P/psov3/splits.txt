@@ -6456,7 +6456,8 @@ pso/unk/TLobby_80227AA0.cpp:
 pso/unk/TLobby_80228154.cpp:
 	.text       start:0x80228154 end:0x80228818
 	.ctors      start:0x80433FA8 end:0x80433FAC
-	.rodata     start:0x8044C9F0 end:0x8044C9F8
+	.rodata     start:0x8044C9F0 end:0x8044CB60
+	.data       start:0x804CBE98 end:0x804CC048
 	.bss        start:0x80515BA0 end:0x80515BC8
 	.sdata2     start:0x805DC770 end:0x805DC788
 

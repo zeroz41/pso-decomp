@@ -27,7 +27,7 @@ s32 is_split_screen();
 s32 is_quest_active();
 s32 load_floor_sound_bank();
 extern void *tl_05;
-s32 TLobby__sub_80299C7C(void);
+s32 init_jungle_area(void);
 s32 TLobby__sub_801403B4(s32);
 u32 __nw__7TObjectFUl(s32);
 s32 create_instance__10TSceneSoraFPv(void*, s32);
@@ -39,7 +39,8 @@ extern s32 tl_particlemodel;
 
 void TLobby::update_floor_state_deferred() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
 
-s32 TLobby__sub_80299C7C(void) {
+// inferred: the JUNGLE01-07 init of area_initializer_dispatch_table
+s32 init_jungle_area(void) {
     get_current_floor_area();
     load_floor_sound_bank();
     if (TLobby::check_disconnect_conditions() != 0) {
