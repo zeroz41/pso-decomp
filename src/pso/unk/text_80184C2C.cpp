@@ -2,9 +2,84 @@
 #include "pso/unk/text_800F5BC0.h"
 #include "pso/unk/text_80184C2C.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/BmlResourceDescriptor.h"
 
 int lbl_8050DC20[6];
 const s32 lobby_event_theme_id_table[6] = {4, 3, 1, 5, 2, 6};
+
+const char *bm_obj_city_21_model_names[3] = {"ds_obj_21.nj", "ds_obj_21_dai_1.nj", NULL};
+const char *bm_obj_city_21_motion_names[2] = {"ds_obj_21.njm", NULL};
+BmlResourceDescriptor bm_obj_city_21_resource_descriptor = {
+    "bm_obj_city_21.bml", bm_obj_city_21_model_names, bm_obj_city_21_motion_names, 2, 1,
+};
+
+const char *bm_obj_city_easter_model_names[3] = {"fs_obj_daiue.nj", "fs_obj_egg.nj", NULL};
+const char *bm_obj_city_easter_motion_names[1] = {NULL};
+BmlResourceDescriptor bm_obj_city_easter_resource_descriptor = {
+    "bm_obj_city_easter.bml", bm_obj_city_easter_model_names, bm_obj_city_easter_motion_names, 2, 0,
+};
+
+const char *bm_obj_city_pump_model_names[2] = {"fd_obj_n_pump_obj6.nj", NULL};
+const char *bm_obj_city_pump_motion_names[1] = {NULL};
+BmlResourceDescriptor bm_obj_city_pump_resource_descriptor = {
+    "bm_obj_city_pump.bml", bm_obj_city_pump_model_names, bm_obj_city_pump_motion_names, 1, 0,
+};
+
+const char *bm_obj_city_sonic_model_names[5] = {
+    "re_b_eggman_body.nj", "re_b_knuckles_body.nj", "re_b_sonic_body.nj", "re_b_tails_body.nj", NULL,
+};
+const char *bm_obj_city_sonic_motion_names[5] = {
+    "wait_eggman_body.njm", "wait_knuckles_body.njm", "wait_sonic_body.njm", "wait_tails_body.njm", NULL,
+};
+BmlResourceDescriptor bm_obj_city_sonic_resource_descriptor = {
+    "bm_obj_city_sonic.bml", bm_obj_city_sonic_model_names, bm_obj_city_sonic_motion_names, 4, 4,
+};
+
+const char *bm_obj_city_valen_model_names[4] = {
+    "de_obj_heartstar_01_1.nj", "de_obj_heartstar_02_1.nj", "ds_obj_heart_dai_1.nj", NULL,
+};
+const char *bm_obj_city_valen_motion_names[4] = {
+    "de_obj_heartstar_01_1.njm", "de_obj_heartstar_02_1.njm", "ds_obj_heart_dai_1.njm", NULL,
+};
+BmlResourceDescriptor bm_obj_city_valen_resource_descriptor = {
+    "bm_obj_city_valen.bml", bm_obj_city_valen_model_names, bm_obj_city_valen_motion_names, 3, 3,
+};
+
+const char *bm_obj_city_xmas_model_names[11] = {
+    "de_obj_o_aircar01_xmas.nj", "de_obj_o_aircar02_xmas.nj", "de_obj_o_aircar03_xmas.nj",
+    "de_obj_o_aircar04_xmas.nj", "de_obj_o_aircar05_xmas.nj", "fd_obj_n_leas_bmerge1.nj",
+    "fd_obj_n_tree_cyl199.nj",   "fd_obj_n_tree_cyl200.nj",   "fd_obj_n_tree_cyl201.nj",
+    "fd_obj_n_tree_obj2.nj",     NULL,
+};
+const char *bm_obj_city_xmas_motion_names[3] = {"fd_obj_n_tree_cyl199.njm", "fd_obj_n_tree_cyl200.njm", NULL};
+BmlResourceDescriptor bm_obj_city_xmas_resource_descriptor = {
+    "bm_obj_city_xmas.bml", bm_obj_city_xmas_model_names, bm_obj_city_xmas_motion_names, 10, 2,
+};
+
+const char *bm_obj_city_board_normal_model_names[3] = {"fd_obj_n_keijiban_board_n.nj", "fd_obj_n_keijiban_hasira_n.nj", NULL};
+const char *bm_obj_city_board_normal_motion_names[1] = {NULL};
+BmlResourceDescriptor bm_obj_city_board_normal_resource_descriptor = {
+    "bm_obj_city_board_normal.bml", bm_obj_city_board_normal_model_names, bm_obj_city_board_normal_motion_names, 2, 0,
+};
+
+const char *bm_obj_city_board_xmas_model_names[3] = {"fd_obj_n_keijiban_board_x.nj", "fd_obj_n_keijiban_hasira_x.nj", NULL};
+const char *bm_obj_city_board_xmas_motion_names[1] = {NULL};
+BmlResourceDescriptor bm_obj_city_board_xmas_resource_descriptor = {
+    "bm_obj_city_board_xmas.bml", bm_obj_city_board_xmas_model_names, bm_obj_city_board_xmas_motion_names, 2, 0,
+};
+
+const char *bm_obj_city_board_2001_model_names[3] = {"fd_obj_n_keijiban_board_y.nj", "fd_obj_n_keijiban_hasira_y.nj", NULL};
+const char *bm_obj_city_board_2001_motion_names[1] = {NULL};
+BmlResourceDescriptor bm_obj_city_board_2001_resource_descriptor = {
+    "bm_obj_city_board_2001.bml", bm_obj_city_board_2001_model_names, bm_obj_city_board_2001_motion_names, 2, 0,
+};
+
+// inferred: indexed by the active season slot (lobby_event_theme_id_table order)
+BmlResourceDescriptor *city_season_resource_descriptors[6] = {
+    &bm_obj_city_easter_resource_descriptor, &bm_obj_city_valen_resource_descriptor,
+    &bm_obj_city_xmas_resource_descriptor,   &bm_obj_city_pump_resource_descriptor,
+    &bm_obj_city_21_resource_descriptor,     &bm_obj_city_sonic_resource_descriptor,
+};
 extern s32 TLobby__event_theme_id;
 extern "C" {
 void free_bin_model_request(void *, s32);
@@ -75,14 +150,13 @@ void TLobby::free_buffers() {
 }
 
 extern "C" s32 get_main_phase(void);
-extern "C" extern u8 lbl_804B5E80[];
-extern "C" void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
+extern "C" void *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
 extern "C" void clear_global_array__6TLobbyFPv();
 
 extern "C" void TLobby__sub_80184DF4(void) {
     s32 i;
     s32 count;
-    u8 *obj;
+    u8 *board;
     u8 *tmp;
     u8 *base;
     u8 *ent;
@@ -90,7 +164,6 @@ extern "C" void TLobby__sub_80184DF4(void) {
     void *p;
     s32 off;
 
-    obj = lbl_804B5E80;
     clear_global_array__6TLobbyFPv();
     ph = get_main_phase();
     if (ph == 0xf) {
@@ -115,9 +188,7 @@ extern "C" void TLobby__sub_80184DF4(void) {
         }
         tmp = (u8 *)::operator new(0x440);
         if (tmp != NULL) {
-            void **d = (void **)(obj + 0x15c);
-            d += lbl_805D5B30;
-            tmp = (u8 *)load_resource_from_descriptor(tmp, 1, *d, 0, 0, 0);
+            tmp = (u8 *)load_resource_from_descriptor(tmp, 1, city_season_resource_descriptors[lbl_805D5B30], 0, 0, 0);
         }
         off = lbl_805D5B30 * 4;
         *(s32 *)((u8 *)city_season_easter_egg_model_table + off) = (int)tmp;
@@ -153,25 +224,25 @@ extern "C" void TLobby__sub_80184DF4(void) {
     if (lbl_805D5B30 == 2) {
         u8 *r = (u8 *)::operator new(0x440);
         if (r != NULL) {
-            r = (u8 *)load_resource_from_descriptor(r, 1, obj + 0x130, 0, 0, 0);
+            r = (u8 *)load_resource_from_descriptor(r, 1, &bm_obj_city_board_xmas_resource_descriptor, 0, 0, 0);
         }
-        obj = r;
+        board = r;
         lbl_805D5B3C = *(s32 *)(*(u8 **)(r + 0x42c) + 8);
         lbl_805D5B40 = *(s32 *)(*(u8 **)(r + 0x42c) + 0x18);
     } else if (lbl_805D5B30 == 4) {
         u8 *r = (u8 *)::operator new(0x440);
         if (r != NULL) {
-            r = (u8 *)load_resource_from_descriptor(r, 1, obj + 0x14c, 0, 0, 0);
+            r = (u8 *)load_resource_from_descriptor(r, 1, &bm_obj_city_board_2001_resource_descriptor, 0, 0, 0);
         }
-        obj = r;
+        board = r;
         lbl_805D5B3C = *(s32 *)(*(u8 **)(r + 0x42c) + 8);
         lbl_805D5B40 = *(s32 *)(*(u8 **)(r + 0x42c) + 0x18);
     } else {
         u8 *r = (u8 *)::operator new(0x440);
         if (r != NULL) {
-            r = (u8 *)load_resource_from_descriptor(r, 1, obj + 0x114, 0, 0, 0);
+            r = (u8 *)load_resource_from_descriptor(r, 1, &bm_obj_city_board_normal_resource_descriptor, 0, 0, 0);
         }
-        obj = r;
+        board = r;
         lbl_805D5B3C = *(s32 *)(*(u8 **)(r + 0x42c) + 8);
         lbl_805D5B40 = *(s32 *)(*(u8 **)(r + 0x42c) + 0x18);
     }
@@ -183,10 +254,10 @@ extern "C" void TLobby__sub_80184DF4(void) {
     base = *(u8 **)(base + 4);
     base = *(u8 **)(base + 4);
     *(s16 *)(base + 0xc) &= ~0x2000;
-    lbl_805D5B38 = obj;
-    for (i = 0; i < *(s32 *)(obj + 0x434); i++) {
-        if ((*(u32 (**)[4])(obj + 0x42c))[i][3] != 0) {
-            lbl_805D5B44 = (*(u32 (**)[4])(obj + 0x42c))[i][3];
+    lbl_805D5B38 = board;
+    for (i = 0; i < *(s32 *)(board + 0x434); i++) {
+        if ((*(u32 (**)[4])(board + 0x42c))[i][3] != 0) {
+            lbl_805D5B44 = (*(u32 (**)[4])(board + 0x42c))[i][3];
             break;
         }
     }

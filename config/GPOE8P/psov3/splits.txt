@@ -4580,8 +4580,10 @@ pso/object/city/CitySeason.cpp:
 
 pso/unk/text_80184C2C.cpp:
 	.text       start:0x80184C2C end:0x80185160
-	.rodata     start:0x80444268 end:0x80444280
+	.rodata     start:0x80444268 end:0x80444720
+	.data       start:0x804B5E80 end:0x804B5FF8
 	.bss        start:0x8050DC20 end:0x8050DC68
+	.sdata      start:0x805D3290 end:0x805D32A8
 	.sbss       start:0x805D5B30 end:0x805D5B4C
 
 pso/object/warp/TObjLaboMapWarp.cpp:
