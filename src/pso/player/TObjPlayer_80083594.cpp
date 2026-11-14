@@ -4,14 +4,6 @@
 
 struct GXColor_80083B8C { u8 r, g, b, a; };
 
-struct C_800845F8 { u8 pad[0x20]; s32 x20; };
-
-struct B_800845F8 { u8 pad[0xc]; C_800845F8 *c; };
-
-struct A_800845F8 { u8 pad[0x8]; B_800845F8 *b; };
-
-struct G_800845F8 { A_800845F8 *a; u8 pad[0x1c]; };
-
 extern "C" {
 void GXPixModeSync(void);
 void GXSetTexCopySrc(u16, u16, u16, u16);
@@ -22,7 +14,6 @@ void GXSetViewport(f32, f32, f32, f32, f32, f32);
 void GXSetScissor(u32, u32, u32, u32);
 void TObjPlayer__sub_80084744(void);
 void TObjPlayer__sub_80084754(void);
-extern G_800845F8 shared_capture_texture_list;
 }
 
 #include "pso/effect/TEffect.h"
@@ -109,6 +100,16 @@ static GinjaTextureEntry effect_textures[54] = {
 
 GinjaTextureList shared_effect_texture_list = {effect_textures, 54};
 
+/* inferred: one-entry list init_capture_texture fills with a 640x480 render texture
+   that capture_viewport_texture and copy_screen_to_texture copy the framebuffer into */
+GinjaTextureEntry shared_capture_texture_entry = {NULL, 0, NULL};
+GinjaTextureList shared_capture_texture_list = {&shared_capture_texture_entry, 1};
+/* inferred: one-entry list TObjPlayer__sub_80083F38 fills with a 256x256 render texture
+   that end_shadow_map_pass copies the shadow pass into and draw_if_all_ready binds */
+GinjaTextureEntry shadow_map_texture_entry = {NULL, 0, NULL};
+GinjaTextureList shadow_map_texture_list = {&shadow_map_texture_entry, 1};
+Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
+
 extern "C" {
 extern s32 lbl_805D63F0;
 void TObjPlayer__sub_80082C30(void);
@@ -176,7 +177,7 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         }
         GXSetTexCopySrc(v.x, v.y, 0x100, 0xC0);
         GXSetTexCopyDst(0x100, 0xC0, 4, 0);
-        GXCopyTex((void *)shared_capture_texture_list.a->b->c->x20, 1);
+        GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 1);
         GXPixModeSync();
         cam = controller_physical_port_bank + 0x110;
         a.x = 192.0f;
@@ -193,14 +194,14 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         TObjPlayer__sub_80082C30();
         GXSetTexCopySrc(0xC0, 0x90, 0x100, 0xC0);
         GXSetTexCopyDst(0x100, 0xC0, 4, 0);
-        GXCopyTex((void *)shared_capture_texture_list.a->b->c->x20, 1);
+        GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 1);
         GXPixModeSync();
         break;
     case 1:
         GXSetCopyClear(lbl_805E1218, 0xFFFFFF);
         GXSetTexCopySrc(0, 0, 0x280, 0x1E0);
         GXSetTexCopyDst(0x280, 0x1E0, 4, 0);
-        GXCopyTex((void *)shared_capture_texture_list.a->b->c->x20, 1);
+        GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 1);
         GXPixModeSync();
         cam = controller_physical_port_bank + 0x110;
         a.x = 192.0f;
@@ -217,7 +218,7 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         TObjPlayer__sub_80082C30();
         GXSetTexCopySrc(0xC0, 0x90, 0x100, 0xC0);
         GXSetTexCopyDst(0x100, 0xC0, 4, 0);
-        GXCopyTex((void *)shared_capture_texture_list.a->b->c->x20, 1);
+        GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 1);
         GXPixModeSync();
         break;
     }
@@ -474,21 +475,11 @@ void reset_particle_tev() {
 
 
 
-struct RecoveredGlobal_80083CEC_lbl_8048E5D0 {
-    s32 value;
-    u8 remaining[0x8];
-};
 
 
 struct Rect_80083F38 { u8 data[0x20]; };
 
 struct Rect_800846C8 { u8 data[0x20]; };
-
-struct G_800846C8 { void *a; u8 pad[0x1c]; };
-
-struct A_80084694 { u8 pad[0x8]; u32 f8; };
-
-struct G_80084694 { A_80084694 *a; u8 pad[0x1c]; };
 
 struct Vec_80083D54 { f32 x, y, z; };
 
@@ -500,16 +491,7 @@ struct View_80083D54 {
 
 struct Mtx44_80083D54 { f32 m[4][4]; };
 
-struct C_800842A4 { u8 pad[0x20]; s32 x20; };
-
-struct B_800842A4 { u8 pad[0xc]; C_800842A4 *c; };
-
-struct A_800842A4 { u8 pad[0x8]; B_800842A4 *b; };
-
-struct G_800842A4 { A_800842A4 *a; u8 pad[0x1c]; };
-
 extern "C" {
-extern RecoveredGlobal_80083CEC_lbl_8048E5D0 shadow_light_position;
 void translate_current_matrix_ps(f32, f32, f32);
 void rotate_current_matrix_x_ps(s32);
 void push_identity_matrix_ps();
@@ -656,7 +638,7 @@ void render_projected_shadow_receiver(u8 *arg0, s32 arg1) {
         push_identity_matrix_ps();
         translate_current_matrix_ps(0.0f, 0.0f, -15000.0f);
         rotate_current_matrix_x_ps(0x3800);
-        translate_current_matrix_ps(-*(f32 *)((s8 *)&shadow_light_position.value + 0), -*(f32 *)((s8 *)&shadow_light_position.value + 4), -*(f32 *)((s8 *)&shadow_light_position.value + 8));
+        translate_current_matrix_ps(-shadow_light_position.x, -shadow_light_position.y, -shadow_light_position.z);
         translate_current_matrix_ps(*(f32 *)((s8 *)arg0 + 0), *(f32 *)((s8 *)arg0 + 4), *(f32 *)((s8 *)arg0 + 8));
         rotate_matrix_by_node_angles((void *)arg1, 1);
         stack.sp8 = 0.5f;
@@ -696,19 +678,19 @@ f32 calc_camera_fov_degrees(void) {
 
 
 int lbl_805D4EE0;
+unsigned char camera_capture_flags;
+u32 camera_render_target_singleton;
 extern "C" {
 void TObjPlayer__sub_80083FB0(void);
 int TObjPlayer__sub_80083F9C(void);
 void *get_player_by_client_id(s32 i);
 s32 get_main_phase();
 s32 is_inactive__10TObjPlayerFv();
-    extern unsigned char camera_capture_flags;
 void TObjPlayer__sub_80084614(void);
 void TObjPlayer__sub_8008463C(void);
 void TObjPlayer__sub_80084764(void);
 void TObjPlayer__sub_80084780(void);
 void **release_texture_list();
-extern s32 lbl_8048E5C8[];
 void **TObjPlayer__sub_80083F04(void);
 s32 is_in_shadow_range(u8 *arg0, f32 farg0);
 s32 TObjPlayer__sub_800845F8(void);
@@ -758,14 +740,13 @@ void setup_blended_textured_draw(void);
 
 void TObjPlayer::draw_if_all_ready() {
     if ((is_split_screen() == 0) && (TObjPlayer::check_all_players_ready() != 0)) {
-        TObjFish::set_global_param((s32)lbl_8048E5C8);
+        TObjFish::set_global_param((s32)&shadow_map_texture_list);
         load_list_texture(0, 0, 0, 1);
     }
 }
 
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_80083CEC_lbl_8048E5D0_size[sizeof(RecoveredGlobal_80083CEC_lbl_8048E5D0) == 0xC ? 1 : -1];
 
 void end_shadow_map_pass() {
     u8 *temp_r31;
@@ -778,7 +759,7 @@ void end_shadow_map_pass() {
         GXSetCopyClear(c, 0xFFFFFF);
         GXSetTexCopySrc(0, 0, 0x100, 0x100);
         GXSetTexCopyDst(0x100, 0x100, 2, 0);
-        GXCopyTex((void *) (*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)(((u8 **)lbl_8048E5C8)[0]) + 8)) + 0xC)) + 0x20)), 1);
+        GXCopyTex(shadow_map_texture_list.entries->texture->surface->pixels, 1);
         GXPixModeSync();
         temp_r31 = active_gx_render_mode;
         Dolphin_GXSetCopyFilter((int) (*(u8 *)((s8 *)temp_r31 + 0x19)), temp_r31 + 0x1A, (int) (get_display_copy_filter()), temp_r31 + 0x32);
@@ -794,7 +775,7 @@ void end_shadow_map_pass() {
 }
 
 s32 is_in_shadow_range(u8 *arg0, f32 farg0) {
-    if (((u32) camera_ctrl_instance != 0U) && (((farg0 * farg0) + horizontal_distance_squared((const Vec *)arg0, (const Vec *)&shadow_light_position.value)) <= 8537.761f)) {
+    if (((u32) camera_ctrl_instance != 0U) && (((farg0 * farg0) + horizontal_distance_squared((const Vec *)arg0, &shadow_light_position)) <= 8537.761f)) {
         return 1;
     }
     return 0;
@@ -804,7 +785,6 @@ s32 is_in_shadow_range(u8 *arg0, f32 farg0) {
 #pragma push
 #pragma fp_contract on
 #define VIEW ((View_80083D54 *)camera_ctrl_instance)
-#define LIGHT (*(Vec_80083D54 *)&shadow_light_position)
 void begin_shadow_map_pass(void) {
     Mtx44_80083D54 proj;
     Vec_80083D54 d;
@@ -826,13 +806,13 @@ void begin_shadow_map_pass(void) {
     d.z = VIEW->target.z - VIEW->pos.z;
     if (0.0f != vec_squared_length(&d)) {
         normalize_vector(&d);
-        LIGHT.x = VIEW->pos.x + 0.4f * (256.0f * d.x);
-        LIGHT.y = VIEW->pos.y;
-        LIGHT.z = VIEW->pos.z + 0.4f * (256.0f * d.z);
+        shadow_light_position.x = VIEW->pos.x + 0.4f * (256.0f * d.x);
+        shadow_light_position.y = VIEW->pos.y;
+        shadow_light_position.z = VIEW->pos.z + 0.4f * (256.0f * d.z);
     } else {
-        LIGHT.x = 0.0f;
-        LIGHT.y = 0.0f;
-        LIGHT.z = 0.0f;
+        shadow_light_position.x = 0.0f;
+        shadow_light_position.y = 0.0f;
+        shadow_light_position.z = 0.0f;
     }
     push_matrix();
     GXSetViewport(0.0f, 0.0f, 256.0f, 256.0f, 0.0f, 1.0f);
@@ -847,30 +827,25 @@ void begin_shadow_map_pass(void) {
     push_identity_matrix_ps();
     translate_current_matrix_ps(0.0f, 0.0f, -15000.0f);
     rotate_current_matrix_x_ps(0x3800);
-    translate_current_matrix_ps(-LIGHT.x, -LIGHT.y, -LIGHT.z);
+    translate_current_matrix_ps(-shadow_light_position.x, -shadow_light_position.y, -shadow_light_position.z);
     set_ginja_draw_flags(2);
 }
 #pragma pop
 
 void **TObjPlayer__sub_80083F04(void) {
     void **var_r3;
-    u8 *var_r4;
-    void **phi_r3;
-    var_r3 = (void **)(&lbl_8048E5C8);
-    var_r4 = (u8 *)((*(u8 * *)&lbl_8048E5C8));
-    var_r3 = (void **)(&lbl_8048E5C8);
-    phi_r3 = (void **)(&lbl_8048E5C8);
-    if ((u32) *(u32 *)((s8 *)var_r4 + 8) != 0U) {
-        phi_r3 = (void **)((void **)(release_texture_list()));
+    var_r3 = (void **)&shadow_map_texture_list;
+    if (shadow_map_texture_list.entries->texture != NULL) {
+        var_r3 = release_texture_list();
     }
-    return phi_r3;
+    return var_r3;
 }
 
 void TObjPlayer__sub_80083F38(void) {
     Rect_80083F38 r;
     ((TObjPlayer *)(&r))->set_render_rect(0, 2, 0x100, 0x100);
-    set_texture_name((void *)((s32 *)&lbl_8048E5C8)[0], &r, 0x2EE1, 0x08800000);
-    load_texture_list(((s32 *)&lbl_8048E5C8));
+    set_texture_name(shadow_map_texture_list.entries, &r, 0x2EE1, 0x08800000);
+    load_texture_list(&shadow_map_texture_list);
     lbl_805D4EE0 = 0;
 }
 
@@ -907,9 +882,9 @@ void TObjPlayer::draw_screen_quad(u32 arg0, s32 arg1, f32 farg0) {
     u32 temp_r31;
     void *temp_r4;
     void *temp_r4_2;
-    TObjFish::set_global_param((s32)((s32 *)&shared_capture_texture_list));
+    TObjFish::set_global_param((s32)&shared_capture_texture_list);
     if (arg1 != 0) {
-        temp_r4 = shared_capture_texture_list.a->b->c;
+        temp_r4 = shared_capture_texture_list.entries->texture->surface;
         *(s32 *)((s8 *)temp_r4 + 0x10) = 0x100;
         *(s32 *)((s8 *)temp_r4 + 0x14) = 0xC0;
     }
@@ -952,7 +927,7 @@ void TObjPlayer::draw_screen_quad(u32 arg0, s32 arg1, f32 farg0) {
     TObjPlayer__sub_800847FC();
     set_default_alpha_blend();
     if (arg1 != 0) {
-        temp_r4_2 = shared_capture_texture_list.a->b->c;
+        temp_r4_2 = shared_capture_texture_list.entries->texture->surface;
         *(s32 *)((s8 *)temp_r4_2 + 0x10) = 0x280;
         *(s32 *)((s8 *)temp_r4_2 + 0x14) = 0x1E0;
     }
@@ -963,9 +938,9 @@ void TObjPlayer::draw_textured_screen_quad(u32 arg0, f32 *arg1, f32 *arg2, s32 a
     void *temp_r4;
     void *temp_r4_2;
     f32 z;
-    TObjFish::set_global_param((s32)((s32 *)&shared_capture_texture_list));
+    TObjFish::set_global_param((s32)&shared_capture_texture_list);
     if (arg3 != 0) {
-        temp_r4 = (*(G_800842A4 *)&shared_capture_texture_list).a->b->c;
+        temp_r4 = shared_capture_texture_list.entries->texture->surface;
         *(s32 *)((s8 *)temp_r4 + 0x10) = 0x100;
         *(s32 *)((s8 *)temp_r4 + 0x14) = 0xC0;
     }
@@ -1003,14 +978,14 @@ void TObjPlayer::draw_textured_screen_quad(u32 arg0, f32 *arg1, f32 *arg2, s32 a
     TObjPlayer__sub_800847FC();
     set_default_alpha_blend();
     if (arg3 != 0) {
-        temp_r4_2 = (*(G_800842A4 *)&shared_capture_texture_list).a->b->c;
+        temp_r4_2 = shared_capture_texture_list.entries->texture->surface;
         *(s32 *)((s8 *)temp_r4_2 + 0x10) = 0x280;
         *(s32 *)((s8 *)temp_r4_2 + 0x14) = 0x1E0;
     }
 }
 
 void TObjPlayer__sub_80084500(void) {
-    TObjFish::set_global_param((s32)((s32 *)(((u8 *)&shared_capture_texture_list))));
+    TObjFish::set_global_param((s32)&shared_capture_texture_list);
     load_list_texture(0, 0, 0, 0);
 }
 
@@ -1021,16 +996,16 @@ void capture_viewport_texture(void) {
         GXSetTexCopySrc(0, 0, 0x280, 0x1E0);
         GXSetTexCopyDst(0x280, 0x1E0, 4, 0);
         if (camera_capture_flags & 8) {
-            GXCopyTex((void *)shared_capture_texture_list.a->b->c->x20, 1);
+            GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 1);
         } else {
-            GXCopyTex((void *)shared_capture_texture_list.a->b->c->x20, 0);
+            GXCopyTex(shared_capture_texture_list.entries->texture->surface->pixels, 0);
         }
         GXPixModeSync();
     }
 }
 
 s32 TObjPlayer__sub_800845F8(void) {
-    return shared_capture_texture_list.a->b->c->x20;
+    return (s32)shared_capture_texture_list.entries->texture->surface->pixels;
 }
 
 void TObjPlayer__sub_80084614(void) { camera_capture_flags = 0; TObjPlayer__sub_80084694(); }
@@ -1040,7 +1015,7 @@ void TObjPlayer::reset_movie_state() { camera_capture_flags = 0; init_capture_te
 void **TObjPlayer__sub_80084694(void) {
     void **var_r3;
     var_r3 = (void **)&shared_capture_texture_list;
-    if ((*(G_80084694 *)&shared_capture_texture_list).a->f8 != 0) {
+    if (shared_capture_texture_list.entries->texture != NULL) {
         var_r3 = release_texture_list();
     }
     return var_r3;
@@ -1061,7 +1036,7 @@ void init_capture_texture(s32 wide) {
         h = 480;
     }
     ((TObjPlayer *)(&r))->set_render_rect(0, mode, w, h);
-    set_texture_name((*(G_800846C8 *)&shared_capture_texture_list).a, &r, 0x2EE0, 0x08800000);
+    set_texture_name(shared_capture_texture_list.entries, &r, 0x2EE0, 0x08800000);
     load_texture_list(&shared_capture_texture_list);
 }
 
@@ -1082,8 +1057,6 @@ void disable_camera_capture_overlay(void) {
 extern "C" {
 f64 atan();
 s32 GXSetTexCoordGen2(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0, s32 a4 = 0, s32 a5 = 0);
-    extern unsigned char camera_capture_flags;
-extern u8 camera_capture_flags;
 s32 TObjPlayer__sub_800847A8(void) {
     if ((camera_capture_flags & 2) && (camera_capture_flags & 1)) {
         return 1;

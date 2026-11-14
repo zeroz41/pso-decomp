@@ -669,6 +669,14 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/unk/TUnk_8048E1A4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TUnk_804CC870.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowSubStatusDisp_80288030.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    # -inline off,deferred: the named float constants 0x805DE9C8-0x805DEA04 sit in .sdata2, are loaded
+    # by address (not folded), and precede the TU's own literal pool (76.0/-75.0): written last to first.
+    "pso/player/TObjPlayer_802E6CA8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # -sdata 4: the 8-byte GinjaTextureLists sit in .data, not .sdata.
+    "pso/player/TObjPlayer_80083594.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
+    # -str reuse,readonly: the five string literals sit in .rodata; -sdata 4: the 8-byte
+    # motion name list sits in .data, the 4-byte name pointer in .sdata.
+    "pso/object/lobby/TObjButterflyLobby_80350958.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     # -str reuse,readonly: the three string literals sit in .rodata; -sdata 4: the
     # 8-byte texture lists sit in .data, the 4-byte pointers in .sdata/.sbss.
     "pso/ui/frontend/TAdSelectCurGC_802AED98.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
