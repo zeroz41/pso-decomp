@@ -2659,3 +2659,5 @@ pso/ui/window/TWindowSnapShot_802A5B2C.cpp
 pso/technique/TTecGiFoie.cpp
 pso/enemy/panarms/TObjEnePanarms.cpp
 pso/ui/charcreate/TObjCMName.cpp
+pso/network/NetworkInfoRequests.cpp
+pso/unk/text_803F3BF8.cpp

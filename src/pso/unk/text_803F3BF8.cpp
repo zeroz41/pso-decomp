@@ -14,9 +14,12 @@ extern s32 lobby_net_config_load_state;
 extern u8 *lobby_net_config_buffer;
 extern u8 *lobby_net_config_card_base;
 
-// The original realigns the stack to 32 bytes (clrlwi/subfic/stwux) without
-// using it; no clean source found that does that (see NOTES of lane cJ).
+#pragma push
+#pragma scheduling off
+#pragma opt_dead_assignments off
 s32 TLobby__sub_803F3BF8(s32 backup_mode, void *buffer, s32 mode) {
+    char pad __attribute__((aligned(32)));
+    void *unused = &pad;
     lbl_805D79AC = lbl_805E10F8;
     if (get_network_config_mode() != 0) {
         return -1;
@@ -44,5 +47,6 @@ s32 TLobby__sub_803F3BF8(s32 backup_mode, void *buffer, s32 mode) {
     set_network_config_card_channel(2);
     return 0;
 }
+#pragma pop
 
 }
