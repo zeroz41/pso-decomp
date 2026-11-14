@@ -2327,7 +2327,6 @@ pso/weapon/shoot/TItemShootParticle_8011B694.cpp
 pso/player/TObjPlayer_8011BA54.cpp
 pso/unk/text_8011BE50.cpp
 pso/unk/text_8011BEF0.cpp
-pso/weapon/TUnk_804A2260_80124C90.cpp
 pso/unk/text_8013AAD4.cpp
 pso/unk/text_8013ADD0.cpp
 pso/unk/text_8013ADE4.cpp

@@ -2844,13 +2844,10 @@ pso/weapon/SpecialProjectileWeapons_80124760.cpp:
 original_padding_805DAD34:
 	.sdata2     start:0x805DAD34 end:0x805DAD38 align:4
 
-pso/weapon/TUnk_804A2260_80124C90.cpp:
-	.text       start:0x80124C90 end:0x80124FBC
-	.sdata2     start:0x805DAD38 end:0x805DAD3C
-
 pso/weapon/TUnk_804A2260.cpp:
-	.text       start:0x80124FBC end:0x801251B4
+	.text       start:0x80124C90 end:0x801251B4
 	.data       start:0x804A2260 end:0x804A2358
+	.sdata2     start:0x805DAD38 end:0x805DAD48
 
 pso/weapon/TUnk_804A2358.cpp:
 	.text       start:0x801251B4 end:0x801253D8
