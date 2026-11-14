@@ -33,7 +33,6 @@ static const Vec lbl_80478554 = {-10000.0f, 0.0f, 0.0f};
 extern "C" {
 s32 push_matrix();
 f32 post_translate_matrix(void *);
-extern const f32 lbl_805DFAF8;
 u32 TAdPlyStatusGC__ct(u32, s32, s32);
 u32 __nw__7TObjectFUl(s32);
 
@@ -67,7 +66,7 @@ void TObjPlayer__sub_8033FDB0(s32 arg0) {
   {
     temp_r30 = (u8 *) (arg0 + (var_r31 & 0xFFFFFFFFFFFFFFFF));
     TObjFish::set_global_param((int) (*((s32 *) (((s8 *) temp_r30) + 0x2C))));
-    draw_model_motion((void *)(*((s32 *) (((s8 *) temp_r30) + 0x28))), (void *)(*((s32 *) (((s8 *) temp_r30) + 0x30))), (f32) lbl_805DFAF8);
+    draw_model_motion((void *)(*((s32 *) (((s8 *) temp_r30) + 0x28))), (void *)(*((s32 *) (((s8 *) temp_r30) + 0x30))), 0.0f);
     var_r29 += 1;
     var_r31 += 0xC;
   }
@@ -92,9 +91,6 @@ s32 TObjPlayer::get_plot_state() { return this->texlist; }
 
 
 extern "C" {
-extern const f32 lbl_805DFAFC;
-extern const f32 lbl_805DFB00;
-extern const f32 lbl_805DFB04;
 #pragma push
 #pragma fp_contract on
 void TBoss6Demo15_TYPE2_WAIT::sub_8033FE30() {
@@ -102,13 +98,13 @@ void TBoss6Demo15_TYPE2_WAIT::sub_8033FE30() {
     f32 temp_f29;
     f32 temp_f30;
     f32 temp_f31;
-    temp_f29 = (lbl_805DFB00 * sin_table_lookup(*(s32 *)((s8 *)arg0 + 0x5C))) + lbl_805DFAFC;
+    temp_f29 = (40.0f * sin_table_lookup(*(s32 *)((s8 *)arg0 + 0x5C))) + 230.0f;
     temp_f30 = sin_table_lookup(*(s32 *)&this->m_58);
     temp_f31 = cos_table_lookup(*(s32 *)&this->m_58);
     VecCopy((Vec *)&this->m_40, &lbl_80478554);
     this->m_40 = (f32) ((temp_f30 * temp_f29) + this->m_40);
     this->m_48 = (f32) ((temp_f31 * temp_f29) + this->m_48);
-    *(f32 *)((s8 *)arg0 + 0x44) = (f32) (*(f32 *)((s8 *)arg0 + 0x44) + lbl_805DFB04);
+    *(f32 *)((s8 *)arg0 + 0x44) += 20.0f;
 }
 #pragma pop
 
@@ -120,12 +116,10 @@ void TBoss6Demo15_TYPE2_WAIT::sub_8033FE30() {
 #include "pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 
-extern const f32 lbl_805DFB08;
-extern const f32 lbl_805DFB0C;
 
 void TBoss6Demo15_TYPE2_WAIT::advance_offset() {
-    *(s32 *)&(this->m_58) = (s32) ((f32) *(s32 *)&(this->m_58) + lbl_805DFB08);
-    *(s32 *)((s8 *)this + 0x5C) = (s32) ((f32) *(s32 *)((s8 *)this + 0x5C) + lbl_805DFB0C);
+    *(s32 *)&(this->m_58) += 54.613335f;
+    *(s32 *)((s8 *)this + 0x5C) += 873.81335f;
 }
 
 void TObjFish__sub_8033FF64(void* p) { *(s32*)((char*)p + 0x58) = 24576; *(s32*)((char*)p + 0x5c) = 0; }
@@ -160,7 +154,6 @@ extern "C" {
 void fn_80340040(TBoss6Demo15_TYPE2_WAIT *arg0);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
-extern const f32 lbl_805DFAF8;
 s32 create__10TObjMapCsnFl(void *);
 void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *arg0);
 
@@ -174,7 +167,7 @@ void TBoss6Demo15_TYPE2_WAIT::check_any_player_near() {
     P_8033FF78 *p;
     arg0->f24 = 0;
     n = TLobby::get_game_mode();
-    y = lbl_805DFAF8;
+    y = 0.0f;
     lim = 25.0f;
     for (i = 0; i < n; i++) {
         p = (P_8033FF78 *)TObjPlayer::get_player_data(i);
