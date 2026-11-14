@@ -9,6 +9,7 @@
 #include "pso/enemy/darkgunner/DarkGunner.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/system/vector.h"
+#include "pso/player/TUnk_804B6C24.h"
 
 const char *TObjEneDarkGunCenter__name = "TObjEneDarkGunCenter";
 
@@ -136,7 +137,6 @@ void *__nw__7TObjectFUl(int);
 
 int get_player_data__10TObjPlayerFi(int a0);
 s16 get_entity_id(void *);
-s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 extern const char *TObjEneDarkGunner__class_name;
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
@@ -211,7 +211,7 @@ void TObjEneDarkGunCenter::sub_800A0994() {
     self->count = 0;
     for (k = registered_player_count; k < registered_player_count + lbl_805D5870; k++) {
         p = (Player_800A0994 *)get_player_data__10TObjPlayerFi(k);
-        if (p != NULL && check_value_equals__13TUnk_804B6C24Fl(p, (s32)TObjEneDarkGunner__class_name) != 0 &&
+        if (p != NULL && ((TUnk_804B6C24 *)p)->check_value_equals((s32)TObjEneDarkGunner__class_name) != 0 &&
             self->f354 == p->f354 && self->f28 == p->f28) {
             p->f428 = self->f1C;
             self->ids[self->count++] = get_entity_id(p);

@@ -1,7 +1,9 @@
 #include "types.h"
 #include "pso/object/container/TOContainerAncientEnemyRare.h"
 #include "pso/object/collision/TObjRaderHideCol.h"
-#include "pso/unk/text_8015C048.h"
+#include "pso/object/container/TOContainerAncientItemRare.h"
+#include "pso/object/container/TObjContainerAbeEnemy.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/item/TObjItemLight.h"
 #include "pso/object/collision/TObjBgmCol_8017E7F0.h"
 #include "pso/object/collision/TObjRaderCol.h"
@@ -10,26 +12,15 @@
 extern "C" {
 
 void *TObjCityMainWarpChallenge__ct(void *, void *, void *);
-void *TObjContainerAbeEnemy__ct(void *, void *, void *);
 void *__nw__7TObjectFUl(int);
 
 void *TOContainerAncientItemRare__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x368);
-    if (o != NULL) {
-        o = TOContainerAncientItemRare__ct((u8 *)o, (s32)arg0);
-    }
-    return o;
+    return new TOContainerAncientItemRare(arg0);
 }
 
 void *TOContainerAncientEnemyRare__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x368);
-    if (o != NULL) {
-        o = TOContainerAncientEnemyRare__ct((u8 *)o, (s32)arg0);
-    }
-    return o;
+    return new TOContainerAncientEnemyRare(arg0);
 }
-
-extern void *tl_05;
 
 void *TObjRaderCol__create(void *arg0) {
     void *o = __nw__7TObjectFUl(0xA0);
@@ -48,11 +39,7 @@ void *TObjRaderHideCol__create(void *arg0) {
 }
 
 void *TObjContainerAbeEnemy__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x368);
-    if (o != NULL) {
-        o = TObjContainerAbeEnemy__ct(o, tl_05, arg0);
-    }
-    return o;
+    return new TObjContainerAbeEnemy(tl_05, arg0);
 }
 
 void *TObjBgmCol__create(void *set) {

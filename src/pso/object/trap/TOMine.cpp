@@ -154,7 +154,6 @@ struct VObj_8016F418 : VBase_8016F418 {
 struct Pkt_8016F418 { u8 pad[4]; u16 id; u16 kind; };
 extern "C" {
 void TOMineTrap__sub_8017141C(void *);
-void *spawn_particle_effect(void *pos, s32 id);
 s16 TOMineTrap__sub_80171340(void *);
 u16 TOMineTrap__sub_80171358(void *);
 extern s32 lbl_805D5868;

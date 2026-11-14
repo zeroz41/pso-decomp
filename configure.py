@@ -897,10 +897,13 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TObjCamera: 1.3.2 copies CameraSoundEvent member by member unscheduled.
     "pso/camera/TObjCamera.cpp": {"mw_version": "GC/1.3.2"},
     "pso/object/TObjComputer.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    "pso/object/container/TObjContainerJung.cpp": {"mw_version": "GC/1.3.2"},
+    # The next two container units (and TOContainerAncientEnemy) emit their
+    # functions and vtables last-to-first: -inline off,deferred, with the
+    # source written in reverse; it puts all 16 container vtables in place.
+    "pso/object/container/TObjContainerJung.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline off,deferred")},
     # The two below also schedule the by-value DirectAttackPayload read of
     # their receive_direct_attack overrides only the way 1.3.2 does.
-    "pso/object/container/TObjContainerItem.cpp": {"mw_version": "GC/1.3.2"},
+    "pso/object/container/TObjContainerItem.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/object/container/TContainerAncient01.cpp": {"mw_version": "GC/1.3.2"},
     "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.cpp": {"mw_version": "GC/1.3.2"},
     "pso/quest/TQuestVmDownLoadServer.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline deferred")},
@@ -1079,7 +1082,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/lab/TOCapsuleLabo.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     "pso/object/mine/TOComputerMachine01.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     # load_container_fragment_textures reaches each .rodata object with its own lis/addi: -pool off.
-    "pso/object/container/TOContainerAncientEnemy.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    # GC/1.3: the const vfunc_79 overrides load through const this in source
+    # order; 1.3.2 and 2.x hoist those loads above the stores (whole unit exact on 1.3).
+    "pso/object/container/TOContainerAncientEnemy.cpp": {"mw_version": "GC/1.3", "cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off", "-inline off,deferred")},
     "pso/object/ruins/TOMonumentAncient01.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     "pso/boss/darkfalz/TOBoss4.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-str reuse,readonly", "-sdata 4", "-inline deferred")},
     "pso/boss/olgaflow/TBoss6Rock.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-str reuse,readonly", "-inline off,deferred", "-str reuse,readonly")},

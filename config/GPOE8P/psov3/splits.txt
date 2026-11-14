@@ -3957,7 +3957,7 @@ pso/object/mine/TOComputerMachine01.cpp:
 pso/object/container/TOContainerAncientEnemy.cpp:
 	.text       start:0x8015B714 end:0x8015C9D0
 	.rodata     start:0x80440508 end:0x80440940
-	.data       start:0x804B0068 end:0x804B00F4
+	.data       start:0x804B0068 end:0x804B0A08
 	.sdata      start:0x805D2EF0 end:0x805D2F18
 
 pso/enemy/dubchik/TOCtrlDubchik_8015CA74.cpp:
@@ -4620,7 +4620,7 @@ pso/object/TObjComputer.cpp:
 pso/object/container/TObjContainerItem.cpp:
 	.text       start:0x80188584 end:0x8018A55C
 	.rodata     start:0x80444B90 end:0x80444F58
-	.data       start:0x804B6338 end:0x804B66F4
+	.data       start:0x804B6338 end:0x804B6D70
 	.sdata      start:0x805D32D8 end:0x805D3300
 
 pso/object/container/TContainerAncient01_8018A55C.cpp:
@@ -4643,7 +4643,7 @@ pso/object/container/TObjContainerIdo_8018BEE4.cpp:
 pso/object/container/TObjContainerJung.cpp:
 	.text       start:0x8018C948 end:0x8018DA00
 	.rodata     start:0x80445148 end:0x80445450
-	.data       start:0x804B7120 end:0x804B7194
+	.data       start:0x804B7120 end:0x804B7578
 	.sdata      start:0x805D3310 end:0x805D3324
 	.sbss       start:0x805D5BA0 end:0x805D5BB0
 	.sdata2     start:0x805DBD98 end:0x805DBDA0
