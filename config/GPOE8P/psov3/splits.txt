@@ -1015,10 +1015,8 @@ pso/unk/text_80076E84.cpp:
 	.bss        start:0x804FF968 end:0x804FF9C0
 
 pso/ui/chat/TWindowSubSymbolChat_80076F88.cpp:
-	.text       start:0x80076F88 end:0x800774C0
-
-pso/ui/chat/TWindowChat_800774C0.cpp:
-	.text       start:0x800774C0 end:0x8007763C
+	.text       start:0x80076F88 end:0x8007763C
+	.rodata     start:0x80438830 end:0x80438868
 
 pso/ui/chat/TWindowSubSymbolChat_8007763C.cpp:
 	.text       start:0x8007763C end:0x80077760
@@ -7324,20 +7322,12 @@ pso/ui/window/TWindowSubComCard_80265410.cpp:
 pso/ui/window/TWindowSubComCard_80266BC4.cpp:
 	.text       start:0x80266BC4 end:0x80266BD0
 
-pso/unk/text_80266BD0.cpp:
-	.text       start:0x80266BD0 end:0x80266C44
-
-pso/ui/window/TWindowSubTradeMain_80266C44.cpp:
-	.text       start:0x80266C44 end:0x80266CF8
-
-pso/ui/city/TShopArmorListWindow_80266CF8.cpp:
-	.text       start:0x80266CF8 end:0x80266E0C
-
 pso/ui/window/TWindowSubStatusDisp_802671F0.cpp:
-	.text       start:0x80266E0C end:0x80268384
-	.rodata     start:0x8044F378 end:0x8044F388
-	.data       start:0x804D05F8 end:0x804D0604
-	.sdata2     start:0x805DD188 end:0x805DD1C0
+	.text       start:0x80266BD0 end:0x80268384
+	.rodata     start:0x8044F338 end:0x8044F388
+	.data       start:0x804D05F8 end:0x804D0618
+	.sdata      start:0x805D3968 end:0x805D3970
+	.sdata2     start:0x805DD180 end:0x805DD1D8
 
 pso/unk/text_80268384.cpp:
 	.text       start:0x80268384 end:0x80268468
@@ -8027,16 +8017,12 @@ pso/ui/charcreate/TObjCMMainMenu_8028D9A8.cpp:
 	.text       start:0x8028D9A8 end:0x8028DC40
 
 pso/ui/charcreate/TCharaMaking.cpp:
-	.text       start:0x8028DC40 end:0x8028E3F4
-	.rodata     start:0x80450D70 end:0x80451280
-	.data       start:0x804D3838 end:0x804D3910
+	.text       start:0x8028DC40 end:0x8028E790
+	.rodata     start:0x80450D70 end:0x80451290
+	.data       start:0x804D3838 end:0x804D39EC
+	.bss        start:0x80518880 end:0x8051C070
 	.sdata      start:0x805D3B68 end:0x805D3B70
 	.sdata2     start:0x805DD928 end:0x805DD930
-
-pso/ui/charcreate/TCharaMaking_8028E3F4.cpp:
-	.text       start:0x8028E3F4 end:0x8028E790
-	.rodata     start:0x80451280 end:0x80451290
-	.bss        start:0x80518880 end:0x8051C070
 
 pso/ui/charcreate/TCharaMaking_8028E790.cpp:
 	.text       start:0x8028E790 end:0x8028EA28
@@ -9996,14 +9982,11 @@ pso/boss/olgaflow/TBoss6Type2_803309D8.cpp:
 	.text       start:0x803309D8 end:0x80330A84
 
 pso/ui/window/TWindowSubTradeMain_80330A84.cpp:
-	.text       start:0x80330A84 end:0x80332148
+	.text       start:0x80330A84 end:0x803323D8
+	.rodata     start:0x80477470 end:0x804774A0
 	.data       start:0x804EDFA8 end:0x804EE0C0
-	.sdata2     start:0x805DF858 end:0x805DF85C
-
-pso/ui/window/TWindowSubTradeMain_80332148.cpp:
-	.text       start:0x80332148 end:0x803323D8
-	.rodata     start:0x80477470 end:0x80477484
 	.sdata      start:0x805D4228 end:0x805D4230
+	.sdata2     start:0x805DF858 end:0x805DF85C
 
 pso/enemy/morfos/TObjEneMorfos.cpp:
 	.text       start:0x803323D8 end:0x80335218

@@ -747,7 +747,6 @@ pso/ui/charcreate/TChCrTagPlBack.cpp
 pso/ui/charcreate/TChCrTagPlGraphic.cpp
 pso/quest/challenge/TChallenge.cpp
 pso/ui/charcreate/TCharaMaking.cpp
-pso/ui/charcreate/TCharaMaking_8028E3F4.cpp
 pso/ui/charcreate/TCharaMaking_8028E790.cpp
 pso/ui/chat/TChatMessage.cpp
 pso/ui/chat/TChatMessage_801DF918.cpp
@@ -1235,7 +1234,6 @@ pso/network/TSendDownloadHead.cpp
 pso/map/TSetManager.cpp
 pso/map/TSetManager_8020D918.cpp
 pso/ui/city/TShopArmorListWindow.cpp
-pso/ui/city/TShopArmorListWindow_80266CF8.cpp
 pso/ui/city/TShopArmorListWindow_802785FC.cpp
 pso/ui/city/TShopArmorListWindow_8027870C.cpp
 pso/ui/city/TShopArmorListWindow_802787AC.cpp
@@ -1308,7 +1306,6 @@ pso/ui/window/TWindowCallBack.cpp
 pso/ui/window/TWindowChallengeResult.cpp
 pso/ui/chat/TWindowChat.cpp
 pso/ui/chat/TWindowChatSymbol.cpp
-pso/ui/chat/TWindowChat_800774C0.cpp
 pso/ui/chat/TWindowChat_8025CB10.cpp
 pso/ui/window/TWindowCheckBox.cpp
 pso/ui/window/TWindowChoiceSetting.cpp
@@ -1598,14 +1595,12 @@ pso/ui/window/TWindowSubTechnique_80286B0C.cpp
 pso/ui/window/TWindowSubTechnique_80286B64.cpp
 pso/ui/window/TWindowSubTrade.cpp
 pso/ui/window/TWindowSubTradeMain_80187C98.cpp
-pso/ui/window/TWindowSubTradeMain_80266C44.cpp
 pso/ui/window/TWindowSubTradeMain_80268468.cpp
 pso/ui/window/TWindowSubEquipKind_80278300.cpp
 pso/ui/window/TWindowSubTradeMain_802785B0.cpp
 pso/ui/window/TWindowSubTradeMain_802D220C.cpp
 pso/ui/window/TWindowSubTradeMain_802D3924.cpp
 pso/ui/window/TWindowSubTradeMain_80330A84.cpp
-pso/ui/window/TWindowSubTradeMain_80332148.cpp
 pso/ui/window/TWindowTimer.cpp
 pso/ui/window/TWindowTradeRequest.cpp
 pso/ui/window/TWindowTradeRequest_802E0170.cpp
@@ -2418,7 +2413,6 @@ pso/unk/text_80255A38.cpp
 pso/unk/text_8025CD10.cpp
 pso/ui/window/TWindowLockOn_80262C3C.cpp
 pso/unk/text_80263A20.cpp
-pso/unk/text_80266BD0.cpp
 pso/unk/text_80268384.cpp
 pso/unk/text_8026934C.cpp
 pso/unk/text_802693B4.cpp

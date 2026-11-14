@@ -7,11 +7,10 @@
 #include <stddef.h>
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/unk/TLobby.h"
-
-struct RecoveredGlobal_800773BC_lbl_80438830 {
-    s32 value;
-    u8 remaining[0x20];
-};
+#include "pso/ui/chat/TWindowChat_800774C0.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/chat/TWindowChat.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct E_80077480 { u8 pad[0x58]; };
 
@@ -26,6 +25,10 @@ struct Obj_8007728C { u32 flags; u8 pad[0x1C]; u16 h[4]; };
 struct Ent_8007714C { s8 id; u8 a, b, c; };
 
 struct Obj_8007714C { u8 pad[0x28]; Ent_8007714C e[12]; };
+
+static const s32 symbol_chat_sound_ids[9] = {
+    0x53507, 0x52608, 0x52A09, 0x5250A, 0x5230B, 0x5250C, 0x5280D, 0x5250E, 0x53719,
+};
 
 struct Ent_80077098 { s8 a, b, c; u8 d; };
 struct Obj_80077098 { u8 pad0[0x28]; Ent_80077098 e[12]; };
@@ -45,7 +48,6 @@ int get_instance__20TWindowSubSymbolChatFv(void*);
 s32 strncpy(void *, void *, int);
 extern s32 local_client_id;
 s32 play_sound_effect(s32, u32, s16, s32);
-extern RecoveredGlobal_800773BC_lbl_80438830 symbol_chat_sound_ids;
 E_80077480 *get_character_save_record(u32 id);
 
 void TWindowSubSymbolChat::send_selected_symbol_chat(s32 *arg0) {
@@ -188,10 +190,9 @@ void TWindowSubSymbolChat::update_selected_symbol() {
     }
 }
 
-typedef char RecoveredGlobal_800773BC_lbl_80438830_size[sizeof(RecoveredGlobal_800773BC_lbl_80438830) == 0x24 ? 1 : -1];
 void TWindowSubSymbolChat::play_symbol_sound(s32 arg0) {
     if ((arg0 >= 0) && (arg0 < 9)) {
-        play_sound_effect(*(s32 *)((s8 *)&symbol_chat_sound_ids.value + (arg0 * 4)), 0U, 0, 0);
+        play_sound_effect(symbol_chat_sound_ids[arg0], 0U, 0, 0);
     }
 }
 
@@ -221,3 +222,64 @@ u8 *get_symbol_chat_preset(s32 i) {
 }
 
 }
+
+struct Ent_800774E4 { s8 id; u8 a, b, c; };
+
+struct Obj_800774E4 { u32 f0; u8 f4; u8 pad5[0x17]; s32 f1c; u16 h[4]; Ent_800774E4 e[12]; };
+
+struct Obj_800774E4;
+struct Ent_80077544 { u8 b[0x58]; };
+
+struct Win_80077544 { u8 pad[0x15A0]; struct Ent_80077544 e[12]; };
+
+extern "C" {
+s32 set_stream_and_load_file__6TLobbyFi(char *);
+
+void TWindowChat::open_symbol_chat(s32 *arg0) {
+    get_symbol_chat_preset(*arg0);
+}
+
+void TWindowSubSymbolChat::clear_entries() {
+    Obj_800774E4 *self = (Obj_800774E4 *)this;
+    s32 i;
+    self->f0 = 0;
+    self->f4 = 0;
+    self->f1c = 0;
+    for (i = 0; i < 4; i++) {
+        self->h[i] = 0xFF;
+    }
+    for (i = 0; i < 12; i++) {
+        self->e[i].id = -1;
+        self->e[i].a = 0;
+        self->e[i].b = 0;
+        self->e[i].c = 0;
+    }
+}
+
+void TWindowSubSymbolChat::load_symbol_chat_data() {
+    struct Win_80077544 *w = (struct Win_80077544 *)this;
+    s32 i;
+    s32 t;
+    s32 data;
+    struct Ent_80077544 *e;
+    e = w->e;
+    data = set_stream_and_load_file__6TLobbyFi("symbolchat.dat");
+    ((TLobby *)e)->move_data((const void *)data, (u32)0x420);
+    TAdSinglePlyChrSelectGC::safe_free(data);
+    for (i = 0; i < 6; i++) {
+        ((TWindowSubSymbolChat *)(&e[i]))->bswap_entry();
+        t = (s32)get_symbol_chat_preset(i);
+        ((TWindowSubSymbolChat *)t)->set_entry_name((void *)(TWindowSubStatusDisp::get_message_10(i + 0xC6)));
+    }
+    for (; i < 12; i++) {
+        ((TWindowSubSymbolChat *)(&e[i]))->bswap_entry();
+        ((TWindowSubSymbolChat *)((Obj_800774E4 *)get_symbol_chat_preset(i)))->clear_entries();
+    }
+}
+
+void TLobby__sub_80077608(void) {  }
+}
+
+    extern unsigned char symbol_chat_receive_buffer[];
+    extern unsigned char pending_symbol_chat_count;
+void clear_received_symbol_chat(void) { pending_symbol_chat_count = 0; ((TWindowSubSymbolChat *)symbol_chat_receive_buffer)->clear_entries(); }

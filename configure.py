@@ -669,6 +669,14 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/unk/TUnk_8048E1A4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TUnk_804CC870.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowSubStatusDisp_80288030.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    # TWindowSubTradeMain_80330A84 (+_80332148): "TWindowSubTradeMain" sits in .rodata.
+    "pso/ui/window/TWindowSubTradeMain_80330A84.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # TCharaMaking (+TCharaMaking_8028E3F4): its motion names and file names sit in .rodata.
+    "pso/ui/charcreate/TCharaMaking.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # TWindowSubStatusDisp_802671F0 (+3 folded parts): "TWindowMenuIconLine" sits in .rodata and "/" in .sdata2.
+    "pso/ui/window/TWindowSubStatusDisp_802671F0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # TWindowSubSymbolChat_80076F88 (+TWindowChat_800774C0): its only string "symbolchat.dat" sits in .rodata.
+    "pso/ui/chat/TWindowSubSymbolChat_80076F88.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TQuestListOnline: vtable before vfunc_11's switch table and .sdata2 literals in .text order need deferred with the
     # source in reverse .text order (as its neighbour TQuestListVM); "" and the class name are read-only literals.
     "pso/quest/TQuestListOnline.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},

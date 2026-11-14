@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
@@ -22,6 +23,18 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/ui/window/TWindowSubLog.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/system/task/TObject.h"
+
+const char *TWindowSubTradeMain__name = "TWindowSubTradeMain";
+
+// inferred: screen positions of the trade windows, named after the function that opens each one
+// (create_equip_kind_window takes the position, like short_list_window_pos in TWindowShortListCtrl).
+static const NJS_POINT2 trade_window_pos = {326.0f, 84.0f};
+static const NJS_POINT2 trade_equip_window_pos = {326.0f, 84.0f};
+static const NJS_POINT2 trade_list_window_pos = {326.0f, 104.0f};
 
 typedef struct TradeMain_80330BCC {
     u8 pad0[0x1C];
@@ -67,11 +80,9 @@ void TWindowSubTradeMain__sub_803323A8(void *);
 void TWindowSubTradeMain__sub_803323B8(void *);
 Plr_803310BC *get_player_by_client_id(s32);
 s32 set_depth__11TWindowBaseFf(s32);
-s32 create_equip_kind_window(s32, s32 *, s32);
-extern s32 lbl_8047748C[];
+s32 create_equip_kind_window(s32, const NJS_POINT2 *, s32);
 s32 open_trade_equip_window__19TWindowSubTradeMainFv(Self_803310BC *arg0);
 s8 get_trade_mode__6TLobbyFv();
-extern s32 lbl_80477484[];
 s32 create_trade_window__19TWindowSubTradeMainFv(Self_80331178 *arg0);
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 free_member__17TWindowSubComCardFv(u8 *, int);
@@ -274,12 +285,10 @@ s32 TWindowSubTradeMain::create_input_number(s32 maximum) {
     return storage;
 }
 
-extern s32 lbl_80477494[];
-
 s32 TWindowSubTradeMain::create_list() {
     s32 equip_kind_window;
 
-    equip_kind_window = create_equip_kind_window(get_window_layout_position(0x64), lbl_80477494, this->m_28);
+    equip_kind_window = create_equip_kind_window(get_window_layout_position(0x64), &trade_list_window_pos, this->m_28);
     ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display(get_message_10__20TWindowSubStatusDispFl(0x24));
     ((TWindowSubTradeMain *)equip_kind_window)->refresh_item_list((void*)(TLobby__sub_802D298C()));
     TWindowSubEquip__sub_80263AF8((u8 *)this->m_2c, 2);
@@ -294,7 +303,7 @@ s32 TWindowSubTradeMain::open_trade_equip_window() {
     if (p == NULL) {
         return 0;
     }
-    w = create_equip_kind_window(get_window_layout_position(0x61), lbl_8047748C, ((Self_803310BC *)this)->f28);
+    w = create_equip_kind_window(get_window_layout_position(0x61), &trade_equip_window_pos, ((Self_803310BC *)this)->f28);
     ((TWindowMenuIconLine *)w)->ensure_status_display(p->m10());
     ((TWindowSubTradeMain *)w)->set_trade_state(0);
     ((TWindowSubTradeMain *)w)->refresh_item_list((void*)(get_trade_window_state()));
@@ -311,7 +320,7 @@ s32 TWindowSubTradeMain::create_trade_window() {
     if (p == NULL) {
         return 0;
     }
-    w = create_equip_kind_window(get_window_layout_position(0x60), lbl_80477484, ((Self_80331178 *)this)->f28);
+    w = create_equip_kind_window(get_window_layout_position(0x60), &trade_window_pos, ((Self_80331178 *)this)->f28);
     ((TWindowMenuIconLine *)w)->ensure_status_display(p->m10());
     ((TWindowSubTradeMain *)w)->set_trade_state(0);
     ((TWindowSubTradeMain *)w)->refresh_item_list((void*)(TLobby__sub_802D299C()));
@@ -851,4 +860,129 @@ void TWindowSubTradeMain::run_task() {
         break;
     }
 }
+}
+#define TOBJECT_OUT_OF_LINE_HELPERS
+
+
+extern "C" {
+
+void *__dt__19TWindowSubTradeMainFv(TWindowSubTradeMain *arg0, s16 arg1);
+void TWindowCtrl__sub_8024ADF0(s32 arg0);
+void TWindowSubComCard__sub_8024AB98(s32 arg0);
+s32 __dl__7TObjectFPv(void *);
+s32 __dt__7TObjectFv(void *, s32);
+s32 end_camera_pan__10TObjPlayerFv();
+s32 TLobby__sub_802D29E8(u32 arg0);
+
+extern void* __vt__19TWindowSubTradeMain[];
+
+void *__dt__19TWindowSubTradeMainFv(TWindowSubTradeMain *arg0, s16 arg1) {
+    if (arg0 != NULL) {
+        *(void **)((s8 *)arg0 + 0x18) = (void *) __vt__19TWindowSubTradeMain;
+        TLobby__sub_802D29E8((u32)arg0);
+        TLobby::check_flags_and_proceed();
+        if (get_player_by_client_id(arg0->m_28) != 0U) {
+            end_camera_pan__10TObjPlayerFv();
+        }
+        if ((u32) arg0->m_50 != 0U) {
+            ((TObject *)(*(void **)((s8 *)arg0 + 0x50)))->queue_destruction();
+            arg0->m_50 = 0U;
+        }
+        if ((u32) arg0->m_4c != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x4C)))->close();
+            arg0->m_4c = 0U;
+        }
+        if ((u32) arg0->m_48 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x48)))->close();
+            arg0->m_48 = 0U;
+        }
+        if ((u32) arg0->m_44 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x44)))->close();
+            arg0->m_44 = 0U;
+        }
+        if ((u32) arg0->m_40 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x40)))->close();
+            arg0->m_40 = 0U;
+        }
+        if ((u32) arg0->m_3c != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x3C)))->close();
+            arg0->m_3c = 0U;
+        }
+        if ((u32) arg0->m_38 != 0U) {
+            ((TWindowSubComCard *)(*(void **)((s8 *)arg0 + 0x38)))->close();
+            arg0->m_38 = 0U;
+        }
+        if ((u32) arg0->m_34 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x34)))->close();
+            arg0->m_34 = 0U;
+        }
+        if ((u32) arg0->m_30 != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x30)))->close();
+            arg0->m_30 = 0U;
+        }
+        if ((u32) arg0->m_2c != 0U) {
+            ((TWindowSubLog *)(*(void **)((s8 *)arg0 + 0x2C)))->cleanup();
+        }
+        TWindowCtrl__sub_8024ADF0(arg0->m_28);
+        TWindowSubComCard__sub_8024AB98(arg0->m_28);
+        __dt__7TObjectFv(arg0, 0);
+        if (arg1 > 0) {
+            __dl__7TObjectFPv(arg0);
+        }
+    }
+    return arg0;
+}
+
+}
+
+extern "C" {
+
+void TWindowCtrl__sub_8024ADAC(s32 arg0);
+void TWindowSubTradeMain__sub_802D2870(void);
+void fn_8024AB54(s32 arg0);
+int fn_8027B288(void *p);
+void fn_8027B2A8(void *);
+s32 TLobby__sub_802D2A0C(u32 arg0);
+
+}
+TWindowSubTradeMain::TWindowSubTradeMain(TObject *object, void *arg2) : TObject(object) {
+    void *o;
+    void *x;
+    this->m_name = TWindowSubTradeMain__name;
+    this->m_1c = 0;
+    this->m_1d = 0;
+    this->m_20 = 0;
+    *(void **)((s8 *)this + 0x28) = arg2;
+    *(void **)((s8 *)this + 0x2C) = object;
+    this->m_30 = 0;
+    this->m_34 = 0;
+    this->m_38 = 0;
+    this->m_3c = 0;
+    this->m_40 = 0;
+    this->m_44 = 0;
+    this->m_48 = 0;
+    this->m_4c = 0;
+    this->m_24 = -1;
+    fn_8024AB54((s32)(*(void **)((s8 *)this + 0x28)));
+    TWindowCtrl__sub_8024ADAC((s32)(*(void **)((s8 *)this + 0x28)));
+    TLobby__sub_802D2A0C((u32)this);
+    TWindowSubTradeMain__sub_802D2870();
+    fn_8027B288(*(void **)((s8 *)this + 0x2C));
+    o = new TWindowChat(this, (void *)((char *)this + 84));
+    *(void **)((s8 *)this + 0x50) = o;
+    fn_8027B2A8(*(void **)((s8 *)this + 0x50));
+    x = get_player_by_client_id((s32)(*(void **)((s8 *)this + 0x28)));
+    if (x != NULL) {
+        ((TObjPlayer *)x)->start_freeze();
+    }
+}
+
+extern "C" {
+
+// Child-window flag setters; their only callers are TWindowSubTradeMain's
+// set_child_windows_enabled and run_task, and they follow its dtor/ctor here.
+void TWindowSubTradeMain__sub_803323A8(void* p) { *(u16*)((char*)p + 0x60) |= 0x40; }
+void TWindowSubTradeMain__sub_803323B8(void* p) { *(u16*)((char*)p + 0x60) &= 0xffffffbf; }
+void TWindowSubTradeMain__sub_803323C8(void* p) { *(u16*)((char*)p + 0x70) &= 0xfffffffb; }
+
 }
