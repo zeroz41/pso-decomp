@@ -7709,6 +7709,7 @@ pso/ui/window/TWindowSubStatusDisp_80287570.cpp:
 pso/unk/text_80287AD8.cpp:
 	.text       start:0x80287AD8 end:0x80287C18
 	.rodata     start:0x8044FCC8 end:0x8044FCE0
+	.sdata2     start:0x805DD878 end:0x805DD884
 
 pso/ui/window/TWindowTimer.cpp:
 	.text       start:0x80287C18 end:0x80288030
