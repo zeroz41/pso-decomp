@@ -432,7 +432,7 @@ void TTecZondeEff::render() {
     set_depth_buffer_settings_1();
     if (project_lightning_points((Obj_8023D128 *)(self), (Vec_8023D128 *)(m70), (f32 *)m3c, (f32 *)m8) != 0 && ((TTecZondeEff *)self)->build_lightning_strip((Vtx_8023CED4 *)(verts), (Vec_8023CED4 *)(m70), (f32 *)m3c, (f32 *)m8) != 0) {
         set_additive_blend();
-        ((TWindowDD *)verts)->draw_transformed_primitive((void*)(self->count * 2), (void*)TTecZondeEff__beam_vertex_data, (void*)1);
+        ((TWindowDD *)verts)->draw_transformed_primitive(self->count * 2, TTecZondeEff__beam_vertex_data, 1);
         set_default_alpha_blend();
     }
     TParticleCtrl::end_effect_render();

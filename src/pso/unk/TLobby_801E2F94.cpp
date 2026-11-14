@@ -107,7 +107,7 @@ void GXSetScissor(u32, u32, u32, u32);
 void set_viewport_scissor__11TCameraCtrlFiPv(s32 mode, Rect_801E317C *r);
 void camera_renderer_setup_nop(void);
 s32 TObjPlayer__sub_803DAD28(u32 arg0);
-int draw_textured_vertices__10TObjPlayerFPvii(void*, void*, void*);
+int draw_textured_vertices__10TObjPlayerFPvii(void*, s32, s32);
 
 void set_viewport_scissor__11TCameraCtrlFiPv(s32 mode, Rect_801E317C *r) {
     f32 adj;
@@ -147,7 +147,7 @@ void TCameraCtrl__sub_801E32D8(f32 farg0, f32 farg1) {
 
 void camera_renderer_setup_nop(void) {  }
 
-void TWindowDD::draw_transformed_primitive(void* a1, void* a2, void* a3) { TObjPlayer__sub_803DAD28((u32)a2); draw_textured_vertices__10TObjPlayerFPvii(this, a1, a3); }
+void TWindowDD::draw_transformed_primitive(s32 a1, u32 a2, s32 a3) { TObjPlayer__sub_803DAD28(a2); draw_textured_vertices__10TObjPlayerFPvii(this, a1, a3); }
 
 }
 

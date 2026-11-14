@@ -352,7 +352,7 @@ void TeneFakeTecThunderEff::render() {
     p[1].v = vv;
     p[1].color = color;
     set_additive_blend();
-    ((TWindowDD *)verts)->draw_transformed_primitive((void*)(this->m_38 * 2), (void*)TObjPlayer__effect_count, (void*)1);
+    ((TWindowDD *)verts)->draw_transformed_primitive(this->m_38 * 2, TObjPlayer__effect_count, 1);
     set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
 }

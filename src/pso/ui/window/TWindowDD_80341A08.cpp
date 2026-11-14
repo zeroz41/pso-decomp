@@ -125,7 +125,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
             v[1].e = v1;
             v += 2;
         }
-        ((TWindowDD *)verts)->draw_transformed_primitive((void *)8, (void *)tex, (void *)1);
+        ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
         y0 = yb;
     }
     if (count > 0) {
@@ -144,7 +144,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
                 v[1].b = y1;
                 v += 2;
             }
-            ((TWindowDD *)verts)->draw_transformed_primitive((void *)8, (void *)tex, (void *)1);
+            ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
             y0 = y1;
         }
     }
@@ -158,7 +158,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
             v[1].e = v0 - frac * TWindowDD__data_805DFB18;
             v += 2;
         }
-        ((TWindowDD *)verts)->draw_transformed_primitive((void *)8, (void *)tex, (void *)1);
+        ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
     }
     if (self->m_74 > 0 && self->sub_80342254() != 0) {
         ((TWindowDD *)verts)->reset_entries(TWindowDD__sub_80348AD4(self->pad_54, 0.1f), -1);
@@ -176,7 +176,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
             v->b = y1;
             v++;
         }
-        ((TWindowDD *)verts)->draw_transformed_primitive((void *)8, (void *)tex, (void *)1);
+        ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
     }
 }
 

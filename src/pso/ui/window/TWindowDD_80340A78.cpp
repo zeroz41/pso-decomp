@@ -113,7 +113,7 @@ void TWindowDD__sub_80340A78(TWindowDD_WS_ScrollBar *self) {
     half = 0.5f * lbl_805DFB38 * rect->scale[0];
     quad[0] = span_start(c, half);
     quad[2] = span_end(c, half);
-    ((TWindowDD *)verts)->draw_transformed_primitive((void *)8, (void *)tex, (void *)1);
+    ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
 
     z = TWindowDD__sub_80348AD4(self->pad_54, 0.1f);
     TObjFish::set_global_param(lbl_805D63F0);
