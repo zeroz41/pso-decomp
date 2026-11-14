@@ -669,6 +669,18 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/unk/TUnk_8048E1A4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TUnk_804CC870.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowSubStatusDisp_80288030.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    # "TObjEneBm3Fly" sits in .rodata at 0x8043B0EC
+    "pso/enemy/fly/TObjEneBm3Fly.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # "TAdPlyChrSelPlateGC" sits in .rodata at 0x80471A60
+    "pso/ui/frontend/TAdPlyChrSelPlateGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # class-name string in .rodata; the ctor loads each .rodata table with its own lis/addi
+    "pso/ui/frontend/TAdSelectGameModeGC_802C4748.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    # "TObjDFDemo0" sits in .rodata at 0x804372B0
+    "pso/unk/text_8004D9A8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # "TWindowMenuTeamStatus" sits in .rodata at 0x80477C00
+    "pso/effect/enemy/TEneParticleCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # class-name strings sit in .rodata before the double literals (0x80443B68)
+    "pso/object/city/CityTraffic.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TShopJudgmentItemWindow: its class name and four string literals sit in .rodata.
     "pso/ui/city/TShopJudgmentItemWindow.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TObjDFJisin: the Jisin, Horming and Yutai class-name strings sit in .rodata.

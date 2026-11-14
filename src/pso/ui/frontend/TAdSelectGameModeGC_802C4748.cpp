@@ -24,13 +24,18 @@ typedef char RecoveredGlobal_802C47E8_lbl_8050E208_size[sizeof(RecoveredGlobal_8
 struct RecoveredGlobal_802C47E8_lbl_8050E3B8 { s32 value; u8 remaining[0x1AC]; };
 typedef char RecoveredGlobal_802C47E8_lbl_8050E3B8_size[sizeof(RecoveredGlobal_802C47E8_lbl_8050E3B8) == 0x1B0 ? 1 : -1];
 
-struct S8_802C4944 { s32 a, b; };
+struct S8_802C4944 { f32 a, b; };
 
 struct S16_802C4944 { S8_802C4944 x[2]; };
 
-struct T12_802C4944 { s32 a, b, c; };
+struct T12_802C4944 { s32 a; f32 b, c; };
 
 struct S24_802C4944 { T12_802C4944 t[2]; };
+
+const char *TAdSelectGameModeGC__name = "TAdSelectGameModeGC";
+const S24_802C4944 select_game_mode_text_layout = {{{-1, 208.0f, 197.0f}, {-1, 178.0f, 249.0f}}};
+const S8_802C4944 lbl_80471A44 = {302.0f, 28.0f};
+const S16_802C4944 select_game_mode_button_rect = {{{185.0f, 198.0f}, {155.0f, 250.0f}}};
 
 extern "C" {
 int enable_camera__19TAdSelectGameModeGCFv(void);
@@ -51,12 +56,7 @@ void *__ct__14TAdSelectTxtGCFP7TObjectPvPv(void *, void *, void *, int);
 void __ct__13TAdTitleTexGCFv(void *, void *);
 void *__ct__14TAdSelectCurGCFv(void *, void *, void *, void *);
 void *__ct__13TAdGuideTxtGCFv(void *, void *);
-extern S24_802C4944 select_game_mode_text_layout;
-extern S8_802C4944 lbl_80471A44[];
-extern S16_802C4944 select_game_mode_button_rect;
 extern s32 __vt__19TAdSelectGameModeGC[];
-extern void *TAdSelectGameModeGC__name;
-extern const f32 lbl_805DE538;
 int sync_char_select_state__10TObjPlayerFv(void*);
 
 int fn_802C4748(void* p) { return sync_char_select_state__10TObjPlayerFv(p); }
@@ -111,7 +111,7 @@ u8 *__ct__19TAdSelectGameModeGCFv(u8 *arg0, void *parent) {
     void *p;
     __ct__7TObjectFP7TObject(arg0, parent);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TAdSelectGameModeGC;
-    *(void * *)&((TAdSelectGameModeGC *)arg0)->m_name = TAdSelectGameModeGC__name;
+    ((TAdSelectGameModeGC *)arg0)->m_name = TAdSelectGameModeGC__name;
     TAdSelectGameModeGC__cached_mode_value = 0;
     *(void **)((s8 *)arg0 + 0x1C) = 0;
     *(void **)((s8 *)arg0 + 0x20) = 0;
@@ -140,7 +140,7 @@ u8 *__ct__19TAdSelectGameModeGCFv(u8 *arg0, void *parent) {
         }
     }
     {
-        S8_802C4944 a = lbl_80471A44[0];
+        S8_802C4944 a = lbl_80471A44;
         S16_802C4944 b = select_game_mode_button_rect;
         p = __nw__7TObjectFUl(0x708);
         if (p != 0) {
@@ -157,43 +157,8 @@ u8 *__ct__19TAdSelectGameModeGCFv(u8 *arg0, void *parent) {
     *(void **)((s8 *)arg0 + 0x20) = p;
     ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x20)))->set_entry_value(0, get_localized_text_entry(0x15, 0));
     ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x20)))->set_entry_value(1, get_localized_text_entry(0x15, 1));
-    create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)arg0, 0xA, (f32)lbl_805DE538);
+    create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)arg0, 0xA, 0.0f);
     return arg0;
 }
-
-#pragma push
-#pragma fp_contract on
-void TAdEnterSerialAccessGC__sub_802C4B64(TAdPlyChrSelPlateGC *plate, NJS_POINT2 *pos, NJS_COLOR color, u32 depth) {
-    NJS_POINT2COL fan;
-    NJS_POINT2 *xyp;
-    NJS_COLOR col[4];
-    NJS_POINT2 xy[4];
-    f32 y;
-    f32 x;
-
-    x = pos->x;
-    y = pos->y;
-    fan.col = col;
-    xyp = xy;
-    if ((!&color && !&color) && !&color) {
-    }
-    fan.p = xyp;
-    fan.tex = NULL;
-    fan.num = 4;
-    fan.p[0].x = x;
-    fan.p[0].y = y;
-    ((TAdChrMoveEffectGC *)&fan.col[0])->copy4(&color);
-    fan.p[1].x = fan.p[0].x;
-    fan.p[1].y = fan.p[0].y + plate->plate_size.y;
-    ((TAdChrMoveEffectGC *)&fan.col[1])->copy4(&color);
-    fan.p[2].x = fan.p[0].x + plate->plate_size.x;
-    fan.p[2].y = fan.p[0].y + plate->plate_size.y;
-    ((TAdChrMoveEffectGC *)&fan.col[2])->copy4(&color);
-    fan.p[3].x = fan.p[0].x + plate->plate_size.x;
-    fan.p[3].y = fan.p[0].y;
-    ((TAdChrMoveEffectGC *)&fan.col[3])->copy4(&color);
-    ((TObjCMHairMenu *)&fan)->draw_tri_fan_2d(4, 7, 0.001f * (f32)depth + (-30.0f));
-}
-#pragma pop
 
 }

@@ -101,7 +101,6 @@ extern "C" {
 void __dl__7TObjectFPv(void *);
 u8 * __ct__8TObjBaseFP7TObject(void *);
 extern RecoveredGlobal_80181278_lbl_804B5908 __vt__18TObjCityAirCar_Car;
-extern s32 TObjCityAirCar_Car__name;
 typedef char RecoveredGlobal_80181278_lbl_804B5908_size[sizeof(RecoveredGlobal_80181278_lbl_804B5908) == 0x34 ? 1 : -1];
 }
 
@@ -119,7 +118,7 @@ void run_task__19TObjCityAirCar_CtrlFv(Ctrl_80181310 *self);
 
 struct Rec_801815F8 { s32 a; s32 b; s32 c[2]; };
 
-struct Obj_801815F8 { s32 f00; u8 pad0[0x14]; u8 *vptr; s32 f1C; f32 f20; s32 f24; Rec_801815F8 recs[5]; };
+struct Obj_801815F8 { const char *name; u8 pad0[0x14]; u8 *vptr; s32 f1C; f32 f20; s32 f24; Rec_801815F8 recs[5]; };
 
 struct Info_80181698 { s32 f0; u32 n; };
 
@@ -171,7 +170,6 @@ void *destroy_buffer_pair(void *arg0, s16 arg1);
 extern "C" {
 void __ct__7TObjectFP7TObject(void *);
 extern u8 __vt__19TObjCityAirCar_Ctrl[];
-extern s32 TObjCityAirCar_Ctrl__name;
 extern s32 city_traffic_path_motion_index_table[];
 extern s32 city_aircar_model_indices[];
 s32 alloc_tables__6TLobbyFll(s32, s32, s32, Ent_801817AC *);
@@ -192,6 +190,9 @@ struct O_801819E4 { u8 pad[0x42c]; E_801819E4 *entries; };
 extern O_801819CC *city_common_model_archive;
 
 #pragma defer_codegen on
+
+const char *TObjCityAirCar_Ctrl__name = "TObjCityAirCar_Ctrl";
+const char *TObjCityAirCar_Car__name = "TObjCityAirCar_Car";
 
 f32 air_car_lane_spacing_table[5];
 f32 air_car_lane_speed_scale_table[5];
@@ -302,7 +303,7 @@ Obj_801815F8 *construct_traffic_manager(Obj_801815F8 *arg0) {
     s32 o;
     __ct__7TObjectFP7TObject(arg0);
     arg0->vptr = __vt__19TObjCityAirCar_Ctrl;
-    arg0->f00 = TObjCityAirCar_Ctrl__name;
+    arg0->name = TObjCityAirCar_Ctrl__name;
     arg0->f1C = 0;
     arg0->f20 = 0.0f;
     arg0->f24 = 0x14;
@@ -391,7 +392,7 @@ extern "C" {
 u8 *construct_city_air_car(TObjCityAirCar_Car *city_air_car_car, void *parent, s32 arg2, s32 arg3, f32 farg0) {
     __ct__8TObjBaseFP7TObject(city_air_car_car);
     *(s32 **)((s8 *)city_air_car_car + 0x18) = &__vt__18TObjCityAirCar_Car.value;
-    *(s32 *)((s8 *)city_air_car_car + 0) = (s32) TObjCityAirCar_Car__name;
+    city_air_car_car->m_name = TObjCityAirCar_Car__name;
     *(f32 *)((s8 *)city_air_car_car + 0x90) = 0.0f;
     *(s32 *)((s8 *)city_air_car_car + 0x98) = arg2;
     city_air_car_car->m_9c = arg3;

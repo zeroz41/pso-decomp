@@ -82,15 +82,14 @@ void fn_80338D58(O_80338D58 *arg0, void *a1, void *a2, void *a3, void *a4, void 
 
 }
 
-extern "C" {
-extern const char *lbl_805D4260;
-}
+// inferred: named after the class-name string it points to (TUnk_804EF4E0's m_name)
+const char *TWindowMenuTeamStatus__name = "TWindowMenuTeamStatus";
 
 void TUnk_804EF4E0::vfunc_6(u32 count, s32 id) {
     s32 i;
     TUnk_804EF4E0::Entry *entry;
 
-    m_name = lbl_805D4260;
+    m_name = TWindowMenuTeamStatus__name;
     m_20 = id;
     entry_count = 0;
     cursor = 0;

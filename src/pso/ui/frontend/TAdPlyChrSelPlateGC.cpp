@@ -5,6 +5,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
+#include "pso/ui/charcreate/TObjCMHairMenu.h"
 
 struct O_802C4D5C { u8 pad[0x2a8]; f32 v[1]; };
 
@@ -46,6 +47,43 @@ typedef struct S_802C4E38 {
     u8 col[4];
     s32 f3AC;
 } S_802C4E38;
+
+const char *TAdPlyChrSelPlateGC__name = "TAdPlyChrSelPlateGC";
+
+#pragma push
+#pragma fp_contract on
+void TAdEnterSerialAccessGC__sub_802C4B64(TAdPlyChrSelPlateGC *plate, NJS_POINT2 *pos, NJS_COLOR color, u32 depth) {
+    NJS_POINT2COL fan;
+    NJS_POINT2 *xyp;
+    NJS_COLOR col[4];
+    NJS_POINT2 xy[4];
+    f32 y;
+    f32 x;
+
+    x = pos->x;
+    y = pos->y;
+    fan.col = col;
+    xyp = xy;
+    if ((!&color && !&color) && !&color) {
+    }
+    fan.p = xyp;
+    fan.tex = NULL;
+    fan.num = 4;
+    fan.p[0].x = x;
+    fan.p[0].y = y;
+    ((TAdChrMoveEffectGC *)&fan.col[0])->copy4(&color);
+    fan.p[1].x = fan.p[0].x;
+    fan.p[1].y = fan.p[0].y + plate->plate_size.y;
+    ((TAdChrMoveEffectGC *)&fan.col[1])->copy4(&color);
+    fan.p[2].x = fan.p[0].x + plate->plate_size.x;
+    fan.p[2].y = fan.p[0].y + plate->plate_size.y;
+    ((TAdChrMoveEffectGC *)&fan.col[2])->copy4(&color);
+    fan.p[3].x = fan.p[0].x + plate->plate_size.x;
+    fan.p[3].y = fan.p[0].y;
+    ((TAdChrMoveEffectGC *)&fan.col[3])->copy4(&color);
+    ((TObjCMHairMenu *)&fan)->draw_tri_fan_2d(4, 7, 0.001f * (f32)depth + (-30.0f));
+}
+#pragma pop
 
 void TAdPlyChrSelPlateGC::render() {
     u32 i;
@@ -149,7 +187,7 @@ extern "C" {
 struct Q_802C5040 { s8 b[4]; };
 struct Arg_802C5040 { u8 pad0[0xC]; s32 f0C; };
 struct S_802C5040 {
-    s32 f0;
+    const char *name;
     u8 pad4[0x14];
     void *vt;
     u8 pad1c[0x224 - 0x1C];
@@ -162,14 +200,13 @@ struct S_802C5040 {
     s32 f3B0;
 };
 extern u8 __vt__19TAdPlyChrSelPlateGC[];
-extern s32 TAdPlyChrSelPlateGC__name;
 void __ct__7TObjectFP7TObject(void *);
 
 S_802C5040 *__ct__19TAdPlyChrSelPlateGCFv(S_802C5040 *arg0, s32 arg1, Arg_802C5040 *arg2) {
     s32 i;
     __ct__7TObjectFP7TObject(arg0);
     arg0->vt = __vt__19TAdPlyChrSelPlateGC;
-    arg0->f0 = TAdPlyChrSelPlateGC__name;
+    arg0->name = TAdPlyChrSelPlateGC__name;
     arg0->f3B0 = arg2->f0C;
     arg0->f3AC = -1;
     arg0->f224 = 0;

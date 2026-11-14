@@ -44,21 +44,7 @@ static EthState_805D0AA0 lbl_805D0AA0;
 static u8 exi_dma_buffer[0x600];
 static u8 exi_dma_write_buffer[0xC00];
 
-extern OSThreadQueue network_thread_queue;
-extern s32 exi_send_started_flag;
-extern void (*lbl_805D7C54)(u8); /* send-done callback */
-extern s32 lbl_805D7C7C;
-extern s32 exi_send_size;
-extern u8 exi_mac_address[6];
-extern u32 lbl_805D7C4C;
-extern s32 exi_receive_callback;
-extern u16 *lbl_805D7C44; /* accepted ethertypes (lbl_805D7C48 entries) */
-extern s32 lbl_805D7C48;
-extern s32 exi_dma_read_length;
-extern u32 exi_dma_write_length;
 void TLobby__sub_8042B434(s32 chan, OSContext *ctx);
-extern s32 lbl_805D7C84;
-extern s32 lbl_805D7C88;
 
 /* A receive ring page header: the next page, the frame length and the receive status. */
 typedef struct RecvDescriptor {
@@ -67,13 +53,29 @@ typedef struct RecvDescriptor {
     u8 status;
 } RecvDescriptor;
 
-extern volatile RecvDescriptor lbl_805D7C5C;
-extern RecvDescriptor lbl_805D7C6C;
-extern u8 *lbl_805D7C74;
-extern u16 lbl_805D7C78; /* receive ring write page */
-extern u16 lbl_805D7C7A; /* receive ring read page */
-extern s32 lbl_805D7C58;
-extern u8 lbl_805D7C36; /* adapter revision id */
+/* CodeWarrior lays these uninitialised globals out last-defined first: .sbss 0x805D7C30-0x805D7C90. */
+s32 lbl_805D7C88;
+s32 lbl_805D7C84;
+s32 exi_send_size;
+s32 lbl_805D7C7C;
+u16 lbl_805D7C7A; /* receive ring read page */
+u16 lbl_805D7C78; /* receive ring write page */
+u8 *lbl_805D7C74;
+RecvDescriptor lbl_805D7C6C;
+u32 exi_dma_write_length;
+s32 exi_dma_read_length;
+volatile RecvDescriptor lbl_805D7C5C;
+s32 lbl_805D7C58;
+void (*lbl_805D7C54)(u8); /* send-done callback */
+s32 exi_receive_callback;
+u32 lbl_805D7C4C;
+s32 lbl_805D7C48;
+u16 *lbl_805D7C44; /* accepted ethertypes (lbl_805D7C48 entries) */
+s32 exi_send_started_flag;
+OSThreadQueue network_thread_queue;
+u8 lbl_805D7C36; /* adapter revision id */
+u8 exi_mac_address[6];
+
 u8 lbl_805D4830[6] = {255, 255, 255, 255, 255, 255};
 u16 lbl_805D4836 = 53511;
 u8 lbl_805D4838 = 78;

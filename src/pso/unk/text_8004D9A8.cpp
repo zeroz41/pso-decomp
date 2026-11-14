@@ -23,6 +23,11 @@
 #include "pso/boss/darkfalz/TObjDFDemo0.h"
 #include "pso/system/task/TObject.h"
 
+const char *TObjDFDemo0__name = "TObjDFDemo0";
+const ModelNodeSpec TObjDFDemo0__model_node_entries[7] = {
+    {9, 1, 0}, {7, 1, 0}, {5, 2, 0}, {4, 2, 0}, {6, 2, 0}, {3, 5, 0}, {3, 0x5E, 0},
+};
+
 extern "C" {
 
 s32 TObjPlayer__sub_80052390();
@@ -239,7 +244,7 @@ S_8004DE44 *__dt__11TObjDFDemo0Fv(S_8004DE44 *o, s16 flag) {
 }
 
 typedef struct Obj_8004DEE0 {
-    s32 f0;
+    const char *name;
     u8 pad4[0x18 - 0x4];
     void *vt;
     u8 pad1c[0x90 - 0x1c];
@@ -267,9 +272,7 @@ s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
 void set_scripted_camera_pose(void *, void *, void *);
 void __ct__8TObjBaseFP7TObject(void *, void *);
-extern const ModelNodeSpec TObjDFDemo0__model_node_entries[7];
 extern s32 lbl_80485EB0[];
-extern s32 TObjDFDemo0__name;
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
 extern "C" void get_name__8TObjBaseFv();
@@ -298,7 +301,7 @@ Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
 
     __ct__8TObjBaseFP7TObject(self, parent);
     self->vt = (void *)__vt__11TObjDFDemo0;
-    self->f0 = TObjDFDemo0__name;
+    self->name = TObjDFDemo0__name;
     h = TBoss4Uro::get_instance_count();
     for (i = 0; i < 6; i++) {
         {
