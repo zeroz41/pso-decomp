@@ -241,15 +241,6 @@ struct Pair_80198F14 { s32 a; s32 b; };
 extern "C" {
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 u8 *load_gvm_texture_file(s32 arg0);
-extern char lbl_80446088[];
-extern char lbl_80446098[];
-extern char lbl_804460A8[];
-extern char lbl_804460B8[];
-extern char lbl_804460C8[];
-extern char lbl_804460E0[];
-extern char lbl_804460FC[];
-extern char lbl_8044610C[];
-extern char lbl_80446124[];
 }
 struct ByteBlock_C { u8 bytes[0xc]; };
 struct RecoveredGlobal_80199470_lbl_8050DDAC {
@@ -390,10 +381,7 @@ void TWindowTimer__sub_8019A098(void);
 void rotate_vec_xz(void *, void *, s32);
 s32 get_entity_id(void *);
 void vec3_add_to(void *, void *);
-extern u8 lbl_8044613C[];
 f32 atan2_float(f32, f32);
-extern u8 lbl_80446148[];
-extern const f64 lbl_80446150[];
 typedef char RecoveredGlobal_8019A574_lbl_8050DD58_size[sizeof(RecoveredGlobal_8019A574_lbl_8050DD58) == 0x54 ? 1 : -1];
 typedef char RecoveredGlobal_8019A574_lbl_8050DDAC_size[sizeof(RecoveredGlobal_8019A574_lbl_8050DDAC) == 0x1C ? 1 : -1];
 }
@@ -534,7 +522,7 @@ void TUnk_804B8E18::update_goal_checks(u16 id) {
         }
     }
     if ((ST.flags & 2 || ST.flags & 1 || ST.flags & 0x20 || ST.flags & 0x10) && !(ST.flags & 8) && !(ST.flags & 4)) {
-        TWindowCtrl::open((s32)(get_entity_id(self)), (s32)lbl_80446148, 0x1B);
+        TWindowCtrl::open((s32)(get_entity_id(self)), (s32)"\tC4Goal", 0x1B);
     }
     if (!(ST.flags & 0x33) && self->f360 != 0) {
         self->f360 = 0;
@@ -554,7 +542,7 @@ void TUnk_804B8E18::update_goal_checks(u16 id) {
     }
     if (self->f30 != 1) {
         self->f30 = 1;
-        ang = lbl_80446150[0] * atan2_float(self->pos.x - p->pos.x, self->pos.z - p->pos.z);
+        ang = 10430.38043493439 * atan2_float(self->pos.x - p->pos.x, self->pos.z - p->pos.z);
         if ((0.0f) == len) {
             ((TWindowTimer *)((u8 *)&self->pos))->throw_gogo_ball((s32)ang, (s32)self->time);
             ((void (*)(void *))TWindowTimer__sub_8019A098)(self);
@@ -590,7 +578,7 @@ void TUnk_804B8E18::run_task() {
         p.y += ((Tbl_80199F14 *)&(*(RecoveredGlobal_8019A574_lbl_8050DD58 *)&gogo_ball_configuration))->yofs;
         spawn_particle_effect_with_flags(&p, 0x45, 0x40);
         spawn_particle_effect_with_flags(&p, 0x46, 0x40);
-        TWindowCtrl::open((s32)(get_entity_id(this)), (s32)lbl_8044613C, 0x1B);
+        TWindowCtrl::open((s32)(get_entity_id(this)), (s32)"Good Bye", 0x1B);
         queue_destruction();
         return;
     }
@@ -998,6 +986,7 @@ void TUnk_804B8E00::render() {
 #undef gogo_ball_configuration
 
 extern "C" {
+#pragma pool_data off
 void TLanguage::load_lobby_textures() {
     Pair_80198F14 *p = gogo_ball_team_scores;
     Cfg_80198F14 *c = &(*(Cfg_80198F14 *)&gogo_ball_sync_state);
@@ -1015,16 +1004,17 @@ void TLanguage::load_lobby_textures() {
         obj = load_resource_from_descriptor(obj, 5, language_lobby_texture_descriptor, 0, 0, 0);
     }
     (*(void**)&gogo_ball_bml_resource) = obj;
-    lobby_gvm_texture_handles[0] = (s32)load_gvm_texture_file((s32)lbl_80446088);
-    lobby_gvm_texture_handles[1] = (s32)load_gvm_texture_file((s32)lbl_80446098);
-    lobby_gvm_texture_handles[2] = (s32)load_gvm_texture_file((s32)lbl_804460A8);
-    lobby_gvm_texture_handles[3] = (s32)load_gvm_texture_file((s32)lbl_804460B8);
-    lobby_gvm_texture_handles[4] = (s32)load_gvm_texture_file((s32)lbl_804460C8);
-    lobby_gvm_texture_handles[5] = (s32)load_gvm_texture_file((s32)lbl_804460E0);
-    lobby_gvm_texture_handles[6] = (s32)load_gvm_texture_file((s32)lbl_804460FC);
-    lobby_gvm_texture_handles[7] = (s32)load_gvm_texture_file((s32)lbl_8044610C);
-    lobby_gvm_texture_handles[8] = (s32)load_gvm_texture_file((s32)lbl_80446124);
+    lobby_gvm_texture_handles[0] = (s32)load_gvm_texture_file((s32)"robby_chu.gvm");
+    lobby_gvm_texture_handles[1] = (s32)load_gvm_texture_file((s32)"biri_ball.gvm");
+    lobby_gvm_texture_handles[2] = (s32)load_gvm_texture_file((s32)"bom_ball.gvm");
+    lobby_gvm_texture_handles[3] = (s32)load_gvm_texture_file((s32)"soft_ball.gvm");
+    lobby_gvm_texture_handles[4] = (s32)load_gvm_texture_file((s32)"rokeorange_churoke.gvm");
+    lobby_gvm_texture_handles[5] = (s32)load_gvm_texture_file((s32)"rokeblue_pso_churoke.gvm");
+    lobby_gvm_texture_handles[6] = (s32)load_gvm_texture_file((s32)"robby_cat.gvm");
+    lobby_gvm_texture_handles[7] = (s32)load_gvm_texture_file((s32)"fd_obj804_gorl03.gvm");
+    lobby_gvm_texture_handles[8] = (s32)load_gvm_texture_file((s32)"fd_obj804_gorl03_b.gvm");
 }
+#pragma pool_data reset
 
 }
 
