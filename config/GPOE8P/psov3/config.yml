@@ -805,10 +805,10 @@ force_active:
   - TORockCaveSM02__class_name
   - TORockCaveSimple__class_name
   - TORockCave__class_name
-  - TORockJungleL01__ct
-  - TORockJungleM01__ct
+  - __ct__15TORockJungleL01FPv
+  - __ct__15TORockJungleM01FPv
   - TORockJungleS01__bml_resource
-  - TORockJungleS01__ct
+  - __ct__15TORockJungleS01FPv
   - TORockJungleS01__texture_resource
   - TORockJungleS01_resource_descriptor
   - TOSensorAncient01__class_name
@@ -5593,7 +5593,7 @@ force_active:
   - destroy__12T_OWEHMS_ExpFs
   - destroy__13TPhotonFarllaFPvs
   - __dt__22TObjEneBm5WolfListNodeFv
-  - destroy__15TORockJungleL01Fs
+  - __dt__15TORockJungleL01Fv
   - destroy__15TWindowHelpItemFPvs
   - destroy__16TObjEneBm5GibonUFls
   - destroy__16TObjOnlineEndingFPvs

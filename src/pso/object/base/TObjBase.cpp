@@ -11,20 +11,6 @@
 #include "pso/system/vector.h"
 #include <stddef.h>
 
-// What apply_object_set_data reads: an object set entry from 4 bytes in, so
-// entity_id, room, position, rotation and params 1-6 sit as in the .dat entry.
-struct ObjectSetData {
-    u8 pad_0[0x4];
-    u16 entity_id;
-    u8 pad_6[0x2];
-    s16 room;
-    u8 pad_a[0x2];
-    Vec position;
-    s32 rotation[3];
-    Vec scale;
-    s32 set_params[3];
-};
-
 // A camera-space probe point and where it lands on screen.
 struct ViewProbe {
     f32 screen[2];

@@ -8323,7 +8323,9 @@ pso/ui/frontend/TAdRayGC.cpp:
 
 pso/object/jungle/TORockJungleL01.cpp:
 	.text       start:0x8029C030 end:0x8029CC68
-	.data       start:0x804DC378 end:0x804DC4D8
+	.rodata     start:0x80465788 end:0x804658EC
+	.data       start:0x804DC378 end:0x804DC528
+	.sdata      start:0x805D3D38 end:0x805D3D48
 	.sbss       start:0x805D65D0 end:0x805D65D8
 	.sdata2     start:0x805DDD18 end:0x805DDD28
 
