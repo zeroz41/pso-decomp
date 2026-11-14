@@ -669,6 +669,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/unk/TUnk_8048E1A4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TUnk_804CC870.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowSubStatusDisp_80288030.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    # the class name sits in .rodata 0x804349C0; run_task reaches now_loading_pos and both Vec templates with a lis/addi each: -str reuse,readonly, -pool off.
+    # The 1-byte chr_select_state at 0x805D4A78 is followed by 7 pad bytes, so 0x805D4A80 starts a new TU: 0x8001C5F8 cuts the unit.
+    "pso/system/TLoadCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/unk/TLobby_80299C4C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TLobby_80299B90.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # the scene music names and the retry class name sit in .rodata 0x804651A0-0x804651F8: -str reuse,readonly.

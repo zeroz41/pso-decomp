@@ -129,8 +129,15 @@ pso/unk/text_8001C388.cpp:
 pso/ui/frontend/TAdBackGC.cpp:
 	.text       start:0x8001C5A0 end:0x8001C5E8
 
+pso/ui/frontend/TAdSinglePlyChrSelectGC_8001C5E8.cpp:
+	.text       start:0x8001C5E8 end:0x8001C5F8
+	.sbss       start:0x805D4A78 end:0x805D4A80
+
 pso/system/TLoadCtrl.cpp:
-	.text       start:0x8001C5E8 end:0x8001CAD4
+	.text       start:0x8001C5F8 end:0x8001CAD4
+	.rodata     start:0x804349C0 end:0x804349F0
+	.sdata      start:0x805D2630 end:0x805D2638
+	.sbss       start:0x805D4A80 end:0x805D4A90
 
 pso/ui/hud/TLoadingCur.cpp:
 	.text       start:0x8001CAD4 end:0x8001D198
@@ -12099,9 +12106,14 @@ pso/unk/TLobby_803D0C28.cpp:
 	.text       start:0x803D0C28 end:0x803D0C34
 
 pso/unk/text_803D0C34.cpp:
-	.text       start:0x803D0C34 end:0x803D0F1C
-	.bss        start:0x80581EA8 end:0x80583058
+	.text       start:0x803D0C34 end:0x803D0DEC
+	.bss        start:0x80581EA8 end:0x80582F58
 	.sbss       start:0x805D7610 end:0x805D7614
+
+pso/unk/TLobby_803D0DEC.cpp:
+	.text       start:0x803D0DEC end:0x803D0F1C
+	.bss        start:0x80582F58 end:0x80583058
+	.sbss       start:0x805D7618 end:0x805D7620
 
 pso/audio/LscStream.cpp:
 	.text       start:0x803D0F1C end:0x803D1C24
