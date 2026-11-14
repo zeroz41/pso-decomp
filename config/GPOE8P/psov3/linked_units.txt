@@ -690,6 +690,7 @@ pso/ui/frontend/TAdEndText_80307A34.cpp
 pso/ui/frontend/TAdGuideTxtGC.cpp
 pso/ui/frontend/TAdGuideTxtGC_802B17D4.cpp
 pso/ui/frontend/TAdMultiOkGC.cpp
+pso/ui/frontend/TAdPlayerLoadGC_803F18B8.cpp
 pso/ui/frontend/TAdPlyChrSelPlateGC.cpp
 pso/ui/frontend/TAdTimeSetGC.cpp
 pso/ui/charcreate/TChCrCharSelect.cpp
