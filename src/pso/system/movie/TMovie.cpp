@@ -10,10 +10,11 @@
 #include "pso/system/memory.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/ui/frontend/TAdEndText.h"
 
 struct MovieState;
-struct Vec_80144778 { s32 x, y, z; };
+struct Vec_80144778 { f32 x, y, z; };
 
 extern "C" {
 void TMovie__sub_80144324(MovieState *movie, const s8 *name);
@@ -39,23 +40,20 @@ void set_perspective_projection_from_fov(s32 arg0, f32 farg0, f32 farg1, f32 far
 void func_803DCDFC__Fv(void);
 
 extern void *__vt__6TMovie[];
-extern s32 TMovie__name;
 extern s8 controller_input_state[];
 extern s8 controller_physical_port_bank[];
-extern Vec_80144778 lbl_8043F2E8;
-extern Vec_80144778 lbl_8043F2F4;
-extern Vec_80144778 lbl_8043F300;
 extern s32 video_initial_draw_framebuffer;
 extern s32 video_initial_display_framebuffer;
 extern int opening_movie_selector;
 extern unsigned char main_menu_scene_active_flag;
 extern int ending_movie_active_flag;
-
-void play_area_music(const s8 *);
-extern s8 lbl_8043F30C[];
-extern s8 lbl_8043F31C[];
-extern s8 lbl_8043F330[];
 }
+
+const char *TMovie__name = "TMovie";
+// inferred: the eye, target and up vectors run_task passes to set_camera_look_at
+static const Vec_80144778 movie_camera_eye = {0.0f, 0.0f, 0.0f};
+static const Vec_80144778 movie_camera_target = {0.0f, 0.0f, 1.0f};
+static const Vec_80144778 movie_camera_up = {0.0f, 1.0f, 0.0f};
 
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 
@@ -77,11 +75,11 @@ u8 *initialize_movie_with_soundtrack(u8 *movie, s8 *arg1, s32 arg2, s32 arg3, s3
     TMovie__sub_80144324((MovieState *)movie, arg1);
     ((TMovie *)movie)->init_sfd_player(arg3, arg4);
     if (arg3 != 0) {
-        play_area_music(lbl_8043F30C);
+        play_area_music("CUBE_ENDING.adx");
     } else if ((get_opening_movie_purpose() == 0) && (get_opening_movie_selector() == 1)) {
-        play_area_music(lbl_8043F31C);
+        play_area_music("CUBE_OPENING.adx");
     } else {
-        play_area_music(lbl_8043F330);
+        play_area_music("OPENING.ADX");
     }
     return movie;
 }
@@ -166,14 +164,9 @@ struct Movie_80143FB0 {
 extern s32 (*TMovie__decode_frame_callback)(void **, u32 *);
 extern s32 (*lbl_805D6B3C)(void **);
 
-extern u8 lbl_8043F33C[];
-extern u8 lbl_8043F350[];
-extern u8 lbl_8043F35C[];
-extern u8 lbl_8043F368[];
-extern u8 lbl_8043F374[];
 extern s32 (*movie_sfd_info_size_fn)(Info_80143FB0 *);
 extern Iface_80143FB0 *(*lbl_805D6B34)(Info_80143FB0 *);
-extern void (*lbl_805D6B9C)(Iface_80143FB0 *, void *);
+extern void (*lbl_805D6B9C)(Iface_80143FB0 *, const char *);
 extern void (*lbl_805D6BA0)(Iface_80143FB0 *);
 extern void (*lbl_805D6BA4)(Iface_80143FB0 *);
 
@@ -203,14 +196,14 @@ void TMovie::init_sfd_player(s32 arg1, s32 arg2) {
     o->iface = f;
     if (arg1 != 0) {
         if (arg2 != 0) {
-            lbl_805D6B9C(f, lbl_8043F33C);
+            lbl_805D6B9C(f, "ending_normal.sfd");
         } else {
-            lbl_805D6B9C(f, lbl_8043F350);
-            lbl_805D6B9C(f, lbl_8043F35C);
-            lbl_805D6B9C(f, lbl_8043F368);
-            lbl_805D6B9C(f, lbl_8043F368);
-            lbl_805D6B9C(f, lbl_8043F368);
-            lbl_805D6B9C(f, lbl_8043F374);
+            lbl_805D6B9C(f, "ult01.sfd");
+            lbl_805D6B9C(f, "ult02.sfd");
+            lbl_805D6B9C(f, "ult03.sfd");
+            lbl_805D6B9C(f, "ult03.sfd");
+            lbl_805D6B9C(f, "ult03.sfd");
+            lbl_805D6B9C(f, "ult04.sfd");
         }
         lbl_805D6BA0(f);
         lbl_805D6BA4(f);
@@ -407,7 +400,7 @@ block_return0:
 }
 
 struct TMovie_80144910 {
-    s32 name;
+    const char *name;
     u8 pad4[0x14];
     void *vt;
     u8 *obj1C;
@@ -455,9 +448,9 @@ void run_task__6TMovieFv(TMovie *movie) {
             ((TMovie *)(movie->m_20))->update_stop();
             TMovie::run_callback();
         } else {
-            Vec_80144778 eye = lbl_8043F2E8;
-            Vec_80144778 at = lbl_8043F2F4;
-            Vec_80144778 up = lbl_8043F300;
+            Vec_80144778 eye = movie_camera_eye;
+            Vec_80144778 at = movie_camera_target;
+            Vec_80144778 up = movie_camera_up;
             set_perspective_projection_from_fov(0x4B, 1.1333334f, 1.0f, 21000.0f);
             set_camera_look_at((u8 *)&eye, (u8 *)&at, (u8 *)&up);
             ((TMovie *)(movie->m_20))->update_stop();

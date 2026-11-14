@@ -3433,7 +3433,8 @@ pso/system/movie/TMovie_80143BBC.cpp:
 
 pso/system/movie/TMovie.cpp:
 	.text       start:0x80143D9C end:0x801449FC
-	.rodata     start:0x8043F380 end:0x8043F390
+	.rodata     start:0x8043F2E0 end:0x8043F390
+	.sdata      start:0x805D2CF0 end:0x805D2CF8
 	.sdata2     start:0x805DB178 end:0x805DB18C
 
 pso/ui/font/TNECFontEORFunction.cpp:
