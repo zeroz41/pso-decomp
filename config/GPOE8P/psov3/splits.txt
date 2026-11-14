@@ -6786,6 +6786,7 @@ pso/ui/window/TWindowChoiceSetting_80249078.cpp:
 
 pso/ui/window/TWindowSubComCard_80249120.cpp:
 	.text       start:0x80249120 end:0x80249240
+	.sdata2     start:0x805DCBB8 end:0x805DCBC0
 
 pso/ui/window/TWindowChoiceSetting_80249240.cpp:
 	.text       start:0x80249240 end:0x802495FC
