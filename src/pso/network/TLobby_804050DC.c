@@ -29,8 +29,10 @@ extern s32 lbl_805D7A94;
 extern u8 *lbl_805D7ADC;
 extern u8 *lbl_805D7AE0;
 extern u32 lbl_805D7AE4;
-extern u16 lbl_805D7AE8;
-extern u16 lbl_804FD3A8[];
+/* inferred: the receive path's running FCS: reset to 0xFFFF, folded per byte, good at 0xF0B8. */
+extern u16 ppp_rx_fcs;
+/* inferred: the PPP FCS-16 lookup table (RFC 1662 fcstab); the receive path checks the FCS against 0xF0B8. */
+extern u16 ppp_fcs16_table[];
 extern u8 lbl_805C18B0[];
 extern s16 TLobby__sub_804290D4(s32 idx);
 
@@ -408,7 +410,7 @@ s32 TLobby__sub_80405700()
   {
     lbl_805D7ADC = buf;
     ppp_rx_frame_ptr = 0;
-    lbl_805D7AE8 = 0xffff;
+    ppp_rx_fcs = 0xffff;
     lbl_805D7AE4 = 0;
     lbl_805D7AE0 = buf;
   }
@@ -427,7 +429,7 @@ s32 TLobby__sub_80405700()
     c = *(lbl_805D7ADC++);
     if (c == 0x7e)
     {
-      if (((ppp_rx_frame_ptr != 0) && (ppp_rx_frame_ptr->len < 0x800)) && (lbl_805D7AE8 == 0xf0b8))
+      if (((ppp_rx_frame_ptr != 0) && (ppp_rx_frame_ptr->len < 0x800)) && (ppp_rx_fcs == 0xf0b8))
       {
         n = get_field_4((void *) ppp_rx_frame_ptr) - 2;
         TLobby__sub_80401CAC(&ppp_rx_frame_ptr, n);
@@ -450,7 +452,7 @@ s32 TLobby__sub_80405700()
       ppp_rx_frame_ptr->data = ((u8 *) frame) + ((base->headroom + 0x83) & (~3));
       ppp_rx_frame_ptr->len = 0;
       lbl_805D7AE4 = 0;
-      lbl_805D7AE8 = 0xffff;
+      ppp_rx_fcs = 0xffff;
     }
     if (lbl_805D7AE4 & 1)
     {
@@ -462,7 +464,7 @@ s32 TLobby__sub_80405700()
       continue;
     }
     ppp_rx_frame_ptr->data[ppp_rx_frame_ptr->len++] = c;
-    lbl_805D7AE8 = (lbl_805D7AE8 >> 8) ^ lbl_804FD3A8[(lbl_805D7AE8 ^ c) & 0xff];
+    ppp_rx_fcs = (ppp_rx_fcs >> 8) ^ ppp_fcs16_table[(ppp_rx_fcs ^ c) & 0xff];
   }
 
   tail:
@@ -986,7 +988,7 @@ s32 TLobby__sub_804066D8(u8 *p)
     *((s32 *) (st + 0x114)) += 1;
     while ((d = get_80405A74((PppFrame **) (&p))) != (-1))
     {
-      crc = (u16) ((((u16) crc) >> 8) ^ (*((u16 (*)[]) (&lbl_804FD3A8)))[(((u16) crc) ^ d) & 0xff]);
+      crc = (u16) ((((u16) crc) >> 8) ^ ppp_fcs16_table[(((u16) crc) ^ d) & 0xff]);
       if ((((d < 0x20) && (accm & (1 << d))) || (d == 0x7d)) || (d == 0x7e))
       {
         *(buf++) = 0x7d;
