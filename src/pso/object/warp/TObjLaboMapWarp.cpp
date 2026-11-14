@@ -727,7 +727,7 @@ void TObjCityAreaWarp::render() { if (is_main_phase_15__9TObjEneDDFv() != 0) { d
 
 void TObjCityAreaWarp::debug_print_area_num() { this->do_warp(); }
 
-void TObjCityAreaWarp::confirm_area_transfer(s32) {
+void TObjCityAreaWarp::confirm_area_transfer(void *) {
     play_sound_effect(0x40003205, 0, 0, 0);
     TLobby__data_805D5CE8 = 1;
 }
@@ -807,7 +807,7 @@ void TObjCityMapWarp::render() {
 
 const char *labo_map_warp_dest_name_table_a[3] = {"GOVERNOR", "CITY", "LABO"};
 
-void TObjCityMapWarp::slot4C() {
+void TObjCityMapWarp::draw_debug_destinations() {
     Obj_80185664 *self = (Obj_80185664 *)this;
     ((TObjCityMapWarp *)self)->clamp_destination_index();
     TObjNpcEnemy::set_global_count(0xFF00FF);
@@ -916,7 +916,7 @@ void TObjLaboMapWarp::render() {
 
 const char *labo_map_warp_dest_name_table_b[3] = {"GOVERNOR", "CITY", "LABO"};
 
-void TObjLaboMapWarp::slot4C() {
+void TObjLaboMapWarp::draw_debug_destinations() {
     clamp_index();
     TObjNpcEnemy::set_global_count(0xFF00FF);
     debug_printf_at(0x13001C, "<- DST POS X");

@@ -111,7 +111,7 @@ s32 TObjWarpJungMain::vfunc_18(s32) {
     return 0;
 }
 
-void TObjWarpJungMain::confirm_area_transfer(s32 arg1) { TObjAreaWarp::confirm_area_transfer(arg1); }
+void TObjWarpJungMain::confirm_area_transfer(void *player) { TObjAreaWarp::confirm_area_transfer(player); }
 
 void TObjWarpJungMain::vfunc_14() { TObjWarpBase::vfunc_14(); TWindowCtrl::clear_flag(); }
 
@@ -191,7 +191,7 @@ void TObjWarpJung::render() {
     }
 }
 
-void TObjWarpJung::confirm_area_transfer(s32 arg1) { TObjAreaWarp::confirm_area_transfer(arg1); }
+void TObjWarpJung::confirm_area_transfer(void *player) { TObjAreaWarp::confirm_area_transfer(player); }
 
 void TObjWarpJung::run_task() {
     beam_frame += 4.0f;

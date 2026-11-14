@@ -8,7 +8,7 @@ struct TObjAreaWarp : public TObjWarpBase {
     TObjAreaWarp(TObject *parent, void *set_data);
     virtual ~TObjAreaWarp();
     void handle_area_selection();
-    virtual void confirm_area_transfer(s32);
+    virtual void confirm_area_transfer(void *player);  // player: who confirmed (find_warp_player_in_range)
     virtual void debug_print_area_num();
     virtual void open_confirm_window(s32 arg1);
     u16 find_active_player();

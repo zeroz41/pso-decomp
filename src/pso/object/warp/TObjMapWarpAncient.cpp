@@ -103,14 +103,14 @@ void TObjMapWarpAncient::run_task() {
     }
 }
 
-void TObjMapWarpAncient::slot4C() {
+void TObjMapWarpAncient::draw_debug_destinations() {
     if ((s32)set_params[1] < 0) {
         TObjNpcEnemy::set_global_count(0xFF00FF);
         debug_printf_at(0x130021, "<- ONE WAY (POSITIVE: NORMAL)");
         TObjNpcEnemy::set_global_count(0xF0F0F0FF);
         return;
     }
-    draw_debug_destinations();
+    TObjMapWarp::draw_debug_destinations();
     TObjNpcEnemy::set_global_count(0xFF00FF);
     debug_printf_at(0x130021, "<- NORMAL (NEGATIVE: ONE WAY)");
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);

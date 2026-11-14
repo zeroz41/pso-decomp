@@ -8,7 +8,7 @@ struct TObjLaboMapWarp : public TObjMapWarp {
     TObjLaboMapWarp(TObject *parent, void *set_data);
     virtual ~TObjLaboMapWarp();
     virtual void open_confirm_window(s32 client_id);
-    virtual void slot4C();
+    virtual void draw_debug_destinations();
     virtual void run_task();
     virtual void render();
     int is_field88_zero();

@@ -79,7 +79,7 @@ void TObjCityMainWarp::update_state() {
             if (temp_r3 != 0) {
                 TObjCityMainWarp::notify_player_warp(this, local_client_id);
                 *(s32 *)((s8 *)this + 0xBC) = (s32) city_main_warp_destination_id;
-                this->confirm_area_transfer(temp_r3);
+                this->confirm_area_transfer((void *)temp_r3);
                 *(s16 *)((s8 *)this + 0xE0) = 2;
             }
         }

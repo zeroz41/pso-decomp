@@ -400,7 +400,7 @@ void open_confirm_window__12TObjAreaWarpFl();
 void is_warp_enabled__12TObjAreaWarpFv();
 void vfunc_17__12TObjWarpBaseFv();
 void vfunc_18__12TObjWarpBaseFl(s32 arg0, s32 arg1);
-void confirm_area_transfer__12TObjAreaWarpFl();
+void confirm_area_transfer__12TObjAreaWarpFPv();
 void *boss_warp_model_names[4] = {
     (void *)&lbl_80446480, (void *)&lbl_80446494, (void *)&lbl_804464AC, (void *)0x0,
 };
@@ -457,7 +457,7 @@ s32 __vt__17TObjWarpBossMulti[21] = {
     (s32)&is_warp_enabled__12TObjAreaWarpFv,
     (s32)&vfunc_17__12TObjWarpBaseFv,
     (s32)&vfunc_18__12TObjWarpBaseFl,
-    (s32)&confirm_area_transfer__12TObjAreaWarpFl,
+    (s32)&confirm_area_transfer__12TObjAreaWarpFPv,
     (s32)&debug_print_area_num__17TObjWarpBossMultiFv
 };
 void *TObjWarpBossMulti::create() {
@@ -847,7 +847,7 @@ void TObjWarpBoss::update_state() {
             temp_r3 = ((s32 (*)(void *, f32))TObjWarpBossMulti__sub_8019E570)(this, *(f32 *)((s8 *)this + 0xAC));
             if (temp_r3 != 0) {
                 TObjWarpBossMulti::notify_player(this, local_client_id);
-                this->confirm_area_transfer(temp_r3);
+                this->confirm_area_transfer((void *)temp_r3);
                 *(s16 *)((s8 *)this + 0xE0) = 2;
             }
         }

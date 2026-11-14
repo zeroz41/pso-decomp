@@ -7,7 +7,7 @@
 struct TObjAreaWarpForest : public TObjAreaWarp {
     TObjAreaWarpForest(TObject *parent, void *set_data);
     virtual ~TObjAreaWarpForest();
-    virtual void confirm_area_transfer(s32);
+    virtual void confirm_area_transfer(void *player);
     virtual void debug_print_area_num();
     void render();
     void run_task();
