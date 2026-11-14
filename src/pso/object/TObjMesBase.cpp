@@ -11,8 +11,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/object/base/TObjMotion.h"
 
-struct Mc_80194EC4 { u8 pad0[0x68]; f32 f68; u8 pad6C[0x50]; s32 fBC; };
-
 struct Pair_80194AEC { const char *s[2]; };
 
 struct Mes_80194AEC { u8 pad0[0x84]; s32 f84; u8 pad88[4]; s32 f8C; u8 pad90[0x24]; s32 fB4; s32 fB8; };
@@ -23,17 +21,13 @@ extern void* quest_area_manager;
 extern void* tl_00;
 void* __nw__7TObjectFUl(unsigned long);
 void debug_printf_at(int, void *, ...);
-extern s32 lbl_80445DF4[];
-extern u8 lbl_80445E08[];
 extern Pair_80194AEC lbl_80445D94[];
 extern u8 lbl_80445D9C[];
 extern u8 lbl_80445DAC[];
-s32 TMotorcycle__vt8(s32 arg0, f32 farg0, f32 farg1);
 void *TObjMesBase__ct(TObjMesBase *arg0, s32 arg1, s32 arg2);
 void *__dt__11TObjMesBaseFv(void *arg0, s16 arg1);
 s32 __ct__14TObjCollidableFP7TObject();
 void __dl__7TObjectFPv(void *);
-f32 xz_distance_squared(s32, s32);
 
 void TObjMesBase::debug_draw_label() {
     Mes_80194AEC *arg0 = (Mes_80194AEC *)this;
@@ -121,23 +115,5 @@ void *TObjMesBase__ct(TObjMesBase *mes_base, s32 arg1, s32 arg2) {
     return mes_base;
 }
 
-extern s32 camera_ctrl_instance;
-
-s32 TMotorcycle__vt8(s32 arg0, f32 farg0, f32 farg1) {
-    if (xz_distance_squared(camera_ctrl_instance + 0x178, arg0 + 0x38) < (farg1 * farg1)) {
-        return 1;
-    }
-    return ((TObjBase *)arg0)->TObjBase::update_object_view_visibility(farg0, farg1);
-}
-void TMotorcycle::debug_draw_label() {
-    Mc_80194EC4 *arg0 = (Mc_80194EC4 *)this;
-    ((TObjMesBase *)arg0)->TObjMesBase::debug_draw_label();
-    arg0->fBC = (s32)fabs_float(arg0->f68);
-    arg0->fBC = arg0->fBC % 2;
-    arg0->fBC = lbl_80445DF4[arg0->fBC];
-    TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x13001C, lbl_80445E08);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
-}
 
 }

@@ -8,7 +8,8 @@ struct TMotorcycle : public TObjMesBase {
     virtual ~TMotorcycle();
     virtual void vfunc_14();
     virtual void debug_draw_label();
-    u32 m_bc;
+    virtual s32 update_object_view_visibility(f32 depth, f32 radius);
+    s32 m_bc; // model index, picked by placement parity (scale.x)
     virtual void render();
     void *create();
     static void free_statics();
@@ -20,7 +21,6 @@ typedef char TMotorcycle_size[sizeof(TMotorcycle) == 0xC0 ? 1 : -1];
 
 extern "C" {
 void *TMotorcycle__ct(void *arg0, void *arg1, void *arg2);
-void *__dt__11TMotorcycleFv(void *arg0, s16 arg1);
 }
 
 #endif
