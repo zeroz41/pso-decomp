@@ -10640,6 +10640,7 @@ pso/player/TObjPlayer_80357734.cpp:
 pso/player/TObjPlayer_80357B2C.cpp:
 	.text       start:0x80357B2C end:0x80358AE8
 	.rodata     start:0x804793D8 end:0x804793F8
+	.data       start:0x804F15C8 end:0x804F1688
 	.sdata2     start:0x805E0048 end:0x805E0094
 
 pso/npc/TObjNpcNgcBase_80358AE8.cpp:
