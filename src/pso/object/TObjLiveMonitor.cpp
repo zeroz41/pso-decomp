@@ -29,9 +29,11 @@ s32 is_split_screen();
 void *__nw__7TObjectFUl(s32);
 extern s32 __vt__20TObjLiveMonitorSmall[];
 extern void *TObjLiveMonitorSmall__name;
-extern s32 live_monitor_shared_resource;
-extern s32 live_monitor_small_spawned_flag;
-extern u8 TObjLiveMonitorSmall__fish_spawned_flag;
+s32 live_monitor_shared_resource;
+s32 live_camera_controller_next_slot;
+s32 TObjLiveCameraCtrl__instances;
+s32 live_monitor_small_spawned_flag;
+u8 TObjLiveMonitorSmall__fish_spawned_flag;
 }
 /* TObjLiveCameraCtrl: model ids passed to fn_800832EC, indexed by its f4c */
 const s32 lbl_804757E0[2] = { 0xF44E8, 0xF44E9 };
@@ -92,8 +94,6 @@ u8 *fn_800832EC(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 s32 is_room_enemy_set_cleared(s32 floor, s16 room);
 extern s32 TObjLiveCameraCtrl__class_name;
 extern s32 tl_particlemodel;
-extern s32 live_camera_controller_next_slot;
-extern s32 TObjLiveCameraCtrl__instances;
 s32 memset(s32 *, s32, s32);
 }
 

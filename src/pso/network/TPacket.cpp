@@ -2,6 +2,8 @@
 #include "pso/network/TTcpSocket.h"
 #include "pso/network/TPacket.h"
 
+#pragma readonly_strings on
+
 extern "C" {
 
 struct Base_80078064_801a5598_801A558C { char pad[0x18]; };
@@ -30,12 +32,12 @@ void *__dt__7TPacketFv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-extern void *lbl_805D34C0;
+const char *lbl_805D34C0 = "TPacket";
 
 void *TPacket__ct(void *packet) {
     TUdpSocket__ct(packet);
     *(s32 **)((s8 *)packet + 0x18) = __vt__7TPacket;
-    *(void **)((s8 *)packet + 0x0) = lbl_805D34C0;
+    *(const char **)((s8 *)packet + 0x0) = lbl_805D34C0;
     ((TPacket *)packet)->clear_send_buffer();
     return packet;
 }

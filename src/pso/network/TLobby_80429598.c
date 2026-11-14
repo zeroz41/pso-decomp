@@ -74,12 +74,12 @@ extern u16 lbl_805D7C78; /* receive ring write page */
 extern u16 lbl_805D7C7A; /* receive ring read page */
 extern s32 lbl_805D7C58;
 extern u8 lbl_805D7C36; /* adapter revision id */
-extern u16 lbl_805D4836;
-extern u8 lbl_805D4838;
+u8 lbl_805D4830[6] = {255, 255, 255, 255, 255, 255};
+u16 lbl_805D4836 = 53511;
+u8 lbl_805D4838 = 78;
 u32 TLobby__sub_8042BA8C(void *);
 void TLobby__sub_80429648(void);
 void TLobby__sub_80429B8C(s32 chan, OSContext *ctx);
-extern u8 lbl_805D4830[6];
 
 void wake_network_thread(void) {
     OSWakeupThread(&network_thread_queue);

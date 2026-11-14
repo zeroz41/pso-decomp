@@ -188,7 +188,7 @@ extern Cam_801A37D0 *camera_ctrl_instance;
 void run_split_screen_frame(void);
 extern s32 local_client_id;
 extern s32 actor_frame_tick;
-extern s32 lbl_805D5CE0;
+s32 lbl_805D5CE0;
 extern s32 TLobby__lobby_state_flags;
 
 typedef char RecoveredGlobal_801A3540_lbl_804C1F68_size[sizeof(RecoveredGlobal_801A3540_lbl_804C1F68) == 0x180 ? 1 : -1];

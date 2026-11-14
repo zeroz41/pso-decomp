@@ -67,7 +67,7 @@ struct Smp_803D7D30 {
 extern u8 *current_motion_context;
 extern "C" {
 void blend_quaternions_nlerp(void *a, void *b, void *out, f32 t);
-extern f32 motion_blend_factor;
+f32 motion_blend_factor;
 extern RecoveredGlobal_803D77C0_lbl_8047E3C8 lbl_8047E3C8;
 extern RecoveredGlobal_803D77C0_lbl_804FA500 motion_sampler_function_table;
 extern RecoveredGlobal_803D77C0_lbl_804FA50C motion_angle_sampler_table;

@@ -66,13 +66,13 @@ struct RecoveredGlobal_8013D91C_main_task {
 
 extern "C" {
 u8 * free_bin_model_request(void *, s16);
-extern u8 *lock_on_cursor_bml_resource;
-extern s32 lock_on_cursor_model;
-extern s32 TLockOnCursor__target_cursor_model;
+u8 * lock_on_cursor_bml_resource;
+s32 lock_on_cursor_model;
+s32 TLockOnCursor__target_cursor_model;
 s32 get_bml_model(void *, s32);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_8013DC38_lbl_804A7140 target_cursor_resource_descriptor;
-extern s32 main_cursor_model;
+s32 main_cursor_model;
 void load_target_cursor_models(void);
 Obj_8013DCCC *release_target__13TLockOnCursorFv(void *);
 Obj_8013DCCC *cleanup_field__13TLockOnCursorFv(void *);

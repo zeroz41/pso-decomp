@@ -16,6 +16,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 
+#pragma readonly_strings on
+
 struct RecoveredGlobal_800A38A4___vt__12TEneEffHamon {
     s32 value;
     u8 remaining[0x14];
@@ -38,7 +40,7 @@ extern "C" {
 s32 queue_destruction__7TObjectFv();
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_800A38A4___vt__12TEneEffHamon __vt__12TEneEffHamon;
-extern s32 TEneEffHamon__name;
+const char *TEneEffHamon__name = "TEneEffHamon";
 extern s32 tl_06;
 s32 scale_matrix(int, f32, f32, f32);
 s32 push_matrix();
@@ -111,7 +113,7 @@ typedef char RecoveredGlobal_800A38A4___vt__12TEneEffHamon_size[sizeof(Recovered
 u8 *__ct__12TEneEffHamonFv(u8 *object, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
     __ct__7TObjectFP7TObject((void *)object, (void *)tl_06);
     *(s32 **)((s8 *)object + 0x18) = &__vt__12TEneEffHamon.value;
-    *(s32 *)((s8 *)object + 0) = (s32) TEneEffHamon__name;
+    *(const char **)((s8 *)object + 0) = TEneEffHamon__name;
     *(s32 *)((s8 *)object + 0x30) = 0;
     *(s32 *)((s8 *)object + 0x2C) = 0;
     *(s32 *)((s8 *)object + 0x28) = 0;

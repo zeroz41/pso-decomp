@@ -9,6 +9,8 @@
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/ui/charcreate/TObjCMAssignMenu.h"
 
+#pragma readonly_strings on
+
 extern "C" {
 extern vec2f lbl_8046638C[];
 extern vec2f lbl_80466394[];
@@ -93,7 +95,7 @@ TChCrTagInformation::~TChCrTagInformation() {
     fn_803098DC();
 }
 
-extern const char *TChCrTagInformation__class_name;
+const char *TChCrTagInformation__class_name = "TChCrTagInformation";
 
 }
 

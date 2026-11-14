@@ -32,7 +32,9 @@ extern "C" {
 s32 is_main_phase_15__9TObjEneDDFv();
 }
 s32 get_story_flag(s32);
-extern s32 TObjCityMainWarp__visible_destination_mask;
+s32 TObjCityMainWarp__enabled_destinations;
+s32 TObjCityMainWarp__visible_destination_mask;
+s32 TObjLaboMapWarp__resource_bundle;
 struct RecoveredGlobal_80185428_lbl_80444878 {
     s32 value;
     u8 remaining[0x8];
@@ -212,8 +214,6 @@ extern s32 city_warp_group9_text_table_b[];
 extern void request_active_window_close();
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 extern s16 TLobby__data_805D5CE8;
-extern s32 TObjCityMainWarp__enabled_destinations;
-extern s32 TObjLaboMapWarp__resource_bundle;
 extern s32 __vt__15TObjCityMapWarp[];
 extern s32 __vt__15TObjLaboMapWarp[];
 extern s32 __vt__16TObjCityAreaWarp[];

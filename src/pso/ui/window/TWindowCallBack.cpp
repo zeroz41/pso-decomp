@@ -9,6 +9,8 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/unk/WindowLayoutRecord.h"
 
+#pragma readonly_strings on
+
 struct RecoveredGlobal_802ACE84___vt__15TWindowCallBack {
     s32 value;
     u8 remaining[0x18];
@@ -21,7 +23,7 @@ WindowDescriptor window_callback_base_params = {
 extern "C" {
 void set_field_60__15TWindowCallBackFPvi(void* p, s32 v);
 extern s32 __vt__15TWindowCallBack[];
-extern s32 lbl_805D3E58;
+const char *lbl_805D3E58 = "TWindowCallBack";
 u8 *TWindowCallBack__ct(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3);
 void *__dt__15TWindowCallBackFv(void *arg0, s16 arg1);
 void fn_802ACD40(void* p);
@@ -71,7 +73,7 @@ typedef char RecoveredGlobal_802ACE84___vt__15TWindowCallBack_size[sizeof(Recove
 u8 *TWindowCallBack__ct(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3) {
     ((TWindowDD *)arg0)->construct_base((u8 *)((s32) &window_callback_base_params), (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_802ACE84___vt__15TWindowCallBack *)&__vt__15TWindowCallBack).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D3E58;
+    *(const char **)((s8 *)arg0 + 0) = lbl_805D3E58;
     ((TWindowSubSymbolChatPartsSet *)(arg0 + 0x38))->copy_vec2(arg2);
     ((TWindowBase *)arg0)->save_position();
     set_field_60__15TWindowCallBackFPvi(arg0, arg3);

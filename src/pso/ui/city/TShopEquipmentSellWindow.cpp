@@ -25,6 +25,8 @@
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 
+#pragma readonly_strings on
+
 struct Base_8021C870 { char pad[0x18]; };
 struct VObj_8021C870 : Base_8021C870 {
     virtual void m0();
@@ -474,11 +476,11 @@ void *__dt__24TShopEquipmentSellWindowFv(TShopEquipmentSellWindow *arg0, s16 arg
     return arg0;
 }
 
-extern void *TShopEquipmentSellWindow__class_name;
+const char *TShopEquipmentSellWindow__class_name = "TShopEquipmentSellWindow";
 
 }
 TShopEquipmentSellWindow::TShopEquipmentSellWindow(void *arg1, void *arg2, void *arg3, void *arg4) : TShopWindowBase((TObject *)arg1) {
-    *(void * *)&this->m_name = TShopEquipmentSellWindow__class_name;
+    this->m_name = TShopEquipmentSellWindow__class_name;
     this->m_370 = 0;
     this->m_374 = 0;
     *(void **)((s8 *)this + 0x378) = arg4;

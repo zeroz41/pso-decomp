@@ -36,7 +36,7 @@ struct Win_8024EA50 {
     f32 x3c, y40, x44, y48;
 };
 
-extern u32 soft_keyboard_instance;
+u32 soft_keyboard_instance;
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
 void apply_context_transform_to_rect(Ctx_8024E6D8 *c, f32 *q);

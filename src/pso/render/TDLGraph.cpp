@@ -74,7 +74,7 @@ void TDLGraph::sub_8007F5A4() {
 struct TDLGraph_8007F66C { u8 pad[0x24]; s32 frame; };
 
 extern "C" {
-extern TDLGraph *TDLGraph__graph_object;
+TDLGraph * TDLGraph__graph_object;
 void TCameraCtrl__sub_80068EF0(void);
 void fn_8007F27C(TDLGraph_8007F66C *self, void *a, void *b);
 extern u8 lbl_80438AA4[];

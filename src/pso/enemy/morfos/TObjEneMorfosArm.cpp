@@ -32,7 +32,7 @@ void *TObjEneMorfosArm__sub_803326B4(void *p);
 s32 TObjEneMorfosArm__sub_803326BC(void *);
 u16 get_entity_id(void *);
 extern const char *TObjEneMorfosArm__name;
-extern u32 TObjEneMorfosArm__parent_morfos_instance;
+u32 TObjEneMorfosArm__parent_morfos_instance;
 s32 post_translate_matrix(void *);
 s32 push_matrix();
 

@@ -13,7 +13,7 @@
 
 struct Obj_8028C8A8 { u8 pad[0x6c]; s32 f6c; };
 
-extern s32 chr_select_slot_state;
+s32 chr_select_slot_state;
 
 void TChCrLoadGmNjReq::sub_8028C8A8() {
     Obj_8028C8A8 *o = (Obj_8028C8A8 *)this;

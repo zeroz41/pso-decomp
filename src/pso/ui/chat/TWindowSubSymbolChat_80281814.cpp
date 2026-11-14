@@ -52,9 +52,11 @@ u8 *create_chat_symbol_window__20TWindowSubSymbolChatFll(void *, s32);
 s32 add__20TWindowSubSymbolChatFlllll(int, int, int, int, int, int);
 s32 get_cursor_pos__20TWindowSubSymbolChatFv(int);
 s32 get_cursor_x__20TWindowSubSymbolChatFv(int);
-extern s32 TWindowSubSymbolChat__data_805D6498;
-extern s32 TWindowSubSymbolChat__data_805D649C;
-extern s32 TWindowSubSymbolChat__help_window;
+void * TWindowSubSymbolChat__instance;
+s8 TWindowSubSymbolChat__data_805D6494;
+s32 TWindowSubSymbolChat__data_805D6498;
+s32 TWindowSubSymbolChat__data_805D649C;
+s32 TWindowSubSymbolChat__help_window;
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, s32, s32, s32);
 
@@ -63,7 +65,6 @@ s32 TWindowSubSymbolChat__sub_800771B0(s32, s32);
 s32 TWindowSubSymbolChat__sub_800771C4(s32, s32);
 s32 set_entry_bits__20TWindowSubSymbolChatFUsllll(s32, s32, s32, s32, s32, s32);
 Data_80281B18 *get_data_ptr__20TWindowSubSymbolChatFv();
-extern s8 TWindowSubSymbolChat__data_805D6494;
 f32 get_scale__15TWindowCtrlMainFv(s32);
 extern s32 lbl_805D63F0;
 
@@ -84,7 +85,6 @@ s32 refresh_with_default_list__20TWindowSubStatusDispFll(s32, s32 *);
 }
 void update_chat_window(void *p);
 
-extern void *TWindowSubSymbolChat__instance;
 
 void TWindowSubSymbolChat::close_child() {
     void *temp_r3;

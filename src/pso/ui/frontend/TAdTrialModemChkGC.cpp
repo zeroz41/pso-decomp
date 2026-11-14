@@ -7,6 +7,8 @@
 
 #include "pso/unk/TLobby.h"
 
+#pragma readonly_strings on
+
 struct Base_80335508_803354A4 { char pad[0x18]; };
 struct VObj_80335508_803354A4 : Base_80335508_803354A4 {
     virtual void m0();
@@ -65,12 +67,12 @@ TAdTrialModemChkGC::~TAdTrialModemChkGC() {
 }
 
 
-extern void *TAdTrialModemChkGC__name;
+const char *TAdTrialModemChkGC__name = "TAdTrialModemChkGC";
 
 void *TAdTrialModemChkGC__ct(void *ad_trial_modem_chk_gc) {
     TAdWarningBaseGC__ct((TAdWarningBaseGC *)ad_trial_modem_chk_gc);
     *(s32 **)((s8 *)ad_trial_modem_chk_gc + 0x18) = __vt__18TAdTrialModemChkGC;
-    *(void * *)&((TAdTrialModemChkGC *)ad_trial_modem_chk_gc)->m_name = TAdTrialModemChkGC__name;
+    ((TAdTrialModemChkGC *)ad_trial_modem_chk_gc)->m_name = TAdTrialModemChkGC__name;
     return ad_trial_modem_chk_gc;
 }
 

@@ -27,6 +27,8 @@ struct Mine_80368C14 { u8 pad[0x38]; Vec_80368C14 pos; };
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+
+#pragma readonly_strings on
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 struct VBase_18_5673ef { char pad[0x18]; };
 
@@ -121,7 +123,7 @@ u8 *dispatch_shared_handler_a__6TLobbyFl(int);
 s32 init_collision_body_parts(void *, void *, int);
 s32 normalize_vector(void *);
 extern s32 __vt__13TUnk_804F322C[];
-extern s32 lbl_805D44B0;
+const char *lbl_805D44B0 = "TBoss6MagMine";
 s32 TBoss6MagMine__ct(s32 arg0, s32 arg1, s32 arg2);
 s32 is_player_in_range__13TBoss6MagMineFPv(void *arg0_);
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
@@ -424,7 +426,7 @@ s32 TBoss6MagMine__ct(s32 arg0, s32 parent, s32 arg2) {
     u8 *d;
     __ct__9TObjEnemyFP7TObject(self, (void*)parent);
     *(s32 **)((s8 *)self + 0x18) = __vt__13TUnk_804F322C;
-    *(s32 *)((s8 *)self + 0) = lbl_805D44B0;
+    *(const char **)((s8 *)self + 0) = lbl_805D44B0;
     VecCopy__FP3VecPC3Vec(arg0 + 0x38, arg2 + 0x40);
     VecCopy__FP3VecPC3Vec(arg0 + 0x384, arg2 + 0x4C);
     ((TObjChara *)self)->add_flags_2e4(8);

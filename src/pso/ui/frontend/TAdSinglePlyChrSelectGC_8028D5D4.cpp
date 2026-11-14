@@ -16,8 +16,8 @@ u8 is_selection_done__23TAdSinglePlyChrSelectGCFPv(void *arg0) {
 extern "C" {
 u32 lbl_80518850[4];
 u32 chr_select_load_buffer_table[8];
-extern u32 chr_select_load_buffer_base;
-extern u32 chr_select_load_buffer;
+u32 chr_select_load_buffer_base;
+u32 chr_select_load_buffer;
 s32 TAdSinglePlyChrSelectGC::get_result() {
     if (((s32 (*)())is_selection_done__23TAdSinglePlyChrSelectGCFPv)() != 0) {
         return this->m_28;

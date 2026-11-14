@@ -48,10 +48,15 @@ void queue_destruction__7TObjectFv(void *arg0);
 
 void * __nw__7TObjectFUl(u32);
 
-extern BmlResource *TObjEneMe1Gee__resource_bundle;
+BmlResource * TObjEneMe1Gee__resource_bundle;
+u8 * lbl_805D51B4;
+s32 TObjEneMe1Gee__render_node_index;
+s32 gee_camera_ctrl_step_ptr;
+TUnk_8048FA00 * TObjEneMe1Gee__data_805D51C0;
+TUnk_8048FA00 * TObjEneMe1Gee__data_805D51C4;
+s32 gee_resource_bundle_ptr;
 extern const NJS_ARGB TObjEneMe1Gee__data_8043BDB0;
 extern const char *lbl_805D2A68;
-extern s32 gee_resource_bundle_ptr;
 }
 
 extern "C" {
@@ -108,7 +113,6 @@ static s32 gee_shared_handler_b_table[3];
 static s32 gee_object_handle_table[3];
 static TObjEneMe1GeeParams *gee_shared_handler_a_table[3];
 static f32 gee_camera_ctrl_vec[4];
-extern TUnk_8048FA00 *TObjEneMe1Gee__data_805D51C0;
 extern const f32 TObjEneMe1Gee__data_805DA0A8;
 extern const f32 lbl_805DA0AC;
 }
@@ -159,8 +163,6 @@ s32 pack_debug_text_position(s32, s32);
 void TBoss3Volopt__sub_800D8D88(s32);
 
 s32 push_matrix();
-extern s32 TObjEneMe1Gee__render_node_index;
-extern TUnk_8048FA00 *TObjEneMe1Gee__data_805D51C4;
 extern NJS_ARGB lbl_8043BDD0;
 extern s32 lbl_8043BE98[];
 extern s32 lbl_8043BEA8[];
@@ -169,7 +171,6 @@ extern s32 lbl_8043BEC8[];
 extern s32 lbl_8043BED8[];
 extern s32 lbl_8043BEEC[];
 extern s32 lbl_8043BF0C[];
-extern s32 gee_camera_ctrl_step_ptr;
 extern const f32 lbl_805DA0BC;
 extern const f32 lbl_805DA0C4;
 extern const f32 lbl_805DA0CC;
@@ -197,7 +198,6 @@ extern s32 lbl_8043BCE4[];
 extern s32 lbl_8043BCF0[];
 extern s32 lbl_8043BCFC[];
 extern GeeAnimationBinding lbl_8043BE6C;
-extern u8 *lbl_805D51B4;
 
 void TObjEneMe1Gee::load_resources() {
     s32 i;

@@ -12,6 +12,8 @@
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 
+#pragma readonly_strings on
+
 struct Base_8016E9F4_8016E998 { char pad[0x18]; };
 struct VObj_8016E9F4_8016E998 : Base_8016E9F4_8016E998 {
     virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
@@ -32,9 +34,9 @@ extern "C" {
 s32 TObjFish__sub_8001EDB0(void *, s32);
 s32 get_bml_model(void *, s32);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern u32 TOLightMachine01__shared_bml_archive;
-extern s32 light_machine_ginja_model_handle;
-extern s32 light_machine_ginja_param;
+u32 TOLightMachine01__shared_bml_archive;
+s32 light_machine_ginja_model_handle;
+s32 light_machine_ginja_param;
 s32 __ct__8TObjBaseFP7TObject(void *, int);
 extern s32 __vt__16TOLightMachine01[];
 extern s32 TOLightMachine01__name;

@@ -12,6 +12,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 
+#pragma readonly_strings on
+
 struct Quad_802AD1CC { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 struct Light_802AD1CC { u8 pad0[0x1C]; f32 x; f32 y; };
@@ -24,7 +26,7 @@ s32 is_window_display_enabled(void);
 void TWindowEffectLight__sub_802AD040(void *, f32);
 void begin_screen_draw(s32);
 extern s32 lbl_805D63F0;
-extern s32 lbl_805D3E60;
+const char *lbl_805D3E60 = "TWindowEffectLight";
 extern s32 tl_window;
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
@@ -56,7 +58,7 @@ void *TWindowEffectLight::create(void *arg0, void *arg1, void *arg2) {
 }
 
 TWindowEffectLight::TWindowEffectLight(void *arg1, s16 arg2, u32 id) : TObject((TObject *)tl_window) {
-    *(s32 *)((s8 *)this + 0) = lbl_805D3E60;
+    *(const char **)((s8 *)this + 0) = lbl_805D3E60;
     ((TWindowSubSymbolChatPartsSet *)(((u8 *)this) + 0x1C))->copy_vec2(arg1);
     ((TWindowKeyBoardSoft *)(((u8 *)this) + 0x1C))->adjust_pos_for_split_screen(TCameraCtrl::get_split_screen_view_index(id));
     *(s16 *)((s8 *)this + 0x24) = arg2;

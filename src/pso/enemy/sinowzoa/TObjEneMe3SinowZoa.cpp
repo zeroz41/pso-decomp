@@ -68,9 +68,9 @@ NJS_TEXLIST TObjEneMe3SinowZoa__alternate_texture_list;
 Vec lbl_80542FE4;
 u32 *TObjEneMe3SinowZoa__material_color_pointers[4];
 
-extern BmlResource *TObjEneMe3SinowZoa__bml_resource;
-extern s32 TObjEneMe3SinowZoa__render_node_index;
-extern TUnk_8048FA00 *TObjEneMe3SinowZoa__breakup_model;
+BmlResource * TObjEneMe3SinowZoa__bml_resource;
+s32 TObjEneMe3SinowZoa__render_node_index;
+TUnk_8048FA00 * TObjEneMe3SinowZoa__breakup_model;
 
 void print_float_padded(s32 arg0, s32 prec, f32 val);
 void move_with_wall_slide(u8 *arg0);

@@ -60,10 +60,10 @@ void handle_guard_action_state__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *bo
 void TObjEneEpsilonGuard__sub_803610D0(TObjEneEpsilonBody *body, s32 arg1);
 extern s32 lbl_805D6FA4;
 s32 TObjEneMe3SinowZoa__sub_800D72A4(void *);
-extern s32 epsilon_guard_camera_sample_phase;
-extern s32 *epsilon_guard_angle_sample_write_ptr;
-extern Vec *epsilon_guard_camera_sample_read_ptr;
-extern Vec *epsilon_guard_camera_sample_end_ptr;
+s32 epsilon_guard_camera_sample_phase;
+s32 * epsilon_guard_angle_sample_write_ptr;
+Vec * epsilon_guard_camera_sample_read_ptr;
+Vec * epsilon_guard_camera_sample_end_ptr;
 void draw_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg1);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 check_path_obstructed(void *, void *);

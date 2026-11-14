@@ -15,6 +15,8 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
+#pragma readonly_strings on
+
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(int, int);
@@ -26,7 +28,7 @@ s32 get_field_20__17TWindowSubComCardFv();
 s32 refresh_status_display__9TWindowDDFv(u8 *);
 extern s32 window_sound_balance_settings[];
 extern s32 __vt__19TWindowSoundBalance[];
-extern s32 TWindowSoundBalance__name;
+const char *TWindowSoundBalance__name = "TWindowSoundBalance";
 s32 draw_visible_window_entries(s32, s32, void *);
 void __dl__7TObjectFPv(void *);
 
@@ -173,7 +175,7 @@ u8 *TWindowSoundBalance__ct(u8 *arg0, s32 arg1) {
     SoundBalanceSettings *st;
     ((TWindowDD *)arg0)->construct_base((u8 *)window_sound_balance_settings, (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowSoundBalance;
-    *(s32 *)((s8 *)arg0 + 0) = TWindowSoundBalance__name;
+    *(const char **)((s8 *)arg0 + 0) = TWindowSoundBalance__name;
     ((TWindowSoundBalance *)arg0)->m_60 = 0;
     ((TWindowSoundBalance *)arg0)->selection = 0;
     ((TWindowSoundBalance *)arg0)->music_gain = 1;

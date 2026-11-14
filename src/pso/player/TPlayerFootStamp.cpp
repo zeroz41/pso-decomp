@@ -50,7 +50,7 @@ const FootStampHeightScale lbl_80470888[12] = {
 
 const char *TPlayerFootStamp::class_name = "TPlayerFootStamp";
 
-extern u32 player_footstamp_texture_gvm_handle;
+u32 player_footstamp_texture_gvm_handle;
 
 void TPlayerFootStamp::sub_802B0204(s32 num) {
     if (num < 0 || num > 1) {

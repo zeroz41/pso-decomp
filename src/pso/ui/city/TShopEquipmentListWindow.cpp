@@ -22,6 +22,8 @@
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 
+#pragma readonly_strings on
+
 struct Base_8021B974 { char pad[0x18]; };
 struct VObj_8021B974 : Base_8021B974 {
     virtual void m0();
@@ -200,7 +202,7 @@ extern "C" {
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 void TLobby__sub_80225238(int a0, int a1);
 extern s32 __vt__24TShopEquipmentListWindow[];
-extern s32 TShopEquipmentListWindow__class_name;
+const char *TShopEquipmentListWindow__class_name = "TShopEquipmentListWindow";
 u8 *TShopEquipmentListWindow__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 int set_field_20__15TShopWindowBaseFl(void*, int);
 int obj_getPtr2B0_20(u8 *p);
@@ -603,7 +605,7 @@ u8 *TShopEquipmentListWindow__ct(u8 *shop_equipment_list_window, s32 arg1, s32 a
     s32 sp8;
     __ct__15TShopWindowBaseFP7TObject(shop_equipment_list_window, (TObject *)arg1);
     *(s32 **)((s8 *)shop_equipment_list_window + 0x18) = &(*(RecoveredGlobal_8021C7C0___vt__24TShopEquipmentListWindow *)&__vt__24TShopEquipmentListWindow).value;
-    *(s32 *)((s8 *)shop_equipment_list_window + 0) = (s32) TShopEquipmentListWindow__class_name;
+    *(const char **)((s8 *)shop_equipment_list_window + 0) = TShopEquipmentListWindow__class_name;
     ((TShopEquipmentListWindow *)shop_equipment_list_window)->m_24 = arg3;
     ((TShopEquipmentListWindow *)shop_equipment_list_window)->m_28 = arg2;
     ((TShopEquipmentListWindow *)shop_equipment_list_window)->m_2c = 0;

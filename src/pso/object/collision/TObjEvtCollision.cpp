@@ -7,6 +7,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
+
+#pragma readonly_strings on
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 struct RecoveredGlobal_80190DE4___vt__16TObjEvtCollision {
@@ -20,7 +22,7 @@ struct Obj_80190CFC { u8 pad0[0x1C]; u16 id; u8 pad1E[0x84 - 0x1E]; s32 x84; u8 
 
 extern "C" {
 extern s32 __vt__16TObjEvtCollision[];
-extern s32 TObjEvtCollision__class_name;
+const char *TObjEvtCollision__class_name = "TObjEvtCollision";
 u8 *TObjEvtCollision__ct(TObjEvtCollision *arg0, s32 arg1, s32 arg2);
 extern s32 local_client_id;
 void *TObjEvtCollision__create(void *arg0);
@@ -91,7 +93,7 @@ typedef char RecoveredGlobal_80190DE4___vt__16TObjEvtCollision_size[sizeof(Recov
 u8 *TObjEvtCollision__ct(TObjEvtCollision *evt_collision, s32 arg1, s32 arg2) {
     __ct__14TObjCollidableFP7TObject(evt_collision, arg1);
     *(s32 **)((s8 *)evt_collision + 0x18) = &(*(RecoveredGlobal_80190DE4___vt__16TObjEvtCollision *)&__vt__16TObjEvtCollision).value;
-    *(s32 *)((s8 *)evt_collision + 0) = (s32) TObjEvtCollision__class_name;
+    *(const char **)((s8 *)evt_collision + 0) = TObjEvtCollision__class_name;
     ((TObjEvtCollision *)(evt_collision))->apply_object_set_data((void *)arg2);
     *(f32 *)((s8 *)evt_collision + 0xAC) = (f32) evt_collision->scale.x;
     evt_collision->m_b0 = (s32) evt_collision->set_params[0];

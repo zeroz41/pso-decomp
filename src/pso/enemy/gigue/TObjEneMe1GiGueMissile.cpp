@@ -21,12 +21,14 @@
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjChara.h"
 
+#pragma readonly_strings on
+
 extern "C" {
 BmlResource *lbl_805D6858;
 u16 get_entity_id(void *);
 void *TNeedleShoot__ct(void *, s32, Vec *, Vec *);
 extern void *__vt__22TObjEneMe1GiGueMissile[];
-extern const char *lbl_805D3F20;
+const char *lbl_805D3F20 = "TObjEneMe1GiGueMissile";
 TObjEneMe1GiGueMissile *TObjEneMe1GiGueMissile__ct(TObjEneMe1GiGueMissile *self, s32 owner, Vec *from, Vec *to, f32 speed, f32 power);
 s32 TObjPlayer__sub_802A445C(void *, int);
 void TObjEneMe1GiGue__sub_802CE4E8(void);

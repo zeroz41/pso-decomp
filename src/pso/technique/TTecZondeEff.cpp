@@ -18,6 +18,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecZondeEff.h"
 
+#pragma readonly_strings on
+
 
 struct RecoveredGlobal_8023D988___vt__12TTecZondeEff {
     s32 value;
@@ -144,11 +146,11 @@ struct Obj_8023CED4
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8023D988___vt__12TTecZondeEff __vt__12TTecZondeEff;
-extern s32 TTecZondeEff_class_name;
+const char *TTecZondeEff_class_name = "TTecZondeEff";
 u8 *__ct__12TTecZondeEffFv(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, f32 farg0);
 extern P_8023DBB4 tec_zonde_effect_task_list;
 extern char lbl_804CC8C8[];
-extern s32 TTecZondeEff__beam_vertex_data;
+s32 TTecZondeEff__beam_vertex_data;
 f32 rand_signed_unit();
 s32 is_split_screen(void);
 void spawn_particle_effect(Rec_8023D568 *, s32);
@@ -486,7 +488,7 @@ TTecZondeEff::~TTecZondeEff() {}
 u8 *__ct__12TTecZondeEffFv(u8 *object, u8 *arg1, s32 arg2, s32 arg3, f32 farg0) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__12TTecZondeEff.value;
-    *(s32 *)((s8 *)object + 0) = (s32) TTecZondeEff_class_name;
+    *(const char **)((s8 *)object + 0) = TTecZondeEff_class_name;
     *(f32 *)((s8 *)object + 0x244) = farg0;
     *(s32 *)((s8 *)object + 0x254) = arg2;
     *(s32 *)((s8 *)object + 0x258) = arg3;
@@ -505,7 +507,7 @@ typedef char RecoveredGlobal_8023DA10___vt__12TTecZondeEff_size[sizeof(Recovered
 u8 *TTecZonde::construct_bolt_effect(u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1) {
     __ct__7TObjectFP7TObject(this, arg1);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_8023DA10___vt__12TTecZondeEff *)&__vt__12TTecZondeEff).value;
-    *(s32 *)&this->m_name = (s32) TTecZondeEff_class_name;
+    this->m_name = TTecZondeEff_class_name;
     *(f32 *)((s8 *)((u8 *)this) + 0x244) = farg1;
     *(s32 *)((s8 *)((u8 *)this) + 0x254) = arg4;
     *(s32 *)((s8 *)((u8 *)this) + 0x258) = arg5;
@@ -526,7 +528,7 @@ u8 *TTecZonde::construct_bolt_effect(u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, s32
 u8 *TTecZondeEff::construct(u8 *arg1, u8 *arg2, u8 *arg3, f32 farg0) {
     __ct__7TObjectFP7TObject(this, arg1);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_8023DADC___vt__12TTecZondeEff *)&__vt__12TTecZondeEff).value;
-    *(s32 *)&this->m_name = (s32) TTecZondeEff_class_name;
+    this->m_name = TTecZondeEff_class_name;
     *(f32 *)((s8 *)((u8 *)this) + 0x244) = 1.0f;
     *(s32 *)((s8 *)((u8 *)this) + 0x254) = 0x08000000;
     *(s32 *)((s8 *)((u8 *)this) + 0x258) = 0x14;

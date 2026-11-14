@@ -17,6 +17,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
 
+#pragma readonly_strings on
+
 struct RecoveredGlobal_80322994___vt__13TBoss6Kakusan { s32 value; u8 remaining[0x14]; };
 
 struct V3_80322644 { f32 x; f32 y; f32 z; };
@@ -75,7 +77,7 @@ u8 *__nw__7TObjectFUl(s32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 f32 vector_length(void *);
 extern s32 __vt__13TBoss6Kakusan[];
-extern s32 TBoss6Kakusan__name;
+const char *TBoss6Kakusan__name = "TBoss6Kakusan";
 u8 *TBoss6Kakusan__ct(u8 *arg0, TObject *parent, Vec *pos, Vec *dir, u16 target_client, f32 speed);
 s32 query_teammate_state__9TObjEneDDFv();
 }
@@ -86,10 +88,10 @@ int TBoss6Kakusan__sub_8032263C(void);
 void vec3_add_to(void *, void *);
 void subtract_vector(void *, void *);
 f32 normalize_vector(void *);
-extern s32 TBoss6Kakusan__homing_start_frame;
-extern u8 boss6_kakusan_homing_start_initialized;
-extern s32 boss6_kakusan_homing_end_frame;
-extern u8 TBoss6Kakusan__homing_end_frame_initialized;
+s32 TBoss6Kakusan__homing_start_frame;
+u8 boss6_kakusan_homing_start_initialized;
+s32 boss6_kakusan_homing_end_frame;
+u8 TBoss6Kakusan__homing_end_frame_initialized;
 
 #pragma push
 #pragma opt_propagation off
@@ -257,7 +259,7 @@ u8 *TBoss6Kakusan__ct(u8 *boss6_kakusan, TObject *parent, Vec *pos, Vec *dir, u1
     u32 temp_r3;
     __ct__7TObjectFP7TObject((void *)boss6_kakusan, parent);
     *(s32 **)((s8 *)boss6_kakusan + 0x18) = &(*(RecoveredGlobal_80322994___vt__13TBoss6Kakusan *)&__vt__13TBoss6Kakusan).value;
-    *(s32 *)((s8 *)boss6_kakusan + 0) = (s32) TBoss6Kakusan__name;
+    *(const char **)((s8 *)boss6_kakusan + 0) = TBoss6Kakusan__name;
     ((TBoss6Kakusan *)boss6_kakusan)->m_20 = target_client;
     ((TBoss6Kakusan *)boss6_kakusan)->m_24 = speed;
     if (((TBoss6Kakusan *)boss6_kakusan)->m_24 <= 0.0f) {

@@ -65,7 +65,16 @@ extern "C" {
 f64 atan2_float(f32, f32);
 s32 approach_angle_limited(int, int, int);
 void * __nw__7TObjectFUl(int);
-extern DelbiterMovementParameters *TObjEneDellBiter__movement_params;
+s32 dellbiter_boss_stat_handle;
+s32 TObjEneDellBiter__shared_handler_param;
+s32 dellbiter_object_stat_handle;
+DelbiterMovementParameters * TObjEneDellBiter__movement_params;
+u32 TObjEneDellBiter__shared_model_resource;
+s32 TObjEneDellBiter__demo_script_step;
+s32 TObjEneDellBiter__demo_rotate_x_angle;
+s32 TObjEneDellBiter__demo_script_cursor;
+s32 TObjEneDellBiter__scrolling_uv_polygon_list;
+s32 TObjEneDellBiter__last_uv_scroll_tick;
 s32 turn_toward_angle_limited__15TObjBoss2TunnelFlllll(int, int, int, int, int);
 s32 fill_value_array(int);
 s32 enemy_validate_retained_target(void *);
@@ -98,11 +107,6 @@ extern "C" {
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 
-extern s32 TObjEneDellBiter__shared_handler_param;
-extern u32 TObjEneDellBiter__shared_model_resource;
-extern s32 TObjEneDellBiter__demo_script_step;
-extern s32 TObjEneDellBiter__demo_rotate_x_angle;
-extern s32 TObjEneDellBiter__demo_script_cursor;
 extern s32 __dt__15RenderFadeStateFv[];
 extern s32 __ct__15RenderFadeStateFv[];
 extern s32 __vt__25TObjEneDellBiter_Eff_Rush[];
@@ -110,8 +114,6 @@ extern Vec dellbiter_demo_camera_vec;
 extern s32 TObjEneDellBiter_Eff_Rush__name;
 extern s32 actor_frame_tick;
 extern s32 game_difficulty_selection;
-extern s32 TObjEneDellBiter__scrolling_uv_polygon_list;
-extern s32 TObjEneDellBiter__last_uv_scroll_tick;
 extern const f32 lbl_805DEFAC;
 extern const f32 lbl_805DEFB0;
 extern const f32 lbl_805DEFB4;
@@ -183,8 +185,6 @@ TObjMotionAction dell_biter_param_table[10] = {
     {3, 0, 3, 0.7f, 0}
 };
 
-extern s32 dellbiter_boss_stat_handle;
-extern s32 dellbiter_object_stat_handle;
 const char *TObjEneDellBiter__class_name = "TObjEneDellBiter";
 }
 

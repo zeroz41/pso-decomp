@@ -98,7 +98,7 @@ extern const f32 lbl_805DD1CC;
 extern const f32 lbl_805DD1D0;
 extern s32 lbl_805D3968;
 extern RecoveredGlobal_80267704_lbl_804D0604 lbl_804D0604;
-extern s32 lbl_804D05F8[];
+s32 lbl_804D05F8[3] = {1, 0, 8};
 extern RecoveredGlobal_80268048_lbl_8050E208 controller_input_state;
 extern s32 lbl_804D0618[];
 

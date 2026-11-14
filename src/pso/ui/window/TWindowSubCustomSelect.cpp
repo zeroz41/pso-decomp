@@ -7,6 +7,8 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
+#pragma readonly_strings on
+
 struct Stack_80277638 {
     f32 sp8;
     f32 spC;
@@ -55,7 +57,7 @@ s32 get_window_layout_position(int);
 void *reset_selection__20TWindowSubStatusDispFv(void *, Pos_80277AEC *);
 extern u8 TWindowSubCustomSelect__window_settings[];
 extern s32 __vt__22TWindowSubCustomSelect[];
-extern s32 TWindowSubCustomSelect__class_name;
+const char *TWindowSubCustomSelect__class_name = "TWindowSubCustomSelect";
 s32 clamp_list_scroll_offset(void *, void *, void *);
 s32 can_use_palette_action__10TObjPlayerFPvUcUc(s32, u8, u8);
 u8 *get_array_entry__11TWindowBaseFi(void *, s32);
@@ -273,7 +275,7 @@ u8 *TWindowSubCustomSelect__ct(TWindowSubCustomSelect *window_sub_custom_select,
     void *o;
     construct_with_parent__15TWindowAdditionFPv(window_sub_custom_select, TWindowSubCustomSelect__window_settings, arg1, get_window_layout_position(0x10));
     *(s32 **)((s8 *)window_sub_custom_select + 0x18) = __vt__22TWindowSubCustomSelect;
-    *(s32 *)((s8 *)window_sub_custom_select + 0) = TWindowSubCustomSelect__class_name;
+    *(const char **)((s8 *)window_sub_custom_select + 0) = TWindowSubCustomSelect__class_name;
     window_sub_custom_select->m_20 = arg1;
     p = (Big_80277AEC *)get_player_by_client_id(window_sub_custom_select->m_20);
     if (p == NULL) {

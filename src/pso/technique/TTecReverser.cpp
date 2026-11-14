@@ -13,6 +13,8 @@ extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
 
+#pragma readonly_strings on
+
 struct RecoveredGlobal_8023A094_lbl_804CC1CC { s32 value; u8 remaining[0x340]; };
 typedef char RecoveredGlobal_8023A094_lbl_804CC1CC_size[sizeof(RecoveredGlobal_8023A094_lbl_804CC1CC) == 0x344 ? 1 : -1];
 
@@ -56,7 +58,7 @@ s32 copy_technique_target_list(void *, void *);
 s32 __ct__13TUnk_804CC148Flll(void *, void *, void *, void *);
 extern RecoveredGlobal_8023A094_lbl_804CC1CC technique_param_table;
 extern s32 __vt__12TTecReverser[];
-extern s32 lbl_805D3818;
+const char *lbl_805D3818 = "TTecReverser";
 u8 *TTecReverser__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 void __ct__7TObjectFP7TObject(void *self, void *parent);
 void *create_timed_particle_emitter(void *owner, s32 idx, s32 b, s32 c);
@@ -154,7 +156,7 @@ u8 *TTecReverser__ct(u8 *tec_reverser, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     __ct__13TUnk_804CC148Flll((void *)tec_reverser, (void *)arg1, (void *)arg2, (void *)arg4);
     *(s32 **)((s8 *)tec_reverser + 0x18) = &(*(RecoveredGlobal_8023A094___vt__12TTecReverser *)&__vt__12TTecReverser).value;
     ((TObjPlayer *)(tec_reverser + 0xEC))->construct_target_cursor_records();
-    *(s32 *)((s8 *)tec_reverser + 0) = (s32) lbl_805D3818;
+    *(const char **)((s8 *)tec_reverser + 0) = lbl_805D3818;
     ((TTecAnti *)(tec_reverser + 0x88))->copy_params((u8 *)((u8 *)&technique_param_table.value + 0x2EC));
     ((TTecReverser *)tec_reverser)->sub_8022BE64(tec_reverser + 0x88, arg4);
     copy_technique_target_list(tec_reverser + 0xEC, (void *)arg3);

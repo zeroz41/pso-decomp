@@ -160,8 +160,8 @@ TItemEffectWeapon::TItemEffectWeapon(s32 arg1, s32 param) : TItemHeapObject((TOb
     this->field_28 = 0;
 }
 
-    extern TItemEffectWeapon::TrailVertex* item_weapon_trail_vertex_buffer;
-    extern s32* weapon_trail_slot_bitmap;
+    TItemEffectWeapon::TrailVertex* item_weapon_trail_vertex_buffer;
+    s32* weapon_trail_slot_bitmap;
 
 void TItemEffectWeapon::release_trail_buffer(void* buffer) {
     if (buffer != NULL) {

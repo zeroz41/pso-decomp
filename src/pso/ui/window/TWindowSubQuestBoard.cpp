@@ -15,6 +15,8 @@
 #include "pso/ui/window/TWindowSubMagPhoton.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 
+#pragma readonly_strings on
+
 struct RecoveredGlobal_8027CE74_lbl_804D1818 {
     s32 value;
     u8 remaining[0x14];
@@ -173,12 +175,12 @@ extern "C" {
 
 void *__nw__7TObjectFUl(int);
 
-extern void *TWindowSubQuestBoard__class_name;
+const char *TWindowSubQuestBoard__class_name = "TWindowSubQuestBoard";
 
 }
 TWindowSubQuestBoard::TWindowSubQuestBoard(TObject *object, void *arg2) : TObject(object) {
     void *o;
-    *(void * *)&this->m_name = TWindowSubQuestBoard__class_name;
+    this->m_name = TWindowSubQuestBoard__class_name;
     *(void **)((s8 *)this + 0x24) = object;
     *(void **)((s8 *)this + 0x20) = arg2;
     o = __nw__7TObjectFUl(0x68);

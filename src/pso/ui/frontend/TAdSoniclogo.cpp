@@ -9,11 +9,13 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 
+#pragma readonly_strings on
+
 extern "C" {
-extern void *sonic_logo_object;
-extern int TAdSoniclogo__state;
+void * sonic_logo_object;
+int TAdSoniclogo__state;
 extern int TLogo__exit_requested_flag;
-extern const char *TAdSoniclogo__class_name;
+const char *TAdSoniclogo__class_name = "TAdSoniclogo";
 extern void *tl_00;
 int queue_destruction__7TObjectFv(void);
 

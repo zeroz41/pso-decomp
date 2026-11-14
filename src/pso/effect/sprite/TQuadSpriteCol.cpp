@@ -9,6 +9,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 
+#pragma readonly_strings on
+
 typedef struct Vec_801E4FF0 { f32 x, y, z; } Vec_801E4FF0;
 
 typedef struct Col_801E4FF0 { f32 r, g, b, a; } Col_801E4FF0;
@@ -161,11 +163,11 @@ TQuadSpriteCol::~TQuadSpriteCol() {
 }
 
 
-extern void *TQuadSpriteCol__class_name;
+const char *TQuadSpriteCol__class_name = "TQuadSpriteCol";
 
 void *TQuadSpriteCol__ct(void *quad_sprite_col) {
     quad_sprite_base_ct(quad_sprite_col);
     *(s32 **)((s8 *)quad_sprite_col + 0x18) = __vt__14TQuadSpriteCol;
-    *(void * *)&((TQuadSpriteCol *)quad_sprite_col)->m_name = TQuadSpriteCol__class_name;
+    ((TQuadSpriteCol *)quad_sprite_col)->m_name = TQuadSpriteCol__class_name;
     return quad_sprite_col;
 }

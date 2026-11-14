@@ -37,7 +37,7 @@ extern "C" {
 void * __nw__7TObjectFUl(int);
 void render__8TObjFishFv(u8 *arg0);
 s32 init_fish_school__8TObjFishFPvll(u8 *arg0, Vec_8029E170 *arg1, s32 arg2, s32 arg3);
-extern s32 TObjFish__area_bml_resource;
+s32 TObjFish__area_bml_resource;
 extern void* __vt__8TObjFish[];
 extern void* fish_resource_name_table[];
 }
@@ -53,7 +53,7 @@ s32 get_bml_model(s32, s32);
 s32 push_matrix();
 s32 set_global_param__8TObjFishFl();
 void __dl__7TObjectFPv(void *);
-extern s32 TObjFish__area_event_stage;
+s32 TObjFish__area_event_stage;
 u8 update_state__8TObjFishFv(void *arg0);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void free_bin_model_request(void*, int);

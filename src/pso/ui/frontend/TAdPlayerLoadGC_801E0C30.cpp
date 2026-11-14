@@ -57,17 +57,20 @@ struct Date_801E21A8 { u16 year; u8 mon; u8 mday; u8 hour; u8 min; u8 sec; u8 pa
 struct Info_801E21A8 { u32 length; s16 blocks; u8 f6; u8 f7; s16 f8; u16 year; u8 mon; u8 mday; u8 hour; u8 min; u8 sec; u8 pad; };
 
 extern "C" {
-extern s32 TAdPlayerLoadGC__card_result_code;
+u32 TAdPlayerLoadGC__card_slot_state_flags;
+s32 lbl_805D5E34;
+s32 TAdPlayerLoadGC__banner_file_buf;
+s32 lbl_805D5E3C;
+s32 TAdPlayerLoadGC__card_result_code;
+    int lbl_805D5E44;
 s32 TAdPlayerLoadGC__sub_801E101C(s32);
 s32 CARDProbeEx(s32, s32 *, s32 *);
-extern u32 TAdPlayerLoadGC__card_slot_state_flags;
 s32 TAdPlayerLoadGC__sub_801E1B50(s32);
 s32 CARDCheck(s32);
 s32 CARDFreeBlocks(s32, s32 *, s32 *);
 s32 CARDDelete();
 s32 CARDCheckAsync(void *, int);
 extern RecoveredGlobal_801E14E8_TAdPlayerLoadGC__data_80511ED0 TAdPlayerLoadGC__banner_buffers;
-extern s32 TAdPlayerLoadGC__banner_file_buf;
 s32 CARDGetResultCode(void *);
 s32 CARDUnmount();
 s32 read_disc_file(const char*, void*);
@@ -88,7 +91,6 @@ s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(s32 chan, const char *name, Info
 s32 CARDGetSerialNo();
 s32 CARDFormatAsync(s32 chan, void *callback);
 void CARDInit(void);
-extern s32 lbl_805D5E34;
 extern u8 *lbl_80511F68[];
 s32 CARDMountAsync(s32 chan, void *workArea, void (*detachCallback)(s32), void (*attachCallback)(s32));
 s32 CARDGetSectorSize(s32 chan, u32 *size);
@@ -102,7 +104,6 @@ s32 CARDWriteAsync(CARDFileInfo_801E15A4 *fileInfo, const void *addr, s32 length
 s32 TAdPlayerLoadGC__sub_801E26DC(s32 chan, const char *name, void *buf, u32 size);
 extern CARDFileInfo_801E15A4 TAdPlayerLoadGC__data_80511EE8;
 extern CARDStat_801E2048 lbl_80511EFC;
-extern s32 lbl_805D5E3C;
 
 void TAdPlayerLoadGC::reset_load_state(void *arg0, void *arg1) {
     *(s32 *)((s8 *)arg1 + 4) = 0;
@@ -388,7 +389,6 @@ void TAdPlayerLoadGC::load_banner_files() {
 
 void TAdPlayerLoadGC__sub_801E14E4(void) {  }
 
-    extern int lbl_805D5E44;
 
 typedef char RecoveredGlobal_801E14E8_TAdPlayerLoadGC__data_80511ED0_size[sizeof(RecoveredGlobal_801E14E8_TAdPlayerLoadGC__data_80511ED0) == 0x18 ? 1 : -1];
 void TAdPlayerLoadGC__sub_801E14E8(u8 *arg0, s32 arg1) {

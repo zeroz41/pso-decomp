@@ -96,12 +96,12 @@ extern s32 TAdMultiPlyChrSelectGC__selected_slot;
 extern s32 multi_ply_chr_select_slot_table[][5];
 void copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *);
 s32 get_field_20__22TAdMultiPlyChrSelectGCFv();
-extern s32 lbl_805D67D4;
+s32 lbl_805D67D0;
+s32 lbl_805D67D4;
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 play_sound_effect(int, void *, int, int);
 s32 TAdMultiPlyChrSelectGC__sub_802C5F1C(void *);
 extern u8 controller_physical_port_bank[];
-extern s32 lbl_805D67D0;
 
 s32 multi_ply_chr_select_player_slot[4] = {
     0, 0, 0, 0,

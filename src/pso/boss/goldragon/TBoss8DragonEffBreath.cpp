@@ -6,6 +6,8 @@
 
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 
+#pragma readonly_strings on
+
 struct Vec_802FE024 { f32 x, y, z; };
 
 struct Obj_802FE024 {
@@ -19,7 +21,7 @@ struct Obj_802FE024 {
 };
 
 extern "C" {
-extern s32 TBoss8DragonEffBreath__name;
+const char *TBoss8DragonEffBreath__name = "TBoss8DragonEffBreath";
 s32 vec3_add_to(void *, void *);
 u8 *get_enemy_entity(u16 arg0);
 void queue_destruction__7TObjectFv(void *arg0);
@@ -50,7 +52,7 @@ TBoss8DragonEffBreath::~TBoss8DragonEffBreath() {
 }
 TBoss8DragonEffBreath::TBoss8DragonEffBreath(TObject *parent, void *p, void *v, s32 a, s16 b) : TObject(parent) {
     void *h;
-    *(s32 *)this = TBoss8DragonEffBreath__name;
+    *(const char **)this = TBoss8DragonEffBreath__name;
     VecCopy((Vec *)&((Obj_802FE024 *)this)->pos, (const Vec *)p);
     VecCopy((Vec *)&((Obj_802FE024 *)this)->vel, (const Vec *)v);
     ((Obj_802FE024 *)this)->vel.x *= 5.0f;

@@ -9,6 +9,8 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 
+#pragma readonly_strings on
+
 extern "C" {
 
 void *__dt__14TObjNpcBringerFv(void *arg0, s16 arg1);
@@ -148,7 +150,7 @@ extern "C" void update_object_view_visibility__8TObjBaseFff();
 extern "C" void update_poison_status__9TObjCharaFv();
 extern "C" void update_standing__11TObjNpcBaseFv();
 extern "C" void update_wandering__11TObjNpcBaseFv();
-extern s32 TObjNpcBringer__name;
+const char *TObjNpcBringer__name = "TObjNpcBringer";
 extern u8 *TObjEneDf2Bringer__resource_bundle;
 u8 *TObjNpcBringer__ct(u8 *self, void *parent, s32 arg2);
 TObjMotionAction npc_bringer_animation_table[2] = {
@@ -192,7 +194,7 @@ void *__vt__14TObjNpcBringer[94] = {
 u8 *TObjNpcBringer__ct(u8 *self, void *parent, s32 arg2) {
     TObjNpcBase__ct(self, parent);
     *(u8 **)(self + 0x18) = (u8 *)__vt__14TObjNpcBringer;
-    *(s32 *)(self + 0) = TObjNpcBringer__name;
+    *(const char **)(self + 0) = TObjNpcBringer__name;
     ((TObjNpcBringer *)self)->apply_set_data((void *)arg2);
     ((TObjPlayer *)self)->init_position_vectors();
     ((TObjNpcBringer *)self)->apply_set_params(0, 1);

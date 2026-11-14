@@ -14,6 +14,8 @@
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 
+#pragma readonly_strings on
+
 struct Base_8021B2E8 { char pad[0x18]; };
 struct VObj_8021B2E8 : Base_8021B2E8 {
     virtual void m0();
@@ -41,8 +43,8 @@ s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 sub_80223A48__15TShopWindowBaseFv(void *);
 s32 close_window__13TShopSequenceFv(void *);
 
-extern s32 lbl_805D6218;
-extern s32 lbl_805D621C;
+s32 lbl_805D6218;
+s32 lbl_805D621C;
 
 struct Base_8021B288 { char pad[0x18]; };
 struct VObj_8021B288 : Base_8021B288 {
@@ -159,7 +161,7 @@ extern RecoveredGlobal_8021B7D0___vt__26TShopEquipmentGearSequence __vt__26TShop
 extern RecoveredGlobal_8021B7D0_TShopEquipmentGearSequence__data_80513EB0 TShopEquipmentGearSequence__window_slot_table;
 s32 lbl_805D6220;
 u8 *TShopSequence__ct(u8 *arg0);
-extern s32 TShopEquipmentGearSequence__class_name;
+const char *TShopEquipmentGearSequence__class_name = "TShopEquipmentGearSequence";
 s32 restore_player_state__13TShopSequenceFv(void *);
 void *__nw__7TObjectFUl(u32);
 void enter_quest_list__26TShopEquipmentGearSequenceFv(void *);
@@ -305,7 +307,7 @@ typedef char RecoveredGlobal_8021B89C_TShopEquipmentGearSequence__data_80513EB0_
 u8 *TShopEquipmentGearSequence__ct(u8 *shop_equipment_gear_sequence, s32 arg1, s32 arg2) {
     TShopSequence__ct((shop_equipment_gear_sequence));
     *(s32 **)((s8 *)shop_equipment_gear_sequence + 0x18) = &(*(RecoveredGlobal_8021B89C___vt__26TShopEquipmentGearSequence *)&__vt__26TShopEquipmentGearSequence).value;
-    *(s32 *)((s8 *)shop_equipment_gear_sequence + 0) = (s32) TShopEquipmentGearSequence__class_name;
+    *(const char **)((s8 *)shop_equipment_gear_sequence + 0) = TShopEquipmentGearSequence__class_name;
     ((TShopEquipmentGearSequence *)shop_equipment_gear_sequence)->m_20 = 0;
     *(s32 *)((s8 *)shop_equipment_gear_sequence + 0x24) = arg2;
     ((TShopEquipmentGearSequence *)shop_equipment_gear_sequence)->m_2c = 0;

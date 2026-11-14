@@ -5,7 +5,7 @@
 #include "types.h"
 #include "pso/item/TItemLoad.h"
 
-extern "C" void*    item_pmt;
+void* item_pmt;
 extern "C" void*    item_pmt_tbl;
 extern "C" TObject* item_mgr;
 

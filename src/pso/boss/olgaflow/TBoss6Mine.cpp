@@ -29,6 +29,8 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+
+#pragma readonly_strings on
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 struct Stack_803242C0 {
     f32 sp8;
@@ -93,7 +95,7 @@ static u32 TBoss6Mine__collision_body_template[11] = {
     0, 0, 0, 0x41700000, 0, 0, 0x801B, 0, 0, 0, 0,
 };
 extern s32 __vt__10TBoss6Mine[];
-extern s32 lbl_805D4178;
+const char *lbl_805D4178 = "TBoss6Mine";
 void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
 void TBoss6Type1__sub_802B5DD4(void *);
 int post_translate_matrix(void*);
@@ -410,7 +412,7 @@ s32 TBoss6Mine__ct(s32 arg0, s32 parent, TBoss6MineSetData *set_data) {
     self = (u8 *)arg0;
     __ct__9TObjEnemyFP7TObject((TObjEnemy *)arg0, (void*)parent);
     *(s32 **)((s8 *)THIS + 0x18) = __vt__10TBoss6Mine;
-    *(s32 *)((s8 *)THIS + 0) = lbl_805D4178;
+    *(const char **)((s8 *)THIS + 0) = lbl_805D4178;
     ((TBoss6Mine *)THIS)->owner = set_data->owner;
     VecCopyP(THIS + 0x38, &set_data->origin);
     VecCopyP(THIS + 0x3BC, &set_data->offset);

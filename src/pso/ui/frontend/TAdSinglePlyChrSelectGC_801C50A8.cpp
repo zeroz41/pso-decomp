@@ -10,7 +10,7 @@
 extern "C" {
 extern int active_character_save_record;
     extern int duel_result_window;
-extern u32 ad_single_ply_chr_select_instance;
+u32 ad_single_ply_chr_select_instance;
 u32 __nw__7TObjectFUl(s32);
 extern s32 tl_00;
 void TAdSinglePlyChrSelectGC::set_slot(int a0) { *(short*)((char*)active_character_save_record + 0x21b0) = a0; }

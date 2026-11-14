@@ -22,17 +22,19 @@ TObjTagChallenge::~TObjTagChallenge() {}
 
 #include "types.h"
 
+#pragma readonly_strings on
+
 extern "C" {
 
 void __ct__7TObjectFP7TObject(void *);
 
 extern s32 __vt__16TObjTagChallenge[];
-extern void *TObjTagChallenge__class_name;
+const char *TObjTagChallenge__class_name = "TObjTagChallenge";
 
 void *TObjTagChallenge__ct(void *tag_challenge) {
     __ct__7TObjectFP7TObject(tag_challenge);
     *(s32 **)((s8 *)tag_challenge + 0x18) = __vt__16TObjTagChallenge;
-    *(void * *)&((TObjTagChallenge *)tag_challenge)->m_name = TObjTagChallenge__class_name;
+    ((TObjTagChallenge *)tag_challenge)->m_name = TObjTagChallenge__class_name;
     return tag_challenge;
 }
 

@@ -19,8 +19,8 @@ struct RecoveredGlobal_80148038___vt__12TObjNpcARW00 {
 extern "C" {
 s32 play_sound_effect(int, void *, int, int);
 extern s32 __vt__12TObjNpcARW00[];
-extern u32 TObjNpcARW00__static_model;
-extern u32 TObjNpcARW00__gvm_texture_handle;
+u32 TObjNpcARW00__static_model;
+u32 TObjNpcARW00__gvm_texture_handle;
 void release_texture_list(void*);
 void __dl__7TObjectFPv(void *);
 

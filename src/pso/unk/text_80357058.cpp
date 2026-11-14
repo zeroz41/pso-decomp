@@ -19,6 +19,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 
+#pragma readonly_strings on
+
 
 
 struct B_80357058 { u8 hdr[4]; u8 d[0x40]; u8 tail[8+1]; };
@@ -50,7 +52,7 @@ extern "C" {
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 f32 normalize_vector(void *);
-extern const char *TItemEffOrgaFlowShot__name;
+const char *TItemEffOrgaFlowShot__name = "TItemEffOrgaFlowShot";
 s32 is_local_client_floor_leader();
 void grid_to_world_pos__11TBoss6Type2FccPv(u8, u8, Vec_803570E4 *);
 void clear_rock_state__10TBoss6RockFl(s32 i, s32 a, s32 b);

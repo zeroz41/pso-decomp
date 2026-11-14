@@ -11,6 +11,8 @@ struct TShopJudgmentItemWindow;
 
 #include "pso/ui/city/TShopWindowBase.h"
 
+#pragma readonly_strings on
+
 struct Base_80215BF8_80215BA0 { char pad[0x18]; };
 struct VObj_80215BF8_80215BA0 : Base_80215BF8_80215BA0 {
     virtual void m0();
@@ -173,12 +175,12 @@ TJudgmentSequence::~TJudgmentSequence() {
 }
 
 u8 *TShopSequence__ct(u8 *arg0);
-extern s32 TJudgmentSequence__class_name;
+const char *TJudgmentSequence__class_name = "TJudgmentSequence";
 
 u8 *TJudgmentSequence__ct(u8 *judgment_sequence, s32 arg1, s32 arg2) {
     TShopSequence__ct((judgment_sequence));
     *(s32 **)((s8 *)judgment_sequence + 0x18) = &__vt__17TJudgmentSequence.value;
-    *(s32 *)((s8 *)judgment_sequence + 0) = (s32) TJudgmentSequence__class_name;
+    *(const char **)((s8 *)judgment_sequence + 0) = TJudgmentSequence__class_name;
     *(s32 *)((s8 *)judgment_sequence + 0x24) = arg2;
     ((TJudgmentSequence *)judgment_sequence)->m_2c = 0;
     *(s32 *)((s8 *)judgment_sequence + 0x30) = 0;

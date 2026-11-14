@@ -7,6 +7,8 @@
 #include "types.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 
+#pragma readonly_strings on
+
 struct RecoveredGlobal_802239EC_lbl_8050E208 {
     s32 value;
     u8 remaining[0x1AC];
@@ -78,7 +80,7 @@ void TShopWindowBase::run_task() {
     }
 }
 
-extern const char *TShopWindowBase__class_name;
+const char *TShopWindowBase__class_name = "TShopWindowBase";
 
 }
 TShopWindowBase::~TShopWindowBase() {

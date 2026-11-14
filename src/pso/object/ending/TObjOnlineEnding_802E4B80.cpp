@@ -19,6 +19,8 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
 
+#pragma readonly_strings on
+
 extern "C" {
 
 void *__nw__7TObjectFUl(int);
@@ -234,8 +236,9 @@ void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern const f32 online_ending_scene_scale;
 extern f32 online_ending_quad_y_offset;
 f32 online_ending_scene_z_offset;
-extern s8 online_ending_scene_translation_initialized;
-extern s8 online_ending_quad_vertices_initialized;
+u32 lbl_805D68F4;
+s8 online_ending_scene_translation_initialized;
+s8 online_ending_quad_vertices_initialized;
 s32 restore_player_cameras();
 s32 TLobby__sub_80070ACC();
 s32 TWindowChallengeResult__ct(s32, s32, s32, s32);
@@ -390,7 +393,6 @@ void *fn_802E6218(void *arg0);
 void fn_802E6260();
 char *strncpy(char *, const char *, unsigned long);
 extern void *TObjOnlineEnding__name;
-extern u32 lbl_805D68F4;
 #pragma push
 #pragma opt_common_subs off
 #define SELF ((Obj_802E4FFC *)arg0)

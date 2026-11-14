@@ -223,7 +223,7 @@ int is_target_unobstructed__9TObjEneDDFl(void* a0 = 0, void* a1 = 0, void* a2 = 
 int add_flags_2e4__9TObjCharaFUl(void*, int);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 get_position__12TBoss1DragonFv(void *, s32);
-extern u8 *obj_ene_dd_instance;
+u8 * obj_ene_dd_instance;
 }
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD.h"

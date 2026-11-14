@@ -6,6 +6,8 @@
 #include "pso/ui/window/TWindowSubAreaMapDisp.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 
+#pragma readonly_strings on
+
 struct VBase_18_204a81 { char pad[0x18]; };
 
 struct VObj_18_204a81 : VBase_18_204a81 {
@@ -53,10 +55,10 @@ void TWindowSubAreaMap::run_task() {
 TWindowSubAreaMap::~TWindowSubAreaMap() {
     if (*(void **)((s8 *)this + 0x24) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x24)))->close(); this->m_24 = 0; }
 }
-extern void *TWindowSubAreaMap__name;
+const char *TWindowSubAreaMap__name = "TWindowSubAreaMap";
 TWindowSubAreaMap::TWindowSubAreaMap(TObject *object, void *arg2) : TObject(object) {
     void *o;
-    *(void * *)&this->m_name = TWindowSubAreaMap__name;
+    this->m_name = TWindowSubAreaMap__name;
     *(void **)((s8 *)this + 0x20) = object;
     *(void **)((s8 *)this + 0x1C) = arg2;
     o = __nw__7TObjectFUl(0x78);

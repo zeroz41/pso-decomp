@@ -15,6 +15,8 @@
 #include "pso/map/FloorArea.h"
 #include "pso/unk/WindowLayoutRecord.h"
 
+#pragma readonly_strings on
+
 extern "C" {
 
 s32 sub_80246948__11TWindowBaseFv();
@@ -70,7 +72,7 @@ s32 get_window_layout_position(int);
 s32 construct_type1_heading__20TWindowSubStatusDispFll(int, int, int);
 s32 get_game_play_mode();
 s32 strncpy(int, int, void *);
-extern s32 TWindowSubAreaMapDisp__name;
+const char *TWindowSubAreaMapDisp__name = "TWindowSubAreaMapDisp";
 extern s32 local_client_id;
 void apply_context_transform_to_rect(void *, void *);
 extern s32 lbl_805D63F0;
@@ -205,7 +207,7 @@ u8 *TWindowSubAreaMapDisp__ct(TWindowSubAreaMapDisp *window_sub_area_map_disp) {
     u8 *var_r30;
     ((TWindowDD *)window_sub_area_map_disp)->construct_base((u8 *)&TWindowSubAreaMapDisp__window_parameters, (s16)((void *) ((s16) local_client_id)), (u8 *)(get_window_layout_position(0x59)));
     *(s32 **)((s8 *)window_sub_area_map_disp + 0x18) = &(*(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp *)&__vt__21TWindowSubAreaMapDisp).value;
-    *(s32 *)((s8 *)window_sub_area_map_disp + 0) = (s32) TWindowSubAreaMapDisp__name;
+    *(const char **)((s8 *)window_sub_area_map_disp + 0) = TWindowSubAreaMapDisp__name;
     if (get_game_play_mode() == 1) {
         text_builder_reset();
         text_builder_append((u8 *)(TQuestVmDownLoadServer__sub_8006EF6C(0x67)));

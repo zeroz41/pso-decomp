@@ -17,7 +17,7 @@
 extern "C" {
 void *__ct__15TAdDrawLineCtrlFP7TObjectPvf(void *arg0, void *arg1, void *arg2, f32 farg0);
 void *__nw__7TObjectFUl(int);
-extern u32 lbl_805D49D8;
+u32 lbl_805D49D8;
 void __ct__7TObjectFP7TObject(void *);
 s32 defer_render__7TObjectFv();
 
@@ -90,7 +90,7 @@ struct RecoveredGlobal_80019E60_lbl_804340D8 { char value[0x13]; };
 typedef char RecoveredGlobal_80019E60_lbl_804340D8_size[sizeof(RecoveredGlobal_80019E60_lbl_804340D8) == 0x13 ? 1 : -1];
 
 extern RecoveredGlobal_80019E60_lbl_804340D8 lbl_804340D8;
-extern u32 item_loader_instance;
+u32 item_loader_instance;
 
 void TLobby::free_item_loader() {
     if ((u32) item_loader_instance != 0U) {

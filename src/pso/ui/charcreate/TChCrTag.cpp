@@ -8,6 +8,8 @@
 extern "C" void render__8TChCrTagFv();
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 
+#pragma readonly_strings on
+
 extern "C" {
 void __dt__7TObjectFv(void *, s16);
 void __dl__7TObjectFPv(void *);
@@ -17,7 +19,7 @@ int TChCrTag__vt4(void) { return 0; }
 void TChCrTag::render() {  }
 
 extern void *__vt__8TChCrTag[];
-extern const char *lbl_805D3D90;
+const char *lbl_805D3D90 = "TChCrTag";
 
 #pragma push
 #pragma opt_common_subs off

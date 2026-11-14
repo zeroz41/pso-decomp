@@ -33,7 +33,7 @@ u32 strlen(void *);
 extern s8 fs_default_device_name[];
 extern Ent_803CF958 cvfs_entry_table[];
 void *memset(void *, s32, u32);
-extern s32 lbl_805D7600;
+s32 lbl_805D7600;
 u32 lbl_80581A30[75];
 // CVFS version banner: the first string of this file's pool (0x8047CF30).
 char *const volatile lbl_805E0DA0 = "\nCVFS/GC Ver.2.24 Build:Jun 13 2002 19:00:27\n";

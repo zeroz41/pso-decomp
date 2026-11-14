@@ -35,7 +35,7 @@ BmlResourceDescriptor warp_lobby_resource_descriptor = {
     "bm_obj_lobby_warp.bml", bm_obj_lobby_warp_model_names, bm_obj_lobby_warp_motion_names, 1, 1,
 };
 const char *TObjWarpLobby__name = "TObjWarpLobby";
-extern "C" s32 TObjWarpLobby__instance;
+s32 TObjWarpLobby__instance;
 
 extern "C" {
 s32 debug_print_area_num__12TObjAreaWarpFv();
@@ -99,7 +99,7 @@ s32 draw_ginja_model_with_motion(s32, s32, f32);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 
-extern s32 lbl_805D5CCC;
+s32 lbl_805D5CCC;
 
 void TObjWarpLobby::open_lobby_menu() {
     f32 sp[2];

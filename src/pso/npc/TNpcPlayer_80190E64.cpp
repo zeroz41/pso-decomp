@@ -48,7 +48,7 @@ s32 __dl__7TObjectFPv(void *);
 Obj_801910F4 *__dt__13TUnk_804B7C1CFv(Obj_801910F4 *arg0, s16 arg1);
 f32 horizontal_distance_squared(void *, void *);
 void *__nw__7TObjectFUl(int);
-extern int npc_proximity_target_id;
+int npc_proximity_target_id = -1;
 extern s32 local_client_id;
 extern void *tl_07;
 void TLobby__sub_80190FD0(int a0);
@@ -65,7 +65,7 @@ void set_player_quest_control_flag(TObjPlayer *player);
 
 extern "C" {
 extern void *tl_05;
-extern int hashi_versus2_flag;
+int hashi_versus2_flag;
 
 void TObjHashiVersus2__sub_801912B0(void) { hashi_versus2_flag = 0; }
 

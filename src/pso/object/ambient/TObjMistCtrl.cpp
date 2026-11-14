@@ -13,6 +13,8 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
 
+#pragma readonly_strings on
+
 
 struct RecoveredGlobal_802AF7C0___vt__12TObjMistCtrl {
     s32 value;
@@ -23,7 +25,7 @@ struct RecoveredGlobal_802AF7C0___vt__12TObjMistCtrl {
 extern "C" {
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__12TObjMistCtrl[];
-extern s32 lbl_805D3E80;
+const char *lbl_805D3E80 = "TObjMistCtrl";
 void __dl__7TObjectFPv(void *);
 
 void TObjMistCtrl::run_task() { { (void)(sub_802AF64C()); return; } }
@@ -39,7 +41,7 @@ typedef char RecoveredGlobal_802AF7C0___vt__12TObjMistCtrl_size[sizeof(Recovered
 u8 *TObjMistCtrl__ct(u8 *mist_ctrl, s32 parent, u32 arg2) {
     __ct__8TObjBaseFP7TObject((void *)mist_ctrl, (void *)parent);
     *(s32 **)((s8 *)mist_ctrl + 0x18) = &(*(RecoveredGlobal_802AF7C0___vt__12TObjMistCtrl *)&__vt__12TObjMistCtrl).value;
-    *(s32 *)((s8 *)mist_ctrl + 0) = (s32) lbl_805D3E80;
+    *(const char **)((s8 *)mist_ctrl + 0) = lbl_805D3E80;
     if (arg2 != 0U) {
         ((TObjMistCtrl *)(mist_ctrl))->apply_object_set_data((void *)arg2);
     }

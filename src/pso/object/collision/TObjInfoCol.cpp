@@ -8,6 +8,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 
+#pragma readonly_strings on
+
 struct RecoveredGlobal_80191E28_lbl_8050E208 {
     s32 value;
     u8 remaining[0x1AC];
@@ -26,7 +28,7 @@ extern RecoveredGlobal_80191E28_lbl_8050E208 controller_input_state;
 extern s32 local_client_id;
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 extern s32 __vt__11TObjInfoCol[];
-extern s32 TObjInfoCol__class_name;
+const char *TObjInfoCol__class_name = "TObjInfoCol";
 void __dl__7TObjectFPv(void *);
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 
@@ -62,7 +64,7 @@ typedef char RecoveredGlobal_80191EC0___vt__11TObjInfoCol_size[sizeof(RecoveredG
 u8 *TObjInfoCol__ct(u8 *info_col, s32 arg1, s32 arg2) {
     __ct__14TObjCollidableFP7TObject((void *)info_col, (void *)arg1);
     *(s32 **)((s8 *)info_col + 0x18) = &(*(RecoveredGlobal_80191EC0___vt__11TObjInfoCol *)&__vt__11TObjInfoCol).value;
-    *(s32 *)((s8 *)info_col + 0) = (s32) TObjInfoCol__class_name;
+    *(const char **)((s8 *)info_col + 0) = TObjInfoCol__class_name;
     ((TObjInfoCol *)(info_col))->apply_object_set_data((void *)arg2);
     ((TObjInfoCol *)info_col)->interaction_radius = (f32) ((TObjInfoCol *)info_col)->scale.x;
     return info_col;

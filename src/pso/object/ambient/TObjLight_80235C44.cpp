@@ -294,7 +294,7 @@ struct Self_80236A20 { u8 pad[0x128]; Proxy_80236A20 *proxy; f32 f12c; };
 extern "C" {
 
 f32 vector_length(void *);
-extern const f64 lbl_8044D8D0[];
+const f64 lbl_8044D8D0[1] = {0.5};
 s32 obj_is_hit_receivable();
 
 s32 TObjPlayer::is_valid_and_active(u32 arg0) {

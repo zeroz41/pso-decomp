@@ -55,6 +55,8 @@ struct VObj_802136A4_80212D9C : Base_802136A4_80212D9C {
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+
+#pragma readonly_strings on
 struct VBase_18_97738d { char pad[0x18]; };
 
 struct VObj_18_97738d : VBase_18_97738d {
@@ -161,7 +163,7 @@ s32 sub_80223A48__15TShopWindowBaseFv(void *);
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 extern u8 *quest_mission_manager;
 u8 *TShopSequence__ct(u8 *arg0);
-extern s32 lbl_805D3658;
+const char *lbl_805D3658 = "THunterGuildSeqOffline";
 u8 *THunterGuildSeqOffline__ct(u8 *arg0, s32 arg1, s32 arg2);
 void THunterGuildSeqOffline__sub_8021339C(void);
 u16 get_entity_id(s32);
@@ -305,7 +307,7 @@ typedef char RecoveredGlobal_802132F0_THunterGuildSeqOffline__data_80513DD8_size
 u8 *THunterGuildSeqOffline__ct(u8 *hunter_guild_seq_offline, s32 arg1, s32 arg2) {
     TShopSequence__ct((hunter_guild_seq_offline));
     *(s32 **)((s8 *)hunter_guild_seq_offline + 0x18) = &(*(RecoveredGlobal_802132F0___vt__22THunterGuildSeqOffline *)&__vt__22THunterGuildSeqOffline).value;
-    *(s32 *)((s8 *)hunter_guild_seq_offline + 0) = (s32) lbl_805D3658;
+    *(const char **)((s8 *)hunter_guild_seq_offline + 0) = lbl_805D3658;
     *(s32 *)((s8 *)hunter_guild_seq_offline + 0x20) = 0;
     *(s32 *)((s8 *)hunter_guild_seq_offline + 0x2C) = 0;
     ((THunterGuildSeqOffline *)hunter_guild_seq_offline)->m_24 = arg2;

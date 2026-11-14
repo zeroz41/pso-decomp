@@ -97,7 +97,7 @@ void vfunc_88__16TObjEneBm5GibonUFv(u8 *arg0);
 void vfunc_63__16TObjEneBm5GibonUFv(void *arg0);
 void vfunc_62__16TObjEneBm5GibonUFv(void* p);
 void vfunc_105__16TObjEneBm5GibonUFv(void *arg0);
-extern BmlResource *TObjEneBm5GibonU__model_archive;
+BmlResource * TObjEneBm5GibonU__model_archive;
 }
 extern "C" {
 #pragma push
@@ -530,8 +530,8 @@ s32 draw_blob_shadow(s32);
 s32 defer_render__7TObjectFv(void *);
 s32 rotate_matrix_z(s32, s32);
 s32 rotate_matrix_x(s32, s32);
-extern s32 TObjEneBm5GibonU__render_node_index;
-extern s32 TObjEneBm5GibonU__render_joint_y_rotation;
+s32 TObjEneBm5GibonU__render_node_index;
+s32 TObjEneBm5GibonU__render_joint_y_rotation;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 u32 enemy_probe_wall_ahead__13TBoss5GryphonFfff(void *, f32, f32, f32);

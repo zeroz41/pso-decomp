@@ -5,6 +5,8 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/camera/TCameraCtrl.h"
 
+#pragma readonly_strings on
+
 struct RecoveredGlobal_80077FA0___vt__9TCineCtrl {
     s32 value;
     u8 remaining[0x14];
@@ -137,7 +139,7 @@ void TCineCtrl::reset(s32 arg0) {
 }
 
 extern void *tl_fade;
-extern void *TCineCtrl__class_name;
+const char *TCineCtrl__class_name = "TCineCtrl";
 
 typedef char RecoveredGlobal_80077FA0___vt__9TCineCtrl_size[sizeof(RecoveredGlobal_80077FA0___vt__9TCineCtrl) == 0x18 ? 1 : -1];
 
@@ -169,7 +171,7 @@ u8 *__dt__9TCineCtrlFv(u8 *arg0, s16 arg1) {
 
 }
 TCineCtrl::TCineCtrl() : TObject((TObject *)tl_fade) {
-    *(void * *)&this->m_name = TCineCtrl__class_name;
+    this->m_name = TCineCtrl__class_name;
     *(f32 *)((s8 *)this + 0x1C) = 0.0f;
     this->m_20 = 0.0f;
     *(u32 *)((s8 *)this + 0x24) = 0;

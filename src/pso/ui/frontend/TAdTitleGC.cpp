@@ -59,7 +59,7 @@ const char *ad_title_gc_class_name = "TAdTitleGC";
 extern "C" {
 u32 calc_text_width(char *s);
 s32 get_player__20TWindowSubStatusDispFv();
-extern u32 lbl_805D6630;
+u32 lbl_805D6630;
 s32 get_localized_text_entry(s32, s32);
 void restore_saved_depth_alpha_state(void);
 s32 defer_render__7TObjectFv();

@@ -84,7 +84,7 @@ typedef struct Obj_800C55E0 {
 extern "C" {
 s32 subtract_vector(void *, void *);
 
-extern void *player_render_texture_buffer;
+void * player_render_texture_buffer;
 void release_texture_list(void *);
 void mem_free(void *);
 extern u8 *camera_ctrl_instance;

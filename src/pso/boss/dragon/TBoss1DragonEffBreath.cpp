@@ -7,8 +7,10 @@
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/system/task/TObject.h"
 
+#pragma readonly_strings on
+
 extern "C" {
-extern s32 TBoss1DragonEffBreath__name;
+const char *TBoss1DragonEffBreath__name = "TBoss1DragonEffBreath";
 s32 vec3_add_to(void *, void *);
 
 void TBoss1DragonEffBreath::render() {  }
@@ -36,7 +38,7 @@ TBoss1DragonEffBreath::~TBoss1DragonEffBreath() {
 }
 TBoss1DragonEffBreath::TBoss1DragonEffBreath(TObject *object, void *arg2, void *arg3) : TObject(object) {
     void *p;
-    *(s32 *)((s8 *)this + 0) = (s32) TBoss1DragonEffBreath__name;
+    *(const char **)((s8 *)this + 0) = TBoss1DragonEffBreath__name;
     VecCopy((Vec *)(((u8 *)this) + 0x1C), (const Vec *)arg2);
     VecCopy((Vec *)(((u8 *)this) + 0x28), (const Vec *)arg3);
     *(f32 *)((s8 *)this + 0x28) *= 5.0f;

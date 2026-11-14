@@ -90,7 +90,7 @@ extern RecoveredGlobal_800F8428_lbl_80499988 lbl_80499988;
 extern s32 lbl_804999A0[];
 extern s32 lbl_804999B8[];
 extern s32 lbl_804999D0[];
-extern void *screen_fade_controller;
+void * screen_fade_controller;
 extern s32 local_client_id;
 extern void *tl_fade;
 

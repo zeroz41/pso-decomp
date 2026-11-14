@@ -27,7 +27,7 @@ extern "C" {
 u32 TBoss8Dragon__sub_802F3348(s32);
 s32 TBoss8Dragon__sub_802FCCBC();
 
-extern void *TObjBoss8DemoRoom__shared_resource_object;
+void * TObjBoss8DemoRoom__shared_resource_object;
 
 void TObjBoss8DemoRoom::render() {
     TObjFish::set_global_param(*(s32 *)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom__shared_resource_object + 0x42C)) + 0xC));

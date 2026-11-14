@@ -10,6 +10,8 @@
 #include "pso/ui/frontend/TAdLdQuestPrtGC.h"
 #include "pso/system/task/TObject.h"
 
+#pragma readonly_strings on
+
 extern "C" {
 
 s32 TWindowCost__ct(s32, s32, s32, s32);
@@ -62,13 +64,13 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, TObject *);
 
 extern s32 __vt__14TAdLoadQuestGC[];
-extern void *TAdLoadQuestGC__class_name;
+const char *TAdLoadQuestGC__class_name = "TAdLoadQuestGC";
 
 void *TAdLoadQuestGC__ct(void *ad_load_quest_gc, TObject *parent) {
     void *o;
     __ct__7TObjectFP7TObject(ad_load_quest_gc, parent);
     *(s32 **)((s8 *)ad_load_quest_gc + 0x18) = __vt__14TAdLoadQuestGC;
-    *(void * *)&((TAdLoadQuestGC *)ad_load_quest_gc)->m_name = TAdLoadQuestGC__class_name;
+    ((TAdLoadQuestGC *)ad_load_quest_gc)->m_name = TAdLoadQuestGC__class_name;
     get_or_create_cell__14TAdLoadQuestGCFii((s32)ad_load_quest_gc, 0);
     get_or_create_prt_txt__14TAdLoadQuestGCFii((s32)ad_load_quest_gc, 0);
     get_or_create_cell__14TAdLoadQuestGCFii((s32)ad_load_quest_gc, 1);

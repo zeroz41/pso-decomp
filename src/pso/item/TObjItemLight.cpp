@@ -10,6 +10,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
 
+#pragma readonly_strings on
+
 struct Light_80191F90 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x18]; f32 rot[3]; u8 pad68[0x28]; f32 f90; void *f94; };
 
 struct Ply_80191F90 { u8 pad0[0x38]; f32 pos[3]; };
@@ -56,12 +58,12 @@ TObjItemLight::~TObjItemLight() {
 }
 extern "C" {
 
-extern s32 TObjItemLight__class_name;
+const char *TObjItemLight__class_name = "TObjItemLight";
 
 u8 *TObjItemLight__ct(TObjItemLight *item_light, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject();
     *(s32 **)((s8 *)item_light + 0x18) = __vt__13TObjItemLight;
-    *(s32 *)((s8 *)item_light + 0) = (s32) TObjItemLight__class_name;
+    *(const char **)((s8 *)item_light + 0) = TObjItemLight__class_name;
     item_light->apply_object_set_data((void *)arg2);
     item_light->m_94 = 0;
     *(f32 *)((s8 *)item_light + 0x90) = (f32) item_light->scale.x;

@@ -22,7 +22,7 @@ struct RecoveredGlobal_8011DC90___vt__15TItemTimerEvent {
 extern "C" {
 u32 get_player_by_client_id(u16);
 void fn_8011085C(u8 *arg0, s32 arg1);
-extern TItemLockCountCtrl *item_timer_event_instance;
+TItemLockCountCtrl * item_timer_event_instance;
 void fn_801108C8(u8 *arg0, s32 arg1);
 s32 __ct__15TItemHeapObjectFP7TObject(void *);
 extern s32 __vt__15TItemTimerEvent[];

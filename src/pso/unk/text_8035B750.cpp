@@ -8,7 +8,7 @@
 extern "C" {
 void free_bin_model_request(void*, int);
 struct Obj_8035B788;
-extern Obj_8035B788 *lbl_805D6F50;
+Obj_8035B788 * lbl_805D6F50;
 
 void fn_8035B750(void) {
     if ((u32) lbl_805D6F50 != 0U) {

@@ -110,7 +110,7 @@ s32 rotate_matrix_x(int, void *);
 s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 find_nearest_visible_player(void *, int, f32);
-extern u32 recon_bomb_bml_resource;
+u32 recon_bomb_bml_resource;
 s32 calc_scaled_value__12TObjEneReconFv(int);
 f32 TObjEneRecon__sub_8031C2BC(int);
 f32 TObjEneRecon__sub_8031C2C8(int);

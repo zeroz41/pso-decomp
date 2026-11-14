@@ -74,7 +74,11 @@ s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);
 s32 is_split_screen();
 extern s32 game_difficulty_selection;
 extern s32 local_client_id;
-extern IllGillAttackBehavior *illGillAttackBehavior;
+BmlResource * illGillResource;
+s32 TObjEneIllGill__boss_registration_id;
+s32 lbl_805D6FD8;
+IllGillAttackBehavior * illGillAttackBehavior;
+s32 illGillModelNodeIndex;
 extern const f32 lbl_805E02B8;
 extern const f32 TObjEneIllGill__data_805E02C0;
 extern const f32 lbl_805E02C4;
@@ -84,9 +88,6 @@ extern const f32 lbl_805E02D0;
 extern const f32 lbl_805E02D4;
 s32 init_collision_body_parts(void *, void *, int);
 
-extern BmlResource *illGillResource;
-extern s32 TObjEneIllGill__boss_registration_id;
-extern s32 lbl_805D6FD8;
 extern const f32 lbl_805E0308;
 
 }
@@ -503,7 +504,6 @@ void TObjEneIllGill::update_shadow_attack() {
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
 extern u8 lbl_804FF5E8[];
-extern s32 illGillModelNodeIndex;
 void TObjEneIllGill::capture_effect_positions() {
     Vec *v;
     switch (illGillModelNodeIndex) {

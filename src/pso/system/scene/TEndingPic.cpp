@@ -7,6 +7,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 
+#pragma readonly_strings on
+
 struct RecoveredGlobal_80352F6C___vt__10TEndingPic { s32 value; u8 remaining[0x14]; };
 typedef char RecoveredGlobal_80352F6C___vt__10TEndingPic_size[sizeof(RecoveredGlobal_80352F6C___vt__10TEndingPic) == 0x18 ? 1 : -1];
 
@@ -14,7 +16,7 @@ extern "C" {
 int TKeyBoardControl__sub_8000F828(void);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_80352F6C___vt__10TEndingPic __vt__10TEndingPic;
-extern s32 lbl_805D4378;
+const char *lbl_805D4378 = "TEndingPic";
 extern s32 TEndingPic__animation_state;
 extern s32 ending_pic_wall_texture_list;
 
@@ -134,7 +136,7 @@ TEndingPic::~TEndingPic() {}
 u8 *__ct__10TEndingPicFv(u8 *ending_pic, u8 *arg1) {
     __ct__7TObjectFP7TObject(ending_pic, arg1);
     *(s32 **)((s8 *)ending_pic + 0x18) = &__vt__10TEndingPic.value;
-    *(s32 *)((s8 *)ending_pic + 0) = (s32) lbl_805D4378;
+    *(const char **)((s8 *)ending_pic + 0) = lbl_805D4378;
     *(s32 *)((s8 *)ending_pic + 0x1C) = -1;
     TEndingPic__animation_state = 0;
     *(s32 *)((s8 *)ending_pic + 0x20) = 0xFF;

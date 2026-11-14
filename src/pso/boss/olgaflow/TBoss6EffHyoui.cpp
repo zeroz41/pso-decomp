@@ -14,8 +14,8 @@ s32 is_active__14TBoss6PlotFalzFv();
 extern s32 lbl_8047AC70[];
 extern s32 __vt__14TBoss6EffHyoui[];
 extern s32 lbl_805D44D8;
-extern f32 lbl_805D6FF8;
-extern s8 lbl_805D6FFC;
+f32 lbl_805D6FF8;
+s8 lbl_805D6FFC;
 }
 
 #include "pso/boss/darkfalz/TBoss4Type2.h"

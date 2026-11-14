@@ -98,8 +98,10 @@ void TObjPlayer::draw_shadow_quad(s32 arg1, s32 flags) {
 struct Rect_801E317C { f32 x0, y0, x1, y1; };
 
 extern "C" {
-extern f32 viewport_scissor_origin_x;
-extern f32 camera_viewport_center_y;
+int current_line_width = 12;
+s32 lbl_805D3584 = 1;
+f32 viewport_scissor_origin_x = 3.2e+02f;
+f32 camera_viewport_center_y = 2.4e+02f;
 void TCameraCtrl__sub_801E32D8(f32 farg0, f32 farg1);
 void GXSetScissor(u32, u32, u32, u32);
 void set_viewport_scissor__11TCameraCtrlFiPv(s32 mode, Rect_801E317C *r);
@@ -175,7 +177,6 @@ extern "C" {
 void GXBegin(s32, s32, u16);
 void GXSetLineWidth(s32, s32);
 void reset_line_width(void);
-extern int current_line_width;
 void draw_line_list(Lines_801E341C *l, s32 n, u32 flags);
 }
 void setup_opaque_color_draw(void);
@@ -537,7 +538,6 @@ void TObjPlayer::render_tree(void *arg0) {
     } while (var_r31 != NULL);
 }
 
-extern s32 lbl_805D3584;
 
 }
 void render_tick(void) {

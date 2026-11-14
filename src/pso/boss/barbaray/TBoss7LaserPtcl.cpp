@@ -18,6 +18,8 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
 
+#pragma readonly_strings on
+
 extern const f32 lbl_805DE9F0;
 extern "C" {
 
@@ -57,7 +59,7 @@ struct Ptcl_8035AD68 {
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__15TBoss7LaserPtcl[];
-extern s32 TBoss7LaserPtcl__class_name;
+const char *TBoss7LaserPtcl__class_name = "TBoss7LaserPtcl";
 
 u8 *TBoss7LaserPtcl__ct(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3);
 extern s32 __vt__13TUnk_804F1C88[];
@@ -99,7 +101,7 @@ void TUnk_804F1C88::render() {  }
 u8 *TBoss7LaserPtcl__ct(u8 *boss7_laser_ptcl, u8 *arg1, u8 *arg2, u8 *arg3) {
     __ct__7TObjectFP7TObject(boss7_laser_ptcl, arg1);
     *(s32 **)((s8 *)boss7_laser_ptcl + 0x18) = &(*(RecoveredGlobal_8035ACBC___vt__15TBoss7LaserPtcl *)&__vt__15TBoss7LaserPtcl).value;
-    *(s32 *)((s8 *)boss7_laser_ptcl + 0) = (s32) TBoss7LaserPtcl__class_name;
+    *(const char **)((s8 *)boss7_laser_ptcl + 0) = TBoss7LaserPtcl__class_name;
     *(f32 *)((s8 *)boss7_laser_ptcl + 0x4C) = (f32) 8e+01f;
     *(s32 *)((s8 *)boss7_laser_ptcl + 0x54) = 0;
     *(s32 *)((s8 *)boss7_laser_ptcl + 0x1C) = 0;

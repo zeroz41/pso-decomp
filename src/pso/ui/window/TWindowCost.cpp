@@ -1,6 +1,8 @@
 #include "types.h"
 #include "pso/ui/window/TWindowCost.h"
 
+#pragma readonly_strings on
+
 
 extern "C" {
 
@@ -16,12 +18,12 @@ TWindowCost::~TWindowCost() {
 }
 
 
-extern void *TWindowCost__class_name;
+const char *TWindowCost__class_name = "TWindowCost";
 
 void *TWindowCost__ct(void *arg0) {
     TWindowMeseta__ct(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TWindowCost;
-    *(void * *)&((TWindowCost *)arg0)->m_name = TWindowCost__class_name;
+    ((TWindowCost *)arg0)->m_name = TWindowCost__class_name;
     get_item_count__24TShopEquipmentSellWindowFv(arg0, 0);
     return arg0;
 }

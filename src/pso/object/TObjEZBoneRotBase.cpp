@@ -9,6 +9,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/math/AngleLookup.h"
 
+#pragma readonly_strings on
+
 struct EZBoneRotKey {
     s32 bone;
     f32 axis[3];
@@ -36,7 +38,8 @@ struct EZBoneRotState {
 extern "C" {
 TObjEZBoneRotBase *TObjEZBoneRotBase__ct(TObjEZBoneRotBase *self, TObject *parent, void *root, EZBoneRotDesc *desc);
 extern s32 __vt__19TObjEZBoneRotPlayer[];
-extern s32 TObjEZBoneRotPlayer__name;
+const char *TObjEZBoneRotBase__name = "TObjEZBoneRotBase";
+const char *TObjEZBoneRotPlayer__name = "TObjEZBoneRotPlayer";
 void *__nw__7TObjectFUl(int);
 
 void TObjEZBoneRotPlayer::run_task() {
@@ -67,7 +70,7 @@ void TObjEZBoneRotPlayer::run_task() {
 u8 *__ct__19TObjEZBoneRotPlayerFv(u8 *arg0, s32 arg1, u8 *arg2, void * _w3) {
     TObjEZBoneRotBase__ct((TObjEZBoneRotBase *)arg0, (TObject *)arg1, arg2, (EZBoneRotDesc *)_w3);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TObjEZBoneRotPlayer;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjEZBoneRotPlayer__name;
+    *(const char **)((s8 *)arg0 + 0) = TObjEZBoneRotPlayer__name;
     *(s32 *)((s8 *)arg0 + 0x98) = arg1;
     *(s32 *)((s8 *)arg0 + 0x9C) = (s32) *(s32 *)((s8 *)(*(s32 *)((s8 *)arg0 + 0x98)) + 0x60);
     return arg0;
@@ -172,7 +175,6 @@ TObjEZBoneRotBase::~TObjEZBoneRotBase() {}
 extern "C" {
 void __ct__7TObjectFP7TObject(TObject *self, TObject *parent);
 extern void *__vt__17TObjEZBoneRotBase[];
-extern const char *TObjEZBoneRotBase__name;
 
 TObjEZBoneRotBase *TObjEZBoneRotBase__ct(TObjEZBoneRotBase *self, TObject *parent, void *root, EZBoneRotDesc *desc) {
     EZBoneRotState *state = (EZBoneRotState *)self;

@@ -64,7 +64,8 @@ void push_matrix(void);
 void post_translate_matrix(void *);
 void set_global_param__8TObjFishFl(void);
 void draw_ginja_object(void);
-extern u32 TObjBigTuitate__bml_resource;
+u32 TObjTuitate__bml_resource;
+u32 TObjBigTuitate__bml_resource;
 
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject();
@@ -153,7 +154,6 @@ void push_matrix(void);
 void post_translate_matrix(void *);
 void set_global_param__8TObjFishFl(void);
 void draw_ginja_object(void);
-extern u32 TObjTuitate__bml_resource;
 
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject();

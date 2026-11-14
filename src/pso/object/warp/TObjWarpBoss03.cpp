@@ -5,6 +5,8 @@
 #include "pso/object/warp/TObjWarpBoss03.h"
 #include "pso/object/warp/TObjAreaWarp.h"
 
+#pragma readonly_strings on
+
 struct VBase_18_26a62c { char pad[0x18]; };
 
 struct VObj_18_26a62c : VBase_18_26a62c {
@@ -52,12 +54,12 @@ TObjWarpBoss03::~TObjWarpBoss03() {
 }
 extern "C" {
 
-extern void *TObjWarpBoss03__name;
+const char *TObjWarpBoss03__name = "TObjWarpBoss03";
 
 void *TObjWarpBoss03__ct(void *warp_boss03) {
     TObjAreaWarp__ct(warp_boss03);
     *(s32 **)((s8 *)warp_boss03 + 0x18) = __vt__14TObjWarpBoss03;
-    *(void * *)&((TObjWarpBoss03 *)warp_boss03)->m_name = TObjWarpBoss03__name;
+    ((TObjWarpBoss03 *)warp_boss03)->m_name = TObjWarpBoss03__name;
     *(f32 *)((s8 *)warp_boss03 + 0xAC) = 2e+01f;
     return warp_boss03;
 }

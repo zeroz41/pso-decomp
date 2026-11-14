@@ -232,8 +232,14 @@ s32 get_main_phase();
 s32 is_local_client_floor_leader();
 s32 TObjWarpBossMulti__sub_8019E570(s32 arg0, f32 farg0);
 void close_windows__12TObjWarpBossFv(void *arg0);
-extern s32 boss_warp_confirmation_model;
-extern s32 warp_boss_motion;
+u32 boss_warp_resource_bundle;
+s32 boss_warp_base_model;
+s32 boss_warp_confirmation_model;
+s32 warp_boss_model;
+s32 warp_boss_motion;
+s32 warp_boss_bml_motion;
+s32 warp_boss_model_handle;
+s32 lbl_805D5CA4;
 extern s32 __vt__12TObjWarpBoss[];
 extern "C" {
 extern u8 lbl_80446480[];
@@ -244,17 +250,11 @@ void *__nw__7TObjectFUl(int);
 extern void *tl_05;
 Obj_8019F578 *TObjWarpBoss__ct(Obj_8019F578 *self, int _w1, void * _w2);
 extern "C" {
-extern u32 boss_warp_resource_bundle;
 extern "C" {
 s32 get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
 s32 load_resource_from_descriptor(s32, void *, s32, s32, s32);
-extern s32 boss_warp_base_model;
-extern s32 warp_boss_model;
-extern s32 warp_boss_bml_motion;
-extern s32 warp_boss_model_handle;
-extern s32 lbl_805D5CA4;
 extern "C" {
 extern "C" {
 extern "C" {

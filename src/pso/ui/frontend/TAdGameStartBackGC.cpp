@@ -10,6 +10,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 
+#pragma readonly_strings on
+
 struct RecoveredGlobal_803074FC___vt__18TAdGameStartBackGC {
     s32 value;
     u8 remaining[0x14];
@@ -18,7 +20,7 @@ struct RecoveredGlobal_803074FC___vt__18TAdGameStartBackGC {
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_803074FC___vt__18TAdGameStartBackGC __vt__18TAdGameStartBackGC;
-extern s32 TAdGameStartBackGC__class_name;
+const char *TAdGameStartBackGC__class_name = "TAdGameStartBackGC";
 s32 game_start_background_texture_list;
 void TAdGameStartBackGC::render_background_status() {
     u8 *arg0 = (u8 *)this;
@@ -75,7 +77,7 @@ u8 *__ct__18TAdGameStartBackGCFv(u8 *object, u8 *arg1) {
     f32 temp_f5_2;
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__18TAdGameStartBackGC.value;
-    *(s32 *)((s8 *)object + 0) = (s32) TAdGameStartBackGC__class_name;
+    *(const char **)((s8 *)object + 0) = TAdGameStartBackGC__class_name;
     *(f32 *)((s8 *)object + 0x5C) = 106.0f;
     *(f32 *)((s8 *)object + 0x60) = 192.0f;
     *(s32 *)((s8 *)object + 0x78) = 0xFF;
