@@ -8291,6 +8291,7 @@ pso/object/jungle/TORockJungleL01.cpp:
 
 pso/object/jungle/TOGrassJungle.cpp:
 	.text       start:0x8029CC68 end:0x8029CEF4
+	.rodata     start:0x80465938 end:0x804659A0
 	.data       start:0x804DC528 end:0x804DC578
 	.sdata      start:0x805D3D48 end:0x805D3D50
 	.sbss       start:0x805D65D8 end:0x805D65E0
@@ -8387,7 +8388,7 @@ pso/ui/charcreate/TChCrTag.cpp:
 
 pso/ui/charcreate/TChCrTagInformation.cpp:
 	.text       start:0x802A1BFC end:0x802A207C
-	.rodata     start:0x80466378 end:0x8046638C
+	.rodata     start:0x80466378 end:0x804663F8
 	.data       start:0x804DCBF8 end:0x804DCC18
 	.sdata      start:0x805D3D98 end:0x805D3DA0
 	.sdata2     start:0x805DDE10 end:0x805DDE28
@@ -10194,8 +10195,11 @@ pso/unk/text_8033F314.cpp:
 
 pso/ui/frontend/TAdPlyStatusGC.cpp:
 	.text       start:0x8033F380 end:0x8033FD48
-	.data       start:0x804EFAC0 end:0x804EFB58
+	.rodata     start:0x804783F8 end:0x80478418
+	.data       start:0x804EFAC0 end:0x804EFB70
+	.sdata      start:0x805D42C0 end:0x805D42C8
 	.sbss       start:0x805D6DA8 end:0x805D6DC0
+	.sdata2     start:0x805DFAE0 end:0x805DFAF8
 
 pso/ui/frontend/TAdPlyStatusGC_8033FD48.cpp:
 	.text       start:0x8033FD48 end:0x803403F8

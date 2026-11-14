@@ -669,6 +669,12 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/unk/TUnk_8048E1A4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TUnk_804CC870.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowSubStatusDisp_80288030.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    # the class name and ":%04d:%02d'" sit in .rodata, ":%s" in .sdata2: -str reuse,readonly.
+    "pso/ui/frontend/TAdPlyStatusGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # the five model, archive and class-name strings 0x80465938-0x804659A0 sit in .rodata: -str reuse,readonly.
+    "pso/object/jungle/TOGrassJungle.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # draw_char_info_sprites reaches each .rodata position template with its own lis/addi: -pool off.
+    "pso/ui/charcreate/TChCrTagInformation.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
     # "TObjEneBm3Fly" sits in .rodata at 0x8043B0EC
     "pso/enemy/fly/TObjEneBm3Fly.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # "TAdPlyChrSelPlateGC" sits in .rodata at 0x80471A60
