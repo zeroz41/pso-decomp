@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/object/warp/TObjAreaWarp.h"
 
+struct AnimationMotion;
+
 struct TObjCityMainWarpChallenge : public TObjAreaWarp {
     TObjCityMainWarpChallenge(TObject *parent, void *set_data);
     virtual ~TObjCityMainWarpChallenge();
@@ -14,9 +16,10 @@ struct TObjCityMainWarpChallenge : public TObjAreaWarp {
     void trigger_warp_effect(s32);
     void send_6x6A_set_boss_warp_flags(u16);
     s32 are_all_players_in_range();
-    u8 _padC4[0xC];
-    u32 m_d0;
-    u32 m_d4;
+    f32 frame;  // motion frame: run_task steps it by 4 and wraps at the motion's frame count
+    u8 pad_c8[0x8];
+    s32 model;                // city common model 0 (draw_ginja_model_with_motion)
+    AnimationMotion *motion;  // city common motion 5
     u8 _padD8[0x4];
     s16 next_state;
     s16 state;
@@ -30,7 +33,7 @@ struct TObjCityMainWarpChallenge : public TObjAreaWarp {
     u8 _pad160[0x4];
     void *player_list_window;
     void *yes_no_window;
-    u32 m_16c;
+    s32 key_id;  // set_params[1] if 0..0xFF, else -1 ("<- KEY ID : %d")
     void update_state();
     void render();
     void run_task();
@@ -40,7 +43,7 @@ struct TObjCityMainWarpChallenge : public TObjAreaWarp {
 };
 
 typedef char TObjCityMainWarpChallenge_size[sizeof(TObjCityMainWarpChallenge) == 0x180 ? 1 : -1];
-typedef char TObjCityMainWarpChallenge_m_d0[offsetof(TObjCityMainWarpChallenge, m_d0) == 0xD0 ? 1 : -1];
+typedef char TObjCityMainWarpChallenge_m_d0[offsetof(TObjCityMainWarpChallenge, model) == 0xD0 ? 1 : -1];
 typedef char TObjCityMainWarpChallenge_m_174[offsetof(TObjCityMainWarpChallenge, m_174) == 0x174 ? 1 : -1];
 
 

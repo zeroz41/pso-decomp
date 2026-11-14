@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/object/warp/TObjCityMainWarpChallenge.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
+#include "pso/system/BmlResource.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
@@ -57,7 +58,7 @@ void begin_player_keyboard_hold(s32 arg0);
 s32 get_window_layout_position(s32);
 s32 free_member__17TWindowSubComCardFv(void *, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, s32, s32, f32);
-extern void *city_common_model_archive;
+extern BmlResource *city_common_model_archive;
 s32 get_main_phase();
 extern s32 city_main_warp_destination_id;
 
@@ -106,8 +107,8 @@ void TObjCityMainWarp::update_warp_sequence() {
         *(s32 *)((s8 *)arg0 + 0x160) = 0x12C;
         play_sound_effect(0x40003205, (u8 *)&arg0->position, 0, 0);
         arg0->m_e0 = 1;
-        arg0->m_d0 = *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 8);
-        arg0->m_d4 = *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x2C);
+        arg0->model = city_common_model_archive->models[0].model;
+        arg0->motion = city_common_model_archive->motions[5].motion;
         break;
     case 1:
         if (((u32 (*)(f32))find_local_player_in_range__16TObjCityMainWarpFf)(arg0->warp_range) != 0) {

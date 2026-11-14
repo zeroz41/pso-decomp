@@ -18,6 +18,8 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/system/BmlResource.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/map/FloorArea.h"
@@ -63,8 +65,6 @@ struct CityMainWarpChalVObj_80187824 : CityMainWarpChalBase_80187824 {
     virtual s32 m8(f32, f32);
 };
 
-struct Warp_80187B50 { u8 pad[0x144]; s32 arr[4]; };
-
 extern "C" {
 f32 xz_distance_squared(void *, void *);
 char *strcpy(char *, const char *);
@@ -81,65 +81,52 @@ s32 free_member__17TWindowSubComCardFv(void *, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, s32, s32, f32);
 s32 get_main_phase();
 extern s32 city_main_warp_destination_id;
-s32 register_entity_by_id(void *, int, f32);
-extern s32 __vt__25TObjCityMainWarpChallenge[];
-extern u8 *city_common_model_archive;
+extern BmlResource *city_common_model_archive;
 s32 post_translate_matrix(void *);
 s32 update_floor_switch_state__16TObjCityMainWarpFv();
 s32 update_warp_sequence__16TObjCityMainWarpFv();
 s32 draw_ginja_model_with_motion(s32, s32, f32);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
-s32 __dl__7TObjectFPv(void *);
-u8 *__dt__12TObjAreaWarpFv(u8 *arg0, s16 arg1);
 s32 update_challenge_warp_window();
 s32 update_state__16TObjCityMainWarpFv();
 extern s32 camera_ctrl_instance;
 extern s32 city_common_texture_list;
 
 TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
-    s32 var_r3;
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s32 temp_r4;
-    s32 var_ctr;
     m_name = lbl_805D32B8;
-    *(f32 *)((s8 *)this + 0xC4) = 0.0f;
+    frame = 0.0f;
     warp_range = 19.0f;
-    dest_floor = (s32) set_params[0];
-    temp_r4 = dest_floor;
-    city_main_warp_destination_id = temp_r4;
-    *(s32 *)((s8 *)this + 0xA4) = 0;
-    register_entity_by_id(this, temp_r4, 0.0f);
-    *(s32 *)((s8 *)this + 0x164) = 0;
-    *(s32 *)((s8 *)this + 0x168) = 0;
+    dest_floor = set_params[0];
+    city_main_warp_destination_id = dest_floor;
+    bodies = NULL;
+    register_entity_by_id(this);
+    player_list_window = NULL;
+    yes_no_window = NULL;
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {
-        *(s32 *)((s8 *)this + 0x16C) = -1;
+        key_id = -1;
+    } else if (set_params[1] < 0 || set_params[1] > 0xFF) {
+        key_id = -1;
     } else {
-        temp_r0 = *(s32 *)((s8 *)this + 0x88);
-        if ((temp_r0 < 0) || (temp_r0 > 0xFF)) {
-            *(s32 *)((s8 *)this + 0x16C) = -1;
-        } else {
-            *(s32 *)((s8 *)this + 0x16C) = temp_r0;
-        }
+        key_id = set_params[1];
     }
-    if ((s32) *(s32 *)((s8 *)this + 0x16C) >= 0) {
-        *(s16 *)((s8 *)this + 0xDC) = 4;
-        *(s16 *)((s8 *)this + 0xDE) = 4;
+    if (key_id >= 0) {
+        next_state = 4;
+        state = 4;
     } else {
-        *(s16 *)((s8 *)this + 0xDC) = 0;
-        *(s16 *)((s8 *)this + 0xDE) = 0;
+        next_state = 0;
+        state = 0;
     }
-    *(s16 *)((s8 *)this + 0xE0) = 0;
-    *(s16 *)((s8 *)this + 0xE2) = 0;
-    *(s32 *)((s8 *)this + 0xD0) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)city_common_model_archive + 0x42C)) + 8);
-    *(s32 *)((s8 *)this + 0xD4) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)city_common_model_archive + 0x430)) + 0x2C);
-    if ((u32) field_collider != 0U) {
-        ((TObject *)(*(void **)((s8 *)this + 0xB4)))->queue_destruction();
-        field_collider = 0U;
+    m_e0 = 0;
+    m_e2 = 0;
+    model = city_common_model_archive->models[0].model;
+    motion = city_common_model_archive->motions[5].motion;
+    if (field_collider != NULL) {
+        ((TObject *)field_collider)->queue_destruction();
+        field_collider = NULL;
     }
-    for (var_ctr = 0; var_ctr < 4; var_ctr++) {
-        ((Warp_80187B50 *)this)->arr[var_ctr] = 0;
+    for (int i = 0; i < 4; i++) {
+        player_in_range[i] = 0;
     }
 }
 
@@ -346,8 +333,8 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
         *(s32 *)((s8 *)arg0 + 0x170) = 0;
         *(s32 *)((s8 *)arg0 + 0x174) = 0;
         *(s16 *)((s8 *)arg0 + 0xE0) = 1;
-        *(s32 *)((s8 *)arg0 + 0xD0) = *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 8);
-        *(s32 *)((s8 *)arg0 + 0xD4) = *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x2C);
+        model = city_common_model_archive->models[0].model;
+        motion = city_common_model_archive->motions[5].motion;
         break;
     case 1:
         if (((u32 (*)(f32))find_local_player_in_range__16TObjCityMainWarpFf)(*(f32 *)((s8 *)arg0 + 0xAC)) != 0) {
