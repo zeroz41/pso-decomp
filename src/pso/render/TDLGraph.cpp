@@ -79,9 +79,6 @@ void TCameraCtrl__sub_80068EF0(void);
 void fn_8007F27C(TDLGraph_8007F66C *self, void *a, void *b);
 extern u8 lbl_80438AA4[];
 extern u8 lbl_80438AAC[];
-extern const f32 lbl_805D92CC;
-extern const f32 lbl_805D92D0;
-extern const f32 lbl_805D92D4;
 void TDLGraph::sub_8007F644() {
     this->m_3c = 0;
     sub_8007F5A4();
@@ -92,8 +89,8 @@ void TDLGraph::render() {
     set_default_alpha_blend();
     TCameraCtrl::restore_full_screen_view();
     fn_8007F27C(self, lbl_80438AA4, lbl_80438AAC);
-    ((TDLGraph *)self)->draw_countdown_timer(lbl_805D92CC, lbl_805D92D0);
-    ((TDLGraph *)self)->draw_percent_text(lbl_805D92D4, lbl_805D92D0);
+    ((TDLGraph *)self)->draw_countdown_timer(543.0f, 418.0f);
+    ((TDLGraph *)self)->draw_percent_text(615.0f, 418.0f);
     TCameraCtrl__sub_80068EF0();
     ((TDLGraph *)self)->sub_8007F5A4();
     self->frame++;

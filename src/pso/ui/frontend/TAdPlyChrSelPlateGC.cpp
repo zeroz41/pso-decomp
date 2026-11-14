@@ -67,11 +67,7 @@ void TAdPlyChrSelPlateGC::render() {
 }
 
 extern "C" {
-extern const f32 lbl_805DE54C;
 void copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *, void *);
-extern const f32 lbl_805DE550;
-extern const f32 lbl_805DE554;
-extern const f32 lbl_805DE558;
 bool TAdPlyChrSelPlateGC::is_slot_value_ready(s32 i) {
     O_802C4D5C *self = (O_802C4D5C *)this;
     return (self->v[i] >= 127.5f) ? true : false;
@@ -83,7 +79,7 @@ void TAdPlyChrSelPlateGC::reset_selection_slots() {
     arg0->f224 = 0;
     for (i = 0; i < 0x20; i++) {
         arg0->a[i] = 0;
-        arg0->fl[i] = lbl_805DE54C;
+        arg0->fl[i] = 0.0f;
         arg0->c[i].b[0] = 0;
         arg0->c[i].b[1] = 0;
         arg0->c[i].b[2] = 0;
@@ -120,7 +116,7 @@ void TAdPlyChrSelPlateGC::run_task() {
                 self->c[i].b[3] = 0x22;
                 self->a[i] = 1;
             } else {
-                self->fl[i] += lbl_805DE550;
+                self->fl[i] += 255.0f;
                 self->fl[i] = (self->fl[i] > 127.5f) ? 127.5f : self->fl[i];
                 self->c[i].b[2] = self->col[2];
                 self->c[i].b[1] = self->col[1];
@@ -130,7 +126,7 @@ void TAdPlyChrSelPlateGC::run_task() {
             for (j = 0; j < 32; j++) {
                 s32 k = 0;
                 self->v1C[j].x = self->v11C[j].x;
-                self->v1C[j].y += (self->v11C[j].y - self->v11C[0].y) / (lbl_805DE558 * (f32)k + lbl_805DE554);
+                self->v1C[j].y += (self->v11C[j].y - self->v11C[0].y) / (5.0f * (f32)k + 30.0f);
                 self->v1C[j].y = (self->v1C[j].y > self->v11C[j].y) ? self->v11C[j].y : self->v1C[j].y;
             }
         }
@@ -179,7 +175,7 @@ S_802C5040 *__ct__19TAdPlyChrSelPlateGCFv(S_802C5040 *arg0, s32 arg1, Arg_802C50
     arg0->f224 = 0;
     for (i = 0; i < 0x20; i++) {
         arg0->a[i] = 0;
-        arg0->fl[i] = lbl_805DE54C;
+        arg0->fl[i] = 0.0f;
         arg0->c[i].b[0] = 0;
         arg0->c[i].b[1] = 0;
         arg0->c[i].b[2] = 0;

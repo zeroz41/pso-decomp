@@ -22,11 +22,6 @@ struct W_80290250 { u8 pad[0xfc]; s32 bufp; s32 rc; u8 data[4]; };
 
 struct Opaque_80290088;
 
-extern const f32 lbl_805DD944;
-extern const f32 lbl_805DD948;
-extern const f32 lbl_805DD94C;
-extern const f32 lbl_805DD950;
-extern const f32 lbl_805DD954;
 s32 find_shape_triangle_region(u8 *arg0);
 TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(void *figure, void *list, void *slot, void *index);
 extern "C" {
@@ -309,7 +304,6 @@ u32 relocate_data_block_pointers(u32 arg0, u32 arg1);
 extern s32 char_select_active_flag;
 void reset_character_creation_figure_rotation(void);
 extern void *creation_menu_main_obj;
-extern const f32 lbl_805DD940;
 extern "C" {
 
 void TCharaMaking__bind_head_shape_nodes(CharacterAppearanceFields *appearance, void *model);
@@ -355,9 +349,9 @@ void *TCMCharacter__ct(void *motion, void *arg1) {
     ((TObjMotion *)motion)->requested_action = creation_motion_group(creation_player_character);
     ((TObjMotion *)motion)->set_animation(((TObjMotion *)motion)->requested_action);
     *(s32 *)((s8 *)motion + 0xE0) = (s32)mem_alloc(0xC00);
-    *(f32 *)((s8 *)motion + 0x40) = lbl_805DD940;
-    *(f32 *)((s8 *)motion + 0x3C) = lbl_805DD940;
-    *(f32 *)((s8 *)motion + 0x38) = lbl_805DD940;
+    *(f32 *)((s8 *)motion + 0x40) = 0.0f;
+    *(f32 *)((s8 *)motion + 0x3C) = 0.0f;
+    *(f32 *)((s8 *)motion + 0x38) = 0.0f;
     ((TObjMotion *)motion)->rotation_z = 0;
     ((TObjMotion *)motion)->rotation_y = 0;
     *(s32 *)((s8 *)motion + 0x5C) = 0;
@@ -753,27 +747,27 @@ s32 find_shape_triangle_region(u8 *arg0) {
     f32 temp_f4;
     f32 temp_f4_2;
     temp_f3 = *(f32 *)((s8 *)arg0 + 0);
-    if (temp_f3 > lbl_805DD948) {
-        if ((lbl_805DD94C * (temp_f3 - lbl_805DD948)) <= *(f32 *)((s8 *)arg0 + 4)) {
+    if (temp_f3 > 0.6666667f) {
+        if ((3.0f * (temp_f3 - 0.6666667f)) <= *(f32 *)((s8 *)arg0 + 4)) {
             return 6;
         }
         return 7;
     }
-    if (temp_f3 <= lbl_805DD950) {
+    if (temp_f3 <= 0.33333334f) {
         temp_f4 = *(f32 *)((s8 *)arg0 + 4);
-        if (temp_f3 >= (lbl_805DD948 * temp_f4)) {
+        if (temp_f3 >= (0.6666667f * temp_f4)) {
             return 0;
         }
-        if (temp_f3 <= (lbl_805DD954 * (temp_f4 - lbl_805DD944))) {
+        if (temp_f3 <= (-0.6666667f * (temp_f4 - 1.0f))) {
             return 1;
         }
         return 2;
     }
     temp_f4_2 = *(f32 *)((s8 *)arg0 + 4);
-    if (temp_f3 <= (lbl_805DD954 * (temp_f4_2 - lbl_805DD944))) {
+    if (temp_f3 <= (-0.6666667f * (temp_f4_2 - 1.0f))) {
         return 3;
     }
-    if (temp_f3 >= (lbl_805DD948 * temp_f4_2)) {
+    if (temp_f3 >= (0.6666667f * temp_f4_2)) {
         return 4;
     }
     return 5;
@@ -838,7 +832,7 @@ void calc_shape_region_coefficients(f32 *point) {
     v = d / v;
     creation_shape_blend.weights[2] = u;
     creation_shape_blend.weights[1] = v;
-    creation_shape_blend.weights[0] = lbl_805DD944 - (v + u);
+    creation_shape_blend.weights[0] = 1.0f - (v + u);
 }
 s32 clear_creation_shape_eval_masks(f32 *dst, const f32 *a, const f32 *b, const f32 *c) {
     s32 i;
@@ -909,7 +903,7 @@ s32 blend_shape_chunk_vertices(void) {
                        (creation_shape_blend.weights[0] * bits_to_f32(*a++) + creation_shape_blend.weights[1] * bits_to_f32(*b++));
                 v[2] = creation_shape_blend.weights[2] * bits_to_f32(*c++) +
                        (creation_shape_blend.weights[0] * bits_to_f32(*a++) + creation_shape_blend.weights[1] * bits_to_f32(*b++));
-                if (vector_length(v) != lbl_805DD940) {
+                if (vector_length(v) != 0.0f) {
                     normalize_vector(v);
                 }
                 d[0] = f32_bits(v[0]);

@@ -153,8 +153,6 @@ void clear_resource_load_tasks();
 void init_map_lights(u8 *arg0);
 void set_screen_size(f32, f32);
 extern u8 default_scene_light_config[];
-extern const float lbl_805DAC4C;
-extern const f32 lbl_805DAC50;
 extern "C" {
 void TItemReverseTech__sub_8011A54C(void* a0);
 int TItemReverseTech__sub_8011A55C(void);
@@ -172,14 +170,14 @@ void TItemReverseTech__sub_8011A5A4(void) {  }
 int TItemReverseTech__sub_8011A580(void) { return set_global_flags__6TLobbyFl((void*)(1)); }
 int TItemReverseTech__sub_8011A55C(void) { return set_global_flags__6TLobbyFl((void*)(2)); }
 
-void TItemReverseTech__sub_8011A54C(void* a0) { *(float*)((char*)a0 + 0x20) = lbl_805DAC4C; *(float*)((char*)a0 + 0x24) = lbl_805DAC4C; }
+void TItemReverseTech__sub_8011A54C(void* a0) { *(float*)((char*)a0 + 0x20) = 1.0f; *(float*)((char*)a0 + 0x24) = 1.0f; }
 
 void TItemReverseTech::init_scene() {
     Ent_8011A43C *e;
     u32 i;
     void (*fn)();
     void *cam;
-    set_screen_size((*(const f32 *)&lbl_805DAC4C), lbl_805DAC50);
+    set_screen_size(1.0f, 0.85f);
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
     clear_resource_load_tasks();
@@ -486,7 +484,7 @@ u8 *__ct__21TItemReverseTechPart2Fv(u8 *object, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)object + 0x54) = 0xE;
     *(f32 *)((s8 *)object + 0x58) = (f32) lbl_805DAC08[0];
     *(f32 *)((s8 *)object + 0x5C) = (f32) lbl_805DAC08[0];
-    *(f32 *)((s8 *)object + 0x60) = (f32) 1e+02f;
+    *(f32 *)((s8 *)object + 0x60) = 1e+02f;
     *(f32 *)((s8 *)object + 0x64) = (f32) lbl_805DAC0C[0];
     *(f32 *)((s8 *)object + 0x70) = 0.5f;
     *(f32 *)((s8 *)object + 0x68) = 0.1953125f;
@@ -506,7 +504,7 @@ u8 *__ct__21TItemReverseTechPart2Fv(u8 *object, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)object + 0xAC) = 0xE;
     *(f32 *)((s8 *)object + 0xB0) = (f32) lbl_805DAC08[0];
     *(f32 *)((s8 *)object + 0xB4) = (f32) lbl_805DAC08[0];
-    *(f32 *)((s8 *)object + 0xB8) = (f32) 1e+02f;
+    *(f32 *)((s8 *)object + 0xB8) = 1e+02f;
     *(f32 *)((s8 *)object + 0xBC) = (f32) lbl_805DAC0C[0];
     *(f32 *)((s8 *)object + 0xC8) = 0.6f;
     *(f32 *)((s8 *)object + 0xC0) = 0.1953125f;
@@ -517,8 +515,8 @@ u8 *__ct__21TItemReverseTechPart2Fv(u8 *object, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)object + 0xD8) = 0;
     *(f32 *)((s8 *)object + 0xDC) = 316.0f;
     *(f32 *)((s8 *)object + 0xE0) = 32.0f;
-    *(f32 *)((s8 *)object + 0xE4) = (f32) 3e+02f;
-    *(f32 *)((s8 *)object + 0xE8) = (f32) 3e+02f;
+    *(f32 *)((s8 *)object + 0xE4) = 3e+02f;
+    *(f32 *)((s8 *)object + 0xE8) = 3e+02f;
     *(f32 *)((s8 *)object + 0xF4) = 0.3f;
     *(s32 *)((s8 *)object + 0xF8) = 0x12C;
     *(s32 *)((s8 *)object + 0xFC) = 0;
@@ -526,14 +524,14 @@ u8 *__ct__21TItemReverseTechPart2Fv(u8 *object, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)object + 0x104) = 0;
     *(f32 *)((s8 *)object + 0x108) = 316.0f;
     *(f32 *)((s8 *)object + 0x10C) = 148.0f;
-    *(f32 *)((s8 *)object + 0x110) = (f32) 3e+02f;
-    *(f32 *)((s8 *)object + 0x114) = (f32) 3e+02f;
+    *(f32 *)((s8 *)object + 0x110) = 3e+02f;
+    *(f32 *)((s8 *)object + 0x114) = 3e+02f;
     *(f32 *)((s8 *)object + 0x120) = 0.3f;
     *(s32 *)((s8 *)object + 0x124) = 0x1194;
     *(s32 *)((s8 *)object + 0x128) = 0x1E;
     *(s32 *)((s8 *)object + 0x12C) = arg2;
     *(s32 *)((s8 *)object + 0x130) = 0xF;
-    *(f32 *)((s8 *)object + 0x134) = (f32) 1e+01f;
+    *(f32 *)((s8 *)object + 0x134) = 1e+01f;
     *(f32 *)((s8 *)object + 0x138) = (f32) lbl_805DAC08[0];
     *(f32 *)((s8 *)object + 0x13C) = 3.4e+02f;
     *(f32 *)((s8 *)object + 0x140) = (f32) lbl_805DAC0C[0];

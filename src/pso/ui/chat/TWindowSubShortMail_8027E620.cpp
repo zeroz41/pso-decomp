@@ -756,7 +756,6 @@ extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 TWindowSubStatusDisp__ct(int, int);
 }
-extern const f32 lbl_805DD6DC;
 u8 *construct_status_category_window(u8 *arg0, s32 arg1, s32 arg2) {
     s32 storage;
     s32 var_r0;
@@ -772,8 +771,8 @@ u8 *construct_status_category_window(u8 *arg0, s32 arg1, s32 arg2) {
     }
     ((TUnk_804D1AD0 *)arg0)->m_28 = var_r0;
     if (TCameraCtrl::get_camera_id() > 2) {
-        ((TWindowAddition *)(*(s32 *)((s8 *)arg0 + 0x24)))->set_position_xy(lbl_805DD6DC, lbl_805DD6DC);
-        fn_8027FD88((void *)(((TUnk_804D1AD0 *)arg0)->m_28), lbl_805DD6DC, lbl_805DD6DC);
+        ((TWindowAddition *)(*(s32 *)((s8 *)arg0 + 0x24)))->set_position_xy(0.84f, 0.84f);
+        fn_8027FD88((void *)(((TUnk_804D1AD0 *)arg0)->m_28), 0.84f, 0.84f);
     }
     return arg0;
 }

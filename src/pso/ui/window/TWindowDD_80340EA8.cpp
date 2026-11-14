@@ -21,7 +21,6 @@ extern "C" void render_shadows__7TObjectFv();
 struct W_80340F00 { s32 f0; u8 pad4[0x14]; void *p18; u8 pad1c[0x5C - 0x1C]; s32 f5c; u8 pad60[4]; f32 f64; f32 f68; f32 f6c; };
 extern s32 lbl_805D42D0;
 extern const f32 lbl_805DFC50;
-extern const f32 lbl_805DFC70;
 __declspec(section ".data") void *lbl_804EFBC8[2] = {
     (void *)0x0, (void *)0x0,
 };
@@ -52,8 +51,8 @@ W_80340F00 *construct_variant_b__9TWindowDDFPv(W_80340F00 *arg0) {
     ((TWindowDD *)arg0)->construct_base((u8 *)lbl_804EFBD0, (s16)4, (u8 *)lbl_804EFBC8);
     arg0->p18 = lbl_804EFBE4;
     arg0->f0 = lbl_805D42D0;
-    arg0->f64 = lbl_805DFC70;
-    arg0->f68 = lbl_805DFC70;
+    arg0->f64 = 6.0f;
+    arg0->f68 = 6.0f;
     arg0->f6c = lbl_805DFC50;
     arg0->f5c = 0x01000000;
     return arg0;
@@ -68,7 +67,6 @@ void *TWindowDD__sub_80340F70(void) {
 }
 
 extern const f32 TWindowDD__data_805DFB18;
-extern const f32 lbl_805DFC74;
 extern const f32 lbl_805DFBCC;
 extern const f32 lbl_805DFB34;
 extern const f32 lbl_805DFB3C;
@@ -76,14 +74,8 @@ extern const f32 lbl_805DFB2C;
 extern const f32 lbl_805DFB38;
 extern const f32 lbl_805DFB30;
 extern const f32 lbl_805DFC64;
-extern const f32 lbl_805DFC84;
-extern const f32 lbl_805DFC78;
-extern const f32 lbl_805DFC88;
 extern const f32 lbl_805DFBC4;
 extern const f32 lbl_805DFBBC;
-extern const f32 lbl_805DFC7C;
-extern const f32 lbl_805DFC80;
-extern const f32 lbl_805DFC8C;
 extern const f32 lbl_805DFBC8;
 extern const f32 lbl_805DFBC0;
 extern const f32 lbl_805DFC24;
@@ -106,8 +98,8 @@ extern f32 lbl_805D6DFC;
 extern f32 lbl_805D6E00;
 
 void __sinit_TWindowDD_80340EA8_cpp(void) {
-    lbl_805D6DC0 = lbl_805DFC74 + lbl_805DFBCC;
-    lbl_805D6DC4 = lbl_805DFC64 + (lbl_805DFC74 + lbl_805DFBCC);
+    lbl_805D6DC0 = 17.0f + lbl_805DFBCC;
+    lbl_805D6DC4 = lbl_805DFC64 + (17.0f + lbl_805DFBCC);
     lbl_805D6DC8 = TWindowDD__data_805DFB18;
     lbl_805D6DCC = lbl_805DFB34 * lbl_805D6DC8;
     lbl_805D6DD0 = lbl_805D6DC8 * (lbl_805DFB34 + lbl_805DFB3C);
@@ -115,14 +107,14 @@ void __sinit_TWindowDD_80340EA8_cpp(void) {
     lbl_805D6DD8 = lbl_805D6DC8 * (lbl_805DFB2C + lbl_805DFB38);
     lbl_805D6DDC = lbl_805DFB30 * lbl_805D6DC8;
     lbl_805D6DE0 = lbl_805D6DC8 * (lbl_805DFB30 + lbl_805DFB38);
-    lbl_805D6DE4 = lbl_805DFC78 * lbl_805D6DC8;
-    lbl_805D6DE8 = lbl_805DFC7C * lbl_805D6DC8;
-    lbl_805D6DEC = lbl_805DFC80 * lbl_805D6DC8;
-    lbl_805D6DF0 = lbl_805DFC84 * lbl_805D6DC8;
-    lbl_805D6DF4 = lbl_805DFC88 * lbl_805D6DC8;
-    lbl_805D6DF8 = lbl_805DFC8C * lbl_805D6DC8;
-    lbl_805D6DFC = lbl_805DFC84 * lbl_805D6DC8;
-    lbl_805D6E00 = lbl_805DFC88 * lbl_805D6DC8;
+    lbl_805D6DE4 = 224.0f * lbl_805D6DC8;
+    lbl_805D6DE8 = 238.0f * lbl_805D6DC8;
+    lbl_805D6DEC = 58.0f * lbl_805D6DC8;
+    lbl_805D6DF0 = 72.0f * lbl_805D6DC8;
+    lbl_805D6DF4 = 86.0f * lbl_805D6DC8;
+    lbl_805D6DF8 = 100.0f * lbl_805D6DC8;
+    lbl_805D6DFC = 72.0f * lbl_805D6DC8;
+    lbl_805D6E00 = 86.0f * lbl_805D6DC8;
     ((f32 *)lbl_804EFBC8)[0] = lbl_805DFBC4;
     ((f32 *)lbl_804EFBC8)[1] = lbl_805DFBC8;
     ((f32 *)lbl_804EFBD0)[0] = lbl_805DFBBC;

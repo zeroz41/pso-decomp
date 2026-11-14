@@ -100,8 +100,6 @@ TWindowSubComCardList *draw_card_icon__17TWindowSubComCardFll(s32 layout, s32 ki
 extern s32 local_client_id;
 s32 draw_text_gray__17TWindowSubComCardFllll(void *list, void *text, int kind, int id);
 s32 is_trade_range_bit_set(s32 client);
-extern const f32 lbl_805DE29C;
-extern const f32 lbl_805DE2A0;
 
 // The caller passes its TWindowSubTrade in r3; the body never reads it.
 TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
@@ -134,7 +132,7 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
         draw_text_gray__17TWindowSubComCardFllll(list, TWindowSubStatusDisp::get_message_10(0xD2), 7, 0);
     }
     list->set_flag70_bit10();
-    list->set_scroll_target(lbl_805DE29C, lbl_805DE2A0);
+    list->set_scroll_target(224.0f, 88.0f);
     return list;
 }
 

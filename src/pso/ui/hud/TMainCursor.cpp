@@ -301,13 +301,12 @@ extern "C" {
 void draw_chunk_object(void);
 
 extern const f32 TMainCursor__data_805DB0C0;
-extern const f32 TMainCursor__data_805DB0CC;
 
 void TMainCursor::update_photon_chair() {
     s32 arg0 = (s32)this;
     if (((TMainCursor *)(arg0 + 0x4C))->get_pos() > 0.99999f) {
         save_model_draw_state((void*)(arg0 + 0x4C));
-        begin_constant_color_draw_argb((void *)(arg0 + 0x4C), TMainCursor__data_805DB0CC, TMainCursor__data_805DB0C0, TMainCursor__data_805DB0C0, TMainCursor__data_805DB0C0);
+        begin_constant_color_draw_argb((void *)(arg0 + 0x4C), 1.0f, TMainCursor__data_805DB0C0, TMainCursor__data_805DB0C0, TMainCursor__data_805DB0C0);
         TMainCursor::get_cursor_state();
         draw_chunk_object();
         restore_model_draw_state((void*)(arg0 + 0x4C));
@@ -454,8 +453,6 @@ s32 TMainCursor::check_can_pickup() {
 }
 
 extern const f32 TMainCursor__data_805DB0C0;
-extern const f32 TMainCursor__data_805DB0CC;
-extern const f32 lbl_805DB0D0;
 
 #pragma push
 #pragma opt_common_subs off
@@ -593,7 +590,7 @@ void TMainCursor::run_task() {
     }
     switch (this->m_1c) {
     case 0:
-        *(f32 *)&this->unk_30 = (f32) (*(f32 *)&this->unk_30 - TMainCursor__data_805DB0CC);
+        *(f32 *)&this->unk_30 = (f32) (*(f32 *)&this->unk_30 - 1.0f);
         if (!(*(f32 *)&this->unk_30 > *(f32 *)&this->m_34)) {
             *(f32 *)&this->unk_30 = (f32) *(f32 *)&this->unk_28;
             this->m_1c = 1;
@@ -608,7 +605,7 @@ void TMainCursor::run_task() {
     case 1:
         return;
     case 2: {
-        f32 distance = ((TMainCursor *)(arg0 + 0x4C))->get_pos() - lbl_805DB0D0;
+        f32 distance = ((TMainCursor *)(arg0 + 0x4C))->get_pos() - 0.2f;
         if (distance > TMainCursor__data_805DB0C0) {
             TMainCursor__sub_8013F180((u8 *)&this->m_4c, distance);
             return;
@@ -635,10 +632,6 @@ extern s32 __vt__11TMainCursor[];
 s32 check_field_24__11TMainCursorFv();
 u8 update_sub_60__11TMainCursorFv(void *);
 s32 get_rader_map__11TMainCursorFv(void *, void *);
-extern const f32 TMainCursor__data_805DB0CC;
-extern const f32 lbl_805DB0D4;
-extern const f32 lbl_805DB0D8;
-extern const f32 lbl_805DB0DC;
 void *__dt__11TMainCursorFv(void *arg0, s16 arg1);
 
 void __dt__7TObjectFv(void *, int);
@@ -669,11 +662,11 @@ void TMainCursor::refresh_target_marker() {
         return;
     }
     this->m_1c = 0;
-    *(f32 *)&this->unk_28 = (f32) lbl_805DB0D4;
-    *(f32 *)&this->m_34 = *(f32 *)&this->unk_28 - TMainCursor__data_805DB0CC;
-    *(f32 *)&this->unk_38 = lbl_805DB0D8 + *(f32 *)&this->unk_28;
+    *(f32 *)&this->unk_28 = 3.75f;
+    *(f32 *)&this->m_34 = *(f32 *)&this->unk_28 - 1.0f;
+    *(f32 *)&this->unk_38 = 5.0f + *(f32 *)&this->unk_28;
     *(f32 *)&this->unk_30 = *(f32 *)&this->unk_38;
-    this->m_3c = lbl_805DB0DC;
+    this->m_3c = 0.5f;
     this->update_position();
     if (check_can_pickup() != 0) {
         this->check_flag_4();
@@ -737,8 +730,6 @@ f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 f32 vec3_dot(void *, void *);
 extern const f32 TMainCursor__data_805DB0C0;
-extern const f32 TMainCursor__data_805DB0CC;
-extern const f32 lbl_805DB0E0;
 s32 target_in_vertical_cone(Vec_8013BF0C *p, Vec_8013BF0C *q, s32 yaw, f32 range, f32 dist);
 extern Vec_8013C0A0 scratch_vec;
 s32 target_in_xz_cone(Vec_8013C0A0 *p, Vec_8013C0A0 *q, Vec_8013C0A0 *r, s32 yaw, f32 range, f32 dist);
@@ -769,7 +760,7 @@ s32 target_in_vertical_cone(Vec_8013BF0C *p, Vec_8013BF0C *q, s32 yaw, f32 range
     f32 x;
     f32 y;
     f32 z;
-    if (lbl_805DB0E0 < range && range < TMainCursor__data_805DB0CC) {
+    if (-1.0f < range && range < 1.0f) {
         if (TMainCursor__data_805DB0C0 == dist) {
             a.x = q->x - p->x;
             a.y = TMainCursor__data_805DB0C0;
@@ -810,7 +801,7 @@ s32 target_in_xz_cone(Vec_8013C0A0 *p, Vec_8013C0A0 *q, Vec_8013C0A0 *r, s32 yaw
     Vec_8013C0A0 b;
     f32 x;
     f32 z;
-    if (lbl_805DB0E0 < range && range < TMainCursor__data_805DB0CC) {
+    if (-1.0f < range && range < 1.0f) {
         a.x = sin_table_lookup(yaw);
         a.y = TMainCursor__data_805DB0C0;
         a.z = cos_table_lookup(yaw);
@@ -1170,8 +1161,6 @@ Tech_8013CDE4 *get_photon_blast_entry__10TObjPlayerFi(s16);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 extern f32 lbl_8050BF60[3];
-extern const f32 interaction_cursor_radius;
-extern const f32 ryuker_cursor_forward_offset;
 s32 TMainCursor__sub_8013E970(s32, u16, s32, s32);
 s32 TObjPlayer__sub_801B066C(s32);
 s32 get_selected_entry__11TMainCursorFv(s32, s32);
@@ -1285,7 +1274,7 @@ void setup_action_channel__11TMainCursorFiPviii(TMainCursor *self, u8 *player, s
             ((TMainCursor *)cur)->set_type(1);
             VecCopy((Vec *)cur->pos, (const Vec *)(player + 0x2FC));
             cur->f3c = TMainCursor__data_805DB0C0;
-            cur->f28 = interaction_cursor_radius;
+            cur->f28 = 15.0f;
             cur->f34 = 0x8000;
             cur->f38 = 0x8000;
             cur->f2c = cos_table_lookup(cur->f34);
@@ -1357,9 +1346,9 @@ void setup_action_channel__11TMainCursorFiPviii(TMainCursor *self, u8 *player, s
             ((TMainCursor *)C_8013CDE4)->set_field_0c(0);
             ((TMainCursor *)C_8013CDE4)->set_color_mode(0x60000000);
             ((TMainCursor *)C_8013CDE4)->set_flags(0x40800);
-            lbl_8050BF60[0] = ryuker_cursor_forward_offset * sin_table_lookup(*(s32 *)(player + 0x60)) + *(f32 *)(player + 0x2FC);
+            lbl_8050BF60[0] = 50.0f * sin_table_lookup(*(s32 *)(player + 0x60)) + *(f32 *)(player + 0x2FC);
             lbl_8050BF60[1] = *(f32 *)(player + 0x300);
-            lbl_8050BF60[2] = ryuker_cursor_forward_offset * cos_table_lookup(*(s32 *)(player + 0x60)) + *(f32 *)(player + 0x304);
+            lbl_8050BF60[2] = 50.0f * cos_table_lookup(*(s32 *)(player + 0x60)) + *(f32 *)(player + 0x304);
             VecCopy((Vec *)cur->pos, (const Vec *)lbl_8050BF60);
             break;
         case 10:
