@@ -1586,9 +1586,10 @@ pso/enemy/fly/TObjEneBm3FlyNest.cpp:
 pso/enemy/wolf/TObjEneBm5Wolf.cpp:
 	.text       start:0x800B4820 end:0x800B8B00
 	.ctors      start:0x80433F58 end:0x80433F5C
-	.rodata     start:0x8043B5A8 end:0x8043B5C0
+	.rodata     start:0x8043B3C8 end:0x8043B5C0
 	.data       start:0x804920D0 end:0x804924EC
 	.bss        start:0x80500B40 end:0x80500B98
+	.sdata      start:0x805D2A20 end:0x805D2A28
 	.sbss       start:0x805D5120 end:0x805D512C
 	.sdata2     start:0x805D9D70 end:0x805D9E5C
 
@@ -1711,9 +1712,10 @@ pso/unk/text_800C7FEC.cpp:
 
 pso/enemy/gee/TObjEneMe1Gee.cpp:
 	.text       start:0x800C811C end:0x800CCB24
-	.rodata     start:0x8043BE90 end:0x8043BE98
+	.rodata     start:0x8043BD08 end:0x8043BE98
 	.data       start:0x80493780 end:0x80493CA0
 	.bss        start:0x80500E38 end:0x80500E78
+	.sdata      start:0x805D2A68 end:0x805D2A70
 	.sbss       start:0x805D51B0 end:0x805D51D0
 	.sdata2     start:0x805DA0D8 end:0x805DA154
 
@@ -4591,7 +4593,9 @@ pso/unk/text_80184C2C.cpp:
 
 pso/object/warp/TObjLaboMapWarp.cpp:
 	.text       start:0x80185160 end:0x80186C44
-	.rodata     start:0x80444A20 end:0x80444A28
+	.rodata     start:0x80444720 end:0x80444A28
+	.data       start:0x804B5FF8 end:0x804B6034
+	.sdata      start:0x805D32A8 end:0x805D32B8
 	.sbss       start:0x805D5B50 end:0x805D5B60
 	.sdata2     start:0x805DBC80 end:0x805DBCA8
 

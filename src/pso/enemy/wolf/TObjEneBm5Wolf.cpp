@@ -45,23 +45,6 @@ u16 get_entity_id(TObjBase *object);
 extern u32 TObjEneBm5Wolf__instance_list[];
 extern u32 TObjEneBm5Wolf__pack_member_list[];
 BmlResource *TObjEneBm5Wolf__bml_resource;
-extern const char lbl_8043B3C8[];
-extern const char lbl_8043B3DC[];
-extern const char lbl_8043B3F0[];
-extern const char lbl_8043B408[];
-extern const char lbl_8043B424[];
-extern const char lbl_8043B440[];
-extern const char lbl_8043B458[];
-extern const char lbl_8043B470[];
-extern const char lbl_8043B488[];
-extern const char lbl_8043B4A0[];
-extern const char lbl_8043B4B8[];
-extern const char lbl_8043B4D0[];
-extern const char lbl_8043B4E8[];
-extern const char lbl_8043B504[];
-extern const char lbl_8043B520[];
-extern const char lbl_8043B538[];
-extern const char lbl_8043B550[];
 
 void *bm5_wolf_decision_row[7] = {
     (void *)0x43610000, (void *)0x0, (void *)0x600, (void *)0x0,
@@ -75,18 +58,18 @@ CollisionBody TObjEneBm5Wolf__collider_params[3] = {
 };
 
 const char *bm_ene_bm5_wolf_model_names[3] = {
-    lbl_8043B3C8, lbl_8043B3DC, NULL,
+    "bm5_s_kem_body.nj", "bm5_s_keml_body.nj", NULL,
 };
 
 const char *bm_ene_bm5_wolf_motion_names[15] = {
-    lbl_8043B3F0, lbl_8043B408, lbl_8043B424, lbl_8043B440,
-    lbl_8043B458, lbl_8043B470, lbl_8043B488, lbl_8043B4A0,
-    lbl_8043B4B8, lbl_8043B4D0, lbl_8043B4E8, lbl_8043B504,
-    lbl_8043B520, lbl_8043B538, NULL,
+    "dams_bm5_s_kem_body.njm", "deadl_bm5_s_kem_body.njm", "deadr_bm5_s_kem_body.njm", "eat_bm5_s_kem_body.njm",
+    "hoe_bm5_s_kem_body.njm", "hunt_bm5_s_kem_body.njm", "okil_bm5_s_kem_body.njm", "okir_bm5_s_kem_body.njm",
+    "runb_bm5_s_kem_body.njm", "run_bm5_s_kem_body.njm", "sleep_bm5_s_kem_body.njm", "stdup_bm5_s_kem_body.njm",
+    "wait_bm5_s_kem_body.njm", "walk_bm5_s_kem_body.njm", NULL,
 };
 
 BmlResourceDescriptor bm_ene_bm5_wolf_resource_descriptor = {
-    lbl_8043B550, bm_ene_bm5_wolf_model_names, bm_ene_bm5_wolf_motion_names, 2, 14,
+    "bm_ene_bm5_wolf.bml", bm_ene_bm5_wolf_model_names, bm_ene_bm5_wolf_motion_names, 2, 14,
 };
 
 TObjMotionAction wolf_action_table[19] = {
@@ -110,6 +93,10 @@ TObjMotionAction wolf_action_table[19] = {
     { 3, 0, 5, 1.0f, 0x0 },
     { 3, 0, 9, 1.0f, 0x0 },
 };
+
+const char *bm5_wolf_class_name = "TObjEneBm5Wolf";
+
+static const DelDepthAnimationBinding bm5_wolf_spawn_descriptor = { NULL, wolf_action_table, 1, 19, 0 };
 
 __declspec(section ".data") s32 TObjEneBm5Wolf__stat_params[2];
 __declspec(section ".data") s32 wolf_stat_handle_a_table[2];
@@ -147,9 +134,6 @@ s32 TObjEneDD__sub_800BA378(void *, void *);
 s32 get_target_info__9TObjEneDDFv();
 s32 pack_debug_text_position(s32 arg0, s32 arg1);
 s32 debug_draw_line(void *, void *, int, int);
-extern char lbl_8043B584[];
-extern char lbl_8043B590[];
-extern char lbl_8043B59C[];
 typedef void (*State_800B73A8)(u8 *, s32);
 }
 
@@ -175,7 +159,6 @@ s32 invoke_initialization_hook__9TObjEneDDFPv(void *, void *);
 s32 init_collision_body_parts(void *, void *, int);
 void *__ct__14TObjCollidableFP7TObject(void *, int);
 void *__nw__7TObjectFUl(int);
-extern const char *bm5_wolf_class_name;
 void free_bin_model_request(void*, int);
 }
 
@@ -197,7 +180,6 @@ extern s32 lbl_8043B3A8[];
 extern s32 lbl_8043B3B0[];
 extern s32 lbl_8043B3B8[];
 extern s32 lbl_8043B3C0[];
-extern const DelDepthAnimationBinding bm5_wolf_spawn_descriptor;
 extern u8 lbl_8043B5C0[];
 Vec lbl_80500B60;
 u32 lbl_80500B6C[3];
@@ -2050,6 +2032,7 @@ void TObjEneBm5Wolf::update_state() {
 
 #pragma push
 #pragma opt_common_subs off
+#pragma pool_data off
 extern "C" {
 void TObjEneBm5Wolf::render_debug() {
     f32 frame;
@@ -2059,11 +2042,11 @@ void TObjEneBm5Wolf::render_debug() {
     TObjEneBm5Wolf *leader;
 
     if (get_target_info__9TObjEneDDFv() != 0) {
-        debug_printf_at(pack_debug_text_position(0, 0), lbl_8043B584, this->m_3dc);
+        debug_printf_at(pack_debug_text_position(0, 0), "GROUP:%2d", this->m_3dc);
         if (this->m_3d8 != 0) {
-            debug_printf_at(pack_debug_text_position(0, 1), lbl_8043B590);
+            debug_printf_at(pack_debug_text_position(0, 1), "L/M:LEADER");
         } else {
-            debug_printf_at(pack_debug_text_position(0, 1), lbl_8043B59C);
+            debug_printf_at(pack_debug_text_position(0, 1), "L/M:MEMBER");
         }
     }
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
