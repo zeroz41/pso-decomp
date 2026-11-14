@@ -745,7 +745,6 @@ pso/ui/charcreate/TChCrTagPlBack.cpp
 pso/ui/charcreate/TChCrTagPlGraphic.cpp
 pso/quest/challenge/TChallenge.cpp
 pso/ui/charcreate/TCharaMaking.cpp
-pso/ui/charcreate/TCharaMaking_8028E790.cpp
 pso/ui/chat/TChatMessage.cpp
 pso/ui/chat/TChatMessage_801DF918.cpp
 pso/system/save/TCheckMemoryCard.cpp

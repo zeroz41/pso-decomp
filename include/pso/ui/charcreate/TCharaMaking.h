@@ -13,6 +13,10 @@ extern BmlResourceDescriptor creation_menu_resource_descriptor;
 extern const char *TCharaMaking__name;
 extern const s32 lbl_8045122C[19];
 
+extern "C" {
+void TCharaMaking__sub_8028E790(void);
+}
+
 struct TCharaMaking : public TObject {
     TCharaMaking(TObject *parent);
     virtual ~TCharaMaking();
