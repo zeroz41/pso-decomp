@@ -5504,14 +5504,22 @@ pso/player/TObjPlayer_801D84A8.cpp:
 	.text       start:0x801D7D4C end:0x801D859C
 	.data       start:0x804C44C8 end:0x804C453C
 
+pso/player/TObjPlayer_801D84CC.cpp:
+	.text       start:0x801D859C end:0x801D8ADC
+	.rodata     start:0x80447190 end:0x804471A8
+	.sbss       start:0x805D5E08 end:0x805D5E10
+	.sdata2     start:0x805DC3F8 end:0x805DC400
+
 pso/player/PlayerClassStats.cpp:
 	.rodata     start:0x804471A8 end:0x804492DC
 	.data       start:0x804C4680 end:0x804C46B0
 
-pso/player/TObjPlayer_801D84CC.cpp:
-	.text       start:0x801D859C end:0x801D94C8
+pso/player/TObjPlayer_801D8ADC.cpp:
+	.text       start:0x801D8ADC end:0x801D94C8
 	.rodata     start:0x804492E0 end:0x804493E8
 	.data       start:0x804C46B0 end:0x804C4A20
+	.sbss       start:0x805D5E10 end:0x805D5E18
+	.sdata2     start:0x805DC400 end:0x805DC408
 
 pso/unk/text_801D94C8.cpp:
 	.text       start:0x801D94C8 end:0x801D9514

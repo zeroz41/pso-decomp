@@ -1922,6 +1922,7 @@ pso/player/TObjPlayer_801D7860.cpp
 pso/player/TObjPlayer_801D7C5C.cpp
 pso/player/TObjPlayer_801D84A8.cpp
 pso/player/TObjPlayer_801D84CC.cpp
+pso/player/TObjPlayer_801D8ADC.cpp
 pso/player/TObjPlayer_801D95B8.cpp
 pso/player/TObjPlayer_801D9908.cpp
 pso/player/TObjPlayer_801D9964.cpp

@@ -449,7 +449,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/item/TItemReverseTech.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/hud/TNowLoading.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/item/TItemLoad_80110010.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # -str reuse,readonly: "PlyEndingMotionData.rel" 0x80447190 (801D84CC) and "PlyLevelTbl.cpt" 0x804492E8
+    # (801D8ADC) sit in .rodata.
     "pso/player/TObjPlayer_801D84CC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/player/TObjPlayer_801D8ADC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -sdata 4: the 8-byte camera bank list 0x80488B98 sits in .data, not .sdata.
     "pso/camera/TCameraCtrl_8006C7C4.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     # run_task and get_target_position reach each .rodata object with its own lis/addi: -pool off.
