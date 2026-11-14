@@ -671,13 +671,15 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/warp/TObjMapWarpAncient.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # The warp debug printers reach each .rodata object with their own lis/addi (no shared base): -pool off.
     "pso/object/warp/TObjAreaWarpEndingJung.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
-    "pso/object/warp/TObjWarpJungMain.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # TObjWarpJungMain.cpp reaches each .rodata object with its own lis/addi: -pool off.
+    "pso/object/warp/TObjWarpJungMain.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/ui/window/TWindowComCard.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowSubComCard_80271E7C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowSubCustomEquip.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/city/THunterGuildSeqOnlineTask.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/city/THunterGuildSeqOnlineTask_802156A0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/object/collision/TObjBgmColCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # TObjBgmColCtrl.cpp reaches each .rodata object with its own lis/addi: -pool off.
+    "pso/object/collision/TObjBgmColCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/object/ambient/TButterfly.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/TObjTank.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/goldragon/TObjBoss8DemoRoom.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -726,7 +728,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # generation emits. readonly: the class name string sits in .rodata (0x804708E8).
     "pso/player/TPlayerFootStamp.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-inline off,deferred", "-str reuse,readonly")},
     "pso/technique/TTecResta.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    "pso/technique/TTecReverser.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # TTecReverser.cpp reaches each .rodata object with its own lis/addi: -pool off.
+    "pso/technique/TTecReverser.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-pool off")},
     "pso/object/ambient/TObjEnvSoundGlobal.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/object/TObjBigTuitate.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # GC/2.0: compiler-expanded struct copies take 2.0's registers.
@@ -1022,6 +1025,13 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/quest/TQuestListVM.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-pool off", "-str reuse,readonly")},
     # load_battle_param_entry reaches each .rodata object with its own lis/addi: -pool off.
     "pso/unk/TLobby_8001D6A0.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
+    # TItemData.cpp reaches each .rodata object with its own lis/addi: -pool off.
+    "pso/item/TItemData.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    # TObjNpcEnemy.cpp reaches each .rodata object with its own lis/addi: -pool off.
+    "pso/npc/TObjNpcEnemy.cpp": {"cflags": _switch(cflags_pso, "-pool off")},
+    "pso/object/collision/TObjFogCollisionPoison.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # TLobby_801F3A24.cpp reaches each .rodata object with its own lis/addi: -pool off.
+    "pso/unk/TLobby_801F3A24.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
 }
 
 # MusyX (Factor 5). Its objects carry extab/extabindex for every non-leaf

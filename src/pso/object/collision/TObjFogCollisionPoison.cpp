@@ -54,7 +54,6 @@ extern RecoveredGlobal_801532C8_TObjFogCollisionPoison__data_8050D430 TObjFogCol
 extern s32 lbl_805D2E84;
 void __dt__7TObjectFv(void *, int);
 void __dl__7TObjectFPv(void *);
-extern char lbl_80440078[];
 s16 get_actor_hp(s32);
 s32 get_entity_id(s32);
 s32 is_valid_target__9TObjEneDDFv(s32);
@@ -208,7 +207,7 @@ void TObjFogCollisionPoison::clear_state_array() {
 
 void TObjFogCollisionPoison::vfunc_14() {
     TObjFogCollisionSwitch::vfunc_14();
-    debug_printf_at(0x13001D, lbl_80440078);
+    debug_printf_at(0x13001D, "Poison Power");
 }
 
 u8 TObjFogCollisionPoison::check_switch() {

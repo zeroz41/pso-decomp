@@ -2151,6 +2151,7 @@ pso/object/TObjEZBoneRotBase.cpp:
 
 pso/object/TObjHMS_EZRope_Player_800FEFCC.cpp:
 	.text       start:0x800FEFCC end:0x800FF580
+	.rodata     start:0x8043DF40 end:0x8043DF48
 
 pso/unk/text_800FF580.cpp:
 	.text       start:0x800FF580 end:0x800FF9B8
@@ -2384,7 +2385,7 @@ pso/item/TItemEquipBase.cpp:
 
 pso/item/TItemData.cpp:
 	.text       start:0x8010B848 end:0x8010ECD0
-	.rodata     start:0x8043E2D8 end:0x8043E358
+	.rodata     start:0x8043E2D8 end:0x8043E3A0
 	.data       start:0x8049F248 end:0x8049F3A0
 
 pso/player/TObjPlayer_8010ECD0.cpp:
@@ -3738,6 +3739,7 @@ pso/npc/TNpcPlayer.cpp:
 
 pso/object/collision/TObjFogCollisionPoison.cpp:
 	.text       start:0x8015302C end:0x80153674
+	.rodata     start:0x80440078 end:0x80440088
 	.data       start:0x804AF7B0 end:0x804AF7C8
 	.bss        start:0x8050D430 end:0x8050D460
 
@@ -4466,7 +4468,7 @@ pso/object/container/TObjContainerIdo.cpp:
 
 pso/object/collision/TObjBgmColCtrl.cpp:
 	.text       start:0x8017E1E4 end:0x8017E900
-	.rodata     start:0x80443648 end:0x804438A0
+	.rodata     start:0x80443648 end:0x80443910
 	.data       start:0x804B5780 end:0x804B5820
 	.sdata      start:0x805D3228 end:0x805D3230
 
@@ -4895,7 +4897,7 @@ pso/object/warp/TObjWarpBoss03.cpp:
 
 pso/object/warp/TObjWarpJungMain.cpp:
 	.text       start:0x8019FB8C end:0x801A069C
-	.rodata     start:0x80446678 end:0x80446718
+	.rodata     start:0x80446678 end:0x80446750
 	.data       start:0x804B9628 end:0x804B9664
 	.bss        start:0x8050DDC8 end:0x8050DDE0
 	.sdata      start:0x805D3498 end:0x805D34A0
@@ -5753,6 +5755,7 @@ pso/unk/text_801F3774.cpp:
 
 pso/unk/TLobby_801F3A24.cpp:
 	.text       start:0x801F3A24 end:0x801F4398
+	.rodata     start:0x80449D08 end:0x80449D48
 	.bss        start:0x805127D0 end:0x805127F8
 	.sbss       start:0x805D5EE0 end:0x805D5EE4
 
@@ -6530,6 +6533,7 @@ pso/technique/TTecResta.cpp:
 
 pso/technique/TTecReverser.cpp:
 	.text       start:0x80239D8C end:0x8023A434
+	.rodata     start:0x8044DBB0 end:0x8044DC00
 	.data       start:0x804CCBF8 end:0x804CCC68
 	.sdata2     start:0x805DC910 end:0x805DC918
 
@@ -8837,7 +8841,7 @@ pso/enemy/slime/TObjEneSlime_802D7260.cpp:
 
 pso/npc/TObjNpcEnemy.cpp:
 	.text       start:0x802D72E4 end:0x802D79EC
-	.rodata     start:0x804725F0 end:0x80472600
+	.rodata     start:0x804725F0 end:0x80472628
 	.data       start:0x804E2680 end:0x804E2824
 	.bss        start:0x80540FF0 end:0x80541230
 	.sdata      start:0x805D3F58 end:0x805D3F60

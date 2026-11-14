@@ -50,9 +50,6 @@ s32 warp_jung_beam_blue_tex_entry;               // texture entry "ts064_beam_ao
 s32 warp_jung_nakalight_tex_entry;               // texture entry "ts032_warp_nakalight"
 void *warp_jung_beam_models[6];
 // The texture entry names load_warp_beam_resources looks up.
-extern const char lbl_80446718[];
-extern const char lbl_80446728[];
-extern const char lbl_80446738[];
 
 extern "C" {
 s32 PPCSync();
@@ -372,7 +369,7 @@ void load_warp_beam_resources(void) {
     warp_jung_beam_models[5] = root->sibling->model;
     warp_jung_beam_mesh_node = root->sibling->sibling->sibling->model;
     warp_jung_last_scroll_tick = 0;
-    warp_jung_beam_entry_index = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name(lbl_80446718);
-    warp_jung_beam_blue_tex_entry = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name(lbl_80446728);
-    warp_jung_nakalight_tex_entry = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name(lbl_80446738);
+    warp_jung_beam_entry_index = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name("ts064_beam_aka");
+    warp_jung_beam_blue_tex_entry = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name("ts064_beam_ao");
+    warp_jung_nakalight_tex_entry = ((TObjDoorJung *)warp_jung_model_handle)->find_entry_by_name("ts032_warp_nakalight");
 }

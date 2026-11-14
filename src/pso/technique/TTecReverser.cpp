@@ -68,12 +68,6 @@ Entry_80239E44 revival_particle_table[3] = {
 };
 Obj_80239E44 *construct_revival_particle_effect(Obj_80239E44 *self, Player_80239E44 *player, void *parent);
 void debug_printf_at(s32 id, const char *fmt, ...);
-extern char lbl_8044DBB0[];
-extern char lbl_8044DBBC[];
-extern char lbl_8044DBC8[];
-extern char lbl_8044DBD4[];
-extern char lbl_8044DBE0[];
-extern char lbl_8044DBEC[];
 s32 get_type__10TObjPlayerFPv(void *p);
 void *__dt__13TUnk_804CCC28Fv(void *arg0, s16 arg1);
 void *__dt__12TTecReverserFv(void *arg0, s16 arg1);
@@ -86,12 +80,12 @@ void *__nw__7TObjectFUl(int);
 
 void TUnk_804CCC68::debug_print_tech_params() {
     Rev_8023A364 *self = (Rev_8023A364 *)this;
-    debug_printf_at(0x1E0014, lbl_8044DBB0, self->fcc);
-    debug_printf_at(0x1E0015, lbl_8044DBBC, self->fdc);
-    debug_printf_at(0x1E0016, lbl_8044DBC8, self->fde);
-    debug_printf_at(0x1E0017, lbl_8044DBD4, self->fd0);
-    debug_printf_at(0x1E0018, lbl_8044DBE0, self->fd4);
-    debug_printf_at(0x1E0019, lbl_8044DBEC, self->fe0);
+    debug_printf_at(0x1E0014, "POWER  : %f", self->fcc);
+    debug_printf_at(0x1E0015, "USE_TP : %d", self->fdc);
+    debug_printf_at(0x1E0016, "CH_SPD : %d", self->fde);
+    debug_printf_at(0x1E0017, "SPEED  : %f", self->fd0);
+    debug_printf_at(0x1E0018, "SCOPE  : %f", self->fd4);
+    debug_printf_at(0x1E0019, "MENTAL  : %f", self->fe0);
 }
 
 void TUnk_804CCC68::dispatch_all_technique_contacts() {

@@ -77,7 +77,6 @@ void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 s32 subtract_vector(void *, void *);
 s32 normalize_vector(void *);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
-extern const f64 lbl_8043DF40;
 extern u8 lbl_8048DEF4[];
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -219,10 +218,10 @@ void TObjHMS_EZRope_Player::sub_800FF2D0() {
             }
             yaw = 0;
             if (lbl_805DAA58 != fabs_float(d.x) + fabs_float(d.z)) {
-                yaw = (s32)(lbl_8043DF40 * atan2_float(-d.x, -d.z));
+                yaw = (s32)(10430.38043493439 * atan2_float(-d.x, -d.z));
                 rotate_matrix_y(0, yaw);
             }
-            rotate_matrix_x(0, (s32)(lbl_8043DF40 * get_scale_factor__10TObjPlayerFv(-d.y)));
+            rotate_matrix_x(0, (s32)(10430.38043493439 * get_scale_factor__10TObjPlayerFv(-d.y)));
             rotate_matrix_y(0, ang->a - yaw);
             if (n == 1) {
                 if (rec->f14 != NULL) {
