@@ -9147,6 +9147,8 @@ pso/ui/frontend/TAdMultiSaveGC.cpp:
 
 pso/unk/text_802FF760.cpp:
 	.text       start:0x802FF760 end:0x802FF878
+	.rodata     start:0x80474D98 end:0x80474DE0
+	.sdata      start:0x805D4050 end:0x805D4054
 
 pso/ui/frontend/TAdMultiConfirmGC.cpp:
 	.text       start:0x802FF878 end:0x802FFC78
