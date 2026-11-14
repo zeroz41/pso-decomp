@@ -271,7 +271,7 @@ pso/player/TObjPlayer_8002EF8C.cpp:
 
 pso/boss/derolle/TBoss2DeRolLe.cpp:
 	.text       start:0x8002EFE8 end:0x800363B4
-	.rodata     start:0x804359F0 end:0x80435A38
+	.rodata     start:0x80435628 end:0x80435A38
 	.data       start:0x804820D8 end:0x80482A38
 	.bss        start:0x804FE268 end:0x804FE590
 	.sdata      start:0x805D26A8 end:0x805D26B8

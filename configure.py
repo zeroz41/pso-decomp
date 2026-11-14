@@ -869,7 +869,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/goldragon/TBoss8Dragon.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # TBoss2DeRolLe__sub_8002FE60: its expanded instance-data struct copy hoists the next load above the
     # last store only under 2.0; every other function of the unit compiles the same.
-    "pso/boss/derolle/TBoss2DeRolLe.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # -inline off,deferred: the Vec initialiser objects 0x804359C0..E4 lie in reverse order of their
+    # functions while the codegen literals after them lie in forward order: data in parse order, code deferred.
+    "pso/boss/derolle/TBoss2DeRolLe.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/effect/TEffIndirectCtrl.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/boss/darkfalz/TObjDFDemo1.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     "pso/boss/darkfalz/TObjDFDemo4.cpp": {"cflags": _switch(cflags_pso, "-inline deferred", "-sdata 4")},
