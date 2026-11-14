@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/unk/TUnk_804CCD0C.h"
 #include "pso/unk/TLobby_80226070.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/unk/text_80087278.h"
 
 #include "pso/system/vector.h"
@@ -17,21 +16,6 @@ void TTecSlicer__updateLightningTechniqueCharge(TechniqueChargeEmitter* state);
 s32 play_sound_effect(int, void *, int, int);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
-
-s32 TTecSlicer::get_field_110() { return *(s32 *)&this->model; }
-s16 TTecSlicer::get_remain_count() { return *(s16*)((char*)this + 0x11e); }
-void TTecSlicer::destroy_if_set() {
-    u32 arg0 = (u32)this;
-    if (arg0 != 0U) {
-        ((TObject *)arg0)->queue_destruction();
-    }
-}
-s32 TTecSlicer::dt(s32 arg0, s16 arg1) {
-    if ((arg0 != 0) && (arg1 > 0)) {
-        __dl__FPv();
-    }
-    return arg0;
-}
 
 extern s32 __vt__13TUnk_804CCD0C[];
 

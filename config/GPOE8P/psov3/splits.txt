@@ -6672,25 +6672,13 @@ pso/technique/TTecSifta.cpp:
 	.sdata      start:0x805D3820 end:0x805D3828
 	.sdata2     start:0x805DC940 end:0x805DC948
 
-pso/technique/TSlicerHistory.cpp:
-	.text       start:0x8023B220 end:0x8023B454
+pso/technique/TTecSlicer_8023B5C8.cpp:
+	.text       start:0x8023B220 end:0x8023BE9C
+	.data       start:0x804CCCB0 end:0x804CCCC8
 	.sdata2     start:0x805DC948 end:0x805DC950
 
-pso/unk/text_8023B454.cpp:
-	.text       start:0x8023B454 end:0x8023B590
-
-pso/unk/text_8023B590.cpp:
-	.text       start:0x8023B590 end:0x8023B5C8
-
-pso/technique/TTecSlicer_8023B5C8.cpp:
-	.text       start:0x8023B5C8 end:0x8023BDD0
-
-pso/technique/TSlicerHistory_8023BDD0.cpp:
-	.text       start:0x8023BDD0 end:0x8023BE28
-	.data       start:0x804CCCB0 end:0x804CCCC8
-
 pso/technique/TTecSlicer.cpp:
-	.text       start:0x8023BE28 end:0x8023C024
+	.text       start:0x8023BE9C end:0x8023C024
 
 pso/player/TObjPlayer_8023C024.cpp:
 	.text       start:0x8023C024 end:0x8023C07C

@@ -1259,8 +1259,6 @@ pso/ui/city/TShopKeepItemWindow.cpp
 pso/ui/city/TShopSequence.cpp
 pso/ui/city/TShopWindowBase.cpp
 pso/ui/city/TShopWindowBase_80217454.cpp
-pso/technique/TSlicerHistory.cpp
-pso/technique/TSlicerHistory_8023BDD0.cpp
 pso/object/switch/TSwitch.cpp
 pso/technique/TTecAnti.cpp
 pso/technique/TTecBarta.cpp
@@ -2370,8 +2368,6 @@ pso/technique/TTecGiZonde_80231BF4.cpp
 pso/unk/text_802333D4.cpp
 pso/unk/text_80236EE8.cpp
 pso/effect/TUnk_804CCC68_8023A434.cpp
-pso/unk/text_8023B454.cpp
-pso/unk/text_8023B590.cpp
 pso/unk/text_8023DCB8.cpp
 pso/unk/text_8023F160.cpp
 pso/unk/text_8023F3F8.cpp
