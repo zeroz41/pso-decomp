@@ -537,6 +537,7 @@ pso/boss/darkfalz/TObjDFDemo5.cpp:
 
 pso/boss/darkfalz/TObjDFDemoF_80050050.cpp:
 	.text       start:0x80050050 end:0x80050134
+	.sdata2     start:0x805D8A20 end:0x805D8A28
 
 pso/boss/darkfalz/TObjDFDemoF_80050134.cpp:
 	.text       start:0x80050134 end:0x800502B4
