@@ -1180,44 +1180,44 @@ extern s32 TLobby__sub_8040BA38(DnsQuery *self, u8 *p, s32 n)
   }
   return ret;
 }
+#pragma push
+#pragma opt_lifetimes off
 extern s32 TLobby__sub_8040BD40(DnsQuery *self, u8 *p, s32 n, u8 *dst)
 {
-  s16 new_var2;
-  u8 c2;
+  s32 count;
+  s16 limit;
   u8 c;
-  int new_var3;
-  u8 *q;
+  u8 *d;
+  u8 c2;
+  u8 *s;
   s32 len;
-  s32 count = 0;
-  int new_var;
-  new_var2 = (s16) n;
-  while (((s16) count) < new_var2)
+  count = 0;
+  limit = (s16) n;
+  while ((s16) count < limit)
   {
     c = *p;
-    if (!c)
+    if (c == 0)
     {
       count++;
       break;
     }
     if (c & 0xC0)
     {
-      q = self->reply->data;
-      q += (u16) (((new_var = c & (~0xC0)) << 8) | p[1]);
-      new_var3 = 0;
-      c2 = *q;
-      p = q;
-      while (c2 != new_var3)
+      s = self->reply->data;
+      s += (u16) (((c & ~0xC0) << 8) | p[1]);
+      c2 = *s;
+      d = dst;
+      while (c2 != 0)
       {
-        if (dst != 0)
+        if (d != 0)
         {
-          len = (c2 & 0xFF) + 1;
-          NetMemcpy(dst, p, len);
-          dst += len;
+          len = c2 + 1;
+          NetMemcpy(d, s, len);
+          d += len;
         }
-        p += c2 + 1;
-        c2 = *p;
+        s += c2 + 1;
+        c2 = *s;
       }
-
       count += 2;
       break;
     }
@@ -1227,13 +1227,13 @@ extern s32 TLobby__sub_8040BD40(DnsQuery *self, u8 *p, s32 n, u8 *dst)
       NetMemcpy(dst, p, len);
       dst += len;
     }
-    count = c;
-    p += count + 1;
-    count += c + 1;
+    count += c;
+    p += c + 1;
+    count++;
   }
-
   return count;
 }
+#pragma pop
 
 inline void cancel_8040BE40(DnsPtr *o, s16 b) {
     DnsResolverState *base = &dns_resolver_state;
