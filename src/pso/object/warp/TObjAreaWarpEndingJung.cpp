@@ -383,7 +383,6 @@ extern RecoveredGlobal_8019B854___vt__14TObjWarpString __vt__14TObjWarpString;
 extern RecoveredGlobal_8019CA24_lbl_80515BA0 lbl_80515BA0;
 extern u8 identity_matrix[];
 extern s32 local_client_id;
-extern s32 lobby_quest_progress_flag;
 }
 
 void *create_TObjWarpString(char *text, u16 client_id);
@@ -440,10 +439,12 @@ extern "C" {
 f32 xz_distance_squared(void *, void *);
 
 s32 release_texture_list(void*);
-
-extern BmlResource *forest_warp_bml_resource;
-extern u32 forest_warp_texture_list;
 }
+
+BmlResource *forest_warp_bml_resource;
+u32 forest_warp_texture_list;
+// Set by TLobby while a quest is in progress; TObjAreaWarp's ctor reads it.
+s32 lobby_quest_progress_flag;
 
 
 // Function definitions in reverse address order (defer_codegen emits them reversed).
