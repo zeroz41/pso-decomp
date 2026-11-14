@@ -1080,6 +1080,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/player/PhotonBlastResults.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -sdata 4: the 8-byte model name table sits in .data and the 8-byte 0x805007D4 in .bss, next to the 4-byte .sdata name pointer.
     "pso/enemy/berura/TObjEneRe7Berura.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    "pso/ui/keyboard/TKeyBoardControl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/boss/goldragon/TObjBoss8Piller.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/unk/text_803626A8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
 }
 
 # MusyX (Factor 5). Its objects carry extab/extabindex for every non-leaf

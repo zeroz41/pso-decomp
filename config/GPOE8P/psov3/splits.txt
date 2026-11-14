@@ -7290,8 +7290,9 @@ pso/ui/window/TWindowKeyBoardHard.cpp:
 
 pso/ui/keyboard/TKeyBoardControl.cpp:
 	.text       start:0x80260450 end:0x802627D8
-	.rodata     start:0x8044F258 end:0x8044F268
+	.rodata     start:0x8044F110 end:0x8044F268
 	.data       start:0x804CFDE0 end:0x804D0004
+	.sdata      start:0x805D3938 end:0x805D3940
 	.sbss       start:0x805D6458 end:0x805D6460
 	.sdata2     start:0x805DD078 end:0x805DD0D8
 
@@ -9571,8 +9572,10 @@ pso/boss/darkfalz/TBoss4ZakoDraw_8030AD58.cpp:
 
 pso/boss/goldragon/TObjBoss8Piller.cpp:
 	.text       start:0x8030ADBC end:0x8030B098
-	.rodata     start:0x80475718 end:0x80475728
+	.rodata     start:0x80475658 end:0x80475728
 	.data       start:0x804E7668 end:0x804E76B0
+	.sdata      start:0x805D40D8 end:0x805D40E0
+	.sbss       start:0x805D6A78 end:0x805D6A80
 	.sdata2     start:0x805DF150 end:0x805DF164
 
 pso/object/TObjLiveMonitor.cpp:
@@ -10872,8 +10875,11 @@ pso/enemy/epsilon/TObjEneEpsilonGuard_8035F5C8.cpp:
 
 pso/unk/text_803626A8.cpp:
 	.text       start:0x803626A8 end:0x80362DE8
+	.rodata     start:0x80479EA0 end:0x80479FC8
 	.data       start:0x804F24E8 end:0x804F27DC
 	.bss        start:0x80543A18 end:0x80543A24
+	.sdata      start:0x805D4468 end:0x805D4470
+	.sdata2     start:0x805E0248 end:0x805E0258
 
 pso/player/TObjPlayer_80362E60.cpp:
 	.text       start:0x80362DE8 end:0x803631A0
