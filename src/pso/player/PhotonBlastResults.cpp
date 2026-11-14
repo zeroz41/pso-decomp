@@ -109,6 +109,76 @@ extern s32 photon_blast_donation_flags[];
 void clear_photon_blast_donations(void);
 extern s32 local_client_id;
 s32 is_photon_blast_presentation_admitted(u32 owner_id, void *records);
+
+// One entry per photon blast; +0x00 is the hit power (queue_photon_blast_hit), +0x12 is read by
+// TObjPlayer_801C7430, +0x20 is the effect id start_photon_blast plays.
+struct PhotonBlastEntry {
+    f32 power;
+    f32 pad_04;
+    f32 pad_08;
+    f32 pad_0c;
+    s16 pad_10;
+    s16 pad_12;
+    s16 pad_14;
+    s16 pad_16;
+    s32 pad_18;
+    s32 pad_1c;
+    s16 effect_id;
+    s8 pad_22;
+    u8 pad_23;
+    s32 pad_24;
+    s32 pad_28;
+};
+
+extern "C" {
+
+PhotonBlastEntry photon_blast_entry_table[6] = {
+    { 500.0f, 15.0f, 150.0f, 10.0f, 0, 10, 20, 4, 0x2AAA, 0x1555, 10, 10, 0, 0, 0 },
+    { 350.0f, 15.0f, 150.0f, 10.0f, 0, 10, 20, 4, 0x2AAA, 0x1555, 10, 10, 0, 0, 0 },
+    { 1200.0f, 15.0f, 150.0f, 10.0f, 0, 10, 20, 4, 0x2AAA, 0x1555, 10, 10, 0, 0, 0 },
+    { 500.0f, 15.0f, 150.0f, 10.0f, 0, 10, 20, 4, 0x2AAA, 0x1555, 10, 10, 0, 0, 0 },
+    { 150.0f, 15.0f, 150.0f, 10.0f, 0, 10, 20, 4, 0x1555, 0x1555, 10, 10, 0, 0, 0 },
+    { 0.0f, 15.0f, 150.0f, 10.0f, 0, 10, 20, 4, 0x1555, 0x1555, 10, 10, 0, 0, 0 },
+};
+
+const char *pm_mdl_model_names[13] = {
+    "farlla_body.nj",
+    "leilla_body.nj",
+    "mahoujin_base.nj",
+    "pm1_s_body.nj",
+    "pm2_s_body.nj",
+    "pmback_s_niji.nj",
+    "pmback_s_niji2.nj",
+    "pmback_s_nijia.nj",
+    "pmback_s_nijia2.nj",
+    "pm_b_estlla_body.nj",
+    "pm_b_mylla_body.nj",
+    "pm_b_youlla_body.nj",
+    NULL,
+};
+const char *pm_mdl_motion_names[16] = {
+    "farlla_body.njm",
+    "leilla_body.njm",
+    "mahoujin_base.njm",
+    "pm1cam_pm1_s_body.njm",
+    "pm2cam_pm2_s_body.njm",
+    "pm_b_estlla_body.njm",
+    "pm_b_mylla_body.njm",
+    "pm_b_youlla_body.njm",
+    "wait_farlla_body.njm",
+    "wait_leilla_body.njm",
+    "wait_pm1_s_body.njm",
+    "wait_pm2_s_body.njm",
+    "wait_pm_b_estlla_body.njm",
+    "wait_pm_b_mylla_body.njm",
+    "wait_pm_b_youlla_body.njm",
+    NULL,
+};
+
+}
+
+BmlResourceDescriptor photon_blast_resource_descriptor = { "pm_mdl.bml", pm_mdl_model_names, pm_mdl_motion_names, 12, 15 };
+
 const Counts_801A8868 photon_blast_result_counts_init = { 0, 0, 0, 0 };
 void admit_photon_blast_sequence(u8 *players, void *self);
 
@@ -819,26 +889,6 @@ s32 get_photon_blast_chain(PhotonBlastChainCopy *output, s32 player) {
 }
 }
 
-// One entry per photon blast; +0x00 is the hit power (queue_photon_blast_hit), +0x12 is read by
-// TObjPlayer_801C7430, +0x20 is the effect id start_photon_blast plays.
-struct PhotonBlastEntry {
-    f32 power;
-    f32 pad_04;
-    f32 pad_08;
-    f32 pad_0c;
-    s16 pad_10;
-    s16 pad_12;
-    s16 pad_14;
-    s16 pad_16;
-    s32 pad_18;
-    s32 pad_1c;
-    s16 effect_id;
-    s8 pad_22;
-    u8 pad_23;
-    s32 pad_24;
-    s32 pad_28;
-};
-
 void TObjPlayer::start_photon_blast(s32 kind, s32 client_id) {
     TObjPlayer *player;
     PhotonBlastEntry *entry;
@@ -874,54 +924,10 @@ void TObjPlayer::start_photon_blast(s32 kind, s32 client_id) {
     }
 }
 
-extern "C" {
-
-PhotonBlastEntry photon_blast_entry_table[6] = {
-    { 500.0f, 15.0f, 150.0f, 10.0f, 0, 10, 20, 4, 0x2AAA, 0x1555, 10, 10, 0, 0, 0 },
-    { 350.0f, 15.0f, 150.0f, 10.0f, 0, 10, 20, 4, 0x2AAA, 0x1555, 10, 10, 0, 0, 0 },
-    { 1200.0f, 15.0f, 150.0f, 10.0f, 0, 10, 20, 4, 0x2AAA, 0x1555, 10, 10, 0, 0, 0 },
-    { 500.0f, 15.0f, 150.0f, 10.0f, 0, 10, 20, 4, 0x2AAA, 0x1555, 10, 10, 0, 0, 0 },
-    { 150.0f, 15.0f, 150.0f, 10.0f, 0, 10, 20, 4, 0x1555, 0x1555, 10, 10, 0, 0, 0 },
-    { 0.0f, 15.0f, 150.0f, 10.0f, 0, 10, 20, 4, 0x1555, 0x1555, 10, 10, 0, 0, 0 },
-};
-
-}
-
 void *TObjPlayer::get_photon_blast_entry(int kind) {
     return &photon_blast_entry_table[kind];
 }
 
-extern char lbl_80446A78[];
-extern char lbl_80446A88[];
-extern char lbl_80446A98[];
-extern char lbl_80446AAC[];
-extern char lbl_80446ABC[];
-extern char lbl_80446ACC[];
-extern char lbl_80446AE0[];
-extern char lbl_80446AF4[];
-extern char lbl_80446B08[];
-extern char lbl_80446B1C[];
-extern char lbl_80446B30[];
-extern char lbl_80446B44[];
-extern char lbl_80446B58[];
-extern char lbl_80446B68[];
-extern char lbl_80446B78[];
-extern char lbl_80446B8C[];
-extern char lbl_80446BA4[];
-extern char lbl_80446BBC[];
-extern char lbl_80446BD4[];
-extern char lbl_80446BE8[];
-extern char lbl_80446C00[];
-extern char lbl_80446C18[];
-extern char lbl_80446C30[];
-extern char lbl_80446C44[];
-extern char lbl_80446C58[];
-extern char lbl_80446C74[];
-extern char lbl_80446C90[];
-extern char lbl_80446CAC[];
-extern const char *pm_mdl_model_names[13];
-extern const char *pm_mdl_motion_names[16];
-extern BmlResourceDescriptor photon_blast_resource_descriptor;
 
 extern "C" {
 void free_bin_model_request(u32, int);
@@ -968,12 +974,6 @@ void load_photon_blast_resources(void) {
     }
     TObjPlayer::clear_photon_blast_slots();
 }
-extern "C" {
-
-__declspec(section ".data") const char *pm_mdl_model_names[13] = { lbl_80446A78, lbl_80446A88, lbl_80446A98, lbl_80446AAC, lbl_80446ABC, lbl_80446ACC, lbl_80446AE0, lbl_80446AF4, lbl_80446B08, lbl_80446B1C, lbl_80446B30, lbl_80446B44, NULL };
-__declspec(section ".data") const char *pm_mdl_motion_names[16] = { lbl_80446B58, lbl_80446B68, lbl_80446B78, lbl_80446B8C, lbl_80446BA4, lbl_80446BBC, lbl_80446BD4, lbl_80446BE8, lbl_80446C00, lbl_80446C18, lbl_80446C30, lbl_80446C44, lbl_80446C58, lbl_80446C74, lbl_80446C90, NULL };
-}
-BmlResourceDescriptor photon_blast_resource_descriptor = { lbl_80446CAC, pm_mdl_model_names, pm_mdl_motion_names, 12, 15 };
 
 PhotonBlastLoadCallback photon_blast_load_callback_table[10] = {
     { create_golla_photon_blast_model, TObjPlayer::destroy_static_buffer_pair },

@@ -34,23 +34,11 @@ struct RecoveredGlobal_800C44C4_lbl_8043BB90 {
     u8 remaining[0xC];
 };
 typedef char RecoveredGlobal_800C44C4_lbl_8043BB90_size[sizeof(RecoveredGlobal_800C44C4_lbl_8043BB90) == 0x10 ? 1 : -1];
-struct RecoveredGlobal_800C44C4_lbl_8043BBE0 {
-    s32 value;
-    u8 remaining[0x10];
-};
-typedef char RecoveredGlobal_800C44C4_lbl_8043BBE0_size[sizeof(RecoveredGlobal_800C44C4_lbl_8043BBE0) == 0x14 ? 1 : -1];
-struct RecoveredGlobal_800C44C4_lbl_8043BBF4 {
-    s32 value;
-    u8 remaining[0x14];
-};
-typedef char RecoveredGlobal_800C44C4_lbl_8043BBF4_size[sizeof(RecoveredGlobal_800C44C4_lbl_8043BBF4) == 0x18 ? 1 : -1];
 
 extern "C" {
-u8 *load_enemy_bml_resource_named(s32 *, s32 *);
+u8 *load_enemy_bml_resource_named(s32 *, const char *);
 s32 load_enemy_bml_resource(u8 *arg0);
 extern RecoveredGlobal_800C44C4_lbl_8043BB90 lbl_8043BB90;
-extern RecoveredGlobal_800C44C4_lbl_8043BBE0 lbl_8043BBE0;
-extern RecoveredGlobal_800C44C4_lbl_8043BBF4 lbl_8043BBF4;
 extern char lbl_8043BAAC[];
 extern char lbl_8043BAC4[];
 extern char lbl_8043BADC[];
@@ -134,9 +122,9 @@ void TObjPlayer__sub_800C44C4(void) {
     BmlModelEntry *models;
 
     if (get_current_floor_area() == AREA_TOWER) {
-        lbl_805D5174 = (BmlResource *)load_enemy_bml_resource_named((s32 *)&TObjEneRe2Flower__resource_descriptor, &lbl_8043BBE0.value);
+        lbl_805D5174 = (BmlResource *)load_enemy_bml_resource_named((s32 *)&TObjEneRe2Flower__resource_descriptor, "bm_ene_dkflower.bml");
     } else if (TObjEneDD::check_v2_mode() != 0) {
-        lbl_805D5174 = (BmlResource *)load_enemy_bml_resource_named((s32 *)&TObjEneRe2Flower__resource_descriptor, &lbl_8043BBF4.value);
+        lbl_805D5174 = (BmlResource *)load_enemy_bml_resource_named((s32 *)&TObjEneRe2Flower__resource_descriptor, "bm_ene_re2_flower_a.bml");
     } else {
         lbl_805D5174 = (BmlResource *)load_enemy_bml_resource((u8 *)&TObjEneRe2Flower__resource_descriptor);
     }

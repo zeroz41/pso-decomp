@@ -25,6 +25,7 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/unk/TLobby.h"
+#include "pso/enemy/deldepth/DelDepthData.h"
 
 #pragma defer_codegen on
 extern "C" {
@@ -46,7 +47,7 @@ void fn_80095DD0(TObjEneRe7BeruraPart *);
 void fn_80095DF4(TObjEneRe7BeruraPart *);
 s32 is_main_phase_15__9TObjEneDDFv();
 s32 scroll_strip_uvs(s32, int, int);
-extern Vec lbl_80439EC4[];
+extern const Vec lbl_80439EC4;
 extern TObjEneRe7BeruraPart TObjEneRe7Berura__detached_part_states[];
 u8 * TObjEneRe7Berura__stat_handle_table[1];
 u8 * TObjEneRe7Berura__shared_object_handles[1];
@@ -114,7 +115,6 @@ extern const f32 lbl_805D973C;
 
 
 struct Mtx_8009503C { f32 m[3][4]; };
-struct Atk_800959F8 { s32 w[4]; };
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, void *);
 u16 get_entity_id(TObjBase *);
@@ -143,7 +143,7 @@ s32 enemy_set_target_id(TObjEneRe7Berura *, u16);
 int reload_stats_keep_hp_tp__9TObjEneDDFv(void *self, void *a, void *b, void *c);
 s32 clear_attack_receipts__9TObjEneDDFv();
 void invoke_initialization_hook__9TObjEneDDFPv(void *, void *);
-BmlResource *load_enemy_bml_resource_named(BmlResourceDescriptor *, void *);
+BmlResource *load_enemy_bml_resource_named(BmlResourceDescriptor *, const char *);
 BmlResource *load_enemy_bml_resource(BmlResourceDescriptor *);
 s32 set_field_378__9TObjEneDDFl(void *, s32, s32);
 s32 angle_diff_s16(s32);
@@ -172,11 +172,9 @@ extern u8 *TObjEneRe7Berura__data_805007D4[];
 
 
 
-extern s32 lbl_80439DA0[];
-extern Atk_800959F8 ene_re7_berura_attack_def;
-extern u8 lbl_80439EF8[];
+extern const s32 lbl_80439DA0[];
+extern const DelDepthAnimationBinding ene_re7_berura_attack_def;
 extern s32 identity_matrix[];
-extern const char *lbl_805D2988;
 extern const s32 lbl_805D9718[1];
 extern const s32 lbl_805D971C[1];
 extern const s32 lbl_805D9720[1];
@@ -262,16 +260,7 @@ extern "C" {
 
 
 
-extern const char lbl_80439DC0[];
-extern const char lbl_80439DD4[];
-extern const char lbl_80439DEC[];
-extern const char lbl_80439E04[];
-extern const char lbl_80439E18[];
-extern const char lbl_80439E30[];
-extern const char lbl_80439E48[];
-extern const char lbl_80439E60[];
-extern const char lbl_80439E74[];
-extern const char lbl_80439E88[];
+
 
 
 
@@ -301,19 +290,22 @@ CollisionBody lbl_8048F66C = {
     {0.0f, 0.0f, 0.0f}, 8.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f,
 };
 
-__declspec(section ".data") const char *bm_ene_re7_berura_model_names[2] = {
-    lbl_80439DC0, NULL,
+const char *bm_ene_re7_berura_model_names[2] = {
+    "re7_b_bell_body.nj", NULL,
 };
 
 const char *bm_ene_re7_berura_motion_names[9] = {
-    lbl_80439DD4, lbl_80439DEC, lbl_80439E04, lbl_80439E18,
-    lbl_80439E30, lbl_80439E48, lbl_80439E60, lbl_80439E74,
+    "attack_re7_b_body.njm", "damege_re7_b_body.njm", "die_re7_b_body.njm", "lattack_re7_b_body.njm",
+    "memai_re7_b_body.njm", "rattack_re7_b_body.njm", "wait_re7_b_body.njm", "walk_re7_b_body.njm",
     NULL,
 };
 
 BmlResourceDescriptor ene_berura_bml_descriptor = {
-    lbl_80439E88, bm_ene_re7_berura_model_names, bm_ene_re7_berura_motion_names, 1, 8,
+    "bm_ene_re7_berura.bml", bm_ene_re7_berura_model_names, bm_ene_re7_berura_motion_names, 1, 8,
 };
+
+// inferred: .sdata pointer to the "TObjEneRe7Berura" class-name string, stored in m_name by the constructor
+const char *TObjEneRe7Berura__name = "TObjEneRe7Berura";
 
 TObjMotionAction TObjEneRe7Berura__animation_definitions[8] = {
     {1, 0, 6, 0.8f, 0},
@@ -326,8 +318,14 @@ TObjMotionAction TObjEneRe7Berura__animation_definitions[8] = {
     {3, 0, 2, 0.8f, 0},
 };
 
+const DelDepthAnimationBinding ene_re7_berura_attack_def = {
+    NULL, TObjEneRe7Berura__animation_definitions, 1, 9, 0,
+};
+
+const Vec lbl_80439EC4 = {2.0f, 1.0f, 2.0f};
+
 f32 lbl_805007C8[3];
-__declspec(section ".data") u8 *TObjEneRe7Berura__data_805007D4[2];
+u8 *TObjEneRe7Berura__data_805007D4[2];
 TObjEneRe7BeruraPart TObjEneRe7Berura__detached_part_states[2];
 
 void fn_80095DF4(TObjEneRe7BeruraPart *part) {
@@ -349,7 +347,7 @@ void TObjEneRe7Berura::load_static_resources() {
     s32 i;
     void *p;
     if (TObjEneDD::check_v2_mode() != 0) {
-        r = load_enemy_bml_resource_named(&ene_berura_bml_descriptor, lbl_80439EF8);
+        r = load_enemy_bml_resource_named(&ene_berura_bml_descriptor, "bm_ene_re7_berura_a.bml");
     } else {
         r = load_enemy_bml_resource(&ene_berura_bml_descriptor);
     }
@@ -435,8 +433,8 @@ void TObjEneRe7Berura::load_static_resources() {
         TObjEneRe7Berura__handler_table_a[i] = TLobby::dispatch_shared_handler_a(lbl_805D9720[i]);
     }
     {
-        Atk_800959F8 atk = ene_re7_berura_attack_def;
-        atk.w[0] = (s32)TObjEneRe7Berura__shared_resource->motions;
+        DelDepthAnimationBinding atk = ene_re7_berura_attack_def;
+        atk.motions = TObjEneRe7Berura__shared_resource->motions;
         TLobby::spawn_npc_enemy(0x15, TObjEneRe7Berura__shared_resource->models->model, (NJS_TEXLIST *)TObjEneRe7Berura__shared_resource->models->m_c, &atk, lbl_805D9788, TObjEneRe7Berura__data_805D972C);
     }
 }
@@ -465,7 +463,7 @@ void TObjEneRe7Berura::destroy_children() {
 }
 
 TObjEneRe7Berura::TObjEneRe7Berura(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
-    m_name = lbl_805D2988;
+    m_name = TObjEneRe7Berura__name;
     invoke_initialization_hook__9TObjEneDDFPv(this, set_data);
     sub_80095328();
     init_enemy();
@@ -1606,7 +1604,7 @@ void TObjEneRe7Berura::render() {
     }
     if (visible != 0) {
         if (mode != 0xB) {
-            Vec v = lbl_80439EC4[0];
+            Vec v = lbl_80439EC4;
             draw_ground_shadow(&v, 0);
         }
         update_secondary_light();

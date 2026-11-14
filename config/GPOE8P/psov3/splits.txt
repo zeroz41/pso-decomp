@@ -1409,9 +1409,10 @@ pso/enemy/beast/TObjEneBeast_80092AE0.cpp:
 
 pso/enemy/berura/TObjEneRe7Berura.cpp:
 	.text       start:0x80092B10 end:0x80095E18
-	.rodata     start:0x80439ED0 end:0x80439EF8
+	.rodata     start:0x80439DC0 end:0x80439F10
 	.data       start:0x8048F650 end:0x8048F930
 	.bss        start:0x805007C8 end:0x805008A4
+	.sdata      start:0x805D2988 end:0x805D2990
 	.sbss       start:0x805D4F58 end:0x805D4FA8
 
 pso/enemy/berura/TObjEneRe7BeruraPunch.cpp:
@@ -1668,6 +1669,7 @@ pso/unk/text_800C3A60.cpp:
 
 pso/enemy/flower/TObjEneRe2Flower.cpp:
 	.text       start:0x800C3B80 end:0x800C45AC
+	.rodata     start:0x8043BBE0 end:0x8043BC10
 	.data       start:0x80493078 end:0x804933D8
 
 pso/player/TObjPlayer_800C4714.cpp:
@@ -5178,7 +5180,7 @@ pso/effect/photon/TPhotonConcentrate.cpp:
 
 pso/player/PhotonBlastResults.cpp:
 	.text       start:0x801A826C end:0x801AA508
-	.rodata     start:0x80446CB8 end:0x80446CD8
+	.rodata     start:0x80446A78 end:0x80446CD8
 	.data       start:0x804C32C0 end:0x804C34B4
 	.bss        start:0x8050E880 end:0x8050E920
 	.sdata2     start:0x805DC110 end:0x805DC138
