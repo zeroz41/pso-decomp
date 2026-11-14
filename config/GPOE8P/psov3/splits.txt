@@ -10036,6 +10036,7 @@ pso/enemy/morfos/TObjEneMorfos.cpp:
 	.data       start:0x804EE0C0 end:0x804EE3AC
 	.bss        start:0x805434D0 end:0x805434E8
 	.sbss       start:0x805D6D08 end:0x805D6D38
+	.sdata2     start:0x805DF860 end:0x805DF8B0
 
 pso/enemy/morfos/TObjEneMorfosArm.cpp:
 	.text       start:0x80335218 end:0x803354A4
