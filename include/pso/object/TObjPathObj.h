@@ -5,12 +5,13 @@
 #include "pso/object/base/TObjMotion.h"
 
 struct TObjPathObj : public TObjBase {
+    TObjPathObj(TObject *parent, void *set_data);
     virtual ~TObjPathObj();
-    virtual void vfunc_13(s32);
+    virtual void vfunc_13();
     virtual void vfunc_14();
     virtual void render();
     virtual void run_task();
-    u8 unk_90[0x4];
+    f32 view_distance; // render's first update_object_view_visibility argument; 500 unless a subclass sets it
     f32 m_94;
 };
 

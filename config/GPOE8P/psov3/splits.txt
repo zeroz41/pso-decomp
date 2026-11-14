@@ -8774,7 +8774,7 @@ pso/player/TObjPlayer_802C09A8.cpp:
 pso/object/lobby/LobbyPigeonPath.cpp:
 	.text       start:0x802C09E0 end:0x802C3284
 	.rodata     start:0x80471540 end:0x804719D0
-	.data       start:0x804E07A0 end:0x804E0898
+	.data       start:0x804E07A0 end:0x804E0A00
 	.sdata      start:0x805D3EC0 end:0x805D3EC4
 	.sbss       start:0x805D6798 end:0x805D67C0
 	.sdata2     start:0x805DE4F8 end:0x805DE528

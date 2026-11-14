@@ -1450,7 +1450,7 @@ force_active:
   - TObjOnlineEndingHexMove__default_move_params
   - TObjOnlineEnding__ct
   - TObjParticle__ct
-  - TObjPathObj__ct
+  - __ct__11TObjPathObjFP7TObjectPv
   - TObjPlayerSet__ct
   - TObjPlayer__sub_800181DC
   - TObjPlayer__sub_800193FC
@@ -1541,10 +1541,10 @@ force_active:
   - TObjPlayer__sub_802A1588
   - TObjPlayer__sub_802A83F4
   - TObjPlayer__sub_802A841C
-  - TObjPlayer__sub_802C19E8
-  - TObjPlayer__sub_802C20E8
-  - TObjPlayer__sub_802C27FC
-  - TObjPlayer__sub_802C2F04
+  - __ct__13TUnk_804E08D4FP7TObjectPv
+  - __ct__13TUnk_804E0910FP7TObjectPv
+  - __ct__13TUnk_804E094CFP7TObjectPv
+  - __ct__13TUnk_804E0988FP7TObjectPv
   - TObjPlayer__sub_802C4648
   - TObjPlayer__sub_802E0468
   - TObjPlayer__sub_802E0580

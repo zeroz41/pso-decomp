@@ -582,7 +582,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/effect/photon/TPhotonPilla.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/fence/TObjLazerFenceNorm.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # -sdata 4: the four 8-byte model name tables 0x804E07A0/0x804E07D4/0x804E0800/0x804E082C sit in .data, not .sdata.
-    "pso/object/lobby/LobbyPigeonPath.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
+    # vtables come out TUnk_804E0898, 08D4, 0910, 094C, 0988 then TObjPathObj: written last to first, deferred.
+    "pso/object/lobby/LobbyPigeonPath.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-sdata 4", "-str reuse,readonly")},
     "pso/boss/olgaflow/TBoss6Tube.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/jungle/TOJungleDesign.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdSinglePlyChrSelectGC_80336054.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
