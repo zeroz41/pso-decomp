@@ -12,7 +12,7 @@
 #pragma dont_inline off
 struct Vec_8006C964 { f32 x, y, z; };
 struct V_8006CC7C { f32 x, y, z; };
-extern "C" const V_8006CC7C lbl_804384E8;
+static const V_8006CC7C default_target_position = {0.0f, 0.0f, 0.0f};
 
 struct Pad_8006C964 { u8 pad0[0x14]; s16 sx; s16 sy; };
 
@@ -53,21 +53,17 @@ void * TCameraCtrl__vt6(void) {
     return o;
 }
 
-extern Vec_8006C964 lbl_804384F4;
-extern char lbl_80438500[];
-extern const f64 lbl_80438510;
-extern const f64 lbl_80438518;
 #pragma push
 #pragma fp_contract on
 void TUnk_80488DA0::run_task() {
-    Vec_8006C964 target = lbl_804384F4;
+    Vec_8006C964 target = {0.0f, 0.0f, 0.0f};
     Vec_8006C964 v;
     Pad_8006C964 *pad = &controller_input_state.pad;
     s16 sx = controller_input_state.pad.sx;
     s16 sy = controller_input_state.pad.sy;
     f32 r;
     if (is_on_current_screen__11TCameraCtrlFv(pad, 0x100) != 0) {
-        debug_printf_at(0xC0014, lbl_80438500, (s32)(lbl_80438518 * (f64)((Cam_8006C964 *)this)->x54 + lbl_80438510));
+        debug_printf_at(0xC0014, "PERS = %d", (s32)(0.0054931640625 * ((Cam_8006C964 *)this)->x54 + 1.0));
         if (TWindowShortListCtrl__check_controller_button(pad, 0x20000) != 0) {
             ((Cam_8006C964 *)this)->x54 += 0xB6;
         }
@@ -122,7 +118,7 @@ extern O_8006CC7C *demo_camera_controller_table[];
 extern s16 demo_camera_controller_index;
 
 V_8006CC7C get_target_position__11TCameraCtrlFv(void) {
-    V_8006CC7C def = lbl_804384E8;
+    V_8006CC7C def = default_target_position;
     O_8006CC7C *o = demo_camera_controller_table[demo_camera_controller_index];
     if (o != 0) {
         return o->pos;
