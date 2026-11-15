@@ -328,18 +328,19 @@ inline void feed_audio_stream_decoder(AudioStreamInputState *st) {
 }
 
 inline void drain_audio_stream_decoder(AudioStreamInputState *st) {
+    s32 n;
     TLobby *h = st->decoder;
     AudioStreamSource *s = st->source;
     SjChunk head;
     SjChunk tail;
-    s32 total = TLobby__sub_803C3ABC((u8 *)h);
-    s32 bytes = h->get_field_0xa4();
-    s32 avail = h->get_field_a0();
-    s32 n = total - st->decoded_samples;
+    s32 bytes;
+    s32 avail;
     s32 i;
-    if (avail < n) {
-        n = avail;
-    }
+    n = TLobby__sub_803C3ABC((u8 *)h);
+    bytes = h->get_field_0xa4();
+    avail = h->get_field_a0();
+    n -= st->decoded_samples;
+    n = avail < n ? avail : n;
     TLobby__sub_803D3130(&st->src_chunk, bytes, &head, &tail);
     s->vt->put_chunk(s, 0, &head);
     s->vt->unget_chunk(s, 1, &tail);
@@ -366,13 +367,11 @@ inline void drain_audio_stream_decoder(AudioStreamInputState *st) {
 
 inline void skip_audio_stream_decoder(AudioStreamInputState *st) {
     TLobby *h = st->decoder;
-    s32 total = TLobby__sub_803C3ABC((u8 *)h);
+    s32 n = TLobby__sub_803C3ABC((u8 *)h);
     s32 bytes = h->get_field_0xa4();
     s32 avail = h->get_field_a0();
-    s32 n = total - st->decoded_samples;
-    if (avail < n) {
-        n = avail;
-    }
+    n -= st->decoded_samples;
+    n = avail < n ? avail : n;
     st->output_samples += n;
     st->consumed_bytes += bytes;
     st->decoded_samples += n;
