@@ -105,7 +105,7 @@ inline s32 calc_80409908(void *self, u8 *arr) {
     p = arr + n * 12;
     while (n > 0) {
         set_value_and_enable(tmp, acc);
-        TLobby__sub_80406FD8(tmp, arr + (n - 1) * 12 + 0x10, *(s16 *)p);
+        netbuf_copy_by_ref(tmp, arr + (n - 1) * 12 + 0x10, *(s16 *)p);
         acc += *(s16 *)p;
         sum += *(s16 *)p;
         p -= 12;

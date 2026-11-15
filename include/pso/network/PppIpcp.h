@@ -45,7 +45,7 @@ typedef char IpcpState_size_check[sizeof(IpcpState) == 0xD8 ? 1 : -1];
 /* Reads one option (hdr = type, length) from the packet at cursor into side->got and settles it against cfg. c is 1
  * for the peer's Configure-Request, 0 for a reply to ours. Returns the PPP reply code 2 (ack), 3 (nak), 4 (reject),
  * or -1 on a short packet. */
-s16 TLobby__sub_803FFB84(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 *hdr, s16 c);
+s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 *hdr, s16 c);
 
 /* Option setters for one side of the IPCP configuration; addr -1 turns the option off. */
 s32 ipcp_set_vj_compression(s16 disabled, IpcpSide *side);

@@ -381,7 +381,7 @@ extern s32 TLobby__sub_803FF698(Self_803FF698 *self, u8 *item, s32 arg) {
             bit = optbit_803FF50C(hdr[0]);
             bits->local.got.flags |= 1 << bit;
         }
-        r = TLobby__sub_803FFB84(&arg, bits, p, hdr, 0);
+        r = ipcp_merge_config_options(&arg, bits, p, hdr, 0);
         if (r == -1) {
             return -1;
         }
@@ -470,7 +470,7 @@ extern s32 TLobby__sub_803FF9A4(void *self, u8 *src, u32 bits) {
         if (n < 0) {
             return -1;
         }
-        res = TLobby__sub_803FFB84(&bits, base, &base->peer, hdr, 1);
+        res = ipcp_merge_config_options(&bits, base, &base->peer, hdr, 1);
         if (res == -1) {
             return -1;
         }
@@ -508,7 +508,7 @@ extern s32 TLobby__sub_803FF9A4(void *self, u8 *src, u32 bits) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-s16 TLobby__sub_803FFB84(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 *hdr, s16 c) {
+s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 *hdr, s16 c) {
     s16 len;
     s16 res;
     s16 ch;

@@ -18,7 +18,7 @@ NetFragPacket *TLobby__sub_8041955C(NetworkAddress *src, s32 ident, s32 ttl);
 s32 TLobby__sub_80419470(NetworkAddress *src, u32 ident);
 s32 TLobby__sub_80419374(NetFragPacket *pkt);
 s32 TLobby__sub_8041979C(void);
-s32 TLobby__sub_80418D7C(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_off, u16 frag_len, u8 more, s16 iface);
+s32 reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_off, u16 frag_len, u8 more, s16 iface);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
@@ -89,7 +89,7 @@ s32 TLobby__sub_80418C40(u8* self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident,
     node = base->head;
     while (node != NULL && count < base->npackets) {
         if (compare_sockaddr(&node->src, src) == 0 && node->ident == ident) {
-            ret = TLobby__sub_80418D7C(node, self, hdr_len, frag_off, frag_len, more, iface);
+            ret = reassemble_fragment_packet(node, self, hdr_len, frag_off, frag_len, more, iface);
             if (ret == 0) {
                 return 0;
             }
@@ -103,7 +103,7 @@ s32 TLobby__sub_80418C40(u8* self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident,
     if (node == NULL) {
         return 0;
     }
-    ret = TLobby__sub_80418D7C(node, self, hdr_len, frag_off, frag_len, more, iface);
+    ret = reassemble_fragment_packet(node, self, hdr_len, frag_off, frag_len, more, iface);
     if (ret == 0) {
         return 0;
     }
@@ -111,7 +111,7 @@ s32 TLobby__sub_80418C40(u8* self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident,
     return ret;
 }
 
-inline NetFragment *take_80418D7C(NetFragment **pb, s16 *pn) {
+inline NetFragment *frag_pool_take_entry(NetFragment **pb, s16 *pn) {
     NetFragment *ent;
     s16 i;
     s16 n;
@@ -129,7 +129,7 @@ inline NetFragment *take_80418D7C(NetFragment **pb, s16 *pn) {
     }
     return 0;
 }
-inline s16 contig_80418D7C(NetFragPacket *node, s16 *pn, NetFragPool *g) {
+inline s16 frag_chain_contig_check(NetFragPacket *node, s16 *pn, NetFragPool *g) {
     NetFragment *f;
     s16 cnt;
     s16 n;
@@ -157,7 +157,7 @@ inline s16 contig_80418D7C(NetFragPacket *node, s16 *pn, NetFragPool *g) {
 /* Adds a fragment (frag_off in 8-byte units; more = the more-fragments flag) to node; returns the reassembled
    packet once every fragment is there, else 0.  tail holds the last fragment and then the new packet, and self
    the data and then the fragment being copied. */
-s32 TLobby__sub_80418D7C(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_off, u16 frag_len, u8 more, s16 iface)
+s32 reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_off, u16 frag_len, u8 more, s16 iface)
 {
   NetFragment **new_var;
   NetFragPool *g = &packet_fragment_pool_state;
@@ -190,10 +190,10 @@ s32 TLobby__sub_80418D7C(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_of
     self += hdr_len;
   }
   new_var = &g->frags;
-  if ((e = take_80418D7C(pb = new_var, pn = &g->nfrags)) == 0)
+  if ((e = frag_pool_take_entry(pb = new_var, pn = &g->nfrags)) == 0)
   {
     reset_other_connection_lists(node);
-    if ((e = take_80418D7C(pb, pn)) == 0)
+    if ((e = frag_pool_take_entry(pb, pn)) == 0)
     {
       return 0;
     }
@@ -214,7 +214,7 @@ s32 TLobby__sub_80418D7C(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_of
         return 0;
       }
     }
-    TLobby__sub_80406FD8(&e->data, &tmp, sum);
+    netbuf_copy_by_ref(&e->data, &tmp, sum);
   }
   else
   {
@@ -229,7 +229,7 @@ s32 TLobby__sub_80418D7C(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_of
         return 0;
       }
     }
-    TLobby__sub_80406FD8(&e->data, &tmp, frag_len);
+    netbuf_copy_by_ref(&e->data, &tmp, frag_len);
   }
   e->next = 0;
   head = node->first;
@@ -297,7 +297,7 @@ s32 TLobby__sub_80418D7C(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_of
     }
     node->have_last = 1;
   }
-  res = contig_80418D7C(node, pn, g);
+  res = frag_chain_contig_check(node, pn, g);
   if (res < 0)
   {
     return 0;

@@ -743,7 +743,7 @@ s32 TLobby__sub_804062A0(s16 arg0) {
 }
 
 s32 TLobby__sub_804048E8(void *, s32 *, s16); /* declared here with other parameter types; the definition is s32 (Obj_80403F4C *, PppFrame **, s16) */
-s32 TLobby__sub_804066D8(u8 *);
+s32 ppp_output_frame(u8 *);
 s32 TLobby__sub_80406328(s32 self, s16 type) {
     s32 sv = self;
     void *me = (void *)self;
@@ -772,7 +772,7 @@ s32 TLobby__sub_80406328(s32 self, s16 type) {
             (*(s16 *)(G + 0x124))++;
             return -1;
         }
-        return TLobby__sub_804066D8(t);
+        return ppp_output_frame(t);
     }
     G = lbl_805C0038;
     if (G[0x6c] != 5) {
@@ -793,7 +793,7 @@ s32 TLobby__sub_80406328(s32 self, s16 type) {
             (*(s16 *)(G + 0x124))++;
             return -1;
         }
-        return TLobby__sub_804066D8(t);
+        return ppp_output_frame(t);
     }
     {
         u8 *e = *(u8 **)(G + 0x9c);
@@ -842,7 +842,7 @@ skip:
                 (*(s16 *)(G + 0x124))++;
                 return -1;
             }
-            return TLobby__sub_804066D8(t2);
+            return ppp_output_frame(t2);
         }
     }
 }
@@ -869,7 +869,7 @@ s32 TLobby__sub_80406624(s32 a, s32 b, u16 code, void *self) {
         *(s16 *)(lbl_805C0038 + 0x124) = *(s16 *)(lbl_805C0038 + 0x124) + 1;
         return -1;
     }
-    return TLobby__sub_804066D8(ret);
+    return ppp_output_frame(ret);
 }
 
 s32 send_network_frame(u32 a, void* b);
@@ -884,7 +884,7 @@ inline s32 acfc_804066D8(s32 lcp, u8 *ctx)
 }
 #pragma push
 #pragma opt_propagation off
-s32 TLobby__sub_804066D8(u8 *p)
+s32 ppp_output_frame(u8 *p)
 {
   void get_time_ms(u32 *); /* declared here with other parameter types; the definition is void (s32 *) */
   u8 c0;
@@ -1059,7 +1059,7 @@ void set_value_and_enable(void *self, s32 arg1) {
 #pragma push
 #pragma opt_common_subs on
 #pragma opt_propagation off
-void TLobby__sub_80406FD8(void *a, void *b, s32 v) {
+void netbuf_copy_by_ref(void *a, void *b, s32 v) {
     switch (((NetBufferRef *)b)->kind) {
     case 1:
     case 4:

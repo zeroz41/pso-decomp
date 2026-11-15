@@ -51,7 +51,7 @@ s16 TLobby__sub_8040CB44(u8 *self, u32 d, u32 c)
   NetPacket *pkt = (NetPacket *)self;
   rec = &pkt->fragments[1];
   set_value_and_enable(stream, (s32) hdr);
-  TLobby__sub_80406FD8(stream, &rec->buffer, 8);
+  netbuf_copy_by_ref(stream, &rec->buffer, 8);
   if (calc_ip_checksum(self, 0) != 0)
   {
     return -1;
@@ -103,7 +103,7 @@ s16 TLobby__sub_8040CB44(u8 *self, u32 d, u32 c)
     case 3:
       TLobby__sub_80406EB8(&rec->buffer, 8);
       set_value_and_enable(stream, (s32) ip);
-      TLobby__sub_80406FD8(stream, &rec->buffer, 20);
+      netbuf_copy_by_ref(stream, &rec->buffer, 20);
       TLobby__sub_80406EB8(&rec->buffer, (ip[0] & 0xf) << 2);
       switch (ip[9])
     {
@@ -112,7 +112,7 @@ s16 TLobby__sub_8040CB44(u8 *self, u32 d, u32 c)
 
       case 17:
         set_value_and_enable(stream, (s32) udp);
-        TLobby__sub_80406FD8(stream, &rec->buffer, 8);
+        netbuf_copy_by_ref(stream, &rec->buffer, 8);
         TLobby__sub_80420D38(*((u16 *) udp), hdr[1]);
         break;
 
@@ -123,7 +123,7 @@ s16 TLobby__sub_8040CB44(u8 *self, u32 d, u32 c)
     case 5:
       TLobby__sub_80406EB8(&rec->buffer, 8);
       set_value_and_enable(stream, (s32) ip);
-      TLobby__sub_80406FD8(stream, &rec->buffer, 20);
+      netbuf_copy_by_ref(stream, &rec->buffer, 20);
       switch (hdr[1])
     {
       case 0:
@@ -208,7 +208,7 @@ s16 TLobby__sub_8040CFE8(u8 type, u8 code, u32 src, u32 dst, NetPacket *pkt) {
     switch (type) {
     case 0:
         set_value_and_enable((&ref), (s32)&hdr);
-        TLobby__sub_80406FD8(&ref, &pkt->fragments[pkt->fragment_count - 1].buffer, sizeof(hdr));
+        netbuf_copy_by_ref(&ref, &pkt->fragments[pkt->fragment_count - 1].buffer, sizeof(hdr));
         TLobby__sub_80406EB8(&pkt->fragments[pkt->fragment_count - 1].buffer, sizeof(hdr));
         pkt->fragments[pkt->fragment_count - 1].length -= sizeof(hdr);
         pkt->fragments[pkt->fragment_count].length = sizeof(hdr);

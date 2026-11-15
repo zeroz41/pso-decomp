@@ -87,7 +87,7 @@ s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 arg3
     UdpControlBlock *e;
     frag = &pkt->fragments[1];
     set_value_and_enable(sp20, (s32)&hdr);
-    TLobby__sub_80406FD8(sp20, &frag->buffer, 8);
+    netbuf_copy_by_ref(sp20, &frag->buffer, 8);
     if (hdr.sum != 0 && (u16)TLobby__sub_8040D8F0(src, dst, 0x11, pkt, 0) != 0) {
         return -1;
     }

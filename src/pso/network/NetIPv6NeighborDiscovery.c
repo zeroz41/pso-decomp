@@ -201,7 +201,7 @@ s16 TLobby__sub_80415D0C(NetPacket *a, u8 *b, NetIPv6SendParameters *c, s16 d) {
             goto done;
         }
         set_value_and_enable(&cur, (s32)src);
-        TLobby__sub_80406FD8(&cur, &a->fragments[n - 1].buffer, l);
+        netbuf_copy_by_ref(&cur, &a->fragments[n - 1].buffer, l);
         src += l;
         seg--;
         n--;
@@ -447,7 +447,7 @@ s16 NetIPv6HandleRedirect(NetPacket *arg0, u8 *arg1, u8 *arg2, s32 arg3) {
         return -1;
     }
     set_value_and_enable(&ref, (s32)&msg);
-    TLobby__sub_80406FD8(&ref, &frag->buffer, 0x28);
+    netbuf_copy_by_ref(&ref, &frag->buffer, 0x28);
     dest = msg.destination.bytes;
     if (NetIPv6IsMulticast(dest) != 0) {
         return -1;
@@ -503,7 +503,7 @@ s32 NetIPv6ParseRedirectOptions(NetPacketFragment *arg0, s32 n, NetIcmpv6Redirec
         case 4:
             *arg4 = (*arg4 < len) ? *arg4 : len;
             set_value_and_enable(&sp20, arg3);
-            TLobby__sub_80406FD8(&sp20, &arg0->buffer, *arg4);
+            netbuf_copy_by_ref(&sp20, &arg0->buffer, *arg4);
             TLobby__sub_80406EB8(&arg0->buffer, len);
             break;
         case 2: {
@@ -540,7 +540,7 @@ s16 NetIPv6HandleNeighborAdvertisement(NetPacket *arg0, u8 *arg1, u8 *arg2, s16 
         return -1;
     }
     set_value_and_enable(&sp30, (s32)&sp18);
-    TLobby__sub_80406FD8(&sp30, &hdr->buffer, 0x18);
+    netbuf_copy_by_ref(&sp30, &hdr->buffer, 0x18);
     if ((s16)NetIPv6IsMulticast(sp18.target.bytes)) {
         return -1;
     }
@@ -788,7 +788,7 @@ s16 NetIPv6HandleNeighborSolicitation(NetPacket *arg0, u8 *arg1, u8 *arg2, void 
         return -1;
     }
     set_value_and_enable(&sp30, (s32)&sp18);
-    TLobby__sub_80406FD8(&sp30, &hdr->buffer, 0x18);
+    netbuf_copy_by_ref(&sp30, &hdr->buffer, 0x18);
     if ((s16)NetIPv6IsMulticast(sp18.target.bytes)) {
         return -1;
     }
@@ -913,7 +913,7 @@ s16 NetIPv6HandleRouterAdvertisement(NetPacket *arg0, u8 *arg1, s32 arg2, void *
         return -1;
     }
     set_value_and_enable(&sp28, (s32)&sp18);
-    TLobby__sub_80406FD8(&sp28, &p->buffer, 0x10);
+    netbuf_copy_by_ref(&sp28, &p->buffer, 0x10);
     n -= 0x10;
     if (n >= 8U) {
         TLobby__sub_80406EB8(&p->buffer, 0x10);
@@ -976,7 +976,7 @@ extern s16 TLobby__sub_80417294(NetPacketFragment *self, s32 n, u8 *dst, void *i
       {
         set_value_and_enable((void *) buf58, (s32) &prefix_opt);
         new_var3 = prefix_opt.prefix.bytes;
-        TLobby__sub_80406FD8(buf58, &self->buffer, 0x20);
+        netbuf_copy_by_ref(buf58, &self->buffer, 0x20);
         prefix_event.prefix = (new_var2 = new_var3);
         prefix_event.prefix_len = prefix_opt.prefix_len;
         prefix_event.preferred_lifetime = prefix_opt.preferred_lifetime;
@@ -990,7 +990,7 @@ extern s16 TLobby__sub_80417294(NetPacketFragment *self, s32 n, u8 *dst, void *i
         if (len == 8U)
       {
         set_value_and_enable((void *) buf58, (s32) &mtu_opt);
-        TLobby__sub_80406FD8(buf58, &self->buffer, 8);
+        netbuf_copy_by_ref(buf58, &self->buffer, 8);
         mtu_event.router = dst;
         mtu_event.mtu = mtu_opt.mtu;
         TLobby__sub_80411604((int) id, 4, &mtu_event);
@@ -1103,7 +1103,7 @@ s16 NetIPv6HandleRouterSolicitation(NetPacket *o, u8 *arg1, s32 arg2, s32 arg3) 
         return -1;
     }
     set_value_and_enable(&b, (s32)&a);
-    TLobby__sub_80406FD8(&b, &h->buffer, 8);
+    netbuf_copy_by_ref(&b, &h->buffer, 8);
     len -= 8;
     if (len >= 8) {
         TLobby__sub_80406EB8(&h->buffer, 8);
@@ -1193,7 +1193,7 @@ s16 NetIPv6SendNeighborAdvertisement(NetPacket *arg0, u8 *address, u8 arg2, NetI
     NetBufferRef cur;
     Ipv6NdNeighbor *e;
     void *p6;
-    void TLobby__sub_80406FD8(void *, void *, int);
+    void netbuf_copy_by_ref(void *, void *, int);
     u16 TLobby__sub_80411040(void *, void *, u8, void *, s16); /* declared here with other parameter types; the definition is u16 (const IPv6Address *, const IPv6Address *, u8, const NetPacket *, s16) */
     s16 TLobby__sub_804136AC(s16 arg0); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_80413934(void *, s16); /* declared s16 here; the definition is s32 (u8 *, s16) */
@@ -1275,7 +1275,7 @@ s16 NetIPv6SendNeighborAdvertisement(NetPacket *arg0, u8 *address, u8 arg2, NetI
                     goto done;
                 }
                 set_value_and_enable(&cur, (s32)src);
-                TLobby__sub_80406FD8(&cur, &arg0->fragments[n - 1].buffer, l);
+                netbuf_copy_by_ref(&cur, &arg0->fragments[n - 1].buffer, l);
                 src += l;
                 seg--;
                 n--;
