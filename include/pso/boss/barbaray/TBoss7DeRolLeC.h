@@ -137,7 +137,6 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     u16 unk_7CE;
     u16 unk_7D0;
     u16 unk_7D2;
-    void set_field_38(s32 v);
     static void run_exit_callbacks();
     static void *create(void *arg0);
 };
