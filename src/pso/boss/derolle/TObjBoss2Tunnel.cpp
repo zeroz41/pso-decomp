@@ -19,6 +19,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/AccelerationCurve.h"
 #include "pso/render/TDLGraph.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/scene/TScene.h"
@@ -305,24 +306,11 @@ struct PiecewiseCurve {
 };
 extern "C" {
 }
-// The same ramp without a start speed or clock (init_acceleration_curve / sample_acceleration_curve).
-struct AccelerationCurve {
-    f32 accel;
-    f32 decel;
-    f32 peak;
-    f32 accelEnd;
-    f32 decelStart;
-    f32 end;
-    f32 accelDist;
-    f32 decelPos;
-    f32 dist;
-};
 extern "C" {
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 void __dl__FPv(void);
 s32 reset_floats__15TObjBoss2TunnelFv();
-int reset_coords__15TObjBoss2TunnelFv();
 s32 get_view_matrix__11TCameraCtrlFv();
 int vec3_add_to(void*, void*);
 int TCameraCtrl__sub_8006B370(f32 farg0);
@@ -562,20 +550,24 @@ s32 TObjBoss2Tunnel::decrement_packed_timer(u32 *arg0, s32 arg1) {
     return 0;
 }
 
-s32 TObjBoss2Tunnel::reset_coords_pass(s32 arg0) {
-    reset_coords__15TObjBoss2TunnelFv();
-    return arg0;
+AccelerationCurve::AccelerationCurve() {
+    reset_coords();
 }
 
-s32 TObjBoss2Tunnel::maybe_delete(s32 arg0, s16 arg1) {
-    if ((arg0 != 0) && (arg1 > 0)) {
-        __dl__FPv();
-    }
-    return arg0;
-}
+AccelerationCurve::~AccelerationCurve() {}
 
 }
-void TObjBoss2Tunnel::reset_coords() { *(float *)&this->m_flags = 0.0f; *(float *)&this->m_name = 0.0f; *(float *)&this->m_prev = 0.0f; *(float *)&this->m_down = 0.0f; *(float *)&this->m_up = 0.0f; *(float *)&this->m_next = 0.0f; *(float *)&this->m_20 = 0.0f; *(float *)&this->_pad1C = 0.0f; *(float*)((char*)this + 0x18) = 0.0f; }
+void AccelerationCurve::reset_coords() {
+    decel = 0.0f;
+    accel = 0.0f;
+    peak = 0.0f;
+    end = 0.0f;
+    decelStart = 0.0f;
+    accelEnd = 0.0f;
+    dist = 0.0f;
+    decelPos = 0.0f;
+    accelDist = 0.0f;
+}
 
 extern "C" {
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed) {
@@ -612,8 +604,8 @@ void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32
     c->end = c->decelStart + (-c->peak / c->decel);
 }
 
-int TObjBoss2Tunnel::check_param_threshold(f32 arg1) {
-    return arg1 >= *(f32 *)&this->m_down;
+int AccelerationCurve::check_param_threshold(f32 t) {
+    return t >= this->end;
 }
 
 }

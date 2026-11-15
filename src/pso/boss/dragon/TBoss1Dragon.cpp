@@ -1,4 +1,5 @@
 #include "pso/animation/MotionContext.h"
+#include "pso/boss/derolle/AccelerationCurve.h"
 #include "pso/boss/TUnk_80481B34.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -158,8 +159,9 @@ struct Obj_80029C78 {
     void *vt;
     u8 pad1c[0x3C4 - 0x1C];
     u8 f3C4[0x5F4 - 0x3C4];
-    u8 f5F4[0x618 - 0x5F4];
-    u8 f618[0x684 - 0x618];
+    AccelerationCurve f5F4;
+    AccelerationCurve f618;
+    u8 pad63C[0x684 - 0x63C];
     TObject *f684;
     void *f688;
     TObject *f68C;
@@ -345,6 +347,7 @@ u8 *TBoss1DragonColli__ct(u8 *arg0, s32 arg1);
 void *TBoss1DragonEffTail__ct(void *, void *, void *);
 u8 *TObjBoss1MokoHill_SoloM__ct(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3);
 s32 __ct__14SubtractiveRngFv(void *arg0);
+void __ct__17AccelerationCurveFv(AccelerationCurve *curve);
 void __ct__12TObjEneDD_STFP7TObject(void *, void *);
 void initialize_enemy_state__9TObjEneDDFl(void *, s32);
 void init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, s32);
@@ -3328,10 +3331,10 @@ void TBoss1Dragon::update_flight_state(u32 arg1) {
         ((s32 (*)(void *, s32))update_velocity__9TObjEneDDFv)(arg0, old);
         switch (isV2Mode__12TBoss1DragonFv()) {
         case 0:
-            init_acceleration_curve(this->m_5f4, (0.1f), (-0.1f), this->m_3ac, (2.0f));
+            init_acceleration_curve(&this->m_5f4, (0.1f), (-0.1f), this->m_3ac, (2.0f));
             break;
         case 1:
-            init_acceleration_curve(this->m_5f4, (0.1f), (-0.1f), this->m_3ac, *(f32 *)((s8 *)(*(G_80025C68 *)&TBoss1Dragon__data_804FE17C).value + 0x14));
+            init_acceleration_curve(&this->m_5f4, (0.1f), (-0.1f), this->m_3ac, *(f32 *)((s8 *)(*(G_80025C68 *)&TBoss1Dragon__data_804FE17C).value + 0x14));
             break;
         }
         VecCopy__FP3VecPC3Vec((s32)base, (s32)&this->position);
@@ -3344,10 +3347,10 @@ void TBoss1Dragon::update_flight_state(u32 arg1) {
         }
         switch (isV2Mode__12TBoss1DragonFv()) {
         case 0:
-            init_acceleration_curve(this->m_618, 16.0f, (-16.0f), (f32)var, 512.0f);
+            init_acceleration_curve(&this->m_618, 16.0f, (-16.0f), (f32)var, 512.0f);
             break;
         case 1:
-            init_acceleration_curve(this->m_618, 16.0f, (-16.0f), (f32)var, (f32)(s32)(256.0f * *(f32 *)((s8 *)(*(G_80025C68 *)&TBoss1Dragon__data_804FE17C).value + 0x14)));
+            init_acceleration_curve(&this->m_618, 16.0f, (-16.0f), (f32)var, (f32)(s32)(256.0f * *(f32 *)((s8 *)(*(G_80025C68 *)&TBoss1Dragon__data_804FE17C).value + 0x14)));
             break;
         }
         this->m_874 = this->rotation_y;
@@ -3381,19 +3384,19 @@ void TBoss1Dragon::update_flight_state(u32 arg1) {
         switch (this->stateStep) {
         case 0:
             this->fallVelocity += (1.0f);
-            t = sample_acceleration_curve(this->m_618, this->fallVelocity);
+            t = sample_acceleration_curve(&this->m_618, this->fallVelocity);
             this->rotation_y = (s32)((f32)this->airTurnDirection * t + (f32)this->m_874);
-            if (((TObjBoss2Tunnel *)this->m_618)->check_param_threshold(this->fallVelocity) != 0) {
+            if (this->m_618.check_param_threshold(this->fallVelocity) != 0) {
                 this->fallVelocity = (0.0f);
                 this->stateStep = 1;
             }
             break;
         case 1:
             this->fallVelocity += (1.0f);
-            t = sample_acceleration_curve(this->m_5f4, this->fallVelocity);
+            t = sample_acceleration_curve(&this->m_5f4, this->fallVelocity);
             this->position.x = this->m_3a0.x * t + base[0];
             this->position.z = this->m_3a0.z * t + base[2];
-            if (((TObjBoss2Tunnel *)this->m_5f4)->check_param_threshold(this->fallVelocity) != 0) {
+            if (this->m_5f4.check_param_threshold(this->fallVelocity) != 0) {
                 this->stateStep = 2;
             }
             break;
@@ -5336,8 +5339,8 @@ Obj_80029C78 *destroy__12TBoss1DragonFPvs(Obj_80029C78 *o, s16 flag) {
             TBoss1Dragon__data_805D4B2C = 0;
         }
         __destroy_arr(o->f6E8, (void *)__dt__15RenderFadeStateFv, 0x1c, 4);
-        TObjBoss2Tunnel::maybe_delete((s32)o->f618, (s16)(-1));
-        TObjBoss2Tunnel::maybe_delete((s32)o->f5F4, (s16)(-1));
+        o->f618.~AccelerationCurve();
+        o->f5F4.~AccelerationCurve();
         __dt__7TObjectFv(o->f3C4, -1);
         __dt__12TObjEneDD_STFv(o, 0);
         if (flag > 0) {
@@ -5359,8 +5362,8 @@ u8 *TBoss1Dragon__ct(u8 *arg0, void *arg1, void *arg2) {
     __ct__12TObjEneDD_STFP7TObject(arg0, arg1);
     *(s32 *)(arg0 + 0x18) = (s32)lbl_80481280;
     __ct__7TObjectFP7TObject(((TBoss1Dragon *)arg0)->unknown3C4, 0);
-    TObjBoss2Tunnel::reset_coords_pass((s32)((TBoss1Dragon *)arg0)->m_5f4);
-    TObjBoss2Tunnel::reset_coords_pass((s32)((TBoss1Dragon *)arg0)->m_618);
+    __ct__17AccelerationCurveFv(&((TBoss1Dragon *)arg0)->m_5f4);
+    __ct__17AccelerationCurveFv(&((TBoss1Dragon *)arg0)->m_618);
     __construct_array(((TBoss1Dragon *)arg0)->viewFade, __ct__15RenderFadeStateFv, __dt__15RenderFadeStateFv, 0x1C, 4);
     __ct__14SubtractiveRngFv(((TBoss1Dragon *)arg0)->randomState);
     ((TBoss1Dragon *)arg0)->m_name = (const char *)TBoss1Dragon__name;
@@ -5413,8 +5416,8 @@ u8 *TBoss1Dragon__ct(u8 *arg0, void *arg1, void *arg2) {
     ((TBoss1Dragon *)arg0)->m_5e8.x = (0.0f);
     ((TBoss1Dragon *)arg0)->m_5e8.y = (0.0f);
     ((TBoss1Dragon *)arg0)->m_5e8.z = (0.0f);
-    ((TObjBoss2Tunnel *)((TBoss1Dragon *)arg0)->m_5f4)->reset_coords();
-    ((TObjBoss2Tunnel *)((TBoss1Dragon *)arg0)->m_618)->reset_coords();
+    ((TBoss1Dragon *)arg0)->m_5f4.reset_coords();
+    ((TBoss1Dragon *)arg0)->m_618.reset_coords();
     VecCopy__FP3VecPC3Vec((s32)&((TBoss1Dragon *)arg0)->m_63c, (s32)&((TBoss1Dragon *)arg0)->position);
     VecCopy__FP3VecPC3Vec((s32)&((TBoss1Dragon *)arg0)->m_648, (s32)&((TBoss1Dragon *)arg0)->position);
     ((TBoss1Dragon *)arg0)->m_654 = 0;

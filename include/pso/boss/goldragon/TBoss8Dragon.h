@@ -4,11 +4,15 @@
 #include "types.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
+#include "pso/boss/derolle/AccelerationCurve.h"
+
+struct TBoss8DragonEffTail;
 
 // The gold dragon (Episode 2's Gol Dragon) boss.
 class TBoss8Dragon : public TObjEneDD_ST
 {
 public:
+    TBoss8Dragon(TObject *parent, void *set_data);
     virtual ~TBoss8Dragon();
     virtual void run_task();
     virtual void render();
@@ -84,10 +88,8 @@ public:
     u8 unk_5E0[0x4];
     f32 m_5e4;
     u8 unk_5E8[0x4];
-    void* m_5ec;
-    u8 _pad5F0[0x20];
-    void* m_610;
-    u8 _pad614[0x20];
+    AccelerationCurve curve0;  // fed to init_acceleration_curve / sample_acceleration_curve
+    AccelerationCurve curve1;
     void* m_634;
     u8 _pad638[0x8];
     void* m_640;
@@ -102,9 +104,9 @@ public:
     u32 m_674;
     u16 m_678;
     u16 m_67a;
-    u32 m_67c;
-    u32 m_680;
-    u32 m_684;
+    TBoss8DragonEffTail *tail;  // the TBoss8DragonEffTail the constructor creates
+    u32 attack_history;  // the AreaAttackHistory the constructor creates
+    TObject *collider;  // the TBoss8DragonColli the constructor hangs under sub_tasks
     u8 unk_688[0x4];
     f32 m_68c;
     f32 m_690;
@@ -260,7 +262,6 @@ public:
     s32 is_near_other_part();
     void draw_with_fade(s32 arg1, s32 arg2);
     void draw();
-    u8 *ct_attack_object(s32 arg1, s32 arg2, s32 arg3);
 
     // Per-action event handlers, run by dispatch_action (vtable slot 87).
     void sub_802F4B90(s32 event);
