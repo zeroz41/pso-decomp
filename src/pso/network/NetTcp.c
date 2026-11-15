@@ -37,12 +37,12 @@ s16 tcp_get_socket_handle(s16 i);
 s16 validate_tcp_handle(s16 i);
 
 u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 arg2, u8 *arg3, s16 arg4);
-s32 TLobby__sub_8041D368(TcpTcb *tcb);
+s16 TLobby__sub_8041D368(TcpTcb *tcb);
 s32 get_adjusted_slot_count(TcpTcb *tcb);
 TcpTcb *TLobby__sub_8041B5C0(TcpTcb *tcb);
 
 s32 TLobby__sub_8041EB74(TcpTcb *tcb);
-s32 TLobby__sub_8041ECA4(TcpTcb *tcb);
+s16 TLobby__sub_8041ECA4(TcpTcb *tcb);
 void TLobby__sub_8041A3CC(void);
 void TLobby__sub_8041A5B4(void);
 s32 NetTCPInit(void);
@@ -620,7 +620,7 @@ extern s16 TLobby__sub_8041B724(TcpTcb *tp) {
 }
 
 extern s32 TLobby__sub_8041E780(void);
-s32 TLobby__sub_8041EC14(TcpTcb *tcb);
+s16 TLobby__sub_8041EC14(TcpTcb *tcb);
 extern TcpTcb *TLobby__sub_8041B774(TcpTcb *self, TcpHdr *th, u8 *a, u8 *b) {
     u16 v;
     TcpTcb *dst;
@@ -628,8 +628,6 @@ extern TcpTcb *TLobby__sub_8041B774(TcpTcb *self, TcpHdr *th, u8 *a, u8 *b) {
     s32 n;
     s16 idx;
     u8 *sp;
-    s16 TLobby__sub_8041ECA4(TcpTcb *tcb); /* declared s16 here; the definition returns s32 */
-    s16 TLobby__sub_8041EC14(TcpTcb *tcb); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_8041E780(void); /* declared s16 here; the definition returns s32 */
 
     if (self->f2C4 <= self->pending) return NULL;
@@ -725,7 +723,6 @@ s16 TLobby__sub_8041B974(u8 *pkt, u8 *a, u8 *b) {
     s32 TLobby__sub_80422AB8(s32, void (*)(s16, s16, s32, s32), s16, s32, s32, s32);
     s16 compare_sockaddr(NetworkAddress *, NetworkAddress *); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_8041B3D4(void *, void *, u16, u16, s32, s32, u8); /* declared s16 here; the definition is s32 (void *, void *, s16, s16, s32, s32, u8) */
-    s16 TLobby__sub_8041D368(TcpTcb *tcb); /* declared s16 here; the definition returns s32 */
 
     *(s32 *)(pkt + offsetof(NetPacket, total_bytes)) = *(s32 *)(pkt + offsetof(NetPacket, total_bytes)) - *(s16 *)(pkt + offsetof(NetPacket, fragments[0].length));
     *(s16 *)(pkt + offsetof(NetPacket, fragments[0].length)) = 0;
@@ -1406,13 +1403,12 @@ drop:
 #pragma pop
 #pragma pop
 
-s32 TLobby__sub_8041D524(TcpTcb *tcb, s32 x);
+s16 TLobby__sub_8041D524(TcpTcb *tcb, s32 x);
 #pragma push
 #pragma opt_common_subs on
 s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, u8 *p6)
 {
   void TLobby__sub_8041D584(TcpTcb *self, u8 *p6, TcpSeqRange *tbl, s16 n); /* declared here with other parameter types; the definition is void (TcpTcb *, Th_8041D584 *, Sack_8041D584 *, s16) */
-  s16 TLobby__sub_8041D524(TcpTcb *, s32); /* declared s16 here; the definition is s32 (TcpTcb *, s32) */
   s32 n;
   s16 done = 0;
   u8 sz;
@@ -1679,7 +1675,7 @@ void insert_item_at(TcpTcb *o, s16 idx, s32 a, s32 b) {
     o->seg_top++;
 }
 
-s32 TLobby__sub_8041D368(TcpTcb *tcb) {
+s16 TLobby__sub_8041D368(TcpTcb *tcb) {
     if (tcb->seg_top == -1) {
         return 1;
     }
@@ -1760,7 +1756,7 @@ s32 TLobby__sub_8041D460(TcpTcb *tp, s32 *start, s32 *end) {
     return 0;
 }
 
-s32 TLobby__sub_8041D524(TcpTcb *tcb, s32 x) {
+s16 TLobby__sub_8041D524(TcpTcb *tcb, s32 x) {
     s16 n = tcb->seg_top;
     s16 i;
     if (n == -1) { return 0; }
@@ -2209,10 +2205,6 @@ u16 TLobby__sub_8041EA14(void);
 s16 tcp_connect_start(s16 arg0, s32 arg1, s16 arg2) {
     s16 r;
     TcpTcb *e;
-    s16 TLobby__sub_8041EC14(TcpTcb *tcb); /* declared s16 here; the definition returns s32 */
-    s16 TLobby__sub_8041ECA4(TcpTcb *tcb); /* declared s16 here; the definition returns s32 */
-    u16 get_adjusted_slot_count(TcpTcb *tcb); /* declared u16 here; the definition returns s32 */
-    void NetDispatchSocketEvent(s16, s32, s32, s16);
 
     if (arg0 < 0 || arg0 >= tcp_protocol_state.count) {
         r = -4;
@@ -2251,7 +2243,7 @@ s16 tcp_connect_start(s16 arg0, s32 arg1, s16 arg2) {
         close_if_open(e);
         return r;
     }
-    e->snd_cwnd = get_adjusted_slot_count(e);
+    e->snd_cwnd = (u16)get_adjusted_slot_count(e);
     e->t_state = 2;
     e->timers[2] = 0x96;
     {
@@ -2523,7 +2515,7 @@ s32 close_if_open(TcpTcb *tcb) {
     return 0;
 }
 
-s32 TLobby__sub_8041EC14(TcpTcb *tcb) {
+s16 TLobby__sub_8041EC14(TcpTcb *tcb) {
     s32 spC[3];
 
     if (tcb->rcv_buf.kind == 0) {
@@ -2542,7 +2534,7 @@ s32 TLobby__sub_8041EC14(TcpTcb *tcb) {
     return 0;
 }
 
-s32 TLobby__sub_8041ECA4(TcpTcb *tcb) {
+s16 TLobby__sub_8041ECA4(TcpTcb *tcb) {
     unsigned char off;
     s32 spC;
 
