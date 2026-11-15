@@ -67,52 +67,6 @@ BmlResourceDescriptor lbl_804B94FC = {
 const char *TObjWarpBoss__name = "TObjWarpBoss";
 const char *TObjWarpBossMulti__name = "TObjWarpBossMulti";
 
-struct VWarp_8019DD34 { char pad[0x18]; };
-struct TObjWarpBossMulti_8019DD34 : VWarp_8019DD34 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-#define CAT2(a,b) a##b
-#define CAT(a,b) CAT2(a,b)
-struct P_A_8019DD34 { char pad[0x18]; };
-struct P_V_8019DD34 : P_A_8019DD34 {
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual void CAT(pv, __LINE__)();
-    virtual s32 m31();
-};
-#undef CAT
-#undef CAT2
-
 struct RecoveredGlobal_8019E418_lbl_8050E208 {
     s32 value;
     u8 remaining[0x1AC];
@@ -136,8 +90,6 @@ struct Obj_8019E238 {
 struct Pl_8019E4E8 { u8 pad0[0x38]; f32 pos[3]; };
 struct Wb_8019E4E8 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x68]; f32 fAC; };
 struct Pkt_8019E6C0 { u8 cmd; u8 size; u16 id; u16 value; u16 pad; };
-
-struct Obj_8019E6C0 { u8 pad[0x1c]; u16 id; };
 
 struct Warp_8019EE14 {
     u8 pad0[0x38];
@@ -189,7 +141,6 @@ struct Pos_8019EFF0
 };
 
 struct Wb_8019E4E8;
-struct Obj_8019E6C0;
 
 struct Obj_8019F578 {
     s32 f0;
@@ -257,8 +208,6 @@ void TObjFish__sub_8019F72C(void);
 s32 TObjWarpBossMulti__create(s32 arg0);
 }
 }
-struct Base2_8019f358_8019F22C { char pad[0x18]; };
-struct VObj2_8019f358_8019F22C : Base2_8019f358_8019F22C { virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7(); virtual s32 m8(f32, f32); };
 
 const char lbl_8044663C[] = "<- NEXT STAGE No.";
 const char lbl_80446650[] = "<- KEY ID : %d";
@@ -483,7 +432,7 @@ void TObjWarpBoss::render() {
         }
         goto block_4;
     }
-    if (((VObj2_8019f358_8019F22C*)arg0)->m8(400.0f, 40.0f) != 0) {
+    if (update_object_view_visibility(400.0f, 40.0f) != 0) {
 block_4:
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
@@ -991,12 +940,12 @@ s32 TObjWarpBoss::sub_8019E418() {
 }
 
 void TObjWarpBoss::update_warp_boss_visibility() {
-    void *player;
+    TObjPlayer *player;
     s32 var_r30;
 
     player = get_player_by_client_id(local_client_id);
     var_r30 = 1;
-    if ((player != NULL) && (((P_V_8019DD34 *) player)->m31() != 0)) {
+    if ((player != NULL) && (player->has_flag_0x800() != 0)) {
         var_r30 = 0;
     }
     if ((player != NULL) && (check_flag_100__10TObjPlayerFPv(player) != 0)) {
@@ -1113,7 +1062,7 @@ void TObjWarpBossMulti::render() {
         }
         goto block_4;
     }
-    if (((TObjWarpBossMulti_8019DD34 *)this)->m8(400.0f, 40.0f) != 0) {
+    if (update_object_view_visibility(400.0f, 40.0f) != 0) {
 block_4:
         push_matrix();
         post_translate_matrix(&position);
