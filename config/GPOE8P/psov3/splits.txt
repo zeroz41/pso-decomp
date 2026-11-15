@@ -4795,6 +4795,7 @@ pso/quest/TQuestColCtrl.cpp:
 
 pso/object/quest/TObjQuestColApcINW.cpp:
 	.text       start:0x8019608C end:0x80196214
+	.bss        start:0x8050DD08 end:0x8050DD18
 
 pso/unk/text_80196214.cpp:
 	.text       start:0x80196214 end:0x80196280
@@ -4840,6 +4841,8 @@ pso/object/quest/TObjQuestCol_80196B3C.cpp:
 
 pso/object/quest/TObjQuestColBase_80196BFC.cpp:
 	.text       start:0x80196BFC end:0x80196E68
+	.rodata     start:0x80445E50 end:0x80445E64
+	.sdata      start:0x805D33E8 end:0x805D33EC
 
 pso/object/quest/TObjQuestCol2_80196E68.cpp:
 	.text       start:0x80196E68 end:0x80196ECC

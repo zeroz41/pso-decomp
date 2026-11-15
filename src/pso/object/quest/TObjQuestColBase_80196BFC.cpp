@@ -94,7 +94,7 @@ extern s32 TObjQuestColBase__instance_count;
 extern const f32 lbl_805DBEF8;
 extern const f32 lbl_805DBEFC;
 extern const f32 lbl_805DBF00;
-extern s32 quest_col_base_class_name;
+const char *quest_col_base_class_name = "TObjQuestColBase";
 extern u16 quest_collision_next_id;
 
 extern s32 local_client_id;
@@ -149,7 +149,7 @@ u8 *TObjQuestColBase__ct(u8 *quest_col_base, s32 arg1, s32 arg2) {
   u16 temp_r6;
   __ct__14TObjCollidableFP7TObject(quest_col_base, arg1);
   ((RecoveredFields_80196DB4_arg0 *) quest_col_base)->field_18 = &(*(RecoveredGlobal_80196DB4___vt__16TObjQuestColBase *)&__vt__16TObjQuestColBase).value;
-  ((RecoveredFields_80196DB4_arg0 *) quest_col_base)->field_0 = quest_col_base_class_name;
+  ((TObjQuestColBase *) quest_col_base)->m_name = quest_col_base_class_name;
   (((TObjQuestColBase *)(quest_col_base))->apply_object_set_data((void *)arg2));
   temp_r6 = -1;
   if (((RecoveredFields_80196DB4_arg0 *) quest_col_base)->field_1C == temp_r6)
