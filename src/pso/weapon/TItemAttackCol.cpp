@@ -364,8 +364,9 @@ TItemAttackCol::TItemAttackCol(TObject *parent, S_802E449C *params) : TUnk_804E3
         if (params->particle != -1) {
             particle = create_particle_emitter(&position, params->particle);
             if (particle != NULL) {
+                s32 yaw = params->rotation_y;
                 ParticleAngles direction = particle_direction;
-                direction.x += params->rotation_y;
+                direction.x += yaw;
                 particle->set_direction(&direction);
             }
         } else {
