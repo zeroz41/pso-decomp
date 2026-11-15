@@ -19,19 +19,6 @@ struct Tbl_8020B970 { s32 count; s32 count2; u8 pad8[8]; Dst_8020B970 *list; Dst
 
 struct Slot_8020B970 { void *entry; void *entry2; };
 
-// Set flags of every floor's object and enemy sets, packed for the network (serialize_area_set_flags).
-// inferred: the buffer serialize_area_set_flags fills
-struct SerializedAreaSetFlagsHeader {
-    u32 header_size;
-    s32 object_count;
-    u32 enemy_offset;
-    s32 enemy_count;
-};
-
-struct SerializedAreaSetFlags : SerializedAreaSetFlagsHeader {
-    s16 flags[1];
-};
-
 extern "C" {
 void destroy_child_recursive__6TLobbyFPvPv(int, int);
 extern Ent_8020BB18 *TLobby__data_805D611C;
