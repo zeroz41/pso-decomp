@@ -471,6 +471,8 @@ extern "C" {
 void *memset(void *, int, unsigned long);
 u16 get_entity_id(void *);
 s16 TObjFish__sub_802E7CC4(TBoss7DeRolLeC *self);
+extern const f32 lbl_805DEA10;
+extern const f32 lbl_805DEA18;
 void TObjFish__sub_802E7D70(TBoss7DeRolLeC *self, s16 slot, const Vec *position, Ang_802E7888 *angle, s32 flags);
 }
 
@@ -535,19 +537,37 @@ struct Boss7CrawfishSetData {
 
 // Spawns a crawfish in child slot `slot` unless one with that entity id is
 // already alive.
+struct CrawfishSlotOffset { s16 value; };
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(4)
+static inline void add_crawfish_slot_base(CrawfishSlotOffset &offset) {
+    offset.value += 11;
+    offset.value = (s16)offset.value;
+}
+#pragma pop
+
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(4)
+#pragma opt_propagation off
+#pragma opt_lifetimes off
 void TObjFish__sub_802E7D70(TBoss7DeRolLeC *self, s16 slot, const Vec *position, Ang_802E7888 *angle, s32 flags) {
-    s16 offset;
+    Boss7CrawfishSetData set;
+    u16 id;
+    TObject *child;
     if (self->crawfish_parent != NULL && slot > 0) {
-        offset = slot + 11;
-        u16 id = offset + get_entity_id(self);
-        TObject *child;
+        u16 base_id = get_entity_id(self);
+        CrawfishSlotOffset offset;
+        offset.value = slot;
+        add_crawfish_slot_base(offset);
+        id = offset.value + base_id;
         for (child = self->crawfish_parent->m_down; child != NULL; child = child->m_next) {
             if (id == get_entity_id(child)) {
                 return;
             }
         }
-        Boss7CrawfishSetData set;
-        set.set_index = self->set_index + offset;
+        set.set_index = self->set_index + offset.value;
         set.unk_02 = 1;
         set.unk_04 = 0;
         set.entity_id = id;
@@ -558,15 +578,15 @@ void TObjFish__sub_802E7D70(TBoss7DeRolLeC *self, s16 slot, const Vec *position,
         VecCopy(&set.position, position);
         copy_xyz(&set.rotation, angle);
         if (flags & 1) {
-            set.unk_28 = 0.0f;
+            set.unk_28 = lbl_805DEA10;
         } else {
-            set.unk_28 = 1.0f;
+            set.unk_28 = lbl_805DEA18;
         }
+        set.unk_2C = lbl_805DEA10;
+        set.unk_30 = lbl_805DEA10;
+        set.unk_34 = lbl_805DEA10;
+        set.unk_38 = lbl_805DEA10;
         set.unk_3C = 0;
-        set.unk_2C = 0.0f;
-        set.unk_30 = 0.0f;
-        set.unk_34 = 0.0f;
-        set.unk_38 = 0.0f;
         set.unk_3E = 0;
         void *crawfish = TObject::operator new(0x3D0);
         if (crawfish != NULL) {
@@ -574,6 +594,7 @@ void TObjFish__sub_802E7D70(TBoss7DeRolLeC *self, s16 slot, const Vec *position,
         }
     }
 }
+#pragma pop
 
 struct EffectNode_802E7EA0 { u8 pad[4]; s32 value; };
 
