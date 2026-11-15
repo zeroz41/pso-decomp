@@ -12,6 +12,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/warp/TObjWarpBoss.h"
 #include "pso/object/warp/TObjWarpBossMulti.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/unk/text_803D853C.h"
 
@@ -40,6 +41,26 @@
 #include "pso/system/task/TObject.h"
 
 #pragma defer_codegen on
+const char *boss_warp_model_names[4] = {
+    "fs_obj_warp_dai.gj", "fs_obj_warp_dai_beam.gj", "fs_obj_warp_dai_beam02.gj", NULL,
+};
+const char *boss_warp_motion_names[3] = { "fs_obj_warp_dai_beam.njm", "fs_obj_warp_dai_beam02.njm", NULL };
+BmlResourceDescriptor lbl_804B94AC = { "bm_obj_warpboss.bml", boss_warp_model_names, boss_warp_motion_names, 3, 2 };
+
+const char *ancient_boss_warp_model_names[4] = {
+    "fe_obj_df_warp_gawa.gj", "de_obj_df_warp_beam.gj", "de_obj_df_warp_sbeam.gj", NULL,
+};
+const char *ancient_boss_warp_motion_names[3] = { "de_obj_df_warp_beam.njm", "de_obj_df_warp_sbeam.njm", NULL };
+BmlResourceDescriptor lbl_804B94D8 = {
+    "bm_obj_warpboss_ancient.bml", ancient_boss_warp_model_names, ancient_boss_warp_motion_names, 3, 2,
+};
+
+const char *jungle_boss_warp_model_names[3] = { "fe_obj_warp4_dodai.gj", "fe_obj_warp4_jogo_light.gj", NULL };
+__declspec(section ".data") const char *jungle_boss_warp_motion_names[2] = { "fe_obj_warp4_jogo_light.njm", NULL };
+BmlResourceDescriptor lbl_804B94FC = {
+    "bm_obj_warpboss_jungle.bml", jungle_boss_warp_model_names, jungle_boss_warp_motion_names, 2, 1,
+};
+
 const char *TObjWarpBoss__name = "TObjWarpBoss";
 const char *TObjWarpBossMulti__name = "TObjWarpBossMulti";
 
@@ -226,7 +247,6 @@ s32 warp_boss_model_handle;
 s32 lbl_805D5CA4;
 extern s32 __vt__12TObjWarpBoss[];
 extern "C" {
-extern u8 lbl_80446480[];
 s32 get_boss_warp_destination(void);
 extern "C" {
 void *__nw__7TObjectFUl(int);
@@ -243,74 +263,7 @@ extern "C" {
 extern "C" {
 extern "C" {
 extern "C" {
-extern "C" u8 lbl_80446480[];
-extern "C" u8 lbl_80446494[];
-extern "C" u8 lbl_804464AC[];
-extern "C" u8 lbl_804464C8[];
-extern "C" u8 lbl_804464E4[];
-extern "C" u8 lbl_80446500[];
-extern "C" u8 lbl_80446514[];
-extern "C" u8 lbl_8044652C[];
-extern "C" u8 lbl_80446544[];
-extern "C" u8 lbl_8044655C[];
-extern "C" u8 lbl_80446574[];
-extern "C" u8 lbl_80446590[];
-extern "C" u8 lbl_804465AC[];
-extern "C" u8 lbl_804465C4[];
-extern "C" u8 lbl_804465E0[];
-extern "C" u8 lbl_804465FC[];
-extern void *boss_warp_model_names[4];
-extern void *boss_warp_motion_names[3];
-extern void *lbl_804B94BC[4];
-extern void *ancient_boss_warp_resource_block[3];
-extern void *lbl_804B94E8[3];
-extern __declspec(section ".data") void *jungle_boss_warp_resource_block[2];
 int get_boss_warp_base_model(void);
-}
-extern "C" {
-extern u8 lbl_80446494[];
-}
-extern "C" {
-extern u8 lbl_804464AC[];
-}
-extern "C" {
-extern u8 lbl_804464C8[];
-}
-extern "C" {
-extern u8 lbl_804464E4[];
-}
-extern "C" {
-extern u8 lbl_80446500[];
-}
-extern "C" {
-extern u8 lbl_80446514[];
-}
-extern "C" {
-extern u8 lbl_8044652C[];
-}
-extern "C" {
-extern u8 lbl_80446544[];
-}
-extern "C" {
-extern u8 lbl_8044655C[];
-}
-extern "C" {
-extern u8 lbl_80446574[];
-}
-extern "C" {
-extern u8 lbl_80446590[];
-}
-extern "C" {
-extern u8 lbl_804465AC[];
-}
-extern "C" {
-extern u8 lbl_804465C4[];
-}
-extern "C" {
-extern u8 lbl_804465E0[];
-}
-extern "C" {
-extern u8 lbl_804465FC[];
 }
 int get_boss_warp_confirmation_model(void);
 }
@@ -362,41 +315,6 @@ char *strcpy(char *, const char *);
 s32 is_locally_controlled__10TObjPlayerFPv(u32);
 
 void update_warp_boss_visibility__12TObjWarpBossFv(void *arg0);
-void *boss_warp_model_names[4] = {
-    (void *)&lbl_80446480, (void *)&lbl_80446494, (void *)&lbl_804464AC, (void *)0x0,
-};
-
-void *boss_warp_motion_names[3] = {
-    (void *)&lbl_804464C8, (void *)&lbl_804464E4, (void *)0x0,
-};
-
-void *lbl_804B94AC[4] = {
-    (void *)&lbl_80446500, (void *)&boss_warp_model_names, (void *)&boss_warp_motion_names, (void *)0x30002,
-};
-
-void *lbl_804B94BC[4] = {
-    (void *)&lbl_80446514, (void *)&lbl_8044652C, (void *)&lbl_80446544, (void *)0x0,
-};
-
-void *ancient_boss_warp_resource_block[3] = {
-    (void *)&lbl_8044655C, (void *)&lbl_80446574, (void *)0x0,
-};
-
-void *lbl_804B94D8[4] = {
-    (void *)&lbl_80446590, (void *)&lbl_804B94BC, (void *)&ancient_boss_warp_resource_block, (void *)0x30002,
-};
-
-void *lbl_804B94E8[3] = {
-    (void *)&lbl_804465AC, (void *)&lbl_804465C4, (void *)0x0,
-};
-
-__declspec(section ".data") void *jungle_boss_warp_resource_block[2] = {
-    (void *)&lbl_804465E0, (void *)0x0,
-};
-
-void *lbl_804B94FC[4] = {
-    (void *)&lbl_804465FC, (void *)&lbl_804B94E8, (void *)&jungle_boss_warp_resource_block, (void *)0x20001,
-};
 
 
 
@@ -460,7 +378,7 @@ void TObjFish::load_models() {
     if (area >= 8 && area <= 0xA) {
         r = ((s32)::operator new(0x440));
         if (r != 0) {
-            r = ((s32 (*)(s32, s32, void *, s32, s32, s32)) load_resource_from_descriptor)(r, 5, lbl_804B94D8, 0, 0, 0);
+            r = ((s32 (*)(s32, s32, void *, s32, s32, s32)) load_resource_from_descriptor)(r, 5, &lbl_804B94D8, 0, 0, 0);
         }
         (*(s32 *)&boss_warp_resource_bundle) = r;
         (*(s32 *)&boss_warp_base_model) = get_bml_model(r, 0);
@@ -475,7 +393,7 @@ void TObjFish::load_models() {
     if (TContainerAncient01::is_global_state_in_table() != 0 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
         r = ((s32)::operator new(0x440));
         if (r != 0) {
-            r = ((s32 (*)(s32, s32, void *, s32, s32, s32)) load_resource_from_descriptor)(r, 5, lbl_804B94FC, 0, 0, 0);
+            r = ((s32 (*)(s32, s32, void *, s32, s32, s32)) load_resource_from_descriptor)(r, 5, &lbl_804B94FC, 0, 0, 0);
         }
         (*(s32 *)&boss_warp_resource_bundle) = r;
         (*(s32 *)&boss_warp_base_model) = get_bml_model(r, 0);
@@ -489,7 +407,7 @@ void TObjFish::load_models() {
     }
     r = ((s32)::operator new(0x440));
     if (r != 0) {
-        r = ((s32 (*)(s32, s32, void *, s32, s32, s32)) load_resource_from_descriptor)(r, 5, lbl_804B94AC, 0, 0, 0);
+        r = ((s32 (*)(s32, s32, void *, s32, s32, s32)) load_resource_from_descriptor)(r, 5, &lbl_804B94AC, 0, 0, 0);
     }
     (*(s32 *)&boss_warp_resource_bundle) = r;
     (*(s32 *)&boss_warp_base_model) = get_bml_model(r, 0);

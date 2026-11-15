@@ -3831,7 +3831,7 @@ force_active:
   - alt_model_strips
   - anchor_card_effect__13TUnk_804EDD44Fv
   - anchor_state__14TObjEneBm5WolfFl
-  - ancient_boss_warp_resource_block
+  - ancient_boss_warp_motion_names
   - ancient_sensor_resource_pair_table
   - animate__13TOCapsuleLaboFv
   - animate__18TOCapsuleAncient01Fv
@@ -7366,7 +7366,7 @@ force_active:
   - join_lobby_server_table
   - judgment_sequence_instance
   - jungle_bird_bml_resource
-  - jungle_boss_warp_resource_block
+  - jungle_boss_warp_motion_names
   - jungle_ebi_model_resource
   - jungle_ebi_texture_gvm_handle
   - jungle_warp_beam_resource_descriptor
@@ -7945,8 +7945,8 @@ force_active:
   - lbl_804B8D80
   - lbl_804B8D94
   - lbl_804B8DA0
-  - lbl_804B94BC
-  - lbl_804B94E8
+  - ancient_boss_warp_model_names
+  - jungle_boss_warp_model_names
   - lbl_804C3564
   - lbl_804C35F4
   - lbl_804C3ACC
