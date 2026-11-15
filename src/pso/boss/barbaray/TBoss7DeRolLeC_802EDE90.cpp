@@ -23,8 +23,6 @@ void TObjPlayer__sub_802E7EA0(void *arg0);
 }
 
 TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(parent), unk_690(NULL) {
-    u32 flags;
-
     m_name = TBoss7DeRolLeC__class_name;
     if (boss7_joint_state == 0) {
         boss7_joint_state = (u32)this;
@@ -33,8 +31,12 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     unk_620 = (TBoss7DeRolLeCParams *)TLobby::dispatch_shared_handler_a(15);
     invoke_initialization_hook(set_data);
     unk_628 = 0;
-    if (exchange_object_state((s32)&flags, 1) && (flags & 0x12008) == 0x12008) {
-        unk_628 |= 0x8000;
+    {
+        // exchange_object_state copies the object's whole 12-byte lobby record
+        u32 flags[3];
+        if (exchange_object_state((s32)flags, 1) && (flags[0] & 0x12008) == 0x12008) {
+            unk_628 |= 0x8000;
+        }
     }
     init_position_vectors();
     model = (void *)get_bml_model((BmlResource *)lbl_805D6918, 0);
