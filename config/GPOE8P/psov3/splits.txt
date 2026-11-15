@@ -9118,6 +9118,10 @@ pso/unk/text_802E3BA8.cpp:
 
 pso/weapon/TItemAttackCol.cpp:
 	.text       start:0x802E3BFC end:0x802E4748
+	.rodata     start:0x80472998 end:0x804729C8
+	.data       start:0x804E3530 end:0x804E355C
+	.sdata      start:0x805D3F88 end:0x805D3F8C
+	.sdata2     start:0x805DE910 end:0x805DE92C
 
 pso/effect/item/TItemEffOrgaFlowShot.cpp:
 	.text       start:0x802E4748 end:0x802E4798

@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
+#include "pso/system/MatrixOps.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TUnk_804E355C.h"
 
@@ -144,12 +145,7 @@ f32 vec_distance_squared(u8 *arg0, u8 *arg1);
 extern "C" {
 s32 play_weapon_hit_sound(void *);
 void apply_camera_shake__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
-extern const f32 lbl_805DE914;
-extern const f32 lbl_805DE928;
-extern const float lbl_805DE918;
-extern const f32 lbl_805DE924;
 Hit_802E3D8C *csnVector(void *, void *, s32);
-extern const f32 lbl_805DE910;
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 rotate_matrix_by_node_angles(void *, int);
 s32 push_matrix();
@@ -157,9 +153,7 @@ s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 extern int attack_collider_render_owner;
 extern int attack_collider_active_count;
-void TItemAttackCol__vt5(s32 arg0);
 void* TObjPlayer__sub_802E449C(void* a0);
-s32 vec3_add_to(s32 *, s32);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 int fn_802E3BA8(void*, void*);
@@ -178,7 +172,7 @@ void TItemAttackCol::vfunc_6(s32 *a) {
                 hit_object(item_id, a, &velocity);
             }
             if (flags & 0x100) {
-                pad_B4 = pad_B4 * lbl_805DE910;
+                pad_B4 *= 0.75f;
             }
         }
     } else {
@@ -195,12 +189,12 @@ void TItemAttackCol::vfunc_6(s32 *a) {
     }
 }
 
-void TItemAttackCol__vt5(s32 arg0) {
-    s32 sp8;
+void TItemAttackCol::vfunc_7() {
+    Vec next;
 
-    VecCopy((Vec *)&sp8, (const Vec *)(arg0 + 0xD0));
-    vec3_add_to(&sp8, arg0 + 0x24);
-    ((TItemAttackCol *)arg0)->move_with_collision(&sp8);
+    VecCopy(&next, &velocity);
+    vec3_add_to(&next, &position);
+    move_with_collision(&next);
 }
 
 void TItemAttackCol::move_with_collision(void *arg1) {
@@ -294,7 +288,8 @@ TItemAttackCol::~TItemAttackCol() {
 
 extern "C" f32 normalize_vector(Vec *v);
 
-const char *TItemAttackCol__name = "TItemAttackCol";
+static const char TItemAttackCol__class_name_string[] = "TItemAttackCol";
+const char *TItemAttackCol__name = TItemAttackCol__class_name_string;
 
 // The particle's direction before the collider's heading is added.
 static ParticleAngles particle_direction = {0x4000, 0, 0x4000};
@@ -364,8 +359,9 @@ TItemAttackCol::TItemAttackCol(TObject *parent, S_802E449C *params) : TUnk_804E3
         if (params->particle != -1) {
             particle = create_particle_emitter(&position, params->particle);
             if (particle != NULL) {
+                s32 yaw = params->rotation_y;
                 ParticleAngles direction = particle_direction;
-                direction.x += params->rotation_y;
+                direction.x += yaw;
                 particle->set_direction(&direction);
             }
         } else {
@@ -388,20 +384,19 @@ void TItemAttackCol::create(void *arg0, void *arg1) {
     new TItemAttackCol((TObject *)arg0, (S_802E449C *)arg1);
 }
 
-    extern const float lbl_805DE920;
-void* TObjPlayer__sub_802E449C(void* a0) { TObjPlayer__sub_802E451C((S_802E451C *)(a0)); *(int*)((char*)a0 + 0x40) = 0; *(int*)((char*)a0 + 0x44) = 0; *(int*)((char*)a0 + 0x48) = 0; *(float*)((char*)a0 + 0x4c) = lbl_805DE918; *(int*)((char*)a0 + 0x50) = 0; *(int*)((char*)a0 + 0x54) = 0; *(int*)((char*)a0 + 0x58) = 0; *(float*)((char*)a0 + 0x5c) = lbl_805DE920; *(float*)((char*)a0 + 0x60) = lbl_805DE918; *(float*)((char*)a0 + 0x64) = lbl_805DE918; *(float*)((char*)a0 + 0x68) = lbl_805DE918; *(float*)((char*)a0 + 0x6c) = lbl_805DE918; *(int*)((char*)a0 + 0x70) = 0; *(int*)((char*)a0 + 0x74) = 0; *(int*)((char*)a0 + 0x78) = -1; *(int*)((char*)a0 + 0x7c) = -1; return a0; }
+void* TObjPlayer__sub_802E449C(void* a0) { TObjPlayer__sub_802E451C((S_802E451C *)(a0)); *(int*)((char*)a0 + 0x40) = 0; *(int*)((char*)a0 + 0x44) = 0; *(int*)((char*)a0 + 0x48) = 0; *(float*)((char*)a0 + 0x4c) = 1.0f; *(int*)((char*)a0 + 0x50) = 0; *(int*)((char*)a0 + 0x54) = 0; *(int*)((char*)a0 + 0x58) = 0; *(float*)((char*)a0 + 0x5c) = 3.0f; *(float*)((char*)a0 + 0x60) = 1.0f; *(float*)((char*)a0 + 0x64) = 1.0f; *(float*)((char*)a0 + 0x68) = 1.0f; *(float*)((char*)a0 + 0x6c) = 1.0f; *(int*)((char*)a0 + 0x70) = 0; *(int*)((char*)a0 + 0x74) = 0; *(int*)((char*)a0 + 0x78) = -1; *(int*)((char*)a0 + 0x7c) = -1; return a0; }
 
 void TObjPlayer__sub_802E451C(S_802E451C *arg0) {
-    arg0->position.x = lbl_805DE914;
-    arg0->position.y = lbl_805DE914;
-    arg0->position.z = lbl_805DE914;
-    arg0->radius = lbl_805DE924;
+    arg0->position.x = 0.0f;
+    arg0->position.y = 0.0f;
+    arg0->position.z = 0.0f;
+    arg0->radius = 5.0f;
     arg0->hits = 1;
     arg0->client_id = 0xFFFF;
     arg0->room = -1;
     arg0->item_id = -1;
-    arg0->pad_1C = lbl_805DE914;
-    arg0->pad_20 = (*(const f32 *)&lbl_805DE918);
+    arg0->pad_1C = 0.0f;
+    arg0->pad_20 = 1.0f;
     arg0->pad_24 = 0;
 }
 
@@ -426,14 +421,14 @@ s32 TUnk_804E355C::resolve_attack_col_hit(u8 *arg1) {
     temp_r31 = *(s32 *)((s8 *)(*(u8 **)((s8 *)arg1 + 0)) + 0xA4) + (*(s32 *)((s8 *)arg1 + 4) * 0x2C);
     if ((player != NULL) && (item != 0U) && (((VObj_18_f2ea1e *)(temp_r30))->m19(player, temp_r31, 0, *(f32 *)((s8 *)arg0 + 0xB0)) != 0)) {
         temp_r0 = *(s32 *)((s8 *)arg0 + 0xB8);
-        var_f31 = lbl_805DE914;
+        var_f31 = 0.0f;
         switch (temp_r0) {
         case 0:
             var_f31 = ((VObj_18_f2ea1e *)(temp_r30))->m20(player, this->pad_B4);
             break;
         case 1:
             var_f31 = ((VObj_18_f2ea1e *)(temp_r30))->m20(player, this->pad_B4);
-            ((VObj_18_f2ea1e *)(temp_r30))->m23(player, lbl_805DE928 * var_f31);
+            ((VObj_18_f2ea1e *)(temp_r30))->m23(player, 0.1f * var_f31);
             break;
         case 2:
             ((VObj_18_f2ea1e *)(temp_r30))->m22(player, temp_r31);
