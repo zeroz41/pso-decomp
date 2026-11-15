@@ -2639,3 +2639,4 @@ pso/enemy/panarms/TObjEnePanarms.cpp
 pso/ui/charcreate/TObjCMName.cpp
 pso/unk/TUnk_804CC948.cpp
 pso/weapon/TItemAttackCol.cpp
+pso/ui/window/TWindowSubStatusDisp_8026DFE8.cpp

@@ -44,7 +44,7 @@ public:
     int is_visible();
     int is_mode_bit4();
     int is_open();
-    static void open_symbol_chat(s32 *arg0);
+    static u8 *open_symbol_chat(s32 *arg0);
     void flush_if_flagged();
 };
 #include <stddef.h>
