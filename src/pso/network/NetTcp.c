@@ -145,47 +145,74 @@ void clear_position(TcpTcb *tcb) {
 s32 TLobby__sub_8041D460(TcpTcb *tcb, s32 *p1, s32 *p2);
 #pragma push
 #pragma opt_common_subs on
+#pragma opt_propagation off
+#pragma optimize_for_size off
+static inline s32 tcp_connection_index(TcpTcb *entry, TcpTcb *first) {
+    return entry - first;
+}
+#pragma opt_loop_invariants off
+#pragma opt_strength_reduction off
+#pragma opt_unroll_loops off
 s16 TLobby__sub_8041A9AC(TcpTcb *tp)
 {
-    TcpHdr *th = &tp->hdr;
-    TcpState *ts = &tcp_protocol_state;
-    u8 *opt;
-    NetPacket *m;
     TcpTcb *q;
+    int fragment_length_offset;
+    u16 header_bytes;
+    s32 lim;
+    s32 sendalot;
+    s32 avail;
+    int win;
+    s32 fin;
+    s32 t;
     u8 *optp;
-    s32 idle, win;
-    u16 optlen, i, sackoff;
+    u16 b;
+    s32 retransmit_length;
+    u8 *opt;
+    TcpHdr *th = &tp->hdr;
+    int len;
     s16 mss;
-    s32 fin, sendalot, recwin, len, off, flags;
-    s32 t, lim;
-    s16 a;
-    s32 sack_start, sack_end;
+    u16 optlen;
+    NetPacket *m;
+    s32 idle;
+    u16 sackoff;
+    TcpState *ts = &tcp_protocol_state;
+    int off;
+    s32 flags;
+    s32 recwin;
+    u16 i;
+    int sack_length;
+    u32 native_high_homes[4];
+    s32 sack_start;
+    s32 sack_end;
     u16 tmp;
-    s32 tmp4, tmp4b;
+    s32 tmp4;
+    s32 tmp4b;
+    u32 native_low_homes[2];
 
     if (tp->t_state < 0) {
         return -1;
     }
     if (TLobby__sub_8040DA54(tp->remote, tp->local) == 0) {
-        NetDispatchSocketEvent((s16)(tp - ts->tcbs), tp->event_ctx, 3, 0xc);
+        NetDispatchSocketEvent((s16)tcp_connection_index(tp, ts->tcbs), tp->event_ctx, 3, 0xc);
         return -6;
     }
-    a = TLobby__sub_8040DC8C(tp->remote, tp->local);
-    mss = tp->maxseg < a ? tp->maxseg : a;
+    mss = (s16)TLobby__sub_8040DC8C(tp->remote, tp->local);
+    b = tp->maxseg;
+    mss = (s16)(b < mss ? b : mss);
     if (mss < 0) {
         return mss;
     }
-    idle = !(tp->snd_una - tp->snd_max);
+    idle = (u32)__cntlzw(tp->snd_una - tp->snd_max) >> 5;
     if (tp->snd_max == tp->snd_una && tp->idle >= tp->rxtcur) {
         switch (tp->f540) {
         case 1:
-            tp->snd_cwnd = tp->maxseg;
+            tp->snd_cwnd = b;
             break;
         case 2:
-            tp->snd_cwnd = tp->maxseg * 2;
+            tp->snd_cwnd = b * 2;
             break;
         case 3:
-            tp->snd_cwnd = (tp->maxseg * 4 < (tp->maxseg * 2 > 0x111c ? tp->maxseg * 2 : 0x111c)) ? tp->maxseg * 4 : (tp->maxseg * 2 > 0x111c ? tp->maxseg * 2 : 0x111c);
+            tp->snd_cwnd = ((s32)(b * 4) < (((s32)(b * 2) > 0x111c) ? (s32)(b * 2) : 0x111c)) ? (b * 4) : ((((s32)(b * 2) > 0x111c) ? (s32)(b * 2) : 0x111c));
             break;
         default:
             tp->snd_cwnd = get_adjusted_slot_count(tp);
@@ -197,7 +224,8 @@ s16 TLobby__sub_8041A9AC(TcpTcb *tp)
         sendalot = 0;
         len = 0;
         if (tp->f2F4 != tp->snd_una) {
-            len = TLobby__sub_8041D460(tp, &sack_start, &sack_end);
+            retransmit_length = TLobby__sub_8041D460(tp, &sack_start, &sack_end);
+            len = retransmit_length;
             if (len != 0) {
                 sendalot = 1;
                 off = sack_start - tp->snd_una;
@@ -207,7 +235,7 @@ s16 TLobby__sub_8041A9AC(TcpTcb *tp)
         } else {
             off = tp->snd_nxt - tp->snd_una;
         }
-        flags = ts->outflags[tp->t_state];
+        flags = *((u8 *)ts + ((s32)tp->t_state + offsetof(TcpState, outflags)));
         win = tp->snd_wnd;
         if (tp->force != 0) {
             if (win == 0) {
@@ -354,7 +382,7 @@ send:
             sackoff = optlen + 1;
             optp = opt;
             q = tp;
-            win = 2;
+            sack_length = 2;
             i = 0;
             optlen += 2;
             while (i < 5 && q->sack[0].start != q->sack[0].end && (s32)optlen + 8 <= 0x28) {
@@ -363,18 +391,20 @@ send:
                 NetMemcpy(optp + optlen, &tmp4, 4);
                 NetMemcpy(optp + (u16)(optlen + 4), &tmp4b, 4);
                 optlen += 8;
-                win += 8;
+                sack_length += 8;
                 q = (TcpTcb *)((u8 *)q + sizeof(TcpSeqRange));
                 i++;
             }
-            opt[sackoff] = (u8)win;
+            opt[sackoff] = (u8)sack_length;
         }
         while ((optlen % 4) != 0) {
             optp[optlen] = 1;
             optlen++;
         }
-        if (len > tp->maxseg - optlen) {
-            len = tp->maxseg - optlen;
+        i = optlen;
+        avail = tp->maxseg - i;
+        if (len > avail) {
+            len = avail;
             flags &= ~1;
             sendalot = 1;
         }
@@ -401,8 +431,8 @@ send:
         win = 0;
         th->sum = win;
         th->flags = flags;
-        th->off = (((optlen + (s32)sizeof(TcpHdr)) >> 2) << 4) & 0xf0;
-        m = alloc_free_entry();
+        th->off = (((i + (s32)sizeof(TcpHdr)) >> 2) << 4) & 0xf0;
+        m = (NetPacket *)alloc_free_entry();
         if (m == 0) {
             return -0x101;
         }
@@ -414,12 +444,17 @@ send:
         }
         if (optlen != 0) {
             m->total_bytes += optlen;
-            m->fragments[m->fragment_count].length = optlen;
+            fragment_length_offset = m->fragment_count * (s32)sizeof(NetPacketFragment)
+                + offsetof(NetPacket, fragments) + offsetof(NetPacketFragment, length);
+            *(s16 *)((u8 *)m + fragment_length_offset) = optlen;
             set_value_and_enable(&m->fragments[m->fragment_count].buffer, (s32)optp);
             m->fragment_count++;
         }
-        m->total_bytes += sizeof(TcpHdr);
-        m->fragments[m->fragment_count].length = sizeof(TcpHdr);
+        header_bytes = sizeof(TcpHdr);
+        m->total_bytes += header_bytes;
+        fragment_length_offset = m->fragment_count * (s32)sizeof(NetPacketFragment)
+            + offsetof(NetPacket, fragments) + offsetof(NetPacketFragment, length);
+        *(s16 *)((u8 *)m + fragment_length_offset) = header_bytes;
         set_value_and_enable(&m->fragments[m->fragment_count].buffer, (s32)th);
         m->fragment_count++;
         th->sum = TLobby__sub_8040D8F0(tp->local, tp->remote, 6, (u8 *)m, 1);
@@ -681,7 +716,7 @@ extern TcpTcb *TLobby__sub_8041B774(TcpTcb *self, TcpHdr *th, u8 *a, u8 *b) {
 }
 extern s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, u8 *p6);
 void TLobby__sub_8041A498(TcpTcb *arg0, s16 arg1);
-#define TCP_IDX(tp) ((s16)((tp) - tcp_protocol_state.tcbs))
+#define TCP_IDX(tp) ((s16)((TcpTcb *)(tp) - tcp_protocol_state.tcbs))
 #define TCP_MIN(a, b) ((a) < (b) ? (a) : (b))
 #define TCP_MAX(a, b) ((a) > (b) ? (a) : (b))
 #define TCP_REXMTTHRESH (tcp_protocol_state.rexmtthresh)
@@ -695,10 +730,11 @@ s16 TLobby__sub_8041B974(u8 *pkt, u8 *a, u8 *b) {
     s32 changed = 0;
     u32 flag = 0;
     u32 total = 0;
-    TcpTcb *found = 0;
+    u8 *found = 0;
     s16 kind;
     s16 ti_flags;
-    s16 blen;
+    s32 blen;
+    s16 option_bytes;
     TcpHdr *ti;
     s32 st;
     u32 tmp;
@@ -708,14 +744,14 @@ s16 TLobby__sub_8041B974(u8 *pkt, u8 *a, u8 *b) {
     u8 *body;
     u16 len;
     u16 rem;
-    TcpTcb *ent_new;
+    u8 *ent_new;
     s32 todrop;
     s32 acked;
     s32 ourfinisacked;
     s32 ack;
     s16 rtt;
     s16 srtt;
-    s32 TLobby__sub_80422AB8(s32, void (*)(s16, s16, s32, s32), s16, s32, s32, s32);
+    s32 TLobby__sub_80422AB8(s16, void (*)(s16, s16, s32, s32), s16, s32, s32, s32);
     s16 compare_sockaddr(NetworkAddress *, NetworkAddress *); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_8041B3D4(void *, void *, u16, u16, s32, s32, u8); /* declared s16 here; the definition is s32 (void *, void *, s16, s16, s32, s32, u8) */
 
@@ -741,8 +777,9 @@ s16 TLobby__sub_8041B974(u8 *pkt, u8 *a, u8 *b) {
     if ((u16)TLobby__sub_8040D8F0(a, b, 6, pkt, 0)) {
         goto drop;
     }
-    blen = (s16)(len - sizeof(TcpHdr));
-    if (blen != 0) {
+    option_bytes = (s16)(len - (s32)sizeof(TcpHdr));
+    blen = option_bytes;
+    if ((s16)blen != 0) {
         body = TLobby__sub_80406F0C(p + offsetof(NetPacketFragment, buffer)) + sizeof(TcpHdr);
     } else {
         body = 0;
@@ -761,25 +798,25 @@ s16 TLobby__sub_8041B974(u8 *pkt, u8 *a, u8 *b) {
 retry:
     found = 0;
     {
-        TcpTcb *ent = tcp_protocol_state.tcbs;
+        u8 *ent = (u8 *)tcp_protocol_state.tcbs;
         s16 i;
-        for (i = 0; i < tcp_protocol_state.count; ent++, i++) {
-            if (ent->state == 0) {
+        for (i = 0; i < tcp_protocol_state.count; ent += sizeof(TcpTcb), i++) {
+            if (*(u16 *)(ent + offsetof(TcpTcb, state)) == 0) {
                 continue;
             }
-            if (ent->t_state == 1) {
+            if (*(s16 *)(ent + offsetof(TcpTcb, t_state)) == 1) {
                 continue;
             }
-            if (ent->t_state == -1) {
+            if (*(s16 *)(ent + offsetof(TcpTcb, t_state)) == -1) {
                 continue;
             }
-            if (compare_sockaddr((NetworkAddress *)ent->remote, (NetworkAddress *)a)) {
+            if (compare_sockaddr((NetworkAddress *)(ent + offsetof(TcpTcb, remote)), (NetworkAddress *)a)) {
                 continue;
             }
-            if (ent->hdr.dport != hdr.sport) {
+            if (*(u16 *)(ent + offsetof(TcpTcb, hdr.dport)) != hdr.sport) {
                 continue;
             }
-            if (ent->hdr.sport != hdr.dport) {
+            if (*(u16 *)(ent + offsetof(TcpTcb, hdr.sport)) != hdr.dport) {
                 continue;
             }
             found = ent;
@@ -787,24 +824,24 @@ retry:
         }
     }
     if (found == 0) {
-        TcpTcb *ent = tcp_protocol_state.tcbs;
+        u8 *ent = (u8 *)tcp_protocol_state.tcbs;
         s16 i;
-        for (i = 0; i < tcp_protocol_state.count; ent++, i++) {
-            if (ent->state == 0) {
+        for (i = 0; i < tcp_protocol_state.count; ent += sizeof(TcpTcb), i++) {
+            if (*(u16 *)(ent + offsetof(TcpTcb, state)) == 0) {
                 continue;
             }
-            if (ent->t_state != 1) {
+            if (*(s16 *)(ent + offsetof(TcpTcb, t_state)) != 1) {
                 continue;
             }
-            if (ent->hdr.sport != hdr.dport) {
+            if (*(u16 *)(ent + offsetof(TcpTcb, hdr.sport)) != hdr.dport) {
                 continue;
             }
-            if (compare_sockaddr((NetworkAddress *)ent->remote, (NetworkAddress *)a)) {
-                if (!is_addr_unspecified(ent->remote)) {
+            if (compare_sockaddr((NetworkAddress *)(ent + offsetof(TcpTcb, remote)), (NetworkAddress *)a)) {
+                if (!is_addr_unspecified(ent + offsetof(TcpTcb, remote))) {
                     continue;
                 }
             }
-            if (ent->hdr.dport == hdr.sport || ent->hdr.dport == 0) {
+            if (*(u16 *)(ent + offsetof(TcpTcb, hdr.dport)) == hdr.sport || *(u16 *)(ent + offsetof(TcpTcb, hdr.dport)) == 0) {
                 found = ent;
                 break;
             }
@@ -813,27 +850,27 @@ retry:
     if (found == 0) {
         goto dropwithreset;
     }
-    st = found->t_state;
+    st = *(s16 *)(found + offsetof(TcpTcb, t_state));
     if (!(s16)st) {
-        if (found->flags & 0x80) {
+        if (found[offsetof(TcpTcb, flags)] & 0x80) {
             goto drop;
         }
-        if (found->fA & 0x4) {
+        if (found[offsetof(TcpTcb, fA)] & 0x4) {
             goto drop;
         }
     }
     if (st != 1) {
-        found->idle = 0;
-        found->timers[2] = found->keepidle;
+        *(s16 *)(found + offsetof(TcpTcb, idle)) = 0;
+        *(s16 *)(found + offsetof(TcpTcb, timers[2])) = *(s16 *)(found + offsetof(TcpTcb, keepidle));
     }
-    if (body != 0 && found->t_state != 1) {
-        TLobby__sub_8041D0C8(found, body, blen, (u8 *)ti);
+    if (body != 0 && *(s16 *)(found + offsetof(TcpTcb, t_state)) != 1) {
+        TLobby__sub_8041D0C8((TcpTcb *)found, body, blen, (u8 *)ti);
     }
-    found->rcv_wnd = (u16)(found->rcv_adv - found->rcv_nxt);
-    switch (found->t_state) {
+    *(u32 *)(found + offsetof(TcpTcb, rcv_wnd)) = (u16)(*(u32 *)(found + offsetof(TcpTcb, rcv_adv)) - *(u32 *)(found + offsetof(TcpTcb, rcv_nxt)));
+    switch (*(s16 *)(found + offsetof(TcpTcb, t_state))) {
     case 1:
         if (kind & 4) {
-            NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 0xa);
+            NetDispatchSocketEvent(TCP_IDX((TcpTcb *)found), *(s32 *)(found + offsetof(TcpTcb, event_ctx)), 3, 0xa);
             goto drop;
         }
         if (kind & 0x10) {
@@ -842,65 +879,71 @@ retry:
         if (!(kind & 2)) {
             goto drop;
         }
-        if (is_multicast_address((void *)b, 0) == 1) {
+        if ((s16)is_multicast_address(b, 0) == 1) {
             goto drop;
         }
-        ent_new = TLobby__sub_8041B774(found, ti, a, b);
+        ent_new = (u8 *)TLobby__sub_8041B774((TcpTcb *)found, ti, a, b);
         if (ent_new == 0) {
             goto drop;
         }
         if (body != 0) {
-            TLobby__sub_8041D0C8(ent_new, body, blen, (u8 *)ti);
+            TLobby__sub_8041D0C8((TcpTcb *)ent_new, body, blen, (u8 *)ti);
         }
         if (flag) {
-            ent_new->iss = flag;
+            *(u32 *)(ent_new + offsetof(TcpTcb, iss)) = flag;
         } else {
-            ent_new->iss = tcp_protocol_state.iss;
+            *(u32 *)(ent_new + offsetof(TcpTcb, iss)) = tcp_protocol_state.iss;
         }
         tcp_protocol_state.iss += 0xFA00;
-        ent_new->irs = hdr.seq;
-        ent_new->snd_una = ent_new->snd_nxt = ent_new->snd_max =
-            ent_new->snd_up = ent_new->f2F4 = ent_new->una =
-            ent_new->iss;
-        ent_new->rcv_adv = ent_new->rcv_nxt = ent_new->irs + 1;
-        ent_new->flags |= 1;
-        ent_new->t_state = 3;
-        ent_new->timers[2] = 0x96;
-        switch (ent_new->f540) {
+        *(u32 *)(ent_new + offsetof(TcpTcb, irs)) = hdr.seq;
+        *(u32 *)(ent_new + offsetof(TcpTcb, snd_una)) = *(u32 *)(ent_new + offsetof(TcpTcb, snd_nxt)) = *(u32 *)(ent_new + offsetof(TcpTcb, snd_max)) =
+            *(u32 *)(ent_new + offsetof(TcpTcb, snd_up)) = *(u32 *)(ent_new + offsetof(TcpTcb, f2F4)) = *(u32 *)(ent_new + offsetof(TcpTcb, una)) =
+            *(u32 *)(ent_new + offsetof(TcpTcb, iss));
+        *(u32 *)(ent_new + offsetof(TcpTcb, rcv_adv)) = *(u32 *)(ent_new + offsetof(TcpTcb, rcv_nxt)) = *(u32 *)(ent_new + offsetof(TcpTcb, irs)) + 1;
+        ent_new[offsetof(TcpTcb, flags)] |= 1;
+        *(s16 *)(ent_new + offsetof(TcpTcb, t_state)) = 3;
+        *(s16 *)(ent_new + offsetof(TcpTcb, timers[2])) = 0x96;
+        switch (*(s32 *)(ent_new + offsetof(TcpTcb, f540))) {
         case 1:
-            ent_new->snd_cwnd = ent_new->maxseg;
+            *(u32 *)(ent_new + offsetof(TcpTcb, snd_cwnd)) = *(u16 *)(ent_new + offsetof(TcpTcb, maxseg));
             break;
         case 2:
-            ent_new->snd_cwnd = ent_new->maxseg * 2;
+            *(u32 *)(ent_new + offsetof(TcpTcb, snd_cwnd)) = *(u16 *)(ent_new + offsetof(TcpTcb, maxseg)) * 2;
             break;
         case 3:
             {
-                s32 m = ent_new->maxseg;
-                ent_new->snd_cwnd = TCP_MIN(m * 4, imax(m * 2, 0x111c));
+                s32 m = *(u16 *)(ent_new + offsetof(TcpTcb, maxseg));
+                *(u32 *)(ent_new + offsetof(TcpTcb, snd_cwnd)) = TCP_MIN(m * 4, imax(m * 2, 0x111c));
             }
             break;
         default:
-            ent_new->snd_cwnd = get_adjusted_slot_count(ent_new);
+            *(u32 *)(ent_new + offsetof(TcpTcb, snd_cwnd)) = get_adjusted_slot_count((TcpTcb *)ent_new);
             break;
         }
-        ent_new->event_ctx = found->accept_ctx;
-        found->accept_ctx = 0;
-        TLobby__sub_80422AB8(TCP_IDX(found),
-                             found->accept_cb,
-                             (s16)(ent_new - tcp_protocol_state.tcbs), (s32)(ent_new->remote),
-                             (s32)ent_new->hdr.sport, (s32)ent_new->hdr.dport);
+        {
+            *(u32 *)(ent_new + offsetof(TcpTcb, event_ctx)) = *(u32 *)(found + offsetof(TcpTcb, accept_ctx));
+            *(u32 *)(found + offsetof(TcpTcb, accept_ctx)) = 0;
+            {
+            int listener_index = (TcpTcb *)found - tcp_protocol_state.tcbs;
+            int accepted_index = (TcpTcb *)ent_new - tcp_protocol_state.tcbs;
+            TLobby__sub_80422AB8(listener_index,
+                                 *(void (**)(s16, s16, s32, s32))(found + offsetof(TcpTcb, accept_cb)),
+                                 accepted_index, (s32)(ent_new + offsetof(TcpTcb, remote)),
+                                 (s32)*(u16 *)(ent_new + offsetof(TcpTcb, hdr.sport)), (s32)*(u16 *)(ent_new + offsetof(TcpTcb, hdr.dport)));
+            }
+        }
         found = ent_new;
         goto trimthenstep6;
     case 2:
         ack = kind & 0x10;
-        if ((ack && (s32)(ti->ack - found->iss) <= 0) || (s32)(ti->ack - found->snd_max) > 0) {
-            NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 0xe);
+        if ((ack && (s32)(ti->ack - *(u32 *)(found + offsetof(TcpTcb, iss))) <= 0) || (s32)(ti->ack - *(u32 *)(found + offsetof(TcpTcb, snd_max))) > 0) {
+            NetDispatchSocketEvent(TCP_IDX((TcpTcb *)found), *(s32 *)(found + offsetof(TcpTcb, event_ctx)), 3, 0xe);
             goto dropwithreset;
         }
         if (kind & 4) {
-            NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 0xa);
+            NetDispatchSocketEvent(TCP_IDX((TcpTcb *)found), *(s32 *)(found + offsetof(TcpTcb, event_ctx)), 3, 0xa);
             if (ack) {
-                TLobby__sub_8041A498(found, 1);
+                TLobby__sub_8041A498((TcpTcb *)found, 1);
             }
             goto drop;
         }
@@ -908,62 +951,62 @@ retry:
             goto drop;
         }
         if (ack) {
-            found->snd_una = ti->ack;
-            found->f2F4 = ti->ack;
-            if ((s32)(found->snd_nxt - found->snd_una) < 0) {
-                found->snd_nxt = found->snd_una;
+            *(u32 *)(found + offsetof(TcpTcb, snd_una)) = ti->ack;
+            *(u32 *)(found + offsetof(TcpTcb, f2F4)) = ti->ack;
+            if ((s32)(*(u32 *)(found + offsetof(TcpTcb, snd_nxt)) - *(u32 *)(found + offsetof(TcpTcb, snd_una))) < 0) {
+                *(u32 *)(found + offsetof(TcpTcb, snd_nxt)) = *(u32 *)(found + offsetof(TcpTcb, snd_una));
             }
         }
-        found->timers[0] = 0;
-        found->irs = hdr.seq;
-        found->rcv_adv = found->rcv_nxt = found->irs + 1;
-        found->flags |= 1;
-        if (ack && (s32)(found->snd_una - found->iss) > 0) {
-            NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 1);
-            found->t_state = 4;
-            found->maxseg = TLobby__sub_8041B724(found);
-            switch (found->f540) {
+        *(s16 *)(found + offsetof(TcpTcb, timers[0])) = 0;
+        *(u32 *)(found + offsetof(TcpTcb, irs)) = hdr.seq;
+        *(u32 *)(found + offsetof(TcpTcb, rcv_adv)) = *(u32 *)(found + offsetof(TcpTcb, rcv_nxt)) = *(u32 *)(found + offsetof(TcpTcb, irs)) + 1;
+        found[offsetof(TcpTcb, flags)] |= 1;
+        if (ack && (s32)(*(u32 *)(found + offsetof(TcpTcb, snd_una)) - *(u32 *)(found + offsetof(TcpTcb, iss))) > 0) {
+            NetDispatchSocketEvent(TCP_IDX((TcpTcb *)found), *(s32 *)(found + offsetof(TcpTcb, event_ctx)), 3, 1);
+            *(s16 *)(found + offsetof(TcpTcb, t_state)) = 4;
+            *(u16 *)(found + offsetof(TcpTcb, maxseg)) = TLobby__sub_8041B724((TcpTcb *)found);
+            switch (*(s32 *)(found + offsetof(TcpTcb, f540))) {
             case 1:
-                found->snd_cwnd = found->maxseg;
+                *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) = *(u16 *)(found + offsetof(TcpTcb, maxseg));
                 break;
             case 2:
-                found->snd_cwnd = found->maxseg * 2;
+                *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) = *(u16 *)(found + offsetof(TcpTcb, maxseg)) * 2;
                 break;
             case 3:
                 {
-                    s32 m = found->maxseg;
-                    found->snd_cwnd = TCP_MIN(m * 4, imax(m * 2, 0x111c));
+                    s32 m = *(u16 *)(found + offsetof(TcpTcb, maxseg));
+                    *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) = TCP_MIN(m * 4, imax(m * 2, 0x111c));
                 }
                 break;
             default:
-                found->snd_cwnd = get_adjusted_slot_count(found);
+                *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) = get_adjusted_slot_count((TcpTcb *)found);
                 break;
             }
-            if ((rtt = found->rtt) != 0) {
-                found->srtt = rtt << 3;
-                found->rttvar = found->rtt << 1;
-                found->rxtcur = (found->srtt >> 3) + found->rttvar;
-                if (found->rxtcur < 2) {
-                    found->rxtcur = 2;
-                } else if (found->rxtcur > 0x80) {
-                    found->rxtcur = 0x80;
+            if ((rtt = *(s16 *)(found + offsetof(TcpTcb, rtt))) != 0) {
+                *(s16 *)(found + offsetof(TcpTcb, srtt)) = rtt << 3;
+                *(s16 *)(found + offsetof(TcpTcb, rttvar)) = *(s16 *)(found + offsetof(TcpTcb, rtt)) << 1;
+                *(u16 *)(found + offsetof(TcpTcb, rxtcur)) = (*(s16 *)(found + offsetof(TcpTcb, srtt)) >> 3) + *(s16 *)(found + offsetof(TcpTcb, rttvar));
+                if (*(u16 *)(found + offsetof(TcpTcb, rxtcur)) < 2) {
+                    *(u16 *)(found + offsetof(TcpTcb, rxtcur)) = 2;
+                } else if (*(u16 *)(found + offsetof(TcpTcb, rxtcur)) > 0x80) {
+                    *(u16 *)(found + offsetof(TcpTcb, rxtcur)) = 0x80;
                 }
-                found->rtt = 0;
+                *(s16 *)(found + offsetof(TcpTcb, rtt)) = 0;
             }
         } else {
-            found->t_state = 3;
+            *(s16 *)(found + offsetof(TcpTcb, t_state)) = 3;
         }
     trimthenstep6:
         hdr.seq++;
-        if (rem > found->rcv_wnd) {
-            rem = found->rcv_wnd;
+        if (rem > *(u32 *)(found + offsetof(TcpTcb, rcv_wnd))) {
+            rem = *(u32 *)(found + offsetof(TcpTcb, rcv_wnd));
             kind &= ~1;
         }
-        found->snd_wl1 = hdr.seq - 1;
-        found->rcv_up = hdr.seq;
+        *(u32 *)(found + offsetof(TcpTcb, snd_wl1)) = hdr.seq - 1;
+        *(u32 *)(found + offsetof(TcpTcb, rcv_up)) = hdr.seq;
         goto step6;
     }
-    todrop = found->rcv_nxt - hdr.seq;
+    todrop = *(u32 *)(found + offsetof(TcpTcb, rcv_nxt)) - hdr.seq;
     if (todrop > 0) {
         if (kind & 2) {
             hdr.seq++;
@@ -976,13 +1019,12 @@ retry:
             todrop--;
         }
         if (todrop > rem || (todrop == rem && !(kind & 1))) {
-            if ((kind & 1) && todrop == rem + 1) {
-                todrop = rem;
-                kind &= ~1;
-                found->flags |= 1;
-            } else {
+            if (!(kind & 1) || todrop != (u16)rem + 1) {
                 goto dropafterack;
             }
+            todrop = (int)rem;
+            kind &= ~1;
+            found[offsetof(TcpTcb, flags)] |= 1;
         }
         total += todrop;
         hdr.seq += todrop;
@@ -994,19 +1036,20 @@ retry:
             kind &= ~0x20;
         }
     }
-    todrop = (hdr.seq + rem) - (found->rcv_nxt + found->rcv_wnd);
+    todrop = (hdr.seq + rem) - (*(u32 *)(found + offsetof(TcpTcb, rcv_nxt)) + *(u32 *)(found + offsetof(TcpTcb, rcv_wnd)));
     if (todrop > 0) {
-        if (todrop >= rem) {
-            if ((kind & 2) && found->t_state == 10 && found->fD8 == 0 &&
-                (s32)(hdr.seq - found->rcv_nxt) > 0) {
-                flag = found->rcv_nxt + 0x1F400;
-                NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 4);
-                found->flags |= 0x80;
-                TLobby__sub_8041B5C0(found);
+        u16 segment_bytes = rem;
+        if (todrop >= segment_bytes) {
+            if ((kind & 2) && *(s16 *)(found + offsetof(TcpTcb, t_state)) == 10 && *(u32 *)(found + offsetof(TcpTcb, fD8)) == 0 &&
+                (s32)(hdr.seq - *(u32 *)(found + offsetof(TcpTcb, rcv_nxt))) > 0) {
+                flag = *(u32 *)(found + offsetof(TcpTcb, rcv_nxt)) + 0x1F400;
+                NetDispatchSocketEvent(TCP_IDX((TcpTcb *)found), *(s32 *)(found + offsetof(TcpTcb, event_ctx)), 3, 4);
+                found[offsetof(TcpTcb, flags)] |= 0x80;
+                TLobby__sub_8041B5C0((TcpTcb *)found);
                 goto retry;
             }
-            if (found->rcv_wnd == 0 && hdr.seq == found->rcv_nxt) {
-                found->flags |= 1;
+            if (*(u32 *)(found + offsetof(TcpTcb, rcv_wnd)) == 0 && hdr.seq == *(u32 *)(found + offsetof(TcpTcb, rcv_nxt))) {
+                found[offsetof(TcpTcb, flags)] |= 1;
             } else {
                 goto dropafterack;
             }
@@ -1015,27 +1058,27 @@ retry:
         kind &= ~(8 | 1);
     }
     if (kind & 4) {
-        NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 0xa);
-        switch (found->t_state) {
+        NetDispatchSocketEvent(TCP_IDX((TcpTcb *)found), *(s32 *)(found + offsetof(TcpTcb, event_ctx)), 3, 0xa);
+        switch (*(s16 *)(found + offsetof(TcpTcb, t_state))) {
         case 3:
         case 4:
         case 5:
         case 6:
         case 9:
-            found->t_state = 0;
-            NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 4);
-            set_thread_state_and_resume(TCP_IDX(found), found->send_done, -5);
-            set_slot_state_and_resume(TCP_IDX(found), found->recv_done, -5);
-            if (TLobby__sub_8041B5C0(found) != 0) {
-                found->t_state = -1;
+            *(s16 *)(found + offsetof(TcpTcb, t_state)) = 0;
+            NetDispatchSocketEvent(TCP_IDX((TcpTcb *)found), *(s32 *)(found + offsetof(TcpTcb, event_ctx)), 3, 4);
+            set_thread_state_and_resume(TCP_IDX((TcpTcb *)found), ((TcpTcb *)found)->send_done, -5);
+            set_slot_state_and_resume(TCP_IDX((TcpTcb *)found), ((TcpTcb *)found)->recv_done, -5);
+            if (TLobby__sub_8041B5C0((TcpTcb *)found) != 0) {
+                *(s16 *)(found + offsetof(TcpTcb, t_state)) = -1;
             }
             goto drop;
         case 7:
         case 8:
         case 10:
-            NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 4);
-            found->flags |= 0x80;
-            TLobby__sub_8041B5C0(found);
+            NetDispatchSocketEvent(TCP_IDX((TcpTcb *)found), *(s32 *)(found + offsetof(TcpTcb, event_ctx)), 3, 4);
+            found[offsetof(TcpTcb, flags)] |= 0x80;
+            TLobby__sub_8041B5C0((TcpTcb *)found);
             goto drop;
         }
     }
@@ -1045,33 +1088,33 @@ retry:
     if (!(kind & 0x10)) {
         goto drop;
     }
-    switch (found->t_state) {
+    switch (*(s16 *)(found + offsetof(TcpTcb, t_state))) {
     case 3:
-        if ((s32)(found->snd_una - hdr.ack) > 0 || (s32)(hdr.ack - found->snd_max) > 0) {
+        if ((s32)(*(u32 *)(found + offsetof(TcpTcb, snd_una)) - hdr.ack) > 0 || (s32)(hdr.ack - *(u32 *)(found + offsetof(TcpTcb, snd_max))) > 0) {
             goto dropwithreset;
         }
-        NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 1);
-        found->t_state = 4;
-        found->maxseg = TLobby__sub_8041B724(found);
-        switch (found->f540) {
+        NetDispatchSocketEvent(TCP_IDX((TcpTcb *)found), *(s32 *)(found + offsetof(TcpTcb, event_ctx)), 3, 1);
+        *(s16 *)(found + offsetof(TcpTcb, t_state)) = 4;
+        *(u16 *)(found + offsetof(TcpTcb, maxseg)) = TLobby__sub_8041B724((TcpTcb *)found);
+        switch (*(s32 *)(found + offsetof(TcpTcb, f540))) {
         case 1:
-            found->snd_cwnd = found->maxseg;
+            *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) = *(u16 *)(found + offsetof(TcpTcb, maxseg));
             break;
         case 2:
-            found->snd_cwnd = found->maxseg * 2;
+            *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) = *(u16 *)(found + offsetof(TcpTcb, maxseg)) * 2;
             break;
         case 3:
             {
-                s32 m = found->maxseg;
-                found->snd_cwnd = TCP_MIN(m * 4, imax(m * 2, 0x111c));
+                s32 m = *(u16 *)(found + offsetof(TcpTcb, maxseg));
+                *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) = TCP_MIN(m * 4, imax(m * 2, 0x111c));
             }
             break;
         default:
-            found->snd_cwnd = get_adjusted_slot_count(found);
+            *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) = get_adjusted_slot_count((TcpTcb *)found);
             break;
         }
-        found->snd_cwnd -= found->maxseg;
-        found->snd_wl1 = hdr.seq - 1;
+        *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) -= *(u16 *)(found + offsetof(TcpTcb, maxseg));
+        *(u32 *)(found + offsetof(TcpTcb, snd_wl1)) = hdr.seq - 1;
     case 4:
     case 5:
     case 6:
@@ -1079,149 +1122,149 @@ retry:
     case 8:
     case 9:
     case 10:
-        if ((s32)(hdr.ack - found->snd_una) <= 0 && found->snd_una == found->f2F4) {
-            if (rem == 0 && hdr.win == found->snd_wnd) {
-                if (found->timers[0] == 0 || hdr.ack != found->snd_una) {
-                    found->dupacks = 0;
-                } else if (++found->dupacks == (u8)TCP_REXMTTHRESH) {
-                    u32 onxt = found->snd_nxt;
-                    u32 win = TCP_MIN(found->snd_wnd, found->snd_cwnd) / 2 / found->maxseg;
+        if ((s32)(hdr.ack - *(u32 *)(found + offsetof(TcpTcb, snd_una))) <= 0 && *(u32 *)(found + offsetof(TcpTcb, snd_una)) == *(u32 *)(found + offsetof(TcpTcb, f2F4))) {
+            if (rem == 0 && hdr.win == *(u32 *)(found + offsetof(TcpTcb, snd_wnd))) {
+                if (*(s16 *)(found + offsetof(TcpTcb, timers[0])) == 0 || hdr.ack != *(u32 *)(found + offsetof(TcpTcb, snd_una))) {
+                    found[offsetof(TcpTcb, dupacks)] = 0;
+                } else if (++found[offsetof(TcpTcb, dupacks)] == (u8)TCP_REXMTTHRESH) {
+                    u32 onxt = *(u32 *)(found + offsetof(TcpTcb, snd_nxt));
+                    u32 win = TCP_MIN(*(u32 *)(found + offsetof(TcpTcb, snd_wnd)), *(u32 *)(found + offsetof(TcpTcb, snd_cwnd))) / 2 / *(u16 *)(found + offsetof(TcpTcb, maxseg));
 
-                    if (TLobby__sub_8041D368(found) == 0) {
-                        found->f2F4 = found->snd_nxt;
-                        found->dupacks--;
+                    if (TLobby__sub_8041D368((TcpTcb *)found) == 0) {
+                        *(u32 *)(found + offsetof(TcpTcb, f2F4)) = *(u32 *)(found + offsetof(TcpTcb, snd_nxt));
+                        found[offsetof(TcpTcb, dupacks)]--;
                         goto newreno;
                     }
                     if (win < 2) {
                         win = 2;
                     }
-                    found->snd_ssthresh = win * found->maxseg;
-                    found->timers[0] = 0;
-                    found->rtt = 0;
-                    found->snd_nxt = hdr.ack;
-                    found->snd_cwnd = found->maxseg;
-                    TLobby__sub_8041A9AC(found);
-                    found->snd_cwnd = found->snd_ssthresh + found->maxseg * found->dupacks;
-                    if ((s32)(onxt - found->snd_nxt) > 0) {
-                        found->snd_nxt = onxt;
+                    *(u32 *)(found + offsetof(TcpTcb, snd_ssthresh)) = win * *(u16 *)(found + offsetof(TcpTcb, maxseg));
+                    *(s16 *)(found + offsetof(TcpTcb, timers[0])) = 0;
+                    *(s16 *)(found + offsetof(TcpTcb, rtt)) = 0;
+                    *(u32 *)(found + offsetof(TcpTcb, snd_nxt)) = hdr.ack;
+                    *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) = *(u16 *)(found + offsetof(TcpTcb, maxseg));
+                    TLobby__sub_8041A9AC((TcpTcb *)found);
+                    *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) = *(u32 *)(found + offsetof(TcpTcb, snd_ssthresh)) + *(u16 *)(found + offsetof(TcpTcb, maxseg)) * found[offsetof(TcpTcb, dupacks)];
+                    if ((s32)(onxt - *(u32 *)(found + offsetof(TcpTcb, snd_nxt))) > 0) {
+                        *(u32 *)(found + offsetof(TcpTcb, snd_nxt)) = onxt;
                     }
                     goto drop;
-                } else if (found->dupacks > (u8)TCP_REXMTTHRESH) {
-                    found->snd_cwnd += found->maxseg;
-                    TLobby__sub_8041A9AC(found);
+                } else if (found[offsetof(TcpTcb, dupacks)] > (u8)TCP_REXMTTHRESH) {
+                    *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) += *(u16 *)(found + offsetof(TcpTcb, maxseg));
+                    TLobby__sub_8041A9AC((TcpTcb *)found);
                     goto drop;
                 }
             } else {
-                found->dupacks = 0;
+                found[offsetof(TcpTcb, dupacks)] = 0;
             }
             break;
         }
     newreno:
-        if ((s32)(found->snd_una - found->f2F4) < 0 && (s32)(hdr.ack - found->f2F4) < 0) {
-            if (rem == 0 && hdr.win <= found->snd_wnd) {
-                if (hdr.ack != found->snd_una) {
-                    acked = hdr.ack - found->snd_una;
-                    TLobby__sub_8041FFF8(acked, found);
-                    found->snd_wnd -= acked;
-                    if (hdr.win > found->snd_wnd) {
-                        found->snd_wnd = hdr.win;
+        if ((s32)(*(u32 *)(found + offsetof(TcpTcb, snd_una)) - *(u32 *)(found + offsetof(TcpTcb, f2F4))) < 0 && (s32)(hdr.ack - *(u32 *)(found + offsetof(TcpTcb, f2F4))) < 0) {
+            if (rem == 0 && hdr.win <= *(u32 *)(found + offsetof(TcpTcb, snd_wnd))) {
+                if (hdr.ack != *(u32 *)(found + offsetof(TcpTcb, snd_una))) {
+                    acked = hdr.ack - *(u32 *)(found + offsetof(TcpTcb, snd_una));
+                    TLobby__sub_8041FFF8(acked, (TcpTcb *)found);
+                    *(u32 *)(found + offsetof(TcpTcb, snd_wnd)) -= acked;
+                    if (hdr.win > *(u32 *)(found + offsetof(TcpTcb, snd_wnd))) {
+                        *(u32 *)(found + offsetof(TcpTcb, snd_wnd)) = hdr.win;
                     }
-                    found->snd_una = hdr.ack;
+                    *(u32 *)(found + offsetof(TcpTcb, snd_una)) = hdr.ack;
                 }
-                if (++found->dupacks == (u8)TCP_REXMTTHRESH) {
-                    u32 win = TCP_MIN(found->snd_wnd, found->snd_cwnd) / 2 / found->maxseg;
+                if (++found[offsetof(TcpTcb, dupacks)] == (u8)TCP_REXMTTHRESH) {
+                    u32 win = TCP_MIN(*(u32 *)(found + offsetof(TcpTcb, snd_wnd)), *(u32 *)(found + offsetof(TcpTcb, snd_cwnd))) / 2 / *(u16 *)(found + offsetof(TcpTcb, maxseg));
 
-                    found->f2F0 = found->snd_nxt - found->snd_una -
-                                              found->maxseg * found->dupacks - found->maxseg;
-                    if (found->f2F0 < 0) {
-                        found->f2F0 = 0;
+                    *(s32 *)(found + offsetof(TcpTcb, f2F0)) = *(u32 *)(found + offsetof(TcpTcb, snd_nxt)) - *(u32 *)(found + offsetof(TcpTcb, snd_una)) -
+                                              *(u16 *)(found + offsetof(TcpTcb, maxseg)) * found[offsetof(TcpTcb, dupacks)] - *(u16 *)(found + offsetof(TcpTcb, maxseg));
+                    if (*(s32 *)(found + offsetof(TcpTcb, f2F0)) < 0) {
+                        *(s32 *)(found + offsetof(TcpTcb, f2F0)) = 0;
                     }
                     if (win < 2) {
                         win = 2;
                     }
-                    found->snd_ssthresh = win * found->maxseg;
-                    found->timers[0] = 0;
-                    found->rtt = 0;
-                    found->snd_cwnd = found->f2F0 + found->maxseg;
-                    TLobby__sub_8041A9AC(found);
-                    found->snd_cwnd = found->snd_ssthresh;
+                    *(u32 *)(found + offsetof(TcpTcb, snd_ssthresh)) = win * *(u16 *)(found + offsetof(TcpTcb, maxseg));
+                    *(s16 *)(found + offsetof(TcpTcb, timers[0])) = 0;
+                    *(s16 *)(found + offsetof(TcpTcb, rtt)) = 0;
+                    *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) = *(s32 *)(found + offsetof(TcpTcb, f2F0)) + *(u16 *)(found + offsetof(TcpTcb, maxseg));
+                    TLobby__sub_8041A9AC((TcpTcb *)found);
+                    *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) = *(u32 *)(found + offsetof(TcpTcb, snd_ssthresh));
                     goto drop;
-                } else if (found->dupacks > (u8)TCP_REXMTTHRESH) {
-                    found->f2F0 -= found->maxseg;
-                    TLobby__sub_8041A9AC(found);
+                } else if (found[offsetof(TcpTcb, dupacks)] > (u8)TCP_REXMTTHRESH) {
+                    *(s32 *)(found + offsetof(TcpTcb, f2F0)) -= *(u16 *)(found + offsetof(TcpTcb, maxseg));
+                    TLobby__sub_8041A9AC((TcpTcb *)found);
                     goto drop;
                 }
-            } else if (hdr.win > found->snd_wnd) {
-                found->snd_wnd = hdr.win;
+            } else if (hdr.win > *(u32 *)(found + offsetof(TcpTcb, snd_wnd))) {
+                *(u32 *)(found + offsetof(TcpTcb, snd_wnd)) = hdr.win;
             } else {
-                found->dupacks = 0;
+                found[offsetof(TcpTcb, dupacks)] = 0;
             }
             break;
         }
-        reset_slot_index(found);
-        found->f2F0 = 0;
-        found->f2F4 = hdr.ack;
-        if (found->dupacks > TCP_REXMTTHRESH && found->snd_cwnd > found->snd_ssthresh) {
-            found->snd_cwnd = found->snd_ssthresh;
+        reset_slot_index((TcpTcb *)found);
+        *(s32 *)(found + offsetof(TcpTcb, f2F0)) = 0;
+        *(u32 *)(found + offsetof(TcpTcb, f2F4)) = hdr.ack;
+        if (found[offsetof(TcpTcb, dupacks)] > TCP_REXMTTHRESH && *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) > *(u32 *)(found + offsetof(TcpTcb, snd_ssthresh))) {
+            *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) = *(u32 *)(found + offsetof(TcpTcb, snd_ssthresh));
         }
-        found->dupacks = 0;
-        if ((s32)(hdr.ack - found->snd_max) > 0) {
+        found[offsetof(TcpTcb, dupacks)] = 0;
+        if ((s32)(hdr.ack - *(u32 *)(found + offsetof(TcpTcb, snd_max))) > 0) {
             goto dropafterack;
         }
-        acked = hdr.ack - found->snd_una;
-        if ((rtt = found->rtt) != 0 && (s32)(hdr.ack - found->rtseq) > 0) {
-            s16 delta;
+        acked = hdr.ack - *(u32 *)(found + offsetof(TcpTcb, snd_una));
+        if ((rtt = *(s16 *)(found + offsetof(TcpTcb, rtt))) != 0 && (s32)(hdr.ack - *(u32 *)(found + offsetof(TcpTcb, rtseq))) > 0) {
+            s32 delta;
 
-            if ((srtt = found->srtt) != 0) {
-                delta = rtt - 1 - (srtt >> 3);
-                if ((found->srtt += delta) <= 0) {
-                    found->srtt = 1;
+            if ((srtt = *(s16 *)(found + offsetof(TcpTcb, srtt))) != 0) {
+                delta = (s16)(rtt - 1 - (srtt >> 3));
+                if ((*(s16 *)(found + offsetof(TcpTcb, srtt)) += delta) <= 0) {
+                    *(s16 *)(found + offsetof(TcpTcb, srtt)) = 1;
                 }
-                if (delta < 0) {
+                if ((s32)(s16)delta < 0L) {
                     delta = -delta;
                 }
-                delta -= found->rttvar >> 2;
-                if ((found->rttvar += delta) <= 0) {
-                    found->rttvar = 1;
+                delta -= *(s16 *)(found + offsetof(TcpTcb, rttvar)) >> 2;
+                if ((*(s16 *)(found + offsetof(TcpTcb, rttvar)) += delta) <= 0) {
+                    *(s16 *)(found + offsetof(TcpTcb, rttvar)) = 1;
                 }
             } else {
-                found->srtt = rtt << 3;
-                found->rttvar = found->rtt << 1;
+                *(s16 *)(found + offsetof(TcpTcb, srtt)) = rtt << 3;
+                *(s16 *)(found + offsetof(TcpTcb, rttvar)) = *(s16 *)(found + offsetof(TcpTcb, rtt)) << 1;
             }
-            found->rtt = 0;
+            *(s16 *)(found + offsetof(TcpTcb, rtt)) = 0;
         }
-        if (acked > 0 && found->rxtshift != 0) {
-            found->rxtshift = 0;
-            found->rxtcur = (found->srtt >> 3) + found->rttvar;
-            if (found->rxtcur < 2) {
-                found->rxtcur = 2;
-            } else if (found->rxtcur > 0x80) {
-                found->rxtcur = 0x80;
+        if (acked > 0 && *(u32 *)(found + offsetof(TcpTcb, rxtshift)) != 0) {
+            *(u32 *)(found + offsetof(TcpTcb, rxtshift)) = 0;
+            *(u16 *)(found + offsetof(TcpTcb, rxtcur)) = (*(s16 *)(found + offsetof(TcpTcb, srtt)) >> 3) + *(s16 *)(found + offsetof(TcpTcb, rttvar));
+            if (*(u16 *)(found + offsetof(TcpTcb, rxtcur)) < 2) {
+                *(u16 *)(found + offsetof(TcpTcb, rxtcur)) = 2;
+            } else if (*(u16 *)(found + offsetof(TcpTcb, rxtcur)) > 0x80) {
+                *(u16 *)(found + offsetof(TcpTcb, rxtcur)) = 0x80;
             }
         }
-        if (hdr.ack == found->snd_max) {
-            if (found->timers[0] != 0) {
-                found->timers[0] = 0;
-                found->rxtshift = 0;
+        if (hdr.ack == *(u32 *)(found + offsetof(TcpTcb, snd_max))) {
+            if (*(s16 *)(found + offsetof(TcpTcb, timers[0])) != 0) {
+                *(s16 *)(found + offsetof(TcpTcb, timers[0])) = 0;
+                *(u32 *)(found + offsetof(TcpTcb, rxtshift)) = 0;
             }
             changed = 1;
-        } else if (found->timers[1] == 0) {
-            found->timers[0] = found->rxtcur;
+        } else if (*(s16 *)(found + offsetof(TcpTcb, timers[1])) == 0) {
+            *(s16 *)(found + offsetof(TcpTcb, timers[0])) = *(u16 *)(found + offsetof(TcpTcb, rxtcur));
         }
         if (acked == 0) {
             break;
         }
         {
-            u32 cw = found->snd_cwnd;
-            u16 incr = found->maxseg;
+            u32 cw = *(u32 *)(found + offsetof(TcpTcb, snd_cwnd));
+            u16 incr = *(u16 *)(found + offsetof(TcpTcb, maxseg));
 
-            if (cw > found->snd_ssthresh) {
+            if (cw > *(u32 *)(found + offsetof(TcpTcb, snd_ssthresh))) {
                 incr = TCP_MAX(incr * incr / cw, 1);
             }
-            found->snd_cwnd = (u16)TCP_MIN((s32)(cw + incr), 0xFFFF);
+            *(u32 *)(found + offsetof(TcpTcb, snd_cwnd)) = (u16)TCP_MIN((s32)(cw + incr), 0xFFFF);
         }
         {
-            s32 n = get_score(found);
+            s32 n = get_score((TcpTcb *)found);
 
             if (acked > n) {
                 ourfinisacked = 1;
@@ -1229,137 +1272,140 @@ retry:
                 n = acked;
                 ourfinisacked = 0;
             }
-            TLobby__sub_8041FFF8(n, found);
-            found->snd_wnd -= (u16)n;
+            TLobby__sub_8041FFF8(n, (TcpTcb *)found);
+            *(u32 *)(found + offsetof(TcpTcb, snd_wnd)) -= (u16)n;
         }
-        found->snd_una = hdr.ack;
-        if ((s32)(found->snd_nxt - found->snd_una) < 0) {
-            found->snd_nxt = found->snd_una;
+        *(u32 *)(found + offsetof(TcpTcb, snd_una)) = hdr.ack;
+        if ((s32)(*(u32 *)(found + offsetof(TcpTcb, snd_nxt)) - *(u32 *)(found + offsetof(TcpTcb, snd_una))) < 0) {
+            *(u32 *)(found + offsetof(TcpTcb, snd_nxt)) = *(u32 *)(found + offsetof(TcpTcb, snd_una));
         }
-        switch (found->t_state) {
+        switch (*(s16 *)(found + offsetof(TcpTcb, t_state))) {
         case 6:
             if (ourfinisacked) {
-                if (found->fA & 4) {
-                    found->timers[3] = tcp_protocol_state.maxidle;
+                if (found[offsetof(TcpTcb, fA)] & 4) {
+                    *(s16 *)(found + offsetof(TcpTcb, timers[3])) = tcp_protocol_state.maxidle;
                 }
-                found->t_state = 9;
+                *(s16 *)(found + offsetof(TcpTcb, t_state)) = 9;
             }
             break;
         case 7:
             if (ourfinisacked) {
-                found->t_state = 10;
-                if ((u32)get_score(found) == 0) {
-                    close_if_open(found);
+                *(s16 *)(found + offsetof(TcpTcb, t_state)) = 10;
+                if ((u32)get_score((TcpTcb *)found) == 0) {
+                    close_if_open((TcpTcb *)found);
                 }
-                if ((u32)get_field_d8(found) == 0) {
-                    TLobby__sub_8041EB74(found);
+                if ((u32)get_field_d8((TcpTcb *)found) == 0) {
+                    TLobby__sub_8041EB74((TcpTcb *)found);
                 }
-                clear_position(found);
-                found->timers[3] = 0x78;
+                clear_position((TcpTcb *)found);
+                *(s16 *)(found + offsetof(TcpTcb, timers[3])) = 0x78;
             }
             break;
         case 8:
             if (ourfinisacked) {
-                NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 4);
-                TLobby__sub_8041B5C0(found);
+                NetDispatchSocketEvent(TCP_IDX((TcpTcb *)found), *(s32 *)(found + offsetof(TcpTcb, event_ctx)), 3, 4);
+                TLobby__sub_8041B5C0((TcpTcb *)found);
                 goto drop;
             }
             break;
         case 10:
-            found->timers[3] = 0x78;
+            *(s16 *)(found + offsetof(TcpTcb, timers[3])) = 0x78;
             goto dropafterack;
         }
         break;
     }
 step6:
     if ((kind & 0x10) &&
-        ((s32)(found->snd_wl1 - hdr.seq) < 0 ||
-         (found->snd_wl1 == hdr.seq &&
-          ((s32)(found->snd_wl2 - hdr.ack) < 0 ||
-           (found->snd_wl2 == hdr.ack && hdr.win > found->snd_wnd))))) {
-        found->snd_wnd = hdr.win;
-        found->snd_wl1 = hdr.seq;
-        found->snd_wl2 = hdr.ack;
-        if (found->snd_wnd > found->max_sndwnd) {
-            found->max_sndwnd = found->snd_wnd;
+        ((s32)(*(u32 *)(found + offsetof(TcpTcb, snd_wl1)) - hdr.seq) < 0 ||
+         (*(u32 *)(found + offsetof(TcpTcb, snd_wl1)) == hdr.seq &&
+          ((s32)(*(u32 *)(found + offsetof(TcpTcb, snd_wl2)) - hdr.ack) < 0 ||
+           (*(u32 *)(found + offsetof(TcpTcb, snd_wl2)) == hdr.ack && hdr.win > *(u32 *)(found + offsetof(TcpTcb, snd_wnd))))))) {
+        *(u32 *)(found + offsetof(TcpTcb, snd_wnd)) = hdr.win;
+        *(u32 *)(found + offsetof(TcpTcb, snd_wl1)) = hdr.seq;
+        *(u32 *)(found + offsetof(TcpTcb, snd_wl2)) = hdr.ack;
+        if (*(u32 *)(found + offsetof(TcpTcb, snd_wnd)) > *(u32 *)(found + offsetof(TcpTcb, max_sndwnd))) {
+            *(u32 *)(found + offsetof(TcpTcb, max_sndwnd)) = *(u32 *)(found + offsetof(TcpTcb, snd_wnd));
         }
         changed = 1;
     }
-    if ((kind & 0x20) && hdr.urp != 0 && !(found->flags & 0x08)) {
-        if ((u32)get_queue_diff(found) + hdr.urp > 0x10000) {
+    if ((kind & 0x20) && hdr.urp != 0 && !(found[offsetof(TcpTcb, flags)] & 0x08)) {
+        if ((u32)get_queue_diff((TcpTcb *)found) + hdr.urp > 0x10000) {
             hdr.urp = 0;
             kind &= ~0x20;
         } else {
-            if ((s32)(hdr.seq + hdr.urp - found->rcv_up) > 0) {
-                found->rcv_up = hdr.seq + hdr.urp;
+            if ((s32)(hdr.seq + hdr.urp - *(u32 *)(found + offsetof(TcpTcb, rcv_up))) > 0) {
+                *(u32 *)(found + offsetof(TcpTcb, rcv_up)) = hdr.seq + hdr.urp;
             }
         }
-    } else if (found->rcv_nxt != found->rcv_up) {
-        found->rcv_up = found->rcv_nxt;
+    } else if (*(u32 *)(found + offsetof(TcpTcb, rcv_nxt)) != *(u32 *)(found + offsetof(TcpTcb, rcv_up))) {
+        *(u32 *)(found + offsetof(TcpTcb, rcv_up)) = *(u32 *)(found + offsetof(TcpTcb, rcv_nxt));
     }
-    if ((rem != 0 || (kind & 1)) && !(found->flags & 0x08)) {
-        if (hdr.seq == found->rcv_nxt && (found->t_state == 4 || (found->fA & 0x0c))) {
+    if ((rem != 0 || (kind & 1)) && !(found[offsetof(TcpTcb, flags)] & 0x08)) {
+        if (hdr.seq == *(u32 *)(found + offsetof(TcpTcb, rcv_nxt)) && (*(s16 *)(found + offsetof(TcpTcb, t_state)) == 4 || (found[offsetof(TcpTcb, fA)] & 0x0c))) {
             s32 off;
 
             kind = ti_flags & 1;
-            found->rcv_nxt += rem;
+            *(u32 *)(found + offsetof(TcpTcb, rcv_nxt)) += rem;
             off = len + total;
-            if (!(found->fA & 0x04)) {
-                TLobby__sub_8041F204((NetPacket *)pkt, off, found);
+            if (!(found[offsetof(TcpTcb, fA)] & 0x04)) {
+                TLobby__sub_8041F204((NetPacket *)pkt, off, (TcpTcb *)found);
             }
-            if (found->f53C == 0) {
-                if (found->ack_delay == 0) {
-                    found->ack_delay = (s16)(tcp_protocol_state.ack_ticks / 100);
+            if (*(u32 *)(found + offsetof(TcpTcb, f53C)) == 0) {
+                if (*(s16 *)(found + offsetof(TcpTcb, ack_delay)) == 0) {
+                    *(s16 *)(found + offsetof(TcpTcb, ack_delay)) = (s16)(tcp_protocol_state.ack_ticks / 100);
                 }
             } else {
-                found->flags |= 1;
+                found[offsetof(TcpTcb, flags)] |= 1;
             }
+            goto L1397;
         } else {
-            if ((s32)(hdr.seq - found->rcv_nxt) > 0) {
-                TLobby__sub_8041F914((NetPacket *)pkt, (u16)(s32)(len + total), found, ti);
+            if ((s32)(hdr.seq - *(u32 *)(found + offsetof(TcpTcb, rcv_nxt))) > 0) {
+                // Keep the native full-register truncation at the shared u16 call boundary.
+                TLobby__sub_8041F914((NetPacket *)pkt, (len + total) & 0xffff, (TcpTcb *)found, ti);
             }
             kind &= ~1;
-            found->flags |= 1;
+            found[offsetof(TcpTcb, flags)] |= 1;
+            goto L1397;
         }
-    } else {
-        kind &= ~1;
     }
+    kind &= ~1;
+L1397:
     if (!(kind & 1)) {
         goto L1469;
     }
-    NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 2);
-    if (!(found->flags & 0x08)) {
-        TLobby__sub_8041F11C(found);
-        found->flags |= 1;
-        found->rcv_nxt += 1;
+    NetDispatchSocketEvent(TCP_IDX((TcpTcb *)found), *(s32 *)(found + offsetof(TcpTcb, event_ctx)), 3, 2);
+    if (!(found[offsetof(TcpTcb, flags)] & 0x08)) {
+        TLobby__sub_8041F11C((TcpTcb *)found);
+        found[offsetof(TcpTcb, flags)] |= 1;
+        *(u32 *)(found + offsetof(TcpTcb, rcv_nxt)) += 1;
     }
-    found->flags |= 8;
-    switch (found->t_state) {
+    found[offsetof(TcpTcb, flags)] |= 8;
+    switch (*(s16 *)(found + offsetof(TcpTcb, t_state))) {
     case 3:
     case 4:
-        found->t_state = 5;
+        *(s16 *)(found + offsetof(TcpTcb, t_state)) = 5;
         break;
     case 6:
-        found->t_state = 7;
+        *(s16 *)(found + offsetof(TcpTcb, t_state)) = 7;
         break;
     case 9:
-        found->t_state = 10;
-        if ((u32)get_score(found) == 0) {
-            close_if_open(found);
+        *(s16 *)(found + offsetof(TcpTcb, t_state)) = 10;
+        if ((u32)get_score((TcpTcb *)found) == 0) {
+            close_if_open((TcpTcb *)found);
         }
-        if ((u32)get_field_d8(found) == 0) {
-            TLobby__sub_8041EB74(found);
+        if ((u32)get_field_d8((TcpTcb *)found) == 0) {
+            TLobby__sub_8041EB74((TcpTcb *)found);
         }
-        clear_position(found);
-        found->timers[3] = 0x78;
+        clear_position((TcpTcb *)found);
+        *(s16 *)(found + offsetof(TcpTcb, timers[3])) = 0x78;
         break;
     case 10:
-        found->timers[3] = 0x78;
+        *(s16 *)(found + offsetof(TcpTcb, timers[3])) = 0x78;
         break;
     }
 L1469:
-    if (changed != 0 || (found->flags & 1)) {
-        TLobby__sub_8041A9AC(found);
+    if (changed != 0 || (found[offsetof(TcpTcb, flags)] & 1)) {
+        TLobby__sub_8041A9AC((TcpTcb *)found);
     }
     return 0;
 
@@ -1367,15 +1413,15 @@ dropafterack:
     if (kind & 4) {
         goto drop;
     }
-    found->flags |= 1;
-    TLobby__sub_8041A9AC(found);
+    found[offsetof(TcpTcb, flags)] |= 1;
+    TLobby__sub_8041A9AC((TcpTcb *)found);
     return 0;
 
 dropwithreset:
     if (kind & 4) {
         goto drop;
     }
-    if (is_multicast_address((void *)b, 0) == 1) {
+    if ((s16)is_multicast_address(b, 0) == 1) {
         goto drop;
     }
     if (kind & 0x10) {
@@ -1386,8 +1432,11 @@ dropwithreset:
         if (kind & 2) {
             rem++;
         }
-        if (TLobby__sub_8041B3D4(a, b, hdr.dport, hdr.sport, 0, rem + hdr.seq, 0x14) < 0) {
+        {
+        u32 reset_ack = (u16)rem + hdr.seq;
+        if (TLobby__sub_8041B3D4(a, b, hdr.dport, hdr.sport, 0, reset_ack, 0x14) < 0) {
             return -1;
+        }
         }
     }
     return 0;
