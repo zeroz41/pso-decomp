@@ -1335,7 +1335,7 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         "pso/network/NetBufferPool.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetIPv6NeighborDiscovery.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetFragment.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
-        "pso/network/NetDispatcher.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        # NetDispatcher.c was built with CSE: three functions match only with it, the protocol loop as typed C.
         "pso/network/NetTcp.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
     }),
     # The modem driver (AT command strings).
