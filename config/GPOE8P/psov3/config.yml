@@ -177,6 +177,11 @@ force_active:
   - TAdPlayerLoadGC__sub_801E26DC
   - TAdPlyPltAnimCtrlGC__ct
   - TAdPlyPltAnimCtrlGC__sub_80355168
+  - TQuestVmDownLoadServer__sub_803E9A74
+  - TQuestVmDownLoadServer__sub_803E9FFC
+  - TQuestVmDownLoadServer__sub_803EA1A8
+  - TQuestVmDownLoadServer__sub_803EA428
+  - TQuestVmDownLoadServer__sub_803EADD4
   - __ct__15TAdPlyPltAnimGCFP7TObjectl
   - TAdPlyStatusGC__is_shown
   - TAdPlyStatusGC__status_window_box
@@ -209,13 +214,18 @@ force_active:
   - TAdSinglePlyChrSelectGC__sub_8028C998
   - TAdSinglePlyChrSelectGC__sub_8028EE20
   - __ct__26TObjEneBm3FlyNest_CarryFlyFP7TObjectP3VecP3VecP3VecPll
+  - build_item_list__22TQuestVmDownLoadServerFiPv
   - copy_target_state__17TObjEneBm3FlyNestFl
+  - count_leading_entries__22TQuestVmDownLoadServerFll
+  - find_longest_match_entry__22TQuestVmDownLoadServerFPviPv
   - handle_appear__17TObjEneBm3FlyNestFl
   - handle_attachment_sample__17TObjEneBm3FlyNestFl
   - handle_event__17TObjEneBm3FlyNestFl
   - handle_motion_event__17TObjEneBm3FlyNestFl
   - handle_state__17TObjEneBm3FlyNestFl
   - init__17TObjEneBm3FlyNestFv
+  - insert_sorted_node__22TQuestVmDownLoadServerFPvPv
+  - is_download_cmd_allowed__22TQuestVmDownLoadServerFUc
   - state_dying__17TObjEneBm3FlyNestFl
   - state_spawn__17TObjEneBm3FlyNestFl
   - state_wait__17TObjEneBm3FlyNestFl
