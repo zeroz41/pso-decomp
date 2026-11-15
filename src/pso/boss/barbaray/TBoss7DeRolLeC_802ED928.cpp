@@ -138,7 +138,6 @@ s32 is_main_phase_15__9TObjEneDDFv();
 u32 __nw__7TObjectFUl(int);
 s32 fn_802E79B0(void *);
 s32 TParticleCtrl__sub_802EC550(void *);
-s32 sub_802ECB10__14TBoss7DeRolLeCFv();
 s32 apply_with_callback__10TObjPlayerFlf(int, int);
 s32 rotate_matrix_by_node_angles(void *, int);
 s32 push_matrix();
@@ -146,7 +145,7 @@ s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 extern s32 lbl_804E3BF0[];
 void TBoss7DeRolLeC::update_or_dispatch() {
-    if (sub_802ECB10__14TBoss7DeRolLeCFv() != 0) {
+    if (sub_802ECB10() != 0) {
         sub_802ECAA4();
         return;
     }
@@ -209,7 +208,7 @@ void TBoss7DeRolLeC::run_task() {
         temp_r0_3 = this->unk_6B8;
         if (temp_r0_3 != 1) {
             if (temp_r0_3 == 2) {
-                if (((s32 (*)(void *))sub_802ECB10__14TBoss7DeRolLeCFv)(this) != 0) {
+                if (sub_802ECB10() != 0) {
                     this->sub_802ECAA4();
                 } else {
                     ((VObj_18 *)(this))->m85(this->mode, 2);

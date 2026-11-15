@@ -3744,7 +3744,7 @@ void TBoss7DeRolLeC::sub_802ECAA4() {
     }
 }
 
-u8 TBoss7DeRolLeC::sub_802ECB10() {
+s32 TBoss7DeRolLeC::sub_802ECB10() {
     s32 var_r4;
 
     var_r4 = 0;

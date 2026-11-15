@@ -33,7 +33,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void update_or_dispatch();
     void flee_if_disturbed();
     void set_state_and_send(s32);
-    u8 sub_802ECB10();
+    s32 sub_802ECB10();
     void sub_802ECAA4();
     void sub_802EB270(u32 event, s32 mode, s32 next_mode);
     void advance_action_sequence();
