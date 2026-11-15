@@ -180,7 +180,7 @@ void TObjPlayer__sub_802ED984(void);
 void TObjPlayer__sub_802EE574(void);
 }
 
-// Functions defined in Boss7DeRolLeCBehavior.cpp.
+// Functions defined in TBoss7DeRolLeC.cpp.
 struct TObjEneDD;
 extern "C" {
 void TBoss7DeRolLeC__handle_crawfish_spawn_state(u8 *self, u32 event, s32 variant);

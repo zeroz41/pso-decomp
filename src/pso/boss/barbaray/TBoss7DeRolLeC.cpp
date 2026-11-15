@@ -1301,97 +1301,6 @@ s32 TBoss7Joint_get_shell_max_hp(void);
 #undef TObjFish__sub_802E7B40
 #undef TObjFish__sub_802E7B94
 #undef VecCopy__FP3VecPC3Vec
-struct VB_802ED62C { u8 pad[0x18]; };
-
-struct V_802ED62C : VB_802ED62C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85(s32, int);
-};
-
 struct PktA_802ED62C { u8 hdr[2]; u16 a; s16 b; s16 c; s32 d; };
 
 struct PktB_802ED62C { u8 hdr[2]; u16 a; s16 b; s16 c; };
@@ -1418,125 +1327,6 @@ s32 add_radar_scaled_marker(void *, int, int, int, f32);
 
 #pragma pop
 #undef VecCopy__FP3VecPC3Vec
-struct Base_802ED928 { char pad[0x18]; };
-
-struct VObj_802ED928 : Base_802ED928 {
-    virtual void m0();    virtual void m1();    virtual void m2();    virtual void m3();
-    virtual void m4();    virtual void m5();    virtual void m6();    virtual void m7();
-    virtual void m8();    virtual void m9();    virtual void m10();    virtual void m11();
-    virtual void m12();    virtual void m13();    virtual void m14();    virtual void m15();
-    virtual void m16();    virtual void m17();    virtual void m18();    virtual void m19();
-    virtual void m20();    virtual void m21();    virtual void m22();    virtual void m23();
-    virtual void m24();    virtual void m25();    virtual void m26();    virtual void m27();
-    virtual void m28();    virtual void m29();    virtual void m30();    virtual void m31();
-    virtual void m32();    virtual void m33();    virtual void m34();    virtual void m35();
-    virtual void m36();    virtual void m37();    virtual void m38();    virtual void m39();
-    virtual void m40();    virtual void m41();    virtual void m42();    virtual void m43();
-    virtual void m44();    virtual void m45();    virtual void m46();    virtual void m47();
-    virtual void m48();    virtual void m49();    virtual void m50();    virtual void m51();
-    virtual void m52();    virtual void m53();    virtual void m54();    virtual void m55();
-    virtual void m56();    virtual void m57();    virtual void m58();    virtual void m59();
-    virtual void m60();    virtual void m61();    virtual void m62();    virtual void m63();
-    virtual void m64();    virtual void m65();    virtual void m66();    virtual void m67();
-    virtual void m68();    virtual void m69();    virtual void m70();    virtual void m71();
-    virtual void m72();    virtual void m73();    virtual void m74();    virtual void m75();
-    virtual void m76();    virtual void m77();    virtual void m78();    virtual void m79();
-    virtual void m80();    virtual void m81();    virtual void m82();    virtual void m83();
-    virtual void m84();
-    virtual void m85(s16, int);
-};
-
-struct VBase_18 { char pad[0x18]; };
-
-struct VObj_18 : VBase_18 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual s32 m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual s32 m39();
-    virtual s32 m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual s32 m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual s32 m85(s16, s32);
-    virtual s32 m86();
-};
 extern "C" {
 s32 query_teammate_state__9TObjEneDDFv();
 
@@ -1908,7 +1698,7 @@ void TBoss7DeRolLeC::run_task() {
                 if (((s32 (*)(void *))sub_802ECB10__14TBoss7DeRolLeCFv)(this) != 0) {
                     this->sub_802ECAA4();
                 } else {
-                    ((VObj_18 *)(this))->m85(this->mode, 2);
+                    dispatch_action(this->mode, 2);
                 }
             } else {
                 this->update_or_dispatch();
@@ -1916,13 +1706,13 @@ void TBoss7DeRolLeC::run_task() {
             if (this->test_flag30_512() != 0) {
                 this->vfunc_62();
             }
-            ((VObj_18 *)(this))->m85(this->mode, 8);
-            ((VObj_18 *)(this))->m85(this->mode, 0);
+            dispatch_action(this->mode, 8);
+            dispatch_action(this->mode, 0);
         } else {
             if (this->test_flag30_512() != 0) {
                 this->vfunc_62();
             }
-            ((VObj_18 *)(this))->m85(this->mode, 0);
+            dispatch_action(this->mode, 0);
         }
         this->update_projectile_spawns();
     }
@@ -1958,7 +1748,7 @@ void TBoss7DeRolLeC::update_or_dispatch() {
         sub_802ECAA4();
         return;
     }
-    ((VObj_802ED928*)this)->m85((this->mode), 9);
+    dispatch_action(this->mode, 9);
 }
 }
 
@@ -2043,7 +1833,7 @@ void TBoss7DeRolLeC::flee_if_disturbed() {
 void TBoss7DeRolLeC::set_state_and_send(s32 arg1) {
     PktA_802ED62C pa;
     PktB_802ED62C pb;
-    ((V_802ED62C *)((u8 *)this))->m85(arg1, 6);
+    dispatch_action(arg1, 6);
     if (((arg1 - 0x13) <= 1U) || ((arg1 - 0x40) <= 1U) || (arg1 == 0x44) || (arg1 == 0x18)) {
         TBoss7Joint__sub_802EE800(&pa);
         pa.a = this->entity_id;
