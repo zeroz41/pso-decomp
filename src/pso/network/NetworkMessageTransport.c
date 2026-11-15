@@ -41,7 +41,7 @@ extern s32 lobby_connect_mode;
 s32 NetUnregisterTimer(void *fn);
 u8 *TLobby__sub_804256B8(s32);
 s32 TLobby__sub_8042558C(void *);
-extern u8 lbl_805E1190[6];
+extern const u8 lbl_805E1190[8] = { 255, 255, 255, 255, 255, 255, 0, 0 };
 s32 TLobby__sub_804089A8(s16, s16, void *, void *); /* declared here with other parameter types; the definition is s32 (s16, s16, s16, void *) */
 s32 TLobby__sub_80425640(s32 len);
 s32 TLobby__sub_80426AAC(u16 key, s32 len);

@@ -5619,6 +5619,7 @@ pso/network/TProtocol_801DB3CC.cpp:
 
 pso/network/TProtocol.cpp:
 	.text       start:0x801DB474 end:0x801DEF7C
+	.rodata     start:0x80449610 end:0x80449640
 	.data       start:0x804C4A50 end:0x804C5234
 	.sbss       start:0x805D5E28 end:0x805D5E30
 
@@ -7782,6 +7783,7 @@ pso/ui/window/TWindowSubMag.cpp:
 
 pso/ui/window/TWindowSubMagPhoton_8027C13C.cpp:
 	.text       start:0x8027C13C end:0x8027C22C
+	.sdata2     start:0x805DD678 end:0x805DD680
 
 pso/ui/window/TWindowSubMagPhoton.cpp:
 	.text       start:0x8027C22C end:0x8027CCC8
@@ -12132,7 +12134,7 @@ pso/unk/text_803CE568.cpp:
 	.rodata     start:0x8047CF30 end:0x8047DAB8
 	.bss        start:0x80581A30 end:0x80581EA8
 	.sbss       start:0x805D7600 end:0x805D7608
-	.sdata2     start:0x805E0DA0 end:0x805E0DA4
+	.sdata2     start:0x805E0DA0 end:0x805E0DB0
 
 pso/unk/TLobby_803CFE68.cpp:
 	.text       start:0x803CFE68 end:0x803CFEA0
@@ -12774,6 +12776,7 @@ pso/network/NetworkPacketRuntime.c:
 pso/network/NetworkMessageTransport.c:
 	.text       start:0x80425B70 end:0x80426CAC
 	.bss        start:0x805CF240 end:0x805CFC20
+	.sdata2     start:0x805E1190 end:0x805E1198
 
 pso/network/TLobby_80426CAC.c:
 	.text       start:0x80426CAC end:0x80428374
