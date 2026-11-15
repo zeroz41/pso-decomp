@@ -13,9 +13,9 @@ s32 get_main_phase();
 void *get_entity_id(void *);
 void *get_player_by_client_id(s32);
 void send_chat__9TProtocolFR16TPlyGuildCardTagPc(void *, TPlyGuildCardTag *, u8 *);
-void fn_80076BC4(void);
+char *fn_80076BC4(s32 *text);
 
-void fn_80076BC4(void) {  }
+char *fn_80076BC4(s32 *text) { return (char *)text; }
 }
 extern s32 local_client_id;
 extern void *TLobby__protocol_instance;

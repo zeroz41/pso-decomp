@@ -23,7 +23,7 @@ extern s32 TWindowSubShortCutList__class_name;
 extern s32 local_client_id;
 void *TWindowSubShortCutList__ct(void *arg0, void *arg1, void *arg2);
 s32 get_shared_text_buffer();
-s32 fn_80076BC4(s32 *);
+char *fn_80076BC4(s32 *);
 int get_chat_shortcut(s32 arg0);
 s32 get_symbol_chat_data__20TWindowSubSymbolChatFv();
 s32 save_cursor_selection__20TShopArmorListWindowFv();
@@ -55,7 +55,7 @@ void TWindowSubShortCutList::refresh_entries() {
             draw_entry(var_r29, 0x33, 0, var_r29);
             break;
         case 1:
-            temp_r0 = fn_80076BC4(chat_shortcut + 1);
+            temp_r0 = (s32)fn_80076BC4(chat_shortcut + 1);
             draw_entry(var_r29, 0x12, temp_r0, var_r29);
             break;
         case 2:
