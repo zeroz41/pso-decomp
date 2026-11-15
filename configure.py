@@ -433,6 +433,9 @@ GAME_COMPILER = "GC/2.6"
 GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -str readonly: the string literals of these files sit in .rodata.
     "pso/unk/TLobby_80103F5C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # pack_movie_frame keeps every named local in one register, recomputes its pad and
+    # stride shifts and leaves invariant hoisting to the backend.
+    "pso/system/movie/TMovie_80143988.cpp": {"cflags": _switch(cflags_pso, "-opt nolifetimes,nocse,noprop,noloop")},
     "pso/effect/TDuelEffectCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/TDuelEffectNumber.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/effect/TDuelEffectString.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-fp_contract on")},
