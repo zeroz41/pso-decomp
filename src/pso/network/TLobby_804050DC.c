@@ -15,6 +15,7 @@
 #include "pso/network/TLobby_803FAEA0.h"
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_8041112C.h"
+#include "pso/network/TLobby_80428374.h"
 #include "pso/network/text_80421620.h"
 /* The object header the stack's records share (laid out like TObject's fields). */
 typedef struct Timer_804051CC Timer_804051CC;
@@ -34,7 +35,6 @@ extern u16 ppp_rx_fcs;
 /* inferred: the PPP FCS-16 lookup table (RFC 1662 fcstab); the receive path checks the FCS against 0xF0B8. */
 extern u16 ppp_fcs16_table[];
 extern u8 lbl_805C18B0[];
-extern s16 TLobby__sub_804290D4(s32 idx);
 
 #include <stddef.h>
 
