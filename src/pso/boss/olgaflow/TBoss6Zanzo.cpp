@@ -85,6 +85,9 @@ struct ZanzoTrailPoint { u8 color[4]; Vec pos; };
 // The quad strip draw_tri_fan_3d reads.
 struct ZanzoQuad { Vec *positions; u8 (*colors)[4]; void *uvs; s32 count; };
 
+extern const f32 lbl_805DF470; // 1.0f
+extern const f32 lbl_805DF474; // 0.0f
+
 // Draws the after-image trail: a strip of quads between each pair of consecutive frames, fading out with age.
 void TBoss6Zanzo::sub_803205C4() {
     Src_80320534 *frame;
@@ -93,51 +96,55 @@ void TBoss6Zanzo::sub_803205C4() {
     f32 step;
     f32 alpha;
     f32 prev_alpha;
-    f32 next_alpha;
     s32 drawn;
-    s32 i;
-    ZanzoTrailPoint *p;
-    u8 colors[4][4];
-    ZanzoQuad quad;
-    Vec positions[4];
-
-    step = 1.0f / m_28;
-    alpha = 1.0f;
     frame = (Src_80320534 *)m_1c;
     end = frame + m_28;
+    alpha = lbl_805DF470;
+    step = lbl_805DF470 / m_28;
     drawn = 0;
-    for (; frame < end; frame++) {
-        if (frame == (Src_80320534 *)m_1c || frame->a == 0 || prev->a == 0) {
+    for (; frame < end; ++frame) {
+        if (frame == (Src_80320534 *)m_1c || !frame->a || !prev->a) {
             drawn = 0;
         } else {
             if (!drawn) {
-                prev_alpha = 0.0f;
+                prev_alpha = lbl_805DF474;
             }
-            next_alpha = alpha;
-            if (frame == end - 1 || frame[1].a == 0) {
-                next_alpha = 0.0f;
+            f32 next_alpha = alpha;
+            if (frame == end - 1 || !(frame + 1)->a) {
+                next_alpha = lbl_805DF474;
             }
+            u8 colors[4][4];
+            Vec positions[4];
+            ZanzoQuad quad;
             quad.colors = colors;
             quad.uvs = NULL;
             quad.count = 4;
             quad.positions = positions;
-            for (i = 0; i < m_24 - 1; i++) {
-                p = &((ZanzoTrailPoint *)prev->p)[i];
-                ((TAdChrMoveEffectGC *)colors[0])->copy4(p);
-                colors[0][3] = prev_alpha * p->color[3];
-                VecCopy__FP3VecPC3Vec(&positions[0], &p->pos);
-                p = (ZanzoTrailPoint *)prev->p + i + 1;
-                ((TAdChrMoveEffectGC *)colors[1])->copy4(p);
-                colors[1][3] = prev_alpha * p->color[3];
-                VecCopy__FP3VecPC3Vec(&positions[1], &p->pos);
-                p = (ZanzoTrailPoint *)frame->p + i + 1;
-                ((TAdChrMoveEffectGC *)colors[2])->copy4(p);
-                colors[2][3] = next_alpha * p->color[3];
-                VecCopy__FP3VecPC3Vec(&positions[2], &p->pos);
-                p = &((ZanzoTrailPoint *)frame->p)[i];
-                ((TAdChrMoveEffectGC *)colors[3])->copy4(p);
-                colors[3][3] = next_alpha * p->color[3];
-                VecCopy__FP3VecPC3Vec(&positions[3], &p->pos);
+            for (s32 i = 0; i < m_24 - 1; ++i) {
+                {
+                    ZanzoTrailPoint *p = &((ZanzoTrailPoint *)prev->p)[i];
+                    ((TAdChrMoveEffectGC *)colors[0])->copy4(p);
+                    colors[0][3] = prev_alpha * p->color[3];
+                    VecCopy__FP3VecPC3Vec(&positions[0], &p->pos);
+                }
+                {
+                    ZanzoTrailPoint *p = &((ZanzoTrailPoint *)prev->p)[i] + 1;
+                    ((TAdChrMoveEffectGC *)colors[1])->copy4(p);
+                    colors[1][3] = prev_alpha * p->color[3];
+                    VecCopy__FP3VecPC3Vec(&positions[1], &p->pos);
+                }
+                {
+                    ZanzoTrailPoint *p = &((ZanzoTrailPoint *)frame->p)[i] + 1;
+                    ((TAdChrMoveEffectGC *)colors[2])->copy4(p);
+                    colors[2][3] = next_alpha * p->color[3];
+                    VecCopy__FP3VecPC3Vec(&positions[2], &p->pos);
+                }
+                {
+                    ZanzoTrailPoint *p = &((ZanzoTrailPoint *)frame->p)[i];
+                    ((TAdChrMoveEffectGC *)colors[3])->copy4(p);
+                    colors[3][3] = next_alpha * p->color[3];
+                    VecCopy__FP3VecPC3Vec(&positions[3], &p->pos);
+                }
                 ((TObjPlayer *)&quad)->draw_tri_fan_3d(4, 7);
             }
             drawn = 1;
@@ -196,3 +203,6 @@ TBoss6Zanzo::TBoss6Zanzo(TObject *object, s32 arg2, s32 arg3) : TObject(object) 
     ((Obj_803209F0 *)this)->last->a = 0;
     ((Obj_803209F0 *)this)->last->p = (u8 *)mem_alloc(((Obj_803209F0 *)this)->n * 0x10);
 }
+
+__declspec(section ".sdata2") const f32 lbl_805DF470 = 1.0f;
+__declspec(section ".sdata2") const f32 lbl_805DF474 = 0.0f;

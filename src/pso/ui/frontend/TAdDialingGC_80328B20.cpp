@@ -5,36 +5,40 @@
 #include "pso/system/NinjaTypes.h"
 
 extern "C" {
-extern f32 lbl_804767B8[];
-extern f32 lbl_804767C0[];
-extern f32 lbl_804767A8[];
-extern f32 lbl_804767B0[];
+extern const NJS_POINT2 lbl_804767B8[];
+extern const NJS_POINT2 lbl_804767C0[];
+extern const NJS_POINT2 lbl_804767A8[];
+extern const NJS_POINT2 lbl_804767B0[];
+extern const f32 lbl_805DF6F8; // -120.0f
 
 void TAdDialingGC__sub_80328B20(void) {  }
 
 // Draws a flat dark-blue quad of `size` (w, h) at `origin` (x, y) (one 2D polygon, four points).
-void TAdDialingGC__sub_80328B24(f32 *origin, f32 *size) {
+void TAdDialingGC__sub_80328B24(const NJS_POINT2 *origin, const NJS_POINT2 *size) {
     NJS_POINT2 pos[4];
     NJS_POINT2COL poly;
     NJS_COLOR col[4];
+    const u32 color = 0x8F;
 
     poly.p = pos;
-    poly.tex = NULL;
     poly.col = col;
+    poly.tex = NULL;
     poly.num = 4;
-    poly.p[0].x = origin[0];
-    poly.p[0].y = origin[1];
-    poly.col[0].color = 0x8F;
-    poly.p[1].x = origin[0];
-    poly.p[1].y = origin[1] + size[1];
-    poly.col[1].color = 0x8F;
-    poly.p[2].x = origin[0] + size[0];
-    poly.p[2].y = origin[1] + size[1];
-    poly.col[2].color = 0x8F;
-    poly.p[3].x = origin[0] + size[0];
-    poly.p[3].y = origin[1];
-    poly.col[3].color = 0x8F;
-    ((TObjCMHairMenu *)&poly)->draw_tri_fan_2d(4, 7, -120.0f);
+
+    poly.p[0].x = origin->x;
+    poly.p[0].y = origin->y;
+    poly.col[0].color = color;
+    poly.p[1].x = origin->x;
+    poly.p[1].y = origin->y + size->y;
+    poly.col[1].color = color;
+    poly.p[2].x = origin->x + size->x;
+    poly.p[2].y = origin->y + size->y;
+    poly.col[2].color = color;
+    poly.p[3].x = origin->x + size->x;
+    poly.p[3].y = origin->y;
+    poly.col[3].color = color;
+
+    ((TObjCMHairMenu *)&poly)->draw_tri_fan_2d(4, 7, lbl_805DF6F8);
 }
 void TAdDialingGC::draw_if_flag_set() {
     TAdDialingGC *self = this;

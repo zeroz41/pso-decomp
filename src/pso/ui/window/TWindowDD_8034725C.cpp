@@ -87,7 +87,6 @@ extern const f32 lbl_805DFBE8;
 extern const f32 lbl_805DFBEC;
 extern const f32 lbl_805DFC28;
 void TWindowDD__sub_80347E04(W_80347E04 *arg0, s32 arg1);
-s32 update_state__9TWindowDDFv(void *, u32, u16);
 E_80347CC8 *get_array_entry__11TWindowBaseFi(void *, s32);
 s32 refresh_status_display__9TWindowDDFv(void *);
 extern s32 local_client_id;
@@ -478,7 +477,7 @@ void TWindowDD__sub_80347CC8(W_80347CC8 *arg0, void *window_dd) {
     f32 c;
     f32 max;
     f32 f10;
-    update_state__9TWindowDDFv(window_dd, TWindowDD__work_buffer, local_client_id);
+    TWindowDD::format_message(window_dd, (void *)TWindowDD__work_buffer, local_client_id);
     s = arg0->f70;
     if (s != NULL) {
         e = get_array_entry__11TWindowBaseFi(s, 0);

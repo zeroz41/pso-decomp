@@ -12,6 +12,7 @@ struct TDLGraph : public TObject {
     void init_dl_graph_entries();
     void draw_countdown_timer(f32, f32);
     void draw_percent_text(f32, f32);
+    void draw_outlined_string_right_aligned(s32 x, s32 y, char *str);
     f32 m_1c;
     u32 m_20;
     u32 m_24;

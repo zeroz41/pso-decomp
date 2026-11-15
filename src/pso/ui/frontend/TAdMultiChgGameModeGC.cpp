@@ -47,7 +47,7 @@ extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
 extern RecoveredGlobal_802FFCE4_lbl_8050E208 controller_input_state;
-extern s32 lbl_805D69E8;
+s32 lbl_805D69E8;
 void *__nw__7TObjectFUl(u32);
 void __ct__7TObjectFP7TObject(void *);
 void __ct__9TAdBackGCFv(void *, void *);

@@ -41,7 +41,7 @@ s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
-extern s32 game_difficulty_selection;
+s32 game_difficulty_selection;
 void __ct__7TObjectFP7TObject(void *, void *);
 void *__nw__7TObjectFUl(u32);
 void __ct__9TAdBackGCFv(void *, void *);

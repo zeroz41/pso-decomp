@@ -460,8 +460,8 @@ struct Pkt_801DC084 {
 
 extern "C" {
 void bswap__12TRecvPsoDataFv(void *);
-extern char TProtocol__send_pso_data2_log_format[];
-extern char TProtocol__send_pso_data_log_format[];
+extern const char TProtocol__send_pso_data2_log_format[21] = "SndPsoData2 %d %d %d";
+extern const char TProtocol__send_pso_data_log_format[17] = "SndPsoData %d %d";
 
 void TProtocol::send_subcommand_to_client(s32 flag, s8 *src, s32 len) {
     char buf[0x80];

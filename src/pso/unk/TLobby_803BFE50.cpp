@@ -299,80 +299,80 @@ void process_audio_stream_input(AudioStreamInputState *st) {
 inline void feed_audio_stream_decoder(AudioStreamInputState *st) {
     TLobby *h = st->decoder;
     AudioStreamSource *s = st->source;
-    s32 need;
     if (st->stop_when_drained == 1 && s->vt->get_available(s, 1) == 0) {
         st->state = 3;
-        return;
+    } else {
+        s->vt->get_chunk(s, 1, 0x7FFFFFFF, &st->src_chunk);
+        // An ADX footer ends the stream before the next block is submitted.
+        if (h->get_field_a8() == 0 && st->src_chunk.size >= 2 && (u16)*(s16 *)st->src_chunk.data == 0x8001) {
+            st->state = 3;
+            s->vt->unget_chunk(s, 1, &st->src_chunk);
+        } else if (st->decoded_samples >= TLobby__sub_803C3ABC((u8 *)st->decoder)) {
+            st->state = 3;
+            s->vt->unget_chunk(s, 1, &st->src_chunk);
+        } else {
+            int need = TLobby__sub_803C3AC4((u8 *)st->decoder);
+            SjRingBuffer *ring = st->rings[0];
+            int room = ring->interface->get_available(ring, 0);
+            if (room / 2 < need) {
+                s->vt->unget_chunk(s, 1, &st->src_chunk);
+            } else {
+                if (h->get_field_a8() == 10) {
+                    s->vt->unget_chunk(s, 1, &st->src_chunk);
+                }
+                h->init_scroll((s32)st->src_chunk.data, st->src_chunk.size);
+                TLobby__sub_803C3A04((u8 *)h);
+            }
+        }
     }
-    s->vt->get_chunk(s, 1, 0x7FFFFFFF, &st->src_chunk);
-    if (h->get_field_a8() == 0 && st->src_chunk.size >= 2 && (u16)*(s16 *)st->src_chunk.data == 0x8001) {
-        st->state = 3;
-        s->vt->unget_chunk(s, 1, &st->src_chunk);
-        return;
-    }
-    if (st->decoded_samples >= TLobby__sub_803C3ABC((u8 *)st->decoder)) {
-        st->state = 3;
-        s->vt->unget_chunk(s, 1, &st->src_chunk);
-        return;
-    }
-    need = TLobby__sub_803C3AC4((u8 *)st->decoder);
-    if (st->rings[0]->interface->get_available(st->rings[0], 0) / 2 < need) {
-        s->vt->unget_chunk(s, 1, &st->src_chunk);
-        return;
-    }
-    if (h->get_field_a8() == 10) {
-        s->vt->unget_chunk(s, 1, &st->src_chunk);
-    }
-    h->init_scroll((s32)st->src_chunk.data, st->src_chunk.size);
-    TLobby__sub_803C3A04((u8 *)h);
 }
 
 inline void drain_audio_stream_decoder(AudioStreamInputState *st) {
-    TLobby *h = st->decoder;
-    AudioStreamSource *s = st->source;
+    s32 n;
     SjChunk head;
     SjChunk tail;
+    AudioStreamSource *s = st->source;
+    TLobby *h = st->decoder;
     s32 total = TLobby__sub_803C3ABC((u8 *)h);
     s32 bytes = h->get_field_0xa4();
     s32 avail = h->get_field_a0();
-    s32 n = total - st->decoded_samples;
-    s32 i;
-    if (avail < n) {
+    total -= st->decoded_samples;
+    n = total;
+    if (avail < total) {
         n = avail;
     }
+
     TLobby__sub_803D3130(&st->src_chunk, bytes, &head, &tail);
     s->vt->put_chunk(s, 0, &head);
     s->vt->unget_chunk(s, 1, &tail);
-    for (i = 0; i < TLobby__sub_803C3B38((int)st->decoder); i++) {
+
+    s32 i;
+    for (i = 0; i < TLobby__sub_803C3B38((int)st->decoder); ++i) {
         TLobby__sub_803D3130(&st->out_chunks[i], n * 2, &head, &tail);
         if (st->output_callback != NULL) {
             st->output_callback(st->output_context, i, head.data, head.size);
         }
-        st->rings[i]->interface->put_chunk(st->rings[i], 1, (SjChunk *)&head);
-        st->rings[i]->interface->unget_chunk(st->rings[i], 0, (SjChunk *)&tail);
+        st->rings[i]->interface->put_chunk(st->rings[i], 1, &head);
+        st->rings[i]->interface->unget_chunk(st->rings[i], 0, &tail);
     }
     st->output_samples += n;
     st->consumed_bytes += bytes;
     st->decoded_samples += n;
     st->notify_count += n;
     st->notify_bytes += bytes;
-    if (st->notify_samples >= 0 && st->notify_count >= st->notify_samples) {
-        if (st->notify_callback != NULL) {
-            st->notify_callback(st->notify_context);
-        }
+    if (st->notify_samples >= 0 && st->notify_count >= st->notify_samples && st->notify_callback != NULL) {
+        st->notify_callback(st->notify_context);
     }
     TLobby__sub_803C3984((u8 *)h);
 }
 
 inline void skip_audio_stream_decoder(AudioStreamInputState *st) {
     TLobby *h = st->decoder;
-    s32 total = TLobby__sub_803C3ABC((u8 *)h);
-    s32 bytes = h->get_field_0xa4();
-    s32 avail = h->get_field_a0();
-    s32 n = total - st->decoded_samples;
-    if (avail < n) {
-        n = avail;
-    }
+    s32 remaining = TLobby__sub_803C3ABC((u8 *)h);
+    int bytes = h->get_field_0xa4();
+    s32 n = h->get_field_a0();
+    remaining -= st->decoded_samples;
+    n = n < remaining ? n : remaining;
     st->output_samples += n;
     st->consumed_bytes += bytes;
     st->decoded_samples += n;
@@ -387,6 +387,7 @@ void TLobby__sub_803C0238(AudioStreamInputState *st) {
     if (h->get_entry_id() == 3) {
         drain_audio_stream_decoder(st);
     }
+    // Format 10 also updates the counters outside the output-ring path.
     if (((AudioStreamDecoder *)h)->format == 10) {
         skip_audio_stream_decoder(st);
     }

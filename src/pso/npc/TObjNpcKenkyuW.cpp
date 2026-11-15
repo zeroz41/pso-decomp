@@ -292,6 +292,9 @@ TechniqueContactList *TObjPlayer::collect_technique_contacts(void *src) {
 
 }
 
+#pragma push
+#pragma scheduling off
+#pragma global_optimizer off
 void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1) {
     TechniqueContactList *list;
     if (self->m_68 == 0) {
@@ -305,19 +308,20 @@ void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1) {
     case 2:
         list = TObjPlayer__sub_802A3FDC((Obj_802A3FDC *)self, (void *)self->m_1c);
         break;
-    default:
-        list = TObjPlayer__sub_802A3DE8((Obj_802A3DE8 *)self, (void *)self->m_1c);
+    default: {
+        void *source = (void *)self->m_1c;
+        list = TObjPlayer__sub_802A3DE8((Obj_802A3DE8 *)self, source);
         break;
+    }
     }
     if (list == NULL) {
         self->vfunc_6();
-        return;
-    }
-    if (TObjPlayer::is_hit_receivable_target((s32)self, (u32)list->actors[0])) {
+    } else if (TObjPlayer::is_hit_receivable_target((s32)self, (u32)list->actors[0])) {
         TechniqueContactActor *target = list->actors[0];
         if (target != NULL) {
-            self->m_38 = list->bodies[0];
-            self->vfunc_9(target);
+            TechniqueContactBody *body = list->bodies[0];
+            self->vfunc_9((self->m_38 = body, static_cast<TechniqueContactActor *>(target)));
         }
     }
 }
+#pragma pop

@@ -3,7 +3,6 @@
 #include "pso/boss/barbaray/TBoss7LaserPtcl.h"
 #include "pso/boss/TUnk_804F1C88.h"
 #include "types.h"
-#include "pso/unk/text_8035A860.h"
 #include "pso/boss/barbaray/TBoss7LaserPtcl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/system/task/TObject_80019A50.h"

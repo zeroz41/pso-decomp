@@ -30,7 +30,7 @@ static NJS_TEXLIST player_tex_texture_list = { player_tex_texture_names, 1 };  /
 
 const char *TAdTitleTexGC__name = "TAdTitleTexGC";
 
-extern s32 lbl_805D6668;
+s32 lbl_805D6668;
 
 struct V_802A4EF4 { f32 x, y; };
 

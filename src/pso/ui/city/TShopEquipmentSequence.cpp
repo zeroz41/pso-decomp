@@ -105,7 +105,7 @@ void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_8021DA90___vt__22TShopEquipmentSequence __vt__22TShopEquipmentSequence;
-extern RecoveredGlobal_8021DA90_TShopEquipmentSequence__data_80513EC0 TShopEquipmentSequence__slot_active_flags;
+RecoveredGlobal_8021DA90_TShopEquipmentSequence__data_80513EC0 TShopEquipmentSequence__slot_active_flags;
 u8 *TShopSequence__ct(u8 *arg0);
 const char *TShopEquipmentSequence__class_name = "TShopEquipmentSequence";
 u8 *lbl_805D6228;

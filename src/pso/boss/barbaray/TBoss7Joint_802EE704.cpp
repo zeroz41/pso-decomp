@@ -9,15 +9,7 @@
 
 extern "C" {
 
-int TBoss7Joint::get_state() {  return boss7_joint_state; }
 
-void TBoss7DeRolLeC::apply_poison_status() {  }
-void TBoss7DeRolLeC::apply_paralysis() {  }
-void TBoss7DeRolLeC::apply_slow_status() {  }
-void TBoss7DeRolLeC::apply_confusion_status() {  }
-void TBoss7DeRolLeC::apply_movement_ailment(s32) {  }
-void TBoss7DeRolLeC::apply_shock_status() {  }
-void TBoss7DeRolLeC::clear_harmful_statuses() {  }
 void TBoss7Joint::read_state() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
 void TBoss7Joint::byteswap_action_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 void TBoss7Joint::update_and_send_60() { byteswap_action_packet(); send_subcommand((u8 *)this); }

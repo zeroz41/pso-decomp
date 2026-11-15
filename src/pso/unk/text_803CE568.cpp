@@ -40,7 +40,7 @@ char *const volatile lbl_805E0DA0 = "\nCVFS/GC Ver.2.24 Build:Jun 13 2002 19:00:
 s8 fs_default_device_name[12];
 Ent_803CF958 cvfs_entry_table[32];
 CvFsHandle si_type_info_table[40];
-extern const char lbl_805E0DA4[4];
+extern const char lbl_805E0DA4[6] = "%s:%s";
 char *strcpy(char *, const char *);
 int sprintf(char *, const char *, ...);
 

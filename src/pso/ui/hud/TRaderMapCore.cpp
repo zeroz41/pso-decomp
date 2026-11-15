@@ -355,9 +355,6 @@ extern Vec3_801F9314 lbl_8044A794;
 extern u8 identity_matrix[];
 extern f32 lbl_805D3608;
 extern f32 radar_overhead_projection_scale;
-extern const f32 lbl_805DC548;
-extern const f32 lbl_805DC54C;
-extern const f32 lbl_805DC550;
 void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1);
 void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
@@ -491,7 +488,7 @@ void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1) 
     rotate_matrix_y(0, 0x8000 - arg1->rot);
     rotate_vector_by_matrix(0, &up, &up);
     pop_matrix();
-    set_perspective_projection_from_fov((s32)(lbl_805DC548 * radar_overhead_projection_scale), lbl_805DC54C, TRaderMapCore__data_805DC534, lbl_805DC550);
+    set_perspective_projection_from_fov((s32)(182.04445f * radar_overhead_projection_scale), 1.1333334f, TRaderMapCore__data_805DC534, 10000.0f);
     set_camera_look_at((u8 *)&eye, (u8 *)&at, (u8 *)&up);
 }
 
@@ -1092,34 +1089,52 @@ struct RadarCompassSprite_801FA6CC {
     RadarSpriteFrame_801FA6CC *frames;
 };
 
+union RadarCompassColor_801FA6CC {
+    u32 color;
+    u8 c[4];
+};
+
 void TRaderMapCore::draw_compass(s32 mode) {
     RadarCompassSprite_801FA6CC sprite;
-    u32 color;
-    f32 *pos;
-    if (apply_compass_param(&m_90) != 0) {
-        sprite.x = 0.0f;
-        sprite.y = 0.0f;
-        sprite.z = 0.0f;
-        sprite.scale_x = 1.0f;
-        sprite.scale_y = 1.0f;
-        sprite.rotation = 0;
-        sprite.texlist = TRaderMapCore__data_805D5F4C;
-        sprite.frames = lbl_804C87E4;
-        color = 0xFFFFFFFF;
-        TParticleCtrl::begin_effect_render();
-        pos = lbl_804C87B4[mode];
-        sprite.x = pos[2] + lbl_804C87E4[1].x;
-        sprite.y = pos[3] + lbl_804C87E4[1].y;
-        set_default_alpha_blend();
-        ((u8 *)&color)[3] = (u8)m_19c;
-        ((TObjPlayer *)&sprite)->draw_compass_sprite(1, ((color & 0xFF00) << 16) | (color >> 16) | ((color & 0xFF) << 16), 0x21, 0.8f);
-        sprite.x = pos[0] + lbl_804C87E4[0].x;
-        sprite.y = pos[1] + lbl_804C87E4[0].y;
-        sprite.rotation = m_174;
-        set_additive_blend();
-        ((TObjPlayer *)&sprite)->draw_compass_sprite(0, -1, 0x21, 0.8f);
-        TParticleCtrl::end_effect_render();
+    RadarCompassColor_801FA6CC color;
+    f32 scale;
+    f32 origin;
+    f32 *compass_xy;
+    f32 *marker_xy;
+
+    if (apply_compass_param(&m_90) == 0) {
+        return;
     }
+    scale = TRaderMapCore__data_805DC534;
+    origin = TRaderMapCore__data_805DC528;
+    sprite.x = origin;
+    sprite.y = origin;
+    sprite.z = origin;
+    sprite.scale_x = scale;
+    sprite.scale_y = scale;
+    sprite.rotation = 0;
+    sprite.texlist = TRaderMapCore__data_805D5F4C;
+    sprite.frames = lbl_804C87E4;
+    color.color = 0xFFFFFFFF;
+    TParticleCtrl::begin_effect_render();
+    compass_xy = &lbl_804C87B4[mode][0];
+    marker_xy = &lbl_804C87B4[mode][2];
+    sprite.x = marker_xy[0] + (f32)lbl_804C87E4[1].x;
+    sprite.y = marker_xy[1] + (f32)lbl_804C87E4[1].y;
+    set_default_alpha_blend();
+    color.c[3] = (s32)m_19c;
+    ((TObjPlayer *)&sprite)->draw_compass_sprite(
+        1,
+        (s32)(((color.color << 16) & 0x00FF0000) |
+              (((color.color << 16) & 0xFF000000) | (color.color >> 16))),
+        0x21,
+        TRaderMapCore__data_805DC58C);
+    sprite.x = compass_xy[0] + (f32)lbl_804C87E4[0].x;
+    sprite.y = compass_xy[1] + (f32)lbl_804C87E4[0].y;
+    sprite.rotation = m_174;
+    set_additive_blend();
+    ((TObjPlayer *)&sprite)->draw_compass_sprite(0, -1, 0x21, TRaderMapCore__data_805DC58C);
+    TParticleCtrl::end_effect_render();
 }
 
 static RadarVec2_801FA880 radar_backdrop_origin[3] = { { 480.0f, 64.0f }, { 32.0f, 288.0f }, { 96.0f, 176.0f } };

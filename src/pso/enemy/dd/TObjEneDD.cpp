@@ -424,7 +424,7 @@ struct RecoveredGlobal_800BB45C_lbl_80500B98 {
 };
 struct Ent_800BB484 { s16 id; f32 dist; };
 extern "C" {
-extern RecoveredGlobal_800BB45C_lbl_80500B98 enemy_target_candidate_table;
+RecoveredGlobal_800BB45C_lbl_80500B98 enemy_target_candidate_table;
 typedef struct Ent_800BB388 {
     u8 pad0[0x30];
     s32 flags30;
@@ -1578,8 +1578,8 @@ void TObjEneDD::vfunc_100() {
     }
 }
 
-u8 TObjEneDD::is_main_phase_15() {
-    return (u8) (get_main_phase() == 0xF);
+s32 TObjEneDD::is_main_phase_15() {
+    return get_main_phase() == 0xF;
 }
 
 u8 TObjEneDD::is_phase_e() {

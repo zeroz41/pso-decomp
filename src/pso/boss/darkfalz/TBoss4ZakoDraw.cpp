@@ -112,12 +112,15 @@ void *__ct__14TBoss4ZakoDrawFv(void *arg0);
 void __ct__7TObjectFP7TObject(void *);
 
 extern s32 __vt__14TBoss4ZakoDraw[];
-extern void *TBoss4ZakoDraw__class_name;
+#pragma push
+#pragma readonly_strings on
+const char *TBoss4ZakoDraw__class_name = "TBoss4ZakoDraw";
+#pragma pop
 
 void *__ct__14TBoss4ZakoDrawFv(void *object) {
     __ct__7TObjectFP7TObject(object);
     *(s32 **)((s8 *)object + 0x18) = __vt__14TBoss4ZakoDraw;
-    *(void **)((s8 *)object + 0x0) = TBoss4ZakoDraw__class_name;
+    *(void **)((s8 *)object + 0x0) = (void *)TBoss4ZakoDraw__class_name;
     return object;
 }
 typedef char RecoveredGlobal_8030ABF4_TCameraCtrl__data_804FF634_size[sizeof(RecoveredGlobal_8030ABF4_TCameraCtrl__data_804FF634) == 0x48 ? 1 : -1];

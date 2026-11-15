@@ -395,7 +395,7 @@ void TObjEneRe4Sorcerer__sub_801E3F18(void);
 void *__nw__7TObjectFUl(u32);
 extern char battle_ctrl_music_name_duel1[];
 extern char battle_ctrl_music_name_duel2[];
-extern s32 lbl_805D2A98;
+extern s32 TDeadSpot__class_name;
 s32 get_entity_id();
 }
 void reset_cameras_to_actor(void *actor, s32 arg1);
@@ -464,7 +464,7 @@ void TLobby::destroy_matching_children() {
     void *down;
     down = this->m_down;
 while (down != NULL) {
-        if (((TUnk_804B6C24 *)down)->check_value_equals(lbl_805D2A98) != 0) {
+        if (((TUnk_804B6C24 *)down)->check_value_equals(TDeadSpot__class_name) != 0) {
             ((TObject *)down)->queue_destruction();
         }
         ((TLobby *)down)->destroy_matching_children();

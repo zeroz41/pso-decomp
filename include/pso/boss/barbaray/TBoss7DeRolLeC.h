@@ -29,7 +29,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     void update_projectile_spawns();
     virtual void run_task();
     virtual void render();
-    virtual void dispatch_action(u32 state, s32 reason); // defined as TBoss7DeRolLeC__dispatch_state (vtable +0x15C)
+    virtual void dispatch_action(u32 state, s32 reason);
     void update_or_dispatch();
     void flee_if_disturbed();
     void set_state_and_send(s32);
@@ -94,8 +94,8 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     TBoss7LaserLight *unk_708;
     Vec unk_70C;                  // the laser light's position
     AreaAttackHistory *unk_718;
-    s32 unk_71C;                  // TObject * per the destructor
-    s32 unk_720;
+    TObject *unk_71C;
+    TObject *unk_720;
     s32 unk_724;
     s32 unk_728;                  // state step (sub_802EB270: 1 = arrived)
     s32 unk_72C;
@@ -137,7 +137,6 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     u16 unk_7CE;
     u16 unk_7D0;
     u16 unk_7D2;
-    void set_field_38(s32 v);
     static void run_exit_callbacks();
     static void *create(void *arg0);
 };
@@ -181,10 +180,9 @@ void TObjPlayer__sub_802ED984(void);
 void TObjPlayer__sub_802EE574(void);
 }
 
-// Functions defined in Boss7DeRolLeCBehavior.cpp.
+// Functions defined in TBoss7DeRolLeC.cpp.
 struct TObjEneDD;
 extern "C" {
-void TBoss7DeRolLeC__dispatch_state(u8 *arg0, u32 arg1, u32 arg2);
 void TBoss7DeRolLeC__handle_crawfish_spawn_state(u8 *self, u32 event, s32 variant);
 void TBoss7DeRolLeC__sub_802EC994(void *p);
 s32 TBoss7Joint_get_shell_max_hp(void);
