@@ -92,7 +92,7 @@ struct Team_801C343C { s32 v[2]; };
 extern Rank_801C343C split_screen_battle_rankings[4];
 extern "C" {
 void clear_split_screen_battle_window_slots(T_803102A4 *self);
-extern TPlayerBattleCtrl4P *TPlayerBattleCtrl4P__instance;
+TPlayerBattleCtrl4P *TPlayerBattleCtrl4P__instance;
 void *__nw__7TObjectFUl(u32);
 void *TWindowDuelResult__ct(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
@@ -178,7 +178,7 @@ extern s16 battle_event_second_table[];
 extern s32 local_client_id;
 extern s32 TLobby__designated_client_id;
 void reset_cameras_to_actor(void *actor, s32 arg1);
-extern s32 TPlayerBattleCtrl4P__init_flag;
+s32 TPlayerBattleCtrl4P__init_flag;
 typedef struct Ctl_80310F10 Ctl_80310F10;
 Rank_801C343C split_screen_battle_rankings[4];
 struct Ids_80311C2C { s32 a; s32 b; s32 c; s32 d; };

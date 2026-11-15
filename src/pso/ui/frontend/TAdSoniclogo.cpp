@@ -14,7 +14,7 @@
 extern "C" {
 void * sonic_logo_object;
 int TAdSoniclogo__state;
-extern int TLogo__exit_requested_flag;
+int TLogo__exit_requested_flag;
 const char *TAdSoniclogo__class_name = "TAdSoniclogo";
 extern void *tl_00;
 int queue_destruction__7TObjectFv(void);

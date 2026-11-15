@@ -75,7 +75,7 @@ struct K_8013276C;
 extern "C" {
 s32 TWindowShortListCtrl__check_controller_button(void *, int, int);
 extern RecoveredGlobal_80131C5C_lbl_8050E208 controller_input_state;
-extern RecoveredGlobal_801320CC_TKeyBoardControl__data_80506270 TKeyBoardControl__global_key_state;
+RecoveredGlobal_801320CC_TKeyBoardControl__data_80506270 TKeyBoardControl__global_key_state;
 u8 TKeyBoardControl__sub_8013239C(K_8013239C *arg0, u8 arg1);
 s32 TKeyBoardControl__sub_801323C8(K_801323C8 *arg0, u8 arg1);
 void TKeyBoardControl__sub_80132598(Kb_80132650 *, u8, u32 *);

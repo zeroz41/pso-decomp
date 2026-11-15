@@ -8,7 +8,7 @@
 #include "pso/object/quest/TObjQuestCol.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 
-extern u8 quest_col_apc_warp_target_pos[];
+u8 quest_col_apc_warp_target_pos[16];
 extern s32 quest_collision_warp_pending;
 void fn_8019608C(void) {
     if ((s32) quest_collision_warp_pending != 0) {
