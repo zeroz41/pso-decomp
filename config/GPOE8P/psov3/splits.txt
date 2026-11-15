@@ -10694,6 +10694,7 @@ pso/player/TObjPlayer_8035A778.cpp:
 
 pso/boss/darkfalz/TOBoss4Rock_8035A7FC.cpp:
 	.text       start:0x8035A7FC end:0x8035A8E0
+	.data       start:0x804F1C58 end:0x804F1C70
 	.sdata2     start:0x805E00E8 end:0x805E00EC
 
 pso/boss/barbaray/TBoss7LaserPtcl.cpp:
