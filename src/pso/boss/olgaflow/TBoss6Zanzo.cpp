@@ -85,10 +85,10 @@ struct ZanzoTrailPoint { u8 color[4]; Vec pos; };
 // The quad strip draw_tri_fan_3d reads.
 struct ZanzoQuad { Vec *positions; u8 (*colors)[4]; void *uvs; s32 count; };
 
-// Draws the after-image trail: a strip of quads between each pair of consecutive frames, fading out with age.
 extern const f32 lbl_805DF470; // 1.0f
 extern const f32 lbl_805DF474; // 0.0f
 
+// Draws the after-image trail: a strip of quads between each pair of consecutive frames, fading out with age.
 void TBoss6Zanzo::sub_803205C4() {
     Src_80320534 *frame;
     Src_80320534 *end;

@@ -34,7 +34,7 @@ void TLobby__sub_803C34F4(AdxbDecoder *h) {
     }
 }
 
-// One step of the stream decoder (inferred: ADXB_ExecOneAdx, with ADXB_EvokeDecode written in).
+// One step of the stream decoder, including the decode request (inferred: ADXB_ExecOneAdx and ADXB_EvokeDecode).
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_lifetimes off

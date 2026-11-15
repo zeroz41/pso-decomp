@@ -4,8 +4,7 @@
 extern "C" {
 
 // Packs a planar 4:2:0 frame into the YUYV external frame buffer, centred,
-// two lines per pass, one cache touch per four words. Every named local keeps
-// one register for the whole function (unit flags in configure.py).
+// two lines per pass, one cache touch per four words.
 void pack_movie_frame(MovieFramePlanes *frame) {
     u32 *row_end;
     u32 *end;
@@ -42,8 +41,6 @@ void pack_movie_frame(MovieFramePlanes *frame) {
     luma_src = frame->y;
     cr_src = frame->v;
     dst -= 1;
-    // A decrement of a separate source pointer stays where it is written;
-    // an in-place `p -= 1` is sunk to the next use by the forward peephole.
     y = luma_src - 1;
     y2 = y + frame->y_pitch / 4;
     end = dst + height * 320;
@@ -56,10 +53,6 @@ void pack_movie_frame(MovieFramePlanes *frame) {
     while (end > dst) {
         row_end = dst + (width * 2 * 2 / 2) / 4;
         while (row_end > dst) {
-            // The two-statement chroma extract keeps the first half above the
-            // 100-pcode block limit, so the block split lands on the second
-            // __dcbt. The second luma pair is reloaded before the second
-            // word's stores.
             __dcbt(y, touch);
             uw = *++cb;
             vw = *++cr;
@@ -163,6 +156,5 @@ void pack_movie_frame(MovieFramePlanes *frame) {
         cr += c_pad;
     }
 }
-
 
 }
