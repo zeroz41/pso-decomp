@@ -3,6 +3,7 @@
 #include "pso/system/vector.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/ui/window/TObjSoloPlayWin.h"
 #include "types.h"
 #include "pso/unk/TLobby.h"
@@ -895,7 +896,6 @@ extern "C" {
 #define TWindowSubStatusDisp__sub_8006F134 ((E_80292DA0 * (*)(void *, s32))TWindowSubStatusDisp__sub_8006F134)
 s32 get_slot_clamped__6TLobbyFv(s32);
 s32 mix_seed__6TLobbyFUs(s32);
-s32 TWindowSubStatusDisp__sub_80071988(u16, s32);
 #define get_character_save_record ((u8 * (*)(u32))get_character_save_record)
 #define TLobby__sub_80292AB4 ((s32 (*)(s32, u16, s32))TLobby__sub_80292AB4)
 s32 TLobby__sub_80292BB8(s32, u16, s32);
@@ -929,7 +929,7 @@ s32 TLobby__sub_80292DA0(s32 seed, u16 card) {
     u8 *base;
     s32 next;
     E_80292DA0 *e;
-    id = ((s32)TWindowSubStatusDisp::resolve_player_slot(-1));
+    id = TWindowSubStatusDisp::resolve_player_slot(TWindowSubStatusDisp::RECORD_SET_CURRENT);
     result = -4;
     TLobby__sub_80292BB8(seed, card, id);
     total = TWindowSubStatusDisp__sub_80071988(card, id);

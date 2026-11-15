@@ -229,14 +229,14 @@ s32 TLobby__sub_8006F6B0(s32 clear_time) {
 
     result = -4;
     TLobby__sub_8006F5B0(clear_time);
-    total = TWindowSubStatusDisp__sub_80071988(0xFFFF, -1);
+    total = TWindowSubStatusDisp__sub_80071988(0xFFFF, TWindowSubStatusDisp::RECORD_SET_CURRENT);
     if (total != 0) {
         local_data = (u8 *)get_character_save_record(0xFFFF) + 0x21C4;
-        total -= TLobby::get_valid_slot(((s32 *)TWindowSubStatusDisp__sub_8006F0D8(local_data, -1))[challenge_mode_state.value]);
+        total -= TLobby::get_valid_slot(((s32 *)TWindowSubStatusDisp__sub_8006F0D8(local_data, TWindowSubStatusDisp::RECORD_SET_CURRENT))[challenge_mode_state.value]);
         total += clear_time;
         result = TLobby__sub_8006F38C(total);
         next = result + 1;
-        flags = TWindowSubStatusDisp__sub_8006F134(local_data, -1);
+        flags = TWindowSubStatusDisp__sub_8006F134(local_data, TWindowSubStatusDisp::RECORD_SET_CURRENT);
         if (((s32 (*)(u32))TLobby::get_slot_clamped)(flags[1]) < next) {
             flags[1] = ((s32 (*)(s32))mix_seed__6TLobbyFUs)(next);
         }
@@ -245,13 +245,13 @@ s32 TLobby__sub_8006F6B0(s32 clear_time) {
     rec.summary.reserved = 0;
     rec.summary.total_time = total;
     client_data = (u8 *)&challenge_mode_state + local_client_id * 0x104 + 0x274;
-    best_time = &((s32 *)TWindowSubStatusDisp__sub_8006F0D8(client_data, -1))[challenge_mode_state.value];
-    flags = TWindowSubStatusDisp__sub_8006F134(client_data, -1);
+    best_time = &((s32 *)TWindowSubStatusDisp__sub_8006F0D8(client_data, TWindowSubStatusDisp::RECORD_SET_CURRENT))[challenge_mode_state.value];
+    flags = TWindowSubStatusDisp__sub_8006F134(client_data, TWindowSubStatusDisp::RECORD_SET_CURRENT);
     rec.previous.time = TLobby::get_valid_slot(*best_time);
     ((TLobby *)rec.previous.award_name)->decode_obfuscated_string(client_data + 0xD8, 12);
     rec.previous.rank = ((s32 (*)(u32))TLobby::get_slot_clamped)(flags[1]);
     record_data = (u8 *)get_character_save_record(0xFFFF) + 0x21C4;
-    flags = TWindowSubStatusDisp__sub_8006F134(record_data, -1);
+    flags = TWindowSubStatusDisp__sub_8006F134(record_data, TWindowSubStatusDisp::RECORD_SET_CURRENT);
     rec.current.time = clear_time;
     ((TLobby *)rec.current.award_name)->decode_obfuscated_string(record_data + 0xD8, 12);
     rec.current.rank = ((s32 (*)(u32))TLobby::get_slot_clamped)(flags[1]);

@@ -26,10 +26,10 @@ s32 is_flag_set__6TLobbyFv();
 extern G_800718D0 challenge_mode_state;
 s32 TLobby__sub_80071654(u16);
 
-s32 TWindowSubStatusDisp::get_status_index(int arg0) {
+s32 TWindowSubStatusDisp::get_status_index(u16 arg0) {
     u32 character_save_record;
 
-    character_save_record = get_character_save_record((u16)arg0);
+    character_save_record = get_character_save_record(arg0);
     if (character_save_record == 0U) {
         return -1;
     }
@@ -45,10 +45,10 @@ s32 TWindowSubStatusDisp::get_status_index_or_default(u16 *arg0) {
 
 extern s32 lbl_805D285C;
 
-s32 *TWindowSubStatusDisp::get_status_window(int arg0) {
+s32 *TWindowSubStatusDisp::get_status_window(u16 arg0) {
     u32 character_save_record;
 
-    character_save_record = get_character_save_record((u16)arg0);
+    character_save_record = get_character_save_record(arg0);
     if (character_save_record == 0U) {
         return &lbl_805D285C;
     }
@@ -103,14 +103,14 @@ s32 TWindowSubStatusDisp__sub_800718D0(void) {
     return sum;
 }
 
-s32 TWindowSubStatusDisp__sub_80071988(s32 arg0, s32 slot) {
+s32 TWindowSubStatusDisp__sub_80071988(u16 arg0, s32 slot) {
     s32 *p;
     s32 n;
     s32 r;
     s32 sum;
     s32 i;
     u32 w;
-    w = get_character_save_record((u16)arg0);
+    w = get_character_save_record(arg0);
     if (w == 0U) {
         return 0;
     }
