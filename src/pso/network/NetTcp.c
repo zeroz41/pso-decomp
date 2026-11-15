@@ -698,7 +698,7 @@ void TLobby__sub_8041A498(TcpTcb *arg0, s16 arg1);
 #pragma opt_propagation off
 #pragma opt_common_subs on
 inline s32 imax(s32 a, s32 b) { return a > b ? a : b; }
-extern s32 TLobby__sub_8041B974(u8 *pkt, u8 *a, u8 *b) {
+s16 TLobby__sub_8041B974(u8 *pkt, u8 *a, u8 *b) {
     s32 changed = 0;
     u32 flag = 0;
     u32 total = 0;

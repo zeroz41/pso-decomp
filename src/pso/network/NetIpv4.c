@@ -81,7 +81,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   unsigned char mf;
   u32 s;
   s32 TLobby__sub_80418C40(u8* self, void* p1, s16 p2, u8 p3, u32 p4, void* p5, u16 p6, u8 p7, s16 p8);
-  s16 TLobby__sub_8041B974(void *, void *, void *); /* declared s16 here; the definition is s32 (u8 *, u8 *, u8 *) */
+  s16 TLobby__sub_8041B974(void *, void *, void *); /* declared here with void * parameters; the definition takes (u8 *, u8 *, u8 *) */
   s16 udp_input(void *, void *, void *, s16); /* declared s16 here; the definition is s32 (O_80420DE4 *, NetworkAddress *, NetworkAddress *, s32) */
   s32 TLobby__sub_80421AD8(u8 *, u32, u32, u32, s16); /* declared here with other parameter types; the definition is s32 (u8 *, s32, s32, u32, s32) */
   u16 TUdpSocket__sub_80419864(void *, s16);

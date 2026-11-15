@@ -124,7 +124,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
   s16 TLobby__sub_8040D510(void *, u8 *, s32, s16); /* declared here with an s32 3rd argument; the definition takes s16 */
   s16 TLobby__sub_804105E0(u8 *, u8 *, s16, s16); /* declared s16 here; the definition returns s32 */
   s16 TLobby__sub_804136CC(s16); /* declared s16 here; the definition returns void */
-  s16 TLobby__sub_8041B974(void *, void *, void *); /* declared s16 here; the definition is s32 (u8 *, u8 *, u8 *) */
+  s16 TLobby__sub_8041B974(void *, void *, void *); /* declared here with void * parameters; the definition takes (u8 *, u8 *, u8 *) */
   s16 udp_input(void *, void *, void *, s16); /* declared s16 here; the definition is s32 (O_80420DE4 *, NetworkAddress *, NetworkAddress *, s32) */
   s32 TLobby__sub_80421938(void *, void *, void *, u32, s16); /* declared here with other parameter types; the definition is s32 (O_80421938 *, void *, void *, void *, s32) */
   struct 
