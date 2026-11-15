@@ -579,7 +579,7 @@ s32 read_2_bytes(void *self, void *src) {
     return 0;
 }
 
-s32 TLobby__sub_803FE8BC(u8 *dst, void *src) {
+s16 TLobby__sub_803FE8BC(u8 *dst, void *src) {
     u8 buf[4];
     if (dst == 0) {
         return -1;

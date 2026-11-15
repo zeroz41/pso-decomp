@@ -223,7 +223,7 @@ void dispatch_received_packet(void *self, s32 arg1) {
     u8 *temp_r30_3;
     u8 *temp_r30_4;
 
-    if ((s16)TLobby__sub_803FE8BC((u8 *)&hdr, &arg1) != -1) {
+    if (TLobby__sub_803FE8BC((u8 *)&hdr, &arg1) != -1) {
         hdr.len -= 4;
         TLobby__sub_80401CAC((PppFrame **)&arg1, hdr.len);
         switch (hdr.type) {
