@@ -1163,16 +1163,13 @@ pso/quest/TQuestVmDownLoadServer_8007EBDC.cpp:
 	.ctors      start:0x80433F54 end:0x80433F58
 	.data       start:0x8048DF58 end:0x8048DF70
 
-pso/unk/text_8007ECF0.cpp:
-	.text       start:0x8007ECF0 end:0x8007F4B8
-	.rodata     start:0x80438AC8 end:0x80438AE0
-	.sdata2     start:0x805D9298 end:0x805D92C0
-
 pso/render/TDLGraph.cpp:
-	.text       start:0x8007F4B8 end:0x8007F85C
+	.text       start:0x8007ECF0 end:0x8007F85C
+	.rodata     start:0x80438A98 end:0x80438AF8
 	.data       start:0x8048DF70 end:0x8048DF88
+	.sdata      start:0x805D28D0 end:0x805D28D8
 	.sbss       start:0x805D4EB0 end:0x805D4EB8
-	.sdata2     start:0x805D92C0 end:0x805D92D8
+	.sdata2     start:0x805D9298 end:0x805D92D8
 
 pso/render/TDLGraph_8007F85C.cpp:
 	.text       start:0x8007F85C end:0x8007F8D0

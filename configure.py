@@ -753,7 +753,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # The dialing rectangle keeps GC/1.3.2 load scheduling.
     "pso/ui/frontend/TAdDialingGC_80328B20.cpp": {"mw_version": "GC/1.3.2"},
     # The download graph's border pass keeps GC/1.3.2 load scheduling.
-    "pso/unk/text_8007ECF0.cpp": {"mw_version": "GC/1.3.2"},
+    "pso/render/TDLGraph.cpp": {"mw_version": "GC/1.3.2"},
     # TAdTitleTexGC (+ former TLobby_802A5120): GC/1.3.2 for TLobby__sub_802A5154; its array templates precede
     # update_title_tex_positions' pooled double although that code comes first (written last to first,
     # deferred); strings in .rodata; the 8-byte texlists in .data.
