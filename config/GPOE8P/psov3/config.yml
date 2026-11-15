@@ -6302,7 +6302,7 @@ force_active:
   - fn_80074E04
   - fn_800779FC
   - __sinit_text_8007A6C8_cpp
-  - fn_8007F560
+  - copy_graph_sample__FP14TDLGraphSampleP14TDLGraphSample
   - fn_8007FE78
   - fn_8009BD00
   - fn_8009E2DC

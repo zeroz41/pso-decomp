@@ -933,6 +933,12 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/frontend/TAdDialingGC.cpp": {"mw_version": "GC/1.3.2"},
     "pso/ui/frontend/TAdDialingGC_80328E50.cpp": {"mw_version": "GC/1.3.2"},
     "pso/ui/frontend/TAdDialingGC_80328E90.cpp": {"mw_version": "GC/1.3.2"},
+    # TDLGraph (0x8007ECF0-0x8007F85C): the progress bar 0x8007F27C reads its `const NJS_POINT2 &`
+    # arguments after the prologue's register saves and between the colour stores, as 1.3.2 schedules
+    # them; 2.x hoists those loads above the saves. Every other function compiles the same under both.
+    # Deferred: the bar's vertex-list template sits in .rodata ahead of the pooled doubles and strings,
+    # which only the last-to-first emission order gives. Readonly: its format strings are in .rodata.
+    "pso/render/TDLGraph.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/object/TObjComputer.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # The next two container units (and TOContainerAncientEnemy) emit their
     # functions and vtables last-to-first: -inline off,deferred, with the
