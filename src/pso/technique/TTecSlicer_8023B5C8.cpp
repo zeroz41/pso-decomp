@@ -24,7 +24,6 @@
 #include "pso/system/vector.h"
 
 extern "C" {
-extern const f32 lbl_805DC950;
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 typedef struct { f32 r, g, b, a; } Col_8023B220;
 extern s32 saved_model_render_flags;
@@ -65,11 +64,10 @@ void TSlicerHistory::render() {
 
 void TSlicerHistory::run_task() {
     u8 *arg0 = (u8 *)this;
-  const f32 *new_var;
   *((f32 *) (((s8 *) arg0) + 0x3c)) = (f32) ((*((f32 *) (((s8 *) arg0) + 0x3c))) - 0.2f);
-  if ((*((f32 *) (((s8 *) arg0) + 0x3c))) < (*(new_var = &lbl_805DC950)))
+  if ((*((f32 *) (((s8 *) arg0) + 0x3c))) < 0.0f)
   {
-    *((f32 *) (((s8 *) arg0) + 0x3c)) = (f32) (*new_var);
+    *((f32 *) (((s8 *) arg0) + 0x3c)) = 0.0f;
     ((TObject *)arg0)->queue_destruction();
   }
 }
@@ -82,7 +80,6 @@ s32 __ct__7TObjectFP7TObject();
 
 extern s32 __vt__14TSlicerHistory[];
 extern s32 TSlicerHistory__name;
-extern const f32 lbl_805DC950;
 
 u8 *__ct__14TSlicerHistoryFv(u8 *arg0, u8 *arg1, s32 arg2, u8 *arg3, s32 arg4) {
     __ct__7TObjectFP7TObject();
@@ -97,9 +94,9 @@ u8 *__ct__14TSlicerHistoryFv(u8 *arg0, u8 *arg1, s32 arg2, u8 *arg3, s32 arg4) {
     } else {
         *(s32 *)((s8 *)arg0 + 0x5C) = 0;
         *(f32 *)((s8 *)arg0 + 0x3C) = 1.0f;
-        *(f32 *)((s8 *)arg0 + 0x40) = (f32) lbl_805DC950;
-        *(f32 *)((s8 *)arg0 + 0x44) = (f32) lbl_805DC950;
-        *(f32 *)((s8 *)arg0 + 0x48) = (f32) lbl_805DC950;
+        *(f32 *)((s8 *)arg0 + 0x40) = 0.0f;
+        *(f32 *)((s8 *)arg0 + 0x44) = 0.0f;
+        *(f32 *)((s8 *)arg0 + 0x48) = 0.0f;
     }
     *(s32 *)((s8 *)arg0 + 0x34) = ((TTecSlicer *)arg1)->get_field_110();
     VecCopy((Vec *)(arg0 + 0x4C), (const Vec *)(arg1 + 0x68));
@@ -335,7 +332,6 @@ struct Slicer_8023BBB4 {
 extern "C" {
 s32 subtract_vector(s32, s32);
 s32 normalize_vector(s32);
-extern f32 lbl_805DC958;
 s32 test_flags_any(void *, s32);
 u32 get_player_by_client_id(u16);
 u32 __nw__7TObjectFUl(s32);
@@ -346,11 +342,8 @@ extern s32 __vt__10TTecSlicer[];
 extern RecoveredGlobal_8023B770_lbl_8044DC20 TTecSlicer__launch_angle_table;
 void destroy_if_set__10TTecSlicerFv(u32);
 
-extern const f32 lbl_805DC954;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-extern const f32 lbl_805DC95C;
-extern const f32 lbl_805DC960;
 void set_entity_id__8TObjBaseFUs(void *, s32);
 f32 *get_weapon_range_record(s32, s32);
 s32 get_extended_state__10TObjPlayerFv(s32);
@@ -363,8 +356,6 @@ f32 cos_table_lookup(s32);
 f32 vector_length(void *);
 extern s32 TTecSlicer__name;
 extern s32 tl_05;
-extern const f32 lbl_805DC950;
-extern const f32 lbl_805DC964;
 u32 csnVector(s32, s32, s32);
 
 void TTecSlicer::reset_fields_1e() { *(u8*)((char*)this + 0x1e) = 0; *(u8*)((char*)this + 0x1f) = 0; }
@@ -413,13 +404,13 @@ void TTecSlicer::set_launch_midpoint(void *unused, void *a_arg, void *b_arg) {
     Vec_8023B72C *b = (Vec_8023B72C *)b_arg;
     f32 t;
     t = a->x + b->x;
-    t *= lbl_805DC954;
+    t *= 0.5f;
     self->mid.x = t;
     t = a->y + b->y;
-    t *= lbl_805DC954;
+    t *= 0.5f;
     self->mid.y = t;
     t = a->z + b->z;
-    t *= lbl_805DC954;
+    t *= 0.5f;
     self->mid.z = t;
 }
 
@@ -447,7 +438,7 @@ void TTecSlicer::init_launch_angles(s32 *arg0, s32 *arg1, s32 arg2) {
 
 void TTecSlicer::update() {
     s32 arg0 = (s32)this;
-    if (horizontal_distance_squared((const Vec *)this->position, (const Vec *)this->destination) < lbl_805DC958) {
+    if (horizontal_distance_squared((const Vec *)this->position, (const Vec *)this->destination) < 100.0f) {
         deliver_target_hit();
         if (get_next_captured_target((TTecSlicerTargets_8023B454 *)this->capturedTargets, (Vec *)this->destination, &this->targetId, (s8 *)&this->targetPart, &this->radius) == 0) {
             ((FlagWord *)(arg0 + 0xC0))->set(1);
@@ -483,7 +474,7 @@ s32 TTecSlicer::create(u16 *arg0) {
 void TTecSlicer::render() {
     u8 *arg0 = (u8 *)this;
     if (all_parents_unqueued_for_destruction__7TObjectFv() == 0 ||
-        ((VObj_18_8023B900 *)arg0)->m8(lbl_805DC95C, lbl_805DC960) == 0 ||
+        ((VObj_18_8023B900 *)arg0)->m8(400.0f, 20.0f) == 0 ||
         find_equipped_item(this->weaponHandle) == 0U) {
         return;
     }
@@ -588,9 +579,9 @@ s32 TTecSlicer__ct(void *arg0, void *arg1, void *arg2, void *arg3, int arg4) {
     self->f138 = init->f2c;
     self->f13c = 1;
     self->dir.x = sin_table_lookup(arg4);
-    self->dir.y = lbl_805DC950;
+    self->dir.y = 0.0f;
     self->dir.z = cos_table_lookup(arg4);
-    if (lbl_805DC950 != vector_length(&self->dir)) {
+    if (0.0f != vector_length(&self->dir)) {
         normalize_vector((s32)&self->dir);
     }
     self->f10c = (s32)arg2;
@@ -598,10 +589,10 @@ s32 TTecSlicer__ct(void *arg0, void *arg1, void *arg2, void *arg3, int arg4) {
     TTecSlicer::init_launch_angles((s32 *)self, (s32 *)self->f10c, init->f28);
     ((TTecSlicer *)self)->set_launch_midpoint((void *)self->f10c, &init->a, &init->b);
     self->fb8 = *get_weapon_range_record(self->f108, 0);
-    self->fb4 = lbl_805DC964;
+    self->fb4 = 6.0f;
     VecCopy((Vec *)((s32)self + 0x9C), (const Vec *)((s32)self + 0x38));
     VecCopy((Vec *)((s32)self + 0xA8), (const Vec *)((s32)self + 0x38));
-    self->fbc = lbl_805DC950;
+    self->fbc = 0.0f;
     ext = get_extended_state__10TObjPlayerFv(self->f10c);
     if (ext != 0) {
         if (get_captured_target_count(ext) == 0) {
