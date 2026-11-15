@@ -545,7 +545,7 @@ void TLobby__sub_803F808C(void) {
 
 }
 
-s32 is_transport_connected(void) {
+u16 is_transport_connected(void) {
     u8 buf[0x20];
     if (network_pppoe_transport_enabled != 0) {
         if (net_slot_id < 0) {

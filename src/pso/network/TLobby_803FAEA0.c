@@ -361,7 +361,6 @@ s32 TLobby__sub_803FB7A4(void) {
     extern s32 lbl_805D7BD8;
     s16 TLobby__sub_80403D28(s32, s32, s32, s32, s32, s32, s32, s32); /* declared s16 here; the definition returns s32 */
     s32 configure_modem_options(s32, s32, s32, s32, s32);
-    u16 is_transport_connected(void); /* declared u16 here; the definition returns s32 */
     s16 TLobby__sub_80403C60(void *); /* declared s16 here; the definition is s32 (u8 *) */
     s16 TLobby__sub_80403BA8(s32, s32, s32); /* declared s16 here; the definition is s32 (u8 *, u8 *, s32) */
     s16 TLobby__sub_80403B04(s32, s32, s32); /* declared s16 here; the definition is s32 (u8 *, u8 *, s32) */

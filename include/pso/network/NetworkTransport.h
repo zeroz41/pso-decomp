@@ -41,7 +41,7 @@ extern s32 lbl_805D4800;
 void close_network_transport(void);
 s32 TLobby__sub_803F7684(void *lobby);
 void start_network_thread(void);
-s32 is_transport_connected(void);
+u16 is_transport_connected(void);
 s32 recv_network_frame(u16 max_len, void *lobby, u16 *out_len);
 void TLobby__sub_803F7678(void);
 s32 TLobby__sub_803F767C(void);

@@ -363,7 +363,6 @@ s32 TLobby__sub_80405700()
   u16 n;
   PppBuffers *base;
   u8 *buf = lbl_805C18B0;
-  u16 is_transport_connected(void); /* declared u16 here; the definition returns s32 */
   if (lobby_modem_connect_state == 10)
   {
     if (TLobby__sub_804290D4(0x7fff) == 0)
