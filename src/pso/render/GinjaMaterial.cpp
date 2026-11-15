@@ -384,112 +384,120 @@ extern GinjaParameterHandler ginja_parameter_handlers[11];
 extern s32 material_alpha_compare_reference;
 
 #pragma push
-#pragma scheduling off
-#pragma peephole off
 #pragma use_lmw_stmw off
 void apply_ginja_material_params(GinjaDrawRecord *record) {
-    s32 src;
-    s32 dst;
     GinjaSurfaceState *surface;
-    GinjaParameter *param = (GinjaParameter *)record->parameters;
+    GinjaParameter *parameter = (GinjaParameter *)record->parameters;
     s32 count = record->parameter_count;
-    u32 blend;
-    s32 type;
-    s32 op;
-
-    for (; count > 0; count--, param++) {
-        u32 changed = update_ginja_cached_parameter(param->kind, param->value);
-        if (changed) {
-            ginja_parameter_handlers[param->kind](param->value, changed);
+    for (; count > 0; --count, ++parameter) {
+        u32 changed = update_ginja_cached_parameter(parameter->kind, parameter->value);
+        if (changed != 0) {
+            ginja_parameter_handlers[parameter->kind](parameter->value, changed);
         }
     }
-    if (ginja_draw_flags & 2) {
+    if ((u32)(ginja_draw_flags & 2) != 0) {
         GXSetBlendMode(0, 0, 0, 0);
-    } else if (model_render_flags & 0x800000) {
+    } else if ((u32)(model_render_flags & 0x800000) != 0) {
         GXSetZCompLoc(0);
         GXSetZMode(1, 7, 0);
     } else if (ginja_material_cache.textured == 0) {
-        blend = ginja_material_cache.blend;
-        if (model_render_flags & 0x8000) {
+        u32 blend = ginja_material_cache.blend;
+        if ((u32)(model_render_flags & 0x8000) != 0) {
             blend = ginja_blend_override;
         }
-        type = (blend & 0xC000) >> 14;
-        GXSetBlendMode(type, (blend & 0x3800) >> 11, (blend & 0x700) >> 8, blend & 0xFF);
+        s32 mode = (blend & 0xC000) >> 14;
+        GXSetBlendMode(mode, (blend & 0x3800) >> 11, (blend & 0x700) >> 8, blend & 0xFF);
         GXSetZCompLoc(0);
-        if (type != 0) {
+        if (mode != 0) {
             GXSetZMode(1, 3, 0);
         } else {
             GXSetZMode(1, 1, 1);
         }
     } else if (ginja_material_cache.blend_valid != 0) {
-        type = (ginja_material_cache.blend & 0xC000) >> 14;
-        src = (ginja_material_cache.blend & 0x3800) >> 11;
-        dst = (ginja_material_cache.blend & 0x700) >> 8;
-        op = ginja_material_cache.blend & 0xFF;
-        if (model_render_flags & 0x400) {
-            GXSetBlendMode(type, src, dst, op);
+        u32 blend = ginja_material_cache.blend;
+        s32 mode = (blend & 0xC000) >> 14;
+        s32 source = (blend & 0x3800) >> 11;
+        s32 destination = (blend & 0x700) >> 8;
+        s32 operation = blend & 0xFF;
+        if ((u32)(model_render_flags & 0x400) != 0) {
+            GXSetBlendMode(mode, source, destination, operation);
             GXSetZCompLoc(0);
             GXSetZMode(1, 3, 0);
-        } else if (model_render_flags & 1) {
-            if (model_render_flags & 0x8000) {
+        } else if ((u32)(model_render_flags & 1) != 0) {
+            if ((u32)(model_render_flags & 0x8000) != 0) {
                 u16 texture = ginja_material_cache.texture & 0x1FFF;
                 u8 opaque = 1;
-                if (!(ginja_draw_list_state & 8) && (ginja_draw_list_state & 2) && (ginja_draw_list_mask & 1)) {
+                if ((u32)(ginja_draw_list_state & 8) == 0 &&
+                    (u32)(ginja_draw_list_state & 2) != 0 &&
+                    (ginja_draw_list_mask & 1)) {
                     ginja_draw_list_state |= 4;
-                } else {
-                    if ((model_render_flags & 0x10) && model_material_color.r != 1.0f) {
-                        opaque = 0;
-                    }
-                    if ((model_render_flags & 0x20) && model_material_color.r != 0.0f) {
-                        opaque = 0;
-                    }
-                    surface = current_render_context->textures->entries[texture].texture->surface;
-                    GXSetZCompLoc(0);
-                    if (opaque) {
-                        GXSetZMode(1, 3, 0);
-                        ginja_set_alpha_compare(0);
-                    } else if (surface->format == 14) {
-                        GXSetZCompLoc(0);
-                        GXSetZMode(1, 3, 1);
-                        ginja_set_alpha_compare(0);
-                    } else {
-                        GXSetZMode(1, 3, 1);
-                    }
-                    GXSetBlendMode(type, src, dst, op);
+                    return;
                 }
-            } else if ((ginja_draw_list_state & 2) && (ginja_draw_list_mask & 1)) {
-                ginja_draw_list_state |= 4;
-            } else {
-                GXSetBlendMode(type, src, dst, op);
-            }
-        } else if (type != 0) {
-            surface = current_render_context->textures->entries[ginja_material_cache.texture & 0x1FFF].texture->surface;
-            if (ginja_material_cache.textured != 0 && surface->format == 14 && src == 4 && dst == 5 &&
-                (surface->flags & 0x40000000)) {
-                if (!(ginja_draw_list_state & 8) && (ginja_draw_list_state & 2) && (ginja_draw_list_mask & 2)) {
-                    ginja_draw_list_state |= 4;
-                } else {
-                    GXSetBlendMode(0, 4, 5, 15);
+                if ((u32)(model_render_flags & 0x10) != 0 &&
+                    1.0f != model_material_color.r) {
+                    opaque = 0;
+                }
+                if ((u32)(model_render_flags & 0x20) != 0 &&
+                    0.0f != model_material_color.r) {
+                    opaque = 0;
+                }
+                const u32 &format = current_render_context->textures->entries[texture].texture->surface->format;
+                GXSetZCompLoc(0);
+                if (opaque) {
+                    GXSetZMode(1, 3, 0);
+                    ginja_set_alpha_compare(0);
+                } else if (format == 14) {
                     GXSetZCompLoc(0);
                     GXSetZMode(1, 3, 1);
-                    ginja_set_alpha_compare(material_alpha_compare_reference & 0xFF);
+                    ginja_set_alpha_compare(0);
+                } else {
+                    GXSetZMode(1, 3, 1);
                 }
-            } else if (!(ginja_draw_list_state & 8) && (ginja_draw_list_state & 2) && (ginja_draw_list_mask & 1)) {
-                ginja_draw_list_state |= 4;
-            } else if ((model_render_flags & 0x1000000) && !(ginja_draw_flags & 2)) {
-                GXSetBlendMode(type, src, dst, op);
+                GXSetBlendMode(mode, source, destination, operation);
+            } else {
+                if ((u32)(ginja_draw_list_state & 2) != 0 && (ginja_draw_list_mask & 1)) {
+                    ginja_draw_list_state |= 4;
+                    return;
+                }
+                GXSetBlendMode(mode, source, destination, operation);
+            }
+        } else if (mode != 0) {
+            surface = current_render_context->textures->entries[
+                ginja_material_cache.texture & 0x1FFF].texture->surface;
+            if (ginja_material_cache.textured != 0 && surface->format == 14 &&
+                source == 4 && destination == 5 && (surface->flags & 0x40000000) != 0) {
+                if ((u32)(ginja_draw_list_state & 8) == 0 &&
+                    (u32)(ginja_draw_list_state & 2) != 0 && (ginja_draw_list_mask & 2)) {
+                    ginja_draw_list_state |= 4;
+                    return;
+                }
+                GXSetBlendMode(0, 4, 5, 15);
                 GXSetZCompLoc(0);
                 GXSetZMode(1, 3, 1);
-                ginja_set_alpha_compare(material_alpha_compare_reference & 0xFF);
+                ginja_set_alpha_compare((u8)material_alpha_compare_reference);
             } else {
-                GXSetBlendMode(type, src, dst, op);
-                GXSetZCompLoc(0);
-                GXSetZMode(1, 3, 0);
-                ginja_set_alpha_compare(0);
+                if ((u32)(ginja_draw_list_state & 8) == 0 &&
+                    (u32)(ginja_draw_list_state & 2) != 0 && (ginja_draw_list_mask & 1)) {
+                    ginja_draw_list_state |= 4;
+                    return;
+                }
+                if ((u32)(model_render_flags & 0x1000000) != 0 &&
+                    (u32)(ginja_draw_flags & 2) == 0) {
+                    GXSetBlendMode(mode, source, destination, operation);
+                    GXSetZCompLoc(0);
+                    GXSetZMode(1, 3, 1);
+                    ginja_set_alpha_compare((u8)material_alpha_compare_reference);
+                } else {
+                    GXSetBlendMode(mode, source, destination, operation);
+                    GXSetZCompLoc(0);
+                    GXSetZMode(1, 3, 0);
+                    ginja_set_alpha_compare(0);
+                }
             }
         } else {
-            surface = current_render_context->textures->entries[ginja_material_cache.texture & 0x1FFF].texture->surface;
-            if (surface->format == 14 && !(surface->flags & 0x40000000)) {
+            surface = current_render_context->textures->entries[
+                ginja_material_cache.texture & 0x1FFF].texture->surface;
+            if (surface->format == 14 && (surface->flags & 0x40000000) == 0) {
                 GXSetBlendMode(0, 4, 5, 15);
                 GXSetZCompLoc(1);
                 GXSetZMode(1, 1, 1);
