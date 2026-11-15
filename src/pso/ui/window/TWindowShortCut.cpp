@@ -64,7 +64,7 @@ void *__dt__15TWindowShortCutFv(TWindowShortCut *self, s16 arg1) {
 }
 typedef char RecoveredGlobal_8026E728_lbl_804D0AE0_size[sizeof(RecoveredGlobal_8026E728_lbl_804D0AE0) == 0x14 ? 1 : -1];
 typedef char RecoveredGlobal_8026E728___vt__15TWindowShortCut_size[sizeof(RecoveredGlobal_8026E728___vt__15TWindowShortCut) == 0x1C ? 1 : -1];
-u8 *TWindowShortCut__ct(TWindowShortCut *window_short_cut, s32 arg1, s32 index, s32 chat_shortcut_addr) {
+u8 *TWindowShortCut__ct(TWindowShortCut *window_short_cut, s32 arg1, s32 index, s32 *chat_shortcut) {
     s32 var_r31;
     ((TWindowDD *)window_short_cut)->construct_base((u8 *)((s32) &window_short_cut_layout.value), (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)window_short_cut + 0x18) = &(*(RecoveredGlobal_8026E728___vt__15TWindowShortCut *)&__vt__15TWindowShortCut).value;
@@ -77,8 +77,8 @@ u8 *TWindowShortCut__ct(TWindowShortCut *window_short_cut, s32 arg1, s32 index, 
     window_short_cut->message_window = NULL;
     window_short_cut->symbol_chat_window = NULL;
     window_short_cut->index = index;
-    window_short_cut->chat_shortcut = (s32 *)chat_shortcut_addr;
-    window_short_cut->sub_8026E1D4(index, (s32 *)chat_shortcut_addr);
+    window_short_cut->chat_shortcut = chat_shortcut;
+    window_short_cut->sub_8026E1D4(index, chat_shortcut);
     return (u8 *)window_short_cut;
 }
 
