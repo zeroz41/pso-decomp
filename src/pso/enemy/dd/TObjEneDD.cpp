@@ -1578,8 +1578,8 @@ void TObjEneDD::vfunc_100() {
     }
 }
 
-u8 TObjEneDD::is_main_phase_15() {
-    return (u8) (get_main_phase() == 0xF);
+s32 TObjEneDD::is_main_phase_15() {
+    return get_main_phase() == 0xF;
 }
 
 u8 TObjEneDD::is_phase_e() {
