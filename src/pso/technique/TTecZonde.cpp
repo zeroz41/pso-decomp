@@ -37,6 +37,10 @@ typedef struct RecoveredGlobal_8023C558_lbl_804CC510 RecoveredGlobal_8023C558_lb
 typedef struct RecoveredGlobal_8023C558_lbl_804CC55C RecoveredGlobal_8023C558_lbl_804CC55C;
 typedef char RecoveredGlobal_8023C558_lbl_804CC510_size[((sizeof(RecoveredGlobal_8023C558_lbl_804CC510)) == 0x4C) ? (1) : (-1)];
 typedef char RecoveredGlobal_8023C558_lbl_804CC55C_size[((sizeof(RecoveredGlobal_8023C558_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
+#pragma readonly_strings on
+
+const char *lbl_805D3838 = "TTecZonde"; // TTecZonde__name
+
 void TTecZonde::init_parameters() {
   s32 new_var;
   new_var = calc_technique_parameters(6, (int) ((RecoveredFields_8023C558_arg0 *) ((u8 *)this))->field_C4, 0xFFFF);
@@ -135,7 +139,6 @@ u16 get_entity_id(void *);
 void copy_technique_target_list(void *, void *);
 u8 * construct_facing_technique__10TObjPlayerFPviPvii(void *, s32, void *, s32, s16);
 extern s32 __vt__9TTecZonde[];
-extern s32 lbl_805D3838;
 void *__dt__9TTecZondeFv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 

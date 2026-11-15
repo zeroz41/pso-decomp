@@ -28,6 +28,8 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
+#pragma readonly_strings on
+
 struct Obj_8027C0C4 { u8 pad[0x61]; s8 f61; u8 pad2[2]; s32 arr[1]; };
 
 struct Vec2_8027B424 { f32 x; f32 y; };
@@ -92,13 +94,13 @@ s32 text_builder_append();
 s32 set_depth__11TWindowBaseFf(void *);
 s32 TWindowSubEquip__sub_80263AF8(s32, s32);
 s32 append_line__14TWindowMessageFii(s32, s32 *, s32);
-void *create__14TWindowMessageFlPCfUll(s32, s32 *, s32, s32);
+void *create__14TWindowMessageFlPCfUll(s32, const f32 *, s32, s32);
 s32 get_window_layout_position(s32);
 void *get_player_by_client_id(s32);
 s32 is_player_input_active(s32);
 void *__nw__7TObjectFUl(u32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, s32);
-void *fn_802628C0(s32, void *, s32);
+void *fn_802628C0(s32, const f32 *, s32);
 void queue_destruction__7TObjectFv(void *arg0);
 s32 call_if_split_screen(void *, s32);
 s32 update_help_item__13TWindowSubMagFv(void *, s32);
@@ -110,13 +112,18 @@ s32 fn_8025373C(u8 *self);
 void *TWindowSubMagPhoton__ct(void *, s32, s32, s32);
 int TWindowSubMag__sub_8027C0E8(void* p);
 u32 is_action_active__10TObjPlayerFv(void *);
-extern u8 lbl_8044F9E8[];
+const char *TWindowSubMag__class_name = "TWindowSubMag";
+// Window positions (x, y): mag slot list, the two equip-kind lists, message window.
+extern const f32 lbl_8044F9E8[2] = {144.0f, 68.0f};
+extern const f32 lbl_8044F9F0[2] = {206.0f, 184.0f};
+extern const f32 lbl_8044F9F8[2] = {308.0f, 124.0f};
+extern const f32 lbl_8044FA00[2] = {214.0f, 184.0f};
 extern Pad_8027B888 controller_input_state[];
 void *TWindowSubMag__ct(TWindowSubMag *arg0, s32 arg1, s32 arg2);
 void *__dt__13TWindowSubMagFv(TWindowSubMag *arg0, s16 arg1);
 void TWindowHelpItem__set_displayed_item_by_id(u8 *arg0, s32 arg1);
 s32 *get_help_text_string(s32);
-s32 create_equip_kind_window(s32, s32 *, s32);
+s32 create_equip_kind_window(s32, const f32 *, s32);
 s32 __ct__7TObjectFP7TObject();
 s32 __dl__7TObjectFPv(void *);
 s32 __dt__7TObjectFv(void *, s32);
@@ -185,7 +192,6 @@ void TWindowSubMag::set_mag_mode(s32 arg1) {
     }
 }
 
-extern s32 lbl_8044FA00[];
 
 #pragma push
 #pragma fp_contract on
@@ -221,7 +227,7 @@ void *TWindowSubMag::create_learned_blast_toast() {
     pos.x -= (0.5f * n + 4.0f) * scale;
     size.x = 8.0f + n;
     size.y = 40.0f;
-    win = create__14TWindowMessageFlPCfUll((s32)&pos, (s32 *)&size, 1, *(s32 *)&this->m_28);
+    win = create__14TWindowMessageFlPCfUll((s32)&pos, &size.x, 1, *(s32 *)&this->m_28);
     TWindowSubEquip__sub_80263AF8(*(s32 *)&this->m_30, 6);
     set_depth__11TWindowBaseFf(win);
     append_line__14TWindowMessageFii((s32)win, (s32 *)get_shared_text_buffer(), 2);
@@ -243,7 +249,6 @@ void *TWindowSubMag::create() {
     return temp_r31;
 }
 
-extern s32 lbl_8044F9F8[];
 
 void *TWindowSubMag::create_action_menu(s32 id) {
     TWindowSubMag_8027B62C *menu = (TWindowSubMag_8027B62C *)this;
@@ -285,7 +290,6 @@ s32 TWindowSubMag::create_list() {
     return equip_kind_window;
 }
 
-extern s32 lbl_8044F9F0[];
 
 s32 TWindowSubMag::setup_list() {
     s32 equip_kind_window;
@@ -542,7 +546,6 @@ void *__dt__13TWindowSubMagFv(TWindowSubMag *arg0, s16 arg1) {
     return arg0;
 }
 
-extern s32 TWindowSubMag__class_name;
 
 void *TWindowSubMag__ct(TWindowSubMag *window_sub_mag, s32 arg1, s32 arg2) {
     __ct__7TObjectFP7TObject();

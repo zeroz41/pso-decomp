@@ -10,6 +10,8 @@ class TChCrTagPlBack;
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
+#pragma readonly_strings on
+
 struct VBase_18_f23ffb { char pad[0x18]; };
 
 struct VObj_18_f23ffb : VBase_18_f23ffb {
@@ -52,8 +54,10 @@ s32 get_window_layout_position(int);
 s32 free_member__17TWindowSubComCardFv(int, int);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, int, int, int);
-s32 create__14TWindowMessageFlPCfUll(s32, void *, int, int);
-extern u8 lbl_80470AA8[];
+s32 create__14TWindowMessageFlPCfUll(s32, const f32 *, int, int);
+const char *lbl_805D3EA8 = "TWindowSubTrade"; // TWindowSubTrade__name
+// Player message window position (x, y).
+extern const f32 lbl_80470AA8[2] = {384.0f, 120.0f};
 s32 TWindowSubTrade::open_trade_confirm_prompt(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     s32 temp_r29;
@@ -178,7 +182,6 @@ extern s32 controller_input_state[];
 
 void TWindowSubTrade::render() {  }
 
-extern void *lbl_805D3EA8;
 
 void TWindowSubTrade::run_task() {
     u8 *arg0 = (u8 *)this;
@@ -284,7 +287,7 @@ u8 *__dt__15TWindowSubTradeFv(u8 *arg0, s16 arg1) {
 
 }
 TWindowSubTrade::TWindowSubTrade(TObject *object, void *arg2) : TObject(object) {
-    *(void * *)&this->m_name = lbl_805D3EA8;
+    this->m_name = lbl_805D3EA8;
     *(void **)((s8 *)this + 0x28) = object;
     *(void **)((s8 *)this + 0x20) = arg2;
     this->m_24 = 4;

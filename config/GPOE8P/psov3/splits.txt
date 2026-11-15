@@ -210,7 +210,9 @@ pso/boss/dragon/TBoss1DragonEffBreath.cpp:
 
 pso/boss/dragon/TBoss1DragonEffBullet.cpp:
 	.text       start:0x8002B9CC end:0x8002BD34
+	.rodata     start:0x80435410 end:0x80435440
 	.data       start:0x80481C40 end:0x80481C58
+	.sdata      start:0x805D2670 end:0x805D2678
 	.sbss       start:0x805D4B48 end:0x805D4B4C
 	.sdata2     start:0x805D8140 end:0x805D8148
 
@@ -6719,7 +6721,8 @@ pso/technique/TTecZarua.cpp:
 
 pso/technique/TTecZonde.cpp:
 	.text       start:0x8023C558 end:0x8023CDC4
-	.rodata     start:0x8044DCB0 end:0x8044DCB8
+	.rodata     start:0x8044DCA0 end:0x8044DCB8
+	.sdata      start:0x805D3838 end:0x805D3840
 	.sdata2     start:0x805DC968 end:0x805DC98C
 
 pso/technique/TTecGiZonde_8023CDC4.cpp:
@@ -7741,7 +7744,9 @@ pso/ui/window/TWindowSubGameEnd.cpp:
 
 pso/ui/window/TWindowSubItem.cpp:
 	.text       start:0x80279714 end:0x8027ACF8
+	.rodata     start:0x8044F988 end:0x8044F9A0
 	.data       start:0x804D1628 end:0x804D1688
+	.sdata      start:0x805D3A50 end:0x805D3A58
 	.sdata2     start:0x805DD630 end:0x805DD634
 
 pso/ui/window/TWindowSubItemList_8027ACF8.cpp:
@@ -7761,8 +7766,9 @@ pso/ui/window/TWindowSubLog.cpp:
 
 pso/ui/window/TWindowSubMag.cpp:
 	.text       start:0x8027B2B8 end:0x8027C13C
-	.rodata     start:0x8044FA08 end:0x8044FA10
+	.rodata     start:0x8044F9D8 end:0x8044FA10
 	.data       start:0x804D16D8 end:0x804D1720
+	.sdata      start:0x805D3A68 end:0x805D3A70
 	.sdata2     start:0x805DD648 end:0x805DD678
 
 pso/ui/window/TWindowSubMagPhoton_8027C13C.cpp:
@@ -8759,7 +8765,9 @@ pso/ui/frontend/TAdGuideTxtGC.cpp:
 
 pso/ui/window/TWindowSubTrade.cpp:
 	.text       start:0x802B1AB4 end:0x802B20C0
+	.rodata     start:0x80470A98 end:0x80470AB0
 	.data       start:0x804DE8E0 end:0x804DE900
+	.sdata      start:0x805D3EA8 end:0x805D3EB0
 	.sdata2     start:0x805DE298 end:0x805DE2A8
 
 pso/boss/olgaflow/TBoss6Type1_802B20C0.cpp:
@@ -10433,8 +10441,9 @@ pso/boss/darkfalz/TBoss4CheckEmpty.cpp:
 
 pso/ui/frontend/TAdGameStartShineGC.cpp:
 	.text       start:0x8034A938 end:0x8034AC4C
-	.rodata     start:0x80478A10 end:0x80478A18
+	.rodata     start:0x804789F8 end:0x80478A18
 	.data       start:0x804EFFF8 end:0x804F0010
+	.sdata      start:0x805D4320 end:0x805D4328
 	.sbss       start:0x805D6E88 end:0x805D6E90
 	.sdata2     start:0x805DFD60 end:0x805DFD64
 
@@ -12785,6 +12794,7 @@ pso/network/NetworkPacketRuntime.c:
 pso/network/NetworkMessageTransport.c:
 	.text       start:0x80425B70 end:0x80426CAC
 	.bss        start:0x805CF240 end:0x805CFC20
+	.sdata      start:0x805D4828 end:0x805D4830
 	.sdata2     start:0x805E1190 end:0x805E1198
 
 pso/network/TLobby_80426CAC.c:

@@ -29,6 +29,8 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
+#pragma readonly_strings on
+
 struct Base_A_80279714 { char pad[0x18]; };
 struct V_A_80279714 : Base_A_80279714 {
     virtual void f0();
@@ -162,7 +164,7 @@ void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 s32 close_sub_window__10TObjPlayerFv();
 s32 try_send_6x27_use_item(s32, s32);
-s32 create_sub_item_list_window(s32, s32 *, s32);
+s32 create_sub_item_list_window(s32, const f32 *, s32);
 s32 get_array_entry__11TWindowBaseFi(void *, s16);
 s32 get_cursor_pos__14TWindowSubItemFv();
 s32 get_item_id__5TItemFv();
@@ -703,8 +705,9 @@ void *__dt__14TWindowSubItemFv(TWindowSubItem *arg0, s16 arg1) {
     return arg0;
 }
 
-extern s32 lbl_8044F998[];
-extern s32 TWindowSubItem__class_name;
+const char *TWindowSubItem__class_name = "TWindowSubItem";
+// Item list window position (x, y).
+extern const f32 lbl_8044F998[2] = {308.0f, 184.0f};
 
 void *TWindowSubItem__ct(TWindowSubItem *window_sub_item, s32 arg1, s32 arg2) {
     __ct__7TObjectFP7TObject();

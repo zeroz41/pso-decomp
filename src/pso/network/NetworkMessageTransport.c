@@ -26,7 +26,7 @@ static u8 pppoe_message_queue[0xA0];
 static u8 lbl_805CF380[0x48];
 extern s32 lobby_message_thread_handle;
 extern u32 lbl_805D7BC4;
-extern s16 network_link_status_cache;
+s16 network_link_status_cache = -1;
 extern s32 lobby_exi_prev_status;
 extern u32 lobby_exi_stable_count;
 extern u32 lobby_exi_stable_target;
