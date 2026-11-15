@@ -1361,7 +1361,7 @@ force_active:
   - TObjLight__data_805DB088
   - TObjLight__sub_80133714
   - TObjLight__sub_8013397C
-  - TObjLight__sub_80133980
+  - __ct__13TUnk_804A6F90FP7TObject
   - TObjLiveCamera__ct
   - TObjLuker__ct
   - TObjMapCsn__ct
@@ -6954,7 +6954,7 @@ force_active:
   - init__26TBoss3VoloptPositionPacketFv
   - init__6TLobbyFPv
   - init__8TOKurageFv
-  - init__9TObjLightFi
+  - __ct__13TUnk_804A6FA8FP7TObject
   - init_action_timer__11TBoss6Type1Fv
   - init_ai_state__10TNpcPlayerFPvi
   - init_air_turn__12TBoss1DragonFl
@@ -7049,7 +7049,7 @@ force_active:
   - init_light_tables__9TObjLightFv
   - init_link_points__9TBoss2FinFv
   - init_lookup_tables__6TLobbyFv
-  - init_map_light__9TObjLightFi
+  - __ct__13TUnk_804A6F78FP7TObject
   - init_material_nodes__6TSceneFv
   - init_model__23TObjSeabedSuisoBrakableFv
   - init_model_and_state__19TObjEneEpsilonGuardFv
@@ -7064,7 +7064,7 @@ force_active:
   - init_object__12TFogCtrl_EORFv
   - init_object__13TUnk_804E24F0FlPv
   - __ct__18T_ATS_DrawCalendarFP7TObject
-  - init_object__9TObjLightFv
+  - __ct__13TUnk_804A6FC0FP7TObject
   - init_offset_vectors__13TUnk_804EDD20Fv
   - init_offsets_object__13TUnk_804EDD20Fv
   - init_override_params__Fv

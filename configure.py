@@ -492,6 +492,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/weapon/TUnk_804A5D28.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # vtables come out KeyQuick, Key, Normal then TUnk_804B2578: written last to first, deferred.
     "pso/object/cave/TOHangceilingCave01.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # vtables come out TUnk_804A6F78, F90, FA8 then FC0 (text order of their key functions): written last to
+    # first, deferred.
+    "pso/object/ambient/TObjLight_80133568.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/ui/hud/TMainCursor.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # vtables come out StelthReal, then the dispatch_state jump table, then Stelth: written last to first, deferred.
     "pso/enemy/stelth/TObjEneMe3Stelth.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},

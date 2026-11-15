@@ -5,6 +5,7 @@
 
 class TUnk_804A6FC0 : public TObject {
 public:
+    TUnk_804A6FC0(TObject *parent);
     virtual ~TUnk_804A6FC0();
 };
 

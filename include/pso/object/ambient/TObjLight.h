@@ -24,13 +24,8 @@ struct TObjLight : public TObjBase {
     void*init_light(int a1);
     void unregister_and_free();
     static u32 alloc_light_slot();
-    void *init_map_light(int _w1);
     static void init_directional_light();
-    void *dt(s16 arg1);
-    void *init(int _w1);
     static void free_shared_data();
-    void *dt2(s16 arg1);
-    void *init_object();
     static void apply_distant_light();
     void set_light(void *arg1, f32 farg0);
     static void find_light_params(f32 *dir, f32 *color, u32 id);
