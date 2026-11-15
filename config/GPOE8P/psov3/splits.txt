@@ -9141,7 +9141,7 @@ pso/ui/frontend/TAdTimeSetGC.cpp:
 	.text       start:0x802E11BC end:0x802E3AE4
 	.ctors      start:0x80433FD0 end:0x80433FD4
 	.rodata     start:0x80472920 end:0x80472998
-	.data       start:0x804E3040 end:0x804E352C
+	.data       start:0x804E3040 end:0x804E3530
 	.sdata      start:0x805D3F80 end:0x805D3F88
 	.sbss       start:0x805D68E0 end:0x805D68E8
 	.sdata2     start:0x805DE8E8 end:0x805DE910
@@ -9157,6 +9157,9 @@ pso/unk/text_802E3BA8.cpp:
 
 pso/weapon/TItemAttackCol.cpp:
 	.text       start:0x802E3BFC end:0x802E4748
+	.rodata     start:0x80472998 end:0x804729C8
+	.data       start:0x804E3530 end:0x804E355C
+	.sdata2     start:0x805DE914 end:0x805DE920
 
 pso/effect/item/TItemEffOrgaFlowShot.cpp:
 	.text       start:0x802E4748 end:0x802E4798
