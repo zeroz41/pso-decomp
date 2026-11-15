@@ -110,18 +110,18 @@ s32 TBoss7Joint::init_params() {
     return *(s32 *)((s8 *)this + 0x3C4) = TBoss7Joint_get_shell_max_hp();
 }
 
-u8 *__ct__11TBoss7JointFP7TObjectUssP3Vecl(u8 *boss7_joint, u8 *arg1, s16 arg2, s16 arg3, s32 arg4, s32 arg5) {
-    __ct__9TObjEneDDFP7TObject(boss7_joint);
-    *(s32 **)((s8 *)boss7_joint + 0x18) = &(*(RecoveredGlobal_802EEC60___vt__11TBoss7Joint *)&__vt__11TBoss7Joint).value;
-    *(const char **)((s8 *)boss7_joint + 0) = TBoss7Joint__name;
-    ((TObjEneDD *)boss7_joint)->init_common_from(arg1);
-    ((TBoss7Joint *)boss7_joint)->entity_id = arg2;
-    *(s16 *)((s8 *)boss7_joint + 0x2C) = arg3;
-    *(s32 *)((s8 *)boss7_joint + 0x3C0) = arg4;
-    *(s32 *)((s8 *)boss7_joint + 0x3B8) = arg5;
-    ((TObjEneDD *)boss7_joint)->initialize_enemy_state(0x49);
-    ((TBoss7Joint *)boss7_joint)->init_params();
-    return boss7_joint;
+TBoss7Joint *__ct__11TBoss7JointFP7TObjectUssP3Vecl(TBoss7Joint *self, TObject *parent, u16 id, s16 set_index, Vec *position, s32 index) {
+    __ct__9TObjEneDDFP7TObject(self);
+    *(s32 **)((s8 *)self + 0x18) = &(*(RecoveredGlobal_802EEC60___vt__11TBoss7Joint *)&__vt__11TBoss7Joint).value;
+    *(const char **)((s8 *)self + 0) = TBoss7Joint__name;
+    self->init_common_from((u8 *)parent);
+    self->entity_id = id;
+    *(s16 *)((s8 *)self + 0x2C) = set_index;
+    *(Vec **)((s8 *)self + 0x3C0) = position;
+    *(s32 *)((s8 *)self + 0x3B8) = index;
+    self->initialize_enemy_state(0x49);
+    self->init_params();
+    return self;
 }
 
 void TBoss7Joint::dispatch_action(u32, s32) {  }

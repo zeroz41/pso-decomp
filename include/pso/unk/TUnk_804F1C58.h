@@ -9,13 +9,13 @@ public:
     void set_field_38(s32 v);
     virtual ~TUnk_804F1C58();
     void *destroy(s16);
-    u8 unk_1C[0x4];
+    void *model;
     s32 m_20;
-    u8 unk_24[0x4];
+    f32 m_24;
     void * m_28;
-    u8 unk_2C[0x4];
+    s32 node_count;
     s32 m_30;
-    u8 unk_34[0x4];
+    s32 m_34;
     s32 m_38;
 };
 typedef char TUnk_804F1C58_size[sizeof(TUnk_804F1C58) == 0x3C ? 1 : -1];

@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/unk/TUnk_804F1C58.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/unk/text_8035A860.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 
 extern "C" {
@@ -35,17 +34,17 @@ void *TUnk_804F1C58::destroy(s16 arg1) {
 extern "C" {
 void *mem_alloc(u32 size);
 s32 __ct__7TObjectFP7TObject(void *, void *);
-u8 *__ct__13TUnk_804F1C58FP7TObjectPv(u8 *arg0, s32 arg1, s32 arg2) {
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804F1C58.value;
-    *(s32 *)((s8 *)arg0 + 0x1C) = arg2;
-    ((TUnk_804F1C58 *)arg0)->m_20 = 0;
-    *(f32 *)((s8 *)arg0 + 0x24) = 0.0f;
-    ((TUnk_804F1C58 *)arg0)->m_30 = 0;
-    *(s32 *)((s8 *)arg0 + 0x2C) = ((TObjBoss2Tunnel *)arg2)->count_tree_nodes();
-    *(s32 *)((s8 *)arg0 + 0x28) = (s32)mem_alloc((*(s32 *)((s8 *)arg0 + 0x2C) * 0x30));
-    *(s32 *)((s8 *)arg0 + 0x34) = 0;
-    ((TUnk_804F1C58 *)arg0)->m_38 = 0;
-    return arg0;
+TUnk_804F1C58 *__ct__13TUnk_804F1C58FP7TObjectPv(TUnk_804F1C58 *self, TObject *parent, void *model) {
+    __ct__7TObjectFP7TObject(self, parent);
+    *(s32 **)((s8 *)self + 0x18) = &lbl_804F1C58.value;
+    self->model = model;
+    self->m_20 = 0;
+    self->m_24 = 0.0f;
+    self->m_30 = 0;
+    self->node_count = ((TObjBoss2Tunnel *)model)->count_tree_nodes();
+    self->m_28 = mem_alloc(self->node_count * 0x30);
+    self->m_34 = 0;
+    self->m_38 = 0;
+    return self;
 }
 }
