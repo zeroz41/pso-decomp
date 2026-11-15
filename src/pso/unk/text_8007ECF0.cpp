@@ -1,3 +1,4 @@
+#pragma readonly_strings on
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/MenuText.h"
 #include "types.h"
@@ -30,14 +31,8 @@ struct Obj_8007F0E4 {
 
 s32 fn_8007F4B8(void *, s32, f32);
 
-extern const char lbl_80438AD8[];
 extern char lbl_80438AE0[];
 extern char lbl_80438AEC[];
-extern const f32 lbl_805D9298;
-extern const f32 lbl_805D929C;
-extern const f32 lbl_805D92A0;
-extern const f32 lbl_805D92A4;
-extern const f32 lbl_805D92AC;
 
 #pragma push
 #pragma opt_common_subs off
@@ -49,15 +44,15 @@ void fn_8007ECF0(u8 *arg0, s32 arg1, s32 arg2) {
     s32 var_r3;
     *(f32 *)((s8 *)arg0 + 0x1C) = (f32) ((f32) arg1 / (f32) arg2);
     temp_f1 = *(f32 *)((s8 *)arg0 + 0x1C);
-    if (temp_f1 < lbl_805D9298) {
-        *(f32 *)((s8 *)arg0 + 0x1C) = (f32) lbl_805D9298;
-    } else if (temp_f1 > lbl_805D929C) {
-        *(f32 *)((s8 *)arg0 + 0x1C) = (f32) lbl_805D929C;
+    if (temp_f1 < 0.0f) {
+        *(f32 *)((s8 *)arg0 + 0x1C) = 0.0f;
+    } else if (temp_f1 > 1.0f) {
+        *(f32 *)((s8 *)arg0 + 0x1C) = 1.0f;
     }
     if (((s32) *(s32 *)((s8 *)arg0 + 0x28) != 0) && (fn_8007F4B8(arg0, *(s32 *)((s8 *)arg0 + 0x24), *(f32 *)((s8 *)arg0 + 0x1C)) != 0)) {
         temp_r3 = fn_8007F3F8((O_8007F3F8 *)(arg0), *(f32 *)((s8 *)arg0 + 0x1C));
         if (temp_r3 >= 0) {
-            var_r3 = temp_r3 + (s32) ((lbl_805D92A0 * ((f32) temp_r3 / lbl_805D92A4)) + lbl_805D92A0);
+            var_r3 = temp_r3 + (s32) ((30.0f * ((f32) temp_r3 / 1800.0f)) + 30.0f);
             if (var_r3 > 0x464F) {
                 var_r3 = 0x464F;
             }
@@ -83,11 +78,12 @@ void fn_8007ECF0(u8 *arg0, s32 arg1, s32 arg2) {
             }
         }
     }
-    if (lbl_805D929C == *(f32 *)((s8 *)arg0 + 0x1C)) {
+    if (1.0f == *(f32 *)((s8 *)arg0 + 0x1C)) {
         ((TObject *)arg0)->queue_destruction();
     }
 }
 #pragma pop
+
 
 void draw_outlined_string_right_aligned__14TObjWarpStringFPviiPv(void *, s32 x0, s32 y0, char *str) {
     f32 x;
@@ -116,17 +112,19 @@ void TDLGraph::draw_percent_text(f32 farg0, f32 farg1) {
 
     if (this->m_20 & 2) {
         text[0] = '\0';
-        var_r5 = (s32) (lbl_805D92AC * this->m_1c);
+        var_r5 = (s32) (100.0f * this->m_1c);
         if (var_r5 < 0) {
             var_r5 = 0;
         } else if (var_r5 > 0x64) {
             var_r5 = 0x64;
         }
-        sprintf(text, lbl_80438AD8, var_r5);
+        sprintf(text, "%3d%", var_r5);
         draw_outlined_string_right_aligned__14TObjWarpStringFPviiPv(this, (s32) farg0, (s32) farg1, text);
     }
 }
 
+#pragma push
+#pragma opt_propagation off
 void TDLGraph::draw_countdown_timer(f32 x, f32 y) {
     Obj_8007F0E4 *self = (Obj_8007F0E4 *)this;
     char buf[16];
@@ -155,7 +153,7 @@ void TDLGraph::draw_countdown_timer(f32 x, f32 y) {
     }
     draw_outlined_string_right_aligned__14TObjWarpStringFPviiPv(self, (s32)x, (s32)y, buf);
     if (self->f30 > 0 && self->f24 - self->f30 > 0x4B && self->f1C > 1e-5f) {
-        k = lbl_805D929C;
+        k = 1.0f;
         r = k / self->f1C;
         r -= k;
         self->time = (s32)(r * (f32)self->f24);
@@ -168,6 +166,8 @@ void TDLGraph::draw_countdown_timer(f32 x, f32 y) {
         self->time--;
     }
 }
+#pragma pop
+
 struct VtxList_8007F27C {
     NJS_POINT2 *pos;
     u32 *col;
@@ -176,7 +176,6 @@ struct VtxList_8007F27C {
 };
 
 extern const VtxList_8007F27C lbl_80438AB4;
-extern const f32 lbl_805D92B8;
 
 #pragma push
 #pragma fp_contract on
@@ -199,13 +198,14 @@ void fn_8007F27C(TDLGraph *self, const NJS_POINT2 *pos, const NJS_POINT2 *size) 
     v[1].x = v[2].x = size->x * self->m_1c + pos->x;
     v[0].y = v[1].y = pos->y;
     v[2].y = v[3].y = size->y + pos->y;
-    ((TObjCMHairMenu *)&vl)->draw_tri_fan_2d(4, 2, lbl_805D92B8);
+    ((TObjCMHairMenu *)&vl)->draw_tri_fan_2d(4, 2, -1.0f);
 
     col[0] = col[1] = col[2] = col[3] = self->m_38;
     v[0].x = v[3].x = size->x + pos->x;
-    ((TObjCMHairMenu *)&vl)->draw_tri_fan_2d(4, 2, lbl_805D92B8);
+    ((TObjCMHairMenu *)&vl)->draw_tri_fan_2d(4, 2, -1.0f);
 }
 #pragma pop
+
 
 s32 fn_8007F3F8(O_8007F3F8 *arg0, f32 farg0) {
     f32 sum;
