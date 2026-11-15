@@ -8,6 +8,9 @@
 #include "pso/object/warp/TObjWarpString.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
+
+#include <stdio.h>
 
 struct E_8007F3F8 { s32 a; f32 f; };
 
@@ -26,7 +29,6 @@ struct Obj_8007F0E4 {
 };
 
 s32 fn_8007F4B8(void *, s32, f32);
-int sprintf(s8 *, const char *, ...);
 
 extern const char lbl_80438AD8[];
 extern char lbl_80438AE0[];
@@ -36,7 +38,6 @@ extern const f32 lbl_805D929C;
 extern const f32 lbl_805D92A0;
 extern const f32 lbl_805D92A4;
 extern const f32 lbl_805D92AC;
-extern const f32 lbl_805D92B0;
 
 #pragma push
 #pragma opt_common_subs off
@@ -88,41 +89,41 @@ void fn_8007ECF0(u8 *arg0, s32 arg1, s32 arg2) {
 }
 #pragma pop
 
-s32 draw_outlined_string_right_aligned__14TObjWarpStringFPviiPv(void *arg0, s32 x0, s32 y0, s8 *str) {
+void draw_outlined_string_right_aligned__14TObjWarpStringFPviiPv(void *, s32 x0, s32 y0, char *str) {
     f32 x;
     f32 y;
     f32 xr;
     f32 yb;
 
-    x = (f32)(u32)(x0 - calc_text_width((char *)str));
+    x = (f32)(u32)(x0 - calc_text_width(str));
     y = (f32)y0;
-    draw_menu_text(x - 2.0f, y - 2.0f, (const char *)str, 0xFF000000);
-    draw_menu_text(x, y - 2.0f, (const char *)str, 0xFF000000);
+    draw_menu_text(x - 2.0f, y - 2.0f, str, 0xFF000000);
+    draw_menu_text(x, y - 2.0f, str, 0xFF000000);
     xr = 2.0f + x;
-    draw_menu_text(xr, y - 2.0f, (const char *)str, 0xFF000000);
-    draw_menu_text(x - 2.0f, y, (const char *)str, 0xFF000000);
-    draw_menu_text(xr, y, (const char *)str, 0xFF000000);
+    draw_menu_text(xr, y - 2.0f, str, 0xFF000000);
+    draw_menu_text(x - 2.0f, y, str, 0xFF000000);
+    draw_menu_text(xr, y, str, 0xFF000000);
     yb = 2.0f + y;
-    draw_menu_text(x - 2.0f, yb, (const char *)str, 0xFF000000);
-    draw_menu_text(x, yb, (const char *)str, 0xFF000000);
-    draw_menu_text(xr, yb, (const char *)str, 0xFF000000);
-    draw_menu_text(x, y, (const char *)str, 0xFFFFFFFF);
+    draw_menu_text(x - 2.0f, yb, str, 0xFF000000);
+    draw_menu_text(x, yb, str, 0xFF000000);
+    draw_menu_text(xr, yb, str, 0xFF000000);
+    draw_menu_text(x, y, str, 0xFFFFFFFF);
 }
 
 void TDLGraph::draw_percent_text(f32 farg0, f32 farg1) {
-    s8 sp8;
+    char text[8];
     s32 var_r5;
 
     if (this->m_20 & 2) {
-        sp8 = 0;
+        text[0] = '\0';
         var_r5 = (s32) (lbl_805D92AC * this->m_1c);
         if (var_r5 < 0) {
             var_r5 = 0;
         } else if (var_r5 > 0x64) {
             var_r5 = 0x64;
         }
-        sprintf(&sp8, lbl_80438AD8, var_r5);
-        draw_outlined_string_right_aligned__14TObjWarpStringFPviiPv(this, (s32) farg0, (s32) farg1, &sp8);
+        sprintf(text, lbl_80438AD8, var_r5);
+        draw_outlined_string_right_aligned__14TObjWarpStringFPviiPv(this, (s32) farg0, (s32) farg1, text);
     }
 }
 
@@ -148,12 +149,12 @@ void TDLGraph::draw_countdown_timer(f32 x, f32 y) {
     secs = (t / 30) % 60;
     frac = (t % 30) / 3;
     if (mins > 0) {
-        ((int (*)(char *, const char *, ...))sprintf)(buf, lbl_80438AE0, mins, secs, frac);
+        sprintf(buf, lbl_80438AE0, mins, secs, frac);
     } else {
-        ((int (*)(char *, const char *, ...))sprintf)(buf, lbl_80438AEC, secs, frac);
+        sprintf(buf, lbl_80438AEC, secs, frac);
     }
-    ((s32 (*)(void *, s32, s32, char *))draw_outlined_string_right_aligned__14TObjWarpStringFPviiPv)(self, (s32)x, (s32)y, buf);
-    if (self->f30 > 0 && self->f24 - self->f30 > 0x4B && self->f1C > lbl_805D92B0) {
+    draw_outlined_string_right_aligned__14TObjWarpStringFPviiPv(self, (s32)x, (s32)y, buf);
+    if (self->f30 > 0 && self->f24 - self->f30 > 0x4B && self->f1C > 1e-5f) {
         k = lbl_805D929C;
         r = k / self->f1C;
         r -= k;
@@ -168,44 +169,41 @@ void TDLGraph::draw_countdown_timer(f32 x, f32 y) {
     }
 }
 struct VtxList_8007F27C {
-    f32 *pos;
+    NJS_POINT2 *pos;
     u32 *col;
     s32 n;
     s32 cap;
 };
 
+extern const VtxList_8007F27C lbl_80438AB4;
+extern const f32 lbl_805D92B8;
+
 #pragma push
 #pragma fp_contract on
-void fn_8007F27C(TDLGraph *self, f32 *pos, f32 *size) {
+void fn_8007F27C(TDLGraph *self, const NJS_POINT2 *pos, const NJS_POINT2 *size) {
+    NJS_POINT2 v[4];
     u32 col[4];
-    f32 v[8];
-    f32 x0 = pos[0] - 2.0f;
-    f32 y0 = pos[1] - 2.0f;
-    f32 y1 = 2.0f + (pos[1] + size[1]);
-    f32 x1 = 2.0f + (pos[0] + size[0]);
-    VtxList_8007F27C vl = { NULL, NULL, 0, 4 };
+    VtxList_8007F27C vl = lbl_80438AB4;
+    const f32 margin = 2.0f;
     vl.pos = v;
     vl.col = col;
     col[0] = col[1] = col[2] = col[3] = 0xFF;
-    v[0] = v[6] = x0;
-    v[2] = v[4] = x1;
-    v[1] = v[3] = y0;
-    v[5] = v[7] = y1;
+    v[0].x = v[3].x = pos->x - margin;
+    v[1].x = v[2].x = margin + (pos->x + size->x);
+    v[0].y = v[1].y = pos->y - margin;
+    v[2].y = v[3].y = margin + (pos->y + size->y);
     ((TObjCMHairMenu *)&vl)->draw_tri_fan_2d(4, 2, -2.0f);
-    x0 = pos[0];
-    y0 = pos[1];
-    x1 = size[0];
-    y1 = size[1] + y0;
+
     col[0] = col[1] = col[2] = col[3] = self->m_34;
-    v[0] = v[6] = x0;
-    v[2] = v[4] = x1 * self->m_1c + x0;
-    v[1] = v[3] = y0;
-    v[5] = v[7] = y1;
-    ((TObjCMHairMenu *)&vl)->draw_tri_fan_2d(4, 2, -1.0f);
-    x0 = size[0] + pos[0];
+    v[0].x = v[3].x = pos->x;
+    v[1].x = v[2].x = size->x * self->m_1c + pos->x;
+    v[0].y = v[1].y = pos->y;
+    v[2].y = v[3].y = size->y + pos->y;
+    ((TObjCMHairMenu *)&vl)->draw_tri_fan_2d(4, 2, lbl_805D92B8);
+
     col[0] = col[1] = col[2] = col[3] = self->m_38;
-    v[0] = v[6] = x0;
-    ((TObjCMHairMenu *)&vl)->draw_tri_fan_2d(4, 2, -1.0f);
+    v[0].x = v[3].x = size->x + pos->x;
+    ((TObjCMHairMenu *)&vl)->draw_tri_fan_2d(4, 2, lbl_805D92B8);
 }
 #pragma pop
 
