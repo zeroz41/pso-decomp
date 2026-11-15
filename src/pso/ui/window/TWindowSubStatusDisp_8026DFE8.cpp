@@ -14,6 +14,8 @@
 #include "pso/unk/TLobby_8026B06C.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 
+extern const char lbl_805DD348[] = ":";
+
 struct RecoveredGlobal_8026E110_lbl_804D0948 {
     s32 value;
     u8 remaining[0x1C];

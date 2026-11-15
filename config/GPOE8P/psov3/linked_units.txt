@@ -2673,3 +2673,4 @@ pso/effect/TEF_LensFlare.cpp
 pso/ui/window/TWindowSubStatusDisp_8027FD88.cpp
 pso/weapon/TItemAttackCol.cpp
 pso/ui/hud/TRaderMapCore.cpp
+pso/ui/window/TWindowSubStatusDisp_8026DFE8.cpp
