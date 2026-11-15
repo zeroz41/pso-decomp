@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
@@ -105,11 +106,6 @@ struct TextEntry {
     f32 height;
 };
 
-struct Vec2f {
-    f32 x;
-    f32 y;
-};
-
 void measure_message_text_width(TextEntry *entry, f32 max_width);
 void refresh_status_display__9TWindowDDFv(TextEntry *entry);
 
@@ -121,9 +117,9 @@ static const u8 chat_shortcut_icons[4] = {0x12, 0x10, 0x11, 0};
 void TWindowShortCut::sub_8026E1D4(s32 index, s32 *chat_shortcut) {
     u8 first_icon;
     u8 second_icon;
-    Vec2f pos;
+    NJS_POINT2 pos;
     s32 type;
-    Vec2f size;
+    NJS_POINT2 size;
 
     TextEntry *title = (TextEntry *)this->get_array_entry(0);
     TextEntry *button_icon = (TextEntry *)this->get_array_entry(2);
@@ -138,19 +134,19 @@ void TWindowShortCut::sub_8026E1D4(s32 index, s32 *chat_shortcut) {
     set_text_entry_string((u8 *)title, (u32)TWindowSubStatusDisp::get_message_10(0xC4), 0);
     fn_80266BD0(index, &first_icon, &second_icon, this->m_20);
     if (first_icon != 0x33) {
-        const Vec2f *uv = (const Vec2f *)TWindowSubStatusDisp::get_entry_ptr(first_icon);
+        const NJS_POINT2 *uv = (const NJS_POINT2 *)TWindowSubStatusDisp::get_entry_ptr(first_icon);
         button_icon->flags &= ~2;
         set_sprite_uv_from_pixels((u8 *)button_icon, uv->x, uv->y);
     } else {
         button_icon->flags |= 2;
     }
 
-    const Vec2f *pad_uv = (const Vec2f *)TWindowSubStatusDisp::get_entry_ptr(second_icon);
+    const NJS_POINT2 *pad_uv = (const NJS_POINT2 *)TWindowSubStatusDisp::get_entry_ptr(second_icon);
     set_sprite_uv_from_pixels((u8 *)pad_icon, pad_uv->x, pad_uv->y);
     set_text_entry_string((u8 *)type_label, (u32)TWindowSubStatusDisp::get_message_10(0xC5), 0);
     set_text_entry_string((u8 *)type_name, (u32)TWindowSubStatusDisp::get_message_10(0xC0 + type), 0);
     const s32 type_sprite = chat_shortcut_icons[type - 1];
-    const Vec2f *type_uv = (const Vec2f *)TWindowSubStatusDisp::get_entry_ptr(type_sprite);
+    const NJS_POINT2 *type_uv = (const NJS_POINT2 *)TWindowSubStatusDisp::get_entry_ptr(type_sprite);
     set_sprite_uv_from_pixels((u8 *)type_icon, type_uv->x, type_uv->y);
 
     pos.x = 211.0f;
