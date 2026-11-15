@@ -138,11 +138,11 @@ void TEF_LensFlare::render() {
         if (d > 0.0f) {
             f32 screen[2];
             Vec at;
-            f32 t;
             f32 dx;
+            f32 t;
             f32 dy;
-            s32 i;
             LensFlareElement *e;
+            s32 i;
 
             set_depth_buffer_settings_1();
             project_world_to_screen(0, &position, screen);
@@ -156,13 +156,14 @@ void TEF_LensFlare::render() {
                 glow.argb.r = 0xFF;
                 glow.argb.g = 0xFF;
                 glow.argb.b = 0xFF;
+                glow.argb.a = 255.0f * (0.9f * s);
                 at.x = screen[0];
                 at.y = screen[1];
                 at.z = 0.0f;
-                glow.argb.a = 255.0f * (0.9f * s);
                 sprite.color = glow.color;
                 VecCopy(&sprite.pos, &at);
-                sprite.scale_x = sprite.scale_y = 20.0f * s;
+                sprite.scale_x = 20.0f * s;
+                sprite.scale_y = sprite.scale_x;
                 begin_screen_draw(1);
                 TObjFish::set_global_param(lbl_804C5820[15].param);
                 set_draw_texture_and_color(lbl_804C5820[15].tex, -1);
@@ -202,7 +203,8 @@ void TEF_LensFlare::render() {
                 at.y = screen[1];
                 at.z = 0.0f;
                 VecCopy(&sprite.pos, &at);
-                sprite.scale_x = sprite.scale_y = 1.0f;
+                sprite.scale_x = 1.0f;
+                sprite.scale_y = sprite.scale_x;
                 begin_screen_draw(1);
                 TObjFish::set_global_param(lbl_804C5820[9].param);
                 set_draw_texture_and_color(lbl_804C5820[9].tex, -1);
@@ -221,7 +223,8 @@ void TEF_LensFlare::render() {
                 TWindowSubStatusDisp::get_player();
             }
             e = elements;
-            for (i = 0; i < 9; i++) {
+            i = 0;
+            while (i++ < 9) {
                 NJS_COLOR tint;
                 FlareQuad quad;
                 f32 w;
@@ -239,7 +242,8 @@ void TEF_LensFlare::render() {
                 at.y = dy * e->position + screen[1];
                 at.z = 0.0f;
                 VecCopy(&sprite.pos, &at);
-                sprite.scale_y = sprite.scale_x = size;
+                sprite.scale_x = size;
+                sprite.scale_y = sprite.scale_x;
                 begin_screen_draw(1);
                 TObjFish::set_global_param(lbl_804C5820[e->sprite + 9].param);
                 set_draw_texture_and_color(lbl_804C5820[e->sprite + 9].tex, -1);
