@@ -12,7 +12,6 @@ void free_field_98_and_clear(void *self);
 s16 get_checked_status_value(s16 arg0);
 u16 get_field_4(void *self);
 void handle_request_timeout(void *self);
-void init_md5_state(void *self);
 void init_net_block_620(void);
 s32 init_net_block_620_secondary(void);
 void init_net_state_a(void);
@@ -371,7 +370,7 @@ extern s16 TLobby__sub_803FC820(Conn_804004DC *c, u8 *hdr, int v) {
     s32 code;
     s16 ret;
     PppFrame *reply;
-    u8 ctx[0x58];
+    MD5Context ctx;
 
     name = NULL;
     value = NULL;
@@ -423,10 +422,10 @@ extern s16 TLobby__sub_803FC820(Conn_804004DC *c, u8 *hdr, int v) {
     } else {
         len = NetStringLength(chap->secret);
     }
-    init_md5_state((void *)ctx);
-    TLobby__sub_80401EB8(ctx, lbl_805C02D0.p18, len + 1);
-    TLobby__sub_80401EB8(ctx, lbl_805C02D0.p8 + 1, lbl_805D7A9A);
-    TLobby__sub_80401D2C((u8 *)lbl_805C02D0.p20, (u32 *)ctx);
+    init_md5_state(&ctx);
+    TLobby__sub_80401EB8(&ctx, lbl_805C02D0.p18, len + 1);
+    TLobby__sub_80401EB8(&ctx, lbl_805C02D0.p8 + 1, lbl_805D7A9A);
+    TLobby__sub_80401D2C((u8 *)lbl_805C02D0.p20, &ctx);
     if (NetMemcmp(lbl_805C02D0.p20, value, 0x10) == 0) {
         NetCopyString(lbl_805C02D0.p20, (const char *)lbl_8047FE08);
         code = 3;
@@ -472,7 +471,7 @@ extern void TLobby__sub_803FCC10(void *self_, void *src_, int v)
   u8 *src;
   int count;
   u8 *r28;
-  u8 ctx[0x58];
+  MD5Context ctx;
   u8 *new_var;
   u8 *dst1;
   u8 *out;
@@ -535,9 +534,9 @@ extern void TLobby__sub_803FCC10(void *self_, void *src_, int v)
   pq = (u8 **) (g + 0x16c);
   NetMemset(*pq, 0, *((s16 *) (g + 0x182)));
   *(*pq) = 0x10;
-  init_md5_state((void *) ctx);
-  TLobby__sub_80401EB8(ctx, *pp, (u32) (n + cnt));
-  TLobby__sub_80401D2C((*pq) + 1, (u32 *) ctx);
+  init_md5_state(&ctx);
+  TLobby__sub_80401EB8(&ctx, *pp, (u32) (n + cnt));
+  TLobby__sub_80401D2C((*pq) + 1, &ctx);
   NetMemcpy((*pq) + 0x11, *((void **) r28), r22);
   r28[0xe] = src[1];
   *((u16 *) (r28 + 0x10)) = r22 + 0x11;

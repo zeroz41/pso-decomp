@@ -7,6 +7,7 @@
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_803FC178.h"
 #include "pso/network/TLobby_804048E8.h"
+#include "pso/network/PppMd5.h"
 
 /* Shared by the PPP files split out of TLobby_803FCF44.c: NetPppLink.c, PppFsm.c, PppIpcp.c, PppLcp.c, PppBuffer.c,
  * PppMd5.c, NetByteOrder.c, PppPap.c, PppControl.c and PppVj.c (CHAP is TLobby_803FC178.c). */
@@ -148,8 +149,8 @@ s16 TLobby__sub_803FE8BC(u8 *dst, void *src);
 s16 TLobby__sub_80403308(u8 *self, u8 *src, PppFrame *val);
 void TLobby__sub_80400ACC(O_80400ACC *o);
 PppFrame *TLobby__sub_80401B20(void *src, u16 n);
-void TLobby__sub_80401EB8(u8* self_m, u8* src, u32 len);
-void TLobby__sub_80401D2C(u8 *dst, u32 *self_m);
+void TLobby__sub_80401EB8(MD5Context *context, u8 *input, u32 inputLen);
+void TLobby__sub_80401D2C(u8 *dst, MD5Context *ctx);
 #ifdef __cplusplus
 }
 #endif

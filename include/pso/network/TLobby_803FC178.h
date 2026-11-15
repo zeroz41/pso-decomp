@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/network/NetStackTypes.h"
+#include "pso/network/PppMd5.h"
 
 /* TLobby_803FC178.c: PPP (LCP/IPCP/CHAP/PAP, MD5), the connection state machine and the stack's buffer streams. */
 typedef struct Blk24_8047FE50 Blk24_8047FE50;
@@ -54,7 +55,7 @@ void free_field_98_and_clear(void *self);
 s16 get_checked_status_value(s16 arg0);
 u16 get_field_4(void *self);
 void handle_request_timeout(void *self);
-void init_md5_state(void *self);
+void init_md5_state(MD5Context *ctx);
 void init_net_block_620(void);
 s32 init_net_block_620_secondary(void);
 void init_net_state_a(void);
