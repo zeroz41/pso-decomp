@@ -143,7 +143,6 @@ void clear_position(TcpTcb *tcb) {
 }
 
 s32 TLobby__sub_8041D460(TcpTcb *tcb, s32 *p1, s32 *p2);
-void TLobby__sub_8041D398();
 #pragma push
 #pragma opt_common_subs on
 #pragma opt_propagation off
@@ -336,7 +335,7 @@ send:
         optlen = 0;
         th->ack = tp->rcv_nxt;
         if (flags & 2) {
-            tp->f2EC = 0;
+            tp->rexmit_bytes = 0;
             reset_slot_index(tp);
             opt[0] = 2;
             optp = opt;
@@ -443,10 +442,12 @@ send:
                 tp->f2F0 += len;
             }
             if (len > 0) {
-                if ((s32)(off + len + tp->snd_una - tp->snd_nxt) > 0) {
+                s32 first = tp->snd_una + off;
+                s32 last = len + first;
+                if ((s32)(last - tp->snd_nxt) > 0) {
                     tp->snd_nxt += len;
                 } else {
-                    TLobby__sub_8041D398(tp);
+                    TLobby__sub_8041D398(tp, first, last);
                 }
             }
             if ((s32)(tp->snd_nxt - tp->snd_max) > 0) {
@@ -1596,7 +1597,7 @@ extern s32 TLobby__sub_8041A6A4(TcpTcb *tcb, s16 timer) {
             tcb->srtt = 0;
         }
         reset_slot_index((void *)tcb);
-        tcb->f2EC = 0;
+        tcb->rexmit_bytes = 0;
         tcb->f2F0 = 0;
         tcb->f2F4 = tcb->snd_una;
         tcb->snd_nxt = tcb->snd_una;
@@ -1687,44 +1688,41 @@ void reset_slot_index(TcpTcb *tcb) {
     tcb->edge = tcb->una;
 }
 
-void TLobby__sub_8041D398(u8* self, s32 a, s32 b) {
-    u8* p = self;
-    u8* q = self;
+void TLobby__sub_8041D398(TcpTcb *tp, s32 first, s32 last) {
     s16 i;
-    s32 key;
-    *(s32*)(self + offsetof(TcpTcb, f2EC)) += b - a;
-    for (i = 0; i <= *(s16*)(self + offsetof(TcpTcb, seg_top)); p += 0x10, q += 0x10, i++) {
-        key = *(s32*)(p + offsetof(TcpTcb, segs[0].start));
-        if (a - key < 0) {
+    s32 start;
+
+    tp->rexmit_bytes += last - first;
+    for (i = 0; i <= tp->seg_top; i++) {
+        start = tp->segs[i].start;
+        if (first - start < 0) {
             if (i == 0) {
-                if (b - key <= 0) {
-                    if (b - *(s32*)(self + offsetof(TcpTcb, edge)) < 0) {
+                if (last - start <= 0) {
+                    if (last - tp->edge < 0) {
                         return;
                     }
-                    *(s32*)(self + offsetof(TcpTcb, edge)) = b;
-                    *(s32*)(self + offsetof(TcpTcb, stamp)) = *(s32*)(self + offsetof(TcpTcb, snd_max));
+                    tp->edge = last;
+                    tp->stamp = tp->snd_max;
                     return;
-                } else {
-                    *(s32*)(self + offsetof(TcpTcb, edge)) = key;
-                    *(s32*)(self + offsetof(TcpTcb, stamp)) = *(s32*)(self + offsetof(TcpTcb, snd_max));
                 }
+                tp->edge = start;
+                tp->stamp = tp->snd_max;
             } else {
-                if (b - key <= 0) {
-                    u8* e = self;
+                if (last - start <= 0) {
+                    u8 *e = (u8 *)tp;
                     s32 off = i * 16;
                     e += off;
-                    if (b - *(s32*)(e += 0x328) < 0) {
+                    if (last - *(s32 *)(e += offsetof(TcpTcb, edge)) < 0) {
                         return;
                     }
-                    *(s32*)e = b;
-                    e = self;
+                    *(s32 *)e = last;
+                    e = (u8 *)tp;
                     e += off;
-                    *(s32*)(e + offsetof(TcpTcb, stamp)) = *(s32*)(self + offsetof(TcpTcb, snd_max));
+                    *(s32 *)(e + offsetof(TcpTcb, stamp)) = tp->snd_max;
                     return;
-                } else {
-                    *(s32*)(q + offsetof(TcpTcb, edge)) = key;
-                    *(s32*)(q + offsetof(TcpTcb, stamp)) = *(s32*)(self + offsetof(TcpTcb, snd_max));
                 }
+                tp->segs[i - 1].edge = start;
+                tp->segs[i - 1].stamp = tp->snd_max;
             }
         }
     }
@@ -1798,15 +1796,15 @@ void TLobby__sub_8041D584(TcpTcb *tcb, Th_8041D584 *th, Sack_8041D584 *blocks, s
                 break;
             }
             if (th->ack - tcb->edge > 0) {
-                tcb->f2EC -= tcb->edge - tcb->una;
+                tcb->rexmit_bytes -= tcb->edge - tcb->una;
                 tcb->edge = th->ack;
-                if (tcb->f2EC < 0) {
-                    tcb->f2EC = 0;
+                if (tcb->rexmit_bytes < 0) {
+                    tcb->rexmit_bytes = 0;
                 }
             } else {
-                tcb->f2EC -= th->ack - tcb->una;
-                if (tcb->f2EC < 0) {
-                    tcb->f2EC = 0;
+                tcb->rexmit_bytes -= th->ack - tcb->una;
+                if (tcb->rexmit_bytes < 0) {
+                    tcb->rexmit_bytes = 0;
                 }
             }
             if (th->ack - tcb->segs[0].end >= 0) {
@@ -1848,10 +1846,10 @@ void TLobby__sub_8041D584(TcpTcb *tcb, Th_8041D584 *th, Sack_8041D584 *blocks, s
         }
         if (start - tcb->segs[0].start <= 0) {
             if (start - tcb->edge < 0) {
-                tcb->f2EC -= tcb->edge - start;
+                tcb->rexmit_bytes -= tcb->edge - start;
                 tcb->edge = b->start;
-                if (tcb->f2EC < 0) {
-                    tcb->f2EC = 0;
+                if (tcb->rexmit_bytes < 0) {
+                    tcb->rexmit_bytes = 0;
                 }
             }
             insert_item_at(tcb, 0, b->start, b->end);
@@ -1866,26 +1864,26 @@ void TLobby__sub_8041D584(TcpTcb *tcb, Th_8041D584 *th, Sack_8041D584 *blocks, s
                         continue;
                     }
                     if (end - tcb->segs[j - 1].edge > 0) {
-                        tcb->f2EC -= tcb->segs[j - 1].edge - tcb->segs[j - 1].end;
+                        tcb->rexmit_bytes -= tcb->segs[j - 1].edge - tcb->segs[j - 1].end;
                         tcb->segs[j - 1].end = b->end;
                         tcb->segs[j - 1].edge = b->end;
-                        if (tcb->f2EC < 0) {
-                            tcb->f2EC = 0;
+                        if (tcb->rexmit_bytes < 0) {
+                            tcb->rexmit_bytes = 0;
                         }
                     } else {
-                        tcb->f2EC -= end - tcb->segs[j - 1].end;
+                        tcb->rexmit_bytes -= end - tcb->segs[j - 1].end;
                         tcb->segs[j - 1].end = b->end;
-                        if (tcb->f2EC < 0) {
-                            tcb->f2EC = 0;
+                        if (tcb->rexmit_bytes < 0) {
+                            tcb->rexmit_bytes = 0;
                         }
                     }
                     j = j - 1;
                 } else {
                     if (start - tcb->segs[j - 1].edge < 0) {
-                        tcb->f2EC -= tcb->segs[j - 1].edge - start;
+                        tcb->rexmit_bytes -= tcb->segs[j - 1].edge - start;
                         tcb->segs[j - 1].edge = b->start;
-                        if (tcb->f2EC < 0) {
-                            tcb->f2EC = 0;
+                        if (tcb->rexmit_bytes < 0) {
+                            tcb->rexmit_bytes = 0;
                         }
                     }
                     insert_item_at(tcb, j, b->start, b->end);
@@ -1901,17 +1899,17 @@ void TLobby__sub_8041D584(TcpTcb *tcb, Th_8041D584 *th, Sack_8041D584 *blocks, s
             d = tcb->segs[j].end - tcb->segs[j + 1].end;
             if (0 <= d) {
                 if (tcb->segs[j + 1].edge - tcb->segs[j].end > 0) {
-                    tcb->f2EC -= d;
+                    tcb->rexmit_bytes -= d;
                     tcb->segs[j].edge = tcb->segs[j + 1].edge;
                     remove_8041D584(tcb, j + 1);
-                    if (tcb->f2EC < 0) {
-                        tcb->f2EC = 0;
+                    if (tcb->rexmit_bytes < 0) {
+                        tcb->rexmit_bytes = 0;
                     }
                 } else {
-                    tcb->f2EC -= tcb->segs[j + 1].edge - tcb->segs[j + 1].end;
+                    tcb->rexmit_bytes -= tcb->segs[j + 1].edge - tcb->segs[j + 1].end;
                     remove_8041D584(tcb, j + 1);
-                    if (tcb->f2EC < 0) {
-                        tcb->f2EC = 0;
+                    if (tcb->rexmit_bytes < 0) {
+                        tcb->rexmit_bytes = 0;
                     }
                 }
             } else {

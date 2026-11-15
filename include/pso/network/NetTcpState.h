@@ -135,7 +135,7 @@ struct TcpTcb {
     u8 f2DC[0xC];
     u8 sack_flags; /* 1 SACK enabled (option 0x2002), 2 the peer sent SACK-permitted */
     u8 pad2E9[3];
-    s32 f2EC;
+    s32 rexmit_bytes; /* bytes resent from the scoreboard: TLobby__sub_8041D398 adds each resent range, ACKs take them off */
     s32 f2F0;
     u32 f2F4;
     TcpSeqRange sack[5]; /* SACK blocks to report */
@@ -193,6 +193,8 @@ extern "C" {
 extern TcpState tcp_protocol_state;
 
 s16 TLobby__sub_8041A9AC(TcpTcb *tcb);
+/* NetTcp.c: account the resent range [first, last) against the retransmit scoreboard (segs[]). */
+void TLobby__sub_8041D398(TcpTcb *tp, s32 first, s32 last);
 /* NetTcp.c: start sending a queued packet on connection arg0. */
 s16 tcp_start_send(s16 arg0, NetPacket *arg1, void (*completion)(s16, s16), u8 arg3);
 
