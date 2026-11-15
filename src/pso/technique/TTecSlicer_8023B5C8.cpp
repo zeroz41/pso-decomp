@@ -28,6 +28,18 @@ s32 all_parents_unqueued_for_destruction__7TObjectFv();
 typedef struct { f32 r, g, b, a; } Col_8023B220;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
+}
+
+// The z rotation init_launch_angles gives a slicer, by remaining count + 3 * has_valid_handle.
+const s32 TTecSlicer__launch_angle_table[18] = {
+    -0x1555, 0x4000, 0x7555, 0x2000, -0x6000, -0x1555, 0x0AAA, 0x4000, -0x0AAA,
+    -0x1555, 0x4000, 0x7555, 0x2000, -0x6000, -0x1555, 0x2000, -0x6000, -0x1555,
+};
+
+const char *TTecSlicer__name = "TTecSlicer";
+const char *TSlicerHistory__name = "TSlicerHistory";
+
+extern "C" {
 
 void TSlicerHistory::render() {
     u8 *arg0 = (u8 *)this;
@@ -79,12 +91,11 @@ extern "C" {
 s32 __ct__7TObjectFP7TObject();
 
 extern s32 __vt__14TSlicerHistory[];
-extern s32 TSlicerHistory__name;
 
 u8 *__ct__14TSlicerHistoryFv(u8 *arg0, u8 *arg1, s32 arg2, u8 *arg3, s32 arg4) {
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TSlicerHistory;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TSlicerHistory__name;
+    ((TObject *)arg0)->m_name = TSlicerHistory__name;
     copy_xyz(arg0 + 0x1C, (void *)(arg1 + 0x5C));
     VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(arg1 + 0x38));
     *(s32 *)((s8 *)arg0 + 0x38) = arg2;
@@ -179,12 +190,6 @@ void fn_8023B590(TTecSlicerTargets_8023B454 *o, u16 v, s8 b) {
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/system/task/TObject.h"
-
-struct RecoveredGlobal_8023B770_lbl_8044DC20
-{
-  s32 value;
-  u8 remaining[0x44];
-};
 
 struct RecoveredFields_8023B770_var_r29
 {
@@ -294,7 +299,7 @@ struct Init_8023BBB4 {
 };
 
 struct Slicer_8023BBB4 {
-    s32 f0;
+    const char *name;
     u8 pad4[0x14];
     void *vt;
     u8 pad1c[8];
@@ -339,7 +344,6 @@ u32 __nw__7TObjectFUl(s32);
 void __dl__7TObjectFPv(void *);
 void dt__10TTecSlicerFls(void *, int);
 extern s32 __vt__10TTecSlicer[];
-extern RecoveredGlobal_8023B770_lbl_8044DC20 TTecSlicer__launch_angle_table;
 void destroy_if_set__10TTecSlicerFv(u32);
 
 extern s32 saved_model_render_flags;
@@ -354,7 +358,6 @@ void __ct__8TObjBaseFP7TObject(void *, s32);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 f32 vector_length(void *);
-extern s32 TTecSlicer__name;
 extern s32 tl_05;
 u32 csnVector(s32, s32, s32);
 
@@ -395,8 +398,6 @@ void TTecSlicer::advance_position() {
 #pragma pop
 
 typedef struct RecoveredFields_8023B770_var_r29 RecoveredFields_8023B770_var_r29;
-typedef struct RecoveredGlobal_8023B770_lbl_8044DC20 RecoveredGlobal_8023B770_lbl_8044DC20;
-typedef char RecoveredGlobal_8023B770_lbl_8044DC20_size[((sizeof(RecoveredGlobal_8023B770_lbl_8044DC20)) == 0x48) ? (1) : (-1)];
 
 void TTecSlicer::set_launch_midpoint(void *unused, void *a_arg, void *b_arg) {
     Obj_8023B72C *self = (Obj_8023B72C *)this;
@@ -430,9 +431,7 @@ void TTecSlicer::init_launch_angles(s32 *arg0, s32 *arg1, s32 arg2) {
   var_r31 = (s32) ((TTecSlicer *)var_r3)->get_remain_count();
   var_r3 = (s32 *) var_r30;
   temp_r0 = ((TObjPlayer *)var_r3)->has_valid_handle() * 3;
-  var_r3 = (s32 *)&TTecSlicer__launch_angle_table.value;
-  var_r3 = (s32 *)&TTecSlicer__launch_angle_table.value;
-  ((RecoveredFields_8023B770_var_r29 *) var_r29)->field_64 = (s32) (*((s32 *) (((s8 *)&TTecSlicer__launch_angle_table.value) + ((var_r31 + temp_r0) * 4))));
+  ((RecoveredFields_8023B770_var_r29 *) var_r29)->field_64 = TTecSlicer__launch_angle_table[var_r31 + temp_r0];
   pop_matrix();
 }
 
@@ -565,7 +564,7 @@ s32 TTecSlicer__ct(void *arg0, void *arg1, void *arg2, void *arg3, int arg4) {
     __ct__8FlagWordFv((self->fwd));
     ((TTecSlicer *)(self->fc8))->reset_fields_1e();
     ((TTecSlicer *)(self->fe8))->reset_fields_1e();
-    self->f0 = TTecSlicer__name;
+    self->name = TTecSlicer__name;
     ((TObject *)((TObject *)self))->TObject::disallow_rendering();
     ((TObjBase *)self)->set_entity_id(pop_free_entity_id());
     self->f110 = init->f8;
