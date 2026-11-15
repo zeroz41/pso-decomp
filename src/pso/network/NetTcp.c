@@ -24,7 +24,6 @@
 s32 abort_tcp_connection(s16 arg0);
 void clear_position(TcpTcb *tcb);
 s32 close_if_open(TcpTcb *tcb);
-s32 compare_sockaddr(NetworkAddress *a, NetworkAddress *b);
 s32 get_field_534(TcpTcb *tcb);
 s32 get_field_d8(TcpTcb *tcb);
 s32 get_queue_diff(TcpTcb *tcb);

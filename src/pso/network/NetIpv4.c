@@ -80,7 +80,6 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   int new_var2;
   unsigned char mf;
   u32 s;
-  s16 TLobby__sub_8040FE40(s16); /* declared s16 here; the definition returns s32 */
   s32 TLobby__sub_80418C40(u8* self, void* p1, s16 p2, u8 p3, u32 p4, void* p5, u16 p6, u8 p7, s16 p8);
   s16 TLobby__sub_8041B974(void *, void *, void *); /* declared s16 here; the definition is s32 (u8 *, u8 *, u8 *) */
   s16 udp_input(void *, void *, void *, s16); /* declared s16 here; the definition is s32 (O_80420DE4 *, NetworkAddress *, NetworkAddress *, s32) */
@@ -318,7 +317,6 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
 
 s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
 {
-  s16 TLobby__sub_8040EF00(s16);
   u16 TUdpSocket__sub_80419864(void *, s16);
   s16 cnt8;
   u8 *rt;
@@ -515,7 +513,6 @@ s16 TLobby__sub_8040E780(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void 
   s16 r;
   u8 *new_var;
   u32 s;
-  s16 TLobby__sub_8040EF00(s16); /* declared s16 here; the definition returns s32 */
   struct 
   {
     s64 a;

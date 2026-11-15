@@ -1383,15 +1383,15 @@ void TLobby__sub_804136CC(s16 i) {
     is_socket_flag_set(i);
 }
 
-s32 TLobby__sub_804136EC(void *self) {
+s16 TLobby__sub_804136EC(void *self) {
     Ipv6State *base = &ipv6_address_routing_state;
-    s32 i;
-    s32 j;
+    s16 i;
+    s16 j;
     u8 *e;
     u8 *n;
     s32 r;
     s16 c;
-    for (i = 0, e = (u8 *)base->ifaces; (s16)i < base->count; i++, e += sizeof(Ipv6Iface)) {
+    for (i = 0, e = (u8 *)base->ifaces; i < base->count; i++, e += sizeof(Ipv6Iface)) {
         if (*(s16 *)e == 1) {
             r = NetMemcmp(e + offsetof(Ipv6Iface, addr), self, 0x10);
             if (r < 0) c = -1;
@@ -1400,7 +1400,7 @@ s32 TLobby__sub_804136EC(void *self) {
             if (c == 0) {
                 return i;
             }
-            for (n = *(u8 **)(e + offsetof(Ipv6Iface, addrs)), j = 0; n != 0 && (s16)j < base->max_addrs; n = *(u8 **)(n + offsetof(Ipv6AddrNode, next)), j++) {
+            for (n = *(u8 **)(e + offsetof(Ipv6Iface, addrs)), j = 0; n != 0 && j < base->max_addrs; n = *(u8 **)(n + offsetof(Ipv6AddrNode, next)), j++) {
                 r = NetMemcmp(n + offsetof(Ipv6AddrNode, addr), self, 0x10);
                 if (r < 0) c = -1;
                 else if (r > 0) c = 1;
@@ -2150,9 +2150,9 @@ s16 NetIPv6IsUnspecified(u8 *arg0) {
     return 1;
 }
 
-s32 NetIPv6CompareAddresses(s32 arg0, s32 arg1) {
+s16 NetIPv6CompareAddresses(u8 *a, u8 *b) {
     s32 temp_r3;
-    temp_r3 = NetMemcmp((void *)arg0, (void *)arg1, 0x10);
+    temp_r3 = NetMemcmp(a, b, 0x10);
     if (temp_r3 < 0) {
         return -1;
     }

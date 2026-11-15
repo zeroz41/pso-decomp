@@ -78,7 +78,7 @@ extern s16 TLobby__sub_8040EDE4(void *self, u32 key, s16 id) {
 }
 #pragma push
 #pragma opt_common_subs on
-s32 TLobby__sub_8040EF00(s16 arg0) {
+s16 TLobby__sub_8040EF00(s16 arg0) {
     Ipv4Iface *ifc;
     if ((arg0 < 0) || (arg0 >= ipv4_address_routing_state.nifaces)) {
         return -0x109;
@@ -712,7 +712,7 @@ s16 NetIPv4IsUnspecified(u32 arg0) {
 
 #pragma push
 #pragma opt_common_subs on
-s32 TLobby__sub_8040FE40(s16 arg0) {
+s16 TLobby__sub_8040FE40(s16 arg0) {
     Ipv4Iface *ifc;
     if ((arg0 < 0) || (arg0 >= ipv4_address_routing_state.nifaces)) {
         ifc = NULL;
@@ -744,7 +744,7 @@ s16 *get_active_entry_by_index(s16 arg0) {
 }
 #pragma pop
 
-s32 TLobby__sub_8040FEE4(s32 arg0, s32 arg1) {
+s16 TLobby__sub_8040FEE4(s32 arg0, s32 arg1) {
     s32 temp_r0;
     temp_r0 = arg0 - arg1;
     if (temp_r0 < 0) {

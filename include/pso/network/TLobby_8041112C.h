@@ -190,7 +190,7 @@ s32 TLobby__sub_804136AC(s16 i);
 void TLobby__sub_804136CC(s16 i);
 s16 NetIPv6IsLoopback(u8 *arg0);
 s16 NetIPv6IsUnspecified(u8 *arg0);
-s32 NetIPv6CompareAddresses(s32 arg0, s32 arg1);
+s16 NetIPv6CompareAddresses(u8 *a, u8 *b);
 s16 TLobby__sub_8041510C(void);
 void TLobby__sub_804150EC(void);
 void TLobby__sub_8041615C(void);
@@ -200,7 +200,7 @@ s16 NetIPv6EmitNeighborSolicitation(int arg0, void *arg1, void *arg2, s16 arg3, 
 s32 NetIPv6SendUnspecifiedSourceNeighborSolicitation(s32 arg0, s16 arg1);
 s16 TLobby__sub_804112B8(s32 arg0, s32 arg1, s16 arg2);
 s16 TLobby__sub_8041123C(s32 arg0, s32 arg1, s16 arg2);
-s32 TLobby__sub_804136EC(void *self);
+s16 TLobby__sub_804136EC(void *self);
 s16 TLobby__sub_8041579C(NetBufferRef *self);
 s16 TLobby__sub_80415954(void *out_, int size, s16 owner);
 s32 NetCompareBitsBackward(u8 *arg0, u8 *arg1, s16 arg2);
