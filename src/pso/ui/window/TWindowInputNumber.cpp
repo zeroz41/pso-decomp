@@ -14,6 +14,10 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/WindowLayoutRecord.h"
 
+const char *TWindowInputNumber__name = "TWindowInputNumber";
+// Value of one step at each digit position (1 .. 1000000).
+static const s32 number_input_decimal_place_values[7] = {1, 10, 100, 1000, 10000, 100000, 1000000};
+
 // inferred: window_input_number_layout_entries, the layout table window_input_number_layout points at.
 struct InputNumberWindowLayout {
     u32 cols;
@@ -58,7 +62,6 @@ void TWindowInputNumber::confirm_input() {
     }
 }
 
-extern s32 number_input_decimal_place_values[];
 
 void TWindowInputNumber::update() {
     play_sound_effect(0x54100, 0, 0, 0);
@@ -155,7 +158,6 @@ struct Win_80256354 { u8 p0[0x62]; s8 f62; u8 p63[5]; s32 f68; };
 extern "C" {
 void construct_base__9TWindowDDFPUcsPUc(void *, void *, s16, void *);
 extern s32 __vt__18TWindowInputNumber[];
-extern s32 TWindowInputNumber__name;
 extern s8 controller_input_state[];
 u8 test_input_flag__18TWindowInputNumberFv(u8 *arg0);
 void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *, Ctx_802563A0 *, Digit_802561E8 *, int);

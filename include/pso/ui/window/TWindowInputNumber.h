@@ -11,7 +11,7 @@ struct TWindowInputNumber {
     void refresh_digit_entries();
     void align_digits();
     void render();
-    u32 className;
+    const char *className;
     u8 unknown04[0x14];
     void *objectVtable;
     u8 unknown1C[4];

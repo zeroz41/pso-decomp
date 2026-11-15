@@ -673,6 +673,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/item/shop/ShopToolStock.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/item/shop/ShopWeaponStock.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowSubStatusDisp_80228CC0.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # its class-name string sits in .rodata ahead of the decimal place table: readonly strings.
+    "pso/ui/window/TWindowInputNumber.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -str reuse,readonly: every string of the TU sits in .rodata: the class name 0x8044F520 and
     # "LEVEL " 0x8044F534, "HP +" 0x8044F53C, "TP +" 0x8044F544.
     "pso/ui/window/TWindowSetLevelUp.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
