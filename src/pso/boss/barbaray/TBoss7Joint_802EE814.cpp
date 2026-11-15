@@ -22,7 +22,7 @@ void TBoss7Joint::init_boss_stats() {
     *(s16 *)((s8 *)((u8 *)this) + 0x2B8) = 0x4E20;
     u32 p = __nw__7TObjectFUl(0x2C);
     if (p != 0U) {
-        TObjPlayer__sub_802E72DC((void *)p, this, ((u8 *)this) + 0x38, *(s32 *)((s8 *)((u8 *)this) + 0x3B8));
+        TObjPlayer__sub_802E72DC((void *)p, this, ((u8 *)this) + 0x38, index);
     }
     play_sound_effect(0x3A312, ((u8 *)this) + 0x38, 0, 0);
 }
