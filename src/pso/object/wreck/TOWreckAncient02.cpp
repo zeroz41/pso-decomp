@@ -15,7 +15,7 @@ TOWreckAncient02::~TOWreckAncient02() {
 
 }
 
-extern const char *TOWreckAncient02__name;
+const char *TOWreckAncient02__name = "TOWreckAncient02";
 
 TOWreckAncient02::TOWreckAncient02(void *set_data) : TOWreckAncient(0) {
     m_name = TOWreckAncient02__name;

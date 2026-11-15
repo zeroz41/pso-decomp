@@ -161,11 +161,11 @@ void *__dt__26TWindowSubInformationBoardFv(TWindowSubInformationBoard *arg0, s16
     return arg0;
 }
 
-extern void *lbl_805D4348;
+const char *lbl_805D4348 = "TWindowSubInformationBoard";
 
 }
 TWindowSubInformationBoard::TWindowSubInformationBoard(TObject *object, void *arg2) : TObject(object) {
-    *(void * *)&this->m_name = lbl_805D4348;
+    this->m_name = lbl_805D4348;
     *(void **)((s8 *)this + 0x20) = arg2;
     this->m_24 = -1;
     *(void **)((s8 *)this + 0x28) = object;

@@ -1242,6 +1242,23 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/unk/text_8035B750.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/object/ambient/TObjCGrass.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/object/TObjLiveMonitor.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # -str readonly: the class-name string their .sdata name pointer targets sits in .rodata
+    "pso/boss/olgaflow/TBoss6EffHyoui.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/keyboard/TKeyBoardControl_80131C58.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/object/trap/TOTrap.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/object/wreck/TOWreckAncient02.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/effect/sprite/TQuadSpriteNormal.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/effect/sprite/TQuadSpriteScl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/effect/sprite/TQuadSpriteSclCol.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/effect/sprite/TQuadSpriteSclColRot.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/window/TWindowGetComCard.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/window/TWindowMainMenu1P.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/window/TWindowOptionCtrl_8026C40C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/window/TWindowSubInformationBoard.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/window/TWindowSubTechnique.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/window/TWindowTradeRequest_802E0170.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/network/TGameProtocol.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/frontend/TAdMcCheckGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
 }
 
 # MusyX (Factor 5). Its objects carry extab/extabindex for every non-leaf

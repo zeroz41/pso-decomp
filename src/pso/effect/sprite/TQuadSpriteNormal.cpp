@@ -161,11 +161,11 @@ TQuadSpriteNormal::~TQuadSpriteNormal() {
 }
 
 
-extern void *TQuadSpriteNormal__class_name;
+const char *TQuadSpriteNormal__class_name = "TQuadSpriteNormal";
 
 void *TQuadSpriteNormal__ct(void *quad_sprite_normal) {
     quad_sprite_base_ct(quad_sprite_normal);
     *(s32 **)((s8 *)quad_sprite_normal + 0x18) = __vt__17TQuadSpriteNormal;
-    *(void * *)&((TQuadSpriteNormal *)quad_sprite_normal)->m_name = TQuadSpriteNormal__class_name;
+    ((TQuadSpriteNormal *)quad_sprite_normal)->m_name = TQuadSpriteNormal__class_name;
     return quad_sprite_normal;
 }

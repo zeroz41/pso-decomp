@@ -66,12 +66,12 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *);
 void *__nw__7TObjectFUl(int);
 
-extern void *lbl_805D39A8;
+const char *lbl_805D39A8 = "TWindowOptionCtrl";
 
 void *TWindowOptionCtrl__ct(TWindowOptionCtrl *window_option_ctrl) {
     __ct__7TObjectFP7TObject(window_option_ctrl);
     *(s32 **)((s8 *)window_option_ctrl + 0x18) = __vt__17TWindowOptionCtrl;
-    *(void * *)&window_option_ctrl->m_name = lbl_805D39A8;
+    window_option_ctrl->m_name = lbl_805D39A8;
     window_option_ctrl->m_28 = 0;
     window_option_ctrl->m_2c = 0;
     window_option_ctrl->m_30 = 0;

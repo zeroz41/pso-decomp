@@ -180,14 +180,13 @@ void TUnk_804A05E8::vfunc_6() {
     }
 }
 
-extern f32 lbl_805DAC80;
 
 void TUnk_804A0608::vfunc_6() {
     struct VObj_8011D94C_8011D414 *o;
 
     if (((TObjCollidable *)this->m_28)->obj_testFlags30(0x800) == 0) {
         o = (struct VObj_8011D94C_8011D414 *)this->m_28;
-        o->m73(lbl_805DAC80);
+        o->m73(1.0f);
     }
 }
 

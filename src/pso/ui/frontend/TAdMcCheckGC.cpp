@@ -132,7 +132,7 @@ void TAdMcCheckGC::run_task() {
     this->m_20 = (s32) this->m_1c;
 }
 
-extern void *TAdMcCheckGC__name;
+const char *TAdMcCheckGC__name = "TAdMcCheckGC";
 
 typedef char RecoveredGlobal_8033F1C4___vt__12TAdMcCheckGC_size[sizeof(RecoveredGlobal_8033F1C4___vt__12TAdMcCheckGC) == 0x18 ? 1 : -1];
 TAdMcCheckGC::~TAdMcCheckGC() {
@@ -159,7 +159,7 @@ TAdMcCheckGC::~TAdMcCheckGC() {
     }
 }
 TAdMcCheckGC::TAdMcCheckGC(TObject *object, void *arg2) : TObject(object) {
-    *(void * *)&this->m_name = TAdMcCheckGC__name;
+    this->m_name = TAdMcCheckGC__name;
     *(void **)((s8 *)this + 0x28) = arg2;
     this->m_1c = 0;
     *(void **)((s8 *)this + 0x20) = *(void **)((s8 *)this + 0x1C);

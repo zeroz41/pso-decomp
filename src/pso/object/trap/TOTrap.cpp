@@ -26,11 +26,12 @@ struct Obj_80178CF8 {
 
 struct Obj_80178E10 { u8 pad0[0x2A8]; u8 *target; u8 pad1[0x7A]; s16 state; u8 pad2[0xC]; f32 range; u8 pad3[4]; u16 idx; };
 
+const char *lbl_805D3198 = "TOTrap";
+
 extern "C" {
 s32 is_locally_controlled__10TObjPlayerFPv(int);
 s32 get_entity_id(u32);
 
-extern u32 trap_scale_factor_table[];
 extern s32 game_difficulty_selection;
 s32 fn_80171314(void *);
 u16 find_nearest_visible_player(void *, int, f32);
@@ -53,12 +54,8 @@ struct VObj_80178EF8_80178BC0 : Base_80178EF8_80178BC0 {
 };
 
 f32 TOTrap::scale_by_table_value(f32 farg0) {
-    u32 v[4];
-    v[0] = trap_scale_factor_table[0];
-    v[1] = trap_scale_factor_table[1];
-    v[2] = trap_scale_factor_table[2];
-    v[3] = trap_scale_factor_table[3];
-    return farg0 * ((f32*)v)[game_difficulty_selection];
+    f32 scale[4] = {1.0f, 2.0f, 3.0f, 6.0f};
+    return farg0 * scale[game_difficulty_selection];
 }
 
 void TOTrap::vfunc_89() {  }
@@ -268,9 +265,6 @@ void TOTrap::render() {
 }
 
 
-extern "C" {
-extern const char *lbl_805D3198;
-}
 
 TOTrap::~TOTrap() {}
 

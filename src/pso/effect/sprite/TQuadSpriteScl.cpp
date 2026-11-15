@@ -164,11 +164,11 @@ TQuadSpriteScl::~TQuadSpriteScl() {
 }
 
 
-extern void *TQuadSpriteScl__class_name;
+const char *TQuadSpriteScl__class_name = "TQuadSpriteScl";
 
 void *TQuadSpriteScl__ct(void *quad_sprite_scl) {
     quad_sprite_base_ct(quad_sprite_scl);
     *(s32 **)((s8 *)quad_sprite_scl + 0x18) = __vt__14TQuadSpriteScl;
-    *(void * *)&((TQuadSpriteScl *)quad_sprite_scl)->m_name = TQuadSpriteScl__class_name;
+    ((TQuadSpriteScl *)quad_sprite_scl)->m_name = TQuadSpriteScl__class_name;
     return quad_sprite_scl;
 }

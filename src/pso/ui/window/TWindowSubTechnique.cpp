@@ -318,7 +318,7 @@ TWindowSubTechnique::~TWindowSubTechnique() {
 }
 extern "C" {
 
-extern s32 TWindowSubTechnique__name;
+const char *TWindowSubTechnique__name = "TWindowSubTechnique";
 
 void *TWindowSubTechnique__ct(TWindowSubTechnique *window_sub_technique, s32 arg1, s32 arg2) {
     __ct__7TObjectFP7TObject();

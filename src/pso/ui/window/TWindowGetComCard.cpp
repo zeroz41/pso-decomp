@@ -46,7 +46,7 @@ s32 create__14TWindowMessageFPvll(void *, void *, int);
 extern s32 lbl_8044ED94[];
 extern s32 lbl_8044ED9C[];
 extern void *__vt__17TWindowGetComCard[];
-extern s32 TWindowGetComCard__name;
+const char *TWindowGetComCard__name = "TWindowGetComCard";
 extern s32 local_client_id;
 u8 *TWindowGetComCard__ct(TWindowGetComCard *arg0);
 void start_player_data_load__17TWindowSubComCardFl(void);

@@ -11,9 +11,8 @@
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 is_active__14TBoss6PlotFalzFv();
-extern s32 lbl_8047AC70[];
 extern s32 __vt__14TBoss6EffHyoui[];
-extern s32 lbl_805D44D8;
+const char *lbl_805D44D8 = "TBoss6EffHyoui";
 f32 lbl_805D6FF8;
 s8 lbl_805D6FFC;
 }
@@ -45,12 +44,14 @@ void TBoss6EffHyoui::run_task() {
 TBoss6EffHyoui::~TBoss6EffHyoui() {
     if (m_1c != nullptr) TParticleCtrl::release(m_1c);
 }
+const s32 lbl_8047AC70[2] = {550, 551};
+
 void *TBoss6EffHyoui__ct(void *object, void *arg1, void *arg2, void *arg3, void *arg4) {
     u8 *self = (u8 *)object;
     u8 *p;
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)self + 0x18) = __vt__14TBoss6EffHyoui;
-    *(s32 *)((s8 *)self + 0) = lbl_805D44D8;
+    ((TBoss6EffHyoui *)self)->m_name = lbl_805D44D8;
     *(u16 *)((s8 *)self + 0x20) = (u16)(u32)arg2;
     *(void **)((s8 *)self + 0x24) = arg4;
     *(void **)((s8 *)self + 0x1C) = NULL;
