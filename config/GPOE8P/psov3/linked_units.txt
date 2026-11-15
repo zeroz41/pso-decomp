@@ -288,6 +288,7 @@ pso/boss/olgaflow/TBoss6Type2_8032E708.cpp
 pso/boss/olgaflow/TBoss6Type2_803309D8.cpp
 pso/boss/olgaflow/TBoss6Type2_80336E6C.cpp
 pso/boss/olgaflow/TBoss6Type2_80356E50.cpp
+pso/boss/olgaflow/TBoss6Zanzo.cpp
 pso/boss/olgaflow/TBoss6Type2_8036A92C.cpp
 pso/boss/olgaflow/TBoss6Type2_8036DC80.cpp
 pso/boss/barbaray/TBoss7Crawfish.cpp
