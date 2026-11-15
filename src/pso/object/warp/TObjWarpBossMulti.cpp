@@ -15,6 +15,18 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/render/NinjaUtil.h"
+#include "pso/network/client_id.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/unk/TLobby_80207644.h"
+#include "pso/unk/text_8024ACEC.h"
+#include "pso/unk/text_8024AD30.h"
+#include "pso/object/switch/TSwitch.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/render/ModelDrawContext.h"
+#include "pso/boss/volopt/TObjVoloptCage.h"
+#include "pso/ui/window/TWindowSubComCard_802A5748.h"
+#include <string.h>
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceLoader.h"
@@ -86,12 +98,9 @@ s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 fn_80248994(void *, u32, int);
 void *refresh_with_default_list__20TWindowSubStatusDispFll(s32, void *);
 void request_active_window_close(void);
-void begin_player_keyboard_hold(s32 arg0);
 s32 get_window_layout_position(s32);
 s32 free_member__17TWindowSubComCardFv(void *, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, s32, s32, f32);
-extern s32 local_client_id;
-s32 get_main_phase();
 s32 is_local_client_floor_leader();
 s32 TObjWarpBossMulti__sub_8019E570(s32 arg0, f32 farg0);
 void close_windows__12TObjWarpBossFv(void *arg0);
@@ -103,11 +112,8 @@ AnimationMotion *warp_boss_motion;
 AnimationMotion *warp_boss_bml_motion;
 s32 warp_boss_model_handle;
 s32 lbl_805D5CA4;
-extern s32 __vt__12TObjWarpBoss[];
 extern "C" {
-s32 get_boss_warp_destination(void);
 extern "C" {
-void *__nw__7TObjectFUl(int);
 void TObjFish__sub_8019F72C(void);
 s32 TObjWarpBossMulti__create(s32 arg0);
 }
@@ -121,21 +127,10 @@ extern s32 lbl_805D55C0;
 
 
 void *init__13TAdVIConfigGCFf(void *, void *, f32);
-s32 post_translate_matrix(void *);
-s32 draw_ginja_model_with_motion(s32, s32, f32);
-s32 rotate_matrix_y(s32, s32);
-s32 push_matrix();
 int check_flag_100__10TObjPlayerFPv(void *p);
 s32 get_current_floor();
-u8 is_current_floor_switch_set(int);
-void end_player_keyboard_hold(s32 arg0);
 s32 align_menu_entry_positions(u32);
 u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
-void obj_clear_flag30_20000(void *arg0);
-void obj_set_flag_20000(void *arg0);
-s32 send_code_45_1__10TObjPlayerFl();
-char *strcpy(char *, const char *);
-s32 is_locally_controlled__10TObjPlayerFPv(u32);
 
 void update_warp_boss_visibility__12TObjWarpBossFv(void *arg0);
 
@@ -154,7 +149,6 @@ void update_warp_boss_visibility__12TObjWarpBossFv(void *arg0);
 
 
 }
-void initialize_option_dialog(void *arg0, s32 arg1, s32 arg2, f32 farg0);
 void handle_6x6A_set_boss_warp_flags(void *arg0);
 extern "C" {
 
@@ -330,14 +324,14 @@ void TObjWarpBoss::render() {
     if (update_object_view_visibility(400.0f, 40.0f) != 0) {
 block_4:
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
-        rotate_matrix_y(0, this->rotation_y);
+        post_translate_matrix(&position.x);
+        rotate_matrix_y(NULL, rotation_y);
         TObjFish::set_global_param(warp_boss_model_handle);
         draw_ginja_object((void *)boss_warp_base_model);
         if (model != 0) {
             TParticleCtrl::begin_effect_render();
             TObjFish::set_global_param(lbl_805D5CA4);
-            draw_ginja_model_with_motion(model, (s32)motion, frame);
+            draw_ginja_model_with_motion((void *)model, motion, frame);
             TParticleCtrl::end_effect_render();
         }
         pop_matrix();
@@ -712,12 +706,12 @@ void TObjWarpBoss::update_floor_switch_state() {
 }
 
 void TObjWarpBoss::warp_player(s32 arg1) {
-    s32 player;
+    TObjPlayer *player;
 
-    player = (s32)get_player_by_client_id(arg1);
-    if (player != 0) {
-        TObjPlayer::play_effect_default(player, -1);
-        obj_set_flag_20000((void *)player);
+    player = get_player_by_client_id(arg1);
+    if (player != NULL) {
+        TObjPlayer::play_effect_default((int)player, -1);
+        obj_set_flag_20000(player);
         warp_effect_timer = 0x12C;
     }
 }
@@ -727,8 +721,8 @@ void TObjWarpBossMulti::notify_player(void *arg0, s32 arg1) {
 
     player = (s32)get_player_by_client_id(arg1);
     if (player != 0) {
-        send_code_45_1__10TObjPlayerFl();
-        obj_clear_flag30_20000((void *)player);
+        TObjPlayer::send_code_45_1((s32)player);
+        obj_clear_flag30_20000((TObjBase *)player);
     }
 }
 
@@ -893,7 +887,7 @@ void TObjWarpBossMulti::run_task() {
 
     for (i = 0; i < 4; i++) {
         pl = player_slot_table[i];
-        if (pl != 0U && is_locally_controlled__10TObjPlayerFPv(pl) != 0) {
+        if (pl != 0U && TObjPlayer::is_locally_controlled((void *)pl) != 0) {
             if (((TObjPlayer *)pl)->get_floor() == get_current_floor()) {
                 if (xz_distance_squared(&((TObjPlayer *)pl)->position, &position) <= (r = 25.0f + warp_range) * r) {
                     if (TObjWarpBossMulti::is_flag_clear((void*)pl) != 0) {
@@ -910,7 +904,7 @@ void TObjWarpBossMulti::run_task() {
         }
     }
     if (key_id >= 0) {
-        if (((u8 (*)(u16))is_current_floor_switch_set)(key_id) == 1) {
+        if (is_current_floor_switch_set((u16)key_id) == 1) {
             state = 1;
         } else {
             state = 0;
@@ -943,18 +937,18 @@ void TObjWarpBossMulti::render() {
     if (update_object_view_visibility(400.0f, 40.0f) != 0) {
 block_4:
         push_matrix();
-        post_translate_matrix(&position);
-        rotate_matrix_y(0, rotation_y);
+        post_translate_matrix(&position.x);
+        rotate_matrix_y(NULL, rotation_y);
         TObjFish::set_global_param(model_handle);
         draw_ginja_object((void *)base_model);
         TParticleCtrl::begin_effect_render();
         TObjFish::set_global_param(effect_textures);
         switch (state) {
         case 0:
-            draw_ginja_model_with_motion(confirmation_model, (s32)motion, frame);
+            draw_ginja_model_with_motion((void *)confirmation_model, motion, frame);
             break;
         case 1:
-            draw_ginja_model_with_motion(warp_model, (s32)bml_motion, frame);
+            draw_ginja_model_with_motion((void *)warp_model, bml_motion, frame);
             break;
         }
         TParticleCtrl::end_effect_render();
