@@ -1058,8 +1058,9 @@ s32 TQuestVmDownLoadServer__sub_803EA428(s32 start, s32 end) {
         add_text_node(&work->slots[start], j - start, attr);
         return 1;
     } else if (*text == 0) {
-        for (j = start + 1, p = text + 1; j < end; j++, p++) {
-            if (*p != 0) {
+        text++;
+        for (j = start + 1; j < end; j++, text++) {
+            if (*text != 0) {
                 break;
             }
         }
