@@ -34,8 +34,8 @@ typedef struct Hdr_8040B790 Hdr_8040B790;
 typedef struct Pkt_8040B790 Pkt_8040B790;
 typedef struct Q_8040B790 Q_8040B790;
 typedef struct QT_8040B790 QT_8040B790;
-s32 build_dns_query_a(void *self, u8 *name, s16 len);
-s32 build_dns_query_aaaa(void *self, u8 *name, s16 len);
+s32 build_dns_query_a(void *self, char *name, s16 len);
+s32 build_dns_query_aaaa(void *self, char *name, s16 len);
 s32 close_and_reset_connection(void *self);
 void complete_pending_request(s16 id);
 void dispatch_request_callback(void *self, s16 status);
@@ -71,7 +71,7 @@ typedef struct QT_8040B790 { s16 type; s16 cls; } QT_8040B790;
 
 s32 TLobby__sub_8040C9E0(DnsAddr *arg0, DnsAddr *arg1);
 
-s32 TLobby__sub_8040B838(u8 *dst, u8 *src, s32 max);
+s32 TLobby__sub_8040B838(u8 *dst, char *src, s32 max);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
@@ -274,19 +274,19 @@ extern s16 TLobby__sub_8040A698(s16 idx, void *buf, s16 *len, void *buf2, s16 *l
 s16 TUdpSocket__sub_80421DEC(s16 a, void* b, void* c, u16 d, void* e, void* f);
 s32 TLobby__sub_8040B4BC(s16 mode, UdpDatagram *req);
 DnsHost *TLobby__sub_8040C09C(void);
-static inline DnsHost *find_host_8040A8B0(DnsResolverState *base, u8 *self, s32 len) {
+static inline DnsHost *find_host_8040A8B0(DnsResolverState *base, char *name, s32 len) {
     DnsHost *p = base->hosts;
     s16 j;
     for (j = 0; j < base->nhosts; j++, p++) {
-        if (p->state == 1 && NetMemcmp(p->name, self, len) == 0) {
+        if (p->state == 1 && NetMemcmp(p->name, name, len) == 0) {
             return p;
         }
     }
     return NULL;
 }
 static inline DnsBuffer *grab_slot_8040A8B0(DnsResolverState *base) {
-    DnsBuffer *p = base->buffers;
     s16 i;
+    DnsBuffer *p = base->buffers;
     for (i = 0; i < base->nbuffers; i++, p++) {
         if (p->used == 0) {
             p->used = 1;
@@ -295,26 +295,23 @@ static inline DnsBuffer *grab_slot_8040A8B0(DnsResolverState *base) {
     }
     return NULL;
 }
-static inline NetworkAddress *probe_8040A8B0(DnsResolverState *b, DnsQuery *e) {
-    s16 i;
-    NetworkAddress *ent;
-    s16 n;
-    for (i = 0; i < (n = b->nservers); i++) {
-        ent = &b->servers[(e->server + e->status) % n];
-        if (ent->family != 0) {
-            if (e->status < b->max_tries) {
-                return ent;
+inline NetworkAddress *fnar_8040B1C4(DnsResolverState *g, DnsQuery *a) {
+    s16 t, n, i;
+    for (i = 0; i < (n = g->nservers); i++) {
+        NetworkAddress *r = &g->servers[(a->server + (t = a->status)) % n];
+        if (r->family != 0) {
+            if (t < g->max_tries) {
+                return r;
             }
             break;
         }
-        e->status = e->status + 1;
+        a->status = t + 1;
     }
-    return NULL;
+    return 0;
 }
 #pragma push
 #pragma opt_propagation off
-#pragma opt_common_subs off
-s32 TLobby__sub_8040A8B0(u8 *self, s16 idx, s32 type)
+s32 TLobby__sub_8040A8B0(char *name, s16 idx, s32 type)
 {
   s16 TUdpSocket__sub_80421BAC(s32, void *, void *, u16, void *, s8, send_buffs *); /* declared here with other parameter types; the definition is s16 (s32, u32 *, u32 *, u16, u32 *, s8, send_buffs *) */
   DnsResolverState *base = &dns_resolver_state;
@@ -324,8 +321,7 @@ s32 TLobby__sub_8040A8B0(u8 *self, s16 idx, s32 type)
   DnsBuffer *m;
   DnsQuery *e;
   s16 i;
-  s16 j;
-  if (self == ((void *) 0))
+  if (name == ((void *) 0))
   {
     return -2;
   }
@@ -347,7 +343,7 @@ s32 TLobby__sub_8040A8B0(u8 *self, s16 idx, s32 type)
 
   }
 
-  if (((s32) self[idx - 1]) == '.')
+  if (name[idx - 1] == '.')
   {
     idx--;
   }
@@ -373,10 +369,10 @@ s32 TLobby__sub_8040A8B0(u8 *self, s16 idx, s32 type)
   }
   e->kind = 1;
   {
-    long long len = idx;
+    s32 len = idx;
     e->req.lookup.family = type;
     t = &e->req.lookup;
-    p = find_host_8040A8B0(base, self, len);
+    p = find_host_8040A8B0(base, name, len);
     if (p != ((void *) 0))
     {
       e->status = 0;
@@ -413,7 +409,7 @@ s32 TLobby__sub_8040A8B0(u8 *self, s16 idx, s32 type)
     e->timer = base->timeouts[0];
     e->server = base->server;
     e->status = 0;
-    base = (DnsResolverState *) probe_8040A8B0(base, e);
+    base = (DnsResolverState *) fnar_8040B1C4(base, e);
     if (base == ((void *) 0))
     {
       close_and_reset_connection(e);
@@ -430,7 +426,7 @@ s32 TLobby__sub_8040A8B0(u8 *self, s16 idx, s32 type)
     {
       p = TLobby__sub_8040C09C();
       p->name_len = idx;
-      NetMemcpy(p->name, self, len);
+      NetMemcpy(p->name, name, len);
       t->host = p;
     }
     switch (t->family)
@@ -438,7 +434,7 @@ s32 TLobby__sub_8040A8B0(u8 *self, s16 idx, s32 type)
       case 0:
       {
         send_buffs buf;
-        build_dns_query_aaaa(e, self, idx);
+        build_dns_query_aaaa(e, name, idx);
         buf.len = e->msg->len;
         buf.buff = e->msg->data;
         i = TUdpSocket__sub_80421BAC(e->socket, (void *) 0, base, 0, (void *) 0, 1, &buf);
@@ -458,7 +454,7 @@ s32 TLobby__sub_8040A8B0(u8 *self, s16 idx, s32 type)
       case 4:
       {
         send_buffs buf;
-        build_dns_query_a(e, self, idx);
+        build_dns_query_a(e, name, idx);
         buf.len = e->msg->len;
         buf.buff = e->msg->data;
         i = TUdpSocket__sub_80421BAC(e->socket, (void *) 0, base, 0, (void *) 0, 1, &buf);
@@ -473,7 +469,7 @@ s32 TLobby__sub_8040A8B0(u8 *self, s16 idx, s32 type)
       case 6:
       {
         send_buffs buf;
-        build_dns_query_aaaa(e, self, idx);
+        build_dns_query_aaaa(e, name, idx);
         buf.len = e->msg->len;
         buf.buff = e->msg->data;
         i = TUdpSocket__sub_80421BAC(e->socket, (void *) 0, base, 0, (void *) 0, 1, &buf);
@@ -658,21 +654,6 @@ extern void TLobby__sub_8040AFE0(void)
             TLobby__sub_8040B1C4(e);
         }
     }
-}
-
-inline NetworkAddress *fnar_8040B1C4(DnsResolverState *g, DnsQuery *a) {
-    s16 t, n, i;
-    for (i = 0; i < (n = g->nservers); i++) {
-        NetworkAddress *r = &g->servers[(a->server + (t = a->status)) % n];
-        if (r->family != 0) {
-            if (t < g->max_tries) {
-                return r;
-            }
-            break;
-        }
-        a->status = t + 1;
-    }
-    return 0;
 }
 
 extern void TLobby__sub_8040B1C4(void *arg)
@@ -893,8 +874,8 @@ void complete_pending_request(s16 id) {
 
 #pragma push
 #pragma opt_propagation off
-s32 build_dns_query_aaaa(void *self, u8 *name, s16 len) {
-    s32 TLobby__sub_8040B838(u8 *dst, u8 *src, s16 len);
+s32 build_dns_query_aaaa(void *self, char *name, s16 len) {
+    s32 TLobby__sub_8040B838(u8 *dst, char *src, s16 len);
     Q_8040B6E4 *q = (Q_8040B6E4 *)self;
     Hdr_8040B6E4 *h;
     u8 *body;
@@ -923,8 +904,8 @@ s32 build_dns_query_aaaa(void *self, u8 *name, s16 len) {
 
 #pragma push
 #pragma opt_propagation off
-s32 build_dns_query_a(void *self, u8 *name, s16 len) {
-    s32 TLobby__sub_8040B838(u8 *dst, u8 *src, s16 len);
+s32 build_dns_query_a(void *self, char *name, s16 len) {
+    s32 TLobby__sub_8040B838(u8 *dst, char *src, s16 len);
     Q_8040B790 *q = (Q_8040B790 *)self;
     Hdr_8040B790 *h;
     u8 *body;
@@ -951,7 +932,7 @@ s32 build_dns_query_a(void *self, u8 *name, s16 len) {
 }
 #pragma pop
 
-s32 TLobby__sub_8040B838(u8 *dst, u8 *src, s32 max)
+s32 TLobby__sub_8040B838(u8 *dst, char *src, s32 max)
 {
     s8 c;
     s16 i;
