@@ -7,6 +7,7 @@
 #include "pso/render/GinjaModel.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/enemy/stelth/TObjEneMe3Stelth_803DC82C.h"
 
 #pragma scheduling off
 #pragma scheduling off
@@ -678,3 +679,7 @@ s32 ginja_texture_matrix_ids[11] = {
     0x2a, 0x2d, 0x30, 0x33,
     0x36, 0x39, 0x3c,
 };
+
+void set_ginja_draw_list_mask(s32 arg0) {
+    ginja_draw_list_mask = arg0;
+}

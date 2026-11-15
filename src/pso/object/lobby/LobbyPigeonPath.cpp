@@ -1452,3 +1452,10 @@ void TObjPlayer::load_lobby_pigeon_resource() {
     lobby_pigeon_bml_archive = var_r0;
     lobby_pigeon_lobby_type = TLobby::get_lobby_texlist();
 }
+
+void TObjPlayer::free_static_instance() {
+    if ((u32) lobby_pigeon_bml_archive != 0U) {
+        free_bin_model_request((void*)lobby_pigeon_bml_archive, 1);
+        lobby_pigeon_bml_archive = 0U;
+    }
+}

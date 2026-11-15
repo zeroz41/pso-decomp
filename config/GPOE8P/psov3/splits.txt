@@ -1029,11 +1029,8 @@ pso/unk/text_80076E84.cpp:
 	.bss        start:0x804FF968 end:0x804FF9C0
 
 pso/ui/chat/TWindowSubSymbolChat_80076F88.cpp:
-	.text       start:0x80076F88 end:0x8007763C
+	.text       start:0x80076F88 end:0x80077760
 	.rodata     start:0x80438830 end:0x80438868
-
-pso/ui/chat/TWindowSubSymbolChat_8007763C.cpp:
-	.text       start:0x8007763C end:0x80077760
 
 pso/ui/window/TWindowSubStatusDisp_80077760.cpp:
 	.text       start:0x80077760 end:0x80077788
@@ -3434,10 +3431,7 @@ pso/object/base/TObjMotion.cpp:
 	.sdata2     start:0x805DB168 end:0x805DB174
 
 pso/system/movie/TMovie_80143988.cpp:
-	.text       start:0x80143988 end:0x80143BBC
-
-pso/system/movie/TMovie_80143BBC.cpp:
-	.text       start:0x80143BBC end:0x80143D9C
+	.text       start:0x80143988 end:0x80143D9C
 	.sdata      start:0x805D2CE8 end:0x805D2CEC
 	.sbss       start:0x805D5688 end:0x805D56AC
 
@@ -7818,11 +7812,8 @@ pso/ui/chat/TWindowSubShortMail_8027E620.cpp:
 	.sdata2     start:0x805DD6C8 end:0x805DD6E0
 
 pso/ui/window/TWindowSubStatusDisp_8027FD88.cpp:
-	.text       start:0x8027FD88 end:0x80281198
+	.text       start:0x8027FD88 end:0x80281814
 	.rodata     start:0x8044FB00 end:0x8044FB08
-
-pso/ui/window/TWindowSubStatusDisp_80281198.cpp:
-	.text       start:0x80281198 end:0x80281814
 	.data       start:0x804D1AE8 end:0x804D2B20
 	.sbss       start:0x805D6488 end:0x805D6490
 
@@ -8807,11 +8798,8 @@ pso/boss/olgaflow/TBoss6Type2_802BE588.cpp:
 pso/unk/text_802C095C.cpp:
 	.text       start:0x802C095C end:0x802C09A8
 
-pso/player/TObjPlayer_802C09A8.cpp:
-	.text       start:0x802C09A8 end:0x802C09E0
-
 pso/object/lobby/LobbyPigeonPath.cpp:
-	.text       start:0x802C09E0 end:0x802C3284
+	.text       start:0x802C09A8 end:0x802C3284
 	.rodata     start:0x80471540 end:0x804719D0
 	.data       start:0x804E07A0 end:0x804E0A00
 	.sdata      start:0x805D3EC0 end:0x805D3EC4
@@ -12376,13 +12364,10 @@ pso/render/GinjaModelQueue.cpp:
 	.sdata2     start:0x805E0F58 end:0x805E0F68
 
 pso/render/GinjaMaterial.cpp:
-	.text       start:0x803DB470 end:0x803DC82C
+	.text       start:0x803DB470 end:0x803DC834
 	.data       start:0x804FC540 end:0x804FC668
 	.bss        start:0x8058CD80 end:0x8058CE10
 	.sdata2     start:0x805E0F68 end:0x805E0F80
-
-pso/enemy/stelth/TObjEneMe3Stelth_803DC82C.cpp:
-	.text       start:0x803DC82C end:0x803DC834
 
 pso/player/TObjPlayer_803DC834.cpp:
 	.text       start:0x803DC834 end:0x803DC86C
@@ -12588,10 +12573,7 @@ pso/ui/frontend/TAdPlayerLoadGC_803F339C.cpp:
 	.text       start:0x803F339C end:0x803F3BF8
 
 pso/unk/text_803F3BF8.cpp:
-	.text       start:0x803F3BF8 end:0x803F3CF4
-
-pso/ui/frontend/TAdPlayerLoadGC_803F3CF4.cpp:
-	.text       start:0x803F3CF4 end:0x803F3DD4
+	.text       start:0x803F3BF8 end:0x803F3DD4
 
 pso/network/NetworkInfoRequests.cpp:
 	.text       start:0x803F3DD4 end:0x803F3F64
