@@ -754,6 +754,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # draw_masked's double in .rodata); "%08X" sits in .rodata; the 8-byte status-line position sits in .data;
     # draw_masked_password_field reaches each .rodata object with its own lis/addi.
     "pso/ui/frontend/TAdEnterBaseGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-sdata 4", "-pool off")},
+    # The class name, the QUEST/RICO label names and debug_draw_label's formats sit in .rodata (readonly strings);
+    # debug_draw_label reaches each of them with its own lis/addi (no shared base): -pool off.
+    "pso/object/TObjMesBase.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     # The model/bml file names and the class name sit in .rodata, where only readonly strings go.
     "pso/object/TMotorcycle.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # The six debug-hook names (csnVector() ...) sit in .rodata, where only readonly strings go.

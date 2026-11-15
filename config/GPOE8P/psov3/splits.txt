@@ -4758,7 +4758,9 @@ pso/map/TObjMapCsn.cpp:
 
 pso/object/TObjMesBase.cpp:
 	.text       start:0x80194AEC end:0x80194E40
+	.rodata     start:0x80445D78 end:0x80445DB8
 	.data       start:0x804B8510 end:0x804B8554
+	.sdata      start:0x805D33C8 end:0x805D33CC
 
 pso/object/TMotorcycle.cpp:
 	.text       start:0x80194E40 end:0x8019527C
