@@ -15,7 +15,6 @@
 #include "pso/network/NetStackTypes.h"
 
 s32 TLobby__sub_80403DA8();
-s32 send_network_frame(u16, u8 *);
 extern u8 lbl_805C0038[];
 
 s32 TLobby__sub_804036FC(u8 *arg0) {

@@ -53,7 +53,6 @@ s32 TLobby__sub_804036FC(u8 *arg0);
 s32 TLobby__sub_80403DA8();
 void TLobby__sub_803F8A08(void *);
 void TLobby__sub_803F8A9C(void *);
-s32 send_network_frame(u16, u8 *);
 s32 TLobby__sub_804037B0(s32 arg0, u16 arg1);
 void TLobby__sub_803F892C(void *);
 void TLobby__sub_803F8958(void *);

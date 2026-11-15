@@ -871,7 +871,6 @@ s32 TLobby__sub_80406624(s32 a, s32 b, u16 code, void *self) {
     return TLobby__sub_804066D8(ret);
 }
 
-s32 send_network_frame(u32 a, void* b);
 inline s32 acfc_804066D8(s32 lcp, u8 *ctx)
 {
   s32 r = 1;

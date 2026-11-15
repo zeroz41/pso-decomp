@@ -99,7 +99,6 @@ s32 configure_modem_options(s32 arg0, s32 arg1, s32 arg2, s32 n, s32 p);
 s32 TAdSinglePlyChrSelectGC__sub_8042D7E0(void *);
 s32 TLobby__sub_803F8D24(NetTransportParams *);
 s32 get_net_params_and_size(NetTransportParams *arg0);
-s32 send_network_frame(u16 arg0, u8 *arg1);
 void TLobby__sub_803F76F0(void);
 void TLobby__sub_803F778C(void);
 void TLobby__sub_803F77E0(void);
