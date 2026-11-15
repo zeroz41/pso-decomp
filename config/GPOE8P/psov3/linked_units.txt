@@ -2671,3 +2671,5 @@ pso/unk/text_8020B5CC.cpp
 pso/effect/photon/PhotonBlastSummon.cpp
 pso/npc/TObjNpcKenkyuW.cpp
 pso/ui/window/TWindowDD_80341A08.cpp
+pso/effect/TEF_LensFlare.cpp
+pso/ui/window/TWindowSubStatusDisp_8027FD88.cpp
