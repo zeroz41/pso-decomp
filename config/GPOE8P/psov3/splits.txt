@@ -10261,14 +10261,15 @@ pso/ui/window/TWindowDD_80341334.cpp:
 	.sdata2     start:0x805DFC90 end:0x805DFCA0
 
 pso/ui/window/TWindowDD_80341A08.cpp:
-	.text       start:0x80341500 end:0x80342254
-	.rodata     start:0x80478610 end:0x80478618
+	.text       start:0x80341500 end:0x80342428
+	.ctors      start:0x8043400C end:0x80434010
+	.rodata     start:0x804785F8 end:0x80478618
+	.data       start:0x804EFC50 end:0x804EFCA8
+	.sdata      start:0x805D42E0 end:0x805D42E8
 	.sdata2     start:0x805DFCA0 end:0x805DFCB0
 
-pso/ui/window/TWindowDD_80342254.cpp:
-	.text       start:0x80342254 end:0x803424EC
-	.ctors      start:0x8043400C end:0x80434010
-	.data       start:0x804EFC50 end:0x804EFCA8
+pso/ui/window/TWindowDD_80342428.cpp:
+	.text       start:0x80342428 end:0x803424EC
 
 pso/ui/window/TWindowDD_803424EC.cpp:
 	.text       start:0x803424EC end:0x80342554

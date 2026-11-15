@@ -17,7 +17,7 @@ public:
     s32 sub_80341AC0();
     s32 can_scroll(s32);
     void *destroy(s16);
-    u8 sub_80342268();
+    s32 sub_80342268();
     s32 sub_80342254();
     u8 unk_1C[0x8];
     TWindowDDWordEntryList entries;
@@ -28,17 +28,18 @@ public:
     f32 pad_4C;
     u8 pad_50[0x4];
     f32 pad_54; // depth: fed to the depth helper TWindowDD__sub_80348AD4
-    u8 pad_58[0x8];
+    u8 pad_58[0x4];
+    s32 pad_5C; // set to 0x01000000 by the constructor 0x803422F0
     s32 m_60;
     s32 pad_64; // point table index for the strips; 0 also picks the first v range
     s32 m_68;
     s32 m_6c;
-    u8 unk_70[0x4];
+    s32 pad_70; // element list id, read by load_element_list
     s32 m_74;
     s32 pad_78; // visible row count
     s32 m_7c;
     void * m_80;
-    u8 unk_84[0x4];
+    f32 pad_84;
     f32 pad_88; // scroll offset (fraction of a 20-unit row drawn as partial strips)
     s32 m_8c;
 };
