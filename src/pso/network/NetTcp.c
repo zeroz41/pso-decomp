@@ -1408,9 +1408,11 @@ drop:
 #pragma pop
 
 s32 TLobby__sub_8041D524(TcpTcb *tcb, s32 x);
+#pragma push
+#pragma opt_common_subs on
 s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, u8 *p6)
 {
-  void TLobby__sub_8041D584(TcpTcb *self, u8 *p6, u8 *tbl, s16 n); /* declared here with other parameter types; the definition is void (TcpTcb *, Th_8041D584 *, Sack_8041D584 *, s16) */
+  void TLobby__sub_8041D584(TcpTcb *self, u8 *p6, TcpSeqRange *tbl, s16 n); /* declared here with other parameter types; the definition is void (TcpTcb *, Th_8041D584 *, Sack_8041D584 *, s16) */
   s16 TLobby__sub_8041D524(TcpTcb *, s32); /* declared s16 here; the definition is s32 (TcpTcb *, s32) */
   s32 n;
   s16 done = 0;
@@ -1418,7 +1420,6 @@ s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, u8 *p6)
   s16 k;
   s32 last;
   u8 *p;
-  u8 *e;
   u16 tmp16;
   u32 tmp;
   while (done < total)
@@ -1437,8 +1438,7 @@ s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, u8 *p6)
       switch (data[0])
       {
         case 2:
-          e = p6;
-          if ((sz == 4) && (e[0xd] & 2))
+          if ((sz == 4) && (p6[0xd] & 2))
         {
           NetMemcpy(&tmp16, data + 2, 2);
           self->peer_mss = tmp16;
@@ -1454,7 +1454,7 @@ s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, u8 *p6)
 
         case 5:
         {
-          u8 *tbl = (*((u8 (*)[]) (&tcp_protocol_state))) + offsetof(TcpState, sack_opt);
+          TcpSeqRange *tbl = tcp_protocol_state.sack_opt;
           last = self->snd_una;
           if (((sz - 2) % 8) != 0)
           {
@@ -1464,24 +1464,22 @@ s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, u8 *p6)
           {
             break;
           }
-          e = tbl;
           p = data + 2;
           n = (sz - 2) / 8;
           for (k = 0; k < n; k++)
           {
             NetMemcpy(&tmp, p, 4);
-            *((u32 *) e) = tmp;
+            tbl[k].start = tmp;
             NetMemcpy(&tmp, p + 4, 4);
             p += 8;
-            *((u32 *) (e + 4)) = tmp;
-            if (((*((s32 *) (e + 4))) - last) > 0)
+            tbl[k].end = tmp;
+            if ((s32)(tbl[k].end - last) > 0)
             {
-              last = *((s32 *) (e + 4));
+              last = tbl[k].end;
             }
-            e += 8;
           }
 
-          TLobby__sub_8041D584(self, e, tbl, (s16) n);
+          TLobby__sub_8041D584(self, p6, tbl, (s16) n);
           if (TLobby__sub_8041D524(self, last) != 0)
           {
             self->edge = self->snd_una;
@@ -1499,6 +1497,7 @@ s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, u8 *p6)
   self->maxseg = ((self->peer_mss) < ((s16) TLobby__sub_8041B724(self))) ? (self->peer_mss) : ((s16) TLobby__sub_8041B724(self));
   return 0;
 }
+#pragma pop
 
 s32 TLobby__sub_8041A1D8(void) {
     NetUnregisterTimer((void *)TLobby__sub_8041A5B4);
