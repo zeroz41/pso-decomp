@@ -76,7 +76,7 @@ void TObjCityMainWarpChallenge::trigger_warp_effect(s32 arg1) {
     if (player != 0) {
         TObjPlayer::play_effect_default(player, -1);
         obj_set_flag_20000((void *)player);
-        this->m_174 = 0x12C;
+        this->warp_effect_timer = 0x12C;
     }
 }
 void TObjCityMainWarp::update_floor_switch_state() {
