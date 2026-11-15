@@ -443,6 +443,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/TObjControl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/font/TFontSmallTask.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowSubStatusDisp_80338740.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # its class-name string sits in .rodata ahead of the list size pair: readonly strings.
+    "pso/ui/window/TWindowSubShortCutList.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowArea.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # its only string (the empty entry text) sits in .sdata2, as in its sibling parts _80336054/_8033A8EC.
     "pso/ui/frontend/TAdSinglePlyChrSelectGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

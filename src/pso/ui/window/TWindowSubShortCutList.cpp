@@ -10,16 +10,18 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
-struct Obj_8027E558 { s32 f0; u8 pad[0x14]; void *vt; u8 pad2[0x88 - 0x1C]; void *list; };
+struct Obj_8027E558 { const char *f0; u8 pad[0x14]; void *vt; u8 pad2[0x88 - 0x1C]; void *list; };
+
+const char *TWindowSubShortCutList__class_name = "TWindowSubShortCutList";
+// Size argument of the shortcut list window.
+static const f32 lbl_8044FAA8[2] = {405.0f, 188.0f};
 
 extern "C" {
 void TShopJudgmentItemWindow__sub_80267F9C(void *, int);
 void *__nw__7TObjectFUl(int);
-extern s32 lbl_8044FAA8[];
 void fn_802683F4(void *, void *, s32, s16);
 void *init__21TWindowSubComCardListFiii(void *, s8, s32, s32);
 extern s32 __vt__22TWindowSubShortCutList[];
-extern s32 TWindowSubShortCutList__class_name;
 extern s32 local_client_id;
 void *TWindowSubShortCutList__ct(void *arg0, void *arg1, void *arg2);
 s32 get_shared_text_buffer();
@@ -78,7 +80,7 @@ void TWindowSubShortCutList::refresh_entries() {
 
 void *TWindowSubShortCutList::create(void *arg1) {
     void *p;
-    TShopJudgmentItemWindow__sub_80267F9C(lbl_8044FAA8, 4);
+    TShopJudgmentItemWindow__sub_80267F9C((void *)lbl_8044FAA8, 4);
     p = __nw__7TObjectFUl(0x8C);
     if (p != 0) {
         p = TWindowSubShortCutList__ct(p, this, arg1);

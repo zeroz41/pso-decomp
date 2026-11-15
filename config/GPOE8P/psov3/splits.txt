@@ -7766,6 +7766,8 @@ pso/ui/window/TWindowSubShortCut.cpp:
 
 pso/ui/window/TWindowSubShortCutList.cpp:
 	.text       start:0x8027E278 end:0x8027E620
+	.rodata     start:0x8044FA90 end:0x8044FAB0
+	.sdata      start:0x805D3A90 end:0x805D3A98
 
 pso/ui/chat/TWindowSubShortMail_8027E620.cpp:
 	.text       start:0x8027E620 end:0x8027FD88
