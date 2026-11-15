@@ -2674,3 +2674,4 @@ pso/ui/window/TWindowSubStatusDisp_8027FD88.cpp
 pso/weapon/TItemAttackCol.cpp
 pso/ui/hud/TRaderMapCore.cpp
 pso/ui/window/TWindowSubStatusDisp_8026DFE8.cpp
+pso/boss/goldragon/TBoss8Dragon_8002CC48.cpp
