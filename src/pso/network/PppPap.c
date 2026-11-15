@@ -177,7 +177,6 @@ void PADRead(u8 *self, s32 arg1)
 {
   Hdr_803FC4B4 hdr;
   PapOptions *opts;
-  extern s16 TLobby__sub_80403308(u8 *, u8 *, PppFrame *);
   opts = (PapOptions *)((PppFsm *)self)->opts;
   if (TLobby__sub_803FE8BC((u8 *) (&hdr), &arg1))
   {

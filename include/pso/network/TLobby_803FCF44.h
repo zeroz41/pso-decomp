@@ -145,6 +145,7 @@ void TLobby__sub_80400988(void);
 void TLobby__sub_80400B98(u8 *arg0);
 void *build_avetcp_net_buffer(Conn_804004DC *c);
 s16 TLobby__sub_803FE8BC(u8 *dst, void *src);
+s16 TLobby__sub_80403308(u8 *self, u8 *src, PppFrame *val);
 void TLobby__sub_80400ACC(O_80400ACC *o);
 PppFrame *TLobby__sub_80401B20(void *src, u16 n);
 void TLobby__sub_80401EB8(u8* self_m, u8* src, u32 len);

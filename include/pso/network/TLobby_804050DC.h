@@ -55,6 +55,7 @@ s32 is_socket_flag_set(s16 i);
 s32 TLobby__sub_8040A044(s16 idx, u32 a, s32 b, u32 *c);
 void TLobby__sub_804050DC(s16 arg0);
 s32 TLobby__sub_804062A0(s16 arg0);
+s32 TLobby__sub_80406624(s32 a, s32 b, u16 code, void *self);
 s16 reset_network_timer_list(void);
 s16 TLobby__sub_8040799C(s16 idx, void *name, void *arg2);
 s32 TLobby__sub_80409AA8(void);
