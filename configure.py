@@ -1323,7 +1323,8 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         "pso/network/NetIpv4.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetIpv4Route.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetIpv6.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
-        "pso/network/TLobby_8041112C.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        # TLobby_8041112C.c was built with CSE: every function matches with it, NetIPv6GetAddressScopeClass only in
+        # its inline-helper form, and seven functions needed opt_common_subs pragma scopes under -opt nocse.
         "pso/network/NetLoopback.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetBufferPool.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetIPv6NeighborDiscovery.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},

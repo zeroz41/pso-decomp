@@ -6,7 +6,6 @@
 #include "pso/network/UdpRuntime.h"
 
 /* TLobby_8041112C.c: IPv6 neighbour discovery, routing and packet fragments. */
-typedef struct RecoveredFields_804143BC_arg0 RecoveredFields_804143BC_arg0;
 typedef struct Ipv6NdPending Ipv6NdPending;
 typedef struct Ipv6NdNeighbor Ipv6NdNeighbor;
 typedef struct Ipv6NdRouter Ipv6NdRouter;
@@ -51,10 +50,6 @@ typedef struct NetBufferPool {
 } NetBufferPool;
 typedef char NetBufferPoolEntry_size_check[sizeof(NetBufferPoolEntry) == 0x3C ? 1 : -1];
 typedef char NetBufferPool_size_check[sizeof(NetBufferPool) == 0x10 ? 1 : -1];
-struct RecoveredFields_804143BC_arg0 {
-    u8 field_0;
-    u8 field_1;
-};
 /* A packet queued until its next hop's link-layer address is known (tag "PEN"). */
 struct Ipv6NdPending {
     u8 tag[3];
