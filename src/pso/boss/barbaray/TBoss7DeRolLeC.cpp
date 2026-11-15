@@ -552,7 +552,7 @@ u16 get_entity_id(void *);
 s16 TObjFish__sub_802E7CC4(TBoss7DeRolLeC *self);
 
 
-void TObjFish__sub_802E7D70(TBoss7DeRolLeC *self, s16 slot, const Vec *position, Ang_802E7888 *angle, s32 flags);
+void TBoss7DeRolLeC__spawn_crawfish_child(TBoss7DeRolLeC *self, s16 slot, const Vec *position, Ang_802E7888 *angle, s32 flags);
 
 // The set entry a crawfish spawned by De Rol Le C is built from (layout from
 // the stores below; position and rotation as TObjMotion reads them).
@@ -4801,7 +4801,7 @@ void TObjPlayer__sub_802E7EA0(void *arg0) {
 #pragma opt_propagation off
 #pragma opt_lifetimes off
 extern "C" {
-void TObjFish__sub_802E7D70(TBoss7DeRolLeC *self, s16 slot, const Vec *position, Ang_802E7888 *angle, s32 flags) {
+void TBoss7DeRolLeC__spawn_crawfish_child(TBoss7DeRolLeC *self, s16 slot, const Vec *position, Ang_802E7888 *angle, s32 flags) {
     Boss7CrawfishSetData set;
     u16 id;
     TObject *child;
@@ -4880,7 +4880,7 @@ void TBoss7DeRolLeC__try_spawn_pattern_crawfish(TBoss7DeRolLeC *self, s32 varian
         }
         Ang_802E7888 angle = lbl_80473F9C;
         angle.y = angles[index];
-        TObjFish__sub_802E7D70(self, TObjFish__sub_802E7CC4(self), &positions[index], &angle, flag);
+        TBoss7DeRolLeC__spawn_crawfish_child(self, TObjFish__sub_802E7CC4(self), &positions[index], &angle, flag);
     }
 }
 
