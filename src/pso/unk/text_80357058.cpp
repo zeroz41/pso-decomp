@@ -2,7 +2,6 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/unk/TLobby_801E43E4.h"
-#include "pso/weapon/TItemAttackCol_802E4798.h"
 #include "pso/object/ambient/TObjLight_803DF220.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject_8001A448.h"

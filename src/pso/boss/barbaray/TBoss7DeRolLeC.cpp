@@ -60,13 +60,32 @@
 
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
 
-#include "pso/boss/barbaray/Boss7DeRolLeCBehavior.h"
+#include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/system/BmlResourceDescriptor.h"
+
+// Load and release hooks run by run_load_callback_table / call_funcs_reverse.
+struct Boss7LoadCallback {
+    void (*load)(void);
+    void (*release)(void);
+};
+
+// What TObjEnemy::movementParameters points at.
+struct TBoss7DeRolLeCMovement {
+    EnemyMoveParams move;
+    s32 unk_0C[4];
+};
+
+// The BML resource descriptor, followed by the action table that
+// TBoss7DeRolLeC's constructor hands to set_field_d8.
+extern Boss7LoadCallback lbl_804E3C5C[6];
+extern TBoss7DeRolLeCMovement lbl_804E3C8C;
+extern BmlResourceDescriptor bm_boss7_de_rol_le_c_resource_descriptor;
+extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
 
 #include "pso/boss/barbaray/TBoss7Crawfish_8030908C.h"
 
-#include "pso/system/BmlResourceDescriptor.h"
 
 #include "pso/system/task/TObject.h"
 

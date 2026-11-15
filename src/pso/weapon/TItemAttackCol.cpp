@@ -26,7 +26,6 @@
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
 #include "pso/unk/text_80086B64.h"
 #include "pso/system/task/TObject.h"
-#include "pso/weapon/TItemAttackCol_802E4798.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include <string.h>
