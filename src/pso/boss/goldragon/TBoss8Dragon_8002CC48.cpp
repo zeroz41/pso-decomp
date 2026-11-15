@@ -423,41 +423,54 @@ extern s16 lbl_804FE250[11];
 // Builds the dragon arena's run-time meshes: an 11 x 11 grid and a 5 x 5 grid shaped by
 // apply_default_velocity_scale, an 11-wide single strip, the trail model's uv table and the list of
 // its raised vertices (role inferred from the body; free_resources releases all of them).
+#pragma push
+#pragma opt_propagation off
 void TBoss8Dragon__sub_8002D5F8(void) {
-    s16 *material = ((NJS_CNK_MODEL *)((NJS_OBJECT *)lbl_805D4B50->models[4].model)->model)->polygon_list;
-    Unk_8002DB7C::Vertex *v;
-    s32 count;
-    s16 v1;
-    f32 *vtx;
-    s32 total;
     f32 x;
-    s32 col2;
-    s16 n;
-    Ent_8002CE78 *e;
-    s32 row;
-    Vec normal;
-    Unk_8002DB7C::Vertex *verts;
-    s16 u;
-    s16 *poly;
-    s16 v0;
-    s32 i;
-    f32 *pos;
-    f32 x2;
-    Vec normal2;
+    f32 small_x;
     f32 z;
-    NJS_CNK_MODEL *trail;
+    f32 small_z;
     UV_8002D4C0 *uv;
+    s32 upper_v;
+    f32 *source;
+    Vec normal;
+    s32 uv_index;
+    s32 total;
+    s32 strip_index;
+    s32 lower_v;
+    Unk_8002DB7C::Vertex *verts;
+    f32 *vtx;
+    s32 u;
+    s32 uv_col;
+    s32 j;
+    s16 n;
+    Unk_8002DB7C::Vertex *v;
+    NJS_CNK_MODEL *trail;
+    Ent_8002CE78 *e;
+    s32 small_col;
+    s32 row;
+    s32 vertex_count;
+    Vec small_normal;
     s32 col;
+    s16 *material;
+    s32 count_index;
+    s16 *uv_strip;
+    s32 strip_count;
+    s32 uv_strip_index;
     Unk_8002DB7C::Vertex *v2;
-    s16 *strip;
-    s16 *start;
-    s16 *p;
-    s32 row2;
-    f32 z2;
+    s32 small_row;
     f32 *vstart;
-
-    lbl_805D4B60 = new Unk_8002DB7C(11, 10, 8, material);
-    verts = lbl_805D4B60->get_vertices();
+    s16 *poly;
+    s32 uv_row;
+    BmlResource *resource;
+    s32 entry_index;
+    Unk_8002DB7C *grid;
+    s32 width = 11;
+    resource = lbl_805D4B50;
+    material = ((NJS_CNK_MODEL *)((NJS_OBJECT *)resource->models[4].model)->model)->polygon_list;
+    grid = new Unk_8002DB7C(width, 10, 8, material);
+    lbl_805D4B60 = grid;
+    verts = grid->get_vertices();
     v = verts;
     z = 60.0f;
     for (row = 0; row < 11; row++) {
@@ -477,103 +490,98 @@ void TBoss8Dragon__sub_8002D5F8(void) {
         z -= 12.0f;
     }
     v = verts;
-    for (i = 0; i < 11; i++) {
-        lbl_804FE238[i] = 1024.0f * (0.0125f * v->pos.x);
-        lbl_804FE250[i] = 1024.0f * (-0.0125f * v->pos.x);
-        v++;
+    for (uv_index = 0; uv_index < 11; uv_index++, v++) {
+        lbl_804FE238[uv_index] = (s16)(1024.0f * (0.0125f * v->pos.x));
+        lbl_804FE250[uv_index] = (s16)(1024.0f * (-0.0125f * v->pos.x));
     }
 
-    lbl_805D4B68 = new Unk_8002DB7C(5, 4, 8, material);
-    v2 = lbl_805D4B68->get_vertices();
-    z2 = 0.0f;
-    for (row2 = 0; row2 < 5; row2++) {
-        x2 = 15.0f;
-        for (col2 = 0; col2 < 5; col2++) {
-            normal2.x = x2;
-            normal2.z = z2;
-            v2->pos.x = x2;
-            v2->pos.y = 2.0f + apply_default_velocity_scale(&normal2);
-            v2->pos.z = z2;
-            v2->normal.x = normal2.x;
-            v2->normal.y = normal2.y;
-            v2->normal.z = normal2.z;
+    grid = new Unk_8002DB7C(5, 4, 8, material);
+    lbl_805D4B68 = grid;
+    v2 = grid->get_vertices();
+    small_z = 0.0f;
+    for (small_row = 0; small_row < 5; small_row++) {
+        small_x = 15.0f;
+        for (small_col = 0; small_col < 5; small_col++) {
+            small_normal.x = small_x;
+            small_normal.z = small_z;
+            v2->pos.x = small_x;
+            v2->pos.y = 2.0f + apply_default_velocity_scale(&small_normal);
+            v2->pos.z = small_z;
+            v2->normal.x = small_normal.x;
+            v2->normal.y = small_normal.y;
+            v2->normal.z = small_normal.z;
             v2++;
-            x2 -= 7.5f;
+            small_x -= 7.5f;
         }
-        z2 -= 7.5f;
+        small_z -= 7.5f;
     }
     poly = lbl_805D4B68->polygons;
     poly[7] = (poly[7] & 0xC000) | 5;
     poly[8] |= 0x900;
-    strip = lbl_805D4B68->get_strips();
-    v0 = 0x400;
-    v1 = 0x300;
-    for (row = 0; row < 4; row++) {
-        strip++;
+    poly = lbl_805D4B68->get_strips();
+    upper_v = 0x400;
+    lower_v = 0x300;
+    for (uv_row = 0; uv_row < 4; uv_row++) {
         u = 0;
-        for (col = 0; col < 5; col++) {
-            strip[1] = u;
-            strip[2] = v0;
-            strip[4] = u;
-            strip[5] = v1;
-            strip += 6;
+        poly++;
+        for (uv_col = 0; uv_col < 5; uv_col++) {
+            poly[1] = u;
+            poly[2] = upper_v;
+            poly[4] = u;
+            poly[5] = lower_v;
+            poly += 6;
             u += 0x100;
         }
-        v0 = v1;
-        v1 -= 0x100;
+        upper_v = lower_v;
+        lower_v -= 0x100;
     }
 
-    lbl_805D4B64 = new Unk_8002DB7C(11, 1, 8, material);
-
-    trail = (NJS_CNK_MODEL *)((NJS_OBJECT *)lbl_805D4B50->models[3].model)->model;
-    vtx = (f32 *)trail->vertex_list;
-    poly = trail->polygon_list;
-    poly[6] = 0x408;
-    p = poly + 8;
-    lbl_805D4B70 = p;
-    p[0] = 0x242;
-    count = p[2] & 0x3FFF;
-    p += 3;
-    start = p;
-    vtx += 2;
-    total = 0;
-    for (i = 0; i < count; i++) {
-        n = *p++;
-        if (n < 0) {
-            n = -n;
+    grid = new Unk_8002DB7C(11, 1, 8, material);
+    lbl_805D4B64 = grid;
+    {
+        s16 *start;
+        trail = (NJS_CNK_MODEL *)((NJS_OBJECT *)lbl_805D4B50->models[3].model)->model;
+        vtx = (f32 *)trail->vertex_list;
+        poly = trail->polygon_list;
+        poly[6] = 0x408;
+        lbl_805D4B70 = (poly += 8);
+        poly[0] = 0x242;
+        strip_count = poly[2] & 0x3FFF;
+        poly += 3;
+        start = poly;
+        total = 0;
+        vtx += 2;
+        for (strip_index = 0; strip_index < strip_count; strip_index++) {
+            n = *poly++;
+            if (n < 0) n = -n;
+            total += n;
         }
-        total += n;
+        lbl_805D4B6C = (UV_8002D4C0 *)mem_alloc(total * sizeof(UV_8002D4C0));
+        uv = lbl_805D4B6C;
+        uv_strip = start;
+        for (uv_strip_index = 0; uv_strip_index < strip_count; uv_strip_index++) {
+            n = *uv_strip++;
+            if (n < 0) n = -n;
+            for (j = 0; j < n; j++) {
+                // Six floats (position and normal) per vertex.
+                source = vtx + (u32)(*uv_strip * 6);
+                uv_strip += 3;
+                uv->u = (s16)(1024.0f * (0.0125f * source[0]));
+                uv->v = (s16)(1024.0f * (-0.0125f * source[2]));
+                uv++;
+            }
+        }
     }
-    uv = (UV_8002D4C0 *)mem_alloc(total * 4);
-    p = start;
-    lbl_805D4B6C = uv;
-    for (i = 0; i < count; i++) {
-        n = *p++;
-        if (n < 0) {
-            n = -n;
-        }
-        for (col = 0; col < n; col++) {
-            pos = vtx + *p * 6;
-            p += 3;
-            uv->u = 1024.0f * (0.0125f * pos[0]);
-            uv->v = 1024.0f * (-0.0125f * pos[2]);
-            uv++;
-        }
-    }
-
-    count = ((u32 *)((NJS_CNK_MODEL *)((NJS_OBJECT *)lbl_805D4B50->models[3].model)->model)->vertex_list)[1] >> 16;
+    vertex_count = ((u32 *)((NJS_CNK_MODEL *)((NJS_OBJECT *)lbl_805D4B50->models[3].model)->model)->vertex_list)[1] >> 16;
     lbl_805D4B74 = 0;
     vstart = vtx;
-    for (i = 0; i < count; i++) {
-        if (vtx[1] > 15.0f) {
-            lbl_805D4B74++;
-        }
-        vtx += 6;
+    for (count_index = 0; count_index < vertex_count; count_index++, vtx += 6) {
+        if (vtx[1] > 15.0f) lbl_805D4B74++;
     }
-    e = (Ent_8002CE78 *)mem_alloc(lbl_805D4B74 * 16);
+    lbl_805D4B78 = (Ent_8002CE78 *)mem_alloc(lbl_805D4B74 * sizeof(Ent_8002CE78));
+    e = lbl_805D4B78;
     vtx = vstart;
-    lbl_805D4B78 = e;
-    for (i = 0; i < count; i++) {
+    for (entry_index = 0; entry_index < vertex_count; vtx += 6, entry_index++) {
         if (vtx[1] > 15.0f) {
             e->dst = &vtx[1];
             e->base = vtx[1];
@@ -581,9 +589,9 @@ void TBoss8Dragon__sub_8002D5F8(void) {
             e->state = (s32)(70.0f * (3.0517578125e-05f * (f32)rand())) + 2;
             e++;
         }
-        vtx += 6;
     }
 }
+#pragma pop
 
 s16 *Unk_8002DB7C::get_strips() {
     return polygons + (materialWords + 3);
