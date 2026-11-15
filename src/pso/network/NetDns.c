@@ -1184,8 +1184,10 @@ extern s32 TLobby__sub_8040BA38(DnsQuery *self, u8 *p, s32 n)
 #pragma opt_lifetimes off
 extern s32 TLobby__sub_8040BD40(DnsQuery *self, u8 *p, s32 n, u8 *dst)
 {
+  s32 offset;
   s32 count;
   s16 limit;
+  u8 *data;
   u8 c;
   u8 *d;
   u8 c2;
@@ -1203,8 +1205,9 @@ extern s32 TLobby__sub_8040BD40(DnsQuery *self, u8 *p, s32 n, u8 *dst)
     }
     if (c & 0xC0)
     {
-      s = self->reply->data;
-      s += (u16) (((c & ~0xC0) << 8) | p[1]);
+      limit = offset = ((c & ~0xC0) << 8) | p[1];
+      s = data = self->reply->data;
+      s += (u16) limit;
       c2 = *s;
       d = dst;
       while (c2 != 0)
