@@ -59,6 +59,14 @@ s32 NetUnregisterTimer(void* p);
 #pragma dont_inline off
 #pragma inline_depth(4)
 
+s32 TLobby__sub_8041A1D8(void) {
+    NetUnregisterTimer((void *)TLobby__sub_8041A5B4);
+    NetUnregisterTimer((void *)TLobby__sub_8041A3CC);
+    TLobby__sub_803F8794((void *)&tcp_protocol_state);
+    tcp_protocol_state.count = 0;
+    return 0;
+}
+
 #pragma push
 #pragma opt_common_subs on
 s32 NetTCPInit(void) {
@@ -134,6 +142,153 @@ extern void TLobby__sub_8041A3CC(void) {
         }
     }
 }
+
+void TLobby__sub_8041A498(TcpTcb *arg0, s16 arg1) {
+    s16 idx = arg0 - tcp_protocol_state.tcbs;
+
+    if (arg0->t_state >= 3) {
+        arg0->t_state = 0;
+        TLobby__sub_8041A9AC(arg0);
+    }
+    arg0->error = arg1;
+    switch (arg1) {
+    case 4:
+        set_thread_state_and_resume(idx, arg0->send_done, -8);
+        set_slot_state_and_resume(idx, arg0->recv_done, -8);
+        NetDispatchSocketEvent(idx, arg0->event_ctx, 3, 0xB);
+        break;
+    default:
+        set_thread_state_and_resume(idx, arg0->send_done, -5);
+        set_slot_state_and_resume(idx, arg0->recv_done, -5);
+        NetDispatchSocketEvent(idx, arg0->event_ctx, 3, 0xA);
+        break;
+    }
+    if (TLobby__sub_8041B5C0(arg0) != 0) {
+        arg0->t_state = -1;
+    }
+}
+
+extern void TLobby__sub_8041A5B4(void) {
+    s32 TLobby__sub_8041A6A4(TcpTcb *tcb, s32 timer); /* declared here with an s32 timer; the definition takes s16 */
+    s16 *t;
+    TcpState *g = (TcpState *)&tcp_protocol_state;
+    TcpTcb *tcb;
+    s16 i;
+    s32 j;
+
+    g->maxidle = g->keepintvl << 3;
+    tcb = g->tcbs;
+    for (i = 0; i < g->count; tcb++, i++) {
+        if (tcb->state != 0 && tcb->state == 1) {
+            t = (s16 *)tcb;
+            for (j = 0; (s16)j < 4; t++, j++) {
+                if (t[offsetof(TcpTcb, timers) / sizeof(s16)] > 0) {
+                    t[offsetof(TcpTcb, timers) / sizeof(s16)]--;
+                    if (t[offsetof(TcpTcb, timers) / sizeof(s16)] == 0) {
+                        TLobby__sub_8041A6A4(tcb, j);
+                    }
+                }
+            }
+            tcb->idle++;
+            if (tcb->rtt != 0) {
+                tcb->rtt++;
+            }
+        }
+    }
+    g->iss += 0x10000 - 0x600;
+}
+
+#pragma push
+#pragma opt_common_subs on
+extern s32 TLobby__sub_8041A6A4(TcpTcb *tcb, s16 timer) {
+    s32 TLobby__sub_8041B3D4(void*, void*, u16, u16, u32, u32, s32); /* declared here with other parameter types; the definition is s32 (void *, void *, s16, s16, s32, s32, u8) */
+    TcpState *g = &tcp_protocol_state;
+    s16 keep;
+    s32 win;
+    s32 rexmt;
+    s32 t;
+
+    switch (timer) {
+    case 3:
+        if (tcb->t_state != 10 && tcb->idle <= g->maxidle) {
+            tcb->timers[3] = g->keepintvl;
+        } else {
+            TLobby__sub_8041B5C0(tcb);
+        }
+        break;
+    case 0:
+        tcb->rxtshift++;
+        if (tcb->rxtshift > 12) {
+            tcb->rxtshift = 12;
+            TLobby__sub_8041A498(tcb, 4);
+            break;
+        }
+        rexmt = (tcb->srtt >> 3) + tcb->rttvar;
+        rexmt *= g->backoff[tcb->rxtshift];
+        tcb->rxtcur = rexmt;
+        if (tcb->rxtcur < 2) {
+            tcb->rxtcur = 2;
+        } else if (tcb->rxtcur > 128) {
+            tcb->rxtcur = 128;
+        }
+        tcb->timers[0] = tcb->rxtcur;
+        if (tcb->rxtshift > 3) {
+            tcb->rttvar += tcb->srtt >> 3;
+            tcb->srtt = 0;
+        }
+        reset_slot_index((void *)tcb);
+        tcb->rexmit_bytes = 0;
+        tcb->f2F0 = 0;
+        tcb->f2F4 = tcb->snd_una;
+        tcb->snd_nxt = tcb->snd_una;
+        tcb->rtt = 0;
+        win = ((tcb->snd_wnd < tcb->snd_cwnd) ? tcb->snd_wnd : tcb->snd_cwnd) / 2 / tcb->maxseg;
+        if (win < 2) {
+            win = 2;
+        }
+        tcb->snd_cwnd = tcb->maxseg;
+        tcb->snd_ssthresh = win * tcb->maxseg;
+        TLobby__sub_8041A9AC(tcb);
+        break;
+    case 1:
+        t = ((tcb->srtt >> 2) + tcb->rttvar) >> 1;
+        tcb->timers[1] = t * g->backoff[tcb->rxtshift];
+        if (tcb->timers[1] < 10) {
+            tcb->timers[1] = 10;
+        } else if (tcb->timers[1] > 120) {
+            tcb->timers[1] = 120;
+        }
+        if (tcb->rxtshift < 12) {
+            tcb->rxtshift++;
+        }
+        tcb->force = 1;
+        TLobby__sub_8041A9AC(tcb);
+        tcb->force = 0;
+        break;
+    case 2:
+        if (tcb->t_state < 4) {
+            goto drop;
+        }
+        keep = tcb->keepidle;
+        if (keep != 0 && tcb->t_state <= 5) {
+            if (tcb->idle >= keep + ((g->maxidle < keep * 8) ? g->maxidle : keep * 8)) {
+                goto drop;
+            }
+            TLobby__sub_8041B3D4(tcb->remote, tcb->local, tcb->hdr.sport, tcb->hdr.dport, tcb->snd_una - 1, tcb->rcv_nxt, 16);
+            tcb->timers[2] = (g->keepintvl < tcb->keepidle) ? g->keepintvl : tcb->keepidle;
+        } else if (keep != 0) {
+            tcb->timers[2] = keep;
+        } else {
+            tcb->timers[2] = g->keepidle;
+        }
+        break;
+    drop:
+        TLobby__sub_8041A498(tcb, 4);
+        break;
+    }
+    return 0;
+}
+#pragma pop
 
 void clear_position(TcpTcb *tcb) {
     tcb->timers[0] = 0;
@@ -1535,161 +1690,6 @@ s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, u8 *p6)
 
   self->maxseg = ((self->peer_mss) < ((s16) TLobby__sub_8041B724(self))) ? (self->peer_mss) : ((s16) TLobby__sub_8041B724(self));
   return 0;
-}
-#pragma pop
-
-s32 TLobby__sub_8041A1D8(void) {
-    NetUnregisterTimer((void *)TLobby__sub_8041A5B4);
-    NetUnregisterTimer((void *)TLobby__sub_8041A3CC);
-    TLobby__sub_803F8794((void *)&tcp_protocol_state);
-    tcp_protocol_state.count = 0;
-    return 0;
-}
-
-void TLobby__sub_8041A498(TcpTcb *arg0, s16 arg1) {
-    s16 idx = arg0 - tcp_protocol_state.tcbs;
-
-    if (arg0->t_state >= 3) {
-        arg0->t_state = 0;
-        TLobby__sub_8041A9AC(arg0);
-    }
-    arg0->error = arg1;
-    switch (arg1) {
-    case 4:
-        set_thread_state_and_resume(idx, arg0->send_done, -8);
-        set_slot_state_and_resume(idx, arg0->recv_done, -8);
-        NetDispatchSocketEvent(idx, arg0->event_ctx, 3, 0xB);
-        break;
-    default:
-        set_thread_state_and_resume(idx, arg0->send_done, -5);
-        set_slot_state_and_resume(idx, arg0->recv_done, -5);
-        NetDispatchSocketEvent(idx, arg0->event_ctx, 3, 0xA);
-        break;
-    }
-    if (TLobby__sub_8041B5C0(arg0) != 0) {
-        arg0->t_state = -1;
-    }
-}
-
-extern void TLobby__sub_8041A5B4(void) {
-    s32 TLobby__sub_8041A6A4(TcpTcb *tcb, s32 timer); /* declared here with an s32 timer; the definition takes s16 */
-    s16 *t;
-    TcpState *g = (TcpState *)&tcp_protocol_state;
-    TcpTcb *tcb;
-    s16 i;
-    s32 j;
-
-    g->maxidle = g->keepintvl << 3;
-    tcb = g->tcbs;
-    for (i = 0; i < g->count; tcb++, i++) {
-        if (tcb->state != 0 && tcb->state == 1) {
-            t = (s16 *)tcb;
-            for (j = 0; (s16)j < 4; t++, j++) {
-                if (t[offsetof(TcpTcb, timers) / sizeof(s16)] > 0) {
-                    t[offsetof(TcpTcb, timers) / sizeof(s16)]--;
-                    if (t[offsetof(TcpTcb, timers) / sizeof(s16)] == 0) {
-                        TLobby__sub_8041A6A4(tcb, j);
-                    }
-                }
-            }
-            tcb->idle++;
-            if (tcb->rtt != 0) {
-                tcb->rtt++;
-            }
-        }
-    }
-    g->iss += 0x10000 - 0x600;
-}
-
-#pragma push
-#pragma opt_common_subs on
-extern s32 TLobby__sub_8041A6A4(TcpTcb *tcb, s16 timer) {
-    s32 TLobby__sub_8041B3D4(void*, void*, u16, u16, u32, u32, s32); /* declared here with other parameter types; the definition is s32 (void *, void *, s16, s16, s32, s32, u8) */
-    TcpState *g = &tcp_protocol_state;
-    s16 keep;
-    s32 win;
-    s32 rexmt;
-    s32 t;
-
-    switch (timer) {
-    case 3:
-        if (tcb->t_state != 10 && tcb->idle <= g->maxidle) {
-            tcb->timers[3] = g->keepintvl;
-        } else {
-            TLobby__sub_8041B5C0(tcb);
-        }
-        break;
-    case 0:
-        tcb->rxtshift++;
-        if (tcb->rxtshift > 12) {
-            tcb->rxtshift = 12;
-            TLobby__sub_8041A498(tcb, 4);
-            break;
-        }
-        rexmt = (tcb->srtt >> 3) + tcb->rttvar;
-        rexmt *= g->backoff[tcb->rxtshift];
-        tcb->rxtcur = rexmt;
-        if (tcb->rxtcur < 2) {
-            tcb->rxtcur = 2;
-        } else if (tcb->rxtcur > 128) {
-            tcb->rxtcur = 128;
-        }
-        tcb->timers[0] = tcb->rxtcur;
-        if (tcb->rxtshift > 3) {
-            tcb->rttvar += tcb->srtt >> 3;
-            tcb->srtt = 0;
-        }
-        reset_slot_index((void *)tcb);
-        tcb->rexmit_bytes = 0;
-        tcb->f2F0 = 0;
-        tcb->f2F4 = tcb->snd_una;
-        tcb->snd_nxt = tcb->snd_una;
-        tcb->rtt = 0;
-        win = ((tcb->snd_wnd < tcb->snd_cwnd) ? tcb->snd_wnd : tcb->snd_cwnd) / 2 / tcb->maxseg;
-        if (win < 2) {
-            win = 2;
-        }
-        tcb->snd_cwnd = tcb->maxseg;
-        tcb->snd_ssthresh = win * tcb->maxseg;
-        TLobby__sub_8041A9AC(tcb);
-        break;
-    case 1:
-        t = ((tcb->srtt >> 2) + tcb->rttvar) >> 1;
-        tcb->timers[1] = t * g->backoff[tcb->rxtshift];
-        if (tcb->timers[1] < 10) {
-            tcb->timers[1] = 10;
-        } else if (tcb->timers[1] > 120) {
-            tcb->timers[1] = 120;
-        }
-        if (tcb->rxtshift < 12) {
-            tcb->rxtshift++;
-        }
-        tcb->force = 1;
-        TLobby__sub_8041A9AC(tcb);
-        tcb->force = 0;
-        break;
-    case 2:
-        if (tcb->t_state < 4) {
-            goto drop;
-        }
-        keep = tcb->keepidle;
-        if (keep != 0 && tcb->t_state <= 5) {
-            if (tcb->idle >= keep + ((g->maxidle < keep * 8) ? g->maxidle : keep * 8)) {
-                goto drop;
-            }
-            TLobby__sub_8041B3D4(tcb->remote, tcb->local, tcb->hdr.sport, tcb->hdr.dport, tcb->snd_una - 1, tcb->rcv_nxt, 16);
-            tcb->timers[2] = (g->keepintvl < tcb->keepidle) ? g->keepintvl : tcb->keepidle;
-        } else if (keep != 0) {
-            tcb->timers[2] = keep;
-        } else {
-            tcb->timers[2] = g->keepidle;
-        }
-        break;
-    drop:
-        TLobby__sub_8041A498(tcb, 4);
-        break;
-    }
-    return 0;
 }
 #pragma pop
 

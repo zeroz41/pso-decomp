@@ -2653,3 +2653,4 @@ pso/effect/TEF_LensFlare.cpp
 pso/boss/goldragon/TBoss8Dragon_8002CC48.cpp
 pso/boss/barbaray/TBoss7DeRolLeC.cpp
 pso/quest/TQuestVmDownLoadServer_803E9A24.cpp
+pso/network/NetTcp.c
