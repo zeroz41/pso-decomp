@@ -9157,16 +9157,11 @@ pso/unk/text_802E3BA8.cpp:
 	.text       start:0x802E3BA8 end:0x802E3BFC
 
 pso/weapon/TItemAttackCol.cpp:
-	.text       start:0x802E3BFC end:0x802E4748
+	.text       start:0x802E3BFC end:0x802E4B80
 	.rodata     start:0x80472998 end:0x804729C8
-	.data       start:0x804E3530 end:0x804E355C
-	.sdata2     start:0x805DE914 end:0x805DE920
-
-pso/effect/item/TItemEffOrgaFlowShot.cpp:
-	.text       start:0x802E4748 end:0x802E4798
-
-pso/weapon/TItemAttackCol_802E4798.cpp:
-	.text       start:0x802E4798 end:0x802E4B80
+	.data       start:0x804E3530 end:0x804E3578
+	.sdata      start:0x805D3F88 end:0x805D3F90
+	.sdata2     start:0x805DE910 end:0x805DE930
 
 pso/object/ending/TObjOnlineEnding_802E4B80.cpp:
 	.text       start:0x802E4B80 end:0x802E530C
