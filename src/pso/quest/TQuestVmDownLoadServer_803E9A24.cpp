@@ -967,7 +967,6 @@ inline void append_candidate_items(Node_803EA384 *item, Node_803EA384 **tail) {
 inline void set_candidate_span(Slot_803EA428 *slot, s32 maximum) {
     slot->width = maximum;
 }
-// The scan addresses the slot table from the workspace's address (one base register for both).
 struct QuestDownloadWorkspaceAddress {
     size_t address;
     QuestDownloadWorkspaceAddress(size_t base) : address(base) {}
@@ -1215,7 +1214,6 @@ void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32
     s32 selectedEnd;
     u8 *text;
     Slot_803EA428 *first;
-    u8 *tokenText;
     s32 groupPos;
     s32 entryEnd;
     s32 remaining;
@@ -1243,8 +1241,7 @@ void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32
     remaining = limit - start;
     while (remaining > 0) {
         if (slot->x0 == (const Ent_803E9DE0 *)0xFFFFFFFF) {
-            tokenText = text;
-            tokens = find_longest_match_entry__22TQuestVmDownLoadServerFPviPv(tokenText, remaining, &tokenLength);
+            tokens = find_longest_match_entry__22TQuestVmDownLoadServerFPviPv(text, remaining, &tokenLength);
             if (tokens == (const Ent_803E9DE0 *)0xFFFFFFFF) {
                 break;
             }
