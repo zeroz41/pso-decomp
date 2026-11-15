@@ -878,9 +878,9 @@ void TObjWarpBoss::close_windows() {
         ((TWindowBase *)(*(void **)((s8 *)this + 0xB0)))->close();
         this->menu_window = 0U;
     }
-    if ((u32) this->m_180 != 0U) {
+    if ((u32) this->player_list_window != 0U) {
         ((TWindowBase *)(*(void **)((s8 *)this + 0x164)))->close();
-        this->m_180 = 0U;
+        this->player_list_window = 0U;
     }
     end_player_keyboard_hold(local_client_id);
     TWindowCtrl::clear_flag();
@@ -960,9 +960,9 @@ void TObjWarpBoss::update_warp_boss_visibility() {
             ((TObject *)(*(void **)((s8 *)this + 0xB0)))->suspend_update();
             ((TObject *)(this->menu_window))->disallow_rendering();
         }
-        if ((u32) this->m_180 != 0U) {
+        if ((u32) this->player_list_window != 0U) {
             ((TObject *)(*(void **)((s8 *)this + 0x164)))->suspend_update();
-            ((TObject *)(this->m_180))->disallow_rendering();
+            ((TObject *)(this->player_list_window))->disallow_rendering();
         }
     } else {
         if ((u32) *(u32 *)((s8 *)this + 0x168) != 0U) {
@@ -973,9 +973,9 @@ void TObjWarpBoss::update_warp_boss_visibility() {
             ((TQuestVmDownLoadServer *)(*(void **)((s8 *)this + 0xB0)))->clear_flag4_bit4();
             ((TObject *)(this->menu_window))->allow_rendering();
         }
-        if ((u32) this->m_180 != 0U) {
+        if ((u32) this->player_list_window != 0U) {
             ((TQuestVmDownLoadServer *)(*(void **)((s8 *)this + 0x164)))->clear_flag4_bit4();
-            ((TObject *)(this->m_180))->allow_rendering();
+            ((TObject *)(this->player_list_window))->allow_rendering();
         }
     }
 }
