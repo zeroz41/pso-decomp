@@ -141,8 +141,9 @@ pso/system/TLoadCtrl.cpp:
 
 pso/ui/hud/TLoadingCur.cpp:
 	.text       start:0x8001CAD4 end:0x8001D198
-	.rodata     start:0x80434A08 end:0x80434A10
+	.rodata     start:0x804349F0 end:0x80434A10
 	.data       start:0x80480C80 end:0x80480C98
+	.sdata      start:0x805D2638 end:0x805D2640
 	.sdata2     start:0x805D7E90 end:0x805D7EC0
 
 pso/ui/hud/TNowLoading.cpp:
@@ -1809,8 +1810,9 @@ pso/render/RenderFadeState_800D7BFC.cpp:
 
 pso/object/TDeadSpot.cpp:
 	.text       start:0x800D7CF4 end:0x800D87A8
-	.rodata     start:0x8043C720 end:0x8043C728
+	.rodata     start:0x8043C710 end:0x8043C728
 	.data       start:0x80494A28 end:0x80494A40
+	.sdata      start:0x805D2A98 end:0x805D2AA0
 	.sdata2     start:0x805DA388 end:0x805DA3C0
 
 pso/npc/TNpcPlayer_800D87A8.cpp:
@@ -7116,8 +7118,9 @@ pso/ui/window/TWindowMainMenu_8024E3CC.cpp:
 
 pso/ui/window/TWindowDeposit.cpp:
 	.text       start:0x8024E434 end:0x8024E68C
-	.rodata     start:0x8044EC68 end:0x8044EC70
+	.rodata     start:0x8044EC58 end:0x8044EC70
 	.data       start:0x804CEB30 end:0x804CEB84
+	.sdata      start:0x805D38E8 end:0x805D38F0
 	.sdata2     start:0x805DCC60 end:0x805DCC74
 
 pso/ui/window/TWindowKeyBoardSoft_8024E68C.cpp:
@@ -7315,7 +7318,9 @@ pso/ui/window/TWindowSubMag_802627D8.cpp:
 
 pso/ui/window/TWindowLoadItemTexture.cpp:
 	.text       start:0x802628C0 end:0x80262C3C
+	.rodata     start:0x8044F268 end:0x8044F288
 	.data       start:0x804D0020 end:0x804D006C
+	.sdata      start:0x805D3940 end:0x805D3948
 	.sdata2     start:0x805DD0D8 end:0x805DD100
 
 pso/ui/window/TWindowLockOn_80262C3C.cpp:
@@ -7995,7 +8000,9 @@ pso/boss/galgryphon/TObjBoss5FloorGrass.cpp:
 
 pso/boss/galgryphon/TObjBoss5PillarDemo.cpp:
 	.text       start:0x8028AB38 end:0x8028AE9C
+	.rodata     start:0x80450CA0 end:0x80450CB8
 	.data       start:0x804D35F0 end:0x804D3608
+	.sdata      start:0x805D3B28 end:0x805D3B30
 	.sbss       start:0x805D64D0 end:0x805D64D8
 	.sdata2     start:0x805DD908 end:0x805DD90C
 
@@ -9587,8 +9594,10 @@ pso/unk/TLobby_8030A834.cpp:
 
 pso/boss/darkfalz/TBoss4ZakoDraw.cpp:
 	.text       start:0x8030A884 end:0x8030AD38
+	.rodata     start:0x80475648 end:0x80475658
 	.data       start:0x804E7650 end:0x804E7668
 	.bss        start:0x80541E58 end:0x80542D60
+	.sdata      start:0x805D40D0 end:0x805D40D8
 
 pso/boss/darkfalz/TBoss4ZakoDraw_8030AD38.cpp:
 	.text       start:0x8030AD38 end:0x8030AD58

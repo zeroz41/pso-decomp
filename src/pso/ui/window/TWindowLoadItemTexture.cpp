@@ -64,14 +64,17 @@ extern "C" {
 
 void get_array_entry__11TWindowBaseFi(void *, int);
 extern s32 __vt__22TWindowLoadItemTexture[];
-extern s32 lbl_805D3940;
+#pragma push
+#pragma readonly_strings on
+const char *TWindowLoadItemTexture__name = "TWindowLoadItemTexture";
+#pragma pop
 extern s32 tl_07;
 
 s32 draw_visible_window_entries(void *, void *, s32);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
-extern s32 lbl_8044F280[];
+extern const f32 lbl_8044F280[2] = { 160.0f, 120.0f };
 
 void *TWindowLoadItemTexture::create(void *arg1) {
     void *o;
@@ -118,7 +121,7 @@ void *TWindowLoadItemTexture__ct(TWindowLoadItemTexture *window_load_item_textur
     void *e;
     ((TWindowDD *)window_load_item_texture)->construct_base((u8 *)&TWindowLoadItemTexture__window_descriptor, (s16)((s16)(s32)arg3), (u8 *)arg1);
     *(s32 **)((s8 *)window_load_item_texture + 0x18) = __vt__22TWindowLoadItemTexture;
-    *(s32 *)((s8 *)window_load_item_texture + 0) = lbl_805D3940;
+    *(s32 *)((s8 *)window_load_item_texture + 0) = (s32)TWindowLoadItemTexture__name;
     switch (TCameraCtrl::get_camera_id()) {
     case 1:
         *(f32 *)((s8 *)window_load_item_texture + 0x68) = *(f32 *)((s8 *)window_load_item_texture + 0x64) = 1.0f;

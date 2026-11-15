@@ -109,7 +109,10 @@ s32 fn_803D8DE0(int, void *, void *, int);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, int);
 extern void *__vt__9TDeadSpot[];
-extern s32 lbl_805D2A98;
+#pragma push
+#pragma readonly_strings on
+s32 TDeadSpot__class_name = (s32)"TDeadSpot";
+#pragma pop
 Mark_800D8314 *__ct__9TDeadSpotFv(Mark_800D8314 *self, void *parent, Vec_800D8314 *point, void *texture, s32 selector, s32 delay, f32 maxScale);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
@@ -326,7 +329,7 @@ Mark_800D8314 *__ct__9TDeadSpotFv(Mark_800D8314 *self, void *parent, Vec_800D831
     s32 i;
     __ct__7TObjectFP7TObject(self, parent);
     self->vtable = __vt__9TDeadSpot;
-    self->name = lbl_805D2A98;
+    self->name = TDeadSpot__class_name;
     self->texture = texture;
     self->selector = selector;
     self->maxScale = maxScale;
