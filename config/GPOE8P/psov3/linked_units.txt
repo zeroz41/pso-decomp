@@ -487,7 +487,6 @@ pso/weapon/TUnk_804A4338.cpp
 pso/weapon/SpecialProjectileWeapons.cpp
 pso/weapon/SpecialProjectileWeapons_80124760.cpp
 pso/item/TItem.cpp
-pso/weapon/TItemAttackCol_802E4798.cpp
 pso/weapon/TItemAttacker.cpp
 pso/item/TItemBuff.cpp
 pso/item/TItemData.cpp
@@ -512,7 +511,6 @@ pso/effect/item/TItemEffHeaven.cpp
 pso/effect/item/TItemEffLandHit.cpp
 pso/effect/item/TItemEffLavis.cpp
 pso/effect/item/TItemEffNeedle.cpp
-pso/effect/item/TItemEffOrgaFlowShot.cpp
 pso/effect/item/TItemEffPG.cpp
 pso/effect/item/TItemEffShield.cpp
 pso/effect/item/TItemEffShield_8010A390.cpp
@@ -2640,3 +2638,4 @@ pso/technique/TTecGiFoie.cpp
 pso/enemy/panarms/TObjEnePanarms.cpp
 pso/ui/charcreate/TObjCMName.cpp
 pso/unk/TUnk_804CC948.cpp
+pso/weapon/TItemAttackCol.cpp
