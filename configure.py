@@ -630,6 +630,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/window/TWindowChoiceSetting.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/chat/TWindowSubSymbolChatPartsSet.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/chat/TWindowSubSymbolChat_80281814.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # its class-name string sits in .rodata ahead of the list/window size pairs: readonly strings.
+    "pso/ui/chat/TWindowSubShortMail_8027E620.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/derolle/TBoss2Tentacle.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/derolle/TObjBoss2Tunnel_8003B138.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/charcreate/TChCrEffWall.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

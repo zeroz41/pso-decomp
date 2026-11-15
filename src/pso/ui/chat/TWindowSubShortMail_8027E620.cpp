@@ -30,6 +30,11 @@
 
 class TChCrTagPlBack;
 
+const char *TWindowSubShortMail__class_name = "TWindowSubShortMail";
+// Size arguments of the mail list item and the mail text window.
+static const f32 lbl_8044FAC4[2] = {218.0f, 184.0f};
+static const f32 lbl_8044FACC[2] = {206.0f, 120.0f};
+
 extern "C" {
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
@@ -64,7 +69,6 @@ int get_short_mail_ctrl__6TLobbyFv(void);
 void clear_lobby_flag__6TLobbyFv(void);
 s32 add_status_entry__20TWindowSubStatusDispFScll(void *, s32, s32, u32);
 void *create__14TWindowMessageFPvll(s32, void *, s32);
-extern s32 lbl_8044FACC[];
 s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, s32, s32, s32);
 s32 free_member__17TWindowSubComCardFv(s32, s32);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
@@ -251,8 +255,6 @@ s32 create_menu__19TWindowSubShortMailFv(void) {
     return temp_r31;
 }
 
-extern s32 lbl_8044FAC4[];
-
 s32 TWindowSubShortMail::refresh_mail_list(void *arg1) {
     s32 n;
     u32 id;
@@ -281,7 +283,7 @@ s32 TWindowSubShortMail::refresh_mail_list(void *arg1) {
             this->m_3c = 0;
         }
     } else if (this->m_3c == 0) {
-        *(void * *)&this->m_3c = create__14TWindowMessageFPvll(get_window_layout_position(0x9C), lbl_8044FACC, 1);
+        *(void * *)&this->m_3c = create__14TWindowMessageFPvll(get_window_layout_position(0x9C), (void *)lbl_8044FACC, 1);
         this->m_24 = -1;
     }
     if (sel == -1) {
@@ -672,9 +674,8 @@ void *__dt__19TWindowSubShortMailFv(TWindowSubShortMail *arg0, s16 arg1) {
 }
 }
 
-extern void *TWindowSubShortMail__class_name;
 TWindowSubShortMail::TWindowSubShortMail(TObject *object, void *arg2) : TObject(object) {
-    *(void * *)&this->m_name = TWindowSubShortMail__class_name;
+    m_name = TWindowSubShortMail__class_name;
     *(void **)((s8 *)this + 0x34) = object;
     *(void **)((s8 *)this + 0x20) = arg2;
     this->m_40 = 0;
