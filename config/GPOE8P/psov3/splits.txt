@@ -7560,6 +7560,7 @@ pso/ui/city/TShopJudgmentItemWindow_8026DF00.cpp:
 
 pso/ui/window/TWindowSubStatusDisp_8026DFE8.cpp:
 	.text       start:0x8026DFE8 end:0x8026E5E8
+	.sdata2     start:0x805DD348 end:0x805DD380
 
 pso/ui/window/TWindowShortCut.cpp:
 	.text       start:0x8026E5E8 end:0x8026E7DC

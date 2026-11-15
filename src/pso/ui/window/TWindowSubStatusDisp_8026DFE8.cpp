@@ -111,50 +111,46 @@ struct Vec2f {
 void measure_message_text_width(TextEntry *entry, f32 max_width);
 void refresh_status_display__9TWindowDDFv(TextEntry *entry);
 
-static const u8 chat_shortcut_icons[] = {0x12, 0x10, 0x11};
+static const u8 chat_shortcut_icons[4] = {0x12, 0x10, 0x11, 0};
 
 #pragma push
 #pragma fp_contract on
+#pragma opt_propagation off
 void TWindowShortCut::sub_8026E1D4(s32 index, s32 *chat_shortcut) {
-    TextEntry *text;
-    TextEntry *text_label;
-    s32 type;
-    TextEntry *title;
-    TextEntry *button_icon;
-    TextEntry *pad_icon;
-    TextEntry *type_label;
-    TextEntry *type_icon;
-    TextEntry *type_name;
-    title = (TextEntry *)this->get_array_entry(0);
-    button_icon = (TextEntry *)this->get_array_entry(2);
-    pad_icon = (TextEntry *)this->get_array_entry(3);
-    type_label = (TextEntry *)this->get_array_entry(4);
-    type_icon = (TextEntry *)this->get_array_entry(6);
-    type_name = (TextEntry *)this->get_array_entry(7);
-    text_label = (TextEntry *)this->get_array_entry(8);
-    text = (TextEntry *)this->get_array_entry(10);
-    type = chat_shortcut[0];
     u8 first_icon;
     u8 second_icon;
     Vec2f pos;
+    s32 type;
     Vec2f size;
-    f32 *uv;
 
+    TextEntry *title = (TextEntry *)this->get_array_entry(0);
+    TextEntry *button_icon = (TextEntry *)this->get_array_entry(2);
+    TextEntry *pad_icon = (TextEntry *)this->get_array_entry(3);
+    TextEntry *type_label = (TextEntry *)this->get_array_entry(4);
+    TextEntry *type_icon = (TextEntry *)this->get_array_entry(6);
+    TextEntry *type_name = (TextEntry *)this->get_array_entry(7);
+    TextEntry *text_label = (TextEntry *)this->get_array_entry(8);
+    TextEntry *text = (TextEntry *)this->get_array_entry(10);
+
+    type = chat_shortcut[0];
     set_text_entry_string((u8 *)title, (u32)TWindowSubStatusDisp::get_message_10(0xC4), 0);
     fn_80266BD0(index, &first_icon, &second_icon, this->m_20);
     if (first_icon != 0x33) {
-        uv = (f32 *)TWindowSubStatusDisp::get_entry_ptr(first_icon);
+        const Vec2f *uv = (const Vec2f *)TWindowSubStatusDisp::get_entry_ptr(first_icon);
         button_icon->flags &= ~2;
-        set_sprite_uv_from_pixels((u8 *)button_icon, uv[0], uv[1]);
+        set_sprite_uv_from_pixels((u8 *)button_icon, uv->x, uv->y);
     } else {
         button_icon->flags |= 2;
     }
-    uv = (f32 *)TWindowSubStatusDisp::get_entry_ptr(second_icon);
-    set_sprite_uv_from_pixels((u8 *)pad_icon, uv[0], uv[1]);
+
+    const Vec2f *pad_uv = (const Vec2f *)TWindowSubStatusDisp::get_entry_ptr(second_icon);
+    set_sprite_uv_from_pixels((u8 *)pad_icon, pad_uv->x, pad_uv->y);
     set_text_entry_string((u8 *)type_label, (u32)TWindowSubStatusDisp::get_message_10(0xC5), 0);
-    set_text_entry_string((u8 *)type_name, (u32)TWindowSubStatusDisp::get_message_10(type + 0xC0), 0);
-    uv = (f32 *)TWindowSubStatusDisp::get_entry_ptr(chat_shortcut_icons[type - 1]);
-    set_sprite_uv_from_pixels((u8 *)type_icon, uv[0], uv[1]);
+    set_text_entry_string((u8 *)type_name, (u32)TWindowSubStatusDisp::get_message_10(0xC0 + type), 0);
+    const s32 type_sprite = chat_shortcut_icons[type - 1];
+    const Vec2f *type_uv = (const Vec2f *)TWindowSubStatusDisp::get_entry_ptr(type_sprite);
+    set_sprite_uv_from_pixels((u8 *)type_icon, type_uv->x, type_uv->y);
+
     pos.x = 211.0f;
     pos.y = 380.0f;
     set_text_entry_string((u8 *)text_label, (u32)TWindowSubStatusDisp::get_message_10(0x35), 0);
@@ -176,8 +172,11 @@ void TWindowShortCut::sub_8026E1D4(s32 index, s32 *chat_shortcut) {
         this->message_window->set_depth(50060.0f);
         break;
     }
-    case 2:
-        update_state__9TWindowDDFv(chat_shortcut + 1, get_shared_text_buffer(), (u16)local_client_id);
+    case 2: {
+        s32 *buffer = get_shared_text_buffer();
+        const u16 player = (u16)local_client_id;
+        s32 *words = chat_shortcut + 1;
+        update_state__9TWindowDDFv(words, buffer, player);
         set_text_entry_string((u8 *)text, (u32)get_shared_text_buffer(), 0);
         refresh_status_display__9TWindowDDFv(text);
         text->flags |= 2;
@@ -189,15 +188,21 @@ void TWindowShortCut::sub_8026E1D4(s32 index, s32 *chat_shortcut) {
         dispatch_message_window_text(this->message_window, (int)get_shared_text_buffer(), 2);
         this->message_window->set_depth(50060.0f);
         break;
+    }
     case 3: {
         TWindowSubSymbolChat *preset = open_symbol_chat__11TWindowChatFPl(chat_shortcut + 1);
-        TWindowChatSymbol *window;
         set_text_entry_string((u8 *)text, (u32)preset->get_symbol_chat_data(), 0);
-        size.x = 203.0f;
-        size.y = 78.0f;
-        pos.x = pos.x - 0.5f * size.x;
-        pos.y = pos.y - 0.5f * size.y;
-        window = (TWindowChatSymbol *)TObject::operator new(0x68);
+        f32 half;
+        f32 height;
+        f32 width;
+        width = 203.0f;
+        height = 78.0f;
+        half = 0.5f;
+        size.x = width;
+        pos.x -= half * width;
+        size.y = height;
+        pos.y -= half * height;
+        TWindowChatSymbol *window = (TWindowChatSymbol *)TObject::operator new(0x68);
         if (window != NULL) {
             window = (TWindowChatSymbol *)TWindowChatSymbol__ct(window, (s32)&pos, (s32)&size);
         }
