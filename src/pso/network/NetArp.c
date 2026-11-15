@@ -187,8 +187,6 @@ inline ArpEntry *FindPeer_80407640(ArpEntry *peer, s16 n, u8 ff, u8 *p2) {
     }
     return 0;
 }
-#pragma push
-#pragma opt_common_subs on
 extern s32 TLobby__sub_80407640(void *pkt, s16 a, s16 b, s16 c)
 {
   s32 call_handler_by_index(s16 arg0, s16 arg1, s32 arg2, s32 arg3, s32 arg4); /* declared here with an s16 2nd argument; the definition takes s32 */
@@ -247,7 +245,6 @@ extern s32 TLobby__sub_80407640(void *pkt, s16 a, s16 b, s16 c)
   }
   return 0;
 }
-#pragma pop
 void TLobby__sub_804078B4(void) {
     ArpEntry* p;
     s16 n;
