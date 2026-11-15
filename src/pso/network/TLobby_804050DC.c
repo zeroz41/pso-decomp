@@ -16,6 +16,7 @@
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/TLobby_80428374.h"
+#include "pso/network/PppBuffer.h"
 #include "pso/network/text_80421620.h"
 /* The object header the stack's records share (laid out like TObject's fields). */
 typedef struct Timer_804051CC Timer_804051CC;
@@ -48,7 +49,6 @@ s32 TLobby__sub_803F79AC(void *);
 
 void TLobby__sub_803F97E8(int);
 extern u8 lbl_805C0038[];
-s16 TLobby__sub_80401BCC(void *, void *, int);
 void TLobby__sub_803FDBF8(u8 *self, void *arg1);
 void PADRead(u8 *, PppFrame *); /* declared here with other parameter types; the definition is void (u8 *, s32) */
 s16 TLobby__sub_804040E0(void *self, void *arg);
@@ -884,7 +884,6 @@ inline s32 acfc_804066D8(s32 lcp, u8 *ctx)
 #pragma opt_propagation off
 s32 TLobby__sub_804066D8(u8 *p)
 {
-  void get_time_ms(u32 *); /* declared here with other parameter types; the definition is void (s32 *) */
   u8 c0;
   u8 c1;
   u8 *st;
@@ -1028,7 +1027,7 @@ s32 TLobby__sub_804066D8(u8 *p)
   {
     return 0;
   }
-  get_time_ms(&(*((u32 *) (&lbl_805D7A94))));
+  get_time_ms(&lbl_805D7A94);
   return (s16) send_network_frame(q->len, q->data);
 }
 #pragma pop
