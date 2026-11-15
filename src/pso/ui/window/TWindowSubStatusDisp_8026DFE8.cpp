@@ -40,7 +40,7 @@ u8 * get_window_layout_position(s32);
 u8 *fn_802683F4(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 void __dl__7TObjectFPv(void *);
 char *fn_80076BC4(s32 *);
-void update_state__9TWindowDDFv(s32 *, s32 *, u16);
+void format_message__9TWindowDDFPvPvUs(void *src, void *dst, u16 player);
 TWindowSubSymbolChat *open_symbol_chat__11TWindowChatFPl(s32 *);
 
 #pragma push
@@ -178,7 +178,7 @@ void TWindowShortCut::sub_8026E1D4(s32 index, s32 *chat_shortcut) {
         s32 *buffer = get_shared_text_buffer();
         const u16 player = (u16)local_client_id;
         s32 *words = chat_shortcut + 1;
-        update_state__9TWindowDDFv(words, buffer, player);
+        format_message__9TWindowDDFPvPvUs(words, buffer, player);
         set_text_entry_string((u8 *)text, (u32)get_shared_text_buffer(), 0);
         refresh_status_display__9TWindowDDFv(text);
         text->flags |= 2;

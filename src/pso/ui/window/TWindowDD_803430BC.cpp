@@ -229,7 +229,7 @@ void set_default_positions__9TWindowDDFiPv(void *, s32);
 void init_layout__9TWindowDDFiPv(void *, s32);
 s32 TWindowDD__sub_8034146C(V2_80343C64 *arg0, V2_80343C64 *arg1, s32 arg2, s32 arg3, f32 farg0);
 void TWindowDD__sub_803412A0(u8 *arg0);
-void update_state__9TWindowDDFv(void);
+void format_message__9TWindowDDFPvPvUs(void *src, void *dst, u16 player);
 s32 create__9TWindowDDFv(void);
 extern s32 __vt__9TWindowDD[];
 const char *word_select_type_name_pointer = "TWindowDD";
@@ -806,7 +806,7 @@ Obj_80343C64 *TWindowDD__ct(Obj_80343C64 *self, void *parent, void *arg2) {
       TWindowDD__sub_803412A0((u8 *)q);
     }
   }
-  ((void (*)(void *, u32, u16)) update_state__9TWindowDDFv)(self->fC4, TWindowDD__work_buffer, local_client_id);
+  format_message__9TWindowDDFPvPvUs(self->fC4, (void *)TWindowDD__work_buffer, local_client_id);
   {
     a.x = lbl_805DFBF0;
     a.y = lbl_805DFBF4;

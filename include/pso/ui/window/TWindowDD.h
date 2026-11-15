@@ -135,7 +135,7 @@ struct TWindowDD
     void set_state();
     void close_all_windows();
     static s32 can_append_chars(s32 arg0, s32 *arg1);
-    static void update_state();
+    static void format_message(void *src, void *dst, u16 player);
     void append_prompt_newline(s32 *arg1);
     static s32 clamp_range_5FA_682(s16 arg0);
     static s32 clamp_range_2C9_552(s16 arg0);
