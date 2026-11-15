@@ -48,7 +48,6 @@ typedef struct Cursor_8022CDE8 {
     u8 list[0x10];
 } Cursor_8022CDE8;
 
-struct Vec_8022D27C { f32 x, y, z; };
 
 struct Target_8022D27C { u16 id; s16 part; };
 
@@ -56,13 +55,13 @@ struct Entry_8022D27C { u16 id; s16 part; f32 c; };
 
 struct List_8022D27C { s32 count; Entry_8022D27C e[11]; };
 
-struct Coll_8022D27C { u8 pad0[0x1C]; Vec_8022D27C pos; u8 pad28[0x2C - 0x28]; };
+struct Coll_8022D27C { u8 pad0[0x1C]; Vec pos; u8 pad28[0x2C - 0x28]; };
 
 struct Ent_8022D27C { u8 pad0[0xA4]; Coll_8022D27C *colls; };
 
 struct Player_8022D27C {
     u8 pad0[0x38];
-    Vec_8022D27C pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 rotY;
     u8 pad64[0x428 - 0x64];
@@ -71,7 +70,6 @@ struct Player_8022D27C {
 
 typedef struct Col_8022C738 { f32 r, g, b, a; } Col_8022C738;
 
-typedef struct Vec_8022C738 { f32 x, y, z; } Vec_8022C738;
 
 typedef struct Params_8022C738 { u8 pad0[0x12]; s16 f12; u8 pad14[0x20 - 0x14]; s16 f20; } Params_8022C738;
 
@@ -101,7 +99,7 @@ extern s32 local_client_id;
 void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl);
 s32 is_locally_controlled__10TObjPlayerFPv(void *);
 void *__nw__7TObjectFUl(u32);
-void *construct_actor_light__9TObjLightFlllllfffl(void *, Col_8022C738 *, Vec_8022C738 *, s32, void *, s32, f32, f32, f32);
+void *construct_actor_light__9TObjLightFlllllfffl(void *, Col_8022C738 *, Vec *, s32, void *, s32, f32, f32, f32);
 void *__ct__13TUnk_804CC794Fll(void *, void *, s32);
 void *__ct__13TUnk_804CC948Fll(void *, void *, s32);
 void *__ct__13TUnk_804CCD0CFll(void *, void *, s32);
@@ -494,9 +492,9 @@ TechniqueParams *calc_technique_parameters(s32 technique, s32 level, u16 client)
 void TTecCtrl::render() {  }
 
 void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl) {
-    Vec_8022D27C aim;
-    Vec_8022D27C hand;
-    Vec_8022D27C ofs;
+    Vec aim;
+    Vec hand;
+    Vec ofs;
     List_8022D27C list;
     void *td;
     s32 n;
@@ -734,10 +732,10 @@ void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) 
 #define CHARGE_LIGHT_8022C738(R, G, B, A, INIT)                                                  \
     {                                                                                            \
         Col_8022C738 c = {R, G, B, A};                                                           \
-        Vec_8022C738 v = {0.0f, -1.0f, 0.0f};                                                    \
+        Vec v = {0.0f, -1.0f, 0.0f};                                                             \
         void *o = __nw__7TObjectFUl(100);                                                        \
         if (o != NULL) {                                                                         \
-            ((void *(*)(f32, f32, f32, void *, Col_8022C738 *, Vec_8022C738 *, s32, void *, s32)) \
+            ((void *(*)(f32, f32, f32, void *, Col_8022C738 *, Vec *, s32, void *, s32))          \
                  construct_actor_light__9TObjLightFlllllfffl)(0.1f, 0.35f, TObjLight__scene_light_state.f1C, \
                                           o, &c, &v, base, owner, tl_07);                        \
         }                                                                                        \

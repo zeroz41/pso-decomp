@@ -6571,12 +6571,9 @@ pso/technique/TTecGrants.cpp:
 	.text       start:0x80233120 end:0x802333D4
 	.data       start:0x804CC8A0 end:0x804CC8C8
 
-pso/unk/text_802333D4.cpp:
-	.text       start:0x802333D4 end:0x8023347C
-	.data       start:0x804CC940 end:0x804CC948
-
-pso/object/ambient/TObjLight_8023347C.cpp:
-	.text       start:0x8023347C end:0x8023355C
+pso/unk/TUnk_804CC948.cpp:
+	.text       start:0x802333D4 end:0x8023355C
+	.data       start:0x804CC940 end:0x804CC960
 
 pso/player/TObjPlayer_8023355C.cpp:
 	.text       start:0x8023355C end:0x802335B4
