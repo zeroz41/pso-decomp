@@ -291,10 +291,9 @@ pso/boss/olgaflow/TBoss6Type2_80356E50.cpp
 pso/boss/olgaflow/TBoss6Type2_8036A92C.cpp
 pso/boss/olgaflow/TBoss6Type2_8036DC80.cpp
 pso/boss/barbaray/TBoss7Crawfish.cpp
-pso/boss/barbaray/TBoss7DeRolLeC_8035A628.cpp
-pso/boss/barbaray/TBoss7DeRolLeC_802EE4E0.cpp
+pso/unk/TUnk_804F1C58_8035A628.cpp
 pso/boss/barbaray/TBoss7Joint.cpp
-pso/boss/barbaray/TBoss7Joint_802EE6E0.cpp
+pso/boss/barbaray/TBoss7Joint_802EE704.cpp
 pso/boss/barbaray/TBoss7Joint_802EE814.cpp
 pso/boss/barbaray/TBoss7LaserLight.cpp
 pso/boss/barbaray/TBoss7LaserPtcl.cpp
@@ -1944,7 +1943,6 @@ pso/player/TObjPlayer_802D5174.cpp
 pso/player/TObjPlayer_802D5B78.cpp
 pso/player/TObjPlayer_802D5C0C.cpp
 pso/player/TObjPlayer_802E6CA8.cpp
-pso/boss/barbaray/TBoss7DeRolLeC_802ED928.cpp
 pso/player/TObjPlayer_80307618.cpp
 pso/player/TObjPlayer_803083B0.cpp
 pso/player/TObjPlayer_803130BC.cpp
@@ -2481,7 +2479,6 @@ pso/unk/text_802D23E0.cpp
 pso/unk/text_802E10D8.cpp
 pso/weapon/TItemAttackCol_802E3AF4.cpp
 pso/unk/text_802E3BA8.cpp
-pso/boss/barbaray/TBoss7DeRolLeC_802EDCF0.cpp
 pso/unk/text_802F0E24.cpp
 pso/unk/text_802F0F04.cpp
 pso/unk/text_802F190C.cpp
@@ -2675,3 +2672,4 @@ pso/weapon/TItemAttackCol.cpp
 pso/ui/hud/TRaderMapCore.cpp
 pso/ui/window/TWindowSubStatusDisp_8026DFE8.cpp
 pso/boss/goldragon/TBoss8Dragon_8002CC48.cpp
+pso/boss/barbaray/TBoss7DeRolLeC.cpp

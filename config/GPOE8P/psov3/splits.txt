@@ -9194,27 +9194,15 @@ pso/player/TObjPlayer_802E6CA8.cpp:
 	.sbss       start:0x805D6910 end:0x805D6918
 	.sdata2     start:0x805DE9C8 end:0x805DEA10
 
-pso/boss/barbaray/Boss7DeRolLeCBehavior.cpp:
-	.text       start:0x802E7888 end:0x802ED928
+pso/boss/barbaray/TBoss7DeRolLeC.cpp:
+	.text       start:0x802E7888 end:0x802EE704
 	.rodata     start:0x80472CB0 end:0x80473FB8
 	.data       start:0x804E3BF0 end:0x804E45C4
-	.sdata2     start:0x805DEA10 end:0x805DEBA8
-
-pso/boss/barbaray/TBoss7DeRolLeC_802ED928.cpp:
-	.text       start:0x802ED928 end:0x802EDCF0
-
-pso/boss/barbaray/TBoss7DeRolLeC_802EDCF0.cpp:
-	.text       start:0x802EDCF0 end:0x802EDE90
-
-pso/boss/barbaray/TBoss7DeRolLeC_802EDE90.cpp:
-	.text       start:0x802EDE90 end:0x802EE4E0
-
-pso/boss/barbaray/TBoss7DeRolLeC_802EE4E0.cpp:
-	.text       start:0x802EE4E0 end:0x802EE6E0
 	.bss        start:0x805412C0 end:0x80541528
+	.sdata2     start:0x805DEA10 end:0x805DEBA4
 
-pso/boss/barbaray/TBoss7Joint_802EE6E0.cpp:
-	.text       start:0x802EE6E0 end:0x802EE814
+pso/boss/barbaray/TBoss7Joint_802EE704.cpp:
+	.text       start:0x802EE704 end:0x802EE814
 
 pso/boss/barbaray/TBoss7Joint_802EE814.cpp:
 	.text       start:0x802EE814 end:0x802EE9A4
@@ -10711,7 +10699,7 @@ pso/boss/olgaflow/TBoss6CrushRock.cpp:
 	.sdata      start:0x805D4408 end:0x805D4410
 	.sdata2     start:0x805E00B8 end:0x805E00E8
 
-pso/boss/barbaray/TBoss7DeRolLeC_8035A628.cpp:
+pso/unk/TUnk_804F1C58_8035A628.cpp:
 	.text       start:0x8035A628 end:0x8035A630
 
 pso/player/TObjPlayer_8035A630.cpp:

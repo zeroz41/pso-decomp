@@ -35,7 +35,7 @@ void *TUnk_804F1C58::destroy(s16 arg1) {
 extern "C" {
 void *mem_alloc(u32 size);
 s32 __ct__7TObjectFP7TObject(void *, void *);
-u8 *fn_8035A860(u8 *arg0, s32 arg1, s32 arg2) {
+u8 *__ct__13TUnk_804F1C58FP7TObjectPv(u8 *arg0, s32 arg1, s32 arg2) {
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804F1C58.value;
     *(s32 *)((s8 *)arg0 + 0x1C) = arg2;

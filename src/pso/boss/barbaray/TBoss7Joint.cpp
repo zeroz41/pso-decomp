@@ -110,7 +110,7 @@ s32 TBoss7Joint::init_params() {
     return *(s32 *)((s8 *)this + 0x3C4) = TBoss7Joint_get_shell_max_hp();
 }
 
-u8 *TBoss7Joint__ct(u8 *boss7_joint, u8 *arg1, s16 arg2, s16 arg3, s32 arg4, s32 arg5) {
+u8 *__ct__11TBoss7JointFP7TObjectUssP3Vecl(u8 *boss7_joint, u8 *arg1, s16 arg2, s16 arg3, s32 arg4, s32 arg5) {
     __ct__9TObjEneDDFP7TObject(boss7_joint);
     *(s32 **)((s8 *)boss7_joint + 0x18) = &(*(RecoveredGlobal_802EEC60___vt__11TBoss7Joint *)&__vt__11TBoss7Joint).value;
     *(const char **)((s8 *)boss7_joint + 0) = TBoss7Joint__name;

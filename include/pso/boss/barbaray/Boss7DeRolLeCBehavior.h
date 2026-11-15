@@ -20,13 +20,9 @@ struct TBoss7DeRolLeCMovement {
 
 // The BML resource descriptor, followed by the action table that
 // TBoss7DeRolLeC's constructor hands to set_field_d8.
-struct TBoss7DeRolLeCResources {
-    BmlResourceDescriptor descriptor;
-    TObjMotionAction actions[17];
-};
-
 extern Boss7LoadCallback lbl_804E3C5C[6];
 extern TBoss7DeRolLeCMovement lbl_804E3C8C;
-extern TBoss7DeRolLeCResources lbl_804E3D1C;
+extern BmlResourceDescriptor bm_boss7_de_rol_le_c_resource_descriptor;
+extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #endif

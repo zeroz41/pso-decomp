@@ -918,6 +918,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -str reuse,readonly: the area names of area_initializer_dispatch_table sit in .rodata right after the
     # unit's double (0x8044C9F0), in table order.
     "pso/unk/TLobby_80228154.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # TBoss7DeRolLeC: deferred codegen (its vtable sits before the jump tables in .data).
+    "pso/boss/barbaray/TBoss7DeRolLeC.cpp": {"cflags": _switch(cflags_pso, "-inline on,deferred")},
     # TBoss7Crawfish: one GC/1.3.2 TU (the five former parts compile identically under 1.3.2, not under 2.6);
     # its resource names are .rodata strings.
     "pso/boss/barbaray/TBoss7Crawfish.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-str reuse,readonly")},
