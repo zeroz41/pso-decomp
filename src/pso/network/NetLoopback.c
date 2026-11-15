@@ -69,8 +69,6 @@ s16 TLobby__sub_8041510C(void)
     return r;
 }
 
-#pragma push
-#pragma opt_common_subs on
 s32 TLobby__sub_80415230(s16 idx, s16 mode, u8 *addr, void *pkt) {
     LoopbackState *g = &network_loopback_state;
     u8 *slot;
@@ -98,7 +96,6 @@ s32 TLobby__sub_80415230(s16 idx, s16 mode, u8 *addr, void *pkt) {
     }
     return -0x110;
 }
-#pragma pop
 
 s32 TLobby__sub_80415320(id, unused, arr)
     s16 id;
