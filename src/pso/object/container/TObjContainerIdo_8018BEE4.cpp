@@ -117,7 +117,7 @@ s32 rotate_matrix_x(s32, s32);
 s32 push_matrix();
 void *__nw__7TObjectFUl(int);
 
-extern u32 TObjContainerIdo__model_resource;
+u32 TObjContainerIdo__model_resource;
 
 void render__16TObjContainerIdoFv(u8 *container_ido) {
     s32 var_r31;
@@ -310,7 +310,7 @@ struct RecoveredGlobal_8019A880___vt__8TObjTank {
 struct Ido_8018C7BC { u8 pad[0xCC]; s32 ids[4]; };
 
 extern "C" {
-extern u32 container_ido_texture_gvm_handle;
+u32 container_ido_texture_gvm_handle;
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u8 * load_gvm_texture_file(s32);
 extern s32 __vt__16TObjContainerIdo[];

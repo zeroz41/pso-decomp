@@ -12,8 +12,8 @@ struct Win_8027C13C { u8 pad[0x61]; s8 sel; };
 extern "C" {
 void *get_array_entry__11TWindowBaseFi(void *w, s32 i);
 void draw_action_palette_icon(void *e, s32 a, u16 b);
-extern s8 lbl_805DD678[3];
-extern u8 lbl_805DD67C[3];
+extern const s8 lbl_805DD678[4] = { 1, 2, 0, 0 };
+extern const u8 lbl_805DD67C[4] = { 3, 1, 2, 0 };
 
 void TWindowSubMagPhoton::get_cursor_origin(void *xy) {
     Win_8027C13C *w = (Win_8027C13C *)this;

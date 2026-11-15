@@ -1,16 +1,22 @@
 #include "pso/network/NetworkInfoLoader.h"
 #include "pso/network/NetworkInfoRequests.h"
 
-// The original realigns the stack to 32 bytes (clrlwi/subfic/stwux) without
-// using it; no clean source found that does that (see NOTES of lane cJ).
+#pragma push
+#pragma scheduling off
+#pragma peephole off
+#pragma opt_dead_assignments off
 s32 request_network_info_load(s32 channel, void *buffer) {
+    char pad __attribute__((aligned(32)));
+    void *unused = &pad;
     switch (get_network_config_mode()) {
     case 0:
         return -1;
-    case 1:
-        break;
+    case 2:
+    case 3:
     default:
         return -5;
+    case 1:
+        break;
     }
     if (network_info_load_state.request_kind != 0) {
         return -4;
@@ -22,6 +28,7 @@ s32 request_network_info_load(s32 channel, void *buffer) {
     network_info_load_state.result = 200;
     return 0;
 }
+#pragma pop
 
 #pragma push
 #pragma scheduling off

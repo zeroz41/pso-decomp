@@ -43,7 +43,11 @@ f32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_x(int, int);
-extern RecoveredGlobal_8001CAD4_lbl_804349FC lbl_804349FC;
+#pragma push
+#pragma readonly_strings on
+const char *TLoadingCur__class_name = "TLoadingCur";
+#pragma pop
+extern const RecoveredGlobal_8001CAD4_lbl_804349FC lbl_804349FC = {0};
 extern RecoveredGlobal_8001CAD4_lbl_804FF5E8 lbl_804FF5E8;
 extern RecoveredGlobal_8001CAD4_lbl_8058D490 identity_matrix;
 extern u32 camera_ctrl_instance;
@@ -138,7 +142,6 @@ extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__11TLoadingCur[];
 
-extern s32 TLoadingCur__class_name;
 
 s32 is_split_screen(void);
 

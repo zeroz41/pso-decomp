@@ -17,8 +17,8 @@ int TKeyBoardControl__sub_8000F828(void);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_80352F6C___vt__10TEndingPic __vt__10TEndingPic;
 const char *lbl_805D4378 = "TEndingPic";
-extern s32 TEndingPic__animation_state;
-extern s32 ending_pic_wall_texture_list;
+s32 TEndingPic__animation_state;
+s32 ending_pic_wall_texture_list;
 
 void TEndingPic::advance_animation_state() {
     s32 temp_r0;

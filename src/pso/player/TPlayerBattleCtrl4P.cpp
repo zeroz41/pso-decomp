@@ -92,7 +92,7 @@ struct Team_801C343C { s32 v[2]; };
 extern Rank_801C343C split_screen_battle_rankings[4];
 extern "C" {
 void clear_split_screen_battle_window_slots(T_803102A4 *self);
-extern TPlayerBattleCtrl4P *TPlayerBattleCtrl4P__instance;
+TPlayerBattleCtrl4P *TPlayerBattleCtrl4P__instance;
 void *__nw__7TObjectFUl(u32);
 void *TWindowDuelResult__ct(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
@@ -107,7 +107,7 @@ int obj_getPtr2B0_20(u8 *p);
 f32 fn_801C19A4(void *);
 s32 TWindowDuelResult__sub_801C19AC(void *);
 void set_split_screen_battle_phase__19TPlayerBattleCtrl4PFl(u8 *arg0, s32 arg1);
-extern s32 lbl_805D2A98;
+extern s32 TDeadSpot__class_name;
 void destroy_matching_children__19TPlayerBattleCtrl4PFPvPv(void *self, Par_80311304 *p);
 void TObjPlayer__send_selected_spawn_position(void *self, u16 id);
 s32 obj_set_flag_20000();
@@ -178,7 +178,7 @@ extern s16 battle_event_second_table[];
 extern s32 local_client_id;
 extern s32 TLobby__designated_client_id;
 void reset_cameras_to_actor(void *actor, s32 arg1);
-extern s32 TPlayerBattleCtrl4P__init_flag;
+s32 TPlayerBattleCtrl4P__init_flag;
 typedef struct Ctl_80310F10 Ctl_80310F10;
 Rank_801C343C split_screen_battle_rankings[4];
 struct Ids_80311C2C { s32 a; s32 b; s32 c; s32 d; };
@@ -916,7 +916,7 @@ void destroy_matching_children__19TPlayerBattleCtrl4PFPvPv(void *self, Par_80311
     while (p->head != 0 && n != 0) {
         cur = n;
         n = cur->next;
-        if (((TUnk_804B6C24 *)cur)->check_value_equals(lbl_805D2A98) != 0) {
+        if (((TUnk_804B6C24 *)cur)->check_value_equals(TDeadSpot__class_name) != 0) {
             ((TObject *)cur)->queue_destruction();
         } else {
             destroy_matching_children__19TPlayerBattleCtrl4PFPvPv(self, (Par_80311304 *)cur);

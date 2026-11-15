@@ -57,32 +57,29 @@ TEF_LensFlare::~TEF_LensFlare() {
 
 }
 
-// A screen sprite as the particle code keeps it: position, offset, scale,
-// ARGB colour, animation frame and angle (layout of the particle tail at 0x70).
+// A screen sprite node as TQuadSpriteSclColRot::render reads it; render() only
+// fills it on the stack, so the link and type byte stay unset.
 struct FlareSprite {
+    FlareSprite *next;
     Vec pos;
     Vec offset;
     f32 scale_x;
     f32 scale_y;
     u32 color;
     u8 frame;
-    s16 angle;
-
-    FlareSprite() {
-        pos.x = 0.0f;
-        pos.y = 0.0f;
-        pos.z = 0.0f;
-        offset.x = 0.0f;
-        offset.y = 0.0f;
-        offset.z = 0.0f;
-        scale_x = 0.0f;
-        scale_y = 0.0f;
-        color = 0;
-        frame = 0;
-        angle = 0;
-    }
+    u8 type;
+    u16 angle;
 };
 
+// The flare colour, copied into the sprite as a whole word.
+struct FlareColor {
+    struct { u8 a, r, g, b; } argb;
+} ATTRIBUTE_ALIGN(4);
+
+// The glare colour: its alpha goes through a signed int before it is cut to a byte.
+struct FlareGlareColor {
+    struct { signed int a : 8; u8 r, g, b; } argb;
+};
 
 // An entry of the particle sprite table (lbl_804C5820, 0x28 bytes each).
 struct FlareSpriteTexture {
@@ -95,23 +92,31 @@ struct FlareSpriteTexture {
     u8 pad_1c[0xC];
 };
 
-struct FlareQuad {
-    f32 x0, y0, x1, y1;
-    f32 u0, v0, u1, v1;
-};
-
 extern "C" {
 extern TCameraCtrl *camera_ctrl_instance;
 extern FlareSpriteTexture lbl_804C5820[];
 void normalize_vector(Vec *v);
 }
 
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
+#pragma push
+#pragma opt_propagation off
 void TEF_LensFlare::render() {
+    Vec *sprite_pos;
     if (TMainTask::get_render_pass() != 0 && camera_ctrl_instance != NULL) {
-        FlareSprite sprite;
+        FlareSprite sprite_storage;
+        FlareSprite *sprite = &sprite_storage;
+        sprite->pos.x = 0.0f;
+        sprite->pos.y = 0.0f;
+        sprite->pos.z = 0.0f;
+        sprite->offset.x = 0.0f;
+        sprite->offset.y = 0.0f;
+        sprite->offset.z = 0.0f;
+        sprite->scale_x = 0.0f;
+        sprite->scale_y = 0.0f;
+        sprite->color = 0;
+        sprite->frame = 0;
+        sprite->angle = 0;
+        sprite_pos = &sprite_storage.pos;
         set_additive_blend();
         if (scale.x >= 0.0f) {
             f32 range = 10.0f * scale.x;
@@ -124,7 +129,7 @@ void TEF_LensFlare::render() {
         dir.x = position.x - camera_ctrl_instance->pos_x;
         dir.y = position.y - camera_ctrl_instance->pos_y;
         dir.z = position.z - camera_ctrl_instance->pos_z;
-        if (vec_squared_length(&dir) != 0.0f) {
+        if (0.0f != vec_squared_length(&dir)) {
             normalize_vector(&dir);
         }
         push_matrix_from(&identity_matrix);
@@ -134,25 +139,17 @@ void TEF_LensFlare::render() {
         rotate_matrix_x(0, camera_ctrl_instance->pitch);
         rotate_vector_by_matrix(0, &forward, &view);
         pop_matrix();
+        f32 dx, dy, fade, t;
         f32 d = vec3_dot(&view, &dir);
         if (d > 0.0f) {
-            f32 screen[2];
-            Vec at;
-            f32 dx;
-            f32 t;
-            f32 dy;
-            LensFlareElement *e;
-            s32 i;
-
             set_depth_buffer_settings_1();
+            f32 screen[2];
             project_world_to_screen(0, &position, screen);
+            Vec at;
             if (d > 0.99f) {
-                NJS_COLOR glow;
-                FlareQuad quad;
-                f32 w;
-                f32 h;
                 f32 s = 50.0f * (d - 0.98f);
-                s = s * s;
+                s *= s;
+                FlareGlareColor glow;
                 glow.argb.r = 0xFF;
                 glow.argb.g = 0xFF;
                 glow.argb.b = 0xFF;
@@ -160,113 +157,140 @@ void TEF_LensFlare::render() {
                 at.x = screen[0];
                 at.y = screen[1];
                 at.z = 0.0f;
-                sprite.color = glow.color;
-                VecCopy(&sprite.pos, &at);
-                sprite.scale_x = 20.0f * s;
-                sprite.scale_y = sprite.scale_x;
+                __memcpy(&sprite->color, &glow, sizeof(glow));
+                VecCopy(sprite_pos, &at);
+                sprite->scale_x = 20.0f * s;
+                sprite->scale_y = sprite->scale_x;
                 begin_screen_draw(1);
                 TObjFish::set_global_param(lbl_804C5820[15].param);
                 set_draw_texture_and_color(lbl_804C5820[15].tex, -1);
-                w = lbl_804C5820[15].sx * (2.0f * sprite.scale_x);
-                h = lbl_804C5820[15].sy * (2.0f * sprite.scale_y);
-                quad.x0 = at.x - w;
-                quad.x1 = at.x + w;
-                quad.y0 = at.y - h;
-                quad.y1 = at.y + h;
-                quad.u0 = 0.0f;
-                quad.v0 = 0.0f;
-                quad.u1 = 1.0f;
-                quad.v1 = 1.0f;
-                set_constant_material_color(sprite.color);
-                draw_textured_quad_at_depth(&quad.x0, 0.5f);
+                f32 x = at.x;
+                f32 y = at.y;
+                f32 sx;
+                f32 two;
+                f32 w = lbl_804C5820[15].sx;
+                f32 h = lbl_804C5820[15].sy;
+                two = 2.0f;
+                sx = two * sprite->scale_x;
+                f32 sy = two * sprite->scale_y;
+                w *= sx;
+                h *= sy;
+                f32 quad[8];
+                quad[0] = x - w;
+                quad[2] = x + w;
+                quad[1] = y - h;
+                quad[3] = y + h;
+                quad[4] = 0.0f;
+                quad[5] = 0.0f;
+                quad[6] = 1.0f;
+                quad[7] = 1.0f;
+                set_constant_material_color(sprite->color);
+                draw_textured_quad_at_depth(quad, 0.5f);
                 TWindowSubStatusDisp::get_player();
             }
+
             if (d > 0.6f) {
                 t = 3.0f * (d - 0.6f);
             } else {
                 t = 0.0f;
             }
-            {
-                NJS_COLOR white;
-                FlareQuad quad;
-                f32 w;
-                f32 h;
-                t = t * t * t * t;
-                dx = 320.0f - screen[0];
-                dy = 240.0f - screen[1];
-                white.argb.a = 0xFF;
-                white.argb.r = 0xFF;
-                white.argb.g = 0xFF;
-                white.argb.b = 0xFF;
-                at.x = screen[0];
-                sprite.color = white.color;
-                at.y = screen[1];
-                at.z = 0.0f;
-                VecCopy(&sprite.pos, &at);
-                sprite.scale_x = 1.0f;
-                sprite.scale_y = sprite.scale_x;
-                begin_screen_draw(1);
-                TObjFish::set_global_param(lbl_804C5820[9].param);
-                set_draw_texture_and_color(lbl_804C5820[9].tex, -1);
-                w = lbl_804C5820[9].sx * (2.0f * sprite.scale_x);
-                h = lbl_804C5820[9].sy * (2.0f * sprite.scale_y);
-                quad.x0 = at.x - w;
-                quad.x1 = at.x + w;
-                quad.y0 = at.y - h;
-                quad.y1 = at.y + h;
-                quad.u0 = 0.0f;
-                quad.v0 = 0.0f;
-                quad.u1 = 1.0f;
-                quad.v1 = 1.0f;
-                set_constant_material_color(sprite.color);
-                draw_textured_quad_at_depth(&quad.x0, 0.5f);
-                TWindowSubStatusDisp::get_player();
-            }
-            e = elements;
+            FlareColor white;
+            white.argb.a = 0xFF;
+            white.argb.r = 0xFF;
+            white.argb.g = 0xFF;
+            white.argb.b = 0xFF;
+            t *= t * t * t;
+            __memcpy(&sprite->color, &white, sizeof(white));
+            const f32 screen_x = screen[0];
+            dx = 320.0f - screen_x;
+            at.x = screen_x;
+            const f32 screen_y = screen[1];
+            dy = 240.0f - screen_y;
+            at.y = screen_y;
+            at.z = 0.0f;
+            VecCopy(sprite_pos, &at);
+            sprite->scale_x = 1.0f;
+            sprite->scale_y = sprite->scale_x;
+            begin_screen_draw(1);
+            TObjFish::set_global_param(lbl_804C5820[9].param);
+            set_draw_texture_and_color(lbl_804C5820[9].tex, -1);
+            f32 x = at.x;
+            f32 y = at.y;
+            f32 sx;
+            f32 two;
+            f32 w = lbl_804C5820[9].sx;
+            f32 h = lbl_804C5820[9].sy;
+            two = 2.0f;
+            sx = two * sprite->scale_x;
+            f32 sy = two * sprite->scale_y;
+            w *= sx;
+            h *= sy;
+            f32 quad[8];
+            quad[0] = x - w;
+            quad[2] = x + w;
+            quad[1] = y - h;
+            quad[3] = y + h;
+            quad[4] = 0.0f;
+            quad[5] = 0.0f;
+            quad[6] = 1.0f;
+            quad[7] = 1.0f;
+            set_constant_material_color(sprite->color);
+            draw_textured_quad_at_depth(quad, 0.5f);
+            TWindowSubStatusDisp::get_player();
+            s32 i;
+            LensFlareElement *e = elements;
+            fade = 1.0f - t;
             i = 0;
             while (i++ < 9) {
-                NJS_COLOR tint;
-                FlareQuad quad;
-                f32 w;
-                f32 h;
-                f32 size = e->size * (1.0f - (1.0f - t) * e->shrink);
+                f32 size = e->size * (1.0f - fade * e->shrink);
                 if (size < 0.0f) {
                     size = 0.0f;
                 }
+                FlareColor tint;
                 tint.argb.r = 0xFF;
                 tint.argb.g = 0xFF;
                 tint.argb.b = 0xFF;
-                tint.argb.a = 255.0f * (t * e->brightness);
-                sprite.color = tint.color;
+                tint.argb.a = (s32)(255.0f * (t * e->brightness));
+                __memcpy(&sprite->color, &tint, sizeof(tint));
                 at.x = dx * e->position + screen[0];
                 at.y = dy * e->position + screen[1];
                 at.z = 0.0f;
-                VecCopy(&sprite.pos, &at);
-                sprite.scale_x = size;
-                sprite.scale_y = sprite.scale_x;
+                VecCopy(sprite_pos, &at);
+                sprite->scale_x = size;
+                sprite->scale_y = sprite->scale_x;
                 begin_screen_draw(1);
-                TObjFish::set_global_param(lbl_804C5820[e->sprite + 9].param);
-                set_draw_texture_and_color(lbl_804C5820[e->sprite + 9].tex, -1);
-                w = lbl_804C5820[e->sprite + 9].sx * (2.0f * sprite.scale_x);
-                h = lbl_804C5820[e->sprite + 9].sy * (2.0f * sprite.scale_y);
-                quad.x0 = at.x - w;
-                quad.x1 = at.x + w;
-                quad.y0 = at.y - h;
-                quad.y1 = at.y + h;
-                quad.u0 = 0.0f;
-                quad.v0 = 0.0f;
-                quad.u1 = 1.0f;
-                quad.v1 = 1.0f;
-                set_constant_material_color(sprite.color);
-                draw_textured_quad_at_depth(&quad.x0, 0.5f);
+                s32 param = lbl_804C5820[9 + e->sprite].param;
+                TObjFish::set_global_param(param);
+                set_draw_texture_and_color(lbl_804C5820[9 + e->sprite].tex, -1);
+                f32 sy;
+                f32 sx = 2.0f * sprite->scale_x;
+                const f32 x = at.x;
+                f32 w = lbl_804C5820[9 + e->sprite].sx;
+                f32 h = lbl_804C5820[9 + e->sprite].sy;
+                sy = 2.0f * sprite->scale_y;
+                h *= sy;
+                f32 quad[8];
+                quad[4] = 0.0f;
+                w *= sx;
+                quad[0] = x - w;
+                quad[5] = 0.0f;
+                quad[6] = 1.0f;
+                quad[2] = x + w;
+                quad[1] = at.y - h;
+                quad[3] = at.y + h;
+                quad[7] = 1.0f;
+                set_constant_material_color(sprite->color);
+                draw_textured_quad_at_depth(quad, 0.5f);
                 TWindowSubStatusDisp::get_player();
-                e++;
+                ++e;
             }
             restore_saved_depth_alpha_state();
         }
         TParticleCtrl::end_effect_render();
     }
 }
+#pragma pop
+
 extern "C" {
 
 typedef char RecoveredGlobal_800818D8_lbl_8048E130_size[sizeof(RecoveredGlobal_800818D8_lbl_8048E130) == 0x38 ? 1 : -1];

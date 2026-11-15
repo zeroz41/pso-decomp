@@ -192,7 +192,7 @@ extern s32 TLobby__sub_8040F00C(s16 idx, NetBufferRef *out, s16 len, s32 arg3) {
     rec.mask = ifc->mask;
     rec.broadcast = ifc->broadcast;
     set_value_and_enable((&ref), (s32)&rec);
-    TLobby__sub_80406FD8(out, &ref, sizeof(rec));
+    netbuf_copy_by_ref(out, &ref, sizeof(rec));
     TLobby__sub_80406EB8(out, sizeof(rec));
     alias = ifc->aliases;
     count = 1;
@@ -204,7 +204,7 @@ extern s32 TLobby__sub_8040F00C(s16 idx, NetBufferRef *out, s16 len, s32 arg3) {
         rec.mask = alias->mask;
         rec.broadcast = alias->broadcast;
         set_value_and_enable((&ref), (s32)&rec);
-        TLobby__sub_80406FD8(out, &ref, sizeof(rec));
+        netbuf_copy_by_ref(out, &ref, sizeof(rec));
         TLobby__sub_80406EB8(out, sizeof(rec));
         alias = alias->next;
         count++;

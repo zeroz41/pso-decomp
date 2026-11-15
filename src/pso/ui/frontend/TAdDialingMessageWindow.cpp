@@ -18,8 +18,8 @@ struct VObj_8036A248_8036A174 : Base_8036A248_8036A174 { virtual void m0(int); }
 extern "C" {
 const char *TAdDialingMessageWindow__name = "TAdDialingMessageWindow";
 
-const f32 lbl_8047A400[2] = {0.0f, 28.0f};
-const f32 lbl_8047A408[2] = {640.0f, 84.0f};
+const NJS_POINT2 lbl_8047A400 = {0.0f, 28.0f};
+const NJS_POINT2 lbl_8047A408 = {640.0f, 84.0f};
 void __ct__7TObjectFP7TObject(void *, void *);
 void *__nw__7TObjectFUl(int);
 
@@ -30,7 +30,7 @@ void TAdDialingMessageWindow::run_child_tasks() { void* m = *(void* *)&this->m_2
 
 void TAdDialingMessageWindow::render() {
     if (this->m_1c & 1) {
-        TAdDialingGC__sub_80328B24(lbl_8047A400, lbl_8047A408);
+        TAdDialingGC__sub_80328B24(&lbl_8047A400, &lbl_8047A408);
         if ((u32) this->m_20 != 0U) {
             ((TAdSinglePlyChrSelectGC *)(this->m_20))->render_status_disp(23.0f, 356.0f);
         }

@@ -459,7 +459,7 @@ void TLobby__sub_80421FB8(void *cb, void *hdr_, void *o_) {
             } else {
                 chunk = len;
             }
-            TLobby__sub_80406FD8(&pkt, &o->fragments[i].buffer, chunk);
+            netbuf_copy_by_ref(&pkt, &o->fragments[i].buffer, chunk);
             TLobby__sub_80406EB8(&pkt, (u32)chunk);
             len -= chunk;
         }

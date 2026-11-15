@@ -227,12 +227,12 @@ s32 matrix_mult_vec(int, Vec *, Vec *);
 s32 rotate_vector_by_matrix(int, Vec *, Vec *);
 
 extern BmlResource *lbl_805D4FD0;
-extern TUnk_8048FA00 *lbl_805D4FDC;
-extern TUnk_8048FA00 *lbl_805D4FE0;
-extern s32 *lbl_805D4FE4;
-extern s32 *lbl_805D4FE8;
-extern s32 *lbl_805D4FEC;
-extern s32 *lbl_805D4FF0;
+TUnk_8048FA00 *lbl_805D4FDC;
+TUnk_8048FA00 *lbl_805D4FE0;
+s32 *lbl_805D4FE4;
+s32 *lbl_805D4FE8;
+s32 *lbl_805D4FEC;
+s32 *lbl_805D4FF0;
 int is_target_android(void *p);
 
 TObjEneMe1CanadinMovement canadin_setup_param_block = { 225.0f, 0.0f, 0x600, 0, 0, 0, 0 };

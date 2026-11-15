@@ -14,7 +14,7 @@ static const Faces_803E0ED4 box_face_vertex_index_table = {
     {{0, 1, 2, 3}, {4, 7, 6, 5}, {0, 3, 7, 4}, {2, 1, 5, 6}, {0, 4, 5, 1}, {3, 2, 6, 7}}};
 static const Faces_803E0ED4 box_edge_adjacent_face_table = {
     {{4, 3, 5, 2}, {2, 5, 3, 4}, {0, 5, 1, 4}, {0, 4, 1, 5}, {2, 1, 3, 0}, {0, 3, 1, 2}}};
-static const EdgeOrder_803E112C lbl_8047E558 = {{0, 1, 2, 3, 0}};
+static const EdgeOrder_803E112C box_edge_order_table = {{0, 1, 2, 3, 0}};
 
 #pragma use_lmw_stmw off
 
@@ -74,7 +74,7 @@ s32 test_box_sphere_contact(Vec_803E1B1C *box, CollisionSphere *sphere) {
             f32 dist = collisionRoot((pz - center->z) * (pz - center->z) +
                                      ((px - center->x) * (px - center->x) + (py - center->y) * (py - center->y)));
             for (j = 0; j < 4; j++) {
-                EdgeOrder_803E112C order = lbl_8047E558;
+                EdgeOrder_803E112C order = box_edge_order_table;
                 Vec_803E1B1C *a = &box[face[order.v[j]]];
                 Vec_803E1B1C *b = &box[face[order.v[j + 1]]];
                 f32 ex = a->x - b->x;

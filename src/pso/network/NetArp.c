@@ -584,7 +584,7 @@ p = pkt->fragments + k - 1;
 while (k > 0)
 {
 set_value_and_enable(tmp, src);
-TLobby__sub_80406FD8((void *)(tmp), (void *)&pkt->fragments[k - 1].buffer, (s32)p->length);
+netbuf_copy_by_ref((void *)(tmp), (void *)&pkt->fragments[k - 1].buffer, (s32)p->length);
 src += p->length;
 sum += p->length;
 p--;

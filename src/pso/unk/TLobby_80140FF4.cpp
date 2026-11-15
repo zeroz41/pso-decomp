@@ -5,7 +5,7 @@
 #include "pso/system/task/TMainTask.h"
 
 extern "C" {
-extern void *map_csn_ctrl_instance;
+void *map_csn_ctrl_instance;
 
 void TLobby::create_map_csn_ctrl() {
     map_csn_ctrl_instance = new TMapCsnCtrl(tl_05);

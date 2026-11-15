@@ -339,31 +339,26 @@ void TUnk_804C3248::update_photon_blast_attachments() {
 void TUnk_804C3248::free_photon() { void* m = *(void* *)&this->m_148; if (m) mem_free(m); }
 
 void spawn_photon_blast_attachment_effects(struct Self_801A7680 *self, s32 kind) {
-    s32 b;
-    s32 id;
-    s32 a;
-    PhotonAttachmentDef_801A7748 *def;
-    PhotonAttachmentDef_801A7748 *defs;
-    u32 i;
-    s32 flags;
-    Group_801A7428 *group;
-
-    group = &photon_blast_attachment_table[kind];
+    Group_801A7428 *group = &photon_blast_attachment_table[kind];
     self->count = group->attachment_count;
     if (self->count != 0) {
+        struct { s32 a; s32 b; s32 id; } params;
+        s32 angles[3];
+        PhotonAttachmentDef_801A7748 *def;
+        PhotonAttachmentDef_801A7748 *defs;
+        u32 i;
         self->effects = (struct Eff_801A7680 *)mem_alloc(self->count * sizeof(struct Eff_801A7680));
         defs = group->attachments;
         for (i = 0; i < self->count; i++) {
-            s32 angles[3];
-            s32 rot[3];
             def = &defs[i];
-            a = def->unk4;
-            b = def->unk8;
-            id = def->unk0;
+            params.a = def->unk4;
+            params.b = def->unk8;
+            params.id = def->unk0;
             copy_xyz(angles, def->unk10);
-            flags = def->unk1C;
+            s32 flags = def->unk1C;
+            s32 rot[3];
             Vec_801A7428 dir = lbl_80446A38;
-            if (angles[2] != 0 || angles[0] != 0 || angles[1] != 0) {
+            if (angles[2] || angles[0] || angles[1]) {
                 push_matrix_from(identity_matrix);
                 rotate_matrix_z(0, angles[2]);
                 rotate_matrix_x(0, angles[0]);
@@ -381,7 +376,7 @@ void spawn_photon_blast_attachment_effects(struct Self_801A7680 *self, s32 kind)
                 rot[1] = 0;
                 rot[2] = 0;
             }
-            self->effects[i].obj = create_timed_particle_emitter_with_angles(&self->pos, rot, id, a, b, flags & 0xFFFF);
+            self->effects[i].obj = create_timed_particle_emitter_with_angles(&self->pos, rot, params.id, params.a, params.b, flags & 0xFFFF);
             self->effects[i].flag = def->unkC;
             copy_xyz(self->effects[i].angles, angles);
         }

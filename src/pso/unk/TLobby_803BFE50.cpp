@@ -305,6 +305,7 @@ inline void feed_audio_stream_decoder(AudioStreamInputState *st) {
         return;
     }
     s->vt->get_chunk(s, 1, 0x7FFFFFFF, &st->src_chunk);
+    // An ADX footer ends the stream before the next block is submitted.
     if (h->get_field_a8() == 0 && st->src_chunk.size >= 2 && (u16)*(s16 *)st->src_chunk.data == 0x8001) {
         st->state = 3;
         s->vt->unget_chunk(s, 1, &st->src_chunk);
@@ -349,8 +350,8 @@ inline void drain_audio_stream_decoder(AudioStreamInputState *st) {
         if (st->output_callback != NULL) {
             st->output_callback(st->output_context, i, head.data, head.size);
         }
-        st->rings[i]->interface->put_chunk(st->rings[i], 1, (SjChunk *)&head);
-        st->rings[i]->interface->unget_chunk(st->rings[i], 0, (SjChunk *)&tail);
+        st->rings[i]->interface->put_chunk(st->rings[i], 1, &head);
+        st->rings[i]->interface->unget_chunk(st->rings[i], 0, &tail);
     }
     st->output_samples += n;
     st->consumed_bytes += bytes;
@@ -386,6 +387,7 @@ void TLobby__sub_803C0238(AudioStreamInputState *st) {
     if (h->get_entry_id() == 3) {
         drain_audio_stream_decoder(st);
     }
+    // Format 10 also updates the counters outside the output-ring path.
     if (((AudioStreamDecoder *)h)->format == 10) {
         skip_audio_stream_decoder(st);
     }

@@ -49,7 +49,7 @@ s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16
     }
     body = &pkt->fragments[1];
     set_value_and_enable(&ref, (s32)&icmp);
-    TLobby__sub_80406FD8(&ref, &body->buffer, 8);
+    netbuf_copy_by_ref(&ref, &body->buffer, 8);
     switch (icmp.type) {
     case 128:
         reply = alloc_free_entry();
@@ -71,12 +71,12 @@ s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16
     case 1:
         TLobby__sub_80406EB8(&body->buffer, 8);
         set_value_and_enable(&ref, (s32)&ip);
-        TLobby__sub_80406FD8(&ref, &body->buffer, sizeof(ip));
+        netbuf_copy_by_ref(&ref, &body->buffer, sizeof(ip));
         TLobby__sub_80406EB8(&body->buffer, sizeof(ip));
         switch (ip.next_header) {
         case 17:
             set_value_and_enable(&ref, (s32)&udp);
-            TLobby__sub_80406FD8(&ref, &body->buffer, sizeof(udp));
+            netbuf_copy_by_ref(&ref, &body->buffer, sizeof(udp));
             TLobby__sub_80420D38(udp.src_port, icmp.code);
             break;
         case 6:
@@ -88,7 +88,7 @@ s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16
         if (mtu > 0 && mtu < 0x8000) {
             TLobby__sub_80406EB8(&body->buffer, 8);
             set_value_and_enable(&ref, (s32)&ip);
-            TLobby__sub_80406FD8(&ref, &body->buffer, sizeof(ip));
+            netbuf_copy_by_ref(&ref, &body->buffer, sizeof(ip));
             TLobby__sub_80411DEC(&ip.dst, mtu);
         }
         return 0;

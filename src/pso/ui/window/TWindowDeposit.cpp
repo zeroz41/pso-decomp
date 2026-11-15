@@ -41,7 +41,10 @@ s32 draw_visible_window_entries(void *, void *, int);
 s32 construct_base__9TWindowDDFPUcsPUc(void *, void *, void *, int);
 s32 get_window_layout_position(int);
 extern s32 __vt__14TWindowDeposit[];
-extern s32 TWindowDeposit__name;
+#pragma push
+#pragma readonly_strings on
+const char *TWindowDeposit__name = "TWindowDeposit";
+#pragma pop
 s32 draw_window_tab(s32, s32, s32, f32);
 void __dl__7TObjectFPv(void *);
 

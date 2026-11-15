@@ -288,7 +288,7 @@ struct Obj_800FF788 {
 };
 
 extern "C" {
-void fn_800FF580(Obj_800FF788 *self, Vec *p, f32 len);
+void resolve_collisions(Obj_800FF788 *self, Vec *p, f32 len);
 
 // One of the rope's collision spheres; the list ends at a negative radius.
 struct Collider_800FF580 {
@@ -296,7 +296,7 @@ struct Collider_800FF580 {
     Vec center;
 };
 
-void fn_800FF580(Obj_800FF788 *self, Vec *p, f32 len) {
+void resolve_collisions(Obj_800FF788 *self, Vec *p, f32 len) {
     Vec v = *p;
     Vec hit;
     s32 iter;
@@ -381,7 +381,7 @@ void TObjEZRopeBase::sub_800FF788(void *mtx) {
             p->z *= len;
             vec3_add_to(p, p - 1);
             if (((Obj_800FF788 *)this)->flag != 0) {
-                fn_800FF580(((Obj_800FF788 *)this), p, len);
+                resolve_collisions(((Obj_800FF788 *)this), p, len);
             }
             n--;
             p++;

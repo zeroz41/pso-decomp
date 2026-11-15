@@ -34,136 +34,122 @@ void TLobby__sub_803C34F4(AdxbDecoder *h) {
     }
 }
 
-// Queues n blocks of both channels in the decoder and starts it (inferred: ADXB's stereo entry).
-inline void entry_stereo_3570(void *obj, s32 n) {
-    AdxbDecoder *o = (AdxbDecoder *)obj;
-    TLobby *lobby;
-    s16 *dst;
-
-    dst = o->buf + o->pos;
-    lobby = o->id;
-    lobby->post_request((s32)o->src, n * 2, (s32)dst, (s32)(dst + o->rOff));
-    TLobby__sub_803CB4A4((u8 *)lobby);
-}
-
-// Queues n blocks of one channel in the decoder and starts it (inferred: ADXB's mono entry).
-inline void entry_mono_3570(void *obj, s32 n) {
-    AdxbDecoder *o = (AdxbDecoder *)obj;
-    TLobby *lobby;
-    s16 *dst;
-
-    dst = o->buf + o->pos;
-    lobby = o->id;
-    lobby->try_post_command((s32)o->src, n, (s32)dst);
-    TLobby__sub_803CB4A4((u8 *)lobby);
-}
-
-// Queues the next decode: the least of the input blocks, the blocks that fit the write window
-// (extended by the end padding when the end is inside it), the blocks before the end and those up
-// to the ring end (+1 when a block may straddle it) (inferred: ADXB_EvokeDecode).
-inline void evoke_decode_3570(AdxbDecoder *o) {
-    s32 n;
-    s32 pad;
-    s32 bufsmpl;
-    s32 ofst;
-    s32 x70;
-    s32 nblk;
-    s32 avail;
-    s32 room;
-    s32 pos;
-    s32 blk;
-    s32 room_end;
-
-    blk = o->stream_block_samples;
-    pos = o->pos;
-    bufsmpl = o->bufLen;
-    avail = o->avail;
-    n = o->maxLen / o->stream_channels;
-    x70 = o->x78;
-    ofst = x70 + blk - 1;
-    nblk = ofst / blk;
-    pad = (blk - 1) - ofst % blk;
-    room = (blk + (bufsmpl - pos) - 1) / blk;
-    room_end = room * blk;
-    if (nblk < room && pos + room_end - pad < bufsmpl) {
-        room++;
-    }
-    if (x70 < avail) {
-        avail += pad;
-    }
-    if (n > avail / blk) {
-        n = avail / blk;
-    }
-    if (n > nblk) {
-        n = nblk;
-    }
-    if (n > room) {
-        n = room;
-    }
-    if (o->stream_channels == 2) {
-        entry_stereo_3570(o, n);
-    } else {
-        entry_mono_3570(o, n);
-    }
-}
-
-// One step of the stream decoder (inferred: ADXB_ExecOneAdx, with ADXB_EvokeDecode inlined).
+// One step of the stream decoder, including the decode request (inferred: ADXB_ExecOneAdx and ADXB_EvokeDecode).
+#pragma push
+#pragma opt_common_subs off
+#pragma opt_lifetimes off
+#pragma opt_propagation off
 void TLobby__sub_803C3570(AdxbDecoder *o) {
+    s32 rem;
+    int room;
+    s32 width;
+    s32 blk;
     if (o->state == 1 && o->id->get_client_count() == 0) {
+        s32 room_ext;
+        s32 pad;
+        s32 channels;
+        s32 maxLen;
+        s32 n;
+        s32 block;
+        s32 pos;
+        s32 avail;
+        s32 nblk;
+        s32 x78;
+        s32 ofst;
+        s32 bufLen;
+        s32 avail_blocks;
         o->read(o->readArg, &o->pos, &o->avail, &o->x78);
-        evoke_decode_3570(o);
+        block = o->stream_block_samples;
+        x78 = o->x78;
+        pos = o->pos;
+        bufLen = o->bufLen;
+        avail = o->avail;
+        maxLen = o->maxLen;
+        channels = o->stream_channels;
+        n = maxLen / channels;
+        ofst = block - 1;
+        pad = ofst;
+        ofst = x78 + ofst;
+        nblk = ofst / block;
+        s32 space = bufLen - pos - 1;
+        pad -= ofst % block;
+        space = block + space;
+        room = space / block;
+        room_ext = room;
+        s32 room_end = room * block;
+        if (nblk < room && pos + room_end - pad < bufLen) {
+            ++room_ext;
+        }
+        if (x78 < avail) {
+            avail += pad;
+        }
+        avail_blocks = avail / block;
+        if (n > avail_blocks) {
+            n = avail_blocks;
+        }
+        if (n > nblk) {
+            n = nblk;
+        }
+        if (n > room_ext) {
+            n = room_ext;
+        }
+        if (o->stream_channels == 2) {
+            TLobby *lobby = o->id;
+            s16 *dst = o->buf;
+            dst += o->pos;
+            lobby->post_request((s32)o->src, n * 2, (s32)dst, (s32)(dst + o->rOff));
+            TLobby__sub_803CB4A4((u8 *)lobby);
+        } else {
+            TLobby *lobby = o->id;
+            lobby->try_post_command((s32)o->src, n, (s32)(o->buf + o->pos));
+            TLobby__sub_803CB4A4((u8 *)lobby);
+        }
         o->state = 2;
     }
     if (o->state == 2) {
         o->id->update_receive_check();
         if (o->id->get_client_count() == 3) {
+            s32 last;
             s32 rOff;
             s32 size;
             s32 pos;
             s16 *buf;
-            s32 rem;
-            s32 width;
-            s32 blk;
-            s32 last;
-            s32 n;
-            s32 got;
-            s32 nblk;
             blk = o->stream_block_samples;
+            last = blk - 1;
+            last = o->x78 + last;
+            rem = (blk - 1) - last % blk;
             width = o->stream_block_bytes;
             pos = o->pos;
-            last = o->x78 + blk - 1;
-            nblk = last / blk;
-            rem = (blk - 1) - last % blk;
             buf = o->buf;
             size = o->wrap_len;
             rOff = o->wrap_offset;
-            got = o->id->get_size();
-            n = got * blk / o->stream_channels;
-            if (nblk * o->stream_channels <= got) {
+            s32 got = o->id->get_size();
+            s32 nblk = last / blk;
+            s32 channels = o->stream_channels;
+            s32 n = (got * blk) / channels;
+            if (nblk * channels <= got) {
                 n -= rem;
             }
             o->n = n;
-            pos += n;
             o->bytes = got * width;
+            pos += n;
             if (pos >= size) {
-                s32 i;
-                s16 *dst;
-                s16 *src;
                 pos -= size;
                 if (o->stream_channels == 2) {
-                    dst = buf;
-                    src = buf + size;
-                    for (i = pos; i > 0; i--) {
+                    s16 *dst = buf;
+                    s16 *src = buf + size;
+                    s32 i;
+                    for (i = pos; i > 0; --i) {
                         *dst++ = *src++;
                     }
                     src = buf + (rOff + size);
                     dst = buf + rOff;
-                    for (i = pos; i > 0; i--) {
+                    for (i = pos; i > 0; --i) {
                         *dst++ = *src++;
                     }
                 } else {
-                    src = buf + size;
-                    for (i = pos; i > 0; i--) {
+                    s16 *src = buf + size;
+                    for (s32 i = pos; i > 0; --i) {
                         *buf++ = *src++;
                     }
                 }
@@ -174,6 +160,7 @@ void TLobby__sub_803C3570(AdxbDecoder *o) {
         }
     }
 }
+#pragma pop
 
 
 s32 TLobby::get_field_a0() {

@@ -68,7 +68,7 @@ s32 NetIPv6Shutdown(void);
 s16 TLobby__sub_80409A3C(u8 *arg0, s16 arg1);
 s32 TLobby__sub_80405304(void *arg0);
 s16 TLobby__sub_8040DC8C(u8 *arg0, u8 *arg1);
-void TLobby__sub_80406FD8(void *a, void *b, s32 v);
+void netbuf_copy_by_ref(void *a, void *b, s32 v);
 s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d);
 u16 TLobby__sub_80411040(const struct IPv6Address *src, const struct IPv6Address *dst, u8 next_header, const struct NetPacket *pkt, s16 flag);
 void TLobby__sub_80405298(N_80405298 *o, s32 v);

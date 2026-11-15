@@ -2,6 +2,7 @@
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowShortCut.h"
+#include "pso/ui/chat/TWindowChatSymbol.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -70,7 +71,6 @@ s32 forward_render__20TWindowSubStatusDispFv(int, int);
 extern s32 __vt__15TWindowShortCut[];
 void measure_message_text_width(void *entry, f32 max_width);
 void refresh_status_display__9TWindowDDFv(void *entry);
-void update_state__9TWindowDDFv(s32 *words, s32 *buffer, u16 player);
 }
 
 // A shortcut's preview text entry: its flags word and the measured size of its text.
@@ -141,7 +141,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
     case 0:
         break;
     case 1: {
-        s32 *text = fn_80076BC4(shortcut + 1);
+        char *text = fn_80076BC4(shortcut + 1);
         set_text_entry_string((u8 *)preview, (u32)text, 0);
         measure_message_text_width(preview, 200.0f);
         preview->flags |= 2;
@@ -157,7 +157,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
     case 2: {
         s32 *buffer = get_shared_text_buffer();
         u16 player = (u16)local_client_id;
-        update_state__9TWindowDDFv(shortcut + 1, buffer, player);
+        TWindowDD::format_message(shortcut + 1, buffer, player);
         set_text_entry_string((u8 *)preview, (u32)get_shared_text_buffer(), 0);
         refresh_status_display__9TWindowDDFv(preview);
         preview->flags |= 2;
@@ -206,28 +206,27 @@ void render__15TWindowShortCutFv(u8 *arg0) {
 
 void TWindowShortCut::run_task() { ((TWindowSubStatusDisp *)(this->heading))->update_subwindow(); ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list((char*)this + 0x24); }
 
-void *__dt__15TWindowShortCutFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TWindowShortCut;
-        TWindowShortCut *window = (TWindowShortCut *)arg0;
-        if (window->symbol_preview != NULL) {
-            ((TWindowBase *)window->symbol_preview)->close();
-            window->symbol_preview = NULL;
+void *__dt__15TWindowShortCutFv(TWindowShortCut *self, s16 arg1) {
+    if (self != NULL) {
+        *(s32 **)((s8 *)self + 0x18) = __vt__15TWindowShortCut;
+        if (self->symbol_preview != NULL) {
+            ((TWindowBase *)self->symbol_preview)->close();
+            self->symbol_preview = NULL;
         }
-        if (window->preview_window != NULL) {
-            window->preview_window->close();
-            window->preview_window = NULL;
+        if (self->preview_window != NULL) {
+            self->preview_window->close();
+            self->preview_window = NULL;
         }
-        TWindowSubStatusDisp::destroy_status_display(window->heading, 1);
-        ((TWindowDD *)arg0)->destroy_window_base(0);
+        TWindowSubStatusDisp::destroy_status_display(self->heading, 1);
+        ((TWindowDD *)self)->destroy_window_base(0);
         if (arg1 > 0) {
-            TObject::operator delete(arg0);
+            TObject::operator delete(self);
         }
     }
-    return arg0;
+    return self;
 }
 typedef char RecoveredGlobal_8026E728___vt__15TWindowShortCut_size[sizeof(RecoveredGlobal_8026E728___vt__15TWindowShortCut) == 0x1C ? 1 : -1];
-u8 *TWindowShortCut__ct(TWindowShortCut *window_short_cut, s32 arg1, s32 arg2, s32 arg3) {
+u8 *TWindowShortCut__ct(TWindowShortCut *window_short_cut, s32 arg1, s32 index, s32 *chat_shortcut) {
     s32 var_r31;
     ((TWindowDD *)window_short_cut)->construct_base((u8 *)&window_short_cut_layout, (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)window_short_cut + 0x18) = &(*(RecoveredGlobal_8026E728___vt__15TWindowShortCut *)&__vt__15TWindowShortCut).value;
@@ -239,9 +238,9 @@ u8 *TWindowShortCut__ct(TWindowShortCut *window_short_cut, s32 arg1, s32 arg2, s
     window_short_cut->heading = var_r31;
     window_short_cut->preview_window = NULL;
     window_short_cut->symbol_preview = NULL;
-    window_short_cut->shortcut_index = arg2;
-    window_short_cut->shortcut = arg3;
-    window_short_cut->show_shortcut(arg2, (s32 *)arg3);
+    window_short_cut->shortcut_index = index;
+    window_short_cut->shortcut = chat_shortcut;
+    window_short_cut->show_shortcut(index, chat_shortcut);
     return (u8 *)window_short_cut;
 }
 

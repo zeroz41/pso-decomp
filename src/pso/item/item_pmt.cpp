@@ -6,8 +6,10 @@
 #include "pso/item/TItemLoad.h"
 
 void* item_pmt;
-extern "C" void*    item_pmt_tbl;
-extern "C" TObject* item_mgr;
+extern "C" {
+void* item_pmt_tbl;
+TObject* item_mgr;
+}
 
 extern "C" char* const item_pmt_filename_descriptor;
 
