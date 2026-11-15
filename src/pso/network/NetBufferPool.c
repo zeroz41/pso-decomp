@@ -66,95 +66,64 @@ s32 TLobby__sub_80415690(void) {
 
 s16 TLobby__sub_8041579C(NetBufferRef *self)
 {
-  s32 pos;
-  s16 f;
-  u8 *a;
-  long long new_var;
-  s16 id1;
-  u8 *b;
-  s16 id2;
-  u8 *e;
-  s16 m;
-  u8 *rec;
-  int new_var2;
-  u32 word;
-  if (self->kind == 4)
-  {
-    TLobby__sub_803F8D84(self->value);
-    return 0;
-  }
-  word = self->value;
-  id1 = (s16) (word >> 24);
-  id2 = (s16) ((word >> 16) & 0xff);
-  if ((id1 < 0) || (id2 < 0))
-  {
-    return -1;
-  }
-  if (id1 > network_buffer_pool_state.count)
-  {
-    return -1;
-  }
-  if (id2 > 8)
-  {
-    return -1;
-  }
-  rec = (u8 *)network_buffer_pool_state.ents;
-  rec += id1 * (s32)sizeof(NetBufferPoolEntry);
-  new_var = id2 * (s32)sizeof(NetBufferSegment);
-  e = rec + new_var;
-  if ((*((s16 *) (e += offsetof(NetBufferPoolEntry, segs)))) == (-1))
-  {
-    return -1;
-  }
-  *((s16 *) e) = -1;
-  *((s32 *) (rec + offsetof(NetBufferPoolEntry, free_segs))) += 1;
-  *((s32 *) (rec + offsetof(NetBufferPoolEntry, free_bytes))) += *((u16 *) ((e = rec + (id2 * (s32)sizeof(NetBufferSegment))) + offsetof(NetBufferPoolEntry, segs[0].len)));
-  if ((id2 == 7) || ((*((s16 *) (e + offsetof(NetBufferPoolEntry, segs[1].owner)))) != (-1)))
-  {
-    pos = (u16) id2;
-  }
-  else
-  {
-    pos = id2 + 1;
-  }
-  pos = (s16) pos;
-  new_var2 = pos - 1;
-  m = new_var2;
-  a = rec + (m * (s32)sizeof(NetBufferSegment));
-  b = rec + (pos * (s32)sizeof(NetBufferSegment));
-  while ((m >= 0) && ((f = *((s16 *) (a + offsetof(NetBufferPoolEntry, segs[0].owner)))) <= 0))
-  {
-    if (f == 0)
-    {
-      *((s16 *) (a + offsetof(NetBufferPoolEntry, segs[0].owner))) = -1;
-      *((s16 *) (b + offsetof(NetBufferPoolEntry, segs[0].owner))) = 0;
-      *((u16 *) (a + offsetof(NetBufferPoolEntry, segs[0].offset))) = *((u16 *) (b + offsetof(NetBufferPoolEntry, segs[0].offset)));
-      *((u16 *) (a + offsetof(NetBufferPoolEntry, segs[0].len))) = *((u16 *) (b + offsetof(NetBufferPoolEntry, segs[0].len)));
-      *((u16 *) (b + offsetof(NetBufferPoolEntry, segs[0].offset))) = (*((u16 *) (b + offsetof(NetBufferPoolEntry, segs[0].offset)))) + (*((u16 *) (a + offsetof(NetBufferPoolEntry, segs[0].len))));
-      *((u16 *) (b + offsetof(NetBufferPoolEntry, segs[0].len))) = 0;
-    }
-    else
-      if (f == (-1))
-    {
-      *((s16 *) (b + offsetof(NetBufferPoolEntry, segs[0].owner))) = 0;
-      *((u16 *) (a + offsetof(NetBufferPoolEntry, segs[0].len))) = (*((u16 *) (a + offsetof(NetBufferPoolEntry, segs[0].len)))) + (*((u16 *) (b + offsetof(NetBufferPoolEntry, segs[0].len))));
-      *((u16 *) (b + offsetof(NetBufferPoolEntry, segs[0].len))) = 0;
-      *((u16 *) (b + offsetof(NetBufferPoolEntry, segs[0].offset))) = (*((u16 *) (a + offsetof(NetBufferPoolEntry, segs[0].offset)))) + (*((u16 *) (a + offsetof(NetBufferPoolEntry, segs[0].len))));
-    }
-    else
-    {
-      break;
-    }
-    b = b - (s32)sizeof(NetBufferSegment);
-    a = a - (s32)sizeof(NetBufferSegment);
-    m--;
-  }
+    u32 word;
+    s16 entry;
+    s16 seg;
+    s16 pos;
+    s16 prev;
+    s16 owner;
+    NetBufferPoolEntry *ent;
 
-  return 0;
+    if (self->kind == 4) {
+        TLobby__sub_803F8D84(self->value);
+        return 0;
+    }
+    word = self->value;
+    entry = (s16)(word >> 24);
+    seg = (s16)((word >> 16) & 0xff);
+    if (entry < 0 || seg < 0) {
+        return -1;
+    }
+    if (entry > network_buffer_pool_state.count) {
+        return -1;
+    }
+    if (seg > 8) {
+        return -1;
+    }
+    ent = network_buffer_pool_state.ents;
+    ent += entry;
+    if (ent->segs[seg].owner == -1) {
+        return -1;
+    }
+    ent->segs[seg].owner = -1;
+    ent->free_segs++;
+    ent->free_bytes += ent->segs[seg].len;
+    /* Merge the freed segment with free neighbours below it. */
+    if (seg == 7 || ent->segs[seg + 1].owner != -1) {
+        pos = seg;
+    } else {
+        pos = seg + 1;
+    }
+    for (prev = pos - 1; prev >= 0 && (owner = ent->segs[prev].owner) <= 0; pos--, prev--) {
+        if (owner == 0) {
+            ent->segs[prev].owner = -1;
+            ent->segs[pos].owner = 0;
+            ent->segs[prev].offset = ent->segs[pos].offset;
+            ent->segs[prev].len = ent->segs[pos].len;
+            ent->segs[pos].offset = ent->segs[pos].offset + ent->segs[prev].len;
+            ent->segs[pos].len = 0;
+        } else if (owner == -1) {
+            ent->segs[pos].owner = 0;
+            ent->segs[prev].len = ent->segs[prev].len + ent->segs[pos].len;
+            ent->segs[pos].len = 0;
+            ent->segs[pos].offset = ent->segs[prev].offset + ent->segs[prev].len;
+        } else {
+            break;
+        }
+    }
+    return 0;
 }
 
-#pragma push
-#pragma opt_common_subs on
 s16 TLobby__sub_80415954(void *out_, int size, s16 owner) {
     NetBufferRef *ref = (NetBufferRef *)out_;
     NetBufferPool *pool;
@@ -200,6 +169,5 @@ s16 TLobby__sub_80415954(void *out_, int size, s16 owner) {
     }
     return -1;
 }
-#pragma pop
 
 NetBufferPool network_buffer_pool_state;

@@ -1332,7 +1332,7 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         # TLobby_8041112C.c was built with CSE: every function matches with it, NetIPv6GetAddressScopeClass only in
         # its inline-helper form, and seven functions needed opt_common_subs pragma scopes under -opt nocse.
         # NetLoopback.c was built with CSE: every function matches with it, TLobby__sub_80415230 only with it.
-        "pso/network/NetBufferPool.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        # NetBufferPool.c was built with CSE: its free (0x8041579C) and alloc (0x80415954) only match with it.
         "pso/network/NetIPv6NeighborDiscovery.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetFragment.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         # NetDispatcher.c was built with CSE: three functions match only with it, the protocol loop as typed C.
