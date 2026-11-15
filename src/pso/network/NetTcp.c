@@ -145,7 +145,6 @@ void clear_position(TcpTcb *tcb) {
 s32 TLobby__sub_8041D460(TcpTcb *tcb, s32 *p1, s32 *p2);
 #pragma push
 #pragma opt_common_subs on
-#pragma opt_propagation off
 s16 TLobby__sub_8041A9AC(TcpTcb *tp)
 {
     TcpHdr *th = &tp->hdr;
@@ -155,16 +154,14 @@ s16 TLobby__sub_8041A9AC(TcpTcb *tp)
     TcpTcb *q;
     u8 *optp;
     s32 idle, win;
-    u16 i, sackoff, optlen;
-    s32 fin, mss, sendalot, recwin, flags, off, len;
-    s32 t, u, lim, avail;
+    u16 optlen, i, sackoff;
+    s16 mss;
+    s32 fin, sendalot, recwin, len, off, flags;
+    s32 t, lim;
     s16 a;
-    u16 b;
-    s32 pa0, pa1, pa2;
     s32 sack_start, sack_end;
     u16 tmp;
     s32 tmp4, tmp4b;
-    s32 pb0, pb1;
 
     if (tp->t_state < 0) {
         return -1;
@@ -174,22 +171,21 @@ s16 TLobby__sub_8041A9AC(TcpTcb *tp)
         return -6;
     }
     a = TLobby__sub_8040DC8C(tp->remote, tp->local);
-    b = tp->maxseg;
-    mss = (s16)(b < a ? (s16)b : a);
-    if ((s16)mss < 0) {
+    mss = tp->maxseg < a ? tp->maxseg : a;
+    if (mss < 0) {
         return mss;
     }
     idle = !(tp->snd_una - tp->snd_max);
     if (tp->snd_max == tp->snd_una && tp->idle >= tp->rxtcur) {
         switch (tp->f540) {
         case 1:
-            tp->snd_cwnd = b;
+            tp->snd_cwnd = tp->maxseg;
             break;
         case 2:
-            tp->snd_cwnd = b * 2;
+            tp->snd_cwnd = tp->maxseg * 2;
             break;
         case 3:
-            tp->snd_cwnd = ((s32)(b * 4) < (((s32)(b * 2) > 0x111c) ? (s32)(b * 2) : 0x111c)) ? (b * 4) : ((((s32)(b * 2) > 0x111c) ? (s32)(b * 2) : 0x111c));
+            tp->snd_cwnd = (tp->maxseg * 4 < (tp->maxseg * 2 > 0x111c ? tp->maxseg * 2 : 0x111c)) ? tp->maxseg * 4 : (tp->maxseg * 2 > 0x111c ? tp->maxseg * 2 : 0x111c);
             break;
         default:
             tp->snd_cwnd = get_adjusted_slot_count(tp);
@@ -377,10 +373,8 @@ send:
             optp[optlen] = 1;
             optlen++;
         }
-        i = optlen;
-        avail = tp->maxseg - i;
-        if (len > avail) {
-            len = avail;
+        if (len > tp->maxseg - optlen) {
+            len = tp->maxseg - optlen;
             flags &= ~1;
             sendalot = 1;
         }
@@ -407,7 +401,7 @@ send:
         win = 0;
         th->sum = win;
         th->flags = flags;
-        th->off = (((i + (s32)sizeof(TcpHdr)) >> 2) << 4) & 0xf0;
+        th->off = (((optlen + (s32)sizeof(TcpHdr)) >> 2) << 4) & 0xf0;
         m = alloc_free_entry();
         if (m == 0) {
             return -0x101;
