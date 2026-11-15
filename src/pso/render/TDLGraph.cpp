@@ -5,7 +5,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/TDLGraph.h"
-#include "pso/object/warp/TObjWarpString.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
@@ -95,7 +94,7 @@ void fn_8007ECF0(u8 *arg0, s32 arg1, s32 arg2) {
 }
 #pragma pop
 
-void draw_outlined_string_right_aligned__14TObjWarpStringFPviiPv(void *, s32 x0, s32 y0, char *str) {
+void TDLGraph::draw_outlined_string_right_aligned(s32 x0, s32 y0, char *str) {
     f32 x;
     f32 y;
     f32 xr;
@@ -129,7 +128,7 @@ void TDLGraph::draw_percent_text(f32 farg0, f32 farg1) {
             var_r5 = 0x64;
         }
         sprintf(text, "%3d%", var_r5);
-        draw_outlined_string_right_aligned__14TObjWarpStringFPviiPv(this, (s32) farg0, (s32) farg1, text);
+        draw_outlined_string_right_aligned((s32) farg0, (s32) farg1, text);
     }
 }
 
@@ -161,7 +160,7 @@ void TDLGraph::draw_countdown_timer(f32 x, f32 y) {
     } else {
         sprintf(buf, "%d.%d ", secs, frac);
     }
-    draw_outlined_string_right_aligned__14TObjWarpStringFPviiPv(self, (s32)x, (s32)y, buf);
+    draw_outlined_string_right_aligned((s32)x, (s32)y, buf);
     if (self->f30 > 0 && self->f24 - self->f30 > 0x4B && self->f1C > 1e-5f) {
         k = 1.0f;
         r = k / self->f1C;
