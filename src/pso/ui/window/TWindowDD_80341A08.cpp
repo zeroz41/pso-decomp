@@ -63,13 +63,15 @@ extern const f32 lbl_805DFB44;
 extern void *lbl_805D63F0;
 }
 
+extern "C" {
+extern const f32 lbl_805DFCA4; // 0.5f
+extern const f32 lbl_805DFCAC; // 0.1f
+extern const f32 TWindowDD__data_805DFCA8; // 0.0f
+}
+
 void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect) {
     E_803403F8 verts[8];
     E_803403F8 *v;
-    s32 tex;
-    s32 i;
-    s32 j;
-    s32 count;
     f32 y1;
     f32 c;
     f32 s;
@@ -82,21 +84,23 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
     f32 top;
     f32 bottom;
     f32 step;
-
-    // TWindowDD::get_draw_count(lbl_805D63F0), read inline here (0x80348AE8 is the same load chain)
-    tex = **(s32 **)((s8 *)(*(void **)((s8 *)(*(void **)lbl_805D63F0) + 0x20)) + 0xC);
+    // TWindowDD::get_draw_count(lbl_805D63F0), read inline here.
+    s32 tex = **(s32 **)((s8 *)(*(void **)((s8 *)(*(void **)lbl_805D63F0) + 0x20)) + 0xC);
     if (rect->open_tick < 0) {
         return;
     }
-    c = 0.5f * self->pad_4C + self->pad_44;
-    ((TWindowDD *)verts)->reset_entries(TWindowDD__sub_80348AD4(self->pad_54, 0.0f), -1);
-    ((TWindowDD *)verts)->copy_point_table(self->pad_64);
+    c = lbl_805DFCA4 * self->pad_4C + self->pad_44;
+    f32 depth = TWindowDD__sub_80348AD4(self->pad_54, TWindowDD__data_805DFCA8);
+    ((TWindowDD *)verts)->reset_entries(depth, -1);
+    s32 point_table = self->pad_64;
+    ((TWindowDD *)verts)->copy_point_table(point_table);
     TWindowDD__sub_80348A2C(rect, verts);
+
     s = rect->scale[1];
-    count = self->pad_78;
-    top = -(0.5f * self->pad_4C);
-    bottom = top + TWindowDD__data_805DFB20;
+    s32 count = self->pad_78;
+    top = -(lbl_805DFCA4 * self->pad_4C);
     y0 = top * s + c;
+    bottom = top + TWindowDD__data_805DFB20;
     y1 = bottom * s + c;
     if (self->pad_64 == 0) {
         v0 = lbl_805DFB40;
@@ -108,9 +112,10 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
     v0 *= TWindowDD__data_805DFB18;
     v1 *= TWindowDD__data_805DFB18;
     frac = TWindowDD__data_805DFB20 * fn_803D6308(-self->pad_88 / TWindowDD__data_805DFB20);
-    if (frac != 0.0f) {
+    // A fractional scroll leaves a clipped row at each end of the list.
+    if (TWindowDD__data_805DFCA8 != frac) {
         count = self->pad_78 - 1;
-        if (frac < 0.0f) {
+        if (frac < TWindowDD__data_805DFCA8) {
             part = frac + TWindowDD__data_805DFB20;
         } else {
             part = frac;
@@ -118,12 +123,11 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
         }
         yb = part * s + y0;
         v = verts;
-        for (i = 0; i < 4; i++) {
+        for (s32 i = 0; i < 4; ++i, v += 2) {
             v[0].b = y0;
             v[0].e = v1 - part * TWindowDD__data_805DFB18;
             v[1].b = yb;
             v[1].e = v1;
-            v += 2;
         }
         ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
         y0 = yb;
@@ -131,50 +135,51 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
     if (count > 0) {
         step = TWindowDD__data_805DFB20 * s;
         v = verts;
-        for (i = 0; i < 4; i++) {
+        for (s32 i = 0; i < 4; ++i, v += 2) {
             v[0].e = v0;
             v[1].e = v1;
-            v += 2;
         }
-        for (i = 0; i < count; i++) {
+        for (s32 i = 0; i < count; ++i) {
             y1 = y0 + step;
             v = verts;
-            for (j = 0; j < 4; j++) {
+            for (s32 j = 0; j < 4; ++j, v += 2) {
                 v[0].b = y0;
                 v[1].b = y1;
-                v += 2;
             }
             ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
             y0 = y1;
         }
     }
-    if (frac != 0.0f) {
-        yb = 0.5f * self->pad_4C * s + c;
+    if (TWindowDD__data_805DFCA8 != frac) {
+        f32 bottom_edge = lbl_805DFCA4 * self->pad_4C;
+        yb = bottom_edge * s + c;
         v = verts;
-        for (i = 0; i < 4; i++) {
+        for (s32 i = 0; i < 4; ++i, v += 2) {
             v[0].b = y1;
             v[0].e = v0;
             v[1].b = yb;
             v[1].e = v0 - frac * TWindowDD__data_805DFB18;
-            v += 2;
         }
         ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
     }
-    if (self->m_74 > 0 && self->sub_80342254() != 0) {
-        ((TWindowDD *)verts)->reset_entries(TWindowDD__sub_80348AD4(self->pad_54, 0.1f), -1);
+    // The selection highlight uses a separate point table and depth bias.
+    if (self->m_74 > 0 && self->sub_80342254()) {
+        depth = TWindowDD__sub_80348AD4(self->pad_54, lbl_805DFCAC);
+        ((TWindowDD *)verts)->reset_entries(depth, -1);
         ((TWindowDD *)verts)->copy_point_table(1);
         TWindowDD__sub_80348A2C(rect, verts);
-        top = (f32)self->m_6c * TWindowDD__data_805DFB20 + -(0.5f * self->pad_4C);
+
+        f32 row = (f32)self->m_6c;
+        f32 first_y = -(lbl_805DFCA4 * self->pad_4C);
+        y0 = row * TWindowDD__data_805DFB20 + first_y;
         s = rect->scale[1];
-        bottom = top + TWindowDD__data_805DFB20;
-        y0 = top * s + c;
+        bottom = y0 + TWindowDD__data_805DFB20;
+        y0 = y0 * s + c;
         y1 = bottom * s + c;
         v = verts;
-        for (i = 0; i < 4; i++) {
-            v->b = y0;
-            v++;
-            v->b = y1;
-            v++;
+        for (s32 i = 0; i < 4; ++i) {
+            v++->b = y0;
+            v++->b = y1;
         }
         ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
     }
