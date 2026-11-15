@@ -60,7 +60,6 @@ s32 NetIPv6Init(void) {
 }
 
 inline s16 process_options_header(u8 *p, s16 rem, u8 *ip, s16 m, s16 id) {
-    s16 TLobby__sub_80410958(u8 *, s16, u8 *, s16, s16);
     s32 n;
     u8 *d;
     d = p + 2;
@@ -125,9 +124,7 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
   s16 TLobby__sub_8040D510(void *, u8 *, s32, s16); /* declared here with an s32 3rd argument; the definition takes s16 */
   s16 TLobby__sub_804105E0(u8 *, u8 *, s16, s16); /* declared s16 here; the definition returns s32 */
   s16 TLobby__sub_804136CC(s16); /* declared s16 here; the definition returns void */
-  s16 TLobby__sub_804136EC(void *); /* declared s16 here; the definition returns s32 */
-  s16 NetIPv6CompareAddresses(void *, void *); /* declared s16 here; the definition is s32 (s32, s32) */
-  s16 TLobby__sub_8041B974(void *, void *, void *); /* declared s16 here; the definition is s32 (u8 *, u8 *, u8 *) */
+  s16 TLobby__sub_8041B974(void *, void *, void *); /* declared here with void * parameters; the definition takes (u8 *, u8 *, u8 *) */
   s16 udp_input(void *, void *, void *, s16); /* declared s16 here; the definition is s32 (O_80420DE4 *, NetworkAddress *, NetworkAddress *, s32) */
   s32 TLobby__sub_80421938(void *, void *, void *, u32, s16); /* declared here with other parameter types; the definition is s32 (O_80421938 *, void *, void *, void *, s32) */
   struct 
@@ -401,7 +398,6 @@ s32 TLobby__sub_8040FFF8(u8 *ip, int len, s16 id)
 }
 #pragma pop
 
-extern s32 TLobby__sub_80410958(u8* p, s16 n, u8* self, s16 c, s16 d);
 static inline s16 chk_804105E0(u8 *p, s16 lim, s16 ctx, s16 l, s16 rem, u8 *q, u8 *prev) {
     u8 err4[8];
     if (l != rem + 0x28) {
@@ -553,7 +549,7 @@ extern s32 TLobby__sub_804105E0(u8 *self, u8 *p, s16 lim, s16 ctx)
   return r21;
 }
 #pragma pop
-s32 TLobby__sub_80410958(u8* p, s16 n, u8* self, s16 c, s16 d) {
+s16 TLobby__sub_80410958(u8* p, s16 n, u8* self, s16 c, s16 d) {
     u8* cur = p;
     s32 len;
 
@@ -584,7 +580,6 @@ s32 TLobby__sub_80410958(u8* p, s16 n, u8* self, s16 c, s16 d) {
                 struct {
                     u8 a;
                     u8 b;
-                    u8 pad[2];
                     u32 c;
                 } msg;
 

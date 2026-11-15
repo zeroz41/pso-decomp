@@ -3,8 +3,13 @@
 
 #include "types.h"
 #include "pso/object/warp/TObjAreaWarp.h"
+#include <stddef.h>
 
+struct AnimationMotion;
+
+// Same field layout as TObjCityMainWarpChallenge up to 0x178.
 struct TObjWarpBoss : public TObjAreaWarp {
+    TObjWarpBoss(TObject *parent, void *set_data);
     virtual ~TObjWarpBoss();
     void close_windows();
     void update();
@@ -20,26 +25,35 @@ struct TObjWarpBoss : public TObjAreaWarp {
     s32 are_all_players_in_range();
     s32 sub_8019E418();
     void update_warp_boss_visibility();
-    u8 unk_AC[0x4];
-    u32 m_b0;
-    u32 m_d0;
-    u32 m_d4;
-    u8 _padD8[0x4];
-    s16 m_dc;
-    s16 m_de;
-    s16 m_e0;
-    s16 m_e2;
-    u8 _padE4[0x80];
-    u32 m_164;
-    u32 m_168;
-    u32 m_16c;
-    u8 _pad170[0x10];
-    u32 m_180;
     void update_warp_confirmation();
     void render();
     void run_task();
-    u8 unk_168[0x1C];
+    f32 frame;  // motion frame: run_task steps it by 4 and wraps at the motion's frame count
+    u8 pad_c8[0x8];
+    u32 model;                // drawn with motion by render while nonzero (compared unsigned)
+    AnimationMotion *motion;  // get_boss_warp_motion / get_boss_warp_bml_motion
+    u8 pad_d8[0x4];
+    s16 next_state;
+    s16 state;
+    s16 state_step;   // step inside state: update runs once with -1 to leave it, then from 0 (run_task)
+    s16 state_flags;  // bit 0: run_task does not switch state to next_state while it is set
+    char player_names[4][0x18];
+    s32 player_in_range[4];
+    s32 player_count;
+    s32 players_in_range;
+    s32 player_on_dest_floor;
+    s32 warp_countdown;  // 300 when the warp state starts; at 0 it warps without waiting for every player
+    void *player_list_window;
+    void *yes_no_window;
+    s32 key_id;             // set_params[1] if 0..0xFF, else -1 ("<- KEY ID : %d")
+    s32 warp_triggered;     // 1 once warp_player ran for the local player in this state
+    s32 warp_effect_timer;  // 300 when warp_player starts the player's warp effect
+    u8 pad_178[0x4];
+    s32 state_timer;            // 150 when update_state starts; at 0 it moves on without a player
+    s32 local_player_in_range;  // the local player stands within warp_range + 25 (update_warp_occupants)
 };
 
 typedef char TObjWarpBoss_size[sizeof(TObjWarpBoss) == 0x184 ? 1 : -1];
+typedef char TObjWarpBoss_model[offsetof(TObjWarpBoss, model) == 0xD0 ? 1 : -1];
+typedef char TObjWarpBoss_local_player_in_range[offsetof(TObjWarpBoss, local_player_in_range) == 0x180 ? 1 : -1];
 #endif

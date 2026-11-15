@@ -69,10 +69,6 @@ struct TObjBoss2Tunnel : public TObject {
     void reset_floats();
     static s32 dt(s32 arg0, s16 arg1);
     static s32 reset_floats(s32 arg0);
-    int check_param_threshold(f32 arg1);
-    void reset_coords();
-    static s32 maybe_delete(s32 arg0, s16 arg1);
-    static s32 reset_coords_pass(s32 arg0);
     static s32 decrement_packed_timer(u32 *arg0, s32 arg1);
     static s32 spawn_effect(s32 arg0, void *arg1, void *arg2);
     static s32 adjust_to_ground(s32 arg0, void *arg1);

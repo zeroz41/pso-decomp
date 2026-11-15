@@ -5,11 +5,11 @@
 
 class TUnk_804B08BC : public TUnk_804B6C24 {
 public:
+    TUnk_804B08BC(void *set_data);
     virtual ~TUnk_804B08BC();
-    void *destroy_ancient_container(s16);
     virtual void vfunc_81();
     virtual void vfunc_80();
-    virtual void vfunc_79();
+    virtual void vfunc_79() const;
 };
 
 #endif

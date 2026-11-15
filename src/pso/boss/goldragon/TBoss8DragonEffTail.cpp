@@ -16,6 +16,8 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/enemy/AttackTargetHistory.h"
 
 struct VBase_18 { char pad[0x18]; };
 struct VObj_18 : VBase_18 {
@@ -109,7 +111,6 @@ u32 dragon_tail_gvm_texture_handle;
 extern "C" {
 extern s32 __vt__19TBoss8DragonEffTail[];
 EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 arg2);
-s32 vec3_add_to(s32, s32, s32);
 void matrix_mult_vec(s32, void *, void *);
 s32 free_bin_model_request(s32, s32);
 s32 release_texture_list(void*);
@@ -126,7 +127,7 @@ void run_task__19TBoss8DragonEffTailFv(u8 *arg0p) {
     s32 i;
     Obj_802FE494 *self = (Obj_802FE494 *)arg0p;
     VecCopy((Vec *)(arg0p + 0x38), (const Vec *)((u8 *)self->xB4 + 0x24));
-    ((void (*)(void *, void *))vec3_add_to)(arg0p + 0x38, (u8 *)self->xB4 + 0x78);
+    vec3_add_to((Vec *)(arg0p + 0x38), (Vec *)((u8 *)self->xB4 + 0x78));
     self->x38 *= 0.5f;
     self->x40 *= 0.5f;
     self->x3C = *(f32 *)(self->xB0 + 0x3C);
@@ -160,8 +161,8 @@ void run_task__19TBoss8DragonEffTailFv(u8 *arg0p) {
     ((TBoss8Dragon *)(self->xB0))->reload_boss_stats();
 }
 
-void TBoss8DragonEffTail__vt18(s32 arg0, s32 arg1) {
-    vec3_add_to(arg1 + 0x308, arg0 + 0xC0, arg0);
+void TBoss8DragonEffTail::area_attack_apply_recoil(void *target, f32) {
+    vec3_add_to((Vec *)((u8 *)target + 0x308), &m_c0);
 }
 
 void TBoss8DragonEffTail::apply_hit_if_active(void *arg1_arg, f32 *) {
@@ -171,19 +172,11 @@ void TBoss8DragonEffTail::apply_hit_if_active(void *arg1_arg, f32 *) {
 
 void TBoss8DragonEffTail::enable() { this->m_bc = 1; get_state(); }
 void TBoss8DragonEffTail::disable() { this->m_bc = 0; get_state(); }
-int TBoss8DragonEffTail::get_state() { return fill_value_array(*(void* *)&this->m_b8); }
+int TBoss8DragonEffTail::get_state() { return fill_value_array(attack_history); }
 
-void *__dt__19TBoss8DragonEffTailFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TBoss8DragonEffTail;
-        __dt__17AreaAttackHistoryFv((s32)(*(void **)((s8 *)arg0 + 0xB8)), 1);
-        ((TBoss8DragonEffTail *)arg0)->m_b8 = 0;
-        __dt__13TUnk_804928CCFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TBoss8DragonEffTail::~TBoss8DragonEffTail() {
+    delete attack_history;
+    attack_history = NULL;
 }
 
 EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 arg2) {

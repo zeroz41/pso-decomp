@@ -71,16 +71,16 @@ E_8006F134 *TWindowSubStatusDisp__sub_8006F134(O_8006F134 *self, s32 slot) {
 
 s32 TWindowSubStatusDisp::resolve_player_slot(s32 slot) {
     switch (slot) {
-    case -1:
+    case RECORD_SET_CURRENT:
         if (is_split_screen()) {
             s32 inst = TLobby::get_instance();
-            s32 r = 2;
+            s32 r = RECORD_SET_EP1_SPLIT;
             if (inst == 1) {
-                r = 3;
+                r = RECORD_SET_EP2_SPLIT;
             }
             return r;
         }
-        return (TLobby::get_instance() == 1) ? 1 : 0;
+        return (TLobby::get_instance() == 1) ? RECORD_SET_EP2 : RECORD_SET_EP1;
     }
     return slot;
 }

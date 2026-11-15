@@ -397,7 +397,7 @@ void play_weapon_owner_sounds(Ctx_8011C7C8 *c) {
     }
 }
 
-void get_weapon_special_type_amount(u32 x, s16 *a, s16 *b) {
+void get_weapon_special_type_amount(u8 x, s16 *a, s16 *b) {
     u8 idx = x & 0x3f;
     if (idx < 0x29 && a != 0 && b != 0) {
         *a = ((Tbl_8011C8BC *)item_pmt_tbl)->pairs[idx].a;

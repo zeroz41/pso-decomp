@@ -6,7 +6,6 @@
 extern "C" {
 void TOVS2Wall01__sub_8017CA48(void *p, s32 v);
 s32 TOVS2Wall01__sub_8017CA50(void *p);
-void *TObjGoalWarpAncient__create(void *arg0);
 }
 
 #endif

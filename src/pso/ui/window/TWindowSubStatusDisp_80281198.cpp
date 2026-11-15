@@ -290,7 +290,7 @@ void TWindowSubStatusDisp::dispatch_page_init() {
         &TWindowSubStatusDisp::vt5,
     };
 
-    switch (m_60) {
+    switch (page) {
     case 0:
         (this->*page0[get_type__20TWindowSubStatusDispFv(m_68)])();
         break;
@@ -316,7 +316,7 @@ void TWindowSubStatusDisp::dispatch_page_update() {
         &TWindowSubStatusDisp::vt16,
     };
 
-    switch (m_60) {
+    switch (page) {
     case 0:
         (this->*page0[get_type__20TWindowSubStatusDispFv(m_68)])();
         break;
@@ -348,12 +348,12 @@ void TWindowSubStatusDisp::run_task() {
   {
     *(s32 *)&arg0->m_5c = 0x01000000;
   }
-  if ((handle_list_page_flip_input((int) (*(s32 *)&arg0->m_68)) != 0) || ((arg0->m_60) != ((s16) (*(s16 *)&arg0->m_62))))
+  if ((handle_list_page_flip_input((int) (*(s32 *)&arg0->m_68)) != 0) || ((arg0->page) != ((s16) (*(s16 *)&arg0->m_62))))
   {
-    if ((arg0->m_60) != (*(s16 *)&arg0->m_62))
+    if ((arg0->page) != (*(s16 *)&arg0->m_62))
     {
-      arg0->m_60 = *(s16 *)&arg0->m_62;
-      fn_8026C7AC((void *)(*(s32 *)&arg0->m_68), ((s8) (*((u8 *) (((s8 *) (((u8 *)&lbl_805DD6F4) + (arg0->m_60))) + 0)))));
+      arg0->page = *(s16 *)&arg0->m_62;
+      fn_8026C7AC((void *)(*(s32 *)&arg0->m_68), ((s8) (*((u8 *) (((s8 *) (((u8 *)&lbl_805DD6F4) + (arg0->page))) + 0)))));
     }
     ((TWindowSubStatusDisp *)(((u8 *) arg0) + 0x24))->destroy_all_items();
     arg0->dispatch_page_init();

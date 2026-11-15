@@ -6,7 +6,7 @@
 
 struct TAdDialingGC : public TObject {
     virtual ~TAdDialingGC();
-    void spawn_title_screen(s32);
+    void spawn_title_screen();
     u32 m_1c;
     u32 m_20;
     u32 m_24;

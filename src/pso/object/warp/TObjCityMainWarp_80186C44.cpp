@@ -37,9 +37,9 @@ void TObjCityMainWarpChallenge::close_windows() {
         ((TWindowSubComCard *)(*(void **)((s8 *)this + 0x168)))->close();
         *(u32 *)((s8 *)this + 0x168) = 0U;
     }
-    if (this->m_b0 != 0U) {
-        ((TWindowBase *)this->m_b0)->close();
-        (this->m_b0) = 0U;
+    if (this->menu_window != 0U) {
+        ((TWindowBase *)this->menu_window)->close();
+        (this->menu_window) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x164) != 0U) {
         ((TWindowBase *)(*(void **)((s8 *)this + 0x164)))->close();
@@ -76,7 +76,7 @@ void TObjCityMainWarpChallenge::trigger_warp_effect(s32 arg1) {
     if (player != 0) {
         TObjPlayer::play_effect_default(player, -1);
         obj_set_flag_20000((void *)player);
-        this->m_174 = 0x12C;
+        this->warp_effect_timer = 0x12C;
     }
 }
 void TObjCityMainWarp::update_floor_switch_state() {

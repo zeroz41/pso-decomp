@@ -35,7 +35,6 @@ extern s32 lobby_buffer_pool_end;
 extern s32 lbl_805D7BFC;
 
 s32 TLobby__sub_803F97E8(int);
-s32 modem_script_next_token(u8 *src, u8 *dst, u8 **next);
 s16 TLobby__sub_804293B0(u8 *buf, s16 len);
 s16 TLobby__sub_804036FC(u16 *avail);
 s16 TLobby__sub_80403730(u8 *dst, u16 n);
@@ -85,7 +84,6 @@ static const char *const modem_command_names[] = {
 const char *const modem_subst_keys[] = {
     "%t", "%u", "%p", "%i", "%%", NULL,
 };
-s32 wait_timeout_loop(void *params);
 
 static inline void modem_flush_input(void) {
     u16 avail;
@@ -145,9 +143,6 @@ static inline s16 modem_wait_connect(void) {
 
 /* Runs a modem script line by line (DIAL, SEND, WAIT, DELAY, TERMINAL). */
 s16 modem_run_script(u8 *script, NetSession *sess) {
-    s16 modem_script_next_token(u8 *, u8 *, u8 **); /* declared s16 here; the definition returns s32 */
-    s16 modem_script_send(void); /* declared s16 here; the definition returns s32 */
-    s16 modem_script_dial(u8 *); /* declared s16 here; the definition returns s32 */
     s16 wait_timeout_loop(void *); /* declared s16 here; the definition returns s32 */
     u8 *p;
     s16 nstr;
@@ -306,7 +301,7 @@ s16 modem_script_wait(ModemRequest *req) {
     }
     return 0;
 }
-s32 modem_script_send(void) {
+s16 modem_script_send(void) {
     u8 *base;
     u8 ***pp;
     u8 **out;
@@ -358,9 +353,8 @@ s32 modem_script_send(void) {
 }
 
 u8 *TLobby__sub_803FB110(void);
-s32 TLobby__sub_804290D4(s32 idx);
 /* Builds the dial string from the session settings (prefix, number from the profile, optional suffix) and starts the call; request: s16 +0 = use second number, s16 +2 = has suffix, s16 +4 = script index, +0xC = suffix string (layout partly guessed). */
-s32 modem_script_dial(u8 *request) {
+s16 modem_script_dial(u8 *request) {
     u8 *p;
     u8 *base;
     char **out;
@@ -469,7 +463,7 @@ void modem_script_store_field(s16 type, s16 index, u8 *src, s16 *nstr, s16 *nint
 }
 #pragma pop
 
-s32 modem_script_next_token(u8 *src, u8 *dst, u8 **next) {
+s16 modem_script_next_token(u8 *src, u8 *dst, u8 **next) {
     s16 n;
     u8 *p;
     u8 c;
@@ -554,7 +548,7 @@ s32 modem_script_next_token(u8 *src, u8 *dst, u8 **next) {
 
 extern s32 lbl_805D7BD8;
 s32 NetCompareStringsCaseInsensitiveN(u8 *a, u8 *b, u32 n);
-s32 TLobby__sub_804290D4(s32 idx) {
+s16 TLobby__sub_804290D4(s32 idx) {
     s16 *lenp;
     u8 **bufp;
     u8 *base;

@@ -276,7 +276,7 @@ void TObject::pause_update() {
     m_flags |= PAUSE_UPDATE;
 }
 
-BOOL TUnk_804B6C24::check_value_equals(s32 name) {
+BOOL TUnk_804B6C24::check_value_equals(s32 name) const {
     return (s32)m_name == name;
 }
 

@@ -66,14 +66,14 @@ void *__dt__15TWindowUserSortFv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 s32 close_and_clear_flags__15TWindowMainMenuFv();
 
-void render__15TWindowUserSortFv(s32 arg0) {
+void TWindowUserSort::render() {
     s32 temp_r3;
     temp_r3 = draw_default_entry__9TWindowDDFl();
-    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
-    draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)temp_r3);
+    draw_window_frame((void *)temp_r3);
+    draw_visible_window_entries(this, &entries, (int)temp_r3);
 }
 
-void TWindowUserSort::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list((char*)this + 0x24); }
+void TWindowUserSort::run_task() { ((TWindowDD *)this)->initialize_subwindow(); update_fade(); update_window_entry_list(&entries); }
 
 void *__dt__15TWindowUserSortFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

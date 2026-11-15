@@ -106,7 +106,6 @@ s16 TLobby__sub_8040DA54(u8 *arg0, u8 *arg1) {
 }
 
 s16 NetValidateLocalAddress(NetworkAddress* address) {
-    s16 TLobby__sub_804136EC(s32);
     u32 ip;
     switch ((s32)address->family) {
     case 0:
@@ -118,7 +117,7 @@ s16 NetValidateLocalAddress(NetworkAddress* address) {
         }
         return 0;
     case 6:
-        return TLobby__sub_804136EC((s32)address->address);
+        return TLobby__sub_804136EC(address->address);
     default:
         return -2;
     }
@@ -151,7 +150,7 @@ s16 is_addr_unspecified(u8 *arg0) {
     }
 }
 
-s32 compare_sockaddr(NetworkAddress *a, NetworkAddress *b) {
+s16 compare_sockaddr(NetworkAddress *a, NetworkAddress *b) {
     switch (a->family) {
     case 4:
         if (b->family != 4) {
@@ -162,7 +161,7 @@ s32 compare_sockaddr(NetworkAddress *a, NetworkAddress *b) {
         if (b->family != 6) {
             return -1;
         }
-        return NetIPv6CompareAddresses((s32)a->address, (s32)b->address);
+        return NetIPv6CompareAddresses(a->address, b->address);
     default:
     case 0:
         return -1;
@@ -170,7 +169,6 @@ s32 compare_sockaddr(NetworkAddress *a, NetworkAddress *b) {
 }
 
 s16 TLobby__sub_8040DC8C(u8 *arg0, u8 *arg1) {
-    s16 TLobby__sub_8040EF00(s16); /* declared s16 here; the definition returns s32 */
     NetworkAddress *a = (NetworkAddress *)arg0;
     NetworkAddress *b = (NetworkAddress *)arg1;
     s16 mtu;

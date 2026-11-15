@@ -805,10 +805,10 @@ force_active:
   - TORockCaveSM02__class_name
   - TORockCaveSimple__class_name
   - TORockCave__class_name
-  - TORockJungleL01__ct
-  - TORockJungleM01__ct
+  - __ct__15TORockJungleL01FPv
+  - __ct__15TORockJungleM01FPv
   - TORockJungleS01__bml_resource
-  - TORockJungleS01__ct
+  - __ct__15TORockJungleS01FPv
   - TORockJungleS01__texture_resource
   - TORockJungleS01_resource_descriptor
   - TOSensorAncient01__class_name
@@ -867,7 +867,7 @@ force_active:
   - TOWreckAncientBrakable__name
   - TOWreckAncientBrakable__sub_8017D444
   - TOWreckAncient__resource_descriptor
-  - TObjAreaWarpEndingJung__ct
+  - __ct__22TObjAreaWarpEndingJungFP7TObjectPv
   - TObjBgmColCtrl__name
   - TObjBgmCol__name
   - TObjBigTuitate__ct
@@ -910,7 +910,7 @@ force_active:
   - TObjCMMainMenu__sub_8028EC34
   - TObjChallengeRetry__class_name
   - TObjChallengeRetry__ct
-  - TObjCityAreaWarp__ct
+  - __ct__16TObjCityAreaWarpFP7TObjectPv
   - TObjCityDoor_Guild__class_name
   - TObjCityDoor_Guild__ct
   - TObjCityDoor_Guild__name
@@ -928,8 +928,8 @@ force_active:
   - TObjCityDoor_Warp__class_name
   - TObjCityDoor_Warp__ct
   - TObjCityDoor_Warp__name
-  - TObjCityMainWarp__ct
-  - TObjCityMapWarp__ct
+  - __ct__16TObjCityMainWarpFP7TObjectPv
+  - __ct__15TObjCityMapWarpFP7TObjectPv
   - TObjCity_Season_21_21__ct
   - TObjCity_Season_21_21__name
   - TObjCity_Season_Board__ct
@@ -1349,7 +1349,7 @@ force_active:
   - TObjItemOKWindow__class_name
   - TObjItemOKWindow__text_format
   - TObjLaboDesignBase__ct
-  - TObjLaboMapWarp__ct
+  - __ct__15TObjLaboMapWarpFP7TObjectPv
   - TObjLazerFence4__ct
   - __ct__19TObjLazerFenceExtraFP7TObjectPv
   - __ct__18TObjLazerFenceNormFP7TObjectPv
@@ -1361,11 +1361,11 @@ force_active:
   - TObjLight__data_805DB088
   - TObjLight__sub_80133714
   - TObjLight__sub_8013397C
-  - TObjLight__sub_80133980
+  - __ct__13TUnk_804A6F90FP7TObject
   - TObjLiveCamera__ct
   - TObjLuker__ct
   - TObjMapCsn__ct
-  - TObjMapWarpAncient__ct
+  - __ct__18TObjMapWarpAncientFP7TObjectPv
   - TObjMapWarp__name
   - TObjMotion__class_name
   - TObjNpcAHM01__name
@@ -1450,7 +1450,7 @@ force_active:
   - TObjOnlineEndingHexMove__default_move_params
   - TObjOnlineEnding__ct
   - TObjParticle__ct
-  - TObjPathObj__ct
+  - __ct__11TObjPathObjFP7TObjectPv
   - TObjPlayerSet__ct
   - TObjPlayer__sub_800181DC
   - TObjPlayer__sub_800193FC
@@ -1541,10 +1541,10 @@ force_active:
   - TObjPlayer__sub_802A1588
   - TObjPlayer__sub_802A83F4
   - TObjPlayer__sub_802A841C
-  - TObjPlayer__sub_802C19E8
-  - TObjPlayer__sub_802C20E8
-  - TObjPlayer__sub_802C27FC
-  - TObjPlayer__sub_802C2F04
+  - __ct__13TUnk_804E08D4FP7TObjectPv
+  - __ct__13TUnk_804E0910FP7TObjectPv
+  - __ct__13TUnk_804E094CFP7TObjectPv
+  - __ct__13TUnk_804E0988FP7TObjectPv
   - TObjPlayer__sub_802C4648
   - TObjPlayer__sub_802E0468
   - TObjPlayer__sub_802E0580
@@ -1601,13 +1601,13 @@ force_active:
   - TObjWaitEntryHairMoveSim__sub_800FE3BC
   - TObjWarnChime_class_name
   - TObjWarnChime_name
-  - TObjWarpBase__ct
-  - TObjWarpBossMulti__ct
+  - __ct__12TObjWarpBaseFP7TObjectPv
+  - __ct__17TObjWarpBossMultiFP7TObjectPv
   - TObjWarpBossMulti__name
   - TObjWarpBossMulti__sub_8019E570
-  - TObjWarpBoss__ct
+  - __ct__12TObjWarpBossFP7TObjectPv
   - TObjWarpBoss__name
-  - TObjWarpJung__ct
+  - __ct__12TObjWarpJungFP7TObjectPv
   - TObjWarpString__sub_8019B728
   - TObject_name
   - TParticleCtrl__particle_entry_path
@@ -1740,7 +1740,7 @@ force_active:
   - TWindowDD__sub_8034138C
   - __sinit_TWindowDD_80341334_cpp
   - TWindowDD__sub_803422F0
-  - __sinit_TWindowDD_80342254_cpp
+  - __sinit_TWindowDD_80341A08_cpp
   - TWindowDD__sub_80346F30
   - TWindowDD__sub_80346FC0
   - TWindowDuelResult__layout_entries
@@ -3831,7 +3831,7 @@ force_active:
   - alt_model_strips
   - anchor_card_effect__13TUnk_804EDD44Fv
   - anchor_state__14TObjEneBm5WolfFl
-  - ancient_boss_warp_resource_block
+  - ancient_boss_warp_motion_names
   - ancient_sensor_resource_pair_table
   - animate__13TOCapsuleLaboFv
   - animate__18TOCapsuleAncient01Fv
@@ -5593,7 +5593,7 @@ force_active:
   - destroy__12T_OWEHMS_ExpFs
   - destroy__13TPhotonFarllaFPvs
   - __dt__22TObjEneBm5WolfListNodeFv
-  - destroy__15TORockJungleL01Fs
+  - __dt__15TORockJungleL01Fv
   - destroy__15TWindowHelpItemFPvs
   - destroy__16TObjEneBm5GibonUFls
   - destroy__16TObjOnlineEndingFPvs
@@ -5699,7 +5699,7 @@ force_active:
   - display_message__12TQuestListVMFPCcl
   - distribute_part_damage__15TBoss3VoloptP02Fv
   - do_action_447__10TObjPlayerFv
-  - do_action_447_from_packet__10TObjPlayerFPvPv
+  - do_action_447_from_packet__10TObjPlayerFPvPvPv
   - do_src1
   - do_src2
   - do_voice_portamento
@@ -6302,7 +6302,7 @@ force_active:
   - fn_80074E04
   - fn_800779FC
   - __sinit_text_8007A6C8_cpp
-  - fn_8007F560
+  - copy_graph_sample__FP14TDLGraphSampleP14TDLGraphSample
   - fn_8007FE78
   - fn_8009BD00
   - fn_8009E2DC
@@ -6954,7 +6954,7 @@ force_active:
   - init__26TBoss3VoloptPositionPacketFv
   - init__6TLobbyFPv
   - init__8TOKurageFv
-  - init__9TObjLightFi
+  - __ct__13TUnk_804A6FA8FP7TObject
   - init_action_timer__11TBoss6Type1Fv
   - init_ai_state__10TNpcPlayerFPvi
   - init_air_turn__12TBoss1DragonFl
@@ -7049,7 +7049,7 @@ force_active:
   - init_light_tables__9TObjLightFv
   - init_link_points__9TBoss2FinFv
   - init_lookup_tables__6TLobbyFv
-  - init_map_light__9TObjLightFi
+  - __ct__13TUnk_804A6F78FP7TObject
   - init_material_nodes__6TSceneFv
   - init_model__23TObjSeabedSuisoBrakableFv
   - init_model_and_state__19TObjEneEpsilonGuardFv
@@ -7064,7 +7064,7 @@ force_active:
   - init_object__12TFogCtrl_EORFv
   - init_object__13TUnk_804E24F0FlPv
   - __ct__18T_ATS_DrawCalendarFP7TObject
-  - init_object__9TObjLightFv
+  - __ct__13TUnk_804A6FC0FP7TObject
   - init_offset_vectors__13TUnk_804EDD20Fv
   - init_offsets_object__13TUnk_804EDD20Fv
   - init_override_params__Fv
@@ -7133,7 +7133,7 @@ force_active:
   - __ct__13TUnk_804A5740FP7TObjectPUc
   - __ct__13TUnk_804A5E20FP7TObjectPUc
   - init_state_34_alt__13TUnk_804F14A8FlPv
-  - init_state_513__13TUnk_804E1BB0FlPv
+  - init_state_513__13TUnk_804E1BB0FP7TObjectPUc
   - init_state_90__11TBoss6Type1Fv
   - init_state__10TNpcPlayerFv
   - __ct__13TUnk_804A5550FP7TObjectPUc
@@ -7366,7 +7366,7 @@ force_active:
   - join_lobby_server_table
   - judgment_sequence_instance
   - jungle_bird_bml_resource
-  - jungle_boss_warp_resource_block
+  - jungle_boss_warp_motion_names
   - jungle_ebi_model_resource
   - jungle_ebi_texture_gvm_handle
   - jungle_warp_beam_resource_descriptor
@@ -7945,8 +7945,8 @@ force_active:
   - lbl_804B8D80
   - lbl_804B8D94
   - lbl_804B8DA0
-  - lbl_804B94BC
-  - lbl_804B94E8
+  - ancient_boss_warp_model_names
+  - jungle_boss_warp_model_names
   - lbl_804C3564
   - lbl_804C35F4
   - lbl_804C3ACC
@@ -15975,7 +15975,7 @@ force_active:
   - spawn_slow_effect__10TObjPlayerFii
   - spawn_sub_objects__15TBoss3VoloptP02Fv
   - spawn_targeted_beam__16TObjEneNanoDragoFl
-  - spawn_title_screen__12TAdDialingGCFl
+  - spawn_title_screen__12TAdDialingGCFv
   - spawn_trap__12TBoss1DragonFii
   - spawn_trap_by_stat__9TBoss6MagFv
   - spawn_wave_ring_particles__15TBoss6SwordWaveFv

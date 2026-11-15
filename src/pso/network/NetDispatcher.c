@@ -41,8 +41,6 @@ s32 TLobby__sub_80419A34(void) {
     return TLobby__sub_803F8E9C();
 }
 
-#pragma push
-#pragma opt_common_subs on
 s32 TLobby__sub_80419A7C(void) {
     lock_mutex(network_dispatch_state.lock_handle);
     cancel_thread_if_running((void *)network_dispatch_state.thread_ids[1]);
@@ -54,7 +52,6 @@ s32 TLobby__sub_80419A7C(void) {
     NetReleaseMutex(network_dispatch_state.lock_handle);
     return 0;
 }
-#pragma pop
 
 extern void NetRunProtocolDispatchLoop(void);
 extern void NetRunTimerDispatchLoop(void);
@@ -102,8 +99,6 @@ extern void NetYieldOutsideDispatcherThread(void) {
     }
 }
 
-#pragma push
-#pragma opt_common_subs on
 extern void NetRunTimerDispatchLoop(void) {
     NetworkDispatchState *g = &network_dispatch_state;
     s32 now;
@@ -151,7 +146,6 @@ extern void NetRunTimerDispatchLoop(void) {
         }
     }
 }
-#pragma pop
 
 extern s32 NetUnregisterTimer(void *fn) {
     NetworkDispatchState *g = &network_dispatch_state;
@@ -174,8 +168,6 @@ extern s32 NetUnregisterTimer(void *fn) {
     return -0x100;
 }
 
-#pragma push
-#pragma opt_common_subs on
 s32 NetRegisterTimer(s32 period, s16 locked, NetTimerCallback fn) {
     u32 now;
     s32 *pint;
@@ -228,7 +220,6 @@ s32 NetRegisterTimer(s32 period, s16 locked, NetTimerCallback fn) {
     network_dispatch_state.timers[slot].active = 1;
     return 0;
 }
-#pragma pop
 
 void NetEnqueueProtocolMessage(s32 payload, s16 detail, s16 first, s16 second, u16 protocol) {
     NetProtocolMessage message;
@@ -241,35 +232,26 @@ void NetEnqueueProtocolMessage(s32 payload, s16 detail, s16 first, s16 second, u
 }
 
 s32 dispatch_handler_by_id(s16 a, s32 b, void* e); /* declared here with other parameter types; the definition is s32 (s16, s32, s32) */
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 void NetRunProtocolDispatchLoop(void) {
     NetProtocolMessage msg;
-    u8 *base = (u8 *)&network_dispatch_state;
-    u8* p;
-    u16 key;
     s16 i;
 
     while (1) {
-        NetReceiveMessage(*(s32 *)(base + offsetof(NetworkDispatchState, queue_handle)), &msg, sizeof(msg));
+        NetReceiveMessage(network_dispatch_state.queue_handle, &msg, sizeof(msg));
         lock_mutex(network_dispatch_state.lock_handle);
-        key = msg.protocol;
-        for (i = 0, p = base; i < 3; p += sizeof(NetProtocolHandlerEntry), i++) {
-            if (*(s16*)(p + offsetof(NetworkDispatchState, handlers[0].used)) != 0 && *(u16*)(p + offsetof(NetworkDispatchState, handlers[0].type)) == key) {
-                NetProtocolHandler h = *(NetProtocolHandler *)(base + i * sizeof(NetProtocolHandlerEntry) + offsetof(NetworkDispatchState, handlers[0].fn));
-                if (h != NULL) {
-                    h(msg.payload, msg.detail, msg.first, msg.second);
+        for (i = 0; i < 3; i++) {
+            if (network_dispatch_state.handlers[i].used != 0 && network_dispatch_state.handlers[i].type == msg.protocol) {
+                if (network_dispatch_state.handlers[i].fn != NULL) {
+                    network_dispatch_state.handlers[i].fn(msg.payload, msg.detail, msg.first, msg.second);
                 }
                 break;
             }
         }
-        unlock_mutex(*(s32 *)(base + offsetof(NetworkDispatchState, lock_handle)));
+        unlock_mutex(network_dispatch_state.lock_handle);
         dispatch_handler_by_id(msg.first, msg.second, (void *)msg.payload);
         NetYieldThread();
     }
 }
-#pragma pop
 
 s32 release_slot_by_id(u16 a) {
     NetworkDispatchState *g = &network_dispatch_state;

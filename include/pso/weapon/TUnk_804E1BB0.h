@@ -5,9 +5,10 @@
 
 class TUnk_804E1BB0 : public TItemWeapon {
 public:
+    // The constructor, still written by hand: the vtable is lbl_804E1BB0.
+    void *init_state_513(TObject *parent, u8 *item);
     virtual ~TUnk_804E1BB0();
     virtual void reserved_53();
-    void *init_state_513(s32, void *);
 };
 
 #endif

@@ -28,14 +28,14 @@ s32 dispatch_handler_by_id(s16 arg0, s32 arg1, s32 arg2);
 struct LobbyHandler {
     s16 active;
     s16 flags;                                     /* 0x02: as registered: 1 loopback, 2 PPP, 0x7C Ethernet */
-    s32 (*get_interface_id)(s16 idx, void *dst);   /* 0x04: TLobby__sub_8040A0C0 */
+    s16 (*get_interface_id)(s16 idx, void *dst);   /* 0x04: TLobby__sub_8040A0C0 */
     s32 (*op08)(s16 idx, u32 a, s32 b, u32 *c);    /* 0x08: TLobby__sub_8040A044 */
     s32 (*op0C)(s32);                              /* 0x0C: call_entry_callback */
     s32 (*op10)(s32);                              /* 0x10: invoke_socket_callback */
     s32 (*op14)(s32);                              /* 0x14: TLobby__sub_80409EB0 */
     s32 (*op18)(s32, s32);                         /* 0x18: TLobby__sub_80409E18 */
-    s32 (*op1C)(s32, s32, s32);                    /* 0x1C: TLobby__sub_80409D7C */
-    s32 (*op20)(s32, s32, s32);                    /* 0x20: TLobby__sub_80409CE0 */
+    s16 (*op1C)(s32, s32, void *);                 /* 0x1C: TLobby__sub_80409D7C */
+    s16 (*op20)(s32, s32, void *);                 /* 0x20: TLobby__sub_80409CE0 */
     s32 (*op24)(s32, s32);                         /* 0x24: dispatch_handler_by_id; TLobby__sub_80409818 calls it
                                                       as void (s16, s32) */
     s16 (*op28)(s32, s32, s32);                    /* 0x28: dispatch_handler_by_index */
@@ -216,9 +216,9 @@ s32 dispatch_handler_by_id(s16 arg0, s32 arg1, s32 arg2) {
     return fn(arg1, arg2);
 }
 
-s32 TLobby__sub_80409CE0(s16 arg0, s32 arg1, s32 arg2, s32 arg3) {
+s16 TLobby__sub_80409CE0(s16 arg0, s32 arg1, s32 arg2, void *arg3) {
     LobbyHandler *e;
-    s32 (*fn)(s32, s32, s32);
+    s16 (*fn)(s32, s32, void *);
 
     if (arg0 < 0 || arg0 > lobby_handler_table_desc.count) {
         return -0x10F;
@@ -238,9 +238,9 @@ s32 TLobby__sub_80409CE0(s16 arg0, s32 arg1, s32 arg2, s32 arg3) {
     return fn(arg1, arg2, arg3);
 }
 
-s32 TLobby__sub_80409D7C(s16 arg0, s32 arg1, s32 arg2, s32 arg3) {
+s16 TLobby__sub_80409D7C(s16 arg0, s32 arg1, s32 arg2, void *arg3) {
     LobbyHandler *e;
-    s32 (*fn)(s32, s32, s32);
+    s16 (*fn)(s32, s32, void *);
 
     if (arg0 < 0 || arg0 > lobby_handler_table_desc.count) {
         return -0x10F;
@@ -356,7 +356,7 @@ s32 TLobby__sub_8040A044(s16 idx, u32 a, s32 b, u32 *c) {
     return e->op08(idx, a, b, c);
 }
 
-s32 TLobby__sub_8040A0C0(s16 idx, void *a)
+s16 TLobby__sub_8040A0C0(s16 idx, void *a)
 {
     LobbyHandler *e;
 
@@ -400,7 +400,7 @@ s32 is_slot_flag_0x20_set(s16 i) {
 
 #pragma push
 #pragma optimization_level 2
-s32 is_entry_flag10_set(s16 i) {
+s16 is_entry_flag10_set(s16 i) {
     LobbyHandler *e;
     if (i < 0 || i > lobby_handler_table_desc.count) { return 0; }
     e = lobby_handler_table_desc.list;
@@ -412,7 +412,7 @@ s32 is_entry_flag10_set(s16 i) {
 
 #pragma push
 #pragma optimization_level 2
-s32 is_socket_flag_set(s16 i) {
+s16 is_socket_flag_set(s16 i) {
     LobbyHandler *e;
     if (i < 0 || i > lobby_handler_table_desc.count) { return 0; }
     e = lobby_handler_table_desc.list;

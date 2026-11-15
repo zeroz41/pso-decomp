@@ -79,7 +79,6 @@ s32 TUdpSocket__sub_80418BD8(NetPacket *a) {
 s32 TLobby__sub_80418C40(u8* self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident, NetworkAddress* src, u16 frag_off, u8 more, s16 iface)
 {
     NetFragPacket* TLobby__sub_8041955C(NetworkAddress *, u32, u8); /* declared here with other parameter types; the definition is NetFragPacket * (NetworkAddress *, s32, s32) */
-    s16 compare_sockaddr(NetworkAddress *, NetworkAddress *); /* declared s16 here; the definition returns s32 */
     NetFragPool* base = &packet_fragment_pool_state;
     s16 count;
     s32 ret;
@@ -456,7 +455,6 @@ s32 TLobby__sub_80419374(NetFragPacket *pkt) {
 }
 
 s32 TLobby__sub_80419470(NetworkAddress *src, u32 ident) {
-    s16 compare_sockaddr(NetworkAddress *, NetworkAddress *); /* declared s16 here; the definition returns s32 */
     NetFragPool* tbl = &packet_fragment_pool_state;
     NetFragPacket** headp;
     s16 count;

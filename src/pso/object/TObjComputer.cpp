@@ -133,7 +133,6 @@ void *__nw__7TObjectFUl(int);
 extern ChipParam_8018860C lbl_80444E5C;
 extern ChipParam_8018860C lbl_80444EA8;
 extern void *tl_05;
-void TObjContainerAbeEnemy__vt77(const Obj_8018860C *self);
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 s32 free_collision_body_parts(void *);

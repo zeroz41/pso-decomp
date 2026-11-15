@@ -8,11 +8,12 @@
 #include "pso/object/quest/TObjQuestCol.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 
-u8 quest_col_apc_warp_target_pos[16];
+// Where the warp sends the other players once one strays too far (vfunc_15 sets it).
+Vec quest_col_apc_warp_target_pos;
 extern s32 quest_collision_warp_pending;
 void fn_8019608C(void) {
     if ((s32) quest_collision_warp_pending != 0) {
-        TNpcPlayer::send_warp_toward_player((u16)1U, (f32 *)quest_col_apc_warp_target_pos);
+        TNpcPlayer::send_warp_toward_player((u16)1U, &quest_col_apc_warp_target_pos.x);
     }
 }
 
@@ -45,7 +46,7 @@ int TObjQuestColApcINW::vfunc_15() {
                 if (q != 0) {
                     if (xz_distance_squared(q->pos, p->pos) > arg0->fBC * arg0->fBC) {
                         quest_collision_warp_pending = 1;
-                        VecCopy((Vec *)quest_col_apc_warp_target_pos, (const Vec *)arg0->fC0);
+                        VecCopy(&quest_col_apc_warp_target_pos, (const Vec *)arg0->fC0);
                     }
                 }
             }

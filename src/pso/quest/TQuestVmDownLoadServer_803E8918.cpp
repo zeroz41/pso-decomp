@@ -395,7 +395,7 @@ s32 TQuestVmDownLoadServer__sub_803E93DC(void) {
     if (TQuestVmDownLoadServer::seek_or_reopen(0x1400) == -1) {
         return -1;
     }
-    if (((TQuestVmDownLoadServer *)lbl_805D7904)->aram_read_thunk((u32)lbl_80591EC8.pages, 0x2000) != 0x2000) {
+    if (((TQuestVmDownLoadServer *)quest_download_file_handle)->aram_read_thunk((u32)lbl_80591EC8.pages, 0x2000) != 0x2000) {
         return -1;
     }
     slot = lbl_80591EC8.pages[0];
@@ -526,7 +526,7 @@ void TQuestVmDownLoadServer__sub_803E95BC(void) {
 void TQuestVmDownLoadServer__sub_803E9764(void) {
     if (lbl_805D7868 != 0) {
         if (TQuestVmDownLoadServer::seek_or_reopen(0x1400) != -1) {
-            TQuestVmDownLoadServer__sub_803E8788(lbl_805D7904, lbl_80591EC8.pages, 0x2000);
+            TQuestVmDownLoadServer__sub_803E8788(quest_download_file_handle, lbl_80591EC8.pages, 0x2000);
         }
     }
 }

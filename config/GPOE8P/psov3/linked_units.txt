@@ -288,12 +288,11 @@ pso/boss/olgaflow/TBoss6Type2_8032E708.cpp
 pso/boss/olgaflow/TBoss6Type2_803309D8.cpp
 pso/boss/olgaflow/TBoss6Type2_80336E6C.cpp
 pso/boss/olgaflow/TBoss6Type2_80356E50.cpp
+pso/boss/olgaflow/TBoss6Zanzo.cpp
 pso/boss/olgaflow/TBoss6Type2_8036A92C.cpp
 pso/boss/olgaflow/TBoss6Type2_8036DC80.cpp
 pso/boss/barbaray/TBoss7Crawfish.cpp
-pso/unk/TUnk_804F1C58_8035A628.cpp
 pso/boss/barbaray/TBoss7Joint.cpp
-pso/boss/barbaray/TBoss7Joint_802EE704.cpp
 pso/boss/barbaray/TBoss7Joint_802EE814.cpp
 pso/boss/barbaray/TBoss7LaserLight.cpp
 pso/boss/barbaray/TBoss7LaserPtcl.cpp
@@ -488,10 +487,8 @@ pso/item/TItem.cpp
 pso/weapon/TItemAttacker.cpp
 pso/item/TItemBuff.cpp
 pso/item/TItemData.cpp
-pso/item/TItemData_80104D0C.cpp
 pso/item/TItemData_8010EDA8.cpp
 pso/item/TItemDisconnectCtrl.cpp
-pso/item/TItemDisconnectCtrl_80105BE8.cpp
 pso/item/drop/TItemDrop.cpp
 pso/item/drop/TItemDropSub.cpp
 pso/item/drop/TItemDropSub_80107B74.cpp
@@ -744,7 +741,6 @@ pso/ui/charcreate/TChCrTagPlBack.cpp
 pso/ui/charcreate/TChCrTagPlGraphic.cpp
 pso/quest/challenge/TChallenge.cpp
 pso/ui/charcreate/TCharaMaking.cpp
-pso/ui/charcreate/TCharaMaking_8028E790.cpp
 pso/ui/chat/TChatMessage.cpp
 pso/ui/chat/TChatMessage_801DF918.cpp
 pso/system/save/TCheckMemoryCard.cpp
@@ -851,6 +847,7 @@ pso/unk/TLobby_800FA774.cpp
 pso/unk/TLobby_800FA848.cpp
 pso/unk/TLobby_800FD78C.cpp
 pso/unk/TLobby_80103F5C.cpp
+pso/unk/TLobby_80104374.cpp
 pso/unk/TLobby_80131794.cpp
 pso/unk/TLobby_8013292C.cpp
 pso/unk/TLobby_80132ED0.cpp
@@ -889,7 +886,6 @@ pso/unk/TLobby_801F487C.cpp
 pso/unk/TLobby_80207644.cpp
 pso/unk/TLobby_80207DA8.cpp
 pso/unk/TLobby_80209524.cpp
-pso/unk/TLobby_8020A188.cpp
 pso/unk/TLobby_8020BC08.cpp
 pso/unk/TLobby_8020BF68.cpp
 pso/unk/TLobby_8020BFC4.cpp
@@ -1012,7 +1008,6 @@ pso/ui/hud/TMainCursor_80154090.cpp
 pso/ui/hud/TMainCursor_801D7A78.cpp
 pso/ui/hud/TMainCursor_801D7AC8.cpp
 pso/system/task/TMainTask_8001A430.cpp
-pso/system/task/TMainTask_80104C40.cpp
 pso/map/TMapCsnCtrl.cpp
 pso/ui/city/TMedicalCenterSequence.cpp
 pso/ui/window/TMessageBox.cpp
@@ -1211,7 +1206,7 @@ pso/quest/TQuestVmDownLoadServer_803E8918.cpp
 pso/quest/TQuestVmDownLoadServer_803EB0D8.cpp
 pso/ui/hud/TRaderMapCore_801A6CEC.cpp
 pso/ui/hud/TRaderMapCore_801F3710.cpp
-pso/ui/hud/TRaderMapCore_801FB2B8.cpp
+pso/ui/hud/TRaderMapCore.cpp
 pso/ui/hud/TRaderMapCore_8030A808.cpp
 pso/network/TRecvDownload.cpp
 pso/network/TRecvDownloadHead.cpp
@@ -1243,7 +1238,6 @@ pso/ui/city/TShopEquipmentGearSequence_8021E3A4.cpp
 pso/ui/city/TShopEquipmentListWindow.cpp
 pso/ui/city/TShopEquipmentListWindow_8010ED54.cpp
 pso/ui/city/TShopEquipmentSellWindow.cpp
-pso/ui/city/TShopEquipmentSellWindow_801047B4.cpp
 pso/ui/city/TShopEquipmentSellWindow_802115F4.cpp
 pso/ui/city/TShopEquipmentSellWindow_8026CE78.cpp
 pso/ui/city/TShopEquipmentSellWindow_803094E8.cpp
@@ -1261,8 +1255,6 @@ pso/ui/city/TShopKeepItemWindow.cpp
 pso/ui/city/TShopSequence.cpp
 pso/ui/city/TShopWindowBase.cpp
 pso/ui/city/TShopWindowBase_80217454.cpp
-pso/technique/TSlicerHistory.cpp
-pso/technique/TSlicerHistory_8023BDD0.cpp
 pso/object/switch/TSwitch.cpp
 pso/technique/TTecAnti.cpp
 pso/technique/TTecBarta.cpp
@@ -1364,7 +1356,8 @@ pso/ui/window/TWindowDD_80246F8C.cpp
 pso/ui/window/TWindowDD_8034055C.cpp
 pso/ui/window/TWindowDD_80340A78.cpp
 pso/ui/window/TWindowDD_80341334.cpp
-pso/ui/window/TWindowDD_80342254.cpp
+pso/ui/window/TWindowDD_80341A08.cpp
+pso/ui/window/TWindowDD_80342428.cpp
 pso/ui/window/TWindowDD_803424EC.cpp
 pso/ui/window/TWindowDD_80342554.cpp
 pso/ui/window/TWindowDD_803426CC.cpp
@@ -1571,6 +1564,7 @@ pso/ui/window/TWindowSubStatusDisp_802671F0.cpp
 pso/ui/window/TWindowSubStatusDisp_80268488.cpp
 pso/ui/window/TWindowSubStatusDisp_80268738.cpp
 pso/ui/window/TWindowSubStatusDisp_8026CE3C.cpp
+pso/ui/window/TWindowSubStatusDisp_8027FD88.cpp
 pso/ui/window/TWindowSubStatusDisp_80281198.cpp
 pso/ui/window/TWindowSubStatusDisp_80287570.cpp
 pso/ui/window/TWindowSubStatusDisp_80288030.cpp
@@ -1697,7 +1691,6 @@ pso/object/base/ObjectFactoryTables.cpp
 pso/object/fence/TLazerFenceSw.cpp
 pso/object/key/TOKeyJungleMain.cpp
 pso/object/warp/TObjAreaWarpEndingJung.cpp
-pso/object/warp/TObjAreaWarpQuest.cpp
 pso/object/warp/TObjAreaWarp_80307B70.cpp
 pso/ui/window/TObjBagWarnWin4P.cpp
 pso/object/base/TObjBase.cpp
@@ -1762,7 +1755,6 @@ pso/object/ambient/TObjLight.cpp
 pso/object/ambient/TObjLight_80133568.cpp
 pso/object/ambient/TObjLight_8022F34C.cpp
 pso/object/ambient/TObjLight_8022F9E8.cpp
-pso/object/ambient/TObjLight_8023347C.cpp
 pso/object/ambient/TObjLight_80235C44.cpp
 pso/object/ambient/TObjLight_80236D60.cpp
 pso/object/ambient/TObjLight_803DF220.cpp
@@ -1773,7 +1765,6 @@ pso/object/TObjLuker_801329B0.cpp
 pso/map/TObjMapCsn.cpp
 pso/object/base/TObjMapObject.cpp
 pso/object/warp/TObjMapWarpAncient.cpp
-pso/object/warp/TObjMapWarpForest.cpp
 pso/object/TObjMesBase.cpp
 pso/object/ambient/TObjMistCtrl.cpp
 pso/object/base/TObjMotion.cpp
@@ -1870,7 +1861,6 @@ pso/player/TObjPlayer_800EBE2C.cpp
 pso/player/TObjPlayer_800F0810.cpp
 pso/object/TObjHMS_EZRope_Player_800FEFCC.cpp
 pso/player/TObjPlayer_800FFA88.cpp
-pso/player/TObjPlayer_80104860.cpp
 pso/player/TObjPlayer_8010853C.cpp
 pso/player/TObjPlayer_80108854.cpp
 pso/player/TObjPlayer_80109344.cpp
@@ -1940,8 +1930,6 @@ pso/player/TObjPlayer_802C367C.cpp
 pso/player/TObjPlayer_802C3B14.cpp
 pso/player/TObjPlayer_802C422C.cpp
 pso/player/TObjPlayer_802D5174.cpp
-pso/player/TObjPlayer_802D5B78.cpp
-pso/player/TObjPlayer_802D5C0C.cpp
 pso/player/TObjPlayer_802E6CA8.cpp
 pso/player/TObjPlayer_80307618.cpp
 pso/player/TObjPlayer_803083B0.cpp
@@ -2147,7 +2135,6 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_8033A8EC.cpp
 pso/ui/frontend/TAdSnAkPassConfirmGC.cpp
 pso/ui/frontend/TAdSoniclogo.cpp
 pso/ui/frontend/TAdStorySelectGC.cpp
-pso/ui/frontend/TAdStorySelectGC_8019DC14.cpp
 pso/ui/frontend/TAdStorySelectGC_802C3284.cpp
 pso/ui/frontend/TAdSubPlyItemGC.cpp
 pso/ui/frontend/TAdTitleGC.cpp
@@ -2257,8 +2244,6 @@ pso/unk/text_800FA7E0.cpp
 pso/unk/text_800FD930.cpp
 pso/unk/text_800FFE04.cpp
 pso/unk/text_80103674.cpp
-pso/unk/text_80104F4C.cpp
-pso/unk/text_80104FCC.cpp
 pso/effect/item/TItemEffEquip_80108860.cpp
 pso/unk/text_801094D8.cpp
 pso/unk/text_8010EF14.cpp
@@ -2354,7 +2339,6 @@ pso/boss/darkfalz/TBoss4DarkFalz_801F4830.cpp
 pso/unk/text_801F498C.cpp
 pso/system/TMCFormatSequence_801F6554.cpp
 pso/unk/text_80203284.cpp
-pso/unk/text_8020A2AC.cpp
 pso/unk/text_8020BC50.cpp
 pso/unk/text_8020BFE4.cpp
 pso/unk/text_8020C354.cpp
@@ -2377,11 +2361,8 @@ pso/technique/TTecFoie_8022FB70.cpp
 pso/technique/TTecFoie_8022FC94.cpp
 pso/technique/TTecGiZonde_80231AF0.cpp
 pso/technique/TTecGiZonde_80231BF4.cpp
-pso/unk/text_802333D4.cpp
 pso/unk/text_80236EE8.cpp
 pso/effect/TUnk_804CCC68_8023A434.cpp
-pso/unk/text_8023B454.cpp
-pso/unk/text_8023B590.cpp
 pso/unk/text_8023DCB8.cpp
 pso/unk/text_8023F160.cpp
 pso/unk/text_8023F3F8.cpp
@@ -2412,7 +2393,6 @@ pso/unk/text_80255A38.cpp
 pso/unk/text_8025CD10.cpp
 pso/ui/window/TWindowLockOn_80262C3C.cpp
 pso/unk/text_80263A20.cpp
-pso/unk/text_80268384.cpp
 pso/unk/text_8026934C.cpp
 pso/unk/text_802693B4.cpp
 pso/unk/text_80269FE8.cpp
@@ -2625,11 +2605,11 @@ pso/object/ambient/TObjFish.cpp
 pso/ui/city/TShopItemListWindow.cpp
 pso/unk/text_803C1780.cpp
 pso/map/CsnQuery.cpp
-pso/unk/text_80209D34.cpp
 pso/unk/text_803C5B50.cpp
 pso/ui/chat/TWindowSubSymbolChatParts.cpp
 pso/ui/frontend/TAdSelectGameModeGC_802C4748.cpp
 pso/network/NetLoopback.c
+pso/network/NetBufferPool.c
 pso/network/NetIPv6NeighborDiscovery.c
 pso/network/NetArp.c
 pso/network/NetEthernet.c
@@ -2654,22 +2634,21 @@ pso/ui/window/TWindowSnapShot_802A5B2C.cpp
 pso/technique/TTecGiFoie.cpp
 pso/enemy/panarms/TObjEnePanarms.cpp
 pso/ui/charcreate/TObjCMName.cpp
+pso/unk/TUnk_804CC948.cpp
+pso/weapon/TItemAttackCol.cpp
+pso/ui/window/TWindowSubStatusDisp_8026DFE8.cpp
+pso/unk/TLobby_803BFE50.cpp
+pso/unk/text_8020B5CC.cpp
+pso/ui/frontend/TAdDialingGC_80328B20.cpp
+pso/unk/TUnk_804F1C58_8035A628.cpp
+pso/boss/barbaray/TBoss7Joint_802EE704.cpp
 pso/network/NetworkInfoRequests.cpp
 pso/unk/text_803F3BF8.cpp
 pso/audio/AdxBsc.cpp
-pso/boss/olgaflow/TBoss6Zanzo.cpp
 pso/render/GinjaMaterial.cpp
 pso/system/movie/TMovie_80143988.cpp
-pso/ui/frontend/TAdDialingGC_80328B20.cpp
-pso/unk/TLobby_803BFE50.cpp
-pso/unk/text_8020B5CC.cpp
 pso/effect/photon/PhotonBlastSummon.cpp
 pso/npc/TObjNpcKenkyuW.cpp
-pso/ui/window/TWindowDD_80341A08.cpp
 pso/effect/TEF_LensFlare.cpp
-pso/ui/window/TWindowSubStatusDisp_8027FD88.cpp
-pso/weapon/TItemAttackCol.cpp
-pso/ui/hud/TRaderMapCore.cpp
-pso/ui/window/TWindowSubStatusDisp_8026DFE8.cpp
 pso/boss/goldragon/TBoss8Dragon_8002CC48.cpp
 pso/boss/barbaray/TBoss7DeRolLeC.cpp

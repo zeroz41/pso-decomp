@@ -10,11 +10,11 @@ extern s32 particle_pool_limit;
 extern Data_8008741C *particle_global_entry_table;
 extern Data_8008741C *particle_area_entry_table;
 void *__nw__7TObjectFUl(u32);
-void *initialize_with_flags__13TParticleCtrlFPCvlllllUs(void *, void *, void *, s32, s32, s32, s32, s32);
+void *initialize_with_flags__13TParticleCtrlFPCvlllllUs(void *, const void *, void *, s32, s32, s32, s32, s32);
 
 #pragma push
 #pragma opt_propagation off
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags) {
+void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags) {
     void *p;
     s32 idx = id;
     if (particle_pool_limit > idx) {
@@ -36,7 +36,7 @@ void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags) {
 }
 #pragma pop
 
-void *spawn_particle_effect(void *pos, s32 id) {
+void *spawn_particle_effect(const void *pos, s32 id) {
     void *p;
     if (particle_pool_limit > id) {
         p = __nw__7TObjectFUl((u32)(0x78));

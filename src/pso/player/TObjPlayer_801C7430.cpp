@@ -1194,7 +1194,7 @@ void set__8FlagWordFUl(void *, u32);
 s32 clear__8FlagWordFUl(void *, int);
 s32 test_flags_any(void *, int);
 s32 set_frames__15ProtectionTimerFl(void *, s32);
-s32 check_value_equals__13TUnk_804B6C24Fl(int, void *);
+s32 check_value_equals__13TUnk_804B6C24CFl(int, void *);
 s32 check_flag__10TObjPlayerFl(int, int);
 s32 fn_800660B8(void *);
 s32 test_action_mask__10TObjPlayerFl(void *, s32);
@@ -3204,14 +3204,14 @@ void TObjPlayer::enter_death_state() {
     if (is_technique_ready__8TTecCtrlFv() != 0) {
         entity = find_entity_by_id(get_field_2d4__10TObjPlayerFv(arg0));
         if (entity != NULL) {
-            if (check_value_equals__13TUnk_804B6C24Fl((int)entity, lbl_805D3530) != 0) {
+            if (check_value_equals__13TUnk_804B6C24CFl((int)entity, lbl_805D3530) != 0) {
                 temp_r31 = (u16)((s32 (*)(void *))get_entity_id)(arg0);
                 other = (u16)((s32 (*)(void *))get_entity_id)(entity);
                 if (other != temp_r31) {
                     fn_801B0480((int) (entity), (void *) (arg0), 1);
                 }
             }
-            if (check_value_equals__13TUnk_804B6C24Fl((int) (entity), (void *) (TOMineTrap__data_805D3080)) == 0) {
+            if (check_value_equals__13TUnk_804B6C24CFl((int) (entity), (void *) (TOMineTrap__data_805D3080)) == 0) {
                 update_trap_sub__10TOMineTrapFv((void *) (arg0), (int) (entity), 1);
             } else if ((u16)(killer = get_trap_type__10TOMineTrapFv((int)entity)) == 0xffffU) {
                 update_trap_sub__10TOMineTrapFv((void *) (arg0), (int) (entity), 1);
@@ -3312,7 +3312,7 @@ void TObjPlayer::check_reopen_return_city_window() {
   TObjPlayer__sub_8024ABDC((void *) new_var);
   temp_r3 = this->m_36c;
   new_var = 0U;
-  if ((temp_r3 != new_var) && ((((TObject *)temp_r3)->all_parents_unqueued_for_destruction() == 0) || (check_value_equals__13TUnk_804B6C24Fl((int) (this->m_36c), (void *) TWindowReturnCity__class_name) == 0)))
+  if ((temp_r3 != new_var) && ((((TObject *)temp_r3)->all_parents_unqueued_for_destruction() == 0) || (check_value_equals__13TUnk_804B6C24CFl((int) (this->m_36c), (void *) TWindowReturnCity__class_name) == 0)))
   {
     this->m_36c = 0U;
   }

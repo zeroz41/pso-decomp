@@ -24,7 +24,6 @@
 s32 abort_tcp_connection(s16 arg0);
 void clear_position(TcpTcb *tcb);
 s32 close_if_open(TcpTcb *tcb);
-s32 compare_sockaddr(NetworkAddress *a, NetworkAddress *b);
 s32 get_field_534(TcpTcb *tcb);
 s32 get_field_d8(TcpTcb *tcb);
 s32 get_queue_diff(TcpTcb *tcb);
@@ -38,12 +37,12 @@ s16 tcp_get_socket_handle(s16 i);
 s16 validate_tcp_handle(s16 i);
 
 u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 arg2, u8 *arg3, s16 arg4);
-s32 TLobby__sub_8041D368(TcpTcb *tcb);
+s16 TLobby__sub_8041D368(TcpTcb *tcb);
 s32 get_adjusted_slot_count(TcpTcb *tcb);
 TcpTcb *TLobby__sub_8041B5C0(TcpTcb *tcb);
 
 s32 TLobby__sub_8041EB74(TcpTcb *tcb);
-s32 TLobby__sub_8041ECA4(TcpTcb *tcb);
+s16 TLobby__sub_8041ECA4(TcpTcb *tcb);
 void TLobby__sub_8041A3CC(void);
 void TLobby__sub_8041A5B4(void);
 s32 NetTCPInit(void);
@@ -144,10 +143,8 @@ void clear_position(TcpTcb *tcb) {
 }
 
 s32 TLobby__sub_8041D460(TcpTcb *tcb, s32 *p1, s32 *p2);
-void TLobby__sub_8041D398();
 #pragma push
 #pragma opt_common_subs on
-#pragma opt_propagation off
 s16 TLobby__sub_8041A9AC(TcpTcb *tp)
 {
     TcpHdr *th = &tp->hdr;
@@ -157,16 +154,14 @@ s16 TLobby__sub_8041A9AC(TcpTcb *tp)
     TcpTcb *q;
     u8 *optp;
     s32 idle, win;
-    u16 i, sackoff, optlen;
-    s32 fin, mss, sendalot, recwin, flags, off, len;
-    s32 t, u, lim, avail;
+    u16 optlen, i, sackoff;
+    s16 mss;
+    s32 fin, sendalot, recwin, len, off, flags;
+    s32 t, lim;
     s16 a;
-    u16 b;
-    s32 pa0, pa1, pa2;
     s32 sack_start, sack_end;
     u16 tmp;
     s32 tmp4, tmp4b;
-    s32 pb0, pb1;
 
     if (tp->t_state < 0) {
         return -1;
@@ -176,22 +171,21 @@ s16 TLobby__sub_8041A9AC(TcpTcb *tp)
         return -6;
     }
     a = TLobby__sub_8040DC8C(tp->remote, tp->local);
-    b = tp->maxseg;
-    mss = (s16)(b < a ? (s16)b : a);
-    if ((s16)mss < 0) {
+    mss = tp->maxseg < a ? tp->maxseg : a;
+    if (mss < 0) {
         return mss;
     }
     idle = !(tp->snd_una - tp->snd_max);
     if (tp->snd_max == tp->snd_una && tp->idle >= tp->rxtcur) {
         switch (tp->f540) {
         case 1:
-            tp->snd_cwnd = b;
+            tp->snd_cwnd = tp->maxseg;
             break;
         case 2:
-            tp->snd_cwnd = b * 2;
+            tp->snd_cwnd = tp->maxseg * 2;
             break;
         case 3:
-            tp->snd_cwnd = ((s32)(b * 4) < (((s32)(b * 2) > 0x111c) ? (s32)(b * 2) : 0x111c)) ? (b * 4) : ((((s32)(b * 2) > 0x111c) ? (s32)(b * 2) : 0x111c));
+            tp->snd_cwnd = (tp->maxseg * 4 < (tp->maxseg * 2 > 0x111c ? tp->maxseg * 2 : 0x111c)) ? tp->maxseg * 4 : (tp->maxseg * 2 > 0x111c ? tp->maxseg * 2 : 0x111c);
             break;
         default:
             tp->snd_cwnd = get_adjusted_slot_count(tp);
@@ -337,7 +331,7 @@ send:
         optlen = 0;
         th->ack = tp->rcv_nxt;
         if (flags & 2) {
-            tp->f2EC = 0;
+            tp->rexmit_bytes = 0;
             reset_slot_index(tp);
             opt[0] = 2;
             optp = opt;
@@ -379,10 +373,8 @@ send:
             optp[optlen] = 1;
             optlen++;
         }
-        i = optlen;
-        avail = tp->maxseg - i;
-        if (len > avail) {
-            len = avail;
+        if (len > tp->maxseg - optlen) {
+            len = tp->maxseg - optlen;
             flags &= ~1;
             sendalot = 1;
         }
@@ -409,7 +401,7 @@ send:
         win = 0;
         th->sum = win;
         th->flags = flags;
-        th->off = (((i + (s32)sizeof(TcpHdr)) >> 2) << 4) & 0xf0;
+        th->off = (((optlen + (s32)sizeof(TcpHdr)) >> 2) << 4) & 0xf0;
         m = alloc_free_entry();
         if (m == 0) {
             return -0x101;
@@ -444,10 +436,12 @@ send:
                 tp->f2F0 += len;
             }
             if (len > 0) {
-                if ((s32)(off + len + tp->snd_una - tp->snd_nxt) > 0) {
+                s32 first = tp->snd_una + off;
+                s32 last = len + first;
+                if ((s32)(last - tp->snd_nxt) > 0) {
                     tp->snd_nxt += len;
                 } else {
-                    TLobby__sub_8041D398(tp);
+                    TLobby__sub_8041D398(tp, first, last);
                 }
             }
             if ((s32)(tp->snd_nxt - tp->snd_max) > 0) {
@@ -621,7 +615,7 @@ extern s16 TLobby__sub_8041B724(TcpTcb *tp) {
 }
 
 extern s32 TLobby__sub_8041E780(void);
-s32 TLobby__sub_8041EC14(TcpTcb *tcb);
+s16 TLobby__sub_8041EC14(TcpTcb *tcb);
 extern TcpTcb *TLobby__sub_8041B774(TcpTcb *self, TcpHdr *th, u8 *a, u8 *b) {
     u16 v;
     TcpTcb *dst;
@@ -629,8 +623,6 @@ extern TcpTcb *TLobby__sub_8041B774(TcpTcb *self, TcpHdr *th, u8 *a, u8 *b) {
     s32 n;
     s16 idx;
     u8 *sp;
-    s16 TLobby__sub_8041ECA4(TcpTcb *tcb); /* declared s16 here; the definition returns s32 */
-    s16 TLobby__sub_8041EC14(TcpTcb *tcb); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_8041E780(void); /* declared s16 here; the definition returns s32 */
 
     if (self->f2C4 <= self->pending) return NULL;
@@ -699,7 +691,7 @@ void TLobby__sub_8041A498(TcpTcb *arg0, s16 arg1);
 #pragma opt_propagation off
 #pragma opt_common_subs on
 inline s32 imax(s32 a, s32 b) { return a > b ? a : b; }
-extern s32 TLobby__sub_8041B974(u8 *pkt, u8 *a, u8 *b) {
+s16 TLobby__sub_8041B974(u8 *pkt, u8 *a, u8 *b) {
     s32 changed = 0;
     u32 flag = 0;
     u32 total = 0;
@@ -726,7 +718,6 @@ extern s32 TLobby__sub_8041B974(u8 *pkt, u8 *a, u8 *b) {
     s32 TLobby__sub_80422AB8(s32, void (*)(s16, s16, s32, s32), s16, s32, s32, s32);
     s16 compare_sockaddr(NetworkAddress *, NetworkAddress *); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_8041B3D4(void *, void *, u16, u16, s32, s32, u8); /* declared s16 here; the definition is s32 (void *, void *, s16, s16, s32, s32, u8) */
-    s16 TLobby__sub_8041D368(TcpTcb *tcb); /* declared s16 here; the definition returns s32 */
 
     *(s32 *)(pkt + offsetof(NetPacket, total_bytes)) = *(s32 *)(pkt + offsetof(NetPacket, total_bytes)) - *(s16 *)(pkt + offsetof(NetPacket, fragments[0].length));
     *(s16 *)(pkt + offsetof(NetPacket, fragments[0].length)) = 0;
@@ -1407,18 +1398,18 @@ drop:
 #pragma pop
 #pragma pop
 
-s32 TLobby__sub_8041D524(TcpTcb *tcb, s32 x);
+s16 TLobby__sub_8041D524(TcpTcb *tcb, s32 x);
+#pragma push
+#pragma opt_common_subs on
 s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, u8 *p6)
 {
-  void TLobby__sub_8041D584(TcpTcb *self, u8 *p6, u8 *tbl, s16 n); /* declared here with other parameter types; the definition is void (TcpTcb *, Th_8041D584 *, Sack_8041D584 *, s16) */
-  s16 TLobby__sub_8041D524(TcpTcb *, s32); /* declared s16 here; the definition is s32 (TcpTcb *, s32) */
+  void TLobby__sub_8041D584(TcpTcb *self, u8 *p6, TcpSeqRange *tbl, s16 n); /* declared here with other parameter types; the definition is void (TcpTcb *, Th_8041D584 *, Sack_8041D584 *, s16) */
   s32 n;
   s16 done = 0;
   u8 sz;
   s16 k;
   s32 last;
   u8 *p;
-  u8 *e;
   u16 tmp16;
   u32 tmp;
   while (done < total)
@@ -1437,8 +1428,7 @@ s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, u8 *p6)
       switch (data[0])
       {
         case 2:
-          e = p6;
-          if ((sz == 4) && (e[0xd] & 2))
+          if ((sz == 4) && (p6[0xd] & 2))
         {
           NetMemcpy(&tmp16, data + 2, 2);
           self->peer_mss = tmp16;
@@ -1454,7 +1444,7 @@ s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, u8 *p6)
 
         case 5:
         {
-          u8 *tbl = (*((u8 (*)[]) (&tcp_protocol_state))) + offsetof(TcpState, sack_opt);
+          TcpSeqRange *tbl = tcp_protocol_state.sack_opt;
           last = self->snd_una;
           if (((sz - 2) % 8) != 0)
           {
@@ -1464,24 +1454,22 @@ s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, u8 *p6)
           {
             break;
           }
-          e = tbl;
           p = data + 2;
           n = (sz - 2) / 8;
           for (k = 0; k < n; k++)
           {
             NetMemcpy(&tmp, p, 4);
-            *((u32 *) e) = tmp;
+            tbl[k].start = tmp;
             NetMemcpy(&tmp, p + 4, 4);
             p += 8;
-            *((u32 *) (e + 4)) = tmp;
-            if (((*((s32 *) (e + 4))) - last) > 0)
+            tbl[k].end = tmp;
+            if ((s32)(tbl[k].end - last) > 0)
             {
-              last = *((s32 *) (e + 4));
+              last = tbl[k].end;
             }
-            e += 8;
           }
 
-          TLobby__sub_8041D584(self, e, tbl, (s16) n);
+          TLobby__sub_8041D584(self, p6, tbl, (s16) n);
           if (TLobby__sub_8041D524(self, last) != 0)
           {
             self->edge = self->snd_una;
@@ -1499,6 +1487,7 @@ s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, u8 *p6)
   self->maxseg = ((self->peer_mss) < ((s16) TLobby__sub_8041B724(self))) ? (self->peer_mss) : ((s16) TLobby__sub_8041B724(self));
   return 0;
 }
+#pragma pop
 
 s32 TLobby__sub_8041A1D8(void) {
     NetUnregisterTimer((void *)TLobby__sub_8041A5B4);
@@ -1602,7 +1591,7 @@ extern s32 TLobby__sub_8041A6A4(TcpTcb *tcb, s16 timer) {
             tcb->srtt = 0;
         }
         reset_slot_index((void *)tcb);
-        tcb->f2EC = 0;
+        tcb->rexmit_bytes = 0;
         tcb->f2F0 = 0;
         tcb->f2F4 = tcb->snd_una;
         tcb->snd_nxt = tcb->snd_una;
@@ -1681,7 +1670,7 @@ void insert_item_at(TcpTcb *o, s16 idx, s32 a, s32 b) {
     o->seg_top++;
 }
 
-s32 TLobby__sub_8041D368(TcpTcb *tcb) {
+s16 TLobby__sub_8041D368(TcpTcb *tcb) {
     if (tcb->seg_top == -1) {
         return 1;
     }
@@ -1693,44 +1682,41 @@ void reset_slot_index(TcpTcb *tcb) {
     tcb->edge = tcb->una;
 }
 
-void TLobby__sub_8041D398(u8* self, s32 a, s32 b) {
-    u8* p = self;
-    u8* q = self;
+void TLobby__sub_8041D398(TcpTcb *tp, s32 first, s32 last) {
     s16 i;
-    s32 key;
-    *(s32*)(self + offsetof(TcpTcb, f2EC)) += b - a;
-    for (i = 0; i <= *(s16*)(self + offsetof(TcpTcb, seg_top)); p += 0x10, q += 0x10, i++) {
-        key = *(s32*)(p + offsetof(TcpTcb, segs[0].start));
-        if (a - key < 0) {
+    s32 start;
+
+    tp->rexmit_bytes += last - first;
+    for (i = 0; i <= tp->seg_top; i++) {
+        start = tp->segs[i].start;
+        if (first - start < 0) {
             if (i == 0) {
-                if (b - key <= 0) {
-                    if (b - *(s32*)(self + offsetof(TcpTcb, edge)) < 0) {
+                if (last - start <= 0) {
+                    if (last - tp->edge < 0) {
                         return;
                     }
-                    *(s32*)(self + offsetof(TcpTcb, edge)) = b;
-                    *(s32*)(self + offsetof(TcpTcb, stamp)) = *(s32*)(self + offsetof(TcpTcb, snd_max));
+                    tp->edge = last;
+                    tp->stamp = tp->snd_max;
                     return;
-                } else {
-                    *(s32*)(self + offsetof(TcpTcb, edge)) = key;
-                    *(s32*)(self + offsetof(TcpTcb, stamp)) = *(s32*)(self + offsetof(TcpTcb, snd_max));
                 }
+                tp->edge = start;
+                tp->stamp = tp->snd_max;
             } else {
-                if (b - key <= 0) {
-                    u8* e = self;
+                if (last - start <= 0) {
+                    u8 *e = (u8 *)tp;
                     s32 off = i * 16;
                     e += off;
-                    if (b - *(s32*)(e += 0x328) < 0) {
+                    if (last - *(s32 *)(e += offsetof(TcpTcb, edge)) < 0) {
                         return;
                     }
-                    *(s32*)e = b;
-                    e = self;
+                    *(s32 *)e = last;
+                    e = (u8 *)tp;
                     e += off;
-                    *(s32*)(e + offsetof(TcpTcb, stamp)) = *(s32*)(self + offsetof(TcpTcb, snd_max));
+                    *(s32 *)(e + offsetof(TcpTcb, stamp)) = tp->snd_max;
                     return;
-                } else {
-                    *(s32*)(q + offsetof(TcpTcb, edge)) = key;
-                    *(s32*)(q + offsetof(TcpTcb, stamp)) = *(s32*)(self + offsetof(TcpTcb, snd_max));
                 }
+                tp->segs[i - 1].edge = start;
+                tp->segs[i - 1].stamp = tp->snd_max;
             }
         }
     }
@@ -1762,7 +1748,7 @@ s32 TLobby__sub_8041D460(TcpTcb *tp, s32 *start, s32 *end) {
     return 0;
 }
 
-s32 TLobby__sub_8041D524(TcpTcb *tcb, s32 x) {
+s16 TLobby__sub_8041D524(TcpTcb *tcb, s32 x) {
     s16 n = tcb->seg_top;
     s16 i;
     if (n == -1) { return 0; }
@@ -1804,15 +1790,15 @@ void TLobby__sub_8041D584(TcpTcb *tcb, Th_8041D584 *th, Sack_8041D584 *blocks, s
                 break;
             }
             if (th->ack - tcb->edge > 0) {
-                tcb->f2EC -= tcb->edge - tcb->una;
+                tcb->rexmit_bytes -= tcb->edge - tcb->una;
                 tcb->edge = th->ack;
-                if (tcb->f2EC < 0) {
-                    tcb->f2EC = 0;
+                if (tcb->rexmit_bytes < 0) {
+                    tcb->rexmit_bytes = 0;
                 }
             } else {
-                tcb->f2EC -= th->ack - tcb->una;
-                if (tcb->f2EC < 0) {
-                    tcb->f2EC = 0;
+                tcb->rexmit_bytes -= th->ack - tcb->una;
+                if (tcb->rexmit_bytes < 0) {
+                    tcb->rexmit_bytes = 0;
                 }
             }
             if (th->ack - tcb->segs[0].end >= 0) {
@@ -1854,10 +1840,10 @@ void TLobby__sub_8041D584(TcpTcb *tcb, Th_8041D584 *th, Sack_8041D584 *blocks, s
         }
         if (start - tcb->segs[0].start <= 0) {
             if (start - tcb->edge < 0) {
-                tcb->f2EC -= tcb->edge - start;
+                tcb->rexmit_bytes -= tcb->edge - start;
                 tcb->edge = b->start;
-                if (tcb->f2EC < 0) {
-                    tcb->f2EC = 0;
+                if (tcb->rexmit_bytes < 0) {
+                    tcb->rexmit_bytes = 0;
                 }
             }
             insert_item_at(tcb, 0, b->start, b->end);
@@ -1872,26 +1858,26 @@ void TLobby__sub_8041D584(TcpTcb *tcb, Th_8041D584 *th, Sack_8041D584 *blocks, s
                         continue;
                     }
                     if (end - tcb->segs[j - 1].edge > 0) {
-                        tcb->f2EC -= tcb->segs[j - 1].edge - tcb->segs[j - 1].end;
+                        tcb->rexmit_bytes -= tcb->segs[j - 1].edge - tcb->segs[j - 1].end;
                         tcb->segs[j - 1].end = b->end;
                         tcb->segs[j - 1].edge = b->end;
-                        if (tcb->f2EC < 0) {
-                            tcb->f2EC = 0;
+                        if (tcb->rexmit_bytes < 0) {
+                            tcb->rexmit_bytes = 0;
                         }
                     } else {
-                        tcb->f2EC -= end - tcb->segs[j - 1].end;
+                        tcb->rexmit_bytes -= end - tcb->segs[j - 1].end;
                         tcb->segs[j - 1].end = b->end;
-                        if (tcb->f2EC < 0) {
-                            tcb->f2EC = 0;
+                        if (tcb->rexmit_bytes < 0) {
+                            tcb->rexmit_bytes = 0;
                         }
                     }
                     j = j - 1;
                 } else {
                     if (start - tcb->segs[j - 1].edge < 0) {
-                        tcb->f2EC -= tcb->segs[j - 1].edge - start;
+                        tcb->rexmit_bytes -= tcb->segs[j - 1].edge - start;
                         tcb->segs[j - 1].edge = b->start;
-                        if (tcb->f2EC < 0) {
-                            tcb->f2EC = 0;
+                        if (tcb->rexmit_bytes < 0) {
+                            tcb->rexmit_bytes = 0;
                         }
                     }
                     insert_item_at(tcb, j, b->start, b->end);
@@ -1907,17 +1893,17 @@ void TLobby__sub_8041D584(TcpTcb *tcb, Th_8041D584 *th, Sack_8041D584 *blocks, s
             d = tcb->segs[j].end - tcb->segs[j + 1].end;
             if (0 <= d) {
                 if (tcb->segs[j + 1].edge - tcb->segs[j].end > 0) {
-                    tcb->f2EC -= d;
+                    tcb->rexmit_bytes -= d;
                     tcb->segs[j].edge = tcb->segs[j + 1].edge;
                     remove_8041D584(tcb, j + 1);
-                    if (tcb->f2EC < 0) {
-                        tcb->f2EC = 0;
+                    if (tcb->rexmit_bytes < 0) {
+                        tcb->rexmit_bytes = 0;
                     }
                 } else {
-                    tcb->f2EC -= tcb->segs[j + 1].edge - tcb->segs[j + 1].end;
+                    tcb->rexmit_bytes -= tcb->segs[j + 1].edge - tcb->segs[j + 1].end;
                     remove_8041D584(tcb, j + 1);
-                    if (tcb->f2EC < 0) {
-                        tcb->f2EC = 0;
+                    if (tcb->rexmit_bytes < 0) {
+                        tcb->rexmit_bytes = 0;
                     }
                 }
             } else {
@@ -2211,10 +2197,6 @@ u16 TLobby__sub_8041EA14(void);
 s16 tcp_connect_start(s16 arg0, s32 arg1, s16 arg2) {
     s16 r;
     TcpTcb *e;
-    s16 TLobby__sub_8041EC14(TcpTcb *tcb); /* declared s16 here; the definition returns s32 */
-    s16 TLobby__sub_8041ECA4(TcpTcb *tcb); /* declared s16 here; the definition returns s32 */
-    u16 get_adjusted_slot_count(TcpTcb *tcb); /* declared u16 here; the definition returns s32 */
-    void NetDispatchSocketEvent(s16, s32, s32, s16);
 
     if (arg0 < 0 || arg0 >= tcp_protocol_state.count) {
         r = -4;
@@ -2253,7 +2235,7 @@ s16 tcp_connect_start(s16 arg0, s32 arg1, s16 arg2) {
         close_if_open(e);
         return r;
     }
-    e->snd_cwnd = get_adjusted_slot_count(e);
+    e->snd_cwnd = (u16)get_adjusted_slot_count(e);
     e->t_state = 2;
     e->timers[2] = 0x96;
     {
@@ -2525,7 +2507,7 @@ s32 close_if_open(TcpTcb *tcb) {
     return 0;
 }
 
-s32 TLobby__sub_8041EC14(TcpTcb *tcb) {
+s16 TLobby__sub_8041EC14(TcpTcb *tcb) {
     s32 spC[3];
 
     if (tcb->rcv_buf.kind == 0) {
@@ -2544,7 +2526,7 @@ s32 TLobby__sub_8041EC14(TcpTcb *tcb) {
     return 0;
 }
 
-s32 TLobby__sub_8041ECA4(TcpTcb *tcb) {
+s16 TLobby__sub_8041ECA4(TcpTcb *tcb) {
     unsigned char off;
     s32 spC;
 

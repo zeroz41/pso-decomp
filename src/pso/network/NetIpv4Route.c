@@ -78,7 +78,7 @@ extern s16 TLobby__sub_8040EDE4(void *self, u32 key, s16 id) {
 }
 #pragma push
 #pragma opt_common_subs on
-s32 TLobby__sub_8040EF00(s16 arg0) {
+s16 TLobby__sub_8040EF00(s16 arg0) {
     Ipv4Iface *ifc;
     if ((arg0 < 0) || (arg0 >= ipv4_address_routing_state.nifaces)) {
         return -0x109;
@@ -225,7 +225,6 @@ extern s32 TLobby__sub_8040F1A0(s16 id) {
     Ipv4Iface *b;
     Ipv4Alias *nd;
     u32 addr;
-    s16 is_socket_flag_set(s16); /* declared s16 here; the definition returns s32 */
     g = &ipv4_address_routing_state;
 
     if (id < 0 || id >= *(pn = &g->nifaces)) {
@@ -242,7 +241,7 @@ extern s32 TLobby__sub_8040F1A0(s16 id) {
         if (is_socket_flag_set(id) == 0 && getfirst_8040F1A0(pn, pb, &addr)) {
             drop_8040F1A0(g, nd->addr, addr);
         }
-        TLobby__sub_80409D7C(id, b->handle, 2, (s32)&nd->addr);
+        TLobby__sub_80409D7C(id, b->handle, 2, &nd->addr);
         {
             Ipv4Alias *next = nd->next;
             nd->f0 = 0;
@@ -293,7 +292,6 @@ extern s16 TLobby__sub_8040F454(u32 addr, u32 mask, u32 broadcast, s16 idx) {
     s16 err;
     s16 found;
     u32 gateway;
-    s16 is_socket_flag_set(s16); /* declared s16 here; the definition returns s32 */
     s16 invoke_socket_callback(s16, s32); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_8040A044(s16, u32, s32, u32 *); /* declared s16 here; the definition returns s32 */
 
@@ -712,7 +710,7 @@ s16 NetIPv4IsUnspecified(u32 arg0) {
 
 #pragma push
 #pragma opt_common_subs on
-s32 TLobby__sub_8040FE40(s16 arg0) {
+s16 TLobby__sub_8040FE40(s16 arg0) {
     Ipv4Iface *ifc;
     if ((arg0 < 0) || (arg0 >= ipv4_address_routing_state.nifaces)) {
         ifc = NULL;
@@ -744,7 +742,7 @@ s16 *get_active_entry_by_index(s16 arg0) {
 }
 #pragma pop
 
-s32 TLobby__sub_8040FEE4(s32 arg0, s32 arg1) {
+s16 TLobby__sub_8040FEE4(s32 arg0, s32 arg1) {
     s32 temp_r0;
     temp_r0 = arg0 - arg1;
     if (temp_r0 < 0) {

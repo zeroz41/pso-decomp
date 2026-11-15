@@ -11,12 +11,13 @@
 #include "pso/unk/TUnk_804CFA28.h"
 #include "pso/unk/text_803D619C.h"
 
+const char *lbl_805D42E0 = "TWindowDD_WS_Word";
+
 extern "C" {
 int refresh_status_display__9TWindowDDFv(void *);
 void draw_visible_window_entries(TWindowDD_WS_Word *, TWindowDDWordEntryList *, TWindowKeyBoardSoft *);
 extern const s32 TWindowDD__data_805DFC14;
 extern const s32 lbl_805DFC18;
-extern const f32 lbl_805DFCA0;
 }
 
 void TWindowDD_WS_Word::render() {
@@ -49,7 +50,7 @@ void TWindowDD_WS_Word::render() {
             }
         }
     }
-    entry->inner_y += lbl_805DFCA0;
+    entry->inner_y += 1.0f;
     draw_visible_window_entries(self, &self->entries, entry);
 }
 
@@ -63,15 +64,11 @@ extern const f32 lbl_805DFB44;
 extern void *lbl_805D63F0;
 }
 
-extern "C" {
-extern const f32 lbl_805DFCA4; // 0.5f
-extern const f32 lbl_805DFCAC; // 0.1f
-extern const f32 TWindowDD__data_805DFCA8; // 0.0f
-}
-
 void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect) {
     E_803403F8 verts[8];
     E_803403F8 *v;
+    s32 tex;
+    s32 count;
     f32 y1;
     f32 c;
     f32 s;
@@ -84,21 +81,20 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
     f32 top;
     f32 bottom;
     f32 step;
-    // TWindowDD::get_draw_count(lbl_805D63F0), read inline here.
-    s32 tex = **(s32 **)((s8 *)(*(void **)((s8 *)(*(void **)lbl_805D63F0) + 0x20)) + 0xC);
+
+    // TWindowDD::get_draw_count(lbl_805D63F0), read inline here (0x80348AE8 is the same load chain)
+    tex = **(s32 **)((s8 *)(*(void **)((s8 *)(*(void **)lbl_805D63F0) + 0x20)) + 0xC);
     if (rect->open_tick < 0) {
         return;
     }
-    c = lbl_805DFCA4 * self->pad_4C + self->pad_44;
-    f32 depth = TWindowDD__sub_80348AD4(self->pad_54, TWindowDD__data_805DFCA8);
+    c = 0.5f * self->pad_4C + self->pad_44;
+    f32 depth = TWindowDD__sub_80348AD4(self->pad_54, 0.0f);
     ((TWindowDD *)verts)->reset_entries(depth, -1);
-    s32 point_table = self->pad_64;
-    ((TWindowDD *)verts)->copy_point_table(point_table);
+    ((TWindowDD *)verts)->copy_point_table(self->pad_64);
     TWindowDD__sub_80348A2C(rect, verts);
-
     s = rect->scale[1];
-    s32 count = self->pad_78;
-    top = -(lbl_805DFCA4 * self->pad_4C);
+    count = self->pad_78;
+    top = -(0.5f * self->pad_4C);
     y0 = top * s + c;
     bottom = top + TWindowDD__data_805DFB20;
     y1 = bottom * s + c;
@@ -112,10 +108,9 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
     v0 *= TWindowDD__data_805DFB18;
     v1 *= TWindowDD__data_805DFB18;
     frac = TWindowDD__data_805DFB20 * fn_803D6308(-self->pad_88 / TWindowDD__data_805DFB20);
-    // A fractional scroll leaves a clipped row at each end of the list.
-    if (TWindowDD__data_805DFCA8 != frac) {
+    if (0.0f != frac) {
         count = self->pad_78 - 1;
-        if (frac < TWindowDD__data_805DFCA8) {
+        if (frac < 0.0f) {
             part = frac + TWindowDD__data_805DFB20;
         } else {
             part = frac;
@@ -123,11 +118,12 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
         }
         yb = part * s + y0;
         v = verts;
-        for (s32 i = 0; i < 4; ++i, v += 2) {
+        for (s32 i = 0; i < 4; i++) {
             v[0].b = y0;
             v[0].e = v1 - part * TWindowDD__data_805DFB18;
             v[1].b = yb;
             v[1].e = v1;
+            v += 2;
         }
         ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
         y0 = yb;
@@ -135,49 +131,49 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
     if (count > 0) {
         step = TWindowDD__data_805DFB20 * s;
         v = verts;
-        for (s32 i = 0; i < 4; ++i, v += 2) {
+        for (s32 i = 0; i < 4; i++) {
             v[0].e = v0;
             v[1].e = v1;
+            v += 2;
         }
-        for (s32 i = 0; i < count; ++i) {
+        for (s32 i = 0; i < count; i++) {
             y1 = y0 + step;
             v = verts;
-            for (s32 j = 0; j < 4; ++j, v += 2) {
+            for (s32 j = 0; j < 4; j++) {
                 v[0].b = y0;
                 v[1].b = y1;
+                v += 2;
             }
             ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
             y0 = y1;
         }
     }
-    if (TWindowDD__data_805DFCA8 != frac) {
-        f32 bottom_edge = lbl_805DFCA4 * self->pad_4C;
-        yb = bottom_edge * s + c;
+    if (0.0f != frac) {
+        yb = 0.5f * self->pad_4C * s + c;
         v = verts;
-        for (s32 i = 0; i < 4; ++i, v += 2) {
+        for (s32 i = 0; i < 4; i++) {
             v[0].b = y1;
             v[0].e = v0;
             v[1].b = yb;
             v[1].e = v0 - frac * TWindowDD__data_805DFB18;
+            v += 2;
         }
         ((TWindowDD *)verts)->draw_transformed_primitive(8, tex, 1);
     }
-    // The selection highlight uses a separate point table and depth bias.
-    if (self->m_74 > 0 && self->sub_80342254()) {
-        depth = TWindowDD__sub_80348AD4(self->pad_54, lbl_805DFCAC);
+    if (self->m_74 > 0 && self->sub_80342254() != 0) {
+        depth = TWindowDD__sub_80348AD4(self->pad_54, 0.1f);
         ((TWindowDD *)verts)->reset_entries(depth, -1);
         ((TWindowDD *)verts)->copy_point_table(1);
         TWindowDD__sub_80348A2C(rect, verts);
-
         f32 row = (f32)self->m_6c;
-        f32 first_y = -(lbl_805DFCA4 * self->pad_4C);
+        f32 first_y = -(0.5f * self->pad_4C);
         y0 = row * TWindowDD__data_805DFB20 + first_y;
         s = rect->scale[1];
         bottom = y0 + TWindowDD__data_805DFB20;
         y0 = y0 * s + c;
         y1 = bottom * s + c;
         v = verts;
-        for (s32 i = 0; i < 4; ++i) {
+        for (s32 i = 0; i < 4; i++) {
             v++->b = y0;
             v++->b = y1;
         }
@@ -185,37 +181,33 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect)
     }
 }
 
-#define sub_80341AC0__17TWindowDD_WS_WordFv ((s32 (*)(void))sub_80341AC0__17TWindowDD_WS_WordFv)
-
 s32 TWindowDD_WS_Word::can_scroll(s32 arg1) {
     s32 temp_r0;
     s32 temp_r3;
     s32 temp_r4;
     s32 temp_r5;
 
-    if (sub_80341AC0__17TWindowDD_WS_WordFv() == 0) {
+    if (sub_80341AC0() == 0) {
         return 0;
     }
-    temp_r4 = *(s32 *)((s8 *)this + 0x78);
+    temp_r4 = this->pad_78;
     temp_r5 = temp_r4 / 2;
     if (arg1 > 0) {
-        temp_r0 = *(s32 *)((s8 *)this + 0x6C);
+        temp_r0 = this->m_6c;
         if (temp_r0 < temp_r5) {
             return 0;
         }
         return (this->m_68 + (temp_r4 - temp_r0)) < this->m_74;
     }
-    temp_r3 = *(s32 *)((s8 *)this + 0x6C);
+    temp_r3 = this->m_6c;
     if (temp_r3 >= temp_r5) {
         return 0;
     }
     return ((u32) (this->m_68 - (temp_r3 + 1)) >> 0x1FU) ^ 1;
 }
 
-#undef sub_80341AC0__17TWindowDD_WS_WordFv
-
 s32 TWindowDD_WS_Word::sub_80341AC0() {
-    return this->m_74 > *(s32 *)((s8 *)((u8 *)this) + 0x78);
+    return this->m_74 > this->pad_78;
 }
 
 void TWindowDD__sub_80341AE0(u8 *arg0) {
@@ -231,11 +223,31 @@ void TWindowDD__sub_80341AF8(u8 *arg0) {
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/unk/WindowLayoutRecord.h"
 
+// Entry layout table of the window: one column, one text record (type 3); the row count is
+// written before each build (init_layout_entries, TWindowDD__sub_80342384).
+struct TWindowDD_WS_WordLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+};
 
-struct RecoveredGlobal_80341F9C_TWindowDD__data_804EFC50 {
-    s32 value;
-    u8 remaining[0x3C];
+extern "C" {
+extern const f32 TWindowDD__data_805DFB6C;
+extern const f32 lbl_805DFB70;
+extern const f32 TWindowDD__data_805DFB74;
+extern const f32 lbl_805DFB78;
+extern const f32 lbl_805DFC1C;
+}
+
+TWindowDD_WS_WordLayout TWindowDD__data_804EFC50 = {
+    1, 1,
+    {3, {0.0f, 0.0f}, 0.2f, TWindowDD__data_805DFC14, 0x40, NULL},
+};
+__declspec(section ".data") f32 lbl_804EFC74[2] = {TWindowDD__data_805DFB6C, lbl_805DFB70};
+WindowDescriptor lbl_804EFC7C = {
+    {TWindowDD__data_805DFB74, lbl_805DFB78}, lbl_805DFC1C, &TWindowDD__data_804EFC50, 3,
 };
 
 struct Elem_80341FFC {
@@ -259,11 +271,8 @@ struct Entry_80341FFC {
 
 extern "C" {
 s32 apply_both_choices__9TWindowDDFll(void *, int);
-s32 sub_80342268__17TWindowDD_WS_WordFv();
 extern const f32 TWindowDD__data_805DFB20;
-extern const float TWindowDD__data_805DFCA8;
 s32 init_window_layout_entries(void *, void *, int);
-extern RecoveredGlobal_80341F9C_TWindowDD__data_804EFC50 TWindowDD__data_804EFC50;
 void *mem_alloc(u32 size);
 s32 get_array_entry__11TWindowBaseFi(void * a0, s32 a1);
 Elem_80341FFC *get_element_ptr__9TWindowDDFl(s32);
@@ -284,7 +293,7 @@ void TWindowDD::handle_scroll_input() {
     s32 temp_r5;
     s32 var_r30;
     s32 var_r30_2;
-    if (sub_80342268__17TWindowDD_WS_WordFv() != 0) {
+    if (((TWindowDD_WS_Word *)this)->sub_80342268() != 0) {
         if (apply_both_choices__9TWindowDDFll((u8 *)&this->m_7c, 0x20) != 0) {
             temp_r4 = *(s32 *)&this->m_84;
             if (temp_r4 < (s32) (*(s32 *)&this->m_90 - 1)) {
@@ -300,7 +309,7 @@ void TWindowDD::handle_scroll_input() {
             } else {
                 add_scroll_offset((int)(-temp_r4));
                 *(s32 *)&this->m_88 = 0;
-                *(f32 *)((s8 *)arg0 + 0x88) = (f32) (*(const f32 *)&TWindowDD__data_805DFCA8);
+                *(f32 *)((s8 *)arg0 + 0x88) = 0.0f;
             }
         } else if (apply_both_choices__9TWindowDDFll((u8 *)&this->m_7c, 0x10) != 0) {
             if ((s32) *(s32 *)&this->m_84 > 0) {
@@ -319,7 +328,7 @@ void TWindowDD::handle_scroll_input() {
                 *(f32 *)((s8 *)arg0 + 0x88) = (f32) (TWindowDD__data_805DFB20 * (f32) -(*(s32 *)&this->m_84 - *(s32 *)&this->m_88));
             }
         } else if ((apply_both_choices__9TWindowDDFll((u8 *)&this->m_7c, 0x10000) != 0) && ((s32) *(s32 *)&this->m_84 < (s32) (*(s32 *)&this->m_90 - 1))) {
-            if (sub_80341AC0__17TWindowDD_WS_WordFv(arg0) != 0) {
+            if (((TWindowDD_WS_Word *)arg0)->sub_80341AC0() != 0) {
                 temp_r4_2 = *(s32 *)&this->m_94;
                 temp_r4_3 = temp_r4_2 - 1;
                 temp_r5 = *(s32 *)&this->m_84 + (temp_r4_2 - (*(s32 *)&this->m_88 + 1));
@@ -340,7 +349,7 @@ void TWindowDD::handle_scroll_input() {
                 add_scroll_offset((int)((*(s32 *)&this->m_90 - 1) - *(s32 *)&this->m_84));
             }
         } else if ((apply_both_choices__9TWindowDDFll((u8 *)&this->m_7c, 0x20000) != 0) && ((s32) *(s32 *)&this->m_84 > 0)) {
-            if (sub_80341AC0__17TWindowDD_WS_WordFv(arg0) != 0) {
+            if (((TWindowDD_WS_Word *)arg0)->sub_80341AC0() != 0) {
                 var_r30_2 = *(s32 *)&this->m_94 - 1;
                 temp_r3_4 = *(s32 *)&this->m_84 - *(s32 *)&this->m_88;
                 if ((temp_r3_4 - var_r30_2) < 0) {
@@ -378,14 +387,13 @@ void TWindowDD::free_child() {
 
 void TWindowDD::init_child(void* a1) { free_child(); *(void**)((char*)this + 0x70) = a1; init_layout_entries(); load_element_list(); reset_fields(); this->m_a8 = 1; }
 
-typedef char RecoveredGlobal_80341F9C_TWindowDD__data_804EFC50_size[sizeof(RecoveredGlobal_80341F9C_TWindowDD__data_804EFC50) == 0x40 ? 1 : -1];
 void TWindowDD::init_layout_entries() {
     u8 *arg0 = (u8 *)this;
-    *(s32 *)((s8 *)&TWindowDD__data_804EFC50.value + 4) = (s32) this->m_94;
-    init_window_layout_entries(arg0 + 0x24, (void *)&TWindowDD__data_804EFC50.value, (int) (*(s16 *)((s8 *)arg0 + 0x20)));
+    TWindowDD__data_804EFC50.rows = this->m_94;
+    init_window_layout_entries(arg0 + 0x24, &TWindowDD__data_804EFC50, (int) (*(s16 *)((s8 *)arg0 + 0x20)));
 }
 
-void TWindowDD::reset_fields() { *(float*)((char*)this + 0x88) = TWindowDD__data_805DFCA8; *(float*)((char*)this + 0x84) = TWindowDD__data_805DFCA8; this->m_84 = 0; this->m_88 = 0; this->m_a8 = 1; }
+void TWindowDD::reset_fields() { *(float*)((char*)this + 0x88) = 0.0f; *(float*)((char*)this + 0x84) = 0.0f; this->m_84 = 0; this->m_88 = 0; this->m_a8 = 1; }
 
 extern s32 TWindowDD__data_805DFB50;
 
@@ -464,3 +472,66 @@ void TWindowDD::add_scroll_offset(int a1) { this->m_84 = (this->m_84 + a1); this
 
 }
 
+
+extern "C" {
+void render__17TWindowDD_WS_WordFv();
+void handle_scroll_input__9TWindowDDFv();
+void render_shadows__7TObjectFv();
+void *destroy__17TWindowDD_WS_WordFs(void *arg0, s16 arg1);
+}
+
+void *lbl_804EFC90[6] = {
+    (void *)0x0, (void *)0x0, (void *)&destroy__17TWindowDD_WS_WordFs, (void *)&handle_scroll_input__9TWindowDDFv,
+    (void *)&render__17TWindowDD_WS_WordFv, (void *)&render_shadows__7TObjectFv,
+};
+
+s32 TWindowDD_WS_Word::sub_80342254() {
+    TWindowDD_WS_Word *self = this;
+    return !(self->m_60 & 1);
+}
+
+s32 TWindowDD_WS_Word::sub_80342268() {
+    TWindowDD_WS_Word *self = this;
+    return !(self->m_60 & 1);
+}
+
+void *TWindowDD_WS_Word::destroy(s16 arg1) {
+    if (this != NULL) {
+        *(void ***)((s8 *)this + 0x18) = lbl_804EFC90;
+        if (this->m_80 != NULL) { mem_free(this->m_80); this->m_80 = 0; }
+        ((TWindowDD *)this)->destroy_window_base(0);
+        if (arg1 > 0) {
+            TObject::operator delete(this);
+        }
+    }
+    return this;
+}
+
+extern "C" {
+// Constructor body of TWindowDD_WS_Word: element list id and visible row count.
+TWindowDD_WS_Word *TWindowDD__sub_803422F0(TWindowDD_WS_Word *self, s32 element_list, s32 rows) {
+    ((TWindowDD *)self)->construct_base((u8 *)&lbl_804EFC7C, 4, (u8 *)lbl_804EFC74);
+    *(void ***)((s8 *)self + 0x18) = lbl_804EFC90;
+    self->m_name = lbl_805D42E0;
+    self->pad_78 = rows;
+    self->pad_64 = 0;
+    self->pad_88 = 0.0f;
+    self->pad_84 = 0.0f;
+    self->m_60 = 0;
+    self->pad_70 = element_list;
+    ((TWindowDD *)self)->reset_fields();
+    ((TWindowDD *)self)->load_element_list();
+    self->pad_5C = 0x01000000;
+    return self;
+}
+
+s32 TWindowDD__sub_80342384(s32 element_list, s32 rows) {
+    TWindowDD_WS_Word *window;
+    TWindowDD__data_804EFC50.rows = rows;
+    window = (TWindowDD_WS_Word *)TObject::operator new(sizeof(TWindowDD_WS_Word));
+    if (window != NULL) {
+        window = TWindowDD__sub_803422F0(window, element_list, rows);
+    }
+    return (s32)window;
+}
+}

@@ -7,7 +7,6 @@
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/unk/TLobby.h"
-struct TObjGoalWarpAncient;
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/fence/TOVS2Wall01.h"
@@ -327,7 +326,6 @@ extern s32 __vt__12TOVS2Wreck01[];
 // ---- TOVS2Wall01_8017C7A4
 s32 load_resource_from_descriptor(int, int, void *, int, int, int);
 void free_bin_model_request(void*, int);
-u8 *TObjGoalWarpAncient__ct(TObjGoalWarpAncient *arg0, s32 arg1, s32 arg2);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 }
@@ -335,13 +333,6 @@ void *__nw__7TObjectFUl(int);
 #pragma defer_codegen on
 
 extern "C" {
-void *TObjGoalWarpAncient__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xEC);
-    if (o != NULL) {
-        o = TObjGoalWarpAncient__ct((TObjGoalWarpAncient *)((u8 *)o), (s32)tl_05, (s32)arg0);
-    }
-    return o;
-}
 void*TOVS2Wall01::init() { ((TOBarrierEnergy01 *)this)->TOBarrierEnergy01::init(); *(short *)&this->m_next = 0; *(short*)((char*)this + 0xe) = 0; *(unsigned char*)(this) = 134; *(unsigned char*)((char*)this + 0x1) = 4; return this; }
 void TOVS2Wall01::update_and_send() { byteswap_hit_packet(); send_subcommand((u8 *)this); }
 void TOVS2Wall01::byteswap_hit_packet() { ((TLobby *)this)->bswap_header(); bswap_16((u16 *)((char*)this + 0xc)); bswap_16((u16 *)((char*)this + 0xe)); }

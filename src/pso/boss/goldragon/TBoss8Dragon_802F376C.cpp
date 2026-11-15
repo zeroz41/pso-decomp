@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_802F3AB4.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80359A7C.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 
 struct Stack_802F3A48 {
@@ -22,9 +23,7 @@ struct Vec_802F3974 { f32 x, y, z; };
 struct Ent_802F3974 { u8 pad[0x38]; f32 x; f32 y; f32 z; };
 
 extern "C" {
-s32 __nw__7TObjectFUl(int);
-s32 ct_attack_object__12TBoss8DragonFlll(int, int, void *, void *);
-extern s32 tl_04;
+extern TObject *tl_04;
 u16 get_entity_id(void *);
 u8 *get_enemy_entity(u16 arg0);
 extern u32 boss8_dragon_leader_part;
@@ -113,15 +112,8 @@ s32 TBoss8Dragon::is_near_other_part() {
 s32 TBoss8Dragon::spawn_attack_object(s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     s32 arg0 = (s32)this;
     Stack_802F3A48 stack;
-    s32 temp_r3;
-    s32 var_r0;
     if (setup_attack_slot__12TBoss8DragonFiUiiiPv(arg0, arg1, arg2, arg4, (u8 *)&stack.sp8) != 0) {
-        temp_r3 = __nw__7TObjectFUl(0x8A4);
-        var_r0 = temp_r3;
-        if (var_r0 != 0) {
-            var_r0 = ct_attack_object__12TBoss8DragonFlll((int)temp_r3, (int)tl_04, &stack.sp8, (void *)arg3);
-        }
-        return var_r0;
+        return (s32)new TUnk_804F1A78(tl_04, &stack.sp8, arg3);
     }
     return 0;
 }

@@ -5,7 +5,9 @@
 #include "pso/player/TUnk_804B6C24.h"
 
 struct TObjContainerJung : public TUnk_804B6C24 {
+    TObjContainerJung(TObject *parent, void *set_data);
     virtual ~TObjContainerJung();
+    virtual void vfunc_79() const;
     virtual void vfunc_80();
     virtual void vfunc_81();
     virtual void vfunc_6(s16 *, s32);
@@ -18,9 +20,7 @@ struct TObjContainerJung : public TUnk_804B6C24 {
 typedef char TObjContainerJung_size[sizeof(TObjContainerJung) == 0x368 ? 1 : -1];
 
 extern "C" {
-u8 *TObjContainerJung__ct(u8 *arg0, s32 arg1, s32 _w2);
 s32 TObjContainerJung__sub_8018D3B8(s32);
-void *__dt__17TObjContainerJungFv(void *arg0, s16 arg1);
 }
 
 #endif

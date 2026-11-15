@@ -12,11 +12,10 @@
 #include "pso/network/PppMd5.h"
 
 const u8 lbl_8047FE78[64] = {128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-void TLobby__sub_80401D2C(u8 *dst, u32 *self_m) {
+void TLobby__sub_80401D2C(u8 *dst, MD5Context *ctx) {
     u8 buf[8];
     u32 x;
     u32 n;
-    MD5Context *ctx = (MD5Context *)self_m;
     u32 *high;
     buf[0] = ctx->count[0];
     high = &ctx->count[1];
@@ -29,8 +28,8 @@ void TLobby__sub_80401D2C(u8 *dst, u32 *self_m) {
     buf[7] = *high >> 24;
     x = (ctx->count[0] >> 3) & 0x3f;
     n = (x < 0x38) ? (0x38 - x) : (0x78 - x);
-    TLobby__sub_80401EB8((u8 *)ctx, lbl_8047FE78, n);
-    TLobby__sub_80401EB8((u8 *)ctx, buf, 8);
+    TLobby__sub_80401EB8(ctx, lbl_8047FE78, n);
+    TLobby__sub_80401EB8(ctx, buf, 8);
     dst[0] = ctx->state[0];
     dst[1] = ctx->state[0] >> 8;
     dst[2] = ctx->state[0] >> 16;
@@ -50,41 +49,28 @@ void TLobby__sub_80401D2C(u8 *dst, u32 *self_m) {
     NetMemset(ctx, 0, sizeof(MD5Context));
 }
 
-void TLobby__sub_80401EB8(u8 *self_m, u8 *src, u32 len)
+/* MD5Update (RFC 1321) */
+void TLobby__sub_80401EB8(MD5Context *context, u8 *input, u32 inputLen)
 {
-    u32 sum;
-    u32 lo;
-    u32 bits;
-    u32 avail;
-    u32 idx;
-    u32 i;
+    u32 i, index, partLen;
 
-    lo = ((MD5Context *)self_m)->count[0];
-    bits = len << 3;
-    sum = lo + bits;
-    idx = (lo >> 3) & 0x3f;
-    ((MD5Context *)self_m)->count[0] = sum;
-    if (sum < bits) {
-        ((MD5Context *)self_m)->count[1] += 1;
-    }
-    avail = 0x40 - idx;
-    ((MD5Context *)self_m)->count[1] += len >> 29;
-    i = avail;
-    if (len >= avail) {
-        NetMemcpy(&((MD5Context *)self_m)->buffer[idx], src, i);
-        MD5Transform(((MD5Context *)self_m)->state, ((MD5Context *)self_m)->buffer);
-        for (; i + 0x3f < len; i += 0x40) {
-            MD5Transform(((MD5Context *)self_m)->state, &src[i]);
-        }
-        idx = 0;
-    } else {
+    index = (context->count[0] >> 3) & 0x3F;
+    if ((context->count[0] += inputLen << 3) < (inputLen << 3))
+        context->count[1]++;
+    context->count[1] += inputLen >> 29;
+    partLen = 64 - index;
+    if (inputLen >= partLen) {
+        NetMemcpy(&context->buffer[index], input, partLen);
+        MD5Transform(context->state, context->buffer);
+        for (i = partLen; i + 63 < inputLen; i += 64)
+            MD5Transform(context->state, &input[i]);
+        index = 0;
+    } else
         i = 0;
-    }
-    NetMemcpy(&((MD5Context *)self_m)->buffer[idx], &src[i], len - i);
+    NetMemcpy(&context->buffer[index], &input[i], inputLen - i);
 }
 
-void init_md5_state(void *self) {
-    MD5Context *ctx = (MD5Context *)self;
+void init_md5_state(MD5Context *ctx) {
     ctx->count[1] = 0;
     ctx->count[0] = 0;
     ctx->state[0] = 0x67452301;
@@ -121,7 +107,6 @@ void init_md5_state(void *self) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-#pragma opt_common_subs on
 inline void Decode(u32 *output, u8 *input, u32 len) {
     u32 i, j;
     for (i = 0, j = 0; j < len; i++, j += 4) {

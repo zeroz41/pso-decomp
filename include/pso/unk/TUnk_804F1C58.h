@@ -8,15 +8,15 @@ public:
     TUnk_804F1C58(TObject *parent, void *model);
     void set_field_38(s32 v);
     virtual ~TUnk_804F1C58();
-    void *destroy(s16);
     void *model;
-    s32 m_20;
-    f32 m_24;
-    void * m_28;
-    s32 node_count;
-    s32 m_30;
-    s32 m_34;
-    s32 m_38;
+    s32 pad_20;
+    f32 pad_24;
+    void *node_matrices; // node_count blocks of 0x30 bytes (one 3x4 matrix per node)
+    s32 node_count;      // count_tree_nodes() of the model
+    s32 pad_30;
+    s32 pad_34;
+    s32 node_callback;   // TBoss7DeRolLeC installs its per-node draw hook here
+
 };
 typedef char TUnk_804F1C58_size[sizeof(TUnk_804F1C58) == 0x3C ? 1 : -1];
 

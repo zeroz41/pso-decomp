@@ -486,7 +486,6 @@ s32 TLobby__sub_803FE658(u8 *arg0) {
     return TLobby__sub_803FE6CC(arg0, 1, 0, fsm->proto->f28(fsm, fsm->proto));
 }
 
-s32 TLobby__sub_80406624(s32 a, s32 b, u16 code, void *self);
 #pragma push
 #pragma opt_lifetimes off
 s32 TLobby__sub_803FE6CC(void *self, int a, int b, void *c) {
@@ -579,7 +578,7 @@ s32 read_2_bytes(void *self, void *src) {
     return 0;
 }
 
-s32 TLobby__sub_803FE8BC(u8 *dst, void *src) {
+s16 TLobby__sub_803FE8BC(u8 *dst, void *src) {
     u8 buf[4];
     if (dst == 0) {
         return -1;

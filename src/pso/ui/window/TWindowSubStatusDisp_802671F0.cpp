@@ -26,6 +26,7 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80257BC0.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
+#include "pso/unk/text_80268384.h"
 
 // inferred: name from the string the .sdata pointer holds
 const char *TWindowMenuIconLine__name = "TWindowMenuIconLine";
@@ -160,7 +161,6 @@ void text_builder_append(u8 *str);
 void set_text_draw_params(s32 arg0, s32 arg1, s32 arg2, f32 farg0, f32 farg1);
 void draw_window_tab(void *, void *, s32, f32);
 void draw_item_list_capacity(void *arg0, Win_80267714 *arg1, s32 arg2, s32 arg3);
-s32 get_array_entry__11TWindowBaseFi(void *, s16);
 s32 lbl_804D05F8[3] = {1, 0, 8};
 WindowDescriptor lbl_804D0604 = {
     {0.0f, 0.0f}, 50050.0f, lbl_804D05F8, 3,
@@ -181,14 +181,12 @@ s32 is_flag80_set__20TWindowSubStatusDispFv(s32);
 s32 advance_state__20TWindowSubStatusDispFv();
 u32 reset_selection__20TWindowSubStatusDispFv(int, void *);
 u32 construct_type1_heading__20TWindowSubStatusDispFll(u32, s32, s16);
-s32 is_decided__19TWindowMenuIconLineFv(void *);
 s32 is_flag_4_set__20TWindowSubStatusDispFv();
 }
 void text_builder_reset();
 s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width);
 void draw_selection_bar(u8 *arg0, u8 *arg1, s32 arg2);
 extern "C" {
-u8 *fn_802683F4(void *, s32, s32, s16);
 u8 *__nw__7TObjectFUl(s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(int, int);
@@ -713,7 +711,7 @@ void TWindowMenuIconLine__ct(u8 *arg0, u32 arg1, s32 arg2) {
     }
 }
 
-u8 *fn_80267F38(s32 arg0, s32 arg1, s32 arg2, s16 arg3) {
+u8 *fn_80267F38(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u8 *temp_r3;
     u8 *var_r0;
     ((s32 (*)(void *, void *))TShopJudgmentItemWindow__sub_80267F9C)((void *)arg1, (void *)arg2);
@@ -811,4 +809,31 @@ void *TWindowSubStatusDisp::destroy_item_list_resources(s16 arg1) {
     }
     return this;
 }
+}
+
+struct VBase_18_2ead46 { char pad[0x18]; };
+
+struct VObj_18_2ead46 : VBase_18_2ead46 {
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    virtual s32 m4(s32, s16);
+};
+
+extern "C" {
+s32 construct_with_parent__15TWindowAdditionFPv(void *, void *, void *, void *);
+u8 *fn_80268384(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    construct_with_parent__15TWindowAdditionFPv((void *)arg0, (void *)arg4, (void *)arg3, (void *)arg1);
+    *(s32 **)((s8 *)arg0 + 0x18) = lbl_804D0618;
+    ((VObj_18_2ead46 *)(arg0))->m4(arg2, (s16) arg3);
+    return arg0;
+}
+u8 *fn_802683F4(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
+    construct_with_parent__15TWindowAdditionFPv((void *)arg0, &lbl_804D0604, (void *)arg3, (void *)arg1);
+    *(s32 **)((s8 *)arg0 + 0x18) = lbl_804D0618;
+    ((VObj_18_2ead46 *)(arg0))->m4(arg2, (s16) arg3);
+    return arg0;
+}
+
 }

@@ -1351,7 +1351,6 @@ s32 query_teammate_state__9TObjEneDDFv();
 
 u32 __nw__7TObjectFUl(int);
 
-s32 sub_802ECB10__14TBoss7DeRolLeCFv();
 
 s32 apply_with_callback__10TObjPlayerFlf(int, int);
 
@@ -1714,7 +1713,7 @@ void TBoss7DeRolLeC::run_task() {
         temp_r0_3 = this->unk_6B8;
         if (temp_r0_3 != 1) {
             if (temp_r0_3 == 2) {
-                if (((s32 (*)(void *))sub_802ECB10__14TBoss7DeRolLeCFv)(this) != 0) {
+                if (sub_802ECB10() != 0) {
                     this->sub_802ECAA4();
                 } else {
                     dispatch_action(this->mode, 2);
@@ -1763,7 +1762,7 @@ void TBoss7DeRolLeC::run_task() {
 void TObjPlayer__sub_802ED984(void) {  }
 
 void TBoss7DeRolLeC::update_or_dispatch() {
-    if (sub_802ECB10__14TBoss7DeRolLeCFv() != 0) {
+    if (sub_802ECB10() != 0) {
         sub_802ECAA4();
         return;
     }
@@ -2221,7 +2220,7 @@ void TObjFish::set_hooked_effect_target() {
     TObjFish::set_effect_target_position(this, (void *)0x3A312, ((u8 *)this) + 0x38);
 }
 
-u8 TBoss7DeRolLeC::sub_802ECB10() {
+s32 TBoss7DeRolLeC::sub_802ECB10() {
     s32 var_r4;
 
     var_r4 = 0;

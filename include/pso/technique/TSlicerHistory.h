@@ -12,7 +12,7 @@ public:
 };
 
 extern "C" {
-u8 *__ct__14TSlicerHistoryFv(u8 *arg0, s32 arg1, s32 arg2, u32 arg3, s32 arg4);
+u8 *__ct__14TSlicerHistoryFv(u8 *arg0, u8 *arg1, s32 arg2, u8 *arg3, s32 arg4);
 }
 
 #endif

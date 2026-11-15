@@ -123,6 +123,8 @@ public:
     virtual void render_shadows();
 public:
     static s32 get_render_pass();
+    // Resets the per-floor game objects (item loader, cleanup helpers, floor items) after a floor change.
+    static void cleanup_game_objects();
 };
 
 #endif

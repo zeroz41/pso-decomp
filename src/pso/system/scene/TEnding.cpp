@@ -4,7 +4,7 @@
 #include "pso/effect/particle/ParticleRadial.h"
 #include "pso/system/scene/TEndingAB.h"
 #include "pso/system/scene/TEndingC_8008D00C.h"
-#include "pso/system/task/TMainTask_80104C40.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/unk/TLobby.h"
@@ -68,7 +68,7 @@ TEnding::~TEnding() {
 TEnding::TEnding() : TObject(tl_window) {
     m_name = TEnding__class_name;
     TEnding__sub_8008C9F8();
-    cleanup_game_objects__9TMainTaskFv();
+    TMainTask::cleanup_game_objects();
     set_current_floor_area(1);
     switch (TKeyBoardControl__sub_8000F828()) {
     case 0: timing_rate = 30; break;

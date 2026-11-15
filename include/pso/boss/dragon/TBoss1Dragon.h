@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/render/RenderFadeState.h"
+#include "pso/boss/derolle/AccelerationCurve.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 
 class TBoss1DragonEffTail;
@@ -126,8 +127,8 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     f32 defaultHeightOffset;
     f32 m_5e4;
     Vec m_5e8;
-    u8 m_5f4[0x24];
-    u8 m_618[0x24];
+    AccelerationCurve m_5f4;
+    AccelerationCurve m_618;
     Vec m_63c;
     Vec m_648;
     s32 m_654;

@@ -41,7 +41,6 @@ u8 *alloc_from_buffer(void *self, s16 arg1);
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-#pragma opt_common_subs on
 inline u8 *vj_encode(u8 *cp, u32 n) {
     if ((u16)n >= 256 || (u16)n == 0) {
         *cp++ = 0;
@@ -215,7 +214,6 @@ void TLobby__sub_80405000(u32 mode) {
 }
 
 s32 init_net_list(s16 count1, s16 count2) {
-    Node_80405008 *n;
     Node_80405008 *base;
     s16 i;
     List_80405008 *p = (List_80405008 *)lbl_805C06D8;
@@ -233,16 +231,12 @@ s32 init_net_list(s16 count1, s16 count2) {
     p->c = 0xFF;
     if (count2 > 0) {
         base = p->list;
-        n = &base[(s16)p->n2];
-        i = p->n2;
-        while (i > 0) {
-            n->id = i;
-            n->next = &base[i - 1];
-            n--;
-            i--;
+        for (i = p->n2; i > 0; i--) {
+            base[i].id = i;
+            base[i].next = &base[i - 1];
         }
-        base->next = &base[p->n2];
-        base->id = 0;
+        base[0].next = &base[p->n2];
+        base[0].id = 0;
     }
     return (s32)p;
 }

@@ -27,7 +27,17 @@ void TQuestVmDownLoadServer__sub_801F6B98(void);
 }
 extern void *TMCFormatSequence__class_name;
 extern RecoveredGlobal_801F6C74_lbl_8050E208 controller_input_state;
-extern s32 TQuestVmDownLoadServer__instance;
+// This TU's .sbss, 0x805D5F00-0x805D5F28 (address order).
+s32 TQuestVmDownLoadServer__dat_download_complete;
+s32 TQuestVmDownLoadServer__bin_download_complete;
+s32 TQuestVmDownLoadServer__pvr_download_complete;
+s32 TQuestVmDownLoadServer__gba_download_complete;
+u8 TQuestVmDownLoadServer__download_kind;
+u32 TQuestVmDownLoadServer__download_window;
+s32 quest_download_in_progress;
+s32 TQuestVmDownLoadServer__total_download_bytes;
+s32 TQuestVmDownLoadServer__received_file_bytes;
+s32 TQuestVmDownLoadServer__instance;
 
 struct RecoveredGlobal_801F6C74_lbl_8050E208 {
     s32 value;
@@ -49,7 +59,6 @@ void *__nw__7TObjectFUl(s32);
 typedef char RecoveredGlobal_801F6C74_lbl_8050E208_size[sizeof(RecoveredGlobal_801F6C74_lbl_8050E208) == 0x1B0 ? 1 : -1];
 typedef char RecoveredGlobal_801F6C74_lbl_8050E208_size[sizeof(RecoveredGlobal_801F6C74_lbl_8050E208) == 0x1B0 ? 1 : -1];
 }
-extern s32 quest_download_in_progress;
 extern s32 tl_00;
 
 struct Pair_801F6E08 { s32 a; s32 b; };extern "C" {
@@ -164,19 +173,11 @@ extern u8 TQuestVmDownLoadServer__memcard_key[];
 extern char TQuestVmDownLoadServer__data_805DC5B8[];
 extern char TQuestVmDownLoadServer__data_805DC5BC[];
 extern Src_801F718C quest_download_file_info;
-extern u8 TQuestVmDownLoadServer__download_kind;
 struct Slot_801F7FEC { u8 pad[0x34]; s32 f34; void *f38; };
 struct Slot_801F8D30 { u8 pad[0x34]; s32 f34; void *f38; };
 extern "C" {
 s32 TAdPlayerLoadGC__sub_801E1518(void *, s32, u32);
 }
-extern s32 TQuestVmDownLoadServer__dat_download_complete;
-extern s32 TQuestVmDownLoadServer__bin_download_complete;
-extern s32 TQuestVmDownLoadServer__pvr_download_complete;
-extern s32 TQuestVmDownLoadServer__gba_download_complete;
-extern u32 TQuestVmDownLoadServer__download_window;
-extern s32 TQuestVmDownLoadServer__total_download_bytes;
-extern s32 TQuestVmDownLoadServer__received_file_bytes;
 struct Src_801F8A40 {
     char name[0x10];
     char title[0x24];
