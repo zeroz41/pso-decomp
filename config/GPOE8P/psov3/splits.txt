@@ -5908,15 +5908,11 @@ pso/quest/TQuestVmDownLoadServer_801F9010.cpp:
 	.text       start:0x801F9010 end:0x801F9058
 
 pso/ui/hud/TRaderMapCore.cpp:
-	.text       start:0x801F9058 end:0x801FB2B8
-	.rodata     start:0x8044A7A0 end:0x8044A7B0
+	.text       start:0x801F9058 end:0x801FBA20
+	.rodata     start:0x8044A7A0 end:0x8044A7D0
 	.data       start:0x804C8738 end:0x804C8848
 	.bss        start:0x80512D08 end:0x805137C8
-	.sdata2     start:0x805DC540 end:0x805DC560
-
-pso/ui/hud/TRaderMapCore_801FB2B8.cpp:
-	.text       start:0x801FB2B8 end:0x801FBA20
-	.rodata     start:0x8044A7B0 end:0x8044A7D0
+	.sdata2     start:0x805DC528 end:0x805DC5B4
 
 pso/system/scene/TScene_801FBA20.cpp:
 	.text       start:0x801FBA20 end:0x801FBA28

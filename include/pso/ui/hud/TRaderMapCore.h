@@ -4,6 +4,7 @@
 #include "types.h"
 #include <stddef.h>
 #include "pso/object/base/TObjMotion.h"
+#include "pso/system/NinjaTypes.h"
 
 struct RadarViewportParameters
 {
@@ -17,12 +18,25 @@ struct RadarViewportParameters
     f32 screen_height;
 };
 
+// One player marker on the radar. draw_player_markers translates it to (x, z), turns it by rot_y,
+// scales it by scale and tints it with color; id -1 marks an empty slot.
+struct RadarPlayerMarker {
+    f32 x;
+    f32 y;
+    f32 z;
+    s32 rot_y;
+    f32 scale;
+    u8 pad_14[2];
+    s16 id;
+    NJS_ARGB color;
+};
+
 struct TRaderMapCore : public TObjBase {
     virtual ~TRaderMapCore();
     void update_follow_projection(s32);
     virtual void run_task();
     s32 m_90;
-    u8 player_marker_records[0xA0];
+    RadarPlayerMarker player_marker_records[4];
     s32 m_134;
     u8 unknown138[0x8];
     f32 m_140;
@@ -30,8 +44,8 @@ struct TRaderMapCore : public TObjBase {
     u8 unknown148[0x8];
     f32 m_150;
     u8 unknown154[0xC];
-    f32 m_160;
-    f32 m_164;
+    f32 viewport_width;
+    f32 viewport_height;
     s32 m_168;
     s32 m_16c;
     f32 m_170;
@@ -56,6 +70,7 @@ struct TRaderMapCore : public TObjBase {
     static void hide_radar();
     static void show_radar();
     static s32 set_view_scissor(void *self, int mode, void *arg2);
+    static s32 save_floor_discovery(int floor, void *map_data);
     static void free_map_data();
     static void free_heap();
     static void set_piece_flags(s32 arg0);
@@ -63,12 +78,15 @@ struct TRaderMapCore : public TObjBase {
     static void open_free_map_view();
     static void pan_vertical(f32 farg0);
     static void pan_horizontal(f32 farg0);
+    void reset_marker_scale();
     static s32 block_region_by_id(s16 id);
     static s32 reveal_region_by_id(s16 id);
+    void set_marker_shown(s32 slot, s32 shown);
     void draw_player_markers();
     void copy_transform(void* q);
     void setup_view(s32 arg1);
     void render_region_records(void * _w1);
+    void set_default_view_size();
     virtual void render();
     s32 is_render_admitted(void *arg1);
     void update_pan_zoom_input();
@@ -95,6 +113,7 @@ struct TRaderMapCore : public TObjBase {
     static void draw_backdrop(TRaderMapCore *self, s32 mode);
 };
 
+typedef char RadarPlayerMarkerSize[(sizeof(RadarPlayerMarker) == 0x28) ? 1 : -1];
 typedef char RadarViewportSize[(sizeof(RadarViewportParameters) == 0x30) ? 1 : -1];
 typedef char RadarViewportCenterX[(offsetof(RadarViewportParameters, center_x) == 0x8) ? 1 : -1];
 typedef char RadarViewportCenterY[(offsetof(RadarViewportParameters, center_y) == 0xC) ? 1 : -1];
@@ -105,7 +124,7 @@ typedef char RaderMapCoreSize[(sizeof(TRaderMapCore) == 0x1A4) ? 1 : -1];
 typedef char RaderMapCoreDelay[(offsetof(TRaderMapCore, m_90) == 0x90) ? 1 : -1];
 typedef char RaderMapCoreMarkers[(offsetof(TRaderMapCore, player_marker_records) == 0x94) ? 1 : -1];
 typedef char RaderMapCoreSelectedPlayer[(offsetof(TRaderMapCore, m_134) == 0x134) ? 1 : -1];
-typedef char RaderMapCoreViewportWidth[(offsetof(TRaderMapCore, m_160) == 0x160) ? 1 : -1];
+typedef char RaderMapCoreViewportWidth[(offsetof(TRaderMapCore, viewport_width) == 0x160) ? 1 : -1];
 typedef char RaderMapCoreTarget[(offsetof(TRaderMapCore, m_184) == 0x184) ? 1 : -1];
 typedef char RaderMapCoreTail[(offsetof(TRaderMapCore, m_1a0) == 0x1A0) ? 1 : -1];
 

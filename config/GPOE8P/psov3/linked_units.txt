@@ -1209,7 +1209,7 @@ pso/quest/TQuestVmDownLoadServer_803E8918.cpp
 pso/quest/TQuestVmDownLoadServer_803EB0D8.cpp
 pso/ui/hud/TRaderMapCore_801A6CEC.cpp
 pso/ui/hud/TRaderMapCore_801F3710.cpp
-pso/ui/hud/TRaderMapCore_801FB2B8.cpp
+pso/ui/hud/TRaderMapCore.cpp
 pso/ui/hud/TRaderMapCore_8030A808.cpp
 pso/network/TRecvDownload.cpp
 pso/network/TRecvDownloadHead.cpp

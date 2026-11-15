@@ -622,7 +622,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -str reuse,readonly: the model/archive names 0x80444280-0x80444720 sit in .rodata.
     # -sdata 4: the 8-byte name lists 0x804B5E8C/0x804B5EC0 sit in .data, the 4-byte {NULL} lists in .sdata.
     "pso/unk/text_80184C2C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
-    "pso/ui/hud/TRaderMapCore_801FB2B8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/hud/TRaderMapCore.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/charcreate/TChCrEffTag.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdAgreementBaseGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdEnterPasswordGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
