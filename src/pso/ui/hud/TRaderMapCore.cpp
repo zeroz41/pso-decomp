@@ -355,9 +355,6 @@ extern Vec3_801F9314 lbl_8044A794;
 extern u8 identity_matrix[];
 extern f32 lbl_805D3608;
 extern f32 radar_overhead_projection_scale;
-extern const f32 lbl_805DC548;
-extern const f32 lbl_805DC54C;
-extern const f32 lbl_805DC550;
 void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1);
 void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
@@ -491,7 +488,7 @@ void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1) 
     rotate_matrix_y(0, 0x8000 - arg1->rot);
     rotate_vector_by_matrix(0, &up, &up);
     pop_matrix();
-    set_perspective_projection_from_fov((s32)(lbl_805DC548 * radar_overhead_projection_scale), lbl_805DC54C, TRaderMapCore__data_805DC534, lbl_805DC550);
+    set_perspective_projection_from_fov((s32)(182.04445f * radar_overhead_projection_scale), 1.1333334f, TRaderMapCore__data_805DC534, 10000.0f);
     set_camera_look_at((u8 *)&eye, (u8 *)&at, (u8 *)&up);
 }
 
