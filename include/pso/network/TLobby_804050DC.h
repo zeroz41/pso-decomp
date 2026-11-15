@@ -44,14 +44,14 @@ void init_msg(void *self, s32 arg1);
 void init_net_block_18A0(void);
 void init_packet_header(void *self, s32 arg1);
 s32 invoke_socket_callback(s16 i, s32 arg);
-s32 is_entry_flag10_set(s16 i);
+s16 is_entry_flag10_set(s16 i);
 s32 is_slot_flag_0x20_set(s16 i);
 s32 is_slot_flag_0x40_set(s16 i);
 void process_expired_timers(void);
 s32 run_net_init_step(void);
 void set_value_and_enable(void *self, s32 arg1);
 s32 shutdown_network_handle(void);
-s32 is_socket_flag_set(s16 i);
+s16 is_socket_flag_set(s16 i);
 s32 TLobby__sub_8040A044(s16 idx, u32 a, s32 b, u32 *c);
 void TLobby__sub_804050DC(s16 arg0);
 s32 TLobby__sub_804062A0(s16 arg0);
@@ -106,7 +106,9 @@ s16 TLobby__sub_8040EF00(s16);                       /* NetIpv4Route.c */
 s32 TLobby__sub_80407418(s16 id);
 void forward_net_op_5args(s16, s16, s16, s16, s16, s32, s8, s32);
 /* The handler table (src/pso/network/NetHandlerTable.c). */
-s32 TLobby__sub_80409D7C(s16, s32, s32, s32);
+s16 TLobby__sub_80409CE0(s16 idx, s32 handle, s32 op, void *addr);
+s16 TLobby__sub_80409D7C(s16 idx, s32 handle, s32 op, void *addr);
+s16 TLobby__sub_8040A0C0(s16 idx, void *dst);
 s32 TLobby__sub_80409E18(s16, s32, s32);
 s32 TLobby__sub_80409EB0(s16, s32);
 /* ICMP (src/pso/network/NetIcmp.c). */
