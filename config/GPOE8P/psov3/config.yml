@@ -15975,7 +15975,7 @@ force_active:
   - spawn_slow_effect__10TObjPlayerFii
   - spawn_sub_objects__15TBoss3VoloptP02Fv
   - spawn_targeted_beam__16TObjEneNanoDragoFl
-  - spawn_title_screen__12TAdDialingGCFl
+  - spawn_title_screen__12TAdDialingGCFv
   - spawn_trap__12TBoss1DragonFii
   - spawn_trap_by_stat__9TBoss6MagFv
   - spawn_wave_ring_particles__15TBoss6SwordWaveFv

@@ -2643,3 +2643,4 @@ pso/weapon/TItemAttackCol.cpp
 pso/ui/window/TWindowSubStatusDisp_8026DFE8.cpp
 pso/unk/TLobby_803BFE50.cpp
 pso/unk/text_8020B5CC.cpp
+pso/ui/frontend/TAdDialingGC_80328B20.cpp

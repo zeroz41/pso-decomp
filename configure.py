@@ -924,6 +924,15 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # (`xoris/xori 0xFFFF`; 2.x always emits `li -1; xor`), and five others.
     # TObjCamera: 1.3.2 copies CameraSoundEvent member by member unscheduled.
     "pso/camera/TObjCamera.cpp": {"mw_version": "GC/1.3.2"},
+    # TAdDialingGC (0x80328210-0x80328F7C, one TU split in five): the quad drawer 0x80328B24 takes
+    # `const f32 *` (its callers pass .rodata arrays); 2.x CSEs every const read across the polygon
+    # stores, 1.3.2 hoists only the first point's loads and reloads the rest, as the original does.
+    # Every other function of the five units compiles the same under both.
+    "pso/ui/frontend/TAdDialingGC_80328210.cpp": {"mw_version": "GC/1.3.2"},
+    "pso/ui/frontend/TAdDialingGC_80328B20.cpp": {"mw_version": "GC/1.3.2"},
+    "pso/ui/frontend/TAdDialingGC.cpp": {"mw_version": "GC/1.3.2"},
+    "pso/ui/frontend/TAdDialingGC_80328E50.cpp": {"mw_version": "GC/1.3.2"},
+    "pso/ui/frontend/TAdDialingGC_80328E90.cpp": {"mw_version": "GC/1.3.2"},
     "pso/object/TObjComputer.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # The next two container units (and TOContainerAncientEnemy) emit their
     # functions and vtables last-to-first: -inline off,deferred, with the

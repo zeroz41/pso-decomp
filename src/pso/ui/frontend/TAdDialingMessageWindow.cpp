@@ -2,6 +2,7 @@
 #pragma readonly_strings on
 #include "types.h"
 #include "pso/ui/frontend/TAdDialingMessageWindow.h"
+#include "pso/ui/frontend/TAdDialingGC_80328B20.h"
 
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
@@ -17,7 +18,6 @@ struct VObj_8036A248_8036A174 : Base_8036A248_8036A174 { virtual void m0(int); }
 extern "C" {
 const char *TAdDialingMessageWindow__name = "TAdDialingMessageWindow";
 
-void TAdDialingGC__sub_80328B24(const f32 *, const f32 *);
 const f32 lbl_8047A400[2] = {0.0f, 28.0f};
 const f32 lbl_8047A408[2] = {640.0f, 84.0f};
 void __ct__7TObjectFP7TObject(void *, void *);
