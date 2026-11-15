@@ -1317,7 +1317,7 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         "pso/network/PppPap.c": {"cflags": _switch(cflags_middleware, "-opt nocse", "-str reuse,readonly")},
         "pso/network/PppControl.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/PppVj.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
-        "pso/network/TLobby_804048E8.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        # TLobby_804048E8.c was built with CSE: its VJ compressor matches only with it, init_net_list as BSD writes it.
         "pso/network/TLobby_804050DC.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         # NetArp.c was built with CSE: every function matches with it, TLobby__sub_80407640 only with it.
         "pso/network/NetEthernet.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
