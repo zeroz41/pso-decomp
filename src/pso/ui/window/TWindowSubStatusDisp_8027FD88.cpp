@@ -128,120 +128,116 @@ inline int TWindowSubStatusDisp::get_record_slot(int base) {
 
 // Best-time records page: the online (m_60 == 2) variant shows the other record slots.
 void TWindowSubStatusDisp::vt4() {
-    s32 slot;
-    u16 *entry;
-    u16 *label;
-    u16 *value;
-    u16 *name;
-    s8 *player_name;
-    s32 rank;
-    s32 time;
-
     if ((f32)(s32)m_5c > TWindowSubStatusDisp__data_805DD708) {
         m_5c = 7;
     }
     init_window_layout_entries(&m_24, TWindowSubStatusDisp__rank_time_records_layout, m_20);
     ((TWindowSubStatusDisp *)m_68)->get_type();
-    slot = get_record_slot(0);
-    entry = (u16 *)get_array_entry(0);
-    if (slot == 0) {
-        set_text_entry_string((u8 *)entry, (u32)TWindowSubStatusDisp::get_message_10(0x90), 0);
+
+    const s32 heading_slot = get_record_slot(0);
+    s32 slot = heading_slot;
+    u16 *title = (u16 *)get_array_entry(0);
+    if (heading_slot == 0) {
+        set_text_entry_string((u8 *)title, (u32)TWindowSubStatusDisp::get_message_10(0x90), 0);
     } else {
-        set_text_entry_string((u8 *)entry, (u32)TWindowSubStatusDisp::get_message_10(0x93), 0);
+        set_text_entry_string((u8 *)title, (u32)TWindowSubStatusDisp::get_message_10(0x93), 0);
     }
 
-    entry = (u16 *)get_array_entry(1);
-    value = (u16 *)get_array_entry(2);
-    name = (u16 *)get_array_entry(3);
-    player_name = (s8 *)TWindowSubStatusDisp::get_status_window((u16)m_20);
-    if (slot != 0 || player_name == NULL || *player_name == 0) {
-        *entry |= 2;
+    title = (u16 *)get_array_entry(1);
+    u16 *spacer = (u16 *)get_array_entry(2);
+    u16 *value = (u16 *)get_array_entry(3);
+    const s8 *name = (const s8 *)TWindowSubStatusDisp::get_status_window((m_20 & 0xFFFFL));
+    if (slot != 0 || name == NULL || *name == 0) {
+        *title |= 2;
+        *spacer |= 2;
         *value |= 2;
-        *name |= 2;
     } else {
-        *entry &= ~2;
+        *title &= ~2;
+        *spacer &= ~2;
         *value &= ~2;
-        *name &= ~2;
-        set_text_entry_string((u8 *)entry, (u32)TWindowSubStatusDisp::get_message_10(0x9B), 0);
-        set_text_entry_string((u8 *)name, (u32)player_name, 0x20);
-        *(s32 *)((u8 *)name + 0x24) = TWindowSubStatusDisp::get_status_index((u16)m_20);
+        set_text_entry_string((u8 *)title, (u32)TWindowSubStatusDisp::get_message_10(0x9B), 0);
+        set_text_entry_string((u8 *)value, (u32)name, 0x20);
+        *(s32 *)((u8 *)value + 0x24) = TWindowSubStatusDisp::get_status_index((m_20 & 0xFFFFL));
     }
 
-    entry = (u16 *)get_array_entry(4);
-    value = (u16 *)get_array_entry(5);
-    label = (u16 *)get_array_entry(6);
-    rank = TWindowSubStatusDisp__sub_80071868((u16)m_20, slot);
+    title = (u16 *)get_array_entry(4);
+    spacer = (u16 *)get_array_entry(5);
+    value = (u16 *)get_array_entry(6);
+    s32 rank = TWindowSubStatusDisp__sub_80071868((u16)m_20, slot);
     if (rank == 0) {
-        *entry |= 2;
+        *title |= 2;
+        *spacer |= 2;
         *value |= 2;
-        *label |= 2;
     } else {
-        *entry &= ~2;
+        *title &= ~2;
+        *spacer &= ~2;
         *value &= ~2;
-        *label &= ~2;
         if (slot == 0) {
-            set_text_entry_string((u8 *)entry, (u32)TWindowSubStatusDisp::get_message_10(0x98), 0);
+            set_text_entry_string((u8 *)title, (u32)TWindowSubStatusDisp::get_message_10(0x98), 0);
         } else {
-            set_text_entry_string((u8 *)entry, (u32)TWindowSubStatusDisp::get_message_10(0x9A), 0);
+            set_text_entry_string((u8 *)title, (u32)TWindowSubStatusDisp::get_message_10(0x9A), 0);
         }
-        set_text_entry_string((u8 *)label, (u32)lbl_804D2B20[rank], 0);
+        set_text_entry_string((u8 *)value, (u32)lbl_804D2B20[rank], 0);
     }
 
-    entry = (u16 *)get_array_entry(7);
-    value = (u16 *)get_array_entry(8);
-    label = (u16 *)get_array_entry(9);
-    time = TWindowSubStatusDisp__sub_80071988((u16)m_20, slot);
+    title = (u16 *)get_array_entry(7);
+    spacer = (u16 *)get_array_entry(8);
+    value = (u16 *)get_array_entry(9);
+    s32 time = TWindowSubStatusDisp__sub_80071988((m_20 & 0xFFFFL), slot);
     if (time == 0) {
-        *entry |= 2;
+        *title |= 2;
+        *spacer |= 2;
         *value |= 2;
-        *label |= 2;
     } else {
-        *entry &= ~2;
+        *title &= ~2;
+        *spacer &= ~2;
         *value &= ~2;
-        *label &= ~2;
         if (slot == 0) {
-            set_text_entry_string((u8 *)entry, (u32)TWindowSubStatusDisp::get_message_10(0x95), 0);
+            set_text_entry_string((u8 *)title, (u32)TWindowSubStatusDisp::get_message_10(0x95), 0);
         } else {
-            set_text_entry_string((u8 *)entry, (u32)TWindowSubStatusDisp::get_message_10(0x97), 0);
+            set_text_entry_string((u8 *)title, (u32)TWindowSubStatusDisp::get_message_10(0x97), 0);
         }
         text_builder_reset();
         TWindowSubStatusDisp::append_play_time(time);
-        set_text_entry_string((u8 *)label, get_shared_text_buffer(), 0x20);
+        set_text_entry_string((u8 *)value, get_shared_text_buffer(), 0x20);
     }
 
-    slot = get_record_slot(1);
-    entry = (u16 *)get_array_entry(0xA);
-    value = (u16 *)get_array_entry(0xB);
-    label = (u16 *)get_array_entry(0xC);
-    rank = TWindowSubStatusDisp__sub_80071868((u16)m_20, slot);
+    slot = 1;
+    if (m_60 == 2) {
+        slot = 3;
+    }
+    title = (u16 *)get_array_entry(10);
+    spacer = (u16 *)get_array_entry(11);
+    value = (u16 *)get_array_entry(12);
+    rank = TWindowSubStatusDisp__sub_80071868((m_20 & 0xFFFFL), slot);
     if (rank == 0) {
-        *entry |= 2;
+        *title |= 2;
+        *spacer |= 2;
         *value |= 2;
-        *label |= 2;
     } else {
-        *entry &= ~2;
+        *title &= ~2;
+        *spacer &= ~2;
         *value &= ~2;
-        *label &= ~2;
-        set_text_entry_string((u8 *)entry, (u32)TWindowSubStatusDisp::get_message_10(0x99), 0);
-        set_text_entry_string((u8 *)label, (u32)lbl_804D2B20[rank], 0);
+        set_text_entry_string((u8 *)title, (u32)TWindowSubStatusDisp::get_message_10(0x99), 0);
+        set_text_entry_string((u8 *)value, (u32)lbl_804D2B20[rank], 0);
     }
 
-    entry = (u16 *)get_array_entry(0xD);
-    value = (u16 *)get_array_entry(0xE);
-    label = (u16 *)get_array_entry(0xF);
-    time = TWindowSubStatusDisp__sub_80071988((u16)m_20, slot);
+    title = (u16 *)get_array_entry(13);
+    spacer = (u16 *)get_array_entry(14);
+    value = (u16 *)get_array_entry(15);
+    time = TWindowSubStatusDisp__sub_80071988((m_20 & 0xFFFFL), slot);
     if (time == 0) {
-        *entry |= 2;
+        *title |= 2;
+        *spacer |= 2;
         *value |= 2;
-        *label |= 2;
     } else {
-        *entry &= ~2;
+        *title &= ~2;
+        *spacer &= ~2;
         *value &= ~2;
-        *label &= ~2;
-        set_text_entry_string((u8 *)entry, (u32)TWindowSubStatusDisp::get_message_10(0x96), 0);
+        set_text_entry_string((u8 *)title, (u32)TWindowSubStatusDisp::get_message_10(0x96), 0);
         text_builder_reset();
         TWindowSubStatusDisp::append_play_time(time);
-        set_text_entry_string((u8 *)label, get_shared_text_buffer(), 0x20);
+        set_text_entry_string((u8 *)value, get_shared_text_buffer(), 0x20);
     }
 }
 
