@@ -14,7 +14,6 @@ struct TObjMapForceWarp : public TObjMapWarp {
     virtual void draw_debug_destinations();
     s32 display_number;  // inferred: 0 when set_params[2] > 0; printed as "<- DISP NUMBER"
     virtual void render();
-    static void register_warp(void* a0);
 };
 
 typedef char TObjMapForceWarp_size[sizeof(TObjMapForceWarp) == 0x100 ? 1 : -1];

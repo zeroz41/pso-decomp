@@ -54,7 +54,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/system/TLanguage_801E4874.h"
-#include "pso/unk/text_8019DBB4.h"
+#include "pso/object/warp/ForestWarpResources.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/byteswap.h"
@@ -346,9 +346,6 @@ u8 * __ct__14TObjWarpStringFv(u8 *arg0, u8 *arg1, s32 arg2, s16 arg3);
 void handle_6x94_inter_level_warp(Pkt_8019C988 *arg0);
 s32 can_warp__11TObjMapWarpFlUs(void *, u16);
 void *find_warp_player_in_range(void *self, u16 client_id, f32 range);
-int TAdStorySelectGC__sub_8019DC14(void);
-s32 register_area_warp_object__16TAdStorySelectGCFPv(int);
-s32 register_warp__16TObjMapForceWarpFPv(int);
 void TObjAreaWarpQuest__sub_8019DCD8(void *, s32);
 f32 get_static_field4_as_float__12TObjWarpJungFv(f32);
 s32 TObjWarpJung__sub_801A0404(s32);
@@ -488,21 +485,15 @@ s32 TObjAreaWarpQuest::get_dest_area() { return *(s32 *)&this->m_next; }
 
 TObjMapWarpForest::~TObjMapWarpForest() {}
 
-extern "C" {
-
-extern s32 lbl_805D67C0;
-
 void TObjMapForceWarp::open_confirm_window(s32) {}
 
-void TObjMapForceWarp::register_warp(void *a0) { get_bml_model(forest_warp_bml_resource, (s32)a0); }
+s32 get_forest_warp_model(s32 index) { return get_bml_model(forest_warp_bml_resource, index); }
 
-void TAdStorySelectGC::register_area_warp_object(void *a0) { get_bml_motion(forest_warp_bml_resource, (s32)a0); }
+AnimationMotion *get_forest_warp_motion(s32 index) { return get_bml_motion(forest_warp_bml_resource, index); }
 
-int TAdStorySelectGC::get_story_select() { return forest_warp_texture_list; }
+u32 get_forest_warp_textures() { return forest_warp_texture_list; }
 
-int TAdStorySelectGC__sub_8019DC14(void) { return lbl_805D67C0; }
-
-}
+int TAdStorySelectGC::get_story_select() { return story_select_cursor; }
 
 void load_forest_warp_resources(void) {
     BmlResource *resource = (BmlResource *)::operator new(0x440);
@@ -796,10 +787,10 @@ const char *TObjMapWarpForest__name = "TObjMapWarpForest";
 
 TObjMapWarpForest::TObjMapWarpForest(TObject *parent, void *set_data) : TObjMapWarp(parent, set_data) {
     m_name = TObjMapWarpForest__name;
-    *(s32 *)((s8 *)this + 0x100) = register_warp__16TObjMapForceWarpFPv(4);
-    *(s32 *)((s8 *)this + 0x104) = register_warp__16TObjMapForceWarpFPv(5);
-    *(s32 *)((s8 *)this + 0x108) = register_area_warp_object__16TAdStorySelectGCFPv(2);
-    *(s32 *)((s8 *)this + 0x10C) = TAdStorySelectGC::get_story_select();
+    baseModel = get_forest_warp_model(4);
+    beamModel = get_forest_warp_model(5);
+    motion = get_forest_warp_motion(2);
+    textures = get_forest_warp_textures();
     frame = 0.0f;
 }
 
@@ -812,13 +803,13 @@ void TObjMapWarpForest::run_task() {
 void TObjMapWarpForest::render() {
     u8 *arg0 = (u8 *)this;
     if (((VObj8019CF38_8019CCF0 *) arg0)->m8(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(*(s32 *)&this->textures);
-        ((s32 (*)(void))push_matrix)();
+        TObjFish::set_global_param(textures);
+        push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_object(this->baseModel);
+        draw_ginja_object((void *)baseModel);
         TParticleCtrl::begin_effect_render();
-        ((s32 (*)(s32, s32, f32))draw_ginja_model_with_motion)(*(s32 *)&this->beamModel, *(s32 *)&this->motion, this->frame);
+        draw_ginja_model_with_motion(beamModel, (s32)motion, frame);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -992,10 +983,10 @@ TObjAreaWarpForest::TObjAreaWarpForest(TObject *parent, void *set_data) : TObjAr
         queue_destruction();
         return;
     }
-    *(s32 *)((s8 *)this + 0xCC) = register_warp__16TObjMapForceWarpFPv(0);
-    *(s32 *)((s8 *)this + 0xD0) = register_warp__16TObjMapForceWarpFPv(1);
-    *(s32 *)((s8 *)this + 0xD4) = register_area_warp_object__16TAdStorySelectGCFPv(0);
-    *(s32 *)((s8 *)this + 0xD8) = TAdStorySelectGC::get_story_select();
+    warp_model = get_forest_warp_model(0);
+    beam_model = get_forest_warp_model(1);
+    beam_motion = get_forest_warp_motion(0);
+    textures = get_forest_warp_textures();
     if (TRaderMapCore::is_not_split_screen() == 1) {
         temp_r3_2 = (int)::operator new(0x88);
         var_r0 = temp_r3_2;
@@ -1089,16 +1080,16 @@ TObjAreaWarpQuest::TObjAreaWarpQuest(TObject *parent, void *set_data) : TObjArea
     u32 temp_r0;
     u32 temp_r4;
     m_name = TObjAreaWarpQuest__name;
-    *(f32 *)((s8 *)this + 0xC8) = 0.0f;
+    beam_frame = 0.0f;
     *(s32 *)((s8 *)this + 0xCC) = 0;
     temp_r0 = *(u32 *)((s8 *)this + 0x8C);
     temp_r4 = temp_r0 >> 0x1FU;
     *(u32 *)((s8 *)this + 0x8C) = (u32) (((temp_r0 & 1) ^ temp_r4) - temp_r4);
     *(s32 *)((s8 *)this + 0xC4) = (s32) *(f32 *)((s8 *)this + 0x68);
-    *(s32 *)((s8 *)this + 0xD0) = register_warp__16TObjMapForceWarpFPv(0);
-    *(s32 *)((s8 *)this + 0xD4) = register_warp__16TObjMapForceWarpFPv(1);
-    *(s32 *)((s8 *)this + 0xD8) = register_area_warp_object__16TAdStorySelectGCFPv(0);
-    *(s32 *)((s8 *)this + 0xDC) = TAdStorySelectGC::get_story_select();
+    warp_model = get_forest_warp_model(0);
+    beam_model = get_forest_warp_model(1);
+    beam_motion = get_forest_warp_motion(0);
+    textures = get_forest_warp_textures();
     if (TRaderMapCore::is_not_split_screen() == 1) {
         temp_r3 = (int)::operator new(0x88);
         var_r0 = temp_r3;
@@ -1221,10 +1212,10 @@ TObjAreaWarpEnding::TObjAreaWarpEnding(TObject *parent, void *set_data) : TObjAr
     temp_r0 = set_params[2];
     temp_r4 = temp_r0 >> 0x1FU;
     set_params[2] = (u32) (((temp_r0 & 1) ^ temp_r4) - temp_r4);
-    *(s32 *)((s8 *)this + 0xCC) = register_warp__16TObjMapForceWarpFPv(0);
-    *(s32 *)((s8 *)this + 0xD0) = register_warp__16TObjMapForceWarpFPv(1);
-    *(s32 *)((s8 *)this + 0xD4) = register_area_warp_object__16TAdStorySelectGCFPv(0);
-    *(s32 *)((s8 *)this + 0xD8) = TAdStorySelectGC::get_story_select();
+    warp_model = get_forest_warp_model(0);
+    beam_model = get_forest_warp_model(1);
+    beam_motion = get_forest_warp_motion(0);
+    textures = get_forest_warp_textures();
     if (TRaderMapCore::is_not_split_screen() == 1) {
         temp_r3 = (int)::operator new(0x88);
         var_r0 = temp_r3;
@@ -1334,7 +1325,7 @@ void TObjAreaWarpEnding::confirm_area_transfer(void *) {
 
 void TKeyBoardControl::dispatch_select_phase() {
 
-    switch (TAdStorySelectGC__sub_8019DC14()) {
+    switch (TAdStorySelectGC::get_story_select()) {
     case 0:
         if (should_record_episode1_quest_completion() != 0) {
             TBoss4DarkFalz::dispatch_by_main_phase(0x3FE);

@@ -4,7 +4,6 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
-#include "pso/ui/frontend/TAdStorySelectGC_8019DC14.h"
 #include "pso/unk/text_80299420.h"
 #include "pso/object/TObjPathObj.h"
 
@@ -36,7 +35,6 @@ s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 void play_sound_effect(s32, s32, s32, s32);
 extern u8 controller_input_state[];
-extern s32 lbl_805D67C0;
 void *__nw__7TObjectFUl(u32);
 void __ct__7TObjectFP7TObject(void *, void *);
 void __ct__9TAdBackGCFv(void *, void *);
@@ -53,13 +51,13 @@ void TAdStorySelectGC::render() {  }
 void TAdStorySelectGC::run_task() {
     Obj_802C3288 *self = (Obj_802C3288 *)this;
     TAdMultiChgGameModeGC::set_default_camera();
-    if (lbl_805D67C0 != TAdSinglePlyChrSelectGC__sub_801334DC((void *)self->f1C)) {
+    if (story_select_cursor != TAdSinglePlyChrSelectGC__sub_801334DC((void *)self->f1C)) {
         ((TAdMultiPlyChrSelectGC *)(self->f20))->set_entry_value(1, get_localized_text_entry(0x14, TAdSinglePlyChrSelectGC__sub_801334DC((void *)self->f1C) + 1));
     }
-    lbl_805D67C0 = TAdSinglePlyChrSelectGC__sub_801334DC((void *)self->f1C);
+    story_select_cursor = TAdSinglePlyChrSelectGC__sub_801334DC((void *)self->f1C);
     switch (((TAdSinglePlyChrSelectGC *)(self->f1C))->get_selected_slot()) {
     case 1:
-        switch (TAdStorySelectGC__sub_8019DC14()) {
+        switch (TAdStorySelectGC::get_story_select()) {
         case 0:
             TAdStorySelectGC::set_state(0);
             break;
@@ -86,7 +84,7 @@ Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent) {
     __ct__7TObjectFP7TObject(self, parent);
     self->vt = __vt__16TAdStorySelectGC;
     self->name = TAdStorySelectGC__class_name;
-    lbl_805D67C0 = 0;
+    story_select_cursor = 0;
     self->f1C = 0;
     self->f20 = 0;
     if (TAdSinglePlyChrSelectGC::get_data() == 0) {

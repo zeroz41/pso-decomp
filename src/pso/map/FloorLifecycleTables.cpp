@@ -4,6 +4,7 @@
 #include "pso/object/cave/TODragonflyCave01.h"
 #include "pso/object/key/TOKeyJungleMain.h"
 #include "pso/object/door/TObjDoorJung.h"
+#include "pso/object/warp/ForestWarpResources.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/container/TObjContainerIdo.h"
 #include "pso/object/container/TObjContainerJung.h"
@@ -152,7 +153,6 @@ void load_turiten_singo_resources();
 void load_city_common_resources();
 void load_computer_resources();
 void load_lazer_fence_norm_resources();
-void load_forest_warp_resources();
 void free_warp_jung_beam_resources();
 void load_warp_beam_resources();
 void load_green_door_resources();
