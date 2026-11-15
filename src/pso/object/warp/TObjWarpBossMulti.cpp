@@ -13,6 +13,8 @@
 #include "pso/object/warp/TObjWarpBoss.h"
 #include "pso/object/warp/TObjWarpBossMulti.h"
 #include "pso/network/protocol/subcmd_6x.h"
+#include "pso/system/ControllerInputState.h"
+#include "pso/render/NinjaUtil.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceLoader.h"
@@ -68,114 +70,15 @@ BmlResourceDescriptor lbl_804B94FC = {
 const char *TObjWarpBoss__name = "TObjWarpBoss";
 const char *TObjWarpBossMulti__name = "TObjWarpBossMulti";
 
-struct RecoveredGlobal_8019E418_lbl_8050E208 {
-    s32 value;
-    u8 remaining[0x1AC];
-};
 
-struct Obj_8019E238 {
-    s32 f0;
-    u8 pad4[0x18 - 4];
-    void *vt18;
-    u8 pad1C[0x38 - 0x1C];
-    u8 f38[0xA4 - 0x38];
-    s32 fA4;
-    u8 padA8[0xAC - 0xA8];
-    f32 fAC;
-    u8 padB0[0xBC - 0xB0];
-    s32 fBC;
-    void *fC0;
-    s32 fC4[4];
-};
 
-struct Pl_8019E4E8 { u8 pad0[0x38]; f32 pos[3]; };
-struct Wb_8019E4E8 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x68]; f32 fAC; };
-struct Pkt_8019E6C0 { u8 cmd; u8 size; u16 id; u16 value; u16 pad; };
 
-struct Warp_8019EE14 {
-    u8 pad0[0x38];
-    f32 pos[3];
-    u8 pad44[0xAC - 0x44];
-    f32 radius;
-    u8 padb0[0xBC - 0xB0];
-    s32 fbc;
-    u8 padc0[0xE4 - 0xC0];
-    char names[4][0x18];
-    s32 inside[4];
-    s32 count;
-    s32 n_inside;
-    s32 f15c;
-    u8 pad160[4];
-    u32 window;
-    u8 pad168[0x180 - 0x168];
-    s32 warping;
-};
 
-struct Player_8019EE14 {
-    u8 pad0[0x38];
-    f32 pos[3];
-    u8 pad44[0x85C - 0x44];
-    char name[0x18];
-};
 
-struct Wb_8019F2C0 { u8 pad0[0x88]; s32 f88; u8 pad8C[0xE0]; s32 f16C; };
 
-struct Warp_8019EFF0
-{
-  u8 pad0[0xDE];
-  s16 mode;
-  u8 pade0[0xE4 - 0xE0];
-  char names[4][0x18];
-  s32 inside[4];
-  s32 count;
-  s32 n_inside;
-  s32 f15c;
-  u8 pad160[4];
-  void *list;
-  void *dialog;
-};
 
-struct Pos_8019EFF0
-{
-  f32 x;
-  f32 y;
-};
 
-struct Wb_8019E4E8;
 
-struct Obj_8019F578 {
-    s32 f0;
-    u8 pad4[0x18 - 4];
-    void *vt18;
-    u8 pad1C[0x88 - 0x1C];
-    s32 f88;
-    u8 pad8C[0xA4 - 0x8C];
-    s32 fA4;
-    u8 padA8[0xAC - 0xA8];
-    f32 fAC;
-    u8 padB0[0xB4 - 0xB0];
-    void *fB4;
-    u8 padB8[0xBC - 0xB8];
-    s32 fBC;
-    u8 padC0[0xC4 - 0xC0];
-    f32 fC4;
-    u8 padC8[0xD0 - 0xC8];
-    s32 fD0;
-    s32 fD4;
-    u8 padD8[0xDC - 0xD8];
-    s16 fDC;
-    s16 fDE;
-    s16 fE0;
-    s16 fE2;
-    u8 padE4[0x144 - 0xE4];
-    s32 f144[4];
-    u8 pad154[0x164 - 0x154];
-    s32 f164;
-    s32 f168;
-    s32 f16C;
-    u8 pad170[0x180 - 0x170];
-    s32 f180;
-};
 
 extern "C" {
 s32 check_player_flag1__6TLobbyFv(void);
@@ -212,7 +115,6 @@ s32 TObjWarpBossMulti__create(s32 arg0);
 
 const char lbl_8044663C[] = "<- NEXT STAGE No.";
 const char lbl_80446650[] = "<- KEY ID : %d";
-extern RecoveredGlobal_8019E418_lbl_8050E208 controller_input_state;
 extern u32 player_slot_table[];
 extern s32 camera_ctrl_instance;
 extern s32 lbl_805D55C0;
@@ -224,7 +126,6 @@ s32 draw_ginja_model_with_motion(s32, s32, f32);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 int check_flag_100__10TObjPlayerFPv(void *p);
-f32 xz_distance_squared(s32, void *);
 s32 get_current_floor();
 u8 is_current_floor_switch_set(int);
 void end_player_keyboard_hold(s32 arg0);
@@ -247,7 +148,6 @@ void update_warp_boss_visibility__12TObjWarpBossFv(void *arg0);
 
 
 
-typedef char RecoveredGlobal_8019E418_lbl_8050E208_size[sizeof(RecoveredGlobal_8019E418_lbl_8050E208) == 0x1B0 ? 1 : -1];
 
 
 
@@ -269,8 +169,6 @@ extern "C" {
 
 
 
-typedef struct Pos_8019EFF0 Pos_8019EFF0;
-typedef struct Warp_8019EFF0 Warp_8019EFF0;
 
 
 
@@ -359,41 +257,40 @@ s32 TObjWarpBossMulti__create(s32 arg0) {
 }
 
 TObjWarpBoss::TObjWarpBoss(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
-    Obj_8019F578 *self = (Obj_8019F578 *)this;
     int i;
     m_name = TObjWarpBoss__name;
-    self->fC4 = 0.0f;
+    frame = 0.0f;
     warp_range = 19.0f;
     dest_floor = get_boss_warp_destination();
     bodies = NULL;
     register_entity_by_id(this);
-    self->f164 = 0;
-    self->f168 = 0;
-    self->f180 = 0;
+    player_list_window = NULL;
+    yes_no_window = NULL;
+    local_player_in_range = 0;
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {
-        self->f16C = -1;
+        key_id = -1;
     } else if (set_params[1] < 0 || set_params[1] > 0xFF) {
-        self->f16C = -1;
+        key_id = -1;
     } else {
-        self->f16C = set_params[1];
+        key_id = set_params[1];
     }
-    if (self->f16C >= 0) {
-        self->fDC = 4;
-        self->fDE = 4;
+    if (key_id >= 0) {
+        next_state = 4;
+        state = 4;
     } else {
-        self->fDC = 0;
-        self->fDE = 0;
+        next_state = 0;
+        state = 0;
     }
-    self->fE0 = 0;
-    self->fE2 = 0;
-    self->fD0 = 0;
-    self->fD4 = 0;
+    state_step = 0;
+    state_flags = 0;
+    model = 0;
+    motion = NULL;
     if (field_collider != NULL) {
         ((TObject *)field_collider)->queue_destruction();
         field_collider = NULL;
     }
     for (i = 0; i < 4; i++) {
-        self->f144[i] = 0;
+        player_in_range[i] = 0;
     }
 }
 
@@ -425,7 +322,7 @@ void TObjWarpBoss::run_task() {
 
 void TObjWarpBoss::render() {
     if (dest_floor == 0xE) {
-        if (xz_distance_squared(camera_ctrl_instance + 0x178, (u8 *)&this->position) > 160000.0f) {
+        if (xz_distance_squared((const Vec *)(camera_ctrl_instance + 0x178), &position) > 160000.0f) {
             return;
         }
         goto block_4;
@@ -448,18 +345,17 @@ block_4:
 }
 
 void TObjWarpBoss::debug_print_area_num() {
-    Wb_8019F2C0 *arg0 = (Wb_8019F2C0 *)this;
-    s32 t = arg0->f88;
-    if (t < 0 || t > 0xFF) {
-        arg0->f16C = -1;
+    s32 id = set_params[1];
+    if (id < 0 || id > 0xFF) {
+        key_id = -1;
     } else {
-        arg0->f16C = t;
+        key_id = id;
     }
     TObjNpcEnemy::set_global_count(0xFF00FF);
     if (get_current_floor_area() == AREA_PIONEER2_EP1) {
         debug_printf_at(0x130020, lbl_8044663C);
     }
-    debug_printf_at(0x130021, lbl_80446650, arg0->f16C);
+    debug_printf_at(0x130021, lbl_80446650, key_id);
 }
 
 void TObjWarpBoss::update() {
@@ -485,23 +381,21 @@ void TObjWarpBoss::update() {
 }
 
 s32 TObjWarpBoss::update_warp_dialogs() {
-    u8 *arg0 = (u8 *)this;
   s32 i;
   int j;
-  Warp_8019EFF0 *self = (Warp_8019EFF0 *) arg0;
   u32 color;
-  Pos_8019EFF0 pos;
-  switch (self->mode)
+  f32 pos[2];
+  switch (state)
   {
     case 0:
-      if ((TObjWarpBossMulti::is_lobby_active() == 0) && (self->dialog == 0))
+      if ((TObjWarpBossMulti::is_lobby_active() == 0) && (yes_no_window == 0))
     {
-      self->dialog = TWindowMessageYesNo::create((void *)self, (void *)local_client_id, (void *)0, (void *)0);
-      if (self->dialog != 0)
+      yes_no_window = TWindowMessageYesNo::create(this, (void *)local_client_id, (void *)0, (void *)0);
+      if (yes_no_window != 0)
       {
-        forward_slot_selection__16TAdChrSelASlotGCFPvPv(self->dialog, get_message_10__20TWindowSubStatusDispFl(0x41), ((s32)get_window_layout_position(0x36)), 368.0f);
-        free_member__17TWindowSubComCardFv(self->dialog, 1);
-        ((TWindowSubShortMail *)(self->dialog))->notify_warp_flag70();
+        forward_slot_selection__16TAdChrSelASlotGCFPvPv(yes_no_window, get_message_10__20TWindowSubStatusDispFl(0x41), ((s32)get_window_layout_position(0x36)), 368.0f);
+        free_member__17TWindowSubComCardFv(yes_no_window, 1);
+        ((TWindowSubShortMail *)yes_no_window)->notify_warp_flag70();
         begin_player_keyboard_hold(local_client_id);
         request_active_window_close();
         ((TWindowCtrl *)local_client_id)->suppress_slot();
@@ -509,97 +403,95 @@ s32 TObjWarpBoss::update_warp_dialogs() {
     }
       break;
     case 1:
-      if (self->dialog == 0)
+      if (yes_no_window == 0)
     {
       i = 0x36;
-      self->dialog = TWindowMessageYesNo::create((void *)self, (void *)local_client_id, (void *)0, (void *)0);
-      if (self->dialog != 0)
+      yes_no_window = TWindowMessageYesNo::create(this, (void *)local_client_id, (void *)0, (void *)0);
+      if (yes_no_window != 0)
       {
-        initialize_option_dialog(self->dialog, get_message_10__20TWindowSubStatusDispFl(0x42), ((s32)get_window_layout_position(i)), 368.0f);
+        initialize_option_dialog(yes_no_window, get_message_10__20TWindowSubStatusDispFl(0x42), ((s32)get_window_layout_position(i)), 368.0f);
       }
     }
       break;
   }
-  if (self->list == 0)
+  if (player_list_window == 0)
   {
-    pos.x = 229.0f;
-    pos.y = 104.0f;
-    self->list = refresh_with_default_list__20TWindowSubStatusDispFll(((s32)get_window_layout_position(0x34)), &pos);
-    if (self->list != 0)
+    pos[0] = 229.0f;
+    pos[1] = 104.0f;
+    player_list_window = refresh_with_default_list__20TWindowSubStatusDispFll(((s32)get_window_layout_position(0x34)), pos);
+    if (player_list_window != 0)
     {
-      ((TWindowSubTradeMain *)(self->list))->set_visible();
-      ((TWindowSubTradeMain *)(self->list))->set_close_flag();
-      for (i = 0; i < self->count; i++)
+      ((TWindowSubTradeMain *)player_list_window)->set_visible();
+      ((TWindowSubTradeMain *)player_list_window)->set_close_flag();
+      for (i = 0; i < player_count; i++)
       {
-        TWindowSubStatusDisp::dispatch_without_flags((s32)self->list, (s32)self->names[i], (s32)i);
+        TWindowSubStatusDisp::dispatch_without_flags((s32)player_list_window, (s32)player_names[i], (s32)i);
       }
     }
     request_active_window_close();
   }
-  if (self->list != 0)
+  if (player_list_window != 0)
   {
-    for (j = 0; j < self->count; j++)
+    for (j = 0; j < player_count; j++)
     {
-            ((THunterGuildSeqOffline *)(self->list))->advance_matching_entries(self->inside[j] != 0, j);
+            ((THunterGuildSeqOffline *)player_list_window)->advance_matching_entries(player_in_range[j] != 0, j);
       color = 0xF0F0F0FF;
-      if (((self->mode == 1) && (((u32)get_player_by_client_id((j))) != 0)) && (check_player_flag1__6TLobbyFv() != 0))
+      if (((state == 1) && (((u32)get_player_by_client_id((j))) != 0)) && (check_player_flag1__6TLobbyFv() != 0))
       {
         color = 0xFFFF00FF;
       }
-      fn_80248994(self->list, color, j);
+      fn_80248994(player_list_window, color, j);
     }
   }
 }
 
 void TObjWarpBoss::update_warp_occupants() {
-    u8 *arg0 = (u8 *)this;
-    Warp_8019EE14 *self = (Warp_8019EE14 *)arg0;
     s32 i;
     s32 inside;
-    Player_8019EE14 *pl;
+    TObjPlayer *pl;
     s32 room;
     s32 old;
-    Player_8019EE14 *pl2;
-    old = self->count;
-    self->count = 0;
-    self->n_inside = 0;
-    self->f15c = 0;
+    TObjPlayer *pl2;
+    old = player_count;
+    player_count = 0;
+    players_in_range = 0;
+    player_on_dest_floor = 0;
     for (i = 0; i < 4; i++) {
-        pl = (Player_8019EE14 *)get_player_by_client_id(i);
+        pl = get_player_by_client_id(i);
         if (pl != NULL) {
-            room = ((TObjPlayer *)pl)->get_floor();
-            if (room == self->fbc) {
-                self->f15c = 1;
+            room = pl->get_floor();
+            if (room == dest_floor) {
+                player_on_dest_floor = 1;
             }
             inside = 0;
             if (room == get_current_floor()) {
-                if (((f32 (*)(void *, void *))xz_distance_squared)(pl->pos, self->pos) <= self->radius * self->radius) {
+                if (xz_distance_squared(&pl->position, &position) <= warp_range * warp_range) {
                     inside = 1;
-                    self->n_inside++;
+                    players_in_range++;
                 }
             }
-            self->inside[self->count] = inside;
-            strcpy(self->names[self->count], pl->name);
-            self->count++;
+            player_in_range[player_count] = inside;
+            strcpy(player_names[player_count], pl->name);
+            player_count++;
         }
     }
-    for (i = self->count; i < 4; i++) {
-        self->names[i][0] = 0;
+    for (i = player_count; i < 4; i++) {
+        player_names[i][0] = 0;
     }
-    if (old != self->count && self->window != 0) {
-        ((TWindowBase *)self->window)->close();
-        self->window = 0;
+    if (old != player_count && player_list_window != NULL) {
+        ((TWindowBase *)player_list_window)->close();
+        player_list_window = NULL;
     }
-    pl2 = (Player_8019EE14 *)get_player_by_client_id(local_client_id);
-    if (pl2 != NULL && ((TObjPlayer *)pl2)->get_floor() == get_current_floor()) {
-        if (((f32 (*)(void *, void *))xz_distance_squared)(pl2->pos, self->pos) <= (25.0f + self->radius) * (25.0f + self->radius)) {
-            if (TObjWarpBossMulti::is_flag_clear((void*)pl2) != 0) {
-                self->warping = 1;
-                ((TObjPlayer *)pl2)->check_technique_flag();
+    pl2 = get_player_by_client_id(local_client_id);
+    if (pl2 != NULL && pl2->get_floor() == get_current_floor()) {
+        if (xz_distance_squared(&pl2->position, &position) <= (25.0f + warp_range) * (25.0f + warp_range)) {
+            if (TObjWarpBossMulti::is_flag_clear(pl2) != 0) {
+                local_player_in_range = 1;
+                pl2->check_technique_flag();
             }
-        } else if (TObjWarpBossMulti::is_flag_clear((void*)pl2) == 0 && self->warping != 0) {
-            self->warping = 0;
-            ((TObjPlayer *)pl2)->has_item_flag_4096();
+        } else if (TObjWarpBossMulti::is_flag_clear(pl2) == 0 && local_player_in_range != 0) {
+            local_player_in_range = 0;
+            pl2->has_item_flag_4096();
         }
     }
 }
@@ -841,12 +733,11 @@ void TObjWarpBossMulti::notify_player(void *arg0, s32 arg1) {
 }
 
 void TObjWarpBoss::send_cmd_6A(u16 value) {
-    TObjWarpBoss *self = this;
-    Pkt_8019E6C0 pkt;
-    ((TWindowSubTradeMain *)(&pkt))->init_pkt_cmd_6A();
-    pkt.id = self->entity_id;
-    pkt.value = value;
-    ((TWindowSubTradeMain *)(&pkt))->send_60_update();
+    G_SetBossWarpFlags_6x6A pkt;
+    ((TWindowSubTradeMain *)&pkt)->init_pkt_cmd_6A();
+    pkt.header.entity_id = entity_id;
+    pkt.flags = value;
+    ((TWindowSubTradeMain *)&pkt)->send_60_update();
 }
 
 void handle_6x6A_set_boss_warp_flags(void *packet) {
@@ -887,7 +778,7 @@ s32 TObjWarpBossMulti__sub_8019E570(s32 arg0, f32 farg0) {
     if (player != 0) {
         current_floor = get_current_floor();
         temp_r3b = ((TObjPlayer *)player)->get_floor();
-        if ((temp_r3b == current_floor) && (((f32 (*)(s32, s32))xz_distance_squared)(arg0 + 0x38, player + 0x38) < (farg0 * farg0))) {
+        if ((temp_r3b == current_floor) && (xz_distance_squared(&((TObjAreaWarp *)arg0)->position, &((TObjPlayer *)player)->position) < (farg0 * farg0))) {
             return player;
         }
     }
@@ -896,13 +787,12 @@ s32 TObjWarpBossMulti__sub_8019E570(s32 arg0, f32 farg0) {
 #pragma pop
 
 s32 TObjWarpBoss::are_all_players_in_range() {
-    Wb_8019E4E8 *arg0 = (Wb_8019E4E8 *)this;
     s32 ok = 1;
     s32 i;
     for (i = 0; i < 4; i++) {
-        Pl_8019E4E8 *p = (Pl_8019E4E8 *)get_player_by_client_id(i);
+        TObjPlayer *p = get_player_by_client_id(i);
         if (p != 0) {
-            if (((TObjPlayer *)p)->get_floor() != get_current_floor() || ((f32 (*)(void *, void *))xz_distance_squared)(p->pos, arg0->pos) > arg0->fAC * arg0->fAC) {
+            if (p->get_floor() != get_current_floor() || xz_distance_squared(&p->position, &position) > warp_range * warp_range) {
                 ok = 0;
             }
         }
@@ -919,11 +809,10 @@ s32 TObjWarpBossMulti::is_lobby_active() {
 }
 
 s32 TObjWarpBoss::sub_8019E418() {
-    u8 *arg0 = (u8 *)this;
     if (TObjWarpBossMulti::is_lobby_active() == 0) {
         return 0;
     }
-    if ((*(f32 *)((s8 *)&controller_input_state.value + 0x44) > 0.25f) || (TObjWarpBossMulti__sub_8019E570((s32) arg0, warp_range) == 0U)) {
+    if ((controller_input_state.controllers[0].stick_magnitude > 0.25f) || (TObjWarpBossMulti__sub_8019E570((s32)this, warp_range) == 0U)) {
         return 1;
     }
     return 0;
@@ -971,7 +860,6 @@ void TObjWarpBoss::update_warp_boss_visibility() {
 }
 
 TObjWarpBossMulti::TObjWarpBossMulti(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
-    Obj_8019E238 *self = (Obj_8019E238 *)this;
     int i;
     m_name = TObjWarpBossMulti__name;
     dest_floor = get_boss_warp_destination();
@@ -990,7 +878,7 @@ TObjWarpBossMulti::TObjWarpBossMulti(TObject *parent, void *set_data) : TObjArea
     }
     warp_range = 19.0f;
     for (i = 0; i < 4; i++) {
-        self->fC4[i] = 0;
+        player_in_range[i] = 0;
     }
 }
 
@@ -1007,7 +895,7 @@ void TObjWarpBossMulti::run_task() {
         pl = player_slot_table[i];
         if (pl != 0U && is_locally_controlled__10TObjPlayerFPv(pl) != 0) {
             if (((TObjPlayer *)pl)->get_floor() == get_current_floor()) {
-                if (xz_distance_squared(pl + 0x38, &position) <= (r = 25.0f + warp_range) * r) {
+                if (xz_distance_squared(&((TObjPlayer *)pl)->position, &position) <= (r = 25.0f + warp_range) * r) {
                     if (TObjWarpBossMulti::is_flag_clear((void*)pl) != 0) {
                         player_in_range[i] = 1;
                         ((TObjPlayer *)pl)->check_technique_flag();
@@ -1047,7 +935,7 @@ void TObjWarpBossMulti::run_task() {
 
 void TObjWarpBossMulti::render() {
     if ((s32) dest_floor == 0xE) {
-        if (xz_distance_squared(camera_ctrl_instance + 0x178, &position) > 160000.0f) {
+        if (xz_distance_squared((const Vec *)(camera_ctrl_instance + 0x178), &position) > 160000.0f) {
             return;
         }
         goto block_4;
