@@ -878,34 +878,50 @@ inline s32 acfc_804066D8(s32 lcp, u8 *ctx)
   }
   return r;
 }
+inline s32 pfc_804066D8(s32 lcp, u8 *ctx)
+{
+  s32 r = 1;
+  if ((!lcp) && ((*((s16 *) (ctx + 0x50))) & 0x80))
+  {
+    r = 0;
+  }
+  return r;
+}
+inline s32 two_804066D8(s32 lcp, u8 *ctx, u16 tag)
+{
+  s32 r = 1;
+  if (pfc_804066D8(lcp, ctx) == 0 && tag < 0xff)
+  {
+    r = 0;
+  }
+  return r;
+}
 #pragma push
 #pragma opt_propagation off
 s32 ppp_output_frame(u8 *p)
 {
-  u8 c0;
-  u8 c1;
-  u8 *st;
-  u8 *ctx;
-  s32 crc = 0xffff;
-  u32 accm = -1;
-  s32 n = 4;
-  s32 sz;
-  s16 stt;
-  s32 padx[2];
-  u8 *src;
-  u8 *out;
   PppFrame *q;
   u8 *buf;
+  u8 *out;
+  u8 *ctx;
   PppBuffers *obj;
-  u16 tag;
-  s32 two;
-  unsigned short pad;
-  s32 pfc;
-  s32 acfc;
-  s32 lcp;
-  s32 d;
-  s32 skip;
   u16 fcs;
+  s32 crc = 0xffff;
+  u8 *src;
+  u8 c1;
+  u8 c0;
+  s32 two;
+  s32 lcp;
+  s16 stt;
+  u32 accm = -1;
+  s32 n = 4;
+  u8 *st;
+  s32 sz;
+  u16 tag;
+  s32 d;
+  s32 pfc;
+  s32 skip;
+  s32 acfc;
   st = *((u8 (*)[]) (&lbl_805C0038));
   ctx = *((u8 **) (st + 0x34));
   *((s32 *) (st + 0x110)) += ((u16) get_field_4(p)) + 2;
@@ -923,16 +939,7 @@ s32 ppp_output_frame(u8 *p)
   {
     accm = *((u32 *) (ctx + 0x54));
   }
-  two = 1;
-  pfc = two;
-  if ((!lcp) && ((*((s16 *) (ctx + 0x50))) & 0x80))
-  {
-    pfc = 0;
-  }
-  if ((pfc == 0) && (tag < 0xff))
-  {
-    two = 0;
-  }
+  two = two_804066D8(lcp, ctx, tag);
   if (two == 0)
   {
     n = 3;
@@ -964,12 +971,10 @@ s32 ppp_output_frame(u8 *p)
     *out = tag >> 8;
     out++;
   }
-  *out = tag;
-  /* The game reads obj here before setting it (the headroom of whatever the register holds). */
-  sz = obj->headroom;
+  *out++ = tag;
   obj = &lbl_805C04A8;
   q = obj->frame_out;
-  q->data = ((u8 *) q) + ((sz + 3) & (~3));
+  q->data = ((u8 *) q) + ((obj->headroom + 3) & (~3));
   buf = q->data;
   if ((*((s16 *) (&lbl_805D7A7A))) != 0)
   {
