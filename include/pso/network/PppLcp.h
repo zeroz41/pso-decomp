@@ -3,6 +3,11 @@
 
 #include "types.h"
 
+/* Option bits of LcpVals.mask (bit N = LCP option type N). */
+#define LCP_OPT_ACCM (1 << 2)
+#define LCP_OPT_PFC (1 << 7)
+#define LCP_OPT_ACFC (1 << 8)
+
 /* LCP option values; mask has bit N set for option type N. */
 typedef struct LcpVals {
     s16 mask;
