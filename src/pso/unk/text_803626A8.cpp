@@ -65,7 +65,7 @@ s32 push_matrix_from(void *);
 s32 pop_matrix();
 f32 post_translate_matrix(void *);
 extern RecoveredGlobal_803626A8_lbl_8058D490 identity_matrix;
-void *spawn_particle_effect(void *pos, s32 id);
+void *spawn_particle_effect(const void *pos, s32 id);
 s16 get_validated_attack_stage(u8 *arg0);
 extern s32 knuckle_marker_joint_table[];
 s32 dispatch_shared_handler_a__6TLobbyFl(int);

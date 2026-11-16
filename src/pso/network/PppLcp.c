@@ -18,7 +18,7 @@ struct St_8040098C { s8 f0; u8 f1; u8 f2; u8 pad3[0x69]; u8 f6C[0x9C]; s32 f108;
 #include <stddef.h>
 #include "pso/network/NetStackTypes.h"
 
-void TLobby__sub_803F97E8(int);
+void TLobby__sub_803F97E8(s32 ms);
 #include "pso/network/PppBuffer.h"
 
 

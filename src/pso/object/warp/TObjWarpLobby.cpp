@@ -80,12 +80,12 @@ int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int 
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(f32 *, s32, f32);
 
 s32 is_idle__6TLobbyFv();
-u32 find_warp_player_in_range(void *, u16, f32);
+void *find_warp_player_in_range(void *self, u16 client_id, f32 range);
 extern s32 local_client_id;
 
 void run_task__13TObjWarpLobbyFv(VO_801A0894 *arg0);
 s32 post_translate_matrix(void *);
-s32 draw_ginja_model_with_motion(s32, s32, f32);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 
@@ -114,7 +114,7 @@ void TObjWarpLobby::render() {
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion(*(s32 *)((s8 *)(*(void **)((s8 *)TObjWarpLobby__instance + 0x42C)) + 8), *(s32 *)((s8 *)(*(void **)((s8 *)TObjWarpLobby__instance + 0x430)) + 4), this->m_c8);
+        draw_ginja_model_with_motion((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)TObjWarpLobby__instance + 0x42C)) + 8)), (void *)(*(s32 *)((s8 *)(*(void **)((s8 *)TObjWarpLobby__instance + 0x430)) + 4)), this->m_c8);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }

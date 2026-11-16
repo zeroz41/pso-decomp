@@ -141,7 +141,7 @@ void fn_801C1BA8(void *, void *);
 s32 fn_801D40D4(s32 arg0, Rec_801D40D4 *arg1, u8 *arg2);
 s32 is_both_confirmed__23TAdSinglePlyChrSelectGCFv(void *);
 void memcpy(void *, void *, s32);
-s32 is_quest_active();
+int is_quest_active(void);
 int memset(void*, int, int);
 u8 *__nw__FUl(u32);
 void TLobby__sub_801D4C28(void* a0, int a1, int a2, int a3);

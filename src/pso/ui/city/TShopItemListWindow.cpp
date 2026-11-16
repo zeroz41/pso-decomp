@@ -159,7 +159,7 @@ void *create_cost_window(u16);
 void *__dt__19TShopItemListWindowFv(TShopItemListWindow *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 s32 align_menu_entry_positions(u32);
-void try_buy_item(void *player, TItemData *item);
+s32 try_buy_item(s32 arg0, void *item);
 
 void TShopItemListWindow::display_message(const char *text, s32 flags) {
     struct VObj_8021F134 *temp_r3;
@@ -223,7 +223,7 @@ void TShopItemListWindow::handle_amount_confirm() {
                     if (TCheckRoomSequence::get_item_def((u32)&item) != 0) {
                         item.set_stack_count(m_50);
                     }
-                    try_buy_item((void *)m_24, &item);
+                    try_buy_item(m_24, &item);
                     if (m_3c != 0U) {
                         n = ((TObjPlayer *)(*(s32 *)(m_24 + 0xD00)))->count_items_by_id((s32)&self->recs[sel]);
                         ((TWindowSubStatusDisp *)m_3c)->set_entry1_field20(n);

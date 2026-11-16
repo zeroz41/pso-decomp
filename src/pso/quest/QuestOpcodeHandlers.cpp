@@ -1485,8 +1485,8 @@ int TObjHashiVersus2__sub_801912B0(void*);
 s32 delete_by_param__13TQuestColCtrlFl(int, void *);
 void * create_quest_col_apc_inw__6TLobbyFPvPv(Spawn_801E8930 *, s32 *);
 int fn_8019608C(void*);
-void * fn_80196214(Spawn_801E8C14 *, s32 *);
-void * fn_801963A8(Spawn_801E8D44 *, s32 *);
+TObject *fn_80196214(void *arg, s32 *out_id);
+TObject *fn_801963A8(void *arg, s32 *out_id);
 void * create_quest_col_alock(Spawn_801E8AE8 *, s32 *);
 void * fn_80196814(Spawn_801E8E4C *, s32 *);
 void * create_quest_col(Spawn_801E8F54 *, s32 *);
@@ -1524,7 +1524,7 @@ void init_battle_ctrl__6TLobbyFii(s32, s32);
 void request_player_size_restore(PlayerScaleState *state);
 void request_player_shrink(PlayerScaleState *state);
 Vec_801ECFDC * TObjPlayer__sub_801C6FDC(void *);
-void * set_mode_and_refresh_object__10TObjPlayerFPvi(void *, Item_801EE77C *);
+void *set_mode_and_refresh_object__10TObjPlayerFPvi(void *player, s32 item_data);
 void * get_owner_if_alive__10TObjPlayerFv(void *);
 s32 send_download_head_d7(int, int, int);
 void* __ct__13TQuestBgmCtrlFP7TObject(void*, TObject *);
@@ -1878,7 +1878,7 @@ Card_801EB10C * __ct__13TUnk_804CC048FP7TObjectPvPv(void *, void *, void *, void
 }
 u8 is_floor_switch_set(u32 id, s16 floor);
 extern "C" {
-u8 is_current_floor_switch_set(int);
+u8 is_current_floor_switch_set(s32 id);
 }
 void clear_current_floor_switch(s32 id);
 void set_current_floor_switch(s32 id);
@@ -1933,7 +1933,7 @@ int get_selected_slot__6TLobbyFv(void*);
 void update_gba_joyboot_transfer();
 extern "C" {
 s32 TLobby__sub_8032CDEC();
-void update_entries__18TChallenge4PResultFii(ItemData_801E72B4 *, s32);
+void update_entries__18TChallenge4PResultFii(s32 arg0, s32 arg1);
 }
 s32 update_challenge_result_player_locks();
 extern "C" {
@@ -2053,13 +2053,13 @@ void qst_op_item_create_multi_cm(u8 i) {
     item.id = ((u32 (*)(u16))advance_item_id_counter)(local_client_id);
     switch (mode) {
     case 0:
-        update_entries__18TChallenge4PResultFii(&item, 2);
+        update_entries__18TChallenge4PResultFii((s32)&item, (s32)(2));
         break;
     case 1:
-        update_entries__18TChallenge4PResultFii(&item, 0);
+        update_entries__18TChallenge4PResultFii((s32)&item, (s32)(0));
         break;
     case 2:
-        update_entries__18TChallenge4PResultFii(&item, 1);
+        update_entries__18TChallenge4PResultFii((s32)&item, (s32)(1));
         break;
     }
 }
@@ -4927,7 +4927,7 @@ void qst_op_find_inventory_item_ex(u8 arg0, u8 arg1) {
         item.data[1] = qst_registers[(u8)arg0++];
         item.data[2] = qst_registers[(u8)arg0++];
         item.data[4] = qst_registers[(u8)arg0];
-        obj = set_mode_and_refresh_object__10TObjPlayerFPvi(player->fD00, &item);
+        obj = set_mode_and_refresh_object__10TObjPlayerFPvi((void *)player->fD00, (s32)&item);
         if (obj != NULL) {
             obj = get_owner_if_alive__10TObjPlayerFv(obj);
             if (obj != NULL) {
@@ -4955,7 +4955,7 @@ void qst_op_item_check(u32 first, u32 destination) {
         item.data[0] = qst_registers[(u8)first++];
         item.data[1] = qst_registers[(u8)first++];
         item.data[2] = qst_registers[(u8)first];
-        slot = set_mode_and_refresh_object__10TObjPlayerFPvi(*(void **)((s8 *)player + 0xD00), &item);
+        slot = set_mode_and_refresh_object__10TObjPlayerFPvi((void *)(*(void **)((s8 *)player + 0xD00)), (s32)&item);
         if (slot != 0) {
             owner = get_owner_if_alive__10TObjPlayerFv(slot);
             if (owner != 0) {
@@ -4985,7 +4985,7 @@ void qst_op_item_delete2(u32 src, u32 dst) {
         item.data[0] = qst_registers[(u8)src++];
         item.data[1] = qst_registers[(u8)src++];
         item.data[2] = qst_registers[(u8)src];
-        slot = set_mode_and_refresh_object__10TObjPlayerFPvi(*(void **)((s8 *)player + 0xD00), &item);
+        slot = set_mode_and_refresh_object__10TObjPlayerFPvi((void *)(*(void **)((s8 *)player + 0xD00)), (s32)&item);
         if (slot != 0) {
             owner = get_owner_if_alive__10TObjPlayerFv(slot);
             if (owner != 0) {
@@ -5333,7 +5333,7 @@ void qst_op_col_npcinr(u8 arg0) {
     set.f24 = qst_registers[(u8)arg0++];
     set.f28 = qst_registers[(u8)arg0++];
     set.f30 = qst_registers[(u8)arg0];
-    ((void (*)(NpcSet_801EFA5C *, s32 *))fn_80196214)(&set, &qst_registers[first]);
+    fn_80196214(&set, &qst_registers[first]);
 }
 
 void qst_op_npc_coords_call(u8 arg0) {
@@ -5347,7 +5347,7 @@ void qst_op_npc_coords_call(u8 arg0) {
     set.z = qst_registers[(u8)arg0++];
     set.f24 = qst_registers[(u8)arg0++];
     set.f30 = qst_registers[(u8)arg0];
-    ((void (*)(NpcSet_801EFB6C *, s32 *))fn_801963A8)(&set, &qst_registers[first]);
+    fn_801963A8(&set, &qst_registers[first]);
 }
 
 void qst_op_at_coords_talk(u8 arg0) {

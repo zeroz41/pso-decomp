@@ -63,7 +63,7 @@ extern s32 __vt__14TOSwitchAttack[];
 extern const char *TOSwitchAttack__name;
 u8 *TOSwitchAttack__ct(u8 *arg0, s32 arg1, s32 arg2);
 f32 horizontal_distance_squared(void *, void *);
-u8 is_current_floor_switch_set(u16);
+u8 is_current_floor_switch_set(s32 id);
 void TOSwitchAttack__sub_80177C20(void);
 void TOSwitchAttack__sub_80177C24(void);
 void *__dt__14TOSwitchAttackFv(void *arg0, s16 arg1);

@@ -1003,7 +1003,7 @@ extern "C" {
 void mem_free(void *p);
 void refresh_players_equipment__14TBoss6PlotFalzFPv(void *self);
 void scroll_strip_uvs(u32, s16, s16);
-s32 get_bml_model(s32, s32);
+s32 get_bml_model(BmlResource *resource, s32 index);
 s32 alloc_tables__6TLobbyFll(s32, s32, s32);
 void *mem_alloc(u32 size);
 void build_tables__14TBoss6PlotFalzFPvPvi(Obj_8004AA80 *arg0, Rec_8004AA80 *arg1, s32 arg2);
@@ -1072,7 +1072,7 @@ void build_tables__14TBoss6PlotFalzFPvPvi(Obj_8004AA80 *arg0, Rec_8004AA80 *arg1
     }
     for (i = 0; i < arg0->count; i++) {
         r = &arg1[i];
-        t = (s32)find_model_node(get_bml_model(h, r->a), r->b);
+        t = (s32)find_model_node(get_bml_model((BmlResource *)h, r->a), r->b);
         p = (s32)::operator new(0x14);
         if (p != 0) {
             p = alloc_tables__6TLobbyFll(p, t, r->c);

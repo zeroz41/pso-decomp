@@ -423,7 +423,7 @@ void TAdDialingGC::init_dialog() {
     render_status_disp__23TAdSinglePlyChrSelectGCFff(23.0f, 331.0f);
 }
 
-s32 fn_80145A44(void *);
+BOOL fn_80145A44(char *dst);
 s32 call_146CA0_with_5708__6TLobbyFv();
 int sprintf(char *, const char *, ...);
 extern char lbl_804767C8[];

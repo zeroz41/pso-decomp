@@ -59,12 +59,12 @@ extern "C" {
 void rotate_matrix_y(int, void *);
 void push_matrix(void);
 void post_translate_matrix(void *);
-s32 draw_ginja_model_with_motion(s32, s32, f32);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 extern void *lazer_fence_norm_texture_list;
-u8 is_current_floor_switch_set(int);
+u8 is_current_floor_switch_set(s32 id);
 
-s32 get_bml_motion(s32, s32);
-Node_80193188 *get_bml_model(s32, s32);
+AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
+s32 get_bml_model(BmlResource *resource, s32 index);
 extern s32 lazer_fence_norm_bml_resource;
 f32 xz_distance_squared(void *, s32);
 
@@ -88,13 +88,13 @@ void TObjLazerFence4::init_models() {
     s32 i;
     s32 j;
     if (arg0->f8C % 2 == 0) {
-        arg0->fBC = get_bml_model(lazer_fence_norm_bml_resource, 4);
-        arg0->fC0 = get_bml_model(lazer_fence_norm_bml_resource, 5);
-        arg0->fC4 = get_bml_motion(lazer_fence_norm_bml_resource, 2);
+        arg0->fBC = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 4);
+        arg0->fC0 = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 5);
+        arg0->fC4 = (s32)get_bml_motion((BmlResource *)lazer_fence_norm_bml_resource, 2);
     } else {
-        arg0->fBC = get_bml_model(lazer_fence_norm_bml_resource, 6);
-        arg0->fC0 = get_bml_model(lazer_fence_norm_bml_resource, 7);
-        arg0->fC4 = get_bml_motion(lazer_fence_norm_bml_resource, 3);
+        arg0->fBC = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 6);
+        arg0->fC0 = (Node_80193188 *)get_bml_model((BmlResource *)lazer_fence_norm_bml_resource, 7);
+        arg0->fC4 = (s32)get_bml_motion((BmlResource *)lazer_fence_norm_bml_resource, 3);
     }
     for (j = 0; j < 12; j++) {
         arg0->fC8[j] = 0;
@@ -141,7 +141,7 @@ void TObjLazerFence4::draw_model() {
   draw_ginja_object((void *)(*((s32 *) (((s8 *) arg0) + 0xC0))));
   TParticleCtrl::begin_effect_render();
   new_var = (s32 *) (((s8 *) arg0) + 0xC4);
-  draw_ginja_model_with_motion(*((s32 *) (((s8 *) arg0) + 0xBC)), *new_var, *((f32 *) (((s8 *) arg0) + 0xB0)));
+  draw_ginja_model_with_motion((void *)(*((s32 *) (((s8 *) arg0) + 0xBC))), (void *)(*new_var), *((f32 *) (((s8 *) arg0) + 0xB0)));
   TParticleCtrl::end_effect_render();
   pop_matrix();
 }

@@ -78,7 +78,7 @@ extern s32 lbl_805D3190;
 int symbol_chat_colli_entries;
 void *memset(void *, int, u32);
 void *__dt__17TOSymbolchatColliFv(void *arg0, s16 arg1);
-u8 is_current_floor_switch_set(u16);
+u8 is_current_floor_switch_set(s32 id);
 s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);

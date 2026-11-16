@@ -9,7 +9,7 @@
 extern "C" {
 int get_field_38_ptr__16TEneParticleCtrlFv(void*);
     extern unsigned char lbl_804EF440[];
-int reset_entry__20TWindowSubStatusDispFPv(void*, int);
+void *reset_entry__20TWindowSubStatusDispFPv(void *a0, s32 _w1);
 s32 deleting_destructor__20TWindowSubStatusDispFs(void *, s32);
 void mem_free(void *p);
 extern u8 lbl_804EF440[];

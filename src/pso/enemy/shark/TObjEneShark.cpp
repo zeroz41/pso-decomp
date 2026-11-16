@@ -169,7 +169,7 @@ struct Owner_800ABDD8
 
 extern "C" {
 s32 post_translate_matrix(void *);
-s32 draw_chunk_object(s32);
+void draw_chunk_object(void *child);
 s32 push_matrix();
 extern s32 model_render_flags;
 void __dl__7TObjectFPv(void *);
@@ -192,8 +192,8 @@ extern u32 TObjEneShark__attack_motion_3_trail;
 extern u32 shark_attack4_trail_buffer;
 void vfunc_93__12TObjEneSharkFv(Obj_800ABB38 *o);
 void *__nw__7TObjectFUl(int);
-s32 restore_scene_lighting();
-s32 select_actor_lighting(void *);
+void restore_scene_lighting(void);
+void select_actor_lighting(s32 obj);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
@@ -388,7 +388,7 @@ void TObjEneShark::render() {
     ((RenderFadeState *)f)->update();
     fade = ((RenderFadeState *)f)->updateFromCamera((const f32*)(arg0 + 0x2FC));
   }
-  select_actor_lighting(arg0);
+  select_actor_lighting((s32)arg0);
   model_render_flags |= 1;
   TObjFish::set_global_param(*((s32 *) (((s8 *) arg0) + 0x24)));
   push_matrix();
@@ -397,7 +397,7 @@ void TObjEneShark::render() {
   rotate_matrix_y(0, this->rotation_y);
   if (TObjPlayer::check_demo_mode() == 1)
   {
-    draw_chunk_object(*((s32 *) (((s8 *) arg0) + 0x34)));
+    draw_chunk_object((void *)(*((s32 *) (((s8 *) arg0) + 0x34))));
   }
   else
   {
@@ -567,7 +567,7 @@ s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
-u8 *load_enemy_bml_resource_named(void *, void *);
+s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void *mem_alloc(u32 size);
 extern u8 bm_ene_bm1_shark_a_bml_filename[];
@@ -817,7 +817,7 @@ void TLobby::load_shark_resources() {
     void *p;
     s32 i;
     if (TObjEneDD::check_v2_mode() != 0) {
-        G_B8 = load_enemy_bml_resource_named(bm_ene_bm1_shark_resource_descriptor, bm_ene_bm1_shark_a_bml_filename);
+        G_B8 = (u8 *)load_enemy_bml_resource_named((s32)bm_ene_bm1_shark_resource_descriptor, (s32)bm_ene_bm1_shark_a_bml_filename);
     } else {
         p = ::operator new(0x440);
         if (p != NULL) {

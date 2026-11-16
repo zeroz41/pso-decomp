@@ -27,7 +27,7 @@ u8 *TObjEvtCollision__ct(TObjEvtCollision *arg0, s32 arg1, s32 arg2);
 extern s32 local_client_id;
 void *TObjEvtCollision__create(void *arg0);
 void *__dt__16TObjEvtCollisionFv(void *arg0, s16 arg1);
-u32 get_player_by_client_id(s32);
+void *get_player_by_client_id(s32 i);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 f32 xyz_distance_squared(s32, s32);
@@ -40,14 +40,14 @@ s32 TObjEvtCollision::is_any_player_in_range(f32 farg0) {
 
     if (is_split_screen() != 0) {
         for (i = 0; i < 4; i += 1) {
-            player = get_player_by_client_id(i);
+            player = (u32)get_player_by_client_id(i);
             if ((player != 0U) && (xyz_distance_squared(player + 0x38, arg0 + 0x38) < farg0)) {
                 return 1;
             }
         }
         goto block_10;
     }
-    temp_r3_2 = get_player_by_client_id(local_client_id);
+    temp_r3_2 = (u32)get_player_by_client_id(local_client_id);
     if ((temp_r3_2 != 0U) && (xyz_distance_squared(temp_r3_2 + 0x38, arg0 + 0x38) < farg0)) {
         return 1;
     }

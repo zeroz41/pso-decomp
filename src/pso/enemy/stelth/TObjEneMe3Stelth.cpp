@@ -152,7 +152,7 @@ s32 TBoss3Volopt__sub_800D8D88(void *, f32);
 void TObjEneMe3Stelth__sub_800F3FE4(TObjEneMe3Stelth *stelth, s32 arg1);
 f32 *TBoss3Volopt__sub_800F059C(void *);
 extern const f32 lbl_805DA890;
-f64 atan2_float(f32, f32);
+f32 atan2_float(f32 y, f32 x);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 extern const f32 lbl_805DA810;
 void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1);

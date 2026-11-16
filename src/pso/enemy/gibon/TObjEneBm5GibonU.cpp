@@ -64,8 +64,8 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 void render_debug__16TObjEneBm5GibonUFv(u8 *arg0);
-s32 enemy_validate_retained_target(void *);
-s32 TObjEneDD__sub_800BA378(void *, void *);
+s32 enemy_validate_retained_target(u8 *ene_dd_st);
+void TObjEneDD__sub_800BA378(s32 arg0, u8 *arg1);
 s32 TObjEneBm5GibonU__sub_800D0968(TObjEneBm5GibonU *self, int);
 s32 approach_angle_limited(s32, s32, s32);
 s32 play_sound_effect(void *, void *, s32, s32);
@@ -486,10 +486,10 @@ extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 u32 enemy_probe_wall_ahead__13TBoss5GryphonFfff(void *, f32, f32, f32);
 s32 is_vec_xz_cross_negative(void *, void *);
-s32 spawn_dead_spot_scale15(void *, s32);
+void spawn_dead_spot_scale15(s32 point, s32 delay);
 s32 vec3_add_to(void *, void *);
 TObjPlayer *get_battle_param__10TObjPlayerFi(s32);
-s32 obj_is_hit_receivable(void *);
+s32 obj_is_hit_receivable(u8 *arg0);
 void TObjEneBm5GibonU__sub_800CDB98(TObjEneBm5GibonU *self, s32 arg1);
 }
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
@@ -1009,7 +1009,7 @@ void TObjEneBm5GibonU__sub_800CDB98(TObjEneBm5GibonU *self, s32 arg1) {
                         if (p == 0) {
                             break;
                         }
-                        if (obj_is_hit_receivable(p) != 0 && p->select_melee_contact_body(self, 1.0f) != 0) {
+                        if (obj_is_hit_receivable((u8 *)p) != 0 && p->select_melee_contact_body(self, 1.0f) != 0) {
                             p->apply_knockback_from_attacker((u8 *)self, 1.0f);
                             p->receive_physical_attack(self, 1.0f);
                         }
@@ -1081,7 +1081,7 @@ void TObjEneBm5GibonU__sub_800CE060(TObjEneBm5GibonU *self, s32 arg1) {
                 rotate_xz_pair_by_angle(&sp14.x, &sp14.z, self->rotation_y);
                 vec3_add_to(&sp14, &self->position);
                 if (self->m_464 == 1) {
-                    spawn_dead_spot_scale15(&sp14, 0x32);
+                    spawn_dead_spot_scale15((s32)&sp14, 0x32);
                 } else {
                     TObjPlayer::spawn_dead_spot_type2((s32)&sp14, 0x32);
                 }
@@ -1410,14 +1410,14 @@ void TObjEneBm5GibonU__sub_800CEBD8(TObjEneBm5GibonU *self, s32 arg1) {
             }
             if (self->is_passing_frame(22.0f) != 0) {
                 self->m_564 = 0;
-                if (enemy_validate_retained_target(self) != 0) {
+                if (enemy_validate_retained_target((u8 *)self) != 0) {
                     if (self->m_390->select_melee_contact_body(self, 1.0f) != 0) {
                         self->m_390->receive_physical_attack(self, 1.0f);
                         self->m_390->apply_knockback_from_attacker((u8 *)self, 7.0f);
                         self->m_564 = 1;
                         if ((TObjEneDD::check_v2_mode() != 0) && (self->random_ratio() <= 0.1f)) {
                             if ((s32) self->m_464 != 0) {
-                                TObjEneDD__sub_800BA378(self, self->m_390);
+                                TObjEneDD__sub_800BA378((s32)self, (u8 *)self->m_390);
                             } else {
                                 TObjEneDD::send_damage_message((s32)self, (u8 *)self->m_390);
                             }
@@ -1972,7 +1972,7 @@ void TObjEneBm5GibonU__sub_800CFE34(TObjEneBm5GibonU *self, s32 arg1) {
                 }
             }
         }
-        if (enemy_validate_retained_target(self) != 0) {
+        if (enemy_validate_retained_target((u8 *)self) != 0) {
             if (self->requested_action == 0xE) {
                 self->face_target();
             } else {
@@ -2011,7 +2011,7 @@ void TObjEneBm5GibonU__sub_800CFFBC(TObjEneBm5GibonU *self, s32 arg1) {
     {
       play_sound_effect((void *)self->remap_sound_for_area(0x3A523), &self->position, 0, 0);
     }
-      if (enemy_validate_retained_target((void *) self) != 0)
+      if (enemy_validate_retained_target((u8 *)self) != 0)
     {
       self->enemy_copy_target_destination();
       self->update_velocity();

@@ -66,7 +66,7 @@ s32 TObjFish__sub_8001EDB0(int, int);
 s32 get_bml_model(int, int);
 s32 __ct__8TObjBaseFP7TObject(void *);
 u8 *TSceneSora__ct(TSceneSora *arg0, s32 _w1);
-s32 draw_ginja_model_with_motion(int, int, f32);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 set_global_param__8TObjFishFl();
@@ -92,7 +92,7 @@ void TSceneSora::render() {
         push_matrix();
         rotate_matrix_y(0, this->rotation_y);
         if ((u32) this->m_94 != 0U) {
-            draw_ginja_model_with_motion(this->m_90, this->m_94, this->m_a0);
+            draw_ginja_model_with_motion((void *)this->m_90, (void *)this->m_94, (f32)this->m_a0);
         } else {
             draw_ginja_object((void *)this->m_90);
         }

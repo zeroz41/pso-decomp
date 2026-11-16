@@ -72,8 +72,8 @@ Line_801ACD14 *TPhotonLine__ct(Line_801ACD14 *self, Params_801ACD14 *p, void *pa
 s32 check_path_obstructed(void *, Vec_801ACD14 *);
 u16 get_entity_id(void *);
 u8 *get_battle_param__10TObjPlayerFi(s32);
-void *spawn_particle_effect(void *pos, s32 id);
-void queue_photon_blast_hit(s32, s32, s32, f32);
+void *spawn_particle_effect(const void *pos, s32 id);
+void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 scale);
 void vec3_add_to(Vec_801ACD14 *, Vec_801ACD14 *);
 void run_task__11TPhotonLineFv(Line_801ACB14 *self);
 void *__dt__11TPhotonLineFv(void *arg0, s16 arg1);

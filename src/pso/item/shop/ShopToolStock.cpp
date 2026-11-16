@@ -52,7 +52,7 @@ typedef struct Hdr_8022525C
 } Hdr_8022525C;
 
 extern "C" {
-s32 mem_alloc(s32);
+void *mem_alloc(u32 size);
 void mem_free(void *p);
 void sort_shop_items(s32, s32, s32);
 u32 lobby_tool_random_rel;
@@ -454,10 +454,10 @@ void load_tool_random_rel(void) {
     }
     if (is_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            ((s32 *)&shop_tool_stock_buffers)[i] = mem_alloc(0x168);
+            ((s32 *)&shop_tool_stock_buffers)[i] = (s32)mem_alloc(0x168);
         }
     } else {
-        ((s32 *)&shop_tool_stock_buffers)[0] = mem_alloc(0x168);
+        ((s32 *)&shop_tool_stock_buffers)[0] = (s32)mem_alloc(0x168);
     }
     (*(s32 *)&shop_tool_stock_level) = 0;
 }

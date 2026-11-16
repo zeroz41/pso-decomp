@@ -1024,7 +1024,7 @@ extern s32 __vt__19TWindowKeyBoardBase[];
 u8 *TWindowKeyBoardBase__ct(u8 *arg0);
 s32 set_stream_and_load_file__6TLobbyFi(s32 *);
 s32 Dolphin_ARAlloc(s32);
-s32 TQuestVmDownLoadServer__sub_803F0C04(s32, s32, s32, s32, s32);
+void TQuestVmDownLoadServer__sub_803F0C04(u32 aram_addr, s32 size, u32 owner, u32 priority, u32 timeout_ms);
 void *__dt__19TWindowKeyBoardBaseFv(void *arg0, s16 arg1);
 s32 sub_8025CB10__19TWindowKeyBoardBaseFv(void *);
 s32 sub_8025EB68__19TWindowKeyBoardBaseFv();

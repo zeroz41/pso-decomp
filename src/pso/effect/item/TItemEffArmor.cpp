@@ -55,7 +55,7 @@ s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-s32 draw_ginja_model_with_motion(int, int, f32);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 extern RecoveredGlobal_80107DF0_lbl_8050BEC0 saved_model_draw_color;
 extern RecoveredGlobal_80107DF0_lbl_8058D4C0 model_material_color;
 extern s32 saved_model_render_flags;
@@ -171,7 +171,7 @@ void play_sound_effect(u32, void *, s32, s32);
 f32 xyz_distance(Vec_80108164 *, Vec_80108164 *);
 void *__nw__7TObjectFUl(u32);
 
-void *create_particle_emitter(void *pos, s32 id);
+TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 
 void construct_actor_light_task(void *, void *, void *, s32, u8 *, f32, s32);
 extern void *__vt__13TItemEffArmor[];
@@ -283,7 +283,7 @@ void TItemEffArmor::render() {
     copy_argb((NJS_ARGB *)&saved_model_draw_color.value, (NJS_ARGB *)&model_material_color.value);
     set_constant_material((const NJS_ARGB *)((arg0 + 0x38)));
     set_texlist(this->m_78);
-    draw_ginja_model_with_motion(this->m_70, this->m_74, this->m_24);
+    draw_ginja_model_with_motion((void *)this->m_70, (void *)this->m_74, (f32)this->m_24);
     copy_argb((NJS_ARGB *)&model_material_color.value, (NJS_ARGB *)&saved_model_draw_color.value);
     model_render_flags = saved_model_render_flags;
     pop_matrix();

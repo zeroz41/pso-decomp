@@ -206,7 +206,7 @@ const char *TShopEquipmentListWindow__class_name = "TShopEquipmentListWindow";
 u8 *TShopEquipmentListWindow__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 int set_field_20__15TShopWindowBaseFl(void*, int);
 int obj_getPtr2B0_20(u8 *p);
-s32 check_equip_requirements(void *, Rec_8021C33C *, u32 *);
+s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 s32 get_entity_id(s32);
 s32 get_shop_weapon_stock_item(void *, int, s32);
 int TShopEquipmentListWindow__sub_8021C85C(int a0);
@@ -466,7 +466,7 @@ s32 TShopEquipmentListWindow::check_purchase_eligibility() {
     if (((TObjPlayer *)(w->player))->can_inventory_accept_item((u8 *)r) == 0) {
         return 1;
     }
-    if (check_equip_requirements(w->player, r, &res) == 0) {
+    if (check_equip_requirements((void *)w->player, (TItemData *)r, (s32 *)&res) == 0) {
         return (res & 1) ? 2 : 3;
     }
     w->flag = 1;

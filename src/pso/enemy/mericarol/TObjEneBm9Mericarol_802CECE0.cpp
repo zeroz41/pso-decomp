@@ -49,12 +49,12 @@ extern SampledMotionPoints *lbl_805D6864;
 extern s32 lbl_805D686C;
 void vec3_add_to(Vec *dst, const Vec *src);
 void TBoss8Dragon__sub_800BB7D4(TObjEneBm9Mericarol *self, s32 arg1);
-f64 atan2_float(f32 y, f32 x);
-void fill_value_array(AreaAttackHistory *history);
-s32 enemy_validate_retained_target(TObjEneBm9Mericarol *self);
+f32 atan2_float(f32 y, f32 x);
+void fill_value_array(s32 address);
+s32 enemy_validate_retained_target(u8 *ene_dd_st);
 s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 s32 angle_difference_abs(s32 a, s32 b);
-void fn_802CE510(TObjEneBm9Mericarol *self);
+void fn_802CE510(int arg0);
 s32 obj_is_hit_receivable();
 void obj_setFlags30(void *object, s32 flags);
 s32 attack_target_history_add(AreaAttackHistory *history, TObjChara *target);
@@ -64,7 +64,7 @@ s32 post_translate_matrix(const Vec *v);
 void create__9TTecKafunFllllllff(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f32 farg0, f32 farg1);
 void enemy_set_target_id(TObjEneBm9Mericarol *self, u16 id);
 u16 set_squared_value__9TObjEneDDFf(TObjEneBm9Mericarol *self, f32 range);
-u16 enemy_find_nearest_player_in_range(TObjEneBm9Mericarol *self, f32 range);
+u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
 }
 
 void TObjEneBm9Mericarol::update_particle_effect() {
@@ -142,7 +142,7 @@ void TObjEneBm9Mericarol::sub_802CEDA0(s32 arg1) {
                     m_490 = 1;
                 }
             }
-            if (enemy_validate_retained_target(this) != 0) {
+            if (enemy_validate_retained_target((u8 *)this) != 0) {
                 enemy_copy_target_destination();
                 update_velocity();
             }
@@ -390,7 +390,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
         m_498 = 0xA;
         m_4a4 = m_444;
         m_4a8 = lbl_805DE70C;
-        fill_value_array(m_488);
+        fill_value_array((s32)m_488);
         set_active();
         return;
     case 3:
@@ -417,7 +417,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
                 bodies->flags |= 0x700;
                 play_sound_effect(remap_sound_for_area(0x3AD0E), &position, 0, 0);
             }
-            if (enemy_validate_retained_target(this) != 0) {
+            if (enemy_validate_retained_target((u8 *)this) != 0) {
                 enemy_copy_target_destination();
                 update_velocity();
             }
@@ -426,7 +426,7 @@ void TObjEneBm9Mericarol::sub_802CF7B4(s32 arg1) {
             vfunc_89();
             return;
         case 1:
-            fn_802CE510(this);
+            fn_802CE510((int)this);
             hit_wall = 0;
             sync_center_position();
             if (((TBoss5Gryphon *)this)->enemy_probe_wall_ahead(m_3a0.x, m_3a0.z, lbl_805DE718 * m_444) != 0U) {
@@ -499,7 +499,7 @@ void TObjEneBm9Mericarol::sub_802CFB64(s32 arg1) {
         break;
     case 0:
         advance_animation();
-        enemy_validate_retained_target(this);
+        enemy_validate_retained_target((u8 *)this);
         switch (m_490) {
         case 2:
             break;
@@ -662,7 +662,7 @@ void TObjEneBm9Mericarol::sub_802D01D8(s32 arg1) {
                     target = set_squared_value__9TObjEneDDFf(this, m_3ac - lbl_805DE718);
                 }
                 if (target == 0xFFFF) {
-                    target = enemy_find_nearest_player_in_range(this, m_3ac - lbl_805DE718);
+                    target = enemy_find_nearest_player_in_range((u8 *)this, (f32)(m_3ac - lbl_805DE718));
                 }
                 if (target != 0xFFFF) {
                     enemy_set_target_id(this, target);

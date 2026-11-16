@@ -59,7 +59,7 @@ extern "C" {
 
 
 
-f64 atan2_float(f32, f32);
+f32 atan2_float(f32 y, f32 x);
 u32 csnLookAt(void *, void *);
 s32 project_actor_to_ground(void *, void *, int);
 s32 vec3_add_to(void *, void *);
@@ -71,8 +71,8 @@ void scale_matrix_vec3(u8 *arg0, u8 *arg1);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 void render__15TObjEneSlimeOneFv(TObjEneSlimeOne *arg0);
-s32 TObjFish__sub_8001EDB0(s32, s32);
-s32 get_bml_model(s32, s32);
+s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
+s32 get_bml_model(BmlResource *resource, s32 index);
 u8 *get_instance__15TObjEneSlimeOneFv();
 s32 init_collision_body_parts(void *, void *, int);
 extern void *lbl_80496368[2];
@@ -867,20 +867,20 @@ void TObjEneSlime::render() {
         push_matrix();
         temp_r30_2 = *(s32 *)((s8 *)((u8 *)lbl_80496368 + temp_r30) + 0);
         post_translate_matrix((void *) ((u8 *)arg0 + 0x38));
-        TObjFish__sub_8001EDB0((s32)slime_bml_resource, temp_r30_2);
+        TObjFish__sub_8001EDB0((BmlResource *)slime_bml_resource, temp_r30_2);
         set_global_param__8TObjFishFl();
         if (temp_r31 != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
-            draw_chunk_object((void *)get_bml_model((s32)slime_bml_resource, temp_r30_2));
+            draw_chunk_object((void *)get_bml_model((BmlResource *)slime_bml_resource, temp_r30_2));
             clear_chunk_render_flags();
             model_render_flags &= 0xFFBFFFFF;
         } else {
             set_chunk_render_flags(2);
             set_cull_back();
-            draw_chunk_object((void *)get_bml_model((s32)slime_bml_resource, temp_r30_2));
+            draw_chunk_object((void *)get_bml_model((BmlResource *)slime_bml_resource, temp_r30_2));
             set_cull_front();
-            draw_chunk_object((void *)get_bml_model((s32)slime_bml_resource, temp_r30_2));
+            draw_chunk_object((void *)get_bml_model((BmlResource *)slime_bml_resource, temp_r30_2));
             set_cull_none();
             clear_chunk_render_flags();
         }
@@ -1084,8 +1084,8 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
   }
   new_var2 = &(*((s32 *) (((s8 *) actor) + 0x3F4)));
   id = ((s32 *) lbl_804966DC)[*new_var2];
-  ((TObjEneSlimeOne *)actor)->texlist = TObjFish__sub_8001EDB0((s32)(((TObjEneSlimeOne *)actor)->model_archive), id);
-  *((s32 *) (((s8 *) actor) + 0x34)) = get_bml_model((s32)(((TObjEneSlimeOne *)actor)->model_archive), id);
+  ((TObjEneSlimeOne *)actor)->texlist = TObjFish__sub_8001EDB0((BmlResource *)(((TObjEneSlimeOne *)actor)->model_archive), id);
+  *((s32 *) (((s8 *) actor) + 0x34)) = get_bml_model((BmlResource *)(((TObjEneSlimeOne *)actor)->model_archive), id);
   VecCopy((Vec *)(actor + 0x44), (const Vec *)((u8 *)VecCopy((Vec *)(actor + 0x50), (const Vec *)((void *)VecCopy((Vec *)(actor + 0x74), (const Vec *)(actor + 0x38))))));
   *((s32 *) (((s8 *) actor) + 0x38C)) = init_collision_body_parts(actor, lbl_80496370, 1);
   ((TObjMotion *)actor)->set_field_d8((s32)lbl_8049639C);
@@ -1511,7 +1511,7 @@ void TObjEneSlimeOne::sub_800E9EFC() {
     if (this->target_client_id == 0xFFFF) {
         r = find_nearest_visible_player(this, &sp14, 162.5f);
         if (r != 0xFFFF &&
-            angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * ((f32 (*)(f32, f32))atan2_float)(sp14.x, sp14.z))) < 0x1C71) {
+            angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(sp14.x, sp14.z))) < 0x1C71) {
             *(s32 *)((s8 *)((u8 *)this) + 0x39C) = 0;
             this->target_client_id = r;
         }
@@ -1525,7 +1525,7 @@ void TObjEneSlimeOne::sub_800E9EFC() {
             sp8.y = 0.0f;
             sp8.z = 0.0f;
             TObjPlayer::calc_distance_to_client((s32)this, this->target_client_id, (u32)&sp8);
-            this->rotation_y = approach_angle_limited(this->rotation_y, (s32)(10430.38043493439 * ((f32 (*)(f32, f32))atan2_float)(sp8.x, sp8.z)), 0x280);
+            this->rotation_y = approach_angle_limited(this->rotation_y, (s32)(10430.38043493439 * atan2_float(sp8.x, sp8.z)), 0x280);
         }
         if (this->state_timer > n) {
             ((TObjEneSlimeOne *)((void *)this->m_388))->set_motion_state((s32)((void *)0));
@@ -1867,7 +1867,7 @@ void TObjEneSlimeOne::sub_800E9090() {
     VecCopy((Vec *)&c, (const Vec *)&self->vel);
     vec3_add_to(&c, &a);
     c.y += -1.125f;
-    ang = 10430.38043493439 * ((f32 (*)(f32, f32))atan2_float)(a.x, a.z);
+    ang = 10430.38043493439 * atan2_float(a.x, a.z);
     b.x = 1.25f;
     b.y = 0.21428572f;
     b.z = 1.25f * vector_length(&a) / 11.0f;
@@ -1883,8 +1883,8 @@ void TObjEneSlimeOne::sub_800E9090() {
     rotate_matrix_y(0, ang);
     scale_matrix_vec3((u8 *)(0), (u8 *)&b);
     t = slime_tail_attack_id_pair[self->f3F4];
-    TObjFish::set_global_param(TObjFish__sub_8001EDB0(self->f380, t));
-    draw_chunk_object((void *)(get_bml_model(self->f380, t)));
+    TObjFish::set_global_param(TObjFish__sub_8001EDB0((BmlResource *)self->f380, t));
+    draw_chunk_object((void *)(get_bml_model((BmlResource *)self->f380, t)));
     ((int (*)(void))pop_matrix)();
     TObjPlayer::init_render_globals();
 }
@@ -2035,8 +2035,8 @@ void *TObjEneSlimeTailAttack__ct(TObjEneSlimeTailAttack *ene_slime_tail_attack, 
   *((s32 *) (((s8 *) ene_slime_tail_attack) - -0x374)) = arg4;
   inst = get_instance__15TObjEneSlimeOneFv();
   id = ((s32 *) lbl_804966F4)[((TObjEneSlimeOne *)(*((s32 *) (((s8 *) ene_slime_tail_attack) + (0x374 & 0xFFFF)))))->get_attack_target()];
-  ene_slime_tail_attack->texlist = TObjFish__sub_8001EDB0((s32) inst, id);
-  *((s32 *) (((s8 *) ene_slime_tail_attack) + 0x34)) = get_bml_model((s32) inst, id);
+  ene_slime_tail_attack->texlist = TObjFish__sub_8001EDB0((BmlResource *)inst, id);
+  *((s32 *) (((s8 *) ene_slime_tail_attack) + 0x34)) = get_bml_model((BmlResource *)inst, id);
   ene_slime_tail_attack->action_table = (TObjMotionAction *)lbl_8049639C;
   ((TObjMotion *)ene_slime_tail_attack)->set_field_d8((s32) ((u8 *) lbl_8049639C));
   *((s32 *) (((s8 *) ene_slime_tail_attack) + 0xDC)) = *((s32 *) (((s8 *) inst) + 0x430));

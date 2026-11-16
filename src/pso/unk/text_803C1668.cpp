@@ -45,13 +45,13 @@ struct Hdl_803C1668 {
 };
 
 extern "C" {
-s32 TLobby__sub_803C1780(s32, s32, s16 *, u8 *, u8 *, s8 *, s8 *, s32 *, s32 *, s32 *, u8 *);
+s32 TLobby__sub_803C1780(s32 buf, s32 len, s16 *data_offset, s8 *marker, s8 *bits, s8 *block_align, s8 *channels, s32 *sample_rate, s32 *sample_count, s32 *samples_per_block, s16 *encoding);
 void *memset(void *, int, u32);
 s16 DVDReadPrio(Hdl_803C1668 *h, s32 arg1, s32 arg2);
 s16 DVDReadPrio(Hdl_803C1668 *h, s32 arg1, s32 arg2) {
     s16 n;
     h->f2 = 1;
-    if (TLobby__sub_803C1780(arg1, arg2, &n, &h->fc, &h->fd, &h->ff, &h->fe, &h->f14, &h->f18, &h->f10, h->faa) < 0) {
+    if (TLobby__sub_803C1780((s32)arg1, (s32)arg2, (s16 *)&n, (s8 *)&h->fc, (s8 *)&h->fd, (s8 *)&h->ff, (s8 *)&h->fe, (s32 *)&h->f14, (s32 *)&h->f18, (s32 *)&h->f10, (s16 *)h->faa) < 0) {
         return 0;
     }
     h->f1c = 0;

@@ -493,7 +493,7 @@ void vfunc_60__16TObjEneMerillLiaFv(Ene_800D52DC *arg0);
 s32 minimap_render_dot(void *, int, int, int);
 s32 create__9TTecKafunFlllllff(void *, void *, int, int, int, f32, f32);
 s32 matrix_mult_vec(int, void *, void *);
-s32 apply_actor_gravity(void *, int, f32);
+void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 s32 enemy_move_toward(void *, s32, void *, int, f32);
 f32 horizontal_distance_squared(void *, void *);
 s32 test_elt_flag__13TUnk_80493450Fll(void *, int, int);
@@ -508,7 +508,7 @@ u32 csnVector(void *, void *, s32);
 f32 normalize_vector(void *);
 void beast_update_group_chase__16TObjEneMerillLiaFv(Obj_800D6110 *arg0);
 f32 fabs_float(f32);
-f64 atan2_float(f32, f32);
+f32 atan2_float(f32 y, f32 x);
 void link_chain_nodes__10TObjPlayerFPvPvPv(void *, void *, void *);
 s32 approach_angle_limited(s32, s32, s32);
 s32 project_actor_to_ground(void *, void *, s32);
@@ -1055,7 +1055,7 @@ void TObjEneMerillLia::beast_update_approach() {
     f32 r;
     switch (this->phase) {
     case 0:
-        apply_actor_gravity(arg0, 0, 0.0f);
+        apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
         ((TObjMotion *)arg0)->advance_animation();
         if (this->action_flags != 0x20U) {
             this->phase = 1;
@@ -1339,7 +1339,7 @@ void TObjEneMerillLia__sub_800D5BCC(u8 *arg0) {
     }
     }
     if (((TObjCollidable *)o)->obj_testFlags30(0x800000) == 0) {
-        apply_actor_gravity(o, 0, 0.0f);
+        apply_actor_gravity((TObjEnemy *)o, (s32 *)(0), 0.0f);
     }
     ((TObjCollidable *)o)->refresh_collision_body_centers();
     minimap_render_dot(&o->pos, -0x5DB4, 1, 0);

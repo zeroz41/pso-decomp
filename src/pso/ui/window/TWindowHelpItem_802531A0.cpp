@@ -48,7 +48,7 @@ void draw_action_palette_icon(void *, int, u16);
 void init_window_layout_entries(void *, const void *, s16);
 s32 *get_shared_text_buffer(void);
 u8 calc_display_grade__9TItemDataFv(void *);
-void check_equip_requirements(int, void *, void *);
+s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 void text_builder_append();
 }
 extern u8 lbl_804CF4E4[];
@@ -131,7 +131,7 @@ void TWindowHelpItem::update_tech_disk_details() {
         e4 = get_array_entry__11TWindowBaseFi(this, 4);
         e5 = get_array_entry__11TWindowBaseFi(this, 5);
         e6 = get_array_entry__11TWindowBaseFi(this, 6);
-        check_equip_requirements(player, *(void **)(((u8 *)this) + 0x68), &sp8);
+        check_equip_requirements((void *)player, (TItemData *)(*(void **)(((u8 *)this) + 0x68)), &sp8);
         if (sp8 & 1) {
             set_sprite_uv_from_pixels(e1, TWindowHelpItem__data_805DCDE4, 152.0f);
             ((TWindowHelpItem *)e2)->set_flag0_bit2();

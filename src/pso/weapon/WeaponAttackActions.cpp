@@ -1232,7 +1232,7 @@ extern s16 weapon_node_material_index;
 extern s16 TObjPlayer__weapon_node_ids[];
 extern u8* weapon_render_callback_object;
 extern "C" {
-s32 test_flags_any(void*,u32);
+s32 test_flags_any(s32 *flags, s32 mask);
 extern u8 lbl_805DACA4;
 }
 
@@ -1249,7 +1249,7 @@ void apply_weapon_node_material() {
     }
     if(node == TObjPlayer__weapon_node_ids[0] || node == TObjPlayer__weapon_node_ids[1] || node == TObjPlayer__weapon_node_ids[2]) {
         TItem::begin_effect_render();
-        if(test_flags_any(&item_render_state,4)) {
+        if(test_flags_any((s32 *)&item_render_state, 4)) {
             WeaponArgb color = get_weapon_color__11TItemWeaponFPv((TItemWeapon *)weapon_render_callback_object);
             TItem::begin_constant_material_color((const NJS_ARGB *)&color);
         }
@@ -1540,7 +1540,7 @@ void TItemWeapon::apply_owner_bonuses() {
 }
 void TItemWeapon::on_equip() {
     Player_8012065C *arg0 = (Player_8012065C *)this;
-    if (test_flags_any((u8 *)arg0 + 0x178, 1) != 0) {
+    if (test_flags_any((s32 *)((u8 *)arg0 + 0x178), 1) != 0) {
         if (!(((TItem *)arg0)->get_item_flags() & 0x20) && is_current_area_item_enabled() != 0) {
             ((TObjPlayer *)(*(void **)((s8 *)arg0 + 0xF0)))->set_action_provider_variant(arg0->v41());
         }

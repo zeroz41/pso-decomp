@@ -66,7 +66,7 @@ TObjEneMe3ShinowaMirage *create__23TObjEneMe3ShinowaMirageFPvPv(void *, s32, s32
 }
 
 extern "C" {
-u32 csnVecterUnder(void *, int);
+s32 *csnVecterUnder(s32 origin, s32 mask);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
@@ -111,7 +111,7 @@ s32 check_in_range__23TObjEneMe3ShinowaMirageFPv(TObjEneMe3Shinowa *shinowa);
 s32 get_room__8TObjBaseFv(TObjBase *);
 s32 create__10TTecDebandFlll(void *, void *, s32);
 void compose_motion_node_matrix(void *arg0);
-s32 translate_matrix(int, f32, f32, f32);
+void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 extern u8 shinowa_mirage_breakup_params[];
 
 // Per-variant parameter tables fetched from TLobby (TObjEneMe3Stelth names the same four
@@ -1032,7 +1032,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *shinowa, s32 arg1)
                     v.x += shinowa->m_3a0.x * d;
                     v.y += 20.0f;
                     v.z += shinowa->m_3a0.z * d;
-                    if (csnVecterUnder(&v, 0x15) != 0U) {
+                    if (csnVecterUnder((s32)&v, 0x15) != 0U) {
                         shinowa->m_404 = 3;
                         shinowa->m_414 = (shinowa->m_3ac - 20.0f) / 12.857143f;
                         shinowa->vfunc_91();

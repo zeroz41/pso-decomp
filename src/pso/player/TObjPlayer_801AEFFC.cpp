@@ -11,7 +11,7 @@ s32 update_movement_by_screen__10TObjPlayerFv(s32);
 s32 TObjPlayer__sub_801AF868(s32);
 s32 check_flag_800000__10TObjPlayerFPv(s32);
 void emit_idle_water_effect(s32 arg0);
-s32 has_water_ground_flag(s32);
+int has_water_ground_flag(void *p);
 void TObjPlayer__sub_801BEF60(void *p, s32 v);
 
 s32 TObjPlayer::get_card_window_field_244() {
@@ -63,7 +63,7 @@ void TObjPlayer::update_movement_effects() {
     if ((TTecCtrl::is_technique_ready() != 0) && (TObjPlayer__sub_801AF868(player) == 0) && (update_movement_by_screen__10TObjPlayerFv(player) != 0) && (((TObjPlayer *)player)->test_action_mask(0x408000) == 0) && (((TObjPlayer *)player)->is_body_collision_inactive() == 0) && (check_flag_800000__10TObjPlayerFPv(player) == 0)) {
         ((TObjPlayer *)(player + 0x384))->emit_movement_effect_at();
     }
-    if ((((TObjPlayer *)player)->is_body_collision_inactive() == 0) && (((TObjPlayer *)player)->test_action_mask(2) != 0) && (has_water_ground_flag(player + 0x360) != 0)) {
+    if ((((TObjPlayer *)player)->is_body_collision_inactive() == 0) && (((TObjPlayer *)player)->test_action_mask(2) != 0) && (has_water_ground_flag((void *)(player + 0x360)) != 0)) {
         emit_idle_water_effect(player + 0x384);
     }
 }

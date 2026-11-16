@@ -127,7 +127,7 @@ u32 rocket_punch_create_shot(s32 owner, s32 arg1, s32 arg2, f32 farg0) {
 struct Obj_8012C714 { u8 pad[0x184]; void *f184; void *f188; u8 pad2[0x1f8 - 0x18c]; u8 f1f8[4]; };
 
 extern "C" {
-s32 test_flags_any(void *p, s32 n);
+s32 test_flags_any(s32 *flags, s32 mask);
 
 void TUnk_804A535C::emit_marker_effects() {
     s32 temp_r31;
@@ -161,8 +161,8 @@ void TUnk_804A535C::vfunc_60() {
     Obj_8012C714 *self = (Obj_8012C714 *)this;
     switch (TObjPlayer::get_player_list()) {
     case 1:
-        if (test_flags_any(self->f1f8, 2) == 0) {
-            if (test_flags_any(self->f1f8, 1)) {
+        if (test_flags_any((s32 *)self->f1f8, 2) == 0) {
+            if (test_flags_any((s32 *)self->f1f8, 1)) {
                 p = self->f188;
             } else {
                 p = self->f184;
@@ -253,7 +253,7 @@ void rocket_punch_return_timer(u32 arg0) {
 
 s32 TObjPlayer::get_hp_by_flag() {
     u8 *arg0 = (u8 *)this;
-    if (test_flags_any((u8 *)&this->unk_1F8, 4) != 0) {
+    if (test_flags_any((s32 *)&this->unk_1F8, 4) != 0) {
         return *(s32 *)((s8 *)arg0 + 0x188);
     }
     return this->m_184;

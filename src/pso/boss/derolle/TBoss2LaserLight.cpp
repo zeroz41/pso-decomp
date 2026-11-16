@@ -29,7 +29,7 @@ struct Obj_800372F0 {
 };
 
 extern "C" {
-s32 TAdSinglePlyChrSelectGC__sub_80133508(void *);
+void TAdSinglePlyChrSelectGC__sub_80133508(void *light);
 const char *lbl_805D26C8 = "TBoss2LaserLight";
 extern void *__vt__16TBoss2LaserLight[];
 void __ct__7TObjectFP7TObject(TObject *self, TObject *parent);

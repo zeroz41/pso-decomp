@@ -36,7 +36,7 @@ struct Pkt_801D5FC0 { u16 hdr; u16 id; };
 extern "C" {
 s32 get_current_floor();
 void *get_player_by_client_id(s32 i);
-int bswap_g_client_id_header(void *p);
+void bswap_g_client_id_header(void *p);
 s32 send_photon_blast_ready__15TFontSmallLobbyFv(void *);
 s32 handle_photon_blast_ready__15TFontSmallLobbyFv(void *, void *);
 s32 validate_6x39_set_photon_blast_ready_flag(void *);

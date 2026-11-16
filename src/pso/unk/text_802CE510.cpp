@@ -24,7 +24,7 @@ struct RecoveredFields_802CE510_temp_r3
 };
 
 extern "C" {
-void *spawn_particle_effect(void *pos, s32 id);
+void *spawn_particle_effect(const void *pos, s32 id);
 extern const f32 lbl_805DE6EC;
 extern const f32 lbl_805DE6F0;
 extern const f32 lbl_805DE6F4;
@@ -59,7 +59,7 @@ void fn_802CE510(int arg0) {
     {
       if (temp_r31 != 0)
       {
-        particle_effect = (unsigned int)spawn_particle_effect((void *)(((RecoveredFields_802CE510_temp_r3 *) temp_r3)->field_4 + 0x38), 0x49);
+        particle_effect = (unsigned int)spawn_particle_effect((const void *)(((RecoveredFields_802CE510_temp_r3 *) temp_r3)->field_4 + 0x38), 0x49);
         if (particle_effect != 0U)
         {
           ;
@@ -68,7 +68,7 @@ void fn_802CE510(int arg0) {
           new_var = (int) particle_effect;
           ((TParticleCtrl *)new_var)->set_scale((f32) lbl_805DE6EC, (f32) lbl_805DE6F4);
         }
-        temp_r3_3 = (unsigned int)spawn_particle_effect((void *)(((RecoveredFields_802CE510_temp_r3 *) temp_r3)->field_4 + 0x38), 0xA4);
+        temp_r3_3 = (unsigned int)spawn_particle_effect((const void *)(((RecoveredFields_802CE510_temp_r3 *) temp_r3)->field_4 + 0x38), 0xA4);
         if (temp_r3_3 != 0U)
         {
           ((TParticleCtrl *)temp_r3_3)->set_scale((f32) lbl_805DE6EC, (f32) lbl_805DE6F8);
@@ -76,7 +76,7 @@ void fn_802CE510(int arg0) {
       }
       else
       {
-        temp_r3_4 = (unsigned int)spawn_particle_effect((void *)(arg0 + 0x38), 0xF3);
+        temp_r3_4 = (unsigned int)spawn_particle_effect((const void *)(arg0 + 0x38), 0xF3);
         if (temp_r3_4 != 0U)
         {
           ((TParticleCtrl *)temp_r3_4)->set_scale((f32) lbl_805DE6EC, (f32) lbl_805DE6FC);

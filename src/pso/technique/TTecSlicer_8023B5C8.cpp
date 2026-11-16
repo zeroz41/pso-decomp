@@ -338,8 +338,8 @@ struct Slicer_8023BBB4 {
 extern "C" {
 s32 subtract_vector(s32, s32);
 s32 normalize_vector(s32);
-s32 test_flags_any(void *, s32);
-u32 get_player_by_client_id(u16);
+s32 test_flags_any(s32 *flags, s32 mask);
+void *get_player_by_client_id(s32 i);
 u32 __nw__7TObjectFUl(s32);
 
 void __dl__7TObjectFPv(void *);
@@ -501,7 +501,7 @@ void run_task__10TTecSlicerFv(u8 *object) {
     s32 temp_r4;
     u8 *var_r31;
     void *new_obj;
-    *(u32 *)((s8 *)object + 0x10C) = get_player_by_client_id(*(u16 *)((s8 *)object + 0x114));
+    *(u32 *)((s8 *)object + 0x10C) = (u32)get_player_by_client_id(*(u16 *)((s8 *)object + 0x114));
     *(u32 *)((s8 *)object + 0x108) = (s32)find_equipped_item(((TTecSlicer *)object)->weaponHandle);
     if (((u32) *(u32 *)((s8 *)object + 0x108) == 0U) || ((u32) *(u32 *)((s8 *)object + 0x10C) == 0U)) {
         ((TObject *)object)->queue_destruction();
@@ -517,14 +517,14 @@ void run_task__10TTecSlicerFv(u8 *object) {
     if (new_obj != 0U) {
         __ct__14TSlicerHistoryFv((u8 *)new_obj, object, ((TTecSlicer *)object)->textureHandle, var_r31, ((TTecSlicer *)object)->weaponHandle);
     }
-    if (test_flags_any(object + 0xC0, 1) == 0) {
+    if (test_flags_any((s32 *)(object + 0xC0), 1) == 0) {
         ((TTecSlicer *)object)->update();
     }
     ((TTecSlicer *)object)->advance_position();
     if ((u32) *(u32 *)((s8 *)object + 0x124) != 0U) {
         ((TEffStarLight2D *)((TTecSlicer *)object)->star)->copy_position((const Vec *)(object + 0x38));
     }
-    if (test_flags_any(object + 0xC0, 2) != 0) {
+    if (test_flags_any((s32 *)(object + 0xC0), 2) != 0) {
         ((TObject *)object)->queue_destruction();
         return;
     }

@@ -44,7 +44,7 @@ const char *TAdSEGAlogo__class_name = "TAdSEGAlogo";
 struct Obj_8001BFCC { u8 pad[0x1c]; s32 f1c; };
 
 extern "C" {
-s32 render_logo_with_default(void *, int, int, f32);
+int render_logo_with_default(void *p, int a1, int a2, f32 a3);
 extern void* logo_texture_e_handle;
 extern int TAdSEGAlogo__state;
 extern void *tl_00;

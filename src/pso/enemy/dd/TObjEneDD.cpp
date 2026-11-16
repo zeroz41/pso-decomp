@@ -28,7 +28,7 @@ int rotate_matrix_y(void *, void *);
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 extern "C" {
-u32 get_player_by_client_id(u16);
+void *get_player_by_client_id(s32 i);
 }
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_800BABA4.h"
@@ -43,7 +43,7 @@ struct O_800B98C0;
 extern "C" {
 s32 transform_relative_position__9TObjEneDDFPv(void *, int);
 s32 calc_shot_position__13TBoss5GryphonFPUcfff(void *, s32, f32, f32, f32);
-f64 atan2_float(f32, f32);
+f32 atan2_float(f32 y, f32 x);
 u16 set_squared_value__9TObjEneDDFf(void *, f32);
 }
 struct O_800B98C0 { u8 pad[0x38c]; u16 f38c; u8 pad2[2]; s32 f390; };

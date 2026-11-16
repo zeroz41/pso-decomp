@@ -9,7 +9,7 @@ struct RecoveredGlobal_802466E0_lbl_804CE018 {
 };
 
 extern "C" {
-s32 TWindowCtrlMain__sub_8024CDB0(void *p);
+TObject *TWindowCtrlMain__sub_8024CDB0(void *p);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 lbl_804CE018[];
 int TWindowSubComCard__sub_8024634C(void*);

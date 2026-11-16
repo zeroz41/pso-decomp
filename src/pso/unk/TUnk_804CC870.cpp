@@ -112,7 +112,7 @@ extern u8 __vt__13TUnk_804CC870[];
 Obj_80232B7C *construct_grants_flash(Obj_80232B7C *self, s32 id, void *parent, Vec_80232B7C *pos, f32 scale);
 
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-void *spawn_particle_effect(void *pos, s32 id);
+void *spawn_particle_effect(const void *pos, s32 id);
 void *find_entity_by_id(u16 id);
 void *__nw__7TObjectFUl(u32);
 }
@@ -353,7 +353,7 @@ struct Task_80232EC0 {
 
 extern "C" {
 u16 get_entity_id(void *);
-void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
+TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 void *mem_alloc(u32 size);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, void *, s32, s32);

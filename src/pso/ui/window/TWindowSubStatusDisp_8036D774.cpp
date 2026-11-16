@@ -18,7 +18,7 @@ struct Desc_8036D774 { f32 *pos; u32 *col; s32 a; s32 n; };
 
 extern "C" {
 s32 TBGMulti__textures;
-s32 TCameraCtrl__sub_80068EF0();
+void TCameraCtrl__sub_80068EF0(void);
 s32 split_screen_hud_animation_frame;
 
 void TWindowSubStatusDisp::draw_split_screen_dividers() {

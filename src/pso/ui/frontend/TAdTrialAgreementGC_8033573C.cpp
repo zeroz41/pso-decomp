@@ -145,7 +145,7 @@ struct RecoveredGlobal_80335974_lbl_8050E3B8
 };
 
 extern "C" {
-s32 TCameraCtrl__sub_80068EF0();
+void TCameraCtrl__sub_80068EF0(void);
 s32 draw_record_with_camera__19TAdTrialAgreementGCFlll(void *, void *, int);
 extern RecoveredGlobal_80335BD4_lbl_8050BEC0 saved_model_draw_color;
 extern RecoveredGlobal_80335BD4_lbl_8058D4C0 model_material_color;

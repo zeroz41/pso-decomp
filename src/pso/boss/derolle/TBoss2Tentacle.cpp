@@ -91,8 +91,8 @@ s32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern DragonModelNode tentacle_model_nodes[];
 void render__14TBoss2TentacleFv(u8 *arg0);
-s32 emit_effect_and_step__13TBoss2DeRolLeFPvPv(void *, void *);
-void *get_instance__13TBoss2DeRolLeFv(void);
+void emit_effect_and_step__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);
+s32 get_instance__13TBoss2DeRolLeFv(void);
 void TBoss2Tentacle__sub_8003998C(void);
 void TBoss2Tentacle__sub_80039CB4(void* p);
 void TBoss2Tentacle__sub_80039D50(void* p);
@@ -244,7 +244,7 @@ void run_task__14TBoss2TentacleFv(u8 *arg0) {
                 F(f32, 0x138) = len;
                 F(s32, 0x14C) = 0;
                 F(s32, 0x24) = 2;
-                inst = get_instance__13TBoss2DeRolLeFv();
+                inst = (void *)get_instance__13TBoss2DeRolLeFv();
                 if (inst != NULL) {
                     emit_effect_and_step__13TBoss2DeRolLeFPvPv(inst, &pos);
                 }

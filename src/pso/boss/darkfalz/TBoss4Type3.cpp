@@ -181,7 +181,7 @@ s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 s32 normalize_vector(void *);
-f64 atan2_float(f32, f32);
+f32 atan2_float(f32 y, f32 x);
 u8 * dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 pick_random_target_player__11TBoss4Type3Fv(void);
 s32 TBoss4Type3__sub_8005254C(u16);
@@ -391,8 +391,8 @@ u16 get_entity_id(void *);
 s32 is_split_screen();
 s16 * register_boss__6TLobbyFl(s32);
 s32 get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(s32, s32);
-s32 get_bml_model(s32, s32);
+s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
+s32 get_bml_model(BmlResource *resource, s32 index);
 void fn_80044330(void *p);
 void TObjPlayer__sub_80052390(f32 x);
 f32 TBoss4Type3__sub_800524E8(f32);
@@ -413,7 +413,7 @@ int toggle_particle_effect__10TObjPlayerFv(void*);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 void free_collision_body_parts(void *);
-s32 TObjEneRe4Sorcerer__sub_801E3F1C(f32, f32);
+void TObjEneRe4Sorcerer__sub_801E3F1C(f32, f32);
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(int);
 void __ct__7TObjectFP7TObject(void *);
@@ -758,7 +758,7 @@ void *__vt__11TBoss4Type3[83] = {
 #define boss4_type3_radar_marker_colors ((u32 *)boss4_type3_radar_marker_colors)
 
 extern "C" {
-Ply_80059ABC * get_player_by_client_id(int);
+void *get_player_by_client_id(s32 i);
 }
 }
 u32 drain_player_hp(s32 id, u32 arg1);
@@ -899,7 +899,7 @@ Self_8005AE60 *TBoss4Type3__ct(Self_8005AE60 *self, s32 parent, s32 *arg2) {
         self->a438[i] = TObjFish__sub_800E3124((u8 *)(((void **)boss4_type3_effect_desc_ptr_table)[i]), (s32)&self->a444[i]);
     }
     set_motion_packed_rotation();
-    model = get_bml_model(self->f390, ((s32 *)lbl_80486FB0)[0]);
+    model = get_bml_model((BmlResource *)self->f390, ((s32 *)lbl_80486FB0)[0]);
     p = (s32)new SampledMotionPoints(2, 3.0f, 9.0f, 0.6f);
     *(s32 *)((u8 *)self + 0x51C) = p;
     ((SampledMotionPoints *)(*(s32 *)((u8 *)self + 0x51C)))->sample_two_nodes((NJS_OBJECT *)model, (NJS_MOTION *)get_bml_motion(self->f390, ((s32 *)&TBoss4Type3__anim_state_table)[0x44 / 4]), 0x16, 0x17);
@@ -1053,7 +1053,7 @@ void TBoss4Type3::run_task() {
     }
     p = new SampledMotionPoints(2, lim, lim, 0.6f);
     set_motion_packed_rotation();
-    p->sample((NJS_OBJECT *)(get_bml_model(this->m_390, ((s32 *)lbl_80486FB0)[0])), (NJS_MOTION *)(get_bml_motion(this->m_390, TBoss4Type3__anim_state_table[this->m_3f0].motions[0])), (const s32 *)boss4_type3_run_task_params, NULL);
+    p->sample((NJS_OBJECT *)(get_bml_model((BmlResource *)this->m_390, ((s32 *)lbl_80486FB0)[0])), (NJS_MOTION *)(get_bml_motion(this->m_390, TBoss4Type3__anim_state_table[this->m_3f0].motions[0])), (const s32 *)boss4_type3_run_task_params, NULL);
     clear_motion_packed_rotation();
     e = (u8 *)((SampledMotionPoints *)p)->lookup(lim);
     push_matrix();
@@ -1175,10 +1175,10 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
     TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, this->m_3dc);
     set_motion_packed_rotation();
     for (i = 0; i < 3; i++) {
-        TObjFish::set_global_param(TObjFish__sub_8001EDB0(this->m_390, tbl[i]));
+        TObjFish::set_global_param(TObjFish__sub_8001EDB0((BmlResource *)this->m_390, tbl[i]));
         off = i;
         ((TObjFish *)((s32)this->render_lists[off]))->set_draw_callback_list();
-        draw_model_motion((void *)(get_bml_model(this->m_390, tbl[i])), (void *)(get_bml_motion(this->m_390, TBoss4Type3__anim_state_table[this->m_3f0].motions[i])), this->m_3f4);
+        draw_model_motion((void *)(get_bml_model((BmlResource *)this->m_390, tbl[i])), (void *)(get_bml_motion(this->m_390, TBoss4Type3__anim_state_table[this->m_3f0].motions[i])), this->m_3f4);
         ((TObjFish *)this->render_lists[off])->clear_render_callback();
     }
     clear_motion_packed_rotation();
@@ -1460,7 +1460,7 @@ void TBoss4Type3::turn_toward_player(s32 arg1) {
     Obj_80059ABC *self = (Obj_80059ABC *)this;
     Ply_80059ABC *p;
     if ((u16)arg1 != 0xFFFF) {
-        p = get_player_by_client_id((u16)((u16)arg1));
+        p = (Ply_80059ABC *)get_player_by_client_id((u16)((u16)arg1));
         if (p != NULL) {
             self->f60 = approach_angle_limited(self->f60, (s32)(10430.38043493439 * atan2_float(p->f38 - 10000.0f, p->f40)), 0x888);
             calc_grid_index();
@@ -1517,7 +1517,7 @@ void TBoss4Type3::update_radar_markers() {
         add_radar_scaled_marker(arg0 + 0x2FC, *(u32 *)((s8 *)arg0 + 0x3C4), 1, 1, 5.0f);
     }
     if (!(*(s32 *)((s8 *)arg0 + 0x3C0) & 1) && *(u16 *)((s8 *)arg0 + 0x3BA) != 0xFFFF) {
-        p = get_player_by_client_id((u16)(*(u16 *)((s8 *)arg0 + 0x3BA)));
+        p = (Ply_80059ABC *)get_player_by_client_id((u16)(*(u16 *)((s8 *)arg0 + 0x3BA)));
         if (p != NULL) {
             VecCopy__FP3VecPC3Vec(&v, (u8 *)p + 0x38);
             subtract_vector(&v, arg0 + 0x38);
@@ -1969,7 +1969,7 @@ void TBoss4Type3::update_dark_magic() {
     if (o->f398 == 0x46) {
         r30 = *(s32 *)(dispatch_shared_handler_a__6TLobbyFl(0x38) + 0x1C);
         for (i = 0; i < TLobby::get_game_mode(); i++) {
-            p = ((s32 (*)(s32))get_player_by_client_id)(i);
+            p = (s32)get_player_by_client_id(i);
             if (TBoss4Type3__sub_8005254C(i) != 0) {
                 Vec_80058848 v = o->pos;
                 p += 0x2FC;
@@ -2030,7 +2030,7 @@ void TBoss4Type3::update_capture() {
         ((TBoss4Type3 *)arg0)->set_action_from_table(1);
         return;
     }
-    if (id == 0xFFFF || (p = get_player_by_client_id(id)) == NULL) {
+    if (id == 0xFFFF || (p = (Ply_80059ABC *)get_player_by_client_id(id)) == NULL) {
         v.x = v.y = v.z = 0.0f;
     } else {
         VecCopy__FP3VecPC3Vec(&v, (u8 *)p + 0x2FC);

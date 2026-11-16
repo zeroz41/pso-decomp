@@ -33,7 +33,7 @@
 extern "C" {
 s32 add_actor_tp(u8 *arg0, s32 arg1);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
-s16 get_actor_tp(void *object);
+s16 get_actor_tp(u8 *p);
 s16 obj_getS16_2BA(u8 *p);
 s32 get_entity_id(void *object);
 }
@@ -139,7 +139,7 @@ void TOHealGeneral::find_heal_target() {
         }
         heal_target = id;
         if (((TObjChara *)player)->get_actor_hp() < ((TItemProShield *)player)->get_field_2b8() ||
-            get_actor_tp(player) < obj_getS16_2BA((u8 *)player) ||
+            get_actor_tp((u8 *)player) < obj_getS16_2BA((u8 *)player) ||
             (u32)player->get_recovery_need_flags() != 0 ||
             (player->is_alive_and_ready() != 0 && player->are_traps_full() == 0)) {
             TParticleCtrl *effect;

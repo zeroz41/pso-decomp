@@ -90,7 +90,7 @@ extern "C" {
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
-void draw_ginja_box_tree(void);
+void draw_ginja_box_tree(u8 *arg0);
 extern void *container_breakup_model_archive;
 extern s32 lbl_805D5B8C;
 extern char lbl_80444EF4[];

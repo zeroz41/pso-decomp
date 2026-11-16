@@ -91,7 +91,7 @@ void free_bin_model_request(void*, int);
 void mem_free(void *);
 
 u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
-u8 *load_enemy_bml_resource_named(BmlResourceDescriptor *, const char *);
+s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 
 // The motion-binding block TLobby::spawn_npc_enemy takes (same layout as DelDepthAnimationBinding).
 struct CGrassAnimBinding {
@@ -189,7 +189,7 @@ void TObjCGrass::load_resources() {
     u8 *var_r0;
 
     if (TObjEneDD::check_v2_mode() != 0) {
-        TObjCGrass_bml_resource = (u32) load_enemy_bml_resource_named(&bm_ene_cgrass_resource_descriptor, "bm_ene_cgrass_a.bml");
+        TObjCGrass_bml_resource = (u32) load_enemy_bml_resource_named((s32)&bm_ene_cgrass_resource_descriptor, (s32)("bm_ene_cgrass_a.bml"));
     } else {
         temp_r3 = (u8 *)((int)::operator new(0x440));
         var_r0 = temp_r3;

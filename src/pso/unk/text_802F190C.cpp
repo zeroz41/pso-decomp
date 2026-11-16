@@ -37,7 +37,7 @@ void fn_802F1960(Obj_802F1960 *o, f32 d) {
 
 extern "C" {
 
-int draw_ginja_model_with_motion(void*, void*, float);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 void *__ct__7TObjectFP7TObject(void *, void *);
 void *__nw__7TObjectFUl(int);
 
@@ -62,7 +62,7 @@ void draw_particle_effect(void* a0) {
     TObjFish::set_global_param(boss7_common_texture_list);
     set_motion_packed_rotation();
 
-    draw_ginja_model_with_motion((void*)(*(int*)((char*)a0 + 0x1c)), (void*)(*(int*)((char*)a0 + 0x20)), *(float*)((char*)a0 + 0x28));
+    draw_ginja_model_with_motion((void *)(*(int*)((char*)a0 + 0x1c)), (void *)(*(int*)((char*)a0 + 0x20)), *(float*)((char*)a0 + 0x28));
 
     clear_motion_packed_rotation();
     TParticleCtrl::end_effect_render();

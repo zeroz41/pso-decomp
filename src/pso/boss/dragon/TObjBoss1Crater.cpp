@@ -21,7 +21,7 @@
 
 extern "C" {
 s32 isV2Mode__12TBoss1DragonFv(void);
-s32 load_enemy_bml_resource_named(void *, const char *);
+s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 s32 load_enemy_bml_resource(u8 *arg0);
 u8 *load_gvm_texture_file(s32 arg0);
 s32 lbl_805D4B50;
@@ -35,7 +35,7 @@ void load_dragon_ground_assets(void) {
         dragon_common_texture_list = (s32)load_gvm_texture_file((s32)dragon_common_texture_filename);
         break;
     case 1:
-        lbl_805D4B50 = load_enemy_bml_resource_named(&dragon_ground_resource_descriptor, dragon_common_alternate_bml_filename);
+        lbl_805D4B50 = load_enemy_bml_resource_named((s32)&dragon_ground_resource_descriptor, (s32)dragon_common_alternate_bml_filename);
         dragon_common_texture_list = (s32)load_gvm_texture_file((s32)dragon_common_alternate_texture_filename);
         break;
     }

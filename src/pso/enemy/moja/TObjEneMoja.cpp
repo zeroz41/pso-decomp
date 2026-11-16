@@ -286,7 +286,7 @@ s32 TObjPlayer__sub_800ACA0C(void *);
 
 s32 minimap_render_dot(void *, int, int, int, f32);
 
-f32 calc_xz_distance_sq(void *, void *, Vec_800AE18C *);
+f32 calc_xz_distance_sq(s32 arg0, u32 arg1, void *arg2);
 f32 atan2_float(f32, f32);
 s32 angle_difference_abs(s32, s32);
 
@@ -1123,7 +1123,7 @@ s32 TObjEneMoja::is_target_in_attack_range() {
     Vec_800AE18C d;
     if (this->mode > 1 && (t = this->target) != NULL &&
         this->m_318 != 0 && !(*(u32 *)((s8 *)t + 0x30) & 0x02000800)) {
-        dist = calc_xz_distance_sq(this, t, &d);
+        dist = calc_xz_distance_sq((s32)this, (u32)t, (void *)&d);
         angd = angle_difference_abs(this->rotation_y,
                                     (s32)(10430.38043493439 * atan2_float(d.x, d.z)));
         c = *(u8 **)(this->target + 0xA4);

@@ -140,8 +140,8 @@ s32 __ct__11TObjControlFP7TObject(s32, s32);
 void free_collision_body_parts(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 s32 get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(s32, s32);
-s32 get_bml_model(s32, s32);
+s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
+s32 get_bml_model(BmlResource *resource, s32 index);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
 void __dl__7TObjectFPv(void *);
@@ -170,8 +170,8 @@ void TUnk_804F322C::update_linked_state() {
     s32 bml_model;
 
     set_motion_packed_rotation();
-    temp_r31 = TObjFish__sub_8001EDB0(*(s32 *)((s8 *)this + 0x374), 2);
-    bml_model = get_bml_model(*(s32 *)((s8 *)this + 0x374), 2);
+    temp_r31 = TObjFish__sub_8001EDB0((BmlResource *)(*(s32 *)((s8 *)this + 0x374)), 2);
+    bml_model = get_bml_model((BmlResource *)(*(s32 *)((s8 *)this + 0x374)), 2);
     bml_motion = get_bml_motion(*(s32 *)((s8 *)this + 0x374), 0);
     TObjFish::set_global_param(temp_r31);
     TBoss6PlotFalz__sub_802AC008(*(f32 *)((s8 *)this + 0x3A8), 0.0f);

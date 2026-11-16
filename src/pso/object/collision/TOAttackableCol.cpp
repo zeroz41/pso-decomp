@@ -63,7 +63,7 @@ extern "C" {
 void *__nw__7TObjectFUl(int);
 void *fn_80157CA8(void *arg0);
 void TOAttackableCol__sub_80157310(void *_w0);
-u8 is_current_floor_switch_set(int);
+u8 is_current_floor_switch_set(s32 id);
 u16 get_entity_id(void *);
 extern u32 quest_mission_manager;
 extern u32 quest_area_manager;
@@ -240,7 +240,7 @@ f32 TOAttackableCol::apply_hit(s32 arg1) {
   if (var_r30 != 0)
   {
     temp_r0 = this->m_34c;
-    if (((temp_r0 >= 0) && (temp_r0 < 0x100)) && (is_current_floor_switch_set((int) ((u16) temp_r0)) == 0))
+    if (((temp_r0 >= 0) && (temp_r0 < 0x100)) && (is_current_floor_switch_set(((u16) temp_r0)) == 0))
     {
       return 0.0f;
     }

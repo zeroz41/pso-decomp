@@ -62,7 +62,7 @@ void show_message_by_count__9TWindowDDFll(s32, void *);
 void TWindowDD__sub_8034886C(s32, s32, void *);
 void TWindowDD__sub_8034740C(u8 *arg0, s32 arg1, s32 arg2);
 void TWindowDD__sub_803474CC(M_80347758 *entry, s16 id, char *word, s32 buf, s32 *pos);
-s32 TWindowDD__sub_80348D88(M_80347758 *entry);
+s32 TWindowDD__sub_80348D88(void *p);
 extern const s32 word_select_numeric_limits[];
 extern s32 TWindowDD__window_mode;
 s32 TWindowDD__sub_80348B70(s32);
@@ -77,7 +77,7 @@ extern const f32 lbl_805DFB94;
 s32 TWindowDD_is_id_in_range_5AC_5F9(s16 arg0);
 void TWindowDD__sub_80347758(M_80347758 *src, M_80347758 *dst);
 s32 TWindowDD__sub_803412A0(u32);
-s32 TWindowDD__sub_8034146C(s32 arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0);
+TWindowDD_WS_String *TWindowDD__sub_8034146C(f32 *pos, f32 *size, u32 str, s32 style, f32 width);
 extern s32 TWindowDD__data_805DFB50;
 extern const f32 lbl_805DFB60;
 extern const f32 lbl_805DFBDC;
@@ -534,7 +534,7 @@ void TWindowDD__sub_80347E04(W_80347E04 *arg0, s32 arg1) {
         }
         b.x = lbl_805DFB60;
         b.y = a.y;
-        o = (u8 *)TWindowDD__sub_8034146C((s32)&a, (s32)&b, (s32)r, 1, (f32)lbl_805DFBE4);
+        o = (u8 *)TWindowDD__sub_8034146C((f32 *)&a, (f32 *)&b, (u32)r, (s32)(1), (f32)((f32)lbl_805DFBE4));
         if (o != NULL) {
             ((TWindowBase *)o)->set_depth(lbl_805DFC28);
             TWindowDD__sub_803412A0((u32)o);

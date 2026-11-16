@@ -49,7 +49,7 @@ extern u32 lbl_805D6870;
 extern u32 lbl_805D6874;
 extern u32 lbl_805D6878;
 extern void *tl_04;
-s32 play_persistent_sound(s32 id, TObject *owner, const Vec *src, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 is_valid_target__9TObjEneDDFv(TObjBase *target);
 f32 horizontal_distance_squared(void *, void *);
 s32 free_collision_body_parts(void *);
@@ -423,5 +423,5 @@ void TObjEneBm9Mericarol::init_size_tier_and_offsets() {
 s32 TObjEneBm9Mericarol::get_phase() { return m_45c; }
 
 void TObjEneBm9Mericarol::sub_802D073C() {
-    play_persistent_sound(remap_sound_for_area(0x3A810), this, &position, 0, 0);
+    play_persistent_sound((s32)(remap_sound_for_area(0x3A810)), (s32)this, (u32)&position, (s32)(0), (s32)(0));
 }

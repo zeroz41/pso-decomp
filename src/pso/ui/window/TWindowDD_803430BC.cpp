@@ -223,12 +223,12 @@ s32 get_current_floor(void);
 s32 check_all_ready__9TWindowDDFl(s32);
 s32 is_room_free_of_active_enemies(s32 floor, s16 room);
 void init_item_slots__9TWindowDDFv(void *);
-s32 TWindowDD__sub_80340F70(void);
+void *TWindowDD__sub_80340F70(void);
 s32 TWindowDD__sub_80342384(s32 arg0, s32 arg1);
 void set_default_positions__9TWindowDDFiPv(void *, s32);
 void init_layout__9TWindowDDFiPv(void *, s32);
 s32 TWindowDD__sub_8034146C(V2_80343C64 *arg0, V2_80343C64 *arg1, s32 arg2, s32 arg3, f32 farg0);
-void TWindowDD__sub_803412A0(u8 *arg0);
+void TWindowDD__sub_803412A0(TWindowDD_WS_String *self);
 void format_message__9TWindowDDFPvPvUs(void *src, void *dst, u16 player);
 s32 create__9TWindowDDFv(void);
 extern s32 __vt__9TWindowDD[];
@@ -735,7 +735,7 @@ Obj_80343C64 *TWindowDD__ct(Obj_80343C64 *self, void *parent, void *arg2) {
   self->fC0 = arg2;
   init_item_slots__9TWindowDDFv(self->fC4);
   init_item_slots__9TWindowDDFv(self->fE0);
-  self->f7C = TWindowDD__sub_80340F70();
+  self->f7C = (s32)TWindowDD__sub_80340F70();
   {
     s32 i;
     for (i = 0; i < 8; i++)
@@ -803,7 +803,7 @@ Obj_80343C64 *TWindowDD__ct(Obj_80343C64 *self, void *parent, void *arg2) {
     self->a64[2] = (s32) q;
     if (q != 0)
     {
-      TWindowDD__sub_803412A0((u8 *)q);
+      TWindowDD__sub_803412A0((TWindowDD_WS_String *)q);
     }
   }
   format_message__9TWindowDDFPvPvUs(self->fC4, (void *)TWindowDD__work_buffer, local_client_id);
@@ -816,7 +816,7 @@ Obj_80343C64 *TWindowDD__ct(Obj_80343C64 *self, void *parent, void *arg2) {
     self->a64[3] = (s32) p;
     if (p != 0)
     {
-      TWindowDD__sub_803412A0(p);
+      TWindowDD__sub_803412A0((TWindowDD_WS_String *)p);
       ((TWindowDD_WS_String *)p)->update_position(0);
       ((Win_80343C64 *) p)->f30 = lbl_805DFB60;
       ((Win_80343C64 *) p)->f40 = lbl_805DFB60;

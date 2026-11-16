@@ -150,7 +150,7 @@ struct Pl_8013B0F0 {
 extern "C" {
 u16 TMainCursor__sub_8013E03C(void *p);
 void set_target_index__11TMainCursorFs(void *, s32);
-s32 reset_nearest_target_record(void *);
+void reset_nearest_target_record(void *p);
 extern Pl_8013B0F0 *player_slot_table[12];
 
 extern const char *TLOC_End__name;
@@ -1158,7 +1158,7 @@ f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 extern f32 lbl_8050BF60[3];
 s32 TMainCursor__sub_8013E970(s32, u16, s32, s32);
-s32 TObjPlayer__sub_801B066C(s32);
+int TObjPlayer__sub_801B066C(void *p);
 s32 get_selected_entry__11TMainCursorFv(s32, s32);
 
 void TMainCursor::set_cursor_pos(u16 arg1, s32 arg2) {
@@ -1219,7 +1219,7 @@ void TMainCursor::set_display_flags(s32 arg0, s32 arg1, s32 arg2) {
         ((TMainCursor *)arg2)->set_field_0c(0x30000);
         return;
     }
-    if (TObjPlayer__sub_801B066C(arg1) == 1) {
+    if (TObjPlayer__sub_801B066C((void *)arg1) == 1) {
         ((TMainCursor *)arg2)->set_field_0c(0x40030000);
         return;
     }

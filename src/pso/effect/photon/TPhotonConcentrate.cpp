@@ -16,7 +16,7 @@ const char *TPhotonConcentrate__class_name = "TPhotonConcentrate";
 
 extern "C" {
 
-void *create_particle_emitter(void *pos, s32 id);
+TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 s32 __ct__14TObjCollidableFP7TObject(s32, s32);
 s32 find_entity_by_id(s32, f32);
 void __dl__7TObjectFPv(void *);

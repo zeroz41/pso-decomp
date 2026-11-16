@@ -378,8 +378,8 @@ struct Obj_802E4FFC {
 };
 
 s32 get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(s32, s32);
-s32 get_bml_model(s32, s32);
+s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
+s32 get_bml_model(BmlResource *resource, s32 index);
 void __ct__8TObjBaseFP7TObject(void *, void *);
 void play_area_music(char *name);
 void *fn_802E6218(void *arg0);
@@ -411,8 +411,8 @@ void *TObjOnlineEnding__ct(void *arg0, void *parent) {
         ((TObject *)obj)->queue_destruction();
         return arg0;
     }
-    SELF->f90 = get_bml_model(lbl_805D68F4, 0);
-    SELF->f94 = TObjFish__sub_8001EDB0(lbl_805D68F4, 0);
+    SELF->f90 = get_bml_model((BmlResource *)lbl_805D68F4, 0);
+    SELF->f94 = TObjFish__sub_8001EDB0((BmlResource *)lbl_805D68F4, 0);
     SELF->f98 = get_bml_motion(lbl_805D68F4, 0x18);
     SELF->count = 0;
     for (i = 0; i < 4; i++) {

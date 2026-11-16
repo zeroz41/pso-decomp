@@ -233,7 +233,7 @@ void vfunc_6__20TContainerAncient01RFPsl(void *arg0, s16 *arg1, s32 arg2);
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 void draw_ginja_object(void *child);
-s32 draw_ginja_model_with_motion(s32, s32, f32);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 push_matrix();
 s32 pop_matrix();
 
@@ -581,7 +581,7 @@ void TContainerAncient01R::render() {
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_ginja_object(this->model);
         } else {
-            draw_ginja_model_with_motion(*(s32 *)&this->model, *(s32 *)&this->current_motion, this->frame);
+            draw_ginja_model_with_motion((void *)(*(s32 *)&this->model), (void *)(*(s32 *)&this->current_motion), this->frame);
         }
         pop_matrix();
     }
@@ -891,7 +891,7 @@ extern s32 TContainerAncient01__bml_resource;
 
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
-s32 draw_ginja_model_with_motion(s32, s32, f32);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 push_matrix();
 s32 reset_state__19TContainerAncient01Fv();
 
@@ -939,7 +939,7 @@ void TContainerAncient01::render() {
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_ginja_object(this->model);
         } else {
-            draw_ginja_model_with_motion(*(s32 *)&this->model, *(s32 *)&this->current_motion, this->frame);
+            draw_ginja_model_with_motion((void *)(*(s32 *)&this->model), (void *)(*(s32 *)&this->current_motion), this->frame);
         }
         pop_matrix();
     }

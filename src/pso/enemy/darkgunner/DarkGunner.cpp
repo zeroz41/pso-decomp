@@ -130,7 +130,7 @@ struct P_800A2390 {
 };
 
 extern "C" {
-s32 apply_actor_gravity(void *, s32, f32);
+void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 s32 minimap_render_dot(void *, s32, s32, s32);
 void TObjPlayer__sub_800A16C4(u8 *arg0);
 void queue_destruction__7TObjectFv(void *arg0);
@@ -142,7 +142,7 @@ void * __nw__7TObjectFUl(int);
 s32 TObjPlayer__sub_800A1FEC(void *arg0);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 f32 TObjPlayer__sub_800A3200(s32 arg0);
-s32 play_persistent_sound(int, void *, void *, int, int);
+s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 extern s32 actor_frame_tick;
 s32 TObjPlayer__sub_800A2390(void *arg0_);
 
@@ -715,7 +715,7 @@ void TObjPlayer::update_move_to_destination() {
     case 1: {
         ((TObjMotion *)o)->advance_animation();
         if (!(this->actorFlags & 0x800000)) {
-            ((s32 (*)(void *, int, f32))apply_actor_gravity)(o, 0, 0.0f);
+            apply_actor_gravity((TObjEnemy *)o, (s32 *)(0), 0.0f);
         }
         calc_velocity_toward_destination(o, o->pos, o->dest, ((f32 (*)(int))TObjPlayer__sub_800A3200)(0));
         move_with_wall_slide((u8 *)o);
@@ -747,7 +747,7 @@ s32 TObjPlayer::update_hide_sequence() {
     case 1:
         ((TObjMotion *)arg0)->advance_animation();
         if (!(this->actorFlags & 0x800000)) {
-            apply_actor_gravity(arg0, 0, 0.0f);
+            apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
         }
         ((TObjPlayer *)arg0)->update_collisions();
         temp_r3 = this->m_39c - 1;
@@ -842,7 +842,7 @@ void TObjPlayer__sub_800A16C4(u8 *player) {
     case1:
         ((TObjMotion *)player)->advance_animation();
         if (!(((TObjPlayer *)player)->actorFlags & 0x800000)) {
-            apply_actor_gravity(player, 0, 0.0f);
+            apply_actor_gravity((TObjEnemy *)player, (s32 *)(0), 0.0f);
         }
         ((TObjPlayer *)player)->update_collisions();
         temp_r4 = *(s16 *)((s8 *)player + 0x33C);
@@ -1088,7 +1088,7 @@ void TObjPlayer__sub_800A1C84(TObjPlayer *enemy) {
         break;
     case 1:
         enemy->advance_animation();
-        apply_actor_gravity(enemy, 0, 0.0f);
+        apply_actor_gravity((TObjEnemy *)enemy, (s32 *)(0), 0.0f);
         if (((VObj_14_800A1C84 *)((u8 *)enemy + 0x408))->m4() == 1) {
             TObjPlayer::apply_effect_variant_a((s32)((u8 *)enemy + 0x38), 0);
             queue_destruction__7TObjectFv(enemy);
@@ -1136,7 +1136,7 @@ void TObjPlayer__sub_800A1D70(u8 *arg0) {
             *(f32 *)((s8 *)arg0 + 0x308) = (f32) 0.0f;
         }
         }
-        apply_actor_gravity(arg0, 0, 0.0f);
+        apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
         ((TObjPlayer *)arg0)->update_collisions();
         if ((u32) ((TObjPlayer *)arg0)->action_flags != 8U) {
             ((TObjBase *)arg0)->obj_clearFlags30(0x40300);
@@ -1267,7 +1267,7 @@ s32 TObjPlayer__sub_800A1FEC(void *arg0) {
     }
     ((TObjBase *)self)->obj_clearFlags30(0x40000);
     ((TObjMotion *)self)->advance_animation();
-    apply_actor_gravity(self, 0, 0.0f);
+    apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), 0.0f);
     ((TObjPlayer *)self)->update_collisions();
     minimap_render_dot(&self->pos, -23988, 1, 0);
     submit_cursor_candidate(self, -1);
@@ -1303,7 +1303,7 @@ s32 TObjPlayer__sub_800A2390(void *arg0_) {
         }
         break;
     case 1:
-        apply_actor_gravity(enemy, 0, 0.0f);
+        apply_actor_gravity((TObjEnemy *)enemy, (s32 *)(0), 0.0f);
         enemy->f64 -= 0x1000;
         if (enemy->f64 < 0) {
             enemy->f64 = 0;
@@ -1321,7 +1321,7 @@ s32 TObjPlayer__sub_800A2390(void *arg0_) {
         }
         break;
     case 2:
-        apply_actor_gravity(enemy, 0, 0.0f);
+        apply_actor_gravity((TObjEnemy *)enemy, (s32 *)(0), 0.0f);
         if (enemy->fB8 == 0) {
             enemy->state = 3;
         }
@@ -1373,7 +1373,7 @@ s32 TObjPlayer__sub_800A2390(void *arg0_) {
             enemy->f388 &= ~0x80000;
             enemy->state = 3;
         }
-        play_persistent_sound(0x4003AD28, enemy, (u8 *)enemy + 0x38, 0, 0);
+        play_persistent_sound((s32)(0x4003AD28), (s32)enemy, (u32)((u8 *)enemy + 0x38), (s32)(0), (s32)(0));
         if (enemy->f3AC > 0) {
             enemy->f3AC--;
             if (enemy->fA4->f18 & 0x300000) {
@@ -1384,7 +1384,7 @@ s32 TObjPlayer__sub_800A2390(void *arg0_) {
         if (!(actor_frame_tick & 2)) {
             ((TObjPlayer *)enemy)->spawn_hamon_effects(0xF, 0, 1.5f);
         }
-        apply_actor_gravity(enemy, 0, 0.0f);
+        apply_actor_gravity((TObjEnemy *)enemy, (s32 *)(0), 0.0f);
         break;
     case -1:
         break;

@@ -207,7 +207,7 @@ s32 TObjEnePanarms__sub_800DFBB0(void *);
 extern f32 lbl_805D527C;
 extern u8 lbl_805D5280;
 u16 find_nearest_visible_player(void *, f32 *, f32);
-f64 atan2_float(f32, f32);
+f32 atan2_float(f32 y, f32 x);
 s32 approach_angle_limited(s32, s32, s32);
 f32 vector_length(void *);
 Obj_800DF634 *load_resource_from_descriptor(Obj_800DF634 *, s32, void *, s32, s32, s32);

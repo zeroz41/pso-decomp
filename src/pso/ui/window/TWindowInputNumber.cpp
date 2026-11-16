@@ -164,7 +164,7 @@ void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *, Ctx_802563A0 *, D
 void apply_context_transform_to_rect(Ctx_802563A0 *, Quad_802563A0 *);
 void begin_screen_draw(s32);
 void set_draw_texture_and_color(s32, s32);
-void draw_textured_quad_at_depth(Quad_802563A0 *q, f32 depth);
+void draw_textured_quad_at_depth(f32 *q, f32 depth);
 extern s32 lbl_805D63F0;
 s32 draw_visible_window_entries(void *, void *, int);
 u32 construct_type1_heading__20TWindowSubStatusDispFll(u32, s32, s16);
@@ -274,7 +274,7 @@ void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *self, Ctx_802563A0 
     q.u2 = (14.0f + uv->u) / 256.0f;
     q.v2 = (12.0f + uv->v) / 256.0f;
     apply_context_transform_to_rect(ctx, &q);
-    draw_textured_quad_at_depth(&q, depth);
+    draw_textured_quad_at_depth((f32 *)&q, depth);
     q.x = x;
     q.y = 25.0f + y;
     q.x2 = 14.0f + q.x;
@@ -284,7 +284,7 @@ void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *self, Ctx_802563A0 
     q.u2 = (14.0f + uv->u) / 256.0f;
     q.v2 = (28.0f + (12.0f + uv->v)) / 256.0f;
     apply_context_transform_to_rect(ctx, &q);
-    draw_textured_quad_at_depth(&q, depth);
+    draw_textured_quad_at_depth((f32 *)&q, depth);
     q.x = x;
     q.y = 19.0f + y;
     q.x2 = 14.0f + q.x;
@@ -294,7 +294,7 @@ void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *self, Ctx_802563A0 
     q.u2 = (14.0f + uv->u) / 256.0f;
     q.v2 = (13.0f + (12.0f + uv->v)) / 256.0f;
     apply_context_transform_to_rect(ctx, &q);
-    draw_textured_quad_at_depth(&q, depth);
+    draw_textured_quad_at_depth((f32 *)&q, depth);
     TWindowSubStatusDisp::get_player();
 }
 #pragma pop

@@ -69,10 +69,10 @@ void *__dt__15TItemShootModelFv(void *self, s16 flag);
 void increment_burst_counter(u8 *arg0);
 s32 get_burst_counter(void* p);
 s32 post_translate_matrix(void *);
-s32 draw_weapon_at_joint(void *, s32, void *);
+void draw_weapon_at_joint(s32 arg0, s8 arg1);
 s32 push_matrix();
 extern s32 model_render_flags;
-s32 is_item_area_enabled();
+s32 is_item_area_enabled(s32 area);
 s32 __nw__7TObjectFUl(s32);
 }
 s32 drill_launcher_create_shot(s32 arg0, s32 arg1, s32 arg2, f32 farg0);

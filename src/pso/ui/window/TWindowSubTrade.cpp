@@ -45,7 +45,7 @@ struct VObj_802B1B80 : VBase_802B1B80 {
 };
 
 extern "C" {
-s32 get_shared_text_buffer();
+s32 *get_shared_text_buffer(void);
 s32 text_builder_append();
 }
 void text_builder_reset(void);
@@ -86,7 +86,7 @@ s32 TWindowSubTrade::open_player_message_window(s32 arg1, s32 arg2) {
     }
     ((s32 (*)(s32))text_builder_append)(arg2);
     r = create__14TWindowMessageFlPCfUll(get_window_layout_position(0x5B), lbl_80470AA8, 1, this->m_20);
-    ((TWindowMessage *)r)->append_line(get_shared_text_buffer(), 0x82);
+    ((TWindowMessage *)r)->append_line((int)get_shared_text_buffer(), 0x82);
     return r;
 }
 }

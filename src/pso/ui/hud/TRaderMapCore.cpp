@@ -307,7 +307,7 @@ struct RadarFanDesc_801FA880 {
 struct RadarVec2_801FA880 { f32 x, y; };
 
 extern "C" {
-s32 TCameraCtrl__sub_80068EF0();
+void TCameraCtrl__sub_80068EF0(void);
 extern u32 TRaderMapCore__data_805D5F4C;
 extern RadarSpriteFrame_801FA6CC lbl_804C87E4[];
 extern f32 lbl_804C87B4[][4];

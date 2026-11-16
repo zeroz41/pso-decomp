@@ -56,14 +56,14 @@ struct ByteBlock_100 { u8 bytes[0x100]; };
 extern "C" {
 void read_disc_file(void *, s32);
 s32 init_quest_script_context(s32, void *);
-s32 check_flag_100__10TObjPlayerFPv(void *);
+int check_flag_100__10TObjPlayerFPv(void *p);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 has_player_active_menu__11TWindowCtrlFv(s32);
 void *get_window_layout_position(s32);
 void *check_room_seq_4__16TAdChrSelASlotGCFl(void *, s32);
 void *update_window_mode_from_progress__6TLobbyFPv(void *, WindowPos *);
 s32 align_menu_entry_positions(u32);
-void TWindowHelpItem__set_displayed_item_by_id(void *, s32);
+void TWindowHelpItem__set_displayed_item_by_id(u8 *window_help_item, s32 arg1);
 u32 TKeyBoardControl__ct(void *, void *, s32, s32, s32, s32);
 void TQuestThread__sub_801F5D88(void);
 void fn_801F6520(void *p);
@@ -406,7 +406,7 @@ void TQuestThreadBoard::run_task() {
         s32 item = ((TWindowMenuIconLine *)ctx.pack_select_window)->get_cursor_value();
         if (item != ctx.registers[ctx.result_register]) {
             ctx.registers[ctx.result_register] = item;
-            TWindowHelpItem__set_displayed_item_by_id(ctx.pack_select_help_window, item);
+            TWindowHelpItem__set_displayed_item_by_id((u8 *)ctx.pack_select_help_window, item);
         }
         if (((TWindowMenuIconLine *)ctx.pack_select_window)->is_decided() != 0) {
             ((TWindowBase *)ctx.pack_select_window)->close();
@@ -578,7 +578,7 @@ void TQuestThread::run_task() {
         s32 item = ((TWindowMenuIconLine *)ctx.pack_select_window)->get_cursor_value();
         if (item != ctx.registers[ctx.result_register]) {
             ctx.registers[ctx.result_register] = item;
-            TWindowHelpItem__set_displayed_item_by_id(ctx.pack_select_help_window, item);
+            TWindowHelpItem__set_displayed_item_by_id((u8 *)ctx.pack_select_help_window, item);
         }
         if (((TWindowMenuIconLine *)ctx.pack_select_window)->is_decided() != 0 ||
             ((TWindowMenuIconLine *)ctx.pack_select_window)->is_cancelled() != 0) {

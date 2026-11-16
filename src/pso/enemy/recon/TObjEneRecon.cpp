@@ -66,7 +66,7 @@ struct VObj_8031E650 *boss3_volopt_instance;
 s32 recon_intro_stage;
 u8 *recon_model_matrix_ptr;
 
-s32 TObjFish__sub_8001EDB0(u32, s32);
+s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
 s32 push_matrix();
 void TObjEneRecon::render_shadows() {
   s32 bml_model;
@@ -74,7 +74,7 @@ void TObjEneRecon::render_shadows() {
   {
     s32 temp_r30;
     bml_model = get_bml_model(TObjEneRecon__recobox_static_instance, 2);
-    temp_r30 = TObjFish__sub_8001EDB0((u32)TObjEneRecon__recobox_static_instance, 2);
+    temp_r30 = TObjFish__sub_8001EDB0(TObjEneRecon__recobox_static_instance, 2);
     push_matrix();
     translate_matrix(0, *((f32 *) (((s8 *) this) + 0x38)), *((f32 *) (((s8 *) this) + 0x3C)), *((f32 *) (((s8 *) this) + 0x40)));
     rotate_matrix_zyx(0, *((s32 *) (((s8 *) this) + 0x5C)), this->rotation_y, this->rotation_z);
@@ -918,7 +918,7 @@ struct Prm_8031C920 { f32 f0; f32 f4; };
 
 extern "C" {
 void TObjEneRecon__sub_8031D380(u8 *arg0, s32 arg1);
-f64 atan2_float(f32, f32);
+f32 atan2_float(f32 y, f32 x);
 s32 approach_angle_limited(s32, s32, s32);
 void TObjEneRecon__sub_8031CCFC(u8 *arg0, s32 arg1);
 void TObjEneRecon__sub_8031C920(u8 *arg0, s32 arg1);

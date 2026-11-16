@@ -52,8 +52,8 @@ s32 get_random_scaled__9TObjEneDDFv(void *);
 s32 noop__12TBoss8DragonFv(void *);
 s32 TBoss8Dragon__sub_800BB7D4(void *, s32);
 s32 pack_debug_text_position(s32, s32);
-BmlResource *load_enemy_bml_resource_named(BmlResourceDescriptor *descriptor, const char *filename);
-BmlResource *load_enemy_bml_resource(BmlResourceDescriptor *descriptor);
+s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
+s32 load_enemy_bml_resource(u8 *arg0);
 s32 set_field_e4__10TObjPlayerFll(void *, int, f32);
 void spawn_dead_spot_scale15(s32 point, s32 delay);
 void *find_entity_by_id(u16 id);
@@ -260,9 +260,9 @@ void TObjEneBm3FlyNest::load_resources() {
     lbl_805D5114 = NULL;
     bm3_fly_nest_attachment_index = 0;
     if (TObjEneDD::check_v2_mode() != 0) {
-        lbl_805D5108 = load_enemy_bml_resource_named(&bm3_fly_nest_resource_desc, "bm_ene_bm3_fly_a.bml");
+        lbl_805D5108 = (BmlResource *)load_enemy_bml_resource_named((s32)&bm3_fly_nest_resource_desc, (s32)("bm_ene_bm3_fly_a.bml"));
     } else {
-        lbl_805D5108 = load_enemy_bml_resource(&bm3_fly_nest_resource_desc);
+        lbl_805D5108 = (BmlResource *)load_enemy_bml_resource((u8 *)&bm3_fly_nest_resource_desc);
     }
     lbl_805D50F8 = (u8 *)TLobby::register_boss(1);
     lbl_805D50FC = (u8 *)TLobby::dispatch_shared_handler_b(1);

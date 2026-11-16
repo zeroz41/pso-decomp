@@ -11,7 +11,7 @@
 typedef struct Hdr_80420DE4 { u16 src; u16 dst; u16 len; u16 sum; } Hdr_80420DE4;
 
 void TLobby__sub_803F87C8(u8 *arg0);
-s32 TLobby__sub_803F87C4(void *);
+void TLobby__sub_803F87C4(void *cfg);
 s32 TLobby__sub_80420D38(u16 arg0, u8 arg1);
 s16 TLobby__sub_8040D8F0(void *, void *, int, void *, int);
 s16 udp_sendto(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, s32 arg5);

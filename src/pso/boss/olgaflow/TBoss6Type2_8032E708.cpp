@@ -320,8 +320,8 @@ f32 vector_length(void *);
 f32 subtract_vector(void *, int);
 f32 normalize_vector(void *);
 void TBoss6Type2__sub_8032F5C4(void *arg0);
-s32 TObjFish__sub_8001EDB0(s32, s32);
-s32 get_bml_model(s32, s32);
+s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
+s32 get_bml_model(BmlResource *resource, s32 index);
 }
 void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);
 extern "C" {
@@ -347,7 +347,7 @@ f32 TBoss5GryphonLightningWing__sub_80324CEC(f32);
 
 s32 calc_dir_angles__11TBoss6Type2FPvPvPvPv(void *arg0, s32 *arg1, s32 *arg2, Vec_8032EF34 *arg3);
 s32 is_active__11TBoss6Type2Fv(int);
-u8 *get_player_by_client_id(s32);
+void *get_player_by_client_id(s32 i);
 f32 sin_table_lookup(void *);
 f32 cos_table_lookup(void *);
 f32 xyz_distance(void *, void *);
@@ -641,7 +641,7 @@ s32 TBoss6Mag::is_target_in_front_range() {
     O_8032F034 *arg0 = (O_8032F034 *)this;
     u8 *p = 0;
     if (arg0->f408 != 0xFFFF) {
-        p = get_player_by_client_id(arg0->f408);
+        p = (u8 *)get_player_by_client_id(arg0->f408);
     }
     if (p == 0) {
         return 0;
@@ -804,7 +804,7 @@ void TBoss6Type2::turn_toward_target() {
     p = NULL;
     id = *(u16 *)((s8 *)((u8 *)this) + 0x408);
     if (id != 0xFFFF) {
-        p = ((u8 *(*)(u16))get_player_by_client_id)(id);
+        p = (u8 *)get_player_by_client_id(id);
     }
     if (p == NULL) {
         if (*(u8 **)((s8 *)((u8 *)this) + 0x378) == NULL) {
@@ -1033,8 +1033,8 @@ void TBoss6Mag::draw_model_motion_blend() {
     s32 temp_r31;
     s32 bml_model;
     set_motion_packed_rotation();
-    temp_r31 = TObjFish__sub_8001EDB0(*(s32 *)((s8 *)this + 0x374), 1);
-    bml_model = get_bml_model(*(s32 *)((s8 *)this + 0x374), 1);
+    temp_r31 = TObjFish__sub_8001EDB0((BmlResource *)(*(s32 *)((s8 *)this + 0x374)), 1);
+    bml_model = get_bml_model((BmlResource *)(*(s32 *)((s8 *)this + 0x374)), 1);
     TObjFish::set_global_param(temp_r31);
     if ((0.0f) == *(f32 *)((s8 *)this + 0x3E8)) {
         ((TObjFish *)(*(s32 *)((s8 *)this + 0x458)))->set_draw_callback_list();

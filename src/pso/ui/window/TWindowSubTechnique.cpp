@@ -152,7 +152,7 @@ s32 try_equip_item__10TObjPlayerFii(s32, s32);
 void play_sound_effect(s32, s32, s32, s32);
 // set_depth__11TWindowBaseFf declared above
 s32 is_player_input_active(s32);
-void call_if_split_screen(void *, s32);
+void call_if_split_screen(u32 object, s32 client_id);
 f32 TWindowSubEquip__sub_80263AF8(u8 *arg0, u32 arg1);
 void *create__14TWindowMessageFlPCfUll(s32, void *, s32, s32);
 s32 update_selection__19TWindowSubTechniqueFPsPl(void *, void *, s32);
@@ -273,7 +273,7 @@ void TWindowSubTechnique::run_task() {
         self->help = create__14TWindowMessageFlPCfUll(get_window_layout_position(0x14), lbl_8044FC54, 1, self->player);
         TWindowSubEquip__sub_80263AF8((u8 *)self->f30, 2);
         set_depth__11TWindowBaseFf((s32)self->help);
-        call_if_split_screen(self->help, self->player);
+        call_if_split_screen((u32)self->help, self->player);
         ((TWindowSubTradeMain *)(self->sel))->clear_trade_flag();
         ((TWindowSubTechnique *)(self->sel))->clear_flag70_bit80();
         ((TWindowSubComCard *)(self->sel))->clear_flag_and_release();

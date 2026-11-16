@@ -36,7 +36,7 @@ void push_matrix(void);
 s32 pop_matrix(void);
 extern void *__vt__15TItemEffBringer[];
 void *__ct__15TItemEffBringerFv(Bringer_8010834C *self, u32 arg1, Vec_8010834C *src, s32 arg3, f32 farg0);
-void *spawn_particle_effect(void *pos, s32 id);
+void *spawn_particle_effect(const void *pos, s32 id);
 }
 void TItemEffBringer::hook() {
     Vec work = this->m_pos;

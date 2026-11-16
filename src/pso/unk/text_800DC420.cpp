@@ -86,7 +86,7 @@ extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 f32 atan2_float(f32, f32);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
-void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
+TParticleCtrl *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 s32 __ct__14TObjCollidableFP7TObject(void *, int);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);

@@ -64,11 +64,11 @@ struct Laser_801AC17C {
 
 extern "C" {
 void __ct__9TObjCharaFP7TObject(void *, void *);
-void *create_particle_emitter(void *pos, s32 id);
+TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 extern s32 __vt__12TPhotonLaser[];
 extern const char *TPhotonLaser__name;
 Laser_801AC36C *TPhotonLaser__ct(Laser_801AC36C *self, Params_801AC36C *p, void *parent, s16 arg3);
-void *spawn_particle_effect(void *pos, s32 id);
+void *spawn_particle_effect(const void *pos, s32 id);
 void *find_entity_by_id(u16);
 void vec3_add_to(void *, void *);
 void rotate_vector_by_matrix(int, void *, void *);

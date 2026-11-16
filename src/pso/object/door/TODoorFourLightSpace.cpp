@@ -65,7 +65,7 @@ s32 set_global_param__8TObjFishFl();
 void *__dt__20TODoorFourLightSpaceFv(void *arg0, s16 arg1);
 void fn_802898E8(void);
 void fn_802898EC(void);
-s32 draw_ginja_model_with_motion(s32, s32, f32);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 void free_collision_body_parts(void *);
 void __dl__7TObjectFPv(void *);
 s32 get_main_phase();
@@ -149,7 +149,7 @@ void TODoorFourLightRuins::render() {
             set_global_param__8TObjFishFl();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion(*(s32 *)&this->m_d4, *(s32 *)&this->motion, this->animation_frame);
+            draw_ginja_model_with_motion((void *)(*(s32 *)&this->m_d4), (void *)(*(s32 *)&this->motion), this->animation_frame);
             pop_matrix();
             return;
         case 2:
@@ -158,7 +158,7 @@ void TODoorFourLightRuins::render() {
             set_global_param__8TObjFishFl();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion(*(s32 *)&this->m_d4, *(s32 *)&this->motion, this->animation_end_frame);
+            draw_ginja_model_with_motion((void *)(*(s32 *)&this->m_d4), (void *)(*(s32 *)&this->motion), this->animation_end_frame);
             pop_matrix();
             return;
         case 0:
@@ -361,7 +361,7 @@ void TODoorFourLightSpace::render() {
             set_global_param__8TObjFishFl();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion(*(s32 *)&this->m_d4, *(s32 *)&this->motion, this->animation_frame);
+            draw_ginja_model_with_motion((void *)(*(s32 *)&this->m_d4), (void *)(*(s32 *)&this->motion), this->animation_frame);
             pop_matrix();
             return;
         case 2:
@@ -370,7 +370,7 @@ void TODoorFourLightSpace::render() {
             set_global_param__8TObjFishFl();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion(*(s32 *)&this->m_d4, *(s32 *)&this->motion, *(f32 *)&this->animation_end_frame);
+            draw_ginja_model_with_motion((void *)(*(s32 *)&this->m_d4), (void *)(*(s32 *)&this->motion), *(f32 *)&this->animation_end_frame);
             pop_matrix();
             return;
         case 0:

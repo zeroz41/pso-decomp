@@ -258,7 +258,7 @@ void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
 s32 approach_angle_limited(s32, s32, s32);
 void submit_cursor_candidate(void *, s32);
-u8 * get_player_by_client_id(s32);
+void *get_player_by_client_id(s32 i);
 void minimap_render_dot(void *, s32, s32, s32);
 s32 scale_matrix(int, f32, f32, f32);
 f32 vector_length(void *);
@@ -943,7 +943,7 @@ void TObjEnePanBARA::attack_target_player(s32 arg1) {
     u8 *t;
     f32 sc;
     s32 lv;
-    t = get_player_by_client_id(arg1);
+    t = (u8 *)get_player_by_client_id(arg1);
     if (t != NULL) {
         if (this->m_380 == 0) {
             Hit_800E1608 tmp = lbl_8043CD88[0];
@@ -1087,7 +1087,7 @@ void TObjEnePanBARA::sub_800E10D0() {
     if (ok != 0) {
         this->rotation_y = approach_angle_limited(this->rotation_y, angle, 0x208);
         scale = 75.0f;
-        p = get_player_by_client_id(idx);
+        p = (u8 *)get_player_by_client_id(idx);
         if (p != NULL) {
             if (*(s32 *)((s8 *)this + 0x380) == 1) {
                 scale *= -1.0f;

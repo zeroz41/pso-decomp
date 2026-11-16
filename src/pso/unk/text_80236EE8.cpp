@@ -47,7 +47,7 @@ u16 get_entity_id(u32);
 List_802370D8 *find_support_technique_contact_for_target__10TObjPlayerFl(void *, u32);
 List_802370D8 *gather_contacts_for_self__10TObjPlayerFl(void *, u32);
 void deliver_technique_to_party_targets(Obj_802370D8 *arg0);
-void *spawn_particle_effect(void *pos, s32 id);
+void *spawn_particle_effect(const void *pos, s32 id);
 void *get_player_by_client_id(s32 i);
 const s32 support_tec_range_effect_id_table[4] = {493, 505, 506, 507};
 const Arr_80236EE8 lbl_8044D908 = {{0, 0, 0}};

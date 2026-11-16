@@ -19,7 +19,7 @@ typedef struct Ctrl_8024966C {
 
 extern "C" {
 Balloon_8024966C *find_balloon_overlap_for__15TWindowFukidasiFl(Balloon_8024966C *, Balloon_8024966C *);
-s32 TWindowCtrlMain__sub_8024CDD0(s32 arg0);
+TObject *TWindowCtrlMain__sub_8024CDD0(s32 viewport_index);
 s32 find_overlapping_balloon__15TWindowFukidasiFPvPvPvPv(s32, s32, s32, s32);
 
 int TUnk_804D0658::is_selected() { return (this->m_70 >> 5) & 0x1; }

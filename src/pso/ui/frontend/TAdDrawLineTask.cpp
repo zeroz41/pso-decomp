@@ -33,7 +33,7 @@ void fn_80019EB8(O_80019EB8 *self, f32 f) {
 extern "C" {
 void draw_projected_line_strip__10TObjPlayerFPvii(DrawLineVertex *, s32, s32);
 void copy_draw_line_record(DrawLineRecord *, const DrawLineRecord *);
-void TAdDrawLineTask__sub_80019A8C(DrawLineVertex *, const DrawLineVertex *);
+void TAdDrawLineTask__sub_80019A8C(void *p, void *q);
 f32 newton_sqrtf(f32);
 }
 

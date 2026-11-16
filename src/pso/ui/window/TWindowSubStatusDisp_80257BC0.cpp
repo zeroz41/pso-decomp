@@ -471,7 +471,7 @@ void init_status_entry__20TWindowSubStatusDispFPvcUii(u8 *arg0, s8 arg1, u32 arg
 void select_item_icon__20TWindowSubStatusDispFPviUcUci(void *arg0, s32 arg1, u8 arg2, u8 arg3, s32 arg4);
 s32 is_wrapped__9TItemDataFPv(s32);
 void *get_player_by_client_id(s32 i);
-s32 check_equip_requirements(s32, s32, s32 *);
+s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 u8 calc_display_grade__9TItemDataFv(s32);
 
 void TWindowSubStatusDisp::update_item_icon_colors(void *item) {
@@ -562,7 +562,7 @@ void TWindowSubStatusDisp::update_item_colors(s32 arg1) {
     }
     player = (s32)get_player_by_client_id(*(s16 *)((s8 *)this + 2));
     if (player != 0) {
-        temp_r29 = check_equip_requirements(player, arg1, &sp8);
+        temp_r29 = check_equip_requirements((void *)player, (TItemData *)arg1, &sp8);
         temp_r30 = ((TItemData *)arg1)->check_item_flags();
         if ((u8) *(u8 *)((s8 *)this + 0x1C) == 0x33) {
             if ((temp_r30 == 0) && (TItemData::is_rare_item((u8 *)arg1) != 0)) {

@@ -33,7 +33,7 @@ s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(void *, int, int);
 s32 run_task__14TWindowMessageFv();
 extern RecoveredGlobal_8026AF24_lbl_8050E208 controller_input_state;
-s32 get_shared_text_buffer();
+s32 *get_shared_text_buffer(void);
 u32 copy_message_page_text__20TWindowSubStatusDispFv(u32);
 
 s32 TWindowMessagePage::is_ready() {
@@ -47,7 +47,7 @@ void TWindowMessagePage::update_message() {
     if ((u32) this->m_94 != 0U) {
         text_builder_reset();
         this->m_94 = copy_message_page_text__20TWindowSubStatusDispFv(this->m_94);
-        append_line(get_shared_text_buffer(), *(s32 *)((s8 *)this + 0x90));
+        append_line((int)get_shared_text_buffer(), *(s32 *)((s8 *)this + 0x90));
     }
 }
 

@@ -165,8 +165,8 @@ extern ParticleTexture *TParticleCtrl__data_80511F70[];
 s32 is_particle_sprite_additive__13TUnk_8048E728Fv(void *, s32);
 s32 append_node_to_tail__13TParticleCtrlFPvPv(s32, void *);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
-s32 draw_ginja_object(u32);
-s32 draw_ginja_model_with_motion(u32, u32, f32);
+void draw_ginja_object(void *child);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -544,9 +544,9 @@ void TUnk_8048E778::render() {
         TObjFish::set_global_param(p->texlist);
         set_draw_list_mask(3);
         if (p->motion != 0) {
-            draw_ginja_model_with_motion(p->model, p->motion, p->frame);
+            draw_ginja_model_with_motion((void *)p->model, (void *)p->motion, (f32)p->frame);
         } else {
-            draw_ginja_object(p->model);
+            draw_ginja_object((void *)p->model);
         }
         if (p->flags & 0x400) {
             reset_particle_tev();

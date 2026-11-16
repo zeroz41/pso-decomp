@@ -3,7 +3,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-u8 is_current_floor_switch_set(u16 id);
+u8 is_current_floor_switch_set(s32 id);
 }
 
 void TOSwitchTimer::sub_801782A0() {

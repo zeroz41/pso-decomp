@@ -109,7 +109,7 @@ s32 TQuestVmDownLoadServer__sub_8006EF6C(s32 arg0);
 u32 calc_text_width(char *s);
 s32 is_active__23TAdSinglePlyChrSelectGCFv();
 void TObjCMIcon__sub_802994C8(s32 arg0, s32 *arg1);
-s32 TAdSinglePlyChrSelectGC__sub_802905B8();
+int TAdSinglePlyChrSelectGC__sub_802905B8(void);
 s32 rand();
 void TObjCMMainMenu__sub_80298DA0(int a0);
 }
@@ -292,7 +292,7 @@ void TObjCMMainMenu__sub_80298310(void);
 u8 is_not_dressing_room_mode__14TObjCMMainMenuFv(void);
 s32 * TObjCMMainMenu__sub_80298DD4(void);
 void fn_802993F0(void);
-void fn_8029945C(const vec2f *position);
+void fn_8029945C(u8 *arg0);
 u32 __cvt_fp2unsigned(f32);
 char * strncpy(char *, const char *, u32);
 extern u8 __vt__14TObjCMHairMenu[];
@@ -439,7 +439,7 @@ TObjCMMainMenu::TObjCMMainMenu(TObject *parent) : TObject(parent) {
     set_speed(30.0f);
     nodes = new TObject(NULL);
     fn_802947A8();
-    fn_8029945C(&lbl_80464F50);
+    fn_8029945C((u8 *)&lbl_80464F50);
     sub_802972C4();
 }
 

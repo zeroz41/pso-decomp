@@ -17,7 +17,7 @@ public:
 #include "types.h"
 
 extern "C" {
-void draw_ginja_object(int);
+void draw_ginja_object(void *child);
 void set_color_blend_mode(int, int, int, int, s32, s32);
 }
 
@@ -586,7 +586,7 @@ void vfunc_12__8TObjChipFv(u8 *arg0) {
             post_translate_matrix(p);
             rotate_matrix_yxz(0, p->rx, p->ry, p->rz);
             scale_matrix(0, *(f32 *)(arg0 + 0x60), *(f32 *)(arg0 + 0x60), *(f32 *)(arg0 + 0x60));
-            draw_ginja_object(*(s32 *)(arg0 + 0x64));
+            draw_ginja_object((void *)(*(s32 *)(arg0 + 0x64)));
             pop_matrix();
             set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
         }
@@ -599,7 +599,7 @@ void vfunc_12__8TObjChipFv(u8 *arg0) {
             post_translate_matrix(p);
             rotate_matrix_yxz(0, p->rx, p->ry, p->rz);
             scale_matrix(0, *(f32 *)(arg0 + 0x60), *(f32 *)(arg0 + 0x60), *(f32 *)(arg0 + 0x60));
-            draw_ginja_object(*(s32 *)(arg0 + 0x64));
+            draw_ginja_object((void *)(*(s32 *)(arg0 + 0x64)));
             pop_matrix();
         }
     }

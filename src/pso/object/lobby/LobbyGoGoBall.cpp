@@ -311,8 +311,8 @@ void direction_to_rotation_yx(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
 s32 scale_matrix(int, f32, f32, f32);
-s32 rotate_matrix_about_axis(int, void *, int);
-s32 translate_matrix_vec3(int, void *);
+void rotate_matrix_about_axis(u8 *arg0, s32 arg1, s32 arg2);
+void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 f32 vec_squared_length(void *);
 void set_chunk_material_override_pair(s32, s32);
 s32 draw_chunk_object(s32);
@@ -663,12 +663,12 @@ void TUnk_804B8E18::render() {
     }
     rotation_x += (s32)(182.04445f * (7.0f * len));
     push_matrix_from(0);
-    translate_matrix_vec3(0, &pos);
+    translate_matrix_vec3((u8 *)(0), (u8 *)&pos);
     rate = 0.15f * (*(Glob_80199A44 *)&gogo_ball_configuration).scale;
     scale_matrix(0, rate, rate, rate);
     set_constant_material((const NJS_ARGB *)((&color)));
     if (vec_squared_length(&dir)) {
-        rotate_matrix_about_axis(0, &dir, unk_338);
+        rotate_matrix_about_axis((u8 *)(0), (s32)&dir, unk_338);
     }
     rotate_matrix_y(0, unk_334);
     if (lobby_gvm_texture_handles != 0 && (*(void**)&gogo_ball_bml_resource) != 0) {

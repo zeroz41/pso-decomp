@@ -35,7 +35,7 @@ struct Pkt_801D2964 { u8 hdr[4]; Pos_801D2964 pos; };
 extern "C" {
 s32 TFontSmallLobby__sub_801C0228(void *, void *);
 #define TFontSmallLobby__sub_801C0228 ((int (*)(void*))TFontSmallLobby__sub_801C0228)
-int bswap_g_client_id_header(void*);
+void bswap_g_client_id_header(void *p);
 
 extern const f32 TObjPlayer__data_805DC278;
 

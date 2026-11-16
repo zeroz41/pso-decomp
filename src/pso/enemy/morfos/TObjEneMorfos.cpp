@@ -530,7 +530,7 @@ extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 void render__13TObjEneMorfosFv(u8 *arg0);
-u8 * get_player_data__10TObjPlayerFi(int);
+int get_player_data__10TObjPlayerFi(int a0);
 s32 queue_destruction__7TObjectFv(void *);
 s32 check_value_in_range__13TObjEneMorfosFPvUsUsUs(void *, int, int, int);
 s32 TObjEneMorfos__sub_803344F0(void *arg0);
@@ -776,7 +776,7 @@ void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 s32 angle_difference_abs(s32, s32);
 s32 angle_diff_s16(s32);
 s32 free_collision_body_parts(void *);
-Pl_8033496C * get_player_by_client_id(s32);
+void *get_player_by_client_id(s32 i);
 s32 __dl__7TObjectFPv(void *);
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
 void TObjEneMorfos__sub_80332DBC(u8 *arg0, s32 arg1);
@@ -1380,7 +1380,7 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 arg1) {
             F(0x60, s32) += D->f1C;
             n = TLobby::get_game_mode();
             for (i = 0; i < n; i++) {
-                pl = get_player_data__10TObjPlayerFi(i);
+                pl = (u8 *)get_player_data__10TObjPlayerFi(i);
                 if (((TObjBase *)pl)->is_alive() != 0) {
                     if (((TObjBase *)arg0)->get_room() == ((TObjBase *)pl)->get_room()) {
                         ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
@@ -1859,7 +1859,7 @@ s32 TObjEneMorfos::select_target_in_view() {
     dz = cos_table_lookup(arg0->f60);
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        p = get_player_data__10TObjPlayerFi(i);
+        p = (u8 *)get_player_data__10TObjPlayerFi(i);
         if (((TObjBase *)p)->is_alive() == 0) {
             continue;
         }
@@ -1963,7 +1963,7 @@ void TObjEneMorfos::vfunc_62() {
     if (this->mode == 0xA) {
         return;
     }
-    pl = get_player_by_client_id(this->m_2d4);
+    pl = (Pl_8033496C *)get_player_by_client_id(this->m_2d4);
     if (pl != 0) {
         VecCopy((Vec *)&v, (const Vec *)&pl->pos);
         subtract_vector(&v, &arg0->pos);

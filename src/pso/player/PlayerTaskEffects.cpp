@@ -19,7 +19,7 @@
 extern "C" {
 
 void *__ct__20TPlayerLevelFeedbackFP7TObjectUs(void *arg0, u16 arg1, u16 arg2);
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
+void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags);
 u32 get_player_by_client_id(u16);
 s32 __ct__7TObjectFP7TObject();
 void __dl__7TObjectFPv(void *);
@@ -53,7 +53,7 @@ struct VO_801C6408 : VB_801C6408 {
 };
 
 extern "C" {
-void *create_particle_emitter(void *pos, s32 id);
+TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 s32 is_on_current_floor__10TObjPlayerFi(VO_801C6408*);
 extern s32 tl_07;
 void* __nw__7TObjectFUl(s32);
@@ -97,7 +97,7 @@ u16 get_obj_type__10TObjPlayerFPv(void*);
 TObjPlayer* get_player_by_client_id(int);
 void set_ring_action__10TObjPlayerFPvi(void*, s32);
 void set_stat_scale__10TObjPlayerFPvf(void*, f32);
-s32 test_flags_any(s32, s32);
+s32 test_flags_any(s32 *flags, s32 mask);
 }
 
 extern "C" {
@@ -112,7 +112,7 @@ extern "C" {
 
 f32 apply_stat_multipliers__10TObjPlayerFiif(s32 arg0, s32 arg1, f32 farg0);
 void apply_stats_and_update__10TObjPlayerFPv(void* p);
-s32 test_flags_any(s32, s32);
+s32 test_flags_any(s32 *flags, s32 mask);
 s32 is_flag30_8_set__10TObjPlayerFi(s32);
 
 
@@ -136,11 +136,11 @@ void handle_6x87_shrink_player(const PlayerShrinkPacket* input);
 TObjPlayer* get_player_by_client_id(int);
 int check_camera_mode__10TObjPlayerFv();
 void restore_shrunken_font__10TObjPlayerFv(PlayerRestoreSizePacket*, const PlayerRestoreSizePacket*);
-int bswap_g_client_id_header(void *p);
+void bswap_g_client_id_header(void *p);
 int validate_6x88_restore_shrunken_player(PlayerRestoreSizePacket*);
 int clear_shrink_flag__10TObjPlayerFPv(void* p);
 void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
-void request_follow_camera_offsets(f32*, f32*, u16);
+void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
 void update_player_scale_camera(PlayerScaleState *state);
 }
 
@@ -268,7 +268,6 @@ extern s32 __vt__18TPlayerLobbyMarker[];
 
 #undef get_player_by_client_id
 
-#undef test_flags_any
 
 #undef apply_stat_multipliers__10TObjPlayerFiif
 
@@ -542,7 +541,7 @@ s32 check_flag_40000__10TObjPlayerFv(int);
 s32 set_flag_2000000_alt__10TObjPlayerFv();
 void *TForceOperate__ct(void *arg0, void *arg1, void *arg2);
 void *find_entity_by_id();
-void fn_8013E020(void *);
+void fn_8013E020(Obj_8013E020 *self);
 void *get_state__11TMainCursorFv(s32);
 s32 is_target_valid__10TObjPlayerFv();
 void queue_destruction__7TObjectFv(void *arg0);
@@ -659,14 +658,14 @@ void TPlayerSoul::set_particle(TParticleCtrl*value) { particle = value; }
 
 namespace accessors {
 extern "C" {
-int TObjPlayer__sub_801C6F90(void* p) { return ((int (*)(void*, int))test_flags_any)(p, 2); }
+int TObjPlayer__sub_801C6F90(void* p) { return test_flags_any((s32 *)p, 2); }
 
 }
 }
 
 namespace accessors {
 extern "C" {
-int set_lock_flag__10TObjPlayerFPv(void* p) { return ((int (*)(void*, int))test_flags_any)(p, 1); }
+int set_lock_flag__10TObjPlayerFPv(void* p) { return test_flags_any((s32 *)p, 1); }
 
 }
 }
@@ -928,7 +927,7 @@ f32 apply_stat_multipliers__10TObjPlayerFiif(s32 arg0, s32 arg1, f32 farg0) {
     var_f31 = farg0;
     if (is_flag30_8_set__10TObjPlayerFi(arg1) != 0) {
         var_f31 *= 0.5f;
-    } else if (test_flags_any(arg0 + 0xC, 8) != 0) {
+    } else if (test_flags_any((s32 *)(arg0 + 0xC), 8) != 0) {
         var_f31 *= 0.75f;
     }
     ((s32 (*)(s32, f32))TObjPlayer__sub_801C6FCC)(arg0, var_f31);
@@ -1057,7 +1056,7 @@ TPlayerLevelFeedback::TPlayerLevelFeedback(TObject* parent, u16 id) : TObject(pa
     timer = 10;
     player = get_player_by_client_id(player_id);
     if (player != 0) {
-        player = (u32)spawn_particle_effect_with_flags((void *)(player + 0x2FC), 0x23, 0x10);
+        player = (u32)spawn_particle_effect_with_flags((const void *)(player + 0x2FC), 0x23, 0x10);
         if (player != 0) ((TParticleCtrl *)player)->set_owner_id(player_id);
     }
 }
@@ -1073,7 +1072,7 @@ void TPlayerLevelFeedback::run_task() {
     if (remaining < 0) {
         player = get_player_by_client_id(player_id);
         if (player != 0) {
-            emitter = (u32)spawn_particle_effect_with_flags((void *)(player + 0x2FC), 0x20, 0x10);
+            emitter = (u32)spawn_particle_effect_with_flags((const void *)(player + 0x2FC), 0x20, 0x10);
             if (emitter != 0) ((TParticleCtrl *)emitter)->set_owner_id(player_id);
         }
         queue_destruction();
@@ -1392,21 +1391,21 @@ void TForceOperate::run_task() {
 #pragma defer_codegen off
 namespace accessors {
 extern "C" {
-int set_action_flag16__10TObjPlayerFPv(void* p) { return ((int (*)(void*, int))test_flags_any)(p, 16); }
+int set_action_flag16__10TObjPlayerFPv(void* p) { return test_flags_any((s32 *)p, 16); }
 
 }
 }
 
 namespace accessors {
 extern "C" {
-int test_flag_8__10TObjPlayerFPv(void* p) { return ((int (*)(void*, int))test_flags_any)(p, 8); }
+int test_flag_8__10TObjPlayerFPv(void* p) { return test_flags_any((s32 *)p, 8); }
 
 }
 }
 
 namespace accessors {
 extern "C" {
-int TObjPlayer__sub_801C7098(void* p) { return ((int (*)(void*, int))test_flags_any)(p, 2); }
+int TObjPlayer__sub_801C7098(void* p) { return test_flags_any((s32 *)p, 2); }
 
 }
 }

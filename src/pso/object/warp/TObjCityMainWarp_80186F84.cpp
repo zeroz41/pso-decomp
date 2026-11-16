@@ -52,7 +52,7 @@ extern s32 local_client_id;
 s32 is_local_client_floor_leader(s32);
 s32 find_local_player_in_range__16TObjCityMainWarpFf(void *, f32);
 s32 close_windows__25TObjCityMainWarpChallengeFv();
-s32 fn_80248994(void *, u32, int);
+void fn_80248994(TWindowBase *list, u32 color, s32 pos);
 void request_active_window_close(void);
 void begin_player_keyboard_hold(s32 arg0);
 s32 get_window_layout_position(s32);

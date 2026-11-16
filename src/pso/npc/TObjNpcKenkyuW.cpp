@@ -84,7 +84,7 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 TObjFish__sub_8001EDB0(int, int);
 s32 get_bml_model(int, int);
 extern s32 __vt__14TObjNpcKenkyuW[];
-s32 obj_is_hit_receivable(void *);
+s32 obj_is_hit_receivable(u8 *arg0);
 Vec_802A3DE8 *get_shoot_data__12TNeedleShootFv(void *);
 void vector_length(void *);
 s32 get_entity_id(void *);
@@ -141,7 +141,7 @@ s32 TObjPlayer::is_hit_receivable_target(s32 arg0, u32 arg1) {
     if (arg1 == 0U) {
         return FALSE;
     }
-    return obj_is_hit_receivable((void *)arg1) ? TRUE : FALSE;
+    return obj_is_hit_receivable((u8 *)arg1) ? TRUE : FALSE;
 }
 #define L_802A3DE8 technique_contact_list
 TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src) {

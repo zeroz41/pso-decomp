@@ -40,7 +40,7 @@ void set_cue_stream_gain(s32 arg0);
 void TLobby__sub_8022733C(void);
 void *get_player_by_client_id(s32 i);
 void stop_sound_request(s32 idx);
-s32 fn_802264B8(int, int);
+s32 fn_802264B8(s32 slot, s32);
 s32 TLobby__sub_8023F880(s32 arg0);
 s32 TLobby__sub_803C5D00(void *);
 s32 TLobby__sub_803C97B8(u8 *arg0);

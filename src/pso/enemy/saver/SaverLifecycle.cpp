@@ -492,9 +492,9 @@ typedef struct Obj_800A48C4 {
 } Obj_800A48C4;
 
 extern "C" {
-f64 atan2_float(f32, f32);
+f32 atan2_float(f32 y, f32 x);
 s32 angle_difference_abs(s32, s32);
-u8 *get_player_by_client_id(s32);
+void *get_player_by_client_id(s32 i);
 s32 subtract_vector(void *, void *);
 void update_knockback_state__12TObjEneSaverFv(u8 *arg0);
 
@@ -541,7 +541,7 @@ void TObjEneSaver::vfunc_62() {
     u8 *e;
     s32 d;
     if (o->state >= 10 || o->state < 8) {
-        e = get_player_by_client_id(o->target);
+        e = (u8 *)get_player_by_client_id(o->target);
         if (e != NULL) {
             VecCopy((Vec *)&v, (const Vec *)(e + 0x2FC));
             subtract_vector(&v, &o->pos);
@@ -661,11 +661,10 @@ struct VObj_18_217cff : VBase_18_217cff {
 extern "C" {
 s32 TObjPlayer__sub_800A0554(void *);
 f32 calc_distance_to_client__10TObjPlayerFlUsUl(void *, u16, void *);
-Obj_800A4C4C *get_player_data__10TObjPlayerFi(s32);
-#define atan2_float ((f32 (*)(f32, f32))(atan2_float))
+int get_player_data__10TObjPlayerFi(int a0);
 extern s32 registered_player_count;
 
-f32 calc_xz_distance_sq(void *, void *, Vec_800A5BBC *);
+f32 calc_xz_distance_sq(s32 arg0, u32 arg1, void *arg2);
 
 s32 enemy_move_toward(void *, s32, Vec_800A5DC4 *, int, f32 *, f32);
 s32 select_enemy_destination(void *, Vec_800A5DC4 *, int);
@@ -769,7 +768,7 @@ int TObjEneSaver::test_flag_256() {
     }
     if ((self->f374 & 4) && self->f388 > 0) {
         for (i = 0; i < registered_player_count; i++) {
-            p = get_player_data__10TObjPlayerFi(i);
+            p = (Obj_800A4C4C *)get_player_data__10TObjPlayerFi(i);
             if (p == NULL || (p->f30 & 0x800)) {
                 continue;
             }
@@ -806,7 +805,7 @@ void TObjEneSaver::sub_800A4D9C() {
     u8 *arg0 = (u8 *)this;
     id = F(u16, 0x338);
     if (id < 0x1000) {
-        p = get_player_by_client_id(id);
+        p = (u8 *)get_player_by_client_id(id);
         if (p != NULL && get_floor__10TObjPlayerFv(p) == get_current_floor()) {
             F(u8 *, 0x2A8) = p;
         } else {
@@ -961,7 +960,7 @@ void TObjPlayer__sub_800A5154(void *arg0) {
 
     id = o->target_id;
     if (id < 0x1000) {
-        u8 *p = get_player_by_client_id(id);
+        u8 *p = (u8 *)get_player_by_client_id(id);
         if (p != NULL && get_floor__10TObjPlayerFv(p) == get_current_floor()) {
             o->target = (VTgt_800A5154 *)p;
         } else {
@@ -1040,7 +1039,7 @@ void TObjPlayer__sub_800A54B4(u8 *arg0) {
     *(s32 *)((s8 *)(F(u8 *, 0xA4)) + 0x18) |= 1;
     F(s32, 0x30) &= 0xF9FBFFFF;
     if (F(u16, 0x338) < 0x1000) {
-        u8 *p = get_player_by_client_id(F(u16, 0x338));
+        u8 *p = (u8 *)get_player_by_client_id(F(u16, 0x338));
         if (p != NULL && get_floor__10TObjPlayerFv(p) == get_current_floor()) {
             F(u8 *, 0x2A8) = p;
         } else {
@@ -1231,7 +1230,7 @@ s32 TObjEneSaver::is_target_in_attack_range() {
     if (this->mode >= 3) {
         tgt = this->target;
         if (tgt != NULL && this->m_318 != 0U && !(*(s32 *)((s8 *)tgt + 0x30) & 0x02000800)) {
-            dist = calc_xz_distance_sq(arg0, tgt, &v);
+            dist = calc_xz_distance_sq((s32)arg0, (u32)tgt, (void *)&v);
             ang = angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
             p = *(u8 **)(this->target + 0xA4);
             if (p != NULL) {
@@ -1366,7 +1365,6 @@ void TObjEneSaver::advance_motion_state() {
 
 }
 
-#undef atan2_float
 #undef turn_toward_target__12TObjEneSaverFv
 
 struct VBase800A64E8_800a64e8_800A4288 { char pad[0x14]; };
@@ -1452,7 +1450,6 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 
-#define get_player_data__10TObjPlayerFi ((u8* (*)(s32))(get_player_data__10TObjPlayerFi))
 #define get_entity_id ((s32 (*)(void*))(get_entity_id))
 #define get_floor__10TObjPlayerFv ((s32 (*)(int))(get_floor__10TObjPlayerFv))
 void * create_ene_saver(void *arg0);
@@ -1692,7 +1689,7 @@ void find_nearest_target__10TObjPlayerFPv(Obj_800A677C *self) {
         Vec_800A6B14 v = lbl_8043A8B0;
         best = *self->range * *self->range;
         for (; i < registered_player_count + lbl_805D5870; i++) {
-            p = get_player_data__10TObjPlayerFi(i);
+            p = (u8 *)get_player_data__10TObjPlayerFi(i);
             if (p != NULL && p != (u8 *)self) {
                 id = get_entity_id(p);
                 if ((u16)id < 0x4000 && (u16)id != self->f1C && !(P_800A677C(p)->f30 & 0x02000800)) {
@@ -1709,7 +1706,7 @@ void find_nearest_target__10TObjPlayerFPv(Obj_800A677C *self) {
         self->f338 = best_id;
         tid = self->f338;
         if (tid < 0x1000U) {
-            u8 *q = get_player_by_client_id(tid);
+            u8 *q = (u8 *)get_player_by_client_id(tid);
             if (q != NULL) {
                 if (get_floor__10TObjPlayerFv((int)q) == get_current_floor()) {
                     self->target = q;
@@ -1743,7 +1740,7 @@ void find_nearest_target__10TObjPlayerFPv(Obj_800A677C *self) {
         best = *self->range * *self->range;
         best2 = best;
         for (; i < registered_player_count; i++) {
-            p = get_player_data__10TObjPlayerFi(i);
+            p = (u8 *)get_player_data__10TObjPlayerFi(i);
             if (p == NULL) continue;
             if ((u16)get_entity_id(p) >= 0x1000) continue;
             if (get_floor__10TObjPlayerFv((int)p) != get_current_floor()) continue;
@@ -2139,6 +2136,5 @@ void TObjEneSaver::sub_800A7734(s32 i) {
 #undef update_move_toward_target__12TObjEneSaverFv
 #undef advance_motion_state__12TObjEneSaverFv
 #undef sub_800A62D4__12TObjEneSaverFv
-#undef get_player_data__10TObjPlayerFi
 #undef get_entity_id
 #undef get_floor__10TObjPlayerFv

@@ -1973,11 +1973,11 @@ extern s32 TBoss2DeRolLe__resistance_params[2];
 
 void reload_stats_for_phase__13TBoss2DeRolLeFPvi(void *self, s32 kind);
 
-s32 send_6x13__13TBoss2DeRolLeFPv(void *);
+void send_6x13__13TBoss2DeRolLeFPv(void *p);
 
-s32 TBoss2DeRolLe__sub_80036358(void *);
+void TBoss2DeRolLe__sub_80036358(void *p);
 
-s32 update_and_send__13TBoss2DeRolLeFPv(void *);
+void update_and_send__13TBoss2DeRolLeFPv(void *p);
 
 void TBoss2DeRolLe__sub_800363A0(void *p);
 
@@ -2356,9 +2356,9 @@ void TBoss2Mine__sub_80038D88(void);
 
 void TBoss2Tentacle__sub_8003A0AC(void);
 
-u8 *load_enemy_bml_resource_named(BmlResourceDescriptor *, const char *);
+s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 
-s32 load_enemy_bml_resource(BmlResourceDescriptor *desc);
+s32 load_enemy_bml_resource(u8 *arg0);
 
 extern s32 TBoss2DeRolLe__shared_handler_id_table[];
 
@@ -3063,9 +3063,9 @@ void load_resources__13TBoss2DeRolLeFv(void) {
     Node_80035D24 *m;
     Slot_80035D24 *p;
     if (TObjEneDD::check_v2_mode() != 0) {
-        res = load_enemy_bml_resource_named(&boss2_derolle_bml_descriptor, "bm_boss2_de_rol_le_a.bml");
+        res = (u8 *)load_enemy_bml_resource_named((s32)&boss2_derolle_bml_descriptor, (s32)("bm_boss2_de_rol_le_a.bml"));
     } else {
-        res = (u8 *)load_enemy_bml_resource(&boss2_derolle_bml_descriptor);
+        res = (u8 *)load_enemy_bml_resource((u8 *)&boss2_derolle_bml_descriptor);
     }
     (*(u8 * *)&lbl_805D4BA4) = res;
     TBoss2DeRolLe__current_attack_id = 0;

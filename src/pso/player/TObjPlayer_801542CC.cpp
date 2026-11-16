@@ -137,7 +137,7 @@ s32 build_collision_box_corners(Vec pos, s32 facing, CollisionBody *body, Collis
 s32 subtract_vector(void *, void *);
 extern s32 enable_v2_features;
 extern Vec_80155294 scratch_vec;
-f64 atan2_float(f32, f32);
+f32 atan2_float(f32 y, f32 x);
 s32 angle_difference_abs(s32, s32);
 void *find_entity_by_id(u16 id);
 extern s32 quest_object_entries;
@@ -190,7 +190,7 @@ void TOTrapAncient02R__sub_80154D78(void);
 void TObjPlayer__sub_801542F4(s32 a);
 void reset_global_table(void);
 u8 test_elt_flag__13TUnk_80493450Fll(void *arg0, s32 arg1, s32 arg2);
-s32 obj_is_hit_receivable(void *);
+s32 obj_is_hit_receivable(u8 *arg0);
 void *resolve_hittable_target(u16 actorId, s16 collider);
 u16 register_entity_by_id(void*);
 int memset(void*, void*, void*);
@@ -377,7 +377,7 @@ void *resolve_hittable_target(u16 actorId, s16 collider) {
     if (((s32 (*)(void *, s32, s32))test_elt_flag__13TUnk_80493450Fll)(target, collider, 1) == 0) {
         return NULL;
     }
-    if (obj_is_hit_receivable(target) == 0) {
+    if (obj_is_hit_receivable((u8 *)target) == 0) {
         return NULL;
     }
     return target;

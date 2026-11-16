@@ -56,7 +56,7 @@ void *warp_jung_beam_models[6];
 extern "C" {
 s32 PPCSync();
 s32 get_localized_text_entry(s32, s32);
-s32 request_active_window_close();
+void request_active_window_close(void);
 s32 align_menu_entry_positions(u32);
 s32 get_window_layout_position(s32);
 

@@ -140,13 +140,13 @@ s32 push_matrix_from(void *src);
 s32 pop_matrix(void);
 extern u8 identity_matrix[];
 u16 get_entity_id(void *);
-f64 atan2_float(f32, f32);
+f32 atan2_float(f32 y, f32 x);
 }
 void move_with_wall_slide(u8 *arg0);
 u8 *create_conversation_camera(s32 arg0);
 extern "C" {
-s32 end_conversation_camera(void);
-s32 begin_conversation_camera(void);
+void end_conversation_camera(void);
+void begin_conversation_camera(void);
 s32 angle_difference_abs(s32, s32);
 void *__nw__7TObjectFUl(u32);
 s32 subtract_vector(void *, void *);

@@ -204,7 +204,7 @@ u8 *TShopArmorListWindow__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 void queue_destruction__7TObjectFv(void *arg0);
 int set_field_20__15TShopWindowBaseFl(void*, int);
 int obj_getPtr2B0_20(u8 *p);
-s32 check_equip_requirements(void *, Rec_8021AD24 *, u32 *);
+s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
 s32 get_entity_id(s32);
 s32 advance_item_id_counter(u16);
 s32 try_buy_item(int, void *);
@@ -216,7 +216,7 @@ s32 get_window_layout_position(s32);
 extern const s32 local_client_id;
 s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 play_sound_effect(int, int, int, int);
-void send_6x25_equip_item(s32, s32, s32);
+void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 void handle_buy_confirm__20TShopArmorListWindowFv(Win_8021A634 *w);
 s32 TLobby__sub_8021B274();
 s32 get_shop_text(s32);
@@ -316,7 +316,7 @@ void handle_buy_confirm__20TShopArmorListWindowFv(Win_8021A634 *w) {
                 if (item != NULL && (e = (u32)((TObjPlayer *)w->player)->get_equipped_item(item->m31())) != 0) {
                     TObjPlayer::send_6x26_unequip_item((void *)(w->player), (void *)(((TItem *)e)->get_item_id()));
                 }
-                send_6x25_equip_item(w->player, it.id, 0);
+                send_6x25_equip_item((void *)w->player, it.id, 0);
                 ((TShopArmorListWindow *)w)->update_selection(&w->recs[i]);
                 if (is_single_purchase_shop_item((u8 *)&w->recs[i]) != 0) {
                     TLobby::clear_shop_entry_value((s32)i, (s32)((void *)base));
@@ -459,7 +459,7 @@ s32 TShopArmorListWindow::check_purchase_eligibility() {
     if (((TObjPlayer *)(w->player))->can_inventory_accept_item((u8 *)r) == 0) {
         return 1;
     }
-    if (check_equip_requirements(w->player, r, &res) == 0) {
+    if (check_equip_requirements((void *)w->player, (TItemData *)r, (s32 *)&res) == 0) {
         return (res & 1) ? 2 : 3;
     }
     if (w->recs[i].kind == 1 && w->recs[i].sub == 3) {

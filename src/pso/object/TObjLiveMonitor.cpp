@@ -74,9 +74,9 @@ typedef char RecoveredGlobal_8030B708___vt__14TObjLiveCamera_size[sizeof(Recover
 int update_single_screen__11TCameraCtrlFv(void*);
 int get_global_part_count__12TBoss8DragonFl(void*);
 s32 angle_diff_s16(int);
-u8 *get_player_by_client_id(s32);
-u32 TBoss8Dragon__sub_802F3348(int);
-s32 TBoss8Dragon__sub_802FCCBC(int);
+void *get_player_by_client_id(s32 i);
+s32 TBoss8Dragon__sub_802F3348(s32 arg0);
+s32 TBoss8Dragon__sub_802FCCBC(TBoss8Dragon *boss8_dragon);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 void TObjPlayer__sub_80082CBC(void *effect);
 void TObjPlayer__sub_80082CCC(void *effect);
@@ -246,7 +246,7 @@ void TObjLiveCameraCtrl::update_live_camera() {
         break;
     case 5:
         boss8_dragon = TBoss8Dragon__sub_802F3348(0);
-        if ((boss8_dragon != 0U) && (TBoss8Dragon__sub_802FCCBC(boss8_dragon) != 0)) {
+        if ((boss8_dragon != 0U) && (TBoss8Dragon__sub_802FCCBC((TBoss8Dragon *)boss8_dragon) != 0)) {
             this->pad_1e = 0;
         }
         break;
@@ -290,7 +290,7 @@ void TObjLiveCameraCtrl::choose_next_camera_shot() {
     case 2:
         this->pad_1e = 1.8e+02f * (r = calc_random_ratio__10TObjPlayerFv(this->rng), r) + 1.8e+02f;
         *(u16 *)((s8 *)arg0 + 0x24) = ((int (*)(void *))TBoss8Dragon__sub_8030B80C)(arg0);
-        p = get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0x24));
+        p = (u8 *)get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0x24));
         if (p != NULL) {
             this->m_28 = *(s32 *)((s8 *)p + 0x60) - 0x8000;
         }

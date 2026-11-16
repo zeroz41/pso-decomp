@@ -146,7 +146,7 @@ extern const f32 lbl_805DFE00;
 s32 rotate_matrix_x(s32, s32);
 void draw_weapon_at_joint(s32 arg0, s8 arg1);
 void TItemEffPG__begin_visual_fade(void *p);
-void *create_particle_emitter(void *pos, s32 id);
+TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_804F0BF0[];
 s32 all_parents_unqueued_for_destruction__7TObjectFv();

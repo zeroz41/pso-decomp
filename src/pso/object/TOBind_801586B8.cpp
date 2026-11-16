@@ -40,7 +40,7 @@ const char *lbl_805D2EA8 = "TOBind";
 extern s32 tl_05;
 void free_bin_model_request(void*, int);
 s32 post_translate_matrix(void *);
-s32 draw_ginja_model_with_motion(s32, s32, f32);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 s32 __dl__7TObjectFPv(void *);
@@ -57,7 +57,7 @@ void TOBind::render() {
         if ((s32) this->m_b0 != 1) {
             TObjFish::set_global_param(this->m_c8);
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion(this->m_c4, this->m_cc, *(f32 *)((s8 *)arg0 + 0xB8));
+            draw_ginja_model_with_motion((void *)this->m_c4, (void *)this->m_cc, (f32)(*(f32 *)((s8 *)arg0 + 0xB8)));
             TParticleCtrl::end_effect_render();
         }
         pop_matrix();

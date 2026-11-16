@@ -691,11 +691,11 @@ s32 TLobby__sub_804060B8(u8 *src, u16 len, int id) {
     return 0;
 }
 #pragma pop
-void TLobby__sub_8040059C(void* self);
-void TLobby__sub_80402CE0(void* self);
+void TLobby__sub_8040059C(u8 *conn);
+void TLobby__sub_80402CE0(u8 *arg0);
 void TLobby__sub_803FC318(void* self);
-void TLobby__sub_803FEF4C(void* self);
-void TLobby__sub_803F9FAC(void* self);
+void TLobby__sub_803FEF4C(u8 *self);
+void TLobby__sub_803F9FAC(u8 *ctx);
 s32 TLobby__sub_804061FC(void)
 {
   u8 *p;

@@ -51,13 +51,13 @@ struct Pt_802437C4 { f32 x, y; };
 extern "C" {
 s8 clamp_char_at__10TObjPlayerFl(u32, s32);
 s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
-s32 fn_8002AE08(s32);
+s32 fn_8002AE08(void *p);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 u16 select_action_palette_and_apply__10TObjPlayerFlll(TObjPlayer *, int, int, int);
 u16 get_entry_by_index__20TWindowActionPaletteFPll(int, int);
 u16 get_slot_type_for_index__20TWindowActionPaletteFPll(int, int);
-s32 is_action_channel_available__10TObjPlayerFii(TObjPlayer *, s32);
-s32 TObjPlayer__sub_80354D5C(int);
+s32 is_action_channel_available__10TObjPlayerFii(s32 arg0, s32 arg1);
+s32 TObjPlayer__sub_80354D5C(s32 arg0);
 s32 TObjPlayer__sub_80354C7C(s32);
 extern u8 controller_input_state[];
 s32 get_window_layout_position(s32);
@@ -200,7 +200,7 @@ void TWindowActionPalette::run_task() {
         m_5c = 0x01000000;
     }
     slot = is_player_input_active(m_20);
-    if (is_on_current_screen__11TCameraCtrlFv(controller_input_state + slot * 0x50 + 0x20, fn_8002AE08(m_20)) != 0) {
+    if (is_on_current_screen__11TCameraCtrlFv(controller_input_state + slot * 0x50 + 0x20, fn_8002AE08((void *)m_20)) != 0) {
         state = 3;
     }
     help = (u8 *)get_array_entry(0);
@@ -324,7 +324,7 @@ void TWindowActionPalette::update_slot_sprites(int idx, u16 mode, u16 slot) {
     player = get_player_by_client_id(m_20);
     if (player != NULL) {
         help = (Icon_80243630 *)get_array_entry(lbl_805DCA10[idx]);
-        if (is_action_channel_available__10TObjPlayerFii(player, lbl_805DCA14[idx]) != 0) {
+        if (is_action_channel_available__10TObjPlayerFii((s32)player, (s32)lbl_805DCA14[idx]) != 0) {
             help->color = -1;
         } else {
             help->color = 0xFF404040;

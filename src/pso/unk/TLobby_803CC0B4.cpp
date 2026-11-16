@@ -6,8 +6,8 @@
 extern "C" {
 
 s32 GCRNA_Create();
-s32 gcrna_shutdown();
-s32 gcrna_initialize();
+void gcrna_shutdown(void);
+void gcrna_initialize(void);
 
 void TLobby::run_step_5210() {
     GCRNA_Create();

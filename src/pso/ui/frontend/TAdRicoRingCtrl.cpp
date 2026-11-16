@@ -36,7 +36,7 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8001B8AC___vt__15TAdRicoRingCtrl __vt__15TAdRicoRingCtrl;
 extern s32 tl_04;
 void TAdRicoRingCtrl__sub_8001B4A0(Obj_8001B4A0 *self, f32 x);
-s32 test_flags_any(void *, int);
+s32 test_flags_any(s32 *flags, s32 mask);
 s32 TAdRicoRing__resource_bundle;
 f32 lbl_805D4A04;
 s8 lbl_805D4A08;
@@ -157,7 +157,7 @@ TAdRicoRing::~TAdRicoRing() {}
 void TAdRicoRing::run_task() {
     u8 *arg0 = (u8 *)this;
   f32 temp_f1;
-  if (test_flags_any(arg0 + 0x2C, 1) != 0)
+  if (test_flags_any((s32 *)(arg0 + 0x2C), 1) != 0)
   {
     update_position();
     if ((*((f32 *) (((s8 *) arg0) + 0x1C))) <= -1.0f)
@@ -166,7 +166,7 @@ void TAdRicoRing::run_task() {
       return;
     }
   }
-  if (test_flags_any(arg0 + 0x2C, 2) != 0)
+  if (test_flags_any((s32 *)(arg0 + 0x2C), 2) != 0)
   {
     update_position();
     temp_f1 = *((f32 *) (((s8 *) arg0) + 0x34));
@@ -180,7 +180,7 @@ void TAdRicoRing::run_task() {
     }
   }
   *((s32 *) (((s8 *) arg0) + 0x68)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x68))) + (*((s32 *) (((s8 *) arg0) + 0x30))));
-  if (test_flags_any(arg0 + 0x2C, 4) != 0)
+  if (test_flags_any((s32 *)(arg0 + 0x2C), 4) != 0)
   {
     *((s32 *) (((s8 *) arg0) + 0x30)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x30))) + (*((s32 *) (((s8 *) arg0) + 0x48))));
     if (((s32) (*((s32 *) (((s8 *) arg0) + 0x30)))) >= 0xCCC)
@@ -218,7 +218,7 @@ void TAdRicoRingCtrl::start_anim(f32 farg0) {
     u8 *arg0 = (u8 *)this;
     f32 temp_f0;
 
-    if (test_flags_any(arg0 + 0x2C, 2) != 0) {
+    if (test_flags_any((s32 *)(arg0 + 0x2C), 2) != 0) {
         ((FlagWord *)(arg0 + 0x2C))->clear(2);
     }
     ((FlagWord *)(arg0 + 0x2C))->set(1);
@@ -235,7 +235,7 @@ void TAdRicoRingCtrl::start_fade(f32 farg0) {
     u8 *arg0 = (u8 *)this;
     f32 temp_f0;
 
-    if (test_flags_any(arg0 + 0x2C, 1) != 0) {
+    if (test_flags_any((s32 *)(arg0 + 0x2C), 1) != 0) {
         ((FlagWord *)(arg0 + 0x2C))->clear(1);
     }
     ((FlagWord *)(arg0 + 0x2C))->set(2);

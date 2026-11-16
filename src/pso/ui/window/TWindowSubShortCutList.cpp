@@ -25,7 +25,7 @@ void *init__21TWindowSubComCardListFiii(void *, s8, s32, s32);
 extern s32 __vt__22TWindowSubShortCutList[];
 extern s32 local_client_id;
 void *TWindowSubShortCutList__ct(void *arg0, void *arg1, void *arg2);
-s32 get_shared_text_buffer();
+s32 *get_shared_text_buffer(void);
 char *fn_80076BC4(s32 *);
 int get_chat_shortcut(s32 arg0);
 s32 get_symbol_chat_data__20TWindowSubSymbolChatFv();
@@ -62,7 +62,7 @@ void TWindowSubShortCutList::refresh_entries() {
             break;
         case 2:
             TWindowDD::format_message(chat_shortcut + 1, (void *)get_shared_text_buffer(), (u16) local_client_id);
-            draw_entry(var_r29, 0x10, get_shared_text_buffer(), var_r29);
+            draw_entry(var_r29, 0x10, (s32)get_shared_text_buffer(), var_r29);
             break;
         case 3:
             TWindowChat::open_symbol_chat(chat_shortcut + 1);

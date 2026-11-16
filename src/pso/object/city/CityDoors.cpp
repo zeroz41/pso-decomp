@@ -471,7 +471,7 @@ extern "C" {
 void run_task__16TObjCityDoor_MedFv(void *arg0);
 void render__16TObjCityDoor_MedFv(u8 *arg0);
 s32 get_city_common_motion(s32);
-s32 draw_ginja_model_with_motion(s32, s32, f32);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 
 void TObjCityDoor_Med::render() {
     u8 *arg0 = (u8 *)this;
@@ -481,7 +481,7 @@ void TObjCityDoor_Med::render() {
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         translate_matrix(0, 0.0f, 0.0f, -80.0f);
-        draw_ginja_model_with_motion(get_city_common_model(0x14), get_city_common_motion(0xB), this->m_b4);
+        draw_ginja_model_with_motion((void *)(get_city_common_model(0x14)), (void *)(get_city_common_motion(0xB)), this->m_b4);
         pop_matrix();
     }
 }
@@ -579,8 +579,8 @@ void TObjCityDoor_Warp::render() {
  if(((CityDoorProbe*)this)->visible()!=0) {
   TObjFish::set_global_param(city_common_texture_list);push_matrix();
   post_translate_matrix((u8*)this+0x38);rotate_matrix_y(0,F(this,s32,0x60));
-  draw_ginja_model_with_motion(get_city_common_model(9),get_city_common_motion(8),F(this,f32,0xB4));
-  draw_ginja_model_with_motion(get_city_common_model(10),get_city_common_motion(9),F(this,f32,0xB4));
+  draw_ginja_model_with_motion((void *)(get_city_common_model(9)), (void *)(get_city_common_motion(8)), F(this,f32,0xB4));
+  draw_ginja_model_with_motion((void *)(get_city_common_model(10)), (void *)(get_city_common_motion(9)), F(this,f32,0xB4));
   pop_matrix();
  }
 }
@@ -727,7 +727,7 @@ void TObjCityDoor_Guild::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_model_with_motion(get_city_common_model(0x15), get_city_common_motion(0xC), this->m_b4);
+        draw_ginja_model_with_motion((void *)(get_city_common_model(0x15)), (void *)(get_city_common_motion(0xC)), this->m_b4);
         pop_matrix();
     }
 }
@@ -816,7 +816,7 @@ void TObjCityDoor_Shop::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        draw_ginja_model_with_motion(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 0xB8), *(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x54), this->m_b4);
+        draw_ginja_model_with_motion((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x42C)) + 0xB8)), (void *)(*(s32 *)((s8 *)(*(void **)((s8 *)city_common_model_archive + 0x430)) + 0x54)), this->m_b4);
         pop_matrix();
     }
 }

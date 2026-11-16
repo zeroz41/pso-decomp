@@ -97,7 +97,7 @@ s32 memset(void *, int, int);
 extern RecoveredGlobal_8022559C_lbl_80513F50 shop_weapon_stock_generated_flags;
 extern G_80225550 shop_weapon_stock_buffers;
 void get_shop_weapon_stock_item(C14_80225550 *dst, s32 idx, s32 tbl);
-s32 mem_alloc(s32);
+void *mem_alloc(u32 size);
 void mem_free(void *p);
 extern u32 lobby_weapon_random_tables_ptr;
 s32 memcmp(const void *, const void *, u32);
@@ -682,10 +682,10 @@ void load_weapon_random_tables(void) {
     }
     if (is_split_screen() == 1) {
         for (i = 0; i < 4; i++) {
-            ((s32 *)&shop_weapon_stock_buffers)[i] = mem_alloc(0x140);
+            ((s32 *)&shop_weapon_stock_buffers)[i] = (s32)mem_alloc(0x140);
         }
     } else {
-        ((s32 *)&shop_weapon_stock_buffers)[0] = mem_alloc(0x140);
+        ((s32 *)&shop_weapon_stock_buffers)[0] = (s32)mem_alloc(0x140);
     }
     shop_weapon_stock_level = 0;
 }

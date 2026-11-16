@@ -22,7 +22,7 @@
 
 extern "C" {
 void normalize_vector(Vec *v);
-s32 TCameraCtrl__sub_8006B370(f32 value);
+int TCameraCtrl__sub_8006B370(f32 farg0);
 }
 
 NJS_ARGB chunk_material_color_half_alpha_f32 = {0.5f, 0.0f, 0.0f, 0.0f};

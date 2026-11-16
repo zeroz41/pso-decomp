@@ -111,11 +111,11 @@ struct Game_801AD970 { u8 pad[0x42C]; Res_801AD970 *res; s32 f430; };
 
 extern "C" {
 u16 get_entity_id(void *);
-void *spawn_particle_effect(void *pos, s32 id);
+void *spawn_particle_effect(const void *pos, s32 id);
 void *find_entity_by_id(u16 id);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-s32 queue_photon_blast_hit(int, int, int, f32);
+void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 scale);
 s32 clear_render_context__10TObjPlayerFv(void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
@@ -256,7 +256,7 @@ void TPhotonMylla::run_task() {
         stack.spC += 45.0f;
         spawn_particle_effect(&stack.sp8, 0x169);
         if (temp_r3_5 != NULL) {
-            queue_photon_blast_hit((int) (get_entity_id(temp_r3_5)), 5, 0, (f32) (((RecoveredFields_801AD5D8_arg0 *)arg0)->field_150));
+            queue_photon_blast_hit((get_entity_id(temp_r3_5)), 5, 0, (f32) (((RecoveredFields_801AD5D8_arg0 *)arg0)->field_150));
         }
     }
     if ((f32) ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_1A4 > 116.0f) {

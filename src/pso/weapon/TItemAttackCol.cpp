@@ -145,7 +145,7 @@ struct Hit_802E3D8C { s32 pad; void *pos; };
 extern "C" {
 s32 disallow_rendering__7TObjectFv(void *);
 
-s32 test_flags_any(void *, int);
+s32 test_flags_any(s32 *flags, s32 mask);
 }
 
 f32 vec_distance_squared(u8 *arg0, u8 *arg1);
@@ -518,7 +518,7 @@ void TItemAttackCol::run_task() {
         continuous_particle->set_position(&position);
     }
     check_hits();
-    if ((range_sq <= vec_distance_squared((u8 *)&position, (u8 *)&start_position)) || (test_flags_any(&hit_wall_flags, 1) != 0)) {
+    if ((range_sq <= vec_distance_squared((u8 *)&position, (u8 *)&start_position)) || (test_flags_any((s32 *)&hit_wall_flags, 1) != 0)) {
         queue_destruction();
     }
 }

@@ -46,9 +46,9 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" {
 void obj_clearFlags30__8TObjBaseFUl(void *, u32);
 s32 post_translate_matrix(void *);
-s32 draw_chunk_object(s32);
-s32 restore_scene_lighting();
-s32 select_actor_lighting(void *);
+void draw_chunk_object(void *child);
+void restore_scene_lighting(void);
+void select_actor_lighting(s32 obj);
 s32 push_matrix();
 s32 set_global_param__8TObjFishFl(s32);
 extern s32 model_render_flags;
@@ -292,14 +292,14 @@ void TObjEneBeast::render() {
         fade = ((RenderFadeState *)fade)->updateFromCamera((const f32*)(&((Obj_8009211C *)this)->f2FC));
     }
     saved_model_render_flags = model_render_flags;
-    select_actor_lighting(((Obj_8009211C *)this));
+    select_actor_lighting((s32)((Obj_8009211C *)this));
     TObjFish::set_global_param(((Obj_8009211C *)this)->f24);
     push_matrix();
     translate_matrix(0, 0.0f, ((Obj_8009211C *)this)->f380, 0.0f);
     post_translate_matrix(((Obj_8009211C *)this)->f38);
     rotate_matrix_y(0, ((Obj_8009211C *)this)->f60);
     if (TObjPlayer::check_demo_mode() == 1) {
-        draw_chunk_object(((Obj_8009211C *)this)->f34);
+        draw_chunk_object((void *)(((Obj_8009211C *)this)->f34));
     } else {
         TObjPlayer::toggle_particle_effect();
         doDraw = 1;
@@ -354,7 +354,6 @@ void TObjEneBeast::render() {
 #undef play_sound_effect
 #undef translate_matrix
 #undef set_global_param__8TObjFishFl
-#undef draw_chunk_object
 #undef update_if_active__15TObjEnemyCustomFl
 #undef TObjEneBalClawClaw__sub_800914A4
 #undef find_active_entity_by_id
@@ -400,7 +399,7 @@ s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
-u8 *load_enemy_bml_resource_named(void *, const char *);
+s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 void *mem_alloc(u32 size);
 void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
@@ -636,7 +635,7 @@ void TObjEneBeast::load_resources() {
     s32 i;
 
     if (TObjEneDD::check_v2_mode() != 0) {
-        ene_beast_bml_resource = (u32)load_enemy_bml_resource_named(&beast_resource_descriptor, beast_a_bml_filename);
+        ene_beast_bml_resource = (u32)load_enemy_bml_resource_named((s32)&beast_resource_descriptor, (s32)beast_a_bml_filename);
         ((Ent_8009241C *)beast_collision_body_table)[0].radius = 1e+01f;
         ((Ent_8009241C *)beast_collision_body_table)[1].radius = 1e+01f;
         ((Ent_8009241C *)beast_collision_body_table)[2].radius = 9.0f;

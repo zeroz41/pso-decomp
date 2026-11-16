@@ -918,7 +918,7 @@ struct Fish_802EB90C {
     u8 pad6F4[0x728 - 0x6F4]; s32 f728; s32 f72C; s32 f730;
 };
 extern "C" {
-void fill_value_array(PointerBuffer *buffer);
+void fill_value_array(s32 address);
 
 u8 *csnVector(s32 *, void *, s32);
 
@@ -1372,7 +1372,7 @@ extern const Vec lbl_80473F6C;
 
 void *mem_alloc(u32 size);
 
-void fill_value_array(PointerBuffer *buffer);
+void fill_value_array(s32 address);
 
 void TObjPlayer__sub_802E7EA0(void *arg0);
 
@@ -1542,7 +1542,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     unk_70C.y = 0.0f;
     unk_70C.z = 0.0f;
     unk_718 = new AreaAttackHistory(4);
-    fill_value_array(unk_718);
+    fill_value_array((s32)unk_718);
     unk_71C = NULL;
     unk_720 = NULL;
     for (s32 i = 0; i < 3; i++) {
@@ -4004,7 +4004,7 @@ void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
         ((TObjMotion *)arg0)->set_field_b8(0xF);
         *(s32 *)((s8 *)arg0 + 0x6C0) = 3;
         TObjFish__sub_802ED4AC((arg0), (*(s32 *)((s8 *)arg0 + 0x6C0)));
-        fill_value_array(*(PointerBuffer **)((s8 *)arg0 + 0x718));
+        fill_value_array((s32)(*(PointerBuffer **)((s8 *)arg0 + 0x718)));
         *(s32 *)((s8 *)arg0 + 0x728) = 0;
         *(s32 *)((s8 *)arg0 + 0x72C) = 0;
         *(s32 *)((s8 *)arg0 + 0x730) = 0;
@@ -4039,7 +4039,7 @@ void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
             if ((s32) *(s32 *)((s8 *)arg0 + 0x72C) >= 0x14) {
                 *(s32 *)((s8 *)arg0 + 0x72C) = 0;
                 *(s32 *)((s8 *)arg0 + 0x728) = 1;
-                fill_value_array(*(PointerBuffer **)((s8 *)arg0 + 0x718));
+                fill_value_array((s32)(*(PointerBuffer **)((s8 *)arg0 + 0x718)));
                 ((TObjMotion *)arg0)->set_field_b8(0xD);
                 if (((TObjEneDD_ST *)arg0)->enemy_check_target_valid() != 0) {
                     VecCopy__FP3VecPC3Vec((int)((int)temp_r30), (void *)((int) (*(s32 *)((s8 *)arg0 + 0x390) + 0x38)));

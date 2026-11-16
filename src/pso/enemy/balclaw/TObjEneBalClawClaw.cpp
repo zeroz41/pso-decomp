@@ -28,9 +28,9 @@ void select_enemy_destination(void *, Vec *, s32);
 void enemy_turn_half_toward_dest(void *);
 u8 *get_enemy_entity(u16 arg0);
 s32 post_translate_matrix(void *);
-s32 draw_chunk_object(s32);
-s32 restore_scene_lighting();
-s32 select_actor_lighting(void *);
+void draw_chunk_object(void *child);
+void restore_scene_lighting(void);
+void select_actor_lighting(s32 obj);
 s32 push_matrix();
 extern s32 model_render_flags;
 void queue_destruction__7TObjectFv(void *);
@@ -524,7 +524,7 @@ void TObjEneBalClawClaw::render() {
         if (detail != 0) {
             shadow = 1;
             TObjFish::set_global_param(texlist);
-            select_actor_lighting(this);
+            select_actor_lighting((s32)this);
             TObjPlayer::toggle_particle_effect();
             push_matrix();
             model_render_flags &= 0xFFFFFBFF;
@@ -532,7 +532,7 @@ void TObjEneBalClawClaw::render() {
                 post_translate_matrix(&position);
                 rotate_matrix_x(0, rotation_x);
                 rotate_matrix_y(0, rotation_y);
-                draw_chunk_object((s32)model);
+                draw_chunk_object(model);
             } else {
                 translate_matrix(0, 0.0f, m_3b4 + m_3bc, 0.0f);
                 post_translate_matrix(&position);

@@ -28,7 +28,7 @@ extern "C" {
 int set__8FlagWordFUl(void*, int);
 int clear__8FlagWordFUl(void*, int);
 int TWindowActionPalette__sub_801C1C20(void* p);
-int test_flags_any(void*, int);
+s32 test_flags_any(s32 *flags, s32 mask);
 void *TWindowActionPalette__sub_801C1C68(O_801C1C68 *self, s32 i);
 S_801C1BA8 *fn_801C1BA8(S_801C1BA8 *arg0, S_801C1BA8 *arg1);
 }
@@ -221,7 +221,7 @@ void fn_801C1F40(s32 *arg0) {
     *arg0 -= 1;
 }
 
-int TObjPlayer__sub_801C1F50(void* p) { return test_flags_any((char*)p + 0x40, 2); }
+int TObjPlayer__sub_801C1F50(void* p) { return test_flags_any((s32 *)((char*)p + 0x40), 2); }
 
 void TObjPlayer__sub_801C1F78(void* p, s16 v) { *(s16*)((char*)p + 0x0) = v; }
 

@@ -73,7 +73,7 @@ void debug_printf_at(s32 id, const char *fmt, ...);
 s32 get_type__10TObjPlayerFPv(void *p);
 void *__dt__13TUnk_804CCC28Fv(void *arg0, s16 arg1);
 void *__dt__12TTecReverserFv(void *arg0, s16 arg1);
-void *spawn_particle_effect(void *pos, s32 id);
+void *spawn_particle_effect(const void *pos, s32 id);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 void *__nw__7TObjectFUl(int);
@@ -223,7 +223,7 @@ void TUnk_804CCC28::run_task() {
     u8 *arg0 = (u8 *)this;
     this->m_28 = (this->m_28 + 1);
     if ((s32) this->m_28 == 0xA) {
-        spawn_particle_effect((u8 *)&this->unk_2C, 0x38);
+        spawn_particle_effect(&this->unk_2C, 0x38);
     }
     if ((s32) this->m_28 > 0xC8) {
         ((TObject *)arg0)->queue_destruction();

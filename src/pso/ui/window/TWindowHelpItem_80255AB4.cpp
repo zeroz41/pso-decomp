@@ -23,7 +23,7 @@ extern s32 TWindowHelpItem__object_vtable[];
 extern u32 window_help_item_class_name;
 extern TWindowHelpItem::CallbackWords __ptmf_null;
 void *init__21TWindowSubComCardListFiii(void *p, s32 a, s32 b, s32 c);
-void call_if_split_screen(void *self, s32 idx);
+void call_if_split_screen(u32 object, s32 client_id);
 
 s32 handle_list_page_flip_input(s32);
 s32 draw_visible_window_entries(void *, void *, int);
@@ -121,7 +121,7 @@ TWindowHelpItem::TWindowHelpItem(void *pos, u16 idx) {
     self->m_a8 = 1.0f;
     self->m_ac = 1.0f;
     ((TWindowHelpItem *)self)->dispatch_item_help();
-    call_if_split_screen(self, self->m_20);
+    call_if_split_screen((u32)self, self->m_20);
 }
 
 s32 get_help_text_string(s32 arg0) {

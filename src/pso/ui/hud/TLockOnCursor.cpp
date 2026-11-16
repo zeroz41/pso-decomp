@@ -463,14 +463,14 @@ int TMainCursor::update_target_sub() { return set__8FlagWordFUl((char*)this + 0x
 extern "C" {
 
 int set__8FlagWordFUl(void*, int);
-int test_flags_any(void*, int);
+s32 test_flags_any(s32 *flags, s32 mask);
 
 u16 TMainCursor::get_render_flag() { return TMainCursor__sub_8013E4A0((char*)this + 0x24); }
 u16 TMainCursor__sub_8013E4A0(void* p) { return *(u16*)((char*)p + 0x0); }
-int TMainCursor::test_flag_2_at_20() { return test_flags_any((char*)this + 0x20, 2); }
-int TMainCursor::init_render_flags() { return test_flags_any((char*)this + 0x20, 8); }
-int TMainCursor::update() { return test_flags_any((char*)this + 0x20, 4); }
-int TMainCursor::check_flag_1() { return test_flags_any((char*)this + 0x20, 1); }
+int TMainCursor::test_flag_2_at_20() { return test_flags_any((s32 *)((char*)this + 0x20), 2); }
+int TMainCursor::init_render_flags() { return test_flags_any((s32 *)((char*)this + 0x20), 8); }
+int TMainCursor::update() { return test_flags_any((s32 *)((char*)this + 0x20), 4); }
+int TMainCursor::check_flag_1() { return test_flags_any((s32 *)((char*)this + 0x20), 1); }
 u8 TMainCursor::is_position_moved() { return (u8)(TMainCursor__sub_8013E570((char*)this + 0x60)); }
 s16 TMainCursor__sub_8013E570(void* p) { return *(s16*)((char*)p + 0x6); }
 int TMainCursor::check_flag_4() { return set__8FlagWordFUl((char*)this + 0x20, 4); }
@@ -538,7 +538,7 @@ s32 TMainCursor::reset() {
 
 extern "C" {
 
-int test_flags_any(void*, int);
+s32 test_flags_any(s32 *flags, s32 mask);
 
 int get_enabled__11TMainCursorFv(void*);
 int get_type__11TMainCursorFv(void*);
@@ -594,7 +594,7 @@ s16 TMainCursor__sub_8013E920(void* p) { return *(s16*)((char*)p + 0x2); }
 void TMainCursor__sub_8013E928(void* p, s16 v) { *(s16*)((char*)p + 0x2) = v; }
 void TMainCursor__sub_8013E930(void* p, s16 v) { *(s16*)((char*)p + 0x0) = v; }
 u16 TLockOnCursor::get_target_id() { return *(u16 *)&(*(void * *)((u8 *)this + 0x20)); }
-int TMainCursor::is_cursor_clear() { return (test_flags_any((char*)this + 0x1c, 1)) == 0; }
+int TMainCursor::is_cursor_clear() { return (test_flags_any((s32 *)((char*)this + 0x1c), 1)) == 0; }
 
 void TMainCursor__sub_8013E970(u8 *arg0, s16 arg1, s16 arg2, s16 arg3) {
     *(s16 *)((s8 *)arg0 + 0) = arg1;
@@ -615,23 +615,23 @@ void TMainCursor__sub_8013EA00(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
 
 
 extern "C" {
-int test_flags_any(void*, int);
+s32 test_flags_any(s32 *flags, s32 mask);
 int clear__8FlagWordFUl(void*, int);
 int set__8FlagWordFUl(void*, int);
 
-int TLockOnCursor::render_part() { return test_flags_any((char*)this + 0x8, 2); }
+int TLockOnCursor::render_part() { return test_flags_any((s32 *)((char*)this + 0x8), 2); }
 void TLockOnCursor::update_cursor_pos() { ((TMainCursor *)((char*)this + 0xc))->is_same_target((char*)this + 0x14); }
 int TLockOnCursor::set_flag_8_bit0() { return set__8FlagWordFUl((char*)this + 0x8, 1); }
 int TLockOnCursor::update_ring() { return clear__8FlagWordFUl((char*)this + 0x8, 1); }
 int TLockOnCursor::is_bit1_set() { return set__8FlagWordFUl((char*)this + 0x8, 2); }
-int TLockOnCursor::is_inactive() { return (test_flags_any((char*)this + 0x1c, 2)) == 0; }
+int TLockOnCursor::is_inactive() { return (test_flags_any((s32 *)((char*)this + 0x1c), 2)) == 0; }
 int TLockOnCursor::update_ring_sub() { return clear__8FlagWordFUl((char*)this + 0x8, 2); }
 s32 TLockOnCursor__sub_8013EB2C(void* p) { return *(s32*)((char*)p + 0x4); }
 
     extern s32 TLockOnCursor__target_cursor_model;
 int TLockOnCursor__sub_8013EB34(void) {  return TLockOnCursor__target_cursor_model; }
 
-int TLockOnCursor::test_flag_1_at_8() { return test_flags_any((char*)this + 0x8, 1); }
+int TLockOnCursor::test_flag_1_at_8() { return test_flags_any((s32 *)((char*)this + 0x8), 1); }
 s32 TLockOnCursor::get_target() { return *(s32 *)&this->m_name; }
 Rec_8013EB6C *TLockOnCursor__sub_8013EB6C(Obj_8013EB6C *self, s32 i) {
     return &self->recs[i];

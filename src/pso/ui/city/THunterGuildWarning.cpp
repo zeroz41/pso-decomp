@@ -144,7 +144,7 @@ THunterGuildWarning::THunterGuildWarning(TObject *object, void *arg2) : TObject(
 
 extern "C" {
 TObjPlayer *get_player_by_client_id(s32 id);
-s32 check_flag_100__10TObjPlayerFPv(TObjPlayer *player);
+int check_flag_100__10TObjPlayerFPv(void *p);
 f32 xz_distance_squared(const f32 *a, const f32 *b);
 
 #pragma push

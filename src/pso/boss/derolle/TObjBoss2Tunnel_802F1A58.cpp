@@ -108,8 +108,8 @@ void fn_802F1DAC(u8 *arg0);
 void fn_802F1E54(u8 *arg0);
 s32 reset_floats__15TObjBoss2TunnelFv(void *);
 s32 reset_floats__15TObjBoss2TunnelFl(void *);
-s32 is_room_enemy_set_cleared(s32, int);
-s32 TObjBoss7RaftSplash__ct(void *, void *, void *, const Vec *, void *);
+s32 is_room_enemy_set_cleared(s32 floor, s16 room);
+u8 *TObjBoss7RaftSplash__ct(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4);
 void *TObjBoss2Tunnel__sub_802F2A2C(void *arg0p, s32 parent);
 f32 rand_signed_unit();
 u8 *__ct__13TObjBoss7DustFv(u8 *arg0, s32 arg1, s32 arg2);
@@ -185,7 +185,7 @@ void *TObjBoss2Tunnel__sub_802F2A2C(void *arg0p, s32 parent) {
     for (i = 0; i < 2; i++) {
         p = __nw__7TObjectFUl(0x40);
         if (p != 0) {
-            TObjBoss7RaftSplash__ct((void *) p, arg0, &lbl_804E4A44[i], &TObjBoss2Tunnel__raft_splash_offset_table[i], arg0 + 0x5C);
+            TObjBoss7RaftSplash__ct((u8 *)p, (u8 *)arg0, (u8 *)&lbl_804E4A44[i], (u8 *)&TObjBoss2Tunnel__raft_splash_offset_table[i], (s32)(arg0 + 0x5C));
         }
     }
     new TUnk_804E4AD4(*(TObject **)((s8 *)arg0 + 0x90), 0);

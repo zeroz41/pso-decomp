@@ -120,8 +120,8 @@ s32 enemy_set_target_id(TObjEneRe7Berura *, u16);
 
 int reload_stats_keep_hp_tp__9TObjEneDDFv(void *self, void *a, void *b, void *c);
 s32 clear_attack_receipts__9TObjEneDDFv();
-BmlResource *load_enemy_bml_resource_named(BmlResourceDescriptor *, const char *);
-BmlResource *load_enemy_bml_resource(BmlResourceDescriptor *);
+s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
+s32 load_enemy_bml_resource(u8 *arg0);
 s32 set_field_378__9TObjEneDDFl(void *, s32, s32);
 s32 angle_diff_s16(s32);
 void mem_free(void*);
@@ -317,9 +317,9 @@ void TObjEneRe7Berura::load_static_resources() {
     s32 i;
     void *p;
     if (TObjEneDD::check_v2_mode() != 0) {
-        r = load_enemy_bml_resource_named(&ene_berura_bml_descriptor, "bm_ene_re7_berura_a.bml");
+        r = (BmlResource *)load_enemy_bml_resource_named((s32)&ene_berura_bml_descriptor, (s32)("bm_ene_re7_berura_a.bml"));
     } else {
-        r = load_enemy_bml_resource(&ene_berura_bml_descriptor);
+        r = (BmlResource *)load_enemy_bml_resource((u8 *)&ene_berura_bml_descriptor);
     }
     TObjEneRe7Berura__shared_resource = r;
     lbl_805007C8[0] = 0.0f;

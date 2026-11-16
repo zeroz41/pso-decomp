@@ -267,12 +267,12 @@ char func_801A5E54();
 void render_tick();
 void func_803DCDFC();
 extern "C" {
-short tcp_abort(short nh);
-short tcp_bind(short nh, struct at_ip_addr *addr, u16 port);
+s32 tcp_abort(s32 a);
+s32 tcp_bind(s32 a, void *addr, u16 port);
 short tcp_connect(short nh, struct at_ip_addr *addr, u16 port, struct at_ip_option *option);
-short tcp_create();
-short tcp_delete(short nh);
-short tcp_get_opt(short nh, short type, u32 *opt);
+s32 tcp_create(void);
+s32 tcp_delete(s32 a);
+s16 tcp_get_opt(s16 nh, s16 type, u32 *opt);
 short tcp_send(short nh, void (*notify)(short size, short sock_fd), char bufnum, struct send_buffs *sb);
 int tcp_stat(short nh, short *stat, short *backlog, u32 *sendwin, u32 *recvwin);
 short tcp_receive(short nh, void (*notify)(short size, short sock_fd), short len, u8 *buf);

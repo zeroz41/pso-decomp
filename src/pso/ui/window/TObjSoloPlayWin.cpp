@@ -15,7 +15,7 @@ u32 get_player_by_client_id(s32);
 s32 TWindowCtrlMain__sub_8024CE58();
 void* get_window_layout_position(s32);
 void* create__14TWindowMessageFPvll(void*, void*, s32);
-void* TQuestVmDownLoadServer__sub_8006EF6C(s32);
+s32 TQuestVmDownLoadServer__sub_8006EF6C(s32 arg0);
 extern s32 local_client_id;
 extern const char TObjSoloPlayWin_class_name[] = "TObjSoloPlayWin";
 const char* TObjSoloPlayWin_name = TObjSoloPlayWin_class_name;

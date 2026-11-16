@@ -414,11 +414,11 @@ struct RecoveredGlobal_802280C4_lbl_80514F64 {
 };
 
 extern "C" {
-s32 update_sound_frame(void *);
+s32 update_sound_frame(SoundControlState *self);
 int render_tick__Fv(void);
-s32 init_sound_aux_effects(void *);
+s32 init_sound_aux_effects(SoundControlState *self);
 void TLobby__sub_803382E4(void);
-s32 TLobby__sub_803CB81C();
+void TLobby__sub_803CB81C(void);
 s32 TLobby__sub_80226B64(int);
 extern const s32 floor_sound_bank_table[36] = {
     1, 2, 2, 4, 4, 4, 6, 6, 8, 8, 8, 3,
@@ -462,7 +462,7 @@ void TLobby__sub_8022804C(void) {
 
 typedef char RecoveredGlobal_80228074_lbl_80514F64_size[sizeof(RecoveredGlobal_80228074_lbl_80514F64) == 0xC3C ? 1 : -1];
 void update_global_sound_frame(void) {
-    update_sound_frame((void *) (&(*(RecoveredGlobal_80228074_lbl_80514F64 *)&sound_control_state).value));
+    update_sound_frame((SoundControlState *)(&(*(RecoveredGlobal_80228074_lbl_80514F64 *)&sound_control_state).value));
 }
 
 typedef char RecoveredGlobal_8022809C_lbl_80514F64_size[sizeof(RecoveredGlobal_8022809C_lbl_80514F64) == 0xC3C ? 1 : -1];
@@ -472,7 +472,7 @@ void TLobby__sub_8022809C(void) {
 
 typedef char RecoveredGlobal_802280C4_lbl_80514F64_size[sizeof(RecoveredGlobal_802280C4_lbl_80514F64) == 0xC3C ? 1 : -1];
 void TLobby::wait_for_sound_init() {
-    init_sound_aux_effects((void *) (&(*(RecoveredGlobal_802280C4_lbl_80514F64 *)&sound_control_state).value));
+    init_sound_aux_effects((SoundControlState *)(&(*(RecoveredGlobal_802280C4_lbl_80514F64 *)&sound_control_state).value));
     ((TLobby *)(&(*(RecoveredGlobal_802280C4_lbl_80514F64 *)&sound_control_state).value))->validate_and_set_selection(0);
     do {
         TLobby__sub_803382E4();

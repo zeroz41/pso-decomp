@@ -17,7 +17,7 @@ const char *TOSwitchAttackSub__name = "TOSwitchAttackSub";
 
 extern "C" {
 f32 horizontal_distance_squared(const f32*, const f32*);
-u8 is_current_floor_switch_set(int);
+u8 is_current_floor_switch_set(s32 id);
 extern u8* camera_ctrl_instance;
 extern void* local_client_id;
 

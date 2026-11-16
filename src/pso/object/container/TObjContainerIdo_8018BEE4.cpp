@@ -160,7 +160,7 @@ struct Ido_8018C18C {
     f32 ec;
     u8 f0[4];
 };
-u8 is_current_floor_switch_set(u16);
+u8 is_current_floor_switch_set(s32 id);
 f32 xyz_distance(void *, void *);
 void rotate_vector_by_matrix(int, void *, void *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);

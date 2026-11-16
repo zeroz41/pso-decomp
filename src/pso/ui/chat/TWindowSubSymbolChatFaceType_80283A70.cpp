@@ -53,7 +53,7 @@ s32 TWindowShortListCtrl__check_controller_button(int, int);
 void begin_screen_draw(s32);
 void set_draw_texture_and_color(s32, s32);
 void apply_context_transform_to_rect(Ctx_80283C84 *, Quad_80283C84 *);
-void draw_textured_quad_at_depth(Quad_80283C84 *q, f32 depth);
+void draw_textured_quad_at_depth(f32 *q, f32 depth);
 extern s32 actor_frame_tick;
 extern s32 lbl_805D63F0;
 
@@ -129,7 +129,7 @@ void TWindowSubSymbolChatFaceType__sub_80283C84(Ctx_80283C84 *ctx, f32 *pos, f32
     q.u2 = 0.91796875f;
     q.v2 = 0.046875f;
     apply_context_transform_to_rect(ctx, &q);
-    draw_textured_quad_at_depth(&q, depth);
+    draw_textured_quad_at_depth((f32 *)&q, depth);
     x = size + (x - amp);
     q.x = x;
     q.y = top;
@@ -138,7 +138,7 @@ void TWindowSubSymbolChatFaceType__sub_80283C84(Ctx_80283C84 *ctx, f32 *pos, f32
     q.u = 0.91796875f;
     q.u2 = 0.96484375f;
     apply_context_transform_to_rect(ctx, &q);
-    draw_textured_quad_at_depth(&q, depth);
+    draw_textured_quad_at_depth((f32 *)&q, depth);
     size = size + (y - amp);
     q.x = x;
     q.y = size;
@@ -147,7 +147,7 @@ void TWindowSubSymbolChatFaceType__sub_80283C84(Ctx_80283C84 *ctx, f32 *pos, f32
     q.v = 0.046875f;
     q.v2 = 0.09375f;
     apply_context_transform_to_rect(ctx, &q);
-    draw_textured_quad_at_depth(&q, depth);
+    draw_textured_quad_at_depth((f32 *)&q, depth);
     q.x = left;
     q.y = size;
     q.x2 = 12.0f + q.x;
@@ -155,7 +155,7 @@ void TWindowSubSymbolChatFaceType__sub_80283C84(Ctx_80283C84 *ctx, f32 *pos, f32
     q.u = 0.87109375f;
     q.u2 = 0.91796875f;
     apply_context_transform_to_rect(ctx, &q);
-    draw_textured_quad_at_depth(&q, depth);
+    draw_textured_quad_at_depth((f32 *)&q, depth);
     TWindowSubStatusDisp::get_player();
 }
 

@@ -12,7 +12,7 @@
 struct Entry_802D6DAC { s32 idx; const char *str; s32 id; NJS_POINT2 pos; };
 
 extern "C" {
-s32 TAdPlayerLoadGC__sub_801E1B50(int);
+s32 TAdPlayerLoadGC__sub_801E1B50(s32 chan);
 s32 TAdPlayerLoadGC__sub_801FD770();
 s32 TAdPlayerLoadGC__sub_801FD814();
 s32 check_system_load_result__23TAdSinglePlyChrSelectGCFv();

@@ -175,7 +175,7 @@ extern s32 fn_80152EF8[];
 void TFontSmallLobby__sub_801D671C(void* a0, int a1);
 int TFontSmallLobby__sub_801D677C(void* p);
 void* TFontSmallLobby__sub_801D6804(void* p);
-int bswap_g_client_id_header(void*);
+void bswap_g_client_id_header(void *p);
 int TFontSmallLobby__sub_801C0228(void*);
 int clear__8FlagWordFUl(void*, int);
 int set__8FlagWordFUl(void*, int);

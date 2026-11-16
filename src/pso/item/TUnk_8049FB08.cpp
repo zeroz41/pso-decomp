@@ -4,7 +4,7 @@
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
-void send_star_atomizer_targets(void *arg0);
+void send_star_atomizer_targets(TObjPlayer *player);
 }
 
 void TUnk_8049FB08::apply_use_effect() { send_star_atomizer_targets(this->owner); }

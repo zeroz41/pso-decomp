@@ -20,7 +20,7 @@ s32 play_sound_effect(s32, s32, s32, s32);
 s32 get_instance__22TAdMultiPlyChrSelectGCFv(s32);
 extern s8 controller_physical_port_bank[];
 s32 clear_entries__18TAdChrMoveEffectGCFv();
-s32 create_effects__14TAdGameStartGCFPv(s32);
+void create_effects__14TAdGameStartGCFPv(u8 *parent);
 s32 is_multiplayer_character_slot_selected(s32);
 s32 TAdMultiPlyChrSelectGC__sub_802C6558();
 u32 TAdMultiPlyChrSelectGC__sub_802DBE4C(void *, s32 *);
@@ -68,7 +68,7 @@ void TAdMultiPlyChrSelectGC::update_confirm_start() {
         temp_r31 = TAdMultiPlyChrSelectGC::count_ready();
         temp_r3 = TAdMultiPlyChrSelectGC__sub_802C6558();
         if (temp_r3 != temp_r31) {
-            create_effects__14TAdGameStartGCFPv(*(s32 *)&this->unk_78);
+            create_effects__14TAdGameStartGCFPv((u8 *)(*(s32 *)&this->unk_78));
         }
     }
     ((TAdMultiPlyChrSelectGC *)(this->m_5c))->set_state_ready();

@@ -866,7 +866,7 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void fn_802E52AC(void);
 extern int darkfalz_dat_resource;
 void TBoss4Type2__sub_80056EA8(void *, s32);
-void TBoss4Type3__sub_80059DCC(void *, s32);
+void TBoss4Type3__sub_80059DCC(TBoss4Type3 *self, u32 packed);
 u8 *get_enemy_entity(u16 arg0);
 extern void *TBoss4DarkFalz__type1_instance;
 extern void *TBoss4DarkFalz__type2_instance;
@@ -1048,7 +1048,7 @@ void handle_6x19_dark_falz_actions(Msg_8004BFA4 *arg0) {
     case 13:
     case 14:
         if (TBoss4DarkFalz__type3_instance != NULL) {
-            TBoss4Type3__sub_80059DCC(TBoss4DarkFalz__type3_instance, arg);
+            TBoss4Type3__sub_80059DCC((TBoss4Type3 *)TBoss4DarkFalz__type3_instance, arg);
         }
         break;
     }

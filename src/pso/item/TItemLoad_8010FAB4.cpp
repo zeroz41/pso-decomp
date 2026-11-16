@@ -8,7 +8,7 @@ extern "C" {
 
 struct VOff_8010FB0C_arg0_8010fb0c_8010FAB4 { char pad_0[0x1C]; char f_1C[1]; };
 
-s32 test_flags_any(void *, int);
+s32 test_flags_any(s32 *flags, s32 mask);
 
 s32 TItemLoad::begin_load(s32 arg1) {
     u8 *arg0 = (u8 *)this;
@@ -28,7 +28,7 @@ void TItemLoad::reset_state() {
     struct VOff_8010FB0C_arg0_8010fb0c_8010FAB4 *self = (struct VOff_8010FB0C_arg0_8010fb0c_8010FAB4 *)this;
     free_texture();
     ((FlagWord *)(self->f_1C))->set(2);
-    x = test_flags_any(self->f_1C, 4);
+    x = test_flags_any((s32 *)self->f_1C, 4);
     if (x != 0) {
         item_load_work_buffer_busy = 0;
         ((FlagWord *)(self->f_1C))->clear(4);

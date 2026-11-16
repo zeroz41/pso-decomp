@@ -104,7 +104,7 @@ extern "C" {
 s32 is_selection_done__23TAdSinglePlyChrSelectGCFPv(void *);
 void start_preview_loads__23TAdSinglePlyChrSelectGCFPv(Gc_8028CB6C *arg0);
 s32 is_node_tree_valid(u32, s32);
-void blend_creation_proportion_shapes(void *);
+void blend_creation_proportion_shapes(f32 *point);
 extern s32 chr_select_preview_stride_table[];
 extern s32 chr_select_preview_base_offset_table[];
 
@@ -178,7 +178,7 @@ s32 TAdSinglePlyChrSelectGC::load_preview_models() {
         s.z[i] = bufs[i + 3];
     }
     ((TAdSinglePlyChrSelectGC *)(&s))->reset_creation_parts();
-    blend_creation_proportion_shapes(self->f38 + 0x48);
+    blend_creation_proportion_shapes((f32 *)(self->f38 + 0x48));
     for (j = 0; j < 6; j++) TAdSinglePlyChrSelectGC::safe_free(bufs[j]);
 }
 

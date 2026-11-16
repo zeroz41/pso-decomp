@@ -36,7 +36,7 @@ extern "C" {
 f32 atan2_float(f64, f64);
 s32 approach_angle_limited(int, int, int);
 void *find_entity_by_id(u16 id);
-s32 rotate_xz_pair_by_angle(void *, void *, s32);
+void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 void *fn_800B8B00(void *p);
 u16 get_entity_id(TObjBase *object);
 extern u32 TObjEneBm5Wolf__instance_list[];
@@ -101,7 +101,7 @@ __declspec(section ".data") s32 wolf_stat_handle_b_table[2];
 __declspec(section ".data") s32 lbl_80500B58[2];
 s32 is_vec_xz_cross_negative(void *, void *);
 f32 calc_circle_offset__14TObjEneBm5WolfFPvPvPv(TObjEneBm5Wolf *wolf, Vec *target, Vec *out);
-s32 enemy_validate_retained_target(void *);
+s32 enemy_validate_retained_target(u8 *ene_dd_st);
 void enemy_clear_target__12TObjEneDD_STFUs(void *);
 }
 
@@ -124,7 +124,7 @@ s32 TObjEneBm5Wolf__data_805D5128;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 s32 vec3_add_to(void *, void *);
-s32 TObjEneDD__sub_800BA378(void *, void *);
+void TObjEneDD__sub_800BA378(s32 arg0, u8 *arg1);
 s32 get_target_info__9TObjEneDDFv();
 s32 pack_debug_text_position(s32 arg0, s32 arg1);
 s32 debug_draw_line(void *, void *, int, int);
@@ -164,7 +164,7 @@ s32 dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 register_object__6TLobbyFl(s32);
 s32 dispatch_shared_handler_b__6TLobbyFl(s32);
 s32 register_boss__6TLobbyFl(s32);
-BmlResource *load_enemy_bml_resource_named(void *, void *);
+s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 s32 load_enemy_bml_resource(u8 *arg0);
 extern s32 lbl_8043B3A8[];
 extern s32 lbl_8043B3B0[];
@@ -271,7 +271,7 @@ void TObjEneBm5Wolf::load_resources() {
     s32 i;
 
     if (TObjEneDD::check_v2_mode() != 0) {
-        TObjEneBm5Wolf__bml_resource = load_enemy_bml_resource_named(&bm_ene_bm5_wolf_resource_descriptor, lbl_8043B5C0);
+        TObjEneBm5Wolf__bml_resource = (BmlResource *)load_enemy_bml_resource_named((s32)&bm_ene_bm5_wolf_resource_descriptor, (s32)lbl_8043B5C0);
     } else {
         TObjEneBm5Wolf__bml_resource = (BmlResource *)load_enemy_bml_resource((u8 *)&bm_ene_bm5_wolf_resource_descriptor);
     }
@@ -1020,7 +1020,7 @@ void TObjEneBm5Wolf::standing_state(s32 arg1) {
       this->roamingSubstate = (s32) ((this->roamingSubstate) + 1);
       this->advance_animation();
       this->is_passing_frame(7.0f);
-      if (enemy_validate_retained_target(this) != 0)
+      if (enemy_validate_retained_target((u8 *)this) != 0)
     {
       this->enemy_copy_target_destination();
       this->update_velocity();
@@ -1071,7 +1071,7 @@ void TObjEneBm5Wolf::howling_state(s32 arg1) {
                 }
             }
         }
-        if (enemy_validate_retained_target(this) != 0) {
+        if (enemy_validate_retained_target((u8 *)this) != 0) {
             if (this->requested_action == 0x10) {
                 this->turn_pose_to_target();
             } else {
@@ -1544,14 +1544,14 @@ void TObjEneBm5Wolf::update_lunge(s32 arg1) {
             }
             if (this->is_passing_frame((f32) (20.0f)) != 0) {
                 this->nearTarget = 0;
-                if (enemy_validate_retained_target(this) != 0) {
+                if (enemy_validate_retained_target((u8 *)this) != 0) {
                     if (this->target->select_melee_contact_body(this, 1.0f) != 0) {
                         this->target->receive_physical_attack(this, 1.0f);
                         this->target->apply_knockback_from_attacker((u8 *)this, 7.0f);
                         this->nearTarget = 1;
                         if ((TObjEneDD::check_v2_mode() != 0) && (this->random_ratio() <= 0.1f)) {
                             if (this->m_3d8 != 0) {
-                                TObjEneDD__sub_800BA378(this, this->target);
+                                TObjEneDD__sub_800BA378((s32)this, (u8 *)this->target);
                             } else {
                                 TObjEneDD::send_damage_message((s32)this, (u8 *)this->target);
                             }

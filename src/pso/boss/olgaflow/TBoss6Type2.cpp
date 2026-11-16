@@ -197,16 +197,16 @@ union TypedVector_802BAA74 {
 };
 
 extern "C" {
-s32 get_bml_model(s32, s32);
+s32 get_bml_model(BmlResource *resource, s32 index);
 s32 submit_cursor_candidate(void *, int);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
 void TBoss6Type2__sub_802BA7BC(u8 *o);
-s32 get_bml_motion(int, int);
+AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
 extern s32 TBoss6Type2__motion_table[];
 extern const s32 TBoss6Type2__data_805DE4B8;
-u8 * get_player_by_client_id(u32);
+void *get_player_by_client_id(s32 i);
 s32 is_active__14TBoss6PlotFalzFv();
 f32 xyz_distance(void *, void *);
 void TBoss6Type2__sub_802BA598(TBoss6Type2 *self, s32 elapsed, s32 duration);
@@ -218,7 +218,7 @@ u8 * get_player_data__10TObjPlayerFi(s32);
 void spawn__15TBoss6RockChaseFll(void *, void *);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
-s32 TObjFish__sub_8001EDB0(s32, s32);
+s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
 s32 TObjFish__sub_800E3124(u8 *list, s32 vecs);
 s32 init_collision_body_parts(void *, void *, int);
 void build_tables__14TBoss6PlotFalzFPvPvi(void *, void *, int);
@@ -542,8 +542,8 @@ u16 get_entity_id(void *);
 s32 is_split_screen();
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
-s32 mem_free(s32 *);
-s32 * mem_alloc(s32);
+void mem_free(void *p);
+void *mem_alloc(u32 size);
 s32 project_actor_to_ground(void *, void *, int);
 s32 __nw__7TObjectFUl(s32);
 int pick_random_active_player__14TBoss6PlotFalzFv(void*);
@@ -586,7 +586,7 @@ void TBoss6Type2__vt47(void);
 void TBoss6Type2__vt48(void);
 void TBoss6Type2__sub_8032E708(void *p, s32 v);
 s32 set_action_field_0x408__11TBoss6Type2Fs(s32, u16);
-s32 TBoss6Type2__sub_80356E50(s32 *, s32, s32);
+void TBoss6Type2__sub_80356E50(s32 arg0, s32 arg1, s32 force);
 s32 spawn_flow_soul__11TBoss6Type2Fiii(s32 arg0, s32 arg1, s32 arg2);
 f32 vec3_add_to(void *, void *);
 f32 vector_length(Vec_802B9A68 *);
@@ -688,7 +688,7 @@ s32 TBoss6Type2::is_player_in_rock_area(s32 id) {
     Player_802B9A68 *p;
     s32 i;
     f32 k;
-    p = ((Player_802B9A68 *)get_player_by_client_id((u32)((u16)id)));
+    p = ((Player_802B9A68 *)get_player_by_client_id(((u16)id)));
     if (p == NULL) {
         return 0;
     }
@@ -923,7 +923,7 @@ void TBoss6Type2::restore_target_player_state() {
     u8 *player;
     u32 id = *(u16 *)((s8 *)((u8 *)this) + 0x55C);
     if (id != 0xFFFF) {
-        player = get_player_by_client_id(id);
+        player = (u8 *)get_player_by_client_id(id);
         if (player == NULL) {
             ((TBoss6Type2 *)this)->reset_fish_fields();
             return;
@@ -945,7 +945,7 @@ s32 grab_player__11TBoss6Type2FPvUs(u8 *arg0, u16 arg1) {
     if ((arg1 == 0xFFFF) || (*(u16 *)((s8 *)arg0 + 0x55C) != 0xFFFF)) {
         return 0;
     }
-    temp_r3 = (u8 *)(((u8 * (*)(int))get_player_by_client_id)(arg1));
+    temp_r3 = (u8 *)(get_player_by_client_id(arg1));
     if (temp_r3 == NULL) {
         return 0;
     }
@@ -994,7 +994,7 @@ void TBoss6Type2::update_possess_target() {
     id = *(u16 *)((s8 *)((u8 *)this) + 0x55C);
     if (id != 0xFFFF) {
         done = 0;
-        pl = ((u8 * (*)(u16))get_player_by_client_id)(id);
+        pl = (u8 *)get_player_by_client_id(id);
         if (pl == NULL) {
             done = 1;
         } else if (is_active__14TBoss6PlotFalzFv() == 0) {
@@ -1036,10 +1036,10 @@ void TBoss6Type2::reset_counters() {
 
 void TBoss6Type2::cache_fish_params() {
     ((s32 (*)(void))reset_fish_fields__11TBoss6Type2Fv)();
-    *(s32 *)((s8 *)this + 0x560) = TObjFish__sub_8001EDB0(this->m_3fc, 0xB);
-    *(s32 *)((s8 *)this + 0x564) = TObjFish__sub_8001EDB0(this->m_3fc, 0xA);
-    *(s32 *)((s8 *)this + 0x568) = get_bml_model(this->m_3fc, 0xB);
-    *(s32 *)((s8 *)this + 0x56C) = get_bml_model(this->m_3fc, 0xA);
+    *(s32 *)((s8 *)this + 0x560) = TObjFish__sub_8001EDB0((BmlResource *)this->m_3fc, 0xB);
+    *(s32 *)((s8 *)this + 0x564) = TObjFish__sub_8001EDB0((BmlResource *)this->m_3fc, 0xA);
+    *(s32 *)((s8 *)this + 0x568) = get_bml_model((BmlResource *)this->m_3fc, 0xB);
+    *(s32 *)((s8 *)this + 0x56C) = get_bml_model((BmlResource *)this->m_3fc, 0xA);
 }
 
 void TBoss6Type2__sub_802BA598(TBoss6Type2 *self, s32 elapsed, s32 duration) {
@@ -1312,7 +1312,7 @@ void TBoss6Type2::drop_random_rocks(s32 arg0, s32 arg1) {
     if (cnt > avail) {
         cnt = avail;
     }
-    buf = mem_alloc(cnt * 4);
+    buf = (s32 *)mem_alloc(cnt * 4);
     step = (s32)(31.0f * (3.0517578e-05f * (f32)rand()));
     j = 0;
     for (k = 0; k < cnt; k++) {
@@ -1329,7 +1329,7 @@ void TBoss6Type2::drop_random_rocks(s32 arg0, s32 arg1) {
         buf[k] = j;
         avail_tbl[j] = 0;
     }
-    TBoss6Type2__sub_80356E50(buf, cnt, arg1);
+    TBoss6Type2__sub_80356E50((s32)buf, cnt, arg1);
     mem_free(buf);
     ((s32 (*)(int, void *, int, int))play_sound_effect)(0x4006AB1D, ((void *)&boss6_arena_center), 0, 1);
 }
@@ -1434,7 +1434,7 @@ int TBoss6Type2__sub_802BB4DC(void* p) { return ((int (*)(void*, int))aim_toward
 void TBoss6Type2::update_target() {
     s32 temp_r3;
 
-    temp_r3 = ((s32 (*)(u16))get_player_by_client_id)(this->m_466);
+    temp_r3 = (s32)get_player_by_client_id(this->m_466);
     if (temp_r3 != 0) {
         ((int (*)(void*, int))aim_toward_point__11TBoss6Type2FPv)(this, temp_r3 + 0x38);
         return;
@@ -1657,7 +1657,7 @@ void TBoss6Type2::apply_rock_hits_to_players() {
             if (hit != 0 && r != 0) {
                 for (mask = 1, j = 0; j < 4; j++, mask <<= 1) {
                     if (mask & r) {
-                        p = (VObj_18_b27ba1 *)((s32 (*)(s32))get_player_by_client_id)(j);
+                        p = (VObj_18_b27ba1 *)get_player_by_client_id(j);
                         if (((s32 (*)(void *))is_active__14TBoss6PlotFalzFv)(p) != 0) {
                             v = ((Obj_802BBAB0 *)this)->f4B4;
                             if (((Obj_802BBAB0 *)this)->f418 != 0) {
@@ -1889,7 +1889,7 @@ s32 TBoss6Type2::choose_turn_motion() {
     void *temp_r3;
 
     var_r31_2 = 0xF;
-    temp_r3 = ((void * (*)(u16))get_player_by_client_id)(this->m_466);
+    temp_r3 = get_player_by_client_id(this->m_466);
     if (this->m_478 & 1) {
         var_r31_2 = 0x10;
     }
@@ -2003,7 +2003,7 @@ void TBoss6Type2::update_countdown() {
             *(s32 *)((s8 *)this + 0x518) = -0x12C;
         }
         if (((s32) this->m_418 != 0) && ((s32) *(s32 *)((s8 *)this + 0x518) == -0x12C)) {
-            temp_r31 = ((void * (*)(u16))get_player_by_client_id)(*(u16 *)((s8 *)this + 0x55C));
+            temp_r31 = get_player_by_client_id(*(u16 *)((s8 *)this + 0x55C));
             if ((is_active__14TBoss6PlotFalzFv() != 0) && ((s16) *(s16 *)((s8 *)temp_r31 + 0x326) == 1)) {
                 start_countdown_sound_state();
             }
@@ -2258,7 +2258,7 @@ void TBoss6Type2__sub_802BCC54(void *p, int motion) {
         self->f494 = ent[0];
         for (i = 0; i < TBoss6Type2__data_805DE4B8; i++) {
             Trk_802BCD2C *e = &self->trk[i];
-            Anim_802BCD2C *anim = (Anim_802BCD2C *)get_bml_motion(((TBoss6Type2 *)p)->m_3fc, ((Tb_802BCEF4 *)ent)->v[i]);
+            Anim_802BCD2C *anim = (Anim_802BCD2C *)get_bml_motion((BmlResource *)(((TBoss6Type2 *)p)->m_3fc), ((Tb_802BCEF4 *)ent)->v[i]);
             e->a = e->da;
             e->prev_anim = e->anim;
             e->prev_t = e->t;
@@ -2328,7 +2328,7 @@ void TBoss6Type2::init_motion_entries() {
         Ent_802BCEF4 *e = &o->ents[i];
         s32 r;
         ((TBoss6Type2 *)e)->copy_transform((void *)boss6_type2_motion_entry_transform);
-        r = get_bml_motion(this->m_3fc, ((Tb_802BCEF4 *)TBoss6Type2__motion_table)->v[i]);
+        r = (s32)get_bml_motion((BmlResource *)this->m_3fc, ((Tb_802BCEF4 *)TBoss6Type2__motion_table)->v[i]);
         e->f14 = r;
         e->f0 = r;
         e->f8 = *(f32 *)((u8 *)TBoss6Type2__motion_table + 0xC);
@@ -2402,7 +2402,7 @@ void TBoss6Type2::run_task() {
     ((TBoss6Type2 *)arg0)->sub_802BB498();
     ((TBoss6Type2 *)arg0)->sub_802BC124();
     ((TBoss6PlotFalz *)(arg0 + 0x768))->scroll_strips_uv(8, 0);
-    TObjPlayer__sub_8023DEE0((s16 *)(*(s32 *)((s8 *)(*(u8 **)((s8 *)(find_model_node(get_bml_model(this->m_3fc, 1), 1)) + 4)) + 4)), 8, 0, 0);
+    TObjPlayer__sub_8023DEE0((s16 *)(*(s32 *)((s8 *)(*(u8 **)((s8 *)(find_model_node(get_bml_model((BmlResource *)this->m_3fc, 1), 1)) + 4)) + 4)), 8, 0, 0);
     ((TBoss6Type2 *)arg0)->sub_802BB554();
     copy_vec_array();
     if ((s32) this->m_418 != 0) {
@@ -2633,7 +2633,7 @@ void TBoss6Type2__sub_802BD938(u8 *arg0, u8 *arg1) {
     s32 temp_r29;
     s32 temp_r29_2;
     s32 temp_r3;
-    temp_r3 = ((s32)((s32 (*)(int))get_player_by_client_id)((int) ((s32) *(u16 *)((s8 *)arg0 + 0x466))));
+    temp_r3 = ((s32)get_player_by_client_id(((s32) *(u16 *)((s8 *)arg0 + 0x466))));
     if (temp_r3 != 0) {
         VecCopy((Vec *)(&stack.sp18), (const Vec *)(temp_r3 + 0x38));
     } else {
@@ -2697,7 +2697,7 @@ void TBoss6Type2::update_attack_target() {
         temp_r3 = ((u16 (*)(void *))TBoss6Type2__sub_802BB694)(this);
         var_r30 = temp_r3;
         if ((u16) temp_r3 == 0xFFFF) {
-            ((s32 (*)(int))get_player_by_client_id)(temp_r31);
+            get_player_by_client_id(temp_r31);
             if (is_active__14TBoss6PlotFalzFv() != 0) {
                 var_r30 = temp_r31;
             }
@@ -2900,8 +2900,8 @@ s32 TBoss6Type2__ct(s32 arg0_, s32 parent, s32 arg2_) {
     for (k = 0; k < 2; k++) {
         Ent_802BE0D4 *e = &((Ents_802BE0D4 *)arg0)->ents[k];
         id = lbl_8047128C[k];
-        e->a = TObjFish__sub_8001EDB0(*(s32 *)((s8 *)arg0 + 0x3FC), id);
-        e->b = get_bml_model(*(s32 *)((s8 *)arg0 + 0x3FC), id);
+        e->a = TObjFish__sub_8001EDB0((BmlResource *)(*(s32 *)((s8 *)arg0 + 0x3FC)), id);
+        e->b = get_bml_model((BmlResource *)(*(s32 *)((s8 *)arg0 + 0x3FC)), id);
     }
     }
     ((TBoss6Type2 *)arg0)->init_motion_entries();

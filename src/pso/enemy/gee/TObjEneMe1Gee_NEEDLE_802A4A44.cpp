@@ -20,7 +20,7 @@
 #include "pso/enemy/gigue/TObjEneMe1GiGueMissile.h"
 
 extern "C" {
-s32 TObjPlayer__sub_802A445C(void *, s32);
+void TObjPlayer__sub_802A445C(TNeedleShoot *self, int arg1);
 u8 *TNeedleShoot__ct(void *, s32, void *, void *);
 }
 

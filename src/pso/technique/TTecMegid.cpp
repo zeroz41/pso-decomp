@@ -232,7 +232,7 @@ void __ct__13TUnk_804CCC68FlPUcPUcl();
 u8 *TTecMegid__ct(TTecMegid *arg0, s32 _w1, s32 _w2, s32 _w3, s32 _w4);
 void construct_facing_technique__10TObjPlayerFPviPvii();
 s32 play_sound_effect(s32, s32, s32, s32);
-s32 get_technique_caster_flags(s32, u16);
+u32 get_technique_caster_flags(s32 technique, u16 actor);
 void TTecMegid__vt6(Obj_80235490 *self, VObj_80235490 *target);
 void *find_entity_by_id(u16);
 s32 push_matrix_from(void *src);

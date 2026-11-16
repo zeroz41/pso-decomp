@@ -14,7 +14,7 @@ extern "C" s16 calc_base_hp_bonus__FUs();
 
 extern "C" {
 s32 get_entity_id(void *);
-s32 check_class_equip_permission(void *, int);
+int check_class_equip_permission(TObjPlayer *player, s32 perm);
 u8 get_item_index__5TItemFv();
 }
 
@@ -35,7 +35,7 @@ void TUnk_8049FBC0::apply_use_effect() {
         ((TObjPlayer *)(this->owner))->add_stat_and_item(2);
         break;
     case 1:
-        if (check_class_equip_permission((void *)this->owner, 0xD7) == 0) {
+        if (check_class_equip_permission(this->owner, 0xD7) == 0) {
             ((TObjPlayer *)(this->owner))->add_mst_and_item(2);
         }
         break;
@@ -50,7 +50,7 @@ void TUnk_8049FBC0::apply_use_effect() {
         break;
     case 4:
         get_entity_id((void *)this->owner);
-        if ((calc_base_tp_bonus__FUs() < 0xFA) && (check_class_equip_permission((void *)this->owner, 0xD7) == 0)) {
+        if ((calc_base_tp_bonus__FUs() < 0xFA) && (check_class_equip_permission(this->owner, 0xD7) == 0)) {
             ((TObjPlayer *)(this->owner))->set_speed_scaled_by_camera((u8)(2));
         }
         break;

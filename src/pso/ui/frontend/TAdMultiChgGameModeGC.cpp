@@ -60,8 +60,8 @@ void *__ct__14TAdSelectCurGCFv(void *, void *, void *, void *);
 void *__ct__13TAdGuideTxtGCFv(void *, void *);
 extern void *__vt__21TAdMultiChgGameModeGC[];
 Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self);
-s32 is_multiplayer_character_slot_selected(u32);
-s32 TAdMultiPlyChrSelectGC__sub_802C658C(u32);
+s32 is_multiplayer_character_slot_selected(s32 arg0);
+s32 TAdMultiPlyChrSelectGC__sub_802C658C(s32 arg0);
 const char *TAdMultiChgGameModeGC__name = "TAdMultiChgGameModeGC";
 
 static const Txt_802FFE58 multi_chg_game_mode_text_layout = { { { -1, 223.0f, 169.0f }, { -1, 193.0f, 221.0f }, { -1, 163.0f, 273.0f } } };

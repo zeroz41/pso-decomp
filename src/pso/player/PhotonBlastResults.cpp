@@ -91,7 +91,7 @@ struct VObj_18_b27ba1 : VBase_18_b27ba1 {
 extern "C" {
 
 
-TObjChara *find_entity_by_id(u16 identity);
+void *find_entity_by_id(u16 id);
 
 s32 get_current_floor();
 s32 get_floor__10TObjPlayerFv(void *);
@@ -271,7 +271,7 @@ void apply_photon_blast_action_hold(s32 arg0, s32 arg1, s32 arg2) {
     Hit_801A86E0 tmp1;
     Hit_801A86E0 tmp2;
 
-    ent = ((u8 *(*)(u16))find_entity_by_id)(arg2);
+    ent = (u8 *)find_entity_by_id(arg2);
     for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count(); i++) {
         plr = (u8 *)TObjPlayer::get_player_data(i);
         if (plr != NULL && !(*(s32 *)((s8 *)plr + 0x30) & 0x40000000)) {
@@ -402,7 +402,7 @@ void admit_photon_blast_sequence(u8 *players, void *self) {
 void deliver_photon_blast_results_animated(TUnk_804C349C *seq) {
     s32 i;
     for (i = 0; i < photon_blast_hit_count; i++) {
-        TObjChara *target = find_entity_by_id(photon_blast_hit_queue[i].identity);
+        TObjChara *target = (TObjChara *)find_entity_by_id(photon_blast_hit_queue[i].identity);
         if (target != NULL) {
             DirectAttackPayload payload;
             f32 power = ((TObjPlayer *)seq)->calc_photon_blast_power(photon_blast_hit_queue[i].kind, photon_blast_hit_queue[i].value);
@@ -500,7 +500,7 @@ void deliver_photon_blast_results_animated(TUnk_804C349C *seq) {
 void deliver_photon_blast_results_delayed(TUnk_804C349C *seq) {
     s32 i;
     for (i = 0; i < deferred_photon_blast_hit_count; i++) {
-        TObjChara *target = find_entity_by_id(deferred_photon_blast_hit_queue[i].identity);
+        TObjChara *target = (TObjChara *)find_entity_by_id(deferred_photon_blast_hit_queue[i].identity);
         if (target != NULL) {
             DirectAttackPayload payload;
             f32 power = ((TObjPlayer *)seq)->calc_photon_blast_power(deferred_photon_blast_hit_queue[i].kind, deferred_photon_blast_hit_queue[i].value);
@@ -620,7 +620,7 @@ void TUnk_804C349C::step_photon_blast_sequence() {
             switch (this->kinds[this->summon_index]) {
             case 2:
             case 3: {
-                TObjChara *anchor = find_entity_by_id(lbl_805D5D18);
+                TObjChara *anchor = (TObjChara *)find_entity_by_id(lbl_805D5D18);
                 if (anchor != NULL) {
                     VecCopy(&this->position, &anchor->position);
                 }

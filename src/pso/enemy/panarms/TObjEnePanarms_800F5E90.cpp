@@ -5,9 +5,9 @@
 
 extern "C" {
 
-int enemy_name_for_rt_index(void*);
+s32 enemy_name_for_rt_index(s32 arg0);
 
-const char *TObjEnemy::get_name() { return (const char *)enemy_name_for_rt_index(this->control); }
+const char *TObjEnemy::get_name() { return (const char *)enemy_name_for_rt_index((s32)this->control); }
 s32 TObjEnemy::remap_sound_for_area(s32 sound_id) { return ::remap_area_sound_id(sound_id, (s32)this->control); }
 
 }

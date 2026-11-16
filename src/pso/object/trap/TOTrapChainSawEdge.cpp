@@ -164,7 +164,7 @@ s32 TOTrapAncient02R__sub_80154D78(void *);
 void free_collision_body_parts(void *);
 s32 init_collision_body_parts(void *, int, int);
 s32 play_persistent_sound(void *, void *, void *, int, int);
-u8 is_current_floor_switch_set(u16);
+u8 is_current_floor_switch_set(s32 id);
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(int);
 void update_sweep__18TOTrapChainSawEdgeFv(void *arg0);

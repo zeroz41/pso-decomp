@@ -90,14 +90,14 @@ extern "C" {
 s32 obj_getArrWord_254(void *, int);
 u16 get_entity_id(void *);
 int get_item_field_6__10TObjPlayerFPv(void *);
-s32 is_quest_active();
+int is_quest_active(void);
 s32 is_item_usable__9TItemDataFlPUc(void *, void *);
-s32 check_equip_requirements(void *, void *, int);
-s32 check_class_equip_permission(void *, int);
+s32 check_equip_requirements(void *self, TItemData *p, s32 *out);
+int check_class_equip_permission(TObjPlayer *player, s32 perm);
 void *lookup_item_pmt_record(u8 *item);
 s32 update_player_field__9TItemDataFv(void *);
 u8 get_technique_learn_limit(u8, u8);
-s32 get_player_by_client_id(s32);
+void *get_player_by_client_id(s32 i);
 s16 *get_class_stat_entry__10TObjPlayerFPUc(void *);
 u8 get_cast_technique_level(void *, int);
 s32 is_invalid_slot__10TObjPlayerFUc();
@@ -1013,7 +1013,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
   {
     s32 perm;
     rec = (u8 *) lookup_item_pmt_record(((u8 *)this));
-    perm = check_class_equip_permission(player, 0xD7);
+    perm = check_class_equip_permission((TObjPlayer *)player, 0xD7);
     if (rec != 0)
     {
       flags = *((s32 *)(rec + 0x10));
@@ -1309,7 +1309,7 @@ f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
     case 24:
         found = 0;
         for (i = 0; i != 12 && found != 1; i++) {
-            p = get_player_by_client_id(i);
+            p = (s32)get_player_by_client_id(i);
             if ((u32)p != 0) {
                 p = ((TItemData *)p)->get_item_field_2();
                 if ((u32)p != 0) {
@@ -1325,7 +1325,7 @@ f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
     case 25:
         hit = 0;
         for (j = 0; j != 12 && hit != 1; j++) {
-            p = get_player_by_client_id(j);
+            p = (s32)get_player_by_client_id(j);
             if ((u32)p != 0) {
                 p = ((TItemData *)p)->get_item_field_2();
                 if ((u32)p != 0) {
@@ -1341,7 +1341,7 @@ f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
     case 26:
         hit2 = 0;
         for (k = 0; k != 12 && hit2 != 1; k++) {
-            p = get_player_by_client_id(k);
+            p = (s32)get_player_by_client_id(k);
             if ((u32)p != 0) {
                 p = ((TItemData *)p)->get_item_field_2();
                 if ((u32)p != 0) {
@@ -1462,7 +1462,7 @@ f32 TItemData::get_set_bonus_multiplier(s32 player) {
 
 void TItemData::apply_equip_effects(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
 
-    if ((arg1 != 0) || (arg1 = get_player_by_client_id(local_client_id), ((arg1 == 0) == 0))) {
+    if ((arg1 != 0) || (arg1 = (s32)get_player_by_client_id(local_client_id), ((arg1 == 0) == 0))) {
         get_set_bonus_multiplier(arg1);
         calc_clock_bonus__9TItemDataFPv(this, arg1);
         switch ((s32) (*(u8 *)((s8 *)this + 0))) {

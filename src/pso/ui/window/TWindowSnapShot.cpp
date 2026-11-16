@@ -66,8 +66,8 @@ extern u32 snapshot_image_buffer;
 void TLobby__sub_802A7BD8(void);
 s32 fn_802A5C3C(u32 *arg0);
 s32 memcpy(s32, s32, s32);
-s32 fn_802A6070(s32, s32);
-s32 fn_802A6078(s32, s32);
+void fn_802A6070(void *p, s32 v);
+void fn_802A6078(void *p, s32 v);
 extern s32 lbl_805D669C;
 void set_slot_position__6TLobbyFii(s32 arg0, s32 arg1);
 s32 aram_dma_blocking__6TLobbyFllll(s32, s32, s32, s32, s32);
@@ -220,8 +220,8 @@ void set_slot_position__6TLobbyFii(s32 arg0, s32 arg1) {
     temp_r31 = ((RlcHeader *)(*(s32 *)&snapshot_image_buffer))->get_directory_offset();
     temp_r31 = (*(s32 *)&snapshot_image_buffer) + temp_r31;
     temp_r31 = temp_r31 + arg0 * 8;
-    fn_802A6078(arg1, lbl_805D669C + ((RlcDirectoryEntry *)temp_r31)->get_offset());
-    fn_802A6070(arg1, ((RlcDirectoryEntry *)temp_r31)->get_size());
+    fn_802A6078((void *)arg1, lbl_805D669C + ((RlcDirectoryEntry *)temp_r31)->get_offset());
+    fn_802A6070((void *)arg1, ((RlcDirectoryEntry *)temp_r31)->get_size());
 }
 void TLobby::send_type2_event(s32 arg0, s32 arg1, s32 arg2) {
     aram_dma_blocking__6TLobbyFllll(2, arg0, arg1, arg2, arg0);

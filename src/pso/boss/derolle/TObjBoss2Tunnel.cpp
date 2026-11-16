@@ -266,7 +266,7 @@ struct G_PlaySound_6xB2 {
 extern "C" {
 s32 DCFlushRange(int, int);
 s32 TAdPlayerLoadGC__sub_801E1538(void *, void *);
-s32 TAdPlayerLoadGC__sub_801E1B50(int);
+s32 TAdPlayerLoadGC__sub_801E1B50(s32 chan);
 extern s32 lbl_805D49B4;
 s32 draw_textured_screen_quad__10TObjPlayerFUlPfPfl(int, void *, void *, int, f32);
 void poll_load_status__15TAdPlayerLoadGCFl(s32 a, void *b);

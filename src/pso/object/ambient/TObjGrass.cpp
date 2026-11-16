@@ -314,7 +314,7 @@ s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
-u8 *load_enemy_bml_resource_named(void *, void *);
+s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 void *mem_alloc(u32 size);
 extern s32 lbl_805D5140;
 extern u32 TObjGrass__bml_resource;
@@ -417,7 +417,7 @@ Vec grass_render_vec;
 Vec grass_origin_vec;
 extern u8 lbl_804FF5E8[];
 struct Vec_800BE1CC { f32 x, y, z; };
-f32 calc_xz_distance_sq(void *, void *, Vec_800BE1CC *);
+f32 calc_xz_distance_sq(s32 arg0, u32 arg1, void *arg2);
 extern void *tl_04;
 struct VBase_14_d701ad { char pad[0x14]; };
 struct VObj_14_d701ad : VBase_14_d701ad {
@@ -532,7 +532,7 @@ TObjGrass::~TObjGrass() {
 void TObjGrass::load_resources() {
     u8 *p;
     if (TObjEneDD::check_v2_mode() != 0) {
-        TObjGrass__resource_bundle = (u32) load_enemy_bml_resource_named(bm_ene_grass_resource_descriptor, (void *)"bm_ene_grass_a.bml");
+        TObjGrass__resource_bundle = (u32) load_enemy_bml_resource_named((s32)bm_ene_grass_resource_descriptor, (s32)((void *)"bm_ene_grass_a.bml"));
     } else {
         p = (u8 *)::operator new(0x440);
         if (p != NULL) {
@@ -1100,7 +1100,7 @@ s32 TObjGrass::is_target_in_attack_range() {
     if (obj_testFlags30(0x2000) != 0) {
         BIND(2)
     }
-    dist = calc_xz_distance_sq(this, this->target, &v);
+    dist = calc_xz_distance_sq((s32)this, (u32)this->target, (void *)&v);
     ang = angle_difference_abs(this->rotation_y, (s32)((10430.38043493439) * atan2_float(v.x, v.z)));
     t = this->target;
     if (*(u8 **)((s8 *)t + 0xA4) != NULL) {

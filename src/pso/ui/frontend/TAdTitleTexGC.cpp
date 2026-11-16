@@ -59,7 +59,7 @@ void release_texture_list(void*);
 
 extern const s32 current_language;
 
-void TLobby__sub_8023E4B4(s32, s32);
+s32 TLobby__sub_8023E4B4(s32 arg0, s32 arg1);
 
 void TLobby__sub_802A5154(void) {
     if (lbl_805D6668 != 0U) {

@@ -74,9 +74,9 @@ typedef char NanoDrago_speed_offset[offsetof(TObjEneNanoDrago, speed) == 0x3d8 ?
 typedef char NanoDrago_toggle_offset[offsetof(TObjEneNanoDrago, alternateBeam) == 0x3e0 ? 1 : -1];
 
 extern "C" u16 find_nearest_visible_player(void *, s32, f32);
-extern "C" s32 apply_actor_gravity(void *, int, f32);
+extern "C" void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" f32 atan2_float(f32 y, f32 x);
-extern "C" s32 check_enemy_body_collisions(void *);
+extern "C" void check_enemy_body_collisions(void *arg0);
 
 extern "C" u32 get_player_by_client_id(s32);
 extern "C" s32 play_area_sound_effect__12TBoss3VoloptFv(void *, s32);

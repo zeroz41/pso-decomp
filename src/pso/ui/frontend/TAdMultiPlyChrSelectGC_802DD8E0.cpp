@@ -36,9 +36,9 @@ s32 is_slot_active__23TAdSinglePlyChrSelectGCFUi();
 s32 is_multiplayer_character_slot_selected(s32);
 s32 TAdMultiPlyChrSelectGC__sub_802C6558();
 s32 TAdMultiPlyChrSelectGC__sub_802C658C();
-s32 TAdMultiPlyChrSelectGC__sub_802C6920();
+int TAdMultiPlyChrSelectGC__sub_802C6920(void);
 s32 TAdMultiPlyChrSelectGC__sub_802E0024(s32, s32);
-s32 create_effects__14TAdGameStartGCFPv(s32);
+void create_effects__14TAdGameStartGCFPv(u8 *parent);
 s32 get_or_create_slot_window__22TAdMultiPlyChrSelectGCFii(void *, s32);
 s32 clear_entries__18TAdChrMoveEffectGCFv();
 s32 TWindowShortListCtrl__check_controller_button(void *, s32, s32);
@@ -276,7 +276,7 @@ void TAdMultiPlyChrSelectGC::reset_to_select() {
         temp_r31 = TAdMultiPlyChrSelectGC::count_ready();
         temp_r3 = TAdMultiPlyChrSelectGC__sub_802C6558();
         if (temp_r3 != temp_r31) {
-            create_effects__14TAdGameStartGCFPv(*(s32 *)&this->unk_78);
+            create_effects__14TAdGameStartGCFPv((u8 *)(*(s32 *)&this->unk_78));
         }
     }
     *(s32 *)&this->m_20 = 0;

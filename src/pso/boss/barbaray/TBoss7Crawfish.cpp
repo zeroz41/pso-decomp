@@ -109,8 +109,8 @@ extern s32 game_difficulty_selection;
 
 s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
 s32 get_mode__11TCameraCtrlFPv(void *);
-s32 obj_is_hit_receivable(u32);
-s32 reset_global_table();
+s32 obj_is_hit_receivable(u8 *arg0);
+void reset_global_table(void);
 Slot_803086A8 *get_attack_entry__16TObjOnlineEndingFi(s32);
 s32 apply_hit_to_target__14TBoss7CrawfishFPvPv(void *, void *);
 void TBoss7Crawfish__sub_803087D4(s32 arg0, s32 arg1);
@@ -144,7 +144,7 @@ void TBoss7Crawfish::register_attack_hits() {
                     break;
                 }
             }
-            if (j == ((Obj_803086A8 *)this)->count && obj_is_hit_receivable(e->a) != 0) {
+            if (j == ((Obj_803086A8 *)this)->count && obj_is_hit_receivable((u8 *)e->a) != 0) {
                 ((Obj_803086A8 *)this)->slots[((Obj_803086A8 *)this)->count].a = e->a;
                 ((Obj_803086A8 *)this)->slots[((Obj_803086A8 *)this)->count].b = e->b;
                 ((Obj_803086A8 *)this)->count++;

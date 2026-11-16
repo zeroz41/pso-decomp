@@ -17,7 +17,7 @@ struct Pos_80259A84
 };
 
 extern "C" {
-void reset_entry__20TWindowSubStatusDispFPv(void*, int);
+void *reset_entry__20TWindowSubStatusDispFPv(void *a0, s32 _w1);
 u8 get_font_char_advance();
 s32 map_char_to_font_code(s32);
 u8 get_small_font_glyph_width();

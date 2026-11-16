@@ -65,7 +65,7 @@ struct Obj_80192554 { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x
 
 void push_matrix();
 void post_translate_matrix(void *);
-void draw_ginja_model_with_motion(s32, s32, f32);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 
 struct Motion_801926D0 { u8 pad[4]; u32 frames; };
 struct TObjLazerFenceExtra_801926D0 {
@@ -78,7 +78,7 @@ struct TObjLazerFenceExtra_801926D0 {
     Motion_801926D0 *motion;
 };
 
-u8 is_current_floor_switch_set(u16);
+u8 is_current_floor_switch_set(s32 id);
 void post_translate_matrix(void *);
 void push_matrix(void);
 
@@ -92,7 +92,7 @@ s32 get_bml_motion(s32, s32);
 Node_80192A3C *get_bml_model(s32, s32);
 struct Obj_80192B5C { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 fB8; s32 fBC; s32 fC0; s32 fC4; s32 fC8[4]; };
 
-void draw_ginja_model_with_motion(s32, s32, f32);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 
 struct Motion_80192CCC { u8 pad[4]; u32 frames; };
 
@@ -252,7 +252,7 @@ void TObjLazerFenceNorm::draw_animated_beam() {
     rotate_matrix_y(NULL, ((Obj_80192B5C *)this)->f60);
     draw_ginja_object((void *)((Obj_80192B5C *)this)->fBC);
     TParticleCtrl::begin_effect_render();
-    draw_ginja_model_with_motion(((Obj_80192B5C *)this)->fC0, ((Obj_80192B5C *)this)->fC4, ((Obj_80192B5C *)this)->fB8);
+    draw_ginja_model_with_motion((void *)(((Obj_80192B5C *)this)->fC0), (void *)(((Obj_80192B5C *)this)->fC4), ((Obj_80192B5C *)this)->fB8);
     TParticleCtrl::end_effect_render();
     pop_matrix();
 }
@@ -394,7 +394,7 @@ void TObjLazerFenceExtra::draw_lazer_fence_extra_model() {
     rotate_matrix_y(NULL, this->rotation_y);
     draw_ginja_object((void *)this->m_bc);
     TParticleCtrl::begin_effect_render();
-    draw_ginja_model_with_motion(arg0->fC0, this->m_c4, arg0->fB8);
+    draw_ginja_model_with_motion((void *)arg0->fC0, (void *)this->m_c4, arg0->fB8);
     TParticleCtrl::end_effect_render();
     pop_matrix();
 }

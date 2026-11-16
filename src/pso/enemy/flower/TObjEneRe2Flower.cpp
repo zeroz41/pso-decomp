@@ -36,7 +36,7 @@ struct RecoveredGlobal_800C44C4_lbl_8043BB90 {
 typedef char RecoveredGlobal_800C44C4_lbl_8043BB90_size[sizeof(RecoveredGlobal_800C44C4_lbl_8043BB90) == 0x10 ? 1 : -1];
 
 extern "C" {
-u8 *load_enemy_bml_resource_named(s32 *, const char *);
+s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 s32 load_enemy_bml_resource(u8 *arg0);
 extern RecoveredGlobal_800C44C4_lbl_8043BB90 lbl_8043BB90;
 extern char lbl_8043BAAC[];
@@ -121,9 +121,9 @@ void TObjPlayer__sub_800C44C4(void) {
     BmlModelEntry *models;
 
     if (get_current_floor_area() == AREA_TOWER) {
-        lbl_805D5174 = (BmlResource *)load_enemy_bml_resource_named((s32 *)&TObjEneRe2Flower__resource_descriptor, "bm_ene_dkflower.bml");
+        lbl_805D5174 = (BmlResource *)load_enemy_bml_resource_named((s32)((s32 *)&TObjEneRe2Flower__resource_descriptor), (s32)("bm_ene_dkflower.bml"));
     } else if (TObjEneDD::check_v2_mode() != 0) {
-        lbl_805D5174 = (BmlResource *)load_enemy_bml_resource_named((s32 *)&TObjEneRe2Flower__resource_descriptor, "bm_ene_re2_flower_a.bml");
+        lbl_805D5174 = (BmlResource *)load_enemy_bml_resource_named((s32)((s32 *)&TObjEneRe2Flower__resource_descriptor), (s32)("bm_ene_re2_flower_a.bml"));
     } else {
         lbl_805D5174 = (BmlResource *)load_enemy_bml_resource((u8 *)&TObjEneRe2Flower__resource_descriptor);
     }

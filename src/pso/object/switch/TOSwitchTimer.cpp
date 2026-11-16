@@ -29,7 +29,7 @@ void __dl__7TObjectFPv(s32);
 extern RecoveredGlobal_8017858C___vt__13TOSwitchTimer __vt__13TOSwitchTimer;
 s32 __ct__8TObjBaseFP7TObject(void *);
 extern const char *TOSwitchTimer__name;
-u8 is_current_floor_switch_set(u16);
+u8 is_current_floor_switch_set(s32 id);
 void *__nw__7TObjectFUl(int);
 
 void TOSwitchTimer::render() {

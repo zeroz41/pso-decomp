@@ -76,7 +76,7 @@ extern u8 controller_input_state[];
 extern s32 local_client_id;
 extern s32 __vt__23TObjOnlineEndingHexMove[];
 
-s32 bswap_6x92__14TAdGameStartGCFPv(void *);
+void bswap_6x92__14TAdGameStartGCFPv(void *p);
 s32 draw_color_lines(Desc_802E55B8 *, s32, s32, f32);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 void send_6x92__14TAdGameStartGCFPv(void *p);

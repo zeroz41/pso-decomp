@@ -57,7 +57,7 @@ extern TObject *tl_window;
 extern TObject *tl_clipout;
 extern TObject *tl_fadeafter;
 extern "C" {
-s32 TCameraCtrl__sub_80068EF0(void);
+void TCameraCtrl__sub_80068EF0(void);
 s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
 s32 is_split_screen(void);
 }

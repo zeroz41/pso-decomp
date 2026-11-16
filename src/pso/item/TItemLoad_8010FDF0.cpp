@@ -12,7 +12,7 @@
 #include "pso/item/drop/TItemDrop.h"
 
 extern "C" {
-s32 test_flags_any(void *, int);
+s32 test_flags_any(s32 *flags, s32 mask);
 extern s32 lbl_8049F42C[];
 extern s32 item_load_work_buffer_busy;
 void init_buffer__9TItemLoadFPviii(void *);
@@ -23,7 +23,7 @@ extern s32 item_load_compressed_work_buffer;
 
 void TItemLoad::advance_load_state() {
     u8 *arg0 = (u8 *)this;
-    if (test_flags_any(arg0 + 0x1C, 4) == 0) {
+    if (test_flags_any((s32 *)(arg0 + 0x1C), 4) == 0) {
         if ((s32) item_load_work_buffer_busy != 1) {
             item_load_work_buffer_busy = 1;
             ((FlagWord *)(arg0 + 0x1C))->set(4);
@@ -42,7 +42,7 @@ block_3:
 u8 *__dt__13TUnk_8049F42CFv(u8 *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x14) = lbl_8049F42C;
-        if (test_flags_any(arg0 + 0x1C, 4) != 0) {
+        if (test_flags_any((s32 *)(arg0 + 0x1C), 4) != 0) {
             item_load_work_buffer_busy = 0;
         }
         ((TUnk_8049F42C *)arg0)->sub_80110010(0);

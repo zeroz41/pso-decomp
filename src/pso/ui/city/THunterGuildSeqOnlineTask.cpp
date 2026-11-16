@@ -57,7 +57,7 @@ void TQuestListOnline__sub_802176DC(void *, s32);
 void decompress_quest_buffer__16TQuestListOnlineFl(void *, s32);
 extern s32 local_client_id;
 extern s32 quest_download_active;
-void *TQuestVmDownLoadServer__sub_8006EF6C(s32);
+s32 TQuestVmDownLoadServer__sub_8006EF6C(s32 arg0);
 void send_quest_barrier__9TProtocolFv(s32);
 void *update_window_mode_from_progress__6TLobbyFPv(void *, NJS_POINT2 *);
 void *get_window_layout_position(s32);

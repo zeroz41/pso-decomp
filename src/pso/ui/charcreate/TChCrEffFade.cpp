@@ -9,7 +9,7 @@
 
 extern "C" {
 
-s32 TCameraCtrl__sub_80068EF0();
+void TCameraCtrl__sub_80068EF0(void);
 s32 draw_fade_strip__12TChCrEffFadeFf(void *, f32);
 
 void TChCrEffFade::render() {

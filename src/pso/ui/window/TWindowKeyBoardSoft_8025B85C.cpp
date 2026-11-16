@@ -38,7 +38,7 @@ void TWindowKeyBoardSoft__sub_8025CFA8(void *, void *);
 s32 TWindowKeyBoardSoft__sub_803E67D4(void *, void *);
 s32 get_shared_text_buffer();
 s32 append_text__19TWindowKeyBoardSoftFPvPv(void *, s32);
-s32 TWindowKeyBoardSoft__sub_8025DBDC(void *, s32);
+void TWindowKeyBoardSoft__sub_8025DBDC(void *arg0, s32 arg1);
 extern s32 lbl_805DD030;
 extern s32 lbl_805DD034;
 s32 TWindowKeyBoardSoft__sub_8025D7FC();

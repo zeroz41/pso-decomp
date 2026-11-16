@@ -96,7 +96,7 @@ u32 layout_buffers(u8 *, u32, u32);
 s32 layout_net_params_buffer(u8 *data, s32 size);
 s32 TAdSinglePlyChrSelectGC__sub_8042D49C(int);
 s32 configure_modem_options(s32 arg0, s32 arg1, s32 arg2, s32 n, s32 p);
-s32 TAdSinglePlyChrSelectGC__sub_8042D7E0(void *);
+s32 TAdSinglePlyChrSelectGC__sub_8042D7E0(u8 *buf);
 s32 TLobby__sub_803F8D24(NetTransportParams *);
 s32 get_net_params_and_size(NetTransportParams *arg0);
 void TLobby__sub_803F76F0(void);

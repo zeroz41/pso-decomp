@@ -29,7 +29,7 @@
 
 extern "C" {
 f32 atan2_float(f32 y, f32 x);
-s32 obj_is_hit_receivable(TObjChara *actor);
+s32 obj_is_hit_receivable(u8 *arg0);
 s32 push_matrix(void);
 void post_translate_matrix(const Vec *v);
 extern GC_Mtx identity_matrix;
@@ -101,7 +101,7 @@ void TObjVoloptPillar::run_task() {
                     if (target == NULL) {
                         break;
                     }
-                    if (obj_is_hit_receivable(target) != 0) {
+                    if (obj_is_hit_receivable((u8 *)target) != 0) {
                         DirectAttackPayload attack = volopt_pillar_attack;
                         attack.power = TBoss3VoloptP02::get_int_param(1);
                         target->receive_direct_attack(owner, attack, NULL, -1, -1);

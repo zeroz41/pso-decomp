@@ -26,7 +26,7 @@
 
 extern "C" {
 
-s32 TCameraCtrl__sub_80068EF0();
+void TCameraCtrl__sub_80068EF0(void);
 s32 TLobby__sub_80228154(s32, s32, s32, f32);
 
 void TLobby::draw_with_camera(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {

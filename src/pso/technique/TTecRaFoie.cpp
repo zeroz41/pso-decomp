@@ -79,7 +79,7 @@ struct Self_80237BD8 {
 extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
 u32 find_entity_by_id(int);
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
+void *spawn_particle_effect_with_flags(const void *pos, s32 id, s32 flags);
 void spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv(Obj_80237DAC *self);
 
 u16 get_entity_id(void *);

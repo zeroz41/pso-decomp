@@ -102,8 +102,8 @@ extern s32 model_render_flags;
 
 // ---- declarations carried over from the fragment text_8016F1C0.cpp
 extern "C" {
-void *get_shared_text_buffer(void);
-void text_builder_append(const char *);
+s32 *get_shared_text_buffer(void);
+void text_builder_append(u8 *str);
 }
 
 void text_builder_reset(void);
@@ -1348,9 +1348,9 @@ s32 TOMineTrap::show_owner_message(TObjChara *player) {
             name = p->get_name();
             if (name != NULL) {
                 text_builder_reset();
-                text_builder_append("\x09""C4");
-                text_builder_append(name);
-                text_builder_append(" TRAP\n");
+                text_builder_append((u8 *)("\x09""C4"));
+                text_builder_append((u8 *)name);
+                text_builder_append((u8 *)(" TRAP\n"));
                 TWindowCtrl::init_all((void*)(get_shared_text_buffer()), (void*)0x200);
                 return 1;
             }

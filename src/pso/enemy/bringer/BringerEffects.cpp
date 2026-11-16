@@ -26,7 +26,7 @@ extern "C" {
 s32 is_player_entity_id(u16);
 s32 is_vec_xz_cross_negative(void *, void *);
 s32 rotate_xz_pair_by_angle(void *, void *, s32);
-s32 fill_value_array(int);
+void fill_value_array(s32 address);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__26TObjEneDf2Bringer_Eff_Rush[];
 }
@@ -285,7 +285,7 @@ void TUnk_8048FE08::setup_dir_shot(const Vec *origin, s32 angle, f32 attack_powe
     direction.y = 0.0f;
     direction.z = cos_table_lookup(rotation_y);
     active = 1;
-    fill_value_array((int)attack_history);
+    fill_value_array((s32)attack_history);
     distance = 0.0f;
     sample_distance = 0.0f;
     power = attack_power;

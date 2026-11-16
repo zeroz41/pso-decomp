@@ -63,8 +63,8 @@
 #include "pso/unk/TLobby.h"
 
 extern "C" {
-f64 atan2_float(f32, f32);
-s32 approach_angle_limited(int, int, int);
+f32 atan2_float(f32 y, f32 x);
+s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 void * __nw__7TObjectFUl(int);
 s32 dellbiter_boss_stat_handle;
 s32 TObjEneDellBiter__shared_handler_param;
@@ -77,11 +77,11 @@ s32 TObjEneDellBiter__demo_script_cursor;
 s32 TObjEneDellBiter__scrolling_uv_polygon_list;
 s32 TObjEneDellBiter__last_uv_scroll_tick;
 s32 turn_toward_angle_limited__15TObjBoss2TunnelFlllll(int, int, int, int, int);
-s32 fill_value_array(int);
-s32 enemy_validate_retained_target(void *);
+void fill_value_array(s32 address);
+s32 enemy_validate_retained_target(u8 *ene_dd_st);
 u32 enemy_probe_wall_ahead__13TBoss5GryphonFfff(void *, f32, f32, f32);
 s16 get_attack_params_atp_min(void *p);
-s32 obj_is_hit_receivable(void *);
+s32 obj_is_hit_receivable(u8 *arg0);
 u16 get_entity_id(void *);
 void obj_setFlags30(void *, s32);
 void free_bin_model_request(void*, int);
@@ -89,13 +89,13 @@ void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32
 s32 get_mode__11TCameraCtrlFPv(void *);
 u32 csnLookAt(void *, void *);
 s32 *csnVectorUnder(Vec *arg0, u32 *arg1, s32 arg2);
-s32 rotate_xz_pair_by_angle(void *, void *, int);
+void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 s32 TObjPlayer__sub_800A04F0(void *);
 void enemy_clear_target__12TObjEneDD_STFUs(void *);
 void enemy_set_target_id(void *, u16);
 s32 get_camera_ctrl__9TObjEneDDFv(void *, int);
 s32 pack_debug_text_position(s32, s32);
-s32 attack_target_history_add(s32, void *);
+s32 attack_target_history_add(s32 object, s32 target);
 void fn_800D8830(void *owner, void *pos);
 s32 TObjEneGibbles__sub_800D8988(s32);
 f32 horizontal_distance_squared(void *, void *);
@@ -479,7 +479,7 @@ s32 TObjEneDellBiter::check_rush_collisions() {
             if (target == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable(target) != 0 && attack_target_history_add((s32)attack_history, target) != 0) {
+            if (obj_is_hit_receivable((u8 *)target) != 0 && attack_target_history_add((s32)attack_history, (s32)target) != 0) {
                 if (flags & 0x10) {
                     if (game_difficulty_selection == 3) {
                         attack.kind = 5;
@@ -586,7 +586,7 @@ s32 TObjEneDellBiter::validate_or_update_target() {
     if (!(flags & 8)) {
         return update_linked_position(300.0f);
     }
-    s32 valid = enemy_validate_retained_target(this);
+    s32 valid = enemy_validate_retained_target((u8 *)this);
     if (valid == 0) {
         flags &= ~8;
     }
@@ -1041,11 +1041,11 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
                 state_timer = 1;
                 bodies->flags |= 0x700;
             }
-            if (enemy_validate_retained_target(this) != 0) {
+            if (enemy_validate_retained_target((u8 *)this) != 0) {
                 this->enemy_copy_target_destination();
                 this->update_velocity();
             }
-            rotation_y = approach_angle_limited(rotation_y, (s32)(10430.38043493439 * atan2_float(target_direction.x, target_direction.z)), 0x280);
+            rotation_y = approach_angle_limited(rotation_y, (10430.38043493439 * atan2_float(target_direction.x, target_direction.z)), 0x280);
             part_rotation_x = turn_toward_angle_limited__15TObjBoss2TunnelFlllll(rotation_y, part_rotation_x, rotation_y, 0x200, 0x2000);
             this->vfunc_89();
             break;
@@ -1071,7 +1071,7 @@ void TObjEneDellBiter::fn_803044AC(s32 reason) {
             if (check_rush_collisions() != 0) {
                 hit = 1;
             }
-            if (enemy_validate_retained_target(this) != 0) {
+            if (enemy_validate_retained_target((u8 *)this) != 0) {
                 Vec v;
                 VecCopy(&v, &current_target->position);
                 subtract_vector(&v, &position);
@@ -1123,7 +1123,7 @@ void TObjEneDellBiter::fn_803042B0(s32 reason) {
         this->set_field_378(5);
         flags = (s32) (flags & 0xFFFFFFFC);
         flags = (s32) (flags | 4);
-        fill_value_array((int) ((s32)attack_history));
+        fill_value_array(((s32)attack_history));
         saver->clear_segments();
         state_timer = 0;
         field_4d0 = 0;

@@ -37,7 +37,7 @@ s8 *parse_text_control_codes(s8 *, s32 *, s32);
 u8 get_font_char_advance(u16);
 u16 map_char_to_font_code(u16);
 void measure_message_text_width(Msg_8025A9C0 *msg, f32 maxw);
-s32 reset_entry__20TWindowSubStatusDispFPv(void *, void *);
+void *reset_entry__20TWindowSubStatusDispFPv(void *a0, s32 _w1);
 void render_text_entry(Win_8025AD5C *arg0, Ref_8025AD5C *arg1);
 s32 deleting_destructor__20TWindowSubStatusDispFs(void *, s32);
 
@@ -267,7 +267,7 @@ void *TWindowSubStatusDisp__sub_8025AF0C(void *window_sub_status_disp, s16 arg1)
 }
 
 u8 *construct_text_entry(u8 *arg0, u8 *arg1, s32 arg2) {
-    reset_entry__20TWindowSubStatusDispFPv((void *)arg0, (void *)arg2);
+    reset_entry__20TWindowSubStatusDispFPv(arg0, arg2);
     *(s32 **)((s8 *)arg0 + 4) = &(*(RecoveredGlobal_8025AF90_lbl_804CFA28 *)&lbl_804CFA28).value;
     *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)arg1 + 4);
     *(f32 *)((s8 *)arg0 + 0xC) = (f32) *(f32 *)((s8 *)arg1 + 8);

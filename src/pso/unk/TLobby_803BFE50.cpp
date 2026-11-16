@@ -167,7 +167,7 @@ void TLobby__sub_803C0628(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
 void EXIGetID(Snd_803C0BE8 *arg0);
 void GXFlush(void);
 void TLobby__sub_803C0238(AudioStreamInputState *st);
-s32 TLobby__sub_803C3B68(TLobby *decoder, u16 *hdr, s32 size);
+s32 TLobby__sub_803C3B68(s32 arg0, u16 *hdr, s32 size);
 void TLobby__sub_803D3130(SjChunk *chunk, s32 size, SjChunk *head, SjChunk *tail);
 void *memcpy(void *, const void *, u32);
 void process_audio_stream_input(AudioStreamInputState *arg0);
@@ -267,7 +267,7 @@ inline void parse_audio_stream_input_header(AudioStreamInputState *st) {
         s->vt->unget_chunk(s, 1, &b);
         return;
     }
-    n = TLobby__sub_803C3B68(h, (u16 *)b.data, b.size);
+    n = TLobby__sub_803C3B68((s32)h, (u16 *)b.data, b.size);
     if (n == 0 || n > b.size) {
         s->vt->unget_chunk(s, 1, &b);
         return;

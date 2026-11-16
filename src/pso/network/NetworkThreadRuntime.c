@@ -20,7 +20,7 @@
 
 s32 TLobby__sub_80428358(void);
 
-s16 TLobby__sub_80401BCC(void *, void *, int);
+s16 TLobby__sub_80401BCC(void *self, void *dst, u16 n);
 
 #define PCO_RD16(p) (TLobby__sub_80401BCC((p), lbl_805D7A70, 2) != 2 ? -1 : read_network_u16_be(lbl_805D7A70))
 #define PCO_RD32(p) (TLobby__sub_80401BCC((p), lbl_805D7A70, 4) != 4 ? 0 : TLobby__sub_80402AFC(lbl_805D7A70))

@@ -138,7 +138,7 @@ s32 push_matrix();
 void vec3_add_to(Vec_8017D448 *, Vec_8017D448 *);
 void rotate_vector_by_matrix(int, Vec_8017D448 *, Vec_8017D448 *);
 extern u8 identity_matrix[];
-u8 is_current_floor_switch_set(u16);
+u8 is_current_floor_switch_set(s32 id);
 }
 
 // --- TOWreckAncient ---

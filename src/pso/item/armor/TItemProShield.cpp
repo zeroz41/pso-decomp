@@ -28,9 +28,9 @@ extern "C" {
 // Defined in files that have no headers yet.
 void *lookup_item_pmt_record(u8 *item);
 s32 play_shield_sound_cue(ShieldSoundCue *cue);
-s32 add_actor_hp(TObjPlayer *actor, s16 amount);
-s32 add_actor_tp(TObjPlayer *actor, s32 amount);
-s16 obj_getS16_2BA(TObjPlayer *actor);
+s32 add_actor_hp(u8 *arg0, s16 arg1);
+s32 add_actor_tp(u8 *arg0, s32 arg1);
+s16 obj_getS16_2BA(u8 *p);
 void TObjPlayer__sub_8036414C(void);
 void TObjPlayer__sub_80364198(void);
 // The item file helpers (TItemDrop_800F93F0.cpp).
@@ -122,11 +122,11 @@ void TItemProShield::perform_action() {
         if (shield_flags & SHIELD_FLAG_BLOCK_RECOVERY) {
             switch (get_item_index()) {
             case 34:
-                add_actor_hp(owner, 0.05f * (f32)((TItemProShield *)owner)->get_field_2b8());
+                add_actor_hp((u8 *)owner, 0.05f * (f32)((TItemProShield *)owner)->get_field_2b8());
                 break;
             case 35:
-                add_actor_hp(owner, 0.05f * (f32)((TItemProShield *)owner)->get_field_2b8());
-                add_actor_tp(owner, (s32)(0.05f * (f32)obj_getS16_2BA(owner)));
+                add_actor_hp((u8 *)owner, 0.05f * (f32)((TItemProShield *)owner)->get_field_2b8());
+                add_actor_tp((u8 *)owner, (s32)(0.05f * (f32)obj_getS16_2BA((u8 *)owner)));
                 break;
             }
         }

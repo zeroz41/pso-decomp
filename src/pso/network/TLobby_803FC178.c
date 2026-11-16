@@ -46,8 +46,8 @@ struct Self_803FD85C;
 #include "pso/network/NetStackTypes.h"
 
 void TLobby__sub_803F76F0(void *); /* declared with 1 parameter; the definition is void (void) */
-s32 TLobby__sub_803F79BC(void *);
-s32 TLobby__sub_803F778C(void *);
+void TLobby__sub_803F79BC(void);
+void TLobby__sub_803F778C(void);
 s32 TLobby__sub_804036FC(u8 *arg0);
 s32 TLobby__sub_80403DA8();
 void TLobby__sub_803F8A08(void *);

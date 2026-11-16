@@ -72,7 +72,7 @@ static Vec tkof_centop_high_pos = {0.0f, 264.0f, 0.0f};
 
 extern "C" {
 
-s32 TBoss6Type1__sub_802B4A9C(void *);
+void TBoss6Type1__sub_802B4A9C(void *p);
 void TBoss6Type1__sub_802B4B04(u8 *arg0);
 void TBoss6Type1__sub_802B5140(s32 arg0, s32 arg1, s32 arg2);
 int clamp_to_arena_radius__11TBoss6Type1FPvPvf(void*, void*);
@@ -85,17 +85,17 @@ s32 damage_players_in_range__11TBoss6Type1Fv();
 s32 TBoss6Type1__sub_802B6C30(void *);
 s32 TBoss6Type1__sub_802B73AC();
 s32 update_beam_attack__11TBoss6Type1Fv();
-s32 TBoss6Type1__sub_802B8A70(void *);
+void TBoss6Type1__sub_802B8A70(TBoss6Type1 *self);
 void TBoss6Type1__sub_802B8BB4(u8 *arg0);
 int TBoss6Type1__sub_802B8E1C(void*);
-int send_flow_action_if_idle__11TBoss6Type1FPvc(void*, void*);
+void send_flow_action_if_idle__11TBoss6Type1FPvc(TBoss6Type1 *boss6_type1, s8 arg1);
 
 void TBoss6Type1::enter_flag800_state() {
     if (this->actorFlags & 0x800) {
-        send_flow_action_if_idle__11TBoss6Type1FPvc(this, (void*)(0x28));
+        send_flow_action_if_idle__11TBoss6Type1FPvc(this, (0x28));
         return;
     }
-    send_flow_action_if_idle__11TBoss6Type1FPvc(this, (void*)(1));
+    send_flow_action_if_idle__11TBoss6Type1FPvc(this, (1));
 }
 
 void TBoss6Type1::update_attack_countdown() {
@@ -170,7 +170,7 @@ void TBoss6Type1::update_state() {
             return;
         }
         if (is_field3F8_over_0x20() != 0) {
-            send_flow_action_if_idle__11TBoss6Type1FPvc(this, (void*)(0x25));
+            send_flow_action_if_idle__11TBoss6Type1FPvc(this, (0x25));
             return;
         }
         TBoss6Type1__sub_802B8E1C(this);
@@ -346,10 +346,10 @@ void TBoss6Type1::update_hit_timer() {
 void TBoss6Type1::update_attack_state() {
     if ((s32) *(s32 *)((s8 *)this + 0x410) == 0) {
         if (is_field4b0_delta_reached__11TBoss6Type1Fv() != 0) {
-            send_flow_action_if_idle__11TBoss6Type1FPvc(this, (void*)(0x20));
+            send_flow_action_if_idle__11TBoss6Type1FPvc(this, (0x20));
             return;
         }
-        send_flow_action_if_idle__11TBoss6Type1FPvc(this, (void*)(0x1F));
+        send_flow_action_if_idle__11TBoss6Type1FPvc(this, (0x1F));
     }
 }
 
@@ -489,10 +489,10 @@ void TBoss6Type1::sub_802B2F00() {
     }
     if ((s32) *(s32 *)((s8 *)boss6_type1 + 0x410) == 0) {
         if (TBoss6Type1__sub_802B6060(boss6_type1) != 0) {
-            send_flow_action_if_idle__11TBoss6Type1FPvc(boss6_type1, (void*)(0x1A));
+            send_flow_action_if_idle__11TBoss6Type1FPvc((TBoss6Type1 *)boss6_type1, (s8)(0x1A));
             return;
         }
-        send_flow_action_if_idle__11TBoss6Type1FPvc(boss6_type1, (void*)(0x22));
+        send_flow_action_if_idle__11TBoss6Type1FPvc((TBoss6Type1 *)boss6_type1, (s8)(0x22));
     }
 }
 
@@ -511,7 +511,7 @@ void TBoss6Type1::update_charge() {
     }
 }
 
-void TBoss6Type1::start_action_if_idle() { if (*(int*)((char*)this + 0x410) == 0) { send_flow_action_if_idle__11TBoss6Type1FPvc(this, (void*)((void*)25)); } }
+void TBoss6Type1::start_action_if_idle() { if (*(int*)((char*)this + 0x410) == 0) { send_flow_action_if_idle__11TBoss6Type1FPvc((TBoss6Type1 *)this, (s8)((void*)25)); } }
 
 void TBoss6Type1::set_phase_90() { this->m_40c = 90; *(int*)((char*)this + 0x410) = 90; latch_phase_counter(); spawn_effect_slot((s32)((void*)((void*)0))); release_effect_slot((s32)((void*)((void*)1))); }
 
@@ -792,7 +792,7 @@ void TBoss6Type1::choose_next_action() {
     if ((s32) *(s32 *)((s8 *)arg0 + 0x410) == 0) {
         if ((s32) *(s32 *)((s8 *)arg0 + 0x414) == 0) {
             if (((TBoss6Type1 *)arg0)->is_ready() != 0) {
-                ((s32 (*)(void *, int))send_flow_action_if_idle__11TBoss6Type1FPvc)(arg0, 0x17);
+                send_flow_action_if_idle__11TBoss6Type1FPvc((TBoss6Type1 *)arg0, (s8)(0x17));
                 return;
             }
             if (((TBoss6Type1 *)arg0)->count_matches(2, 0x10) == 0) {
@@ -807,7 +807,7 @@ void TBoss6Type1::choose_next_action() {
             return;
         }
         if (((TBoss6Type1 *)arg0)->is_time_up() != 0) {
-            TBoss6Type1__sub_802B8A70(arg0);
+            TBoss6Type1__sub_802B8A70((TBoss6Type1 *)arg0);
             return;
         }
         TBoss6Type1__sub_802B8BB4((arg0));

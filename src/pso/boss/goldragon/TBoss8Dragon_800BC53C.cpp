@@ -9,7 +9,7 @@
 
 extern "C" {
 void *mem_alloc(u32 size);
-s32 fill_value_array(void *);
+void fill_value_array(s32 address);
 void mem_free(void *p);
 
 s32 attack_target_history_add(s32 object, s32 target) {
@@ -33,7 +33,7 @@ PointerBuffer::PointerBuffer(s32 capacity, void *empty) {
     this->empty = empty;
     count = 0;
     this->capacity = capacity;
-    fill_value_array(this);
+    fill_value_array((s32)this);
 }
 
 PointerBuffer::~PointerBuffer() {

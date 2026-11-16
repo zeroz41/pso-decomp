@@ -269,7 +269,7 @@ void set_challenge_time_window_timer(int a0);
 extern "C" {
 void TLobby__sub_80071064(s32 arg0);
 void TLobby__sub_80070EE4(s32 arg0);
-s32 TLobby__sub_8006F6B0(int);
+s32 TLobby__sub_8006F6B0(s32 clear_time);
 
 s32 TLobby__sub_8007119C(s32 arg0);
 s32 **TWindowSubStatusDisp__sub_8006F134(s32, s32);

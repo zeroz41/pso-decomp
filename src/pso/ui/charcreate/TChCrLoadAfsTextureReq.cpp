@@ -18,7 +18,7 @@ typedef void (TChCrLoadAfsTextureReq::*TChCrLoadAfsTextureReqHandler)();
 
 extern "C" {
 void queue_destruction__7TObjectFv(void *);
-u32 get_bml_model(void *, int);
+s32 get_bml_model(BmlResource *resource, s32 index);
 s32 free_bin_model_request(void *, int);
 void *init_bin_model_request(void *, int, char **, u32 *, int, int, int);
 extern const char *lbl_805D3B50;
@@ -171,7 +171,7 @@ void TLobby::update_model_load() {
             req->m_74 = 0x12C;
         }
     } else if (fn_8001ED90(req->m_68) != 0) {
-        bml_model = get_bml_model(req->m_68, 0);
+        bml_model = get_bml_model((BmlResource *)req->m_68, 0);
         *req->m_1c = bml_model;
         if (bml_model != 0U) {
             req->m_24->alloc_load_buffer(TLobby__sub_8001ED88(req->m_68));

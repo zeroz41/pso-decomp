@@ -27,7 +27,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/object/key/TOKey.h"
 
-extern "C" { void rotate_matrix_y(int, void *); s32 pop_matrix(void); void draw_ginja_object(void *); s32 get_bml_motion(s32, s32); s32 get_bml_model(s32, s32); }
+extern "C" { void rotate_matrix_y(int, void *); s32 pop_matrix(void); void draw_ginja_object(void *); AnimationMotion *get_bml_motion(BmlResource *resource, s32 index); s32 get_bml_model(BmlResource *resource, s32 index); }
 extern s32 model_render_flags;
 
 extern const char *fe_obj_switch_laz_model_names[4];
@@ -120,7 +120,7 @@ void PPCSync(void);
 void push_matrix(void);
 void post_translate_matrix(void *);
 
-s32 draw_ginja_model_with_motion(s32, s32, f32);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 extern u32 actor_frame_tick;
 
 void TLazerFenceSw::draw_laser_beam() {
@@ -145,7 +145,7 @@ void TLazerFenceSw::draw_laser_beam() {
         draw_ginja_object((void *)lazer_fence_sw_ginja_model_table[1]);
         TParticleCtrl::begin_effect_render();
         model_render_flags |= 0x01000000;
-        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[0], lazer_fence_beam_motions[0], self->fB0);
+        draw_ginja_model_with_motion((void *)lazer_fence_sw_ginja_model_table[0], (void *)lazer_fence_beam_motions[0], (f32)self->fB0);
         model_render_flags &= ~0x01000000;
         TParticleCtrl::end_effect_render();
         pop_matrix();
@@ -154,10 +154,10 @@ void TLazerFenceSw::draw_laser_beam() {
         push_matrix();
         post_translate_matrix(self->pos);
         rotate_matrix_y(0, (void *)self->f60);
-        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[1], lazer_fence_beam_motions[1], self->fEC);
+        draw_ginja_model_with_motion((void *)lazer_fence_sw_ginja_model_table[1], (void *)lazer_fence_beam_motions[1], (f32)self->fEC);
         TParticleCtrl::begin_effect_render();
         model_render_flags |= 0x01000000;
-        draw_ginja_model_with_motion(lazer_fence_sw_ginja_model_table[0], lazer_fence_beam_motions[0], self->fB0);
+        draw_ginja_model_with_motion((void *)lazer_fence_sw_ginja_model_table[0], (void *)lazer_fence_beam_motions[0], (f32)self->fB0);
         model_render_flags &= ~0x01000000;
         TParticleCtrl::end_effect_render();
         pop_matrix();
@@ -286,10 +286,10 @@ void TLazerFenceSw::load_resources() {
             TLazerFenceSw__texture_list = (s32)load_gvm_texture_file((s32)lbl_80445D20);
         }
     }
-    lazer_fence_sw_ginja_model_table[0] = (s32)get_bml_model((s32)lazer_fence_switch_bml_resource, 0);
-    lazer_fence_sw_ginja_model_table[1] = (s32)get_bml_model((s32)lazer_fence_switch_bml_resource, 1);
-    lazer_fence_beam_motions[0] = get_bml_motion((s32)lazer_fence_switch_bml_resource, 0);
-    lazer_fence_beam_motions[1] = get_bml_motion((s32)lazer_fence_switch_bml_resource, 1);
+    lazer_fence_sw_ginja_model_table[0] = (s32)get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 0);
+    lazer_fence_sw_ginja_model_table[1] = (s32)get_bml_model((BmlResource *)lazer_fence_switch_bml_resource, 1);
+    lazer_fence_beam_motions[0] = (u32)get_bml_motion((BmlResource *)lazer_fence_switch_bml_resource, 0);
+    lazer_fence_beam_motions[1] = (u32)get_bml_motion((BmlResource *)lazer_fence_switch_bml_resource, 1);
     for (j = 0; j < 3; j++) {
         lazer_fence_beam_node_table[j] = 0;
     }

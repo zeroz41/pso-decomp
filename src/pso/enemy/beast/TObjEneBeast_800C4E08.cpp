@@ -61,10 +61,10 @@ struct Ctl_800C5B10 { u8 pad[8]; void *field_8; };
 extern "C" {
 s32 check_path_obstructed(void *, void *);
 f32 fabs_float(f32);
-f64 atan2_float(f32, f32);
+f32 atan2_float(f32 y, f32 x);
 s32 link_chain_nodes__10TObjPlayerFPvPvPv(void *, void *, void *);
 f32 horizontal_distance_squared(void *, void *);
-s32 approach_angle_limited(int, int, int);
+s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 s32 project_actor_to_ground(void *, void *, int);
 s32 minimap_render_dot(void *, int, int, int);
 s32 vec3_add_to(void *, void *);
@@ -74,7 +74,7 @@ extern Vec scratch_vec;
 extern Vec lbl_8050BF00;
 extern u8 identity_matrix[];
 
-s32 apply_actor_gravity(void *, int, f32);
+void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 }
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
@@ -150,7 +150,7 @@ void TUnk_80493450::beast_update_dead() {
         x_speed *= BEAST_HORIZONTAL_SPEED_DAMPING;
         m_310 *= BEAST_HORIZONTAL_SPEED_DAMPING;
     } else if (((TObjCollidable *)arg0)->obj_testFlags30(0x800000) == 0) {
-        apply_actor_gravity(arg0, 0, BEAST_GROUND_HEIGHT_OFFSET);
+        apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), BEAST_GROUND_HEIGHT_OFFSET);
     }
     this->unk_380 -= this->m_384;
     if (this->unk_380 <= this->unk_388) {
@@ -367,7 +367,7 @@ void TUnk_80493450::beast_update_approach() {
     f32 r;
     switch (this->phase) {
     case 0:
-        apply_actor_gravity(arg0, 0, BEAST_GROUND_HEIGHT_OFFSET);
+        apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), BEAST_GROUND_HEIGHT_OFFSET);
         ((TObjMotion *)arg0)->advance_animation();
         if (((TObjMotion *)arg0)->is_passing_frame(BEAST_ANIMATION_START_FRAME) != 0) {
             this->vfunc_95();
@@ -598,7 +598,7 @@ void TUnk_80493450::beast_idle_update() {
     }
 end:
     if (((TObjCollidable *)arg0)->obj_testFlags30(0x800000) == 0) {
-        apply_actor_gravity(arg0, 0, BEAST_GROUND_HEIGHT_OFFSET);
+        apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), BEAST_GROUND_HEIGHT_OFFSET);
     }
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);

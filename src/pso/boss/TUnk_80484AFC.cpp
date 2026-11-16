@@ -32,8 +32,8 @@
 extern "C" {
 s32 push_matrix(void);
 void post_translate_matrix(const Vec *v);
-void play_persistent_sound(s32 id, void *owner, const Vec *pos, s32 a3, s32 flags);
-s32 obj_is_hit_receivable(TObjChara *actor);
+s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+s32 obj_is_hit_receivable(u8 *arg0);
 extern GC_Mtx identity_matrix;
 }
 
@@ -63,7 +63,7 @@ void TUnk_80484AFC::explode_and_destroy() {
             if (target == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable(target) != 0) {
+            if (obj_is_hit_receivable((u8 *)target) != 0) {
                 target->receive_direct_attack(m_up, attack, NULL, -1, -1);
             }
         }
@@ -128,7 +128,7 @@ void TUnk_80484AFC::run_task() {
         explode_and_destroy();
         return;
     }
-    play_persistent_sound(0x4003C114, this, &position, 0, 0);
+    play_persistent_sound((s32)(0x4003C114), (s32)this, (u32)&position, (s32)(0), (s32)(0));
 }
 
 TUnk_80484AFC::~TUnk_80484AFC() {

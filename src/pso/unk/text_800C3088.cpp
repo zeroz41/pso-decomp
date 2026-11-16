@@ -150,7 +150,7 @@ struct RecoveredFields_800C3088_arg0
 };
 
 extern "C" {
-void *create_particle_emitter(void *pos, s32 id);
+TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 s32 check_hit_flag__16TObjEneRe2FlowerFv(void *);
 s32 TObjPlayer__sub_800C4A5C(int, void *, void *, int);
 s32 play_sound_effect(void *, void *, int, int);
@@ -308,15 +308,15 @@ extern "C" {
 s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
 extern const f32 lbl_805D9FF0;
 
-f64 atan2_float(f32, f32);
+f32 atan2_float(f32 y, f32 x);
 s32 enemy_set_target_id(void *, u16);
 u16 set_squared_value__9TObjEneDDFf(void *, f32);
-u16 enemy_find_nearest_player_in_range(void *, f32);
+u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
 }
 s32 tick_period_counter(s32 arg0, s32 *arg1, s32 arg2);
 extern "C" {
-s32 angle_difference_abs(int, int);
-s32 approach_angle_limited(int, int, void *);
+s32 angle_difference_abs(s32 a, s32 b);
+s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
 extern const f32 lbl_805D9FE0;
 extern const f32 lbl_805D9FE4;
 extern const f32 lbl_805D9FE8;
@@ -384,7 +384,7 @@ void TObjEneDD::state_chase_target(s32 arg1) {
         ((TObjEneDD *)arg0)->update_velocity();
         (*(s32 *)((s8 *)arg0 + 0x414))++;
         *(s32 *)((s8 *)arg0 + 0x420) = (s32)(10430.38043493439 * atan2_float(*(f32 *)((s8 *)arg0 + 0x3A0), *(f32 *)((s8 *)arg0 + 0x3A8)));
-        this->rotation_y = approach_angle_limited(this->rotation_y, *(s32 *)((s8 *)arg0 + 0x420), *(void **)((s8 *)this->movementParameters + 8));
+        this->rotation_y = approach_angle_limited(this->rotation_y, *(s32 *)((s8 *)arg0 + 0x420), (s32)(*(void **)((s8 *)this->movementParameters + 8)));
         this->rotation_y = (s16)this->rotation_y;
         this->vfunc_102();
         this->vfunc_88();

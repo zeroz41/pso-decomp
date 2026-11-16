@@ -61,7 +61,7 @@ struct Self_80275A8C {
 
 extern "C" {
 u32 get_item_field_6__10TObjPlayerFPv(void *);
-s32 get_shared_text_buffer();
+s32 *get_shared_text_buffer(void);
 s32 weapon_has_extra_attack();
 void *get_player_by_client_id(s32 i);
 u8 get_cast_technique_level(void *, s16);
@@ -244,7 +244,7 @@ void TUnk_804D1160::update_customize_help_text(void *ev_arg) {
     case 7:
         break;
     }
-    ((TWindowMessage *)(self->lobby))->append_line(get_shared_text_buffer(), 0x82);
+    ((TWindowMessage *)(self->lobby))->append_line((int)get_shared_text_buffer(), 0x82);
 }
 
 void TUnk_804D1160::render() {  }

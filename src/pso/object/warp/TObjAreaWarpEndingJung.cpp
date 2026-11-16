@@ -284,7 +284,7 @@ s32 get_localized_text_entry(s32, s32);
 s32 debug_draw_line(void *, void *, u32, u32);
 s32 fn_80141CB4(void *, f32);
 s32 test_player_body_overlap_at(void *, void *, Vec_8019D250 *);
-s32 TObjCityMainWarp__sub_80186AF4();
+s32 *TObjCityMainWarp__sub_80186AF4(void);
 void * TObjAreaWarpEndingJung__create(void *arg0);
 s64 fn_8019B480(void *arg0, void *arg1);
 void fade_and_destroy__14TObjWarpStringFPv(u8 *arg0);
@@ -323,7 +323,7 @@ void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z);
 void rotate_matrix_x(int, s32);
 void push_matrix();
 s32 post_translate_matrix(void *);
-void draw_ginja_model_with_motion(s32, s32, f32);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 
 extern RecoveredGlobal_8019B854___vt__14TObjWarpString __vt__14TObjWarpString;
 extern RecoveredGlobal_8019CA24_lbl_80515BA0 lbl_80515BA0;
@@ -758,7 +758,7 @@ void TObjMapWarpForest::render() {
         rotate_matrix_y(0, this->rotation_y);
         draw_ginja_object((void *)baseModel);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion(beamModel, (s32)motion, frame);
+        draw_ginja_model_with_motion((void *)beamModel, (void *)motion, (f32)frame);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -789,7 +789,7 @@ void TObjAreaWarp::open_confirm_window(s32 arg1) {
     if ((u32) *(u32 *)((s8 *)this + 0xB0) == 0U) {
         *(u32 *)((s8 *)this + 0xB0) = ((u32 (*)(s32, s32, s32))create_window_menu)(get_window_layout_position(0x33), 1, arg1);
         if (((s32 (*)(void))get_game_play_mode)() == 1) {
-            ((TWindowSubTradeMain *)(*(u32 *)((s8 *)this + 0xB0)))->add_text_entry(TObjCityMainWarp__sub_80186AF4(), 2, 0, -1);
+            ((TWindowSubTradeMain *)(*(u32 *)((s8 *)this + 0xB0)))->add_text_entry((s32)TObjCityMainWarp__sub_80186AF4(), 2, 0, -1);
         } else {
             get_floor_area(*(s32 *)((s8 *)this + 0xBC));
             ((TWindowSubTradeMain *)(*(u32 *)((s8 *)this + 0xB0)))->add_text_entry(get_floor_destination_name(), 2, 0, -1);
@@ -998,7 +998,7 @@ void TObjAreaWarpForest::render() {
         TParticleCtrl::end_effect_render();
         ((void (*)(void))pop_matrix)();
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion((s32)self->fD4, (s32)self->fD8, this->m_c4);
+        draw_ginja_model_with_motion(self->fD4, (void *)self->fD8, this->m_c4);
         TParticleCtrl::end_effect_render();
         ((void (*)(void))pop_matrix)();
     }
@@ -1099,7 +1099,7 @@ void TObjAreaWarpQuest::render() {
         TParticleCtrl::end_effect_render();
         ((void (*)(void))pop_matrix)();
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion((s32)self->fD4, (s32)self->fD8, self->fC8);
+        draw_ginja_model_with_motion(self->fD4, (void *)self->fD8, self->fC8);
         TParticleCtrl::end_effect_render();
         ((void (*)(void))pop_matrix)();
     }
@@ -1226,7 +1226,7 @@ void TObjAreaWarpEnding::render() {
     TParticleCtrl::end_effect_render();
     ((void (*)(void))pop_matrix)();
     TParticleCtrl::begin_effect_render();
-    draw_ginja_model_with_motion((s32)arg0->fD0, arg0->fD4, arg0->fC4);
+    draw_ginja_model_with_motion(arg0->fD0, (void *)arg0->fD4, arg0->fC4);
     TParticleCtrl::end_effect_render();
     ((void (*)(void))pop_matrix)();
 }
