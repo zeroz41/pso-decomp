@@ -408,7 +408,7 @@ int clear(void* p) { return memset(p, 0, 144); }
 void TWindowSubComCard::clear_and_init(void* a1) { clear(this); fill_guild_card_from_char__6TLobbyFl(this, a1); }
 s32 fn_8007B2E0(u8 *arg0, s32 id) {
     u8 *temp_r3;
-    temp_r3 = (u8 *)(find_short_mail_by_id__6TLobbyFUl(id));
+    temp_r3 = (u8 *)(TLobby::find_short_mail_by_id(id));
     if (temp_r3 == NULL) {
         return 0;
     }

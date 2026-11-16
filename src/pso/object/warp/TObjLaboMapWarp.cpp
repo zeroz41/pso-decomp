@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/task/TMainTask.h"
 
 #include "pso/object/warp/TObjMapWarp.h"
@@ -61,7 +62,6 @@
 
 extern "C" {
 
-s32 is_main_phase_15__9TObjEneDDFv();
 
 }
 
@@ -340,7 +340,7 @@ void update_main_warp_visible_mask(s32 arg0) {
     TObjCityMainWarp__visible_destination_mask = TObjCityMainWarp__enabled_destinations;
     if (TLobby::get_instance() == 0) {
         TObjCityMainWarp__visible_destination_mask |= 1;
-        if ((is_main_phase_15__9TObjEneDDFv() != 0) || (is_split_screen() != 0)) {
+        if ((TObjEneDD::is_main_phase_15() != 0) || (is_split_screen() != 0)) {
             a = 0x17;
             b = 0x20;
             c = 0x2A;
@@ -385,7 +385,7 @@ void TObjCityMainWarp::update_unlock_flags() {
     s32 flag;
 
     TObjCityMainWarp__visible_destination_mask |= 1;
-    if ((is_main_phase_15__9TObjEneDDFv() != 0) || (is_split_screen() != 0)) {
+    if ((TObjEneDD::is_main_phase_15() != 0) || (is_split_screen() != 0)) {
         flag = 0x4C;
         var_r31 = 0x4F;
         var_r30 = 0x52;
@@ -415,7 +415,7 @@ void TObjCityMainWarp::init_visible_mask() {
     s32 i;
     s32 var_r5_2;
     TObjCityMainWarp__visible_destination_mask |= 1;
-    if ((is_main_phase_15__9TObjEneDDFv() != 0) || (is_split_screen() != 0)) {
+    if ((TObjEneDD::is_main_phase_15() != 0) || (is_split_screen() != 0)) {
         flag = 0x4C;
     } else {
         flag = 0x4D;
@@ -441,7 +441,7 @@ void TObjCityMainWarp::update_warp_flags_from_story() {
     s32 var_r4;
     s32 i;
     s32 var_r5_2;
-    if ((is_main_phase_15__9TObjEneDDFv() != 0) || (is_split_screen() != 0)) {
+    if ((TObjEneDD::is_main_phase_15() != 0) || (is_split_screen() != 0)) {
         flag = 0x4F;
         var_r31 = 0x52;
     } else {
@@ -699,7 +699,7 @@ void TObjCityAreaWarp::open_confirm_window(s32 client_id) {
 void TObjCityAreaWarp::run_task() {
     Obj_80185BE8 *arg0 = (Obj_80185BE8 *)this;
     f32 lim;
-    if (is_main_phase_15__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::is_main_phase_15() != 0) {
         lim = (f32)(((Root_80185BE8 *)city_common_model_archive)->anim->info->n - 1);
         arg0->t += 4.0f;
         if (arg0->t >= lim) {
@@ -723,7 +723,7 @@ void TObjCityAreaWarp::do_warp() {
     }
 }
 
-void TObjCityAreaWarp::render() { if (is_main_phase_15__9TObjEneDDFv() != 0) { do_warp(); } }
+void TObjCityAreaWarp::render() { if (TObjEneDD::is_main_phase_15() != 0) { do_warp(); } }
 
 void TObjCityAreaWarp::debug_print_area_num() { this->do_warp(); }
 

@@ -135,7 +135,6 @@ void __dl__7TObjectFPv(void *);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
 
-int get_player_data__10TObjPlayerFi(int a0);
 s16 get_entity_id(void *);
 extern const char *TObjEneDarkGunner__class_name;
 extern s32 registered_player_count;
@@ -210,7 +209,7 @@ void TObjEneDarkGunCenter::sub_800A0994() {
     s32 j;
     self->count = 0;
     for (k = registered_player_count; k < registered_player_count + lbl_805D5870; k++) {
-        p = (Player_800A0994 *)get_player_data__10TObjPlayerFi(k);
+        p = (Player_800A0994 *)TObjPlayer::get_player_data(k);
         if (p != NULL && ((TUnk_804B6C24 *)p)->check_value_equals((s32)TObjEneDarkGunner__class_name) != 0 &&
             self->f354 == p->f354 && self->f28 == p->f28) {
             p->f428 = self->f1C;

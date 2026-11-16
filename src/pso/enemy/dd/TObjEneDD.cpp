@@ -41,7 +41,6 @@ u32 get_player_by_client_id(u16);
 #include "pso/unk/TLobby.h"
 struct O_800B98C0;
 extern "C" {
-void select_nearest_target__12TObjEneDD_STFf(s32 arg0);
 s32 transform_relative_position__9TObjEneDDFPv(void *, int);
 s32 calc_shot_position__13TBoss5GryphonFPUcfff(void *, s32, f32, f32, f32);
 f64 atan2_float(f32, f32);
@@ -668,7 +667,6 @@ extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern const f32 TObjEneDD__data_805D9E8C;
 s32 subtractive_rng_seed(void *, int);
-s32 vfunc_79__9TObjEnemyFPl();
 int fn_800FD8A0(void*);
 extern s32 area_random_seed;
 struct Base_800BBDD4 { char pad[0x18]; };

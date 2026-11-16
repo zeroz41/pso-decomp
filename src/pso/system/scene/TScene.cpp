@@ -261,9 +261,7 @@ extern const char lbl_8044A7F0[];
 
 extern const char lbl_8044A7F8[];
 
-void initialize_fmt1_materials__6TSceneFv(void *);
 
-void initialize_fmt2_materials__6TSceneFv();
 
 void TScene__sub_80205FD0(void);
 

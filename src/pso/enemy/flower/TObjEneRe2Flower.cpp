@@ -49,7 +49,6 @@ extern char lbl_8043BB38[];
 extern char lbl_8043BB50[];
 extern char lbl_8043BB64[];
 s32 TObjEneRe2Flower__sub_800C2E64(void *, void *);
-s32 obj_isState2_324__9TObjCharaFv(void *);
 s32 is_valid_target__9TObjEneDDFv(void *);
 f32 horizontal_distance_squared(void *, void *);
 int TBoss8Dragon__sub_800BB7D4(void *, void *);
@@ -380,7 +379,7 @@ u8 *TObjEneRe2Flower::find_target_in_range() {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         p = (u8 *)TObjPlayer::get_player_data(i);
-        if (is_valid_target__9TObjEneDDFv(p) != 0 && obj_isState2_324__9TObjCharaFv(p) == 0) {
+        if (is_valid_target__9TObjEneDDFv(p) != 0 && ((TObjChara *)p)->obj_isState2_324() == 0) {
             result = p;
             break;
         }

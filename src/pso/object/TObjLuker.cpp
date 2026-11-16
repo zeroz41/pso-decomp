@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/base/TObjMotion.h"
@@ -100,7 +102,6 @@ void *TObjLuker__ct(void *arg0, void *arg1, void *arg2);
 f32 horizontal_distance_squared(void *, void *);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 check_flag_100__10TObjPlayerFPv(void *);
-s32 play_effect_default__10TObjPlayerFii(void *, int);
 s32 play_persistent_sound(int, void *, void *, int, int);
 void *__nw__7TObjectFUl(int);
 s32 TTecLuker__sub_8023401C(void *);
@@ -109,7 +110,6 @@ s32 get_entity_id(int);
 s32 is_player_in_range__9TObjLukerFv(s32 arg0, f32 farg0);
 s32 get_main_phase();
 s32 mark_area_change_pending();
-s32 obj_isState3_324__9TObjCharaFv(int);
 s32 send_6x21_inter_level_warp(int, void *);
 s32 set_area__6TLobbyFl(void *, int, int);
 s32 init_fields__9TTecLukerFs(void *, int);
@@ -344,7 +344,7 @@ void TObjLuker::transfer_to_town() {
         flag = 1;
       }
       else
-        if (obj_isState3_324__9TObjCharaFv((int) p) != 0)
+        if (((TObjChara *)p)->obj_isState3_324() != 0)
       {
         flag = 1;
       }
@@ -443,7 +443,7 @@ void TObjLuker::run_task() {
                         spawn_particle_effect(spC, 0xB3);
                         p = PBC_801A1418(local_client_id);
                         if (p != NULL) {
-                            play_effect_default__10TObjPlayerFii(p, 0xA);
+                            TObjPlayer::play_effect_default((int)p, (int)0xA);
                             play_sound_effect(0x40022D1A, (u32)(arg0 + 0x38), 0, 0);
                         }
                         TWindowCtrl::init_all_slots();

@@ -95,8 +95,6 @@ __declspec(section ".ctors") static void *const __sinit_TObjPlayer_80354EC8_cpp_
 
 extern "C" {
 
-int set__8FlagWordFUl(void*, int);
-int clear__8FlagWordFUl(void*, int);
 int test_flags_any(void*, int);
 
 s32 TObjPlayer::get_quest_thread_id() { return *(s32*)((char*)this + 0x4); }

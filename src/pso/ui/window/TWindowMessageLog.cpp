@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer.h"
 #include <stddef.h>
 #include "pso/ui/window/TWindowMessageLog.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -30,7 +31,6 @@ struct Stack_8026A494 {
 
 extern "C" {
 s32 clamp_list_scroll_offset(int, void *, void *, f32);
-s32 is_locally_controlled__10TObjPlayerFPv(s32);
 s32 find_entity_by_id();
 s32 obj_isState2_324__9TObjCharaFv();
 
@@ -42,7 +42,7 @@ s32 TWindowMessageLog::get_active_photon_object() {
     if (temp_r3 == 0) {
         return 0;
     }
-    if ((obj_isState2_324__9TObjCharaFv() == 0) && (is_locally_controlled__10TObjPlayerFPv(temp_r3) == 0)) {
+    if ((obj_isState2_324__9TObjCharaFv() == 0) && (TObjPlayer::is_locally_controlled((void *)temp_r3) == 0)) {
         return 0;
     }
     var_r3 = temp_r3 + 0x85C;

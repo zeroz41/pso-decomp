@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/unk/text_803D96A8.h"
@@ -513,10 +514,8 @@ struct VObj_803344F0 : Base_803344F0 {
 struct D_80333290 { u8 pad0[0x1C]; s32 f1C; u8 pad20[4]; s32 f24; s32 f28; };
 
 extern "C" {
-f32 random_ratio__9TObjCharaFv(s32);
 f32 atan2_float(f32, f32);
 s32 update_linked_position__12TObjEneDD_STFf(f32);
-s32 transition_enemy_state__9TObjEneDDFl(void *, s32);
 extern int TObjEneMorfos__param_table;
 void TObjEneMorfos__sub_80333AD0(u8 *arg0, s32 arg1);
 s32 get_flag_b4__9TObjEneDDFv();
@@ -526,8 +525,6 @@ void TObjEneMorfos__sub_80333690(TObjEneMorfos *arg0, s32 arg1);
 s32 enemy_validate_retained_target(u8 *arg0);
 void TObjEneMorfos__sub_80332FD4(TObjEneMorfos *arg0, s32 arg1);
 s32 is_split_screen();
-s32 get_camera_mode__11TCameraCtrlFv();
-s32 is_main_phase_15__9TObjEneDDFv();
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
@@ -535,7 +532,6 @@ extern const f32 lbl_805D9E88;
 void render__13TObjEneMorfosFv(u8 *arg0);
 u8 * get_player_data__10TObjPlayerFi(int);
 s32 queue_destruction__7TObjectFv(void *);
-s32 is_alive__8TObjBaseFv(void *);
 s32 check_value_in_range__13TObjEneMorfosFPvUsUsUs(void *, int, int, int);
 s32 TObjEneMorfos__sub_803344F0(void *arg0);
 extern s32 game_difficulty_selection;
@@ -776,9 +772,7 @@ void enemy_set_target_id(void *, u16);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 s32 get_camera_ctrl__9TObjEneDDFv(void *, int);
 s32 clear_attack_receipts__9TObjEneDDFv();
-void invoke_initialization_hook__9TObjEneDDFPv(void *, void *);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
-s32 update__15RenderFadeStateFv(void *);
 s32 angle_difference_abs(s32, s32);
 s32 angle_diff_s16(s32);
 s32 free_collision_body_parts(void *);
@@ -1053,11 +1047,11 @@ void render__13TObjEneMorfosFv(u8 *ene_morfos) {
     }
     cam = 0;
     if (is_split_screen() != 0) {
-        cam = get_camera_mode__11TCameraCtrlFv();
+        cam = TCameraCtrl::get_camera_mode();
     }
     if (*(u32 *)((s8 *)ene_morfos + 0x3C0) & 1) {
         vis = 0;
-    } else if (is_main_phase_15__9TObjEneDDFv() != 0) {
+    } else if (TObjEneDD::is_main_phase_15() != 0) {
         vis = ((VObj_80332850 *)ene_morfos)->m9(lbl_805D9E88, lbl_805D9E84, 15.0f);
     } else if (((VObj_80332850 *)ene_morfos)->m8(400.0f, 15.0f) != 0) {
         vis = 1;
@@ -1087,7 +1081,7 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     Part_803329E4 *part;
     Self_803329E4 *self = (Self_803329E4 *)this;
     part = &self->parts[idx];
-    update__15RenderFadeStateFv(part);
+    ((RenderFadeState *)part)->update();
     vis = ((RenderFadeState *)part)->updateFromCamera((const f32*)(self->cam));
     TObjFish::set_global_param(this->texlist);
     TObjPlayer::toggle_particle_effect();
@@ -1208,13 +1202,13 @@ void TObjEneMorfos__sub_80332DBC(u8 *ene_morfos, s32 arg1) {
             if (temp_r3 & 0x20) {
                 *(s32 *)((s8 *)ene_morfos + 0x3C0) = (s32) (temp_r3 & 0xFFFFFFDF);
                 if (((TObjEneMorfos *)ene_morfos)->try_enter_low_hp_state() == 0) {
-                    transition_enemy_state__9TObjEneDDFl(ene_morfos, (s32)((int) (((TObjEneMorfos *)ene_morfos)->m_378)));
+                    ((TObjEneDD *)ene_morfos)->transition_enemy_state((s32)((s32)((int) (((TObjEneMorfos *)ene_morfos)->m_378))));
                 }
             } else {
                 if (((TObjEneMorfos *)ene_morfos)->check_low_hp_trigger() != 0) {
-                    transition_enemy_state__9TObjEneDDFl(ene_morfos, (s32)((int) (((TObjEneMorfos *)ene_morfos)->m_378)));
+                    ((TObjEneDD *)ene_morfos)->transition_enemy_state((s32)((s32)((int) (((TObjEneMorfos *)ene_morfos)->m_378))));
                 } else if (((TObjEneMorfos *)ene_morfos)->try_enter_low_hp_state() == 0) {
-                    transition_enemy_state__9TObjEneDDFl(ene_morfos, (s32)((int) (((TObjEneMorfos *)ene_morfos)->m_378)));
+                    ((TObjEneDD *)ene_morfos)->transition_enemy_state((s32)((s32)((int) (((TObjEneMorfos *)ene_morfos)->m_378))));
                 }
             }
         }
@@ -1243,7 +1237,7 @@ void TObjEneMorfos::state_patrol(s32 arg1) {
         break;
     case 3:
         if ((s32) this->rotation_y >= (s32) this->m_4bc) {
-            transition_enemy_state__9TObjEneDDFl(this, 6);
+            transition_enemy_state((s32)6);
         }
         break;
     case 5:
@@ -1279,11 +1273,11 @@ void TObjEneMorfos__sub_80332FD4(TObjEneMorfos *arg0, s32 arg1) {
         switch (*(s32 *)((s8 *)arg0 + 0x4B0)) {
         case 0:
             if ((((s32 (*)(void *))TObjEneMorfos__sub_803344F0)(arg0) == 0) && ((void *) arg0->m_390 == NULL)) {
-                transition_enemy_state__9TObjEneDDFl(arg0, 7);
+                ((TObjEneDD *)arg0)->transition_enemy_state((s32)7);
             }
             break;
         case 3:
-            transition_enemy_state__9TObjEneDDFl(arg0, 4);
+            ((TObjEneDD *)arg0)->transition_enemy_state((s32)4);
             break;
         }
         break;
@@ -1359,7 +1353,7 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 arg1) {
         break;
     case 3:
         if (F(0x4B0, s32) == 5 && TObjEneMorfos__sub_803344F0(arg0) == 0) {
-            transition_enemy_state__9TObjEneDDFl(arg0, 4);
+            ((TObjEneDD *)arg0)->transition_enemy_state((s32)4);
         }
         break;
     case 0:
@@ -1387,7 +1381,7 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 arg1) {
             n = TLobby::get_game_mode();
             for (i = 0; i < n; i++) {
                 pl = get_player_data__10TObjPlayerFi(i);
-                if (is_alive__8TObjBaseFv(pl) != 0) {
+                if (((TObjBase *)pl)->is_alive() != 0) {
                     if (((TObjBase *)arg0)->get_room() == ((TObjBase *)pl)->get_room()) {
                         ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
                         ((TObjEneDD *)arg0)->update_velocity();
@@ -1470,7 +1464,7 @@ void TObjEneMorfos__sub_80333690(TObjEneMorfos *arg0, s32 arg1) {
         return;
     case 3:
         if (((s32) *(s32 *)((s8 *)arg0 + 0x4B0) == 6) && (((s32 (*)(void *))TObjEneMorfos__sub_803344F0)(arg0) == 0)) {
-            transition_enemy_state__9TObjEneDDFl(arg0, 4);
+            ((TObjEneDD *)arg0)->transition_enemy_state((s32)4);
         }
         break;
     case 5:
@@ -1572,15 +1566,15 @@ void TObjEneMorfos__sub_80333AD0(u8 *ene_morfos, s32 arg1) {
     case 3:
         if (TObjEneMorfos__sub_803344F0(ene_morfos) == 0) {
             if ((u32) *(u32 *)((s8 *)ene_morfos + 0x390) == 0U) {
-                transition_enemy_state__9TObjEneDDFl(ene_morfos, 7);
+                ((TObjEneDD *)ene_morfos)->transition_enemy_state((s32)7);
             } else if (*(f32 *)((s8 *)ene_morfos + 0x3AC) <= 30.0f) {
-                if (((f32 (*)(void *)) random_ratio__9TObjCharaFv)(ene_morfos) < 0.3f) {
-                    transition_enemy_state__9TObjEneDDFl(ene_morfos, 6);
+                if (((TObjChara *)ene_morfos)->random_ratio() < 0.3f) {
+                    ((TObjEneDD *)ene_morfos)->transition_enemy_state((s32)6);
                 } else {
-                    transition_enemy_state__9TObjEneDDFl(ene_morfos, 5);
+                    ((TObjEneDD *)ene_morfos)->transition_enemy_state((s32)5);
                 }
             } else if ((s32) *(s32 *)((s8 *)ene_morfos + 0x4B4) == 3) {
-                transition_enemy_state__9TObjEneDDFl(ene_morfos, 6);
+                ((TObjEneDD *)ene_morfos)->transition_enemy_state((s32)6);
             }
         }
         break;
@@ -1664,9 +1658,9 @@ void TObjEneMorfos__sub_80333E48(u8 *ene_dd_st, s32 arg1) {
         if (TObjEneMorfos__sub_803344F0(ene_dd_st) == 0) {
             temp_r0 = *(s32 *)((s8 *)ene_dd_st + 0x4B0);
             if (temp_r0 == 2) {
-                transition_enemy_state__9TObjEneDDFl(ene_dd_st, 4);
+                ((TObjEneDD *)ene_dd_st)->transition_enemy_state((s32)4);
             } else if (temp_r0 == 3) {
-                transition_enemy_state__9TObjEneDDFl(ene_dd_st, 2);
+                ((TObjEneDD *)ene_dd_st)->transition_enemy_state((s32)2);
             }
         }
         break;
@@ -1721,7 +1715,7 @@ void TObjEneMorfos__sub_80334030(u8 *ene_dd, s32 arg1) {
         return;
     case 3:
         if (update_linked_position__12TObjEneDD_STFf(400.0f) != 0) {
-            transition_enemy_state__9TObjEneDDFl(ene_dd, 1);
+            ((TObjEneDD *)ene_dd)->transition_enemy_state((s32)1);
         }
     case 5:
     case 0:
@@ -1743,7 +1737,7 @@ void TObjEneMorfos::state_appear(s32 arg1) {
         return;
     case 3:
         if (((s32) *(s32 *)((s8 *)this + 0x4B0) == 2) && (TObjEneMorfos__sub_803344F0(this) == 0)) {
-            transition_enemy_state__9TObjEneDDFl(this, 4);
+            transition_enemy_state((s32)4);
         }
         break;
     case 0:
@@ -1791,7 +1785,7 @@ void TObjEneMorfos__sub_803342B8(u8 *ene_dd, s32 arg1) {
     case 3:
         temp_r31 = ((VObj_14_948132 *)(ene_dd + (1032)))->m5();
         if ((((VObj_14_948132 *)(ene_dd + (1004)))->m5() != 0) && (temp_r31 != 0)) {
-            transition_enemy_state__9TObjEneDDFl(ene_dd, 3);
+            ((TObjEneDD *)ene_dd)->transition_enemy_state((s32)3);
         }
         return;
     case 0:
@@ -1810,7 +1804,7 @@ void TObjEneMorfos::handle_event_transition(s32 ev) {
     case 0:
         return;
     case 3:
-        transition_enemy_state__9TObjEneDDFl(this, 1);
+        transition_enemy_state((s32)1);
         break;
     }
 }
@@ -1866,7 +1860,7 @@ s32 TObjEneMorfos::select_target_in_view() {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         p = get_player_data__10TObjPlayerFi(i);
-        if (is_alive__8TObjBaseFv(p) == 0) {
+        if (((TObjBase *)p)->is_alive() == 0) {
             continue;
         }
         VecCopy((Vec *)&v, (const Vec *)(p + 0x38));
@@ -1943,8 +1937,8 @@ s32 TObjEneMorfos::approach_value(s32 arg1, s32 arg2) {
 
 s32 TObjEneMorfos::try_enter_low_hp_state() {
     u8 *arg0 = (u8 *)this;
-    if (((s16) *(s16 *)((s8 *)arg0 + 0x32C) <= (s32) ((s16) *(s16 *)((s8 *)arg0 + 0x2B8) / 2)) && (random_ratio__9TObjCharaFv((s32) arg0) <= *(f32 *)((s8 *)arg0 + 0x3E4))) {
-        ((int (*)(void*, void*))transition_enemy_state__9TObjEneDDFl)(arg0, (void*)(9));
+    if (((s16) *(s16 *)((s8 *)arg0 + 0x32C) <= (s32) ((s16) *(s16 *)((s8 *)arg0 + 0x2B8) / 2)) && (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3E4))) {
+        ((TObjEneDD *)arg0)->transition_enemy_state((s32)((void*)(9)));
         return 1;
     }
     return 0;
@@ -1952,7 +1946,7 @@ s32 TObjEneMorfos::try_enter_low_hp_state() {
 
 s32 TObjEneMorfos::check_low_hp_trigger() {
     u8 *arg0 = (u8 *)this;
-    if (!(*(s32 *)((s8 *)arg0 + 0x3C0) & 0x10) && ((s16) *(s16 *)((s8 *)arg0 + 0x32C) <= (s32) ((s16) *(s16 *)((s8 *)arg0 + 0x2B8) / 2)) && (random_ratio__9TObjCharaFv((s32) arg0) <= *(f32 *)((s8 *)arg0 + 0x3E0))) {
+    if (!(*(s32 *)((s8 *)arg0 + 0x3C0) & 0x10) && ((s16) *(s16 *)((s8 *)arg0 + 0x32C) <= (s32) ((s16) *(s16 *)((s8 *)arg0 + 0x2B8) / 2)) && (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3E0))) {
         *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) | 0x10);
         return 1;
     }
@@ -1985,7 +1979,7 @@ void TObjEneMorfos::vfunc_62() {
     } else if (arg0->f3C0 & 4) {
         ((void (*)(void *))clear_attack_receipts__9TObjEneDDFv)(arg0);
     } else {
-        ((int (*)(void*, void*))transition_enemy_state__9TObjEneDDFl)(arg0, (void *)0xA);
+        ((TObjEneDD *)arg0)->transition_enemy_state((s32)((void *)0xA));
     }
 }
 
@@ -2015,7 +2009,7 @@ f32 TObjEneMorfos__vt20(Obj_80334A4C *arg0, Obj_80334A4C *att, f32 scale) {
     return ret;
 }
 
-void TObjEneMorfos::vfunc_63() { if (this->mode != 11) { ((int (*)(void*, void*))transition_enemy_state__9TObjEneDDFl)(this, (void*)11); } }
+void TObjEneMorfos::vfunc_63() { if (this->mode != 11) { transition_enemy_state((s32)((void*)11)); } }
 
 void TObjEneMorfos::vfunc_28() {  }
 
@@ -2168,9 +2162,6 @@ struct Arr_80334D74 { u8 pad[0x424]; Elem_80334D74 e[4]; };
 struct Hdr_80334D74 { u8 b[0x1C]; };
 struct Res_80334D74 { u8 pad[0x18]; s32 f18; s32 f1C; };
 struct Mgr_80334D74 { u8 pad[0x42C]; Res_80334D74 *res; s32 f430; };
-void reset_hp__9TObjEneDDFPUcPUcPUc(void *, s32, s32, s32);
-void initialize_enemy_state__9TObjEneDDFl(void *, s32);
-void init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, s32);
 extern s32 lbl_804774A8[];
 extern s32 lbl_804774B0[];
 extern s32 lbl_804774B8[];
@@ -2184,17 +2175,17 @@ void TObjEneMorfos::init_instance() {
     init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = ((Mgr_80334D74 *)TObjEneMorfos__instance)->res->f18;
     this->texlist = ((Mgr_80334D74 *)TObjEneMorfos__instance)->res->f1C;
-    init_model__9TObjEneDDFP13CollisionBodyl(this, lbl_804EE0DC, 1);
+    init_model((CollisionBody *)lbl_804EE0DC, (s32)1);
     set_field_d8((s32)morfos_motion_param_table);
     set_field_dc(((Mgr_80334D74 *)TObjEneMorfos__instance)->f430);
     this->requested_action = 0;
     set_animation(this->requested_action);
     set_field_b8(this->requested_action);
-    reset_hp__9TObjEneDDFPUcPUcPUc(this, lbl_805D6D08[lbl_804774A8[0]], lbl_805434DC[lbl_804774B0[0]], lbl_805D6D0C[lbl_804774B8[0]]);
+    reset_hp((u8 *)(lbl_805D6D08[lbl_804774A8[0]]), (u8 *)(lbl_805434DC[lbl_804774B0[0]]), (u8 *)(lbl_805D6D0C[lbl_804774B8[0]]));
     ((void (*)(void *))TObjEneMorfos__sub_80334704)(this);
     set_state_8();
     this->movementParameters = (Hdr_80334D74 *)lbl_804EE0C0;
-    initialize_enemy_state__9TObjEneDDFl(this, 0x42);
+    initialize_enemy_state(0x42);
     *(f32 *)((s8 *)this + 0x37C) = 10.0f;
     enemy_init_acquire_period(0x3C);
     enemy_init_validate_period(0x3C);
@@ -2233,7 +2224,7 @@ void *TObjEneMorfos__ct(void *ene_morfos, void *arg1, void *arg2) {
     __ct__13TUnk_80494938Fv(((char *)ene_morfos + 1032));
     __construct_array((void *)((char *)ene_morfos + 1060), __ct__15RenderFadeStateFv, __dt__15RenderFadeStateFv, 28, 4);
     *(void * *)&((TObjEneMorfos *)ene_morfos)->m_name = morfos_class_name;
-    invoke_initialization_hook__9TObjEneDDFPv(ene_morfos, arg2);
+    ((TObjEneDD *)ene_morfos)->invoke_initialization_hook(arg2);
     ((TObjEneMorfos *)ene_morfos)->init_target_offsets();
     ((TObjEneMorfos *)ene_morfos)->init_instance();
     *(u32 *)((s8 *)ene_morfos + 0x494) = 0;

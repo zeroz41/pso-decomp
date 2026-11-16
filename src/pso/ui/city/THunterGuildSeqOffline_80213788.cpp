@@ -150,13 +150,11 @@ Seq_80213D84 *THunterGuildSeqOnline_Client__ct(Seq_80213D84 *arg0, s32 arg1, s32
 void THunterGuildSeqOffline__sub_80213BE0(Seq_80213BE0 *arg0);
 int is_quest_active(void);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 sub_80223A48__15TShopWindowBaseFv(void *);
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 extern s32 quest_mission_manager;
 void THunterGuildSeqOffline__sub_80213980(Obj_80213980 *self);
 s32 set_service_counter_camera(void *, s32);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 sub_80223A48__15TShopWindowBaseFv(void *);
 s32 restore_player_state__13TShopSequenceFv();
 
 void update_shop_close__22THunterGuildSeqOfflineFPv(void *shop_sequence) {
@@ -170,7 +168,7 @@ void update_shop_close__22THunterGuildSeqOfflineFPv(void *shop_sequence) {
         }
     } else {
 block_3:
-        if ((((TShopWindowBase *)shop_sequence)->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(shop_sequence) != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
+        if ((((TShopWindowBase *)shop_sequence)->vfunc_10() != 0) && ((((TShopWindowBase *)shop_sequence)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
             ((V_A_80213788 *) shop_sequence)->m7(0xC, 1);
             *(s32 *)((s8 *)shop_sequence + 0x34) = 1;
             ((TShopWindowBase *)shop_sequence)->set_field_20(0xC);
@@ -187,7 +185,7 @@ void update_close_shop__22THunterGuildSeqOfflineFPv(void *shop_sequence) {
         }
     } else {
 block_3:
-        if ((((TShopWindowBase *)shop_sequence)->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(shop_sequence) != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
+        if ((((TShopWindowBase *)shop_sequence)->vfunc_10() != 0) && ((((TShopWindowBase *)shop_sequence)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
             ((V_A_8021383c_80213788 *) shop_sequence)->m7(0xC, 1);
             *(s32 *)((s8 *)shop_sequence + 0x34) = 1;
             ((TShopWindowBase *)shop_sequence)->set_field_20(0xC);
@@ -196,7 +194,7 @@ block_3:
 }
 
 void handle_close__22THunterGuildSeqOfflineFPv(void *shop_sequence) {
-    if ((((TShopWindowBase *)shop_sequence)->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(shop_sequence) != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
+    if ((((TShopWindowBase *)shop_sequence)->vfunc_10() != 0) && ((((TShopWindowBase *)shop_sequence)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
         ((VObj_802138F0_80213788 *)shop_sequence)->m7(0xC, 1);
         *(s32 *)((s8 *)shop_sequence + 0x34) = 0;
         ((TShopWindowBase *)shop_sequence)->set_field_20(0xC);
@@ -228,7 +226,7 @@ void THunterGuildSeqOffline__sub_80213980(Obj_80213980 *self) {
                 self->m7(2, 1);
                 ((TShopWindowBase *)self)->set_field_20(6);
             }
-        } else if (sub_80223A48__15TShopWindowBaseFv(self) != 0 || sub_802239EC__13TShopSequenceFv(self) != 0) {
+        } else if (((TShopWindowBase *)self)->sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(self) != 0) {
             self->m7(0x15, 1);
             ((TShopWindowBase *)self)->set_field_20(0xB);
         }
@@ -455,11 +453,10 @@ struct VObj_80213FD0 : Base_80213FD0 {
 extern "C" {
 
 int sub_802239EC__13TShopSequenceFv(void *);
-int sub_80223A48__15TShopWindowBaseFv(void *);
 
 void TShopWindowBase::confirm_and_close_if_valid() {
     VObj_80213FD0 *o = (VObj_80213FD0 *)this;
-    if (o->m8() != 0 && (sub_80223A48__15TShopWindowBaseFv(this) != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         o->m7(0xc, 1);
         this->set_field_20(0xc);
     }
@@ -535,7 +532,6 @@ void *get_entity_id(void *);
 int is_quest_active(void);
 void close_window__13TShopSequenceFv(void *);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 sub_80223A48__15TShopWindowBaseFv(void *);
 void *__nw__7TObjectFUl(u32);
 extern s32 TLobby__protocol_instance;
 extern s32 tl_00;
@@ -549,7 +545,7 @@ void handle_random_enemies_choice__6TLobbyFPv(Seq_80214104 *self) {
     if (self->m8() == 0) return;
     switch (self->mode) {
     case 0:
-        if (sub_80223A48__15TShopWindowBaseFv(self) == 0 && sub_802239EC__13TShopSequenceFv(self) == 0) return;
+        if (((TShopWindowBase *)self)->sub_80223A48() == 0 && sub_802239EC__13TShopSequenceFv(self) == 0) return;
         if (is_quest_active() == 0) {
             ((TProtocol *)TLobby__protocol_instance)->send_quest_menu_closed();
         }
@@ -710,25 +706,22 @@ u32 __nw__7TObjectFUl(int);
 s32 get_window_layout_position(s32);
 int is_quest_active(void);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 sub_80223A48__15TShopWindowBaseFv(void *);
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 extern s32 quest_mission_manager;
 s32 set_service_counter_camera(void *, s32);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 sub_80223A48__15TShopWindowBaseFv(void *);
 s32 get_window_layout_position(s32);
-f32 get_scale__15TShopWindowBaseFv(void *);
 u16 get_entity_id(s32);
 s32 restore_player_state__13TShopSequenceFv();
 
 void create_judgment_item_window__15TShopWindowBaseFPv(void *shop_sequence) {
     VObj_802143AC *vobj = (VObj_802143AC *)shop_sequence;
 
-    if ((vobj->m8r() != 0) && ((sub_80223A48__15TShopWindowBaseFv(shop_sequence) != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
+    if ((vobj->m8r() != 0) && ((((TShopWindowBase *)shop_sequence)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
         *(s32 *)((s8 *)shop_sequence + 0x38) = (s32)create_yes_no_window(get_window_layout_position(0x2B), (u16)get_entity_id(*(s32 *)((s8 *)shop_sequence + 0x24)), 0, 0);
         ((TWindowSubComCardList *)(*(s32 *)((s8 *)shop_sequence + 0x38)))->set_selected_index(1);
-        ((TWindowAddition *)(*(s32 *)((s8 *)shop_sequence + 0x38)))->set_position_xy(get_scale__15TShopWindowBaseFv(shop_sequence), get_scale__15TShopWindowBaseFv(shop_sequence));
+        ((TWindowAddition *)(*(s32 *)((s8 *)shop_sequence + 0x38)))->set_position_xy(((TShopWindowBase *)shop_sequence)->get_scale(), ((TShopWindowBase *)shop_sequence)->get_scale());
         vobj->m7(8, 1);
         ((TShopWindowBase *)shop_sequence)->set_field_20(7);
     }
@@ -743,7 +736,7 @@ void update__15TShopWindowBaseFPv(void *shop_sequence) {
         }
     } else {
 block_3:
-        if ((((TShopWindowBase *)shop_sequence)->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(shop_sequence) != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
+        if ((((TShopWindowBase *)shop_sequence)->vfunc_10() != 0) && ((((TShopWindowBase *)shop_sequence)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
             ((V_A_80214490_802143AC *) shop_sequence)->m7(0xC, 1);
             *(s32 *)((s8 *)shop_sequence + 0x34) = 1;
             ((TShopWindowBase *)shop_sequence)->set_field_20(0xC);
@@ -760,7 +753,7 @@ void update_confirm_input__15TShopWindowBaseFPv(void *shop_sequence) {
         }
     } else {
 block_3:
-        if ((((TShopWindowBase *)shop_sequence)->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(shop_sequence) != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
+        if ((((TShopWindowBase *)shop_sequence)->vfunc_10() != 0) && ((((TShopWindowBase *)shop_sequence)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
             ((V_A_80214544_802143AC *) shop_sequence)->m7(0xC, 1);
             *(s32 *)((s8 *)shop_sequence + 0x34) = 1;
             ((TShopWindowBase *)shop_sequence)->set_field_20(0xC);
@@ -770,7 +763,7 @@ block_3:
 
 void THunterGuildSeqOffline__sub_802145F8(u8 *shop_sequence) {
     if (((TShopWindowBase *)(shop_sequence))->vfunc_10() != 0) {
-        if (sub_80223A48__15TShopWindowBaseFv(shop_sequence) != 0) {
+        if (((TShopWindowBase *)shop_sequence)->sub_80223A48() != 0) {
             *(s32 *)((s8 *)shop_sequence + 0x40) = 0;
         }
         if ((s32) *(s32 *)((s8 *)shop_sequence + 0x40) == 0) {

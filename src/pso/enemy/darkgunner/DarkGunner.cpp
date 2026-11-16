@@ -1,4 +1,5 @@
 #include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/effect/enemy/TEneEffHamon.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/enemy/TUnk_804909C4.h"
@@ -238,7 +239,6 @@ void TObjPlayer__sub_800A1974(void *);
 void TObjPlayer__sub_800A1C84(TObjPlayer *arg0);
 void TObjPlayer__sub_800A1D70(u8 *arg0);
 void vfunc_62__17TObjEneDarkGunnerFv(void *arg0);
-void sub_800A27CC__17TObjEneDarkGunnerFv(TObjPlayer *arg0);
 Obj_800A2EDC * TObjPlayer__sub_800A2EDC(Obj_800A2EDC *arg0, s16 arg1);
 u8 *TObjPlayer__sub_800A2F94(u8 *, s32, u8 *);
 void vfunc_28__17TObjEneDarkGunnerFv(void);
@@ -777,7 +777,7 @@ void TObjEneDarkGunner::sub_800A1520() {
     switch (temp_r0)
     {
       case 0:
-        sub_800A27CC__17TObjEneDarkGunnerFv((TObjPlayer *)this);
+        sub_800A27CC();
         return;
       case 1:
         TObjPlayer__sub_800A2390(this);
@@ -1577,7 +1577,7 @@ void load_darkgunner_effect_resources() {
     lbl_805D5024 = ((Node_800A2DCC *(*)(void *, s32))get_bml_model)((void *)player_effect_bml_resource, 1)->child->model[1];
     lbl_805D5028 = ((Node_800A2DCC *(*)(void *, s32))get_bml_model)((void *)player_effect_bml_resource, 0)->model[1];
     TObjPlayer__sub_800A4294();
-    init_fish_effects__12TEneEffHamonFv();
+    TEneEffHamon::init_fish_effects();
     TObjPlayer__effect_resource = (u32)load_gvm_texture_file((s32)"re5_b_gunner_body_pika.gvm");
     for (i = 0; i < 1; i++) {
         lbl_805D4FF8[i] = (s32)TLobby::register_boss(30 + i);

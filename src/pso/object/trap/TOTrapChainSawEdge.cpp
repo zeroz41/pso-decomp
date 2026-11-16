@@ -955,8 +955,6 @@ void vfunc_26__14TOTrapChainSawFv();
 void vfunc_27__14TOTrapChainSawFv();
 void vfunc_28__14TOTrapChainSawFv();
 void vfunc_29__14TOTrapChainSawFv();
-void vfunc_16__14TOTrapChainSawFv();
-void vfunc_25__14TOTrapChainSawFv();
 void scale_by_level__14TOTrapChainSawFf();
 s32 __vt__18TOTrapChainSawEdge[31] = {
     0,

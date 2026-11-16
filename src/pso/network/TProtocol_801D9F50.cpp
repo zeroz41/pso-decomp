@@ -42,7 +42,6 @@ struct Pkt_801D9FA0 {
 };
 
 extern "C" {
-void bswap_packet__9TProtocolFv(void *);
 void send_statistic_aa(VObj_18_801D9FA0 *obj, s16 a, s16 c, s16 d, u32 *src);
 void send_statistic_aa(VObj_18_801D9FA0 *obj, s16 a, s16 c, s16 d, u32 *src) {
     Pkt_801D9FA0 pkt;
@@ -58,7 +57,7 @@ void send_statistic_aa(VObj_18_801D9FA0 *obj, s16 a, s16 c, s16 d, u32 *src) {
     for (i = 0; i < 8; i++) {
         pkt.data[i] = src[i];
     }
-    bswap_packet__9TProtocolFv(&pkt);
+    ((TProtocol *)(&pkt))->bswap_packet();
     obj->m8(&pkt, 0x2C);
 }
 
@@ -88,7 +87,6 @@ struct Cfg_801DA054 { u32 w[8]; };
 struct Pkt_801DA054 { u8 cmd; u8 flag; u16 size; struct Cfg_801DA054 cfg; };
 
 extern "C" {
-s32 bswap_packet_header__9TProtocolFv(void *);
 s32 __as__16TPlyClientConfigFRC16TPlyClientConfig(void *, void *);
 int set_lobby_count_value(void*);
 
@@ -98,7 +96,7 @@ void handle_cmd_9F__9TProtocolFR6packet(u8 *arg0) {
     pkt.cmd = 0x9F;
     pkt.size = 0x24;
     __as__16TPlyClientConfigFRC16TPlyClientConfig(&pkt.cfg, arg0 + 0x3FAC);
-    bswap_packet_header__9TProtocolFv(&pkt);
+    ((TProtocol *)(&pkt))->bswap_packet_header();
     ((VObj_18 *)(arg0))->m8((s8 *)&pkt, 0x24);
 }
 

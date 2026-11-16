@@ -20,7 +20,6 @@
 extern Vec lbl_8043BBC0[];
 extern Vec lbl_8043BBB4[];
 extern "C" {
-s32 is_main_phase_15__9TObjEneDDFv(void);
 extern s32 lbl_805D5178;
 extern s32 lbl_805D517C;
 extern f32 *lbl_805D5180;
@@ -74,7 +73,7 @@ void TObjEneRe2Flower::render() {
     if (mode == 11) {
         return;
     }
-    if (is_main_phase_15__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::is_main_phase_15() != 0) {
         if (get_flag_11() != 0) {
             visible = classify_actor_view_detail(600.0f, 600.0f, 25.0f);
         } else {

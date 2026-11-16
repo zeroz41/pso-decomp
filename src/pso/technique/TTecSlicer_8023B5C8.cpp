@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/item/TItem.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -348,7 +349,6 @@ void destroy_if_set__10TTecSlicerFv(u32);
 
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-void set_entity_id__8TObjBaseFUs(void *, s32);
 f32 *get_weapon_range_record(s32, s32);
 s32 get_extended_state__10TObjPlayerFv(s32);
 s8 get_captured_target_collider_index(s32);

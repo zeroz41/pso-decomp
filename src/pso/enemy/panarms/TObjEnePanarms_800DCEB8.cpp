@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/object/base/TObjChara.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
@@ -211,7 +212,6 @@ s32 approach_angle_limited(s32, s32, s32);
 f32 vector_length(void *);
 Obj_800DF634 *load_resource_from_descriptor(Obj_800DF634 *, s32, void *, s32, s32, s32);
 s32 spawn_npc_enemy__6TLobbyFslP11NJS_TEXLISTPvff(s32, s32, s32, void *, s32, const void *, f32, f32);
-f32 random_ratio__9TObjCharaFv(s32 arg0);
 void TObjEnePanarms__sub_800E1D38(void *arg0);
 s32 refresh_lobby_state__10TObjPlayerFv();
 s32 TObjEnePanarms__sub_800DE528(void *arg0, Vec_800DE528 *arg1);
@@ -869,7 +869,7 @@ void TObjEnePanarms::enter_move() {
     *(u32 *)((s8 *)(*(u8 **)((s8 *)this + 0x390)) + 0x18) &= ~0x08000000;
     *(u32 *)((s8 *)(*(u8 **)((s8 *)this + 0x390)) + 0x18) |= 1;
     this->obj_clearFlags30(0x04040000);
-    this->m_388 = (s32) (49.999996f * (f32) ((s32) (1.99f * random_ratio__9TObjCharaFv((s32)this)) + 1));
+    this->m_388 = (s32) (49.999996f * (f32) ((s32) (1.99f * random_ratio()) + 1));
     set_field_b8__10TObjMotionFs(this, var_r30);
 }
 

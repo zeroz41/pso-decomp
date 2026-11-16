@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/object/base/TObjChara.h"
 #include "pso/ui/window/TWindowCtrl_8024B7D4.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
@@ -260,8 +261,6 @@ typedef struct Ctrl_8024BE80 {
 } Ctrl_8024BE80;
 
 extern "C" {
-s32 obj_isState3_324__9TObjCharaFv(void *);
-s32 is_script_controlled__10TObjPlayerFv(void *);
 void *get_player_by_client_id(s32);
 }
 void window_request_show(void *);
@@ -283,8 +282,8 @@ void TWindowCtrl::update_party_status_rows() {
             pl = get_player_by_client_id(get_width__19TWindowSimpleStatusFv(w));
             if (pl == NULL || has_player_active_menu__11TWindowCtrlFv(local_client_id) != 0 ||
                 is_slot_visible__11TWindowCtrlFv(local_client_id) != 0 || TWindowCtrl__sub_8024B048(this) != 0 ||
-                is_script_controlled__10TObjPlayerFv(pl) != 0 ||
-                (obj_isState3_324__9TObjCharaFv(pl) != 0 &&
+                ((TObjPlayer *)pl)->is_script_controlled() != 0 ||
+                (((TObjChara *)pl)->obj_isState3_324() != 0 &&
                  (((TObjPlayer *)pl)->get_field_828() != 0 || ((TNpcPlayer *)pl)->get_action_flags() == 0xFFFF))) {
                 ((TWindowLockOn *)w)->request_close();
             } else {

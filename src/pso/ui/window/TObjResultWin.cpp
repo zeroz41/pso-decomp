@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TObjResultWin.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -22,7 +23,6 @@ char* strncat(char*, const char*, unsigned long);
 s32 TWindowShortListCtrl__check_controller_button(void*, int);
 s32 TWindowCtrlMain__sub_8024CE58();
 s32 get_window_layout_position(s32);
-s32 append_line__14TWindowMessageFii(u32, void*, s32);
 u32 create__14TWindowMessageFPvll(s32, void*, s32);
 extern ControllerInputStateResultWin controller_input_state;
 extern s32 current_lobby_id;
@@ -144,7 +144,7 @@ void TObjResultWin::create_window() {
         if (TCameraCtrl::get_camera_id() == 4) {
             ((TWindowAddition *)m_window)->set_position_xy(0.75f, 0.75f);
         }
-        append_line__14TWindowMessageFii(m_window, m_text, 0);
+        ((TWindowMessage *)m_window)->append_line((int)m_text, (int)0);
         ((TWindowBase *)m_window)->set_depth(36999.0f);
     }
 }

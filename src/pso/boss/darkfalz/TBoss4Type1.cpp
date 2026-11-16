@@ -21,10 +21,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
-extern "C" void has_flag_0x800__9TObjCharaFv();
-extern "C" void test_flag30_512__9TObjCharaFv();
-extern "C" void test_flag_1000__9TObjCharaFv();
-extern "C" void test_flag_256__9TObjCharaFv();
 
 #include <stddef.h>
 #include "pso/boss/darkfalz/TBoss4Type2.h"

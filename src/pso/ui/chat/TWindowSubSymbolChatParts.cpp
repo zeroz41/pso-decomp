@@ -566,7 +566,7 @@ void run_task__25TWindowSubSymbolChatPartsFv(Parts_80285B84 *arg0) {
             ((TWindowSubSymbolChatParts *)arg0)->handle_cancel();
         }
     }
-    sub_80284FB8__25TWindowSubSymbolChatPartsFv(arg0);
+    ((TWindowSubSymbolChatParts *)arg0)->sub_80284FB8();
     if ((f32)arg0->timer >= 7.5f) {
         ((TWindowSubStatusDisp *)(arg0->sub88))->update_subwindow();
         ((TWindowSubStatusDisp *)(arg0->sub8C))->increment_counter();

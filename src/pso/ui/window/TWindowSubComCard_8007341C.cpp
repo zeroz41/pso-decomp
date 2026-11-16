@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_8007341C.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -45,7 +46,6 @@ char *TQuestVmDownLoadServer__sub_8006EF6C(s32);
 s32 get_layout_id__20TWindowSubStatusDispFv(void *);
 s32 fn_80071A9C(void *, void *, void *);
 u8 *get_player_by_client_id(s32);
-void append_line__14TWindowMessageFii(void *, char *, s32);
 void *create__14TWindowMessageFPvll(void *, void *, s32);
 void *get_window_layout_position(s32);
 int sprintf(char *, const char *, ...);
@@ -135,7 +135,7 @@ void TLobby::open_challenge_window(s32 arg0, s32 arg1) {
         ((TWindowAddition *)((*(Chal_8007369C *)&challenge_mode_state).window))->set_position_xy(0.75f, 0.75f);
     }
     TAdSinglePlyChrSelectGC::format_challenge_stage_times(arg0, arg1);
-    append_line__14TWindowMessageFii((*(Chal_8007369C *)&challenge_mode_state).window, challenge_progress_text_buffer, 0);
+    ((TWindowMessage *)((*(Chal_8007369C *)&challenge_mode_state).window))->append_line((int)challenge_progress_text_buffer, (int)0);
 }
 
 void TLobby::open_challenge_progress_window(void *arg1) {
@@ -171,7 +171,7 @@ void TLobby::open_challenge_progress_window(void *arg1) {
             strcat(challenge_progress_text_buffer, "\n");
         }
     }
-    append_line__14TWindowMessageFii(CHAL->window, challenge_progress_text_buffer, 0);
+    ((TWindowMessage *)(CHAL->window))->append_line((int)challenge_progress_text_buffer, (int)0);
 }
 
 void TLobby__sub_800738F4(void *lobby, s32 arg1) {

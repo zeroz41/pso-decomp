@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TUnk_8049F770.h"
 #include "pso/item/armor/TItemProShield.h"

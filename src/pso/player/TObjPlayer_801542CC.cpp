@@ -136,7 +136,6 @@ u8 * TObjPlayer__sub_80155028(s32 arg0, s32 arg1);
 s32 build_collision_box_corners(Vec pos, s32 facing, CollisionBody *body, CollisionBox_80155C54 *out);
 s32 subtract_vector(void *, void *);
 extern s32 enable_v2_features;
-f32 get_collision_body_radius__14TObjCollidableFl(Obj_801547E0 *self, s32 i);
 extern Vec_80155294 scratch_vec;
 f64 atan2_float(f32, f32);
 s32 angle_difference_abs(s32, s32);
@@ -179,7 +178,6 @@ s32 *csnVectorUnder(s32 arg0, u32 *arg1, s32 arg2);
 s32 *csnVecterUnder(s32 origin, s32 mask);
 u16 TObjRoomId__sub_801A1DB8(u16);
 s32 project_actor_to_ground(Obj_80156844 *self, Vec_80156844 *pos, Vec_80156844 *normal);
-s32 test_box_overlap__10TObjPlayerFP12Vec_803E1B1C(CollisionBox_80155C54*,CollisionBox_80155C54*);
 s32 test_box_sphere_contact(CollisionBox_80155C54*,CollisionSphere_80155C54*);
 }
 s32 test_collider_sphere_overlap_xz(s32 arg0, u8 *arg1, u32 arg2);
@@ -280,7 +278,7 @@ void TObjPlayer__sub_8015434C(CollisionBody_80155FBC *set, s32 start, s32 count)
                         if (other_body->shape == 1) {
                             build_collision_box_corners(other_pos, other_facing, other_body, &other_box);
                             if (shape == 1) {
-                                if (test_box_overlap__10TObjPlayerFP12Vec_803E1B1C(&box, &other_box)) {
+                                if (((TObjPlayer *)(&box))->test_box_overlap((Vec_803E1B1C *)(&other_box))) {
                                     hit = other_body;
                                 }
                             } else if (test_box_sphere_contact(&other_box, &sphere)) {
@@ -740,8 +738,8 @@ s32 resolve_player_box_contact(u8 *arg0, u8 *arg1, u8 *arg2) {
         f32 dx;
         f32 dz;
         moved = 0;
-        xl = hw * hw + get_collision_body_radius__14TObjCollidableFl((Obj_801547E0 *)arg0, 0);
-        zl = hd * hd + get_collision_body_radius__14TObjCollidableFl((Obj_801547E0 *)arg0, 0);
+        xl = hw * hw + ((TObjCollidable *)arg0)->get_collision_body_radius(0);
+        zl = hd * hd + ((TObjCollidable *)arg0)->get_collision_body_radius(0);
         VecCopy__FP3VecPC3Vec(&scratch_vec, &radial);
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, -*(s32 *)(arg1 + 0x60));
@@ -975,7 +973,7 @@ void* refresh_actor_body_spheres(CollisionBody_80155FBC a,CollisionBody_80155FBC
                     case 1:
                         build_collision_box_corners(worldA,facingA,source,&boxAA);
                         build_collision_box_corners(worldB,facingB,destination,&boxBB);
-                        if (test_box_overlap__10TObjPlayerFP12Vec_803E1B1C(&boxAA,&boxBB)) return destination;
+                        if (((TObjPlayer *)(&boxAA))->test_box_overlap((Vec_803E1B1C *)(&boxBB))) return destination;
                         break;
                     case 0: default:
                         build_collision_box_corners(worldA,facingA,source,&boxAB);

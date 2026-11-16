@@ -128,7 +128,6 @@ u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 void load_computer_resources(void);
 void play_container_break_sound(s32 arg0);
 extern "C" {
-s32 dispatch_fish_event__6TLobbyFPv(void *a0);
 void *__nw__7TObjectFUl(int);
 extern ChipParam_8018860C lbl_80444E5C;
 extern ChipParam_8018860C lbl_80444EA8;

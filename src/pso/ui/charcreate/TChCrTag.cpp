@@ -62,7 +62,7 @@ void update_fade__8TChCrTagFPv(TChCrTag *tag) {
         tag->m_24 = tag->m_24 + tag->m_2c;
         if (tag->m_24 <= 0.0f) {
             tag->m_24 = 0.0f;
-            queue_destruction__7TObjectFv(tag);
+            ((TObject *)tag)->queue_destruction();
         }
         break;
     }

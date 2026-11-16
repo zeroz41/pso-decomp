@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TLobby_801E43E4.h"
+#include "pso/object/base/TObjChara.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
@@ -10,7 +11,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
-extern "C" void render__10TNpcPlayerFv();
 #include "pso/object/collision/TObjFogCollisionPoison.h"
 
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -394,15 +394,12 @@ struct Line_8014E488 { Vec_8014E3B0 p; Vec_8014E3B0 d; };
 
 s16 get_actor_tp(u8 *p);
 s16 obj_getS16_2BA(u8 *p);
-s16 get_actor_hp__9TObjCharaFv(u8 *p);
-int get_player_data__10TObjPlayerFi(int a0);
 s32 get_entity_id(void *obj);
 f32 fabs_float(f32);
 f64 atan2_float(int, f32, f32, f32);
 s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
 void * __ct__12TPlyCharDataFv(void *self);
 u8 * csnVector(s32, s32, s32);
-s32 is_alive__8TObjBaseFv(void *);
 s32 find_active_entity_by_id(void *);
 f32 horizontal_distance_squared(void *, void *);
 void *mem_alloc(u32 size);
@@ -421,7 +418,6 @@ s32 check_and_set_reached__10TNpcPlayerFPv(void *arg0);
 s32 needs_movement__10TNpcPlayerFPvPvi(u8 *arg0, void * _w1, int _w2);
 void select_path_waypoint__10TNpcPlayerFv(Self_801501A0 *self);
 s32 select_recovery_action__10TNpcPlayerFv(Npc_801510F8 *self, s32 arg1);
-void run_task__10TNpcPlayerFv(u8 *arg0);
 Npc_80152168 * TNpcPlayer__ct(Npc_80152168 *self, s32 a, s32 b, s16 kind, s32 arg4, void *parent);
 Npc_80152330 * construct_partner__10TNpcPlayerFPviisPv(Npc_80152330 *self, s32 a, s32 b, s16 kind, void *parent);
 void set_technique_seed_level(Obj_801528A8 *self, s16 i, u8 v);
@@ -519,7 +515,6 @@ const char *TNpcPlayer__name = "TNpcPlayer";
 // of this file, which no compiler-generated __sinit reproduces.
 void __sinit_TNpcPlayer_cpp();
 __declspec(section ".ctors") static void *const npc_player_global_initializer = (void *)__sinit_TNpcPlayer_cpp;
-extern "C" void render_shadows__7TObjectFv();
 extern void *lbl_804AC690[35];
 extern void *lbl_804AC71C[35];
 extern void *lbl_804AC7A8[35];
@@ -3132,7 +3127,7 @@ s32 partner_view_update_conditions(u8 *arg0) {
     s32 temp_r3;
     s32 var_r31;
     var_r31 = 0;
-    temp_f31 = (f32) get_actor_hp__9TObjCharaFv(*(u8 **)((s8 *)arg0 + 0x94));
+    temp_f31 = (f32) ((TObjChara *)(*(u8 **)((s8 *)arg0 + 0x94)))->get_actor_hp();
     temp_f1 = temp_f31 / (f32) ((TItemProShield *)(*(u8 **)((s8 *)arg0 + 0x94)))->get_field_2b8();
     if (*(s32 *)((s8 *)arg0 + 0x8C) & 2) {
         if (temp_f1 <= 0.25f) {
@@ -3174,7 +3169,7 @@ s32 partner_view_update_hp_change(void *arg0) {
     s16 temp_r31;
     s16 temp_r3;
     s16 temp_r4;
-    temp_r31 = get_actor_hp__9TObjCharaFv((u8 *)(*(s32 *)((s8 *)arg0 + 0x94)));
+    temp_r31 = ((TObjChara *)(*(s32 *)((s8 *)arg0 + 0x94)))->get_actor_hp();
     temp_r3 = ((TItemProShield *)(*(s32 *)((s8 *)arg0 + 0x94)))->get_field_2b8();
     if (*(s16 *)((s8 *)arg0 + 0x88) <= 0) {
         *(s16 *)((s8 *)arg0 + 0x88) = temp_r31;
@@ -3298,7 +3293,7 @@ s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(View_8014F57C *view, void *pos, f32 
     i = TLobby::get_game_mode();
     range = range * range;
     for (; i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count(); i++) {
-        actor = (Actor_8014F57C *)get_player_data__10TObjPlayerFi(i);
+        actor = (Actor_8014F57C *)TObjPlayer::get_player_data(i);
         if (is_active__12TTecReverserFv(actor) == 0 || !(actor->flags30 & 0x20000000)) {
             continue;
         }
@@ -3340,7 +3335,7 @@ s32 find_parts_in_range__10TNpcPlayerFPvPvif(View_8014F424 *view, void *pos, s32
         view->c[j].dist = 0.0f;
     }
     actor = find_entity_by_id(id);
-    if (is_alive__8TObjBaseFv(actor) != 0) {
+    if (((TObjBase *)actor)->is_alive() != 0) {
         range = range * range;
         for (i = 0; i < actor->ncols; i++) {
             if (actor->cols == 0) {
@@ -3412,7 +3407,7 @@ s32 partner_probe_obstacles(View_8014F140 *view) {
     VecCopy__FP3VecPC3Vec(probe->pos38, (int)(*(s32 *)((s8 *)view + 0x94) + 0x38));
     view->probe->field_0x60 = view->field_0x98;
     for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count() + ((s32 (*)(void))get_registered_object_count)(); i++) {
-        actor = (Actor_8014F140 *)get_player_data__10TObjPlayerFi(i);
+        actor = (Actor_8014F140 *)TObjPlayer::get_player_data(i);
         if ((actor != NULL) && !(actor->flags30 & 0x80000000)) {
             contact = (Contact_8014F140 *)((TObjCollidable *)((u8 *)view->probe))->find_actor_body_contact((u8 *)actor, 10000.0f);
             if (contact != NULL) {

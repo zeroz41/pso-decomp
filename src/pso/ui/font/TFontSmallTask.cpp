@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"
@@ -329,7 +330,6 @@ extern "C" {
 void call_funcs_reverse__6TLobbyFPvUi(Ent_800FD6A0 *arr, u32 size);
 s32 is_area_transfer_pending(void);
 s32 run_load_callback_table(Ent_800FD6F8 *p, u32 size);
-int get_player_data__10TObjPlayerFi(int a0);
 u16 get_entity_id();
 s32 get_actor_section_id__15TPlyPhotonChairFv(void *);
 void find_leader_section_id(struct Out_800FD614 *out, s32 arg1);
@@ -382,7 +382,7 @@ void find_leader_section_id(struct Out_800FD614 *out, s32 arg1) {
     VObj_800FD614 *p;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
-        p = (VObj_800FD614 *)get_player_data__10TObjPlayerFi(i);
+        p = (VObj_800FD614 *)TObjPlayer::get_player_data(i);
         if (p != NULL && arg1 == get_entity_id()) {
             out->a = p->m14();
             out->b = get_actor_section_id__15TPlyPhotonChairFv(p);

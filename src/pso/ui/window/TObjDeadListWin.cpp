@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/TObjDeadListWin.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -13,7 +14,6 @@ s32 TWindowCtrlMain__sub_8024CE58();
 char* strncpy(char*, const char*, int);
 char* strcat(char*, const char*);
 void* get_window_layout_position(s32);
-void append_line__14TWindowMessageFii(u32, void*, s32);
 u32 create__14TWindowMessageFPvll(void*, void*, s32);
 extern s32 local_client_id;
 extern const char TObjDeadListWin_class_name[] = "TObjDeadListWin";
@@ -38,7 +38,7 @@ void TObjDeadListWin::build_dead_list_window() {
             }
             i += 1;
         } while (i < 4);
-        append_line__14TWindowMessageFii(m_window_handle, text, 2);
+        ((TWindowMessage *)m_window_handle)->append_line((int)text, (int)2);
     }
 }
 

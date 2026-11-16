@@ -409,7 +409,6 @@ s32 approach_angle_limited(s32, s32, s32);
 f32 random_ratio__9TObjCharaFv();
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 void select_enemy_destination(void *, void *, s32);
-void enemy_turn_toward_dest__9TObjEnemyFl(void *, s32);
 f32 horizontal_distance_squared(void *, void *);
 void vec3_add_to(void *, void *);
 void rotate_vector_by_matrix(int, void *, void *);
@@ -657,7 +656,7 @@ void TObjNpcBase::update_wandering() {
     case 1: {
         u8 *o;
         f32 r;
-        enemy_turn_toward_dest__9TObjEnemyFl(arg0, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8));
+        ((TObjEnemy *)arg0)->enemy_turn_toward_dest(*(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8));
         enemy_set_heading_velocity(*(f32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 4), (TObjEnemy *)arg0, this->rotation_y);
         move_with_wall_slide(arg0);
         if (((TObjMotion *)arg0)->is_passing_frame(1.0f) != 0 || ((TObjMotion *)arg0)->is_passing_frame(15.0f) != 0) {

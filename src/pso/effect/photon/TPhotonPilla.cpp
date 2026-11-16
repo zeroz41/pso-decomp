@@ -80,7 +80,6 @@ extern const Packet_801ADD10 photon_pilla_laser_packet = {
 extern void *photon_pilla_laser_offset_table[];
 
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-s32 spawn_photon_blast_attachment_effects__13TUnk_804C3248Fl(void *, s32);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void *find_entity_by_id(u16 id);
 u32 get_entity_id();
@@ -174,7 +173,7 @@ void TPhotonPilla::run_task() {
         begin_photon_summon_camera(4);
         *(s32 *)((s8 *)this + 0x1A8) = 0;
         this->set_field_b8(0);
-        spawn_photon_blast_attachment_effects__13TUnk_804C3248Fl(this, 3);
+        spawn_photon_blast_attachment_effects(3);
     }
     this->m_198 = (s16) this->requested_action;
     update_state();
@@ -225,7 +224,6 @@ struct Vec_801AE1F8 { f32 x, y, z; };
 extern "C" {
 void *find_entity_by_id(u16 id);
 s32 init_collision_body_parts(void *, void *, int);
-s32 spawn_photon_blast_attachment_effects__13TUnk_804C3248Fl(void *, s32);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void sub_801ADC7C__12TPhotonPillaFv(void *, u8);
 u8 *TPhotonRainbow__ct(void *, void *, void *, s32);
@@ -337,7 +335,7 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
             TPhotonMagicSquare__ct((u8 *)mem, (s32)photon_rainbow, 3, (s32)&pos, 0xAA, 0.5f);
         }
         }
-        spawn_photon_blast_attachment_effects__13TUnk_804C3248Fl(photon_rainbow, 3);
+        ((TUnk_804C3248 *)photon_rainbow)->spawn_photon_blast_attachment_effects(3);
         play_cue_stream_file((s32)"paila2.adx");
     } else {
         spawn_photon_blast_opening_effects(3, ((TPhotonPilla *)photon_rainbow)->m_17c);

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/TJudgmentSequence.h"
 #include "pso/system/task/TObject.h"
@@ -69,7 +70,6 @@ void *__nw__7TObjectFUl(u32);
 void *__ct__23TShopJudgmentItemWindowFPvPvPv(TShopJudgmentItemWindow *arg0, void *arg1, void *arg2, void *arg3);
 extern void *tl_05;
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 sub_80223A48__15TShopWindowBaseFv(void *);
 s32 close_window__13TShopSequenceFv(void *);
 int restore_player_state__13TShopSequenceFv(void*);
 
@@ -94,7 +94,7 @@ void TJudgmentSequence__sub_80215BF8(void *shop_window_base) {
 }
 
 void TJudgmentSequence::handle_close_input() {
-    if ((this->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(this) != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+    if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
         close_window__13TShopSequenceFv(this);
         queue_destruction();
     }
@@ -112,7 +112,7 @@ void TJudgmentSequence::open_judgment_window() {
 }
 
 void TJudgmentSequence::handle_confirm() {
-    if ((this->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(this) != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+    if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
         set_field_20((s32)((void*)(3)));
     }
 }

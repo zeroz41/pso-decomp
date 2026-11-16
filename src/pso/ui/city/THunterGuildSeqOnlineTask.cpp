@@ -52,7 +52,6 @@ extern u32 TQuestListOnline__download_window;
 extern u32 TQuestListOnline__quest_info_window;
 extern void *TQuestListOnline__download_barrier_window;
 void TKeyBoardControl__sub_8000F950();
-s32 is_flag_set__6TLobbyFv();
 void *get_player_by_client_id(s32);
 void TQuestListOnline__sub_802176DC(void *, s32);
 void decompress_quest_buffer__16TQuestListOnlineFl(void *, s32);
@@ -60,7 +59,6 @@ extern s32 local_client_id;
 extern s32 quest_download_active;
 void *TQuestVmDownLoadServer__sub_8006EF6C(s32);
 void send_quest_barrier__9TProtocolFv(s32);
-void append_line__14TWindowMessageFii(void *, void *, s32);
 void *update_window_mode_from_progress__6TLobbyFPv(void *, NJS_POINT2 *);
 void *get_window_layout_position(s32);
 int strncmp(const char *, const char *, u32);
@@ -162,7 +160,7 @@ void TQuestListOnline::handle_quest_ready() {
         q = TQuestListOnline__dat_download_state;
         TQuestListOnline__sub_802176DC(*(void **)(q + 0x38), *(s32 *)(q + 0x34));
         TLobby::set_enemy_mode_flag();
-        r = is_flag_set__6TLobbyFv();
+        r = TLobby::is_flag_set();
         m = 2;
         if (r != 0) {
             m = 4;
@@ -240,7 +238,7 @@ void TLobby::handle_quest_download_chunk() {
         if (TQuestListOnline__download_barrier_window == NULL) {
             NJS_POINT2 pos = download_barrier_window_size;
             TQuestListOnline__download_barrier_window = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0xBE), &pos);
-            append_line__14TWindowMessageFii(TQuestListOnline__download_barrier_window, TQuestVmDownLoadServer__sub_8006EF6C(0x61), 1);
+            ((TWindowMessage *)TQuestListOnline__download_barrier_window)->append_line((int)(TQuestVmDownLoadServer__sub_8006EF6C(0x61)), (int)1);
             ((TWindowBase *)TQuestListOnline__download_barrier_window)->set_depth(36000.0f);
             ((TWindowMessage *)TQuestListOnline__download_barrier_window)->complete_reveal();
         }

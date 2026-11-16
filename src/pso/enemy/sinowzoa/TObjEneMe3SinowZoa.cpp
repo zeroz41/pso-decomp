@@ -85,7 +85,6 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 select_enemy_destination(void *, Vec, int);
 s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);
-s32 enemy_turn_toward_dest__9TObjEnemyFl(void *, s32);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 void create__11TTecRaBartaFPvPvPvPv(void *, void *, void *, s32);
 s32 matrix_mult_vec(int, void *, void *);
@@ -118,7 +117,6 @@ void TObjEneMe3SinowZoa__sub_80318F7C(TObjEneMe3SinowZoa *self, s32);
 void TObjEneMe3SinowZoa__sub_80319748(TObjEneMe3SinowZoa *self, s32 arg1);
 void TObjEneMe3SinowZoa__sub_80319B8C(TObjEneMe3SinowZoa *self, s32 arg1);
 void compose_motion_node_matrix(void *arg0);
-s32 is_main_phase_15__9TObjEneDDFv();
 f64 atan2_float(f32, f32);
 s32 enemy_validate_retained_target(u8 *arg0);
 s32 free_bin_model_request(u32, s32);
@@ -1758,7 +1756,7 @@ void TObjEneMe3SinowZoa::render() {
     sub_8031A454();
     if (this->m_3cc & 2) {
         mode = 0;
-    } else if (is_main_phase_15__9TObjEneDDFv() != 0) {
+    } else if (TObjEneDD::is_main_phase_15() != 0) {
         mode = this->classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, TObjEneMe3SinowZoa__data_805DF2F0);
     } else if (this->update_object_view_visibility(lbl_805DF318, TObjEneMe3SinowZoa__data_805DF2F0) != 0) {
         mode = 1;
@@ -2006,7 +2004,7 @@ void TObjEneMe3SinowZoa__sub_803170F0(TObjEneMe3SinowZoa *self, s32 arg1) {
 inline s32 approach_80316C3C(TObjEneMe3SinowZoa *self) {
     copy_position_if_valid__10TObjPlayerFii(self, *self->body_center());
     self->m_300 += TObjEneMe3SinowZoa__data_805DF308;
-    return enemy_turn_toward_dest__9TObjEnemyFl(self, ((TObjEneMe3SinowZoaMoveParams *)self->movementParameters)->turn);
+    return ((TObjEnemy *)self)->enemy_turn_toward_dest(((TObjEneMe3SinowZoaMoveParams *)self->movementParameters)->turn);
 }
 inline s32 seek_80316C3C(TObjEneMe3SinowZoa *self, Vec *diff) {
     s32 angle;

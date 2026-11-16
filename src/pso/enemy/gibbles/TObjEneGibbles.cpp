@@ -1,4 +1,7 @@
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/render/RenderFadeState.h"
+#include "pso/system/task/TObject.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -138,16 +141,12 @@ s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
 f32 horizontal_distance_squared(int, void *);
 extern u8 *TObjEneGibbles__ai_parameters;
 s32 is_split_screen();
-s32 get_camera_mode__11TCameraCtrlFv();
-s32 update__15RenderFadeStateFv(void *);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
-s32 defer_render__7TObjectFv(void *);
 void render__14TObjEneGibblesFv(TObjEneGibbles *arg0);
 f32 subtract_vector(void *, void *);
 s32 check_path_obstructed(void *, void *);
 u8 * get_player_data__10TObjPlayerFi(s32);
-s32 obj_testFlags30__14TObjCollidableFUl(void *, int);
 u16 get_entity_id(void *);
 s32 is_valid_and_active__10TObjPlayerFUl();
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
@@ -324,7 +323,6 @@ void free_bin_model_request(void*, int);
 void TCameraCtrl__sub_8006A044(s32, f32);
 s32 *csnVecterUnder(s32 origin, s32 mask);
 s32 rotate_xz_pair_by_angle(f32 *, f32 *, s32, f32);
-s32 test_action_mask__10TObjPlayerFl(void *, int);
 void TObjPlayer__sub_800D93C4(s32 point, s32 delay);
 void * __ct__11TObjControlFP7TObject(void *, void *);
 s32 angle_diff_s16(s32, s32);
@@ -335,7 +333,6 @@ void TObjEneGibbles__sub_802D7E3C(void);
 void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *arg0, s32 arg1, s32 arg2);
 void TObjEneGibbles__sub_802D8034(void);
 void vfunc_63__14TObjEneGibblesFv(void *arg0);
-void sub_802D8580__14TObjEneGibblesFv(TObjEneGibbles *self);
 void vfunc_61__14TObjEneGibblesFv(void *arg0);
 s32 test_flag_256__14TObjEneGibblesFv(u8 *arg0);
 struct Gib_802D9110;
@@ -1143,7 +1140,7 @@ int TObjEneGibbles::test_flag_256() {
             if (pl != NULL && !(((TObjPlayer *)pl)->actorFlags & 0x800)
                 && calc_distance_to_client__10TObjPlayerFlUsUl(arg0, i, &v) < 900.0f
                 && angle_difference_abs(this->rotation_y, (s32) (10430.38043493439 * atan2_float(v.x, v.z))) < 0x2AAA
-                && test_action_mask__10TObjPlayerFl(pl, 0xE0) != 0) {
+                && ((TObjPlayer *)pl)->test_action_mask(0xE0) != 0) {
                 VecCopy((Vec *)((Vec_800A6B14 *) &v), (const Vec *)((Vec_800A6B14 *) (arg0 + 0x2FC)));
                 subtract_vector(&v, pl + 0x2FC);
                 if (angle_difference_abs(((TObjPlayer *)pl)->rotation_y, (s32) (10430.38043493439 * atan2_float(v.x, v.z))) < 0x2AAA) {
@@ -2179,7 +2176,7 @@ void update_target__14TObjEneGibblesFPv(Obj_802DAD50 *self) {
     if (self->m17(0x1E) == 0) {
         return;
     }
-    if (obj_testFlags30__14TObjCollidableFUl(self, 0x10) != 0) {
+    if (((TObjCollidable *)self)->obj_testFlags30(0x10) != 0) {
         s32 best_id;
         s32 i;
         u8 *p;
@@ -2319,7 +2316,7 @@ void TObjEneGibbles::render() {
     s32 cam;
     cam = 0;
     if (is_split_screen() != 0) {
-        cam = get_camera_mode__11TCameraCtrlFv();
+        cam = TCameraCtrl::get_camera_mode();
     }
     if (get_current_floor_area() == AREA_TOWER) {
         vis = self->m9(600.0f, 600.0f, 30.0f);
@@ -2327,7 +2324,7 @@ void TObjEneGibbles::render() {
         vis = self->m9(300.0f, 600.0f, 30.0f);
     }
     if (vis != 0) {
-        update__15RenderFadeStateFv(&self->fades[cam]);
+        ((RenderFadeState *)(&self->fades[cam]))->update();
         fade = ((RenderFadeState *)(&self->fades[cam]))->updateFromCamera((const f32*)((u8 *)this + 0x2FC));
         select_actor_lighting((s32)this);
         TObjFish::set_global_param(this->texlist);
@@ -2359,7 +2356,7 @@ void TObjEneGibbles::render() {
                 saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
                 model_render_flags |= 1;
                 self->sub.m6();
-                if (defer_render__7TObjectFv(this) == 0) {
+                if (defer_render() == 0) {
                     ((TObjMotion *)this)->draw();
                 }
                 self->sub.m7();
@@ -2374,7 +2371,7 @@ void TObjEneGibbles::render() {
                 saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
                 saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
                 self->fades[cam].m6();
-                if (defer_render__7TObjectFv(this) == 0) {
+                if (defer_render() == 0) {
                     if (vis == 1) {
                         ((TObjMotion *)this)->draw();
                     } else {
@@ -2435,7 +2432,7 @@ void TObjEneGibbles::run_task() {
             this->sub_802D8984();
             break;
         case 7:
-            sub_802D8580__14TObjEneGibblesFv(this);
+            sub_802D8580();
             break;
         case 8:
             this->update_action_state();

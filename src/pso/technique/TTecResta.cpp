@@ -138,7 +138,6 @@ void *find_entity_by_id(u16 id);
 void deliver_technique_to_party_targets(void *);
 void run_task__9TTecRestaFv(Resta_802399F8 *self);
 s32 is_split_screen(void);
-s32 is_script_controlled__10TObjPlayerFv(void *);
 void *__nw__7TObjectFUl(int);
 }
 u8 *construct_delayed_point_sound(u8 *arg0, u8 *arg1, s16 arg2, s32 arg3, u8 *arg4);
@@ -275,7 +274,7 @@ void TTecResta::vfunc_7(void *arg1_arg) {
     TTecResta *arg0 = this;
     VObj_8023985C *player = (VObj_8023985C *)arg1_arg;
     HitInfo_8023985C h;
-    if (is_script_controlled__10TObjPlayerFv(player) != 0) {
+    if (((TObjPlayer *)player)->is_script_controlled() != 0) {
         return;
     }
     h.type = 6;

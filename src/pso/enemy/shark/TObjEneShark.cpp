@@ -1,4 +1,7 @@
 #include "pso/unk/SampledMotionPoints.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/render/RenderFadeState.h"
+#include "pso/system/task/TObject.h"
 #include "pso/effect/TUnk_80494968.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "types.h"
@@ -189,11 +192,8 @@ extern u32 TObjEneShark__attack_motion_3_trail;
 extern u32 shark_attack4_trail_buffer;
 void vfunc_93__12TObjEneSharkFv(Obj_800ABB38 *o);
 void *__nw__7TObjectFUl(int);
-s32 get_camera_mode__11TCameraCtrlFv();
-s32 update__15RenderFadeStateFv(void *);
 s32 restore_scene_lighting();
 s32 select_actor_lighting(void *);
-s32 defer_render__7TObjectFv(void *);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
@@ -374,7 +374,7 @@ void TObjEneShark::render() {
   mode = 0;
   if (is_split_screen() != 0)
   {
-    mode = get_camera_mode__11TCameraCtrlFv();
+    mode = TCameraCtrl::get_camera_mode();
   }
   res = PSO_VCALL_VObj_18_800ABDD8_m9(arg0, 200.0f, 400.0f, 30.0f);
   if (res == 0)
@@ -385,7 +385,7 @@ void TObjEneShark::render() {
   if (TObjEneDD::check_v2_mode() != 0)
   {
     u8 *f = (u8 *) (&((Owner_800ABDD8 *) arg0)->fades[mode]);
-    update__15RenderFadeStateFv(f);
+    ((RenderFadeState *)f)->update();
     fade = ((RenderFadeState *)f)->updateFromCamera((const f32*)(arg0 + 0x2FC));
   }
   select_actor_lighting(arg0);
@@ -438,7 +438,7 @@ void TObjEneShark::render() {
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         ((VObj_14_800ABDD8 *) (arg0 + 0x3A8))->m6();
-        if (defer_render__7TObjectFv(arg0) == 0)
+        if (((TObject *)arg0)->defer_render() == 0)
         {
           model_render_flags |= 1;
           ((TObjMotion *)arg0)->draw();
@@ -458,7 +458,7 @@ void TObjEneShark::render() {
       }
       if (fade != 0)
       {
-        if (defer_render__7TObjectFv(arg0) == 0)
+        if (((TObject *)arg0)->defer_render() == 0)
         {
           if (res == 1)
           {
@@ -1000,7 +1000,7 @@ void *TObjEneShark__ct(void *arg0, void *arg1, void *arg2) {
     ((TObjEnemy *)self)->update_prev_position();
     ((TBoss3VoloptHiraisin *)self)->copy_position();
     initialize_enemy_photon_effect(self);
-    self->f2AC = (s32)(182.04445f * (360.0f * random_ratio__9TObjCharaFv((s32)self)));
+    self->f2AC = (s32)(182.04445f * (360.0f * ((TObjChara *)self)->random_ratio()));
     self->f33A = 0xF;
     self->f33C = self->f33A;
     self->f328 = 0;

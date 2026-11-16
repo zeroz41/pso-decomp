@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TUnk_804CF930.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025737C.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -37,7 +38,6 @@ void calc_bar_width__13TUnk_804CF930Fv(struct Bar_80256C00 *bar);
 extern const f32 lbl_805DCE58;
 void step_gauge_bar_width(Gauge_802571B4 *g);
 void draw_status_gauge_bar__13TUnk_804CF930FPvPvff(Gauge_80256E0C *self, void *ctx, Pos_80256E0C *pos, f32 depth, f32 len);
-void *destroy__13TUnk_804CF930Fs(void *arg0, s16 arg1);
 void *TWindowSubStatusDisp__sub_80257298(void *arg0, s16 arg1);
 }
 

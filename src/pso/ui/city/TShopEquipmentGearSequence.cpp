@@ -40,7 +40,6 @@ extern "C" {
 
 s32 close_if_single_screen__13TShopSequenceFv(void *);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 sub_80223A48__15TShopWindowBaseFv(void *);
 s32 close_window__13TShopSequenceFv(void *);
 
 s32 lbl_805D6218;
@@ -73,14 +72,14 @@ void TShopEquipmentGearSequence::enter_quest_list() {
 }
 
 void TShopEquipmentGearSequence::handle_confirm() {
-    if ((this->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(this) != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+    if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
         ((VObj_8021B338*)this)->m4(lbl_805D6218, 1);
         this->set_field_20(lbl_805D621C);
     }
 }
 
 void TShopEquipmentGearSequence::try_close() {
-    if ((this->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(this) != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+    if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
         close_if_single_screen__13TShopSequenceFv(this);
         close_window__13TShopSequenceFv(this);
         queue_destruction__7TObjectFv(this);
@@ -170,7 +169,6 @@ extern void *tl_05;
 u8 *TShopArmorListWindow__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 get_entity_id(s32);
 s32 get_shop_text(s32);
-f32 get_scale__15TShopWindowBaseFv(void *);
 s32 align_menu_entry_positions(void *);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
@@ -209,7 +207,7 @@ void TShopEquipmentGearSequence::update_buy_sell_choice(void *self) {
         ((TWindowSubComCard *)(arg0->win))->calc_window_size();
         align_menu_entry_positions(arg0->win);
         ((TCheckRoomSequence *)(arg0->win))->set_ready_flag();
-        ((TWindowAddition *)(arg0->win))->set_position_xy(get_scale__15TShopWindowBaseFv(arg0), get_scale__15TShopWindowBaseFv(arg0));
+        ((TWindowAddition *)(arg0->win))->set_position_xy(((TShopWindowBase *)arg0)->get_scale(), ((TShopWindowBase *)arg0)->get_scale());
     }
     if (arg0->win != NULL && ((TWindowMenu *)(arg0->win))->is_decided() != 0) {
         r = ((TWindowMenu *)arg0->win)->get_selected_value();

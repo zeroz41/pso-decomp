@@ -1,4 +1,6 @@
 #include "pso/animation/MotionContext.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/system/task/TObject.h"
 #include "pso/boss/derolle/AccelerationCurve.h"
 #include "pso/boss/TUnk_80481B34.h"
 #include "pso/math/FloatRounding.h"
@@ -220,7 +222,6 @@ s32 restore_player_cameras(void);
 s32 activate_camera_mode(s32);
 s32 set_scripted_camera_pose(void *, void *, void *);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
-s32 reset_hp__9TObjEneDDFPUcPUcPUc(void *, int, int, int);
 s32 vec3_add_to(void *, void *);
 extern s32 TBoss1Dragon__part_hp_stats[5];
 
@@ -241,11 +242,9 @@ extern s32 TBoss1Dragon__data_804FE17C[3];
 s32 is_split_screen();
 s32 check_parts_visible__12TBoss1DragonFiPv(s32 arg0, Obj_80021260 *arg1);
 s32 is_sphere_visible__12TBoss1DragonFf(f32 farg0);
-s32 get_camera_mode__11TCameraCtrlFv();
 s32 TBoss1Dragon__sub_8002B108(TBoss1DragonColli *, s32);
 f32 normalize_vector_xz__FP3Vec(void *, f32, f32);
 u8 *find_entity_by_id(s32);
-s32 defer_render__7TObjectFv(void *);
 s32 rotate_matrix_z(s32, s32);
 void subtract_vector(void *, void *);
 s32 translate_matrix(s32, f32, f32, f32);
@@ -274,7 +273,6 @@ f32 vec3_dot(void *, void *);
 
 void play_se_at_pos__12TBoss1DragonFii(s32 arg0, s32 arg1);
 void TBoss1Dragon__sub_80028B28(u8 *arg0);
-s32 set_frames__15ProtectionTimerFl(void *, s32);
 void TBoss1Dragon__sub_80027A80(u8 *arg0, u8 *arg1);
 s32 enemy_set_target_id(void *, u16);
 u8 *TBoss1Dragon__ct(u8 *, void *, void *);
@@ -321,13 +319,10 @@ s32 matrix_mult_vec(int, void *, void *);
 extern u8 identity_matrix[];
 f32 TBoss1Dragon__sub_80027010(TBoss1Dragon *arg0, f32 farg0, f32 farg1, f32 farg2);
 f32 random_ratio__9TObjCharaFv(void);
-f32 rand_range__9TObjEneDDFff(void *, f32, f32);
 
 s32 choose_burrow_ring_destination__12TBoss1DragonFPvPv(TBoss1Dragon *arg0, Vec *arg1);
-int get_player_data__10TObjPlayerFi(int a0);
 u16 get_entity_id(void *);
 void enemy_clear_target__12TObjEneDD_STFUs(void *);
-s32 is_alive__8TObjBaseFv(void *);
 s32 select_forward_target__12TBoss1DragonFPv(u8 *self);
 s32 __dt__7TObjectFv(void *, int);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
@@ -345,9 +340,6 @@ u8 *TObjBoss1MokoHill_SoloM__ct(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3);
 s32 __ct__14SubtractiveRngFv(void *arg0);
 void __ct__17AccelerationCurveFv(AccelerationCurve *curve);
 void __ct__12TObjEneDD_STFP7TObject(void *, void *);
-void initialize_enemy_state__9TObjEneDDFl(void *, s32);
-void init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, s32);
-void invoke_initialization_hook__9TObjEneDDFPv(void *, void *);
 u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
 void __ct__7TObjectFP7TObject(void *, void *);
 void __construct_array(void *, void *, void *, int, int);
@@ -653,7 +645,6 @@ void __ct__13TUnk_804928CCFP7TObjectP8TObjBase(void *);
 s32 update_linked_position__12TObjEneDD_STFf(f32);
 void subtractive_rng_seed(void *, u32);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
-void sub_8002AE64__9TObjEnemyFv(void *);
 }
 void get_dragon_follow_camera_offsets(u8 *arg0, u8 *arg1);
 s32 is_dragon_trail_damaging(u8 *arg0);
@@ -726,7 +717,7 @@ void TBoss1Dragon::render_shadows() {
     var_r31 = 0;
     if (TObjPlayer::check_demo_mode() == 0) {
         if (is_split_screen() != 0) {
-            var_r31 = get_camera_mode__11TCameraCtrlFv();
+            var_r31 = TCameraCtrl::get_camera_mode();
         }
         if ((this->viewFade[var_r31].has_visible_opacity() != 0) && ((((TBoss1Dragon *)((u8 *)this))->heightOffset - ((TBoss1Dragon *)((u8 *)this))->defaultHeightOffset) >= (-5.0f)) && ((s16) ((TBoss1Dragon *)((u8 *)this))->mode != 0x16)) {
             push_matrix();
@@ -764,7 +755,7 @@ void TBoss1Dragon::render() {
         return;
     }
     if (is_split_screen() != 0) {
-        view = get_camera_mode__11TCameraCtrlFv();
+        view = TCameraCtrl::get_camera_mode();
     }
     TBoss1Dragon__data_805D4B0C = 0;
     TBoss1Dragon__data_805D4B14 = (s32) this->m_3e8;
@@ -860,7 +851,7 @@ void TBoss1Dragon::render() {
             }
         }
         if (visible == 0) {
-            if (defer_render__7TObjectFv(((u8 *)this)) != 0) {
+            if (defer_render() != 0) {
                 visible = 0;
             } else {
                 visible = 1;
@@ -2007,7 +1998,7 @@ void TBoss1Dragon::update_death_state(u32 arg1) {
                 ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v, (void *)&lbl_80434EC8);
                 rotate_xz_pair_by_angle(&v.x, &v.z, ((TBoss1Dragon *)((u8 *)this))->rotation_y);
                 vec3_add_to(&v, &((TBoss1Dragon *)((u8 *)this))->position);
-                reset_hp__9TObjEneDDFPUcPUcPUc(((u8 *)this), 0, RES(0x10), 0);
+                reset_hp((u8 *)0, (u8 *)(RES(0x10)), (u8 *)0);
                 switch (isV2Mode__12TBoss1DragonFv()) {
                 case 0:
                     TObjEneDD::emit_effect((void*)((u8 *)this), (int)&v, (int)&eff1);
@@ -2016,7 +2007,7 @@ void TBoss1Dragon::update_death_state(u32 arg1) {
                     ((void (*)(u8 *, void *, u8 *, s32))TBoss1Dragon__sub_800275BC)(((u8 *)this), &v, (u8 *)&eff1, 0);
                     break;
                 }
-                reset_hp__9TObjEneDDFPUcPUcPUc(((u8 *)this), 0, RES(0), 0);
+                reset_hp((u8 *)0, (u8 *)(RES(0)), (u8 *)0);
                 spawn_particle_effect_with_flags(&v, ((TBoss1Dragon *)((u8 *)this))->effectResource->particle_ids[2], 0x40);
             }
             if (((TObjMotion *)((u8 *)this))->is_passing_frame((f32)(88.0f)) != 0) {
@@ -2025,7 +2016,7 @@ void TBoss1Dragon::update_death_state(u32 arg1) {
                 ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v, (void *)&lbl_80434ED4);
                 rotate_xz_pair_by_angle(&v.x, &v.z, ((TBoss1Dragon *)((u8 *)this))->rotation_y);
                 vec3_add_to(&v, &((TBoss1Dragon *)((u8 *)this))->position);
-                reset_hp__9TObjEneDDFPUcPUcPUc(((u8 *)this), 0, RES(0x10), 0);
+                reset_hp((u8 *)0, (u8 *)(RES(0x10)), (u8 *)0);
                 switch (isV2Mode__12TBoss1DragonFv()) {
                 case 0:
                     TObjEneDD::emit_effect((void*)((u8 *)this), (int)&v, (int)&eff2);
@@ -2034,7 +2025,7 @@ void TBoss1Dragon::update_death_state(u32 arg1) {
                     ((void (*)(u8 *, void *, u8 *, s32))TBoss1Dragon__sub_800275BC)(((u8 *)this), &v, (u8 *)&eff2, 0);
                     break;
                 }
-                reset_hp__9TObjEneDDFPUcPUcPUc(((u8 *)this), 0, RES(0), 0);
+                reset_hp((u8 *)0, (u8 *)(RES(0)), (u8 *)0);
                 spawn_particle_effect_with_flags(&v, ((TBoss1Dragon *)((u8 *)this))->effectResource->particle_ids[2], 0x40);
             }
             if (((TObjMotion *)((u8 *)this))->is_passing_frame((f32)(97.0f)) != 0) {
@@ -2639,9 +2630,9 @@ void TBoss1Dragon::update_dive_state(u32 arg1) {
             pos.x = (20.0f) * sn + ((TBoss1Dragon *)((u8 *)this))->targetX;
             pos.y = ((TBoss1Dragon *)((u8 *)this))->targetY;
             pos.z = (20.0f) * cs + ((TBoss1Dragon *)((u8 *)this))->targetZ;
-            s = rand_range__9TObjEneDDFff(((u8 *)this), (2.0f), (0.5f));
+            s = rand_range((2.0f), (0.5f));
             vel.x = sn * s;
-            vel.y = rand_range__9TObjEneDDFff(((u8 *)this), 10.0f, (4.0f));
+            vel.y = rand_range(10.0f, (4.0f));
             vel.z = cs * s;
             mem = (u8 *)new TObjBoss1Rock((TObject *)(void *)tl_05, &pos, &vel);
             ((TBoss1Dragon *)((u8 *)this))->heightOffset = ((TBoss1Dragon *)((u8 *)this))->heightOffset + ((TBoss1Dragon *)((u8 *)this))->m_888;
@@ -3061,7 +3052,7 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
                 found = 0;
                 if ((self->m_86c & 1) == 0) {
                     TObjPlayer *player = (TObjPlayer *)get_player_by_client_id((u16)((self->m_86c >> 1) % 4));
-                    if (is_alive__8TObjBaseFv(player) != 0) {
+                    if (((TObjBase *)player)->is_alive() != 0) {
                         VecCopy__FP3VecPC3Vec((s32)&position, (s32)&player->position);
                         position.x += (100.0f) *
                             (calc_random_ratio__10TObjPlayerFv(self->randomState) - (0.5f));
@@ -3140,7 +3131,7 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
         break;
     case ENEMY_STATE_LEAVE:
         self->rotation_x = 0;
-        sub_8002AE64__9TObjEnemyFv(self);
+        ((TObjEnemy *)self)->sub_8002AE64();
         self->m_654 = 0;
         break;
     }
@@ -4109,7 +4100,7 @@ void TBoss1Dragon::hold_captured_player() {
         temp_r3b = ((TObjPlayer *)temp_r3)->get_floor();
         if (temp_r3b == temp_r31) {
             ((TObjPlayer *)temp_r3)->start_freeze();
-            set_frames__15ProtectionTimerFl(temp_r3 + 0x644, 0x14);
+            ((ProtectionTimer *)(temp_r3 + 0x644))->set_frames(0x14);
             ((TObjPlayer *)temp_r3)->actorFlags = (s32) (((TObjPlayer *)temp_r3)->actorFlags & 0xFFEFFFDF);
             VecCopy__FP3VecPC3Vec((s32)(temp_r3 + 0x38), (s32)&this->position);
             *(f32 *)((s8 *)temp_r3 + 0x3C) = (f32) (*(f32 *)((s8 *)temp_r3 + 0x3C) - 200.0f);
@@ -4278,7 +4269,7 @@ void TBoss1Dragon::sweep_death_body_attack() {
     Params_800278A8 params;
     s32 i;
     s32 off;
-    reset_hp__9TObjEneDDFPUcPUcPUc(this, 0, *(s32 *)((s8 *)&TBoss1Dragon__part_hp_stats + 0x10), 0);
+    reset_hp((u8 *)0, (u8 *)(*(s32 *)((s8 *)&TBoss1Dragon__part_hp_stats + 0x10)), (u8 *)0);
     fill_value_array((s32)this->m_688);
     TBoss1Dragon__sub_80027A80((u8 *)&params, (u8 *)&TBoss1Dragon__head_fall_effect_params);
     VecCopy__FP3VecPC3Vec((s32)&pos, (s32)&this->m_430[12]);
@@ -4319,7 +4310,7 @@ void TBoss1Dragon::sweep_death_body_attack() {
             break;
         }
     }
-    reset_hp__9TObjEneDDFPUcPUcPUc(this, 0, *(s32 *)((s8 *)&TBoss1Dragon__part_hp_stats + 0), 0);
+    reset_hp((u8 *)0, (u8 *)(*(s32 *)((s8 *)&TBoss1Dragon__part_hp_stats + 0)), (u8 *)0);
 }
 #pragma pop
 
@@ -4376,7 +4367,7 @@ void sweep_body_attack_spheres__12TBoss1DragonFv(u8 *arg0, f32 a, f32 b, f32 c) 
     pos.x += s0 * d;
     pos.z += s1 * d;
     spawn_particle_effect_with_flags(&pos, ((TBoss1Dragon *)arg0)->effectResource->particle_ids[3], 0x40);
-    reset_hp__9TObjEneDDFPUcPUcPUc(arg0, 0, *(s32 *)((s8 *)&TBoss1Dragon__part_hp_stats + 0x10), 0);
+    ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(*(s32 *)((s8 *)&TBoss1Dragon__part_hp_stats + 0x10)), (u8 *)0);
     c = c - a;
     d = b - a;
     factor = 2.0f;
@@ -4401,7 +4392,7 @@ void sweep_body_attack_spheres__12TBoss1DragonFv(u8 *arg0, f32 a, f32 b, f32 c) 
         draw_chunk_object((void *)lbl_805D28BC);
         pop_matrix();
     }
-    reset_hp__9TObjEneDDFPUcPUcPUc(arg0, 0, TBoss1Dragon__part_hp_stats[0], 0);
+    ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(TBoss1Dragon__part_hp_stats[0]), (u8 *)0);
 }
 
 #pragma pop
@@ -4409,7 +4400,7 @@ void sweep_body_attack_spheres__12TBoss1DragonFv(u8 *arg0, f32 a, f32 b, f32 c) 
 }
 
 void TBoss1Dragon::apply_head_fall_attack() {
-    reset_hp__9TObjEneDDFPUcPUcPUc(this, 0, *(s32 *)((s8 *)&TBoss1Dragon__part_hp_stats + 0x10), 0);
+    reset_hp((u8 *)0, (u8 *)(*(s32 *)((s8 *)&TBoss1Dragon__part_hp_stats + 0x10)), (u8 *)0);
     switch (isV2Mode__12TBoss1DragonFv()) {
     case 0:
         emit_effect_at_position((void *)&TBoss1Dragon__head_fall_effect_params);
@@ -4418,7 +4409,7 @@ void TBoss1Dragon::apply_head_fall_attack() {
         TBoss1Dragon__sub_80027590(this, (void *)&TBoss1Dragon__head_fall_effect_params);
         break;
     }
-    reset_hp__9TObjEneDDFPUcPUcPUc(this, 0, *(s32 *)((s8 *)&TBoss1Dragon__part_hp_stats + 0), 0);
+    reset_hp((u8 *)0, (u8 *)(*(s32 *)((s8 *)&TBoss1Dragon__part_hp_stats + 0)), (u8 *)0);
 }
 
 void apply_landing_attack__12TBoss1DragonFi(s32 arg0) {
@@ -4460,7 +4451,7 @@ int TBoss1Dragon::apply_foot_step_attack(int arg1) {
         a = (u8 *)&this->m_430[3];
         b = (u8 *)&this->m_430[4];
     }
-    reset_hp__9TObjEneDDFPUcPUcPUc(this, 0, TBoss1Dragon__part_hp_stats[0], 0);
+    reset_hp((u8 *)0, (u8 *)(TBoss1Dragon__part_hp_stats[0]), (u8 *)0);
     switch (isV2Mode__12TBoss1DragonFv()) {
     case 0:
         emit_enemy_effect__9TObjEneDDFllPUcl(this, a, (u8 *)&params, (s32)this->m_688);
@@ -4471,7 +4462,7 @@ int TBoss1Dragon::apply_foot_step_attack(int arg1) {
         TBoss1Dragon__sub_800275BC(((u8 *)this), (s32) b, (u8 *)&params, (s32)this->m_688);
         break;
     }
-    reset_hp__9TObjEneDDFPUcPUcPUc(this, 0, TBoss1Dragon__part_hp_stats[0], 0);
+    reset_hp((u8 *)0, (u8 *)(TBoss1Dragon__part_hp_stats[0]), (u8 *)0);
     spawn_particle_effect_with_flags(b, this->effectResource->particle_ids[3], 0x40);
 }
 
@@ -4726,7 +4717,7 @@ void TBoss1Dragon::reload_stats_for_phase(int _w1) {
 
 void TBoss1Dragon::reset_tail_hp() {
     s32 arg0 = (s32)this;
-    reset_hp__9TObjEneDDFPUcPUcPUc((void *)arg0, 0, (int) (*(s32 *)((s8 *)(&(*(RecoveredGlobal_8002885C_TBoss1Dragon__data_804FE168 *)&TBoss1Dragon__part_hp_stats).value) + 4)), 0);
+    ((TObjEneDD *)arg0)->reset_hp((u8 *)0, (u8 *)(*(s32 *)((s8 *)(&(*(RecoveredGlobal_8002885C_TBoss1Dragon__data_804FE168 *)&TBoss1Dragon__part_hp_stats).value) + 4)), (u8 *)0);
 }
 
 void TBoss1Dragon::reload_difficulty_stats() {
@@ -4859,8 +4850,8 @@ s32 select_forward_target__12TBoss1DragonFPv(u8 *self) {
     fwd.y = (0.0f);
     fwd.z = cos_table_lookup(((TBoss1Dragon *)self)->rotation_y);
     for (i = 0; i < count; i++) {
-        p = (u8 *)get_player_data__10TObjPlayerFi(i);
-        if (is_alive__8TObjBaseFv(p) != 0) {
+        p = (u8 *)TObjPlayer::get_player_data(i);
+        if (((TObjBase *)p)->is_alive() != 0) {
             ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&delta, p + 0x38);
             subtract_vector(&delta, self + 0x38);
             ((void (*)(void *))normalize_vector_xz__FP3Vec)(&delta);
@@ -4905,7 +4896,7 @@ s32 choose_burrow_ring_destination__12TBoss1DragonFPvPv(TBoss1Dragon *arg0, Vec 
                 idx = 0;
             }
         }
-        r = rand_range__9TObjEneDDFff(arg0, (100.0f), (220.0f));
+        r = ((TObjEneDD *)arg0)->rand_range((100.0f), (220.0f));
         arg0->m_6a8[idx] = r;
     } else {
         r = arg0->m_6a8[idx];
@@ -5363,7 +5354,7 @@ u8 *TBoss1Dragon__ct(u8 *arg0, void *arg1, void *arg2) {
     if ((u32)TBoss1Dragon__data_805D4B2C == 0U) {
         TBoss1Dragon__data_805D4B2C = (s32)arg0;
     }
-    invoke_initialization_hook__9TObjEneDDFPv(arg0, arg2);
+    ((TObjEneDD *)arg0)->invoke_initialization_hook(arg2);
     ((TBoss1Dragon *)arg0)->flags = 0;
     if (((TObjEnemy *)arg0)->exchange_object_state((s32)sp8, (s16)1) != 0 && (sp8[0] & 0x12008) == 0x12008) {
         ((TBoss1Dragon *)arg0)->flags |= 0x40;
@@ -5371,19 +5362,17 @@ u8 *TBoss1Dragon__ct(u8 *arg0, void *arg1, void *arg2) {
     ((TObjEneDD *)arg0)->init_position_vectors();
     ((TBoss1Dragon *)arg0)->model = ((DragonResource *)TBoss1Dragon__data_805D4B08)->model->root;
     ((TBoss1Dragon *)arg0)->texlist = ((DragonResource *)TBoss1Dragon__data_805D4B08)->model->m_c;
-    init_model__9TObjEneDDFP13CollisionBodyl(arg0, (void *)boss1_dragon_collision_body_parts, 7);
+    ((TObjEneDD *)arg0)->init_model((CollisionBody *)boss1_dragon_collision_body_parts, (s32)7);
     ((TBoss1Dragon *)arg0)->motion_flags = 0;
     ((TObjMotion *)arg0)->set_field_d8((s32)lbl_80481010);
     ((TObjMotion *)arg0)->set_field_dc((s32)((DragonResource *)TBoss1Dragon__data_805D4B08)->motions);
     ((TBoss1Dragon *)arg0)->requested_action = 0;
     ((TObjMotion *)arg0)->set_animation(((TBoss1Dragon *)arg0)->requested_action);
     ((TObjMotion *)arg0)->set_field_b8(((TBoss1Dragon *)arg0)->requested_action);
-    reset_hp__9TObjEneDDFPUcPUcPUc(arg0, (&TBoss1Dragon__data_805D4B00)[boss1_dragon_base_stat_indices[0]],
-                            ((s32 *)&TBoss1Dragon__part_hp_stats)[boss1_dragon_attack_stat_indices[0]],
-                            (&TBoss1Dragon__data_805D4B04)[boss1_dragon_resistance_stat_indices[0]]);
+    ((TObjEneDD *)arg0)->reset_hp((u8 *)((&TBoss1Dragon__data_805D4B00)[boss1_dragon_base_stat_indices[0]]), (u8 *)(((s32 *)&TBoss1Dragon__part_hp_stats)[boss1_dragon_attack_stat_indices[0]]), (u8 *)((&TBoss1Dragon__data_805D4B04)[boss1_dragon_resistance_stat_indices[0]]));
     ((TObjEneDD *)arg0)->check_state_flag_1();
     ((TBoss1Dragon *)arg0)->movementParameters = boss1_dragon_init_params;
-    initialize_enemy_state__9TObjEneDDFl(arg0, 0x2C);
+    ((TObjEneDD *)arg0)->initialize_enemy_state(0x2C);
     ((TBoss1Dragon *)arg0)->m_37c = (20.0f);
     ((TObjEneDD_ST *)arg0)->enemy_init_acquire_period(10);
     ((TObjEneDD_ST *)arg0)->enemy_init_validate_period(10);

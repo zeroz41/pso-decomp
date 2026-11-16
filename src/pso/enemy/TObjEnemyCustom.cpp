@@ -186,7 +186,7 @@ void TObjEnemyCustom::update() {
         actorFlags |= 0x200000;
         state = 1;
     case 1:
-        enemy_turn_toward_dest__9TObjEnemyFl(this, ((EnemyMoveParams *)movementParameters)->turn_speed);
+        enemy_turn_toward_dest(((EnemyMoveParams *)movementParameters)->turn_speed);
         advance_animation();
         if (is_passing_frame(10.0f) != 0) {
             if (((TObjEnemyCustomVictim *)target)->select_melee_contact_body(this, 1.0f) != 0) {

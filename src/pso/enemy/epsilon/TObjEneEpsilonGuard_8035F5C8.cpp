@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"
@@ -936,7 +937,7 @@ void TObjEneEpsilonBody::render() {
         }
         if (this->flags & 1) {
             var_r31 = 0;
-        } else if (is_main_phase_15__9TObjEneDDFv() != 0) {
+        } else if (TObjEneDD::is_main_phase_15() != 0) {
             var_r31 = classify_actor_view_detail(650.0f, 650.0f, 30.0f);
         } else if (update_object_view_visibility(600.0f, 30.0f) != 0) {
             var_r31 = 1;

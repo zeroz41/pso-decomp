@@ -106,7 +106,6 @@ int TWindowTimer__sub_8019A770(void*);
 f32 xyz_distance(Vec_80199674*,void*);
 f32 vector_length(Vec_8019978C*);
 void normalize_vector(Vec_8019978C*);
-s32 reflect_velocity_off_collision__13TUnk_804B8E18FPvPv(Obj_8019978C*,Vec_8019978C*,Vec_8019978C*);
 }
 void draw_shadow_on_ground(u8*);
 extern void* lbl_804B8D94[];
@@ -304,7 +303,6 @@ Hit_8019978C *csnVector(Vec_8019978C *, Vec_8019978C *, s32);
 f32 vec3_dot(Vec_8019978C *, Vec_8019978C *);
 f32 vector_length(Vec_8019978C *);
 void normalize_vector(Vec_8019978C *);
-s32 reflect_velocity_off_collision__13TUnk_804B8E18FPvPv(Obj_8019978C *o, Vec_8019978C *p, Vec_8019978C *v);
 struct Vec_80199A44 { f32 x, y, z; };
 struct Glob_80199A44 { u8 pad[0x1C]; f32 scale; u8 pad20[0x28]; u16 kind; };
 s32 get_bml_model(void *, s32);

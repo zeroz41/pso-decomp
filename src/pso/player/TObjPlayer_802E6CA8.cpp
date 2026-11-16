@@ -119,7 +119,6 @@ s32 scale_current_matrix(Vec_802E708C *);
 extern Col_802E708C lbl_80472C80;
 extern Vec_802E708C lbl_80472C90;
 extern const f32 lbl_805DE9F8;
-void sub_802E7640__13TUnk_804E3BC0Fv(void *);
 extern s32 lbl_80472C68[6];
 extern s32 lbl_804E3BC0[];
 Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *arg0, s32 arg1, Vec_802E72DC *arg2, s32 arg3);
@@ -130,7 +129,6 @@ void *__dt__13TUnk_804E3BC0Fv(void *arg0, s16 arg1);
 void TObjPlayer__sub_802E746C(void);
 void TObjPlayer__sub_802E7470(void);
 s32 *init_from_model__11TBreakUpMdlFl(s32 *, s32);
-void sub_802E75B8__13TUnk_804E3BD8FPl(void *, s32 *);
 s32 scale_matrix(int, f32, f32, f32);
 extern const f32 lbl_805DE9E4;
 void __ct__7TObjectFP7TObject(void *);
@@ -252,7 +250,7 @@ void TUnk_804E3BD8::alloc_breakup_model(s32 arg1) {
     *(s32 **)((s8 *)this + 0x1C) = var_r0;
     temp_r4 = *(s32 **)((s8 *)this + 0x1C);
     this->m_24 = (s32) *temp_r4;
-    sub_802E75B8__13TUnk_804E3BD8FPl(this, temp_r4);
+    sub_802E75B8(temp_r4);
     *(s32 *)&(this->unk_28) = (s32)mem_alloc(this->m_24 * 0x2C);
 }
 
@@ -273,7 +271,7 @@ Obj_802E72DC *TObjPlayer__sub_802E72DC(Obj_802E72DC *arg0, s32 arg1, Vec_802E72D
     }
     if (n > 0) {
         ((TUnk_804E3BD8 *)arg0)->alloc_breakup_model((s32)find_model_node((u32)queue_boss_effect__10TObjPlayerFPv(3), n));
-        sub_802E7640__13TUnk_804E3BC0Fv(arg0);
+        ((TUnk_804E3BC0 *)arg0)->sub_802E7640();
         p = arg0->pieces;
         for (i = 0; i < arg0->count; i++, p++) {
             VecCopy((Vec *)&p->pos, (const Vec *)arg2);

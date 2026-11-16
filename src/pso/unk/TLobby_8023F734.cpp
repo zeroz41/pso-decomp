@@ -532,7 +532,7 @@ void TLobby__sub_8023F754(s32 arg0, s32 arg1) {
 
 void set_sound_slot_special_scale(s32 slot, f32 scale) {
     if (slot < 0 || slot >= 32) return;
-    clamp_field9c__6TLobbyFf(&lbl_805162EC[slot], scale);
+    ((TLobby *)(&lbl_805162EC[slot]))->clamp_field9c(scale);
 }
 
 f32 TLobby::get_field_2a4() { return *(f32*)((char*)this + 0x2a4); }
@@ -616,7 +616,7 @@ s32 alloc_looping_sound_slot(u32 id, s32 actor, const void *position, s32 base, 
     }
     return -6;
 found:
-    init_sound_voice__6TLobbyFllll(&lbl_805162EC[i], 0, id >> 16, id & 0xFFFF, flags | 1);
+    ((TLobby *)(&lbl_805162EC[i]))->init_sound_voice(0, id >> 16, id & 0xFFFF, flags | 1);
     lbl_805162EC[i].base = base;
     lbl_805162EC[i].extra = 0;
     lbl_805162EC[i].spatial = 0;
@@ -645,7 +645,7 @@ s32 alloc_one_shot_sound_slot(u32 id, const void *position, s32 base, s32 flags)
     }
     return -6;
 found:
-    init_sound_voice__6TLobbyFllll(&lbl_805162EC[i], 0, id >> 16, id & 0xFFFF, flags);
+    ((TLobby *)(&lbl_805162EC[i]))->init_sound_voice(0, id >> 16, id & 0xFFFF, flags);
     lbl_805162EC[i].base = base;
     lbl_805162EC[i].extra = 0;
     lbl_805162EC[i].spatial = 0;
@@ -939,7 +939,7 @@ s32 init_sound_aux_effects(SoundControlState *self) {
     u32 size;
 
     for (i = 0; i < 40; i++) {
-        set_field0__6TLobbyFPv(&lbl_805162EC[i], self);
+        ((TLobby *)(&lbl_805162EC[i]))->set_field0(self);
     }
     self->tick = OSGetTick();
     self->elapsed = 0;

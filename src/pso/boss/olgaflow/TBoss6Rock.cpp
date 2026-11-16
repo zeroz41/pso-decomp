@@ -231,7 +231,7 @@ void TBoss6Rock::update_fall() {
     if (position.y <= 0.0f) {
         position.y = 0.0f;
         m_cc = 0.0f;
-        sub_803542E8__10TBoss6RockFl(this, 1);
+        sub_803542E8(1);
         sub_80353F5C();
         play_sound_effect(0x4006B51E, &position, 0, 0);
         spawn_particle_effect(&position, 0x220);
@@ -242,7 +242,7 @@ void TBoss6Rock::update_fall() {
 }
 
 void TBoss6Rock::break_and_release() {
-    sub_803542E8__10TBoss6RockFl(this, 0);
+    sub_803542E8(0);
     if (m_bc == 1) {
         m_c8 = 0;
     }

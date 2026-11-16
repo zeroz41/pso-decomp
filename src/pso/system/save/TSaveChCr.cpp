@@ -44,7 +44,6 @@ struct RecoveredGlobal_8033A184_lbl_804EF658 {
 extern TSaveChCrStateActions lbl_804EF658[];
 
 extern "C" {
-int close_and_advance__9TSaveChCrFPv(void*, int);
 extern s32 pso_character_card_filename[];
 extern s32 pso_system_card_filename[];
 extern s32 pso_guildcard_card_filename[];
@@ -66,7 +65,7 @@ extern void *tl_03;
 void TSaveChCr::destroy_if_keyboard_idle() { if (this->timer == 0) { queue_destruction(); request_queued_main_phase(); } }
 void TSaveChCr::sub_80339B94() { close_window(); }
 void TSaveChCr::save_if_dirty() { if (sub_80339F30() != 0) { set_state((s32)((void*)4)); } }
-void TSaveChCr::close_and_advance_to_3() { close_and_advance__9TSaveChCrFPv(this, 3); }
+void TSaveChCr::close_and_advance_to_3() { close_and_advance((void*)3); }
 void TSaveChCr::update_save_status() {
     s32 var_r3;
 
@@ -90,9 +89,9 @@ void TSaveChCr::update_save_status() {
         TKeyBoardControl__sub_8000F9CC(9);
     }
 }
-void TSaveChCr::close_and_advance_step2() { close_and_advance__9TSaveChCrFPv(this, 2); }
+void TSaveChCr::close_and_advance_step2() { close_and_advance((void*)2); }
 void TSaveChCr::sub_80339CE4() {}
-void TSaveChCr::save_1() { close_and_advance__9TSaveChCrFPv(this, 1); }
+void TSaveChCr::save_1() { close_and_advance((void*)1); }
 void TSaveChCr::update_save_state() {
     s32 temp_r4;
 

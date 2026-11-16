@@ -270,7 +270,6 @@ typedef char RecoveredGlobal_800EB4A0___vt__15TObjEneSlimeOne_size[sizeof(Recove
 struct Vec_800E9EFC { f32 x, y, z; };
 
 u16 find_nearest_visible_player(void *, void *, f32);
-void queue_destruction__7TObjectFv(void *);
 f32 * dispatch_shared_handler_a__6TLobbyFl(s32);
 u8 * get_bml_motion(s32, s32);
 s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
@@ -280,7 +279,6 @@ S_800E80E8 * TObjPlayer__sub_800E80E8(S_800E80E8 *dst, S_800E80E8 *src);
 void TObjPlayer__sub_800E8128(void);
 void TObjPlayer__sub_800E81A8(void);
 void render__22TObjEneSlimeTailAttackFv(u8 *arg0);
-s32 sub_800E85BC__22TObjEneSlimeTailAttackFv(TObjEneSlimeTailAttack *self);
 void run_task__22TObjEneSlimeTailAttackFv(u8 *arg0);
 void * create__22TObjEneSlimeTailAttackFiiii(s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 void * dt__22TObjEneSlimeTailAttackFPvs(void *arg0, s16 arg1);
@@ -2065,7 +2063,7 @@ void run_task__21TObjEneSlimeWaterBombFv(Bomb_800E8D4C *arg0) {
     {
         if ((arg0->life += 0.6f) >= 200.0f || die != 0) {
             spawn_particle_effect(&arg0->pos, 0xE2);
-            ((s32 (*)(void *))queue_destruction__7TObjectFv)(arg0);
+            ((TObject *)arg0)->queue_destruction();
         }
     }
 }
@@ -2183,7 +2181,7 @@ void *create__22TObjEneSlimeTailAttackFiiii(s32 arg1, s32 arg2, s32 arg3, s32 ar
 }
 void TObjEneSlimeTailAttack::run_task() {
     if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x378) != 0) {
-        sub_800E85BC__22TObjEneSlimeTailAttackFv(this);
+        sub_800E85BC();
         advance_animation();
         if (this->motion_flags & 0x10) {
             queue_destruction();

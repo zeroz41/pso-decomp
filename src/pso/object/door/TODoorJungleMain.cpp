@@ -75,7 +75,6 @@ extern "C" u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, s32 arg2);
 
 extern "C" {
 
-s32 update_object_view_visibility__16TODoorJungleMainFff(s32 arg0, f32 farg0, f32 farg1);
 
 f32 xz_distance_squared(s32, s32);
 

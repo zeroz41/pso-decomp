@@ -89,7 +89,6 @@ extern "C" {
 u32 calc_text_width(char *s);
 u32 TWindowSubStatusDisp__sub_80144E9C(char *s);
 void draw_menu_font_string(const char *s, s32 arg1, u32 flags, f32 x, f32 y, f32 scale);
-int get_player__20TWindowSubStatusDispFv(void*);
 
 char *parse_text_control_codes(char *p, s32 *a, s32 *b) {
     while (*p == '\t') {

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
 #include "pso/player/TPlyGuildCardTag_8007B434.h"
@@ -107,7 +108,6 @@ struct T_80217B30 { u8 pad[0x38]; s32 f38; };
 extern "C" {
 s32 get_entity_id(int);
 int set_field_20__15TShopWindowBaseFl(void*, int);
-s32 append_line__14TWindowMessageFii(int, void *, int);
 u32 create__14TWindowMessageFlPCfUll(int, void *, int, int);
 s32 get_window_layout_position(int);
 u32 create__14TWindowMessageFPvll(s32, void *, int);
@@ -235,9 +235,9 @@ void TQuestListOnline::build_list_window() {
         if (description_window == 0U) {
             WindowSize size = online_description_window_size;
             description_window = create__14TWindowMessageFPvll(get_window_layout_position(0x2D), &size, 1);
-            append_line__14TWindowMessageFii(description_window, TQuestListOnline__quest_list_buffer + 0x2C, 0x80);
+            ((TWindowMessage *)description_window)->append_line((int)(TQuestListOnline__quest_list_buffer + 0x2C), (int)0x80);
         } else {
-            append_line__14TWindowMessageFii(description_window, TQuestListOnline__quest_list_buffer + 0x2C, 0x80);
+            ((TWindowMessage *)description_window)->append_line((int)(TQuestListOnline__quest_list_buffer + 0x2C), (int)0x80);
         }
         selected_index = 0;
         set_field_20(3);
@@ -256,7 +256,7 @@ void TQuestListOnline::show_info_window() {
         }
     }
     if (TQuestListOnline__selected_quest_info != NULL) {
-        append_line__14TWindowMessageFii(info_window, TQuestListOnline__selected_quest_info + 4, 0x80);
+        ((TWindowMessage *)info_window)->append_line((int)(TQuestListOnline__selected_quest_info + 4), (int)0x80);
     }
     this->set_field_20(3);
 }
@@ -268,7 +268,7 @@ void TQuestListOnline::handle_list_selection() {
     if (list_window != 0) {
         s32 sel = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
         if (description_window != 0 && sel != selected_index) {
-            append_line__14TWindowMessageFii(description_window, QL_80217C1C->ents[sel].name, 0x80);
+            ((TWindowMessage *)description_window)->append_line((int)(QL_80217C1C->ents[sel].name), (int)0x80);
         }
         if (info_window != 0 && sel != selected_index) {
             ((TWindowBase *)info_window)->close();

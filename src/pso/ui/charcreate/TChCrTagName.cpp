@@ -13,14 +13,11 @@ extern void *__vt__12TChCrTagName[];
 __declspec(section ".rodata") extern const char TChCrTagName__class_name_string[] = "TChCrTagName";
 const char *TChCrTagName__class_name = TChCrTagName__class_name_string;
 f32 cos_table_lookup(s32);
-f32 calc_highlight_scale__12TChCrTagNameFv(TChCrTagName *tag);
 extern vec2f lbl_80466408[];
-void draw_tag_sprite__12TChCrTagNameFv(TChCrTagName *tag);
 extern vec2f lbl_80466410[];
 extern vec2f lbl_80466418[];
 extern vec2f lbl_80466420[];
 extern vec2f lbl_80466428[];
-void sub_802A226C__12TChCrTagNameFv(TChCrTagName *tag);
 f32 sin_table_lookup(s32);
 extern vec2f lbl_80466430[];
 
@@ -42,7 +39,7 @@ void TChCrTagName::draw_tag_sprites() {
     } else {
         return;
     }
-    s = calc_highlight_scale__12TChCrTagNameFv(this);
+    s = calc_highlight_scale();
     if (this->vt4() != 0) {
         depth = (-1.8125f);
     } else {
@@ -78,7 +75,7 @@ void TChCrTagName::sub_802A226C() {
     if (this->m_24 < this->m_40) {
         t = (this->m_24 - this->m_3c) / (this->m_40 - this->m_3c);
     }
-    s = calc_highlight_scale__12TChCrTagNameFv(this);
+    s = calc_highlight_scale();
     if (this->vt4() != 0) {
         depth = (-2.125f);
     } else {
@@ -131,7 +128,7 @@ void TChCrTagName::draw_tag_sprite() {
     if (this->m_24 < this->m_40) {
         t = (this->m_24 - this->m_3c) / (this->m_40 - this->m_3c);
     }
-    s = calc_highlight_scale__12TChCrTagNameFv(this);
+    s = calc_highlight_scale();
     if (this->vt4() != 0) {
         depth = (-2.4375f);
     } else {
@@ -151,9 +148,9 @@ __declspec(section ".rodata") vec2f lbl_80466428[1] = {{1.0f, 3.75f}};
 __declspec(section ".rodata") vec2f lbl_80466430[1] = {{1.0f, 1.0f}};
 
 void render__12TChCrTagNameFv(TChCrTagName *tag) {
-    draw_tag_sprite__12TChCrTagNameFv(tag);
-    sub_802A226C__12TChCrTagNameFv(tag);
-    draw_tag_sprites__12TChCrTagNameFv(tag);
+    ((TChCrTagName *)tag)->draw_tag_sprite();
+    ((TChCrTagName *)tag)->sub_802A226C();
+    ((TChCrTagName *)tag)->draw_tag_sprites();
 }
 
 #pragma push
@@ -200,7 +197,7 @@ void TChCrTagName::update_slide_in() {
 
 void run_task__12TChCrTagNameFv(TChCrTagName *tag) {
     update_fade__8TChCrTagFPv(tag);
-    update_slide_in__12TChCrTagNameFv(tag);
+    ((TChCrTagName *)tag)->update_slide_in();
     tag->m_44 = tag->m_44 + 1;
 }
 
@@ -233,7 +230,7 @@ TChCrTagName::TChCrTagName(TObject *parent, void *arg) : TChCrTag(parent, arg) {
     m_38 = (-0.06666667f);
     m_3c = (0.0f);
     m_40 = 0.8f - 0.053333335f * (f32)(0xC - m_20);
-    update_slide_in__12TChCrTagNameFv(this);
+    update_slide_in();
     m_44 = 0;
 }
 

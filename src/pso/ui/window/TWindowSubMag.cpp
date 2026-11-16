@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/MagStats.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -88,12 +89,10 @@ s32 align_menu_entry_positions(void *);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 *get_shared_text_buffer(void);
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
-s32 deserialize_mag__9TItemDataFPvPv(s32, s32 *);
 s32 calc_text_width();
 s32 text_builder_append();
 s32 set_depth__11TWindowBaseFf(void *);
 s32 TWindowSubEquip__sub_80263AF8(s32, s32);
-s32 append_line__14TWindowMessageFii(s32, s32 *, s32);
 void *create__14TWindowMessageFlPCfUll(s32, const f32 *, s32, s32);
 s32 get_window_layout_position(s32);
 void *get_player_by_client_id(s32);
@@ -101,7 +100,6 @@ s32 is_player_input_active(s32);
 void *__nw__7TObjectFUl(u32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, s32);
 void *fn_802628C0(s32, const f32 *, s32);
-void queue_destruction__7TObjectFv(void *arg0);
 s32 call_if_split_screen(void *, s32);
 s32 update_help_item__13TWindowSubMagFv(void *, s32);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
@@ -146,10 +144,10 @@ void TWindowSubMag::update_mag_help() {
     if (temp_r3 != (s8) this->m_1d) {
         this->m_1d = (u8) temp_r3;
         if (temp_r3 == -1) {
-            append_line__14TWindowMessageFii(this->m_4c, (s32 *)lbl_805DD648, 0x80);
+            ((TWindowMessage *)(this->m_4c))->append_line((int)((s32 *)lbl_805DD648), (int)0x80);
             return;
         }
-        append_line__14TWindowMessageFii(this->m_4c, get_help_text_string(temp_r3 + 0x27), 0x80);
+        ((TWindowMessage *)(this->m_4c))->append_line((int)(get_help_text_string(temp_r3 + 0x27)), (int)0x80);
     }
 }
 
@@ -168,7 +166,7 @@ s32 TWindowSubMag::count_slots() {
     s32 slot;
 
     ((MagStats *)(&sp8))->init();
-    deserialize_mag__9TItemDataFPvPv(this->m_2c, &sp8);
+    TItemData::deserialize_mag((void *)(this->m_2c), (void *)(&sp8));
     slot = 0;
 loop_1:
     if (((MagStats *)(&sp8))->get_photon_blast(slot) == -1) {
@@ -203,7 +201,7 @@ void *TWindowSubMag::create_learned_blast_toast() {
     s32 n;
     void *win;
     ((MagStats *)((s32 *)&item))->init();
-    deserialize_mag__9TItemDataFPvPv(*(s32 *)&this->m_2c, (s32 *)&item);
+    TItemData::deserialize_mag((void *)(*(s32 *)&this->m_2c), (void *)((s32 *)&item));
     n = ((MagStats *)((s32 *)&item))->get_photon_blast(*(s8 *)&this->m_1e);
     if (n == -1) {
         return 0;
@@ -230,7 +228,7 @@ void *TWindowSubMag::create_learned_blast_toast() {
     win = create__14TWindowMessageFlPCfUll((s32)&pos, &size.x, 1, *(s32 *)&this->m_28);
     TWindowSubEquip__sub_80263AF8(*(s32 *)&this->m_30, 6);
     set_depth__11TWindowBaseFf(win);
-    append_line__14TWindowMessageFii((s32)win, (s32 *)get_shared_text_buffer(), 2);
+    ((TWindowMessage *)win)->append_line((int)((s32 *)get_shared_text_buffer()), (int)2);
     ((TWindowAddition *)win)->set_position_xy(scale, scale);
     return win;
 }
@@ -265,7 +263,7 @@ void *TWindowSubMag::create_action_menu(s32 id) {
     } else {
         forward_trade_action_default__16TObjCityMainWarpFPviii(window, get_message_10__20TWindowSubStatusDispFl(0x65), 6, 1);
     }
-    deserialize_mag__9TItemDataFPvPv(menu->field_0x2c, mag);
+    TItemData::deserialize_mag((void *)(menu->field_0x2c), (void *)mag);
     if (((MagStats *)mag)->get_photon_blast(0) != -1) {
         forward_trade_action_default__16TObjCityMainWarpFPviii(window, get_message_10__20TWindowSubStatusDispFl(0x64), 6, 0);
     } else {
@@ -358,7 +356,7 @@ void TWindowSubMag::run_task(void *arg0) {
         break;
     case 3:
         if (self->effect != NULL) {
-            queue_destruction__7TObjectFv(self->effect);
+            ((TObject *)(self->effect))->queue_destruction();
             self->effect = NULL;
         }
         if (self->photon != NULL) {

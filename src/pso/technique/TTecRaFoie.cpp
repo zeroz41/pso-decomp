@@ -1,4 +1,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/effect/TUnk_804CC148.h"
+#include "pso/technique/TTecCtrl.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/unk/TUnk_804CCB28.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -77,7 +79,6 @@ struct Self_80237BD8 {
 extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
 u32 find_entity_by_id(int);
-void apply_technique_to_area_targets__13TUnk_804CC148Fv(void *);
 void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 void spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv(Obj_80237DAC *self);
 
@@ -299,7 +300,6 @@ struct Self_80239070 {
 
 extern "C" {
 s32 calc_technique_parameters(int, int, int);
-s32 is_technique_ready__8TTecCtrlFv();
 extern RecoveredGlobal_80230D9C_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_80230D9C_lbl_804CC55C lbl_804CC55C;
 void scale_matrix(s32, f32, f32, f32);
@@ -323,9 +323,9 @@ typedef char RecoveredGlobal_80230D9C_lbl_804CC55C_size[((sizeof(RecoveredGlobal
 void TTecRaFoie::calc_area_parameters() {
     u8 *arg0 = (u8 *)this;
   int new_var;
- new_var = (int) calc_technique_parameters(0x2, (int) ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78, 0xFFFF); do { ((TTecAnti *)(arg0 + ((0, 0x88))))->copy_params((u8 *)new_var); if ((((s16) ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78) >= 0xF) && (is_technique_ready__8TTecCtrlFv() == 0)) { ((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 = (f32) ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x8))) + ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0xa))) * ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78)); return; } } while (0);
+ new_var = (int) calc_technique_parameters(0x2, (int) ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78, 0xFFFF); do { ((TTecAnti *)(arg0 + ((0, 0x88))))->copy_params((u8 *)new_var); if ((((s16) ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78) >= 0xF) && (TTecCtrl::is_technique_ready() == 0)) { ((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 = (f32) ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0x8))) + ((*((s16 *) (((s8 *)&tech_high_level_linear_power_table.value) + 0xa))) * ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78)); return; } } while (0);
   ((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 + ((f32) (((RecoveredFields_80230D9C_arg0 *) arg0)->field_AC * ((RecoveredFields_80230D9C_arg0 *) arg0)->field_78)));
-  if (is_technique_ready__8TTecCtrlFv())
+  if (TTecCtrl::is_technique_ready())
   {
     ((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80230D9C_arg0 *) arg0)->field_88 * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x10))));
   }
@@ -688,7 +688,7 @@ void TTecRaFoie::update_detonation(void *arg1) {
         }
         break;
     }
-    apply_technique_to_area_targets__13TUnk_804CC148Fv(self);
+    ((TUnk_804CC148 *)self)->apply_technique_to_area_targets();
     queue_destruction__7TObjectFv(self);
 }
 

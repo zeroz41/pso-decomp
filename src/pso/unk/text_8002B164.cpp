@@ -7,7 +7,7 @@ void enable_dragon_blocking_bodies(Obj_8002B164 *self, void *a, void *b);
 void enable_dragon_blocking_bodies(Obj_8002B164 *self, void *a, void *b) {
     s32 i;
     for (i = 0; i < 3; i++) {
-        draw__17TBoss1DragonColliFPvPv(self->colli[i], a, b);
+        ((TBoss1DragonColli *)(self->colli[i]))->draw(a, b);
     }
 }
 

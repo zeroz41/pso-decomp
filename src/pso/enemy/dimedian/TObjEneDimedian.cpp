@@ -1,4 +1,6 @@
 #include "pso/unk/SampledMotionPoints.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
@@ -120,11 +122,8 @@ s32 post_translate_matrix(void *);
 extern s32 dimedian_type3_object;
 extern s32 lbl_805D5088;
 
-s32 get_camera_mode__11TCameraCtrlFv();
-s32 update__15RenderFadeStateFv(void *);
 s32 restore_scene_lighting();
 s32 select_actor_lighting(void *);
-s32 defer_render__7TObjectFv(void *);
 s32 TObjPlayer__sub_8023DEE0(int, int, int, int);
 extern s32 dimedian_resource_handles[];
 extern s32 dimedian_last_draw_tick[];
@@ -318,7 +317,7 @@ void draw_actor_model__10TObjPlayerFPv(Player_800A7CA4 *self) {
     }
     mode = 0;
     if (is_split_screen() != 0) {
-        mode = get_camera_mode__11TCameraCtrlFv();
+        mode = TCameraCtrl::get_camera_mode();
     }
     vis = self->visible(2e+02f, 4e+02f, 3e+01f);
     if (vis == 0) {
@@ -326,7 +325,7 @@ void draw_actor_model__10TObjPlayerFPv(Player_800A7CA4 *self) {
     }
     fading = 0;
     if (TObjEneDD::check_v2_mode() != 0) {
-        update__15RenderFadeStateFv(&self->fades[mode]);
+        ((RenderFadeState *)(&self->fades[mode]))->update();
         fading = ((RenderFadeState *)(&self->fades[mode]))->updateFromCamera((const f32*)(self->cam));
     }
     select_actor_lighting(self);
@@ -355,7 +354,7 @@ void draw_actor_model__10TObjPlayerFPv(Player_800A7CA4 *self) {
                 saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
                 self->sub.begin();
                 d = 1;
-                if (defer_render__7TObjectFv(self) != 0) {
+                if (((TObject *)self)->defer_render() != 0) {
                     d = 0;
                 }
                 if (d != 0) {
@@ -370,7 +369,7 @@ void draw_actor_model__10TObjPlayerFPv(Player_800A7CA4 *self) {
             doDraw = 1;
             if (fading != 0) {
                 self->fades[mode].begin();
-                if (defer_render__7TObjectFv(self) != 0) {
+                if (((TObject *)self)->defer_render() != 0) {
                     doDraw = 0;
                 }
             }

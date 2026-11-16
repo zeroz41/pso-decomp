@@ -1,5 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/object/container/TContainerAncient01R.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
@@ -217,7 +220,6 @@ unsigned int __cvt_fp2unsigned(f32);
 f32 receive_physical_attack__20TContainerAncient01RFPvf(u8 *arg0);
 
 extern s32 TContainerAncient01__open_effect_table[];
-s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 f32 horizontal_distance_squared(void *, void *);
 
 void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range);
@@ -386,7 +388,7 @@ void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range) {
     for (i = 0; i < 4; i++) {
         pl = (Player_8018A584 *)get_player_by_client_id(i);
         if (pl != NULL) {
-            if (((TObjPlayer *)pl)->get_floor() == get_current_floor() && obj_testFlags30__14TObjCollidableFUl(pl, 1) == 0 &&
+            if (((TObjPlayer *)pl)->get_floor() == get_current_floor() && ((TObjCollidable *)pl)->obj_testFlags30(1) == 0 &&
                 horizontal_distance_squared(self->pos, pl->pos) < range) {
                 Atk_8018A584 atk;
                 atk.type = 0xF;
@@ -707,7 +709,7 @@ void TContainerAncient01__sub_8018B180(Obj_8018B180 *self, f32 range) {
     for (i = 0; i < 4; i++) {
         pl = (Player_8018B180 *)get_player_by_client_id(i);
         if (pl != NULL) {
-            if (((TObjPlayer *)pl)->get_floor() == get_current_floor() && obj_testFlags30__14TObjCollidableFUl(pl, 1) == 0 &&
+            if (((TObjPlayer *)pl)->get_floor() == get_current_floor() && ((TObjCollidable *)pl)->obj_testFlags30(1) == 0 &&
                 horizontal_distance_squared(self->pos, pl->pos) < range) {
                 Atk_8018B180 atk;
                 atk.type = 0xF;

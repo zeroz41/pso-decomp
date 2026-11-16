@@ -36,7 +36,6 @@ const char *item_drop_class_name = "TItemDrop";
 u8 can_drop__9TItemDropFv(void);
 s8 get_bool_from_1d6ddc__9TItemDropFPv(void *p);
 u8 TItemDrop__sub_80107B04(void *);
-s32 is_rare_item__9TItemDataFPv(u8 *item);
 s32 init__9TItemDataFv(void *);
 u8 TLobby__sub_801D6F94(void *);
 u8 TLobby__sub_801D6FFC(void *);
@@ -117,7 +116,7 @@ void apply_drop_restrictions(s32 arg0, Item_80105EA4 *it) {
     if (it == NULL) {
         return;
     }
-    if (((s32 (*)(void))can_drop__9TItemDropFv)() == 0 && is_rare_item__9TItemDataFPv((u8 *)it) != 0) {
+    if (((s32 (*)(void))can_drop__9TItemDropFv)() == 0 && TItemData::is_rare_item((u8 *)it) != 0) {
         init__9TItemDataFv(it);
         return;
     }
@@ -142,7 +141,7 @@ void apply_drop_restrictions(s32 arg0, Item_80105EA4 *it) {
             init__9TItemDataFv(it);
             return;
         case 3:
-            if (is_rare_item__9TItemDataFPv((u8 *)it) == 1) {
+            if (TItemData::is_rare_item((u8 *)it) == 1) {
                 init__9TItemDataFv(it);
             }
             return;
@@ -408,7 +407,6 @@ s32 try_generate_rare_item__9TItemDropFiPvPv(s32 arg0, u8 *arg1, u8 *arg2);
 s32 select_rare_box_item__9TItemDropFiiPv(s32 arg0, s32 arg1, u8 *arg2);
 void roll_table_ratio__9TItemDropFPvUi(u8 *arg0, u32 arg1);
 u32 roll_channel_below__9TItemDropFPviUi(u8 *arg0, s32 arg1, u32 arg2);
-s32 is_rare_item__9TItemDataFPv(u8 *item);
 u8 roll_weapon_special_for_stars(u8);
 void roll_weapon_special__9TItemDropFiPvi(s32 rng, u8 *item, s32 idx);
 s32 apply_drop_restrictions(void *, void *);
@@ -473,8 +471,6 @@ void handle_type3__9TItemDropFPvPv(void* p, void* a1);
 void init_rare_item_data__9TItemDropFPvPv(void *arg0, void *arg1);
 void run_task__9TItemDropFv(void);
 void set_flag__9TItemDropFPvPv(void *arg0, void *arg1);
-s32 serialize_mag__9TItemDataFPvPv(void *, s32 *);
-s32 is_rare_item__9TItemDataFPv(u8 *item);
 void roll_armor_bonuses__9TItemDropFv(s32, void *);
 u8 TLobby__sub_801D6DDC(void *arg0);
 void *mem_alloc(u32 size);
@@ -728,7 +724,7 @@ void apply_item_data__9TItemDropFPvPv(void *arg0, void *item) {
     if ((u8) *(u8 *)((s8 *)item + 0) == 2) {
         ((MagStats *)(&sp8))->init();
         *(s8 *)((s8 *)item + 1) = 0;
-        serialize_mag__9TItemDataFPvPv(item, &sp8);
+        TItemData::serialize_mag(item, &sp8);
     }
 }
 
@@ -769,7 +765,7 @@ extern u8 lbl_805DAAE0;
 
 void roll_weapon_special__9TItemDropFiPvi(s32 rng, u8 *item, s32 idx) {
     u8 *chance;
-    if (item[0] == 0 && is_rare_item__9TItemDataFPv(item) == 0) {
+    if (item[0] == 0 && TItemData::is_rare_item(item) == 0) {
         chance = ((Tbl_80106E04 *)TItemDrop__common_probability_table)->chance;
         if (chance[idx] != 0 && roll_channel_below__9TItemDropFPviUi(((u8 *)rng), 100, 9) < ((Tbl_80106E04 *)TItemDrop__common_probability_table)->rate[idx]) {
             item[4] = roll_weapon_special_for_stars((u8)(s32)((f32)chance[idx] * ((f32 (*)(u8 *, u32)) roll_table_ratio__9TItemDropFPvUi)((u8 *)rng, 10)));
@@ -781,7 +777,7 @@ void set_flag__9TItemDropFPvPv(void *arg0, void *item) {
     u8 temp_r3;
 
     if ((is_enabled__9TItemDropFv() == 1) && ((u8) *(u8 *)((s8 *)item + 0) == 0)) {
-        if (is_rare_item__9TItemDataFPv((u8 *)item) != 0) {
+        if (TItemData::is_rare_item((u8 *)item) != 0) {
             *(u8 *)((s8 *)item + 4) = (u8) (*(u8 *)((s8 *)item + 4) | lbl_805DAAE0);
             return;
         }

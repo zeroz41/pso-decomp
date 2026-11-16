@@ -1,4 +1,5 @@
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/scene/TEndingC.h"
 #include "types.h"
 #include "pso/unk/text_8008C4F4.h"
 #include "pso/system/main_loop.h"
@@ -35,7 +36,6 @@ extern "C" {
 s32 TKeyBoardControl__sub_8000F92C();
 void TKeyBoardControl__sub_8000F9CC(s32 arg0);
 void func_803DCDFC__Fv(void);
-s32 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 void reset__11TCameraCtrlFv(void);
 void disable_and_free_boss4rock_buffer(void);
 }
@@ -65,7 +65,7 @@ typedef char RecoveredGlobal_8008C534_main_task_size[sizeof(RecoveredGlobal_8008
 void fn_8008C4F4(void) {
     TLobby::stop_audio_streams();
     main_task.delete_layer_children();
-    call_funcs_reverse__6TLobbyFPvUi(ending_scene_callbacks, sizeof(ending_scene_callbacks));
+    TLobby::call_funcs_reverse(ending_scene_callbacks, sizeof(ending_scene_callbacks));
     render_tick();
 }
 }

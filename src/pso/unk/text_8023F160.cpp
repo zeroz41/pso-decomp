@@ -29,7 +29,6 @@ struct RecoveredGlobal_8023F1B8_main_task {
 struct Vec_8023F22C { f32 x, y, z; };
 
 extern "C" {
-s32 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 extern RecoveredGlobal_8023F1B8_lbl_804CCDA8 lbl_804CCDA8;
 extern RecoveredGlobal_8023F1B8_lbl_804CCE60 lobby_scene_release_callback_table;
 extern u32 game_mode_scene_instance;
@@ -48,7 +47,7 @@ f32 cos_table_lookup(s32);
 
 extern "C" {
 void fn_8023F160(void) {
-    call_funcs_reverse__6TLobbyFPvUi(&lobby_scene_release_callback_table.value, 0x38);
+    TLobby::call_funcs_reverse(&lobby_scene_release_callback_table.value, 0x38);
 }
 void fn_8023F18C(void) {
     run_load_callback_table(&lobby_scene_release_callback_table.value, 0x38);
@@ -72,8 +71,8 @@ void TLobby::release_scene_resources() {
         game_mode_scene_instance = 0U;
     }
     main_task.delete_layer_children();
-    call_funcs_reverse__6TLobbyFPvUi(&lobby_scene_release_callback_table.value, 0x38);
-    call_funcs_reverse__6TLobbyFPvUi(&lbl_804CCDA8.value, 0xB8);
+    TLobby::call_funcs_reverse(&lobby_scene_release_callback_table.value, 0x38);
+    TLobby::call_funcs_reverse(&lbl_804CCDA8.value, 0xB8);
     TParticleCtrl::free_heap();
     clear_resource_load_tasks();
     render_tick();

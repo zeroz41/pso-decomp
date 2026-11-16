@@ -64,7 +64,6 @@ void TObjEneMe1GiGue__sub_802CB03C(TObjEneMe1GiGue *gigue);
 s32 TObjEneMe1GiGue__sub_802CB10C(TObjEneMe1GiGue *gigue);
 void init__15TObjEneMe1GiGueFPv(TObjEneMe1GiGue *gigue);
 void TObjEneMe1GiGue__sub_802CB378(TObjEneMe1GiGue *gigue);
-void move_around_center__15TObjEneMe1GiGueFPvf(TObjEneMe1GiGue *gigue, Vec *center, f32 radius);
 void action__15TObjEneMe1GiGueFPv(TObjEneMe1GiGue *gigue);
 void TObjEneMe1GiGue__sub_802CC45C(TObjEneMe1GiGue *gigue);
 void TObjEneMe1GiGue__sub_802CC614(TObjEneMe1GiGue *gigue);
@@ -73,7 +72,6 @@ void TObjEneMe1GiGue__sub_802CCBAC(TObjEneMe1GiGue *gigue);
 void TObjEneMe1GiGue__sub_802CD054(TObjEneMe1GiGue *gigue);
 TObjEneMe1GiGue *deleting_dtor__15TObjEneMe1GiGueFPvs(TObjEneMe1GiGue *self, s16 del);
 s32 project_actor_to_ground(void *, void *, s32);
-int get_player_data__10TObjPlayerFi(int a0);
 extern s32 registered_player_count;
 f64 atan2_float(f32, f32);
 s16 get_entity_id(void *);
@@ -82,7 +80,6 @@ s32 calc_velocity_toward_destination(void *, Vec, Vec, f32);
 s32 play_persistent_sound(s32 id, void *source, Vec *pos, s32 a3, s32 flags);
 s32 play_sound_effect(s32, void *, s32, s32);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
-s32 enemy_turn_toward_dest__9TObjEnemyFl(void *, s32);
 u16 find_nearest_visible_player(void *, int, f32);
 s32 create__9TTecJelinFllll(void *, void *, void *, s32);
 s32 create_instance__9TTecZaruaFllll(void *, void *, void *, s32);
@@ -92,11 +89,9 @@ void *find_entity_by_id(u16 id);
 s32 TObjPlayer__sub_800DC478(u8 *arg0, s32 arg1, f32 farg0);
 s32 enemy_turn_half_toward_dest(void *);
 s32 is_split_screen();
-s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
-s32 init_from_model__11TBreakUpMdlFl(s32, s32);
 s32 find_active_entity_by_id(int);
 void * __ct__11TObjControlFP7TObject(void *, void *);
 s32 minimap_render_dot(void *, int, int, int);
@@ -410,10 +405,10 @@ void TObjEneMe1GiGue::load_resources() {
     ene_me1_gigue_boss_id = register_boss__6TLobbyFl(0x1A);
     lbl_805D682C = dispatch_shared_handler_b__6TLobbyFl(0x1A);
     lbl_805D6830 = register_object__6TLobbyFl(0x1A);
-    TObjEneMe1GiGue__param_table = (GiGueParameters *)dispatch_shared_handler_a__6TLobbyFl(0x1A);
+    TObjEneMe1GiGue__param_table = (GiGueParameters *)TLobby::dispatch_shared_handler_a(0x1A);
     o = ::operator new(0x10);
     if (o != NULL) {
-        o = (void *)init_from_model__11TBreakUpMdlFl((s32)o, TObjEneMe1GiGue__data_805D6838->models->model);
+        o = (void *)((TBreakUpMdl *)o)->init_from_model(TObjEneMe1GiGue__data_805D6838->models->model);
     }
     TObjEneMe1GiGue__barrier_obj = (TUnk_8048FA00 *)o;
     TObjEneMe1GiGue__sub_802CE4EC();
@@ -633,7 +628,7 @@ void TObjEneMe1GiGue::sub_802CCF2C() {
         sub_8004292C();
     case 1:
         advance_animation();
-        move_around_center__15TObjEneMe1GiGueFPvf(this, &home_position, parameters[1]);
+        move_around_center(&home_position, parameters[1]);
         m_384 -= 1;
         if (m_384 <= 0) {
             requested_action = 0;
@@ -1198,7 +1193,7 @@ void TObjEneMe1GiGue::move_around_center(void *center, f32 radius) {
         this->m_390.z = d * sin_table_lookup(angle) + ((Vec *)center)->z;
     }
     VecCopy((Vec *)&this->m_29c, &this->m_390);
-    enemy_turn_toward_dest__9TObjEnemyFl(this, ((EnemyMoveParams *)this->movementParameters)->turn_speed);
+    enemy_turn_toward_dest(((EnemyMoveParams *)this->movementParameters)->turn_speed);
     enemy_set_heading_velocity(this->m_3e4, this, this->rotation_y);
     move_with_wall_slide((u8 *)this);
 }
@@ -1365,7 +1360,7 @@ s32 TObjEneMe1GiGue__sub_802CB10C(TObjEneMe1GiGue *gigue) {
     s32 i;
     gigue->m_3c0 = 0;
     for (i = 0; i < registered_player_count; i++) {
-        TObjChara *player = (TObjChara *)get_player_data__10TObjPlayerFi(i);
+        TObjChara *player = (TObjChara *)TObjPlayer::get_player_data(i);
         ((TObjEneMe1GiGue *)gigue)->add_target_in_cone(player);
     }
     return gigue->m_3c0;

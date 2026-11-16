@@ -64,7 +64,6 @@ void *__nw__7TObjectFUl(int);
 void *fn_80157CA8(void *arg0);
 void TOAttackableCol__sub_80157310(void *_w0);
 u8 is_current_floor_switch_set(int);
-volatile int is_locally_controlled__10TObjPlayerFPv(void *);
 u16 get_entity_id(void *);
 extern u32 quest_mission_manager;
 extern u32 quest_area_manager;

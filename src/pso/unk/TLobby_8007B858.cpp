@@ -44,7 +44,6 @@ extern "C" {
 s32 run_load_callback_table(void *, int);
 extern RecoveredGlobal_8007BA98_lbl_8048D4C0 lbl_8048D4C0;
 extern RecoveredGlobal_8007BA98_lbl_8048D5A8 lbl_8048D5A8;
-void call_funcs_reverse__6TLobbyFPvUi(s32, u32);
 void fn_80198E84(void);
 s32 __ct__9TCineCtrlFv(u32, s32);
 s32 create_area_fog_ctrl();
@@ -146,9 +145,9 @@ void TLobby::clear_session_buffers() {
         free_obj_lobby_main();
     }
     if ((get_current_floor_area() != AREA_PIONEER2_EP1) && (get_current_floor_area() != AREA_LOBBY) && (get_current_floor_area() != AREA_PIONEER2_EP2)) {
-        call_funcs_reverse__6TLobbyFPvUi((s32) &(*(RecoveredGlobal_8007BA20_lbl_8048D5A8 *)&lbl_8048D5A8).value, 0x20U);
+        TLobby::call_funcs_reverse((void*)((s32) &(*(RecoveredGlobal_8007BA20_lbl_8048D5A8 *)&lbl_8048D5A8).value), (unsigned int)0x20U);
     }
-    call_funcs_reverse__6TLobbyFPvUi((s32) &(*(RecoveredGlobal_8007BA20_lbl_8048D4C0 *)&lbl_8048D4C0).value, 0xE8U);
+    TLobby::call_funcs_reverse((void*)((s32) &(*(RecoveredGlobal_8007BA20_lbl_8048D4C0 *)&lbl_8048D4C0).value), (unsigned int)0xE8U);
 }
 
 s32 TLobby::run_lobby_load_tables() {

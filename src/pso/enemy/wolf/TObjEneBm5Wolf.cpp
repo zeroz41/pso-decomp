@@ -33,7 +33,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/enemy/fly/TObjEneBm3FlyNest.h"
 extern "C" {
-f32 random_ratio__9TObjCharaFv(s32);
 f32 atan2_float(f64, f64);
 s32 approach_angle_limited(int, int, int);
 void *find_entity_by_id(u16 id);
@@ -110,7 +109,6 @@ void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
 extern "C" {
 void queue_destruction__7TObjectFv(void *self);
 s32 TBoss8Dragon__sub_800BB7D4(void *, int);
-s32 is_main_phase_15__9TObjEneDDFv();
 void draw_blob_shadow(s32 arg0);
 }
 
@@ -148,9 +146,6 @@ s32 angle_diff_s16(s32, s32);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 free_collision_body_parts(void *);
 s32 reset_hp__9TObjEneDDFPUcPUcPUc(void *, int, int, int, int);
-s32 initialize_enemy_state__9TObjEneDDFl(void *, int);
-s32 init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int);
-s32 invoke_initialization_hook__9TObjEneDDFPv(void *, void *);
 s32 init_collision_body_parts(void *, void *, int);
 void *__ct__14TObjCollidableFP7TObject(void *, int);
 void *__nw__7TObjectFUl(int);
@@ -191,7 +186,7 @@ s32 TObjEneBm5Wolf::get_group_id() { return this->m_3dc; }
 }
 
 s32 actor_rand_int(s32 actor, s32 arg1) {
-    return (s32) ((f32) arg1 * random_ratio__9TObjCharaFv(actor));
+    return (s32) ((f32) arg1 * ((TObjChara *)actor)->random_ratio());
 }
 extern "C" {
 void TObjEneBm5Wolf::register_global_objects() {
@@ -347,10 +342,10 @@ TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(p
     s32 n;
     void *o;
     m_name = bm5_wolf_class_name;
-    invoke_initialization_hook__9TObjEneDDFPv(this, set_data);
+    invoke_initialization_hook(set_data);
     select_subtype();
     init_position_vectors();
-    init_model__9TObjEneDDFP13CollisionBodyl(this, TObjEneBm5Wolf__collider_params, 1);
+    init_model(TObjEneBm5Wolf__collider_params, 1);
     set_field_d8((s32)((void *)wolf_action_table));
     set_field_dc((s32)TObjEneBm5Wolf__bml_resource->motions);
     requested_action = 0;
@@ -361,9 +356,9 @@ TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(p
     check_state_flag_1();
     movementParameters = bm5_wolf_decision_row;
     if (m_3d8 != 0) {
-        initialize_enemy_state__9TObjEneDDFl(this, 8);
+        initialize_enemy_state(8);
     } else {
-        initialize_enemy_state__9TObjEneDDFl(this, 7);
+        initialize_enemy_state(7);
     }
     m_37c = 15.0f;
     enemy_init_acquire_period(0x14);
@@ -1956,7 +1951,7 @@ void TObjEneBm5Wolf::render() {
         return;
     }
     if (!(this->m_408 & 2) && ((s16) this->mode != 0x11)) {
-        if (is_main_phase_15__9TObjEneDDFv() != 0) {
+        if (TObjEneDD::is_main_phase_15() != 0) {
             var_r31 = this->classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 20.0f);
         } else if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
             var_r31 = 1;

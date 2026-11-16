@@ -60,7 +60,6 @@ struct Ctl_800C5B10 { u8 pad[8]; void *field_8; };
 
 extern "C" {
 s32 check_path_obstructed(void *, void *);
-f32 get_collision_body_radius__14TObjCollidableFl(void *, s32);
 f32 fabs_float(f32);
 f64 atan2_float(f32, f32);
 s32 link_chain_nodes__10TObjPlayerFPvPvPv(void *, void *, void *);
@@ -84,7 +83,6 @@ u16 get_entity_id(void *);
 int queue_destruction__7TObjectFv(void*);
 s32 enemy_move_toward(void *, s32, void *, int, f32);
 s32 test_elt_flag__13TUnk_80493450Fll(void *, int, int);
-s32 enemy_turn_toward_dest__9TObjEnemyFl(void *, s32);
 s32 get_current_floor(void);
 u8 *get_enemy_entity(u16 arg0);
 f32 enemy_backstep_from_point(void *, void *, f32);
@@ -167,7 +165,7 @@ void TUnk_80493450::beast_update_hurt() {
     advance_animation();
     VecCopy(&v, (const Vec *)&m_2fc);
     scratch_vec.x = scratch_vec.y = BEAST_ZERO_VECTOR_COMPONENT;
-    scratch_vec.z = get_collision_body_radius__14TObjCollidableFl(this, 0);
+    scratch_vec.z = get_collision_body_radius(0);
     ((void (*)(void *, void *))push_matrix_from)(identity_matrix, &scratch_vec);
     rotate_matrix_y(0, -rotation_y);
     rotate_vector_by_matrix(0, &scratch_vec, &scratch_vec);
@@ -251,7 +249,7 @@ void TUnk_80493450::beast_update_attack() {
         break;
     }
     apply_actor_gravity(this, 0, BEAST_GROUND_HEIGHT_OFFSET);
-    enemy_turn_toward_dest__9TObjEnemyFl(this, ((s32 *)movementParameters)[2]);
+    enemy_turn_toward_dest(((s32 *)movementParameters)[2]);
     ((TObjPlayer *)this)->update_collisions();
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }

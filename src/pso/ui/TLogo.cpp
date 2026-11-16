@@ -31,7 +31,6 @@ s32 reset_controller_input_state();
 s32 set_copy_clear_color_argb(int, int, int);
 s32 __ct__15TWindowCtrlMainFv(u32);
 extern u8 default_scene_light_config[];
-s32 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 void TKeyBoardControl__sub_8000F9CC(s32 arg0);
 u32 __ct__10TAdADXlogoFP7TObject(void *, void *);
 u32 __ct__11TAdSEGAlogoFv(void *, void *);
@@ -151,7 +150,7 @@ void TLogo::run_frame() {
 
 void TLogo__sub_8013F5AC() {
     main_task.delete_layer_children();
-    call_funcs_reverse__6TLobbyFPvUi(logo_load_callback_table, sizeof(logo_load_callback_table));
+    TLobby::call_funcs_reverse(logo_load_callback_table, sizeof(logo_load_callback_table));
     render_tick();
 }
 

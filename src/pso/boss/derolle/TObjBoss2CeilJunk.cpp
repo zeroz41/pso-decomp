@@ -243,7 +243,7 @@ void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o) {
             bottom = o->pos.y - ((f32 *)&TObjBoss2CeilJunk__height_offset_table)[o->fAC];
             rad = (1e+01f) + TObjBoss2CeilJunk__radius_table[o->fAC];
             for (i = 0; i < n; i++) {
-                pl = (u8 *)get_player_data__10TObjPlayerFi(i);
+                pl = (u8 *)TObjPlayer::get_player_data(i);
                 if (is_valid_target__9TObjEneDDFv(pl) != 0) {
                     h = *(f32 *)((s8 *)pl + 0xD48) + *(f32 *)((s8 *)pl + 0x3C);
                     if (top > h && bottom < h) {

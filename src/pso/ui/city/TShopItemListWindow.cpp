@@ -144,9 +144,7 @@ extern s32 __vt__19TShopItemListWindow[];
 const char *TShopItemListWindow__class_name = "TShopItemListWindow";
 u8 *TShopItemListWindow__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 sub_80223A48__15TShopWindowBaseFv(void *);
 s32 play_sound_effect(int, int, int, int);
-s32 get_cursor_value__19TWindowMenuIconLineFv(void *);
 s32 get_item_count__24TShopEquipmentSellWindowFv(void *a, s32 b);
 int obj_getPtr2B0_20(u8 *p);
 s32 get_entity_id(void *);
@@ -298,7 +296,7 @@ void TShopItemListWindow::prepare_tool_purchase() {
 
 s32 TShopItemListWindow::handle_confirm() {
     VObj_8021F678_8021F134 *o = (VObj_8021F678_8021F134 *)this;
-    if (o->m8() != 0 && (sub_80223A48__15TShopWindowBaseFv(this) != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         o->m4(0xB, 1);
         ((TWindowMenuIconLine *)(this->m_28))->clear_decided();
         set_field_20(1);
@@ -307,7 +305,7 @@ s32 TShopItemListWindow::handle_confirm() {
 
 s32 TShopItemListWindow::update() {
     VObj_8021F708_8021F134 *o = (VObj_8021F708_8021F134 *)this;
-    if (o->m8() != 0 && (sub_80223A48__15TShopWindowBaseFv(this) != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         o->m4(0xB, 1);
         ((TWindowMenuIconLine *)(this->m_28))->clear_decided();
         set_field_20(1);
@@ -320,7 +318,7 @@ s32 TShopItemListWindow::handle_tool_list_select(void *p) {
     s32 n;
     u8 *e;
     if (W->list != NULL) {
-        i = get_cursor_value__19TWindowMenuIconLineFv(W->list);
+        i = ((TWindowMenuIconLine *)(W->list))->get_cursor_value();
         if (W->help != NULL && i != W->cur) {
             ((TWindowHelpItem *)(W->help))->set_displayed_item_colored((u32)&W->recs[i]);
         }
@@ -338,7 +336,7 @@ s32 TShopItemListWindow::handle_tool_list_select(void *p) {
         play_sound_effect(0x52D01, 0, 0, 0);
         return;
     }
-    if (sub_80223A48__15TShopWindowBaseFv(W) != 0) {
+    if (((TShopWindowBase *)W)->sub_80223A48() != 0) {
         play_sound_effect(0x52D01, 0, 0, 0);
         switch (((TShopItemListWindow *)W)->check_purchase_eligibility()) {
         case 0:

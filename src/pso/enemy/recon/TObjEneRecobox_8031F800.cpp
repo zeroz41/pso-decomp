@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
+#include "pso/camera/TCameraCtrl.h"
 
 #include "pso/object/base/TObjMotion.h"
 
@@ -222,11 +223,8 @@ s32 post_translate_matrix(void *);
 
 extern s32 debug_chunk_object;
 
-s32 get_camera_mode__11TCameraCtrlFv();
 
-s32 is_main_phase_15__9TObjEneDDFv();
 
-s32 update__15RenderFadeStateFv(int);
 
 extern s32 saved_model_render_flags;
 
@@ -542,9 +540,7 @@ void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 
 void __ct__12TObjEneDD_STFP7TObject(void *, s32, void *);
 
-void reset_hp__9TObjEneDDFPUcPUcPUc(void *, s32, s32, s32);
 
-void init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int);
 
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 
@@ -989,7 +985,7 @@ u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *arg2) {
     ((TObjEneDD *)ene_recobox)->init_position_vectors();
     *(s32 *)((s8 *)ene_recobox + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneRecobox__static_instance + 0x42C)) + 0x18);
     ((TObjEneRecobox *)ene_recobox)->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneRecobox__static_instance + 0x42C)) + 0x1C);
-    init_model__9TObjEneDDFP13CollisionBodyl(ene_recobox, lbl_804EC684, 1);
+    ((TObjEneDD *)ene_recobox)->init_model((CollisionBody *)lbl_804EC684, (s32)1);
     ((TObjEneRecobox *)ene_recobox)->m_300 = 20.0f + *(f32 *)((s8 *)ene_recobox + 0x3C);
     ((TObjEneRecobox *)ene_recobox)->vfunc_88();
     ((TObjMotion *)ene_recobox)->set_field_d8((s32)TObjEneRecobox__animation_entries);
@@ -997,7 +993,7 @@ u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *arg2) {
     ((TObjEneRecobox *)ene_recobox)->requested_action = 0;
     ((TObjMotion *)ene_recobox)->set_animation(((TObjEneRecobox *)ene_recobox)->requested_action);
     ((TObjMotion *)ene_recobox)->set_field_b8(((TObjEneRecobox *)ene_recobox)->requested_action);
-    reset_hp__9TObjEneDDFPUcPUcPUc(ene_recobox, recobox_boss_register_id, lbl_805D6B14, TObjEneRecobox__shared_object_handle);
+    ((TObjEneDD *)ene_recobox)->reset_hp((u8 *)recobox_boss_register_id, (u8 *)lbl_805D6B14, (u8 *)TObjEneRecobox__shared_object_handle);
     ((TObjEneDD *)ene_recobox)->check_state_flag_4();
     *(u8 * *)&((TObjEneRecobox *)ene_recobox)->movementParameters = TObjEneRecobox__attack_params;
     ((TObjEneDD *)ene_recobox)->initialize_enemy_state(0x43);
@@ -1547,10 +1543,10 @@ void TObjEneRecobox::render() {
     }
     var_r29 = 0;
     if (is_split_screen() != 0) {
-        var_r29 = get_camera_mode__11TCameraCtrlFv();
+        var_r29 = TCameraCtrl::get_camera_mode();
     }
     if (!(*(s32 *)((s8 *)arg0 + 0x40C) & 1)) {
-        if (is_main_phase_15__9TObjEneDDFv() != 0) {
+        if (TObjEneDD::is_main_phase_15() != 0) {
             var_r28 = ((Obj_8031EA70 *)arg0)->m9(25.0f + lbl_805D9E88, 50.0f + lbl_805D9E84, 120.0f);
         } else if (((Obj_8031EA70 *)arg0)->m8(500.0f, 120.0f) != 0) {
             var_r28 = 1;
@@ -1582,7 +1578,7 @@ void TObjEneRecobox::render() {
                 }
 block_18:
                 temp_r29 = &((Holder_8031EA70 *)arg0)->arr[var_r29];
-                update__15RenderFadeStateFv((int)temp_r29);
+                ((RenderFadeState *)temp_r29)->update();
                 temp_r30 = ((RenderFadeState *)temp_r29)->updateFromCamera((const f32*)(arg0 + 0x2FC));
                 if ((var_r27 == 0) && (temp_r30 != 0)) {
                     if (((TObject *)arg0)->defer_render() != 0) {

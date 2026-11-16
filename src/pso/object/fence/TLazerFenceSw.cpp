@@ -77,7 +77,6 @@ extern "C" {
 void debug_draw_key_id__5TOKeyFv();
 void debug_printf_at(int, void *, ...);
 extern u8 lbl_80445CD8[];
-void debug_draw_key_id__13TLazerFenceSwFv(Sw_80193978 *arg0);
 void *__ct__5TOKeyFP7TObject(TOKey *arg0);
 extern s32 __vt__13TLazerFenceSw[];
 

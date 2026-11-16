@@ -1,5 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/object/ambient/TObjFish.h"
 #include <stddef.h>
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/enemy/fly/TObjEneBm3Fly.h"
@@ -26,10 +29,8 @@
 
 extern BmlResource *lbl_805D50D8;
 extern "C" {
-s32 is_main_phase_15__9TObjEneDDFv();
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 push_matrix();
-s32 set_global_param__8TObjFishFl(s32);
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 s32 TBoss8Dragon__sub_800BB7DC(void *);
@@ -57,14 +58,11 @@ f32 calc_scaled_value__15TObjBoss2TunnelFlf(int, int, f32, f32);
 void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *arg0, s32 arg1);
 s32 noop__12TBoss8DragonFv(void *);
 f32 atan2_float(f32, f32);
-f32 update_scale__15TObjBoss2TunnelFv(void *);
 s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
 extern const f32 lbl_805D9E80;
-void sub_800B1214__13TObjEneBm3FlyFl(TObjEneBm3Fly *arg0, s32 arg1);
 s32 is_vec_xz_cross_negative(void *, void *);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1);
-s32 select_nearest_target__12TObjEneDD_STFf(void *, f32);
 f32 fabs_float(f32);
 s32 get_random_scaled__9TObjEneDDFv(void *);
 s32 enemy_set_target_id(void *, u16);
@@ -269,7 +267,7 @@ extern "C" {
 void TObjEneBm3Fly::dispatch_action(u32 arg1, s32 msg) {
     switch (arg1) {
     case 0:
-        sub_800B1214__13TObjEneBm3FlyFl(this, msg);
+        sub_800B1214(msg);
         return;
     case 1:
         TObjEneBm3Fly__sub_800B0F70(this, msg);
@@ -494,7 +492,7 @@ s32 TObjEneBm3Fly::vfunc_104(f32 farg0) {
         this->select_and_apply_target(farg0);
         return;
     }
-    select_nearest_target__12TObjEneDD_STFf(this, farg0);
+    select_nearest_target(farg0);
 }
 }
 
@@ -549,7 +547,7 @@ void TObjEneBm3Fly::sub_800B1214(s32 arg1) {
             this->m_430.x -= this->position.x;
             this->m_430.y -= this->m_42c;
             this->m_430.z -= this->position.z;
-            this->m_3e0 = update_scale__15TObjBoss2TunnelFv(&this->m_430);
+            this->m_3e0 = ((TObjBoss2Tunnel *)(&this->m_430))->update_scale();
             if (this->m_43c < (2.0f)) {
                 this->m_43c += (0.1f);
             }
@@ -631,7 +629,7 @@ void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1) {
         arg0->m_430.x = arg0->position.x - arg0->prev_position.x;
         arg0->m_430.y = (0.0f);
         arg0->m_430.z = arg0->position.z - arg0->prev_position.z;
-        arg0->m_43c = update_scale__15TObjBoss2TunnelFv(&arg0->m_430);
+        arg0->m_43c = ((TObjBoss2Tunnel *)(&arg0->m_430))->update_scale();
         break;
     }
 }
@@ -713,7 +711,7 @@ void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *arg0, s32 arg1) {
                 vel->y = (0.0f);
                 vel->z = (0.18f) * z + vel->z;
                 VecCopy(&arg0->m_430, vel);
-                update_scale__15TObjBoss2TunnelFv(&arg0->m_430);
+                ((TObjBoss2Tunnel *)(&arg0->m_430))->update_scale();
             } else {
                 arg0->m_3c4 = 1;
                 VecCopy(&arg0->m_430, &arg0->m_3a0);
@@ -1163,7 +1161,7 @@ void TObjEneBm3Fly::render() {
     if (this->m_428 & 1) {
         return;
     }
-    if (is_main_phase_15__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::is_main_phase_15() != 0) {
         kind = this->classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, (15.0f));
     } else if (this->update_object_view_visibility((4e+02f), (15.0f)) != 0) {
         kind = 1;
@@ -1176,7 +1174,7 @@ void TObjEneBm3Fly::render() {
             this->draw_ground_shadow(&v, 0);
         }
         this->update_secondary_light();
-        set_global_param__8TObjFishFl(this->texlist);
+        TObjFish::set_global_param(this->texlist);
         push_matrix();
         translate_matrix(0, this->position.x, this->m_42c, this->position.z);
         rotate_matrix_y(0, this->rotation_y);
@@ -1198,7 +1196,7 @@ void TObjEneBm3Fly::render() {
 void TObjEneBm3Fly::vfunc_106() {
     if (update_object_view_visibility((4e+02f), (15.0f)) != 0) {
         draw_ground_shadow(0, 0);
-        set_global_param__8TObjFishFl(texlist);
+        TObjFish::set_global_param(texlist);
         push_matrix();
         post_translate_matrix(&position);
         rotate_matrix_y(0, rotation_y);

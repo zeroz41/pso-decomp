@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -21,7 +22,6 @@ struct V_8032D214 : B_8032D214 {
 };
 
 extern "C" {
-void append_line__14TWindowMessageFii(s32, void *, int);
 s32 update_window_mode_from_progress__6TLobbyFPv(void *, void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
@@ -48,7 +48,7 @@ void TAdWarningBaseGC::vfunc_9() {
 s32 TAdWarningBaseGC::sub_8032D214() {
     V_8032D214 *arg0 = (V_8032D214 *)this;
     s32 r = update_window_mode_from_progress__6TLobbyFPv((void *)lbl_80477334, (void *)lbl_8047733C);
-    append_line__14TWindowMessageFii(r, arg0->m5(), 3);
+    ((TWindowMessage *)r)->append_line((int)(arg0->m5()), (int)3);
     return r;
 }
 

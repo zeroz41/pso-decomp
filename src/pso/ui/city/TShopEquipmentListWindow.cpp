@@ -207,7 +207,6 @@ u8 *TShopEquipmentListWindow__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 int set_field_20__15TShopWindowBaseFl(void*, int);
 int obj_getPtr2B0_20(u8 *p);
 s32 check_equip_requirements(void *, Rec_8021C33C *, u32 *);
-s32 get_cursor_value__19TWindowMenuIconLineFv(void *);
 s32 get_entity_id(s32);
 s32 get_shop_weapon_stock_item(void *, int, s32);
 int TShopEquipmentListWindow__sub_8021C85C(int a0);
@@ -220,16 +219,13 @@ s32 get_item_count__24TShopEquipmentSellWindowFv(void *a, s32 b);
 void *create_cost_window(u16);
 s32 advance_item_id_counter(u16);
 void try_buy_item(void *, void *);
-void send_6x26_unequip_item__10TObjPlayerFPvPv(void *, s32);
 void send_6x25_equip_item(void *, s32, s32);
 }
 s32 is_single_purchase_shop_item(u8 *p);
 extern "C" {
 extern const s32 local_client_id;
-f32 get_scale__15TShopWindowBaseFv(void *);
 u32 create_yes_no_window(int, u16, int, int);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 sub_80223A48__15TShopWindowBaseFv(void *);
 void play_sound_effect(int, int, int, int);
 void *__dt__24TShopEquipmentListWindowFv(TShopEquipmentListWindow *arg0, s16 arg1);
 s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
@@ -273,12 +269,12 @@ void TShopEquipmentListWindow::handle_equip_offer() {
                 w->base.m4(0x18, 1);
                 ((TWindowBase *)w->win)->close();
                 w->win = (void *)create_yes_no_window(get_window_layout_position(0x2B), get_entity_id(w->player), 0, 0);
-                sc = get_scale__15TShopWindowBaseFv(w);
-                ((TWindowAddition *)((u32)w->win))->set_position_xy(get_scale__15TShopWindowBaseFv(w), sc);
+                sc = ((TShopWindowBase *)w)->get_scale();
+                ((TWindowAddition *)((u32)w->win))->set_position_xy(((TShopWindowBase *)w)->get_scale(), sc);
                 set_field_20__15TShopWindowBaseFl(w, 9);
             } else {
                 Rec_8021BA1C c;
-                i = get_cursor_value__19TWindowMenuIconLineFv(w->list);
+                i = ((TWindowMenuIconLine *)(w->list))->get_cursor_value();
                 c = w->recs[i];
                 c.w[3] = advance_item_id_counter(local_client_id);
                 ((TItemData *)(&c))->set_stack_count(1);
@@ -312,7 +308,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
         r = ((TWindowMenu *)w->card)->get_selected_value();
         if (r == 0) {
             if (w->list != NULL) {
-                s32 i = get_cursor_value__19TWindowMenuIconLineFv(w->list);
+                s32 i = ((TWindowMenuIconLine *)(w->list))->get_cursor_value();
                 Rec_8021BC18 it = w->recs[i];
                 VObj_18_b34251 *item;
                 u32 e;
@@ -321,7 +317,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
                 try_buy_item(w->player, &it);
                 item = (VObj_18_b34251 *)find_item_by_id(it.id);
                 if (item != NULL && (e = (u32)((TObjPlayer *)w->player)->get_equipped_item(item->m31())) != 0) {
-                    send_6x26_unequip_item__10TObjPlayerFPvPv(w->player, ((TItem *)e)->get_item_id());
+                    TObjPlayer::send_6x26_unequip_item((void *)(w->player), (void *)(((TItem *)e)->get_item_id()));
                 }
                 send_6x25_equip_item(w->player, it.id, 0);
                 update_list(&w->recs[i]);
@@ -336,7 +332,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
         }
         if (r == 1) {
             if (w->list != NULL) {
-                s32 i = get_cursor_value__19TWindowMenuIconLineFv(w->list);
+                s32 i = ((TWindowMenuIconLine *)(w->list))->get_cursor_value();
                 Rec_8021BC18 it = w->recs[i];
                 it.id = advance_item_id_counter(local_client_id);
                 ((TItemData *)(&it))->set_stack_count(1);
@@ -354,7 +350,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
     }
     if (w->card != NULL && ((TWindowMenu *)(w->card))->is_cancelled() != 0) {
         if (w->list != NULL) {
-            s32 i = get_cursor_value__19TWindowMenuIconLineFv(w->list);
+            s32 i = ((TWindowMenuIconLine *)(w->list))->get_cursor_value();
             Rec_8021BC18 it = w->recs[i];
             it.id = advance_item_id_counter(local_client_id);
             ((TItemData *)(&it))->set_stack_count(1);
@@ -392,7 +388,7 @@ int TShopEquipmentListWindow::get_list_item8() { return set_field_20__15TShopWin
 
 s32 TShopEquipmentListWindow::handle_confirm() {
     VObj_8021C040_8021B974 *o = (VObj_8021C040_8021B974 *)this;
-    if (o->m8() != 0 && (sub_80223A48__15TShopWindowBaseFv(this) != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         o->m4(0xB, 1);
         ((TWindowMenuIconLine *)(this->m_30))->clear_decided();
         this->TShopWindowBase::set_field_20(1);
@@ -401,7 +397,7 @@ s32 TShopEquipmentListWindow::handle_confirm() {
 
 s32 TShopEquipmentListWindow::handle_select() {
     VObj_8021C0D0_8021B974 *o = (VObj_8021C0D0_8021B974 *)this;
-    if (o->m8() != 0 && (sub_80223A48__15TShopWindowBaseFv(this) != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         o->m4(0xB, 1);
         ((TWindowMenuIconLine *)(this->m_30))->clear_decided();
         this->TShopWindowBase::set_field_20(1);
@@ -413,7 +409,7 @@ void TShopEquipmentListWindow::handle_selection() {
     Win_8021C160 *w = (Win_8021C160 *)this;
     s32 i;
     if (w->list != NULL) {
-        i = get_cursor_value__19TWindowMenuIconLineFv(w->list);
+        i = ((TWindowMenuIconLine *)(w->list))->get_cursor_value();
         if (w->help != NULL && i != w->sel) {
             ((TWindowHelpItem *)(w->help))->set_displayed_item_colored((u32)&w->recs[i]);
         }
@@ -427,7 +423,7 @@ void TShopEquipmentListWindow::handle_selection() {
         play_sound_effect(0x52D01, 0, 0, 0);
         return;
     }
-    if (sub_80223A48__15TShopWindowBaseFv(w) != 0) {
+    if (((TShopWindowBase *)w)->sub_80223A48() != 0) {
         play_sound_effect(0x52D01, 0, 0, 0);
         switch (check_purchase_eligibility()) {
         case 0:

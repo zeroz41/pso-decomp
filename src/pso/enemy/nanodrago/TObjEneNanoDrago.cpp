@@ -89,7 +89,6 @@ extern "C" void *spawn_directional_particle(void *pos, void *dir, s32 id);
 extern "C" void TObjPlayer__sub_800DCD04(void *, void *, int, void *, s32, int);
 extern "C" void *find_entity_by_id(u16 id);
 extern "C" u32 __nw__7TObjectFUl(u32);
-extern "C" void enemy_turn_toward_dest__9TObjEnemyFl(void *, s32);
 extern "C" s32 enemy_turn_half_toward_dest(void *);
 extern "C" s32 construct_beam_effect__10TObjPlayerFPvPvPviPv(u32, void *, void *, u8, void *);
 extern "C" s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
@@ -1010,7 +1009,7 @@ void TObjEneNanoDrago::wander_around(Vec *center, f32 radius) {
         actor->moveDestination.z = r * sin_table_lookup(ang) + center->z;
     }
     VecCopy((Vec *)&actor->m_29c, (const Vec *)&actor->moveDestination);
-    enemy_turn_toward_dest__9TObjEnemyFl(actor, ((NanoDragoMovementParams *)actor->movementParameters)->turnSpeed);
+    ((TObjEnemy *)actor)->enemy_turn_toward_dest(((NanoDragoMovementParams *)actor->movementParameters)->turnSpeed);
     enemy_set_heading_velocity(actor->speed, actor, actor->rotation_y);
     move_with_wall_slide((u8 *)actor);
 }

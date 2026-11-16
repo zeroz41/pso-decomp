@@ -23,7 +23,6 @@ s32 __cvt_fp2unsigned(f32);
 s32 is_split_screen(void);
 void TCameraCtrl__sub_80068EF0(void);
 s32 is_window_display_enabled(void);
-void sub_802AD040__18TWindowEffectLightFf(void *, f32);
 void begin_screen_draw(s32);
 extern s32 lbl_805D63F0;
 const char *lbl_805D3E60 = "TWindowEffectLight";
@@ -104,16 +103,16 @@ void render__18TWindowEffectLightFv(u8 *window_effect_light) {
           ((TWindowEffectLight *)window_effect_light)->draw_outline_quad(0xFFFFFF);
           break;
         case 3:
-          sub_802AD040__18TWindowEffectLightFf(window_effect_light, 20.0f);
+          ((TWindowEffectLight *)window_effect_light)->sub_802AD040(20.0f);
           break;
         case 4:
-          sub_802AD040__18TWindowEffectLightFf(window_effect_light, 39.0f);
+          ((TWindowEffectLight *)window_effect_light)->sub_802AD040(39.0f);
           break;
         case 5:
-          sub_802AD040__18TWindowEffectLightFf(window_effect_light, 77.0f);
+          ((TWindowEffectLight *)window_effect_light)->sub_802AD040(77.0f);
           break;
         case 6:
-          sub_802AD040__18TWindowEffectLightFf(window_effect_light, 191.0f);
+          ((TWindowEffectLight *)window_effect_light)->sub_802AD040(191.0f);
           break;
       }
     }

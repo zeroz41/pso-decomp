@@ -119,7 +119,6 @@ void *__nw__7TObjectFUl(u32);
 extern void *tl_05;
 s32 get_entity_id(void *);
 s32 get_shop_text(s32 arg0);
-f32 get_scale__15TShopWindowBaseFv(void *);
 int align_menu_entry_positions(void *);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void* p, int a1, int a2, int a3);
 s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
@@ -133,7 +132,6 @@ struct VObj_8021FE80_8021FE6C : Base_8021FE80_8021FE6C {
 };
 
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 sub_80223A48__15TShopWindowBaseFv(void *);
 s32 close_if_single_screen__13TShopSequenceFv(void *);
 s32 close_window__13TShopSequenceFv(void *);
 
@@ -158,14 +156,14 @@ void close__20TShopItemTecSequenceFPv(void *shop_window_base) {
 }
 
 s32 TShopItemTecSequence::handle_select() {
-    if ((this->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(this) != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+    if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
         ((VObj_8021FF30_8021FE6C*)this)->m4(lbl_805D6248, 1);
         this->set_field_20(lbl_805D624C);
     }
 }
 
 s32 TShopItemTecSequence::close_if_done() {
-    if ((this->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(this) != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+    if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
         close_if_single_screen__13TShopSequenceFv(this);
         close_window__13TShopSequenceFv(this);
         queue_destruction();
@@ -204,7 +202,7 @@ void TShopItemTecSequence::update_buy_sell_choice() {
         ((TWindowSubComCard *)(((Seq_80220110 *)this)->win))->calc_window_size();
         align_menu_entry_positions(((Seq_80220110 *)this)->win);
         ((TCheckRoomSequence *)(((Seq_80220110 *)this)->win))->set_ready_flag();
-        ((TWindowAddition *)(((Seq_80220110 *)this)->win))->set_position_xy(get_scale__15TShopWindowBaseFv(((Seq_80220110 *)this)), get_scale__15TShopWindowBaseFv(((Seq_80220110 *)this)));
+        ((TWindowAddition *)(((Seq_80220110 *)this)->win))->set_position_xy(get_scale(), get_scale());
     }
     if (((Seq_80220110 *)this)->win != NULL && ((TWindowMenu *)(((Seq_80220110 *)this)->win))->is_decided() != 0) {
         r = ((TWindowMenu *)(((Seq_80220110 *)this)->win))->get_selected_value();

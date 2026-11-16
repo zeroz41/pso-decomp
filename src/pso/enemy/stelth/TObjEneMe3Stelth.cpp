@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include <stddef.h>
+#include "pso/object/ambient/TObjFish.h"
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/map/CsnQuery.h"
@@ -92,7 +93,6 @@ s32 is_split_screen();
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 s32 select_enemy_destination(void *, Vec *, int);
 s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
-s32 enemy_turn_toward_dest__9TObjEnemyFl(void *, s32);
 extern StelthBehaviorParams *TObjEneMe3Stelth__behavior_params_by_variant[];
 extern s32 game_difficulty_selection;
 extern const f32 TObjEneMe3Stelth__data_805DA820;
@@ -126,11 +126,9 @@ u32 *TObjEneMe3Stelth__material_color_pointers[4];
 }
 
 extern "C" {
-s32 set_global_param__8TObjFishFl(s32);
 }
 
 extern "C" {
-s32 is_main_phase_15__9TObjEneDDFv();
 s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(void *);
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
@@ -166,16 +164,12 @@ s32 create__10TTecDebandFlll(void *, void *, s32);
 
 
 
-s32 is_locally_controlled__10TObjPlayerFPv(void *);
 u32 get_item_field_6__10TObjPlayerFPv(void *);
 f32 fabs_float(f32);
 s32 get_item_id__5TItemFv(void);
 int select_and_apply_target__12TObjEneDD_STFf(void*);
 void TObjEneDD__sub_800BA438(void *, void *);
 void handle_message__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1);
-s32 update_enemy_collision_flags__14TObjCollidableFv(void *);
-s32 check_object_collisions__14TObjCollidableFv(void *);
-void send_6x26_unequip_item__10TObjPlayerFPvPv(void *, s32);
 
 extern const f32 lbl_805DA894;
 extern f32 lbl_805DA898;
@@ -648,8 +642,8 @@ void TObjEneMe3Stelth::attack_and_unequip() {
         if (d > 0.0f) {
             if (sub_800F47D4() != 0) {
                 TObjChara *t = target;
-                if (is_locally_controlled__10TObjPlayerFPv(t) != 0 && get_item_field_6__10TObjPlayerFPv(t) != 0) {
-                    send_6x26_unequip_item__10TObjPlayerFPvPv(t, get_item_id__5TItemFv());
+                if (TObjPlayer::is_locally_controlled(t) != 0 && get_item_field_6__10TObjPlayerFPv(t) != 0) {
+                    TObjPlayer::send_6x26_unequip_item((void *)t, (void *)(get_item_id__5TItemFv()));
                     ((TObjPlayer *)t)->get_hand_joint_position((s32)&m_3f8);
                     spawn_particle_effect(&m_3f8, 0x1D0);
                 }
@@ -735,9 +729,9 @@ void TObjEneMe3Stelth::update_distance_state() {
 extern "C" {
 void TObjEneMe3Stelth::vfunc_89() {
     vfunc_88();
-    check_object_collisions__14TObjCollidableFv(this);
+    check_object_collisions();
     check_enemy_body_collisions(this);
-    update_enemy_collision_flags__14TObjCollidableFv(this);
+    update_enemy_collision_flags();
 }
 }
 
@@ -1847,7 +1841,7 @@ void TObjEneMe3Stelth::render() {
     sub_800F47D4();
     if (m_3cc & 2) {
         mode = 0;
-    } else if (is_main_phase_15__9TObjEneDDFv() != 0) {
+    } else if (TObjEneDD::is_main_phase_15() != 0) {
         mode = classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, TObjEneMe3Stelth__data_805DA808);
     } else if (update_object_view_visibility(400.0f, TObjEneMe3Stelth__data_805DA808) != 0) {
         mode = 1;
@@ -1897,7 +1891,7 @@ void TObjEneMe3Stelth::render() {
                 set_chunk_material_override_pair(0xFF00, 0x800);
             }
             if (draw != 0) {
-                set_global_param__8TObjFishFl(texlist);
+                TObjFish::set_global_param(texlist);
                 push_matrix();
                 post_translate_matrix(&position.x);
                 translate_matrix(0, 0.0f, m_3d4, 0.0f);
@@ -1936,7 +1930,7 @@ void TObjEneMe3Stelth::render() {
                 set_constant_material(&c);
                 set_color_blend_mode(1, 4, 5, 0);
             }
-            set_global_param__8TObjFishFl(texlist);
+            TObjFish::set_global_param(texlist);
             for (i = 0; i < 3; i++) {
                 if (TObjEneMe3Stelth__material_color_pointers[i] != 0) {
                     *TObjEneMe3Stelth__material_color_pointers[i] = m_3e8;
@@ -2018,7 +2012,7 @@ void TObjEneMe3Stelth::draw_with_debug_info() {
     }
     flag = sub_800F47D4();
     if (update_object_view_visibility(400.0f, TObjEneMe3Stelth__data_805DA808) != 0) {
-        set_global_param__8TObjFishFl(texlist);
+        TObjFish::set_global_param(texlist);
         TObjPlayer::toggle_particle_effect();
         if (flag != 0) {
             NJS_TEXNAME *textures = ((NJS_TEXLIST *)texlist)->textures;
@@ -2233,7 +2227,7 @@ void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 arg1) {
                     Vec pos = *(Vec *)&stelth->m_2fc;
                     copy_position_if_valid__10TObjPlayerFii((s32)stelth, (s32)&pos);
                     stelth->m_300 += TObjEneMe3Stelth__data_805DA820;
-                    r = enemy_turn_toward_dest__9TObjEnemyFl(stelth, ((StelthMovementParams *)stelth->movementParameters)->turn);
+                    r = ((TObjEnemy *)stelth)->enemy_turn_toward_dest(((StelthMovementParams *)stelth->movementParameters)->turn);
                     enemy_set_heading_velocity(((StelthMovementParams *)stelth->movementParameters)->speed, stelth, stelth->rotation_y);
                     move_with_wall_slide((u8 *)stelth);
                 } else {

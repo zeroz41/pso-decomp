@@ -224,7 +224,6 @@ struct Strs_8031224C { u8 pad[0x18]; char *fmt; };
 struct O_8031224C { u8 pad[0x20]; void *w0; u8 pad2[0x240 - 0x24]; s32 timer; u8 pad3[0x274 - 0x244]; s32 team[4]; u8 pad4[0x294 - 0x284]; Strs_8031224C *strs; };
 extern "C" {
 s32 is_battle_decided__19TPlayerBattleCtrl4PFv(void *);
-void append_line__14TWindowMessageFii(void *, void *, int);
 char *strncpy(char *, const char *, u32);
 void update__19TPlayerBattleCtrl4PFv(void *);
 s32 __ct__15TDuelEffectCtrlFP7TObjectUc(void *, void *, s32);
@@ -392,7 +391,7 @@ void TPlayerBattleCtrl4P::open_intro_window() {
 
 void TPlayerBattleCtrl4P::show_intro_text() {
     if (this->intro_window != NULL) {
-        append_line__14TWindowMessageFii(this->intro_window, (void *)((char *)((void *)this) + 56), 128);
+        ((TWindowMessage *)(this->intro_window))->append_line((int)((void *)((char *)((void *)this) + 56)), (int)128);
     }
     this->frame_timer = 240;
     set_score(2);
@@ -432,7 +431,7 @@ void TPlayerBattleCtrl4P::show_team_matchup() {
         }
     }
     sprintf(team_matchup_message_buffer, ((O_8031224C *)this)->strs->fmt, names[0], names[1], names[2], names[3]);
-    append_line__14TWindowMessageFii(((O_8031224C *)this)->w0, team_matchup_message_buffer, 0x80);
+    ((TWindowMessage *)(((O_8031224C *)this)->w0))->append_line((int)team_matchup_message_buffer, (int)0x80);
     ((O_8031224C *)this)->timer = 0xF0;
     set_score((s32)((void *)4));
 }

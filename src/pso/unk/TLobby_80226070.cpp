@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/TLobby.h"
@@ -67,7 +68,6 @@ void TLobby::init_layout_positions() {
     TLobby::close_option_window();
     TLobby::reset_global();
 }
-u8 *get_global_state__23TAdSinglePlyChrSelectGCFv();
 s32 OSSetSoundMode(int);
 extern SndEnt_8022675C lbl_805145F0[];
 extern const u32 lbl_805DC748;
@@ -140,7 +140,7 @@ int TLobby::init_sound_mode() {
     } else {
         TLobby::set_mode(1);
         sound_mode_value = 0;
-        p = get_global_state__23TAdSinglePlyChrSelectGCFv();
+        p = TAdSinglePlyChrSelectGC::get_global_state();
         if (p != NULL && p != NULL && *(s16 *)((s8 *)p + 0xE) != 0) {
             sound_mode_value = 2;
             TLobby::set_mode(2);
@@ -152,7 +152,7 @@ int TLobby::init_sound_mode() {
 void TLobby::set_sound_output_mode(s32 arg0) {
     s32 var_r30;
     u8 *temp_r3;
-    temp_r3 = get_global_state__23TAdSinglePlyChrSelectGCFv();
+    temp_r3 = TAdSinglePlyChrSelectGC::get_global_state();
     if (temp_r3 != NULL) {
         *(s16 *)((s8 *)temp_r3 + 0xE) = 0;
     }

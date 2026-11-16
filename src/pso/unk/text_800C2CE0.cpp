@@ -123,7 +123,6 @@ const Pair_800C2E64 lbl_8043BA60[1] = {{16, 0}};
 void TObjEneRe2Flower__sub_800C2E64(Obj_800C2E64 *self, s32 state);
 s32 get_flag_b4__9TObjEneDDFv();
 s32 TBoss8Dragon__sub_800BB7D4(void *, int);
-s32 noop__9TObjEneDDFv(void *, s32);
 s32 fn_800C3A60(void *, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
 #define F(T, o) (*(T *)((s8 *)(arg0) + (o)))
@@ -156,7 +155,7 @@ void TObjEneDD::state_damaged(s32 arg1) {
         advance_animation();
         this->vfunc_102();
         this->vfunc_88();
-        ((s32 (*)(void *))noop__9TObjEneDDFv)(arg0);
+        ((TObjEneDD *)arg0)->noop();
         break;
     case 5:
         F(s32, 0x30) &= ~0x200;
@@ -210,7 +209,7 @@ void TObjEneRe2Flower__sub_800C2E64(Obj_800C2E64 *self, s32 state) {
         }
         self->s198(F(self, s32, 0x410)++);
         self->s160();
-        ((void (*)(void *))noop__9TObjEneDDFv)(self);
+        ((TObjEneDD *)self)->noop();
         break;
     case 5:
         F(self, u32, 0x30) &= ~0x04000000;

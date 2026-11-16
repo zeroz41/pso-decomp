@@ -95,13 +95,10 @@ s32 draw_default_entry__9TWindowDDFl();
 int update_keyboard_close_mode(void*);
 f32 TWindowKeyBoardSoft__sub_802606E0(TWindowKeyBoardSoft *);
 void TWindowKeyBoardSoft__sub_80260760(void *self, s32 key, s32 *count, u32 *color);
-void sub_80260E30__19TWindowKeyBoardSoftFl(void *self, s32 port);
 void TWindowKeyBoardSoft__sub_80261134(void *self);
 void TKeyBoardControl__sub_802613A4(TKeyBoardControl *arg0);
 f32 TWindowKeyBoardSoft__sub_802614DC(u8 *, u8 *, f32, f32, f32, f32);
-void sub_802616BC__19TWindowKeyBoardSoftFP19TWindowKeyBoardSoft(TWindowKeyBoardSoft *, TWindowKeyBoardSoft *);
 void TWindowKeyBoardSoft__sub_80261DD8(TWindowKeyBoardSoft *, TWindowKeyBoardSoft *);
-void sub_8026227C__19TWindowKeyBoardSoftFP19TWindowKeyBoardSoft(TWindowKeyBoardSoft *, TWindowKeyBoardSoft *);
 extern s32 lbl_805D63F0;
 s32 get_flag_bit5__19TWindowKeyBoardSoftFv();
 
@@ -675,7 +672,7 @@ void TWindowKeyBoardSoft::sub_802616BC(TWindowKeyBoardSoft *ctx) {
                 color = key == cursor ? 0xFF000000 : 0xFF999999;
                 q.x = 1.0f + (1.0f + (19.0f * (f32)col + ctx->x));
                 q.y = 1.0f + (26.0f + (ctx->y + 19.0f * (f32)row));
-                width = calc_gauge_scale__20TWindowSubStatusDispFUsPvl(code, &q, color);
+                width = TWindowSubStatusDisp::calc_gauge_scale(code, &q, color);
                 q.x = 0.5f * (f32)(18 - width) + q.x;
                 set_glyph_quad_extents(width, (u8 *)&q);
                 if (this->hit_test_relative((u8 *)ctx, (u8 *)&q) != 0) {
@@ -939,9 +936,9 @@ void TWindowKeyBoardSoft::sub_8026227C(TWindowKeyBoardSoft *ctx) {
 void TWindowKeyBoardSoft::render() {
     s32 temp_r3;
     temp_r3 = draw_default_entry__9TWindowDDFl();
-    sub_8026227C__19TWindowKeyBoardSoftFP19TWindowKeyBoardSoft(this, (TWindowKeyBoardSoft *)temp_r3);
+    sub_8026227C((TWindowKeyBoardSoft *)temp_r3);
     TWindowKeyBoardSoft__sub_80261DD8(this, (TWindowKeyBoardSoft *)temp_r3);
-    sub_802616BC__19TWindowKeyBoardSoftFP19TWindowKeyBoardSoft(this, (TWindowKeyBoardSoft *)temp_r3);
+    sub_802616BC((TWindowKeyBoardSoft *)temp_r3);
 }
 
 }
@@ -962,7 +959,7 @@ void TWindowKeyBoardSoft::run_task() {
         if ((sub_80244994__11TWindowBaseFv() != 0) && (((TKeyBoardControl *)(*(u32 *)((s8 *)this + 0x6C)))->is_key_active() == 0)) {
             temp_r3 = is_player_input_active(*(s16 *)((s8 *)this + 0x20));
             handle_page_cycle_input(temp_r3);
-            sub_80260E30__19TWindowKeyBoardSoftFl(this, temp_r3);
+            sub_80260E30(temp_r3);
             TWindowKeyBoardSoft__sub_80260904(this, temp_r3);
             update_keyboard_child_input_from_controller(temp_r3);
             sub_80260808(temp_r3);

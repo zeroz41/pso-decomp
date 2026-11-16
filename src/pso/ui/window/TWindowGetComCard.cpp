@@ -37,7 +37,6 @@ s32 init_com_card__17TWindowSubComCardFv();
 s32 *TWindowGetComCard__sub_8007B594(void);
 s32 reset_equip_slots__10TObjPlayerFv();
 void *get_player_by_client_id(s32 i);
-void *get_com_card_list__6TLobbyFv(void *p);
 s32 text_builder_append();
 s32 __ct__7TObjectFP7TObject();
 void TObjPlayer__sub_8024ABDC(s32 arg0);
@@ -172,7 +171,7 @@ u8 *TWindowGetComCard__ct(TWindowGetComCard *window_get_com_card) {
     if (init_com_card__17TWindowSubComCardFv() != 0) {
         temp_r31 = (s32)TWindowGetComCard__sub_8007B594();
         text_builder_reset();
-        get_com_card_list__6TLobbyFv((void *)temp_r31);
+        ((TLobby *)temp_r31)->get_com_card_list();
         text_builder_append();
         TWindowSubStatusDisp::get_message_10(0x36);
         text_builder_append();

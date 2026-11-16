@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/object/warp/TObjWarpBossMulti.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
@@ -51,13 +52,10 @@ extern s32 local_client_id;
 s32 is_local_client_floor_leader(s32);
 s32 find_local_player_in_range__16TObjCityMainWarpFf(void *, f32);
 s32 close_windows__25TObjCityMainWarpChallengeFv();
-void sub_801875F8__25TObjCityMainWarpChallengeFv(TObjCityMainWarpChallenge *self);
 s32 fn_80248994(void *, u32, int);
 void request_active_window_close(void);
 void begin_player_keyboard_hold(s32 arg0);
 s32 get_window_layout_position(s32);
-s32 free_member__17TWindowSubComCardFv(void *, int);
-s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, s32, s32, f32);
 extern BmlResource *city_common_model_archive;
 s32 get_main_phase();
 extern s32 city_main_warp_destination_id;
@@ -112,7 +110,7 @@ void TObjCityMainWarp::update_warp_sequence() {
         break;
     case 1:
         if (((u32 (*)(f32))find_local_player_in_range__16TObjCityMainWarpFf)(arg0->warp_range) != 0) {
-            sub_801875F8__25TObjCityMainWarpChallengeFv(arg0);
+            ((TObjCityMainWarpChallenge *)arg0)->sub_801875F8();
             if (arg0->warp_triggered == 0) {
                 arg0->trigger_warp_effect(local_client_id);
                 arg0->warp_triggered = 1;

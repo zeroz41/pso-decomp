@@ -279,7 +279,7 @@ void TLobby::update_random_flip_flag() {
         break;
     }
     if (*(s32 *)((s8 *)((u8 *)this) + 8) & 0x100) {
-        *(s16 *)((s8 *)((u8 *)this) + 0x90) = (s16)(((u32 (*)(void*))advance_rng__6TLobbyFv)(*(void **)((s8 *)((u8 *)this) + 0)) & 1);
+        *(s16 *)((s8 *)((u8 *)this) + 0x90) = (s16)(((TLobby *)(*(void **)((s8 *)((u8 *)this) + 0)))->advance_rng() & 1);
     }
 }
 
@@ -574,7 +574,7 @@ void TLobby__sub_80240F3C(SoundRequestVoice *v) {
         break;
     }
     if (v->flags & 0x40) {
-        v->pitchMoving = num * ((s32)((advance_rng__6TLobbyFv(v->owner) >> 16) & 0x3F00) - 0x2000 + extra) / den;
+        v->pitchMoving = num * ((s32)((((TLobby *)(v->owner))->advance_rng() >> 16) & 0x3F00) - 0x2000 + extra) / den;
     }
 }
 
@@ -673,9 +673,9 @@ void TLobby__sub_80241798(Sound_80241798 *arg0) {
         break;
     }
     if (arg0->flags & 0x80) {
-        arg0->pitch = num * ((s32)((((u32 (*)(void*))advance_rng__6TLobbyFv)(arg0->owner) >> 16) & 0x3FFF) - 0x2000) / den;
-        arg0->velocity = min + (mask & ((u32 (*)(void*))advance_rng__6TLobbyFv)(arg0->owner));
-        if ((s32)(((u32 (*)(void*))advance_rng__6TLobbyFv)(arg0->owner) & 0x3F) < 0x20) {
+        arg0->pitch = num * ((s32)((((TLobby *)(arg0->owner))->advance_rng() >> 16) & 0x3FFF) - 0x2000) / den;
+        arg0->velocity = min + (mask & ((TLobby *)(arg0->owner))->advance_rng());
+        if ((s32)(((TLobby *)(arg0->owner))->advance_rng() & 0x3F) < 0x20) {
             arg0->velocity = -arg0->velocity;
         }
     }
@@ -826,7 +826,7 @@ void calc_sound_spatial_params(SoundRequestVoice *v) {
                 const Vec *pos = (const Vec *)v->position;
                 f64 direction = 10430.38043493439 * atan2_float(pos->z - listener.z, pos->x - listener.x);
                 s32 angle = (s32)direction + camera_ctrl_instance->yaw - 0x4000;
-                surround = (s32)(dist * (cos_table_lookup(angle) * get_field_2a4__6TLobbyFv(v->owner)));
+                surround = (s32)(dist * (cos_table_lookup(angle) * ((TLobby *)(v->owner))->get_field_2a4()));
             }
             if (v->flags & 4) {
                 volume = 0;

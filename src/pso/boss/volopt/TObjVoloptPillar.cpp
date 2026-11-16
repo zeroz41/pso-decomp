@@ -83,7 +83,7 @@ void TObjVoloptPillar::run_task() {
         state = 1;
     case 1:
         if (--timer <= 0) {
-            sub_80049FD8__16TObjVoloptPillarFv(this);
+            sub_80049FD8();
             state = 2;
         }
         break;

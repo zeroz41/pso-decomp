@@ -1227,7 +1227,6 @@ extern f32 boss2_derolle_particle_limits[];
 
 void update_particle_ctrls__13TBoss2DeRolLeFPv(Obj_80033AA4 *o);
 
-f32 random_ratio__9TObjCharaFv(void *);
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
@@ -1293,7 +1292,6 @@ extern u32 *boss2_derolle_segment_color_targets[];
 
 void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0);
 
-f32 random_ratio__9TObjCharaFv(void *);
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
@@ -1321,7 +1319,6 @@ void TBoss2DeRolLe__sub_800327C8(void *arg0, void *arg1, int arg2, int arg3);
 
 void assign_slots_from_list(void *, s32);
 
-f32 random_ratio__9TObjCharaFv(void *);
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
@@ -1369,7 +1366,6 @@ s32 restore_player_cameras();
 
 void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1);
 
-f32 random_ratio__9TObjCharaFv(void *);
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
@@ -1512,7 +1508,6 @@ struct Rec_80030898 { f32 a; f32 b; f32 c; };
 
 struct Obj_80030898 { u8 pad0[0x544]; Rec_80030898 recs[8]; };
 
-f32 random_ratio__9TObjCharaFv(void *);
 
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 
@@ -1546,7 +1541,6 @@ void TBoss2DeRolLe__sub_800333F4(Obj_800333F4 *self, u32 arg1);
 
 void dispatch_action__13TBoss2DeRolLeFiUii(s32 arg0, u32 arg1, s32 arg2);
 
-void advance_phase_wrap__13TBoss2DeRolLeFv(u8 *arg0);
 
 int spawn_trap__13TBoss2DeRolLeFPvii(void* p, int a1, int a2);
 
@@ -2279,7 +2273,6 @@ s32 advance_action_sequence__13TBoss2DeRolLeFPv(void *);
 
 void queue_destruction__7TObjectFv(void *arg0);
 
-void advance_phase_wrap__13TBoss2DeRolLeFv(u8 *arg0);
 
 void update_projectile_spawns__13TBoss2DeRolLeFPv(u8 *arg0);
 
@@ -2586,13 +2579,10 @@ s32 __ct__12TObjEneDD_STFP7TObject(void *, void *);
 
 s32 is_main_phase_15__9TObjEneDDFv();
 
-s32 reset_hp__9TObjEneDDFPUcPUcPUc(void *, int, int, int);
 
-s32 initialize_enemy_state__9TObjEneDDFl(void *, int);
 
 s32 init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int, void *);
 
-s32 invoke_initialization_hook__9TObjEneDDFPv(void *, void *);
 
 u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
 
@@ -3206,7 +3196,7 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
     if ((u32)TBoss2DeRolLe__instance == 0) {
         TBoss2DeRolLe__instance = (s32)self;
     }
-    invoke_initialization_hook__9TObjEneDDFPv(self, arg2);
+    ((TObjEneDD *)self)->invoke_initialization_hook(arg2);
     self->f3C0 = 0;
     {
         // exchange_object_state copies the object's whole 12-byte lobby record
@@ -3230,10 +3220,10 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
     ((TBoss2DeRolLe *)self)->requested_action = 0;
     ((TObjMotion *)self)->set_animation(((TBoss2DeRolLe *)self)->requested_action);
     ((TObjMotion *)self)->set_field_b8(((TBoss2DeRolLe *)self)->requested_action);
-    reset_hp__9TObjEneDDFPUcPUcPUc(self, TBoss2DeRolLe__base_params, ((s32 *)TBoss2DeRolLe__attack_params_table)[0], TBoss2DeRolLe__resistance_params);
+    ((TObjEneDD *)self)->reset_hp((u8 *)TBoss2DeRolLe__base_params, (u8 *)(((s32 *)TBoss2DeRolLe__attack_params_table)[0]), (u8 *)TBoss2DeRolLe__resistance_params);
     ((TObjEneDD *)self)->check_state_flag_2();
     ((TBoss2DeRolLe *)self)->movementParameters = (u8 *)lbl_8048228C;
-    initialize_enemy_state__9TObjEneDDFl(self, 0x2D);
+    ((TObjEneDD *)self)->initialize_enemy_state(0x2D);
     ((TBoss2DeRolLe *)self)->m_37c = 20.0f;
     ((TObjEneDD_ST *)self)->enemy_init_acquire_period(0x1E);
     ((TObjEneDD_ST *)self)->enemy_init_validate_period(0x1E);
@@ -3551,7 +3541,7 @@ void run_task__13TBoss2DeRolLeFPv(u8 *arg0) {
       }
       (((VObj_18_bd2ad6 *)(arg0))->m85((((TBoss2DeRolLe *)arg0)->mode), 0));
     }
-    advance_phase_wrap__13TBoss2DeRolLeFv(arg0);
+    ((TBoss2DeRolLe *)arg0)->advance_phase_wrap();
     update_projectile_spawns__13TBoss2DeRolLeFPv(arg0);
   }
   ((TObjEneDD *)arg0)->sub_800BBA0C();
@@ -3995,7 +3985,7 @@ void pick_random_target__13TBoss2DeRolLeFi(s32 actor) {
         ((TObjEneDD_ST *)actor)->set_target_player((void *)p);
         return;
     }
-    j = (s32) floor_to_float((f32) n * random_ratio__9TObjCharaFv((void *)actor));
+    j = (s32) floor_to_float((f32) n * ((TObjChara *)actor)->random_ratio());
     enemy_clear_target__12TObjEneDD_STFUs((void *)actor);
     for (i = 0; i < n; i++) {
         p = get_player_data__10TObjPlayerFi(j);
@@ -5019,7 +5009,7 @@ void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3) {
                             }
                             ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->recs[i]);
                         }
-                        v.x = v.x - self->dir * (20.0f * random_ratio__9TObjCharaFv(self) + 40.0f);
+                        v.x = v.x - self->dir * (20.0f * ((TObjChara *)self)->random_ratio() + 40.0f);
                         v.y = -5.0f;
                         v.z = v.z + (20.0f * calc_elapsed_scaled__9TObjEneDDFv(self) + 70.0f);
                         ((void (*)(void *, void *)) spawn_ceil_junk__13TBoss2DeRolLeFii)(self, &v);
@@ -5028,7 +5018,7 @@ void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3) {
                     V_800320B4 v;
                     self->tick = 0;
                     ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->x);
-                    v.x = v.x + self->dir * (20.0f * random_ratio__9TObjCharaFv(self) + 20.0f);
+                    v.x = v.x + self->dir * (20.0f * ((TObjChara *)self)->random_ratio() + 20.0f);
                     v.y = -5.0f;
                     v.z = v.z + (60.0f * calc_elapsed_scaled__9TObjEneDDFv(self) + 10.0f);
                     ((void (*)(void *, void *)) spawn_ceil_junk__13TBoss2DeRolLeFii)(self, &v);
@@ -5382,7 +5372,7 @@ void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2) {
                 f32 s;
                 o->f6E8 = 0;
                 VecCopy__FP3VecPC3Vec((int)&v, &o->v4E8);
-                s = 50.0f * random_ratio__9TObjCharaFv(o);
+                s = 50.0f * ((TObjChara *)o)->random_ratio();
                 v.x = v.x - o->f6FC * s;
                 v.y = -5.0f;
                 v.z += 40.0f;
@@ -5533,7 +5523,7 @@ void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2) {
                 if (((TObjEneDD_ST *)self)->enemy_has_live_target() != 0) {
                     VecCopy__FP3VecPC3Vec((int)&v, self->f390 + 0x38);
                 } else {
-                    f32 r = 120.0f * random_ratio__9TObjCharaFv(self);
+                    f32 r = 120.0f * ((TObjChara *)self)->random_ratio();
                     a = get_random_scaled__9TObjEneDDFv(self);
                     v.x = r * sin_table_lookup(a);
                     v.y = -1.85f;
@@ -5734,10 +5724,10 @@ void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1) {
                 *(s32 *)((s8 *)arg0 + 0x6E0) = 3;
                 *(f32 *)((s8 *)arg0 + 0x700) = 0.0f;
             }
-            if (random_ratio__9TObjCharaFv(arg0) <= *(f32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x10)) {
+            if (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0x10)) {
                 VecCopy__FP3VecPC3Vec((int)&v, arg0 + 0x38);
                 v.x = *(f32 *)((s8 *)TBoss2DeRolLe__data_805D4BA0 + 0xC) * calc_elapsed_scaled__9TObjEneDDFv(arg0) + v.x;
-                v.z -= 100.0f * random_ratio__9TObjCharaFv(arg0);
+                v.z -= 100.0f * ((TObjChara *)arg0)->random_ratio();
                 v.y += 10.0f + *(f32 *)((s8 *)arg0 + 0x6A4);
                 TObjBoss2CeilJunk::create(&v);
             }
@@ -6324,7 +6314,7 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
                     }
                     v.x += 40.0f * calc_elapsed_scaled__9TObjEneDDFv(o);
                     v.y = -5.0f;
-                    v.z += 80.0f * random_ratio__9TObjCharaFv(o);
+                    v.z += 80.0f * ((TObjChara *)o)->random_ratio();
                     ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &v);
                 }
             } else if (t >= 99.0f && t <= 140.0f && (f32)o->f6E4 >= 2.0f) {

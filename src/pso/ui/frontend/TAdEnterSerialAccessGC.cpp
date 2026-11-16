@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/system/task/TObject.h"
+#include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 extern "C" void render__22TAdEnterSerialAccessGCFv();
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"

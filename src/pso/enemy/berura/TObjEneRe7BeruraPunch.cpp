@@ -203,7 +203,6 @@ CollisionBody TObjEneRe7BeruraPunch__collision_body_templates[2] = {
     {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 extern const char *TObjEneRe7BeruraPunch__name;
-void queue_destruction__7TObjectFv(void *);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 void vec3_add_to(void *, void *);
 
@@ -251,7 +250,7 @@ void TObjEneRe7BeruraPunch::run_task() {
     f32 s;
     f32 c;
     if (find_entity_by_id(this->owner_id) == NULL || all_parents_unqueued_for_destruction__7TObjectFv() == 0) {
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
         return;
     }
     switch (this->m_b4) {
@@ -311,11 +310,11 @@ void TObjEneRe7BeruraPunch::run_task() {
 }
 TObjEneRe7BeruraPunch::~TObjEneRe7BeruraPunch() {
     if (this->m_d0 != NULL) {
-        queue_destruction__7TObjectFv(this->m_d0);
+        ((TObject *)(this->m_d0))->queue_destruction();
         this->m_d0 = 0;
     }
     if (this->m_d4 != NULL) {
-        queue_destruction__7TObjectFv(this->m_d4);
+        ((TObject *)(this->m_d4))->queue_destruction();
         this->m_d4 = 0;
     }
     if (this->attack_history != NULL) {

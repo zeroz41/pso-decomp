@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/effect/TUnk_80494968.h"
@@ -122,8 +123,6 @@ extern void *tl_04;
 extern "C" {
 s32 is_split_screen();
 void *__nw__7TObjectFUl(int);
-s32 get_camera_mode__11TCameraCtrlFv();
-s32 is_main_phase_15__9TObjEneDDFv();
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
@@ -1495,11 +1494,11 @@ void TObjEneDellBiter::render() {
     }
     cam = 0;
     if (is_split_screen() != 0) {
-        cam = get_camera_mode__11TCameraCtrlFv();
+        cam = TCameraCtrl::get_camera_mode();
     }
     if (flags & 1) {
         vis = 0;
-    } else if (is_main_phase_15__9TObjEneDDFv() != 0) {
+    } else if (TObjEneDD::is_main_phase_15() != 0) {
         if (get_current_floor_area() == AREA_TOWER) {
             vis = classify_actor_view_detail(600.0f, 600.0f, 15.0f);
         } else {

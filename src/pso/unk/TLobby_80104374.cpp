@@ -737,10 +737,7 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self);
 }
 
 
-extern "C" s32 obj_isState3_324__9TObjCharaFv(void *);
 extern "C" s32 is_script_controlled__10TObjPlayerFv(void *);
-extern "C" s32 query_flag__13TItemMenuCtrlFl(s32);
-extern "C" int clear_fields__20TWindowSubStatusDispFv(void *);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
   void *new_var;
   s32 flags;
@@ -765,7 +762,7 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
     return 0;
   }
   new_var2 = self;
-  if ((obj_isState3_324__9TObjCharaFv(new_var2) != 0) || (is_script_controlled__10TObjPlayerFv(new_var = new_var2) != 0))
+  if ((((TObjChara *)new_var2)->obj_isState3_324() != 0) || (is_script_controlled__10TObjPlayerFv(new_var = new_var2) != 0))
   {
     if (out != 0)
     {
@@ -807,7 +804,7 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
 
     }
 
-    if ((k != 0) && (query_flag__13TItemMenuCtrlFl(k) == 1))
+    if ((k != 0) && (TItemMenuCtrl::query_flag(k) == 1))
     {
       return 0;
     }
@@ -822,7 +819,7 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
       {
         flags |= 1;
       }
-      clear_fields__20TWindowSubStatusDispFv(&st);
+      ((TWindowSubStatusDisp *)(&st))->clear_fields();
       build_player_equipment_requirement_stats((TObjPlayer *) new_var, (PlayerRequirementStats *) (&st));
       if (st.a < (*((u16 *) ((u8 *) p + 0xe))))
       {

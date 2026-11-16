@@ -112,7 +112,6 @@ extern "C" {
 
 s32 get_entity_id(s32);
 s32 get_quest_list_text(int, int, int);
-f32 get_scale__15TShopWindowBaseFv(void *);
 void *create_yes_no_window(s32, u16, s32, s32);
 void *create__14TWindowMessageFlPCfUll(s32, Pair_80288DA4 *, s32, u16);
 s32 get_window_layout_position(s32);
@@ -309,7 +308,7 @@ void update_selection__19TQuestListChallengeFv(QLC_80288DA4 *self) {
     if (self->f34 == NULL) {
         id = (u16)get_entity_id(self->f24);
         self->f34 = create_yes_no_window(get_window_layout_position(0x2B), id, 0, 0);
-        ((TWindowAddition *)(self->f34))->set_position_xy(get_scale__15TShopWindowBaseFv(self), get_scale__15TShopWindowBaseFv(self));
+        ((TWindowAddition *)(self->f34))->set_position_xy(((TShopWindowBase *)self)->get_scale(), ((TShopWindowBase *)self)->get_scale());
         if (self->obj != NULL) {
             self->obj->m7(5, 0x80);
         }

@@ -327,7 +327,6 @@ void TKeyBoardControl__sub_8000F9CC(s32 arg0);
 u16 get_entity_id(void *);
 s32 is_split_screen();
 s32 get_current_floor();
-void queue_destruction__7TObjectFv(void *);
 s32 get_split_screen_view_index__11TCameraCtrlFUs(void *);
 u32 TLobby__sub_80070AD8(s32 arg0);
 s32 get_floor_destination_name();

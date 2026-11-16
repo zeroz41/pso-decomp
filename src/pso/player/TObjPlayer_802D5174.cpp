@@ -4,6 +4,8 @@
 // .data 0x804E1BB0-0x804E24F0 in text order, which -inline off,deferred only
 // gives with the source written last to first (as below).
 #include "types.h"
+#include "pso/item/TItemEquipBase.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"

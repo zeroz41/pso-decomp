@@ -346,13 +346,11 @@ s32 spawn_directional_particle(void *, void *, s32);
 extern s32 game_difficulty_selection;
 extern s32 tl_05;
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
-void enemy_turn_toward_dest__9TObjEnemyFl(void *, s32);
 f32 fabs_float(f32);
 s32 approach_angle_limited(s32, s32, s32);
 s32 project_actor_to_ground(void *, void *, s32);
 extern Vec_800BE8FC scratch_vec;
 extern Vec_800BE8FC lbl_8050BF00;
-f32 get_collision_body_radius__14TObjCollidableFl(void *, int);
 s32 select_enemy_destination(void *, Vec_800BD4D8, int);
 s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec_800BD4D8);
 s32 obj_is_hit_receivable(void *);
@@ -953,7 +951,7 @@ void TObjGrass::update_ai(void *arg0) {
                         }
                     }
                 }
-                enemy_turn_toward_dest__9TObjEnemyFl(o, o->param->turn);
+                ((TObjEnemy *)o)->enemy_turn_toward_dest(o->param->turn);
                 enemy_set_heading_velocity(o->param->speed, (TObjEnemy *)(o), o->angle);
                 move_with_wall_slide((u8 *)o);
             } else {
@@ -1312,7 +1310,7 @@ void TObjGrass::sub_800BD4D8() {
             d = ((TObjEnemy *)o)->turn_toward_direction((s32)((2.0f) * (f32)o->param->turn), (Vec *)&v);
             if (d < ((AttackParams *)(o->f318))->get_attack_angle()) {
                 s32 ang = (s32)((10430.38043493439) * atan2_float(v.x, v.z));
-                o->f398 = (3e+01f) + (newton_sqrtf(TObjPlayer::calc_distance_to_client((s32)o, o->f338, (u32)0)) + get_collision_body_radius__14TObjCollidableFl(o, 0));
+                o->f398 = (3e+01f) + (newton_sqrtf(TObjPlayer::calc_distance_to_client((s32)o, o->f338, (u32)0)) + ((TObjCollidable *)o)->get_collision_body_radius(0));
                 if (o->f398 < (1e+02f)) {
                     o->f398 = (1e+02f);
                 }
@@ -1394,7 +1392,7 @@ void TObjGrass::sub_800BD4D8() {
             if (enable_v2_features == 1 && game_difficulty_selection == 3) {
                 spd *= (2.0f);
             }
-            enemy_turn_toward_dest__9TObjEnemyFl(o, (s32)((2.0f) * (f32)prm->turn));
+            ((TObjEnemy *)o)->enemy_turn_toward_dest((s32)((2.0f) * (f32)prm->turn));
             enemy_set_heading_velocity(spd, (TObjEnemy *)(o), o->angle);
             move_with_wall_slide((u8 *)o);
             d2 = horizontal_distance_squared(&o->f29c, &o->p2fc);

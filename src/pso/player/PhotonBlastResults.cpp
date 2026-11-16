@@ -744,7 +744,7 @@ void TUnk_804C349C::update_and_destroy() {
 void TUnk_804C349C::run_task() {
     owner = get_player_by_client_id(owner_client_id);
     if (animated != 0) {
-        step_photon_blast_sequence__13TUnk_804C349CFv(this);
+        step_photon_blast_sequence();
         return;
     }
     update_and_destroy();
@@ -931,14 +931,13 @@ void *TObjPlayer::get_photon_blast_entry(int kind) {
 
 extern "C" {
 void free_bin_model_request(u32, int);
-void call_funcs_reverse__6TLobbyFPvUi(void *, int);
 extern PhotonBlastLoadCallback photon_blast_load_callback_table[10];
 extern u32 photon_blast_shared_resource;
 u8 *load_resource_from_descriptor(u8 *, int, void *, int, int, int);
 s32 run_load_callback_table(void *, int);
 void TObjPlayer__sub_801AA3B4(void) {
     s32 i;
-    call_funcs_reverse__6TLobbyFPvUi(photon_blast_load_callback_table, 0x50);
+    TLobby::call_funcs_reverse(photon_blast_load_callback_table, 0x50);
     if (photon_blast_shared_resource != 0U) {
         free_bin_model_request(photon_blast_shared_resource, 1);
         photon_blast_shared_resource = 0U;

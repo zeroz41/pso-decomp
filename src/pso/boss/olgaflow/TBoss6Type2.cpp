@@ -203,7 +203,6 @@ s32 add_radar_scaled_marker(void *, int, int, int, f32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
 void TBoss6Type2__sub_802BA7BC(u8 *o);
-void sub_802BBE20__11TBoss6Type2Fv(void *);
 s32 get_bml_motion(int, int);
 extern s32 TBoss6Type2__motion_table[];
 extern const s32 TBoss6Type2__data_805DE4B8;
@@ -2394,7 +2393,7 @@ void TBoss6Type2::run_task() {
 #undef o
     update_motion_tracks();
     advance_position();
-    sub_802BBE20__11TBoss6Type2Fv(arg0);
+    ((TBoss6Type2 *)arg0)->sub_802BBE20();
     update_parts_flags();
     ((TObjPlayer *)arg0)->update_collisions();
     submit_cursor_candidate(arg0, -1);

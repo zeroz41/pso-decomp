@@ -30,7 +30,6 @@ extern "C" {
 s32 load_floor_sound_bank();
 s32 play_area_music(s32 *);
 s32 is_split_screen();
-s32 call_funcs_reverse__6TLobbyFPvUi(s32 *, s32);
 u32 __nw__7TObjectFUl(s32);
 extern s32 gryphon_area_cleanup_callbacks[];
 s32 is_quest_active();
@@ -58,7 +57,7 @@ void TLobby::cleanup_floor_state() {
     TLobby::refresh_render_state();
     TLobby::stop_audio_streams();
     stop_cue_stream();
-    call_funcs_reverse__6TLobbyFPvUi(gryphon_area_cleanup_callbacks, 8);
+    TLobby::call_funcs_reverse(gryphon_area_cleanup_callbacks, 8);
     TParticleCtrl::free_heap();
     TLobby::update_current_floor();
     unload_current_floor_resources();
@@ -157,7 +156,7 @@ void TLobby::cleanup_boss3_scene() {
     TLobby::refresh_render_state();
     TLobby::stop_audio_streams();
     TTecRaFoie__sub_80226254();
-    call_funcs_reverse__6TLobbyFPvUi(TLobby_scene_load_callback_table, 0x60);
+    TLobby::call_funcs_reverse(TLobby_scene_load_callback_table, 0x60);
     unload_current_floor_resources();
     TLobby::update_current_floor();
     TLobby::clear_session_buffers();
@@ -230,7 +229,7 @@ void TLobby::update_floor_download() {
     TQuestVmDownLoadServer::free_download_buffers();
     unload_current_floor_resources();
     TLobby::update_current_floor();
-    call_funcs_reverse__6TLobbyFPvUi(lobby_floor_scene_callbacks, 0x30);
+    TLobby::call_funcs_reverse(lobby_floor_scene_callbacks, 0x30);
     TLobby::stop_audio_streams();
     TLobby::refresh_render_state();
     TLobby::stop_audio_streams();

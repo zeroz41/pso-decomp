@@ -29,7 +29,6 @@ struct Obj_80178E10 { u8 pad0[0x2A8]; u8 *target; u8 pad1[0x7A]; s16 state; u8 p
 const char *lbl_805D3198 = "TOTrap";
 
 extern "C" {
-s32 is_locally_controlled__10TObjPlayerFPv(int);
 s32 get_entity_id(u32);
 
 extern s32 game_difficulty_selection;
@@ -87,7 +86,7 @@ void TOTrap::vfunc_82() {
             u32 v = (u16) get_entity_id(p);
             if (v < 0x1000U) {
                 temp_r31 = (s32)get_player_by_client_id(v);
-                if ((is_locally_controlled__10TObjPlayerFPv(temp_r31) != 0) && (((TLobby *)temp_r31)->check_player_flag1() != 0)) {
+                if ((TObjPlayer::is_locally_controlled((void *)temp_r31) != 0) && (((TLobby *)temp_r31)->check_player_flag1() != 0)) {
                     TObjPlayer::send_code_45_1(temp_r31);
                 }
             }
@@ -107,7 +106,7 @@ void TOTrap::vfunc_81() {
         if (this->target != 0) {
             if (horizontal_distance_squared(this->target + 0x38, self->pos) < this->dist * this->dist) {
                 this->mode = 3;
-                if (is_locally_controlled__10TObjPlayerFPv((int)pl) != 0) {
+                if (TObjPlayer::is_locally_controlled((void *)pl) != 0) {
                     ((void (*)(f32, void *, void *, s32, int))send_6x2C_impose_hold)(this->dist, pl, self->pos, this->set_params[0], 0);
                 }
             } else {
@@ -177,7 +176,7 @@ f32 TOTrap::receive_physical_attack(void *arg1, f32) {
       if (temp_r3 < 0x1000U)
       {
         temp_r3_2 = (s32)get_player_by_client_id(((int) ((s32) temp_r3)));
-        if (((temp_r3_2 != 0) && (is_locally_controlled__10TObjPlayerFPv((int)((int) temp_r3_2)) != 0)) && (((TLobby *)((long long) temp_r3_2))->check_player_flag1() != 0))
+        if (((temp_r3_2 != 0) && (TObjPlayer::is_locally_controlled((void *)temp_r3_2) != 0)) && (((TLobby *)((long long) temp_r3_2))->check_player_flag1() != 0))
         {
           TObjPlayer::send_code_45_1((s32)((int) temp_r3_2));
         }

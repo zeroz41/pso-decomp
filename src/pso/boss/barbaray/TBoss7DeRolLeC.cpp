@@ -1378,7 +1378,6 @@ void TObjPlayer__sub_802E7EA0(void *arg0);
 
 u8 * free_bin_model_request(void *, s16);
 
-void call_funcs_reverse__6TLobbyFPvUi(s32, u32);
 
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 
@@ -1455,7 +1454,7 @@ void *TBoss7DeRolLeC::create(void *arg0) {
 }
 
 void TBoss7DeRolLeC::run_exit_callbacks() {
-    call_funcs_reverse__6TLobbyFPvUi((s32) lbl_804E3C5C, 0x30U);
+    TLobby::call_funcs_reverse((void*)lbl_804E3C5C, (unsigned int)0x30U);
     if ((void *) lbl_805D6918 != NULL) {
         free_bin_model_request(lbl_805D6918, 1);
         lbl_805D6918 = NULL;

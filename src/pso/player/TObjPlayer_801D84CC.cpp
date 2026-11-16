@@ -87,7 +87,6 @@ void TObjPlayer__sub_801D8664(s32 arg0, s8 arg1, s8 arg2) {
     process_trade_target__10TObjPlayerFiPv(arg0, &stack.sp8);
 }
 
-s32 calc_joint_matrices__10TObjPlayerFP10NJS_MOTIONfl(void *, s32, f32, s32);
 void push_matrix(void);
 s32 pop_matrix(void);
 void restore_scene_lighting(void);
@@ -209,7 +208,7 @@ Player_801D88C8 *create_ending_sequence_player(Player_801D88C8 *self, void *pare
     push_matrix();
     translate_matrix_vec3(0, self->pos);
     rotate_matrix_y(0, self->ang);
-    ((void (*)(void *, void *, f32, void *))calc_joint_matrices__10TObjPlayerFP10NJS_MOTIONfl)(self, self->motion, 0.0f, self->model);
+    ((TObjPlayer *)self)->calc_joint_matrices((NJS_MOTION *)(self->motion), (f32)0.0f, (s32)(self->model));
     pop_matrix();
     TObjPlayer::assign_lobby_slot_if_flagged((s32)self, src->slot0);
     TObjPlayer::assign_lobby_slot_if_flagged((s32)self, src->slot1);

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -30,7 +31,6 @@ extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 extern const f32 lbl_805DE70C;
 extern s32 lbl_805D686C;
-s32 is_main_phase_15__9TObjEneDDFv();
 }
 
 void TObjEneBm9Mericarol::sub_802CE68C(Vec *out, s32 node) {
@@ -117,7 +117,7 @@ void TObjEneBm9Mericarol::render() {
     if (this->mode == 0xC) {
         return;
     }
-    if (is_main_phase_15__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::is_main_phase_15() != 0) {
         if (get_current_floor_area() == AREA_TOWER) {
             detail = classify_actor_view_detail(600.0f, 600.0f, lbl_805DE704);
         } else {

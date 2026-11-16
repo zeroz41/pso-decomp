@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
@@ -21,7 +22,6 @@
 
 
 extern "C" {
-void obj_clearFlags30__8TObjBaseFUl(void *, u32);
 int update_if_active__15TObjEnemyCustomFl(void *, int);
 void move_along_ground_avoiding_walls__15TObjEnemyCustomF3Vecff(void *, Vec, void *, f32, f32);
 void select_enemy_destination(void *, Vec *, s32);
@@ -72,7 +72,7 @@ const char *balclaw_claw_class_name = "TObjEneBalClawClaw";
 
 TObjEneBalClawClaw::TObjEneBalClawClaw(TObject *parent, void *set_data) : TObjEneBalClaw(parent) {
     apply_set_data(set_data);
-    sub_80091A38__18TObjEneBalClawClawFv(this);
+    sub_80091A38();
     if (*(s16 *)((s8 *)set_data + 0xA) != 0) {
         sub_800C7860();
     }
@@ -91,7 +91,7 @@ TObjEneBalClawClaw::TObjEneBalClawClaw(TObject *parent, TObjEneBalClaw *body, s3
     rotation_z = 0;
     rotation_x = 0;
     rotation_y = rot_y;
-    sub_80091A38__18TObjEneBalClawClawFv(this);
+    sub_80091A38();
     set_entry = NULL;
     m_3b8 = body->m_3b8;
     m_3bc = body->m_3bc;
@@ -671,7 +671,7 @@ void TObjEneBalClawClaw::set_claw_flags() {
 
 void TObjEneBalClawClaw::sub_80090798() {
     m_388 &= 0xEFFFFFFF;
-    obj_clearFlags30__8TObjBaseFUl(this, 0x06040000);
+    obj_clearFlags30(0x06040000);
     next_action = 0xB;
 }
 

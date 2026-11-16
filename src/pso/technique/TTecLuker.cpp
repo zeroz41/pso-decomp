@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/unk/TUnk_804CC9D4.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
@@ -254,7 +255,6 @@ extern void* __vt__9TTecLuker[];
 extern u8 identity_matrix[];
 void *TTecLuker__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 s32 mark_area_change_pending();
-s32 play_effect_default__10TObjPlayerFii(void *, s32);
 s32 send_6x21_inter_level_warp(void *, s32);
 s32 get_floor_map_terrain(s32);
 s32 play_persistent_sound(s32, void *, void *, s32, s32);
@@ -819,7 +819,7 @@ void run_task__9TTecLukerFv(u8 *arg0) {
             spawn_particle_effect((float *) &sp8, 0xB3);
             player = (u8 *)get_player_by_client_id(((TTecLuker *)arg0)->m_f6);
             if (player != NULL) {
-                play_effect_default__10TObjPlayerFii(player, 0xA);
+                TObjPlayer::play_effect_default((int)player, (int)0xA);
                 play_sound_effect(0x40022D1A, player + 0x38, 0, 0);
             }
             TWindowCtrl::init_all_slots();

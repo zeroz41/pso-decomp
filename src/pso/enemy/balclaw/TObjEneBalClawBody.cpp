@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/base/TObjChara.h"
 #include "pso/enemy/balclaw/TObjEneBalClawBody.h"
 #include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
 #include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
@@ -598,7 +599,7 @@ void TObjPlayer__sub_8008F1DC(TObjEneBalClawBody *body) {
             if (((TObjChara *)body->target)->select_melee_contact_body(body, 1.0f) != 0) {
                 ((TObjChara *)body->target)->receive_physical_attack(body, 1.0f);
                 ((TObjChara *)body->target)->apply_knockback_from_attacker((u8 *)body, 3.0f);
-                if (!(((TObjChara *)body->target)->actorFlags & 0x800) && get_actor_hp__9TObjCharaFv(body->target) > 0) {
+                if (!(((TObjChara *)body->target)->actorFlags & 0x800) && ((TObjChara *)(body->target))->get_actor_hp() > 0) {
                     send_6x2F_change_player_hp(body->entity_id, body->targetId, 1);
                 }
             }
@@ -954,7 +955,7 @@ void TObjPlayer__sub_8008E310(TObjEneBalClawBody *body) {
                 TObjEneBalClawClaw *claw2 = (TObjEneBalClawClaw *)find_entity_by_id(body->child_ids[i]);
                 if (claw2 != NULL) {
                     claw2->set_claw_flags();
-                    body->hp += get_actor_hp__9TObjCharaFv((u8 *)claw2);
+                    body->hp += ((TObjChara *)claw2)->get_actor_hp();
                 }
             }
             body->effects[1] = create_particle_emitter(&body->m_2fc, 0x12A);

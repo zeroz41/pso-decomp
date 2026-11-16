@@ -46,7 +46,7 @@ void TObjPlayer::copy_byte_339_to_record(u8 *player) {
 }
 
 void TObjPlayer::copy_mag_level_to_record(u8 *player) {
-    ((TObjPlayer *)player)->set_action_state(get_mag_level__10TObjPlayerFv(this));
+    ((TObjPlayer *)player)->set_action_state(get_mag_level());
 }
 
 void TObjPlayer::apply_pending_action(s32 arg1) {

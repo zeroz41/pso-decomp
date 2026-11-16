@@ -14,7 +14,6 @@ struct TagTextOrigin {
 
 extern "C" {
 void TCameraCtrl__sub_80068EF0(void);
-void queue_destruction__7TObjectFv(void *);
 extern s32 char_creation_tag_info_selected_index;
 
 void *TChCrTagInformationStr::create(void *arg0, void *arg1) {
@@ -99,7 +98,7 @@ void TChCrTagInformationStr::run_task() {
         }
         if (alpha <= 0.0f) {
             alpha = 0.0f;
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
         }
         break;
     }

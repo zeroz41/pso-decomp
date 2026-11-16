@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/TMCFormatSequence.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/text_8007C0CC.h"
@@ -160,7 +161,6 @@ int sprintf(char *, const char *, ...);
 void subtractive_rng_seed(SubtractiveRng *, u32);
 void TAdPlayerLoadGC__sub_801E14E4(void *);
 void TAdPlayerLoadGC__sub_801E14E8(u8 *arg0, s32 arg1);
-s32 build_save_file_image__15TAdPlayerLoadGCFPvPv(void *, void *);
 char *strncpy(char *, const char *, u32);
 void *memcpy(void *, const void *, u32);
 }
@@ -211,8 +211,6 @@ struct Src_801F87CC {
     u8 *f38;
 };
 extern "C" {
-s32 get_serial_access__22TQuestVmDownLoadServerFv();
-s32 poll_serial_access__22TQuestVmDownLoadServerFv();
 int strncmp(const char *, const char *, u32);
 }
 
@@ -430,9 +428,9 @@ void TQuestVmDownLoadServer::receive_file_chunk() {
                 ((TWindowBase *)TQuestVmDownLoadServer__download_window)->close();
                 TQuestVmDownLoadServer__download_window = 0;
             }
-            v = get_serial_access__22TQuestVmDownLoadServerFv();
+            v = TQuestVmDownLoadServer::get_serial_access();
             if (v == 0) {
-                v = poll_serial_access__22TQuestVmDownLoadServerFv();
+                v = TQuestVmDownLoadServer::poll_serial_access();
             }
             download_rng_seed_pair[1] = v;
             download_rng_seed_pair[0] = v;
@@ -448,9 +446,9 @@ void TQuestVmDownLoadServer::receive_file_chunk() {
                 ((TWindowBase *)TQuestVmDownLoadServer__download_window)->close();
                 TQuestVmDownLoadServer__download_window = 0;
             }
-            v = get_serial_access__22TQuestVmDownLoadServerFv();
+            v = TQuestVmDownLoadServer::get_serial_access();
             if (v == 0) {
-                v = poll_serial_access__22TQuestVmDownLoadServerFv();
+                v = TQuestVmDownLoadServer::poll_serial_access();
             }
             download_rng_seed_pair[1] = v;
             download_rng_seed_pair[0] = v;
@@ -956,7 +954,7 @@ void TQuestVmDownLoadServer::build_file_slot_image() {
                 req.w58 = (s32)quest_download_file_slot.f38;
                 req.w5C = quest_download_file_slot.f34;
                 TAdPlayerLoadGC__sub_801E14E8((u8 *)&req, 3);
-                r = build_save_file_image__15TAdPlayerLoadGCFPvPv(this->m_260, &req);
+                r = TAdPlayerLoadGC::build_save_file_image(this->m_260, &req);
                 TAdPlayerLoadGC__sub_801E14E4(&req);
                 switch (r) {
                 case -0x100:
@@ -1025,7 +1023,7 @@ void TQuestVmDownLoadServer::write_memcard_file() {
                 req.w58 = (s32)TQuestVmDownLoadServer__download_file_state.f38;
                 req.w5C = TQuestVmDownLoadServer__download_file_state.f34;
                 TAdPlayerLoadGC__sub_801E14E8((u8 *)&req, 3);
-                r = build_save_file_image__15TAdPlayerLoadGCFPvPv(this->m_260, &req);
+                r = TAdPlayerLoadGC::build_save_file_image(this->m_260, &req);
                 TAdPlayerLoadGC__sub_801E14E4(&req);
                 switch (r) {
                 case -0x100:
@@ -1102,7 +1100,7 @@ void TQuestVmDownLoadServer::build_file_info_image() {
                     req.w58 = quest_download_file_info.f38;
                     req.w5C = quest_download_file_info.f34;
                     TAdPlayerLoadGC__sub_801E14E8((u8 *)&req, 3);
-                    r = build_save_file_image__15TAdPlayerLoadGCFPvPv(this->m_260, &req);
+                    r = TAdPlayerLoadGC::build_save_file_image(this->m_260, &req);
                     TAdPlayerLoadGC__sub_801E14E4(&req);
                     switch (r) {
                     case -0x100:

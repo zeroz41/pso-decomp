@@ -61,7 +61,6 @@ struct Pair_800B23A0 { s32 k; Ent_800B23A0 *e; };
 
 void free_bin_model_request(void*, int);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
-s32 is_main_phase_15__9TObjEneDDFv();
 void get_camera_ctrl__9TObjEneDDFv(const Vec *origin, Vec *out);
 s32 get_random_scaled__9TObjEneDDFv(void *);
 s32 noop__12TBoss8DragonFv(void *);
@@ -75,13 +74,11 @@ void *find_entity_by_id(u16 id);
 void free_collision_body_parts(void *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 play_sound_effect(void *, void *, int, int);
-s32 defer_render__7TObjectFv(void *);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 s32 vec3_add_to(void *, void *);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-void set_global_param__8TObjFishFl(s32);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
 Bm3FlyMovementParameters bm3_fly_nest_params = { 225.0f, 0.0f, 0x600, { 0, 0, 0, 0 } };
@@ -1028,7 +1025,7 @@ void TObjEneBm3FlyNest::render() {
     }
     unk_3ac = 0;
     if (mode != 9) {
-        if (is_main_phase_15__9TObjEneDDFv() != 0) {
+        if (TObjEneDD::is_main_phase_15() != 0) {
             res = classify_actor_view_detail(25.0f + lbl_805D9E88, 50.0f + lbl_805D9E84, 120.0f);
         } else if (update_object_view_visibility(500.0f, 120.0f) != 0) {
             res = 1;
@@ -1045,7 +1042,7 @@ void TObjEneBm3FlyNest::render() {
             cm->update();
             if (cm->updateFromCamera(&m_2fc) != 0) {
                 cm->set_flags_and_apply_damage_color();
-                if (defer_render__7TObjectFv(this) != 0) {
+                if (defer_render() != 0) {
                     visible = 0;
                 }
             }
@@ -1137,7 +1134,7 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
     if (((VObj_18_800B23A0 *)arg0)->m8(500.0f, 120.0f) != 0) {
         Vec v = {5.0f, 1.0f, 5.0f};
         ((TObjEneDD *)(arg0))->draw_ground_shadow(&v, 1);
-        set_global_param__8TObjFishFl(this->texlist);
+        TObjFish::set_global_param(this->texlist);
         ((void (*)(void))push_matrix)();
         ((void (*)(void *))post_translate_matrix)(arg0 + 0x38);
         translate_matrix(0, 0.0f, -5.0f, 0.0f);

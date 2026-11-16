@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/charcreate/TChCrLoadAfsTextureReq.h"
 #include "pso/ui/charcreate/TChCrLoadGmNjReq.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/unk/TLobby_8028D714.h"
@@ -102,7 +103,6 @@ struct Sel_8028CD18 {
 extern "C" {
 s32 is_selection_done__23TAdSinglePlyChrSelectGCFPv(void *);
 void start_preview_loads__23TAdSinglePlyChrSelectGCFPv(Gc_8028CB6C *arg0);
-void *create__22TChCrLoadAfsTextureReqFPvPv(void *arg0, void *arg1);
 s32 is_node_tree_valid(u32, s32);
 void blend_creation_proportion_shapes(void *);
 extern s32 chr_select_preview_stride_table[];
@@ -214,7 +214,7 @@ void TAdSinglePlyChrSelectGC::request_texture_loads() {
     r1.type = 4;
     r1.flags = arg0->flags;
     r1.index = idx;
-    if (create__22TChCrLoadAfsTextureReqFPvPv(arg0, &r1) == 0) {
+    if (TChCrLoadAfsTextureReq::create(arg0, &r1) == 0) {
         return;
     }
     if (arg0->info->a != 0 || arg0->info->b != 0) {
@@ -222,7 +222,7 @@ void TAdSinglePlyChrSelectGC::request_texture_loads() {
         r2.type = 1;
         r2.flags = arg0->flags;
         r2.index = idx;
-        if (create__22TChCrLoadAfsTextureReqFPvPv(arg0, &r2) == 0) {
+        if (TChCrLoadAfsTextureReq::create(arg0, &r2) == 0) {
             return;
         }
     } else {
@@ -232,7 +232,7 @@ void TAdSinglePlyChrSelectGC::request_texture_loads() {
     r3.type = 2;
     r3.flags = arg0->flags;
     r3.index = idx;
-    if (create__22TChCrLoadAfsTextureReqFPvPv(arg0, &r3) == 0) {
+    if (TChCrLoadAfsTextureReq::create(arg0, &r3) == 0) {
         return;
     }
 }

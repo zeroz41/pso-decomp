@@ -1,5 +1,13 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
+#include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/TObjEnemyCustom.h"
+#include "pso/enemy/TUnk_80493450.h"
+#include "pso/enemy/balclaw/TObjEneBalClaw.h"
+#include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
+#include "pso/enemy/beast/TObjEneBeast.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/object/base/TObjMotion.h"
 extern "C" void render__12TObjEneBeastFv();
 #include "pso/enemy/beast/TObjEneBeast.h"
 #include "pso/effect/TUnk_80494968.h"

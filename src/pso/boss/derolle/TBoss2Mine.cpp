@@ -57,7 +57,6 @@ s32 subtract_vector(void *, void *);
 
 s32 vec3_add_to(void *, void *);
 
-s32 is_alive__8TObjBaseFv(s32);
 
 }
 
@@ -672,7 +671,6 @@ s32 dispatch_shared_handler_b__6TLobbyFl(int);
 
 s32 register_boss__6TLobbyFl(int);
 
-s32 reset_hp__9TObjEneDDFPUcPUcPUc(void *, int, int, int);
 
 s32 init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int, int);
 
@@ -772,9 +770,7 @@ void init__10TBoss2MineFPvi(u8 *boss2_mine, s32 arg1) {
     temp_r6 = *(u8 **)((s8 *)lbl_805D4BA4 + 0x42C);
     *(s32 *)((s8 *)boss2_mine + 0x24) = *(s32 *)((s8 *)temp_r6 + 0x2C);
     init_model__9TObjEneDDFP13CollisionBodyl(boss2_mine, (u8 *)lbl_80482CD8, 1, (int)temp_r6);
-    reset_hp__9TObjEneDDFPUcPUcPUc(boss2_mine, register_boss__6TLobbyFl(((s32 *)boss2_mine_params)[arg1]),
-                            dispatch_shared_handler_b__6TLobbyFl(((s32 *)lbl_80482C90)[arg1]),
-                            register_object__6TLobbyFl(((s32 *)lbl_80482C98)[arg1]));
+    ((TObjEneDD *)boss2_mine)->reset_hp((u8 *)(register_boss__6TLobbyFl(((s32 *)boss2_mine_params)[arg1])), (u8 *)(dispatch_shared_handler_b__6TLobbyFl(((s32 *)lbl_80482C90)[arg1])), (u8 *)(register_object__6TLobbyFl(((s32 *)lbl_80482C98)[arg1])));
     ((TObjEneDD *)boss2_mine)->check_state_flag_2();
     *(Rec_80038BA0 **)((s8 *)boss2_mine + 0x350) = &((Rec_80038BA0 *)lbl_80482CA0)[arg1];
     *(f32 *)((s8 *)boss2_mine + 0x37C) = (3.0f);
@@ -1283,7 +1279,7 @@ void TUnk_80482D04::vfunc_88() {
 
 void TUnk_80482D04::move_mine() {
     u8 *arg0 = (u8 *)this;
-    if (is_alive__8TObjBaseFv(*(s32 *)((s8 *)arg0 + 0x3F0)) != 0) {
+    if (((TObjBase *)(*(s32 *)((s8 *)arg0 + 0x3F0)))->is_alive() != 0) {
         VecCopy((Vec *)(arg0 + 0x390), (const Vec *)(*(s32 *)((s8 *)arg0 + 0x3F0) + 0x38));
         vec3_add_to(arg0 + 0x390, arg0 + 0x3F8);
         *(f32 *)((s8 *)arg0 + 0x394) += 17.0f;

@@ -159,7 +159,6 @@ extern s32 THunterGuildSeqOffline__active_instance;
 u8 *__dt__22THunterGuildSeqOfflineFv(u8 *arg0, s16 arg1);
 int is_quest_active(void);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 sub_80223A48__15TShopWindowBaseFv(void *);
 extern s32 THunterGuildSeqOffline__quest_result_callbacks[];
 extern u8 *quest_mission_manager;
 u8 *TShopSequence__ct(u8 *arg0);
@@ -177,7 +176,6 @@ void THunterGuildSeqOffline__sub_80213410(void* p);
 s32 THunterGuildSeqOffline__sub_80213458(void);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 int fn_80223480(void*);
-f32 get_scale__15TShopWindowBaseFv(void *);
 int restore_player_state__13TShopSequenceFv(void*);
 
 void THunterGuildSeqOffline::handle_select() {
@@ -189,7 +187,7 @@ void THunterGuildSeqOffline::handle_select() {
         }
     } else {
 block_3:
-        if ((this->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(this) != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+        if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
             ((V_A_80212D9C *) this)->m7(0xC, 1);
             *(s32 *)&this->unk_38 = 1;
             set_field_20((s32)((void*)(5)));
@@ -200,10 +198,10 @@ block_3:
 void THunterGuildSeqOffline::open_judgment_window() {
 
     if ((this->vfunc_10() != 0)
-        && ((sub_80223A48__15TShopWindowBaseFv(this) != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+        && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
         *(s32 *)&this->m_2c = (s32)create_yes_no_window(get_window_layout_position(0x2B), (u16)get_entity_id(this->m_24), 0, 0);
         ((TWindowSubComCardList *)(this->m_2c))->set_selected_index(1);
-        ((TWindowAddition *)(this->m_2c))->set_position_xy(get_scale__15TShopWindowBaseFv(this), get_scale__15TShopWindowBaseFv(this));
+        ((TWindowAddition *)(this->m_2c))->set_position_xy(get_scale(), get_scale());
         ((VObj_802136A4_80212e50_80212D9C *)this)->m9(8, 1);
         set_field_20((s32)((void*)(6)));
     }
@@ -211,7 +209,7 @@ void THunterGuildSeqOffline::open_judgment_window() {
 
 void THunterGuildSeqOffline::resolve_active_quest_result() {
     u8 *arg0 = (u8 *)this;
-    if ((this->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(arg0) != 0) || (sub_802239EC__13TShopSequenceFv(arg0) != 0))) {
+    if ((this->vfunc_10() != 0) && ((((TShopWindowBase *)arg0)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(arg0) != 0))) {
         if (is_quest_active() == 1) {
             if (TQuestThread::get_register(quest_mission_manager, 0xFF) == 1) {
                 ((VObj_18_b54460 *)(arg0))->m7(0xB, 1);
@@ -365,7 +363,7 @@ void THunterGuildSeqOffline__sub_80213474(void *shop_sequence) {
         }
         *(u32 *)((s8 *)shop_sequence + 0x38) = 0U;
     }
-    if ((((V_A_80213474 *) shop_sequence)->m8() != 0) && ((sub_80223A48__15TShopWindowBaseFv(shop_sequence) != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
+    if ((((V_A_80213474 *) shop_sequence)->m8() != 0) && ((((TShopWindowBase *)shop_sequence)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
         switch (*(s32 *)((s8 *)shop_sequence + 0x34)) {
         case 1: {
             void *o = __nw__7TObjectFUl(0x28);
@@ -427,10 +425,10 @@ void THunterGuildSeqOffline::handle_confirm_window() {
 void THunterGuildSeqOffline::open_judgment_item_window() {
 
     if ((this->vfunc_10() != 0)
-        && ((sub_80223A48__15TShopWindowBaseFv(this) != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+        && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
         *(s32 *)((s8 *)this + 0x3C) = (s32)create_yes_no_window(get_window_layout_position(0x2B), (u16)get_entity_id(this->m_24), 0, 0);
         ((TWindowSubComCardList *)(*(s32 *)((s8 *)this + 0x3C)))->set_selected_index(1);
-        ((TWindowAddition *)(*(s32 *)((s8 *)this + 0x3C)))->set_position_xy(get_scale__15TShopWindowBaseFv(this), get_scale__15TShopWindowBaseFv(this));
+        ((TWindowAddition *)(*(s32 *)((s8 *)this + 0x3C)))->set_position_xy(get_scale(), get_scale());
         ((VObj_802136A4_80212D9C *)this)->m9(8, 1);
         set_field_20((s32)((void*)(7)));
     }

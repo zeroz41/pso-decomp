@@ -55,7 +55,6 @@
 
 
 extern "C" {
-s32 is_main_phase_15__9TObjEneDDFv();
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
@@ -213,10 +212,8 @@ void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
 int select_and_apply_target__12TObjEneDD_STFf(void*);
 s32 get_camera_ctrl__9TObjEneDDFv(Vec *, Vec *);
 s32 update_camera_sequence__9TObjEneDDFv();
-void initialize_enemy_state__9TObjEneDDFl(void *, s32);
 void TObjEneDD__sub_800BA5A4(void *, void *, void *);
 u32 is_player_entity_id(u16 arg0);
-int vfunc_89__9TObjEneDDFv(void*);
 void set_part_position__9TObjEneDDFPvPvi(void *, s32, s32);
 s32 collect_enemy_target_candidates(void *, Entry_8009E860 *);
 void clear_attack_receipts__9TObjEneDDFv();
@@ -2008,7 +2005,7 @@ void TObjEneMe1Canadin::render() {
     }
     if (m_3C8 & 0x400000) {
         var_r30 = 0;
-    } else if (is_main_phase_15__9TObjEneDDFv() != 0) {
+    } else if (TObjEneDD::is_main_phase_15() != 0) {
         var_r30 = classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 15.0f);
     } else if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         var_r30 = 1;

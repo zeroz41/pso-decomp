@@ -73,7 +73,6 @@ struct Save_8033F6A8 { u8 pad[0xC]; u32 fC; };
 extern "C" {
 s32 allow_rendering__7TObjectFv();
 s32 TWindowShortListCtrl__check_controller_button(void *, int, int);
-u32 get_player_index__14TAdPlyStatusGCFv();
 extern RecoveredGlobal_8033F93C_lbl_8050E3B8 controller_physical_port_bank;
 extern s32 TAdPlyStatusGC__window_offset_index;
 extern s32 TAdPlyStatusGC__is_shown;
@@ -289,7 +288,7 @@ void update_hidden__14TAdPlyStatusGCFv(u8 *arg0) {
         *(u32 *)((s8 *)arg0 + 0x6C) = 0U;
     }
     if ((s32) TAdPlyStatusGC__window_offset_index < 3) {
-        temp_r3 = ((s32)get_player_index__14TAdPlyStatusGCFv());
+        temp_r3 = ((s32)TAdPlyStatusGC::get_player_index());
         if (temp_r3 != 0) {
             allow_rendering__7TObjectFv();
             ((TAdGuideButtonGC *)temp_r3)->setup_button((GuideButtonSpec *)(arg0 + 0x48));
@@ -311,7 +310,7 @@ void update_shown__14TAdPlyStatusGCFv(struct RecoveredFields_8033F9DC_arg0 *arg0
         if ((u32) arg0->field_6C == 0) {
             arg0->field_6C = TAdPlyStatusGC__sub_8033F8B0(arg0, (void *)((s32) ((u8 *)&ply_status_window_offset_table.value + (TAdPlyStatusGC__window_offset_index * 8))));
         }
-        temp_r3 = ((s32)get_player_index__14TAdPlyStatusGCFv());
+        temp_r3 = ((s32)TAdPlyStatusGC::get_player_index());
         if (temp_r3 != 0) {
             allow_rendering__7TObjectFv();
             ((TAdGuideButtonGC *)temp_r3)->setup_button((GuideButtonSpec *)(&arg0->unknown_20[4]));
@@ -329,7 +328,7 @@ void close_window__14TAdPlyStatusGCFv(void *arg0) {
         ((TWindowBase *)temp_r3)->close();
         *(u32 *)((s8 *)arg0 + 0x6C) = 0U;
     }
-    if (get_player_index__14TAdPlyStatusGCFv() != 0U) {
+    if (TAdPlyStatusGC::get_player_index() != 0U) {
         disallow_rendering__7TObjectFv();
     }
 }
@@ -381,7 +380,7 @@ TAdPlyStatusGC_8033FC14 *TAdPlyStatusGC__ct(TAdPlyStatusGC_8033FC14 *self, void 
     self->elems[1].f18 = 8;
     self->elems[1].f1C = 0x1E;
     create_guide_button((TObject *)self, (GuideButtonSpec *)self->elems);
-    if (get_player_index__14TAdPlyStatusGCFv() != 0U) {
+    if (TAdPlyStatusGC::get_player_index() != 0U) {
         disallow_rendering__7TObjectFv();
     }
     return self;

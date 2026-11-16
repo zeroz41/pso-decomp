@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/TShopEquipmentListWindow.h"
@@ -115,7 +116,6 @@ s32 restore_player_state__13TShopSequenceFv(void *);
 void *__nw__7TObjectFUl(u32);
 extern void *tl_05;
 u16 get_entity_id(void *);
-f32 get_scale__15TShopWindowBaseFv(void *);
 void align_menu_entry_positions(void *w);
 struct Base_8021D524 { char pad[0x18]; };
 struct VObj_8021D524 : Base_8021D524 {
@@ -127,7 +127,6 @@ struct VObj_8021D524 : Base_8021D524 {
 };
 
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 sub_80223A48__15TShopWindowBaseFv(void *);
 s32 close_if_single_screen__13TShopSequenceFv(void *);
 s32 close_window__13TShopSequenceFv(void *);
 
@@ -149,7 +148,7 @@ void exit__22TShopEquipmentSequenceFPv(void *shop_window_base) {
 }
 
 s32 TShopEquipmentSequence::handle_confirm() {
-    if ((this->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(this) != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+    if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
         ((VObj_8021D5D4_8021D524*)this)->m4(lbl_805D622C, 1);
         set_field_20__15TShopWindowBaseFl(this, lbl_805D6230);
     }
@@ -158,7 +157,7 @@ s32 TShopEquipmentSequence::handle_confirm() {
 s32 TShopEquipmentSequence__sub_8021D65C(void) {  }
 
 s32 TShopEquipmentSequence::close_if_done() {
-    if ((this->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(this) != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+    if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
         close_if_single_screen__13TShopSequenceFv(this);
         close_window__13TShopSequenceFv(this);
         queue_destruction__7TObjectFv(this);
@@ -197,7 +196,7 @@ void TShopEquipmentSequence::update_buy_sell_choice() {
         ((TWindowSubComCard *)(self->win))->calc_window_size();
         align_menu_entry_positions(self->win);
         ((TCheckRoomSequence *)(self->win))->set_ready_flag();
-        ((TWindowAddition *)(self->win))->set_position_xy(get_scale__15TShopWindowBaseFv(self), get_scale__15TShopWindowBaseFv(self));
+        ((TWindowAddition *)(self->win))->set_position_xy(((TShopWindowBase *)self)->get_scale(), ((TShopWindowBase *)self)->get_scale());
     }
     if (self->win != NULL && ((TWindowMenu *)(self->win))->is_decided() != 0) {
         r = ((TWindowMenu *)self->win)->get_selected_value();

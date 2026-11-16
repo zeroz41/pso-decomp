@@ -22,7 +22,6 @@ s32 add_radar_scaled_marker(void *, int, int, int, f32);
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
-s32 reset_hp__9TObjEneDDFPUcPUcPUc(void *, int, int, int);
 struct VOff_802EE9A4_arg0_802EE9A4 { char pad_0[0x2FC]; char f_2FC[1]; };
 
 s32 apply_damage_and_set_effect__8TObjFishFl(int, int, int);
@@ -90,7 +89,7 @@ s32 TBoss7Joint::init_params() {
     copy_collision_body((CollisionBody *)(&((J_802EEB88 *)this)->sub), &lbl_80473FB8);
     set_collision_body(&((J_802EEB88 *)this)->sub);
     transform_part_positions();
-    reset_hp__9TObjEneDDFPUcPUcPUc(this, register_boss__6TLobbyFl(0x10), dispatch_shared_handler_b__6TLobbyFl(0xF), register_object__6TLobbyFl(0x10));
+    reset_hp((u8 *)(register_boss__6TLobbyFl(0x10)), (u8 *)(dispatch_shared_handler_b__6TLobbyFl(0xF)), (u8 *)(register_object__6TLobbyFl(0x10)));
     *(s16 *)((s8 *)this + 0x32C) = 0x4E20;
     *(s16 *)((s8 *)this + 0x2B8) = 0x4E20;
     check_state_flag_2();

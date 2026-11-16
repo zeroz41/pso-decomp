@@ -79,7 +79,6 @@ s32 store_item_in_bank(u8 *item, s32 arg1, s32 slot);
 void copy_bank_to_card_window(s32 slot);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 sub_80223A48__15TShopWindowBaseFv(void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 void TWindowHelpItem__set_displayed_item_by_id(u32, s32);
 u32 create_item_list_window(s32, s32, u16);
@@ -213,7 +212,7 @@ void TShopKeepItemWindow::handle_deposit_list_select() {
         play_sound_effect(0x52D01, 0, 0, 0);
         return;
     }
-    if (sub_80223A48__15TShopWindowBaseFv(this) == 0) {
+    if (sub_80223A48() == 0) {
         return;
     }
     cur = ((TWindowMenuIconLine *)this->item_list_window)->get_cursor_value();

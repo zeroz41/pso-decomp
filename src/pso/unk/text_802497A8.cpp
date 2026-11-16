@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowComCard.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -13,7 +14,6 @@ extern "C" {
 s32 get_shared_text_buffer();
 s8 TWindowSubComCard__sub_8007B6EC(void *);
 s32 TWindowSubComCard__sub_8007B6F4(void *);
-s32 get_com_card_list__6TLobbyFv(void *);
 void TWindowSubStatusDisp__sub_80228F5C(int);
 void refresh_status_display__9TWindowDDFv(void *);
 s8 TWindowComCard__sub_80249C18(void *);
@@ -43,7 +43,7 @@ void update_com_card_display(Win_802497A8 *arg0, void *arg1) {
     t10 = s->t10;
     t4 = s->t4;
     t14 = s->t14;
-    set_text_entry_string((u8 *)t0, (u32)((void *)get_com_card_list__6TLobbyFv(arg1)), 0x220);
+    set_text_entry_string((u8 *)t0, (u32)((void *)((TLobby *)arg1)->get_com_card_list()), 0x220);
     n = TWindowComCard__sub_80249C20(arg1);
     if (n > 5) {
         n = 5;

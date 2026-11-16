@@ -3,6 +3,7 @@
 // TObjFogCollision_Manager. Built with -inline deferred, so functions are written in reverse
 // address order (code is emitted last function first).
 #include "types.h"
+#include "pso/object/base/TObjChara.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
@@ -385,7 +386,6 @@ const char *TObjFogCollision_Manager__name = "TObjFogCollision_Manager";
 TObjFogCollision_Manager *TObjFogCollisionPoison__instances[12];
 
 extern "C" {
-s16 get_actor_hp__9TObjCharaFv(s32);
 s32 get_entity_id(s32);
 s32 is_valid_target__9TObjEneDDFv(s32);
 s32 send_6x2F_change_player_hp(s32, s32, s16);
@@ -433,7 +433,7 @@ void TObjFogCollisionPoison::apply_poison_damage(s32 arg1) {
     s16 v;
     p = get_player_by_client_id(arg1);
     if (is_valid_target__9TObjEneDDFv(p) != 0) {
-        v = get_actor_hp__9TObjCharaFv(p) - this->m_98;
+        v = ((TObjChara *)p)->get_actor_hp() - this->m_98;
         if (v < 0) {
             v = 0;
         }

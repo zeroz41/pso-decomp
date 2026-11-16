@@ -91,7 +91,6 @@ s32 obj_getArrWord_254(void *, int);
 u16 get_entity_id(void *);
 int get_item_field_6__10TObjPlayerFPv(void *);
 s32 is_quest_active();
-s32 is_flag_set__6TLobbyFv();
 s32 is_item_usable__9TItemDataFlPUc(void *, void *);
 s32 check_equip_requirements(void *, void *, int);
 s32 check_class_equip_permission(void *, int);
@@ -1038,7 +1037,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
       {
         result |= 1;
       }
-      if ((!(flags & 0x40)) && ((is_flag_set__6TLobbyFv() != 0) || (is_challenge_mode_active() != 0)))
+      if ((!(flags & 0x40)) && ((TLobby::is_flag_set() != 0) || (is_challenge_mode_active() != 0)))
       {
         result |= 1;
       }

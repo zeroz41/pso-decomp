@@ -16,7 +16,6 @@
 
 extern "C" void disallow_rendering__7TObjectFv(TObject *arg0);
 extern "C" void allow_rendering__7TObjectFv(TObject *arg0);
-extern "C" void queue_destruction__7TObjectFv(void *arg0);
 
 
 extern "C" void  normalize_vector(Vec*);

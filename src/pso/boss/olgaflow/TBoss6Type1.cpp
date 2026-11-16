@@ -2681,7 +2681,7 @@ void TBoss6Type1::release_object(void *) {
 
 void TBoss6Type1::render() {
     draw_model();
-    sub_802B626C__11TBoss6Type1Fv(this);
+    sub_802B626C();
 }
 
 void TBoss6Type1::draw_model() {

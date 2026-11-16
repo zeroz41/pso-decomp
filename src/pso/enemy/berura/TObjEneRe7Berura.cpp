@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_803D96A8.h"
@@ -33,15 +35,12 @@ s32 rotate_matrix_y(int, int);
 void push_matrix(void);
 void post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
-s32 transition_enemy_state__9TObjEneDDFl(void *, s32);
 void TObjEneRe7Berura__sub_80093470(TObjEneRe7Berura *self, s32 mode);
 void TObjEneRe7BeruraPunch__sub_800962F4(TObjEneRe7BeruraPunch *p);
 void TObjPlayer__sub_800A04F0(void *);
 s32 is_split_screen();
-s32 get_camera_mode__11TCameraCtrlFv();
 void fn_80095DD0(TObjEneRe7BeruraPart *);
 void fn_80095DF4(TObjEneRe7BeruraPart *);
-s32 is_main_phase_15__9TObjEneDDFv();
 s32 scroll_strip_uvs(s32, int, int);
 extern const Vec lbl_80439EC4;
 extern TObjEneRe7BeruraPart TObjEneRe7Berura__detached_part_states[];
@@ -121,7 +120,6 @@ s32 enemy_set_target_id(TObjEneRe7Berura *, u16);
 
 int reload_stats_keep_hp_tp__9TObjEneDDFv(void *self, void *a, void *b, void *c);
 s32 clear_attack_receipts__9TObjEneDDFv();
-void invoke_initialization_hook__9TObjEneDDFPv(void *, void *);
 BmlResource *load_enemy_bml_resource_named(BmlResourceDescriptor *, const char *);
 BmlResource *load_enemy_bml_resource(BmlResourceDescriptor *);
 s32 set_field_378__9TObjEneDDFl(void *, s32, s32);
@@ -436,7 +434,7 @@ void TObjEneRe7Berura::destroy_children() {
 
 TObjEneRe7Berura::TObjEneRe7Berura(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
     m_name = TObjEneRe7Berura__name;
-    invoke_initialization_hook__9TObjEneDDFPv(this, set_data);
+    invoke_initialization_hook(set_data);
     sub_80095328();
     init_enemy();
 }
@@ -1439,7 +1437,7 @@ void TObjEneRe7Berura__sub_80093470(TObjEneRe7Berura *self, s32 mode) {
         break;
     case 3:
         if (self->get_flag_b4() != 0) {
-            transition_enemy_state__9TObjEneDDFl(self, self->m_378);
+            ((TObjEneDD *)self)->transition_enemy_state(self->m_378);
         }
         break;
     case 0:
@@ -1561,11 +1559,11 @@ void TObjEneRe7Berura::render() {
     }
     cam = 0;
     if (is_split_screen() != 0) {
-        cam = get_camera_mode__11TCameraCtrlFv();
+        cam = TCameraCtrl::get_camera_mode();
     }
     if (m_3c0 & 1) {
         visible = 0;
-    } else if (is_main_phase_15__9TObjEneDDFv() != 0) {
+    } else if (TObjEneDD::is_main_phase_15() != 0) {
         visible = classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 15.0f);
     } else if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         visible = 1;

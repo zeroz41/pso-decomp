@@ -142,7 +142,6 @@ struct TargetCandidate {
 };
 
 f32 newton_sqrtf(f32);
-s32 is_main_phase_15__9TObjEneDDFv();
 
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 extern s32 saved_model_render_flags;
@@ -178,7 +177,6 @@ extern "C" {
 void free_bin_model_request(void *, s32);
 extern void *tl_04;
 s32 is_split_screen();
-s32 dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 register_object__6TLobbyFl(s32);
 s32 dispatch_shared_handler_b__6TLobbyFl(s32);
 s32 register_boss__6TLobbyFl(s32);
@@ -210,7 +208,7 @@ void TObjEneMe1Gee::load_resources() {
         gee_boss_stat_handle_table[i] = register_boss__6TLobbyFl(lbl_8043BCD8[i]);
         gee_shared_handler_b_table[i] = dispatch_shared_handler_b__6TLobbyFl(lbl_8043BCE4[i]);
         gee_object_handle_table[i] = register_object__6TLobbyFl(lbl_8043BCF0[i]);
-        gee_shared_handler_a_table[i] = (TObjEneMe1GeeParams *)dispatch_shared_handler_a__6TLobbyFl(lbl_8043BCFC[i]);
+        gee_shared_handler_a_table[i] = (TObjEneMe1GeeParams *)TLobby::dispatch_shared_handler_a(lbl_8043BCFC[i]);
     }
     TObjEneMe1Gee__render_node_index = 0;
     p = (TUnk_8048FA00 *)::operator new(0x10);
@@ -1876,7 +1874,7 @@ void TObjEneMe1Gee::render() {
     }
     if (this->m_3c8 & 0x400000) {
         var_r30 = 0;
-    } else if (is_main_phase_15__9TObjEneDDFv() != 0) {
+    } else if (TObjEneDD::is_main_phase_15() != 0) {
         var_r30 = this->classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, TObjEneMe1Gee__data_805DA0C0);
     } else if (this->update_object_view_visibility(lbl_805DA0BC, TObjEneMe1Gee__data_805DA0C0) != 0) {
         var_r30 = 1;

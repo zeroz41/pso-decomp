@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
 s32 TWindowSubStatusDisp::calc_layout_hash() {
@@ -30,7 +31,6 @@ struct E_8006F134 { s32 a; s32 b; };
 struct O_8006F134 { u8 pad[0xc0]; E_8006F134 e[4]; s32 pad2; E_8006F134 def; };
 
 extern "C" {
-s32 is_flag_set__6TLobbyFv();
 extern RecoveredGlobal_8006F23C_lbl_8048C9D8 challenge_mode_state;
 s32 is_split_screen(void);
 extern s32 lbl_80438590[];
@@ -87,7 +87,7 @@ s32 TWindowSubStatusDisp::resolve_player_slot(s32 slot) {
 
 s32 TLobby::get_flagged_table_entry(s32 arg0) {
   u8 *new_var;
-  if (is_flag_set__6TLobbyFv() != 0)
+  if (TLobby::is_flag_set() != 0)
   {
     new_var = (u8 *) (&(*(RecoveredGlobal_8006F1EC_lbl_8048C9D8 *)&challenge_mode_state).value);
     new_var = new_var + (arg0 * 4);
@@ -97,7 +97,7 @@ s32 TLobby::get_flagged_table_entry(s32 arg0) {
 }
 
 s32 TLobby::get_flag_value_if_set() {
-    if (is_flag_set__6TLobbyFv() != 0) {
+    if (TLobby::is_flag_set() != 0) {
         return *(s32 *)((s8 *)&challenge_mode_state.value + 0x34);
     }
     return 0;

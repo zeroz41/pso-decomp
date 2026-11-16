@@ -97,7 +97,6 @@ void pop_matrices(int);
 extern u8 identity_matrix[];
 extern s32 local_client_id;
 void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl);
-s32 is_locally_controlled__10TObjPlayerFPv(void *);
 void *__nw__7TObjectFUl(u32);
 void *construct_actor_light__9TObjLightFlllllfffl(void *, Col_8022C738 *, Vec *, s32, void *, s32, f32, f32, f32);
 void *__ct__13TUnk_804CC794Fll(void *, void *, s32);
@@ -739,7 +738,7 @@ void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner) 
                  construct_actor_light__9TObjLightFlllllfffl)(0.1f, 0.35f, TObjLight__scene_light_state.f1C, \
                                           o, &c, &v, base, owner, tl_07);                        \
         }                                                                                        \
-        if (is_locally_controlled__10TObjPlayerFPv(owner) != 0) {                                \
+        if (TObjPlayer::is_locally_controlled(owner) != 0) {                                \
             o = __nw__7TObjectFUl(0x34);                                                         \
             if (o != NULL) {                                                                     \
                 INIT(o, owner, tl_07);                                                           \

@@ -33,7 +33,6 @@ s32 TObjEneRe4Bit__model;
 s32 re4_bit_texture_list;
 extern const char *lbl_805D2AE8;
 f32 calc_elapsed_scaled__9TObjEneDDFv(TObjEneDD *self);
-s32 is_main_phase_15__9TObjEneDDFv(void);
 extern BmlResource *sorcerer_bml_resource;
 extern s32 lbl_8043D2B0[];
 extern s32 lbl_8043D2B8[];
@@ -527,7 +526,7 @@ void TObjEneRe4Bit::render() {
         vfunc_106();
         return;
     }
-    if (is_main_phase_15__9TObjEneDDFv() != 0) {
+    if (TObjEneDD::is_main_phase_15() != 0) {
         range = lbl_805D9E84;
     } else {
         range = 400.0f;

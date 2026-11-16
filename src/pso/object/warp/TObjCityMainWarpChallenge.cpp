@@ -42,7 +42,6 @@ extern s32 local_client_id;
 s32 is_local_client_floor_leader(s32);
 s32 find_local_player_in_range__16TObjCityMainWarpFf(void *, f32);
 s32 close_windows__25TObjCityMainWarpChallengeFv();
-void sub_801875F8__25TObjCityMainWarpChallengeFv(TObjCityMainWarpChallenge *self);
 s32 fn_80248994(void *, u32, int);
 void request_active_window_close(void);
 void begin_player_keyboard_hold(s32 arg0);
@@ -303,7 +302,7 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
         break;
     case 1:
         if (((u32 (*)(f32))find_local_player_in_range__16TObjCityMainWarpFf)(warp_range) != 0) {
-            sub_801875F8__25TObjCityMainWarpChallengeFv(this);
+            sub_801875F8();
             trigger_warp_effect(local_client_id);
             state_step = 2;
             break;
@@ -318,7 +317,7 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
         }
         break;
     case 2:
-        sub_801875F8__25TObjCityMainWarpChallengeFv(this);
+        sub_801875F8();
         if (yes_no_window != 0) {
             if (((TWindowSubComCard *)yes_no_window)->get_card_data() != 0) {
                 state_step = 3;

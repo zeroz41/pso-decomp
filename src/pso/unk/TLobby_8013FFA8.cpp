@@ -34,7 +34,6 @@ s32 play_area_music(s32 *);
 s32 is_split_screen();
 extern s32 lbl_8043F198[];
 extern s32 lbl_8043F1A8[];
-s32 call_funcs_reverse__6TLobbyFPvUi(void *, s32);
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 __declspec(section ".data") void (*dragon_area_scene_callbacks[2])(void) = {TLobby::init_bosses, TLobby::update_boss1_objects};
 __declspec(section ".data") void (*lbl_804A7360[2])(void) = {TLobby__sub_8003A9AC, TLobby::init_boss2_stage};
@@ -104,7 +103,7 @@ void cleanup_dragon_area_scene(void) {
     TLobby::refresh_render_state();
     TLobby::stop_audio_streams();
     stop_cue_stream();
-    call_funcs_reverse__6TLobbyFPvUi(dragon_area_scene_callbacks, sizeof(dragon_area_scene_callbacks));
+    TLobby::call_funcs_reverse(dragon_area_scene_callbacks, sizeof(dragon_area_scene_callbacks));
     TLobby::update_current_floor();
     unload_current_floor_resources();
     TLobby::clear_session_buffers();
@@ -160,7 +159,7 @@ s32 init_dragon_area_scene(void) {
 void cleanup_boss2_area(void) {
     TLobby::refresh_render_state();
     TLobby::stop_audio_streams();
-    call_funcs_reverse__6TLobbyFPvUi(lbl_804A7360, 8);
+    TLobby::call_funcs_reverse(lbl_804A7360, 8);
     unload_current_floor_resources();
     TLobby::update_current_floor();
     TLobby::clear_session_buffers();

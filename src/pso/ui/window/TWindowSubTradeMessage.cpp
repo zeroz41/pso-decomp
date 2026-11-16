@@ -1,4 +1,5 @@
 #include "pso/ui/window/TWindowSubTradeMessage.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/text_802D298C.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
@@ -15,7 +16,6 @@ s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void*,s32);
 void play_sound_effect(s32,s32,s32,s32);
 u8* get_window_layout_position(s32);
 TWindowMessage* create__14TWindowMessageFlPCfUll(void*,const f32*,s32,s32);
-int append_line__14TWindowMessageFii(void*,const char*,s32);
 extern TradeMessageInput controller_input_state[];
 __declspec(section ".rodata") extern const char trade_message_class_name[23] = "TWindowSubTradeMessage";
 __declspec(section ".rodata") extern const f32 trade_message_window_dimensions[2] = {282.0f,120.0f};
@@ -35,7 +35,7 @@ void TWindowSubTradeMessage::show_message(const char* text) {
 TWindowMessage* TWindowSubTradeMessage::create_message_window(const char* text) {
     TWindowMessage* window;
     window=create__14TWindowMessageFlPCfUll(get_window_layout_position(0x5B),trade_message_window_dimensions,1,playerIndex);
-    append_line__14TWindowMessageFii(window,text,0x82);
+    ((TWindowMessage *)window)->append_line((int)text, (int)0x82);
     return window;
 }
 

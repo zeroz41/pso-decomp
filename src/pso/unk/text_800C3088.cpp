@@ -151,7 +151,6 @@ struct RecoveredFields_800C3088_arg0
 
 extern "C" {
 void *create_particle_emitter(void *pos, s32 id);
-s32 noop__9TObjEneDDFv(void *);
 s32 check_hit_flag__16TObjEneRe2FlowerFv(void *);
 s32 TObjPlayer__sub_800C4A5C(int, void *, void *, int);
 s32 play_sound_effect(void *, void *, int, int);
@@ -224,7 +223,7 @@ void fn_800C3088(u8 *arg0, int arg1) {
     }
       (((TObjEneDD *)(arg0))->vfunc_102());
       (((TObjEneDD *)(arg0))->vfunc_88());
-      noop__9TObjEneDDFv((void *) arg0);
+      ((TObjEneDD *)arg0)->noop();
       return;
     case 5:
       ((RecoveredFields_800C3088_arg0 *) arg0)->field_3C4 = (int) (((RecoveredFields_800C3088_arg0 *) arg0)->field_3C4 & 0xFFFFFFFD);
@@ -288,7 +287,7 @@ void fn_800C32DC(u8 *owner, s32 arg1) {
         }
         ((TObjEneDD *)(owner))->vfunc_102();
         ((TObjEneDD *)(owner))->vfunc_88();
-        noop__9TObjEneDDFv(owner);
+        ((TObjEneDD *)owner)->noop();
         break;
     case 5:
         temp_r3_4 = *(u32 *)((s8 *)owner + 0x428);
@@ -494,7 +493,7 @@ void TObjEneDD::state_chase_target(s32 arg1) {
         this->rotation_y = (s16)this->rotation_y;
         this->vfunc_102();
         this->vfunc_88();
-        noop__9TObjEneDDFv(arg0);
+        ((TObjEneDD *)arg0)->noop();
         break;
     }
 }

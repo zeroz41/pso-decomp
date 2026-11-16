@@ -37,7 +37,6 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-f32 random_ratio__9TObjCharaFv(s32);
 s32 spawn_particle_effect(s32, s32);
 struct Vec_800ACB58 { f32 x, y, z; };
 s32 apply_actor_gravity(void *, int, f32);
@@ -331,7 +330,6 @@ s32 approach_angle_limited(s32, s32, s32);
 
 extern Vec_800AE450 scratch_vec;
 
-s32 enemy_turn_toward_dest__9TObjEnemyFl(void *, s32);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 
 void *spawn_directional_particle(void *pos, void *dir, s32 id);
@@ -1157,7 +1155,7 @@ s32 TObjEneMoja::is_target_in_attack_range() {
                     return 1;
                 case 1:
                     if (this->attackSequence != -1 && !(this->techniqueChance < 0.00001f)) {
-                        if (((f32 (*)(void *))random_ratio__9TObjCharaFv)(this) < this->techniqueChance) {
+                        if (random_ratio() < this->techniqueChance) {
                             return 1;
                         }
                         this->attackSequence = -1;
@@ -1173,7 +1171,7 @@ s32 TObjEneMoja::is_target_in_attack_range() {
                     break;
                 case 2:
                     if (this->attackSequence != -1) {
-                        if (22500.0f < dist && ((f32 (*)(void *))random_ratio__9TObjCharaFv)(this) < this->jumpChance) {
+                        if (22500.0f < dist && random_ratio() < this->jumpChance) {
                             return 1;
                         }
                         this->attackSequence = -1;
@@ -1252,7 +1250,7 @@ s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
                 if ((obj_is_hit_receivable() != 0) && !(*(s32 *)(p + 0x30) & 0x02000800) && (((VObj_18_247a8e *)p)->m18(arg0, 1.0f) != 0)) {
                     ((VObj_18_247a8e *)p)->m20(arg0, 1.0f);
                     ((VObj_18_247a8e *)p)->m23(arg0);
-                    if (0.5f < ((f32 (*)(void *))random_ratio__9TObjCharaFv)(arg0)) {
+                    if (0.5f < ((TObjChara *)arg0)->random_ratio()) {
                         *(s32 *)(arg0 + 0x388) = 1;
                     }
                 }
@@ -1355,7 +1353,7 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
             if (select_enemy_destination(self, &dest, 1) != 0) {
                 Vec_800AE18C cur = self->pos;
                 copy_position_if_valid__10TObjPlayerFii(self, &cur);
-                a = enemy_turn_toward_dest__9TObjEnemyFl(self, self->info->turn);
+                a = ((TObjEnemy *)self)->enemy_turn_toward_dest(self->info->turn);
                 enemy_set_heading_velocity(self->info->speed, (TObjEnemy *)((TObjEnemy *)((u8 *)self)), self->rot_y);
                 move_with_wall_slide((u8 *)self);
             } else {

@@ -1,4 +1,5 @@
 #include "pso/ui/window/TObjBagWarnWin.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/unk/text_8006EF80.h"
@@ -29,7 +30,6 @@ s32 TWindowCtrlMain__sub_8024CE58();
 void *get_player_by_client_id(s32 i);
 s32 TLobby__sub_80211C3C();
 extern s32 local_client_id;
-s32 append_line__14TWindowMessageFii(u32, void *, s32);
 u32 create__14TWindowMessageFPvll(s32, void *, s32);
 s32 get_window_layout_position(s32);
 s32 strncpy(void *, s32, s32);
@@ -100,7 +100,7 @@ void TObjBagWarnWin::open_message_window() {
         }
         strncpy(arg0 + 0x20, TQuestVmDownLoadServer__sub_8006EF6C(0x59), 0x7F);
         *(s8 *)((s8 *)arg0 + 0x9F) = 0;
-        append_line__14TWindowMessageFii(*(u32 *)((s8 *)arg0 + 0x1C), arg0 + 0x20, 0);
+        ((TWindowMessage *)(*(u32 *)((s8 *)arg0 + 0x1C)))->append_line((int)(arg0 + 0x20), (int)0);
     }
 }
 TObjBagWarnWin::~TObjBagWarnWin() {}

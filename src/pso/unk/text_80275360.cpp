@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -29,7 +30,7 @@ void TWindowSubComCardList::sub_80275360() {
         if (card->is_active() == 0) {
             break;
         }
-        forward_trade_action_default__16TObjCityMainWarpFPviii(this, (int)get_com_card_list__6TLobbyFv(card), 7, index);
+        forward_trade_action_default__16TObjCityMainWarpFPviii(this, (int)((TLobby *)card)->get_com_card_list(), 7, index);
     }
     if (this->get_field_72() <= 0) {
         switch ((s8)this->m_9c) {

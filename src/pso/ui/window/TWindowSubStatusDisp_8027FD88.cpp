@@ -15,7 +15,6 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
 extern "C" {
-s8 get_type__20TWindowSubStatusDispFv(s32);
 extern "C" u8 lbl_805DD6E0[];
 extern "C" u8 lbl_805DD6E4[2];
 extern "C" u8 lbl_805DD6E8[];
@@ -785,13 +784,13 @@ void TWindowSubStatusDisp::dispatch_page_init() {
 
     switch (page) {
     case 0:
-        (this->*page0[get_type__20TWindowSubStatusDispFv(m_68)])();
+        (this->*page0[((TWindowSubStatusDisp *)m_68)->get_type()])();
         break;
     case 1:
-        (this->*page1[get_type__20TWindowSubStatusDispFv(m_68)])();
+        (this->*page1[((TWindowSubStatusDisp *)m_68)->get_type()])();
         break;
     case 2:
-        (this->*page2[get_type__20TWindowSubStatusDispFv(m_68)])();
+        (this->*page2[((TWindowSubStatusDisp *)m_68)->get_type()])();
         break;
     }
 }
@@ -811,13 +810,13 @@ void TWindowSubStatusDisp::dispatch_page_update() {
 
     switch (page) {
     case 0:
-        (this->*page0[get_type__20TWindowSubStatusDispFv(m_68)])();
+        (this->*page0[((TWindowSubStatusDisp *)m_68)->get_type()])();
         break;
     case 1:
-        (this->*page1[get_type__20TWindowSubStatusDispFv(m_68)])();
+        (this->*page1[((TWindowSubStatusDisp *)m_68)->get_type()])();
         break;
     case 2:
-        (this->*page2[get_type__20TWindowSubStatusDispFv(m_68)])();
+        (this->*page2[((TWindowSubStatusDisp *)m_68)->get_type()])();
         break;
     }
 }

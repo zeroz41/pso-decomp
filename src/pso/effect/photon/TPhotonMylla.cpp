@@ -1,4 +1,5 @@
 #include "pso/system/NinjaTypes.h"
+#include "pso/unk/TUnk_804C3248.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
@@ -115,7 +116,6 @@ void *find_entity_by_id(u16 id);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 queue_photon_blast_hit(int, int, int, f32);
-s32 spawn_photon_blast_attachment_effects__13TUnk_804C3248Fl(void *, int);
 s32 clear_render_context__10TObjPlayerFv(void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
@@ -222,7 +222,7 @@ void TPhotonMylla::run_task() {
         ((TUnk_804C3248 *)arg0)->begin_photon_summon_camera(3);
         ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_1A4 = 0;
         ((TObjMotion *)arg0)->set_field_b8(0);
-        spawn_photon_blast_attachment_effects__13TUnk_804C3248Fl((void *) (arg0), 5);
+        ((TUnk_804C3248 *)arg0)->spawn_photon_blast_attachment_effects(5);
     }
     ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_194 = (s16) ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_B8;
     ((TUnk_804C3248 *)arg0)->update_state();
@@ -363,7 +363,7 @@ void *TPhotonMylla__ct(Mylla_801AD970 *self, Pkt_801AD970 *pkt) {
         if (o != NULL) {
             TPhotonMagicSquare__ct((u8 *)o, (s32)self, 5, (s32)&v, 0xAA, 0.5f);
         }
-        spawn_photon_blast_attachment_effects__13TUnk_804C3248Fl(self, 5);
+        ((TUnk_804C3248 *)self)->spawn_photon_blast_attachment_effects(5);
         play_cue_stream_file((s32)"maila2.adx");
     } else {
         spawn_photon_blast_opening_effects(5, F_801AD970(self, u16, 0x17C));

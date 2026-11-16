@@ -234,7 +234,7 @@ void TChCrLoadAfsTextureReq::update_loading() {
     }
     if (load_texture_list(textures) != -1) {
         m_1c = 1;
-        queue_destruction__7TObjectFv(this);
+        queue_destruction();
     }
 }
 

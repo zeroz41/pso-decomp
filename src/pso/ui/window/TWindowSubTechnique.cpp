@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowSubTechnique.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubTechnique_80286BD4.h"
@@ -145,7 +146,6 @@ s32 validate_and_clear_slot__10TObjPlayerFv(void *, int);
 void TWindowSubStatusDisp__sub_80228F5C(s32 arg0);
 void text_builder_append(u8 *str);
 s32 get_help_text_string(s32 arg0);
-s32 append_line__14TWindowMessageFii(int, void *, int);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 try_equip_item__10TObjPlayerFii(s32, s32);
@@ -157,7 +157,6 @@ f32 TWindowSubEquip__sub_80263AF8(u8 *arg0, u32 arg1);
 void *create__14TWindowMessageFlPCfUll(s32, void *, s32, s32);
 s32 update_selection__19TWindowSubTechniqueFPsPl(void *, void *, s32);
 void get_current_selection__19TWindowSubTechniqueFPv(void *, void *, s32);
-void rebuildTechniqueList__19TWindowSubTechniqueFll(void *, void *, s32);
 void *create_title_window__19TWindowSubTechniqueFv(void *, s32);
 extern u8 lbl_8044FC54[];
 extern Pad_802870C4 controller_input_state[];
@@ -212,7 +211,7 @@ void TWindowSubTechnique::update_selected_help(s32 arg1) {
       *(s16 *)&this->m_1e = (s16) tech;
       if (((s16) tech) == 0x13)
       {
-        append_line__14TWindowMessageFii((int) (*(s32 *)&this->m_3c), (void *)lbl_805DD83C, 0x82);
+        ((TWindowMessage *)(*(s32 *)&this->m_3c))->append_line((int)((void *)lbl_805DD83C), (int)0x82);
         return;
       }
       text_builder_reset();
@@ -225,7 +224,7 @@ void TWindowSubTechnique::update_selected_help(s32 arg1) {
       text_builder_append((u8 *)((int) get_help_text_string(0x2E)));
       TWindowSubStatusDisp__sub_80228F5C(((s32) (*((s16 *) (((s8 *) calc_technique_parameters((s16) tech, (u8) cast_technique_level, 0xFFFF)) + 0x10)))));
       text_builder_append((u8 *)((int) TWindowSubTechnique__sub_8028753C((s32)((int) ((s32) ((s16) tech))))));
-      append_line__14TWindowMessageFii((int) (*(s32 *)&this->m_3c), (void *) get_shared_text_buffer(), 0x82);
+      ((TWindowMessage *)(*(s32 *)&this->m_3c))->append_line((int)((void *) get_shared_text_buffer()), (int)0x82);
     }
   }
 }
@@ -257,7 +256,7 @@ void TWindowSubTechnique::run_task() {
     case 2: {
         s32 r = ((TWindowSubTechnique *)self)->sub_80286AA8();
         if (r == 1 || update_selection__19TWindowSubTechniqueFPsPl(self->f20, self->f24, self->player) != 0) {
-            rebuildTechniqueList__19TWindowSubTechniqueFll(self, self->sel, ((TWindowMenu *)self->list)->get_selected_value());
+            ((TWindowSubTechnique *)self)->rebuildTechniqueList((s32)(self->sel), (s32)(((TWindowMenu *)self->list)->get_selected_value()));
             if (r != 0) {
                 ((TWindowSubComCardList *)(self->sel))->set_selected_index(0);
             }
@@ -283,7 +282,7 @@ void TWindowSubTechnique::run_task() {
     case 4:
         ((TObjPlayer *)ply)->update_cursor((s16)((TWindowMenu *)self->sel)->get_selected_value());
         if (update_selection__19TWindowSubTechniqueFPsPl(self->f20, self->f24, self->player) != 0) {
-            rebuildTechniqueList__19TWindowSubTechniqueFll(self, self->sel, ((TWindowMenu *)self->list)->get_selected_value());
+            ((TWindowSubTechnique *)self)->rebuildTechniqueList((s32)(self->sel), (s32)(((TWindowMenu *)self->list)->get_selected_value()));
         }
         update_selected_help((s16)((TWindowMenu *)self->sel)->get_selected_value());
         if (((TWindowMenu *)(self->sel))->is_cancelled() != 0) {
@@ -299,7 +298,7 @@ void TWindowSubTechnique::run_task() {
             TWindowShortListCtrl__check_controller_button(controller_input_state[port].m20, 2) != 0 ||
             test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state[4].m20, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
-            rebuildTechniqueList__19TWindowSubTechniqueFll(self, self->sel, ((TWindowMenu *)self->list)->get_selected_value());
+            ((TWindowSubTechnique *)self)->rebuildTechniqueList((s32)(self->sel), (s32)(((TWindowMenu *)self->list)->get_selected_value()));
             self->state = 1;
         } else if (try_equip_item__10TObjPlayerFii(ply, (s16)((TWindowMenu *)self->sel)->get_selected_value()) != 0) {
             self->state = 1;

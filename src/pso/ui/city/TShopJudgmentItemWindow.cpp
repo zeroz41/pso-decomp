@@ -194,7 +194,6 @@ extern s32 local_client_id;
 void *__dt__23TShopJudgmentItemWindowFv(TShopJudgmentItemWindow *arg0, s16 arg1);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 sub_80223A48__15TShopWindowBaseFv(void *);
 void __dl__7TObjectFPv(void *);
 
 void TShopJudgmentItemWindow::display_message(const char *text, s32 flags) {
@@ -304,7 +303,7 @@ void TShopJudgmentItemWindow::update() {
     VObj_80220940_802205E4 *o = (VObj_80220940_802205E4 *)this;
     s32 c = *(s32 *)&this->_pad14C - 1;
     *(s32 *)&this->_pad14C = c;
-    if (c <= 0 && o->m8() != 0 && (sub_80223A48__15TShopWindowBaseFv(this) != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
+    if (c <= 0 && o->m8() != 0 && (sub_80223A48() != 0 || sub_802239EC__13TShopSequenceFv(this) != 0)) {
         o->m6(0xB, 1);
         set_field_20(0);
     }

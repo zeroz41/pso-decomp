@@ -73,7 +73,6 @@ s32 setup__23TAdSinglePlyChrSelectGCFi(s32);
 s32 TAdSinglePlyChrSelectGC__sub_801FDA4C();
 
 int request_queued_main_phase(void*);
-s32 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 extern void *character_select_scene_resource_callbacks[];
 int check_room_seq_4__16TAdChrSelASlotGCFl(void*, void*);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void*, void*, void*, void*);
@@ -410,7 +409,7 @@ void TAdSinglePlyChrSelectGC__sub_8033B264(void) {
     main_task.delete_layer_children();
     TLobby::stop_audio_streams();
     TLobby::set_and_notify(0);
-    call_funcs_reverse__6TLobbyFPvUi((void *) (&(*(RecoveredGlobal_8033B264_lbl_804EF728 *)&character_select_scene_resource_callbacks).value), 0x30);
+    TLobby::call_funcs_reverse((void *) (&(*(RecoveredGlobal_8033B264_lbl_804EF728 *)&character_select_scene_resource_callbacks).value), 0x30);
     render_tick();
 }
 

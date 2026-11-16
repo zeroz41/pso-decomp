@@ -1,4 +1,5 @@
 #include "pso/system/NinjaTypes.h"
+#include "pso/player/PlayerScaleState.h"
 #include "pso/render/ChunkMaterialState.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/TPlyOnCountOver.h"
@@ -53,7 +54,6 @@ struct VO_801C6408 : VB_801C6408 {
 
 extern "C" {
 void *create_particle_emitter(void *pos, s32 id);
-s32 test_action_mask__10TObjPlayerFl(VO_801C6408*, s32);
 s32 is_on_current_floor__10TObjPlayerFi(VO_801C6408*);
 extern s32 tl_07;
 void* __nw__7TObjectFUl(s32);
@@ -64,7 +64,6 @@ extern "C" {
 
 s32 __ct__11TPlayerSoulFP7TObjectUs();
 
-s32 is_script_controlled__10TObjPlayerFv(s32);
 
 s32 check_flag_0x8000__10TObjPlayerFv();
 s32 get_entity_id(s32);
@@ -96,7 +95,6 @@ f32 apply_stat_multipliers__10TObjPlayerFiif(s32, s32, f32);
 void apply_stat_multipliers_default__10TObjPlayerFv(void);
 u16 get_obj_type__10TObjPlayerFPv(void*);
 TObjPlayer* get_player_by_client_id(int);
-f32 get_scalar__16PlayerScaleStateFv(s32);
 void set_ring_action__10TObjPlayerFPvi(void*, s32);
 void set_stat_scale__10TObjPlayerFPvf(void*, f32);
 s32 test_flags_any(s32, s32);
@@ -115,7 +113,6 @@ extern "C" {
 f32 apply_stat_multipliers__10TObjPlayerFiif(s32 arg0, s32 arg1, f32 farg0);
 void apply_stats_and_update__10TObjPlayerFPv(void* p);
 s32 test_flags_any(s32, s32);
-f32 get_scalar__16PlayerScaleStateFv(s32);
 s32 is_flag30_8_set__10TObjPlayerFi(s32);
 
 
@@ -936,7 +933,7 @@ f32 apply_stat_multipliers__10TObjPlayerFiif(s32 arg0, s32 arg1, f32 farg0) {
     }
     ((s32 (*)(s32, f32))TObjPlayer__sub_801C6FCC)(arg0, var_f31);
     if (((PlayerScaleState *)(arg1  + 0x5B0))->is_scaled() != 0) {
-        var_f31 *= get_scalar__16PlayerScaleStateFv(arg1 + 0x5B0);
+        var_f31 *= ((PlayerScaleState *)(arg1 + 0x5B0))->get_scalar();
     }
     return var_f31;
 }
@@ -998,7 +995,7 @@ void TObjPlayer::revive_or_spawn_marker() {
     s32 temp_r3;
     s32 player = (s32)this;
 
-    if ((check_flag_0x8000__10TObjPlayerFv() != 0) || (obj_isState3_324__9TObjCharaFv(player) != 0) || (is_script_controlled__10TObjPlayerFv(player) != 0)) {
+    if ((check_flag_0x8000__10TObjPlayerFv() != 0) || (obj_isState3_324__9TObjCharaFv(player) != 0) || (((TObjPlayer *)player)->is_script_controlled() != 0)) {
         ((TObjPlayer *)player)->set_flag_0x8000();
         return;
     }
@@ -1031,7 +1028,7 @@ void TPlayerSoul::run_task() {
     TParticleCtrl* h;
     Vec_801C6408 v;
     p = (VO_801C6408*)get_player();
-    if (p != NULL && test_action_mask__10TObjPlayerFl(p, 0x8000) != 0 && is_current_area_item_enabled() != 0 &&
+    if (p != NULL && ((TObjPlayer *)p)->test_action_mask(0x8000) != 0 && is_current_area_item_enabled() != 0 &&
         is_on_current_floor__10TObjPlayerFi(p) != 0) {
         h = get_particle();
         if (h != 0) {

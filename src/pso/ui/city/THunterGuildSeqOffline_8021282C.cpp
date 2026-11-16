@@ -93,7 +93,6 @@ void THunterGuildSeqOffline__sub_8021E180();
 void fn_802233F8(void *);
 void close_window__13TShopSequenceFv(void *);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 sub_80223A48__15TShopWindowBaseFv(void *);
 extern void *tl_00;
 struct Base_80212858_8021282C { char pad[0x18]; };
 struct VObj_80212858_8021282C : Base_80212858_8021282C {
@@ -173,7 +172,7 @@ void THunterGuildSeqOffline::close_window() {
     if (arg0->m8() == 0) {
         return;
     }
-    if (sub_80223A48__15TShopWindowBaseFv(arg0) == 0 && sub_802239EC__13TShopSequenceFv(arg0) == 0) {
+    if (((TShopWindowBase *)arg0)->sub_80223A48() == 0 && sub_802239EC__13TShopSequenceFv(arg0) == 0) {
         return;
     }
     switch (arg0->f38) {
@@ -265,7 +264,7 @@ void THunterGuildSeqOffline::handle_window_input() {
         }
     } else {
 block_3:
-        if ((this->vfunc_10() != 0) && ((sub_80223A48__15TShopWindowBaseFv(this) != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
+        if ((this->vfunc_10() != 0) && ((sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
             ((V_A_8021282C *) this)->m7(0xC, 1);
             *(s32 *)&this->unk_38 = 1;
             set_field_20(5);

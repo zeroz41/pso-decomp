@@ -670,7 +670,6 @@ void *memcpy(void *, const void *, u32);
 void qst_op_check_for_keyword(void);
 extern "C" {
 void begin_message_substitution(u8 *a0, char *a1);
-void create_singleton__6TLobbyFPv(void *arg0);
 
 void begin_message_substitution(u8 *a0, char *a1) { TLobby__quest_script_read_ptr = a0; quest_string_append_cursor = a1; }
 
@@ -703,7 +702,7 @@ void qst_op_get_item_stackability() {
     qst_registers[(u8)temp_r31] = -1;
 }
 
-void qst_op_create_symbol_chat_capture_buffer() { create_singleton__6TLobbyFPv((void *)tl_01); }
+void qst_op_create_symbol_chat_capture_buffer() { TLobby::create_singleton((void *)tl_01); }
 
 void qst_op_get_recent_symbol_chat() {
     u8 buf[0x3C];
@@ -812,7 +811,6 @@ void qst_op_va_call(s32 arg0) {
 
 
 extern "C" {
-s16 get_actor_hp__9TObjCharaFv(u8 *);
 }
 void qst_op_p_hpstat(void);
 extern "C" {
@@ -1412,7 +1410,6 @@ int obj_isState2_324__9TObjCharaFv(TObjPlayer*);
 s16 get_actor_tp(u8 *);
 s32 obj_getPtr2B0_20();
 s16 obj_getS16_2BA(u8 *);
-int get_player_data__10TObjPlayerFi(int a0);
 u16 get_entity_id(void *);
 s32 get_current_floor();
 f64 atan2_float(void *, f32, f32);
@@ -1462,8 +1459,6 @@ volatile unsigned long get_actor_section_id__15TPlyPhotonChairFv(int);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 u32 prs_decompress_buffer(s32, s32);
 void *TLobby__sub_800F8498(void *arg0, void *arg1, s32 arg2, s32 arg3, u8 arg4, u8 arg5, u8 arg6, u8 arg7);
-u32 get_serial_access__22TQuestVmDownLoadServerFv();
-u32 poll_serial_access__22TQuestVmDownLoadServerFv();
 s32 TLobby__sub_801036CC();
 s32 is_script_controlled__10TObjPlayerFv();
 s32 activate_d04_slot__10TObjPlayerFv();
@@ -2097,7 +2092,7 @@ void qst_op_chat_bubble(void) {
     start = TLobby::get_game_mode();
     end = start + TLobby::get_lobby_flag();
     for (i = start; i < end; i++) {
-        player = (void *)get_player_data__10TObjPlayerFi(i);
+        player = (void *)TObjPlayer::get_player_data(i);
         if (player != NULL) {
             win = get_entity_id(player);
             if (win < 0x4000) {
@@ -2284,7 +2279,7 @@ void qst_op_get_player_hp_tp(void) {
     u8 i = qst_args[1];
     if (player != NULL) {
         qst_registers[i++] = ((TItemProShield *)player)->get_field_2b8();
-        qst_registers[i++] = get_actor_hp__9TObjCharaFv(player);
+        qst_registers[i++] = ((TObjChara *)player)->get_actor_hp();
         qst_registers[i++] = obj_getS16_2BA(player);
         qst_registers[i] = get_actor_tp(player);
     } else {
@@ -3747,9 +3742,9 @@ void qst_op_get_eventflag(s32 arg0, s32 arg1) {
 }
 
 void qst_op_get_serial_number(u8 arg0) {
-    qst_registers[arg0] = ((s32 (*)(void))get_serial_access__22TQuestVmDownLoadServerFv)();
+    qst_registers[arg0] = TQuestVmDownLoadServer::get_serial_access();
     if (qst_registers[arg0] == 0) {
-        qst_registers[arg0] = ((s32 (*)(void))poll_serial_access__22TQuestVmDownLoadServerFv)();
+        qst_registers[arg0] = TQuestVmDownLoadServer::poll_serial_access();
     }
 }
 
@@ -5527,7 +5522,7 @@ void qst_op_p_hpstat(void) {
     limit = 1.0f / pct;
     obj = (void *)((s32)get_player_by_client_id(player));
     if (obj != NULL) {
-        hp = get_actor_hp__9TObjCharaFv((u8 *)obj);
+        hp = ((TObjChara *)obj)->get_actor_hp();
         if (hp / ((TItemProShield *)obj)->get_field_2b8() < limit) {
             qst_registers[reg] = 1;
             return;

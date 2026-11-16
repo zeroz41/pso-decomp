@@ -22,7 +22,6 @@ s32 sub_801BEE24__10TObjPlayerFs(void *, int);
 s32 sub_801BEE2C__10TObjPlayerFs(void *, int);
 s32 TObjPlayer__sub_801BF660(void *);
 s32 TObjPlayer__sub_801BFB4C(void *);
-s32 init_state__10TObjPlayerFv(void *);
 s32 TObjPlayer__sub_801C1A00(void *);
 s32 init_player_telepipe_record(void *);
 s32 TObjPlayer__sub_801C221C(void *);
@@ -48,7 +47,7 @@ u8 *TObjPlayer::construct_player_instance(s32 arg1, s16 arg2, s32 role, u8 *arg4
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = __vt__10TObjPlayer;
     ((TObjPlayer *)(((u8 *)this) + 0x340))->init_subobject();
     ((TObjPlayer *)(((u8 *)this) + 0x34C))->setup_ctrl();
-    init_state__10TObjPlayerFv((void *) (((u8 *)this) + 0x360));
+    ((TObjPlayer *)(((u8 *)this) + 0x360))->init_state();
     TObjPlayer__sub_803374C4((void *) (((u8 *)this) + 0x374));
     TObjPlayer__sub_80309E9C((void *) (((u8 *)this) + 0x384));
     __ct__8FlagWordFv((((u8 *)this) + 0x41C));

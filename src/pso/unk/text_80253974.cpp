@@ -19,7 +19,6 @@ struct VBar_80253D10 : VBase_80253D10 {
 };
 
 extern "C" {
-s32 deserialize_mag__9TItemDataFPvPv(int, void *);
 extern const f32 lbl_805DCDF0;
 s32 init_window_layout_entries(void *, void *, s16);
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
@@ -38,7 +37,7 @@ s32 TItemData::update_mag_status_gauges() {
     s32 var_r31;
     ((MagStats *)sp8)->init();
     var_r31 = 0;
-    deserialize_mag__9TItemDataFPvPv((int) (*(s32 *)((s8 *)((u8 *)this) + 0x68)), sp8);
+    TItemData::deserialize_mag((void *)(*(s32 *)((s8 *)((u8 *)this) + 0x68)), (void *)sp8);
     a = ((TWindowBase *)((u8 *)this))->get_array_entry(0);
     b = ((TWindowBase *)((u8 *)this))->get_array_entry(1);
     c = ((TWindowBase *)((u8 *)this))->get_array_entry(2);
@@ -107,7 +106,7 @@ void TWindowHelpItem__vt10(u8 *arg0) {
     ((MagStats *)mag)->init();
     init_window_layout_entries(arg0 + 0x24, lbl_804CF30C, *(s16 *)((s8 *)arg0 + 0x20));
     *(PM_80253D10 *)((s8 *)arg0 + 0xB0) = TWindowHelpItem__mag_growth_update_callback;
-    deserialize_mag__9TItemDataFPvPv(*(s32 *)((s8 *)arg0 + 0x68), mag);
+    TItemData::deserialize_mag((void *)(*(s32 *)((s8 *)arg0 + 0x68)), (void *)mag);
     lv = ((TWindowBase *)arg0)->get_array_entry(0);
     sy = ((TWindowBase *)arg0)->get_array_entry(1);
     iq = ((TWindowBase *)arg0)->get_array_entry(2);

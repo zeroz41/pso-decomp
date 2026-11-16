@@ -1,4 +1,6 @@
 #include "pso/unk/SampledMotionPoints.h"
+#include "pso/effect/enemy/TEneParticleCtrl.h"
+#include "pso/system/task/TObject.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -133,9 +135,7 @@ extern G_800A4294 player_effect_task_list;
 extern int TObjPlayer__effect_count;
 extern "C" {
 void TObjPlayer__sub_800A4294(void);
-void calc_move_state__12TObjEneSaverFv(void *arg0);
 s32 TObjPlayer__sub_800A7774(void *, void *);
-s32 set_param__16TEneParticleCtrlFl(void *, s32);
 void sub_800A435C__12TObjEneSaverFv(u8 *arg0);
 void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
 }
@@ -145,7 +145,6 @@ s32 TObjPlayer__sub_800A04F0(void *);
 struct VDisp_800a42c4_800A4288 { char pad[0x18]; virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(void *, void *); };
 
 void TObjPlayer__sub_800A42C0(void);
-void apply_lookup_entry_effect__12TObjEneSaverFv(u8 *arg0);
 void vfunc_63__12TObjEneSaverFv(void *arg0);
 void update_entry_motion__12TObjEneSaverFv(u8 *arg0);
 s32 post_translate_matrix(void *);
@@ -153,7 +152,6 @@ void check_enemy_body_collisions(void *arg0);
 s32 submit_cursor_candidate(void *, int);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 s32 push_matrix();
-f32 random_ratio__9TObjCharaFv(s32 arg0);
 s32 minimap_render_dot(void *, int, int, int);
 s32 refresh_lobby_state__10TObjPlayerFv(void *, void *);
 
@@ -339,7 +337,7 @@ void TObjEneSaver::sub_800A435C() {
         }
         break;
     default:
-        calc_move_state__12TObjEneSaverFv(this);
+        calc_move_state();
     case 0x107:
     case 0x10E:
         if (!(this->m_374 & 4)) {
@@ -348,7 +346,7 @@ void TObjEneSaver::sub_800A435C() {
             }
         } else if ((s32) this->m_384 != (s32) this->m_380) {
             if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x3A0) != 0U) {
-                set_param__16TEneParticleCtrlFl(*(void **)((s8 *)((u8 *)this) + 0x3A0), this->m_380);
+                ((TEneParticleCtrl *)(*(void **)((s8 *)((u8 *)this) + 0x3A0)))->set_param(this->m_380);
             }
             this->m_384 = (s32) this->m_380;
         }
@@ -417,7 +415,7 @@ void TObjEneSaver::vfunc_63() {
         temp_s16 = 0xA;
         this->mode = temp_s16;
         this->phase = 0;
-        if (random_ratio__9TObjCharaFv((s32)this) < 0.5f) {
+        if (random_ratio() < 0.5f) {
             this->requested_action = 9;
         } else {
             this->requested_action = 0xA;
@@ -665,7 +663,6 @@ s32 TObjPlayer__sub_800A0554(void *);
 f32 calc_distance_to_client__10TObjPlayerFlUsUl(void *, u16, void *);
 Obj_800A4C4C *get_player_data__10TObjPlayerFi(s32);
 #define atan2_float ((f32 (*)(f32, f32))(atan2_float))
-s32 test_action_mask__10TObjPlayerFl(void *, int);
 extern s32 registered_player_count;
 
 f32 calc_xz_distance_sq(void *, void *, Vec_800A5BBC *);
@@ -686,7 +683,6 @@ u8 *get_enemy_entity(u16);
 
 void TObjPlayer__sub_800A54B4(u8 *arg0);
 s32 check_path_obstructed(void *, void *);
-s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 u16 get_entity_id(void *);
 extern s32 lbl_805D5870;
 void TObjPlayer__sub_800A5960(void *arg0);
@@ -783,7 +779,7 @@ int TObjEneSaver::test_flag_256() {
             if (angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z))) >= 0x2AAA) {
                 continue;
             }
-            if (test_action_mask__10TObjPlayerFl(p, 0xE0) == 0) {
+            if (((TObjPlayer *)p)->test_action_mask(0xE0) == 0) {
                 continue;
             }
             VecCopy((Vec *)&v, (const Vec *)&self->pos);
@@ -1023,7 +1019,7 @@ void TObjPlayer__sub_800A5154(void *arg0) {
         }
         break;
     case 2:
-        calc_move_state__12TObjEneSaverFv(o);
+        ((TObjEneSaver *)o)->calc_move_state();
         if (o->count >= 2) {
             o->count = 0;
             o->f374 &= ~8;
@@ -1096,7 +1092,7 @@ void TObjPlayer__sub_800A54B4(u8 *arg0) {
             TObjPlayer__sub_800A5960(arg0);
         }
         if (15.0f <= F(f32, 0xC0) && F(f32, 0xC0) <= 20.0f) {
-            apply_lookup_entry_effect__12TObjEneSaverFv(arg0);
+            ((TObjEneSaver *)arg0)->apply_lookup_entry_effect();
         }
         if (((TObjMotion *)arg0)->is_passing_frame((f32)21.0f) != 0) {
             F(s16, 0x328) = 3;
@@ -1116,7 +1112,7 @@ void TObjPlayer__sub_800A54B4(u8 *arg0) {
             TObjPlayer__sub_800A5960(arg0);
         }
         if (32.0f <= F(f32, 0xC0) && F(f32, 0xC0) <= 40.0f) {
-            apply_lookup_entry_effect__12TObjEneSaverFv(arg0);
+            ((TObjEneSaver *)arg0)->apply_lookup_entry_effect();
         }
         if (((TObjMotion *)arg0)->is_passing_frame((f32)42.0f) != 0) {
             F(s16, 0x328) = 5;
@@ -1136,7 +1132,7 @@ void TObjPlayer__sub_800A54B4(u8 *arg0) {
             TObjPlayer__sub_800A5960(arg0);
         }
         if (52.0f <= F(f32, 0xC0) && F(f32, 0xC0) <= 60.0f) {
-            apply_lookup_entry_effect__12TObjEneSaverFv(arg0);
+            ((TObjEneSaver *)arg0)->apply_lookup_entry_effect();
         }
         if (F(u32, 0xB4) != 4) {
             F(s16, 0x328) = 7;
@@ -1168,7 +1164,7 @@ void TObjPlayer__sub_800A5960(void *arg0) {
     s32 i;
     u8 *p;
     u32 self = (u32)arg0;
-    if (obj_testFlags30__14TObjCollidableFUl((void *)self, 0x10) != 0) {
+    if (((TObjCollidable *)self)->obj_testFlags30(0x10) != 0) {
         limit = 0x4000;
         n = registered_player_count + lbl_805D5870;
     } else {
@@ -1457,7 +1453,6 @@ extern s32 actor_frame_tick;
 
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
-s32 defer_render__7TObjectFv(void *);
 s32 matrix_mult_vec(int, Vec_800A6C54 *, void *);
 extern u8 identity_matrix[];
 extern s32 saved_model_render_flags;
@@ -1694,7 +1689,7 @@ void find_nearest_target__10TObjPlayerFPv(Obj_800A677C *self) {
     if (self->m17(0x1E) == 0) {
         return;
     }
-    if (obj_testFlags30__14TObjCollidableFUl(self, 0x10) != 0) {
+    if (((TObjCollidable *)self)->obj_testFlags30(0x10) != 0) {
         s32 best_id;
         s32 i;
         u8 *p;
@@ -1863,7 +1858,7 @@ void TObjEneSaver::render() {
                 ((VObj_800A6C54_a *)(arg0 + 0x3A4))->m6();
                 v = 1;
                 model_render_flags |= 1;
-                if (defer_render__7TObjectFv(arg0) != 0) {
+                if (((TObject *)arg0)->defer_render() != 0) {
                     v = 0;
                 }
                 if (v != 0) {

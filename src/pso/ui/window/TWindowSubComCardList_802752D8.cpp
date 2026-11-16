@@ -6,7 +6,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 void draw_selection_bar(u8 *arg0, u8 *arg1, s32 arg2);
 extern "C" {
-volatile char get_type__20TWindowSubStatusDispFv(void *);
 extern s32 actor_frame_tick;
 void TWindowSubComCardList::draw_card_list_selection(u8 *window_key_board_soft) {
   s16 temp_r0;

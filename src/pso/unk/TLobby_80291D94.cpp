@@ -176,9 +176,8 @@ s32 is_challenge_mode_active(void);
 #define is_challenge_mode_active ((int (*)(void*))is_challenge_mode_active)
 s32 mix_seed_checked__6TLobbyFi(s32);
 void TLobby__sub_80291DF8(s32 v);
-int is_multi_ready__6TLobbyFv(void);
 
-void TLobby::update_screen() { if (is_challenge_mode_active(this) != 0) { is_multi_ready__6TLobbyFv(); } }
+void TLobby::update_screen() { if (is_challenge_mode_active(this) != 0) { TLobby::is_multi_ready(); } }
 typedef char RecoveredGlobal_80291DC0_lbl_804DB1F0_size[sizeof(RecoveredGlobal_80291DC0_lbl_804DB1F0) == 0x6B0 ? 1 : -1];
 void TLobby::set_challenge_split_flag() {
     if (((s32)is_challenge_mode_active(this)) != 0) {
@@ -347,7 +346,7 @@ int TLobby__sub_80292268(void);
 extern u32 challenge_retry_object;
 
 void TLobby::draw_if_ready2() {
-    if ((is_challenge_mode_active() != 0) && (is_multi_ready__6TLobbyFv() != 0) && ((u32) challenge_retry_object != 0U)) {
+    if ((is_challenge_mode_active() != 0) && (TLobby::is_multi_ready() != 0) && ((u32) challenge_retry_object != 0U)) {
         TObjChallenge4PRetry::create((void*)challenge_retry_object);
     }
 }

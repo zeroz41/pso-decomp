@@ -96,7 +96,6 @@ s32 get_main_phase();
 void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
 extern "C" {
 s32 enemy_validate_retained_target(void *, int);
-s32 is_main_phase_15__9TObjEneDDFv();
 void get_camera_ctrl__9TObjEneDDFv(Vec *, Vec *);
 void TObjEneDD__sub_800BA438(s32 arg0, u8 *arg1);
 s32 TBoss3Volopt__sub_800D8D88(void *, f32);
@@ -1599,7 +1598,7 @@ void TObjEneMe3Shinowa::render() {
     sub_800E6FE0();
     if (m_3c4 & 2) {
         detail = 0;
-    } else if (is_main_phase_15__9TObjEneDDFv() != 0) {
+    } else if (TObjEneDD::is_main_phase_15() != 0) {
         detail = classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 15.0f);
     } else if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         detail = 1;

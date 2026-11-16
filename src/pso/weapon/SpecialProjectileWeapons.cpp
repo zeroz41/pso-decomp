@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffStarLight2D.h"
+#include "pso/technique/TTecMegid.h"
 #include "pso/weapon/TUnk_804A204C.h"
 #include "pso/weapon/shoot/TUnk_804A2148.h"
 #include "pso/weapon/TUnk_804A2164.h"
@@ -82,7 +83,6 @@ void TObjPlayer__sub_80364198(void);
 s32 push_matrix();
 extern s32 model_render_flags;
 s32 is_item_area_enabled();
-s32 create_ex__9TTecMegidFllll(void *, s32 *, s32, s32);
 s32 __nw__7TObjectFUl(s32);
 void create_icon__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
 }
@@ -182,7 +182,7 @@ void TUnk_804A204C::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(5, &sp8) != 0) {
             temp_r31 = this->owner;
-            create_ex__9TTecMegidFllll(temp_r31, &sp8, *(s32 *)((s8 *)temp_r31 + 0x60), ((TItemWeapon *)this)->get_tp());
+            TTecMegid::create_ex((s32)temp_r31, (s32)(&sp8), (s32)(*(s32 *)((s8 *)temp_r31 + 0x60)), (s32)(((TItemWeapon *)this)->get_tp()));
             this->roll_technique();
         }
     } else {

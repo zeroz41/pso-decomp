@@ -29,7 +29,6 @@ struct Obj_800372F0 {
 };
 
 extern "C" {
-s32 noop_laser__23TAdSinglePlyChrSelectGCFv(void *);
 s32 TAdSinglePlyChrSelectGC__sub_80133508(void *);
 const char *lbl_805D26C8 = "TBoss2LaserLight";
 extern void *__vt__16TBoss2LaserLight[];
@@ -69,7 +68,7 @@ extern "C" TBoss2LaserLight *TBoss2LaserLight__ct(TBoss2LaserLight *self, TObjec
         self->queue_destruction();
         return self;
     }
-    noop_laser__23TAdSinglePlyChrSelectGCFv((void *)self->m_40);
+    ((TAdSinglePlyChrSelectGC *)((void *)self->m_40))->noop_laser();
     ((TAdSinglePlyChrSelectGC *)self->m_40)->set_position(&p->position);
     ((TAdSinglePlyChrSelectGC *)self->m_40)->forward_to_field_0x14(&p->f38);
     return self;
@@ -126,7 +125,7 @@ void TBoss2LaserLight::run_task() {
         if (v <= 0.0f) {
             v = 0.0f;
             self->state = 0;
-            noop_laser__23TAdSinglePlyChrSelectGCFv(self->light);
+            ((TAdSinglePlyChrSelectGC *)(self->light))->noop_laser();
         }
         self->f38 = v;
         self->f3C = 40.0f + v;

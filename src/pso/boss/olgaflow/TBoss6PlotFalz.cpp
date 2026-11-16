@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801542CC.h"
@@ -239,8 +241,6 @@ struct VObj_18_a328de : VBase_18_a328de {
 extern "C" {
 extern u16 boss6_plot_falz_player_order_table[];
 u16 TBoss6PlotFalz__sub_802AAE48(s32 i);
-s32 obj_isState2_324__9TObjCharaFv(void *);
-s16 get_actor_hp__9TObjCharaFv(void *);
 s32 send_6x2F_change_player_hp(int, s32, s16);
 
 struct TBoss6PlotFalz_802AACF4 { u8 pad[0x3D0]; s32 f3D0; s32 f3D4; s32 f3D8; };
@@ -269,11 +269,11 @@ s32 TBoss6PlotFalz::damage_player_hp(s32 arg0, u32 arg1) {
     if (id == 0xFFFF || (p = get_player_by_client_id(id)) == NULL || ((TBoss6PlotFalz *)p)->is_active() == 0) {
         return 0;
     }
-    hp = get_actor_hp__9TObjCharaFv(p);
+    hp = ((TObjChara *)p)->get_actor_hp();
     if ((u32)hp < v) {
         v = hp;
     }
-    if (obj_isState2_324__9TObjCharaFv(p) != 0) {
+    if (((TObjChara *)p)->obj_isState2_324() != 0) {
         return v;
     }
     hp -= v;
@@ -506,7 +506,6 @@ f32 vec3_dot(void *, void *);
 s32 normalize_vector(void *);
 extern u8 *camera_ctrl_instance;
 s32 TBoss6PlotFalz__sub_802AB6CC(void *arg0, f32 r);
-void set_visible_flag__14TBoss6PlotFalzFv(void *arg0);
 
 s32 is_local_client_floor_leader();
 
@@ -839,7 +838,6 @@ extern "C" {
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 u32 create__11TBoss6Type1Fl(void *, int);
 u32 create__11TBoss6Type2Fl(void *, int);
-s32 is_locally_controlled__10TObjPlayerFPv(s32);
 f32 xyz_distance(const void *, const void *);
 u32 create__10TBoss6TubeFPv();
 
@@ -923,7 +921,7 @@ void TBoss6PlotFalz::apply_radial_effect_to_players(void *pos, s16 amount, s16 k
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         p = get_player_data__10TObjPlayerFi(i);
-        if (is_state_1f__14TBoss6PlotFalzFUi(p) != 0 && is_locally_controlled__10TObjPlayerFPv(p) != 0) {
+        if (is_state_1f__14TBoss6PlotFalzFUi(p) != 0 && TObjPlayer::is_locally_controlled((void *)p) != 0) {
             d = xyz_distance((void *)(p + 0x38), pos);
             if (!(d >= range)) {
                 start_pad_rumble_client((s16)((f32)amount * (1.0f - d / range)), kind, (s16)((s32 (*)(s32))get_entity_id)(p));
@@ -1225,7 +1223,7 @@ void place_players_in_warp_circle(void) {
             ((TBoss4DarkFalz *)p)->save_position();
             *(s32 *)(get_hit_data__14TBoss4DarkFalzFv(p) + 4) = ang + 0x8000;
             ((TObjPlayer *)p)->refresh_equipment_slot();
-            if (is_locally_controlled__10TObjPlayerFPv((s32)p) != 0) {
+            if (TObjPlayer::is_locally_controlled((void *)p) != 0) {
                 reset_cameras_to_actor(p, 0);
             }
             ang += step;
@@ -1321,7 +1319,7 @@ void TBoss6PlotFalz::render() {  }
 void TBoss6PlotFalz::run_task() {
     u8 *arg0 = (u8 *)this;
     if (query_teammate_state__9TObjEneDDFv() == 0) {
-        set_visible_flag__14TBoss6PlotFalzFv(arg0);
+        ((TBoss6PlotFalz *)arg0)->set_visible_flag();
         if ((s32) *(s32 *)((s8 *)arg0 + 0x374) == 0) {
             ((TBoss6PlotFalz *)arg0)->call_state_action();
         }
@@ -1426,7 +1424,7 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     bind_enemy_combat_stats((u8 *)temp_r30, (u8 *)temp_r29, (u8 *)temp_r6);
     register_entity_by_id((u8 *)this);
     actorFlags = (s32) (actorFlags | 0x02000000);
-    set_visible_flag__14TBoss6PlotFalzFv(this);
+    set_visible_flag();
     TBoss6PlotFalz::update_active_flag();
     m_3cc = 0;
     m_3d0 = 0;

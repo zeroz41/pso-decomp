@@ -80,7 +80,6 @@ extern s32 TChallenge4PResult__slot_entries[];
 
 extern s32 lbl_80478BCC[];
 
-void play_effect_default__10TObjPlayerFii(TObjPlayer *, s32);
 void obj_set_flag_20000(TObjPlayer *);
 void get_player_result__18TChallenge4PResultFPv(TObjPlayer *, s32);
 void fn_8034BE48(TObjPlayer *);
@@ -356,7 +355,7 @@ s32 update_challenge_result_player_locks() {
         for (s32 i = 0; i < 4; ++i) {
             TObjPlayer *player = ((TObjPlayer *)get_player_by_client_id(i));
             if (player && ((TLobby *)player)->check_player_flag1() == 0) {
-                play_effect_default__10TObjPlayerFii(player, -1);
+                TObjPlayer::play_effect_default((int)player, (int)(-1));
                 obj_set_flag_20000(player);
                 get_player_result__18TChallenge4PResultFPv(player, 0);
                 get_player_result__18TChallenge4PResultFPv(player, 1);

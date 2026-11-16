@@ -16,9 +16,7 @@
 extern "C" {
 
 s32 draw_visible_window_entries(void *, void *, void *, f32);
-int update_window_entry_list__11TWindowBaseFPv(void*, void*);
 void *draw_default_entry__9TWindowDDFl();
-int update_fade__11TWindowBaseFv(void*);
 
 void TWindowDD_WS_String::render() {
     f32 y;
@@ -40,8 +38,8 @@ void TWindowDD_WS_String::draw_entry_if_visible(void *entry) {
 
 void TWindowDD_WS_String::run_task() {
     ((TWindowDD *)this)->initialize_subwindow();
-    update_fade__11TWindowBaseFv(this);
-    update_window_entry_list__11TWindowBaseFPv(this, pad_24);
+    update_fade();
+    update_window_entry_list(pad_24);
 }
 
 }

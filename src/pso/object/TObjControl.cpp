@@ -426,7 +426,6 @@ s16 get_attack_params_atp_min(void *);
 s32 TObjPlayer__sub_8001943C(void *, int);
 s16 TObjPlayer__sub_800194E8(void *);
 s16 get_attack_params_atp_max(void *);
-s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 void obj_setFlags30(void *, s32);
 s32 is_split_screen();
 s32 get_current_floor();
@@ -808,7 +807,7 @@ void TObjEnemy::award_enemy_experience(s32 arg1) {
     Plr_800F6BF0 *p;
 
     if ((u16)arg1 >= 0x1000 || (p = get_player_by_client_id(arg1)) == NULL ||
-        ((s32 (*)(void *, int))obj_testFlags30__14TObjCollidableFUl)(p, 0x800) != 0 || ((TObjPlayer *)p)->get_floor() != get_current_floor()) {
+        ((TObjCollidable *)p)->obj_testFlags30(0x800) != 0 || ((TObjPlayer *)p)->get_floor() != get_current_floor()) {
         return;
     }
     val = *(s32 *)(this->m_2b0 + 0x1C);

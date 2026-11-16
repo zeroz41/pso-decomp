@@ -114,8 +114,6 @@ u32 __nw__7TObjectFUl(u32);
 void construct_actor_light_task(u32, void *, void *, s32, s32, s32, f32);
 extern A12_8011E3E8 lbl_8043E838[];
 extern A16_8011E3E8 lbl_8043E844[];
-s32 is_locally_controlled__10TObjPlayerFPv(s32);
-void create__10TItemEffPGFPvPvPv(void *arg0, void *parent, void *item);
 struct VBase_8011E2AC { char pad[0x18]; };
 
 struct VObj_8011E2AC : VBase_8011E2AC {
@@ -342,7 +340,6 @@ s32 get_entity_id(void *);
 s32 get_mode__11TCameraCtrlFPv(void *);
 u8 * csnVector(void *, void *, s32);
 s32 init__9TItemDataFv(s32 *);
-void query_extended_state__10TObjPlayerFv(void *);
 s32 set_action_type__10TObjPlayerFs(int, int);
 f32 get_attack_accuracy_scale(s16 *arg0);
 void TObjPlayer__sub_80121228(void *p, u32 v);
@@ -561,10 +558,10 @@ void TUnk_804F1320::spawn_pg_effect(void *arg1, s32 item, f32 farg0) {
     prm.pad_28 = farg0;
     prm.pad_34 = (s32)this->second_model;
     prm.pad_38 = *(s32 *)(((u8 *)this) + 0x24);
-    if (is_locally_controlled__10TObjPlayerFPv(*(s32 *)(((u8 *)this) + 0xF0)) != 0) {
+    if (TObjPlayer::is_locally_controlled((void *)(*(s32 *)(((u8 *)this) + 0xF0))) != 0) {
         TItemEffPG::create((void *)tl_05, &prm);
     } else {
-        create__10TItemEffPGFPvPvPv((void *)tl_05, &prm, (void *)item);
+        TItemEffPG::create((void *)tl_05, &prm, (void *)item);
     }
     this->restore_action_type();
 }
@@ -622,7 +619,7 @@ void TItemWeapon::fill_status_info(void *arg1) {
     *(s32 *)((s8 *)arg1 + 0x18) = ((TItem *)this)->get_item_id();
     *(f32 *)((s8 *)arg1 + 0x1C) = get_attack_accuracy_scale((s16 *)(*(s32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1] + 0x7CC));
     *(s32 *)((s8 *)arg1 + 0x24) = (s32) ((TObjPlayer *)(*(s32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]))->is_status_subsystem_ready();
-    *(f32 *)((s8 *)arg1 + 0x20) = ((f32 (*)(s32))query_extended_state__10TObjPlayerFv)(*(s32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]);
+    *(f32 *)((s8 *)arg1 + 0x20) = ((TObjPlayer *)(*(s32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]))->query_extended_state();
     ((TItemWeapon *)this)->restore_action_type();
 }
 
@@ -686,7 +683,7 @@ void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale
                 sp.e = get_entity_id(t);
                 sp.c = ((TItem *)this)->get_item_id();
                 sp.f = get_captured_target_collider_index(e2);
-                sp.g = scale * ((f32 (*)(void *))query_extended_state__10TObjPlayerFv)(((Self_8011EDFC *)this)->owner);
+                sp.g = scale * ((TObjPlayer *)(((Self_8011EDFC *)this)->owner))->query_extended_state();
                 spawn_item_attacker((s32)tl_05, (u32)(((Self_8011EDFC *)this)->owner + 0x38), (s32)(xyz_distance(origin, &part->pos) / ((Self_8011EDFC *)this)->speed), (u8 *)&sp);
             }
         }
@@ -768,7 +765,7 @@ s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
                         hit.target = get_entity_id(var_r29);
                         hit.weapon = this->get_item_id();
                         hit.collider = get_captured_target_collider_index(temp_r22_3);
-                        hit.damage = ((f32 (*)(void *))query_extended_state__10TObjPlayerFv)((void *)this->owner);
+                        hit.damage = ((TObjPlayer *)((void *)this->owner))->query_extended_state();
                         spawn_item_attacker((s32)tl_05, (u32)arg1, ((s32) var_f31), (u8 *)&hit.reserved);
                         var_r31 = 1;
                         this->restore_action_type();

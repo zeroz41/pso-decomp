@@ -93,7 +93,6 @@ struct Win_8021EA48 : VBase_8021EA48 {
 
 extern "C" {
 s32 get_entity_id(s32);
-f32 get_scale__15TShopWindowBaseFv(void *);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 s32 get_window_layout_position(s32);
 s32 compact_items__18TCheckRoomSequenceFi(int);
@@ -101,10 +100,8 @@ s32 remove_bank_item_amount__18TCheckRoomSequenceFiii(int, int, int);
 s32 copy_item_record__18TCheckRoomSequenceFiPvi(int, void *, int);
 s32 copy_bank_to_card_window(int);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
-s32 get_cursor_value__19TWindowMenuIconLineFv(int);
 s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot);
 s32 sub_802239EC__13TShopSequenceFv(void *);
-s32 sub_80223A48__15TShopWindowBaseFv(void *);
 void *__nw__7TObjectFUl(u32);
 u32 __ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
 s32 get_room_table_entry__18TCheckRoomSequenceFi(void);
@@ -221,7 +218,7 @@ s32 TShopGetItemWindow::handle_withdraw_list_input() {
     u32 w;
     x = sub_8022397C__15TShopWindowBaseFv(arg0);
     if (arg0->f28 != 0U) {
-        sel = get_cursor_value__19TWindowMenuIconLineFv(arg0->f28);
+        sel = ((TWindowMenuIconLine *)(arg0->f28))->get_cursor_value();
         if (arg0->f34 != 0U && sel != arg0->f58) {
             if (copy_item_record__18TCheckRoomSequenceFiPvi(sel, &arg0->item, x) != 0) {
                 ((TWindowHelpItem *)(arg0->f34))->set_displayed_item_colored((u32)&arg0->item);
@@ -233,8 +230,8 @@ s32 TShopGetItemWindow::handle_withdraw_list_input() {
         ((TShopWindowBase *)arg0)->set_field_20(7);
         return;
     }
-    if (sub_80223A48__15TShopWindowBaseFv(arg0) != 0) {
-        if (copy_bank_item_with_stack_limit(get_cursor_value__19TWindowMenuIconLineFv(arg0->f28), &kind.kind, &count, x) != 0) {
+    if (((TShopWindowBase *)arg0)->sub_80223A48() != 0) {
+        if (copy_bank_item_with_stack_limit(((TWindowMenuIconLine *)(arg0->f28))->get_cursor_value(), &kind.kind, &count, x) != 0) {
             if (kind.kind == 3 && count > 1) {
                 void *obj = __nw__7TObjectFUl(0x7C);
                 if (obj != NULL) {
@@ -251,8 +248,8 @@ s32 TShopGetItemWindow::handle_withdraw_list_input() {
             sel = (u16)get_entity_id(arg0->f24);
             arg0->f2C = (u32)create_yes_no_window(get_window_layout_position(0x2B), sel, 0, 0);
             ((TCheckRoomSequence *)(arg0->f2C))->set_ready_flag();
-            scale = get_scale__15TShopWindowBaseFv(arg0);
-            ((TWindowAddition *)(arg0->f2C))->set_position_xy(get_scale__15TShopWindowBaseFv(arg0), scale);
+            scale = ((TShopWindowBase *)arg0)->get_scale();
+            ((TWindowAddition *)(arg0->f2C))->set_position_xy(((TShopWindowBase *)arg0)->get_scale(), scale);
             ((TShopWindowBase *)arg0)->set_field_20(3);
         }
     }

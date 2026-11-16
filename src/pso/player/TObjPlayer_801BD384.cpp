@@ -58,7 +58,6 @@ void TObjPlayer__sub_801BC504(void *);
 void TObjPlayer__sub_801BBC64(void *);
 void TObjPlayer__sub_801BBB94(void *);
 void TObjPlayer__sub_801BB8AC(void *);
-void dt__10TObjPlayerFls(void *, int);
 void *TObjPlayer__sub_801BEDC0(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 extern s32 __vt__10TObjPlayer[];
@@ -83,7 +82,7 @@ void *__dt__10TObjPlayerFv(void *arg0, s16 arg1) {
         TObjPlayer::free_owned_buffer_b((s32)((s8 *)arg0 + 0x7CC), (s16)(-1));
         destroy__10TObjPlayerFis((s32)((s8 *)arg0 + 0x754), -1);
         TObjPlayer__sub_801BFAD4((s8 *)arg0 + 0x644, -1);
-        dt__10TObjPlayerFls((s8 *)arg0 + 0x550, -1);
+        TObjPlayer::dt((s32)((s8 *)arg0 + 0x550), (s16)(-1));
         __dt__14TPlyDispConfigFv((s32)((s8 *)arg0 + 0x500), -1);
         TObjPlayer::free_owned_buffer_a((s32)((s8 *)arg0 + 0x4AC), (s16)(-1));
         TObjPlayer__sub_80309E4C((s32)((s8 *)arg0 + 0x384), -1);
@@ -121,7 +120,7 @@ void *TObjPlayer__ct(TObjPlayer *player, void *arg1, void *arg2) {
     *(s32 **)((s8 *)player + 0x18) = __vt__10TObjPlayer;
     ((TObjPlayer *)((char *)player + 832))->init_subobject();
     ((TObjPlayer *)((char *)player + 844))->setup_ctrl();
-    init_state__10TObjPlayerFv((s32)((char *)player + 864));
+    ((TObjPlayer *)((char *)player + 864))->init_state();
     TObjPlayer__sub_803374C4((void *)((char *)player + 884));
     TObjPlayer__sub_80309E9C((void *)((char *)player + 900));
     __ct__8FlagWordFv(((char *)player + 1052));
@@ -168,7 +167,7 @@ void *TObjPlayer__ct(TObjPlayer *player, void *arg1, void *arg2) {
 TObjPlayer::TObjPlayer(TObject *arg1, void *arg2) : TObjChara(arg1) {
     ((TObjPlayer *)((char *)this + 832))->init_subobject();
     ((TObjPlayer *)((char *)this + 844))->setup_ctrl();
-    init_state__10TObjPlayerFv((s32)((char *)this + 864));
+    ((TObjPlayer *)((char *)this + 864))->init_state();
     TObjPlayer__sub_803374C4((void *)((char *)this + 884));
     TObjPlayer__sub_80309E9C((void *)((char *)this + 900));
     __ct__8FlagWordFv(((char *)this + 1052));

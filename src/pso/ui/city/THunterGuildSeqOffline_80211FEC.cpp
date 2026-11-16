@@ -22,7 +22,6 @@ f32 xz_distance_squared(void *, void *);
 s32 get_player_by_client_id(int);
 extern s32 TLobby__designated_client_id;
 extern s32 local_client_id;
-void *refresh_with_default_list__20TWindowSubStatusDispFll(void *, void *);
 void *get_window_layout_position(s32);
 char *strcpy(char *, const char *);
 __declspec(section ".data") f32 member_name_window_pos[2] = {219.0f, 100.0f};
@@ -142,7 +141,7 @@ void TMemberCheck::open_member_name_window() {
         ((TWindowBase *)self->win)->close();
         self->win = 0;
     }
-    self->win = refresh_with_default_list__20TWindowSubStatusDispFll(get_window_layout_position(0xBD), member_name_window_pos);
+    self->win = TWindowSubStatusDisp::refresh_with_default_list((s32)(get_window_layout_position(0xBD)), (s32)member_name_window_pos);
     if (self->win != 0) {
         ((TWindowSubTradeMain *)(self->win))->set_visible();
         ((TWindowSubTradeMain *)(self->win))->set_close_flag();

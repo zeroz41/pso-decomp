@@ -120,7 +120,6 @@ struct VObj_18 : VBase_18 {
 
 extern "C" {
 s32 query_teammate_state__9TObjEneDDFv();
-s32 is_main_phase_15__9TObjEneDDFv();
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 void release_grabbed_player__12TBoss8DragonFPv(TBoss8Dragon *arg0);
 extern s32 local_client_id;
@@ -144,7 +143,7 @@ void TUnk_804F1A78::run_task() {
     if ((s32) *(s32 *)((s8 *)boss8_dragon + 0x74C) != 0) {
         ((TBoss8Dragon *)boss8_dragon)->freeze_player_at_self();
         *(s32 *)((s8 *)boss8_dragon + 0x754) = (s32) (*(s32 *)((s8 *)boss8_dragon + 0x754) + 1);
-    } else if ((is_main_phase_15__9TObjEneDDFv() != 0) && ((s32) *(s32 *)((s8 *)boss8_dragon + 0x6D4) == 0)) {
+    } else if ((TObjEneDD::is_main_phase_15() != 0) && ((s32) *(s32 *)((s8 *)boss8_dragon + 0x6D4) == 0)) {
         temp_r30 = *(s32 *)((s8 *)boss8_dragon + 0x3E0);
         if (((TObjEneDD *)boss8_dragon)->update_lobby_state() != 0) {
             *(s32 *)((s8 *)boss8_dragon + 0x3E0) = 0;

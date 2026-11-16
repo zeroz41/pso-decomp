@@ -40,7 +40,6 @@ struct TChCrTagPlGraphicLayout {
 };
 
 extern "C" {
-void sub_802A3230__17TChCrTagPlGraphicFv(TChCrTagPlGraphic *tag);
 void restore_saved_depth_alpha_state(void);
 int set_depth_buffer_settings_1__Fv(void*);
 
@@ -99,7 +98,7 @@ void TChCrTagPlGraphic::sub_802A3230() {
 
 void TChCrTagPlGraphic::run_task() {
     update_fade__8TChCrTagFPv(this);
-    sub_802A3230__17TChCrTagPlGraphicFv(this);
+    sub_802A3230();
 }
 
 s32 TChCrTagPlGraphic::vt4() {

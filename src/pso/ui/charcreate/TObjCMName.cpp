@@ -101,7 +101,6 @@ struct Auto_802952E0
 };
 
 extern "C" {
-s32 queue_destruction__7TObjectFv(void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 void run_task__16TObjCMAssignMenuFv(void *arg0);
 f32 fabs_float(f32);
@@ -368,7 +367,6 @@ extern vec2f lbl_804DBCD0[3];
 
 extern "C" {
 void restore_saved_depth_alpha_state();
-void render_nodes__7TObjectFv(void*);
 void update_menu_reveal__14TObjCMMainMenuFv(M_80298450 *self);
 }
 
@@ -700,7 +698,7 @@ void TObjCMMainMenu::render() {
     draw_footer_divider();
     sub_80297B18();
     sub_802979BC();
-    render_nodes__7TObjectFv(nodes);
+    ((TObject *)nodes)->render_nodes();
     draw_root_menu();
     static void (TObjCMMainMenu::*table[7])() = {
         &TObjCMMainMenu::sub_802981BC, 0, &TObjCMMainMenu::sub_80297EF4,
@@ -1608,7 +1606,7 @@ void TObjCMHairMenu::run_task() {
     if (active == 0) {
         if ((fade += -0.083333336f) <= 0.0f) {
             fade = 0.0f;
-            queue_destruction__7TObjectFv(this);
+            queue_destruction();
         }
     } else {
         if ((fade += 0.16666667f) > 1.0f) {
@@ -1917,7 +1915,7 @@ void TObjCMAutoMkData::run_task() {
     if ((self->fade += -0.083333336f) <= 0.0f)
     {
       self->fade = 0.0f;
-      queue_destruction__7TObjectFv(self);
+      ((TObject *)self)->queue_destruction();
     }
     return;
   }
@@ -2074,7 +2072,7 @@ void TObjCMProportion::run_task() {
     if ((s32) arg0->active == 0) {
         if ((arg0->fade += -0.083333336f) <= 0.0f) {
             arg0->fade = 0.0f;
-            ((void (*)(TObject*))queue_destruction__7TObjectFv)(arg0);
+            ((TObject *)arg0)->queue_destruction();
         }
     } else {
         if ((arg0->fade += 0.16666667f) > 1.0f) {

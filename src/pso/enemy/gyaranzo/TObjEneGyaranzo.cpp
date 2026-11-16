@@ -1,4 +1,8 @@
 #include "pso/enemy/EnemyTargetCandidate.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/effect/TBreakUpMdl.h"
+#include "pso/render/RenderFadeState.h"
+#include "pso/system/task/TObject.h"
 
 #include "types.h"
 
@@ -178,9 +182,7 @@ struct Outer_800D2900 { u8 pad[0x42c]; Inner_800D2900 *p42c; };
 
 extern "C" {
 
-f32 random_ratio__9TObjCharaFv(s32);
 
-s32 render_anim_model_at_pos__15TObjEnemyCustomFv(void *);
 
 void * __nw__7TObjectFUl(int);
 
@@ -197,7 +199,6 @@ extern u32 gyaranzo_bml_resource;
 
 extern u8 *tl_05;
 
-void update_collisions__10TObjPlayerFv(void *);
 
 void apply_actor_gravity(void *, int, f32);
 
@@ -481,7 +482,6 @@ u16 find_nearest_visible_player(void *, int, int, f32);
 
 extern "C" {
 
-void enemy_turn_toward_dest__9TObjEnemyFl(void *, s32);
 
 void move_along_ground_avoiding_walls__15TObjEnemyCustomF3Vecff(void *, Vec_800D3314, void *, f32, f32);
 
@@ -607,11 +607,9 @@ s32 free_bin_model_request(u32, s32);
 
 u32 load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 
-s32 get_camera_mode__11TCameraCtrlFv();
 
 s32 copy_position__20TBoss3VoloptHiraisinFv(void *);
 
-VObj_800D3BA0_800D3B38 * init__11TBreakUpMdlFPviif(void *, s32, s32, f32);
 
 u32 load_enemy_bml_resource_named(BmlResourceDescriptor *, const char *);
 
@@ -644,7 +642,6 @@ u8 *TObjEneGyaranzo__ct(TObjEneGyaranzo *arg0, s32 arg1, u8 *arg2);
 
 s32 __dt__13TUnk_80494938Fv(void *, s16);
 
-s32 update_fast__15RenderFadeStateFv(int);
 
 void __dt__15RenderFadeStateFv();
 
@@ -672,7 +669,6 @@ s32 init_collision_body_parts(void *, void *, int);
 
 s32 minimap_render_dot(void *, s32, s32, s32);
 
-s32 defer_render__7TObjectFv(void *);
 
 s32 __dl__7TObjectFPv(void *);
 
@@ -1062,7 +1058,7 @@ void TLobby::load_gyaranzo_resources() {
     (*(s32 *)&lbl_805D5204) = (s32)find_model_node(AREA->res->r38, 0xD);
     p = ::operator new(0x10);
     if (p != NULL) {
-        p = init__11TBreakUpMdlFPviif(p, AREA->res->r38, get_bml_motion(gyaranzo_bml_resource, 3), 54.0f);
+        p = TBreakUpMdl::init(p, AREA->res->r38, get_bml_motion(gyaranzo_bml_resource, 3), 54.0f);
     }
     (*(struct VObj_800D3BA0_800D3B38 * *)&gyaranzo_breakup_model_obj) = (VObj_800D3BA0_800D3B38 *)p;
     gyaranzo_boss_stats_handle = register_boss__6TLobbyFl(0x1D);
@@ -1240,17 +1236,17 @@ void TObjEneGyaranzo::render() {
     if (!(this->actorFlags & 0x02000000)) {
         var_r30 = 0;
         if (is_split_screen() != 0) {
-            var_r30 = get_camera_mode__11TCameraCtrlFv();
+            var_r30 = TCameraCtrl::get_camera_mode();
         }
         var_r29 = 1;
         temp_r3 = ((VObj_18_ca64a0 *)(this))->m9(200.0f, 400.0f, 40.0f);
         if (temp_r3 != 0) {
             saved_model_render_flags = model_render_flags;
             var_r30 = (s32)&((Obj_800D35D8 *)((u8 *)this))->arr[var_r30];
-            update_fast__15RenderFadeStateFv(var_r30);
+            ((RenderFadeState *)var_r30)->update_fast();
             if (((RenderFadeState *)var_r30)->updateFromCamera((const f32*)(((u8 *)this) + 0x2FC)) != 0) {
                 ((VObj_14_fddec9 *)(var_r30))->m6();
-                if (defer_render__7TObjectFv(this) != 0) {
+                if (defer_render() != 0) {
                     model_render_flags = saved_model_render_flags;
                     return;
                 }
@@ -1329,7 +1325,7 @@ void TObjPlayer__sub_800D3314(u8 *arg0) {
             ((TObjEnemyCustom *)arg0)->vfunc_58();
             return;
         }
-        enemy_turn_toward_dest__9TObjEnemyFl(arg0, *(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 8));
+        ((TObjEnemy *)arg0)->enemy_turn_toward_dest(*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 8));
         ((void (*)(void *, Vec_800D3314, f32, f32))move_along_ground_avoiding_walls__15TObjEnemyCustomF3Vecff)(arg0, *(Vec_800D3314 *)((s8 *)arg0 + 0x390), *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 4), *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xA4)) + 0xC));
         *(f32 *)((s8 *)arg0 + 0x39C) += *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 4);
         ((TObjMotion *)arg0)->advance_animation();
@@ -1342,13 +1338,13 @@ void TObjPlayer__sub_800D3314(u8 *arg0) {
             }
         }
         if (!(actor_frame_tick & 3)) {
-            render_anim_model_at_pos__15TObjEnemyCustomFv(arg0);
+            ((TObjEnemyCustom *)arg0)->render_anim_model_at_pos();
             ((VObj_800D3314 *)arg0)->m63(0x1F, &v);
             spawn_particle_effect(&v, 0xF3);
             ((VObj_800D3314 *)arg0)->m63(0x27, &v);
             spawn_particle_effect(&v, 0xF3);
         }
-        update_collisions__10TObjPlayerFv(arg0);
+        ((TObjPlayer *)arg0)->update_collisions();
         if (*(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xA4)) + 0x18) & 0x380000) {
             *(s32 *)((s8 *)arg0 + 0x37C) = -1;
         } else if (*(f32 *)((s8 *)arg0 + 0x39C) >= *(f32 *)((s8 *)arg0 + 0x3A0)) {
@@ -1418,7 +1414,7 @@ void TObjPlayer__sub_800D30A8(Obj_800D30A8 *enemy) {
         enemy->vel.x *= 0.5f;
         enemy->vel.z *= 0.5f;
         apply_actor_gravity(enemy, 0, 0.0f);
-        update_collisions__10TObjPlayerFv(enemy);
+        ((TObjPlayer *)enemy)->update_collisions();
         if (enemy->fB4 != 8) {
             enemy->state = -1;
         }
@@ -1535,7 +1531,7 @@ void TObjPlayer::update_aim_and_fire() {
     }
     advance_animation();
     apply_actor_gravity(this, 0, 0.0f);
-    update_collisions__10TObjPlayerFv(this);
+    update_collisions();
 }
 
 #pragma push
@@ -1543,9 +1539,9 @@ void TObjPlayer::update_aim_and_fire() {
 void TObjEneGyaranzo::spawn_missile() {
     Vec launch_position;
     s32 temp_r31;
-    render_anim_model_at_pos__15TObjEnemyCustomFv(this);
+    render_anim_model_at_pos();
     ((VObj_18_f1aa6a *)(this))->m63(0x18, &launch_position);
-    temp_r31 = (s32) (182.04445f * ((240.0f * random_ratio__9TObjCharaFv((s32) this)) - 120.0f));
+    temp_r31 = (s32) (182.04445f * ((240.0f * random_ratio()) - 120.0f));
     new TUnk_8049442C(this, &launch_position, rotation_y, temp_r31);
     spawn_particle_effect((void *)((s32) &launch_position), 0xF3);
     play_sound_effect((void *)(this->remap_sound_for_area(0x4003B20D)), &position, 0, 0);
@@ -1601,7 +1597,7 @@ void TObjEneGyaranzo::sub_800D2900() {
             end = 0xD;
             break;
         }
-        render_anim_model_at_pos__15TObjEnemyCustomFv(this);
+        render_anim_model_at_pos();
         for (i = start; i < end; i++) {
             idx = gyaranzo_flagged_resource_index_table[i];
             ((VObj_18_5c0ed3 *)(this))->m63(gyaranzo_resource_index_table[idx], &v.x);
@@ -1640,7 +1636,7 @@ void spawn_missile_volley__19TObjGyaranzoMissileFPv(u8 *arg0) {
     Vec_800D23D4 pos;
     s32 i;
     gyaranzo_missile_volley_end_time = get_gyaranzo_missile_int_parameter(1) + 0x96;
-    render_anim_model_at_pos__15TObjEnemyCustomFv(arg0);
+    ((TObjEnemyCustom *)arg0)->render_anim_model_at_pos();
     {
         Desc_800D23D4 d1 = { &pos, -0x1000, *(s32 *)((s8 *)arg0 + 0x60) + 0x800, 1024.0f, 3.0f, 0.0f };
         Desc_800D23D4 d2 = { &pos, -0x2000, *(s32 *)((s8 *)arg0 + 0x60) + 0x800, 2048.0f, 10.0f, 0.4f };
@@ -1838,7 +1834,7 @@ void update_walk_to_target__10TObjPlayerFPv(Ene_800D1E4C *arg0) {
         calc_velocity_toward_destination(arg0, arg0->v290, arg0->v29C, arg0->param->speed);
         ((TObjEnemy *)arg0)->turn_toward_direction(arg0->param->turn, (Vec *)arg0->v308);
         move_with_wall_slide((u8 *)arg0);
-        update_collisions__10TObjPlayerFv(arg0);
+        ((TObjPlayer *)arg0)->update_collisions();
         if (xz_distance_squared((Vec *)&arg0->pos, (Vec *)&arg0->target) <= 100.0f) {
             update_if_active__15TObjEnemyCustomFl(arg0, 0);
         }

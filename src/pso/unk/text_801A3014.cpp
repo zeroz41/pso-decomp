@@ -115,7 +115,6 @@ struct PV_801A39BC : PVB_801A39BC {
 
 extern "C" {
 s32 is_split_screen(void);
-s32 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 s32 TLobby__sub_801A3B98();
 s32 run_area_scene_cleanup(void *);
 extern RecoveredGlobal_801A3540_lbl_804C1F68 offline_game_scene_callbacks;
@@ -394,7 +393,7 @@ void TLobby::teardown_scene() {
     main_task.resume_layers();
     ((TObject *)tl_su)->delete_children();
     run_area_scene_cleanup(&lbl_80515BA0.value);
-    call_funcs_reverse__6TLobbyFPvUi(&offline_game_scene_callbacks.value, 0x180);
+    TLobby::call_funcs_reverse(&offline_game_scene_callbacks.value, 0x180);
     clear_resource_load_tasks();
     TKeyBoardControl::update();
     render_tick();

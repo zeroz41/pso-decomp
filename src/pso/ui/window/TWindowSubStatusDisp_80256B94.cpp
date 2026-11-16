@@ -45,15 +45,11 @@ struct Quad_80256E0C { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 extern "C" {
 extern s32 lbl_804CF918[];
-void sub_80256BDC__13TUnk_804CF930Fl(void *self, s32 arg1);
-void calc_bar_width__13TUnk_804CF930Fv(struct Bar_80256C00 *bar);
 f32 fabs_float(f32);
 void step_gauge_bar_width(Gauge_802571B4 *g);
 s32 try_open__19TWindowKeyBoardSoftFii(void *, void *);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void TWindowSubStatusDisp__sub_80256BF8(void);
-void render__13TUnk_804CF918FP19TWindowKeyBoardSoft(void);
-void *destroy__13TUnk_804CF930Fs(void *arg0, s16 arg1);
 
 void *TUnk_804CF930::destroy(s16 arg1) {
     if (this != NULL) {
@@ -246,7 +242,7 @@ extern s32 lbl_804CF930[];
 void *TWindowSubStatusDisp__sub_80257298(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 4) = lbl_804CF930;
-        destroy__13TUnk_804CF930Fs(arg0, 0);
+        ((TUnk_804CF930 *)arg0)->destroy(0);
         if (arg1 > 0) {
             ::operator delete(arg0);
         }
@@ -266,7 +262,7 @@ typedef void *(*Ctor_80257D44)(void *, void *, s32);
 
 
 
-void*TUnk_804CF930::init_from(void*a1, int a2) { sub_80256BDC__13TUnk_804CF930Fl(this, a2); *(int*)((char*)this + 0x4) = (int)lbl_804CF930; *(float*)((char*)this + 0x1c) = 0.0f; *(float*)((char*)this + 0xc) = *(float*)((char*)a1 + 0x4); *(float*)((char*)this + 0x10) = *(float*)((char*)a1 + 0x8); *(float*)((char*)this + 0x8) = *(float*)((char*)a1 + 0xc); *(float*)((char*)this + 0x14) = *(float*)((char*)a1 + 0x18); *(int*)((char*)this + 0x18) = *(int*)((char*)a1 + 0x10); *(short*)((char*)this + 0x0) = *(int*)((char*)a1 + 0x14); *(float*)((char*)this + 0x20) = *(float*)((char*)a1 + 0x1c); *(float*)((char*)this + 0x24) = *(float*)((char*)a1 + 0x20); return this; }
+void*TUnk_804CF930::init_from(void*a1, int a2) { sub_80256BDC(a2); *(int*)((char*)this + 0x4) = (int)lbl_804CF930; *(float*)((char*)this + 0x1c) = 0.0f; *(float*)((char*)this + 0xc) = *(float*)((char*)a1 + 0x4); *(float*)((char*)this + 0x10) = *(float*)((char*)a1 + 0x8); *(float*)((char*)this + 0x8) = *(float*)((char*)a1 + 0xc); *(float*)((char*)this + 0x14) = *(float*)((char*)a1 + 0x18); *(int*)((char*)this + 0x18) = *(int*)((char*)a1 + 0x10); *(short*)((char*)this + 0x0) = *(int*)((char*)a1 + 0x14); *(float*)((char*)this + 0x20) = *(float*)((char*)a1 + 0x1c); *(float*)((char*)this + 0x24) = *(float*)((char*)a1 + 0x20); return this; }
 
 }
 

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdYesNoBaseGC.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -26,7 +27,6 @@ struct VObj_18 : VBase_18 {
 struct T_8032C118 { s32 a; s32 b; };
 
 extern "C" {
-s32 append_line__14TWindowMessageFii(int, void *, int);
 s32 update_window_mode_from_progress__6TLobbyFPv(void *, void *);
 void align_menu_entry_positions(s32);
 void update_layout_height__21TWindowSubComCardListFf(f32);
@@ -57,7 +57,7 @@ s32 TAdYesNoBaseGC::sub_8032C0B4() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r31;
     temp_r31 = update_window_mode_from_progress__6TLobbyFPv((u8 *)&this->unk_30, (u8 *)&this->unk_38);
-    append_line__14TWindowMessageFii(temp_r31, (void *) (((VObj_18 *)(arg0))->m8()), 1);
+    ((TWindowMessage *)temp_r31)->append_line((int)((void *) (((VObj_18 *)(arg0))->m8())), (int)1);
     return temp_r31;
 }
 

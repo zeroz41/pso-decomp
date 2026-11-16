@@ -12,9 +12,7 @@
 
 extern "C" {
 
-s32 is_locally_controlled__10TObjPlayerFPv(void *);
 void for_each_player_slot__10TObjPlayerFv(void *);
-int is_script_controlled__10TObjPlayerFv(void*);
 s32 sub_801A1DDC__10TObjPlayerFv(s32);
 s32 is_final_phase__10TObjPlayerFv();
 s32 obj_isState2_324__9TObjCharaFv();
@@ -38,7 +36,7 @@ void TObjPlayer::reset_area_entry_state() {
     s32 x;
     ((TObjPlayer *)((char *)this + 900))->update_child(this);
     ((TObjPlayer *)((char *)this + 1588))->enter_battle_state();
-    x = is_locally_controlled__10TObjPlayerFPv(this);
+    x = TObjPlayer::is_locally_controlled(this);
     if (x != 0) {
         for_each_player_slot__10TObjPlayerFv(update_photon_chair__10TObjPlayerFv);
     }
@@ -130,7 +128,7 @@ void TObjPlayer::update_state() {
     }
 }
 void TObjPlayer__sub_801BCB28(void) {  }
-void TObjPlayer::update_if_active() { if (is_script_controlled__10TObjPlayerFv(this) != 0) { sync_current_area(); sync_current_floor(); } }
+void TObjPlayer::update_if_active() { if (is_script_controlled() != 0) { sync_current_area(); sync_current_floor(); } }
 
 }
 

@@ -1,4 +1,5 @@
 #include "pso/network/protocol/subcommand_validation.h"
+#include "pso/network/protocol/protocol_types.h"
 #include "pso/render/render_util.h"
 #include "types.h"
 #include "pso/network/protocol/subcmd_6x.h"
@@ -318,7 +319,6 @@ s32 validate_6x22_set_player_invisible(G_ClientIDHeader *packet) {
 struct LobbyAnimationState { G_ClientIDHeader header; s16 animation_number; u16 unused; u32 player_flags; f32 animation_timer; };
 
 extern "C" {
-s32 is_local__16G_ClientIDHeaderFUs(void *, u16);
 s32 get_player_by_client_id(u16);
 s32 is_action_id_none(s16);
 
@@ -329,7 +329,7 @@ s32 validate_6xAE_set_animation_state(LobbyAnimationState *arg0) {
     if (player == 0) {
         return 0;
     }
-    if (is_local__16G_ClientIDHeaderFUs(arg0, arg0->header.client_id) != 0) {
+    if (((G_ClientIDHeader *)arg0)->is_local(arg0->header.client_id) != 0) {
         return 0;
     }
     if (((is_action_id_none(arg0->animation_number) == 0) && (arg0->animation_number < 0)) || (arg0->animation_number >= TLobby::get_hold_effect_size_by_type())) {

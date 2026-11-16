@@ -139,7 +139,6 @@ void deliver_technique_to_party_targets(void *);
 void run_task__8TTecAntiFv(Anti_8022B150 *self);
 s32 is_split_screen();
 void *spawn_particle_effect_with_flags(void *, int, int);
-s32 is_script_controlled__10TObjPlayerFv(void *);
 void *__nw__7TObjectFUl(int);
 }
 u8 *construct_delayed_point_sound(u8 *arg0, u8 *arg1, s16 arg2, s32 arg3, u8 *arg4);
@@ -259,7 +258,7 @@ void TTecAnti::vfunc_7(void *pl_arg) {
     void *o;
     hit.type = 7;
     hit.power = self->power;
-    if (is_script_controlled__10TObjPlayerFv(pl) != 0) {
+    if (((TObjPlayer *)pl)->is_script_controlled() != 0) {
         return;
     }
     pl->m21(self->caster, hit, 0, 0x10, self->level);

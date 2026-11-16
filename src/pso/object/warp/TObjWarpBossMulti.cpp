@@ -96,7 +96,6 @@ extern "C" {
 s32 check_player_flag1__6TLobbyFv(void);
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 fn_80248994(void *, u32, int);
-void *refresh_with_default_list__20TWindowSubStatusDispFll(s32, void *);
 void request_active_window_close(void);
 s32 get_window_layout_position(s32);
 s32 free_member__17TWindowSubComCardFv(void *, int);
@@ -410,7 +409,7 @@ s32 TObjWarpBoss::update_warp_dialogs() {
   {
     pos[0] = 229.0f;
     pos[1] = 104.0f;
-    player_list_window = refresh_with_default_list__20TWindowSubStatusDispFll(((s32)get_window_layout_position(0x34)), pos);
+    player_list_window = TWindowSubStatusDisp::refresh_with_default_list((s32)(((s32)get_window_layout_position(0x34))), (s32)pos);
     if (player_list_window != 0)
     {
       ((TWindowSubTradeMain *)player_list_window)->set_visible();
