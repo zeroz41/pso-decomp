@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 // TObject's helpers are out-of-line functions for this TU (run_task calls
 // TObject::queue_destruction, defined elsewhere).
 #define TOBJECT_OUT_OF_LINE_HELPERS

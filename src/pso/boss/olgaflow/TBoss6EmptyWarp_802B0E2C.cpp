@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/olgaflow/TBoss6EmptyWarp.h"
 #include "pso/boss/olgaflow/TBoss6EmptyWarp_802B0E2C.h"
 #include "pso/system/TLoadCtrl_80227390.h"
@@ -99,7 +98,7 @@ void *TBoss6EmptyWarp::create() {
 
 void TBoss6EmptyWarp::activate_warp() {
     *(s32 *)&this->unk_1C = 1;
-    play_sound_effect(0x4003351F, (Vec *)(0), 0, 0);
+    play_sound_effect(0x4003351F, 0, 0, 0);
 }
 void TBoss6EmptyWarp__sub_802B1004(void* p) { *(s32*)((char*)p + 0x20) = 0; *(s32*)((char*)p + 0x1c) = 2; }
 int TBoss6EmptyWarp__sub_802B1018(void) { return 0; }

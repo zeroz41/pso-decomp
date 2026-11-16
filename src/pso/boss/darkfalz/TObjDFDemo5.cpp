@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/darkfalz/TObjDFDemo5.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
@@ -70,7 +69,7 @@ TObjDFDemo5::TObjDFDemo5(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     }
     node_list0 = (TObjFish *)TObjFish__sub_800E3124((u8 *)lbl_80485798, (s32)emitter_positions);
     node_list1 = (TObjFish *)TObjFish__sub_800E3124((u8 *)lbl_804857C8, (s32)&tail_position);
-    play_sound_effect(0x4003A835, (Vec *)(NULL), 0, 0);
+    play_sound_effect(0x4003A835, NULL, 0, 0);
     timer = 0;
 }
 

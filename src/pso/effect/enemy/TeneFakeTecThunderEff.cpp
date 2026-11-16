@@ -1,5 +1,4 @@
 #include "pso/render/ChunkMaterialState.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/effect/enemy/TEneEffHamon.h"
 #include "pso/effect/enemy/TeneFakeTecThunderEff.h"
 #include "pso/render/MaterialColorFade.h"

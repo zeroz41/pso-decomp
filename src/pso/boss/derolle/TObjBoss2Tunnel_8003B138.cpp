@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -151,7 +150,7 @@ void shift_queue_push_next__15TObjBoss2TunnelFPv(Obj_8003C2A0 *self);
 void * init__13TUnk_804835D8Fv(void *arg0);
 f32 rand_signed_unit(void);
 void *__ct__13TObjBoss2DustFv(void *, void *, Vec *);
-void play_persistent_sound(int, void *, Vec *, int, int);
+void play_persistent_sound(int, void *, int, int, int);
 void enable_fog__15TObjBoss2TunnelFv(void);
 void enable_fog__15TObjBoss2TunnelFPv(TObjBoss2Tunnel *arg0);
 void TObjBoss2Tunnel__sub_801339EC(f32, f32, f32);
@@ -681,9 +680,9 @@ void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o) {
             if (o->f4c > o->f50) {
                 o->f48 = 1;
                 o->f50 = o->f4c;
-                play_sound_effect(0x4003A80E, (Vec *)(0), 0, 0);
+                play_sound_effect(0x4003A80E, 0, 0, 0);
             } else {
-                play_persistent_sound(0x4003B20C, o, (Vec *)(0), 0, 0);
+                play_persistent_sound(0x4003B20C, o, 0, 0, 0);
             }
         } else {
             f32 lim;
@@ -715,7 +714,7 @@ void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o) {
         break;
     }
     if (o->f24 == 1 || o->f24 == 2) {
-        play_persistent_sound(0x4003B20C, o, (Vec *)(0), 0, 0);
+        play_persistent_sound(0x4003B20C, o, 0, 0, 0);
     }
     ((TObjBoss2Tunnel *)o)->update_particles();
     if (TObjBoss2Tunnel__global_flags & 2) {
@@ -744,7 +743,7 @@ void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o) {
                 enable_fog__15TObjBoss2TunnelFPv((TObjBoss2Tunnel *)o);
             } else {
                 enable_fog__15TObjBoss2TunnelFv(o);
-                play_sound_effect(0x4003A80B, (Vec *)(0), 0, 0);
+                play_sound_effect(0x4003A80B, 0, 0, 0);
                 if (lbl_80483480[o->fbc] == -1) {
                     o->fb4 = 2;
                 }
@@ -769,7 +768,7 @@ void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o) {
                 enable_fog__15TObjBoss2TunnelFv(o);
             } else {
                 enable_fog__15TObjBoss2TunnelFPv((TObjBoss2Tunnel *)o);
-                play_sound_effect(0x4003A80B, (Vec *)(0), 0, 0);
+                play_sound_effect(0x4003A80B, 0, 0, 0);
                 if (lbl_80483480[o->fbc] == -1) {
                     o->fb4 = 0;
                 }

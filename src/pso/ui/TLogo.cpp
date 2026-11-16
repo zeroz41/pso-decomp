@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/TObjMotion.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/frontend/TAdBackGC_8029A6EC.h"
 #include "pso/ui/frontend/TAdSoniclogo.h"
 #include "pso/system/task/TObject.h"

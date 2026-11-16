@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/chat/TWindowChatSymbol_802486A8.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -222,7 +221,7 @@ T_802869BC *TWindowSubSymbolChatPartsSet__ct(T_802869BC *self, void *parent, s16
 void TWindowSubSymbolChatFaceType__sub_80283C84(void *, void *, f32, f32);
 
 void render__28TWindowSubSymbolChatPartsSetFv(TWindowSubSymbolChatPartsSet *arg0);
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 s32 draw_visible_window_entries(void *, void *, int, f32);
 u8 *draw_default_entry__9TWindowDDFl();
 s32 forward_render__20TWindowSubStatusDispFv(int, int);
@@ -248,13 +247,13 @@ s32 TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(int ctx) {
 
 void TWindowSubSymbolChatPartsSet::handle_cancel() {
     if (is_active() == 0) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         this->m_68 = (u8) (this->m_68 | 2);
     }
 }
 
 void TWindowSubSymbolChatPartsSet::handle_decide() {
-    play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+    play_sound_effect(0x52D01, 0, 0, 0);
     this->m_68 = (u8) (this->m_68 | 1);
     ((TWindowSubStatusDisp *)(this->m_88))->set_entry_state(2);
 }

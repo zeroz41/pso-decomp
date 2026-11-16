@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarCtrl.h"
 #include "pso/system/task/TObject_80019A50.h"
 
@@ -96,7 +95,7 @@ int TObjBoss5PillarCtrl::update_pillar() { return TObjBoss5Pillar__sub_8028B70C(
 int TObjBoss5PillarCtrl::forward_pillar_2B710() { return TObjBoss5Pillar__sub_8028B710(this); }
 void TObjBoss5PillarCtrl::play_sound_once() {
     if ((s32) this->m_1c == 0) {
-        play_sound_effect(0x4003A819, (Vec *)(0), 0, 0);
+        play_sound_effect(0x4003A819, 0, 0, 0);
         this->m_1c = 1;
     }
 }

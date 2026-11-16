@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/TUnk_8049EFB8.h"
@@ -163,7 +162,7 @@ struct Self_80108020 {
 };
 
 extern "C" {
-void play_sound_effect(u32, Vec *, s32, s32);
+void play_sound_effect(u32, void *, s32, s32);
 f32 xyz_distance(Vec *, Vec *);
 
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
@@ -200,7 +199,7 @@ void TObjPlayer::spawn_appearance_effect(u16 client) {
             if (o != 0) {
                 TItemEffArmor__ct((Self_80108020 *)(o), (u8 *)p, s, v);
             }
-            play_sound_effect(0x4000B20A, (Vec *)((u8 *)p + 0x38), 0, 0);
+            play_sound_effect(0x4000B20A, (u8 *)p + 0x38, 0, 0);
         }
     }
 }

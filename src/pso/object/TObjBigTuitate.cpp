@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/TObjBigTuitate.h"
 #include "pso/object/TObjTuitate.h"
 #include "pso/render/render_util.h"

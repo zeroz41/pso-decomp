@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/render/render_util.h"
 #include "pso/system/memory.h"
 #include "pso/boss/olgaflow/TBoss6Zanzo.h"

@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowSubEquip.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
@@ -37,7 +36,7 @@ extern s32 lbl_8044F920[];
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s32 is_usable__14TWindowSubItemFl();
 void *get_player_by_client_id(s32 i);
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 s32 is_player_input_active(s32);
 s32 fn_80255A38(s32);
 s32 TWindowSubEquip__sub_80263AF4(void *, s32);
@@ -139,7 +138,7 @@ void TWindowSubEquip::run_task() {
     case 5:
         temp_r5 = temp_r3 * 0x50;
         if ((TWindowShortListCtrl__check_controller_button(controller_input_state + temp_r5 + 0x20, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)) {
-            play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+            play_sound_effect(0x52F16, 0, 0, 0);
             this->m_1c = 3U;
             return;
         }

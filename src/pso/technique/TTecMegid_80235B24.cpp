@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/TUnk_804CCA90.h"
 #include "pso/technique/TTecMegid_80235B24.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -12,13 +11,13 @@
 
 extern "C" {
 
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, void *, s32, s32);
 
 void TUnk_804CCA90::run_task() {
     u8 *arg0 = (u8 *)this;
     *(s16 *)((s8 *)arg0 + 0x1E) = (s16) (*(s16 *)((s8 *)arg0 + 0x1E) + 1);
     if ((s16) *(s16 *)((s8 *)arg0 + 0x1E) > (s16) *(s16 *)((s8 *)arg0 + 0x1C)) {
-        play_sound_effect(*(s32 *)((s8 *)arg0 + 0x20), (Vec *)(arg0 + 0x24), 0, 0);
+        play_sound_effect(*(s32 *)((s8 *)arg0 + 0x20), arg0 + 0x24, 0, 0);
         ((TObject *)arg0)->queue_destruction();
     }
 }

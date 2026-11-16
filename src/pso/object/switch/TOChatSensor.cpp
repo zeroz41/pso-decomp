@@ -1,5 +1,4 @@
 #include "pso/render/render_util.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/object/switch/TOChatSensor.h"

@@ -1,5 +1,4 @@
 #include "pso/boss/barbaray/TObjBoss7DustCtrl.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D96A8.h"

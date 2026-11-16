@@ -1,5 +1,4 @@
 #include "pso/system/RlcArchive.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/ControllerInputState.h"
 #include "types.h"
 #include "pso/unk/TUnk_804DDD28.h"
@@ -279,7 +278,7 @@ s32 draw_visible_window_entries(void *, void *, void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 verify_snapshot_checksum__15TObjBoss2TunnelFv(void);
 extern s32 __vt__15TWindowSnapShot[];
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 
 void TWindowSnapShot::free_shared_instance() {
     struct VObj_802A7DDC *o;
@@ -318,7 +317,7 @@ int TWindowSnapShot::get_height() { return 600; }
 int TWindowSnapShot__sub_802A7EAC(void) {  return player_motion_data_filename_ptr; }
 
 void TWindowSnapShot::play_open_sound() {
-    play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+    play_sound_effect(0x52F16, 0, 0, 0);
     this->m_60 = (u8) (this->m_60 | 1);
 }
 

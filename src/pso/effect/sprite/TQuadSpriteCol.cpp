@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/effect/sprite/TQuadSpriteCol.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TUnk_804C57F0.h"

@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/TLanguage.h"
@@ -351,7 +350,7 @@ void *create_sub_menu_window__17TWindowOptionCtrlFv(void *);
 void *create_option_menu__17TWindowOptionCtrlFv(void *);
 void set_field_value__17TWindowOptionCtrlFls(s32 arg0, s16 arg1);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-void play_sound_effect(int, Vec *, int, int);
+void play_sound_effect(int, int, int, int);
 extern u8 controller_input_state[];
 void TWindowOptionCtrl::run_task() {
     Opt_8026BCC0 *self = (Opt_8026BCC0 *)this;
@@ -600,7 +599,7 @@ void TWindowOptionCtrl::run_task() {
     case 26:
         if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 6) != 0 ||
             test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 6) != 0) {
-            play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+            play_sound_effect(0x52F16, 0, 0, 0);
             self->state = 1;
         }
         break;

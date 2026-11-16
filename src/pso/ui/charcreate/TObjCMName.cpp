@@ -3,7 +3,6 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/MenuText.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/charcreate/CreationInput.h"
 #include "types.h"
 #include "pso/math/AngleLookup.h"
@@ -103,7 +102,7 @@ struct Auto_802952E0
 };
 
 extern "C" {
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 void run_task__16TObjCMAssignMenuFv(void *arg0);
 void TCameraCtrl__sub_80068EF0(void);
 s32 get_message_text(s32 arg0);
@@ -522,7 +521,7 @@ void TObjCMMainMenu::handle_creation_input() {
     }
     if (is_active__23TAdSinglePlyChrSelectGCFv() != 0) {
         if (character->section == -1 && creation_buttons_pressed(2) != 0) {
-            play_sound_effect(0x53704, (Vec *)(0), 0, 0);
+            play_sound_effect(0x53704, 0, 0, 0);
             TObjCMMainMenu__sub_8028D9B4(character);
             this->delay = 7;
             TObjCMMainMenu__data_805D659C = 6;
@@ -534,14 +533,14 @@ void TObjCMMainMenu::handle_creation_input() {
             if (temp_r3 >= (s32) this->entry_count) {
                 this->selected_entry = 0;
             }
-            play_sound_effect(0x54100, (Vec *)(0), 0, 0);
+            play_sound_effect(0x54100, 0, 0, 0);
         } else if (creation_direction_repeated(0x10) != 0) {
             temp_r0 = this->selected_entry - 1;
             this->selected_entry = temp_r0;
             if (temp_r0 < 0) {
                 this->selected_entry = (this->entry_count - 1);
             }
-            play_sound_effect(0x54100, (Vec *)(0), 0, 0);
+            play_sound_effect(0x54100, 0, 0, 0);
         }
         if (creation_buttons_pressed(4) != 0) {
             CreationMenuEntry *entry = &TObjCMMainMenu__data_804DB9C8[entries[selected_entry]];
@@ -574,7 +573,7 @@ void TObjCMMainMenu::sub_80298534() {
             this->progress = 1.0f;
         }
         if (creation_buttons_pressed(4) != 0) {
-            play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+            play_sound_effect(0x52D01, 0, 0, 0);
             this->delay = 7;
             TObjCMMainMenu__data_805D659C = 5;
             TObjCMMainMenu::create_fade((void *)7, (void *)1);
@@ -1018,41 +1017,41 @@ void TObjCMMainMenu::draw_root_menu() {
 }
 #pragma pop
 void TObjCMMainMenu::open_assign_menu(void *) {
-    play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+    play_sound_effect(0x52D01, 0, 0, 0);
     TObjCMMainMenu__data_805D659C = 1;
     TObjCMAssignMenu::create(nodes, (void *)TObjCMMainMenu__data_804DB9C8[entries[selected_entry]].kind);
 }
 
 void TObjCMMainMenu::open_hair_menu(void *) {
-    play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+    play_sound_effect(0x52D01, 0, 0, 0);
     TObjCMMainMenu__data_805D659C = 1;
     ((TObjCMHairMenu *)nodes)->create();
 }
 
 void TObjCMMainMenu::open_auto_mk_menu(void *) {
-    play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+    play_sound_effect(0x52D01, 0, 0, 0);
     TObjCMMainMenu__data_805D659C = 1;
     TObjCMAutoMkData::create(nodes);
 }
 
 void TObjCMMainMenu::open_proportion_menu(void *) {
-    play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+    play_sound_effect(0x52D01, 0, 0, 0);
     TObjCMMainMenu__data_805D659C = 1;
     TObjCMProportion::create(nodes);
 }
 
 void TObjCMMainMenu::open_name_menu(void *) {
-    play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+    play_sound_effect(0x52D01, 0, 0, 0);
     TObjCMMainMenu__data_805D659C = 1;
     TObjCMName::create(nodes);
 }
 
 void TObjCMMainMenu::confirm_selection(void *) {
     if (validate_character_name((s8 *)character->name) == 0) {
-        play_sound_effect(0x53F06, (Vec *)(0), 0, 0);
+        play_sound_effect(0x53F06, 0, 0, 0);
         return;
     }
-    play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+    play_sound_effect(0x52D01, 0, 0, 0);
     if (character->section == -1) {
         character->section = calc_section_id_from_name();
     } else {
@@ -1069,18 +1068,18 @@ s32 TObjCMMainMenu::try_pay_fee() {
     void *temp_r3;
 
     if (get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF) == NULL) {
-        play_sound_effect(0x40018519, (Vec *)(0), 0, 0);
+        play_sound_effect(0x40018519, 0, 0, 0);
         return 0;
     }
     temp_r3 = get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF);
     temp_r4 = *(s32 *)((s8 *)temp_r3 + 0x36C);
     if (temp_r4 < 0x2710) {
         *(s32 *)((s8 *)temp_r3 + 0x36C) = 0;
-        play_sound_effect(0xB20C, (Vec *)(0), 0, 0);
+        play_sound_effect(0xB20C, 0, 0, 0);
         return 0;
     }
     *(s32 *)((s8 *)temp_r3 + 0x36C) = (temp_r4 - 0x2710);
-    play_sound_effect(0x44E03, (Vec *)(0), 0, 0);
+    play_sound_effect(0x44E03, 0, 0, 0);
     return 1;
 }
 
@@ -1249,7 +1248,7 @@ void run_task__16TObjCMAssignMenuFv(void *arg0) {
     new_var = (s16 *) (((s8 *) app) + off);
     if ((*new_var) != old)
     {
-      play_sound_effect(0x54100, (Vec *)(0), 0, 0);
+      play_sound_effect(0x54100, 0, 0, 0);
     }
     self->value = *new_var;
   }
@@ -1273,7 +1272,7 @@ void run_task__16TObjCMAssignMenuFv(void *arg0) {
   }
   if ((self->enabled != 0) && (creation_buttons_pressed(6) != 0))
   {
-    play_sound_effect(0x53704, (Vec *)(0), 0, 0);
+    play_sound_effect(0x53704, 0, 0, 0);
     TObjCMMainMenu::clear_task_state();
     self->active = 0;
   }
@@ -1920,7 +1919,7 @@ void TObjCMAutoMkData::run_task() {
     case 1:
       if (creation_buttons_pressed(2) != 0)
     {
-      play_sound_effect(0x53704, (Vec *)(0), 0, 0);
+      play_sound_effect(0x53704, 0, 0, 0);
       TObjCMMainMenu::clear_task_state();
       self->state = 2;
       break;
@@ -1958,7 +1957,7 @@ void TObjCMAutoMkData::run_task() {
     {
       self->shape[1] -= 1.0f;
     }
-      play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+      play_sound_effect(0x52D01, 0, 0, 0);
       self->ticks = 0;
       self->state = 3;
       break;
@@ -1976,7 +1975,7 @@ void TObjCMAutoMkData::run_task() {
     {
       if (creation_resource_ready_state == 2)
       {
-        play_sound_effect(0x52802, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52802, 0, 0, 0);
         self->state = 1;
       }
       else
@@ -2209,7 +2208,7 @@ void TObjCMName::run_task() {
             strncpy((char *)appearance->name, name, 12);
             appearance->name[12] = 0;
             mem_free(buf);
-            play_sound_effect(sound, (Vec *)(0), 0, 0);
+            play_sound_effect(sound, 0, 0, 0);
             TObjCMMainMenu::clear_task_state();
             keyboard->queue_destruction();
             keyboard = NULL;

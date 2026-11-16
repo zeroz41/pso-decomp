@@ -3,7 +3,6 @@
 // Deferred code generation (configure.py): the functions come out in reverse
 // order, so this file is written from its last function back.
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/render/render_util.h"
 #include "pso/object/key/TOKey.h"
 #include "pso/map/FloorArea.h"
@@ -155,10 +154,10 @@ void TOKey::play_activate_sound() {
     case AREA_FOREST2:
         switch (mode) {
         case KEY_MODE_ONCE:
-            play_sound_effect(0x4C60A, (Vec *)(&position), 0, 0);
+            play_sound_effect(0x4C60A, &position, 0, 0);
             return;
         case KEY_MODE_TOGGLE:
-            play_sound_effect(0x4AD0B, (Vec *)(&position), 0, 0);
+            play_sound_effect(0x4AD0B, &position, 0, 0);
             return;
         }
         break;
@@ -167,10 +166,10 @@ void TOKey::play_activate_sound() {
     case AREA_CAVE3:
         switch (mode) {
         case KEY_MODE_ONCE:
-            play_sound_effect(0x44609, (Vec *)(&position), 0, 0);
+            play_sound_effect(0x44609, &position, 0, 0);
             return;
         case KEY_MODE_TOGGLE:
-            play_sound_effect(0x42D0A, (Vec *)(&position), 0, 0);
+            play_sound_effect(0x42D0A, &position, 0, 0);
             return;
         }
         break;
@@ -178,10 +177,10 @@ void TOKey::play_activate_sound() {
     case AREA_MINE2:
         switch (mode) {
         case KEY_MODE_ONCE:
-            play_sound_effect(0x4004C603, (Vec *)(&position), 0, 0);
+            play_sound_effect(0x4004C603, &position, 0, 0);
             return;
         case KEY_MODE_TOGGLE:
-            play_sound_effect(0x4004AD04, (Vec *)(&position), 0, 0);
+            play_sound_effect(0x4004AD04, &position, 0, 0);
             return;
         }
         break;
@@ -190,10 +189,10 @@ void TOKey::play_activate_sound() {
     case AREA_RUINS3:
         switch (mode) {
         case KEY_MODE_ONCE:
-            play_sound_effect(0x4004C60A, (Vec *)(&position), 0, 0);
+            play_sound_effect(0x4004C60A, &position, 0, 0);
             return;
         case KEY_MODE_TOGGLE:
-            play_sound_effect(0x4004AD0B, (Vec *)(&position), 0, 0);
+            play_sound_effect(0x4004AD0B, &position, 0, 0);
             return;
         }
         break;
@@ -202,38 +201,38 @@ void TOKey::play_activate_sound() {
         if (enable_v2_features == 1) {
             switch (mode) {
             case KEY_MODE_ONCE:
-                play_sound_effect(0x4004C601, (Vec *)(&position), 0, 0);
+                play_sound_effect(0x4004C601, &position, 0, 0);
                 return;
             case KEY_MODE_TOGGLE:
-                play_sound_effect(0x4004AD02, (Vec *)(&position), 0, 0);
+                play_sound_effect(0x4004AD02, &position, 0, 0);
                 return;
             }
         }
         break;
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
-        play_sound_effect(0x4C601, (Vec *)(&position), 0, 0);
+        play_sound_effect(0x4C601, &position, 0, 0);
         return;
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_sound_effect(0x4004C601, (Vec *)(&position), 0, 0);
+        play_sound_effect(0x4004C601, &position, 0, 0);
         return;
     case AREA_CENTRAL_CONTROL_AREA:
     case AREA_JUNGLE_NORTH:
     case AREA_JUNGLE_EAST:
     case AREA_MOUNTAIN:
     case AREA_SEASIDE:
-        play_sound_effect(0x4C611, (Vec *)(&position), 0, 0);
+        play_sound_effect(0x4C611, &position, 0, 0);
         return;
     case AREA_SEASIDE_NIGHT:
-        play_sound_effect(0x4004C611, (Vec *)(&position), 0, 0);
+        play_sound_effect(0x4004C611, &position, 0, 0);
         return;
     case AREA_TOWER:
-        play_sound_effect(0x4004C611, (Vec *)(&position), 0, 0);
+        play_sound_effect(0x4004C611, &position, 0, 0);
         return;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_sound_effect(0x4004C611, (Vec *)(&position), 0, 0);
+        play_sound_effect(0x4004C611, &position, 0, 0);
         break;
     }
 }
@@ -246,54 +245,54 @@ void TOKey::play_deactivate_sound() {
     switch (get_current_floor_area()) {
     case AREA_FOREST1:
     case AREA_FOREST2:
-        play_sound_effect(0x4AD0C, (Vec *)(&position), 0, 0);
+        play_sound_effect(0x4AD0C, &position, 0, 0);
         break;
     case AREA_CAVE1:
     case AREA_CAVE2:
     case AREA_CAVE3:
-        play_sound_effect(0x42D0B, (Vec *)(&position), 0, 0);
+        play_sound_effect(0x42D0B, &position, 0, 0);
         break;
     case AREA_MINE1:
     case AREA_MINE2:
-        play_sound_effect(0x4004AD05, (Vec *)(&position), 0, 0);
+        play_sound_effect(0x4004AD05, &position, 0, 0);
         break;
     case AREA_RUINS1:
     case AREA_RUINS2:
     case AREA_RUINS3:
-        play_sound_effect(0x4004AD0C, (Vec *)(&position), 0, 0);
+        play_sound_effect(0x4004AD0C, &position, 0, 0);
         break;
     case AREA_BATTLE1:
     case AREA_BATTLE2:
         if (enable_v2_features == 1) {
-            play_sound_effect(0x4004AD03, (Vec *)(&position), 0, 0);
+            play_sound_effect(0x4004AD03, &position, 0, 0);
             break;
         }
     default:
         break;
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
-        play_sound_effect(0x4AD03, (Vec *)(&position), 0, 0);
+        play_sound_effect(0x4AD03, &position, 0, 0);
         break;
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_sound_effect(0x4004AD03, (Vec *)(&position), 0, 0);
+        play_sound_effect(0x4004AD03, &position, 0, 0);
         break;
     case AREA_CENTRAL_CONTROL_AREA:
     case AREA_JUNGLE_NORTH:
     case AREA_JUNGLE_EAST:
     case AREA_MOUNTAIN:
     case AREA_SEASIDE:
-        play_sound_effect(0x4AD13, (Vec *)(&position), 0, 0);
+        play_sound_effect(0x4AD13, &position, 0, 0);
         break;
     case AREA_SEASIDE_NIGHT:
-        play_sound_effect(0x4004AD13, (Vec *)(&position), 0, 0);
+        play_sound_effect(0x4004AD13, &position, 0, 0);
         break;
     case AREA_TOWER:
-        play_sound_effect(0x4004AD13, (Vec *)(&position), 0, 0);
+        play_sound_effect(0x4004AD13, &position, 0, 0);
         break;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_sound_effect(0x4004AD13, (Vec *)(&position), 0, 0);
+        play_sound_effect(0x4004AD13, &position, 0, 0);
         break;
     }
 }
@@ -397,7 +396,7 @@ void handle_6x05_write_switch_flag(void *data) {
         return;
     }
     if ((cmd->flags & 2) && cmd->floor == get_current_floor()) {
-        play_sound_effect(0x4005281F, (Vec *)(NULL), 0, 0);
+        play_sound_effect(0x4005281F, NULL, 0, 0);
     }
     if (cmd->flags & 1) {
         set_floor_switch_flag(cmd->switch_id, cmd->floor);
@@ -408,7 +407,7 @@ void handle_6x05_write_switch_flag(void *data) {
 
 void TOKey::handle_switch_trigger(G_SwitchStateChanged_6x05 *cmd) {
     if ((cmd->flags & 2) && cmd->floor == get_current_floor()) {
-        play_sound_effect(0x4005281F, (Vec *)(NULL), 0, 0);
+        play_sound_effect(0x4005281F, NULL, 0, 0);
     }
     if (cmd->flags & 1) {
         set_current_floor_switch(cmd->switch_id);

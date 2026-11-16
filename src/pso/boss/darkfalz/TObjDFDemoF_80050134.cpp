@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/task/TObject.h"
@@ -113,7 +112,7 @@ Obj_80050194 *TObjDFDemoF__ct(Obj_80050194 *arg0, void *parent) {
   activate_camera_mode(5);
   set_scripted_camera_pose(lbl_80485840, lbl_80485840, lbl_8048584C);
   lbl_80485858.cache_target_and_forward(0x392D);
-  play_sound_effect(0x3A802, (Vec *)(0), 0, 0);
+  play_sound_effect(0x3A802, 0, 0, 0);
   start_pad_rumble_all(0x20, 0xF);
   arg0->f90 = 0;
   return new_var;

@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -140,7 +139,7 @@ struct Rect_802455CC { f32 x, y, w, h; u8 pad10[0x20 - 0x10]; f32 px, py, sx, sy
 
 void disallow_rendering__7TObjectFv(TObject *);
 int copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void*);
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 int TWindowSubComCard__sub_80244774(void);
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *arg0);
 void save_position__11TWindowBaseFv(void* p);
@@ -260,7 +259,7 @@ void TWindowLockOn::request_close() {
         return;
     }
     if (!(temp_r3 & 0x20)) {
-        ((s32)play_sound_effect(0x53704, (Vec *)(0), 0, 0));
+        ((s32)play_sound_effect(0x53704, 0, 0, 0));
     }
     *(s32 *)&(this->m_2c) = (s32) (*(s32 *)&(this->m_2c) & 0xFFFFFFFE);
     *(s32 *)&(this->m_2c) = (s32) (*(s32 *)&(this->m_2c) | 2);
@@ -302,7 +301,7 @@ void window_request_show(void *object) {
     }
     *(s32 *)((s8 *)object + 0x2C) = (s32) (*(s32 *)((s8 *)object + 0x2C) | 3);
     if (!(*(s32 *)((s8 *)object + 0x2C) & 0x20)) {
-        play_sound_effect(0x53703, (Vec *)(0), 0, 0);
+        play_sound_effect(0x53703, 0, 0, 0);
     }
     ((TObject *)object)->allow_rendering();
 }

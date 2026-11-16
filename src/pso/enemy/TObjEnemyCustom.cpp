@@ -1,5 +1,4 @@
 #include "pso/enemy/TObjEnemy.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/balclaw/TObjEneBalClawBody.h"
 #include "pso/enemy/dubchik/TObjEneDubchik.h"
 #include "pso/enemy/TObjEnemyCustom.h"

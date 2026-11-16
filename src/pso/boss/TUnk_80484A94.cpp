@@ -1,5 +1,4 @@
 #include "pso/boss/TUnk_80484A94.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -24,7 +23,7 @@
 #include "pso/system/MatrixStack.h"
 
 extern "C" {
-s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 obj_is_hit_receivable(u8 *arg0);
 u16 get_entity_id(TObject *object);
 extern GC_Mtx identity_matrix;
@@ -96,7 +95,7 @@ void TUnk_80484A94::run_task() {
         queue_destruction();
         return;
     }
-    play_persistent_sound((s32)(0x4003C11D), (s32)this, (Vec *)((u32)&position), (s32)(0), (s32)(0));
+    play_persistent_sound((s32)(0x4003C11D), (s32)this, (u32)&position, (s32)(0), (s32)(0));
 }
 
 TUnk_80484A94::~TUnk_80484A94() {

@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/switch/TOSwitchTimer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/render_util.h"
@@ -91,10 +90,10 @@ void TOSwitchTimer::run_task() {
         if ((s32) *(s32 *)&this->m_9c == 1) {
             if ((s32) *(s32 *)&this->m_94 < (s32) *(s32 *)&this->m_a4) {
                 if ((*(s32 *)&this->m_94 % 30) == 0) {
-                    play_sound_effect(0x53218, (Vec *)(0), 0, 0);
+                    play_sound_effect(0x53218, 0, 0, 0);
                 }
             } else {
-                play_persistent_sound(0x53218, (s32)this, (Vec *)(0), 0, 0);
+                play_persistent_sound(0x53218, (s32)this, 0, 0, 0);
             }
         }
         temp_r3_2 = *(s32 *)&this->m_94;

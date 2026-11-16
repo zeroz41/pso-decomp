@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/frontend/TAdLoadNetworkGC.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/task/TObject_80019A50.h"

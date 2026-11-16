@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowActionPalette.h"
@@ -60,7 +59,7 @@ s32 draw_window_scrollbar(int, int, void *);
 s32 forward_render__20TWindowSubStatusDispFv(int, int);
 void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(void *, void *, s32, f32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 s32 apply_choice__20TWindowChoiceSettingFllll(void *, int, int, int);
 s32 get_message_10__20TWindowSubStatusDispFl(int);
 void *get_player_by_client_id(s32 i);
@@ -76,13 +75,13 @@ s32 draw_visible_window_entries(void *, void *, void *);
 
 void TWindowSubCustomSelect::handle_cancel() {
     if (is_active() == 0) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         this->m_73 = (u8) (this->m_73 | 2);
     }
 }
 
 void TWindowSubCustomSelect::handle_decide() {
-    play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+    play_sound_effect(0x52D01, 0, 0, 0);
     this->m_73 = (u8) (this->m_73 | 1);
     ((TWindowSubStatusDisp *)(this->m_7c))->set_entry_state(2);
 }
@@ -115,7 +114,7 @@ void TWindowSubCustomSelect::handle_grid_navigation() {
     u8 *window_choice_setting;
     window_choice_setting = (u8 *)&controller_input_state + (is_player_input_active(((s32) this->m_20)) * 0x50) + 0x20;
     if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0xF0, 6, 1) != 0) || (apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&controller_input_state + 0x160), 0xF0, 6, 1) != 0)) {
-        play_sound_effect(0x54100, (Vec *)((s32)(0U)), 0, 0);
+        play_sound_effect(0x54100, (s32)(0U), 0, 0);
         if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0x10, 6, 1) != 0) || (apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&controller_input_state + 0x160), 0x10, 6, 1) != 0)) {
             this->m_71 = (this->m_71 - 1);
         }

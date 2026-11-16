@@ -5,7 +5,6 @@
 // units: render_util_head.cpp and this one (set_cull_none to the weak copies at the end).
 
 #include "pso/render/render_util.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include <dolphin/gx.h>
 #include "pso/enemy/stelth/TObjEneMe3Stelth_803DC82C.h"
 #include "pso/math/AngleLookup.h"

@@ -1,5 +1,4 @@
 #include "pso/unk/SampledMotionPoints.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_803D853C.h"
 #include "types.h"

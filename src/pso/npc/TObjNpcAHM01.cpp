@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/npc/TObjNpcAHM01.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/npc/TObjNpcARM00.h"
@@ -21,7 +20,7 @@ u32 TObjNpcAHM01__shared_object;
 u32 TObjNpcAHM01__texture_handle;
 
 extern "C" {
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, void *, int, int);
 extern s32 __vt__12TObjNpcAHM01[];
 void release_texture_list(void*);
 void *__ct__11TObjControlFP7TObject(void *, void *);
@@ -61,7 +60,7 @@ u8 *TObjNpcAHM01__ct(u8 *player, s32 arg1, s32 arg2) {
 
 void TObjNpcAHM01::play_voice() {
     s32 arg0 = (s32)this;
-    play_sound_effect(0x40004C15, (Vec *)((void *)(arg0 + 0x38)), 0, 0);
+    play_sound_effect(0x40004C15, (void *)(arg0 + 0x38), 0, 0);
 }
 
 s32 TObjNpcBase::is_target_in_attack_range() { return 0; }

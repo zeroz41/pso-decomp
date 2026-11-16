@@ -1,7 +1,6 @@
 #pragma fp_contract on
 
 #include "pso/boss/TUnk_80484840.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer.h"

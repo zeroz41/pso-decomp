@@ -1,5 +1,4 @@
 #include "pso/render/DebugFont.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/text_803D853C.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx/GXStruct.h>

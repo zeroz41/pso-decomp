@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/camera/TCameraCtrl_8006B3D8.h"
 #include "pso/camera/TCameraCtrl_8006C7C4.h"
 #include "pso/unk/TUnk_80488838.h"

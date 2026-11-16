@@ -1,5 +1,4 @@
 #include "pso/system/NinjaTypes.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/MatrixOps.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"

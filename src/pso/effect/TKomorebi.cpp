@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/effect/TKomorebi.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D853C.h"

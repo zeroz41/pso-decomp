@@ -2,7 +2,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/cave/TORockCave.h"
 #include "pso/object/cave/TORockCaveSimple.h"
 #include "pso/object/cave/TORockCaveBrakable.h"
@@ -273,7 +272,7 @@ void TORockCaveBrakable::vfunc_16() {
 }
 
 void TORockCaveBrakable::vfunc_18() {
-    play_sound_effect(277521, (Vec *)(&position), 0, 0);
+    play_sound_effect(277521, &position, 0, 0);
 }
 
 void TORockCaveBrakable::vfunc_19() {}

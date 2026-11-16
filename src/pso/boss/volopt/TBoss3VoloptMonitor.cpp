@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/boss/volopt/TBoss3VoloptCore.h"
 #include "pso/boss/volopt/TBoss3VoloptMonitor.h"
@@ -379,7 +378,7 @@ void TBoss3VoloptMonitor::sub_80041E88() {
         anim_timer = 3;
         anim_frame = 0;
         m_388 |= 0x10000;
-        play_sound_effect(0x4003BC03, (Vec *)(&position), 0, 0);
+        play_sound_effect(0x4003BC03, &position, 0, 0);
         damage_player_if_aligned();
         referenceHp = hp;
         *(s16 *)&timer = 3;
@@ -402,7 +401,7 @@ void TBoss3VoloptMonitor::sub_80041D3C() {
     TBoss3VoloptMonitor *other;
     switch (state) {
     case 0:
-        play_sound_effect(0x4003A804, (Vec *)(&position), 0, 0);
+        play_sound_effect(0x4003A804, &position, 0, 0);
         damage_player_if_aligned();
         spawn_effects();
         volopt_target_slot_used[slot] = 1;

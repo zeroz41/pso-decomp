@@ -1,5 +1,4 @@
 #include "pso/animation/MotionContext.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/camera/TCameraCtrl_803D749C.h"
 #include "pso/unk/TLobby_80227AA0.h"

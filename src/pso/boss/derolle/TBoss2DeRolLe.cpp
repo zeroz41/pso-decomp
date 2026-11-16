@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/animation/MotionContext.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 
 #include "pso/math/FloatRounding.h"
 
@@ -1279,7 +1278,7 @@ void set_scripted_camera_pose(void *, void *, void *);
 
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 
-int play_sound_effect(void*, Vec *, int, int);
+int play_sound_effect(void*, int, int, int);
 
 void play_cue_stream_file(s32 name);
 
@@ -1299,7 +1298,7 @@ f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 
 void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, s32 arg2);
 
-int play_sound_effect(void*, Vec *, int, int);
+int play_sound_effect(void*, int, int, int);
 
 s32 get_flag_b4__9TObjEneDDFv(void *);
 
@@ -1536,9 +1535,9 @@ s32 is_alive__8TObjBaseFv();
 
 u8 *get_enemy_entity(u16 arg0);
 
-s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 
-int play_sound_effect(void*, Vec *, int, int);
+int play_sound_effect(void*, int, int, int);
 
 s32 vec3_add_to(int, void *);
 
@@ -3824,7 +3823,7 @@ void TBoss2DeRolLe__sub_800344A4(DeRolLe_800344A4 *self, s32 idx, s32 arg2) {
     if (p != NULL) {
         __ct__15TBoss2PhotonPadFv(p, self->unk3D8, &self->pts[idx], &v, arg2);
     }
-    play_sound_effect(0x4003B708, (Vec *)(&self->pts[idx]), 0, 1);
+    play_sound_effect(0x4003B708, &self->pts[idx], 0, 1);
     ((TBoss2Joint *)(self->joints[idx]))->call_36A90_with_1();
 }
 
@@ -4193,16 +4192,16 @@ void update_projectile_spawns__13TBoss2DeRolLeFPv(u8 *arg0) {
         *(s32 *)((s8 *)arg0 + 0x53C) = 0;
     }
     if ((s32) *(s32 *)((s8 *)arg0 + 0x53C) <= 0x10) {
-        play_persistent_sound(0x4003AD00, (s32)arg0, (Vec *)((u32)(arg0 + 0x530)), 0, 0);
+        play_persistent_sound(0x4003AD00, (s32)arg0, (u32)(arg0 + 0x530), 0, 0);
         *(s32 *)((s8 *)arg0 + 0x53C) = (s32) (*(s32 *)((s8 *)arg0 + 0x53C) + 1);
     }
 }
 
 void TBoss2DeRolLe__sub_800338BC(void) {  }
 
-int play_sound(void* p, int a1) { return play_sound_effect(p, (Vec *)(a1), 0, 0); }
+int play_sound(void* p, int a1) { return play_sound_effect(p, a1, 0, 0); }
 
-int spawn_trap__13TBoss2DeRolLeFPvii(void* p, int a1, int a2) { return play_persistent_sound((s32)p, (a1), (Vec *)((a2)), 0, 0); }
+int spawn_trap__13TBoss2DeRolLeFPvii(void* p, int a1, int a2) { return play_persistent_sound((s32)p, (a1), (a2), 0, 0); }
 
 #pragma push
 #pragma opt_common_subs off
@@ -4498,9 +4497,9 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
                 ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &v3);
             }
             if (((TObjMotion *)o)->is_passing_frame(35.0f) != 0 || ((TObjMotion *)o)->is_passing_frame(112.0f) != 0) {
-                play_sound_effect((void *)0x4003AD11, (Vec *)(0), 0, 0);
+                play_sound_effect((void *)0x4003AD11, 0, 0, 0);
             } else if (((TObjMotion *)o)->is_passing_frame(65.0f) != 0) {
-                play_sound_effect((void *)0x4003AD12, (Vec *)(0), 0, 0);
+                play_sound_effect((void *)0x4003AD12, 0, 0, 0);
             }
             if (o->fC0 >= 34.0f) {
                 o->pos.x -= 1.0f;
@@ -6187,9 +6186,9 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
             if (((TObjMotion *)o)->is_passing_frame(27.0f) != 0) {
                 play_cue_stream_file((s32)"deldeath.adx");
             } else if (((TObjMotion *)o)->is_passing_frame(20.0f) != 0) {
-                play_sound_effect((void *)0x4003AD11, (Vec *)(0), 0, 0);
+                play_sound_effect((void *)0x4003AD11, 0, 0, 0);
             } else if (((TObjMotion *)o)->is_passing_frame(99.0f) != 0) {
-                play_sound_effect((void *)0x4003AD12, (Vec *)(0), 0, 0);
+                play_sound_effect((void *)0x4003AD12, 0, 0, 0);
                 start_pad_rumble_all(0xC0, 0xF);
             }
             o->f6E4++;

@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/photon/TDPBShower.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"

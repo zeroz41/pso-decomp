@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/ChunkMaterialState.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/render/render_util.h"

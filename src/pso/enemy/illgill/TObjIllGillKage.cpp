@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/illgill/TObjIllGillKage.h"
@@ -10,7 +9,7 @@
 
 
 extern "C" {
-s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 u16 get_entity_id(void *);
 extern s32 __vt__15TObjIllGillKage[];
 extern const char *TObjIllGillKage__class_name;
@@ -22,7 +21,7 @@ void TObjIllGillKage::queue_destruction() { TObject::queue_destruction(); }
 
 void TObjIllGillKage::tick_persistent_sound() {
     s32 temp_r3;
-    play_persistent_sound(0x4003A357, (s32)this, (Vec *)((u32)(((u8 *)this) + 0x38)), 0, 0);
+    play_persistent_sound(0x4003A357, (s32)this, (u32)(((u8 *)this) + 0x38), 0, 0);
     temp_r3 = this->m_94;
     this->m_94 = (temp_r3 - 1);
     if (temp_r3 < 0) {

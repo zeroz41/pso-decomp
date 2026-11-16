@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/galgryphon/TObjBoss5Ctrl.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarDemo.h"
 #include "pso/system/SoundEffect.h"
@@ -26,7 +25,7 @@ const char *lbl_805D2828 = "TObjBoss5Ctrl";
 
 void TObjBoss5Ctrl::run_task() {
     if ((*(s16 *)((s8 *)this + 0x2C))-- <= 0) {
-        play_sound_effect(0x40033215, (Vec *)(0), 0, 0);
+        play_sound_effect(0x40033215, 0, 0, 0);
         *(s16 *)((s8 *)this + 0x2C) = (s16) (60.0f * (3.0517578e-05f * (f32) rand()) + 90.0f);
     }
 }

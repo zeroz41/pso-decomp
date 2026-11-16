@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/system/ControllerInputState.h"
@@ -16,18 +15,18 @@
 
 extern "C" {
 
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, int, int, int);
 s32 is_open__28TWindowSubSymbolChatFaceTypeFv();
 
 void TWindowSubSymbolChatFaceType::close_when_chat_closed() {
     if (is_open__28TWindowSubSymbolChatFaceTypeFv() == 0) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         this->m_60 = (u8) (this->m_60 | 2);
     }
 }
 
 void TWindowSubSymbolChatFaceType::confirm_selection() {
-    play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+    play_sound_effect(0x52D01, 0, 0, 0);
     this->m_60 = (u8) (this->m_60 | 1);
     ((TWindowSubStatusDisp *)(this->m_68))->set_entry_state(2);
 }
@@ -75,7 +74,7 @@ void TWindowSubSymbolChatFaceType::handle_input() {
     u8 *input;
     input = (u8 *)&controller_input_state + 0x20;
     if ((TWindowChoiceSetting::apply_choice((s32)input, 0xF0, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0xF0, 6, 1) != 0)) {
-        play_sound_effect(0x54100, (Vec *)(0U), 0, 0);
+        play_sound_effect(0x54100, 0U, 0, 0);
         if ((TWindowChoiceSetting::apply_choice((s32)input, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state + 0x160)), 0x10, 6, 1) != 0)) {
             this->m_62 = (this->m_62 - 1);
         }

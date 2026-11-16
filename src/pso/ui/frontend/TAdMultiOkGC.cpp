@@ -1,5 +1,4 @@
 #include "pso/ui/frontend/TAdMultiOkGC.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/render_util.h"
@@ -76,7 +75,7 @@ typedef struct { P3_80307034 v[11]; } Pos_80307034;
 typedef struct { u32 c[12]; } Col_80307034;
 
 extern "C" {
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, void *, int, int);
 extern Pad_80306DF4 controller_physical_port_bank[];
 s32 multi_confirm_texture_list;
 void __ct__7TObjectFP7TObject(void *, void *);
@@ -176,17 +175,17 @@ void TAdMultiOkGC::handle_player_buttons(int arg1) {
             e->t = -1;
             e->flags &= ~1;
             e->flags &= ~4;
-            play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+            play_sound_effect(0x52F16, 0, 0, 0);
         } else if (!(e->flags & 2)) {
             e->t = -1;
             e->flags |= 1;
             e->flags |= 2;
-            play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+            play_sound_effect(0x52D01, 0, 0, 0);
         }
     } else if (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank[ports.v[o->port[arg1]]].btn, 2) != 0) {
         if (!(o->e[arg1].flags & 2)) {
             o->flags |= 1;
-            play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+            play_sound_effect(0x52F16, 0, 0, 0);
         }
     }
 }

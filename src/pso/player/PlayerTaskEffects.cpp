@@ -1,5 +1,4 @@
 #include "pso/system/NinjaTypes.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/PlayerScaleState.h"
 #include "pso/render/ChunkMaterialState.h"

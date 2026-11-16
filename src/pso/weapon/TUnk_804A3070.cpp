@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TUnk_804A3070.h"
@@ -11,7 +10,7 @@
 
 extern "C" {
 
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 
 
 void TUnk_804A3070::emit_marker_effects() {
@@ -19,7 +18,7 @@ void TUnk_804A3070::emit_marker_effects() {
         if (is_mode_two_and_ready() != 0) {
             ((TItemWeapon *)this)->drain_owner_hp_fraction(0.07f);
             ((TItemWeapon *)this)->launch_rare_weapon_special(0, 1, 3.5f);
-            play_sound_effect(0x4001A341, (Vec *)((s32)this->owner + 0x38), 0, 0);
+            play_sound_effect(0x4001A341, (s32)this->owner + 0x38, 0, 0);
             return;
         }
         ((TItemWeapon *)this)->update_active_game_effect();

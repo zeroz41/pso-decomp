@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/panarms/TObjEnePanarmsAtkColli.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
@@ -347,8 +346,8 @@ struct Obj_800E37E4 {
 };
 
 extern "C" {
-s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
-int play_sound_effect(void *, Vec *, void *, void *);
+s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
+int play_sound_effect(void *, void *, void *, void *);
 extern s32 __vt__22TObjEnePanarmsAtkColli[];
 void *TObjEnePanarmsAtkColli__ct(Obj_800E37E4 *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 
@@ -366,7 +365,7 @@ void TObjEnePanarmsAtkColli::run_task() {
         ((void (*)(void *))check_radius_collisions)(arg0);
         return;
     case 1:
-        play_persistent_sound((s32)(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003BA2A)), (s32)arg0, (Vec *)((u32)&this->position), 0, 0);
+        play_persistent_sound((s32)(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003BA2A)), (s32)arg0, (u32)&this->position, 0, 0);
         ((void (*)(void *))sweep_segment_collisions)(arg0);
         return;
     }
@@ -414,7 +413,7 @@ void *TObjEnePanarmsAtkColli__ct(Obj_800E37E4 *arg0, void *parent, void *arg2, v
     normalize_vector(&self->scale);
     switch (self->type) {
     case 0:
-        play_sound_effect((void *)((TObjEnemy *)(self))->remap_sound_for_area(0x4003BC2B), (Vec *)(&self->pos), 0, 0);
+        play_sound_effect((void *)((TObjEnemy *)(self))->remap_sound_for_area(0x4003BC2B), &self->pos, 0, 0);
         self->f378 = (5.0f);
         self->f37C = (1.0416666f);
         self->f380 = 0xC;

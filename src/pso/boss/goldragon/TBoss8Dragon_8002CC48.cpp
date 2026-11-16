@@ -2,7 +2,6 @@
 #pragma defer_codegen on
 
 #include "pso/system/vector.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 
 #include "pso/system/NinjaTypes.h"
 

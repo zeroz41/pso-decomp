@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/item/TItemReverseTechBG.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"

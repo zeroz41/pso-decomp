@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/dragon/TBoss1DragonEffBreath.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 

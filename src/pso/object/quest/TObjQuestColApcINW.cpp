@@ -1,5 +1,4 @@
 #include "pso/unk/text_8019608C.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/quest/TQuestThread.h"

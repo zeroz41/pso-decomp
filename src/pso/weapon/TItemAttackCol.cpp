@@ -3,7 +3,6 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffStarLight2D.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/MatrixOps.h"

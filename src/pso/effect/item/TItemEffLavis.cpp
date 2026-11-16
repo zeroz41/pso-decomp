@@ -1,5 +1,4 @@
 #include "pso/effect/item/TItemEffLavis.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 
 const char *TItemEffLavis__class_name = "TItemEffLavis";
 

@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/frontend/TAdStorySelectGC.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -32,7 +31,7 @@ const char *TAdStorySelectGC__class_name = TAdStorySelectGC__class_name_string;
 
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
-void play_sound_effect(s32, Vec *, s32, s32);
+void play_sound_effect(s32, s32, s32, s32);
 extern u8 controller_input_state[];
 void __ct__7TObjectFP7TObject(void *, void *);
 void __ct__9TAdBackGCFv(void *, void *);
@@ -70,7 +69,7 @@ void TAdStorySelectGC::run_task() {
     default:
         if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 2) != 0 ||
             test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0) {
-            play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+            play_sound_effect(0x52F16, 0, 0, 0);
             TAdMultiChgGameModeGC::set_game_mode();
         }
         break;

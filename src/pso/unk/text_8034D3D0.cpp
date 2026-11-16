@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/text_8034D3D0.h"
 #include "pso/system/vector.h"
 typedef struct Vec4_8034D500 {

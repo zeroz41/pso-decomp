@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/scene/TEndingPicStage.h"
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/system/vector.h"

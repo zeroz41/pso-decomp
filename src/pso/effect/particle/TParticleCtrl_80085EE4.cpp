@@ -1,5 +1,4 @@
 #include "pso/render/render_util.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/effect/particle/TParticleCtrl_80085EE4.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/ChunkMaterialState.h"

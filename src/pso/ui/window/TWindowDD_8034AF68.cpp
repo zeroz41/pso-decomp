@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/frontend/TAdFloorLoadPrtGC.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80086E28.h"

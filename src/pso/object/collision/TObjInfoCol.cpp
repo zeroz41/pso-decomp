@@ -1,5 +1,4 @@
 #include "pso/network/protocol/protocol_types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/ControllerInputState.h"
 #include "types.h"
 #include "pso/object/collision/TObjInfoCol.h"

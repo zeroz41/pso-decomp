@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffGuard.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/vector.h"
@@ -41,5 +40,5 @@ TEffGuard::TEffGuard(const Vec* initial_position) : TEffect() {
 
 void TEffGuard::create(const Vec* position) {
     new TEffGuard(position);
-    play_sound_effect(0x4001AA00, (Vec *)(position), 0, 0);
+    play_sound_effect(0x4001AA00, position, 0, 0);
 }

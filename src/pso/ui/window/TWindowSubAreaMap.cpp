@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubAreaMap.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -36,7 +35,7 @@ struct RecoveredGlobal_802715F0_lbl_8050E208 {
 
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, int, int, int);
 extern RecoveredGlobal_80271480_lbl_8050E208 controller_input_state;
 s32 is_flag_set__11TLoadingCurFv(void *, int);
 s32 is_on_current_screen__11TCameraCtrlFv(int, int);
@@ -47,7 +46,7 @@ void TWindowSubAreaMap::render() {  }
 typedef char RecoveredGlobal_80271480_lbl_8050E208_size[sizeof(RecoveredGlobal_80271480_lbl_8050E208) == 0x1B0 ? 1 : -1];
 void TWindowSubAreaMap::run_task() {
     if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state.value + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 2) != 0)) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         ((VObj_18_204a81 *)(this->m_20))->m7();
     }
 }

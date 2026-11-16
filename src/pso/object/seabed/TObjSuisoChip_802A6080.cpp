@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/seabed/TObjSuisoChip.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSnapShot.h"

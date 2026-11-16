@@ -1,7 +1,6 @@
 #pragma readonly_strings on
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/item/TItemEffFlame.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -18,7 +17,7 @@ static void release_flame(TObject *flame);
 
 void spawn_flame_wall_impact(TObject *parent, TItemEquipBase *weapon, const Vec *from, Vec *hit) {
     spawn_particle_effect(hit, 0x45);
-    play_sound_effect(0x4001C112, (Vec *)(NULL), 0, 0);
+    play_sound_effect(0x4001C112, NULL, 0, 0);
 }
 
 #pragma fp_contract on

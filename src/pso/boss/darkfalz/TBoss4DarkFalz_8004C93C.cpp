@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz_8004C93C.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
@@ -303,7 +302,7 @@ struct RecoveredGlobal_lbl_80485448 { s32 value; u8 remaining[0x8]; };
 extern RecoveredGlobal_lbl_80485448 lbl_80485448;
 void *create__11TBoss4Type2Fl(void *);
 void normalize_vector(Vec *);
-s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 is_timer_expired__14TBoss4DarkFalzFv();
 
 void TBoss4DarkFalz::update_leader_die_type2() {  }
@@ -392,7 +391,7 @@ void TBoss4DarkFalz::start_demo1() {
 
 void TBoss4DarkFalz::spawn_ancient_trap() {
     if (sub_8004D990() > 0) {
-        play_persistent_sound(0x4003A30A, (s32)this, (Vec *)(0), -0x20, 2);
+        play_persistent_sound(0x4003A30A, (s32)this, 0, -0x20, 2);
     }
 }
 
@@ -454,11 +453,11 @@ void TBoss4DarkFalz::update_leader_app_type1() {  }
 void TBoss4DarkFalz::start_effect() {
     ((s32 (*)(void))freeze_all_players__14TBoss4DarkFalzFPv)();
     TLobby::stop_audio_streams();
-    play_sound_effect(0x4003A80B, (Vec *)(0), 0, 0);
+    play_sound_effect(0x4003A80B, 0, 0, 0);
     *(s32 *)((s8 *)this + 0x380) = 0;
 }
 void TBoss4DarkFalz::spawn_trap() {
-    play_persistent_sound(0x4003A30A, (s32)this, (Vec *)(0), -0x18, 2);
+    play_persistent_sound(0x4003A30A, (s32)this, 0, -0x18, 2);
 }
 void TBoss4DarkFalz::check_timeout() {
     if ((is_timer_expired__14TBoss4DarkFalzFv() != 0) || (TBoss4DarkFalz__sub_8004B07C((s32)this) != 0)) {
@@ -466,7 +465,7 @@ void TBoss4DarkFalz::check_timeout() {
     }
 }
 void TBoss4DarkFalz::enter_zako() {
-    play_sound_effect(0x4003AD0C, (Vec *)(0), 0, 0);
+    play_sound_effect(0x4003AD0C, 0, 0, 0);
     TBoss4DarkFalz::end_player_camera_pans(this);
     TBoss4DarkFalz::refresh_player_equipment(this);
     spawn_zako_rings();

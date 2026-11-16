@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffStarLight2D.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/weapon/SpecialProjectileWeapons_80124760.h"
 #include "pso/technique/TTecMegid.h"
 #include "pso/weapon/TUnk_804A204C.h"

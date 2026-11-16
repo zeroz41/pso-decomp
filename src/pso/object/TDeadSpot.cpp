@@ -2,7 +2,6 @@
 #ifndef PSO_TDEADSPOT_H
 #define PSO_TDEADSPOT_H
 #include "pso/system/task/TObject.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/text_803E29B0.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/math/MatrixVector.h"

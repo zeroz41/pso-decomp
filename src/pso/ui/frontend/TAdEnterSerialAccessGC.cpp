@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
@@ -122,7 +121,7 @@ struct SerialAccessEnteredValueTable { s32 value; u8 remaining[0xC]; };
 extern SerialAccessEnteredValueTable serial_access_entered_value_table;
 int serial_to_hex_string__22TAdEnterSerialAccessGCFi(void);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, int, int, int);
 s32 forward_input__22TAdEnterSerialAccessGCFPv(void *, void *, int);
 s32 strlen(int);
 u32 TAdEnterSerialAccessGC__keyboard_control;
@@ -506,7 +505,7 @@ void TAdEnterSerialAccessGC__sub_80321B28(u8 *ad_enter_serial_access_gc, int arg
     if ((((TWindowSubComCard *)TAdEnterSerialAccessGC__keyboard_control)->update_keyboard() != 0) && (forward_input__22TAdEnterSerialAccessGCFPv((void *) ad_enter_serial_access_gc, (void *) arg1, (int) temp_r30) == 0))
     {
       free_menu_object((void *)TAdEnterSerialAccessGC__keyboard_control);
-      play_sound_effect(0x53F06, (Vec *)(0), 0, 0);
+      play_sound_effect(0x53F06, 0, 0, 0);
     }
   }
   temp_r3_8 = *(int *)&((TAdEnterSerialAccessGC *)ad_enter_serial_access_gc)->m_60;

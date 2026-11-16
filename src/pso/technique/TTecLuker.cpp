@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TUnk_804CC9D4.h"
 #include "pso/unk/TLobby_801E43E4.h"
@@ -142,7 +141,7 @@ void TTecLuker__sub_80235048(void* p);
 int TTecLuker__sub_80235054(void* p);
 int fn_80235078(void *arg0);
 u32 get_player_by_client_id(s32);
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, void *, int, int);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 recovery_technique_charge_vtable[];
 u8 *construct_resta_charge_sound(u8 *arg0, s32 arg1, s32 arg2);
@@ -228,7 +227,7 @@ void *TTecLuker__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 s32 mark_area_change_pending();
 s32 send_6x21_inter_level_warp(void *, s32);
 s32 get_floor_map_terrain(s32);
-s32 play_persistent_sound(s32, void *, Vec *, s32, s32);
+s32 play_persistent_sound(s32, void *, void *, s32, s32);
 s32 set_area__6TLobbyFl(s32 *, s32, s32);
 void run_task__9TTecLukerFv(u8 *arg0);
 f32 horizontal_distance_squared(void *, void *);
@@ -280,7 +279,7 @@ u8 *construct_resta_charge_sound(u8 *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0x1C) = arg1;
     VecCopy((Vec *)(arg0 + 0x20), (const Vec *)((int) (*(s32 *)((s8 *)arg0 + 0x1C) + 0x2FC)));
     ((TUnk_804CC990 *)arg0)->m_2c = 0;
-    *(s32 *)((s8 *)arg0 + 0x30) = play_sound_effect(0x4002BC20, (Vec *)(arg0 + 0x20), 0, 0);
+    *(s32 *)((s8 *)arg0 + 0x30) = play_sound_effect(0x4002BC20, arg0 + 0x20, 0, 0);
     return arg0;
 }
 
@@ -773,7 +772,7 @@ void run_task__9TTecLukerFv(u8 *tec_luker) {
             ((TObject *)tec_luker)->queue_destruction();
             return;
         }
-        play_persistent_sound(0x4002B219, tec_luker, (Vec *)(tec_luker + 0xFC), 0, 0);
+        play_persistent_sound(0x4002B219, tec_luker, tec_luker + 0xFC, 0, 0);
         if ((u32) ((TTecLuker *)tec_luker)->m_f0 == 0U) {
             ((TObject *)tec_luker)->queue_destruction();
             return;
@@ -784,7 +783,7 @@ void run_task__9TTecLukerFv(u8 *tec_luker) {
             player = (u8 *)get_player_by_client_id(((TTecLuker *)tec_luker)->m_f6);
             if (player != NULL) {
                 TObjPlayer::play_effect_default((int)player, (int)0xA);
-                play_sound_effect(0x40022D1A, (Vec *)(player + 0x38), 0, 0);
+                play_sound_effect(0x40022D1A, player + 0x38, 0, 0);
             }
             TWindowCtrl::init_all_slots();
             ((TTecLuker *)tec_luker)->m_108 = 2;
@@ -931,7 +930,7 @@ void *TTecLuker__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) 
             }
         }
     }
-    play_sound_effect(0x4002A818, (Vec *)((u8 *)arg0 + 0x20), 0, 0);
+    play_sound_effect(0x4002A818, (u8 *)arg0 + 0x20, 0, 0);
     return arg0;
 }
 #undef L

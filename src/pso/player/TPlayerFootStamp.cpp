@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TPlayerFootStamp.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include <stdlib.h>
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"

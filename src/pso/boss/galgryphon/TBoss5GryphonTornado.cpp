@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/boss/galgryphon/TBoss5GryphonTornado.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
@@ -138,7 +137,7 @@ void TBoss5GryphonTornado::run_task() {
         o->pos.x += o->f34;
         o->pos.z += o->f3C;
         add_radar_scaled_marker(&o->pos, -0x5DB4, 1, 1, lbl_805DFFB8);
-        play_persistent_sound(0x40032D05, o, (Vec *)(&o->pos), 0, 0);
+        play_persistent_sound(0x40032D05, o, &o->pos, 0, 0);
         o->timer++;
         break;
     case 2:

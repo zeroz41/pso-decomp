@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TObjEnemy.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -155,7 +154,7 @@ struct RecoveredFields_800C2AC4_arg0
 
 extern "C" {
 s32 TBoss8Dragon__sub_800BB7D4(void *, int);
-s32 play_sound_effect(void *, Vec *, int, int);
+s32 play_sound_effect(void *, void *, int, int);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 f32 vec3_add_to(void *, void *);
@@ -192,7 +191,7 @@ void fn_800C2AC4(u8 *arg0, int arg1) {
       TBoss8Dragon__sub_800BB7D4((void *) arg0, 0xF2);
       ((RecoveredFields_800C2AC4_arg0 *) arg0)->field_410 = 0;
       ((RecoveredFields_800C2AC4_arg0 *) arg0)->field_424 = (f32) lbl_805D9FAC;
-      play_sound_effect((void *) fn_800C3A60((s32)arg0, 0x4003A812), (Vec *)(arg0 + 0x38), 0, 0);
+      play_sound_effect((void *) fn_800C3A60((s32)arg0, 0x4003A812), arg0 + 0x38, 0, 0);
       TObjPlayer::play_effect_if_v2(-0x200);
       return;
     case 3:

@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80259DB0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_802598E4.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
@@ -8,7 +7,7 @@
 
 extern "C" {
 f32 fabs_float(f32, f32);
-s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 }
 extern s32 lbl_804CF9E0[];
 
@@ -74,7 +73,7 @@ void TWindowSubStatusDisp::update_pb_counter_approach() {
     f32 temp_f30;
     if (*(f32 *)((s8 *)((u8 *)this) + 0x28) != *(f32 *)((s8 *)((u8 *)this) + 0x24)) {
         if (*(u16 *)((s8 *)((u8 *)this) + 0) & 8) {
-            play_persistent_sound(0x44E03, (s32)this, (Vec *)(0), 0, 0);
+            play_persistent_sound(0x44E03, (s32)this, 0, 0, 0);
         }
         temp_f2 = *(f32 *)((s8 *)((u8 *)this) + 0x28);
         temp_f30 = temp_f2 - *(f32 *)((s8 *)((u8 *)this) + 0x24);

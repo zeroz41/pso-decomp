@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/jungle/TORockJungleL01.h"
 #include "pso/object/jungle/TORockJungleM01.h"
 #include "pso/object/jungle/TORockJungleS01.h"
@@ -182,7 +181,7 @@ void TORockJungleS01::vfunc_16() {
 }
 
 void TORockJungleS01::vfunc_18() {
-    play_sound_effect(310297, (Vec *)(&position), 0, 0);
+    play_sound_effect(310297, &position, 0, 0);
 }
 
 const char *TORockJungleM01_name_ref = "TORockJungleM01";
@@ -276,7 +275,7 @@ void TORockJungleM01::vfunc_16() {
 }
 
 void TORockJungleM01::vfunc_18() {
-    play_sound_effect(310297, (Vec *)(&position), 0, 0);
+    play_sound_effect(310297, &position, 0, 0);
 }
 
 void TORockJungleM01::run_task() {

@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/text_80086B64.h"
 #include "pso/system/task/TObject.h"
 struct Ent_800868C4 { u8 data[0x98]; };

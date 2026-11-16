@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/enemy/TUnk_80493450.h"
@@ -129,31 +128,31 @@ void set_matrix_identity(u8 *arg0);
 extern void *beast_claw_trail_instance;
 extern void *boss4_type3_instance;
 extern s32 saved_model_render_flags;
-#define play_sound_effect (*(s32 (*)(s32, Vec *, s32, s32))&play_sound_effect)
+#define play_sound_effect (*(s32 (*)(s32, s32, s32, s32))&play_sound_effect)
 extern "C" void render_shadows__9TObjEnemyFv(u8 *arg0);
 void TObjEneBeast::vfunc_101() {  }
 void TObjEneBeast::vfunc_99() {
     s32 arg0 = (s32)this;
-    play_sound_effect(0x4003E431, (Vec *)(arg0 + 0x38), 0, 0);
+    play_sound_effect(0x4003E431, arg0 + 0x38, 0, 0);
 }
 void TObjEneBeast::vfunc_98() {
     s32 arg0 = (s32)this;
-    play_sound_effect(0x4003AB2D, (Vec *)(arg0 + 0x38), 0, 0);
+    play_sound_effect(0x4003AB2D, arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x200);
 }
 void TObjEneBeast::vfunc_97() {
     s32 arg0 = (s32)this;
-    play_sound_effect(0x4003A32E, (Vec *)(arg0 + 0x38), 0, 0);
+    play_sound_effect(0x4003A32E, arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 void TObjEneBeast::vfunc_96() {
     s32 arg0 = (s32)this;
-    play_sound_effect(0x4003A62F, (Vec *)(arg0 + 0x38), 0, 0);
+    play_sound_effect(0x4003A62F, arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x100);
 }
 void TObjEneBeast::vfunc_95() {
     s32 arg0 = (s32)this;
-    play_sound_effect(0x4003A82C, (Vec *)(arg0 + 0x38), 0, 0);
+    play_sound_effect(0x4003A82C, arg0 + 0x38, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x200);
 }
 
@@ -243,7 +242,7 @@ void TObjEneBeast::vfunc_83() {
             *(s16 *)((s8 *)arg0 + 0xB8) = 0xB;
             ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x0A000000);
             obj_setFlags30(arg0, 0x04000000);
-            play_sound_effect(0x4003AB32, (Vec *)((s32)(arg0 + 0x38)), 0, 0);
+            play_sound_effect(0x4003AB32, (s32)(arg0 + 0x38), 0, 0);
         }
         break;
     case 1:

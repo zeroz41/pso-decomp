@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/window/TWindowAddition.h"
@@ -32,20 +31,20 @@ extern const f32 lbl_805DD1DC;
 extern const f32 lbl_805DD1E0;
 u32 construct_type1_heading__20TWindowSubStatusDispFll(u32, s32, s16);
 s32 TWindowSubComCard__sub_8026906C(void);
-s32 play_sound_effect(s32 a0 = 0, Vec * = 0, s32 a2 = 0, s32 a3 = 0);
+s32 play_sound_effect(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0);
 s32 is_open__13TUnk_804D0658Fv();
 s32 get_array_entry__11TWindowBaseFi(void * a0 = 0, s16 a1 = 0);
 
 void TUnk_804D0658::request_close() {
     if (!(this->m_70 & 8) && (is_open__13TUnk_804D0658Fv() == 0)) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         this->m_70 = (u16) (this->m_70 | 4);
     }
 }
 void TUnk_804D0658::draw() {
     get_array_entry(this->m_74);
     if (TWindowSubComCard__sub_8026906C() == 0) {
-        play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52D01, 0, 0, 0);
         this->m_70 = (u16) (this->m_70 | 2);
         if ((u32) this->m_78 != 0U) {
             ((TWindowSubStatusDisp *)(this->m_78))->set_entry_state(2);
@@ -55,7 +54,7 @@ void TUnk_804D0658::draw() {
 void TUnk_804D0658::move_next_choice() {
     s16 var_r31;
 
-    play_sound_effect(0x54100, (Vec *)(0), 0, 0);
+    play_sound_effect(0x54100, 0, 0, 0);
     var_r31 = this->m_74;
 loop_1:
     var_r31 += 1;
@@ -78,7 +77,7 @@ block_4:
 void TUnk_804D0658::move_cursor_prev() {
     s16 var_r31;
 
-    play_sound_effect(0x54100, (Vec *)(0), 0, 0);
+    play_sound_effect(0x54100, 0, 0, 0);
     var_r31 = this->m_74;
 loop_1:
     var_r31 -= 1;

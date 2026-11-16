@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/quest/TQuestThread.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -670,7 +669,7 @@ void TWindowSubComCard__sub_8007AF10(s32 arg0);
 s32 update_press__17TWindowSubComCardFv(int);
 void TWindowSubShortMail__sub_80131998(void *arg0);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, int, int, int);
 s32 TLobby__sub_8024259C();
 s32 fn_80244958(int, int);
 void fn_802449E0(u8 *arg0);
@@ -1336,7 +1335,7 @@ void run_task__17TWindowSubComCardFv(TWindowSubComCard *window_sub_com_card) {
     case 0x28:
     case 0x34:
         if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)controller_input_state + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)controller_input_state + 0x160), 2) != 0)) {
-            play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+            play_sound_effect(0x52F16, 0, 0, 0);
             window_sub_com_card->m_1c = 1U;
         }
         if (((u32 (*)(void))get_chr_select__17TWindowSubComCardFv)() != 0U) {
@@ -1400,7 +1399,7 @@ void run_task__17TWindowSubComCardFv(TWindowSubComCard *window_sub_com_card) {
         window_sub_com_card->m_1c = 0x2EU;
     case 0x2E:
         if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)controller_input_state + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)controller_input_state + 0x160), 2) != 0)) {
-            play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+            play_sound_effect(0x52F16, 0, 0, 0);
             window_sub_com_card->m_1c = 0x29U;
         }
         if (((u32 (*)(void))get_com_count__17TWindowSubComCardFv)() != 0U) {

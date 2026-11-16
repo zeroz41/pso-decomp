@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/task/TObject.h"
@@ -75,7 +74,7 @@ extern "C" {
 void subtract_vector(void *, void *);
 void normalize_vector(void *);
 void vec3_add_to(void *, void *);
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, void *, int, int);
 void *TObjDFDemo0__entry_table[30] = {
     (void *)0x14b, (void *)0x0, (void *)0x82, (void *)0x0,
     (void *)0x0, (void *)0xc2f00000, (void *)0x14c, (void *)0x50,
@@ -173,29 +172,29 @@ void TBoss3Volopt__sub_8004DA7C(u8 *self) {
     }
     switch (*(s32 *)((s8 *)self + 0x90)) {
     case 0:
-        play_sound_effect(0x4003BC07, (Vec *)(lbl_804854F0), 0, 1);
-        play_sound_effect(0x3C604, (Vec *)(lbl_804854F0), 0, 1);
+        play_sound_effect(0x4003BC07, lbl_804854F0, 0, 1);
+        play_sound_effect(0x3C604, lbl_804854F0, 0, 1);
         start_pad_rumble_all(0xC0, 0xF);
         break;
     case 0x50:
-        play_sound_effect(0x3A805, (Vec *)(0), 0, 0);
+        play_sound_effect(0x3A805, 0, 0, 0);
     case 0x64:
     case 0x78:
-        play_sound_effect(0x4003D006, (Vec *)(lbl_804854F0), 0, 1);
+        play_sound_effect(0x4003D006, lbl_804854F0, 0, 1);
         start_pad_rumble_all(0xC0, 0xF);
         break;
     case 0x8C:
-        play_sound_effect(0x36408, (Vec *)(lbl_804854F0), 0, 1);
+        play_sound_effect(0x36408, lbl_804854F0, 0, 1);
         start_pad_rumble_all(0xC0, 0xF);
         break;
     case 0x92:
-        play_sound_effect(0x3DA03, (Vec *)(lbl_804854F0), 0, 1);
+        play_sound_effect(0x3DA03, lbl_804854F0, 0, 1);
         break;
     case 0xAA:
-        play_sound_effect(0x40039E09, (Vec *)(lbl_804854F0), 0, 1);
+        play_sound_effect(0x40039E09, lbl_804854F0, 0, 1);
         break;
     case 0xC8:
-        play_sound_effect(0x40039E21, (Vec *)(lbl_804854F0), 0, 1);
+        play_sound_effect(0x40039E21, lbl_804854F0, 0, 1);
         start_pad_rumble_all(0xC0, 0xF);
         break;
     }
@@ -322,7 +321,7 @@ Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
     set_scripted_camera_pose(lbl_804854F0, lbl_804854F0, lbl_804854FC);
     lbl_80485508.cache_target_and_forward(0x416C);
     self->f10c = (0.0f);
-    play_sound_effect(0x40039E21, (Vec *)(lbl_804854F0), 0, 1);
+    play_sound_effect(0x40039E21, lbl_804854F0, 0, 1);
     self->f90 = 0;
     return self;
 }

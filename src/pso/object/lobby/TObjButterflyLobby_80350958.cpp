@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/lobby/TObjButterflyLobby.h"
 #include "pso/object/lobby/TObjButterflyLobby_80350958.h"
 #include "pso/unk/text_803D96A8.h"

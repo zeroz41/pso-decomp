@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/MagStats.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/text_8025373C.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -102,7 +101,7 @@ void *fn_802628C0(s32, const f32 *, s32);
 s32 call_if_split_screen(void *, s32);
 s32 update_help_item__13TWindowSubMagFv(void *, s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 s32 are_status_entries_ready__13TWindowSubMagFi(void *);
 void *TWindowSubMagPhoton__ct(void *, s32, s32, s32);
 int TWindowSubMag__sub_8027C0E8(void* p);
@@ -408,7 +407,7 @@ void TWindowSubMag::run_task(void *arg0) {
     case 7:
         if (TWindowShortListCtrl__check_controller_button(controller_input_state[port].sub, 2) != 0 ||
             test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state[4].sub, 2) != 0) {
-            play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+            play_sound_effect(0x52F16, 0, 0, 0);
             self->state = 5;
         } else if (TWindowSubItem::is_usable((s32)player) != 0) {
             self->slots = ((TWindowSubMag *)self)->count_slots();
@@ -436,7 +435,7 @@ void TWindowSubMag::run_task(void *arg0) {
         break;
     case 10:
         if (fn_8025373C((u8 *)self->help) != 0) {
-            play_sound_effect(0x4002A80F, (Vec *)(0), 0, 0);
+            play_sound_effect(0x4002A80F, 0, 0, 0);
             self->timer = 0;
             self->state = 11;
         } else {

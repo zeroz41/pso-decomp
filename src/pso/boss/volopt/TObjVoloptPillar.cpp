@@ -1,7 +1,6 @@
 #pragma fp_contract on
 
 #include "pso/boss/volopt/TObjVoloptPillar.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -148,7 +147,7 @@ void TObjVoloptPillar::run_task() {
                 new TUnk_80484888(&pos, 0x11E, 0xF, NULL, 0.25f, 40.0f);
             }
             TCameraCtrl::set_shake_preset(1);
-            play_sound_effect(0x4003AD09, (Vec *)(&position), 0, 0);
+            play_sound_effect(0x4003AD09, &position, 0, 0);
         }
         break;
     case 3:

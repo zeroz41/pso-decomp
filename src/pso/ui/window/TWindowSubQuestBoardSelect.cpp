@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
@@ -203,19 +202,19 @@ void TWindowSubQuestBoardSelect__sub_8027D444(TWindowSubQuestBoardSelect *self, 
     draw_color_lines(&d, 3, 0x10, depth);
 }
 
-void play_sound_effect(s32, Vec *, s32, s32);
+void play_sound_effect(s32, s32, s32, s32);
 s32 is_open__26TWindowSubQuestBoardSelectFv();
 
 void TWindowSubQuestBoardSelect::handle_cancel() {
     if (is_open__26TWindowSubQuestBoardSelectFv() == 0) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         this->m_60 = (u8) (this->m_60 | 2);
     }
 }
 
 void TWindowSubQuestBoardSelect::handle_decide() {
     if (is_shortcut_active__26TWindowSubQuestBoardSelectFv() == 0) {
-        play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52D01, 0, 0, 0);
         this->m_60 = (u8) (this->m_60 | 1);
     }
 }
@@ -233,7 +232,7 @@ s32 TWindowSubQuestBoardSelect::handle_page_input() {
     if (is_shortcut_active__26TWindowSubQuestBoardSelectFv() == 0 &&
         (TWindowChoiceSetting::apply_choice((s32)(p = TBL_8027D6A0[0].f20), 0xC0, 6, 1) != 0 ||
         TWindowChoiceSetting::apply_choice((s32)TBL_8027D6A0[4].f20, 0xC0, 6, 1) != 0)) {
-        play_sound_effect(0x54100, (Vec *)(0), 0, 0);
+        play_sound_effect(0x54100, 0, 0, 0);
         d = 0;
         if (TWindowChoiceSetting::apply_choice((s32)p, 0x80, 6, 1) != 0 ||
             TWindowChoiceSetting::apply_choice((s32)TBL_8027D6A0[4].f20, 0x80, 6, 1) != 0) {

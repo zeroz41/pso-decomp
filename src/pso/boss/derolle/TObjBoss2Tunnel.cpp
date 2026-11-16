@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/MatrixStack.h"
 #include <string.h>
 #include "pso/ui/window/TWindowBase.h"

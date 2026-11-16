@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/render/ModelDrawContext.h"
@@ -97,7 +96,7 @@ void copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *);
 s32 get_field_20__22TAdMultiPlyChrSelectGCFv();
 s32 lbl_805D67D0;
 s32 lbl_805D67D4;
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, void *, int, int);
 s32 TAdMultiPlyChrSelectGC__sub_802C5F1C(void *);
 extern u8 controller_physical_port_bank[];
 
@@ -506,11 +505,11 @@ void TAdChrSelPlyPlateGC::update_option_cursor() {
     TAdMultiPlyChrSelectGC__sub_802C5F1C(this);
     if (unk_4dc[cursor_col] != 0 && unk_4f8 == 0) {
         if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)WIN_802C6008, 0x10, 6, 1) != 0) {
-            play_sound_effect(0x54100, (Vec *)(0), 0, 0);
+            play_sound_effect(0x54100, 0, 0, 0);
             sel[multi_ply_chr_select_active_player][cursor_col]--;
         }
         if (TAdMultiPlyChrSelectGC::dispatch_draw_command((s32)WIN_802C6008, 0x20, 6, 1) != 0) {
-            play_sound_effect(0x54100, (Vec *)(0), 0, 0);
+            play_sound_effect(0x54100, 0, 0, 0);
             sel[multi_ply_chr_select_active_player][cursor_col]++;
         }
         if (sel[multi_ply_chr_select_active_player][cursor_col] > unk_4dc[cursor_col] - 1) {
@@ -594,7 +593,7 @@ void TAdChrSelPlyPlateGC::move_cursor(s32 x_, s32 y_, s32 dx, s32 dy, s32 depth)
     if (multi_ply_chr_select_slot_table[ny][nx] == 1) {
         x += dx;
         y += dy;
-        play_sound_effect(0x54100, (Vec *)(NULL), 0, 0);
+        play_sound_effect(0x54100, NULL, 0, 0);
         cursor_col = x - 1;
         sel[multi_ply_chr_select_active_player][cursor_col] = y - 1;
         return;
@@ -743,7 +742,7 @@ void TAdMultiPlyChrSelectGC__sub_802C5688(S_802C50EC *self) {
     s32 row = self->sel[multi_ply_chr_select_active_player][self->cursor_col] + 1;
     s32 col = self->cursor_col + 1;
     if (multi_ply_chr_select_slot_table[row][col] == -1) {
-        play_sound_effect(0x53F06, (Vec *)(0), 0, 0);
+        play_sound_effect(0x53F06, 0, 0, 0);
         return;
     }
     multi_ply_chr_select_tag_shown[multi_ply_chr_select_active_player] = 1;

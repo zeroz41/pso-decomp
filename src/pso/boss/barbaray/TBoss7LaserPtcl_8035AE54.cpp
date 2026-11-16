@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/barbaray/TBoss7LaserPtcl_8035AE54.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_80087278.h"

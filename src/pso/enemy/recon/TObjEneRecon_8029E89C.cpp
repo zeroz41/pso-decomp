@@ -1,5 +1,4 @@
 #include "pso/render/reflection.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/enemy/recon/TObjEneRecon_8029E89C.h"
 #include "pso/unk/text_8029E7BC.h"

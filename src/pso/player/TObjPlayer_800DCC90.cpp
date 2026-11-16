@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/nanodrago/TObjEneNanoDrago.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/vector.h"
@@ -49,7 +48,7 @@ struct Me_800DC9EC {
 
 extern "C" { u8 *find_entity_by_id(s16);
 Obj_800DC4B4 *find_active_entity_by_id(u16);
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, void *, int, int);
 s32 subtract_vector(void *, void *);
 s32 vec3_add_to(void *, void *);
 u32 csnVector(void *, void *, int);
@@ -76,7 +75,7 @@ void TUnk_80494E48::run_task() {
             arg0->timer = 0;
             VecCopy((Vec *)&arg0->pos, (const Vec *)arg0->target);
             (*(int *)((u8 *)this + 0xFC)) = 1;
-            play_sound_effect(0x4003A328, (Vec *)(&arg0->pos), 0, 0);
+            play_sound_effect(0x4003A328, &arg0->pos, 0, 0);
             return;
         }
         if (arg0->effect != NULL) {

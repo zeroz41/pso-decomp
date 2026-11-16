@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/technique/TTecKafun.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -17,7 +16,7 @@ const char *tec_kafun_class_name_ptr = "TTecKafun";
 extern "C" {
 void *find_entity_by_id(u16 id);
 u16 get_entity_id(void *);
-s32 play_sound_effect(s32, Vec *, s16, s32);
+s32 play_sound_effect(s32, u32, s16, s32);
 u8 * construct_area_technique_base(void *, s32, s32, s32, s16);
 extern s32 __vt__9TTecKafun[];
 extern const char *tec_kafun_class_name_ptr;
@@ -65,7 +64,7 @@ u8 *TTecKafun__ct(TTecKafun *tec_kafun, s32 arg1, s32 arg2, s32 arg3, s32 arg4, 
     if (temp_r3 != NULL) {
         *(f32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 0xA4)) + 0xC) = farg1;
     }
-    play_sound_effect(0x4002A50A, (Vec *)((u32)((u8 *)tec_kafun + 0x20)), 0, 0);
+    play_sound_effect(0x4002A50A, (u32)((u8 *)tec_kafun + 0x20), 0, 0);
     temp_r3_2 = (u8 *)(*(u8 **)((s8 *)tec_kafun + 0x1C));
     if (temp_r3_2 != NULL) {
         tec_kafun->m_b4 = get_entity_id(temp_r3_2);
@@ -87,7 +86,7 @@ u8 *TTecKafun__sub_802A9948(TTecKafun *tec_kafun, s32 arg1, s32 arg2, s32 arg3, 
     if (temp_r3 != NULL) {
         *(f32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 0xA4)) + 0xC) = farg1;
     }
-    play_sound_effect(0x4002A50A, (Vec *)((u32)((u8 *)tec_kafun + 0x20)), 0, 0);
+    play_sound_effect(0x4002A50A, (u32)((u8 *)tec_kafun + 0x20), 0, 0);
     temp_r3_2 = (u8 *)(*(u8 **)((s8 *)tec_kafun + 0x1C));
     if (temp_r3_2 != NULL) {
         tec_kafun->m_b4 = get_entity_id(temp_r3_2);

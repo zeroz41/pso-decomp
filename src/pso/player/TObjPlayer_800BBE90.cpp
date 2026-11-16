@@ -1,5 +1,4 @@
 #include "pso/system/vector.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/object/base/TObjMotion.h"

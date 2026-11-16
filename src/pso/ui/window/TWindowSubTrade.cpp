@@ -1,6 +1,5 @@
 // ---- pso/ui/window/TWindowSubTrade_802B1AB4
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/object/base/TObjChara.h"
@@ -175,7 +174,7 @@ void __dl__7TObjectFPv(s32);
 s32 __dt__7TObjectFv(void *, int);
 extern s32 __vt__15TWindowSubTrade[];
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, int, int, int);
 extern s32 controller_input_state[];
 
 void TWindowSubTrade::render() {  }
@@ -242,7 +241,7 @@ void TWindowSubTrade::run_task() {
     case 6:
         temp_r5 = temp_r30 * 0x50;
         if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)(((u8 *)controller_input_state + temp_r5)) + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)controller_input_state + 0x160), 2) != 0)) {
-            play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+            play_sound_effect(0x52F16, 0, 0, 0);
             TLobby::cancel_trade();
             this->m_1c = 1U;
         }

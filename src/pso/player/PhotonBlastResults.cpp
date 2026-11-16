@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/mag/TItemMag.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
@@ -417,7 +416,7 @@ void deliver_photon_blast_results_animated(TUnk_804C349C *seq) {
                     }
                 }
                 if (local_client_id == get_entity_id(target)) {
-                    play_sound_effect(0x4002AB0E, (Vec *)(NULL), 0, 0);
+                    play_sound_effect(0x4002AB0E, NULL, 0, 0);
                 }
                 target->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
                 TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags(&target->m_2fc, 0x1F8, 0x10);
@@ -473,9 +472,9 @@ void deliver_photon_blast_results_animated(TUnk_804C349C *seq) {
                 }
                 target->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
                 if (local_client_id == get_entity_id(target)) {
-                    play_sound_effect(0x4002AB10, (Vec *)(NULL), 0, 0);
-                    play_sound_effect(0x4002AD14, (Vec *)(NULL), 0, 0);
-                    play_sound_effect(0x4002AA16, (Vec *)(NULL), 0, 0);
+                    play_sound_effect(0x4002AB10, NULL, 0, 0);
+                    play_sound_effect(0x4002AD14, NULL, 0, 0);
+                    play_sound_effect(0x4002AA16, NULL, 0, 0);
                 }
                 TParticleCtrl *effect = (TParticleCtrl *)create_timed_particle_emitter_with_flags(&target->position, 0x16E, 0, 0xF, 0x10);
                 if (effect != NULL) {
@@ -515,7 +514,7 @@ void deliver_photon_blast_results_delayed(TUnk_804C349C *seq) {
                     }
                 }
                 if (local_client_id == get_entity_id(target)) {
-                    play_sound_effect(0x4002AB0E, (Vec *)(NULL), 0, 0);
+                    play_sound_effect(0x4002AB0E, NULL, 0, 0);
                 }
                 target->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
                 TParticleCtrl *aura = (TParticleCtrl *)spawn_particle_effect_with_flags(&target->m_2fc, 0x1F8, 0x10);
@@ -571,9 +570,9 @@ void deliver_photon_blast_results_delayed(TUnk_804C349C *seq) {
                 }
                 target->receive_direct_attack(seq->owner, payload, NULL, -1, -1);
                 if (local_client_id == get_entity_id(target)) {
-                    play_sound_effect(0x4002AB10, (Vec *)(NULL), 0, 0);
-                    play_sound_effect(0x4002AD14, (Vec *)(NULL), 0, 0);
-                    play_sound_effect(0x4002AA16, (Vec *)(NULL), 0, 0);
+                    play_sound_effect(0x4002AB10, NULL, 0, 0);
+                    play_sound_effect(0x4002AD14, NULL, 0, 0);
+                    play_sound_effect(0x4002AA16, NULL, 0, 0);
                 }
                 TParticleCtrl *effect = (TParticleCtrl *)create_timed_particle_emitter_with_flags(&target->position, 0x16E, 0, 0xF, 0x10);
                 if (effect != NULL) {
@@ -695,7 +694,7 @@ void TUnk_804C349C::step_photon_blast_sequence() {
         this->state = 0;
         break;
     case 2:
-        play_sound_effect(0x40021927, (Vec *)(&this->position), 0, 0);
+        play_sound_effect(0x40021927, &this->position, 0, 0);
         deliver_photon_blast_results_animated(this);
         this->queue_destruction();
         break;
@@ -818,7 +817,7 @@ TUnk_804C349C::TUnk_804C349C(s32 owner_client_id, u8 *players, s32 *counts, s32 
         TObjPlayer__sub_8024ABDC(local_client_id);
         if (owner != NULL) {
             VecCopy(&position, &owner->position);
-            play_sound_effect(0x40021927, (Vec *)(&position), 0, 0);
+            play_sound_effect(0x40021927, &position, 0, 0);
         }
         clear_photon_blast_hits();
     } else {

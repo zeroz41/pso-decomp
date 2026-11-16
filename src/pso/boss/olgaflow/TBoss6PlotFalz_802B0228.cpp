@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/boss/olgaflow/Boss6Type1Appearance.h"
 #include "pso/boss/olgaflow/Boss6Type2Appearance.h"
@@ -40,7 +39,7 @@ void TBoss6PlotFalz::sub_802B0A34() { *(s32*)((char*)this + 0x3d0) = 0; *(s32*)(
 void TBoss6PlotFalz::advance_if_ready() { if (is_ready__14TBoss6PlotFalzFv(this) != 0) { send_6xA3_action((s8)((void*)2)); } }
 void TBoss6PlotFalz::advance_intro_timer() {
     if ((s32) *(s32 *)((s8 *)this + 0x3CC) == 0x69) {
-        play_sound_effect(0x40030F00, (Vec *)(0), 0, 0);
+        play_sound_effect(0x40030F00, 0, 0, 0);
     }
     *(s32 *)((s8 *)this + 0x3CC) = (s32) (*(s32 *)((s8 *)this + 0x3CC) + 1);
     if ((s32) *(s32 *)((s8 *)this + 0x3CC) > 0x12C) {

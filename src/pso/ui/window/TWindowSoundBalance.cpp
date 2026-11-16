@@ -1,5 +1,4 @@
 #include "pso/system/ControllerInputState.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/unk/TLobby_80226070.h"
@@ -56,7 +55,7 @@ WindowDescriptor window_sound_balance_settings = {
 
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 SoundBalanceSettings *get_global_state__23TAdSinglePlyChrSelectGCFv();
 u32 calc_text_width();
 u8 *get_array_entry__11TWindowBaseFi(void *, s32);
@@ -95,14 +94,14 @@ void TWindowSoundBalance::apply_balance(void *window_key_board_soft) {
 
 void TWindowSoundBalance::handle_cancel() {
     if (is_active() == 0) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         this->m_60 = (u8) (this->m_60 | 2);
     }
 }
 
 
 void TWindowSoundBalance::play_open_sound() {
-    play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+    play_sound_effect(0x52D01, 0, 0, 0);
     this->m_60 = (u8) (this->m_60 | 1);
 }
 
@@ -145,7 +144,7 @@ void TWindowSoundBalance::handle_lr_input() {
     u8 *input;
     input = (u8 *)&controller_input_state.controllers[0];
     if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x30, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state.keyboard)), 0x30, 6, 1) != 0)) {
-        play_sound_effect(0x54100, (Vec *)((s32)(0U)), 0, 0);
+        play_sound_effect(0x54100, (s32)(0U), 0, 0);
         if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state.keyboard)), 0x10, 6, 1) != 0)) {
             this->selection = (this->selection - 1);
         }

@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/player/TObjPlayer_8011C000.h"
 #include "pso/item/drop/TItemDrop_80105D0C.h"
 #include "pso/item/TItem.h"
@@ -89,7 +88,7 @@ s32 __cvt_fp2unsigned(f32);
 s32 get_item_star_count(s32 id);
 Entry_8011CB18 *get_weapon_range_record(Item_8011CB18 *item, s16 mode);
 void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, void *, s32, s32);
 void play_weapon_owner_sounds(Ctx_8011C7C8 *c);
 void play_weapon_hit_sound(Ctx_8011C7C8 *c);
 u16 get_entity_id(void *);
@@ -300,7 +299,7 @@ void play_shield_sound_cue(Obj_8011C59C *arg0) {
         off = ((idx & 0x7f) * 2 + 1) * 4;
         pos = arg0->ptr + 0x38;
         if (a != 0) {
-            s32 r = play_sound_effect(a, (Vec *)(pos), 0, 0);
+            s32 r = play_sound_effect(a, pos, 0, 0);
             if (*(s32 *)(tbl + off) != 0) {
                 update_technique_slot__10TTecRaFoieFl(r, *(s32 *)(tbl + off), 0);
             }
@@ -360,7 +359,7 @@ void play_weapon_hit_sound(Ctx_8011C7C8 *c) {
                 }
             }
             if (k != 0) {
-                s32 handle = play_sound_effect(k, (Vec *)(pos), 0, 0);
+                s32 handle = play_sound_effect(k, pos, 0, 0);
                 if (p != 0) {
                     update_technique_slot__10TTecRaFoieFl(handle, p, 0);
                 }
@@ -391,7 +390,7 @@ void play_weapon_owner_sounds(Ctx_8011C7C8 *c) {
             s32 k = key[i];
             s32 p = pitch[i];
             if (k != 0) {
-                s32 handle = play_sound_effect(k, (Vec *)(pos), 0, 0);
+                s32 handle = play_sound_effect(k, pos, 0, 0);
                 if (p != 0) {
                     update_technique_slot__10TTecRaFoieFl(handle, p, 0);
                 }

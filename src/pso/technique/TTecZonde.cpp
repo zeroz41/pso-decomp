@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecZonde.h"
@@ -157,7 +156,7 @@ void TTecZonde::render() {  }
 
 void *find_entity_by_id(u16 id);
 void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, void *, s32, s32);
 u8 *construct_helper_effect__11TTecGiZondeFPvPvPvPvi(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4);
 s32 rand();
 f32 vector_length(void *);
@@ -270,29 +269,29 @@ void TTecZonde::run_task() {
             s32 h;
             switch (self->level) {
             case 0:
-                h = play_sound_effect(0x4002A408, (Vec *)(&t->x), 0, 0);
+                h = play_sound_effect(0x4002A408, &t->x, 0, 0);
                 if (h >= 0) {
                     update_technique_slot__10TTecRaFoieFl(h, 0x100, 0);
                 }
                 break;
             case 1:
-                play_sound_effect(0x4002A408, (Vec *)(&t->x), 0, 0);
+                play_sound_effect(0x4002A408, &t->x, 0, 0);
                 break;
             case 2:
             case 3:
-                h = play_sound_effect(0x4002A408, (Vec *)(&t->x), 0, 0);
+                h = play_sound_effect(0x4002A408, &t->x, 0, 0);
                 if (h >= 0) {
                     update_technique_slot__10TTecRaFoieFl(h, -0x180, 0);
                 }
                 break;
             case 4:
-                h = play_sound_effect(0x4002A408, (Vec *)(&t->x), 0, 0);
+                h = play_sound_effect(0x4002A408, &t->x, 0, 0);
                 if (h >= 0) {
                     update_technique_slot__10TTecRaFoieFl(h, -0x250, 0);
                 }
                 break;
             case 5:
-                h = play_sound_effect(0x4002A408, (Vec *)(&t->x), 0, 0);
+                h = play_sound_effect(0x4002A408, &t->x, 0, 0);
                 if (h >= 0) {
                     update_technique_slot__10TTecRaFoieFl(h, -0x100, 0);
                 }

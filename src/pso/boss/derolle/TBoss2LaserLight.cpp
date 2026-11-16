@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/boss/derolle/TBoss2LaserLight.h"
 #include "pso/boss/TUnk_80482C58.h"

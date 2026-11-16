@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_EffCurse3.h"
 
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -125,7 +124,7 @@ void TObjEneRe2Flower__sub_800C2E64(Obj_800C2E64 *self, s32 state);
 s32 get_flag_b4__9TObjEneDDFv();
 s32 TBoss8Dragon__sub_800BB7D4(void *, int);
 s32 fn_800C3A60(void *, s32);
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, void *, s32, s32);
 #define F(T, o) (*(T *)((s8 *)(arg0) + (o)))
 void TObjEneDD::state_damaged(s32 arg1) {
     u8 *arg0 = (u8 *)this;
@@ -136,7 +135,7 @@ void TObjEneDD::state_damaged(s32 arg1) {
         ((TObjEneRe2Flower *)arg0)->clear_child_flags();
         F(s32, 0x3C4) &= ~8;
         TBoss8Dragon__sub_800BB7D4(arg0, 0xF2);
-        play_sound_effect(fn_800C3A60(arg0, 0x4003AB13), (Vec *)((u8 *)&this->position), 0, 0);
+        play_sound_effect(fn_800C3A60(arg0, 0x4003AB13), (u8 *)&this->position, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x200);
         break;
     case 3:
@@ -193,7 +192,7 @@ void TObjEneRe2Flower__sub_800C2E64(Obj_800C2E64 *self, s32 state) {
                 void *m = (void *)new TObjEneRe2Flower_EffCurse3((s32)self, (s32)t);
                 F(self, u8 *, 0x390) = t;
                 F(self, s32, 0x414) = 1;
-                play_sound_effect(fn_800C3A60(self, 0x4003A50F), (Vec *)((u8 *)self + 0x38), 0, 0);
+                play_sound_effect(fn_800C3A60(self, 0x4003A50F), (u8 *)self + 0x38, 0, 0);
                 TObjPlayer::play_effect_if_v2(-0x200);
             }
         } else if (F(self, s32, 0x410) == 0x19 && F(self, s32, 0x414) != 0 &&

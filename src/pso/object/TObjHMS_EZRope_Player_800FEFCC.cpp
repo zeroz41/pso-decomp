@@ -1,5 +1,4 @@
 #include "pso/render/ChunkMaterialState.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/TObjHMS_EZRope_Player_800FEFCC.h"
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"

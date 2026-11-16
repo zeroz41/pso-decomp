@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjLuker.h"
@@ -84,7 +83,7 @@ struct Luker_801A1260
 };
 
 extern "C" {
-s32 play_sound_effect(s32, Vec *, s16, s32);
+s32 play_sound_effect(s32, u32, s16, s32);
 void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self);
 Ctrl_801A0E38 *get_player_by_client_id(u16 id);
 s32 is_split_screen(void);
@@ -100,7 +99,7 @@ extern const char *TObjLuker__name;
 void *TObjLuker__ct(void *arg0, void *arg1, void *arg2);
 f32 horizontal_distance_squared(void *, void *);
 s32 check_flag_100__10TObjPlayerFPv(void *);
-s32 play_persistent_sound(int, void *, Vec *, int, int);
+s32 play_persistent_sound(int, void *, void *, int, int);
 s32 TTecLuker__sub_8023401C(void *);
 void *create_telepipe_visual(void *, void *, int, int);
 s32 get_entity_id(int);
@@ -131,7 +130,7 @@ void TObjLuker::show_part(s32 arg1) {
     temp_r3 = (u8 *)(*(u8 **)((s8 *)temp_r31 + 0x90));
     if (temp_r3 != NULL) {
         if (*(u16 *)((s8 *)temp_r3 + 4) & 4) {
-            play_sound_effect(0x53703, (Vec *)(0U), 0, 0);
+            play_sound_effect(0x53703, 0U, 0, 0);
         }
         ((TQuestVmDownLoadServer *)(*(u8 **)((s8 *)temp_r31 + 0x90)))->clear_flag4_bit4();
         ((TObject *)(*(u8 **)((s8 *)temp_r31 + 0x90)))->allow_rendering();
@@ -164,7 +163,7 @@ void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self) {
     for (i = 0; i < 4; i++) {
         if (self->wins[i] != 0) {
             if (!(self->wins[i]->flags & 4)) {
-                play_sound_effect(0x53704, (Vec *)(0), 0, 0);
+                play_sound_effect(0x53704, 0, 0, 0);
             }
             ((TObject *)(self->wins[i]))->suspend_update();
             ((TObject *)self->wins[i])->disallow_rendering();
@@ -416,7 +415,7 @@ void TObjLuker::run_task() {
                 *(void * *)&this->m_a4 = o;
                 *(s32 *)&this->m_b4 = 0;
             }
-            play_persistent_sound(0x4002B219, arg0, (Vec *)((u8 *)&this->position), 0, 0);
+            play_persistent_sound(0x4002B219, arg0, (u8 *)&this->position, 0, 0);
             switch (this->m_b0) {
             case 0:
                 sp8 = 0;
@@ -441,7 +440,7 @@ void TObjLuker::run_task() {
                         p = PBC_801A1418(local_client_id);
                         if (p != NULL) {
                             TObjPlayer::play_effect_default((int)p, (int)0xA);
-                            play_sound_effect(0x40022D1A, (Vec *)((u32)(arg0 + 0x38)), 0, 0);
+                            play_sound_effect(0x40022D1A, (u32)(arg0 + 0x38), 0, 0);
                         }
                         TWindowCtrl::init_all_slots();
                         *(s32 *)&this->m_b8 = 1;

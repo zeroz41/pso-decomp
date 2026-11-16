@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/unk/TUnk_804CCBC0.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"

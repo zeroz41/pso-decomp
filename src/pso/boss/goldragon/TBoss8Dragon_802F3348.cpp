@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/goldragon/TBoss8Dragon_802F3348.h"
 #include "pso/unk/TLobby_8007C550.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"

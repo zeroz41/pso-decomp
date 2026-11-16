@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/render/render_util.h"
 #include "pso/boss/olgaflow/TBoss6Tube.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
@@ -39,7 +38,7 @@ f32 TBoss6Tube__scroll_delta;
 void get_bml_model(s32, s32);
 s32 query_teammate_state__9TObjEneDDFv(void);
 void draw_ginja_object(void);
-s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 
 void TBoss6Tube::render() {
     TBoss6Tube_802B1020 *o = (TBoss6Tube_802B1020 *)this;
@@ -151,7 +150,7 @@ void TBoss6Tube::update_wobble() {
 void TBoss6Tube::spawn_trap() {
     s32 arg0 = (s32)this;
     TBoss6Tube__sub_802B129C((u8 *)arg0);
-    play_persistent_sound(0x40033520, arg0, (Vec *)(0), 0, 0);
+    play_persistent_sound(0x40033520, arg0, 0, 0, 0);
 }
 
 void TBoss6Tube::update_timer() {
@@ -159,7 +158,7 @@ void TBoss6Tube::update_timer() {
     if ((s32) this->m_20 >= 0x10E) {
         this->m_20 = 0;
         this->m_1c = 1;
-        play_sound_effect(0x4003351F, (Vec *)(0), 0, 0);
+        play_sound_effect(0x4003351F, 0, 0, 0);
         TCameraCtrl::set_shake_preset(2);
     }
 }

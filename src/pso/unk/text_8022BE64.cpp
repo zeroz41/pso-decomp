@@ -2,7 +2,6 @@
 #pragma push
 
 #include "pso/render/render_util.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/text_8022BE64.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"

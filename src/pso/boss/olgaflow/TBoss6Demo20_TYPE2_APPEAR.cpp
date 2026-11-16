@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/camera/CameraPlayback.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/PadRumble.h"
@@ -206,19 +205,19 @@ void run_task__25TBoss6Demo20_TYPE2_APPEARFv(O_8033D6DC *self) {
     }
     switch (self->frame) {
     case 0xE:
-        play_sound_effect(0x40039E28, (Vec *)(0), 0, 0);
+        play_sound_effect(0x40039E28, 0, 0, 0);
         break;
     case 0x72:
-        play_sound_effect(0x4003A129, (Vec *)(0), 0, 0);
+        play_sound_effect(0x4003A129, 0, 0, 0);
         break;
     case 0xEE:
-        play_sound_effect(0x4003972A, (Vec *)(0), 0, 0);
+        play_sound_effect(0x4003972A, 0, 0, 0);
         break;
     case 0x11D:
-        play_sound_effect(0x40031C2B, (Vec *)(0), 0, 0);
+        play_sound_effect(0x40031C2B, 0, 0, 0);
         break;
     }
-    play_persistent_sound(0x4003C627, (s32)self, (Vec *)(0), 0, 0);
+    play_persistent_sound(0x4003C627, (s32)self, 0, 0, 0);
     switch (self->frame) {
     case 0xB9:
         spawn_particle_effect_with_flags(self->obj40, 0x220, 0x40);

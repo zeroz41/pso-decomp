@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/TUnk_804CC794.h"
 
 #include "pso/system/vector.h"
@@ -13,7 +12,7 @@ extern "C" {
 u32 fire_technique_charge_effect_ids[3] = {0x3C, 0x3D, 0x3E};
 void TObjLight__updateFireTechniqueCharge(TechniqueChargeEmitter* state);
 void *__dt__13TUnk_804CC794Fv(void *arg0, s16 arg1);
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, void *, int, int);
 void stop_sound_request(s32 idx);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
@@ -46,5 +45,5 @@ TUnk_804CC794::TUnk_804CC794(s32 arg1, s32 arg2) : TObject((TObject *)((void *)a
     *(s32 *)((s8 *)this + 0x1C) = arg1;
     VecCopy((Vec *)(((u8 *)this) + 0x20), (const Vec *)(*(s32 *)((s8 *)this + 0x1C) + 0x2FC));
     this->m_2c = 0;
-    *(s32 *)((s8 *)this + 0x30) = play_sound_effect(0x4002B21C, (Vec *)(((u8 *)this) + 0x20), 0, 0);
+    *(s32 *)((s8 *)this + 0x30) = play_sound_effect(0x4002B21C, ((u8 *)this) + 0x20, 0, 0);
 }

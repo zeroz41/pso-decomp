@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/trap/TOExplosiveMachine.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/trap/TOExplosiveMachine01.h"
 #include "pso/object/trap/TOExplosiveMachine02.h"
 #include "pso/object/trap/TOExplosiveMachine03.h"

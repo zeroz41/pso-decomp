@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/effect/TUnk_804CC148.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/technique/TTecRaFoie.h"
@@ -70,8 +69,8 @@ s32 is_valid_and_active__10TObjPlayerFUl(int);
 extern void *technique_effect_bml;
 extern void *lbl_805D63B0;
 
-s32 play_sound_effect(s32 id, Vec *, s32 a, s32 b);
-#define play_sound_effect ((s32 (*)(s32, Vec *, s32, s32))play_sound_effect)
+s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
+#define play_sound_effect ((s32 (*)(s32, s32, s32, s32))play_sound_effect)
 void update_technique_slot__10TTecRaFoieFl(s32 handle, s32 pitch, s32 c);
 
 struct RecoveredGlobal_80238388_lbl_8044DAF0 {
@@ -126,29 +125,29 @@ void TTecRaFoie::vfunc_9() {
 
     switch (*(s16 *)&this->unk_7A) {
     case 0:
-        handle = play_sound_effect(0x4002A602, (Vec *)((int)(arg0 + 0x7C)), 0, 0);
+        handle = play_sound_effect(0x4002A602, (int)(arg0 + 0x7C), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, 0x100, 0);
         }
         return;
     case 1:
-        play_sound_effect(0x4002A602, (Vec *)((int)(arg0 + 0x7C)), 0, 0);
+        play_sound_effect(0x4002A602, (int)(arg0 + 0x7C), 0, 0);
         return;
     case 2:
     case 3:
-        handle = play_sound_effect(0x4002A602, (Vec *)((int)(arg0 + 0x7C)), 0, 0);
+        handle = play_sound_effect(0x4002A602, (int)(arg0 + 0x7C), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x180, 0);
         }
         break;
     case 4:
-        handle = play_sound_effect(0x4002A602, (Vec *)((int)(arg0 + 0x7C)), 0, 0);
+        handle = play_sound_effect(0x4002A602, (int)(arg0 + 0x7C), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x250, 0);
         }
         break;
     case 5:
-        handle = play_sound_effect(0x4002A602, (Vec *)((int)(arg0 + 0x7C)), 0, 0);
+        handle = play_sound_effect(0x4002A602, (int)(arg0 + 0x7C), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x100, 0);
         }
@@ -465,7 +464,7 @@ struct Sub_80238AE8 { u8 pad[0xA4]; u8 *inner; };
 extern "C" {
 void run_task__10TTecRaFoieFv(TTecRaFoie *arg0);
 void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, void *, s32, s32);
 extern s32 tl_particle;
 s32 __ct__7TObjectFP7TObject(void *, void *);
 u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, s32 arg3, f32 farg0);
@@ -587,29 +586,29 @@ void TTecRaFoie::update_detonation(void *arg1) {
     }
     switch (self->band) {
     case 0:
-        h = play_sound_effect(0x4002A803, (Vec *)(self->target), 0, 0);
+        h = play_sound_effect(0x4002A803, self->target, 0, 0);
         if (h >= 0) {
             update_technique_slot__10TTecRaFoieFl(h, 0x100, 0);
         }
         break;
     case 1:
-        play_sound_effect(0x4002A803, (Vec *)(self->target), 0, 0);
+        play_sound_effect(0x4002A803, self->target, 0, 0);
         break;
     case 2:
     case 3:
-        h = play_sound_effect(0x4002A803, (Vec *)(self->target), 0, 0);
+        h = play_sound_effect(0x4002A803, self->target, 0, 0);
         if (h >= 0) {
             update_technique_slot__10TTecRaFoieFl(h, -0x180, 0);
         }
         break;
     case 4:
-        h = play_sound_effect(0x4002A803, (Vec *)(self->target), 0, 0);
+        h = play_sound_effect(0x4002A803, self->target, 0, 0);
         if (h >= 0) {
             update_technique_slot__10TTecRaFoieFl(h, -0x250, 0);
         }
         break;
     case 5:
-        h = play_sound_effect(0x4002A803, (Vec *)(self->target), 0, 0);
+        h = play_sound_effect(0x4002A803, self->target, 0, 0);
         if (h >= 0) {
             update_technique_slot__10TTecRaFoieFl(h, -0x100, 0);
         }

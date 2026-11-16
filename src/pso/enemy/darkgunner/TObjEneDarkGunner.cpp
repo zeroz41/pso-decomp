@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin_EffLineFade.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/enemy/darkgunner/TObjEneDarkGunner.h"

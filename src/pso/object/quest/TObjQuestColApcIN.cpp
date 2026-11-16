@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/object/quest/TObjQuestColApcIN.h"

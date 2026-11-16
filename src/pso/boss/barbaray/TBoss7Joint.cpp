@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/barbaray/TBoss7Joint.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/SoundEffect.h"

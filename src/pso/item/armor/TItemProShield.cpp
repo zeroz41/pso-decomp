@@ -1,5 +1,4 @@
 #include "pso/item/drop/TItemDrop_800F93F0.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/item/TItemData.h"
@@ -138,7 +137,7 @@ void TItemProShield::on_equip() {
     u8 index;
     void *event;
     if (is_hidden() == 0) {
-        play_sound_effect(0x4000B20A, (Vec *)(&owner->position), 0, 0);
+        play_sound_effect(0x4000B20A, &owner->position, 0, 0);
     }
     if (effect_objects != NULL) {
         index = get_item_index();

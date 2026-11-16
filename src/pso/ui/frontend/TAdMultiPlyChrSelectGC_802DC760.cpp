@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802DBCC4.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -23,7 +22,7 @@ struct Ent_802DC8A0 { u8 d[0x50]; };
 struct Pair_802DC8A0 { u8 d[8]; };
 
 extern "C" {
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 s32 TAdMultiPlyChrSelectGC__sub_802C5A44(int, void *, int);
 extern RecoveredGlobal_802DCA20_lbl_804727E8 multi_chr_select_item_rect_table;
 extern s32 controller_physical_port_bank[];
@@ -31,7 +30,7 @@ s32 get_instance__22TAdMultiPlyChrSelectGCFv(s32);
 void TAdMultiPlyChrSelectGC::update_input_state() {
 
     if (TWindowShortListCtrl__check_controller_button((s8 *)controller_physical_port_bank + 0x20, 2) != 0) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         if ((u32) this->m_94 != 0U) {
             ((TWindowSubComCard *)(*(void * *)&this->m_94))->close();
             this->m_94 = 0U;
@@ -81,7 +80,7 @@ void TAdMultiPlyChrSelectGC__sub_802DC8A0(void *arg0) {
         *(u32 *)((s8 *)arg0 + 0x84) = 0U;
     }
     if (TWindowShortListCtrl__check_controller_button(((Ent_802DC8A0 *)controller_physical_port_bank)[get_instance__22TAdMultiPlyChrSelectGCFv(*(s32 *)((s8 *)arg0 + 0x5C))].d + 0x20, 2) != 0) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)arg0 + 0x28) = 0x1B;
         *(s32 *)((s8 *)arg0 + 0x20) = 0x1A;
         return;
@@ -117,7 +116,7 @@ void TAdMultiPlyChrSelectGC__sub_802DC8A0(void *arg0) {
 void TAdMultiPlyChrSelectGC__sub_802DCA20(u8 *arg0) {
     ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x60)))->set_index_and_close_status(2);
     if (TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_physical_port_bank + 0x20)), 2) != 0) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)arg0 + 0x28) = 0x1B;
         *(s32 *)((s8 *)arg0 + 0x20) = 0x1A;
         return;

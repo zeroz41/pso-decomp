@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/darkfalz/TObjDFDemo4.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
@@ -123,11 +122,11 @@ void TObjDFDemo4::run_task() {
         if ((fx = (TParticleCtrl *)spawn_particle_effect(&pos, 0x17A)) != NULL) {
             fx->set_flags(0x40);
         }
-        play_sound_effect(0x40039E09, (Vec *)(&pos), 0, 1);
+        play_sound_effect(0x40039E09, &pos, 0, 1);
         start_pad_rumble_all(0xC0, 0xF);
     }
     if (timer == 0x72) {
-        play_sound_effect(0x4003B227, (Vec *)(&pos), 0, 1);
+        play_sound_effect(0x4003B227, &pos, 0, 1);
     }
     if (timer >= 0xAA) {
         TParticleCtrl **p = &particle_emitters[0];

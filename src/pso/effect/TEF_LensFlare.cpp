@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/effect/TEF_LensFlare.h"
 #include "pso/effect/TEF_PvrWave.h"
 #include "pso/camera/TCameraCtrl.h"

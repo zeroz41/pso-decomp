@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/technique/TTecBarta.h"
 #include "pso/effect/TUnk_804CC148.h"
@@ -162,7 +161,7 @@ void *mem_alloc(u32 size);
 s32 get_type__10TObjPlayerFPv(void *);
 List_8022BD74 *find_area_contact__13TUnk_804CC148Fl(Tec_8022BD74 *, void *);
 List_8022BD74 *collect_body_contacts_for_target__10TObjPlayerFl(Tec_8022BD74 *, void *);
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 
 void TTecBarta::update_technique_by_state() {
@@ -171,29 +170,29 @@ void TTecBarta::update_technique_by_state() {
 
     switch (this->band) {
     case 0:
-        handle = play_sound_effect(0x4002A604, (Vec *)((int)(arg0 + 0x20)), 0, 0);
+        handle = play_sound_effect(0x4002A604, (int)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, 0x100, 0);
         }
         return;
     case 1:
-        play_sound_effect(0x4002A604, (Vec *)((int)(arg0 + 0x20)), 0, 0);
+        play_sound_effect(0x4002A604, (int)(arg0 + 0x20), 0, 0);
         return;
     case 2:
     case 3:
-        handle = play_sound_effect(0x4002A604, (Vec *)((int)(arg0 + 0x20)), 0, 0);
+        handle = play_sound_effect(0x4002A604, (int)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x180, 0);
         }
         break;
     case 4:
-        handle = play_sound_effect(0x4002A604, (Vec *)((int)(arg0 + 0x20)), 0, 0);
+        handle = play_sound_effect(0x4002A604, (int)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x250, 0);
         }
         break;
     case 5:
-        handle = play_sound_effect(0x4002A604, (Vec *)((int)(arg0 + 0x20)), 0, 0);
+        handle = play_sound_effect(0x4002A604, (int)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x100, 0);
         }

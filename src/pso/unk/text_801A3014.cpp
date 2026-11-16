@@ -1,5 +1,4 @@
 #include "pso/system/task/TMainTask.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/unk/text_801A3014.h"
 #include "pso/unk/TLobby_800FD78C.h"

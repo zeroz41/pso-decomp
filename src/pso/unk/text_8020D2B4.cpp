@@ -1,5 +1,4 @@
 #include "pso/object/base/ObjectFactoryTables.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/map/FloorArea.h"
 

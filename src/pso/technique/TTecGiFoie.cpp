@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/technique/TTecGiFoie.h"
 #include "pso/system/task/TObject.h"
@@ -169,7 +168,7 @@ void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
 void * find_entity_by_id(u16);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, void *, s32, s32);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 void __ct__7TObjectFP7TObject(void *, void *);
@@ -251,35 +250,35 @@ void *TTecGiFoie__ct(void *self_, void *source, void *origin, void *level) {
     }
     switch (self->band) {
     case 0:
-        r = play_sound_effect(0x4002A801, (Vec *)((u8 *)self_ + 0x20), 0, 0);
+        r = play_sound_effect(0x4002A801, (u8 *)self_ + 0x20, 0, 0);
         if (r >= 0) {
             update_technique_slot__10TTecRaFoieFl(r, 0x100, 0);
         }
         break;
     case 1:
-        play_sound_effect(0x4002A801, (Vec *)((u8 *)self_ + 0x20), 0, 0);
+        play_sound_effect(0x4002A801, (u8 *)self_ + 0x20, 0, 0);
         break;
     case 2:
     case 3:
-        r = play_sound_effect(0x4002A801, (Vec *)((u8 *)self_ + 0x20), 0, 0);
+        r = play_sound_effect(0x4002A801, (u8 *)self_ + 0x20, 0, 0);
         if (r >= 0) {
             update_technique_slot__10TTecRaFoieFl(r, -0x180, 0);
         }
         break;
     case 4:
-        r = play_sound_effect(0x4002A801, (Vec *)((u8 *)self_ + 0x20), 0, 0);
+        r = play_sound_effect(0x4002A801, (u8 *)self_ + 0x20, 0, 0);
         if (r >= 0) {
             update_technique_slot__10TTecRaFoieFl(r, -0x250, 0);
         }
         break;
     case 5:
-        r = play_sound_effect(0x4002A801, (Vec *)((u8 *)self_ + 0x20), 0, 0);
+        r = play_sound_effect(0x4002A801, (u8 *)self_ + 0x20, 0, 0);
         if (r >= 0) {
             update_technique_slot__10TTecRaFoieFl(r, -0x100, 0);
         }
         break;
     default:
-        play_sound_effect(0x4002A801, (Vec *)((u8 *)self_ + 0x20), 0, 0);
+        play_sound_effect(0x4002A801, (u8 *)self_ + 0x20, 0, 0);
         break;
     }
     if (self->source != NULL) {

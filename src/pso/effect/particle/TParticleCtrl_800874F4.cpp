@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/effect/particle/ParticleRadial.h"
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"

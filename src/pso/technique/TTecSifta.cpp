@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/technique/TTecSifta.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/effect/TUnk_804CCC68.h"
@@ -74,7 +73,7 @@ extern s32 __vt__9TTecSifta[];
 extern const char *TTecSifta__name;
 u8 *TTecSifta__sub_8023B17C(TTecSifta *arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, void *, int, int);
 s32 is_split_screen();
 void *find_entity_by_id(u16 id);
 void deliver_technique_to_party_targets(void *);
@@ -92,18 +91,18 @@ void TTecSifta::play_sifta_cast_sound() {
     switch (*(s16 *)&this->m_a6) {
     case 0:
     case 1:
-        r = play_sound_effect(0x4002AD14, (Vec *)((u8 *)arg0 + 0x20), 0, 0);
+        r = play_sound_effect(0x4002AD14, (u8 *)arg0 + 0x20, 0, 0);
         if (r >= 0) {
             update_technique_slot__10TTecRaFoieFl(r, 0x100, 0);
         }
         break;
     case 2:
     case 3:
-        play_sound_effect(0x4002AD14, (Vec *)((u8 *)arg0 + 0x20), 0, 0);
+        play_sound_effect(0x4002AD14, (u8 *)arg0 + 0x20, 0, 0);
         break;
     case 4:
     case 5:
-        r = play_sound_effect(0x4002AD14, (Vec *)((u8 *)arg0 + 0x20), 0, 0);
+        r = play_sound_effect(0x4002AD14, (u8 *)arg0 + 0x20, 0, 0);
         if (r >= 0) {
             update_technique_slot__10TTecRaFoieFl(r, -0x100, 0);
         }

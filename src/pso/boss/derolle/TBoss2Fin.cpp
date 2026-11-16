@@ -1,5 +1,4 @@
 #include "pso/boss/derolle/TBoss2Fin.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/vector.h"
 #include "pso/object/TObjEZRopeBase.h"
 #include "pso/object/ambient/TObjFish.h"

@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TUnk_804CF0B8.h"
 #include "pso/ui/window/TWindowFukidasi.h"
@@ -188,7 +187,7 @@ Ent_802511E4 * find_entity_by_id(u16);
 u32 get_battle_ctrl_flag__10TObjPlayerFUs(u16);
 u32 get_player_by_client_id(u32);
 s32 get_array_entry__11TWindowBaseFi(void *, s32);
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, int, int, int);
 View_80252764 * get_draw_context__11TWindowBaseFPv(void *);
 s32 get_field_20__17TWindowSubComCardFv();
 s32 set_depth__11TWindowBaseFf(f32);
@@ -962,7 +961,7 @@ void set_text__15TWindowFukidasiFPvii(u8 *arg0, s32 str, s32 arg2) {
   {
     *((s32 *) (((s8 *) arg0) + 0x5C)) = 0;
   }
-  play_sound_effect(0x53705, (Vec *)(0), 0, 0);
+  play_sound_effect(0x53705, 0, 0, 0);
   if (((u8) (*((u8 *) (((s8 *) arg0) + 0x70)))) != 0)
   {
     *((u8 *) (((s8 *) arg0) + 0x70)) = 5U;

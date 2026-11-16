@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/dragon/TObjBoss1Floor.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/boss/dragon/TObjBoss1Crater_8002C6B4.h"

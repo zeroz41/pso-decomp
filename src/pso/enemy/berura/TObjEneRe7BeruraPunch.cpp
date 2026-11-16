@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/berura/TObjEneRe7BeruraPunch.h"
 #include "pso/enemy/dd/TObjEneDD_800BA138.h"
 #include "pso/math/MatrixTransforms.h"

@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
@@ -52,7 +51,7 @@ void TOKeyJungleMain::play_activate_sound() {
         sound = 0x4004AD12;
         break;
     }
-    play_sound_effect(sound, (Vec *)(&position), 0, 0);
+    play_sound_effect(sound, &position, 0, 0);
 }
 
 void *TOKeyJungleMain::create(void *set_data) {

@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/vector.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/barbaray/TBoss7LaserPtcl.h"
 #include "pso/boss/TUnk_804F1C88.h"
 #include "types.h"

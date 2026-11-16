@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/bringer/BringerEffects.h"
 #include "pso/enemy/bringer/TObjEneDf2Bringer_Eff_Rush.h"
 #include "pso/enemy/TUnk_8048FE08.h"

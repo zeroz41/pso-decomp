@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffStarLight2D.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/weapon/shoot/TItemShootGun_dtor.h"
 #include "pso/weapon/shoot/TItemShootModelRotZ_dtor.h"
 #include "pso/weapon/shoot/TItemShoot.h"

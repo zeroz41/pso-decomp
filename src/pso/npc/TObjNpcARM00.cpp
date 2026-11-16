@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/npc/TObjNpcARM00.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/npc/TObjNpcARW00.h"
@@ -22,7 +21,7 @@ u32 TObjNpcARM00__texture_list;
 
 extern "C" {
 extern s32 __vt__12TObjNpcARM00[];
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 void release_texture_list(void*);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 
@@ -61,7 +60,7 @@ u8 *TObjNpcARM00__ct(u8 *player, s32 arg1, s32 arg2) {
 
 void TObjNpcARM00::play_voice() {
     s32 arg0 = (s32)this;
-    play_sound_effect(0x40003B08, (Vec *)(arg0 + 0x38), 0, 0);
+    play_sound_effect(0x40003B08, arg0 + 0x38, 0, 0);
 }
 
 extern void *tl_04;

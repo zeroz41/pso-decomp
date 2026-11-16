@@ -1,5 +1,4 @@
 #include "pso/boss/olgaflow/Boss6Type2Data.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 
 const char *TBoss6Type2__name = "TBoss6Type2";
 // Inferred name: distance checks (> 390), sound sources and the start position all use it.

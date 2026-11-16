@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/text_801C51D4.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801C50A8.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -76,7 +75,7 @@ void __dl__7TObjectFPv(s32);
 f32 xz_distance_squared(void *, void *);
 void *get_player_by_client_id(s32 i);
 void update_technique_slot__10TTecRaFoieFl(void *, s32, s32);
-void *play_sound_effect(s32, Vec *, s32, s32, f32);
+void *play_sound_effect(s32, s32, s32, s32, f32);
 
 #pragma push
 #pragma fp_contract on
@@ -104,7 +103,7 @@ void TUnk_804C3F48::run_task() {
             f = newton_sqrtf(min) > 200.0f ? newton_sqrtf(min) : 200.0f;
             f -= 200.0f;
             min = 1.0f - 0.00076923077f * f;
-            update_technique_slot__10TTecRaFoieFl(play_sound_effect(0x23230, (Vec *)(0), 0, 0, f), 256.0f * min, 0);
+            update_technique_slot__10TTecRaFoieFl(play_sound_effect(0x23230, 0, 0, 0, f), 256.0f * min, 0);
             self->timer = (s32)(-53.0f * min) + 0x3C;
         }
     }

@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/effect/photon/TPhotonLaser.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"

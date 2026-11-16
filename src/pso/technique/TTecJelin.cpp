@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/technique/TTecJelin.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
@@ -123,7 +122,7 @@ void run_task__9TTecJelinFv(struct Self_802336F0 *self);
 void construct_area_technique_base(void *);
 extern const char *tec_jelin_class_name_ptr;
 extern s32 __vt__9TTecJelin[];
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, void *, int, int);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 get_entity_id(void *);
 Jelin_80233958 *construct__9TTecJelinFPviiii(Jelin_80233958 *self, s32 _w1, s32 _w2, s32 _w3, s32 _w4);
@@ -203,18 +202,18 @@ Jelin_80233808 *TTecJelin__ct(Jelin_80233808 *self, void *_w1, void *_w2, void *
     switch (self->level) {
     case 0:
     case 1:
-        r = play_sound_effect(0x4002A315, (Vec *)(&self->pos), 0, 0);
+        r = play_sound_effect(0x4002A315, &self->pos, 0, 0);
         if (r >= 0) {
             update_technique_slot__10TTecRaFoieFl(r, 0x100, 0);
         }
         break;
     case 2:
     case 3:
-        play_sound_effect(0x4002A315, (Vec *)(&self->pos), 0, 0);
+        play_sound_effect(0x4002A315, &self->pos, 0, 0);
         break;
     case 4:
     case 5:
-        r = play_sound_effect(0x4002A315, (Vec *)(&self->pos), 0, 0);
+        r = play_sound_effect(0x4002A315, &self->pos, 0, 0);
         if (r >= 0) {
             update_technique_slot__10TTecRaFoieFl(r, -0x100, 0);
         }
@@ -241,18 +240,18 @@ Jelin_80233958 *construct__9TTecJelinFPviiii(Jelin_80233958 *self, s32 _w1, s32 
     switch (self->level) {
     case 0:
     case 1:
-        r = play_sound_effect(0x4002A315, (Vec *)(&self->pos), 0, 0);
+        r = play_sound_effect(0x4002A315, &self->pos, 0, 0);
         if (r >= 0) {
             update_technique_slot__10TTecRaFoieFl(r, 0x100, 0);
         }
         break;
     case 2:
     case 3:
-        play_sound_effect(0x4002A315, (Vec *)(&self->pos), 0, 0);
+        play_sound_effect(0x4002A315, &self->pos, 0, 0);
         break;
     case 4:
     case 5:
-        r = play_sound_effect(0x4002A315, (Vec *)(&self->pos), 0, 0);
+        r = play_sound_effect(0x4002A315, &self->pos, 0, 0);
         if (r >= 0) {
             update_technique_slot__10TTecRaFoieFl(r, -0x100, 0);
         }

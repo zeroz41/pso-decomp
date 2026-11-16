@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802E0064.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802DEC44.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
@@ -7,7 +6,7 @@
 
 extern "C" {
 s32 is_slot_active__23TAdSinglePlyChrSelectGCFUi();
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 s32 TAdMultiPlyChrSelectGC__sub_802C5A44(int, void *, int);
 }
 s32 is_multiplayer_character_slot_selected(s32 arg0);
@@ -25,7 +24,7 @@ extern s32 TAdMultiPlyChrSelectGC__data_805DE898;
 
 void TAdMultiPlyChrSelectGC::update_button_input() {
     if ((TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + 0x20, 2) != 0) && (TAdMultiPlyChrSelectGC::get_chr_select_state() == 0) && (TAdMultiPlyChrSelectGC__sub_802C6558() < 1)) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)this + 0x20) = 0x1B;
         return;
     }
@@ -56,7 +55,7 @@ void TAdMultiPlyChrSelectGC__sub_802DEDA8(u8 *arg0) {
     s32 var_r30;
     ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x60)))->set_index_and_close_status(0);
     if ((TWindowShortListCtrl__check_controller_button((void *)((void *) ((u8 *)&controller_physical_port_bank + 0x20)), 2) != 0) && (TAdMultiPlyChrSelectGC::get_chr_select_state() == 0) && (TAdMultiPlyChrSelectGC__sub_802C6558() < 1)) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)arg0 + 0x20) = 0x1B;
         return;
     }

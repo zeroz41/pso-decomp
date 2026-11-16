@@ -1,5 +1,4 @@
 #include "pso/object/TObjWarnChime.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -17,7 +16,7 @@ void TObjWarnChime::update_chime_countdown() {
         return;
     }
     if (m_countdown % m_chime_interval == 0) {
-        play_sound_effect(0x23230, (Vec *)(0), 0, 0);
+        play_sound_effect(0x23230, 0, 0, 0);
     }
     m_countdown--;
 }

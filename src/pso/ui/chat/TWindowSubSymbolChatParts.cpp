@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
@@ -155,7 +154,7 @@ s32 TWindowSubSymbolChat__sub_800771C4(struct TWSC *, s32);
 s32 refresh_parts__20TWindowSubSymbolChatFv();
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 s32 get_draw_context__11TWindowBaseFPv();
 void construct_with_parent__15TWindowAdditionFPv(void *, void *, s32, void *);
 void clamp_list_scroll_offset(s32, NJS_POINT2 *, NJS_POINT2 *);
@@ -231,7 +230,7 @@ void TWindowSubSymbolChat::select_index_and_scroll(s32 arg1) {
 
 void TWindowSubSymbolChatParts::handle_cancel() {
     if (sub_80283974__25TWindowSubSymbolChatPartsFv() == 0) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         this->m_70 = (u8) (this->m_70 | 2);
     }
 }
@@ -241,10 +240,10 @@ void TWindowSubSymbolChatParts::add_part() {
 
     temp_r3 = ((s32 (*)(void))calc_symbol_index__25TWindowSubSymbolChatPartsFv)();
     if (((s8) this->m_71 != 0) || (temp_r3 >= (s16) *(s16 *)&this->m_76) || (refresh_parts__20TWindowSubSymbolChatFv() < 2)) {
-        play_sound_effect(0x53F06, (Vec *)(0), 0, 0);
+        play_sound_effect(0x53F06, 0, 0, 0);
         return;
     }
-    play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+    play_sound_effect(0x52D01, 0, 0, 0);
     **(s32 * *)&this->_pad84 = 1;
     this->m_70 = (u8) (this->m_70 | 1);
     ((TWindowSubStatusDisp *)(*(s32 *)&this->m_88))->set_entry_state(2);
@@ -252,10 +251,10 @@ void TWindowSubSymbolChatParts::add_part() {
 
 void TWindowSubSymbolChatParts::handle_add() {
     if (((s32 (*)(void))calc_symbol_index__25TWindowSubSymbolChatPartsFv)() >= (s16) *(s16 *)&this->m_76) {
-        play_sound_effect(0x53F06, (Vec *)(0), 0, 0);
+        play_sound_effect(0x53F06, 0, 0, 0);
         return;
     }
-    play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+    play_sound_effect(0x52D01, 0, 0, 0);
     this->m_70 = (u8) (this->m_70 | 1);
     ((TWindowSubStatusDisp *)(*(s32 *)&this->m_88))->set_entry_state(2);
 }

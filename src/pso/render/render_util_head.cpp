@@ -5,7 +5,6 @@
 // units: this one (to set_tev_swap_channels) and render_util.cpp (the rest, copies included).
 
 #include "pso/render/render_util.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include <dolphin/gx.h>
 
 

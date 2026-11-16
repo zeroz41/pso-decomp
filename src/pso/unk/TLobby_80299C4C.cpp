@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/FloorResourceCallbacks.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/TLobby_80299C4C.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
@@ -226,7 +225,7 @@ void TObjChallenge4PRetry::countdown_and_destroy() {
 }
 
 void TKeyBoardControl__sub_8000F950(void);
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 void play_cue_stream_file(s32 name);
 s32 TLobby__sub_80291F9C();
 }
@@ -250,7 +249,7 @@ void giveup_window_handle_select(void *arg0) {
         }
         return;
     case 1:
-        play_sound_effect(0x52812, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52812, 0, 0, 0);
         ((s32 (*)(void *))send_giveup_to_all_players__6TLobbyFv)(arg0);
         play_all_players_effect__6TLobbyFPv(arg0);
         ((TObjChallenge4PRetry *)arg0)->close_window_field30();

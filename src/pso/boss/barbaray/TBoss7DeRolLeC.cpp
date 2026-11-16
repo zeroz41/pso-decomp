@@ -1,7 +1,6 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/animation/MotionContext.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 
 #include "pso/math/FloatRounding.h"
 
@@ -901,7 +900,7 @@ CameraPlayback *get_scripted_camera_playback();
 
 s32 query_teammate_state__9TObjEneDDFv();
 
-int play_sound_effect(void*, Vec *, void*, void*);
+int play_sound_effect(void*, void*, void*, void*);
 
 void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1);
 
@@ -1194,7 +1193,7 @@ s32 is_alive__8TObjBaseFv();
 
 u8 *get_enemy_entity(u16 arg0);
 
-s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 #define TObjFish__sub_802E7B40 ((s32 (*)(void *))TObjFish__sub_802E7B40)
 #define TObjFish__sub_802E7B94 ((s32 (*)(void *))TObjFish__sub_802E7B94)
 void TObjFish__sub_802E8AD4(Fish_802E8AD4* o, u32 k);
@@ -2021,7 +2020,7 @@ void TObjFish__sub_802ECE90(void *arg0, int idx, int arg) {
     if (o != NULL) {
         __ct__15TBoss7PhotonPadFllll((u8 *)o, (s32)((Boss_802ECE90 *)arg0)->nodes, (s32)&((Boss_802ECE90 *)arg0)->pads[idx], (s32)&dir, arg);
     }
-    play_sound_effect((void *)0x39D11, (Vec *)(&((Boss_802ECE90 *)arg0)->pads[idx]), (void *)0, (void *)1);
+    play_sound_effect((void *)0x39D11, &((Boss_802ECE90 *)arg0)->pads[idx], (void *)0, (void *)1);
 }
 
 #pragma push
@@ -2359,10 +2358,10 @@ void TBoss7DeRolLeC::update_projectile_spawns() {
 
 void TObjFish__sub_802EC32C(TBoss7DeRolLeC *) {  }
 
-void TObjFish::set_effect_target_position(void* p, void* a1, void* a2) { play_sound_effect(a1, (Vec *)(a2), (void*)0, (void*)0); }
+void TObjFish::set_effect_target_position(void* p, void* a1, void* a2) { play_sound_effect(a1, a2, (void*)0, (void*)0); }
 
 void TObjFish::spawn_via_trap(s32 arg0, s32 arg1, s32 arg2) {
-    play_persistent_sound(arg1, arg0, (Vec *)(arg2), 0, 0);
+    play_persistent_sound(arg1, arg0, arg2, 0, 0);
 }
 
 void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {
@@ -2611,7 +2610,7 @@ void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1) {
         } else {
             ((TObjMotion *)arg0)->advance_animation();
             if (((TObjMotion *)arg0)->is_passing_frame(60.0f) != 0) {
-                play_sound_effect((void *) 0x39E00, (Vec *)(0), 0, 0);
+                play_sound_effect((void *) 0x39E00, 0, 0, 0);
             }
             if (((TObjMotion *)arg0)->is_passing_frame(83.0f) != 0) {
                 ((TObjFish *)arg0)->destroy_child();
@@ -2627,7 +2626,7 @@ void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1) {
             if (((TObjMotion *)arg0)->is_passing_frame(98.0f) != 0) {
                 Vec w = lbl_80473F84;
                 spawn_particle_effect_with_flags(&w, 0x20F, 0x40);
-                play_sound_effect((void *) 0x39906, (Vec *)(0), 0, 0);
+                play_sound_effect((void *) 0x39906, 0, 0, 0);
             }
             ((TObjFish *)arg0)->update_attached_orientation();
             if (get_scripted_camera_playback()->flags & 1) {
@@ -4114,7 +4113,7 @@ void TObjFish::handle_death_state(u32 arg1) {
         if (((TObjMotion *)o)->is_passing_frame(85.0f) != 0) {
             Vec v = lbl_80473F90;
             create_timed_particle_emitter_with_flags(&v, 0x20C, 0, 0xA0, 0x40);
-            play_sound_effect((void *)0x39614, (Vec *)(0), 0, 0);
+            play_sound_effect((void *)0x39614, 0, 0, 0);
         }
         if (((TObjMotion *)o)->is_passing_frame(20.0f) != 0) {
             ((TObjFish *)o)->destroy_child();

@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/npc/TNpcPlayer_8014DADC.h"
 #include "pso/render/render_util.h"
 #include "pso/npc/TNpcPlayer.h"

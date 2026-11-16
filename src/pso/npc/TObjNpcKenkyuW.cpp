@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/npc/TUnk_804A9F50.h"
 #include "pso/npc/TObjNpcKenkyuW.h"

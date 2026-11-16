@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/TLobby_80228154.h"
 #include "pso/system/TLoadCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

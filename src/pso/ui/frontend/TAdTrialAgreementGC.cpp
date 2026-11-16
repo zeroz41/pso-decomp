@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/frontend/TAdTrialAgreementGC.h"
@@ -189,7 +188,7 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, int, int, int);
 extern RecoveredGlobal_80335A58_lbl_8050E208 controller_input_state;
 extern RecoveredGlobal_80335A58_lbl_8050E3B8 controller_physical_port_bank;
 
@@ -214,7 +213,7 @@ void TAdTrialAgreementGC::update_title_prompt() {
   float new_var;
   if ((TWindowShortListCtrl__check_controller_button(((void *) (((u8 *) (&(*(RecoveredGlobal_80335974_lbl_8050E3B8 *)&controller_physical_port_bank).value)) + 0x20)), 8) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) (((u8 *) (&(*(RecoveredGlobal_80335974_lbl_8050E208 *)&controller_input_state).value)) + 0x160), 4) != 0))
   {
-    play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+    play_sound_effect(0x52D01, 0, 0, 0);
     *(s32 *)&this->m_24 = 1;
   }
   new_var = 1.0f + sin_table_lookup((s32) (182.04445f * ((f32) (((*(s32 *)&this->m_38) % 120) * 3))));
@@ -230,18 +229,18 @@ void TAdTrialAgreementGC::handle_cursor_input() {
         if ((s32) *(s32 *)&this->_pad20 < 0) {
             *(s32 *)&this->_pad20 = 3;
         }
-        play_sound_effect(0x54100, (Vec *)(0), 0, 0);
+        play_sound_effect(0x54100, 0, 0, 0);
     }
     if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((int)input, 0x20, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state.value + 0x160)), 0x20, 6, 1) != 0)) {
         *(s32 *)&this->_pad20 = (s32) (*(s32 *)&this->_pad20 + 1);
         if ((s32) *(s32 *)&this->_pad20 >= 4) {
             *(s32 *)&this->_pad20 = 0;
         }
-        play_sound_effect(0x54100, (Vec *)(0), 0, 0);
+        play_sound_effect(0x54100, 0, 0, 0);
     }
     if ((TWindowShortListCtrl__check_controller_button(input, 4) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&controller_input_state.value + 0x160), 4) != 0)) {
         *(s32 *)&this->m_24 = 2;
-        play_sound_effect(0x40042309, (Vec *)(0), 0, 0);
+        play_sound_effect(0x40042309, 0, 0, 0);
     }
 }
 

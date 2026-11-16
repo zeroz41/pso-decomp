@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/TObjTank.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/text_803D96A8.h"

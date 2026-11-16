@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/unk/TLobby_803382E4.h"
 #include "pso/ui/window/TWindowOptionCtrl_8034C384.h"
@@ -17,7 +16,7 @@ s32 get_localized_text_entry(s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 poll_memcard_result(s32 chan);
 s32 start_memcard_format(int, int, int, int, int);
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, int, int, int);
 extern s32 controller_input_state[];
 u32 create__19TWindowMessageYesNoFPvPvPvPv(s32, s32, s32, s32);
 void __ct__7TObjectFP7TObject(void *);
@@ -155,7 +154,7 @@ void TWindowOptionCtrl::handle_save_result() {
             *(s32 *)((s8 *)arg0 + 0x1C) = 4;
         case 4:
             if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)controller_input_state + 0x20), 6) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)controller_input_state + 0x160), 6) != 0)) {
-                play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+                play_sound_effect(0x52F16, 0, 0, 0);
                 *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) & 0xFFFFFFFD);
                 this->m_24 = 2;
                 *(s32 *)((s8 *)arg0 + 0x1C) = 0x10;
@@ -263,7 +262,7 @@ void TWindowOptionCtrl::handle_save_result() {
             break;
         case 15:
             if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)controller_input_state + 0x20), 6) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)controller_input_state + 0x160), 6) != 0)) {
-                play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+                play_sound_effect(0x52F16, 0, 0, 0);
                 *(s32 *)((s8 *)arg0 + 0x1C) = 3;
             }
             break;

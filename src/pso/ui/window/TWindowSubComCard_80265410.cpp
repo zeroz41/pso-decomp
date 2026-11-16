@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
@@ -90,7 +89,7 @@ struct Card_80265AA4 {
 struct Ent_80265C30;
 
 Ent_80265C30 * get_array_entry__11TWindowBaseFi(void *w, s32 i);
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 s32 __nw__7TObjectFUl(int);
 s32 get_draw_context__11TWindowBaseFPv();
 s32 construct_with_parent__15TWindowAdditionFPv(void *, void *, s16, s32);
@@ -256,7 +255,7 @@ s32 TWindowMenu::get_selected_entry() {
 void TWindowMenu::set_active_flag() {
     if (!(this->m_70 & 8) && (is_decided() == 0)) {
         if (!(this->m_70 & 0x400)) {
-            play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+            play_sound_effect(0x52F16, 0, 0, 0);
         }
         this->m_70 = (u16) (this->m_70 | 4);
     }
@@ -270,11 +269,11 @@ void TWindowMenu::confirm_selection() {
         temp_r3 = *(s32 *)((s8 *)(*(s32 *)&this->m_80) + (*(s16 *)&this->m_78 * 8));
         if (temp_r3 & 0x10) {
             if (!(temp_r3 & 0x20)) {
-                play_sound_effect(0x53F06, (Vec *)(0), 0, 0);
+                play_sound_effect(0x53F06, 0, 0, 0);
             }
         } else {
             if (!(temp_r3 & 0x20)) {
-                play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+                play_sound_effect(0x52D01, 0, 0, 0);
             }
             this->m_70 = (u16) (this->m_70 | 2);
             window_sub_status_disp = (u8 *)(*(u8 * *)&this->m_88);
@@ -288,7 +287,7 @@ void TWindowMenu::confirm_selection() {
 void TWindowMenu::select_next_item() {
     s16 var_r31;
 
-    play_sound_effect(0x54100, (Vec *)(0), 0, 0);
+    play_sound_effect(0x54100, 0, 0, 0);
     var_r31 = *(s16 *)&this->m_78;
 loop_1:
     var_r31 += 1;
@@ -312,7 +311,7 @@ block_4:
 void TWindowMenu::move_cursor_prev() {
     s16 var_r31;
 
-    play_sound_effect(0x54100, (Vec *)(0), 0, 0);
+    play_sound_effect(0x54100, 0, 0, 0);
     var_r31 = *(s16 *)&this->m_78;
 loop_1:
     var_r31 -= 1;

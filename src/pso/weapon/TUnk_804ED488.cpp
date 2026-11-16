@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/weapon/TItemWeapon.h"
 #include <stddef.h>
@@ -23,7 +22,7 @@ void TUnk_804ED488::emit_marker_effects() {
             fire_shot_at_target(&owner->position, NULL, 0);
             fire_shot_at_target(&owner->position, NULL, 0x11C7);
             fire_shot_at_target(&owner->position, NULL, 0x238E);
-            play_sound_effect(0x4001A642, (Vec *)(&owner->position), 0, 0);
+            play_sound_effect(0x4001A642, &owner->position, 0, 0);
             return;
         }
         ((TItemWeapon *)this)->update_active_game_effect();

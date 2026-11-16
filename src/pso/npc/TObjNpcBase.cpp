@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #pragma readonly_strings on
 #include "pso/npc/TObjNpcBase_80149128.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
@@ -724,7 +723,7 @@ void __ct__9TObjEnemyFP7TObject(void *, void *, void *);
 void TObjNpcBase__sub_80149368(void* p);
 extern s32 __vt__11TObjNpcBase[];
 void *TObjNpcBase__ct(void *arg0, void *arg1, void *arg2);
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 void free_collision_body_parts(void *);
 
 }
@@ -778,7 +777,7 @@ void *TObjNpcBase__ct(void *arg0, void *arg1, void *arg2) {
 void TObjNpcBase::request_action(s32) {  }
 void TObjNpcBase::play_voice() {
     s32 arg0 = (s32)this;
-    play_sound_effect(0x40003804, (Vec *)(arg0 + 0x38), 0, 0);
+    play_sound_effect(0x40003804, arg0 + 0x38, 0, 0);
 }
 void TObjNpcBase::sub_80149358(s32 v) { this->m_3ac = v; }
 void TObjNpcBase::sub_80149360(s32 v) { this->m_3a8 = v; }

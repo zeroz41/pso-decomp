@@ -1,5 +1,4 @@
 #include "pso/network/protocol/subcommand_validation.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/render/render_util.h"
 #include "pso/network/protocol/subcommand_validation_actions.h"
 #include "pso/unk/TLobby.h"

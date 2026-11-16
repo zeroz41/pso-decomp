@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/player/TObjPlayer_8012E760.h"
 #include "pso/player/TObjPlayer.h"

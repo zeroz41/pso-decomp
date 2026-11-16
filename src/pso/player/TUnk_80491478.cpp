@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/player/TUnk_80491478.h"
 #include "pso/enemy/dubchik/TObjEneDubchik.h"
 #include "pso/effect/enemy/TeneFakeTecThunderEff.h"

@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/text_80076E84.h"
 #include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
 #include "pso/ui/chat/TWindowSubSymbolChat_8007763C.h"
@@ -51,7 +50,7 @@ s32 is_initialized__20TWindowSubSymbolChatFv();
 int get_instance__20TWindowSubSymbolChatFv(void*);
 s32 strncpy(void *, void *, int);
 extern s32 local_client_id;
-s32 play_sound_effect(s32, Vec *, s16, s32);
+s32 play_sound_effect(s32, u32, s16, s32);
 E_80077480 *get_character_save_record(u32 id);
 
 void TWindowSubSymbolChat::send_selected_symbol_chat(s32 *arg0) {
@@ -196,7 +195,7 @@ void TWindowSubSymbolChat::update_selected_symbol() {
 
 void TWindowSubSymbolChat::play_symbol_sound(s32 arg0) {
     if ((arg0 >= 0) && (arg0 < 9)) {
-        play_sound_effect(symbol_chat_sound_ids[arg0], (Vec *)(0U), 0, 0);
+        play_sound_effect(symbol_chat_sound_ids[arg0], 0U, 0, 0);
     }
 }
 

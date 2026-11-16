@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/date.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

@@ -1,5 +1,4 @@
 #include "pso/player/PlayerClassStats.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 
 extern const PlayerProfessionStatFactors player_profession_stat_factors[3] = {
     { 2.0f, 1.0f },

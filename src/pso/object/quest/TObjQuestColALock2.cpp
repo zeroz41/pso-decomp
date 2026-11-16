@@ -1,5 +1,4 @@
 #include "pso/system/NinjaTypes.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/quest/TObjQuestColALock2.h"

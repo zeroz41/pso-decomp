@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/TUnk_804CF930.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025737C.h"
 #include "pso/system/memory.h"
@@ -108,7 +107,7 @@ struct Bar_8025799C {
 };
 
 void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
-s32 play_sound_effect(u32, Vec *, s32, s32);
+s32 play_sound_effect(u32, s32, s32, s32);
 #define calc_bar_width__13TUnk_804CF930Fv ((s32 (*)())calc_bar_width__13TUnk_804CF930Fv)
 #define step_gauge_bar_width ((void (*)(void *))step_gauge_bar_width)
 void* init_from__13TUnk_804CF930FPvi(void* a0, void* a1, int a2);
@@ -291,7 +290,7 @@ void update_status_gauge_hold(Bar_8025799C *bar) {
     if (bar->timer) {
         --bar->timer;
         if (!bar->timer && (bar->flags & 0x10)) {
-            s32 slot = play_sound_effect(0x22825, (Vec *)(0), 0, 0);
+            s32 slot = play_sound_effect(0x22825, 0, 0, 0);
             update_technique_slot__10TTecRaFoieFl(slot, -0x100, 0);
         }
     } else {

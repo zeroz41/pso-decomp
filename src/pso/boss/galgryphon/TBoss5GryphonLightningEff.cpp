@@ -1,5 +1,4 @@
 #include "pso/boss/galgryphon/TBoss5GryphonLightningEff.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/render/ChunkMaterialState.h"

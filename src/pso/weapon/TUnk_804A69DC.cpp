@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
@@ -56,7 +55,7 @@ void *TUnk_804A69C0::init_shoot_model() {
 }
 
 s32 update_technique_slot__10TTecRaFoieFl(int, int, int);
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, int, int, int);
 s32 init_shoot_model__13TUnk_804A69C0Fv(int, void *, void *, void *, f32);
 s32 __nw__7TObjectFUl(int);
 s32 create_shoot_model__10TObjPlayerFiiif(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
@@ -83,7 +82,7 @@ s32 create_shoot_model__10TObjPlayerFiiif(s32 arg0, s32 arg1, s32 arg2, f32 farg
 void TUnk_804A69DC::activate_effect(s32) {
     if (owner != NULL && is_current_area_item_enabled() != 0) {
         if (get_current_floor() == owner->get_floor() && get_mode() == 2) {
-            update_technique_slot__10TTecRaFoieFl(play_sound_effect(0x4001AA05, (Vec *)((int)&owner->position), 0, 0), 0x300, 0);
+            update_technique_slot__10TTecRaFoieFl(play_sound_effect(0x4001AA05, (int)&owner->position, 0, 0), 0x300, 0);
             launch_shot((u8 *)&gun_point, 0, 0, 1);
         }
     }

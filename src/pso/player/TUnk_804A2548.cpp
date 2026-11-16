@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/item/TUnk_804E355C.h"
 #include "pso/system/task/TObject_80019A50.h"

@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802DCD14.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
@@ -15,7 +14,7 @@
 extern "C" {
 s32 TAdPlyPltAnimCtrlGC__sub_80355148();
 extern const f32 lbl_805DE89C;
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 s32 get_instance__22TAdMultiPlyChrSelectGCFv(s32);
 extern s8 controller_physical_port_bank[];
 s32 clear_entries__18TAdChrMoveEffectGCFv();
@@ -80,7 +79,7 @@ void TAdMultiPlyChrSelectGC::handle_cancel_state() {
             TAdMultiPlyChrSelectGC::reset_slot_selections();
         }
         ((TAdMultiPlyChrSelectGC *)(this->m_5c))->set_state_ready();
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         if ((u32) *(u32 *)&this->unk_68 != 0U) {
             queue_destruction__7TObjectFv(*(void * *)&this->unk_68);
             *(u32 *)&this->unk_68 = 0U;
@@ -111,7 +110,7 @@ void TAdMultiPlyChrSelectGC__sub_802DCF68(void *arg0) {
     {
         TAdMultiPlyChrSelectGC::reset_slot_selections();
         ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x5C)))->set_state_ready();
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         if ((u32) *(u32 *)((s8 *)arg0 + 0x68) != 0U) {
             queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x68));
             *(u32 *)((s8 *)arg0 + 0x68) = 0U;
@@ -124,7 +123,7 @@ void TAdMultiPlyChrSelectGC__sub_802DD010(void *arg0) {
     if (((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x6C)))->get_mode() <= 1) {
         TAdMultiPlyChrSelectGC::reset_slot_selections();
         ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x5C)))->set_state_ready();
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         if ((u32) *(u32 *)((s8 *)arg0 + 0x68) != 0U) {
             queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x68));
             *(u32 *)((s8 *)arg0 + 0x68) = 0U;
@@ -165,7 +164,7 @@ void TAdMultiPlyChrSelectGC::update_state_move() {
     }
     temp_r5 = get_instance__22TAdMultiPlyChrSelectGCFv(this->m_5c) * 0x50;
     if (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank + temp_r5 + 0x20, 2) != 0) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         if ((u32) *(u32 *)&this->unk_68 != 0U) {
             queue_destruction__7TObjectFv(*(void * *)&this->unk_68);
             *(u32 *)&this->unk_68 = 0U;
@@ -232,7 +231,7 @@ void TAdMultiPlyChrSelectGC::handle_confirm_state() {
             TAdMultiPlyChrSelectGC::reset_slot_selections();
         }
         ((TAdMultiPlyChrSelectGC *)(this->m_5c))->set_state_ready();
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)&this->unk_50 = 0;
         if ((u32) *(u32 *)&this->unk_68 != 0U) {
             queue_destruction__7TObjectFv(*(void * *)&this->unk_68);
@@ -264,7 +263,7 @@ block_2:
             TAdMultiPlyChrSelectGC::reset_slot_selections();
         }
         ((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x5C)))->set_state_ready();
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         if ((u32) *(u32 *)((s8 *)arg0 + 0x68) != 0U) {
             queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x68));
             *(u32 *)((s8 *)arg0 + 0x68) = 0U;
@@ -288,7 +287,7 @@ void TAdMultiPlyChrSelectGC::update_state() {
             TAdMultiPlyChrSelectGC::reset_slot_selections();
         }
         ((TAdMultiPlyChrSelectGC *)(this->m_5c))->set_state_ready();
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         if ((u32) *(u32 *)&this->unk_68 != 0U) {
             queue_destruction__7TObjectFv(*(void * *)&this->unk_68);
             *(u32 *)&this->unk_68 = 0U;
@@ -317,7 +316,7 @@ void TAdMultiPlyChrSelectGC::update_card_select_state() {
 
     if (((TAdMultiPlyChrSelectGC *)(this->m_6c))->get_mode() <= 1) {
         ((TAdMultiPlyChrSelectGC *)(this->m_5c))->set_state_ready();
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         if (((TAdMultiPlyChrSelectGC *)(*(u32 *)&this->unk_68))->get_player_index() == 1) {
             TAdMultiPlyChrSelectGC::reset_slot_selections();
             if ((u32) *(u32 *)&this->unk_68 != 0U) {
@@ -368,7 +367,7 @@ void TAdMultiPlyChrSelectGC::update_state_wait_card() {
     s32 temp_r3_2;
 
     if (((TAdMultiPlyChrSelectGC *)(this->m_6c))->get_mode() <= 1) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         ((TAdMultiPlyChrSelectGC *)(this->m_5c))->set_state_ready();
         if (((TAdMultiPlyChrSelectGC *)(*(u32 *)&this->unk_68))->get_player_index() == 1) {
             TAdMultiPlyChrSelectGC::reset_slot_selections();
@@ -389,7 +388,7 @@ void TAdMultiPlyChrSelectGC::update_state_wait_card() {
         return;
     }
     if (((TWindowSubComCard *)(*(s32 *)&this->unk_88))->get_card_data() != 0) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         ((TAdMultiPlyChrSelectGC *)(this->m_5c))->set_state_ready();
         *(s32 *)&this->m_20 = 0xC;
         return;

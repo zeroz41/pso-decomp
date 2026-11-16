@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowGetComCard_8007B54C.h"
 #include "pso/unk/text_8024AC64.h"
 #include "pso/unk/text_8024ACA8.h"
@@ -48,7 +47,7 @@ extern s32 local_client_id;
 u8 *TWindowGetComCard__ct(TWindowGetComCard *arg0);
 void start_player_data_load__17TWindowSubComCardFl(void);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
-void play_sound_effect(s32, Vec *, s32, s32);
+void play_sound_effect(s32, s32, s32, s32);
 s32 is_player_input_active(s32);
 u8 *init_shop_judgment_window(void *p);
 __declspec(section ".data") f32 TWindowGetComCard__window_rect[2] = {152.0f, 370.0f};
@@ -122,7 +121,7 @@ void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self) {
             self->state = 6;
         } else if (TWindowShortListCtrl__check_controller_button(controller_input_state[port].m20, 2) != 0 ||
                    test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state[4].m20, 2) != 0) {
-            play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+            play_sound_effect(0x52F16, 0, 0, 0);
             self->state = 2;
         }
         break;

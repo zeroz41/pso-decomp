@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 // ---- pso/technique/TTecMegid
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/effect/TUnk_804CCC68.h"
 #include "pso/unk/TUnk_804CCA78.h"
@@ -213,7 +212,7 @@ u16 get_entity_id(void *);
 void __ct__13TUnk_804CCC68FlPUcPUcl();
 u8 *TTecMegid__ct(TTecMegid *arg0, s32 _w1, s32 _w2, s32 _w3, s32 _w4);
 void construct_facing_technique__10TObjPlayerFPviPvii();
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 }
 u32 get_technique_caster_flags(s32 technique, u16 actor);
 extern "C" {
@@ -244,29 +243,29 @@ void TTecMegid::update_by_state() {
 
     switch (this->band) {
     case 0:
-        handle = play_sound_effect(0x4002A60B, (Vec *)((int)(arg0 + 0x20)), 0, 0);
+        handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, 0x100, 0);
         }
         return;
     case 1:
-        play_sound_effect(0x4002A60B, (Vec *)((int)(arg0 + 0x20)), 0, 0);
+        play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
         return;
     case 2:
     case 3:
-        handle = play_sound_effect(0x4002A60B, (Vec *)((int)(arg0 + 0x20)), 0, 0);
+        handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x180, 0);
         }
         break;
     case 4:
-        handle = play_sound_effect(0x4002A60B, (Vec *)((int)(arg0 + 0x20)), 0, 0);
+        handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x250, 0);
         }
         break;
     case 5:
-        handle = play_sound_effect(0x4002A60B, (Vec *)((int)(arg0 + 0x20)), 0, 0);
+        handle = play_sound_effect(0x4002A60B, (int)(arg0 + 0x20), 0, 0);
         if (handle >= 0) {
             update_technique_slot__10TTecRaFoieFl(handle, -0x100, 0);
         }
@@ -374,7 +373,7 @@ void TTecMegid__vt6(Obj_80235490 *self, VObj_80235490 *target) {
         }
         HitInfo_80235490 info = tmp;
         target->m21(self->source, &info, self->contact, 0x12, -1);
-        play_sound_effect(0x4002AD29, (Vec *)((s32)((u8 *)target + 0x38)), 0, 0);
+        play_sound_effect(0x4002AD29, (s32)((u8 *)target + 0x38), 0, 0);
         if (self->fc8 < 12) {
             if ((get_technique_caster_flags(0x12, self->fc8) & 1) == 0) {
                 ((TObject *)self)->queue_destruction();
@@ -525,7 +524,7 @@ u8 *construct_timed_sound_voice(u8 *arg0, s32 arg1, s16 arg2, s32 arg3, s32 arg4
     *(s16 *)((s8 *)arg0 + 0x1C) = arg2;
     ((TUnk_804CCA78 *)arg0)->m_1e = 0;
     *(s32 *)((s8 *)arg0 + 0x20) = arg3;
-    ((TUnk_804CCA78 *)arg0)->m_24 = play_sound_effect(*(s32 *)((s8 *)arg0 + 0x20), (Vec *)(arg1), 0, 0);
+    ((TUnk_804CCA78 *)arg0)->m_24 = play_sound_effect(*(s32 *)((s8 *)arg0 + 0x20), arg1, 0, 0);
     handle = ((TUnk_804CCA78 *)arg0)->m_24;
     if ((handle >= 0) && (arg4 != 0)) {
         update_technique_slot__10TTecRaFoieFl(handle, arg4, 0);

@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/frontend/TAdFadeGC.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TMainTask.h"
@@ -47,7 +46,7 @@ const char *TAdSinglePlyChrSelectGC__class_name = TAdSinglePlyChrSelectGC__class
 extern const T_802D4F2C single_chr_select_position_table;
 
 extern "C" {
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 extern char controller_input_state[];
 s32 poll_memcard_result(s32 chan);
@@ -327,7 +326,7 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
         this->m_54 = 0U;
     }
     if ((TWindowShortListCtrl__check_controller_button((void *)((u8 *)controller_physical_port_bank + 0x20), 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)&this->m_20 = 0xB;
         return;
     }
@@ -378,7 +377,7 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
 void TAdSinglePlyChrSelectGC::sub_802D4570() {
     u8 *arg0 = (u8 *)this;
     if ((TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)arg0 + 0x20) = 0xB;
         return;
     }
@@ -396,7 +395,7 @@ void TAdSinglePlyChrSelectGC::sub_802D4570() {
 void TAdSinglePlyChrSelectGC::sub_802D4664() {
     u8 *arg0 = (u8 *)this;
     if ((TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)arg0 + 0x20) = 0xB;
         return;
     }
@@ -417,7 +416,7 @@ void TAdSinglePlyChrSelectGC::sub_802D4730() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r0;
     if ((TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)arg0 + 0x20) = 0xB;
         return;
     }
@@ -450,7 +449,7 @@ void TAdSinglePlyChrSelectGC::sub_802D486C() {
     void *arg0 = this;
     s32 temp_r0;
     if ((TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)arg0 + 0x20) = 0xB;
         return;
     }
@@ -542,7 +541,7 @@ void TAdSinglePlyChrSelectGC::cleanup() {
         *(u32 *)((s8 *)this + 0x54) = 0U;
     }
     if ((TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 2) != 0) || (test_flag_4c__23TAdSinglePlyChrSelectGCFv(controller_input_state + 0x160, 2) != 0)) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         *(s32 *)((s8 *)this + 0x20) = 0xB;
         return;
     }

@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdEnterPPPPassGC.h"
 #include "pso/unk/text_8014618C.h"
@@ -55,7 +54,7 @@ T_8033954C *TAdEnterPPPPassGC__ct(T_8033954C *arg0);
 char *realloc_buffer__17TWindowSubComCardFv(u8 *);
 void mem_free(void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
-void play_sound_effect(int, Vec *, int, int);
+void play_sound_effect(int, int, int, int);
 s32 forward_input__22TAdEnterSerialAccessGCFPv(void *, int, char *);
 s32 strlen(const char *);
 extern u8 controller_input_state[];
@@ -122,7 +121,7 @@ void update_password_input__17TAdEnterPPPPassGCFPv(u8 *ad_enter_serial_access_gc
                 }
             } else if (forward_input__22TAdEnterSerialAccessGCFPv(ad_enter_serial_access_gc, 3, buf) == 0) {
                 free_menu_object(password_entry_keyboard_control);
-                play_sound_effect(0x53F06, (Vec *)(0), 0, 0);
+                play_sound_effect(0x53F06, 0, 0, 0);
             } else {
                 *(s32 *)((s8 *)ad_enter_serial_access_gc + 0x38) = 1;
                 if (*(u32 *)((s8 *)ad_enter_serial_access_gc + 0x2C) != 0) {

@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/npc/TObjNpcCloakroomBase.h"
 #include "pso/npc/TObjNpcConnoisseur.h"
 #include "pso/npc/TUnk_804A8640.h"
@@ -28,17 +27,17 @@ u32 TObjNpcCloakroomBase__static_instance;
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 __vt__20TObjNpcCloakroomBase[];
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 void free_bin_model_request(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 
 void TObjNpcCloakroomBase::play_voice() {
     s32 arg0 = (s32)this;
     if (get_current_floor_area() != AREA_CAVE3) {
-        play_sound_effect(0x40003804, (Vec *)(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x40003804, arg0 + 0x38, 0, 0);
         return;
     }
-    play_sound_effect(0x40003802, (Vec *)(arg0 + 0x38), 0, 0);
+    play_sound_effect(0x40003802, arg0 + 0x38, 0, 0);
 }
 
 extern void *tl_04;

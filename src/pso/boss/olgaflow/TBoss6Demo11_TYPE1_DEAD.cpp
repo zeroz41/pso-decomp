@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixStack.h"
@@ -116,23 +115,23 @@ void TBoss6Demo11_TYPE1_DEAD::run_task() {
     }
     switch (timer) {
     case 0x98:
-        play_sound_effect(0x40032104, (Vec *)(0), 0, 0);
+        play_sound_effect(0x40032104, 0, 0, 0);
         break;
     case 0xF9:
-        play_sound_effect(0x40032B25, (Vec *)(0), 0, 0);
+        play_sound_effect(0x40032B25, 0, 0, 0);
         break;
     case 0x1E:
-        play_sound_effect(0x4003A811, (Vec *)(0), 0, 0);
+        play_sound_effect(0x4003A811, 0, 0, 0);
         break;
     case 0x3C:
     case 0x5A:
     case 0x14:
     case 0xA:
-        play_sound_effect(0x40032E23, (Vec *)(0), 0, 0);
+        play_sound_effect(0x40032E23, 0, 0, 0);
         break;
     }
     if (timer >= 0x89) {
-        play_persistent_sound(0x4003A424, (s32)this, (Vec *)(0), 0, 0);
+        play_persistent_sound(0x4003A424, (s32)this, 0, 0, 0);
     }
     switch (timer) {
     case 0xE:

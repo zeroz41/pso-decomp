@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowMainMenu_802AD538.h"
@@ -24,7 +23,7 @@ struct Menu_802AE4DC {
 };
 
 extern "C" {
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 void play_cursor_sound__15TWindowMainMenuFv(Menu_802AE4DC *m, int d);
 struct Item_802ADADC { u8 pad[0x12]; u8 f12; };
 
@@ -631,7 +630,7 @@ void TWindowMainMenu::update_slide_position() {
 }
 
 void TWindowMenuMainMenu::handle_cancel() {
-    play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+    play_sound_effect(0x52F16, 0, 0, 0);
     this->m_60 = (u8) (this->m_60 | 2);
 }
 
@@ -649,11 +648,11 @@ void TWindowMenuMainMenu::handle_confirm() {
     new_var = 0;
     if ((*((u8 *) (((s8 *) temp_r3) + 0x13))) & 2)
     {
-      play_sound_effect(0x53F06, (Vec *)(0), 0, 0);
+      play_sound_effect(0x53F06, 0, 0, 0);
       return;
     }
     new_var3 = 0x52D01;
-    play_sound_effect((s32)new_var3, (Vec *)(0), 0, (s32)new_var);
+    play_sound_effect((s32)new_var3, 0, 0, (s32)new_var);
     this->m_60 = (u8) ((this->m_60) | 1);
   }
 }
@@ -661,7 +660,7 @@ void TWindowMenuMainMenu::handle_confirm() {
 struct Obj_802ADC04;
 void play_cursor_sound__15TWindowMainMenuFv(Menu_802AE4DC *m, int d) {
     int n;
-    play_sound_effect(0x54100, (Vec *)(0), 0, 0);
+    play_sound_effect(0x54100, 0, 0, 0);
     m->items[m->cur]->sel = 0;
     n = find_free_item_slot__15TWindowMainMenuFPv((Obj_802ADC04 *)m);
     m->cur += d;

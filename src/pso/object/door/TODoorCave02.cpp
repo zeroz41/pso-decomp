@@ -1,5 +1,4 @@
 #include "pso/object/door/TODoorCave02.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
@@ -53,13 +52,13 @@ void TODoorCave02::update_open() {
         if (is_any_player_within_radius_xz(10000.0f) != 1) {
             object_state = 3;
             clear_player_status_flag(0, 8);
-            play_sound_effect(0x42807, (Vec *)(&position), 0, 0);
+            play_sound_effect(0x42807, &position, 0, 0);
         }
     } else {
         object_state = 3;
         texlist = texture_lists[0];
         clear_player_status_flag(0, 8);
-        play_sound_effect(0x42807, (Vec *)(&position), 0, 0);
+        play_sound_effect(0x42807, &position, 0, 0);
     }
 }
 
@@ -78,7 +77,7 @@ void TODoorCave02::update_closed() {
     if ((door_flags & 1) && is_any_player_within_radius_xz(4900.0f) == 1) {
         object_state = 1;
         set_indexed_flags(0, 8);
-        play_sound_effect(0x42807, (Vec *)(&position), 0, 0);
+        play_sound_effect(0x42807, &position, 0, 0);
     }
 }
 

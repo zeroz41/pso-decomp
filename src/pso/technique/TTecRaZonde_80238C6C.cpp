@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/text_8022BE64.h"
 #include "pso/technique/TTecRaZonde.h"
 #include "pso/system/vector.h"
@@ -78,7 +77,7 @@ extern RecoveredGlobal_80230D9C_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_80230D9C_lbl_804CC55C lbl_804CC55C;
 u16 get_entity_id(void *);
 void update_technique_slot__10TTecRaFoieFl(s32 handle, s32 pitch, s32 c);
-s32 play_sound_effect(s32 id, Vec *, s32 a, s32 b);
+s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 f32 vector_length(void *);
 void normalize_vector(void *);
 extern void *__vt__11TTecRaZonde[];
@@ -161,7 +160,7 @@ struct VObj_18_9c98dd : VBase_18_9c98dd {
 extern "C" {
 void *find_entity_by_id(u16 id);
 void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, void *, s32, s32);
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 
 typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
@@ -342,32 +341,32 @@ void *TTecRaZonde__ct(void *self_, void *source, void *origin, void *level) {
     }
     switch (self->band) {
     case 0: {
-        s32 h = play_sound_effect(0x4002A50A, (Vec *)(&self->pos), 0, 0);
+        s32 h = play_sound_effect(0x4002A50A, &self->pos, 0, 0);
         if (h >= 0) {
             update_technique_slot__10TTecRaFoieFl(h, 0x100, 0);
         }
         break;
     }
     case 1:
-        play_sound_effect(0x4002A50A, (Vec *)(&self->pos), 0, 0);
+        play_sound_effect(0x4002A50A, &self->pos, 0, 0);
         break;
     case 2:
     case 3: {
-        s32 h = play_sound_effect(0x4002A50A, (Vec *)(&self->pos), 0, 0);
+        s32 h = play_sound_effect(0x4002A50A, &self->pos, 0, 0);
         if (h >= 0) {
             update_technique_slot__10TTecRaFoieFl(h, -0x180, 0);
         }
         break;
     }
     case 4: {
-        s32 h = play_sound_effect(0x4002A50A, (Vec *)(&self->pos), 0, 0);
+        s32 h = play_sound_effect(0x4002A50A, &self->pos, 0, 0);
         if (h >= 0) {
             update_technique_slot__10TTecRaFoieFl(h, -0x250, 0);
         }
         break;
     }
     case 5: {
-        s32 h = play_sound_effect(0x4002A50A, (Vec *)(&self->pos), 0, 0);
+        s32 h = play_sound_effect(0x4002A50A, &self->pos, 0, 0);
         if (h >= 0) {
             update_technique_slot__10TTecRaFoieFl(h, -0x100, 0);
         }
@@ -388,18 +387,18 @@ void TTecResta::play_launch_sound() {
     switch (self->band) {
     case 0:
     case 1:
-        h = play_sound_effect(0x4002AB0E, (Vec *)(self->pos), 0, 0);
+        h = play_sound_effect(0x4002AB0E, self->pos, 0, 0);
         if (h >= 0) {
             update_technique_slot__10TTecRaFoieFl(h, 0x100, 0);
         }
         break;
     case 2:
     case 3:
-        play_sound_effect(0x4002AB0E, (Vec *)(self->pos), 0, 0);
+        play_sound_effect(0x4002AB0E, self->pos, 0, 0);
         break;
     case 4:
     case 5:
-        h = play_sound_effect(0x4002AB0E, (Vec *)(self->pos), 0, 0);
+        h = play_sound_effect(0x4002AB0E, self->pos, 0, 0);
         if (h >= 0) {
             update_technique_slot__10TTecRaFoieFl(h, -0x100, 0);
         }

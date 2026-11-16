@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -163,7 +162,7 @@ NJS_ARGB TPhotonMagicSquare__color_palette[6] = {
 extern RecoveredGlobal_801AD0F0___vt__18TPhotonMagicSquare __vt__18TPhotonMagicSquare;
 extern const char *TPhotonMagicSquare__data_805D3508;
 extern u8 *photon_blast_shared_resource;
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, int, int, int);
 
 }
 TPhotonMagicSquare::~TPhotonMagicSquare() {
@@ -240,5 +239,5 @@ TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 color, u16 owner_id)
     this->m_c4 = 0x37;
     *(f32 *)&this->_padC8 = 0.1f;
     this->m_cc = 2;
-    play_sound_effect(0x4002AD2E, (Vec *)(0), 0, 0);
+    play_sound_effect(0x4002AD2E, 0, 0, 0);
 }

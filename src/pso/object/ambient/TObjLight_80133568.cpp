@@ -1,5 +1,4 @@
 #include "pso/system/NinjaTypes.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/TUnk_804A6FC0.h"

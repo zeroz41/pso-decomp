@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8025CB70.h"
 #include "pso/ui/window/TWindowSubMag_802627D8.h"
@@ -66,7 +65,7 @@ struct Lines_80261DD8 {
     s32 count;
 };
 
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, int, int, int);
 s32 draw_default_entry__9TWindowDDFl();
 int update_keyboard_close_mode(void*);
 f32 TWindowKeyBoardSoft__sub_802606E0(TWindowKeyBoardSoft *);
@@ -248,7 +247,7 @@ void TWindowKeyBoardSoft::sub_80260808(s32 arg1) {
     temp_r5 = arg1 * 0x50;
     if ((TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state + temp_r5 + 0x20), 2) != 0) && ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x6C) != 0U)) {
         this->m_7c = (s32) (this->m_7c & 0xFFFFFFEF);
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         ((TWindowKeyBoardSoft *)(*(u32 *)((s8 *)((u8 *)this) + 0x6C)))->handle_backspace();
     }
 }
@@ -323,14 +322,14 @@ void TWindowKeyBoardSoft__sub_80260904(void *self, s32 port) {
     code = *(layout->pages[kb->layout] + kb->cursor_x + kb->cursor_y * 16);
     if (code >= 3 && code <= 14) {
         if (TWindowSubMag__sub_80262808(kb->child) != 0) {
-            play_sound_effect(0x53F06, (Vec *)(0), 0, 0);
+            play_sound_effect(0x53F06, 0, 0, 0);
         } else if (*(u32 *)get_chat_shortcut(code + 5) != 3) {
-            play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+            play_sound_effect(0x52D01, 0, 0, 0);
         }
     } else if (code == 2 && (kb->flags & 8)) {
-        play_sound_effect(0x53F06, (Vec *)(0), 0, 0);
+        play_sound_effect(0x53F06, 0, 0, 0);
     } else {
-        play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52D01, 0, 0, 0);
     }
     if (code < 0x20) {
         if (code < 22) {
@@ -391,7 +390,7 @@ void TWindowKeyBoardSoft::sub_80260E30(s32 port) {
             dx++;
         }
     }
-    play_sound_effect(0x54100, (Vec *)(0), 0, 0);
+    play_sound_effect(0x54100, 0, 0, 0);
     if (kb->flags & 0x10) {
         if (dx > 0) {
             kb->child->vt15();
@@ -480,7 +479,7 @@ void TWindowKeyBoardSoft::handle_page_cycle_input(s32 arg1) {
     u8 *temp_r30;
     temp_r30 = (u8 *)&controller_input_state + (arg1 * 0x50) + 0x20;
     if (TWindowShortListCtrl__check_controller_button(temp_r30, 0x30000) != 0) {
-        play_sound_effect(0x54100, (Vec *)(0), 0, 0);
+        play_sound_effect(0x54100, 0, 0, 0);
         calc_cursor_step(&spC, &sp8);
         if (TWindowShortListCtrl__check_controller_button(temp_r30, 0x10000) != 0) {
             *(f32 *)((s8 *)((u8 *)this) + 0x68) = 10.0f;

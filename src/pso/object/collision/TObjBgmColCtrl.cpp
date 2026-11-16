@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/collision/TObjBgmColCtrl.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 

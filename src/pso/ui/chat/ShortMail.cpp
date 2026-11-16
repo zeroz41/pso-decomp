@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/player/TPlyGuildCardTag_8007B434.h"
 #include "pso/item/TItemData.h"
@@ -148,7 +147,7 @@ s32 TLobby::find_free_slot() {
 }
 }
 
-extern "C" s32 play_sound_effect(int, Vec *, int, int);
+extern "C" s32 play_sound_effect(int, void *, int, int);
 
 void TLobby__sub_80225A08(void *p) {
     s32 slot = TLobby::find_free_slot();
@@ -157,7 +156,7 @@ void TLobby__sub_80225A08(void *p) {
     ((TLobby *)entry)->fill_list_entry((u8 *)p);
     lobby_short_mail_entry_count++;
     TLobby__sub_80225CB8();
-    play_sound_effect(0x52D17, (Vec *)(0), 0, 0);
+    play_sound_effect(0x52D17, 0, 0, 0);
 }
 
 void remove_short_mail_by_id(u32 id) {

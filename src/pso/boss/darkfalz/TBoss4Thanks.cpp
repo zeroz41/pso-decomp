@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -168,13 +167,13 @@ void TBoss4Thanks::update_fade_out() {
 
     if ((s32) this->current_motion != 1) {
         if ((s32) this->fade_frame == 0) {
-            play_sound_effect(0x40033231, (Vec *)(0), 0, 0);
+            play_sound_effect(0x40033231, 0, 0, 0);
         }
         update_particle_emitters();
         this->fade_amount = (f32) (0.99f * (1.0f - ((f32) this->fade_frame / 120.0f)));
         temp_r3 = this->fade_frame;
         if (temp_r3 == 0x78) {
-            play_sound_effect(0x40033232, (Vec *)(0), 0, 0);
+            play_sound_effect(0x40033232, 0, 0, 0);
             queue_destruction();
             return;
         }

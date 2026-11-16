@@ -1,5 +1,4 @@
 #include "pso/system/NinjaTypes.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/mag/TItemMag.h"
 
@@ -524,7 +523,7 @@ void TItemMag::on_equip() {
         state |= MAG_INACTIVE;
     }
     if (is_hidden() == 0 && owner->is_in_fixed_pose() == 0) {
-        play_sound_effect(0x4000B20A, (Vec *)(&owner->position), 0, 0);
+        play_sound_effect(0x4000B20A, &owner->position, 0, 0);
     }
 }
 
@@ -923,7 +922,7 @@ s32 TItemMag::feed(TItemData *food) {
                 spawn_particle_effect(&pos, 0x9B);
             }
         }
-        play_sound_effect(0x5B211, (Vec *)(&owner->position), 0, 0);
+        play_sound_effect(0x5B211, &owner->position, 0, 0);
     }
     return apply_feed(&change);
 }
@@ -1081,7 +1080,7 @@ void TItemMag::on_form_changed() {
         register_photon_blasts();
     }
     if (is_hidden() == 0) {
-        play_sound_effect(0x4000B20A, (Vec *)(&owner->position), 0, 0);
+        play_sound_effect(0x4000B20A, &owner->position, 0, 0);
     }
     load_param_record();
 }

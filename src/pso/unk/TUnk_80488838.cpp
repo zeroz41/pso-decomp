@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/TUnk_80488838.h"
 #include "pso/unk/TUnk_80488E00.h"

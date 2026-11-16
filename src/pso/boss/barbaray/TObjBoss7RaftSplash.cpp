@@ -1,5 +1,4 @@
 #include "pso/boss/barbaray/TObjBoss7RaftSplash.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/system/vector.h"
 

@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
@@ -66,7 +65,7 @@ void TObjEneRe2Flower::handle_event(s32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x3C4) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C4) & 0xFFFFFFF7);
         ((TObjEneDD *)arg0)->set_field_378(3);
         *(s32 *)((s8 *)arg0 + 0x410) = 0;
-        play_sound_effect(fn_800C3A60((s32)arg0, 0x4003A315), (Vec *)((u8 *)&this->position), 0, 0);
+        play_sound_effect(fn_800C3A60((s32)arg0, 0x4003A315), (Vec *)&this->position, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x200);
         return;
     case 3:

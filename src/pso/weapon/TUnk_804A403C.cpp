@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/weapon/TUnk_804A403C.h"
 #include "pso/weapon/shoot/TUnk_804A4020.h"
@@ -49,7 +48,7 @@ void TObjPlayer::notify_hit_target(u32 arg0, u32 arg1, u32 arg2, u32 arg3) {
     if ((arg1 != 0U) && (arg3 != 0U)) {
         ((TObjPlayer *)arg1)->clear_rico_ring_flag();
         spawn_particle_effect((void *)arg3, 0x45);
-        play_sound_effect(0x4001C112, (Vec *)(0), 0, 0);
+        play_sound_effect(0x4001C112, 0, 0, 0);
     }
 }
 

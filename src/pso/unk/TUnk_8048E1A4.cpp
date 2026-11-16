@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/MaterialColorFade.h"

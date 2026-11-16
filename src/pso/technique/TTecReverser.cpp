@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/technique/TTecReverser.h"
 #include "pso/unk/TUnk_804CCC28.h"
 #include "pso/system/task/TObject.h"
@@ -48,7 +47,7 @@ void *find_entity_by_id(u16 id);
 s32 is_active__12TTecReverserFv();
 void run_task__12TTecReverserFv(u8 *arg0);
 s32 get_entity_id(int);
-s32 play_sound_effect(int, Vec *, int, int);
+s32 play_sound_effect(int, void *, int, int);
 s32 copy_technique_target_list(void *, void *);
 s32 __ct__13TUnk_804CC148Flll(void *, void *, void *, void *);
 extern RecoveredGlobal_8023A094_lbl_804CC1CC technique_param_table;
@@ -150,7 +149,7 @@ u8 *TTecReverser__ct(u8 *tec_reverser, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     ((TTecAnti *)(tec_reverser + 0x88))->copy_params((u8 *)((u8 *)&technique_param_table.value + 0x2EC));
     ((TTecReverser *)tec_reverser)->sub_8022BE64(tec_reverser + 0x88, arg4);
     copy_technique_target_list(tec_reverser + 0xEC, (void *)arg3);
-    play_sound_effect(0x4002A812, (Vec *)(tec_reverser + 0x20), 0, 0);
+    play_sound_effect(0x4002A812, tec_reverser + 0x20, 0, 0);
     temp_r3 = ((TTecReverser *)tec_reverser)->source;
     if (temp_r3 != 0U) {
         ((TTecReverser *)tec_reverser)->m_b4 = get_entity_id(temp_r3);

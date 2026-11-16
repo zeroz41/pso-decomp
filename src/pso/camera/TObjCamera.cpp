@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/camera/TObjCamera.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/animation/ActorAnimationState.h"
@@ -63,7 +62,7 @@ void TObjCamera::play_sound_events() {
     s32 i;
     for (i = 0; i < 8; i++) {
         if (sound_events[i].played == 0 && animation_frame >= sound_events[i].frame) {
-            play_sound_effect(sound_events[i].sound_id, (Vec *)(&sound_events[i].position), 0, 0);
+            play_sound_effect(sound_events[i].sound_id, &sound_events[i].position, 0, 0);
             sound_events[i].played = 1;
         }
     }

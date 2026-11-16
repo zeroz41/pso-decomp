@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/TLobby_8006F278.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/task/TMainTask.h"
@@ -677,7 +676,7 @@ void TObjCityAreaWarp::render() { if (TObjEneDD::is_main_phase_15() != 0) { do_w
 void TObjCityAreaWarp::debug_print_area_num() { this->do_warp(); }
 
 void TObjCityAreaWarp::confirm_area_transfer(void *) {
-    play_sound_effect(0x40003205, (Vec *)(0), 0, 0);
+    play_sound_effect(0x40003205, 0, 0, 0);
     TLobby__data_805D5CE8 = 1;
 }
 

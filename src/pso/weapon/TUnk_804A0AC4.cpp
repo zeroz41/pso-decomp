@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A0AC4.h"
 #include "pso/weapon/shoot/TUnk_804A0AA8.h"

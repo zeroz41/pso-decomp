@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
@@ -80,7 +79,7 @@ s32 TAdChrSelASlotGC__sub_8030C688(TAdChrSelASlotGC *self, s32 kind);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(void *pos, s32 arg1);
 s32 TAdChrSelSlotGC__sub_802C7498(s32, s32);
 void TAdSubPlyItemGC__sub_802D6D88(TAdSubPlyItemGC *self);
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 
 
 void TAdChrSelASlotGC::render() {
@@ -236,7 +235,7 @@ s32 TAdChrSelASlotGC__sub_8030C978(void *arg0, s32 arg1, s32 arg2) {
 s32 TAdChrSelASlotGC::open_yes_no_window(s32 arg0, s32 arg1, s32 arg2) {
     s32 temp_r31;
 
-    play_sound_effect(0x53F06, (Vec *)(0), 0, 0);
+    play_sound_effect(0x53F06, 0, 0, 0);
     temp_r31 = create__19TWindowMessageYesNoFPvPvPvPv(arg0, arg2, 0, 0);
     forward_slot_selection__16TAdChrSelASlotGCFPvPv(temp_r31, get_localized_text_entry(0x16, 0x1B), arg1, 458.0f);
     free_member__17TWindowSubComCardFv(temp_r31, 1);

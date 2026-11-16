@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/switch/TOSwitchAttackSub.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "types.h"

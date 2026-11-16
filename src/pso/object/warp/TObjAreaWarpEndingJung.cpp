@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/TLobby_80070A00.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/vector.h"
@@ -1256,7 +1255,7 @@ void TObjAreaWarpEnding::open_confirm_window(s32 client_id) {
 }
 
 void TObjAreaWarpEnding::confirm_area_transfer(void *) {
-    play_sound_effect(0x40003205, (Vec *)(0), 0, 0);
+    play_sound_effect(0x40003205, 0, 0, 0);
     u32 obj = ((u32 (*)(s32))__nw__7TObjectFUl)(0x28);
     if (obj != 0U) {
         ((THunterGuildSeqOffline *)obj)->init((void *)tl_00, (void *)((s32 *)TKeyBoardControl::dispatch_select_phase));

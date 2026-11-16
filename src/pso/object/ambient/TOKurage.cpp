@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include <stdlib.h>
 #include "pso/system/task/TMainTask.h"
 #include "pso/math/AngleLookup.h"

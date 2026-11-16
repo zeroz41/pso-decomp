@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"

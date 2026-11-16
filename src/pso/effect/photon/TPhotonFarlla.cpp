@@ -1,5 +1,4 @@
 #include "pso/system/NinjaTypes.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/effect/photon/TPhotonFarlla.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
@@ -135,7 +134,7 @@ void *find_entity_by_id(u16 id);
 }
 u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 extern "C" {
-s32 play_persistent_sound(s32 id, s32 a1, Vec *, s32 a3, s32 flags);
+s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 u32 __nw__7TObjectFUl(int);
 
 #pragma push
@@ -209,7 +208,7 @@ void TPhotonFarlla::run_task() {
         }
     }
     if ((s32) this->m_1a0 != 0) {
-        play_persistent_sound(0x4002462F, (s32)arg0, (Vec *)(0), 0, 0);
+        play_persistent_sound(0x4002462F, (s32)arg0, 0, 0, 0);
     }
 }
 #pragma pop

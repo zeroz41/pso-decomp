@@ -1,5 +1,4 @@
 #include "pso/system/task/TMainTask.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/unk/TLobby_802A7290.h"
 #include "pso/system/scene/TEndingC.h"
 #include "types.h"

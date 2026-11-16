@@ -4,7 +4,6 @@
 // Built -inline off,deferred: the functions come out last to first, so the
 // file is written from the end of the unit's .text back.
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/TObjHashi.h"
 #include "pso/object/TObjHashiVersus1.h"
 #include "pso/object/TObjHashiVersus2.h"

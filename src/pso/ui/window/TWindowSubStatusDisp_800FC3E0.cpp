@@ -1,5 +1,4 @@
 #include "pso/ui/font/TFontSmallHelp.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowSubStatusDisp_800FBD74.h"
 #include "types.h"
 #include <string.h>

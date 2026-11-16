@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/unk/text_8026C664.h"
 #include "pso/unk/TLobby_8001D6A0.h"
@@ -161,7 +160,7 @@ struct Pad_8026C9DC {
 };
 
 extern "C" {
-void play_sound_effect(s32, Vec *, s32, s32);
+void play_sound_effect(s32, s32, s32, s32);
 extern Pad_8026C9DC controller_input_state[];
 
 s32 handle_list_page_flip_input(Ctl_8026C9DC *arg0) {
@@ -173,7 +172,7 @@ s32 handle_list_page_flip_input(Ctl_8026C9DC *arg0) {
     if (TWindowShortListCtrl__check_controller_button(pad, 0x30000) == 0) {
         return 0;
     }
-    play_sound_effect(0x54100, (Vec *)(0), 0, 0);
+    play_sound_effect(0x54100, 0, 0, 0);
     if (TWindowShortListCtrl__check_controller_button(pad, 0x10000) != 0) {
         cur++;
     }

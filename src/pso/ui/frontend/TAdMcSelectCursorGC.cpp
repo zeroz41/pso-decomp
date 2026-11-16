@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/ui/frontend/TAdMcSelectCursorGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/frontend/TAdMcSelectCursorGC_8032A610.h"
@@ -44,7 +43,7 @@ void __ct__7TObjectFP7TObject(void *, s32);
 extern s32 __vt__19TAdMcSelectCursorGC[];
 const char *TAdMcSelectCursorGC__class_name = "TAdMcSelectCursorGC";
 Obj_8032A574 *TAdMcSelectCursorGC__ct(Obj_8032A574 *arg0, s32 parent);
-void play_sound_effect(s32, Vec *, s32, s32);
+void play_sound_effect(s32, s32, s32, s32);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
 void restore_saved_depth_alpha_state(void);
@@ -127,7 +126,7 @@ void TAdMcSelectCursorGC::run_task() {
         self->rects[i].y1 = 372.0f;
     }
     if (self->f20 != self->f24) {
-        play_sound_effect(0x54100, (Vec *)(0), 0, 0);
+        play_sound_effect(0x54100, 0, 0, 0);
         self->f128 = 0;
     }
     self->f24 = self->f20;

@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_EffCurse3.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_800C4B78.h"
 #include "pso/system/task/TObject_80019A50.h"

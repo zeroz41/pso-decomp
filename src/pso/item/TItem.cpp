@@ -1,5 +1,4 @@
 #include "pso/network/protocol/protocol_types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/NinjaTypes.h"
 // TItem, the base of every item object, with the item registry, the item
 // packets (6x59/5A/5D/5E/61) and the item system's set-up. The data is
@@ -1410,7 +1409,7 @@ void TItem::apply_switch_attack(s32 effect) {
 
 void TItem::notify_owner(s32 sound) {
     if (owner != NULL && owner->is_body_collision_inactive() == 0) {
-        play_sound_effect(sound, (Vec *)(&owner->position), 0, 0);
+        play_sound_effect(sound, &owner->position, 0, 0);
     }
 }
 

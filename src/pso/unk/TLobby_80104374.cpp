@@ -1,5 +1,4 @@
 #include "pso/unk/TLobby_801E43E4.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_80120FC4.h"
 #include "pso/system/data/FlagWord.h"

@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
@@ -166,7 +165,7 @@ void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player);
 void TWindowSubStatusDisp__sub_80258A28(u8 *arg0, s32 arg1, s32 arg2);
 void *get_player_by_client_id(s32 i);
 s8 clamp_char_at__10TObjPlayerFl(s32, s32);
-s32 play_sound_effect(s32, Vec *, s32, s32);
+s32 play_sound_effect(s32, s32, s32, s32);
 s32 finalize_state__20TWindowSubStatusDispFv(s32);
 s32 is_flag80_set__20TWindowSubStatusDispFv(s32);
 s32 advance_state__20TWindowSubStatusDispFv();
@@ -297,7 +296,7 @@ void TUnk_804CE7E8::advance_all_entries(s32 arg1) {
     ((s32 (*)(void *, s32))get_array_entry__11TWindowBaseFi)(this, *(s16 *)(((u8 *)this) + 0x74));
     if (((s32 (*)(void))is_flag80_set__20TWindowSubStatusDispFv)() == 0) {
         if (arg1 != 0) {
-            play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+            play_sound_effect(0x52D01, 0, 0, 0);
         }
         for (i = 0; i < this->entry_capacity; i++) {
             ((s32 (*)(void *, s32))get_array_entry__11TWindowBaseFi)(this, i);
@@ -314,7 +313,7 @@ void TWindowSubStatusDisp::refresh_selected_entry(s32 arg1) {
     temp_r31 = get_array_entry__11TWindowBaseFi(this, *(s16 *)((s8 *)this + 0x74));
     if (((s32 (*)(void))is_flag80_set__20TWindowSubStatusDispFv)() == 0) {
         if (arg1 != 0) {
-            play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+            play_sound_effect(0x52D01, 0, 0, 0);
         }
         finalize_state__20TWindowSubStatusDispFv(temp_r31);
     }
@@ -465,7 +464,7 @@ void draw_item_list_capacity(void *arg0, Win_80267714 *arg1, s32 arg2, s32 arg3)
 
 void TWindowMenuIconLine::set_flag4() {
     if (!(this->state_flags & 8) && (((s32 (*)(void))is_decided__19TWindowMenuIconLineFv)() == 0)) {
-        play_sound_effect(0x52F16, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52F16, 0, 0, 0);
         this->state_flags = (u16) (this->state_flags | 4);
     }
 }
@@ -474,11 +473,11 @@ void TWindowMenuIconLine::handle_open() {
     s32 temp_r31;
     temp_r31 = get_array_entry__11TWindowBaseFi(this, this->cursor);
     if ((is_flag_4_set__20TWindowSubStatusDispFv() == 0) || (is_flag80_set__20TWindowSubStatusDispFv(temp_r31) != 0)) {
-        play_sound_effect(0x53F06, (Vec *)(0), 0, 0);
+        play_sound_effect(0x53F06, 0, 0, 0);
         return;
     }
     if (!(this->state_flags & 0x100)) {
-        play_sound_effect(0x52D01, (Vec *)(0), 0, 0);
+        play_sound_effect(0x52D01, 0, 0, 0);
     }
     this->state_flags = (u16) (this->state_flags | 2);
     if (this->status_display != NULL) {
@@ -489,7 +488,7 @@ void TWindowMenuIconLine::handle_open() {
 void TWindowMenuIconLine::move_cursor_next() {
     s16 var_r31;
 
-    play_sound_effect(0x54100, (Vec *)(0), 0, 0);
+    play_sound_effect(0x54100, 0, 0, 0);
     var_r31 = this->cursor;
 loop_1:
     var_r31 += 1;
@@ -513,7 +512,7 @@ block_4:
 void TWindowMenuIconLine::move_cursor() {
     s16 var_r31;
 
-    play_sound_effect(0x54100, (Vec *)(0), 0, 0);
+    play_sound_effect(0x54100, 0, 0, 0);
     var_r31 = this->cursor;
 loop_1:
     var_r31 -= 1;

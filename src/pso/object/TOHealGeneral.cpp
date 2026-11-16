@@ -1,5 +1,4 @@
 #include "types.h"
-#include "libs/dolphin/include/dolphin/mtx/GeoTypes.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/TOHealGeneral.h"
@@ -160,7 +159,7 @@ void TOHealGeneral::find_heal_target() {
             if (effect != NULL) {
                 effect->set_owner_id(heal_target);
             }
-            play_sound_effect(0x4002AB0E, (Vec *)(&position), 0, 0);
+            play_sound_effect(0x4002AB0E, &position, 0, 0);
             break;
         }
     }
