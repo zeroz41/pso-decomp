@@ -142,6 +142,7 @@ s32 TLobby__sub_8041F204(NetPacket *pkt, u16 x, TcpTcb *self)
     u32 rem;
     u32 len;
     u32 avail;
+    u32 want;
     NetBufferRef dst;
     NetBufferRef src;
 
@@ -167,11 +168,8 @@ s32 TLobby__sub_8041F204(NetPacket *pkt, u16 x, TcpTcb *self)
                 if (rem != 0) {
                     netbuf_ref_advance(&src, rem);
                 }
-                len = pkt->fragments[i].length;
-                len -= rem;
-                n = self->fEC;
-                n -= self->fF0;
-                if (n >= len) {
+                n = (want = self->fEC) - self->fF0;
+                if (n >= (len = pkt->fragments[i].length - rem)) {
                     n = len;
                     netbuf_copy_by_ref(&dst, &src, n);
                     self->fF0 += len;
