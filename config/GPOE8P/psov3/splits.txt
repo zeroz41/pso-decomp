@@ -8752,10 +8752,11 @@ pso/enemy/gigue/TObjEneMe1GiGueMissile.cpp:
 
 pso/enemy/mericarol/TObjEneBm9Mericarol.cpp:
 	.text       start:0x802CE510 end:0x802D134C
-	.rodata     start:0x804724B8 end:0x804724C8
+	.rodata     start:0x80472318 end:0x804724C8
 	.data       start:0x804E1548 end:0x804E18A4
 	.bss        start:0x80540B58 end:0x80540B98
-	.sbss       start:0x805D6868 end:0x805D686C
+	.sdata      start:0x805D3F28 end:0x805D3F30
+	.sbss       start:0x805D6860 end:0x805D6880
 	.sdata2     start:0x805DE6E8 end:0x805DE758
 
 pso/enemy/mericarol/TObjEneBm9Mericarol_Bomb.cpp:
