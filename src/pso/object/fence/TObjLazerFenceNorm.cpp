@@ -381,7 +381,7 @@ void TObjLazerFenceExtra::draw_lazer_fence_extra_model() {
     Obj_80192554 *arg0 = (Obj_80192554 *)this;
     s32 i;
     for (i = 0; i < 4; i++) {
-        ((TObjDoorJung *)(arg0->fC8[i]))->free_children((void *)lbl_80445B7C[arg0->fAC]);
+        ((TObjDoorJung *)(arg0->fC8[i]))->free_children((void *)lbl_80445B7C[this->scale_level]);
     }
     TObjFish::set_global_param(lazer_fence_norm_texture_list);
     push_matrix();
@@ -389,7 +389,7 @@ void TObjLazerFenceExtra::draw_lazer_fence_extra_model() {
     rotate_matrix_y(NULL, this->rotation_y);
     draw_ginja_object((void *)this->m_bc);
     TParticleCtrl::begin_effect_render();
-    draw_ginja_model_with_motion((void *)arg0->fC0, (void *)this->m_c4, arg0->fB8);
+    draw_ginja_model_with_motion((void *)arg0->fC0, (void *)this->m_c4, this->frame);
     TParticleCtrl::end_effect_render();
     pop_matrix();
 }

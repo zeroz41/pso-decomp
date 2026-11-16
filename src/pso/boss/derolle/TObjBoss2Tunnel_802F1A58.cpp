@@ -168,18 +168,18 @@ void *TObjBoss2Tunnel__sub_802F2A2C(void *arg0p, s32 parent) {
     *(u32 *)((s8 *)arg0 + 0x8C) = p;
     *(s32 *)((s8 *)arg0 + 0x1C) = 0;
     if (is_split_screen() == 0) {
-        *(f32 *)((s8 *)arg0 + 0x84) = 8000.0f;
+        ((TUnk_804E4B3C *)arg0)->half_length = 8000.0f;
     } else {
-        *(f32 *)((s8 *)arg0 + 0x84) = 2666.6667f;
+        ((TUnk_804E4B3C *)arg0)->half_length = 2666.6667f;
     }
     reset_floats__15TObjBoss2TunnelFv(arg0 + 0x20);
     *(s32 *)((s8 *)arg0 + 0x4C) = 0;
     *(f32 *)((s8 *)arg0 + 0x50) = 1.0f;
-    *(f32 *)((s8 *)arg0 + 0x54) = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x5C) = 0.0f;
+    ((TUnk_804E4B3C *)arg0)->segment_x = 0.0f;
+    ((TUnk_804E4B3C *)arg0)->scroll_speed = 0.0f;
     boss2_tunnel_state_flags = 0;
-    *(f32 *)((s8 *)arg0 + 0x58) = 0.0f;
-    *(s32 *)((s8 *)arg0 + 0x70) = 0;
+    ((TUnk_804E4B3C *)arg0)->scroll_offset = 0.0f;
+    ((TUnk_804E4B3C *)arg0)->spawn_index = 0;
     *(f32 *)((s8 *)arg0 + 0x78) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x7C) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x80) = 0.0f;
@@ -205,11 +205,11 @@ void *TObjBoss2Tunnel__sub_802F2A2C(void *arg0p, s32 parent) {
         }
         *(u32 *)((s8 *)arg0 + 0x88) = p;
     } else {
-        *(f32 *)((s8 *)arg0 + 0x84) = 8000.0f;
+        ((TUnk_804E4B3C *)arg0)->half_length = 8000.0f;
         ((TUnk_804E4B3C *)arg0)->spawn_segment_row_a();
         *(s32 *)((s8 *)arg0 + 0x1C) = 2;
-        *(f32 *)((s8 *)arg0 + 0x5C) = 0.0f;
-        *(f32 *)((s8 *)arg0 + 0x54) = (-50.0f);
+        ((TUnk_804E4B3C *)arg0)->scroll_speed = 0.0f;
+        ((TUnk_804E4B3C *)arg0)->segment_x = (-50.0f);
         *(u32 *)((s8 *)arg0 + 0x88) = 0;
         boss2_tunnel_state_flags |= 0x8000;
     }
@@ -298,9 +298,9 @@ void TUnk_804E4B3C::update_phase_motion() {
 void TUnk_804E4B3C::sub_802F273C() {  }
 
 void TUnk_804E4B3C::advance_effect_timer() {
-    *(f32 *)((s8 *)this + 0x5C) += 0.05f;
-    if (*(f32 *)((s8 *)this + 0x5C) > lbl_805DEC68) {
-        *(f32 *)((s8 *)this + 0x5C) = (f32) lbl_805DEC68;
+    this->scroll_speed += 0.05f;
+    if (this->scroll_speed > lbl_805DEC68) {
+        this->scroll_speed = (f32) lbl_805DEC68;
     }
 }
 
@@ -315,25 +315,24 @@ void TUnk_804E4B3C::double_scroll_speed() {
 #pragma push
 #pragma opt_common_subs off
 void TUnk_804E4B3C::update_spawn_timer(s32 arg1, s32 arg2, s32 arg3) {
-    u8 *arg0 = (u8 *)this;
     Vec position;
     f32 temp_f1;
-    *(f32 *)((s8 *)arg0 + 0x58) = (f32) (*(f32 *)((s8 *)arg0 + 0x58) + *(f32 *)((s8 *)arg0 + 0x5C));
-    temp_f1 = *(f32 *)((s8 *)arg0 + 0x58);
+    this->scroll_offset = (f32) (this->scroll_offset + this->scroll_speed);
+    temp_f1 = this->scroll_offset;
     if (temp_f1 >= 800.0f) {
-        *(f32 *)((s8 *)arg0 + 0x58) = (f32) (temp_f1 - 800.0f);
-        *(s32 *)((s8 *)arg0 + 0x70) = (s32) (*(s32 *)((s8 *)arg0 + 0x70) + 1);
-        if ((s32) *(s32 *)((s8 *)arg0 + 0x70) == arg2) {
+        this->scroll_offset = (f32) (temp_f1 - 800.0f);
+        this->spawn_index = (s32) (this->spawn_index + 1);
+        if ((s32) this->spawn_index == arg2) {
             if (arg3 != 0) {
-                *(s32 *)((s8 *)arg0 + 0x70) = (arg2 - 1);
+                this->spawn_index = (arg2 - 1);
             } else {
-                *(s32 *)((s8 *)arg0 + 0x70) = 0;
+                this->spawn_index = 0;
             }
         }
-        position.x = *(f32 *)((s8 *)arg0 + 0x54);
+        position.x = this->segment_x;
         position.y = 0.0f;
-        position.z = *(f32 *)((s8 *)arg0 + 0x84) - *(f32 *)((s8 *)arg0 + 0x58);
-        spawn(*(s32 *)((s8 *)(arg1 + (*(s32 *)((s8 *)arg0 + 0x70) * 4)) + 0), &position);
+        position.z = this->half_length - this->scroll_offset;
+        spawn(*(s32 *)((s8 *)(arg1 + (this->spawn_index * 4)) + 0), &position);
     }
 }
 #pragma pop
@@ -377,7 +376,7 @@ void TUnk_804E4B3C::sub_802F2400() {
         temp_f1 = unk_78.z;
         if (temp_f1 < 1.0f) {
             phase = 2;
-            *(f32 *)((s8 *)this + 0x5C) = 0.0f;
+            this->scroll_speed = 0.0f;
             segment_x = (-50.0f);
             object = tunnel_col;
             if (object != NULL) {
@@ -521,7 +520,7 @@ void TUnk_804E4B24::run_task() {
     if ((s32) this->kind == 4) {
         controller->copy_position(&position);
     }
-    if (this->position.z <= -*(f32 *)((s8 *)arg0 + 0x44)) {
+    if (this->position.z <= -this->half_length) {
         queue_destruction__7TObjectFv((arg0));
     }
     ((TUnk_804E4B24 *)arg0)->update_collision();

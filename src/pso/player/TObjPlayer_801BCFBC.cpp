@@ -191,14 +191,14 @@ void TObjPlayer::apply_motion_entry() {
     ((TObjMotion *)self)->set_action_motion(this->requested_action);
     a = get_anim_entry__10TObjMotionFi(self, this->requested_action);
     this->play_speed = a->speed;
-    self->fid = a->id;
-    self->end = self->motion->frames;
+    this->play_mode = a->id;
+    this->frame_count = self->motion->frames;
     this->motion_flags &= ~4;
     this->action_flags = a->flags;
     if (this->action_flags & 0x20000000) {
         ((TObjMotion *)self)->set_motion_interpolation_flag();
     }
-    if (this->frame >= self->end) {
+    if (this->frame >= this->frame_count) {
         this->frame = TObjPlayer__data_805DC278;
     }
 }

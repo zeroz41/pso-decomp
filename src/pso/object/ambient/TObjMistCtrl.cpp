@@ -39,7 +39,7 @@ typedef char RecoveredGlobal_802AF7C0___vt__12TObjMistCtrl_size[sizeof(Recovered
 u8 *TObjMistCtrl__ct(u8 *mist_ctrl, s32 parent, u32 arg2) {
     __ct__8TObjBaseFP7TObject((void *)mist_ctrl, (void *)parent);
     *(s32 **)((s8 *)mist_ctrl + 0x18) = &(*(RecoveredGlobal_802AF7C0___vt__12TObjMistCtrl *)&__vt__12TObjMistCtrl).value;
-    *(const char **)((s8 *)mist_ctrl + 0) = lbl_805D3E80;
+    ((TObjMistCtrl *)mist_ctrl)->m_name = lbl_805D3E80;
     if (arg2 != 0U) {
         ((TObjMistCtrl *)(mist_ctrl))->apply_object_set_data((void *)arg2);
     }

@@ -93,5 +93,5 @@ u8 *TObjPlayer::create_enter_state_804A0BC0(u8 *arg0) {
     return NULL;
 }
 
-s32 TItemWeapon::get_tp() { return (*(s32 *)((u8 *)this + 0x1C0)); }
+s32 TItemWeapon::get_tp() { return (this->previous_technique_roll); }
 void TObjPlayer::set_effect_state(s32 v) { *(s32 *)&this->unk_1C4 = v; }

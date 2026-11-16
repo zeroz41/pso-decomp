@@ -408,7 +408,6 @@ void TObjNpcBase::update_wandering() {
 }
 
 void TObjNpcBase::update_standing() {
-    u8 *arg0 = (u8 *)this;
     switch (this->phase) {
     case 0:
         if (this->rotation_y != this->m_384) {

@@ -32,8 +32,7 @@ struct TWindowKeyBoardSoft
     s32 open_tick;
     u32 color;
     f32 depth;
-    u8 unk_3C[0x4];
-    f32 m_40; // 0x40
+    u8 _pad3C[0x8];
     u16 m_60;
     u16 m_62;
     u8 m_64;

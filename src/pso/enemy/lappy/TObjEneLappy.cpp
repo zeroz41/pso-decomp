@@ -737,7 +737,7 @@ void TObjEneLappy::update_attacking() {
         apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
         if (((TObjMotion *)arg0)->is_passing_frame(11.0f) != 0) {
             enemy_set_heading_velocity(*(f32 *)((s8 *)this->movementParameters + 4), (TObjEnemy *)(arg0), this->rotation_y);
-            *(f32 *)((s8 *)arg0 + 0x30C) = 0.0f;
+            this->y_speed = 0.0f;
             this->phase = 1;
         }
         break;
@@ -772,7 +772,7 @@ void TObjEneLappy::update_attacking() {
         *(f32 *)((s8 *)arg0 + 0x40) += this->m_310;
         apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
         if (this->action_flags != 4U) {
-            *(f32 *)((s8 *)arg0 + 0x308) = *(f32 *)((s8 *)arg0 + 0x30C) = this->m_310 = 0.0f;
+            *(f32 *)((s8 *)arg0 + 0x308) = this->y_speed = this->m_310 = 0.0f;
             this->actorFlags &= 0xFFDFFFFF;
             this->vfunc_59();
             this->timer = 0;

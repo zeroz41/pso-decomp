@@ -77,7 +77,7 @@ u8 *__ct__18TAdGameStartBackGCFv(u8 *object, u8 *arg1) {
     f32 temp_f5_2;
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__18TAdGameStartBackGC.value;
-    *(const char **)((s8 *)object + 0) = TAdGameStartBackGC__class_name;
+    ((TAdGameStartBackGC *)object)->m_name = TAdGameStartBackGC__class_name;
     *(f32 *)((s8 *)object + 0x5C) = 106.0f;
     *(f32 *)((s8 *)object + 0x60) = 192.0f;
     *(s32 *)((s8 *)object + 0x78) = 0xFF;

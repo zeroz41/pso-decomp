@@ -89,11 +89,11 @@ s32 TBoss7Joint::init_params() {
     set_collision_body(&((J_802EEB88 *)this)->sub);
     transform_part_positions();
     reset_hp((u8 *)(register_boss__6TLobbyFl(0x10)), (u8 *)(dispatch_shared_handler_b__6TLobbyFl(0xF)), (u8 *)(register_object__6TLobbyFl(0x10)));
-    *(s16 *)((s8 *)this + 0x32C) = 0x4E20;
-    *(s16 *)((s8 *)this + 0x2B8) = 0x4E20;
+    this->hp = 0x4E20;
+    this->hpmax = 0x4E20;
     check_state_flag_2();
     *(Boss7JointParams **)((s8 *)this + 0x350) = &boss7_joint_params;
-    *(s16 *)((s8 *)this + 0x33E) = *(s16 *)((s8 *)this + 0x2B8);
+    this->referenceHp = this->hpmax;
     *(f32 *)((s8 *)this + 0x37C) = 3.0f;
     this->vfunc_96();
     *(s32 *)((s8 *)this + 0x3BC) = 0;

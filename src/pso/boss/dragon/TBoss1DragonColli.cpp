@@ -137,7 +137,7 @@ void TBoss1DragonColli::draw(void* a1, void* a2) { push_matrix(this); set_matrix
 void TBoss1DragonColli_C::clear_segment_flags() {
     O_8002B3F4 *self = (O_8002B3F4 *)this;
     s32 i;
-    for (i = 0; i < self->count; i++) {
+    for (i = 0; i < this->body_count; i++) {
         self->elems[i].flags &= ~1;
     }
 }

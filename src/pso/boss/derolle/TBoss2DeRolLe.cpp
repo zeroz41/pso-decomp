@@ -3247,7 +3247,7 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
     }
     Vec v = {10000.0f, 10000.0f, 10000.0f};
     a = ((TBoss2DeRolLe *)self)->entity_id + 1;
-    b = *(s16 *)((s8 *)self + 0x2C) + 1;
+    b = ((TBoss2DeRolLe *)self)->set_index + 1;
     for (j = 0; j < 10; j++) {
         VecCopy__FP3VecPC3Vec(&self->v540[j], &v);
         self->f5B8[j] = -1;
@@ -5664,7 +5664,7 @@ void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1) {
 
     switch (arg1) {
     case 4:
-        *(s16 *)((s8 *)arg0 + 0xB8) = 1;
+        ((TBoss2DeRolLe *)arg0)->requested_action = 1;
         ((s32 (*)(void))TBoss2DeRolLe__sub_800341F0)();
         *(s32 *)((s8 *)arg0 + 0x3C0) = *(s32 *)((s8 *)arg0 + 0x3C0) | 4;
         *(s32 *)((s8 *)arg0 + 0x3C0) = *(s32 *)((s8 *)arg0 + 0x3C0) & ~0x100;
@@ -5703,9 +5703,9 @@ void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1) {
             *(s32 *)((s8 *)arg0 + 0x6E4) += 1;
             if (*(s32 *)((s8 *)arg0 + 0x6E4) >= 0x2D) {
                 *(s32 *)((s8 *)arg0 + 0x6E0) = 2;
-                *(s16 *)((s8 *)arg0 + 0xB8) = 2;
+                ((TBoss2DeRolLe *)arg0)->requested_action = 2;
                 *(f32 *)((s8 *)arg0 + 0x40) = -1200.0f;
-                *(s32 *)((s8 *)arg0 + 0x64) = 0x8000;
+                ((TBoss2DeRolLe *)arg0)->rotation_z = 0x8000;
                 *(f32 *)((s8 *)arg0 + 0x6A4) = 93.0f;
             }
             break;
@@ -5729,9 +5729,9 @@ void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1) {
             }
             break;
         case 3:
-            *(f32 *)((s8 *)arg0 + 0xC8) -= 0.02f;
-            if (*(f32 *)((s8 *)arg0 + 0xC8) < 0.0f) {
-                *(f32 *)((s8 *)arg0 + 0xC8) = 0.0f;
+            ((TBoss2DeRolLe *)arg0)->play_speed -= 0.02f;
+            if (((TBoss2DeRolLe *)arg0)->play_speed < 0.0f) {
+                ((TBoss2DeRolLe *)arg0)->play_speed = 0.0f;
             }
             if (*(f32 *)((s8 *)arg0 + 0x6A4) > 0.0f) {
                 *(f32 *)((s8 *)arg0 + 0x700) += -0.1f;
@@ -5750,10 +5750,10 @@ void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1) {
             *(s32 *)((s8 *)arg0 + 0x6E4) += 1;
             if (*(s32 *)((s8 *)arg0 + 0x6E4) >= 0x2D) {
                 *(s32 *)((s8 *)arg0 + 0x6E0) = 5;
-                *(s16 *)((s8 *)arg0 + 0xB8) = 1;
+                ((TBoss2DeRolLe *)arg0)->requested_action = 1;
                 *(s32 *)((s8 *)arg0 + 0x654) = 1;
                 set_position_index__13TBoss2DeRolLeFPvi(arg0, *(s32 *)((s8 *)arg0 + 0x654));
-                *(s32 *)((s8 *)arg0 + 0x64) = 0;
+                ((TBoss2DeRolLe *)arg0)->rotation_z = 0;
                 *(f32 *)((s8 *)arg0 + 0x6A4) = -137.0f;
                 TObjBoss2Tunnel::set_global_flag_400();
             }
@@ -5779,7 +5779,7 @@ void TBoss2DeRolLe__sub_80030898(u8 *arg0, u32 arg1, s32 arg2) {
 
     switch (arg1) {
     case 4:
-        *(s16 *)((s8 *)arg0 + 0xB8) = 3;
+        ((TBoss2DeRolLe *)arg0)->requested_action = 3;
         ((s32 (*)(void))TBoss2DeRolLe__sub_800341F0)();
         *(s32 *)((s8 *)arg0 + 0x3C0) = *(s32 *)((s8 *)arg0 + 0x3C0) & ~4;
         *(s32 *)((s8 *)arg0 + 0x3C0) = *(s32 *)((s8 *)arg0 + 0x3C0) & ~0x100;
@@ -6588,7 +6588,7 @@ void TBoss2DeRolLe::render_body() {
     push_matrix();
     post_translate_matrix(self->pos);
     rotate_matrix_y(0, this->rotation_y);
-    rotate_matrix_x(0, self->rotX);
+    rotate_matrix_x(0, this->rotation_x);
     rotate_matrix_z(0, this->rotation_z);
     Vec scale = {2.0f, 2.0f, 2.0f};
     TObjEneDD::check_v2_mode();

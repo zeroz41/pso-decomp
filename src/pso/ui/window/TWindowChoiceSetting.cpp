@@ -255,7 +255,7 @@ void TUnk_804D0658::run_task() {
     u8 *temp_r30_2;
     u8 *context;
     if ((((TUnk_804D0658 *)arg0)->is_selected() == 0) && (((s32 (*)(void *))is_open__13TUnk_804D0658Fv)(arg0) == 0)) {
-        if (this->m_70 & 0x10) {
+        if (*(u16 *)((s8 *)arg0 + 0x70) & 0x10) {
             input = (u8 *)&controller_input_state.value + 0x20;
             if ((TWindowChoiceSetting::apply_choice((s32)input, 0x10, 6, 1) != 0) || (TWindowChoiceSetting::apply_choice((s32)((void *) ((u8 *)&controller_input_state.value + 0x160)), 0x10, 6, 1) != 0)) {
                 ((TUnk_804D0658 *)arg0)->move_cursor_prev();
@@ -281,7 +281,7 @@ void TUnk_804D0658::run_task() {
         }
     }
     if ((f32) *(s32 *)&this->m_5c >= lbl_805DD1F8) {
-        temp_r3 = this->m_78;
+        temp_r3 = *(u32 *)((s8 *)arg0 + 0x78);
         if (temp_r3 != 0U) {
             ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
         }
@@ -294,7 +294,7 @@ void TUnk_804D0658::run_task() {
     ((TWindowAddition *)arg0)->step_window_tween();
     ((TUnk_804D0658 *)arg0)->update_scroll_offset();
     ((TUnk_804D0658 *)arg0)->clamp_scroll();
-    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&(this->m_24));
+    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&(*(void * *)((u8 *)this + 0x24)));
 }
 
 void *TUnk_804D0658::destroy_children(s16 arg1) {

@@ -126,13 +126,13 @@ void render__16TObjContainerIdoFv(u8 *container_ido) {
         push_matrix();
         post_translate_matrix(container_ido + 0xC0);
         rotate_matrix_y(0, ((TObjContainerIdo *)container_ido)->rotation_y);
-        rotate_matrix_x(0, *(s32 *)((s8 *)container_ido + 0x5C));
+        rotate_matrix_x(0, ((TObjContainerIdo *)container_ido)->rotation_x);
         draw_ginja_object((void *)get_bml_model(TObjContainerIdo__model_resource, 0));
         pop_matrix();
         push_matrix();
         post_translate_matrix(container_ido + 0x38);
         rotate_matrix_y(0, ((TObjContainerIdo *)container_ido)->rotation_y);
-        rotate_matrix_x(0, *(s32 *)((s8 *)container_ido + 0x5C));
+        rotate_matrix_x(0, ((TObjContainerIdo *)container_ido)->rotation_x);
         draw_ginja_object((void *)get_bml_model(TObjContainerIdo__model_resource, 1));
         pop_matrix();
         if (var_r31 != 0) {
@@ -340,7 +340,7 @@ u8 *TObjContainerIdo__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TUnk_804B97C0 *)arg0)->init_positions();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjContainerIdo;
     __ct__15RenderFadeStateFv((arg0 + 0xF0));
-    *(const char **)((s8 *)arg0 + 0) = obj_container_ido_class_name;
+    ((TObjContainerIdo *)arg0)->m_name = obj_container_ido_class_name;
     ((TObjContainerIdo *)(arg0))->apply_object_set_data((void *)arg2);
     VecCopy((Vec *)(arg0 + 0xC0), (const Vec *)(arg0 + 0x38));
     VecCopy((Vec *)(arg0 + 0xB4), (const Vec *)(arg0 + 0x38));

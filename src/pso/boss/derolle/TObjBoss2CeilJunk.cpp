@@ -177,7 +177,7 @@ void TObjBoss2CeilJunk::render() {
   TObjFish::set_global_param(lbl_805D4BEC);
   post_translate_matrix(self->pos);
   rotate_matrix_y(0, this->rotation_y);
-  rotate_matrix_x(0, self->f5C);
+  rotate_matrix_x(0, this->rotation_x);
   draw_ginja_object((void *)(boss2_tunnel_instance->mdls[boss2_ceil_junk_model_index_table[*(s32 *)&this->m_ac]].f8));
   pop_matrix();
   model_render_flags = saved_model_render_flags;

@@ -302,7 +302,7 @@ typedef char RecoveredGlobal_802204B0_TShopItemTecSequence__data_80513EE0_size[s
 u8 *TShopItemTecSequence__ct(u8 *shop_item_tec_sequence, s32 arg1, s32 arg2) {
     TShopSequence__ct((shop_item_tec_sequence));
     *(s32 **)((s8 *)shop_item_tec_sequence + 0x18) = &(*(RecoveredGlobal_802204B0___vt__20TShopItemTecSequence *)&__vt__20TShopItemTecSequence).value;
-    *(const char **)((s8 *)shop_item_tec_sequence + 0) = TShopItemTecSequence__class_name;
+    ((TShopItemTecSequence *)shop_item_tec_sequence)->m_name = TShopItemTecSequence__class_name;
     ((TShopItemTecSequence *)shop_item_tec_sequence)->m_20 = 0;
     *(s32 *)((s8 *)shop_item_tec_sequence + 0x24) = arg2;
     *(s32 *)((s8 *)shop_item_tec_sequence + 0x30) = 0;

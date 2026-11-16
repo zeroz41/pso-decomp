@@ -22,7 +22,7 @@ void fn_803594B4(O_803594B4 *self, s32 v, f32 f);
 u8 *TObjNpcNgcBase__ct(u8 *player, s32 arg1, s32 arg2, s32 arg3) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
     *(s32 **)((s8 *)player + 0x18) = __vt__14TObjNpcNgcBase;
-    *(const char **)((s8 *)player + 0) = TObjNpcNgcBase__name;
+    ((TObjNpcNgcBase *)player)->m_name = TObjNpcNgcBase__name;
     ((TObjNpcNgcBase *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();
     *(s32 *)((s8 *)player + 0x34) = get_bml_model((void *)arg3, 0);

@@ -1055,12 +1055,12 @@ void TObjEnePanBARA::sub_800E10D0() {
     u8 *p;
     u8 *e;
 
-    t = *(s32 *)((s8 *)this + 0x3B4) - 1;
-    *(s32 *)((s8 *)this + 0x3B4) = t;
+    t = this->action_timer - 1;
+    this->action_timer = t;
     if (t > 0) {
         return;
     }
-    if (*(s32 *)((s8 *)this + 0x3B4) == 0) {
+    if (this->action_timer == 0) {
         this->motion_flags &= ~1;
         this->set_field_b8(1);
     }
@@ -1216,7 +1216,7 @@ void TObjEnePanBARA::sub_800E0D1C() {
         sub_800E1C98__14TObjEnePanBARAFl((u8 *)this, 2);
         return;
     }
-    temp_r0 = *(s32 *)((s8 *)this + 0x3B4) - 5;
+    temp_r0 = this->action_timer - 5;
     if (temp_r0 > 0) {
         temp_f31 = 1.0f / (f32) temp_r0;
         VecCopy((Vec *)(&stack.sp8), &m_38c);
@@ -1229,7 +1229,7 @@ void TObjEnePanBARA::sub_800E0D1C() {
     } else if (temp_r0 == 0) {
         ((TObjMotion *)this)->set_field_b8(0);
     }
-    *(s32 *)((s8 *)this + 0x3B4) = (s32) (*(s32 *)((s8 *)this + 0x3B4) - 1);
+    this->action_timer = (s32) (this->action_timer - 1);
 }
 #pragma pop
 
@@ -1296,23 +1296,23 @@ void TObjEnePanBARA::sub_800E0950() {
     f32 temp_f1;
     f32 temp_f2;
     s32 temp_r0;
-    *(s32 *)((s8 *)this + 0x3B4) = (s32) (*(s32 *)((s8 *)this + 0x3B4) - 1);
+    this->action_timer = (s32) (this->action_timer - 1);
     static f32 panarms_particle_frame_window = lbl_80495484[6].unk_8;
-    temp_f2 = *(f32 *)((s8 *)this + 0xC0);
+    temp_f2 = this->frame;
     if ((temp_f2 >= 24.0f) && (temp_f2 < (24.0f + panarms_particle_frame_window))) {
         VecCopy((Vec *)(&stack.sp8), (const Vec *)unk_3A4);
         temp_f1 = stack.spC;
         stack.spC += 5.0f;
         spawn_particle_effect((void *)&stack.sp8, 0xF3, temp_f1);
     }
-    temp_r0 = *(s32 *)((s8 *)this + 0x3B4);
+    temp_r0 = this->action_timer;
     if (temp_r0 <= 0x78) {
         if (temp_r0 == 0x78) {
             ((TObjPlayer *)unk_3A4)->spawn_ground_effect(0x78);
             TObjPlayer::spawn_dead_spot_default((s32)unk_3A4, 6);
         }
         this->position.y += -0.15625f;
-        if ((s32) *(s32 *)((s8 *)this + 0x3B4) < 0) {
+        if ((s32) this->action_timer < 0) {
             sub_800E1C98__14TObjEnePanBARAFl((void *)this, 8);
         }
     }
@@ -1612,12 +1612,12 @@ void TObjEnePanBARA::init_open_state() {
 void TObjEnePanBARA::sub_800DFE08() {
     s32 temp_r0;
     s32 var_r5;
-    temp_r0 = *(s32 *)((s8 *)this + 0x3B4) - 1;
-    *(s32 *)((s8 *)this + 0x3B4) = temp_r0;
+    temp_r0 = this->action_timer - 1;
+    this->action_timer = temp_r0;
     if (temp_r0 == 0) {
         ((s32 (*)(void *, s32))set_field_b8__10TObjMotionFs)((u8 *)this, 4);
     }
-    if (-15.0f == (f32) *(s32 *)((s8 *)this + 0x3B4)) {
+    if (-15.0f == (f32) this->action_timer) {
         var_r5 = *(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x33)) + 0x18);
         if ((var_r5 < 0) || (var_r5 > 0xE)) {
             var_r5 = 0;

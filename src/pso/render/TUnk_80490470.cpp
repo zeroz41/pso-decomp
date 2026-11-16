@@ -23,12 +23,11 @@ s32 TUnk_80490470::advance_toward_max() {
     return phase >= 2.0f;
 }
 s32 TUnk_80490470::decay_value_toward_floor() {
-    u8 *arg0 = (u8 *)this;
     f32 temp_f1;
-    temp_f1 = *(f32 *)((s8 *)arg0 + 0x18);
-    *(f32 *)((s8 *)arg0 + 0x18) = (f32) (temp_f1 - *(f32 *)((s8 *)arg0 + 0x10));
+    temp_f1 = this->phase;
+    this->phase = (f32) (temp_f1 - this->rate);
     calc_recoil_offsets__13TUnk_80490470Fv(temp_f1);
-    return *(f32 *)((s8 *)arg0 + 0x18) <= 0.0f;
+    return this->phase <= 0.0f;
 }
 
 }

@@ -148,7 +148,7 @@ void *__dt__18TBoss7PhotonBulletFv(void *arg0, s16 arg1) {
 u8 *TBoss7PhotonBullet__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0) {
     __ct__13TUnk_804928CCFP7TObjectP8TObjBase((arg0), (arg1), (arg2));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_802EF514___vt__18TBoss7PhotonBullet *)&__vt__18TBoss7PhotonBullet).value;
-    *(const char **)((s8 *)arg0 + 0) = TBoss7PhotonBullet__name;
+    ((TBoss7PhotonBullet *)arg0)->m_name = TBoss7PhotonBullet__name;
     VecCopy__FP3VecPC3Vec(arg0 + 0x38, (void *) (VecCopy__FP3VecPC3Vec(arg0 + 0xC0, (void *)arg3)));
     VecCopy__FP3VecPC3Vec(arg0 + 0xB4, (void *)arg4);
     *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xA4)) + 0xC) = 3.0f;
@@ -226,7 +226,7 @@ void *__dt__15TBoss7PhotonPadFv(void *self, s16 arg1) {
 }
 }
 TBoss7PhotonPad::TBoss7PhotonPad(s32 arg1, s32 arg2, s32 arg3, s32 arg4) : TObject((TObject *)arg1) {
-    *(const char **)((s8 *)this + 0) = TBoss7PhotonPad__name;
+    this->m_name = TBoss7PhotonPad__name;
     *(s32 *)((s8 *)this + 0x1C) = arg2;
     *(s32 *)((s8 *)this + 0x2C) = arg4;
     VecCopy__FP3VecPC3Vec(((u8 *)this) + 0x20, (void *)arg3);

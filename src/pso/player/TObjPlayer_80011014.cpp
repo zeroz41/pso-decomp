@@ -1827,13 +1827,13 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0) {
         ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg1, &position.x);
     }
     if (temp_r31 != 0) {
-        *(f32 *)((s8 *)enemy + 0x30C) += (-0.10888889f);
-        *(f32 *)((s8 *)enemy + 0x3C) = (f32) (*(f32 *)((s8 *)enemy + 0x3C) + *(f32 *)((s8 *)enemy + 0x30C));
+        ((TObjEnemy *)enemy)->y_speed += (-0.10888889f);
+        *(f32 *)((s8 *)enemy + 0x3C) = (f32) (*(f32 *)((s8 *)enemy + 0x3C) + ((TObjEnemy *)enemy)->y_speed);
         temp_f1 = position.y + farg0;
         position.y = temp_f1;
         if (*(f32 *)((s8 *)enemy + 0x3C) <= temp_f1) {
             *(f32 *)((s8 *)enemy + 0x3C) = temp_f1;
-            *(f32 *)((s8 *)enemy + 0x30C) = 0.0f;
+            ((TObjEnemy *)enemy)->y_speed = 0.0f;
             enemy->actorFlags = (s32) (enemy->actorFlags | 0x800000);
             return;
         }
@@ -3999,7 +3999,7 @@ s32 TObjChara::is_target_in_attack_range() {
                         subtract_vector(&v, &p->pos);
                         dist = v.x * v.x + v.z * v.z;
                         range = (p->target->parts[i].radius + ((TObjChara *)p)->get_attack_range()) * (p->target->parts[i].radius + ((TObjChara *)p)->get_attack_range());
-                        ang = ((s32)angle_difference_abs(p->rotY, (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(v.x, v.z))));
+                        ang = ((s32)angle_difference_abs(this->rotation_y, (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(v.x, v.z))));
                         if (dist < range && ang < ((TObjChara *)p)->get_attack_angle()) {
                             return 1;
                         }
@@ -4007,7 +4007,7 @@ s32 TObjChara::is_target_in_attack_range() {
                 }
             } else {
                 dist = calc_xz_distance_sq((s32)((s32)p), (u32)((u32)t), &out);
-                ang = ((s32)angle_difference_abs(p->rotY, (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(out.x, out.z))));
+                ang = ((s32)angle_difference_abs(this->rotation_y, (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(out.x, out.z))));
                 if (p->target->parts != NULL) {
                     prod = (p->target->parts->radius + ((TObjChara *)p)->get_attack_range()) * (p->target->parts->radius + ((TObjChara *)p)->get_attack_range());
                 } else {
@@ -4569,7 +4569,7 @@ Obj_80019038 *__ct__9TObjCharaFP7TObject(Obj_80019038 *self, void *parent) {
     ((TObjChara *)self)->m_314 = 0;
     ((TObjChara *)self)->m_318 = 0;
     *(s32 *)((s8 *)self + 0x31C) = 0;
-    *(s16 *)((s8 *)self + 0x2BE) = 0;
+    ((TObjChara *)self)->tp_bonus = 0;
     ((TObjChara *)self)->hp_bonus = 0;
     ((TObjChara *)self)->tp = 0;
     ((TObjChara *)self)->hp = 0;
@@ -4754,7 +4754,7 @@ s16 obj_getS16_2BA(u8* p) {
 #pragma scheduling on
 #pragma scheduling off
 s16 TObjChara::get_actor_hp() {
-    return *(s16*)(((u8*)this) + 0x32c);
+    return this->hp;
 }
 #pragma pop
 

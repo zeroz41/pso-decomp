@@ -59,13 +59,7 @@ public:
     // Copies the emission direction; dir points at three words.
     void set_direction(void *dir);
     void set_flags(u16 flags);
-    u8 unk_1C[0x4];
-    s32 m_20; // 0x20
-    u8 unk_24[0x4];
-    s32 m_28; // 0x28
-    u8 unk_2C[0x2];
-    u16 m_2e; // 0x2E
-    u8 unk_30[0x10];
+    u8 pad_1c[0x24];
     f32 field_40;
     f32 field_44;
     u8 pad_48[0x18];

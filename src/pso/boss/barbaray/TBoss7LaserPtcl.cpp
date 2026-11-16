@@ -95,10 +95,10 @@ void TUnk_804F1C88::render() {  }
 u8 *TBoss7LaserPtcl__ct(u8 *boss7_laser_ptcl, u8 *arg1, u8 *arg2, u8 *arg3) {
     __ct__7TObjectFP7TObject(boss7_laser_ptcl, arg1);
     *(s32 **)((s8 *)boss7_laser_ptcl + 0x18) = &(*(RecoveredGlobal_8035ACBC___vt__15TBoss7LaserPtcl *)&__vt__15TBoss7LaserPtcl).value;
-    *(const char **)((s8 *)boss7_laser_ptcl + 0) = TBoss7LaserPtcl__class_name;
-    *(f32 *)((s8 *)boss7_laser_ptcl + 0x4C) = (f32) 8e+01f;
+    ((TBoss7LaserPtcl *)boss7_laser_ptcl)->m_name = TBoss7LaserPtcl__class_name;
+    ((TBoss7LaserPtcl *)boss7_laser_ptcl)->travel_distance = (f32) 8e+01f;
     *(s32 *)((s8 *)boss7_laser_ptcl + 0x54) = 0;
-    *(s32 *)((s8 *)boss7_laser_ptcl + 0x1C) = 0;
+    ((TBoss7LaserPtcl *)boss7_laser_ptcl)->state = 0;
     VecCopy((Vec *)(boss7_laser_ptcl + 0x20), (const Vec *)arg2);
     VecCopy((Vec *)(boss7_laser_ptcl + 0x2C), (const Vec *)arg3);
     ((TBoss7LaserPtcl *)boss7_laser_ptcl)->update_position();

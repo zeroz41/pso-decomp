@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/object/container/TContainerAncient01.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/container/TContainerAncient01R.h"
@@ -568,7 +569,6 @@ s32 is_within_range__19TContainerAncient01Fii(s32 arg0, s32 arg1) {
 }
 
 void TContainerAncient01R::render() {
-    u8 *arg0 = (u8 *)this;
     if (this->update_object_view_visibility(3e+02f, 2e+01f) != 0) {
         TObjFish::set_global_param(this->texlist);
         push_matrix();
@@ -916,7 +916,6 @@ s32 TContainerAncient01::select_melee_contact_body(void *target, f32) {
 }
 
 void TContainerAncient01::render() {
-    u8 *arg0 = (u8 *)this;
     if (this->update_object_view_visibility(3e+02f, 2e+01f) != 0) {
         TObjFish::set_global_param(this->texlist);
         push_matrix();

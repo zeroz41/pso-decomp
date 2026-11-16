@@ -121,7 +121,7 @@ TEndingPic::~TEndingPic() {}
 u8 *__ct__10TEndingPicFv(u8 *ending_pic, u8 *arg1) {
     __ct__7TObjectFP7TObject(ending_pic, arg1);
     *(s32 **)((s8 *)ending_pic + 0x18) = &__vt__10TEndingPic.value;
-    *(const char **)((s8 *)ending_pic + 0) = lbl_805D4378;
+    ((TEndingPic *)ending_pic)->m_name = lbl_805D4378;
     *(s32 *)((s8 *)ending_pic + 0x1C) = -1;
     TEndingPic__animation_state = 0;
     *(s32 *)((s8 *)ending_pic + 0x20) = 0xFF;

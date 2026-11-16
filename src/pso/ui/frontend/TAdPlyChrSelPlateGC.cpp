@@ -113,8 +113,8 @@ bool TAdPlyChrSelPlateGC::is_slot_value_ready(s32 i) {
 void TAdPlyChrSelPlateGC::reset_selection_slots() {
     S_802C4D88 *arg0 = (S_802C4D88 *)this;
     s32 i;
-    this->m_3ac = -1;
-    *(s32 *)&this->plate_count = 0;
+    arg0->f3AC = -1;
+    arg0->f224 = 0;
     for (i = 0; i < 0x20; i++) {
         arg0->a[i] = 0;
         arg0->fl[i] = 0.0f;
@@ -127,10 +127,10 @@ void TAdPlyChrSelPlateGC::reset_selection_slots() {
 typedef void (*Fn1_802C4DD0)(void *);
 void TAdPlyChrSelPlateGC::push_plate_position() {
     S_802C4DD0 *arg0 = (S_802C4DD0 *)this;
-    if (*(s32 *)&this->plate_count < 0x20) {
-        ((Fn1_802C4DD0)copy_vec2__28TWindowSubSymbolChatPartsSetFPv)(&arg0->v11C[*(s32 *)&this->plate_count]);
-        ((TWindowSubSymbolChatPartsSet *)(&arg0->v1C[*(s32 *)&this->plate_count]))->copy_vec2(&arg0->v11C[0]);
-        *(s32 *)&this->plate_count = *(s32 *)&this->plate_count + 1;
+    if (arg0->f224 < 0x20) {
+        ((Fn1_802C4DD0)copy_vec2__28TWindowSubSymbolChatPartsSetFPv)(&arg0->v11C[arg0->f224]);
+        ((TWindowSubSymbolChatPartsSet *)(&arg0->v1C[arg0->f224]))->copy_vec2(&arg0->v11C[0]);
+        arg0->f224 = arg0->f224 + 1;
     }
 }
 #pragma push
@@ -142,8 +142,8 @@ void TAdPlyChrSelPlateGC::run_task() {
     s32 m;
     u32 i;
     s32 j;
-    if (this->m_3ac < *(s32 *)&this->plate_count * 2 + 1) {
-        this->m_3ac = this->m_3ac + 1;
+    if (self->f3AC < self->f224 * 2 + 1) {
+        self->f3AC = self->f3AC + 1;
     }
     for (i = 0; i < 32; i++) {
         if (self->a[i] != 0) {
@@ -169,10 +169,10 @@ void TAdPlyChrSelPlateGC::run_task() {
             }
         }
     }
-    if (this->m_3ac % 2 == 0) {
-        half = this->m_3ac / 2;
+    if (self->f3AC % 2 == 0) {
+        half = self->f3AC / 2;
         m = half - 1;
-        if (m < *(s32 *)&this->plate_count && half - 1 >= 0 && m < 32) {
+        if (m < self->f224 && half - 1 >= 0 && m < 32) {
             self->a[half - 1] = 1;
         }
     }

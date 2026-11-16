@@ -126,10 +126,10 @@ TBoss3VoloptCore::TBoss3VoloptCore(TObject *parent, void *set_data) : TObjEnemyC
 
 TBoss3VoloptCore::TBoss3VoloptCore(TObject *parent, u16 id, s32 param) : TObjEnemyCustom(parent) {
     entity_id = id;
-    *(s16 *)((u8 *)this + 0x2C) = param;
+    this->set_index = param;
     set_entry = 0;
     *(s16 *)((u8 *)this + 0x28) = *(s16 *)((u8 *)parent + 0x28);
-    *(s16 *)((u8 *)this + 0x2A) = *(s16 *)((u8 *)parent + 0x2A);
+    this->set_group = *(s16 *)((u8 *)parent + 0x2A);
     init_params();
 }
 

@@ -259,7 +259,7 @@ u8 *TBoss6Kakusan__ct(u8 *boss6_kakusan, TObject *parent, Vec *pos, Vec *dir, u1
     u32 temp_r3;
     __ct__7TObjectFP7TObject((void *)boss6_kakusan, parent);
     *(s32 **)((s8 *)boss6_kakusan + 0x18) = &(*(RecoveredGlobal_80322994___vt__13TBoss6Kakusan *)&__vt__13TBoss6Kakusan).value;
-    *(const char **)((s8 *)boss6_kakusan + 0) = TBoss6Kakusan__name;
+    ((TBoss6Kakusan *)boss6_kakusan)->m_name = TBoss6Kakusan__name;
     ((TBoss6Kakusan *)boss6_kakusan)->m_20 = target_client;
     ((TBoss6Kakusan *)boss6_kakusan)->m_24 = speed;
     if (((TBoss6Kakusan *)boss6_kakusan)->m_24 <= 0.0f) {

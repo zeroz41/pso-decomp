@@ -258,8 +258,7 @@ void TUnk_8048E778::draw_sprite_quad(s32 kind) {
 #pragma pop
 
 s32 TUnk_8048E728::is_particle_sprite_additive() {
-    u8 *arg0 = (u8 *)this;
-    return **(s32 **)((s8 *)(*(s32 *)((s8 *)&TParticleCtrl__data_80511F70.value + (*(u16 *)((s8 *)arg0 + 0x1C) * 4))) + 0x28) & 1;
+    return **(s32 **)((s8 *)(*(s32 *)((s8 *)&TParticleCtrl__data_80511F70.value + (this->sprite_index * 4))) + 0x28) & 1;
 }
 
 void TParticleCtrl::mark_active() {

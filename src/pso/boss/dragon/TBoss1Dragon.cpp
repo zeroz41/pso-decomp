@@ -4085,7 +4085,6 @@ void TBoss1Dragon::release_held_player() {
 #pragma push
 #pragma fp_contract on
 void TBoss1Dragon::hold_captured_player() {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r31;
     s32 temp_r3b;
     u8 *temp_r3;
@@ -4468,7 +4467,6 @@ void TBoss1Dragon::clear_work() {
 #pragma push
 #pragma fp_contract on
 void TBoss1Dragon::spawn_impact_crater(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
     Vec position;
     s32 temp_r5;
     VecCopy__FP3VecPC3Vec((s32)&position.x, arg1);

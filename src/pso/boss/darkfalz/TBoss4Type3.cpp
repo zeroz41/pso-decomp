@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/SampledMotionPoints.h"
+#include "pso/boss/darkfalz/TObjBs4CutAtk.h"
 #include "pso/effect/TUnk_80494968.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
@@ -792,15 +793,15 @@ void *__ct__13TObjBs4CutAtkFv(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
     *(void **)((s8 *)arg0 + 0x18) = __vt__13TObjBs4CutAtk;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjBs4CutAtk_name;
     if (arg3 == 0) {
-        *(s32 *)((s8 *)arg0 + 0x1C) = -0x1554;
-        *(s32 *)((s8 *)arg0 + 0x1C) = (s32) (*(s32 *)((s8 *)arg0 + 0x1C) + (arg2 << 0xC));
-        *(s32 *)((s8 *)arg0 + 0x20) = 0x71C;
+        ((TObjBs4CutAtk *)arg0)->angle = -0x1554;
+        ((TObjBs4CutAtk *)arg0)->angle = (s32) (((TObjBs4CutAtk *)arg0)->angle + (arg2 << 0xC));
+        ((TObjBs4CutAtk *)arg0)->angle_step = 0x71C;
     } else {
-        *(s32 *)((s8 *)arg0 + 0x1C) = 0xE38;
-        *(s32 *)((s8 *)arg0 + 0x1C) = (s32) (*(s32 *)((s8 *)arg0 + 0x1C) + (arg2 << 0xC));
-        *(s32 *)((s8 *)arg0 + 0x20) = -0x71C;
+        ((TObjBs4CutAtk *)arg0)->angle = 0xE38;
+        ((TObjBs4CutAtk *)arg0)->angle = (s32) (((TObjBs4CutAtk *)arg0)->angle + (arg2 << 0xC));
+        ((TObjBs4CutAtk *)arg0)->angle_step = -0x71C;
     }
-    *(s32 *)((s8 *)arg0 + 0x24) = 0;
+    ((TObjBs4CutAtk *)arg0)->age = 0;
     return arg0;
 }
 
@@ -1453,12 +1454,12 @@ s32 TBoss4Type3::get_random_scaled(void * _w0) {
 }
 
 void TBoss4Type3::turn_toward_player(s32 arg1) {
-    Obj_80059ABC *self = (Obj_80059ABC *)this;
+    TBoss4Type3 *self = this;
     Ply_80059ABC *p;
     if ((u16)arg1 != 0xFFFF) {
         p = (Ply_80059ABC *)get_player_by_client_id((u16)((u16)arg1));
         if (p != NULL) {
-            self->f60 = approach_angle_limited(self->f60, (s32)(10430.38043493439 * atan2_float(p->f38 - 10000.0f, p->f40)), 0x888);
+            self->rotation_y = approach_angle_limited(self->rotation_y, (s32)(10430.38043493439 * atan2_float(p->f38 - 10000.0f, p->f40)), 0x888);
             calc_grid_index();
         }
     }
@@ -1508,9 +1509,9 @@ void TBoss4Type3::update_radar_markers() {
     }
     *(u32 *)((s8 *)arg0 + 0x3C4) = c[0] | ((c[2] << 16) | 0xFF000000 | (c[1] << 8));
     if (0.0f == *(f32 *)((s8 *)arg0 + 0x3B0) && (*(s32 *)((s8 *)arg0 + 0x3C0) & 4)) {
-        add_radar_scaled_marker(arg0 + 0x2FC, -1, 1, 1, 5.0f);
+        add_radar_scaled_marker((u8 *)&this->m_2fc, -1, 1, 1, 5.0f);
     } else {
-        add_radar_scaled_marker(arg0 + 0x2FC, *(u32 *)((s8 *)arg0 + 0x3C4), 1, 1, 5.0f);
+        add_radar_scaled_marker((u8 *)&this->m_2fc, *(u32 *)((s8 *)arg0 + 0x3C4), 1, 1, 5.0f);
     }
     if (!(*(s32 *)((s8 *)arg0 + 0x3C0) & 1) && *(u16 *)((s8 *)arg0 + 0x3BA) != 0xFFFF) {
         p = (Ply_80059ABC *)get_player_by_client_id((u16)(*(u16 *)((s8 *)arg0 + 0x3BA)));
@@ -1638,7 +1639,7 @@ void TBoss4Type3::update_appear() {
 
 void TBoss4Type3::advance_wait_next() {
     Obj_80059390 *self = (Obj_80059390 *)this;
-    if (self->flags & 0x800) {
+    if (this->actorFlags & 0x800) {
         ((int (*)(void*, void*))TBoss4Type3__sub_80059F64)(self, (void*)((void *)2));
     } else {
         self->f3b8 = 0xFFFF;
@@ -1790,7 +1791,7 @@ void TBoss4Type3::advance_go_down() {
             return;
         }
         t = pick_random_target_player__11TBoss4Type3Fv();
-        if (self->f32c <= self->f3e0 && (u16)t != 0xFFFF) {
+        if (this->hp <= self->f3e0 && (u16)t != 0xFFFF) {
             ((void (*)(void *, s32, s32))TBoss4Type3__sub_80059EA8)(self, 14, t);
             return;
         }

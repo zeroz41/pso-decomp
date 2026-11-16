@@ -42,7 +42,6 @@ s32 free_collision_body_parts(void *);
 void *__nw__7TObjectFUl(int);
 
 void TObjTank::render() {
-    u8 *arg0 = (u8 *)this;
     void *p;
     if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && (p = (*(void * *)&TObjTank__texture_list))) {
         TObjFish::set_global_param((u32)p);

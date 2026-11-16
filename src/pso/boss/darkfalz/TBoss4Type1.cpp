@@ -749,7 +749,7 @@ void TBoss4Type1::render() {
 
 void TBoss4Type1::snapshot_position() {
     u8 *arg0 = (u8 *)this;
-    VecCopy__FP3VecPC3Vec(arg0 + 0x2FC, arg0 + 0x38);
+    VecCopy__FP3VecPC3Vec((u8 *)&this->m_2fc, arg0 + 0x38);
     *(f32 *)((s8 *)arg0 + 0x300) += 50.0f;
 }
 
@@ -816,7 +816,7 @@ void TBoss4Type1::draw_parts() {
         case 2:
         case 3:
         case 4:
-            TBoss6PlotFalz__sub_802AC008(*(f32 *)((s8 *)arg0 + 0x3DC), *(f32 *)((s8 *)arg0 + 0x3E0));
+            TBoss6PlotFalz__sub_802AC008(*(f32 *)((s8 *)arg0 + 0x3DC), this->hp_ratio);
             off = (i - 2) * 4 + 0x42C;
             ((TObjFish *)(*(s32 *)(arg0 + off)))->set_draw_callback_list();
             a = get_bml_model((BmlResource *)(*(s32 *)((s8 *)arg0 + 0x390)), lbl_80485EB0[i]);
@@ -973,8 +973,8 @@ void TBoss4Type1::sub_80053D4C() {
         Vec_80053D4C v = arg0->spots[i].pos;
         VecCopy__FP3VecPC3Vec(&q->local, &v);
         subtract_vector(&v, &arg0->pos);
-        s = sin_table_lookup(-arg0->angle);
-        c = cos_table_lookup(-arg0->angle);
+        s = sin_table_lookup(-this->rotation_y);
+        c = cos_table_lookup(-this->rotation_y);
         Vec_80053D4C t = v;
         v.x = c * t.x + s * t.z;
         v.z = -s * t.x + c * t.z;
@@ -1118,8 +1118,8 @@ void TBoss4Type1::sub_80053670() {
     add_radar_scaled_marker(arg0 + 0x438, -0x5DB4, 1, 1, 5.0f);
     add_radar_scaled_marker(arg0 + 0x450, -0x5DB4, 1, 1, 5.0f);
     add_radar_scaled_marker(arg0 + 0x468, -0x5DB4, 1, 1, 5.0f);
-    temp_f29 = sin_table_lookup(*(s32 *)((s8 *)arg0 + 0x60));
-    temp_f30 = cos_table_lookup(*(s32 *)((s8 *)arg0 + 0x60));
+    temp_f29 = sin_table_lookup(this->rotation_y);
+    temp_f30 = cos_table_lookup(this->rotation_y);
     temp_f27 = 37.5f;
     var_r29 = 0;
     var_r28 = 0x25;
@@ -1192,7 +1192,7 @@ void TBoss4Type1::sub_80053440() {
     Vec_80053440 v;
     s32 i;
     Obj_80053440 *arg0 = (Obj_80053440 *)this;
-    if (arg0->state == 4) {
+    if (this->state == 4) {
         return;
     }
     for (i = 0; i < 4; i++) {

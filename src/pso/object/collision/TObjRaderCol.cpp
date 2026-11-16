@@ -103,7 +103,7 @@ typedef char RecoveredGlobal_801976F4___vt__12TObjRaderCol_size[sizeof(Recovered
 u8 *TObjRaderCol__ct(TObjRaderCol *rader_col, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(rader_col);
     *(s32 **)((s8 *)rader_col + 0x18) = &(*(RecoveredGlobal_801976F4___vt__12TObjRaderCol *)&__vt__12TObjRaderCol).value;
-    *(const char **)((s8 *)rader_col + 0) = TObjRaderCol__name;
+    ((TObjRaderCol *)rader_col)->m_name = TObjRaderCol__name;
     ((TObjRaderCol *)(rader_col))->apply_object_set_data((void *)arg2);
     *(f32 *)((s8 *)rader_col + 0x90) = (f32) rader_col->scale.x;
     rader_col->m_94 = (s32) rader_col->set_params[0];

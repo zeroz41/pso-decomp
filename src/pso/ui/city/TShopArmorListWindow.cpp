@@ -596,7 +596,7 @@ u8 *TShopArmorListWindow__ct(u8 *shop_armor_list_window, s32 parent, s32 arg2, s
     s32 sp8;
     __ct__15TShopWindowBaseFP7TObject(shop_armor_list_window, (TObject *)parent);
     *(s32 **)((s8 *)shop_armor_list_window + 0x18) = &(*(RecoveredGlobal_8021B1CC___vt__20TShopArmorListWindow *)&__vt__20TShopArmorListWindow).value;
-    *(const char **)((s8 *)shop_armor_list_window + 0) = TShopArmorListWindow__class_name;
+    ((TShopArmorListWindow *)shop_armor_list_window)->m_name = TShopArmorListWindow__class_name;
     ((TShopArmorListWindow *)shop_armor_list_window)->m_24 = arg3;
     ((TShopArmorListWindow *)shop_armor_list_window)->m_28 = arg2;
     ((TShopArmorListWindow *)shop_armor_list_window)->m_2c = 0;

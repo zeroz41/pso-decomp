@@ -274,7 +274,7 @@ TObjDoorKey::~TObjDoorKey() {
     }
 }
 TObjDoorKey::TObjDoorKey(TObject *arg1, void *arg2) : TOKey(arg1) {
-    *(const char **)((s8 *)this + 0) = TObjDoorKey__class_name;
+    this->m_name = TObjDoorKey__class_name;
     init_key(arg2);
     this->m_e8 = 0;
     this->m_f0 = 0;

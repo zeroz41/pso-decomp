@@ -601,7 +601,7 @@ u8 *TShopEquipmentListWindow__ct(u8 *shop_equipment_list_window, s32 parent, s32
     s32 sp8;
     __ct__15TShopWindowBaseFP7TObject(shop_equipment_list_window, (TObject *)parent);
     *(s32 **)((s8 *)shop_equipment_list_window + 0x18) = &(*(RecoveredGlobal_8021C7C0___vt__24TShopEquipmentListWindow *)&__vt__24TShopEquipmentListWindow).value;
-    *(const char **)((s8 *)shop_equipment_list_window + 0) = TShopEquipmentListWindow__class_name;
+    ((TShopEquipmentListWindow *)shop_equipment_list_window)->m_name = TShopEquipmentListWindow__class_name;
     ((TShopEquipmentListWindow *)shop_equipment_list_window)->m_24 = arg3;
     ((TShopEquipmentListWindow *)shop_equipment_list_window)->m_28 = arg2;
     ((TShopEquipmentListWindow *)shop_equipment_list_window)->m_2c = 0;

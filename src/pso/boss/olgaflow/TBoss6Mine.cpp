@@ -391,7 +391,7 @@ void TBoss6Mine::run_task() {
 
 }
 TBoss6Mine::~TBoss6Mine() {
-    if (*(void **)((s8 *)this + 0x3CC) != NULL) { TParticleCtrl::release(*(void **)((s8 *)this + 0x3CC)); this->emitter = 0; }
+    if (this->emitter != NULL) { TParticleCtrl::release(this->emitter); this->emitter = 0; }
     free_collision_body_parts(this);
     if (this->owner != NULL) { TBoss6Type1__sub_802B5DD4(this->owner); }
 }

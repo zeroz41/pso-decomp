@@ -51,7 +51,7 @@ void TUnk_804A4238::emit_marker_effects() {
     init_slicer_launch_state(&tec);
     tec.id = get_entity_id(self->owner);
     tec.fC = ((TItem *)self)->get_item_id();
-    tec.f4 = self->f24;
+    tec.f4 = this->texlist;
     tec.f8 = self->f188;
     tec.f10 = TObjPlayer__sub_801D2F4C((s16 *)((u8 *)self->owner + 0x7CC));
     tec.f12 = get_validated_attack_stage((u8 *)self->owner + 0x7CC);

@@ -1429,10 +1429,10 @@ void spawn_missile_volley__19TObjGyaranzoMissileFPv(u8 *arg0) {
     gyaranzo_missile_volley_end_time = get_gyaranzo_missile_int_parameter(1) + 0x96;
     ((TObjEnemyCustom *)arg0)->render_anim_model_at_pos();
     {
-        Desc_800D23D4 d1 = { &pos, -0x1000, *(s32 *)((s8 *)arg0 + 0x60) + 0x800, 1024.0f, 3.0f, 0.0f };
-        Desc_800D23D4 d2 = { &pos, -0x2000, *(s32 *)((s8 *)arg0 + 0x60) + 0x800, 2048.0f, 10.0f, 0.4f };
-        Desc_800D23D4 d3 = { &pos, -0x1000, *(s32 *)((s8 *)arg0 + 0x60) - 0x800, 1024.0f, 3.0f, 0.0f };
-        Desc_800D23D4 d4 = { &pos, -0x2000, *(s32 *)((s8 *)arg0 + 0x60) - 0x800, 2048.0f, 10.0f, 0.4f };
+        Desc_800D23D4 d1 = { &pos, -0x1000, ((TObjEnemyCustom *)arg0)->rotation_y + 0x800, 1024.0f, 3.0f, 0.0f };
+        Desc_800D23D4 d2 = { &pos, -0x2000, ((TObjEnemyCustom *)arg0)->rotation_y + 0x800, 2048.0f, 10.0f, 0.4f };
+        Desc_800D23D4 d3 = { &pos, -0x1000, ((TObjEnemyCustom *)arg0)->rotation_y - 0x800, 1024.0f, 3.0f, 0.0f };
+        Desc_800D23D4 d4 = { &pos, -0x2000, ((TObjEnemyCustom *)arg0)->rotation_y - 0x800, 2048.0f, 10.0f, 0.4f };
         u16 ids[4] = { 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF };
         s32 idx[4] = { 0, 3, 1, 2 };
         for (i = 0; i < 4; i++) {
@@ -1572,7 +1572,7 @@ void update__19TObjGyaranzoMissileFPv(u8 *arg0) {
         *(s32 *)((s8 *)arg0 + 0x388) = (s32) (*(s32 *)((s8 *)arg0 + 0x388) | 4);
         temp_r4 = *(s32 *)((s8 *)arg0 + 0x30) | 0x04000000;
         *(s32 *)((s8 *)arg0 + 0x30) = temp_r4;
-        *(s16 *)((s8 *)arg0 + 0xB8) = 0;
+        ((TObjMotion *)arg0)->requested_action = 0;
         TBoss3Volopt__sub_800D8D88(arg0 + 0x2FC, temp_r4);
         ((TUnk_80494938 *)(arg0 + 0x3D0))->start_fade_in();
         *(s32 *)((s8 *)arg0 + 0x37C) = 1;

@@ -418,16 +418,16 @@ void draw_selection_bar(u8 *window_key_board_soft, u8 *arg1, s32 arg2) {
     f32 z;
     f32 t;
     f32 u;
-    if (*(s32 *)((s8 *)window_key_board_soft + 0x30) < 0) {
+    if (((TWindowKeyBoardSoft *)window_key_board_soft)->open_tick < 0) {
         return;
     }
     p = &uv.e[0];
     if (arg2 != 0) {
         p = &uv.e[1];
     }
-    y = *(f32 *)((s8 *)window_key_board_soft + 0x14) + *(f32 *)((s8 *)arg1 + 0xC);
-    x = *(f32 *)((s8 *)window_key_board_soft + 0x10);
-    z = -1.0f / (0.22424999f + *(f32 *)((s8 *)window_key_board_soft + 0x38));
+    y = ((TWindowKeyBoardSoft *)window_key_board_soft)->inner_y + *(f32 *)((s8 *)arg1 + 0xC);
+    x = ((TWindowKeyBoardSoft *)window_key_board_soft)->inner_x;
+    z = -1.0f / (0.22424999f + ((TWindowKeyBoardSoft *)window_key_board_soft)->depth);
     set_additive_blend();
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
@@ -443,7 +443,7 @@ void draw_selection_bar(u8 *window_key_board_soft, u8 *arg1, s32 arg2) {
     if (try_open__19TWindowKeyBoardSoftFii(window_key_board_soft, &q) != 0) {
         draw_textured_quad_at_depth((f32 *)&q, z);
     }
-    t = x + *(f32 *)((s8 *)window_key_board_soft + 0x18);
+    t = x + ((TWindowKeyBoardSoft *)window_key_board_soft)->inner_w;
     q.x0 = 2.0f + (t - 16.0f);
     q.y0 = y;
     q.x1 = 2.0f + t;
@@ -458,7 +458,7 @@ void draw_selection_bar(u8 *window_key_board_soft, u8 *arg1, s32 arg2) {
     }
     q.x0 = x1;
     q.y0 = y;
-    q.x1 = 2.0f + ((x + *(f32 *)((s8 *)window_key_board_soft + 0x18)) - 16.0f);
+    q.x1 = 2.0f + ((x + ((TWindowKeyBoardSoft *)window_key_board_soft)->inner_w) - 16.0f);
     q.y1 = y + *(f32 *)((s8 *)arg1 + 0x14);
     q.u0 = (16.0f + p->u) / 256.0f;
     q.v0 = p->v / 256.0f;

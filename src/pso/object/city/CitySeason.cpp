@@ -439,7 +439,6 @@ extern s32 lbl_805D5B44;
 extern s32 lbl_805D5B48;
 
 void TObjCity_Season_Board::render() {
-    u8 *arg0 = (u8 *)this;
     if (((u32) lbl_805D5B38 != 0U) && (this->update_object_view_visibility(800.0f, 200.0f) != 0)) {
         TObjFish::set_global_param(lbl_805D5B44);
         scroll_strip_uvs(lbl_805D5B48, (s16) *(s32 *)&this->unk_90, 0);
@@ -865,7 +864,6 @@ typedef char RecoveredGlobal_80184054_lbl_8050DC38_size[sizeof(RecoveredGlobal_8
 typedef char RecoveredGlobal_80183FC0_lbl_8050DC38_size[sizeof(RecoveredGlobal_80183FC0_lbl_8050DC38) == 0x18 ? 1 : -1];
 typedef char RecoveredGlobal_80183FC0_lbl_8050DC50_size[sizeof(RecoveredGlobal_80183FC0_lbl_8050DC50) == 0x18 ? 1 : -1];
 void TObjCity_Season_HalloweenPumpkin::render() {
-    u8 *arg0 = (u8 *)this;
     u8 *temp_r31;
     temp_r31 = (u8 *)(*(u8 **)((s8 *)(&(*(RecoveredGlobal_80183FC0_lbl_8050DC38 *)&city_season_easter_egg_model_table).value) + 0xC));
     if ((temp_r31 != NULL) && (this->update_object_view_visibility(800.0f, 80.0f) != 0)) {
@@ -996,7 +994,6 @@ u8 *TObjCity_Season_HalloweenPumpkin__ct(u8 *city_season_halloween_pumpkin, s32 
 }
 
 void TObjCity_Season_XmasWreath::render() {
-    u8 *arg0 = (u8 *)this;
     u8 *temp_r31;
     temp_r31 = (u8 *)(*(u8 **)((s8 *)(&(*(RecoveredGlobal_8018417C_lbl_8050DC38 *)&city_season_easter_egg_model_table).value) + 8));
     if ((temp_r31 != NULL) && (this->update_object_view_visibility(400.0f, 20.0f) != 0)) {
@@ -1089,7 +1086,6 @@ u8 *TObjCity_Season_XmasWreath__ct(u8 *city_season_xmas_wreath, s32 parent, s32 
 }
 
 void TObjCity_Season_XmasTree::render() {
-    u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
 
     temp_r3 = ((u8 * (*)())get_anim_frame__13TUnk_804B5E48Fv)();

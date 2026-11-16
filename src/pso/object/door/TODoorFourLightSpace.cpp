@@ -100,7 +100,7 @@ u8 *TODoorFourLightRuins__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TODoorFourLightRuins *)arg0)->m_d4 = (s32)fn_8028A78C(0);
     ((TODoorFourLightRuins *)arg0)->texlist = (s32)fn_8028A750(0);
     *(u8 **)((s8 *)arg0 + 0xBC) = fn_8028A714(0);
-    *(f32 *)((s8 *)arg0 + 0xB4) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - 1.0f);
+    ((TODoorFourLightRuins *)arg0)->animation_end_frame = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - 1.0f);
     ((TODoorFourLightRuins *)arg0)->animation_step = 0.5f;
     {
         Tbl_8028A5C4 t = door_four_light_ruins_index_table;
@@ -314,7 +314,7 @@ u8 *TODoorFourLightSpace__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TODoorFourLightSpace *)arg0)->m_d4 = (s32)fn_8028A78C(0);
     ((TODoorFourLightSpace *)arg0)->texlist = (s32)fn_8028A750(0);
     *(u8 **)((s8 *)arg0 + 0xBC) = fn_8028A714(0);
-    *(f32 *)((s8 *)arg0 + 0xB4) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - 1.0f);
+    ((TODoorFourLightSpace *)arg0)->animation_end_frame = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - 1.0f);
     ((TODoorFourLightSpace *)arg0)->animation_step = 0.5f;
     {
         Tbl_80289EE0 t = door_four_light_space_index_table;

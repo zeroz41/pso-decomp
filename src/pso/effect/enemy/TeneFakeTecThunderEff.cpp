@@ -389,7 +389,7 @@ typedef char RecoveredGlobal_800A4204_lbl_80490A18_size[sizeof(RecoveredGlobal_8
 u8 *TObjPlayer__sub_800A4204(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, s32 arg4) {
     __ct__7TObjectFP7TObject(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_800A4204_lbl_80490A18 *)&__vt__21TeneFakeTecThunderEff).value;
-    *(const char **)((s8 *)arg0 + 0) = lbl_805D29E0;
+    ((TeneFakeTecThunderEff *)arg0)->m_name = lbl_805D29E0;
     ((TeneFakeTecThunderEff *)arg0)->m_338 = arg2;
     *(s32 *)((s8 *)arg0 + 0x33C) = arg3;
     ((TeneFakeTecThunderEff *)arg0)->m_330 = 0;

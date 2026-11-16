@@ -49,7 +49,7 @@ void TUnk_804F1A78::run_task() {
     this->update_attack_stat_status();
     this->update_defense_stat_status();
     if (temp_r30_2 == 0) {
-        temp_r0 = *(s16 *)((s8 *)boss8_dragon + 0x326);
+        temp_r0 = this->mode;
         if ((temp_r0 == 0x15) || (temp_r0 == 0x17)) {
             *(s32 *)((s8 *)boss8_dragon + 0x30) = (s32) (*(s32 *)((s8 *)boss8_dragon + 0x30) | 0x800);
         } else {
@@ -62,26 +62,26 @@ void TUnk_804F1A78::run_task() {
                 } else {
                     ((TBoss8Dragon *)boss8_dragon)->check_death();
                 }
-                this->dispatch_action(*(s16 *)((s8 *)boss8_dragon + 0x326), 8);
-                this->dispatch_action(*(s16 *)((s8 *)boss8_dragon + 0x326), 0);
+                this->dispatch_action(this->mode, 8);
+                this->dispatch_action(this->mode, 0);
             } else {
                 if ((s32) TBoss8Dragon__data_805D69B8 == 0) {
                     release_grabbed_player__12TBoss8DragonFPv((TBoss8Dragon *)(boss8_dragon));
                 }
-                this->dispatch_action(*(s16 *)((s8 *)boss8_dragon + 0x326), 0);
+                this->dispatch_action(this->mode, 0);
             }
         } else {
             temp_r0_2 = *(s32 *)((s8 *)boss8_dragon + 0x3E0);
             if (temp_r0_2 != 1) {
                 if (temp_r0_2 == 2) {
-                    this->dispatch_action(*(s16 *)((s8 *)boss8_dragon + 0x326), 2);
+                    this->dispatch_action(this->mode, 2);
                 } else {
                     ((TBoss8Dragon *)boss8_dragon)->select_next_action();
                 }
-                this->dispatch_action(*(s16 *)((s8 *)boss8_dragon + 0x326), 8);
-                this->dispatch_action(*(s16 *)((s8 *)boss8_dragon + 0x326), 0);
+                this->dispatch_action(this->mode, 8);
+                this->dispatch_action(this->mode, 0);
             } else {
-                this->dispatch_action(*(s16 *)((s8 *)boss8_dragon + 0x326), 0);
+                this->dispatch_action(this->mode, 0);
             }
         }
     }

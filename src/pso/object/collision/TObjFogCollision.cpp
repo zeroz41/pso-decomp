@@ -184,7 +184,6 @@ void TObjFogCollision::render() {
 }
 
 void TObjFogCollision::draw_volume() {
-    u8 *arg0 = (u8 *)this;
     f32 s;
     if (this->update_object_view_visibility(1.5e+02f, this->scale.x) != 0) {
         NJS_ARGB c0 = {0.7f, 0.5f, 0.5f, 0.5f};

@@ -1183,7 +1183,7 @@ void TBoss6Type1::set_motion_set(s32 arg1) {
     this->m_440 = t->f0;
     for (i = 0; i < n; i++) {
         a = &arg0->anim[i];
-        s32 id = get_bml_motion(arg0->f3FC, t->ids[i]);
+        s32 id = get_bml_motion(this->bml_resource, t->ids[i]);
         a->blend = a->f10;
         a->prevId = a->id;
         a->prevT = a->t;
@@ -1208,9 +1208,9 @@ void TBoss6Type1::draw_part_motions() {
         {
             s32 t = lbl_804DF614[i];
             id = t;
-            p = TObjFish__sub_8001EDB0(arg0->f3FC, t);
+            p = TObjFish__sub_8001EDB0(this->bml_resource, t);
         }
-        id = get_bml_model((BmlResource *)arg0->f3FC, id);
+        id = get_bml_model((BmlResource *)this->bml_resource, id);
         cb = arg0->draw_callback_lists[i];
         a = &arg0->anim[i];
         if (cb != 0) {
@@ -1307,13 +1307,13 @@ void TBoss6Type1::update_turn_to_center() {
   {
     var_r31 = 0x8000;
   }
-  if (angle_difference_abs((int) (*((s32 *) (((s8 *) arg0) + 0x5C))), (int) var_r31) < 0x666)
+  if (angle_difference_abs((int) (this->rotation_x), (int) var_r31) < 0x666)
   {
-    *((s32 *) (((s8 *) arg0) + 0x5C)) = var_r31;
+    this->rotation_x = var_r31;
   }
   else
   {
-    *((s32 *) (((s8 *) arg0) + 0x5C)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x5C))) + 0x666);
+    this->rotation_x = (s32) ((this->rotation_x) + 0x666);
   }
   stack.sp8 = -(*((f32 *) (((s8 *) arg0) + 0x38)));
   temp_f1 = -(*((f32 *) (((s8 *) arg0) + 0x40)));

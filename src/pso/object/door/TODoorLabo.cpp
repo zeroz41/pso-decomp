@@ -244,7 +244,7 @@ TODoorFourLightBase::~TODoorFourLightBase() {
 extern "C" {
 void render__19TODoorFourLightBaseFv(TODoorFourLightBase *door_four_light_base) {
     VObj_802A07E0 *self = (VObj_802A07E0 *)door_four_light_base;
-    if (self->m8(door_four_light_base->view_range, *(f32 *)((s8 *)door_four_light_base + 0xC4)) != 1) {
+    if (self->m8(door_four_light_base->view_range, ((TODoorFourLightBase *)door_four_light_base)->model_radius) != 1) {
         return;
     }
     switch (door_four_light_base->object_state) {

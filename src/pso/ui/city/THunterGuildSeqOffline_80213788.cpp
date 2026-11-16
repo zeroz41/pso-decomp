@@ -133,7 +133,7 @@ void update_shop_close__22THunterGuildSeqOfflineFPv(void *shop_sequence) {
 block_3:
         if ((((TShopWindowBase *)shop_sequence)->vfunc_10() != 0) && ((((TShopWindowBase *)shop_sequence)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
             ((THunterGuildSeqOffline *)shop_sequence)->display_guild_message(0xC, 1);
-            ((THunterGuildSeqOffline *)shop_sequence)->m_34 = 1;
+            *(s32 *)((s8 *)shop_sequence + 0x34) = 1;
             ((TShopWindowBase *)shop_sequence)->set_field_20(0xC);
         }
     }
@@ -150,7 +150,7 @@ void update_close_shop__22THunterGuildSeqOfflineFPv(void *shop_sequence) {
 block_3:
         if ((((TShopWindowBase *)shop_sequence)->vfunc_10() != 0) && ((((TShopWindowBase *)shop_sequence)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
             ((THunterGuildSeqOffline *)shop_sequence)->display_guild_message(0xC, 1);
-            ((THunterGuildSeqOffline *)shop_sequence)->m_34 = 1;
+            *(s32 *)((s8 *)shop_sequence + 0x34) = 1;
             ((TShopWindowBase *)shop_sequence)->set_field_20(0xC);
         }
     }
@@ -159,7 +159,7 @@ block_3:
 void handle_close__22THunterGuildSeqOfflineFPv(void *shop_sequence) {
     if ((((TShopWindowBase *)shop_sequence)->vfunc_10() != 0) && ((((TShopWindowBase *)shop_sequence)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
         ((THunterGuildSeqOffline *)shop_sequence)->display_guild_message(0xC, 1);
-        ((THunterGuildSeqOffline *)shop_sequence)->m_34 = 0;
+        *(s32 *)((s8 *)shop_sequence + 0x34) = 0;
         ((TShopWindowBase *)shop_sequence)->set_field_20(0xC);
     }
 }

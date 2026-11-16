@@ -79,7 +79,7 @@ void TUnk_804CCC68::advance_lifetime_or_destroy() {
         queue_destruction();
         return;
     }
-    this->traveled = (f32) (temp_f1 + *(f32 *)((s8 *)this + 0x64));
+    this->traveled = (f32) (temp_f1 + this->speed);
 }
 
 #pragma push
@@ -163,10 +163,10 @@ void TUnk_804CCC68::move_technique_projectile() {
     f32 temp_f2;
     u8 *arg0 = (u8 *)this;
     VecCopy((Vec *)(arg0 + 0x78), (const Vec *)(arg0 + 0x20));
-    *(f32 *)((s8 *)arg0 + 0x20) = (f32) ((*(f32 *)((s8 *)arg0 + 0x48) * *(f32 *)((s8 *)arg0 + 0x64)) + *(f32 *)((s8 *)arg0 + 0x20));
-    *(f32 *)((s8 *)arg0 + 0x24) = (f32) ((*(f32 *)((s8 *)arg0 + 0x4C) * *(f32 *)((s8 *)arg0 + 0x64)) + *(f32 *)((s8 *)arg0 + 0x24));
+    *(f32 *)((s8 *)arg0 + 0x20) = (f32) ((*(f32 *)((s8 *)arg0 + 0x48) * this->speed) + *(f32 *)((s8 *)arg0 + 0x20));
+    *(f32 *)((s8 *)arg0 + 0x24) = (f32) ((*(f32 *)((s8 *)arg0 + 0x4C) * this->speed) + *(f32 *)((s8 *)arg0 + 0x24));
     temp_f2 = *(f32 *)((s8 *)arg0 + 0x50);
-    temp_f1 = *(f32 *)((s8 *)arg0 + 0x64);
+    temp_f1 = this->speed;
     *(f32 *)((s8 *)arg0 + 0x28) = (f32) ((temp_f2 * temp_f1) + *(f32 *)((s8 *)arg0 + 0x28));
     check_technique_projectile_wall_hit__13TUnk_804CCC68Fv(arg0, temp_f1, temp_f2);
 }
@@ -245,7 +245,7 @@ TUnk_804CCC68::TUnk_804CCC68(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect()
     *(f32 *)((s8 *)this + 0x30) = 1.0f;
     *(f32 *)((s8 *)this + 0x34) = 1.0f;
     *(f32 *)((s8 *)this + 0x38) = 1.0f;
-    *(f32 *)((s8 *)this + 0x64) = 3.0f;
+    this->speed = 3.0f;
     this->range = 3e+01f;
     *(f32 *)((s8 *)this + 0x48) = dx;
     *(f32 *)((s8 *)this + 0x4C) = dy;
@@ -312,7 +312,7 @@ u8 *construct_facing_technique__10TObjPlayerFPviPvii(u8 *arg0, s32 arg1, u8 *arg
     *(s32 *)((s8 *)arg0 + 0x58) = arg3;
     *(s32 *)((s8 *)arg0 + 0x54) = 0;
     ((TUnk_804CCC68 *)arg0)->halfWidth = 4.0f;
-    *(f32 *)((s8 *)arg0 + 0x64) = 3.0f;
+    ((TUnk_804CCC68 *)arg0)->speed = 3.0f;
     ((TUnk_804CCC68 *)arg0)->range = 3e+01f;
     *(f32 *)((s8 *)arg0 + 0x48) = sin_table_lookup(*(s32 *)((s8 *)arg0 + 0x58));
     *(f32 *)((s8 *)arg0 + 0x4C) = 0.0f;

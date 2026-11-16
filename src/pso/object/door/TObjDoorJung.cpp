@@ -129,7 +129,6 @@ void TObjDoorJung::clamp_state() {
 }
 
 void TObjDoorJung::render() {
-    u8 *arg0 = (u8 *)this;
     s32 i;
     s32 j;
 
@@ -218,7 +217,7 @@ typedef char RecoveredGlobal_8018F9CC___vt__12TObjDoorJung_size[sizeof(Recovered
 u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, s32 arg2) {
     __ct__10TODoorBaseFP7TObject((arg0));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8018F9CC___vt__12TObjDoorJung *)&__vt__12TObjDoorJung).value;
-    *(const char **)((s8 *)arg0 + 0) = TObjDoorJung__class_name;
+    ((TObjDoorJung *)arg0)->m_name = TObjDoorJung__class_name;
     ((TObjDoorJung *)(arg0))->apply_object_set_data((void *)arg2);
     init_collision_body_parts(arg0, &TObjDoorJung__collision_desc, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();

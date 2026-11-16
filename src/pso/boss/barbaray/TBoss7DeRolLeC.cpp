@@ -3569,7 +3569,7 @@ void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2) {
             t2 = self->frame - 13.0f;
             { f32 h_ = 0.5f * self->f754; d = t2 * (h_ * t2); }
             self->z = self->f75C + d;
-            *(s32 *) ((u8 *) self + 0x64) = self->f760 * t;
+            ((TBoss7DeRolLeC *)self)->rotation_z = self->f760 * t;
             break;
         }
         case 6:
@@ -3845,12 +3845,12 @@ void TObjFish__sub_802E9458(u8 *arg0, u32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x724) = 0;
         return;
     case 2:
-        if ((s16) *(s16 *)((s8 *)arg0 + 0xB8) == 0xF) {
+        if ((s16) ((TBoss7DeRolLeC *)arg0)->requested_action == 0xF) {
             ((TBoss7DeRolLeC *)arg0)->set_state_and_send(0x18);
         }
         return;
     case 9:
-        if ((s16) *(s16 *)((s8 *)arg0 + 0xB8) == 0xF) {
+        if ((s16) ((TBoss7DeRolLeC *)arg0)->requested_action == 0xF) {
             ((TBoss7DeRolLeC *)arg0)->advance_action_sequence();
             return;
         }
@@ -3858,7 +3858,7 @@ void TObjFish__sub_802E9458(u8 *arg0, u32 arg1) {
     case 0:
         ((TObjMotion *)arg0)->advance_animation();
         *(s32 *)((s8 *)arg0 + 0x728) = (s32) (*(s32 *)((s8 *)arg0 + 0x728) + 1);
-        temp_f1 = *(f32 *)((s8 *)arg0 + 0xC0);
+        temp_f1 = ((TBoss7DeRolLeC *)arg0)->frame;
         if ((temp_f1 >= 10.0f) && (temp_f1 <= 14.0f) && ((f32) *(s32 *)((s8 *)arg0 + 0x728) >= 3.0f)) {
             *(s32 *)((s8 *)arg0 + 0x728) = 0;
             VecCopy__FP3VecPC3Vec((int)&v, arg0 + 0x38);
@@ -4049,14 +4049,14 @@ void TObjFish__sub_802E8EEC(u8 *arg0, u32 arg1, s32 _w2) {
         TObjFish__sub_802ED4AC((arg0), (*(s32 *)((s8 *)arg0 + 0x6C0)));
         break;
     case 2:
-        if ((s16) *(s16 *)((s8 *)arg0 + 0xB8) == 1) {
+        if ((s16) ((TBoss7DeRolLeC *)arg0)->requested_action == 1) {
             ((TBoss7DeRolLeC *)arg0)->set_state_and_send(2);
             break;
         }
     default:
         break;
     case 9:
-        if ((s16) *(s16 *)((s8 *)arg0 + 0xB8) == 1) {
+        if ((s16) ((TBoss7DeRolLeC *)arg0)->requested_action == 1) {
             ((TBoss7DeRolLeC *)arg0)->advance_action_sequence();
             break;
         }
@@ -4076,11 +4076,11 @@ void TObjFish__sub_802E8E34(u8 *boss7_de_rol_le_c, u32 arg1) {
         *(s32 *)((s8 *)boss7_de_rol_le_c + 0x628) = *(s32 *)((s8 *)boss7_de_rol_le_c + 0x628) | 4;
         *(s32 *)((s8 *)boss7_de_rol_le_c + 0x628) = *(s32 *)((s8 *)boss7_de_rol_le_c + 0x628) & 0xFFFFFEFF;
         ((s32 (*)(void *))TObjFish__sub_802ECC44)(boss7_de_rol_le_c);
-        *(s32 *)((s8 *)boss7_de_rol_le_c + 0x5C) = 0;
+        ((TBoss7DeRolLeC *)boss7_de_rol_le_c)->rotation_x = 0;
         *(f32 *)((s8 *)boss7_de_rol_le_c + 0x6F0) = 0.0f;
         return;
     case 9:
-        if (*(s16 *)((s8 *)boss7_de_rol_le_c + 0xB8) == 1) {
+        if (((TBoss7DeRolLeC *)boss7_de_rol_le_c)->requested_action == 1) {
             ((TBoss7DeRolLeC *)boss7_de_rol_le_c)->advance_action_sequence();
         }
         return;
@@ -4254,8 +4254,8 @@ void TBoss7DeRolLeC__handle_crawfish_spawn_state(u8 *self, u32 event, s32 varian
 void TObjFish__sub_802E8990(u8 *boss7_de_rol_le_c, u32 arg1) {
     switch (arg1) {
     case 4:
-        *(s32 *)((s8 *)boss7_de_rol_le_c + 0x728) = *(s16 *)((s8 *)boss7_de_rol_le_c + 0xF4);
-        *(s16 *)((s8 *)boss7_de_rol_le_c + 0xF4) = 1;
+        *(s32 *)((s8 *)boss7_de_rol_le_c + 0x728) = ((TBoss7DeRolLeC *)boss7_de_rol_le_c)->play_mode;
+        ((TBoss7DeRolLeC *)boss7_de_rol_le_c)->play_mode = 1;
         return;
     case 0:
         ((TObjMotion *)boss7_de_rol_le_c)->advance_animation();
@@ -4264,7 +4264,7 @@ void TObjFish__sub_802E8990(u8 *boss7_de_rol_le_c, u32 arg1) {
         }
         return;
     case 5:
-        *(s16 *)((s8 *)boss7_de_rol_le_c + 0xF4) = *(s32 *)((s8 *)boss7_de_rol_le_c + 0x728);
+        ((TBoss7DeRolLeC *)boss7_de_rol_le_c)->play_mode = *(s32 *)((s8 *)boss7_de_rol_le_c + 0x728);
         return;
     case 1: return;
     case 2: return;
@@ -4280,7 +4280,7 @@ void TObjFish__sub_802E88F8(u8 *boss7_de_rol_le_c, u32 arg1) {
     s32 temp_r3;
     switch (arg1) {
     case 4:
-        *(s32 *)((s8 *)boss7_de_rol_le_c + 0x728) = lbl_804E3C2C[game_difficulty_selection][*(s32 *)((s8 *)boss7_de_rol_le_c + 0x6B4)].b * 0x1E;
+        *(s32 *)((s8 *)boss7_de_rol_le_c + 0x728) = lbl_804E3C2C[game_difficulty_selection][((TBoss7DeRolLeC *)boss7_de_rol_le_c)->action_index].b * 0x1E;
         return;
     case 0:
         ((TObjMotion *)boss7_de_rol_le_c)->advance_animation();

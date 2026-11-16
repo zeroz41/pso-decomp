@@ -399,7 +399,7 @@ void *__ct__15TObjLiveMonitorFv(void *arg0) {
     *(s32 *)((s8 *)arg0 + 0x1C) = get_bml_model(live_monitor_shared_resource, 1);
     *(s32 *)((s8 *)arg0 + 0x20) = TObjFish__sub_8001EDB0(live_monitor_shared_resource, 0);
     *(s32 *)((s8 *)arg0 + 0x24) = 5;
-    *(s32 *)((s8 *)arg0 + 0x28) = 0;
+    ((TObjLiveMonitor *)arg0)->camera_timer = 0;
     return arg0;
 }
 

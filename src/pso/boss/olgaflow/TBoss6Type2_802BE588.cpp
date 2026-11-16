@@ -321,7 +321,7 @@ void TBoss6Type2::start_death_sequence() {
     destroy_part(0xD);
 }
 
-void TBoss6Type2::update_when_timer_zero() { if (*(int *)&this->state_timer == 0) { send_action_packet__11TBoss6Type2FSc(this, (void*)(*(void**)((char*)this + 0x47c))); } }
+void TBoss6Type2::update_when_timer_zero() { if (*(int*)((char*)this + 0x460) == 0) { send_action_packet__11TBoss6Type2FSc(this, (void*)(*(void**)((char*)this + 0x47c))); } }
 
 void TBoss6Type2::update_timer() {
     u8 *arg0 = (u8 *)this;
@@ -340,10 +340,10 @@ void TBoss6Type2::update_timer() {
 void TBoss6Type2::init_timers_and_copy_pos() {
     u8 *arg0 = (u8 *)this;
     static s32 dur = (s32)(15.0f + (30.0f / lbl_805DE3F8));
-  this->state_timer = (this->state_duration = (s32) dur);
-  VecCopy__FP3VecPC3Vec((u8 *)&this->_pad50C, arg0 + 0x38);
-  *(s32 *)&this->m_470 = 0;
-  if (((s32) (*(s32 *)&this->m_418)) == 0)
+  *((s32 *) (((s8 *) arg0) + 0x460)) = (*((s32 *) (((s8 *) arg0) + 0x45C)) = (s32) dur);
+  VecCopy__FP3VecPC3Vec(arg0 + 0x50C, arg0 + 0x38);
+  *((s32 *) (((s8 *) arg0) + 0x470)) = 0;
+  if (((s32) (*((s32 *) (((s8 *) arg0) + 0x418)))) == 0)
   {
     TBoss6Type2__sub_802BB768(arg0);
   }
@@ -390,14 +390,14 @@ void TBoss6Type2::init_attack_timers() {
     this->state_duration = 0xB4;
     this->state_timer = 0xB4;
     play_sound_effect(0x4006970E, (void *)(((u8 *)this) + 0x38), 0, 1);
-    if ((s32) *(s32 *)&this->m_418 == 0) {
+    if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x418) == 0) {
         TBoss6Type2__sub_802BB7C0(this);
         return;
     }
     TBoss6Type2__sub_802BB768(this);
 }
 
-void TBoss6Type2::update_state_34() { if (*(int *)&this->state_timer == 34) { TBoss6Type2::drop_random_rocks((s32)this, (s32)((void*)0)); } }
+void TBoss6Type2::update_state_34() { if (*(int*)((char*)this + 0x460) == 34) { TBoss6Type2::drop_random_rocks((s32)this, (s32)((void*)0)); } }
 
 void TBoss6Type2::update_attack_sequence() {
     u8 *arg0 = (u8 *)this;
@@ -436,7 +436,7 @@ void TBoss6Type2::update_attack_sequence() {
     this->state_timer = temp_r0_2;
     if (temp_r0_2 < 0) {
         ((TBoss6Type2 *)arg0)->reset_attack_counter();
-        if ((s32) *(s32 *)&this->m_418 != 0) {
+        if ((s32) *(s32 *)((s8 *)arg0 + 0x418) != 0) {
             ((TBoss6Type2 *)arg0)->set_action_state((void *)0x1B);
             return;
         }
@@ -450,10 +450,10 @@ void TBoss6Type2::init_timer() {
     temp_r0 = dur;
     state_duration = temp_r0;
     this->state_timer = temp_r0;
-    *(s32 *)&this->m_470 = (s32) (*(s32 *)&this->m_470 + 1);
+    *(s32 *)((s8 *)this + 0x470) = (s32) (*(s32 *)((s8 *)this + 0x470) + 1);
 }
 
-void TBoss6Type2::check_state_0x460_eq4() { if (*(int *)&this->state_timer == 4) { TBoss6Type2::drop_random_rocks((s32)this, (s32)((void*)0)); } }
+void TBoss6Type2::check_state_0x460_eq4() { if (*(int*)((char*)this + 0x460) == 4) { TBoss6Type2::drop_random_rocks((s32)this, (s32)((void*)0)); } }
 
 void TBoss6Type2::sub_802BEE38() {
     s32 sound;
@@ -516,13 +516,13 @@ void TBoss6Type2::spawn_death_soul() {
     temp_r0 = dur;
     this->state_duration = temp_r0;
     this->state_timer = temp_r0;
-    *(s32 *)&this->m_420 = 0;
+    *(s32 *)((s8 *)arg0 + 0x420) = 0;
     play_sound_effect(0x68A25, arg0 + 0x38, 0, 1);
     ((TBoss6Type2 *)arg0)->spawn_particle_slot(6);
     TBoss6Type2__sub_802BB768(arg0);
-    if (this->m_464 != 0xFFFF) {
-        TBoss6Type2::create_flow_soul((void *)arg0, arg0 + 0x620, (void *)(this->m_464), (void *)(this->state_duration));
-        ((TBoss6EffHyoui *)(this->m_464))->create((void *)0, (void *)(this->state_duration));
+    if (*(u16 *)((s8 *)arg0 + 0x464) != 0xFFFF) {
+        TBoss6Type2::create_flow_soul((void *)arg0, arg0 + 0x620, (void *)(*(u16 *)((s8 *)arg0 + 0x464)), (void *)(this->state_duration));
+        ((TBoss6EffHyoui *)(*(u16 *)((s8 *)arg0 + 0x464)))->create((void *)0, (void *)(this->state_duration));
     }
 }
 
@@ -629,7 +629,7 @@ void TBoss6Type2::update_charge_timer() {
     temp_r0 = this->state_timer - 1;
     this->state_timer = temp_r0;
     if (temp_r0 < 0) {
-        *(s32 *)&this->m_418 = 0;
+        *(s32 *)((s8 *)((u8 *)this) + 0x418) = 0;
         this->state_progress = 0.0f;
         this->copy_anim_state();
         this->destroy_part(7);
@@ -644,7 +644,7 @@ void TBoss6Type2::init_speed_from_ratio() {
     temp_r0 = speed_from_ratio;
     state_duration = temp_r0;
     this->state_timer = temp_r0;
-    *(s32 *)&this->m_420 = (s32) (*(s32 *)&this->m_420 + 1);
+    *(s32 *)((s8 *)this + 0x420) = (s32) (*(s32 *)((s8 *)this + 0x420) + 1);
 }
 
 void TBoss6Type2::select_next_state() {
@@ -659,7 +659,7 @@ void TBoss6Type2::select_next_state() {
             if (*(u16 *)((s8 *)this + 0x55C) == 0xFFFF) {
                 temp_r3 = is_falz_ready__11TBoss6Type2Fv(this);
                 if (temp_r3 != 0xFFFF) {
-                    this->m_464 = temp_r3;
+                    *(u16 *)((s8 *)this + 0x464) = temp_r3;
                     send_action_packet__11TBoss6Type2FSc(this, (void*)(0x19));
                     return;
                 }
@@ -738,11 +738,11 @@ void TBoss6Type2::update_zako_timer() {
 }
 
 void TBoss6Type2::select_action() {
-    if (*(s32 *)&this->m_30 & 0x800) {
+    if (*(s32 *)((s8 *)this + 0x30) & 0x800) {
         send_action_packet__11TBoss6Type2FSc(this, (void*)(0x23));
         return;
     }
-    if ((s32) *(s32 *)&this->m_418 != 0) {
+    if ((s32) *(s32 *)((s8 *)this + 0x418) != 0) {
         send_action_packet__11TBoss6Type2FSc(this, (void*)(0x1B));
         return;
     }

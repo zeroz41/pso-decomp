@@ -324,7 +324,7 @@ TLazerFenceSw::TLazerFenceSw(TObject *arg1, void *arg2) : TOKey(arg1) {
         *(s32 *)((s8 *)this + 0x8C) = 0;
     }
     *(u16 *)((s8 *)this + 0xE8) = lbl_80445CB8[*(s32 *)((s8 *)this + 0x8C) % 4];
-    *(f32 *)((s8 *)this + 0xB8) = 2.0f;
+    this->animation_step = 2.0f;
     *(f32 *)((s8 *)this + 0xEC) = 0.0f;
     init_collision_body_parts(this, lazer_fence_sw_collision_body_part, 1);
     *(s32 *)((s8 *)this + 0x30) |= 0x40000000;

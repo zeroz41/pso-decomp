@@ -1360,7 +1360,7 @@ void TObjEneMerillLia::beast_update_hurt() {
     scratch_vec.x = 0.0f;
     scratch_vec.z = get_collision_body_radius(0);
     push_matrix_from(&identity_matrix);
-    rotate_matrix_y(0, -*(s32 *)((s8 *)((u8 *)this) + 0x60));
+    rotate_matrix_y(0, -this->rotation_y);
     rotate_vector_by_matrix(0, &scratch_vec, &scratch_vec);
     pop_matrix();
     vec3_add_to(&pos, &scratch_vec);
@@ -1379,13 +1379,13 @@ void TObjEneMerillLia::beast_update_hurt() {
     if (this->is_passing_frame(0.0f) != 0) {
         this->vfunc_97();
     }
-    if (*(u32 *)((s8 *)((u8 *)this) + 0xB4) != 8) {
+    if (this->action_flags != 8) {
         this->obj_clearFlags30(0x600);
         this->clear_player_status_flag(0, 0x04000000);
-        if ((f32)*(s16 *)((s8 *)((u8 *)this) + 0x32C) <= (f32)*(s16 *)((s8 *)((u8 *)this) + 0x2B8) * *(f32 *)((s8 *)((u8 *)this) + 0x3CC)) {
+        if ((f32)this->hp <= (f32)this->hpmax * *(f32 *)((s8 *)((u8 *)this) + 0x3CC)) {
             this->select_action_by_distance();
         }
-        *(s16 *)((s8 *)((u8 *)this) + 0x33E) = *(s16 *)((s8 *)((u8 *)this) + 0x32C);
+        this->referenceHp = this->hp;
     }
     minimap_render_dot(((u8 *)this) + 0x38, -0x5DB4, 1, 0);
 }

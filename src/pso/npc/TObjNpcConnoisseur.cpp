@@ -90,7 +90,7 @@ typedef char RecoveredGlobal_801499DC___vt__18TObjNpcConnoisseur_size[sizeof(Rec
 u8 *TObjNpcConnoisseur__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_801499DC___vt__18TObjNpcConnoisseur *)&__vt__18TObjNpcConnoisseur).value;
-    *(const char **)((s8 *)player + 0) = TObjNpcConnoisseur__name;
+    ((TObjNpcConnoisseur *)player)->m_name = TObjNpcConnoisseur__name;
     ((TObjNpcConnoisseur *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();
     *(s32 *)((s8 *)player + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcConnoisseur__instance) + 0x42C)) + 8);

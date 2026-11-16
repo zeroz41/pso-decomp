@@ -215,7 +215,7 @@ void send_register_9c(u8 *protocol) {
     stack.spA = 0xA4;
     __as__8TPlySmthFRC8TPlySmth((s32)&stack.spC, (s32)(protocol + 0x18F8));
     stack.sp14 = (s32) ((TProtocol *)protocol)->m_sub_version;
-    stack.sp19 = (s8) *(s32 *)&((TProtocol *)protocol)->m_language;
+    stack.sp19 = (s8) *(s32 *)((s8 *)protocol + 0x1934);
     strncpy(stack.sp1C, (char *)(protocol + 0x3EDA), 0x30);
     strncpy(stack.sp4C, (char *)(protocol + 0x3F0A), 0x30);
     strncpy(stack.sp7C, (char *)(protocol + 0x3F3A), 0x30);

@@ -747,7 +747,7 @@ void TBoss7Tentacle::restart_particle_effect() {
     ((TObject *)(*((void **) (((s8 *) arg0) + 0x40))))->queue_destruction();
     *((u32 *) (((s8 *) arg0) + 0x40)) = 0U;
   }
-  particle_effect = (s32)spawn_particle_effect((arg0 + 0x1C), 0x215);
+  particle_effect = (s32)spawn_particle_effect(((u8 *)&this->m_1c), 0x215);
   temp_r3 = particle_effect;
   if (temp_r3 != 0)
   {

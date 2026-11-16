@@ -657,7 +657,7 @@ void init__10TBoss2MineFPvi(u8 *boss2_mine, s32 arg1) {
     ((TObjEneDD *)boss2_mine)->init_position_vectors();
     *(s32 *)((s8 *)boss2_mine + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)lbl_805D4BA4 + 0x42C)) + 0x38);
     temp_r6 = *(u8 **)((s8 *)lbl_805D4BA4 + 0x42C);
-    *(s32 *)((s8 *)boss2_mine + 0x24) = *(s32 *)((s8 *)temp_r6 + 0x2C);
+    ((TBoss2Mine *)boss2_mine)->texlist = *(s32 *)((s8 *)temp_r6 + 0x2C);
     init_model__9TObjEneDDFP13CollisionBodyl(boss2_mine, (u8 *)lbl_80482CD8, 1, (int)temp_r6);
     ((TObjEneDD *)boss2_mine)->reset_hp((u8 *)(register_boss__6TLobbyFl(((s32 *)boss2_mine_params)[arg1])), (u8 *)(dispatch_shared_handler_b__6TLobbyFl(((s32 *)lbl_80482C90)[arg1])), (u8 *)(register_object__6TLobbyFl(((s32 *)lbl_80482C98)[arg1])));
     ((TObjEneDD *)boss2_mine)->check_state_flag_2();
@@ -688,8 +688,8 @@ void init__10TBoss2MineFPvi(u8 *boss2_mine, s32 arg1) {
     *(f32 *)((s8 *)boss2_mine + 0x3E4) = (0.0f);
     *(f32 *)((s8 *)boss2_mine + 0x3E8) = (0.0f);
     *(f32 *)((s8 *)boss2_mine + 0x3EC) = (0.0f);
-    *(s16 *)((s8 *)boss2_mine + 0x326) = 0;
-    ((TBoss2Mine *)(boss2_mine))->dispatch_action(*(s16 *)((s8 *)boss2_mine + 0x326), 4);
+    ((TBoss2Mine *)boss2_mine)->mode = 0;
+    ((TBoss2Mine *)(boss2_mine))->dispatch_action(((TBoss2Mine *)boss2_mine)->mode, 4);
 }
 
 
@@ -707,9 +707,9 @@ void TBoss2Mine::run_task() {
     }
     this->vfunc_83();
     if (((VObj_18 *)(arg0))->m84() == 0) {
-        this->dispatch_action(*(s16 *)((s8 *)arg0 + 0x326), 3);
+        this->dispatch_action(this->mode, 3);
     }
-    this->dispatch_action(*(s16 *)((s8 *)arg0 + 0x326), 0);
+    this->dispatch_action(this->mode, 0);
     ((TObjEneDD *)arg0)->sub_800BBA0C();
     if (!(*(s32 *)((s8 *)arg0 + 0x38C) & 1)) {
         save_position();
@@ -923,7 +923,7 @@ void TBoss2Mine::vfunc_108(s32 arg1) {
         return;
     case 5:
         *(s32 *)((s8 *)this + 0x30) = (s32) (*(s32 *)((s8 *)this + 0x30) & 0xFFFFF7FF);
-        *(s16 *)((s8 *)this + 0x32C) = (s16) *(s16 *)((s8 *)this + 0x2B8);
+        this->hp = (s16) this->hpmax;
     case 0:
         return;
     }
@@ -1009,7 +1009,7 @@ void TBoss2Mine::set_launch_position_velocity(u8 *arg1, u8 *arg2) {
     *(f32 *)((s8 *)arg0 + 0x394) += 1.0f;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg0 + 0x2FC));
     *(s32 *)((s8 *)arg0 + 0x3A8) = 0;
-    *(s16 *)((s8 *)arg0 + 0x32C) = (s16) *(s16 *)((s8 *)arg0 + 0x2B8);
+    this->hp = (s16) this->hpmax;
     *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) & ~0xA00);
 }
 
@@ -1025,11 +1025,11 @@ void TUnk_80482EC0::vfunc_105(s32 arg1) {
         ((VObj_80037EE0 *)arg0)->m93();
         *(s32 *)((s8 *)arg0 + 0x38C) = (s32) (*(s32 *)((s8 *)arg0 + 0x38C) & 0xFFFFFFF8);
         VecCopy((Vec *)(arg0 + 0x39C), (const Vec *)(arg0 + 0x390));
-        subtract_vector(arg0 + 0x39C, arg0 + 0x2FC);
+        subtract_vector(arg0 + 0x39C, (u8 *)&this->m_2fc);
         *(f32 *)((s8 *)arg0 + 0x3DC) = normalize_vector_xz((Vec *)(arg0 + 0x39C));
         temp_r3 = (s32) ((10430.38043493439) * atan2_float(*(f32 *)((s8 *)arg0 + 0x39C), *(f32 *)((s8 *)arg0 + 0x3A4)));
-        *(s32 *)((s8 *)arg0 + 0x60) = temp_r3;
-        *(s32 *)((s8 *)arg0 + 0x5C) = 0x4000;
+        this->rotation_y = temp_r3;
+        this->rotation_x = 0x4000;
         temp_f2 = *(f32 *)((s8 *)arg0 + 0x300);
         temp_f1 = newton_sqrtf(temp_r3, ((2.0f) * (temp_f2 - *(f32 *)((s8 *)arg0 + 0x394))) / (0.2f), temp_f2, (2.0f));
         *(f32 *)((s8 *)arg0 + 0x3E4) = (1e+01f) * temp_f1;
@@ -1053,14 +1053,14 @@ void TUnk_80482EC0::vfunc_105(s32 arg1) {
         if (*(f32 *)((s8 *)arg0 + 0x3E0) < *(f32 *)((s8 *)arg0 + 0x3E4)) {
             *(f32 *)((s8 *)arg0 + 0x3E8) = (f32) (*(f32 *)((s8 *)arg0 + 0x3E8) - (0.2f));
             *(f32 *)((s8 *)arg0 + 0x300) = (f32) (*(f32 *)((s8 *)arg0 + 0x300) + *(f32 *)((s8 *)arg0 + 0x3E8));
-            if ((s32) *(s32 *)((s8 *)arg0 + 0x5C) >= 0x8000) {
-                *(s32 *)((s8 *)arg0 + 0x5C) = 0x8000;
+            if ((s32) this->rotation_x >= 0x8000) {
+                this->rotation_x = 0x8000;
             } else {
                 *(s32 *)((s8 *)arg0 + 0x3D8) = (s32) (*(s32 *)((s8 *)arg0 + 0x3D8) + 0x300);
-                *(s32 *)((s8 *)arg0 + 0x5C) = (s32) (*(s32 *)((s8 *)arg0 + 0x3D8) + 0x4000);
+                this->rotation_x = (s32) (*(s32 *)((s8 *)arg0 + 0x3D8) + 0x4000);
             }
         } else {
-            *(s32 *)((s8 *)arg0 + 0x5C) = 0x4000;
+            this->rotation_x = 0x4000;
         }
         ((TBoss2Mine *)arg0)->update_move_flag();
         break;
@@ -1080,7 +1080,7 @@ void TUnk_80482EC0::vfunc_106(s32 arg1) {
         *(s32 *)((s8 *)((u8 *)this) + 0x38C) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x38C) & ~5);
         temp_r5 = *(s32 *)((s8 *)((u8 *)this) + 0x38C) | 2;
         *(s32 *)((s8 *)((u8 *)this) + 0x38C) = temp_r5;
-        *(s32 *)((s8 *)((u8 *)this) + 0x5C) = 0x8000;
+        this->rotation_x = 0x8000;
         *(s32 *)((s8 *)((u8 *)this) + 0x3B0) = 0;
         *(s32 *)((s8 *)((u8 *)this) + 0x3C8) = 0;
         temp_r7 = (s32) ((3e+01f) * calc_elapsed_scaled__9TObjEneDDFv(this, 0x8000, temp_r5));
@@ -1163,7 +1163,7 @@ void init_launch__10TBoss2MineFPvPvii(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3) {
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg1));
     *(s32 *)((s8 *)arg0 + 0x3F0) = arg2;
     temp_r31 = arg3 * 0x5555;
-    *(s32 *)((s8 *)arg0 + 0x3F4) = arg3;
+    ((TUnk_80482D04 *)arg0)->slot = arg3;
     *(f32 *)((s8 *)arg0 + 0x3F8) = (f32) ((2e+01f) * sin_table_lookup(temp_r31));
     *(f32 *)((s8 *)arg0 + 0x3FC) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x400) = (f32) ((2e+01f) * cos_table_lookup(temp_r31));
@@ -1177,15 +1177,15 @@ void init_launch__10TBoss2MineFPvPvii(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3) {
     *(f32 *)((s8 *)arg0 + 0x404) = sin_table_lookup(var_r31);
     *(f32 *)((s8 *)arg0 + 0x408) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x40C) = cos_table_lookup(var_r31);
-    *(s32 *)((s8 *)arg0 + 0x60) = var_r31;
+    ((TUnk_80482D04 *)arg0)->rotation_y = var_r31;
     *(f32 *)((s8 *)arg0 + 0x390) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x394) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x398) = 0.0f;
     ((TUnk_80482D04 *)arg0)->move_mine();
-    *(s32 *)((s8 *)arg0 + 0x5C) = 0x4000;
+    ((TUnk_80482D04 *)arg0)->rotation_x = 0x4000;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg0 + 0x2FC));
     *(s32 *)((s8 *)arg0 + 0x3A8) = 0;
-    *(s16 *)((s8 *)arg0 + 0x32C) = (s16) *(s16 *)((s8 *)arg0 + 0x2B8);
+    ((TUnk_80482D04 *)arg0)->hp = (s16) ((TUnk_80482D04 *)arg0)->hpmax;
     *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) & ~0xA00);
 }
 
@@ -1200,8 +1200,8 @@ void TUnk_80482D04::vfunc_105(s32 arg1) {
         ((TUnk_80482D04 *)(arg0))->vfunc_95();
         *(s32 *)((s8 *)arg0 + 0x38C) &= ~7;
         *(s32 *)((s8 *)arg0 + 0x3A8) = 0;
-        *(s32 *)((s8 *)arg0 + 0x5C) = 0x4000;
-        *(s32 *)((s8 *)arg0 + 0x64) = 0;
+        this->rotation_x = 0x4000;
+        this->rotation_z = 0;
         *(s32 *)((s8 *)arg0 + 0x3C8) = 1;
         *(s32 *)((s8 *)arg0 + 0x3CC) = 0;
         *(f32 *)((s8 *)arg0 + 0x3DC) = (8.0f);
@@ -1218,7 +1218,7 @@ void TUnk_80482D04::vfunc_105(s32 arg1) {
             (*(s32 *)((s8 *)arg0 + 0x3CC))++;
             if (*(s32 *)((s8 *)arg0 + 0x3CC) >= 0xF) {
                 *(s32 *)((s8 *)arg0 + 0x3C8) = 1;
-                play_sound_effect(0x4003A804, arg0 + 0x2FC, 0, 0);
+                play_sound_effect(0x4003A804, (u8 *)&this->m_2fc, 0, 0);
             }
             *(f32 *)((s8 *)arg0 + 0x2FC) = *(f32 *)((s8 *)arg0 + 0x404) * *(f32 *)((s8 *)arg0 + 0x3DC) + *(f32 *)((s8 *)arg0 + 0x2FC);
             *(f32 *)((s8 *)arg0 + 0x304) = *(f32 *)((s8 *)arg0 + 0x40C) * *(f32 *)((s8 *)arg0 + 0x3DC) + *(f32 *)((s8 *)arg0 + 0x304);
@@ -1233,18 +1233,18 @@ void TUnk_80482D04::vfunc_105(s32 arg1) {
             *(f32 *)((s8 *)arg0 + 0x304) = *(f32 *)((s8 *)arg0 + 0x40C) * *(f32 *)((s8 *)arg0 + 0x3DC) + *(f32 *)((s8 *)arg0 + 0x304);
             break;
         case 2:
-            *(s32 *)((s8 *)arg0 + 0x5C) -= 0x600;
-            if (*(s32 *)((s8 *)arg0 + 0x5C) < 0) {
-                *(s32 *)((s8 *)arg0 + 0x5C) = 0;
+            this->rotation_x -= 0x600;
+            if (this->rotation_x < 0) {
+                this->rotation_x = 0;
             }
-            *(s32 *)((s8 *)arg0 + 0x64) += 2.56e+03f;
+            this->rotation_z += 2.56e+03f;
             *(f32 *)((s8 *)arg0 + 0x3DC) -= (0.2f);
             if (*(f32 *)((s8 *)arg0 + 0x3DC) <= (3.0f)) {
                 *(f32 *)((s8 *)arg0 + 0x3DC) = (3.0f);
             }
             ((TUnk_80482D04 *)arg0)->move_mine();
             VecCopy((Vec *)&v, (const Vec *)(arg0 + 0x390));
-            subtract_vector(&v, arg0 + 0x2FC);
+            subtract_vector(&v, (u8 *)&this->m_2fc);
             if (((TObjBoss2Tunnel *)(&v))->update_scale() <= (4.5f)) {
                 *(s32 *)((s8 *)arg0 + 0x3C8) = 3;
             }
@@ -1281,7 +1281,7 @@ void TUnk_80482D04::vfunc_106(s32 arg1) {
         ((TUnk_80482D04 *)(arg0))->vfunc_96();
         *(s32 *)((s8 *)arg0 + 0x38C) &= ~5;
         *(s32 *)((s8 *)arg0 + 0x38C) |= 2;
-        *(s32 *)((s8 *)arg0 + 0x5C) = 0;
+        this->rotation_x = 0;
         *(s32 *)((s8 *)arg0 + 0x3B0) = 0;
         *(s32 *)((s8 *)arg0 + 0x3C8) = 0;
         *(s32 *)((s8 *)arg0 + 0x3CC) = (s32)((6e+01f) * calc_elapsed_scaled__9TObjEneDDFv(arg0)) + 0xF0;
@@ -1301,10 +1301,10 @@ void TUnk_80482D04::vfunc_106(s32 arg1) {
         if (*(s32 *)((s8 *)arg0 + 0x3CC) <= 0) {
             *(s32 *)((s8 *)arg0 + 0x3C8) = 1;
         }
-        *(s32 *)((s8 *)arg0 + 0x64) += 2.56e+03f;
+        this->rotation_z += 2.56e+03f;
         ((TUnk_80482D04 *)arg0)->move_mine();
         VecCopy((Vec *)&v, (const Vec *)(arg0 + 0x390));
-        subtract_vector(&v, arg0 + 0x2FC);
+        subtract_vector(&v, (u8 *)&this->m_2fc);
         s = normalize_vector_xz((Vec *)(&v));
         s *= (0.75f);
         if (s < (0.2f)) {

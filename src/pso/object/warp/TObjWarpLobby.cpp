@@ -128,7 +128,7 @@ void run_task__13TObjWarpLobbyFv(VO_801A0894 *arg0) {
         ((TObjWarpLobby *)arg0)->m_c8 = 0.0f;
     }
     *(f32 *)((s8 *)arg0 + 0xC4) += 336.0f;
-    if ((find_warp_player_in_range(arg0, (u16) local_client_id, *(f32 *)((s8 *)arg0 + 0xAC)) != 0U) && (arg0->m14() != 0)) {
+    if ((find_warp_player_in_range(arg0, (u16) local_client_id, ((TObjWarpLobby *)arg0)->warp_range) != 0U) && (arg0->m14() != 0)) {
         if (((u32) ((TObjWarpLobby *)arg0)->menu_window == 0U) && (is_idle__6TLobbyFv() != 0)) {
             ((TObjWarpLobby *)arg0)->open_lobby_menu();
         }

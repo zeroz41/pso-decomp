@@ -1258,25 +1258,25 @@ s32 TObjPlayer__sub_800A2390(void *arg0_) {
         if (enemy->f388 & 0x10000) {
             enemy->f388 &= ~0x30000;
             enemy->f310 = 0.0f;
-            enemy->f30C = 0.0f;
+            ((TObjPlayer *)enemy)->y_speed = 0.0f;
             enemy->f308 = 0.0f;
             enemy->state = 1;
         } else {
-            enemy->f30 &= 0xFBFBFFFF;
+            ((TObjPlayer *)enemy)->actorFlags &= 0xFBFBFFFF;
             enemy->state = 3;
         }
         break;
     case 1:
         apply_actor_gravity((TObjEnemy *)enemy, (s32 *)(0), 0.0f);
-        enemy->f64 -= 0x1000;
-        if (enemy->f64 < 0) {
-            enemy->f64 = 0;
+        ((TObjPlayer *)enemy)->rotation_z -= 0x1000;
+        if (((TObjPlayer *)enemy)->rotation_z < 0) {
+            ((TObjPlayer *)enemy)->rotation_z = 0;
         }
-        if (enemy->f30 & 0x800000) {
-            enemy->f64 = 0;
-            enemy->fB8 = 2;
+        if (((TObjPlayer *)enemy)->actorFlags & 0x800000) {
+            ((TObjPlayer *)enemy)->rotation_z = 0;
+            ((TObjPlayer *)enemy)->requested_action = 2;
             enemy->state = 2;
-            enemy->f30 &= 0xFBFBFFFF;
+            ((TObjPlayer *)enemy)->actorFlags &= 0xFBFBFFFF;
             enemy->fA4->f18 &= ~4;
             enemy->fA4->f18 |= 2;
             ((TObjPlayer *)enemy)->spawn_hamon_effects(0xF, 0, 2.2f);
@@ -1286,12 +1286,12 @@ s32 TObjPlayer__sub_800A2390(void *arg0_) {
         break;
     case 2:
         apply_actor_gravity((TObjEnemy *)enemy, (s32 *)(0), 0.0f);
-        if (enemy->fB8 == 0) {
+        if (((TObjPlayer *)enemy)->requested_action == 0) {
             enemy->state = 3;
         }
         break;
     case 3:
-        enemy->f64 = 0;
+        ((TObjPlayer *)enemy)->rotation_z = 0;
         enemy->fA4->f18 &= ~4;
         enemy->fA4->f18 |= 2;
         ((TObjMotion *)enemy)->advance_animation();
@@ -1310,21 +1310,21 @@ s32 TObjPlayer__sub_800A2390(void *arg0_) {
         }
         break;
     case 6:
-        enemy->f60 += 0x555;
+        ((TObjPlayer *)enemy)->rotation_y += 0x555;
         enemy->f398++;
         if (enemy->f398 >= 4) {
             enemy->state = 4;
         }
         break;
     case 4:
-        enemy->f3A8 = enemy->f60;
+        enemy->f3A8 = ((TObjPlayer *)enemy)->rotation_y;
         enemy->f3A0 = TObjPlayer__sub_800A3200(0);
         enemy->f3A4 = 0.0f;
         enemy->f3AC = 0;
         enemy->f39E = 0;
-        enemy->fB8 = 1;
+        ((TObjPlayer *)enemy)->requested_action = 1;
         enemy->state = 5;
-        enemy->f64 = 0;
+        ((TObjPlayer *)enemy)->rotation_z = 0;
         enemy->fA4->f18 &= ~4;
         enemy->fA4->f18 |= 2;
     case 5:

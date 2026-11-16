@@ -1058,8 +1058,8 @@ void TObjChara::request_box_item_drop(void *unused, s16 arg2) {
         if (p1 != 0 && p2 != 0 && TObjPlayer__sub_80104840(get_current_floor_area()) != AREA_PIONEER2_EP1 &&
             (((TObjPlayer *)p1)->get_floor() != ((TObjPlayer *)p2)->get_floor() ||
              TLobby__designated_client_id == local_client_id)) {
-            if (self->f2c != -1) {
-                Entry_8010567C e = quest_object_entries[self->f2c];
+            if (this->set_index != -1) {
+                Entry_8010567C e = quest_object_entries[this->set_index];
                 if (e.b != 0xFFFF) {
                     Pkt_8010567C pkt;
                     ((TLobby *)(&pkt))->build_6x06_guild_card_packet();
@@ -1069,7 +1069,7 @@ void TObjChara::request_box_item_drop(void *unused, s16 arg2) {
                     pkt.z = self->z;
                     pkt.f10 = self->f28;
                     pkt.f12 = arg2;
-                    pkt.f6 = self->f2c;
+                    pkt.f6 = this->set_index;
                     pkt.f14 = get_current_floor_area();
                     pkt.f18 = self->f70;
                     pkt.f1c = this->set_params[0];

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/TUnk_804F322C.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
@@ -423,7 +424,7 @@ s32 TBoss6MagMine__ct(s32 arg0, s32 parent, s32 arg2) {
     u8 *d;
     __ct__9TObjEnemyFP7TObject(self, (void*)parent);
     *(s32 **)((s8 *)self + 0x18) = __vt__13TUnk_804F322C;
-    *(const char **)((s8 *)self + 0) = lbl_805D44B0;
+    ((TBoss3Volopt *)self)->m_name = lbl_805D44B0;
     VecCopy__FP3VecPC3Vec(arg0 + 0x38, arg2 + 0x40);
     VecCopy__FP3VecPC3Vec(arg0 + 0x384, arg2 + 0x4C);
     ((TObjChara *)self)->add_flags_2e4(8);
@@ -434,15 +435,15 @@ s32 TBoss6MagMine__ct(s32 arg0, s32 parent, s32 arg2) {
         ((TObjEnemy *)self)->exchange_object_state((s32)&key, (s16)0);
     }
     *(s32 *)((s8 *)self + 0x374) = TObjFish::get_fish_count();
-    *(s32 *)((s8 *)self + 0x24) = 0;
+    ((TBoss3Volopt *)self)->texlist = 0;
     *(s32 *)((s8 *)self + 0x34) = 0;
     VecCopy__FP3VecPC3Vec(arg0 + 0x44, VecCopy__FP3VecPC3Vec(arg0 + 0x50, VecCopy__FP3VecPC3Vec(arg0 + 0x74, arg0 + 0x38)));
     init_collision_body_parts(self, __vt__13TBoss6MagMine, 1);
     VecCopy__FP3VecPC3Vec(arg0 + 0x2FC, arg0 + 0x38);
-    *(f32 *)((s8 *)self + 0x308) = *(f32 *)((s8 *)self + 0x30C) = *(f32 *)((s8 *)self + 0x310) = 0.0f;
+    *(f32 *)((s8 *)self + 0x308) = ((TBoss3Volopt *)self)->y_speed = *(f32 *)((s8 *)self + 0x310) = 0.0f;
     *(s32 *)((s8 *)self + 0x2A8) = 0;
     ((TObjEnemy *)self)->bind_enemy_combat_stats((u8 *)(TLobby::register_boss(0x2D)), (u8 *)(TLobby::dispatch_shared_handler_b(0x2D)), (u8 *)(TLobby::register_object(0x2D)));
-    *(s16 *)((s8 *)self + 0x33E) = *(s16 *)((s8 *)self + 0x32C);
+    ((TBoss3Volopt *)self)->referenceHp = ((TBoss3Volopt *)self)->hp;
     ((TBoss3Volopt *)self)->reset_photon_effect();
     ((TObjEnemy *)self)->set_param(0);
     d = dispatch_shared_handler_a__6TLobbyFl(0x2D);
@@ -454,7 +455,7 @@ s32 TBoss6MagMine__ct(s32 arg0, s32 parent, s32 arg2) {
     if ((f32) *(s32 *)((s8 *)self + 0x3A0) < 0.0f || *(s32 *)((s8 *)self + 0x3A0) > 0x64) {
         *(s32 *)((s8 *)self + 0x3A0) = 0;
     }
-    *(s32 *)((s8 *)self + 0x3A4) = (u16) (*(u16 *)((s8 *)self + 0x1C) + (s32) (10.0f * (*(f32 *)((s8 *)self + 0x38) + *(f32 *)((s8 *)self + 0x40)))) % 100;
+    ((TBoss3Volopt *)self)->core_slot = (u16) (((TBoss3Volopt *)self)->entity_id + (s32) (10.0f * (*(f32 *)((s8 *)self + 0x38) + *(f32 *)((s8 *)self + 0x40)))) % 100;
     *(f32 *)((s8 *)self + 0x3A8) = 0.0f;
     *(f32 *)((s8 *)self + 0x398) = 1.0f;
     *(s32 *)((s8 *)self + 0x394) = 0;

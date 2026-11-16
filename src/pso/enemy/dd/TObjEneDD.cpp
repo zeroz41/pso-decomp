@@ -1,5 +1,6 @@
 #pragma fp_contract on
 #include "types.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/enemy/dd/TObjEneDD_800BA754.h"
 #include "pso/system/vector.h"
@@ -575,7 +576,7 @@ void TObjEneDD::init_position_vectors() {
     ((TBoss3Volopt *)arg0)->reset_photon_effect();
     VecCopy((Vec *)&this->m_2fc, (const Vec *)&this->position);
     *(f32 *)((s8 *)arg0 + 0x308) = (f32) TObjEneDD__data_805D9E8C;
-    *(f32 *)((s8 *)arg0 + 0x30C) = (f32) TObjEneDD__data_805D9E8C;
+    this->y_speed = (f32) TObjEneDD__data_805D9E8C;
     this->m_310 = (f32) TObjEneDD__data_805D9E8C;
     this->ground_normal.x = (f32) TObjEneDD__data_805D9E8C;
     ground_normal.y = (f32) TObjEneDD__data_805D9E8C;
@@ -585,7 +586,6 @@ void TObjEneDD::init_position_vectors() {
 }
 
 s32 TObjEneDD::vfunc_83() {
-    u8 *arg0 = (u8 *)this;
     if (this->has_flag_0x800() != 0) {
         this->vfunc_63();
         return 1;
@@ -698,7 +698,7 @@ int TObjEneDD::get_target_info() { return fn_800FD8A0(this); }
 void TObjEneDD::init_common_from(u8 *arg1) {
     reset_state_fields();
     this->room = (s16) *(s16 *)((s8 *)arg1 + 0x28);
-    *(s16 *)((s8 *)((u8 *)this) + 0x2A) = (s16) *(s16 *)((s8 *)arg1 + 0x2A);
+    this->set_group = (s16) *(s16 *)((s8 *)arg1 + 0x2A);
     subtractive_rng_seed((void *) (((u8 *)this) + 0x160), (int) (this->entity_id + area_random_seed));
 }
 
@@ -1116,7 +1116,7 @@ void TObjEneDD::transform_part_positions() {
     post_translate_matrix(self->f38);
     rotate_matrix_y(0, self->f60);
     set_motion_packed_rotation();
-    for (i = 0; i < self->count; i++) {
+    for (i = 0; i < this->body_count; i++) {
         matrix_mult_vec(0, &self->parts[i], self->parts[i].f1c);
     }
     clear_motion_packed_rotation();
@@ -1135,7 +1135,7 @@ void TObjEneDD::vfunc_89() {
 s32 TObjEneDD::vfunc_90() {
     O_800BA8A8 *self = (O_800BA8A8 *)this;
     s32 i;
-    for (i = 0; i < self->count; i++) {
+    for (i = 0; i < this->body_count; i++) {
         if (self->entries[i].flags & 0x380000) {
             return 1;
         }
@@ -1281,7 +1281,7 @@ void TObjEneDD::vfunc_91() {
     Obj_800BA244 *self = (Obj_800BA244 *)this;
     s32 i;
     this->actorFlags |= 0x04000000;
-    for (i = 0; i < self->count; i++) {
+    for (i = 0; i < this->body_count; i++) {
         self->parts[i].flags |= 0x02000000;
     }
 }
@@ -1290,7 +1290,7 @@ void TObjEneDD::vfunc_92() {
     Obj_800BA200 *self = (Obj_800BA200 *)this;
     s32 i;
     this->actorFlags &= ~0x04000000;
-    for (i = 0; i < self->count; i++) {
+    for (i = 0; i < this->body_count; i++) {
         self->parts[i].flags &= ~0x02000000;
     }
 }
@@ -1298,7 +1298,7 @@ void TObjEneDD::vfunc_92() {
 void TObjEneDD::vfunc_93() {
     O_800BA1C8 *self = (O_800BA1C8 *)this;
     s32 i;
-    for (i = 0; i < self->count; i++) {
+    for (i = 0; i < this->body_count; i++) {
         self->entries[i].flags |= 1;
     }
 }
@@ -1306,7 +1306,7 @@ void TObjEneDD::vfunc_93() {
 void TObjEneDD::vfunc_94() {
     O_800BA190 *self = (O_800BA190 *)this;
     s32 i;
-    for (i = 0; i < self->count; i++) {
+    for (i = 0; i < this->body_count; i++) {
         self->entries[i].flags &= ~1;
     }
 }
@@ -1326,7 +1326,7 @@ void TObjEneDD::vfunc_96() {
 void TObjEneDD::vfunc_97() {
     Obj_800BA084 *self = (Obj_800BA084 *)this;
     s32 i;
-    for (i = 0; i < self->count; i++) {
+    for (i = 0; i < this->body_count; i++) {
         set_collider_contact_high((u8 *)&self->parts[i]);
     }
 }
@@ -1334,7 +1334,7 @@ void TObjEneDD::vfunc_97() {
 void TObjEneDD::vfunc_98() {
     Obj_800BA030 *self = (Obj_800BA030 *)this;
     s32 i;
-    for (i = 0; i < self->count; i++) {
+    for (i = 0; i < this->body_count; i++) {
         set_collider_contact_low((u8 *)&self->parts[i]);
     }
 }

@@ -497,7 +497,7 @@ u8 *TShopItemListWindow__ct(u8 *shop_item_list_window, s32 parent, s32 arg2, s32
     s32 sp8;
     __ct__15TShopWindowBaseFP7TObject(shop_item_list_window, (TObject *)parent);
     *(s32 **)((s8 *)shop_item_list_window + 0x18) = &(*(RecoveredGlobal_8021FDC8___vt__19TShopItemListWindow *)&__vt__19TShopItemListWindow).value;
-    *(const char **)((s8 *)shop_item_list_window + 0) = TShopItemListWindow__class_name;
+    ((TShopItemListWindow *)shop_item_list_window)->m_name = TShopItemListWindow__class_name;
     ((TShopItemListWindow *)shop_item_list_window)->m_24 = arg3;
     ((TShopItemListWindow *)shop_item_list_window)->m_2c = arg2;
     ((TShopItemListWindow *)shop_item_list_window)->m_28 = 0;

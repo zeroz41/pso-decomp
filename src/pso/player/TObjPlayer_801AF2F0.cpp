@@ -4992,7 +4992,7 @@ void handle_6x2E_set_or_clear_player_flags(void *arg0) {
 }
 
 s32 TObjPlayer::is_matching_id(s16 arg1) {
-    if ((is_flag_b0_4__10TObjPlayerFv() != 0) && (arg1 == (s16) *(s16 *)((s8 *)this + 0xBC))) {
+    if ((is_flag_b0_4__10TObjPlayerFv() != 0) && (arg1 == (s16) this->previous_action)) {
         return 1;
     }
     return 0;

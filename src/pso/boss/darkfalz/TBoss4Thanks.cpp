@@ -91,7 +91,7 @@ void TBoss4Thanks::update_particle_emitters() {
     s32 i;
     for (i = 0; i < 4; i++) {
         const Ent_8035C35C *e = &boss4_thanks_emitter_table[i];
-        if (o->x30 >= e->lo && o->x30 <= e->hi) {
+        if (this->fade_frame >= e->lo && this->fade_frame <= e->hi) {
             if (o->p[i] == NULL) {
                 o->p[i] = create_particle_emitter((void *)boss4_thanks_position, e->id);
                 if (o->p[i] != NULL) {
@@ -244,16 +244,16 @@ u8 *TBoss4Thanks__ct(u8 *object, u8 *arg1) {
     *(s32 **)((s8 *)object + 0x18) = &__vt__12TBoss4Thanks.value;
     *(s32 *)((s8 *)object + 0) = (s32) TBoss4Thanks__class_name;
     instance_count = (u8 *)(TBoss4Uro::get_instance_count());
-    *(s32 *)((s8 *)object + 0x34) = get_bml_model(instance_count, 1);
-    *(s32 *)((s8 *)object + 0x38) = TObjFish__sub_8001EDB0(instance_count, 1);
+    ((TBoss4Thanks *)object)->model = get_bml_model(instance_count, 1);
+    ((TBoss4Thanks *)object)->texture_list = TObjFish__sub_8001EDB0(instance_count, 1);
     *(s32 *)((s8 *)object + 0x3C) = get_bml_motion(instance_count, 0x46);
     *(s32 *)((s8 *)object + 0x40) = get_bml_motion(instance_count, 0x47);
     TBoss4Thanks__sub_8035C480((s32)((s32) object));
-    *(s32 *)((s8 *)object + 0x1C) = 0;
-    *(s32 *)((s8 *)object + 0x24) = 0;
-    *(s32 *)((s8 *)object + 0x20) = 0;
-    *(f32 *)((s8 *)object + 0x28) = 0.0f;
-    *(f32 *)((s8 *)object + 0x2C) = 0.99f;
-    *(s32 *)((s8 *)object + 0x30) = 0;
+    ((TBoss4Thanks *)object)->state = 0;
+    ((TBoss4Thanks *)object)->next_motion = 0;
+    ((TBoss4Thanks *)object)->current_motion = 0;
+    ((TBoss4Thanks *)object)->motion_frame = 0.0f;
+    ((TBoss4Thanks *)object)->fade_amount = 0.99f;
+    ((TBoss4Thanks *)object)->fade_frame = 0;
     return object;
 }

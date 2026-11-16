@@ -61,7 +61,7 @@ const char *TObjItemLight__class_name = "TObjItemLight";
 u8 *TObjItemLight__ct(TObjItemLight *item_light, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject();
     *(s32 **)((s8 *)item_light + 0x18) = __vt__13TObjItemLight;
-    *(const char **)((s8 *)item_light + 0) = TObjItemLight__class_name;
+    ((TObjItemLight *)item_light)->m_name = TObjItemLight__class_name;
     item_light->apply_object_set_data((void *)arg2);
     item_light->m_94 = 0;
     *(f32 *)((s8 *)item_light + 0x90) = (f32) item_light->scale.x;

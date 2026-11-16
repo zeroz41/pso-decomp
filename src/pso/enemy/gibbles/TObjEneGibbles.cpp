@@ -1073,7 +1073,7 @@ void TObjEneGibbles::sub_802D8580() {
         this->phase = 1;
         apply_actor_gravity(this, (s32 *)0, 0.0f);
         if (this->m_3b0 != NULL) {
-            this->m_388 = (s16)((f32)this->m_388 - 0.2f * (f32)(((TObjPlayer *)this->m_3b0)->get_field_2c8() + ((TObjChara *)this->m_3b0)->get_actor_attack_params_atp_min() + TObjPlayer__sub_800A776C(this->m_3b0) - this->m_2ce));
+            this->m_388 = (s16)((f32)this->m_388 - 0.2f * (f32)(((TObjPlayer *)this->m_3b0)->get_field_2c8() + ((TObjChara *)this->m_3b0)->get_actor_attack_params_atp_min() + TObjPlayer__sub_800A776C(this->m_3b0) - *(s16 *)((u8 *)this + 0x2CE)));
             if (this->m_388 <= 0) {
                 this->m_388 = 0;
                 this->m_374 |= 8;

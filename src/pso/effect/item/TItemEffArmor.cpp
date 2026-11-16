@@ -270,7 +270,6 @@ void TItemEffArmor::run_task() {
 }
 
 void TItemEffArmor::render() {
-    u8 *arg0 = (u8 *)this;
     f32 temp_f1;
     push_matrix();
     post_translate_matrix((u8 *)&this->m_2c);
@@ -280,7 +279,7 @@ void TItemEffArmor::render() {
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     copy_argb((NJS_ARGB *)&saved_model_draw_color.value, (NJS_ARGB *)&model_material_color.value);
-    set_constant_material((const NJS_ARGB *)((arg0 + 0x38)));
+    set_constant_material((const NJS_ARGB *)(((u8 *)&this->m_38)));
     set_texlist(this->m_78);
     draw_ginja_model_with_motion((void *)this->m_70, (void *)this->m_74, (f32)this->m_24);
     copy_argb((NJS_ARGB *)&model_material_color.value, (NJS_ARGB *)&saved_model_draw_color.value);

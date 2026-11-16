@@ -235,7 +235,7 @@ void TUnk_804A4948::emit_marker_effects() {
   attack_flags = (this->get_attack_flags());
   if (attack_flags & 1)
   {
-    temp_r0 = *((s32 *) (((s8 *) arg0) + 0x1F8));
+    temp_r0 = this->kind;
     if (temp_r0 < 3)
     {
       if (temp_r0 < 1)

@@ -43,7 +43,7 @@ u8 *TObjCollision__ct(u8 *arg0, s32 arg1, s32 arg2) {
     s32 var_r0;
     __ct__14TObjCollidableFP7TObject(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8006754C___vt__13TObjCollision *)&__vt__13TObjCollision).value;
-    *(const char **)((s8 *)arg0 + 0) = lbl_805D2830;
+    ((TObjCollision *)arg0)->m_name = lbl_805D2830;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(arg0 + 0x5C, (void *)(arg2 + 0x18));
     VecCopy((Vec *)(arg0 + 0x68), (const Vec *)(arg2 + 0x24));

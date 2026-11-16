@@ -265,7 +265,7 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
     void *mem;
     __ct__13TUnk_804C3248Fv(photon_rainbow);
     *(u8 **)((s8 *)photon_rainbow + 0x18) = (u8 *)lbl_804C3ACC;
-    *(const char **)((s8 *)photon_rainbow + 0) = TPhotonPilla__class_name;
+    ((TPhotonPilla *)photon_rainbow)->m_name = TPhotonPilla__class_name;
     *(s32 *)((s8 *)photon_rainbow + 0x138) = 3;
     VecCopy((Vec *)(photon_rainbow + 0x38), (const Vec *)arg1);
     ((TPhotonPilla *)photon_rainbow)->m_17c = *(u16 *)((s8 *)arg1 + 0xC);

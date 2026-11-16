@@ -264,7 +264,7 @@ u8 *TBoss6Thanks__ct(TBoss6Thanks *boss6_thanks, u8 *arg1) {
     u8 *fish_count;
     __ct__7TObjectFP7TObject(boss6_thanks, arg1);
     *(s32 **)((s8 *)boss6_thanks + 0x18) = &__vt__12TBoss6Thanks.value;
-    *(const char **)((s8 *)boss6_thanks + 0) = TBoss6Thanks__class_name;
+    ((TBoss6Thanks *)boss6_thanks)->m_name = TBoss6Thanks__class_name;
     fish_count = (u8 *)(TObjFish::get_fish_count());
     *(s32 *)((s8 *)boss6_thanks + 0x38) = get_bml_model(fish_count, 7);
     boss6_thanks->texture0 = TObjFish__sub_8001EDB0(fish_count, 7);

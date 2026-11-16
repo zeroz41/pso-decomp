@@ -385,7 +385,7 @@ u8 *TObjDFHorming__ct(u8 *arg0, s32 parent, s32 arg2, u16 arg3) {
 
     __ct__9TObjCharaFP7TObject(arg0, parent);
     *(u8 **)((s8 *)arg0 + 0x18) = (u8 *)__vt__13TObjDFHorming;
-    *(const char **)((s8 *)arg0 + 0) = TObjDFHorming__name;
+    ((TObjDFHorming *)arg0)->m_name = TObjDFHorming__name;
     ((TObjDFHorming *)arg0)->m_334 = arg3;
     *(s32 *)&((TObjDFHorming *)arg0)->m_338 = 0x96;
     if (game_difficulty_selection == 3) {
@@ -499,7 +499,7 @@ TObjDFJisin::~TObjDFJisin() {}
 u8 *TObjDFJisin__ct(u8 *object, u8 *arg1, s32 arg2) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__11TObjDFJisin;
-    *(const char **)((s8 *)object + 0) = TObjDFJisin__name;
+    ((TObject *)object)->m_name = TObjDFJisin__name;
     *(f32 *)((s8 *)object + 0x1C) = (f32) (300.0f * sin_table_lookup(arg2));
     *(f32 *)((s8 *)object + 0x20) = (f32) lbl_805D8A30;
     *(f32 *)((s8 *)object + 0x24) = (f32) (-300.0f * cos_table_lookup(arg2));

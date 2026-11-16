@@ -716,7 +716,7 @@ void TObjEnePanarms__sub_800DE430(s32 arg0, s32 arg1, s32 arg2) {
 
 s32 TObjEnePanarms::sub_800DE390() {
     Obj_800DE390 *arg0 = (Obj_800DE390 *)this;
-    switch (arg0->f374) {
+    switch (this->state) {
     case 0:
     case 1:
     case 2:

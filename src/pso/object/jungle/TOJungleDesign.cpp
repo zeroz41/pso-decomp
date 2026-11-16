@@ -70,7 +70,6 @@ s32 push_matrix();
 
 
 void TOJungleDesign::render() {
-    u8 *arg0 = (u8 *)this;
     if (this->update_object_view_visibility(400.0f, 40.0f) == 1) {
         TObjFish::set_global_param(this->texlist);
         push_matrix();

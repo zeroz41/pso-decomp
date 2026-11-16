@@ -56,7 +56,7 @@ s32 TItemWeapon::draw_weapon_model() {
         } else {
             var_r30 = this->update_object_view_visibility(400.0f, 20.0f);
         }
-        set_texlist((int) (*(s32 *)((s8 *)this + 0x24)));
+        set_texlist((int) (this->texlist));
         push_matrix_from((void *)((TObjMotion *)(this->owner))->get_item_ptr((s32)((void *) ((s8)get_attach_joint()))));
         if ((var_r30 != 0) && (this->is_hidden() == 0)) {
             weapon_render_callback_object = (u8 *)this;
@@ -236,7 +236,7 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
     impact_callback = 0;
     hit_callback = 0;
     shot_callback = (WeaponShotCallback)create_gun_shot;
-    *(s16 *)((s8 *)this + 0x1CE) = (s16) *(u8 *)((s8 *)parameters + 0x1B);
+    this->gun_point_joint = (s16) *(u8 *)((s8 *)parameters + 0x1B);
     set_weapon_trail_joints((s32)this, 0, parameters->trail_joints[0], parameters->trail_joints[1]);
     set_weapon_trail_joints((s32)this, 1, parameters->trail_joints[2], parameters->trail_joints[3]);
     set_weapon_trail_joints((s32)this, 2, -1, -1);

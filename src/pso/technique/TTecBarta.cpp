@@ -262,7 +262,7 @@ void TTecBarta::init_parameters() {
       this->power = (f32) ((this->power) * (*((f32 *) (((s8 *)&lbl_804CC55C.value) + 0x18))));
     }
   }
-  *((f32 *) (((s8 *) arg0) + 0x64)) = (f32) ((*((f32 *) (((s8 *) arg0) + 0xD0))) + ((f32) (((this->level) / 5) * 2)));
+  this->speed = (f32) ((*((f32 *) (((s8 *) arg0) + 0xD0))) + ((f32) (((this->level) / 5) * 2)));
   this->range = (f32) (*((f32 *) (((s8 *) arg0) + 0xD4)));
 }
 
@@ -377,7 +377,7 @@ u8 *construct_tec_barta_facing(TTecBarta *tec_barta, void * _w1, void * _w2, voi
     s32 i;
     construct_facing_technique__10TObjPlayerFPviPvii();
     *(void **)((s8 *)tec_barta + 0x18) = ((u8 *)&__vt__9TTecBarta);
-    *(const char **)((s8 *)tec_barta + 0) = TTecBarta__class_name;
+    tec_barta->m_name = TTecBarta__class_name;
     tec_barta->init_parameters();
     for (i = 0; i < 0x20; i++) {
         ((Obj_8022BCB8 *)tec_barta)->ids[i] = 0xFFFF;

@@ -1490,7 +1490,6 @@ block_37:
 #pragma push
 #pragma pool_data off
 void TObjEneRecobox::draw_with_debug_info() {
-    u8 *arg0 = (u8 *)this;
     if (get_target_info__9TObjEneDDFv() != 0) {
         switch (this->m_3f8) {
         case 0:

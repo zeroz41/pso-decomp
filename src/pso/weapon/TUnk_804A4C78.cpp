@@ -66,5 +66,5 @@ u8 *TObjPlayer::create_obj_8012B140(u8 *item) {
 
 TUnk_804A4C78::~TUnk_804A4C78() {}
 
-void TUnk_804A4C78::sub_8012B1F0(s16 v) { *(s16*)((char*)this + 0x1e8) = v; }
-s16 TUnk_804A4C78::sub_8012B1F8() { return *(s16*)((char*)this + 0x1e8); }
+void TUnk_804A4C78::sub_8012B1F0(s16 v) { this->photon_color_id = v; }
+s16 TUnk_804A4C78::sub_8012B1F8() { return this->photon_color_id; }

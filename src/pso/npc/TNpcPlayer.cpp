@@ -2292,7 +2292,7 @@ s32 TNpcPlayer::update_follow_target() {
     if (((s32 (*)())needs_movement__10TNpcPlayerFPvPvi)() != 0) {
         ((s32 (*)(void *))select_path_waypoint__10TNpcPlayerFv)(arg0);
         if (check_movement_progress() != 0) {
-            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0xAC, arg0 + 0xD0);
+            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0xAC, (u8 *)&this->_padD0);
             if ((u32) *(u32 *)((s8 *)arg0 + 0x7C) != 2U) {
                 change_ai_state(1);
             }
@@ -3019,7 +3019,7 @@ void TNpcPlayer::render() {  }
 s32 TNpcPlayer::check_movement_progress() {
     u8 *arg0 = (u8 *)this;
     s8 temp_r3;
-    if (((f32 (*)(void *, void *))horizontal_distance_squared)(arg0 + 0xAC, arg0 + 0xD0) <= 100.0f) {
+    if (((f32 (*)(void *, void *))horizontal_distance_squared)(arg0 + 0xAC, (u8 *)&this->_padD0) <= 100.0f) {
         return 0;
     }
     temp_r3 = *(s8 *)((s8 *)arg0 + 0x8C);

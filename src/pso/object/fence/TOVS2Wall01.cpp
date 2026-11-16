@@ -343,7 +343,6 @@ void TOVS2Wall01::release_model() {
     }
 }
 void TOVS2::render() {
-    u8 *arg0 = (u8 *)this;
     this->m_cc = this->update_object_view_visibility(this->view_range, this->model_radius);
     if ((s32) this->m_cc == 1) {
         push_matrix();

@@ -200,7 +200,7 @@ u8 *TBoss6RockChase__ct(TBoss6RockChase *boss6_rock_chase, s32 arg1, s32 arg2, s
     boss6_rock_chase->m_ac = arg1;
     boss6_rock_chase->m_b0 = arg3;
     boss6_rock_chase->m_b4 = (s32) (15.0f * (3.0517578e-05f * (f32) rand()));
-    *(s32 *)((s8 *)boss6_rock_chase + 0x5C) = (s32) (2048.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
+    ((TBoss6RockChase *)boss6_rock_chase)->rotation_x = (s32) (2048.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
     boss6_rock_chase->rotation_y = (s32) (65535.0f * (3.0517578e-05f * (f32) rand()));
     boss6_rock_chase->rotation_z = (s32) (2048.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));
     boss6_rock_chase->m_bc = (s32) (8192.0f * ((3.0517578e-05f * (f32) rand()) - 0.5f));

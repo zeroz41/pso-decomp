@@ -99,7 +99,7 @@ typedef char RecoveredGlobal_80158890___vt__6TOBind_size[sizeof(RecoveredGlobal_
 u8 *TOBind__ct(TOBind *bind, s32 arg1) {
     __ct__14TObjCollidableFP7TObject(bind, tl_05);
     *(s32 **)((s8 *)bind + 0x18) = &(*(RecoveredGlobal_80158890___vt__6TOBind *)&__vt__6TOBind).value;
-    *(const char **)((s8 *)bind + 0) = lbl_805D2EA8;
+    ((TOBind *)bind)->m_name = lbl_805D2EA8;
     ((TOBind *)(bind))->apply_object_set_data((void *)arg1);
     bind->m_b0 = 0;
     *(s32 *)((s8 *)bind + 0x34) = get_bml_model((int) ((*(s32 *)&TOBind__static_model_resource)), 0);

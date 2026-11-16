@@ -50,7 +50,6 @@ extern s32 camera_ctrl_instance;
 extern s32 actor_frame_tick;
 
 void TKomorebi::render() {
-    u8 *arg0 = (u8 *)this;
     f32 temp_f1;
 
     if ((this->update_object_view_visibility(400.0f, 20.0f) != 0) && !(xz_distance_squared((u8 *)&this->position, camera_ctrl_instance + 0x178) < 1600.0f)) {

@@ -488,7 +488,7 @@ TTecZondeEff::~TTecZondeEff() {}
 u8 *__ct__12TTecZondeEffFv(u8 *object, u8 *arg1, s32 arg2, s32 arg3, f32 farg0) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__12TTecZondeEff.value;
-    *(const char **)((s8 *)object + 0) = TTecZondeEff_class_name;
+    ((TTecZondeEff *)object)->m_name = TTecZondeEff_class_name;
     *(f32 *)((s8 *)object + 0x244) = farg0;
     *(s32 *)((s8 *)object + 0x254) = arg2;
     *(s32 *)((s8 *)object + 0x258) = arg3;

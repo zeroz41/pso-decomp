@@ -246,7 +246,7 @@ s32 TObjCityMainWarpChallenge::are_all_players_in_range() {
     for (i = 0; i < 4; i++) {
         p = (u8 *)get_player_by_client_id(i);
         if (p != 0) {
-            if (((TObjPlayer *)p)->get_floor() != get_current_floor() || ((f32 (*)(void *, void *))xz_distance_squared)(p + 0x38, arg0->pos) > arg0->range * arg0->range) {
+            if (((TObjPlayer *)p)->get_floor() != get_current_floor() || ((f32 (*)(void *, void *))xz_distance_squared)(p + 0x38, arg0->pos) > this->warp_range * this->warp_range) {
                 r = 0;
             }
         }
@@ -667,7 +667,6 @@ void TObjCityAreaWarp::run_task() {
 }
 
 void TObjCityAreaWarp::do_warp() {
-    u8 *arg0 = (u8 *)this;
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
         TObjFish::set_global_param(city_common_texture_list);
         push_matrix();
@@ -742,7 +741,6 @@ void TObjCityMapWarp::run_task() {
 }
 
 void TObjCityMapWarp::render() {
-    u8 *arg0 = (u8 *)this;
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
         TObjFish::set_global_param(city_common_texture_list);
         push_matrix();
@@ -847,7 +845,6 @@ void run_task__15TObjLaboMapWarpFv(u8 *map_warp) {
 }
 
 void TObjLaboMapWarp::render() {
-    u8 *arg0 = (u8 *)this;
     s32 temp_r31;
 
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {

@@ -322,7 +322,7 @@ void TUnk_8048E7A8::render() {
         return;
     }
     if (*(u8 *)((s8 *)(*(u8 * *)&this->param) + 0x88) & 4) {
-        if (*(u16 *)((s8 *)arg0 + 0x24) & 0x10) {
+        if (this->flags & 0x10) {
             pos.x = this->pos.x + this->attach.x;
             pos.y = this->pos.y + this->attach.y;
             pos.z = this->pos.z + this->attach.z;
@@ -349,9 +349,9 @@ void TUnk_8048E7A8::render() {
     }
     this->m_88 = this->m_88 * this->m_a4;
     *(f32 *)((s8 *)arg0 + 0x8C) = *(f32 *)((s8 *)arg0 + 0x8C) * *(f32 *)((s8 *)arg0 + 0xA8);
-    flags = *(u16 *)((s8 *)arg0 + 0x24);
+    flags = this->flags;
     if (flags & 0x200) {
-        if (((is_split_screen() == 0) || !(*(u16 *)((s8 *)arg0 + 0x24) & 0x400)) && (*(u32 *)&this->unk_B4 != 0U) && (this->m_b0 != 0U)) {
+        if (((is_split_screen() == 0) || !(this->flags & 0x400)) && (*(u32 *)&this->unk_B4 != 0U) && (this->m_b0 != 0U)) {
             Ang_8008BAF8 ang = radial_particle_zero_angles;
             Vec_8008BAF8 pos2;
             direction_to_rotation_xz((u8 *)&this->step, &ang.x, &ang.z);
@@ -370,15 +370,15 @@ void TUnk_8048E7A8::render() {
                 rotate_matrix_x(0, ang.x);
                 rotate_matrix_y(0, ang.y);
             }
-            if ((*(u16 *)((s8 *)arg0 + 0x24) & 0x1000) && (camera_ctrl_instance != NULL)) {
+            if ((this->flags & 0x1000) && (camera_ctrl_instance != NULL)) {
                 rotate_matrix_y(0, *(s32 *)((s8 *)camera_ctrl_instance + 0x194));
             }
             TParticleCtrl::begin_effect_render();
-            if (*(u16 *)((s8 *)arg0 + 0x24) & 0x400) {
+            if (this->flags & 0x400) {
                 load_projected_texture_matrix(1.33f);
             }
             rotate_matrix_y(0, this->m_96);
-            if (*(u16 *)((s8 *)arg0 + 0x24) & 0x400) {
+            if (this->flags & 0x400) {
                 setup_particle_tev(0);
             } else {
                 s32 temp_r4 = model_render_flags;
@@ -397,7 +397,7 @@ void TUnk_8048E7A8::render() {
             } else {
                 draw_ginja_object(this->m_b0);
             }
-            if (*(u16 *)((s8 *)arg0 + 0x24) & 0x400) {
+            if (this->flags & 0x400) {
                 reset_particle_tev();
             } else {
                 model_render_flags = saved_model_render_flags;
@@ -411,10 +411,10 @@ void TUnk_8048E7A8::render() {
             return;
         }
         if (*(u8 *)((s8 *)this->param + 0x88) & 0x20) {
-            append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)((u8 *)&TParticleCtrl__data_80511F70 + 0xD8))[*(u16 *)((s8 *)arg0 + 0x1C)], arg0 + 0x6C);
+            append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)((u8 *)&TParticleCtrl__data_80511F70 + 0xD8))[this->sprite_index], (u8 *)&this->pad_6c);
             return;
         }
-        append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)&TParticleCtrl__data_80511F70)[*(u16 *)((s8 *)arg0 + 0x1C)], arg0 + 0x6C);
+        append_node_to_tail__13TParticleCtrlFPvPv(((s32 *)&TParticleCtrl__data_80511F70)[this->sprite_index], (u8 *)&this->pad_6c);
     }
 }
 

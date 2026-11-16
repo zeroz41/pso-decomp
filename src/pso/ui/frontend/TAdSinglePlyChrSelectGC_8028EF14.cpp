@@ -318,7 +318,7 @@ void *TCMCharacter__ct(void *motion, void *arg1) {
 
     __ct__10TObjMotionFP7TObject(motion, arg1);
     *(void **)((s8 *)motion + 0x18) = (void *)lbl_804D4054;
-    *(const char **)((s8 *)motion + 0) = TCMCharacter__name;
+    ((TObjMotion *)motion)->m_name = TCMCharacter__name;
     lbl_805D49B4 = 1;
     cm = creation_player_character;
     char_select_active_flag = 0;
@@ -351,7 +351,7 @@ void *TCMCharacter__ct(void *motion, void *arg1) {
     *(f32 *)((s8 *)motion + 0x38) = 0.0f;
     ((TObjMotion *)motion)->rotation_z = 0;
     ((TObjMotion *)motion)->rotation_y = 0;
-    *(s32 *)((s8 *)motion + 0x5C) = 0;
+    ((TObjMotion *)motion)->rotation_x = 0;
     load_creation_shape_rel((W_80290250 *)motion);
     reset_character_creation_figure_rotation();
     creation_resource_ready_state = 0;

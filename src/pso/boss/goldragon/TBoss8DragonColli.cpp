@@ -136,7 +136,7 @@ void init__17TBoss8DragonColliFPvPvPv(void* p, void* a1, void* a2) { push_matrix
 void TBoss8DragonColli_C::clear_segment_flags() {
     O_802F310C *self = (O_802F310C *)this;
     s32 i;
-    for (i = 0; i < self->count; i++) self->arr[i].flags &= ~1;
+    for (i = 0; i < this->body_count; i++) self->arr[i].flags &= ~1;
 }
 
 void set_all_flags__17TBoss8DragonColliFPv(O_802F3144 *self) {

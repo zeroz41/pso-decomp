@@ -648,7 +648,7 @@ void TObjEneDubchik::run_task() {
         return;
     }
     ((TObjEneDubchik *)arg0)->sub_800A8B8C();
-    (*(s32 *)&this->target) = find_active_entity_by_id(*(u16 *)((s8 *)arg0 + 0x338));
+    (*(s32 *)&this->target) = find_active_entity_by_id(this->targetId);
     ((TObjEnemyCustom *)arg0)->release_destroyed_target();
     ((TObjEneDubchik *)arg0)->sub_800AA10C();
     if ((s16) this->mode != (s32) this->next_action) {
@@ -1378,7 +1378,7 @@ void TObjEneDubchik::sub_800A8B8C() {
     lbl_804910F4[2].speed = sub_800AAF78(0);
     lbl_804910F4[7].speed = sub_800AAF78(3);
     lbl_804910F4[12].speed = sub_800AAF78(4);
-    TObjPlayer__sub_800AAFF0(*(u8 **)((s8 *)this + 0x318), sub_800AAF78(*(s16 *)((s8 *)this + 0x392) ? 5 : 1));
+    TObjPlayer__sub_800AAFF0(*(u8 **)((s8 *)this + 0x318), sub_800AAF78(this->collapsed ? 5 : 1));
 }
 
 void TObjPlayer::render_model_and_set_attach_points() {

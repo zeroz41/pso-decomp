@@ -193,7 +193,6 @@ void load_city_common_resources(void) {
 extern "C" {
 void TObjCityDoor_Lobby::render() { if (is_phase_e__9TObjEneDDFPv(this) != 0) { process_lobby_action_14(); } }
 void TObjCityDoor_Lobby::process_lobby_action_14() {
-    u8 *arg0 = (u8 *)this;
     if (this->update_object_view_visibility(400.0f, 70.0f) != 0) {
         TObjFish::set_global_param((*(s32 *)&city_common_texture_list));
         push_matrix();

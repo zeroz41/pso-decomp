@@ -540,23 +540,23 @@ void TObjEneSaver::vfunc_62() {
     Vec_800A48C4 v;
     u8 *e;
     s32 d;
-    if (o->state >= 10 || o->state < 8) {
+    if (this->mode >= 10 || this->mode < 8) {
         e = (u8 *)get_player_by_client_id(o->target);
         if (e != NULL) {
             VecCopy((Vec *)&v, (const Vec *)(e + 0x2FC));
             subtract_vector(&v, &o->pos);
-            d = angle_difference_abs(o->f60, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
+            d = angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
         } else {
             d = 0;
         }
         if (d < 0x2AAA) {
-            o->state = 8;
-            o->fB8 = 6;
+            this->mode = 8;
+            this->requested_action = 6;
         } else {
-            o->state = 9;
-            o->fB8 = 8;
+            this->mode = 9;
+            this->requested_action = 8;
         }
-        o->f328 = 0;
+        this->phase = 0;
     }
     o->fA4->flags |= 1;
     o->flags30 &= ~0x06240000;
@@ -1193,31 +1193,31 @@ void TObjEneSaver::vfunc_60() {
         VecCopy((Vec *)&v, (const Vec *)&self->target->pos);
         subtract_vector(&v, &self->pos);
         f32 a = atan2_float(v.x, v.z);
-        self->f326 = 4;
+        this->mode = 4;
         if ((s32)(10430.38043493439 * a) < 0x10) {
-            self->f328 = 1;
-            self->fB8 = 2;
+            this->phase = 1;
+            this->requested_action = 2;
             ((TObjEnemy *)self)->sub_800A7798(*lbl_805D504C);
         } else {
-            self->f328 = 0;
-            self->fB8 = 1;
+            this->phase = 0;
+            this->requested_action = 1;
         }
         break;
     case 2:
-        self->f326 = 5;
-        self->f328 = 0;
-        self->fB8 = 3;
+        this->mode = 5;
+        this->phase = 0;
+        this->requested_action = 3;
         break;
     case 1:
-        self->f326 = 6;
-        self->f328 = 0;
-        self->fB8 = 4;
+        this->mode = 6;
+        this->phase = 0;
+        this->requested_action = 4;
         break;
     }
     ((TObjEnemy *)self)->bind_enemy_combat_stats((u8 *)(0), (u8 *)player_object_ptr_array[self->mode], (u8 *)(0));
     self->sub->flags |= 1;
-    self->f30 &= 0xF9FBFFFF;
-    self->f30 |= 0x200000;
+    this->actorFlags &= 0xF9FBFFFF;
+    this->actorFlags |= 0x200000;
 }
 
 s32 TObjEneSaver::is_target_in_attack_range() {
@@ -1888,7 +1888,7 @@ void TObjEneSaver::render() {
         push_matrix_from(anim_model_matrix_array[26]);
         {
             Vec_800A6C54 t = lbl_8043A8A4;
-            matrix_mult_vec(0, &t, arg0 + 0x390);
+            matrix_mult_vec(0, &t, (u8 *)&this->_pad390);
         }
         pop_matrix();
     }
@@ -2066,7 +2066,7 @@ u8 *TObjEneSaver__ct(TObjEneSaver *arg0, void *arg1, void *arg2) {
     __ct__9TObjEnemyFP7TObject(arg0, arg1, arg2);
     *(u8 **)((s8 *)arg0 + 0x18) = (u8 *)TObjEneSaver__vtable;
     __ct__13TUnk_80490470Fv(((u8 *)arg0 + 0x3A4));
-    *(const char **)((s8 *)arg0 + 0) = TObjEneSaver__class_name;
+    ((TObjEneSaver *)arg0)->m_name = TObjEneSaver__class_name;
     arg0->apply_set_data(arg2);
     ((TObjPlayer *)arg0)->init_position_vectors();
     *(f32 *)((s8 *)arg0 + 0x70) = 1.0f;

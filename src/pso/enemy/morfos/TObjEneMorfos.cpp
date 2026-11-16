@@ -1551,7 +1551,7 @@ void TObjEneMorfos__sub_80333690(TObjEneMorfos *owner, s32 arg1) {
 void TObjEneMorfos__sub_80333AD0(u8 *ene_morfos, s32 arg1) {
     switch (arg1) {
     case 4:
-        *(s16 *)((s8 *)ene_morfos + 0xB8) = 0;
+        ((TObjEneMorfos *)ene_morfos)->requested_action = 0;
         ((TObjEneDD *)(ene_morfos))->vfunc_96();
         *(s32 *)((s8 *)ene_morfos + 0x3C0) = (s32) (*(s32 *)((s8 *)ene_morfos + 0x3C0) & 0xFFFFFFF8);
         ((TObjEneDD *)ene_morfos)->set_field_378(4);
@@ -1592,14 +1592,14 @@ void TObjEneMorfos__sub_80333AD0(u8 *ene_morfos, s32 arg1) {
             if (((TObjEneDD_ST *)ene_morfos)->enemy_has_live_target() != 0) {
                 *(s32 *)((s8 *)ene_morfos + 0x4BC) = (s32) (u16) (s32) (10430.38043493439 * ((f64 (*)(f32, f32)) atan2_float)((f32) (*(f32 *)((s8 *)ene_morfos + 0x3A0)), (f32) (*(f32 *)((s8 *)ene_morfos + 0x3A8))));
             } else {
-                *(s32 *)((s8 *)ene_morfos + 0x4BC) = (s32) *(s32 *)((s8 *)ene_morfos + 0x60);
+                *(s32 *)((s8 *)ene_morfos + 0x4BC) = (s32) ((TObjEneMorfos *)ene_morfos)->rotation_y;
             }
             *(s32 *)((s8 *)ene_morfos + 0x4B4) = 1;
         case 1:
             if (((TObjEneMorfos *)ene_morfos)->approach_value((s32)((int) (*(s32 *)((s8 *)ene_morfos + 0x4BC))), (s32)((int) (*(s32 *)((s8 *)((u8 *) TObjEneMorfos__param_table) + 0x18)))) != 0) {
                 *(s32 *)((s8 *)ene_morfos + 0x4B4) = 2;
-                *(f32 *)((s8 *)ene_morfos + 0x4CC) = sin_table_lookup((int) (*(s32 *)((s8 *)ene_morfos + 0x60)));
-                *(f32 *)((s8 *)ene_morfos + 0x4D4) = cos_table_lookup((int) (*(s32 *)((s8 *)ene_morfos + 0x60)));
+                *(f32 *)((s8 *)ene_morfos + 0x4CC) = sin_table_lookup((int) (((TObjEneMorfos *)ene_morfos)->rotation_y));
+                *(f32 *)((s8 *)ene_morfos + 0x4D4) = cos_table_lookup((int) (((TObjEneMorfos *)ene_morfos)->rotation_y));
             }
             ((TObjEneDD *)(ene_morfos))->vfunc_102();
             break;
@@ -1612,7 +1612,7 @@ void TObjEneMorfos__sub_80333AD0(u8 *ene_morfos, s32 arg1) {
                 } else if (((TObjEneDD_ST *)ene_morfos)->enemy_has_live_target() != 0) {
                     *(s32 *)((s8 *)ene_morfos + 0x4BC) = (s32) (u16) (s32) (10430.38043493439 * ((f64 (*)(f32, f32)) atan2_float)((f32) (*(f32 *)((s8 *)ene_morfos + 0x3A0)), (f32) (*(f32 *)((s8 *)ene_morfos + 0x3A8))));
                 } else {
-                    *(s32 *)((s8 *)ene_morfos + 0x4BC) = (s32) *(s32 *)((s8 *)ene_morfos + 0x60);
+                    *(s32 *)((s8 *)ene_morfos + 0x4BC) = (s32) ((TObjEneMorfos *)ene_morfos)->rotation_y;
                 }
                 ((TObjEneMorfos *)ene_morfos)->approach_value((s32)((int) (*(s32 *)((s8 *)ene_morfos + 0x4BC))), (s32)((int) (*(s32 *)((s8 *)((u8 *) TObjEneMorfos__param_table) + 0x18))));
             } else {
@@ -1888,7 +1888,7 @@ int TObjEneMorfos__sub_80334704(void) { morfos_projectile_speed = *(float*)((cha
 #pragma opt_propagation off
 void TObjEneMorfos::init_target_offsets() {
     u8 *arg0 = (u8 *)this;
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x368) <= 0) {
+    if ((s32) this->variant <= 0) {
         *(s32 *)((s8 *)arg0 + 0x3E8) = 1;
     } else {
         *(s32 *)((s8 *)arg0 + 0x3E8) = 0;
@@ -1937,7 +1937,7 @@ s32 TObjEneMorfos::approach_value(s32 arg1, s32 arg2) {
 
 s32 TObjEneMorfos::try_enter_low_hp_state() {
     u8 *arg0 = (u8 *)this;
-    if (((s16) *(s16 *)((s8 *)arg0 + 0x32C) <= (s32) ((s16) *(s16 *)((s8 *)arg0 + 0x2B8) / 2)) && (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3E4))) {
+    if (((s16) this->hp <= (s32) ((s16) this->hpmax / 2)) && (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3E4))) {
         ((TObjEneDD *)arg0)->transition_enemy_state((s32)((void*)(9)));
         return 1;
     }
@@ -1946,7 +1946,7 @@ s32 TObjEneMorfos::try_enter_low_hp_state() {
 
 s32 TObjEneMorfos::check_low_hp_trigger() {
     u8 *arg0 = (u8 *)this;
-    if (!(*(s32 *)((s8 *)arg0 + 0x3C0) & 0x10) && ((s16) *(s16 *)((s8 *)arg0 + 0x32C) <= (s32) ((s16) *(s16 *)((s8 *)arg0 + 0x2B8) / 2)) && (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3E0))) {
+    if (!(*(s32 *)((s8 *)arg0 + 0x3C0) & 0x10) && ((s16) this->hp <= (s32) ((s16) this->hpmax / 2)) && (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3E0))) {
         *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) | 0x10);
         return 1;
     }

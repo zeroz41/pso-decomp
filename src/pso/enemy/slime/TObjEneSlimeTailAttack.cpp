@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/enemy/slime/TObjEneSlime.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
@@ -1196,7 +1197,7 @@ void set_display_mode__15TObjEneSlimeOneFPvi(void *arg0, s32 arg1) {
 void TObjEneSlimeOne::set_target_flag_bit0() {
     void *temp_r3;
 
-    temp_r3 = *(void **)((s8 *)this + 0x38C);
+    temp_r3 = this->collision_body_parts;
     *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) | 1);
 }
 
@@ -1204,7 +1205,7 @@ void TObjEneSlimeOne::clear_child_flag() {
     void *temp_r3;
 
     if ((s32) this->m_3ec == 0) {
-        temp_r3 = *(void **)((s8 *)this + 0x38C);
+        temp_r3 = this->collision_body_parts;
         *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) & 0xFFFFFFFE);
     }
 }
@@ -1332,21 +1333,21 @@ void TObjEneSlimeOne::sub_800EA678() {
 void TObjEneSlimeOne::sub_800EA56C() {
     s32 temp_r31;
     u8 *actor = (u8 *)this;
-    *(f32 *)((s8 *)actor + 0x3B4) = (f32) 0.0f;
-    if (find_nearest_visible_player(actor, actor + 0x3B8, 200.0f) == 0xFFFF) {
+    this->move_speed = (f32) 0.0f;
+    if (find_nearest_visible_player(actor, (u8 *)&this->move_dir_x, 200.0f) == 0xFFFF) {
         ((TObjEneSlimeOne *)actor)->set_state(2);
         return;
     }
     temp_r31 = (s32) (1048575.0f * ((TObjChara *)actor)->random_ratio());
-    *(f32 *)((s8 *)actor + 0x3B8) = (f32) ((15.0f * sin_table_lookup(temp_r31)) + *(f32 *)((s8 *)actor + 0x3B8));
-    *(f32 *)((s8 *)actor + 0x3C0) = (f32) ((15.0f * cos_table_lookup(temp_r31)) + *(f32 *)((s8 *)actor + 0x3C0));
-    if (vector_length(actor + 0x3B8) <= 0.01f) {
+    this->move_dir_x = (f32) ((15.0f * sin_table_lookup(temp_r31)) + this->move_dir_x);
+    this->move_dir_z = (f32) ((15.0f * cos_table_lookup(temp_r31)) + this->move_dir_z);
+    if (vector_length((u8 *)&this->move_dir_x) <= 0.01f) {
         ((TObjEneSlimeOne *)actor)->set_state(2);
         return;
     }
     ((s32 (*)(void *))normalize_vector)(actor + 0x3B8);
     *(f32 *)((s8 *)actor + 0x398) = ((20.0f * ((TObjChara *)actor)->random_ratio()) + 50.0f);
-    *(f32 *)((s8 *)actor + 0x3A0) = (f32) 1.0f;
+    this->alpha = (f32) 1.0f;
     ((TObjEneSlimeOne *)((void *) *(s32 *)((s8 *)actor + 0x388)))->set_motion_state((s32)((void *) 8));
     ((int (*)(void*, int))set_display_mode__15TObjEneSlimeOneFPvi)(actor, 1);
 }
@@ -1443,14 +1444,14 @@ void TObjEneSlimeOne::update_dive_timer() {
 
 void TObjEneSlimeOne::sub_800EA120() {
   unsigned int new_var;
-  *((s32 *) (((s8 *) ((u8 *)this)) + 0x3CC)) = 0xFFFF;
+  this->target_client_id = 0xFFFF;
   *((s32 *) (((s8 *) ((u8 *)this)) + 0x39C)) = (s32) ((((s32) (4.0f * this->random_ratio())) + 4) << 0x10);
-  *((s32 *) (((s8 *) ((u8 *)this)) + 0x390)) = 0x7FFFFFFF;
-  *((s32 *) (((s8 *) ((u8 *)this)) + 0x3C4)) = 0x400;
+  this->state_timer = 0x7FFFFFFF;
+  this->turn_speed = 0x400;
   new_var = 1;
   if (this->random_ratio() > 0.5f)
   {
-    *((s32 *) (((s8 *) ((u8 *)this)) + 0x3C4)) = (s32) ((*((s32 *) (((s8 *) ((u8 *)this)) + 0x3C4))) * (-new_var));
+    this->turn_speed = (s32) ((this->turn_speed) * (-new_var));
   }
   ((TObjEneSlimeOne *)(*((s32 *) (((s8 *) ((u8 *)this)) + 0x388))))->set_motion_state((s32)((void*)((int) new_var)));
   ((int (*)(void*, int))set_display_mode__15TObjEneSlimeOneFPvi)(this, 2);
@@ -1583,8 +1584,8 @@ void TObjEneSlimeOne::update_water_bomb_timer() {
         spawn_particle_effect(((u8 *)this) + 0x2FC, 0xE2);
         ((TObjEneSlimeWaterBomb *)((u8 *)this))->create(((u8 *)this));
     }
-    temp_r0_2 = *(s32 *)((s8 *)((u8 *)this) + 0x390) - 1;
-    *(s32 *)((s8 *)((u8 *)this) + 0x390) = temp_r0_2;
+    temp_r0_2 = this->state_timer - 1;
+    this->state_timer = temp_r0_2;
     if (temp_r0_2 <= 0) {
         if (this->is_timer_active() != 0) {
             this->set_state(7);
@@ -1600,7 +1601,7 @@ void TObjEneSlimeOne::start_tail_attack() {
     s32 n;
     f32 len;
     Tgt_800E984C *t;
-    t = ((Tgt_800E984C * (*)(s32))get_player_by_client_id)(self->target);
+    t = ((Tgt_800E984C * (*)(s32))get_player_by_client_id)(this->target_client_id);
     if (t == NULL || (t->flags & 0x02000800)) {
         ((TObjEneSlimeOne *)self)->set_state(5);
         return;
@@ -1638,10 +1639,10 @@ void TObjEneSlimeOne::start_tail_attack() {
         n--;
         ((void (*)(void *, void *))vec3_add_to)(&pos, &dir);
     }
-    self->state_timer = 0x5A;
+    this->state_timer = 0x5A;
     ((TObjEneSlimeOne *)((void *)self->f388))->set_motion_state((s32)((void*)((void *)0)));
     play_sound_effect(0x4003A318, &self->dest, 0, 0);
-    ((void (*)(void *, void *, s32, void *))create__22TObjEneSlimeTailAttackFiiii)(self, &self->dest, self->rotation_y, self);
+    ((void (*)(void *, void *, s32, void *))create__22TObjEneSlimeTailAttackFiiii)(self, &self->dest, this->rotation_y, self);
     ((int (*)(void*, void*))set_display_mode__15TObjEneSlimeOneFPvi)(self, (void*)((void *)2));
 }
 
@@ -1694,12 +1695,12 @@ void TObjEneSlimeOne::sub_800E95F4() {
     u8 *object;
     object = (u8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x3F0));
     if ((object != NULL) && (((TObject *)object)->all_parents_unqueued_for_destruction() != 0)) {
-        fn_800EB778(*(Obj_800EB778 **)((s8 *)((u8 *)this) + 0x3F0), (s32) *(u16 *)((s8 *)((u8 *)this) + 0x1C));
+        fn_800EB778(*(Obj_800EB778 **)((s8 *)((u8 *)this) + 0x3F0), (s32) this->entity_id);
     }
     *(f32 *)((s8 *)((u8 *)this) + 0x3B0) = 1.0f;
     this->draw_scale.y = 1.0f;
     this->draw_scale.x = 1.0f;
-    *(s32 *)((s8 *)((u8 *)this) + 0x390) = 5;
+    this->state_timer = 5;
     ((TObjPlayer *)((u8 *)this))->refresh_lobby_state();
     ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x4003A81B, (u32)(((u8 *)this) + 0x38), 0, 0);
     spawn_particle_effect((((u8 *)this) + 0x2FC), 0xFE);
@@ -1708,10 +1709,10 @@ void TObjEneSlimeOne::sub_800E95F4() {
 }
 
 void TObjEneSlimeOne::update_effect_fade_lifetime() {
-    if ((*(f32 *)((s8 *)((u8 *)this) + 0x3A0) += -0.2f) < 0.0f) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x3A0) = 0.0f;
+    if ((this->alpha += -0.2f) < 0.0f) {
+        this->alpha = 0.0f;
     }
-    if (--*(s32 *)((s8 *)((u8 *)this) + 0x390) <= 0) {
+    if (--this->state_timer <= 0) {
         this->queue_destruction();
     }
 }

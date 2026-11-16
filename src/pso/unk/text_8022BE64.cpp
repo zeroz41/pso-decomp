@@ -39,7 +39,7 @@ f32 vector_length(void *, f32);
 void TTecReverser::sub_8022BE64(u8 *arg1, s32 arg2) {
     u8 *arg0 = (u8 *)this;
     *(f32 *)((s8 *)arg1 + 0) = (f32) (*(f32 *)((s8 *)arg1 + 0) + (f32) arg2);
-    *(f32 *)((s8 *)arg0 + 0x64) = (f32) *(f32 *)((s8 *)arg1 + 4);
+    this->speed = (f32) *(f32 *)((s8 *)arg1 + 4);
     *(f32 *)((s8 *)arg0 + 0x70) = (f32) *(f32 *)((s8 *)arg1 + 8);
 }
 
@@ -72,7 +72,7 @@ void TUnk_804CC148::count_if_within_range() {
     stack.spC = *(f32 *)((s8 *)arg0 + 0x24) - *(f32 *)((s8 *)arg0 + 0x80);
     temp_f1 = *(f32 *)((s8 *)arg0 + 0x28);
     stack.sp10 = temp_f1 - this->m_84;
-    if (vector_length(&stack.sp8, temp_f1) <= *(f32 *)((s8 *)arg0 + 0x64)) {
+    if (vector_length(&stack.sp8, temp_f1) <= this->speed) {
         this->state = (this->state + 1);
     }
 }
@@ -82,7 +82,7 @@ void TUnk_804CC148::sub_8022C008() {
     s32 temp_r3;
 
     temp_r3 = (long) (arg0 + 0x20);
-    approach_vector_fixed_distance((Vec *)temp_r3, (Vec *)&this->m_7c, (Vec *)temp_r3, (f32) (*(f32 *)((s8 *)arg0 + 0x64)));
+    approach_vector_fixed_distance((Vec *)temp_r3, (Vec *)&this->m_7c, (Vec *)temp_r3, (f32) (this->speed));
 }
 
 #pragma pop
@@ -149,7 +149,7 @@ TUnk_804CC148::TUnk_804CC148(s32 arg1, s32 arg2, s32 arg4) : TEffect() {
     *(f32 *)((s8 *)this + 0x30) = 1.0f;
     *(f32 *)((s8 *)this + 0x34) = 1.0f;
     *(f32 *)((s8 *)this + 0x38) = 1.0f;
-    *(f32 *)((s8 *)this + 0x64) = 3.0f;
+    this->speed = 3.0f;
     *(f32 *)((s8 *)this + 0x70) = 150.0f;
     *(f32 *)((s8 *)this + 0xBC) = 0.0f;
     this->m_c0 = 0.0f;
@@ -201,7 +201,7 @@ u8 *construct_area_technique_base(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 ar
     *(f32 *)((s8 *)arg0 + 0x30) = 1.0f;
     *(f32 *)((s8 *)arg0 + 0x34) = 1.0f;
     *(f32 *)((s8 *)arg0 + 0x38) = 1.0f;
-    *(f32 *)((s8 *)arg0 + 0x64) = 3.0f;
+    ((TUnk_804CC148 *)arg0)->speed = 3.0f;
     *(f32 *)((s8 *)arg0 + 0x70) = 150.0f;
     *(f32 *)((s8 *)arg0 + 0xBC) = 0.0f;
     ((TUnk_804CC148 *)arg0)->m_c0 = 0.0f;

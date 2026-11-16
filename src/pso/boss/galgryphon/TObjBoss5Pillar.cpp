@@ -104,7 +104,7 @@ typedef char RecoveredGlobal_8028B60C___vt__15TObjBoss5Pillar_size[sizeof(Recove
 u8 *TObjBoss5Pillar__ct(TObjBoss5Pillar *boss5_pillar, u8 *arg1, u8 *arg2) {
     __ct__7TObjectFP7TObject(boss5_pillar, arg1);
     *(s32 **)((s8 *)boss5_pillar + 0x18) = &(*(RecoveredGlobal_8028B60C___vt__15TObjBoss5Pillar *)&__vt__15TObjBoss5Pillar).value;
-    *(const char **)((s8 *)boss5_pillar + 0) = lbl_805D3B40;
+    ((TObjBoss5Pillar *)boss5_pillar)->m_name = lbl_805D3B40;
     VecCopy((Vec *)((u8 *)boss5_pillar + 0x2C), (const Vec *)arg2);
     boss5_pillar->m_1c = 0;
     *(f32 *)((s8 *)boss5_pillar + 0x20) = 0.0f;

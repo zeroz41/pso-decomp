@@ -197,7 +197,7 @@ u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3)
     f32 temp_f1;
     TBoss5GryphonLightning__ct(10.0f);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__26TBoss5GryphonLightningHorn;
-    *(const char **)((s8 *)arg0 + 0) = TBoss5GryphonLightningHorn__name;
+    ((TBoss5GryphonLightningHorn *)arg0)->m_name = TBoss5GryphonLightningHorn__name;
     *(s32 *)((s8 *)arg0 + 0xA4) = arg3;
     temp_f1 = 5.0f * sin_table_lookup((int) (*(s32 *)((s8 *)arg0 + 0xA4)));
     *(f32 *)((s8 *)arg0 + 0x98) = temp_f1;

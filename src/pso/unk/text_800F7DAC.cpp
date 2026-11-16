@@ -344,16 +344,16 @@ void TUnk_804999A0::render() {  }
 void TUnk_804999A0::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 (*temp_r12)();
-    *(f32 *)((s8 *)arg0 + 0x1C) += 2.0f;
-    if (*(f32 *)((s8 *)arg0 + 0x1C) >= 128.0f) {
-        *(f32 *)((s8 *)arg0 + 0x1C) = 128.0f;
+    this->alpha += 2.0f;
+    if (this->alpha >= 128.0f) {
+        this->alpha = 128.0f;
         temp_r12 = *(s32 (**)())((s8 *)arg0 + 0x28);
         if (temp_r12 != NULL) {
             temp_r12();
         }
         ((TObject *)arg0)->suspend_update();
     }
-    *(s8 *)((s8 *)arg0 + 0x23) = (s8) *(f32 *)((s8 *)arg0 + 0x1C);
+    *(s8 *)((s8 *)arg0 + 0x23) = (s8) this->alpha;
     TWindowCtrlMain::set_value((s32)(*(s32 *)((s8 *)arg0 + 0x24)), this->m_20);
 }
 
@@ -375,9 +375,9 @@ void*TLobby::init_entry_fields(int a1, int a2, int a3) { ((int (*)(void))__ct__1
 #pragma opt_common_subs off
 void TUnk_804999B8::run_task() {
     s32 (*temp_r12)();
-    *(f32 *)((s8 *)((u8 *)this) + 0x1C) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x1C) - (8.0f));
-    if (*(f32 *)((s8 *)((u8 *)this) + 0x1C) <= 0.0f) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x1C) = 0.0f;
+    this->alpha = (f32) (this->alpha - (8.0f));
+    if (this->alpha <= 0.0f) {
+        this->alpha = 0.0f;
         temp_r12 = *(s32 (**)())((s8 *)((u8 *)this) + 0x24);
         if (temp_r12 != NULL) {
             temp_r12();
@@ -413,9 +413,9 @@ void *TLobby::init_fade(void *arg1, void *arg2) {
 #pragma opt_common_subs off
 void TUnk_804999D0::run_task() {
     s32 (*temp_r12)();
-    *(f32 *)((s8 *)((u8 *)this) + 0x1C) += 8.0f;
-    if (*(f32 *)((s8 *)((u8 *)this) + 0x1C) >= (255.0f)) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x1C) = 255.0f;
+    this->alpha += 8.0f;
+    if (this->alpha >= (255.0f)) {
+        this->alpha = 255.0f;
         temp_r12 = *(s32 (**)())((s8 *)((u8 *)this) + 0x24);
         if (temp_r12 != NULL) {
             temp_r12();

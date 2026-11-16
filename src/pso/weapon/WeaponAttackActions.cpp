@@ -498,7 +498,7 @@ void TUnk_804F1320::spawn_pg_effect(void *arg1, s32 item, f32 farg0) {
     VecCopy(&prm.position, (const Vec *)arg1);
     prm.pad_28 = farg0;
     prm.pad_34 = (s32)this->second_model;
-    prm.pad_38 = *(s32 *)(((u8 *)this) + 0x24);
+    prm.pad_38 = this->texlist;
     if (TObjPlayer::is_locally_controlled((void *)(*(s32 *)(((u8 *)this) + 0xF0))) != 0) {
         TItemEffPG::create((void *)tl_05, &prm);
     } else {
@@ -525,7 +525,7 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
         atk.f3C = *scale;
         atk.f38 = shot_speed;
         atk.owner = model;
-        atk.id = *(s32 *)((s8 *)((u8 *)this) + 0x24);
+        atk.id = this->texlist;
         this->init_weapon_effect_descriptor((Desc_8011E5C4 *)&atk);
         remap_extra_attack_type();
         hit = trace_from_owner((u8 *)origin);
@@ -1190,8 +1190,8 @@ void TItemWeapon::update_owned() {
     Self_801200C0 *self = (Self_801200C0 *)this;
     s32 i;
     Pair_801200C0 *p;
-    if (self->data->max < self->cur) {
-        self->cur = 0;
+    if (self->data->max < this->grind) {
+        this->grind = 0;
     }
     if (self->data->flags & 8) {
         p = self->pairs;

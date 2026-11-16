@@ -27,9 +27,9 @@ s32 defer_render__7TObjectFv();
 
 void TUnk_80494968::render() {
     u8 *arg0 = (u8 *)this;
-    if ((defer_render__7TObjectFv() == 0) && ((s32) *(s32 *)((s8 *)arg0 + 0x1C) > 1)) {
+    if ((defer_render__7TObjectFv() == 0) && ((s32) this->segment_count > 1)) {
         set_additive_blend();
-        ((TObjPlayer *)(arg0 + 0x20))->draw_trail_strip((void *)(*(s32 *)((s8 *)arg0 + 0x1C) * 2), 1);
+        ((TObjPlayer *)(arg0 + 0x20))->draw_trail_strip((void *)(this->segment_count * 2), 1);
     }
 }
 
@@ -132,9 +132,9 @@ void TUnk_80494968::shift_line_buffer_down() {
     P_800D78CC *q;
     s32 lim;
     s32 i;
-    s32 n = arg0->count;
+    s32 n = this->segment_count;
     if (n <= 1) {
-        arg0->count = 0;
+        this->segment_count = 0;
         return;
     }
     p = arg0->a;
@@ -143,7 +143,7 @@ void TUnk_80494968::shift_line_buffer_down() {
     for (i = 0; i < lim; i++) {
         TAdDrawLineTask__sub_80019A8C(p++, q++);
     }
-    arg0->count = arg0->count - 1;
+    this->segment_count = this->segment_count - 1;
 }
 
 TUnk_80494968::~TUnk_80494968() {

@@ -88,7 +88,7 @@ typedef char RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller_size[sizeof(Recove
 u8 *__ct__15TObjBoss8PillerFv(u8 *object, u8 *arg1, u8 *arg2, s16 arg3) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__15TObjBoss8Piller.value;
-    *(const char **)((s8 *)object + 0) = TObjBoss8Piller__class_name;
+    ((TObjBoss8Piller *)object)->m_name = TObjBoss8Piller__class_name;
     VecCopy((Vec *)(object + 0x1C), (const Vec *)arg2);
     *(f32 *)((s8 *)object + 0x20) = 0.0f;
     *(f32 *)((s8 *)object + 0x28) = 0.0f;

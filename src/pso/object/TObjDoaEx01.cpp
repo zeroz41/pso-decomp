@@ -72,7 +72,7 @@ void TObjDoaEx01::update_open() {
     Obj_8018DA54 *self = (Obj_8018DA54 *)this;
     if (self->flags & 1) {
         if (((TObjMapObject *)self)->is_any_player_within_radius_xz((f32)1e+04f) == 0) {
-            self->state = 3;
+            this->object_state = 3;
             switch (get_current_floor_area()) {
             case AREA_VR_TEMPLE_ALPHA:
             case AREA_VR_TEMPLE_BETA:
@@ -88,7 +88,7 @@ void TObjDoaEx01::update_open() {
             }
         }
     } else {
-        self->state = 3;
+        this->object_state = 3;
         switch (get_current_floor_area()) {
         case AREA_VR_TEMPLE_ALPHA:
         case AREA_VR_TEMPLE_BETA:
@@ -106,18 +106,18 @@ void TObjDoaEx01::update_open() {
 }
 
 void TObjDoaEx01::update_opening() {
-    O_8018DB94 *self = (O_8018DB94 *)this;
-    self->pos += self->speed;
-    if (self->pos > self->max - 1.0f) {
-        self->pos = self->max - 1.0f;
-        self->state = 2;
+    TObjDoaEx01 *self = this;
+    self->animation_frame += self->animation_step;
+    if (self->animation_frame > self->animation_end_frame - 1.0f) {
+        self->animation_frame = self->animation_end_frame - 1.0f;
+        self->object_state = 2;
     }
 }
 void TObjDoaEx01::update_closed() {
     Obj_8018DBCC *self = (Obj_8018DBCC *)this;
     if (self->flags & 1) {
         if (((TObjMapObject *)self)->is_any_player_within_radius_xz(4.9e+03f) == 1) {
-            self->state = 1;
+            this->object_state = 1;
             ((TObjCollidable *)self)->set_indexed_flags(0, 8);
             switch (get_current_floor_area()) {
             case AREA_VR_TEMPLE_ALPHA:
@@ -302,7 +302,7 @@ u8 *TObjDoaEx01__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TObjDoaEx01 *)arg0)->animation_frame = 0.0f;
     ((TObjDoaEx01 *)arg0)->animation_step = 0.5f;
-    *(f32 *)((s8 *)arg0 + 0xB4) = (f32) *(u32 *)((s8 *)(get_bml_motion((*(s32 *)&TObjDoaEx01__resource_bundle), 0)) + 4);
+    ((TObjDoaEx01 *)arg0)->animation_end_frame = (f32) *(u32 *)((s8 *)(get_bml_motion((*(s32 *)&TObjDoaEx01__resource_bundle), 0)) + 4);
     ((TObjDoaEx01 *)arg0)->door_flags = 0x100001;
     *(f32 *)((s8 *)arg0 + 0xD4) = 1.0f;
     ((TObjDoaEx01 *)arg0)->m_d8 = 1.0f;

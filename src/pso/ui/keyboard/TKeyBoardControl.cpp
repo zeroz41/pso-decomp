@@ -602,7 +602,7 @@ void TWindowKeyBoardSoft::spawn_key_effect(s32 arg1, s32 arg2) {
     s32 kind;
 
     ((void (*)(void *, s32, s32 *, s32))TWindowKeyBoardSoft__sub_80260760)(this, TWindowKeyBoardSoft::calc_key_index(this, arg1, arg2), &type, 0);
-    pos.x = this->m_40 + calc_key_x(arg1, arg2);
+    pos.x = *(f32 *)(((u8 *)this) + 0x40) + calc_key_x(arg1, arg2);
     pos.y = 26.0f + (10.0f + (19.0f * (f32)arg2 + *(f32 *)(((u8 *)this) + 0x44)));
     switch (type) {
     case 1:

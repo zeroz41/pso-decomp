@@ -301,7 +301,7 @@ Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
 
     __ct__8TObjBaseFP7TObject(self, parent);
     self->vt = (void *)__vt__11TObjDFDemo0;
-    self->name = TObjDFDemo0__name;
+    ((TObjBase *)self)->m_name = TObjDFDemo0__name;
     h = TBoss4Uro::get_instance_count();
     for (i = 0; i < 6; i++) {
         {

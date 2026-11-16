@@ -962,7 +962,7 @@ s32 TBoss4DarkFalz__ct(s32 a0, s32 arg1, s32 a2) {
     VecCopy((Vec *)(boss4_dark_falz + 0x44), (const Vec *)(VecCopy((Vec *)(boss4_dark_falz + 0x50), (const Vec *)(VecCopy((Vec *)(boss4_dark_falz + 0x74), (const Vec *)(boss4_dark_falz + 0x38))))));
     VecCopy((Vec *)(boss4_dark_falz + 0x2FC), (const Vec *)(boss4_dark_falz + 0x38));
     *(f32 *)((s8 *)boss4_dark_falz + 0x310) = (f32) 0.0f;
-    *(f32 *)((s8 *)boss4_dark_falz + 0x30C) = (f32) 0.0f;
+    ((TBoss4DarkFalz *)boss4_dark_falz)->y_speed = (f32) 0.0f;
     *(f32 *)((s8 *)boss4_dark_falz + 0x308) = (f32) 0.0f;
     *(s32 *)((s8 *)boss4_dark_falz + 0x2A8) = 0;
     if ((s32) game_difficulty_selection == 0) {

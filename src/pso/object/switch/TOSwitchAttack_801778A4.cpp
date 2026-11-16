@@ -191,7 +191,7 @@ typedef char RecoveredGlobal_80177C80___vt__14TOSwitchAttack_size[sizeof(Recover
 u8 *TOSwitchAttack__ct(u8 *switch_attack, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(switch_attack);
     *(s32 **)((s8 *)switch_attack + 0x18) = &(*(RecoveredGlobal_80177C80___vt__14TOSwitchAttack *)&__vt__14TOSwitchAttack).value;
-    *(const char **)((s8 *)switch_attack + 0) = TOSwitchAttack__name;
+    ((TOSwitchAttack *)switch_attack)->m_name = TOSwitchAttack__name;
     ((TOSwitchAttack *)(switch_attack))->apply_object_set_data((void *)arg2);
     ((TOSwitchAttack *)switch_attack)->init_params();
     ((TOSwitchAttack *)switch_attack)->m_a6 = 0;

@@ -231,7 +231,6 @@ s32 push_matrix();
 
 #pragma explicit_unused_unused_members on
 void TOTrap::render() {
-    u8 *arg0 = (u8 *)this;
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
         this->m_340 = this->update_object_view_visibility(4e+02f, 2e+01f);
         if (this->m_340 == 1) {

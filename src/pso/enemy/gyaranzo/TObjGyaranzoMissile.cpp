@@ -192,7 +192,7 @@ u8 *TObjGyaranzoMissile__ct(u8 *gyaranzo_missile, u8 *arg1, u8 *arg2, s16 arg3) 
     ((Col_800D4990 *)((TObjGyaranzoMissile *)gyaranzo_missile)->bodies)->radius = 4.0f;
     VecCopy(&((TObjGyaranzoMissile *)gyaranzo_missile)->position, (const Vec *)((int) (*(s32 *)((s8 *)arg2 + 0))));
     ((TObjGyaranzoMissile *)gyaranzo_missile)->target_id = arg3;
-    *(s32 *)((s8 *)gyaranzo_missile + 0x5C) = (s32) *(s32 *)((s8 *)arg2 + 4);
+    ((TObjGyaranzoMissile *)gyaranzo_missile)->rotation_x = (s32) *(s32 *)((s8 *)arg2 + 4);
     ((TObjGyaranzoMissile *)gyaranzo_missile)->rotation_y = (s32) *(s32 *)((s8 *)arg2 + 8);
     ((TObjGyaranzoMissile *)gyaranzo_missile)->wobble_phase = (s32) (182.04445f * (3.6e+02f * (3.0517578e-05f * (f32) rand())));
     ((TObjGyaranzoMissile *)gyaranzo_missile)->wobble_speed = (s32) (*(f32 *)((s8 *)arg2 + 0xC) * (0.5f * ((3.0517578e-05f * (f32) rand()) + 1.0f)));
@@ -204,7 +204,7 @@ u8 *TObjGyaranzoMissile__ct(u8 *gyaranzo_missile, u8 *arg1, u8 *arg2, s16 arg3) 
     ((TObjGyaranzoMissile *)gyaranzo_missile)->velocity.z = (f32) TObjGyaranzoMissile__speed_scale;
     push_matrix_from(identity_matrix);
     rotate_matrix_y(0, (int) (((TObjGyaranzoMissile *)gyaranzo_missile)->rotation_y));
-    rotate_matrix_x(0, (int) (*(s32 *)((s8 *)gyaranzo_missile + 0x5C)));
+    rotate_matrix_x(0, (int) (((TObjGyaranzoMissile *)gyaranzo_missile)->rotation_x));
     temp_r4 = (gyaranzo_missile + 0xAC);
     matrix_mult_vec(0, (int)temp_r4, (int)temp_r4);
     pop_matrix();

@@ -431,7 +431,7 @@ void TWindowMenu::update_scroll_value() {
 
 s32 TWindowMenu::get_selected_value() {
     Obj_80265BF8 *o = (Obj_80265BF8 *)this;
-    return o->entries[*(s16 *)&this->m_78].b;
+    return o->entries[o->f78].b;
 }
 
 void TWindowSubComCardList::set_selected_index(s16 arg1) {
@@ -484,10 +484,10 @@ void TWindowSubComCard::calc_layout_height(f32 farg0) {
 
 void TWindowSubComCardList::set_scroll_target(f32 farg0, f32 farg1) {
     update_layout_height(farg0);
-    if (this->pad_3c > farg1) {
+    if (*(f32 *)((s8 *)this + 0x3C) > farg1) {
         sub_8026556C();
     }
-    this->pad_3c = farg1;
+    *(f32 *)((s8 *)this + 0x3C) = farg1;
     *(f32 *)&(this->m_7c) = (f32) (farg1 - 20.0f);
     save_position();
     update_scroll_target_position();

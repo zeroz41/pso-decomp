@@ -127,7 +127,7 @@ void TBoss5GryphonDemo::draw_model(void* a1, s32 a2) { push_matrix(this); set_ma
 void TBoss5GryphonColli_C::clear_entry_flags() {
     Obj_800663DC *self = (Obj_800663DC *)this;
     s32 i;
-    for (i = 0; i < self->count; i++) {
+    for (i = 0; i < this->body_count; i++) {
         self->segs[i].flags &= ~1;
     }
 }
@@ -165,14 +165,14 @@ TBoss5GryphonColli_C *TBoss5GryphonDemo__sub_800663DC(TBoss5GryphonColli_C *self
     obj->f0 = ((s32)lbl_805D2808);
     obj->f1c = TLobby::alloc_actor_ids(0);
     VecCopy((Vec *)obj->posbuf, (const Vec *)arg3);
-    obj->count = arg2;
-    obj->segs = (Seg_800663DC *)mem_alloc(obj->count * 0x2C);
+    ((TObjCollidable *)obj)->body_count = arg2;
+    obj->segs = (Seg_800663DC *)mem_alloc(((TObjCollidable *)obj)->body_count * 0x2C);
     step = 2.0f * len;
     s = obj->segs;
     zero = 0.0f;
     i = 0;
-    z = len * (obj->count - 1);
-    for (; i < obj->count; i++) {
+    z = len * (((TObjCollidable *)obj)->body_count - 1);
+    for (; i < ((TObjCollidable *)obj)->body_count; i++) {
         copy_collision_body((CollisionBody *)s, (const CollisionBody *)gryphon_demo_collision_body_desc);
         s->f0 = zero;
         s->f4 = zero;

@@ -3127,7 +3127,7 @@ void TObjPlayer::update_action_render() {
         this->requested_action = ((s16 (*)(void *))get_model_field_m25__10TObjPlayerFv)((void *) (arg0));
     }
     ((TObjMotion *)arg0)->set_animation((int) (this->requested_action));
-    this->frame = (f32) (*(f32 *)((s8 *)arg0 + 0xC4) - 1.0f);
+    this->frame = (f32) (this->frame_count - 1.0f);
     draw__10TObjPlayerFPvf((arg0), (f32) (this->frame));
     set_action_flag_40();
     this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFDF);

@@ -213,7 +213,6 @@ void TObjComputer::clear_ref_if_destroyed() {
 }
 
 void TObjComputer::render() {
-    u8 *arg0 = (u8 *)this;
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
         draw_model();
     }
@@ -263,7 +262,7 @@ void TObjComputer::debug_draw_label() {
 u8 *TObjGbAdvance__ct(u8 *mes_base, s32 arg1, s32 arg2) {
     TObjMesBase__ct((TObjMesBase *)mes_base, arg1, arg2);
     *(s32 **)((s8 *)mes_base + 0x18) = __vt__13TObjGbAdvance;
-    *(const char **)((s8 *)mes_base + 0) = TObjGbAdvance__class_name;
+    ((TObjGbAdvance *)mes_base)->m_name = TObjGbAdvance__class_name;
     init_collision_body_parts(mes_base, &gb_advance_collision_body_parts, 1);
     ((TObjGbAdvance *)mes_base)->actorFlags = (s32) (((TObjGbAdvance *)mes_base)->actorFlags | 0x40000000);
     ((TObjPlayer *)mes_base)->register_object_by_id();

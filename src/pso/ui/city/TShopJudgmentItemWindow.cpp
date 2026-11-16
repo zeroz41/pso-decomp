@@ -423,7 +423,7 @@ void TShopJudgmentItemWindow::update_judge_confirm() {
                 get_item_record__23TShopJudgmentItemWindowFPv((s32) (*(s32 *)((s8 *)arg0 + 0x24)), (s32) (*(s32 *)((s8 *)arg0 + 0x48)), 1);
                 *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)arg0 + 0x48);
                 ((TObjPlayer *)(*(s32 *)((s8 *)arg0 + 0x24)))->request_inventory_item((TItemData*)(arg0 + 0x28));
-                set_judgment_target_flag((arg0), (arg0 + 0x28));
+                set_judgment_target_flag((arg0), ((u8 *)&this->unk_28));
                 ((VObj_18 *)(arg0))->m6(0xB, 1);
                 ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x158)))->close();
                 *(u32 *)((s8 *)arg0 + 0x158) = 0U;

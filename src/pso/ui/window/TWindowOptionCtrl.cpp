@@ -55,16 +55,16 @@ s32 TWindowOptionCtrl::handle_input(s32 language) {
     if (TLanguage::set_language((s8) language) != 0) {
         fn_8023F160();
         fn_8023F18C();
-        if ((u32) this->m_34 != 0U) {
+        if ((u32) *(u32 *)((s8 *)this + 0x34) != 0U) {
             ((TObject *)(*(void **)((s8 *)this + 0x34)))->queue_destruction();
-            this->m_34 = 0U;
+            *(u32 *)((s8 *)this + 0x34) = 0U;
         }
-        if ((u32) this->m_28 != 0U) {
+        if ((u32) *(u32 *)((s8 *)this + 0x28) != 0U) {
             ((TObject *)(*(void **)((s8 *)this + 0x28)))->queue_destruction();
-            this->m_28 = 0U;
+            *(u32 *)((s8 *)this + 0x28) = 0U;
         }
-        this->m_28 = create_menu__17TWindowOptionCtrlFv(this);
-        window_request_refresh((u8 *)(this->m_28));
+        *(u32 *)((s8 *)this + 0x28) = create_menu__17TWindowOptionCtrlFv(this);
+        window_request_refresh((u8 *)(*(u32 *)((s8 *)this + 0x28)));
         return 1;
     }
     return 0;

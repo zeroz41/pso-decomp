@@ -71,7 +71,6 @@ void TUnk_804A1E28::vfunc_60() {
 }
 
 void TUnk_804A1E28::update_weapon() {
-    u8 *arg0 = (u8 *)this;
     s16 temp_r0;
     s16 temp_r3_3;
     s32 temp_r3;

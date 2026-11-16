@@ -281,7 +281,7 @@ u8 *TPhotonFarlla__ct(u8 *arg0, u8 *arg1) {
     void *p;
     __ct__13TUnk_804C3248Fv(arg0);
     *(u8 **)((s8 *)arg0 + 0x18) = (u8 *)lbl_804C3564;
-    *(const char **)((s8 *)arg0 + 0) = TPhotonFarlla__class_name;
+    ((TPhotonFarlla *)arg0)->m_name = TPhotonFarlla__class_name;
     *(s32 *)((s8 *)arg0 + 0x138) = 0;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)arg1);
     ((TPhotonFarlla *)arg0)->m_17c = *(u16 *)((s8 *)arg1 + 0xC);

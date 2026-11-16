@@ -63,7 +63,7 @@ typedef char RecoveredGlobal_80191EC0___vt__11TObjInfoCol_size[sizeof(RecoveredG
 u8 *TObjInfoCol__ct(u8 *info_col, s32 arg1, s32 arg2) {
     __ct__14TObjCollidableFP7TObject((void *)info_col, (void *)arg1);
     *(s32 **)((s8 *)info_col + 0x18) = &(*(RecoveredGlobal_80191EC0___vt__11TObjInfoCol *)&__vt__11TObjInfoCol).value;
-    *(const char **)((s8 *)info_col + 0) = TObjInfoCol__class_name;
+    ((TObjInfoCol *)info_col)->m_name = TObjInfoCol__class_name;
     ((TObjInfoCol *)(info_col))->apply_object_set_data((void *)arg2);
     ((TObjInfoCol *)info_col)->interaction_radius = (f32) ((TObjInfoCol *)info_col)->scale.x;
     return info_col;

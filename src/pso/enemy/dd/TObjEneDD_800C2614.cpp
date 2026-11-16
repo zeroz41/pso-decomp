@@ -137,7 +137,7 @@ void TObjEneRe2Flower::handle_event(s32 arg1) {
         TObjPlayer::play_effect_if_v2(-0x200);
         return;
     case 3:
-        if (is_passing_frame(*(f32 *)((s8 *)arg0 + 0xC4) - lbl_805D9FC0) != 0) {
+        if (is_passing_frame(this->frame_count - lbl_805D9FC0) != 0) {
             ((TObjEneDD *)arg0)->transition_enemy_state(3);
         }
         this->vfunc_102();

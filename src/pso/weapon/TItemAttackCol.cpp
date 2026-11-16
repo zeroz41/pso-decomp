@@ -277,7 +277,7 @@ s32 TUnk_804E355C::try_add_hit_target(void *arg1_arg) {
     }
     ok = 1;
     if (TTecCtrl::is_technique_ready() == 0 && ((TObjCollidable *)arg1->obj)->obj_testFlags30(0x60000000) == 0x20000000
-        && *(s16 *)((s8 *)arg0 + 0xAA) != ((TObjBase *)(arg1->obj))->get_room()) {
+        && this->room != ((TObjBase *)(arg1->obj))->get_room()) {
         ok = 0;
     }
     if (((TObjCollidable *)arg1->obj)->obj_testFlags30(0x04000000) != 0

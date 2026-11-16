@@ -49,7 +49,7 @@ void *TWindowEffectLight::create(void *arg0, void *arg1, void *arg2) {
 }
 
 TWindowEffectLight::TWindowEffectLight(void *arg1, s16 arg2, u32 id) : TObject((TObject *)tl_window) {
-    *(const char **)((s8 *)this + 0) = lbl_805D3E60;
+    this->m_name = lbl_805D3E60;
     ((TWindowSubSymbolChatPartsSet *)(((u8 *)this) + 0x1C))->copy_vec2(arg1);
     ((TWindowKeyBoardSoft *)(((u8 *)this) + 0x1C))->adjust_pos_for_split_screen(TCameraCtrl::get_split_screen_view_index(id));
     *(s16 *)((s8 *)this + 0x24) = arg2;

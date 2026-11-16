@@ -62,5 +62,5 @@ void open_yes_no_prompt(TChCrTagPlBack *ch_cr_tag_pl_back, u32 arg1, s32 arg2, s
     TQuestThread::set_status_flag_80((void *)((int) (*(s32 *)((s8 *)ch_cr_tag_pl_back + 0x28))));
     ((TWindowSubComCard *)(*(s32 *)((s8 *)ch_cr_tag_pl_back + 0x28)))->calc_layout_height(farg0);
     ch_cr_tag_pl_back->get_position_offset(&sp8);
-    *(u8 **)((s8 *)ch_cr_tag_pl_back + 0x2C) = create_yes_no_window((s32)&sp8, (s32)(*(s32 *)((s8 *)ch_cr_tag_pl_back + 0x24)), (u32)(*(u8 **)((s8 *)ch_cr_tag_pl_back + 0x20)), (u32)(*(u32 *)&ch_cr_tag_pl_back->m_1c));
+    *(u8 **)((s8 *)ch_cr_tag_pl_back + 0x2C) = create_yes_no_window((s32)&sp8, (s32)(*(s32 *)((s8 *)ch_cr_tag_pl_back + 0x24)), (u32)(*(u8 **)((s8 *)ch_cr_tag_pl_back + 0x20)), (u32)(*(u32 *)((s8 *)ch_cr_tag_pl_back + 0x1C)));
 }

@@ -99,7 +99,7 @@ void TUnk_804A5B20::update_idle() {
       s32 lim;
       TObjPlayer::add_angle_clamped((s32 *)(arg0 + 0x1F8), 0x1555, 0x8000);
       new_var = 0x8000;
-      if (new_var <= ((s32) (*((s32 *) (((s8 *) arg0) + 0x1F8)))))
+      if (new_var <= ((s32) (this->rotation)))
       {
         TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x204), (f32)lbl_805DAF40, (f32)lbl_805DAF44);
       }

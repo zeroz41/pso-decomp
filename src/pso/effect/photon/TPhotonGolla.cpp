@@ -441,7 +441,7 @@ u8 *TPhotonGolla__ct(u8 *arg0, u8 *arg1) {
     void *p;
     __ct__13TUnk_804C3248Fv(arg0);
     *(u8 **)((s8 *)arg0 + 0x18) = (u8 *)lbl_804C35F4;
-    *(const char **)((s8 *)arg0 + 0) = TPhotonGolla__class_name;
+    ((TPhotonGolla *)arg0)->m_name = TPhotonGolla__class_name;
     *(s32 *)((s8 *)arg0 + 0x138) = 2;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)arg1);
     *(u16 *)((s8 *)arg0 + 0x158) = *(u16 *)((s8 *)arg1 + 0xC);
