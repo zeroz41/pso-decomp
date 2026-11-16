@@ -65,7 +65,7 @@ s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv(void);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
 int is_flag_400_set__10TObjPlayerFPv(void *p);
 int check_flag_100__10TObjPlayerFPv(void *p);
-s32 TAdPlayerLoadGC__sub_801E1B50(s32);
+s32 poll_memcard_result(s32);
 extern u8 controller_input_state[];
 extern s32 local_client_id;
 extern s32 lbl_805D55C0;
@@ -138,7 +138,7 @@ void run_task__14TShopGeneratorFv(u8 *self) {
     if (lbl_805D55C0 != 0) {
         return;
     }
-    if (TAdPlayerLoadGC__sub_801E1B50(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) != 0) {
+    if (poll_memcard_result(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) != 0) {
         return;
     }
     if (TAdPlayerLoadGC::get_instance() != 0) {

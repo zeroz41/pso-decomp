@@ -69,7 +69,7 @@ void TButterfly::init_motion() {
 
 void TButterfly::render() {
     if (this->update_object_view_visibility((4e+02f), (2e+01f)) != 0) {
-        TObjFish__sub_8001EDB0(butterfly_bml_resource, 0);
+        get_bml_texlist(butterfly_bml_resource, 0);
         set_global_param__8TObjFishFl();
         draw_model();
     }

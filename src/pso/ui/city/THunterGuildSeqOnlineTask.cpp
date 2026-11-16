@@ -57,7 +57,7 @@ void TQuestListOnline__sub_802176DC(void *, s32);
 void decompress_quest_buffer__16TQuestListOnlineFl(void *, s32);
 extern s32 local_client_id;
 extern s32 quest_download_active;
-s32 TQuestVmDownLoadServer__sub_8006EF6C(s32 arg0);
+s32 get_message_text(s32 arg0);
 void send_quest_barrier__9TProtocolFv(s32);
 void *update_window_mode_from_progress__6TLobbyFPv(void *, NJS_POINT2 *);
 void *get_window_layout_position(s32);
@@ -238,7 +238,7 @@ void TLobby::handle_quest_download_chunk() {
         if (TQuestListOnline__download_barrier_window == NULL) {
             NJS_POINT2 pos = download_barrier_window_size;
             TQuestListOnline__download_barrier_window = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0xBE), &pos);
-            ((TWindowMessage *)TQuestListOnline__download_barrier_window)->append_line((int)(TQuestVmDownLoadServer__sub_8006EF6C(0x61)), (int)1);
+            ((TWindowMessage *)TQuestListOnline__download_barrier_window)->append_line((int)(get_message_text(0x61)), (int)1);
             ((TWindowBase *)TQuestListOnline__download_barrier_window)->set_depth(36000.0f);
             ((TWindowMessage *)TQuestListOnline__download_barrier_window)->complete_reveal();
         }

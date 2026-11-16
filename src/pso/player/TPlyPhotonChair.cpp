@@ -151,7 +151,7 @@ void TPlyPhotonChair__sub_8035B56C(void* p, f32 v);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern u32 TPlyPhotonChair__shared_model_resource;
 s32 get_bml_motion(int, int);
-s32 TObjFish__sub_8001EDB0(int, int);
+s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
 s32 get_actor_section_id__15TPlyPhotonChairFv(int);
 s32 get_rader_map__11TMainCursorFv(void *, void *);
@@ -280,7 +280,7 @@ u8 *TPlyPhotonChair__ct(u8 *ply_photon_chair, s32 arg1, s32 parent) {
         return ply_photon_chair;
     }
     get_rader_map__11TMainCursorFv(ply_photon_chair + 0xD0, (void *)&TPlyPhotonChair__section_id_color_table[get_actor_section_id__15TPlyPhotonChairFv(player)]);
-    ((TPlyPhotonChair *)ply_photon_chair)->texlist = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 1);
+    ((TPlyPhotonChair *)ply_photon_chair)->texlist = get_bml_texlist((int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 1);
     ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->set_type((s32)((int) (get_bml_model((int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 1))));
     ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->set_field_8((s32)((int) (get_bml_motion((int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 1))));
     ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->sync_field10_from_child();

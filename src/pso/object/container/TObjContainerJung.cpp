@@ -160,7 +160,7 @@ u8 *TObjContainerJungEx::get_model(s32 index) {
 
 s32 TObjContainerJungEx__sub_8018D900(s32 index) {
     if (TObjContainerJungEx__resource_bundle != NULL) {
-        return TObjFish__sub_8001EDB0((BmlResource *)TObjContainerJungEx__resource_bundle, index);
+        return get_bml_texlist((BmlResource *)TObjContainerJungEx__resource_bundle, index);
     }
     return 0;
 }
@@ -289,7 +289,7 @@ void TObjContainerJung::load_resources() {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &TObjContainerJung__resource_descriptor, 0, 0, 0));
     }
     (*(u8 * *)&TObjContainerJung__bml_model_resource) = (unsigned char *) ((void *) var_r0);
-    TObjContainerJung__bml_aux_handle = TObjFish__sub_8001EDB0((BmlResource *) var_r0, 0);
+    TObjContainerJung__bml_aux_handle = get_bml_texlist((BmlResource *) var_r0, 0);
 }
 
 void TObjContainerJung::release() {

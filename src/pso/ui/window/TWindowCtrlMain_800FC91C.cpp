@@ -40,7 +40,7 @@ char *TWindowSubStatusDisp__sub_80071820(char *);
 s32 get_card_status_bits__20TWindowShortListCtrlFv();
 s32 TObjPlayer__sub_801AFD8C(void *);
 VObj_18_7b3651 *get_player_by_client_id(s32);
-void TWindowSubStatusDisp__sub_80228F5C(s32);
+void text_builder_append_int(s32);
 void text_builder_append(void *);
 }
 void append_text_space(void);
@@ -107,9 +107,9 @@ s32 TWindowSubStatusDisp::build_status_text(s32 arg0) {
             return 0;
         }
         text_builder_append(lbl_805DA9F4);
-        TWindowSubStatusDisp__sub_80228F5C(lobby_player_status_records[arg0].a);
+        text_builder_append_int(lobby_player_status_records[arg0].a);
         text_builder_append(lbl_805DA9F8);
-        TWindowSubStatusDisp__sub_80228F5C(lobby_player_status_records[arg0].b);
+        text_builder_append_int(lobby_player_status_records[arg0].b);
         break;
     case 3:
         if ((s8)info[0x33] < 2) {

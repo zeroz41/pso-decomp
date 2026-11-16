@@ -31,7 +31,7 @@ struct RecoveredGlobal_802894A8___vt__13TObjNpcKenkyu {
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-s32 TObjFish__sub_8001EDB0(int, int);
+s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
 extern s32 __vt__13TObjNpcKenkyu[];
 void free_bin_model_request(void*, int);
@@ -70,7 +70,7 @@ u8 *TObjNpcKenkyu__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TObjNpcKenkyu *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();
     *(s32 *)((s8 *)player + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcKenkyu__static_model)), 0);
-    ((TObjNpcKenkyu *)player)->texlist = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TObjNpcKenkyu__static_model)), 0);
+    ((TObjNpcKenkyu *)player)->texlist = get_bml_texlist((int) ((*(s32 *)&TObjNpcKenkyu__static_model)), 0);
     ((TObjNpcBase *)player)->setup_common();
     return player;
 }

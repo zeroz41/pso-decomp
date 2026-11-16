@@ -59,7 +59,7 @@ void refresh_char_slots__23TAdSinglePlyChrSelectGCFv(void);
 s32 encrypt_save_and_write__23TAdSinglePlyChrSelectGCFv();
 int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
 int init_change_mode__21TAdMultiChgGameModeGCFv(void*);
-s32 TAdPlayerLoadGC__sub_801E1B50(s32);
+s32 poll_memcard_result(s32);
 extern RecoveredGlobal_8036E8DC_lbl_804C88C0 pso_character_card_filename;
 extern RecoveredGlobal_8036E8DC_lbl_804C8914 pso_system_card_filename;
 extern RecoveredGlobal_8036E8DC_lbl_804C89BC pso_guildcard_card_filename;
@@ -193,7 +193,7 @@ f32 lbl_805D7020 = multi_chg_game_mode_window_size[0] - 40.0f;
 
 s32 TAdMultiChgGameModeGC__sub_8036DE10(s32 arg0, s32 arg1, s32 arg2) {
     if (arg2 == -1) {
-        return TQuestVmDownLoadServer__sub_8006EF6C((arg1));
+        return get_message_text((arg1));
     }
     if (arg2 == 0) {
         return (s32)multi_chg_game_mode_text_table_b[arg1];
@@ -521,7 +521,7 @@ s32 check_system_file_status__23TAdSinglePlyChrSelectGCFv(void) {
     if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
         return 1;
     }
-    if (TAdPlayerLoadGC__sub_801E1B50(0) != 0) {
+    if (poll_memcard_result(0) != 0) {
         return 2;
     }
     if (TAdPlayerLoadGC::probe_and_check_card(0) == 0) {

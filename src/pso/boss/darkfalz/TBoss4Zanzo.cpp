@@ -195,7 +195,7 @@ struct Obj_80056DF0 { u8 pad0[0x3AC]; s32 i3AC; s32 i3B0; f32 f3B4; f32 f3B8; f3
 f32 random_ratio__9TObjCharaFv(void *);
 u16 get_entity_id(void *);
 s32 get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
+s32 get_bml_texlist(BmlResource *resource, s32 index);
 s32 get_bml_model(BmlResource *resource, s32 index);
 s32 pick_random_target_player__11TBoss4Type3Fv(void);
 s32 TBoss4DarkFalz__sub_8004AF5C(s32, s16 *, s16 *);
@@ -514,7 +514,7 @@ void TUnk_80486924::draw_hanger() {
     s32 i;
     set_motion_packed_rotation();
     for (i = 0; i < 2; i++) {
-        TObjFish::set_global_param(TObjFish__sub_8001EDB0((BmlResource *)arg0->f390, boss4_zanzo_bml_index_table[i]));
+        TObjFish::set_global_param(get_bml_texlist((BmlResource *)arg0->f390, boss4_zanzo_bml_index_table[i]));
         switch (i) {
         case 1:
             model_render_flags |= 0x20000;
@@ -820,7 +820,7 @@ void TBoss4Type2::spawn_afterimages() {
     z.unk_24 = 0.0f;
     z.lifetime = 10;
     for (i = 0; i < 2; i++) {
-        z.unk_10 = TObjFish__sub_8001EDB0((BmlResource *)(((Obj_8005676C *)this)->f390), boss4_zanzo_bml_index_table[i]);
+        z.unk_10 = get_bml_texlist((BmlResource *)(((Obj_8005676C *)this)->f390), boss4_zanzo_bml_index_table[i]);
         z.model = (void *)get_bml_model((BmlResource *)(((Obj_8005676C *)this)->f390), boss4_zanzo_bml_index_table[i]);
         z.motion = (void *)get_bml_motion(((Obj_8005676C *)this)->f390, ((Row_8005676C *)&TBoss4Type2__attack_pattern_table)[((Obj_8005676C *)this)->f3c8].c[i]);
         TBoss4Type2::create_zanzo(this, &z);

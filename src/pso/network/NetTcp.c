@@ -901,7 +901,7 @@ s16 TLobby__sub_8041B974(u8 *pkt, u8 *a, u8 *b) {
 
     ((NetPacket *)pkt)->total_bytes = ((NetPacket *)pkt)->total_bytes - ((NetPacket *)pkt)->fragments[0].length;
     *(s16 *)(pkt + offsetof(NetPacket, fragments[0].length)) = 0;
-    src = TLobby__sub_80406F0C(p + offsetof(NetPacketFragment, buffer));
+    src = netbuf_ref_data(p + offsetof(NetPacketFragment, buffer));
     NetMemcpy(&hdr.sport, src, 2);
     NetMemcpy(&hdr.dport, src + offsetof(TcpHdr, dport), 2);
     NetMemcpy(&hdr.seq, src + offsetof(TcpHdr, seq), 4);
@@ -924,7 +924,7 @@ s16 TLobby__sub_8041B974(u8 *pkt, u8 *a, u8 *b) {
     option_bytes = (s16)(len - (s32)sizeof(TcpHdr));
     blen = option_bytes;
     if ((s16)blen != 0) {
-        body = TLobby__sub_80406F0C(p + offsetof(NetPacketFragment, buffer)) + sizeof(TcpHdr);
+        body = netbuf_ref_data(p + offsetof(NetPacketFragment, buffer)) + sizeof(TcpHdr);
     } else {
         body = 0;
     }

@@ -371,7 +371,7 @@ void * get_char_index__23TAdSinglePlyChrSelectGCFUi(u32);
 void set_area__6TLobbyFl(void *, s32, s32);
 void * __nw__7TObjectFUl(u32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
-s32 TWindowCtrlMain__sub_8024CE58();
+s32 has_window_task_root();
 void * create__14TWindowMessageFPvll(void *, void *, int);
 void * get_window_layout_position(int);
 char * get_card_window_field__6TLobbyFv(void);
@@ -549,7 +549,7 @@ void update_idle_timeout__6TLobbyFPv(u8 *object) {
     u32 elapsed;
     getDateStamp((DateStamp *)&ds);
     DateToSeconds((DateStamp *)&ds, (int *)&t->now);
-    if (TWindowCtrlMain__sub_8024CE58() == 0) {
+    if (has_window_task_root() == 0) {
         (*(Obj_80134F9C * *)&TLobby__idle_timeout_object) = 0;
     }
     if (((TKeyBoardControl *)TKeyBoardControl__global_key_state)->has_any_key_pressed() != 0 || TKeyBoardControl::any_pad_input_active() != 0) {
@@ -566,7 +566,7 @@ void update_idle_timeout__6TLobbyFPv(u8 *object) {
     case 0:
         if (t->limit != 0 && elapsed + 0x1E > t->limit) {
             t->state = 1;
-            if ((*(Obj_80134F9C * *)&TLobby__idle_timeout_object) == 0 && TWindowCtrlMain__sub_8024CE58() != 0) {
+            if ((*(Obj_80134F9C * *)&TLobby__idle_timeout_object) == 0 && has_window_task_root() != 0) {
                 sprintf(lobby_idle_timeout_text_buffer, get_seq_phase__6TLobbyFPv(0x1F), t->limit - elapsed);
                 (*(Obj_80134F9C * *)&TLobby__idle_timeout_object) = (Obj_80134F9C *)create__14TWindowMessageFPvll(get_window_layout_position(0xCA), &tmp, 1);
                 ((TWindowMessage *)(*(Obj_80134F9C * *)&TLobby__idle_timeout_object))->append_line((int)lobby_idle_timeout_text_buffer, (int)0x80);
@@ -1485,8 +1485,8 @@ extern "C" {
 extern s8 controller_input_state[];
 extern s32 TLobby__join_lobby_idle_timer;
 void init__23TAdSinglePlyChrSelectGCFv(void);
-void TKeyBoardControl__sub_8000F91C(s32);
-void TKeyBoardControl__sub_8000F9CC(s32);
+void set_queued_main_phase(s32);
+void request_main_phase(s32);
 void queue_join_entry_exit_on_input(void *self);
 void close_and_set_state_12__6TLobbyFv();
 extern const char lobby_window_title_block_jump[];
@@ -1596,7 +1596,7 @@ void handle_warp_menu_input__6TLobbyFv(void);
 void handle_game_list_select__6TLobbyFv(void);
 void handle_team_select__6TLobbyFv(void);
 s32 get_link_status__Fv(void);
-s32 TAdPlayerLoadGC__sub_801E1B50(s32);
+s32 poll_memcard_result(s32);
 void close_windows_and_reset__16TQuestListOnlineFv(void *);
 extern s32 quest_download_active;
 void run_task__6TLobbyFv(void *self);
@@ -1730,7 +1730,7 @@ void run_task__6TLobbyFv(void *self) {
             update_state__6TLobbyFv();
             return;
         }
-        while (TAdPlayerLoadGC__sub_801E1B50(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) == -1) {
+        while (poll_memcard_result(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) == -1) {
         }
         ((void (*)(void))TLobby__sub_801384E4)();
     }
@@ -1918,8 +1918,8 @@ void update_block_jump_list__6TLobbyFv(void) {
 void queue_join_entry_exit_on_input(void *self) {
     if (((*(Pad_80139094 **)controller_input_state)->flags & 8) || TLobby__join_lobby_idle_timer++ > 0xe10) {
         init__23TAdSinglePlyChrSelectGCFv();
-        TKeyBoardControl__sub_8000F91C(2);
-        TKeyBoardControl__sub_8000F9CC(0x12);
+        set_queued_main_phase(2);
+        request_main_phase(0x12);
         ((void (*)(void *))queue_destruction__7TObjectFv)(self);
     }
 }
@@ -3432,7 +3432,7 @@ void TLobby__sub_8013A16C(void);
 void lobby_debug_printf_stub(s32 arg0, ...);
 int get_seq_phase__6TLobbyFPv(void* p);
 s32 send_logout__9TProtocolFv(void*);
-int fn_8013ADD0(void*);
+int get_online_message_text(void*);
 
 extern u32 TLobby__protocol_instance;
 
@@ -3455,7 +3455,7 @@ void init_idle_timeout_timer(void *, s32);
 void reset_state__6TLobbyFv(int);
 s32 get_access_key_input_buffer(void);
 s32 init_serial_access__6TLobbyFv(void);
-s32 TAdDialingGC__sub_8013ADBC(int);
+s32 get_connection_message_text(int);
 void reset_controller_input_state(void);
 s32 socket_set_server_info(u32, const void *, const void *, s32, s32, s32, u16);
 void *__nw__7TObjectFUl(u32);
@@ -3496,7 +3496,7 @@ void run_join_lobby_connect__6TLobbyFi(s32 arg0) {
             init_idle_timeout_timer(p, arg0);
         }
         TLobby__join_state_flag = 1;
-        win = TLobby::create_dialing_message_window((void *)(TAdDialingGC__sub_8013ADBC(7)), (void *)1);
+        win = TLobby::create_dialing_message_window((void *)(get_connection_message_text(7)), (void *)1);
         switch (TAdSinglePlyChrSelectGC__sub_8033605C()) {
         case 0:
         case 1:
@@ -3740,7 +3740,7 @@ u8 *TLobby__ct(u8 *object, void *arg1) {
 
 }
 
-int get_seq_phase__6TLobbyFPv(void* p) { return fn_8013ADD0(p); }
+int get_seq_phase__6TLobbyFPv(void* p) { return get_online_message_text(p); }
 void TLobby__sub_8013A16C(void) {  }
 void lobby_debug_printf_stub(s32 arg0, ...) {}
 

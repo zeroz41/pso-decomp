@@ -103,7 +103,7 @@ s32 project_actor_to_ground(void *, void *, void *);
 s32 TObjEneRecon__sub_8031C250(u32);
 s32 vec3_add_to(void *, void *);
 extern s32 lbl_805D5868;
-s32 TObjFish__sub_8001EDB0(void *, int);
+s32 get_bml_texlist(void *, int);
 s32 get_bml_model(void *, int);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, void *);
@@ -152,7 +152,7 @@ void TObjEneReconBomb::render() {
         return;
     }
     bml_model = get_bml_model((void *)recon_bomb_bml_resource, 2);
-    temp_r30 = TObjFish__sub_8001EDB0((void *)recon_bomb_bml_resource, 2);
+    temp_r30 = get_bml_texlist((void *)recon_bomb_bml_resource, 2);
     push_matrix();
     translate_matrix(0, (f32) (*(f32 *)((s8 *)arg0 + 0x38)), (f32) ((2.0f) + *(f32 *)((s8 *)arg0 + 0x3C)), (f32) (*(f32 *)((s8 *)arg0 + 0x40)));
     rotate_matrix_zyx(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));

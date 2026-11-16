@@ -46,7 +46,7 @@ void *TWindowAddition::construct_with_parent(void *arg1) {
 void TWindowSubStatusDisp::set_count_ratio_text(s32 arg1, s32 arg2) {
     s32 arg0 = (s32)this;
     text_builder_reset();
-    text_builder_append((u8 *)(TQuestVmDownLoadServer__sub_8006EF6C(0x67)));
+    text_builder_append((u8 *)(get_message_text(0x67)));
     append_text_space();
     append_padded_number((arg1), (2U));
     text_builder_append((u8 *)"/");

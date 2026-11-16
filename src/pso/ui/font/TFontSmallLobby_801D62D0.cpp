@@ -176,7 +176,7 @@ void TFontSmallLobby__sub_801D671C(void* a0, int a1);
 int TFontSmallLobby__sub_801D677C(void* p);
 void* TFontSmallLobby__sub_801D6804(void* p);
 void bswap_g_client_id_header(void *p);
-int TFontSmallLobby__sub_801C0228(void*);
+int copy_subcommand_header(void*);
 int clear__8FlagWordFUl(void*, int);
 int set__8FlagWordFUl(void*, int);
 
@@ -200,7 +200,7 @@ int TFontSmallLobby::is_valid_index(s16 arg0) {
 
 void TFontSmallLobby::reset_fields() { *(s32*)((char*)this + 0x0) = 0; *(s32*)((char*)this + 0x4) = 0; }
 int TFontSmallLobby::set_bit1_at_40() { return clear__8FlagWordFUl((char*)this + 0x40, 2); }
-void*TFontSmallLobby::clear_photon_blast_ready_flag() { TFontSmallLobby__sub_801C0228(this); return this; }
+void*TFontSmallLobby::clear_photon_blast_ready_flag() { copy_subcommand_header(this); return this; }
 int TFontSmallLobby::update_ready() { return set__8FlagWordFUl((char*)this + 0x40, 2); }
 
 s32 TFontSmallLobby::get_state() { return *(s32*)((char*)this + 0x0); }
@@ -220,7 +220,7 @@ s32 TFontSmallLobby__sub_801D67AC(u8 *arg0) {
 
 void TFontSmallLobby__sub_801D67C8(void* p) { *(s16*)((char*)p + 0x2) = 6; }
 void*TFontSmallLobby::init_reset_fields() { reset_fields(); return this; }
-void* TFontSmallLobby__sub_801D6804(void* p) { TFontSmallLobby__sub_801C0228(p); return p; }
+void* TFontSmallLobby__sub_801D6804(void* p) { copy_subcommand_header(p); return p; }
 void TFontSmallLobby::init_pkt_cmd_3B() { *(u8*)((char*)this + 0x0) = 59; *(u8*)((char*)this + 0x1) = 1; }
 void TFontSmallLobby::update_and_send() { bswap_g_client_id_header(this); send_subcommand((u8 *)this); }
 void TFontSmallLobby::init_6x3A_packet() { *(u8*)((char*)this + 0x0) = 58; *(u8*)((char*)this + 0x1) = 1; }
@@ -229,7 +229,7 @@ void TFontSmallLobby::init_6x39_packet() { *(u8*)((char*)this + 0x0) = 57; *(u8*
 void TFontSmallLobby::update_and_send_60() { bswap_g_client_id_header(this); send_subcommand((u8 *)this); }
 void TFontSmallLobby::bswap_fields() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 
-void*TFontSmallLobby::copy_packet_header_6x38(void* a1) { TFontSmallLobby__sub_801C0228(this); *(short*)((char*)this + 0x4) = *(unsigned short*)((char*)a1 + 0x4); *(short*)((char*)this + 0x6) = *(short*)((char*)a1 + 0x6); return this; }
+void*TFontSmallLobby::copy_packet_header_6x38(void* a1) { copy_subcommand_header(this); *(short*)((char*)this + 0x4) = *(unsigned short*)((char*)a1 + 0x4); *(short*)((char*)this + 0x6) = *(short*)((char*)a1 + 0x6); return this; }
 
 void TFontSmallLobby__sub_801D698C(Pkt_801D698C *p) {
     p->a = 0xFFFF;
@@ -239,7 +239,7 @@ void TFontSmallLobby__sub_801D698C(Pkt_801D698C *p) {
 }
 
 void TFontSmallLobby::send_state() { bswap_fields(); send_subcommand((u8 *)this); }
-void*TFontSmallLobby::handle_photon_blast_ready() { TFontSmallLobby__sub_801C0228(this); return this; }
+void*TFontSmallLobby::handle_photon_blast_ready() { copy_subcommand_header(this); return this; }
 
 void clear_player_sub_object_slots(Obj_801D6A18 *p) {
     s32 i;

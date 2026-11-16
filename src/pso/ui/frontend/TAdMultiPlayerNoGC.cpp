@@ -38,7 +38,7 @@ void TLobby::update_menu_cursor_selection() {
     };
     GinjaTextureList *list = lists[current_language];
     player_ad_texture_list_ptr = list;
-    TLobby__sub_8023E4B4((s32)names[current_language], (s32)list);
+    load_streamed_prs_texture((s32)names[current_language], (s32)list);
 }
 
 void TLobby::free_global_object() {

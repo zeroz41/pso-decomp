@@ -57,7 +57,7 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void render__12TEneEffHamonFv(Hamon_800A36A8 *o);
-int TObjFish__sub_8001EDB0(void*, void*);
+int get_bml_texlist(void*, void*);
 int get_bml_model(void*, void*);
 
 void render__12TEneEffHamonFv(Hamon_800A36A8 *o) {
@@ -103,7 +103,7 @@ void run_task__12TEneEffHamonFv(u8 *arg0) {
 void TEneEffHamon__sub_800A380C(void) {  }
 
     extern int player_effect_bml_resource;
-void TEneEffHamon::init_fish_effects() { TEneEffHamon__fish_model = get_bml_model((void*)player_effect_bml_resource, (void*)3); TEneEffHamon__fish_effect_param = TObjFish__sub_8001EDB0((void*)player_effect_bml_resource, (void*)3); }
+void TEneEffHamon::init_fish_effects() { TEneEffHamon__fish_model = get_bml_model((void*)player_effect_bml_resource, (void*)3); TEneEffHamon__fish_effect_param = get_bml_texlist((void*)player_effect_bml_resource, (void*)3); }
 
 }
 

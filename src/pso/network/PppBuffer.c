@@ -65,7 +65,7 @@ u8 *alloc_from_buffer(void *self, s16 n) {
     return NULL;
 }
 
-s16 TLobby__sub_80401BCC(void *self, void *dst, u16 n) {
+s16 ppp_buffer_read(void *self, void *dst, u16 n) {
     PppFrame *p;
     s16 m;
     s16 total = 0;

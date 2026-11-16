@@ -51,12 +51,12 @@ s32 play_sound_effect(s32, s32, s32, s32);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 extern char controller_input_state[];
-s32 TAdPlayerLoadGC__sub_801E1B50(s32 chan);
+s32 poll_memcard_result(s32 chan);
 s32 load_player__23TAdSinglePlyChrSelectGCFv();
 u32 TAdChrSelASlotGC__sub_8030CB08(TAdChrSelASlotGC *arg0, s32 kind, s32 text);
 extern RecoveredGlobal_802D4730_lbl_804C89BC pso_guildcard_card_filename;
-void TKeyBoardControl__sub_8000F91C(s32 arg0);
-void TKeyBoardControl__sub_8000F9CC(s32 arg0);
+void set_queued_main_phase(s32 arg0);
+void request_main_phase(s32 arg0);
 s32 TAdChrSelASlotGC__sub_8030C978(void *arg0, s32 arg1, s32 arg2);
 s32 TAdSinglePlyChrSelectGC__sub_801334DC(void *p);
 s32 load_tables();
@@ -125,16 +125,16 @@ void TAdSinglePlyChrSelectGC::finish_character_selection_transition() {
                 TAdMultiChgGameModeGC::request_transition();
                 return;
             }
-            TKeyBoardControl__sub_8000F91C(0xE);
+            set_queued_main_phase(0xE);
             TAdMultiChgGameModeGC::set_game_mode_changed();
             return;
         case 1:
-            TKeyBoardControl__sub_8000F9CC(5);
+            request_main_phase(5);
             return;
         case 2: break;
         case 3:
             set_opening_movie_purpose(1);
-            TKeyBoardControl__sub_8000F9CC(3);
+            request_main_phase(3);
             break;
         }
     }
@@ -430,7 +430,7 @@ void TAdSinglePlyChrSelectGC::sub_802D4730() {
         *(s32 *)((s8 *)arg0 + 0x20) = 0;
         return;
     }
-    if (TAdPlayerLoadGC__sub_801E1B50(0) == 0) {
+    if (poll_memcard_result(0) == 0) {
         if (TAdPlayerLoadGC::find_card_file(0, (const char *)(&pso_guildcard_card_filename.value)) == 0) {
             if ((u32) *(u32 *)((s8 *)arg0 + 0x40) != 0U) {
                 ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x40)))->close();
@@ -463,7 +463,7 @@ void TAdSinglePlyChrSelectGC::sub_802D486C() {
         *(s32 *)((s8 *)arg0 + 0x20) = 0;
         return;
     }
-    if (TAdPlayerLoadGC__sub_801E1B50(0) == 0) {
+    if (poll_memcard_result(0) == 0) {
         if ((u32)TAdPlayerLoadGC::find_card_file(0, (const char *)&pso_guildcard_card_filename.value) != 0xFFFFFF41U) {
             if (*(u32 *)((s8 *)arg0 + 0x3C) != 0U) {
                 ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x3C)))->close();

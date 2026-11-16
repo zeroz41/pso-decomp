@@ -82,7 +82,7 @@ void TObjEneMe1Gee_NEEDLE::render() {
     post_translate_matrix(&pos.x);
     rotate_matrix_y(NULL, m_a4);
     rotate_matrix_x(NULL, m_a0);
-    TObjFish::set_global_param(TObjFish__sub_8001EDB0(me1gee_cached_model_handle, 1));
+    TObjFish::set_global_param(get_bml_texlist(me1gee_cached_model_handle, 1));
     draw_ginja_object((void *)get_bml_model(me1gee_cached_model_handle, 1));
     TParticleCtrl::end_effect_render();
     pop_matrix();

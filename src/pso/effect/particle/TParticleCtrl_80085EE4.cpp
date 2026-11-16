@@ -142,7 +142,7 @@ s32 rotate_matrix_x(int, s32);
 s32 push_matrix();
 s32 pop_matrix();
 s32 post_translate_matrix(void *);
-s32 TParticleCtrl__sub_803E2A1C(void *, int);
+s32 emit_particle_strip_vertices(void *, int);
 extern Tex_80086248 lbl_804C5820[];
 extern u8 *camera_ctrl_instance;
 void set_inverse_alpha_blend(void);
@@ -299,7 +299,7 @@ void TUnk_8048E728::draw_particle_refraction_quad() {
     GXSetTevOp(0, 0);
     play_indirect_effect_recipe(0x1F, 0, 1);
     TObjPlayer::setup_tev_stage();
-    TParticleCtrl__sub_803E2A1C(v, 4);
+    emit_particle_strip_vertices(v, 4);
     TParticleCtrl::reset_particles();
     reset_particle_tev();
     reset_indirect_tev(1);

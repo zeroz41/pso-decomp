@@ -48,7 +48,7 @@ struct Thanks_8035C6FC
 
 extern "C" {
 s32 get_bml_motion(void *, s32);
-s32 TObjFish__sub_8001EDB0(void *, s32);
+s32 get_bml_texlist(void *, s32);
 s32 get_bml_model(void *, s32);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8035C83C___vt__12TBoss4Thanks __vt__12TBoss4Thanks;
@@ -232,7 +232,7 @@ u8 *TBoss4Thanks__ct(u8 *object, u8 *arg1) {
     *(s32 *)((s8 *)object + 0) = (s32) TBoss4Thanks__class_name;
     instance_count = (u8 *)(TBoss4Uro::get_instance_count());
     ((TBoss4Thanks *)object)->model = get_bml_model(instance_count, 1);
-    ((TBoss4Thanks *)object)->texture_list = TObjFish__sub_8001EDB0(instance_count, 1);
+    ((TBoss4Thanks *)object)->texture_list = get_bml_texlist(instance_count, 1);
     *(s32 *)((s8 *)object + 0x3C) = get_bml_motion(instance_count, 0x46);
     *(s32 *)((s8 *)object + 0x40) = get_bml_motion(instance_count, 0x47);
     TBoss4Thanks__sub_8035C480((s32)((s32) object));

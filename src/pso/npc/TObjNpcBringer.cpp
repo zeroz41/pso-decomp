@@ -56,7 +56,7 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
 
 extern "C" {
-s32 TObjFish__sub_8001EDB0(void *, s32);
+s32 get_bml_texlist(void *, s32);
 s32 get_bml_model(void *, s32);
 void TObjNpcBase__ct(void *, void *);
 void init_collision_body_parts(void *, void *, s32);
@@ -198,7 +198,7 @@ u8 *TObjNpcBringer__ct(u8 *self, void *parent, s32 arg2) {
     ((TObjPlayer *)self)->init_position_vectors();
     ((TObjNpcBringer *)self)->apply_set_params(0, 1);
     *(s32 *)(self + 0x34) = get_bml_model(TObjEneDf2Bringer__resource_bundle, 0);
-    *(s32 *)(self + 0x24) = TObjFish__sub_8001EDB0(TObjEneDf2Bringer__resource_bundle, 0);
+    *(s32 *)(self + 0x24) = get_bml_texlist(TObjEneDf2Bringer__resource_bundle, 0);
     ((TObjMotion *)self)->init_motion(npc_bringer_animation_table, (BmlMotionEntry *)*(s32 *)(TObjEneDf2Bringer__resource_bundle + 0x430), *(s16 *)(self + 0xB8));
     *(u8 **)(self + 0x350) = npc_movement_parameters;
     ((TObjChara *)self)->set_motion_params(npc_default_battle_stats);

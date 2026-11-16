@@ -19,7 +19,7 @@ struct RecoveredGlobal_80290C20_main_task {
 
 extern "C" {
 s32 TKeyBoardControl__sub_8000F92C();
-void TKeyBoardControl__sub_8000F9CC(s32 arg0);
+void request_main_phase(s32 arg0);
 s8 func_801A5E54__Fv();
 void run_save_load_sequence__23TAdSinglePlyChrSelectGCFv(void);
 }
@@ -64,7 +64,7 @@ void run_main_frame(void) {
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
         var_r3 = NULL;
-        TKeyBoardControl__sub_8000F9CC(0);
+        request_main_phase(0);
     }
     render_tick();
 }

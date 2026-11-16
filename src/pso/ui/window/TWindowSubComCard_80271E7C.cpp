@@ -562,7 +562,7 @@ s32 TWindowSubComCard::create_entry_list_window() {
     return w;
 }
 
-s32 TQuestVmDownLoadServer__sub_8006EF6C(s32);
+s32 get_message_text(s32);
 
 #pragma push
 #pragma opt_loop_invariants off
@@ -574,7 +574,7 @@ u32 TWindowSubComCard::sub_80272DE0() {
     Ent_80272CB0 *e;
     List_80272CB0 *l;
     w = create_choice_setting_window__17TWindowSubComCardFiii((s32)(get_window_layout_position(0x8C)), (s32)com_card_choice_list_size, 6);
-    create_sub_window__20TWindowChoiceSettingFPvi((void *)w, TQuestVmDownLoadServer__sub_8006EF6C(0x49));
+    create_sub_window__20TWindowChoiceSettingFPvi((void *)w, get_message_text(0x49));
     l = (List_80272CB0 *)this->m_58;
     idx = 0;
     count = l->count;
@@ -585,7 +585,7 @@ u32 TWindowSubComCard::sub_80272DE0() {
             idx++;
         }
     }
-    ((TWindowSubStatusDisp *)w)->add_text_entry(TQuestVmDownLoadServer__sub_8006EF6C(0x4A), 0);
+    ((TWindowSubStatusDisp *)w)->add_text_entry(get_message_text(0x4A), 0);
     ((TWindowSubComCard *)w)->set_flag_10();
     return w;
 }
@@ -821,11 +821,11 @@ s32 create_menu__17TWindowSubComCardFv(void) {
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0x53)), 6, 0xB);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0x54)), 6, 0x1D);
     if (get_main_phase() == 0xF) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(TQuestVmDownLoadServer__sub_8006EF6C(0x49)), 6, 0x27);
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(get_message_text(0x49)), 6, 0x27);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0x6D)), 6, 0x33);
         forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xF8)), 6, 0x39);
     } else {
-        TWindowSubComCard::draw_text_gray(temp_r31, TQuestVmDownLoadServer__sub_8006EF6C(0x49), 6, 0x27);
+        TWindowSubComCard::draw_text_gray(temp_r31, get_message_text(0x49), 6, 0x27);
         TWindowSubComCard::draw_text_gray(temp_r31, ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0x6D), 6, 0x33);
         TWindowSubComCard::draw_text_gray(temp_r31, ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0xF8), 6, 0x39);
     }

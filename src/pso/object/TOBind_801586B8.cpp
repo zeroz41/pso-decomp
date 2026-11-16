@@ -32,7 +32,7 @@ extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u32 TOBind__static_model_resource;
 u8 *get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(int, int);
+s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
 s32 __ct__14TObjCollidableFP7TObject(void *, int);
 extern s32 __vt__6TOBind[];
@@ -103,9 +103,9 @@ u8 *TOBind__ct(TOBind *bind, s32 arg1) {
     ((TOBind *)(bind))->apply_object_set_data((void *)arg1);
     bind->m_b0 = 0;
     *(s32 *)((s8 *)bind + 0x34) = get_bml_model((int) ((*(s32 *)&TOBind__static_model_resource)), 0);
-    bind->texlist = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TOBind__static_model_resource)), 0);
+    bind->texlist = get_bml_texlist((int) ((*(s32 *)&TOBind__static_model_resource)), 0);
     bind->m_c4 = get_bml_model((int) ((*(s32 *)&TOBind__static_model_resource)), 1);
-    bind->m_c8 = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TOBind__static_model_resource)), 1);
+    bind->m_c8 = get_bml_texlist((int) ((*(s32 *)&TOBind__static_model_resource)), 1);
     *(u8 **)((s8 *)bind + 0xCC) = get_bml_motion((*(s32 *)&TOBind__static_model_resource), 0);
     *(f32 *)((s8 *)bind + 0xB8) = 0.0f;
     bind->m_bc = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)bind + 0xCC)) + 4) - 1.0f);

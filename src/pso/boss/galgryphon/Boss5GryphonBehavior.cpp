@@ -541,7 +541,7 @@ void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32
 s32 __ct__17TBoss5GryphonDemoFP7TObjectlf(void *, s32, void *, f32);
 s32 init_motion_record(s32);
 void TBoss8Dragon__sub_80067074(s32 arg0, s32 arg1);
-void TCameraCtrl__sub_8006A044(s32 id, f32 v);
+void start_camera_shake(s32 id, f32 v);
 void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0);
 s32 enemy_validate_retained_target(u8 *arg0);
 s32 update_linked_position__12TObjEneDD_STFf(f32);
@@ -3908,7 +3908,7 @@ void TBoss5Gryphon::update_ground_takeoff(u32 arg1) {
                 *(u32 *)((s8 *)arg0 + 0x4C0) |= 4;
                 ((TBoss8Dragon *)arg0)->run_default_state();
                 set_flag_4e4__12TBoss8DragonFPv(arg0);
-                TCameraCtrl__sub_8006A044(0x14, lbl_805D8EA4);
+                start_camera_shake(0x14, lbl_805D8EA4);
                 ((TBoss5Gryphon *)arg0)->play_se(0x40033409);
                 *(s32 *)((s8 *)arg0 + 0x6E0) = 1;
             }

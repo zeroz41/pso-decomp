@@ -10,7 +10,7 @@
 #include "pso/network/TLobby_8041112C.h"
 
 s32 init_packet_fragment_pools(void);
-u16 TUdpSocket__sub_80419864(); /* declared without a parameter list; the definition is u16 (p, n) */
+u16 ones_complement_sum(); /* declared without a parameter list; the definition is u16 (p, n) */
 
 s32 NetUnregisterTimer(void* p);
 
@@ -328,7 +328,7 @@ s32 reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16 f
       *(u32 *)(tail + offsetof(NetPacket, total_bytes)) += *(u16 *)(self + offsetof(NetFragment, len));
       ep->length = *(s16 *)(self + offsetof(NetFragment, len));
       n = 2;
-      TLobby__sub_80406EB8(&ep->buffer, node->hdr_len);
+      netbuf_ref_advance(&ep->buffer, node->hdr_len);
     }
     else
     {
@@ -423,7 +423,7 @@ s32 TLobby__sub_80419374(NetFragPacket *pkt) {
     if (pkt->first->offset != 0) {
         return 0;
     }
-    q = TLobby__sub_80406F0C(&pkt->first->data);
+    q = netbuf_ref_data(&pkt->first->data);
     if (q == NULL) {
         return -1;
     }
@@ -640,7 +640,7 @@ s32 TLobby__sub_8041979C(void) {
     return 0;
 }
 
-u16 TUdpSocket__sub_80419864(p, n)
+u16 ones_complement_sum(p, n)
     u8 *p;
     s16 n;
 {

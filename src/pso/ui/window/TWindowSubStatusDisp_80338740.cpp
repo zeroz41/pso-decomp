@@ -128,9 +128,9 @@ void draw_item_row__20TWindowSubStatusDispFPvPv(Item_80338890 *arg0, Win_8033889
   draw_window_text((f32 *)&pos, (const char *)(((s32 (*)(void *, s8)) TWindowSubStatusDisp__sub_803387F8)(arg0, arg0->c1f)), -1, 0, 100000.0f);
   pos.x += 126.0f;
   text_builder_reset();
-  TWindowSubStatusDisp__sub_80228F5C(arg0->c20);
+  text_builder_append_int(arg0->c20);
   text_builder_append((u8 *)separator);
-  TWindowSubStatusDisp__sub_80228F5C(arg0->c21);
+  text_builder_append_int(arg0->c21);
   draw_window_text((f32 *)&pos, (const char *)(get_shared_text_buffer()), -1, 0, 100000.0f);
 }
 

@@ -103,7 +103,7 @@ s32 play_sound_effect(s32, s32, s32, s32);
 void run_task__16TObjCMAssignMenuFv(void *arg0);
 f32 fabs_float(f32);
 void TCameraCtrl__sub_80068EF0(void);
-s32 TQuestVmDownLoadServer__sub_8006EF6C(s32 arg0);
+s32 get_message_text(s32 arg0);
 u32 calc_text_width(char *s);
 s32 is_active__23TAdSinglePlyChrSelectGCFv();
 void TObjCMIcon__sub_802994C8(s32 arg0, s32 *arg1);
@@ -826,7 +826,7 @@ void TObjCMMainMenu::sub_80297B18() {
         step = 19.0f * s;
         y = 396.0f * s - step;
         for (i = 0; i < 2; i++) {
-            const char *str = (const char *)TQuestVmDownLoadServer__sub_8006EF6C(i + 0x3B);
+            const char *str = (const char *)get_message_text(i + 0x3B);
             f32 x = 604.0f - (f32)calc_text_width((char *)str);
             TCameraCtrl::restore_full_screen_view();
             draw_menu_text(x, y, str, color);

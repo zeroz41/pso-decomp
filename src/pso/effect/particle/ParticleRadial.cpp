@@ -96,8 +96,8 @@ extern "C" {
 void *alloc_particle_memory(int);
 f32 vec_squared_length(u8 *arg0);
 void *__dt__13TUnk_8048E7A8Fv(void *arg0, s16 arg1);
-void TKeyBoardControl__sub_8000F91C(s32 arg0);
-void TKeyBoardControl__sub_8000F9CC(s32 arg0);
+void set_queued_main_phase(s32 arg0);
+void request_main_phase(s32 arg0);
 s32 rand(void);
 s32 is_split_screen();
 s32 is_particle_sprite_additive__13TUnk_8048E728Fv(void *, s32);
@@ -507,4 +507,4 @@ u8 *TParticleCtrl::init_random_particle(u8 *arg1, u8 *arg2, s32 arg3) {
 }
 #pragma pop
 
-void destroy_keyboard_objects(void * object) { ((TObject *)object)->queue_destruction(); TKeyBoardControl__sub_8000F91C(2); TKeyBoardControl__sub_8000F9CC(18); TLobby::stop_audio_streams(); stop_cue_stream(); }
+void destroy_keyboard_objects(void * object) { ((TObject *)object)->queue_destruction(); set_queued_main_phase(2); request_main_phase(18); TLobby::stop_audio_streams(); stop_cue_stream(); }

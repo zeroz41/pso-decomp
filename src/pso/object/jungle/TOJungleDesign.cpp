@@ -98,11 +98,11 @@ u8 *TOJungleDesign__ct(u8 *arg0, s32 arg1, s32 arg2) {
     return arg0;
 }
 
-u8 * TObjFish__sub_8001EDB0(void *, int);
+u8 * get_bml_texlist(void *, int);
 u8 * get_bml_model(void *, int);
 u8 *fn_802FF028(s32 arg0) {
     if ((void *) TOJungleDesign__shared_model_resource != NULL) {
-        return TObjFish__sub_8001EDB0(TOJungleDesign__shared_model_resource, arg0);
+        return get_bml_texlist(TOJungleDesign__shared_model_resource, arg0);
     }
     return NULL;
 }

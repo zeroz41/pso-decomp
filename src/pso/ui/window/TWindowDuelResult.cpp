@@ -64,7 +64,7 @@ void set_default_status__17TWindowDuelResultFPvi(void *, int);
 void sub_8024EF40__17TWindowDuelResultFv(Win_8024EF40 *arg0);
 s32 get_shared_text_buffer(s32);
 s32 *TWindowDuelResult__sub_801C257C(void);
-void TWindowSubStatusDisp__sub_80228F5C(s32);
+void text_builder_append_int(s32);
 s32 text_builder_append(s32);
 }
 void set_text_entry_string(u8 *arg0, u32 str, s32 arg2);
@@ -238,7 +238,7 @@ void sub_8024F094__17TWindowDuelResultFv(Win_8024F094 *self) {
             }
             set_text_entry_string((u8 *)c, (u32)(p + 0x85C), 0x20);
             text_builder_reset();
-            TWindowSubStatusDisp__sub_80228F5C(e->value);
+            text_builder_append_int(e->value);
             set_text_entry_string(d, (u32)((void *)get_shared_text_buffer(text_builder_append(get_localized_text_entry(0x10, 0xD)))), 0x20);
             refresh_status_display__9TWindowDDFv(d);
             *(f32 *)(d + 8) = (372.0f) - *(f32 *)(d + 0x10);

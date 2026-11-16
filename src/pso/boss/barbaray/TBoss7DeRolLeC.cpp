@@ -1437,7 +1437,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     }
     init_position_vectors();
     model = (void *)get_bml_model((BmlResource *)lbl_805D6918, 0);
-    texlist = TObjFish__sub_8001EDB0((BmlResource *)lbl_805D6918, 0);
+    texlist = get_bml_texlist((BmlResource *)lbl_805D6918, 0);
     TObjPlayer__sub_802E7EA0(this);
     copy_collision_body(&unk_3C0, &lbl_80473C3C);
     set_collision_body(&unk_3C0);
@@ -4603,9 +4603,9 @@ void TBoss7DeRolLeC::render() {
     }
 }
 
-void TObjPlayer::draw_effect() { TObjFish__sub_8001EDB0((BmlResource *)lbl_805D6918, 0); set_global_param__8TObjFishFl(); }
+void TObjPlayer::draw_effect() { get_bml_texlist((BmlResource *)lbl_805D6918, 0); set_global_param__8TObjFishFl(); }
 
-void TObjPlayer__sub_802E80A0(void) { TObjFish__sub_8001EDB0((BmlResource *)lbl_805D6918, 0); }
+void TObjPlayer__sub_802E80A0(void) { get_bml_texlist((BmlResource *)lbl_805D6918, 0); }
 
 void queue_boss_effect__10TObjPlayerFPv(void* a0) { get_bml_model((BmlResource *)lbl_805D6918, (s32)a0); }
 

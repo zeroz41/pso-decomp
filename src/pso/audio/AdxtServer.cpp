@@ -110,7 +110,7 @@ s32 TLobby__sub_803CBFB0(int, int);
 struct Conn_803CAEB4;
 void TLobby__sub_803CAEB4(Conn_803CAEB4 *arg0);
 
-void TLobby__sub_803CAB38(Strm_803CAB38 *self);
+void adxt_stat_decinfo(Strm_803CAB38 *self);
 s32 TLobby__sub_803CBFF0(int);
 s32 lbl_805D7578;
 s32 lbl_805D757C;
@@ -187,7 +187,7 @@ void TLobby__sub_803CA8B4(Ent_803C9608 *self) {
     if (stat == 3) {
         prep_803CA8B4(self);
     } else if (stat == 1) {
-        TLobby__sub_803CAB38((Strm_803CAB38 *)self);
+        adxt_stat_decinfo((Strm_803CAB38 *)self);
     } else if (stat == 2) {
         dec_803CA8B4(self);
     } else if (stat == 4) {
@@ -206,7 +206,7 @@ void TLobby__sub_803CA8B4(Ent_803C9608 *self) {
 
 #define SBF50 TLobby__sub_803CBF50
 
-void TLobby__sub_803CAB38(Strm_803CAB38 *self) {
+void adxt_stat_decinfo(Strm_803CAB38 *self) {
 #define arg0 ((u8 *)self)
     s32 TLobby__sub_803CBF50(s32, s32, s32);
     s32 trigger_sub_task__6TLobbyFv(int, int);

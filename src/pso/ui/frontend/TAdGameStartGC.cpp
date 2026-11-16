@@ -233,11 +233,11 @@ void destroy_instance__17TAdGameStartSubGCFv(void) {
     }
 }
 
-    s32 TLobby__sub_8023E4B4(s32 arg0, s32 arg1);
+    s32 load_streamed_prs_texture(s32 arg0, s32 arg1);
 }
     extern const unsigned char lbl_80472C28[];
     extern void *texture_f512_multiplay_descriptor[];
-void register_texture_f512_multiplay(void) { multiplay_texture_f512_handle = (int)texture_f512_multiplay_descriptor; TLobby__sub_8023E4B4((s32)lbl_80472C28, (s32)texture_f512_multiplay_descriptor); }
+void register_texture_f512_multiplay(void) { multiplay_texture_f512_handle = (int)texture_f512_multiplay_descriptor; load_streamed_prs_texture((s32)lbl_80472C28, (s32)texture_f512_multiplay_descriptor); }
 extern "C" {
 __declspec(section ".rodata") extern const unsigned char lbl_80472C28[] = "f512_multiplay";
 __declspec(section ".rodata") extern const char TAdGameStartGC__class_name_string[] = "TAdGameStartGC";

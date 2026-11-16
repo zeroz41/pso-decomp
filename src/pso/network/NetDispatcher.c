@@ -19,7 +19,7 @@ struct Self_803FD85C;
 #include "pso/network/NetStackTypes.h"
 s32 TLobby__sub_803F8E9C(void);
 s32 TLobby__sub_80419A34(void);
-void TLobby__sub_803F97E8(s32 ms);
+void net_sleep_ms(s32 ms);
 void TLobby__sub_803F9344(u32 handle, void *source, s32 size);
 void NetEnqueueProtocolMessage(s32 payload, s16 detail, s16 first, s16 second, u16 protocol);
 
@@ -108,7 +108,7 @@ extern void NetRunTimerDispatchLoop(void) {
     u32 next;
 
     for (;;) {
-        TLobby__sub_803F97E8(network_dispatch_state.interval);
+        net_sleep_ms(network_dispatch_state.interval);
         for (i = 0; i < 10; i++) {
             if (g->timers[i].active == 0 || g->timers[i].fn == NULL) {
                 continue;

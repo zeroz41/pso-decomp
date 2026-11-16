@@ -137,7 +137,7 @@ TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEn
     flags = 0;
     flags |= 2;
     set_guard_state();
-    texlist = TObjFish__sub_8001EDB0(lbl_805D6FA0, 0);
+    texlist = get_bml_texlist(lbl_805D6FA0, 0);
     set_field_d8((s32)lbl_804F2230);
     set_field_dc((s32)lbl_805D6FA0->motions);
     set_animation(requested_action);

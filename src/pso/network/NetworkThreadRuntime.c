@@ -19,17 +19,17 @@
 #include "pso/network/TLobby_803FAEA0.h"
 
 
-s16 TLobby__sub_80401BCC(void *self, void *dst, u16 n);
+s16 ppp_buffer_read(void *self, void *dst, u16 n);
 
-#define PCO_RD16(p) (TLobby__sub_80401BCC((p), lbl_805D7A70, 2) != 2 ? -1 : read_network_u16_be(lbl_805D7A70))
-#define PCO_RD32(p) (TLobby__sub_80401BCC((p), lbl_805D7A70, 4) != 4 ? 0 : TLobby__sub_80402AFC(lbl_805D7A70))
-#define PCO_RD8(p) (TLobby__sub_80401BCC((p), lbl_805D7A74, 1) != 1 ? -1 : (s16)lbl_805D7A74[0])
+#define PCO_RD16(p) (ppp_buffer_read((p), lbl_805D7A70, 2) != 2 ? -1 : read_network_u16_be(lbl_805D7A70))
+#define PCO_RD32(p) (ppp_buffer_read((p), lbl_805D7A70, 4) != 4 ? 0 : TLobby__sub_80402AFC(lbl_805D7A70))
+#define PCO_RD8(p) (ppp_buffer_read((p), lbl_805D7A74, 1) != 1 ? -1 : (s16)lbl_805D7A74[0])
 
 void NetStoreCurrentThread(s32 *thread) {
     *thread = (s32)OSGetCurrentThread();
 }
 
-void TLobby__sub_803F97E8(s32 ms) {
+void net_sleep_ms(s32 ms) {
     s32 level;
     s32 i;
     NetworkAlarmSlot *slot;
@@ -409,7 +409,7 @@ s32 TLobby__sub_803FA318(u8* self, u8* src, s32 h) {
             return -1;
         }
         for (k = len - 2; k-- > 0;) {
-            r = (TLobby__sub_80401BCC(&h, &(*(u8*)&lbl_805D7A74), 1) != 1) ? -1 : (s16)(*(u8*)&lbl_805D7A74);
+            r = (ppp_buffer_read(&h, &(*(u8*)&lbl_805D7A74), 1) != 1) ? -1 : (s16)(*(u8*)&lbl_805D7A74);
             if (r == -1) {
                 return -1;
             }
@@ -487,7 +487,7 @@ inline u32 first_803FA664(Sub_803FA664 *s) {
 }
 
 inline s32 read_803FA664(u32 *p) {
-    if (TLobby__sub_80401BCC(p, lbl_805D7A74, 1) != 1) {
+    if (ppp_buffer_read(p, lbl_805D7A74, 1) != 1) {
         return -1;
     }
     return (s16)lbl_805D7A74[0];
@@ -764,7 +764,7 @@ void TLobby__sub_803FADA0(PppFrame **pbuf, A_803FADA0 *hdr, s32 type, s32 total_
         break;
     }
     while (n-- > 0) {
-        *p++ = TLobby__sub_80401BCC(src, lbl_805D7A74, 1) != 1 ? -1 : (s16)lbl_805D7A74[0];
+        *p++ = ppp_buffer_read(src, lbl_805D7A74, 1) != 1 ? -1 : (s16)lbl_805D7A74[0];
     }
     b->len += total_len;
 }

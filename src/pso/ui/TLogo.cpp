@@ -33,7 +33,7 @@ s32 reset_controller_input_state();
 s32 set_copy_clear_color_argb(int, int, int);
 s32 __ct__15TWindowCtrlMainFv(u32);
 extern u8 default_scene_light_config[];
-void TKeyBoardControl__sub_8000F9CC(s32 arg0);
+void request_main_phase(s32 arg0);
 u32 __ct__10TAdADXlogoFP7TObject(void *, void *);
 u32 __ct__11TAdSEGAlogoFv(void *, void *);
 u32 __ct__12TAdSoniclogoFP7TObject(void *, void *);
@@ -141,7 +141,7 @@ void TLogo::run_frame() {
         TKeyBoardControl__sub_8000F92C();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
-        TKeyBoardControl__sub_8000F9CC(0);
+        request_main_phase(0);
     }
     render_tick();
 }
@@ -263,7 +263,7 @@ void TLogo::run_task() {
         }
         break;
     case 7:
-        TKeyBoardControl__sub_8000F9CC(0xA);
+        request_main_phase(0xA);
         break;
     }
 }

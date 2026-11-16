@@ -28,7 +28,7 @@ typedef struct UdpControlBlock {
     s32 eventCallback;
 } UdpControlBlock;
 
-/* One piece of the data to send (tcp_send, TUdpSocket__sub_80421BAC). */
+/* One piece of the data to send (tcp_send, udp_send). */
 typedef struct send_buffs {
     short len;
     u8 *buff; /* 0x04 */

@@ -44,7 +44,7 @@ s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_x(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-s32 TParticleCtrl__sub_803E2A1C(void *, int);
+s32 emit_particle_strip_vertices(void *, int);
 extern u8 lbl_804C5820[];
 extern u8 *camera_ctrl_instance;
 }
@@ -178,7 +178,7 @@ void TUnk_804ED598::render() {
         if (this->m_34 != 0) {
             set_depth_buffer_settings_2();
         }
-        TParticleCtrl__sub_803E2A1C(v, 4);
+        emit_particle_strip_vertices(v, 4);
         if (this->m_34 != 0) {
             restore_saved_depth_alpha_state();
         }

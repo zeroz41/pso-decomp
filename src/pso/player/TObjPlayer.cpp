@@ -102,7 +102,7 @@ void prepare_heavy_attack_particles(u8 *arg0);
 void emit_jellen_support_effect(u8 *arg0);
 void emit_shifta_support_effect(u8 *arg0);
 extern "C" {
-int TFontSmallLobby__sub_801C0228(void*);
+int copy_subcommand_header(void*);
 u8 TObjPlayer__sub_801BED70(void* p);
 u8 TObjPlayer__sub_801BED78(void* p);
 u8 TObjPlayer__sub_801BED80(void* p);
@@ -182,7 +182,7 @@ void TObjPlayer::bswap_status_effect_data() {
 #pragma opt_common_subs off
 #pragma pop
 void *TObjPlayer::copy_6x0d_status_effect_packet(void *arg1) {
-    TFontSmallLobby__sub_801C0228(this);
+    copy_subcommand_header(this);
     ((Pkt_801D2964 *)this)->pos = ((Pkt_801D2964 *)arg1)->pos;
     return this;
 }
@@ -666,7 +666,7 @@ void TObjPlayer__sub_801BFF80(u8 *arg0) {
 s32 TObjPlayer__sub_801BFFA0(void* p) { return *(s32*)((char*)p + 0x0); }
 
 u8 *TObjPlayer::copy_hold_params(u8 *arg1) {
-    TFontSmallLobby__sub_801C0228(this);
+    copy_subcommand_header(this);
     this->m_flags = (s16) *(s16 *)((s8 *)arg1 + 4);
     this->m_id = (s16) *(s16 *)((s8 *)arg1 + 6);
     *(ByteBlock_8 *)((s32) ((u8 *)this) + 8) = *(const ByteBlock_8 *)((s32) arg1 + 8);

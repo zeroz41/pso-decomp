@@ -224,7 +224,7 @@ s32 update_action_hold_status__9TObjCharaFv();
 void calc_velocity_toward_destination(void *, Vec_800A12C0, Vec_800A12C0, f32);
 s32 check_path_obstructed(void *, Vec_800A1D70 *);
 f32 atan2_float(f32, f32);
-int TObjFish__sub_8001EDB0(void*, void*);
+int get_bml_texlist(void*, void*);
 int get_bml_model(void*);
 void free_bin_model_request(void*, int);
 void * __dt__13TUnk_80490470Fv(void *, s16);
@@ -1534,8 +1534,8 @@ void load_darkgunner_effect_resources() {
     }
     player_effect_bml_resource = (u32)res;
     TObjPlayer__shadow_chunk_object = ((s32 (*)(void *, s32))get_bml_model)((void *)player_effect_bml_resource, 0);
-    lbl_805D5014 = ((s32 (*)(void *, s32))TObjFish__sub_8001EDB0)((void *)player_effect_bml_resource, 0);
-    lbl_805D5018 = ((s32 (*)(void *, s32))TObjFish__sub_8001EDB0)((void *)player_effect_bml_resource, 2);
+    lbl_805D5014 = ((s32 (*)(void *, s32))get_bml_texlist)((void *)player_effect_bml_resource, 0);
+    lbl_805D5018 = ((s32 (*)(void *, s32))get_bml_texlist)((void *)player_effect_bml_resource, 2);
     lbl_805D5024 = ((Node_800A2DCC *(*)(void *, s32))get_bml_model)((void *)player_effect_bml_resource, 1)->child->model[1];
     lbl_805D5028 = ((Node_800A2DCC *(*)(void *, s32))get_bml_model)((void *)player_effect_bml_resource, 0)->model[1];
     TObjPlayer__sub_800A4294();
@@ -1651,7 +1651,7 @@ s32 TObjPlayer__sub_800A3210(s32 i, s32 _w1, s32 _w2) {
 
 int TObjPlayer::is_flag_set_388_bit26() { return (*(u32 *)&this->unk_388 >> 26) & 0x1; }
 
-void TObjEneDarkGunner::set_fields_24_34_from_global(void*a1) { *(int *)&this->model = get_bml_model((void*)((*(int *)&player_effect_bml_resource))); *(int *)&this->texlist = TObjFish__sub_8001EDB0((void*)((*(int *)&player_effect_bml_resource)), a1); }
+void TObjEneDarkGunner::set_fields_24_34_from_global(void*a1) { *(int *)&this->model = get_bml_model((void*)((*(int *)&player_effect_bml_resource))); *(int *)&this->texlist = get_bml_texlist((void*)((*(int *)&player_effect_bml_resource)), a1); }
 
 void TObjPlayer::clear_counter() { this->m_340 = 0; }
 

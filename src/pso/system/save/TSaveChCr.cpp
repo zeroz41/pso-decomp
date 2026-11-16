@@ -54,7 +54,7 @@ extern RecoveredGlobal_80339F98_lbl_80477CBC TSaveChCr__message_text_ids;
 u32 update_window_mode_from_progress__6TLobbyFPv(s32 *, s32 *);
 extern s32 lbl_80477CAC[];
 extern s32 lbl_80477CB4[];
-s32 TAdPlayerLoadGC__sub_801E1B50(s32);
+s32 poll_memcard_result(s32);
 s32 poll_memcard_status__23TAdSinglePlyChrSelectGCFv();
 extern const char *TSaveChCr__name;
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32 arg0);
@@ -86,7 +86,7 @@ void TSaveChCr::update_save_status() {
             return;
         }
         queue_destruction();
-        TKeyBoardControl__sub_8000F9CC(9);
+        request_main_phase(9);
     }
 }
 void TSaveChCr::close_and_advance_step2() { close_and_advance((void*)2); }
@@ -136,7 +136,7 @@ s32 TSaveChCr::poll_memcard_status() {
         this->m_28 = 0;
         return 4;
     }
-    if (TAdPlayerLoadGC__sub_801E1B50(0) != 0) {
+    if (poll_memcard_result(0) != 0) {
         this->m_24 = (this->m_24 + 1);
         this->m_28 = 0;
         return 2;

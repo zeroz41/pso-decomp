@@ -173,8 +173,8 @@ force_active:
   - TAdPlayerLoadGC__network_config_buffer
   - TAdPlayerLoadGC__network_info_payload_buffer
   - TAdPlayerLoadGC__player_load_value
-  - TAdPlayerLoadGC__sub_801E101C
-  - TAdPlayerLoadGC__sub_801E26DC
+  - mount_memcard
+  - open_or_create_memcard_file
   - TAdPlyPltAnimCtrlGC__ct
   - TAdPlyPltAnimCtrlGC__sub_80355168
   - TLobby__sub_8041A3CC
@@ -532,7 +532,7 @@ force_active:
   - TFogCtrl__sub_800FB400
   - TFogCtrl__sub_800FBA54
   - TFogCtrl__sub_800FBAAC
-  - TFontSmallLobby__sub_801C0258
+  - assign_subcommand_header
   - TFontSmallLobby__sub_801D677C
   - TFontSmallLobby__sub_801D67AC
   - TFontSmallLobby__sub_801D67C8
@@ -1843,7 +1843,7 @@ force_active:
   - TWindowSubItem__sub_8027AA30
   - TWindowSubItem__sub_8027AB10
   - TWindowSubLog__class_name
-  - TWindowSubMag__sub_8027C0B0
+  - get_photon_blast_name
   - TWindowSubMag__sub_8027C0E8
   - TWindowSubQuestBoardSelect__sub_8027D444
   - TWindowSubShortCutList__ct
@@ -1867,7 +1867,7 @@ force_active:
   - TWindowSubSymbolChat__sub_80281840
   - TWindowSubSymbolChat__sub_8028233C
   - TWindowSubSymbolChat__sub_8028379C
-  - TWindowSubTechnique__sub_8028753C
+  - get_technique_description_text
   - TWindowSubTradeMessage__name
   - TWindowTimer__ct
   - TWindowTimer__sub_8019886C

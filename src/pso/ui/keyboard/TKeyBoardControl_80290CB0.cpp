@@ -14,7 +14,7 @@ void TKeyBoardControl::update_main_menu_scene() {
     set_copy_clear_color_argb(0, 0, 0xFF);
     reset_controller_input_state();
     TKeyBoardControl__sub_8000F90C(2);
-    TKeyBoardControl__sub_8000F91C(6);
+    set_queued_main_phase(6);
     if ((u8) main_menu_scene_active_flag != 0) {
         TKeyBoardControl__sub_80290D10();
         TKeyBoardControl__sub_8000F92C();

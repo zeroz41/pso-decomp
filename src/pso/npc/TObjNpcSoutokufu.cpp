@@ -40,7 +40,7 @@ struct Gl_80289710 { u8 pad[0x42C]; Ow_80289710 *owner; };
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-s32 TObjFish__sub_8001EDB0(int, int);
+s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
 extern s32 __vt__16TObjNpcSoutokufu[];
 f32 calc_sq_offset__12TBoss8DragonFf(void *, void *, f32);
@@ -77,7 +77,7 @@ u8 *TObjNpcSoutokufu__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TObjNpcSoutokufu *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();
     *(s32 *)((s8 *)player + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcSoutokufu__shared_model_resource)), 0);
-    ((TObjNpcSoutokufu *)player)->texlist = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TObjNpcSoutokufu__shared_model_resource)), 0);
+    ((TObjNpcSoutokufu *)player)->texlist = get_bml_texlist((int) ((*(s32 *)&TObjNpcSoutokufu__shared_model_resource)), 0);
     ((TObjNpcBase *)player)->setup_common();
     return player;
 }

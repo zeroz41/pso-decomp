@@ -137,12 +137,12 @@ struct Pad_802870C4 { u8 pad[0x20]; u8 m20[0x30]; };
 
 extern u8 *text_language_group_table;
 extern "C" {
-s32 TWindowSubTechnique__sub_8028753C(s32 arg0);
+s32 get_technique_description_text(s32 arg0);
 u8 *calc_technique_parameters(s16, u8, s32);
 s32 *get_shared_text_buffer();
 s32 get_cast_technique_level(void *, int);
 s32 validate_and_clear_slot__10TObjPlayerFv(void *, int);
-void TWindowSubStatusDisp__sub_80228F5C(s32 arg0);
+void text_builder_append_int(s32 arg0);
 void text_builder_append(u8 *str);
 }
 s32 get_help_text_string(s32 arg0);
@@ -214,12 +214,12 @@ void TWindowSubTechnique::update_selected_help(s32 arg1) {
       if ((((s16) tech) != 0x11) && (((s16) tech) != 0xE))
       {
         cast_technique_level = get_cast_technique_level((void *)(player + 0x428), (int) tech);
-        text_builder_append((u8 *)((int) TWindowSubTechnique__sub_8028753C(0x13)));
-        TWindowSubStatusDisp__sub_80228F5C((((u8) cast_technique_level) + 1));
+        text_builder_append((u8 *)((int) get_technique_description_text(0x13)));
+        text_builder_append_int((((u8) cast_technique_level) + 1));
       }
       text_builder_append((u8 *)((int) get_help_text_string(0x2E)));
-      TWindowSubStatusDisp__sub_80228F5C(((s32) (*((s16 *) (((s8 *) calc_technique_parameters((s16) tech, (u8) cast_technique_level, 0xFFFF)) + 0x10)))));
-      text_builder_append((u8 *)((int) TWindowSubTechnique__sub_8028753C((s32)((int) ((s32) ((s16) tech))))));
+      text_builder_append_int(((s32) (*((s16 *) (((s8 *) calc_technique_parameters((s16) tech, (u8) cast_technique_level, 0xFFFF)) + 0x10)))));
+      text_builder_append((u8 *)((int) get_technique_description_text((s32)((int) ((s32) ((s16) tech))))));
       ((TWindowMessage *)(*(s32 *)&this->m_3c))->append_line((int)((void *) get_shared_text_buffer()), (int)0x82);
     }
   }
@@ -329,7 +329,7 @@ void *TWindowSubTechnique__ct(TWindowSubTechnique *window_sub_technique, s32 arg
     return window_sub_technique;
 }
 
-s32 TWindowSubTechnique__sub_8028753C(s32 arg0) {
+s32 get_technique_description_text(s32 arg0) {
     return *(s32 *)((s8 *)(*(s32 *)((s8 *)text_language_group_table + 0x14)) + (arg0 * 4));
 }
 

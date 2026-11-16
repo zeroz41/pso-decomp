@@ -47,7 +47,7 @@ u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 proto, u8 *pkt, s16 flag) {
     case 4:
         return calc_pseudo_header_checksum(src->ipv4, dst->ipv4, proto, pkt, flag);
     case 6:
-        return TLobby__sub_80411040((const IPv6Address *)src->address, (const IPv6Address *)dst->address, proto, (const NetPacket *)pkt, flag);
+        return calc_ipv6_pseudo_header_checksum((const IPv6Address *)src->address, (const IPv6Address *)dst->address, proto, (const NetPacket *)pkt, flag);
     case 0:
     default:
         return 0xFFFEU;

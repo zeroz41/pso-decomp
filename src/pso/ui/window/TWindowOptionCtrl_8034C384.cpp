@@ -14,8 +14,8 @@ extern "C" {
 s32 get_localized_text_entry(s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
-s32 TAdPlayerLoadGC__sub_801E1B50(s32 chan);
-s32 TAdPlayerLoadGC__sub_801E24F8(int, int, int, int, int);
+s32 poll_memcard_result(s32 chan);
+s32 start_memcard_format(int, int, int, int, int);
 s32 play_sound_effect(int, int, int, int);
 extern s32 controller_input_state[];
 u32 create__19TWindowMessageYesNoFPvPvPvPv(s32, s32, s32, s32);
@@ -239,7 +239,7 @@ void TWindowOptionCtrl::handle_save_result() {
             }
             break;
         case 13:
-            if (TAdPlayerLoadGC__sub_801E24F8(1, 0, 0, 0, 0) == 0) {
+            if (start_memcard_format(1, 0, 0, 0, 0) == 0) {
                 set_option_and_confirm(8, 0);
                 *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) | 1);
                 *(s32 *)((s8 *)arg0 + 0x1C) = 0xE;
@@ -249,7 +249,7 @@ void TWindowOptionCtrl::handle_save_result() {
             *(s32 *)((s8 *)arg0 + 0x1C) = 0xF;
             return;
         case 14:
-            if (TAdPlayerLoadGC__sub_801E1B50(1) == 0) {
+            if (poll_memcard_result(1) == 0) {
                 if ((u32) TAdPlayerLoadGC::get_load_result((void *)1) == 0xFFFFFF81U) {
                     set_option_and_confirm(9, 0);
                     *(s32 *)((s8 *)arg0 + 0x1C) = 0xF;

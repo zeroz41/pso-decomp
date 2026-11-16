@@ -84,7 +84,7 @@ s32 create_default_callback__22TAdEnterSerialAccessGCFv(void *);
 void strncpy(s32, s32, s32);
 s32 memset(void *, int, int);
 extern RecoveredGlobal_8032BA8C_TAdEnterPasswordGC__data_804EDA20 TAdEnterPasswordGC__input_buffer;
-void TKeyBoardControl__sub_8000F9CC(s32 arg0);
+void request_main_phase(s32 arg0);
 u32 __nw__7TObjectFUl(int);
 s32 __ct__10TAdTitleGCFP7TObjectl(int, void *, int);
 extern s32 __vt__18TAdEnterPasswordGC[];
@@ -277,7 +277,7 @@ u8 *TAdEnterPasswordGC__ct(u8 *parent) {
     *(s32 *)((s8 *)parent + 0x40) = 0;
     if ((s8) *(u8 *)((s8 *)(TAdSinglePlyChrSelectGC::get_instance()) + 0x1154C) != 0) {
         set_password__18TAdEnterPasswordGCFi((s32)((void *) (TAdSinglePlyChrSelectGC::get_instance() + 0x1154C)));
-        TKeyBoardControl__sub_8000F9CC(0xF);
+        request_main_phase(0xF);
         ((TObject *)parent)->queue_destruction();
         return parent;
     }

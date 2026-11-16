@@ -22,7 +22,7 @@ s32 get_bml_model(BmlResource *resource, s32 index);
 s32 free_bin_model_request(void *, int);
 void *init_bin_model_request(void *, int, char **, u32 *, int, int, int);
 extern const char *lbl_805D3B50;
-s32 TLobby__sub_803CC4C0(s32);
+s32 adxf_get_stat(s32);
 f64 log();
 
 void TChCrLoadAfsTextureReq::try_begin_load() {
@@ -81,7 +81,7 @@ s32 TChCrLoadAfsTextureReq::try_acquire_load_slot() {
 TChCrLoadAfsTextureReq::~TChCrLoadAfsTextureReq() {
     s32 i;
     if (this->m_1c == 0 && this->buffers[0] != 0) {
-        if (TLobby__sub_803CC4C0(this->load_handle) == 2) {
+        if (adxf_get_stat(this->load_handle) == 2) {
             ((TLobby *)this->load_handle)->adxf_stop();
         }
         ((TLobby *)this->load_handle)->close_adxf_handle();

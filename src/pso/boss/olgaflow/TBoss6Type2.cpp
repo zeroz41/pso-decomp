@@ -217,7 +217,7 @@ u8 * get_player_data__10TObjPlayerFi(s32);
 void spawn__15TBoss6RockChaseFll(void *, void *);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
-s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
+s32 get_bml_texlist(BmlResource *resource, s32 index);
 s32 TObjFish__sub_800E3124(u8 *list, s32 vecs);
 s32 init_collision_body_parts(void *, void *, int);
 void build_tables__14TBoss6PlotFalzFPvPvi(void *, void *, int);
@@ -1029,8 +1029,8 @@ void TBoss6Type2::reset_counters() {
 
 void TBoss6Type2::cache_fish_params() {
     ((s32 (*)(void))reset_fish_fields__11TBoss6Type2Fv)();
-    *(s32 *)((s8 *)this + 0x560) = TObjFish__sub_8001EDB0((BmlResource *)this->m_3fc, 0xB);
-    *(s32 *)((s8 *)this + 0x564) = TObjFish__sub_8001EDB0((BmlResource *)this->m_3fc, 0xA);
+    *(s32 *)((s8 *)this + 0x560) = get_bml_texlist((BmlResource *)this->m_3fc, 0xB);
+    *(s32 *)((s8 *)this + 0x564) = get_bml_texlist((BmlResource *)this->m_3fc, 0xA);
     *(s32 *)((s8 *)this + 0x568) = get_bml_model((BmlResource *)this->m_3fc, 0xB);
     *(s32 *)((s8 *)this + 0x56C) = get_bml_model((BmlResource *)this->m_3fc, 0xA);
 }
@@ -2893,7 +2893,7 @@ s32 TBoss6Type2__ct(s32 arg0_, s32 parent, s32 arg2_) {
     for (k = 0; k < 2; k++) {
         Ent_802BE0D4 *e = &((Ents_802BE0D4 *)arg0)->ents[k];
         id = lbl_8047128C[k];
-        e->a = TObjFish__sub_8001EDB0((BmlResource *)(*(s32 *)((s8 *)arg0 + 0x3FC)), id);
+        e->a = get_bml_texlist((BmlResource *)(*(s32 *)((s8 *)arg0 + 0x3FC)), id);
         e->b = get_bml_model((BmlResource *)(*(s32 *)((s8 *)arg0 + 0x3FC)), id);
     }
     }

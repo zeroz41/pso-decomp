@@ -80,9 +80,9 @@ void TObjDoorJung::free_buffers() {
 }
 
 s32 load_resource_from_descriptor(s32 buffer, s32 kind, void *descriptor, s32 a3, s32 a4, s32 a5);
-s32 TObjFish__sub_8001EDB0(void *bml, s32 index);
+s32 get_bml_texlist(void *bml, s32 index);
 
-void TObjDoorJung__sub_8018F4AC(void) {
+void load_door_jung_resources(void) {
     s32 handle;
     Node_8018F4AC *model;
     Node_8018F4AC *node;
@@ -93,7 +93,7 @@ void TObjDoorJung__sub_8018F4AC(void) {
         handle = load_resource_from_descriptor(handle, 5, &bm_obj_beamdoa_resource_descriptor, 0, 0, 0);
     }
     TObjDoorJung__resource_handle = (void *)handle;
-    lbl_805D5BD4 = TObjFish__sub_8001EDB0(TObjDoorJung__resource_handle, 0);
+    lbl_805D5BD4 = get_bml_texlist(TObjDoorJung__resource_handle, 0);
     model = get_bml_model(TObjDoorJung__resource_handle, 1);
     node = model->child;
     TObjDoorJung__child_table[0] = node->model;

@@ -85,7 +85,7 @@ void TLevelSelect::run_task() {
     game_difficulty_selection = TAdSinglePlyChrSelectGC__sub_801334DC((void *)self->f20);
     switch (((TAdSinglePlyChrSelectGC *)(self->f20))->get_selected_slot()) {
     case 1:
-        TKeyBoardControl__sub_8000F9CC(0xE);
+        request_main_phase(0xE);
         break;
     case 0:
     default:
@@ -108,7 +108,7 @@ Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self) {
     game_difficulty_selection = 0;
     self->count = ((int (*)(void *))count_unlocked_difficulties__12TLevelSelectFv)(self);
     if (self->count == 0) {
-        TKeyBoardControl__sub_8000F9CC(0xE);
+        request_main_phase(0xE);
         ((TObject *)self)->queue_destruction();
         return self;
     }

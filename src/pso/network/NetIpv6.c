@@ -29,7 +29,7 @@
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-u16 TUdpSocket__sub_80419864();
+u16 ones_complement_sum();
 
 s32 NetIPv6Shutdown(void) {
     release_slot_by_id(0x86DD);
@@ -770,7 +770,7 @@ extern s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 a6, u32 len)
                 iovp->fragments[k].length = rem;
                 pc->total_bytes -= rem;
                 pc->fragments[j].length -= rem;
-                TLobby__sub_80406EB8(&pc->fragments[j].buffer, rem);
+                netbuf_ref_advance(&pc->fragments[j].buffer, rem);
                 break;
             }
             iovp->fragments[k].length = pc->fragments[j].length;
@@ -810,7 +810,7 @@ extern s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 a6, u32 len)
 
 typedef struct PH_80411040 { IPv6Address src; IPv6Address dst; u32 len; u8 zero[3]; u8 next_header; } PH_80411040;
 typedef char PH_80411040_size_check[sizeof(PH_80411040) == 0x28 ? 1 : -1];
-extern u16 TLobby__sub_80411040(const struct IPv6Address *src, const struct IPv6Address *dst, u8 next_header, const struct NetPacket *pkt, s16 flag) {
+extern u16 calc_ipv6_pseudo_header_checksum(const struct IPv6Address *src, const struct IPv6Address *dst, u8 next_header, const struct NetPacket *pkt, s16 flag) {
     PH_80411040 ph;
     u32 sum;
 
@@ -825,7 +825,7 @@ extern u16 TLobby__sub_80411040(const struct IPv6Address *src, const struct IPv6
     } else {
         ph.len = (u16)pkt->total_bytes;
     }
-    sum = TUdpSocket__sub_80419864(&ph, sizeof(ph) / 2);
+    sum = ones_complement_sum(&ph, sizeof(ph) / 2);
     sum += TLobby__sub_80406BD8(pkt, flag);
     sum = (sum >> 16) + (sum & 0xFFFF);
     sum += sum >> 16;

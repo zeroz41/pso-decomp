@@ -76,7 +76,7 @@ struct TWindowSubMag_8027B888 {
 
 extern u8 *text_language_group_table;
 extern "C" {
-s32 TWindowSubMag__sub_8027C0B0(s32 arg0);
+s32 get_photon_blast_name(s32 arg0);
 }
 bool is_mag_full(u8 *arg0);
 struct TWindowSubMag_8027B62C {
@@ -212,7 +212,7 @@ void *TWindowSubMag::create_learned_blast_toast() {
     TWindowSubStatusDisp::get_message_10(0x64);
     text_builder_append();
     append_text_space();
-    TWindowSubMag__sub_8027C0B0(n);
+    get_photon_blast_name(n);
     text_builder_append();
     TWindowSubStatusDisp::get_message_10(0x4C);
     text_builder_append();
@@ -567,7 +567,7 @@ void *TWindowSubMag__ct(TWindowSubMag *window_sub_mag, s32 arg1, s32 arg2) {
     return window_sub_mag;
 }
 
-s32 TWindowSubMag__sub_8027C0B0(s32 arg0) {
+s32 get_photon_blast_name(s32 arg0) {
     return *(s32 *)((s8 *)(*(s32 *)((s8 *)text_language_group_table + 0x20)) + (arg0 * 4));
 }
 

@@ -16,8 +16,8 @@
 
 extern "C" {
 extern char shared_capture_texture_list[];
-void TKeyBoardControl__sub_8000F91C(s32 arg0);
-void TKeyBoardControl__sub_8000F9CC(s32 arg0);
+void set_queued_main_phase(s32 arg0);
+void request_main_phase(s32 arg0);
 s32 queue_destruction__7TObjectFv();
 void *__ct__6TMovieFP7TObjectPSclll(void *, void *, void *, void *, s32, s32, s32);
 void *__nw__7TObjectFUl(u32);
@@ -54,11 +54,11 @@ void TUnk_804E71A0::run_task() {}
 void TObjPlayer::disable_keyboard_control() {
     queue_destruction__7TObjectFv();
     if ((s32) ending_movie_active_flag != 0) {
-        TKeyBoardControl__sub_8000F9CC(2);
+        request_main_phase(2);
         return;
     }
-    TKeyBoardControl__sub_8000F91C(2);
-    TKeyBoardControl__sub_8000F9CC(0x12);
+    set_queued_main_phase(2);
+    request_main_phase(0x12);
 }
 
 void TUnk_804E71A0::render() {}

@@ -176,4 +176,4 @@ void TAdRayGC::destroy_instance() {
 
 }
 
-void register_texture_f128_ray(void) { TAdRayGC__ray_texture_list = (u32)&lbl_804DC2D8; TLobby__sub_8023E4B4((s32)"f128_ray", (s32)&lbl_804DC2D8); }
+void register_texture_f128_ray(void) { TAdRayGC__ray_texture_list = (u32)&lbl_804DC2D8; load_streamed_prs_texture((s32)"f128_ray", (s32)&lbl_804DC2D8); }

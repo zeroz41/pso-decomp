@@ -119,7 +119,7 @@ s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 arg3
         }
         pkt->total_bytes -= 8;
         frag->length -= 8;
-        TLobby__sub_80406EB8(&frag->buffer, 8);
+        netbuf_ref_advance(&frag->buffer, 8);
         if (TLobby__sub_80421F10(pkt, src, dst, hdr.src, e->receiveCallback, i) != 0) {
             return -1;
         }

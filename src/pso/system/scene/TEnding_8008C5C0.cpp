@@ -35,7 +35,7 @@ struct RecoveredGlobal_8008C534_main_task {
 
 extern "C" {
 s32 TKeyBoardControl__sub_8000F92C();
-void TKeyBoardControl__sub_8000F9CC(s32 arg0);
+void request_main_phase(s32 arg0);
 void func_803DCDFC__Fv(void);
 void reset__11TCameraCtrlFv(void);
 }
@@ -95,7 +95,7 @@ void run_game_frame(void) {
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
         var_r3 = NULL;
-        TKeyBoardControl__sub_8000F9CC(0);
+        request_main_phase(0);
     }
     render_tick();
 }
@@ -132,7 +132,7 @@ void TEnding::start_ending_scene() {
     clear_resource_load_tasks();
     run_load_callback_table(ending_scene_callbacks, sizeof(ending_scene_callbacks));
     TKeyBoardControl__sub_8000F90C(2);
-    TKeyBoardControl__sub_8000F91C(2);
+    set_queued_main_phase(2);
     play_area_music("ending.adx");
     TParticleCtrl::create_quad_sprites();
     new TEnding;

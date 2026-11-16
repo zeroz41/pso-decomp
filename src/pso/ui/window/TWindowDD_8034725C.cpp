@@ -59,13 +59,13 @@ struct W_80347B70 {
 
 extern "C" {
 void show_message_by_count__9TWindowDDFll(s32, void *);
-void TWindowDD__sub_8034886C(s32, s32, void *);
+void append_word_select_token(s32, s32, void *);
 void TWindowDD__sub_8034740C(u8 *arg0, s32 arg1, s32 arg2);
 void TWindowDD__sub_803474CC(M_80347758 *entry, s16 id, char *word, s32 buf, s32 *pos);
 s32 TWindowDD__sub_80348D88(void *p);
 extern const s32 word_select_numeric_limits[];
 extern s32 TWindowDD__window_mode;
-s32 TWindowDD__sub_80348B70(s32);
+s32 get_word_select_token_text(s32);
 void TWindowDD__sub_80347474(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern const f32 lbl_805DFB54;
 s32 TWindowDD__sub_80342384(s32 arg0, s32 arg1);
@@ -160,13 +160,13 @@ void TWindowDD::format_type6_message(s32 arg1, void *pos) {
         n = 3;
     }
     for (i = 0; i < n - 1; i++) {
-        TWindowDD__sub_8034886C(arg0->a[i], arg1, pos);
+        append_word_select_token(arg0->a[i], arg1, pos);
         show_message_by_count__9TWindowDDFll(arg1, pos);
     }
-    TWindowDD__sub_8034886C(arg0->a[n - 1], arg1, pos);
+    append_word_select_token(arg0->a[n - 1], arg1, pos);
     if (count > 3) {
         ((TWindowDD *)arg1)->append_prompt_newline((s32 *)pos);
-        TWindowDD__sub_8034886C(arg0->a[3], arg1, pos);
+        append_word_select_token(arg0->a[3], arg1, pos);
     }
 }
 
@@ -174,7 +174,7 @@ void TWindowDD__sub_8034740C(u8 *arg0, s32 arg1, s32 pos) {
     TWindowDD__sub_80347474((s32)((s32) arg0), (s32)((s32) *(s16 *)((s8 *)arg0 + 4)), arg1, pos);
     if ((s16) *(s16 *)((s8 *)arg0 + 0) > 1) {
         ((TWindowDD *)arg1)->append_prompt_newline((s32 *)pos);
-        TWindowDD__sub_8034886C((s32) *(s16 *)((s8 *)arg0 + 6), arg1, (void *) pos);
+        append_word_select_token((s32) *(s16 *)((s8 *)arg0 + 6), arg1, (void *) pos);
     }
 }
 
@@ -194,7 +194,7 @@ void TWindowDD__sub_80347474(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
   id = arg2;
   var_r31 = arg3;
   var_r3 = var_r29;
-  buf = TWindowDD__sub_80348B70((s32)((int) var_r3));
+  buf = get_word_select_token_text((s32)((int) var_r3));
   temp_r0 = buf;
   var_r3 = var_r28;
   word = temp_r0;
@@ -226,7 +226,7 @@ void TWindowDD__sub_803474CC(M_80347758 *entry, s16 id, char *word, s32 buf, s32
             if (value > limit) {
                 value = limit;
             }
-            fn_80228E98(value, num);
+            format_int_decimal(value, num);
             switch (kind) {
             case 0:
             case 5:
@@ -507,7 +507,7 @@ s32 TWindowDD::setup_entry(s32 arg1) {
     s32 str;
     var_r31 = 0;
     temp_r30 = this->m_88;
-    if ((temp_r30 != 0U) && ((str = TWindowDD__sub_80348B70(arg1)) != 0)) {
+    if ((temp_r30 != 0U) && ((str = get_word_select_token_text(arg1)) != 0)) {
         ((TWindowDD_WS_String *)temp_r30)->set_first_entry_text(str);
         TWindowDD__sub_803412A0(temp_r30);
         ((TWindowDD_WS_String *)temp_r30)->init_and_set_field50((void *)TWindowDD__data_805DFB50);

@@ -57,7 +57,7 @@ typedef char RecoveredGlobal_8001B8AC___vt__15TAdRicoRingCtrl_size[sizeof(Recove
 struct RecoveredGlobal_8001BD0C___vt__11TAdRicoRing { s32 value; u8 remaining[0x14]; };
 typedef char RecoveredGlobal_8001BD0C___vt__11TAdRicoRing_size[sizeof(RecoveredGlobal_8001BD0C___vt__11TAdRicoRing) == 0x18 ? 1 : -1];
 
-s32 TObjFish__sub_8001EDB0(void *, int);
+s32 get_bml_texlist(void *, int);
 s32 get_bml_model(void *, int);
 extern RecoveredGlobal_8001BD0C___vt__11TAdRicoRing __vt__11TAdRicoRing;
 int post_translate_matrix(void*);
@@ -123,7 +123,7 @@ u8 *__ct__11TAdRicoRingFv(u8 *object, void *parent) {
     __ct__8FlagWordFv((object + 0x2C));
     *(s32 *)((s8 *)object + 0) = (s32) TAdRicoRing__class_name;
     *(s32 *)((s8 *)object + 0x4C) = get_bml_model((void *)TAdRicoRing__resource_bundle, 0);
-    *(s32 *)((s8 *)object + 0x50) = TObjFish__sub_8001EDB0((void *)TAdRicoRing__resource_bundle, 0);
+    *(s32 *)((s8 *)object + 0x50) = get_bml_texlist((void *)TAdRicoRing__resource_bundle, 0);
     *(f32 *)((s8 *)object + 0x28) = 0.0f;
     *(f32 *)((s8 *)object + 0x24) = 0.0f;
     *(f32 *)((s8 *)object + 0x20) = 0.0f;

@@ -101,7 +101,7 @@ s32 warp_boss_model_handle;
 s32 lbl_805D5CA4;
 extern "C" {
 extern "C" {
-void TObjFish__sub_8019F72C(void);
+void release_boss_warp_resources(void);
 s32 TObjWarpBossMulti__create(s32 arg0);
 }
 }
@@ -153,8 +153,8 @@ void TObjFish::load_models() {
         warp_boss_model = get_bml_model(boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
         warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-        warp_boss_model_handle = TObjFish__sub_8001EDB0(boss_warp_resource_bundle, 2);
-        lbl_805D5CA4 = TObjFish__sub_8001EDB0(boss_warp_resource_bundle, 2);
+        warp_boss_model_handle = get_bml_texlist(boss_warp_resource_bundle, 2);
+        lbl_805D5CA4 = get_bml_texlist(boss_warp_resource_bundle, 2);
         return;
     }
     if (TContainerAncient01::is_global_state_in_table() != 0 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
@@ -168,8 +168,8 @@ void TObjFish::load_models() {
         warp_boss_model = get_bml_model(boss_warp_resource_bundle, 1);
         warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 0);
         warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-        warp_boss_model_handle = TObjFish__sub_8001EDB0(boss_warp_resource_bundle, 0);
-        lbl_805D5CA4 = TObjFish__sub_8001EDB0(boss_warp_resource_bundle, 0);
+        warp_boss_model_handle = get_bml_texlist(boss_warp_resource_bundle, 0);
+        lbl_805D5CA4 = get_bml_texlist(boss_warp_resource_bundle, 0);
         return;
     }
     resource = (BmlResource *)::operator new(0x440);
@@ -182,11 +182,11 @@ void TObjFish::load_models() {
     warp_boss_model = get_bml_model(boss_warp_resource_bundle, 1);
     warp_boss_motion = get_bml_motion(boss_warp_resource_bundle, 1);
     warp_boss_bml_motion = get_bml_motion(boss_warp_resource_bundle, 0);
-    warp_boss_model_handle = TObjFish__sub_8001EDB0(boss_warp_resource_bundle, 2);
-    lbl_805D5CA4 = TObjFish__sub_8001EDB0(boss_warp_resource_bundle, 2);
+    warp_boss_model_handle = get_bml_texlist(boss_warp_resource_bundle, 2);
+    lbl_805D5CA4 = get_bml_texlist(boss_warp_resource_bundle, 2);
 }
 
-void TObjFish__sub_8019F72C(void) {
+void release_boss_warp_resources(void) {
     if (boss_warp_resource_bundle != 0) {
         free_bin_model_request(boss_warp_resource_bundle, 1);
         boss_warp_resource_bundle = 0;

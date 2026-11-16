@@ -383,7 +383,7 @@ extern RecoveredGlobal_8028379C_lbl_804FF968 symbol_chat_receive_buffer;
 s32 __dt__7TObjectFv(void *, int);
 s32 __dl__7TObjectFPv(void *);
 s32 update_selected_item__17TWindowOptionCtrlFv(int);
-s32 TWindowCtrlMain__sub_8024CE58();
+s32 has_window_task_root();
 extern s32 __vt__20TWindowSubSymbolChat[];
 extern void *TWindowSubSymbolChat__instance;
 s32 get_symbol_chat_data__20TWindowSubSymbolChatFv(s32);
@@ -1028,7 +1028,7 @@ u8 *__dt__20TWindowSubSymbolChatFv(TWindowSubSymbolChat *window_sub_symbol_chat,
             window_sub_symbol_chat->m_58 = 0U;
         }
         if ((u32) window_sub_symbol_chat->m_44 != 0U) {
-            if ((TWindowCtrlMain__sub_8024CE58() != 0) && ((u8) window_sub_symbol_chat->m_1c == 0x27)) {
+            if ((has_window_task_root() != 0) && ((u8) window_sub_symbol_chat->m_1c == 0x27)) {
                 ((TWindowSubSymbolChat *)(window_sub_symbol_chat->m_28))->set_flag_bit9((int) (update_selected_item__17TWindowOptionCtrlFv(window_sub_symbol_chat->m_44)));
             }
             ((TWindowBase *)window_sub_symbol_chat->m_44)->close();

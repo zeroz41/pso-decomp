@@ -22,8 +22,8 @@ struct Self_803FD85C;
 #include "pso/network/NetStackTypes.h"
 
 void TLobby__sub_803F76F0(void *); /* declared with 1 parameter; the definition is void (void) */
-void TLobby__sub_803F97E8(int);
-s16 TLobby__sub_80401BCC(void *self, void *dst, u16 n);
+void net_sleep_ms(int);
+s16 ppp_buffer_read(void *self, void *dst, u16 n);
 
 void init_net_state_a(void) {
     TLobby__sub_803F76F0((void *)&lbl_805C02D0);
@@ -66,7 +66,7 @@ s16 TLobby__sub_803FC1CC(Conn_804004DC *c, s32 timeout) {
             return -0x12;
         }
         unlock_mutex(g->mutex);
-        TLobby__sub_803F97E8(100);
+        net_sleep_ms(100);
         process_expired_timers();
         lock_mutex(g->mutex);
     }
@@ -297,7 +297,7 @@ void TLobby__sub_803FC728(Conn_804004DC *c) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 inline s32 chap_rbs_803FC820(PppFrame **src) {
-    if (TLobby__sub_80401BCC(src, &lbl_805D7A98, 1) != 1) {
+    if (ppp_buffer_read(src, &lbl_805D7A98, 1) != 1) {
         return -1;
     }
     return (s16)lbl_805D7A98;
@@ -424,7 +424,7 @@ inline s32 rd_803FCC10(PppFrame **pp) {
         (*pp)->len -= 1;
         return *(*pp)->data++;
     }
-    return (TLobby__sub_80401BCC(pp, &lbl_805D7A98, 1) != 1) ? -1 : (s16)lbl_805D7A98;
+    return (ppp_buffer_read(pp, &lbl_805D7A98, 1) != 1) ? -1 : (s16)lbl_805D7A98;
 }
 #pragma push
 #pragma dont_inline off
@@ -456,7 +456,7 @@ extern void TLobby__sub_803FCC10(void *self_, void *src_, int v)
   dst1 = 0;
   r28 = *((u8 **) (((u8 *) new_var3) + 0x30));
   len = *((s16 *)(src + 2));
-  cnt = (TLobby__sub_80401BCC((PppFrame **) (&v), &lbl_805D7A98, 1) != 1) ? (-1) : ((s16) lbl_805D7A98);
+  cnt = (ppp_buffer_read((PppFrame **) (&v), &lbl_805D7A98, 1) != 1) ? (-1) : ((s16) lbl_805D7A98);
   if (cnt != (-1))
   {
     dst1 = *((u8 **) (g + 0x15c));

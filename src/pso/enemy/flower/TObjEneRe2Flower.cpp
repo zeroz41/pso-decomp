@@ -116,7 +116,7 @@ TObjMotionAction TObjEneRe2Flower__animation_descriptors[8] = {
 
 // The file is compiled -inline off,deferred, which emits the functions in the
 // reverse of the order they are written in.
-void TObjPlayer__sub_800C44C4(void) {
+void load_re2_flower_resources(void) {
     Stack_800C44C4 stack;
     BmlModelEntry *models;
 

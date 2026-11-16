@@ -78,7 +78,7 @@ extern const f32 TObjGyaranzoMissile__max_range;
 extern s32 gyaranzo_missile_volley_end_time;
 s32 post_translate_matrix(void *);
 void free_collision_body_parts(void *);
-s32 TObjFish__sub_8001EDB0(void *, int);
+s32 get_bml_texlist(void *, int);
 s32 get_bml_model(void *, int);
 s32 draw_chunk_object();
 s32 push_matrix();
@@ -115,7 +115,7 @@ void TObjGyaranzoMissile::sub_800D47B4() {
 }
 
 void TObjGyaranzoMissile::render() {
-    TObjFish__sub_8001EDB0((void *)gyaranzo_bml_resource, 6);
+    get_bml_texlist((void *)gyaranzo_bml_resource, 6);
     set_global_param__8TObjFishFl();
     push_matrix();
     post_translate_matrix((u8 *)&this->position);

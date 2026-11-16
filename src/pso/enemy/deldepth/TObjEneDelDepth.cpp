@@ -298,7 +298,7 @@ TObjEneDelDepth::TObjEneDelDepth(TObject *parent, void *setData) : TObjEnemy(par
 
 void TObjEneDelDepth::init() {
     u8 *arg0 = (u8 *)this;
-    this->texlist = TObjFish__sub_8001EDB0((TObjEneDelDepth__shared_resource = TObjEneDelDepth::get_data()), 0);
+    this->texlist = get_bml_texlist((TObjEneDelDepth__shared_resource = TObjEneDelDepth::get_data()), 0);
     this->model = (void *)get_bml_model(TObjEneDelDepth__shared_resource, 0);
     VecCopy(&this->prev_position, (const Vec *)(VecCopy(&this->home_position, (const Vec *)(VecCopy(&this->center, &this->position)))));
     this->collisionBody = (CollisionBody *)init_collision_body_parts(arg0, TObjEneDelDepth_collision_body_parts, 1);
@@ -1275,7 +1275,7 @@ void TObjEneDelDepthBomb::render() {
         return;
     }
     s32 model = get_bml_model(data, 2);
-    s32 texture = TObjFish__sub_8001EDB0(data, 2);
+    s32 texture = get_bml_texlist(data, 2);
     push_matrix();
     post_translate_matrix(&position);
     rotate_matrix_zyx(0, rotation_x, rotation_y, rotation_z);

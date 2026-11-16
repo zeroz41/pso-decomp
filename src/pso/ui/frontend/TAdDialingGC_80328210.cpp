@@ -298,7 +298,7 @@ void refresh_display__12TAdDialingGCFv(void *);
 s32 render_status_disp__23TAdSinglePlyChrSelectGCFff(f32, f32);
 
 void TAdDialingGC::update_dialing_display(int _w0) {
-    TAdDialingGC__sub_8013ADBC(_w0);
+    get_connection_message_text(_w0);
     render_status_disp__23TAdSinglePlyChrSelectGCFff(23.0f, 331.0f);
 }
 void TAdDialingGC::update_status_message() {
@@ -409,7 +409,7 @@ int update_dialing_display__12TAdDialingGCFi(void*);
 int TAdDialingGC::refresh_display() { return update_dialing_display__12TAdDialingGCFi((void*)(8)); }
 
 void TAdDialingGC::init_dialog() {
-    TAdDialingGC__sub_8013ADBC(0);
+    get_connection_message_text(0);
     render_status_disp__23TAdSinglePlyChrSelectGCFff(23.0f, 331.0f);
 }
 
@@ -425,7 +425,7 @@ void TAdDialingGC::draw_dialing_status() {
         a[0] = 0;
     }
     sprintf(b, lbl_804767C8, a, call_146CA0_with_5708__6TLobbyFv());
-    sprintf(c, (char *)TAdDialingGC__sub_8013ADBC(1), b);
+    sprintf(c, (char *)get_connection_message_text(1), b);
     ((TAdSinglePlyChrSelectGC *)c)->render_status_disp(23.0f, 351.0f);
 }
 

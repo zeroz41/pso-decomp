@@ -18,7 +18,7 @@ f32 rotate_matrix_by_node_angles(void *, void *);
 s32 push_matrix();
 s32 scale_current_matrix(void *);
 f32 post_translate_matrix(void *);
-s32 TAdPlayerLoadGC__sub_801E1B50(s32);
+s32 poll_memcard_result(s32);
 void subtractive_rng_seed(void *, s32);
 void copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 extern u8 chr_select_rng_state[];
@@ -166,7 +166,7 @@ u8 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
 }
 
 s32 TAdSinglePlyChrSelectGC::wait_for_card_load(s32 arg0) {
-    while (TAdPlayerLoadGC__sub_801E1B50(arg0) != 0) {
+    while (poll_memcard_result(arg0) != 0) {
         if (TAdPlayerLoadGC::probe_card_slot(arg0) != 1) {
             return 0;
         }

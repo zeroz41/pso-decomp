@@ -84,7 +84,7 @@ extern "C" {
 
 s32 get_bml_motion(s32, s32);
 
-s32 TObjFish__sub_8001EDB0(s32, s32);
+s32 get_bml_texlist(s32, s32);
 
 s32 get_bml_model(s32, s32);
 
@@ -848,7 +848,7 @@ void TObjLaboMapWarp::render() {
     s32 temp_r31;
 
     if (this->update_object_view_visibility(400.0f, 32.0f) != 0) {
-        TObjFish__sub_8001EDB0(TObjLaboMapWarp__resource_bundle, 1);
+        get_bml_texlist(TObjLaboMapWarp__resource_bundle, 1);
         ((s32 (*)(void))set_global_param__8TObjFishFl)();
         push_matrix();
         post_translate_matrix((u8 *)&this->position);

@@ -60,7 +60,7 @@ extern "C" {
 void mem_free(void *p);
 s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_80271C6C___vt__21TWindowSubAreaMapDisp __vt__21TWindowSubAreaMapDisp;
-s32 TQuestVmDownLoadServer__sub_8006EF6C(s32 arg0);
+s32 get_message_text(s32 arg0);
 u8 *get_floor_destination_name(s32);
 void *mem_alloc(u32 size);
 s32 measure_string_len__20TWindowSubStatusDispFv(int);
@@ -210,7 +210,7 @@ u8 *TWindowSubAreaMapDisp__ct(TWindowSubAreaMapDisp *window_sub_area_map_disp) {
     ((TWindowSubAreaMapDisp *)window_sub_area_map_disp)->m_name = TWindowSubAreaMapDisp__name;
     if (get_game_play_mode() == 1) {
         text_builder_reset();
-        text_builder_append((u8 *)(TQuestVmDownLoadServer__sub_8006EF6C(0x67)));
+        text_builder_append((u8 *)(get_message_text(0x67)));
         append_text_space();
         append_padded_number((get_window_count_ratio_value()), (2U));
         var_r30 = (u8 *)(get_shared_text_buffer());

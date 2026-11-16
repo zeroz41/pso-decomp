@@ -71,7 +71,7 @@ void THunterGuildWarning::sub_80211774(void *) {
             windows[id] = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x31), size, 1, id);
         }
         if (windows[id] != NULL) {
-            windows[id]->append_line(TQuestVmDownLoadServer__sub_8006EF6C(99), 0x81);
+            windows[id]->append_line(get_message_text(99), 0x81);
             windows[id]->set_position_xy(scale[0], scale[1]);
         }
         break;
@@ -81,7 +81,7 @@ void THunterGuildWarning::sub_80211774(void *) {
             windows[id] = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x31), size, 1, id);
         }
         if (windows[id] != NULL) {
-            windows[id]->append_line(TQuestVmDownLoadServer__sub_8006EF6C(104), 0x81);
+            windows[id]->append_line(get_message_text(104), 0x81);
             windows[id]->set_position_xy(scale[0], scale[1]);
         }
         break;
@@ -97,7 +97,7 @@ void THunterGuildWarning::sub_80211774(void *) {
                     windows[i] = (TWindowMessage *)TWindowMessage::create(get_window_layout_position(0x31), size, 1, i);
                 }
                 if (windows[i] != NULL) {
-                    windows[i]->append_line(TQuestVmDownLoadServer__sub_8006EF6C(text), 0x81);
+                    windows[i]->append_line(get_message_text(text), 0x81);
                     windows[i]->set_position_xy(scale[0], scale[1]);
                 }
             }

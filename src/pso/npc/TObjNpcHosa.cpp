@@ -32,7 +32,7 @@ struct RecoveredGlobal_802A3B00___vt__11TObjNpcHosa {
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 
-s32 TObjFish__sub_8001EDB0(int, int);
+s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
 extern s32 __vt__11TObjNpcHosa[];
 extern const char *TObjNpcHosa__name;
@@ -72,7 +72,7 @@ u8 *TObjNpcHosa__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TObjNpcHosa *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();
     *(s32 *)((s8 *)player + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcHosa__static_model_resource)), 0);
-    ((TObjNpcHosa *)player)->texlist = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TObjNpcHosa__static_model_resource)), 0);
+    ((TObjNpcHosa *)player)->texlist = get_bml_texlist((int) ((*(s32 *)&TObjNpcHosa__static_model_resource)), 0);
     ((TObjNpcBase *)player)->setup_common();
     return player;
 }

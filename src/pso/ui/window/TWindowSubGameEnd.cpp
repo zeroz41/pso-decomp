@@ -44,19 +44,19 @@ s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, s32, s32, s32);
 extern s32 __vt__17TWindowSubGameEnd[];
 extern const char *TWindowSubGameEnd__class_name;
 s32 setup_player_battle_ctrls__23TAdSinglePlyChrSelectGCFv();
-s32 TKeyBoardControl__sub_8000F91C(s32);
-s32 TKeyBoardControl__sub_8000F9CC(s32);
+s32 set_queued_main_phase(s32);
+s32 request_main_phase(s32);
 s32 init__23TAdSinglePlyChrSelectGCFv();
 
 void TKeyBoardControl::init_char_select() {
     if (is_split_screen() != 0) {
         setup_player_battle_ctrls__23TAdSinglePlyChrSelectGCFv();
-        TKeyBoardControl__sub_8000F9CC(7);
+        request_main_phase(7);
         return;
     }
     init__23TAdSinglePlyChrSelectGCFv();
-    TKeyBoardControl__sub_8000F91C(9);
-    TKeyBoardControl__sub_8000F9CC(0x12);
+    set_queued_main_phase(9);
+    request_main_phase(0x12);
 }
 void TWindowSubGameEnd::render() {  }
 

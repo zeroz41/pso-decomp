@@ -146,7 +146,7 @@ extern "C" {
 s32 get_game_play_mode();
 s32 TKeyBoardControl__sub_8000F95C();
 s32 clear_keyboard_key_state();
-s32 TKeyBoardControl__sub_8000F9CC(s32);
+s32 request_main_phase(s32);
 s32 TObjBoss2Tunnel__sub_8007D1D0();
 void TLobby__sub_8007EB20(const char *, ...);
 s8 func_801A5E54__Fv();
@@ -159,7 +159,7 @@ s8 TLobby__sub_801A3C40();
 s32 TWindowCtrlMain__sub_8024CB7C();
 s32 TWindowCtrlMain__sub_8024CB8C();
 s32 TKeyBoardControl__sub_8000F90C(s32);
-s32 TKeyBoardControl__sub_8000F91C(s32);
+s32 set_queued_main_phase(s32);
 s32 run_load_callback_table(void *, s32);
 s32 TLobby__sub_801A2DF4();
 s32 TLobby__sub_801A2DF8();
@@ -425,7 +425,7 @@ void run_offline_game_frame(void) {
         TLobby::shutdown_keyboard_control();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
-        TKeyBoardControl__sub_8000F9CC(0);
+        request_main_phase(0);
     }
     if (TKeyBoardControl::get_key_state() != 0) {
         run_offline_area_transfer();
@@ -459,7 +459,7 @@ void run_offline_transfer_frame(void) {
         TLobby::reset_keyboard_input();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
-        TKeyBoardControl__sub_8000F9CC(0);
+        request_main_phase(0);
     }
     if (TKeyBoardControl::get_input() != 0) {
         TLobby::rebuild_area_keep_players();
@@ -600,6 +600,6 @@ void init_offline_game_scene(void) {
         }
     }
     TKeyBoardControl__sub_8000F90C(2);
-    TKeyBoardControl__sub_8000F91C(0xE);
+    set_queued_main_phase(0xE);
     render_tick();
 }

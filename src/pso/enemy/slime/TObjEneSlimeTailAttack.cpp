@@ -71,7 +71,7 @@ void scale_matrix_vec3(u8 *arg0, u8 *arg1);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 void render__15TObjEneSlimeOneFv(TObjEneSlimeOne *arg0);
-s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
+s32 get_bml_texlist(BmlResource *resource, s32 index);
 s32 get_bml_model(BmlResource *resource, s32 index);
 u8 *get_instance__15TObjEneSlimeOneFv();
 s32 init_collision_body_parts(void *, void *, int);
@@ -827,7 +827,7 @@ void TObjEneSlime::render() {
         push_matrix();
         temp_r30_2 = *(s32 *)((s8 *)((u8 *)lbl_80496368 + temp_r30) + 0);
         post_translate_matrix((void *) ((u8 *)arg0 + 0x38));
-        TObjFish__sub_8001EDB0((BmlResource *)slime_bml_resource, temp_r30_2);
+        get_bml_texlist((BmlResource *)slime_bml_resource, temp_r30_2);
         set_global_param__8TObjFishFl();
         if (temp_r31 != 0) {
             model_render_flags |= 0x400000;
@@ -1044,7 +1044,7 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
   }
   new_var2 = &(*((s32 *) (((s8 *) actor) + 0x3F4)));
   id = ((s32 *) lbl_804966DC)[*new_var2];
-  ((TObjEneSlimeOne *)actor)->texlist = TObjFish__sub_8001EDB0((BmlResource *)(((TObjEneSlimeOne *)actor)->model_archive), id);
+  ((TObjEneSlimeOne *)actor)->texlist = get_bml_texlist((BmlResource *)(((TObjEneSlimeOne *)actor)->model_archive), id);
   *((s32 *) (((s8 *) actor) + 0x34)) = get_bml_model((BmlResource *)(((TObjEneSlimeOne *)actor)->model_archive), id);
   VecCopy((Vec *)(actor + 0x44), (const Vec *)((u8 *)VecCopy((Vec *)(actor + 0x50), (const Vec *)((void *)VecCopy((Vec *)(actor + 0x74), (const Vec *)(actor + 0x38))))));
   *((s32 *) (((s8 *) actor) + 0x38C)) = init_collision_body_parts(actor, lbl_80496370, 1);
@@ -1843,7 +1843,7 @@ void TObjEneSlimeOne::sub_800E9090() {
     rotate_matrix_y(0, ang);
     scale_matrix_vec3((u8 *)(0), (u8 *)&b);
     t = slime_tail_attack_id_pair[self->f3F4];
-    TObjFish::set_global_param(TObjFish__sub_8001EDB0((BmlResource *)self->f380, t));
+    TObjFish::set_global_param(get_bml_texlist((BmlResource *)self->f380, t));
     draw_chunk_object((void *)(get_bml_model((BmlResource *)self->f380, t)));
     ((int (*)(void))pop_matrix)();
     TObjPlayer::init_render_globals();
@@ -1995,7 +1995,7 @@ void *TObjEneSlimeTailAttack__ct(TObjEneSlimeTailAttack *ene_slime_tail_attack, 
   *((s32 *) (((s8 *) ene_slime_tail_attack) - -0x374)) = arg4;
   inst = get_instance__15TObjEneSlimeOneFv();
   id = ((s32 *) lbl_804966F4)[((TObjEneSlimeOne *)(*((s32 *) (((s8 *) ene_slime_tail_attack) + (0x374 & 0xFFFF)))))->get_attack_target()];
-  ene_slime_tail_attack->texlist = TObjFish__sub_8001EDB0((BmlResource *)inst, id);
+  ene_slime_tail_attack->texlist = get_bml_texlist((BmlResource *)inst, id);
   *((s32 *) (((s8 *) ene_slime_tail_attack) + 0x34)) = get_bml_model((BmlResource *)inst, id);
   ene_slime_tail_attack->action_table = (TObjMotionAction *)lbl_8049639C;
   ((TObjMotion *)ene_slime_tail_attack)->set_field_d8((s32) ((u8 *) lbl_8049639C));

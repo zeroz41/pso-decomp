@@ -51,7 +51,7 @@ struct Obj_8018DBCC {
 };
 
 extern "C" {
-u8 * TObjFish__sub_8001EDB0(void *, int);
+u8 * get_bml_texlist(void *, int);
 u8 * get_bml_model(void *, int);
 
 #pragma push
@@ -215,7 +215,7 @@ void TObjDoaEx01::try_open() {
     if (this->update_object_view_visibility(4e+02f, 2e+01f) != 0) {
         ((TObjDoorJung *)(*(s32 *)((s8 *)TObjDoaEx01__alpha_model_node + 4)))->free_children((void *)1);
         ((TObjDoorJung *)(*(s32 *)((s8 *)TObjDoaEx01__alpha_model_sibling + 4)))->free_children((void *)1);
-        TObjFish__sub_8001EDB0((void *)TObjDoaEx01__resource_bundle, 0);
+        get_bml_texlist((void *)TObjDoaEx01__resource_bundle, 0);
         set_global_param__8TObjFishFl();
         push_matrix();
         post_translate_matrix(((u8 *)this) + 0x38);
@@ -232,7 +232,7 @@ void TObjDoaEx01::draw_model() {
         ((TObjDoorJung *)(*(s32 *)((s8 *)TObjDoaEx01__alpha_model_node + 4)))->free_children((void *)0);
         ((TObjDoorJung *)(*(s32 *)((s8 *)TObjDoaEx01__alpha_model_sibling + 4)))->free_children((void *)0);
         temp_r31 = (s32)get_bml_model((void *)TObjDoaEx01__resource_bundle, 0);
-        TObjFish__sub_8001EDB0((void *)TObjDoaEx01__resource_bundle, 0);
+        get_bml_texlist((void *)TObjDoaEx01__resource_bundle, 0);
         set_global_param__8TObjFishFl();
         push_matrix();
         post_translate_matrix((void *) (((u8 *)this) + 0x38));

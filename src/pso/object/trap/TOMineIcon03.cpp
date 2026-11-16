@@ -40,9 +40,9 @@ TOMineIcon03::TOMineIcon03(TObject *parent, void *set_data) : TOMine(parent) {
     ((TObjPlayer *)this)->init_position_vectors();
     calc_attach_pos();
     model = (void *)get_bml_model(lbl_805D5A50, 6);
-    texlist = TObjFish__sub_8001EDB0(lbl_805D5A50, 6);
+    texlist = get_bml_texlist(lbl_805D5A50, 6);
     m_374 = get_bml_model(lbl_805D5A50, 2);
-    m_378 = TObjFish__sub_8001EDB0(lbl_805D5A50, 2);
+    m_378 = get_bml_texlist(lbl_805D5A50, 2);
     mode = 0;
     if (set_params[0] < 0) {
         set_params[0] = 0;

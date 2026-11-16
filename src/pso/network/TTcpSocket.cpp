@@ -48,12 +48,12 @@ struct Sock_80078264 { u8 pad[0x28]; s16 x28; };
 extern "C" {
 struct Rec_8007841C *copy_udp_socket_event_record(struct Rec_8007841C *dst, struct Rec_8007841C *src);
 extern RecoveredGlobal_80078378_lbl_8048D3B8 udp_socket_slots;
-void TUdpSocket__sub_80421BAC(int, void *, void *, int, void *, int, void *);
+void udp_send(int, void *, void *, int, void *, int, void *);
 void TUdpSocket__sub_80078110(Sock_80078110 *arg0, s32 arg1, s16 arg2);
 void TUdpSocket__sub_800781B8(Sock_800781B8 *arg0, s32 arg1);
-s16 TUdpSocket__sub_80421DEC(void *, int, void *, int, int, s32 (*)(s16, u8 *));
+s16 udp_open(void *, int, void *, int, int, s32 (*)(s16, u8 *));
 s16 open_socket__10TUdpSocketFPv(Sock_800782B8 *arg0);
-s32 TLobby__sub_80421B3C(s32 a);
+s32 udp_close(s32 a);
 void free_socket_slot__10TUdpSocketFPv(Sock_80078264 *arg0);
 struct Base_80078064 { char pad[0x18]; };
 struct VObj_80078064 : Base_80078064 {
@@ -128,7 +128,7 @@ void TUdpSocket__sub_80078110(Sock_80078110 *arg0, s32 arg1, s16 arg2) {
     r.a = arg2;
     port = arg0->port;
     bswap_16(&port);
-    TUdpSocket__sub_80421BAC(arg0->fd, &q2, &q1, port, &c, 1, &r);
+    udp_send(arg0->fd, &q2, &q1, port, &c, 1, &r);
 }
 
 void TUdpSocket__sub_800781B8(Sock_800781B8 *arg0, s32 arg1) {
@@ -150,12 +150,12 @@ void TUdpSocket__sub_800781B8(Sock_800781B8 *arg0, s32 arg1) {
     r.a = strlen((const char *)arg1);
     port = arg0->port;
     bswap_16(&port);
-    TUdpSocket__sub_80421BAC(arg0->fd, &q2, &q1, port, &c, 1, &r);
+    udp_send(arg0->fd, &q2, &q1, port, &c, 1, &r);
 }
 
 void free_socket_slot__10TUdpSocketFPv(Sock_80078264 *arg0) {
     if (arg0->x28 >= 0x400) {
-        TLobby__sub_80421B3C(arg0->x28);
+        udp_close(arg0->x28);
         (&udp_socket_slots.value)[arg0->x28 - 0x400] = 0;
     }
 }
@@ -176,7 +176,7 @@ s16 open_socket__10TUdpSocketFPv(Sock_800782B8 *arg0) {
     pb = arg0->port_a;
     bswap_16(&pa);
     bswap_16(&pb);
-    arg0->fd = TUdpSocket__sub_80421DEC(&q1, pa, &q2, pb, 0, TUdpSocket::handle_socket_event);
+    arg0->fd = udp_open(&q1, pa, &q2, pb, 0, TUdpSocket::handle_socket_event);
     if (arg0->fd < 0) {
         return -1;
     }

@@ -330,7 +330,7 @@ void normalize_vector(void *);
 f32 project_point_onto_line(void *, void *, void *);
 f32 xyz_distance(void *, void *);
 void TBoss6Type1__sub_802B6C30(Boss_802B6C30 *self);
-s32 TObjFish__sub_8001EDB0(s32, s32);
+s32 get_bml_texlist(s32, s32);
 void clear_render_callback__8TObjFishFv(u32);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 // init_collision_body_parts copies these 7 spheres in TBoss6Type1__ct.
@@ -1208,7 +1208,7 @@ void TBoss6Type1::draw_part_motions() {
         {
             s32 t = lbl_804DF614[i];
             id = t;
-            p = TObjFish__sub_8001EDB0(this->bml_resource, t);
+            p = get_bml_texlist(this->bml_resource, t);
         }
         id = get_bml_model((BmlResource *)this->bml_resource, id);
         cb = arg0->draw_callback_lists[i];
@@ -2001,7 +2001,7 @@ void TBoss6Type1::reset_param() {
 // Draws bml model 0 at node_points[7], turned to face the viewing player and scaled by m_4dc.
 void TBoss6Type1::sub_802B626C() {
     if (this->m_4dc != 0.0f) {
-        s32 fish = TObjFish__sub_8001EDB0(this->bml_resource, 0);
+        s32 fish = get_bml_texlist(this->bml_resource, 0);
         s32 model = get_bml_model((BmlResource *)this->bml_resource, 0);
         s32 pitch = 0;
         Vec pos = this->node_points[7];

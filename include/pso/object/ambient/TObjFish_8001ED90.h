@@ -11,7 +11,7 @@ extern "C" {
 int fn_8001ED90(void *p);
 // The index-th motion and texture list of a loaded BML archive.
 AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
-s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
+s32 get_bml_texlist(BmlResource *resource, s32 index);
 }
 // --- end of C functions
 

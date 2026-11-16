@@ -89,7 +89,7 @@ s32 clear_ref_if_destroyed__11TObjMesBaseFv();
 
 extern s32 __vt__13TObjGbAdvance[];
 
-s32 TObjFish__sub_8001EDB0(void *, s32);
+s32 get_bml_texlist(void *, s32);
 u8 *TObjGbAdvance__ct(u8 *arg0, s32 arg1, s32 arg2);
 }
 void load_computer_resources(void);
@@ -284,7 +284,7 @@ void TObjGbAdvance::vfunc_14() {
 
 void TObjGbAdvance::render() {
     if (this->update_object_view_visibility(400.0f, 20.0f) != 0) {
-        TObjFish::set_global_param(TObjFish__sub_8001EDB0((void *)TObjGbAdvance__data_805D5B74, 0));
+        TObjFish::set_global_param(get_bml_texlist((void *)TObjGbAdvance__data_805D5B74, 0));
         push_matrix();
         post_translate_matrix(&this->position);
         rotate_matrix_y(0, this->rotation_y);

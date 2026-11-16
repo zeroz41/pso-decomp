@@ -56,7 +56,7 @@ void TAdMultiPlyChrSelectGC__sub_802DCCA4(Obj_802DCCA4 *arg0) {
         break;
     case 0:
         set_opening_movie_purpose(1);
-        TKeyBoardControl__sub_8000F9CC(3);
+        request_main_phase(3);
         break;
     case 1:
         collect_player_slots__22TAdMultiPlyChrSelectGCFv(arg0);

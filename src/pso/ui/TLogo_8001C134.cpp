@@ -19,5 +19,5 @@ void TLogo::free_held_object() {
         logo_texture_e_handle = 0U;
     }
 }
-void register_texture_logo_e(void) { (*(int *)&logo_texture_e_handle) = (int)texture_logo_e_descriptor; TLobby__sub_8023E4B4((s32)"logo_e", (s32)texture_logo_e_descriptor); }
+void register_texture_logo_e(void) { (*(int *)&logo_texture_e_handle) = (int)texture_logo_e_descriptor; load_streamed_prs_texture((s32)"logo_e", (s32)texture_logo_e_descriptor); }
 void TLogo::request_exit() { queue_destruction__7TObjectFv(); TLogo__exit_requested_flag = 1; }

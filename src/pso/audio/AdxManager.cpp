@@ -30,7 +30,7 @@ typedef struct Cfg_803CBA58 {
 extern "C" {
 s32 VIWaitForRetrace();
 void TLobby__sub_803CE544(void *, int);
-void TLobby__sub_803CFAA8(const char *, void *, int);
+void cvFsAddDev(const char *, void *, int);
 s32 run_worker_callbacks_slot5__6TLobbyFv(int);
 s32 set_callback_params__6TLobbyFll();
 extern s32 lbl_805D7540;
@@ -58,11 +58,11 @@ void * *initialize_dvd_file_driver(void);
 void set_dvd_synchronous_read_mode(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern "C" {
 
-void TLobby__sub_803CB74C(s32 *arg0) {
+void setup_adx_file_systems(s32 *arg0) {
     TLobby__sub_803CE544((void *)TLobby__sub_803CB7F8, 0);
-    TLobby__sub_803CFAA8("MFS", (void *)TLobby__sub_803D43B8, 0);
+    cvFsAddDev("MFS", (void *)TLobby__sub_803D43B8, 0);
     TLobby__sub_803CE544((void *)TLobby__sub_803CB7F8, 0);
-    TLobby__sub_803CFAA8("GCD", (void *)initialize_dvd_file_driver, 0);
+    cvFsAddDev("GCD", (void *)initialize_dvd_file_driver, 0);
     ((TLobby *)"GCD")->cvFsSetDefDev();
     if (arg0 != NULL) {
         set_dvd_synchronous_read_mode(0, 0, 0, *arg0);

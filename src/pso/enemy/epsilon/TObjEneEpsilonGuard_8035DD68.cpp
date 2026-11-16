@@ -838,7 +838,7 @@ TObjEneEpsilonGuard *__dt__19TObjEneEpsilonGuardFv(TObjEneEpsilonGuard *guard, s
 void TObjEneEpsilonGuard::init_model_and_state() {
     init_position_vectors();
     model = (void *)get_bml_model(lbl_805D6FA0, 2);
-    texlist = TObjFish__sub_8001EDB0(lbl_805D6FA0, 0);
+    texlist = get_bml_texlist(lbl_805D6FA0, 0);
     init_model(TObjEneEpsilonGuard__model_desc, 1);
     set_field_d8((s32)lbl_804F2024);
     set_field_dc((s32)lbl_805D6FA0->motions);

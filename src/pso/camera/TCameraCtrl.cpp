@@ -690,7 +690,7 @@ struct V3_8006AD34 { f32 x, y, z; };
 u8 *get_target__11TCameraCtrlFv(void *);
 s32 reset_view_flags__11TCameraCtrlFv(void *);
 s32 cycle_spectate_target__11TCameraCtrlFv(void *);
-int TCameraCtrl__sub_8006B370(f32);
+int is_float_nonfinite(f32);
 int is_quest_active(void);
 int TCameraCtrl__sub_8006B3B8(void* p);
 void render__11TCameraCtrlFv(void *arg0);
@@ -748,7 +748,7 @@ int TCameraCtrl__sub_8006B3B8(void* p) { return set_fixed_position_and_target__1
 
 int TCameraCtrl::reset_battle_camera() { return reset_to_local_player__11TCameraCtrlFv(this); }
 
-int TCameraCtrl__sub_8006B370(f32 farg0) {
+int is_float_nonfinite(f32 farg0) {
     u32 v = *(u32 *)&farg0 & 0x7F800000;
     return v == 0x7F800000;
 }
@@ -899,7 +899,7 @@ u8 * copy_view_params__11TCameraCtrlFii(C30_8006AD34 *arg0, const C30_8006AD34 *
     *(ByteBlock_30 *)(arg0) = *(const ByteBlock_30 *)(arg1);
     return (u8 *)arg0;
 }
-#define ISNAN(x) TCameraCtrl__sub_8006B370(x)
+#define ISNAN(x) is_float_nonfinite(x)
 #define G (camera_ctrl_instance)
 #define GF(o) (*(f32 *)(G + (o)))
 void TCameraCtrl::run_task() {
@@ -1396,7 +1396,7 @@ void TCameraCtrl::set_shake_preset(s32 arg0) {
 }
 
 
-void TCameraCtrl__sub_8006A044(s32 id, f32 v) {
+void start_camera_shake(s32 id, f32 v) {
     O_8006A044 *p;
     if ((*(O_8006A044 * *)&camera_ctrl_instance) != 0) {
         (*(O_8006A044 * *)&camera_ctrl_instance)->shake_amplitude = v;

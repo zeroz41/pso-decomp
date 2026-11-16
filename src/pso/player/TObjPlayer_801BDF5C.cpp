@@ -566,14 +566,14 @@ short TObjPlayer::get_vobj_state_28() {
     extern int local_client_id;
 void TObjPlayer::update_battle_controller() { get_player_by_client_id((local_client_id)); }
 
-int TFontSmallLobby__sub_801C0228(void*);
+int copy_subcommand_header(void*);
 int set_state_flags__10TObjPlayerFUl(void*, int);
 
 void TObjPlayer::set_flag_200000() {
     sub_8011E204(0x200000);
 }
 int TObjPlayer::check_flag_4() { return check_flag(4); }
-void*TObjPlayer::set_invisible() { TFontSmallLobby__sub_801C0228(this); return this; }
+void*TObjPlayer::set_invisible() { copy_subcommand_header(this); return this; }
 void TObjPlayer::clear_flag_4000_callback() { set_flag_4000(); }
 void TObjPlayer::set_flag_4000() { sub_8011E204(16384); }
 int TObjPlayer::clear_flag_4000() { return set_state_flags__10TObjPlayerFUl(this, 16384); }

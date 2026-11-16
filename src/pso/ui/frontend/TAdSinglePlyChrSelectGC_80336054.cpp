@@ -236,7 +236,7 @@ struct Obj_80336340 { u8 pad[0x40]; void *objs[3]; };
 
 
 extern "C" {
-void TKeyBoardControl__sub_8000F9CC(s32 arg0);
+void request_main_phase(s32 arg0);
 s32 __dl__7TObjectFPv(void *);
 s32 __dt__7TObjectFv(void *, s32);
 extern s32 lbl_804EEF64[];
@@ -301,7 +301,7 @@ void TLobby::set_flag_and_clear_download() {
 }
 
 void TLobby__sub_803361FC(void) {  }
-void TLobby::open_keyboard() { lobby_game_mode_state = 3; TKeyBoardControl__sub_8000F9CC((s32)((void*)19)); }
+void TLobby::open_keyboard() { lobby_game_mode_state = 3; request_main_phase((s32)((void*)19)); }
 void TLobby::request_change_game_mode() { lobby_game_mode_state = 2; TAdMultiChgGameModeGC::set_mode_change_state(); }
 void TLobby::enter_game_mode_change() { lobby_game_mode_state = 1; TAdMultiChgGameModeGC::set_game_mode_state(); }
 void TLobby::enter_chg_game_mode() { lobby_game_mode_state = 0; TAdMultiChgGameModeGC::set_mode_0x15(); }
@@ -345,7 +345,7 @@ void TUnk_804EEF64::run_task() {
     if (((s32) ((TUnk_804EEF64 *)((Obj_80336340 *)this))->m_38 < (s32) *(s32 *)((s8 *)((Obj_80336340 *)this) + 0x34)) && (((TAdSinglePlyChrSelectGC *)((Obj_80336340 *)this))->start_offline_seq() != 0)) {
         TKeyBoardControl__sub_8000F90C(2);
         set_opening_movie_purpose(0);
-        TKeyBoardControl__sub_8000F9CC(3);
+        request_main_phase(3);
     }
     *(s32 *)((s8 *)((Obj_80336340 *)this) + 0x34) = (s32) (*(s32 *)((s8 *)((Obj_80336340 *)this) + 0x34) + 1);
 }
@@ -445,7 +445,7 @@ void initialize_lobby_title_scene(void) {
     TLobby::update_menu_cursor();
     TitleTextureFilenameTable names = title_texture_filename_table;
     lobby_title_texture_list = &title_texture_list;
-    TLobby__sub_8023E4B4((s32)names.archive[current_language], (s32)&title_texture_list);
+    load_streamed_prs_texture((s32)names.archive[current_language], (s32)&title_texture_list);
     run_load_callback_table(lobby_load_callback_table, sizeof(lobby_load_callback_table));
     TLobby::reset_counter();
     set_current_floor_area(0);

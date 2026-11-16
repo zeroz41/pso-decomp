@@ -498,7 +498,7 @@ extern "C" {
 s32 select_enemy_destination(void *, Vec, s32);
 void copy_position_if_valid__10TObjPlayerFii(void *, Vec);
 f32 newton_sqrtf(f32);
-void fn_80044330(void *);
+void clear_target_cursor_list(void *);
 void *spawn_directional_particle(void *pos, void *dir, s32 id);
 void rotate_vector_by_matrix(s32, void *, void *);
 void subtract_vector(void *, void *);
@@ -862,7 +862,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 arg1) {
                         break;
                     default:
                         if (r < ((AttackParams *)m_318)->get_attack_angle() / 2 && m_390 != 0) {
-                            fn_80044330(&m_4b0);
+                            clear_target_cursor_list(&m_4b0);
                             m_4b0 = 1;
                             m_4b4 = get_entity_id((s32)m_390);
                             m_4b6 = 0;

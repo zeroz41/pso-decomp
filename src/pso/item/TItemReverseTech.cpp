@@ -114,7 +114,7 @@ struct TItemReverseTechSceneHook {
 
 extern "C" {
 s32 TKeyBoardControl__sub_8000F92C();
-void TKeyBoardControl__sub_8000F9CC(s32 arg0);
+void request_main_phase(s32 arg0);
 s8 func_801A5E54__Fv();
 s32 prs_decompress_alloc(int, int, int);
 int set_stream_and_load_file__6TLobbyFi(const char *);
@@ -123,7 +123,7 @@ void *mem_alloc(u32 size);
 char *strncpy(char *, const char *, u32);
 void load_gvm_texture_archive(int, void *);
 void TKeyBoardControl__sub_8000F90C(s32);
-void TKeyBoardControl__sub_8000F91C(s32);
+void set_queued_main_phase(s32);
 void set_active_camera_pose(u8 *arg0, u8 *arg1);
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 void reset_controller_input_state();
@@ -188,7 +188,7 @@ void TItemReverseTech::init_scene() {
     TCameraCtrl::select_active_controller(9);
     set_active_camera_pose((u8 *)&eye, (u8 *)&at);
     TKeyBoardControl__sub_8000F90C(2);
-    TKeyBoardControl__sub_8000F91C(2);
+    set_queued_main_phase(2);
     TParticleCtrl::create_quad_sprites();
     TItemReverseTech::create();
     render_tick();
@@ -238,7 +238,7 @@ void TItemReverseTech::run_frame() {
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
         var_r3 = NULL;
-        TKeyBoardControl__sub_8000F9CC(0);
+        request_main_phase(0);
     }
     render_tick();
 }

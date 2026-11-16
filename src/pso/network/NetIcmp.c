@@ -101,10 +101,10 @@ s16 TLobby__sub_8040CB44(u8 *self, u32 d, u32 c)
       return 0;
 
     case 3:
-      TLobby__sub_80406EB8(&rec->buffer, 8);
+      netbuf_ref_advance(&rec->buffer, 8);
       set_value_and_enable(stream, (s32) ip);
       netbuf_copy_by_ref(stream, &rec->buffer, 20);
-      TLobby__sub_80406EB8(&rec->buffer, (ip[0] & 0xf) << 2);
+      netbuf_ref_advance(&rec->buffer, (ip[0] & 0xf) << 2);
       switch (ip[9])
     {
       case 6:
@@ -121,7 +121,7 @@ s16 TLobby__sub_8040CB44(u8 *self, u32 d, u32 c)
       return 0;
 
     case 5:
-      TLobby__sub_80406EB8(&rec->buffer, 8);
+      netbuf_ref_advance(&rec->buffer, 8);
       set_value_and_enable(stream, (s32) ip);
       netbuf_copy_by_ref(stream, &rec->buffer, 20);
       switch (hdr[1])
@@ -209,7 +209,7 @@ s16 TLobby__sub_8040CFE8(u8 type, u8 code, u32 src, u32 dst, NetPacket *pkt) {
     case 0:
         set_value_and_enable((&ref), (s32)&hdr);
         netbuf_copy_by_ref(&ref, &pkt->fragments[pkt->fragment_count - 1].buffer, sizeof(hdr));
-        TLobby__sub_80406EB8(&pkt->fragments[pkt->fragment_count - 1].buffer, sizeof(hdr));
+        netbuf_ref_advance(&pkt->fragments[pkt->fragment_count - 1].buffer, sizeof(hdr));
         pkt->fragments[pkt->fragment_count - 1].length -= sizeof(hdr);
         pkt->fragments[pkt->fragment_count].length = sizeof(hdr);
         set_value_and_enable((&pkt->fragments[pkt->fragment_count].buffer), (s32)&hdr);

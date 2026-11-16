@@ -4,7 +4,7 @@
 
 extern "C" {
 
-s32 TObjFish__sub_8001EDB0(s32, s32);
+s32 get_bml_texlist(s32, s32);
 void *get_bml_model(s32, s32);
 
 extern s32 falz_zako_texture_list;
@@ -15,7 +15,7 @@ void TBoss4DarkFalz::init_uro_link() {
     u32 temp_r3_2;
     void *temp_r3;
 
-    falz_zako_texture_list = TObjFish__sub_8001EDB0(TBoss4Uro::get_instance_count(), 8);
+    falz_zako_texture_list = get_bml_texlist(TBoss4Uro::get_instance_count(), 8);
     temp_r3 = *(void **)((s8 *)(get_bml_model(TBoss4Uro::get_instance_count(), 8)) + 0x2C);
     *(s32 *)((s8 *)temp_r3 + 0) = (s32) (*(s32 *)((s8 *)temp_r3 + 0) & 0xFFFFFFFD);
     temp_r3_2 = *(u32 *)((s8 *)temp_r3 + 4);

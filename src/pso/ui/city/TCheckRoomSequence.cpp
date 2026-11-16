@@ -213,7 +213,7 @@ void copy_item_to_bank_entry__18TCheckRoomSequenceFPvPv(u8 *arg0, u8 *arg1);
 void compact_items__18TCheckRoomSequenceFi(s32 slot);
 void queue_destruction__7TObjectFv(void *arg0);
 s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv();
-s32 TAdPlayerLoadGC__sub_801E1B50(s32 chan);
+s32 poll_memcard_result(s32 chan);
 s32 close_if_single_screen__13TShopSequenceFv(void *);
 s32 close_window__13TShopSequenceFv(void *);
 void TCheckRoomSequence__vt11(u8 *arg0);
@@ -723,7 +723,7 @@ extern "C" {
 #pragma push
 #pragma optimization_level 1
 void TCheckRoomSequence__vt11(u8 *arg0) {
-    if ((((VObj_18_8d1630 *)(arg0))->m8() != 0) && ((((TShopWindowBase *)arg0)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(arg0) != 0)) && (TAdPlayerLoadGC__sub_801E1B50((get_chr_select_state__23TAdSinglePlyChrSelectGCFv())) == 0)) {
+    if ((((VObj_18_8d1630 *)(arg0))->m8() != 0) && ((((TShopWindowBase *)arg0)->sub_80223A48() != 0) || (sub_802239EC__13TShopSequenceFv(arg0) != 0)) && (poll_memcard_result((get_chr_select_state__23TAdSinglePlyChrSelectGCFv())) == 0)) {
         copy_bank_to_card_window((s32)(sub_8022397C__15TShopWindowBaseFv(arg0)));
         close_if_single_screen__13TShopSequenceFv(arg0);
         close_window__13TShopSequenceFv(arg0);

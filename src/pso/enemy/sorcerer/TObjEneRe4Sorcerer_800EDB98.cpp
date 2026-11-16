@@ -1249,7 +1249,7 @@ s32 TObjEneRe4Sorcerer::cast_technique() {
             src = &position;
         }
         if (m_3e8 == 0) {
-            fn_80044330(&targets);
+            clear_target_cursor_list(&targets);
             targets.count = 1;
             targets.records[0].id = get_entity_id(m_390);
             targets.records[0].flag = 0;
@@ -1647,7 +1647,7 @@ void TObjEneRe4Sorcerer::init_enemy() {
     m_3f4 = m_2cc;
     m_3f8 = 1.0f;
     fade.reset_obstruction_fade();
-    fn_80044330(&targets);
+    clear_target_cursor_list(&targets);
     for (i = 0; i < 4; i++) {
         fades[i].activate_and_dispatch();
     }

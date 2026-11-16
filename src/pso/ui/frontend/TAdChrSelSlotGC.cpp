@@ -247,5 +247,5 @@ void TLobby__sub_802C7920(void) {
     ByteBlock_14 b = *(const ByteBlock_14 *)lbl_80471D50;
     s32 r4 = b.v[current_language];
     lbl_805D67F0 = r4;
-    TLobby__sub_8023E4B4(a.v[current_language], r4);
+    load_streamed_prs_texture(a.v[current_language], r4);
 }

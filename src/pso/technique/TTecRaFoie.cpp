@@ -493,7 +493,7 @@ u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, s32 arg3, f32 fa
 void copy_technique_target_list(void *, void *);
 extern s32 __vt__10TTecRaFoie[];
 u8 *construct_targeted__10TTecRaFoieFPvPvPvPvi(u8 *self, void *source, void *origin, void *targets, int level);
-void fn_80044330(void *);
+void clear_target_cursor_list(void *);
 Obj_80238AE8 *TTecRaFoie__ct(Obj_80238AE8 *arg0, void * _w1, void * _w2, void * _w3, int _w4);
 }
 
@@ -674,7 +674,7 @@ Obj_80238AE8 *TTecRaFoie__ct(Obj_80238AE8 *arg0, void * _w1, void * _w2, void * 
     ((TObjPlayer *)((u8 *)arg0 + 0xEC))->construct_target_cursor_records();
     *(u32 *)((s8 *)arg0 + 0) = (u32)TTecRaFoie_class_name;
     ((TTecRaFoie *)arg0)->calc_area_parameters();
-    fn_80044330((u8 *)arg0 + 0xEC);
+    clear_target_cursor_list((u8 *)arg0 + 0xEC);
     ((TTecRaFoie *)arg0)->m_148 = 1;
     t = *(Sub_80238AE8 **)((s8 *)arg0 + 0xE8);
     if (t != NULL) {

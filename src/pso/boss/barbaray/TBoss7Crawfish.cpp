@@ -425,7 +425,7 @@ void TBoss7Crawfish::change_state(s32 state) {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u32 TBoss7Crawfish__shared_resource;
 s32 dispatch_shared_handler_a__6TLobbyFl(int);
-s32 TObjFish__sub_8001EDB0(int, int);
+s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
 s32 set_field_b8__10TObjMotionFs(void *, int);
 s32 __ct__9TObjEnemyFP7TObject();
@@ -481,7 +481,7 @@ u8 *TBoss7Crawfish__ct(u8 *arg0, s32 arg1, s32 arg2) {
     __ct__9TObjEnemyFP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TBoss7Crawfish;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TBoss7Crawfish__class_name;
-    ((TBoss7Crawfish *)arg0)->texlist = TObjFish__sub_8001EDB0(TBoss7Crawfish__shared_resource, 0);
+    ((TBoss7Crawfish *)arg0)->texlist = get_bml_texlist(TBoss7Crawfish__shared_resource, 0);
     copy_collision_body((CollisionBody *)(arg0 + 0x374), &crawfish_collision_body_desc);
     ((TObjCollidable *)arg0)->set_collision_body(arg0 + 0x374);
     ((TObjMotion *)arg0)->set_field_d8((s32)crawfish_action_table);

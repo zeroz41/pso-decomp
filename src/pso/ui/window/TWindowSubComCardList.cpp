@@ -66,7 +66,7 @@ s32 weapon_has_extra_attack();
 void *get_player_by_client_id(s32 i);
 u8 get_cast_technique_level(void *, s16);
 s32 validate_and_clear_slot__10TObjPlayerFv(void *, s16);
-void TWindowSubStatusDisp__sub_80228F5C(s32);
+void text_builder_append_int(s32);
 void text_builder_append();
 u8 *calc_technique_parameters(u16, u8, s32);
 u8 *TWindowMenu__ct(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
@@ -225,11 +225,11 @@ void TUnk_804D1160::update_customize_help_text(void *ev_arg) {
             }
             get_help_text_string(0x2D);
             text_builder_append();
-            TWindowSubStatusDisp__sub_80228F5C(lvl + 1);
+            text_builder_append_int(lvl + 1);
         }
         get_help_text_string(0x2E);
         text_builder_append();
-        TWindowSubStatusDisp__sub_80228F5C(*(s16 *)(calc_technique_parameters(ev->id, lvl, 0xFFFF) + 0x10));
+        text_builder_append_int(*(s16 *)(calc_technique_parameters(ev->id, lvl, 0xFFFF) + 0x10));
         get_help_text_string(ev->id);
         text_builder_append();
         break;

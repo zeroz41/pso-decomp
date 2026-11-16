@@ -46,7 +46,7 @@ s32 create_font_small_task_default_color(s32 arg0, s32 arg1, s32 arg2, s32 arg3,
 void fn_800FCCC8(s32 arg0, s32 arg1);
 s32 fn_800FCCF4(void* p);
 s32 *get_shared_text_buffer(void);
-void TWindowSubStatusDisp__sub_80228F5C(s32 arg0);
+void text_builder_append_int(s32 arg0);
 void text_builder_append(u8 *str);
 s32 __nw__7TObjectFUl(s32);
 
@@ -216,7 +216,7 @@ s32 create_font_small_task(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *str, s32
     if (arg5 >= 0) {
         text_builder_append((u8 *)"+");
     }
-    TWindowSubStatusDisp__sub_80228F5C(arg5);
+    text_builder_append_int(arg5);
     var_r31 = __nw__7TObjectFUl(0x58);
     if (var_r31 != 0) {
         var_r31 = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))__ct__14TFontSmallTaskFv)(var_r31, arg0, arg1, arg2, arg3, (s32)(get_shared_text_buffer()), arg6);
@@ -232,7 +232,7 @@ s32 create_font_small_task_default_color(s32 arg0, s32 arg1, s32 arg2, s32 arg3,
     if (arg5 >= 0) {
         text_builder_append((u8 *)"+");
     }
-    TWindowSubStatusDisp__sub_80228F5C(arg5);
+    text_builder_append_int(arg5);
     var_r31 = __nw__7TObjectFUl(0x58);
     if (var_r31 != 0) {
         var_r31 = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))__ct__14TFontSmallTaskFv)(var_r31, arg0, arg1, arg2, arg3, (s32)(get_shared_text_buffer()), 0xFFFF);
@@ -248,7 +248,7 @@ s32 TObjEneEpsilonGuard::create_damage_font(s32 arg0, s32 arg1, s32 arg2, s32 ar
     s32 var_r31;
 
     text_builder_reset();
-    TWindowSubStatusDisp__sub_80228F5C(arg3);
+    text_builder_append_int(arg3);
     var_r31 = __nw__7TObjectFUl(0x58);
     if (var_r31 != 0) {
         var_r31 = ((s32 (*)(s32, s32, s32, s32, s32, s32, s32))__ct__14TFontSmallTaskFv)(var_r31, arg0, arg1, arg2, 0, (s32)get_shared_text_buffer(), 0xFFFF);

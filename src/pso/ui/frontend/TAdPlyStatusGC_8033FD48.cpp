@@ -285,7 +285,7 @@ extern const char *lbl_805D42C8;
 extern s32 lbl_804DF614[];
 __declspec(section ".data") s32 lbl_804EFB70[2] = {0x1F, 0x21};
 s32 get_bml_model(s32 bml, s32 index);
-s32 TObjFish__sub_8001EDB0(s32 bml, s32 index);
+s32 get_bml_texlist(s32 bml, s32 index);
 s32 get_bml_motion(s32 bml, s32 index);
 
 #pragma push
@@ -307,7 +307,7 @@ void *TObjFish__sub_8034029C(TBoss6Demo15_TYPE2_WAIT *wait, TObjFish *fish) {
             v = t;
             self->parts[i].model = get_bml_model(bml, t);
         }
-        self->parts[i].model_aux = TObjFish__sub_8001EDB0(bml, v);
+        self->parts[i].model_aux = get_bml_texlist(bml, v);
         self->parts[i].motion = get_bml_motion(bml, lbl_804EFB70[i]);
     }
     fn_8034009C(wait);

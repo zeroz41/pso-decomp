@@ -10,7 +10,7 @@
 #include "pso/object/base/TObjMotion.h"
 extern "C" {
 s32 get_player_by_client_id(s32);
-s32 TWindowCtrlMain__sub_8024CE58();
+s32 has_window_task_root();
 char* strncpy(char*, const char*, int);
 char* strcat(char*, const char*);
 void* get_window_layout_position(s32);
@@ -75,7 +75,7 @@ void TObjDeadListWin::refresh_names() {
     }
     me = (u8*)get_player_by_client_id(local_client_id);
     if ((get_current_floor_area() == AREA_PIONEER2_EP1 || get_current_floor_area() == AREA_PIONEER2_EP2)
-        && TWindowCtrlMain__sub_8024CE58() != 0 && me != NULL
+        && has_window_task_root() != 0 && me != NULL
         && ((TObjCollidable *)me)->obj_testFlags30(0x02000000) == 0) {
         build_dead_list_window();
         m_phase = 1;

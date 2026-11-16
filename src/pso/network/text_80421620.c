@@ -41,11 +41,11 @@ s32 TLobby__sub_8041A1D8(void);
 s32 NetUnregisterTimer(void *);
 void TLobby__sub_80421FB8(void *, void *, void *);
 s32 TLobby__sub_80421AD8(u8 *arg0, s32 arg1, s32 arg2, u32 arg3, s32 arg4);
-s32 TLobby__sub_804218AC(s32 arg0, s32 arg1);
+s32 net_register_timer(s32 arg0, s32 arg1);
 s32 TLobby__sub_8040F9CC(void *, void *, void *, int);
 s32 TLobby__sub_804219D0(s32 arg0, s32 arg1, s32 arg2);
 s32 NetIPv4AddRoute(void *, void *, void *, s16, u8, u16); /* declared s32 here; the definition is s16 (u32, u32, u32, s16, u8, u16) */
-s32 TLobby__sub_80421A50(s32 arg0, s32 arg1, s32 arg2);
+s32 net_add_ipv4_route(s32 arg0, s32 arg1, s32 arg2);
 s32 TLobby__sub_8041E780();
 s32 tcp_create(void);
 s32 mark_connection_closed(s32);
@@ -214,15 +214,15 @@ block_30:
     return result;
 }
 
-s32 TLobby__sub_804217E4(void) {
+s32 net_unlock(void) {
     unlock_mutex(network_dispatch_state.lock_handle);
     return 0;
 }
-s32 TLobby__sub_80421814(void) {
+s32 net_lock(void) {
     lock_mutex(network_dispatch_state.lock_handle);
     return 0;
 }
-s32 TLobby__sub_80421844(s32 timer) {
+s32 net_unregister_timer(s32 timer) {
     s32 result;
     if (timer == 0) {
         return -2;
@@ -233,7 +233,7 @@ s32 TLobby__sub_80421844(s32 timer) {
     return result;
 }
 
-s32 TLobby__sub_804218AC(s32 callback, s32 interval) {
+s32 net_register_timer(s32 callback, s32 interval) {
     s32 result;
     if (callback == 0) {
         return -2;
@@ -268,7 +268,7 @@ s32 TLobby__sub_804219D0(s32 arg0, s32 arg1, s32 arg2) {
     return result;
 }
 
-s32 TLobby__sub_80421A50(s32 arg0, s32 arg1, s32 gateway) {
+s32 net_add_ipv4_route(s32 arg0, s32 arg1, s32 gateway) {
     s32 result;
     lock_mutex(network_dispatch_state.lock_handle);
     result = NetIPv4AddRoute((void *)arg0, (void *)arg1, (void *)gateway, 1, (int) (0U), (int) (0U));
@@ -295,7 +295,7 @@ s32 TLobby__sub_80421AD8(u8 *sock, s32 src, s32 dst, u32 cb, s32 flags) {
     return 0;
 }
 
-s32 TLobby__sub_80421B3C(s32 a) {
+s32 udp_close(s32 a) {
     s32 r;
     NetworkDispatchState *g;
     s16 m;
@@ -310,7 +310,7 @@ s32 TLobby__sub_80421B3C(s32 a) {
 
 s16 udp_sendto(s32 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, s32 opt); /* declared here with an s32 handle; the definition takes s16 */
 
-s16 TUdpSocket__sub_80421BAC(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n, send_buffs *bufs) {
+s16 udp_send(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n, send_buffs *bufs) {
     u32 any_addr[5];
     u32 any_opt[4];
     u16 i;
@@ -378,7 +378,7 @@ s16 TUdpSocket__sub_80421BAC(s32 h, u32 *src, u32 *dst, u16 port, u32 *opt, s8 n
     return r;
 }
 
-s16 TUdpSocket__sub_80421DEC(void *src, s32 sport, void *dst, s32 dport, s32 arg4, void *cb) {
+s16 udp_open(void *src, s32 sport, void *dst, s32 dport, s32 arg4, void *cb) {
     u8 any[0x14];
     s16 h;
     s16 r;
@@ -459,7 +459,7 @@ void TLobby__sub_80421FB8(void *cb, void *hdr_, void *o_) {
                 chunk = len;
             }
             netbuf_copy_by_ref(&pkt, &o->fragments[i].buffer, chunk);
-            TLobby__sub_80406EB8(&pkt, (u32)chunk);
+            netbuf_ref_advance(&pkt, (u32)chunk);
             len -= chunk;
         }
         ((PktCb_80421FB8)cb)(1, hdr);

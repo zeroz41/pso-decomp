@@ -167,7 +167,7 @@ s32 get_network_config_buffer_size(s32 mode);
 s8 func_801A5E54();
 extern "C" {
 s32 TLobby__sub_804219D0(s32, s32, s32);
-s32 TLobby__sub_80421A50(s32, s32, s32);
+s32 net_add_ipv4_route(s32, s32, s32);
 void xfree__FPv(void*);
 int xmalloc__FUl(void);
 
@@ -222,7 +222,7 @@ void TLobby::flush_pending_flag2() {
 void TLobby::set_battle_flag(s32 arg0) {
     TLobby__battle_flag = arg0;
     TLobby__connect_pending_flags |= 2;
-    TLobby__sub_80421A50(0, 0, arg0);
+    net_add_ipv4_route(0, 0, arg0);
 }
 
 void get_link_state(s16 *state, s16 *reason);

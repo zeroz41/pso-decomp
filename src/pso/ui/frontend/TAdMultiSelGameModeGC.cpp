@@ -161,7 +161,7 @@ s32 TAdMultiSelGameModeGC::build_mode_menu(s32 arg1) {
     }
 }
 
-void TAdMultiSelGameModeGC::exit_keyboard_mode() { TObjEneDolmOlm::reset_count(); TKeyBoardControl__sub_8000F9CC(14); }
+void TAdMultiSelGameModeGC::exit_keyboard_mode() { TObjEneDolmOlm::reset_count(); request_main_phase(14); }
 void TAdMultiSelGameModeGC::update_transition_state() {
 
     switch (*(s32 *)((s8 *)this + 0x20)) {

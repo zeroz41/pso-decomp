@@ -720,7 +720,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
 }
 #pragma pop
 
-bool TWindowCtrlMain__sub_8024CE58(void) {
+bool has_window_task_root(void) {
     return TWindowCtrlMain__window_task_root != 0;
 }
 
@@ -737,14 +737,14 @@ TObject *TWindowCtrlMain__sub_8024CE24(void) {
     return TWindowCtrlMain__viewport_states[5].window_root;
 }
 
-TObject *TWindowCtrlMain__sub_8024CDD0(s32 viewport_index) {
+TObject *get_viewport_window_root(s32 viewport_index) {
     if (is_split_screen() != 0) {
         return TWindowCtrlMain__viewport_states[viewport_index].window_root;
     }
     return TWindowCtrlMain__viewport_states[0].window_root;
 }
 
-TObject *TWindowCtrlMain__sub_8024CDB0(void* p) { return TWindowCtrlMain__sub_8024CDD0((s32)p); }
+TObject *TWindowCtrlMain__sub_8024CDB0(void* p) { return get_viewport_window_root((s32)p); }
 
 void TWindowCtrlMain::set_value(s32 arg0, s32 arg1) {
     get_window_control_state(arg0)->field04 = arg1;
@@ -839,7 +839,7 @@ void TWindowCtrlScreen::render() {
         TWindowCtrlMain__sub_8024D2A4(viewport_index);
         TCameraCtrl::restore_full_screen_view();
         draw_menu_backdrop_gradients(viewport_index);
-        TWindowCtrlMain__sub_8024CDD0(viewport_index)->render_nodes();
+        get_viewport_window_root(viewport_index)->render_nodes();
         TCameraCtrl__sub_80068EF0();
         TParticleCtrl::end_effect_render();
     }

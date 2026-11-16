@@ -115,7 +115,7 @@ void __dl__7TObjectFPv(void *);
 void *__dt__11TObjNpcBaseFv(void *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
 
-s32 TObjFish__sub_8001EDB0(void *, s32);
+s32 get_bml_texlist(void *, s32);
 s32 get_bml_model(void *, s32);
 void TObjNpcBase__ct(void *, void *);
 void init_collision_body_parts(void *, void *, s32);
@@ -315,7 +315,7 @@ void *TObjNpcMoja__ct(void *selfv, void *parent, void *arg2v) {
     ((TObjPlayer *)self)->init_position_vectors();
     ((VObj_8014C780 *)self)->m85(0, 1);
     *(s32 *)(self + 0x34) = get_bml_model(lbl_805D50D8, 0);
-    *(s32 *)(self + 0x24) = TObjFish__sub_8001EDB0(lbl_805D50D8, 0);
+    *(s32 *)(self + 0x24) = get_bml_texlist(lbl_805D50D8, 0);
     ((TObjMotion *)self)->init_motion(moja_action_table, (BmlMotionEntry *)*(s32 *)(lbl_805D50D8 + 0x430), *(s16 *)(self + 0xB8));
     *(u8 **)(self + 0x350) = npc_movement_parameters;
     ((TObjChara *)self)->set_motion_params(npc_default_battle_stats);

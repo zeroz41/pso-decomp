@@ -76,7 +76,7 @@ s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 extern RecoveredGlobal_80081CD0_lbl_8058D490 identity_matrix;
 s32 get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(s32, s32);
+s32 get_bml_texlist(s32, s32);
 s32 get_bml_model(s32, s32);
 void *spawn_particle_effect(const void *pos, s32 id);
 s32 freeze_shell_bml_resource;
@@ -109,7 +109,7 @@ s32 TUnk_8048E1A4::freeze_shell_hold() {
     }
     p = (s32)spawn_particle_effect((u8 *)this + 0x38, 0x33);
     if (p != 0) {
-        attach_particle_model((u8 *)p, (s32)(get_bml_model(freeze_shell_bml_resource, 0)), (s32)(TObjFish__sub_8001EDB0(freeze_shell_bml_resource, 1)), (s32)(get_bml_motion(freeze_shell_bml_resource, 0)), 0, 1.0f);
+        attach_particle_model((u8 *)p, (s32)(get_bml_model(freeze_shell_bml_resource, 0)), (s32)(get_bml_texlist(freeze_shell_bml_resource, 1)), (s32)(get_bml_motion(freeze_shell_bml_resource, 0)), 0, 1.0f);
         ((TParticleCtrl *)p)->set_scale(this->scale.x, this->scale.y);
     }
     this->frame = 0.0f;
@@ -187,7 +187,7 @@ void TUnk_8048E1A4::render() {
         ok = p->m8(400.0f, 20.0f);
     }
     if (ok != 0) {
-        TObjFish__sub_8001EDB0((s32)((void *)freeze_shell_bml_resource), 1);
+        get_bml_texlist((s32)((void *)freeze_shell_bml_resource), 1);
         set_global_param__8TObjFishFl();
         push_matrix();
         post_translate_matrix((u8 *)&this->position);

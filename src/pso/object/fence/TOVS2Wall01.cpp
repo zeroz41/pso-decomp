@@ -199,7 +199,7 @@ void TOVS2Wall01::spawn_debris(s32 index) {
     params.pos[2] = m_304;
     params.pad_38[0] = position.y;
     params.model = get_bml_model(TOVS2Wall01__bml_resource, index);
-    params.textures = TObjFish__sub_8001EDB0(TOVS2Wall01__bml_resource, index);
+    params.textures = get_bml_texlist(TOVS2Wall01__bml_resource, index);
     new TObjChip(tl_05, &params);
 }
 
@@ -309,7 +309,7 @@ TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(TOVS2Wall01__bml_resource, index);
     model_radius = 50.0f + *(f32 *)((s8 *)(*(void **)((s8 *)model + 4)) + 0x14);
-    texlist = TObjFish__sub_8001EDB0(TOVS2Wall01__bml_resource, index);
+    texlist = get_bml_texlist(TOVS2Wall01__bml_resource, index);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[index], 1);
     register_object_by_id();
     m_c8 = TObjMapCsn::create((s32)set_data);
@@ -334,7 +334,7 @@ void TOVS2Wall01::load_resources() {
     var_r0 = load_resource_from_descriptor((int) temp_r3, 1, &bm_o_vs2_resource_descriptor, 0, 0, 0);
   }
   (*(s32 *)&TOVS2Wall01__bml_resource) = var_r0;
-  TMotorcycle::add_entry(0x3A, (int) get_bml_model(TOVS2Wall01__bml_resource, 5), (int) TObjFish__sub_8001EDB0((BmlResource *)var_r0, 5), 10.0f, 0.0f);
+  TMotorcycle::add_entry(0x3A, (int) get_bml_model(TOVS2Wall01__bml_resource, 5), (int) get_bml_texlist((BmlResource *)var_r0, 5), 10.0f, 0.0f);
 }
 void TOVS2Wall01::release_model() {
     if ((u32) TOVS2Wall01__bml_resource != 0U) {
@@ -467,7 +467,7 @@ void *TOVS2Wall01__ct(TOVS2Wall01 *arg0, void *arg1) {
     ((TObjChara *)arg0)->calc_attach_pos();
     obj_setFlags30(arg0, 0x60000000);
     *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model(TOVS2Wall01__bml_resource, 6);
-    arg0->texlist = TObjFish__sub_8001EDB0(TOVS2Wall01__bml_resource, 6);
+    arg0->texlist = get_bml_texlist(TOVS2Wall01__bml_resource, 6);
     init_collision_body_parts(arg0, &ovs2wall01_collision_parts[6], 1);
     ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x08000000);
     ((TObjPlayer *)arg0)->register_object_by_id();

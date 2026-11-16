@@ -174,7 +174,7 @@ void TWindowBase::calc_inner_rect(u8 *arg1) {
 }
 #pragma pop
 
-s32 TWindowDD__sub_80348B70(s16 arg0) {
+s32 get_word_select_token_text(s16 arg0) {
     s32 *t = TWindowDD__player_name_buffers;
     if (arg0 >= 0x68C && arg0 <= 0x697) {
         return t[arg0 - 0x68C];

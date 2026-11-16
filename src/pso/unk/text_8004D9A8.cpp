@@ -268,7 +268,7 @@ typedef struct Data_8004DEE0 {
 } Data_8004DEE0;
 
 s32 get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
+s32 get_bml_texlist(BmlResource *resource, s32 index);
 s32 get_bml_model(BmlResource *resource, s32 index);
 void set_scripted_camera_pose(void *, void *, void *);
 void __ct__8TObjBaseFP7TObject(void *, void *);
@@ -309,7 +309,7 @@ Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
             k = t;
             self->fbc[0][i] = get_bml_model((BmlResource *)h, t);
         }
-        self->fbc[1][i] = TObjFish__sub_8001EDB0((BmlResource *)h, k);
+        self->fbc[1][i] = get_bml_texlist((BmlResource *)h, k);
         self->fbc[2][i] = get_bml_motion(h, ((s32 *)lbl_804854D8)[i]);
     }
     self->f104 = (-0.5f);

@@ -57,7 +57,7 @@ inline s32 vj_buffer_valid(PppFrame **src) {
     return valid;
 }
 inline s32 vj_read_byte(PppFrame **src) {
-    if (TLobby__sub_80401BCC(src, lbl_805D7AC4, 1) != 1) {
+    if (ppp_buffer_read(src, lbl_805D7AC4, 1) != 1) {
         return -1;
     }
     return (s16)lbl_805D7AC4[0];
@@ -74,7 +74,7 @@ inline s32 vj_next_byte(PppFrame **src) {
     return vj_read_byte(src);
 }
 inline s32 vj_read_u16(PppFrame **src) {
-    if (TLobby__sub_80401BCC(src, lbl_805D7AC0, 2) != 2) {
+    if (ppp_buffer_read(src, lbl_805D7AC0, 2) != 2) {
         return -1;
     }
     return read_network_u16_be(lbl_805D7AC0);

@@ -58,7 +58,7 @@ void free_collision_body_parts(TObjEnemyCustom *object);
 void init_collision_body_parts(TObjEnemyCustom *object, TBoss3VoloptCoreBodyPart *parts, s32 count);
 void obj_setFlags30(TObjEnemyCustom *object, u32 flags);
 s32 obj_is_hit_receivable(u8 *arg0);
-void TCameraCtrl__sub_8006A044(s32 id, f32 strength);
+void start_camera_shake(s32 id, f32 strength);
 }
 void reset_status_effect_row(u8 *row);
 
@@ -364,7 +364,7 @@ void TBoss3VoloptCore::update_grabbed_state() {
         play_sound_effect(0x4003A81F, NULL, 0, 0);
         play_sound_effect(0x4003BC20, NULL, 0, 0);
         if (local_client_id == m_2d4) {
-            TCameraCtrl__sub_8006A044(0x1E, 0.08f);
+            start_camera_shake(0x1E, 0.08f);
         }
         hit_cooldown = 0x14;
         state = 1;

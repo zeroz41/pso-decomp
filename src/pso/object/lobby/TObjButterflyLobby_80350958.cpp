@@ -284,7 +284,7 @@ void TObjButterflyLobby::run_task() {
 }
 #pragma pop
 
-s32 TObjFish__sub_8001EDB0(void *, int);
+s32 get_bml_texlist(void *, int);
 s32 get_bml_model(void *, int);
 s32 __ct__8TObjBaseFP7TObject();
 extern s32 __vt__18TObjButterflyLobby[];
@@ -314,10 +314,10 @@ u8 *TObjButterflyLobby__ct(TObjButterflyLobby *butterfly_lobby, int arg1, u8 *ar
     *(f32 *)((s8 *)butterfly_lobby + 0x94) = 1.0f;
     if ((s32) *(s32 *)((s8 *)arg2 + 0x30) < 1) {
         butterfly_lobby->m_c4 = get_bml_model((void *)lobby_butterfly_bml_resource, 0);
-        butterfly_lobby->m_c8 = TObjFish__sub_8001EDB0((void *)lobby_butterfly_bml_resource, 0);
+        butterfly_lobby->m_c8 = get_bml_texlist((void *)lobby_butterfly_bml_resource, 0);
     } else {
         butterfly_lobby->m_c4 = get_bml_model((void *)lobby_butterfly_bml_resource, 1);
-        butterfly_lobby->m_c8 = TObjFish__sub_8001EDB0((void *)lobby_butterfly_bml_resource, 1);
+        butterfly_lobby->m_c8 = get_bml_texlist((void *)lobby_butterfly_bml_resource, 1);
     }
     butterfly_lobby->init_params();
     return (u8 *)butterfly_lobby;

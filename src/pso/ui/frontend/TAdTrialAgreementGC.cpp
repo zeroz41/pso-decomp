@@ -22,7 +22,7 @@ struct VObj_80335648 : Base_80335648 {
 
 extern "C" {
 
-s32 TAdPlayerLoadGC__sub_801E1B50(s32);
+s32 poll_memcard_result(s32);
 int request_scene_change__21TAdMultiChgGameModeGCFv(void*);
 
 void TAdTrialAgreementGC::render() {
@@ -30,12 +30,12 @@ void TAdTrialAgreementGC::render() {
     o->m10();
 }
 
-void TAdTrialAgreementGC::vfunc_8() { TKeyBoardControl__sub_8000F9CC((s32)((void*)0)); }
+void TAdTrialAgreementGC::vfunc_8() { request_main_phase((s32)((void*)0)); }
 void TAdTrialAgreementGC::vfunc_7() { request_scene_change__21TAdMultiChgGameModeGCFv(this); }
 void TAdTrialAgreementGC::vfunc_6() { if (this->m_38 != 0) { ((TAdScrollWinGC *)(this->m_38))->close_window(); this->m_38 = 0; } }
 void TAdTrialAgreementGC::wait_for_load() {
 loop_1:
-    if ((TAdPlayerLoadGC::probe_card_slot(0) != 0) && (TAdPlayerLoadGC__sub_801E1B50(0) != 0)) {
+    if ((TAdPlayerLoadGC::probe_card_slot(0) != 0) && (poll_memcard_result(0) != 0)) {
         render_tick();
         goto loop_1;
     }

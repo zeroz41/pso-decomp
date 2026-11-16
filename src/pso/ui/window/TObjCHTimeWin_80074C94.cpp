@@ -7,7 +7,7 @@
 
 extern "C" {
 
-s32 TWindowCtrlMain__sub_8024CE58();
+s32 has_window_task_root();
 void __ct__7TObjectFP7TObject(void *);
 void *__nw__7TObjectFUl(int);
 
@@ -20,7 +20,7 @@ void TObjCHTimeWin::run_task() {
         ((TWindowCtrl *)TObjCHTimeWin__timer_value)->set_timer_window_time();
         return;
     }
-    if (TWindowCtrlMain__sub_8024CE58() == 1) {
+    if (has_window_task_root() == 1) {
         ((s32 (*)(void *))init_timer__13TObjCHTimeWinFv)(this);
         *(s32 *)((s8 *)this + 0x1C) = 1;
     }

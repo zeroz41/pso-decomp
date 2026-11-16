@@ -57,7 +57,7 @@ struct ByteBlock_3C { u8 bytes[0x3c]; };
 
 extern "C" {
 void __ct__15RenderFadeStateFv(void *);
-s32 TObjFish__sub_8001EDB0(s32, s32);
+s32 get_bml_texlist(s32, s32);
 s32 get_bml_model(s32, s32);
 s32 matrix_mult_vec(int, void *, void *);
 void push_matrix(void);
@@ -216,7 +216,7 @@ void TObjTuitate::render() {
     if (fading != 0) {
         ((Fade_8019ADA0 *)(arg0 + 0xAC))->begin();
     }
-    TObjFish__sub_8001EDB0((*(s32 *)&TObjTuitate__bml_resource), 0);
+    get_bml_texlist((*(s32 *)&TObjTuitate__bml_resource), 0);
     set_global_param__8TObjFishFl();
     push_matrix();
     post_translate_matrix(arg0 + 0x38);
@@ -311,7 +311,7 @@ void TObjBigTuitate::render() {
     if (fading != 0) {
         ((Fade_8019AA18 *)(arg0 + 0xAC))->begin();
     }
-    TObjFish__sub_8001EDB0((*(s32 *)&TObjBigTuitate__bml_resource), 0);
+    get_bml_texlist((*(s32 *)&TObjBigTuitate__bml_resource), 0);
     set_global_param__8TObjFishFl();
     push_matrix();
     post_translate_matrix(arg0 + 0x38);

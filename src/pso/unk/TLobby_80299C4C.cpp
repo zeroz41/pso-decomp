@@ -117,7 +117,7 @@ u32 create__14TWindowMessageFPvll(s32, s32 *, s32);
 s32 TLobby__sub_80292F5C();
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 get_player_by_client_id(int);
-s32 TQuestVmDownLoadServer__sub_8006EF6C(s32);
+s32 get_message_text(s32);
 s32 get_window_layout_position(s32);
 void TObjPlayer__sub_8024ABDC(s32 arg0);
 
@@ -140,7 +140,7 @@ void TObjChallenge4PRetry::open_message_window() {
     }
     *(u32 *)((s8 *)this + 0x30) = create__14TWindowMessageFPvll(get_window_layout_position(0x39), message_window_position, 1);
     if ((u32) *(u32 *)((s8 *)this + 0x30) != 0U) {
-        ((TWindowMessage *)(*(u32 *)((s8 *)this + 0x30)))->append_line(TQuestVmDownLoadServer__sub_8006EF6C(0x5E), 1);
+        ((TWindowMessage *)(*(u32 *)((s8 *)this + 0x30)))->append_line(get_message_text(0x5E), 1);
     }
 }
 
@@ -156,8 +156,8 @@ void TObjChallenge4PRetry::open_giveup_window() {
     }
     *(u32 *)((s8 *)this + 0x2C) = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x3A), 3);
     if ((u32) *(u32 *)((s8 *)this + 0x2C) != 0U) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(u32 *)((s8 *)this + 0x2C)), (int)(TQuestVmDownLoadServer__sub_8006EF6C(0x5B)), 5, 0);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(u32 *)((s8 *)this + 0x2C)), (int)(TQuestVmDownLoadServer__sub_8006EF6C(0x5C)), 5, 1);
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(u32 *)((s8 *)this + 0x2C)), (int)(get_message_text(0x5B)), 5, 0);
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(u32 *)((s8 *)this + 0x2C)), (int)(get_message_text(0x5C)), 5, 1);
         ((TWindowSubComCard *)(*(u32 *)((s8 *)this + 0x2C)))->calc_window_size();
         ((TLobby *)(*(u32 *)((s8 *)this + 0x2C)))->set_loss_flag();
         ((TWindowSubComCardList *)(*(u32 *)((s8 *)this + 0x2C)))->set_selected_index(0);
@@ -291,7 +291,7 @@ void TObjChallenge4PRetry::handle_retry_menu_select() {
     }
 }
 
-s32 TWindowCtrlMain__sub_8024CE58();
+s32 has_window_task_root();
 
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 check_flag_100__10TObjPlayerFPv();
@@ -312,7 +312,7 @@ void TObjChallenge4PRetry::update_giveup() {
     switch (get_current_floor_area()) {
     case AREA_PIONEER2_EP1:
     case AREA_PIONEER2_EP2:
-        if (TWindowCtrlMain__sub_8024CE58() != 0) {
+        if (has_window_task_root() != 0) {
             break;
         }
         return;

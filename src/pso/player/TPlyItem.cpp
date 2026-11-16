@@ -63,7 +63,7 @@ struct Req_801D3780 {
 struct Ground_801D3C38 { u8 pad0[4]; Vec *pos; };
 extern "C" {
 void send_6x29_delete_item__10TObjPlayerFPvii(void *, s32, s32);
-s32 TAdPlayerLoadGC__sub_801E1B50(s32);
+s32 poll_memcard_result(s32);
 // The callers sign-extend the result (extsb), the header's member returns u8.
 s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv();
 void *refresh_actor_body_spheres(Body_801D3E20, Body_801D3E20);
@@ -931,7 +931,7 @@ s32 TUnk_804C4498::step_placement_search() {
         return 0;
     }
     if (check_player_action_allowed() != 0 && this->online != 0 &&
-        TAdPlayerLoadGC__sub_801E1B50(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) != 0) {
+        poll_memcard_result(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) != 0) {
         return 0;
     }
     return 1;

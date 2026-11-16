@@ -6,11 +6,11 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-s32 TWindowCtrlMain__sub_8024CE58(void);
+s32 has_window_task_root(void);
 }
 
 void TObjTagChallenge::run_task() {
-    if (TWindowCtrlMain__sub_8024CE58() != 0) {
+    if (has_window_task_root() != 0) {
         TWindowCtrl::close_active_window();
         fn_800740DC();
         TWindowCtrl::open_status_111();

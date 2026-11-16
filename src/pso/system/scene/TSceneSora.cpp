@@ -62,7 +62,7 @@ s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_802072E0___vt__10TSceneSora __vt__10TSceneSora;
 u8 *__dt__10TSceneSoraFv(u8 *arg0, s16 arg1);
 s32 get_bml_motion(int, int);
-s32 TObjFish__sub_8001EDB0(int, int);
+s32 get_bml_texlist(int, int);
 s32 get_bml_model(int, int);
 s32 __ct__8TObjBaseFP7TObject(void *);
 u8 *TSceneSora__ct(TSceneSora *arg0, s32 _w1);
@@ -87,7 +87,7 @@ typedef char RecoveredGlobal_802072E0___vt__10TSceneSora_size[sizeof(RecoveredGl
 void TSceneSora::render() {
     if ((s32) TSceneSora__sky_active_flag != 0) {
         TParticleCtrl::begin_effect_render();
-        TObjFish__sub_8001EDB0((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);
+        get_bml_texlist((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);
         set_global_param__8TObjFishFl();
         push_matrix();
         rotate_matrix_y(0, this->rotation_y);
@@ -141,7 +141,7 @@ u8 *TSceneSora__ct(TSceneSora *scene_sora, s32 _w1) {
     } else {
         scene_sora->m_94 = 0;
     }
-    scene_sora->m_98 = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);
+    scene_sora->m_98 = get_bml_texlist((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);
     *(f32 *)((s8 *)scene_sora + 0x9C) = 0.1f;
     scene_sora->m_a0 = 0.0f;
     return (u8 *)scene_sora;

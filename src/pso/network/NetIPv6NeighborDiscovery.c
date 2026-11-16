@@ -462,7 +462,7 @@ s16 NetIPv6HandleRedirect(NetPacket *arg0, u8 *right, u8 *arg2, s32 iface) {
     }
     len -= 0x28;
     if (len >= 8) {
-        TLobby__sub_80406EB8(&frag->buffer, 0x28);
+        netbuf_ref_advance(&frag->buffer, 0x28);
         r = NetIPv6ParseRedirectOptions(frag, len, &msg, (s32)opts, &optlen, iface);
         if (r < 0) {
             return r;
@@ -484,7 +484,7 @@ s32 NetIPv6ParseRedirectOptions(NetPacketFragment *arg0, s32 n, NetIcmpv6Redirec
     Ipv6NdNeighbor *TLobby__sub_804182DC(void *, void *, s32, s16); /* declared here with an s32 3rd argument; the definition takes s16 */
 
     while (n >= 8) {
-        h = TLobby__sub_80406F0C(&arg0->buffer);
+        h = netbuf_ref_data(&arg0->buffer);
         if (h[1] == 0) {
             return -0x10E;
         }
@@ -498,13 +498,13 @@ s32 NetIPv6ParseRedirectOptions(NetPacketFragment *arg0, s32 n, NetIcmpv6Redirec
         case 3:
         case 5:
         default:
-            TLobby__sub_80406EB8(&arg0->buffer, len);
+            netbuf_ref_advance(&arg0->buffer, len);
             break;
         case 4:
             *arg4 = (*arg4 < len) ? *arg4 : len;
             set_value_and_enable(&sp20, arg3);
             netbuf_copy_by_ref(&sp20, &arg0->buffer, *arg4);
-            TLobby__sub_80406EB8(&arg0->buffer, len);
+            netbuf_ref_advance(&arg0->buffer, len);
             break;
         case 2: {
             u8 *p = h + 2;
@@ -513,7 +513,7 @@ s32 NetIPv6ParseRedirectOptions(NetPacketFragment *arg0, s32 n, NetIcmpv6Redirec
             if (e != NULL && NetMemcmp(arg2->target.bytes, arg2->destination.bytes, 0x10) != 0) {
                 e->flags |= 0x80;
             }
-            TLobby__sub_80406EB8(&arg0->buffer, len);
+            netbuf_ref_advance(&arg0->buffer, len);
             break;
         }
         }
@@ -546,7 +546,7 @@ s16 NetIPv6HandleNeighborAdvertisement(NetPacket *arg0, u8 *arg1, u8 *address, s
     }
     len -= 0x18;
     if (len >= 8) {
-        TLobby__sub_80406EB8(&hdr->buffer, 24);
+        netbuf_ref_advance(&hdr->buffer, 24);
         r = NetIPv6FindTargetLinkLayerAddressOption(hdr, len, &lladdr, &lladlen);
         if (r < 0) {
             return r;
@@ -565,7 +565,7 @@ s32 NetIPv6FindTargetLinkLayerAddressOption(NetPacketFragment *o, s32 len, u8 **
     s16 sz;
 
     while (len >= 8) {
-        p = TLobby__sub_80406F0C(&o->buffer);
+        p = netbuf_ref_data(&o->buffer);
         if (p[1] == 0) {
             return -0x10E;
         }
@@ -575,11 +575,11 @@ s32 NetIPv6FindTargetLinkLayerAddressOption(NetPacketFragment *o, s32 len, u8 **
             return -0x10E;
         }
         if ((s32)p[0] != 2) {
-            TLobby__sub_80406EB8(&o->buffer, sz);
+            netbuf_ref_advance(&o->buffer, sz);
         } else {
             *out = p + 2;
             *outlen = sz - 2;
-            TLobby__sub_80406EB8(&o->buffer, sz);
+            netbuf_ref_advance(&o->buffer, sz);
         }
     }
     return 0;
@@ -794,7 +794,7 @@ s16 NetIPv6HandleNeighborSolicitation(NetPacket *arg0, u8 *arg1, u8 *arg2, void 
     }
     len -= 0x18;
     if (len >= 8) {
-        TLobby__sub_80406EB8(&hdr->buffer, 24);
+        netbuf_ref_advance(&hdr->buffer, 24);
         r = TLobby__sub_80416F58((u8 *)hdr, len, arg1, arg3);
         if (r < 0) {
             return r;
@@ -812,7 +812,7 @@ extern s16 TLobby__sub_80416F58(u8 *self, s32 n, void *out, void *arg_)
   u8 *q;
   while (n >= 8)
   {
-    p = TLobby__sub_80406F0C(self + 4);
+    p = netbuf_ref_data(self + 4);
     if (p[1] == 0)
     {
       return -0x10E;
@@ -824,7 +824,7 @@ extern s16 TLobby__sub_80416F58(u8 *self, s32 n, void *out, void *arg_)
     }
     if (((s32) p[0]) != 1)
     {
-      TLobby__sub_80406EB8((NetBufferRef *)(self + 4), step);
+      netbuf_ref_advance((NetBufferRef *)(self + 4), step);
       continue;
     }
     if (NetIPv6IsUnspecified(out))
@@ -833,7 +833,7 @@ extern s16 TLobby__sub_80416F58(u8 *self, s32 n, void *out, void *arg_)
     }
     q = p + 2;
     TLobby__sub_804182DC(out, q, new_var = step - 2, (s32)arg_);
-    TLobby__sub_80406EB8((NetBufferRef *)(self + 4), step);
+    netbuf_ref_advance((NetBufferRef *)(self + 4), step);
   }
 
   return 0;
@@ -916,7 +916,7 @@ s16 NetIPv6HandleRouterAdvertisement(NetPacket *arg0, u8 *arg1, s32 arg2, void *
     netbuf_copy_by_ref(&sp28, &p->buffer, 0x10);
     n -= 0x10;
     if (n >= 8U) {
-        TLobby__sub_80406EB8(&p->buffer, 0x10);
+        netbuf_ref_advance(&p->buffer, 0x10);
         r = TLobby__sub_80417294(p, n, arg1, arg3);
         if (r < 0) {
             return r;
@@ -943,7 +943,7 @@ extern s16 TLobby__sub_80417294(NetPacketFragment *self, s32 n, u8 *dst, void *i
   u8 *new_var2;
   while (n >= 8)
   {
-    u8 *p = TLobby__sub_80406F0C(&self->buffer);
+    u8 *p = netbuf_ref_data(&self->buffer);
     if (p[1] == 0)
     {
       return -0x10E;
@@ -961,14 +961,14 @@ extern s16 TLobby__sub_80417294(NetPacketFragment *self, s32 n, u8 *dst, void *i
     switch (p[0])
     {
       default:
-        TLobby__sub_80406EB8(&self->buffer, len);
+        netbuf_ref_advance(&self->buffer, len);
         break;
 
       case 1:
         new_var = len - 2;
         payload = p + 2;
         TLobby__sub_804182DC(dst, payload, new_var, id)->flags |= 0x80;
-        TLobby__sub_80406EB8(&self->buffer, len);
+        netbuf_ref_advance(&self->buffer, len);
         break;
 
       case 3:
@@ -983,7 +983,7 @@ extern s16 TLobby__sub_80417294(NetPacketFragment *self, s32 n, u8 *dst, void *i
         prefix_event.valid_lifetime = prefix_opt.valid_lifetime;
         TLobby__sub_80411604((int) id, 2, &prefix_event);
       }
-        TLobby__sub_80406EB8(&self->buffer, len);
+        netbuf_ref_advance(&self->buffer, len);
         break;
 
       case 5:
@@ -995,7 +995,7 @@ extern s16 TLobby__sub_80417294(NetPacketFragment *self, s32 n, u8 *dst, void *i
         mtu_event.mtu = mtu_opt.mtu;
         TLobby__sub_80411604((int) id, 4, &mtu_event);
       }
-        TLobby__sub_80406EB8(&self->buffer, len);
+        netbuf_ref_advance(&self->buffer, len);
         break;
 
     }
@@ -1106,7 +1106,7 @@ s16 NetIPv6HandleRouterSolicitation(NetPacket *o, u8 *arg1, s32 arg2, s32 iface)
     netbuf_copy_by_ref(&b, &h->buffer, 8);
     len -= 8;
     if (len >= 8) {
-        TLobby__sub_80406EB8(&h->buffer, 8);
+        netbuf_ref_advance(&h->buffer, 8);
         r = TLobby__sub_80417868(h, len, arg1, iface);
         if (r < 0) {
             return r;
@@ -1135,7 +1135,7 @@ s16 TLobby__sub_80417868(NetPacketFragment *arg0, u32 arg1, u8 *arg2, s32 arg3)
   q = (void *) 0;
   while (n >= 8)
   {
-    p = TLobby__sub_80406F0C(&self->buffer);
+    p = netbuf_ref_data(&self->buffer);
     if (p[1] == 0)
     {
       return -0x10E;
@@ -1149,7 +1149,7 @@ s16 TLobby__sub_80417868(NetPacketFragment *arg0, u32 arg1, u8 *arg2, s32 arg3)
     }
     if (((s32) p[0]) != 1)
     {
-      TLobby__sub_80406EB8(&self->buffer, step);
+      netbuf_ref_advance(&self->buffer, step);
       continue;
     }
     if (!NetIPv6IsUnspecified(out))
@@ -1158,7 +1158,7 @@ s16 TLobby__sub_80417868(NetPacketFragment *arg0, u32 arg1, u8 *arg2, s32 arg3)
       q = p + 2;
       TLobby__sub_804182DC(out, q, t, arg_);
     }
-    TLobby__sub_80406EB8(&self->buffer, step);
+    netbuf_ref_advance(&self->buffer, step);
   }
 
   if (q != ((void *) 0))
@@ -1194,7 +1194,7 @@ s16 NetIPv6SendNeighborAdvertisement(NetPacket *pkt, u8 *address, u8 arg2, NetIP
     Ipv6NdNeighbor *e;
     void *p6;
     void netbuf_copy_by_ref(void *, void *, int);
-    u16 TLobby__sub_80411040(void *, void *, u8, void *, s16); /* declared here with other parameter types; the definition is u16 (const IPv6Address *, const IPv6Address *, u8, const NetPacket *, s16) */
+    u16 calc_ipv6_pseudo_header_checksum(void *, void *, u8, void *, s16); /* declared here with other parameter types; the definition is u16 (const IPv6Address *, const IPv6Address *, u8, const NetPacket *, s16) */
     s16 TLobby__sub_804136AC(s16 pkt); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_80413934(void *, s16); /* declared s16 here; the definition is s32 (u8 *, s16) */
     s16 NetIPv6SendMulticastNeighborProbe(Ipv6NdNeighbor *e); /* declared s16 here; the definition returns s32 */
@@ -1227,7 +1227,7 @@ s16 NetIPv6SendNeighborAdvertisement(NetPacket *pkt, u8 *address, u8 arg2, NetIP
     if (NetIPv6IsMulticast(arg3->destination.bytes) != 0 || TLobby__sub_804136AC(arg4) == 0) {
         na.flags |= 0xFFBF;
         na.checksum = 0;
-        na.checksum = TLobby__sub_80411040(arg3, arg3->destination.bytes, arg3->next_header, pkt, 1);
+        na.checksum = calc_ipv6_pseudo_header_checksum(arg3, arg3->destination.bytes, arg3->next_header, pkt, 1);
         p6 = NULL;
     } else {
         e = NetIPv6FindOrSelectNeighborCacheEntry(arg3->destination.bytes, 0, 0);
@@ -1236,7 +1236,7 @@ s16 NetIPv6SendNeighborAdvertisement(NetPacket *pkt, u8 *address, u8 arg2, NetIP
         }
         na.flags |= 0x40;
         na.checksum = 0;
-        na.checksum = TLobby__sub_80411040(arg3, arg3->destination.bytes, arg3->next_header, pkt, 1);
+        na.checksum = calc_ipv6_pseudo_header_checksum(arg3, arg3->destination.bytes, arg3->next_header, pkt, 1);
         switch (e->match) {
         case 1:
             break;
@@ -1460,7 +1460,7 @@ s16 NetIPv6EmitNeighborSolicitation(int arg0, void *arg1, void *arg2, s16 arg3, 
     message.header.reserved = 0;
     NetMemcpy(&message.target, target, 0x10);
     message.header.checksum = 0;
-    message.header.checksum = TLobby__sub_80411040(&addr->source, &addr->destination, addr->next_header, net_packet, 1);
+    message.header.checksum = calc_ipv6_pseudo_header_checksum(&addr->source, &addr->destination, addr->next_header, net_packet, 1);
     return TLobby__sub_80410BA8(net_packet, addr, b, (void *)d);
 }
 
@@ -1500,7 +1500,7 @@ s32 NetIPv6EmitRouterSolicitation(NetPacket *net_packet, NetIPv6SendParameters *
     message.header.code = 0;
     message.header.reserved = 0;
     message.header.checksum = 0;
-    message.header.checksum = TLobby__sub_80411040(&addr->source, &addr->destination, addr->next_header, net_packet, 1);
+    message.header.checksum = calc_ipv6_pseudo_header_checksum(&addr->source, &addr->destination, addr->next_header, net_packet, 1);
     return TLobby__sub_80410BA8(net_packet, addr, id, NULL);
 }
 #pragma pop

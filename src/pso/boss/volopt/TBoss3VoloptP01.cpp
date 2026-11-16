@@ -112,11 +112,11 @@ int TObjPlayer::construct_target_cursor_records() {
     TargetCursorList *list = (TargetCursorList *)this;
 
     __construct_array(list->records, (void *)fn_8004438C, NULL, sizeof(TargetCursorRecord), 11);
-    fn_80044330(list);
+    clear_target_cursor_list(list);
     return (int)list;
 }
 
-void fn_80044330(TargetCursorList *list) {
+void clear_target_cursor_list(TargetCursorList *list) {
     list->count = 0;
 }
 
@@ -810,7 +810,7 @@ void TBoss3VoloptP01::cast_tech_on_players() {
     get_node_position(12, &pos);
     switch (volopt_p01_tech) {
     case 0:
-        fn_80044330(&targets);
+        clear_target_cursor_list(&targets);
         n = 0;
         for (i = 0; i < registered_player_count; i++) {
             player = TObjPlayer::get_player_data(i);

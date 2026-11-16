@@ -84,7 +84,7 @@ void *TWindowQuantity__ct(void *arg0, void *arg1) {
     ((TWindowDD *)arg0)->construct_base((u8 *)&quantity_window_layout, (s16)((s16)(s32)arg1), (u8 *)(get_window_layout_position(0x2A)));
     self->vt = ((void * *)&__vt__15TWindowQuantity);
     self->f0 = lbl_805D39B0;
-    id = TQuestVmDownLoadServer__sub_8006EF6C(1);
+    id = get_message_text(1);
     n = (f32)calc_text_width();
     self->f60 = TWindowSubStatusDisp__sub_802877A4(24.0f + (12.0f + n));
     e0 = get_array_entry__11TWindowBaseFi(arg0, 0);

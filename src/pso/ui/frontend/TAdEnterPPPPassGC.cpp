@@ -46,7 +46,7 @@ void strncpy(s32, s32, s32);
 s32 memset(void *, int, int);
 extern TAdEnterBaseGC::Position password_screen_status_line_position[];
 s32 create_default_callback__22TAdEnterSerialAccessGCFv(void *);
-void TKeyBoardControl__sub_8000F9CC(int);
+void request_main_phase(int);
 s32 TLobby__sub_80145A94(void);
 s32 TLobby__sub_80145DB4(int);
 s8 *TLobby__sub_80146D14(void);
@@ -229,7 +229,7 @@ T_8033954C *TAdEnterPPPPassGC__ct(T_8033954C *ad_enter_base_gc) {
     if (TLobby__sub_80145A94() != 0) {
         TLobby::init_account_entries();
     } else {
-        TKeyBoardControl__sub_8000F9CC(0x13);
+        request_main_phase(0x13);
         ((TObject *)ad_enter_base_gc)->queue_destruction();
         return ad_enter_base_gc;
     }

@@ -266,7 +266,7 @@ struct G_PlaySound_6xB2 {
 extern "C" {
 s32 DCFlushRange(int, int);
 s32 TAdPlayerLoadGC__sub_801E1538(void *, void *);
-s32 TAdPlayerLoadGC__sub_801E1B50(s32 chan);
+s32 poll_memcard_result(s32 chan);
 extern s32 lbl_805D49B4;
 s32 draw_textured_screen_quad__10TObjPlayerFUlPfPfl(int, void *, void *, int, f32);
 void poll_load_status__15TAdPlayerLoadGCFl(s32 a, void *b);
@@ -284,7 +284,7 @@ s32 verify_snapshot_checksum__15TObjBoss2TunnelFv();
 void set_depth_buffer_settings_1__Fv(void);
 void draw_projected_quads__15TObjBoss2TunnelFPvi(Vtx_8007D828 *, s32);
 extern s32 lbl_805D63F0;
-s32 TAdPlayerLoadGC__sub_801E0FA4(s32);
+s32 get_memcard_free_files(s32);
 s32 query_memcard_capacity__15TAdPlayerLoadGCFl(s32, s32);
 s32 set_stream_and_load_file__6TLobbyFi(const char *);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
@@ -311,7 +311,7 @@ void __dl__FPv(void);
 s32 reset_floats__15TObjBoss2TunnelFv();
 s32 get_view_matrix__11TCameraCtrlFv();
 int vec3_add_to(void*, void*);
-int TCameraCtrl__sub_8006B370(f32 farg0);
+int is_float_nonfinite(f32 farg0);
 f32 vec_squared_length();
 f32 normalize_vector(void *);
 }
@@ -356,7 +356,7 @@ f32 TObjBoss2Tunnel::update_scale() {
     var_f31 = 0.0f;
     if (0.0f != vec_squared_length()) {
         var_f31 = normalize_vector(this);
-        if (TCameraCtrl__sub_8006B370(var_f31) != 0) {
+        if (is_float_nonfinite(var_f31) != 0) {
             *(f32 *)&this->m_name = var_f31 = 0.0f;
             *(f32 *)&this->m_flags = var_f31;
             *(f32 *)&this->m_prev = var_f31;
@@ -383,7 +383,7 @@ f32 normalize_vector_xz(Vec *vector) {
     temp_f29 = (temp_f31 * temp_f31) + (temp_f30 * temp_f30);
     if (0.0f != temp_f29) {
         temp_f28 = 1.0f / newton_sqrtf(temp_f29);
-        if (TCameraCtrl__sub_8006B370(temp_f28) != 0) {
+        if (is_float_nonfinite(temp_f28) != 0) {
             vector->x = (f32) 0.0f;
             vector->z = (f32) 0.0f;
             return 0.0f;
@@ -1070,7 +1070,7 @@ s32 TObjBoss2Tunnel__sub_8007D1D0(void) {
                     TLobby__sub_80338534();
                     TParticleCtrl::end_effect_render();
                     render_tick();
-                } while (TAdPlayerLoadGC__sub_801E1B50(1) == 0xFFFFFFFF);
+                } while (poll_memcard_result(1) == 0xFFFFFFFF);
                 if (TAdPlayerLoadGC::get_load_result((void *)1) == 0xFFFFFF81) {
                     TObjBoss2Tunnel::show_message_and_wait(-2);
                 }
@@ -1125,7 +1125,7 @@ s32 memcard_check_snapshot(s32 arg0, s32 *arg1) {
         }
         return 0;
     }
-    if (TAdPlayerLoadGC__sub_801E1B50(1) != 0) {
+    if (poll_memcard_result(1) != 0) {
         if (arg1 != NULL) {
             *arg1 = -2;
         }
@@ -1147,7 +1147,7 @@ s32 memcard_check_snapshot(s32 arg0, s32 *arg1) {
     if (arg0 != 1) {
         return 0;
     }
-    if (TAdPlayerLoadGC__sub_801E0FA4(1) < 1) {
+    if (get_memcard_free_files(1) < 1) {
         if (arg1 != NULL) {
             *arg1 = -7;
         }
@@ -1280,7 +1280,7 @@ s32 save_screen_snapshot(void) {
 s32 TObjBoss2Tunnel::load_snapshot() {
     Stack_8007CBC4 stack;
     s32 buf;
-    if (TAdPlayerLoadGC__sub_801E1B50(1) == 0) {
+    if (poll_memcard_result(1) == 0) {
         if (((s32) (*(u16 *)&TObjBoss2Tunnel__snapshot_state) != 0) && ((s32) (*(u16 *)&TObjBoss2Tunnel__snapshot_state) >= 0) && ((s32) (*(u16 *)&TObjBoss2Tunnel__snapshot_state) < 3)) {
             buf = TObjPlayer__sub_800845F8();
             if (TAdPlayerLoadGC__sub_801E1538(&stack.sp8, TObjBoss2Tunnel__snapshot_buffer) == 0) {

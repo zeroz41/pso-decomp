@@ -12,7 +12,7 @@
 struct Entry_802D6DAC { s32 idx; const char *str; s32 id; NJS_POINT2 pos; };
 
 extern "C" {
-s32 TAdPlayerLoadGC__sub_801E1B50(s32 chan);
+s32 poll_memcard_result(s32 chan);
 s32 TAdPlayerLoadGC__sub_801FD770();
 s32 TAdPlayerLoadGC__sub_801FD814();
 s32 check_system_load_result__23TAdSinglePlyChrSelectGCFv();
@@ -130,7 +130,7 @@ void TAdPlayerLoadGC::run_task() {
     switch (state) {
     case 0:
         if (mode == 2) {
-            if ((TAdPlayerLoadGC__sub_801E1B50(1) == 0) && (probe_card_slot(0) != 0)) {
+            if ((poll_memcard_result(1) == 0) && (probe_card_slot(0) != 0)) {
                 state = 1U;
             }
         } else if (probe_card_slot(0) != 0) {

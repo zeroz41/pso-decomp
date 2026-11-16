@@ -34,7 +34,7 @@ extern s32 lbl_805D7BF4;
 extern s32 lobby_buffer_pool_end;
 extern s32 lbl_805D7BFC;
 
-s32 TLobby__sub_803F97E8(int);
+s32 net_sleep_ms(int);
 s16 TLobby__sub_804293B0(u8 *buf, s16 len);
 s16 TLobby__sub_804036FC(u16 *avail);
 s16 TLobby__sub_80403730(u8 *dst, u16 n);
@@ -135,7 +135,7 @@ static inline s16 modem_wait_connect(void) {
             break;
         }
         unlock_mutex(lbl_805C18A0.mutex);
-        TLobby__sub_803F97E8(100);
+        net_sleep_ms(100);
         lock_mutex(lbl_805C18A0.mutex);
     }
     return ret;
@@ -237,7 +237,7 @@ s32 wait_timeout_loop(void *params) {
             break;
         }
         unlock_mutex(lbl_805C18A0.mutex);
-        TLobby__sub_803F97E8(100);
+        net_sleep_ms(100);
         lock_mutex(lbl_805C18A0.mutex);
     }
     return ret;
@@ -667,7 +667,7 @@ s16 TLobby__sub_804293B0(u8 *buf, s16 len) {
             return -1;
         }
         unlock_mutex(lbl_805C18A0.mutex);
-        TLobby__sub_803F97E8(100);
+        net_sleep_ms(100);
         lock_mutex(lbl_805C18A0.mutex);
     }
     return 0;

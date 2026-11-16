@@ -14,11 +14,11 @@ struct RecoveredGlobal_80307A74_main_task {
 
 extern "C" {
 s32 TKeyBoardControl__sub_8000F92C();
-void TKeyBoardControl__sub_8000F9CC(s32 arg0);
+void request_main_phase(s32 arg0);
 s8 func_801A5E54__Fv();
 void func_803DCDFC__Fv(void);
 void TKeyBoardControl__sub_8000F90C(s32 arg0);
-void TKeyBoardControl__sub_8000F91C(s32 arg0);
+void set_queued_main_phase(s32 arg0);
 void reset_controller_input_state(void);
 s32 set_copy_clear_color_argb(s32, s32, s32);
 u32 __nw__7TObjectFUl(s32);
@@ -54,7 +54,7 @@ void TKeyBoardControl::run_main_frame() {
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
         var_r3 = NULL;
-        TKeyBoardControl__sub_8000F9CC(0);
+        request_main_phase(0);
     }
     render_tick();
 }
@@ -63,7 +63,7 @@ void start_ending_sequence(void) {
     set_screen_size(1.0f, 0.85f);
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
-    TKeyBoardControl__sub_8000F91C(2);
+    set_queued_main_phase(2);
     TKeyBoardControl__sub_8000F90C(2);
     TAdEndText::load_ending_font();
     TLobby::update_keyboard_menu();

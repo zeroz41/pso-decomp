@@ -210,7 +210,7 @@ void TWindowOptionCtrl::run_task() {
                 self->state = 1;
             }
         } else if (r == 3) {
-            TKeyBoardControl__sub_8000F9CC(0);
+            request_main_phase(0);
         }
         break;
     }

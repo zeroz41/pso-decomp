@@ -28,7 +28,7 @@ struct Node_80192434 { u32 flags; void *model; u8 pad8[0x24]; Node_80192434 *chi
 struct Fish_80192434 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80192434 *fBC; Node_80192434 *fC0; s32 fC4; void *fC8[4]; };
 
 extern "C" {
-s32 TObjFish__sub_8001EDB0(void *, int);
+s32 get_bml_texlist(void *, int);
 s32 get_bml_model(void *, int);
 s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__9TKomorebi[];
@@ -89,7 +89,7 @@ u8 *TKomorebi__ct(u8 *komorebi, s32 arg1, s32 arg2) {
     copy_xyz(komorebi + 0x5C, (void *)(arg2 + 0x18));
     VecCopy((Vec *)(komorebi + 0x68), (const Vec *)(arg2 + 0x24));
     *(s32 *)((s8 *)komorebi + 0x34) = get_bml_model((void *) ((*(s32 *)&TKomorebi__resource_bundle)), 0);
-    ((TKomorebi *)komorebi)->texlist = TObjFish__sub_8001EDB0((void *) ((*(s32 *)&TKomorebi__resource_bundle)), 0);
+    ((TKomorebi *)komorebi)->texlist = get_bml_texlist((void *) ((*(s32 *)&TKomorebi__resource_bundle)), 0);
     return komorebi;
 }
 

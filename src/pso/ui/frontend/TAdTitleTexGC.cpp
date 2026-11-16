@@ -59,7 +59,7 @@ void release_texture_list(void*);
 
 extern const s32 current_language;
 
-s32 TLobby__sub_8023E4B4(s32 arg0, s32 arg1);
+s32 load_streamed_prs_texture(s32 arg0, s32 arg1);
 
 void TLobby__sub_802A5154(void) {
     if (lbl_805D6668 != 0U) {
@@ -75,7 +75,7 @@ void TLobby__sub_802A5154(void) {
     };
     s32 list = (s32)lists[current_language];
     lbl_805D6668 = list;
-    TLobby__sub_8023E4B4((s32)files[current_language], list);
+    load_streamed_prs_texture((s32)files[current_language], list);
 }
 
 void TLobby::free_dialing_gc() {

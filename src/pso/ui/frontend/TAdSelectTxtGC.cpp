@@ -177,5 +177,5 @@ void TLobby__sub_802A194C(void) {
                                      &select_gamen_eng_texture_list};
     NJS_TEXLIST *list = texture_lists[current_language];
     ad_select_text_texture_handle = (u32)list;
-    TLobby__sub_8023E4B4((s32)texture_files[current_language], (s32)list);
+    load_streamed_prs_texture((s32)texture_files[current_language], (s32)list);
 }

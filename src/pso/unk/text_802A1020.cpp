@@ -25,11 +25,11 @@ u8 *set_stream_and_load_file__6TLobbyFi(const char *);
 u32 get_file_size__6TLobbyFv(const char *);
 s32 TKeyBoardControl__sub_8000F92C();
 s32 request_queued_main_phase();
-void TKeyBoardControl__sub_8000F9CC(s32 arg0);
+void request_main_phase(s32 arg0);
 s8 func_801A5E54__Fv();
 s32 init_fresh_character_card();
 void TKeyBoardControl__sub_8000F90C(s32 arg0);
-void TKeyBoardControl__sub_8000F91C(s32 arg0);
+void set_queued_main_phase(s32 arg0);
 void reset_controller_input_state(void);
 s32 set_copy_clear_color_argb(s32, s32, s32);
 u8 *__ct__6TMovieFP7TObjectPSclll(void *, void *, const char *, void (*)(s32), s32, s32, s32);
@@ -134,7 +134,7 @@ void update_movie_phase(void) {
         TKeyBoardControl__sub_8000F92C();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
-        TKeyBoardControl__sub_8000F9CC(0);
+        request_main_phase(0);
     }
     render_tick();
 }
@@ -145,14 +145,14 @@ void TKeyBoardControl::update_menu_scene() {
     TKeyBoardControl__sub_8000F90C(2);
     switch ((s8) opening_movie_purpose) {
     case 0:
-        TKeyBoardControl__sub_8000F91C(1);
+        set_queued_main_phase(1);
         TKeyBoardControl__sub_8000F90C(9);
         break;
     case 1:
         TLobby::update_keyboard_menu();
         init_fresh_character_card();
         TLobby::free_keyboard_soft_resources();
-        TKeyBoardControl__sub_8000F91C(5);
+        set_queued_main_phase(5);
         break;
     }
     movie_finished_flag = 0;

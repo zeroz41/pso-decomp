@@ -75,7 +75,7 @@ extern "C" {
 u32 calc_text_width(void);
 u8 get_font_char_advance(void);
 u16 map_char_to_font_code(u16 c);
-void TWindowSubStatusDisp__sub_80228F5C(s32);
+void text_builder_append_int(s32);
 void text_builder_append(u8 *str);
 }
 void text_builder_reset(void);
@@ -124,13 +124,13 @@ void draw_list_page_indicator(Self_8026C800 *self, Rect_8026C800 *r) {
     TWindowSubStatusDisp::get_player();
     set_text_draw_params((s32)r, 0, 1, (f32)scale, (f32)1e+05f);
     text_builder_reset();
-    TWindowSubStatusDisp__sub_80228F5C(self->page + 1);
+    text_builder_append_int(self->page + 1);
     get_shared_text_buffer();
     pos.x -= (f32)calc_text_width();
     map_char_to_font_code(0x2F);
     { u32 adv = get_font_char_advance(); pos.x -= 0.5f * (f32)adv; }
     text_builder_append((u8 *)"/");
-    TWindowSubStatusDisp__sub_80228F5C(self->count);
+    text_builder_append_int(self->count);
     draw_window_text((f32 *)&pos, (const char *)(get_shared_text_buffer()), -1, 0, (f32)1e+05f);
 }
 }

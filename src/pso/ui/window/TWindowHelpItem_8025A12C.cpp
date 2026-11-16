@@ -74,7 +74,7 @@ void TWindowHelpItem::update_visible_flags() {
 void TWindowHelpItem::draw_number_value(void *entry, f32 *pos, s32 value, s32 color, s32 percent) {
     f32 xy[2];
     text_builder_reset();
-    TWindowSubStatusDisp__sub_80228F5C(value);
+    text_builder_append_int(value);
     if (percent) {
         text_builder_append((u8 *)((void *)"%"));
     }

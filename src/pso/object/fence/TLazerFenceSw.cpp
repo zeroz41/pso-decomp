@@ -247,7 +247,7 @@ void *TLazerFenceSw::create() {
     return o;
 }
 
-void TLazerFenceSw__sub_80193C5C(void) {
+void free_lazer_fence_switch_resources(void) {
     if (lazer_fence_switch_bml_resource != 0) {
         free_bin_model_request(lazer_fence_switch_bml_resource, 1);
         lazer_fence_switch_bml_resource = 0;

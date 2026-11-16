@@ -65,7 +65,7 @@ u16 TObjRoomId__sub_801A1DB8(void);
 void vec3_add_to(void *, void *);
 s32 restore_player_cameras(void);
 s32 activate_camera_mode(int, f32);
-void TCameraCtrl__sub_8006A044(s32 id, f32 v);
+void start_camera_shake(s32 id, f32 v);
 s32 set_scripted_camera_pose(void *, void *, void *);
 u8 *get_scripted_camera_playback(s16);
 void TObjPlayer__sub_801BA42C(void);
@@ -1096,7 +1096,7 @@ void TBoss3VoloptP02::update_death_sequence() {
         this->requested_action = 0;
         advance_animation();
         timer = 0x3C;
-        TCameraCtrl__sub_8006A044(0xB4, 0.04f);
+        start_camera_shake(0xB4, 0.04f);
         state = 1;
         TBoss3Volopt::start_rumble();
         break;

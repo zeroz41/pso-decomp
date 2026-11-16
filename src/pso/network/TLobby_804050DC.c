@@ -47,7 +47,7 @@ typedef struct Obj_80405304 { u8 pad[0x18]; u8 f18; } Obj_80405304;
 
 s32 TLobby__sub_803F79AC(void *);
 
-void TLobby__sub_803F97E8(int);
+void net_sleep_ms(int);
 extern u8 lbl_805C0038[];
 void TLobby__sub_803FDBF8(u8 *self, void *arg1);
 void PADRead(u8 *, PppFrame *); /* declared here with other parameter types; the definition is void (u8 *, s32) */
@@ -90,7 +90,7 @@ void run_net_thread_loop(void) {
             unlock_mutex(g->mutex);
             continue;
         }
-        TLobby__sub_803F97E8(g->poll_ms);
+        net_sleep_ms(g->poll_ms);
         if (lbl_805D7A84 != 0) {
             process_expired_timers();
         }
@@ -213,7 +213,7 @@ extern s32 TLobby__sub_804053B8(void *self, u8 **pp)
   s32 ret;
   u8 c;
   u32 n;
-  ret = TLobby__sub_80401BCC(pp, &hdr, 0x14);
+  ret = ppp_buffer_read(pp, &hdr, 0x14);
   (void) (&pad);
   *((u16 *) b) = hdr.h0;
   *((u16 *) (b + 0x2)) = hdr.h2;
@@ -245,7 +245,7 @@ extern s32 TLobby__sub_804053B8(void *self, u8 **pp)
   {
     return 0;
   }
-  TLobby__sub_80401BCC(pp, b + 0x1c, b[0x1b]);
+  ppp_buffer_read(pp, b + 0x1c, b[0x1b]);
   rem = b[0x1b];
   p = b + 0x1c;
   while (rem != 0)
@@ -508,7 +508,7 @@ inline s32 get_80405A74(PppFrame **s) {
         (*s)->len--;
         return *(*s)->data++;
     }
-    if (TLobby__sub_80401BCC(s, &ppp_input_byte, 1) != 1) {
+    if (ppp_buffer_read(s, &ppp_input_byte, 1) != 1) {
         return -1;
     }
     return (s16)ppp_input_byte;
@@ -525,7 +525,7 @@ inline s32 get_80405A74(PppFrame **s) {
         (*(s16 *)(G + 0x142))++;                                        \
         return;                                                              \
     }                                                                        \
-    if (TLobby__sub_80401BCC(&u, &lobby_ppp_read_buf, 2) == 2) {                   \
+    if (ppp_buffer_read(&u, &lobby_ppp_read_buf, 2) == 2) {                   \
         read_network_u16_be(&lobby_ppp_read_buf);                                 \
     }                                                                        \
     TLobby__sub_803FE6CC(G + 4, 8, 0, u);                                    \
@@ -542,7 +542,7 @@ void ppp_input_packet(PppFrame *arg0) {
     }
     G = lbl_805C0038;
     if (lbl_805D7A7A == 0 && arg0->data[0] == 0xFF && arg0->data[1] == 3 &&
-        TLobby__sub_80401BCC(&arg0, &lobby_ppp_read_buf, 2) == 2) {
+        ppp_buffer_read(&arg0, &lobby_ppp_read_buf, 2) == 2) {
         read_network_u16_be(&lobby_ppp_read_buf);
     }
     code = (u16)get_80405A74(&arg0);
@@ -692,7 +692,7 @@ s32 TLobby__sub_804060B8(u8 *src, u16 len, int id) {
 }
 #pragma pop
 void TLobby__sub_8040059C(u8 *conn);
-void TLobby__sub_80402CE0(u8 *arg0);
+void pap_init(u8 *arg0);
 void TLobby__sub_803FC318(void* self);
 void TLobby__sub_803FEF4C(u8 *self);
 void TLobby__sub_803F9FAC(u8 *ctx);
@@ -710,7 +710,7 @@ s32 TLobby__sub_804061FC(void)
   NetMemset(q, 0, 0x144);
   p[0] = z;
   TLobby__sub_8040059C(new_var);
-  TLobby__sub_80402CE0(new_var);
+  pap_init(new_var);
   TLobby__sub_803FC318(new_var);
   TLobby__sub_803FEF4C(new_var);
   TLobby__sub_803F9FAC(new_var);
@@ -1233,7 +1233,7 @@ s32 TLobby__sub_80406B6C(NetBufferRef *o) {
     return -1;
 }
 
-u16 TUdpSocket__sub_80419864();
+u16 ones_complement_sum();
 u16 TLobby__sub_80406BD8(NetPacket *pkt, s16 flag)
 {
     u32 sum = 0;
@@ -1286,7 +1286,7 @@ u16 TLobby__sub_80406BD8(NetPacket *pkt, s16 flag)
                 carry = 0;
             }
             len = len >> 1;
-            sum += TUdpSocket__sub_80419864(ptr, len);
+            sum += ones_complement_sum(ptr, len);
         }
         if (carry) {
             sum += *(u16 *)hdr;
@@ -1330,7 +1330,7 @@ u16 TLobby__sub_80406BD8(NetPacket *pkt, s16 flag)
                 carry = 0;
             }
             len = len >> 1;
-            sum += TUdpSocket__sub_80419864(ptr, len);
+            sum += ones_complement_sum(ptr, len);
         }
         if (carry) {
             sum += *(u16 *)hdr;
@@ -1343,7 +1343,7 @@ u16 TLobby__sub_80406BD8(NetPacket *pkt, s16 flag)
     return (u16)sum;
 }
 
-void TLobby__sub_80406EB8(NetBufferRef *ref, s32 n) {
+void netbuf_ref_advance(NetBufferRef *ref, s32 n) {
     switch (ref->kind) {
     case 4:
         break;
@@ -1359,7 +1359,7 @@ void TLobby__sub_80406EB8(NetBufferRef *ref, s32 n) {
     }
 }
 
-u8 *TLobby__sub_80406F0C(void *self)
+u8 *netbuf_ref_data(void *self)
 {
     u32 w;
     s16 k;

@@ -63,13 +63,13 @@ TObjDFDemo4::TObjDFDemo4(TObject *parent, const Vec *pos, s32 angle) : TObjBase(
     for (i = 0; i < 2; i++) {
         int id = boss4_zanzo_bml_index_table[i];
         zanzo_parts[i].model = get_bml_model(res, id);
-        zanzo_parts[i].texlist = TObjFish__sub_8001EDB0(res, id);
+        zanzo_parts[i].texlist = get_bml_texlist(res, id);
         zanzo_parts[i].motion = get_bml_motion(res, lbl_80485720[i]);
     }
     for (i = 0; i < 3; i++) {
         int id = lbl_80486FB0[i];
         body_parts[i].model = get_bml_model(res, id);
-        body_parts[i].texlist = TObjFish__sub_8001EDB0(res, id);
+        body_parts[i].texlist = get_bml_texlist(res, id);
         body_parts[i].motion = get_bml_motion(res, lbl_80485728[i]);
     }
     frame = -0.5f;

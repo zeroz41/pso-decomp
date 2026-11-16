@@ -83,7 +83,7 @@ s32 TLobby__sub_8040A3C0(void) {
     DnsResolverState *m = (DnsResolverState *)&dns_resolver_state;
     DnsQuery *e;
 
-    ret = TLobby__sub_80421844((s32)((void *)tick_connection_timeouts));
+    ret = net_unregister_timer((s32)((void *)tick_connection_timeouts));
     e = m->queries;
     i = 0;
     while (i < m->nqueries) {
@@ -97,7 +97,7 @@ s32 TLobby__sub_8040A3C0(void) {
     return ret;
 }
 
-s16 TLobby__sub_804218AC(void (*)(void), int);
+s16 net_register_timer(void (*)(void), int);
 
 s16 init_net_tables(void) {
     DnsResolverState *g = &dns_resolver_state;
@@ -176,7 +176,7 @@ s16 init_net_tables(void) {
             p++;
         }
     }
-    return TLobby__sub_804218AC(tick_connection_timeouts, 1000);
+    return net_register_timer(tick_connection_timeouts, 1000);
 }
 
 #pragma push
@@ -232,17 +232,17 @@ extern s16 TLobby__sub_8040A698(s16 idx, void *buf, s16 *len, void *buf2, s16 *l
     }
     req->cb = (DnsLookupCallback)mode;
     if (mode == 0) {
-        TLobby__sub_80421814();
+        net_lock();
         if (e->status > 0 || e->outstanding > 0) {
             if (e->waiter != 0xFFFFFFFF) {
-                TLobby__sub_804217E4();
+                net_unlock();
                 return -2;
             }
             NetStoreCurrentThread((s32 *)&e->waiter);
-            TLobby__sub_804217E4();
+            net_unlock();
             NetSuspendCurrentThread();
         } else {
-            TLobby__sub_804217E4();
+            net_unlock();
         }
         st = e->status;
         if (st < 0) {
@@ -271,7 +271,7 @@ extern s16 TLobby__sub_8040A698(s16 idx, void *buf, s16 *len, void *buf2, s16 *l
 }
 #pragma pop
 
-s16 TUdpSocket__sub_80421DEC(s16 a, void* b, void* c, u16 d, void* e, void* f);
+s16 udp_open(s16 a, void* b, void* c, u16 d, void* e, void* f);
 s32 TLobby__sub_8040B4BC(s16 mode, UdpDatagram *req);
 DnsHost *TLobby__sub_8040C09C(void);
 static inline DnsHost *find_host_8040A8B0(DnsResolverState *base, char *name, s32 len) {
@@ -313,7 +313,7 @@ inline NetworkAddress *fnar_8040B1C4(DnsResolverState *g, DnsQuery *a) {
 #pragma opt_propagation off
 s32 TLobby__sub_8040A8B0(char *name, s16 idx, s32 type)
 {
-  s16 TUdpSocket__sub_80421BAC(s32, void *, void *, u16, void *, s8, send_buffs *); /* declared here with other parameter types; the definition is s16 (s32, u32 *, u32 *, u16, u32 *, s8, send_buffs *) */
+  s16 udp_send(s32, void *, void *, u16, void *, s8, send_buffs *); /* declared here with other parameter types; the definition is s16 (s32, u32 *, u32 *, u16, u32 *, s8, send_buffs *) */
   DnsResolverState *base = &dns_resolver_state;
   DnsLookupRequest *t;
   u32 ty;
@@ -347,7 +347,7 @@ s32 TLobby__sub_8040A8B0(char *name, s16 idx, s32 type)
   {
     idx--;
   }
-  TLobby__sub_80421814();
+  net_lock();
   e = base->queries;
   for (i = 0; i < base->nqueries; i++, e++)
   {
@@ -358,7 +358,7 @@ s32 TLobby__sub_8040A8B0(char *name, s16 idx, s32 type)
     }
   }
 
-  TLobby__sub_804217E4();
+  net_unlock();
   if (i == base->nqueries)
   {
     e = (void *) 0;
@@ -415,7 +415,7 @@ s32 TLobby__sub_8040A8B0(char *name, s16 idx, s32 type)
       close_and_reset_connection(e);
       return -0x44;
     }
-    e->socket = TUdpSocket__sub_80421DEC(0, 0, 0, 0x35, complete_pending_request, TLobby__sub_8040B4BC);
+    e->socket = udp_open(0, 0, 0, 0x35, complete_pending_request, TLobby__sub_8040B4BC);
     i = e->socket;
     if (i < 0)
     {
@@ -437,7 +437,7 @@ s32 TLobby__sub_8040A8B0(char *name, s16 idx, s32 type)
         build_dns_query_aaaa(e, name, idx);
         buf.len = e->msg->len;
         buf.buff = e->msg->data;
-        i = TUdpSocket__sub_80421BAC(e->socket, (void *) 0, base, 0, (void *) 0, 1, &buf);
+        i = udp_send(e->socket, (void *) 0, base, 0, (void *) 0, 1, &buf);
         if (i < 0)
         {
           e->timer = 1;
@@ -457,7 +457,7 @@ s32 TLobby__sub_8040A8B0(char *name, s16 idx, s32 type)
         build_dns_query_a(e, name, idx);
         buf.len = e->msg->len;
         buf.buff = e->msg->data;
-        i = TUdpSocket__sub_80421BAC(e->socket, (void *) 0, base, 0, (void *) 0, 1, &buf);
+        i = udp_send(e->socket, (void *) 0, base, 0, (void *) 0, 1, &buf);
         if (i < 0)
         {
           e->timer = 1;
@@ -472,7 +472,7 @@ s32 TLobby__sub_8040A8B0(char *name, s16 idx, s32 type)
         build_dns_query_aaaa(e, name, idx);
         buf.len = e->msg->len;
         buf.buff = e->msg->data;
-        i = TUdpSocket__sub_80421BAC(e->socket, (void *) 0, base, 0, (void *) 0, 1, &buf);
+        i = udp_send(e->socket, (void *) 0, base, 0, (void *) 0, 1, &buf);
         if (i < 0)
         {
           e->timer = 1;
@@ -497,7 +497,7 @@ s32 clear_all_used_records(void) {
     s16 i;
     NetworkAddress *r;
 
-    TLobby__sub_80421814();
+    net_lock();
     g->server = 0;
     cnt = 0;
     i = 0;
@@ -510,7 +510,7 @@ s32 clear_all_used_records(void) {
         i++;
         r++;
     }
-    TLobby__sub_804217E4();
+    net_unlock();
     return cnt;
 }
 
@@ -547,7 +547,7 @@ extern s16 TLobby__sub_8040ADE8(u8 *self) {
     case 0:
         return -2;
     }
-    TLobby__sub_80421814();
+    net_lock();
     g = (u8 *)&dns_resolver_state;
     p = *(u8 **)(g + 0x14);
     slot = NULL;
@@ -574,7 +574,7 @@ extern s16 TLobby__sub_8040ADE8(u8 *self) {
     } else {
         ret = -2;
     }
-    TLobby__sub_804217E4();
+    net_unlock();
     return ret;
 }
 
@@ -605,7 +605,7 @@ void tick_connection_timeouts(void) {
 
 extern void TLobby__sub_8040AFE0(void)
 {
-    s16 TUdpSocket__sub_80421BAC(s32, s32, s32, u16, s32, s8, void *); /* declared here with other parameter types; the definition is s16 (s32, u32 *, u32 *, u16, u32 *, s8, send_buffs *) */
+    s16 udp_send(s32, s32, s32, u16, s32, s8, void *); /* declared here with other parameter types; the definition is s16 (s32, u32 *, u32 *, u16, u32 *, s8, send_buffs *) */
     DnsResolverState *base = (DnsResolverState *)&dns_resolver_state;
     s32 found;
     s16 *dp;
@@ -642,7 +642,7 @@ extern void TLobby__sub_8040AFE0(void)
             f2 = found;
             tmp.len = e->msg->len;
             tmp.buff = e->msg->data;
-            ret = TUdpSocket__sub_80421BAC(e->socket, 0, f2, 0, 0, 1, &tmp);
+            ret = udp_send(e->socket, 0, f2, 0, 0, 1, &tmp);
             val = 0x1c;
             NetMemcpy((u8 *)e->msg->data + e->msg->len - 4, &val, 2);
             if (ret < 0) {
@@ -658,7 +658,7 @@ extern void TLobby__sub_8040AFE0(void)
 
 extern void TLobby__sub_8040B1C4(void *arg)
 {
-    s16 TUdpSocket__sub_80421BAC(s32, s32, s32, u16, s32, s8, void *); /* declared here with other parameter types; the definition is s16 (s32, u32 *, u32 *, u16, u32 *, s8, send_buffs *) */
+    s16 udp_send(s32, s32, s32, u16, s32, s8, void *); /* declared here with other parameter types; the definition is s16 (s32, u32 *, u32 *, u16, u32 *, s8, send_buffs *) */
     DnsQuery *e = (DnsQuery *)arg;
     DnsResolverState *base;
     NetworkAddress *found;
@@ -678,7 +678,7 @@ extern void TLobby__sub_8040B1C4(void *arg)
     e->timer = base->timeouts[e->status / *dp];
     tmp.len = e->msg->len;
     tmp.buff = e->msg->data;
-    ret = TUdpSocket__sub_80421BAC(e->socket, 0, (s32)found, 0, 0, 1, &tmp);
+    ret = udp_send(e->socket, 0, (s32)found, 0, 0, 1, &tmp);
     if (ret < 0) {
         e->timer = 1;
         e->status = e->status + 1;
@@ -1289,7 +1289,7 @@ inline s32 close_8040BF38(u8 *p, s32 id) {
     if ((s16)id < 0) {
         return 0;
     }
-    r = TLobby__sub_80421B3C(id);
+    r = udp_close(id);
     *(s16 *)((s8 *)p + 4) = -1;
     return r;
 }
@@ -1300,7 +1300,7 @@ s32 close_and_reset_connection(void *self) {
     s32 temp_r3;
     s32 var_r31;
     var_r31 = close_8040BF38(arg0, *(s16 *)&((TObjectFields *)self)->m_flags);
-    TLobby__sub_80421814();
+    net_lock();
     temp_r3_2 = (s16 *)(*(s16 **)((s8 *)arg0 + 0x18));
     if (temp_r3_2 != NULL) {
         *(s16 *)((s8 *)temp_r3_2 + 0) = 0;
@@ -1323,7 +1323,7 @@ s32 close_and_reset_connection(void *self) {
         resume_thread((s32)((TObjectFields *)self)->m_next);
         *(s32 *)&((TObjectFields *)self)->m_next = -1;
     }
-    TLobby__sub_804217E4();
+    net_unlock();
     return var_r31;
 }
 
@@ -1567,12 +1567,12 @@ void dispatch_request_callback(void *self, s16 status) {
         }
         if (a->cb == NULL) {
             if (status != 0) {
-                TLobby__sub_80421814();
+                net_lock();
                 if (connection->waiter != 0xFFFFFFFFU) {
                     resume_thread(connection->waiter);
                     connection->waiter = -1;
                 }
-                TLobby__sub_804217E4();
+                net_unlock();
                 return;
             }
             if (connection->waiter != 0xFFFFFFFFU) {
@@ -1597,12 +1597,12 @@ void dispatch_request_callback(void *self, s16 status) {
         }
         if (b->cb == NULL) {
             if (status != 0) {
-                TLobby__sub_80421814();
+                net_lock();
                 if (connection->waiter != 0xFFFFFFFFU) {
                     resume_thread(connection->waiter);
                     connection->waiter = -1;
                 }
-                TLobby__sub_804217E4();
+                net_unlock();
                 return;
             }
             if (connection->waiter != 0xFFFFFFFFU) {

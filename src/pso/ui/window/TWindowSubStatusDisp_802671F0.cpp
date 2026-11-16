@@ -156,7 +156,7 @@ s32 *get_shared_text_buffer(void);
 u32 calc_text_width();
 u8 get_font_char_advance();
 u16 map_char_to_font_code(u16 c);
-void TWindowSubStatusDisp__sub_80228F5C(s32);
+void text_builder_append_int(s32);
 void text_builder_append(u8 *str);
 void set_text_draw_params(s32 arg0, s32 arg1, s32 arg2, f32 farg0, f32 farg1);
 void draw_window_tab(void *, void *, s32, f32);
@@ -464,14 +464,14 @@ void draw_item_list_capacity(void *arg0, Win_80267714 *arg1, s32 arg2, s32 arg3)
     pt.y += 4.0f;
     set_text_draw_params((s32)arg1, 0, 0, (f32)(-1.0f / (0.1794f + arg1->f38)), (f32)100000.0f);
     text_builder_reset();
-    TWindowSubStatusDisp__sub_80228F5C(arg2);
+    text_builder_append_int(arg2);
     get_shared_text_buffer();
     pt.x -= (f32) calc_text_width();
     map_char_to_font_code(0x2F);
     new_var = get_font_char_advance();
     pt.x -= 0.5f * new_var;
     text_builder_append((u8 *)"/");
-    TWindowSubStatusDisp__sub_80228F5C(arg3);
+    text_builder_append_int(arg3);
     draw_window_text((f32 *)&pt, (const char *)(get_shared_text_buffer()), -1, 0, (f32)100000.0f);
   }
 }

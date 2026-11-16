@@ -798,7 +798,7 @@ Obj_80343C64 *TWindowDD__ct(Obj_80343C64 *self, void *parent, void *arg2) {
     a.y = lbl_805DFBD4;
     b.x = lbl_805DFBD0;
     b.y = lbl_805DFB68;
-    void *q = (void *) ((s32 (*)(f32, V2_80343C64 *, V2_80343C64 *, s32, s32)) TWindowDD__sub_8034146C)(lbl_805DFBD8, &a, &b, TWindowDD__sub_80348B70(0x687), 5);
+    void *q = (void *) ((s32 (*)(f32, V2_80343C64 *, V2_80343C64 *, s32, s32)) TWindowDD__sub_8034146C)(lbl_805DFBD8, &a, &b, get_word_select_token_text(0x687), 5);
     self->a64[2] = (s32) q;
     if (q != 0)
     {

@@ -35,7 +35,7 @@ extern RecoveredGlobal_8040DD68_lbl_805C1B38 ipv4_protocol_state;
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-u16 TUdpSocket__sub_80419864();
+u16 ones_complement_sum();
 
 s32 TLobby__sub_8040DD68(void) {
     release_slot_by_id(0x800);
@@ -84,7 +84,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   s16 TLobby__sub_8041B974(void *, void *, void *); /* declared here with void * parameters; the definition takes (u8 *, u8 *, u8 *) */
   s16 udp_input(void *, void *, void *, s16); /* declared s16 here; the definition is s32 (O_80420DE4 *, NetworkAddress *, NetworkAddress *, s32) */
   s32 TLobby__sub_80421AD8(u8 *, u32, u32, u32, s16); /* declared here with other parameter types; the definition is s32 (u8 *, s32, s32, u32, s32) */
-  u16 TUdpSocket__sub_80419864(void *, s16);
+  u16 ones_complement_sum(void *, s16);
   struct 
   {
     s32 t;
@@ -127,7 +127,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
   {
     return -1;
   }
-  s = TUdpSocket__sub_80419864(ip, (s16) (hl >> 1));
+  s = ones_complement_sum(ip, (s16) (hl >> 1));
   s = (s >> 16) + (s & 0xFFFF);
   s += s >> 16;
   if (((u16) (~s)) != 0)
@@ -317,7 +317,7 @@ s32 TUdpSocket__sub_8040DE4C(u8 *ip, s16 x, s16 id)
 
 s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
 {
-  u16 TUdpSocket__sub_80419864(void *, s16);
+  u16 ones_complement_sum(void *, s16);
   s16 cnt8;
   u8 *rt;
   u32 s;
@@ -423,7 +423,7 @@ s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
       t34 = hl + fl;
       NetMemcpy(pkt + 2, &t34, 2);
       NetMemset(pkt + 10, 0, 2);
-      s = TUdpSocket__sub_80419864(pkt, hl / 2);
+      s = ones_complement_sum(pkt, hl / 2);
       s = (s >> 16) + (s & 0xFFFF);
       s += s >> 16;
       t44 = ~s;
@@ -461,7 +461,7 @@ s16 TUdpSocket__sub_8040E354(u8 *self, u32 key, u8 *pkt, s16 total, s16 id)
   else
   {
     NetMemset(pkt + 10, 0, 2);
-    s = TUdpSocket__sub_80419864(pkt, hdr / 2);
+    s = ones_complement_sum(pkt, hdr / 2);
     s = (s >> 16) + (s & 0xFFFF);
     s += s >> 16;
     t44 = ~s;
@@ -596,7 +596,7 @@ s16 TLobby__sub_8040E780(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void 
     if (!j)
     {
     }
-    s = TUdpSocket__sub_80419864(ip, 10);
+    s = ones_complement_sum(ip, 10);
     s = (s >> 16) + (s & 0xFFFF);
     s += s >> 16;
     *((u16 *)(ip + 10)) = ~s;
@@ -655,7 +655,7 @@ s16 TLobby__sub_8040E780(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void 
         *((s32 *)(ent + 8)) += rem;
         *lp -= rem;
         *((s32 *)(rec + 8)) -= rem;
-        TLobby__sub_80406EB8((NetBufferRef *)(data), rem);
+        netbuf_ref_advance((NetBufferRef *)(data), rem);
         rem = 0;
       }
       else
@@ -692,7 +692,7 @@ s16 TLobby__sub_8040E780(u8 *rec, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, void 
     *((u16 *)(ip + 6)) |= off;
     *((u16 *)(ip + 2)) = (*((s32 *)(ent + 8))) + 20;
     *((u16 *)(ip + 10)) = 0;
-    s = TUdpSocket__sub_80419864(ip, 10);
+    s = ones_complement_sum(ip, 10);
     s = (s >> 16) + (s & 0xFFFF);
     s += s >> 16;
     *((u16 *)(ip + 10)) = ~s;
@@ -727,7 +727,7 @@ u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag)
     } else {
         ph.len = ((P_8040EC38 *)pkt)->f8;
     }
-    sum = TUdpSocket__sub_80419864(&ph, 6);
+    sum = ones_complement_sum(&ph, 6);
     sum += TLobby__sub_80406BD8(pkt, flag);
     sum = (sum >> 16) + (sum & 0xFFFF);
     sum += sum >> 16;

@@ -324,7 +324,7 @@ f32 calc_distance_to_client__10TObjPlayerFlUsUl(void *, u16, Vec_802D8828 *);
 s32 obj_setFlags30(void *, int);
 s32 queue_destruction__7TObjectFv();
 void free_bin_model_request(void*, int);
-void TCameraCtrl__sub_8006A044(s32, f32);
+void start_camera_shake(s32, f32);
 s32 *csnVecterUnder(s32 origin, s32 mask);
 s32 rotate_xz_pair_by_angle(f32 *, f32 *, s32, f32);
 void TObjPlayer__sub_800D93C4(s32 point, s32 delay);
@@ -713,7 +713,7 @@ void TObjEneGibbles__sub_802D7A54(void *arg0) {
         t = get_room__8TObjBaseFv((void *)r);
         u = get_room__8TObjBaseFv(arg0);
         if (u == t) {
-            TCameraCtrl__sub_8006A044(0x1E, 0.1f);
+            start_camera_shake(0x1E, 0.1f);
         }
     }
 }

@@ -16,12 +16,12 @@
 
 struct ControllerInputStateResultWin { s32 value; u8 remaining[0x1AC]; };
 extern "C" {
-char* TQuestVmDownLoadServer__sub_8006EF6C(s32);
+char* get_message_text(s32);
 int sprintf(char*, const char*, ...);
 int strncmp(const char*, const char*, unsigned long);
 char* strncat(char*, const char*, unsigned long);
 s32 TWindowShortListCtrl__check_controller_button(void*, int);
-s32 TWindowCtrlMain__sub_8024CE58();
+s32 has_window_task_root();
 s32 get_window_layout_position(s32);
 u32 create__14TWindowMessageFPvll(s32, void*, s32);
 extern ControllerInputStateResultWin controller_input_state;
@@ -72,16 +72,16 @@ void TObjResultWin::build_result_text() {
     }
     c = m_result.summary.stage_index + '1';
     TQuestVmDownLoadServer::split_time_hms(m_result.current.time, &h, &m, &sec);
-    sprintf(tmp, challenge_result_time_format, TQuestVmDownLoadServer__sub_8006EF6C(0x54), TQuestVmDownLoadServer__sub_8006EF6C(0x53), c, h, m, sec);
+    sprintf(tmp, challenge_result_time_format, get_message_text(0x54), get_message_text(0x53), c, h, m, sec);
     strncat(m_text, tmp, 0x30);
     if (m_result.summary.total_time != 0) {
         TQuestVmDownLoadServer::split_time_hms(m_result.summary.total_time, &h2, &m2, &s2);
-        sprintf(tmp, challenge_result_total_time_format, TQuestVmDownLoadServer__sub_8006EF6C(0x55), h2, m2, s2);
+        sprintf(tmp, challenge_result_total_time_format, get_message_text(0x55), h2, m2, s2);
         strncat(m_text, tmp, 0x30);
     }
     if (m_result.previous.time == 0) {
         strncat(m_text, challenge_result_indent, 0x30);
-        strncat(m_text, TQuestVmDownLoadServer__sub_8006EF6C(0x56), 0x30);
+        strncat(m_text, get_message_text(0x56), 0x30);
     } else {
         d = m_result.current.time - m_result.previous.time;
         if (d == 0) {
@@ -91,13 +91,13 @@ void TObjResultWin::build_result_text() {
             sprintf(tmp, challenge_result_slower_time_format, h3, m3, s3);
         } else {
             TQuestVmDownLoadServer::split_time_hms(-d, &h3, &m3, &s3);
-            sprintf(tmp, challenge_result_faster_time_format, h3, m3, s3, TQuestVmDownLoadServer__sub_8006EF6C(0x56));
+            sprintf(tmp, challenge_result_faster_time_format, h3, m3, s3, get_message_text(0x56));
         }
         strncat(m_text, tmp, 0x30);
     }
     strncat(m_text, challenge_result_newline, 2);
     if (TWindowSubStatusDisp::resolve_player_slot(-1) == 0) {
-        n = TQuestVmDownLoadServer__sub_8006EF6C(0x57);
+        n = get_message_text(0x57);
         if (m_result.previous.award_name[0] == 0 || strncmp(m_result.previous.award_name, m_result.current.award_name, 0xC) == 0) {
             sprintf(tmp, challenge_result_value_format, n, m_result.current.award_name);
         } else {
@@ -107,7 +107,7 @@ void TObjResultWin::build_result_text() {
         strncat(m_text, challenge_result_newline, 2);
     }
     if (m_result.current.rank != 0) {
-        n = TQuestVmDownLoadServer__sub_8006EF6C(0x58);
+        n = get_message_text(0x58);
         if (m_result.previous.rank == 0 || m_result.previous.rank == m_result.current.rank) {
             sprintf(tmp, challenge_result_value_format, n, challenge_result_rank_labels[m_result.current.rank]);
         } else {
@@ -119,7 +119,7 @@ void TObjResultWin::build_result_text() {
 void TObjResultWin::run_task() {
     s32 temp_r0;
     if ((u32) m_window == 0U) {
-        if (TWindowCtrlMain__sub_8024CE58() != 0) {
+        if (has_window_task_root() != 0) {
             create_window();
         }
     } else {

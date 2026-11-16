@@ -77,7 +77,7 @@ void TLobby__sub_802A0F70(void) {
     const char *names[5] = { "f512_midashi", "f512_midashi_eng", "f512_midashi_eng", "f512_midashi_eng", "f512_midashi_eng" };
     NJS_TEXLIST *lists[5] = { &lbl_804DCA98, &lbl_804DCA78, &lbl_804DCA78, &lbl_804DCA78, &lbl_804DCA78 };
     lbl_805D6630 = (u32)lists[current_language];
-    TLobby__sub_8023E4B4((s32)names[current_language], (s32)lists[current_language]);
+    load_streamed_prs_texture((s32)names[current_language], (s32)lists[current_language]);
 }
 
 void TLobby::free_dialog_global() {

@@ -299,7 +299,7 @@ O_8033D9E4 *__dt__25TBoss6Demo20_TYPE2_APPEARFv(O_8033D9E4 *arg0, s16 arg1) {
 
 extern "C" {
 s32 get_bml_motion(int, int);
-s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
+s32 get_bml_texlist(BmlResource *resource, s32 index);
 s32 get_bml_model(BmlResource *resource, s32 index);
 void set_scripted_camera_pose(void *, void *, void *);
 void __ct__7TObjectFP7TObject(void *);
@@ -341,17 +341,17 @@ u8 *TBoss6Demo20_TYPE2_APPEAR__ct(TBoss6Demo20_TYPE2_APPEAR *boss6_demo20_type2_
             v = t;
             self->t[i].a = get_bml_model((BmlResource *)count, t);
         }
-        self->t[i].b = TObjFish__sub_8001EDB0((BmlResource *)count, v);
+        self->t[i].b = get_bml_texlist((BmlResource *)count, v);
         self->t[i].c = get_bml_motion(count, boss6_type2_appear_motion_indices[i]);
     }
     boss6_demo20_type2_appear->m_bc = get_bml_model((BmlResource *)count, 4);
-    *(s32 *)((s8 *)boss6_demo20_type2_appear + 0xC0) = TObjFish__sub_8001EDB0((BmlResource *)count, 4);
+    *(s32 *)((s8 *)boss6_demo20_type2_appear + 0xC0) = get_bml_texlist((BmlResource *)count, 4);
     boss6_demo20_type2_appear->m_c4 = get_bml_motion(count, 0x20);
     *(s32 *)((s8 *)boss6_demo20_type2_appear + 0xC8) = get_bml_model((BmlResource *)count, 1);
-    boss6_demo20_type2_appear->m_cc = TObjFish__sub_8001EDB0((BmlResource *)count, 1);
+    boss6_demo20_type2_appear->m_cc = get_bml_texlist((BmlResource *)count, 1);
     *(s32 *)((s8 *)boss6_demo20_type2_appear + 0xD0) = get_bml_motion(count, 0x36);
     boss6_demo20_type2_appear->m_d4 = get_bml_model((BmlResource *)count, 0xC);
-    *(s32 *)((s8 *)boss6_demo20_type2_appear + 0xD8) = TObjFish__sub_8001EDB0((BmlResource *)count, 0xC);
+    *(s32 *)((s8 *)boss6_demo20_type2_appear + 0xD8) = get_bml_texlist((BmlResource *)count, 0xC);
     boss6_demo20_type2_appear->m_dc = get_bml_motion(count, 0x22);
     boss6_demo20_type2_appear->m_7c = TObjFish__sub_800E3124((u8 *)boss6_type2_appear_model_node_descriptors, (s32)((u8 *)boss6_demo20_type2_appear + 0x1C));
     for (i = 0; i < 9; i++) {

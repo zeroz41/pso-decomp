@@ -47,7 +47,7 @@ struct Hdr_803CCE9C { u8 used; u8 f1; };
 struct LogHdr_803CCE9C { u8 pad[0x6]; u16 seq; };
 
 extern "C" {
-s32 TLobby__sub_803CC4C0(Obj_803CC4C0 *p);
+s32 adxf_get_stat(Obj_803CC4C0 *p);
 extern Ent_803CC294 *afs_archive_toc_table[];
 extern s32 lobby_adxf_current_file_id;
 extern Slot_803CD16C *lobby_adxf_open_file_handle;
@@ -147,7 +147,7 @@ s32 TLobby::get_afs_file_info(s32 arg0, s32 arg1, char *arg2, s32 *arg3, s32 *ar
     return st;
 }
 
-s32 TLobby__sub_803CC4C0(Obj_803CC4C0 *p) {
+s32 adxf_get_stat(Obj_803CC4C0 *p) {
     if (p == 0) {
         TLobby::notify_error("E9040832:'adxf' is NULL.(ADXF_GetStat)");
         return -3;
@@ -181,7 +181,7 @@ s32 TLobby::adxf_get_fsize_byte() {
     }
     return *(s32 *)&this->m_up;
 }
-s32 TLobby__sub_803CC53C(u8 *arg0) {
+s32 adxf_get_fsize_sct(u8 *arg0) {
     if (arg0 == NULL) {
         TLobby::notify_error("E9040828:'adxf' is NULL.(ADXF_GetFsizeSct)");
         return -3;

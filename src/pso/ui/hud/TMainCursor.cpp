@@ -203,7 +203,7 @@ u8 *__dt__10TLOC_StartFv(u8 *arg0, s16 arg1) {
 struct Ent_8013B2C8 { s32 w; };
 
 extern "C" {
-void fn_80044330(void *);
+void clear_target_cursor_list(void *);
 extern const f32 TMainCursor__data_805DB0C0;
 s32 is_channel_active__11TMainCursorFv(void *self);
 s32 can_start_technique__10TObjPlayerFPvi(TObjPlayer*, s32);
@@ -266,7 +266,7 @@ void TMainCursor::reset_state() {
     this->m_3c = (f32) TMainCursor__data_805DB0C0;
     *(f32 *)((s8 *)arg0 + 0x18) = (f32) TMainCursor__data_805DB0C0;
     ((TMainCursor *)arg0)->set_type(0);
-    fn_80044330((u8 *)&this->m_40);
+    clear_target_cursor_list((u8 *)&this->m_40);
     ((TMainCursor *)(arg0 + 0x9C))->reset_slot();
 }
 s32 canSetMenuCursorAction(PaletteCursorOverride* cursor, TObjPlayer* player, u8 kind, u8 parameter) {
@@ -714,7 +714,7 @@ struct Ent_8013C678 { u32 id; f32 key; };
 void *fn_8004438C(void *p);
 s32 quick_sort_partition__11TMainCursorFiPvii(s32 self, Ent_8013C678 *a, s32 lo, s32 hi);
 void TMainCursor__sub_8013F170(void *p, s32 v);
-void fn_80044330(void *p);
+void clear_target_cursor_list(void *p);
 
 s32 try_move__11TMainCursorFiii(s32 arg0, s32 arg1, s32 arg2) {
     if (is_channel_active__11TMainCursorFv((void *)arg0) != 0) {
@@ -968,7 +968,7 @@ void TMainCursor::reset_slots() {
     base = arg0 + 0x5C;
     i = 0;
     do {
-        fn_80044330((void *)(base + 0x40));
+        clear_target_cursor_list((void *)(base + 0x40));
         ((TMainCursor *)(base + 0x9C))->reset_slot();
         i += 1;
         base += 0x124;
@@ -1219,7 +1219,7 @@ void TMainCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id) {
     }
     cur = &((Main_8013CDE4 *)this)->cursors[slot];
     if (check_type_and_enabled__11TMainCursorFPvPv(cur, kind, id) == 0) {
-        fn_80044330(cur->f40);
+        clear_target_cursor_list(cur->f40);
         ((TMainCursor *)(cur->f9c))->reset_slot();
     }
     TMainCursor__sub_8013E9E0(cur, kind);

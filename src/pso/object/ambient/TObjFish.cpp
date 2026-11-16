@@ -44,7 +44,7 @@ s32 post_translate_matrix(void *);
 s32 draw_ginja_object();
 s32 draw_ginja_model_with_motion(s32, s32, f32);
 s32 get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(s32, s32);
+s32 get_bml_texlist(s32, s32);
 s32 get_bml_model(s32, s32);
 s32 push_matrix();
 s32 set_global_param__8TObjFishFl();
@@ -210,19 +210,19 @@ void render__8TObjFishFv(u8 *arg0) {
             if (get_current_floor_area() == AREA_SEABED_UPPER) {
                 switch (f->kind) {
                 case 1:
-                    TObjFish__sub_8001EDB0(TObjFish__area_bml_resource, 1);
+                    get_bml_texlist(TObjFish__area_bml_resource, 1);
                     set_global_param__8TObjFishFl();
                     get_bml_model(TObjFish__area_bml_resource, 1);
                     draw_ginja_object();
                     break;
                 case 2:
-                    TObjFish__sub_8001EDB0(TObjFish__area_bml_resource, 2);
+                    get_bml_texlist(TObjFish__area_bml_resource, 2);
                     set_global_param__8TObjFishFl();
                     get_bml_model(TObjFish__area_bml_resource, 2);
                     draw_ginja_object();
                     break;
                 default:
-                    TObjFish__sub_8001EDB0(TObjFish__area_bml_resource, 0);
+                    get_bml_texlist(TObjFish__area_bml_resource, 0);
                     set_global_param__8TObjFishFl();
                     get_bml_model(TObjFish__area_bml_resource, 0);
                     draw_ginja_object();
@@ -232,17 +232,17 @@ void render__8TObjFishFv(u8 *arg0) {
                 set_motion_packed_rotation();
                 switch (f->kind) {
                 case 1:
-                    TObjFish__sub_8001EDB0(TObjFish__area_bml_resource, 1);
+                    get_bml_texlist(TObjFish__area_bml_resource, 1);
                     set_global_param__8TObjFishFl();
                     draw_ginja_model_with_motion(get_bml_model(TObjFish__area_bml_resource, 1), get_bml_motion(TObjFish__area_bml_resource, 1), f->frame);
                     break;
                 case 2:
-                    TObjFish__sub_8001EDB0(TObjFish__area_bml_resource, 2);
+                    get_bml_texlist(TObjFish__area_bml_resource, 2);
                     set_global_param__8TObjFishFl();
                     draw_ginja_model_with_motion(get_bml_model(TObjFish__area_bml_resource, 2), get_bml_motion(TObjFish__area_bml_resource, 2), f->frame);
                     break;
                 default:
-                    TObjFish__sub_8001EDB0(TObjFish__area_bml_resource, 0);
+                    get_bml_texlist(TObjFish__area_bml_resource, 0);
                     set_global_param__8TObjFishFl();
                     draw_ginja_model_with_motion(get_bml_model(TObjFish__area_bml_resource, 0), get_bml_motion(TObjFish__area_bml_resource, 0), f->frame);
                     break;

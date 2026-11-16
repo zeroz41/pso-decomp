@@ -13,7 +13,7 @@ void *TObjBagWarnWin::create(void *bag_warn_win) {
     }
     return o;
 }
-s32 TQuestVmDownLoadServer__sub_8006EF6C(s32 arg0) {
+s32 get_message_text(s32 arg0) {
     return *(s32 *)((s8 *)(*(s32 *)((s8 *)text_language_group_table + 0x2C)) + (arg0 * 4));
 }
 

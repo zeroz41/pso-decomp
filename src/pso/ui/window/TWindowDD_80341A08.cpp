@@ -36,7 +36,7 @@ void TWindowDD_WS_Word::render() {
         idx = self->m_68 - self->m_6c;
         for (i = 0; i < self->m_7c; i++, idx++) {
             item = (TUnk_804CFA28 *)self->get_array_entry(i);
-            set_text_entry_string((u8 *)item, TWindowDD__sub_80348B70(((s16 *)self->m_80)[idx]), 0xC0);
+            set_text_entry_string((u8 *)item, get_word_select_token_text(((s16 *)self->m_80)[idx]), 0xC0);
             item->y = (f32)(i * 20);
             refresh_status_display__9TWindowDDFv(item);
             ((TWindowHelpItem *)item)->reset_float_field();
@@ -417,7 +417,7 @@ void TWindowDD::load_element_list() {
     self->shown = n;
     for (i = 0; i < self->shown; i++) {
         ent = (Entry_80341FFC *)get_array_entry__11TWindowBaseFi(self, i);
-        set_text_entry_string((u8 *)ent, TWindowDD__sub_80348B70((s16)self->buf[i]), 0xC0);
+        set_text_entry_string((u8 *)ent, get_word_select_token_text((s16)self->buf[i]), 0xC0);
         ent->y = i * 20;
         refresh_status_display__9TWindowDDFv(ent);
     }

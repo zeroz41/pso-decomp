@@ -34,7 +34,7 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 void render__11TObjDFDemo3Fv(u8 *arg0);
 s32 get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(s32, s32);
+s32 get_bml_texlist(s32, s32);
 s32 get_bml_model(s32, s32);
 void set_scripted_camera_pose(void *, void *, void *);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
@@ -210,7 +210,7 @@ u8 *TObjDFDemo3__ct(u8 *base, s32 parent, s32 arg2, s32 arg3) {
     *(s32 *)((s8 *)base + 0xAC) = arg3;
     cnt = TBoss4Uro::get_instance_count();
     *(s32 *)((s8 *)base + 0x94) = get_bml_model(cnt, 0x12);
-    *(s32 *)((s8 *)base + 0x98) = TObjFish__sub_8001EDB0(cnt, 0x12);
+    *(s32 *)((s8 *)base + 0x98) = get_bml_texlist(cnt, 0x12);
     *(s32 *)((s8 *)base + 0x9C) = get_bml_motion(cnt, 0x45);
     *(f32 *)((s8 *)base + 0xB4) = -1.0f;
     *(s32 *)((s8 *)base + 0x90) = 0;

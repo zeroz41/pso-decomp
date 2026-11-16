@@ -130,7 +130,7 @@ u32 wreck_ancient_brakable_bml_resource;
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-s32 TObjFish__sub_8001EDB0(void *, s32);
+s32 get_bml_texlist(void *, s32);
 s32 get_bml_model(void *, s32);
 void free_bin_model_request(void*, int);
 s32 post_translate_matrix(void *);
@@ -146,7 +146,7 @@ u8 is_current_floor_switch_set(s32 id);
 TOWreckAncient::TOWreckAncient(s32 model_index) : TObjCollidable(tl_05) {
     m_name = TOWreckAncient__name;
     model = (void *)get_bml_model((void *)wreck_ancient_bml_resource, model_index);
-    texlist = TObjFish__sub_8001EDB0((void *)wreck_ancient_bml_resource, model_index);
+    texlist = get_bml_texlist((void *)wreck_ancient_bml_resource, model_index);
     view_far_depth = 400.0f;
     view_radius = 40.0f;
 }
@@ -334,7 +334,7 @@ void TOWreckAncientBrakable::spawn_debris() {
         VecCopy((Vec *)&p.pos, &position);
         vec3_add_to(&p.pos, &tmp);
         p.f40 = get_bml_model((void *) wreck_ancient_brakable_bml_resource, i);
-        p.f44 = TObjFish__sub_8001EDB0((void *) wreck_ancient_brakable_bml_resource, i);
+        p.f44 = get_bml_texlist((void *) wreck_ancient_brakable_bml_resource, i);
         new TObjChip(tl_05, (const TObjChipParams *)&p);
     }
 }

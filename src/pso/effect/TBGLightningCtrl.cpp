@@ -80,7 +80,7 @@ s32 rand();
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 s32 release_texture_list(void*);
-void TParticleCtrl__sub_803E2A1C(void *, int);
+void emit_particle_strip_vertices(void *, int);
 
 extern void *__vt__12TBGLightning[];
 extern void *__vt__16TBGLightningCtrl[];
@@ -186,7 +186,7 @@ void submit_particle_quad(void *arg0, f32 *p, f32 *d, s32 c) {
     r[1].x = x; r[1].y = yd = y + d[1]; r[1].z = z; r[1].u = hi; r[1].v = lo; r[1].c = c;
     r[2].x = x + d[0]; r[2].y = y; r[2].z = z + d[2]; r[2].u = lo; r[2].v = hi; r[2].c = c;
     r[3].x = x + d[0]; r[3].y = yd; r[3].z = z + d[2]; r[3].u = lo; r[3].v = lo; r[3].c = c;
-    TParticleCtrl__sub_803E2A1C(r, 4);
+    emit_particle_strip_vertices(r, 4);
 }
 
 #pragma push

@@ -575,7 +575,7 @@ extern s32 TLobby__sub_80412058(s16 id, u8 *self, s32 len, u8 *out) {
     rec.c = *(u32 *)(ent + offsetof(Ipv6Iface, f28));
     set_value_and_enable((void *)ref, (s32)&rec);
     netbuf_copy_by_ref(self, ref, 0x1C);
-    TLobby__sub_80406EB8((NetBufferRef *)self, 0x1C);
+    netbuf_ref_advance((NetBufferRef *)self, 0x1C);
     cur = *(u8 **)(ent + offsetof(Ipv6Iface, addrs));
     i = 1;
     n = 0;
@@ -588,7 +588,7 @@ extern s32 TLobby__sub_80412058(s16 id, u8 *self, s32 len, u8 *out) {
         rec.c = 0;
         set_value_and_enable((void *)ref, (s32)&rec);
         netbuf_copy_by_ref(self, ref, 0x1C);
-        TLobby__sub_80406EB8((NetBufferRef *)self, 0x1C);
+        netbuf_ref_advance((NetBufferRef *)self, 0x1C);
         cur = *(u8 **)(cur + offsetof(Ipv6AddrNode, next));
         i++;
         n++;

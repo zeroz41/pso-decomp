@@ -357,8 +357,8 @@ s32 TAdChrSelASlotGC__sub_8030C5C0(TAdChrSelASlotGC *self, s32 kind);
 s32 TAdChrSelASlotGC__sub_8030C688(TAdChrSelASlotGC *self, s32 kind);
 s32 TAdChrSelSlotGC__sub_802C7498(s32, s32);
 u32 create_draw_line_ctrl__13TAdMcSelectGCFiif(void *, s32, f32);
-s32 TAdPlayerLoadGC__sub_801E1B50(s32);
-s32 TAdPlayerLoadGC__sub_801E24F8(s32, s32, s32, s32, s32);
+s32 poll_memcard_result(s32);
+s32 start_memcard_format(s32, s32, s32, s32, s32);
 void TAdSubPlyItemGC__sub_802D6D88(TAdSubPlyItemGC *self);
 
 void update_slot_state__16TAdChrSelBSlotGCFPv(void *ad_chr_sel_b_slot_gc) {
@@ -366,8 +366,8 @@ void update_slot_state__16TAdChrSelBSlotGCFPv(void *ad_chr_sel_b_slot_gc) {
         ((TWindowSubComCard *)(*(void **)((s8 *)ad_chr_sel_b_slot_gc + 0x70)))->close();
         *(u32 *)((s8 *)ad_chr_sel_b_slot_gc + 0x70) = 0U;
     }
-    if ((u32) (TAdPlayerLoadGC__sub_801E1B50(1) + 0x10000) != 0xFFFFU) {
-        if ((((TAdPlayerLoadGC *)1)->check_card_result_code() != 0) && (TAdPlayerLoadGC__sub_801E1B50(1) == 0)) {
+    if ((u32) (poll_memcard_result(1) + 0x10000) != 0xFFFFU) {
+        if ((((TAdPlayerLoadGC *)1)->check_card_result_code() != 0) && (poll_memcard_result(1) == 0)) {
             ((TAdChrSelBSlotGC *)ad_chr_sel_b_slot_gc)->m_74 = TAdChrSelASlotGC__sub_8030C688((TAdChrSelASlotGC *)(TAdChrSelBSlotGC::get_global_slot_data()), 1);
             ((TAdChrSelBSlotGC *)ad_chr_sel_b_slot_gc)->m_1c = 0xA;
             return;
@@ -397,7 +397,7 @@ void update_card_select__16TAdChrSelBSlotGCFPv(void *ad_chr_sel_b_slot_gc) {
             ((TAdChrSelBSlotGC *)ad_chr_sel_b_slot_gc)->m_1c = 7;
             return;
         case 0:
-            if (TAdPlayerLoadGC__sub_801E24F8(1, 0, 0, 0, 0) == 0) {
+            if (start_memcard_format(1, 0, 0, 0, 0) == 0) {
                 ((TAdChrSelBSlotGC *)ad_chr_sel_b_slot_gc)->m_1c = 9;
                 return;
             }

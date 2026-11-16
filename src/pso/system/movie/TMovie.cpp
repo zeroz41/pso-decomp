@@ -32,7 +32,7 @@ void queue_destruction__7TObjectFv(void *arg0);
 s32 fn_80320358(u32, s32);
 s32 DVDCheckDisk();
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
-s32 TKeyBoardControl__sub_8000F91C(s32);
+s32 set_queued_main_phase(s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s8 get_opening_movie_purpose();
 s8 func_801A5E54__Fv();
@@ -364,7 +364,7 @@ s32 TMovie::check_skip_input() {
         if (TKeyBoardControl::check_reset_button() != 0) goto block_fn_8000F91C;
         if (is_playback_finished__6TMovieFv(this->m_20) == 0) goto block_return0;
 block_fn_8000F91C:
-        TKeyBoardControl__sub_8000F91C(9);
+        set_queued_main_phase(9);
         return 1;
     case 1:
         var_r30 = 0;

@@ -22,7 +22,7 @@
 
 extern "C" {
 void normalize_vector(Vec *v);
-int TCameraCtrl__sub_8006B370(f32 farg0);
+int is_float_nonfinite(f32 farg0);
 }
 
 NJS_ARGB chunk_material_color_half_alpha_f32 = {0.5f, 0.0f, 0.0f, 0.0f};
@@ -437,8 +437,8 @@ s32 is_near_zero(f32 value) {
 
 s32 vec_has_nonfinite(Vec *v) {
     bool result = false;
-    if (TCameraCtrl__sub_8006B370(v->x) != 0 || TCameraCtrl__sub_8006B370(v->y) != 0 ||
-        TCameraCtrl__sub_8006B370(v->z) != 0) {
+    if (is_float_nonfinite(v->x) != 0 || is_float_nonfinite(v->y) != 0 ||
+        is_float_nonfinite(v->z) != 0) {
         result = true;
     }
     return result;

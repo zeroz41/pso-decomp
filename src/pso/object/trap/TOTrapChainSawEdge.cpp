@@ -1026,10 +1026,10 @@ s32 __vt__20TOTrapChainSawDamage[31] = {
     (s32)&scale_by_level__14TOTrapChainSawFf
 };
 
-u8 * TObjFish__sub_8001EDB0(void *, int);
+u8 * get_bml_texlist(void *, int);
 u8 *fn_802C9924(s32 arg0) {
     if ((void *) lbl_805D6808 != NULL) {
-        return TObjFish__sub_8001EDB0(lbl_805D6808, arg0);
+        return get_bml_texlist(lbl_805D6808, arg0);
     }
     return NULL;
 }

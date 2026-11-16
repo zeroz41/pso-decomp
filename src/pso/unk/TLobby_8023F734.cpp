@@ -707,7 +707,7 @@ s32 resolve_sound_effect_bank(Owner_8023FBBC *owner, s32 kind, s32 bank, s32 ind
 void *adxf_open_afs__6TLobbyFii(int, int);
 
 s32 TLobby__sub_8023FFB8(SoundControlState *self, int id);
-s32 TLobby__sub_803CC4C0(void *handle);
+s32 adxf_get_stat(void *handle);
 u32 sndPushGroup(void *prj_data, u16 gid, void *samples, void *sdir, void *pool);
 
 u8 is_ready__6TLobbyFPv(void *arg0) {
@@ -743,7 +743,7 @@ void TLobby__sub_8023FCC0(SoundControlState *self) {
         for (i = 0; i < 4; i++) {
             if (self->bank_file_handles[i] != NULL) {
                 active++;
-                switch (TLobby__sub_803CC4C0(self->bank_file_handles[i])) {
+                switch (adxf_get_stat(self->bank_file_handles[i])) {
                 case 2:
                 case 1:
                     break;
@@ -987,7 +987,7 @@ s32 init_sound_aux_effects(SoundControlState *self) {
                 TLobby__sub_803382E4();
                 TLobby::run_disk_error_check();
                 render_tick();
-            } while (TLobby__sub_803CC4C0(handle) != 3);
+            } while (adxf_get_stat(handle) != 3);
             TLobby::reset_read_state();
             ((TLobby *)handle)->close_adxf_handle();
         } else {

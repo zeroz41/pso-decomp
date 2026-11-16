@@ -398,7 +398,7 @@ void reset__20TWindowSubStatusDispFPv(void *arg0) {
 
 void update_stat_line__20TWindowSubStatusDispFPvi(void *arg0, s32 arg1);
 s32 get_shared_text_buffer();
-s32 TWindowSubStatusDisp__sub_80228F5C(s32);
+s32 text_builder_append_int(s32);
 void text_builder_append(u8 *str);
 }
 void text_builder_reset(void);
@@ -410,7 +410,7 @@ extern s32 lbl_805DCF00;
 void update_stat_line__20TWindowSubStatusDispFPvi(void *window_sub_status_disp, s32 arg1) {
     text_builder_reset();
     text_builder_append((u8 *)&lbl_805DCF00);
-    TWindowSubStatusDisp__sub_80228F5C(arg1);
+    text_builder_append_int(arg1);
     *(s32 *)((s8 *)window_sub_status_disp + 0x24) = replace_owned_string__20TWindowSubStatusDispFPviiii(window_sub_status_disp, get_shared_text_buffer(), *(s32 *)((s8 *)window_sub_status_disp + 0x24), 0x10, 1);
 }
 
@@ -692,7 +692,7 @@ void TWindowSubStatusDisp__sub_80258A28(u8 *window_sub_status_disp, s32 arg1, s3
     *(s8 *)&((TWindowSubStatusDisp *)window_sub_status_disp)->unk_1C = 0x33;
     ((TWindowSubStatusDisp *)window_sub_status_disp)->m_1d = 9;
     text_builder_reset();
-    TWindowSubStatusDisp__sub_80228F5C(arg1);
+    text_builder_append_int(arg1);
     text_builder_append((u8 *)((s32 *) (TWindowSubStatusDisp::get_download_server())));
     *(s32 *)((s8 *)window_sub_status_disp + 0x24) = replace_owned_string__20TWindowSubStatusDispFPviiii(window_sub_status_disp, (s32)((int) (get_shared_text_buffer())), (s32)((int) (*(s32 *)((s8 *)window_sub_status_disp + 0x24))), 0x10, 1);
     ((TWindowSubStatusDisp *)window_sub_status_disp)->m_34 = -1;
@@ -839,7 +839,7 @@ void TWindowSubStatusDisp::update_from_player(void *arg1, s32 arg2, s32 arg3) {
     *(s32 *)((s8 *)this + 0x20) = replace_owned_string__20TWindowSubStatusDispFPviiii(this, (s32)((TItem *)arg1)->get_name(), *(s32 *)((s8 *)this + 0x20), 8, 1);
     if (TCameraCtrl::get_camera_id() <= 2) {
         text_builder_reset();
-        TWindowSubStatusDisp__sub_80228F5C(arg2);
+        text_builder_append_int(arg2);
         *(s32 *)&this->m_24 = replace_owned_string__20TWindowSubStatusDispFPviiii(this, get_shared_text_buffer(), *(s32 *)&this->m_24, 0x10, 1);
     }
     update_item_icon_colors(arg1);
@@ -942,7 +942,7 @@ void TWindowSubStatusDisp::set_ground_item(void *it, s32 arg2) {
     *(s32 *)((s8 *)this + 0x20) = replace_owned_string__20TWindowSubStatusDispFPviiii(this, (s32)(get_shared_text_buffer()), (s32)(*(s32 *)((s8 *)this + 0x20)), 8, 1);
     if (TCameraCtrl::get_camera_id() <= 2) {
         text_builder_reset();
-        TWindowSubStatusDisp__sub_80228F5C(*(s32 *)((s8 *)it + 0x10));
+        text_builder_append_int(*(s32 *)((s8 *)it + 0x10));
         *(s32 *)&this->m_24 = replace_owned_string__20TWindowSubStatusDispFPviiii(this, (s32)(get_shared_text_buffer()), (s32)(*(s32 *)&this->m_24), 0x10, 1);
     }
     update_item_colors((s32)it);

@@ -177,7 +177,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
     pos.y = 80.0f;
     m_64 = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0x55), &pos);
     if (m_64 != NULL) {
-        ((TWindowMessage *)m_64)->append_line(TQuestVmDownLoadServer__sub_8006EF6C(0x48), 0x81);
+        ((TWindowMessage *)m_64)->append_line(get_message_text(0x48), 0x81);
     }
 }
 
@@ -230,7 +230,7 @@ TObjItemNameSelect::TObjItemNameSelect(TObject *parent) : TObject(parent) {
     pos.y = 80.0f;
     m_20 = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0x55), &pos);
     if (m_20 != NULL) {
-        ((TWindowMessage *)m_20)->append_line(TQuestVmDownLoadServer__sub_8006EF6C(0x46), 0x81);
+        ((TWindowMessage *)m_20)->append_line(get_message_text(0x46), 0x81);
     }
 }
 
@@ -285,7 +285,7 @@ TObjItemNameEntry::TObjItemNameEntry(TObject *parent) : TObject(parent) {
     }
     m_20 = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x56), 1);
     if (m_20 != NULL) {
-        forward_trade_action_default__16TObjCityMainWarpFPviii(m_20, TQuestVmDownLoadServer__sub_8006EF6C(0x47), 0x81, 0);
+        forward_trade_action_default__16TObjCityMainWarpFPviii(m_20, get_message_text(0x47), 0x81, 0);
     }
     ((TWindowSubComCardList *)m_20)->set_scroll_target(442.0f, 64.0f);
     align_menu_entry_positions((u32)m_20);

@@ -77,7 +77,7 @@ u8 *TAdExNetConfirmGC__ct(u8 *object) {
         if (TLobby__sub_80145A94() != 0) {
             TLobby::init_account_entries();
         } else {
-            TKeyBoardControl__sub_8000F9CC(0x13);
+            request_main_phase(0x13);
         }
         ((TObject *)object)->queue_destruction();
         TAdMultiChgGameModeGC::set_game_mode();

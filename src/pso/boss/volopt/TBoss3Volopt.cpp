@@ -1056,7 +1056,7 @@ void TBoss3Volopt::update_phase1() {
         break;
     case 2: {
         m_384 = 0x96;
-        TCameraCtrl__sub_8006A044(0xB4, 0.03f);
+        start_camera_shake(0xB4, 0.03f);
         for (i = 0; i < 6; i++) {
             TObject *p01 = (TObject *)find_entity_by_id(volopt_target_entity_ids[i]);
             if (p01 != NULL) {

@@ -30,7 +30,7 @@ s32 TLobby::request_file_read(s32 arg0, s32 arg1, s32 *arg2, void **arg3) {
     *(s32 *)((s8 *)var_r31 + 0) = 1;
     *(s32 *)((s8 *)var_r31 + 0x28) = arg1;
     *(s32 *)((s8 *)var_r31 + 0x2C) = ((TLobby *)temp_r3)->adxf_get_fsize_byte();
-    *(s32 *)((s8 *)var_r31 + 0x30) = TLobby__sub_803CC53C((u8 *)temp_r3);
+    *(s32 *)((s8 *)var_r31 + 0x30) = adxf_get_fsize_sct((u8 *)temp_r3);
     ((TLobby *)temp_r3)->close_adxf_handle();
     *(s32 **)((s8 *)var_r31 + 0x34) = arg2;
     if (arg2 != NULL) {

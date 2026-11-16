@@ -23,12 +23,12 @@ extern s32 TAdPsoPassSaveGC__data_805D6E80;
 
 void TAdPsoPassSaveGC::vfunc_7() {
     TAdPsoPassSaveGC__data_805D6E80 = 0;
-    TKeyBoardControl__sub_8000F9CC(0xF);
+    request_main_phase(0xF);
 }
 
 void TAdPsoPassSaveGC::vfunc_6() {
     TAdPsoPassSaveGC__data_805D6E80 = 1;
-    TKeyBoardControl__sub_8000F9CC(0xF);
+    request_main_phase(0xF);
 }
 
 void TAdPsoPassSaveGC::run_task() {

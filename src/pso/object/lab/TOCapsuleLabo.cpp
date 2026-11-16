@@ -101,7 +101,7 @@ TOCapsuleLabo::TOCapsuleLabo(TObject *parent, void *set_data) : TOQuestTalkBase(
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(model_resource, 0);
-    texlist = TObjFish__sub_8001EDB0(model_resource, 0);
+    texlist = get_bml_texlist(model_resource, 0);
     init_collision_body_parts(this, &capsule_labo_collision_body, 1);
     set_indexed_flags(0, 0x1288);
     refresh_collision_body_centers();

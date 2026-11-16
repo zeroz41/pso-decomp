@@ -18,7 +18,7 @@ struct TargetCursorList {
 };
 
 extern "C" {
-void fn_80044330(TargetCursorList *list);
+void clear_target_cursor_list(TargetCursorList *list);
 TargetCursorRecord *fn_8004438C(TargetCursorRecord *record);
 }
 

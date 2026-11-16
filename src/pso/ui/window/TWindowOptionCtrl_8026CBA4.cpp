@@ -30,7 +30,7 @@ extern V2_8026CBB8 window_layout_position_table[];
 extern V2_8026CBB8 lbl_80477890[];
 extern unsigned char window_layout_rect_table[];
 V2_8026CBB8 *get_window_layout_position(s32 idx);
-s32 TWindowCtrlMain__sub_8024CE58(void);
+s32 has_window_task_root(void);
 extern f32 window_depth_order_cursor;
 void*TWindowOptionCtrl::get_option_entry(int a0) {  return (char*)window_layout_rect_table + a0 * 8; }
 V2_8026CBB8 *get_window_layout_position(s32 idx) {
@@ -43,7 +43,7 @@ void TWindowBase::sub_8026CC28() {
     Node_8026CC28 *n;
     f32 lim;
     f32 t;
-    if (TWindowCtrlMain__sub_8024CE58() != 0) {
+    if (has_window_task_root() != 0) {
         this->get_scale();
         window_depth_order_cursor -= -0.3f;
         lim = ((Win_8026CC28 *)this)->f54;
@@ -63,7 +63,7 @@ void TWindowBase::resort_window_order() {
     f32 scale;
 
     ((Node_8026CCA4 *)this)->f54 = -1.3f;
-    if (TWindowCtrlMain__sub_8024CE58() != 0 && ((Node_8026CCA4 *)this)->prev != ((Node_8026CCA4 *)this)) {
+    if (has_window_task_root() != 0 && ((Node_8026CCA4 *)this)->prev != ((Node_8026CCA4 *)this)) {
     g = ((Node_8026CCA4 *)this)->grp;
     if (g->head == ((Node_8026CCA4 *)this)) {
         g->head = ((Node_8026CCA4 *)this)->next;

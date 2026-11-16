@@ -103,7 +103,7 @@ int rotate_matrix_x(void*, void*);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
 void free_collision_body_parts(void *);
 s32 get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
+s32 get_bml_texlist(BmlResource *resource, s32 index);
 s32 get_bml_model(BmlResource *resource, s32 index);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
@@ -135,7 +135,7 @@ void TBoss6Mine::draw() {
     s32 bml_model;
 
     set_motion_packed_rotation();
-    temp_r31 = TObjFish__sub_8001EDB0((BmlResource *)this->m_374, 2);
+    temp_r31 = get_bml_texlist((BmlResource *)this->m_374, 2);
     bml_model = get_bml_model((BmlResource *)this->m_374, 2);
     bml_motion = get_bml_motion(this->m_374, 0);
     TObjFish::set_global_param(temp_r31);

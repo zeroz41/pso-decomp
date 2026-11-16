@@ -290,7 +290,7 @@ void load_warp_beam_resources(void) {
     }
     TObjWarpJung__beam_bml_resource = resource;
     warp_jung_beam_motion = get_bml_motion(resource, 0);
-    warp_jung_model_handle = TObjFish__sub_8001EDB0(TObjWarpJung__beam_bml_resource, 0);
+    warp_jung_model_handle = get_bml_texlist(TObjWarpJung__beam_bml_resource, 0);
     root = ((NJS_OBJECT *)get_bml_model(TObjWarpJung__beam_bml_resource, 1))->child;
     warp_jung_beam_models[0] = root->child->model;
     warp_jung_beam_models[1] = root->child->sibling->model;

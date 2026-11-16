@@ -826,7 +826,7 @@ extern "C" {
 bool vfunc_29__9TObjCharaFv(u8 *arg0);
 void TObjPlayer__sub_8000FF4C(void* p, s16 v);
 void spawn_poison_effect__10TObjPlayerFii(s32 arg0, s32 arg1);
-void TObjPlayer__sub_8001053C(u8 *arg0);
+void clear_velocity(u8 *arg0);
 void add_id_to_slots__10TObjPlayerFiUs(s32 arg0, u16 arg1);
 int vfunc_74__9TObjCharaFl(void);
 void recalc_stats__9TObjCharaFv(void);
@@ -1201,7 +1201,7 @@ s32 calc_shock_chance(TObjPlayer *actor, TObjPlayer *arg1, TObjPlayer *arg2) {
 }
 
 
-void TObjPlayer__sub_8001053C(u8 *arg0) {
+void clear_velocity(u8 *arg0) {
     *(f32 *)((s8 *)arg0 + 0x310) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x30C) = 0.0f;
     *(f32 *)((s8 *)arg0 + 0x308) = 0.0f;

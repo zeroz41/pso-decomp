@@ -26,7 +26,7 @@ struct Ctrl_8006EC20 {
 };
 
 extern "C" {
-s32 TWindowCtrlMain__sub_8024CE58();
+s32 has_window_task_root();
 void *get_player_by_client_id(s32 i);
 s32 TLobby__sub_80211C3C();
 extern s32 local_client_id;
@@ -70,7 +70,7 @@ void TObjBagWarnWin::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r0;
     if ((u32) *(u32 *)((s8 *)arg0 + 0x1C) == 0U) {
-        if (TWindowCtrlMain__sub_8024CE58() != 0) {
+        if (has_window_task_root() != 0) {
             if (TObjBagWarnWin::should_show_warning(arg0) != 0) {
                 temp_r0 = *(s32 *)((s8 *)arg0 + 0xA0) - 1;
                 *(s32 *)((s8 *)arg0 + 0xA0) = temp_r0;
@@ -98,7 +98,7 @@ void TObjBagWarnWin::open_message_window() {
         if (TCameraCtrl::get_camera_id() == 4) {
             ((TWindowAddition *)(*(u32 *)((s8 *)arg0 + 0x1C)))->set_position_xy(0.8f, 0.8f);
         }
-        strncpy(arg0 + 0x20, TQuestVmDownLoadServer__sub_8006EF6C(0x59), 0x7F);
+        strncpy(arg0 + 0x20, get_message_text(0x59), 0x7F);
         *(s8 *)((s8 *)arg0 + 0x9F) = 0;
         ((TWindowMessage *)(*(u32 *)((s8 *)arg0 + 0x1C)))->append_line((int)(arg0 + 0x20), (int)0);
     }

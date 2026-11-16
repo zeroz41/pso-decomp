@@ -39,14 +39,14 @@ s32 TChCrLoadAfs::try_begin_load() {
 }
 
 extern "C" {
-s32 TLobby__sub_803CC4C0(int);
+s32 adxf_get_stat(int);
 u32 adxf_open_afs__6TLobbyFii(s32, s32);
 }
 
 void TChCrLoadAfs::sub_8028B940() {  }
 void TChCrLoadAfs::sub_8028B944() {  }
 void TChCrLoadAfs::poll_load() {
-    switch (TLobby__sub_803CC4C0(load_handle)) {
+    switch (adxf_get_stat(load_handle)) {
     case 2:
         return;
     case 3:
@@ -86,7 +86,7 @@ void TChCrLoadAfs::start_download() {
             load_state = 3;
             return;
         }
-        count = TLobby__sub_803CC53C((u8 *)load_handle);
+        count = adxf_get_fsize_sct((u8 *)load_handle);
         buffer = (u32)TQuestVmDownLoadServer::alloc(count << 0xB);
         buffer_address = buffer;
         if (buffer == 0U) {
@@ -121,7 +121,7 @@ void TChCrLoadAfs::run_task() {
 TChCrLoadAfs::~TChCrLoadAfs() {
     u32 handle = load_handle;
     if (handle != 0) {
-        if (TLobby__sub_803CC4C0((int)handle) == 2) ((TLobby *)load_handle)->adxf_stop();
+        if (adxf_get_stat((int)handle) == 2) ((TLobby *)load_handle)->adxf_stop();
         ((TLobby *)load_handle)->close_adxf_handle();
         load_handle = 0;
     }
@@ -196,7 +196,7 @@ void TChCrLoadAfsTextureReq::update_loading() {
     s32 retry;
     s32 i;
     retry = 0;
-    switch (TLobby__sub_803CC4C0(load_handle)) {
+    switch (adxf_get_stat(load_handle)) {
     case 1:
         if (++m_20 >= 3) {
             return;
@@ -247,7 +247,7 @@ void TChCrLoadAfsTextureReq::start_read() {
     if (handle != 0) {
         m_20 = 0;
         m_24 = 0;
-        n = TLobby__sub_803CC53C((u8 *)load_handle);
+        n = adxf_get_fsize_sct((u8 *)load_handle);
         buf = (u32)TQuestVmDownLoadServer::alloc(n << 11);
         buffers[index] = buf;
         if (buf != 0) {

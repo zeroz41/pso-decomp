@@ -180,7 +180,7 @@ void TLobby::apply_menu_cursor_selection() {
     };
     GinjaTextureList *list = lists[current_language];
     menu_selection_cursor_texture_list = list;
-    TLobby__sub_8023E4B4((s32)names[current_language], (s32)list);
+    load_streamed_prs_texture((s32)names[current_language], (s32)list);
 }
 
 void TAdSelectCurGC__sub_802AF274(void* p, f32 v) { *(f32*)((char*)p + 0x704) = v; }

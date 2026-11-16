@@ -274,7 +274,7 @@ extern "C" {
 
 s32 get_main_phase();
 void mark_area_change_pending();
-void TKeyBoardControl__sub_8000F9CC(s32 arg0);
+void request_main_phase(s32 arg0);
 u16 get_entity_id(void *);
 s32 is_split_screen();
 s32 get_current_floor();
@@ -1272,13 +1272,13 @@ void TKeyBoardControl::dispatch_select_phase() {
     case 0:
         if (should_record_episode1_quest_completion() != 0) {
             TBoss4DarkFalz::dispatch_by_main_phase(0x3FE);
-            TKeyBoardControl__sub_8000F9CC(0xC);
+            request_main_phase(0xC);
         } else {
-            TKeyBoardControl__sub_8000F9CC(0x10);
+            request_main_phase(0x10);
         }
         break;
     case 1:
-        TKeyBoardControl__sub_8000F9CC(8);
+        request_main_phase(8);
         break;
     }
     init__23TAdSinglePlyChrSelectGCFv();

@@ -476,7 +476,7 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, void *setData, s32 index) : TObj
         exchange_object_state__9TObjEnemyFls(this, &objectState, 0);
     }
     m_380 = index;
-    texlist = TObjFish__sub_8001EDB0(TObjEnePanarms__entry_params_resource, lbl_8043CD38[m_380]);
+    texlist = get_bml_texlist(TObjEnePanarms__entry_params_resource, lbl_8043CD38[m_380]);
     model = (void *)get_bml_model(TObjEnePanarms__entry_params_resource, lbl_8043CD38[m_380]);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, lbl_80495458, 1);

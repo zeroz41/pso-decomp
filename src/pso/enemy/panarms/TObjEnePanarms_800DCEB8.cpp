@@ -308,7 +308,7 @@ TObjEnePanarms::TObjEnePanarms(TObject *parent, void *setData) : TObjEnemy(paren
     add_flags_2e4(2);
     apply_set_data(setData);
     clear_lobby_object_state();
-    texlist = TObjFish__sub_8001EDB0(TObjEnePanarms__entry_params_resource, 0);
+    texlist = get_bml_texlist(TObjEnePanarms__entry_params_resource, 0);
     model = (void *)get_bml_model(TObjEnePanarms__entry_params_resource, 0);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, panarms_collision_body, 1);

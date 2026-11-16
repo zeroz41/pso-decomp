@@ -58,7 +58,7 @@ s32 TObjGoalWarpAncient::get_instance() {
 }
 
 s32 TObjGoalWarpAncient::register_warp_object(s32 index) {
-    return TObjFish__sub_8001EDB0(ancient_warp_shared_resource, index);
+    return get_bml_texlist(ancient_warp_shared_resource, index);
 }
 
 void TObjGoalWarpAncient::load_resources() {

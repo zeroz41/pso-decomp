@@ -360,7 +360,7 @@ void THunterGuildSeqOffline__sub_80213EBC(void) {
 }
 void reset_quest_list_vm__22THunterGuildSeqOfflineFv(void) {
     if ((void *) (*(u8 * *)&offline_quest_list_vm) != NULL) {
-        ((VObj_18 *)((*(u8 * *)&offline_quest_list_vm)))->m5(TQuestVmDownLoadServer__sub_8006EF6C(0x43), 1);
+        ((VObj_18 *)((*(u8 * *)&offline_quest_list_vm)))->m5(get_message_text(0x43), 1);
         ((TShopWindowBase *)(*(u8 * *)&offline_quest_list_vm))->set_field_20(9);
         *(s32 *)((s8 *)(*(u8 * *)&offline_quest_list_vm) + 0x34) = 0;
     }

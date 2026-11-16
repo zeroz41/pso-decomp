@@ -86,7 +86,7 @@ u8 *TWindowDeposit__ct(u8 *arg0, s32 arg1) {
   construct_base__9TWindowDDFPUcsPUc((void *) arg0, &window_deposit_layout, (void *) arg1, (int) get_window_layout_position(0x29));
   *((s32 **) (((s8 *) arg0) + (((((0x18 & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu))) = &(*(RecoveredGlobal_8024E548___vt__14TWindowDeposit *)&__vt__14TWindowDeposit).value;
   *((s32 *) (((s8 *) arg0) + 0)) = (s32) TWindowDeposit__name;
-  str = TQuestVmDownLoadServer__sub_8006EF6C(2);
+  str = get_message_text(2);
   temp_r3_2 = calc_text_width((char *)str);
   spC = temp_r3_2;
   sp8 = 0x43300000;

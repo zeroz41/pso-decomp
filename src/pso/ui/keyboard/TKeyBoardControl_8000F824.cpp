@@ -92,7 +92,7 @@ s32 xmalloc__FUl(u32);
 s32 init_pad_slots_and_read__16TKeyBoardControlFv(int, int, int);
 void TObjPlayer__sub_803E492C(s32 a, s32 b);
 int OSResetSystem(void*, void*, void*);
-void TAdPlayerLoadGC__sub_801E1350(void);
+void free_banner_buffers(void);
 void release_all__23TAdSinglePlyChrSelectGCFv(void);
 void TAdWarningBaseGC__sub_8032D188(void);
 void TLobby__sub_80147978(void);
@@ -144,7 +144,7 @@ void shutdown_and_reset_system(void) {
     fn_800FFE0C();
     init_depth_alpha_state();
     release_blob_shadow_texture();
-    TAdPlayerLoadGC__sub_801E1350();
+    free_banner_buffers();
     TParticleCtrl::free_system();
     TParticleCtrl::reset_emitter_table();
     free_effect_resources();
@@ -172,7 +172,7 @@ void shutdown_and_reset_system(void) {
     OSResetSystem((void*)1, (void*)0, (void*)1);
 }
 
-s32 TKeyBoardControl__sub_8000F8EC(void) {
+s32 get_previous_main_phase(void) {
     return main_phase_state.prev;
 }
 
@@ -184,7 +184,7 @@ void TKeyBoardControl__sub_8000F90C(s32 arg0) {
     main_phase_state.unkC = arg0;
 }
 
-void TKeyBoardControl__sub_8000F91C(s32 arg0) {
+void set_queued_main_phase(s32 arg0) {
     main_phase_state.unk8 = arg0;
 }
 
@@ -234,7 +234,7 @@ s32 request_queued_main_phase(void) {
     return main_phase_state.next = main_phase_state.unk8;
 }
 
-void TKeyBoardControl__sub_8000F9CC(s32 arg0) {
+void request_main_phase(s32 arg0) {
     main_phase_state.next = arg0;
     main_phase_state.result = 1;
 }

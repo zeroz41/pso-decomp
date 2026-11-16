@@ -253,7 +253,7 @@ void VecCopy__FP3VecPC3Vec(void *, void *);
 u16 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
 s32 get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
+s32 get_bml_texlist(BmlResource *resource, s32 index);
 s32 get_bml_model(BmlResource *resource, s32 index);
 s32 TBoss4DarkFalz__sub_8004AF5C(s32, s16 *, s16 *);
 void TBoss4DarkFalz__sub_8004B4F0(void *, void *);
@@ -810,7 +810,7 @@ void TBoss4Type1::draw_parts() {
     s32 a;
     set_motion_packed_rotation();
     for (i = 0; i < 6; i++) {
-        TObjFish__sub_8001EDB0((BmlResource *)(*(s32 *)((s8 *)arg0 + 0x390)), lbl_80485EB0[i]);
+        get_bml_texlist((BmlResource *)(*(s32 *)((s8 *)arg0 + 0x390)), lbl_80485EB0[i]);
         set_global_param__8TObjFishFl();
         switch (i) {
         case 2:
