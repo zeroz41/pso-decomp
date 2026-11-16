@@ -83,7 +83,6 @@ s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void *find_entity_by_id(u16 id);
 void check_enemy_body_collisions(void *arg0);
 s32 play_sound_effect(void *, void *, int, int);
-extern Hit_800D4200 lbl_8043C440[];
 
 void rotate_vector_by_matrix(int, void *, void *);
 extern u8 identity_matrix[];
@@ -155,7 +154,7 @@ void TUnk_8049442C::sub_800D4200() {
                 break;
             }
             if (obj_is_hit_receivable() != 0 && t != self) {
-                Hit_800D4200 tmp = lbl_8043C440[0];
+                Hit_800D4200 tmp = {0, 0.0f};
                 tmp.b = get_gyaranzo_missile_int_parameter(3);
                 {
                     Hit_800D4200 h = tmp;

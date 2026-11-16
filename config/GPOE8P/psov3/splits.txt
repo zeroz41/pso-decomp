@@ -1398,7 +1398,7 @@ pso/enemy/beast/TObjEneBeast.cpp:
 	.rodata     start:0x80439BA0 end:0x80439DA0
 	.data       start:0x8048F2C8 end:0x8048F650
 	.sdata      start:0x805D2980 end:0x805D2988
-	.sbss       start:0x805D4F38 end:0x805D4F48
+	.sbss       start:0x805D4F38 end:0x805D4F54
 	.sdata2     start:0x805D96D8 end:0x805D9714
 
 pso/player/TObjPlayer_80092A7C.cpp:
@@ -1433,6 +1433,7 @@ pso/enemy/bringer/TObjEneDf2Bringer.cpp:
 	.text       start:0x80097100 end:0x80099EF8
 	.rodata     start:0x80439F70 end:0x8043A128
 	.data       start:0x8048FA10 end:0x8048FE08
+	.bss        start:0x805008A8 end:0x805008B8
 	.sdata      start:0x805D29A0 end:0x805D29A8
 	.sdata2     start:0x805D97D8 end:0x805D9850
 
@@ -1607,7 +1608,7 @@ pso/enemy/dd/TObjEneDD.cpp:
 	.bss        start:0x80500B98 end:0x80500BB8
 	.sdata      start:0x805D2A30 end:0x805D2A38
 	.sbss       start:0x805D5138 end:0x805D5140
-	.sdata2     start:0x805D9E90 end:0x805D9EB0
+	.sdata2     start:0x805D9E80 end:0x805D9EB0
 
 pso/player/TObjPlayer_800BBE90.cpp:
 	.text       start:0x800BBE90 end:0x800BC3C4
@@ -1726,7 +1727,7 @@ pso/enemy/gyaranzo/TObjEneGyaranzo.cpp:
 
 pso/enemy/gyaranzo/TObjGyaranzoMissile_800D40D8.cpp:
 	.text       start:0x800D40D8 end:0x800D47B4
-	.rodata     start:0x8043C448 end:0x8043C450
+	.rodata     start:0x8043C440 end:0x8043C450
 	.data       start:0x80494400 end:0x80494464
 	.sdata2     start:0x805DA2A0 end:0x805DA2BC
 
@@ -10620,6 +10621,7 @@ pso/enemy/epsilon/TObjEneEpsilonGuard_8035F5C8.cpp:
 	.text       start:0x8035F5C8 end:0x803626A8
 	.rodata     start:0x80479C90 end:0x80479EA0
 	.data       start:0x804F2230 end:0x804F24E8
+	.bss        start:0x805439F0 end:0x80543A18
 	.sdata      start:0x805D4460 end:0x805D4464
 	.sbss       start:0x805D6F90 end:0x805D6FA0
 	.sdata2     start:0x805E0208 end:0x805E0248

@@ -666,7 +666,6 @@ s32 TObjPlayer__sub_800A04F0(void *);
 s32 play_sound_effect(void *, void *, int, int);
 s32 get_camera_ctrl__9TObjEneDDFv(void *, int);
 s32 rotate_matrix_x(int, int);
-extern Vec bringer_camera_ctrl_target_vec;
 extern s32 TObjEneDf2Bringer__render_node_index;
 extern s32 TObjEneDf2Bringer__render_rotation_x;
 extern s32 TObjEneDf2Bringer__render_point_cursor;
@@ -696,6 +695,8 @@ extern s32 TObjEneDf2Bringer__trail_buffer;
 
 
 }
+
+Vec bringer_camera_ctrl_target_vec;
 
 
 #define F_8009(off, T) (*(T *)(arg0 + (off)))
