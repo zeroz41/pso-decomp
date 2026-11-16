@@ -73,7 +73,6 @@ f32 atan2_float(f32 y, f32 x);
 s32 is_over_limit__16TObjEneRe7BeruraFv(void *);
 s32 TObjEneRe7Berura__sub_8009518C(TObjEneRe7Berura *);
 void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *self, s32 arg1);
-s32 get_field_3D4_shifted__16TObjEneRe7BeruraFPv(TObjEneRe7Berura *);
 s32 enemy_validate_retained_target(u8 *arg0);
 void TObjEneDD__sub_800BA378(s32 arg0, u8 *arg1);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
@@ -106,7 +105,6 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1);
 
 void TObjEneRe7Berura__sub_80094C68(TObjEneRe7Berura *self);
 void TObjEneRe7Berura__sub_80094D98(TObjEneRe7Berura *self);
-void set_data_and_draw_node_tree__16TObjEneRe7BeruraFii(NJS_OBJECT *obj, u8 *matrices);
 void draw_node_tree__16TObjEneRe7BeruraFPv(NJS_OBJECT *obj);
 
 
@@ -686,9 +684,9 @@ void draw_node_tree__16TObjEneRe7BeruraFPv(NJS_OBJECT *obj) {
     } while (obj != NULL);
 }
 
-void set_data_and_draw_node_tree__16TObjEneRe7BeruraFii(NJS_OBJECT *obj, u8 *matrices) {
+void TObjEneRe7Berura::set_data_and_draw_node_tree(u8 *matrices) {
     TObjEneRe7Berura__node_matrix_cursor = matrices;
-    draw_node_tree__16TObjEneRe7BeruraFPv(obj);
+    draw_node_tree__16TObjEneRe7BeruraFPv(((NJS_OBJECT *)this));
 }
 
 void TObjEneRe7Berura::init_part(s32 arg0) {
@@ -696,15 +694,15 @@ void TObjEneRe7Berura::init_part(s32 arg0) {
 
     set_global_param__8TObjFishFl(TObjEneRe7Berura__shared_resource->models->m_c, TObjEneRe7Berura__shared_resource);
     part = &TObjEneRe7Berura__detached_part_states[arg0];
-    set_data_and_draw_node_tree__16TObjEneRe7BeruraFii(&part->object, part->node_matrices);
+    ((TObjEneRe7Berura *)(&part->object))->set_data_and_draw_node_tree(part->node_matrices);
 }
 
-s32 get_field_3D4_shifted__16TObjEneRe7BeruraFPv(TObjEneRe7Berura *self) {
-    return self->m_3d4 << 0xF;
+s32 TObjEneRe7Berura::get_field_3D4_shifted() {
+    return this->m_3d4 << 0xF;
 }
 
 void TObjEneRe7Berura::init_fields4B8() {
-    this->m_4b8 = get_field_3D4_shifted__16TObjEneRe7BeruraFPv(this);
+    this->m_4b8 = get_field_3D4_shifted();
     this->m_4bc = 0;
 }
 
@@ -1249,7 +1247,7 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
         actor->m_4c0 = 0;
         actor->m_4c4 = 0;
         actor->m_4c8 = 0;
-        actor->m_4cc = get_field_3D4_shifted__16TObjEneRe7BeruraFPv(actor);
+        actor->m_4cc = ((TObjEneRe7Berura *)actor)->get_field_3D4_shifted();
         return;
     case 3:
         if (actor->m_4c0 != 0) {

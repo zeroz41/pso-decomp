@@ -103,7 +103,7 @@ void run_task__12TEneEffHamonFv(u8 *arg0) {
 void TEneEffHamon__sub_800A380C(void) {  }
 
     extern int player_effect_bml_resource;
-void init_fish_effects__12TEneEffHamonFv(void) { TEneEffHamon__fish_model = get_bml_model((void*)player_effect_bml_resource, (void*)3); TEneEffHamon__fish_effect_param = TObjFish__sub_8001EDB0((void*)player_effect_bml_resource, (void*)3); }
+void TEneEffHamon::init_fish_effects() { TEneEffHamon__fish_model = get_bml_model((void*)player_effect_bml_resource, (void*)3); TEneEffHamon__fish_effect_param = TObjFish__sub_8001EDB0((void*)player_effect_bml_resource, (void*)3); }
 
 }
 

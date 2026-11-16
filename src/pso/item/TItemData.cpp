@@ -106,7 +106,6 @@ void *calc_technique_parameters(u8, u8, s32);
 s32 is_challenge_mode_active();
 extern s32 local_client_id;
 f32 calc_clock_bonus__9TItemDataFPv(u8 *arg0);
-f32 get_set_bonus_multiplier__9TItemDataFPvi(void *self, s32 player);
 void * lookup_item_pmt_record(u8 *item);
 s16 getS16_06__9TItemDataFPv(void *arg0);
 s16 get_bswap16_field8__9TItemDataFPv(void *arg0);
@@ -324,11 +323,11 @@ void apply_bonuses(u8 *item, s32 arg1, u8 *a, u8 *b, Stats_8010BA9C *st) {
     }
 }
 
-void add_mag_stat_bonuses__9TItemDataFv(u8 *item, s32 player, u8 *a, u8 *b, EquipStats *st, s32 w5) {
+void TItemData::add_mag_stat_bonuses(s32 player, u8 *a, u8 *b, EquipStats *st, s32 w5) {
     Mag_8010D614 mag;
 
     ((MagStats *)&mag)->init();
-    deserialize_mag__9TItemDataFPvPv((Raw_8010D614 *)item, &mag);
+    deserialize_mag__9TItemDataFPvPv((Raw_8010D614 *)((u8 *)this), &mag);
     if (st != NULL && st != NULL) {
         st->s0 += (s16)(mag_stat_bonus_scale[0] * (f32)((MagStats *)&mag)->get_pow_level());
         st->sA += (s16)(mag_stat_bonus_scale[1] * (f32)(((MagStats *)&mag)->get_dex_level() * 10));
@@ -413,7 +412,7 @@ void apply_unit_stat_bonus__9TItemDataFPviiPvPvPv(void *self, s32 arg1, s32 arg2
 void add_shield_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 unused, s16 *out) {
     s32 b06;
     Parm_8010C0A4 *parm;
-    f32 mult = get_set_bonus_multiplier__9TItemDataFPvi(self, player);
+    f32 mult = ((TItemData *)self)->get_set_bonus_multiplier(player);
     f32 add = ((f32 (*)(u8 *, s32))calc_clock_bonus__9TItemDataFPv)(self, player);
     parm = ((Parm_8010C0A4 *)lookup_item_pmt_record(self));
     if (parm != 0) {
@@ -438,7 +437,7 @@ void add_shield_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 u
 void add_armor_stat_contribution__9TItemDataFPviiPv(u8 *self, s32 player, s32 unused, s16 *out) {
     s32 dfpBonus;
     Parm_8010C1E0 *parm;
-    f32 mult = get_set_bonus_multiplier__9TItemDataFPvi(self, player);
+    f32 mult = ((TItemData *)self)->get_set_bonus_multiplier(player);
     f32 add = ((f32 (*)(u8 *, s32))calc_clock_bonus__9TItemDataFPv)(self, player);
     parm = lookup_item_pmt_record(self);
     if (parm != 0) {
@@ -466,7 +465,7 @@ void TItemData::add_weapon_stat_bonuses(s32 player, s16 *out, s32 unused, s16 *o
   s16 hi;
   s32 i;
   Parm_8010C320 *parm;
-  f32 mult = get_set_bonus_multiplier__9TItemDataFPvi(this, player);
+  f32 mult = get_set_bonus_multiplier(player);
   f32 add = ((f32 (*)(u8 *, s32)) calc_clock_bonus__9TItemDataFPv)(((u8 *)this), player);
   parm = (Parm_8010C320 *) ((Parm_8010C1E0 *)lookup_item_pmt_record(this));
   if (parm != 0)
@@ -869,7 +868,6 @@ s32 get_text_collection(s32 arg0);
 s8 *get_item_by_slot_flag__10TObjPlayerFUc(u8);
 extern char lbl_805DAB8C;
 void TItemData__clear_unidentified_flag(void *arg0);
-void add_mag_stat_bonuses__9TItemDataFv(u8 *item, s32 player, u8 *a, u8 *b, EquipStats *st, s32 w5);
 s32 get_unit_attribute_index__10TObjPlayerFUc(u8);
 
 void lookup_item_def__9TItemDataFPv(void *arg0) {
@@ -1446,8 +1444,8 @@ f32 TItemData::get_weapon_set_multiplier(u8 *item_data) {
   return var_f31;
 }
 
-f32 get_set_bonus_multiplier__9TItemDataFPvi(void *self, s32 player) {
-    u8 *item = (u8 *)self;
+f32 TItemData::get_set_bonus_multiplier(s32 player) {
+    u8 *item = (u8 *)this;
     switch (item[0]) {
     case 0:
         return ((TItemData *)item)->get_weapon_set_multiplier((u8 *)player);
@@ -1466,7 +1464,7 @@ f32 get_set_bonus_multiplier__9TItemDataFPvi(void *self, s32 player) {
 void TItemData::apply_equip_effects(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
 
     if ((arg1 != 0) || (arg1 = get_player_by_client_id(local_client_id), ((arg1 == 0) == 0))) {
-        get_set_bonus_multiplier__9TItemDataFPvi(this, arg1);
+        get_set_bonus_multiplier(arg1);
         calc_clock_bonus__9TItemDataFPv(this, arg1);
         switch ((s32) (*(u8 *)((s8 *)this + 0))) {
         case 0:
@@ -1486,7 +1484,7 @@ void TItemData::apply_equip_effects(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 
             }
             break;
         case 2:
-            add_mag_stat_bonuses__9TItemDataFv((u8 *)this, arg1, (u8 *)arg2, (u8 *)arg3, (EquipStats *)arg4, arg5);
+            add_mag_stat_bonuses(arg1, (u8 *)arg2, (u8 *)arg3, (EquipStats *)arg4, arg5);
             break;
         }
         apply_bonuses(this, arg1, arg2, arg3, arg4, arg5);

@@ -1,4 +1,5 @@
 #include "pso/audio/SoundBankTables.h"
+#include "pso/unk/TLobby.h"
 
 // --- data head (folded from pso/audio/SoundBankTables.cpp) ---
 
@@ -516,9 +517,9 @@ u16 calculate_crc16_ccitt(const u8* bytes, s32 count);
 extern "C" {
 s32 sndOutputMode(s32);
 
-s32 advance_rng__6TLobbyFPv(void *arg0) {
-    *(s32 *)((s8 *)arg0 + 0x2AC) = (s32) ((*(s32 *)((s8 *)arg0 + 0x2AC) * 0x10DCD) + 1);
-    return *(s32 *)((s8 *)arg0 + 0x2AC);
+s32 TLobby::advance_rng() {
+    *(s32 *)((s8 *)this + 0x2AC) = (s32) ((*(s32 *)((s8 *)this + 0x2AC) * 0x10DCD) + 1);
+    return *(s32 *)((s8 *)this + 0x2AC);
 }
 
 void TLobby__sub_8023F754(s32 arg0, s32 arg1) {
@@ -531,12 +532,12 @@ void TLobby__sub_8023F754(s32 arg0, s32 arg1) {
 
 void set_sound_slot_special_scale(s32 slot, f32 scale) {
     if (slot < 0 || slot >= 32) return;
-    clamp_field9c__6TLobbyFPvf(&lbl_805162EC[slot], scale);
+    clamp_field9c__6TLobbyFf(&lbl_805162EC[slot], scale);
 }
 
-f32 get_field_2a4__6TLobbyFPv(void* p) { return *(f32*)((char*)p + 0x2a4); }
-s32 get_field_0x280__6TLobbyFPv(void* p) { return *(s32*)((char*)p + 0x280); }
-void set_menu_index__6TLobbyFPvi(void* p, s32 v) { *(s32*)((char*)p + 0x280) = v; }
+f32 TLobby::get_field_2a4() { return *(f32*)((char*)this + 0x2a4); }
+s32 TLobby::get_field_0x280() { return *(s32*)((char*)this + 0x280); }
+void TLobby::set_menu_index(s32 v) { *(s32*)((char*)this + 0x280) = v; }
 void set_mode__6TLobbyFPvi(void *arg0, s32 arg1) {
     switch (arg1) {
     case 0:
@@ -555,7 +556,7 @@ void set_mode__6TLobbyFPvi(void *arg0, s32 arg1) {
 }
 
 
-void set_clamped_field27c__6TLobbyFPvf(void *arg0, f32 farg0) {
+void TLobby::set_clamped_field27c(f32 farg0) {
     f32 var_f1;
 
     var_f1 = farg0;
@@ -565,7 +566,7 @@ void set_clamped_field27c__6TLobbyFPvf(void *arg0, f32 farg0) {
     if (var_f1 > 1.0f) {
         var_f1 = 1.0f;
     }
-    *(f32 *)((s8 *)arg0 + 0x27C) = var_f1;
+    *(f32 *)((s8 *)this + 0x27C) = var_f1;
 }
 #pragma opt_common_subs off
 #pragma opt_propagation off
@@ -615,7 +616,7 @@ s32 alloc_looping_sound_slot(u32 id, s32 actor, const void *position, s32 base, 
     }
     return -6;
 found:
-    init_sound_voice__6TLobbyFPviiii(&lbl_805162EC[i], 0, id >> 16, id & 0xFFFF, flags | 1);
+    init_sound_voice__6TLobbyFllll(&lbl_805162EC[i], 0, id >> 16, id & 0xFFFF, flags | 1);
     lbl_805162EC[i].base = base;
     lbl_805162EC[i].extra = 0;
     lbl_805162EC[i].spatial = 0;
@@ -644,7 +645,7 @@ s32 alloc_one_shot_sound_slot(u32 id, const void *position, s32 base, s32 flags)
     }
     return -6;
 found:
-    init_sound_voice__6TLobbyFPviiii(&lbl_805162EC[i], 0, id >> 16, id & 0xFFFF, flags);
+    init_sound_voice__6TLobbyFllll(&lbl_805162EC[i], 0, id >> 16, id & 0xFFFF, flags);
     lbl_805162EC[i].base = base;
     lbl_805162EC[i].extra = 0;
     lbl_805162EC[i].spatial = 0;
@@ -793,13 +794,13 @@ void TLobby__sub_8023FCC0(SoundControlState *self) {
     }
 }
 
-void reset_sound_group_fade__6TLobbyFv(void) {
+void TLobby::reset_sound_group_fade() {
     s32 i;
     for (i = 0; i < 0x20; i++) {
         lbl_805162EC[i].extra = -0x100;
     }
 }
-void fade_voice_channels__6TLobbyFi(s32 arg0) {
+void TLobby::fade_voice_channels(s32 arg0) {
     s32 i;
     for (i = 0; i < 0x20; i++) {
         ((void (*)(void*, s32))start_voice_fade)(&lbl_805162EC[i], arg0);
@@ -897,7 +898,7 @@ s32 update_sound_frame(SoundControlState *self) {
     self->tick = t;
     self->ms = self->elapsed / ((*(u32 *)0x800000F8 >> 2) / 1000);
     TLobby__sub_8023FCC0(self);
-    advance_rng__6TLobbyFPv(self);
+    ((TLobby *)self)->advance_rng();
     for (i = 0; i < 40; i++) {
         tick_sound_voice(&lbl_805162EC[i]);
     }
@@ -917,9 +918,9 @@ s32 update_sound_frame(SoundControlState *self) {
     return 0;
 }
 
-s32 reset_sound_state__6TLobbyFPv(u8 *arg0) {
-    pop_sound_groups__6TLobbyFPvi(arg0, 1);
-    *(s32 *)((s8 *)arg0 + 0x298) = 4;
+s32 TLobby::reset_sound_state() {
+    TLobby::pop_sound_groups(((u8 *)this), 1);
+    *(s32 *)((s8 *)((u8 *)this) + 0x298) = 4;
     return 0;
 }
 extern "C" {
@@ -938,7 +939,7 @@ s32 init_sound_aux_effects(SoundControlState *self) {
     u32 size;
 
     for (i = 0; i < 40; i++) {
-        set_field0__6TLobbyFPvi(&lbl_805162EC[i], self);
+        set_field0__6TLobbyFPv(&lbl_805162EC[i], self);
     }
     self->tick = OSGetTick();
     self->elapsed = 0;
@@ -997,11 +998,11 @@ s32 init_sound_aux_effects(SoundControlState *self) {
 }
 
 #define M ((Mgr_802405B0 *)p)
-s32 pop_sound_groups__6TLobbyFPvi(void *p, s32 arg1) {
+s32 TLobby::pop_sound_groups(void *p, s32 arg1) {
     s32 idx;
     s32 n;
-    ((s32 (*)(int))fade_voice_channels__6TLobbyFi)(0);
-    ((s32 (*)(void))reset_sound_group_fade__6TLobbyFv)();
+    TLobby::fade_voice_channels(0);
+    TLobby::reset_sound_group_fade();
     if (M->state == -1) {
         return 8;
     }
@@ -1064,23 +1065,23 @@ s32 pop_sound_groups__6TLobbyFPvi(void *p, s32 arg1) {
 #pragma fp_contract on
 s32 sndVolume(s32, s32, s32);
 
-s32 validate_and_set_selection__6TLobbyFPvi(void *arg0, s32 arg1) {
+s32 TLobby::validate_and_set_selection(s32 arg1) {
     if ((arg1 < 0) || (arg1 >= 0x16)) {
         return 4;
     }
-    if ((arg1 != 0) && ((s32) *(s32 *)((s8 *)arg0 + 0x288) == -1)) {
+    if ((arg1 != 0) && ((s32) *(s32 *)((s8 *)this + 0x288) == -1)) {
         return 8;
     }
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x288) > 0) {
-        pop_sound_groups__6TLobbyFPvi(arg0, 0);
+    if ((s32) *(s32 *)((s8 *)this + 0x288) > 0) {
+        TLobby::pop_sound_groups(this, 0);
     }
     sndVolume(0x7F, 0, 0xFF);
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x298) != 1) {
+    if ((s32) *(s32 *)((s8 *)this + 0x298) != 1) {
         return 9;
     }
-    *(s32 *)((s8 *)arg0 + 0x2B0) = -1;
-    *(s32 *)((s8 *)arg0 + 0x2B4) = (s32) sound_bank_load_routes[arg1];
-    *(s32 *)((s8 *)arg0 + 0x29C) = arg1;
+    *(s32 *)((s8 *)this + 0x2B0) = -1;
+    *(s32 *)((s8 *)this + 0x2B4) = (s32) sound_bank_load_routes[arg1];
+    *(s32 *)((s8 *)this + 0x29C) = arg1;
     return 0;
 }
 
@@ -1113,13 +1114,13 @@ SoundControlState::SoundControlState() {
 u16 calculate_crc16_ccitt(const u8* bytes, s32 count) {
     u16 crc = 0;
     while (count-- > 0) {
-        crc = update_crc16_ccitt__6TLobbyFUsUc(crc, *bytes);
+        crc = TLobby::update_crc16_ccitt(crc, *bytes);
         ++bytes;
     }
     return crc;
 }
 
-u16 update_crc16_ccitt__6TLobbyFUsUc(u16 crc, u8 c) {
+u16 TLobby::update_crc16_ccitt(u16 crc, u8 c) {
     s32 i;
     u32 r = crc;
     r ^= c << 8;

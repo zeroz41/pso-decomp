@@ -134,6 +134,13 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     void face_target();
     void forward_hit_to_enemy_list();
     void init_child_from_list();
+    int is_active();
+    f32 calc_anim_speed(f32 speed);
+    s32 update_target();
+    void pick_wander_destination();
+    void turn_toward_angle(s32 angle);
+    static TObjEneBm5GibonU *find_enemy_by_id(s32 id);
+    void *update_photon_mylla();
 };
 
 typedef char TObjEneBm5GibonU_size[sizeof(TObjEneBm5GibonU) == 0x568 ? 1 : -1];
@@ -170,9 +177,9 @@ Vec *TObjEneBm5GibonU__sub_800D1D78(TObjEneBm5GibonU *self);
 s32 __dt__16TObjEneBm5GibonUFis(s32 arg0, s16 arg1);
 void action__16TObjEneBm5GibonUFPvi(TObjEneBm5GibonU *arg0, s32 arg1);
 void calc_rotated_vector__16TObjEneBm5GibonUFPviPvPv(TObjEneBm5GibonU *self, s32 angle, Vec *out, s32 *rotation);
-int is_active__16TObjEneBm5GibonUFPv(TObjEneBm5GibonU *self);
-void *update_photon_mylla__16TObjEneBm5GibonUFPv(TObjEneBm5GibonUNode *node);
-s32 update_target__16TObjEneBm5GibonUFPv(TObjEneBm5GibonU *self);
+int is_active__16TObjEneBm5GibonUFv(TObjEneBm5GibonU *self);
+void *update_photon_mylla__16TObjEneBm5GibonUFv(TObjEneBm5GibonUNode *node);
+s32 update_target__16TObjEneBm5GibonUFv(TObjEneBm5GibonU *self);
 }
 
 #endif

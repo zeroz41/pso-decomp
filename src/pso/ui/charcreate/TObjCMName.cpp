@@ -286,7 +286,6 @@ int get_keyboard_field_6c__15TWindowMakeTeamFv(TKeyBoardControl *, char *);
 void mem_free(void *p);
 Hair_802964B0 * __ct__14TObjCMHairMenuFv(Hair_802964B0 *arg0, void *arg1);
 void render__16TObjCMAssignMenuFv(Menu_80296928 *self);
-void * create__16TObjCMAssignMenuFPvPv(void *arg0, void *arg1);
 void * __ct__16TObjCMAssignMenuFv(void *arg0, void *parent, void *kind);
 void fn_802972BC(void);
 void fn_802972C0(void);
@@ -1047,7 +1046,7 @@ extern "C" {
 void TObjCMMainMenu::open_assign_menu(void *) {
     play_sound_effect(0x52D01, 0, 0, 0);
     TObjCMMainMenu__data_805D659C = 1;
-    create__16TObjCMAssignMenuFPvPv(nodes, (void *)TObjCMMainMenu__data_804DB9C8[entries[selected_entry]].kind);
+    TObjCMAssignMenu::create(nodes, (void *)TObjCMMainMenu__data_804DB9C8[entries[selected_entry]].kind);
 }
 
 void TObjCMMainMenu::open_hair_menu(void *) {
@@ -1166,7 +1165,7 @@ void *__ct__16TObjCMAssignMenuFv(void *obj_cm_assign_menu, void *parent, void *k
 
 TObjCMAssignMenu::~TObjCMAssignMenu() {}
 
-void * create__16TObjCMAssignMenuFPvPv(void *parent, void *kind) {
+void *TObjCMAssignMenu::create(void *parent, void *kind) {
     void *o;
     o = __nw__7TObjectFUl(0x5C);
     if (o != NULL) {

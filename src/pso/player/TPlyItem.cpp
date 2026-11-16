@@ -515,7 +515,7 @@ void TLobby::reduce_item_amount(s32 arg1, s32 arg2, s32 arg3) {
     }
 }
 
-void remove_equipped_item__10TObjPlayerFPvii(void *arg0, s32 arg1, void *arg2) {
+void TObjPlayer::remove_equipped_item(s32 arg1, void *arg2) {
     s16 count;
     TItem *item;
 
@@ -524,8 +524,8 @@ void remove_equipped_item__10TObjPlayerFPvii(void *arg0, s32 arg1, void *arg2) {
         if (is_item_equipped(item) != 0) {
             unequip_item__10TObjPlayerFiPv(arg1, item);
         }
-        count = *(s16 *)((s8 *)arg0 + 0x1C);
-        *(s16 *)((s8 *)arg0 + 0x1C) = (count - 1);
+        count = *(s16 *)((s8 *)this + 0x1C);
+        *(s16 *)((s8 *)this + 0x1C) = (count - 1);
         item->destroy();
         ((TObject *)arg2)->queue_destruction();
     }
@@ -539,7 +539,7 @@ extern "C" s32 TObjPlayer__sub_801D49F4(void *inventory, s32 player, s32 *arg2, 
         if (node == NULL) {
             return 0;
         }
-        remove_equipped_item__10TObjPlayerFPvii(inventory, player, node);
+        ((TObjPlayer *)inventory)->remove_equipped_item(player, node);
     }
     return 1;
 }

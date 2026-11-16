@@ -58,7 +58,7 @@ struct Ent_80271F04 {
 extern "C" {
 u8 *get_shared_text_buffer(void);
 void mem_free(void *p);
-void send_simple_mail__6TLobbyFiPv(s32 arg0, void *arg1);
+void send_simple_mail__6TLobbyFlPv(s32 arg0, void *arg1);
 }
 s32 *get_selected_guild_card_record(void);
 extern "C" {
@@ -72,7 +72,7 @@ void cleanup__17TWindowSubComCardFPv(void* p);
 void init_layout__17TWindowSubComCardFv(void);
 void send_cmd_133__17TWindowSubComCardFv(void);
 void send_command__17TWindowSubComCardFi(s32 arg0);
-int send_find_user_self_tag__6TLobbyFi(void);
+int send_find_user_self_tag__6TLobbyFl(void);
 s32 get_card_entry_data__17TWindowSubComCardFv(s32);
 int get_card_entry__17TWindowSubComCardFi(void);
 int get_selected_value__11TWindowMenuFv(void*);
@@ -155,7 +155,7 @@ void init_layout__17TWindowSubComCardFv(void) {
     TWindowSubComCard::create_card_list(get_window_layout_position(0x91), card_slot, 0x1C, 1);
 }
 void send_cmd_133__17TWindowSubComCardFv(void) { get_window_layout_position(133); fn_802754EC(); }
-void cleanup__17TWindowSubComCardFPv(void* p) { ((TWindowMenu *)(*(void**)((char*)p + 0x84)))->get_selected_value(); get_card_entry__17TWindowSubComCardFi(); get_card_id__17TWindowSubComCardFv(); send_find_user_self_tag__6TLobbyFi(); }
+void cleanup__17TWindowSubComCardFPv(void* p) { ((TWindowMenu *)(*(void**)((char*)p + 0x84)))->get_selected_value(); get_card_entry__17TWindowSubComCardFi(); get_card_id__17TWindowSubComCardFv(); send_find_user_self_tag__6TLobbyFl(); }
 #pragma scheduling off
 void TWindowSubComCard::sub_802721D8() {
   u8 *new_var;
@@ -167,7 +167,7 @@ void TWindowSubComCard::sub_802721D8() {
   TWindowSubComCard::mask_profanity_words((char *)temp_r30, (char *)get_shared_text_buffer());
   new_var = get_shared_text_buffer();
   temp_r31 = (u8 *) new_var;
-  send_simple_mail__6TLobbyFiPv(((TLobby *)lobby)->get_id(), temp_r31);
+  send_simple_mail__6TLobbyFlPv(((TLobby *)lobby)->get_id(), temp_r31);
   mem_free((void *)temp_r30);
 }
 }
@@ -372,7 +372,7 @@ u32 TWindowSubComCard__sub_80272640(void *) {
     n = get_short_mail_ctrl__6TLobbyFv();
     for (i = n - 1; i >= 0; i--) {
         e = TLobby__sub_8022598C(i);
-        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)w, (int)fn_8007B83C(e), 7, get_lobby_id__6TLobbyFPv(e));
+        forward_trade_action_default__16TObjCityMainWarpFPviii((void *)w, (int)fn_8007B83C(e), 7, get_lobby_id__6TLobbyFv(e));
     }
     if (n <= 0) {
         TWindowSubComCard::draw_text_gray(w, (s32)TWindowSubStatusDisp::get_message_10(0xD1), 7, 0);
@@ -668,7 +668,7 @@ void TWindowSubShortMail__sub_80131998(void *arg0);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 play_sound_effect(int, int, int, int);
-void find_and_load_com_card__6TLobbyFUi(u32 arg0);
+void find_and_load_com_card__6TLobbyFUl(u32 arg0);
 s32 TLobby__sub_8024259C();
 s32 fn_80244958(int, int);
 void fn_802449E0(u8 *arg0);
@@ -1217,7 +1217,7 @@ void run_task__17TWindowSubComCardFv(TWindowSubComCard *window_sub_com_card) {
             return;
         }
         if (((TWindowMenu *)(window_sub_com_card->m_68))->is_decided() != 0) {
-            find_and_load_com_card__6TLobbyFUi(((TWindowMenu *)window_sub_com_card->m_68)->get_selected_value());
+            find_and_load_com_card__6TLobbyFUl(((TWindowMenu *)window_sub_com_card->m_68)->get_selected_value());
             window_sub_com_card->m_1c = 0x1FU;
             return;
         }

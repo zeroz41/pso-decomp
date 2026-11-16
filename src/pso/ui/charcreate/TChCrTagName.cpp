@@ -240,14 +240,14 @@ TChCrTagName::TChCrTagName(TObject *parent, void *arg) : TChCrTag(parent, arg) {
 extern "C" {
 #pragma pop
 
-void *create__12TChCrTagNameFPv(void *arg0) {
+void *TChCrTagName::create(void *arg0) {
     return new TChCrTagName(tl_03, arg0);
 }
 
-void create_all__12TChCrTagNameFv(void) {
+void TChCrTagName::create_all() {
     int i;
     for (i = 0; i < 12; i++) {
-        create__12TChCrTagNameFPv((void *)i);
+        TChCrTagName::create((void *)i);
     }
 }
 

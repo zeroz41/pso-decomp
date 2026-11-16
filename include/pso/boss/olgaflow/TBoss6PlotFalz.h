@@ -103,6 +103,7 @@ struct TBoss6PlotFalz : public TObjEnemy {
     void sub_802B08F0();
     void init_proto1_adx();
     void sub_802B0A34();
+    static void update_active_flag();
 };
 
 extern "C" {

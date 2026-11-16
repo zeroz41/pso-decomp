@@ -134,6 +134,9 @@ struct TWindowKeyBoardSoft
     static void dispatch_request_0x13(s32 arg0, s32 arg1, s32 arg2);
     static void dispatch_request_0x10(s32 a, s32 b);
     static void dispatch_request_0f(s32 a, s32 b);
+    void calc_cursor_step(s32 *arg1, s32 *arg2);
+    f32 calc_key_x(s32 arg1, s32 arg2);
+    static s32 calc_key_index(TWindowKeyBoardSoft *arg1, s32 arg2, s32 arg3);
 };
 
 typedef char TWindowKeyBoardSoft_depth_offset[offsetof(TWindowKeyBoardSoft, depth) == 0x38 ? 1 : -1];

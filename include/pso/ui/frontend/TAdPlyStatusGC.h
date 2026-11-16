@@ -41,6 +41,8 @@ struct TAdPlyStatusGC : public TObject {
     void update_hidden();
     static u32 get_instance(s32 arg0, s32 arg1);
     static int get_player_index();
+    void format_status_strings();
+    void set_load_state(s32 arg1);
 };
 
 typedef char TAdPlyStatusGC_size[sizeof(TAdPlyStatusGC) == 0x70 ? 1 : -1];

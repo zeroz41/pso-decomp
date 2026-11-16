@@ -121,7 +121,7 @@ void *TObjPlayer__ct(TObjPlayer *player, void *arg1, void *arg2) {
     *(s32 **)((s8 *)player + 0x18) = __vt__10TObjPlayer;
     ((TObjPlayer *)((char *)player + 832))->init_subobject();
     ((TObjPlayer *)((char *)player + 844))->setup_ctrl();
-    init_state__10TObjPlayerFi((s32)((char *)player + 864));
+    init_state__10TObjPlayerFv((s32)((char *)player + 864));
     TObjPlayer__sub_803374C4((void *)((char *)player + 884));
     TObjPlayer__sub_80309E9C((void *)((char *)player + 900));
     __ct__8FlagWordFv(((char *)player + 1052));
@@ -168,7 +168,7 @@ void *TObjPlayer__ct(TObjPlayer *player, void *arg1, void *arg2) {
 TObjPlayer::TObjPlayer(TObject *arg1, void *arg2) : TObjChara(arg1) {
     ((TObjPlayer *)((char *)this + 832))->init_subobject();
     ((TObjPlayer *)((char *)this + 844))->setup_ctrl();
-    init_state__10TObjPlayerFi((s32)((char *)this + 864));
+    init_state__10TObjPlayerFv((s32)((char *)this + 864));
     TObjPlayer__sub_803374C4((void *)((char *)this + 884));
     TObjPlayer__sub_80309E9C((void *)((char *)this + 900));
     __ct__8FlagWordFv(((char *)this + 1052));

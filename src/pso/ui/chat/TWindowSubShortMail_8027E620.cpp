@@ -52,7 +52,7 @@ s32 create_window__19TWindowSubShortMailFv();
 s32 open_confirm_dialog__19TWindowSubShortMailFv(void *);
 s32 open_delete_confirm_dialog__19TWindowSubShortMailFv(void *);
 s32 open_menu__19TWindowSubShortMailFv();
-void *find_short_mail_by_id__6TLobbyFUi(u32 id);
+void *find_short_mail_by_id__6TLobbyFUl(u32 id);
 int get_card_entry__17TWindowSubComCardFi();
 void TWindowSubShortMail__sub_8027FAD0(u8 *);
 void mem_free(void *p);
@@ -64,7 +64,7 @@ s32 get_main_phase();
 s32 draw_card_icon__17TWindowSubComCardFll(s32, s32, s32);
 s32 fn_8007B83C(s32);
 void *TLobby__sub_8022598C(int a0);
-u32 get_lobby_id__6TLobbyFPv();
+u32 get_lobby_id__6TLobbyFv();
 int get_short_mail_ctrl__6TLobbyFv(void);
 void clear_lobby_flag__6TLobbyFv(void);
 s32 add_status_entry__20TWindowSubStatusDispFScll(void *, s32, s32, u32);
@@ -75,14 +75,14 @@ void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 
 void TWindowSubShortMail__sub_8027E620(void* p);
 s32 TKeyBoardControl__ct(s32, s32, s32, s32, s32, s32);
 s32 get_shared_text_buffer();
-void send_simple_mail__6TLobbyFiPv(s32 arg0, void *arg1);
-int send_find_user_self_tag__6TLobbyFi(void*);
+void send_simple_mail__6TLobbyFlPv(s32 arg0, void *arg1);
+int send_find_user_self_tag__6TLobbyFl(void*);
 s32 __nw__7TObjectFUl(s32);
 int get_flag_bit0__6TLobbyFv(void);
 }
 void update_chat_window(void *p);
 
-void TWindowSubShortMail__sub_8027E620(void* p) { ((TWindowMenuIconLine *)(*(void**)((char*)p + 0x38)))->get_cursor_value(); get_card_entry__17TWindowSubComCardFi(); send_find_user_self_tag__6TLobbyFi(*(void**)((char*)p + 0x2c)); }
+void TWindowSubShortMail__sub_8027E620(void* p) { ((TWindowMenuIconLine *)(*(void**)((char*)p + 0x38)))->get_cursor_value(); get_card_entry__17TWindowSubComCardFi(); send_find_user_self_tag__6TLobbyFl(*(void**)((char*)p + 0x2c)); }
 
 void TWindowSubShortMail::close() {
     s32 temp_r31;
@@ -92,12 +92,12 @@ void TWindowSubShortMail::close() {
 
     temp_r31 = ((TWindowSubComCard *)this->m_5c)->realloc_buffer();
     TWindowSubComCard::mask_profanity_words((char *)temp_r31, (char *)get_shared_text_buffer());
-    send_simple_mail__6TLobbyFiPv(this->m_2c, (void *)(get_shared_text_buffer()));
+    send_simple_mail__6TLobbyFlPv(this->m_2c, (void *)(get_shared_text_buffer()));
     mem_free((void *)temp_r31);
     temp_r31_2 = get_short_mail_ctrl__6TLobbyFv();
     for (var_r29 = 0; var_r29 < temp_r31_2; var_r29 += 1) {
         temp_r30 = (s32)TLobby__sub_8022598C(var_r29);
-        if ((u32) this->m_30 == get_lobby_id__6TLobbyFPv()) {
+        if ((u32) this->m_30 == get_lobby_id__6TLobbyFv()) {
             ((s32 (*)(s32)) TWindowSubShortMail__sub_8027FAD0)(temp_r30);
             return;
         }
@@ -111,7 +111,7 @@ void TWindowSubShortMail::update_mail_count() {
         temp_r3 = ((TWindowMenuIconLine *)this->m_38)->get_cursor_value();
         if ((s32) this->m_24 != temp_r3) {
             this->m_24 = temp_r3;
-            if (find_short_mail_by_id__6TLobbyFUi(this->m_24) != 0U) {
+            if (find_short_mail_by_id__6TLobbyFUl(this->m_24) != 0U) {
                 ((TWindowMessage *)(this->m_3c))->append_line(((s32 (*)()) get_mail_ptr__19TWindowSubShortMailFPv)(), 0x482);
             }
         }
@@ -270,8 +270,8 @@ s32 TWindowSubShortMail::refresh_mail_list(void *arg1) {
     i = n - 1;
     while (i >= 0) {
         e = (s32)TLobby__sub_8022598C(i);
-        add_status_entry__20TWindowSubStatusDispFScll(arg1, ((s32 (*)(s32)) get_field_cc__19TWindowSubShortMailFPv)(e), fn_8007B83C(e), ((u32 (*)(s32))get_lobby_id__6TLobbyFPv)(e));
-        if (id == ((u32 (*)(s32))get_lobby_id__6TLobbyFPv)(e)) {
+        add_status_entry__20TWindowSubStatusDispFScll(arg1, ((s32 (*)(s32)) get_field_cc__19TWindowSubShortMailFPv)(e), fn_8007B83C(e), ((u32 (*)(s32))get_lobby_id__6TLobbyFv)(e));
+        if (id == ((u32 (*)(s32))get_lobby_id__6TLobbyFv)(e)) {
             sel = (n - 1) - i;
         }
         i--;
@@ -463,7 +463,7 @@ void TWindowSubShortMail::run_task() {
         } else if (((TWindowMenu *)(o->w44))->is_decided() != 0) {
             void *p;
             o->f30 = ((s32 (*)(void *)) get_cursor_value__19TWindowMenuIconLineFv)(o->w38);
-            p = find_short_mail_by_id__6TLobbyFUi(o->f30);
+            p = find_short_mail_by_id__6TLobbyFUl(o->f30);
             if (p != NULL) {
                 o->f2c = TWindowSubShortMail__sub_8007B834(p);
             }

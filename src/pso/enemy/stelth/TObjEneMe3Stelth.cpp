@@ -161,7 +161,6 @@ void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1);
 s32 move_to_shot_position__9TObjEneDDFfff(void *, int, f32, f32, f32);
 void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 arg1);
 s32 create__10TTecDebandFlll(void *, void *, s32);
-void run_walk_state__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1);
 
 
 
@@ -780,9 +779,9 @@ void TObjEneMe3Stelth::sub_800F4758() {
 }
 
 extern "C" {
-void create_resta_effect__16TObjEneMe3StelthFPv(TObjEneMe3Stelth *stelth) {
-    s32 f = TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8]->support_tech_level);
-    TTecResta::create((void *)stelth, (u8 *)&stelth->position, (void *)f);
+void TObjEneMe3Stelth::create_resta_effect() {
+    s32 f = TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[this->m_3c8]->support_tech_level);
+    TTecResta::create((void *)this, (u8 *)&this->position, (void *)f);
 }
 }
 
@@ -817,7 +816,7 @@ void TObjEneMe3Stelth::dispatch_action(u32 state, s32 reason) {
         TObjEneMe3Stelth__sub_800F3214(this, reason);
         break;
     case 9:
-        run_walk_state__16TObjEneMe3StelthFPvi(this, reason);
+        run_walk_state(reason);
         break;
     case 13:
         handle_message__16TObjEneMe3StelthFPvi(this, reason);
@@ -841,7 +840,7 @@ void TObjEneMe3Stelth::dispatch_action(u32 state, s32 reason) {
         TObjEneMe3Stelth__sub_800F1098(this, reason);
         break;
     case 17:
-        exec__16TObjEneMe3StelthFPvi(this, reason);
+        exec(reason);
         break;
     case 18:
         TObjEneMe3Stelth__sub_800F1440(this, reason);
@@ -1417,86 +1416,86 @@ void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 arg1) {
 extern "C" {
 #pragma push
 #pragma fp_contract on
-void run_walk_state__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1) {
+void TObjEneMe3Stelth::run_walk_state(s32 arg1) {
     switch (arg1) {
     case 4:
-        stelth->requested_action = 3;
-        stelth->set_field_378(6);
-        stelth->vfunc_96();
-        stelth->m_3cc &= ~7;
-        stelth->m_3ec = 0;
-        stelth->m_424 = 3;
-        if (stelth->vfunc_104(200.0f) != 0) {
-            stelth->enemy_copy_target_destination();
-            stelth->update_velocity();
-            stelth->m_42c = (s32) (10430.38043493439 * atan2_float(stelth->m_3a0, stelth->m_3a8));
-            if (stelth->test_body_collision(stelth->m_42c + 0x8000, 80.0f) == 0) {
-                stelth->m_3a0 *= -1.0f;
-                stelth->m_3a8 *= -1.0f;
-                stelth->m_424 = 0;
-                stelth->m_430 = 7.111111f;
+        this->requested_action = 3;
+        this->set_field_378(6);
+        this->vfunc_96();
+        this->m_3cc &= ~7;
+        this->m_3ec = 0;
+        this->m_424 = 3;
+        if (this->vfunc_104(200.0f) != 0) {
+            this->enemy_copy_target_destination();
+            this->update_velocity();
+            this->m_42c = (s32) (10430.38043493439 * atan2_float(this->m_3a0, this->m_3a8));
+            if (this->test_body_collision(this->m_42c + 0x8000, 80.0f) == 0) {
+                this->m_3a0 *= -1.0f;
+                this->m_3a8 *= -1.0f;
+                this->m_424 = 0;
+                this->m_430 = 7.111111f;
             }
         }
-        stelth->set_active();
+        this->set_active();
         return;
     case 3:
-        if (stelth->m_424 == 3) {
-            if ((stelth->m_3c0 == 0) && (stelth->random_ratio() <= stelth->m_3dc)) {
-                stelth->transition_enemy_state(0x11);
+        if (this->m_424 == 3) {
+            if ((this->m_3c0 == 0) && (this->random_ratio() <= this->m_3dc)) {
+                this->transition_enemy_state(0x11);
                 return;
             }
-            if (stelth->random_ratio() <= stelth->m_3d8) {
-                if (stelth->sub_800F47D4() != 0) {
-                    if (stelth->random_ratio() > TObjEneMe3Stelth__behavior_params_by_variant[stelth->m_3c8]->m_14) {
-                        stelth->transition_enemy_state(0x10);
+            if (this->random_ratio() <= this->m_3d8) {
+                if (this->sub_800F47D4() != 0) {
+                    if (this->random_ratio() > TObjEneMe3Stelth__behavior_params_by_variant[this->m_3c8]->m_14) {
+                        this->transition_enemy_state(0x10);
                         return;
                     }
-                    stelth->transition_enemy_state(0xB);
+                    this->transition_enemy_state(0xB);
                     return;
                 }
-                stelth->transition_enemy_state(0x10);
+                this->transition_enemy_state(0x10);
                 return;
             }
-            if (stelth->random_ratio() <= stelth->m_3e4) {
-                stelth->transition_enemy_state(0xC);
+            if (this->random_ratio() <= this->m_3e4) {
+                this->transition_enemy_state(0xC);
                 return;
             }
-            stelth->transition_enemy_state(6);
+            this->transition_enemy_state(6);
         }
         return;
     case 0:
-        stelth->advance_animation();
-        switch (stelth->m_424) {
+        this->advance_animation();
+        switch (this->m_424) {
         case 0:
-            stelth->rotation_y = approach_angle_limited(stelth->rotation_y, stelth->m_42c, 0x31C7);
-            if ((stelth->frame + stelth->play_speed) >= TObjEneMe3Stelth__data_805DA808) {
-                stelth->m_424 = 1;
-                stelth->vfunc_91();
-                play_sound_effect(0x3A835, (u8 *)&stelth->position, 0, 0);
+            this->rotation_y = approach_angle_limited(this->rotation_y, this->m_42c, 0x31C7);
+            if ((this->frame + this->play_speed) >= TObjEneMe3Stelth__data_805DA808) {
+                this->m_424 = 1;
+                this->vfunc_91();
+                play_sound_effect(0x3A835, (u8 *)&this->position, 0, 0);
             }
-            stelth->vfunc_102();
-            stelth->vfunc_89();
+            this->vfunc_102();
+            this->vfunc_89();
             return;
         case 1:
-            if ((stelth->frame + stelth->play_speed) >= 24.0f) {
-                stelth->m_424 = 2;
-                stelth->vfunc_92();
-                stelth->play_hit_effect();
+            if ((this->frame + this->play_speed) >= 24.0f) {
+                this->m_424 = 2;
+                this->vfunc_92();
+                this->play_hit_effect();
             }
-            stelth->move_clamped_on_ground(stelth->m_3a0, stelth->m_3a8, stelth->m_430);
+            this->move_clamped_on_ground(this->m_3a0, this->m_3a8, this->m_430);
             return;
         case 2:
-            if (stelth->get_flag_b4() != 0) {
-                stelth->m_424 = 3;
+            if (this->get_flag_b4() != 0) {
+                this->m_424 = 3;
             }
-            stelth->vfunc_102();
-            stelth->vfunc_89();
+            this->vfunc_102();
+            this->vfunc_89();
             return;
         }
         break;
     case 5:
-        stelth->vfunc_92();
-        stelth->clear_field_388();
+        this->vfunc_92();
+        this->clear_field_388();
         break;
     }
 }
@@ -1528,7 +1527,7 @@ void TObjEneMe3Stelth::update_state_resta_cast(s32 arg1) {
         switch (m_424) {
         case 0:
             if (get_flag_b4() != 0) {
-                create_resta_effect__16TObjEneMe3StelthFPv(this);
+                create_resta_effect();
                 if (TObjEneDD::check_v2_mode() != 0) {
                     m_424 = 2;
                 } else {
@@ -2083,57 +2082,57 @@ void TObjEneMe3Stelth::draw_with_debug_info() {
 }
 
 extern "C" {
-void exec__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1) {
+void TObjEneMe3Stelth::exec(s32 arg1) {
     switch (arg1) {
     case 4:
-        stelth->requested_action = 0xC;
-        stelth->set_field_378(6);
-        stelth->vfunc_96();
-        stelth->m_3cc &= 0xFFFFFFF1;
-        stelth->m_3cc |= 1;
-        stelth->m_424 = 0;
-        play_sound_effect(0x3B23B, &stelth->position, 0, 0);
+        this->requested_action = 0xC;
+        this->set_field_378(6);
+        this->vfunc_96();
+        this->m_3cc &= 0xFFFFFFF1;
+        this->m_3cc |= 1;
+        this->m_424 = 0;
+        play_sound_effect(0x3B23B, &this->position, 0, 0);
         return;
     case 3:
-        if (stelth->m_424 == 3) {
-            stelth->transition_enemy_state(6);
-            stelth->m_3cc &= ~1;
-            stelth->m_3cc |= 0x40000;
-            stelth->set_indexed_flags(0, 0x08000000);
+        if (this->m_424 == 3) {
+            this->transition_enemy_state(6);
+            this->m_3cc &= ~1;
+            this->m_3cc |= 0x40000;
+            this->set_indexed_flags(0, 0x08000000);
         }
         return;
     case 0:
-        stelth->advance_animation();
-        if (stelth->get_flag_b4() != 0) {
-            stelth->m_424 = 3;
+        this->advance_animation();
+        if (this->get_flag_b4() != 0) {
+            this->m_424 = 3;
         } else if (is_split_screen() != 0) {
-            switch (stelth->m_424) {
+            switch (this->m_424) {
             case 0:
-                if (stelth->is_passing_frame(4.0f) != 0) {
-                    stelth->m_3cc |= 8;
-                    stelth->m_404.reset_obstruction_fade();
-                    stelth->m_424 = 1;
+                if (this->is_passing_frame(4.0f) != 0) {
+                    this->m_3cc |= 8;
+                    this->m_404.reset_obstruction_fade();
+                    this->m_424 = 1;
                 }
                 break;
             case 1:
-                if (((TObjEneMe3SinowZoa *)&stelth->m_404)->advance_timer(0.2f) != 0) {
-                    stelth->m_3cc &= ~8;
-                    stelth->m_3c0 = 0;
-                    stelth->m_424 = 2;
+                if (((TObjEneMe3SinowZoa *)&this->m_404)->advance_timer(0.2f) != 0) {
+                    this->m_3cc &= ~8;
+                    this->m_3c0 = 0;
+                    this->m_424 = 2;
                 }
                 break;
             }
-        } else if (stelth->is_passing_frame(25.0f) != 0) {
-            stelth->m_3cc |= 8;
-            stelth->m_3c0 = 1;
-        } else if (stelth->is_passing_frame(29.0f) != 0) {
-            stelth->m_3cc &= ~8;
+        } else if (this->is_passing_frame(25.0f) != 0) {
+            this->m_3cc |= 8;
+            this->m_3c0 = 1;
+        } else if (this->is_passing_frame(29.0f) != 0) {
+            this->m_3cc &= ~8;
         }
-        stelth->vfunc_102();
-        stelth->vfunc_89();
+        this->vfunc_102();
+        this->vfunc_89();
         return;
     case 5:
-        stelth->m_3cc &= ~8;
+        this->m_3cc &= ~8;
         break;
     }
 }

@@ -2224,7 +2224,7 @@ s32 get_battle_mode__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BE794(void *, s32);
 s32 get_byte_339__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BE7A4(void *, s32);
-s32 get_mag_level__10TObjPlayerFPv(void *);
+s32 get_mag_level__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BE7B4(void *, s32);
 s32 TObjPlayer__sub_801BE7BC(void *);
 void TObjPlayer__sub_801BE7E0(void *, s32);
@@ -2404,7 +2404,7 @@ u8 fn_801D719C(s32 *);
 u8 fn_801D71D0(s32 *);
 u8 fn_801D7204(s32 *);
 s32 get_guild_return_yaw__10TObjPlayerFv(void *);
-s32 get_guild_return_position__10TObjPlayerFPv(void *);
+s32 get_guild_return_position__10TObjPlayerFv(void *);
 s32 get_hospital_yaw__10TObjPlayerFv(void *);
 s32 get_hospital_position__10TObjPlayerFv(void *);
 u8 * TObjPlayer__sub_801D8DCC();
@@ -5701,7 +5701,7 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
     dst->f142[1].b[1] = v >> 8;
     dst->f142[2].b[1] = v >> 16;
     dst->f142[3].b[1] = v >> 24;
-    TObjPlayer__sub_801BE7A4(dst, get_mag_level__10TObjPlayerFPv(src));
+    TObjPlayer__sub_801BE7A4(dst, get_mag_level__10TObjPlayerFv(src));
     TObjPlayer__sub_801BE794(dst, get_byte_339__10TObjPlayerFv(src));
     TObjPlayer__sub_801BE784(dst, get_battle_mode__10TObjPlayerFv(src));
     bswap_player_data__6TLobbyFi(dst);
@@ -6429,7 +6429,7 @@ int TLobby::player_flag_1() { return set_battle_flag__10TObjPlayerFl(this, 1); }
 void prepare_guild_return__10TObjPlayerFPv(void *player) {
     set_area__6TLobbyFl(((u8 *)&lbl_80515BA0), 0, get_floor_map_terrain(0));
     mark_area_change_pending();
-    ((void (*)(s16, s32, s32))set_arrival_override_pos)(((s16 (*)(s32))get_entity_id)((s32) player), get_guild_return_yaw__10TObjPlayerFv(player), get_guild_return_position__10TObjPlayerFPv(player));
+    ((void (*)(s16, s32, s32))set_arrival_override_pos)(((s16 (*)(s32))get_entity_id)((s32) player), get_guild_return_yaw__10TObjPlayerFv(player), get_guild_return_position__10TObjPlayerFv(player));
     set_state_flags__10TObjPlayerFUl(player, 0x800);
     ((void (*)(void *, int))set_battle_flag__10TObjPlayerFl)(player, 1);
     ((void (*)(void *, void *))send_6x21_inter_level_warp)(player, ((void * (*)(void *))get_dest_area__17TObjAreaWarpQuestFv)(((u8 *)&lbl_80515BA0)));

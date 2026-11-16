@@ -68,7 +68,7 @@ s32 copy_player_visual_record(void *, void *);
 u8 *get_entry__23TAdSinglePlyChrSelectGCFi(int);
 u8 *get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int);
 u8 *get_char_index__23TAdSinglePlyChrSelectGCFUi(int);
-void set_load_state__14TAdPlyStatusGCFPvi(u8 *arg0, s32 arg1);
+void set_load_state__14TAdPlyStatusGCFl(u8 *arg0, s32 arg1);
 #define F(o, t) (*(t *)(arg0 + (o)))
 
 }
@@ -311,7 +311,7 @@ void TUnk_804E3008::run_task() {
     }
     idx = get_index__14TAdPlyStatusGCFv();
     if (idx != NULL) {
-        set_load_state__14TAdPlyStatusGCFPvi((u8 *)idx, F(0xFC, s32));
+        set_load_state__14TAdPlyStatusGCFl((u8 *)idx, F(0xFC, s32));
         TAdPlyStatusGC::set_status_param((int)idx, (int)(F(0x170, void *)));
     }
 }

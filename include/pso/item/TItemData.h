@@ -91,6 +91,8 @@ struct TItemData {
     s32 update_mag_status_gauges();
     u16 get_packed_value();
     void decode_packed_name_chars(s8 *out);
+    void add_mag_stat_bonuses(s32 player, u8 *a, u8 *b, EquipStats *st, s32 w5);
+    f32 get_set_bonus_multiplier(s32 player);
 };
 
 extern "C" {

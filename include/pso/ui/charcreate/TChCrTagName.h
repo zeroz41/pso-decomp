@@ -20,6 +20,9 @@ public:
     f32 m_40;
     s32 m_44;
     vec2f pos;
+public:
+    static void *create(void *arg0);
+    static void create_all();
 };
 
 typedef char TChCrTagName_size[sizeof(TChCrTagName) == 0x50 ? 1 : -1];

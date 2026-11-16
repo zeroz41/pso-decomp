@@ -37,7 +37,7 @@ void set_field2__10TNpcPlayerFs(void *, s32);
 void set_field_0__10TNpcPlayerFs(void *, s32);
 void TNpcPlayer__sub_8014DC30(void);
 int TNpcPlayer__sub_8014DC3C(void* p);
-int request_technique_cast__10TNpcPlayerFPvi(void*);
+int request_technique_cast__10TNpcPlayerFl(void*);
 s32 set_technique_seed_level(s32, s32, u8);
 void clamp_and_set_unit_value__10TObjPlayerFiUci(s32 arg0, u8 arg1, s32 i);
 
@@ -72,7 +72,7 @@ void TNpcPlayer::init_equipment() {
     extern int TNpcPlayer__data_805D5864;
 void TNpcPlayer__sub_8014DC30(void) { TNpcPlayer__data_805D5864 = 1; }
 
-int TNpcPlayer__sub_8014DC3C(void* p) { return request_technique_cast__10TNpcPlayerFPvi(p); }
+int TNpcPlayer__sub_8014DC3C(void* p) { return request_technique_cast__10TNpcPlayerFl(p); }
 
 typedef u16 (*GetState_8014DC5C)(void *);
 void TNpcPlayer::send_partner_attack_stage_request() {

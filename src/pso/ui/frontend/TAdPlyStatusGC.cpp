@@ -81,7 +81,6 @@ void update_hidden__14TAdPlyStatusGCFv(u8 *arg0);
 extern RecoveredGlobal_8033FB8C___vt__14TAdPlyStatusGC __vt__14TAdPlyStatusGC;
 extern u32 ply_status_gc_instance;
 void update_shown__14TAdPlyStatusGCFv(struct RecoveredFields_8033F9DC_arg0 *arg0);
-void set_load_state__14TAdPlyStatusGCFPvi(u8 *arg0, s32 arg1);
 void set_depth__11TWindowBaseFf(f32);
 s32 create_callback__22TAdEnterSerialAccessGCFPvPvPv(void *, void *, void *);
 void draw_status_window__14TAdPlyStatusGCFPvPv(void *arg0, void *arg1);
@@ -105,7 +104,6 @@ s32 TAdMultiPlyChrSelectGC__sub_802DFFE8(s32);
 int sprintf(char *, const char *, ...);
 void *memset(void *, int, u32);
 extern u32 ply_status_index;
-void format_status_strings__14TAdPlyStatusGCFPv(char *buf);
 u32 ply_status_gc_instance;
 s32 ply_status_chcr_load_afs;
 s32 TAdPlyStatusGC__window_offset_index;
@@ -169,7 +167,7 @@ void draw_status_window__14TAdPlyStatusGCFPvPv(void *arg0, void *arg1) {
         draw_textured_quad_at_depth((f32 *)&box, 0.8f);
         TWindowSubStatusDisp::get_player();
     }
-    format_status_strings__14TAdPlyStatusGCFPv((char *)items);
+    ((TAdPlyStatusGC *)items)->format_status_strings();
     set_text_draw_params((s32)arg1, 1, 1, 0.8f, 100000.0f);
     for (i = 0; i < 3; i++) {
         pts[i].x = ply_status_window_points_first[i].x + OFF_8033F3D8.x;
@@ -195,7 +193,8 @@ void draw_status_window__14TAdPlyStatusGCFPvPv(void *arg0, void *arg1) {
 #undef ply_status_window_points_first
 #undef ply_status_window_points_second
 
-void format_status_strings__14TAdPlyStatusGCFPv(char *buf) {
+void TAdPlyStatusGC::format_status_strings() {
+    char *buf = (char *)this;
     u8 *c;
     u32 time;
     u32 mins;
@@ -266,19 +265,19 @@ s32 TAdPlyStatusGC__sub_8033F8B0(void *arg0, void *ad_enter_serial_access_gc) {
     return r;
 }
 
-void set_load_state__14TAdPlyStatusGCFPvi(u8 *arg0, s32 arg1) {
+void TAdPlyStatusGC::set_load_state(s32 arg1) {
     s32 var_r4;
     if (arg1 > 0) {
-        if ((s32) *(s32 *)((s8 *)arg0 + 0x1C) == 0) {
+        if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x1C) == 0) {
             var_r4 = 2;
             if ((s32) TAdPlyStatusGC__is_shown != 0) {
                 var_r4 = 1;
             }
-            *(s32 *)((s8 *)arg0 + 0x1C) = var_r4;
+            *(s32 *)((s8 *)((u8 *)this) + 0x1C) = var_r4;
         }
         return;
     }
-    *(s32 *)((s8 *)arg0 + 0x1C) = 0;
+    *(s32 *)((s8 *)((u8 *)this) + 0x1C) = 0;
 }
 
 void update_hidden__14TAdPlyStatusGCFv(u8 *arg0) {

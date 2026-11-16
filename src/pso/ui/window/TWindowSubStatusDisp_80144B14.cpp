@@ -88,9 +88,7 @@ s32 calc_ci4_tile_offset(u32 arg0, u32 arg1);
 extern "C" {
 u32 calc_text_width(char *s);
 u32 TWindowSubStatusDisp__sub_80144E9C(char *s);
-u8 calc_gauge_scale__20TWindowSubStatusDispFPvPvi(u16 glyph, void *arg1, s32 arg2);
 void draw_menu_font_string(const char *s, s32 arg1, u32 flags, f32 x, f32 y, f32 scale);
-void *find_cached_glyph__20TWindowSubStatusDispFUs(u16 code);
 int get_player__20TWindowSubStatusDispFv(void*);
 
 char *parse_text_control_codes(char *p, s32 *a, s32 *b) {
@@ -383,7 +381,7 @@ s32 TWindowSubStatusDisp::upload_glyph_if_needed(u16 arg0, u8 *arg1, void **arg2
 
 typedef struct Glyph_801452DC { u16 code; u16 data[4]; } Glyph_801452DC;
 extern Glyph_801452DC *menu_font_glyph_table;
-void *find_cached_glyph__20TWindowSubStatusDispFUs(u16 code) {
+void *TWindowSubStatusDisp::find_cached_glyph(u16 code) {
     void *free_slot;
     Glyph_801452DC *g;
     Glyph_801452DC *p;
@@ -430,10 +428,10 @@ void *find_cached_glyph__20TWindowSubStatusDispFUs(u16 code) {
     return free_slot;
 }
 
-u8 calc_gauge_scale__20TWindowSubStatusDispFPvPvi(u16 glyph, void *arg1, s32 arg2) {
+u8 TWindowSubStatusDisp::calc_gauge_scale(u16 glyph, void *arg1, s32 arg2) {
     void *temp_r3;
 
-    temp_r3 = find_cached_glyph__20TWindowSubStatusDispFUs(glyph);
+    temp_r3 = TWindowSubStatusDisp::find_cached_glyph(glyph);
     *(u8 *)((s8 *)temp_r3 + 3) = (u8) lbl_805D56C0;
     set_draw_texture_and_color((*(u8 *)((s8 *)temp_r3 + 4)), (arg2));
     *(f32 *)((s8 *)arg1 + 0x10) = (f32) ((f32) *(u8 *)((s8 *)temp_r3 + 5) / 256.0f);
@@ -518,7 +516,7 @@ void draw_menu_font_string(const char *s, s32 arg1, u32 flags, f32 x, f32 y, f32
       }
       code = (hi << 8) & 0xFF00;
       code = code | lo;
-      w = calc_gauge_scale__20TWindowSubStatusDispFPvPvi(((u16 (*)(u32)) map_char_to_font_code)(code), &pos, arg1);
+      w = TWindowSubStatusDisp::calc_gauge_scale(((u16 (*)(u32)) map_char_to_font_code)(code), &pos, arg1);
       set_glyph_quad_extents(w, (u8 *)&pos);
       draw_textured_quad_at_depth((f32 *)&pos, scale);
       pos.x += (f32) w;

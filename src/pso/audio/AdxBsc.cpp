@@ -15,7 +15,6 @@ void TLobby__sub_803C3570(AdxbDecoder *o);
 void TLobby__sub_803C34F4(AdxbDecoder *arg0);
 s32 DVDReadPrio(void *, void *, void *);
 u32 adx_allocate_decoder_channel();
-AdxbDecoder *alloc_record__6TLobbyFiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
 void TLobby__sub_803C34F4(AdxbDecoder *h) {
     s16 s = h->m_A8;
@@ -387,7 +386,7 @@ inline void free_803C3E88(AdxbDecoder *r) {
         r->used = 0;
     }
 }
-AdxbDecoder *alloc_record__6TLobbyFiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+AdxbDecoder *TLobby::alloc_record(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 i;
     AdxbDecoder *r;
     for (i = 0; i < 16; i++) {

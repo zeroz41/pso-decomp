@@ -158,7 +158,7 @@ void TObjEneEpsilonGuard::render_guard_effect() {
     }
 }
 
-void render_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonGuard *guard, s32 detail) {
+void TObjEneEpsilonGuard::render_with_fade(s32 detail) {
     s32 i;
     RenderFadeState *fade;
     i = 0;
@@ -168,9 +168,9 @@ void render_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonGuard *guard, s32
     saved_model_render_flags = model_render_flags;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-    fade = &guard->fades[i];
+    fade = &this->fades[i];
     fade->update();
-    if (fade->updateFromCamera(&guard->m_2fc) != 0) {
+    if (fade->updateFromCamera(&this->m_2fc) != 0) {
         fade->set_flags_and_apply_damage_color();
         if (!(get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200)) {
             model_render_flags = saved_model_render_flags;
@@ -178,8 +178,8 @@ void render_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonGuard *guard, s32
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             return;
         }
-    } else if (guard->mode == 3) {
-        guard->fade.set_flags_and_apply_damage_color();
+    } else if (this->mode == 3) {
+        this->fade.set_flags_and_apply_damage_color();
         if (!(get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200)) {
             model_render_flags = saved_model_render_flags;
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -192,33 +192,33 @@ void render_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonGuard *guard, s32
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         return;
     }
-    guard->update_secondary_light();
-    TObjFish::set_global_param(guard->texlist);
+    this->update_secondary_light();
+    TObjFish::set_global_param(this->texlist);
     push_matrix();
-    post_translate_matrix(&guard->position.x);
+    post_translate_matrix(&this->position.x);
     translate_matrix(0, 0.0f, 24.0f, 0.0f);
-    rotate_matrix_y(0, guard->rotation_y);
+    rotate_matrix_y(0, this->rotation_y);
     TObjEneDD::clear_global_flag_400();
     epsilon_guard_camera_step = 0;
-    epsilon_guard_camera_ctrl_ptr = &guard->effect_anchor;
-    guard->effect_anchor.x = 0.0f;
-    guard->effect_anchor.y = 0.0f;
-    guard->effect_anchor.z = 0.0f;
+    epsilon_guard_camera_ctrl_ptr = &this->effect_anchor;
+    this->effect_anchor.x = 0.0f;
+    this->effect_anchor.y = 0.0f;
+    this->effect_anchor.z = 0.0f;
     set_chunk_model_node_callback((s32)((void *)TObjEneEpsilonGuard::advance_camera_ctrl_step));
     TObjPlayer::toggle_particle_effect();
     if (detail == 1) {
-        guard->TObjMotion::draw();
+        this->TObjMotion::draw();
     } else {
-        guard->draw_motion_model();
+        this->draw_motion_model();
     }
     TParticleCtrl::end_effect_render();
     set_chunk_model_node_callback((s32)NULL);
     pop_matrix();
-    guard->update_primary_light();
-    if (fade->updateFromCamera(&guard->m_2fc) != 0) {
+    this->update_primary_light();
+    if (fade->updateFromCamera(&this->m_2fc) != 0) {
         fade->clear_flag_and_notify();
-    } else if (guard->mode == 3) {
-        guard->fade.clear_flag_and_notify();
+    } else if (this->mode == 3) {
+        this->fade.clear_flag_and_notify();
     }
     model_render_flags = saved_model_render_flags;
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -241,7 +241,7 @@ void TObjEneEpsilonGuard::render() {
         if (detail != 0) {
             draw_ground_shadow(0, 0);
             defer_render();
-            render_with_fade__19TObjEneEpsilonGuardFPvi(this, detail);
+            render_with_fade(detail);
             render_guard_effect();
             return;
         }

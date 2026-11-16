@@ -14,6 +14,8 @@ struct GiGueParameters {
     s32 ints[5];
 };
 
+class TObjChara;
+
 struct TObjEneMe1GiGue : public TObjEnemyCustom {
     virtual ~TObjEneMe1GiGue();
     void move_around_center(void *, f32);
@@ -78,6 +80,8 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     static s32 remap_sound_id(void *obj, s32 id);
     void break_apart();
     void update_hit_reaction();
+    void update_rush_attack();
+    void add_target_in_cone(TObjChara *target);
 };
 
 typedef char TObjEneMe1GiGue_size[sizeof(TObjEneMe1GiGue) == 0x458 ? 1 : -1];

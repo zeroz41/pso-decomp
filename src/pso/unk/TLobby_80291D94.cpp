@@ -324,7 +324,6 @@ extern "C" {
 s32 TLobby__sub_80291F9C(void);
 s32 strncpy(void *, void *, int);
 char split_screen_player_name[0x20];
-void set_split_screen_name__6TLobbyFi(s32 arg0);
 f32 fabs_float(f32);
 void TLobby__sub_80292200(s32 arg0);
 }
@@ -566,7 +565,8 @@ void TLobby::set_encoded_name_and_color(u8 *arg0, s32 arg1) {
     TLobby::encode_name_xor((u8 *)&(*(RecoveredGlobal_80292574_lbl_804DB1F0 *)&lbl_804DB1F0).value + 0x50, arg0, 0xC);
     *(s32 *)((s8 *)(&(*(RecoveredGlobal_80292574_lbl_804DB1F0 *)&lbl_804DB1F0).value) + 0x18) = (s32) (arg1 | 0xFF000000);
 }
-void set_split_screen_name__6TLobbyFi(s32 arg0) {
+void TLobby::set_split_screen_name() {
+    s32 arg0 = (s32)this;
     strncpy(split_screen_player_name, (void *)arg0, 0x20);
     split_screen_player_name[0x1F] = 0;
 }
@@ -1205,7 +1205,7 @@ void setup_split_screen(void) {
         challenge_retry_object = create_challenge4p__6TLobbyFv();
         split_screen_challenge_created = 1;
         split_screen_flag = 0;
-        set_split_screen_name__6TLobbyFi((s32)"Area00");
+        ((TLobby *)((s32)"Area00"))->set_split_screen_name();
         var_r31 = 0U;
         do {
             player = get_player_by_client_id(var_r31);

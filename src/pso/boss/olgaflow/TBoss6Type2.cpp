@@ -573,7 +573,6 @@ void TBoss6Type2__sub_802BB7C0(T2_802BB7C0 *arg0);
 u8 is_active__11TBoss6Type2Fv(void *arg0);
 s32 calc_field4f0_delta__11TBoss6Type2FPv(void *arg0);
 void TBoss6Type2__sub_802BCC54(void *, int);
-Blk_802BCFD4 * copy_block__11TBoss6Type2FPvPv(Blk_802BCFD4 *d, const Blk_802BCFD4 *s);
 void TBoss6Type2__sub_802BD340(void);
 void TBoss6Type2__sub_802BD378(T2_802BD378 *arg0, s32 arg1, void *arg2, s32 *arg3);
 f32 TBoss6Type2__vt20(TBoss6Type2 *arg0, u32 arg1, f32 farg0);
@@ -603,7 +602,6 @@ extern s32 game_difficulty_selection;
 extern s32 tl_04;
 
 extern "C" {
-Blk_802BCFD4 *copy_block__11TBoss6Type2FPvPv(Blk_802BCFD4 *d, const Blk_802BCFD4 *s);
 }
 
 // Read by the TBoss6Type2_802BE588/_802BF558 units and TBoss6Rock; emitted ahead of the literal pool.
@@ -2326,7 +2324,7 @@ struct Blk_802BCFD4;
 void TBoss6Type2::init_motion_entries() {
     O_802BCEF4 *o = (O_802BCEF4 *)this;
     s32 i;
-    copy_block__11TBoss6Type2FPvPv((Blk_802BCFD4 *)((u8 *)o + 0x490), &boss6_type2_zero_motion_block);
+    TBoss6Type2::copy_block((Blk_802BCFD4 *)((u8 *)o + 0x490), &boss6_type2_zero_motion_block);
     for (i = 0; i < TBoss6Type2__data_805DE4B8; i++) {
         Ent_802BCEF4 *e = &o->ents[i];
         s32 r;
@@ -2343,7 +2341,7 @@ void TBoss6Type2::copy_transform(void* q) { *(u32*)((char*)this + 0x0) = *(u32*)
 __declspec(section ".sdata2") const s32 TBoss6Type2__data_805DE4B8 = 1;
 __declspec(section ".sdata2") const s32 lbl_805DE4BC = 0;
 
-Blk_802BCFD4 *copy_block__11TBoss6Type2FPvPv(Blk_802BCFD4 *d, const Blk_802BCFD4 *s) {
+Blk_802BCFD4 *TBoss6Type2::copy_block(Blk_802BCFD4 *d, const Blk_802BCFD4 *s) {
     *d = *s;
     return d;
 }

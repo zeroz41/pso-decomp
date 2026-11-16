@@ -93,9 +93,6 @@ struct Lines_80261DD8 {
 s32 play_sound_effect(int, int, int, int);
 s32 draw_default_entry__9TWindowDDFl();
 int update_keyboard_close_mode(void*);
-void calc_cursor_step__19TWindowKeyBoardSoftFiPvPv(TWindowKeyBoardSoft *arg0, s32 *arg1, s32 *arg2);
-f32 calc_key_x__19TWindowKeyBoardSoftFiii(TWindowKeyBoardSoft *arg0, s32 arg1, s32 arg2);
-s32 calc_key_index__19TWindowKeyBoardSoftFiii(TWindowKeyBoardSoft *arg1, s32 arg2, s32 arg3);
 f32 TWindowKeyBoardSoft__sub_802606E0(TWindowKeyBoardSoft *);
 void TWindowKeyBoardSoft__sub_80260760(void *self, s32 key, s32 *count, u32 *color);
 void sub_80260E30__19TWindowKeyBoardSoftFl(void *self, s32 port);
@@ -137,15 +134,15 @@ const UV_80262038 lbl_8044F204[10] = {
     { 62.0f, 108.0f }, { 107.0f, 0.0f }, { 107.0f, 18.0f }, { 107.0f, 36.0f }, { 107.0f, 54.0f },
 };
 
-void calc_cursor_step__19TWindowKeyBoardSoftFiPvPv(TWindowKeyBoardSoft *arg0, s32 *arg1, s32 *arg2) {
+void TWindowKeyBoardSoft::calc_cursor_step(s32 *arg1, s32 *arg2) {
     switch (current_language) {
     case LANGUAGE_JAPANESE:
-        if ((get_flag_bit5__19TWindowKeyBoardSoftFv() != 0) || (((TWindowKeyBoardSoft *)arg0)->get_flag_bit6() != 0) || (((TWindowKeyBoardSoft *)arg0)->is_cursor_locked() != 0)) {
+        if ((get_flag_bit5__19TWindowKeyBoardSoftFv() != 0) || (((TWindowKeyBoardSoft *)this)->get_flag_bit6() != 0) || (((TWindowKeyBoardSoft *)this)->is_cursor_locked() != 0)) {
             *arg1 = 4;
             *arg2 = 4;
             return;
         }
-        if (TWindowSubMag__sub_802627D8((void *)arg0) != 0) {
+        if (TWindowSubMag__sub_802627D8((void *)this) != 0) {
             *arg1 = 4;
             *arg2 = 5;
             return;
@@ -154,7 +151,7 @@ void calc_cursor_step__19TWindowKeyBoardSoftFiPvPv(TWindowKeyBoardSoft *arg0, s3
         *arg2 = 5;
         return;
     case LANGUAGE_ENGLISH:
-        if ((get_flag_bit5__19TWindowKeyBoardSoftFv() != 0) || (((TWindowKeyBoardSoft *)arg0)->get_flag_bit6() != 0) || (((TWindowKeyBoardSoft *)arg0)->is_cursor_locked() != 0)) {
+        if ((get_flag_bit5__19TWindowKeyBoardSoftFv() != 0) || (((TWindowKeyBoardSoft *)this)->get_flag_bit6() != 0) || (((TWindowKeyBoardSoft *)this)->is_cursor_locked() != 0)) {
             *arg1 = 0;
             *arg2 = 0;
             return;
@@ -165,12 +162,12 @@ void calc_cursor_step__19TWindowKeyBoardSoftFiPvPv(TWindowKeyBoardSoft *arg0, s3
     case LANGUAGE_GERMAN:
     case LANGUAGE_FRENCH:
     case LANGUAGE_SPANISH:
-        if ((get_flag_bit5__19TWindowKeyBoardSoftFv() != 0) || (((TWindowKeyBoardSoft *)arg0)->get_flag_bit6() != 0) || (((TWindowKeyBoardSoft *)arg0)->is_cursor_locked() != 0)) {
+        if ((get_flag_bit5__19TWindowKeyBoardSoftFv() != 0) || (((TWindowKeyBoardSoft *)this)->get_flag_bit6() != 0) || (((TWindowKeyBoardSoft *)this)->is_cursor_locked() != 0)) {
             *arg1 = 0;
             *arg2 = 0;
             return;
         }
-        if (TWindowSubMag__sub_802627D8((void *)arg0) != 0) {
+        if (TWindowSubMag__sub_802627D8((void *)this) != 0) {
             *arg1 = 0;
             *arg2 = 1;
             return;
@@ -184,29 +181,29 @@ void calc_cursor_step__19TWindowKeyBoardSoftFiPvPv(TWindowKeyBoardSoft *arg0, s3
 #pragma push
 #pragma fp_contract on
 s32 TWindowKeyBoardSoft::sub_802605DC() {
-    s32 idx = calc_key_index__19TWindowKeyBoardSoftFiii(this, (s32)(((Win_802605DC *)this)->f65), (s32)(((Win_802605DC *)this)->f66));
+    s32 idx = TWindowKeyBoardSoft::calc_key_index(this, (s32)(((Win_802605DC *)this)->f65), (s32)(((Win_802605DC *)this)->f66));
     return idx + TWindowKeyBoardSoft__data_8044F124[((u8 *)&TWindowKeyBoardSoft__data_804CB7C8)[idx]];
 }
 #pragma pop
 
 #pragma push
 #pragma fp_contract on
-f32 calc_key_x__19TWindowKeyBoardSoftFiii(TWindowKeyBoardSoft *arg0, s32 arg1, s32 arg2) {
+f32 TWindowKeyBoardSoft::calc_key_x(s32 arg1, s32 arg2) {
   f32 new_var;
   s32 sp8;
   s32 temp_r31;
   s32 temp_r3;
-  temp_r3 = calc_key_index__19TWindowKeyBoardSoftFiii(arg0, arg1, arg2);
+  temp_r3 = TWindowKeyBoardSoft::calc_key_index(this, arg1, arg2);
   temp_r31 = arg1 + TWindowKeyBoardSoft__data_8044F124[((u8 *)&TWindowKeyBoardSoft__data_804CB7C8.value)[temp_r3]];
-  TWindowKeyBoardSoft__sub_80260760((void *) arg0, (int) temp_r3, &sp8, NULL);
-  new_var = TWindowKeyBoardSoft::calc_key_coord((s32)arg0, sp8);
+  TWindowKeyBoardSoft__sub_80260760((void *) this, (int) temp_r3, &sp8, NULL);
+  new_var = TWindowKeyBoardSoft::calc_key_coord((s32)this, sp8);
   return 1.0f + ((19.0f * ((f32) temp_r31)) + (0.5f * new_var));
 }
 #pragma pop
 
 #pragma push
 #pragma fp_contract on
-s32 calc_key_index__19TWindowKeyBoardSoftFiii(TWindowKeyBoardSoft *arg1, s32 arg2, s32 arg3) {
+s32 TWindowKeyBoardSoft::calc_key_index(TWindowKeyBoardSoft *arg1, s32 arg2, s32 arg3) {
     return arg2 + (arg3 * 0x10);
 }
 #pragma pop
@@ -514,7 +511,7 @@ void TWindowKeyBoardSoft::handle_page_cycle_input(s32 arg1) {
     temp_r30 = (u8 *)&controller_input_state.value + (arg1 * 0x50) + 0x20;
     if (((s32 (*)(int, int))TWindowShortListCtrl__check_controller_button)((int)temp_r30, 0x30000) != 0) {
         play_sound_effect(0x54100, 0, 0, 0);
-        calc_cursor_step__19TWindowKeyBoardSoftFiPvPv(this, &spC, &sp8);
+        calc_cursor_step(&spC, &sp8);
         if (((s32 (*)(int, int))TWindowShortListCtrl__check_controller_button)((int)temp_r30, 0x10000) != 0) {
             *(f32 *)((s8 *)((u8 *)this) + 0x68) = 10.0f;
             *(u8 *)((s8 *)((u8 *)this) + 0x64) = (u8) (*(u8 *)((s8 *)((u8 *)this) + 0x64) + 1);
@@ -607,8 +604,8 @@ void TWindowKeyBoardSoft::spawn_key_effect(s32 arg1, s32 arg2) {
     Vec2_802615B8 pos;
     s32 kind;
 
-    ((void (*)(void *, s32, s32 *, s32))TWindowKeyBoardSoft__sub_80260760)(this, calc_key_index__19TWindowKeyBoardSoftFiii(this, arg1, arg2), &type, 0);
-    pos.x = *(f32 *)(((u8 *)this) + 0x40) + calc_key_x__19TWindowKeyBoardSoftFiii(this, arg1, arg2);
+    ((void (*)(void *, s32, s32 *, s32))TWindowKeyBoardSoft__sub_80260760)(this, TWindowKeyBoardSoft::calc_key_index(this, arg1, arg2), &type, 0);
+    pos.x = *(f32 *)(((u8 *)this) + 0x40) + calc_key_x(arg1, arg2);
     pos.y = 26.0f + (10.0f + (19.0f * (f32)arg2 + *(f32 *)(((u8 *)this) + 0x44)));
     switch (type) {
     case 1:
@@ -674,11 +671,11 @@ void TWindowKeyBoardSoft::sub_802616BC(TWindowKeyBoardSoft *ctx) {
             if (code != 22) {
                 u8 width;
                 code = map_char_to_font_code(code);
-                key = calc_key_index__19TWindowKeyBoardSoftFiii(this, col, row);
+                key = TWindowKeyBoardSoft::calc_key_index(this, col, row);
                 color = key == cursor ? 0xFF000000 : 0xFF999999;
                 q.x = 1.0f + (1.0f + (19.0f * (f32)col + ctx->x));
                 q.y = 1.0f + (26.0f + (ctx->y + 19.0f * (f32)row));
-                width = calc_gauge_scale__20TWindowSubStatusDispFPvPvi(code, &q, color);
+                width = calc_gauge_scale__20TWindowSubStatusDispFUsPvl(code, &q, color);
                 q.x = 0.5f * (f32)(18 - width) + q.x;
                 set_glyph_quad_extents(width, (u8 *)&q);
                 if (this->hit_test_relative((u8 *)ctx, (u8 *)&q) != 0) {
@@ -693,7 +690,7 @@ void TWindowKeyBoardSoft::sub_802616BC(TWindowKeyBoardSoft *ctx) {
     TWindowSubStatusDisp::render_forward();
     set_draw_texture_and_color(0, 0xFF999999);
 
-    key = calc_key_index__19TWindowKeyBoardSoftFiii(this, 2, 0);
+    key = TWindowKeyBoardSoft::calc_key_index(this, 2, 0);
     for (i = 0; i < 12; i++, key++) {
         q.x = 1.0f + (1.0f + (19.0f * (i + 2) + ctx->x));
         q.y = 1.0f + (26.0f + ctx->y);
@@ -713,7 +710,7 @@ void TWindowKeyBoardSoft::sub_802616BC(TWindowKeyBoardSoft *ctx) {
     set_draw_texture_and_color(3, 0xFF999999);
 
     tab_x = TWindowKeyBoardSoft__sub_802606E0(this);
-    calc_cursor_step__19TWindowKeyBoardSoftFiPvPv(this, &first_page, &last_page);
+    calc_cursor_step(&first_page, &last_page);
     for (page = 0; page < layout->page_count; page++) {
         if (page == kb->layout) {
             tab_color = 0xFF000000;
@@ -742,9 +739,9 @@ void TWindowKeyBoardSoft::sub_802616BC(TWindowKeyBoardSoft *ctx) {
 
     for (i = 0; i < 10; i++) {
         f32 x;
-        key = calc_key_index__19TWindowKeyBoardSoftFiii(this, (s32)lbl_8044F164[i].x, (s32)lbl_8044F164[i].y);
+        key = TWindowKeyBoardSoft::calc_key_index(this, (s32)lbl_8044F164[i].x, (s32)lbl_8044F164[i].y);
         color = key == cursor ? 0xFF000000 : 0xFF999999;
-        x = ctx->x + calc_key_x__19TWindowKeyBoardSoftFiii(this, (s32)lbl_8044F164[i].x, (s32)lbl_8044F164[i].y);
+        x = ctx->x + calc_key_x((s32)lbl_8044F164[i].x, (s32)lbl_8044F164[i].y);
         q.x = x - 0.5f * lbl_8044F1B4[i].x;
         q.y = 1.0f + (26.0f + (19.0f * lbl_8044F164[i].y + ctx->y));
         q.x2 = q.x + lbl_8044F1B4[i].x;
@@ -896,7 +893,7 @@ void TWindowKeyBoardSoft::sub_8026227C(TWindowKeyBoardSoft *ctx) {
     set_draw_texture_and_color(0, -1);
     for (j = 0; j < 7; j++) {
         for (i = 0; i < 16; i += count) {
-            key = calc_key_index__19TWindowKeyBoardSoftFiii(this, i, j);
+            key = TWindowKeyBoardSoft::calc_key_index(this, i, j);
             TWindowKeyBoardSoft__sub_80260760(this, key, &count, &color);
             f32 w = TWindowKeyBoardSoft::calc_key_coord((s32)this, count);
             if (key == cursor) {
@@ -910,7 +907,7 @@ void TWindowKeyBoardSoft::sub_8026227C(TWindowKeyBoardSoft *ctx) {
     }
 
     tab_x = TWindowKeyBoardSoft__sub_802606E0(this);
-    calc_cursor_step__19TWindowKeyBoardSoftFiPvPv(this, &first_page, &last_page);
+    calc_cursor_step(&first_page, &last_page);
     for (i = 0; i < layout->page_count; i++) {
         if (i == kb->layout) {
             color = 0xFFFFFFFF;

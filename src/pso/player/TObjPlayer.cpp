@@ -641,7 +641,8 @@ void TObjPlayer__sub_801BFE88(u8 *arg0) {
     *(f32 *)((s8 *)arg0 + 0) = (f32) TObjPlayer__data_805DC278;
 }
 
-s32 init_state__10TObjPlayerFi(s32 p) {
+s32 TObjPlayer::init_state() {
+    s32 p = (s32)this;
     ((TObjPlayer *)p)->setup_state();
     TObjPlayer__sub_801BFED4((void *)p);
     return p;

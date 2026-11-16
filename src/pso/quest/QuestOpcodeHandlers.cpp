@@ -305,8 +305,6 @@ s32 parse_f_index(const char *a0);
 extern "C" {
 namespace pf2_p0 { extern "C" { s32 parse_r_index(const char *); } }
 #define parse_r_index pf2_p0::parse_r_index
-void append_float_value__6TLobbyFi(s32);
-void append_int_param__6TLobbyFi(s32);
 namespace pf2_p0 { extern "C" { int strcmp(const char *, const char *); } }
 #define strcmp pf2_p0::strcmp
 namespace pf2_p0 { extern "C" { char *get_unit_list__6TLobbyFv(); } }
@@ -424,11 +422,11 @@ void TLobby::parse_message_tag() {
         case 0x3E:
             buf[i] = 0;
             if ((idx = parse_r_index(buf)) != -1) {
-                append_int_param__6TLobbyFi(idx);
+                TLobby::append_int_param(idx);
                 return;
             }
             if ((idx = parse_f_index(buf)) != -1) {
-                append_float_value__6TLobbyFi(idx);
+                TLobby::append_float_value(idx);
                 return;
             }
             if ((idx = TLobby::parse_color_code((char *)(buf))) != -1) {
@@ -538,8 +536,6 @@ s32 parse_f_index(const char *a0) {
 
 extern "C" {
 void append_string(const char *s);
-void append_int_param__6TLobbyFi(s32 arg0);
-void append_float_value__6TLobbyFi(s32 arg0);
 s32 TObjItemOKWindow__sub_801F3268();
 namespace pf2_p1 { extern "C" { s32 get_class_type_name__6TLobbyFl(s32); } }
 #define get_class_type_name__6TLobbyFl pf2_p1::get_class_type_name__6TLobbyFl
@@ -584,13 +580,13 @@ void append_entered_item_name_pair(void) {
     append_string(buf);
 }
 
-void append_float_value__6TLobbyFi(s32 arg0) {
+void TLobby::append_float_value(s32 arg0) {
     char buf[64];
     sprintf(buf, "%f", ((f32 *)qst_registers)[arg0]);
     append_string(buf);
 }
 
-void append_int_param__6TLobbyFi(s32 arg0) {
+void TLobby::append_int_param(s32 arg0) {
     char buf[64];
     sprintf(buf, "%d", qst_registers[arg0]);
     append_string(buf);

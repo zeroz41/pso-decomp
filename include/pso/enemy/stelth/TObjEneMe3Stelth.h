@@ -117,6 +117,9 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     void update_state_drop(s32 arg1);
     void update_state_fade_in(s32 arg1);
     void state_chase(s32 arg1);
+    void create_resta_effect();
+    void run_walk_state(s32 arg1);
+    void exec(s32 arg1);
 };
 
 typedef char TObjEneMe3Stelth_size[sizeof(TObjEneMe3Stelth) == 0x44C ? 1 : -1];
@@ -126,7 +129,7 @@ void TObjEneMe3Stelth__sub_800F0C90(TObjEneMe3Stelth *stelth);
 s32 TObjEneMe3Stelth__sub_800F0F84(TObjEneMe3Stelth *stelth, Vec *pos);
 void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 arg1);
 void TObjEneMe3Stelth__sub_800F1440(TObjEneMe3Stelth *stelth, s32 arg1);
-void exec__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1);
+void exec__16TObjEneMe3StelthFl(TObjEneMe3Stelth *stelth, s32 arg1);
 }
 
 #endif

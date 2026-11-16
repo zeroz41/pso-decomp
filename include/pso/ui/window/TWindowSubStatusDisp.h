@@ -191,6 +191,9 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void update_entry_visibility();
     void update_item_colors(s32 arg1);
     s32 update_hp_gauge();
+    static void *find_cached_glyph(u16 code);
+    static u8 calc_gauge_scale(u16 glyph, void *arg1, s32 arg2);
+    void update_item_icon_colors(void *item);
 };
 
 typedef char TWindowSubStatusDisp_offset_page[(offsetof(TWindowSubStatusDisp, page) == 0x60) ? 1 : -1];

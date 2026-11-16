@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
+#include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/math/AngleLookup.h"
@@ -1091,10 +1092,9 @@ void *mem_alloc(u32 size);
 void build_tables__14TBoss6PlotFalzFPvPvi(Obj_8004AA80 *arg0, Rec_8004AA80 *arg1, s32 arg2);
 extern s32 lbl_805D5868;
 extern s32 lbl_805D5870;
-void update_active_flag__14TBoss6PlotFalzFv(void);
 s32 get_main_phase();
 
-void update_active_flag__14TBoss6PlotFalzFv(void) {
+void TBoss6PlotFalz::update_active_flag() {
     plot_falz_phase = 0;
     if ((get_main_phase() == 0xF) || (is_split_screen() != 0)) {
         plot_falz_phase = 1;
@@ -1427,7 +1427,7 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     register_entity_by_id((u8 *)this);
     actorFlags = (s32) (actorFlags | 0x02000000);
     set_visible_flag__14TBoss6PlotFalzFv(this);
-    update_active_flag__14TBoss6PlotFalzFv();
+    TBoss6PlotFalz::update_active_flag();
     m_3cc = 0;
     m_3d0 = 0;
     m_3d4 = 0;

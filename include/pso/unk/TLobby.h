@@ -21,6 +21,9 @@ struct TLobbyFloorItemEntry {
 typedef char TLobbyFloorItemEntrySize[(sizeof(TLobbyFloorItemEntry) == 0x24) ? 1 : -1];
 typedef char TLobbyFloorItemEntryDataOffset[(offsetof(TLobbyFloorItemEntry, item_data) == 0x10) ? 1 : -1];
 
+struct AdxbDecoder;
+struct Strm_803C5B50;
+
 struct TLobby : public TObject {
     // Whether a challenge-mode task is running.
     static s32 is_flag_set();
@@ -983,6 +986,48 @@ struct TLobby : public TObject {
     void send_compressed_packet_6c();
     void send_cmd_6B();
     u8 *create_new_floor_windows();
+    static AdxbDecoder *alloc_record(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    s32 write_adx_header(Strm_803C5B50 *s);
+    static void append_float_value(s32 arg0);
+    static void append_int_param(s32 arg0);
+    static void send_simple_mail(s32 arg0, void *arg1);
+    static void *find_short_mail_by_id(u32 id);
+    static s32 find_free_slot();
+    static void remove_entry_at(s32 idx);
+    static void clear_all_entries(void* _w0);
+    s32 is_name_too_long();
+    void fill_list_entry(u8 *arg1);
+    void*get_com_card_list();
+    s32 get_lobby_id();
+    static int get_short_mail_ctrl();
+    static void clear_lobby_flag();
+    s32 advance_rng();
+    f32 get_field_2a4();
+    s32 get_field_0x280();
+    void set_menu_index(s32 v);
+    void set_clamped_field27c(f32 farg0);
+    static void reset_sound_group_fade();
+    static void fade_voice_channels(s32 arg0);
+    s32 reset_sound_state();
+    static s32 pop_sound_groups(void *p, s32 arg1);
+    s32 validate_and_set_selection(s32 arg1);
+    static u16 update_crc16_ccitt(u16 crc, u8 c);
+    void set_field0(void *owner);
+    void clamp_field9c(f32 farg0);
+    void update_random_flip_flag();
+    void clamp_params();
+    s32 init_sound_voice(s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+    s32 get_field_308();
+    static void send_find_user_self_tag(s32 arg0);
+    static void find_and_load_com_card(u32 arg0);
+    static void*get_com_card_entry(int a0);
+    static char *skip_to_comma_field(char *s, s32 a, s32 b);
+    char *build_text_from_comma_list();
+    static void remove_com_card_entry(s32 arg0);
+    static s32 remove_com_card_by_id(u32 arg0);
+    static void reset_state_805D63DC(void*);
+    void set_split_screen_name();
+    static void create_singleton(void *arg0);
 };
 
 typedef char TLobby_size[sizeof(TLobby) == 0x1C ? 1 : -1];

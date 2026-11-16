@@ -129,7 +129,6 @@ stats *get_class_base_stats(s8 arg0);
 s32 TObjPlayer__sub_801D8DCC(TObjPlayer *arg0);
 s32 get_max_level__10TObjPlayerFv(s32);
 s32 TObjPlayer__sub_801D91B8(s32 arg0);
-const Vec_801D8CCC *get_guild_return_position__10TObjPlayerFPv(void *player);
 s32 classify_action_state__10TObjPlayerFv(void *);
 s32 TBoss4DarkFalz__sub_801D94C0(void* p);
 void TObjPlayer__sub_801D92A4(void);
@@ -237,8 +236,8 @@ s32 TObjPlayer::get_guild_return_yaw() {
     return *(s32 *)((s8 *)lbl_80449234 + (TLobby::get_instance() * 4));
 }
 
-const Vec_801D8CCC *get_guild_return_position__10TObjPlayerFPv(void *player) {
-    return guild_return_position_table_by_episode[TLobby::get_instance()] + get_entity_id(player);
+const Vec_801D8CCC *TObjPlayer::get_guild_return_position() {
+    return guild_return_position_table_by_episode[TLobby::get_instance()] + get_entity_id(this);
 }
 
 s32 TObjPlayer::get_hospital_yaw() {

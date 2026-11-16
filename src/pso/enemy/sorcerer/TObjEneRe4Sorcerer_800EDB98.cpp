@@ -1,4 +1,5 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/sorcerer/TObjEneRe4Sorcerer.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/system/vector.h"
@@ -119,7 +120,6 @@ int is_target_ranger(void *p);
 s32 is_alive__8TObjBaseFv(void *);
 s32 transform_relative_position__9TObjEneDDFPv(void *, void *);
 f32 horizontal_distance_squared(void *, void *);
-s32 select_attack_target__18TObjEneRe4SorcererFiff(TObjEneRe4Sorcerer *self, f32 farg0, f32 farg1);
 void scale_matrix(s32, s32, f32, f32, f32);
 
 struct Params_800F0464 { s32 a; void *actions; s32 c, d; };
@@ -151,7 +151,6 @@ void TObjEneRe4Sorcerer__sub_800EEFE4(TObjEneRe4Sorcerer *self, s32 arg1);
 void TObjEneRe4Sorcerer__vt85(TObjEneRe4Sorcerer *self, u32 state, s32 reason);
 void TObjEneRe4Sorcerer__sub_800EF7C8(TObjEneRe4Sorcerer *self);
 void TObjEneRe4Sorcerer__sub_800EF844(TObjEneRe4Sorcerer *self);
-void set_motion_by_state__18TObjEneRe4SorcererFPv(TObjEneRe4Sorcerer *self);
 void TObjEneRe4Sorcerer__sub_800EF95C(TObjEneRe4Sorcerer *self, f32 speed);
 void vfunc_102__18TObjEneRe4SorcererFv(u8 *arg0);
 void vfunc_101__18TObjEneRe4SorcererFPUc(u8 *arg0);
@@ -1099,7 +1098,7 @@ s32 TObjEneRe4Sorcerer__sub_800EEDE4(TObjEneRe4Sorcerer *self, s32 arg1) {
         break;
     case 3:
         if (self->m_4e4 >= 0x3C) {
-            set_motion_by_state__18TObjEneRe4SorcererFPv(self);
+            ((TObjEneRe4Sorcerer *)self)->set_motion_by_state();
         }
         break;
     case 0:
@@ -1381,12 +1380,12 @@ void TObjEneRe4Sorcerer::request_death_effect() {
     transition_enemy_state(6);
 }
 
-void set_motion_by_state__18TObjEneRe4SorcererFPv(TObjEneRe4Sorcerer *self) {
-    if (self->m_3e8 != 2) {
-        self->transition_enemy_state(5);
+void TObjEneRe4Sorcerer::set_motion_by_state() {
+    if (this->m_3e8 != 2) {
+        this->transition_enemy_state(5);
         return;
     }
-    self->transition_enemy_state(7);
+    this->transition_enemy_state(7);
 }
 
 void TObjEneRe4Sorcerer__sub_800EF95C(TObjEneRe4Sorcerer *self, f32 speed) {
@@ -1427,7 +1426,7 @@ void TObjEneRe4Sorcerer__sub_800EF95C(TObjEneRe4Sorcerer *self, f32 speed) {
 
 s32 TObjEneRe4Sorcerer::try_attack(f32 farg0, f32 farg1) {
     if (tick_period_counter((s32)this, &m_3b0, 0x1E) != 0) {
-        return select_attack_target__18TObjEneRe4SorcererFiff(this, farg0, farg1);
+        return select_attack_target(farg0, farg1);
     }
     if (enemy_has_live_target() != 0) {
         return 1;
@@ -1438,7 +1437,7 @@ s32 TObjEneRe4Sorcerer::try_attack(f32 farg0, f32 farg1) {
 
 #pragma push
 #pragma opt_loop_invariants off
-s32 select_attack_target__18TObjEneRe4SorcererFiff(TObjEneRe4Sorcerer *self, f32 farg0, f32 farg1) {
+s32 TObjEneRe4Sorcerer::select_attack_target(f32 farg0, f32 farg1) {
     f32 d;
     f32 best;
     s32 id;
@@ -1447,24 +1446,24 @@ s32 select_attack_target__18TObjEneRe4SorcererFiff(TObjEneRe4Sorcerer *self, f32
     int i;
     void *o1;
     void *o2;
-    if (self->vfunc_99() != 0) {
+    if (this->vfunc_99() != 0) {
         best = farg1;
         id = 0xFFFF;
-        o1 = find_entity_by_id(self->bit_ids[0]);
-        o2 = find_entity_by_id(self->bit_ids[1]);
+        o1 = find_entity_by_id(this->bit_ids[0]);
+        o2 = find_entity_by_id(this->bit_ids[1]);
         p = (TObjChara *)TLobby::get_game_mode();
         n = (s32)p + TObjEneDD::get_enemy_count();
         for (i = (s32)p; i < n; i++) {
             p = (TObjChara *)get_player_data__10TObjPlayerFi(i);
-            if (p != self && p != o1 && p != o2 && is_alive__8TObjBaseFv(p) != 0) {
-                d = horizontal_distance_squared(&self->m_2fc, &p->position);
-                if (d < best && csnLookAt((s32)&self->m_2fc, (s32)&p->m_2fc) == 0) {
+            if (p != this && p != o1 && p != o2 && is_alive__8TObjBaseFv(p) != 0) {
+                d = horizontal_distance_squared(&this->m_2fc, &p->position);
+                if (d < best && csnLookAt((s32)&this->m_2fc, (s32)&p->m_2fc) == 0) {
                     id = ((s32 (*)(void *))get_entity_id)(p);
                     best = d;
                 }
             }
         }
-        if (((s32 (*)(void *, s32))enemy_bind_or_clear_target)(self, id) != 0) {
+        if (((s32 (*)(void *, s32))enemy_bind_or_clear_target)(this, id) != 0) {
             return 1;
         }
     }
@@ -1476,28 +1475,28 @@ s32 select_attack_target__18TObjEneRe4SorcererFiff(TObjEneRe4Sorcerer *self, f32
     for (j = 0; j < m; j++) {
         q = (TObjChara *)get_player_data__10TObjPlayerFi(j);
         if (is_alive__8TObjBaseFv(q) != 0) {
-            e = horizontal_distance_squared(&self->m_2fc, &q->m_2fc);
+            e = horizontal_distance_squared(&this->m_2fc, &q->m_2fc);
             if (is_target_ranger(q) != 0) {
-                if (e < farg0 && transform_relative_position__9TObjEneDDFPv(self, q) != 0) {
+                if (e < farg0 && transform_relative_position__9TObjEneDDFPv(this, q) != 0) {
                     farg0 = e;
                     tA = ((s32 (*)(void *))get_entity_id)(q);
                 }
-            } else if (e < farg1 && transform_relative_position__9TObjEneDDFPv(self, q) != 0) {
+            } else if (e < farg1 && transform_relative_position__9TObjEneDDFPv(this, q) != 0) {
                 farg1 = e;
                 tB = ((s32 (*)(void *))get_entity_id)(q);
             }
         }
     }
     if ((u16)tA != 0xFFFF) {
-        ((void (*)(void *, s32))enemy_set_target_id)(self, tA);
+        ((void (*)(void *, s32))enemy_set_target_id)(this, tA);
         return 1;
     }
     if ((u16)tB != 0xFFFF) {
-        ((void (*)(void *, s32))enemy_set_target_id)(self, tB);
+        ((void (*)(void *, s32))enemy_set_target_id)(this, tB);
         return 1;
     }
     }
-    enemy_clear_target__12TObjEneDD_STFUs(self);
+    enemy_clear_target__12TObjEneDD_STFUs(this);
     return 0;
 }
 #pragma pop

@@ -24,6 +24,9 @@ struct ProtectionTimer {
     s32 frames;
 };
 
+struct Vec_801D8CCC;
+struct Vec_803E1B1C;
+
 struct TObjPlayer : public TObjChara {
     TObjPlayer(TObject *arg1, void *arg2);
     // The key function: __vt__10TObjPlayer is emitted with the TU at 0x801AF290
@@ -1552,6 +1555,15 @@ struct TObjPlayer : public TObjChara {
     void check_idle_movement_request();
     void push_to_list(s32 arg1);
     static s32 run_and_return_arg(s32 arg0);
+    s32 init_state();
+    u8 get_mag_level();
+    const Vec_801D8CCC *get_guild_return_position();
+    void spawn_item();
+    static void spawn_hit_particles_at(s32 arg0, s32 arg1, s32 arg2);
+    static void spawn_hit_particles_at_vec(s32 arg0, s32 arg1, s32 arg2);
+    s32 get_quest_thread_id();
+    s32 test_box_overlap(Vec_803E1B1C *boxB);
+    void remove_equipped_item(s32 arg1, void *arg2);
 };
 
 #include <stddef.h>

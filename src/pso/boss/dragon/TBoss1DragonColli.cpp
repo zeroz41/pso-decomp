@@ -47,7 +47,6 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 extern void *__vt__17TBoss1DragonColli[];
 extern s32 TBoss1DragonColli__name;
 u8 *TBoss1DragonColli__ct(u8 *arg0, s32 arg1);
-void set_elem_flags__17TBoss1DragonColliFPv(O_8002B42C *self);
 void *mem_alloc(u32 size);
 u16 register_entity_by_id(void *ov);
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);
@@ -77,7 +76,6 @@ extern "C" {
 void render__19TBoss1DragonColli_CFv(void);
 void TBoss1DragonColli__sub_8002B35C(void* p);
 void *__dt__19TBoss1DragonColli_CFv(void *arg0, s16 arg1);
-void draw__17TBoss1DragonColliFPvPvPv(void* p, void* a1, void* a2);
 int matrix_mult_vec(void*, void*, void*);
 int post_translate_matrix(void*);
 s32 free_collision_body_parts(void *);
@@ -134,7 +132,7 @@ void TBoss1DragonColli_C::render() {  }
 
 void TBoss1DragonColli__sub_8002B35C(void* p) { ((TBoss1DragonColli_C *)p)->clear_segment_flags(); }
 
-void draw__17TBoss1DragonColliFPvPvPv(void* p, void* a1, void* a2) { push_matrix(p); set_matrix_identity((void*)0); post_translate_matrix(a1); rotate_matrix_y((void*)0, a2); matrix_mult_vec((void*)0, (char*)p + 0xac, (char*)p + 0x38); pop_matrix(); *(void**)((char*)p + 0x60) = a2; ((TObjCollidable *)p)->refresh_collision_body_centers(); set_elem_flags__17TBoss1DragonColliFPv((O_8002B42C *)(p)); }
+void TBoss1DragonColli::draw(void* a1, void* a2) { push_matrix(this); set_matrix_identity((void*)0); post_translate_matrix(a1); rotate_matrix_y((void*)0, a2); matrix_mult_vec((void*)0, (char*)this + 0xac, (char*)this + 0x38); pop_matrix(); *(void**)((char*)this + 0x60) = a2; ((TObjCollidable *)this)->refresh_collision_body_centers(); set_elem_flags(); }
 
 void TBoss1DragonColli_C::clear_segment_flags() {
     O_8002B3F4 *self = (O_8002B3F4 *)this;
@@ -144,10 +142,10 @@ void TBoss1DragonColli_C::clear_segment_flags() {
     }
 }
 
-void set_elem_flags__17TBoss1DragonColliFPv(O_8002B42C *self) {
+void TBoss1DragonColli::set_elem_flags() {
     s32 i;
-    for (i = 0; i < self->count; i++) {
-        self->elems[i].flags |= 1;
+    for (i = 0; i < ((O_8002B42C *)this)->count; i++) {
+        ((O_8002B42C *)this)->elems[i].flags |= 1;
     }
 }
 

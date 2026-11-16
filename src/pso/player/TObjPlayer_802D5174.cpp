@@ -49,10 +49,7 @@ struct S_802D5B78 {
 
 extern "C" {
 void TObjPlayer__sub_802D5B78(void *arg0, void *arg1, void *arg2);
-void spawn_item__10TObjPlayerFi(Vec *pos);
 void spawn_hit_particles__10TObjPlayerFiPv(s32 pos, const Vec *dir);
-void spawn_hit_particles_at_vec__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
-void spawn_hit_particles_at__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
 s16 get_validated_attack_stage(u8 *arg0);
 void get_weapon_color__11TItemWeaponFPv(void *, void *);
 void normalize_vector(void *);
@@ -205,12 +202,12 @@ void TObjPlayer__sub_802D5B78(void *arg0, void *arg1, void *arg2) {
 
 #pragma pop
 
-void spawn_item__10TObjPlayerFi(Vec *pos) {
+void TObjPlayer::spawn_item() {
     s32 spC;
     s32 sp8;
     TParticleCtrl *particle;
 
-    particle = (TParticleCtrl *)spawn_particle_effect(pos, 0x1BF);
+    particle = (TParticleCtrl *)spawn_particle_effect(((Vec *)this), 0x1BF);
     if (particle != NULL) {
         TItemLoad::lookup_item_data(0xD, &spC);
         TItemLoad::get_data_entry(0xD, &sp8);
@@ -236,7 +233,7 @@ TUnk_804E22F4::TUnk_804E22F4(TObject *parent, u8 *item) : TUnk_804E23F0(parent, 
 }
 
 void TUnk_804E22F4::vfunc_62(Vec *pos) {
-    spawn_item__10TObjPlayerFi(pos);
+    ((TObjPlayer *)pos)->spawn_item();
 }
 
 TUnk_804E21F8::TUnk_804E21F8(TObject *parent, u8 *item) : TUnk_804E23F0(parent, item) {
@@ -369,7 +366,7 @@ void TUnk_804E21F8::emit_marker_effects() {
 }
 
 void TUnk_804E21F8::vfunc_62(Vec *pos) {
-    spawn_item__10TObjPlayerFi(pos);
+    ((TObjPlayer *)pos)->spawn_item();
 }
 
 void TUnk_804E21F8::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
@@ -379,17 +376,17 @@ void TUnk_804E21F8::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
 
 TUnk_804E2000::TUnk_804E2000(TObject *parent, u8 *item) : TUnk_804E23F0(parent, item) {
     effect_id = 341;
-    pad_208 = (void *)spawn_hit_particles_at__10TObjPlayerFiii;
-    pad_204 = (void *)spawn_hit_particles_at_vec__10TObjPlayerFiii;
+    pad_208 = (void *)TObjPlayer::spawn_hit_particles_at;
+    pad_204 = (void *)TObjPlayer::spawn_hit_particles_at_vec;
 }
 
-void spawn_hit_particles_at__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2) {
+void TObjPlayer::spawn_hit_particles_at(s32 arg0, s32 arg1, s32 arg2) {
     Vec pos;
     TObjPlayer__sub_802D5B78((void *)arg1, &pos, (void *)arg2);
     spawn_hit_particles__10TObjPlayerFiPv((s32)&pos, (const Vec *)arg2);
 }
 
-void spawn_hit_particles_at_vec__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2) {
+void TObjPlayer::spawn_hit_particles_at_vec(s32 arg0, s32 arg1, s32 arg2) {
     Vec pos;
     VecCopy(&pos, (const Vec *)arg1);
     spawn_hit_particles__10TObjPlayerFiPv((s32)&pos, (const Vec *)arg2);

@@ -97,7 +97,7 @@ Mgr_8036B424 *TLobby__sub_8036B424(Mgr_8036B424 *arg0, void * _w1) {
     return arg0;
 }
 
-void create_singleton__6TLobbyFPv(void *arg0) {
+void TLobby::create_singleton(void *arg0) {
     void *o;
     if ((*(void * *)&slot_entity_dispatcher_instance) == NULL) {
         o = __nw__7TObjectFUl(0x30);

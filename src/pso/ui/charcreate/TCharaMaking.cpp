@@ -109,7 +109,6 @@ P_8028DCCC character_proportion_height_table[12] = {
 };
 
 extern "C" {
-void build_appearance_texture_names__12TCharaMakingFv(TextureOutput *, CharacterAppearanceFields *, CharacterClassAppearance *, CharacterTextureList *);
 void TCharaMaking__bind_appearance_texture_lists(TextureOutput *arg0, TextureOutput *arg1, TextureOutput *arg2, CharacterAppearanceFields *arg3);
 s32 TCharaMaking__sub_8028E3A0(f32 *arg0);
 }
@@ -371,7 +370,7 @@ void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureO
     temp_r6 = temp_r3[appearance->hair];
     if (temp_r6 != 0)
     {
-      build_appearance_texture_names__12TCharaMakingFv(output, appearance, definition, temp_r6);
+      ((TCharaMaking *)output)->build_appearance_texture_names(appearance, definition, temp_r6);
       output->loaded = 1;
     }
   }
@@ -382,11 +381,11 @@ void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureO
     temp_r6_2 = temp_r3_2[appearance->head];
     if (temp_r6_2 != 0)
     {
-      build_appearance_texture_names__12TCharaMakingFv(arg1, appearance, definition, temp_r6_2);
+      ((TCharaMaking *)arg1)->build_appearance_texture_names(appearance, definition, temp_r6_2);
       arg1->loaded = 1;
     }
   }
-  build_appearance_texture_names__12TCharaMakingFv(arg2, appearance, definition, definition->bodyTextures);
+  ((TCharaMaking *)arg2)->build_appearance_texture_names(appearance, definition, definition->bodyTextures);
   arg2->loaded = 1;
 }
 s32 TCharaMaking__sub_8028E3A0(f32 *arg0) {
@@ -427,18 +426,18 @@ s32 TCharaMaking::get_display_index() {
 }
 
 unsigned int strlen(u8 *); u8 *strncpy(u8 *,u8 *,unsigned int);
-void build_appearance_texture_names__12TCharaMakingFv(TextureOutput *output, CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source) {
+void TCharaMaking::build_appearance_texture_names(CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source) {
     if (source->count <= 8) {
         int index;
         OutputSlot *slot;
         u8 **entry;
         u8 *name;
-        slot = output->entries = output->slots;
+        slot = ((TextureOutput *)this)->entries = ((TextureOutput *)this)->slots;
         index = 0;
-        output->count = source->count;
+        ((TextureOutput *)this)->count = source->count;
         entry = (u8 **)source->entries;
         for (; index < source->count; ++index, ++entry, ++slot) {
-            name = output->names[index];
+            name = ((TextureOutput *)this)->names[index];
             strlen(*entry);
             strncpy(name, *entry, 31);
             name[31] = 0;

@@ -6,6 +6,8 @@
 
 struct TBoss6Type2Point { f32 x, y, z; };
 
+struct Blk_802BCFD4;
+
 struct TBoss6Type2
 {
     void sub_802BBE20();
@@ -290,6 +292,7 @@ struct TBoss6Type2
     void sub_802BF904();
     void sub_802BFA1C();
     void sub_802BFBE4();
+    static Blk_802BCFD4 *copy_block(Blk_802BCFD4 *d, const Blk_802BCFD4 *s);
 };
 
 typedef char TBoss6Type2_offset_position[(offsetof(TBoss6Type2, position) == 0x38) ? 1 : -1];

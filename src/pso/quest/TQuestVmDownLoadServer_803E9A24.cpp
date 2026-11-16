@@ -660,7 +660,8 @@ Seg_803E9FFC *TQuestVmDownLoadServer__sub_803E9A74(s32 pos, s32 end, u8 a, u8 b)
 }
 #pragma pop
 
-const Ent_803E9DE0 *find_longest_match_entry__22TQuestVmDownLoadServerFPviPv(u8 *arg0, s32 arg1, s32 *arg2) {
+const Ent_803E9DE0 *TQuestVmDownLoadServer::find_longest_match_entry(s32 arg1, s32 *arg2) {
+    u8 *arg0 = (u8 *)this;
     const u8 *s;
     u8 *a;
     s32 k;
@@ -732,16 +733,16 @@ s32 TQuestVmDownLoadServer__sub_803E9F54(s32 arg0) {
     return (s8)r->b;
 }
 
-N_803E9FA4 *insert_sorted_node__22TQuestVmDownLoadServerFPvPv(N_803E9FA4 *arg0, N_803E9FA4 *arg1) {
+N_803E9FA4 *TQuestVmDownLoadServer::insert_sorted_node(N_803E9FA4 *arg1) {
     N_803E9FA4 *cur;
     N_803E9FA4 *prev;
     s16 k = arg1->key;
-    if (arg0 == NULL || arg0->key < k) {
-        arg1->next = arg0;
+    if (((N_803E9FA4 *)this) == NULL || ((N_803E9FA4 *)this)->key < k) {
+        arg1->next = ((N_803E9FA4 *)this);
         return arg1;
     }
-    cur = arg0->next;
-    prev = arg0;
+    cur = ((N_803E9FA4 *)this)->next;
+    prev = ((N_803E9FA4 *)this);
     while (cur != NULL) {
         if (cur->key < k) {
             break;
@@ -751,7 +752,7 @@ N_803E9FA4 *insert_sorted_node__22TQuestVmDownLoadServerFPvPv(N_803E9FA4 *arg0, 
     }
     prev->next = arg1;
     arg1->next = cur;
-    return arg0;
+    return ((N_803E9FA4 *)this);
 }
 
 #pragma push
@@ -826,7 +827,7 @@ inline N_803E9FA4 *merge_sorted_nodes(N_803E9FA4 *head, N_803E9FA4 *list) {
     N_803E9FA4 *next;
     for (n = list; n != NULL; n = next) {
         next = n->next;
-        head = insert_sorted_node__22TQuestVmDownLoadServerFPvPv(head, n);
+        head = ((TQuestVmDownLoadServer *)head)->insert_sorted_node(n);
     }
     return head;
 }
@@ -891,7 +892,7 @@ s32 TQuestVmDownLoadServer__sub_803EA1A8(s32 start, s32 end) {
 }
 #pragma pop
 
-Node_803EA384 *build_item_list__22TQuestVmDownLoadServerFiPv(s32 arg0, Hdr_803EA384 *arg1) {
+Node_803EA384 *TQuestVmDownLoadServer::build_item_list(s32 arg0, Hdr_803EA384 *arg1) {
     s16 id;
     s32 x4;
     s32 n;
@@ -1111,7 +1112,7 @@ s32 TQuestVmDownLoadServer__sub_803EA428(s32 start, s32 end) {
                 candidateLength = end;
                 slot->width = QUEST_WORKSPACE_MATCH(workspace.address)->len2;
             } else {
-                Node_803EA384 *item = build_item_list__22TQuestVmDownLoadServerFiPv(start, (Hdr_803EA384 *)QUEST_WORKSPACE_MATCH(workspace.address));
+                Node_803EA384 *item = TQuestVmDownLoadServer::build_item_list(start, (Hdr_803EA384 *)QUEST_WORKSPACE_MATCH(workspace.address));
                 append_candidate_items(item, &slot->list);
                 slot->width = QUEST_WORKSPACE_MATCH(workspace.address)->len2;
                 candidateLength = QUEST_WORKSPACE_MATCH(workspace.address)->len - 1;
@@ -1148,7 +1149,7 @@ candidates:
             if (slot->width == -1) {
                 slot->width = QUEST_WORKSPACE_MATCH(workspace.address)->len2;
             }
-            Node_803EA384 *item = build_item_list__22TQuestVmDownLoadServerFiPv(start, (Hdr_803EA384 *)QUEST_WORKSPACE_MATCH(workspace.address));
+            Node_803EA384 *item = TQuestVmDownLoadServer::build_item_list(start, (Hdr_803EA384 *)QUEST_WORKSPACE_MATCH(workspace.address));
             append_candidate_items(item, items);
         }
     }
@@ -1241,7 +1242,7 @@ void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32
     remaining = limit - start;
     while (remaining > 0) {
         if (slot->x0 == (const Ent_803E9DE0 *)0xFFFFFFFF) {
-            tokens = find_longest_match_entry__22TQuestVmDownLoadServerFPviPv(text, remaining, &tokenLength);
+            tokens = ((TQuestVmDownLoadServer *)text)->find_longest_match_entry(remaining, &tokenLength);
             if (tokens == (const Ent_803E9DE0 *)0xFFFFFFFF) {
                 break;
             }

@@ -179,7 +179,7 @@ s32 *csnVectorUnder(s32 arg0, u32 *arg1, s32 arg2);
 s32 *csnVecterUnder(s32 origin, s32 mask);
 u16 TObjRoomId__sub_801A1DB8(u16);
 s32 project_actor_to_ground(Obj_80156844 *self, Vec_80156844 *pos, Vec_80156844 *normal);
-s32 test_box_overlap__10TObjPlayerFPvPv(CollisionBox_80155C54*,CollisionBox_80155C54*);
+s32 test_box_overlap__10TObjPlayerFP12Vec_803E1B1C(CollisionBox_80155C54*,CollisionBox_80155C54*);
 s32 test_box_sphere_contact(CollisionBox_80155C54*,CollisionSphere_80155C54*);
 }
 s32 test_collider_sphere_overlap_xz(s32 arg0, u8 *arg1, u32 arg2);
@@ -280,7 +280,7 @@ void TObjPlayer__sub_8015434C(CollisionBody_80155FBC *set, s32 start, s32 count)
                         if (other_body->shape == 1) {
                             build_collision_box_corners(other_pos, other_facing, other_body, &other_box);
                             if (shape == 1) {
-                                if (test_box_overlap__10TObjPlayerFPvPv(&box, &other_box)) {
+                                if (test_box_overlap__10TObjPlayerFP12Vec_803E1B1C(&box, &other_box)) {
                                     hit = other_body;
                                 }
                             } else if (test_box_sphere_contact(&other_box, &sphere)) {
@@ -975,7 +975,7 @@ void* refresh_actor_body_spheres(CollisionBody_80155FBC a,CollisionBody_80155FBC
                     case 1:
                         build_collision_box_corners(worldA,facingA,source,&boxAA);
                         build_collision_box_corners(worldB,facingB,destination,&boxBB);
-                        if (test_box_overlap__10TObjPlayerFPvPv(&boxAA,&boxBB)) return destination;
+                        if (test_box_overlap__10TObjPlayerFP12Vec_803E1B1C(&boxAA,&boxBB)) return destination;
                         break;
                     case 0: default:
                         build_collision_box_corners(worldA,facingA,source,&boxAB);

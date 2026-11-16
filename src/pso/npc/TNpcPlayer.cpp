@@ -420,7 +420,6 @@ s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 arg1);
 s32 check_and_set_reached__10TNpcPlayerFPv(void *arg0);
 s32 needs_movement__10TNpcPlayerFPvPvi(u8 *arg0, void * _w1, int _w2);
 void select_path_waypoint__10TNpcPlayerFv(Self_801501A0 *self);
-void request_technique_cast__10TNpcPlayerFPvi(Npc_80150A34 *self, s32 kind);
 s32 select_recovery_action__10TNpcPlayerFv(Npc_801510F8 *self, s32 arg1);
 void run_task__10TNpcPlayerFv(u8 *arg0);
 Npc_80152168 * TNpcPlayer__ct(Npc_80152168 *self, s32 a, s32 b, s16 kind, s32 arg4, void *parent);
@@ -2718,34 +2717,34 @@ void TNpcPlayer::update_combat_action() {
     ((TNpcPlayer *)((Npc_80150B90 *)this))->partner_request_physical_attack();
 }
 
-void request_technique_cast__10TNpcPlayerFPvi(Npc_80150A34 *self, s32 kind) {
+void TNpcPlayer::request_technique_cast(s32 kind) {
     Msg_80150A34 m;
     u8 *actor;
 
     ((TNpcPlayer *)(&m))->init_cast_technique_cmd();
-    actor = self->p78->actor;
+    actor = ((Npc_80150A34 *)this)->p78->actor;
     if (kind == 15 || kind == 16) {
-        ((TNpcPlayer *)self)->request_chatter(0x16);
+        ((TNpcPlayer *)((Npc_80150A34 *)this))->request_chatter(0x16);
     } else if (kind == 0 || kind == 3 || kind == 6) {
-        ((TNpcPlayer *)self)->request_chatter(0x17);
+        ((TNpcPlayer *)((Npc_80150A34 *)this))->request_chatter(0x17);
     } else {
-        ((TNpcPlayer *)self)->request_chatter(2);
+        ((TNpcPlayer *)((Npc_80150A34 *)this))->request_chatter(2);
     }
     if (TObjPlayer::try_camera_action((s32)actor, (s32)kind) != 0) {
-        m.type = get_npc_type__10TNpcPlayerFPv(self->p78);
+        m.type = get_npc_type__10TNpcPlayerFPv(((Npc_80150A34 *)this)->p78);
         m.kind = kind;
         m.one = 1;
         if (kind == 15 || kind == 16) {
             if (kind == 15) {
-                self->flags |= 0x10000;
+                ((Npc_80150A34 *)this)->flags |= 0x10000;
             }
             m.e = get_cast_technique_level(actor + 0x428, kind);
-            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(m.sub, ((s32 (*)(void *))get_npc_type__10TNpcPlayerFPv)(self->p74));
+            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(m.sub, ((s32 (*)(void *))get_npc_type__10TNpcPlayerFPv)(((Npc_80150A34 *)this)->p74));
             set_state__10TNpcPlayerFPvs(m.sub, 0);
         } else {
             m.e = get_cast_technique_level(actor + 0x428, kind);
-            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(m.sub, ((TNpcPlayer *)(self->p78))->get_npc_state());
-            set_state__10TNpcPlayerFPvs(m.sub, TNpcPlayer__sub_801528DC(self->p78));
+            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(m.sub, ((TNpcPlayer *)(((Npc_80150A34 *)this)->p78))->get_npc_state());
+            set_state__10TNpcPlayerFPvs(m.sub, TNpcPlayer__sub_801528DC(((Npc_80150A34 *)this)->p78));
         }
         ((TNpcPlayer *)(&m))->finalize_and_send_packet();
     }
@@ -3903,7 +3902,7 @@ void TNpcPlayer::dispatch_action(s32 arg1) {
         if (((TNpcPlayer *)(*(s32 *)((s8 *)this + 0x78)))->get_condition() & 0x20) {
             handle_action(arg1);
         } else {
-            ((s32 (*)(void *, s32))request_technique_cast__10TNpcPlayerFPvi)(this, 0xF);
+            request_technique_cast(0xF);
         }
         if (*(s32 *)((s8 *)this + 0x80) & 0x200) {
             request_chatter((u32)(0x13));
@@ -3920,14 +3919,14 @@ void TNpcPlayer::dispatch_action(s32 arg1) {
             handle_action(arg1);
             return;
         }
-        ((s32 (*)(void *, s32))request_technique_cast__10TNpcPlayerFPvi)(this, 0x10);
+        request_technique_cast(0x10);
         return;
     case 3:
         if (((TNpcPlayer *)(*(s32 *)((s8 *)this + 0x78)))->get_condition() & 0x20) {
             handle_action(arg1);
             return;
         }
-        ((s32 (*)(void *, s32))request_technique_cast__10TNpcPlayerFPvi)(this, 0x11);
+        request_technique_cast(0x11);
         break;
     }
 }

@@ -5,7 +5,7 @@
 
 extern "C" {
 void TObjPlayer__sub_801BFE88(u8 *arg0);
-s32 init_state__10TObjPlayerFi(s32 arg0);
+s32 init_state__10TObjPlayerFv(s32 arg0);
 }
 
 #endif

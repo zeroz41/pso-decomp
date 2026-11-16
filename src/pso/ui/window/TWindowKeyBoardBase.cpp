@@ -133,7 +133,7 @@ struct Quad_8025E350 {
     f32 uv[4];
 };
 
-u8 calc_gauge_scale__20TWindowSubStatusDispFPvPvi(s32, void *, s32);
+u8 calc_gauge_scale__20TWindowSubStatusDispFUsPvl(s32, void *, s32);
 s32 fn_8025CE00(void *, u8 *);
 void TWindowKeyBoardSoft__sub_8025CF50(void *, int, int);
 void TWindowKeyBoardSoft__sub_8025CFA8(void *, s32 *);
@@ -890,7 +890,7 @@ void TWindowKeyBoardBase::draw_wrapped_text(void *arg1, void *arg2) {
                 n--;
                 ch |= *p++ & 0xFF;
             }
-            adv = calc_gauge_scale__20TWindowSubStatusDispFPvPvi(map_char_to_font_code(ch), &q, -1);
+            adv = calc_gauge_scale__20TWindowSubStatusDispFUsPvl(map_char_to_font_code(ch), &q, -1);
             if (((f32 *)arg2)[0] + (f32)adv > ((Box_8025E350 *)arg1)->x + ((Box_8025E350 *)arg1)->w) {
                 ((f32 *)arg2)[0] = ((Box_8025E350 *)arg1)->x;
                 ((f32 *)arg2)[1] += 20.0f;
@@ -921,7 +921,7 @@ void TWindowSubStatusDisp__sub_8025E530(TWindowKeyBoardBase *self, TWindowKeyBoa
         ch = *text++;
         code = map_char_to_font_code(ch);
         if (scaled != 0) {
-            adv = calc_gauge_scale__20TWindowSubStatusDispFPvPvi(code, &q, -1);
+            adv = calc_gauge_scale__20TWindowSubStatusDispFUsPvl(code, &q, -1);
         } else {
             adv = get_font_char_advance(code);
         }
