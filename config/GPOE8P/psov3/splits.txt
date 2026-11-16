@@ -8920,27 +8920,13 @@ pso/enemy/gigue/TObjEneMe1GiGueMissile.cpp:
 	.sbss       start:0x805D6858 end:0x805D685C
 	.sdata2     start:0x805DE6D0 end:0x805DE6E8
 
-pso/unk/text_802CE510.cpp:
-	.text       start:0x802CE510 end:0x802CE68C
-	.sdata2     start:0x805DE6E8 end:0x805DE6EC
-
-pso/enemy/mericarol/TObjEneBm9Mericarol_802CE68C.cpp:
-	.text       start:0x802CE68C end:0x802CECE0
-	.sdata2     start:0x805DE708 end:0x805DE70C
-
-pso/enemy/mericarol/TObjEneBm9Mericarol_802CECE0.cpp:
-	.text       start:0x802CECE0 end:0x802D05BC
-	.rodata     start:0x804724B8 end:0x804724C8
-
-pso/enemy/mericarol/TObjEneBm9Mericarol_802D05BC.cpp:
-	.text       start:0x802D05BC end:0x802D073C
-
 pso/enemy/mericarol/TObjEneBm9Mericarol.cpp:
-	.text       start:0x802D073C end:0x802D134C
+	.text       start:0x802CE510 end:0x802D134C
+	.rodata     start:0x804724B8 end:0x804724C8
 	.data       start:0x804E1548 end:0x804E18A4
 	.bss        start:0x80540B58 end:0x80540B98
 	.sbss       start:0x805D6868 end:0x805D686C
-	.sdata2     start:0x805DE740 end:0x805DE758
+	.sdata2     start:0x805DE6E8 end:0x805DE758
 
 pso/enemy/mericarol/TObjEneBm9Mericarol_Bomb.cpp:
 	.text       start:0x802D134C end:0x802D1AB8
@@ -10476,22 +10462,12 @@ pso/ui/window/TWindowOptionCtrl_8034C384.cpp:
 	.data       start:0x804F01C0 end:0x804F0230
 	.sdata2     start:0x805DFDD0 end:0x805DFDD4
 
-pso/ui/window/TWindowSubInformationBoard_8034CC00.cpp:
-	.text       start:0x8034CC00 end:0x8034CD98
-
-pso/ui/window/TWindowSubComCard_8034CD98.cpp:
-	.text       start:0x8034CD98 end:0x8034CEDC
-	.sdata2     start:0x805DFDD8 end:0x805DFDE0
-
-pso/unk/text_8034CEDC.cpp:
-	.text       start:0x8034CEDC end:0x8034CFA8
-	.sdata2     start:0x805DFDE0 end:0x805DFDE4
-
 pso/ui/window/TWindowSubInformationBoard.cpp:
-	.text       start:0x8034CFA8 end:0x8034D3D0
-	.rodata     start:0x80478C10 end:0x80478C2C
-	.data       start:0x804F0248 end:0x804F027C
+	.text       start:0x8034CC00 end:0x8034D3D0
+	.rodata     start:0x80478C10 end:0x80478C48
+	.data       start:0x804F0230 end:0x804F027C
 	.sdata      start:0x805D4348 end:0x805D434C
+	.sdata2     start:0x805DFDD8 end:0x805DFDE4
 
 pso/unk/text_8034D3D0.cpp:
 	.text       start:0x8034D3D0 end:0x8034DAA0

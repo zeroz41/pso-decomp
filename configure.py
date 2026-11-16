@@ -1279,7 +1279,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/window/TWindowGetComCard.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowMainMenu1P.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowOptionCtrl_8026C40C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/ui/window/TWindowSubInformationBoard.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # One TU 0x8034CC00-0x8034D3D0 written last to first, deferred: its .rodata runs the class name, then
+    # open_card_info_window's, show_card_a7's and set_message_index's tables (reverse text order), and .data
+    # holds the vtable ahead of run_task's jump table.
+    "pso/ui/window/TWindowSubInformationBoard.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/window/TWindowSubTechnique.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowTradeRequest_802E0170.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/network/TGameProtocol.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

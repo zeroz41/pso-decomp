@@ -397,8 +397,6 @@ pso/enemy/fly/TObjEneBm3FlyNest.cpp
 pso/enemy/gibon/TObjEneBm5GibonU.cpp
 pso/enemy/wolf/TObjEneBm5Wolf.cpp
 pso/enemy/mericarol/TObjEneBm9Mericarol.cpp
-pso/enemy/mericarol/TObjEneBm9Mericarol_802CECE0.cpp
-pso/enemy/mericarol/TObjEneBm9Mericarol_802D05BC.cpp
 pso/enemy/mericarol/TObjEneBm9Mericarol_Bomb.cpp
 pso/enemy/mericarol/TObjEneBm9Mericarol_EffCurse3.cpp
 pso/enemy/dd/TObjEneDD.cpp
@@ -1491,7 +1489,6 @@ pso/ui/window/TWindowSubComCard_80271E7C.cpp
 pso/ui/window/TWindowSubComCard_80275484.cpp
 pso/ui/window/TWindowSubComCard_802A559C.cpp
 pso/ui/window/TWindowSubComCard_802A5748.cpp
-pso/ui/window/TWindowSubComCard_8034CD98.cpp
 pso/ui/window/TWindowSubCustomEquip.cpp
 pso/ui/window/TWindowSubCustomSelect.cpp
 pso/ui/window/TWindowSubCustomSelect_80275D84.cpp
@@ -1504,7 +1501,6 @@ pso/ui/window/TWindowSubEquip_80279044.cpp
 pso/ui/window/TWindowSubGameEnd.cpp
 pso/ui/window/TWindowSubInformationBoard.cpp
 pso/ui/window/TWindowSubInformationBoard_8034C224.cpp
-pso/ui/window/TWindowSubInformationBoard_8034CC00.cpp
 pso/ui/window/TWindowSubItem.cpp
 pso/ui/window/TWindowSubItemList.cpp
 pso/ui/window/TWindowSubItem_801F8FD4.cpp
@@ -2432,8 +2428,6 @@ pso/object/ambient/TObjMistCtrl_802AF64C.cpp
 pso/unk/text_802C095C.cpp
 pso/unk/text_802C39F8.cpp
 pso/unk/text_802C3AC0.cpp
-pso/unk/text_802CE510.cpp
-pso/enemy/mericarol/TObjEneBm9Mericarol_802CE68C.cpp
 pso/unk/text_802D1C84.cpp
 pso/unk/text_802D1D48.cpp
 pso/unk/text_802E10D8.cpp
@@ -2461,7 +2455,6 @@ pso/unk/text_8033F314.cpp
 pso/unk/text_8034960C.cpp
 pso/unk/text_80349B8C.cpp
 pso/ui/frontend/TAdLoadQuestPrtTxtGC_8034A090.cpp
-pso/unk/text_8034CEDC.cpp
 pso/unk/text_8034D3D0.cpp
 pso/item/TUnk_804F112C.cpp
 pso/unk/text_80355970.cpp
