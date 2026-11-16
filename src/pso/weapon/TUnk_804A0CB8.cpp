@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A0CB8.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/weapon/shoot/TItemShootParticle.h"
@@ -20,7 +21,7 @@ void TUnk_804A0CB8::emit_marker_effects() {
         shot_callback = (WeaponShotCallback)belra_cannon_create_extra_shot;
         shot_ready = 0;
         TItemAttacker::spawn_item_timer(this, (ItemTimerCallback)belra_cannon_return_timer, 0x1E);
-        ((TObjPlayer *)this)->launch_rare_weapon_special(0, 1, 1.0f);
+        ((TItemWeapon *)this)->launch_rare_weapon_special(0, 1, 1.0f);
     } else {
         shot_callback = (WeaponShotCallback)belra_cannon_create_shot;
         shot_ready = 0;

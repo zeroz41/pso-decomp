@@ -60,7 +60,7 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void *find_entity_by_id(u16 id);
-s32 spawn_photon_blast_attachment_effects(void *, s32);
+s32 spawn_photon_blast_attachment_effects__13TUnk_804C3248Fl(void *, s32);
 TObjMotionAction photon_blast_youlla_params[2] = {
     {3, 0, 7, 1.0f, 0},
     {1, 0, 14, 1.0f, 0},
@@ -110,7 +110,7 @@ void TPhotonYoulla::run_task() {
         *(s32 *)&this->m_1a0 = 1;
     }
     if ((100.0f == (f32) *(s32 *)&this->m_1a4) && ((s16) this->requested_action == 1)) {
-        spawn_photon_blast_attachment_effects(this, 6);
+        spawn_photon_blast_attachment_effects__13TUnk_804C3248Fl(this, 6);
         *(s32 *)&this->m_1a4 = 0;
         set_field_b8(0);
     }
@@ -168,7 +168,7 @@ u8 *TPhotonYoulla__ct(TPhotonYoulla *photon_youlla, u8 *arg1) {
         photon_youlla->m_198 = 1;
         photon_youlla->m_194 = 0;
         photon_youlla->m_1a0 = 1;
-        spawn_photon_blast_attachment_effects(photon_youlla, 6);
+        spawn_photon_blast_attachment_effects__13TUnk_804C3248Fl(photon_youlla, 6);
     } else {
         spawn_photon_blast_opening_effects(6, (photon_youlla->m_17c));
     }

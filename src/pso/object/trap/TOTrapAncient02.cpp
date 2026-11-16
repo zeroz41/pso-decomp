@@ -604,7 +604,7 @@ void TOTrapAncient02R::vfunc_81() {
                 (((TObjBase *)target)->alt_room == alt_room || ((TObjBase *)target)->room == room ||
                  ((TObjBase *)target)->room == alt_room)) {
                 d = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
-                dist = range + get_collision_body_radius((TObjCollidable *)target, 0);
+                dist = range + get_collision_body_radius__14TObjCollidableFl((TObjCollidable *)target, 0);
                 if (d < dist * dist) {
                     mode = 3;
                     phase = 2;

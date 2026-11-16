@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A0AC4.h"
 #include "pso/weapon/shoot/TUnk_804A0AA8.h"
 #include "pso/player/TObjPlayer.h"
@@ -40,10 +41,10 @@ int TObjPlayer::create_item_shoot_model(int weapon, int origin, int end, f32 fra
 
 void TUnk_804A0AC4::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
-        ((TObjPlayer *)this)->launch_rare_weapon_special(NULL, 1, 1.0f);
+        ((TItemWeapon *)this)->launch_rare_weapon_special(NULL, 1, 1.0f);
         return;
     }
-    ((TObjPlayer *)this)->update_active_game_effect();
+    ((TItemWeapon *)this)->update_active_game_effect();
 }
 
 TUnk_804A0AC4::~TUnk_804A0AC4() {}

@@ -7,6 +7,7 @@
 class TObjLiveMonitor : public TObject {
 public:
     virtual ~TObjLiveMonitor();
+    void sub_8030B370();
     int render_live_monitor_screen();
     virtual void run_task();
     virtual void render();
@@ -31,7 +32,7 @@ u8 *TObjLiveCamera__ct(u8 *arg0, s32 parent, s32 arg2);
 void *__ct__15TObjLiveMonitorFv(void *arg0);
 void *__dt__14TObjLiveCameraFv(void *arg0, s16 arg1);
 int call_null__12TBoss8DragonFv(void);
-void fn_8030B370(TObjLiveMonitor *live_monitor);
+void sub_8030B370__15TObjLiveMonitorFv(TObjLiveMonitor *live_monitor);
 void fn_8030B7B4(void);
 void fn_8030B7B8(void);
 void render__14TObjLiveCameraFv(void);

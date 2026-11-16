@@ -1180,7 +1180,7 @@ s32 trigger_switch_attack__10TObjPlayerFPvi(void *, s32);
 void VecCopy__FP3VecPC3Vec(void *, void *);
 s32 is_locally_controlled__10TObjPlayerFPv(void *);
 s32 obj_isState2_324__9TObjCharaFv(void *);
-s32 get_actor_hp(void * a0 = 0);
+s32 get_actor_hp__9TObjCharaFv(void * a0 = 0);
 s32 obj_isState3_324__9TObjCharaFv();
 s32 TObjPlayer__sub_8001943C(void *, s32);
 s32 obj_testFlags30__14TObjCollidableFUl(s32, s32);
@@ -2625,7 +2625,7 @@ void TObjPlayer::send_name_and_state() {
         ((TObjPlayer *)(&b))->init_6x2F_packet_header();
         b.f2 = ((s16)((s32 (*)(void *))get_entity_id)(arg0));
         b.f4 = 0;
-        b.f8 = ((s16)get_actor_hp(arg0));
+        b.f8 = ((s16)get_actor_hp__9TObjCharaFv(arg0));
         b.fa = ((s16)((s32 (*)(void *))get_entity_id)(arg0));
         TObjPlayer__sub_801C0734(&b);
     }
@@ -2647,7 +2647,7 @@ void TObjPlayer::update_gated_action() {
     if (this->phase == 0) {
         if (is_status_flag_200__10TObjPlayerFv() != 0) {
             temp_r31 = ((s32 (*)(void *))get_entity_id)(this);
-            send_6x2F_change_player_hp(temp_r31, temp_r31, get_actor_hp(this));
+            send_6x2F_change_player_hp(temp_r31, temp_r31, get_actor_hp__9TObjCharaFv(this));
             obj_clearFlags30((u32)0x200);
             return;
         }

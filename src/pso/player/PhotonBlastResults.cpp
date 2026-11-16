@@ -595,68 +595,68 @@ void deliver_photon_blast_results_delayed(TUnk_804C349C *seq) {
     clear_photon_blast_donations();
 }
 
-void step_photon_blast_sequence(TUnk_804C349C *seq) {
+void TUnk_804C349C::step_photon_blast_sequence() {
     PhotonSummonParams_801A9870 params;
     u8 *summon;
     s32 first_summon;
     s32 j;
 
-    VecCopy(&params.position, &seq->position);
-    if (seq->owner != NULL) {
-        params.owner_id = get_entity_id(seq->owner);
+    VecCopy(&params.position, &this->position);
+    if (this->owner != NULL) {
+        params.owner_id = get_entity_id(this->owner);
     } else {
         params.owner_id = 0xFFFF;
     }
-    switch (seq->state) {
+    switch (this->state) {
     case 0:
-        if (seq->summon_index != 0 && seq->summon->all_parents_unqueued_for_destruction() != 0) {
+        if (this->summon_index != 0 && this->summon->all_parents_unqueued_for_destruction() != 0) {
             break;
         }
-        if (seq->summon_index == seq->summon_count) {
-            seq->state = 2;
+        if (this->summon_index == this->summon_count) {
+            this->state = 2;
             break;
         }
-        if (seq->summon_index != 0) {
-            switch (seq->kinds[seq->summon_index]) {
+        if (this->summon_index != 0) {
+            switch (this->kinds[this->summon_index]) {
             case 2:
             case 3: {
                 TObjChara *anchor = find_entity_by_id(lbl_805D5D18);
                 if (anchor != NULL) {
-                    VecCopy(&seq->position, &anchor->position);
+                    VecCopy(&this->position, &anchor->position);
                 }
                 break;
             }
             }
         }
-        first_summon = seq->summon_index == 0 ? 1 : 0;
-        params.has_more = seq->summon_index != seq->summon_count - 1 ? 1 : 0;
+        first_summon = this->summon_index == 0 ? 1 : 0;
+        params.has_more = this->summon_index != this->summon_count - 1 ? 1 : 0;
         params.is_first = first_summon;
-        params.count = seq->summon_count;
-        params.level = seq->levels[seq->summon_index];
-        switch (seq->kinds[seq->summon_index]) {
+        params.count = this->summon_count;
+        params.level = this->levels[this->summon_index];
+        switch (this->kinds[this->summon_index]) {
         case 2:
             summon = (u8 *)TObject::operator new(0x1CC);
             if (summon != NULL) {
                 summon = TPhotonGolla__ct(summon, (u8 *)&params);
             }
-            seq->summon = (TObject *)summon;
+            this->summon = (TObject *)summon;
             break;
         case 3:
             summon = (u8 *)TObject::operator new(0x1AC);
             if (summon != NULL) {
                 summon = TPhotonPilla__ct(summon, (u8 *)&params);
             }
-            seq->summon = (TObject *)summon;
+            this->summon = (TObject *)summon;
             break;
         case 4:
             summon = (u8 *)TObject::operator new(0x1B0);
             if (summon != NULL) {
                 summon = TPhotonLeilla__ct(summon, (u8 *)&params);
             }
-            seq->summon = (TObject *)summon;
+            this->summon = (TObject *)summon;
             for (j = 0; j < 4; j++) {
-                if (seq->participants[j] < 4) {
-                    ((void (*)(u32, s32, s32))queue_photon_blast_support)(seq->participants[j], 4, 1);
+                if (this->participants[j] < 4) {
+                    ((void (*)(u32, s32, s32))queue_photon_blast_support)(this->participants[j], 4, 1);
                 }
             }
             break;
@@ -665,42 +665,42 @@ void step_photon_blast_sequence(TUnk_804C349C *seq) {
             if (summon != NULL) {
                 summon = TPhotonFarlla__ct(summon, (u8 *)&params);
             }
-            seq->summon = (TObject *)summon;
+            this->summon = (TObject *)summon;
             break;
         case 1:
             summon = (u8 *)TObject::operator new(0x1A4);
             if (summon != NULL) {
                 summon = __ct__13TPhotonEstllaFPUc(summon, (u8 *)&params);
             }
-            seq->summon = (TObject *)summon;
+            this->summon = (TObject *)summon;
             break;
         case 5:
             summon = (u8 *)TObject::operator new(0x1A8);
             if (summon != NULL) {
                 summon = TPhotonMylla__ct(summon, (u8 *)&params);
             }
-            seq->summon = (TObject *)summon;
+            this->summon = (TObject *)summon;
             for (j = 0; j < 4; j++) {
-                if (seq->participants[j] < 4) {
-                    ((void (*)(u32, s32, s32))queue_photon_blast_support)(seq->participants[j], 5, 1);
+                if (this->participants[j] < 4) {
+                    ((void (*)(u32, s32, s32))queue_photon_blast_support)(this->participants[j], 5, 1);
                 }
             }
             break;
         }
-        seq->summon->suspend_update();
-        seq->summon->disallow_rendering();
-        seq->summon_index++;
-        seq->state = 1;
+        this->summon->suspend_update();
+        this->summon->disallow_rendering();
+        this->summon_index++;
+        this->state = 1;
         break;
     case 1:
-        ((TQuestVmDownLoadServer *)seq->summon)->clear_flag4_bit4();
-        seq->summon->allow_rendering();
-        seq->state = 0;
+        ((TQuestVmDownLoadServer *)this->summon)->clear_flag4_bit4();
+        this->summon->allow_rendering();
+        this->state = 0;
         break;
     case 2:
-        play_sound_effect(0x40021927, &seq->position, 0, 0);
-        deliver_photon_blast_results_animated(seq);
-        seq->queue_destruction();
+        play_sound_effect(0x40021927, &this->position, 0, 0);
+        deliver_photon_blast_results_animated(this);
+        this->queue_destruction();
         break;
     }
 }
@@ -744,7 +744,7 @@ void TUnk_804C349C::update_and_destroy() {
 void TUnk_804C349C::run_task() {
     owner = get_player_by_client_id(owner_client_id);
     if (animated != 0) {
-        step_photon_blast_sequence(this);
+        step_photon_blast_sequence__13TUnk_804C349CFv(this);
         return;
     }
     update_and_destroy();

@@ -515,7 +515,7 @@ void TItemMag::on_equip() {
     if (owner_watch.area == -1) {
         owner_watch.area = get_current_floor_area();
     }
-    owner_watch.hp = get_actor_hp(owner);
+    owner_watch.hp = get_actor_hp__9TObjCharaFv(owner);
     owner_watch.tp = get_actor_tp(owner);
     if (test_flags_any(&effect_flags.bits, 1) != 0) {
         state &= ~MAG_INACTIVE;
@@ -697,7 +697,7 @@ void TItemMag::update_resta_action() {
 
     frames = action_frames;
     if (frames == 90) {
-        if (get_actor_hp(owner) > 0) {
+        if (get_actor_hp__9TObjCharaFv(owner) > 0) {
             cast_support_technique(15);
         }
     } else if (frames > 90) {
@@ -938,7 +938,7 @@ s8 TItemMag::collect_owner_events() {
         return 0;
     }
     loss = 0;
-    hp = get_actor_hp(owner);
+    hp = get_actor_hp__9TObjCharaFv(owner);
     max_hp = ((TItemProShield *)owner)->get_field_2b8();
     events = 0;
     if (owner_watch.hp != hp) {
@@ -1771,7 +1771,7 @@ void TItemMag::load_param_record() {
 s32 TItemMag::can_perform_action(s32 action) {
     s16 hp;
 
-    hp = get_actor_hp(owner);
+    hp = get_actor_hp__9TObjCharaFv(owner);
     if (action == MAG_ACTION_REVERSER) {
         if (hp != 0) {
             return 0;

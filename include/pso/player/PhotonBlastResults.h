@@ -30,7 +30,7 @@ extern "C" {
 s32 get_photon_blast_chain(PhotonBlastChainCopy *output, s32 player);
 void deliver_photon_blast_results_animated(TUnk_804C349C *seq);
 void deliver_photon_blast_results_delayed(TUnk_804C349C *seq);
-void step_photon_blast_sequence(TUnk_804C349C *seq);
+void step_photon_blast_sequence__13TUnk_804C349CFv(TUnk_804C349C *seq);
 }
 
 #endif

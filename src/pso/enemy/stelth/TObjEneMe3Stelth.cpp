@@ -92,7 +92,7 @@ s32 is_split_screen();
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 s32 select_enemy_destination(void *, Vec *, int);
 s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
-s32 enemy_turn_toward_dest(void *, s32);
+s32 enemy_turn_toward_dest__9TObjEnemyFl(void *, s32);
 extern StelthBehaviorParams *TObjEneMe3Stelth__behavior_params_by_variant[];
 extern s32 game_difficulty_selection;
 extern const f32 TObjEneMe3Stelth__data_805DA820;
@@ -2234,7 +2234,7 @@ void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 arg1) {
                     Vec pos = *(Vec *)&stelth->m_2fc;
                     copy_position_if_valid__10TObjPlayerFii((s32)stelth, (s32)&pos);
                     stelth->m_300 += TObjEneMe3Stelth__data_805DA820;
-                    r = enemy_turn_toward_dest(stelth, ((StelthMovementParams *)stelth->movementParameters)->turn);
+                    r = enemy_turn_toward_dest__9TObjEnemyFl(stelth, ((StelthMovementParams *)stelth->movementParameters)->turn);
                     enemy_set_heading_velocity(((StelthMovementParams *)stelth->movementParameters)->speed, stelth, stelth->rotation_y);
                     move_with_wall_slide((u8 *)stelth);
                 } else {

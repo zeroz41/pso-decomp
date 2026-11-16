@@ -209,7 +209,7 @@ typedef struct Param_80036EA8 {
 } Param_80036EA8;
 
 extern "C" {
-void TBoss2Joint__sub_80036940(void *);
+void sub_80036940__11TBoss2JointFv(void *);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 s32 vfunc_94__9TObjEneDDFv(void *);
 s32 vfunc_93__9TObjEneDDFv(void *);
@@ -291,8 +291,8 @@ void TBoss2Joint::call_36A90_with_1() { init_joint_offset(1); }
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
-void TBoss2Joint__sub_80036940(void *arg) {
-    Joint_80036EA8 *self = (Joint_80036EA8 *)arg;
+void TBoss2Joint::sub_80036940() {
+    Joint_80036EA8 *self = (Joint_80036EA8 *)this;
     f32 t;
     if (self->unk38C & 1) {
         self->unk3A4 = 0.0f;
@@ -404,7 +404,7 @@ void TBoss2Joint::run_task() {
         }
         ((VObj_18 *)(arg0))->m85(this->mode, 0);
         ((TObjEneDD *)arg0)->sub_800BBA0C();
-        TBoss2Joint__sub_80036940(arg0);
+        sub_80036940__11TBoss2JointFv(arg0);
         update_position_history();
         this->vfunc_88();
         ((TObjEnemy *)arg0)->submit_default_cursor_candidate();

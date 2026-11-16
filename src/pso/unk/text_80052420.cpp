@@ -82,7 +82,7 @@ struct VObj_80052420 : VBase_80052420 {
 };
 
 extern "C" {
-s16 get_actor_hp(VObj_80052420 *);
+s16 get_actor_hp__9TObjCharaFv(VObj_80052420 *);
 s32 TBoss4Type3__sub_8005254C(s32);
 void send_6x2F_change_player_hp(s32, s32, s16);
 VObj_80052420 *get_player_by_client_id(u16);
@@ -96,7 +96,7 @@ u32 drain_player_hp(s32 id, u32 arg1) {
         TBoss4Type3__sub_8005254C(id) == 0) {
         return 0;
     }
-    v = get_actor_hp(p);
+    v = get_actor_hp__9TObjCharaFv(p);
     if (v < n) {
         n = v;
     }

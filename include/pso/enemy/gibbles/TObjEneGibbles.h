@@ -6,6 +6,7 @@
 
 struct TObjEneGibbles : public TObjEnemy {
     virtual ~TObjEneGibbles();
+    void sub_802D8580();
     virtual void render();
     virtual void vfunc_62();
     virtual void run_task();

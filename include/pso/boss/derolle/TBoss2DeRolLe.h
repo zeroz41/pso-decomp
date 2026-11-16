@@ -6,6 +6,7 @@
 
 struct TBoss2DeRolLe : public TObjEneDD_ST {
     virtual ~TBoss2DeRolLe();
+    void advance_phase_wrap();
     virtual void vfunc_62();
     void reset_parts();
     void load_resources();
@@ -107,7 +108,7 @@ s32 TBoss2Joint_get_shell_max_hp(void);
 void TObjPlayer__sub_8002F61C(void);
 u8 *__dt__13TBoss2DeRolLeFv(u8 *arg0, s16 arg1);
 void activate_laser_light__13TBoss2DeRolLeFPv(void *arg0);
-void advance_phase_wrap__13TBoss2DeRolLeFPv(u8 *arg0);
+void advance_phase_wrap__13TBoss2DeRolLeFv(u8 *arg0);
 s32 advance_scalar_motion_profile(void *arg0);
 void vfunc_62__13TBoss2DeRolLeFv(TBoss2DeRolLe *arg0);
 void apply_hp_damage_with_sound__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1);

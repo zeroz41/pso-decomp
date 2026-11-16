@@ -23,7 +23,7 @@ s32 __cvt_fp2unsigned(f32);
 s32 is_split_screen(void);
 void TCameraCtrl__sub_80068EF0(void);
 s32 is_window_display_enabled(void);
-void TWindowEffectLight__sub_802AD040(void *, f32);
+void sub_802AD040__18TWindowEffectLightFf(void *, f32);
 void begin_screen_draw(s32);
 extern s32 lbl_805D63F0;
 const char *lbl_805D3E60 = "TWindowEffectLight";
@@ -104,16 +104,16 @@ void render__18TWindowEffectLightFv(u8 *window_effect_light) {
           ((TWindowEffectLight *)window_effect_light)->draw_outline_quad(0xFFFFFF);
           break;
         case 3:
-          TWindowEffectLight__sub_802AD040(window_effect_light, 20.0f);
+          sub_802AD040__18TWindowEffectLightFf(window_effect_light, 20.0f);
           break;
         case 4:
-          TWindowEffectLight__sub_802AD040(window_effect_light, 39.0f);
+          sub_802AD040__18TWindowEffectLightFf(window_effect_light, 39.0f);
           break;
         case 5:
-          TWindowEffectLight__sub_802AD040(window_effect_light, 77.0f);
+          sub_802AD040__18TWindowEffectLightFf(window_effect_light, 77.0f);
           break;
         case 6:
-          TWindowEffectLight__sub_802AD040(window_effect_light, 191.0f);
+          sub_802AD040__18TWindowEffectLightFf(window_effect_light, 191.0f);
           break;
       }
     }
@@ -146,30 +146,30 @@ void TWindowEffectLight::draw_outline_quad(s32 color) {
     draw_textured_quad_at_depth((f32 *)&q, 0.5f);
 }
 
-void TWindowEffectLight__sub_802AD040(void *window, f32 f) {
+void TWindowEffectLight::sub_802AD040(f32 f) {
     Quad_802AD1CC q;
     f32 h;
     f32 dx;
-    s32 color = ((TWindowEffectLight *)window)->calc_alpha() | 0xFFFFFF;
-    f32 s = ((TWindowEffectLight *)window)->calc_scale();
+    s32 color = ((TWindowEffectLight *)this)->calc_alpha() | 0xFFFFFF;
+    f32 s = ((TWindowEffectLight *)this)->calc_scale();
     set_draw_texture_and_color(2, color);
     dx = 0.5f * (f - 20.0f);
     h = 10.0f * s;
 
-    q.x0 = ((Light_802AD1CC *)window)->x - dx - h;
-    q.y0 = ((Light_802AD1CC *)window)->y - h;
-    q.x1 = ((Light_802AD1CC *)window)->x - dx;
-    q.y1 = ((Light_802AD1CC *)window)->y + h;
+    q.x0 = ((Light_802AD1CC *)this)->x - dx - h;
+    q.y0 = ((Light_802AD1CC *)this)->y - h;
+    q.x1 = ((Light_802AD1CC *)this)->x - dx;
+    q.y1 = ((Light_802AD1CC *)this)->y + h;
     q.u0 = 0.9140625f;
     q.v0 = 0.5f;
     q.u1 = 0.953125f;
     q.v1 = 0.578125f;
     draw_textured_quad_at_depth((f32 *)&q, 0.5f);
 
-    q.x0 = ((Light_802AD1CC *)window)->x + dx;
-    q.y0 = ((Light_802AD1CC *)window)->y - h;
+    q.x0 = ((Light_802AD1CC *)this)->x + dx;
+    q.y0 = ((Light_802AD1CC *)this)->y - h;
     q.x1 = q.x0 + h;
-    q.y1 = ((Light_802AD1CC *)window)->y + h;
+    q.y1 = ((Light_802AD1CC *)this)->y + h;
     q.u0 = 0.953125f;
     q.v0 = 0.5f;
     q.u1 = 0.9921875f;
@@ -177,10 +177,10 @@ void TWindowEffectLight__sub_802AD040(void *window, f32 f) {
     draw_textured_quad_at_depth((f32 *)&q, 0.5f);
 
     if (f > 20.0f) {
-        q.x0 = ((Light_802AD1CC *)window)->x - dx;
-        q.y0 = ((Light_802AD1CC *)window)->y - h;
-        q.x1 = ((Light_802AD1CC *)window)->x + dx;
-        q.y1 = ((Light_802AD1CC *)window)->y + h;
+        q.x0 = ((Light_802AD1CC *)this)->x - dx;
+        q.y0 = ((Light_802AD1CC *)this)->y - h;
+        q.x1 = ((Light_802AD1CC *)this)->x + dx;
+        q.y1 = ((Light_802AD1CC *)this)->y + h;
         q.u0 = 0.953125f;
         q.v0 = 0.5f;
         q.u1 = 0.953125f;

@@ -42,7 +42,7 @@ extern s32 local_client_id;
 s32 is_local_client_floor_leader(s32);
 s32 find_local_player_in_range__16TObjCityMainWarpFf(void *, f32);
 s32 close_windows__25TObjCityMainWarpChallengeFv();
-void TObjCityMainWarp__sub_801875F8(TObjCityMainWarpChallenge *self);
+void sub_801875F8__25TObjCityMainWarpChallengeFv(TObjCityMainWarpChallenge *self);
 s32 fn_80248994(void *, u32, int);
 void request_active_window_close(void);
 void begin_player_keyboard_hold(s32 arg0);
@@ -182,21 +182,21 @@ void TObjCityMainWarpChallenge::update_state() {
     }
 }
 
-void TObjCityMainWarp__sub_801875F8(TObjCityMainWarpChallenge *self) {
+void TObjCityMainWarpChallenge::sub_801875F8() {
     s32 i;
     s32 j;
     u32 color;
     TLobby *player;
     f32 pos[2];
 
-    switch (self->state) {
+    switch (this->state) {
     case 0:
-        if (self->yes_no_window == 0) {
-            self->yes_no_window = TWindowMessageYesNo::create(self, (void *)local_client_id, (void *)0, (void *)0);
-            if (self->yes_no_window != 0) {
-                forward_slot_selection__16TAdChrSelASlotGCFPvPv(self->yes_no_window, (s32)TWindowSubStatusDisp::get_message_10(0x41), get_window_layout_position(0x36), 368.0f);
-                free_member__17TWindowSubComCardFv(self->yes_no_window, 1);
-                ((TWindowSubShortMail *)self->yes_no_window)->notify_warp_flag70();
+        if (this->yes_no_window == 0) {
+            this->yes_no_window = TWindowMessageYesNo::create(this, (void *)local_client_id, (void *)0, (void *)0);
+            if (this->yes_no_window != 0) {
+                forward_slot_selection__16TAdChrSelASlotGCFPvPv(this->yes_no_window, (s32)TWindowSubStatusDisp::get_message_10(0x41), get_window_layout_position(0x36), 368.0f);
+                free_member__17TWindowSubComCardFv(this->yes_no_window, 1);
+                ((TWindowSubShortMail *)this->yes_no_window)->notify_warp_flag70();
                 begin_player_keyboard_hold(local_client_id);
                 request_active_window_close();
                 ((TWindowCtrl *)local_client_id)->suppress_slot();
@@ -204,36 +204,36 @@ void TObjCityMainWarp__sub_801875F8(TObjCityMainWarpChallenge *self) {
         }
         break;
     case 1:
-        if (self->yes_no_window == 0) {
-            self->yes_no_window = TWindowMessageYesNo::create(self, (void *)local_client_id, (void *)0, (void *)0);
-            if (self->yes_no_window != 0) {
-                initialize_option_dialog(self->yes_no_window, (s32)TWindowSubStatusDisp::get_message_10(0x42), get_window_layout_position(0x36), 368.0f);
+        if (this->yes_no_window == 0) {
+            this->yes_no_window = TWindowMessageYesNo::create(this, (void *)local_client_id, (void *)0, (void *)0);
+            if (this->yes_no_window != 0) {
+                initialize_option_dialog(this->yes_no_window, (s32)TWindowSubStatusDisp::get_message_10(0x42), get_window_layout_position(0x36), 368.0f);
             }
         }
         break;
     }
-    if (self->player_list_window == 0) {
+    if (this->player_list_window == 0) {
         pos[0] = 229.0f;
         pos[1] = 104.0f;
-        self->player_list_window = TWindowSubStatusDisp::refresh_with_default_list(get_window_layout_position(0x34), (s32)pos);
-        if (self->player_list_window != 0) {
-            ((TWindowSubTradeMain *)self->player_list_window)->set_visible();
-            ((TWindowSubTradeMain *)self->player_list_window)->set_close_flag();
-            for (i = 0; i < self->player_count; i++) {
-                TWindowSubStatusDisp::dispatch_without_flags((s32)self->player_list_window, (s32)self->player_names[i], i);
+        this->player_list_window = TWindowSubStatusDisp::refresh_with_default_list(get_window_layout_position(0x34), (s32)pos);
+        if (this->player_list_window != 0) {
+            ((TWindowSubTradeMain *)this->player_list_window)->set_visible();
+            ((TWindowSubTradeMain *)this->player_list_window)->set_close_flag();
+            for (i = 0; i < this->player_count; i++) {
+                TWindowSubStatusDisp::dispatch_without_flags((s32)this->player_list_window, (s32)this->player_names[i], i);
             }
         }
         request_active_window_close();
     }
-    if (self->player_list_window != 0) {
-        for (j = 0; j < self->player_count; j++) {
-            ((THunterGuildSeqOffline *)self->player_list_window)->advance_matching_entries(self->player_in_range[j] != 0, j);
+    if (this->player_list_window != 0) {
+        for (j = 0; j < this->player_count; j++) {
+            ((THunterGuildSeqOffline *)this->player_list_window)->advance_matching_entries(this->player_in_range[j] != 0, j);
             color = 0xF0F0F0FF;
-            if (self->state == 1 && (player = (TLobby *)get_player_by_client_id(j)) != NULL &&
+            if (this->state == 1 && (player = (TLobby *)get_player_by_client_id(j)) != NULL &&
                 player->check_player_flag1() != 0) {
                 color = 0xFFFF00FF;
             }
-            fn_80248994(self->player_list_window, color, j);
+            fn_80248994(this->player_list_window, color, j);
         }
     }
 }
@@ -303,7 +303,7 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
         break;
     case 1:
         if (((u32 (*)(f32))find_local_player_in_range__16TObjCityMainWarpFf)(warp_range) != 0) {
-            TObjCityMainWarp__sub_801875F8(this);
+            sub_801875F8__25TObjCityMainWarpChallengeFv(this);
             trigger_warp_effect(local_client_id);
             state_step = 2;
             break;
@@ -318,7 +318,7 @@ void TObjCityMainWarpChallenge::update_challenge_state() {
         }
         break;
     case 2:
-        TObjCityMainWarp__sub_801875F8(this);
+        sub_801875F8__25TObjCityMainWarpChallengeFv(this);
         if (yes_no_window != 0) {
             if (((TWindowSubComCard *)yes_no_window)->get_card_data() != 0) {
                 state_step = 3;

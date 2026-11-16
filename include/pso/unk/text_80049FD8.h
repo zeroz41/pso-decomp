@@ -5,6 +5,6 @@
 
 class TObjVoloptPillar;
 
-extern "C" void fn_80049FD8(TObjVoloptPillar *pillar);
+extern "C" void sub_80049FD8__16TObjVoloptPillarFv(TObjVoloptPillar *pillar);
 
 #endif

@@ -222,7 +222,6 @@ public:
     void set_field_1c();
     void spawn_child_object();
     static void free_resources();
-    int get_flag_bit6();
     void fill_follow_camera_params(u8 *arg1, u8 *arg2);
     static int get_instance_count();
     void init_color();

@@ -25,7 +25,7 @@ void TObjMapObject::update_anim_phase() {
 s32 TObjMapObject::is_in_view_depth(f32 min_radius) {
     Vec view;
     if (bodies != NULL) {
-        f32 radius = get_collision_body_radius(this, 0);
+        f32 radius = get_collision_body_radius__14TObjCollidableFl(this, 0);
         if (radius < min_radius) {
             radius = min_radius;
         }

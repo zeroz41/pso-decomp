@@ -65,7 +65,7 @@ s32 TObjEneMe1GiGue__sub_802CB10C(TObjEneMe1GiGue *gigue);
 void add_target_in_cone__15TObjEneMe1GiGueFPvPv(TObjEneMe1GiGue *gigue, TObjChara *target);
 void init__15TObjEneMe1GiGueFPv(TObjEneMe1GiGue *gigue);
 void TObjEneMe1GiGue__sub_802CB378(TObjEneMe1GiGue *gigue);
-void move_around_center__15TObjEneMe1GiGueFPvPvf(TObjEneMe1GiGue *gigue, Vec *center, f32 radius);
+void move_around_center__15TObjEneMe1GiGueFPvf(TObjEneMe1GiGue *gigue, Vec *center, f32 radius);
 void update_rush_attack__15TObjEneMe1GiGueFPv(TObjEneMe1GiGue *gigue);
 void action__15TObjEneMe1GiGueFPv(TObjEneMe1GiGue *gigue);
 void TObjEneMe1GiGue__sub_802CC45C(TObjEneMe1GiGue *gigue);
@@ -84,7 +84,7 @@ s32 calc_velocity_toward_destination(void *, Vec, Vec, f32);
 s32 play_persistent_sound(s32 id, void *source, Vec *pos, s32 a3, s32 flags);
 s32 play_sound_effect(s32, void *, s32, s32);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
-s32 enemy_turn_toward_dest(void *, s32);
+s32 enemy_turn_toward_dest__9TObjEnemyFl(void *, s32);
 u16 find_nearest_visible_player(void *, int, f32);
 s32 create__9TTecJelinFllll(void *, void *, void *, s32);
 s32 create_instance__9TTecZaruaFllll(void *, void *, void *, s32);
@@ -635,7 +635,7 @@ void TObjEneMe1GiGue::sub_802CCF2C() {
         sub_8004292C();
     case 1:
         advance_animation();
-        move_around_center__15TObjEneMe1GiGueFPvPvf(this, &home_position, parameters[1]);
+        move_around_center__15TObjEneMe1GiGueFPvf(this, &home_position, parameters[1]);
         m_384 -= 1;
         if (m_384 <= 0) {
             requested_action = 0;
@@ -1192,17 +1192,17 @@ void TObjEneMe1GiGue::break_apart() {
     queue_destruction();
 }
 
-void move_around_center__15TObjEneMe1GiGueFPvPvf(TObjEneMe1GiGue *gigue, Vec *center, f32 radius) {
-    if (xz_distance_squared(&gigue->position, &gigue->m_390) < 400.0f) {
-        s32 angle = (s32)(182.04445f * (360.0f * gigue->random_ratio()));
-        f32 d = 0.4f * (radius * (1.0f + gigue->random_ratio()));
-        gigue->m_390.x = d * cos_table_lookup(angle) + center->x;
-        gigue->m_390.z = d * sin_table_lookup(angle) + center->z;
+void TObjEneMe1GiGue::move_around_center(void *center, f32 radius) {
+    if (xz_distance_squared(&this->position, &this->m_390) < 400.0f) {
+        s32 angle = (s32)(182.04445f * (360.0f * this->random_ratio()));
+        f32 d = 0.4f * (radius * (1.0f + this->random_ratio()));
+        this->m_390.x = d * cos_table_lookup(angle) + ((Vec *)center)->x;
+        this->m_390.z = d * sin_table_lookup(angle) + ((Vec *)center)->z;
     }
-    VecCopy((Vec *)&gigue->m_29c, &gigue->m_390);
-    enemy_turn_toward_dest(gigue, ((EnemyMoveParams *)gigue->movementParameters)->turn_speed);
-    enemy_set_heading_velocity(gigue->m_3e4, gigue, gigue->rotation_y);
-    move_with_wall_slide((u8 *)gigue);
+    VecCopy((Vec *)&this->m_29c, &this->m_390);
+    enemy_turn_toward_dest__9TObjEnemyFl(this, ((EnemyMoveParams *)this->movementParameters)->turn_speed);
+    enemy_set_heading_velocity(this->m_3e4, this, this->rotation_y);
+    move_with_wall_slide((u8 *)this);
 }
 
 void TObjEneMe1GiGue__sub_802CB824(TObjEneMe1GiGue *gigue, s32 index) {

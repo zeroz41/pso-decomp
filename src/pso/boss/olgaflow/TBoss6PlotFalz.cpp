@@ -239,7 +239,7 @@ extern "C" {
 extern u16 boss6_plot_falz_player_order_table[];
 u16 TBoss6PlotFalz__sub_802AAE48(s32 i);
 s32 obj_isState2_324__9TObjCharaFv(void *);
-s16 get_actor_hp(void *);
+s16 get_actor_hp__9TObjCharaFv(void *);
 s32 send_6x2F_change_player_hp(int, s32, s16);
 
 struct TBoss6PlotFalz_802AACF4 { u8 pad[0x3D0]; s32 f3D0; s32 f3D4; s32 f3D8; };
@@ -268,7 +268,7 @@ s32 TBoss6PlotFalz::damage_player_hp(s32 arg0, u32 arg1) {
     if (id == 0xFFFF || (p = get_player_by_client_id(id)) == NULL || ((TBoss6PlotFalz *)p)->is_active() == 0) {
         return 0;
     }
-    hp = get_actor_hp(p);
+    hp = get_actor_hp__9TObjCharaFv(p);
     if ((u32)hp < v) {
         v = hp;
     }

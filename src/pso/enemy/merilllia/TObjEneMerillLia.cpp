@@ -717,7 +717,7 @@ typedef struct VObj_14_fddec9 VObj_14_fddec9;
 typedef struct VObj_18_ca64a0 VObj_18_ca64a0;
 struct Obj_800D5100;
 struct RecoveredGlobal_800D5060_lbl_8058D490;
-f32 get_collision_body_radius(void *, s32);
+f32 get_collision_body_radius__14TObjCollidableFl(void *, s32);
 s32 check_path_obstructed(void *, void *);
 typedef struct VBase_18_477421 VBase_18_477421;
 typedef struct VObj_18_477421 VObj_18_477421;
@@ -1357,7 +1357,7 @@ void TObjEneMerillLia::beast_update_hurt() {
     VecCopy((Vec *)&pos, (const Vec *)(((u8 *)this) + 0x2FC));
     scratch_vec.y = 0.0f;
     scratch_vec.x = 0.0f;
-    scratch_vec.z = get_collision_body_radius(this, 0);
+    scratch_vec.z = get_collision_body_radius__14TObjCollidableFl(this, 0);
     push_matrix_from(&identity_matrix);
     rotate_matrix_y(0, -*(s32 *)((s8 *)((u8 *)this) + 0x60));
     rotate_vector_by_matrix(0, &scratch_vec, &scratch_vec);

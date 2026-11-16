@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A3450.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecJelin.h"
@@ -20,7 +21,7 @@ void TUnk_804A3450::emit_marker_effects() {
         ((TObjPlayer *)tl_05)->spawn_cane_effects((TItem *)this, 2, 1);
     }
     if (is_mode_two_and_ready() != 0) {
-        if (((TObjPlayer *)this)->get_tp() == 0) {
+        if (((TItemWeapon *)this)->get_tp() == 0) {
             owner = (s32)this->owner;
             temp_r4 = owner + 0x38;
             TTecJelin::create(owner, temp_r4, temp_r4, 4);
@@ -32,7 +33,7 @@ void TUnk_804A3450::emit_marker_effects() {
         roll_technique();
         return;
     }
-    ((TObjPlayer *)this)->update_active_game_effect();
+    ((TItemWeapon *)this)->update_active_game_effect();
 }
 
 TUnk_804A3450::~TUnk_804A3450() {}

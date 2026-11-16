@@ -184,7 +184,7 @@ void TUnk_804A2164::emit_marker_effects() {
     }
     ((TItemWeapon *)((RecoilWeaponView *)this))->get_gun_point(&sp8);
     if (((RecoilWeaponView *)this)->is_mode_two_and_ready() != 0) {
-        ((TObjPlayer *)((RecoilWeaponView *)this))->launch_rare_weapon_special(&sp8, 1, (f32) (1.0f));
+        ((TItemWeapon *)((RecoilWeaponView *)this))->launch_rare_weapon_special(&sp8, 1, (f32) (1.0f));
         return;
     }
     ((RecoilWeaponView *)this)->launch_shot((u8 *)&sp8, 0, 0, 1);

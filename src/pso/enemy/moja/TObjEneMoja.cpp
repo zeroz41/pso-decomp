@@ -331,7 +331,7 @@ s32 approach_angle_limited(s32, s32, s32);
 
 extern Vec_800AE450 scratch_vec;
 
-s32 enemy_turn_toward_dest(void *, s32);
+s32 enemy_turn_toward_dest__9TObjEnemyFl(void *, s32);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 
 void *spawn_directional_particle(void *pos, void *dir, s32 id);
@@ -444,7 +444,7 @@ TObjEneMoja::TObjEneMoja(TObject *parent, void *setData) : TObjEnemy(parent) {
     } else if (1.0f < jumpChance) {
         jumpChance = 1.0f;
     }
-    ((TObjPlayer *)this)->clamp_stat_354();
+    ((TObjEneMoja *)this)->clamp_stat_354();
     select_rare_variant();
     subtype = 1;
     action_table = lbl_804918C8;
@@ -1355,7 +1355,7 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
             if (select_enemy_destination(self, &dest, 1) != 0) {
                 Vec_800AE18C cur = self->pos;
                 copy_position_if_valid__10TObjPlayerFii(self, &cur);
-                a = enemy_turn_toward_dest(self, self->info->turn);
+                a = enemy_turn_toward_dest__9TObjEnemyFl(self, self->info->turn);
                 enemy_set_heading_velocity(self->info->speed, (TObjEnemy *)((TObjEnemy *)((u8 *)self)), self->rot_y);
                 move_with_wall_slide((u8 *)self);
             } else {
@@ -1713,12 +1713,12 @@ void TObjEneMoja::select_rare_variant() {
     }
 }
 
-void TObjPlayer::clamp_stat_354() {
+void TObjEneMoja::clamp_stat_354() {
     f32 lo = 0.0f;
-    if (this->m_354 < lo) {
-        this->m_354 = lo;
-    } else if (1.0f < this->m_354) {
-        this->m_354 = 1.0f;
+    if ((*(f32 *)((u8 *)this + 0x354)) < lo) {
+        (*(f32 *)((u8 *)this + 0x354)) = lo;
+    } else if (1.0f < (*(f32 *)((u8 *)this + 0x354))) {
+        (*(f32 *)((u8 *)this + 0x354)) = 1.0f;
     }
-    *(s32 *)&this->m_374 = (s32) this->m_354;
+    *(s32 *)&(*(void * *)((u8 *)this + 0x374)) = (s32) (*(f32 *)((u8 *)this + 0x354));
 }

@@ -72,7 +72,7 @@ const char *balclaw_claw_class_name = "TObjEneBalClawClaw";
 
 TObjEneBalClawClaw::TObjEneBalClawClaw(TObject *parent, void *set_data) : TObjEneBalClaw(parent) {
     apply_set_data(set_data);
-    TObjEneBalClawClaw__ct(this);
+    sub_80091A38__18TObjEneBalClawClawFv(this);
     if (*(s16 *)((s8 *)set_data + 0xA) != 0) {
         sub_800C7860();
     }
@@ -91,7 +91,7 @@ TObjEneBalClawClaw::TObjEneBalClawClaw(TObject *parent, TObjEneBalClaw *body, s3
     rotation_z = 0;
     rotation_x = 0;
     rotation_y = rot_y;
-    TObjEneBalClawClaw__ct(this);
+    sub_80091A38__18TObjEneBalClawClawFv(this);
     set_entry = NULL;
     m_3b8 = body->m_3b8;
     m_3bc = body->m_3bc;
@@ -99,35 +99,35 @@ TObjEneBalClawClaw::TObjEneBalClawClaw(TObject *parent, TObjEneBalClaw *body, s3
     sub_80090798();
 }
 
-void TObjEneBalClawClaw__ct(TObjEneBalClawClaw *claw) {
-    claw->m_name = balclaw_claw_class_name;
-    claw->motion_list = lbl_805D4F20->motions;
-    claw->action_table = balclaw_claw_model_node_desc;
-    claw->set_field_d8((s32)claw->action_table);
-    init_collision_body_parts(claw, &TObjEneBalClawClaw__collision_body_template, 1);
-    claw->variant = 0;
-    claw->movementParameters = &lbl_8048F100;
-    claw->bind_enemy_combat_stats(lbl_805D4F28, lbl_805D4F2C, lbl_805D4F30);
-    claw->sub_80090824();
-    claw->requested_action = 0;
-    claw->set_animation(claw->requested_action);
-    claw->set_field_b8(claw->requested_action);
-    claw->hp = claw->hpmax;
-    claw->tp = claw->tpmax;
-    claw->referenceHp = claw->hp;
-    claw->set_param(0x26);
-    VecCopy((Vec *)&claw->m_2fc, &claw->position);
-    claw->m_300 += 5.0f;
-    ((TBoss3Volopt *)claw)->reset_photon_effect();
-    claw->sub_80090418(2);
-    claw->m_3b8 = 0;
-    claw->m_3bc = 0.0f;
-    claw->m_3ac = 15.0f;
-    claw->m_3b0 = 40.0f;
-    claw->m_3b4 = claw->m_3ac;
-    claw->clear_attack_flag();
-    VecCopy((Vec *)&claw->m_290, (const Vec *)VecCopy((Vec *)&claw->m_29c, &claw->position));
-    claw->clear_lobby_object_state();
+void TObjEneBalClawClaw::sub_80091A38() {
+    this->m_name = balclaw_claw_class_name;
+    this->motion_list = lbl_805D4F20->motions;
+    this->action_table = balclaw_claw_model_node_desc;
+    this->set_field_d8((s32)this->action_table);
+    init_collision_body_parts(this, &TObjEneBalClawClaw__collision_body_template, 1);
+    this->variant = 0;
+    this->movementParameters = &lbl_8048F100;
+    this->bind_enemy_combat_stats(lbl_805D4F28, lbl_805D4F2C, lbl_805D4F30);
+    this->sub_80090824();
+    this->requested_action = 0;
+    this->set_animation(this->requested_action);
+    this->set_field_b8(this->requested_action);
+    this->hp = this->hpmax;
+    this->tp = this->tpmax;
+    this->referenceHp = this->hp;
+    this->set_param(0x26);
+    VecCopy((Vec *)&this->m_2fc, &this->position);
+    this->m_300 += 5.0f;
+    ((TBoss3Volopt *)this)->reset_photon_effect();
+    this->sub_80090418(2);
+    this->m_3b8 = 0;
+    this->m_3bc = 0.0f;
+    this->m_3ac = 15.0f;
+    this->m_3b0 = 40.0f;
+    this->m_3b4 = this->m_3ac;
+    this->clear_attack_flag();
+    VecCopy((Vec *)&this->m_290, (const Vec *)VecCopy((Vec *)&this->m_29c, &this->position));
+    this->clear_lobby_object_state();
 }
 
 TObjEneBalClawClaw::~TObjEneBalClawClaw() {

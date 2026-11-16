@@ -462,7 +462,7 @@ extern "C" {
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 s32 select_enemy_destination(void *, void *, int);
 s32 copy_position_if_valid__10TObjPlayerFii(void *, void *);
-s32 enemy_turn_toward_dest(void *, s32);
+s32 enemy_turn_toward_dest__9TObjEnemyFl(void *, s32);
 s32 test_elt_flag__13TUnk_80493450Fll(void *, int, int);
 s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 register_object__6TLobbyFl(int);
@@ -1292,7 +1292,7 @@ s32 TObjEneDolmOlm__sub_80301C3C(void *arg0_) {
             }
             f = 4.0f * *(f32 *)((s8 *)arg0 + 0x394);
             if (((s32 (*)(u8 *, s32, f32))check_path_ahead__14TObjEneDolmOlmFlf)(arg0, *(s32 *)((s8 *)arg0 + 0x60) + 0x8000, f) == 0) {
-                enemy_turn_toward_dest(arg0, *(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 8));
+                enemy_turn_toward_dest__9TObjEnemyFl(arg0, *(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 8));
                 enemy_set_heading_velocity(f, (TObjEnemy *)(arg0), *(s32 *)((s8 *)arg0 + 0x60) + 0x8000);
                 move_with_wall_slide(arg0);
                 *(f32 *)((s8 *)arg0 + 0x3D4) += f;

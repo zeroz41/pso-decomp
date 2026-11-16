@@ -126,7 +126,7 @@ void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 s32 check_path_obstructed(void *, void *);
 s32 TObjPlayer__sub_800AAF98(void *, s32);
 void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
-s32 enemy_turn_toward_dest(void *, s32);
+s32 enemy_turn_toward_dest__9TObjEnemyFl(void *, s32);
 s32 __ct__13TUnk_80491460FPvlll(void *, void *, s32, void *, s32);
 s32 render_anim_model_at_pos__15TObjEnemyCustomFv();
 void *__nw__7TObjectFUl(int);
@@ -1103,7 +1103,7 @@ extern "C" void TObjPlayer__sub_800A93E4(void *arg0_) {
     case 1:
         if (e->target != NULL) {
             VecCopy((Vec *)&e->dest, (const Vec *)((u8 *)e->target + 0x2FC));
-            enemy_turn_toward_dest(arg0, e->params->turn);
+            enemy_turn_toward_dest__9TObjEnemyFl(arg0, e->params->turn);
         }
         ((TObjMotion *)arg0)->advance_animation();
         act = -1;
@@ -1187,7 +1187,7 @@ extern "C" void TObjPlayer__sub_800A8FB4(void *arg0_) {
     case 2:
         if (*(u8 **)((s8 *)arg0 + 0x2A8) != NULL) {
             VecCopy((Vec *)(arg0 + 0x29C), (const Vec *)(*(u8 **)((s8 *)arg0 + 0x2A8) + 0x2FC));
-            enemy_turn_toward_dest(arg0, *(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 8));
+            enemy_turn_toward_dest__9TObjEnemyFl(arg0, *(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 8));
         }
         ((TObjMotion *)arg0)->advance_animation();
         apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
@@ -1212,7 +1212,7 @@ extern "C" void TObjPlayer__sub_800A8FB4(void *arg0_) {
     case 3:
         if (*(u8 **)((s8 *)arg0 + 0x2A8) != NULL) {
             VecCopy((Vec *)(arg0 + 0x29C), (const Vec *)(*(u8 **)((s8 *)arg0 + 0x2A8) + 0x2FC));
-            enemy_turn_toward_dest(arg0, *(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 8));
+            enemy_turn_toward_dest__9TObjEnemyFl(arg0, *(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 8));
         }
         apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
         ((TObjPlayer *)arg0)->check_object_collisions();

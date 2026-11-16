@@ -566,7 +566,7 @@ s32 TQuestVmDownLoadServer__sub_8006EF6C(s32);
 
 #pragma push
 #pragma opt_loop_invariants off
-u32 TWindowSubComCard__sub_80272DE0(TWindowSubComCard *window_sub_com_card) {
+u32 TWindowSubComCard::sub_80272DE0() {
     s32 i;
     s32 count;
     s32 idx;
@@ -575,13 +575,13 @@ u32 TWindowSubComCard__sub_80272DE0(TWindowSubComCard *window_sub_com_card) {
     List_80272CB0 *l;
     w = create_choice_setting_window__17TWindowSubComCardFiii((s32)(get_window_layout_position(0x8C)), (s32)com_card_choice_list_size, 6);
     create_sub_window__20TWindowChoiceSettingFPvi((void *)w, TQuestVmDownLoadServer__sub_8006EF6C(0x49));
-    l = (List_80272CB0 *)window_sub_com_card->m_58;
+    l = (List_80272CB0 *)this->m_58;
     idx = 0;
     count = l->count;
     e = l->ents;
     for (i = 0; i < count; i++, e++) {
         if (e->type == 0) {
-            ((TWindowSubComCard *)w)->update_next_entry((s32)e->name, (s32)window_sub_com_card->find_entry_rest(&window_sub_com_card->m_30, idx), (s32)e->id);
+            ((TWindowSubComCard *)w)->update_next_entry((s32)e->name, (s32)this->find_entry_rest(&this->m_30, idx), (s32)e->id);
             idx++;
         }
     }
@@ -683,11 +683,11 @@ s32 update_selected_entry__17TWindowSubComCardFv(int);
 s32 send_packet__6TLobbyFll(void *, void *);
 u32 TWindowSubComCard__sub_80272640(void *);
 u32 TWindowSubComCard__sub_80272A98(void *);
-u32 TWindowSubComCard__sub_80272DE0(TWindowSubComCard *);
+u32 sub_80272DE0__17TWindowSubComCardFv(TWindowSubComCard *);
 s32 open_menu__17TWindowSubComCardFv(void);
 u32 TWindowSubComCard__sub_8027337C();
 s32 create_menu__17TWindowSubComCardFv(void);
-s32 TWindowSubComCardList__sub_80275360(int);
+s32 sub_80275360__21TWindowSubComCardListFv(int);
 s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *arg0, s32 arg1);
 s32 create_keyboard__19TWindowSubShortMailFv(void);
 u8 *TWindowUserSort__ct(u8 *arg0, s32 arg1, s32 arg2);
@@ -1190,7 +1190,7 @@ void run_task__17TWindowSubComCardFv(TWindowSubComCard *window_sub_com_card) {
         if (((TWindowMenu *)(window_sub_com_card->m_84))->is_decided() != 0) {
             TWindowSubComCard::swap_cards((int) (((TWindowSubComCardList *)(window_sub_com_card->m_84))->get_selected_index()), (int) (((TWindowMenu *)window_sub_com_card->m_84)->get_selected_value()));
             ((TWindowMenu *)(window_sub_com_card->m_84))->reset_selection();
-            TWindowSubComCardList__sub_80275360(window_sub_com_card->m_84);
+            sub_80275360__21TWindowSubComCardListFv(window_sub_com_card->m_84);
             window_sub_com_card->m_1c = 0x19U;
             return;
         }
@@ -1361,7 +1361,7 @@ void run_task__17TWindowSubComCardFv(TWindowSubComCard *window_sub_com_card) {
             window_sub_com_card->m_64 = 0U;
         }
         if ((u32) window_sub_com_card->m_7c == 0U) {
-            window_sub_com_card->m_7c = TWindowSubComCard__sub_80272DE0((TWindowSubComCard *)((void *)window_sub_com_card));
+            window_sub_com_card->m_7c = sub_80272DE0__17TWindowSubComCardFv((TWindowSubComCard *)((void *)window_sub_com_card));
         }
         ((TWindowSubComCard *)(window_sub_com_card->m_7c))->begin_scroll(148.0f);
         ((TWindowSubComCard *)(window_sub_com_card->m_7c))->clear_flag_and_release2();

@@ -21,14 +21,12 @@ struct TObjEnemyCustom : public TObjEnemy {
     BOOL select_nearest_target(f32 radius);
     bool has_target() const { return target != NULL; }
     BOOL find_target_in_range(f32 radius);
-    void target_nearest_player(f32 radius);
     u16 pick_random_nearby_player(f32 radius);
     void pick_open_direction(f32 *dir, f32 reach, f32 radius);
     void move_along_ground_avoiding_walls(Vec dest, f32 speed, f32 probe);
     s32 turn_toward_point(Vec *point, s32 max_step, s32 angle_offset);
     void render_anim_model_at_pos();
     void run_demo_task();
-    void sub_800C73F4();
     void sub_800C7860();
     void release_destroyed_target();
     void sub_8004292C();

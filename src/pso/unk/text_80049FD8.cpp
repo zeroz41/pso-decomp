@@ -7,10 +7,10 @@
 #include "pso/system/task/TMainTask.h"
 
 // Throws three debris chips from the pillar's position.
-void fn_80049FD8(TObjVoloptPillar *pillar) {
+void TObjVoloptPillar::sub_80049FD8() {
     const TObjChipParams params = {
         {0.5f, 0.03f, 0.25f},
-        {pillar->position.x, pillar->position.y, pillar->position.z},
+        {this->position.x, this->position.y, this->position.z},
         {4.5f, -3.0f, 4.5f},
         {0x400, 0x100, 0x400},
         {4, 60},

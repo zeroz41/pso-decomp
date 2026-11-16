@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A3548.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecFoie.h"
@@ -14,7 +15,7 @@ void TUnk_804A3548::emit_marker_effects() {
             TTecFoie::create((void *)owner, &sp8, (void *)(*(s32 *)((s8 *)owner + 0x60)), (void *)5);
         }
     } else {
-        ((TObjPlayer *)this)->update_active_game_effect();
+        ((TItemWeapon *)this)->update_active_game_effect();
     }
 }
 

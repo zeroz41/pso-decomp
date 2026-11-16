@@ -338,7 +338,8 @@ void TUnk_804C3248::update_photon_blast_attachments() {
 
 void TUnk_804C3248::free_photon() { void* m = *(void* *)&this->m_148; if (m) mem_free(m); }
 
-void spawn_photon_blast_attachment_effects(struct Self_801A7680 *self, s32 kind) {
+void TUnk_804C3248::spawn_photon_blast_attachment_effects(s32 kind) {
+    struct Self_801A7680 *self = (struct Self_801A7680 *)this;
     Group_801A7428 *group = &photon_blast_attachment_table[kind];
     self->count = group->attachment_count;
     if (self->count != 0) {

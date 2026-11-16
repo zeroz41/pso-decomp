@@ -182,11 +182,11 @@ void TUnk_804A204C::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(5, &sp8) != 0) {
             temp_r31 = this->owner;
-            create_ex__9TTecMegidFllll(temp_r31, &sp8, *(s32 *)((s8 *)temp_r31 + 0x60), ((TObjPlayer *)this)->get_tp());
+            create_ex__9TTecMegidFllll(temp_r31, &sp8, *(s32 *)((s8 *)temp_r31 + 0x60), ((TItemWeapon *)this)->get_tp());
             this->roll_technique();
         }
     } else {
-        ((TObjPlayer *)this)->update_active_game_effect();
+        ((TItemWeapon *)this)->update_active_game_effect();
     }
 }
 

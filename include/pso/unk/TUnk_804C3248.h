@@ -7,6 +7,7 @@ class TUnk_804C3248 : public TObjMotion {
 public:
     TUnk_804C3248();
     virtual ~TUnk_804C3248();
+    void spawn_photon_blast_attachment_effects(s32);
     virtual void enter_scene();
     virtual void update_if_active();
     void setup_photon_blast_camera();

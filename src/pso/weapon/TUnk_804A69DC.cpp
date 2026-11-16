@@ -103,7 +103,7 @@ void TUnk_804A69DC::emit_marker_effects() {
         for_each_target_in_range(324.0f);
         return;
     }
-    ((TObjPlayer *)this)->update_active_game_effect();
+    ((TItemWeapon *)this)->update_active_game_effect();
 }
 
 void TUnk_804A69DC::vfunc_60() {

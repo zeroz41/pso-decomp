@@ -23,6 +23,7 @@ struct RockKindParams {
 struct TBoss6Rock : public TObjCollidable {
     TBoss6Rock(TObject *parent, s32 index);
     virtual ~TBoss6Rock();
+    void sub_803542E8(s32);
     virtual void run_task();
     virtual void render();
     void sub_80353F5C();
@@ -75,7 +76,7 @@ s32 TBoss6Rock__sub_80353A14(s32 i, Vec *out, f32 *radius);
 // Lays the 32 rock points out on four rings around the arena centre.
 void TBoss6Rock__sub_80354188(void);
 // Pushes the players out of a landed rock, hurting them when it lands.
-void TBoss6Rock__sub_803542E8(TBoss6Rock *rock, s32 landed);
+void sub_803542E8__10TBoss6RockFl(TBoss6Rock *rock, s32 landed);
 // Clears the owner (TBoss6Type2's dtor): every rock then destroys itself.
 void TBoss6Rock__sub_80354A44(void);
 }

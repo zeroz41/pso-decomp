@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include <stddef.h>
 #include "pso/weapon/TUnk_804ED488.h"
 #include "pso/player/TObjPlayer.h"
@@ -14,7 +15,7 @@ void TUnk_804ED488::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
 
 void TUnk_804ED488::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
-        if (get_actor_hp(owner) * 8 < ((TItemProShield *)owner)->get_field_2b8()) {
+        if (get_actor_hp__9TObjCharaFv(owner) * 8 < ((TItemProShield *)owner)->get_field_2b8()) {
             fire_shot_at_target(&owner->position, NULL, -0x238E);
             fire_shot_at_target(&owner->position, NULL, -0x11C7);
             fire_shot_at_target(&owner->position, NULL, 0);
@@ -23,10 +24,10 @@ void TUnk_804ED488::emit_marker_effects() {
             play_sound_effect(0x4001A642, &owner->position, 0, 0);
             return;
         }
-        ((TObjPlayer *)this)->update_active_game_effect();
+        ((TItemWeapon *)this)->update_active_game_effect();
         return;
     }
-    ((TObjPlayer *)this)->update_active_game_effect();
+    ((TItemWeapon *)this)->update_active_game_effect();
 }
 
 void TUnk_804ED488::update_weapon() {

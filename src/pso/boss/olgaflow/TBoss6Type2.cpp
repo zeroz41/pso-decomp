@@ -203,7 +203,7 @@ s32 add_radar_scaled_marker(void *, int, int, int, f32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
 void TBoss6Type2__sub_802BA7BC(u8 *o);
-void TBoss6Type2__sub_802BBE20(void *);
+void sub_802BBE20__11TBoss6Type2Fv(void *);
 s32 get_bml_motion(int, int);
 extern s32 TBoss6Type2__motion_table[];
 extern const s32 TBoss6Type2__data_805DE4B8;
@@ -1773,13 +1773,13 @@ s32 matrix_mult_vec(int, void *, void *);
 void set_matrix_identity(u8 *arg0);
 }
 
-void TBoss6Type2__sub_802BBE20(void *self) {
-    Boss_802BBE20 *arg0 = (Boss_802BBE20 *)self;
+void TBoss6Type2::sub_802BBE20() {
+    Boss_802BBE20 *arg0 = (Boss_802BBE20 *)this;
     Vec_802BBE20 v;
     s32 i;
     Vec_802BBE20 *base;
     Ent_802BBE20 *e;
-    if (((TBoss6Type2 *)self)->m_a4 != NULL) {
+    if (((TBoss6Type2 *)this)->m_a4 != NULL) {
         for (i = 0; i < 3; i++) {
             const Tbl_802BBE20 *t;
             e = &arg0->ents[i];
@@ -1797,7 +1797,7 @@ void TBoss6Type2__sub_802BBE20(void *self) {
             subtract_vector((Vec_802B9A68 *)&v, (Vec_802B9A68 *)&arg0->pos);
             push_matrix();
             set_matrix_identity(0);
-            rotate_matrix_y(0, -((TBoss6Type2 *)self)->m_60);
+            rotate_matrix_y(0, -((TBoss6Type2 *)this)->m_60);
             matrix_mult_vec(0, &v, e);
             pop_matrix();
             VecCopy((Vec *)&e->n, (const Vec *)e);
@@ -2396,7 +2396,7 @@ void TBoss6Type2::run_task() {
 #undef o
     update_motion_tracks();
     advance_position();
-    TBoss6Type2__sub_802BBE20(arg0);
+    sub_802BBE20__11TBoss6Type2Fv(arg0);
     update_parts_flags();
     ((TObjPlayer *)arg0)->update_collisions();
     submit_cursor_candidate(arg0, -1);

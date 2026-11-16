@@ -8,6 +8,7 @@ struct TBoss6Type2Point { f32 x, y, z; };
 
 struct TBoss6Type2
 {
+    void sub_802BBE20();
     u8 is_active();
     void sub_802BC124();
     void sub_802BB554();

@@ -6,6 +6,9 @@
 
 struct TWindowKeyBoardSoft
 {
+    void sub_8026227C(TWindowKeyBoardSoft *);
+    void sub_802616BC(TWindowKeyBoardSoft *);
+    void sub_80260E30(s32);
     void spawn_key_effect(s32, s32);
     void handle_page_cycle_input(s32);
     void update_keyboard_child_input_from_controller(s32);

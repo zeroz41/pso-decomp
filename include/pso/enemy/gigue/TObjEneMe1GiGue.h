@@ -16,6 +16,7 @@ struct GiGueParameters {
 
 struct TObjEneMe1GiGue : public TObjEnemyCustom {
     virtual ~TObjEneMe1GiGue();
+    void move_around_center(void *, f32);
     void sub_802CACD8();
     virtual void run_task();
     virtual void render();

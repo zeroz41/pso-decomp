@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A66D8.h"
 #include "pso/weapon/SpecialProjectileWeapons.h"
 #include "pso/player/TObjPlayer_80109344.h"
@@ -17,8 +18,8 @@ void TUnk_804A66D8::emit_marker_effects() {
         }
         shot_callback = (WeaponShotCallback)create_shoot_model_rot_z;
         impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
-        ((TObjPlayer *)this)->launch_rare_weapon_special(&gun_point, 1, 3.0f);
-        ((TObjPlayer *)this)->launch_rare_weapon_special(&second_gun_point, 0, 3.0f);
+        ((TItemWeapon *)this)->launch_rare_weapon_special(&gun_point, 1, 3.0f);
+        ((TItemWeapon *)this)->launch_rare_weapon_special(&second_gun_point, 0, 3.0f);
     } else {
         shot_callback = (WeaponShotCallback)create_gun_shot;
         impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;

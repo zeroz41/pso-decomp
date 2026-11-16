@@ -816,7 +816,7 @@ void qst_op_va_call(s32 arg0) {
 
 
 extern "C" {
-s16 get_actor_hp(u8 *);
+s16 get_actor_hp__9TObjCharaFv(u8 *);
 }
 void qst_op_p_hpstat(void);
 extern "C" {
@@ -2288,7 +2288,7 @@ void qst_op_get_player_hp_tp(void) {
     u8 i = qst_args[1];
     if (player != NULL) {
         qst_registers[i++] = ((TItemProShield *)player)->get_field_2b8();
-        qst_registers[i++] = get_actor_hp(player);
+        qst_registers[i++] = get_actor_hp__9TObjCharaFv(player);
         qst_registers[i++] = obj_getS16_2BA(player);
         qst_registers[i] = get_actor_tp(player);
     } else {
@@ -5531,7 +5531,7 @@ void qst_op_p_hpstat(void) {
     limit = 1.0f / pct;
     obj = (void *)((s32)get_player_by_client_id(player));
     if (obj != NULL) {
-        hp = get_actor_hp((u8 *)obj);
+        hp = get_actor_hp__9TObjCharaFv((u8 *)obj);
         if (hp / ((TItemProShield *)obj)->get_field_2b8() < limit) {
             qst_registers[reg] = 1;
             return;

@@ -9,6 +9,8 @@ class TParticleCtrl;
 struct TObjEneBalClawBody : public TObjEneBalClaw {
     TObjEneBalClawBody(TObject *parent, void *set_data);
     virtual ~TObjEneBalClawBody();
+    void sub_800C73F4();
+    int get_flag_0x388_b24();
     virtual void run_task();
     virtual void render();
     virtual void vfunc_60();

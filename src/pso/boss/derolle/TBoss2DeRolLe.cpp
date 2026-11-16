@@ -1546,7 +1546,7 @@ void TBoss2DeRolLe__sub_800333F4(Obj_800333F4 *self, u32 arg1);
 
 void dispatch_action__13TBoss2DeRolLeFiUii(s32 arg0, u32 arg1, s32 arg2);
 
-void advance_phase_wrap__13TBoss2DeRolLeFPv(u8 *arg0);
+void advance_phase_wrap__13TBoss2DeRolLeFv(u8 *arg0);
 
 int spawn_trap__13TBoss2DeRolLeFPvii(void* p, int a1, int a2);
 
@@ -2279,7 +2279,7 @@ s32 advance_action_sequence__13TBoss2DeRolLeFPv(void *);
 
 void queue_destruction__7TObjectFv(void *arg0);
 
-void advance_phase_wrap__13TBoss2DeRolLeFPv(u8 *arg0);
+void advance_phase_wrap__13TBoss2DeRolLeFv(u8 *arg0);
 
 void update_projectile_spawns__13TBoss2DeRolLeFPv(u8 *arg0);
 
@@ -3551,7 +3551,7 @@ void run_task__13TBoss2DeRolLeFPv(u8 *arg0) {
       }
       (((VObj_18_bd2ad6 *)(arg0))->m85((((TBoss2DeRolLe *)arg0)->mode), 0));
     }
-    advance_phase_wrap__13TBoss2DeRolLeFPv(arg0);
+    advance_phase_wrap__13TBoss2DeRolLeFv(arg0);
     update_projectile_spawns__13TBoss2DeRolLeFPv(arg0);
   }
   ((TObjEneDD *)arg0)->sub_800BBA0C();
@@ -4324,12 +4324,12 @@ int spawn_trap__13TBoss2DeRolLeFPvii(void* p, int a1, int a2) { return play_pers
 #pragma push
 #pragma opt_common_subs off
 
-void advance_phase_wrap__13TBoss2DeRolLeFPv(u8 *arg0) {
+void TBoss2DeRolLe::advance_phase_wrap() {
     f32 temp_f1;
-    *(f32 *)((s8 *)arg0 + 0x6D4) = (f32) (*(f32 *)((s8 *)arg0 + 0x6D4) + *(f32 *)((s8 *)arg0 + 0x6D8));
-    temp_f1 = *(f32 *)((s8 *)arg0 + 0x6D4);
+    *(f32 *)((s8 *)((u8 *)this) + 0x6D4) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x6D4) + *(f32 *)((s8 *)((u8 *)this) + 0x6D8));
+    temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x6D4);
     if (temp_f1 >= 2.0f) {
-        *(f32 *)((s8 *)arg0 + 0x6D4) = (f32) (temp_f1 - 2.0f);
+        *(f32 *)((s8 *)((u8 *)this) + 0x6D4) = (f32) (temp_f1 - 2.0f);
     }
 }
 

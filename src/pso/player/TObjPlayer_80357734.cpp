@@ -56,7 +56,7 @@ void TUnk_804F14A8::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         remap_extra_attack_type();
         info.reset_field28();
-        ((TObjPlayer *)this)->fill_status_info(&info);
+        ((TItemWeapon *)this)->fill_status_info(&info);
         get_joint_position(4, &info.joints[0]);
         get_joint_position(3, &info.joints[1]);
         get_joint_position(6, &info.joints[2]);

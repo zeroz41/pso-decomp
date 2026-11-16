@@ -238,7 +238,7 @@ void TObjPlayer__sub_800A1974(void *);
 void TObjPlayer__sub_800A1C84(TObjPlayer *arg0);
 void TObjPlayer__sub_800A1D70(u8 *arg0);
 void vfunc_62__17TObjEneDarkGunnerFv(void *arg0);
-void TObjPlayer__sub_800A27CC(TObjPlayer *arg0);
+void sub_800A27CC__17TObjEneDarkGunnerFv(TObjPlayer *arg0);
 Obj_800A2EDC * TObjPlayer__sub_800A2EDC(Obj_800A2EDC *arg0, s16 arg1);
 u8 *TObjPlayer__sub_800A2F94(u8 *, s32, u8 *);
 void vfunc_28__17TObjEneDarkGunnerFv(void);
@@ -777,7 +777,7 @@ void TObjEneDarkGunner::sub_800A1520() {
     switch (temp_r0)
     {
       case 0:
-        TObjPlayer__sub_800A27CC((TObjPlayer *)this);
+        sub_800A27CC__17TObjEneDarkGunnerFv((TObjPlayer *)this);
         return;
       case 1:
         TObjPlayer__sub_800A2390(this);
@@ -1402,19 +1402,19 @@ void TObjPlayer::set_hidden_flag() {
     }
 }
 
-void TObjPlayer__sub_800A27CC(TObjPlayer *player) {
-    switch (player->m_37c) {
+void TObjEneDarkGunner::sub_800A27CC() {
+    switch (((TObjPlayer *)this)->m_37c) {
     case 0:
-        if (((TObjEneDarkGunner *)player)->m_388 & 0x10000) {
-            player->actorFlags |= 0x04040000;
-            player->rotation_z = 0x8000;
-            player->m_37c = 1;
+        if (((TObjEneDarkGunner *)((TObjPlayer *)this))->m_388 & 0x10000) {
+            ((TObjPlayer *)this)->actorFlags |= 0x04040000;
+            ((TObjPlayer *)this)->rotation_z = 0x8000;
+            ((TObjPlayer *)this)->m_37c = 1;
         } else {
-            player->requested_action = 0;
-            player->m_37c = 2;
+            ((TObjPlayer *)this)->requested_action = 0;
+            ((TObjPlayer *)this)->m_37c = 2;
         }
-        ((TObjEneDarkGunner *)player)->m_388 |= 0x400000;
-        player->advance_animation();
+        ((TObjEneDarkGunner *)((TObjPlayer *)this))->m_388 |= 0x400000;
+        ((TObjPlayer *)this)->advance_animation();
         break;
     case 1:
         break;

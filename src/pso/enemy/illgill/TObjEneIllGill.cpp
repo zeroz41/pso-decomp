@@ -63,10 +63,10 @@ s32 obj_setFlags30(void *, int);
 
 u16 get_entity_id(void *);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
-void enemy_turn_toward_dest(void *, s32);
+void enemy_turn_toward_dest__9TObjEnemyFl(void *, s32);
 f32 horizontal_distance_squared(void *, void *);
 
-f32 get_collision_body_radius(void *, int);
+f32 get_collision_body_radius__14TObjCollidableFl(void *, int);
 s32 select_enemy_destination(void *, Vec, int);
 s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);
 s32 is_split_screen();
@@ -209,7 +209,7 @@ void TObjEneIllGill::update_charge_attack() {
             d = o->turn_toward_direction((s32)(2.0f * (f32)((IllGillMovementParameters *)o->movementParameters)->turn), &v);
             if (d < ((AttackParams *)(o->m_318))->get_attack_angle()) {
                 s32 ang = (s32)(10430.38043493439 * atan2_float(v.x, v.z));
-                o->chargeDistance = 30.0f + (newton_sqrtf(TObjPlayer::calc_distance_to_client((s32)o, o->targetId, (u32)0)) + get_collision_body_radius(o, 0));
+                o->chargeDistance = 30.0f + (newton_sqrtf(TObjPlayer::calc_distance_to_client((s32)o, o->targetId, (u32)0)) + get_collision_body_radius__14TObjCollidableFl(o, 0));
                 if (o->chargeDistance < 100.0f) {
                     o->chargeDistance = 100.0f;
                 }
@@ -252,7 +252,7 @@ void TObjEneIllGill::update_charge_attack() {
             d = o->turn_toward_direction((s32)(2.0f * (f32)((IllGillMovementParameters *)o->movementParameters)->turn), &v);
             if (d < ((AttackParams *)(o->m_318))->get_attack_angle()) {
                 s32 ang = (s32)(10430.38043493439 * atan2_float(v.x, v.z));
-                o->chargeDistance = 30.0f + (newton_sqrtf(TObjPlayer::calc_distance_to_client((s32)o, o->targetId, (u32)0)) + get_collision_body_radius(o, 0));
+                o->chargeDistance = 30.0f + (newton_sqrtf(TObjPlayer::calc_distance_to_client((s32)o, o->targetId, (u32)0)) + get_collision_body_radius__14TObjCollidableFl(o, 0));
                 if (o->chargeDistance < 100.0f) {
                     o->chargeDistance = 100.0f;
                 }
@@ -335,7 +335,7 @@ void TObjEneIllGill::update_charge_attack() {
             if (enable_v2_features == 1 && game_difficulty_selection == 3) {
                 spd *= 2.0f;
             }
-            enemy_turn_toward_dest(o, (s32)(4.5f * (f32)prm->turn));
+            enemy_turn_toward_dest__9TObjEnemyFl(o, (s32)(4.5f * (f32)prm->turn));
             enemy_set_heading_velocity(spd, (TObjEnemy *)(o), o->rotation_y);
             move_with_wall_slide((u8 *)o);
             d2 = horizontal_distance_squared((Vec *)&o->m_29c, (Vec *)&o->m_2fc);
@@ -1129,7 +1129,7 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
             }
         }
     }
-    enemy_turn_toward_dest(o, ((IllGillMovementParameters *)o->movementParameters)->turn);
+    enemy_turn_toward_dest__9TObjEnemyFl(o, ((IllGillMovementParameters *)o->movementParameters)->turn);
     enemy_set_heading_velocity(((IllGillMovementParameters *)o->movementParameters)->speed, (TObjEnemy *)(o), o->rotation_y);
     (*((Vec *)&o->m_2fc)).y += 5.0f;
     move_with_wall_slide((u8 *)o);

@@ -430,7 +430,7 @@ TUnk_804E1CA8::TUnk_804E1CA8(TObject *parent, u8 *item) : TUnk_804E23F0(parent, 
 void TUnk_804E1CA8::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     TUnk_804E23F0::init_weapon_effect_descriptor(desc);
     if (is_mode_two_and_ready() != 0) {
-        ((TObjPlayer *)this)->drain_owner_hp_fraction(0.07f);
+        ((TItemWeapon *)this)->drain_owner_hp_fraction(0.07f);
         desc->pad_10 = 10;
         desc->model = second_model;
         desc->pad_4c = 1.0f;

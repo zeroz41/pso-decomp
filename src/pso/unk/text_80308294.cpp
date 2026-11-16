@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/unk/text_80308294.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
@@ -29,7 +30,7 @@ s32 spawn_fire_explosion_at(u32 a0, s32 a1) {
     S_802E449C info;
     void *o;
     TObjPlayer__sub_802E449C(&info);
-    ((TObjPlayer *)a0)->fill_status_info(&info);
+    ((TItemWeapon *)a0)->fill_status_info(&info);
     VecCopy(&info.position, (const Vec *)a1);
     info.hits = 10;
     new TUnk_804A2548((TObject *)tl_05, &info);

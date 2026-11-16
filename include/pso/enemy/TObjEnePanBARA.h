@@ -16,6 +16,7 @@ class TObjEnePanBARA : public TObjEnemy {
 public:
     TObjEnePanBARA(TObject *parent, void *setData, s32 index);
     virtual ~TObjEnePanBARA();
+    void sub_800E1C98(s32);
     virtual void run_task();
     virtual void render();
     void calc_part_position(u8 *, s32 *);

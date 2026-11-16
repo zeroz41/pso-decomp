@@ -6,33 +6,33 @@
 #include "pso/ui/chat/ShortMail.h"
 
 extern "C" {
-void TWindowSubComCardList__sub_80275360(TWindowSubComCardList *list) {
+void TWindowSubComCardList::sub_80275360() {
     TWindowSubComCard *card;
     s32 n;
     s32 index;
     s32 msg;
 
-    list->reset_entries();
-    index = ((TWindowSubStatusDisp *)list->m_8c)->get_type();
+    this->reset_entries();
+    index = ((TWindowSubStatusDisp *)this->m_8c)->get_type();
     index *= 7;
     for (n = 0; n < 7; n++, index++) {
-        if (index >= (s32)list->m_98) {
+        if (index >= (s32)this->m_98) {
             break;
         }
-        if (list->m_90 != 0) {
-            card = (TWindowSubComCard *)(list->m_90 + index * 0x90);
-        } else if (list->m_94 != 0) {
-            card = (TWindowSubComCard *)(list->m_94 + index * 0x100);
+        if (this->m_90 != 0) {
+            card = (TWindowSubComCard *)(this->m_90 + index * 0x90);
+        } else if (this->m_94 != 0) {
+            card = (TWindowSubComCard *)(this->m_94 + index * 0x100);
         } else {
             return;
         }
         if (card->is_active() == 0) {
             break;
         }
-        forward_trade_action_default__16TObjCityMainWarpFPviii(list, (int)get_com_card_list__6TLobbyFPv(card), 7, index);
+        forward_trade_action_default__16TObjCityMainWarpFPviii(this, (int)get_com_card_list__6TLobbyFPv(card), 7, index);
     }
-    if (list->get_field_72() <= 0) {
-        switch ((s8)list->m_9c) {
+    if (this->get_field_72() <= 0) {
+        switch ((s8)this->m_9c) {
         case 0:
             msg = (s32)TWindowSubStatusDisp::get_message_10(0xD4);
             break;
@@ -40,7 +40,7 @@ void TWindowSubComCardList__sub_80275360(TWindowSubComCardList *list) {
             msg = (s32)TWindowSubStatusDisp::get_message_10(0xD2);
             break;
         }
-        TWindowSubComCard::draw_text_gray((s32)list, msg, 4, -1);
+        TWindowSubComCard::draw_text_gray((s32)this, msg, 4, -1);
     }
 }
 }

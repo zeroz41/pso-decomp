@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "types.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/vector.h"
@@ -460,7 +461,7 @@ s32 TObjPlayer::spawn_fire_explosion(u32 a0, s32 a1) {
     S_802E449C info;
     void *o;
     TObjPlayer__sub_802E449C(&info);
-    ((TObjPlayer *)a0)->fill_status_info(&info);
+    ((TItemWeapon *)a0)->fill_status_info(&info);
     VecCopy(&info.position, (const Vec *)a1);
     info.hits = 10;
     new TUnk_804A2548(tl_05, &info);

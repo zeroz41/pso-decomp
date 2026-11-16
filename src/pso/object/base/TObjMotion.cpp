@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/enemy/dd/TObjEneDD_ST.h"
+#include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResource.h"
@@ -212,7 +214,7 @@ void make_node_flag_table(NJS_OBJECT *object, NodeFlagEntry *table) {
     node_flag_cursor->object = NULL;
 }
 
-s32 TObjMotion::calc_joint_matrices(NJS_MOTION *with, f32 at_frame, s32 matrices) {
+s32 TObjPlayer::calc_joint_matrices(NJS_MOTION *with, f32 at_frame, s32 matrices) {
     if (with == NULL || model == NULL) {
         return 0;
     }
@@ -225,7 +227,7 @@ s32 TObjMotion::calc_joint_matrices(NJS_MOTION *with, f32 at_frame, s32 matrices
     return 1;
 }
 
-s32 TObjMotion::calc_joint_matrices(f32 at_frame) {
+s32 TObjEnemy::calc_joint_matrices(f32 at_frame) {
     if (current_motion == NULL || model == NULL) {
         return 0;
     }
@@ -238,7 +240,7 @@ s32 TObjMotion::calc_joint_matrices(f32 at_frame) {
     return 1;
 }
 
-f32 TObjMotion::get_motion_frame() {
+f32 TObjEneDD_ST::get_motion_frame() {
     if (motion_flags & MOTION_BLENDING) {
         return 0.0f;
     }
@@ -293,7 +295,7 @@ void TObjMotion::draw_saving_joints_checked() {
     }
 }
 
-void TObjMotion::draw_motion_model() {
+void TObjEnemy::draw_motion_model() {
     set_motion_packed_rotation();
     if (motion_flags & MOTION_BLENDING) {
         draw_model_blend_motion(model, &blend, frame);

@@ -367,9 +367,9 @@ void TItemWeapon::set_weapon_category_flags() {
     set_weapon_flags(flags);
 }
 
-void TObjPlayer::drain_owner_hp_fraction(f32 farg0) {
-    if (*(u32 *)&this->blend.frame[1] != 0U) {
-        TObjectV8047c128_subtract_hp((u8 *)(*(u32 *)&this->blend.frame[1]), (farg0 * (f32) ((TItemProShield *)(*(u32 *)&this->blend.frame[1]))->get_field_2b8()));
+void TItemWeapon::drain_owner_hp_fraction(f32 farg0) {
+    if (*(u32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1] != 0U) {
+        TObjectV8047c128_subtract_hp((u8 *)(*(u32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]), (farg0 * (f32) ((TItemProShield *)(*(u32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]))->get_field_2b8()));
     }
 }
 
@@ -556,7 +556,7 @@ void TUnk_804F1320::spawn_pg_effect(void *arg1, s32 item, f32 farg0) {
     }
     remap_extra_attack_type();
     prm.init_params();
-    ((TObjPlayer *)((u8 *)this))->fill_status_info(&prm);
+    ((TItemWeapon *)((u8 *)this))->fill_status_info(&prm);
     VecCopy(&prm.position, (const Vec *)arg1);
     prm.pad_28 = farg0;
     prm.pad_34 = (s32)this->second_model;
@@ -581,7 +581,7 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
     if (is_active_in_game() != 0) {
         scale = ((f32 *(*)(void *, s32))get_weapon_range_record)(this, ((s32 (*)(void *))is_status_subsystem_ready__10TObjPlayerFv)(this->owner));
         TObjPlayer__sub_802E449C(&atk);
-        ((TObjPlayer *)((u8 *)this))->fill_status_info(&atk);
+        ((TItemWeapon *)((u8 *)this))->fill_status_info(&atk);
         VecCopy((Vec *)&atk, (const Vec *)((Vec_8011EB84 *)origin));
         atk.angle = *(s32 *)((s8 *)this->owner + 0x60) + angle;
         atk.f3C = *scale;
@@ -615,18 +615,18 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
     }
 }
 
-void TObjPlayer::fill_status_info(void *arg1) {
+void TItemWeapon::fill_status_info(void *arg1) {
     ((TItemWeapon *)this)->remap_extra_attack_type();
-    *(s16 *)((s8 *)arg1 + 0x14) = ((s16 (*)(s32))get_entity_id)(*(s32 *)&this->blend.frame[1]);
-    *(s16 *)((s8 *)arg1 + 0x16) = ((TObjBase *)(*(s32 *)&this->blend.frame[1]))->get_room();
+    *(s16 *)((s8 *)arg1 + 0x14) = ((s16 (*)(s32))get_entity_id)(*(s32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]);
+    *(s16 *)((s8 *)arg1 + 0x16) = ((TObjBase *)(*(s32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]))->get_room();
     *(s32 *)((s8 *)arg1 + 0x18) = ((TItem *)this)->get_item_id();
-    *(f32 *)((s8 *)arg1 + 0x1C) = get_attack_accuracy_scale((s16 *)(*(s32 *)&this->blend.frame[1] + 0x7CC));
-    *(s32 *)((s8 *)arg1 + 0x24) = (s32) ((TObjPlayer *)(*(s32 *)&this->blend.frame[1]))->is_status_subsystem_ready();
-    *(f32 *)((s8 *)arg1 + 0x20) = ((f32 (*)(s32))query_extended_state__10TObjPlayerFv)(*(s32 *)&this->blend.frame[1]);
+    *(f32 *)((s8 *)arg1 + 0x1C) = get_attack_accuracy_scale((s16 *)(*(s32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1] + 0x7CC));
+    *(s32 *)((s8 *)arg1 + 0x24) = (s32) ((TObjPlayer *)(*(s32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]))->is_status_subsystem_ready();
+    *(f32 *)((s8 *)arg1 + 0x20) = ((f32 (*)(s32))query_extended_state__10TObjPlayerFv)(*(s32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]);
     ((TItemWeapon *)this)->restore_action_type();
 }
 
-void TObjPlayer::launch_rare_weapon_special(void *origin, s32 enable, f32 scale) {
+void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale) {
     void *ext;
     Vec_8011EDFC pos;
     f32 dist;
@@ -871,11 +871,11 @@ void TUnk_804A4D70::apply_scale_if_active(f32 farg0) {
 
 extern const f32 lbl_805DAC9C;
 
-void TObjPlayer::update_active_game_effect() {
+void TItemWeapon::update_active_game_effect() {
 
     if (((TItemWeapon *)this)->is_active_in_game() != 0) {
         ((TItemWeapon *)this)->remap_extra_attack_type();
-        ((VObj_8011F5E0 *)(*(void * *)&this->blend.frame[1]))->v67(lbl_805DAC9C);
+        ((VObj_8011F5E0 *)(*(void * *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]))->v67(lbl_805DAC9C);
         ((TItemWeapon *)this)->restore_action_type();
     }
 }
@@ -1127,7 +1127,7 @@ void TItemWeapon::perform_action() {
                 return;
             }
             if(((TItemWeapon *)self)->test_weapon_flags(0x20000)) {
-                ((TObjPlayer *)self)->update_active_game_effect();
+                ((TItemWeapon *)self)->update_active_game_effect();
                 return;
             }
             ((TItemWeapon *)self)->get_gun_point(&fallback_point);

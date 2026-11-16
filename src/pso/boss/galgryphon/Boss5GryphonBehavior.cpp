@@ -210,7 +210,7 @@ struct DragonAttackParams {
 extern "C" {
 int VecCopy__FP3VecPC3Vec(void*, void*);
 void queue_destruction__7TObjectFv(void *);
-s32 get_flag_bit6__12TBoss8DragonFv();
+s32 get_flag_bit6__13TBoss5GryphonFv();
 void TBoss8Dragon__sub_8005FB90(u8 *arg0);
 int check_demo_mode__10TObjPlayerFv(void*);
 void project_sound_origin_from_camera(s32 arg0, u8 *arg1, f32 farg0);
@@ -1271,7 +1271,7 @@ s32 TBoss8Dragon__sub_8005DC0C(Obj_8005DC0C *arg0) {
     if (arg0->f326 == 4) {
         return 0;
     }
-    if (get_flag_bit6__12TBoss8DragonFv() != 0) {
+    if (get_flag_bit6__13TBoss5GryphonFv() != 0) {
         return 0;
     }
     if (arg0->f4e4 != 0) {
@@ -4821,7 +4821,7 @@ void TBoss5Gryphon::run_task() {
     ((TBoss5Gryphon *)(arg0))->update_attack_stat_status();
     ((TBoss5Gryphon *)(arg0))->update_defense_stat_status();
     if (temp_r31_2 == 0) {
-        if (((s32 (*)(void *))get_flag_bit6__12TBoss8DragonFv)(arg0) != 0) {
+        if (((s32 (*)(void *))get_flag_bit6__13TBoss5GryphonFv)(arg0) != 0) {
             this->actorFlags = (s32) (this->actorFlags | 0x800);
         } else {
             this->actorFlags = (s32) (this->actorFlags & 0xFFFFF7FF);

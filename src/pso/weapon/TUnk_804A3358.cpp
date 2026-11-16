@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer_8012121C.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/weapon/TUnk_804A3358.h"
@@ -37,7 +38,7 @@ void TUnk_804A3358::emit_marker_effects() {
             }
         }
     } else {
-        ((TObjPlayer *)this)->update_active_game_effect();
+        ((TItemWeapon *)this)->update_active_game_effect();
     }
 }
 

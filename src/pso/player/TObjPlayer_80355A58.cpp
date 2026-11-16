@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804F1320.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItem.h"
@@ -40,10 +41,10 @@ void TUnk_804F1320::emit_marker_effects() {
             ((TItem *)arg0)->send_activate_effect(temp_r3);
             return;
         }
-        ((TObjPlayer *)arg0)->update_active_game_effect();
+        ((TItemWeapon *)arg0)->update_active_game_effect();
         return;
     }
-    ((TObjPlayer *)arg0)->update_active_game_effect();
+    ((TItemWeapon *)arg0)->update_active_game_effect();
 }
 typedef char RecoveredGlobal_80355BA0_lbl_804F1320_size[sizeof(RecoveredGlobal_80355BA0_lbl_804F1320) == 0xF8 ? 1 : -1];
 

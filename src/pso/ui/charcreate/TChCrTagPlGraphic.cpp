@@ -40,7 +40,7 @@ struct TChCrTagPlGraphicLayout {
 };
 
 extern "C" {
-void TChCrTagPlGraphic__sub_802A3230(TChCrTagPlGraphic *tag);
+void sub_802A3230__17TChCrTagPlGraphicFv(TChCrTagPlGraphic *tag);
 void restore_saved_depth_alpha_state(void);
 int set_depth_buffer_settings_1__Fv(void*);
 
@@ -73,24 +73,24 @@ const f32 tag_player_graphic_match_value_table[4] = {-3.296875f, -3.21875f, -3.1
 
 #pragma push
 #pragma fp_contract on
-void TChCrTagPlGraphic__sub_802A3230(TChCrTagPlGraphic *tag) {
+void TChCrTagPlGraphic::sub_802A3230() {
     const TChCrTagPlGraphicLayout *e;
 
-    e = &TChCrTagPlGraphic__data_804664A4[tag->m_20];
-    tag->m_3c = tag->m_24 * tag->m_30;
+    e = &TChCrTagPlGraphic__data_804664A4[this->m_20];
+    this->m_3c = this->m_24 * this->m_30;
     switch (TChCrCharSelect::get_selected_index()) {
     case 0:
-        tag->m_40 += 0.25f * (e->m_40 - tag->m_40);
-        tag->m_44 += 0.25f * (e->m_44 - tag->m_44);
-        tag->pos.x += 0.25f * (e->pos.x - tag->pos.x);
-        tag->pos.y += 0.25f * (e->pos.y - tag->pos.y);
+        this->m_40 += 0.25f * (e->m_40 - this->m_40);
+        this->m_44 += 0.25f * (e->m_44 - this->m_44);
+        this->pos.x += 0.25f * (e->pos.x - this->pos.x);
+        this->pos.y += 0.25f * (e->pos.y - this->pos.y);
         break;
     default:
-        if (tag->vt4() != 0) {
-            tag->m_40 += 0.25f * (-2.75f - tag->m_40);
-            tag->m_44 += 0.25f * (1.0f - tag->m_44);
-            tag->pos.x += 0.25f * (e->selected_pos.x - tag->pos.x);
-            tag->pos.y += 0.25f * (e->selected_pos.y - tag->pos.y);
+        if (this->vt4() != 0) {
+            this->m_40 += 0.25f * (-2.75f - this->m_40);
+            this->m_44 += 0.25f * (1.0f - this->m_44);
+            this->pos.x += 0.25f * (e->selected_pos.x - this->pos.x);
+            this->pos.y += 0.25f * (e->selected_pos.y - this->pos.y);
         }
         break;
     }
@@ -99,7 +99,7 @@ void TChCrTagPlGraphic__sub_802A3230(TChCrTagPlGraphic *tag) {
 
 void TChCrTagPlGraphic::run_task() {
     update_fade__8TChCrTagFPv(this);
-    TChCrTagPlGraphic__sub_802A3230(this);
+    sub_802A3230__17TChCrTagPlGraphicFv(this);
 }
 
 s32 TChCrTagPlGraphic::vt4() {

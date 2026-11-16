@@ -19,6 +19,7 @@ public:
 
     TObjVoloptPillar(Vec *pos, TObject *owner);
     virtual ~TObjVoloptPillar();
+    void sub_80049FD8();
     virtual void run_task();
     virtual void render();
 

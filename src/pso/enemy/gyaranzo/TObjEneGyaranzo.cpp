@@ -481,7 +481,7 @@ u16 find_nearest_visible_player(void *, int, int, f32);
 
 extern "C" {
 
-void enemy_turn_toward_dest(void *, s32);
+void enemy_turn_toward_dest__9TObjEnemyFl(void *, s32);
 
 void move_along_ground_avoiding_walls__15TObjEnemyCustomF3Vecff(void *, Vec_800D3314, void *, f32, f32);
 
@@ -1329,7 +1329,7 @@ void TObjPlayer__sub_800D3314(u8 *arg0) {
             ((TObjEnemyCustom *)arg0)->vfunc_58();
             return;
         }
-        enemy_turn_toward_dest(arg0, *(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 8));
+        enemy_turn_toward_dest__9TObjEnemyFl(arg0, *(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 8));
         ((void (*)(void *, Vec_800D3314, f32, f32))move_along_ground_avoiding_walls__15TObjEnemyCustomF3Vecff)(arg0, *(Vec_800D3314 *)((s8 *)arg0 + 0x390), *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 4), *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xA4)) + 0xC));
         *(f32 *)((s8 *)arg0 + 0x39C) += *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 4);
         ((TObjMotion *)arg0)->advance_animation();
@@ -1370,7 +1370,7 @@ void TObjEneGyaranzo::vfunc_62() {
     if (((s32)this->m_3b8) <= 0)
     {
       this->m_3b8 = 0x3C;
-      ((TObjEneGyaranzo *)arg0)->fn_800D2A68();
+      ((TObjEneGyaranzo *)arg0)->sub_800D2A68();
     }
     temp_r0 = this->m_3a8;
     var_r3 = 0;
@@ -1555,7 +1555,7 @@ void TObjEneGyaranzo::spawn_missile() {
 // Throws three chips of the body from 25 units above its position.
 // pool_data off: each chip's initializer template is reached with its own lis/addi.
 #pragma pool_data off
-void TObjEneGyaranzo::fn_800D2A68() {
+void TObjEneGyaranzo::sub_800D2A68() {
     Vec pos = position;
     pos.y += 25.0f;
     const TObjChipParams first = {

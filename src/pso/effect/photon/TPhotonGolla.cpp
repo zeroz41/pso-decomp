@@ -120,7 +120,7 @@ extern u8 *photon_blast_shared_resource;
 extern "C" {
 void *spawn_particle_effect(void *pos, s32 id);
 void *find_entity_by_id(u16 id);
-s32 spawn_photon_blast_attachment_effects(void *, int);
+s32 spawn_photon_blast_attachment_effects__13TUnk_804C3248Fl(void *, int);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 u32 __nw__7TObjectFUl(int);
@@ -343,7 +343,7 @@ void TPhotonGolla::run_task() {
         ((TUnk_804C3248 *)arg0)->begin_photon_summon_camera(5);
         *(s32 *)&this->unk_1C8 = 0;
         ((TObjMotion *)arg0)->set_field_b8(0);
-        spawn_photon_blast_attachment_effects(arg0, 2);
+        spawn_photon_blast_attachment_effects__13TUnk_804C3248Fl(arg0, 2);
     }
     this->m_1b8 = (s16) this->requested_action;
     ((TUnk_804C3248 *)arg0)->update_state();
@@ -521,7 +521,7 @@ u8 *TPhotonGolla__ct(u8 *arg0, u8 *arg1) {
         if (p != NULL) {
             TPhotonMagicSquare__ct((u8 *)p, (s32)arg0, 3, (s32)&pos, 0x96, (f32)0.5f);
         }
-        spawn_photon_blast_attachment_effects(arg0, 2);
+        spawn_photon_blast_attachment_effects__13TUnk_804C3248Fl(arg0, 2);
         play_cue_stream_file((s32)"goula2.adx");
     } else {
         spawn_photon_blast_opening_effects(2, *(u16 *)((s8 *)arg0 + 0x158));

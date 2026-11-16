@@ -335,7 +335,7 @@ void TObjEneGibbles__sub_802D7E3C(void);
 void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *arg0, s32 arg1, s32 arg2);
 void TObjEneGibbles__sub_802D8034(void);
 void vfunc_63__14TObjEneGibblesFv(void *arg0);
-void TObjEneGibbles__sub_802D8580(TObjEneGibbles *self);
+void sub_802D8580__14TObjEneGibblesFv(TObjEneGibbles *self);
 void vfunc_61__14TObjEneGibblesFv(void *arg0);
 s32 test_flag_256__14TObjEneGibblesFv(u8 *arg0);
 struct Gib_802D9110;
@@ -1061,53 +1061,53 @@ s16 TObjPlayer__sub_800A776C(void *p);
 
 #pragma push
 #pragma fp_contract on
-void TObjEneGibbles__sub_802D8580(TObjEneGibbles *self) {
-    self->advance_animation();
-    self->clamp_angle(0);
-    if (!(self->actorFlags & 0x800000)) {
-        apply_actor_gravity(self, (s32 *)0, 0.0f);
+void TObjEneGibbles::sub_802D8580() {
+    this->advance_animation();
+    this->clamp_angle(0);
+    if (!(this->actorFlags & 0x800000)) {
+        apply_actor_gravity(this, (s32 *)0, 0.0f);
     }
-    switch (self->phase) {
+    switch (this->phase) {
     case 0:
-        self->phase = 1;
-        apply_actor_gravity(self, (s32 *)0, 0.0f);
-        if (self->m_3b0 != NULL) {
-            self->m_388 = (s16)((f32)self->m_388 - 0.2f * (f32)(((TObjPlayer *)self->m_3b0)->get_field_2c8() + ((TObjChara *)self->m_3b0)->get_actor_attack_params_atp_min() + TObjPlayer__sub_800A776C(self->m_3b0) - *(s16 *)((u8 *)self + 0x2CE)));
-            if (self->m_388 <= 0) {
-                self->m_388 = 0;
-                self->m_374 |= 8;
+        this->phase = 1;
+        apply_actor_gravity(this, (s32 *)0, 0.0f);
+        if (this->m_3b0 != NULL) {
+            this->m_388 = (s16)((f32)this->m_388 - 0.2f * (f32)(((TObjPlayer *)this->m_3b0)->get_field_2c8() + ((TObjChara *)this->m_3b0)->get_actor_attack_params_atp_min() + TObjPlayer__sub_800A776C(this->m_3b0) - *(s16 *)((u8 *)this + 0x2CE)));
+            if (this->m_388 <= 0) {
+                this->m_388 = 0;
+                this->m_374 |= 8;
             }
         }
-        self->actorFlags |= 0x04000000;
-        play_sound_effect(self->resolve_sound_id(0x3A330), (u8 *)self + 0x38, 0, 0);
+        this->actorFlags |= 0x04000000;
+        play_sound_effect(this->resolve_sound_id(0x3A330), (u8 *)this + 0x38, 0, 0);
         break;
     case 1:
-        if (self->is_passing_frame(5.0f) != 0) {
-            self->m_380 = 0x107;
+        if (this->is_passing_frame(5.0f) != 0) {
+            this->m_380 = 0x107;
         }
-        if (self->is_passing_frame(12.0f) != 0) {
-            self->actorFlags &= 0xFBFFFEFF;
-            self->m_374 &= ~0x20;
-            if (self->test_flag_256() != 0) {
-                self->phase = 0;
-                self->frame = 0.0f;
+        if (this->is_passing_frame(12.0f) != 0) {
+            this->actorFlags &= 0xFBFFFEFF;
+            this->m_374 &= ~0x20;
+            if (this->test_flag_256() != 0) {
+                this->phase = 0;
+                this->frame = 0.0f;
             } else {
-                self->phase = 3;
+                this->phase = 3;
             }
-            self->update_move_state();
+            this->update_move_state();
         }
         break;
     case 3:
     default:
-        self->actorFlags &= 0xFBFFFEFF;
-        self->m_374 &= ~0x20;
+        this->actorFlags &= 0xFBFFFEFF;
+        this->m_374 &= ~0x20;
         break;
     }
-    ((TObjPlayer *)self)->check_object_collisions();
-    check_enemy_body_collisions(self);
-    ((TObjPlayer *)self)->update_enemy_collision_flags();
-    minimap_render_dot((u8 *)self + 0x38, -0x5DB4, 1, 0);
-    self->actorFlags &= 0xFFDFFFFF;
+    ((TObjPlayer *)this)->check_object_collisions();
+    check_enemy_body_collisions(this);
+    ((TObjPlayer *)this)->update_enemy_collision_flags();
+    minimap_render_dot((u8 *)this + 0x38, -0x5DB4, 1, 0);
+    this->actorFlags &= 0xFFDFFFFF;
 }
 #pragma pop
 
@@ -2435,7 +2435,7 @@ void TObjEneGibbles::run_task() {
             this->sub_802D8984();
             break;
         case 7:
-            TObjEneGibbles__sub_802D8580(this);
+            sub_802D8580__14TObjEneGibblesFv(this);
             break;
         case 8:
             this->update_action_state();

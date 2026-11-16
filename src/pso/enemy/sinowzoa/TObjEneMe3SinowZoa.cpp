@@ -85,7 +85,7 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 select_enemy_destination(void *, Vec, int);
 s32 copy_position_if_valid__10TObjPlayerFii(void *, Vec);
-s32 enemy_turn_toward_dest(void *, s32);
+s32 enemy_turn_toward_dest__9TObjEnemyFl(void *, s32);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 void create__11TTecRaBartaFPvPvPvPv(void *, void *, void *, s32);
 s32 matrix_mult_vec(int, void *, void *);
@@ -2006,7 +2006,7 @@ void TObjEneMe3SinowZoa__sub_803170F0(TObjEneMe3SinowZoa *self, s32 arg1) {
 inline s32 approach_80316C3C(TObjEneMe3SinowZoa *self) {
     copy_position_if_valid__10TObjPlayerFii(self, *self->body_center());
     self->m_300 += TObjEneMe3SinowZoa__data_805DF308;
-    return enemy_turn_toward_dest(self, ((TObjEneMe3SinowZoaMoveParams *)self->movementParameters)->turn);
+    return enemy_turn_toward_dest__9TObjEnemyFl(self, ((TObjEneMe3SinowZoaMoveParams *)self->movementParameters)->turn);
 }
 inline s32 seek_80316C3C(TObjEneMe3SinowZoa *self, Vec *diff) {
     s32 angle;

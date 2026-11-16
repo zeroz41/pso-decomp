@@ -6,6 +6,7 @@
 
 struct TWindowSubSymbolChatParts : public TWindowAddition {
     virtual ~TWindowSubSymbolChatParts();
+    void sub_80284FB8();
     void sub_80285274(u8 *);
     void sub_80285054();
     s32 calc_symbol_index();
@@ -51,7 +52,7 @@ void select_symbol_chat_slot(TWindowSubSymbolChatParts *parts);
 extern "C" {
 void *__dt__25TWindowSubSymbolChatPartsFv(void *arg0, s16 arg1);
 void fn_80284C04(u8 *arg0);
-void fn_80284FB8(void *arg0);
+void sub_80284FB8__25TWindowSubSymbolChatPartsFv(void *arg0);
 void render__25TWindowSubSymbolChatPartsFv(u8 *arg0);
 void select_symbol_chat_slot(TWindowSubSymbolChatParts *parts);
 }

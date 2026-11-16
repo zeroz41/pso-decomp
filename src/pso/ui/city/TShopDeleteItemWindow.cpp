@@ -90,7 +90,7 @@ s32 copy_item_record__18TCheckRoomSequenceFiPvi(int, void *, int);
 s32 copy_bank_to_card_window(int);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 get_cursor_value__19TWindowMenuIconLineFv(int);
-void TShopDeleteItemWindow__sub_80337E2C(Win_80337C2C *win);
+void sub_80337E2C__21TShopDeleteItemWindowFv(Win_80337C2C *win);
 u16 get_entity_id(void *);
 f32 get_scale__15TShopWindowBaseFv(void *);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
@@ -249,10 +249,11 @@ s32 TShopDeleteItemWindow::update_item_select(void *arg0) {
 
 #pragma push
 #pragma opt_loop_invariants off
-void TShopDeleteItemWindow__sub_80337E2C(Win_80337C2C *win) {
+void TShopDeleteItemWindow::sub_80337E2C() {
     s32 base;
     s32 cursor;
     s32 i;
+    Win_80337C2C *win = (Win_80337C2C *)this;
     win->f5c = 1;
     base = sub_8022397C__15TShopWindowBaseFv(win);
     win->room = TCheckRoomSequence::get_room_table_entry(base);
@@ -324,7 +325,7 @@ void TShopDeleteItemWindow::vfunc_11() {
     s32 (*temp_r12_2)(s32);
     switch (*(u32 *)((s8 *)arg0 + 0x20)) {
     case 0:
-        TShopDeleteItemWindow__sub_80337E2C((Win_80337C2C *)arg0);
+        sub_80337E2C__21TShopDeleteItemWindowFv((Win_80337C2C *)arg0);
         return;
     case 1:
         TShopDeleteItemWindow::update_item_select(arg0);

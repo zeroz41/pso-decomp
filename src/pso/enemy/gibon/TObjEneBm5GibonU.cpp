@@ -504,7 +504,7 @@ extern "C" {
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 s32 select_enemy_destination(void *, Vec, s32);
 void copy_position_if_valid__10TObjPlayerFii(void *, Vec);
-s32 enemy_turn_toward_dest(void *, s32);
+s32 enemy_turn_toward_dest__9TObjEnemyFl(void *, s32);
 f32 newton_sqrtf(f32);
 void fn_80044330(void *);
 void *spawn_directional_particle(void *pos, void *dir, s32 id);
@@ -822,7 +822,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 arg1) {
             } else {
                 if (select_enemy_destination(this, m_394, 1) != 0) {
                     copy_position_if_valid__10TObjPlayerFii(this, *(Vec *)&m_2fc);
-                    r = enemy_turn_toward_dest(this, ((TObjEneBm5GibonUMovementParameters *)movementParameters)->turn);
+                    r = enemy_turn_toward_dest__9TObjEnemyFl(this, ((TObjEneBm5GibonUMovementParameters *)movementParameters)->turn);
                     enemy_set_heading_velocity(((TObjEneBm5GibonUMovementParameters *)movementParameters)->speed, this, rotation_y);
                     move_with_wall_slide((u8 *)this);
                 } else {

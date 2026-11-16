@@ -71,7 +71,7 @@ void text_builder_append();
 u8 *calc_technique_parameters(u16, u8, s32);
 u8 *TWindowMenu__ct(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
 void *init__21TWindowSubComCardListFiii(void *, s32, s8, s32);
-s32 TWindowSubComCardList__sub_80275360(void *);
+s32 sub_80275360__21TWindowSubComCardListFv(void *);
 extern s32 __vt__21TWindowSubComCardList[];
 extern const char *TWindowSubComCardList__class_name;
 extern s32 local_client_id;
@@ -113,7 +113,7 @@ void TWindowSubComCardList::run_task() {
     run_task__11TWindowMenuFv();
     if ((is_decided() == 0) && (handle_list_page_flip_input(this->m_8c) != 0)) {
         set_selected_index(0);
-        TWindowSubComCardList__sub_80275360(this);
+        sub_80275360__21TWindowSubComCardListFv(this);
     }
 }
 
@@ -150,7 +150,7 @@ u8 *TWindowSubComCardList__ct(u8 *arg0, void *arg1) {
     *(s8 *)(arg0 + 0x9C) = 0;
     ((TWindowSubComCardList *)arg0)->set_flag70_bit100();
     ((TWindowSubComCardList *)arg0)->set_selected_index(0);
-    TWindowSubComCardList__sub_80275360(arg0);
+    sub_80275360__21TWindowSubComCardListFv(arg0);
     ((TWindowSubComCardList *)arg0)->set_flag70_bit10();
     ((TWindowSubComCardList *)arg0)->set_scroll_target(223.0f, 184.0f);
     return arg0;
@@ -177,7 +177,7 @@ u8 *TWindowSubComCardList__sub_802757AC(u8 *arg0, void *arg1, s32 arg2, s32 arg3
     *(s8 *)(arg0 + 0x9C) = arg4;
     ((TWindowSubComCardList *)arg0)->set_flag70_bit100();
     ((TWindowSubComCardList *)arg0)->set_selected_index(0);
-    TWindowSubComCardList__sub_80275360(arg0);
+    sub_80275360__21TWindowSubComCardListFv(arg0);
     ((TWindowSubComCardList *)arg0)->set_flag70_bit10();
     ((TWindowSubComCardList *)arg0)->set_scroll_target(223.0f, 184.0f);
     return arg0;

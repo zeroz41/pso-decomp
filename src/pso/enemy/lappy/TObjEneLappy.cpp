@@ -412,7 +412,7 @@ s32 toggle_particle_effect__10TObjPlayerFv();
 s32 is_item_light_interaction_blocked();
 s32 restore_scene_lighting();
 s32 select_actor_lighting(void *);
-s32 draw_motion_model__10TObjMotionFv(void *);
+s32 draw_motion_model__9TObjEnemyFv(void *);
 s32 draw__10TObjMotionFv(void *);
 s32 end_effect_render__13TParticleCtrlFv();
 s32 scale_matrix(int, f32, f32, f32);
@@ -444,7 +444,7 @@ s32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(s32, void *, void *);
 extern f32 identity_matrix[3][4];
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
-s32 enemy_turn_toward_dest(void *, void *);
+s32 enemy_turn_toward_dest__9TObjEnemyFl(void *, void *);
 s32 select_enemy_destination(void *, struct Sp800C0D3C *, s32);
 void vfunc_59__12TObjEneLappyFv(void *arg0);
 void vfunc_58__12TObjEneLappyFv(void *arg0);
@@ -606,7 +606,7 @@ void TObjEneLappy::render() {
                 if (temp_r3 == 1) {
                     draw__10TObjMotionFv(this);
                 } else {
-                    draw_motion_model__10TObjMotionFv(this);
+                    draw_motion_model__9TObjEnemyFv(this);
                 }
                 model_render_flags &= 0xFEFFFFFF;
             }
@@ -750,7 +750,7 @@ void TObjEneLappy::update_attacking() {
     ((TObjMotion *)arg0)->advance_animation();
     switch (this->phase) {
     case 0:
-        enemy_turn_toward_dest(arg0, (void *) *(s32 *)((s8 *)this->movementParameters + 8));
+        enemy_turn_toward_dest__9TObjEnemyFl(arg0, (void *) *(s32 *)((s8 *)this->movementParameters + 8));
         apply_actor_gravity(arg0, 0, 0.0f);
         if (((TObjMotion *)arg0)->is_passing_frame(11.0f) != 0) {
             enemy_set_heading_velocity(*(f32 *)((s8 *)this->movementParameters + 4), (TObjEnemy *)(arg0), this->rotation_y);
@@ -1246,7 +1246,7 @@ void *TObjEneLappy::create(void *arg0) {
 
 #define render__12TObjEneLappyFv (*(void (*)())&render__12TObjEneLappyFv)
 #define apply_variant_speeds__12TObjEneLappyFv (*(s32 (*)(void *))&apply_variant_speeds__12TObjEneLappyFv)
-#define draw_motion_model__10TObjMotionFv (*(void (*)(void *))&draw_motion_model__10TObjMotionFv)
+#define draw_motion_model__9TObjEnemyFv (*(void (*)(void *))&draw_motion_model__9TObjEnemyFv)
 #define draw__10TObjMotionFv (*(void (*)(void *))&draw__10TObjMotionFv)
 #define scale_matrix (*(void (*)(int, f32, f32, f32))&scale_matrix)
 #define draw_chunk_object (*(s32 (*)(int))&draw_chunk_object)
@@ -1704,6 +1704,6 @@ __declspec(section ".sdata2") extern const f32 lbl_805D9F9C = 0.0f;
 #undef draw_chunk_object
 #undef scale_matrix
 #undef draw__10TObjMotionFv
-#undef draw_motion_model__10TObjMotionFv
+#undef draw_motion_model__9TObjEnemyFv
 #undef apply_variant_speeds__12TObjEneLappyFv
 #undef render__12TObjEneLappyFv

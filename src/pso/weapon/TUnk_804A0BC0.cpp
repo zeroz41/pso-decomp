@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include <stdlib.h>
 #include "pso/weapon/TUnk_804A0BC0.h"
 #include "pso/player/TObjPlayer.h"
@@ -13,11 +14,11 @@ void TUnk_804A0BC0::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         if (get_joint_position(0, &pos) != 0) {
             player = owner;
-            TTecFoie::create(player, &pos, (void *)(*(s32 *)((s8 *)player + 0x60)), (void *)(((TObjPlayer *)this)->get_tp()));
+            TTecFoie::create(player, &pos, (void *)(*(s32 *)((s8 *)player + 0x60)), (void *)(((TItemWeapon *)this)->get_tp()));
             roll_technique();
         }
     } else {
-        ((TObjPlayer *)this)->update_active_game_effect();
+        ((TItemWeapon *)this)->update_active_game_effect();
     }
 }
 
@@ -92,5 +93,5 @@ u8 *TObjPlayer::create_enter_state_804A0BC0(u8 *arg0) {
     return NULL;
 }
 
-s32 TObjPlayer::get_tp() { return this->m_1c0; }
+s32 TItemWeapon::get_tp() { return (*(s32 *)((u8 *)this + 0x1C0)); }
 void TObjPlayer::set_effect_state(s32 v) { *(s32 *)&this->unk_1C4 = v; }

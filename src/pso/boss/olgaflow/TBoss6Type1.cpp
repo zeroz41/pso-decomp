@@ -2013,22 +2013,22 @@ void TBoss6Type1::reset_param() {
     this->m_4dc = 0.0f;
 }
 // Draws bml model 0 at node_points[7], turned to face the viewing player and scaled by m_4dc.
-void TBoss6Type1__sub_802B626C(TBoss6Type1 *boss) {
-    if (boss->m_4dc != 0.0f) {
-        s32 fish = TObjFish__sub_8001EDB0(boss->bml_resource, 0);
-        s32 model = get_bml_model((BmlResource *)boss->bml_resource, 0);
+void TBoss6Type1::sub_802B626C() {
+    if (this->m_4dc != 0.0f) {
+        s32 fish = TObjFish__sub_8001EDB0(this->bml_resource, 0);
+        s32 model = get_bml_model((BmlResource *)this->bml_resource, 0);
         s32 pitch = 0;
-        Vec pos = boss->node_points[7];
-        s32 yaw = boss->rotation_y + 0x8000;
+        Vec pos = this->node_points[7];
+        s32 yaw = this->rotation_y + 0x8000;
         static f32 s_min_width = 0.15f;
         static f32 s_max_width = 0.625f;
         static f32 s_grow_end = 0.1f;
         f32 width = s_min_width;
         f32 height;
-        if (boss->m_4dc < s_grow_end) {
-            height = boss->m_4dc / s_grow_end;
+        if (this->m_4dc < s_grow_end) {
+            height = this->m_4dc / s_grow_end;
         } else {
-            width = (boss->m_4dc - s_grow_end) / (1.0f - s_grow_end) * (s_max_width - s_min_width) + s_min_width;
+            width = (this->m_4dc - s_grow_end) / (1.0f - s_grow_end) * (s_max_width - s_min_width) + s_min_width;
             height = 1.0f;
         }
         TObjPlayer *player = get_player_by_client_id(
@@ -2036,7 +2036,7 @@ void TBoss6Type1__sub_802B626C(TBoss6Type1 *boss) {
         if (player != NULL) {
             Vec from;
             Vec to;
-            VecCopy(&from, &boss->node_points[7]);
+            VecCopy(&from, &this->node_points[7]);
             VecCopy(&to, &player->position);
             to.y += 14.0f;
             subtract_vector(&to, &from);
@@ -2681,7 +2681,7 @@ void TBoss6Type1::release_object(void *) {
 
 void TBoss6Type1::render() {
     draw_model();
-    TBoss6Type1__sub_802B626C(this);
+    sub_802B626C__11TBoss6Type1Fv(this);
 }
 
 void TBoss6Type1::draw_model() {

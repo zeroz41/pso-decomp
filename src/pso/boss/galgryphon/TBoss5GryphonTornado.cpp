@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/boss/galgryphon/TBoss5GryphonTornado.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -90,7 +91,7 @@ void TBoss5GryphonTornado::run_task() {
     Vec_80355570 v;
     Res_80355570 *r;
     f32 h;
-    if (((TBoss8Dragon *)(o->f4C))->get_flag_bit6() != 0) {
+    if (((TBoss5Gryphon *)(o->f4C))->get_flag_bit6() != 0) {
         ((TObject *)o)->queue_destruction();
         return;
     }

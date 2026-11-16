@@ -136,7 +136,7 @@ u8 * TObjPlayer__sub_80155028(s32 arg0, s32 arg1);
 s32 build_collision_box_corners(Vec pos, s32 facing, CollisionBody *body, CollisionBox_80155C54 *out);
 s32 subtract_vector(void *, void *);
 extern s32 enable_v2_features;
-f32 get_collision_body_radius(Obj_801547E0 *self, s32 i);
+f32 get_collision_body_radius__14TObjCollidableFl(Obj_801547E0 *self, s32 i);
 extern Vec_80155294 scratch_vec;
 f64 atan2_float(f32, f32);
 s32 angle_difference_abs(s32, s32);
@@ -361,9 +361,9 @@ u8 TUnk_80493450::test_elt_flag(s32 arg1, s32 arg2) {
     return 0U;
 }
 
-f32 get_collision_body_radius(Obj_801547E0 *self, s32 i) {
-    if (self->arr != 0) {
-        return self->arr[i].f;
+f32 TObjCollidable::get_collision_body_radius(s32 i) {
+    if (((Obj_801547E0 *)this)->arr != 0) {
+        return ((Obj_801547E0 *)this)->arr[i].f;
     }
     return 0.0f;
 }
@@ -740,8 +740,8 @@ s32 resolve_player_box_contact(u8 *arg0, u8 *arg1, u8 *arg2) {
         f32 dx;
         f32 dz;
         moved = 0;
-        xl = hw * hw + get_collision_body_radius((Obj_801547E0 *)arg0, 0);
-        zl = hd * hd + get_collision_body_radius((Obj_801547E0 *)arg0, 0);
+        xl = hw * hw + get_collision_body_radius__14TObjCollidableFl((Obj_801547E0 *)arg0, 0);
+        zl = hd * hd + get_collision_body_radius__14TObjCollidableFl((Obj_801547E0 *)arg0, 0);
         VecCopy__FP3VecPC3Vec(&scratch_vec, &radial);
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, -*(s32 *)(arg1 + 0x60));

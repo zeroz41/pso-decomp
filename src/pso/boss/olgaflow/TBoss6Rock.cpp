@@ -231,7 +231,7 @@ void TBoss6Rock::update_fall() {
     if (position.y <= 0.0f) {
         position.y = 0.0f;
         m_cc = 0.0f;
-        TBoss6Rock__sub_803542E8(this, 1);
+        sub_803542E8__10TBoss6RockFl(this, 1);
         sub_80353F5C();
         play_sound_effect(0x4006B51E, &position, 0, 0);
         spawn_particle_effect(&position, 0x220);
@@ -242,7 +242,7 @@ void TBoss6Rock::update_fall() {
 }
 
 void TBoss6Rock::break_and_release() {
-    TBoss6Rock__sub_803542E8(this, 0);
+    sub_803542E8__10TBoss6RockFl(this, 0);
     if (m_bc == 1) {
         m_c8 = 0;
     }
@@ -255,7 +255,7 @@ void TBoss6Rock::break_and_release() {
     }
 }
 
-void TBoss6Rock__sub_803542E8(TBoss6Rock *rock, s32 landed) {
+void TBoss6Rock::sub_803542E8(s32 landed) {
     s32 count;
     s32 i;
     TObjPlayer *player;
@@ -264,13 +264,13 @@ void TBoss6Rock__sub_803542E8(TBoss6Rock *rock, s32 landed) {
     Vec d;
 
     if (landed == 0) {
-        rock->m_e0++;
-        if (rock->m_e0 & 1) {
+        this->m_e0++;
+        if (this->m_e0 & 1) {
             return;
         }
     }
     count = TLobby::get_game_mode();
-    radius = TBoss6Rock__data_80479258[rock->m_b4].radius;
+    radius = TBoss6Rock__data_80479258[this->m_b4].radius;
     if (landed != 0) {
         radius += 10.0f;
     }
@@ -280,7 +280,7 @@ void TBoss6Rock__sub_803542E8(TBoss6Rock *rock, s32 landed) {
             continue;
         }
         VecCopy(&d, &player->position);
-        subtract_vector(&d, &rock->m_d4);
+        subtract_vector(&d, &this->m_d4);
         d.y = 0.0f;
         dist = vector_length(&d);
         if (dist >= radius) {
@@ -292,7 +292,7 @@ void TBoss6Rock__sub_803542E8(TBoss6Rock *rock, s32 landed) {
         normalize_vector(&d);
         d.x *= radius;
         d.z *= radius;
-        vec3_add_to(&d, &rock->m_d4);
+        vec3_add_to(&d, &this->m_d4);
         TBoss6PlotFalz__sub_802AC724(player, &d);
         if (landed != 0) {
             DirectAttackPayload h;

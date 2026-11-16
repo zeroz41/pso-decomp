@@ -280,7 +280,7 @@ S_800E80E8 * TObjPlayer__sub_800E80E8(S_800E80E8 *dst, S_800E80E8 *src);
 void TObjPlayer__sub_800E8128(void);
 void TObjPlayer__sub_800E81A8(void);
 void render__22TObjEneSlimeTailAttackFv(u8 *arg0);
-s32 TObjPlayer__sub_800E85BC(TObjEneSlimeTailAttack *self);
+s32 sub_800E85BC__22TObjEneSlimeTailAttackFv(TObjEneSlimeTailAttack *self);
 void run_task__22TObjEneSlimeTailAttackFv(u8 *arg0);
 void * create__22TObjEneSlimeTailAttackFiiii(s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 void * dt__22TObjEneSlimeTailAttackFPvs(void *arg0, s16 arg1);
@@ -2183,7 +2183,7 @@ void *create__22TObjEneSlimeTailAttackFiiii(s32 arg1, s32 arg2, s32 arg3, s32 ar
 }
 void TObjEneSlimeTailAttack::run_task() {
     if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x378) != 0) {
-        TObjPlayer__sub_800E85BC(this);
+        sub_800E85BC__22TObjEneSlimeTailAttackFv(this);
         advance_animation();
         if (this->motion_flags & 0x10) {
             queue_destruction();
@@ -2205,45 +2205,45 @@ void TObjEneSlimeTailAttack::run_task() {
     }
 }
 
-s32 TObjPlayer__sub_800E85BC(TObjEneSlimeTailAttack *self) {
+s32 TObjEneSlimeTailAttack::sub_800E85BC() {
     Hit_800E8AD0 hit;
     s32 result;
     Ent_800E8AD0 *e;
     Ent_800E8AD0 *e2;
     u16 id;
     s32 id2;
-    f32 t = self->frame;
+    f32 t = this->frame;
     if (t < 17.0f || t > 30.0f) {
         return 0;
     }
     hit.kind = 0;
     result = 0;
-    hit.dmg = *(s16 *)TLobby::register_boss((s32)lbl_804966FC[((TObjEneSlimeOne *)(*(s32 *)((u8 *)self + 0x374)))->get_attack_target()]);
-    id = find_nearest_visible_player(self, 0, 25.0f);
-    if (id != 0xFFFF && id != *(s32 *)((u8 *)self + 0x37C)) {
+    hit.dmg = *(s16 *)TLobby::register_boss((s32)lbl_804966FC[((TObjEneSlimeOne *)(*(s32 *)((u8 *)this + 0x374)))->get_attack_target()]);
+    id = find_nearest_visible_player(this, 0, 25.0f);
+    if (id != 0xFFFF && id != *(s32 *)((u8 *)this + 0x37C)) {
         e = ((Ent_800E8AD0 *(*)(s32))get_player_by_client_id)(id);
         if (e != NULL) {
             TObjPlayer *pl = (TObjPlayer *)e;
             f32 lo = pl->position.y - 5.0f;
             f32 hi = 5.0f + (pl->position.y + pl->m_d48);
-            if (!(self->m_300 < lo) && !(self->m_300 > hi) &&
-                !(horizontal_distance_squared((const Vec *)&self->m_2fc, (const Vec *)&pl->position) > 56.25f)) {
-                if (e->m21(*(s32 *)((u8 *)self + 0x374), hit, 0, -1, -1) != 0.0f) {
-                    e->m23(self);
+            if (!(this->m_300 < lo) && !(this->m_300 > hi) &&
+                !(horizontal_distance_squared((const Vec *)&this->m_2fc, (const Vec *)&pl->position) > 56.25f)) {
+                if (e->m21(*(s32 *)((u8 *)this + 0x374), hit, 0, -1, -1) != 0.0f) {
+                    e->m23(this);
                 }
-                *(s32 *)((u8 *)self + 0x37C) = id;
+                *(s32 *)((u8 *)this + 0x37C) = id;
                 result = 1;
             }
         }
     }
-    id2 = self->find_nearest_enemy_with_flag(25.0f);
+    id2 = this->find_nearest_enemy_with_flag(25.0f);
     if (id2 != 0xFFFF) {
-        void *owner = *(void **)((u8 *)self + 0x374);
+        void *owner = *(void **)((u8 *)this + 0x374);
         if (owner == NULL || id2 != (u16)get_entity_id(owner)) {
             e2 = (Ent_800E8AD0 *)get_enemy_entity(id2);
-            if (e2 != NULL && !(horizontal_distance_squared((const Vec *)&self->m_2fc, (const Vec *)((u8 *)e2 + 0x2FC)) > 56.25f)) {
-                if (e2->m21(*(s32 *)((u8 *)self + 0x374), hit, 0, -1, -1) != 0.0f) {
-                    e2->m23(self);
+            if (e2 != NULL && !(horizontal_distance_squared((const Vec *)&this->m_2fc, (const Vec *)((u8 *)e2 + 0x2FC)) > 56.25f)) {
+                if (e2->m21(*(s32 *)((u8 *)this + 0x374), hit, 0, -1, -1) != 0.0f) {
+                    e2->m23(this);
                 }
                 result = 1;
             }

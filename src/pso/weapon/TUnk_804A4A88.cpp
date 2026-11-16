@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A4A88.h"
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
 #include "pso/player/TObjPlayer.h"
@@ -9,11 +10,11 @@
 
 void TUnk_804A4A88::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
-        ((TObjPlayer *)this)->drain_owner_hp_fraction(0.05f);
-        ((TObjPlayer *)this)->launch_rare_weapon_special(0, 1, 1.0f);
+        ((TItemWeapon *)this)->drain_owner_hp_fraction(0.05f);
+        ((TItemWeapon *)this)->launch_rare_weapon_special(0, 1, 1.0f);
         return;
     }
-    ((TObjPlayer *)this)->update_active_game_effect();
+    ((TItemWeapon *)this)->update_active_game_effect();
 }
 
 void TUnk_804A4A88::vfunc_60() {

@@ -409,7 +409,7 @@ void *__ct__15TObjLiveMonitorFv(void *arg0) {
 TObjLiveMonitor::~TObjLiveMonitor() {}
 
 extern "C" {
-int run_task__15TObjLiveMonitorFv(void* p) { return ((int (*)(void *))fn_8030B370)(p); }
+int run_task__15TObjLiveMonitorFv(void* p) { return ((int (*)(void *))sub_8030B370__15TObjLiveMonitorFv)(p); }
 
 void render__15TObjLiveMonitorFv(TObjLiveMonitor *live_monitor) {
     s32 table_entry;
@@ -428,17 +428,17 @@ void render__15TObjLiveMonitorFv(TObjLiveMonitor *live_monitor) {
 
 #pragma push
 #pragma fp_contract on
-void fn_8030B370(TObjLiveMonitor *o) {
+void TObjLiveMonitor::sub_8030B370() {
     f32 r;
-    if (o->camera_timer >= 0) {
-        if (--o->camera_timer <= 0) {
+    if (this->camera_timer >= 0) {
+        if (--this->camera_timer <= 0) {
             if (is_split_screen() != 0) {
-                o->camera_index = (u32)(3.0f * (3.0517578e-05f * (f32)rand()) + 1.0f);
+                this->camera_index = (u32)(3.0f * (3.0517578e-05f * (f32)rand()) + 1.0f);
             } else {
-                o->camera_index = (u32)(5.0f * (3.0517578e-05f * (f32)rand()));
+                this->camera_index = (u32)(5.0f * (3.0517578e-05f * (f32)rand()));
             }
             r = 3.0517578e-05f * (f32)rand();
-            o->camera_timer = (s32)(300.0f * r + 300.0f);
+            this->camera_timer = (s32)(300.0f * r + 300.0f);
         }
     }
 }
@@ -521,7 +521,7 @@ void *__ct__20TObjLiveMonitorSmallFv(void *live_monitor_small, void *arg1, void 
 
 TObjLiveMonitorSmall::~TObjLiveMonitorSmall() {}
 
-void TObjLiveMonitorSmall::run_task() { fn_8030B370(this); }
+void TObjLiveMonitorSmall::run_task() { sub_8030B370__15TObjLiveMonitorFv(this); }
 
 void TObjLiveMonitorSmall::render() { this->render_live_monitor_screen(); }
 

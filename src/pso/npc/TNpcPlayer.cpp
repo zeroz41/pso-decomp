@@ -394,7 +394,7 @@ struct Line_8014E488 { Vec_8014E3B0 p; Vec_8014E3B0 d; };
 
 s16 get_actor_tp(u8 *p);
 s16 obj_getS16_2BA(u8 *p);
-s16 get_actor_hp(u8 *p);
+s16 get_actor_hp__9TObjCharaFv(u8 *p);
 int get_player_data__10TObjPlayerFi(int a0);
 s32 get_entity_id(void *obj);
 f32 fabs_float(f32);
@@ -3133,7 +3133,7 @@ s32 partner_view_update_conditions(u8 *arg0) {
     s32 temp_r3;
     s32 var_r31;
     var_r31 = 0;
-    temp_f31 = (f32) get_actor_hp(*(u8 **)((s8 *)arg0 + 0x94));
+    temp_f31 = (f32) get_actor_hp__9TObjCharaFv(*(u8 **)((s8 *)arg0 + 0x94));
     temp_f1 = temp_f31 / (f32) ((TItemProShield *)(*(u8 **)((s8 *)arg0 + 0x94)))->get_field_2b8();
     if (*(s32 *)((s8 *)arg0 + 0x8C) & 2) {
         if (temp_f1 <= 0.25f) {
@@ -3175,7 +3175,7 @@ s32 partner_view_update_hp_change(void *arg0) {
     s16 temp_r31;
     s16 temp_r3;
     s16 temp_r4;
-    temp_r31 = get_actor_hp((u8 *)(*(s32 *)((s8 *)arg0 + 0x94)));
+    temp_r31 = get_actor_hp__9TObjCharaFv((u8 *)(*(s32 *)((s8 *)arg0 + 0x94)));
     temp_r3 = ((TItemProShield *)(*(s32 *)((s8 *)arg0 + 0x94)))->get_field_2b8();
     if (*(s16 *)((s8 *)arg0 + 0x88) <= 0) {
         *(s16 *)((s8 *)arg0 + 0x88) = temp_r31;

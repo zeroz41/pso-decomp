@@ -62,7 +62,7 @@ f32 atan2_float(f32, f32);
 f32 update_scale__15TObjBoss2TunnelFv(void *);
 s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
 extern const f32 lbl_805D9E80;
-void TObjEneBm3Fly__sub_800B1214(TObjEneBm3Fly *arg0, s32 arg1);
+void sub_800B1214__13TObjEneBm3FlyFl(TObjEneBm3Fly *arg0, s32 arg1);
 s32 is_vec_xz_cross_negative(void *, void *);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1);
@@ -271,7 +271,7 @@ extern "C" {
 void TObjEneBm3Fly::dispatch_action(u32 arg1, s32 msg) {
     switch (arg1) {
     case 0:
-        TObjEneBm3Fly__sub_800B1214(this, msg);
+        sub_800B1214__13TObjEneBm3FlyFl(this, msg);
         return;
     case 1:
         TObjEneBm3Fly__sub_800B0F70(this, msg);
@@ -504,73 +504,73 @@ s32 TObjEneBm3Fly::vfunc_104(f32 farg0) {
 #pragma fp_contract on
 #pragma opt_common_subs off
 extern "C" {
-void TObjEneBm3Fly__sub_800B1214(TObjEneBm3Fly *arg0, s32 arg1) {
-    Vec *p = &arg0->m_3e8;
+void TObjEneBm3Fly::sub_800B1214(s32 arg1) {
+    Vec *p = &this->m_3e8;
     switch (arg1) {
     case 4:
-        arg0->requested_action = 1;
-        arg0->vfunc_95();
-        arg0->m_428 &= ~1;
-        arg0->m_428 |= 2;
-        arg0->actorFlags |= 0x01000000;
-        arg0->sub_800B1634();
-        arg0->m_3c0 = 0;
-        arg0->m_3c4 = 0;
-        p->x = (3e+01f) * sin_table_lookup(arg0->m_448) + arg0->m_41c.x;
-        p->y = arg0->m_444;
-        p->z = (3e+01f) * cos_table_lookup(arg0->m_448) + arg0->m_41c.z;
-        arg0->rotation_y = (s32)(10430.38043493439 * atan2_float(arg0->m_40c.x, arg0->m_40c.z));
-        enemy_clear_target__12TObjEneDD_STFUs(arg0);
+        this->requested_action = 1;
+        this->vfunc_95();
+        this->m_428 &= ~1;
+        this->m_428 |= 2;
+        this->actorFlags |= 0x01000000;
+        this->sub_800B1634();
+        this->m_3c0 = 0;
+        this->m_3c4 = 0;
+        p->x = (3e+01f) * sin_table_lookup(this->m_448) + this->m_41c.x;
+        p->y = this->m_444;
+        p->z = (3e+01f) * cos_table_lookup(this->m_448) + this->m_41c.z;
+        this->rotation_y = (s32)(10430.38043493439 * atan2_float(this->m_40c.x, this->m_40c.z));
+        enemy_clear_target__12TObjEneDD_STFUs(this);
         break;
     case 3:
-        if (arg0->m_3c4 == 2) {
-            arg0->transition_enemy_state(1);
+        if (this->m_3c4 == 2) {
+            this->transition_enemy_state(1);
         }
         break;
     case 5:
         break;
     case 0:
-        arg0->advance_animation();
-        switch (arg0->m_3c4) {
+        this->advance_animation();
+        switch (this->m_3c4) {
         case 0:
-            arg0->position.x += arg0->m_40c.x;
-            arg0->m_42c += arg0->m_40c.y;
-            arg0->position.z += arg0->m_40c.z;
-            arg0->m_40c.x *= (0.9f);
-            arg0->m_40c.y += lbl_805D9E80;
-            arg0->m_40c.z *= (0.9f);
-            arg0->m_3c0++;
-            if (arg0->m_3c0 > 40) {
-                arg0->m_3c4 = 1;
-                arg0->m_3c0 = 0;
-                arg0->m_43c = (0.0f);
+            this->position.x += this->m_40c.x;
+            this->m_42c += this->m_40c.y;
+            this->position.z += this->m_40c.z;
+            this->m_40c.x *= (0.9f);
+            this->m_40c.y += lbl_805D9E80;
+            this->m_40c.z *= (0.9f);
+            this->m_3c0++;
+            if (this->m_3c0 > 40) {
+                this->m_3c4 = 1;
+                this->m_3c0 = 0;
+                this->m_43c = (0.0f);
             }
             break;
         case 1:
-            VecCopy(&arg0->m_430, p);
-            arg0->m_430.x -= arg0->position.x;
-            arg0->m_430.y -= arg0->m_42c;
-            arg0->m_430.z -= arg0->position.z;
-            arg0->m_3e0 = update_scale__15TObjBoss2TunnelFv(&arg0->m_430);
-            if (arg0->m_43c < (2.0f)) {
-                arg0->m_43c += (0.1f);
+            VecCopy(&this->m_430, p);
+            this->m_430.x -= this->position.x;
+            this->m_430.y -= this->m_42c;
+            this->m_430.z -= this->position.z;
+            this->m_3e0 = update_scale__15TObjBoss2TunnelFv(&this->m_430);
+            if (this->m_43c < (2.0f)) {
+                this->m_43c += (0.1f);
             }
-            if (arg0->m_3e0 < (2.0f)) {
-                VecCopy(&arg0->position, p);
-                arg0->m_3c4 = 2;
+            if (this->m_3e0 < (2.0f)) {
+                VecCopy(&this->position, p);
+                this->m_3c4 = 2;
             } else {
-                arg0->position.x = arg0->m_430.x * arg0->m_43c + arg0->position.x;
-                arg0->m_42c = arg0->m_430.y * arg0->m_43c + arg0->m_42c;
-                arg0->position.z = arg0->m_430.z * arg0->m_43c + arg0->position.z;
+                this->position.x = this->m_430.x * this->m_43c + this->position.x;
+                this->m_42c = this->m_430.y * this->m_43c + this->m_42c;
+                this->position.z = this->m_430.z * this->m_43c + this->position.z;
             }
-            arg0->rotation_y = (s32)(10430.38043493439 * atan2_float(arg0->m_430.x, arg0->m_430.z));
+            this->rotation_y = (s32)(10430.38043493439 * atan2_float(this->m_430.x, this->m_430.z));
             break;
         }
-        arg0->update_collide_flag();
-        arg0->prev_position.x = arg0->m_2fc;
-        arg0->prev_position.z = arg0->m_304;
-        arg0->clamp_flight_height();
-        arg0->vfunc_88();
+        this->update_collide_flag();
+        this->prev_position.x = this->m_2fc;
+        this->prev_position.z = this->m_304;
+        this->clamp_flight_height();
+        this->vfunc_88();
         break;
     }
 }

@@ -258,11 +258,11 @@ void TUnk_804A4948::emit_marker_effects() {
         ((TUnk_804A4948 *)arg0)->send_srank_stat_extra_to_locks();
         return;
       }
-      ((TObjPlayer *)arg0)->update_active_game_effect();
+      ((TItemWeapon *)arg0)->update_active_game_effect();
       return;
     }
     block_7:
-    ((TObjPlayer *)arg0)->update_active_game_effect();
+    ((TItemWeapon *)arg0)->update_active_game_effect();
     return;
   }
   if ((new_var = temp_r3) & 2)
