@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-// --- C functions defined in render_util_tail.cpp ---
+// --- C functions defined at the end of render_util.cpp (its weak inline copies) ---
 void set_global_draw_flag_bits(void *owner, u32 bits);
 // --- end of C functions
 

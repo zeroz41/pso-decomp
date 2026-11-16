@@ -8,7 +8,7 @@ void TAdMultiPlyChrSelectGC__sub_802DC440(void *arg0);
 void TAdMultiPlyChrSelectGC__sub_802DC5CC(void *arg0);
 }
 
-// --- C functions defined in TAdMultiPlyChrSelectGC_802DC3D4.cpp ---
+// --- C functions defined in TAdMultiPlyChrSelectGC_802DBCC4.cpp (from 0x802DC3D4) ---
 extern "C" {
 void TAdMultiPlyChrSelectGC__sub_802DC440(void *arg0);
 void TAdMultiPlyChrSelectGC__sub_802DC5CC(void *arg0);

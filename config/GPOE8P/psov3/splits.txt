@@ -1669,14 +1669,8 @@ pso/enemy/lappy/TObjEneLappy.cpp:
 	.sdata2     start:0x805D9F20 end:0x805D9FA0
 
 pso/enemy/flower/TObjEneRe2Flower_800C20D0.cpp:
-	.text       start:0x800C20D0 end:0x800C25A0
+	.text       start:0x800C20D0 end:0x800C2A88
 	.sdata2     start:0x805D9FA0 end:0x805D9FAC
-
-pso/player/TObjPlayer_800C25A0.cpp:
-	.text       start:0x800C25A0 end:0x800C2614
-
-pso/enemy/dd/TObjEneDD_800C2614.cpp:
-	.text       start:0x800C2614 end:0x800C2A88
 
 pso/unk/text_800C2A88.cpp:
 	.text       start:0x800C2A88 end:0x800C2CE0
@@ -3421,15 +3415,12 @@ pso/render/render_util_head.cpp:
 	.rodata     start:0x8043F278 end:0x8043F298
 
 pso/render/render_util.cpp:
-	.text       start:0x80141550 end:0x80142624
+	.text       start:0x80141550 end:0x80142770
 	.rodata     start:0x8043F2B0 end:0x8043F2C8
 	.data       start:0x804A7418 end:0x804A7478
 	.bss        start:0x8050BEC0 end:0x8050C040
 	.sbss       start:0x805D5660 end:0x805D5678
 	.sdata2     start:0x805DB150 end:0x805DB15C
-
-pso/render/render_util_tail.cpp:
-	.text       start:0x80142624 end:0x80142770
 
 pso/object/base/TObjMotion.cpp:
 	.text       start:0x80142770 end:0x80143988
@@ -7048,15 +7039,9 @@ pso/ui/window/TWindowCtrl_8024B794.cpp:
 	.text       start:0x8024B794 end:0x8024B7D4
 
 pso/ui/window/TWindowCtrl_8024B7D4.cpp:
-	.text       start:0x8024B7D4 end:0x8024BFB8
+	.text       start:0x8024B7D4 end:0x8024C124
 	.rodata     start:0x8044EBE8 end:0x8044EBF0
 	.sdata2     start:0x805DCBE8 end:0x805DCC18
-
-pso/ui/window/TWindowCtrl_8024BFB8.cpp:
-	.text       start:0x8024BFB8 end:0x8024C024
-
-pso/ui/window/TWindowCtrl_8024C024.cpp:
-	.text       start:0x8024C024 end:0x8024C124
 
 pso/ui/window/TWindowCtrl.cpp:
 	.text       start:0x8024C124 end:0x8024C160
@@ -9070,12 +9055,9 @@ pso/enemy/gibbles/TObjEneGibbles.cpp:
 	.sdata2     start:0x805DE7E0 end:0x805DE888
 
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802DBCC4.cpp:
-	.text       start:0x802DBCC4 end:0x802DC3D4
+	.text       start:0x802DBCC4 end:0x802DC760
 	.bss        start:0x80541230 end:0x805412B0
 	.sdata2     start:0x805DE888 end:0x805DE898
-
-pso/ui/frontend/TAdMultiPlyChrSelectGC_802DC3D4.cpp:
-	.text       start:0x802DC3D4 end:0x802DC760
 
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802DC760.cpp:
 	.text       start:0x802DC760 end:0x802DCB80
@@ -9898,19 +9880,12 @@ pso/effect/particle/TParticleCtrl_80327D30.cpp:
 	.data       start:0x804ED598 end:0x804ED5C8
 	.sdata2     start:0x805DF6C8 end:0x805DF6E0
 
-pso/ui/frontend/TAdDialingGC_80328210.cpp:
-	.text       start:0x80328210 end:0x80328B20
-	.data       start:0x804ED5E0 end:0x804ED690
-	.sdata2     start:0x805DF6E0 end:0x805DF6F8
-
-pso/ui/frontend/TAdDialingGC_80328B20.cpp:
-	.text       start:0x80328B20 end:0x80328C94
-	.sdata2     start:0x805DF6F8 end:0x805DF6FC
-
 pso/ui/frontend/TAdDialingGC.cpp:
-	.text       start:0x80328C94 end:0x80328E50
+	.text       start:0x80328210 end:0x80328E50
 	.rodata     start:0x80476798 end:0x804767A8
+	.data       start:0x804ED5E0 end:0x804ED690
 	.sdata      start:0x805D41B0 end:0x805D41B8
+	.sdata2     start:0x805DF6E0 end:0x805DF6FC
 
 pso/ui/frontend/TAdDialingGC_80328E50.cpp:
 	.text       start:0x80328E50 end:0x80328E90

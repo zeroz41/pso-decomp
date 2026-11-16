@@ -530,6 +530,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -inline off,deferred: the constructor reaches __vt__16TObjEneRe2Flower through the .data anchor
     # (setup_data + 388) and the vtable sits before dispatch_action's jump table.
     "pso/enemy/flower/TObjEneRe2Flower.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # TObjEneRe2Flower_800C20D0 (0x800C20D0-0x800C2A88, one TU split in three): deferred, written last
+    # to first, since the attack parameter block of TObjEneDD__sub_800C2628 (0x8043BBA0) sits below
+    # the render offset of TObjEneRe2Flower::render (0x8043BBB4), the reverse of their functions' order.
+    "pso/enemy/flower/TObjEneRe2Flower_800C20D0.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # -inline off,deferred: .data is the attach-joint table, then __vt__10TObjPlayer, then the
     # jump tables; written last to first, deferred.
     "pso/player/TObjPlayer_801AF2F0.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
@@ -578,6 +582,11 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -sdata 4: the 8-byte texlists 0x804DCA78/98 sit in .data.
     "pso/ui/frontend/TAdTitleGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-sdata 4")},
     "pso/ui/frontend/TAdMultiPlayerNoGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # TAdMultiPlyChrSelectGC_802DBCC4 (0x802DBCC4-0x802DC760, one TU split in two): deferred, written
+    # last to first, since the 0x802DC3D4 functions' slot descriptors (0x80472880-88) sit below
+    # those of 0x802DBCC4 (0x80472890-), the reverse of their functions' order. The same reversal
+    # runs on through 0x802DEF54 (0x80472848-78), so the later fragments belong to this TU too.
+    "pso/ui/frontend/TAdMultiPlyChrSelectGC_802DBCC4.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # -str reuse,readonly: the f256_selectgamen names 0x804662D8 and the class name sit in .rodata.
     # -sdata 4: the 8-byte texlists 0x804DCB98/B8 sit in .data.
     "pso/ui/frontend/TAdSelectTxtGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
@@ -943,13 +952,14 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # (`xoris/xori 0xFFFF`; 2.x always emits `li -1; xor`), and five others.
     # TObjCamera: 1.3.2 copies CameraSoundEvent member by member unscheduled.
     "pso/camera/TObjCamera.cpp": {"mw_version": "GC/1.3.2"},
-    # TAdDialingGC (0x80328210-0x80328F7C, one TU split in five): the quad drawer 0x80328B24 takes
+    # TAdDialingGC (0x80328210-0x80328F7C, one TU split in three): the quad drawer 0x80328B24 takes
     # `const f32 *` (its callers pass .rodata arrays); 2.x CSEs every const read across the polygon
     # stores, 1.3.2 hoists only the first point's loads and reloads the rest, as the original does.
-    # Every other function of the five units compiles the same under both.
-    "pso/ui/frontend/TAdDialingGC_80328210.cpp": {"mw_version": "GC/1.3.2"},
-    "pso/ui/frontend/TAdDialingGC_80328B20.cpp": {"mw_version": "GC/1.3.2"},
-    "pso/ui/frontend/TAdDialingGC.cpp": {"mw_version": "GC/1.3.2"},
+    # Every other function of the three units compiles the same under both.
+    # Deferred, written last to first: the .rodata runs class name (0x80476798), the quad tables
+    # (0x804767A8-C0) then the status format (0x804767C8), the reverse of their functions' order,
+    # and __vt__12TAdDialingGC (0x804ED5C8) sits ahead of update_state_display's jump table.
+    "pso/ui/frontend/TAdDialingGC.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/ui/frontend/TAdDialingGC_80328E50.cpp": {"mw_version": "GC/1.3.2"},
     "pso/ui/frontend/TAdDialingGC_80328E90.cpp": {"mw_version": "GC/1.3.2"},
     # TDLGraph (0x8007ECF0-0x8007F85C): the progress bar 0x8007F27C reads its `const NJS_POINT2 &`
@@ -1225,7 +1235,6 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # 1.3.2 keeps approach_vector_fixed_distance's early-out copy unscheduled.
     "pso/render/render_util.cpp": {"mw_version": "GC/1.3.2", "cflags": [*_switch(cflags_pso, "-fp_contract on"), "-DPSO_SDK_COMPACT_MATH"]},
     "pso/render/render_util_head.cpp": {"mw_version": "GC/1.3.2", "cflags": [*_switch(cflags_pso, "-fp_contract on"), "-DPSO_SDK_COMPACT_MATH"]},
-    "pso/render/render_util_tail.cpp": {"mw_version": "GC/1.3.2", "cflags": [*_switch(cflags_pso, "-fp_contract on"), "-DPSO_SDK_COMPACT_MATH"]},
     # Metrowerks' GCN_Mem_Alloc.c (runtime library code at -O4,p); belongs
     # in the runtime lib under its own name.
     "pso/unk/text_8039739C.cpp": {"cflags": _switch(cflags_pso, "-O4,p")},

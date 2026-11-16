@@ -6,8 +6,8 @@
 extern "C" {
 s32 TAdMultiPlyChrSelectGC__sub_802DBCE8(s32 arg0);
 s32 TAdMultiPlyChrSelectGC__sub_802DBD64(s32 arg0);
-s32 TAdMultiPlyChrSelectGC__sub_802DBE4C(long long arg1);
-s32 TAdMultiPlyChrSelectGC__sub_802DBEC4(unsigned long long arg1);
+s32 TAdMultiPlyChrSelectGC__sub_802DBE4C(void *, s32 *desc);
+s32 TAdMultiPlyChrSelectGC__sub_802DBEC4(void *, s32 *desc);
 void TAdMultiPlyChrSelectGC__sub_802DC310(void *arg0);
 }
 
@@ -15,8 +15,8 @@ void TAdMultiPlyChrSelectGC__sub_802DC310(void *arg0);
 extern "C" {
 s32 TAdMultiPlyChrSelectGC__sub_802DBCE8(s32 arg0);
 s32 TAdMultiPlyChrSelectGC__sub_802DBD64(s32 arg0);
-s32 TAdMultiPlyChrSelectGC__sub_802DBE4C(long long arg1);
-s32 TAdMultiPlyChrSelectGC__sub_802DBEC4(unsigned long long arg1);
+s32 TAdMultiPlyChrSelectGC__sub_802DBE4C(void *, s32 *desc);
+s32 TAdMultiPlyChrSelectGC__sub_802DBEC4(void *, s32 *desc);
 void TAdMultiPlyChrSelectGC__sub_802DC310(void *arg0);
 }
 // --- end of C functions

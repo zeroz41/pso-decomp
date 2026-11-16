@@ -18,6 +18,7 @@
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/quest/TQuestVmDownLoadServer.h"
 
 
 typedef struct Ctrl_8024B8A0 {
@@ -274,4 +275,56 @@ void TWindowCtrl::update_party_status_rows() {
         }
     }
 }
+}
+
+extern "C" {
+
+void TWindowCtrl__sub_8024BB30(TWindowCtrl *ctrl);
+
+void TWindowCtrl::update() { update_party_status_rows(); update_window_visibility(); update_com_card_window(); update_trade_request_window(); TWindowCtrl__sub_8024BB30(this); handle_controller(); update_trade_window(); TWindowCtrl__sub_8024B9C0(this); update_pulse_color(); }
+
+}
+
+typedef struct Win_8024C024 {
+    u8 pad0[0x50];
+    s32 fade;
+} Win_8024C024;
+
+typedef struct Ctrl_8024C024 {
+    u8 pad0[0x1E];
+    s16 timer;
+    s16 step;
+    u8 pad22[0x48 - 0x22];
+    Win_8024C024 *split[12];
+    Win_8024C024 *slots[3];
+} Ctrl_8024C024;
+
+extern "C" {
+extern s16 lbl_8044EBD4[];
+extern s16 lbl_8044EBE0[];
+void TWindowCtrl::update_open_sequence() {
+    Ctrl_8024C024 *o = (Ctrl_8024C024 *)this;
+    if (is_split_screen() != 0) {
+        if (o->timer == lbl_8044EBD4[o->step]) {
+            if (o->split[o->step] != NULL) {
+                ((TQuestVmDownLoadServer *)(o->split[o->step]))->clear_flag4_bit4();
+            }
+            o->step++;
+        }
+    } else {
+        if (o->timer == lbl_8044EBE0[o->step]) {
+            if (o->slots[o->step] != NULL) {
+                ((TQuestVmDownLoadServer *)(o->slots[o->step]))->clear_flag4_bit4();
+                ((TWindowCtrl *)o)->update_party_status_rows();
+                o->slots[o->step]->fade = 0;
+            }
+            o->step++;
+        }
+    }
+    if (o->timer > 30000) {
+        o->timer -= 10000;
+    }
+    o->timer++;
+}
+
 }
