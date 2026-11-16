@@ -590,16 +590,16 @@ pso/boss/darkfalz/TBoss4Type3_800505A8.cpp:
 	.text       start:0x800505A8 end:0x8005063C
 
 pso/boss/darkfalz/TObjDFJisin.cpp:
-	.text       start:0x8005063C end:0x800521A8
-	.rodata     start:0x804374C0 end:0x804374F8
-	.data       start:0x804858F8 end:0x80485AAC
+	.text       start:0x8005063C end:0x800522CC
+	.rodata     start:0x80437468 end:0x804374F8
+	.data       start:0x804858F8 end:0x80485AE0
 	.bss        start:0x804FF228 end:0x804FF2A0
-	.sdata      start:0x805D27B8 end:0x805D27D0
+	.sdata      start:0x805D27B0 end:0x805D27D0
 	.sbss       start:0x805D4D78 end:0x805D4D80
 	.sdata2     start:0x805D8A60 end:0x805D8AD8
 
-pso/boss/darkfalz/TObjDFUsoTower.cpp:
-	.text       start:0x800521A8 end:0x80052374
+pso/boss/darkfalz/TBoss4Type2_800522CC.cpp:
+	.text       start:0x800522CC end:0x80052374
 	.rodata     start:0x804374F8 end:0x80437500
 	.sdata2     start:0x805D8AD8 end:0x805D8ADC
 
@@ -671,7 +671,7 @@ pso/boss/galgryphon/Boss5GryphonBehavior.cpp:
 pso/boss/galgryphon/TBoss5GryphonColli.cpp:
 	.text       start:0x80066128 end:0x80066540
 	.rodata     start:0x80437EF0 end:0x80437F28
-	.data       start:0x80488668 end:0x804886AC
+	.data       start:0x80488668 end:0x804886E8
 	.sdata      start:0x805D2808 end:0x805D2810
 	.sdata2     start:0x805D8ED0 end:0x805D8EE0
 
@@ -10573,7 +10573,7 @@ pso/object/lobby/TObjWeddingLobby.cpp:
 pso/boss/goldragon/TObjBoss8PillerCtrl.cpp:
 	.text       start:0x8035BFF8 end:0x8035C2B4
 	.rodata     start:0x804799C8 end:0x80479B30
-	.data       start:0x804F1E58 end:0x804F1E98
+	.data       start:0x804F1E40 end:0x804F1E98
 	.sdata      start:0x805D4430 end:0x805D4438
 	.sdata2     start:0x805E0168 end:0x805E0180
 

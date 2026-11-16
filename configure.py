@@ -773,7 +773,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TShopJudgmentItemWindow: its class name and four string literals sit in .rodata.
     "pso/ui/city/TShopJudgmentItemWindow.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TObjDFJisin: the Jisin, Horming and Yutai class-name strings sit in .rodata.
-    "pso/boss/darkfalz/TObjDFJisin.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # vtables come out TObjDFTenchuFuru then TObjDFUsoTower (text order of their dtors): written last to first, deferred.
+    "pso/boss/darkfalz/TObjDFJisin.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # TWindowSubTradeMain_80330A84 (+_80332148): "TWindowSubTradeMain" sits in .rodata.
     "pso/ui/window/TWindowSubTradeMain_80330A84.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TCharaMaking (+TCharaMaking_8028E3F4): its motion names and file names sit in .rodata.
@@ -1274,6 +1275,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/berura/TObjEneRe7Berura.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/ui/keyboard/TKeyBoardControl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/goldragon/TObjBoss8Piller.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # vtables come out TBoss5GryphonColli then TBoss5GryphonColli_C (text order of their dtors): written last to first, deferred.
+    "pso/boss/galgryphon/TBoss5GryphonColli.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # .data holds __vt__19TObjBoss8PillerCtrl ahead of run_task's jump table: deferred generation of the last-to-first source.
+    "pso/boss/goldragon/TObjBoss8PillerCtrl.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/unk/text_803626A8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -sdata 4: the 8-byte name tables sit in .data while 4-byte objects sit in .sdata.
     "pso/unk/text_8035B750.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},

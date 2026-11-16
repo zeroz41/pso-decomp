@@ -5,11 +5,11 @@
 
 class TBoss5GryphonColli_C : public TObjCollidable {
 public:
+    TBoss5GryphonColli_C(TObject *parent, s32 count, const Vec *pos, f32 len);
     virtual ~TBoss5GryphonColli_C();
-    void *destroy(s16);
     void clear_entry_flags();
     virtual void render();
-    u8 unk_AC[0xC];
+    Vec base_position;  // the ctor's position
 };
 typedef char TBoss5GryphonColli_C_size[sizeof(TBoss5GryphonColli_C) == 0xB8 ? 1 : -1];
 

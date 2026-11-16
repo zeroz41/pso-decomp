@@ -17,8 +17,4 @@ struct TObjDFUsoTower : public TObjBase {
 
 typedef char TObjDFUsoTower_size[sizeof(TObjDFUsoTower) == 0x98 ? 1 : -1];
 
-extern "C" {
-void *__dt__14TObjDFUsoTowerFv(void *arg0, s16 arg1);
-}
-
 #endif

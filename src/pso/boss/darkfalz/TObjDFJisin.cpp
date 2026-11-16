@@ -21,6 +21,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/boss/darkfalz/TOBoss4.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TNowLoading.h"
@@ -33,18 +34,18 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 
 
-extern char TObjDFRecover__class_name_string[];
-extern char TObjDFRecBall__class_name_string[];
-extern char TObjDFBeamCursor__class_name_string[];
-const char *TObjDFRecover__name = TObjDFRecover__class_name_string;
-s32 TObjDFRecBall__name = (s32)TObjDFRecBall__class_name_string;
-void *TObjDFBeamCursor__name = TObjDFBeamCursor__class_name_string;
+const char *TObjDFUsoTower__name = "TObjDFUsoTower";
+const char *TObjDFTenchuFuru__name = "TObjDFTenchuFuru";
+const char *TObjDFRecover__name = "TObjDFRecover";
+const char *TObjDFRecBall__name = "TObjDFRecBall";
+const char *TObjDFBeamCursor__name = "TObjDFBeamCursor";
 const char *TObjDFJisin__name = "TObjDFJisin";
 const char *TObjDFHorming__name = "TObjDFHorming";
 const char *TObjDFYutai__name = "TObjDFYutai";
@@ -76,43 +77,7 @@ extern const f32 lbl_805D8A50;
 extern const f32 lbl_805D8A54;
 void steer_homing_direction(Obj_8005063C *arg0);
 
-#pragma fp_contract on
-void steer_homing_direction(Obj_8005063C *arg0) {
-    Vec d;
-    f32 k;
-    f32 inv;
-    VecCopy((Vec *)&d, (const Vec *)&arg0->f36c);
-    subtract_vector(&d, &arg0->f2fc);
-    if (vector_length(&d) <= lbl_805D8A48 ||
-        vector_length(&arg0->dir) <= lbl_805D8A48) {
-        ((TObject *)arg0)->queue_destruction();
-        return;
-    }
-    normalize_vector(&d);
-    normalize_vector(&arg0->dir);
-    k = lbl_805D8A50 * arg0->f364 + lbl_805D8A4C;
-    Vec prev = arg0->dir;
-    inv = lbl_805D8A34 - k;
-    arg0->dir.x = k * arg0->dir.x + inv * d.x;
-    arg0->dir.y = k * arg0->dir.y + inv * d.y;
-    arg0->dir.z = k * arg0->dir.z + inv * d.z;
-    if (arg0->f37c <= arg0->f378 && xyz_distance(&arg0->dir, &prev) <= lbl_805D8A54) {
-        arg0->state = 2;
-    }
-}
 
-void TObjDFHorming::sub_8005076C() {
-    f32 temp_f1;
-    temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x370) - this->m_300;
-    if (temp_f1 > lbl_805D8A30) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x34C) += lbl_805D8A58;
-    } else {
-        *(f32 *)((s8 *)((u8 *)this) + 0x34C) -= lbl_805D8A58;
-    }
-    if (fabs_float(temp_f1) < lbl_805D8A5C) {
-        this->m_368 = 1;
-    }
-}
 
 }
 
@@ -278,339 +243,29 @@ extern void *__vt__13TObjDFHorming[];
 extern void *__vt__13TObjDFRecBall[];
 extern void *__vt__16TObjDFBeamCursor[];
 extern s32 TObjDFJisin__particle_emitter_id_table[];
-extern s32 TObjDFRecBall__name;
-extern void *TObjDFBeamCursor__name;
 extern s32 game_difficulty_selection;
 
-int queue_destruction__13TObjDFHormingFPv(void* p) { return ((int (*)(void*))queue_destruction__7TObjectFv)(p); }
 
-void run_task__13TObjDFHormingFv(u8 *arg0) {
-    Ang_80050808 rot;
-    Vec d;
-    S_80050808 s;
-    u8 *p;
-    s32 i;
-    if (query_teammate_state__9TObjEneDDFv() != 0) {
-        return;
-    }
-    if (((TObjDFHorming *)arg0)->m_334 == 0xFFFF || (p = (u8 *)get_player_by_client_id(((TObjDFHorming *)arg0)->m_334)) == NULL) {
-        ((TObject *)arg0)->queue_destruction();
-        return;
-    }
-    VecCopy((Vec *)(arg0 + 0x36C), (const Vec *)(p + 0x2FC));
-    *(f32 *)((s8 *)arg0 + 0x37C) = xyz_distance((Vec *)(arg0 + 0x2FC), (Vec *)(arg0 + 0x36C));
-    VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(arg0 + 0x2FC));
-    switch (*(s32 *)&((TObjDFHorming *)arg0)->m_368) {
-    case 0:
-        ((TObjDFHorming *)arg0)->sub_8005076C();
-        break;
-    case 1:
-        steer_homing_direction((Obj_8005063C *)arg0);
-        break;
-    case 2:
-        ((TObjDFHorming *)arg0)->check_attack_trigger();
-        break;
-    }
-    normalize_vector(arg0 + 0x348);
-    *(f32 *)((s8 *)arg0 + 0x348) *= *(f32 *)((s8 *)arg0 + 0x354);
-    *(f32 *)((s8 *)arg0 + 0x34C) *= *(f32 *)((s8 *)arg0 + 0x354);
-    ((TObjDFHorming *)arg0)->m_350 *= *(f32 *)((s8 *)arg0 + 0x354);
-    vec3_add_to(arg0 + 0x2FC, arg0 + 0x348);
-    {
-        s32 id = find_nearest_visible_player(arg0, 0, 7.5f);
-        if (id != 0xFFFF && (p = (u8 *)get_player_by_client_id(id)) != NULL) {
-            if (is_boss_active__13TObjDFHormingFv() != 0) {
-                s.a = 0;
-                s.b = *(s32 *)&((TObjDFHorming *)arg0)->m_360;
-                {
-                    S_80050808 t = s;
-                    ((VObj_18_0c879f *)p)->m21(TBoss4DarkFalz__sub_8004C1AC(), &t, 0, -1, -1);
-                }
-            }
-            queue_destruction__13TObjDFHormingFPv(arg0);
-            return;
-        }
-    }
-    for (i = 0; i < 2; i++) {
-        if (*(u32 *)((s8 *)(arg0 + i * 4) + 0x358) != 0) {
-            if (i == 1) {
-                VecCopy((Vec *)&d, (const Vec *)(arg0 + 0x2FC));
-                subtract_vector(&d, (Vec *)(arg0 + 0x44));
-                direction_to_rotation_xz((u8 *)&d, &rot.x, &rot.z);
-                rot.y = 0;
-                ((TParticleCtrl *)((void *)*(u32 *)((s8 *)(arg0 + i * 4) + 0x358)))->set_direction(&rot);
-            }
-            ((TParticleCtrl *)(void *)*(u32 *)((s8 *)(arg0 + i * 4) + 0x358))->set_position(arg0 + 0x2FC);
-        }
-    }
-    minimap_render_dot(arg0 + 0x2FC, -0x5DB4, 1, 0);
-    if (--*(s32 *)&((TObjDFHorming *)arg0)->m_338 < 0) {
-        ((TObject *)arg0)->queue_destruction();
-    }
+
+
 }
 
-S_80050A68 *__dt__13TObjDFHormingFv(S_80050A68 *o, s16 flag) {
-    s32 i;
-    if (o != 0) {
-        o->vt = __vt__13TObjDFHorming;
-        for (i = 0; i < 2; i++) {
-            if (o->ptr[i] != 0) {
-                TParticleCtrl::release(o->ptr[i]);
-                o->ptr[i] = 0;
-            }
-        }
-        __dt__9TObjCharaFv(o, 0);
-        if (flag > 0) {
-            __dl__7TObjectFPv(o);
-        }
-    }
-    return o;
-}
 
-#pragma push
-#pragma fp_contract on
-u8 *TObjDFHorming__ct(u8 *arg0, s32 parent, s32 arg2, u16 arg3) {
-    f32 scale;
-    s32 ang;
-    u8 *p;
-    s32 i;
-
-    __ct__9TObjCharaFP7TObject(arg0, parent);
-    *(u8 **)((s8 *)arg0 + 0x18) = (u8 *)__vt__13TObjDFHorming;
-    ((TObjDFHorming *)arg0)->m_name = TObjDFHorming__name;
-    ((TObjDFHorming *)arg0)->m_334 = arg3;
-    *(s32 *)&((TObjDFHorming *)arg0)->m_338 = 0x96;
-    if (game_difficulty_selection == 3) {
-        *(s32 *)&((TObjDFHorming *)arg0)->m_338 = 0x12C;
-    }
-    VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(VecCopy((Vec *)(arg0 + 0x33C), (const Vec *)((const Vec *)arg2))))));
-    scale = newton_sqrtf(1.08f);
-    ang = (s32)(16384.0f * (0.000030517578f * (f32)rand() - 0.5f));
-    p = (u8 *)get_player_by_client_id(((TObjDFHorming *)arg0)->m_334);
-    if (p != NULL) {
-        ang = 0;
-    } else {
-        ang += (s32)(10430.38043493439 * atan2_float(*(f32 *)((s8 *)p + 0x38) - 10000.0f, *(f32 *)((s8 *)p + 0x40)));
-    }
-    *(f32 *)((s8 *)arg0 + 0x348) = 1.2f * sin_table_lookup(ang) / scale;
-    ((TObjDFHorming *)arg0)->m_350 = 1.2f * cos_table_lookup(ang) / scale;
-    *(f32 *)((s8 *)arg0 + 0x34C) = -6.0f / scale;
-    *(f32 *)((s8 *)arg0 + 0x354) = 6.0f;
-    *(s32 *)&((TObjDFHorming *)arg0)->m_360 = *(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x38)) + 0x28);
-    *(f32 *)((s8 *)arg0 + 0x364) = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x38)) + 0);
-    if (*(f32 *)((s8 *)arg0 + 0x364) < lbl_805D8A30 || *(f32 *)((s8 *)arg0 + 0x364) > lbl_805D8A34) {
-        *(f32 *)((s8 *)arg0 + 0x364) = 0.5f;
-    }
-    *(f32 *)((s8 *)arg0 + 0x378) = -50.0f * *(f32 *)((s8 *)arg0 + 0x364) + 60.0f;
-    for (i = 0; i < 2; i++) {
-        if ((((Obj_80050AF8 *)arg0)->objs[i] = (u32)create_particle_emitter(arg0 + 0x2FC, TObjDFJisin__particle_emitter_id_table[i])) != 0) {
-            ((TParticleCtrl *)(((Obj_80050AF8 *)arg0)->objs[i]))->set_flags(0x40);
-        }
-    }
-    *(s32 *)&((TObjDFHorming *)arg0)->m_368 = 0;
-    return arg0;
-}
-}
-#pragma pop
-
-void *TBoss4Type3::create_horming(void *arg0, void *arg1, void *arg2) {
-    void *o;
-    o = TObject::operator new(0x380);
-    if (o != NULL) {
-        o = ((void * (*)(void *, void *, void *, void *))TObjDFHorming__ct)(o, arg0, arg1, arg2);
-    }
-    return o;
-}
-
-void damage_players_near_point(s32 arg0, Vec *arg1) {
-    Vec pos = *arg1;
-    Hit_80050D74 hit;
-    s32 i;
-    Player_80050D74 *p;
-    if (is_state_ready__14TBoss4DarkFalzFv() == 0) {
-        return;
-    }
-    hit.type = 0x11;
-    hit.value = lbl_805D8A30;
-    for (i = 0; i < TLobby::get_game_mode(); i++) {
-        p = get_player_data__10TObjPlayerFi(i);
-        if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0 &&
-            !(p->class_flags & CLASS_FLAG_ANDROID) &&
-            !(xyz_distance(&pos, &p->pos) > 20.0f)) {
-            Hit_80050D74 h = hit;
-            p->m21(TBoss4DarkFalz__sub_8004C1B4(), &h, 0, -1, -1);
-        }
-    }
-}
 extern "C" {
 
-void fn_spawn_particle_f3_with_flags(s32 arg0, s32 arg1) {
-    Vec position;
-    u32 particle_effect;
-    VecCopy((Vec *)(&position.x), (const Vec *)(arg1));
-    position.y += 2.0f;
-    particle_effect = (u32)spawn_particle_effect((&position.x), 0xF3);
-    if (particle_effect != 0U) {
-        ((TParticleCtrl *)particle_effect)->set_flags(0x40);
-    }
-}
-}
-#pragma push
-#pragma fp_contract on
-void TObjDFJisin::run_task() {
-    Vec v;
-    s32 ang;
-    s32 step;
-    s32 count;
-    f32 max;
-
-    step = (s32)(1638400.0f / (6.28f * ((Obj_80050EB4 *)this)->radius));
-    count = 0;
-    v.y = lbl_805D8A30;
-    max = 255.0f;
-    for (ang = 0; ang < 0x10000; ang += step) {
-        v.x = ((Obj_80050EB4 *)this)->radius * sin_table_lookup(ang) + ((Obj_80050EB4 *)this)->cx;
-        v.z = ((Obj_80050EB4 *)this)->radius * cos_table_lookup(ang) + ((Obj_80050EB4 *)this)->cz;
-        if (!(vector_length(&v) > max)) {
-            ((void (*)(void *, Vec *))fn_spawn_particle_f3_with_flags)(this, &v);
-            ((void (*)(void *, Vec *))damage_players_near_point)(this, &v);
-            count++;
-        }
-    }
-    if (((Obj_80050EB4 *)this)->radius > 300.0f && count == 0) {
-        queue_destruction();
-        return;
-    }
-    ((Obj_80050EB4 *)this)->radius += 25.0f;
-}
-#pragma pop
-
-TObjDFJisin::~TObjDFJisin() {}
-
-
-u8 *TObjDFJisin__ct(u8 *object, u8 *arg1, s32 arg2) {
-    __ct__7TObjectFP7TObject(object, arg1);
-    *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__11TObjDFJisin;
-    ((TObject *)object)->m_name = TObjDFJisin__name;
-    *(f32 *)((s8 *)object + 0x1C) = (f32) (300.0f * sin_table_lookup(arg2));
-    *(f32 *)((s8 *)object + 0x20) = (f32) lbl_805D8A30;
-    *(f32 *)((s8 *)object + 0x24) = (f32) (-300.0f * cos_table_lookup(arg2));
-    *(f32 *)((s8 *)object + 0x28) = 25.0f;
-    return object;
 }
 
-void *TBoss4Type2::create_jisin(void *arg0, void *arg1) {
-    void *o;
-    o = TObject::operator new(0x2C);
-    if (o != NULL) {
-        o = ((void * (*)(void *, void *, void *))TObjDFJisin__ct)(o, arg0, arg1);
-    }
-    return o;
-}
 
-void run_task__16TObjDFBeamCursorFv(u8 *arg0) {
-    s32 temp_r0;
-    temp_r0 = *(s32 *)((s8 *)arg0 + 0x1C) - 1;
-    *(s32 *)((s8 *)arg0 + 0x1C) = temp_r0;
-    if (temp_r0 <= 0) {
-        spawn_particle_effect((arg0 + 0x20), 0x38);
-        ((s32 (*)(void *))queue_destruction__7TObjectFv)(arg0);
-    }
-}
-TObjDFBeamCursor::~TObjDFBeamCursor() {}
 
-void *TObjDFBeamCursor__ct(void *arg0, void *arg1, void *arg2) {
-    ((void (*)(void *))__ct__7TObjectFP7TObject)(arg0);
-    *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__16TObjDFBeamCursor;
-    *(void **)((s8 *)arg0 + 0x0) = TObjDFBeamCursor__name;
-    *(u32 *)((s8 *)arg0 + 0x1C) = 32;
-    VecCopy((Vec *)((char *)arg0 + 32), (const Vec *)arg2);
-    return arg0;
-}
 
-void * create__16TObjDFBeamCursorFPvPv(void *arg0, void *arg1) {
-    void *o;
-    o = TObject::operator new(0x2C);
-    if (o != NULL) {
-        o = TObjDFBeamCursor__ct(o, arg0, arg1);
-    }
-    return o;
-}
 
-#pragma push
-#pragma fp_contract on
-void TObjDFRecBall::run_task() {
-    Ball_8005123C *o = (Ball_8005123C *)this;
-    Vec d;
 
-    if (--o->timer < 0 || o->model == 0) {
-        ((TObject *)o)->queue_destruction();
-        return;
-    }
-    if ((o->speed += 0.26666668f) > 9.0f) {
-        o->speed = 9.0f;
-    }
-    VecCopy((Vec *)&d, (const Vec *)&o->target);
-    subtract_vector(&d, &o->pos);
-    if (vector_length(&d) > lbl_805D8A48) {
-        normalize_vector(&d);
-    } else {
-        d.x = lbl_805D8A34;
-        d.z = d.y = lbl_805D8A30;
-    }
-    if (vector_length(&o->vel) > lbl_805D8A48) {
-        normalize_vector(&o->vel);
-    } else {
-        o->vel.x = lbl_805D8A34;
-        o->vel.y = lbl_805D8A30;
-        o->vel.z = lbl_805D8A30;
-    }
-    o->vel.x = o->speed * (0.9f * o->vel.x + 0.100000024f * d.x);
-    o->vel.y = o->speed * (0.9f * o->vel.y + 0.100000024f * d.y);
-    o->vel.z = o->speed * (0.9f * o->vel.z + 0.100000024f * d.z);
-    vec3_add_to(&o->pos, &o->vel);
-    ((TParticleCtrl *)o->model)->set_position(&o->pos);
-    if (xyz_distance(&o->pos, &o->target) <= o->speed) {
-        ((TObject *)o)->queue_destruction();
-    }
-}
-#pragma pop
 
-TObjDFRecBall::~TObjDFRecBall() {
-    if (m_44 != nullptr) TParticleCtrl::release(m_44);
-}
+
+
 
 extern "C" {
-u8 *TObjDFRecBall__ct(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3) {
-    s32 temp_r31;
-    u8 *particle_emitter;
-    __ct__7TObjectFP7TObject(object, arg1);
-    *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__13TObjDFRecBall;
-    *(s32 *)((s8 *)object + 0) = (s32) TObjDFRecBall__name;
-    VecCopy((Vec *)(object + 0x1C), (const Vec *)arg2);
-    VecCopy((Vec *)(object + 0x28), (const Vec *)arg3);
-    temp_r31 = (s32) (65536.0f * (0.000030517578f * (f32) rand()));
-    *(f32 *)((s8 *)object + 0x34) = sin_table_lookup(temp_r31);
-    *(f32 *)((s8 *)object + 0x38) = (f32) lbl_805D8A30;
-    *(f32 *)((s8 *)object + 0x3C) = cos_table_lookup(temp_r31);
-    *(f32 *)((s8 *)object + 0x40) = (f32) lbl_805D8A34;
-    *(s32 *)((s8 *)object + 0x48) = 0x96;
-    particle_emitter = (u8 *)(create_particle_emitter((object + 0x1C), 0xAF));
-    *(u8 **)((s8 *)object + 0x44) = particle_emitter;
-    if (particle_emitter != NULL) {
-        ((TParticleCtrl *)(*(u8 **)((s8 *)object + 0x44)))->set_flags(0x40);
-    }
-    return object;
-}
 
-void * create__13TObjDFRecBallFPvPvPv(void *arg0, void *arg1, void *arg2) {
-    void *o;
-    o = TObject::operator new(0x4C);
-    if (o != NULL) {
-        o = TObjDFRecBall__ct((u8 *)o, (u8 *)arg0, (u8 *)arg1, (u8 *)arg2);
-    }
-    return o;
-}
 
 void vfunc_6__8TObjBaseFPsl();
 void vfunc_29__9TObjCharaFv();
@@ -807,89 +462,10 @@ void *__vt__13TObjDFRecover[] = {
 };
 }
 
-#pragma push
-#pragma fp_contract on
-void TObjDFRecover::run_task() {
-    f32 position[3];
-    s32 current_phase;
-    s32 target_address;
-    u32 effect_address;
-    u16 id;
-    if (is_state_ready__14TBoss4DarkFalzFv() == 0) {
-        ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
-        return;
-    }
-    id = target_id;
-    if ((id == 0xFFFF) || ((target_address = (s32)get_player_by_client_id(id)) == 0)) {
-        ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
-        return;
-    }
-    VecCopy((Vec *)position, (const Vec *)(target_address + 0x2FC));
-    countdown = countdown - 1;
-    current_phase = phase;
-    switch (current_phase) {
-    case 0:
-        if (countdown <= 0) {
-            effect_address = (u32)create_particle_emitter(position, 0xEB);
-            effect = (void*)effect_address;
-            if (effect_address == 0U) {
-                ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
-                return;
-            }
-            ((TParticleCtrl *)effect)->set_flags(0x40);
-            countdown = 0xA;
-            phase = 1;
-        }
-        break;
-    case 1:
-        ((TParticleCtrl *)effect)->set_position(position);
-        if (countdown <= 0) {
-            TParticleCtrl::release(effect);
-            effect = NULL;
-            start_pad_rumble_client(0xC0, 0xF, (int) ((s16) target_id));
-            countdown = 0xB;
-            phase = 2;
-            return;
-        }
-        break;
-    case 2:
-        if ((countdown % 5) == 0) {
-            play_sound_effect(0x4003AD19, 0, 0, 0);
-            ((s32 (*)(int, void *, void *))create__13TObjDFRecBallFPvPvPv)((int)m_up, position, cached_position);
-        }
-        if (countdown <= 0) {
-            ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
-        }
-        break;
-    }
-}
-#pragma pop
 
-void *__dt__13TObjDFRecoverFv(void *obj_df_recover, s16 arg1) {
-    if (obj_df_recover != NULL) {
-        *(void **)((s8 *)obj_df_recover + 0x18) = __vt__13TObjDFRecover;
-        if (((TObjDFRecover *)obj_df_recover)->effect != 0) TParticleCtrl::release(((TObjDFRecover *)obj_df_recover)->effect);
-        __dt__7TObjectFv(obj_df_recover, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(obj_df_recover);
-        }
-    }
-    return obj_df_recover;
-}
 
 extern const char *TObjDFRecover__name;
-TObjDFRecover::TObjDFRecover(TObject *parent, u16 id, const f32 *position) : TObject(parent) {
-    m_name = TObjDFRecover__name;
-    target_id = id;
-    effect = NULL;
-    VecCopy((Vec *)cached_position, (const Vec *)position);
-    phase = 0;
-    countdown = 5;
-}
 
-TObjDFRecover *TObjDFRecover::create(TObject *parent, u16 id, const f32 *position) {
-    return new TObjDFRecover(parent, id, position);
-}
 
 struct RecoveredGlobal_80051938___vt__16TObjDFTenchuFuru {
     s32 value;
@@ -905,7 +481,6 @@ struct RecoveredFields_80051AD0_var_r31 {
 };
 
 extern RecoveredGlobal_80051938___vt__16TObjDFTenchuFuru __vt__16TObjDFTenchuFuru;
-extern s32 TObjDFTenchuFuru__name;
 
 u8 *TObjDFTenchuFuru__ct(u8 *arg0, u8 *arg1, u8 *arg2);
 void get_current_matrix(void *m);
@@ -921,195 +496,118 @@ Mtx34 df_captured_matrix_pair[2];
 s32 is_active__14TBoss4DarkFalzFv();
 void TObjDFTenchuFuru__sub_80051A7C(void);
 
-#pragma push
-#pragma fp_contract on
-void TObjDFTenchuFuru::run_task() {
-    u8 *arg0 = (u8 *)this;
-    s32 temp_r0;
-    this->m_20 += -60.0f;
-    if ((u32) this->m_2c != 0U) {
-        ((TParticleCtrl *)this->m_2c)->set_position((u8 *)&this->unk_1C);
-    }
-    temp_r0 = this->m_28 - 1;
-    this->m_28 = temp_r0;
-    if ((temp_r0 < 0) || ((is_active__14TBoss4DarkFalzFv() == 0) && (is_state_ready__14TBoss4DarkFalzFv() == 0))) {
-        ((s32 (*)(void *))queue_destruction__7TObjectFv)(arg0);
-    }
-}
-#pragma pop
 
 typedef char RecoveredGlobal_80051938___vt__16TObjDFTenchuFuru_size[sizeof(RecoveredGlobal_80051938___vt__16TObjDFTenchuFuru) == 0x18 ? 1 : -1];
-TObjDFTenchuFuru::~TObjDFTenchuFuru() {
-    if (m_2c != nullptr) TParticleCtrl::release(m_2c);
-}
-u8 *TObjDFTenchuFuru__ct(u8 *object, u8 *arg1, u8 *arg2) {
-    u8 *particle_emitter;
-    __ct__7TObjectFP7TObject(object, arg1);
-    *(s32 **)((s8 *)object + 0x18) = &__vt__16TObjDFTenchuFuru.value;
-    *(s32 *)((s8 *)object + 0) = (s32) TObjDFTenchuFuru__name;
-    ((TObjDFTenchuFuru *)object)->m_28 = 5;
-    VecCopy((Vec *)(object + 0x1C), (const Vec *)arg2);
-    ((TObjDFTenchuFuru *)object)->m_20 += 300.0f;
-    particle_emitter = (u8 *)(create_particle_emitter((object + 0x1C), 0x134));
-    ((TObjDFTenchuFuru *)object)->m_2c = particle_emitter;
-    if (particle_emitter != NULL) {
-        ((TParticleCtrl *)(((TObjDFTenchuFuru *)object)->m_2c))->set_flags(0x40);
-    }
-    return object;
-}
 
-void *TObjDFTenchuFuru::create(void *arg1) {
-    void *o;
-    o = TObject::operator new(0x30);
-    if (o != NULL) {
-        o = TObjDFTenchuFuru__ct((u8 *)o, (u8 *)this, (u8 *)arg1);
-    }
-    return o;
-}
 
-void TObjDFTenchuFuru::capture_matrix_by_frame() {
-    switch ((s32) (*(s32 *)&TObjDFTenchuFuru__matrix_node_index)) {
-    case 0x3B:
-        get_current_matrix(df_captured_matrix_pair[0]);
-        break;
-    case 0x3A:
-        get_current_matrix(df_captured_matrix_pair[1]);
-        break;
-    }
-    (*(s32 *)&TObjDFTenchuFuru__matrix_node_index) += 1;
-}
 
-void TObjDFTenchuFuru__sub_80051A7C(void) { set_chunk_model_node_callback(0); }
 
-void TObjDFTenchuFuru::register_callback() { TObjDFTenchuFuru__matrix_node_index = 0; set_chunk_model_node_callback((s32)TObjDFTenchuFuru::capture_matrix_by_frame); }
 typedef char RecoveredFields_80051AD0_var_r31_0_offset[offsetof(RecoveredFields_80051AD0_var_r31, field_0) == 0x0 ? 1 : -1];
 typedef char RecoveredFields_80051AD0_var_r31_2C_offset[offsetof(RecoveredFields_80051AD0_var_r31, field_2C) == 0x2C ? 1 : -1];
 typedef char RecoveredFields_80051AD0_var_r31_30_offset[offsetof(RecoveredFields_80051AD0_var_r31, field_30) == 0x30 ? 1 : -1];
-void TObjDFTenchuFuru::transform_node_tree() {
-    u8 *arg0 = (u8 *)this;
-    u8 *temp_r3;
-    u8 *var_r31;
-    var_r31 = arg0;
-    do {
+
+}
+
+
+
+#include "pso/render/GinjaMaterial.h"
+#include "pso/unk/text_803DC86C.h"
+#include "pso/boss/darkfalz/TObjDFUsoTower.h"
+
+typedef struct Obj_80052090 {
+    u8 pad0[0x38];
+    Vec pos;
+    u8 pad44[0x90 - 0x44];
+    s32 state;
+    f32 f94;
+} Obj_80052090;
+
+
+extern u8 *camera_ctrl_instance;
+
+
+extern "C" {
+struct RecoveredGlobal_lbl_804858A8 { s32 value; u8 remaining[0x8]; };
+extern RecoveredGlobal_lbl_804858A8 lbl_804858A8;
+}
+
+
+
+
+
+// Written last to first: the unit is generated deferred (see configure.py).
+#pragma fp_contract on
+
+#pragma push
+#pragma opt_common_subs off
+
+void *TObjDFUsoTower::create(void *arg0) {
+    void *o = (void *)new TObjDFUsoTower((s32)arg0);
+    return o;
+}
+
+TObjDFUsoTower::TObjDFUsoTower(s32 _w1) : TObjBase((TObject *)_w1) {
+    m_name = TObjDFUsoTower__name;
+    *(s32 *)((s8 *)this + 0x34) = get_bml_model(TOBoss4::model_resource, 5);
+    this->texlist = get_bml_texlist(TOBoss4::model_resource, 5);
+    VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)&lbl_804858A8.value);
+    *(f32 *)((s8 *)this + 0x94) = lbl_805D8A30;
+    this->m_90 = 0;
+}
+
+TObjDFUsoTower::~TObjDFUsoTower() {}
+
+void TObjDFUsoTower::run_task() {
+    Obj_80052090 *arg0 = (Obj_80052090 *)this;
+    f32 d;
+    f32 r;
+    switch (this->m_90) {
+    case 0: {
+        Vec v = *(Vec *)(camera_ctrl_instance + 0x178);
+        subtract_vector(&v, &arg0->pos);
+        v.y = lbl_805D8A30;
+        d = vector_length(&v);
+        if (d <= 150.0f) {
+            r = lbl_805D8A30;
+        } else if (d >= 200.0f) {
+            r = lbl_805D8A34;
+        } else {
+            r = (d - 150.0f) / lbl_805D8A5C;
+        }
+        arg0->f94 = 0.4f * r;
+        break;
+    }
+    case 1:
+        if ((arg0->f94 += 0.033333335f) > lbl_805D8A34) {
+            arg0->f94 = lbl_805D8A34;
+        }
+        break;
+    case 2:
+        if ((arg0->f94 += -0.033333335f) < lbl_805D8A30) {
+            arg0->f94 = lbl_805D8A30;
+        }
+        break;
+    }
+}
+
+#pragma pop
+
+void TObjDFUsoTower::render() {
+    f32 temp_f1;
+
+    temp_f1 = *(f32 *)&this->unk_94;
+    if (lbl_805D8A30 != temp_f1) {
+        if (temp_f1 < lbl_805D8A34) {
+            TObjPlayer__sub_80052390(temp_f1);
+            set_color_blend_mode(1, 4, 5, 0);
+        }
         push_matrix();
-        post_translate_matrix((f32 *)(var_r31 + 8));
-        rotate_matrix_by_node_angles((s32 *)(var_r31 + 0x14), (u32) (((RecoveredFields_80051AD0_var_r31 *)var_r31)->field_0 & 0x20));
-        scale_current_matrix((f32 *)(var_r31 + 0x20));
-        switch ((s32) (*(s32 *)&TObjDFTenchuFuru__matrix_node_index)) {
-        case 0x3B:
-            matrix_mult_vec(0, &dark_falz_jisin_zero_vec.value, &lbl_804FF228);
-            break;
-        case 0x3A:
-            matrix_mult_vec(0, &dark_falz_jisin_zero_vec.value, &lbl_804FF234);
-            break;
-        }
-        (*(s32 *)&TObjDFTenchuFuru__matrix_node_index) += 1;
-        temp_r3 = (u8 *)(((RecoveredFields_80051AD0_var_r31 *)var_r31)->field_2C);
-        if (temp_r3 != NULL) {
-            ((TObjDFTenchuFuru *)temp_r3)->transform_node_tree();
-        }
+        post_translate_matrix(&this->position.x);
+        TObjFish::set_global_param(this->texlist);
+        draw_ginja_object(this->model);
         pop_matrix();
-        var_r31 = (u8 *)(((RecoveredFields_80051AD0_var_r31 *)var_r31)->field_30);
-    } while (var_r31 != NULL);
-}
-void TObjDFTenchuFuru::draw_node_tree() { TObjDFTenchuFuru__matrix_node_index = 0; push_matrix(); set_matrix_identity((u8 *)((void*)0)); transform_node_tree(); pop_matrix(); }
-void TObjPlayer::draw_player_model_by_client(u16 arg0, s32 arg1, f32 farg0, f32 farg1) {
-    u8 *p;
-    u32 a;
-    u32 b;
-    u8 *c;
-    u32 d;
-    u8 *e;
-    s32 f;
-    u8 *g;
-    if (lbl_805D8A30 == farg1) {
-        return;
-    }
-    if (arg0 == 0xFFFF) {
-        return;
-    }
-    p = (u8 *)get_player_by_client_id(arg0);
-    if (p == NULL || *(s32 *)((s8 *)p + 0xCFC) != 0) {
-        return;
-    }
-    c = p + 0xA1C;
-    a = *(u32 *)((s8 *)p + 0x8B0);
-    e = p + 0xB88;
-    b = *(u32 *)((s8 *)p + 0x8AC);
-    d = *(u32 *)((s8 *)p + 0x8B4);
-    g = p + 0xCF4;
-    f = *(s32 *)((s8 *)p + 0x34);
-    if (farg1 < lbl_805D8A34) {
-        TObjPlayer__sub_80052390(farg1);
-    }
-    TObjFish::set_global_param((s32)g);
-    TObjDFTenchuFuru::register_callback();
-    draw_model_motion((void *)f, (void *)arg1, farg0);
-    TObjDFTenchuFuru__sub_80051A7C();
-    if (d != 0) {
-        push_matrix_from(df_captured_matrix_pair[1]);
-        TObjFish::set_global_param((s32)e);
-        draw_chunk_object((void *)d);
-        pop_matrix();
-    }
-    if (a != 0) {
-        TCharaMaking::enable_making();
-        push_matrix_from(df_captured_matrix_pair[0]);
-        TObjFish::set_global_param((s32)c);
-        draw_chunk_object((void *)a);
-        pop_matrix();
-        TCharaMaking::clear_flag_bit0();
-    }
-    if (farg1 < lbl_805D8A34) {
-        TObjPlayer::sync_player_globals();
-    }
-    if (b != 0) {
-        TCharaMaking::enable_making();
-        push_matrix_from(df_captured_matrix_pair[0]);
-        TObjFish::set_global_param((s32)c);
-        TCharaMaking__draw_colored_hair(farg1, b, (CharacterAppearanceFields *)(p + 0x85C), 0);
-        pop_matrix();
-        TCharaMaking::clear_flag_bit0();
-    }
-}
-
-}
-
-void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, u32 arg3, u32 arg4, u32 model, u32 arg6, s32 appearance, f32 alpha) {
-    if (lbl_805D8A30 != alpha) {
-        ((TObjDFTenchuFuru *)arg3)->draw_node_tree();
-        if (alpha < lbl_805D8A34) {
-            TObjPlayer__sub_80052390(alpha);
-        }
-        TObjFish::set_global_param(arg0);
-        draw_chunk_object((void *)arg3);
-        if (arg6 != 0U) {
-            push_matrix();
-            post_translate_matrix(&lbl_804FF234.x);
-            TObjFish::set_global_param(arg2);
-            draw_chunk_object((void *)arg6);
-            pop_matrix();
-        }
-        if (arg4 != 0U) {
-            TCharaMaking::enable_making();
-            push_matrix();
-            post_translate_matrix(&lbl_804FF228.x);
-            TObjFish::set_global_param(arg1);
-            draw_chunk_object((void *)arg4);
-            pop_matrix();
-            TCharaMaking::clear_flag_bit0();
-        }
-        if (alpha < lbl_805D8A34) {
+        if (*(f32 *)&this->unk_94 < lbl_805D8A34) {
             TObjPlayer::sync_player_globals();
-        }
-        if (model != 0U) {
-            TCharaMaking::enable_making();
-            push_matrix();
-            post_translate_matrix(&lbl_804FF228.x);
-            TObjFish::set_global_param(arg1);
-            TCharaMaking__draw_colored_hair(alpha, (s32)model, (CharacterAppearanceFields *)appearance, 0);
-            pop_matrix();
-            TCharaMaking::clear_flag_bit0();
         }
     }
 }
@@ -1177,71 +675,678 @@ void TObjPlayer::draw_player_model_by_id(s32 arg0, f32 alpha) {
     }
 }
 
-#include "pso/render/GinjaMaterial.h"
-#include "pso/unk/text_803DC86C.h"
-#include "pso/boss/darkfalz/TObjDFUsoTower.h"
-
-typedef struct Obj_80052090 {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x90 - 0x44];
-    s32 state;
-    f32 f94;
-} Obj_80052090;
-
-
-extern u8 *camera_ctrl_instance;
-
-void TObjDFUsoTower::render() {
-    f32 temp_f1;
-
-    temp_f1 = *(f32 *)&this->unk_94;
-    if (lbl_805D8A30 != temp_f1) {
-        if (temp_f1 < lbl_805D8A34) {
-            TObjPlayer__sub_80052390(temp_f1);
-            set_color_blend_mode(1, 4, 5, 0);
+void boss6type2_draw_models(s32 arg0, s32 arg1, s32 arg2, u32 arg3, u32 arg4, u32 model, u32 arg6, s32 appearance, f32 alpha) {
+    if (lbl_805D8A30 != alpha) {
+        ((TObjDFTenchuFuru *)arg3)->draw_node_tree();
+        if (alpha < lbl_805D8A34) {
+            TObjPlayer__sub_80052390(alpha);
         }
-        push_matrix();
-        post_translate_matrix(&this->position.x);
-        TObjFish::set_global_param(this->texlist);
-        draw_ginja_object(this->model);
-        pop_matrix();
-        if (*(f32 *)&this->unk_94 < lbl_805D8A34) {
+        TObjFish::set_global_param(arg0);
+        draw_chunk_object((void *)arg3);
+        if (arg6 != 0U) {
+            push_matrix();
+            post_translate_matrix(&lbl_804FF234.x);
+            TObjFish::set_global_param(arg2);
+            draw_chunk_object((void *)arg6);
+            pop_matrix();
+        }
+        if (arg4 != 0U) {
+            TCharaMaking::enable_making();
+            push_matrix();
+            post_translate_matrix(&lbl_804FF228.x);
+            TObjFish::set_global_param(arg1);
+            draw_chunk_object((void *)arg4);
+            pop_matrix();
+            TCharaMaking::clear_flag_bit0();
+        }
+        if (alpha < lbl_805D8A34) {
             TObjPlayer::sync_player_globals();
+        }
+        if (model != 0U) {
+            TCharaMaking::enable_making();
+            push_matrix();
+            post_translate_matrix(&lbl_804FF228.x);
+            TObjFish::set_global_param(arg1);
+            TCharaMaking__draw_colored_hair(alpha, (s32)model, (CharacterAppearanceFields *)appearance, 0);
+            pop_matrix();
+            TCharaMaking::clear_flag_bit0();
         }
     }
 }
-#pragma opt_common_subs off
-void TObjDFUsoTower::run_task() {
-    Obj_80052090 *arg0 = (Obj_80052090 *)this;
-    f32 d;
-    f32 r;
-    switch (this->m_90) {
-    case 0: {
-        Vec v = *(Vec *)(camera_ctrl_instance + 0x178);
-        subtract_vector(&v, &arg0->pos);
-        v.y = lbl_805D8A30;
-        d = vector_length(&v);
-        if (d <= 150.0f) {
-            r = lbl_805D8A30;
-        } else if (d >= 200.0f) {
-            r = lbl_805D8A34;
-        } else {
-            r = (d - 150.0f) / lbl_805D8A5C;
+
+extern "C" {
+void TObjPlayer::draw_player_model_by_client(u16 arg0, s32 arg1, f32 farg0, f32 farg1) {
+    u8 *p;
+    u32 a;
+    u32 b;
+    u8 *c;
+    u32 d;
+    u8 *e;
+    s32 f;
+    u8 *g;
+    if (lbl_805D8A30 == farg1) {
+        return;
+    }
+    if (arg0 == 0xFFFF) {
+        return;
+    }
+    p = (u8 *)get_player_by_client_id(arg0);
+    if (p == NULL || *(s32 *)((s8 *)p + 0xCFC) != 0) {
+        return;
+    }
+    c = p + 0xA1C;
+    a = *(u32 *)((s8 *)p + 0x8B0);
+    e = p + 0xB88;
+    b = *(u32 *)((s8 *)p + 0x8AC);
+    d = *(u32 *)((s8 *)p + 0x8B4);
+    g = p + 0xCF4;
+    f = *(s32 *)((s8 *)p + 0x34);
+    if (farg1 < lbl_805D8A34) {
+        TObjPlayer__sub_80052390(farg1);
+    }
+    TObjFish::set_global_param((s32)g);
+    TObjDFTenchuFuru::register_callback();
+    draw_model_motion((void *)f, (void *)arg1, farg0);
+    TObjDFTenchuFuru__sub_80051A7C();
+    if (d != 0) {
+        push_matrix_from(df_captured_matrix_pair[1]);
+        TObjFish::set_global_param((s32)e);
+        draw_chunk_object((void *)d);
+        pop_matrix();
+    }
+    if (a != 0) {
+        TCharaMaking::enable_making();
+        push_matrix_from(df_captured_matrix_pair[0]);
+        TObjFish::set_global_param((s32)c);
+        draw_chunk_object((void *)a);
+        pop_matrix();
+        TCharaMaking::clear_flag_bit0();
+    }
+    if (farg1 < lbl_805D8A34) {
+        TObjPlayer::sync_player_globals();
+    }
+    if (b != 0) {
+        TCharaMaking::enable_making();
+        push_matrix_from(df_captured_matrix_pair[0]);
+        TObjFish::set_global_param((s32)c);
+        TCharaMaking__draw_colored_hair(farg1, b, (CharacterAppearanceFields *)(p + 0x85C), 0);
+        pop_matrix();
+        TCharaMaking::clear_flag_bit0();
+    }
+}
+}
+
+extern "C" {
+void TObjDFTenchuFuru::draw_node_tree() { TObjDFTenchuFuru__matrix_node_index = 0; push_matrix(); set_matrix_identity((u8 *)((void*)0)); transform_node_tree(); pop_matrix(); }
+}
+
+extern "C" {
+void TObjDFTenchuFuru::transform_node_tree() {
+    u8 *arg0 = (u8 *)this;
+    u8 *temp_r3;
+    u8 *var_r31;
+    var_r31 = arg0;
+    do {
+        push_matrix();
+        post_translate_matrix((f32 *)(var_r31 + 8));
+        rotate_matrix_by_node_angles((s32 *)(var_r31 + 0x14), (u32) (((RecoveredFields_80051AD0_var_r31 *)var_r31)->field_0 & 0x20));
+        scale_current_matrix((f32 *)(var_r31 + 0x20));
+        switch ((s32) (*(s32 *)&TObjDFTenchuFuru__matrix_node_index)) {
+        case 0x3B:
+            matrix_mult_vec(0, &dark_falz_jisin_zero_vec.value, &lbl_804FF228);
+            break;
+        case 0x3A:
+            matrix_mult_vec(0, &dark_falz_jisin_zero_vec.value, &lbl_804FF234);
+            break;
         }
-        arg0->f94 = 0.4f * r;
+        (*(s32 *)&TObjDFTenchuFuru__matrix_node_index) += 1;
+        temp_r3 = (u8 *)(((RecoveredFields_80051AD0_var_r31 *)var_r31)->field_2C);
+        if (temp_r3 != NULL) {
+            ((TObjDFTenchuFuru *)temp_r3)->transform_node_tree();
+        }
+        pop_matrix();
+        var_r31 = (u8 *)(((RecoveredFields_80051AD0_var_r31 *)var_r31)->field_30);
+    } while (var_r31 != NULL);
+}
+}
+
+extern "C" {
+void TObjDFTenchuFuru::register_callback() { TObjDFTenchuFuru__matrix_node_index = 0; set_chunk_model_node_callback((s32)TObjDFTenchuFuru::capture_matrix_by_frame); }
+}
+
+extern "C" {
+void TObjDFTenchuFuru__sub_80051A7C(void) { set_chunk_model_node_callback(0); }
+}
+
+extern "C" {
+void TObjDFTenchuFuru::capture_matrix_by_frame() {
+    switch ((s32) (*(s32 *)&TObjDFTenchuFuru__matrix_node_index)) {
+    case 0x3B:
+        get_current_matrix(df_captured_matrix_pair[0]);
+        break;
+    case 0x3A:
+        get_current_matrix(df_captured_matrix_pair[1]);
         break;
     }
+    (*(s32 *)&TObjDFTenchuFuru__matrix_node_index) += 1;
+}
+}
+
+extern "C" {
+void *TObjDFTenchuFuru::create(void *arg1) {
+    void *o;
+    o = TObject::operator new(0x30);
+    if (o != NULL) {
+        o = TObjDFTenchuFuru__ct((u8 *)o, (u8 *)this, (u8 *)arg1);
+    }
+    return o;
+}
+}
+
+extern "C" {
+u8 *TObjDFTenchuFuru__ct(u8 *object, u8 *arg1, u8 *arg2) {
+    u8 *particle_emitter;
+    __ct__7TObjectFP7TObject(object, arg1);
+    *(s32 **)((s8 *)object + 0x18) = &__vt__16TObjDFTenchuFuru.value;
+    *(s32 *)((s8 *)object + 0) = (s32) TObjDFTenchuFuru__name;
+    ((TObjDFTenchuFuru *)object)->m_28 = 5;
+    VecCopy((Vec *)(object + 0x1C), (const Vec *)arg2);
+    ((TObjDFTenchuFuru *)object)->m_20 += 300.0f;
+    particle_emitter = (u8 *)(create_particle_emitter((object + 0x1C), 0x134));
+    ((TObjDFTenchuFuru *)object)->m_2c = particle_emitter;
+    if (particle_emitter != NULL) {
+        ((TParticleCtrl *)(((TObjDFTenchuFuru *)object)->m_2c))->set_flags(0x40);
+    }
+    return object;
+}
+}
+
+extern "C" {
+TObjDFTenchuFuru::~TObjDFTenchuFuru() {
+    if (m_2c != nullptr) TParticleCtrl::release(m_2c);
+}
+}
+
+#pragma push
+#pragma fp_contract on
+extern "C" {
+void TObjDFTenchuFuru::run_task() {
+    u8 *arg0 = (u8 *)this;
+    s32 temp_r0;
+    this->m_20 += -60.0f;
+    if ((u32) this->m_2c != 0U) {
+        ((TParticleCtrl *)this->m_2c)->set_position((u8 *)&this->unk_1C);
+    }
+    temp_r0 = this->m_28 - 1;
+    this->m_28 = temp_r0;
+    if ((temp_r0 < 0) || ((is_active__14TBoss4DarkFalzFv() == 0) && (is_state_ready__14TBoss4DarkFalzFv() == 0))) {
+        ((s32 (*)(void *))queue_destruction__7TObjectFv)(arg0);
+    }
+}
+}
+#pragma pop
+
+TObjDFRecover *TObjDFRecover::create(TObject *parent, u16 id, const f32 *position) {
+    return new TObjDFRecover(parent, id, position);
+}
+
+TObjDFRecover::TObjDFRecover(TObject *parent, u16 id, const f32 *position) : TObject(parent) {
+    m_name = TObjDFRecover__name;
+    target_id = id;
+    effect = NULL;
+    VecCopy((Vec *)cached_position, (const Vec *)position);
+    phase = 0;
+    countdown = 5;
+}
+
+void *__dt__13TObjDFRecoverFv(void *obj_df_recover, s16 arg1) {
+    if (obj_df_recover != NULL) {
+        *(void **)((s8 *)obj_df_recover + 0x18) = __vt__13TObjDFRecover;
+        if (((TObjDFRecover *)obj_df_recover)->effect != 0) TParticleCtrl::release(((TObjDFRecover *)obj_df_recover)->effect);
+        __dt__7TObjectFv(obj_df_recover, 0);
+        if (arg1 > 0) {
+            __dl__7TObjectFPv(obj_df_recover);
+        }
+    }
+    return obj_df_recover;
+}
+
+#pragma push
+#pragma fp_contract on
+void TObjDFRecover::run_task() {
+    f32 position[3];
+    s32 current_phase;
+    s32 target_address;
+    u32 effect_address;
+    u16 id;
+    if (is_state_ready__14TBoss4DarkFalzFv() == 0) {
+        ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
+        return;
+    }
+    id = target_id;
+    if ((id == 0xFFFF) || ((target_address = (s32)get_player_by_client_id(id)) == 0)) {
+        ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
+        return;
+    }
+    VecCopy((Vec *)position, (const Vec *)(target_address + 0x2FC));
+    countdown = countdown - 1;
+    current_phase = phase;
+    switch (current_phase) {
+    case 0:
+        if (countdown <= 0) {
+            effect_address = (u32)create_particle_emitter(position, 0xEB);
+            effect = (void*)effect_address;
+            if (effect_address == 0U) {
+                ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
+                return;
+            }
+            ((TParticleCtrl *)effect)->set_flags(0x40);
+            countdown = 0xA;
+            phase = 1;
+        }
+        break;
     case 1:
-        if ((arg0->f94 += 0.033333335f) > lbl_805D8A34) {
-            arg0->f94 = lbl_805D8A34;
+        ((TParticleCtrl *)effect)->set_position(position);
+        if (countdown <= 0) {
+            TParticleCtrl::release(effect);
+            effect = NULL;
+            start_pad_rumble_client(0xC0, 0xF, (int) ((s16) target_id));
+            countdown = 0xB;
+            phase = 2;
+            return;
         }
         break;
     case 2:
-        if ((arg0->f94 += -0.033333335f) < lbl_805D8A30) {
-            arg0->f94 = lbl_805D8A30;
+        if ((countdown % 5) == 0) {
+            play_sound_effect(0x4003AD19, 0, 0, 0);
+            ((s32 (*)(int, void *, void *))create__13TObjDFRecBallFPvPvPv)((int)m_up, position, cached_position);
+        }
+        if (countdown <= 0) {
+            ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
         }
         break;
     }
 }
+#pragma pop
 
+extern "C" {
+void * create__13TObjDFRecBallFPvPvPv(void *arg0, void *arg1, void *arg2) {
+    void *o;
+    o = TObject::operator new(0x4C);
+    if (o != NULL) {
+        o = TObjDFRecBall__ct((u8 *)o, (u8 *)arg0, (u8 *)arg1, (u8 *)arg2);
+    }
+    return o;
+}
+}
+
+extern "C" {
+u8 *TObjDFRecBall__ct(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3) {
+    s32 temp_r31;
+    u8 *particle_emitter;
+    __ct__7TObjectFP7TObject(object, arg1);
+    *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__13TObjDFRecBall;
+    *(s32 *)((s8 *)object + 0) = (s32) TObjDFRecBall__name;
+    VecCopy((Vec *)(object + 0x1C), (const Vec *)arg2);
+    VecCopy((Vec *)(object + 0x28), (const Vec *)arg3);
+    temp_r31 = (s32) (65536.0f * (0.000030517578f * (f32) rand()));
+    *(f32 *)((s8 *)object + 0x34) = sin_table_lookup(temp_r31);
+    *(f32 *)((s8 *)object + 0x38) = (f32) lbl_805D8A30;
+    *(f32 *)((s8 *)object + 0x3C) = cos_table_lookup(temp_r31);
+    *(f32 *)((s8 *)object + 0x40) = (f32) lbl_805D8A34;
+    *(s32 *)((s8 *)object + 0x48) = 0x96;
+    particle_emitter = (u8 *)(create_particle_emitter((object + 0x1C), 0xAF));
+    *(u8 **)((s8 *)object + 0x44) = particle_emitter;
+    if (particle_emitter != NULL) {
+        ((TParticleCtrl *)(*(u8 **)((s8 *)object + 0x44)))->set_flags(0x40);
+    }
+    return object;
+}
+}
+
+TObjDFRecBall::~TObjDFRecBall() {
+    if (m_44 != nullptr) TParticleCtrl::release(m_44);
+}
+
+#pragma push
+#pragma fp_contract on
+void TObjDFRecBall::run_task() {
+    Ball_8005123C *o = (Ball_8005123C *)this;
+    Vec d;
+
+    if (--o->timer < 0 || o->model == 0) {
+        ((TObject *)o)->queue_destruction();
+        return;
+    }
+    if ((o->speed += 0.26666668f) > 9.0f) {
+        o->speed = 9.0f;
+    }
+    VecCopy((Vec *)&d, (const Vec *)&o->target);
+    subtract_vector(&d, &o->pos);
+    if (vector_length(&d) > lbl_805D8A48) {
+        normalize_vector(&d);
+    } else {
+        d.x = lbl_805D8A34;
+        d.z = d.y = lbl_805D8A30;
+    }
+    if (vector_length(&o->vel) > lbl_805D8A48) {
+        normalize_vector(&o->vel);
+    } else {
+        o->vel.x = lbl_805D8A34;
+        o->vel.y = lbl_805D8A30;
+        o->vel.z = lbl_805D8A30;
+    }
+    o->vel.x = o->speed * (0.9f * o->vel.x + 0.100000024f * d.x);
+    o->vel.y = o->speed * (0.9f * o->vel.y + 0.100000024f * d.y);
+    o->vel.z = o->speed * (0.9f * o->vel.z + 0.100000024f * d.z);
+    vec3_add_to(&o->pos, &o->vel);
+    ((TParticleCtrl *)o->model)->set_position(&o->pos);
+    if (xyz_distance(&o->pos, &o->target) <= o->speed) {
+        ((TObject *)o)->queue_destruction();
+    }
+}
+#pragma pop
+
+void * create__16TObjDFBeamCursorFPvPv(void *arg0, void *arg1) {
+    void *o;
+    o = TObject::operator new(0x2C);
+    if (o != NULL) {
+        o = TObjDFBeamCursor__ct(o, arg0, arg1);
+    }
+    return o;
+}
+
+void *TObjDFBeamCursor__ct(void *arg0, void *arg1, void *arg2) {
+    ((void (*)(void *))__ct__7TObjectFP7TObject)(arg0);
+    *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__16TObjDFBeamCursor;
+    *(const char **)((s8 *)arg0 + 0x0) = TObjDFBeamCursor__name;
+    *(u32 *)((s8 *)arg0 + 0x1C) = 32;
+    VecCopy((Vec *)((char *)arg0 + 32), (const Vec *)arg2);
+    return arg0;
+}
+
+TObjDFBeamCursor::~TObjDFBeamCursor() {}
+
+void run_task__16TObjDFBeamCursorFv(u8 *arg0) {
+    s32 temp_r0;
+    temp_r0 = *(s32 *)((s8 *)arg0 + 0x1C) - 1;
+    *(s32 *)((s8 *)arg0 + 0x1C) = temp_r0;
+    if (temp_r0 <= 0) {
+        spawn_particle_effect((arg0 + 0x20), 0x38);
+        ((s32 (*)(void *))queue_destruction__7TObjectFv)(arg0);
+    }
+}
+
+void *TBoss4Type2::create_jisin(void *arg0, void *arg1) {
+    void *o;
+    o = TObject::operator new(0x2C);
+    if (o != NULL) {
+        o = ((void * (*)(void *, void *, void *))TObjDFJisin__ct)(o, arg0, arg1);
+    }
+    return o;
+}
+
+u8 *TObjDFJisin__ct(u8 *object, u8 *arg1, s32 arg2) {
+    __ct__7TObjectFP7TObject(object, arg1);
+    *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__11TObjDFJisin;
+    ((TObject *)object)->m_name = TObjDFJisin__name;
+    *(f32 *)((s8 *)object + 0x1C) = (f32) (300.0f * sin_table_lookup(arg2));
+    *(f32 *)((s8 *)object + 0x20) = (f32) lbl_805D8A30;
+    *(f32 *)((s8 *)object + 0x24) = (f32) (-300.0f * cos_table_lookup(arg2));
+    *(f32 *)((s8 *)object + 0x28) = 25.0f;
+    return object;
+}
+
+TObjDFJisin::~TObjDFJisin() {}
+
+#pragma push
+#pragma fp_contract on
+void TObjDFJisin::run_task() {
+    Vec v;
+    s32 ang;
+    s32 step;
+    s32 count;
+    f32 max;
+
+    step = (s32)(1638400.0f / (6.28f * ((Obj_80050EB4 *)this)->radius));
+    count = 0;
+    v.y = lbl_805D8A30;
+    max = 255.0f;
+    for (ang = 0; ang < 0x10000; ang += step) {
+        v.x = ((Obj_80050EB4 *)this)->radius * sin_table_lookup(ang) + ((Obj_80050EB4 *)this)->cx;
+        v.z = ((Obj_80050EB4 *)this)->radius * cos_table_lookup(ang) + ((Obj_80050EB4 *)this)->cz;
+        if (!(vector_length(&v) > max)) {
+            ((void (*)(void *, Vec *))fn_spawn_particle_f3_with_flags)(this, &v);
+            ((void (*)(void *, Vec *))damage_players_near_point)(this, &v);
+            count++;
+        }
+    }
+    if (((Obj_80050EB4 *)this)->radius > 300.0f && count == 0) {
+        queue_destruction();
+        return;
+    }
+    ((Obj_80050EB4 *)this)->radius += 25.0f;
+}
+#pragma pop
+
+extern "C" {
+void fn_spawn_particle_f3_with_flags(s32 arg0, s32 arg1) {
+    Vec position;
+    u32 particle_effect;
+    VecCopy((Vec *)(&position.x), (const Vec *)(arg1));
+    position.y += 2.0f;
+    particle_effect = (u32)spawn_particle_effect((&position.x), 0xF3);
+    if (particle_effect != 0U) {
+        ((TParticleCtrl *)particle_effect)->set_flags(0x40);
+    }
+}
+}
+
+void damage_players_near_point(s32 arg0, Vec *arg1) {
+    Vec pos = *arg1;
+    Hit_80050D74 hit;
+    s32 i;
+    Player_80050D74 *p;
+    if (is_state_ready__14TBoss4DarkFalzFv() == 0) {
+        return;
+    }
+    hit.type = 0x11;
+    hit.value = lbl_805D8A30;
+    for (i = 0; i < TLobby::get_game_mode(); i++) {
+        p = get_player_data__10TObjPlayerFi(i);
+        if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0 &&
+            !(p->class_flags & CLASS_FLAG_ANDROID) &&
+            !(xyz_distance(&pos, &p->pos) > 20.0f)) {
+            Hit_80050D74 h = hit;
+            p->m21(TBoss4DarkFalz__sub_8004C1B4(), &h, 0, -1, -1);
+        }
+    }
+}
+
+void *TBoss4Type3::create_horming(void *arg0, void *arg1, void *arg2) {
+    void *o;
+    o = TObject::operator new(0x380);
+    if (o != NULL) {
+        o = ((void * (*)(void *, void *, void *, void *))TObjDFHorming__ct)(o, arg0, arg1, arg2);
+    }
+    return o;
+}
+
+#pragma push
+#pragma fp_contract on
+extern "C" {
+u8 *TObjDFHorming__ct(u8 *arg0, s32 parent, s32 arg2, u16 arg3) {
+    f32 scale;
+    s32 ang;
+    u8 *p;
+    s32 i;
+
+    __ct__9TObjCharaFP7TObject(arg0, parent);
+    *(u8 **)((s8 *)arg0 + 0x18) = (u8 *)__vt__13TObjDFHorming;
+    ((TObjDFHorming *)arg0)->m_name = TObjDFHorming__name;
+    ((TObjDFHorming *)arg0)->m_334 = arg3;
+    *(s32 *)&((TObjDFHorming *)arg0)->m_338 = 0x96;
+    if (game_difficulty_selection == 3) {
+        *(s32 *)&((TObjDFHorming *)arg0)->m_338 = 0x12C;
+    }
+    VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(VecCopy((Vec *)(arg0 + 0x33C), (const Vec *)((const Vec *)arg2))))));
+    scale = newton_sqrtf(1.08f);
+    ang = (s32)(16384.0f * (0.000030517578f * (f32)rand() - 0.5f));
+    p = (u8 *)get_player_by_client_id(((TObjDFHorming *)arg0)->m_334);
+    if (p != NULL) {
+        ang = 0;
+    } else {
+        ang += (s32)(10430.38043493439 * atan2_float(*(f32 *)((s8 *)p + 0x38) - 10000.0f, *(f32 *)((s8 *)p + 0x40)));
+    }
+    *(f32 *)((s8 *)arg0 + 0x348) = 1.2f * sin_table_lookup(ang) / scale;
+    ((TObjDFHorming *)arg0)->m_350 = 1.2f * cos_table_lookup(ang) / scale;
+    *(f32 *)((s8 *)arg0 + 0x34C) = -6.0f / scale;
+    *(f32 *)((s8 *)arg0 + 0x354) = 6.0f;
+    *(s32 *)&((TObjDFHorming *)arg0)->m_360 = *(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x38)) + 0x28);
+    *(f32 *)((s8 *)arg0 + 0x364) = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x38)) + 0);
+    if (*(f32 *)((s8 *)arg0 + 0x364) < lbl_805D8A30 || *(f32 *)((s8 *)arg0 + 0x364) > lbl_805D8A34) {
+        *(f32 *)((s8 *)arg0 + 0x364) = 0.5f;
+    }
+    *(f32 *)((s8 *)arg0 + 0x378) = -50.0f * *(f32 *)((s8 *)arg0 + 0x364) + 60.0f;
+    for (i = 0; i < 2; i++) {
+        if ((((Obj_80050AF8 *)arg0)->objs[i] = (u32)create_particle_emitter(arg0 + 0x2FC, TObjDFJisin__particle_emitter_id_table[i])) != 0) {
+            ((TParticleCtrl *)(((Obj_80050AF8 *)arg0)->objs[i]))->set_flags(0x40);
+        }
+    }
+    *(s32 *)&((TObjDFHorming *)arg0)->m_368 = 0;
+    return arg0;
+}
+}
+#pragma pop
+
+extern "C" {
+S_80050A68 *__dt__13TObjDFHormingFv(S_80050A68 *o, s16 flag) {
+    s32 i;
+    if (o != 0) {
+        o->vt = __vt__13TObjDFHorming;
+        for (i = 0; i < 2; i++) {
+            if (o->ptr[i] != 0) {
+                TParticleCtrl::release(o->ptr[i]);
+                o->ptr[i] = 0;
+            }
+        }
+        __dt__9TObjCharaFv(o, 0);
+        if (flag > 0) {
+            __dl__7TObjectFPv(o);
+        }
+    }
+    return o;
+}
+}
+
+extern "C" {
+void run_task__13TObjDFHormingFv(u8 *arg0) {
+    Ang_80050808 rot;
+    Vec d;
+    S_80050808 s;
+    u8 *p;
+    s32 i;
+    if (query_teammate_state__9TObjEneDDFv() != 0) {
+        return;
+    }
+    if (((TObjDFHorming *)arg0)->m_334 == 0xFFFF || (p = (u8 *)get_player_by_client_id(((TObjDFHorming *)arg0)->m_334)) == NULL) {
+        ((TObject *)arg0)->queue_destruction();
+        return;
+    }
+    VecCopy((Vec *)(arg0 + 0x36C), (const Vec *)(p + 0x2FC));
+    *(f32 *)((s8 *)arg0 + 0x37C) = xyz_distance((Vec *)(arg0 + 0x2FC), (Vec *)(arg0 + 0x36C));
+    VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(arg0 + 0x2FC));
+    switch (*(s32 *)&((TObjDFHorming *)arg0)->m_368) {
+    case 0:
+        ((TObjDFHorming *)arg0)->sub_8005076C();
+        break;
+    case 1:
+        steer_homing_direction((Obj_8005063C *)arg0);
+        break;
+    case 2:
+        ((TObjDFHorming *)arg0)->check_attack_trigger();
+        break;
+    }
+    normalize_vector(arg0 + 0x348);
+    *(f32 *)((s8 *)arg0 + 0x348) *= *(f32 *)((s8 *)arg0 + 0x354);
+    *(f32 *)((s8 *)arg0 + 0x34C) *= *(f32 *)((s8 *)arg0 + 0x354);
+    ((TObjDFHorming *)arg0)->m_350 *= *(f32 *)((s8 *)arg0 + 0x354);
+    vec3_add_to(arg0 + 0x2FC, arg0 + 0x348);
+    {
+        s32 id = find_nearest_visible_player(arg0, 0, 7.5f);
+        if (id != 0xFFFF && (p = (u8 *)get_player_by_client_id(id)) != NULL) {
+            if (is_boss_active__13TObjDFHormingFv() != 0) {
+                s.a = 0;
+                s.b = *(s32 *)&((TObjDFHorming *)arg0)->m_360;
+                {
+                    S_80050808 t = s;
+                    ((VObj_18_0c879f *)p)->m21(TBoss4DarkFalz__sub_8004C1AC(), &t, 0, -1, -1);
+                }
+            }
+            queue_destruction__13TObjDFHormingFPv(arg0);
+            return;
+        }
+    }
+    for (i = 0; i < 2; i++) {
+        if (*(u32 *)((s8 *)(arg0 + i * 4) + 0x358) != 0) {
+            if (i == 1) {
+                VecCopy((Vec *)&d, (const Vec *)(arg0 + 0x2FC));
+                subtract_vector(&d, (Vec *)(arg0 + 0x44));
+                direction_to_rotation_xz((u8 *)&d, &rot.x, &rot.z);
+                rot.y = 0;
+                ((TParticleCtrl *)((void *)*(u32 *)((s8 *)(arg0 + i * 4) + 0x358)))->set_direction(&rot);
+            }
+            ((TParticleCtrl *)(void *)*(u32 *)((s8 *)(arg0 + i * 4) + 0x358))->set_position(arg0 + 0x2FC);
+        }
+    }
+    minimap_render_dot(arg0 + 0x2FC, -0x5DB4, 1, 0);
+    if (--*(s32 *)&((TObjDFHorming *)arg0)->m_338 < 0) {
+        ((TObject *)arg0)->queue_destruction();
+    }
+}
+}
+
+extern "C" {
+int queue_destruction__13TObjDFHormingFPv(void* p) { return ((int (*)(void*))queue_destruction__7TObjectFv)(p); }
+}
+
+extern "C" {
+void TObjDFHorming::sub_8005076C() {
+    f32 temp_f1;
+    temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x370) - this->m_300;
+    if (temp_f1 > lbl_805D8A30) {
+        *(f32 *)((s8 *)((u8 *)this) + 0x34C) += lbl_805D8A58;
+    } else {
+        *(f32 *)((s8 *)((u8 *)this) + 0x34C) -= lbl_805D8A58;
+    }
+    if (fabs_float(temp_f1) < lbl_805D8A5C) {
+        this->m_368 = 1;
+    }
+}
+}
+
+extern "C" {
+void steer_homing_direction(Obj_8005063C *arg0) {
+    Vec d;
+    f32 k;
+    f32 inv;
+    VecCopy((Vec *)&d, (const Vec *)&arg0->f36c);
+    subtract_vector(&d, &arg0->f2fc);
+    if (vector_length(&d) <= lbl_805D8A48 ||
+        vector_length(&arg0->dir) <= lbl_805D8A48) {
+        ((TObject *)arg0)->queue_destruction();
+        return;
+    }
+    normalize_vector(&d);
+    normalize_vector(&arg0->dir);
+    k = lbl_805D8A50 * arg0->f364 + lbl_805D8A4C;
+    Vec prev = arg0->dir;
+    inv = lbl_805D8A34 - k;
+    arg0->dir.x = k * arg0->dir.x + inv * d.x;
+    arg0->dir.y = k * arg0->dir.y + inv * d.y;
+    arg0->dir.z = k * arg0->dir.z + inv * d.z;
+    if (arg0->f37c <= arg0->f378 && xyz_distance(&arg0->dir, &prev) <= lbl_805D8A54) {
+        arg0->state = 2;
+    }
+}
+}

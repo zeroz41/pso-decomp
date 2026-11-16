@@ -1665,7 +1665,6 @@ pso/boss/darkfalz/TObjDFDemo4.cpp
 pso/boss/darkfalz/TObjDFDemo5.cpp
 pso/boss/darkfalz/TObjDFDemoF.cpp
 pso/boss/darkfalz/TObjDFHorming.cpp
-pso/boss/darkfalz/TObjDFUsoTower.cpp
 pso/ui/window/TObjDeadListWin.cpp
 pso/object/TObjDoaEx01.cpp
 pso/object/door/TObjDoor.cpp
@@ -2090,6 +2089,7 @@ pso/ui/window/TMessageWindowController.cpp
 pso/ui/window/TObjBagWarnWin.cpp
 pso/ui/charcreate/TObjCMHexTile.cpp
 pso/boss/darkfalz/TObjDFJisin.cpp
+pso/boss/darkfalz/TBoss4Type2_800522CC.cpp
 pso/boss/darkfalz/TObjDFYutai.cpp
 pso/object/TObjLiveMonitor.cpp
 pso/weapon/TUnk_804E24F0.cpp
