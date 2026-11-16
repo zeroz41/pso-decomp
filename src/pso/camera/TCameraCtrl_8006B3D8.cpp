@@ -30,12 +30,11 @@ struct RecoveredFields_8006B588_arg0
 };
 
 #define VIEW_8006B798 ((View_8006B798 *)camera_ctrl_instance)
-struct V_8006B798 { f32 x, y, z; };
 
 struct View_8006B798 {
     u8 pad0[0x178];
-    V_8006B798 pos;
-    V_8006B798 tgt;
+    Vec pos;
+    Vec tgt;
 };
 
 struct Obj_8006B798 {
@@ -46,11 +45,9 @@ struct Obj_8006B798 {
     u16 f22;
     s16 f24;
     u8 pad26[2];
-    V_8006B798 pos;
-    V_8006B798 tgt;
+    Vec pos;
+    Vec tgt;
 };
-
-struct Vec_8006B6A8 { f32 x, y, z; };
 
 struct Cam_8006B6A8 {
     u8 pad0[0x1C];
@@ -59,8 +56,8 @@ struct Cam_8006B6A8 {
     u16 f22;
     u16 f24;
     u8 pad26[2];
-    Vec_8006B6A8 v28;
-    Vec_8006B6A8 v34;
+    Vec v28;
+    Vec v34;
 };
 
 extern "C" {
@@ -99,13 +96,10 @@ const NpcCameraDestination fixed_npc_camera_destination_table[20] = {
     {-10039.4f, 43.3f, -176.9f, -10063.5f, 53.8f, -212.1f},
     {-9953.2f, 42.4f, -168.1f, -9924.0f, 50.0f, -183.9f},
 };
-struct E_8006BAC8 { f32 x; f32 y; f32 z; };
 
-struct O_8006BAC8 { u8 pad[0xd4]; E_8006BAC8 arr[1]; };
+struct O_8006BAC8 { u8 pad[0xd4]; Vec arr[1]; };
 
-struct E_8006BAB4 { f32 x; f32 y; f32 z; };
-
-struct O_8006BAB4 { u8 pad[0x104]; E_8006BAB4 arr[1]; };
+struct O_8006BAB4 { u8 pad[0x104]; Vec arr[1]; };
 
 extern "C" {
 void *__dt__13TUnk_80488A28Fv(void *arg0, s16 arg1);
@@ -116,8 +110,8 @@ u8 *__dt__13TUnk_80488B08Fv(u8 *arg0, s16 arg1);
 void set_active_camera_pose(void *, void *);
 s32 approach_camera_vector(void *, void *, f32);
 s32 activate_camera_mode(int);
-E_8006BAB4 *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i);
-E_8006BAC8 *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i);
+Vec *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i);
+Vec *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const s32 __vt__13TUnk_80488AD8[];
 extern u32 camera_ctrl_instance;
@@ -125,7 +119,7 @@ f32 vector_length(void *);
 void normalize_vector(void *);
 f32 xyz_distance(void *, void *);
 extern s32 lbl_80488AF0[];
-void approach_vector_fixed_distance(Vec_8006B6A8 *, Vec_8006B6A8 *, Vec_8006B6A8 *, f32);
+void approach_vector_fixed_distance(Vec *, Vec *, Vec *, f32);
 s32 restore_player_cameras();
 s32 activate_body_collision__10TObjPlayerFv();
 s32 deactivate_body_collision__10TObjPlayerFv();
@@ -235,7 +229,7 @@ void *TCameraCtrl::destroy(s16 arg1) {
 #pragma opt_common_subs off
 s32 TCameraCtrl__sub_8006B798(void *p, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 #define arg0 ((Obj_8006B798 *)p)
-    V_8006B798 d;
+    Vec d;
     f32 dist;
     __ct__7TObjectFP7TObject(arg0, (void *)arg4);
     arg0->vt = lbl_80488AF0;
@@ -316,11 +310,11 @@ void *TCameraCtrl__sub_8006BA68(void *a0) {
     return a0;
 }
 
-E_8006BAB4 *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i) {
+Vec *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i) {
     return &self->arr[i];
 }
 
-E_8006BAC8 *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i) {
+Vec *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i) {
     return &self->arr[i];
 }
 

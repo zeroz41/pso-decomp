@@ -23,15 +23,11 @@ static const int TBoss2Tentacle__rest_angles[] = {-2048, 2048, -4864, 4864};
 static const s32 boss2_tentacle_angle_limit_table[] = {4096, -4096, 6144, -6144};
 const char *TBoss2Tentacle__name = "TBoss2Tentacle";
 
-struct V3_80039DE0 { f32 x, y, z; };
-
-struct Obj_80039DE0 { u8 pad[0x30]; V3_80039DE0 pts[14]; s32 vals[14]; };
+struct Obj_80039DE0 { u8 pad[0x30]; Vec pts[14]; s32 vals[14]; };
 
 struct Obj_80039C44 { u8 pad[0x114]; f32 pos; f32 speed; };
 
-struct Vec_8003933C { f32 x, y, z; };
-
-struct Ten_8003933C { char pad0[0x30]; Vec_8003933C pos[14]; s32 vals[14]; };
+struct Ten_8003933C { char pad0[0x30]; Vec pos[14]; s32 vals[14]; };
 
 struct Obj_80039F50 {
     const char *f0;
@@ -42,7 +38,7 @@ struct Obj_80039F50 {
     s32 f24;
     u8 pad28[0x2C - 0x28];
     s32 f2C;
-    V3_80039DE0 pts[14];
+    Vec pts[14];
     s32 vals[14];
     s32 f110;
     f32 f114;
@@ -62,11 +58,9 @@ struct Obj_80039F50 {
     s32 f154;
 };
 
-struct V3_80039994 { f32 x, y, z; };
-
 struct Obj_80039994 {
     u8 pad0[0x30];
-    V3_80039994 pts[14];
+    Vec pts[14];
     s32 vals[14];
     u8 pad110[0x138 - 0x110];
     f32 f138;
@@ -80,7 +74,7 @@ struct Obj_80039994 {
 extern "C" {
 u8 TBoss2Tentacle__sub_80039CA0(u8 *arg0);
 void TBoss2Tentacle__sub_80039DB0(void* p);
-extern V3_80039DE0 TBoss2Tentacle__segment_points[];
+extern Vec TBoss2Tentacle__segment_points[];
 extern s32 TBoss2Tentacle__segment_point_defaults[];
 void TBoss2Tentacle__sub_8003A0AC(void);
 s32 * lbl_805D4BD0;
@@ -160,8 +154,7 @@ void render__14TBoss2TentacleFv(u8 *arg0) {
     clear_motion_packed_rotation();
 }
 
-typedef V3_80039DE0 V3_800394DC;
-typedef struct { u8 pad[0x30]; V3_800394DC pts[14]; } Ten_800394DC;
+typedef struct { u8 pad[0x30]; Vec pts[14]; } Ten_800394DC;
 #define F(t, o) (*(t *)(arg0 + (o)))
 #pragma pool_data off
 void run_task__14TBoss2TentacleFv(u8 *arg0) {
@@ -208,8 +201,8 @@ void run_task__14TBoss2TentacleFv(u8 *arg0) {
         }
         break;
     case 3: {
-        V3_800394DC pos;
-        V3_800394DC v;
+        Vec pos;
+        Vec v;
         f32 len;
         v.z = v.y = v.x = 0.0f;
         push_matrix();
@@ -352,7 +345,7 @@ void TBoss2Tentacle__sub_80039994(Obj_80039994 *o, f32 len) {
         k = 1.0f - w;
         k *= o->f150;
         for (i = 2; i < 12; i++) {
-            o->pts[i].x = o->pts[i].x * w + k * ((V3_80039994 *)&TBoss2Tentacle__segment_points)[i].x;
+            o->pts[i].x = o->pts[i].x * w + k * ((Vec *)&TBoss2Tentacle__segment_points)[i].x;
         }
         o->vals[2] = (s32)(16384.0f * (1.0f - o->f13C) + (f32)o->vals[2] * w);
         for (i = 3; i < 12; i++) {
@@ -458,7 +451,7 @@ void TBoss2Tentacle__sub_8003A0A8(void) {  }
 extern BmlResource *lbl_805D4BA4;
 
 DragonModelNode tentacle_model_nodes[14];
-V3_80039DE0 TBoss2Tentacle__segment_points[14];
+Vec TBoss2Tentacle__segment_points[14];
 s32 TBoss2Tentacle__segment_point_defaults[14];
 
 void TBoss2Tentacle__sub_8003A0AC(void) {

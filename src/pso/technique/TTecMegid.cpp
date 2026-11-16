@@ -132,7 +132,6 @@ struct Obj_80235490 {
 };
 
 struct TTecGiBartaData_80230B48;
-struct Vec_80235740 { f32 x; f32 y; f32 z; };
 
 struct Row_80235740 { u32 entry; u32 flags; f32 scale; };
 
@@ -141,7 +140,7 @@ struct Data_80235740 { Row_80235740 *rows; u32 count; };
 struct Obj_80235740 {
     u8 pad0[0x1C];
     void *source;
-    Vec_80235740 pos;
+    Vec pos;
     u8 pad2c[0x58 - 0x2C];
     s32 f58;
     u8 pad5c[0xC6 - 0x5C];
@@ -164,13 +163,6 @@ struct Data_802351B4
   u32 count;
 };
 
-struct Vec_802351B4
-{
-  f32 x;
-  f32 y;
-  f32 z;
-};
-
 struct Arg_802351B4
 {
   s32 a;
@@ -181,7 +173,7 @@ struct Arg_802351B4
 struct Obj_802351B4
 {
   u8 pad0[0x20];
-  Vec_802351B4 pos;
+  Vec pos;
   u8 pad2c[0x54 - 0x2C];
   s32 f54;
   s32 f58;
@@ -217,7 +209,7 @@ const TechniqueEmitterSourceTable TTecMegid__emitter_bands[6] = {
 };
 // inferred: same <Class>__class_name pattern as TTecBarta__class_name
 const char *TTecMegid__class_name = "TTecMegid";
-static const Vec_80235740 tec_megid_offset_vec = {0.0f, 0.0f, -5.0f};
+static const Vec tec_megid_offset_vec = {0.0f, 0.0f, -5.0f};
 
 extern "C" {
 s32 calc_technique_parameters(int, int, int);
@@ -239,7 +231,7 @@ void TTecMegid__vt6(Obj_80235490 *self, VObj_80235490 *target);
 void *find_entity_by_id(u16);
 s32 push_matrix_from(void *src);
 void rotate_matrix_y(s32, s32);
-void matrix_mult_vec(s32, Vec_80235740 *, Vec_80235740 *);
+void matrix_mult_vec(s32, Vec *, Vec *);
 }
 s32 pop_matrices(s32 arg0);
 extern "C" {
@@ -303,7 +295,6 @@ typedef struct Data_802351B4 Data_802351B4;
 typedef struct Obj_802351B4 Obj_802351B4;
 typedef struct Row_802351B4 Row_802351B4;
 typedef struct TTecGiBartaData_80230B48 TTecGiBartaData_80230B48;
-typedef struct Vec_802351B4 Vec_802351B4;
 void TTecMegid::spawn_particle_emitters() {
   Obj_802351B4 *self = (Obj_802351B4 *) this;
   u32 fl;
@@ -447,8 +438,8 @@ void run_task__9TTecMegidFv(Obj_80235740 *self) {
     }
     for (i = 0; i < ((Data_80235740 *)TTecMegid__emitter_bands)[self->band].count; i++) {
         if (((Data_80235740 *)TTecMegid__emitter_bands)[self->band].rows[i].flags & 4) {
-            Vec_80235740 off = tec_megid_offset_vec;
-            Vec_80235740 p;
+            Vec off = tec_megid_offset_vec;
+            Vec p;
             push_matrix_from(identity_matrix);
             rotate_matrix_y(0, self->f58);
             matrix_mult_vec(0, &off, &off);

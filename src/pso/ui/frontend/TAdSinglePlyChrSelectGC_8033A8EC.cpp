@@ -45,19 +45,17 @@ struct O_8033ACF4 { u8 pad[0x24]; s32 f24; s32 f28; s32 f2C; };
 
 struct O_8033AFC8 { u8 pad[0x20]; u32 f20; s32 f24; s32 f28; s32 f2C; };
 
-struct V3_8033B39C { f32 x, y, z; };
-
 // Window position and size setup passes to update_window_mode_from_progress
 static const f32 lbl_80477D48[2] = { 80.0f, 146.0f };
 static const f32 lbl_80477D50[2] = { 479.0f, 267.0f };
 // Window position init_warp and init_warps pass to check_room_seq_4
 static const f32 lbl_80477D58[2] = { 324.0f, 374.0f };
 // Camera position and target of init_single_player_char_select_scene
-static const V3_8033B39C lbl_80477D60 = { 0.0f, 0.0f, 0.0f };
-static const V3_8033B39C lbl_80477D6C = { 0.0f, 0.0f, -100.0f };
+static const Vec lbl_80477D60 = { 0.0f, 0.0f, 0.0f };
+static const Vec lbl_80477D6C = { 0.0f, 0.0f, -100.0f };
 // Camera position and target of run_frame
-static const V3_8033B39C lbl_80477D78 = { 0.0f, 0.0f, 0.0f };
-static const V3_8033B39C lbl_80477D84 = { 0.0f, 0.0f, -100.0f };
+static const Vec lbl_80477D78 = { 0.0f, 0.0f, 0.0f };
+static const Vec lbl_80477D84 = { 0.0f, 0.0f, -100.0f };
 
 s32 lbl_805D6D80;
 s32 lbl_805D6D84;
@@ -416,8 +414,8 @@ void TAdSinglePlyChrSelectGC::run_frame() {
     func_803DCDFC__Fv();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
-    V3_8033B39C a = lbl_80477D78;
-    V3_8033B39C b = lbl_80477D84;
+    Vec a = lbl_80477D78;
+    Vec b = lbl_80477D84;
     activate_camera_mode(9);
     set_active_camera_pose(&a, &b);
     main_task.begin_frame();
@@ -452,8 +450,8 @@ void init_single_player_char_select_scene(void) {
     if (p != 0) {
         TCameraCtrl__ct(p, tl_camera);
     }
-    V3_8033B39C a = lbl_80477D60;
-    V3_8033B39C b = lbl_80477D6C;
+    Vec a = lbl_80477D60;
+    Vec b = lbl_80477D6C;
     TCameraCtrl::select_active_controller(9);
     set_active_camera_pose(&a, &b);
     p = __nw__7TObjectFUl(0x1C);

@@ -79,30 +79,25 @@ struct Type3MotionView { s32 kind, flags, motions[3]; };
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 #pragma defer_codegen on
 
-struct Vec_8005A1AC { f32 x, y, z; };
-
 struct Obj_8005A1AC {
     u8 pad0[0x3ba];
     u16 f3ba;
     u8 pad3bc[0x404 - 0x3bc];
     void *f404[13];
     u8 pad438[0x444 - 0x438];
-    Vec_8005A1AC f444;
-    Vec_8005A1AC f450;
-    Vec_8005A1AC f45c;
+    Vec f444;
+    Vec f450;
+    Vec f45c;
     u8 pad468[0x480 - 0x468];
-    Vec_8005A1AC f480;
-    Vec_8005A1AC f48c;
-    Vec_8005A1AC f498;
+    Vec f480;
+    Vec f48c;
+    Vec f498;
     u8 pad4a4[0x4d4 - 0x4a4];
-    Vec_8005A1AC f4d4;
-    Vec_8005A1AC f4e0;
+    Vec f4d4;
+    Vec f4e0;
 };
 
 struct Ply_80059ABC;
-struct Vec_800597A8 { f32 x, y, z; };
-
-struct Vec_800584E4 { f32 x, y, z; };
 
 struct Obj_8005683C;
 
@@ -225,8 +220,6 @@ struct Obj_8005683C {
     s32 f38c;
 };
 
-struct Vec_80056C30 { f32 x, y, z; };
-
 typedef char RecoveredGlobal_80054530_lbl_80485EC8_size[sizeof(RecoveredGlobal_80054530_lbl_80485EC8) == 0x1E0 ? 1 : -1];
 
 typedef char RecoveredGlobal_8005455C_lbl_80485EC8_size[sizeof(RecoveredGlobal_8005455C_lbl_80485EC8) == 0x1E0 ? 1 : -1];
@@ -239,11 +232,9 @@ struct Obj_80059390 { u8 pad[0x30]; u32 flags; u8 pad34[0x384]; u16 f3b8; u16 f3
 
 struct Obj_80058E64 { u8 pad[0x32C]; s16 f32c; u8 pad2[0x6A]; s32 f398; u8 pad3[0x1C]; u16 f3b8; u16 f3ba; u8 pad4[0x24]; s32 f3e0; };
 
-struct Vec_80058848 { f32 x, y, z; };
-
 struct O_80058848 {
     u8 pad0[0x38];
-    Vec_80058848 pos;
+    Vec pos;
     u8 pad44[0x398 - 0x44];
     s32 f398;
 };
@@ -265,13 +256,6 @@ struct O_80058BA0 {
     s32 f52c;
 };
 
-struct Vec_800590F4
-{
-  f32 x;
-  f32 y;
-  f32 z;
-};
-
 struct VBase_800590F4
 {
   char pad[0x18];
@@ -282,7 +266,7 @@ struct VObj_800590F4 : VBase_800590F4 {
     virtual void m1();
     virtual void m2();
     virtual void m3();
-    virtual void m4(Vec_800590F4 *, Vec_800590F4 *);
+    virtual void m4(Vec *, Vec *);
 };
 
 struct O_800590F4
@@ -310,8 +294,6 @@ typedef struct VBase_800590F4 VBase_800590F4;
 
 typedef struct VObj_800590F4 VObj_800590F4;
 
-typedef struct Vec_800590F4 Vec_800590F4;
-
 struct Obj_80059EA8 { u8 pad[0x38C]; void *target; u8 pad390[0x10]; s32 f3a0; u8 pad3a4[4]; s32 f3a8; u8 pad3ac[0xC]; u16 f3b8; u16 f3ba; };
 
 struct Obj_80059F04 { u8 pad[0x38C]; void *target; u8 pad390[0x10]; s32 f3a0; u8 pad3a4[4]; s32 f3a8; u8 pad3ac[0xC]; u16 f3b8; u16 f3ba; };
@@ -332,8 +314,6 @@ struct Pair_8005A438 { void *p; f32 f; };
 
 struct Words_8005A438 { void *p; u32 w; };
 
-struct Vec_80059618 { f32 x, y, z; };
-
 struct O_80059618 {
     u8 pad0[0x32C];
     s16 f32c;
@@ -344,7 +324,7 @@ struct O_80059618 {
     u8 pad3bc[0x3E4 - 0x3BC];
     s32 f3e4;
     u8 pad3e8[0x480 - 0x3E8];
-    Vec_80059618 f480;
+    Vec f480;
 };
 
 struct Obj_8005ACBC { u8 pad[0x374]; s32 f374; u8 pad378[0x40]; u16 f3b8; u16 f3ba; };
@@ -370,8 +350,6 @@ struct S_80058380 {
     s32 f398;
     f32 f39c;
 };
-
-struct Vec_80059C20 { f32 x, y, z; };
 
 struct Dmg_8005B218 { s32 type; f32 val; };
 
@@ -418,11 +396,11 @@ void TObjEneRe4Sorcerer__sub_801E3F1C(f32, f32);
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(int);
 void __ct__7TObjectFP7TObject(void *);
-s32 create__9TTecMegidFllll(void *, Vec_80058848 *, u8 *, s32);
+s32 create__9TTecMegidFllll(void *, Vec *, u8 *, s32);
 void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
 s32 matrix_mult_vec(int, void *, void *);
 void set_matrix_identity(u8 *arg0);
-f32 xyz_distance(Vec_80056C30 *, Vec_80056C30 *);
+f32 xyz_distance(Vec *, Vec *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
 extern void* __vt__13TObjBs4CutAtk[];
@@ -1248,11 +1226,11 @@ void TBoss4Type3::destroy_parts() {
 }
 
 void TBoss4Type3::copy_positions_to_parts() {
-    Vec_8005A1AC *pos[8] = {
+    Vec *pos[8] = {
         &((Obj_8005A1AC *)this)->f48c, &((Obj_8005A1AC *)this)->f498, &((Obj_8005A1AC *)this)->f4d4, &((Obj_8005A1AC *)this)->f4e0,
         &((Obj_8005A1AC *)this)->f444, &((Obj_8005A1AC *)this)->f450, &((Obj_8005A1AC *)this)->f45c, 0
     };
-    Vec_8005A1AC **p = pos;
+    Vec **p = pos;
     s32 i;
     for (i = 0; i < 8; i++, p++) {
         if (((Obj_8005A1AC *)this)->f404[i] != 0 && *p != 0) {
@@ -1396,10 +1374,10 @@ void TBoss4Type3__sub_80059DCC(TBoss4Type3 *self, u32 packed) {
 #pragma fp_contract on
 void TBoss4Type3::interp_position_between_nodes() {
     u8 *arg0 = (u8 *)this;
-    Vec_80059C20 pts[2];
+    Vec pts[2];
     s32 ids[2];
     s32 id;
-    Vec_80059C20 *p;
+    Vec *p;
     s32 a;
     s32 i;
 
@@ -1479,7 +1457,7 @@ void TBoss4Type3__sub_800599F4(void *p, int lo, int hi) {
 
 void TBoss4Type3::update_radar_markers() {
     s32 c[3];
-    Vec_800597A8 v;
+    Vec v;
     u32 col;
     s32 sh;
     u8 tgt;
@@ -1527,7 +1505,7 @@ void TBoss4Type3::update_radar_markers() {
                 v.x *= 25.0f;
                 v.z *= 25.0f;
                 {
-                Vec_800597A8 w = *(Vec_800597A8 *)(arg0 + 0x38);
+                Vec w = *(Vec *)(arg0 + 0x38);
                 vec3_add_to(&w, &v);
                 for (j = 0; j < n; j++) {
                     add_radar_scaled_marker(&w, boss4_type3_radar_marker_colors[*(u16 *)((s8 *)arg0 + 0x3BA)], 1, 1, 2.5f);
@@ -1552,9 +1530,9 @@ void TBoss4Type3::handle_damage_taken() {
     drain_player_hp(((O_80059618 *)this)->f3ba, ((O_80059618 *)this)->f3e4 - ((O_80059618 *)this)->f32c);
     ((O_80059618 *)this)->f3e4 = ((O_80059618 *)this)->f32c;
     TBoss4Type3::create_yutai((void *)((O_80059618 *)this), (void *)2, (void *)((O_80059618 *)this)->f3ba);
-    Vec_80059618 pos = *(Vec_80059618 *)(p + 0x2FC);
-    Vec_80059618 tgt = ((O_80059618 *)this)->f480;
-    Vec_80059618 dir;
+    Vec pos = *(Vec *)(p + 0x2FC);
+    Vec tgt = ((O_80059618 *)this)->f480;
+    Vec dir;
     VecCopy__FP3VecPC3Vec(&dir, &tgt);
     subtract_vector(&dir, &pos);
     if (vector_length(&dir) <= 0.01f) {
@@ -1691,8 +1669,8 @@ void TBoss4Type3::advance_cut() {
 void TBoss4Type3::update_cut() {
     O_800590F4 *o = (O_800590F4 *)this;
   s32 pb;
-  Vec_800590F4 b;
-  Vec_800590F4 a;
+  Vec b;
+  Vec a;
   if (o->f398 > 0x2A)
   {
     o->f39c = 1.0f - ((o->f398 - 0x2A) / 7.0f);
@@ -1721,7 +1699,7 @@ void TBoss4Type3::update_cut() {
       pb = (0, (s32)&b);
       matrix_mult_vec(0, e + 0xC, (void *) pb);
       pop_matrix();
-      o->f524[idx]->m4(&a, (Vec_800590F4 *) pb);
+      o->f524[idx]->m4(&a, (Vec *) pb);
     }
   }
   if ((--o->f398) < 0)
@@ -1968,19 +1946,19 @@ void TBoss4Type3::update_dark_magic() {
         for (i = 0; i < TLobby::get_game_mode(); i++) {
             p = (s32)get_player_by_client_id(i);
             if (TBoss4Type3__sub_8005254C(i) != 0) {
-                Vec_80058848 v = o->pos;
+                Vec v = o->pos;
                 p += 0x2FC;
-                ((s32 (*)(Vec_80058848 *, u8 *))subtract_vector)(&v, (u8 *)p);
-                if (0.0f == ((f32 (*)(Vec_80058848 *))vector_length)(&v)) {
+                ((s32 (*)(Vec *, u8 *))subtract_vector)(&v, (u8 *)p);
+                if (0.0f == ((f32 (*)(Vec *))vector_length)(&v)) {
                     v.y = 1.0f;
                 } else {
-                    ((s32 (*)(Vec_80058848 *))normalize_vector)(&v);
+                    ((s32 (*)(Vec *))normalize_vector)(&v);
                 }
                 s = 40.0f * (3.0517578e-05f * (f32)rand()) + 35.0f;
                 v.x *= s;
                 v.y *= s;
                 v.z *= s;
-                ((s32 (*)(Vec_80058848 *, u8 *))vec3_add_to)(&v, (u8 *)p);
+                ((s32 (*)(Vec *, u8 *))vec3_add_to)(&v, (u8 *)p);
                 create__9TTecMegidFllll(o, &v, (u8 *)p, r30);
             }
         }
@@ -2017,7 +1995,7 @@ void TBoss4Type3::advance_capture() {
 
 void TBoss4Type3::update_capture() {
     u8 *arg0 = (u8 *)this;
-    Vec_800584E4 v;
+    Vec v;
     Ply_80059ABC *p;
     u16 id;
     void *pos;

@@ -32,9 +32,7 @@ struct Table_8006FE7C {
 
 struct Date_8006FC7C { u16 year; u8 a; u8 b; u8 c; u8 d; u8 pad[6]; };
 
-struct Vec_8006FC7C { f32 x, y, z; };
-
-struct Ply_8006FC7C { u8 pad[0x38]; Vec_8006FC7C pos; };
+struct Ply_8006FC7C { u8 pad[0x38]; Vec pos; };
 
 struct Card_8006FC7C {
     u8 pad0[0x2224];
@@ -46,7 +44,7 @@ struct Card_8006FC7C {
     u8 pad222a[2];
     s32 f222C;
     s32 f2230;
-    Vec_8006FC7C pos;
+    Vec pos;
     char name[0x14];
     char unit[0x20];
 };

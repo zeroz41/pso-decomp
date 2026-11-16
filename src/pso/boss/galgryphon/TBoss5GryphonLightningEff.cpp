@@ -20,18 +20,16 @@ struct Ent_80325248 { u8 b[0xC]; };
 
 struct Obj_80325248 { u8 pad[0x38]; s32 n; u8 pad2[0xD8 - 0x3C]; Ent_80325248 ents[1]; };
 
-struct Vec_8032537C { f32 x, y, z; };
-
 struct Self_8032537C {
     const char *f0;
     char pad4[0x14];
     void *vt;
-    Vec_8032537C v1c;
-    Vec_8032537C v28;
+    Vec v1c;
+    Vec v28;
     f32 f34;
     s32 n;
-    Vec_8032537C pts[13];
-    Vec_8032537C pts2[13];
+    Vec pts[13];
+    Vec pts2[13];
     char pad174[0x25C - 0x174];
     s16 f25c;
     char pad25e[2];
@@ -132,7 +130,7 @@ extern const f32 lbl_805DF5FC = 0.0625f;
 #pragma push
 #pragma fp_contract on
 Self_8032537C *__ct__25TBoss5GryphonLightningEffFv(Self_8032537C *self, void *parent, void *a, void *b, f32 x0, f32 x1, f32 scale) {
-    Vec_8032537C v;
+    Vec v;
     f32 denom;
     s32 i;
     __ct__12TTecZondeEffFv((u8 *)self, (u8 *)parent, 0x30000000, 4, (f32)scale);

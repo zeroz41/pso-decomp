@@ -700,9 +700,7 @@ struct RecoveredFields_803326CC_arg0 {
     s32 field_3C0;
 };
 
-struct V3_80334588 { f32 x, y, z; };
-
-struct O_80334588 { u8 pad[0x60]; s32 f60; u8 pad2[0x2FC - 0x64]; V3_80334588 pos; };
+struct O_80334588 { u8 pad[0x60]; s32 f60; u8 pad2[0x2FC - 0x64]; Vec pos; };
 
 struct Part_803329E4 : VObj_14_fddec9 { u8 pad18[4]; };
 
@@ -737,15 +735,11 @@ struct RecoveredGlobal_80334CC8___vt__13TObjEneMorfos {
     u8 remaining[0x1A8];
 };
 
-struct Vec_8033496C { f32 x, y, z; };
+struct Obj_8033496C { u8 pad[0x60]; s32 f60; u8 pad1[0x2D4 - 0x64]; u16 f2D4; u8 pad2[0x2FC - 0x2D6]; Vec pos; u8 pad3[0x326 - 0x308]; s16 f326; u8 pad4[0x3C0 - 0x328]; s32 f3C0; };
 
-struct Obj_8033496C { u8 pad[0x60]; s32 f60; u8 pad1[0x2D4 - 0x64]; u16 f2D4; u8 pad2[0x2FC - 0x2D6]; Vec_8033496C pos; u8 pad3[0x326 - 0x308]; s16 f326; u8 pad4[0x3C0 - 0x328]; s32 f3C0; };
+struct Pl_8033496C { u8 pad[0x2FC]; Vec pos; };
 
-struct Pl_8033496C { u8 pad[0x2FC]; Vec_8033496C pos; };
-
-struct Vec_80334A4C { f32 x, y, z; };
-
-struct Obj_80334A4C { u8 pad[0x60]; s32 f60; u8 pad1[0x2FC - 0x64]; Vec_80334A4C pos; u8 pad4[0x3C0 - 0x308]; s32 f3C0; u8 pad5[0x498 - 0x3C4]; u8 snd[4]; };
+struct Obj_80334A4C { u8 pad[0x60]; s32 f60; u8 pad1[0x2FC - 0x64]; Vec pos; u8 pad4[0x3C0 - 0x308]; s32 f3C0; u8 pad5[0x498 - 0x3C4]; u8 snd[4]; };
 
 typedef char RecoveredGlobal_80334CC8___vt__13TObjEneMorfos_size[sizeof(RecoveredGlobal_80334CC8___vt__13TObjEneMorfos) == 0x1AC ? 1 : -1];
 
@@ -1840,7 +1834,7 @@ void TObjEneMorfos::play_sound_in_band() {
 #pragma push
 #pragma fp_contract on
 s32 TObjEneMorfos::select_target_in_view() {
-    V3_80334588 v;
+    Vec v;
     s32 n;
     u8 *p;
     u16 id;
@@ -1956,7 +1950,7 @@ void TObjEneMorfos::vfunc_61() {  }
 
 void TObjEneMorfos::vfunc_62() {
     Obj_8033496C *arg0 = (Obj_8033496C *)this;
-    Vec_8033496C v;
+    Vec v;
     Pl_8033496C *pl;
     s32 d;
     if (this->mode == 0xA) {
@@ -1983,7 +1977,7 @@ void TObjEneMorfos::vfunc_62() {
 }
 
 f32 TObjEneMorfos__vt20(Obj_80334A4C *arg0, Obj_80334A4C *att, f32 scale) {
-    Vec_80334A4C v;
+    Vec v;
     f32 ret = 0.0f;
     s32 d;
     if (att != 0) {

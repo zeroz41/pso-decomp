@@ -22,14 +22,12 @@
 
 // ---- pso/unk/text_80232934
 
-struct Vec_80232934 { f32 x; f32 y; f32 z; };
-
 struct Quad_80232934 { u32 a; u32 b; u32 c; u32 d; };
 
 struct Obj_80232934 {
     u8 pad[0x20];
     u8 f20[0xC];
-    Vec_80232934 pos;
+    Vec pos;
     u8 f38[0x10];
     s32 f48;
     f32 f4c;
@@ -38,7 +36,7 @@ struct Obj_80232934 {
 extern "C" {
 s32 get_bml_model(s32, u32);
 void init_texture_copy_rect(TextureFrameSlot *, void *, void *, s32, s32);
-void approach_position_if_far(Vec_80232934 *, Vec_80232934 *, f32);
+void approach_position_if_far(Vec *, Vec *, f32);
 void scale_matrix(s32, f32, f32, f32);
 void push_matrix(void);
 void post_translate_matrix(void *);
@@ -70,14 +68,12 @@ struct Obj_80232E0C {
     s32 kind;
 };
 
-struct Vec_80232B7C { f32 x, y, z; };
-
 struct Obj_80232B7C {
     u8 pad0[0x18];
     void *vt;
     u16 id;
-    Vec_80232B7C pos;
-    Vec_80232B7C scale;
+    Vec pos;
+    Vec scale;
     f32 f38;
     f32 f3c;
     f32 f40;
@@ -105,7 +101,7 @@ void mem_free(void *);
 void __ct__7TObjectFP7TObject(void *self, void *parent);
 extern u8 __vt__13TUnk_804CC870[];
 
-Obj_80232B7C *construct_grants_flash(Obj_80232B7C *self, s32 id, void *parent, Vec_80232B7C *pos, f32 scale);
+Obj_80232B7C *construct_grants_flash(Obj_80232B7C *self, s32 id, void *parent, Vec *pos, f32 scale);
 
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void *spawn_particle_effect(const void *pos, s32 id);
@@ -208,7 +204,7 @@ void TUnk_804CC888::run_task() {
     }
 }
 
-Obj_80232B7C *construct_grants_flash(Obj_80232B7C *self, s32 id, void *parent, Vec_80232B7C *pos, f32 scale) {
+Obj_80232B7C *construct_grants_flash(Obj_80232B7C *self, s32 id, void *parent, Vec *pos, f32 scale) {
     __ct__7TObjectFP7TObject(self, parent);
     self->vt = __vt__13TUnk_804CC870;
     self->id = id;
@@ -263,7 +259,7 @@ void TUnk_804CC870::render() {
         return;
     }
     init_texture_copy_rect(&ctx, lbl_804CC868, technique_ringwave_texture_list, 0, this->m_48 + 1);
-    Vec_80232934 v = { 1.2f, 1.2f, 1.2f };
+    Vec v = { 1.2f, 1.2f, 1.2f };
     Quad_80232934 q = { 0, 0, 0, 0 };
     approach_alpha_clamped((f32 *)arg0->f38, (const f32 *)&q, 0.1f);
     approach_position_if_far(&arg0->pos, &v, arg0->f4c);

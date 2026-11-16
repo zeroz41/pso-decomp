@@ -82,14 +82,12 @@ struct Trail_8002CC48 {
     s32 f4C;
 };
 
-struct Vec_8002CFB8 { f32 x; f32 y; f32 z; };
-
 struct Trail_8002CFB8 {
     u8 pad0[0x10];
     void *f10;
     u8 pad14[0x1C - 0x14];
     s32 f1C;
-    Vec_8002CFB8 pos;
+    Vec pos;
     f32 f2C;
     f32 f30;
     f32 f34;
@@ -644,17 +642,17 @@ void TObjBoss1MokoHill_SoloM::run_task() {
             c = sin_table_lookup(ang);
             {
                 f32 k = 120.0f;
-                ax = c * k + ((Vec_8002CFB8 *)dragon_trail_position_source)->x;
-                az = s * k + ((Vec_8002CFB8 *)dragon_trail_position_source)->z;
+                ax = c * k + ((Vec *)dragon_trail_position_source)->x;
+                az = s * k + ((Vec *)dragon_trail_position_source)->z;
             }
             ang += (s32)(10000.0f * rand_signed_unit());
             s = ((f32 (*)(s32))cos_table_lookup)(ang);
             c = sin_table_lookup(ang);
             {
                 f32 k = 50.0f;
-                pos.x = c * k + ((Vec_8002CFB8 *)dragon_trail_position_source)->x;
+                pos.x = c * k + ((Vec *)dragon_trail_position_source)->x;
                 pos.y = 0.0f;
-                pos.z = s * k + ((Vec_8002CFB8 *)dragon_trail_position_source)->z;
+                pos.z = s * k + ((Vec *)dragon_trail_position_source)->z;
             }
             vel.x = pos.x - ax;
             vel.z = pos.z - az;

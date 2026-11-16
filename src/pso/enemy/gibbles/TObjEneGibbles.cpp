@@ -34,10 +34,6 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 #include "pso/object/ambient/TObjFish.h"
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 
-struct Vec_802D9EB4 { f32 x, y, z; };
-
-struct Vec_802D7ACC { f32 x, y, z; };
-
 struct V_802DA7A4Base { u8 pad[0x14]; };
 
 struct V_802DA7A4 : V_802DA7A4Base {
@@ -184,13 +180,6 @@ struct Stack_802D7BE0 {
     f32 spC;
 };
 
-struct Stack_802D8140
-{
-  f32 sp8;
-  f32 spC;
-  f32 sp10;
-};
-
 struct Stack_802D7ED4 {
     s32 sp8;
     s32 spC;
@@ -211,8 +200,6 @@ struct RecoveredGlobal_802D7ED4_lbl_8058D490 {
 typedef char RecoveredGlobal_802D7ED4_lbl_80472780_size[sizeof(RecoveredGlobal_802D7ED4_lbl_80472780) == 0x10 ? 1 : -1];
 
 typedef char RecoveredGlobal_802D7ED4_lbl_8058D490_size[sizeof(RecoveredGlobal_802D7ED4_lbl_8058D490) == 0x30 ? 1 : -1];
-
-typedef struct Stack_802D8140 Stack_802D8140;
 
 struct GibBase_802da394_802D87D8 { char pad[0x14]; };
 
@@ -249,21 +236,13 @@ struct RecoveredGlobal_800A6BE0_lbl_80500978 {
     u8 remaining[0xC];
 };
 
-struct Vec_800A6B14 { f32 x, y, z; };
-
-struct Tgt_800A6B14 { u8 pad[0x2fc]; Vec_800A6B14 pos; };
+struct Tgt_800A6B14 { u8 pad[0x2fc]; Vec pos; };
 
 struct Obj_800A6B14 {
     u8 pad[0x60]; s32 angle;
     u8 pad2[0x2a8 - 0x64]; Tgt_800A6B14 *target;
-    u8 pad3[0x2fc - 0x2ac]; Vec_800A6B14 pos;
+    u8 pad3[0x2fc - 0x2ac]; Vec pos;
 };
-
-struct Vec_800A6B14;
-
-struct Vec_802D8828 { f32 x, y, z; };
-
-struct Vec_802D9D64 { f32 x, y, z; };
 
 typedef char RecoveredGlobal_800A6BE0_lbl_804FF5E8_size[sizeof(RecoveredGlobal_800A6BE0_lbl_804FF5E8) == 0x28 ? 1 : -1];
 
@@ -286,8 +265,6 @@ struct VObj_802D9A04 : VBase_802D9A04 {
 };
 
 struct Hit_802D9B80 { s32 x; f32 y; };
-
-struct Vec_802D9B80 { f32 x, y, z; };
 
 struct VBase_18_22e4b0 { char pad[0x18]; };
 
@@ -319,7 +296,7 @@ struct VObj_18_22e4b0 : VBase_18_22e4b0 {
 };
 
 s32 get_main_phase();
-f32 calc_distance_to_client__10TObjPlayerFlUsUl(void *, u16, Vec_802D8828 *);
+f32 calc_distance_to_client__10TObjPlayerFlUsUl(void *, u16, Vec *);
 s32 obj_setFlags30(void *, int);
 s32 queue_destruction__7TObjectFv();
 void free_bin_model_request(void*, int);
@@ -361,7 +338,7 @@ struct Obj_802DAD50 : VObj_802DAD50 {
     u8 pad34[0x2A8 - 0x34];
     u8 *target;
     u8 pad2AC[0x2FC - 0x2AC];
-    Vec_800A6B14 pos;
+    Vec pos;
     u8 pad308[0x338 - 0x308];
     u16 f338;
     u8 pad33A[0x350 - 0x33A];
@@ -375,7 +352,7 @@ struct Gib_802D8984 {
     u8 pad0[0x30];
     u32 f30;
     u8 pad34[4];
-    Vec_800A6B14 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 angle;
     u8 pad64[0xA4 - 0x64];
@@ -650,9 +627,9 @@ const char *TObjEneGibbles__class_name = "TObjEneGibbles";
 
 const Spawn_802DB7C0 gibbles_resource_binding_desc = {0, gibbles_action_table, 1, 10, 0};
 
-const Vec_800A6B14 lbl_80472768 = {0.0f, 0.0f, 0.0f};
+const Vec lbl_80472768 = {0.0f, 0.0f, 0.0f};
 
-const Vec_800A6B14 lbl_80472774 = {0.0f, 0.0f, 0.0f};
+const Vec lbl_80472774 = {0.0f, 0.0f, 0.0f};
 
 const RecoveredGlobal_802D7ED4_lbl_80472780 gibbles_joint_zero_vec = {0};
 void *lbl_804E2950[7] = {
@@ -718,14 +695,14 @@ void TObjEneGibbles__sub_802D7A54(void *arg0) {
 }
 
 s32 TObjEneGibbles::spawn_ground_impact_effects(void *pos, f32 farg0) {
-    Vec_802D7ACC v;
+    Vec v;
     f32 y;
     s32 *hit;
     u8 *p;
     if (farg0 <= 0.0f) {
         return 0;
     }
-    VecCopy((Vec *)((Vec_800A6B14 *)&v), (const Vec *)((const Vec_800A6B14 *)pos));
+    VecCopy((Vec *)((Vec *)&v), (const Vec *)((const Vec *)pos));
     y = v.y;
     v.y += 15.0f;
     hit = (s32 *)csnVectorUnder((s32 *)&v, (s32)this + 0x120, 5, y);
@@ -930,7 +907,7 @@ void TObjEneGibbles::update_move_state() {
 }
 
 void TObjEneGibbles::sub_802D8140() {
-  Stack_802D8140 stack;
+  Vec stack;
   switch (this->phase)
   {
     case 0:
@@ -944,13 +921,13 @@ void TObjEneGibbles::sub_802D8140() {
       if ((this->motion_flags) & 0x10)
     {
       this->phase = 4;
-      stack.sp8 = 0.0f;
-      stack.spC = 0.0f;
-      stack.sp10 = -10.0f;
-      rotate_xz_pair_by_angle(&stack.sp8, &stack.sp10, this->rotation_y, 0.0f);
-      vec3_add_to(&stack.sp8, ((u8 *)this) + 0x38);
-      TObjPlayer__sub_800D93C4((s32)&stack.sp8, 0xA);
-      ((TObjPlayer *)(&stack.sp8))->spawn_effect_at_ground(0x46);
+      stack.x = 0.0f;
+      stack.y = 0.0f;
+      stack.z = -10.0f;
+      rotate_xz_pair_by_angle(&stack.x, &stack.z, this->rotation_y, 0.0f);
+      vec3_add_to(&stack.x, ((u8 *)this) + 0x38);
+      TObjPlayer__sub_800D93C4((s32)&stack.x, 0xA);
+      ((TObjPlayer *)(&stack.x))->spawn_effect_at_ground(0x46);
     }
     case 2:
       return;
@@ -1129,7 +1106,7 @@ void TObjEneGibbles::vfunc_61() {
 
 int TObjEneGibbles::test_flag_256() {
     u8 *arg0 = (u8 *)this;
-    Vec_802D8828 v;
+    Vec v;
     u8 *pl;
     s32 i;
     s32 flags;
@@ -1144,7 +1121,7 @@ int TObjEneGibbles::test_flag_256() {
                 && calc_distance_to_client__10TObjPlayerFlUsUl(arg0, i, &v) < 900.0f
                 && angle_difference_abs(this->rotation_y, (s32) (10430.38043493439 * atan2_float(v.x, v.z))) < 0x2AAA
                 && ((TObjPlayer *)pl)->test_action_mask(0xE0) != 0) {
-                VecCopy((Vec *)((Vec_800A6B14 *) &v), (const Vec *)((Vec_800A6B14 *) (arg0 + 0x2FC)));
+                VecCopy((Vec *)((Vec *) &v), (const Vec *)((Vec *) (arg0 + 0x2FC)));
                 subtract_vector(&v, pl + 0x2FC);
                 if (angle_difference_abs(((TObjPlayer *)pl)->rotation_y, (s32) (10430.38043493439 * atan2_float(v.x, v.z))) < 0x2AAA) {
                     this->m_3b0 = pl;
@@ -1216,7 +1193,7 @@ void TObjEneGibbles::sub_802D8984() {
         o->f3A4++;
         if (o->f3A4 >= o->f3A8) {
             if (o->target != NULL) {
-                Vec_800A6B14 v;
+                Vec v;
                 Vec_802DA0BC t = o->target->f2FC;
                 if (select_enemy_destination(o, &t, 1) != 0) {
                     f32 dist;
@@ -1225,7 +1202,7 @@ void TObjEneGibbles::sub_802D8984() {
                         Vec_802DA0BC q = o->f2FC;
                         copy_position_if_valid__10TObjPlayerFii((s32)o, (s32)&q);
                     }
-                    VecCopy((Vec *)&v, (const Vec *)((Vec_800A6B14 *)&o->f29C));
+                    VecCopy((Vec *)&v, (const Vec *)((Vec *)&o->f29C));
                     subtract_vector(&v, &o->f2FC);
                     dist = newton_sqrtf(v.x * v.x + v.z * v.z);
                     dist -= 15.0f;
@@ -1357,7 +1334,6 @@ void TObjEneGibbles__sub_802D8E8C(u8 *arg0) {
     submit_cursor_candidate(arg0, -1);
 }
 
-struct Vec_802D9110 { f32 x, y, z; };
 struct Param_802D9110 { u8 pad0[4]; f32 speed; s32 turn; };
 struct Gib_802D9110 {
     u8 pad0[0x30];
@@ -1374,8 +1350,8 @@ struct Gib_802D9110 {
     u8 padCC[0x2A8 - 0xCC];
     Gib_802D9110 *target;
     u8 pad2AC[0x2FC - 0x2AC];
-    Vec_802D9110 pos;
-    Vec_802D9110 vel;
+    Vec pos;
+    Vec vel;
     u8 pad314[0x328 - 0x314];
     s16 state;
     u8 pad32A[0x338 - 0x32A];
@@ -1415,9 +1391,9 @@ void TObjEneGibbles__sub_802D9110(Gib_802D9110 *self) {
             self->flags30 &= 0xFFDFFFFF;
             self->timer = 0;
         } else {
-            Vec_802D9110 d;
+            Vec d;
             s32 diff;
-            VecCopy((Vec *)((Vec_800A6B14 *)&d), (const Vec *)((const Vec_800A6B14 *)&self->target->pos));
+            VecCopy((Vec *)((Vec *)&d), (const Vec *)((const Vec *)&self->target->pos));
             subtract_vector(&d, &self->pos);
             diff = ((TObjEnemy *)self)->turn_toward_direction(self->param->turn, (Vec *)&d);
             if (!(self->flags30 & 0x800000)) {
@@ -1430,7 +1406,7 @@ void TObjEneGibbles__sub_802D9110(Gib_802D9110 *self) {
                 if (check_path_obstructed(self, &self->target->pos) == 1) {
                     self->vel.x = self->vel.y = self->vel.z = 0.0f;
                 } else {
-                    ((void (*)(void *, Vec_802D9110, Vec_802D9110, f32))calc_velocity_toward_destination)(self, self->pos, self->target->pos, self->param->speed);
+                    ((void (*)(void *, Vec, Vec, f32))calc_velocity_toward_destination)(self, self->pos, self->target->pos, self->param->speed);
                 }
             }
         }
@@ -1643,7 +1619,7 @@ s32 TObjEneGibbles__sub_802D9A04(void *target) {
 #pragma pop
 
 void TObjEneGibbles::slam_damage_players(s32 arg1) {
-    Vec_802D9B80 v;
+    Vec v;
     Hit_802D9B80 a;
     f32 d;
     s32 i;
@@ -1681,11 +1657,11 @@ void TObjEneGibbles::slam_damage_players(s32 arg1) {
 
 void TObjEneGibbles::vfunc_60() {
     u8 *arg0 = (u8 *)this;
-    Vec_802D9D64 v;
+    Vec v;
     switch (this->m_37c) {
     case 0:
     default: {
-        VecCopy((Vec *)((Vec_800A6B14 *) &v), (const Vec *)((Vec_800A6B14 *) (this->target + 0x2FC)));
+        VecCopy((Vec *)((Vec *) &v), (const Vec *)((Vec *) (this->target + 0x2FC)));
         subtract_vector(&v, (u8 *)&this->m_2fc);
         f64 t = atan2_float(v.x, v.z);
         this->mode = 4;
@@ -1719,7 +1695,7 @@ void TObjEneGibbles::vfunc_60() {
 #define TGT_802D9EB4 (((void **)gibbles_combat_stat_entries)[(*(s16 *)(arg0 + 0x37C))])
 s32 TObjEneGibbles::is_target_in_attack_range() {
     u8 *arg0 = (u8 *)this;
-    Vec_802D9EB4 v;
+    Vec v;
     f32 rad;
     f32 dist;
     s32 ang;
@@ -2189,14 +2165,14 @@ void update_target__14TObjEneGibblesFPv(Obj_802DAD50 *self) {
         u16 tid;
         i = 0;
         best_id = 0xFFFF;
-        Vec_800A6B14 v = lbl_80472768;
+        Vec v = lbl_80472768;
         best = *self->range * *self->range;
         for (; i < registered_player_count + lbl_805D5870; i++) {
             p = (u8 *)TObjPlayer::get_player_data(i);
             if (((s32 (*)(u8 *))is_valid_and_active__10TObjPlayerFUl)(p) != 0 && p != (u8 *)self) {
                 id = ((s32 (*)(void *))get_entity_id)(p);
                 if ((u16)id < 0x4000 && (u16)id != self->f1C && !(P_802DAD50(p)->f30 & 0x02000800)) {
-                    VecCopy((Vec *)&v, (const Vec *)((Vec_800A6B14 *)(p + 0x2FC)));
+                    VecCopy((Vec *)&v, (const Vec *)((Vec *)(p + 0x2FC)));
                     subtract_vector(&v, &self->pos);
                     d = v.x * v.x + v.z * v.z;
                     if (d < best && check_path_obstructed(self, p + 0x2FC) != 1) {
@@ -2234,7 +2210,7 @@ void update_target__14TObjEneGibblesFPv(Obj_802DAD50 *self) {
         f32 best2;
         f32 best;
         f32 d;
-        Vec_800A6B14 v = lbl_80472774;
+        Vec v = lbl_80472774;
         best_id = 0xFFFF;
         best_p2 = NULL;
         best_id2 = best_id;
@@ -2248,7 +2224,7 @@ void update_target__14TObjEneGibblesFPv(Obj_802DAD50 *self) {
             if ((u16)((s32 (*)(void *))get_entity_id)(p) >= 0x1000) continue;
             if (((TObjPlayer *)p)->get_floor() != get_current_floor()) continue;
             if (P_802DAD50(p)->f30 & 0x02000800) continue;
-            VecCopy((Vec *)&v, (const Vec *)((Vec_800A6B14 *)(p + 0x2FC)));
+            VecCopy((Vec *)&v, (const Vec *)((Vec *)(p + 0x2FC)));
             subtract_vector(&v, &self->pos);
             d = v.x * v.x + v.z * v.z;
             if ((((TObjPlayer *)p)->class_flags & self->target_class_mask) && d < best &&
@@ -2284,7 +2260,7 @@ void update_target__14TObjEneGibblesFPv(Obj_802DAD50 *self) {
 }
 
 void TObjEneGibbles::turn_toward_target() {
-    Vec_800A6B14 d;
+    Vec d;
     VecCopy((Vec *)&d, (const Vec *)(&((Obj_800A6B14 *)this)->target->pos));
     subtract_vector(&d, &((Obj_800A6B14 *)this)->pos);
     ((TObjEneGibbles *)((Obj_800A6B14 *)this))->clamp_angle(angle_diff_s16(((Obj_800A6B14 *)this)->angle, (s32)(10430.38043493439 * atan2_float(d.x, d.z))));
@@ -2313,7 +2289,7 @@ extern "C" {
 
 void TObjEneGibbles::render() {
     Obj_802DB200 *self = (Obj_802DB200 *)this;
-    Vec_800A6B14 v;
+    Vec v;
     s32 fade;
     s32 vis;
     s32 cam;
@@ -2332,7 +2308,7 @@ void TObjEneGibbles::render() {
         select_actor_lighting((s32)this);
         TObjFish::set_global_param(this->texlist);
         push_matrix_from(0);
-        VecCopy((Vec *)&v, (const Vec *)((Vec_800A6B14 *)((u8 *)this + 0x38)));
+        VecCopy((Vec *)&v, (const Vec *)((Vec *)((u8 *)this + 0x38)));
         switch (this->mode) {
         case 2:
         case 6:

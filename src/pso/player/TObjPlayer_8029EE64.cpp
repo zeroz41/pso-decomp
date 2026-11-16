@@ -7,15 +7,13 @@
 #include "pso/map/FloorArea.h"
 
 
-struct Vec_8029EFFC { f32 x, y, z; };
-
-struct Cam_8029EFFC { Vec_8029EFFC pos; Vec_8029EFFC scale; };
+struct Cam_8029EFFC { Vec pos; Vec scale; };
 
 struct Pl_8029EFFC {
     u8 pad0[0x38];
-    Vec_8029EFFC pos38;
+    Vec pos38;
     u8 pad44[0x2FC - 0x44];
-    Vec_8029EFFC pos2FC;
+    Vec pos2FC;
 };
 
 struct G_8029EFFC {
@@ -29,7 +27,7 @@ struct Sora_8029EFFC {
     u8 pad0[0x1C];
     u32 f1C;
     u8 pad20[4];
-    Vec_8029EFFC pos24;
+    Vec pos24;
 };
 
 extern "C" {
@@ -55,18 +53,18 @@ extern s32 current_matrix;
 extern "C" {
 void TObjPlayer__sub_8029EE2C(void);
 int set_instance__6TSceneFi(void *f);
-void VecCopy__FP3VecPC3Vec(Vec_8029EFFC *, Vec_8029EFFC *);
+void VecCopy__FP3VecPC3Vec(Vec *, Vec *);
 f32 fabs_float(f32);
 void *get_player_by_client_id(s32 i);
 s32 fn_8029E7BC(s32 arg0, u8 *arg1);
-s32 fn_8029EC3C(Vec_8029EFFC *, s32);
+s32 fn_8029EC3C(Vec *, s32);
 void TScene__sub_8029F5D8();
 void TScene__sub_8029F5E4(f32);
 void TScene__sub_8029F5EC();
 f32 vec_squared_length(u8 *arg0);
 void reflect_matrix_in_plane(s32, Cam_8029EFFC *);
-void normalize_vector(Vec_8029EFFC *);
-const Vec_8029EFFC sora_reflection_up_vec = {0.0f, 1.0f, 0.0f};
+void normalize_vector(Vec *);
+const Vec sora_reflection_up_vec = {0.0f, 1.0f, 0.0f};
 extern s32 TSceneSora__sky_active_flag;
 extern s32 local_client_id;
 extern u32 TSceneSora__instance;
@@ -121,7 +119,7 @@ void TUnk_804DC7C4::render_shadows() {
     Cam_8029EFFC c2;
     Cam_8029EFFC c1;
     s32 r = 0;
-    Vec_8029EFFC v = sora_reflection_up_vec;
+    Vec v = sora_reflection_up_vec;
     s32 hit;
     s32 i;
     f32 k;
@@ -142,7 +140,7 @@ void TUnk_804DC7C4::render_shadows() {
     TSceneSora::copy_reflection_vec((u8 *)&v);
     scene_sora_reflect_active = 1;
     {
-        Vec_8029EFFC off = p->pos2FC;
+        Vec off = p->pos2FC;
         off.y += 10.0f;
         hit = fn_8029E7BC((s32)&off, (u8 *)&o->pos24);
     }
@@ -217,7 +215,7 @@ void TUnk_804DC7C4::render_shadows() {
             v.x = lbl_805DDD8C;
         }
         if (k != vec_squared_length((u8 *)&v)) {
-            Vec_8029EFFC tmp;
+            Vec tmp;
             normalize_vector(&v);
             TSceneSora::copy_reflection_vec((u8 *)&v);
             push_matrix();

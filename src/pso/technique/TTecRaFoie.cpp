@@ -21,8 +21,6 @@
 #include "pso/map/FloorArea.h"
 #pragma readonly_strings on
 
-struct Vec_80237DAC { f32 x, y, z; };
-
 struct RafoieBurst_80237DAC { s32 entry; s32 flags; f32 scale; };
 
 struct RafoieBursts_80237DAC { RafoieBurst_80237DAC *entries; u32 count; };
@@ -31,14 +29,12 @@ struct Obj_80237DAC {
     u8 pad0[0x20];
     u16 band;
     u8 pad22[0x28 - 0x22];
-    Vec_80237DAC position;
+    Vec position;
 };
-
-typedef struct Vec_80237FB8 { f32 x, y, z; } Vec_80237FB8;
 
 typedef struct TTecRaFoie_80237FB8 {
     u8 pad0[0x7C];
-    Vec_80237FB8 target;
+    Vec target;
     u8 pad1[0xEC - 0x88];
     s32 target_count;
     u16 first_id;
@@ -48,7 +44,7 @@ typedef struct TTecRaFoie_80237FB8 {
 
 typedef struct TObjPlayer_80237FB8 {
     u8 pad0[0x2FC];
-    Vec_80237FB8 pos;
+    Vec pos;
 } TObjPlayer_80237FB8;
 
 
@@ -65,7 +61,7 @@ void get_bml_model(void *, s32);
 #define get_bml_model ((void * (*)(void *, int))get_bml_model)
 void attach_particle_model(void *, void *, void *, int, int, f32);
 void spawn_particle_effect(void *, s32, void *);
-#define spawn_particle_effect ((void * (*)(Vec_80237FB8 *, int))spawn_particle_effect)
+#define spawn_particle_effect ((void * (*)(Vec *, int))spawn_particle_effect)
 s32 is_parents_unqueued__9TTecLukerFUl();
 s32 is_valid_and_active__10TObjPlayerFUl(int);
 #define is_valid_and_active__10TObjPlayerFUl ((s32 (*)(TObjPlayer_80237FB8 *))is_valid_and_active__10TObjPlayerFUl)
@@ -96,13 +92,12 @@ extern const RecoveredGlobal_80238388_lbl_8044DAF0 lbl_8044DAF0 = {0};
 
 #pragma push
 #pragma opt_common_subs off
-struct Vec_80237DAC;
 
 #pragma pop
 
 void TUnk_804CCB28::spawn_rafoie_explosion_bursts() {
     Obj_80237DAC *self = (Obj_80237DAC *)this;
-    Vec_80237DAC higher;
+    Vec higher;
     u32 i;
     VecCopy((Vec *)&higher, (const Vec *)&self->position);
     higher.y = (8.0f) + self->position.y;
@@ -179,7 +174,7 @@ void TTecRaFoie::vfunc_8(void *) {
     if (self->target_count != 0) {
         target = (TObjPlayer_80237FB8 *) find_entity_by_id(self->first_id);
         if (is_parents_unqueued__9TTecLukerFUl() != 0 && is_valid_and_active__10TObjPlayerFUl(target) != 0) {
-            Vec_80237FB8 point = target->pos;
+            Vec point = target->pos;
             spawn_particle_effect(&point, 0x39);
             emitter = spawn_particle_effect(&point, 0x1A);
             if (emitter != NULL) {
@@ -461,8 +456,6 @@ struct VObj_802386F8 : VBase_802386F8 {
     virtual void m20();
     virtual s32 m21(s32, Damage_802386F8, s32, s32, s32, void *);
 };
-
-typedef struct Point_80238C6C { f32 x, y, z; } Point_80238C6C;
 
 struct VBase_18_acd6eb { char pad[0x18]; };
 

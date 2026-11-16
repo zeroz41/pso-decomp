@@ -27,13 +27,11 @@ struct RecoveredGlobal_8023F1B8_main_task {
     u8 remaining[0x30];
 };
 
-struct Vec_8023F22C { f32 x, y, z; };
-
 extern "C" {
 extern RecoveredGlobal_8023F1B8_lbl_804CCDA8 lbl_804CCDA8;
 extern RecoveredGlobal_8023F1B8_lbl_804CCE60 lobby_scene_release_callback_table;
 extern u32 game_mode_scene_instance;
-void set_active_camera_pose(Vec_8023F22C *, Vec_8023F22C *);
+void set_active_camera_pose(Vec *, Vec *);
 void TCameraCtrl__ct(void *, void *);
 s32 is_area_transfer_pending(void);
 void apply_phase_keyboard_mode(void);
@@ -52,10 +50,10 @@ void fn_8023F18C(void) {
 }
 void clear_resource_load_tasks(void);
 void set_screen_size(f32, f32);
-extern Vec_8023F22C lbl_8044DCE8;
-extern Vec_8023F22C lbl_8044DCF4;
+extern Vec lbl_8044DCE8;
+extern Vec lbl_8044DCF4;
 extern u8 default_scene_light_config[];
-extern Vec_8023F22C TObjLight__scene_light_state;
+extern Vec TObjLight__scene_light_state;
 typedef char RecoveredGlobal_8023F1B8_lbl_804CCDA8_size[sizeof(RecoveredGlobal_8023F1B8_lbl_804CCDA8) == 0xB8 ? 1 : -1];
 typedef char RecoveredGlobal_8023F1B8_lbl_804CCE60_size[sizeof(RecoveredGlobal_8023F1B8_lbl_804CCE60) == 0x38 ? 1 : -1];
 typedef char RecoveredGlobal_8023F1B8_main_task_size[sizeof(RecoveredGlobal_8023F1B8_main_task) == 0x34 ? 1 : -1];
@@ -112,8 +110,8 @@ void init_game_mode_select_scene(void) {
         TCameraCtrl__ct(p, tl_camera);
     }
     {
-        Vec_8023F22C eye = lbl_8044DCE8;
-        Vec_8023F22C at = lbl_8044DCF4;
+        Vec eye = lbl_8044DCE8;
+        Vec at = lbl_8044DCF4;
         TCameraCtrl::select_active_controller(9);
         set_active_camera_pose(&eye, &at);
     }

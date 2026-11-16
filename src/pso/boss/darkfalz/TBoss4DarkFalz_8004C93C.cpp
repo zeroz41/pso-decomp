@@ -145,10 +145,6 @@ void TBoss4DarkFalz::update_fade_countdown() {
     }
 }
 
-typedef struct Vec_8004C940 {
-    f32 x, y, z;
-} Vec_8004C940;
-
 typedef struct Obj_8004C940 {
     u8 pad0[0x2D4];
     u16 f2d4;
@@ -156,7 +152,7 @@ typedef struct Obj_8004C940 {
     u8 pad2d8[0x380 - 0x2D8];
     s32 f380;
     u8 pad384[0x39C - 0x384];
-    Vec_8004C940 pos;
+    Vec pos;
     s32 f3a8;
 } Obj_8004C940;
 
@@ -314,7 +310,7 @@ struct S_8004CB28 {
 extern "C" {
 extern RecoveredGlobal_8004CBC0_lbl_80485448 lbl_80485448;
 void *create__11TBoss4Type2Fl(void *);
-void normalize_vector(Vec_8004C940 *);
+void normalize_vector(Vec *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 is_timer_expired__14TBoss4DarkFalzFv();
 
@@ -323,14 +319,14 @@ void TBoss4DarkFalz::update_leader_die_type2() {  }
 #pragma fp_contract on
 void TBoss4DarkFalz::enter_demo2_phase() {
     u16 arr[4];
-    Vec_8004C940 v;
+    Vec v;
     s32 flag;
     s32 i;
     Obj_8004C940 *arg0 = (Obj_8004C940 *)this;
     ((s32 (*)(void))freeze_all_players__14TBoss4DarkFalzFPv)();
     TLobby::stop_audio_streams();
     if ((u32)TBoss4DarkFalz__type2_instance != 0) {
-        VecCopy__FP3VecPC3Vec(&v, (void *)VecCopy__FP3VecPC3Vec(&arg0->pos, (Vec_8004C940 *)(TBoss4DarkFalz__type2_instance + 0x38)));
+        VecCopy__FP3VecPC3Vec(&v, (void *)VecCopy__FP3VecPC3Vec(&arg0->pos, (Vec *)(TBoss4DarkFalz__type2_instance + 0x38)));
         v.y = 0.0f;
         normalize_vector(&v);
         arg0->pos.x -= 75.0f * v.x;
@@ -501,8 +497,6 @@ void TBoss4DarkFalz::update_demo_warp1() {
 
 }
 
-struct V_8004D1E4 { f32 x, y, z; };
-
 extern "C" {
 f32 horizontal_distance_squared(void *, void *);
 extern s32 registered_player_count;
@@ -542,7 +536,7 @@ void TBoss4DarkFalz::update_demo_warp0() {
 void TBoss4DarkFalz::start_demo() { TBoss4DarkFalz__sub_8004B8F8((TBoss4DarkFalz *)((void *)this)); TBoss4DarkFalz::push_players_out_of_zone((s32)this, (s32)((void*)1)); TBoss4DarkFalz::freeze_all_players(this); TObjDFDemoF::create(this); set_dark_falz_music_request((s32)((void*)1)); unlock_music_flag((s32)((void*)23)); *(int*)((char*)this + 0x380) = 120; }
 
 void TBoss4DarkFalz::check_players_near_center() {
-    V_8004D1E4 v;
+    Vec v;
     void *p;
     s32 i;
     f32 lim;

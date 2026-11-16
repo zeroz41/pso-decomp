@@ -25,13 +25,11 @@ void TObjPlayer::play_effect_if_v2(s32 arg0) {
 
 }
 
-struct Vec_8022675C { f32 x, y, z; };
-
 struct SndEnt_8022675C {
     s32 flags;
     s32 id;
-    Vec_8022675C *src;
-    Vec_8022675C pos;
+    Vec *src;
+    Vec pos;
     s16 prio;
     s16 x1a;
     s32 x1c;
@@ -209,7 +207,7 @@ s32 fn_802264B8(s32 slot, s32) {
 SndEnt_8022675C lbl_805145F0[40];
 u8 lbl_80514C30[0x20];
 f32 lbl_80514C50[4];
-s32 play_sound_effect(s32 id, Vec_8022675C *src, s32 a2, s32 flags);
+s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags);
 
 s32 TOTrapAncient01::check_trigger_flag(s32 arg0, s32 arg1) {
     s32 var_r3;
@@ -252,7 +250,7 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags) {
         last_sound_effect_slot = idx;
         if (ok != 0) {
             e = &lbl_805145F0[idx];
-            e->src = (Vec_8022675C *)src;
+            e->src = (Vec *)src;
             e->x1a = a3;
             e->prio = 5;
             idx = normalize_sound_request((u32)id, (s32)e->x1c, (s32)e->src, (s32)e->x1a, (s32)flags);
@@ -267,7 +265,7 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags) {
             if (flags & 1) {
                 lbl_805145F0[idx].flags |= 0x2000;
             }
-            lbl_805145F0[idx].src = (Vec_8022675C *)src;
+            lbl_805145F0[idx].src = (Vec *)src;
             lbl_805145F0[idx].x1a = a3;
             lbl_805145F0[idx].id = id;
             lbl_805145F0[idx].x1c = a1;
@@ -279,10 +277,10 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags) {
     }
     return idx;
 }
-s32 play_sound_effect(s32 id, Vec_8022675C *src, s32 a2, s32 flags) {
+s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags) {
     s32 i;
     s32 idx;
-    Vec_8022675C *pos;
+    Vec *pos;
     last_sound_effect_slot = -1;
     if (lbl_805D62B0 == 0) {
         return -1;
@@ -303,7 +301,7 @@ s32 play_sound_effect(s32 id, Vec_8022675C *src, s32 a2, s32 flags) {
         if (src != NULL) {
             pos = &lbl_805145F0[idx].pos;
             VecCopy((Vec *)pos, (const Vec *)src);
-            ((void (*)(s32, Vec_8022675C *))TLobby__sub_80227AF8)(idx, pos);
+            ((void (*)(s32, Vec *))TLobby__sub_80227AF8)(idx, pos);
         }
         lbl_805145F0[idx].flags &= lbl_805DC748;
         if (flags & 1) {

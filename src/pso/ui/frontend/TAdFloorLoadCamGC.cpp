@@ -5,16 +5,14 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 
-struct Vec_8034BE5C { f32 x, y, z; };
-
 struct Cam_8034BE5C {
     u8 pad0[0x1C];
     s32 direction;
     s32 ticks;
     s32 angle;
-    Vec_8034BE5C pos;
-    Vec_8034BE5C target;
-    Vec_8034BE5C up;
+    Vec pos;
+    Vec target;
+    Vec up;
 };
 
 struct Pad_8034BE5C { u8 pad0[0x34]; s16 tilt; u8 pad36[4]; s16 speed; };
@@ -49,7 +47,7 @@ extern const f32 lbl_805DFDC0 = 0.4f;
 #pragma fp_contract on
 void TAdFloorLoadCamGC::run_task() {
     Cam_8034BE5C *s = (Cam_8034BE5C *)this;
-    Vec_8034BE5C up;
+    Vec up;
     f32 x;
     f32 y;
     f32 z;

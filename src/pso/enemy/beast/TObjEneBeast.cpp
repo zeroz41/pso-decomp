@@ -55,24 +55,18 @@ extern s32 model_render_flags;
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 
-struct Stack_80091E08 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
 struct RecoveredGlobal_80091E08_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
-struct Vec_80091EA4 { f32 x, y, z; };
 struct VBase_80091EA4 { char pad[0x18]; };
 struct VObj_80091EA4 : VBase_80091EA4 {
     virtual void m0();
     virtual void m1();
     virtual void m2();
     virtual void m3();
-    virtual void m4(Vec_80091EA4 *, Vec_80091EA4 *);
+    virtual void m4(Vec *, Vec *);
 };
 struct Obj_80091EA4 {
     u8 pad0[0x38];
-    Vec_80091EA4 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 angle;
     u8 pad64[0xB8 - 0x64];
@@ -162,26 +156,23 @@ void TObjEneBeast::vfunc_95() {
 }
 
 void TObjEneBeast::vfunc_94() {
-    typedef char sp8_offset[(offsetof(Stack_80091E08, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80091E08, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80091E08, sp10) == 0x8) ? 1 : -1];
-    Stack_80091E08 stack;
-    stack.sp8 = 0.0f;
-    stack.spC = 1e+01f;
-    stack.sp10 = 0.5f * *(f32 *)(this->m_2b0 + 0x10);
+    Vec stack;
+    stack.x = 0.0f;
+    stack.y = 1e+01f;
+    stack.z = 0.5f * *(f32 *)(this->m_2b0 + 0x10);
     push_matrix_from(&identity_matrix.value);
     rotate_matrix_y(0, this->rotation_y);
-    rotate_vector_by_matrix(0, &stack.sp8, &stack.sp8);
+    rotate_vector_by_matrix(0, &stack.x, &stack.x);
     pop_matrix();
-    vec3_add_to(&stack.sp8, (u8 *)&this->position);
-    ((TObjPlayer *)(&stack.sp8))->spawn_effect_at_ground(0x23);
-    TObjPlayer::spawn_dead_spot_type2((s32)&stack.sp8, 0xF);
+    vec3_add_to(&stack.x, (u8 *)&this->position);
+    ((TObjPlayer *)(&stack.x))->spawn_effect_at_ground(0x23);
+    TObjPlayer::spawn_dead_spot_type2((s32)&stack.x, 0xF);
 }
 
 void TObjEneBeast::vfunc_93() {
     Obj_80091EA4 *self = (Obj_80091EA4 *)this;
-    Vec_80091EA4 dir;
-    Vec_80091EA4 pos;
+    Vec dir;
+    Vec pos;
     u32 entry;
     s32 idx;
     VObj_80091EA4 *eff;

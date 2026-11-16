@@ -520,13 +520,9 @@ const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 
 #include <stddef.h>
 
-typedef struct Vec_8002EA64 {
-    f32 x, y, z;
-} Vec_8002EA64;
-
 typedef struct Part_8002EA64 {
-    Vec_8002EA64 pos;
-    Vec_8002EA64 vel;
+    Vec pos;
+    Vec vel;
     s32 unk18;
     s32 unk1C;
     s32 unk20;
@@ -749,8 +745,6 @@ struct VObj_18_3a6650 : VBase_18_3a6650 {
     virtual s32 m104();
 };
 
-struct Vec_8002F258 { f32 x, y, z; };
-
 struct Vec4_8002F258 { f32 x, y, z, w; };
 
 struct Light_8002F258 { u8 pad0[0x24]; Vec4_8002F258 col; };
@@ -761,7 +755,7 @@ struct Me_8002F258 : VObj_18_3a6650 {
     u8 pad1C[0x24 - 0x1C];
     s32 f24;
     u8 pad28[0x38 - 0x28];
-    Vec_8002F258 pos;
+    Vec pos;
     u8 pad44[0x5C - 0x44];
     s32 rx;
     s32 ry;
@@ -770,9 +764,9 @@ struct Me_8002F258 : VObj_18_3a6650 {
     s32 flags;
     u8 pad3c4[0x3D8 - 0x3C4];
     u8 nodes[0x3F8 - 0x3D8];
-    Vec_8002F258 pts[20];
+    Vec pts[20];
     u8 pad4e8[0x540 - 0x4E8];
-    Vec_8002F258 mids[10];
+    Vec mids[10];
     u8 pad5b8[0x5E0 - 0x5B8];
     s32 joints[10];
     u8 pad608[0x6A4 - 0x608];
@@ -893,8 +887,6 @@ struct Obj_80034034;
 
 struct Obj_800341F0;
 
-struct Vec_800310F8 { f32 x, y, z; };
-
 struct Self_800310F8 {
     u8 pad0[0xB8];
     s16 fB8;
@@ -966,15 +958,13 @@ struct VObj_18_8002F7C4 : VBase_18_8002F7C4 {
     virtual void m72(s32);
 };
 
-struct Vec_8002F7C4 { f32 x, y, z; };
-
 struct Sub_8002F7C4 { u8 pad0[8]; u32 f8; };
 
 struct Rol_8002F7C4 : VObj_18_8002F7C4 {
     u8 pad1C[0x30 - 0x1C];
     u32 flags30;
     u8 pad34[0x38 - 0x34];
-    Vec_8002F7C4 pos;
+    Vec pos;
     u8 pad44[0x5C - 0x44];
     s32 f5C;
     u8 pad60[0xB8 - 0x60];
@@ -986,7 +976,7 @@ struct Rol_8002F7C4 : VObj_18_8002F7C4 {
     u8 pad3C4[0x3CC - 0x3C4];
     Sub_8002F7C4 *f3CC;
     u8 pad3D0[0x540 - 0x3D0];
-    Vec_8002F7C4 pts[10];
+    Vec pts[10];
     u8 pad5B8[0x5E0 - 0x5B8];
     s32 slots[10];
     u8 pad608[0x620 - 0x608];
@@ -1006,11 +996,9 @@ struct Rol_8002F7C4 : VObj_18_8002F7C4 {
     s32 f758;
 };
 
-struct Vec_80032E38 { f32 x, y, z; };
-
 struct Rol_80032E38 {
     u8 pad0[0x38];
-    Vec_80032E38 pos;
+    Vec pos;
     u8 pad44[0x64 - 0x44];
     s32 f64;
     u8 pad68[0xB8 - 0x68];
@@ -1035,12 +1023,8 @@ struct Rol_80032E38 {
     u8 pad6EC[0x6FC - 0x6EC];
     f32 f6FC;
     u8 pad700[0x724 - 0x700];
-    Vec_80032E38 f724;
+    Vec f724;
 };
-
-struct V_800320B4 { f32 x, y, z; };
-
-struct R_800320B4 { f32 x, y, z; };
 
 struct D_800320B4 {
     u8 pad0[0x38];
@@ -1057,7 +1041,7 @@ struct D_800320B4 {
     u32 flags;
     u8 pad3C4[0x518 - 0x3C4];
     u8 snd[0x540 - 0x518];
-    R_800320B4 recs[10];
+    Vec recs[10];
     u8 pad5B8[0x654 - 0x5B8];
     s32 mode;
     s32 next_mode;
@@ -1082,39 +1066,31 @@ struct D_800320B4 {
     f32 ay;
 };
 
-typedef struct Vec_800344A4 {
-    f32 x, y, z;
-} Vec_800344A4;
-
 typedef struct DeRolLe_800344A4 {
     u8 pad0[0x3D8];
     u8 unk3D8[0x540 - 0x3D8];
-    Vec_800344A4 pts[8];
+    Vec pts[8];
     u8 pad5A0[0x5E0 - 0x5A0];
     void *joints[8];
     u8 pad600[0x654 - 0x600];
     s32 mode;
 } DeRolLe_800344A4;
 
-struct Vec_80033AA4 { f32 x, y, z; };
-
 struct Vec3i_80033AA4 { s32 x, y, z; };
 
 struct Obj_80033AA4 {
     u8 pad0[0x540];
-    Vec_80033AA4 pos[42];
+    Vec pos[42];
     u8 pad738[8];
     void *ctl[6];
     s32 f758;
 };
 
-struct Vec_800313F8 { f32 x, y, z; };
-
 struct Sub_800313F8 { u8 pad0[8]; u32 f8; };
 
 struct DR_800313F8 {
     u8 pad0[0x38];
-    Vec_800313F8 pos;
+    Vec pos;
     u8 pad44[0x64 - 0x44];
     s32 f64;
     u8 pad68[0xB0 - 0x68];
@@ -1128,10 +1104,10 @@ struct DR_800313F8 {
     u8 pad3C4[0x3CC - 0x3C4];
     Sub_800313F8 *f3CC;
     u8 pad3D0[0x44C - 0x3D0];
-    Vec_800313F8 v44C;
-    Vec_800313F8 v458;
+    Vec v44C;
+    Vec v458;
     u8 pad464[0x4E8 - 0x464];
-    Vec_800313F8 v4E8;
+    Vec v4E8;
     u8 pad4F4[0x518 - 0x4F4];
     u8 snd[0x620 - 0x518];
     s32 tentacles[4];
@@ -1157,8 +1133,6 @@ struct DR_800313F8 {
     void *f73C;
 };
 
-struct Vec_8002FE60 { f32 x, y, z; };
-
 struct D_8002FE60 {
     u8 pad0[0xB8];
     s16 fB8;
@@ -1169,8 +1143,8 @@ struct D_8002FE60 {
     u8 pad394[0x3C0 - 0x394];
     u32 flags;
     u8 pad3C4[0x4E8 - 0x3C4];
-    Vec_8002FE60 pos;
-    Vec_8002FE60 dir;
+    Vec pos;
+    Vec dir;
     u8 pad500[0x518 - 0x500];
     u8 snd[0x654 - 0x518];
     s32 mode;
@@ -1189,8 +1163,8 @@ struct D_8002FE60 {
     f32 speed;
     f32 f700;
     u8 pad704[0x724 - 0x704];
-    Vec_8002FE60 vel;
-    Vec_8002FE60 hit;
+    Vec vel;
+    Vec hit;
     void *ptcl;
     u8 pad740[0x758 - 0x740];
     s32 f758;
@@ -1386,12 +1360,6 @@ f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 
 void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3);
 
-struct Stack_800339BC {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 struct RecoveredGlobal_800339BC_lbl_804FF5E8 {
     s32 value;
     u8 remaining[0x24];
@@ -1422,8 +1390,6 @@ typedef struct DeRolLe_8002FD9C {
     u8 pad3C4[0x654 - 0x3C4];
     s32 mode;
 } DeRolLe_8002FD9C;
-
-struct Vec_80030720 { f32 x, y, z; };
 
 struct Obj_80030720 {
     u8 pad0[0xB8];
@@ -1500,8 +1466,6 @@ struct Obj_80034258 : V_80034258 {
     u8 pad2[0x5e0 - 0x1c];
     V_80034258 *parts[10];
 };
-
-struct Vec_80030588 { f32 x, y, z; };
 
 struct Rec_80030898 { f32 a; f32 b; f32 c; };
 
@@ -1617,7 +1581,7 @@ int play_sound_effect(void*, int, int, int);
 
 s32 vec3_add_to(int, void *);
 
-extern Vec_80030720 TBoss2DeRolLe__mine_ground_targets[];
+extern Vec TBoss2DeRolLe__mine_ground_targets[];
 
 extern s32 derolle_action_mode_sequence_table[];
 
@@ -1673,15 +1637,11 @@ void set_state_and_send__13TBoss2DeRolLeFPvi(Obj_80034034 *self, s32 mode);
 
 extern int fold_flush_0;
 
-struct Vec_80030A38 { f32 x, y, z; };
-
 struct Obj_800341F0;
-
-struct Vec_80031AD4 { f32 x, y, z; };
 
 struct Rol_80031AD4 {
     u8 pad0[0x38];
-    Vec_80031AD4 pos;
+    Vec pos;
     u8 pad44[0xB0 - 0x44];
     s32 fB0;
     u8 padB4[0xB8 - 0xB4];
@@ -1754,7 +1714,7 @@ s32 advance_scalar_motion_profile(void *);
 
 u8 update_phase_is_done__13TBoss2DeRolLeFPv(u8 *arg0);
 
-void *__ct__15TBoss2PhotonPadFv(void *, void *, Vec_800344A4 *, Vec_800344A4 *, s32);
+void *__ct__15TBoss2PhotonPadFv(void *, void *, Vec *, Vec *, s32);
 
 void *__nw__7TObjectFUl(u32);
 
@@ -1805,8 +1765,6 @@ struct RecoveredFields_80034C2C_arg0 {
     u8 unknown_0[0x3AC];
     f32 field_3AC;
 };
-
-struct Vec3_80034B60 { f32 x, y, z; };
 
 struct Obj_80034B60 { u8 pad0[0x34]; s32 f34; u8 pad1[0xC0 - 0x38]; f32 fC0; u8 pad2[0xF8 - 0xC4]; s32 fF8; };
 
@@ -2233,8 +2191,6 @@ struct Self_80035420 {
     void *a740[6];
 };
 
-struct Vec_800363B4 { f32 x, y, z; };
-
 struct Seg_800363B4 { s8 n; u8 pad1[0xF]; void *model1; void *model2; };
 
 typedef struct Slot_80035D24 {
@@ -2466,8 +2422,6 @@ typedef struct VObj_18_bd2ad6 VObj_18_bd2ad6;
 namespace constructor_view {
 
 extern "C" {
-
-struct Vec_8003563C { f32 x, y, z; };
 
 struct Buf_8003563C { u8 b[0x30]; };
 
@@ -2846,7 +2800,7 @@ struct Self_8003563C {
     s32 f24;
     u8 pad28[0x34 - 0x28];
     s32 f34;
-    Vec_8003563C pos;
+    Vec pos;
     u8 pad44[0x3C0 - 0x44];
     s32 f3C0;
     s32 f3C4;
@@ -2856,11 +2810,11 @@ struct Self_8003563C {
     s32 f3D4;
     u8 obj3D8[0x3F4 - 0x3D8];
     s32 f3F4;
-    Vec_8003563C v3F8[20];
-    Vec_8003563C v4E8[4];
-    Vec_8003563C v518[3];
+    Vec v3F8[20];
+    Vec v4E8[4];
+    Vec v518[3];
     s32 f53C;
-    Vec_8003563C v540[10];
+    Vec v540[10];
     s32 f5B8[10];
     void *f5E0[10];
     f32 f608, f60C, f610, f614;
@@ -3725,7 +3679,7 @@ void set_move_direction__13TBoss2DeRolLeFPv(void *arg0) {
 }
 
 f32 calc_node_height__13TBoss2DeRolLeFPv(Obj_80034B60 *self) {
-    Vec3_80034B60 v;
+    Vec v;
     v.x = 0.0f;
     v.y = 0.0f;
     v.z = 0.0f;
@@ -3778,7 +3732,7 @@ void init_head_params__13TBoss2DeRolLeFPv(u8 *arg0) {
 #pragma opt_common_subs off
 
 #define VecCopy__FP3VecPC3Vec ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)
-#define play_sound_effect ((void (*)(s32, Vec_800344A4 *, s32, s32))play_sound_effect)
+#define play_sound_effect ((void (*)(s32, Vec *, s32, s32))play_sound_effect)
 
 namespace behavior_view {
 
@@ -3910,7 +3864,7 @@ u8 TBoss2DeRolLe__sub_80034574(u8 *arg0) {
 }
 
 void TBoss2DeRolLe__sub_800344A4(DeRolLe_800344A4 *self, s32 idx, s32 arg2) {
-    Vec_800344A4 v;
+    Vec v;
     s32 ang;
     void *p;
     ang = 0x3800 - idx * 0x33;
@@ -4188,7 +4142,7 @@ void advance_action_sequence__13TBoss2DeRolLeFPv(Obj_80034034 *self) {
 #pragma fp_contract on
 
 void update_particle_ctrls__13TBoss2DeRolLeFPv(Obj_80033AA4 *o) {
-    Vec_80033AA4 t;
+    Vec t;
     Vec3i_80033AA4 ang;
     s32 ok;
     s32 j;
@@ -4220,7 +4174,7 @@ void update_particle_ctrls__13TBoss2DeRolLeFPv(Obj_80033AA4 *o) {
     if (ok != 0) {
         if (o->f758 == 0) {
             for (k = 0; k < 3; k++) {
-                Vec_80033AA4 *v = &o->pos[boss2_derolle_particle_node_indices[k]];
+                Vec *v = &o->pos[boss2_derolle_particle_node_indices[k]];
                 f32 r = fabs_float(v->y - -10.0f);
                 f32 lim = boss2_derolle_particle_limits[k];
                 if (r < 0.9f * lim) {
@@ -4268,15 +4222,12 @@ void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, s32 arg2) {
 #pragma fp_contract on
 
 void spawn_offset_particle__13TBoss2DeRolLeFiff(s32 arg0, f32 farg0, f32 farg1) {
-    typedef char sp8_offset[(offsetof(Stack_800339BC, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800339BC, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_800339BC, sp10) == 0x8) ? 1 : -1];
-    Stack_800339BC stack;
-    VecCopy__FP3VecPC3Vec((int)((void *)&stack.sp8), (void *)arg0);
-    stack.sp8 = -((*(f32 *)((s8 *)&lbl_804FF5E8.value + 0xC) * farg1) - stack.sp8);
-    stack.spC -= (*(f32 *)((s8 *)&lbl_804FF5E8.value + 0x10) * farg1) - farg0;
-    stack.sp10 = -((*(f32 *)((s8 *)&lbl_804FF5E8.value + 0x14) * farg1) - stack.sp10);
-    spawn_particle_effect_with_flags((&stack.sp8), 0x127, 0x40);
+    Vec stack;
+    VecCopy__FP3VecPC3Vec((int)((void *)&stack.x), (void *)arg0);
+    stack.x = -((*(f32 *)((s8 *)&lbl_804FF5E8.value + 0xC) * farg1) - stack.x);
+    stack.y -= (*(f32 *)((s8 *)&lbl_804FF5E8.value + 0x10) * farg1) - farg0;
+    stack.z = -((*(f32 *)((s8 *)&lbl_804FF5E8.value + 0x14) * farg1) - stack.z);
+    spawn_particle_effect_with_flags((&stack.x), 0x127, 0x40);
 }
 
 #pragma pop
@@ -4491,12 +4442,12 @@ void TBoss2DeRolLe__sub_800333F4(Obj_800333F4 *self, u32 arg1) {
 #define o ((Rol_80032E38 *)arg0)
 
 void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
-    Vec_80032E38 *p = &o->f724;
+    Vec *p = &o->f724;
     CameraPlayback cam;
     CameraPlayback cam2;
-    Vec_80032E38 v1;
-    Vec_80032E38 v2;
-    Vec_80032E38 v3;
+    Vec v1;
+    Vec v2;
+    Vec v3;
     f32 t;
     switch ((u32)arg1) {
     case 4:
@@ -4995,7 +4946,7 @@ void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3) {
                 f32 frame = self->frame;
                 if (frame >= 24.0f && frame <= 32.0f) {
                     if (self->tick >= 3) {
-                        V_800320B4 v;
+                        Vec v;
                         s32 i;
                         self->tick = 0;
                         ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->x);
@@ -5011,7 +4962,7 @@ void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3) {
                         ((void (*)(void *, void *)) spawn_ceil_junk__13TBoss2DeRolLeFii)(self, &v);
                     }
                 } else if (frame >= 41.0f && frame <= 46.0f && self->tick >= 3) {
-                    V_800320B4 v;
+                    Vec v;
                     self->tick = 0;
                     ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->x);
                     v.x = v.x + self->dir * (20.0f * ((TObjChara *)self)->random_ratio() + 20.0f);
@@ -5082,8 +5033,8 @@ void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3) {
 extern "C" {
 
 void TBoss2DeRolLe__sub_80031AD4(void *arg0, void *arg1) {
-    Vec_80031AD4 va;
-    Vec_80031AD4 vb;
+    Vec va;
+    Vec vb;
 
     switch ((u32)arg1) {
     case 4:
@@ -5364,7 +5315,7 @@ void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2) {
         o->f6E8++;
         if (o->f6E0 != 0 && o->f6E0 != 1) {
             if (o->fC0 >= 15.0f && o->fC0 <= 17.0f && o->f6E8 >= 2) {
-                Vec_800313F8 v;
+                Vec v;
                 f32 s;
                 o->f6E8 = 0;
                 VecCopy__FP3VecPC3Vec((int)&v, &o->v4E8);
@@ -5372,7 +5323,7 @@ void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2) {
                 v.x = v.x - o->f6FC * s;
                 v.y = -5.0f;
                 v.z += 40.0f;
-                ((void (*)(void *, Vec_800313F8 *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &v);
+                ((void (*)(void *, Vec *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &v);
             }
             if (((TObjMotion *)o)->is_passing_frame(15.0f) != 0) {
                 ((int (*)(s32, void *))play_sound)(0x4003AD11, o->snd);
@@ -5460,7 +5411,7 @@ void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2) {
 #define self ((Self_800310F8 *)arg0)
 
 void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2) {
-    Vec_800310F8 v;
+    Vec v;
     s32 a;
     s32 ok;
     s32 i;
@@ -5660,7 +5611,7 @@ void TBoss2DeRolLe__sub_80030DFC(void *arg0_, void *arg1_, int arg2) {
 #undef arg0
 
 void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1) {
-    Vec_80030A38 v;
+    Vec v;
 
     switch (arg1) {
     case 4:
@@ -5882,7 +5833,7 @@ void TBoss2DeRolLe__sub_80030720(Obj_80030720 *self, u32 arg1, s32 arg2) {
 #pragma fp_contract on
 
 void state_ceiling_attack__13TBoss2DeRolLeFPvUi(TBoss2DeRolLe *arg0, u32 arg1) {
-    Vec_80030588 v;
+    Vec v;
     f32 frame;
 
     switch (arg1) {
@@ -5932,8 +5883,8 @@ void state_ceiling_attack__13TBoss2DeRolLeFPvUi(TBoss2DeRolLe *arg0, u32 arg1) {
 #define VCOPY(d, s) ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)((d), (s))
 
 void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
-    Vec_8002FE60 *vel;
-    Vec_8002FE60 *hit;
+    Vec *vel;
+    Vec *hit;
     D_8002FE60 *self = (D_8002FE60 *) arg0;
     vel = &self->vel;
     switch (arg1) {
@@ -6004,7 +5955,7 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
                         ((TParticleCtrl *)(self->ptcl))->enable();
                     }
                 } else {
-                    Vec_8002FE60 a;
+                    Vec a;
                     VCOPY(&a, &self->pos);
                     a.x += 2.0f * (5.0f * self->dir.x);
                     a.y += 5.0f * self->dir.y;
@@ -6040,7 +5991,7 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
                     ((TParticleCtrl *)(self->ptcl))->enable();
                 }
             } else {
-                Vec_8002FE60 b;
+                Vec b;
                 VCOPY(&b, &self->pos);
                 b.x += 2.0f * (5.0f * self->dir.x);
                 b.y += 5.0f * self->dir.y;
@@ -6048,10 +5999,10 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
                 ((TParticleCtrl *)self->ptcl)->set_position(&b);
             }
             {
-                Vec_8002FE60 e;
-                Vec_8002FE60 c;
-                Vec_8002FE60 p;
-                Vec_8002FE60 d;
+                Vec e;
+                Vec c;
+                Vec p;
+                Vec d;
                 f32 h;
                 f32 dy;
                 f32 t;
@@ -6239,9 +6190,9 @@ void TBoss2DeRolLe__sub_8002FCE4(Obj_8002FCE4 *self, u32 kind) {
 
 void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
     CameraPlayback cam;
-    Vec_8002F7C4 v;
-    Vec_8002F7C4 w;
-    Vec_8002F7C4 save;
+    Vec v;
+    Vec w;
+    Vec save;
     s32 i;
     f32 t;
     switch ((u32)arg1) {
@@ -6486,7 +6437,7 @@ void TBoss2DeRolLe::render() {
     Me_8002F258 *e = (Me_8002F258 *)this;
     Vec4_8002F258 *col;
     s32 i;
-    Vec_8002F258 *out;
+    Vec *out;
 
     if (this->get_target_info() != 0) {
         e->m104();
@@ -6542,7 +6493,7 @@ void TBoss2DeRolLe::render() {
     model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();
     {
-    Vec_8002F258 v;
+    Vec v;
     out = e->mids;
     VecCopy__FP3VecPC3Vec(&v, &e->pts[0]);
     vec3_add_to(&v, &e->pts[9]);

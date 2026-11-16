@@ -41,11 +41,10 @@ s32 draw_chunk_object(int, void *);
 extern s32 city_air_car_model_index_table[];
 extern void **city_common_texture_list;
 }
-struct Vec_80180E70 { f32 x, y, z; };
 
 struct Car_80180E70 {
     u8 pad0[0x38];
-    Vec_80180E70 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 yaw;
     u8 pad64[0x90 - 0x64];
@@ -58,11 +57,9 @@ struct Car_80180E70 {
     u32 light;
 };
 
-struct Vec_80181074 { f32 x, y, z; };
-
 struct Car_80181074 {
     u8 pad0[0x38];
-    Vec_80181074 pos;
+    Vec pos;
     u8 pad44[0x5C - 0x44];
     s32 roll;
     s32 heading;
@@ -107,15 +104,6 @@ struct Obj_801815F8 { const char *name; u8 pad0[0x14]; u8 *vptr; s32 f1C; f32 f2
 
 struct Info_80181698 { s32 f0; u32 n; };
 
-struct V3_80181698 { f32 x; f32 y; f32 z; };
-
-typedef struct
-{
-  f32 x;
-  f32 y;
-  f32 z;
-} Vec_801817AC;
-
 typedef struct
 {
   f32 x;
@@ -158,7 +146,7 @@ extern u8 __vt__19TObjCityAirCar_Ctrl[];
 extern s32 city_traffic_path_motion_index_table[];
 extern s32 city_aircar_model_indices[];
 s32 alloc_tables__6TLobbyFll(s32, s32, s32, Ent_801817AC *);
-void subtract_vector(Vec_801817AC *, Vec_801817AC *);
+void subtract_vector(Vec *, Vec *);
 extern s32 city_traffic_car_chunk_index_table[];
 Lob_801817AC * city_air_car_model_resource;
 void ** city_air_car_model_handle;
@@ -191,13 +179,13 @@ s32 get_city_common_motion(s32 i) {
 }
 
 void measure_traffic_path_lengths(void) {
-  Vec_801817AC prev;
-  Vec_801817AC cur;
-  Vec_801817AC a;
-  Vec_801817AC b;
+  Vec prev;
+  Vec cur;
+  Vec a;
+  Vec b;
   Quat_801817AC q;
-  Vec_801817AC a2;
-  Vec_801817AC b2;
+  Vec a2;
+  Vec b2;
   Quat_801817AC q2;
   Motion_801817AC *m;
   s32 i;
@@ -258,8 +246,8 @@ void free_buffer_pair_table(void) {
 }
 
 s32 sample_aircar_path_position(s32 arg0, void *arg1, f32 frame) {
-    V3_80181698 sp24;
-    V3_80181698 sp18;
+    Vec sp24;
+    Vec sp18;
     f32 sp8[4];
     f32 lim;
     s32 r;
@@ -404,8 +392,8 @@ f32 fn_801811FC(void* p) { return *(f32*)((char*)p + 0x94); }
 struct Car_80181074;
 s32 TObjCityAirCar_Car::update_path_motion() {
     Car_80181074 *self = (Car_80181074 *)this;
-    Vec_80181074 a;
-    Vec_80181074 b;
+    Vec a;
+    Vec b;
     s32 ang;
     s32 ok;
     s32 d;
@@ -462,7 +450,7 @@ s32 TObjCityAirCar_Car::update_path_motion() {
     return ok;
 }
 void TObjCityAirCar_Car::run_task() {
-    Vec_80180E70 v;
+    Vec v;
     f32 scale;
     f32 t;
     t = ((Car_80180E70 *)this)->frame;

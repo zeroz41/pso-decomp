@@ -94,14 +94,12 @@ struct VObj_801A37D0 : VBase_801A37D0 {
     virtual void m1();
 };
 
-struct Vec_801A37D0 { f32 x, y, z; };
-
 struct Cam_801A37D0 {
     u8 pad0[0x94];
     s32 yaws[4];
-    Vec_801A37D0 poss[4];
+    Vec poss[4];
     u8 padd4[0x178 - 0xD4];
-    Vec_801A37D0 pos;
+    Vec pos;
     u8 pad184[0x194 - 0x184];
     s32 yaw;
 };

@@ -17,12 +17,10 @@ const char *TObjEnePanarmsAtkColli_class_name = "TObjEnePanarmsAtkColli";
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 struct Entry_800E31C4 { s32 id; u8 data[0xC]; };
 
-struct Vec_800E31C4 { f32 x; f32 y; f32 z; };
-
 __declspec(section ".data") s32 TObjEnePanarmsAtkColli__type_index_table[2] = {1, 2};
 Vec panarms_atk_zero_vec = {0.0f, 0.0f, 0.0f};
 
-struct Obj_800E31C4 { Entry_800E31C4 *list; Vec_800E31C4 *vecs; };
+struct Obj_800E31C4 { Entry_800E31C4 *list; Vec *vecs; };
 
 struct Base_800E32C0 { u8 pad[0x18]; };
 
@@ -90,21 +88,16 @@ struct V_800E3374 : Base_800E3374 {
 
 struct Obj_800E3374 { u8 pad0[0x10]; s32 f10; u8 pad1[0x384-0x14]; V_800E3374 *f384; u8 pad2[4]; f32 f38C; };
 
-struct Vec_800E35C8 { f32 x, y, z; };
-
-struct Obj_800E35C8 { u8 pad0[0x38]; Vec_800E35C8 pos; u8 pad1[0x378 - 0x44]; f32 f378; };
+struct Obj_800E35C8 { u8 pad0[0x38]; Vec pos; u8 pad1[0x378 - 0x44]; f32 f378; };
 
 struct Player_800E35C8 { u8 pad0[0x30]; u32 f30; };
 
-struct Vec_800E3428 { f32 x, y, z; };
-struct Obj_800E3428 { u8 pad0[0x38]; Vec_800E3428 pos; Vec_800E3428 dir; u8 pad1[0x378 - 0x50]; f32 f378; };
+struct Obj_800E3428 { u8 pad0[0x38]; Vec pos; Vec dir; u8 pad1[0x378 - 0x50]; f32 f378; };
 
-struct Vec_800E322C { f32 x, y, z; };
-
-struct Obj_800E322C { u8 pad0[0x10]; u32 f10; u8 pad1[0x38 - 0x14]; Vec_800E322C pos; u8 pad2[0x378 - 0x44]; f32 f378; };
+struct Obj_800E322C { u8 pad0[0x10]; u32 f10; u8 pad1[0x38 - 0x14]; Vec pos; u8 pad2[0x378 - 0x44]; f32 f378; };
 
 extern "C" {
-Obj_800E31C4 *fn_800E31C4(Obj_800E31C4 *self, Entry_800E31C4 *list, Vec_800E31C4 *vecs);
+Obj_800E31C4 *fn_800E31C4(Obj_800E31C4 *self, Entry_800E31C4 *list, Vec *vecs);
 extern Pair_800E32C0 lbl_8043CDF8[];
 extern Pair_800E3374 lbl_8043CDF0[];
 void fn_800E3374(Obj_800E3374 *arg0, V_800E3374 *arg1);
@@ -118,9 +111,9 @@ void vec3_add_to(void *, void *);
 f32 vector_length(void *);
 void subtract_vector(void *, void *);
 void normalize_vector(void *);
-Obj_800E31C4 *fn_800E31C4(Obj_800E31C4 *self, Entry_800E31C4 *list, Vec_800E31C4 *vecs) {
+Obj_800E31C4 *fn_800E31C4(Obj_800E31C4 *self, Entry_800E31C4 *list, Vec *vecs) {
     Entry_800E31C4 *p;
-    Vec_800E31C4 *q;
+    Vec *q;
     self->list = list;
     self->vecs = vecs;
     p = self->list;
@@ -135,7 +128,7 @@ Obj_800E31C4 *fn_800E31C4(Obj_800E31C4 *self, Entry_800E31C4 *list, Vec_800E31C4
 
 void fn_800E322C(void *p, void *t) {
     Obj_800E322C *target = (Obj_800E322C *)p;
-    Vec_800E322C sp = target->pos;
+    Vec sp = target->pos;
     s32 r;
     u32 ent;
     VecCopy((Vec *)&target->pos, (const Vec *)t);
@@ -174,7 +167,7 @@ void fn_800E3374(Obj_800E3374 *target, V_800E3374 *arg1) {
 #pragma push
 #pragma opt_loop_invariants off
 void sweep_segment_collisions(Obj_800E3428 *self) {
-    Vec_800E3428 d;
+    Vec d;
     f32 len;
     f32 lim;
     f32 dist;
@@ -194,7 +187,7 @@ void sweep_segment_collisions(Obj_800E3428 *self) {
     for (i = 0; i < registered_player_count; i++) {
         p = (Player_800E35C8 *)TObjPlayer::get_player_data(i);
         if (p != NULL && !(p->f30 & 0x02000A00)) {
-            Vec_800E3428 v = self->pos;
+            Vec v = self->pos;
             for (dist = 0.0f; dist < len; ) {
                 if (!(horizontal_distance_squared(&v, (u8 *)p + 0x2FC) > lim)) {
                     fn_800E3374((Obj_800E3374 *)self, (V_800E3374 *)p);
@@ -206,7 +199,7 @@ void sweep_segment_collisions(Obj_800E3428 *self) {
         }
     }
     {
-    Vec_800E3428 w = self->pos;
+    Vec w = self->pos;
     f32 dist2;
     for (dist2 = 0.0f; dist2 < len; ) {
         fn_800E322C(self, &w);
@@ -334,16 +327,14 @@ struct VObj_18_beae68 : VBase_18_beae68 {
     virtual s32 m92();
 };
 
-struct Vec_800E37E4 { f32 x, y, z; };
-
 struct Obj_800E37E4 {
     const char *name;
     u8 pad4[0x14];
     void *vt;
     u8 pad1C[0x1C];
-    Vec_800E37E4 pos;
+    Vec pos;
     u8 pad44[0x308 - 0x44];
-    Vec_800E37E4 scale;
+    Vec scale;
     u8 pad314[0x374 - 0x314];
     s32 type;
     f32 f378;

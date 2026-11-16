@@ -82,10 +82,6 @@ struct Fuki_80251380 {
     s16 viewport;
 };
 
-struct Vec_80251380 {
-    f32 x, y, z;
-};
-
 struct Cam_80251380 {
     u8 pad0[0x178];
     f32 pos[3];
@@ -260,7 +256,7 @@ extern const u32 TWindowFukidasi__balloon_color_table[16] = {
     0xFFFFC8C8, 0xFFA2FF9D, 0xFFFBFFB5, 0xFFB0F8FF, 0xFFD1ADFF, 0xFFFFBF7C, 0xFFA5B6FB, 0xFFFFB99C,
     0xFF90D29B, 0xFF8BB5EE, 0xFFFFB5DA, 0xFFFFFF8C, 0xFFE6E8CA, 0xFFDEFFBD, 0xFFC6C2FF, 0xFFFFE1EB,
 };
-extern const Vec_80251380 fukidasi_forward_vec = {0.0f, 0.0f, -1.0f};
+extern const Vec fukidasi_forward_vec = {0.0f, 0.0f, -1.0f};
 extern RecoveredGlobal_80251BA0_lbl_804CF080 window_fukidasi_layout_entries;
 extern u8 identity_matrix[];
 const char *window_fukidasi_class_name = TWindowFukidasi__class_name_string;
@@ -726,7 +722,7 @@ s32 TUnk_804CF0B8::is_speaker_far_or_offscreen() {
     if (scr[1] > m + ((TWindowCtrlMain *)(((Fuki_80251380 *)arg0)->viewport))->get_field_18()) {
         return 1;
     }
-    Vec_80251380 v = fukidasi_forward_vec;
+    Vec v = fukidasi_forward_vec;
     f32 d[3];
     push_matrix_from(identity_matrix);
     rotate_matrix_y(0, camera_ctrl_instance->ry);

@@ -57,10 +57,9 @@ struct Obj_80188884 { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]
 struct Obj_80188814 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
 struct Obj_80188768 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x62]; u32 f80; s32 f84; };
 struct Pkt_80188768 { u16 a; u16 b; s32 c; s32 d; s32 e; };
-struct Vec_8018860C { f32 x, y, z; };
 struct Obj_8018860C {
     u8 pad[0x38];
-    Vec_8018860C pos;
+    Vec pos;
     u8 pad44[0x326 - 0x44];
     s16 state;
 };

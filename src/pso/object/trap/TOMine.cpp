@@ -173,12 +173,6 @@ struct VObj_18_33b813 : VBase_18_33b813 {
     virtual void m19();
     virtual s32 m20(s32, f32);
 };
-struct Stack_80170AC8
-{
-  f32 sp8;
-  f32 spC;
-  f32 sp10;
-};
 struct Node_801702C8 { u8 pad[0xC]; Node_801702C8 *next; };
 struct VBase_18_1da615 { char pad[0x18]; };
 struct VObj_18_1da615 : VBase_18_1da615 {
@@ -226,7 +220,6 @@ u8 *get_battle_param__10TObjPlayerFi(s32);
 extern s32 game_difficulty_selection;
 typedef struct VBase_18_33b813 VBase_18_33b813;
 typedef struct VObj_18_33b813 VObj_18_33b813;
-typedef struct Stack_80170AC8 Stack_80170AC8;
 }
 
 // ---- declarations carried over from the fragment TOMine.cpp
@@ -479,7 +472,7 @@ void TOMine::sub_80170BEC() {
 void TOMine::follow_target() {
     u8 *arg0 = (u8 *)this;
   unsigned short new_var;
-  Stack_80170AC8 stack;
+  Vec stack;
   f32 temp_f2;
   new_var = -1U;
   if (((this->m_35c) == new_var) || ((this->target) == 0))
@@ -488,21 +481,21 @@ void TOMine::follow_target() {
     return;
   }
   VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(arg0 + 0x38));
-  VecCopy((Vec *)(&stack.sp8), (const Vec *)((this->target) + 0x38));
-  stack.spC = *((f32 *) (((s8 *) arg0) + 0x3C));
-  subtract_vector(&stack.sp8, (u8 *)&this->position);
-  if (2.0f < vec_squared_length((u8 *)&stack.sp8))
+  VecCopy((Vec *)(&stack.x), (const Vec *)((this->target) + 0x38));
+  stack.y = *((f32 *) (((s8 *) arg0) + 0x3C));
+  subtract_vector(&stack.x, (u8 *)&this->position);
+  if (2.0f < vec_squared_length((u8 *)&stack.x))
   {
-    normalize_vector(&stack.sp8);
-    stack.sp8 *= 2.0f;
-    stack.sp10 *= 2.0f;
+    normalize_vector(&stack.x);
+    stack.x *= 2.0f;
+    stack.z *= 2.0f;
   }
-  vec3_add_to((u8 *)&this->position, &stack.sp8);
+  vec3_add_to((u8 *)&this->position, &stack.x);
   ((TObjPlayer *)arg0)->update_enemy_collision_flags();
   temp_f2 = *((f32 *) (((s8 *) arg0) + 0x48));
   *((f32 *) (((s8 *) arg0) + 0x3C)) = (f32) ((0.5f * ((25.0f + (*((f32 *) ((this->target) + 0x3C)))) - temp_f2)) + temp_f2);
   ((TObjChara *)arg0)->calc_attach_pos();
-  this->rotation_y = (s32) (10430.38043493439 * atan2_float((f64) stack.sp8, (f64) stack.sp10));
+  this->rotation_y = (s32) (10430.38043493439 * atan2_float((f64) stack.x, (f64) stack.z));
   ((TObjCollidable *)arg0)->refresh_collision_body_centers();
 }
 #pragma pop

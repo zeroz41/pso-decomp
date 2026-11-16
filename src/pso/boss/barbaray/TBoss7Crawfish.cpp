@@ -68,9 +68,7 @@ struct RecoveredGlobal_80308840_main_task {
     u8 remaining[0x30];
 };
 
-struct Vec_803086A8 { f32 x; f32 y; f32 z; };
-
-struct Msg_803086A8 { void *p; s32 one; Vec_803086A8 pos; s32 id; };
+struct Msg_803086A8 { void *p; s32 one; Vec pos; s32 id; };
 
 struct Slot_803086A8 { u32 a; s32 b; };
 

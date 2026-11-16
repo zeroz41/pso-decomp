@@ -86,8 +86,6 @@ struct Obj_8022BCB8 {
     u16 ids[32];
 };
 
-struct Vec_8022BA98 { f32 x; f32 y; f32 z; };
-
 struct List_8022BD74 { u32 ids[16]; s32 vals[16]; s32 count; };
 
 struct VBase_8022BD74 { u8 pad[0x18]; };
@@ -329,7 +327,7 @@ void TTecBarta::run_task() {
         return;
     }
     for (i = 0; i < TTecBarta__emitter_bands[this->band].count; i++) {
-        Vec_8022BA98 pos = *(Vec_8022BA98 *)&this->position;
+        Vec pos = *(Vec *)&this->position;
         if (TTecBarta__emitter_bands[this->band].rows[i].flags & 0x20) {
             pos.y -= 10.0f;
         }

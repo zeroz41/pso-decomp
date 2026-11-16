@@ -466,13 +466,11 @@ s32 particle_pos_index_table[3] = {0, 5, 9};
 
 f32 lbl_804E3E48[3] = {32.0f, 30.0f, 30.0f};
 
-struct Vec_802E7888 { f32 x, y, z; };
-
 struct Obj_802E7888 {
     u8 pad0[0x7B0];
     u32 f7B0;
-    Vec_802E7888 pos;
-    Vec_802E7888 v7C0;
+    Vec pos;
+    Vec v7C0;
 };
 extern "C" {
 f32 atan2_float(f32 y, f32 x);
@@ -486,13 +484,11 @@ void TBoss7DeRolLeC__try_spawn_pattern_crawfish(TBoss7DeRolLeC *self, s32 varian
 void TBoss7DeRolLeC__handle_crawfish_spawn_state(u8 *arg0, u32 arg1, s32 arg2);
 }
 
-typedef struct Vec_802E79B0 { f32 x, y, z; } Vec_802E79B0;
-
 typedef struct Obj_802E79B0 {
     u8 pad0[0x3EC];
-    Vec_802E79B0 pts[20];
+    Vec pts[20];
     u8 pad[0x530 - 0x3EC - 20 * 12];
-    Vec_802E79B0 out[10];
+    Vec out[10];
 } Obj_802E79B0;
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(int, void *);
@@ -675,14 +671,10 @@ void get_current_matrix(void *m);
 #define set_swim_direction__8TObjFishFPv ((void (*)(void *, s32))set_swim_direction__8TObjFishFPv)
 struct ByteBlock_14 { u8 bytes[0x14]; };
 
-struct Pt_802E95F8 { f32 x, y, z; };
-
-struct Fish_802E95F8 { u8 pad[0x534]; Pt_802E95F8 pts[16]; u8 pad2[0x728 - 0x534 - 16 * 12]; s32 idx; };
+struct Fish_802E95F8 { u8 pad[0x534]; Vec pts[16]; u8 pad2[0x728 - 0x534 - 16 * 12]; s32 idx; };
 
 
-struct Vec_802E85E0 { f32 x, y, z; };
-
-struct Tgt_802E85E0 { u8 pad[0x38]; Vec_802E85E0 pos; };
+struct Tgt_802E85E0 { u8 pad[0x38]; Vec pos; };
 
 struct Fish_802E85E0 {
     u8 pad0[0x390];
@@ -703,8 +695,6 @@ struct Fish_802E85E0 {
     s32 f738;
 };
 
-struct V_802EAAC8 { f32 x, y, z; };
-
 struct Fish_802EAAC8 {
     u8 pad0[0x38];
     f32 x;
@@ -718,7 +708,7 @@ struct Fish_802EAAC8 {
     f32 frame;
     u8 padC4[0x50C - 0xC4];
     u8 eff[0x530 - 0x50C];
-    V_802EAAC8 recs[10];
+    Vec recs[10];
     u8 pad5A8[0x628 - 0x5A8];
     u32 flags;
     u8 pad62C[0x670 - 0x62C];
@@ -748,16 +738,12 @@ struct Fish_802EAAC8 {
     u8 ppos[0xC];
 };
 
-struct Vec_802EC550 { f32 x, y, z; };
-
 struct PCtrl_802EC550 {
     u8 pad0[0x530];
-    Vec_802EC550 pos[(0x788 - 0x530) / 0xC];
+    Vec pos[(0x788 - 0x530) / 0xC];
     void *objs[6];
     s32 idx;
 };
-
-struct Vec_802E8B50 { f32 x, y, z; };
 
 struct Body_802E8B50 { u8 pad[8]; s32 flags; };
 
@@ -765,7 +751,7 @@ struct Fish_802E8B50 {
     u8 pad0[0x30];
     s32 f30;
     u8 pad34[0x38 - 0x34];
-    Vec_802E8B50 pos;
+    Vec pos;
     u8 pad44[0x5C - 0x44];
     s32 f5C;
     u8 pad60[0x5F8 - 0x60];
@@ -792,8 +778,6 @@ struct Fish_802E8B50 {
     s32 f7B0;
     u8 f7B4[4];
 };
-
-struct Vec_802E9ADC { f32 x, y, z; };
 
 struct Fish_802E9ADC {
     u8 pad0[0x390];
@@ -839,8 +823,6 @@ struct Fish_802E979C {
     f32 v750;
 };
 
-struct Vec_802E9DBC { f32 x, y, z; };
-
 struct Fish_802E9DBC {
     u8 pad0[0x38];
     f32 x;
@@ -853,10 +835,10 @@ struct Fish_802E9DBC {
     u8 padBA[0xC0 - 0xBA];
     f32 frame;
     u8 padC4[0x440 - 0xC4];
-    Vec_802E9DBC p440;
-    Vec_802E9DBC p44C;
+    Vec p440;
+    Vec p44C;
     u8 pad458[0x4DC - 0x458];
-    Vec_802E9DBC p4DC;
+    Vec p4DC;
     u8 pad4E8[0x50C - 0x4E8];
     u8 eff[0x624 - 0x50C];
     u8 *f624;
@@ -884,8 +866,6 @@ struct Fish_802E9DBC {
     u8 pad764[0x784 - 0x764];
     void *ptcl;
 };
-
-struct Vec_802EA4D8 { f32 x, y, z; };
 
 struct Ctl_802EB90C { u8 pad[8]; u32 buttons; };
 
@@ -995,12 +975,6 @@ void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2);
 void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1);
 
 void TObjFish__sub_802EB90C(Fish_802EB90C *arg0, u32 arg1);
-
-struct Stack_802EC468 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
 
 struct RecoveredGlobal_802EC468_lbl_804FF5E8 {
     s32 value;
@@ -1279,7 +1253,6 @@ void handle_6xA9_barba_ray_boss_actions(void *arg0);
 #define VecCopy__FP3VecPC3Vec ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)
 struct Boss_802ECE90 { u8 pad[0x530]; Vec pads[16]; u8 pad5F0[0x690 - 0x5F0]; u8 nodes[0x6C0 - 0x690]; s32 mode; };
 
-struct Vec_802ED3E4 { f32 x, y, z; };
 void compose_motion_node_matrix(void *arg0);
 extern "C" {
 
@@ -1874,7 +1847,7 @@ void set_swim_direction__8TObjFishFPv(void *arg0) {
 }
 
 f32 TObjFish__sub_802ED3E4(u8 *arg0) {
-    Vec_802ED3E4 v;
+    Vec v;
     v.x = 0.0f;
     v.y = 0.0f;
     v.z = 0.0f;
@@ -2284,7 +2257,7 @@ void TBoss7DeRolLeC::advance_action_sequence() {
 #pragma push
 #pragma fp_contract on
 void TParticleCtrl__sub_802EC550(PCtrl_802EC550 *o) {
-    Vec_802EC550 v;
+    Vec v;
     s32 p[3];
     s32 ok;
     s32 i;
@@ -2319,7 +2292,7 @@ void TParticleCtrl__sub_802EC550(PCtrl_802EC550 *o) {
     if (ok != 0) {
         if (o->idx == 0) {
             for (k = 0; k < 3; k++) {
-                Vec_802EC550 *src = &o->pos[particle_pos_index_table[k]];
+                Vec *src = &o->pos[particle_pos_index_table[k]];
                 r = fabs_float(src->y - -10.0f);
                 w = lbl_804E3E48[k];
                 if (r < 0.9f * w) {
@@ -2363,15 +2336,12 @@ void spawn_particle_201__8TObjFishFii(s32 arg1, s32 arg2) {
 #pragma push
 #pragma fp_contract on
 void TObjFish__sub_802EC468(s32 arg0, f32 farg0, f32 farg1) {
-    typedef char sp8_offset[(offsetof(Stack_802EC468, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802EC468, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_802EC468, sp10) == 0x8) ? 1 : -1];
-    Stack_802EC468 stack;
-    VecCopy__FP3VecPC3Vec((int)((void *)&stack.sp8), (void *)arg0);
-    stack.sp8 = -((*(f32 *)((s8 *)&lbl_804FF5E8.value + 0xC) * farg1) - stack.sp8);
-    stack.spC -= (*(f32 *)((s8 *)&lbl_804FF5E8.value + 0x10) * farg1) - farg0;
-    stack.sp10 = -((*(f32 *)((s8 *)&lbl_804FF5E8.value + 0x14) * farg1) - stack.sp10);
-    spawn_particle_effect_with_flags((&stack.sp8), 0x127, 0x40);
+    Vec stack;
+    VecCopy__FP3VecPC3Vec((int)((void *)&stack.x), (void *)arg0);
+    stack.x = -((*(f32 *)((s8 *)&lbl_804FF5E8.value + 0xC) * farg1) - stack.x);
+    stack.y -= (*(f32 *)((s8 *)&lbl_804FF5E8.value + 0x10) * farg1) - farg0;
+    stack.z = -((*(f32 *)((s8 *)&lbl_804FF5E8.value + 0x14) * farg1) - stack.z);
+    spawn_particle_effect_with_flags((&stack.x), 0x127, 0x40);
 }
 #pragma pop
 void TBoss7DeRolLeC::update_projectile_spawns() {
@@ -3123,7 +3093,7 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
                 f32 frame = self->frame;
                 if (frame >= 24.0f && frame <= 32.0f) {
                     if (self->tick >= 3) {
-                        V_802EAAC8 v;
+                        Vec v;
                         s32 i;
                         self->tick = 0;
                         ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->x);
@@ -3139,7 +3109,7 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
                         ((void (*)(void *, void *)) spawn_particle_201__8TObjFishFii)(self, &v);
                     }
                 } else if (frame >= 41.0f && frame <= 46.0f && self->tick >= 3) {
-                    V_802EAAC8 v;
+                    Vec v;
                     self->tick = 0;
                     ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->x);
                     v.x = v.x + self->dir * (20.0f * ((TObjChara *)self)->random_ratio() + 20.0f);
@@ -3296,7 +3266,7 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1) {
             case 1:
                 (*(s32 *)((s8 *)arg0 + 0x734))++;
                 if (*(f32 *)((s8 *)arg0 + 0xC0) >= 13.5f && *(s32 *)((s8 *)arg0 + 0x734) >= 2) {
-                    Vec_802EA4D8 v;
+                    Vec v;
                     *(s32 *)((s8 *)arg0 + 0x734) = 0;
                     VecCopy__FP3VecPC3Vec((int)&v, arg0 + 0x38);
                     v.x = 50.0f * calc_elapsed_scaled__9TObjEneDDFv(arg0) + v.x;
@@ -3311,7 +3281,7 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1) {
                 if (*(s32 *)((s8 *)arg0 + 0x734) >= 2) {
                     f32 f = *(f32 *)((s8 *)arg0 + 0xC0);
                     if (f >= 21.0f && f <= 26.0f) {
-                        Vec_802EA4D8 v;
+                        Vec v;
                         *(s32 *)((s8 *)arg0 + 0x734) = 0;
                         VecCopy__FP3VecPC3Vec((int)&v, arg0 + 0x38);
                         v.x = 50.0f * calc_elapsed_scaled__9TObjEneDDFv(arg0) + v.x;
@@ -3498,7 +3468,7 @@ void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2) {
         self->tick++;
         if (self->state != 0 && self->state != 1) {
             if (self->frame >= 15.0f && self->frame <= 17.0f && self->tick >= 2) {
-                Vec_802E9DBC v;
+                Vec v;
                 f32 s;
                 self->tick = 0;
                 ((void (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&v, &self->p4DC);
@@ -3590,7 +3560,7 @@ void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2) {
 #undef self
 void handle_tentacle_attack_state__8TObjFishFPvUii(Fish_802E9ADC *o, u32 arg1, s32 arg2) {
     s32 ang;
-    Vec_802E9ADC v;
+    Vec v;
     s32 ok;
     s32 i;
     s32 j;
@@ -4171,7 +4141,7 @@ void TObjFish::handle_death_state(u32 arg1) {
         ((TObjFish *)o)->update_attached_orientation();
         break;
     case 5: {
-        Vec_802E8B50 saved;
+        Vec saved;
         VecCopy__FP3VecPC3Vec((int)&saved, &o->pos);
         o->pos.x = 0.0f;
         o->pos.y = 12.0f;
@@ -4302,7 +4272,7 @@ void TObjFish__sub_802E88F8(u8 *boss7_de_rol_le_c, u32 arg1) {
 }
 #define self ((Fish_802E85E0 *)arg0)
 void TObjFish__sub_802E85E0(u8 *arg0, u32 arg1, s32 arg2) {
-    Vec_802E85E0 v;
+    Vec v;
     f32 scale;
     s32 r;
     s32 ok;
@@ -4358,7 +4328,7 @@ void TObjFish__sub_802E85E0(u8 *arg0, u32 arg1, s32 arg2) {
                 if (self->fired == 0) {
                     self->timer = 0;
                     if (((TObjEneDD_ST *)self)->enemy_has_live_target() != 0) {
-                        ((s32 (*)(Vec_802E85E0 *, Vec_802E85E0 *))VecCopy__FP3VecPC3Vec)(&v, &self->target->pos);
+                        ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)(&v, &self->target->pos);
                     } else {
                         scale = 120.0f * ((TObjChara *)self)->random_ratio();
                         r = get_random_scaled__9TObjEneDDFv(self);
@@ -4781,8 +4751,8 @@ void TBoss7DeRolLeC::set_flag_800() { *(u32*)((char*)this + 0x628) |= 0x800; }
 #define VecCopy__FP3VecPC3Vec ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)
 #define vec3_add_to ((void (*)(void *, void *))vec3_add_to)
 void fn_802E79B0(Obj_802E79B0 *arg0) {
-    Vec_802E79B0 v;
-    Vec_802E79B0 *out;
+    Vec v;
+    Vec *out;
     s32 i;
     out = arg0->out;
     VecCopy__FP3VecPC3Vec(&v, &arg0->pts[0]);
@@ -4821,7 +4791,7 @@ void TObjFish::destroy_child() {
 void TObjFish::update_attached_orientation() {
     Obj_802E7888 *o = (Obj_802E7888 *)this;
     if (o->f7B0 != 0) {
-        Vec_802E7888 d = o->pos;
+        Vec d = o->pos;
         Ang_802E7888 ang;
         subtract_vector(&d, &o->v7C0);
         ang.x = -(s32)(10430.38043493439 * atan2_float(d.y, newton_sqrtf(d.x * d.x + d.z * d.z))) - 0x4000;

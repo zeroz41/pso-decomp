@@ -68,13 +68,11 @@ struct Atk_800A2F94 {
 };
 struct Obj_800A2F94 { u8 pad[0x3F0]; s32 f3F0[4]; };
 
-struct V_800A1FEC { f32 x, y, z; };
-
 struct Obj_800A1FEC {
     u8 pad0[0x30];
     u32 f30;
     u8 pad34[0x38 - 0x34];
-    V_800A1FEC pos;
+    Vec pos;
     u8 pad44[0xB8 - 0x44];
     s16 fB8;
     u8 padBA[0xC0 - 0xBA];
@@ -93,8 +91,8 @@ struct Obj_800A1FEC {
     s16 timer;
     u8 pad39C[0x3B0 - 0x39C];
     s32 count;
-    V_800A1FEC f3B4;
-    V_800A1FEC f3C0[4];
+    Vec f3B4;
+    Vec f3C0[4];
     void *parts[4];
 };
 
@@ -148,22 +146,18 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 extern s32 actor_frame_tick;
 s32 TObjPlayer__sub_800A2390(void *arg0_);
 
-typedef struct Vec_800A12C0 {
-    f32 x, y, z;
-} Vec_800A12C0;
-
 typedef struct Pair_800A12C0 {
-    Vec_800A12C0 dest;
-    Vec_800A12C0 pos;
+    Vec dest;
+    Vec pos;
 } Pair_800A12C0;
 
 typedef struct Obj_800A12C0 {
     u8 pad0[0x30];
     s32 flags30;
     u8 pad34[0x38 - 0x34];
-    Vec_800A12C0 pos;
+    Vec pos;
     u8 pad44[0x50 - 0x44];
-    Vec_800A12C0 dest;
+    Vec dest;
     u8 pad5C[0xB8 - 0x5C];
     s16 fB8;
     u8 padBA[0x37C - 0xBA];
@@ -194,10 +188,6 @@ typedef struct Obj_800A159C {
     Vec v3C0[4];
 } Obj_800A159C;
 
-typedef struct Vec_800A1814 {
-    f32 x, y, z;
-} Vec_800A1814;
-
 typedef struct XZ_800A1814 {
     f32 x, z;
 } XZ_800A1814;
@@ -208,21 +198,17 @@ typedef struct Ofs_800A1814 {
 
 typedef struct Obj_800A1814 {
     u8 pad0[0x38];
-    Vec_800A1814 pos;
+    Vec pos;
     u8 pad44[0x38C - 0x44];
     f32 f38C;
 } Obj_800A1814;
-
-struct Vec_800A1D70 { f32 x, y, z; };
-
-struct Vec_800A34E8 { f32 x, y, z; };
 
 struct Raw_800A10A0 { u8 b[12]; };
 
 s32 update_movement_status__9TObjCharaFv();
 s32 update_action_hold_status__9TObjCharaFv();
-void calc_velocity_toward_destination(void *, Vec_800A12C0, Vec_800A12C0, f32);
-s32 check_path_obstructed(void *, Vec_800A1D70 *);
+void calc_velocity_toward_destination(void *, Vec, Vec, f32);
+s32 check_path_obstructed(void *, Vec *);
 f32 atan2_float(f32, f32);
 int get_bml_texlist(void*, void*);
 int get_bml_model(void*);
@@ -836,7 +822,7 @@ int TObjPlayer__sub_800A1808(void* p) { return (*(u32*)((char*)p + 0x30) >> 23) 
 #pragma opt_loop_invariants off
 void TObjPlayer::spawn_hamon_effects(s32 arg1, s32 arg2, f32 farg0) {
     Obj_800A1814 *o = (Obj_800A1814 *)this;
-    Vec_800A1814 p;
+    Vec p;
     Ofs_800A1814 ofs = hamon_effect_offset_table;
     s32 i;
     void *e;
@@ -1090,7 +1076,7 @@ void TObjPlayer__sub_800A1D70(u8 *arg0) {
         ((TObjPlayer *)arg0)->m_310 *= 0.95;
         ((TObjMotion *)arg0)->advance_animation();
         {
-        Vec_800A1D70 v = *(Vec_800A1D70 *)(arg0 + 0x2FC);
+        Vec v = *(Vec *)(arg0 + 0x2FC);
         v.x = v.x + *(f32 *)((s8 *)arg0 + 0x308);
         v.z = v.z + ((TObjPlayer *)arg0)->m_310;
         if (check_path_obstructed(arg0, &v) == 0) {

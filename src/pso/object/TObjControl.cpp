@@ -380,16 +380,14 @@ typedef struct TObjPlayer_800F6B68 {
     u16 attacker_id;
 } TObjPlayer_800F6B68;
 
-struct Vec_800F698C { f32 x, y, z; };
-
 struct A_800F698C {
     u8 pad0[0x1C]; u16 f1C; u8 pad1E[0x28 - 0x1E]; s16 f28; s16 f2A; s16 f2C;
-    u8 pad2E[0x38 - 0x2E]; Vec_800F698C v38; u8 pad44[0x50 - 0x44]; Vec_800F698C v50; Vec_800F698C v5C;
+    u8 pad2E[0x38 - 0x2E]; Vec v38; u8 pad44[0x50 - 0x44]; Vec v50; Vec v5C;
     u8 pad68[0x160 - 0x68]; u8 f160[0x354 - 0x160]; f32 f354[5]; s32 f368; s32 f36C;
 };
 
 struct B_800F698C {
-    s16 f0; u8 pad2[4]; u16 f6; s16 f8; s16 fA; u8 padC[4]; Vec_800F698C v10; Vec_800F698C v1C; f32 f28[5]; s16 f3C; s16 f3E;
+    s16 f0; u8 pad2[4]; u16 f6; s16 f8; s16 fA; u8 padC[4]; Vec v10; Vec v1C; f32 f28[5]; s16 f3C; s16 f3E;
 };
 
 struct Node_800F6E2C {

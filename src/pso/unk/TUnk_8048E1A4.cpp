@@ -45,12 +45,6 @@ void TUnk_8048E1A4::update_freeze_shell_timer() {
     }
 }
 
-struct Stack_80081CD0 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 struct RecoveredGlobal_80081CD0_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 typedef char RecoveredGlobal_80081CD0_lbl_8058D490_size[sizeof(RecoveredGlobal_80081CD0_lbl_8058D490) == 0x30 ? 1 : -1];
 
@@ -117,10 +111,7 @@ s32 TUnk_8048E1A4::freeze_shell_hold() {
 
 void TUnk_8048E1A4::freeze_shell_grow() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_80081CD0, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80081CD0, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80081CD0, sp10) == 0x8) ? 1 : -1];
-    Stack_80081CD0 stack;
+    Vec stack;
     f32 temp_f0;
     this->rotation_y = (this->rotation_y + 0x1000);
     this->scale.z += 0.1f;
@@ -132,15 +123,15 @@ void TUnk_8048E1A4::freeze_shell_grow() {
     }
     *(s32 *)((s8 *)arg0 + 0x33C) = (s32) (*(s32 *)((s8 *)arg0 + 0x33C) + 1);
     if ((*(s32 *)((s8 *)arg0 + 0x33C) % 3) == 0) {
-        stack.sp8 = 0.0f;
-        stack.spC = 0.0f;
-        stack.sp10 = 10.0f * this->scale.x;
+        stack.x = 0.0f;
+        stack.y = 0.0f;
+        stack.z = 10.0f * this->scale.x;
         push_matrix_from(&identity_matrix.value);
         rotate_matrix_y(0, (int) (this->rotation_y * 2));
-        rotate_vector_by_matrix(0, &stack.sp8, &stack.sp8);
+        rotate_vector_by_matrix(0, &stack.x, &stack.x);
         pop_matrix();
-        vec3_add_to(&stack.sp8, (u8 *)&this->position);
-        create_timed_particle_emitter((&stack.sp8), 0x12D, 0, 0xA);
+        vec3_add_to(&stack.x, (u8 *)&this->position);
+        create_timed_particle_emitter((&stack.x), 0x12D, 0, 0xA);
     }
 }
 

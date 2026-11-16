@@ -70,32 +70,25 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Vec_8006426C { f32 x, y, z; };
 
 struct Obj_8006426C {
     u8 pad0[0x3c0];
-    Vec_8006426C a;
+    Vec a;
     u8 pad3cc[0x444 - 0x3cc];
-    Vec_8006426C b;
+    Vec b;
     u8 pad450[0x578 - 0x450];
     s32 attack_history;
 };
-
-struct Vec_8006442C { f32 x, y, z; };
 
 struct Fx_8006442C { u8 pad0[8]; f32 scale; u8 padC[8]; };
 
 struct Dragon_8006442C {
     u8 pad0[0x3E4];
-    Vec_8006442C a, b, c, d;
-    Vec_8006442C e, f, g, h;
+    Vec a, b, c, d;
+    Vec e, f, g, h;
     u8 pad444[0x578 - 0x444];
     s32 attack_history;
 };
-
-typedef struct Vec_80063088 {
-    f32 x, y, z;
-} Vec_80063088;
 
 typedef struct Res_80063088 {
     u8 pad0[0xC];
@@ -116,7 +109,7 @@ struct Obj_80063088 {
     f32 f398;
     f32 f39C;
     u8 pad3A0[0x444 - 0x3A0];
-    Vec_80063088 fxPos;
+    Vec fxPos;
     u8 pad450[0x490 - 0x450];
     s32 f490;
     u8 pad494[0x4C4 - 0x494];
@@ -129,8 +122,6 @@ struct Obj_80063088 {
     void *fx;
 };
 
-struct Vec_8005E594 { f32 x, y, z; };
-
 struct Fx_8005E594 { u8 pad[0x14]; s32 f14; };
 
 struct Hit2_8005E594 { u8 pad[4]; f32 y; };
@@ -139,22 +130,18 @@ struct Hit_8005E594 { u8 pad[4]; Hit2_8005E594 *p; };
 
 struct Obj_8005E594 {
     u8 pad0[0x3E4];
-    Vec_8005E594 cp[8];
+    Vec cp[8];
     u8 pad444[0x5F0 - 0x444];
     Fx_8005E594 *fx;
     u8 pad5f4[0x734 - 0x5F4];
     void *parts[16];
 };
 
-struct Vec_80062BA0 { f32 x, y, z; };
-
 struct Part_80064F50 { u8 pad0[4]; f32 f4; u8 pad8[4]; f32 fC; u8 pad10[8]; u32 flags; u8 pad1C[4]; f32 f20; u8 pad24[4]; f32 f28; };
 
 struct Cfg_80064F50 { u8 pad[0x18]; s32 i18; s32 i1C; s32 i20; s32 i24; };
 
 struct Obj_80064F50 { u8 pad0[0xA4]; Part_80064F50 *parts; u8 padA8[0x4C0 - 0xA8]; u32 flags4C0; u8 pad4C4[0x4E4 - 0x4C4]; s32 mode4E4; u8 pos4E8[4]; };
-
-struct Vec_80060020 { f32 x, y, z; };
 
 struct Hit2_80060020 { u8 pad[4]; f32 y; };
 
@@ -167,7 +154,7 @@ struct Fx_80060020 { u8 pad[4]; s32 f4; };
 struct Dragon_80060020 {
     u8 prefix[0x1C];
     u8 pad1c[0x38 - 0x1C];
-    Vec_80060020 pos;
+    Vec pos;
     u8 pad44[0x5C - 0x44];
     s32 f5C;
     s32 f60;
@@ -277,13 +264,12 @@ s32 random_in_table_range__12TBoss8DragonFiii(s32 self, s32 arg1, s32 arg2);
 void TBoss8Dragon__sub_80063FB8(s32 arg0, s32 arg1, f32 farg0);
 void TBoss8Dragon__sub_8006402C(s32 arg0, s32 arg1, f32 farg0, f32 farg1);
 void TBoss8Dragon__sub_800640A4(s32 arg0, s32 arg1);
-struct V_8005DC0C { f32 x, y, z; };
 
 struct Obj_8005DC0C {
     u8 pad0[0x326];
     s16 f326;
     u8 pad328[0x3C0 - 0x328];
-    V_8005DC0C pts[8];
+    Vec pts[8];
     u8 pad420[0x4E4 - 0x420];
     s32 f4e4;
 };
@@ -307,9 +293,7 @@ struct RecoveredGlobal_8005E1E8_lbl_804FF5D8 {
     u8 remaining[0xC];
 };
 
-struct Vec_8005E058 { f32 x, y, z; };
-
-struct Obj_8005E058 { u8 pad0[0x3C0]; Vec_8005E058 src[10]; u8 pad438[0xB0]; Vec_8005E058 dst[10]; };
+struct Obj_8005E058 { u8 pad0[0x3C0]; Vec src[10]; u8 pad438[0xB0]; Vec dst[10]; };
 
 struct Obj_8005E0C0 { u8 pad[0x34]; s32 f34; u8 pad38[0x24]; s32 f5c; s32 f60; s32 f64; u8 pad68[0x90]; s32 ff8; u8 pad_fc[0x3C0 - 0xFC]; u8 f3c0[0x100]; s32 f4c0; };
 
@@ -322,8 +306,6 @@ struct Obj_8005E4D4 { u8 pad[0x734]; void *parts[16]; };
 
 struct Obj_8005E52C { u8 pad[0x734]; void *parts[16]; };
 
-struct Vec_8005E39C { f32 x, y, z; };
-
 struct IVec_8005E39C { s32 x, y, z; };
 
 struct Res_8005E39C { u8 pad[0x18]; s32 f18; s32 f1C; s32 f20; };
@@ -332,7 +314,7 @@ struct Obj_8005E39C {
     u8 pad0[0x60];
     s32 ang;
     u8 pad64[0x444 - 0x64];
-    Vec_8005E39C pos;
+    Vec pos;
     u8 pad450[0x5F0 - 0x450];
     Res_8005E39C *res;
     u8 pad5F4[0x724 - 0x5F4];
@@ -351,25 +333,21 @@ struct Obj_8005F968 { u8 pad[0x60]; s32 f60; u8 pad64[0x480 - 0x64]; s32 f480; }
 
 struct O_8005FCE4 { u8 pad[0x4c0]; u32 flags; };
 
-struct Vec_8005FBC4 { f32 x, y, z; };
-
 struct Shot_8005FBC4 { f32 v[3]; };
 
 struct Obj_8005FBC4 {
     u8 pad0[0x38];
-    Vec_8005FBC4 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 f60;
     u8 pad64[0x474 - 0x64];
-    Vec_8005FBC4 vel;
+    Vec vel;
     s32 f480;
     u8 pad484[0x4c0 - 0x484];
     s32 flags;
     u8 pad4c4[0x4e4 - 0x4c4];
     s32 f4e4;
 };
-
-struct Vec_80062550 { f32 x, y, z; };
 
 struct Tgt_80062550 {
     u8 pad0[4];
@@ -381,7 +359,7 @@ struct Tgt_80062550 {
 
 struct Obj_80062550 {
     u8 pad0[0x38];
-    Vec_80062550 pos;
+    Vec pos;
     u8 pad44[0xb8 - 0x44];
     s16 fb8;
     u8 padba[0x490 - 0xba];
@@ -433,8 +411,6 @@ struct O_80064AB0 { u8 pad[0x1c]; u16 id; u8 pad2[0x38c - 0x1e]; u16 kind; u8 pa
 struct P_80064AB0 { u16 a; u16 id; u32 kind; f32 x; f32 z; };
 
 
-struct Vec_80064968 { f32 x, y, z; };
-
 struct Atk_80064968 {
     u8 pad0[8];
     s32 f8;
@@ -442,7 +418,7 @@ struct Atk_80064968 {
 
 struct Obj_80064968 {
     u8 pad0[0x3c0];
-    Vec_80064968 parts[16];
+    Vec parts[16];
     u8 pad480[0x578 - 0x480];
     s32 attack_history;
     u8 pad57c[0x5f0 - 0x57c];
@@ -480,22 +456,16 @@ struct Obj_80063570 {
     s32 flags;
 };
 
-struct Vec_80062E94 { f32 x, y, z; };
-
 
 typedef char RecoveredGlobal_80064CFC_lbl_80487848_size[sizeof(RecoveredGlobal_80064CFC_lbl_80487848) == 0x10 ? 1 : -1];
 
 
-struct Vec_8005D880 { f32 x, y, z; };
-
 struct Obj_8005D880 {
     u8 pad0[0x38];
-    Vec_8005D880 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 f60;
 };
-
-struct Vec_8005D9BC { f32 x, y, z; };
 
 struct Ent_8005E868 { s32 a; s32 b; s32 f8[]; };
 
@@ -503,7 +473,7 @@ struct Seg_80063CDC { f32 x, y, z, w; };
 
 f32 newton_sqrtf(f32);
 s32 get_bml_model(BmlResource *resource, s32 index);
-s32 get_player_pos_in_arc__13TBoss5GryphonFPviiPvPv(Obj_8005D880 *arg0, s32 arg1, s32 arg2, Vec_8005D880 *org, Vec_8005D880 *out);
+s32 get_player_pos_in_arc__13TBoss5GryphonFPviiPvPv(Obj_8005D880 *arg0, s32 arg1, s32 arg2, Vec *org, Vec *out);
 s32 TBoss8Dragon__sub_8005DC0C(Obj_8005DC0C *arg0);
 void render_shadows__13TBoss5GryphonFv(void* p);
 void TBoss8Dragon__sub_8005E040(void *arg0);
@@ -1135,7 +1105,7 @@ int TBoss5Gryphon::vfunc_105() {
 
 void TBoss5Gryphon::vfunc_83() { get_target_info(); }
 
-s32 get_player_pos_in_arc__13TBoss5GryphonFPviiPvPv(Obj_8005D880 *arg0, s32 arg1, s32 arg2, Vec_8005D880 *org, Vec_8005D880 *out) {
+s32 get_player_pos_in_arc__13TBoss5GryphonFPviiPvPv(Obj_8005D880 *arg0, s32 arg1, s32 arg2, Vec *org, Vec *out) {
     Obj_8005D880 *p;
     f32 dx;
     f32 dz;
@@ -1172,10 +1142,10 @@ s32 get_player_pos_in_arc__13TBoss5GryphonFPviiPvPv(Obj_8005D880 *arg0, s32 arg1
 #pragma push
 #pragma fp_contract on
 void TBoss8Dragon__sub_8005D9BC(u8 *arg0, s32 arg1, s32 arg2) {
-    Vec_8005D9BC pos;
-    Vec_8005D9BC mid;
-    Vec_8005D9BC out;
-    Vec_8005D9BC tmp;
+    Vec pos;
+    Vec mid;
+    Vec out;
+    Vec tmp;
     f32 r;
     s32 ang;
     u8 *p;
@@ -1224,8 +1194,8 @@ void TBoss5Gryphon::render_nodes_with_flag() {
 }
 
 s32 TBoss8Dragon__sub_8005DC0C(Obj_8005DC0C *arg0) {
-    V_8005DC0C cam;
-    V_8005DC0C dir;
+    Vec cam;
+    Vec dir;
     f32 len;
     u8 *pl;
     s32 i;
@@ -1344,7 +1314,7 @@ void TBoss8Dragon__sub_8005E040(void *arg0) {
 
 void TBoss5Gryphon::copy_bone_positions() {
     s32 i;
-    Vec_8005E058 *d = ((Obj_8005E058 *)this)->dst;
+    Vec *d = ((Obj_8005E058 *)this)->dst;
     for (i = 0; i < 10; i++) {
         ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(d, &((Obj_8005E058 *)this)->src[gryphon_bone_copy_index_table[i]]);
         d++;
@@ -1436,7 +1406,7 @@ void TBoss5Gryphon::update_particle_positions() {
 #pragma push
 #pragma fp_contract on
 void TBoss8Dragon__sub_8005E39C(Obj_8005E39C *self) {
-    Vec_8005E39C pos;
+    Vec pos;
     IVec_8005E39C rot;
     pos.x = lbl_805D8D8C * sin_table_lookup(self->ang) + self->pos.x;
     pos.y = self->pos.y;
@@ -1490,9 +1460,9 @@ void TBoss5Gryphon::enable_particles() {
 #pragma fp_contract on
 void TBoss5Gryphon::update_ground_effects() {
     Obj_8005E594 *arg0 = (Obj_8005E594 *)this;
-    Vec_8005E594 pts[16];
-    Vec_8005E594 *p;
-    Vec_8005E594 *q;
+    Vec pts[16];
+    Vec *p;
+    Vec *q;
     s32 i;
     p = pts;
     VecCopy__FP3VecPC3Vec((void*)(p++), &arg0->cp[0]);
@@ -2085,7 +2055,7 @@ void TBoss8Dragon__sub_8005FB90(u8 *arg0) {
 #pragma pool_data off
 void TBoss5Gryphon::apply_velocity() {
     Shot_8005FBC4 shot;
-    Vec_8005FBC4 v;
+    Vec v;
     f32 len;
     if (((Obj_8005FBC4 *)this)->flags & 0x10) {
         ((Obj_8005FBC4 *)this)->pos.y += ((Obj_8005FBC4 *)this)->vel.y;
@@ -2240,9 +2210,9 @@ extern const f32 lbl_805D8DF0;
 #pragma fp_contract on
 void TBoss5Gryphon::fn_80060020(u32 arg1) {
     Dragon_80060020 *self = (Dragon_80060020 *)this;
-    Vec_80060020 w;
-    Vec_80060020 v;
-    Vec_80060020 p;
+    Vec w;
+    Vec v;
+    Vec p;
     switch (arg1) {
     case ENEMY_STATE_ENTER:
         self->fB8 = 0x14;
@@ -2291,9 +2261,9 @@ void TBoss5Gryphon::fn_80060020(u32 arg1) {
                     Hit_80060020 *hit;
                     r *= lbl_805D8DD0;
                     do {
-                        v.x = r * sin_table_lookup(ang) + ((Vec_80060020 *)(pl + 0x38))->x;
-                        v.y = lbl_805D8DD0 + ((Vec_80060020 *)(pl + 0x38))->y;
-                        v.z = r * cos_table_lookup(ang) + ((Vec_80060020 *)(pl + 0x38))->z;
+                        v.x = r * sin_table_lookup(ang) + ((Vec *)(pl + 0x38))->x;
+                        v.y = lbl_805D8DD0 + ((Vec *)(pl + 0x38))->y;
+                        v.z = r * cos_table_lookup(ang) + ((Vec *)(pl + 0x38))->z;
                         hit = (Hit_80060020 *)csnVecterUnder((s32 *)&v, 0x16EF);
                         ang += 0x2000;
                     } while (hit == NULL || hit->p->y > 6.0f);
@@ -2771,8 +2741,6 @@ void TBoss5Gryphon::fn_800610D0(s32 event) {
     }
 }
 
-struct Vec_80061434 { f32 x, y, z; };
-
 s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, s32, s32, void *, f32);
 extern const f32 lbl_805D8E38;
 extern const f32 lbl_805D8E18;
@@ -2866,8 +2834,8 @@ void TBoss5Gryphon::handle_takeoff_state(s32 event) {
 
 void TBoss5Gryphon::handle_descend_state(s32 arg1) {
     TBoss5Gryphon *arg0 = this;
-    Vec_80061434 out;
-    Vec_80061434 at;
+    Vec out;
+    Vec at;
 
     switch (arg1) {
     case ENEMY_STATE_ENTER:
@@ -3643,8 +3611,8 @@ void TBoss5Gryphon::update_demo_state(u32 arg1) {
 void TBoss5Gryphon::update_death_state(u32 arg1) {
     u8 *arg0 = (u8 *)this;
     CameraPlayback cam;
-    Vec_80062BA0 v;
-    Vec_80062BA0 tmp;
+    Vec v;
+    Vec tmp;
     const Vec *p;
     switch (arg1) {
     case ENEMY_STATE_ENTER:
@@ -3735,7 +3703,7 @@ void TBoss5Gryphon::update_death_state(u32 arg1) {
 
 void TBoss5Gryphon::update_landing_attack(u32 arg1) {
     u8 *arg0 = (u8 *)this;
-    Vec_80062E94 at;
+    Vec at;
     f32 d;
     switch (arg1) {
     case ENEMY_STATE_ENTER:
@@ -3801,8 +3769,8 @@ void TBoss5Gryphon::update_landing_attack(u32 arg1) {
 
 void TBoss5Gryphon::update_shockwave_attack(u32 arg1) {
     Obj_80063088 *self = (Obj_80063088 *)this;
-    Vec_80063088 pos;
-    Vec_80063088 vel;
+    Vec pos;
+    Vec vel;
     f32 speed;
     void *p;
     switch (arg1) {
@@ -4195,7 +4163,7 @@ void TBoss8Dragon__sub_800641A8(u8 *ene_dd) {
 #pragma push
 #pragma fp_contract on
 void TBoss8Dragon__sub_8006426C(Obj_8006426C *arg0) {
-    Vec_8006426C mid;
+    Vec mid;
     DragonAttackParams prm = lbl_80437D40;
     f32 bx = arg0->b.x;
     mid.x = 0.5f * (arg0->a.x - bx) + bx;
@@ -4238,8 +4206,8 @@ void TBoss8Dragon__sub_8006435C(u8 *ene_dd) {
 
 void TBoss8Dragon__sub_8006442C(Dragon_8006442C *arg0) {
     Fx_8006442C fx;
-    Vec_8006442C pts[10];
-    Vec_8006442C *p;
+    Vec pts[10];
+    Vec *p;
     s32 i;
     TBoss1Dragon__sub_80027A80(&fx, &gryphon_effect_param_block);
     fill_value_array(arg0->attack_history);
@@ -4390,7 +4358,7 @@ void TBoss8Dragon__sub_800648C8(u8 *boss8_dragon) {
 #pragma dont_inline off
 int emit_part_attack_effect__13TBoss5GryphonFPvi(void *ene_dd, int arg1) {
     DragonAttackParams prm = gryphon_part_attack_params;
-    Vec_80064968 *p;
+    Vec *p;
     fill_value_array(((Obj_80064968 *)ene_dd)->attack_history);
     p = &((Obj_80064968 *)ene_dd)->parts[gryphon_part_attack_index_table[arg1]];
     ((TObjEneDD *)ene_dd)->reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[0]), (u8 *)0);

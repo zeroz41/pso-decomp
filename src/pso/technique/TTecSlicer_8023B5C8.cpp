@@ -186,9 +186,7 @@ struct RecoveredFields_8023B770_var_r29
   s32 field_64;
 };
 
-struct Vec_8023B72C { f32 x, y, z; };
-
-struct Obj_8023B72C { u8 pad[0x38]; Vec_8023B72C mid; };
+struct Obj_8023B72C { u8 pad[0x38]; Vec mid; };
 
 struct VBase_18_ed5691 { char pad[0x18]; };
 
@@ -281,8 +279,8 @@ struct Init_8023BBB4 {
     u8 color[0x10];
     s32 f28;
     s32 f2c;
-    Vec_8023B72C a;
-    Vec_8023B72C b;
+    Vec a;
+    Vec b;
 };
 
 struct Slicer_8023BBB4 {
@@ -292,11 +290,11 @@ struct Slicer_8023BBB4 {
     u8 pad1c[8];
     s32 f24;
     u8 pad28[0x10];
-    Vec_8023B72C pos;
+    Vec pos;
     u8 pad44[0x4C];
-    Vec_8023B72C dir;
-    Vec_8023B72C v9c;
-    Vec_8023B72C va8;
+    Vec dir;
+    Vec v9c;
+    Vec va8;
     f32 fb4;
     f32 fb8;
     f32 fbc;
@@ -385,8 +383,8 @@ typedef struct RecoveredFields_8023B770_var_r29 RecoveredFields_8023B770_var_r29
 
 void TTecSlicer::set_launch_midpoint(void *unused, void *a_arg, void *b_arg) {
     Obj_8023B72C *self = (Obj_8023B72C *)this;
-    Vec_8023B72C *a = (Vec_8023B72C *)a_arg;
-    Vec_8023B72C *b = (Vec_8023B72C *)b_arg;
+    Vec *a = (Vec *)a_arg;
+    Vec *b = (Vec *)b_arg;
     f32 t;
     t = a->x + b->x;
     t *= 0.5f;

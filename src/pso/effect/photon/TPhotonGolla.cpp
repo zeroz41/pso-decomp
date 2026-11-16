@@ -32,13 +32,11 @@ struct Stack_801ABBAC {
 
 struct Color_801ABAA0 { f32 a, r, g, b; };
 
-struct Vec_801ABAA0 { f32 x, y, z; };
-
 struct Self_801ABAA0 {
     u8 pad0[0x24];
     s32 f24;
     u8 pad1[0x38 - 0x28];
-    Vec_801ABAA0 pos;
+    Vec pos;
     u8 pad2[0x60 - 0x44];
     s32 f60;
     u8 pad3[0x14C - 0x64];
@@ -49,14 +47,10 @@ struct Self_801ABAA0 {
     s32 started;
 };
 
-typedef struct Vec_801AB6A0 {
-    f32 x, y, z;
-} Vec_801AB6A0;
-
 typedef struct Packet_801AB6A0 {
-    Vec_801AB6A0 origin;
-    Vec_801AB6A0 target;
-    Vec_801AB6A0 direction;
+    Vec origin;
+    Vec target;
+    Vec direction;
     f32 pad_24[3];
     void *owner;
     u32 angle;
@@ -64,14 +58,14 @@ typedef struct Packet_801AB6A0 {
 
 typedef struct Golla_801AB6A0 {
     u8 pad0[0x38];
-    Vec_801AB6A0 pos;
+    Vec pos;
     u8 pad44[0x158 - 0x44];
     u16 owner_id;
     u8 pad15A[0x19C - 0x15A];
     void *f19c;
     u8 pad1A0[8];
     u8 *f1a8;
-    Vec_801AB6A0 f1ac;
+    Vec f1ac;
 } Golla_801AB6A0;
 
 typedef struct Owner_801AB6A0 {
@@ -81,18 +75,14 @@ typedef struct Owner_801AB6A0 {
     s32 rot;
 } Owner_801AB6A0;
 
-typedef struct Vec_801AB868 {
-    f32 x, y, z;
-} Vec_801AB868;
-
 typedef struct Target_801AB868 {
     u8 pad0[0x2FC];
-    Vec_801AB868 pos;
+    Vec pos;
 } Target_801AB868;
 
 typedef struct Owner_801AB868 {
     u8 pad0[0x38];
-    Vec_801AB868 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 rot;
 } Owner_801AB868;
@@ -104,7 +94,7 @@ typedef struct Flags_801AB868 {
 
 typedef struct Golla_801AB868 {
     u8 pad0[0x38];
-    Vec_801AB868 pos;
+    Vec pos;
     u8 pad44[0xA4 - 0x44];
     Flags_801AB868 *fa4;
     u8 padA8[0x150 - 0xA8];
@@ -172,9 +162,9 @@ void TPhotonGolla::sub_801AB688() { this->m_15c = 0.0f; *(float*)((char*)this + 
 #pragma opt_common_subs off
 #define self ((Golla_801AB6A0 *)arg0)
 s32 TPhotonGolla::spawn_concentrate(void *arg0) {
-    Vec_801AB6A0 target;
-    Vec_801AB6A0 local;
-    Vec_801AB6A0 rotated;
+    Vec target;
+    Vec local;
+    Vec rotated;
     Owner_801AB6A0 *owner;
     u32 angle;
     u32 beam;
@@ -196,7 +186,7 @@ s32 TPhotonGolla::spawn_concentrate(void *arg0) {
     } else {
         VecCopy((Vec *)&target, (const Vec *)(self->f1a8 + 0x2FC));
     }
-    Vec_801AB6A0 direction = target;
+    Vec direction = target;
     subtract_vector(&direction, &self->f1ac);
     normalize_vector(&direction);
 
@@ -235,21 +225,21 @@ void TPhotonGolla::collect_hit_targets(void *arg0) {
             candidate = get_battle_param__10TObjPlayerFi(i);
             if (candidate != NULL) {
                 if (self->f1a8 != NULL) {
-                    Vec_801AB868 selected_delta = self->f1a8->pos;
+                    Vec selected_delta = self->f1a8->pos;
                     Owner_801AB868 *owner;
                     f32 selected_distance;
                     subtract_vector(&selected_delta, &self->pos);
-                    Vec_801AB868 candidate_delta = candidate->pos;
+                    Vec candidate_delta = candidate->pos;
                     subtract_vector(&candidate_delta, &self->pos);
                     selected_distance = vec_squared_length((u8 *)&selected_delta);
                     if (vec_squared_length((u8 *)&candidate_delta) < selected_distance) {
                         self->f1a8 = candidate;
                     }
                     owner = (Owner_801AB868 *)find_entity_by_id(self->owner_id);
-                    Vec_801AB868 direction = self->f1a8->pos;
-                    Vec_801AB868 forward;
-                    Vec_801AB868 left;
-                    Vec_801AB868 right;
+                    Vec direction = self->f1a8->pos;
+                    Vec forward;
+                    Vec left;
+                    Vec right;
                     if (owner != NULL) {
                         subtract_vector(&direction, &owner->pos);
                     }
@@ -398,8 +388,6 @@ void *destroy__12TPhotonGollaFPvs(void *photon_golla, s16 arg1) {
 #include "pso/unk/text_801ABE14.h"
 
 
-struct Stack_801ABE14 { f32 x, y, z; };
-
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 void sub_801AB688__12TPhotonGollaFv(void *);
@@ -436,7 +424,7 @@ void *lbl_804C35F4[17] = {
     (void *)0x0,
 };
 u8 *TPhotonGolla__ct(u8 *arg0, u8 *arg1) {
-    Stack_801ABE14 pos;
+    Vec pos;
     u8 *e;
     void *p;
     __ct__13TUnk_804C3248Fv(arg0);

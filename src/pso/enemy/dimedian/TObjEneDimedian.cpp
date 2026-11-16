@@ -39,10 +39,6 @@ struct VObj_14_800A7BEC : VBase_14_800A7BEC {
 
 struct Obj_800A7BEC { u8 pad0[0x38]; u8 sub38[0x326 - 0x38]; s16 f326; s16 state; u8 pad32a[0x390 - 0x32A]; s32 f390; };
 
-typedef struct Vec_800A7A14 {
-    f32 x, y, z;
-} Vec_800A7A14;
-
 struct VBase_800A7A14 { char pad[0x18]; };
 
 struct VObj_800A7A14 : VBase_800A7A14 {
@@ -50,12 +46,12 @@ struct VObj_800A7A14 : VBase_800A7A14 {
     virtual void m1();
     virtual void m2();
     virtual void m3();
-    virtual void m4(Vec_800A7A14 *, Vec_800A7A14 *);
+    virtual void m4(Vec *, Vec *);
 };
 
 typedef struct Obj_800A7A14 {
     u8 pad0[0x38];
-    Vec_800A7A14 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 f60;
     u8 pad64[0xB8 - 0x64];
@@ -211,8 +207,8 @@ void TObjEneDimedian::vfunc_94() {
 
 void TObjEneDimedian::vfunc_93() {
     Obj_800A7A14 *o = (Obj_800A7A14 *)this;
-    Vec_800A7A14 b;
-    Vec_800A7A14 a;
+    Vec b;
+    Vec a;
     u32 e;
     s32 idx;
     VObj_800A7A14 *eff;

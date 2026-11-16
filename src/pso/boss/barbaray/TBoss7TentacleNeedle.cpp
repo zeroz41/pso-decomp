@@ -94,15 +94,11 @@ struct RecoveredGlobal_802EFEC4_lbl_80541918 {
 
 typedef char RecoveredGlobal_802EFEC4_lbl_80541918_size[sizeof(RecoveredGlobal_802EFEC4_lbl_80541918) == 0x10 ? 1 : -1];
 
-struct V_802F0A5C { f32 x, y, z; };
+struct Ten_802F0A5C { u8 pad0[0x50]; Vec v[14]; u32 w[14]; };
 
-struct Ten_802F0A5C { u8 pad0[0x50]; V_802F0A5C v[14]; u32 w[14]; };
+struct Node_802EFF24 { u32 flags; u8 pad4[4]; Vec pos; u8 pad14[8]; s32 ang; u8 pad20[0x18]; };
 
-struct V_802EFF24 { f32 x, y, z; };
-
-struct Node_802EFF24 { u32 flags; u8 pad4[4]; V_802EFF24 pos; u8 pad14[8]; s32 ang; u8 pad20[0x18]; };
-
-struct Tent_802EFF24 { u8 pad0[0x50]; V_802EFF24 pos[14]; s32 ang[14]; };
+struct Tent_802EFF24 { u8 pad0[0x50]; Vec pos[14]; s32 ang[14]; };
 
 struct Cnt_802F08A8 { u8 pad[4]; u32 n; };
 
@@ -122,7 +118,7 @@ void rotate_matrix_by_node_angles(void *, int);
 s32 scale_current_matrix(void *);
 void post_translate_matrix(void *);
 
-extern V_802F0A5C TBoss7Tentacle__segment_offsets[];
+extern Vec TBoss7Tentacle__segment_offsets[];
 extern s32 __vt__20TBoss7TentacleNeedle[];
 extern Node_802EFF24 lbl_80541528[];
 extern u32 TBoss7Tentacle__needle_offsets[];
@@ -138,7 +134,7 @@ extern const s32 boss7_tentacle_angle_table[4];
 extern const char *TBoss7Tentacle__name;
 extern const char *boss7_tentacle_needle_name_ptr;
 
-struct Ten_802F01D0 { u8 pad0[0x50]; V_802F0A5C v[14]; };
+struct Ten_802F01D0 { u8 pad0[0x50]; Vec v[14]; };
 
 void __ct__7TObjectFP7TObject(void *, void *);
 void copy_model_node(u8 *dst, u8 *src);
@@ -151,7 +147,7 @@ struct Arr_802EFD08 { u8 pad[0x44]; s32 a[12]; };
 // In-TU defined (twin TBoss2Tentacle precedent, 100.0): enables MWCC
 // base-hoist into r31 + copy-propagation sink; externs remat instead.
 Node_802EFF24 lbl_80541528[14];
-V_802F0A5C TBoss7Tentacle__segment_offsets[14];
+Vec TBoss7Tentacle__segment_offsets[14];
 u32 TBoss7Tentacle__needle_offsets[14];
 RecoveredGlobal_802EFB1C_lbl_80541918 boss7_tentacle_needle_target_state;
 s32 lbl_805D6948;
@@ -381,8 +377,8 @@ void run_task__14TBoss7TentacleFv(u8 *boss7_tentacle) {
         }
         break;
     case 3: {
-        V_802F0A5C p;
-        V_802F0A5C v;
+        Vec p;
+        Vec v;
         f32 len;
         s32 i;
         v.x = 0.0f;
@@ -589,7 +585,7 @@ void fn_802EFEA8(void) {
 
 #pragma push
 #pragma fp_contract on
-u8 *TBoss7TentacleNeedle__ct(TBoss7TentacleNeedle *self, void *parent, V_802F0A5C *pos) {
+u8 *TBoss7TentacleNeedle__ct(TBoss7TentacleNeedle *self, void *parent, Vec *pos) {
     __ct__7TObjectFP7TObject((void *)self, parent);
     *(s32 **)((s8 *)self + 0x18) = __vt__20TBoss7TentacleNeedle;
     self->m_name = boss7_tentacle_needle_name_ptr;

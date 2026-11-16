@@ -336,15 +336,13 @@ typedef struct Player_801C8B5C {
     s32 ang;
 } Player_801C8B5C;
 
-typedef struct Vec_801C8FCC { f32 x, y, z; } Vec_801C8FCC;
-
 typedef struct Cmd_801C8FCC {
     u8 cmd;
     u8 size;
     u16 client;
     s32 area;
-    Vec_801C8FCC a;
-    Vec_801C8FCC pos;
+    Vec a;
+    Vec pos;
 } Cmd_801C8FCC;
 
 struct Pkt_801C9084 { u16 hdr; s16 id; s32 c; f32 x1, y1, z1; f32 x2, y2, z2; };
@@ -1122,9 +1120,7 @@ struct E_801D2C18 { u8 d[4]; };
 
 struct Obj_801D2C18 { s32 n; E_801D2C18 e[1]; };
 
-struct Vec_801D3224 { f32 x, y, z; };
-
-struct Rec_801D3224 { u8 pad[0x1C]; Vec_801D3224 pos; u8 pad28[4]; };
+struct Rec_801D3224 { u8 pad[0x1C]; Vec pos; u8 pad28[4]; };
 
 struct Obj_801D3224 { u8 pad[0xA4]; Rec_801D3224 *recs; };
 
@@ -1544,7 +1540,7 @@ s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 s32 TObjPlayer__sub_801D2F8C(s16 arg0);
 void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, s32 arg2, s16 arg3);
 void apply_anim_action__10TObjPlayerFPvi(u8 *arg0, s32 arg1);
-s32 get_first_target_position__10TObjPlayerFPvPv(void *arg0, Vec_801D3224 *out);
+s32 get_first_target_position__10TObjPlayerFPvPv(void *arg0, Vec *out);
 void * capture_lockon_targets(Self_801D32A0 *self, Pl_801D32A0 *player);
 int TObjPlayer__sub_801D345C(void* p);
 void handle_6x54(void);
@@ -8064,7 +8060,7 @@ extern int fold_flush_44;
 #pragma auto_inline off
 #pragma dont_inline off
 
-s32 get_first_target_position__10TObjPlayerFPvPv(void *arg0, Vec_801D3224 *out) {
+s32 get_first_target_position__10TObjPlayerFPvPv(void *arg0, Vec *out) {
     Slot_801D3224 *s = (Slot_801D3224 *)TObjPlayer__sub_801D345C((void*)(arg0));
     u16 uid = ((TObjPlayer *)s)->get_uid();
     Obj_801D3224 *o;
@@ -8075,7 +8071,7 @@ s32 get_first_target_position__10TObjPlayerFPvPv(void *arg0, Vec_801D3224 *out) 
     if (o == NULL) {
         return 0;
     }
-    ((void (*)(Vec_801D3224 *, Vec_801D3224 *))VecCopy__FP3VecPC3Vec)(out, &o->recs[s->idx].pos);
+    ((void (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)(out, &o->recs[s->idx].pos);
     return 1;
 }
 extern int fold_flush_45;

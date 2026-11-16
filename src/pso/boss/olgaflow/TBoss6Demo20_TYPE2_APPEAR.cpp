@@ -170,11 +170,9 @@ void render__25TBoss6Demo20_TYPE2_APPEARFv(void* p) { ((TBoss6Demo20_TYPE2_APPEA
 
 struct O_8033D9E4 { u8 pad[0x18]; void *f18; u8 pad2[0x7C - 0x1C]; void *f7c; void *h[9]; };
 
-typedef struct Vec_8033D6DC { f32 x, y, z; } Vec_8033D6DC;
-
 typedef struct O_8033D6DC {
     u8 pad0[0x1C];
-    Vec_8033D6DC pos[3];
+    Vec pos[3];
     u8 obj40[0x30];
     u8 obj70[0x10];
     void *h[9];

@@ -305,8 +305,6 @@ struct VObj_14_c1c33b : VBase_14_c1c33b {
     virtual s32 m4();
 };
 
-struct Vec_80097714 { f32 x, y, z; };
-
 struct BringerBase_80097714 { char pad[0x18]; };
 
 struct Bringer_80097714 : BringerBase_80097714 {
@@ -404,7 +402,7 @@ struct Fields_80097714 {
     u8 pad0[0xB8];
     s16 fieldB8;
     u8 padBA[0x308 - 0xBA];
-    Vec_80097714 vel;
+    Vec vel;
     u8 pad314[0x378 - 0x314];
     s32 field378;
     u8 pad37C[0x484 - 0x37C];
@@ -542,13 +540,9 @@ struct VObj_18_313dd8 : VBase_18_313dd8 {
     virtual s32 m87();
 };
 
-struct Vec_8009813C { f32 x, y, z; };
-
 struct Sub_8009813C { u8 pad[0x18]; s32 flags; };
 
 struct Prm_8009813C { f32 speed; u8 pad4[0x18]; s32 i1C; s32 i20; };
-
-struct Vec_80097820 { f32 x, y, z; };
 
 #include <stddef.h>
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
@@ -740,12 +734,6 @@ struct SubObj_80098970 : SubBase_80098970 {
 };
 
 
-struct Stack_800991E0 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 struct Obj_80098FF4 {
     u8 pad0[0x38];
     u8 pos[0x2FC - 0x38];
@@ -878,15 +866,13 @@ struct Bringer_800993E8 : BringerBase_800993E8 {
     virtual s32 m97();
 };
 
-struct Vec_800993E8 { f32 x, y, z; };
+struct Entry_800993E8 { u8 pad0[0xC]; Vec a; u8 pad18[0x24 - 0x18]; Vec b; };
 
-struct Entry_800993E8 { u8 pad0[0xC]; Vec_800993E8 a; u8 pad18[0x24 - 0x18]; Vec_800993E8 b; };
-
-struct Model_800993E8 { u8 pad0[0x2C]; Vec_800993E8 b; };
+struct Model_800993E8 { u8 pad0[0x2C]; Vec b; };
 
 struct ChildFields_800993E8 {
     u8 pad0[0x38];
-    Vec_800993E8 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 angle;
     u8 pad64[0xA4 - 0x64];
@@ -895,7 +881,7 @@ struct ChildFields_800993E8 {
 
 struct Fields_800993E8 {
     u8 pad0[0x38];
-    Vec_800993E8 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 angle;
     u8 pad64[0xC0 - 0x64];
@@ -1061,7 +1047,6 @@ extern s32 __ct__15RenderFadeStateFv[];
 const char *TObjEneDf2Bringer__name = "TObjEneDf2Bringer";
 
 
-struct Vec_80099800 { f32 x, y, z; };
 struct Slot_80099800 { u8 pad[0x1C]; };
 
 u8 *__ct__17AreaAttackHistoryFl(u8 *arg0, s32 arg1);
@@ -1070,7 +1055,7 @@ extern s32 bringer_boss_stats_handle;
 extern s32 bringer_boss_stats_ptr_b;
 extern s32 bringer_object_handle;
 extern u32 TObjEneDf2Bringer__resource_bundle;
-struct Arr_80099800 { u8 pad[0x3E0]; Slot_80099800 slot[4]; Vec_80099800 v[4]; };
+struct Arr_80099800 { u8 pad[0x3E0]; Slot_80099800 slot[4]; Vec v[4]; };
 
 typedef struct RecoveredGlobal_8031B170_lbl_804E8880 RecoveredGlobal_8031B170_lbl_804E8880;
 typedef char RecoveredGlobal_8031B170_lbl_804E8880_size[((sizeof(RecoveredGlobal_8031B170_lbl_804E8880)) == 0xD0) ? (1) : (-1)];
@@ -1083,13 +1068,6 @@ typedef struct Ent_80099BD4 Ent_80099BD4;
 typedef struct Path_80099BD4 Path_80099BD4;
 typedef struct Seg_80099BD4 Seg_80099BD4;
 typedef struct Sp_80099BD4 Sp_80099BD4;
-typedef struct Vec_80099BD4 Vec_80099BD4;
-struct Vec_80099BD4
-{
-  f32 x;
-  f32 y;
-  f32 z;
-};
 struct Ent_80099BD4
 {
   s32 k;
@@ -1104,10 +1082,10 @@ struct Sp_80099BD4
 };
 struct Seg_80099BD4
 {
-  Vec_80099BD4 p0;
-  Vec_80099BD4 p1;
-  Vec_80099BD4 p2;
-  Vec_80099BD4 p3;
+  Vec p0;
+  Vec p1;
+  Vec p2;
+  Vec p3;
 };
 struct Path_80099BD4
 {
@@ -1126,15 +1104,15 @@ s32 load_enemy_bml_resource(u8 *arg0);
 #define transition_enemy_state__9TObjEneDDFl ((int (*)(void*, void*))transition_enemy_state__9TObjEneDDFl)
 #define TObjEneDf2Bringer__data_805D4FB4 (*(u8 **)&TObjEneDf2Bringer__data_805D4FB4)
 void TObjEneDf2Bringer::load_resources() {
-  Vec_80099BD4 offs[4];
+  Vec offs[4];
   s32 ids[4];
-  Vec_80099BD4 a;
-  Vec_80099BD4 d;
+  Vec a;
+  Vec d;
   void *o;
-  Vec_80099BD4 *p3;
+  Vec *p3;
   s32 n;
   Seg_80099BD4 *seg;
-  Vec_80099BD4 *p1;
+  Vec *p1;
   s32 i;
   f32 len;
   f32 s2;
@@ -1474,13 +1452,13 @@ s32 TObjEneDf2Bringer__sub_80099248(void *bringer) {
 }
 
 void TObjEneDf2Bringer::spawn_offset_particle() {
-    Stack_800991E0 stack;
-    stack.sp8 = -5.0f;
-    stack.spC = 0.0f;
-    stack.sp10 = 7.0f;
-    rotate_xz_pair_by_angle(&stack.sp8, &stack.sp10, this->rotation_y, 0.0f, -5.0f);
-    vec3_add_to(&stack.sp8, ((u8 *)this) + 0x38);
-    spawn_particle_effect(&stack.sp8, 0xF3);
+    Vec stack;
+    stack.x = -5.0f;
+    stack.y = 0.0f;
+    stack.z = 7.0f;
+    rotate_xz_pair_by_angle(&stack.x, &stack.z, this->rotation_y, 0.0f, -5.0f);
+    vec3_add_to(&stack.x, ((u8 *)this) + 0x38);
+    spawn_particle_effect(&stack.x, 0xF3);
 }
 
 void TObjEneDf2Bringer::spawn_particle_if_in_band() {
@@ -1845,7 +1823,7 @@ void TObjEneDf2Bringer__sub_8009859C(u8 *ene_df2_bringer, s32 arg1) {
 }
 
 void TObjEneDf2Bringer__sub_8009813C(u8 *arg0, s32 arg1) {
-    Vec_8009813C d;
+    Vec d;
     s32 hit;
     switch (arg1) {
     case 4:
@@ -2106,7 +2084,7 @@ void TObjEneDf2Bringer__sub_80097820(u8 *arg0, s32 arg1) {
                 }
             } else {
                 if (((TObjMotion *)arg0)->is_passing_frame(8.0f) != 0) {
-                    Vec_80097820 v = *(Vec_80097820 *)((s8 *)arg0 + 0x38);
+                    Vec v = *(Vec *)((s8 *)arg0 + 0x38);
                     v.y += 8.0f;
                     new TUnk_8048FE7C((TObject *)arg0, (const Vec *)&v, 100.0f);
                 }
@@ -2217,7 +2195,7 @@ void TObjEneDf2Bringer__sub_80097820(u8 *arg0, s32 arg1) {
 #undef F_8009
 void TObjEneDf2Bringer__sub_80097714(Bringer_80097714 *obj, s32 mode) {
     Fields_80097714 *self = (Fields_80097714 *)obj;
-    Vec_80097714 v;
+    Vec v;
     f32 speed;
     switch (mode) {
     case 4:

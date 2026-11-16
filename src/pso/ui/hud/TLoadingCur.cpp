@@ -32,11 +32,9 @@ struct RecoveredGlobal_8001CAD4_lbl_8058D490 {
     u8 remaining[0x2C];
 };
 
-struct Vec_8001CBC4 { f32 x, y, z; };
+struct Tbl_8001CBC4 { Vec base; Vec dir; };
 
-struct Tbl_8001CBC4 { Vec_8001CBC4 base; Vec_8001CBC4 dir; };
-
-struct Obj_8001CBC4 { u8 pad[0x44]; Vec_8001CBC4 pos; };
+struct Obj_8001CBC4 { u8 pad[0x44]; Vec pos; };
 
 extern "C" {
 f32 vec3_add_to(void *, void *);
@@ -81,7 +79,7 @@ void TLoadingCur::update_camera_facing_offset() {
 }
 #pragma push
 #pragma fp_contract on
-Vec_8001CBC4 calc_loading_cursor_pos(Obj_8001CBC4 *o) {
+Vec calc_loading_cursor_pos(Obj_8001CBC4 *o) {
     if (camera_ctrl_instance != 0) {
         o->pos.x = 1e+02f * (*(Tbl_8001CBC4 *)&lbl_804FF5E8).dir.x + (*(Tbl_8001CBC4 *)&lbl_804FF5E8).base.x;
         o->pos.y = 1e+02f * (*(Tbl_8001CBC4 *)&lbl_804FF5E8).dir.y + (*(Tbl_8001CBC4 *)&lbl_804FF5E8).base.y;

@@ -12,11 +12,9 @@ const char *TPhotonLine__class_name = "TPhotonLine";
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 
-typedef struct Vec_801ACD14 { f32 x, y, z; } Vec_801ACD14;
-
 struct Params_801ACD14 {
-    Vec_801ACD14 pos;
-    Vec_801ACD14 dir;
+    Vec pos;
+    Vec dir;
     f32 scale;
     f32 f1C;
 };
@@ -26,11 +24,11 @@ struct Line_801ACD14 {
     u8 pad4[0x18 - 4];
     void *vt18;
     u8 pad1C[0x38 - 0x1C];
-    Vec_801ACD14 f38;
+    Vec f38;
     u8 pad44[0x50 - 0x44];
-    Vec_801ACD14 f50;
+    Vec f50;
     u8 pad5C[0x334 - 0x5C];
-    Vec_801ACD14 f334;
+    Vec f334;
     u8 pad340[4];
     f32 f344;
     u8 pad348[0x350 - 0x348];
@@ -46,13 +44,13 @@ struct Flags_801ACB14 {
 
 struct Line_801ACB14 {
     u8 pad0[0x38];
-    Vec_801ACD14 pos;
+    Vec pos;
     u8 pad44[0xA4 - 0x44];
     Flags_801ACB14 *fA4;
     u8 padA8[0x2FC - 0xA8];
-    Vec_801ACD14 f2FC;
+    Vec f2FC;
     u8 pad308[0x334 - 0x308];
-    Vec_801ACD14 vel;
+    Vec vel;
     u8 pad340[4];
     f32 f344;
     u8 pad348[0x354 - 0x348];
@@ -69,21 +67,21 @@ CollisionBody photon_line_collision_body_part[1] = {
 };
 extern s32 __vt__11TPhotonLine[];
 Line_801ACD14 *TPhotonLine__ct(Line_801ACD14 *self, Params_801ACD14 *p, void *parent, u16 arg3);
-s32 check_path_obstructed(void *, Vec_801ACD14 *);
+s32 check_path_obstructed(void *, Vec *);
 u16 get_entity_id(void *);
 u8 *get_battle_param__10TObjPlayerFi(s32);
 void *spawn_particle_effect(const void *pos, s32 id);
 }
 void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 scale);
 extern "C" {
-void vec3_add_to(Vec_801ACD14 *, Vec_801ACD14 *);
+void vec3_add_to(Vec *, Vec *);
 void run_task__11TPhotonLineFv(Line_801ACB14 *self);
 s32 free_collision_body_parts(void *);
 
 void TPhotonLine::render() { TParticleCtrl::begin_effect_render(); TParticleCtrl::end_effect_render(); }
 
 void run_task__11TPhotonLineFv(Line_801ACB14 *self) {
-    Vec_801ACD14 v = self->pos;
+    Vec v = self->pos;
     s32 i;
     u8 *p;
     s32 j;

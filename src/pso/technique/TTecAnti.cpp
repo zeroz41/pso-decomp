@@ -37,16 +37,14 @@ struct Sub_8022B3E8 { s32 w[22]; };
 
 struct S_8022B3E8 { s32 f0; Sub_8022B3E8 sub; };
 
-struct Vec_8022AE10 { f32 x, y, z; };
-
 struct AntiRow_8022AE10 { s32 a; s32 b; s32 c; s32 flags; };
 
 struct Obj_8022AE10 {
     u8 pad0[0x18];
     void *vtbl;
     u8 pad1C[0x30 - 0x1C];
-    Vec_8022AE10 body;
-    Vec_8022AE10 ground;
+    Vec body;
+    Vec ground;
 };
 
 struct Target_8022B150 { u16 id; u8 pad[6]; };
@@ -65,7 +63,6 @@ struct Anti_8022B150 {
 };
 
 struct Obj_8022AE10;
-struct Vec_8022AE10;
 struct Hit_8022AEF8 {
     s32 type;
     f32 power;
@@ -131,7 +128,7 @@ AntiRow_8022AE10 TTecAnti__self_effect_rows[4] = {
     {0xA, 1, 0x1EC, 1},
 };
 extern s32 __vt__13TUnk_804CC0E8[];
-Obj_8022AE10 *construct_self_effect__8TTecAntiFPvPvPviPv(Obj_8022AE10 *self, const Vec_8022AE10 *body, const Vec_8022AE10 *ground, s32 actor, void *parent);
+Obj_8022AE10 *construct_self_effect__8TTecAntiFPvPvPviPv(Obj_8022AE10 *self, const Vec *body, const Vec *ground, s32 actor, void *parent);
 void *find_entity_by_id(u16 id);
 s32 is_parents_unqueued__9TTecLukerFUl();
 void deliver_technique_to_party_targets(void *);
@@ -258,7 +255,7 @@ void TTecAnti::vfunc_7(void *pl_arg) {
         if (self->xAC != 0) {
             o = __nw__7TObjectFUl(0x48);
             if (o != NULL) {
-                construct_self_effect__8TTecAntiFPvPvPviPv((Obj_8022AE10 *)o, (const Vec_8022AE10 *)pl->x2FC, (const Vec_8022AE10 *)pl->pos, get_entity_id((int)pl), tl_07);
+                construct_self_effect__8TTecAntiFPvPvPviPv((Obj_8022AE10 *)o, (const Vec *)pl->x2FC, (const Vec *)pl->pos, get_entity_id((int)pl), tl_07);
             }
         }
     } else if (self->xAC != 0) {
@@ -279,7 +276,7 @@ void TTecAnti::vfunc_7(void *pl_arg) {
     }
 }
 
-Obj_8022AE10 *construct_self_effect__8TTecAntiFPvPvPviPv(Obj_8022AE10 *self, const Vec_8022AE10 *body, const Vec_8022AE10 *ground, s32 actor, void *parent) {
+Obj_8022AE10 *construct_self_effect__8TTecAntiFPvPvPviPv(Obj_8022AE10 *self, const Vec *body, const Vec *ground, s32 actor, void *parent) {
     s32 i;
     __ct__7TObjectFP7TObject(self, parent);
     self->vtbl = __vt__13TUnk_804CC0E8;

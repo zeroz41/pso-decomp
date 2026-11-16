@@ -879,10 +879,6 @@ union U_801E8888 { s32 i; f32 f; };
 
 union U_801E8820 { s32 i; f32 f; };
 
-struct Vec_801E9400 { f32 x, y, z; };
-
-struct Vec_801E945C { f32 x, y, z; };
-
 struct Glob_801E915C {
     s32 count;
     f32 f4;
@@ -892,8 +888,6 @@ struct Glob_801E915C {
     u32 id;
 };
 
-struct Vec3_801E915C { f32 x, y, z; };
-
 struct Glob_801E9274 {
     s32 count;
     f32 f4;
@@ -902,8 +896,6 @@ struct Glob_801E9274 {
     s32 out;
     u32 id;
 };
-
-struct Vec3_801E9274 { f32 x, y, z; };
 
 struct ByteBlock_30 { u8 bytes[0x30]; };
 
@@ -976,14 +968,6 @@ struct Item_801EBF30 {
     u8 data[12];
     s32 id;
     u32 f10;
-};
-
-struct Vec_801ECFDC {
-    f32 x, y, z;
-};
-
-struct Vec_801ED0CC {
-    f32 x, y, z;
 };
 
 struct Spawn_801EA388 {
@@ -1152,15 +1136,11 @@ struct List_801F1A0C : Base_801F1A0C {
     s32 count;
 };
 
-struct Vec3_801F0970 { f32 x, y, z; };
-
 struct Pair_801F1838 { s32 a; s32 b; };
 
 struct Vec2_801E717C { f32 x, y; };
 
 struct Vec2_801E74D0 { f32 x, y; };
-
-struct Vec3_801E79BC { f32 x, y, z; };
 
 struct Spawn_801E8930 {
     u8 pad0[0xC];
@@ -1176,8 +1156,6 @@ struct Spawn_801E8930 {
     s32 c;
     u8 pad34[0x8];
 };
-
-struct Vec_801E8930 { f32 x; f32 y; f32 z; };
 
 struct Spawn_801E8AE8 {
     u8 pad0[0xC];
@@ -1244,14 +1222,6 @@ struct Spawn_801E8F54 {
     u8 pad34[0xC];
 };
 
-struct Vec_801EE220 {
-    f32 x, y, z;
-};
-
-struct Vec_801EF134 {
-    f32 x, y, z;
-};
-
 struct NpcSet_801EF3B4 {
     u8 pad0[0xC];
     f32 x;
@@ -1282,8 +1252,6 @@ struct Spawn_801EF7A8 {
     s32 c;
     u8 pad34[0x8];
 };
-
-struct Vec_801EF7A8 { f32 x; f32 y; f32 z; };
 
 struct NpcSet_801EF944 {
     u8 pad0[0xC];
@@ -1350,28 +1318,6 @@ struct NpcSet_801EFD3C {
     u8 pad34[0x40 - 0x34];
 };
 
-typedef struct Vec_801F0034 { f32 x, y, z; } Vec_801F0034;
-
-struct Vec_801F0110 {
-    f32 x, y, z;
-};
-
-struct Vec_801F0458 { f32 x, y, z; };
-
-struct Vec_801F0574 {
-    f32 x, y, z;
-};
-
-typedef struct Vec_801F0710 { f32 x, y, z; } Vec_801F0710;
-
-struct Vec_801F07D8 {
-    f32 x, y, z;
-};
-
-struct Vec_801F08AC {
-    f32 x, y, z;
-};
-
 struct WalkCmd_801F09EC {
     u16 f0;
     u16 player;
@@ -1383,10 +1329,6 @@ struct WalkCmd_801F09EC {
 struct Obj_801F09EC {
     u8 pad[0x30];
     u32 f30;
-};
-
-struct Vec_801F12F0 {
-    f32 x, y, z;
 };
 
 struct Npc_801F1450 {
@@ -1410,7 +1352,7 @@ void * memcpy(void *, const void *, u32);
 s32 memset(void *, int, int);
 void TKeyBoardControl__sub_8000F950(void);
 void mark_area_change_pending();
-void VecCopy__FP3VecPC3Vec(Vec_801F0574 *, const void *);
+void VecCopy__FP3VecPC3Vec(Vec *, const void *);
 int obj_isState2_324__9TObjCharaFv(TObjPlayer*);
 s16 get_actor_tp(u8 *);
 s32 obj_getPtr2B0_20();
@@ -1428,10 +1370,10 @@ int set_camera_capture_overlay_alpha(void*);
 int set_shake_preset__11TCameraCtrlFl(void*);
 int is_quest_active(void);
 s32 reset_battle_camera__11TCameraCtrlFv();
-void TCameraCtrl__sub_8006B3B8(Vec_801EE220 *, Vec_801EE220 *);
+void TCameraCtrl__sub_8006B3B8(Vec *, Vec *);
 int reset_to_local_player__11TCameraCtrlFv(void*);
-void set_override_position_and_angle__11TCameraCtrlFPUcs(Vec_801E9400 *, int, Vec_801E9400 *, s32 *);
-void set_fixed_position_and_target__11TCameraCtrlFPUcPUc(Vec_801E945C *, Vec_801E945C *, Vec_801E945C *);
+void set_override_position_and_angle__11TCameraCtrlFPUcs(Vec *, int, Vec *, s32 *);
+void set_fixed_position_and_target__11TCameraCtrlFPUcPUc(Vec *, Vec *, Vec *);
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
 int set_active_camera_flag__11TCameraCtrlFv(void*);
 int end_conversation_camera(void*);
@@ -1467,7 +1409,7 @@ s32 activate_d04_slot__10TObjPlayerFv();
 s32 create_instance__12TItemDropSubFl(int, void *);
 void init__9TItemDataFv(Item_801EE77C *);
 s32 advance_item_id_counter(u16);
-f32 xz_distance_squared(Vec3_801E79BC *, Vec3_801E79BC *);
+f32 xz_distance_squared(Vec *, Vec *);
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 s32 get_class_type_name__6TLobbyFl(int);
 int TNpcPlayer__sub_8014DC30(void*);
@@ -1519,7 +1461,7 @@ u32 TObjPlayer__sub_801BFFA0(void *);
 int TFontSmallLobby__sub_801C013C(void *p);
 void request_player_size_restore(PlayerScaleState *state);
 void request_player_shrink(PlayerScaleState *state);
-Vec_801ECFDC * TObjPlayer__sub_801C6FDC(void *);
+Vec * TObjPlayer__sub_801C6FDC(void *);
 void * get_owner_if_alive__10TObjPlayerFv(void *);
 s32 send_download_head_d7(int, int, int);
 void* __ct__13TQuestBgmCtrlFP7TObject(void*, TObject *);
@@ -1682,10 +1624,10 @@ int fn_801F34A0(void *p);
 s32 fn_get_field_3ac(void *);
 void TLobby__sub_801F34E8(int a0, int a1);
 int TLobby__sub_801F34F8(void);
-void TLobby__sub_801F3500(void *, Vec_801E8930 *);
+void TLobby__sub_801F3500(void *, Vec *);
 int TLobby__sub_801F3568(void*);
 s32 TLobby__sub_801F3614();
-void copy_position__6TLobbyFv(void *, Vec_801ECFDC *);
+void copy_position__6TLobbyFv(void *, Vec *);
 int TLobby__sub_801F3694(void *p);
 int TLobby__sub_801F36BC(void*);
 int TLobby__sub_801F36D8(void*);
@@ -1899,19 +1841,19 @@ int update_alloc_size__6TLobbyFv(void*);
 int get_selected_slot__6TLobbyFv(void*);
 s32 TLobby__sub_8032CDEC();
 void update_entries__18TChallenge4PResultFii(s32 arg0, s32 arg1);
-s32 fn_8034D3D0(u8 *, f32, s32, s32, s32, Vec3_801E915C *, s32);
-s32 fn_8034D790(u8 *, f32, s32, s32, s32, Vec3_801E9274 *);
+s32 fn_8034D3D0(u8 *, f32, s32, s32, s32, Vec *, s32);
+s32 fn_8034D790(u8 *, f32, s32, s32, s32, Vec *);
 s32 TLobby__sub_8034DAA0(int, int, void *);
 int notify_all_battle_players__10TObjPlayerFv(void*);
 int update_4p_battle_ctrls__10TObjPlayerFv(void*);
 int clear_partner_dialogue_flags(void*);
-void send_stop_at_position__10TNpcPlayerFUsPvs(u16, Vec_801F0458 *, s32);
+void send_stop_at_position__10TNpcPlayerFUsPvs(u16, Vec *, s32);
 int enable_partner_chatter__10TNpcPlayerFv(void*);
 int disable_partner_chatter__10TNpcPlayerFv(void*);
 void send_inter_level_warp_all__10TNpcPlayerFl();
 s32 send_npc_control_6x69__10TNpcPlayerFs(int);
 s32 send_npc_stop_6x69__10TNpcPlayerFs(int);
-void send_npc_control_create__10TNpcPlayerFsUssPUcl(u16, u16, s32, Vec_801F12F0 *, s32);
+void send_npc_control_create__10TNpcPlayerFsUssPUcl(u16, u16, s32, Vec *, s32);
 void create_default_companion__10TNpcPlayerFssPUcl(u16 leader, int appearance, f32* pos, int heading);
 s32 send_npc_control_notify_players__10TNpcPlayerFsUss(s32, s32, s32);
 s32 send_npc_create__10TNpcPlayerFss(int, int);
@@ -2190,7 +2132,7 @@ void qst_op_read_counter(void) {
 }
 
 void qst_op_get_coord_player_detect(u8 i, u8 out) {
-    Vec3_801E79BC pos;
+    Vec pos;
     f32 r;
     f32 r2;
     s32 p;
@@ -2205,7 +2147,7 @@ void qst_op_get_coord_player_detect(u8 i, u8 out) {
         qst_registers[out] = 0;
         player = ((u8 * (*)(s32))get_player_by_client_id)(p);
         if (player != NULL) {
-            if (xz_distance_squared((Vec3_801E79BC *)(player + 0x38), &pos) < r2) {
+            if (xz_distance_squared((Vec *)(player + 0x38), &pos) < r2) {
                 qst_registers[out] = 1;
             }
         }
@@ -2590,7 +2532,7 @@ void qst_op_dec2float(u8 reg, u8 src) {
 
 void qst_op_check_npc_straggle_ex(u8 i, u8 slot) {
     u8 start = i;
-    Vec_801E8930 v;
+    Vec v;
     Spawn_801E8930 s;
     void *obj;
 
@@ -2727,7 +2669,7 @@ void qst_op_npc_text_id(u8 a0, u8 a1, void *a2) {
 }
 
 void qst_op_compute_bezier_curve_point() {
-    Vec3_801E915C v;
+    Vec v;
     Glob_801E915C *g = (Glob_801E915C *)qst_args;
     s32 count = g->count;
     f32 f4 = g->f4;
@@ -2738,7 +2680,7 @@ void qst_op_compute_bezier_curve_point() {
     s32 i;
     s32 ret;
     s32 j;
-    Vec3_801E915C *dst;
+    Vec *dst;
     pts = (u8 *)((u32 (*)(void *, int))qst_label_address)((void *)(u16)g->id, (int)g);
     if (pts == NULL) {
         return;
@@ -2747,7 +2689,7 @@ void qst_op_compute_bezier_curve_point() {
         ((TLobby *)(pts + i * 0x10))->bswap_4x32();
     }
     ret = fn_8034D3D0(pts, f4, count, f8, fC, &v, 100);
-    dst = (Vec3_801E915C *)&qst_registers[out];
+    dst = (Vec *)&qst_registers[out];
     dst->x = v.x;
     dst->y = v.y;
     dst->z = v.z;
@@ -2759,7 +2701,7 @@ void qst_op_compute_bezier_curve_point() {
 }
 
 void qst_op_get_vector_from_path() {
-    Vec3_801E9274 v;
+    Vec v;
     Glob_801E9274 *g = (Glob_801E9274 *)qst_args;
     s32 count = g->count;
     f32 f4 = g->f4;
@@ -2770,7 +2712,7 @@ void qst_op_get_vector_from_path() {
     s32 i;
     s32 ret;
     s32 j;
-    Vec3_801E9274 *dst;
+    Vec *dst;
     pts = (u8 *)((u32 (*)(void *, int))qst_label_address)((void *)(u16)g->id, (int)g);
     if (pts == NULL) {
         return;
@@ -2779,7 +2721,7 @@ void qst_op_get_vector_from_path() {
         ((TLobby *)(pts + i * 0x10))->bswap_4x32();
     }
     ret = fn_8034D790(pts, f4, count, f8, fC, &v);
-    dst = (Vec3_801E9274 *)&qst_registers[out];
+    dst = (Vec *)&qst_registers[out];
     dst->x = v.x;
     dst->y = v.y;
     dst->z = v.z;
@@ -2801,8 +2743,8 @@ void qst_op_get_held_buttons(u8 src, u8 dst) {
 int qst_op_default_camera_pos2(void* p) { return reset_to_local_player__11TCameraCtrlFv(p); }
 
 void qst_op_fleti_locked_camera(void) {
-    Vec_801E9400 *p = (Vec_801E9400 *)(qst_registers + qst_args[1]);
-    Vec_801E9400 v;
+    Vec *p = (Vec *)(qst_registers + qst_args[1]);
+    Vec v;
     v.x = p->x;
     v.y = p->y;
     v.z = p->z;
@@ -2810,9 +2752,9 @@ void qst_op_fleti_locked_camera(void) {
 }
 
 void qst_op_fleti_fixed_camera() {
-    Vec_801E945C a;
-    Vec_801E945C b;
-    Vec_801E945C *p = (Vec_801E945C *)(qst_registers + qst_args[0]);
+    Vec a;
+    Vec b;
+    Vec *p = (Vec *)(qst_registers + qst_args[0]);
     a.x = p[0].x;
     a.y = p[0].y;
     a.z = p[0].z;
@@ -2822,12 +2764,11 @@ void qst_op_fleti_fixed_camera() {
     set_fixed_position_and_target__11TCameraCtrlFPUcPUc(&a, &b, p);
 }
 
-struct Vec3_801E94CC { f32 x, y, z; };
 extern "C" {
 u32 find_by_id__13TQuestColCtrlFUs(u16);
 }
 void qst_op_move_coords_object(s32 i, s32 k) {
-    Vec3_801E94CC v;
+    Vec v;
     v.x = qst_registers[(u8)k++];
     v.y = qst_registers[(u8)k++];
     v.z = qst_registers[(u8)k];
@@ -4283,9 +4224,9 @@ void qst_op_prepare_npc_visual(s32 arg0) {
 int qst_op_enable_npc_visual(void* p) { return TNpcPlayer__sub_8014DC30(p); }
 
 void qst_op_set_shrink_cam2(u8 arg0) {
-    Vec_801ECFDC pos;
+    Vec pos;
     u8 *player;
-    Vec_801ECFDC *cur;
+    Vec *cur;
     player = (u8 *)((s32 (*)(int))get_player_by_client_id)(qst_registers[arg0++]);
     if (player != NULL) {
         cur = TObjPlayer__sub_801C6FDC(player + 0x5D4);
@@ -4299,17 +4240,17 @@ void qst_op_set_shrink_cam2(u8 arg0) {
 }
 
 void qst_op_set_shrink_cam1(u8 arg0) {
-    Vec_801ED0CC pos;
+    Vec pos;
     u8 *player;
-    Vec_801ED0CC *cur;
+    Vec *cur;
     player = (u8 *)((s32 (*)(int))get_player_by_client_id)(qst_registers[arg0++]);
     if (player != NULL) {
-        cur = ((Vec_801ED0CC *)TObjPlayer__sub_801C6FDC(player + 0x5C8));
+        cur = ((Vec *)TObjPlayer__sub_801C6FDC(player + 0x5C8));
         if (cur != NULL) {
             pos.x = cur->x + (f32)qst_registers[arg0++];
             pos.y = cur->y + (f32)qst_registers[arg0++];
             pos.z = cur->z + (f32)qst_registers[arg0];
-            copy_position__6TLobbyFv((void *)(player + 0x5C8), (Vec_801ECFDC *)(&pos));
+            copy_position__6TLobbyFv((void *)(player + 0x5C8), (Vec *)(&pos));
         }
     }
 }
@@ -4763,8 +4704,8 @@ void qst_op_default_camera_pos1() {
 }
 
 void qst_op_leti_fixed_camera(u8 arg0) {
-    Vec_801EE220 eye;
-    Vec_801EE220 at;
+    Vec eye;
+    Vec at;
 
     eye.x = qst_registers[(u8)arg0++];
     eye.y = qst_registers[(u8)arg0++];
@@ -5143,8 +5084,8 @@ void qst_op_set_floor_handler(void) {
 
 void qst_op_pcam_param(u8 arg0) {
     s32 i = arg0;
-    Vec_801EF134 a;
-    Vec_801EF134 b;
+    Vec a;
+    Vec b;
 
     a.x = qst_registers[i++];
     a.y = qst_registers[i++];
@@ -5263,7 +5204,7 @@ int qst_op_npc_chkwarp(void* p) { return fn_8019608C(p); }
 
 void qst_op_check_npc_straggle(u8 i) {
     u8 start = i;
-    Vec_801EF7A8 v;
+    Vec v;
     Spawn_801EF7A8 s;
     void *obj;
 
@@ -5279,7 +5220,7 @@ void qst_op_check_npc_straggle(u8 i) {
         v.x = qst_registers[i++];
         v.y = qst_registers[i++];
         v.z = qst_registers[i];
-        ((void (*)(void *, Vec_801EF7A8 *))TLobby__sub_801F3500)(obj, &v);
+        ((void (*)(void *, Vec *))TLobby__sub_801F3500)(obj, &v);
     }
 }
 
@@ -5410,7 +5351,7 @@ void qst_op_p_action_disable(void) {
 }
 void qst_op_pos_pipe(u8 arg0) {
     s32 i = arg0;
-    Vec_801F0034 point;
+    Vec point;
 
     point.x = (f32)qst_registers[i++];
     point.y = (f32)qst_registers[i++];
@@ -5423,7 +5364,7 @@ void qst_op_create_pipe(void) {
 }
 
 void qst_op_p_setpos(void) {
-    Vec_801F0110 pos;
+    Vec pos;
     u16 player;
     u8 reg;
     u8 i;
@@ -5506,7 +5447,7 @@ void qst_op_p_hpstat(void) {
 }
 #pragma pop
 void qst_op_p_move(u8 arg0) {
-    Vec_801F0458 pos;
+    Vec pos;
     s32 i = arg0;
     s32 yaw;
     u16 id;
@@ -5525,7 +5466,7 @@ void qst_op_p_look_at(void) {
 
 
 void qst_op_player_effect_nc(u8 arg0) {
-    Vec_801F0574 v;
+    Vec v;
     u16 id;
     s16 kind;
     s32 extra;
@@ -5563,7 +5504,7 @@ void qst_op_has_ep3_save_file() {
 }
 
 void qst_op_particle_id(u8 first) {
-    Vec_801F0710 point;
+    Vec point;
     s32 i = first;
     s16 effect = (s16) qst_registers[i++];
     s32 lifetime = qst_registers[i++];
@@ -5571,13 +5512,13 @@ void qst_op_particle_id(u8 first) {
     f32 height = (f32) qst_registers[i];
     s32 actor = (s32)find_entity_by_id(id);
     if (actor != 0) {
-        ((void (*)(Vec_801F0710 *, const Vec_801F0710 *))VecCopy__FP3VecPC3Vec)(&point, (const Vec_801F0710 *) (actor + 0x38));
+        ((void (*)(Vec *, const Vec *))VecCopy__FP3VecPC3Vec)(&point, (const Vec *) (actor + 0x38));
         point.y += height;
         create_timed_particle_emitter(&point, effect, 0, lifetime);
     }
 }
 void qst_op_particle_effect_nc(u8 arg0) {
-    Vec_801F07D8 v;
+    Vec v;
     s32 i;
     f32 x;
     f32 y;
@@ -5602,7 +5543,7 @@ void qst_op_particle_effect_nc(u8 arg0) {
 }
 
 void qst_op_particle(u8 arg0) {
-    Vec_801F08AC v;
+    Vec v;
     s32 i;
     f32 x;
     f32 y;
@@ -5623,7 +5564,7 @@ void qst_op_particle(u8 arg0) {
 }
 
 void qst_op_particle2() {
-    Vec3_801F0970 v;
+    Vec v;
     f32* p = &((f32*)qst_registers)[qst_args[0]];
     v.x = p[0];
     v.y = p[1];
@@ -5828,7 +5769,7 @@ void qst_op_npc_crptalk(u8 first) {
 }
 
 void qst_op_npc_crppk(u8 arg0) {
-    Vec_801F12F0 v;
+    Vec v;
     s32 angle;
     s32 a;
     s32 b;

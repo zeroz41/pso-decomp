@@ -20,9 +20,7 @@ typedef struct GChain_80232598 {
     GTarget_80232598 targets[1];
 } GChain_80232598;
 
-struct Vec_80231C58 { f32 x, y, z; };
-
-struct Part_80231C58 { u8 pad0[0x1C]; Vec_80231C58 pos; u8 pad28[0x2C - 0x28]; };
+struct Part_80231C58 { u8 pad0[0x1C]; Vec pos; u8 pad28[0x2C - 0x28]; };
 
 struct EntBase_80231C58 { u8 pad[0x18]; };
 
@@ -46,7 +44,7 @@ struct Target_80231C58 { u16 id; s16 part; u32 pad4; };
 
 struct Chain_80231C58 {
     u8 pad0[0x20];
-    Vec_80231C58 pos;
+    Vec pos;
     u8 pad2C[0xC6 - 0x2C];
     s16 level;
     u8 padC8[0x130 - 0xC8];
@@ -155,8 +153,8 @@ s32 copy_technique_target_list(void *, void *);
 s32 construct_facing_technique__10TObjPlayerFPviPvii(void *, void *, void *, s32);
 extern s32 __vt__11TTecGiZonde[];
 u8 *TTecGiZonde__ct(u8 *arg0, void *arg1, void *arg2, void *arg3, void * _w4);
-f32 vector_length(Vec_80231C58 *);
-void normalize_vector(Vec_80231C58 *);
+f32 vector_length(Vec *);
+void normalize_vector(Vec *);
 void *__nw__7TObjectFUl(int);
 u8 *construct_helper_effect__11TTecGiZondeFPvPvPvPvi(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4);
 extern s32 tl_07;
@@ -166,8 +164,8 @@ void __dl__7TObjectFPv(void *);
 #define UNQ(e) ((s32 (*)(u32)) is_parents_unqueued__9TTecLukerFUl)(e)
 s32 TTecGiZonde::find_chain_targets() {
     Chain_80231C58 *self = (Chain_80231C58 *)this;
-    Vec_80231C58 d;
-    Vec_80231C58 d2;
+    Vec d;
+    Vec d2;
     f32 scale = 0.5f;
     f32 len;
     f32 len2;

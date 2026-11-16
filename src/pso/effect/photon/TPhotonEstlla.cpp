@@ -34,28 +34,21 @@ void TObjPlayer__sub_801AA6E4(u8 *arg0, u8 *arg1) {
 
 void TPhotonEstlla::sub_801AA6F8() { *(float *)&this->m_180 = 0.0f; *(float*)((char*)this + 0x184) = 0.0f; this->m_188 = 0.0f; *(float *)&this->unk_18C = 0.0f; }
 
-struct Stack_801AA930 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Vec_801AA710 { f32 x, y, z; };
 
 // The TPhotonLine construction packet (TPhotonLine__ct reads pos, dir and scale).
 struct Packet_801AA710 {
-    Vec_801AA710 pos;
-    Vec_801AA710 dir;
+    Vec pos;
+    Vec dir;
     f32 scale;
     f32 pad_1C;
 };
 
 struct Self_801AA710 {
     u8 pad0[0x38];
-    Vec_801AA710 pos;
+    Vec pos;
     u8 pad1[0x150 - 0x44];
     f32 f150;
     u8 pad2[0x17C - 0x154];
@@ -66,13 +59,11 @@ struct Owner_801AA710 { u8 pad[0x60]; s32 f60; };
 
 struct Color_801AA818 { f32 a, r, g, b; };
 
-struct Vec_801AA818 { f32 x, y, z; };
-
 struct Self_801AA818 {
     u8 pad0[0x24];
     s32 f24;
     u8 pad1[0x38 - 0x28];
-    Vec_801AA818 pos;
+    Vec pos;
     u8 pad2[0x60 - 0x44];
     s32 f60;
     u8 pad3[0x14C - 0x64];
@@ -124,8 +115,8 @@ extern s32 model_render_flags;
 void TPhotonEstlla::spawn_line() {
     Self_801AA710 *self = (Self_801AA710 *)this;
     Owner_801AA710 *owner;
-    Vec_801AA710 forward;
-    Vec_801AA710 direction;
+    Vec forward;
+    Vec direction;
     u32 line;
     owner = (Owner_801AA710 *)find_entity_by_id(this->m_17c);
     forward.x = 0.0f;
@@ -181,10 +172,7 @@ void TPhotonEstlla::render() {
 
 void TPhotonEstlla::run_task() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_801AA930, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_801AA930, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_801AA930, sp10) == 0x8) ? 1 : -1];
-    Stack_801AA930 stack;
+    Vec stack;
     f32 temp_f1;
     u32 photon_magic_square;
     u8 *entity;
@@ -193,13 +181,13 @@ void TPhotonEstlla::run_task() {
         *(s32 *)&this->m_19c = 1;
         entity = (u8 *)(find_entity_by_id(this->m_17c));
         if (entity != NULL) {
-            stack.sp8 = *(f32 *)((s8 *)entity + 0x38);
-            stack.spC = 3e+01f + *(f32 *)((s8 *)entity + 0x3C);
-            stack.sp10 = *(f32 *)((s8 *)entity + 0x40);
+            stack.x = *(f32 *)((s8 *)entity + 0x38);
+            stack.y = 3e+01f + *(f32 *)((s8 *)entity + 0x3C);
+            stack.z = *(f32 *)((s8 *)entity + 0x40);
         }
         photon_magic_square = __nw__7TObjectFUl(0xD0);
         if (photon_magic_square != 0U) {
-            construct_photon_magic_square_normal((u8 *)photon_magic_square, (s32)arg0, 1, (s32)&stack.sp8, 0x78);
+            construct_photon_magic_square_normal((u8 *)photon_magic_square, (s32)arg0, 1, (s32)&stack.x, 0x78);
         }
     }
     if (((s32) *(s32 *)&this->m_1a0 == 0x64) && ((s16) this->requested_action == 1)) {
@@ -233,8 +221,6 @@ TPhotonEstlla::~TPhotonEstlla() {
     free_photon();
 }
 
-struct Stack_801AAB74 { f32 x, y, z; };
-
 extern "C" {
 
 s32 sub_801AA6F8__13TPhotonEstllaFv(void *, int);
@@ -247,7 +233,7 @@ TObjMotionAction photon_estlla_param_table[2] = {
 };
 
 TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TUnk_804C3248() {
-    Stack_801AAB74 pos;
+    Vec pos;
     u8 *e;
     void *p;
     m_name = TPhotonEstlla__class_name;

@@ -37,8 +37,6 @@ struct RecoveredGlobal_8036D4E0___vt__15TBoss6RockChase {
     u8 remaining[0x34];
 };
 
-struct Vec_8036D1B4 { f32 x, y, z; };
-
 struct Hit_8036D1B4 {
     s32 a;
     s32 b;
@@ -72,14 +70,14 @@ struct Player_8036D1B4 : PBase_8036D1B4 {
     virtual void m20();
     virtual void m21(s32, Hit_8036D1B4 *, s32, s32, s32);
     u8 pad1C[0x38 - 0x1C];
-    Vec_8036D1B4 pos;
+    Vec pos;
 };
 
 struct Ent_8036D1B4 { s32 id; f32 range; };
 
 struct Chase_8036D1B4 {
     u8 pad0[0x38];
-    Vec_8036D1B4 pos;
+    Vec pos;
     u8 pad44[0xAC - 0x44];
     s32 xAC;
     s32 xB0;
@@ -113,7 +111,7 @@ int push_matrix(void*);
 #pragma opt_propagation off
 s32 TBoss6RockChase::damage_players_in_range() {
     Chase_8036D1B4 *self = (Chase_8036D1B4 *)this;
-    Vec_8036D1B4 d;
+    Vec d;
     s32 n;
     s32 dmg;
     s32 i;

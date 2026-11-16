@@ -260,8 +260,6 @@ struct Obj_8018355C : VBase_8018355C {
     f32 f70;
 };
 
-struct V3_8018355C { f32 x; f32 y; f32 z; };
-
 struct V4_8018355C { s32 a; s32 b; s32 c; s32 d; };
 
 extern "C" {
@@ -291,7 +289,7 @@ typedef struct Stack_80183604 Stack_80183604;
 void TObjCity_Season_FireWorkCtrl::sub_8018355C() {
     Obj_8018355C *arg0 = (Obj_8018355C *)this;
     if (arg0->v8(250.0f, 10.0f) != 0) {
-        V3_8018355C sp18;
+        Vec sp18;
         V4_8018355C sp8 = lbl_804441FC[0];
         arg0->f64 = 0;
         arg0->f5C = 0;
@@ -520,8 +518,6 @@ struct RecoveredGlobal_80183A38_lbl_804B5C90 {
     u8 remaining[0x30];
 };
 
-struct Vec_80183AF0 { f32 x, y, z; };
-
 struct EntA_80183AF0 { u8 pad[8]; s32 v; u8 padc[4]; };
 
 struct EntB_80183AF0 { u8 pad[4]; s32 v; };
@@ -541,7 +537,7 @@ struct Obj_80183AF0 : VBase_80183AF0 {
     virtual void m7();
     virtual s32 m8(f32, f32);
     u8 pad1c[0x38 - 0x1C];
-    Vec_80183AF0 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 x60;
     u8 pad64[0xB0 - 0x64];
@@ -583,9 +579,9 @@ void TObjCity_Season_SonicAdv2::render() {
     Obj_80183AF0 *self = (Obj_80183AF0 *)this;
     Res_80183AF0 *res;
     s32 idx;
-    Vec_80183AF0 pos;
-    Vec_80183AF0 a;
-    Vec_80183AF0 b;
+    Vec pos;
+    Vec a;
+    Vec b;
     res = ((Res_80183AF0 * (*)(void *))get_anim_frame__13TUnk_804B5E48Fv)(self);
     if (res != NULL && self->m8(800.0f, 20.0f) != 0) {
         TObjFish::set_global_param(city_season_xmas_model_table[5]);

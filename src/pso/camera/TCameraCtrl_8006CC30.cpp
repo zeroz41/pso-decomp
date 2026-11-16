@@ -77,11 +77,9 @@ struct RecoveredGlobal_8006D610_TCameraCtrl__data_804FF628 {
 
 struct Ply_8006D2B0 { u8 pad[0x60]; s32 f60; };
 
-struct Vec_8006D95C { f32 x, y, z; };
+struct Tgt_8006D95C { u8 pad[0x38]; Vec pos; };
 
-struct Tgt_8006D95C { u8 pad[0x38]; Vec_8006D95C pos; };
-
-struct Cam_8006D95C { u8 pad[0x1C]; Tgt_8006D95C *tgt; u8 pad20[0x10]; s32 f30; u8 pad34[8]; Vec_8006D95C pos; u8 pad48[0xDC - 0x48]; u8 fdc[1]; };
+struct Cam_8006D95C { u8 pad[0x1C]; Tgt_8006D95C *tgt; u8 pad20[0x10]; s32 f30; u8 pad34[8]; Vec pos; u8 pad48[0xDC - 0x48]; u8 fdc[1]; };
 
 struct Ply_8006D344 {
     u8 pad0[0x60];
@@ -185,8 +183,6 @@ struct Cam_8006E170 {
     f32 f108;
 };
 
-struct Vec_8006D9F0 { f32 x, y, z; };
-
 struct Ply_8006D9F0 { u8 pad[0x60]; s32 f60; };
 
 struct CamBase_8006D9F0 { u8 pad0[0x18]; };
@@ -207,7 +203,7 @@ struct Cam_8006D9F0 : CamBase_8006D9F0 {
     virtual void v12(s32);
     Ply_8006D9F0 *ply;
     u8 pad20[0xDC - 0x20];
-    Vec_8006D9F0 pos;
+    Vec pos;
     f32 fE8;
     f32 fEC;
     f32 fF0;
@@ -299,12 +295,12 @@ s32 approach_camera_scalar(f32 *arg0, f32 *target, f32 farg0);
 void get_dragon_follow_camera_offsets(u8 *arg0, u8 *arg1);
 // inferred: 0x18 bytes in the DOL and only the first vector is read; a pair like the (a, b) offsets that
 // request_follow_camera_offsets takes.
-Vec_8006D9F0 follow_camera_offset_default[2] = {
+Vec follow_camera_offset_default[2] = {
     { 0.0f, 25.43f, 45.42f },
     { 0.0f, 0.0f, 0.0f },
 };
 extern "C" {
-void get_camera_offsets__12TBoss8DragonFPvPv(Vec_8006D9F0 *, Vec_8006D9F0 *);
+void get_camera_offsets__12TBoss8DragonFPvPv(Vec *, Vec *);
 s32 is_flag_set__11TCameraCtrlFv(void);
 s32 fn_8006E82C(s32);
 s32 approach_angle_limited(s32, s32, s32);
@@ -695,7 +691,7 @@ void TCameraCtrl::update_follow_motion_state() {
 
 void TCameraCtrl::calc_follow_position() {
     Cam_8006D95C *self = (Cam_8006D95C *)this;
-    Vec_8006D95C v;
+    Vec v;
     push_matrix_from(identity_matrix);
     rotate_matrix_y(0, self->f30);
     matrix_mult_vec(0, self->fdc, &v);
@@ -709,22 +705,22 @@ void TUnk_80488E00::select_follow_camera_offsets() {
     Cam_8006D9F0 *arg0 = (Cam_8006D9F0 *)this;
     s32 area = get_current_floor_area();
     if (area == AREA_DRAGON) {
-        Vec_8006D9F0 b0;
-        Vec_8006D9F0 a0;
-        Vec_8006D9F0 b1;
-        Vec_8006D9F0 a1;
+        Vec b0;
+        Vec a0;
+        Vec b1;
+        Vec a1;
         get_dragon_follow_camera_offsets((u8 *)&a0, (u8 *)&b0);
         request_follow_camera_offsets(&a0, &b0, 0xFFFF);
         get_dragon_follow_camera_offsets((u8 *)&a1, (u8 *)&b1);
         request_follow_camera_offsets(&a1, &b1, 0xFFFF);
     } else if (area == AREA_GAL_GRYPHON) {
-        Vec_8006D9F0 b;
-        Vec_8006D9F0 a;
+        Vec b;
+        Vec a;
         ((TBoss8Dragon *)(&a))->get_follow_camera_offsets((u8 *)&b);
         request_follow_camera_offsets(&a, &b, 0xFFFF);
     } else if (area == AREA_GOL_DRAGON) {
-        Vec_8006D9F0 b;
-        Vec_8006D9F0 a;
+        Vec b;
+        Vec a;
         get_camera_offsets__12TBoss8DragonFPvPv(&a, &b);
         request_follow_camera_offsets(&a, &b, 0xFFFF);
     } else {

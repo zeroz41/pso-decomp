@@ -25,11 +25,9 @@ const char *TObjButterflyLobby__name = "TObjButterflyLobby";
 
 struct Obj_80350AE4 { u8 pad[0x90]; s32 state; f32 val; };
 
-struct Vec_80350BC4 { f32 x, y, z; };
-
 struct Butterfly_80350BC4 {
     u8 pad00[0x38];
-    Vec_80350BC4 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 angY;
     u8 pad64[0x9C - 0x64];
@@ -170,8 +168,8 @@ void TObjButterflyLobby::run_task() {
         break;
     case 1:
         if (o->rising == 0) {
-            Vec_80350BC4 in;
-            Vec_80350BC4 out;
+            Vec in;
+            Vec out;
             in.x = 2.0f * (0.0015f * (2.0f * FRND() - 1.0f));
             in.y = 0.0f;
             in.z = 2.0f * (0.0015f * FRND()) + 0.05f;
@@ -195,8 +193,8 @@ void TObjButterflyLobby::run_task() {
             o->angY -= 200.0f * FRND() + 200.0f;
         }
         if (o->rising == 0) {
-            Vec_80350BC4 in;
-            Vec_80350BC4 out;
+            Vec in;
+            Vec out;
             in.x = 2.0f * (0.025f * (2.0f * FRND() - 1.0f));
             in.y = 0.0f;
             in.z = 2.0f * (0.025f * FRND()) + 0.05f;
@@ -215,7 +213,7 @@ void TObjButterflyLobby::run_task() {
         break;
     }
     {
-    Vec_80350BC4 p;
+    Vec p;
     VecCopy((Vec *)&p, (const Vec *)&o->pos);
     p.y += o->vy;
     if (csnVector(&o->pos, &p, -1) == 0) {

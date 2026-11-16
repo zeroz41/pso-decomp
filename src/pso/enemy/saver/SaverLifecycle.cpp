@@ -54,8 +54,6 @@ typedef struct Sub_800A715C { u8 pad[8]; void *f8; NJS_TEXLIST *texlist; } Sub_8
 
 typedef struct Res_800A715C { u8 pad[0x42C]; Sub_800A715C *sub; Ent_800A715C *ents; } Res_800A715C;
 
-typedef struct Vec_800A715C { f32 x, y, z; } Vec_800A715C;
-
 struct Obj_800A73F8 { u8 pad0[0x18]; void *vt; u8 pad1c[0x3C0 - 0x1C]; void *items[3]; };
 
 struct E_800A7734 { u8 pad[8]; s32 x8; s32 xc; };
@@ -257,14 +255,12 @@ TObjMotionAction saver_action_table[11] = {
     {3, 0, 4, 1.0f, 0x10},
     {3, 0, 3, 1.0f, 0x10},
 };
-struct Vec_800A6B14 { f32 x, y, z; };
-struct Vec_800A6C54 { f32 x, y, z; };
 
 const char *TObjEneSaver__class_name = "TObjEneSaver";
 const Init_800A715C saver_init_binding_desc = {0, saver_action_table, {1, 0xB0000}};
-const Vec_800A6C54 lbl_8043A8A4 = {0.0f, 0.0f, 0.0f};
-const Vec_800A6B14 lbl_8043A8B0 = {0.0f, 0.0f, 0.0f};
-const Vec_800A6B14 lbl_8043A8BC = {0.0f, 0.0f, 0.0f};
+const Vec lbl_8043A8A4 = {0.0f, 0.0f, 0.0f};
+const Vec lbl_8043A8B0 = {0.0f, 0.0f, 0.0f};
+const Vec lbl_8043A8BC = {0.0f, 0.0f, 0.0f};
 void *lbl_80490B28[7] = {
     (void *)0x437a0000, (void *)0x3fa00000, (void *)0x400, (void *)0x0,
     (void *)0x64, (void *)0x0, (void *)0x0,
@@ -464,10 +460,6 @@ void TObjEneSaver::update_entry_motion() {
 }
 
 
-typedef struct Vec_800A48C4 {
-    f32 x, y, z;
-} Vec_800A48C4;
-
 typedef struct Sub_800A48C4 {
     u8 pad0[0x18];
     s32 flags;
@@ -485,7 +477,7 @@ typedef struct Obj_800A48C4 {
     u8 padBA[0x2D4 - 0xBA];
     u16 target;
     u8 pad2D6[0x2FC - 0x2D6];
-    Vec_800A48C4 pos;
+    Vec pos;
     u8 pad308[0x326 - 0x308];
     s16 state;
     s16 f328;
@@ -537,7 +529,7 @@ void TObjEneSaver::update_knockback_state() {
 }
 void TObjEneSaver::vfunc_62() {
     Obj_800A48C4 *o = (Obj_800A48C4 *)this;
-    Vec_800A48C4 v;
+    Vec v;
     u8 *e;
     s32 d;
     if (this->mode >= 10 || this->mode < 8) {
@@ -576,15 +568,13 @@ struct VObj14 : Base14 {
     virtual s32 m5();
 };
 
-struct Vec_800A4C4C { f32 x, y, z; };
-
 struct Obj_800A4C4C {
     u8 pad0[0x30];
     u32 f30;
     u8 pad34[0x60 - 0x34];
     s32 f60;
     u8 pad64[0x2FC - 0x64];
-    Vec_800A4C4C pos;
+    Vec pos;
     u8 pad308[0x374 - 0x308];
     u32 f374;
     u8 pad378[0x388 - 0x378];
@@ -592,8 +582,6 @@ struct Obj_800A4C4C {
     u8 pad38A[0x38C - 0x38A];
     struct Obj_800A4C4C *f38C;
 };
-
-struct Vec_800A5A68 { f32 x, y, z; };
 
 struct Sub_800A5A68 { u8 pad0[0x18]; u32 flags; };
 
@@ -607,17 +595,13 @@ struct Obj_800A5A68 {
     u8 padBA[0x2A8 - 0xBA];
     struct Obj_800A5A68 *target;
     u8 pad2AC[0x2FC - 0x2AC];
-    Vec_800A5A68 pos;
+    Vec pos;
     u8 pad308[0x326 - 0x308];
     s16 f326;
     s16 f328;
     u8 pad32A[0x37C - 0x32A];
     s16 mode;
 };
-
-struct Vec_800A5BBC { f32 x, y, z; };
-
-struct Vec_800A5DC4 { f32 x, y, z; };
 
 struct VBase18_800A4D9C { char pad[0x18]; };
 
@@ -665,8 +649,8 @@ extern s32 registered_player_count;
 
 f32 calc_xz_distance_sq(s32 arg0, u32 arg1, void *arg2);
 
-s32 enemy_move_toward(void *, s32, Vec_800A5DC4 *, int, f32 *, f32);
-s32 select_enemy_destination(void *, Vec_800A5DC4 *, int);
+s32 enemy_move_toward(void *, s32, Vec *, int, f32 *, f32);
+s32 select_enemy_destination(void *, Vec *, int);
 s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
 #define turn_toward_target__12TObjEneSaverFv ((s32 (*)(void*))(turn_toward_target__12TObjEneSaverFv))
 f32 horizontal_distance_squared(int, void *);
@@ -675,7 +659,7 @@ void update_move_toward_target__12TObjEneSaverFv(u8 *arg0);
 }
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
-s32 calc_velocity_toward_destination(void *, Vec_800A5DC4, Vec_800A5DC4, f32);
+s32 calc_velocity_toward_destination(void *, Vec, Vec, f32);
 s32 get_current_floor();
 s32 get_floor__10TObjPlayerFv(void *);
 f32 newton_sqrtf(f32);
@@ -761,7 +745,7 @@ void TObjEneSaver::vfunc_61() {
 
 int TObjEneSaver::test_flag_256() {
     Obj_800A4C4C *self = (Obj_800A4C4C *)this;
-    Vec_800A4C4C v;
+    Vec v;
     Obj_800A4C4C *p;
     s32 i;
     if (self->f374 & 0x20) {
@@ -798,7 +782,7 @@ int TObjEneSaver::test_flag_256() {
 void TObjEneSaver::sub_800A4D9C() {
     u8 m50[0xC];
     u8 m44[0xC];
-    Vec_800A5DC4 d;
+    Vec d;
     u8 *p;
     s32 floor;
     s32 e;
@@ -836,14 +820,14 @@ void TObjEneSaver::sub_800A4D9C() {
                 goto fail;
             }
             {
-                Vec_800A5DC4 dest = *(Vec_800A5DC4 *)(t + 0x2FC);
+                Vec dest = *(Vec *)(t + 0x2FC);
                 if (select_enemy_destination(arg0, &dest, 1) == 0) {
                     goto fail;
                 }
             }
             F(s16, 0x328) = 1;
             {
-                Vec_800A5DC4 pos = F(Vec_800A5DC4, 0x2FC);
+                Vec pos = F(Vec, 0x2FC);
                 copy_position_if_valid__10TObjPlayerFii((s32)arg0, (s32)&pos);
             }
             VecCopy((Vec *)&d, (const Vec *)(arg0 + 0x29C));
@@ -851,7 +835,7 @@ void TObjEneSaver::sub_800A4D9C() {
             {
                 f32 dist = newton_sqrtf(d.x * d.x + d.z * d.z);
                 dist -= 15.0f;
-                calc_velocity_toward_destination(arg0, F(Vec_800A5DC4, 0x290), F(Vec_800A5DC4, 0x29C), 0.058333334f * dist);
+                calc_velocity_toward_destination(arg0, F(Vec, 0x290), F(Vec, 0x29C), 0.058333334f * dist);
             }
             play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003AD03), (u8 *)&this->position, 0, 0);
             goto done;
@@ -918,14 +902,13 @@ struct VCb_800A5154 : VBase_800A5154 {
     virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
     virtual void m4(void *, void *);
 };
-struct Vec_800A5154 { f32 x, y, z; };
 struct Anim_800A5154 { u8 pad[0x18]; u32 flags; };
 
 struct Pl_800A5154 {
     u8 pad0[0x30];
     u32 flags;
     u8 pad34[0x38 - 0x34];
-    Vec_800A5154 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 angle;
     u8 pad64[0xA4 - 0x64];
@@ -955,8 +938,8 @@ struct Pl_800A5154 {
 
 #define o ((Pl_800A5154 *)arg0)
 void TObjPlayer__sub_800A5154(void *arg0) {
-    Vec_800A5154 w;
-    Vec_800A5154 v;
+    Vec w;
+    Vec v;
     u16 id;
 
     id = o->target_id;
@@ -1059,7 +1042,7 @@ void TObjPlayer__sub_800A54B4(u8 *arg0) {
             F(s32, 0x30) &= ~0x200000;
             F(s16, 0x33A) = 0;
         } else {
-            Vec_800A5DC4 d;
+            Vec d;
             s32 a;
             VecCopy((Vec *)&d, (const Vec *)(F(u8 *, 0x2A8) + 0x2FC));
             subtract_vector(&d, arg0 + 0x2FC);
@@ -1074,7 +1057,7 @@ void TObjPlayer__sub_800A54B4(u8 *arg0) {
                 if (check_path_obstructed(arg0, F(u8 *, 0x2A8) + 0x2FC) == 1) {
                     F(f32, 0x308) = F(f32, 0x30C) = F(f32, 0x310) = 0.0f;
                 } else {
-                    calc_velocity_toward_destination(arg0, *(Vec_800A5DC4 *)(arg0 + 0x2FC), *(Vec_800A5DC4 *)(F(u8 *, 0x2A8) + 0x2FC), *(f32 *)((s8 *)(F(u8 *, 0x350)) + 4));
+                    calc_velocity_toward_destination(arg0, *(Vec *)(arg0 + 0x2FC), *(Vec *)(F(u8 *, 0x2A8) + 0x2FC), *(f32 *)((s8 *)(F(u8 *, 0x350)) + 4));
                 }
             }
         }
@@ -1185,7 +1168,7 @@ void TObjPlayer__sub_800A5960(void *arg0) {
 
 void TObjEneSaver::vfunc_60() {
     Obj_800A5A68 *self = (Obj_800A5A68 *)this;
-    Vec_800A5A68 v;
+    Vec v;
     switch (self->mode) {
     case 0:
     default:
@@ -1221,7 +1204,7 @@ void TObjEneSaver::vfunc_60() {
 
 s32 TObjEneSaver::is_target_in_attack_range() {
     u8 *arg0 = (u8 *)this;
-    Vec_800A5BBC v;
+    Vec v;
     f32 var_f29;
     f32 r;
     f32 dist;
@@ -1273,12 +1256,12 @@ void TObjEneSaver::update_move_toward_target() {
     if (temp_r8 != NULL) {
         switch (this->phase) {
         case 0: {
-            Vec_800A5DC4 v = *(Vec_800A5DC4 *)(temp_r8 + 0x2FC);
+            Vec v = *(Vec *)(temp_r8 + 0x2FC);
             if (select_enemy_destination(this, &v, 1) != 0) {
                 sub_800A7798(lbl_805D504C[3]);
                 this->phase = 1;
                 {
-                Vec_800A5DC4 v2 = *(Vec_800A5DC4 *)(((u8 *)this) + 0x2FC);
+                Vec v2 = *(Vec *)(((u8 *)this) + 0x2FC);
                 copy_position_if_valid__10TObjPlayerFii((s32)this, (s32)&v2);
                 }
                 apply_actor_gravity((TObjEnemy *)(this), (s32 *)(0), 0.0f);
@@ -1286,7 +1269,7 @@ void TObjEneSaver::update_move_toward_target() {
             break;
         }
         case 1: {
-            Vec_800A5DC4 v3 = *(Vec_800A5DC4 *)(temp_r8 + 0x2FC);
+            Vec v3 = *(Vec *)(temp_r8 + 0x2FC);
             enemy_move_toward(this, *(s32 *)((s8 *)this->movementParameters + 8), &v3, 0, lbl_805D504C, lbl_805D504C[2]);
             temp_f1 = horizontal_distance_squared((int) (((u8 *)this) + 0x29C), (void *) (((u8 *)this) + 0x38));
             if (temp_f1 < 22500.0f) {
@@ -1380,12 +1363,12 @@ struct RecoveredGlobal_800A6BE0_lbl_804FF5E8 {
 };
 
 
-struct Tgt_800A6B14 { u8 pad[0x2fc]; Vec_800A6B14 pos; };
+struct Tgt_800A6B14 { u8 pad[0x2fc]; Vec pos; };
 
 struct Obj_800A6B14 {
     u8 pad[0x60]; s32 angle;
     u8 pad2[0x2a8 - 0x64]; Tgt_800A6B14 *target;
-    u8 pad3[0x2fc - 0x2ac]; Vec_800A6B14 pos;
+    u8 pad3[0x2fc - 0x2ac]; Vec pos;
 };
 
 struct VBase_800A6C54_a { char pad[0x14]; };
@@ -1413,7 +1396,7 @@ struct Obj_800A677C : VObj_800A677C {
     u8 pad34[0x2A8 - 0x34];
     u8 *target;
     u8 pad2AC[0x2FC - 0x2AC];
-    Vec_800A6B14 pos;
+    Vec pos;
     u8 pad308[0x338 - 0x308];
     u16 f338;
     u8 pad33A[0x350 - 0x33A];
@@ -1441,7 +1424,7 @@ extern s32 actor_frame_tick;
 
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
-s32 matrix_mult_vec(int, Vec_800A6C54 *, void *);
+s32 matrix_mult_vec(int, Vec *, void *);
 extern u8 identity_matrix[];
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -1686,14 +1669,14 @@ void find_nearest_target__10TObjPlayerFPv(Obj_800A677C *self) {
         u16 tid;
         i = 0;
         best_id = 0xFFFF;
-        Vec_800A6B14 v = lbl_8043A8B0;
+        Vec v = lbl_8043A8B0;
         best = *self->range * *self->range;
         for (; i < registered_player_count + lbl_805D5870; i++) {
             p = (u8 *)TObjPlayer::get_player_data(i);
             if (p != NULL && p != (u8 *)self) {
                 id = get_entity_id(p);
                 if ((u16)id < 0x4000 && (u16)id != self->f1C && !(P_800A677C(p)->f30 & 0x02000800)) {
-                    VecCopy((Vec *)&v, (const Vec *)((Vec_800A6B14 *)(p + 0x2FC)));
+                    VecCopy((Vec *)&v, (const Vec *)((Vec *)(p + 0x2FC)));
                     subtract_vector(&v, &self->pos);
                     d = v.x * v.x + v.z * v.z;
                     if (d < best && check_path_obstructed(self, p + 0x2FC) != 1) {
@@ -1731,7 +1714,7 @@ void find_nearest_target__10TObjPlayerFPv(Obj_800A677C *self) {
         f32 best2;
         f32 best;
         f32 d;
-        Vec_800A6B14 v = lbl_8043A8BC;
+        Vec v = lbl_8043A8BC;
         best_id = 0xFFFF;
         best_p2 = NULL;
         best_id2 = best_id;
@@ -1745,7 +1728,7 @@ void find_nearest_target__10TObjPlayerFPv(Obj_800A677C *self) {
             if ((u16)get_entity_id(p) >= 0x1000) continue;
             if (get_floor__10TObjPlayerFv((int)p) != get_current_floor()) continue;
             if (P_800A677C(p)->f30 & 0x02000800) continue;
-            VecCopy((Vec *)&v, (const Vec *)((Vec_800A6B14 *)(p + 0x2FC)));
+            VecCopy((Vec *)&v, (const Vec *)((Vec *)(p + 0x2FC)));
             subtract_vector(&v, &self->pos);
             d = v.x * v.x + v.z * v.z;
             if ((((TObjPlayer *)p)->class_flags & self->target_class_mask) && d < best &&
@@ -1781,7 +1764,7 @@ void find_nearest_target__10TObjPlayerFPv(Obj_800A677C *self) {
 }
 
 void TObjEneSaver::turn_toward_target() {
-    Vec_800A6B14 d;
+    Vec d;
     VecCopy((Vec *)&d, (const Vec *)&((Obj_800A6B14 *)this)->target->pos);
     subtract_vector(&d, &((Obj_800A6B14 *)this)->pos);
     step_angle_clamped__10TObjPlayerFPvi(this,
@@ -1870,7 +1853,7 @@ void TObjEneSaver::render() {
         }
         TParticleCtrl::end_effect_render();
         set_chunk_model_node_callback((s32)NULL);
-        VecCopy((Vec *)((Vec_800A6B14 *)(arg0 + 0x390)), (const Vec *)((Vec_800A6B14 *)&lbl_80500978));
+        VecCopy((Vec *)((Vec *)(arg0 + 0x390)), (const Vec *)((Vec *)&lbl_80500978));
         pop_matrix();
         restore_scene_lighting();
         if (!(*(s32 *)((s8 *)arg0 + 0x374) & 1)) {
@@ -1886,7 +1869,7 @@ void TObjEneSaver::render() {
         pop_matrix();
         push_matrix_from(anim_model_matrix_array[26]);
         {
-            Vec_800A6C54 t = lbl_8043A8A4;
+            Vec t = lbl_8043A8A4;
             matrix_mult_vec(0, &t, (u8 *)&this->_pad390);
         }
         pop_matrix();
@@ -1999,8 +1982,8 @@ void TObjPlayer::free_resources() {
 #define saver_collision_body_part_table ((f32 *)saver_collision_body_part_table)
 #define RES ((Res_800A715C *)saver_bml_resource)
 void initialize_saver_resources(void) {
-    Vec_800A715C pos;
-    Vec_800A715C dir;
+    Vec pos;
+    Vec dir;
     void *r;
     r = ::operator new(0x440);
     if (r != NULL) {

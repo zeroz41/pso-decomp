@@ -31,12 +31,11 @@
 struct VBase_18_26a62c;
 struct SVec_8029D5C8;
 struct Fish_8029D5C8;
-struct Vec_8029E170;
 struct Ent_8029E170;
 extern "C" {
 void * __nw__7TObjectFUl(int);
 void render__8TObjFishFv(u8 *arg0);
-s32 init_fish_school__8TObjFishFPvll(u8 *arg0, Vec_8029E170 *arg1, s32 arg2, s32 arg3);
+s32 init_fish_school__8TObjFishFPvll(u8 *arg0, Vec *arg1, s32 arg2, s32 arg3);
 s32 TObjFish__area_bml_resource;
 extern void* __vt__8TObjFish[];
 extern void* fish_resource_name_table[];
@@ -393,11 +392,10 @@ void TObjFish::run_task() {
 
 }
 
-struct Vec_8029E170 { f32 x, y, z; };
 struct Ent_8029E170 {
-    Vec_8029E170 pos;
-    Vec_8029E170 v0c;
-    Vec_8029E170 v18;
+    Vec pos;
+    Vec v0c;
+    Vec v18;
     s32 f24;
     f32 f28;
     s16 f2c;
@@ -413,7 +411,7 @@ struct Ent_8029E170 {
 #pragma push
 #pragma fp_contract on
 s32 TObjFish::init_fish_school(void *arg1_arg, s32 arg2, s32 arg3) {
-    Vec_8029E170 *arg1 = (Vec_8029E170 *)arg1_arg;
+    Vec *arg1 = (Vec *)arg1_arg;
     Ent_8029E170 *p;
     s32 i;
 

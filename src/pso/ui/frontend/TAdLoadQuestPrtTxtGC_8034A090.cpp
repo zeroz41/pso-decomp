@@ -7,17 +7,11 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/task/TObject.h"
 
-struct Vec3_8034A090 {
-    f32 x;
-    f32 y;
-    f32 z;
-};
-
 struct TAdLoadQuestPrtTxtGC_8034A090 {
     u8 pad0[0x1C];
     s32 count;
     void *particles[32];
-    Vec3_8034A090 pos[32];
+    Vec pos[32];
     s32 state;
     s32 timer;
 };

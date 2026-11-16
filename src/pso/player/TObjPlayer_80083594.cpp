@@ -457,12 +457,10 @@ struct Rect_80083F38 { u8 data[0x20]; };
 
 struct Rect_800846C8 { u8 data[0x20]; };
 
-struct Vec_80083D54 { f32 x, y, z; };
-
 struct View_80083D54 {
     u8 pad0[0x178];
-    Vec_80083D54 pos;
-    Vec_80083D54 target;
+    Vec pos;
+    Vec target;
 };
 
 struct Mtx44_80083D54 { f32 m[4][4]; };
@@ -742,7 +740,7 @@ s32 is_in_shadow_range(u8 *arg0, f32 farg0) {
 #define VIEW ((View_80083D54 *)camera_ctrl_instance)
 void begin_shadow_map_pass(void) {
     Mtx44_80083D54 proj;
-    Vec_80083D54 d;
+    Vec d;
     f32 t;
     f32 r;
     if (is_split_screen() != 0) {

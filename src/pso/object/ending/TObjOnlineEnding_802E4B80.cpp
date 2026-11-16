@@ -177,8 +177,6 @@ void TObjOnlineEnding::close_window() { if (*(unsigned int *)&this->m_154 != 0) 
 
 }
 
-struct Vec_802E4E44 { f32 x, y, z; };
-
 struct Ent_802E4E44 { s32 active; u16 id; u8 pad[0x28 - 6]; };
 
 struct Obj_802E4E44 {
@@ -194,8 +192,8 @@ struct Cam_802E4E44 {
     u8 pad0[0x14];
     s32 f14;
     u8 pad18[4];
-    Vec_802E4E44 a;
-    Vec_802E4E44 b;
+    Vec a;
+    Vec b;
     u8 pad34[0x8];
 };
 
@@ -220,8 +218,8 @@ s32 activate_camera_mode(s32);
 void set_active_camera_pose_from_params(u8 *arg0);
 const char *TObjOnlineEnding__name = "TObjOnlineEnding";
 // inferred: the camera position and target run_task gives the ending scene.
-static const Vec_802E4E44 online_ending_camera_eye = {20000.0f, 0.0f, 0.0f};
-static const Vec_802E4E44 online_ending_camera_target = {20000.0f, 0.0f, -100.0f};
+static const Vec online_ending_camera_eye = {20000.0f, 0.0f, 0.0f};
+static const Vec online_ending_camera_target = {20000.0f, 0.0f, -100.0f};
 u32 calc_text_width(char *s);
 s32 render_status_line__15TAdSubPlyItemGCFi(void *, int, f32, f32, f32);
 s32 push_matrix();
@@ -323,8 +321,8 @@ void TObjOnlineEnding::run_task() {
         break;
     case 1: {
         activate_camera_mode(9);
-        Vec_802E4E44 t1 = online_ending_camera_eye;
-        Vec_802E4E44 t2 = online_ending_camera_target;
+        Vec t1 = online_ending_camera_eye;
+        Vec t2 = online_ending_camera_target;
         Cam_802E4E44 cam;
         VecCopy((Vec *)&cam.a, (const Vec *)&t1);
         VecCopy((Vec *)&cam.b, (const Vec *)&t2);

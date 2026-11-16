@@ -70,13 +70,6 @@ const f32 TObjBoss2CeilJunk__radius_table[6] = { 15.0f, 15.0f, 10.5f, 15.0f, 0.4
 const char *TObjBoss2CeilJunk__name = "TObjBoss2CeilJunk";
 const Color_8003A1B4 boss2_ceil_junk_render_color = { 0.0f, 0, 0, 0 };
 
-struct Vec_8003A1B4
-{
-  f32 x;
-  f32 y;
-  f32 z;
-};
-
 struct Mdl_8003A1B4
 {
   u8 pad[8];
@@ -105,18 +98,16 @@ struct Obj_8003A1B4
   f32 fB4;
 };
 
-struct Vec_8003A314 { f32 x, y, z; };
-
 struct Junk_8003A314 {
     u8 pad0[0x38];
-    Vec_8003A314 pos;
+    Vec pos;
     u8 pad44[0x10];
     f32 f54;
     u8 pad58[4];
     s32 f5C;
     s32 f60;
     u8 pad64[0x2C];
-    Vec_8003A314 vel;
+    Vec vel;
     u8 pad9C[0xC];
     s32 fA8;
     s32 fAC;
@@ -148,13 +139,12 @@ typedef struct Color_8003A1B4 Color_8003A1B4;
 typedef struct Holder_8003A1B4 Holder_8003A1B4;
 typedef struct Mdl_8003A1B4 Mdl_8003A1B4;
 typedef struct Obj_8003A1B4 Obj_8003A1B4;
-typedef struct Vec_8003A1B4 Vec_8003A1B4;
 void TObjBoss2CeilJunk::render() {
     Obj_8003A1B4 *self = (Obj_8003A1B4 *)this;
   float new_var;
   if (*(s32 *)&this->m_a8 == 2)
   {
-    Vec_8003A1B4 s;
+    Vec s;
     f32 t = TObjBoss2CeilJunk__radius_table[*(s32 *)&this->m_ac];
     new_var = (0.2f) * t;
     s.y = (1.0f);
@@ -185,8 +175,8 @@ void TObjBoss2CeilJunk::render() {
 }
 
 void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o) {
-    Vec_8003A314 p;
-    Vec_8003A314 d;
+    Vec p;
+    Vec d;
     s32 id;
     s32 hit;
     s32 n;

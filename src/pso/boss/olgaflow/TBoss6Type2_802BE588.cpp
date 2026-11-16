@@ -7,6 +7,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 // TBoss6Type2 state handlers and their state-action table (one TU: the table's
 // strings and "DPB" lead this TU's .rodata and .sdata2, its __sinit ends the .text).
@@ -67,11 +68,9 @@ TBoss6Type2Action lbl_804E00DC[36] = {
 
 struct T2_802BE6D4 { u8 pad0[0x45C]; s32 f45C; s32 f460; };
 
-struct Vec_802BE9AC { f32 x, y, z; };
-
 struct Obj_802BE9AC {
     u8 pad0[0x38];
-    Vec_802BE9AC pos;
+    Vec pos;
     u8 pad44[0x45C - 0x44];
     s32 t45C;
     s32 t460;
@@ -590,7 +589,7 @@ void TBoss6Type2::update_attack_timer() {
 void TBoss6Type2::start_flow_soul_effect() {
     Obj_802BE9AC *arg0 = (Obj_802BE9AC *)this;
     static s32 dur = (s32)(60.0f / lbl_805DE404);
-    Vec_802BE9AC v;
+    Vec v;
     u32 pl;
     s32 d = dur;
     this->state_duration = d;

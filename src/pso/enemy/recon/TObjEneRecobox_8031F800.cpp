@@ -256,8 +256,6 @@ struct V_Sub_8031f748 : Base_Sub_8031f748 {
     virtual s32 m5();
 };
 
-struct Vec_8031F8C4 { f32 x, y, z; };
-
 struct Recon_8031F8C4 {
     u8 pad0[0x1C];
     u16 f1C;
@@ -282,13 +280,13 @@ struct Recon_8031F8C4 {
 
 extern "C" {
 
-u32 create__12TObjEneReconFPvPvPvPvPv(void *, u16, s32, Vec_8031F8C4 *, Vec_8031F8C4 *);
+u32 create__12TObjEneReconFPvPvPvPvPv(void *, u16, s32, Vec *, Vec *);
 
 s32 alloc_child_id__12TObjEneReconFv(void *);
 
 s32 remap_area_sound_id__14TObjEneRecoboxFUl(s32, s32, s32);
 
-Vec_8031F8C4 *get_field_38_ptr__12TObjEneReconFv(void *, s32);
+Vec *get_field_38_ptr__12TObjEneReconFv(void *, s32);
 
 s32 has_child_in_anim_5__12TObjEneReconFv();
 
@@ -731,8 +729,6 @@ void free_bin_model_request(void*, int);
 
 void *__nw__7TObjectFUl(int);
 
-struct V3_80320260 { f32 x, y, z; };
-
 // inferred: field names follow MojaAnimationBinding (TObjEneMoja.h), the same 0x10 animation binding layout.
 struct Spawn_80320260 { s32 motions; void **actions; u32 unknown_08; u16 action_count; u16 unknown_0E; };
 
@@ -752,7 +748,7 @@ s32 register_boss__6TLobbyFl(s32);
 
 s32 load_enemy_bml_resource(u8 *arg0);
 
-V3_80320260 lbl_80543000;
+Vec lbl_80543000;
 
 s32 lbl_805D6B1C;
 
@@ -1015,8 +1011,8 @@ u8 TObjEneRecon::is_out_of_range() {
 
 void TObjEneRecon::update_child_spawn() {
     Recon_8031F8C4 *o = (Recon_8031F8C4 *)this;
-    Vec_8031F8C4 dir = {0.0f, 0.0f, 0.0f};
-    Vec_8031F8C4 pos;
+    Vec dir = {0.0f, 0.0f, 0.0f};
+    Vec pos;
     s32 id;
     s32 arg;
     s32 n;

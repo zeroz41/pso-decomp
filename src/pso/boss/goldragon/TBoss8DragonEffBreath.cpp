@@ -8,13 +8,11 @@
 
 #pragma readonly_strings on
 
-struct Vec_802FE024 { f32 x, y, z; };
-
 struct Obj_802FE024 {
     u8 pad0[0x18];
     void *vt;
-    Vec_802FE024 pos;
-    Vec_802FE024 vel;
+    Vec pos;
+    Vec vel;
     s32 a;
     s16 b;
     void *h;

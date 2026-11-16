@@ -54,13 +54,11 @@ struct RecoveredFields_801AD5D8_arg0 {
 
 struct Color_801AD4C0 { f32 a, r, g, b; };
 
-struct Vec_801AD4C0 { f32 x, y, z; };
-
 struct Self_801AD4C0 {
     u8 pad0[0x24];
     s32 f24;
     u8 pad1[0x38 - 0x28];
-    Vec_801AD4C0 pos;
+    Vec pos;
     u8 pad2[0x60 - 0x44];
     s32 f60;
     u8 pad3[0x14C - 0x64];
@@ -72,10 +70,9 @@ struct Self_801AD4C0 {
 };
 
 #define F_801AD970(o, t, off) (*(t *)((u8 *)(o) + (off)))
-struct Vec_801AD970 { f32 x, y, z; };
 
 struct Pkt_801AD970 {
-    Vec_801AD970 pos;
+    Vec pos;
     u16 owner;
     s32 first;
     s32 more;
@@ -85,7 +82,7 @@ struct Pkt_801AD970 {
 };
 
 struct YPkt_801AD970 {
-    Vec_801AD970 pos;
+    Vec pos;
     u16 owner;
     s32 first;
     s32 more;
@@ -102,7 +99,7 @@ struct Mylla_801AD970 : VBase_801AD970 {
     virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
     virtual void m12();
     u8 pad1C[0x38 - 0x1C];
-    Vec_801AD970 pos;
+    Vec pos;
 };
 
 struct Res_801AD970 { u8 pad[0xA8]; s32 fA8; s32 fAC; };
@@ -286,7 +283,7 @@ TObjMotionAction photon_mylla_action_table[2] = {
 };
 
 void *TPhotonMylla__ct(Mylla_801AD970 *self, Pkt_801AD970 *pkt) {
-    Vec_801AD970 v;
+    Vec v;
     u8 *o;
     u8 *owner;
     __ct__13TUnk_804C3248Fv(self);

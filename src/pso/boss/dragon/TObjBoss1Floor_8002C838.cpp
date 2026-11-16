@@ -26,13 +26,9 @@
 
 struct Obj_8002CACC { s32 f0; u8 pad4[0x14]; void *vt; f32 f1c; f32 f20; f32 f24; s32 f28[4]; };
 
-typedef struct Vec_8002C968 {
-    f32 x, y, z;
-} Vec_8002C968;
-
 typedef struct Player_8002C968 {
     u8 pad0[0x38];
-    Vec_8002C968 pos;
+    Vec pos;
 } Player_8002C968;
 
 typedef struct Floor_8002C968 {
@@ -93,7 +89,7 @@ void run_task__14TObjBoss1FloorFv(Floor_8002C968 *self) {
         for (i = 0; i < 4; i++) {
             pl = (Player_8002C968 *)get_player_by_client_id(i);
             if (pl != NULL) {
-                Vec_8002C968 pos = pl->pos;
+                Vec pos = pl->pos;
                 pos.y -= 4.0f;
                 if (self->objs[i] == NULL) {
                     self->objs[i] = create_particle_emitter(&pos, 0x144);

@@ -27,7 +27,6 @@ struct Obj_802370D8 : VObj_18_1a504b {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Vec_80236EE8 { f32 x, y, z; };
 
 struct Arr_80236EE8 { u32 w[3]; };
 
@@ -55,7 +54,7 @@ void spawn_support_tec_range_effect(Tec_80236EE8 *self);
 
 void spawn_support_tec_range_effect(Tec_80236EE8 *self) {
     s16 kind;
-    Vec_80236EE8 pos;
+    Vec pos;
     s32 i;
     u32 band;
     u8 *pl;

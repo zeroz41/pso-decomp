@@ -14,8 +14,6 @@
 #include "pso/unk/TUnk_80488D70.h"
 #include "pso/system/scene/TScene.h"
 
-struct Vec_8006BB1C { f32 x, y, z; };
-
 struct Pad_8006BB1C {
     u8 pad0[0x70];
     u32 buttons;
@@ -29,8 +27,8 @@ struct Obj_8006BB1C {
     s32 yaw;
     s32 pitch;
     u8 pad34[0x3c - 0x34];
-    Vec_8006BB1C eye;
-    Vec_8006BB1C at;
+    Vec eye;
+    Vec at;
     u8 pad54[0x6c - 0x54];
     f32 dist;
 };

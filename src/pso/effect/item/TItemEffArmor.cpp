@@ -67,8 +67,6 @@ typedef char RecoveredGlobal_80107DF0_lbl_8058D4C0_size[sizeof(RecoveredGlobal_8
 
 }
 
-struct Vec_80108164 { f32 x, y, z; };
-
 struct Base_80108164 { u8 pad[0x18]; };
 
 struct Player_80108164 : Base_80108164 {
@@ -135,12 +133,10 @@ struct Player_80108164 : Base_80108164 {
     virtual void m60();
     virtual void m61();
     virtual void m62();
-    virtual void get_pos(s32 id, Vec_80108164 *out);
+    virtual void get_pos(s32 id, Vec *out);
 };
 
 struct Quest_80108164 { u8 pad[0x10]; f32 f10; };
-
-struct Vec_80108020 { f32 x, y, z; };
 
 struct Parm_80108020 { u8 pad[0x1c]; f32 f1C; f32 f20; };
 
@@ -167,7 +163,7 @@ struct Self_80108020 {
 
 extern "C" {
 void play_sound_effect(u32, void *, s32, s32);
-f32 xyz_distance(Vec_80108164 *, Vec_80108164 *);
+f32 xyz_distance(Vec *, Vec *);
 void *__nw__7TObjectFUl(u32);
 
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
@@ -193,8 +189,8 @@ void TObjPlayer::spawn_appearance_effect(u16 client) {
         Quest_80108164 *q = (Quest_80108164 *)((TObjPlayer *)p)->get_stats();
         if (q != 0) {
             f32 v = q->f10;
-            Vec_80108164 a;
-            Vec_80108164 b;
+            Vec a;
+            Vec b;
             f32 s;
             void *o;
             p->get_pos(0x28, &a);
@@ -226,7 +222,7 @@ Self_80108020 *TItemEffArmor__ct(Self_80108020 *self, u8 *obj, f32 a, f32 b) {
     self->f1C = (s32)create_particle_emitter(self->f6C + 0x38, 0x1BA);
     copy_argb((NJS_ARGB *)self->v38, (NJS_ARGB *)&lbl_8043E140);
     {
-        Vec_80108020 v = { 0.0f, 1.0f, 0.0f };
+        Vec v = { 0.0f, 1.0f, 0.0f };
         p = __nw__7TObjectFUl(0x64);
         if (p != NULL) {
             construct_actor_light_task(p, (void *)&lbl_8043E140, &v, 0x3A, obj, 0.2f, tl_07);

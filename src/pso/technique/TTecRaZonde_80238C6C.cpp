@@ -50,7 +50,6 @@ struct RecoveredFields_80230D9C_arg0
 };
 
 #pragma fp_contract on
-struct Vec_80239070 { f32 x, y, z; };
 
 struct Eff_80239070 { u8 pad[0xC]; f32 scale; };
 
@@ -61,7 +60,7 @@ struct Self_80239070 {
     u8 pad4[0x18 - 0x4];
     void *vt;
     void *source;
-    Vec_80239070 pos;
+    Vec pos;
     u8 pad2c[0x78 - 0x2C];
     s16 level;
     s16 band;
@@ -72,7 +71,7 @@ struct Self_80239070 {
     u8 padb6[0xE8 - 0xB6];
     Holder_80239070 *holder;
     u8 padec[0xF0 - 0xEC];
-    Vec_80239070 pts[8];
+    Vec pts[8];
 };
 
 extern "C" {
@@ -134,8 +133,6 @@ struct RecoveredFields_80238D10_arg0
   s16 field_AC;
 };
 
-typedef struct Point_80238C6C { f32 x, y, z; } Point_80238C6C;
-
 struct Entry_80238C6C { s32 entry; u8 pad[8]; };
 
 struct Profile_80238C6C { struct Entry_80238C6C *entries; u32 count; };
@@ -154,7 +151,7 @@ struct Self_80238C6C {
     s16 band;
     u8 pad1[0xEC - 0x7C];
     s32 *emitters;
-    Point_80238C6C points[8];
+    Vec points[8];
 };
 
 struct Elec_80238E14 { s32 type; f32 val; };
@@ -328,8 +325,8 @@ void *TTecRaZonde__ct(void *self_, void *source, void *origin, void *level) {
     s32 j;
     f32 r;
     f32 len;
-    Vec_80239070 a;
-    Vec_80239070 b;
+    Vec a;
+    Vec b;
     construct_area_technique_base((u8 *)self_, (s32)source, (s32)origin, (s32)origin, (s32)level);
     self->vt = __vt__11TTecRaZonde;
     self->f0 = (u32)TTecRaZonde_class_name;

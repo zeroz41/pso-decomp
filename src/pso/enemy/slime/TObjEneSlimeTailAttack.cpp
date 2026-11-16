@@ -49,13 +49,8 @@ struct Obj_800E9BCC {
     s32 target_client_id;
 };
 
-typedef struct { f32 x, y, z; } Vec_800EB654;
+struct Obj_800EAD84 { u8 pad0[0x38]; Vec pos; };
 
-struct Vec_800EAD84 { f32 x, y, z; };
-
-struct Obj_800EAD84 { u8 pad0[0x38]; Vec_800EAD84 pos; };
-
-struct Vec_800EAEE8 { f32 x, y, z; };
 extern "C" {
 
 
@@ -103,13 +98,9 @@ struct A_800E80E8 { s32 w[12]; };
 
 struct S_800E80E8 { B_800E80E8 a; A_800E80E8 d; };
 
-typedef struct { f32 x, y, z; } Vec_800E81B4;
-
 struct Rot_800E81B4 { s32 x, y, z; };
 
-struct Obj_800E81B4 { u8 pad[0x39C]; Vec_800E81B4 pts[4]; };
-
-struct Vec_800E82B8 { f32 x, y, z; };
+struct Obj_800E81B4 { u8 pad[0x39C]; Vec pts[4]; };
 
 typedef char RecoveredGlobal_800E8128_lbl_80496704_size[sizeof(RecoveredGlobal_800E8128_lbl_80496704) == 0xC ? 1 : -1];
 
@@ -150,14 +141,12 @@ struct Ent_800E8AD0 : Base_800E8AD0 {
     virtual void m23(void *);
 };
 
-struct Vec_800E8D4C { f32 x, y, z; };
-
 struct Bomb_800E8D4C {
     u8 pad0[0x38];
-    Vec_800E8D4C pos;
+    Vec pos;
     u8 pad44[0x248 - 0x44];
     u8 hit[0x374 - 0x248];
-    Vec_800E8D4C vel;
+    Vec vel;
     f32 ground;
     f32 life;
     void *link;
@@ -166,15 +155,11 @@ struct Bomb_800E8D4C {
     s32 timer;
 };
 
-typedef struct { f32 x, y, z; } Vec_800E8C6C;
-
-struct Vec_800E9090 { f32 x, y, z; };
-
 struct Bomb_800E9090 {
     u8 pad0[0x38];
-    Vec_800E9090 pos;
+    Vec pos;
     u8 pad44[0x374 - 0x44];
-    Vec_800E9090 vel;
+    Vec vel;
     s32 f380;
     u8 pad384[0x3A0 - 0x384];
     f32 f3A0;
@@ -182,19 +167,11 @@ struct Bomb_800E9090 {
     s32 f3F4;
 };
 
-struct Stack_800E9238 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
-typedef struct Vec_800E984C { f32 x, y, z; } Vec_800E984C;
-
-typedef struct Tgt_800E984C { u8 pad[0x30]; u32 flags; u8 pad34[4]; Vec_800E984C pos; } Tgt_800E984C;
+typedef struct Tgt_800E984C { u8 pad[0x30]; u32 flags; u8 pad34[4]; Vec pos; } Tgt_800E984C;
 
 typedef struct Self_800E984C {
     u8 pad0[0x38];
-    Vec_800E984C pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 rotation_y;
     u8 pad64[0x388 - 0x64];
@@ -203,7 +180,7 @@ typedef struct Self_800E984C {
     s32 state_timer;
     u8 pad394[0x3CC - 0x394];
     s32 target;
-    Vec_800E984C dest;
+    Vec dest;
 } Self_800E984C;
 
 
@@ -216,8 +193,6 @@ struct RecoveredGlobal_800EA678_lbl_8043D23C {
     s32 value;
     u8 remaining[0x8];
 };
-
-struct Vec_800EA364 { f32 x, y, z; };
 
 typedef char RecoveredGlobal_800EA678_lbl_8043D230_size[sizeof(RecoveredGlobal_800EA678_lbl_8043D230) == 0xC ? 1 : -1];
 
@@ -251,8 +226,6 @@ struct RecoveredGlobal_800EB4A0___vt__15TObjEneSlimeOne {
 typedef char RecoveredGlobal_800EB3D4___vt__15TObjEneSlimeOne_size[sizeof(RecoveredGlobal_800EB3D4___vt__15TObjEneSlimeOne) == 0x14C ? 1 : -1];
 
 typedef char RecoveredGlobal_800EB4A0___vt__15TObjEneSlimeOne_size[sizeof(RecoveredGlobal_800EB4A0___vt__15TObjEneSlimeOne) == 0x14C ? 1 : -1];
-
-struct Vec_800E9EFC { f32 x, y, z; };
 
 u16 find_nearest_visible_player(void *, void *, f32);
 f32 * dispatch_shared_handler_a__6TLobbyFl(s32);
@@ -290,7 +263,7 @@ s32 rotate_matrix_z(int, int);
 void subtract_vector(void *, void *);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
-s32 scale_current_matrix(Vec_800E8C6C *);
+s32 scale_current_matrix(Vec *);
 
 
 // This TU's .rodata objects in address order (names stay placeholders).
@@ -616,7 +589,7 @@ struct Tmpl_800EB7BC {
     s16 c;
     u16 d;
     u8 pad8[8];
-    Vec_800EB654 pos;
+    Vec pos;
     u8 rest[0x40 - 0x1C];
 };
 
@@ -626,7 +599,7 @@ struct Slot_800EB7BC { s32 active; u32 obj; };
 
 struct Obj_800EB7BC {
     u8 pad0[0x38];
-    Vec_800EB654 pos;
+    Vec pos;
     u8 pad44[0x374 - 0x44];
     Tmpl_800EB7BC tmpl;
     s32 count;
@@ -636,7 +609,7 @@ struct Obj_800EB7BC {
 extern "C" {
 s32 has_no_active_slot(O_800EB8DC *self);
 void fn_800EB778(Obj_800EB778 *self, s32 id);
-s32 spawn_slime_in_slot(Obj_800EB7BC *origin, s32 arg1, Vec_800EB654 *arg2, Vec_800EB654 *arg3);
+s32 spawn_slime_in_slot(Obj_800EB7BC *origin, s32 arg1, Vec *arg2, Vec *arg3);
 
 }
 
@@ -884,7 +857,7 @@ s32 has_no_active_slot(O_800EB8DC *self) {
     return 1;
 }
 
-s32 spawn_slime_in_slot(Obj_800EB7BC *origin, s32 arg1, Vec_800EB654 *arg2, Vec_800EB654 *arg3) {
+s32 spawn_slime_in_slot(Obj_800EB7BC *origin, s32 arg1, Vec *arg2, Vec *arg3) {
     Tmpl_800EB7BC t;
     Slot_800EB7BC *slot;
     s32 n;
@@ -927,8 +900,8 @@ struct Bomb_800E9090;
 
 s32 TObjEneSlimeOne::try_spawn_child(void *arg1) {
     s32 i;
-    Vec_800EB654 pos;
-    Vec_800EB654 dir;
+    Vec pos;
+    Vec dir;
     s32 ang;
     s32 n;
     int origin = (int)this;
@@ -1134,7 +1107,7 @@ void render__15TObjEneSlimeOneFv(TObjEneSlimeOne *ene_slime_one) {
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         {
-            Vec_800EAEE8 v = *(Vec_800EAEE8 *)((u8 *)ene_slime_one + 0x38);
+            Vec v = *(Vec *)((u8 *)ene_slime_one + 0x38);
             v.y += ene_slime_one->draw_offset_y;
             post_translate_matrix(&v);
         }
@@ -1161,7 +1134,7 @@ void set_random_timer__15TObjEneSlimeOneFPvii(void *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0x390) = (s32) (arg1 + (s32) ((f32) arg2 * ((f32 (*)(void))random_ratio__9TObjCharaFv)()));
 }
 s32 TObjEneSlimeOne__sub_800EAD84(Obj_800EAD84 *arg0) {
-    Vec_800EAD84 sp = arg0->pos;
+    Vec sp = arg0->pos;
     sp.y += 5.0f;
     if (project_actor_to_ground(arg0, &sp, 0) != 0) {
         arg0->pos.y += 0.5f * (sp.y - arg0->pos.y);
@@ -1352,7 +1325,7 @@ void TObjEneSlimeOne::sub_800EA56C() {
     ((int (*)(void*, int))set_display_mode__15TObjEneSlimeOneFPvi)(actor, 1);
 }
 void TObjEneSlimeOne::sub_800EA364() {
-    Vec_800EA364 sp8;
+    Vec sp8;
     f32 s;
     f32 c;
     f32 accel;  // inferred: the per-frame speed-up added to move_speed
@@ -1457,8 +1430,8 @@ void TObjEneSlimeOne::sub_800EA120() {
   ((int (*)(void*, int))set_display_mode__15TObjEneSlimeOneFPvi)(this, 2);
 }
 void TObjEneSlimeOne::sub_800E9EFC() {
-    Vec_800E9EFC sp14;
-    Vec_800E9EFC sp8;
+    Vec sp14;
+    Vec sp8;
     f32 f;
     u16 r;
     s32 n;
@@ -1611,7 +1584,7 @@ void TObjEneSlimeOne::start_tail_attack() {
     ang = 65536.0f * ((TObjChara *)self)->random_ratio();
     self->dest.x = r * sin_table_lookup(ang) + self->dest.x;
     self->dest.z = r * cos_table_lookup(ang) + self->dest.z;
-    Vec_800E984C dir = self->dest;
+    Vec dir = self->dest;
     subtract_vector(&dir, &self->pos);
     len = vector_length(&dir);
     if (0.0f == len) {
@@ -1628,10 +1601,10 @@ void TObjEneSlimeOne::start_tail_attack() {
     dir.x *= 10.0f;
     dir.y *= 10.0f;
     dir.z *= 10.0f;
-    Vec_800E984C pos = self->pos;
+    Vec pos = self->pos;
     pos.y += 5.0f;
     while (n > 0) {
-        Vec_800E984C tmp = pos;
+        Vec tmp = pos;
         if (project_actor_to_ground(self, &tmp, 0) == 0 || csnLookAt(&self->pos, &pos) != 0) {
             ((TObjEneSlimeOne *)self)->set_state(9);
             return;
@@ -1797,29 +1770,26 @@ void TObjEneSlimeOne::copy_position() {
 }
 
 void fn_800E9238(s32 arg0) {
-    typedef char sp8_offset[(offsetof(Stack_800E9238, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800E9238, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_800E9238, sp10) == 0x8) ? 1 : -1];
-    Stack_800E9238 stack;
-    VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x38));
-    ((f32 (*)(void *, void *))subtract_vector)((void *)&stack.sp8, (void *)(arg0 + 0x374));
-    stack.sp8 *= 0.025f;
-    stack.spC *= 0.025f;
-    stack.sp10 *= 0.025f;
-    ((f32 (*)(void *, void *))vec3_add_to)((void *)(arg0 + 0x374), (void *)&stack.sp8);
+    Vec stack;
+    VecCopy((Vec *)(&stack.x), (const Vec *)(arg0 + 0x38));
+    ((f32 (*)(void *, void *))subtract_vector)((void *)&stack.x, (void *)(arg0 + 0x374));
+    stack.x *= 0.025f;
+    stack.y *= 0.025f;
+    stack.z *= 0.025f;
+    ((f32 (*)(void *, void *))vec3_add_to)((void *)(arg0 + 0x374), (void *)&stack.x);
 }
 
 void TObjEneSlimeOne::sub_800E9090() {
     Bomb_800E9090 *self = (Bomb_800E9090 *)this;
-    Vec_800E9090 c;
-    Vec_800E9090 b;
+    Vec c;
+    Vec b;
     f32 s;
     s32 ang;
     s32 t;
     s32 w1;
     s32 w0;
     s = 0.5f * self->f3A0;
-    Vec_800E9090 a = self->pos;
+    Vec a = self->pos;
     subtract_vector(&a, &self->vel);
     a.x *= 0.5f;
     a.y *= 0.5f;
@@ -1902,7 +1872,7 @@ void run_task__21TObjEneSlimeWaterBombFv(Bomb_800E8D4C *arg0) {
         die = 1;
     }
     {
-        Vec_800E8D4C p = arg0->pos;
+        Vec p = arg0->pos;
         p.y += 5.0f;
         if (((s32 (*)(void *, void *, void *))project_actor_to_ground)(arg0, &p, arg0->hit) != 0) {
             arg0->ground = p.y;
@@ -1930,7 +1900,7 @@ void run_task__21TObjEneSlimeWaterBombFv(Bomb_800E8D4C *arg0) {
 }
 void TObjEneSlimeWaterBomb::render() {
     u8 *arg0 = (u8 *)this;
-    Vec_800E8C6C v;
+    Vec v;
     s32 spC;
     s32 sp8;
     f32 d;
@@ -2120,12 +2090,12 @@ void TObjEneSlimeTailAttack::render() {
     temp_f1 = 7.0f;
     if (temp_f3 < temp_f1)
     {
-      draw_stretched_segment((Vec_800E82B8 *)((void *) ((*((s32 *) (((s8 *) ((u8 *)this)) + 0x374))) + 0x38)), (Vec_800E82B8 *)(((u8 *)this) + 0x38), (f32) (temp_f3 / temp_f1));
+      draw_stretched_segment((Vec *)((void *) ((*((s32 *) (((s8 *) ((u8 *)this)) + 0x374))) + 0x38)), (Vec *)(((u8 *)this) + 0x38), (f32) (temp_f3 / temp_f1));
     }
     else
       if ((temp_f3 >= 41.0f) && (temp_f3 < 48.0f))
     {
-      draw_stretched_segment((Vec_800E82B8 *)(((u8 *)this) + 0x38), (Vec_800E82B8 *)((void *) ((*((s32 *) (((s8 *) ((u8 *)this)) + 0x374))) + 0x38)), (f32) ((temp_f3 - 41.0f) / temp_f1));
+      draw_stretched_segment((Vec *)(((u8 *)this) + 0x38), (Vec *)((void *) ((*((s32 *) (((s8 *) ((u8 *)this)) + 0x374))) + 0x38)), (f32) ((temp_f3 - 41.0f) / temp_f1));
     }
   }
   temp_f1 = this->frame;
@@ -2164,14 +2134,14 @@ void TObjEneSlimeTailAttack::draw_stretched_segment(void *arg1, void *arg2, f32 
     f32 len;
     f32 k;
     f32 saved;
-    Vec_800E82B8 d;
-    VecCopy((Vec *)&d, (const Vec *)((Vec_800E82B8 *)arg2));
-    ((s32 (*)(void *, void *))subtract_vector)(&d, ((Vec_800E82B8 *)arg1));
+    Vec d;
+    VecCopy((Vec *)&d, (const Vec *)((Vec *)arg2));
+    ((s32 (*)(void *, void *))subtract_vector)(&d, ((Vec *)arg1));
     len = vector_length(&d);
     push_matrix();
     k = 0.5f * (1.0f + t);
     {
-        Vec_800E82B8 p = *((Vec_800E82B8 *)arg1);
+        Vec p = *((Vec *)arg1);
         p.x += k * d.x;
         p.y += k * d.y + -0.5f;
         p.z += k * d.z;
@@ -2198,10 +2168,10 @@ void TObjPlayer::draw_blob_shadows() {
     s32 sp8;
     k = 10.0f;
     for (i = 0; i < 4; i++) {
-        Vec_800E81B4 v = ((Obj_800E81B4 *)this)->pts[i];
+        Vec v = ((Obj_800E81B4 *)this)->pts[i];
         Rot_800E81B4 rot;
         v.y += k;
-        if (((s32 (*)(void *, Vec_800E81B4 *, Rot_800E81B4 *))project_actor_to_ground)(this, &v, &rot) != 0) {
+        if (((s32 (*)(void *, Vec *, Rot_800E81B4 *))project_actor_to_ground)(this, &v, &rot) != 0) {
             push_matrix();
             translate_matrix(0, v.x, 0.1f + v.y, v.z);
             direction_to_rotation_xz((u8 *)&rot, &spC, &sp8);

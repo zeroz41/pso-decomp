@@ -86,8 +86,6 @@ struct Self_8023C1B8 {
     struct Entry_8023C1B8 entries[1];
 };
 
-struct Vec_8023C420 { f32 x, y, z; };
-
 struct Eff_8023C420 { u8 pad[0xc]; f32 scale; };
 
 struct Holder_8023C420 { u8 pad[0xa4]; Eff_8023C420 *eff; };
@@ -97,10 +95,10 @@ struct Zarua_8023C420 {
     u8 pad4[0x18 - 4];
     void *vt;
     void *source;
-    Vec_8023C420 pos;
+    Vec pos;
     u8 pad2c[0x7a - 0x2c];
     s16 level;
-    Vec_8023C420 src_pos;
+    Vec src_pos;
     u8 pad88[0x90 - 0x88];
     f32 range;
     u8 pad94[0xb4 - 0x94];
@@ -111,8 +109,6 @@ struct Zarua_8023C420 {
     u8 sub[4];
 };
 
-struct Vec_8023C420;
-struct Vec_8023C2D0 { f32 x, y, z; };
 
 struct Eff_8023C2D0 { u8 pad[0xc]; f32 scale; };
 
@@ -123,7 +119,7 @@ struct Zarua_8023C2D0 {
     u8 pad4[0x18 - 4];
     void *vt;
     void *source;
-    Vec_8023C2D0 pos;
+    Vec pos;
     u8 pad2c[0x7a - 0x2c];
     s16 level;
     u8 pad7c[0x90 - 0x7c];
@@ -224,7 +220,7 @@ Zarua_8023C2D0 *TTecZarua__ct(Zarua_8023C2D0 *self, void *_w1, void *_w2, void *
     self->fec = 1;
     copy_technique_target_list(self->sub, _w3);
     ((TTecZarua *)self)->calc_range();
-    VecCopy((Vec *)((Vec_8023C420 *)&self->pos), (const Vec *)((Vec_8023C420 *)_w2));
+    VecCopy((Vec *)((Vec *)&self->pos), (const Vec *)((Vec *)_w2));
     if (self->holder != 0) {
         self->holder->eff->scale = self->range;
     }

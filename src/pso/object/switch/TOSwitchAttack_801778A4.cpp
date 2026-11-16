@@ -17,14 +17,12 @@ struct RecoveredGlobal_80177C80___vt__14TOSwitchAttack {
     u8 remaining[0x34];
 };
 
-struct Vec_801778A8 { f32 x, y, z; };
-
 struct Atk_801778A8 {
     s32 a;
     f32 v;
 };
 
-struct Rec_801778A8 { u8 pad[0x1C]; Vec_801778A8 pos; u8 pad28[4]; };
+struct Rec_801778A8 { u8 pad[0x1C]; Vec pos; u8 pad28[4]; };
 
 struct Mylla_801778A8 { u8 pad[0xA4]; Rec_801778A8 *recs; s32 count; };
 
@@ -44,7 +42,7 @@ struct Sw_801778A8 {
     u8 pad0[0x14];
     u32 f14;
     u8 pad18[0x38 - 0x18];
-    Vec_801778A8 pos;
+    Vec pos;
     u8 pad44[0x90 - 0x44];
     f32 f90;
     f32 f94;
@@ -150,7 +148,7 @@ void TOSwitchAttack::run_task() {
             break;
         case 2:
             if (o->fA8 == 0) {
-                Vec_801778A8 v = o->pos;
+                Vec v = o->pos;
                 v.y += 10.0f;
                 spawn_particle_effect_with_flags(&v, 0x1A6, 0x40);
                 spawn_particle_effect_with_flags(&v, 0x1A7, 0x40);

@@ -19,27 +19,25 @@ extern s32 __vt__17TBoss6EffFlowSoul[];
 
 const char *TBoss6EffFlowSoul__name = "TBoss6EffFlowSoul";
 
-struct Vec_8036A6B0 { f32 x, y, z; };
-
 struct Soul_8036A6B0 {
     u8 pad0[0x1c];
     s32 f1c;
     void *f20;
     u16 player;
     u8 pad26[0x28 - 0x26];
-    Vec_8036A6B0 pos;
+    Vec pos;
     s32 duration;
     s32 age;
 };
 
 s32 is_state_1f__14TBoss6PlotFalzFUi(u32 arg0);
-void subtract_vector(Vec_8036A6B0 *, Vec_8036A6B0 *);
-void vec3_add_to(Vec_8036A6B0 *, Vec_8036A6B0 *);
+void subtract_vector(Vec *, Vec *);
+void vec3_add_to(Vec *, Vec *);
 
 void TBoss6EffFlowSoul::run_task() {
     Soul_8036A6B0 *self = (Soul_8036A6B0 *)this;
-    Vec_8036A6B0 target;
-    Vec_8036A6B0 d;
+    Vec target;
+    Vec d;
     u8 *p;
     f32 remain;
     f32 k;
@@ -52,7 +50,7 @@ void TBoss6EffFlowSoul::run_task() {
     } else {
         p = (u8 *)get_player_by_client_id(self->player);
         if (p != NULL && is_state_1f__14TBoss6PlotFalzFUi((u32)p) != 0) {
-            VecCopy((Vec *)&target, (const Vec *)((Vec_8036A6B0 *)(p + 0x38)));
+            VecCopy((Vec *)&target, (const Vec *)((Vec *)(p + 0x38)));
             target.y += 10.0f;
         } else {
             ((TObject *)self)->queue_destruction();

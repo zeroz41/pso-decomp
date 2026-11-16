@@ -477,7 +477,6 @@ struct VObj_18_414afc : VBase_18_414afc {
 };
 
 #define F(T, o) (*(T *)(arg0 + (o)))
-struct Vec_8031C364 { f32 x, y, z; };
 
 extern "C" {
 f32 normalize_vector_xz__FP3Vec(void *, s32);
@@ -521,7 +520,7 @@ void TObjEneRecon__sub_8031C364(u8 *arg0, s32 arg1) {
         case 1:
             set_flag2__12TObjEneReconFv(arg0, F(f32, 0x44C), F(f32, 0x454), F(f32, 0x3E4));
             {
-                Vec_8031C364 v = F(Vec_8031C364, 0x38);
+                Vec v = F(Vec, 0x38);
                 v.y += F(f32, 0x448);
                 if (project_actor_to_ground(arg0, &v, arg0 + 0x248) != 0) {
                     F(f32, 0x3C) = v.y;
@@ -1462,8 +1461,6 @@ f32 TObjEneRecon::approach_value(f32 farg0, f32 farg1) {
 
 }
 
-struct Vec_8031DBD8 { f32 x, y, z; };
-
 
 void TObjEneRecon::vfunc_88() {
     u8 *arg0 = (u8 *)this;
@@ -1472,7 +1469,7 @@ void TObjEneRecon::vfunc_88() {
     if (t != NULL && this->mode == 2) {
         *(f32 *)((s8 *)arg0 + 0x3C) = *(f32 *)((s8 *)t + 0x3C);
     } else {
-        Vec_8031DBD8 v = *(Vec_8031DBD8 *)(arg0 + 0x38);
+        Vec v = *(Vec *)(arg0 + 0x38);
         v.y += *(f32 *)((s8 *)arg0 + 0x448);
         if (project_actor_to_ground(arg0, &v, arg0 + 0x248) != 0) {
             *(f32 *)((s8 *)arg0 + 0x3C) = v.y;

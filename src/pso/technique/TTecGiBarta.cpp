@@ -107,13 +107,12 @@ struct TTecGiBarta_80230C58 {
     s32 f174;
 };
 
-struct Vec_802304A0 { f32 x, y, z; };
 struct Row_802304A0 { u32 entry; u32 flags; f32 scale; };
 struct Band_802304A0 { const Row_802304A0 *rows; u32 count; };
 struct Angles_802304A0 { s32 a[3]; };
 struct Shot_802304A0 {
     u8 pad0[0x20];
-    Vec_802304A0 pos;
+    Vec pos;
     u8 pad2C[0x54 - 0x2C];
     s32 f54;
     s32 f58;
@@ -233,16 +232,16 @@ const Band_802304A0 TTecGiBarta__emitter_profile_table[6] = {
     {lbl_8044D1EC, 3}, {lbl_8044D210, 3}, {lbl_8044D234, 2},
 };
 const char *TTecGiBarta__class_name = "TTecGiBarta";
-const Vec_802304A0 lbl_8044D288 = {0.0f, 0.0f, 3.0f};
+const Vec lbl_8044D288 = {0.0f, 0.0f, 3.0f};
 
 
 void TTecGiBarta::create_particles() {
     Shot_802304A0 *shot = (Shot_802304A0 *)this;
     Angles_802304A0 angles;
-    Vec_802304A0 pos;
-    Vec_802304A0 off;
-    Vec_802304A0 p2;
-    Vec_802304A0 v;
+    Vec pos;
+    Vec off;
+    Vec p2;
+    Vec v;
     u32 i;
     void *emitter;
     u8 *src;

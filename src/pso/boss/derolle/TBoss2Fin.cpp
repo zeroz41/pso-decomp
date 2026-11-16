@@ -10,7 +10,6 @@
 #include "pso/unk/text_803E2D70.h"
 
 struct G_800367C4;
-struct Vec_800363B4 { f32 x, y, z; };
 struct Seg_800363B4 { s8 n; u8 pad1[0xF]; void *model1; void *model2; };
 struct Ang_800363B4 { s32 yaw; u8 pad4[0xC]; };
 extern "C" {
@@ -34,14 +33,14 @@ void TBoss2Fin::render() {
     u8 *arg0 = (u8*)this;
     Seg_800363B4 *seg;
     Ang_800363B4 *ang;
-    Vec_800363B4 *pt;
+    Vec *pt;
     s32 j;
     s32 yaw;
-    Vec_800363B4 v;
+    Vec v;
     TObjFish::set_global_param(*(s32 *)((s8 *)(*(u8 **)((s8 *)lbl_805D4BA4 + 0x42C)) + 0x2C));
     seg = *(Seg_800363B4 * *)&this->m_20;
     ang = *(Ang_800363B4 **)((s8 *)arg0 + 0x24);
-    pt = *(Vec_800363B4 * *)&this->m_2c;
+    pt = *(Vec * *)&this->m_2c;
     for (; seg->n >= 2; pt++, seg++, ang++) {
         for (j = seg->n - 1; j > 0; j--, pt++) {
             push_matrix();

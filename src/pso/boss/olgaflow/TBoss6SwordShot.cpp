@@ -37,15 +37,9 @@ typedef char RecoveredGlobal_80356B18___vt__15TBoss6SwordWave_size[sizeof(Recove
 
 struct W_80356D10 { s32 w[1]; };
 
-struct Vec_803564F4 { f32 x, y, z; };
-
-struct Wave_803564F4 { u8 pad0[0x1C]; s32 owner; Vec_803564F4 pos; u8 x2C[4]; u8 x30[0x24]; f32 radius; };
-
-struct Vec_803567D0 { f32 x, y, z; };
+struct Wave_803564F4 { u8 pad0[0x1C]; s32 owner; Vec pos; u8 x2C[4]; u8 x30[0x24]; f32 radius; };
 
 struct Pair_8035663C { s32 a; f32 b; };
-
-struct Vec_8035663C { f32 x, y, z; };
 
 struct VBase_8035663C { char pad[0x18]; };
 
@@ -111,8 +105,6 @@ struct VObj_18_ec708a : VBase_18_ec708a {
     virtual s32 m21(s32, struct Pair_803561C4, int, int, int);
 };
 
-struct Vec_803561C4 { f32 x, y, z; };
-
 const char TBoss6SwordWave__class_name_string[] = "TBoss6SwordWave";
 const Vec lbl_80479388 = {-10000.0f, 0.0f, 0.0f};
 const char TBoss6SwordShot__class_name_string[] = "TBoss6SwordShot";
@@ -120,7 +112,7 @@ const char *TBoss6SwordWave__name = TBoss6SwordWave__class_name_string;
 const char *TBoss6SwordShot__name = TBoss6SwordShot__class_name_string;
 
 void damage_players_in_radius(u8 *arg0) {
-    Vec_803561C4 v;
+    Vec v;
     s32 n;
     s32 i;
     u8 *pl;
@@ -248,7 +240,7 @@ s32 TBoss6SwordWave::spawn_wave_ring_particles() {
     for (ang = 0; ang < 0x10000; ang += step) {
         s32 seg = ((s32 (*)(void *, s32))TBoss6SwordWave__sub_80356D08)(o->x30, ang);
         if (((s32 (*)(void *, s32))test_rock_bit__15TBoss6SwordWaveFiUc)(o->x30, seg) != 0) {
-            Vec_803564F4 v = o->pos;
+            Vec v = o->pos;
             v.x += o->radius * sin_table_lookup(ang);
             v.z += o->radius * cos_table_lookup(ang);
             if (!(xyz_distance(&v, (void *)&lbl_80479388) > 400.0f)) {
@@ -274,7 +266,7 @@ s32 TBoss6SwordWave::check_player_hits() {
     u8 t;
     s32 v;
     f32 d;
-    Vec_8035663C dir;
+    Vec dir;
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         pl = (VObj_8035663C *)TObjPlayer::get_player_data(i);
@@ -305,11 +297,11 @@ s32 TBoss6SwordWave::check_player_hits() {
 }
 
 s32 TBoss6SwordWave::break_rocks_in_wave() {
-    Vec_803567D0 pt;
-    Vec_803567D0 d;
-    Vec_803567D0 va;
-    Vec_803567D0 vb;
-    Vec_803567D0 n;
+    Vec pt;
+    Vec d;
+    Vec va;
+    Vec vb;
+    Vec n;
     f32 scale;
     u8 *arg0 = (u8 *)this;
     s32 i;

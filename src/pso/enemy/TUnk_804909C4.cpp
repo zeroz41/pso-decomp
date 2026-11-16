@@ -63,8 +63,6 @@ struct Sub_800A3290 { u8 pad0[0x18]; u32 flags; };
 
 struct Obj_800A3290 { u8 pad0[0xA4]; Sub_800A3290 *sub; };
 
-struct Vec_800A34E8 { f32 x, y, z; };
-
 extern "C" {
 Obj_800A3290 *find_entity_by_id(s32);
 void check_enemy_body_collisions(void *arg0);
@@ -78,7 +76,7 @@ s16 get_entity_id(void *, f32);
 s32 subtract_vector(void *, void *);
 f32 atan2_float(f32, f32);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
-u8 *csnVector(void *, Vec_800A34E8 *, s32);
+u8 *csnVector(void *, Vec *, s32);
 extern void *tl_04;
 extern f32 player_scale_factor;
 CollisionBody lbl_80490998[] = {
@@ -170,7 +168,7 @@ TUnk_804909C4::TUnk_804909C4(u8 *player, s32 arg2, s32 arg3) : TObjCollidable((T
     this->m_c0 = 0x4000;
     *(s32 *)((s8 *)this + 0xD0) = (s32)spawn_particle_effect_with_rotation((((u8 *)this) + 0x38), (((u8 *)this) + 0xB8), this->m_cc, 0x42);
     {
-    Vec_800A34E8 v = *(Vec_800A34E8 *)(((u8 *)this) + 0xAC);
+    Vec v = *(Vec *)(((u8 *)this) + 0xAC);
     vec_set_length((Vec *)(&v), 500.0f);
     vec3_add_to(&v, ((u8 *)this) + 0x38);
     temp_r3 = csnVector(((u8 *)this) + 0x38, &v, -1);

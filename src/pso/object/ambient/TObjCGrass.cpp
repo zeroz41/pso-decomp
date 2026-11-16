@@ -20,17 +20,15 @@ struct Rec_800B8B08 { u8 vec[0x18]; s32 f18; u32 flags; };
 
 struct Obj_800B8B08 { u8 pad0[0x24]; s32 f24; u8 pad28[0x34 - 0x28]; s32 f34; u8 pad38[0xC0 - 0x38]; f32 fc0; u8 padc4[0xF8 - 0xC4]; s32 ff8; Rec_800B8B08 *recs; u8 pad100[4]; s32 count; };
 
-struct Vec_800B8BB4 { f32 x, y, z; };
+struct Rec_800B8BB4 { Vec pos; Vec v2; s32 f18; u32 flags; };
 
-struct Rec_800B8BB4 { Vec_800B8BB4 pos; Vec_800B8BB4 v2; s32 f18; u32 flags; };
-
-struct Hit_800B8BB4 { u8 pad0[4]; Vec_800B8BB4 *pos; };
+struct Hit_800B8BB4 { u8 pad0[4]; Vec *pos; };
 
 struct Grass_800B8BB4 {
     u8 pad0[0x3C];
     f32 f3C;
     u8 pad40[4];
-    Vec_800B8BB4 f44;
+    Vec f44;
     u8 pad50[0xC0 - 0x50];
     f32 fC0;
     u8 padC4[4];
@@ -43,9 +41,7 @@ struct Grass_800B8BB4 {
     u8 f10C[4];
 };
 
-struct Vec_800B8EFC { f32 x, y, z; };
-
-struct Rec_800B8EFC { Vec_800B8EFC pos; Vec_800B8EFC v2; s32 f18; u32 flags; };
+struct Rec_800B8EFC { Vec pos; Vec v2; s32 f18; u32 flags; };
 
 struct Src_800B8EFC { u8 pad0[8]; s32 f8; s32 fC; };
 
@@ -59,7 +55,7 @@ struct Grass_800B8EFC {
     s32 f24;
     u8 pad28[0x34 - 0x28];
     s32 f34;
-    Vec_800B8EFC f38;
+    Vec f38;
     u8 pad44[0xC4 - 0x44];
     f32 fC4;
     u8 padC8[0xD8 - 0xC8];
@@ -134,8 +130,8 @@ void TObjCGrass::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 i;
     Grass_800B8BB4 *self = (Grass_800B8BB4 *)arg0;
-    Vec_800B8BB4 a;
-    Vec_800B8BB4 b;
+    Vec a;
+    Vec b;
     Hit_800B8BB4 *hit;
     self->fC0 += self->fC8;
     if (self->f100 < self->fC0) {
@@ -240,7 +236,7 @@ u8 *TObjCGrass__ct(Grass_800B8EFC *self, u8 *arg1, s32 arg2, s32 arg3) {
     s32 i;
     for (i = 0; i < self->count; i++) {
         s32 a;
-        Vec_800B8EFC v;
+        Vec v;
         VecCopy((Vec *)&self->recs[i].pos, (const Vec *)&self->f38);
         v.x = 0.0f;
         v.y = 3.0517578e-05f * (f32)rand();

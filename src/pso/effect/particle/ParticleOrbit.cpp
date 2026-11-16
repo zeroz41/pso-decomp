@@ -70,8 +70,6 @@
 #pragma dont_inline off
 
 
-struct Vec_8008A92C { f32 x, y, z; };
-
 struct Obj_8008AC24 {
     u8 pad_0[0x18];
     s32 *f18;
@@ -131,8 +129,6 @@ struct Desc_8008AC24 {
     u8 f88;
 };
 
-struct Vec_8008AC24 { f32 x, y, z; };
-
 struct IVec_8008AC24 { s32 x, y, z; };
 
 extern ParticleTexture *TParticleCtrl__data_80511F70[];
@@ -149,8 +145,6 @@ struct ODesc_8008B060 {
     f32 f30; f32 f34; u8 pad_38[0x10]; s32 f48; s32 f4C; u8 pad_50[0x10];
     f32 f60; f32 f64; f32 f68; u8 pad_6C[8]; f32 f74; u8 pad_78[0x10]; u8 f88;
 };
-
-struct OVec_8008B060 { f32 x, y, z; };
 
 struct OIVec_8008B060 { s32 x, y, z; };
 
@@ -413,7 +407,7 @@ void TUnk_8048E790::run_task() {
 
 void TUnk_8048E790::render() {
     u8 *arg0 = (u8 *)this;
-    Vec_8008A92C sp8;
+    Vec sp8;
     f32 temp_f1;
     f32 temp_f1_2;
     f32 temp_f3;
@@ -503,7 +497,7 @@ void *__dt__13TUnk_8048E790Fv(void *arg0, s16 arg1) {
 u8 *init_orbit_sprite_particle(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4, u16 arg5, s16 arg6) {
     Obj_8008AC24 *o = (Obj_8008AC24 *)object;
     Desc_8008AC24 *d = (Desc_8008AC24 *)arg1;
-    Vec_8008AC24 *p = (Vec_8008AC24 *)arg2;
+    Vec *p = (Vec *)arg2;
     IVec_8008AC24 *v = (IVec_8008AC24 *)arg3;
     s32 temp_r0;
     init_particle_base(object, arg1, arg4);
@@ -551,7 +545,7 @@ u8 *init_orbit_sprite_particle(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg
 void *TUnk_8048E790::init_random_particle(void *arg1, void *arg2, void *arg3, void *arg4) {
     OObj_8008B060 *o = (OObj_8008B060 *)this;
     ODesc_8008B060 *d = (ODesc_8008B060 *)arg1;
-    OVec_8008B060 *p = (OVec_8008B060 *)arg2;
+    Vec *p = (Vec *)arg2;
     OIVec_8008B060 *v = (OIVec_8008B060 *)arg3;
     s32 temp_r0;
     init_particle_base(this, arg1, (s32)arg4);

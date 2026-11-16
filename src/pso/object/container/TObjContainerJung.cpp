@@ -109,24 +109,21 @@ void play_container_break_sound(s32 arg0);
 struct Obj_8018CBF0 { u8 pad0[0x84]; s32 id; };
 struct Obj_8018CB44 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x62]; u32 f80; s32 f84; };
 struct Pkt_8018CB44 { u16 a; u16 b; s32 c; s32 d; s32 e; };
-struct Vec_8018C9F0 { f32 x, y, z; };
 struct Obj_8018C9F0 {
     u8 pad0[0x24];
     s32 f24;
     u8 pad28[0x10];
-    Vec_8018C9F0 pos;
+    Vec pos;
     u8 pad44[0x326 - 0x44];
     s16 f326;
     u8 pad328[0x36C - 0x328];
     s32 f36c;
     s32 f370;
 };
-struct Vec_8018CFD4 { f32 x, y, z; };
-struct Obj_8018CFD4 { u8 pad[0x38]; Vec_8018CFD4 pos; };
-struct Vec_8018D4DC { f32 x, y, z; };
+struct Obj_8018CFD4 { u8 pad[0x38]; Vec pos; };
 struct Obj_8018D4DC {
     u8 pad0[0x38];
-    Vec_8018D4DC pos;
+    Vec pos;
     u8 pad44[0x326 - 0x44];
     s16 f326;
 };

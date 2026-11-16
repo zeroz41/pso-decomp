@@ -39,15 +39,13 @@ struct RecoveredGlobal_80235F60_lbl_804CCAA8 {
     u8 remaining[0x14];
 };
 
-struct Vec_80235C44 { f32 x, y, z; };
-
 struct Light_80235C44 {
     u8 task[0x1C];
     s32 duration;
     u32 phase;
     NJS_ARGB color;
-    Vec_80235C44 desired;
-    Vec_80235C44 direction;
+    Vec desired;
+    Vec direction;
     s32 age;
     f32 step;
     s32 source;
@@ -73,7 +71,7 @@ extern Base_80235C44 TObjLight__scene_light_state;
 #pragma fp_contract on
 void TUnk_804CCAA8::run_task() {
     Light_80235C44 *arg0 = (Light_80235C44 *)this;
-    Vec_80235C44 baseDir;
+    Vec baseDir;
     NJS_ARGB baseColor;
     NJS_ARGB unused;
     f32 mid;
@@ -154,12 +152,6 @@ u8 *construct_actor_light_task(u8 *arg0, NJS_ARGB *njs_argb, u8 *arg2, s32 arg3,
     return arg0;
 }
 
-struct Stack_8023601C {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 extern "C" {
 f32 vec_squared_length(void *, f32);
 s32 normalize_vector(void *);
@@ -169,19 +161,19 @@ extern u8 *camera_ctrl_instance;
 #pragma push
 #pragma fp_contract on
 void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0) {
-    Stack_8023601C stack;
+    Vec stack;
     f32 temp_f1;
     if ((void *) camera_ctrl_instance != NULL) {
-        stack.sp8 = *(f32 *)((s8 *)camera_ctrl_instance + 0x178) - *(f32 *)((s8 *)arg0 + 0);
-        stack.spC = *(f32 *)((s8 *)camera_ctrl_instance + 0x17C) - *(f32 *)((s8 *)arg0 + 4);
+        stack.x = *(f32 *)((s8 *)camera_ctrl_instance + 0x178) - *(f32 *)((s8 *)arg0 + 0);
+        stack.y = *(f32 *)((s8 *)camera_ctrl_instance + 0x17C) - *(f32 *)((s8 *)arg0 + 4);
         temp_f1 = *(f32 *)((s8 *)camera_ctrl_instance + 0x180);
-        stack.sp10 = temp_f1 - *(f32 *)((s8 *)arg0 + 8);
-        if (lbl_805DC88C[0] != vec_squared_length(&stack.sp8, temp_f1)) {
-            normalize_vector(&stack.sp8);
+        stack.z = temp_f1 - *(f32 *)((s8 *)arg0 + 8);
+        if (lbl_805DC88C[0] != vec_squared_length(&stack.x, temp_f1)) {
+            normalize_vector(&stack.x);
         }
-        *(f32 *)((s8 *)arg1 + 0) = (f32) ((stack.sp8 * farg0) + *(f32 *)((s8 *)arg0 + 0));
-        *(f32 *)((s8 *)arg1 + 4) = (f32) ((stack.spC * farg0) + *(f32 *)((s8 *)arg0 + 4));
-        *(f32 *)((s8 *)arg1 + 8) = (f32) ((stack.sp10 * farg0) + *(f32 *)((s8 *)arg0 + 8));
+        *(f32 *)((s8 *)arg1 + 0) = (f32) ((stack.x * farg0) + *(f32 *)((s8 *)arg0 + 0));
+        *(f32 *)((s8 *)arg1 + 4) = (f32) ((stack.y * farg0) + *(f32 *)((s8 *)arg0 + 4));
+        *(f32 *)((s8 *)arg1 + 8) = (f32) ((stack.z * farg0) + *(f32 *)((s8 *)arg0 + 8));
     }
 }
 #pragma pop
@@ -212,8 +204,6 @@ struct RecoveredGlobal_80236290_lbl_80516150 {
     u8 remaining[0x84];
 };
 
-struct Vec_80236154 { f32 x, y, z; };
-
 struct Contact_80236154 { u8 pad[0x18]; u32 flags; };
 
 struct PlayerData_80236154 { u8 pad[0x30]; u32 flags; };
@@ -227,7 +217,6 @@ struct List_80236154 {
 
 struct RecoveredGlobal_80236290_lbl_80516150;
 struct PlayerData_80236154;
-struct Vec_80236378 { f32 x, y, z; };
 
 struct Contact_80236378 { u8 pad[0x18]; u32 flags; };
 
@@ -240,8 +229,6 @@ struct List_80236378 {
     u32 reserved84;
 };
 
-struct Vec_802364D8 { f32 x, y, z; };
-
 struct Contact_802364D8 { u8 pad[0x18]; u32 flags; };
 
 struct PD_802364D8 { u8 pad[0x30]; u32 flags; };
@@ -252,8 +239,6 @@ struct List_802364D8 {
     s32 count;
     u32 reserved84;
 };
-
-struct Vec_802367D8 { f32 x, y, z; };
 
 struct Contact_802367D8 { u8 pad[0x18]; u32 flags; };
 
@@ -271,8 +256,6 @@ struct Sub_802367D8 { u8 pad[0xC]; f32 fC; f32 f10; };
 struct Proxy_802367D8 { u8 pad[0xA4]; Sub_802367D8 *a4; };
 
 struct Self_802367D8 { u8 pad[0x128]; Proxy_802367D8 *proxy; f32 f12c; };
-
-struct Vec_80236A20 { f32 x, y, z; };
 
 struct Contact_80236A20 { u8 pad[0x18]; u32 flags; };
 
@@ -317,7 +300,7 @@ typedef char RecoveredGlobal_80236290_lbl_80516150_size[sizeof(RecoveredGlobal_8
 
 struct RecoveredGlobal_80236290_lbl_80516150;
 s32 find_support_technique_contact(void *self, int target, void *_w2, void *_w3) {
-    Vec_80236154 pos;
+    Vec pos;
     f32 range;
     s32 i;
     PlayerData_80236154 *pd;
@@ -378,7 +361,7 @@ loop_3:
 }
 
 s32 find_area_technique_contact(void *self, int target, void *_w2, void *arg3) {
-    Vec_80236378 pos;
+    Vec pos;
     f32 range;
     PD_80236378 *pd;
     s32 i;
@@ -412,7 +395,7 @@ s32 find_area_technique_contact(void *self, int target, void *_w2, void *arg3) {
 }
 
 s32 TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
-    Vec_802364D8 pos;
+    Vec pos;
     PD_802364D8 *e;
     PD_802364D8 *pd;
     s32 i;
@@ -491,8 +474,8 @@ void TObjPlayer::gather_contacts_for_self(s32 arg1) {
 }
 
 u8 *TUnk_804CCC68::query_technique_enemy_contacts(s32 arg) {
-    Vec_802367D8 pos;
-    Vec_802367D8 d;
+    Vec pos;
+    Vec d;
     f32 range;
     f32 *pp;
     PD_802367D8 *pd;
@@ -547,8 +530,8 @@ u8 *TUnk_804CCC68::query_technique_enemy_contacts(s32 arg) {
 }
 
 u8 *TUnk_804CCC68::query_technique_player_contacts(s32 arg) {
-    Vec_80236A20 pos;
-    Vec_80236A20 d;
+    Vec pos;
+    Vec d;
     f32 range;
     f32 *pp;
     PD_80236A20 *e;

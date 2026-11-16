@@ -60,10 +60,6 @@ typedef char GyaranzoPositionOffset[offsetof(TObjEneGyaranzo, position) == 0x38 
 
 typedef char GyaranzoYawOffset[offsetof(TObjEneGyaranzo, rotation_y) == 0x60 ? 1 : -1];
 
-typedef struct Vec_800D1E4C {
-    f32 x, y, z;
-} Vec_800D1E4C;
-
 typedef struct Col_800D1E4C {
     u8 pad0[0x18];
     u32 flags;
@@ -79,18 +75,18 @@ typedef struct Ene_800D1E4C {
     u8 pad0[0x30];
     u32 flags30;
     u8 pad34[0x38 - 0x34];
-    Vec_800D1E4C pos;
+    Vec pos;
     u8 pad44[0x50 - 0x44];
-    Vec_800D1E4C target;
+    Vec target;
     u8 pad5C[0xA4 - 0x5C];
     Col_800D1E4C *col;
     u8 padA8[0xB8 - 0xA8];
     s16 fB8;
     u8 padBA[0x290 - 0xBA];
-    Vec_800D1E4C v290;
-    Vec_800D1E4C v29C;
+    Vec v290;
+    Vec v29C;
     u8 pad2A8[0x2FC - 0x2A8];
-    Vec_800D1E4C v2FC;
+    Vec v2FC;
     u8 v308[0x350 - 0x308];
     Param_800D1E4C *param;
     u8 pad354[0x37C - 0x354];
@@ -104,8 +100,6 @@ typedef struct Ene_800D1E4C {
 #pragma auto_inline off
 
 #pragma dont_inline off
-
-struct Vec_800D2900 { f32 x, y, z; };
 
 struct Inner_800D2900 { u8 pad[0x3c]; s32 x3c; };
 
@@ -134,7 +128,7 @@ extern u8 *tl_05;
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 extern "C" {
 
-void calc_velocity_toward_destination(void *, Vec_800D1E4C, Vec_800D1E4C, f32);
+void calc_velocity_toward_destination(void *, Vec, Vec, f32);
 
 s32 update_if_active__15TObjEnemyCustomFl(void *, int);
 
@@ -153,8 +147,6 @@ struct V_Sub_800D1F84 : Base_Sub_800D1F84 {
     PADV
     virtual s32 m5();
 };
-
-struct Vec_800D20BC { f32 x, y, z; };
 
 #pragma inline_depth(1)
 
@@ -231,9 +223,7 @@ struct VObj_18_f1aa6a : VBase_18_f1aa6a {
     virtual s32 m63(s32, void *);
 };
 
-struct Vec_800D23D4 { f32 x, y, z; };
-
-struct Desc_800D23D4 { Vec_800D23D4 *pos; s32 a; s32 angle; f32 b; f32 c; f32 d; };
+struct Desc_800D23D4 { Vec *pos; s32 a; s32 angle; f32 b; f32 c; f32 d; };
 
 f32 get_gyaranzo_missile_float_parameter(s32);
 
@@ -276,7 +266,6 @@ void update__19TObjGyaranzoMissileFPv(u8 *arg0);
 s32 TBoss3Volopt__sub_800D8D88(void *, s32);
 }
 s32 get_gyaranzo_missile_int_parameter(s32 i);
-struct Vec_800D3314 { f32 x, y, z; };
 
 #include <stddef.h>
 
@@ -298,10 +287,6 @@ struct Vec_800D3314 { f32 x, y, z; };
 
 #include "pso/object/ambient/TObjFish.h"
 
-struct Vec_800D2CE4 { f32 x, y, z; };
-
-struct Vec_800D30A8 { f32 x, y, z; };
-
 struct Obj_800D30A8 {
     u8 pad0[0x30];
     u32 f30;
@@ -309,8 +294,8 @@ struct Obj_800D30A8 {
     u32 fB4;
     s16 fB8;
     u8 padBA[0x2FC - 0xBA];
-    Vec_800D30A8 pos;
-    Vec_800D30A8 vel;
+    Vec pos;
+    Vec vel;
     u8 pad314[0x374 - 0x314];
     s32 f374;
     u8 pad378[0x37C - 0x378];
@@ -324,7 +309,7 @@ extern "C" {
 u16 find_nearest_visible_player(void *, int, int, f32);
 
 #define select_targets__15TObjEneGyaranzoFv ((s32 (*)(void *))select_targets__15TObjEneGyaranzoFv)
-void move_along_ground_avoiding_walls__15TObjEnemyCustomF3Vecff(void *, Vec_800D3314, void *, f32, f32);
+void move_along_ground_avoiding_walls__15TObjEnemyCustomF3Vecff(void *, Vec, void *, f32, f32);
 
 u8 *find_active_entity_by_id(u16);
 
@@ -1089,7 +1074,7 @@ void TObjEneGyaranzo::render() {
 void TObjPlayer__sub_800D35D4(void) {  }
 
 void TObjPlayer__sub_800D3314(u8 *arg0) {
-    Vec_800D3314 v;
+    Vec v;
     u8 *p;
     *(u8 **)((s8 *)arg0 + 0x2A8) = find_active_entity_by_id(*(u16 *)((s8 *)arg0 + 0x338));
     switch (*(s32 *)((s8 *)arg0 + 0x37C)) {
@@ -1122,7 +1107,7 @@ void TObjPlayer__sub_800D3314(u8 *arg0) {
             return;
         }
         ((TObjEnemy *)arg0)->enemy_turn_toward_dest(*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 8));
-        ((void (*)(void *, Vec_800D3314, f32, f32))move_along_ground_avoiding_walls__15TObjEnemyCustomF3Vecff)(arg0, *(Vec_800D3314 *)((s8 *)arg0 + 0x390), *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 4), *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xA4)) + 0xC));
+        ((void (*)(void *, Vec, f32, f32))move_along_ground_avoiding_walls__15TObjEnemyCustomF3Vecff)(arg0, *(Vec *)((s8 *)arg0 + 0x390), *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 4), *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xA4)) + 0xC));
         *(f32 *)((s8 *)arg0 + 0x39C) += *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 4);
         ((TObjMotion *)arg0)->advance_animation();
         apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
@@ -1199,7 +1184,7 @@ void TObjPlayer__sub_800D30A8(Obj_800D30A8 *enemy) {
         enemy->state = 1;
     case 1: {
         ((TObjMotion *)enemy)->advance_animation();
-        Vec_800D30A8 v = enemy->pos;
+        Vec v = enemy->pos;
         v.x += enemy->vel.x;
         v.z += enemy->vel.z;
         if (check_path_obstructed(enemy, &v) == 0) {
@@ -1292,7 +1277,7 @@ void TObjPlayer::update_aim_and_fire() {
         }
         temp_r6 = this->target;
         if (temp_r6 != NULL) {
-            Vec_800D2CE4 v = *(Vec_800D2CE4 *)(temp_r6 + 0x38);
+            Vec v = *(Vec *)(temp_r6 + 0x38);
             subtract_vector(&v, (void *) (((u8 *)this) + 0x38));
             temp_r3 = ((TObjEnemy *)this)->turn_toward_direction((*(s32 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x350)) + 8)), (Vec *)&v);
             temp_r4 = temp_r3 >> 0x1F;
@@ -1377,7 +1362,7 @@ void TObjEneGyaranzo::sub_800D2900() {
     s32 end;
     s32 i;
     s32 idx;
-    Vec_800D2900 v;
+    Vec v;
     void *obj;
     if (*(s32 *)&this->m_3a8 < 2) {
         (*(s32 *)&this->m_3a8)++;
@@ -1424,7 +1409,7 @@ void TObjEneGyaranzo::sub_800D2900() {
 #define V ((VObj_18_f1aa6a *)(arg0))
 #pragma pool_data off
 void spawn_missile_volley__19TObjGyaranzoMissileFPv(u8 *arg0) {
-    Vec_800D23D4 pos;
+    Vec pos;
     s32 i;
     gyaranzo_missile_volley_end_time = get_gyaranzo_missile_int_parameter(1) + 0x96;
     ((TObjEnemyCustom *)arg0)->render_anim_model_at_pos();
@@ -1498,7 +1483,7 @@ void TObjEneGyaranzo::select_targets() {
     s32 j;
     s32 k;
     f32 dist;
-    Vec_800D20BC d;
+    Vec d;
     u8 *arg0 = (u8 *)this;
     TObjGyaranzoMissile_target_slots[0].id = 0xFFFF;
     TObjGyaranzoMissile_target_slots[0].distance_squared = 0.0f;

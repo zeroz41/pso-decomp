@@ -24,7 +24,6 @@ struct ProtectionTimer {
     s32 frames;
 };
 
-struct Vec_801D8CCC;
 struct Vec_803E1B1C;
 
 struct TObjPlayer : public TObjChara {
@@ -1557,7 +1556,7 @@ struct TObjPlayer : public TObjChara {
     static s32 run_and_return_arg(s32 arg0);
     s32 init_state();
     u8 get_mag_level();
-    const Vec_801D8CCC *get_guild_return_position();
+    const Vec *get_guild_return_position();
     void spawn_item();
     static void spawn_hit_particles_at(s32 arg0, s32 arg1, s32 arg2);
     static void spawn_hit_particles_at_vec(s32 arg0, s32 arg1, s32 arg2);

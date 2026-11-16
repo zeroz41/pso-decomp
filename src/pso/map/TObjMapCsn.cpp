@@ -12,19 +12,17 @@ typedef char RecoveredGlobal_80194988___vt__10TObjMapCsn_size[sizeof(RecoveredGl
 
 struct RecoveredGlobal_801949FC___vt__10TObjMapCsn { s32 value; u8 remaining[0x38]; };
 
-struct Vec_801946D0 { f32 x, y, z; };
-
 struct Tri_801946D0 {
     u16 a, b, c;
     s16 f6;
-    Vec_801946D0 n;
-    Vec_801946D0 center;
+    Vec n;
+    Vec center;
     f32 r2;
 };
 
 struct Csn_801946D0 {
     u8 pad0[0x38];
-    Vec_801946D0 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 f60;
     u8 pad64[4];
@@ -33,7 +31,7 @@ struct Csn_801946D0 {
     s32 f88;
     u8 pad8c[0xD4 - 0x8C];
     Tri_801946D0 tris[8];
-    Vec_801946D0 verts[8];
+    Vec verts[8];
 };
 
 // Corner indices of the 8 side triangles of the collision box (two per side face).
@@ -43,7 +41,7 @@ s8 map_csn_box_triangle_indices[24] = {
 };
 
 // Normal of each side triangle: +z, +x, -z, -x faces.
-Vec_801946D0 map_csn_box_face_normals[8] = {
+Vec map_csn_box_face_normals[8] = {
     {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f},
     {0.0f, 0.0f, -1.0f}, {0.0f, 0.0f, -1.0f}, {-1.0f, 0.0f, 0.0f}, {-1.0f, 0.0f, 0.0f},
 };
@@ -86,17 +84,17 @@ void TObjMapCsn::update_state() {
 }
 
 s32 TObjMapCsn::build_box_triangles() {
-    Vec_801946D0 corners[8];
-    Vec_801946D0 v2;
-    Vec_801946D0 v1;
-    Vec_801946D0 v0;
-    Vec_801946D0 *p1;
-    Vec_801946D0 *p2;
+    Vec corners[8];
+    Vec v2;
+    Vec v1;
+    Vec v0;
+    Vec *p1;
+    Vec *p2;
     s32 j;
     s32 i;
     s8 *idx;
     Tri_801946D0 *t;
-    Vec_801946D0 *nrm;
+    Vec *nrm;
     Csn_801946D0 *arg0 = (Csn_801946D0 *) this;
     idx = map_csn_box_triangle_indices;
     nrm = map_csn_box_face_normals;

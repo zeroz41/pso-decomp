@@ -594,8 +594,6 @@ struct Pl_80292730 : PBase_80292730 {
     virtual void v6();
 };
 
-struct Vec_80292730 { f32 x, y, z; };
-
 struct Hdr_80292730 { u32 w[2]; };
 
 struct Info_80292730 { u8 pad0[0x31]; u8 cls; u8 pad32[2]; u32 flags; u8 pad38[0x50 - 0x38]; };
@@ -641,7 +639,7 @@ s32 TLobby::try_set_split_screen(s32 arg0) {
 void TLobby::rebuild_players_for_stage(s32 arg0) {
     CharData_80292730 cd;
     Info_80292730 info;
-    Vec_80292730 pos;
+    Vec pos;
     Hdr_80292730 hdr;
     s32 i;
     Pl_80292730 *p;

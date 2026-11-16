@@ -11,8 +11,6 @@ struct RecoveredGlobal_803D662C_lbl_8058D4D0 {
     u8 remaining[0x24];
 };
 
-struct V_803D6558 { f32 x, y, z; };
-
 struct G_803D6688 { f32 f0, f4, pad8[2], f10, f14, f18, f1c, f20, f24; };
 
 extern "C" {
@@ -31,7 +29,7 @@ void TCameraCtrl::update_camera_state(f32 _w0, f32 _w1, f32 _w2) {
 
 void TCameraCtrl::look_at_position(f32 farg0, f32 farg1, f32 farg2) {
     u8 eye[0x14];
-    V_803D6558 v;
+    Vec v;
     TCameraCtrl__sub_803D65F8(eye);
     v.x = farg0;
     v.y = farg1;

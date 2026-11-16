@@ -158,19 +158,15 @@ struct Ctrl_801E352C {
     u32 *data;
 };
 
-struct Vec3_801E341C { f32 x, y, z; };
-
 struct Lines_801E341C {
-    Vec3_801E341C *positions;
+    Vec *positions;
     u32 *colors;
 };
-
-struct Vec3_801E3784 { f32 x, y, z; };
 
 struct UV_801E3784 { s16 u, v; };
 
 struct Tris_801E3784 {
-    Vec3_801E3784 *positions;
+    Vec *positions;
     u32 *colors;
     UV_801E3784 *uvs;
 };
@@ -213,7 +209,7 @@ void draw_color_lines(ColorLineList *l, s32 n, s32 flags, f32 scale) {
 }
 
 void draw_line_list(Lines_801E341C *l, s32 n, u32 flags) {
-    Vec3_801E341C *p;
+    Vec *p;
     u32 *c;
     load_camera_view_matrix();
     if (flags & 4) {
@@ -323,7 +319,7 @@ void TObjCMHairMenu::draw_tri_fan_2d(s32 count, s32 flags, f32 scale) {
 }
 void TObjPlayer::draw_tri_fan_3d(s32 n, u32 flags) {
     Tris_801E3784 *t = (Tris_801E3784 *)this;
-    Vec3_801E3784 *p;
+    Vec *p;
     UV_801E3784 *uv;
     u32 *c;
     s32 i;

@@ -54,22 +54,18 @@ struct RecoveredGlobal_80052C58_lbl_80486218 {
     u8 remaining[0x8];
 };
 
-typedef struct Vec_80052CDC {
-    f32 x, y, z;
-} Vec_80052CDC;
-
 typedef struct Params_80052CDC {
     s32 owner;
     s16 a[3];
     s16 b;
     s16 c;
     u8 pad[0x14 - 0xE];
-    Vec_80052CDC pos;
+    Vec pos;
     u8 pad20[0x48 - 0x20];
 } Params_80052CDC;
 
 typedef struct Spot_80052CDC {
-    Vec_80052CDC pos;
+    Vec pos;
     u8 padc[0x18 - 0xC];
 } Spot_80052CDC;
 
@@ -97,13 +93,9 @@ typedef struct { char pad[0x444]; struct { char b[0x18]; } arr[1]; } Foo;
 
 typedef char RecoveredGlobal_80052C58_lbl_80486218_size[sizeof(RecoveredGlobal_80052C58_lbl_80486218) == 0xC ? 1 : -1];
 
-typedef struct Vec_80053440 {
-    f32 x, y, z;
-} Vec_80053440;
-
 typedef struct Obj_80053440 {
     u8 pad0[0x38];
-    Vec_80053440 pos;
+    Vec pos;
     u8 pad44[0x374 - 0x44];
     s32 state;
     ModelNodeTables node_tables;
@@ -121,11 +113,9 @@ struct Boss_800535A8 {
     s32 x3d8;
 };
 
-struct Vec_80053914 { f32 x, y, z; };
-
 struct O_80053914 {
     u8 pad0[0x38];
-    Vec_80053914 pos;
+    Vec pos;
 };
 
 struct Obj_80053CEC { u8 pad[0x38C]; void *target; u8 pad390[0x10]; s32 f3a0; u8 pad3a4[4]; s32 f3a8; u8 pad3ac[4]; s32 f3b0; s32 f3b4; };
@@ -134,25 +124,21 @@ struct S_80053B48 { u8 pad0[0x3a0]; s32 f3a0; };
 
 struct Obj_80053AD4 { u8 pad0[0x3B0]; s32 i3B0; s32 i3B4; f32 f3B8; f32 f3BC; f32 f3C0; };
 
-typedef struct Vec_80053D4C {
-    f32 x, y, z;
-} Vec_80053D4C;
-
 typedef struct Spot_80053D4C {
-    Vec_80053D4C pos;
+    Vec pos;
     u8 padc[0x18 - 0xC];
 } Spot_80053D4C;
 
 typedef struct Part_80053D4C {
-    Vec_80053D4C pos;
+    Vec pos;
     u8 padc[0x1C - 0xC];
-    Vec_80053D4C local;
+    Vec local;
     u8 pad28[0x2C - 0x28];
 } Part_80053D4C;
 
 typedef struct Obj_80053D4C {
     u8 pad0[0x38];
-    Vec_80053D4C pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 angle;
     u8 pad64[0x394 - 0x64];
@@ -161,13 +147,11 @@ typedef struct Obj_80053D4C {
     Spot_80053D4C spots[3];
 } Obj_80053D4C;
 
-struct Vec_80053E40 { f32 x, y, z; };
-
 struct XZ_80053E40 { f32 x, z; };
 
 struct Obj_80053E40 {
     u8 pad0[0x38];
-    Vec_80053E40 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     void *x60;
     u8 pad64[0x3D0 - 0x64];
@@ -179,9 +163,7 @@ struct RecoveredGlobal_80054530_lbl_80485EC8 {
     u8 remaining[0x1DC];
 };
 
-struct V_80054224 { f32 x, y, z; };
-
-struct S_80054224 { u8 pad0[0x38]; V_80054224 pos; u8 pad44[0x39c - 0x44]; f32 f39c; };
+struct S_80054224 { u8 pad0[0x38]; Vec pos; u8 pad44[0x39c - 0x44]; f32 f39c; };
 
 struct Boss_800542B0 {
     u8 pad0[0x374];
@@ -217,8 +199,6 @@ struct RecoveredGlobal_80054F6C_lbl_804FF2A0 {
 
 typedef char RecoveredGlobal_80054F6C_lbl_804FF2A0_size[sizeof(RecoveredGlobal_80054F6C_lbl_804FF2A0) == 0x300 ? 1 : -1];
 
-struct Vec_80052EF8 { f32 x, y, z; };
-
 struct O_80052EF8 {
     u8 pad0[0x38];
     u8 f38[0x398 - 0x38];
@@ -231,10 +211,6 @@ struct O_80052EF8 {
     u8 pad3b0[0x3CC - 0x3B0];
     s32 f3cc;
 };
-
-typedef struct Vec_800530C0 {
-    f32 x, y, z;
-} Vec_800530C0;
 
 typedef struct Obj_800530C0 {
     u8 pad0[0x398];
@@ -261,15 +237,15 @@ void *create__16TObjDFBeamCursorFPvPv(void *arg0, void *arg1);
 s32 TBoss4Type3__sub_8005254C(u16);
 void TBoss4Type2__sub_80053504(TBoss4Type2 *arg0);
 void TBoss4Type2__sub_800535A8(Boss_800535A8 *arg0);
-void pick_target_position__13TRaderMapCoreFPvPv(O_80053914 *self, Vec_80053914 *out);
+void pick_target_position__13TRaderMapCoreFPvPv(O_80053914 *self, Vec *out);
 f32 calc_wave_offset__11TBoss4Type2Ff(f32 farg0);
-void set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv(S_80054224 *o, void *src, V_80054224 *in);
+void set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv(S_80054224 *o, void *src, Vec *in);
 u8 * TBoss4Type2__sub_80054384(void *self, s32 i, s32 j);
 void TBoss4Type2__sub_80054DA8(TBoss4Type2 *boss);
 void create_all_tenchu_furu__11TBoss4Type2Fi(s32 arg0);
 void TBoss4Type2__sub_80054FC0(u8 *center, f32 min_dist);
 void TBoss4Type2__sub_80055300(void);
-Vec_80053E40 * get_position_ptr__10TObjPlayerFv(void *);
+Vec * get_position_ptr__10TObjPlayerFv(void *);
 void * create__9TBoss4UroFi(Params_80052CDC *);
 int toggle_particle_effect__10TObjPlayerFv(void*);
 void free_collision_body_parts(void *);
@@ -278,18 +254,18 @@ s32 add_radar_scaled_marker(void *, s32, s16, s32, f32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void create__11TTecRaBartaFPvPvPvPv(void *source, void *origin, void *pos, void *level);
 void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
-void vec3_add_to(Vec_80053440 *, Vec_80053440 *);
-void subtract_vector(Vec_80053D4C *, Vec_80053D4C *);
+void vec3_add_to(Vec *, Vec *);
+void subtract_vector(Vec *, Vec *);
 void normalize_vector(void *);
 int post_translate_matrix(void*);
 s32 set_global_param__8TObjFishFl();
-f32 xyz_distance(Vec_80053914 *, Vec_80053914 *);
+f32 xyz_distance(Vec *, Vec *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
 extern u8 TBoss4DarkFalz__data_804FF1E8[];
 RecoveredGlobal_80054F6C_lbl_804FF2A0 TBoss4Type2__tenchu_furu_array;
 extern s32 registered_player_count;
-struct Cam_800531C8 { u8 pad[0x178]; Vec_80053E40 pos; };
+struct Cam_800531C8 { u8 pad[0x178]; Vec pos; };
 extern Cam_800531C8 *camera_ctrl_instance;
 
 struct P2_80052E10 { s32 a, b; };
@@ -418,8 +394,8 @@ void *boss4_type2_state_motion_index_table[3] = {
 #define player_collider_radius_table ((f32 *)player_collider_radius_table)
 #define boss4_type1_xz_offset_table ((XZ_80053E40 *)boss4_type1_xz_offset_table)
 #define lbl_8048615C ((u8 * *)lbl_8048615C)
-#define boss4_type1_vec_table ((Vec_80053440 *)boss4_type1_vec_table)
-#define boss4_type2_motion_vec_table ((Vec_80052EF8 *)boss4_type2_motion_vec_table)
+#define boss4_type1_vec_table ((Vec *)boss4_type1_vec_table)
+#define boss4_type2_motion_vec_table ((Vec *)boss4_type2_motion_vec_table)
 #define boss4_type2_state_motion_index_table (*(RecoveredGlobal_80052C58_lbl_80486218 *)boss4_type2_state_motion_index_table)
 }
 
@@ -449,12 +425,12 @@ extern "C" void TBoss4Type2__sub_80054FC0(u8 *arg0, f32 arg1) {
   s32 tries;
   f32 f24;
   f32 zero;
-  Vec_80053914 w;
-  Vec_80053914 v;
+  Vec w;
+  Vec v;
   out = (u8 *) (&TBoss4Type2__tenchu_furu_array);
   for (total = 0; total < 0x40; total++, out += 0xc)
   {
-    VecCopy__FP3VecPC3Vec((Vec_80053914 *) out, lbl_80485AE0);
+    VecCopy__FP3VecPC3Vec((Vec *) out, lbl_80485AE0);
   }
 
   total = 0;
@@ -489,13 +465,13 @@ extern "C" void TBoss4Type2__sub_80054FC0(u8 *arg0, f32 arg1) {
   for (k = 0; k < cnt; k++)
   {
     total++;
-    ((Vec_80053914 *) out)->x = *((f32 *) (arr[k] + 0x38));
-    ((Vec_80053914 *) out)->z = *((f32 *) (arr[k] + 0x40));
+    ((Vec *) out)->x = *((f32 *) (arr[k] + 0x38));
+    ((Vec *) out)->z = *((f32 *) (arr[k] + 0x40));
     out += 0xc;
     for (ang = 0, j = 0; j < 8; j++, ang += 0x2000)
     {
-      ((Vec_80053914 *) out)->x = (*((f32 *) (arr[k] + 0x38))) + (f24 * sin_table_lookup(ang));
-      (*((Vec_80053914 *) out)).z = (*((f32 *) (arr[k] + 0x40))) + (f24 * cos_table_lookup(ang));
+      ((Vec *) out)->x = (*((f32 *) (arr[k] + 0x38))) + (f24 * sin_table_lookup(ang));
+      (*((Vec *) out)).z = (*((f32 *) (arr[k] + 0x40))) + (f24 * cos_table_lookup(ang));
       out += 0xc;
       total++;
     }
@@ -515,7 +491,7 @@ extern "C" void TBoss4Type2__sub_80054FC0(u8 *arg0, f32 arg1) {
     if (arg0 != 0)
     {
       VecCopy__FP3VecPC3Vec(&v, arg0);
-      subtract_vector((Vec_80053D4C *) (&v), (Vec_80053D4C *) (&w));
+      subtract_vector((Vec *) (&v), (Vec *) (&w));
       v.y = 0.0f;
       if (vector_length(&v) <= arg1)
       {
@@ -529,7 +505,7 @@ extern "C" void TBoss4Type2__sub_80054FC0(u8 *arg0, f32 arg1) {
     p = (u8 *) (&TBoss4Type2__tenchu_furu_array);
     for (m = 0; m < total; m++)
     {
-      if (xyz_distance(&w, (Vec_80053914 *) p) <= 12.5f)
+      if (xyz_distance(&w, (Vec *) p) <= 12.5f)
       {
         found = 1;
         break;
@@ -539,8 +515,8 @@ extern "C" void TBoss4Type2__sub_80054FC0(u8 *arg0, f32 arg1) {
 
     if (found == 0)
     {
-      ((Vec_80053914 *) out)->x = w.x;
-      ((Vec_80053914 *) out)->z = w.z;
+      ((Vec *) out)->x = w.x;
+      ((Vec *) out)->z = w.z;
       out += 0xc;
       total++;
     }
@@ -562,19 +538,19 @@ void create_all_tenchu_furu__11TBoss4Type2Fi(s32 arg0) {
 }
 
 void TBoss4Type2__sub_80054DA8(TBoss4Type2 *boss) {
-    Vec_80053914 *spot;
+    Vec *spot;
     s32 i;
     s32 n;
     TObjPlayer *player;
     s32 hit;
     s32 count;
-    Vec_80053914 *target;
+    Vec *target;
     s32 j;
     f32 power;
-    Vec_80053914 pos;
+    Vec pos;
 
     power = (f32)((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->power;
-    spot = (Vec_80053914 *)&TBoss4Type2__tenchu_furu_array;
+    spot = (Vec *)&TBoss4Type2__tenchu_furu_array;
     for (i = 0; i < 0x40; i++) {
         TParticleCtrl *effect = (TParticleCtrl *)spawn_particle_effect(spot, lbl_80485B08[i & 1]);
         if (effect != NULL) {
@@ -592,7 +568,7 @@ void TBoss4Type2__sub_80054DA8(TBoss4Type2 *boss) {
         if (TBoss4Type3__sub_8005254C(get_entity_id(player)) == 0) {
             continue;
         }
-        target = (Vec_80053914 *)&TBoss4Type2__tenchu_furu_array;
+        target = (Vec *)&TBoss4Type2__tenchu_furu_array;
         VecCopy__FP3VecPC3Vec(&pos, player->get_position_ptr());
         pos.y = 0.0f;
         for (j = 0; j < 0x40; j++) {
@@ -863,8 +839,8 @@ void TBoss4Type2::set_state(s32 arg1) {
     }
 }
 
-void set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv(S_80054224 *o, void *src, V_80054224 *in) {
-    V_80054224 v = *in;
+void set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv(S_80054224 *o, void *src, Vec *in) {
+    Vec v = *in;
     ((void (*)(void *))subtract_vector)(&v);
     v.x *= o->f39c;
     v.y *= o->f39c;
@@ -884,8 +860,8 @@ f32 calc_wave_offset__11TBoss4Type2Ff(f32 farg0) {
 void TBoss4Type1::push_players_out_of_colliders() {
     Obj_80053E40 *o = (Obj_80053E40 *)this;
     XZ_80053E40 pts[7];
-    Vec_80053E40 in;
-    Vec_80053E40 out;
+    Vec in;
+    Vec out;
     s32 i;
     s32 p;
     u8 *pl;
@@ -907,9 +883,9 @@ void TBoss4Type1::push_players_out_of_colliders() {
     for (p = 0; p < registered_player_count; p++) {
         pl = (u8 *)TObjPlayer::get_player_data(p);
         if (pl != NULL && ((TBoss3Volopt *)pl)->get_field_3e0() == 0xE) {
-            Vec_80053E40 pos = *get_position_ptr__10TObjPlayerFv(pl);
-            Vec_80053E40 d;
-            Vec_80053E40 q;
+            Vec pos = *get_position_ptr__10TObjPlayerFv(pl);
+            Vec d;
+            Vec q;
             for (j = 0; j < o->count; j++) {
                 f32 r = player_collider_radius_table[j];
                 f32 dist;
@@ -970,12 +946,12 @@ void TBoss4Type1::sub_80053D4C() {
     f32 c;
     q = arg0->parts;
     for (i = 0; i < 3; i++, q++) {
-        Vec_80053D4C v = arg0->spots[i].pos;
+        Vec v = arg0->spots[i].pos;
         VecCopy__FP3VecPC3Vec(&q->local, &v);
         subtract_vector(&v, &arg0->pos);
         s = sin_table_lookup(-this->rotation_y);
         c = cos_table_lookup(-this->rotation_y);
-        Vec_80053D4C t = v;
+        Vec t = v;
         v.x = c * t.x + s * t.z;
         v.z = -s * t.x + c * t.z;
         VecCopy__FP3VecPC3Vec(q, &v);
@@ -1050,7 +1026,7 @@ void TRaderMapCore::set_map_position(void *arg1) {
 
 #pragma push
 #pragma opt_propagation off
-void pick_target_position__13TRaderMapCoreFPvPv(O_80053914 *self, Vec_80053914 *out) {
+void pick_target_position__13TRaderMapCoreFPvPv(O_80053914 *self, Vec *out) {
     s32 a1;
     O_80053914 *found;
     s32 i;
@@ -1060,7 +1036,7 @@ void pick_target_position__13TRaderMapCoreFPvPv(O_80053914 *self, Vec_80053914 *
     f32 s;
     s32 ang;
     s32 b;
-    Vec_80053914 res;
+    Vec res;
     best = 0.0f;
     found = NULL;
     for (i = 0; i < registered_player_count; i++) {
@@ -1072,18 +1048,18 @@ void pick_target_position__13TRaderMapCoreFPvPv(O_80053914 *self, Vec_80053914 *
             continue;
         }
         {
-            Vec_80053914 v = p->pos;
+            Vec v = p->pos;
             v.y = 0.0f;
             d = xyz_distance(&v, &self->pos);
             if (d <= 460.0f && d > best) {
                 best = d;
                 found = p;
-                ((s32 (*)(Vec_80053914 *, Vec_80053914 *))VecCopy__FP3VecPC3Vec)(&res, &v);
+                ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)(&res, &v);
             }
         }
     }
     if (found != NULL) {
-        ((s32 (*)(Vec_80053914 *, Vec_80053914 *))VecCopy__FP3VecPC3Vec)(out, &res);
+        ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)(out, &res);
         return;
     }
     s = 200.625f * ((TObjChara *)self)->random_ratio();
@@ -1124,20 +1100,20 @@ void TBoss4Type1::sub_80053670() {
     var_r29 = 0;
     var_r28 = 0x25;
     do {
-        ((s32 (*)(Vec_80053914 *, Vec_80053914 *))VecCopy__FP3VecPC3Vec)((Vec_80053914 *)&stack.sp8, (Vec_80053914 *)(arg0 + 0x38));
+        ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)((Vec *)&stack.sp8, (Vec *)(arg0 + 0x38));
         stack.sp8 += (f32)(-var_r28) * temp_f30;
         stack.sp10 += (f32)var_r28 * temp_f29;
         add_radar_scaled_marker(&stack.sp8, -0x5DB4, 1, 1, 5.0f);
-        ((s32 (*)(Vec_80053914 *, Vec_80053914 *))VecCopy__FP3VecPC3Vec)((Vec_80053914 *)&stack.sp8, (Vec_80053914 *)(arg0 + 0x38));
+        ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)((Vec *)&stack.sp8, (Vec *)(arg0 + 0x38));
         stack.sp8 += (f32)var_r28 * temp_f29;
         stack.sp10 += (f32)var_r28 * temp_f30;
         add_radar_scaled_marker(&stack.sp8, -0x5DB4, 1, 1, 5.0f);
-        ((s32 (*)(Vec_80053914 *, Vec_80053914 *))VecCopy__FP3VecPC3Vec)((Vec_80053914 *)&stack.sp8, (Vec_80053914 *)(arg0 + 0x38));
+        ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)((Vec *)&stack.sp8, (Vec *)(arg0 + 0x38));
         stack.sp8 += (f32)var_r28 * temp_f30;
         stack.sp10 += (f32)(-var_r28) * temp_f29;
         add_radar_scaled_marker(&stack.sp8, -0x5DB4, 1, 1, 5.0f);
         if (var_r29 < 2) {
-            ((s32 (*)(Vec_80053914 *, Vec_80053914 *))VecCopy__FP3VecPC3Vec)((Vec_80053914 *)&stack.sp8, (Vec_80053914 *)(arg0 + 0x38));
+            ((s32 (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)((Vec *)&stack.sp8, (Vec *)(arg0 + 0x38));
             stack.sp8 += (f32)(-var_r28) * temp_f29;
             stack.sp10 += (f32)(-var_r28) * temp_f30;
             add_radar_scaled_marker(&stack.sp8, -0x5DB4, 1, 1, 5.0f);
@@ -1189,7 +1165,7 @@ void TBoss4Type2__sub_80053504(TBoss4Type2 *boss4_type2) {
 }
 
 void TBoss4Type1::sub_80053440() {
-    Vec_80053440 v;
+    Vec v;
     s32 i;
     Obj_80053440 *arg0 = (Obj_80053440 *)this;
     if (this->state == 4) {
@@ -1212,8 +1188,8 @@ void TBoss4Type1::sub_80053440() {
 void TBoss4Type1::update_follow_camera_offsets() {
     Obj_80053E40 *o = (Obj_80053E40 *)this;
     XZ_80053E40 pts[7];
-    Vec_80053E40 in;
-    Vec_80053E40 out;
+    Vec in;
+    Vec out;
     f32 best;
     s32 i;
     s32 j;
@@ -1234,8 +1210,8 @@ void TBoss4Type1::update_follow_camera_offsets() {
     }
     pop_matrix();
     {
-        Vec_80053E40 cam = camera_ctrl_instance->pos;
-        Vec_80053E40 d;
+        Vec cam = camera_ctrl_instance->pos;
+        Vec d;
         for (j = 0; j < o->count; j++) {
             f32 r = 50.0f + player_collider_radius_table[j];
             f32 len;
@@ -1252,8 +1228,8 @@ void TBoss4Type1::update_follow_camera_offsets() {
         }
     }
     {
-        Vec_80053E40 a = { 0.0f, 19.8f, -5.0f };
-        Vec_80053E40 b = { 0.0f, 12.93f, 55.42f };
+        Vec a = { 0.0f, 19.8f, -5.0f };
+        Vec b = { 0.0f, 12.93f, 55.42f };
         if (best > 40.42f) {
             best = 40.42f;
         }
@@ -1280,9 +1256,9 @@ void TBoss4Type2::check_state_if_idle() {
 void TBoss4Type2::sub_800530C0() {
     Obj_800530C0 *self = (Obj_800530C0 *)this;
     self->f39c = ((f32 (*)(void *, f32))calc_wave_offset__11TBoss4Type2Ff)(this, 1.0f - (f32)self->timer / 75.0f);
-    Vec_800530C0 a = { 0.0f, 0.0f, -120.0f };
-    Vec_800530C0 b = { 0.0f, 0.0f, -175.0f };
-    ((void (*)(void *, Vec_800530C0 *, Vec_800530C0 *))set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv)(this, &a, &b);
+    Vec a = { 0.0f, 0.0f, -120.0f };
+    Vec b = { 0.0f, 0.0f, -175.0f };
+    ((void (*)(void *, Vec *, Vec *))set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv)(this, &a, &b);
     if (--self->timer < 0) {
         set_state(1);
     }
@@ -1309,9 +1285,9 @@ void TBoss4Type2::sub_80052EF8() {
 
     self->f39c = ((f32 (*)(void *, f32))calc_wave_offset__11TBoss4Type2Ff)(this, 1.0f - (f32)self->f398 / (f32)self->f3cc);
     {
-        Vec_80052EF8 a = boss4_type2_motion_vec_table[self->f3a4];
-        Vec_80052EF8 b = boss4_type2_motion_vec_table[self->f3a0];
-        ((s32 (*)(void *, Vec_80052EF8 *, Vec_80052EF8 *))set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv)(this, &a, &b);
+        Vec a = boss4_type2_motion_vec_table[self->f3a4];
+        Vec b = boss4_type2_motion_vec_table[self->f3a0];
+        ((s32 (*)(void *, Vec *, Vec *))set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv)(this, &a, &b);
     }
     calc_scaled_field(((s32 (*)(void *, s32, s32))TBoss4Type2__sub_80054384)(this, self->f3a4, self->f3ac), ((s32 (*)(void *, s32, s32))TBoss4Type2__sub_80054384)(this, self->f3a0, self->f3a8));
     play_persistent_sound(0x4003A80D, (s32)this, (u32)self->f38, 0, 0);

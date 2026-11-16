@@ -34,25 +34,20 @@ struct RecoveredGlobal_803D78A8_lbl_8058CAB8 {
 
 struct St_803D7784 { s32 a0, a4, a8, ac, b0, b4, b8, x1c; };
 
-struct Vec_803D7504 { f32 x, y, z; };
 struct Quat_803D7504 { f32 x, y, z, w; };
-
-struct Vec_803D7CA4 { f32 x, y, z; };
 
 struct Angles_803D7CA4 { s32 x, y, z; };
 
 struct Quat_803D7CA4 { f32 x, y, z, w; };
-
-struct Vec_803D7D30 { f32 x, y, z; };
 
 struct Vec4_803D7D30 { f32 w, x, y, z; };
 
 struct Key_803D7D30 {
     u32 flags;
     u8 pad4[4];
-    Vec_803D7D30 pos;
-    Vec_803D7D30 rot;
-    Vec_803D7D30 scl;
+    Vec pos;
+    Vec rot;
+    Vec scl;
     u8 pad2c[8];
     f32 w;
 };
@@ -97,16 +92,16 @@ void bind_motion_blend_channels(NJS_MOTION_LINK *motion, f32 blend_factor) {
 
 #pragma push
 #pragma use_lmw_stmw off
-#define pos ((Vec_803D7504 *)arg1)
-#define scl ((Vec_803D7504 *)arg3)
+#define pos ((Vec *)arg1)
+#define scl ((Vec *)arg3)
 s32 blend_motion_poses(void *node, void *arg1, void *unused, void *arg3, void *rot) {
-    Vec_803D7504 pb;
-    Vec_803D7504 sb;
-    Vec_803D7504 rb;
+    Vec pb;
+    Vec sb;
+    Vec rb;
     Quat_803D7504 qb;
-    Vec_803D7504 pa;
-    Vec_803D7504 sa;
-    Vec_803D7504 ra;
+    Vec pa;
+    Vec sa;
+    Vec ra;
     Quat_803D7504 qa;
     f32 u;
     f32 t;
@@ -161,8 +156,8 @@ typedef char RecoveredGlobal_803D77C0_lbl_804FA51C_size[sizeof(RecoveredGlobal_8
 #pragma peephole off
 
 void TObjPlayer::apply_motion_node_transform() {
-    struct Vec_803D7CA4 trans;
-    struct Vec_803D7CA4 scale;
+    Vec trans;
+    Vec scale;
     struct Angles_803D7CA4 rot;
     struct Quat_803D7CA4 quat;
     s32 kind;
@@ -355,8 +350,8 @@ void bind_motion_channel_samplers(int arg0, f32 farg0) {
 }
 
 void compose_motion_node_matrix(void *arg0) {
-    struct Vec_803D7CA4 trans;
-    struct Vec_803D7CA4 scale;
+    Vec trans;
+    Vec scale;
     struct Angles_803D7CA4 rot;
     struct Quat_803D7CA4 quat;
     s32 kind;
@@ -385,9 +380,9 @@ void compose_motion_node_matrix(void *arg0) {
 #pragma use_lmw_stmw off
 s32 sample_motion_node_transform(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) {
 #define kK ((Key_803D7D30 *)arg0)
-#define pP ((Vec_803D7D30 *)arg1)
-#define rR ((Vec_803D7D30 *)arg2)
-#define sS ((Vec_803D7D30 *)arg3)
+#define pP ((Vec *)arg1)
+#define rR ((Vec *)arg2)
+#define sS ((Vec *)arg3)
 #define qQ ((Vec4_803D7D30 *)arg4)
     s32 r;
     if (!(kK->flags & 0x40)) {

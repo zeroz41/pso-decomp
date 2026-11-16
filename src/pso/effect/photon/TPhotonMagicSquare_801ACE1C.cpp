@@ -25,8 +25,6 @@ const char *TPhotonMagicSquare__data_805D3508 = "TPhotonMagicSquare";
 
 struct Color_801ACE1C { f32 a, r, g, b; };
 
-struct Vec_801ACE1C { f32 x, y, z; };
-
 struct Self_801ACE1C {
     u8 pad0[0x24];
     s32 f24;
@@ -35,7 +33,7 @@ struct Self_801ACE1C {
     u8 pad2[0x60 - 0x38];
     s32 f60;
     u8 pad3[0x68 - 0x64];
-    Vec_801ACE1C v68;
+    Vec v68;
     u8 pad4[0x90 - 0x74];
     s32 f90;
     u8 pad5[0x9C - 0x94];
@@ -43,7 +41,7 @@ struct Self_801ACE1C {
     Color_801ACE1C color;
     u32 fB0;
     u8 pad6[0xB8 - 0xB4];
-    Vec_801ACE1C vB8;
+    Vec vB8;
     u8 pad7[0xCC - 0xC4];
     u32 fCC;
 };

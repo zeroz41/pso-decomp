@@ -15,7 +15,6 @@
 #include "pso/ui/frontend/TAdEndText.h"
 
 struct MovieState;
-struct Vec_80144778 { f32 x, y, z; };
 
 extern "C" {
 void TMovie__sub_80144324(MovieState *movie, const s8 *name);
@@ -50,9 +49,9 @@ extern int ending_movie_active_flag;
 
 const char *TMovie__name = "TMovie";
 // inferred: the eye, target and up vectors run_task passes to set_camera_look_at
-static const Vec_80144778 movie_camera_eye = {0.0f, 0.0f, 0.0f};
-static const Vec_80144778 movie_camera_target = {0.0f, 0.0f, 1.0f};
-static const Vec_80144778 movie_camera_up = {0.0f, 1.0f, 0.0f};
+static const Vec movie_camera_eye = {0.0f, 0.0f, 0.0f};
+static const Vec movie_camera_target = {0.0f, 0.0f, 1.0f};
+static const Vec movie_camera_up = {0.0f, 1.0f, 0.0f};
 
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 
@@ -439,9 +438,9 @@ void run_task__6TMovieFv(TMovie *movie) {
             ((TMovie *)(movie->m_20))->update_stop();
             TMovie::run_callback();
         } else {
-            Vec_80144778 eye = movie_camera_eye;
-            Vec_80144778 at = movie_camera_target;
-            Vec_80144778 up = movie_camera_up;
+            Vec eye = movie_camera_eye;
+            Vec at = movie_camera_target;
+            Vec up = movie_camera_up;
             set_perspective_projection_from_fov(0x4B, 1.1333334f, 1.0f, 21000.0f);
             set_camera_look_at((u8 *)&eye, (u8 *)&at, (u8 *)&up);
             ((TMovie *)(movie->m_20))->update_stop();

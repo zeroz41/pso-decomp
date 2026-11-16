@@ -6,24 +6,11 @@
 #include "pso/unk/TUnk_80488DA0.h"
 #include "pso/system/ControllerInputState.h"
 
-struct Stack_80067EE0 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 #include <stddef.h>
 #include "pso/camera/TCameraCtrl.h"
-struct Stack_80067E30 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
 
 struct RecoveredGlobal_80067E30_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 typedef char RecoveredGlobal_80067E30_lbl_8058D490_size[sizeof(RecoveredGlobal_80067E30_lbl_8058D490) == 0x30 ? 1 : -1];
-
-struct Vec_80067D20 { f32 x, y, z; };
 
 struct Pad_80067D20 {
     u32 buttons;
@@ -37,8 +24,8 @@ struct Obj_80067D20 {
     s32 yaw;
     s32 pitch;
     u8 pad34[0x3c - 0x34];
-    Vec_80067D20 eye;
-    Vec_80067D20 at;
+    Vec eye;
+    Vec at;
     u8 pad54[0x6c - 0x54];
     Pad_80067D20 *pad;
     f32 dist;
@@ -95,36 +82,33 @@ void TUnk_80488838::update_orbit_camera() {
 #pragma pop
 
 void TCameraCtrl::reset_behind_player() {
-    typedef char sp8_offset[(offsetof(Stack_80067E30, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80067E30, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80067E30, sp10) == 0x8) ? 1 : -1];
-    Stack_80067E30 stack;
+    Vec stack;
     u8 *player;
     player = (u8 *)(get_player_by_client_id(0));
     if (player != NULL) {
         this->m_30 = (s32) *(s32 *)((s8 *)player + 0x60);
-        stack.sp8 = 0.0f;
-        stack.spC = 0.0f;
-        stack.sp10 = this->m_70;
+        stack.x = 0.0f;
+        stack.y = 0.0f;
+        stack.z = this->m_70;
         push_matrix_from(&identity_matrix.value);
         rotate_matrix_y(0, this->m_30);
-        matrix_mult_vec(0, &stack.sp8, &stack.sp8);
+        matrix_mult_vec(0, &stack.x, &stack.x);
         pop_matrix();
-        this->m_3c = (f32) (*(f32 *)&this->unk_48 + stack.sp8);
-        *(f32 *)&this->unk_40 = (f32) (this->m_4c + stack.spC);
-        this->m_44 = (f32) (*(f32 *)&this->unk_50 + stack.sp10);
+        this->m_3c = (f32) (*(f32 *)&this->unk_48 + stack.x);
+        *(f32 *)&this->unk_40 = (f32) (this->m_4c + stack.y);
+        this->m_44 = (f32) (*(f32 *)&this->unk_50 + stack.z);
     }
 }
 
 void target_player0__11TCameraCtrlFi(s32 arg0) {
-    Stack_80067EE0 stack;
+    Vec stack;
     u8 *player;
     player = (u8 *)(get_player_by_client_id(0));
     if (player != NULL) {
-        stack.sp8 = *(f32 *)((s8 *)player + 0x38);
-        stack.spC = 10.0f + *(f32 *)((s8 *)player + 0x3C);
-        stack.sp10 = *(f32 *)((s8 *)player + 0x40);
-        set_target_pos__13TUnk_80488DA0FPv((void *)arg0, &stack.sp8, 10.0f);
+        stack.x = *(f32 *)((s8 *)player + 0x38);
+        stack.y = 10.0f + *(f32 *)((s8 *)player + 0x3C);
+        stack.z = *(f32 *)((s8 *)player + 0x40);
+        set_target_pos__13TUnk_80488DA0FPv((void *)arg0, &stack.x, 10.0f);
     }
 }
 

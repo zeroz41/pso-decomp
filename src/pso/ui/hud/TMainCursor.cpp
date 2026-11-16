@@ -688,12 +688,6 @@ int TMainCursor::check_type_and_enabled(void* _w1, void* _w2) { return matches_t
 
 }
 
-typedef struct Vec_8013BF0C { f32 x, y, z; } Vec_8013BF0C;
-
-typedef struct Vec_8013C0A0 { f32 x, y, z; } Vec_8013C0A0;
-
-struct Vec_8013BF0C;
-struct Vec_8013C0A0;
 struct Coll_8013C288 { u8 pad0[0xC]; f32 radius; u8 pad10[0x18 - 0x10]; u32 flags; u8 pos[0x2C - 0x1C]; };
 
 struct Best_8013C288 { s32 index; u8 pad4[2]; u16 id; u8 pad8[4]; f32 dist; };
@@ -703,9 +697,9 @@ u8 * csnVector(s32, s32, s32);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 f32 vec3_dot(void *, void *);
-s32 target_in_vertical_cone(Vec_8013BF0C *p, Vec_8013BF0C *q, s32 yaw, f32 range, f32 dist);
-extern Vec_8013C0A0 scratch_vec;
-s32 target_in_xz_cone(Vec_8013C0A0 *p, Vec_8013C0A0 *q, Vec_8013C0A0 *r, s32 yaw, f32 range, f32 dist);
+s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist);
+extern Vec scratch_vec;
+s32 target_in_xz_cone(Vec *p, Vec *q, Vec *r, s32 yaw, f32 range, f32 dist);
 s32 set_size__11TMainCursorFf(f32);
 s32 TMainCursor__sub_8013F168(void *);
 s32 set_flag_bit__11TMainCursorFlUs(void *, int, int);
@@ -725,9 +719,9 @@ s32 try_move__11TMainCursorFiii(s32 arg0, s32 arg1, s32 arg2) {
 
 #pragma push
 #pragma fp_contract on
-s32 target_in_vertical_cone(Vec_8013BF0C *p, Vec_8013BF0C *q, s32 yaw, f32 range, f32 dist) {
-    Vec_8013BF0C a;
-    Vec_8013BF0C b;
+s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist) {
+    Vec a;
+    Vec b;
     f32 x;
     f32 y;
     f32 z;
@@ -767,9 +761,9 @@ s32 target_in_vertical_cone(Vec_8013BF0C *p, Vec_8013BF0C *q, s32 yaw, f32 range
 
 #pragma push
 #pragma fp_contract on
-s32 target_in_xz_cone(Vec_8013C0A0 *p, Vec_8013C0A0 *q, Vec_8013C0A0 *r, s32 yaw, f32 range, f32 dist) {
-    Vec_8013C0A0 a;
-    Vec_8013C0A0 b;
+s32 target_in_xz_cone(Vec *p, Vec *q, Vec *r, s32 yaw, f32 range, f32 dist) {
+    Vec a;
+    Vec b;
     f32 x;
     f32 z;
     if (-1.0f < range && range < 1.0f) {
@@ -876,11 +870,11 @@ s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 
             ((u32 (*)(u8 *, void *, s32))init_target_vector__11TMainCursorFiii)(cursor, c->pos, *(s32 *)(target + 0xA4) + 0x1C) != 0) {
             continue;
         }
-        if (target_in_xz_cone((Vec_8013C0A0 *)(cursor + 0x1C), (Vec_8013C0A0 *)c->pos, (Vec_8013C0A0 *)(target + 0x38), yaw,
+        if (target_in_xz_cone((Vec *)(cursor + 0x1C), (Vec *)c->pos, (Vec *)(target + 0x38), yaw,
                               *(f32 *)(cursor + 0x2C), *(f32 *)(cursor + 0x3C)) == 0) {
             continue;
         }
-        if (target_in_vertical_cone((Vec_8013BF0C *)(cursor + 0x1C), (Vec_8013BF0C *)c->pos, yaw, *(f32 *)(cursor + 0x30),
+        if (target_in_vertical_cone((Vec *)(cursor + 0x1C), (Vec *)c->pos, yaw, *(f32 *)(cursor + 0x30),
                                       *(f32 *)(cursor + 0x3C)) == 0) {
             continue;
         }

@@ -13,15 +13,11 @@
 #include "pso/system/task/TObject.h"
 const char *TFontSmallTask__name = "TFontSmallTask";
 
-struct Vec_800FD4D4 {
-    f32 x, y, z;
-};
-
 struct TFontSmallTask_800FD4D4 {
     const char *f0;
     u8 pad4[0x18 - 4];
     void *vt;
-    Vec_800FD4D4 pos;
+    Vec pos;
     f32 ofs_x;
     f32 ofs_y;
     f32 width;
@@ -34,11 +30,10 @@ struct TFontSmallTask_800FD4D4 {
     u16 view;
 };
 extern "C" {
-TFontSmallTask_800FD4D4 *__ct__14TFontSmallTaskFv(TFontSmallTask_800FD4D4 *self, Vec_800FD4D4 *pos, u32 color, s32 life, s32 delay, const char *text, u16 view);
+TFontSmallTask_800FD4D4 *__ct__14TFontSmallTaskFv(TFontSmallTask_800FD4D4 *self, Vec *pos, u32 color, s32 life, s32 delay, const char *text, u16 view);
 }
 
-struct Vec_800FCD40 { f32 x, y, z; };
-static const Vec_800FCD40 font_small_forward_vec = {0.0f, 0.0f, -1.0f};
+static const Vec font_small_forward_vec = {0.0f, 0.0f, -1.0f};
 extern "C" {
 void TBoss3Volopt__sub_800FD344(s32 arg0, s32 arg1, s32 arg2, void *arg3, void *arg4);
 s32 create_font_small_task(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s32 arg5, s32 arg6);
@@ -75,9 +70,9 @@ void push_matrix_from(void *);
 void rotate_matrix_y(int, s32);
 void rotate_matrix_x(int, s32);
 void rotate_matrix_z(int, s32);
-void rotate_vector_by_matrix(int, Vec_800FCD40 *, Vec_800FCD40 *);
+void rotate_vector_by_matrix(int, Vec *, Vec *);
 void pop_matrix(void);
-f32 vec3_dot(Vec_800FCD40 *, Vec_800FCD40 *);
+f32 vec3_dot(Vec *, Vec *);
 void push_matrix(void);
 void project_world_to_screen(int, f32 *, f32 *);
 s32 is_split_screen(void);
@@ -96,8 +91,8 @@ extern u8 *camera_ctrl_instance;
 #pragma push
 #pragma fp_contract on
 void TFontSmallTask::render() {
-    Vec_800FCD40 forward = font_small_forward_vec;
-    Vec_800FCD40 diff;
+    Vec forward = font_small_forward_vec;
+    Vec diff;
     f32 screen[2];
     Quad_800FCD40 q;
     f32 depth;
@@ -345,7 +340,7 @@ void set_world_section_id(void* p, s32 v);
 #pragma push
 #pragma fp_contract on
 
-TFontSmallTask_800FD4D4 *__ct__14TFontSmallTaskFv(TFontSmallTask_800FD4D4 *self, Vec_800FD4D4 *pos, u32 color, s32 life, s32 delay, const char *text, u16 view) {
+TFontSmallTask_800FD4D4 *__ct__14TFontSmallTaskFv(TFontSmallTask_800FD4D4 *self, Vec *pos, u32 color, s32 life, s32 delay, const char *text, u16 view) {
     __ct__7TObjectFP7TObject(self, get_instance__15TWindowCtrlMainFv());
     self->vt = __vt__14TFontSmallTask;
     self->f0 = TFontSmallTask__name;

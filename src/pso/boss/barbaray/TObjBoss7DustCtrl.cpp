@@ -8,10 +8,6 @@
 #include "types.h"
 #include "pso/system/MatrixOps.h"
 
-typedef struct Vec_802F127C {
-    f32 x, y, z;
-} Vec_802F127C;
-
 typedef struct Rot_802F127C {
     s32 a;
     s32 b;
@@ -22,7 +18,7 @@ typedef struct Out_802F127C {
 } Out_802F127C;
 
 typedef struct Dust_802F127C {
-    Vec_802F127C pts[6];
+    Vec pts[6];
     Rot_802F127C rot[10];
     Out_802F127C out[60];
     s32 ang[10];
@@ -31,9 +27,9 @@ extern "C" {
 
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int, f32);
-void matrix_mult_vec(s32, Vec_802F127C *, Out_802F127C *);
+void matrix_mult_vec(s32, Vec *, Out_802F127C *);
 void push_matrix(void);
-Vec_802F127C TObjBoss7DustCtrl__helix_points[6];
+Vec TObjBoss7DustCtrl__helix_points[6];
 Rot_802F127C TObjBoss7DustCtrl__rotation_pairs[10];
 Out_802F127C TObjBoss7DustCtrl__transformed_vertices[60];
 s32 TObjBoss7DustCtrl__vertical_phase_angles[10];

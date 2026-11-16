@@ -57,11 +57,7 @@ extern "C" {
 
 #include "types.h"
 
-struct V_8005BB5C { f32 x, y, z; };
-
-struct Obj_8005BB5C { u8 pad[0x38]; V_8005BB5C pos; V_8005BB5C prev; u8 pad50[0x37C - 0x50]; s32 f37c; };
-
-struct V_8005BF68 { f32 x, y, z; };
+struct Obj_8005BB5C { u8 pad[0x38]; Vec pos; Vec prev; u8 pad50[0x37C - 0x50]; s32 f37c; };
 
 struct V2_8005BF68 { f32 x, z; };
 
@@ -74,7 +70,7 @@ struct Obj_8005BF68 {
     u16 pad1c;
     u16 f1c_unused;
     u8 pad20[0x18];
-    V_8005BF68 pos;
+    Vec pos;
     u8 pad44[0x374 - 0x44];
     s32 f374;
     u8 pad378[4];
@@ -82,34 +78,30 @@ struct Obj_8005BF68 {
     u8 pad380[4];
     Ctl_8005BF68 *ctl;
     u8 pad388[4];
-    V_8005BF68 vel;
+    Vec vel;
     f32 f398;
     u8 pad39c[4];
     f32 f3a0;
 };
-
-struct V_8005C218 { f32 x, y, z; };
 
 struct Obj_8005C218 {
     u8 pad0[0x1C];
     u16 f1c;
     u8 pad1e[0x1A];
-    V_8005C218 pos;
+    Vec pos;
     u8 pad44[0x388 - 0x44];
     s32 f388;
-    V_8005C218 vel;
+    Vec vel;
     f32 f398;
     u8 pad39c[4];
     f32 f3a0;
     u8 pad3a4[0x3C4 - 0x3A4];
-    V_8005C218 home;
+    Vec home;
 };
-
-struct Vec_8005BC4C { f32 x, y, z; };
 
 struct TBoss4Bishi {
     u8 pad0[0x38];
-    Vec_8005BC4C pos;
+    Vec pos;
     u8 pad44[0x5C - 0x44];
     s32 f5C;
     s32 f60;
@@ -190,16 +182,12 @@ static s8 TBoss4Zako_state_handlers_initialized;
 
 extern s32 tl_04;
 
-struct Vec_8005C6E4 { f32 x, y, z; };
-
 struct Obj_8005C6E4 {
     u8 pad0[0x38];
-    Vec_8005C6E4 pos;
+    Vec pos;
     u8 pad44[0x378 - 0x44];
     void *f378;
 };
-
-struct Vec_8005C858 { f32 x, y, z; };
 
 struct Ctl_8005C858 {
     u8 pad0[0x18];
@@ -211,13 +199,13 @@ struct Obj_8005C858 {
     u8 pad4[0x18 - 0x4];
     void *vt;
     u8 pad1c[0x38 - 0x1c];
-    Vec_8005C858 pos;
+    Vec pos;
     u8 pad44[0x374 - 0x44];
     s32 f374;
     u8 pad378[0x384 - 0x378];
     Ctl_8005C858 *f384;
     s32 f388;
-    Vec_8005C858 dir;
+    Vec dir;
     f32 f398;
     u8 pad39c[0x3c4 - 0x39c];
     f32 f3c4;
@@ -232,11 +220,9 @@ void TBoss4Uro__vt61(void* p);
 void *__dt__9TBoss4UroFv(void *arg0, s16 arg1);
 s32 create__9TBoss4UroFi(s32 arg0);
 
-struct Vec_8005C49C { f32 x, y, z; };
-
 struct TBoss4Uro {
     u8 pad0[0x38];
-    Vec_8005C49C pos;
+    Vec pos;
     u8 pad44[0x5C - 0x44];
     s32 f5C;
     s32 f60;
@@ -260,9 +246,7 @@ typedef void (TBoss4Uro::*Act_8005C49C)();
 void run_task__9TBoss4UroFv(TBoss4Uro *self);
 void TBoss4Zako__sub_8005BC4C(TBoss4Bishi *self);
 
-struct V_8005CBA4 { f32 x, y, z; };
-
-struct Pl_8005CBA4 { u8 pad0[0x38]; V_8005CBA4 pos; };
+struct Pl_8005CBA4 { u8 pad0[0x38]; Vec pos; };
 
 
 void render__9TBoss4UroFv(void);
@@ -735,8 +719,8 @@ void TBoss4Uro__vt61(void* p) { if (*(int*)((char*)p + 0x374) != 3) { ((TObjEnem
 #pragma push
 #pragma fp_contract on
 void clamp_min_player_distance__9TBoss4UroFPv(Obj_8005C6E4 *arg0) {
-    Vec_8005C6E4 target;
-    Vec_8005C6E4 d;
+    Vec target;
+    Vec d;
     f32 len;
     if (arg0->f378 == 0) {
         return;
@@ -795,7 +779,7 @@ void run_task__9TBoss4UroFv(TBoss4Uro *self) {
             self->pos.y = 0.099999994f * sin_table_lookup(self->f3BC) + self->pos.y;
             self->f3BC += self->f3C0;
         }
-        Vec_8005C49C v = self->pos;
+        Vec v = self->pos;
         if (((TBoss4Zako *)self)->sub_8005D698() != 0) {
             v.y += 10.0f;
         } else {
@@ -1023,7 +1007,7 @@ void TBoss4Zako__sub_8005BC4C(TBoss4Bishi *self) {
             self->pos.y = 0.099999994f * sin_table_lookup(self->f3BC) + self->pos.y;
             self->f3BC += self->f3C0;
         }
-        Vec_8005BC4C v = self->pos;
+        Vec v = self->pos;
         if (((TBoss4Zako *)self)->sub_8005D698() != 0) {
             v.y += 10.0f;
         } else {
@@ -1060,7 +1044,7 @@ void vt0__11TBoss4BishiFv(u8 *arg0) {
 void vt1__11TBoss4BishiFv(Obj_8005BB5C *self) {
     VecCopy__FP3VecPC3Vec(&self->prev, &self->pos);
     vec3_add_to(&self->pos, (u8 *)self + 0x38C);
-    V_8005BB5C v = self->pos;
+    Vec v = self->pos;
     v.y = 0.0f;
     if (--self->f37c < 0 || vector_length(&v) > 260.0f) {
         enter_state_3__11TBoss4BishiFPv(self);

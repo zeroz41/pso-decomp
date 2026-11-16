@@ -12,8 +12,6 @@ struct Owner_801293FC { u8 pad[0x60]; s32 f60; };
 
 struct Self_801293FC { u8 pad0[0x24]; s32 f24; u8 pad28[0xF0 - 0x28]; Owner_801293FC *owner; u8 padF4[0x188 - 0xF4]; s32 f188; };
 
-struct Vec_801293FC { f32 x, y, z; };
-
 struct Tec_801293FC {
     s16 id;
     u8 pad2[2];
@@ -29,8 +27,8 @@ struct Tec_801293FC {
     f32 f24;
     s32 f28;
     u8 pad2C[4];
-    Vec_801293FC pos;
-    Vec_801293FC dir;
+    Vec pos;
+    Vec dir;
 };
 
 extern "C" {

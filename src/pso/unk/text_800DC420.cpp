@@ -45,23 +45,19 @@ typedef struct Src_800DC4B4 {
     f32 pos[3];
 } Src_800DC4B4;
 
-struct Vec_800DC648 { f32 x, y, z; };
-
 struct Me_800DC648 {
     u8 pad0[0xAC];
-    Vec_800DC648 pos;
-    Vec_800DC648 vel;
+    Vec pos;
+    Vec vel;
     u8 padC4[0xDC - 0xC4];
     f32 timer;
     void *link0;
     void *link1;
-    Vec_800DC648 prev;
+    Vec prev;
     s32 trail;
     s32 cnt;
     u16 owner;
 };
-
-struct Vec_800DC83C { f32 x, y, z; };
 
 struct Ang_800DC83C { s32 x, y, z; };
 
@@ -90,7 +86,7 @@ f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 extern s32 __vt__13TUnk_80494E10[];
 extern s32 tl_06;
-u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec_800DC83C *arg1, Vec_800DC83C *arg2, s32 arg3, void *arg4);
+u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec *arg1, Vec *arg2, s32 arg3, void *arg4);
 
 s32 TObjPlayer__sub_800DC420(void *self, s32 i) {
     return (*(D_800DC420 * *)&lbl_805D5254)->arr[i];
@@ -162,7 +158,7 @@ void TUnk_80494E10::run_task() {
     void *att;
     s32 i;
     void *pl;
-    Vec_800DC648 old = arg0->pos;
+    Vec old = arg0->pos;
     vec3_add_to(&arg0->pos, &arg0->vel);
     if (arg0->link0 != NULL) {
         ((TParticleCtrl *)arg0->link0)->set_position(&arg0->pos);
@@ -204,7 +200,7 @@ TUnk_80494E10::~TUnk_80494E10() {
     if (*(void **)((s8 *)this + 0xE4) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xE4)))->queue_destruction(); this->m_e4 = 0; }
 }
 
-u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec_800DC83C *arg1, Vec_800DC83C *arg2, s32 arg3, void *arg4) {
+u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec *arg1, Vec *arg2, s32 arg3, void *arg4) {
     Ang_800DC83C ang;
     f32 s;
     __ct__14TObjCollidableFP7TObject(arg0, tl_06);

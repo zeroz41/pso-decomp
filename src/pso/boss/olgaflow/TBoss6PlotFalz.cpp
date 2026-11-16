@@ -487,11 +487,7 @@ struct Stack_802AB684 {
     u8 trailing_storage[0x4];
 };
 
-struct Vec_802AB3E0 { f32 x, y, z; };
-
-struct Player_802AB3E0 { u8 pad[0x38]; Vec_802AB3E0 pos; };
-
-struct Vec_802AB6CC { f32 x, y, z; };
+struct Player_802AB3E0 { u8 pad[0x38]; Vec pos; };
 
 extern "C" {
 void fn_803594B4(void *, s32, f32);
@@ -518,7 +514,7 @@ void TBoss6PlotFalz::set_visible_flag() {
 }
 
 void TBoss6PlotFalz::spawn_player_hit_effects() {
-    Vec_802AB3E0 v;
+    Vec v;
     Player_802AB3E0 *p;
     s32 i;
     f32 k;
@@ -603,15 +599,15 @@ __declspec(section ".sdata2") const f32 lbl_805DE0A4[1] = { 1e-05f };
 #define lbl_805DE0A4 (lbl_805DE0A4[0])
 #define VLEN(v) (((f32 (*)(void *))vector_length)(v))
 s32 TBoss6PlotFalz__sub_802AB6CC(void *arg0, f32 r) {
-    Vec_802AB6CC c;
-    Vec_802AB6CC pl;
-    Vec_802AB6CC p = *(Vec_802AB6CC *)arg0;
-    Vec_802AB6CC d1;
-    Vec_802AB6CC d2;
-    Vec_802AB6CC d3;
-    Vec_802AB6CC a;
-    Vec_802AB6CC b;
-    Vec_802AB6CC dir;
+    Vec c;
+    Vec pl;
+    Vec p = *(Vec *)arg0;
+    Vec d1;
+    Vec d2;
+    Vec d3;
+    Vec a;
+    Vec b;
+    Vec dir;
     u8 *player;
     f32 l2;
     f32 l3;
@@ -990,11 +986,9 @@ typedef struct Obj_8004AA80 {
     s32 *items;
 } Obj_8004AA80;
 
-struct Vec_802AC3E8 { f32 x, y, z; };
-
 struct Sub_802AC3E8 { u8 pad[0x18]; s32 flags; };
 
-struct Obj_802AC3E8 { u8 pad[0x38]; Vec_802AC3E8 pos; u8 pad2[0xA4 - 0x44]; Sub_802AC3E8 *sub; };
+struct Obj_802AC3E8 { u8 pad[0x38]; Vec pos; u8 pad2[0xA4 - 0x44]; Sub_802AC3E8 *sub; };
 
 void *destroy_buffer_pair(void *arg0, s16 arg1);
 extern "C" {
@@ -1080,7 +1074,7 @@ void build_tables__14TBoss6PlotFalzFPvPvi(Obj_8004AA80 *arg0, Rec_8004AA80 *arg1
 }
 
 void TBoss6PlotFalz::warp_nearby_players() {
-    Vec_802AC3E8 v;
+    Vec v;
     s32 i;
     Obj_802AC3E8 *p;
     for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {

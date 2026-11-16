@@ -8,12 +8,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 
-struct Stack_800676A0 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 struct RecoveredGlobal_800677D4_lbl_804887C8 {
     s32 value;
     u8 remaining[0x2C];
@@ -46,7 +40,7 @@ void * TCameraCtrl__vt11(void) {
 #pragma fp_contract on
 void TUnk_804887C8::run_task() {
     u8 *arg0 = (u8 *)this;
-    Stack_800676A0 stack;
+    Vec stack;
     f32 temp_f1;
     f32 temp_f2;
     u8 *camera_focus;
@@ -57,16 +51,16 @@ void TUnk_804887C8::run_task() {
         if (camera_focus != NULL) {
             VecCopy((Vec *)(arg0 + 0x48), (const Vec *)(camera_focus));
             temp_r4 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x1C));
-            stack.sp8 = *(f32 *)((s8 *)temp_r4 + 0x38) - *(f32 *)((s8 *)camera_focus + 0);
+            stack.x = *(f32 *)((s8 *)temp_r4 + 0x38) - *(f32 *)((s8 *)camera_focus + 0);
             temp_f2 = *(f32 *)((s8 *)temp_r4 + 0x40);
             temp_f1 = temp_f2 - *(f32 *)((s8 *)camera_focus + 8);
-            stack.spC = 0.0f;
-            stack.sp10 = temp_f1;
-            if (0.0f != vector_length(&stack.sp8, (int)temp_r4, (f32)temp_f1, (f32)temp_f2)) {
-                normalize_vector(&stack.sp8);
-                this->position.x = (f32) ((30.0f * stack.sp8) + *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x1C)) + 0x38));
+            stack.y = 0.0f;
+            stack.z = temp_f1;
+            if (0.0f != vector_length(&stack.x, (int)temp_r4, (f32)temp_f1, (f32)temp_f2)) {
+                normalize_vector(&stack.x);
+                this->position.x = (f32) ((30.0f * stack.x) + *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x1C)) + 0x38));
                 this->position.y = (f32) (10.0f + *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x1C)) + 0x3C));
-                this->position.z = (f32) ((30.0f * stack.sp10) + *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x1C)) + 0x40));
+                this->position.z = (f32) ((30.0f * stack.z) + *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x1C)) + 0x40));
             }
         }
     }

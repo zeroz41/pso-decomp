@@ -184,18 +184,16 @@ struct RecoveredGlobal_8019CA24_lbl_80515BA0 {
     u8 remaining[0x24];
 };
 
-struct Vec_8019D0A8 { f32 x, y, z; };
-
 
 struct Warp_8019D0A8 {
     u8 pad0[0x60];
     s32 yaw;
     u8 pad64[0x68 - 0x64];
-    Vec_8019D0A8 pos;
+    Vec pos;
     u8 pad74[0x84 - 0x74];
     s32 yaw2;
     u8 pad88[0xBC - 0x88];
-    Vec_8019D0A8 ends[4];
+    Vec ends[4];
 };
 
 struct VBase_8019D250 { char pad[0x18]; };
@@ -222,8 +220,6 @@ struct VObj_8019D250 : VBase_8019D250 {
     virtual void m18(u16);
 };
 
-struct Vec_8019D250 { f32 x, y, z; };
-
 struct Data_8019D250 {
     u8 pad0[0x84];
     s32 f84;
@@ -231,7 +227,7 @@ struct Data_8019D250 {
     f32 fAC;
     void *fB0;
     u8 padB4[0xBC - 0xB4];
-    Vec_8019D250 ends[4];
+    Vec ends[4];
     void *win[4];
 };
 
@@ -283,7 +279,7 @@ s32 get_floor_destination_name();
 s32 get_localized_text_entry(s32, s32);
 s32 debug_draw_line(void *, void *, u32, u32);
 s32 fn_80141CB4(void *, f32);
-s32 test_player_body_overlap_at(void *, void *, Vec_8019D250 *);
+s32 test_player_body_overlap_at(void *, void *, Vec *);
 s32 *TObjCityMainWarp__sub_80186AF4(void);
 void * TObjAreaWarpEndingJung__create(void *arg0);
 s64 fn_8019B480(void *arg0, void *arg1);
@@ -403,7 +399,7 @@ BmlResourceDescriptor forest_warp_resource_descriptor = {
     "fs_obj_warp.bml", fs_obj_warp_model_names, fs_obj_warp_motion_names, 6, 3,
 };
 
-Vec_8019D0A8 map_warp_destination_offsets[4] = {
+Vec map_warp_destination_offsets[4] = {
     { 10.0f, 0.0f, 10.0f }, { 10.0f, 0.0f, -10.0f }, { -10.0f, 0.0f, 10.0f }, { -10.0f, 0.0f, -10.0f },
 };
 
@@ -697,7 +693,7 @@ void TObjMapWarp::process_player_warps() {
 void TObjMapWarp::draw_debug_destinations() {
     u8 *arg0 = (u8 *)this;
     Warp_8019D0A8 *self = (Warp_8019D0A8 *)arg0;
-    Vec_8019D0A8 *end;
+    Vec *end;
     s32 i;
     TObjNpcEnemy::set_global_count(0xFF00FF);
     ((s32 (*)(s32, const char *, ...))debug_printf_at)(0x13001C, "<- DST POS X");
@@ -706,8 +702,8 @@ void TObjMapWarp::draw_debug_destinations() {
     ((s32 (*)(s32, const char *, ...))debug_printf_at)(0x130020, "<- DST ANG Y");
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
     for (i = 0; i < 4; i++) {
-        Vec_8019D0A8 b;
-        Vec_8019D0A8 a = {0.0f, 0.0f, -3.0f};
+        Vec b;
+        Vec a = {0.0f, 0.0f, -3.0f};
         push_matrix_from(identity_matrix);
         post_translate_matrix(&self->pos);
         rotate_matrix_y(0, self->yaw);

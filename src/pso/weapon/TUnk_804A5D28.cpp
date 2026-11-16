@@ -69,13 +69,11 @@ struct Self_8012E5A0 {
     s32 state;
 };
 
-struct Vec_8012E5A0 { f32 x, y, z; };
-
 struct Ang_8012E5A0 { s32 x, y, z; };
 
 void TUnk_804A5D28::update_weapon() {
     s32 ang;
-    Vec_8012E5A0 v;
+    Vec v;
     Ang_8012E5A0 a;
     Self_8012E5A0 *self = (Self_8012E5A0 *)this;
     if (this->m_1fc == 1) {

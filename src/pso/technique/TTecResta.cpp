@@ -31,8 +31,6 @@ struct RecoveredGlobal_802394B0_lbl_804CC55C
   u8 remaining[0x94];
 };
 
-struct Vec_8023967C { f32 x, y, z; };
-
 struct Row_8023967C { s32 delay; s32 duration; s32 entry; u32 flags; };
 
 struct Resta_8023967C { u8 pad[0x18]; s32 *vt; void *emitters[3]; s32 owner; s32 x2c; };
@@ -53,7 +51,6 @@ struct Resta_802399F8 {
 };
 
 struct Resta_8023967C;
-struct Vec_8023967C;
 struct HitInfo_8023985C { s32 type; f32 power; };
 
 struct VBase_8023985C { char pad[0x18]; };
@@ -131,7 +128,7 @@ Row_8023967C TTecResta__self_recovery_effect_table[3] = {
 };
 void __ct__7TObjectFP7TObject(void *, void *);
 void set_owner_id__13TParticleCtrlFUs(void *, s32);
-Resta_8023967C *construct_self_recovery__9TTecRestaFPvPviPv(Resta_8023967C *self, Vec_8023967C *pos, s32 owner, void *parent);
+Resta_8023967C *construct_self_recovery__9TTecRestaFPvPviPv(Resta_8023967C *self, Vec *pos, s32 owner, void *parent);
 s32 queue_destruction__7TObjectFv();
 void *find_entity_by_id(u16 id);
 void deliver_technique_to_party_targets(void *);
@@ -274,7 +271,7 @@ void TTecResta::vfunc_7(void *arg1_arg) {
         if (*(s32 *)&arg0->m_ac != 0) {
             void *o = __nw__7TObjectFUl(0x30);
             if (o != NULL) {
-                construct_self_recovery__9TTecRestaFPvPviPv((Resta_8023967C *)o, (Vec_8023967C *)((u8 *)player + 0x2FC), arg0->source, (void *)tl_07);
+                construct_self_recovery__9TTecRestaFPvPviPv((Resta_8023967C *)o, (Vec *)((u8 *)player + 0x2FC), arg0->source, (void *)tl_07);
             }
         }
     } else if (*(s32 *)&arg0->m_ac != 0) {
@@ -314,8 +311,8 @@ void create__9TTecRestaFPvPvPvPv(void *owner, void *pos, void *arg2, void *level
 
 #pragma push
 #pragma opt_common_subs off
-Resta_8023967C *construct_self_recovery__9TTecRestaFPvPviPv(Resta_8023967C *self, Vec_8023967C *pos, s32 owner, void *parent) {
-    Vec_8023967C v;
+Resta_8023967C *construct_self_recovery__9TTecRestaFPvPviPv(Resta_8023967C *self, Vec *pos, s32 owner, void *parent) {
+    Vec v;
     s32 i;
     Row_8023967C *row;
     __ct__7TObjectFP7TObject(self, parent);

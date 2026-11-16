@@ -34,11 +34,6 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__13TUnk_80493450Fv();
 
 #include <stddef.h>
-struct Stack_800ABA9C {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
 
 struct RecoveredGlobal_800ABA9C_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 typedef char RecoveredGlobal_800ABA9C_lbl_8058D490_size[sizeof(RecoveredGlobal_800ABA9C_lbl_8058D490) == 0x30 ? 1 : -1];
@@ -53,9 +48,6 @@ struct VObj_14_800ABCBC : VBase_14_800ABCBC {
 struct Obj_800ABCBC { u8 pad0[0x38]; u8 sub38[0x326 - 0x38]; s16 f326; s16 state; u8 pad32a[0x390 - 0x32A]; s32 f390; };
 
 struct RecoveredGlobal_800ABA9C_lbl_8058D490;
-typedef struct Vec_800AB31C {
-    f32 x, y, z;
-} Vec_800AB31C;
 
 typedef struct Rot_800AB31C {
     s32 x, y, z;
@@ -64,8 +56,8 @@ typedef struct Rot_800AB31C {
 typedef struct Obj_800AB31C {
     u8 pad0[0x18];
     void *vptr;
-    Vec_800AB31C pos;
-    Vec_800AB31C pos2;
+    Vec pos;
+    Vec pos2;
     u8 mtx34[0x58 - 0x34];
     f32 f58;
     s32 f5C;
@@ -74,10 +66,6 @@ typedef struct Obj_800AB31C {
     s32 f68;
 } Obj_800AB31C;
 
-typedef struct Vec_800ABB38 {
-    f32 x, y, z;
-} Vec_800ABB38;
-
 struct VBase_800ABB38 { char pad[0x18]; };
 
 struct VObj_800ABB38 : VBase_800ABB38 {
@@ -85,12 +73,12 @@ struct VObj_800ABB38 : VBase_800ABB38 {
     virtual void m1();
     virtual void m2();
     virtual void m3();
-    virtual void m4(Vec_800ABB38 *, Vec_800ABB38 *);
+    virtual void m4(Vec *, Vec *);
 };
 
 typedef struct Obj_800ABB38 {
     u8 pad0[0x38];
-    Vec_800ABB38 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 f60;
     u8 pad64[0xB8 - 0x64];
@@ -231,26 +219,23 @@ void TObjEneShark::vfunc_95() {
 
 void TObjEneShark::vfunc_94() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_800ABA9C, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800ABA9C, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_800ABA9C, sp10) == 0x8) ? 1 : -1];
-    Stack_800ABA9C stack;
-    stack.sp8 = 0.0f;
-    stack.spC = 10.0f;
-    stack.sp10 = 0.5f * *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x2B0)) + 0x10);
+    Vec stack;
+    stack.x = 0.0f;
+    stack.y = 10.0f;
+    stack.z = 0.5f * *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x2B0)) + 0x10);
     push_matrix_from(&identity_matrix.value);
     rotate_matrix_y(0, this->rotation_y);
-    rotate_vector_by_matrix(0, &stack.sp8, &stack.sp8);
+    rotate_vector_by_matrix(0, &stack.x, &stack.x);
     pop_matrix();
-    vec3_add_to(&stack.sp8, (u8 *)&this->position);
-    ((TObjPlayer *)(&stack.sp8))->spawn_ground_effect(0x23);
-    TObjPlayer__sub_800D92BC((s32)&stack.sp8, 0xF);
+    vec3_add_to(&stack.x, (u8 *)&this->position);
+    ((TObjPlayer *)(&stack.x))->spawn_ground_effect(0x23);
+    TObjPlayer__sub_800D92BC((s32)&stack.x, 0xF);
 }
 
 void TObjEneShark::vfunc_93() {
     Obj_800ABB38 *o = (Obj_800ABB38 *)this;
-    Vec_800ABB38 b;
-    Vec_800ABB38 a;
+    Vec b;
+    Vec a;
     u32 e;
     s32 idx;
     VObj_800ABB38 *eff;

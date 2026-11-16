@@ -12,9 +12,7 @@ struct VBase { char pad[0x18]; };
 
 struct VObj : VBase { virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7(); virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11(); virtual void m12(); virtual void m13(f32); virtual void m14(); virtual void m15(); virtual void m16(f32); };
 
-struct Vec_800BBFD0 { f32 x, y, z; };
-
-struct Obj_800BBFD0 { u8 pad[0x38]; Vec_800BBFD0 pos; u8 pad2[0x308 - 0x44]; f32 f308; f32 f30c; f32 f310; };
+struct Obj_800BBFD0 { u8 pad[0x38]; Vec pos; u8 pad2[0x308 - 0x44]; f32 f308; f32 f30c; f32 f310; };
 
 typedef struct Desc_800BBF08 {
     s32 a;
@@ -106,7 +104,7 @@ struct P_800BC250 : VB_800BC250 {
 };
 
 extern "C" {
-void subtract_vector(Vec_800BBFD0 *a, Vec_800BBFD0 *b);
+void subtract_vector(Vec *a, Vec *b);
 s32 obj_is_hit_receivable();
 Tgt_800BC080 *get_battle_param__10TObjPlayerFi(s32);
 s32 is_area_attack_target_eligible(void *, int);
@@ -163,7 +161,7 @@ void TUnk_804928CC::area_attack_receive_direct(void *dst, f32 *recoil, void *des
 void TUnk_804928CC::area_attack_apply_recoil(void *b_arg, f32 s) {
     Obj_800BBFD0 *a = (Obj_800BBFD0 *)this;
     Obj_800BBFD0 *b = (Obj_800BBFD0 *)b_arg;
-    Vec_800BBFD0 v;
+    Vec v;
     VecCopy((Vec *)&v, (const Vec *)&b->pos);
     subtract_vector(&v, &a->pos);
     normalize_vector_xz((Vec *)(&v));

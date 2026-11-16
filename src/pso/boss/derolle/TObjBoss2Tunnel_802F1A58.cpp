@@ -25,7 +25,6 @@
 
 struct Nd_802F2348 { u8 pad[0xC]; Nd_802F2348 *next; };
 struct Li_802F2348 { u8 pad[0x14]; Nd_802F2348 *head; };
-struct Vec_802F25AC { f32 x, y, z; };
 // count + index list; the TUnk_804E4B24 constructor copies both into the segment it builds
 struct Boss2TunnelEffectEntry {
     s32 count;
@@ -55,7 +54,7 @@ s32 boss2_tunnel_spawn_timer_table_b[10] = {1, 1, 3, 4, 3, 3, 3, 3, 3, 3};
 // y comes from a float constant of another file, so this file's static
 // initializer (0x802F2CC4, .ctors 0x80433FDC) fills it in at startup.
 extern "C" const f32 lbl_805DE9F4;
-Vec_802F25AC lbl_804E4A44[2] = {
+Vec lbl_804E4A44[2] = {
     {78.0f, lbl_805DE9F4, 83.0f},
     {-78.0f, lbl_805DE9F4, 83.0f},
 };
@@ -341,7 +340,7 @@ void TUnk_804E4B3C::update_spawn_timer(s32 arg1, s32 arg2, s32 arg3) {
 #pragma fp_contract on
 void TUnk_804E4B3C::update_dust_spawn() {
     u8 *arg0 = (u8 *)this;
-    Vec_802F25AC v;
+    Vec v;
     u32 p;
     *(s32 *)((s8 *)arg0 + 0x74) = *(s32 *)((s8 *)arg0 + 0x74) - 1;
     if (*(s32 *)((s8 *)arg0 + 0x74) <= 0) {

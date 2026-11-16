@@ -29,13 +29,11 @@ typedef struct { f32 x; f32 y; f32 z; } Vec3;
 
 struct Color_801ADDDC { f32 a, r, g, b; };
 
-struct Vec_801ADDDC { f32 x, y, z; };
-
 struct Self_801ADDDC {
     u8 pad0[0x24];
     s32 f24;
     u8 pad1[0x38 - 0x28];
-    Vec_801ADDDC pos;
+    Vec pos;
     u8 pad2[0x60 - 0x44];
     s32 f60;
     u8 pad3[0x14C - 0x64];
@@ -215,8 +213,6 @@ void *destroy__12TPhotonPillaFPvs(void *photon_pilla, s16 arg1) {
 
 }
 
-struct Vec_801AE1F8 { f32 x, y, z; };
-
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 void sub_801ADC7C__12TPhotonPillaFv(void *, u8);
@@ -322,7 +318,7 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
         ((TPhotonPilla *)photon_rainbow)->m_198 = 0;
         ((TPhotonPilla *)photon_rainbow)->m_1a4 = 1;
         {
-        Vec_801AE1F8 pos = *(Vec_801AE1F8 *)((s8 *)photon_rainbow + 0x38);
+        Vec pos = *(Vec *)((s8 *)photon_rainbow + 0x38);
         pos.y += 4e+01f;
         mem = __nw__7TObjectFUl(0xD0);
         if (mem != NULL) {

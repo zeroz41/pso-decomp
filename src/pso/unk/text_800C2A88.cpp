@@ -123,13 +123,6 @@ struct VObj_18_9c7b63 : VBase_18_9c7b63 {
     virtual s32 m100();
 };
 
-struct Stack_800C2AC4
-{
-  f32 sp8;
-  f32 spC;
-  f32 sp10;
-};
-
 struct VBase_14_00f1d1
 {
   char pad[0x14];
@@ -168,7 +161,6 @@ f32 vec3_add_to(void *, void *);
 extern const f32 lbl_805D9FAC;
 extern const f32 lbl_805D9FC4;
 typedef struct RecoveredFields_800C2AC4_arg0 RecoveredFields_800C2AC4_arg0;
-typedef struct Stack_800C2AC4 Stack_800C2AC4;
 typedef struct VBase_14_00f1d1 VBase_14_00f1d1;
 typedef struct VBase_18_9c7b63 VBase_18_9c7b63;
 typedef struct VObj_14_00f1d1 VObj_14_00f1d1;
@@ -185,7 +177,7 @@ void fn_800C2A88(void *self, s32 msg) {
 }
 
 void fn_800C2AC4(u8 *arg0, int arg1) {
-  Stack_800C2AC4 stack;
+  Vec stack;
   f32 temp_f1;
   switch (arg1)
   {
@@ -218,20 +210,20 @@ void fn_800C2AC4(u8 *arg0, int arg1) {
       {
         ((RecoveredFields_800C2AC4_arg0 *) arg0)->field_410 = 1;
         temp_f1 = lbl_805D9FC4 * sin_table_lookup((int) ((RecoveredFields_800C2AC4_arg0 *) arg0)->field_60);
-        stack.spC = lbl_805D9FAC;
-        stack.sp8 = temp_f1;
-        stack.sp10 = lbl_805D9FC4 * cos_table_lookup((int) ((RecoveredFields_800C2AC4_arg0 *) arg0)->field_60);
-        vec3_add_to(&stack.sp8, (void *) (arg0 - -0x38));
+        stack.y = lbl_805D9FAC;
+        stack.x = temp_f1;
+        stack.z = lbl_805D9FC4 * cos_table_lookup((int) ((RecoveredFields_800C2AC4_arg0 *) arg0)->field_60);
+        vec3_add_to(&stack.x, (void *) (arg0 - -0x38));
         if (((TObjEneRe2Flower *)arg0)->get_flag_11() != 0)
         {
-          TObjPlayer::apply_effect_variant_a((s32)&stack.sp8, 0x32);
-          fn_800D911C((Vec *)(&stack.sp8));
+          TObjPlayer::apply_effect_variant_a((s32)&stack.x, 0x32);
+          fn_800D911C((Vec *)(&stack.x));
           ((TObjEneMe3SinowZoa *)(arg0 + 0x3F4))->init_death_params();
         }
         else
         {
-          TObjPlayer__sub_800D9290((s32)&stack.sp8, 0x32);
-          ((TObjPlayer *)(&stack.sp8))->spawn_ground_effect(0x46);
+          TObjPlayer__sub_800D9290((s32)&stack.x, 0x32);
+          ((TObjPlayer *)(&stack.x))->spawn_ground_effect(0x46);
         }
       }
         (((TObjEneDD *)(arg0))->vfunc_102());

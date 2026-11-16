@@ -90,17 +90,13 @@ struct RecoveredGlobal_80180BD4___vt__8TObjChip {
     u8 remaining[0x34];
 };
 
-struct Vec_8018085C { f32 x, y, z; };
-
 struct Out_8018085C { f32 x, y; };
-
-struct Vec_801803C0 { f32 x, y, z; };
 
 struct IVec_801803C0 { s32 x, y, z; };
 
 struct Chip_801803C0 {
-    Vec_801803C0 pos;
-    Vec_801803C0 vel;
+    Vec pos;
+    Vec vel;
     IVec_801803C0 rot;
     IVec_801803C0 angvel;
     f32 alpha;
@@ -109,8 +105,8 @@ struct Chip_801803C0 {
 
 struct Task_801803C0 {
     u8 pad0[0x30];
-    Vec_801803C0 origin;
-    Vec_801803C0 vel;
+    Vec origin;
+    Vec vel;
     IVec_801803C0 angvel;
     s32 count;
     s32 life;
@@ -118,13 +114,11 @@ struct Task_801803C0 {
     Chip_801803C0 chips[8];
 };
 
-struct Vec_80180614 { f32 x, y, z; };
-
 struct IVec_80180614 { s32 x, y, z; };
 
 struct Chip_80180614 {
-    Vec_80180614 pos;
-    Vec_80180614 vel;
+    Vec pos;
+    Vec vel;
     IVec_80180614 rot;
     IVec_80180614 angvel;
     f32 alpha;
@@ -133,8 +127,8 @@ struct Chip_80180614 {
 
 struct Task_80180614 {
     u8 pad0[0x30];
-    Vec_80180614 origin;
-    Vec_80180614 vel;
+    Vec origin;
+    Vec vel;
     IVec_80180614 angvel;
     s32 count;
     s32 life;
@@ -142,13 +136,11 @@ struct Task_80180614 {
     Chip_80180614 chips[8];
 };
 
-struct Vec_8018019C { f32 x, y, z; };
-
 struct IVec_8018019C { s32 x, y, z; };
 
 struct Chip_8018019C {
-    Vec_8018019C pos;
-    Vec_8018019C vel;
+    Vec pos;
+    Vec vel;
     IVec_8018019C rot;
     IVec_8018019C angvel;
     f32 alpha;
@@ -201,10 +193,10 @@ u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *arg0, u8 *arg1, u8 *arg2
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-void matrix_mult_vec(int, Vec_8018085C *, Vec_8018085C *);
-void project_world_to_screen(int, Vec_8018085C *, Out_8018085C *, Vec_8018085C *);
-extern Vec_8018085C camera_right;
-s32 vfunc_10__8TObjChipFP3Vec(s32 arg0, Vec_8018085C *arg1, f32 farg0, f32 farg1);
+void matrix_mult_vec(int, Vec *, Vec *);
+void project_world_to_screen(int, Vec *, Out_8018085C *, Vec *);
+extern Vec camera_right;
+s32 vfunc_10__8TObjChipFP3Vec(s32 arg0, Vec *arg1, f32 farg0, f32 farg1);
 s32 spawn_chips__8TObjChipFPv(u8 *arg0, u8 *arg1);
 s32 init_chips__8TObjChipFv(u8 *arg0);
 void tick_chips__8TObjChipFv(u8 *arg0);
@@ -313,8 +305,8 @@ void render__8TObjChipFv(void *arg0) {
 int vfunc_8__8TObjChipFv(void* p) { return *(u32*)((char*)p + 0x230) == 0; }
 #pragma push
 #pragma fp_contract on
-s32 vfunc_10__8TObjChipFP3Vec(s32 arg0, Vec_8018085C *arg1, f32 farg0, f32 farg1) {
-    Vec_8018085C v;
+s32 vfunc_10__8TObjChipFP3Vec(s32 arg0, Vec *arg1, f32 farg0, f32 farg1) {
+    Vec v;
     Out_8018085C o1;
     Out_8018085C o2;
     matrix_mult_vec(0, arg1, &v);

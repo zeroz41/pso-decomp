@@ -47,8 +47,6 @@ typedef char RecoveredGlobal_8035B2DC_lbl_804F1CB8_size[sizeof(RecoveredGlobal_8
 
 struct RecoveredGlobal_8035B3C0___vt__15TPlyPhotonChair { s32 value; u8 remaining[0x34]; };
 
-struct Vec_8035B058 { f32 x, y, z; };
-
 struct Quat_8035B058 { f32 w, x, y, z; };
 
 struct PBase_8035B058 { char pad[0x18]; };
@@ -117,7 +115,7 @@ struct Player_8035B058 : PBase_8035B058 {
     virtual void m60();
     virtual void m61();
     virtual void m62();
-    virtual void m63(s32, Vec_8035B058 *);
+    virtual void m63(s32, Vec *);
 };
 
 struct SBase_8035B058 { char pad[4]; };
@@ -131,7 +129,7 @@ struct Chair_8035B058 {
     u8 pad0[0x24];
     s32 x24;
     u8 pad28[0x38 - 0x28];
-    Vec_8035B058 pos;
+    Vec pos;
     u8 pad44[0x5C - 0x44];
     u8 rot[4];
     s32 x60;
@@ -167,7 +165,7 @@ void free_bin_model_request(void*, int);
 
 void TPlyPhotonChair::render() {
     Chair_8035B058 *self = (Chair_8035B058 *)this;
-    Vec_8035B058 out;
+    Vec out;
     Quat_8035B058 q;
     Quat_8035B058 q2;
     Player_8035B058 *pl;

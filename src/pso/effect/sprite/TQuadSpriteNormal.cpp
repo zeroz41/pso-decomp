@@ -9,16 +9,14 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 
-typedef struct Vec_801E5598 { f32 x, y, z; } Vec_801E5598;
-
 typedef struct Col_801E5598 { f32 r, g, b, a; } Col_801E5598;
 
 typedef struct Quad_801E5598 { f32 x0, y0, x1, y1; Col_801E5598 col; } Quad_801E5598;
 
 typedef struct Node_801E5598 {
     struct Node_801E5598 *next;
-    Vec_801E5598 pos;
-    Vec_801E5598 ofs;
+    Vec pos;
+    Vec ofs;
     u8 pad1C[0x24 - 0x1C];
     s32 tex;
     u8 pad28;
@@ -68,8 +66,8 @@ extern s32 __vt__17TQuadSpriteNormal[];
 #pragma fp_contract on
 void render__17TQuadSpriteNormalFv(Self_801E5598 *self) {
     Quad_801E5598 q;
-    Vec_801E5598 out;
-    Vec_801E5598 pos;
+    Vec out;
+    Vec pos;
     u32 flags;
     f32 sw;
     f32 sh;

@@ -37,13 +37,11 @@ const char *TPhotonFarlla__class_name = "TPhotonFarlla";
 
 struct Color_801AAF00 { f32 a, r, g, b; };
 
-struct Vec_801AAF00 { f32 x, y, z; };
-
 struct Self_801AAF00 {
     u8 pad0[0x24];
     s32 f24;
     u8 pad1[0x38 - 0x28];
-    Vec_801AAF00 pos;
+    Vec pos;
     u8 pad2[0x60 - 0x44];
     s32 f60;
     u8 pad3[0x14C - 0x64];
@@ -238,8 +236,6 @@ void *destroy__13TPhotonFarllaFPvs(void *photon_farlla, s16 arg1) {
 
 }
 
-struct Stack_801AB370 { f32 x, y, z; };
-
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 
@@ -276,7 +272,7 @@ void *lbl_804C3564[17] = {
     (void *)0x0,
 };
 u8 *TPhotonFarlla__ct(u8 *arg0, u8 *arg1) {
-    Stack_801AB370 pos;
+    Vec pos;
     u8 *e;
     void *p;
     __ct__13TUnk_804C3248Fv(arg0);

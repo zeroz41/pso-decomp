@@ -16,12 +16,10 @@
 const char *TPhotonLaser__name = "TPhotonLaser";
 
 
-typedef struct Vec_801AC36C { f32 x, y, z; } Vec_801AC36C;
-
 struct Params_801AC36C {
-    Vec_801AC36C pos;
+    Vec pos;
     u8 padC[0x18 - 0xC];
-    Vec_801AC36C dir;
+    Vec dir;
     f32 f24;
     f32 scale;
     f32 f2C;
@@ -32,9 +30,9 @@ struct Laser_801AC36C {
     u8 pad4[0x18 - 4];
     void *vt18;
     u8 pad1C[0x334 - 0x1C];
-    Vec_801AC36C f334;
-    Vec_801AC36C f340;
-    Vec_801AC36C f34C;
+    Vec f334;
+    Vec f340;
+    Vec f34C;
     f32 f358;
     f32 f35C;
     u8 pad360[4];
@@ -49,9 +47,9 @@ struct Laser_801AC17C {
     u8 pad4[0x18 - 4];
     void *vt18;
     u8 pad1C[0x334 - 0x1C];
-    Vec_801AC36C f334;
-    Vec_801AC36C f340;
-    Vec_801AC36C f34C;
+    Vec f334;
+    Vec f340;
+    Vec f34C;
     f32 f358;
     f32 f35C;
     u8 pad360[4];
@@ -83,8 +81,8 @@ s32 free_collision_body_parts(void *);
 void TPhotonLaser::render() { TParticleCtrl::begin_effect_render(); TParticleCtrl::end_effect_render(); }
 
 void run_task__12TPhotonLaserFv(Laser_801AC17C *o) {
-    Vec_801AC36C in;
-    Vec_801AC36C out;
+    Vec in;
+    Vec out;
     void *owner;
     o->f368 += 1.0f;
     in.y = in.x = 0.0f;

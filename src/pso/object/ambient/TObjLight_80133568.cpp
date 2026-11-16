@@ -25,17 +25,6 @@ struct RecoveredGlobal_801336E0_TObjLight__data_80506320 {
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-struct Stack_80133A04 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
-struct Stack_80133B10 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -47,11 +36,9 @@ struct LightEntry_801344A4 { f32 dir[3]; f32 color[4]; u8 pad[0xC]; u32 id; };
 
 struct LightDefault_801344A4 { u8 pad0[0xC]; f32 dir[3]; u8 pad18[0xC]; f32 color[4]; u8 rest[0x5C - 0x34]; };
 
-struct Vec_80133800 { f32 x, y, z; };
-
 struct Light_80133800 {
-    Vec_80133800 pos;
-    Vec_80133800 dir;
+    Vec pos;
+    Vec dir;
     u8 rest[0x50 - 0x18];
 };
 
@@ -412,19 +399,16 @@ void TUnk_804A6FA8::run_task() {
 }
 
 void init_map_lights(u8 *arg0) {
-    typedef char sp8_offset[(offsetof(Stack_80133B10, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80133B10, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80133B10, sp10) == 0x8) ? 1 : -1];
-    Stack_80133B10 stack;
-    stack.sp8 = *(f32 *)((s8 *)arg0 + 0);
-    stack.spC = *(f32 *)((s8 *)arg0 + 4);
-    stack.sp10 = *(f32 *)((s8 *)arg0 + 8);
-    if (0.0f != vector_length(&stack.sp8)) {
-        normalize_vector(&stack.sp8);
+    Vec stack;
+    stack.x = *(f32 *)((s8 *)arg0 + 0);
+    stack.y = *(f32 *)((s8 *)arg0 + 4);
+    stack.z = *(f32 *)((s8 *)arg0 + 8);
+    if (0.0f != vector_length(&stack.x)) {
+        normalize_vector(&stack.x);
     }
-    *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 0) = stack.sp8;
-    *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 4) = stack.spC;
-    *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 8) = stack.sp10;
+    *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 0) = stack.x;
+    *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 4) = stack.y;
+    *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 8) = stack.z;
     *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 0x18) = (f32) *(f32 *)((s8 *)arg0 + 0x18);
     *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 0x1C) = (f32) *(f32 *)((s8 *)arg0 + 0x1C);
     *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 0x20) = (f32) *(f32 *)((s8 *)arg0 + 0x20);
@@ -441,19 +425,16 @@ void init_map_lights(u8 *arg0) {
 }
 
 void init_menu_scene_lights(u8 *arg0) {
-    typedef char sp8_offset[(offsetof(Stack_80133A04, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80133A04, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80133A04, sp10) == 0x8) ? 1 : -1];
-    Stack_80133A04 stack;
-    stack.sp8 = *(f32 *)((s8 *)arg0 + 0);
-    stack.spC = *(f32 *)((s8 *)arg0 + 4);
-    stack.sp10 = *(f32 *)((s8 *)arg0 + 8);
-    if (0.0f != vector_length(&stack.sp8)) {
-        normalize_vector(&stack.sp8);
+    Vec stack;
+    stack.x = *(f32 *)((s8 *)arg0 + 0);
+    stack.y = *(f32 *)((s8 *)arg0 + 4);
+    stack.z = *(f32 *)((s8 *)arg0 + 8);
+    if (0.0f != vector_length(&stack.x)) {
+        normalize_vector(&stack.x);
     }
-    *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 0) = stack.sp8;
-    *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 4) = stack.spC;
-    *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 8) = stack.sp10;
+    *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 0) = stack.x;
+    *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 4) = stack.y;
+    *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 8) = stack.z;
     *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 0x18) = (f32) *(f32 *)((s8 *)arg0 + 0x18);
     *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 0x1C) = (f32) *(f32 *)((s8 *)arg0 + 0x1C);
     *(f32 *)((s8 *)(&TObjLight__scene_light_state.value) + 0x20) = (f32) *(f32 *)((s8 *)arg0 + 0x20);
@@ -498,7 +479,7 @@ void set_scene_light_diffuse(void * _w0) {
 
 #define G_80133800 (*(Light_80133800 *)&TObjLight__scene_light_state)
 void TUnk_804A6F90::render() {
-    Vec_80133800 v;
+    Vec v;
     rotate_vector_by_matrix(0, &G_80133800, &G_80133800.dir);
     v.x = G_80133800.dir.x;
     v.y = G_80133800.dir.y;

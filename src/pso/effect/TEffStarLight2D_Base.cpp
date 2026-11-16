@@ -22,8 +22,6 @@ const char *TEffStarLight2D__name = TEffStarLight2D_class_name;
 __declspec(section ".rodata") NJS_ARGB star_light_2d_base_color = {0.5f, 1.0f, 1.0f, 1.0f};
 
 
-struct Vec_800851B0 { f32 x; f32 y; f32 z; };
-
 struct P2_800851B0 { f32 x; f32 z; };
 
 struct Star_800851B0 {
@@ -32,7 +30,7 @@ struct Star_800851B0 {
     f32 curZ;
     f32 prevX;
     f32 prevZ;
-    Vec_800851B0 pos;
+    Vec pos;
     f32 f38;
     f32 f3C;
 };
@@ -50,8 +48,6 @@ struct Star_80085424 {
     f32 x1;
     f32 y1;
 };
-
-struct Vec_800855F8 { f32 x, y, z; };
 
 struct Pt_800855F8 { f32 x, y; };
 
@@ -85,7 +81,7 @@ Star_800855F8 *__ct__18TEffStarLightChildFv(Star_800855F8 *self, Pt_800855F8 *a,
 #pragma push
 #pragma fp_contract on
 Star_800855F8 *__ct__18TEffStarLightChildFv(Star_800855F8 *self, Pt_800855F8 *a, Pt_800855F8 *b, void *parent, f32 w, f32 speed) {
-    Vec_800855F8 d;
+    Vec d;
     __ct__7TObjectFP7TObject(self, parent);
     self->vt = __vt__18TEffStarLightChild;
     self->name = TEffStarLightChild__name;
@@ -182,7 +178,7 @@ void TEffStarLight2D::copy_from_subobject(void* a1) { ((TEffStarLight2D *)((char
 
 void run_task__15TEffStarLight2DFv(Star_800851B0 *self) {
     P2_800851B0 scr;
-    Vec_800851B0 view;
+    Vec view;
     f32 dx;
     f32 dz;
     void *child;

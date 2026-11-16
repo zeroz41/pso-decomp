@@ -10,9 +10,7 @@
 #include "pso/system/task/TObject.h"
 
 
-struct Vec_8034009C { f32 x, y, z; };
-
-struct E_8034009C { Vec_8034009C a; Vec_8034009C b; s32 f18; };
+struct E_8034009C { Vec a; Vec b; s32 f18; };
 
 static const Vec lbl_80478430 = {-10000.0f, 0.0f, 0.0f};
 // Ten map CSN objects created by fn_8034009C: position, scale, angle.
@@ -129,19 +127,17 @@ void TObjFish__sub_8033FF64(void* p) { *(s32*)((char*)p + 0x58) = 24576; *(s32*)
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/unk/TLobby.h"
 
-struct Vec_8033FF78 { f32 x, y, z; };
+struct O_8033FF78 { u8 pad[0x24]; s32 f24; u8 pad28[0x40 - 0x28]; Vec pos; };
 
-struct O_8033FF78 { u8 pad[0x24]; s32 f24; u8 pad28[0x40 - 0x28]; Vec_8033FF78 pos; };
-
-struct P_8033FF78 { u8 pad[0x38]; Vec_8033FF78 pos; };
+struct P_8033FF78 { u8 pad[0x38]; Vec pos; };
 
 struct P_8034009C {
     u8 pad0[0xC];
-    Vec_8034009C a;
+    Vec a;
     s32 f18;
     s32 f1c;
     s32 f20;
-    Vec_8034009C b;
+    Vec b;
     s32 f30;
     s32 f34;
 };
@@ -156,7 +152,7 @@ void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *arg0);
 
 void TBoss6Demo15_TYPE2_WAIT::check_any_player_near() {
     O_8033FF78 *arg0 = (O_8033FF78 *)this;
-    Vec_8033FF78 v;
+    Vec v;
     s32 n;
     s32 i;
     f32 lim;

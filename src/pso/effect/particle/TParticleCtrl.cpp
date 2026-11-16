@@ -65,7 +65,6 @@ struct Tex_80086248 {
     u8 pad20[8];
 };
 
-typedef struct Vec_80085EE4 { f32 x, y, z; } Vec_80085EE4;
 typedef struct Quad_80085EE4 { f32 x, y, z, ax, ay, bx, by, pad1C; f32 u, v, du, k0, k1, dv; f32 pad38[2]; } Quad_80085EE4;
 
 typedef struct Cam_80085EE4 {
@@ -79,8 +78,8 @@ typedef struct Cam_80085EE4 {
 
 typedef struct Particle_80085EE4 {
     u8 pad0[0x70];
-    Vec_80085EE4 pos;
-    Vec_80085EE4 off;
+    Vec pos;
+    Vec off;
     f32 f88;
     f32 f8C;
     s32 f90;
@@ -90,18 +89,16 @@ typedef struct Particle_80085EE4 {
 } Particle_80085EE4;
 
 
-struct Vec_80085CB0 { f32 x, y, z; };
-
 struct Player_80085CB0 {
     u8 pad0[0x178];
-    Vec_80085CB0 pos;
+    Vec pos;
     u8 pad184[0x194 - 0x184];
     s32 f194;
 };
 
 struct Ctrl_80085CB0 {
     u8 pad0[0x38];
-    Vec_80085CB0 pos;
+    Vec pos;
     u8 pad44[0x68 - 0x44];
     f32 f68;
     u8 pad6C[0x90 - 0x6C];
@@ -165,8 +162,8 @@ TUnk_8048E6DC::~TUnk_8048E6DC() {
 #pragma fp_contract on
 void TUnk_8048E6DC::run_task() {
     Ctrl_80085CB0 *self = (Ctrl_80085CB0 *)this;
-    Vec_80085CB0 out;
-    Vec_80085CB0 d;
+    Vec out;
+    Vec d;
     f32 v;
     f32 r;
     if ((*(Player_80085CB0 * *)&camera_ctrl_instance) != NULL) {
@@ -177,7 +174,7 @@ void TUnk_8048E6DC::run_task() {
             normalize_vector(&d);
         }
         push_matrix_from(identity_matrix);
-        Vec_80085CB0 t = { 0.0f, 0.0f, -1.0f };
+        Vec t = { 0.0f, 0.0f, -1.0f };
         rotate_matrix_y(0, (s32)((*(Player_80085CB0 * *)&camera_ctrl_instance)->f194));
         rotate_vector_by_matrix(0, &t, &out);
         pop_matrix();
@@ -192,7 +189,7 @@ void TUnk_8048E6DC::run_task() {
             v = 0.0f;
         }
         self->f90 = 50.0f * v + 25.0f;
-        Vec_80085CB0 p = (*(Player_80085CB0 * *)&camera_ctrl_instance)->pos;
+        Vec p = (*(Player_80085CB0 * *)&camera_ctrl_instance)->pos;
         if (csnVector(&p, &self->pos, 0x100) != 0) {
             self->f98 = 1;
         } else {

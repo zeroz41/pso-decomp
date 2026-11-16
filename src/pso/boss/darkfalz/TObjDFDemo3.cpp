@@ -40,8 +40,6 @@ void set_scripted_camera_pose(void *, void *, void *);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 }
 
-struct Vec_8004F030 { f32 x, y, z; };
-
 struct IVec_8004F030 { s32 x, y, z; };
 
 struct S_EF94 {
@@ -198,7 +196,7 @@ u8 *TObjDFDemo3__ct(u8 *base, s32 parent, s32 arg2, s32 arg3) {
     VecCopy((Vec *)(base + 0xA0), (const Vec *)arg2);
     *(f32 *)((s8 *)base + 0xA4) = 0.0f;
     {
-        Vec_8004F030 v = *(Vec_8004F030 *)(base + 0xA0);
+        Vec v = *(Vec *)(base + 0xA0);
         v.y = 0.0f;
         if (!(vector_length(&v) <= 0.01f)) {
             normalize_vector(&v);

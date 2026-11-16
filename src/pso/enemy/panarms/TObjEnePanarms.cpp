@@ -37,12 +37,6 @@
 
 typedef char PanarmsActionTimerOffset[offsetof(TObjEnePanBARA, action_timer) == 0x3B4 ? 1 : -1];
 
-struct Stack_800E0D1C {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 extern "C" {
 int set_field_b8__10TObjMotionFs(void*, int);
 s32 TObjEnePanarms__sub_800DFB44(s32);
@@ -61,10 +55,6 @@ struct Stack_800E0950 {
 
 
 typedef struct { f32 x, y, z; } Vec_800E0A44;
-
-struct Vec_800E0048 { f32 x, y, z; };
-
-struct Vec_800E0ED0 { f32 x, y, z; };
 
 struct Base_800E1D38_800E158C { char pad[0x18]; };
 
@@ -186,8 +176,6 @@ struct VObj_14_aa9368 : VBase_14_aa9368 {
 
 struct Obj_800E20D0 { u8 pad[0x3EC]; VObj_14_aa9368 fades[2]; };
 
-struct Vec_800E2200 { f32 x, y, z; };
-
 struct Tgt_800E2200 { u8 pad[0x38]; f32 x; f32 y; f32 z; };
 
 struct Panarms_800E2200 {
@@ -200,7 +188,7 @@ struct Panarms_800E2200 {
     u8 pad44[0xC0 - 0x44];
     f32 fC0;
     u8 padc4[0x2FC - 0xC4];
-    Vec_800E2200 pos;
+    Vec pos;
     u8 pad308[0x374 - 0x308];
     s32 prev_state;
     s32 state;
@@ -208,11 +196,11 @@ struct Panarms_800E2200 {
     u8 pad380[4];
     s32 f384;
     s32 f388;
-    Vec_800E2200 f38C;
+    Vec f38C;
     u8 pad398[0x3A0 - 0x398];
     Tgt_800E2200 *target;
     u8 pad3a4[0x3C8 - 0x3A4];
-    Vec_800E2200 diff;
+    Vec diff;
     s32 angle;
     f32 dist;
     u8 pad3dc[0x45C - 0x3DC];
@@ -222,8 +210,6 @@ struct Panarms_800E2200 {
 
 
 struct O_800E2FB4 { u8 pad[0x378]; s32 state; };
-
-struct Vec_800E06DC { f32 x, y, z; };
 
 s32 find_nearest_hittable_enemy__10TObjPlayerFiPvf(void *, void *, f32);
 u16 find_nearest_visible_player(void *, Vec_800E0A44 *, f32);
@@ -551,7 +537,7 @@ TObjEnePanBARA::~TObjEnePanBARA() {
 
 void TObjEnePanBARA::run_task() {
     PanBARAStateFn fn;
-    Vec_800E2200 a;
+    Vec a;
     f32 s;
 
     if (m_378 != 0 && TObjPlayer::check_demo_mode() != 0) {
@@ -597,7 +583,7 @@ void TObjEnePanBARA::run_task() {
         case 5:
             {
             s = ((Panarms_800E2200 *)this)->fC0 / 45.0f;
-            Vec_800E2200 b = *(Vec_800E2200 *)&m_2fc;
+            Vec b = *(Vec *)&m_2fc;
             ((void (*)(void *, void *))subtract_vector)(&b, &m_38c);
             b.x *= s;
             b.z *= s;
@@ -1146,7 +1132,7 @@ void TObjEnePanBARA::init_state_1() {
 
 void TObjEnePanBARA::update_move_to_target() {
     u8 *arg0 = (u8 *)this;
-    Vec_800E0ED0 sp8;
+    Vec sp8;
     f32 dist;
     if (((s32 (*)(void *))check_can_attack__14TObjEnePanarmsFPv)(arg0) != 0) {
         sub_800E1C98__14TObjEnePanBARAFl(arg0, 0x10);
@@ -1202,10 +1188,7 @@ void TObjEnePanBARA::init_state_16() {
 #pragma push
 #pragma fp_contract on
 void TObjEnePanBARA::sub_800E0D1C() {
-    typedef char sp8_offset[(offsetof(Stack_800E0D1C, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800E0D1C, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_800E0D1C, sp10) == 0x8) ? 1 : -1];
-    Stack_800E0D1C stack;
+    Vec stack;
     f32 temp_f31;
     s32 temp_r0;
     if (((s32 (*)(void *))check_can_attack__14TObjEnePanarmsFPv)((u8 *)this) != 0) {
@@ -1219,12 +1202,12 @@ void TObjEnePanBARA::sub_800E0D1C() {
     temp_r0 = this->action_timer - 5;
     if (temp_r0 > 0) {
         temp_f31 = 1.0f / (f32) temp_r0;
-        VecCopy((Vec *)(&stack.sp8), &m_38c);
-        subtract_vector(&stack.sp8, &position);
-        stack.sp8 *= temp_f31;
-        stack.spC *= temp_f31;
-        stack.sp10 *= temp_f31;
-        vec3_add_to(&position, &stack.sp8);
+        VecCopy((Vec *)(&stack.x), &m_38c);
+        subtract_vector(&stack.x, &position);
+        stack.x *= temp_f31;
+        stack.y *= temp_f31;
+        stack.z *= temp_f31;
+        vec3_add_to(&position, &stack.x);
         this->rotation_y = (s32) ((temp_f31 * (f32) angle_diff_s16(this->rotation_y, (int) (*(s32 *)((s8 *)this + 0x398)))) + (f32) this->rotation_y);
     } else if (temp_r0 == 0) {
         ((TObjMotion *)this)->set_field_b8(0);
@@ -1342,7 +1325,7 @@ void TObjEnePanBARA::init_state_2() {
 
 void TObjEnePanBARA::update_chase_target() {
     u8 *arg0 = (u8 *)this;
-    Vec_800E06DC sp8;
+    Vec sp8;
     u8 *p;
 
     p = (u8 *)find_entity_by_id((u16) *(s32 *)&this->unk_3B8);
@@ -1531,7 +1514,7 @@ void TObjEnePanBARA::start_phase2_timer150() {
 }
 
 void TObjEnePanBARA::sub_800E0048() {
-    Vec_800E0048 v;
+    Vec v;
     if (((s32 (*)(void))check_can_attack__14TObjEnePanarmsFPv)() != 0) {
         sub_800E1C98__14TObjEnePanBARAFl((u8 *)this, 0x10);
         return;

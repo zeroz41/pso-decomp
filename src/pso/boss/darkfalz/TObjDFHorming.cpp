@@ -28,9 +28,7 @@
 
 #pragma readonly_strings on
 
-struct Vec_8004AB90 { f32 x, y, z; };
-
-struct E_8004AB90 { Vec_8004AB90 pos; f32 r; Vec_8004AB90 v; f32 s; };
+struct E_8004AB90 { Vec pos; f32 r; Vec v; f32 s; };
 
 const char *darkfalz_dat_model_names[] = {
     "df_event_tower.nj",
@@ -181,9 +179,9 @@ extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 
 void TBoss4DarkFalz::push_players_out_of_zone(s32 arg0, s32 arg1) {
-    Vec_8004AB90 v;
+    Vec v;
     E_8004AB90 *e;
-    Vec_8004AB90 *ev;
+    Vec *ev;
     s32 i;
     u8 *p;
     s32 j;
@@ -336,13 +334,7 @@ struct Msg_8004B16C { u8 code; u8 size; u16 id; s16 a; u8 pad6[2]; s32 b; u8 pad
 
 struct Msg_8004B1BC { u8 code; u8 size; u16 id; s16 a; u8 pad6[2]; s32 b; u8 padc[4]; };
 
-struct V_8004B5A0 { f32 x, y, z; };
-
-struct P_8004B5A0 { u8 pad0[0x38]; V_8004B5A0 pos; };
-
-typedef struct Vec_8004B3BC {
-    f32 x, y, z;
-} Vec_8004B3BC;
+struct P_8004B5A0 { u8 pad0[0x38]; Vec pos; };
 
 typedef struct Params_8004B3BC {
     s32 owner;
@@ -350,7 +342,7 @@ typedef struct Params_8004B3BC {
     s16 b;
     s16 c;
     u8 pad[0x14 - 0xE];
-    Vec_8004B3BC pos;
+    Vec pos;
     u8 pad20[0x48 - 0x20];
 } Params_8004B3BC;
 
@@ -656,7 +648,7 @@ void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p) {
 #pragma pop
 
 void TBoss4DarkFalz__sub_8004B5A0(void) {
-    V_8004B5A0 v;
+    Vec v;
     P_8004B5A0 *p;
     s32 i;
     f32 k;

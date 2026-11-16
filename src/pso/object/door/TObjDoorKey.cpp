@@ -112,8 +112,6 @@ struct Node_8018FCD8 { s32 pad0; void *f4; };
 
 struct Key_8018FCD8 { u8 pad0[0x38]; u8 f38[0x28]; s32 f60; u8 pad64[0x28]; s32 f8C; u8 pad90[0x60]; s32 fF0; };
 
-struct Vec_80190020 { f32 x, y, z; };
-
 extern "C" {
 void debug_draw_key_id__5TOKeyFv();
 s32 get_bml_model(s32, int);
@@ -291,7 +289,7 @@ TObjDoorKey::TObjDoorKey(TObject *arg1, void *arg2) : TOKey(arg1) {
     init_collision_body_parts(this, TObjDoorKey__collision_body_parts, 1);
     this->actorFlags |= 0x40000000;
     this->register_object_by_id();
-    Vec_80190020 pos = *(Vec_80190020 *)((s8 *)this + 0x38);
+    Vec pos = *(Vec *)((s8 *)this + 0x38);
     pos.y += 10.0f;
     this->m_f8 = (s32)spawn_continuous_particle_effect_with_flags(&pos, 0x60, 0x40);
     this->cursor_action.set_use();

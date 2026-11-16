@@ -26,16 +26,15 @@ const s32 lbl_8047667C[2] = {0, 1};
 const Vec lbl_80476684 = {0.0f, 0.0f, 0.0f};
 const char *TBoss6GravBall__name = TBoss6GravBall__class_name_string;
 
-struct Vec_80323134 { f32 x, y, z; };
-struct Ctl_80323134 { u8 pad[0x38]; Vec_80323134 pos; };
-struct Obj_80323134 { u8 pad[0xC8]; Vec_80323134 pos; void *items[9]; };
+struct Ctl_80323134 { u8 pad[0x38]; Vec pos; };
+struct Obj_80323134 { u8 pad[0xC8]; Vec pos; void *items[9]; };
 struct T_80323320 { u8 pad[0xD4]; s32 arr[9]; };
 
 extern "C" {
 
 void fn_80323134(Obj_80323134 *arg0) {
     s32 i;
-    Vec_80323134 v;
+    Vec v;
     Ctl_80323134 *c;
     for (i = 0; i < 9; i++) {
         if (arg0->items[i] != 0) {
@@ -128,17 +127,11 @@ void TBoss6GravBall::render() {  }
 
 struct P_80323348 { u8 pad[0x30]; u32 flags; };
 
-struct Vec_803237A0 { f32 x, y, z; };
+struct Obj_803237A0 { u8 pad[0xC8]; Vec pos; };
 
-struct Obj_803237A0 { u8 pad[0xC8]; Vec_803237A0 pos; };
+struct PL_803233AC { u8 pad[0x30]; u32 flags; u8 pad34[4]; Vec pos; };
 
-struct Vec_803233AC { f32 x, y, z; };
-
-struct PL_803233AC { u8 pad[0x30]; u32 flags; u8 pad34[4]; Vec_803233AC pos; };
-
-struct Vec_80323544 { f32 x, y, z; };
-
-struct PL_80323544 { u8 pad[0x30]; u32 flags; u8 pad34[4]; Vec_80323544 pos; };
+struct PL_80323544 { u8 pad[0x30]; u32 flags; u8 pad34[4]; Vec pos; };
 
 extern "C" {
 P_80323348 *get_player_data__10TObjPlayerFi(s32);
@@ -174,7 +167,7 @@ void TBoss6GravBall::clear_player_grav_flags() {
 }
 
 void TBoss6GravBall__sub_803233AC(u8 *self) {
-    Vec_803233AC v;
+    Vec v;
     s32 n;
     s32 i;
     PL_803233AC *pl;
@@ -220,7 +213,7 @@ void TBoss6GravBall__sub_803233AC(u8 *self) {
 }
 
 void TBoss6GravBall__sub_80323544(u8 *self) {
-    Vec_80323544 v;
+    Vec v;
     s32 n;
     s32 i;
     PL_80323544 *pl;
@@ -286,7 +279,7 @@ void TBoss6GravBall__sub_803236F8(TBoss6GravBall *boss6_grav_ball) {
 
 s32 TBoss6GravBall::clamp_to_ground() {
     Obj_803237A0 *arg0 = (Obj_803237A0 *)this;
-    Vec_803237A0 v = arg0->pos;
+    Vec v = arg0->pos;
     if (project_actor_to_ground(arg0, &v, 0) == 0) {
         ((TObject *)arg0)->queue_destruction();
         return 1;

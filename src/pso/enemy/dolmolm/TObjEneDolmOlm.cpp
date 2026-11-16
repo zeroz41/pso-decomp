@@ -50,20 +50,9 @@ struct VObj_80301690_80300CE4 : Base_80301690_80300CE4 {
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
-struct Stack_80300FC0 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
 
 struct RecoveredGlobal_80300FC0_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 typedef char RecoveredGlobal_80300FC0_lbl_8058D490_size[sizeof(RecoveredGlobal_80300FC0_lbl_8058D490) == 0x30 ? 1 : -1];
-
-struct Stack_80301264 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
 
 struct RecoveredGlobal_80301264_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 
@@ -211,10 +200,6 @@ struct Ene_80302004 {
 
 struct Ene_80302A34 { u8 pad0[0x18]; void *vt; u8 pad1[0x3a8 - 0x1c]; u8 sub[0x1c]; void *obj[2]; };
 
-typedef struct Vec_800A7A14 {
-    f32 x, y, z;
-} Vec_800A7A14;
-
 struct VBase_800A7A14 { char pad[0x18]; };
 
 struct VObj_800A7A14 : VBase_800A7A14 {
@@ -222,12 +207,12 @@ struct VObj_800A7A14 : VBase_800A7A14 {
     virtual void m1();
     virtual void m2();
     virtual void m3();
-    virtual void m4(Vec_800A7A14 *, Vec_800A7A14 *);
+    virtual void m4(Vec *, Vec *);
 };
 
 typedef struct Obj_800A7A14 {
     u8 pad0[0x38];
-    Vec_800A7A14 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 f60;
     u8 pad64[0xB8 - 0x64];
@@ -237,8 +222,6 @@ typedef struct Obj_800A7A14 {
     u8 padC4[0x3C4 - 0xC4];
     VObj_800A7A14 *effs[2];
 } Obj_800A7A14;
-
-typedef struct Vec_80300D00 { f32 x, y, z; } Vec_80300D00;
 
 typedef struct Hit_80300D00 { s32 flags; u8 *obj; } Hit_80300D00;
 
@@ -313,8 +296,6 @@ struct Ene_803021AC : EBase_803021AC {
 };
 
 
-struct Vec_8030177C { f32 x, y, z; };
-
 struct Param_8030177C { u8 pad0[0x10]; f32 range; u8 pad14[0x18 - 0x14]; s32 angle; s32 power; };
 
 struct Move_8030177C { u8 pad0[8]; s32 turn; };
@@ -323,7 +304,7 @@ struct Obj_8030177C {
     u8 pad0[0x30];
     u32 f30;
     u8 pad34[0x38 - 0x34];
-    Vec_8030177C pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 rotY;
     u8 pad64[0xB8 - 0x64];
@@ -334,7 +315,7 @@ struct Obj_8030177C {
     u8 padCC[0x2A8 - 0xCC];
     Obj_8030177C *target;
     u8 pad2AC[0x2FC - 0x2AC];
-    Vec_8030177C f2fc;
+    Vec f2fc;
     u8 pad308[0x326 - 0x308];
     s16 f326;
     s16 f328;
@@ -406,7 +387,7 @@ Hit_80300D00 *csnVectorUnder(void *, void *, s32, f32);
 void *spawn_particle_effect(const void *pos, s32 id);
 void fn_800D88E4(void *);
 extern s32 actor_frame_tick;
-void spawn_ground_effects__14TObjEneDolmOlmFPvPv(u8 *arg0, Vec_80300D00 *arg1);
+void spawn_ground_effects__14TObjEneDolmOlmFPvPv(u8 *arg0, Vec *arg1);
 f32 random_ratio__9TObjCharaFv();
 s32 obj_setFlags30(void *, s32);
 s32 get_current_floor();
@@ -436,7 +417,6 @@ void subtract_vector(void *, void *);
 extern const f64 lbl_804750C8[];
 s32 TObjEneDolmOlm__sub_8030177C(void *arg0_);
 }
-struct Vec_80301C3C { f32 x, y, z; };
 struct Elem_80301C3C { u8 pad[0xC]; f32 r; u8 pad2[0x1C]; };
 struct Tgt_80301C3C { u8 pad[0xA4]; Elem_80301C3C *arr; s32 count; };
 void move_with_wall_slide(u8 *arg0);
@@ -989,7 +969,7 @@ void TObjEneDolmOlm::vfunc_100() {
 #pragma opt_common_subs off
 #define arg0 ((u8 *)arg0_)
 s32 TObjEneDolmOlm__sub_80301C3C(void *arg0_) {
-    Vec_80301C3C v;
+    Vec v;
     f32 f;
 
     switch (*(s16 *)((s8 *)arg0 + 0x328)) {
@@ -1017,9 +997,9 @@ s32 TObjEneDolmOlm__sub_80301C3C(void *arg0_) {
             ((TObjMotion *)arg0)->advance_animation();
             play_sound_effect((void *)((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003B205), arg0 + 0x38, 0, 0);
             if (horizontal_distance_squared(arg0 + 0x29C, arg0 + 0x38) < 0.00001f || ((VObj_18_cc39a7 *)(arg0))->m17(0x1E) != 0) {
-                Vec_80301C3C a = v;
+                Vec a = v;
                 if (select_enemy_destination(arg0, &a, 1) != 0) {
-                    Vec_80301C3C b = *(Vec_80301C3C *)(arg0 + 0x2FC);
+                    Vec b = *(Vec *)(arg0 + 0x2FC);
                     copy_position_if_valid__10TObjPlayerFii(arg0, &b);
                 }
             }
@@ -1113,7 +1093,7 @@ s32 TObjEneDolmOlm__sub_8030177C(void *arg0_) {
         break;
     case 1:
         if (arg0->target != 0) {
-            Vec_8030177C v;
+            Vec v;
             VecCopy((Vec *)&v, (const Vec *)&arg0->target->f2fc);
             subtract_vector(&v, &arg0->f2fc);
             if (((TObjEnemy *)arg0)->turn_toward_direction(arg0->move->turn, (Vec *)&v) < (*(Param_8030177C ** *)&TObjEneDolmOlm__behavior_params_by_variant)[arg0->kind]->angle) {
@@ -1130,7 +1110,7 @@ s32 TObjEneDolmOlm__sub_8030177C(void *arg0_) {
     case 3:
         apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
         if (arg0->target != 0) {
-            Vec_8030177C v;
+            Vec v;
             s32 a;
             f32 d;
             Param_8030177C *t;
@@ -1314,19 +1294,16 @@ void TObjEneDolmOlm::request_stand_action() { this->requested_action = 1; }
 #pragma push
 #pragma fp_contract on
 void TObjEneDolmOlm::check_path_ahead(s32 arg1, f32 farg0) {
-    typedef char sp8_offset[(offsetof(Stack_80301264, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80301264, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80301264, sp10) == 0x8) ? 1 : -1];
-    Stack_80301264 stack;
-    stack.spC = 0.0f;
-    stack.sp8 = 0.0f;
-    stack.sp10 = (2.0f * farg0) + *(f32 *)((s8 *)this->bodies + 0xC);
+    Vec stack;
+    stack.y = 0.0f;
+    stack.x = 0.0f;
+    stack.z = (2.0f * farg0) + *(f32 *)((s8 *)this->bodies + 0xC);
     push_matrix_from((void *) (&(*(RecoveredGlobal_80301264_lbl_8058D490 *)&identity_matrix).value));
     rotate_matrix_y(0, arg1);
-    rotate_vector_by_matrix(0, &stack.sp8, &stack.sp8);
+    rotate_vector_by_matrix(0, &stack.x, &stack.x);
     pop_matrices(1);
-    vec3_add_to(&stack.sp8, (void *) (((u8 *)this) + 0x2FC));
-    check_path_obstructed(this, &stack.sp8);
+    vec3_add_to(&stack.x, (void *) (((u8 *)this) + 0x2FC));
+    check_path_obstructed(this, &stack.x);
 }
 #pragma pop
 void TObjEneDolmOlm::sub_80301148() {
@@ -1349,8 +1326,8 @@ void TObjEneDolmOlm::sub_80301148() {
 }
 void TObjEneDolmOlm::vfunc_93() {
     Obj_800A7A14 *o = (Obj_800A7A14 *)this;
-    Vec_800A7A14 b;
-    Vec_800A7A14 a;
+    Vec b;
+    Vec a;
     u32 e;
     s32 idx;
     VObj_800A7A14 *eff;
@@ -1386,20 +1363,17 @@ void TObjEneDolmOlm::vfunc_93() {
 }
 void TObjEneDolmOlm::vfunc_94() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_80300FC0, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80300FC0, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80300FC0, sp10) == 0x8) ? 1 : -1];
-    Stack_80300FC0 stack;
-    stack.sp8 = 0.0f;
-    stack.spC = 10.0f;
-    stack.sp10 = 0.5f * *(f32 *)(this->m_2b0 + 0x10);
+    Vec stack;
+    stack.x = 0.0f;
+    stack.y = 10.0f;
+    stack.z = 0.5f * *(f32 *)(this->m_2b0 + 0x10);
     push_matrix_from((void *)&identity_matrix.value);
     rotate_matrix_y(0, this->rotation_y);
-    rotate_vector_by_matrix(0, (void *)&stack.sp8, (void *)&stack.sp8);
+    rotate_vector_by_matrix(0, (void *)&stack.x, (void *)&stack.x);
     pop_matrix();
-    vec3_add_to((void *)&stack.sp8, (void *)(arg0 + 0x38));
-    ((TObjPlayer *)(&stack.sp8))->spawn_ground_effect(0x23);
-    TObjPlayer__sub_800D92BC((s32)&stack.sp8, 0xF);
+    vec3_add_to((void *)&stack.x, (void *)(arg0 + 0x38));
+    ((TObjPlayer *)(&stack.x))->spawn_ground_effect(0x23);
+    TObjPlayer__sub_800D92BC((s32)&stack.x, 0xF);
 }
 void TObjEneDolmOlm::vfunc_95() {
     s32 arg0 = (s32)this;
@@ -1418,10 +1392,10 @@ void TObjEneDolmOlm::vfunc_98() {
     play_sound_effect((void *) (((TObjEnemy *)((void *)arg0))->remap_sound_for_area(0x4003A801)), (void *)(arg0 + 0x38), 0, 0);
 }
 void TObjEneDolmOlm::init_body_sub() {
-    spawn_ground_effects__14TObjEneDolmOlmFPvPv((u8 *)this, (Vec_80300D00 *)((s8 *)this + 0x38));
+    spawn_ground_effects__14TObjEneDolmOlmFPvPv((u8 *)this, (Vec *)((s8 *)this + 0x38));
 }
-void spawn_ground_effects__14TObjEneDolmOlmFPvPv(u8 *arg0, Vec_80300D00 *arg1) {
-    Vec_80300D00 v;
+void spawn_ground_effects__14TObjEneDolmOlmFPvPv(u8 *arg0, Vec *arg1) {
+    Vec v;
     Hit_80300D00 *hit;
     f32 y;
     s32 e;

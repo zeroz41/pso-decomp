@@ -696,8 +696,6 @@ struct Pkt_80105538 {
     s8 f14;
 };
 
-struct Vec_80105538 { f32 x, y, z; };
-
 struct Obj_80105538 {
     u8 pad[0x28];
     s16 f28;
@@ -1006,7 +1004,7 @@ TItem *TLobby__sub_801054E0(u8 *item) {
 // Dead-stripped by the linker: its 0.0f is the only trace left. The DOL pools 0.0f (0x805DAAB0)
 // ahead of send_6x60_standard_drop_item_request's 100.0f, so a 0.0f user came first in this TU.
 // inferred: minimal body, the real function is unknown.
-void clear_drop_request_position(Vec_80105538 *v) {
+void clear_drop_request_position(Vec *v) {
     v->x = 0.0f;
     v->y = 0.0f;
     v->z = 0.0f;
@@ -1034,7 +1032,7 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
                         pkt.z = self->z;
                         pkt.f10 = self->f28;
                         pkt.f14 = get_current_floor_area();
-                        Vec_80105538 v;
+                        Vec v;
                         v.x = pkt.x;
                         v.y = 100.0f;
                         v.z = pkt.z;

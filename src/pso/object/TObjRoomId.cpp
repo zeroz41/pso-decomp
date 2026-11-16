@@ -29,15 +29,14 @@ struct RecoveredGlobal_801A1CD8___vt__10TObjRoomId {
 
 struct Obj_801A1888 { u8 pad[0x38]; f32 pos[3]; };
 
-struct Vec_801A1A60 { f32 x, y, z; };
 // The class name, then the direction run_task rotates by the object's yaw into normal, the plane
 // normal its vec3_dot side test uses (room_id_base_normal is an inferred name).
 const char *TObjRoomId__name = "TObjRoomId";
-static const Vec_801A1A60 room_id_base_normal = {0.0f, 0.0f, -1.0f};
+static const Vec room_id_base_normal = {0.0f, 0.0f, -1.0f};
 
 struct TObjRoomId {
     u8 pad0[0x38];
-    Vec_801A1A60 pos;
+    Vec pos;
     u8 pad44[0x68 - 0x44];
     f32 radius;
     f32 room_pos;
@@ -45,20 +44,18 @@ struct TObjRoomId {
     u8 pad74[0x88 - 0x74];
     s32 yaw;
     u32 mode;
-    Vec_801A1A60 normal;
+    Vec normal;
     void run_task();
 };
-
-struct Vec_801A18EC { f32 x, y, z; };
 
 
 struct RoomId_801A18EC {
     u8 pad0[0x38];
-    Vec_801A18EC pos;
+    Vec pos;
     u8 pad44[0x24];
     f32 radius;
     u8 pad6c[0x24];
-    Vec_801A18EC dir;
+    Vec dir;
 };
 
 extern "C" {
@@ -69,12 +66,12 @@ u16 TObjRoomId__sub_801A1DB8(u16 x);
 f32 horizontal_distance_squared(f32 *a, f32 *b);
 s32 is_player_in_range__10TObjRoomIdFPvUsf(Obj_801A1888 *self, u16 id, f32 range);
 void draw_debug_line__10TObjRoomIdFUllll(void *, int, int, const char *);
-void debug_draw_line(Vec_801A18EC *, Vec_801A18EC *, u32, u32);
+void debug_draw_line(Vec *, Vec *, u32, u32);
 void fn_80141CBC(void *a, void *b, f32 s);
-void debug_draw_sphere(const Vec_801A18EC *pos, const NJS_ARGB *color, f32 radius);
+void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
 void render__10TObjRoomIdFv(RoomId_801A18EC *self);
 s32 matrix_mult_vec(int, void *, void *);
-f32 vec3_dot(Vec_801A1A60 *, Vec_801A1A60 *);
+f32 vec3_dot(Vec *, Vec *);
 void *__dt__10TObjRoomIdFv(void *arg0, s16 arg1);
 void *create__10TObjRoomIdFPv(void *arg0);
 void __dl__7TObjectFPv(void *);
@@ -94,7 +91,7 @@ void render__10TObjRoomIdFv(RoomId_801A18EC *self) {
     if (TObjPlayer::check_demo_mode() != 0) {
         NJS_ARGB c1 = { 0.5f, 1.0f, 1.0f, 0.0f };
         NJS_ARGB c2 = { 0.5f, 0.0f, 1.0f, 1.0f };
-        Vec_801A18EC end;
+        Vec end;
         debug_draw_sphere(&self->pos, &c2, 2.0f * (10.0f * self->radius));
         fn_80141CBC(&self->pos, &c1, 10.0f * self->radius);
         end.x = 10.0f * self->dir.x + self->pos.x;
@@ -117,8 +114,8 @@ void set_player_room_control_flag(TObjPlayer *arg0);
 #pragma fp_contract on
 void TObjRoomId::run_task() {
     TObjRoomId *o = this;
-    Vec_801A1A60 v = room_id_base_normal;
-    Vec_801A1A60 d;
+    Vec v = room_id_base_normal;
+    Vec d;
     s32 absent;
     f32 r;
 

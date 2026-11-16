@@ -8,21 +8,9 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 
-struct Stack_80067AB0 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 const Vec camera_ctrl_default_offset_vecs[2] = {
     {0.0f, 25.43f, 45.42f},
     {0.0f, 30.0f, 40.0f},
-};
-
-struct Stack_8006786C {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
 };
 
 extern "C" {
@@ -45,10 +33,7 @@ void TUnk_80488A28::set_target(u32 arg1) {
 #pragma fp_contract on
 void TCameraCtrl::update_target_follow() {
 #define arg0 ((u8 *)this)
-    typedef char sp8_offset[(offsetof(Stack_8006786C, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8006786C, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8006786C, sp10) == 0x8) ? 1 : -1];
-    Stack_8006786C stack;
+    Vec stack;
     f32 temp_f1;
     f32 temp_f1_2;
     u8 *camera_focus;
@@ -56,13 +41,13 @@ void TCameraCtrl::update_target_follow() {
     camera_focus = (u8 *)TBoss3Volopt::get_camera_focus();
     if (camera_focus != NULL) {
         temp_r4 = *(u8 **)((s8 *)arg0 + 0x1C);
-        stack.sp8 = *(f32 *)((s8 *)temp_r4 + 0x38) - *(f32 *)((s8 *)camera_focus + 0);
+        stack.x = *(f32 *)((s8 *)temp_r4 + 0x38) - *(f32 *)((s8 *)camera_focus + 0);
         temp_f1 = (*(f32 *)((s8 *)temp_r4 + 0x40)) - *(f32 *)((s8 *)camera_focus + 8);
-        stack.spC = 0.0f;
-        stack.sp10 = temp_f1;
-        temp_f1_2 = vector_length(&stack.sp8);
+        stack.y = 0.0f;
+        stack.z = temp_f1;
+        temp_f1_2 = vector_length(&stack.x);
         if (0.0f != temp_f1_2) {
-            normalize_vector(&stack.sp8);
+            normalize_vector(&stack.x);
         } else {
             return;
         }
@@ -74,8 +59,8 @@ void TCameraCtrl::update_target_follow() {
             if (*(f32 *)((s8 *)arg0 + 0x4C) >= 50.0f) {
                 *(f32 *)((s8 *)arg0 + 0x4C) = 60.0f;
             }
-            *(f32 *)((s8 *)arg0 + 0x3C) = (f32) ((45.42f * stack.sp8) + *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x1C)) + 0x38));
-            *(f32 *)((s8 *)arg0 + 0x44) = (f32) ((45.42f * stack.sp10) + *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x1C)) + 0x40));
+            *(f32 *)((s8 *)arg0 + 0x3C) = (f32) ((45.42f * stack.x) + *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x1C)) + 0x38));
+            *(f32 *)((s8 *)arg0 + 0x44) = (f32) ((45.42f * stack.z) + *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x1C)) + 0x40));
             *(f32 *)((s8 *)arg0 + 0x40) = (f32) (15.0f + *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x1C)) + 0x3C));
             if (temp_f1_2 < 100.0f) {
                 *(s32 *)((s8 *)arg0 + 0x114) = 1;
@@ -107,16 +92,13 @@ void TCameraCtrl::update_target_follow() {
 
 void TUnk_804887F8::update_follow_flags() {
     u8 *arg0 = (u8 *)this;
-    typedef char sp8_offset[(offsetof(Stack_80067AB0, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80067AB0, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80067AB0, sp10) == 0x8) ? 1 : -1];
-    Stack_80067AB0 stack;
+    Vec stack;
     this->m_38 = 0x15;
     this->m_58 = 1.65f;
-    stack.sp8 = *(f32 *)((s8 *)camera_ctrl_instance + 0x184) - this->target.x;
-    stack.spC = *(f32 *)((s8 *)camera_ctrl_instance + 0x188) - this->target.y;
-    stack.sp10 = *(f32 *)((s8 *)camera_ctrl_instance + 0x18C) - *(f32 *)((s8 *)arg0 + 0x50);
-    *(f32 *)((s8 *)arg0 + 0x5C) = (f32) ((0.7f * vector_length(&stack.sp8)) / 100.0f);
+    stack.x = *(f32 *)((s8 *)camera_ctrl_instance + 0x184) - this->target.x;
+    stack.y = *(f32 *)((s8 *)camera_ctrl_instance + 0x188) - this->target.y;
+    stack.z = *(f32 *)((s8 *)camera_ctrl_instance + 0x18C) - *(f32 *)((s8 *)arg0 + 0x50);
+    *(f32 *)((s8 *)arg0 + 0x5C) = (f32) ((0.7f * vector_length(&stack.x)) / 100.0f);
     if (((TUnk_80488E00 *)arg0)->predict_obstruction() != 0) {
         this->m_fc = (s32) (this->m_fc | 1);
     } else {

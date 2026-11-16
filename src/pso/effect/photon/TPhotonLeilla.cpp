@@ -39,13 +39,11 @@ struct Stack_801AC574 {
 
 struct Color_801AC45C { f32 a, r, g, b; };
 
-struct Vec_801AC45C { f32 x, y, z; };
-
 struct Self_801AC45C {
     u8 pad0[0x24];
     s32 f24;
     u8 pad1[0x38 - 0x28];
-    Vec_801AC45C pos;
+    Vec pos;
     u8 pad2[0x60 - 0x44];
     s32 f60;
     u8 pad3[0x14C - 0x64];
@@ -174,9 +172,8 @@ TPhotonLeilla::~TPhotonLeilla() {
 
 #define NEW_801AC808(n) (((u8 *(*)(int))__nw__7TObjectFUl)(n))
 #define F_801AC808(o, t, off) (*(t *)((u8 *)(o) + (off)))
-struct Vec_801AC808 { f32 x, y, z; };
 struct Pkt_801AC808 {
-    Vec_801AC808 pos;
+    Vec pos;
     u16 owner;
     s32 first;
     s32 more;
@@ -191,7 +188,7 @@ struct Leilla_801AC808 : VBase_801AC808 {
     virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
     virtual void m12();
     u8 pad1C[0x38 - 0x1C];
-    Vec_801AC808 pos;
+    Vec pos;
 };
 struct Res_801AC808 { u8 pad[0x18]; s32 f18; s32 f1C; };
 struct Game_801AC808 { u8 pad[0x42C]; Res_801AC808 *res; s32 f430; };
@@ -208,7 +205,7 @@ TObjMotionAction photon_blast_leilla_params[2] = {
 };
 
 void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
-    Vec_801AC808 v;
+    Vec v;
     u8 *o;
     u8 *owner;
     __ct__13TUnk_804C3248Fv(self);

@@ -11,22 +11,14 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 
-struct Stack_8001D19C {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 struct RecoveredGlobal_8001D19C_lbl_804FF5E8 {
     s32 value;
     u8 remaining[0x24];
 };
 
-typedef struct Vec_8001D3A8 { f32 x, y, z; } Vec_8001D3A8;
-
 typedef struct Cam_8001D3A8 {
-    Vec_8001D3A8 eye;
-    Vec_8001D3A8 dir;
+    Vec eye;
+    Vec dir;
     u8 pad18[0x10];
 } Cam_8001D3A8;
 
@@ -35,7 +27,7 @@ typedef struct TNowLoading_8001D3A8 {
     u8 pad4[0x18 - 0x4];
     void *vtable;
     void *children[4];
-    Vec_8001D3A8 pos;
+    Vec pos;
 } TNowLoading_8001D3A8;
 
 extern "C" {
@@ -50,7 +42,7 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 TAdLoadNetworkGC__ct(void *, void *, void *);
 extern s32 __vt__11TNowLoading[];
 const char *TNowLoading__class_name = "TNowLoading";
-TNowLoading_8001D3A8 *TNowLoading__ct(TNowLoading_8001D3A8 *arg0, void *arg1, Vec_8001D3A8 *arg2);
+TNowLoading_8001D3A8 *TNowLoading__ct(TNowLoading_8001D3A8 *arg0, void *arg1, Vec *arg2);
 void DCFlushRange(void *, u32);
 void TNowLoading__sub_8001D4D0(void);
 void TNowLoading__sub_8001D4D4(void);
@@ -61,10 +53,7 @@ void TNowLoading::render() {  }
 #pragma fp_contract on
 typedef char RecoveredGlobal_8001D19C_lbl_804FF5E8_size[sizeof(RecoveredGlobal_8001D19C_lbl_804FF5E8) == 0x28 ? 1 : -1];
 void TNowLoading::run_task() {
-    typedef char sp8_offset[(offsetof(Stack_8001D19C, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8001D19C, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8001D19C, sp10) == 0x8) ? 1 : -1];
-    Stack_8001D19C stack;
+    Vec stack;
     u32 temp_r3;
     u32 temp_r3_2;
     u32 temp_r3_3;
@@ -94,24 +83,24 @@ void TNowLoading::run_task() {
             ((TParticleCtrl *)temp_r3_4)->set_position((u8 *)&this->m_2c);
         }
     } else {
-        stack.sp8 = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0xC)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 0);
-        stack.spC = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0x10)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 4);
-        stack.sp10 = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0x14)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 8);
+        stack.x = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0xC)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 0);
+        stack.y = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0x10)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 4);
+        stack.z = (65.0f * *(f32 *)((s8 *)&lbl_804FF5E8.value + 0x14)) + *(f32 *)((s8 *)&lbl_804FF5E8.value + 8);
         temp_r3_5 = this->m_1c;
         if (temp_r3_5 != 0U) {
-            ((TParticleCtrl *)temp_r3_5)->set_position((void *)&stack.sp8);
+            ((TParticleCtrl *)temp_r3_5)->set_position((void *)&stack.x);
         }
         temp_r3_6 = this->m_20;
         if (temp_r3_6 != 0U) {
-            ((TParticleCtrl *)temp_r3_6)->set_position((void *)&stack.sp8);
+            ((TParticleCtrl *)temp_r3_6)->set_position((void *)&stack.x);
         }
         temp_r3_7 = this->m_24;
         if (temp_r3_7 != 0U) {
-            ((TParticleCtrl *)temp_r3_7)->set_position((void *)&stack.sp8);
+            ((TParticleCtrl *)temp_r3_7)->set_position((void *)&stack.x);
         }
         temp_r3_8 = this->m_28;
         if (temp_r3_8 != 0U) {
-            ((TParticleCtrl *)temp_r3_8)->set_position((void *)&stack.sp8);
+            ((TParticleCtrl *)temp_r3_8)->set_position((void *)&stack.x);
         }
     }
 }
@@ -128,8 +117,8 @@ TNowLoading::~TNowLoading() {
 
 #pragma push
 #pragma fp_contract on
-TNowLoading_8001D3A8 *TNowLoading__ct(TNowLoading_8001D3A8 *parent, void *arg1, Vec_8001D3A8 *arg2) {
-    Vec_8001D3A8 dir;
+TNowLoading_8001D3A8 *TNowLoading__ct(TNowLoading_8001D3A8 *parent, void *arg1, Vec *arg2) {
+    Vec dir;
     s32 out[3];
     Cam_8001D3A8 *cam;
     void *p;

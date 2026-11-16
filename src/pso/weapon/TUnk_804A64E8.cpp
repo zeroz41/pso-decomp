@@ -34,7 +34,6 @@ void TUnk_804A64E8::update_attack() {
 
 struct Owner_8012F704 { u8 pad[0x60]; s32 f60; };
 struct Self_8012F704 { u8 pad0[0x24]; s32 f24; u8 pad28[0xF0 - 0x28]; Owner_8012F704 *owner; u8 padF4[0x188 - 0xF4]; s32 f188; };
-struct Vec_8012F704 { f32 x, y, z; };
 struct Tec_8012F704 {
     s16 id;
     u8 pad2[2];
@@ -50,8 +49,8 @@ struct Tec_8012F704 {
     f32 f24;
     s32 f28;
     u8 pad2C[4];
-    Vec_8012F704 pos;
-    Vec_8012F704 dir;
+    Vec pos;
+    Vec dir;
 };
 extern "C" {
 

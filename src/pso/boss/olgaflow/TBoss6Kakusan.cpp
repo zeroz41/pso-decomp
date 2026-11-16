@@ -21,18 +21,7 @@
 
 struct RecoveredGlobal_80322994___vt__13TBoss6Kakusan { s32 value; u8 remaining[0x14]; };
 
-struct V3_80322644 { f32 x; f32 y; f32 z; };
-
-struct Obj_80322644 { u8 pad[0x30]; V3_80322644 pos; };
-
-struct Vec_803226C0 { f32 x, y, z; };
-
-struct Vec_80322438
-{
-  f32 x;
-  f32 y;
-  f32 z;
-};
+struct Obj_80322644 { u8 pad[0x30]; Vec pos; };
 
 struct Hit_80322438
 {
@@ -98,13 +87,12 @@ u8 TBoss6Kakusan__homing_end_frame_initialized;
 typedef struct Base_80322438 Base_80322438;
 typedef struct Hit_80322438 Hit_80322438;
 typedef struct VObj_80322438 VObj_80322438;
-typedef struct Vec_80322438 Vec_80322438;
 #define PSO_VCALL_VObj_80322438_m21(_self, _arg0, _arg1, _arg2, _arg3, _arg4) (((VObj_80322438 *)(_self))->m21((_arg0), (_arg1), (_arg2), (_arg3), (_arg4)))
 void TBoss6Kakusan::check_beam_player_hits() {
     u8 *arg0 = (u8 *)this;
-  Vec_80322438 dir;
-  Vec_80322438 p;
-  Vec_80322438 q;
+  Vec dir;
+  Vec p;
+  Vec q;
   Hit_80322438 h;
   s32 n;
   s32 i;
@@ -176,7 +164,7 @@ s32 TBoss6Kakusan::is_out_of_range() {
     if (arg0->pos.y < -200.0f || arg0->pos.y > 200.0f) {
         return 1;
     }
-    V3_80322644 v = arg0->pos;
+    Vec v = arg0->pos;
     v.y = 0.0f;
     return vector_length(&v) > 400.0f;
 }
@@ -185,10 +173,10 @@ void TBoss6Kakusan::render() {  }
 
 void TBoss6Kakusan::run_task() {
     u8 *arg0 = (u8 *)this;
-    Vec_803226C0 v;
-    Vec_803226C0 w;
-    Vec_803226C0 b;
-    Vec_803226C0 a;
+    Vec v;
+    Vec w;
+    Vec b;
+    Vec a;
     f32 speed;
     u8 *pl;
     if (TObjPlayer::check_demo_mode() != 0) return;

@@ -118,11 +118,7 @@ void TObjNpcBase::setup_common() {
 
 // ---- src/pso/unk/text_801482F8.cpp
 
-typedef struct Vec_801489B8 { f32 x, y, z; } Vec_801489B8;
-
-struct Vec_8014854C { f32 x, y, z; };
-
-struct Pkt_8014854C { u16 h0; u16 id; u16 h4; s16 ang; u8 pad8[4]; Vec_8014854C pos; };
+struct Pkt_8014854C { u16 h0; u16 id; u16 h4; s16 ang; u8 pad8[4]; Vec pos; };
 
 struct Lim_8014854C { u8 pad0[8]; s32 lim; };
 
@@ -223,7 +219,7 @@ void TObjNpcBase::update_conversation() {
     u8 *arg0 = (u8 *)this;
     Pkt_8014854C pkt1;
     Pkt_8014854C pkt2;
-    Vec_8014854C d;
+    Vec d;
     s32 ang;
     void *m;
     u32 p;
@@ -352,7 +348,7 @@ void TObjNpcBase::update_wandering() {
     u8 *arg0 = (u8 *)this;
     switch (this->phase) {
     case 0: {
-        Vec_801489B8 v;
+        Vec v;
         s32 angle;
         f32 s;
         v.y = 0.0f;
@@ -367,7 +363,7 @@ void TObjNpcBase::update_wandering() {
         v.z = v.z * *(f32 *)((s8 *)arg0 + 0x354);
         vec3_add_to(&v, (u8 *)&this->home_position);
         if (100.0f < horizontal_distance_squared(&v, (u8 *)&this->position)) {
-            Vec_801489B8 d = v;
+            Vec d = v;
             select_enemy_destination(arg0, &d, 0);
             *(f32 *)((s8 *)arg0 + 0x308) = this->m_310 = 0.0f;
             this->phase = 1;

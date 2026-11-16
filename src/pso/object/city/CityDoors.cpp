@@ -34,7 +34,6 @@ struct RecoveredGlobal_80182D8C_lbl_80443F20 {
     s32 value;
     u8 remaining[0x28];
 };
-typedef struct { f32 x, y, z; } Vec_80181BAC;
 extern "C" {
 extern const char city_door_asset_de_obj_bigbeam_gj[];
 __declspec(section ".rodata") const char city_door_asset_de_obj_bigbeam_gj[] ATTRIBUTE_ALIGN(4) = "de_obj_bigbeam.gj";
@@ -115,7 +114,7 @@ __declspec(section ".rodata") RecoveredGlobal_8018289C_lbl_80443F4C TObjCityDoor
 __declspec(section ".rodata") u8 TObjCityDoor_Guild__params[] = {0x40, 0x00, 0x00, 0x00, 0x45, 0x61, 0x00, 0x00, 0x45, 0xC8, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x41, 0xC0, 0x00, 0x00, 0x44, 0x48, 0x00, 0x00, 0x41, 0xF0, 0x00, 0x00};
 __declspec(section ".rodata") u8 city_door_warp_params[] = {0x3F, 0x80, 0x00, 0x00, 0x45, 0xFD, 0x20, 0x00, 0x46, 0x61, 0x00, 0x00, 0x42, 0x48, 0x00, 0x00, 0x40, 0xD0, 0x00, 0x00, 0x44, 0x48, 0x00, 0x00, 0x42, 0x8C, 0x00, 0x00};
 __declspec(section ".rodata") u8 city_door_med_params[] = {0x3F, 0x80, 0x00, 0x00, 0x45, 0x61, 0x00, 0x00, 0x45, 0xC8, 0x00, 0x00, 0x40, 0x80, 0x00, 0x00, 0x41, 0xC8, 0x00, 0x00, 0x44, 0x48, 0x00, 0x00, 0x41, 0xF0, 0x00, 0x00};
-__declspec(section ".rodata") Vec_80181BAC city_door_lobby_collision_vertices[] = {{-14.0f, 0.0f, -38.0f}, {-14.0f, 40.0f, -38.0f}, {-10.0f, 0.0f, -12.0f}, {-10.0f, 40.0f, -12.0f}, {-2.0f, 0.0f, 2.0f}, {-2.0f, 40.0f, 2.0f}, {12.0f, 0.0f, 12.0f}, {12.0f, 40.0f, 12.0f}, {38.0f, 0.0f, 16.0f}, {38.0f, 40.0f, 16.0f}};
+__declspec(section ".rodata") Vec city_door_lobby_collision_vertices[] = {{-14.0f, 0.0f, -38.0f}, {-14.0f, 40.0f, -38.0f}, {-10.0f, 0.0f, -12.0f}, {-10.0f, 40.0f, -12.0f}, {-2.0f, 0.0f, 2.0f}, {-2.0f, 40.0f, 2.0f}, {12.0f, 0.0f, 12.0f}, {12.0f, 40.0f, 12.0f}, {38.0f, 0.0f, 16.0f}, {38.0f, 40.0f, 16.0f}};
 extern const u16 city_door_lobby_quad_triangle_indices[];
 __declspec(section ".rodata") const u16 city_door_lobby_quad_triangle_indices[] = {1, 0, 3, 3, 0, 2};
 extern const char TObjCityDoor_Shop__class_name[];
@@ -223,8 +222,8 @@ void TObjCityDoor_Lobby::dispatch_lobby_action() {
 typedef struct {
     u16 idx[3];
     s16 f6;
-    Vec_80181BAC normal;
-    Vec_80181BAC center;
+    Vec normal;
+    Vec center;
     f32 dist;
 } Tri_80181BAC;
 
@@ -233,23 +232,23 @@ typedef struct {
     u8 f38[0x60 - 0x38];
     s32 f60;
     u8 pad64[0x94 - 0x64];
-    Vec_80181BAC f94;
+    Vec f94;
     u8 padA0[0xB8 - 0xA0];
     Tri_80181BAC tris[8];
-    Vec_80181BAC verts[10];
+    Vec verts[10];
 } Obj_80181BAC;
 
-void vec3_add_to(Vec_80181BAC *, Vec_80181BAC *);
-void mult_vec_array__10TObjPlayerFUll(s32, Vec_80181BAC *, Vec_80181BAC *, s32);
+void vec3_add_to(Vec *, Vec *);
+void mult_vec_array__10TObjPlayerFUll(s32, Vec *, Vec *, s32);
 s32 push_matrix(void);
-extern Vec_80181BAC city_door_lobby_collision_vertices[];
+extern Vec city_door_lobby_collision_vertices[];
 
 #define self ((Obj_80181BAC *)arg0)
 
 s32 TObjCityDoor_Lobby::build_door_collision_triangles() {
     s32 arg0 = (s32)this;
-    Vec_80181BAC v[3];
-    Vec_80181BAC sum;
+    Vec v[3];
+    Vec sum;
     Tri_80181BAC *t1;
     Tri_80181BAC *t;
     s32 m;
@@ -353,8 +352,6 @@ u8 *__dt__18TObjCityDoor_LobbyFPvs(u8 *city_door_lobby, s16 arg1) {
     return city_door_lobby;
 }
 
-struct Vec_80181F10 { f32 x, y, z; };
-
 struct VBase_80181F10 { u8 pad[0x18]; };
 
 struct Obj_80181F10 : VBase_80181F10 {
@@ -365,10 +362,10 @@ struct Obj_80181F10 : VBase_80181F10 {
     virtual void m4();
     virtual void m5(s32);
     u8 pad1c[0x38 - 0x1C];
-    Vec_80181F10 pos;
+    Vec pos;
     u8 pad44[0x90 - 0x44];
     void *x90;
-    Vec_80181F10 pos94;
+    Vec pos94;
     f32 xa0;
     s32 xa4;
     s32 xa8;

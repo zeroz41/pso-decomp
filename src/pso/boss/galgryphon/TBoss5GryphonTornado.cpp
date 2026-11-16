@@ -41,8 +41,6 @@ struct RecoveredGlobal_803558E4___vt__20TBoss5GryphonTornado {
     u8 remaining[0x14];
 };
 
-struct Vec_80355570 { f32 x, y, z; };
-
 struct Inner_80355570 { u8 pad[4]; f32 f4; };
 
 struct Res_80355570 { u8 pad[4]; Inner_80355570 *inner; };
@@ -52,7 +50,7 @@ struct Tornado_80355570 {
     s32 state;
     s32 timer;
     u8 pad24[0x28 - 0x24];
-    Vec_80355570 pos;
+    Vec pos;
     f32 f34;
     f32 f38;
     f32 f3C;
@@ -69,11 +67,11 @@ extern s32 __vt__20TBoss5GryphonTornado[];
 extern s32 lbl_805D4398;
 s32 get_bml_motion(s32, s32);
 s32 get_bml_model(s32, s32);
-void TBoss8Dragon__sub_800640A4(s32, Vec_80355570 *);
+void TBoss8Dragon__sub_800640A4(s32, Vec *);
 void attach_particle_model(void *, s32, s32, s32, s32, f32);
-Res_80355570 *csnVecterUnder(Vec_80355570 *, s32);
-void add_radar_scaled_marker(Vec_80355570 *, s32, s32, s32, f32);
-void play_persistent_sound(s32, void *, Vec_80355570 *, s32, s32);
+Res_80355570 *csnVecterUnder(Vec *, s32);
+void add_radar_scaled_marker(Vec *, s32, s32, s32, f32);
+void play_persistent_sound(s32, void *, Vec *, s32, s32);
 extern s32 boss5_gryphon_bml_resource;
 extern s32 boss5_gryphon_texture_list;
 extern s32 *gryphon_tornado_particle_id_table;
@@ -87,7 +85,7 @@ void TBoss5GryphonTornado::render() {  }
 #pragma fp_contract on
 void TBoss5GryphonTornado::run_task() {
     Tornado_80355570 *o = (Tornado_80355570 *)this;
-    Vec_80355570 v;
+    Vec v;
     Res_80355570 *r;
     f32 h;
     if (((TBoss5Gryphon *)(o->f4C))->get_flag_bit6() != 0) {

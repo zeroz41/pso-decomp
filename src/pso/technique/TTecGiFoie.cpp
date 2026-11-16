@@ -112,8 +112,6 @@ struct Obj_8023154C {
     s32 cursor;
 };
 
-struct Vec_802312E4 { f32 x, y, z; };
-
 struct Rot_802312E4 { s32 x, y, z; };
 
 // Same layout as TTecGiBarta's Row_802304A0 {entry, flags, scale}.
@@ -125,8 +123,8 @@ struct Task_802312E4 {
     u8 pad0[0x18];
     void **vt;
     u32 *emitters;
-    Vec_802312E4 pos;
-    Vec_802312E4 pos2;
+    Vec pos;
+    Vec pos2;
     f32 x38;
     s32 x3c;
     s32 x40;
@@ -140,8 +138,6 @@ typedef struct RecoveredGlobal_80231638___vt__10TTecGiFoie RecoveredGlobal_80231
 
 typedef char RecoveredGlobal_80231638___vt__10TTecGiFoie_size[((sizeof(RecoveredGlobal_80231638___vt__10TTecGiFoie)) == 0x28) ? (1) : (-1)];
 
-struct Vec_8023179C { f32 x, y, z; };
-
 struct Task_8023179C;
 
 struct GiFoie_8023179C {
@@ -149,7 +145,7 @@ struct GiFoie_8023179C {
     u8 pad4[0x18 - 0x4];
     void *vt;
     void *source;
-    Vec_8023179C pos;
+    Vec pos;
     u8 pad2c[0x78 - 0x2C];
     s16 level;
     s16 band;
@@ -166,8 +162,6 @@ struct GiFoie_8023179C {
 
 struct Task_802312E4;
 
-struct Vec_802312E4;
-
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void *spawn_continuous_particle_with_direction(void *pos, void *dir, s32 id);
 void mem_free(void *);
@@ -182,7 +176,7 @@ void __ct__7TObjectFP7TObject(void *, void *);
 void construct_area_technique_base(void *, void *, void *, void *, void *);
 s32 calc_technique_parameters(int, int, int);
 u8 * __dt__13TUnk_804CC800Fv(Task_80231224 *task, s16 flag);
-Task_802312E4 * construct_orbit__10TTecGiFoieFPvPviUciPvUc(Task_802312E4 *self, Vec_802312E4 *pos, s32 arg2, u8 band, s32 arg4, void *parent, u8 single);
+Task_802312E4 * construct_orbit__10TTecGiFoieFPvPviUciPvUc(Task_802312E4 *self, Vec *pos, s32 arg2, u8 band, s32 arg4, void *parent, u8 single);
 u8 * __dt__10TTecGiFoieFv(u8 *arg0, s16 arg1);
 void run_task__10TTecGiFoieFv(u8 *self);
 void * TTecGiFoie__ct(void *self_, void *source, void *origin, void *level);
@@ -235,8 +229,8 @@ void *TTecGiFoie__ct(void *self_, void *source, void *origin, void *level) {
     }
     self->cursor = 0;
     for (k = 0; k < orbit_counts[self->band]; k++) {
-        Vec_8023179C v = {0.0f, 0.0f, -10.0f};
-        Vec_8023179C p;
+        Vec v = {0.0f, 0.0f, -10.0f};
+        Vec p;
         s32 angle;
         s32 step;
         void *o;
@@ -251,7 +245,7 @@ void *TTecGiFoie__ct(void *self_, void *source, void *origin, void *level) {
         p.z = self->pos.z + v.z;
         o = __nw__7TObjectFUl(0x4C);
         if (o != NULL) {
-            o = ((Task_8023179C *(*)(void *, Vec_8023179C *, s32, s32, s32, void *, u8))construct_orbit__10TTecGiFoieFPvPviUciPvUc)(o, &p, angle, self->band, self->level, (void *)tl_07, 0);
+            o = ((Task_8023179C *(*)(void *, Vec *, s32, s32, s32, void *, u8))construct_orbit__10TTecGiFoieFPvPviUciPvUc)(o, &p, angle, self->band, self->level, (void *)tl_07, 0);
         }
         self->tasks[k] = (Task_8023179C *)o;
     }
@@ -394,7 +388,7 @@ void TTecGiFoie::create(void *arg0, void *origin, void *level) {
     }
 }
 
-Task_802312E4 *construct_orbit__10TTecGiFoieFPvPviUciPvUc(Task_802312E4 *self, Vec_802312E4 *pos, s32 arg2, u8 band, s32 arg4, void *parent, u8 single) {
+Task_802312E4 *construct_orbit__10TTecGiFoieFPvPviUciPvUc(Task_802312E4 *self, Vec *pos, s32 arg2, u8 band, s32 arg4, void *parent, u8 single) {
     __ct__7TObjectFP7TObject(self, parent);
     self->vt = lbl_804CC800;
     self->x46 = 0;

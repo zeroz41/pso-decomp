@@ -14,17 +14,11 @@
 
 const char *TBoss5GryphonLightningHorn__name = "TBoss5GryphonLightningHorn";
 
-typedef struct Vec_80325D58 { f32 x; f32 y; f32 z; } Vec_80325D58;
+struct Ray_80325F7C { Vec o; Vec d; };
 
-struct Vec_80325F7C { f32 x, y, z; };
+struct Ctl_80325F7C { u8 pad[0x38]; Vec pos; };
 
-struct Ray_80325F7C { Vec_80325F7C o; Vec_80325F7C d; };
-
-struct Ctl_80325F7C { u8 pad[0x38]; Vec_80325F7C pos; };
-
-typedef struct Vec_80326074 { f32 x; f32 y; f32 z; } Vec_80326074;
-
-typedef struct Seg_80326074 { Vec_80326074 pos; f32 pad; } Seg_80326074;
+typedef struct Seg_80326074 { Vec pos; f32 pad; } Seg_80326074;
 
 typedef struct Hit_80326074 { u8 pad[4]; f32 *pos; } Hit_80326074;
 
@@ -34,7 +28,7 @@ typedef struct Wing_80326074 {
     u8 pad88[8];
     s32 n;
     u8 pad94[4];
-    Vec_80326074 vel;
+    Vec vel;
 } Wing_80326074;
 
 extern "C" {
@@ -74,9 +68,9 @@ int TBoss8Dragon::queue_destruction() { return queue_destruction__7TObjectFv(thi
         to->z = dir->z * dist + from->z; \
         return 1; \
     }
-s32 TObjPlayer__sub_80325D58(void *arg0, Vec_80325D58 *from, Vec_80325D58 *dir, Vec_80325D58 *to, f32 dist) {
-    Vec_80325D58 d;
-    Vec_80325D58 n;
+s32 TObjPlayer__sub_80325D58(void *arg0, Vec *from, Vec *dir, Vec *to, f32 dist) {
+    Vec d;
+    Vec n;
     f32 t;
     d.x = to->x - from->x;
     d.y = to->y - from->y;
@@ -101,10 +95,10 @@ s32 TObjPlayer__sub_80325D58(void *arg0, Vec_80325D58 *from, Vec_80325D58 *dir, 
 
 void fn_80325F7C(void *arg0) {
     Ray_80325F7C ray;
-    Vec_80325F7C pos;
-    Vec_80325F7C wing;
-    Vec_80325F7C hit;
-    Vec_80325F7C dir;
+    Vec pos;
+    Vec wing;
+    Vec hit;
+    Vec dir;
     s32 inst;
     s32 i;
     Ctl_80325F7C *c;
@@ -126,7 +120,7 @@ void fn_80325F7C(void *arg0) {
                 dir.x = ray.d.x;
                 dir.y = ray.d.y;
                 dir.z = ray.d.z;
-                TObjPlayer__sub_80325D58(arg0, (Vec_80325D58 *)&pos, (Vec_80325D58 *)&dir, (Vec_80325D58 *)&hit,
+                TObjPlayer__sub_80325D58(arg0, (Vec *)&pos, (Vec *)&dir, (Vec *)&hit,
                                          ((TObjBoss2Tunnel *)(&dir))->update_scale());
                 TBoss8Dragon__sub_80063FB8(inst, &hit, 6.0f);
             }
@@ -140,9 +134,9 @@ void fn_80325F7C(void *arg0) {
 #pragma fp_contract on
 void TBoss5GryphonLightningHorn::rebuild_lightning_segments() {
     Wing_80326074 *self = (Wing_80326074 *)this;
-    Vec_80326074 q;
-    Vec_80326074 p;
-    Vec_80326074 d;
+    Vec q;
+    Vec p;
+    Vec d;
     Hit_80326074 *hit;
     f32 h;
     f32 len;

@@ -3,6 +3,7 @@
 #include "pso/player/TPlyDispData.h"
 
 #include "pso/player/TPlyInventory.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 struct PlayerProfessionStatFactors { f32 hp; f32 tp; };
 
@@ -40,7 +41,6 @@ struct Rec_804484EC {
     s32 unk10;
 };
 
-struct Vec_801D8CCC { f32 x, y, z; };
 extern "C" {
 extern const PlayerProfessionStatFactors player_profession_stat_factors[3];
 extern const player_stats player_class_stat_caps[12];
@@ -78,13 +78,13 @@ extern const TPlyInventoryItem lbl_80448F3C[5];
 extern const TPlyInventoryItem lbl_80448FC8[5];
 extern const TPlyInventoryItem lbl_80449054[5];
 extern const TPlyInventoryItem lbl_804490E0[5];
-extern const Vec_801D8CCC lbl_8044916C[4];
-extern const Vec_801D8CCC lbl_8044919C[4];
+extern const Vec lbl_8044916C[4];
+extern const Vec lbl_8044919C[4];
 extern const s32 lbl_804491CC[2];
-extern const Vec_801D8CCC lbl_804491D4[4];
-extern const Vec_801D8CCC lbl_80449204[4];
+extern const Vec lbl_804491D4[4];
+extern const Vec lbl_80449204[4];
 extern const s32 lbl_80449234[2];
-extern const Vec_801D8CCC lobby_entry_table[2];
+extern const Vec lobby_entry_table[2];
 extern const s32 lbl_80449254[2];
 extern const s32 player_hurt_protection_ticks_table[4];
 extern const s32 player_hurt_protection_ticks_table_flagged[4];

@@ -2,14 +2,13 @@
 #include "pso/object/ambient/TObjRain.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
+#include <dolphin/mtx/GeoTypes.h>
 
-
-struct Vec_80197998 { f32 x, y, z; };
 
 struct Drop_80197998 {
     u32 active;
-    Vec_80197998 pos;
-    Vec_80197998 vel;
+    Vec pos;
+    Vec vel;
     f32 floor;
 };
 

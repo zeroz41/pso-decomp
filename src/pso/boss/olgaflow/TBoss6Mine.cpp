@@ -68,13 +68,7 @@ struct VObj_18_b27ba1 : VBase_18_b27ba1 {
     virtual s32 m21(void *, void *, s32, s32, s32);
 };
 
-struct Vec_803240F8 { f32 x, y, z; };
-
 struct Hit_803240F8 { s32 a; s32 b; s32 c; f32 d; };
-
-struct Vec_80324440 { f32 x, y, z; };
-
-struct Vec_80323FA4 { f32 x, y, z; };
 
 struct Tmp_80324A00 { s32 a; u8 pad4[2]; s16 b; u8 pad8[8]; };
 
@@ -149,7 +143,7 @@ void TBoss6Mine::render() { push_matrix(this); post_translate_matrix((char*)this
 
 void TBoss6Mine::update_facing_angles() {
     u8 *arg0 = (u8 *)this;
-    Vec_80323FA4 v;
+    Vec v;
     s32 a;
     s32 b;
     switch (this->state) {
@@ -191,7 +185,7 @@ void TBoss6Mine::explode_damage_players() {
     for (i = 0; i < n; i++) {
         pl = (u8 *)TObjPlayer::get_player_data(i);
         if (((TBoss6PlotFalz *)pl)->is_active() != 0) {
-            Vec_803240F8 v = *(Vec_803240F8 *) (arg0 + 0x38);
+            Vec v = *(Vec *) (arg0 + 0x38);
             subtract_vector(&v, pl + 0x38);
             v.y = 0.0f;
             if (!(vector_length(&v) > 22.5f)) {
@@ -266,7 +260,7 @@ void TBoss6Mine::state_4() {
 }
 
 void TBoss6Mine::state_3() {
-    Vec_80324440 v;
+    Vec v;
     f32 len;
     f32 remaining;
     f32 radius;

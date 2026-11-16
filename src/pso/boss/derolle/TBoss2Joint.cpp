@@ -133,13 +133,9 @@ struct VObj_18 : VBase_18 {
     virtual s32 m86();
 };
 
-typedef struct Vec_80037074 {
-    f32 x, y, z;
-} Vec_80037074;
-
 typedef struct Laser_80037074 {
     u8 pad0[0x1C];
-    Vec_80037074 pts[20];
+    Vec pts[20];
     s32 head;
     s32 cur;
     s32 limit;

@@ -87,9 +87,7 @@ struct P_800D78CC { u8 b[0x10]; };
 
 struct Obj_800D78CC { u8 pad0[0x1C]; s32 count; P_800D78CC a[2]; };
 
-struct Vec_800D7824 { f32 x, y, z; };
-
-struct P_800D7824 { Vec_800D7824 v; s32 w; };
+struct P_800D7824 { Vec v; s32 w; };
 
 struct B_800D7824 { u8 pad0[0x18]; };
 
@@ -108,8 +106,8 @@ struct Obj_800D7824 : B_800D7824 {
 
 void TUnk_80494968::vfunc_6(void *p0_arg, void *p1_arg) {
     Obj_800D7824 *self = (Obj_800D7824 *)this;
-    Vec_800D7824 *p0 = (Vec_800D7824 *)p0_arg;
-    Vec_800D7824 *p1 = (Vec_800D7824 *)p1_arg;
+    Vec *p0 = (Vec *)p0_arg;
+    Vec *p1 = (Vec *)p1_arg;
     P_800D7824 *e;
     if (self->count >= 0x10) {
         self->flush();

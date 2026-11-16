@@ -42,7 +42,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
 
-struct Vec_800A9C38 { f32 x, y, z; };
 struct VBase_800AA704 { u8 pad[0xC]; };
 struct VObj_800AA704 : VBase_800AA704 {
     virtual ~VObj_800AA704();
@@ -194,8 +193,6 @@ struct VObj_14_fddec9 : VBase_14_fddec9 {
 struct Self_800AA334 { u8 pad[0x3B0]; VObj_14_fddec9 sub; };
 
 
-typedef struct Vec_800A9E9C { f32 x, y, z; } Vec_800A9E9C;
-
 extern "C" {
 void TBoss3Volopt__sub_800D8D88(s32 arg0);
 void TObjPlayer__sub_800A8E04(u8 *arg0);
@@ -220,7 +217,7 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-s32 update_enemy_wander_move(void *, Vec_800A9E9C *, s32, f32);
+s32 update_enemy_wander_move(void *, Vec *, s32, f32);
 s32 sub_8004292C__15TObjEnemyCustomFv();
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void TObjPlayer__sub_800A9E9C(void *arg0_);
@@ -322,7 +319,6 @@ __declspec(section ".data") s16 player_model_node_index_pair[3] = { 0x14, 0x2B, 
 
 
 
-struct Vec_800A93E4 { f32 x, y, z; };
 struct Pair_800A93E4 { s32 a, b; };
 struct VB_800A93E4 { u8 pad[0x18]; };
 struct VO_800A93E4 : VB_800A93E4 {
@@ -330,7 +326,7 @@ struct VO_800A93E4 : VB_800A93E4 {
     virtual void m1();
     virtual void m2();
     virtual void m3();
-    virtual void m4(Vec_800A93E4 *, Vec_800A93E4 *);
+    virtual void m4(Vec *, Vec *);
     virtual void m5();
     virtual void m6();
     virtual void m7();
@@ -356,7 +352,7 @@ struct Ene_800A93E4 {
     u8 pad0[0x30];
     s32 flags;
     u8 pad34[4];
-    Vec_800A93E4 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 angle;
     u8 pad64[0xB4 - 0x64];
@@ -365,7 +361,7 @@ struct Ene_800A93E4 {
     u8 padba[0xC0 - 0xBA];
     f32 fc0;
     u8 padc4[0x29C - 0xC4];
-    Vec_800A93E4 dest;
+    Vec dest;
     VO_800A93E4 *target;
     u8 pad2ac[0x350 - 0x2AC];
     Params_800A93E4 *params;
@@ -855,7 +851,7 @@ extern "C" void TObjPlayer__sub_800A9E9C(void *arg0_) {
                 var_f31 = ((f32 *)lbl_804910E4)[*(s32 *)((s8 *)arg0 + 0x368)];
             }
             {
-                Vec_800A9E9C v = *(Vec_800A9E9C *)(*(u8 **)((s8 *)arg0 + 0x2A8) + 0x2FC);
+                Vec v = *(Vec *)(*(u8 **)((s8 *)arg0 + 0x2A8) + 0x2FC);
                 update_enemy_wander_move(arg0, &v, 1, var_f31);
             }
             *(f32 *)((s8 *)arg0 + 0x3A4) += var_f31;
@@ -892,7 +888,7 @@ extern "C" void TObjPlayer__sub_800A9C38(void *arg0_) {
             ((TObjPlayer *)arg0)->set_invuln_flags();
         }
         {
-        Vec_800A9C38 pos = *(Vec_800A9C38 *)(arg0 + 0x2FC);
+        Vec pos = *(Vec *)(arg0 + 0x2FC);
         pos.x += *(f32 *)((s8 *)arg0 + 0x308);
         pos.z += *(f32 *)((s8 *)arg0 + 0x310);
         if (check_path_obstructed(arg0, &pos) == 0) {
@@ -1071,10 +1067,10 @@ extern "C" void TObjPlayer__sub_800A93E4(void *arg0_) {
     s32 act;
     u32 h0;
     u32 h1;
-    Vec_800A93E4 b2;
-    Vec_800A93E4 a2;
-    Vec_800A93E4 b1;
-    Vec_800A93E4 a1;
+    Vec b2;
+    Vec a2;
+    Vec b1;
+    Vec a1;
 
     switch (e->state) {
     case 0: {
@@ -1127,7 +1123,7 @@ extern "C" void TObjPlayer__sub_800A93E4(void *arg0_) {
         if (h1 != 0) {
             s32 pa = (s32)&a2;
             mult_vec_array__10TObjPlayerFUll(0, h1, (void *)pa, 2);
-            e->model->m4((Vec_800A93E4 *)pa, &b2);
+            e->model->m4((Vec *)pa, &b2);
         }
         pop_matrix();
         if (e->fb4 != 4) {

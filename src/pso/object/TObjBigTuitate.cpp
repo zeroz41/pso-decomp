@@ -48,8 +48,6 @@ struct Obj_8019AA18 : ObjBase_8019AA18 {
     virtual s32 is_visible(f32, f32);
 };
 
-struct Vec_8019AA18 { f32 x, y, z; };
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -125,8 +123,6 @@ struct Obj_8019ADA0 : ObjBase_8019ADA0 {
     virtual s32 is_visible(f32, f32);
 };
 
-struct Vec_8019ADA0 { f32 x, y, z; };
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -196,7 +192,7 @@ void TObjTuitate::run_task() { { (void)(((RenderFadeState *)((char*)this + 0xac)
 void TObjTuitate::render() {
     Obj_8019ADA0 *self = (Obj_8019ADA0 *)this;
     u8 *arg0 = (u8 *)self;
-    Vec_8019ADA0 v;
+    Vec v;
     s32 fading;
     if (self->is_visible(4e+02f, 2e+01f) == 0) {
         return;
@@ -291,7 +287,7 @@ void TObjBigTuitate::run_task() { { (void)(((RenderFadeState *)((char*)this + 0x
 void TObjBigTuitate::render() {
     Obj_8019AA18 *self = (Obj_8019AA18 *)this;
     u8 *arg0 = (u8 *)self;
-    Vec_8019AA18 v;
+    Vec v;
     s32 fading;
     if (self->is_visible(4e+02f, 2e+01f) == 0) {
         return;

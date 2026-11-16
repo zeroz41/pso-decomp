@@ -62,8 +62,6 @@ typedef struct EffTail_8002C06C {
 
 struct P8_802FE494 { f32 a; s32 b; };
 
-struct V3_802FE494 { f32 x, y, z; };
-
 struct VB_802FE494 { u8 pad0[0x18]; };
 
 struct Obj_802FE494 : VB_802FE494 {
@@ -93,7 +91,7 @@ struct Obj_802FE494 : VB_802FE494 {
     u8 *xA4;
     u8 padA8[0xB0 - 0xA8];
     u8 *xB0;
-    V3_802FE494 *xB4;
+    Vec *xB4;
     s32 xB8;
     s32 xBC;
     f32 xC0;
@@ -122,7 +120,7 @@ void TBoss8DragonEffTail::render() {  }
 void run_task__19TBoss8DragonEffTailFv(u8 *arg0p) {
     s32 off;
     u8 *e;
-    V3_802FE494 *p;
+    Vec *p;
     s32 i;
     Obj_802FE494 *self = (Obj_802FE494 *)arg0p;
     VecCopy((Vec *)(arg0p + 0x38), (const Vec *)((u8 *)self->xB4 + 0x24));

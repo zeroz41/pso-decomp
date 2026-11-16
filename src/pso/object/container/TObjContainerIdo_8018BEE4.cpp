@@ -34,8 +34,6 @@ CollisionBody container_ido_collision_parts[] = { { { 0.0f, 0.0f, 0.0f }, 20.0f,
 const char *obj_container_ido_class_name = "TObjContainerIdo";
 }
 
-struct Vec_8018BEE4 { f32 x, y, z; };
-
 extern "C" {
 void __ct__15RenderFadeStateFv(void *);
 s32 get_bml_model(int, int);
@@ -44,7 +42,7 @@ s32 init_collision_body_parts(void *, void *, int);
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 void matrix_mult_vec(int, void *, void *);
 void project_world_to_screen(int, void *, void *, void *);
-extern Vec_8018BEE4 camera_right;
+extern Vec camera_right;
 extern u8 *camera_ctrl_instance;
 
 s32 free_collision_body_parts(void *);
@@ -53,7 +51,7 @@ s32 free_collision_body_parts(void *);
 #pragma fp_contract on
 s32 TObjContainerIdo::update_object_view_visibility(f32 farg0, f32 farg1) {
     u8 *arg0 = (u8 *)this;
-    Vec_8018BEE4 p;
+    Vec p;
     f32 out[2];
     matrix_mult_vec(0, (u8 *)&this->m_c0, &p);
     if (xyz_distance_squared((u8 *)&this->position, camera_ctrl_instance + 0x178) < farg1 * farg1) {
@@ -141,15 +139,14 @@ void render__16TObjContainerIdoFv(u8 *container_ido) {
     }
 }
 
-struct Vec3_8018C18C { f32 x, y, z; };
 struct Ido_8018C18C {
     u8 pad0[0x38];
-    Vec3_8018C18C pos;
+    Vec pos;
     u8 pad44[0x5C - 0x44];
     s32 f5c;
     s32 f60;
     u8 pad64[0xC0 - 0x64];
-    Vec3_8018C18C c0;
+    Vec c0;
     s32 ids[4];
     s32 dc;
     u32 e0;
@@ -194,7 +191,7 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
     self->e0 &= ~0x04000000;
     if (self->e0 & 0x02000000) {
         if (xyz_distance(&self->c0, &self->pos) > self->e4) {
-            Vec3_8018C18C v = { 0.0f, 0.0f, 0.0f };
+            Vec v = { 0.0f, 0.0f, 0.0f };
             v.z = -self->ec;
             push_matrix_from(identity_matrix);
             rotate_matrix_y(0, self->f60);
@@ -212,7 +209,7 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
         }
     } else {
         if (xyz_distance(&self->c0, &self->pos) < self->e4) {
-            Vec3_8018C18C w = { 0.0f, 0.0f, 0.0f };
+            Vec w = { 0.0f, 0.0f, 0.0f };
             w.z = -self->ec;
             push_matrix_from(identity_matrix);
             rotate_matrix_y(0, self->f60);
@@ -231,9 +228,9 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
     }
     if (!(self->e0 & 0x08000000) && (self->e0 & 0x04000000)) {
         if (3.0517578e-05f * (f32)rand() < 0.4f && ((TObjContainerIdo *)self)->update_object_view_visibility(4e+02f, 1e+02f) != 0) {
-            Vec3_8018C18C a;
-            Vec3_8018C18C b;
-            Vec3_8018C18C out;
+            Vec a;
+            Vec b;
+            Vec out;
             a.x = 1e+01f;
             a.y = 2.0f;
             a.z = 3e+01f * (3.0517578e-05f * (f32)rand()) - 15.0f;

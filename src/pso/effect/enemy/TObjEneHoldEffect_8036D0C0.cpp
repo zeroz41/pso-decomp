@@ -4,14 +4,13 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
-struct Vec_8036D0C0 { f32 x, y, z; };
 
 struct Hold_8036D0C0 {
     const char *x0;
     u8 pad4[0x14];
     void *vt;
     u8 pad1c[0x1C];
-    Vec_8036D0C0 pos;
+    Vec pos;
     u8 pad44[0x4C];
     void *x90;
     s16 x94;

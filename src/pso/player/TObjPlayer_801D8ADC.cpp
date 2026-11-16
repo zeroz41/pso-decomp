@@ -145,8 +145,8 @@ extern const Rec_8044845C *player_anim_table_pointers[3];
 extern const Rec_804484EC *player_cast_motion_record_table[6];
 extern const TPlyInventoryItem *class_starting_inventory_table[12];
 // Defined after their users, which keeps these 8-byte tables out of .sdata.
-extern const Vec_801D8CCC *hospital_position_table_by_episode[];
-extern const Vec_801D8CCC *guild_return_position_table_by_episode[];
+extern const Vec *hospital_position_table_by_episode[];
+extern const Vec *guild_return_position_table_by_episode[];
 
 
 typedef char RecoveredGlobal_801D8ADC_lbl_8044929C_size[sizeof(RecoveredGlobal_801D8ADC_lbl_8044929C) == 0x10 ? 1 : -1];
@@ -236,7 +236,7 @@ s32 TObjPlayer::get_guild_return_yaw() {
     return *(s32 *)((s8 *)lbl_80449234 + (TLobby::get_instance() * 4));
 }
 
-const Vec_801D8CCC *TObjPlayer::get_guild_return_position() {
+const Vec *TObjPlayer::get_guild_return_position() {
     return guild_return_position_table_by_episode[TLobby::get_instance()] + get_entity_id(this);
 }
 
@@ -507,10 +507,10 @@ int TBoss4DarkFalz::get_instance_count() {  return dark_falz_form_index; }
 
 s32 TBoss4DarkFalz__sub_801D94C0(void* p) { return *(s32*)((char*)p + 0x14); }
 
-const Vec_801D8CCC *hospital_position_table_by_episode[2] = {
+const Vec *hospital_position_table_by_episode[2] = {
     lbl_8044916C, lbl_8044919C,
 };
-const Vec_801D8CCC *guild_return_position_table_by_episode[2] = {
+const Vec *guild_return_position_table_by_episode[2] = {
     lbl_804491D4, lbl_80449204,
 };
 

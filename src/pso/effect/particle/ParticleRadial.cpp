@@ -86,8 +86,6 @@ struct RecoveredGlobal_8008BF58_TParticleCtrl__data_80511F70 {
     u8 remaining[0x1AC];
 };
 
-struct Vec_8008BAF8 { f32 x, y, z; };
-
 struct Ang_8008BAF8 { s32 x, y, z; };
 
 struct Scr_8008BAF8 { f32 x, y; };
@@ -314,8 +312,8 @@ void TUnk_8048E7A8::render() {
     u8 *arg0 = (u8 *)this;
     Scr_8008BAF8 s1;
     Scr_8008BAF8 s2;
-    Vec_8008BAF8 end;
-    Vec_8008BAF8 pos;
+    Vec end;
+    Vec pos;
     f32 len;
     u16 flags;
     if (all_parents_unqueued_for_destruction__7TObjectFv() == 0) {
@@ -353,7 +351,7 @@ void TUnk_8048E7A8::render() {
     if (flags & 0x200) {
         if (((is_split_screen() == 0) || !(this->flags & 0x400)) && (*(u32 *)&this->unk_B4 != 0U) && (this->m_b0 != 0U)) {
             Ang_8008BAF8 ang = radial_particle_zero_angles;
-            Vec_8008BAF8 pos2;
+            Vec pos2;
             direction_to_rotation_xz((u8 *)&this->step, &ang.x, &ang.z);
             if (*(u8 *)((s8 *)(*(u8 * *)&this->param) + 0x88) & 4) {
                 pos2.x = this->pos.x + this->attach.x;

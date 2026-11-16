@@ -18,12 +18,10 @@
 
 struct P_8019527C { u8 pad[0x90]; u32 f90; };
 
-struct Vec_80195400 { f32 x, y, z; };
-
 struct Src_80195400 {
     u8 pad0[0xC];
-    Vec_80195400 pos;
-    Vec_80195400 ang;
+    Vec pos;
+    Vec ang;
     f32 params[3];
     s32 ints[3];
 };
@@ -33,9 +31,9 @@ struct Part_80195400 {
     u8 pad4[0x14];
     s32 *vt;
     u8 pad1c[0x38 - 0x1C];
-    Vec_80195400 pos;
+    Vec pos;
     u8 pad44[0x5C - 0x44];
-    Vec_80195400 ang;
+    Vec ang;
     f32 params[3];
     u8 pad74[0x84 - 0x74];
     s32 ints[3];

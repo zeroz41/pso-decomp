@@ -27,20 +27,18 @@ struct RecoveredGlobal_80194528_TObjLight__data_80506320 {
     u8 remaining[0x4C];
 };
 
-typedef struct Vec_80193FE8 { f32 x, y, z; } Vec_80193FE8;
-
 typedef struct Actor_80193FE8 {
     u8 pad0[0x28];
     s16 room;
     u8 pad2A[0x38 - 0x2A];
-    Vec_80193FE8 pos;
+    Vec pos;
 } Actor_80193FE8;
 
 typedef struct Light_80193FE8 {
     u8 pad0[0x28];
     s16 room;
     u8 pad2A[0x38 - 0x2A];
-    Vec_80193FE8 pos;
+    Vec pos;
     u8 pad44[0x68 - 0x44];
     f32 param[3];
     u8 pad74[0x84 - 0x74];
@@ -55,14 +53,14 @@ typedef struct Light_80193FE8 {
     u32 increment;
     f32 strength;
     u8 padAC[4];
-    Vec_80193FE8 color;
+    Vec color;
     f32 base_a;
-    Vec_80193FE8 base_color;
-    Vec_80193FE8 dir;
-    Vec_80193FE8 base_dir;
-    Vec_80193FE8 out_dir;
+    Vec base_color;
+    Vec dir;
+    Vec base_dir;
+    Vec out_dir;
     u8 padF0[4];
-    Vec_80193FE8 out_color;
+    Vec out_color;
 } Light_80193FE8;
 
 extern "C" {
@@ -83,7 +81,7 @@ void matrix_mult_vec(void *, void *, void *);
 f32 vector_length(void *);
 void rotate_matrix_z(void *, s32);
 void normalize_vector(void *);
-extern const Vec_80193FE8 lbl_80445D44;
+extern const Vec lbl_80445D44;
 extern u8 identity_matrix[];
 extern u8 *camera_ctrl_instance;
 
@@ -99,7 +97,7 @@ void TObjLight::run_task() {
         return;
     }
     {
-    Vec_80193FE8 fwd = lbl_80445D44;
+    Vec fwd = lbl_80445D44;
     VecCopy((Vec *)&self->base_dir, (const Vec *)(((u8 *)&TObjLight__scene_light_state) + 0xC));
     self->flags = 0;
     if (self->param[0] >= 10000.0f) {

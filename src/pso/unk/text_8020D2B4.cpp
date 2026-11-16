@@ -17,8 +17,6 @@ struct RecoveredGlobal_8020D6F0_TLobby__data_80513AD0 {
     u8 remaining[0x1AC];
 };
 
-typedef struct SpawnVector_8020D36C { f32 x, y, z; } SpawnVector_8020D36C;
-
 typedef struct SpawnAngles_8020D36C { u32 x, y, z; } SpawnAngles_8020D36C;
 
 typedef struct SpawnRecord_8020D36C {
@@ -31,7 +29,7 @@ typedef struct SpawnRecord_8020D36C {
     s16 room;
     s16 wave;
     u32 secondary_wave;
-    SpawnVector_8020D36C position;
+    Vec position;
     SpawnAngles_8020D36C angles;
     f32 parameters[5];
     s16 integers[4];

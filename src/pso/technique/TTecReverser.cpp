@@ -20,18 +20,16 @@ typedef char RecoveredGlobal_8023A094_lbl_804CC1CC_size[sizeof(RecoveredGlobal_8
 struct RecoveredGlobal_8023A094___vt__12TTecReverser { s32 value; u8 remaining[0x24]; };
 typedef char RecoveredGlobal_8023A094___vt__12TTecReverser_size[sizeof(RecoveredGlobal_8023A094___vt__12TTecReverser) == 0x28 ? 1 : -1];
 
-struct Vec_80239E44 { f32 x, y, z; };
-
 struct Entry_80239E44 { s32 a; s32 b; s32 c; s32 pad; };
 
-struct Player_80239E44 { u8 pad[0x2FC]; Vec_80239E44 pos; };
+struct Player_80239E44 { u8 pad[0x2FC]; Vec pos; };
 
 struct Obj_80239E44 {
     u8 pad[0x18];
     void *vtable;
     void *parts[3];
     s32 f28;
-    Vec_80239E44 pos;
+    Vec pos;
 };
 
 struct Rev_8023A364 {
@@ -203,7 +201,7 @@ Obj_80239E44 *construct_revival_particle_effect(Obj_80239E44 *self, Player_80239
     VecCopy((Vec *)&self->pos, (const Vec *)&player->pos);
     for (i = 0; i < 3; i++) {
         if (i == 0) {
-            Vec_80239E44 v;
+            Vec v;
             VecCopy((Vec *)&v, (const Vec *)&self->pos);
             v.y += 20.0f;
             self->parts[i] = create_timed_particle_emitter(&v, revival_particle_table[i].c, revival_particle_table[i].a, revival_particle_table[i].b);

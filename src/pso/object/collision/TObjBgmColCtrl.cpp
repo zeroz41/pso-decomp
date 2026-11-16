@@ -41,9 +41,7 @@ int get_quest_bgm_issued_flag(void);
 extern s32 local_client_id;
 extern s32 lbl_805D5B04;
 
-struct Vec_8017E550 { f32 x, y, z; };
-
-struct Row_8017E550 { Vec_8017E550 pos; f32 radius; s32 category; };
+struct Row_8017E550 { Vec pos; f32 radius; s32 category; };
 
 const Row_8017E550 lbl_80443690[12] = {
     {{-2.11f, 0.0f, -0.24f}, 72.0f, 4},
@@ -76,7 +74,7 @@ const Row_8017E550 lbl_80443780[12] = {
 
 struct Set_8017E550 {
     u8 pad[0xC];
-    Vec_8017E550 pos;
+    Vec pos;
     u8 pad18[0x24 - 0x18];
     f32 radius;
     u8 pad28[0x30 - 0x28];

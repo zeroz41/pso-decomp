@@ -66,8 +66,6 @@ struct Player_800172CC : VBase_800172CC {
     u8 f260[0xC];
 };
 
-struct Vec_800186E8 { f32 x, y, z; };
-
 struct Motion_8001882C { s16 f0; s16 f2; s16 f4; s16 f6; s16 f8; s16 fa; s16 fc; u8 padE[0x18 - 0xE]; s32 f18; };
 
 struct Player_8001882C {
@@ -108,9 +106,7 @@ struct ObjFlags;
 class TObjPlayer;
 struct Info_8001311C { s32 type; f32 power; };
 
-struct Vec_8001311C { f32 x, y, z; };
-
-struct Coll_8001311C { u8 pad0[0x18]; u32 flags; Vec_8001311C pos; };
+struct Coll_8001311C { u8 pad0[0x18]; u32 flags; Vec pos; };
 
 struct Stats_8001311C { s16 f0; s16 mst; };
 
@@ -206,20 +202,16 @@ struct Actor_8001311C : VBase_8001311C {
     s16 resist2;
     s16 resist5;
     s16 resist4;
-    Vec_8001311C pos;
+    Vec pos;
     u8 pad308[0x828 - 0x308];
     u8 f828[4];
 };
-
-typedef struct Vec_800114D8 { f32 x, y, z; } Vec_800114D8;
-
-struct Vec_80011824 { f32 x, y, z; };
 
 struct Rec_80011824 { s32 kind; f32 power; };
 
 struct Stats_80011824 { u8 pad0[0xE]; s16 f0E; };
 
-struct Coll_80011824 { u8 pad0[0x18]; u32 flags; Vec_80011824 pos; };
+struct Coll_80011824 { u8 pad0[0x18]; u32 flags; Vec pos; };
 
 struct Base_80011824 { u8 pad0[0x18]; };
 
@@ -313,7 +305,7 @@ struct Actor_80011824 : Base_80011824 {
     s16 f2F6;
     s16 f2F8;
     u8 pad2FA[0x2FC - 0x2FA];
-    Vec_80011824 pos;
+    Vec pos;
 };
 
 struct VBase_80019038 { u8 pad[0x18]; };
@@ -361,7 +353,7 @@ s32 obj_is_hit_receivable(u8 *arg0);
 int get_player_data__10TObjPlayerFi(int a0);
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
-u16 find_nearest_hittable_enemy__10TObjPlayerFiPvf(s32 arg0, Vec_800114D8 *arg1, f32 farg0);
+u16 find_nearest_hittable_enemy__10TObjPlayerFiPvf(s32 arg0, Vec *arg1, f32 farg0);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
 s32 add_actor_tp(u8 *arg0, s32 arg1);
 s32 damage_hp__10TObjPlayerFii(s32 arg0, s32 arg1);
@@ -463,18 +455,14 @@ struct O_80011378 { u8 pad[0x2bc]; s16 v; };
 
 struct O_80011704 { u8 pad[0x1c]; u16 f1c; };
 
-typedef struct Vec_800115C4 { f32 x, y, z; } Vec_800115C4;
-
 typedef struct Player_800115C4 {
     u8 pad0[0x1C];
     u16 id;
     u8 pad1E[0x30 - 0x1E];
     s32 flags;
     u8 pad34[0x2FC - 0x34];
-    Vec_800115C4 pos;
+    Vec pos;
 } Player_800115C4;
-
-typedef struct Vec_8001401C { f32 x, y, z; } Vec_8001401C;
 
 struct Obj_80014C1C { u8 pad0[0x30]; u32 f30; u8 pad34[0x254 - 0x34]; u8 f254[0x330 - 0x254]; u32 f330; };
 
@@ -519,36 +507,24 @@ struct Stack_80018780
   u8 trailing_storage[0x8];
 };
 
-struct Stack_8001806C {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 struct RecoveredGlobal_8001806C_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 
 typedef char RecoveredGlobal_8001806C_lbl_8058D490_size[sizeof(RecoveredGlobal_8001806C_lbl_8058D490) == 0x30 ? 1 : -1];
 
-struct Vec_80018660 { f32 x, y, z; };
+struct Obj_80018660 { u8 pad[0x38]; Vec pos; u8 pad44[0x1c]; s32 angle; u8 pad64[0x238]; Vec dest; };
 
-struct Obj_80018660 { u8 pad[0x38]; Vec_80018660 pos; u8 pad44[0x1c]; s32 angle; u8 pad64[0x238]; Vec_80018660 dest; };
-
-struct Vec_80018570 { f32 x, y, z; };
-
-struct Obj_80018570 { u8 pad[0x38]; Vec_80018570 pos; u8 pad44[0x1c]; s32 angle; u8 pad64[0x238]; Vec_80018570 dest; };
-
-struct Vec_800180E8 { f32 x, y, z; };
+struct Obj_80018570 { u8 pad[0x38]; Vec pos; u8 pad44[0x1c]; s32 angle; u8 pad64[0x238]; Vec dest; };
 
 struct Obj_800180E8 { u8 pad[0x308]; f32 vx; f32 vy; f32 vz; };
 
 typedef struct Obj_80017804 {
     u8 pad0[0x38];
-    Vec_800180E8 pos;
+    Vec pos;
     u8 pad44[0x290 - 0x44];
-    Vec_800180E8 home;
-    Vec_800180E8 dest;
+    Vec home;
+    Vec dest;
     u8 pad2A8[0x2FC - 0x2A8];
-    Vec_800180E8 cur;
+    Vec cur;
     f32 vx;
     f32 vy;
     f32 vz;
@@ -556,17 +532,13 @@ typedef struct Obj_80017804 {
 
 typedef struct Obj_80017ABC {
     u8 pad0[0x38];
-    Vec_800180E8 pos;
+    Vec pos;
     u8 pad44[0x290 - 0x44];
-    Vec_800180E8 home;
-    Vec_800180E8 dest;
+    Vec home;
+    Vec dest;
     u8 pad2A8[0x2FC - 0x2A8];
-    Vec_800180E8 cur;
+    Vec cur;
 } Obj_80017ABC;
-
-typedef struct Vec_80018428 { f32 x, y, z; } Vec_80018428;
-
-struct Vec_800182A0 { f32 x, y, z; };
 
 struct Sub_800182A0 { u8 pad[0xC]; f32 fC; };
 
@@ -576,21 +548,12 @@ struct Obj_800182A0 {
     u8 pad40[0xA4 - 0x40];
     Sub_800182A0 *fA4;
     u8 padA8[0x29C - 0xA8];
-    Vec_800182A0 f29C;
+    Vec f29C;
     u8 pad2A8[0x2FC - 0x2A8];
-    Vec_800182A0 pos;
+    Vec pos;
 };
 
 struct Obj_800182A0;
-
-struct Vec_800182A0;
-
-struct Vec_80017E6C
-{
-  f32 x;
-  f32 y;
-  f32 z;
-};
 
 struct Plane_80017E6C
 {
@@ -609,19 +572,15 @@ struct Hit_80017E6C
 struct Obj_80017E6C
 {
   u8 pad0[0x38];
-  Vec_80017E6C pos;
-  Vec_80017E6C prev;
+  Vec pos;
+  Vec prev;
   u8 pad50[0x2FC - 0x50];
-  Vec_80017E6C cur;
-  Vec_80017E6C vel;
+  Vec cur;
+  Vec vel;
 };
 
-struct Vec_80017BA8 { f32 x, y, z; };
-
-struct Vec_80016454 { f32 x, y, z; };
-
 struct Body_80016454 {
-    Vec_80016454 local;
+    Vec local;
     f32 radius;
     u8 pad10[0x8];
     u32 flags;
@@ -639,7 +598,7 @@ struct Actor_80016454 : Base_80016454 {
     virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
     virtual s32 m24(Actor_80016454 *, s32, f32);
     u8 pad1c[0x38 - 0x1c];
-    Vec_80016454 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 yaw;
     u8 pad64[0xa4 - 0x64];
@@ -649,10 +608,8 @@ struct Actor_80016454 : Base_80016454 {
 
 struct RecoveredGlobal_8001806C_lbl_8058D490;
 
-struct Vec_8001745C { f32 x, y, z; };
-
 struct Part_8001745C {
-    Vec_8001745C pos;
+    Vec pos;
     f32 radius;
     u8 pad10[0x8];
     u32 flags;
@@ -663,7 +620,7 @@ struct Target_8001745C {
     u8 pad0[0x30];
     u32 flags30;
     u8 pad34[0x4];
-    Vec_8001745C pos;
+    Vec pos;
     u8 pad44[0x1C];
     s32 rotY;
     u8 pad64[0x40];
@@ -673,7 +630,7 @@ struct Target_8001745C {
 
 struct Player_8001745C {
     u8 pad0[0x38];
-    Vec_8001745C pos;
+    Vec pos;
     u8 pad44[0x1C];
     s32 rotY;
     u8 pad64[0x2A8 - 0x64];
@@ -692,33 +649,15 @@ typedef struct Obj_80017E6C Obj_80017E6C;
 
 typedef struct Plane_80017E6C Plane_80017E6C;
 
-typedef struct Vec_80017E6C Vec_80017E6C;
-
-struct Vec_80018428;
-
 typedef struct Stack_80018780 Stack_80018780;
 
-struct Stack_80018E6C {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
-struct Stack_80018EE4 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
-struct Vec_80018F64 { f32 x, y, z; };
-
 struct Obj_80018F64 {
-    u8 pad0[0x104]; Vec_80018F64 v104;
+    u8 pad0[0x104]; Vec v104;
     u8 pad110[0x248 - 0x110]; f32 f248; f32 f24c; f32 f250;
-    u8 pad254[0x290 - 0x254]; Vec_80018F64 v290; Vec_80018F64 v29c;
+    u8 pad254[0x290 - 0x254]; Vec v290; Vec v29c;
     u8 pad2a8[4]; s32 f2ac; u8 pad2b0[4]; f32 f2b4;
     u8 pad2b8[0x2d4 - 0x2b8]; u16 f2d4; u8 pad2d6[6]; s32 f2dc;
-    u8 pad2e0[0x2fc - 0x2e0]; Vec_80018F64 v2fc; Vec_80018F64 v308;
+    u8 pad2e0[0x2fc - 0x2e0]; Vec v2fc; Vec v308;
     u8 pad314[0x320 - 0x314]; s32 f320; u8 pad324[4]; s16 f328; s16 f32a;
 };
 
@@ -846,7 +785,7 @@ s32 consume_timer_field__9TObjCharaFl(u8 *arg0, s32 arg1);
 s32 add_actor_exp__9TObjCharaFl(u8 *arg0, s32 arg1);
 s32 add_actor_tp_bonus(O_80011274 *self, s32 x);
 s32 add_actor_hp_bonus(O_80011378 *self, s32 x);
-u16 find_nearest_visible_player(u8 *arg0, Vec_800115C4 *arg1, f32 farg0);
+u16 find_nearest_visible_player(u8 *arg0, Vec *arg1, f32 farg0);
 s32 is_actor_cadence_frame__9TObjCharaFl(O_80011704 *self, s32 x);
 }
 void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
@@ -869,16 +808,16 @@ s32 select_melee_contact_body__9TObjCharaFPvf(Actor_80016454 *target, Actor_8001
 s32 update_flag30_timer__9TObjCharaFv(u8 *arg0);
 s32 vfunc_37__9TObjCharaFv(u8 *arg0);
 s32 is_target_in_attack_range__9TObjCharaFv(Player_8001745C *p);
-f32 step_toward_destination__10TObjPlayerFPvPvf(Obj_80017804 *arg0, Vec_800180E8 *arg1, f32 farg0);
-f32 enemy_pursue_point(u8 *arg0, s32 arg1, Vec_800180E8 arg2, f32 farg0, f32 farg1);
-f32 enemy_backstep_from_point(Obj_80017ABC *arg0, Vec_800180E8 arg1, f32 farg0);
+f32 step_toward_destination__10TObjPlayerFPvPvf(Obj_80017804 *arg0, Vec *arg1, f32 farg0);
+f32 enemy_pursue_point(u8 *arg0, s32 arg1, Vec arg2, f32 farg0, f32 farg1);
+f32 enemy_backstep_from_point(Obj_80017ABC *arg0, Vec arg1, f32 farg0);
 }
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
-void calc_velocity_toward_destination(Obj_800180E8 *self, Vec_800180E8 *pos, Vec_800180E8 *dest, f32 speed);
-s32 TObjPlayer__sub_800181DC(u8 *arg0, Vec_800180E8 arg1);
-s32 select_enemy_destination(Obj_800182A0 *self, Vec_800182A0 *arg1, int flags);
-s32 check_path_obstructed(u8 *arg0, Vec_80018428 *arg1);
+void calc_velocity_toward_destination(Obj_800180E8 *self, Vec *pos, Vec *dest, f32 speed);
+s32 TObjPlayer__sub_800181DC(u8 *arg0, Vec arg1);
+s32 select_enemy_destination(Obj_800182A0 *self, Vec *arg1, int flags);
+s32 check_path_obstructed(u8 *arg0, Vec *arg1);
 s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
 void enemy_turn_half_toward_dest(Obj_80018570 *self);
 u8 * vfunc_18__9TObjCharaFPUc(u8 *arg0, u8 *arg1);
@@ -984,7 +923,7 @@ SceneEntry_8000FD54 main_phase_table[] = {
     { TItemReverseTech::init_scene, TItemReverseTech::run_frame, TItemReverseTech::run_cleanup_callbacks },
 };
 extern SceneState_8000FD54 main_phase_state;
-extern Vec_800182A0 scratch_vec;
+extern Vec scratch_vec;
 extern RecoveredGlobal_80010E44_lbl_8050EA40 lobby_rule_settings;
 extern RecoveredGlobal_8001806C_lbl_8058D490 identity_matrix;
 extern s32 camera_split_screen_selector;
@@ -1002,7 +941,7 @@ const f32 TObjPlayer__data_80434060[3] = {0.0f, 1.0f, 0.0f};
 // inferred: update_poison_status adds entry [game_difficulty_selection] to each poison tick's damage
 const s16 poison_damage_bonus_by_difficulty[4] = {0, 2, 5, 10};
 // inferred: the zero vector find_nearest_visible_player starts its player-distance vector from
-const Vec_800115C4 nearest_player_zero_vec = {0.0f, 0.0f, 0.0f};
+const Vec nearest_player_zero_vec = {0.0f, 0.0f, 0.0f};
 
 void main(void) {
     SceneFn_8000FD54 fn;
@@ -1750,8 +1689,8 @@ s32 damage_hp__10TObjPlayerFii(s32 arg0, s32 arg1) {
     return ((int (*)(void*, void*))TObjectV8047c128_subtract_hp)((void*)arg0, (void*)arg1);
 }
 
-u16 find_nearest_hittable_enemy__10TObjPlayerFiPvf(s32 arg0, Vec_800114D8 *arg1, f32 farg0) {
-    Vec_800114D8 pos;
+u16 find_nearest_hittable_enemy__10TObjPlayerFiPvf(s32 arg0, Vec *arg1, f32 farg0) {
+    Vec pos;
     f32 best;
     f32 dist;
     u16 result;
@@ -1781,10 +1720,10 @@ u16 find_nearest_hittable_enemy__10TObjPlayerFiPvf(s32 arg0, Vec_800114D8 *arg1,
     return result;
 }
 
-u16 find_nearest_visible_player(u8 *arg0, Vec_800115C4 *arg1, f32 farg0) {
+u16 find_nearest_visible_player(u8 *arg0, Vec *arg1, f32 farg0) {
     f32 best = farg0 * farg0;
     u16 result = 0xFFFF;
-    Vec_800115C4 diff = nearest_player_zero_vec;
+    Vec diff = nearest_player_zero_vec;
     f32 dist;
     Player_800115C4 *player;
     s32 i;
@@ -1852,9 +1791,9 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0) {
 #define STATE3(o) ((TObjChara *)o)->obj_isState3_324()
 #define LOCAL(o) ((s32 (*)(Actor_8001311C *))is_locally_controlled__10TObjPlayerFPv)(o)
 #define VECCOPY(d, s) ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(d, s)
-#define HIT(o, p) ((void (*)(Actor_8001311C *, Vec_8001311C *, s32))try_apply_damage__9TObjCharaFUll)(o, p, 0)
-#define DAMAGE(o, p, d) ((void (*)(Actor_8001311C *, Vec_8001311C *, s32))try_apply_damage__9TObjCharaFUll)(o, p, d)
-#define SWITCH_ATTACK(o, p) ((void (*)(Actor_8001311C *, Vec_8001311C *))trigger_switch_attack__10TObjPlayerFPvi)(o, p)
+#define HIT(o, p) ((void (*)(Actor_8001311C *, Vec *, s32))try_apply_damage__9TObjCharaFUll)(o, p, 0)
+#define DAMAGE(o, p, d) ((void (*)(Actor_8001311C *, Vec *, s32))try_apply_damage__9TObjCharaFUll)(o, p, d)
+#define SWITCH_ATTACK(o, p) ((void (*)(Actor_8001311C *, Vec *))trigger_switch_attack__10TObjPlayerFPvi)(o, p)
 #define SUB_HP(o, d) ((s32 (*)(Actor_8001311C *, s32))TObjectV8047c128_subtract_hp)(o, d)
 
 #pragma push
@@ -2006,7 +1945,7 @@ void *__vt__9TObjChara[] = {
 
 f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
     Rec_80011824 rec;
-    Vec_80011824 pos;
+    Vec pos;
     s16 kind;
     s16 power;
     s32 blocked;
@@ -2510,7 +2449,7 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
 
 f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, void *coll, s32 tech, s32 arg5) {
     Info_8001311C info;
-    Vec_8001311C pos;
+    Vec pos;
     s32 immune;
     u16 aid;
     f32 mst;
@@ -2659,7 +2598,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
                 ((s32 (*)(Actor_8001311C *, Actor_8001311C *, Actor_8001311C *, f32))calc_shock_chance)(((Actor_8001311C *)this), ((Actor_8001311C *)att), ((Actor_8001311C *)this), info.power) != 0) {
                 this->apply_shock_status();
             }
-            ((void (*)(Actor_8001311C *, Vec_8001311C *))activate_switch_attacks__10TObjPlayerFii)(((Actor_8001311C *)this), &pos);
+            ((void (*)(Actor_8001311C *, Vec *))activate_switch_attacks__10TObjPlayerFii)(((Actor_8001311C *)this), &pos);
             if (TEST30(((Actor_8001311C *)this), 0x02000000) == 0) {
                 DAMAGE(((Actor_8001311C *)this), &pos, (s32)dmg);
             }
@@ -2707,7 +2646,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
             ((s32 (*)(Actor_8001311C *, s32))add_actor_hp)(((Actor_8001311C *)this), (s32)heal);
             ((TObjChara *)((Actor_8001311C *)this))->clamp_hp();
         }
-        ((void (*)(Actor_8001311C *, Vec_8001311C *, s32, s32))draw_hp_label)(((Actor_8001311C *)this), &pos, 0, (s32)heal);
+        ((void (*)(Actor_8001311C *, Vec *, s32, s32))draw_hp_label)(((Actor_8001311C *)this), &pos, 0, (s32)heal);
         dmg = (0.0f);
         break;
     case 7:
@@ -2857,7 +2796,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
 #pragma pop
 
 void TObjChara::apply_knockback_from_attacker(u8 *arg1, f32) {
-    Vec_8001401C diff;
+    Vec diff;
     f32 scale;
     if (((s32 (*)(void))obj_isState2_324__9TObjCharaFv)() != 1 && ((s32 (*)(void *, int))obj_testFlags30__14TObjCollidableFUl)(this, 0x04000000) == 0) {
     ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&diff, arg1 + 0x38);
@@ -2957,8 +2896,7 @@ struct VObj_18_d805cd : VBase_18_d805cd {
     virtual void m73();
 };
 
-struct Vec_80014108 { f32 x, y, z; };
-struct Coll_80014108 { u8 pad0[0x18]; u32 flags; Vec_80014108 pos; f32 def; };
+struct Coll_80014108 { u8 pad0[0x18]; u32 flags; Vec pos; f32 def; };
 struct Elem_80014108 { u8 type; s8 value; };
 struct Obj_80014108 {
     u8 pad0[0x30];
@@ -3005,7 +2943,7 @@ struct Obj_80014108 {
 #define COLL_80014108() (&((Obj_80014108 *)this)->colls[i])
 
 f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
-    Vec_80014108 hit;
+    Vec hit;
     s32 immune;
     s32 i;
     s32 j;
@@ -3646,7 +3584,7 @@ s32 TObjChara::try_start_action(s32 arg1, s32 collider) {
 
 s32 TObjChara::select_melee_contact_body(void *source, f32 factor) {
     s32 selected = -1;
-    Vec_80016454 point;
+    Vec point;
     s32 i;
     s32 diff;
     f32 dist2;
@@ -3971,9 +3909,9 @@ s32 TObjChara::vfunc_43() {
 }
 
 s32 TObjChara::is_target_in_attack_range() {
-    Vec_8001745C v;
-    Vec_8001745C base;
-    Vec_8001745C out;
+    Vec v;
+    Vec base;
+    Vec out;
     Target_8001745C *t;
     s32 i;
     s32 ang;
@@ -4024,10 +3962,10 @@ s32 TObjChara::is_target_in_attack_range() {
     return 0;
 }
 
-f32 enemy_move_toward(u8 *arg0, s32 turn, Vec_800180E8 arg2, s32 arg3, f32 farg0) {
+f32 enemy_move_toward(u8 *arg0, s32 turn, Vec arg2, s32 arg3, f32 farg0) {
     if (horizontal_distance_squared(arg0 + 0x29C, arg0 + 0x38) < (1e-05f) || ((TObjEnemy *)(arg0))->is_actor_cadence_frame(0x1E) != 0) {
-        if (((s32 (*)(void *, Vec_800180E8, int)) select_enemy_destination)(arg0, arg2, arg3) != 0) {
-            ((s32 (*)(void *, Vec_800180E8)) copy_position_if_valid__10TObjPlayerFii)(arg0, *(Vec_800180E8 *)(arg0 + 0x2FC));
+        if (((s32 (*)(void *, Vec, int)) select_enemy_destination)(arg0, arg2, arg3) != 0) {
+            ((s32 (*)(void *, Vec)) copy_position_if_valid__10TObjPlayerFii)(arg0, *(Vec *)(arg0 + 0x2FC));
         }
     }
     ((TObjEnemy *)arg0)->enemy_turn_toward_dest(turn);
@@ -4036,21 +3974,21 @@ f32 enemy_move_toward(u8 *arg0, s32 turn, Vec_800180E8 arg2, s32 arg3, f32 farg0
     return horizontal_distance_squared(&arg2, arg0 + 0x38);
 }
 
-f32 step_toward_destination__10TObjPlayerFPvPvf(Obj_80017804 *arg0, Vec_800180E8 *arg1, f32 farg0) {
+f32 step_toward_destination__10TObjPlayerFPvPvf(Obj_80017804 *arg0, Vec *arg1, f32 farg0) {
     VecCopy__FP3VecPC3Vec((s32) &arg0->dest, (s32) arg1);
     VecCopy__FP3VecPC3Vec((s32) &arg0->home, (s32) &arg0->cur);
-    ((void (*)(void *, Vec_800180E8, Vec_800180E8, f32)) calc_velocity_toward_destination)(arg0, arg0->home, arg0->dest, farg0);
+    ((void (*)(void *, Vec, Vec, f32)) calc_velocity_toward_destination)(arg0, arg0->home, arg0->dest, farg0);
     arg0->pos.x += arg0->vx;
     arg0->pos.z += arg0->vz;
     return horizontal_distance_squared(arg1, &arg0->pos);
 }
 
-f32 enemy_pursue_point(u8 *arg0, s32 turn, Vec_800180E8 arg2, f32 farg0, f32 farg1) {
+f32 enemy_pursue_point(u8 *arg0, s32 turn, Vec arg2, f32 farg0, f32 farg1) {
     f32 d0;
     f32 d1;
     f32 d2;
     s32 a;
-    Vec_800180E8 d;
+    Vec d;
     d0 = horizontal_distance_squared(arg0 + 0x2FC, arg0 + 0x290);
     d1 = horizontal_distance_squared(arg0 + 0x290, arg0 + 0x29C);
     d2 = horizontal_distance_squared(arg0 + 0x2FC, arg0 + 0x29C);
@@ -4065,8 +4003,8 @@ f32 enemy_pursue_point(u8 *arg0, s32 turn, Vec_800180E8 arg2, f32 farg0, f32 far
         rotate_vector_by_matrix(0, &d, &d);
         pop_matrix();
         vec3_add_to(&d, arg0 + 0x2FC);
-        if (((s32 (*)(void *, Vec_800180E8, int)) select_enemy_destination)(arg0, d, 1) != 0) {
-            ((s32 (*)(void *, Vec_800180E8)) copy_position_if_valid__10TObjPlayerFii)(arg0, *(Vec_800180E8 *)(arg0 + 0x2FC));
+        if (((s32 (*)(void *, Vec, int)) select_enemy_destination)(arg0, d, 1) != 0) {
+            ((s32 (*)(void *, Vec)) copy_position_if_valid__10TObjPlayerFii)(arg0, *(Vec *)(arg0 + 0x2FC));
         }
     }
     ((TObjEnemy *)arg0)->enemy_turn_toward_dest(turn);
@@ -4075,10 +4013,10 @@ f32 enemy_pursue_point(u8 *arg0, s32 turn, Vec_800180E8 arg2, f32 farg0, f32 far
     return horizontal_distance_squared(&arg2, arg0 + 0x2FC);
 }
 
-f32 enemy_backstep_from_point(Obj_80017ABC *actor, Vec_800180E8 arg1, f32 farg0) {
-    if (TObjPlayer__sub_800181DC((u8 *)((u8 *) actor), (Vec_800180E8)(arg1)) != 0) {
-        ((s32 (*)(void *, Vec_800180E8)) copy_position_if_valid__10TObjPlayerFii)(actor, actor->cur);
-        ((void (*)(void *, Vec_800180E8, Vec_800180E8, f32)) calc_velocity_toward_destination)(actor, actor->home, actor->dest, farg0);
+f32 enemy_backstep_from_point(Obj_80017ABC *actor, Vec arg1, f32 farg0) {
+    if (TObjPlayer__sub_800181DC((u8 *)((u8 *) actor), (Vec)(arg1)) != 0) {
+        ((s32 (*)(void *, Vec)) copy_position_if_valid__10TObjPlayerFii)(actor, actor->cur);
+        ((void (*)(void *, Vec, Vec, f32)) calc_velocity_toward_destination)(actor, actor->home, actor->dest, farg0);
         move_with_wall_slide((u8 *)actor);
         return horizontal_distance_squared(&arg1, &actor->pos);
     }
@@ -4086,7 +4024,7 @@ f32 enemy_backstep_from_point(Obj_80017ABC *actor, Vec_800180E8 arg1, f32 farg0)
 }
 
 f32 TObjEnemy::enemy_wander_home(f32 farg0, f32 farg1, f32 farg2, s32 turn) {
-    Vec_80017BA8 v;
+    Vec v;
     f32 var_f31;
     s32 ang;
     u8 *arg0 = (u8 *)this;
@@ -4103,8 +4041,8 @@ f32 TObjEnemy::enemy_wander_home(f32 farg0, f32 farg1, f32 farg2, s32 turn) {
         v.z *= farg2;
         vec3_add_to(&v, (u8 *)&this->home_position);
         {
-            Vec_80017BA8 c = v;
-            select_enemy_destination((Obj_800182A0 *) arg0, (Vec_800182A0 *) &c, 1);
+            Vec c = v;
+            select_enemy_destination((Obj_800182A0 *) arg0, (Vec *) &c, 1);
         }
         *(f32 *)((s8 *)arg0 + 0x308) = ((TObjEnemy *)arg0)->m_310 = (0.0f);
         ((TObjEnemy *)arg0)->m_2ac = 0;
@@ -4118,13 +4056,13 @@ f32 TObjEnemy::enemy_wander_home(f32 farg0, f32 farg1, f32 farg2, s32 turn) {
     return var_f31;
 }
 
-f32 update_enemy_wander_move(Obj_80017ABC *actor, Vec_800180E8 arg1, s32 arg2, f32 farg0) {
+f32 update_enemy_wander_move(Obj_80017ABC *actor, Vec arg1, s32 arg2, f32 farg0) {
     if (((TObjEneLappy *)(actor))->is_actor_cadence_frame(0x1E) != 0) {
-        if (((s32 (*)(void *, Vec_800180E8, int)) select_enemy_destination)(actor, arg1, arg2) != 0) {
-            ((s32 (*)(void *, Vec_800180E8)) copy_position_if_valid__10TObjPlayerFii)(actor, actor->cur);
+        if (((s32 (*)(void *, Vec, int)) select_enemy_destination)(actor, arg1, arg2) != 0) {
+            ((s32 (*)(void *, Vec)) copy_position_if_valid__10TObjPlayerFii)(actor, actor->cur);
         }
     }
-    ((void (*)(void *, Vec_800180E8, Vec_800180E8, f32)) calc_velocity_toward_destination)(actor, actor->home, actor->dest, farg0);
+    ((void (*)(void *, Vec, Vec, f32)) calc_velocity_toward_destination)(actor, actor->home, actor->dest, farg0);
     move_with_wall_slide((u8 *)actor);
     return horizontal_distance_squared(&arg1, &actor->pos);
 }
@@ -4135,9 +4073,9 @@ f32 update_enemy_wander_move(Obj_80017ABC *actor, Vec_800180E8 arg1, s32 arg2, f
 #pragma opt_common_subs off
 void move_with_wall_slide(u8 *arg0) {
   Obj_80017E6C *self = (Obj_80017E6C *) arg0;
-  Vec_80017E6C next;
-  Vec_80017E6C dir;
-  Vec_80017E6C nrm;
+  Vec next;
+  Vec dir;
+  Vec nrm;
   Hit_80017E6C *hit;
   Plane_80017E6C *pl;
   f32 len;
@@ -4193,23 +4131,20 @@ void move_with_wall_slide(u8 *arg0) {
 #pragma pop
 
 void enemy_set_heading_velocity(f32 farg0, TObjEnemy *enemy, s32 arg1) {
-    typedef char sp8_offset[(offsetof(Stack_8001806C, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8001806C, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8001806C, sp10) == 0x8) ? 1 : -1];
-    Stack_8001806C stack;
-    stack.sp10 = farg0;
-    stack.spC = (0.0f);
-    stack.sp8 = (0.0f);
+    Vec stack;
+    stack.z = farg0;
+    stack.y = (0.0f);
+    stack.x = (0.0f);
     push_matrix_from(&identity_matrix.value);
     rotate_matrix_y(0, arg1);
-    rotate_vector_by_matrix(0, &stack.sp8, &stack.sp8);
+    rotate_vector_by_matrix(0, &stack.x, &stack.x);
     pop_matrix();
-    *(f32 *)((s8 *)enemy + 0x308) = stack.sp8;
-    enemy->m_310 = stack.sp10;
+    *(f32 *)((s8 *)enemy + 0x308) = stack.x;
+    enemy->m_310 = stack.z;
 }
 
-void calc_velocity_toward_destination(Obj_800180E8 *self, Vec_800180E8 *pos, Vec_800180E8 *dest, f32 speed) {
-    Vec_800180E8 d;
+void calc_velocity_toward_destination(Obj_800180E8 *self, Vec *pos, Vec *dest, f32 speed) {
+    Vec d;
     s32 a;
     VecCopy__FP3VecPC3Vec((s32)&d, (s32)dest);
     subtract_vector(&d, pos);
@@ -4229,8 +4164,8 @@ void calc_velocity_toward_destination(Obj_800180E8 *self, Vec_800180E8 *pos, Vec
     }
 }
 
-s32 TObjPlayer__sub_800181DC(u8 *arg0, Vec_800180E8 arg1) {
-    Vec_800180E8 d;
+s32 TObjPlayer__sub_800181DC(u8 *arg0, Vec arg1) {
+    Vec d;
     VecCopy__FP3VecPC3Vec((s32) &d, (s32) &arg1);
     subtract_vector(&d, arg0 + 0x2FC);
     push_matrix_from(&identity_matrix);
@@ -4240,13 +4175,13 @@ s32 TObjPlayer__sub_800181DC(u8 *arg0, Vec_800180E8 arg1) {
     if ((1e-05f) < vec_squared_length(&d)) {
         normalize_vector(&d);
         vec3_add_to(&d, arg0 + 0x2FC);
-        return ((s32 (*)(void *, Vec_800180E8, int)) select_enemy_destination)(arg0, d, 1);
+        return ((s32 (*)(void *, Vec, int)) select_enemy_destination)(arg0, d, 1);
     }
     return 0;
 }
 
-s32 select_enemy_destination(Obj_800182A0 *self, Vec_800182A0 *arg1, int flags) {
-    Vec_800182A0 d;
+s32 select_enemy_destination(Obj_800182A0 *self, Vec *arg1, int flags) {
+    Vec d;
     s32 a;
     if (project_actor_to_ground((s32)self, (s32)arg1, 0) != 0) {
         ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&d, arg1);
@@ -4267,7 +4202,7 @@ s32 select_enemy_destination(Obj_800182A0 *self, Vec_800182A0 *arg1, int flags) 
             vec3_add_to(&d, &scratch_vec);
             vec3_add_to(&d, &self->pos);
         }
-        if (!(flags & 2) && check_path_obstructed((u8 *)self, (Vec_80018428 *)&d) != 0) {
+        if (!(flags & 2) && check_path_obstructed((u8 *)self, (Vec *)&d) != 0) {
             return 0;
         }
         if (!(flags & 4) && csnVector(&self->pos, &d, -1) != 0) {
@@ -4279,8 +4214,8 @@ s32 select_enemy_destination(Obj_800182A0 *self, Vec_800182A0 *arg1, int flags) 
     return 0;
 }
 
-s32 check_path_obstructed(u8 *arg0, Vec_80018428 *arg1) {
-    Vec_80018428 d;
+s32 check_path_obstructed(u8 *arg0, Vec *arg1) {
+    Vec d;
     s32 a;
     ((s32 (*)(void *, void *)) VecCopy__FP3VecPC3Vec)(&d, arg1);
     subtract_vector(&d, arg0 + 0x2FC);
@@ -4311,7 +4246,7 @@ s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1) {
 }
 
 void enemy_turn_half_toward_dest(Obj_80018570 *self) {
-    Vec_80018570 d;
+    Vec d;
     s32 a;
     VecCopy__FP3VecPC3Vec((s32)&d, (s32)&self->dest);
     subtract_vector(&d, &self->pos);
@@ -4329,7 +4264,7 @@ s32 TObjEnemy::turn_toward_direction(s32 max_step, Vec *direction) {
 }
 
 s32 TObjEnemy::enemy_turn_toward_dest(s32 turn) {
-    Vec_80018660 d;
+    Vec d;
     s32 a;
     VecCopy__FP3VecPC3Vec((s32)&d, (s32)&((Obj_80018660 *)this)->dest);
     subtract_vector(&d, &((Obj_80018660 *)this)->pos);
@@ -4339,7 +4274,7 @@ s32 TObjEnemy::enemy_turn_toward_dest(s32 turn) {
 }
 
 f32 calc_xz_distance_sq(s32 arg0, u32 arg1, void *arg2) {
-    Vec_800186E8 diff;
+    Vec diff;
     f32 dist;
     if (arg1 != 0U) {
         ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&diff, (void *)(arg1 + 0x38));
@@ -4485,16 +4420,16 @@ void TObjChara::calc_attach_pos() {
 #pragma pop
 
 u8 *TObjChara::vfunc_18(u8 *arg1) {
-    Stack_80018E6C stack;
+    Vec stack;
     f32 temp_f1;
     u8 *temp_r3;
     u8 *temp_r6;
-    stack.sp8 = *(f32 *)((s8 *)arg1 + 0);
+    stack.x = *(f32 *)((s8 *)arg1 + 0);
     temp_r6 = this->m_2b0;
     temp_f1 = *(f32 *)((s8 *)arg1 + 4);
-    stack.spC = temp_f1 + *(f32 *)((s8 *)temp_r6 + 0x10);
-    stack.sp10 = *(f32 *)((s8 *)arg1 + 8);
-    temp_r3 = (u8 *)(csnVectorUnder(&stack.sp8, ((u8 *)this) + 0x120, 0x15, temp_r6, temp_f1));
+    stack.y = temp_f1 + *(f32 *)((s8 *)temp_r6 + 0x10);
+    stack.z = *(f32 *)((s8 *)arg1 + 8);
+    temp_r3 = (u8 *)(csnVectorUnder(&stack.x, ((u8 *)this) + 0x120, 0x15, temp_r6, temp_f1));
     if (temp_r3 == NULL) {
         return NULL;
     }
@@ -4503,16 +4438,16 @@ u8 *TObjChara::vfunc_18(u8 *arg1) {
 }
 
 u8 *TObjChara::update_actor_ground_y() {
-    Stack_80018EE4 stack;
+    Vec stack;
     f32 temp_f1;
     u8 *temp_r3;
     u8 *temp_r6;
-    stack.sp8 = *(f32 *)((s8 *)((u8 *)this) + 0x38);
+    stack.x = *(f32 *)((s8 *)((u8 *)this) + 0x38);
     temp_r6 = this->m_2b0;
     temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x3C);
-    stack.spC = temp_f1 + *(f32 *)((s8 *)temp_r6 + 0x10);
-    stack.sp10 = *(f32 *)((s8 *)((u8 *)this) + 0x40);
-    temp_r3 = (u8 *)(csnVectorUnder(&stack.sp8, ((u8 *)this) + 0x120, 0x15, temp_r6, temp_f1));
+    stack.y = temp_f1 + *(f32 *)((s8 *)temp_r6 + 0x10);
+    stack.z = *(f32 *)((s8 *)((u8 *)this) + 0x40);
+    temp_r3 = (u8 *)(csnVectorUnder(&stack.x, ((u8 *)this) + 0x120, 0x15, temp_r6, temp_f1));
     if (temp_r3 == NULL) {
         return NULL;
     }

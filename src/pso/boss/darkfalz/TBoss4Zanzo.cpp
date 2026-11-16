@@ -54,11 +54,8 @@
 
 
 struct Obj_8005683C;
-struct Vec_80055F5C { f32 x, y, z; };
 
-struct Vec_80055BC0 { f32 x, y, z; };
-
-struct Obj_80055BC0 { u8 pad[0x450]; Vec_80055BC0 f450; Vec_80055BC0 f45c; };
+struct Obj_80055BC0 { u8 pad[0x450]; Vec f450; Vec f45c; };
 
 extern "C" {
 s32 add_radar_scaled_marker(void *, u32, int, int, f32);
@@ -104,8 +101,6 @@ struct Obj_80057224 { u8 pad[0x3A0]; s32 f3a0; };
 
 struct ByteBlock_C { u8 bytes[0xc]; };
 
-struct Vec_8005676C { f32 x, y, z; };
-
 struct Row_8005676C {
     s32 a;
     s32 b;
@@ -114,7 +109,7 @@ struct Row_8005676C {
 
 struct Obj_8005676C {
     u8 pad0[0x38];
-    Vec_8005676C pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 f60;
     u8 pad64[0x390 - 0x64];
@@ -125,8 +120,6 @@ struct Obj_8005676C {
     f32 f3d0;
 };
 
-struct Vec_8005683C { f32 x, y, z; };
-
 struct Bishi_8005683C {
     s32 f0;
     s16 id;
@@ -135,7 +128,7 @@ struct Bishi_8005683C {
     s16 id2;
     s16 f0c;
     u8 pad0e[6];
-    Vec_8005683C pos;
+    Vec pos;
     u8 pad2c[0x20];
 };
 
@@ -151,10 +144,6 @@ struct Obj_80056A54 {
     s16 f32c;
     u8 pad32e[0x3ec - 0x32e];
     s32 f3ec;
-};
-
-struct Grid_80056A54 {
-    f32 x, y, z;
 };
 
 struct Row_80057270 {
@@ -181,11 +170,9 @@ struct Obj_80057270 {
     s32 f44c;
 };
 
-struct Vec_80056C30 { f32 x, y, z; };
-
 struct O_80056C30 {
     u8 pad0[0x38];
-    Vec_80056C30 pos;
+    Vec pos;
 };
 
 typedef char RecoveredGlobal_8005455C_lbl_80485EC8_size[sizeof(RecoveredGlobal_8005455C_lbl_80485EC8) == 0x1E0 ? 1 : -1];
@@ -202,14 +189,14 @@ s32 TBoss4DarkFalz__sub_8004AF5C(s32, s16 *, s16 *);
 s32 TBoss4DarkFalz__sub_8004B4F0(void *, void *);
 void TObjPlayer__sub_80052390(f32 x);
 void TBoss4Type2__sub_80055300(void);
-void find_target_pos__11TBoss4Type2FPvPv(O_80056C30 *self, Vec_80056C30 *out);
+void find_target_pos__11TBoss4Type2FPvPv(O_80056C30 *self, Vec *out);
 s32 create__11TBoss4BishiFi(void *);
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
 int toggle_particle_effect__10TObjPlayerFv(void*);
 void TObjEneRe4Sorcerer__sub_801E3F1C(f32, f32);
 s32 push_matrix();
 f32 post_translate_matrix(void *);
-f32 xyz_distance(Vec_80056C30 *, Vec_80056C30 *);
+f32 xyz_distance(Vec *, Vec *);
 
 extern u8 TBoss4DarkFalz__data_804FF1E8[];
 extern Ofs_8005683C bishi_spawn_offset_table[];
@@ -269,14 +256,12 @@ static s32 boss4_type2_next_actions_b[3] = {5, 6, 7};
 Ofs_8005683C bishi_spawn_offset_table[3] = {{0.0f, -12.5f}, {-10.75f, 6.25f}, {10.75f, 6.25f}};
 __declspec(section ".data") s32 boss4_type2_attack_pattern_table[2] = {6, 7};
 
-struct Vec_80057598 { f32 x, y, z; };
-
 static const s32 boss4_type2_emitter_ids[2] = {0x144, 0x145};
 static const ModelNodeSpec boss4_type2_model_node_table[6] = {
     {0xB, 3, 0}, {0xA, 5, 0}, {0xA, 0x60, 0}, {0xA, 0x63, 0}, {0xA, 0x65, 0}, {0xA, 0x68, 0},
 };
-static const Vec_80057598 boss4_type2_follow_camera_offset_a = {0.0f, 19.8f, -5.0f};
-static const Vec_80057598 boss4_type2_follow_camera_offset_b = {0.0f, 15.43f, 55.42f};
+static const Vec boss4_type2_follow_camera_offset_a = {0.0f, 19.8f, -5.0f};
+static const Vec boss4_type2_follow_camera_offset_b = {0.0f, 15.43f, 55.42f};
 const char *TBoss4Zanzo__name = "TBoss4Zanzo";
 extern s32 model_render_flags;
 extern s32 tl_04;
@@ -421,8 +406,8 @@ void TUnk_80486924::run_task() {
     }
     add_radar_scaled_marker(&m_2fc, 0xFFFFA24C, 1, 1, 5.0f);
     if (action != 2) {
-        Vec_80057598 pos = *(Vec_80057598 *)&position;
-        Vec_80057598 dir = *(Vec_80057598 *)&position;
+        Vec pos = *(Vec *)&position;
+        Vec dir = *(Vec *)&position;
         dir.y = 0.0f;
         normalize_vector(&dir);
         dir.x *= -50.0f;
@@ -438,8 +423,8 @@ void TUnk_80486924::run_task() {
         node_tables.scroll_strips();
     }
     {
-        Vec_80057598 a = boss4_type2_follow_camera_offset_a;
-        Vec_80057598 b = boss4_type2_follow_camera_offset_b;
+        Vec a = boss4_type2_follow_camera_offset_a;
+        Vec b = boss4_type2_follow_camera_offset_b;
         request_follow_camera_offsets(&a, &b, 0xFFFF);
     }
     if ((unk_3c0 += 0.022222223f) >= 1.0f) {
@@ -649,7 +634,7 @@ void TBoss4Type2::set_grid_pos(void *arg1) {
 
 #pragma push
 #pragma opt_propagation off
-void find_target_pos__11TBoss4Type2FPvPv(O_80056C30 *self, Vec_80056C30 *out) {
+void find_target_pos__11TBoss4Type2FPvPv(O_80056C30 *self, Vec *out) {
     s32 a1;
     O_80056C30 *found;
     s32 i;
@@ -659,7 +644,7 @@ void find_target_pos__11TBoss4Type2FPvPv(O_80056C30 *self, Vec_80056C30 *out) {
     f32 s;
     s32 ang;
     s32 b;
-    Vec_80056C30 res;
+    Vec res;
     best = 0.0f;
     found = NULL;
     for (i = 0; i < registered_player_count; i++) {
@@ -671,7 +656,7 @@ void find_target_pos__11TBoss4Type2FPvPv(O_80056C30 *self, Vec_80056C30 *out) {
             continue;
         }
         {
-            Vec_80056C30 v = p->pos;
+            Vec v = p->pos;
             v.y = 0.0f;
             d = xyz_distance(&v, &self->pos);
             if (d <= 560.0f && d > best) {
@@ -724,7 +709,7 @@ void TBoss4Type2__sub_80056B3C(void *actor, s32 lo, s32 hi) {
 }
 
 void TBoss4Type2::choose_next_action() {
-    Grid_80056A54 grid;
+    Vec grid;
     s32 r;
     s32 id;
     id = ((s32 (*)(void *))pick_random_target_player__11TBoss4Type3Fv)(this);
@@ -736,7 +721,7 @@ void TBoss4Type2::choose_next_action() {
     switch (r) {
     case 6:
     case 7:
-        find_target_pos__11TBoss4Type2FPvPv((O_80056C30 *)(((Obj_80056A54 *)this)), (Vec_80056C30 *)(&grid));
+        find_target_pos__11TBoss4Type2FPvPv((O_80056C30 *)(((Obj_80056A54 *)this)), (Vec *)(&grid));
         ((TBoss4Type2 *)((Obj_80056A54 *)this))->set_grid_pos(&grid);
         sub_80056FEC(r);
         break;
@@ -989,8 +974,8 @@ void TBoss4Type2::beam_idle() {  }
 void TBoss4Type2::beam_update() {
     s32 idx = *(s32 *)((s8 *)this + 0x374) - 6;
     u8 *arg0 = (u8 *)this;
-    Vec_80055F5C v = ((Vec_80055F5C *)(arg0 + 0x450))[idx];
-    Vec_80055F5C p;
+    Vec v = ((Vec *)(arg0 + 0x450))[idx];
+    Vec p;
     s32 a;
     s32 b;
     u32 h;
@@ -1077,8 +1062,8 @@ void TBoss4Type2::tenchu_idle() {  }
 
 void TBoss4Type2::tenchu_update() {
     Obj_80055BC0 *o = (Obj_80055BC0 *)this;
-    Vec_80055BC0 sp14 = o->f450;
-    Vec_80055BC0 sp8 = o->f45c;
+    Vec sp14 = o->f450;
+    Vec sp8 = o->f45c;
     u8 *boss4_type2 = (u8 *)o;
     f32 temp_f1;
     f32 temp_f1_2;

@@ -11,13 +11,11 @@ struct RecoveredGlobal_8035C22C___vt__19TObjBoss8PillerCtrl {
     u8 remaining[0x14];
 };
 
-struct Vec_8035C03C { f32 x, y, z; };
-
 struct Ent_8035C03C { s32 x; s32 y; };
 
 struct Self_8035C03C {
     u8 pad0[0x1c];
-    Vec_8035C03C pos;
+    Vec pos;
     s32 f28;
     u16 f2C;
     u8 pad2e[0x34 - 0x2e];
@@ -40,13 +38,13 @@ extern "C" {
 s32 __ct__7TObjectFP7TObject();
 extern s32 __vt__19TObjBoss8PillerCtrl[];
 void *__nw__7TObjectFUl(u32);
-void __ct__15TObjBoss8PillerFv(void *, s32, Vec_8035C03C *, f32, u16);
+void __ct__15TObjBoss8PillerFv(void *, s32, Vec *, f32, u16);
 extern s32 tl_05;
 void run_task__19TObjBoss8PillerCtrlFv(Self_8035C03C *self);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 
-s32 fn_8035BFF8(void *self, const Vec_8035C03C *pos) {
+s32 fn_8035BFF8(void *self, const Vec *pos) {
     Vec position;
     VecCopy(&position, (const Vec *)pos);
     return normalize_vector_xz(&position) > 373.0f;
@@ -57,7 +55,7 @@ void TObjBoss8PillerCtrl::render() {  }
 
 #pragma fp_contract on
 void run_task__19TObjBoss8PillerCtrlFv(Self_8035C03C *self) {
-    Vec_8035C03C v;
+    Vec v;
     void *p;
     switch (self->f28) {
     case 0:

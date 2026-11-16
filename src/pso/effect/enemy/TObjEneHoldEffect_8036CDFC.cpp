@@ -9,11 +9,10 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 
 #include "pso/object/base/TObjMotion.h"
-struct Vec_8036CF30 { f32 x, y, z; };
 
 struct Hold_8036CF30 {
     u8 pad0[0x38];
-    Vec_8036CF30 pos;
+    Vec pos;
     u8 pad44[0x4C];
     void *x90;
     u16 x94;
@@ -21,7 +20,7 @@ struct Hold_8036CF30 {
 
 struct Hold_8036CE20 {
     u8 pad0[0x38];
-    Vec_8036CF30 pos;
+    Vec pos;
     u8 pad44[0x4C];
     void *x90;
     u16 x94;
@@ -32,8 +31,8 @@ struct Hold_8036CE20 {
 
 extern "C" {
 void *get_player_by_client_id(int);
-void subtract_vector(Vec_8036CF30 *, void *);
-void normalize_vector(Vec_8036CF30 *);
+void subtract_vector(Vec *, void *);
+void normalize_vector(Vec *);
 extern u8 *camera_ctrl_instance;
 s32 is_split_screen(void);
 void run_task__17TObjEneHoldEffectFv(Hold_8036CE20 *o);
@@ -57,8 +56,8 @@ void run_task__17TObjEneHoldEffectFv(Hold_8036CE20 *o) {
         ((TObjCollidable *)p)->obj_testFlags30(0x800) == 0 && o->x90 != NULL &&
         ((TObject *)(o->x90))->all_parents_unqueued_for_destruction() != 0) {
         if (o->x98 == 0x20F && is_split_screen() == 0) {
-            Vec_8036CF30 d;
-            Vec_8036CF30 out;
+            Vec d;
+            Vec out;
             VecCopy((Vec *)&d, (const Vec *)&o->pos);
             subtract_vector(&d, camera_ctrl_instance + 0x178);
             normalize_vector(&d);
@@ -84,8 +83,8 @@ void TObjEneHoldEffect::render() {
     if (p != NULL && ((TObject *)p)->all_parents_unqueued_for_destruction() != 0 &&
         ((TObjCollidable *)p)->obj_testFlags30(0x800) == 0 && o->x90 != NULL &&
         ((TObject *)(o->x90))->all_parents_unqueued_for_destruction() != 0) {
-        Vec_8036CF30 d;
-        Vec_8036CF30 out;
+        Vec d;
+        Vec out;
         VecCopy((Vec *)&d, (const Vec *)&o->pos);
         subtract_vector(&d, camera_ctrl_instance + 0x178);
         normalize_vector(&d);

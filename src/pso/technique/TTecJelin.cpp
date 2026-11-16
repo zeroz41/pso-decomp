@@ -86,8 +86,6 @@ struct Self_802336F0 {
     struct Entry_802336F0 entries[1];
 };
 
-struct Vec_80233958 { f32 x, y, z; };
-
 struct Eff_80233958 { u8 pad[0xc]; f32 scale; };
 
 struct Holder_80233958 { u8 pad[0xa4]; Eff_80233958 *eff; };
@@ -97,10 +95,10 @@ struct Jelin_80233958 {
     u8 pad4[0x18 - 4];
     void *vt;
     void *source;
-    Vec_80233958 pos;
+    Vec pos;
     u8 pad2c[0x7a - 0x2c];
     s16 level;
-    Vec_80233958 src_pos;
+    Vec src_pos;
     u8 pad88[0x90 - 0x88];
     f32 range;
     u8 pad94[0xb4 - 0x94];
@@ -111,8 +109,6 @@ struct Jelin_80233958 {
     u8 sub[4];
 };
 
-struct Vec_80233958;
-struct Vec_80233808 { f32 x, y, z; };
 
 struct Eff_80233808 { u8 pad[0xc]; f32 scale; };
 
@@ -123,7 +119,7 @@ struct Jelin_80233808 {
     u8 pad4[0x18 - 4];
     void *vt;
     void *source;
-    Vec_80233808 pos;
+    Vec pos;
     u8 pad2c[0x7a - 0x2c];
     s16 level;
     u8 pad7c[0x90 - 0x7c];
@@ -221,7 +217,7 @@ Jelin_80233808 *TTecJelin__ct(Jelin_80233808 *self, void *_w1, void *_w2, void *
     self->fec = 1;
     copy_technique_target_list(self->sub, _w3);
     ((TTecJelin *)self)->init_tech_params();
-    VecCopy((Vec *)((Vec_80233958 *)&self->pos), (const Vec *)((Vec_80233958 *)_w2));
+    VecCopy((Vec *)((Vec *)&self->pos), (const Vec *)((Vec *)_w2));
     if (self->holder != 0) {
         self->holder->eff->scale = self->range;
     }

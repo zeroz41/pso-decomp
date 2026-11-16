@@ -40,8 +40,6 @@
 #include "pso/system/task/TObject.h"
 
 
-struct Vec_8029B640 { f32 x, y, z; };
-
 struct Ids_8029B428 {
     s32 v[3];
 };
@@ -291,8 +289,8 @@ void TODoorJungleMain::run_task() {
         }
         if (flag != 0) {
             if (++*(s32 *)&this->m_d8 % 30 == 0) {
-                Vec_8029B640 a = {40.0f, 0.0f, 0.0f};
-                Vec_8029B640 b = {-40.0f, 0.0f, 0.0f};
+                Vec a = {40.0f, 0.0f, 0.0f};
+                Vec b = {-40.0f, 0.0f, 0.0f};
                 set_matrix_identity((u8 *)&mtx);
                 translate_matrix_vec3((u8 *)&mtx, (u8 *)&this->position);
                 rotate_matrix_y((int)&mtx, this->rotation_y);

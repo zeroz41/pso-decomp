@@ -63,8 +63,6 @@ struct VObj_18_b27ba1 : VBase_18_b27ba1 {
     virtual s32 m21(void *, Hit_802BBAB0 *, s32, s32, s32);
 };
 
-struct Vec_802BBAB0 { f32 x, y, z; };
-
 struct Obj_802BBAB0 {
     u8 pad0[0x3C];
     f32 f3C;
@@ -75,8 +73,8 @@ struct Obj_802BBAB0 {
     u8 pad4B8[0x4E8 - 0x4B8];
     f32 f4E8;
     u8 pad4EC[0x59C - 0x4EC];
-    Vec_802BBAB0 rock[19];
-    Vec_802BBAB0 v680[1];
+    Vec rock[19];
+    Vec v680[1];
 };
 
 struct Prm_802BCAB8 { s32 a; s32 c; f32 b; f32 d; };
@@ -84,8 +82,6 @@ struct Prm_802BCAB8 { s32 a; s32 c; f32 b; f32 d; };
 struct Ent_802BCAB8 { s32 a; s32 b; };
 
 struct Obj_802BCAB8 { u8 pad[0x400]; Ent_802BCAB8 ents[2]; };
-
-struct Vec_802BAD90 { f32 x, y, z; };
 
 struct T2_802BA000;
 struct Obj_802BC050;
@@ -262,12 +258,12 @@ struct T1_802B9C00 {
 };
 
 
-struct Player_802B9A68 { u8 pad[0x38]; Vec_802B9A68 pos; };
+struct Player_802B9A68 { u8 pad[0x38]; Vec pos; };
 
 
 struct Boss_802B9F3C {
     u8 pad0[0x38];
-    Vec_802B9A68 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 f60;
     u8 pad64[0x544 - 0x64];
@@ -284,13 +280,11 @@ struct Ent_802B9B20 { u8 pad[0x18]; u32 flags; u8 pad1C[0x2C - 0x1C]; };
 
 struct Boss_802B9B20 { u8 pad[0xA4]; Ent_802B9B20 *list; };
 
-struct Vec_802B9C80 { f32 x, y, z; };
-
 struct Tb_802B9C80 { s32 a; s32 b; };
 
 struct Boss_802B9C80 {
     u8 pad0[0x38];
-    Vec_802B9C80 pos;
+    Vec pos;
     u8 pad44[0x77C - 0x44];
     u32 arr[14];
 };
@@ -309,8 +303,6 @@ struct T2_802BA000 {
 };
 
 typedef struct Stack_802B9D90 Stack_802B9D90;
-
-typedef struct Vec_802BA3B4 { f32 x, y, z; } Vec_802BA3B4;
 
 struct Ent_802BA7BC { s32 idx; s32 arg; f32 lo; };
 
@@ -340,8 +332,6 @@ struct Ent_802BBD88 { u8 pad0[0x18]; u32 f; u8 pad1c[0x10]; };
 
 struct T1_802BBD88 { u8 pad0[0xA4]; Ent_802BBD88 *p; };
 
-struct V_802BBF54 { f32 x, y, z; };
-
 struct Ent_802BC050 { s16 f0; s16 v[5]; };
 
 struct Obj_802BC050 {
@@ -354,11 +344,7 @@ struct Obj_802BC050 {
     s16 min;
 };
 
-struct Vec_802BAB80 { f32 x, y, z; };
-
-struct Obj_802BAB80 { u8 pad[0x38]; Vec_802BAB80 pos; };
-
-struct Vec_802BB920 { f32 x, y, z; };
+struct Obj_802BAB80 { u8 pad[0x38]; Vec pos; };
 
 typedef char RecoveredGlobal_802BB180_lbl_804DFAC4_size[sizeof(RecoveredGlobal_802BB180_lbl_804DFAC4) == 0xC ? 1 : -1];
 
@@ -435,9 +421,7 @@ struct Stack_802BD938 {
 
 struct Obj_8004D8C8 { u8 pad[0x2D4]; u16 f2d4; u16 f2d6; };
 
-struct V_802BD378 { f32 x, y, z; };
-
-struct T2_802BD378 { u8 pad0[0x60]; s32 f60; u8 pad64[0x59C - 0x64]; V_802BD378 v[1]; };
+struct T2_802BD378 { u8 pad0[0x60]; s32 f60; u8 pad64[0x59C - 0x64]; Vec v[1]; };
 
 struct T1_802BD68C {
     u8 pad0[0x378];
@@ -550,7 +534,7 @@ void world_to_grid_pos__11TBoss6Type2FPvPvPv(f32 *arg0, s8 *arg1, s8 *arg2);
 void grid_to_world_pos__11TBoss6Type2FccPv(s8 arg0, s8 arg1, f32 *arg2);
 void init_parts__11TBoss6Type2FPv(s32 arg0);
 void TBoss6Type2__sub_802B9D6C(Obj_802B9D6C *self);
-void aim_toward_point__11TBoss6Type2FPv(Boss_802B9F3C *arg0, Vec_802B9A68 *arg1);
+void aim_toward_point__11TBoss6Type2FPv(Boss_802B9F3C *arg0, Vec *arg1);
 void reset_fish_fields__11TBoss6Type2Fv(Obj_802BA158 *self);
 void restore_target_player_state__11TBoss6Type2Fv(u8 *arg0);
 s32 grab_player__11TBoss6Type2FPvUs(u8 *arg0, u16 arg1);
@@ -558,7 +542,7 @@ s32 TBoss6Type2__sub_802BA944(Boss_802BA944 *o);
 s32 TBoss6Type2__sub_802BA9E4(T2_802BA9E4 *arg0);
 s32 snap_to_ground__11TBoss6Type2FPv(Obj_802BAB80 *self);
 void TBoss6Type2__sub_802BAD04(s32 arg0);
-struct Obj_802BB1E0 { u8 pad0[0x38]; Vec_802B9A68 pos; };
+struct Obj_802BB1E0 { u8 pad0[0x38]; Vec pos; };
 s32 request_player_camera_offsets__11TBoss6Type2FPvff(Obj_802BB1E0 *, f32, f32);
 f32 fabs_float(f32);
 int TBoss6Type2__sub_802BB4DC(void* p);
@@ -585,8 +569,8 @@ s32 set_action_field_0x408__11TBoss6Type2Fs(s32, u16);
 void TBoss6Type2__sub_80356E50(s32 arg0, s32 arg1, s32 force);
 s32 spawn_flow_soul__11TBoss6Type2Fiii(s32 arg0, s32 arg1, s32 arg2);
 f32 vec3_add_to(void *, void *);
-f32 vector_length(Vec_802B9A68 *);
-void subtract_vector(Vec_802B9A68 *, Vec_802B9A68 *);
+f32 vector_length(Vec *);
+void subtract_vector(Vec *, Vec *);
 f32 normalize_vector(void *);
 
 extern RecoveredGlobal_802BB180_lbl_804DFAC4 lbl_804DFAC4;
@@ -675,8 +659,8 @@ void TBoss6Type2::unpack_path_entry(s32 *arg1) {
 }
 
 s32 TBoss6Type2::is_player_in_rock_area(s32 id) {
-    Vec_802B9A68 a;
-    Vec_802B9A68 b;
+    Vec a;
+    Vec b;
     f32 r;
     Player_802B9A68 *p;
     s32 i;
@@ -752,12 +736,12 @@ void TBoss6Type2::update_part_positions() {
     Boss_802B9C80 *o = (Boss_802B9C80 *)this;
     s32 i = 0;
     do {
-        Vec_802B9C80 v = o->pos;
+        Vec v = o->pos;
         const Tb_802B9C80 *e = &((const Tb_802B9C80 *)TBoss6Type2__particle_attachment_table)[i];
         if (o->arr[i] != 0) {
             s32 idx = e->b;
             if (idx >= 0) {
-                VecCopy((Vec *)((Vec_802B9A68 *)(&v)), (const Vec *)((Vec_802B9A68 *)((Vec_802B9C80 *)((u8 *)o + idx * 0xC + 0x59C))));
+                VecCopy((Vec *)((Vec *)(&v)), (const Vec *)((Vec *)((Vec *)((u8 *)o + idx * 0xC + 0x59C))));
             }
             ((TParticleCtrl *)(s32)o->arr[i])->set_position(&v);
         }
@@ -850,8 +834,8 @@ void TBoss6Type2::sum_offsets() {
 
 void TBoss6Type2::aim_toward_point(void *arg1_arg) {
     Boss_802B9F3C *arg0 = (Boss_802B9F3C *)this;
-    Vec_802B9A68 *vec_802_b9_a68 = (Vec_802B9A68 *)arg1_arg;
-    Vec_802B9A68 v;
+    Vec *vec_802_b9_a68 = (Vec *)arg1_arg;
+    Vec v;
     s32 ang;
     s32 i;
     if (vec_802_b9_a68 == NULL) {
@@ -980,7 +964,7 @@ s32 TBoss6Type2::check_target() {
 int TBoss6Type2::is_falz_ready() { return pick_random_active_player__14TBoss6PlotFalzFv(this); }
 
 void TBoss6Type2::update_possess_target() {
-    Vec_802BA3B4 v;
+    Vec v;
     u8 *pl;
     s32 done;
     u16 id;
@@ -1048,7 +1032,7 @@ void TBoss6Type2__sub_802BA598(TBoss6Type2 *self, s32 elapsed, s32 duration) {
     }
     k = TBoss6PlotFalz::cosine_ease(u);
     VecCopy((Vec *)&self->position, &boss6_arena_center);
-    subtract_vector((Vec_802B9A68 *)&self->position, (Vec_802B9A68 *)self->_pad50C);
+    subtract_vector((Vec *)&self->position, (Vec *)self->_pad50C);
     self->position.x *= k;
     self->position.y *= k;
     self->position.z *= k;
@@ -1067,9 +1051,9 @@ void TBoss6Type2::update_lower_contact_delta() {
     lower_contact_delta.y = 0.0f;
     lower_contact_delta.x = 0.0f;
     VecCopy((Vec *)(&sp14), (const Vec *)(&contact_point_5fc));
-    subtract_vector((Vec_802B9A68 *)(&sp14), (Vec_802B9A68 *)(&position));
+    subtract_vector((Vec *)(&sp14), (Vec *)(&position));
     VecCopy((Vec *)(&sp8), (const Vec *)(&contact_point_5c0));
-    subtract_vector((Vec_802B9A68 *)(&sp8), (Vec_802B9A68 *)(&position));
+    subtract_vector((Vec *)(&sp8), (Vec *)(&position));
     var_r31 = 0;
     VecCopy((Vec *)(&sp20), (const Vec *)(&sp14));
     if (sp14.f.y > sp8.f.y) {
@@ -1078,7 +1062,7 @@ void TBoss6Type2::update_lower_contact_delta() {
     }
     if ((s32) lower_contact_index == var_r31) {
         VecCopy((Vec *)(&lower_contact_delta), (const Vec *)(&previous_lower_contact));
-        subtract_vector((Vec_802B9A68 *)(&lower_contact_delta), (Vec_802B9A68 *)(&sp20));
+        subtract_vector((Vec *)(&lower_contact_delta), (Vec *)(&sp20));
         lower_contact_delta.y = 0.0f;
     }
     lower_contact_index = var_r31;
@@ -1164,9 +1148,9 @@ s32 TBoss6Type2::turn_toward_target_position() {
     s32 temp_r30;
     TypedVector_802BAA74 sp8;
     VecCopy((Vec *)(&sp8), (const Vec *)(&target_position));
-    subtract_vector((Vec_802B9A68 *)(&sp8), (Vec_802B9A68 *)(&position));
+    subtract_vector((Vec *)(&sp8), (Vec *)(&position));
     sp8.f.y = 0.0f;
-    temp_f1 = vector_length((Vec_802B9A68 *)(&sp8));
+    temp_f1 = vector_length((Vec *)(&sp8));
     if (temp_f1 < 10.0f) {
         return 0;
     }
@@ -1190,7 +1174,7 @@ s32 TBoss6Type2::turn_toward_target_position() {
 }
 
 s32 snap_to_ground__11TBoss6Type2FPv(Obj_802BAB80 *self) {
-    Vec_802BAB80 p;
+    Vec p;
     f32 t;
     VecCopy((Vec *)&p, (const Vec *)&self->pos);
     p.y += 10.0f;
@@ -1204,7 +1188,7 @@ s32 snap_to_ground__11TBoss6Type2FPv(Obj_802BAB80 *self) {
     p.y = 0.0f;
     t = 398.0f;
     {
-        Vec_802BAB80 d = p;
+        Vec d = p;
         normalize_vector(&d);
         for (; t > 0.0f; t += -2.0f) {
             p.x = t * d.x + -10000.0f;
@@ -1235,8 +1219,8 @@ void TBoss6Type2__sub_802BAD04(s32 arg0) {
 }
 
 void TBoss6Type2::spawn_rocks_around_players() {
-    Vec_802BAD90 p;
-    Vec_802BAD90 q;
+    Vec p;
+    Vec q;
     s32 n;
     s32 cnt;
     s32 i;
@@ -1336,11 +1320,11 @@ void TBoss6Type2::init_range() {
 }
 
 s32 request_player_camera_offsets__11TBoss6Type2FPvff(Obj_802BB1E0 *self, f32 a, f32 b) {
-    Vec_802B9A68 pp;
-    Vec_802B9A68 me;
-    Vec_802B9A68 off;
-    Vec_802B9A68 d;
-    Vec_802B9A68 cam;
+    Vec pp;
+    Vec me;
+    Vec off;
+    Vec d;
+    Vec cam;
     s32 n;
     s32 i;
     u8 *p;
@@ -1583,9 +1567,9 @@ void TBoss6Type2__sub_802BB818(TBoss6Type2 *self, f32) {
 }
 
 s32 TBoss6Type2::push_players_away(void *target, f32 range) {
-    Vec_802BB920 dir;
-    Vec_802BB920 pos;
-    Vec_802BB920 off;
+    Vec dir;
+    Vec pos;
+    Vec off;
     s32 mask;
     s32 i;
     s32 n;
@@ -1633,7 +1617,7 @@ void TBoss6Type2::apply_rock_hits_to_players() {
     s32 i;
     s32 mask;
     s32 j;
-    Vec_802BBAB0 *rock;
+    Vec *rock;
     s32 hit;
     VObj_18_b27ba1 *p;
     s32 v;
@@ -1742,20 +1726,18 @@ void TBoss6Type2::update_parts_flags() {
     }
 }
 
-struct Vec_802BBE20 { f32 x, y, z; };
-
-struct Ent_802BBE20 { Vec_802BBE20 m; u8 padC[0x1C - 0xC]; Vec_802BBE20 n; u8 pad28[0x2C - 0x28]; };
+struct Ent_802BBE20 { Vec m; u8 padC[0x1C - 0xC]; Vec n; u8 pad28[0x2C - 0x28]; };
 
 
 struct Boss_802BBE20 {
     u8 pad0[0x38];
-    Vec_802BBE20 pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 f60;
     u8 pad64[0xA4 - 0x64];
     Ent_802BBE20 *ents;
     u8 padA8[0x59C - 0xA8];
-    Vec_802BBE20 rock[19];
+    Vec rock[19];
 };
 
 extern "C" {
@@ -1765,9 +1747,9 @@ void set_matrix_identity(u8 *arg0);
 
 void TBoss6Type2::sub_802BBE20() {
     Boss_802BBE20 *arg0 = (Boss_802BBE20 *)this;
-    Vec_802BBE20 v;
+    Vec v;
     s32 i;
-    Vec_802BBE20 *base;
+    Vec *base;
     Ent_802BBE20 *e;
     if (((TBoss6Type2 *)this)->m_a4 != NULL) {
         for (i = 0; i < 3; i++) {
@@ -1784,7 +1766,7 @@ void TBoss6Type2::sub_802BBE20() {
                 return;
             }
             VecCopy((Vec *)&v, (const Vec *)&base[t->idx]);
-            subtract_vector((Vec_802B9A68 *)&v, (Vec_802B9A68 *)&arg0->pos);
+            subtract_vector((Vec *)&v, (Vec *)&arg0->pos);
             push_matrix();
             set_matrix_identity(0);
             rotate_matrix_y(0, -((TBoss6Type2 *)this)->m_60);
@@ -1804,12 +1786,12 @@ void TBoss6Type2::advance_position() {
 
 void TBoss6Type2::copy_vec_array() {
     u8 *arg0 = (u8 *)this;
-    V_802BBF54 *src;
-    V_802BBF54 *end;
-    V_802BBF54 *dst;
-    src = (V_802BBF54 *)(arg0 + 0x59C);
-    dst = (V_802BBF54 *)(arg0 + 0x680);
-    end = (V_802BBF54 *)((u8 *)src + 0xE4);
+    Vec *src;
+    Vec *end;
+    Vec *dst;
+    src = (Vec *)(arg0 + 0x59C);
+    dst = (Vec *)(arg0 + 0x680);
+    end = (Vec *)((u8 *)src + 0xE4);
     for (; src < end; src++, dst++) {
         VecCopy((Vec *)dst, (const Vec *)src);
     }

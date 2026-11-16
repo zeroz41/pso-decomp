@@ -27,12 +27,6 @@ void count_if_within_range__13TUnk_804CC148Fv(u8 *arg0);
 extern u8 __vt__13TUnk_804CC148[];
 }
 
-struct Stack_8022BF8C_more_8022be64_1 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 extern "C" {
 f32 vector_length(void *, f32);
 
@@ -66,13 +60,13 @@ void TUnk_804CC148::tick_lifetime() {
 
 void TUnk_804CC148::count_if_within_range() {
     u8 *arg0 = (u8 *)this;
-    Stack_8022BF8C_more_8022be64_1 stack;
+    Vec stack;
     f32 temp_f1;
-    stack.sp8 = *(f32 *)((s8 *)arg0 + 0x20) - this->m_7c;
-    stack.spC = *(f32 *)((s8 *)arg0 + 0x24) - *(f32 *)((s8 *)arg0 + 0x80);
+    stack.x = *(f32 *)((s8 *)arg0 + 0x20) - this->m_7c;
+    stack.y = *(f32 *)((s8 *)arg0 + 0x24) - *(f32 *)((s8 *)arg0 + 0x80);
     temp_f1 = *(f32 *)((s8 *)arg0 + 0x28);
-    stack.sp10 = temp_f1 - this->m_84;
-    if (vector_length(&stack.sp8, temp_f1) <= this->speed) {
+    stack.z = temp_f1 - this->m_84;
+    if (vector_length(&stack.x, temp_f1) <= this->speed) {
         this->state = (this->state + 1);
     }
 }

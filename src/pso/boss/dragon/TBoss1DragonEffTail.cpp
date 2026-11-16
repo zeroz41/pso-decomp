@@ -60,8 +60,6 @@ typedef struct EffTail_8002C06C {
 
 struct Pair_8002BD38 { f32 a; s32 b; };
 
-struct Vec_8002BD38 { f32 x, y, z; };
-
 #pragma readonly_strings on
 
 extern "C" {
@@ -79,7 +77,7 @@ void TBoss1DragonEffTail::render() {  }
 
 void run_task__19TBoss1DragonEffTailFv(u8 *boss1_dragon_eff_tail) {
     u8 *p;
-    Vec_8002BD38 *src;
+    Vec *src;
     s32 i;
     f32 f;
     VecCopy((Vec *)(boss1_dragon_eff_tail + 0x38), (const Vec *)(*(u8 **)((s8 *)boss1_dragon_eff_tail + 0xB4) + 0x24));
@@ -88,7 +86,7 @@ void run_task__19TBoss1DragonEffTailFv(u8 *boss1_dragon_eff_tail) {
     *(f32 *)((s8 *)boss1_dragon_eff_tail + 0x40) *= 0.5f;
     *(f32 *)((s8 *)boss1_dragon_eff_tail + 0x3C) = *(f32 *)((s8 *)(*(u8 **)((s8 *)boss1_dragon_eff_tail + 0xB0)) + 0x3C);
     ((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->rotation_y = *(s32 *)((s8 *)(*(u8 **)((s8 *)boss1_dragon_eff_tail + 0xB0)) + 0x60);
-    src = *(Vec_8002BD38 **)((s8 *)boss1_dragon_eff_tail + 0xB4);
+    src = *(Vec **)((s8 *)boss1_dragon_eff_tail + 0xB4);
     push_matrix();
     set_matrix_identity(0);
     rotate_matrix_y(0, -((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->rotation_y);

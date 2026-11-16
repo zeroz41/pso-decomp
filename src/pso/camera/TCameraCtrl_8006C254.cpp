@@ -46,17 +46,16 @@ void *TCameraCtrl__vt5(void) {
 
 #pragma push
 #pragma fp_contract on
-struct Vec_8006C28C { f32 x, y, z; };
 struct Motion_8006C28C { u32 data; u32 frames; };
 struct Mode_8006C28C { u32 asset; u32 flags; };
 struct Cam_8006C28C {
     u8 pad0[0x3C];
-    Vec_8006C28C position;
-    Vec_8006C28C target;
+    Vec position;
+    Vec target;
     s32 projection;
     u8 pad58[0x6C - 0x58];
-    Vec_8006C28C position_origin;
-    Vec_8006C28C target_origin;
+    Vec position_origin;
+    Vec target_origin;
     s32 pitch;
     s32 yaw;
     s32 roll;
@@ -70,20 +69,20 @@ struct Cam_8006C28C {
 };
 struct Stack_8006C28C {
     void *ptrs[4];
-    Vec_8006C28C p;
-    Vec_8006C28C v;
+    Vec p;
+    Vec v;
     s32 sp54;
-    Vec_8006C28C sp58;
+    Vec sp58;
     u8 out[0x2C];
 };
 
 void sample_camera_motion(u8 *arg0, s32 arg1, u8 *arg2, f32 farg0);
 extern "C" {
 f32 vec_squared_length(u8 *arg0);
-void normalize_vector(Vec_8006C28C *);
+void normalize_vector(Vec *);
 s32 push_matrix_from(void *src);
 void rotate_matrix_y(int, s32);
-void matrix_mult_vec(int, Vec_8006C28C *, Vec_8006C28C *);
+void matrix_mult_vec(int, Vec *, Vec *);
 }
 s32 pop_matrices(s32 arg0);
 extern u8 identity_matrix[];
@@ -91,9 +90,9 @@ extern u8 identity_matrix[];
 void TUnk_80488B68::run_task() {
     Cam_8006C28C *s = (Cam_8006C28C *)this;
     Stack_8006C28C st;
-    Vec_8006C28C tmp;
-    Vec_8006C28C p2;
-    Vec_8006C28C v2;
+    Vec tmp;
+    Vec p2;
+    Vec v2;
     st.ptrs[0] = &st.p;
     st.ptrs[1] = &st.v;
     st.ptrs[2] = &st.sp54;

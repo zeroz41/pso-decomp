@@ -29,8 +29,6 @@ typedef struct Hamon_800A36A8 {
     u8 color50[0x10];
 } Hamon_800A36A8;
 
-struct Vec_800A4064 { f32 x, y, z; };
-
 struct Inner_800A4064 { u8 pad0[0xC]; s32 *p; };
 
 struct Entry_800A4064 { u8 pad0[8]; Inner_800A4064 *inner; };
@@ -38,9 +36,9 @@ struct Entry_800A4064 { u8 pad0[8]; Inner_800A4064 *inner; };
 struct Obj_800A4064 {
     u8 pad0[0x38];
     s32 count;
-    Vec_800A4064 base[(0x108 - 0x3C) / 12];
-    Vec_800A4064 out[(0x1D4 - 0x108) / 12];
-    Vec_800A4064 dir[22];
+    Vec base[(0x108 - 0x3C) / 12];
+    Vec out[(0x1D4 - 0x108) / 12];
+    Vec dir[22];
     u8 pad2DC[8];
     f32 scale[(0x328 - 0x2E4) / 4];
     s32 timer;
@@ -52,15 +50,13 @@ struct Obj_800A4064 {
 
 typedef struct Cam_800A3D1C { u8 pad0[8]; f32 cx; f32 cy; u8 pad10[8]; f32 sw; f32 aspect; } Cam_800A3D1C;
 
-struct Vec_800A3D1C { f32 x, y, z; };
-
 struct Vtx_800A3D1C { f32 x, y, z, u, v; u32 color; };
 
 struct Obj_800A3D1C {
     u8 pad0[0x38];
     s32 count;
     u8 pad3C[0x108 - 0x3C];
-    Vec_800A3D1C pts[17];
+    Vec pts[17];
     u8 pad1D4[0x32C - 0x1D4];
     u32 color;
     u8 pad330[0x10];
@@ -88,19 +84,18 @@ extern const f32 lbl_805D99F0;
 extern const f32 lbl_805D99FC;
 extern const f32 lbl_805D9A00;
 
-struct Vec_800A39A8 { f32 x, y, z; };
 struct Obj_800A39A8 {
     u8 pad0[0x1C];
-    Vec_800A39A8 a;
-    Vec_800A39A8 d;
+    Vec a;
+    Vec d;
     f32 step;
     s32 count;
-    Vec_800A39A8 pts[34];
-    Vec_800A39A8 dirs[17];
+    Vec pts[34];
+    Vec dirs[17];
     f32 t[17];
     f32 r[21];
-    Vec_800A39A8 *from;
-    Vec_800A39A8 *to;
+    Vec *from;
+    Vec *to;
     u8 pad340[4];
     s32 n;
 };
@@ -126,7 +121,7 @@ void build_beam_points__12TTecZondeEffFPv(Obj_800A39A8 *o) {
     f32 fx;
     f32 fy;
     f32 fz;
-    Vec_800A39A8 *p;
+    Vec *p;
 
     VecCopy((Vec *)&o->a, (const Vec *)o->from);
     VecCopy((Vec *)&o->d, (const Vec *)o->to);
@@ -246,10 +241,10 @@ void build_beam_points__12TTecZondeEffFPv(Obj_800A39A8 *o) {
 void TeneFakeTecThunderEff::render() {
     Obj_800A3D1C *o = (Obj_800A3D1C *)this;
     Vtx_800A3D1C verts[34];
-    Vec_800A3D1C out[17];
+    Vec out[17];
     f32 sa[17];
     f32 sb[17];
-    Vec_800A3D1C v;
+    Vec v;
     f32 sw;
     f32 sh;
     f32 cy;
@@ -271,7 +266,7 @@ void TeneFakeTecThunderEff::render() {
     f32 nx;
     f32 ny;
     u32 color;
-    Vec_800A3D1C *q;
+    Vec *q;
     Vtx_800A3D1C *p;
     s32 i;
     s32 j;

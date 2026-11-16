@@ -259,52 +259,46 @@ struct O_80068FCC { M_80068FCC m; W_80068FCC a; W_80068FCC b; W_80068FCC c; };
 struct Cam_800688D0 { u8 pad[0x10]; s32 slots[4]; };
 
 
-struct Vec_80068810 { f32 x, y, z; };
-
 struct Cam_80068810 {
     u8 pad0[0x94];
     void *view_yaw[4];
-    Vec_80068810 view_pos[4];
+    Vec view_pos[4];
     u8 padd4[0x178 - 0xD4];
-    Vec_80068810 pos;
+    Vec pos;
     u8 pad184[0x194 - 0x184];
     void *yaw;
 };
 
-struct Vec_800696D0 { f32 x, y, z; };
-
-struct Hit_800696D0 { u32 f0; Vec_800696D0 *point; };
+struct Hit_800696D0 { u32 f0; Vec *point; };
 
 struct View_800696D0 {
     u8 pad0[0xD4];
-    Vec_800696D0 split_pos[4];
-    Vec_800696D0 split_tgt[4];
-    Vec_800696D0 split_look[4];
+    Vec split_pos[4];
+    Vec split_tgt[4];
+    Vec split_look[4];
     s32 split_obstructed[4]; // per view: obstructed below
     s32 obstructed; // set by resolve_anchor_obstruction when csnVector(look, eye) hits; gates clamp_to_target_obstruction
-    Vec_800696D0 pos;
-    Vec_800696D0 tgt;
+    Vec pos;
+    Vec tgt;
     u8 pad190[0x1A0 - 0x190];
-    Vec_800696D0 eye;
+    Vec eye;
     u8 pad1AC[0x1C8 - 0x1AC];
-    Vec_800696D0 look;
+    Vec look;
 };
 
-struct Vec_800698C8 { f32 x, y, z; };
-
-struct Hit_800698C8 { u32 f0; Vec_800698C8 *point; };
+struct Hit_800698C8 { u32 f0; Vec *point; };
 
 struct View_800698C8 {
     u8 pad0[0xD4];
-    Vec_800698C8 split_pos[4];
-    Vec_800698C8 split_tgt[4];
-    Vec_800698C8 split_look[4];
+    Vec split_pos[4];
+    Vec split_tgt[4];
+    Vec split_look[4];
     s32 split_obstructed[4];
     s32 obstructed;
-    Vec_800698C8 pos;
-    Vec_800698C8 tgt;
+    Vec pos;
+    Vec tgt;
     u8 pad190[0x1C8 - 0x190];
-    Vec_800698C8 look;
+    Vec look;
 };
 extern "C" {
 
@@ -421,8 +415,6 @@ extern Big_8006A13C controller_input_state;
 }
 
 
-struct Vec_8006AF9C { f32 x, y, z; };
-
 
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
 extern "C" {
@@ -435,7 +427,6 @@ extern void *lbl_80488AC0[6];
 
 struct A_8006A35C { s8 f0; u8 pad1; s16 f2; s32 f4; s32 f8; };
 struct B_8006A35C { u8 pad[8]; f32 f8; f32 fc; u8 pad10[8]; f32 f18; u8 pad1c[0xC]; f32 f28; f32 f2c; f32 f30; f32 f34; f32 f38; f32 f3c; f32 f40; f32 f44; };
-struct C_8006A35C { f32 f0; f32 f4; f32 f8; };
 extern "C" {
 
 
@@ -502,13 +493,6 @@ struct RecoveredGlobal_8006A5EC_TCameraCtrl__data_804FF628
   u8 remaining[0xB];
 };
 
-struct Vec_8006A410
-{
-  f32 x;
-  f32 y;
-  f32 z;
-};
-
 struct VBase_8006A410
 {
   char pad[0x18];
@@ -523,15 +507,15 @@ struct Ctrl_8006A410 : VBase_8006A410 {
     virtual void m5();
     virtual void m6(void *);
     u8 pad1C[0x3C - 0x1C];
-    Vec_8006A410 pos;
-    Vec_8006A410 tgt;
+    Vec pos;
+    Vec tgt;
 };
 
 struct Master_8006A410
 {
   u8 pad[0xD4];
-  Vec_8006A410 pos[4];
-  Vec_8006A410 tgt[4];
+  Vec pos[4];
+  Vec tgt[4];
 };
 
 struct Views_8006A410
@@ -555,7 +539,6 @@ typedef char RecoveredGlobal_8006A5DC_TCameraCtrl__data_804FF628_size[sizeof(Rec
 typedef struct Ctrl_8006A410 Ctrl_8006A410;
 typedef struct Master_8006A410 Master_8006A410;
 typedef struct VBase_8006A410 VBase_8006A410;
-typedef struct Vec_8006A410 Vec_8006A410;
 typedef struct Views_8006A410 Views_8006A410;
 extern "C" {
 
@@ -627,7 +610,6 @@ struct RecoveredGlobal_8006AC70_lbl_8058D490 {
     u8 remaining[0x2C];
 };
 
-struct Vec_8006B0D4 { f32 x, y, z; };
 struct Count_8006B0D4 {
     s8 flag;
     s32 count;
@@ -647,7 +629,7 @@ struct Cam_8006B0D4 {
     f32 f38[10];
     u8 pad60[0x4];
     s16 f64;
-    Vec_8006B0D4 shake_offset;
+    Vec shake_offset;
     f32 f74;
     f32 f78;
     f32 f7C;
@@ -656,25 +638,25 @@ struct Cam_8006B0D4 {
     s32 f8C;
     s32 f90;
     s32 view_yaw[4];
-    Vec_8006B0D4 view_pos[4];
-    Vec_8006B0D4 split_pos[4];
-    Vec_8006B0D4 split_tgt[4];
-    Vec_8006B0D4 split_look[4];
+    Vec view_pos[4];
+    Vec split_pos[4];
+    Vec split_tgt[4];
+    Vec split_look[4];
     s32 split_obstructed[4];
     s32 obstructed;
-    Vec_8006B0D4 pos;
-    Vec_8006B0D4 tgt;
+    Vec pos;
+    Vec tgt;
     s32 pitch;
     s32 yaw;
     s32 roll;
     s32 fov;
-    Vec_8006B0D4 eye;
-    Vec_8006B0D4 at;
+    Vec eye;
+    Vec at;
     f32 eye_rate;
     f32 at_rate;
     s32 shake_timer;
     u8 pad1C4[0x4];
-    Vec_8006B0D4 look;
+    Vec look;
 };
 extern "C" {
 
@@ -686,7 +668,6 @@ s32 rotate_matrix_x(int, void *);
 s32 push_matrix_from(void *);
 f32 rotate_vector_by_current_matrix(void *, void *);
 extern RecoveredGlobal_8006ABAC_lbl_8058D490 identity_matrix;
-struct V3_8006AD34 { f32 x, y, z; };
 u8 *get_target__11TCameraCtrlFv(void *);
 s32 reset_view_flags__11TCameraCtrlFv(void *);
 s32 cycle_spectate_target__11TCameraCtrlFv(void *);
@@ -864,11 +845,11 @@ u8 *TCameraCtrl__ct(u8 *arg0, void *parent) {
 #pragma pop
 
 void TCameraCtrl::setup_default_view(void *arg1_arg) {
-    Vec_8006AF9C *arg1 = (Vec_8006AF9C *)arg1_arg;
-    Vec_8006AF9C eye;
-    Vec_8006AF9C at;
-    Vec_8006AF9C d;
-    Vec_8006AF9C *pat;
+    Vec *arg1 = (Vec *)arg1_arg;
+    Vec eye;
+    Vec at;
+    Vec d;
+    Vec *pat;
     eye.x = lbl_804FF5E8[0];
     eye.y = lbl_804FF5E8[1];
     eye.z = lbl_804FF5E8[2];
@@ -904,7 +885,7 @@ u8 * copy_view_params__11TCameraCtrlFii(C30_8006AD34 *arg0, const C30_8006AD34 *
 #define GF(o) (*(f32 *)(G + (o)))
 void TCameraCtrl::run_task() {
     u8 *arg0 = (u8 *)this;
-    V3_8006AD34 v;
+    Vec v;
     u8 *t;
     s32 i;
     s32 off;
@@ -993,7 +974,7 @@ void TCameraCtrl::calc_axes_from_angles(s32 arg0, s32 arg1, s32 arg2) {
 void TCameraCtrl::render() {
     if ((is_split_screen() == 0) && (TMainTask::get_render_pass() != 1)) {
         if ((u8) *(u8 *)((s8 *)this + 0x1C) == 0) {
-            setup_default_view((Vec_8006AF9C *)(0));
+            setup_default_view((Vec *)(0));
         }
         *(u8 *)((s8 *)this + 0x1C) = 0U;
     }
@@ -1277,7 +1258,7 @@ extern "C" {
 void TCameraCtrl::reset_view_state() {
     A_8006A35C *pa = (A_8006A35C *)TCameraCtrl__view_state;
     B_8006A35C *pb = (B_8006A35C *)TCameraCtrl__data_804FF634;
-    C_8006A35C *pc;
+    Vec *pc;
 
     TCameraCtrl__pose_snap_flags = 0;
     ((A_8006A35C *)TCameraCtrl__view_state)->f0 = 0;
@@ -1296,10 +1277,10 @@ void TCameraCtrl::reset_view_state() {
     pb->f40 = 1.0f;
     pb->f44 = 0.85f;
     TCameraCtrl__sub_80068358(pb, pa, 1.0f, 0.0f);
-    ((C_8006A35C *)TCameraCtrl__up_vector)->f0 = 0.0f;
-    pc = (C_8006A35C *)TCameraCtrl__up_vector;
-    pc->f4 = 1.0f;
-    pc->f8 = 0.0f;
+    ((Vec *)TCameraCtrl__up_vector)->x = 0.0f;
+    pc = (Vec *)TCameraCtrl__up_vector;
+    pc->y = 1.0f;
+    pc->z = 0.0f;
     camera_view_state_flag = 0;
     camera_ctrl_view_state_byte = -1;
     TCameraCtrl__data_805D4E0A = 0;
@@ -1672,7 +1653,7 @@ void TCameraCtrl::clamp_to_target_obstruction() {
 
 void TCameraCtrl::resolve_anchor_obstruction() {
     View_800696D0 *self = (View_800696D0 *)this;
-    Vec_800696D0 d;
+    Vec d;
     s32 n;
     s32 *obstructed;
     Hit_800696D0 *hit;

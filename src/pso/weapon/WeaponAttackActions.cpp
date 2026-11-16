@@ -43,15 +43,14 @@
 
 // ---- pso/item/WeaponAttackActions
 
-typedef struct { f32 x, y, z; } Vec_8011EB84;
 struct Atk_8011EB84 {
-    Vec_8011EB84 pos;
+    Vec pos;
     u8 pad0C[0x10];
     f32 scale;
     u8 pad20[4];
     s32 type;
     s32 angle;
-    Vec_8011EB84 dir;
+    Vec dir;
     f32 f38;
     f32 f3C;
     u32 flags;
@@ -161,8 +160,6 @@ struct VObj_8011E77C : Base_8011E77C {
     virtual void m68(); virtual void m69(); virtual void m70(); virtual void m71();
 };
 
-struct Vec_8011E87C { f32 x, y, z; };
-
 struct Pl_8011E950 {
     u8 pad0[0x174];
     u32 x174;
@@ -252,9 +249,7 @@ struct Rec_8011F108 { u8 pad0[0xC]; f32 c; u8 pad1[0xC]; ShotVector pos; u8 pad2
 
 struct Obj_8011F474;
 
-struct Vec_8011EDFC { f32 x; f32 y; f32 z; };
-
-struct Part_8011EDFC { u8 pad0[0x1C]; Vec_8011EDFC pos; u8 pad28[4]; };
+struct Part_8011EDFC { u8 pad0[0x1C]; Vec pos; u8 pad28[4]; };
 
 struct Obj_8011EDFC { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0xA4 - 0x44]; Part_8011EDFC *parts; };
 
@@ -264,7 +259,7 @@ struct Spawn_8011EDFC { s32 a; s32 b; s32 c; s16 d; s16 e; s16 f; f32 g; };
 
 struct Self_8011EDFC;
 
-typedef void (*Cb_8011EDFC)(Self_8011EDFC *, void *, Vec_8011EDFC *, f32);
+typedef void (*Cb_8011EDFC)(Self_8011EDFC *, void *, Vec *, f32);
 
 struct Owner_8011EDFC { u8 pad0[0x60]; void *rot; };
 
@@ -445,8 +440,8 @@ void TItemWeapon::refresh_special() {
 }
 
 void TItemWeapon::update_trail_slot(s32 slot) {
-    Vec_8011E87C a;
-    Vec_8011E87C b;
+    Vec a;
+    Vec b;
     if (is_default_camera() != 0 && has_no_defer_render() == 0 &&
         owner->test_action_mask(0xE0) != 0 &&
         owner->is_flag_b0_4() == 0 &&
@@ -508,7 +503,7 @@ void TUnk_804F1320::spawn_pg_effect(void *arg1, s32 item, f32 farg0) {
 }
 
 void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
-    Vec_8011EB84 v;
+    Vec v;
     Atk_8011EB84 atk;
     f32 *scale;
     s32 state;
@@ -520,7 +515,7 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
         scale = ((f32 *(*)(void *, s32))get_weapon_range_record)(this, ((s32 (*)(void *))is_status_subsystem_ready__10TObjPlayerFv)(this->owner));
         TObjPlayer__sub_802E449C(&atk);
         ((TItemWeapon *)((u8 *)this))->fill_status_info(&atk);
-        VecCopy((Vec *)&atk, (const Vec *)((Vec_8011EB84 *)origin));
+        VecCopy((Vec *)&atk, (const Vec *)((Vec *)origin));
         atk.angle = *(s32 *)((s8 *)this->owner + 0x60) + angle;
         atk.f3C = *scale;
         atk.f38 = shot_speed;
@@ -536,7 +531,7 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
             if ((item = (s32)get_captured_target_entry((void *)state, 0)) != 0) {
                 if ((ph = ((u8 *(*)(s32))find_entity_by_id)(((s32 (*)(s32))get_uid__10TObjPlayerFv)(item))) != NULL && *(u8 **)((s8 *)ph + 0xA4) != NULL) {
                     VecCopy((Vec *)&v, (const Vec *)(&(*(Skel_8011EB84 **)((s8 *)ph + 0xA4))->n[get_captured_target_collider_index((void *)item)]));
-                    subtract_vector(&v, ((Vec_8011EB84 *)origin));
+                    subtract_vector(&v, ((Vec *)origin));
                     push_matrix_from(((s32 *)&identity_matrix));
                     ((void (*)(s32, s32))rotate_matrix_y)(0, angle);
                     transform_point_by_current_matrix(&v, &atk.dir);
@@ -566,7 +561,7 @@ void TItemWeapon::fill_status_info(void *arg1) {
 
 void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale) {
     void *ext;
-    Vec_8011EDFC pos;
+    Vec pos;
     f32 dist;
     s32 found;
 
@@ -591,7 +586,7 @@ void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale
         }
     }
     if (found == 0) {
-        Vec_8011EDFC v;
+        Vec v;
         f32 *rec;
         push_matrix_from(identity_matrix);
         rec = get_weapon_range_record(this, 2);

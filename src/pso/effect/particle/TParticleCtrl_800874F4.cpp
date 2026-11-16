@@ -141,7 +141,6 @@ const char *TParticleCtrl__class_name_descriptor[2] = {"TParticleCtrl", 0};
 #pragma dont_inline off
 
 typedef u8 *(*Gen_8008767C)(void *, void *, u32);
-struct Vec_8008767C { f32 x, y, z; };
 
 struct Color_8008767C { u8 r, g, b, a; };
 
@@ -173,8 +172,8 @@ struct Ctrl_8008767C {
     s32 motion;
     u32 tex;
     f32 frame;
-    Vec_8008767C pos;
-    Vec_8008767C dir;
+    Vec pos;
+    Vec dir;
 };
 
 struct GenEntry_8008767C { s32 id; Gen_8008767C fn; };

@@ -18,11 +18,9 @@ struct TAdFloorLoadPrtGC_8034AD38 {
     Slot_8034AD38 slots[32];
 };
 
-struct Vec_8034ADE0 { f32 x, y, z; };
-
 struct Ang_8034ADE0 { s32 x, y, z; };
 
-struct Slot_8034ADE0 { Vec_8034ADE0 pos; Ang_8034ADE0 ang; void *ctrl; };
+struct Slot_8034ADE0 { Vec pos; Ang_8034ADE0 ang; void *ctrl; };
 
 struct Prt_8034ADE0 {
     const char *name;
@@ -36,7 +34,7 @@ extern "C" {
 extern void *__vt__17TAdFloorLoadPrtGC[];
 s32 __ct__7TObjectFP7TObject(void *);
 void *memset(void *, int, u32);
-extern const Vec_8034ADE0 floor_load_particle_positions[12] = {
+extern const Vec floor_load_particle_positions[12] = {
     { 0.0f, 0.0f, 100.0f },
     { 0.0f, 49.0f, 86.2f },
     { 0.0f, 86.2f, 49.8f },
@@ -64,7 +62,7 @@ extern const Ang_8034ADE0 TAdFloorLoadPrtGC__emitter_angles[12] = {
     { 0xD555, 0x0, 0x0 },
     { 0xEAAA, 0x0, 0x0 },
 };
-extern const Vec_8034ADE0 lbl_80478B48[1] = { { 0.0f, 0.0f, 0.0f } };
+extern const Vec lbl_80478B48[1] = { { 0.0f, 0.0f, 0.0f } };
 extern const Ang_8034ADE0 lbl_80478B54[1] = { { 0x0, 0x0, 0x4000 } };
 const char *TAdFloorLoadPrtGC__class_name = "TAdFloorLoadPrtGC";
 Prt_8034ADE0 *TAdFloorLoadPrtGC__ct(Prt_8034ADE0 *arg0);
@@ -88,7 +86,7 @@ TAdFloorLoadPrtGC::~TAdFloorLoadPrtGC() {
 #pragma opt_common_subs off
 Prt_8034ADE0 *TAdFloorLoadPrtGC__ct(Prt_8034ADE0 *arg0) {
     const Ang_8034ADE0 *a;
-    const Vec_8034ADE0 *p;
+    const Vec *p;
     s32 i;
     __ct__7TObjectFP7TObject(arg0);
     arg0->vtable = __vt__17TAdFloorLoadPrtGC;

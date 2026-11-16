@@ -12,7 +12,6 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Vec_800C2628 { f32 x, y, z; };
 
 struct Prm_800C2628 { f32 a, b, c, d, e; };
 
@@ -31,7 +30,7 @@ extern const f32 lbl_805D9FC0;
 #define F(T, off) (*(T *)(arg0 + (off)))
 void TObjEneDD__sub_800C2628(u8 *arg0, s32 arg1) {
     s32 step;
-    Vec_800C2628 v;
+    Vec v;
     switch (arg1) {
     case 4:
         F(s16, 0xB8) = 1;

@@ -150,9 +150,7 @@ typedef struct Desc_800C17B8 {
 
 const Desc_800C17B8 lappy_resource_binding_desc = {0, rappy_variant_speed_table, 0x10003, 0xA0000};
 
-struct Vec_800C1224 { f32 x, y, z; };
-
-const Vec_800C1224 lappy_target_zero_vec = {0.0f, 0.0f, 0.0f};
+const Vec lappy_target_zero_vec = {0.0f, 0.0f, 0.0f};
 
 extern "C" __declspec(section ".data") s32 lappy_variant_speed_ptr_table[2];
 #define lappy_variant_speed_ptr_table ((f32 * *)lappy_variant_speed_ptr_table)
@@ -341,10 +339,6 @@ struct VObj_18_800C0588 : VBase_18_800C0588 {
 
 struct Sp800C0D3C { s32 a; s32 b; s32 c; };
 
-struct Vec_800C1144 { f32 x, y, z; };
-
-struct Position_800C08A0 { f32 x, y, z; };
-
 struct VBase_18_800C0E30 { char pad[0x18]; };
 struct VObj_18_800C0E30 : VBase_18_800C0E30 {
     virtual void m0();
@@ -369,9 +363,7 @@ struct VObj_18_800C0E30 : VBase_18_800C0E30 {
 
 struct Vec_800C0E30 { s32 x, y, z; };
 
-struct Vec_800C0318 { f32 x, y, z; };
-
-struct Lappy_800C0318 { u8 pad0[0x2FC]; Vec_800C0318 pos; f32 vx; f32 vy; f32 vz; };
+struct Lappy_800C0318 { u8 pad0[0x2FC]; Vec pos; f32 vx; f32 vy; f32 vz; };
 
 extern const f32 lbl_805D9F9C;
 
@@ -661,7 +653,7 @@ void TObjEneLappy::update_hurt() {
     u8 *arg0 = (u8 *)this;
     ((TObjMotion *)arg0)->advance_animation();
     Lappy_800C0318 *self = (Lappy_800C0318 *)arg0;
-    Vec_800C0318 v = self->pos;
+    Vec v = self->pos;
     v.x += self->vx;
     v.z += self->vz;
     if (check_path_obstructed(arg0, &v) == 0) {
@@ -814,7 +806,7 @@ typedef char RecoveredFields_800C1478_temp_r3_2_18_offset[offsetof(RecoveredFiel
 
 void TObjEneLappy::update_moving() {
     u8 *arg0 = (u8 *)this;
-    Position_800C08A0 probe;
+    Vec probe;
     f32 temp_f0;
     f32 temp_f0_2;
     f32 temp_f0_3;
@@ -834,7 +826,7 @@ void TObjEneLappy::update_moving() {
     if ((*(s32 *)&this->actorFlags & 0x1000) && !(this->m_374 & 2)) {
         temp_r6 = this->target;
         if (temp_r6 != NULL) {
-            Position_800C08A0 target1 = *(Position_800C08A0 *)(temp_r6 + 0x2FC);
+            Vec target1 = *(Vec *)(temp_r6 + 0x2FC);
             enemy_backstep_from_point(arg0, &target1.x, (f32) (*(f32 *)((s8 *)((u8 *)(*(u8 * *)&this->movementParameters)) + 4)));
             turn_toward_direction(*(s32 *)((u8 *)movementParameters + 8), (Vec *)unk_308);
             apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
@@ -848,7 +840,7 @@ void TObjEneLappy::update_moving() {
         case 0:
             temp_r7 = this->target;
             if (temp_r7 != NULL) {
-                Position_800C08A0 target2 = *(Position_800C08A0 *)(temp_r7 + 0x2FC);
+                Vec target2 = *(Vec *)(temp_r7 + 0x2FC);
                 temp_f31 = update_enemy_wander_move(arg0, &target2.x, 1, (f32) (*(f32 *)((s8 *)((u8 *)(*(u8 * *)&this->movementParameters)) + 4)));
                 if ((((TObjCollidable *)arg0)->obj_testFlags30(2) == 0) && (temp_f31 < 10000.0f)) {
                     *(s16 *)&this->m_37a = 1;
@@ -870,7 +862,7 @@ void TObjEneLappy::update_moving() {
         case 1:
             temp_r7_2 = this->target;
             if (temp_r7_2 != NULL) {
-                Position_800C08A0 target3 = *(Position_800C08A0 *)(temp_r7_2 + 0x2FC);
+                Vec target3 = *(Vec *)(temp_r7_2 + 0x2FC);
                 temp_f1 = update_enemy_wander_move(arg0, &target3.x, 1, (f32) (*(f32 *)((s8 *)((u8 *)(*(u8 * *)&this->movementParameters)) + 4)));
                 if (temp_f1 > 22500.0f) {
                     *(s16 *)&this->m_37a = 0;
@@ -1048,7 +1040,7 @@ void TObjEneLappy::vfunc_58() {
         if (flags & 0x20) {
             this->m_374 = flags & ~0x20;
             this->obj_clearFlags30(0x02000000);
-            Vec_800C1144 v = *(Vec_800C1144 *)((s8 *)this + 0x38);
+            Vec v = *(Vec *)((s8 *)this + 0x38);
             if (project_actor_to_ground(this, &v, 0) == 1) {
                 *(f32 *)((s8 *)this + 0x3C) = 300.0f + v.y;
             }
@@ -1087,7 +1079,7 @@ void TObjEneLappy::vfunc_28() {
         } else if (((TObjCollidable *)arg0)->obj_testFlags30(0x10) != 0) {
             i = 0;
             best_id = 0xFFFF;
-            Vec_800C1224 v = lappy_target_zero_vec;
+            Vec v = lappy_target_zero_vec;
             best = *(f32 *)((s8 *)(*(f32 **)((s8 *)arg0 + 0x350)) + 0) * *(f32 *)((s8 *)(*(f32 **)((s8 *)arg0 + 0x350)) + 0);
             for (; i < registered_player_count + lbl_805D5870; i++) {
                 p = (u8 *)TObjPlayer::get_player_data(i);

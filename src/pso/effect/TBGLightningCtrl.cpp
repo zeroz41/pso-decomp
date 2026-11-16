@@ -27,41 +27,26 @@ struct RecoveredGlobal_802A9C24___vt__16TBGLightningCtrl {
 
 typedef char RecoveredGlobal_802A9C24___vt__16TBGLightningCtrl_size[sizeof(RecoveredGlobal_802A9C24___vt__16TBGLightningCtrl) == 0x34 ? 1 : -1];
 
-struct Stack_802AA0A4 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
-
 struct Vtx_802A9D40 { f32 x, y, z, u, v; s32 c; };
-
-struct Vec_802A9DF4 { f32 x, y, z; };
 
 struct Obj_802A9DF4 {
     u8 pad0[0x1C];
     s8 f1c;
     s8 f1d;
     u8 pad1e[2];
-    Vec_802A9DF4 pos;
+    Vec pos;
     f32 f2c;
 };
-
-struct Vec_802A9F48 { f32 x, y, z; };
 
 struct Obj_802A9F48 {
     u8 pad0[0x1C];
     s8 f1c;
     s8 f1d;
     u8 pad1e[2];
-    Vec_802A9F48 pos;
+    Vec pos;
     f32 f2c;
 };
 
-struct Stack_802A9A2C {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
 extern "C" {
 
 s32 VecCopy__FP3VecPC3Vec(void *, s32, s8, f32, f32);
@@ -73,8 +58,8 @@ extern "C" {
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(int);
 s32 __ct__7TObjectFP7TObject(u8 *, void *);
-void fn_802A9DF4(Obj_802A9DF4 *self, Vec_802A9DF4 *dir);
-void fn_802A9F48(Obj_802A9F48 *self, Vec_802A9F48 *dir);
+void fn_802A9DF4(Obj_802A9DF4 *self, Vec *dir);
+void fn_802A9F48(Obj_802A9F48 *self, Vec *dir);
 u32 __cvt_fp2unsigned(f32);
 s32 rand();
 f32 sin_table_lookup(s32);
@@ -98,15 +83,12 @@ void TBGLightningCtrl__sub_802A9A08(void) { TObjFish::set_global_param(bg_lightn
 #pragma push
 #pragma fp_contract on
 void TBGLightningCtrl::spawn_lightning_at_angle(s32 arg1) {
-    typedef char sp8_offset[(offsetof(Stack_802A9A2C, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_802A9A2C, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_802A9A2C, sp10) == 0x8) ? 1 : -1];
-    Stack_802A9A2C stack;
+    Vec stack;
 
-    stack.sp8 = this->scale.x * sin_table_lookup(arg1);
-    stack.spC = this->scale.y;
-    stack.sp10 = this->scale.x * cos_table_lookup(arg1);
-    ((s32 (*)(s32, s32, f32))create__12TBGLightningFiif)((s32) this, (s32) &stack.sp8, *(f32 *)((s8 *)this + 0x70) * (((0.3f) * ((3.0517578e-05f) * (f32) rand())) + (1.0f)));
+    stack.x = this->scale.x * sin_table_lookup(arg1);
+    stack.y = this->scale.y;
+    stack.z = this->scale.x * cos_table_lookup(arg1);
+    ((s32 (*)(s32, s32, f32))create__12TBGLightningFiif)((s32) this, (s32) &stack.x, *(f32 *)((s8 *)this + 0x70) * (((0.3f) * ((3.0517578e-05f) * (f32) rand())) + (1.0f)));
 }
 #pragma pop
 
@@ -192,9 +174,9 @@ void submit_particle_quad(void *arg0, f32 *p, f32 *d, s32 c) {
 #pragma push
 #pragma fp_contract on
 
-void fn_802A9DF4(Obj_802A9DF4 *self, Vec_802A9DF4 *dir) {
-    Vec_802A9DF4 p;
-    Vec_802A9DF4 d;
+void fn_802A9DF4(Obj_802A9DF4 *self, Vec *dir) {
+    Vec p;
+    Vec d;
     f32 scale;
     s32 idx;
     f32 s;
@@ -231,9 +213,9 @@ void fn_802A9DF4(Obj_802A9DF4 *self, Vec_802A9DF4 *dir) {
 
 #pragma push
 #pragma fp_contract on
-void fn_802A9F48(Obj_802A9F48 *self, Vec_802A9F48 *dir) {
-    Vec_802A9F48 p;
-    Vec_802A9F48 d;
+void fn_802A9F48(Obj_802A9F48 *self, Vec *dir) {
+    Vec p;
+    Vec d;
     f32 scale;
     switch (self->f1d) {
     case 0:
@@ -263,17 +245,17 @@ void fn_802A9F48(Obj_802A9F48 *self, Vec_802A9F48 *dir) {
 #pragma pop
 
 void render__12TBGLightningFv(s32 arg0) {
-    Stack_802AA0A4 stack;
+    Vec stack;
     s32 temp_r31;
     if (TMainTask::get_render_pass() != 0) {
         temp_r31 = *(s32 *)((s8 *)camera_ctrl_instance + 0x194) + 0x4000;
-        stack.sp8 = sin_table_lookup(temp_r31);
-        stack.spC = (-1.0f);
-        stack.sp10 = cos_table_lookup(temp_r31);
+        stack.x = sin_table_lookup(temp_r31);
+        stack.y = (-1.0f);
+        stack.z = cos_table_lookup(temp_r31);
         TParticleCtrl::begin_effect_render();
         set_additive_blend();
-        ((s32 (*)(s32, f32 *))fn_802A9F48)(arg0, &stack.sp8);
-        ((s32 (*)(s32, f32 *))fn_802A9DF4)(arg0, &stack.sp8);
+        ((s32 (*)(s32, f32 *))fn_802A9F48)(arg0, &stack.x);
+        ((s32 (*)(s32, f32 *))fn_802A9DF4)(arg0, &stack.x);
         set_default_alpha_blend();
         TParticleCtrl::end_effect_render();
     }

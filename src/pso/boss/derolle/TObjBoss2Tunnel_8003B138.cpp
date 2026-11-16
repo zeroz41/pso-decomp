@@ -55,11 +55,7 @@ struct S_8003C108 {
     u32 ptr[4];
 };
 
-struct Rec_8003C108 { f32 x, y, z; };
-
-struct Vec_8003B2EC { f32 x, y, z; };
-
-static const Vec_8003B2EC boss2_tunnel_raft_splash_offsets[2] = {{3.0f, 0.0f, -5.0f}, {-3.0f, 0.0f, -5.0f}};
+static const Vec boss2_tunnel_raft_splash_offsets[2] = {{3.0f, 0.0f, -5.0f}, {-3.0f, 0.0f, -5.0f}};
 const char *lbl_805D2708 = "TObjBoss2Tunnel";
 
 struct Model_8003B2EC { s32 a; s32 b; s32 obj; s32 c; };
@@ -128,10 +124,6 @@ typedef struct Col_8003B6E8 {
     f32 b;
 } Col_8003B6E8;
 
-typedef struct Vec_8003B6E8 {
-    f32 x, y, z;
-} Vec_8003B6E8;
-
 extern "C" {
 s32 create_particle__20TAdLoadQuestPrtTxtGCFPvll(void *, s32, s32);
 extern const f32 lbl_805D85B0;
@@ -157,7 +149,7 @@ struct Obj_8003C2A0;
 void shift_queue_push_next__15TObjBoss2TunnelFPv(Obj_8003C2A0 *self);
 void * init__13TUnk_804835D8Fv(void *arg0);
 f32 rand_signed_unit(void);
-void *__ct__13TObjBoss2DustFv(void *, void *, Vec_8003B6E8 *);
+void *__ct__13TObjBoss2DustFv(void *, void *, Vec *);
 void play_persistent_sound(int, void *, int, int, int);
 void enable_fog__15TObjBoss2TunnelFv(void);
 void enable_fog__15TObjBoss2TunnelFPv(TObjBoss2Tunnel *arg0);
@@ -212,7 +204,7 @@ static f32 boss2_tunnel_raft_splash_positions[2][3] = {
     {78.0f, lbl_805D825C, 83.0f},
     {-78.0f, lbl_805D825C, 83.0f},
 };
-static Rec_8003C108 boss2_tunnel_particle_pos_table[4] = {
+static Vec boss2_tunnel_particle_pos_table[4] = {
     {26.0f, -19.0f, 62.0f},
     {-26.0f, -19.0f, 62.0f},
     {26.0f, -19.0f, 0.0f},
@@ -668,7 +660,7 @@ void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o) {
         }
         o->fd8--;
         if (o->fd8 <= 0) {
-            Vec_8003B6E8 v;
+            Vec v;
             void *p;
             v.x = (2e+02f) * rand_signed_unit();
             v.y = (9e+01f) * ((3.0517578e-05f) * (f32)rand()) + (1e+01f);
@@ -813,7 +805,7 @@ void render__15TObjBoss2TunnelFv(u8 *arg0) {
     s32 saved;
     s32 i;
     Tunnel_8003B2EC *o = (Tunnel_8003B2EC *)arg0;
-    Vec_8003B2EC v = {0.0f, 0.0f, 0.0f};
+    Vec v = {0.0f, 0.0f, 0.0f};
     if (TObjPlayer::is_any_teammate_in_state() == 0 && TMainTask::get_render_pass() == 0) {
     push_matrix();
     {

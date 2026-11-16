@@ -64,13 +64,6 @@ struct Obj_80237310
   void *fdc;
 };
 
-typedef struct Vec_80237494
-{
-  f32 x;
-  f32 y;
-  f32 z;
-} Vec_80237494;
-
 typedef struct Emitter_80237494
 {
   u32 entry;
@@ -205,5 +198,4 @@ void TTecPlayerInfluence::vfunc_7(void *) {  }
 typedef struct Emitter_80237494 Emitter_80237494;
 typedef struct Profile_80237494 Profile_80237494;
 typedef struct Rabarta_80237494 Rabarta_80237494;
-typedef struct Vec_80237494 Vec_80237494;
 

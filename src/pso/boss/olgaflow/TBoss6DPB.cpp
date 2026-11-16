@@ -52,14 +52,12 @@ struct Pl_8035D924 : PBase_8035D924 {
     virtual void v21(s32, void *, int, int, int);
 };
 
-struct Vec_8035D924 { f32 x, y, z; };
-
 struct Dmg_8035D924 { s32 a; s32 b; s32 c; f32 d; };
 
 struct Shower_8035D924 {
     u8 pad0[0x1C];
     s32 owner;
-    Vec_8035D924 pos;
+    Vec pos;
     f32 radius;
     u8 pad30[4];
     s32 power;
@@ -92,7 +90,7 @@ void TBoss6DPB::sub_8035D8B0() {
 #pragma opt_common_subs off
 void TBoss6DPB::apply_shower_damage_to_players() {
     Shower_8035D924 *arg0 = (Shower_8035D924 *)this;
-    Vec_8035D924 v;
+    Vec v;
     Dmg_8035D924 dmg;
     s32 n;
     s32 i;

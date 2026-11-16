@@ -16,19 +16,15 @@
 
 #include "pso/effect/particle/TParticleCtrl.h"
 
-struct Vec_8035862C { f32 x, y, z; };
-
 struct InwardOrbitDir { s32 x, y, z; };
 
-static const Vec_8035862C lbl_804793D8 = {0.0f, -1.0f, 0.0f};
+static const Vec lbl_804793D8 = {0.0f, -1.0f, 0.0f};
 static const InwardOrbitDir lbl_804793E4 = {0, 0, 0x4000};
 
 
-struct Vec_80357B2C { f32 x, y, z; };
-
 struct Strike_80357B2C {
-    Vec_80357B2C pos;
-    Vec_80357B2C dir;
+    Vec pos;
+    Vec dir;
     f32 len;
 };
 
@@ -57,10 +53,10 @@ void *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 a, s32 b, 
 #pragma push
 #pragma fp_contract on
 void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1) {
-    Vec_80357B2C *p = (Vec_80357B2C *)arg0;
+    Vec *p = (Vec *)arg0;
     Strike_80357B2C strikes[14];
     Strike_80357B2C *s;
-    Vec_80357B2C *d;
+    Vec *d;
     s32 i;
     u32 obj;
     f32 scale;
@@ -358,7 +354,7 @@ extern s32 lbl_805D63B0;
 
 void weapon_special_lightning_bolt_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
     Vec node;
-    Vec_8035862C v;
+    Vec v;
     u32 obj;
     if (phase == 0) {
         player->get_anim_node_position(0x30, &node);
@@ -368,7 +364,7 @@ void weapon_special_lightning_bolt_effect(TObjPlayer *player, TObjBase *target, 
         VecCopy((Vec *)&v, pos);
         v.y += 100.0f;
         {
-            Vec_8035862C t = lbl_804793D8;
+            Vec t = lbl_804793D8;
             obj = __nw__7TObjectFUl(0x260);
             if (obj != 0U) {
                 ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&v, (u8 *)&t, 0x14000000, 0x14, 100.0f, 1.8f);

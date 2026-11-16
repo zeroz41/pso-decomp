@@ -31,8 +31,7 @@ struct Stack_8030A1E4
   s32 spC;
   s32 sp10;
 };
-struct V_80309E9C { f32 x, y, z; };
-struct Fol_80309E9C { u16 a; u16 b; u8 pad[0x8]; V_80309E9C v[3]; };
+struct Fol_80309E9C { u16 a; u16 b; u8 pad[0x8]; Vec v[3]; };
 extern "C" {
 int spawn_particle_effect(void*, void*);
 s32 set_owner_id__13TParticleCtrlFUs(s32, s32);
@@ -206,7 +205,7 @@ s32 TObjPlayer::check_hit_by_id_431(void* p, int a1) { return TObjPlayer::check_
 
 Fol_80309E9C *TObjPlayer__sub_80309E9C(Fol_80309E9C *o) {
     s32 i;
-    V_80309E9C *p;
+    Vec *p;
     ((TObjPlayer *)((u8 *)o + 4))->init_follow_particle_ctrl();
     o->b = 0xFFFF;
     o->a = 0xFFFF;

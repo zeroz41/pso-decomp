@@ -23,7 +23,6 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/lobby/LobbyPigeonTheme.h"
-struct Vec_802C0CAC { f32 x, y, z; };
 
 struct Entry_802C0CAC { s32 a; union { f32 pa; s32 b; }; union { f32 pb; s32 c; }; f32 d; s32 e; };
 
@@ -33,7 +32,7 @@ struct Obj_802C0CAC {
     s32 f9C;
     s32 fA0;
     u8 padA4[0x8];
-    Vec_802C0CAC vAC;
+    Vec vAC;
     s32 fB8;
     s32 fBC;
     s32 fC0;
@@ -48,7 +47,7 @@ struct Obj_802C0A74 {
     s32 fA0;
     f32 fA4;
     u8 padA8[0x4];
-    Vec_802C0CAC vAC;
+    Vec vAC;
     s32 fB8;
     s32 fBC;
     s32 fC0;
@@ -61,9 +60,7 @@ struct Entry_802C1E34 { s32 a; f32 b; f32 c; f32 d; s32 e; };
 struct Entry_802C2548 { s32 a; f32 b; f32 c; f32 d; s32 e; s32 f; };
 struct Q_802C2958 { s32 a; s32 b; s32 c; s32 d; };
 struct Entry_802C2C48 { s32 a; f32 b; f32 c; f32 d; s32 e; };
-struct Vec_802C0F3C { f32 x, y, z; };
 typedef Entry_802C0CAC Ent_802C0F3C;
-typedef struct { f32 x, y, z; } Vec_802C17FC;
 
 // Resource descriptors of the path-following objects: seabed dolphin, jungle ebi, jungle bird,
 // jungle kamome and lobby pigeon.
@@ -127,20 +124,20 @@ extern const Entry_802C1660 jungle_seagull_path_profiles[3] = {
     {2, 0.1f, 0.6f, 0.1f, 364},
     {3, 0.1f, 0.6f, 0.1f, 546},
 };
-extern const Vec_802C17FC lbl_80471908 = {0.0f, 0.0f, 0.0f};
+extern const Vec lbl_80471908 = {0.0f, 0.0f, 0.0f};
 extern const Ent_802C0F3C lobby_pigeon_path_profiles[3] = {
     {1, 0.1f, 2.0f, 0.1f, 364},
     {2, 0.1f, 2.0f, 0.1f, 364},
     {3, 0.1f, 2.0f, 0.1f, 546},
 };
-extern const Vec_802C0F3C lobby_pigeon_zero_vec = {0.0f, 0.0f, 0.0f};
+extern const Vec lobby_pigeon_zero_vec = {0.0f, 0.0f, 0.0f};
 extern const f64 lbl_80471960[1] = {10430.38043493439};
 
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 s32 sample_clamped_path_position(void *arg0, s32 arg1, void *arg2, s32 arg3, f32 farg0);
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-f32 subtract_vector(Vec_802C0CAC *, Vec_802C0CAC *);
+f32 subtract_vector(Vec *, Vec *);
 
 s32 approach_angle_limited(s32, s32, s32);
 s32 angle_diff_s16(s32, s32);
@@ -149,15 +146,13 @@ s32 angle_diff_s16(s32, s32);
 
 #include "pso/object/lobby/LobbyPigeon.h"
 
-struct Vec_802C22A4 { f32 x, y, z; };
-
-struct Hit_802C22A4 { u8 pad0[4]; Vec_802C22A4 *n; };
+struct Hit_802C22A4 { u8 pad0[4]; Vec *n; };
 
 struct Obj_802C22A4 {
-    u8 pad0[0x1E]; s16 f1E; u8 pad20[0x38 - 0x20]; Vec_802C22A4 pos;
+    u8 pad0[0x1E]; s16 f1E; u8 pad20[0x38 - 0x20]; Vec pos;
     u8 pad44[0x98 - 0x44];
     s32 f98; s32 f9C; s32 fA0; f32 fA4; u8 padA8[0x4];
-    Vec_802C22A4 vAC; s32 fB8; s32 fBC; s32 fC0; s32 fC4; s32 fC8;
+    Vec vAC; s32 fB8; s32 fBC; s32 fC0; s32 fC4; s32 fC8;
 };
 
 struct PigeonMovement { s32 motion; f32 pathSpeed, animationSpeed, lookAhead; s32 turnStep; };
@@ -174,7 +169,6 @@ s32 post_translate_matrix(void *);
 s32 rotate_matrix_z(s32, s32);
 void scale_matrix(void *, f32, f32, f32);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
-struct Vec_802C1660 { f32 x, y, z; };
 
 struct Obj_802C1660 {
     u8 pad0[0x98];
@@ -182,7 +176,7 @@ struct Obj_802C1660 {
     s32 f9C;
     s32 fA0;
     u8 padA4[0x8];
-    Vec_802C1660 vAC;
+    Vec vAC;
     s32 fB8;
     s32 fBC;
     s32 fC0;
@@ -197,7 +191,7 @@ struct Obj_802C1428 {
     s32 fA0;
     f32 fA4;
     u8 padA8[0x4];
-    Vec_802C1660 vAC;
+    Vec vAC;
     s32 fB8;
     s32 fBC;
     s32 fC0;
@@ -205,15 +199,13 @@ struct Obj_802C1428 {
     s32 fC8;
 };
 
-struct Vec_802C1E34 { f32 x, y, z; };
-
 struct Obj_802C1E34 {
     u8 pad0[0x98];
     s32 f98;
     s32 f9C;
     s32 fA0;
     u8 padA4[0x8];
-    Vec_802C1E34 vAC;
+    Vec vAC;
     s32 fB8;
     s32 fBC;
     s32 fC0;
@@ -228,7 +220,7 @@ struct Obj_802C1BFC {
     s32 fA0;
     f32 fA4;
     u8 padA8[0x4];
-    Vec_802C1E34 vAC;
+    Vec vAC;
     s32 fB8;
     s32 fBC;
     s32 fC0;
@@ -243,8 +235,6 @@ struct RecoveredGlobal_802C20E8_lbl_80471890
 };
 
 typedef struct RecoveredGlobal_802C20E8_lbl_80471890 RecoveredGlobal_802C20E8_lbl_80471890;
-
-struct Vec_802C2548 { f32 x, y, z; };
 
 struct Ent_802C1FD0 { s32 a; f32 b; f32 c; s32 d; s32 e; };
 struct Sub_802C1FD0 { s32 a; u32 n; };
@@ -276,7 +266,7 @@ struct Obj_802C2548 {
     s32 f9C;
     s32 fA0;
     u8 padA4[0x8];
-    Vec_802C2548 vAC;
+    Vec vAC;
     s32 fB8;
     s32 fBC;
     s32 fC0;
@@ -293,8 +283,6 @@ struct RecoveredGlobal_802C27FC_lbl_80471848
 typedef struct RecoveredGlobal_802C27FC_lbl_80471848 RecoveredGlobal_802C27FC_lbl_80471848;
 
 struct Obj_802C2958 { u8 pad[0x430]; s32 f430; };
-
-struct Vec_802C2C48 { f32 x, y, z; };
 
 struct Sub_802C2DEC { s32 a; u32 n; };
 struct Pl_802C2DEC {
@@ -313,7 +301,7 @@ struct Obj_802C2C48 {
     s32 f9C;
     s32 fA0;
     u8 padA4[0x8];
-    Vec_802C2C48 vAC;
+    Vec vAC;
     s32 fB8;
     s32 fBC;
     s32 fC0;
@@ -328,7 +316,7 @@ struct Obj_802C2A10 {
     s32 fA0;
     f32 fA4;
     u8 padA8[0x4];
-    Vec_802C2C48 vAC;
+    Vec vAC;
     s32 fB8;
     s32 fBC;
     s32 fC0;
@@ -350,7 +338,7 @@ struct Cnt_802C0F3C { s32 f0; s32 n; };
 
 struct Obj_802C0F3C {
     u8 pad0[0x38];
-    Vec_802C0F3C pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 f60;
     u8 pad64[0xAC - 0x64];
@@ -358,7 +346,7 @@ struct Obj_802C0F3C {
     u8 padb0[4];
     f32 b4;
     f32 b8;
-    Vec_802C0F3C bc;
+    Vec bc;
     u8 padc8[0xD8 - 0xC8];
     s32 d8;
     s32 dc;
@@ -385,7 +373,6 @@ s32 release_texture_list(void*);
 
 struct Pl_802C26E4;
 struct Ent_802C26E4;
-struct Vec_802C1660;
 s32 sample_motion_node_transform(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 
 #include "pso/ui/frontend/TAdStorySelectGC.h"
@@ -531,9 +518,9 @@ void TUnk_804E0988::vfunc_14() {
 }
 
 s32 TUnk_804E0988::sub_802C2C48() {
-    Vec_802C2C48 a;
-    Vec_802C2C48 b;
-    Vec_802C2C48 d;
+    Vec a;
+    Vec b;
+    Vec d;
     s32 tmp;
     s32 r;
     Obj_802C2C48 *self = (Obj_802C2C48 *)this;
@@ -541,38 +528,38 @@ s32 TUnk_804E0988::sub_802C2C48() {
     self->fBC = 0;
     this->m_c0 = 0;
     self->fC4 = 0;
-    ((s32 (*)(void *, s32, s32, Vec_802C2C48 *,
+    ((s32 (*)(void *, s32, s32, Vec *,
               f32))sample_clamped_path_position)(self, self->f98, self->fA0, &a,
                                                  (0.0f));
     VecCopy((Vec *)&self->vAC, (const Vec *)&a);
-    r = ((s32 (*)(void *, s32, s32, Vec_802C2C48 *,
+    r = ((s32 (*)(void *, s32, s32, Vec *,
                   f32))sample_clamped_path_position)(
         self, self->f98, self->fA0, &b, seabed_dolphin_path_profiles[this->m_c8].d);
     VecCopy((Vec *)&d, (const Vec *)&b);
-    ((f32 (*)(Vec_802C2C48 *, Vec_802C2C48 *))subtract_vector)(&d, &a);
+    ((f32 (*)(Vec *, Vec *))subtract_vector)(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &self->fBC, &tmp);
     this->m_b8 = (s32)(lbl_80471960[0] * atan2_float(b.x - a.x, b.z - a.z));
     return r;
 }
 
 s32 TUnk_804E0988::sub_802C2A10() {
-    Vec_802C2C48 a;
-    Vec_802C2C48 b;
-    Vec_802C2C48 d;
+    Vec a;
+    Vec b;
+    Vec d;
     s32 tmp;
     s32 tmp2;
     s32 r;
     s32 old;
     s32 diff;
-    ((s32 (*)(void *, s32, s32, Vec_802C2C48 *,
+    ((s32 (*)(void *, s32, s32, Vec *,
               f32))sample_clamped_path_position)(((Obj_802C2A10 *)this), ((Obj_802C2A10 *)this)->f98, ((Obj_802C2A10 *)this)->fA0, &a,
                                                  ((Obj_802C2A10 *)this)->fA4);
     VecCopy((Vec *)&((Obj_802C2A10 *)this)->vAC, (const Vec *)&a);
-    r = ((s32 (*)(void *, s32, s32, Vec_802C2C48 *,
+    r = ((s32 (*)(void *, s32, s32, Vec *,
                   f32))sample_clamped_path_position)(
         ((Obj_802C2A10 *)this), ((Obj_802C2A10 *)this)->f98, ((Obj_802C2A10 *)this)->fA0, &b, ((Obj_802C2A10 *)this)->fA4 + seabed_dolphin_path_profiles[((Obj_802C2A10 *)this)->fC8].d);
     VecCopy((Vec *)&d, (const Vec *)&b);
-    ((f32 (*)(Vec_802C2C48 *, Vec_802C2C48 *))subtract_vector)(&d, &a);
+    ((f32 (*)(Vec *, Vec *))subtract_vector)(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &tmp, &tmp2);
     ((Obj_802C2A10 *)this)->fBC = approach_angle_limited(((Obj_802C2A10 *)this)->fBC, tmp, seabed_dolphin_path_profiles[((Obj_802C2A10 *)this)->fC8].e);
     old = ((Obj_802C2A10 *)this)->fB8;
@@ -710,9 +697,9 @@ void TUnk_804E094C::vfunc_14() {
 }
 
 s32 TUnk_804E094C::sub_802C2548() {
-    Vec_802C2548 a;
-    Vec_802C2548 b;
-    Vec_802C2548 d;
+    Vec a;
+    Vec b;
+    Vec d;
     s32 tmp;
     s32 r;
     Obj_802C2548 *self = (Obj_802C2548 *)this;
@@ -720,15 +707,15 @@ s32 TUnk_804E094C::sub_802C2548() {
     self->fBC = 0;
     this->m_c0 = 0;
     self->fC4 = 0;
-    ((s32 (*)(void *, s32, s32, Vec_802C2548 *,
+    ((s32 (*)(void *, s32, s32, Vec *,
               f32))sample_clamped_path_position)(self, self->f98, self->fA0, &a,
                                                  (0.0f));
     VecCopy((Vec *)&self->vAC, (const Vec *)&a);
-    r = ((s32 (*)(void *, s32, s32, Vec_802C2548 *,
+    r = ((s32 (*)(void *, s32, s32, Vec *,
                   f32))sample_clamped_path_position)(
         self, self->f98, self->fA0, &b, jungle_ebi_path_profiles[this->m_c8].d);
     VecCopy((Vec *)&d, (const Vec *)&b);
-    ((f32 (*)(Vec_802C2548 *, Vec_802C2548 *))subtract_vector)(&d, &a);
+    ((f32 (*)(Vec *, Vec *))subtract_vector)(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &self->fBC, &tmp);
     this->m_b8 = (s32)(lbl_80471960[0] * atan2_float(b.x - a.x, b.z - a.z));
     return r;
@@ -740,23 +727,23 @@ s32 TUnk_804E094C::update_path_follow_rotation(void *, f32) {
     const Entry_802C2548 *e;
     s32 old;
     s32 diff;
-    Vec_802C22A4 a;
-    Vec_802C22A4 b;
+    Vec a;
+    Vec b;
     s32 tmp;
     s32 tmp2;
     e = &jungle_ebi_path_profiles[this->m_c8];
     if (!(e->f & 1)) {
         return 1;
     }
-    ((s32 (*)(void *, s32, s32, Vec_802C22A4 *,
+    ((s32 (*)(void *, s32, s32, Vec *,
               f32))sample_clamped_path_position)(self, self->f98, self->fA0, &a,
                                                  this->m_a4);
-    VecCopy((Vec *)((Vec_802C1660 *)&self->vAC), (const Vec *)((Vec_802C1660 *)&a));
-    r = ((s32 (*)(void *, s32, s32, Vec_802C22A4 *,
+    VecCopy((Vec *)((Vec *)&self->vAC), (const Vec *)((Vec *)&a));
+    r = ((s32 (*)(void *, s32, s32, Vec *,
                   f32))sample_clamped_path_position)(self, self->f98, self->fA0,
                                                      &b, this->m_a4 + e->d);
     if (this->visibility != 0) {
-        Vec_802C22A4 p = self->vAC;
+        Vec p = self->vAC;
         Hit_802C22A4 *hit;
         vec3_add_to(&p, &self->pos);
         p.y += (1e+04f);
@@ -766,10 +753,10 @@ s32 TUnk_804E094C::update_path_follow_rotation(void *, f32) {
         }
     }
     {
-    Vec_802C22A4 d;
-    VecCopy((Vec *)((Vec_802C1660 *)&d), (const Vec *)((Vec_802C1660 *)&b));
-    ((f32 (*)(Vec_802C1660 *, Vec_802C1660 *))subtract_vector)((Vec_802C1660 *)&d, (Vec_802C1660 *)&a);
-    direction_to_rotation_xz((u8 *)((Vec_802C1660 *)&d), &tmp, &tmp2);
+    Vec d;
+    VecCopy((Vec *)((Vec *)&d), (const Vec *)((Vec *)&b));
+    ((f32 (*)(Vec *, Vec *))subtract_vector)((Vec *)&d, (Vec *)&a);
+    direction_to_rotation_xz((u8 *)((Vec *)&d), &tmp, &tmp2);
     }
     self->fBC = approach_angle_limited(self->fBC, tmp, e->e);
     old = this->m_b8;
@@ -905,9 +892,9 @@ void TUnk_804E0910::vfunc_14() {
 }
 
 s32 TUnk_804E0910::sub_802C1E34() {
-    Vec_802C1E34 a;
-    Vec_802C1E34 b;
-    Vec_802C1E34 d;
+    Vec a;
+    Vec b;
+    Vec d;
     s32 tmp;
     s32 r;
     Obj_802C1E34 *self = (Obj_802C1E34 *)this;
@@ -915,38 +902,38 @@ s32 TUnk_804E0910::sub_802C1E34() {
     self->fBC = 0;
     this->m_c0 = 0;
     self->fC4 = 0;
-    ((s32 (*)(void *, s32, s32, Vec_802C1E34 *,
+    ((s32 (*)(void *, s32, s32, Vec *,
               f32))sample_clamped_path_position)(self, self->f98, self->fA0, &a,
                                                  (0.0f));
     VecCopy((Vec *)&self->vAC, (const Vec *)&a);
-    r = ((s32 (*)(void *, s32, s32, Vec_802C1E34 *,
+    r = ((s32 (*)(void *, s32, s32, Vec *,
                   f32))sample_clamped_path_position)(
         self, self->f98, self->fA0, &b, lobby_pigeon_path_parameters[this->m_c8].d);
     VecCopy((Vec *)&d, (const Vec *)&b);
-    ((f32 (*)(Vec_802C1E34 *, Vec_802C1E34 *))subtract_vector)(&d, &a);
+    ((f32 (*)(Vec *, Vec *))subtract_vector)(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &self->fBC, &tmp);
     this->m_b8 = (s32)(lbl_80471960[0] * atan2_float(b.x - a.x, b.z - a.z));
     return r;
 }
 
 s32 TUnk_804E0910::sub_802C1BFC() {
-    Vec_802C1E34 a;
-    Vec_802C1E34 b;
-    Vec_802C1E34 d;
+    Vec a;
+    Vec b;
+    Vec d;
     s32 tmp;
     s32 tmp2;
     s32 r;
     s32 old;
     s32 diff;
-    ((s32 (*)(void *, s32, s32, Vec_802C1E34 *,
+    ((s32 (*)(void *, s32, s32, Vec *,
               f32))sample_clamped_path_position)(((Obj_802C1BFC *)this), ((Obj_802C1BFC *)this)->f98, ((Obj_802C1BFC *)this)->fA0, &a,
                                                  ((Obj_802C1BFC *)this)->fA4);
     VecCopy((Vec *)&((Obj_802C1BFC *)this)->vAC, (const Vec *)&a);
-    r = ((s32 (*)(void *, s32, s32, Vec_802C1E34 *,
+    r = ((s32 (*)(void *, s32, s32, Vec *,
                   f32))sample_clamped_path_position)(
         ((Obj_802C1BFC *)this), ((Obj_802C1BFC *)this)->f98, ((Obj_802C1BFC *)this)->fA0, &b, ((Obj_802C1BFC *)this)->fA4 + lobby_pigeon_path_parameters[((Obj_802C1BFC *)this)->fC8].d);
     VecCopy((Vec *)&d, (const Vec *)&b);
-    ((f32 (*)(Vec_802C1E34 *, Vec_802C1E34 *))subtract_vector)(&d, &a);
+    ((f32 (*)(Vec *, Vec *))subtract_vector)(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &tmp, &tmp2);
     ((Obj_802C1BFC *)this)->fBC = approach_angle_limited(((Obj_802C1BFC *)this)->fBC, tmp, lobby_pigeon_path_parameters[((Obj_802C1BFC *)this)->fC8].e);
     old = ((Obj_802C1BFC *)this)->fB8;
@@ -1060,7 +1047,7 @@ void TUnk_804E08D4::vfunc_13() {
     temp_r0 = *(s32 *)&this->unk_CC - 1;
     *(s32 *)&this->unk_CC = temp_r0;
     if (temp_r0 < 0) {
-        Vec_802C17FC v = lbl_80471908;
+        Vec v = lbl_80471908;
         set_matrix_identity((u8 *)&m);
         translate_matrix_vec3((u8 *)&m, (u8 *)&this->position);
         ((s32 (*)(void *, int))rotate_matrix_y)(&m, this->rotation_y);
@@ -1088,9 +1075,9 @@ void TUnk_804E08D4::vfunc_14() {
 }
 
 s32 TUnk_804E08D4::sub_802C1660() {
-    Vec_802C1660 a;
-    Vec_802C1660 b;
-    Vec_802C1660 d;
+    Vec a;
+    Vec b;
+    Vec d;
     s32 tmp;
     s32 r;
     Obj_802C1660 *self = (Obj_802C1660 *)this;
@@ -1098,38 +1085,38 @@ s32 TUnk_804E08D4::sub_802C1660() {
     self->fBC = 0;
     this->m_c0 = 0;
     self->fC4 = 0;
-    ((s32 (*)(void *, s32, s32, Vec_802C1660 *,
+    ((s32 (*)(void *, s32, s32, Vec *,
               f32))sample_clamped_path_position)(self, self->f98, self->fA0, &a,
                                                  (0.0f));
     VecCopy((Vec *)&self->vAC, (const Vec *)&a);
-    r = ((s32 (*)(void *, s32, s32, Vec_802C1660 *,
+    r = ((s32 (*)(void *, s32, s32, Vec *,
                   f32))sample_clamped_path_position)(
         self, self->f98, self->fA0, &b, jungle_seagull_path_profiles[this->m_c8].d);
     VecCopy((Vec *)&d, (const Vec *)&b);
-    ((f32 (*)(Vec_802C1660 *, Vec_802C1660 *))subtract_vector)(&d, &a);
+    ((f32 (*)(Vec *, Vec *))subtract_vector)(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &self->fBC, &tmp);
     this->m_b8 = (s32)(lbl_80471960[0] * atan2_float(b.x - a.x, b.z - a.z));
     return r;
 }
 
 s32 TUnk_804E08D4::update_path_steering() {
-    Vec_802C1660 a;
-    Vec_802C1660 b;
-    Vec_802C1660 d;
+    Vec a;
+    Vec b;
+    Vec d;
     s32 tmp;
     s32 tmp2;
     s32 r;
     s32 old;
     s32 diff;
-    ((s32 (*)(void *, s32, s32, Vec_802C1660 *,
+    ((s32 (*)(void *, s32, s32, Vec *,
               f32))sample_clamped_path_position)(((Obj_802C1428 *)this), ((Obj_802C1428 *)this)->f98, ((Obj_802C1428 *)this)->fA0, &a,
                                                  ((Obj_802C1428 *)this)->fA4);
     VecCopy((Vec *)(&((Obj_802C1428 *)this)->vAC), (const Vec *)&a);
-    r = ((s32 (*)(void *, s32, s32, Vec_802C1660 *,
+    r = ((s32 (*)(void *, s32, s32, Vec *,
                   f32))sample_clamped_path_position)(
         ((Obj_802C1428 *)this), ((Obj_802C1428 *)this)->f98, ((Obj_802C1428 *)this)->fA0, &b, ((Obj_802C1428 *)this)->fA4 + jungle_seagull_path_profiles[((Obj_802C1428 *)this)->fC8].d);
     VecCopy((Vec *)&d, (const Vec *)&b);
-    ((f32 (*)(Vec_802C1660 *, Vec_802C1660 *))subtract_vector)(&d, &a);
+    ((f32 (*)(Vec *, Vec *))subtract_vector)(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &tmp, &tmp2);
     ((Obj_802C1428 *)this)->fBC = approach_angle_limited(((Obj_802C1428 *)this)->fBC, tmp, jungle_seagull_path_profiles[((Obj_802C1428 *)this)->fC8].e);
     old = ((Obj_802C1428 *)this)->fB8;
@@ -1276,7 +1263,7 @@ void TUnk_804E0898::vfunc_13() {
   }
   if (--self->dc < 0) {
     Mtx_802C0F3C m;
-    Vec_802C0F3C v = lobby_pigeon_zero_vec;
+    Vec v = lobby_pigeon_zero_vec;
     set_matrix_identity((u8 *)&m);
     translate_matrix_vec3((u8 *)&m, (u8 *)&self->pos);
     ((void (*)(void *, s32))rotate_matrix_y)(&m, self->f60);
@@ -1338,9 +1325,9 @@ void TUnk_804E0898::select_lobby_pigeon_model() {
 }
 
 s32 TUnk_804E0898::initialize_lobby_pigeon_path() {
-    Vec_802C0CAC a;
-    Vec_802C0CAC b;
-    Vec_802C0CAC d;
+    Vec a;
+    Vec b;
+    Vec d;
     s32 tmp;
     s32 r;
     Obj_802C0CAC *self = (Obj_802C0CAC *)this;
@@ -1348,9 +1335,9 @@ s32 TUnk_804E0898::initialize_lobby_pigeon_path() {
     self->fBC = 0;
     this->m_d0 = 0;
     self->fC4 = 0;
-    ((s32 (*)(void *, s32, s32, Vec_802C0CAC *, f32))sample_clamped_path_position)(self, this->m_a8, this->m_b0, &a, (0.0f));
+    ((s32 (*)(void *, s32, s32, Vec *, f32))sample_clamped_path_position)(self, this->m_a8, this->m_b0, &a, (0.0f));
     VecCopy((Vec *)&self->vAC, (const Vec *)&a);
-    r = ((s32 (*)(void *, s32, s32, Vec_802C0CAC *, f32))sample_clamped_path_position)(self, this->m_a8, this->m_b0, &b, lobby_pigeon_path_profiles[this->m_d8].d);
+    r = ((s32 (*)(void *, s32, s32, Vec *, f32))sample_clamped_path_position)(self, this->m_a8, this->m_b0, &b, lobby_pigeon_path_profiles[this->m_d8].d);
     VecCopy((Vec *)&d, (const Vec *)&b);
     subtract_vector(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &self->fBC, &tmp);
@@ -1359,17 +1346,17 @@ s32 TUnk_804E0898::initialize_lobby_pigeon_path() {
 }
 
 s32 TUnk_804E0898::advance_lobby_pigeon_path() {
-    Vec_802C0CAC a;
-    Vec_802C0CAC b;
-    Vec_802C0CAC d;
+    Vec a;
+    Vec b;
+    Vec d;
     s32 tmp;
     s32 tmp2;
     s32 r;
     s32 old;
     s32 diff;
-    ((s32 (*)(void *, s32, s32, Vec_802C0CAC *, f32))sample_clamped_path_position)(((Obj_802C0A74 *)this), ((Obj_802C0A74 *)this)->f98, ((Obj_802C0A74 *)this)->fA0, &a, ((Obj_802C0A74 *)this)->fA4);
+    ((s32 (*)(void *, s32, s32, Vec *, f32))sample_clamped_path_position)(((Obj_802C0A74 *)this), ((Obj_802C0A74 *)this)->f98, ((Obj_802C0A74 *)this)->fA0, &a, ((Obj_802C0A74 *)this)->fA4);
     VecCopy((Vec *)&((Obj_802C0A74 *)this)->vAC, (const Vec *)&a);
-    r = ((s32 (*)(void *, s32, s32, Vec_802C0CAC *, f32))sample_clamped_path_position)(((Obj_802C0A74 *)this), ((Obj_802C0A74 *)this)->f98, ((Obj_802C0A74 *)this)->fA0, &b, ((Obj_802C0A74 *)this)->fA4 + lobby_pigeon_path_profiles[((Obj_802C0A74 *)this)->fC8].d);
+    r = ((s32 (*)(void *, s32, s32, Vec *, f32))sample_clamped_path_position)(((Obj_802C0A74 *)this), ((Obj_802C0A74 *)this)->f98, ((Obj_802C0A74 *)this)->fA0, &b, ((Obj_802C0A74 *)this)->fA4 + lobby_pigeon_path_profiles[((Obj_802C0A74 *)this)->fC8].d);
     VecCopy((Vec *)&d, (const Vec *)&b);
     subtract_vector(&d, &a);
     direction_to_rotation_xz((u8 *)&d, &tmp, &tmp2);

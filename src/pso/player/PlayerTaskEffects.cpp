@@ -35,7 +35,6 @@ extern "C" {
 extern s32 __vt__20TPlayerLevelFeedback[];
 
 }
-struct Vec_801C6408 { f32 x, y, z; };
 
 struct VB_801C6408 { u8 pad[0x18]; };
 
@@ -48,7 +47,7 @@ struct VO_801C6408 : VB_801C6408 {
     virtual void v40(); virtual void v41(); virtual void v42(); virtual void v43(); virtual void v44(); virtual void v45(); virtual void v46(); virtual void v47();
     virtual void v48(); virtual void v49(); virtual void v50(); virtual void v51(); virtual void v52(); virtual void v53(); virtual void v54(); virtual void v55();
     virtual void v56(); virtual void v57(); virtual void v58(); virtual void v59(); virtual void v60(); virtual void v61(); virtual void v62();
-    virtual void get_pos(s32, Vec_801C6408 *);
+    virtual void get_pos(s32, Vec *);
 };
 
 extern "C" {
@@ -482,7 +481,7 @@ struct Obj_801C5C38 { u8 pad[4]; s32 n; };
 struct Arrival_801C5F84 {
     s32 active;
     s32 yaw;
-    Vec_801C6408 pos;
+    Vec pos;
 };
 
 struct Pair_801C5FCC { f32 a; f32 b; };
@@ -979,7 +978,7 @@ TPlayerSoul::~TPlayerSoul() {}
 void TPlayerSoul::run_task() {
     VO_801C6408* p;
     TParticleCtrl* h;
-    Vec_801C6408 v;
+    Vec v;
     p = (VO_801C6408*)get_player();
     if (p != NULL && ((TObjPlayer *)p)->test_action_mask(0x8000) != 0 && is_current_area_item_enabled() != 0 &&
         is_on_current_floor__10TObjPlayerFi(p) != 0) {
@@ -1304,7 +1303,7 @@ void calc_death_sink_offset(void *arg0) {
 #pragma opt_common_subs off
 void calc_death_pose_height_offset(Out_801C58CC *arg0, Actor_801C58CC *arg1) {
     f32 sp[4];
-    arg1->get_pos(1, (Vec_801C6408 *)sp);
+    arg1->get_pos(1, (Vec *)sp);
     arg0->v = (1.0f + arg1->f3c) - sp[1];
     if (arg0->v > 3.0f) {
         arg0->v = 3.0f;

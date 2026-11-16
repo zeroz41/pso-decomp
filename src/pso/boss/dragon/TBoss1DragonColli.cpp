@@ -10,11 +10,6 @@
 #include "types.h"
 
 #include <stddef.h>
-struct Stack_8002B250 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-};
 
 struct RecoveredGlobal_8002B250___vt__17TBoss1DragonColli { s32 value; u8 remaining[0x14]; };
 typedef char RecoveredGlobal_8002B250___vt__17TBoss1DragonColli_size[sizeof(RecoveredGlobal_8002B250___vt__17TBoss1DragonColli) == 0x18 ? 1 : -1];
@@ -85,10 +80,7 @@ int push_matrix(void*);
 s32 __dl__7TObjectFPv(void *);
 
 u8 *TBoss1DragonColli__ct(u8 *object, s32 arg1) {
-    typedef char sp8_offset[(offsetof(Stack_8002B250, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8002B250, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8002B250, sp10) == 0x8) ? 1 : -1];
-    Stack_8002B250 stack;
+    Vec stack;
     s32 temp_r3;
     s32 temp_r3_2;
     s32 temp_r3_3;
@@ -98,31 +90,31 @@ u8 *TBoss1DragonColli__ct(u8 *object, s32 arg1) {
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__17TBoss1DragonColli;
     *(s32 *)((s8 *)object + 0) = (s32) TBoss1DragonColli__name;
-    stack.sp8 = 0.0f;
-    stack.spC = 0.0f;
-    stack.sp10 = 0.0f;
+    stack.x = 0.0f;
+    stack.y = 0.0f;
+    stack.z = 0.0f;
     temp_r3 = __nw__7TObjectFUl(0xB8);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = TBoss1DragonColli_C__ct(temp_r3, object, 1, &stack.sp8, 25.0f);
+        var_r0 = TBoss1DragonColli_C__ct(temp_r3, object, 1, &stack.x, 25.0f);
     }
     *(s32 *)((s8 *)object + 0x1C) = var_r0;
-    stack.sp8 = -4.0f;
-    stack.spC = 0.0f;
-    stack.sp10 = 40.0f;
+    stack.x = -4.0f;
+    stack.y = 0.0f;
+    stack.z = 40.0f;
     temp_r3_2 = __nw__7TObjectFUl(0xB8);
     var_r0_2 = temp_r3_2;
     if (var_r0_2 != 0) {
-        var_r0_2 = TBoss1DragonColli_C__ct(temp_r3_2, object, 3, &stack.sp8, 10.0f);
+        var_r0_2 = TBoss1DragonColli_C__ct(temp_r3_2, object, 3, &stack.x, 10.0f);
     }
     *(s32 *)((s8 *)object + 0x20) = var_r0_2;
-    stack.sp8 = -4.0f;
-    stack.spC = 0.0f;
-    stack.sp10 = -100.0f;
+    stack.x = -4.0f;
+    stack.y = 0.0f;
+    stack.z = -100.0f;
     temp_r3_3 = __nw__7TObjectFUl(0xB8);
     var_r0_3 = temp_r3_3;
     if (var_r0_3 != 0) {
-        var_r0_3 = TBoss1DragonColli_C__ct(temp_r3_3, object, 5, &stack.sp8, 10.0f);
+        var_r0_3 = TBoss1DragonColli_C__ct(temp_r3_3, object, 5, &stack.x, 10.0f);
     }
     *(s32 *)((s8 *)object + 0x24) = var_r0_3;
     return object;

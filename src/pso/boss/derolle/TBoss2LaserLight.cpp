@@ -8,12 +8,10 @@
 
 #pragma readonly_strings on
 
-struct V3_80037264 { f32 x, y, z; };
-
 struct S_80037264 {
     u8 pad0[0x18];
     void *vt;
-    V3_80037264 recs[20];
+    Vec recs[20];
     s32 a10c, a110, a114, a118, a11c, a120;
 };
 
@@ -158,7 +156,7 @@ TUnk_80482C58::~TUnk_80482C58() {
 
 /* Pushes into the TUnk_80482C58 trail ring (the 20 records the ctor above clears); its 5.0f opens this
    file's .sdata2 pool, so it is this translation unit's first function. */
-extern "C" void push_trail_position__13TBoss2DeRolLeFPvPv(S_80037264 *self, V3_80037264 *src) {
+extern "C" void push_trail_position__13TBoss2DeRolLeFPvPv(S_80037264 *self, Vec *src) {
     VecCopy((Vec *)&self->recs[self->a10c], (const Vec *)src);
     self->recs[self->a10c].y += 5.0f;
     self->a10c++;

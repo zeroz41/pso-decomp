@@ -397,13 +397,11 @@ struct Stack_801B15A4 {
     u8 rest[17];
 };
 
-struct Vec_801B1FA4 { f32 x, y, z; };
-
 struct pkt_801B1FA4 {
     u8 hdr[2];
     u16 slot;
     s32 heading;
-    struct Vec_801B1FA4 pos;
+    Vec pos;
 };
 
 typedef struct Ctx_801B1BA4 { s16 f0; s16 f2; } Ctx_801B1BA4;
@@ -788,8 +786,6 @@ struct pkt_801B5164 {
     u16 player_id;
 };
 
-struct Vec_801B5328 { f32 x, y, z; };
-
 struct Pkt_801B5328 {
     u8 hdr[2];
     s16 actor_id;
@@ -922,23 +918,19 @@ typedef struct Player_801B6110 {
     s32 flags;
 } Player_801B6110;
 
-typedef Vec Vec_801B5DDC;
-
 struct Hit_801B5DDC {
     u8 pad0[0x18];
     u32 flags;
-    Vec_801B5DDC pos;
+    Vec pos;
     u8 pad28[0x38 - 0x28];
 };
 
 struct Obj_801B5DDC {
     u8 pad0[0x38];
-    Vec_801B5DDC pos;
+    Vec pos;
     u8 pad44[0x308 - 0x44];
-    Vec_801B5DDC f308;
+    Vec f308;
 };
-
-struct Vec_801B5EA4 { f32 x, y, z; };
 
 struct Pad_801B5EA4 { u8 pad[0x18]; };
 
@@ -947,11 +939,11 @@ struct Obj_801B5EA4 : Pad_801B5EA4 {
     virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
     virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11();
     virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15();
-    virtual u32 v16(Vec_801B5EA4 *);
+    virtual u32 v16(Vec *);
     u8 pad1c[0x38 - 0x1C];
-    Vec_801B5EA4 pos;
+    Vec pos;
     u8 pad44[0x308 - 0x44];
-    Vec_801B5EA4 vel;
+    Vec vel;
 };
 
 struct P_801B5FB0 { u8 pad[0x308]; f32 a; f32 pad30c; f32 b; };
@@ -976,8 +968,6 @@ struct Plr_801B6A5C {
     s16 a2;
     s16 b2;
 };
-
-typedef struct Vec_801B6964 { f32 x, y, z; } Vec_801B6964;
 
 struct Color_801B6964 { f32 r, g, b, a; };
 
@@ -1112,12 +1102,6 @@ struct VObj_801B7AC8_801B3FD8 : Base_801B7AC8_801B3FD8 {
     virtual void m14();
     virtual void m15();
     virtual void m16(s32);
-};
-
-struct Stack_801B7998 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
 };
 
 struct P_801B7B58 { u8 pad[0xD00]; void *fD00; };
@@ -1336,8 +1320,6 @@ struct Item_801B8AF8 {
     u8 data2[4];
 };
 
-typedef struct Vec_801B8870 { f32 x, y, z; } Vec_801B8870;
-
 typedef struct Cmd_801B8870 {
     u8 cmd;
     u8 size;
@@ -1345,7 +1327,7 @@ typedef struct Cmd_801B8870 {
     s16 b;
     s16 floor;
     s32 a;
-    Vec_801B8870 pos;
+    Vec pos;
 } Cmd_801B8870;
 
 struct Data_801B855C { u8 pad[0x20]; s32 meseta; };
@@ -1429,19 +1411,11 @@ struct Player_801B91F0 {
     Inv_801B91F0 *inv;
 };
 
-typedef struct Vec_801B92EC { f32 x, y, z; } Vec_801B92EC;
-
 struct Obj_801B92EC {
     u8 pad0[0x38];
-    Vec_801B92EC pos;
+    Vec pos;
     u8 pad44[0x60 - 0x44];
     s32 angle;
-};
-
-struct Stack_801B9544 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
 };
 
 typedef struct Cmd_801B9634 { u8 hdr[2]; s16 client; s32 val; } Cmd_801B9634;
@@ -1687,8 +1661,6 @@ typedef struct Msg_801BAA6C {
 
 struct Msg_801BAB1C { u16 cmd; u16 id; s32 value; u8 pad8[8]; };
 
-struct Vec_801BAB78 { f32 x, y, z; };
-
 struct VBase_801BAB78 { char pad[0x18]; };
 
 struct VObj_801BAB78 : VBase_801BAB78 {
@@ -1708,7 +1680,7 @@ struct VObj_801BAB78 : VBase_801BAB78 {
     virtual void m52(); virtual void m53(); virtual void m54(); virtual void m55();
     virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
     virtual void m60(); virtual void m61(); virtual void m62();
-    virtual void m63(s32, Vec_801BAB78 *);
+    virtual void m63(s32, Vec *);
     u8 pad1c[0x3C - 0x1C];
     f32 f3c;
     u8 pad40[0x60 - 0x40];
@@ -1780,21 +1752,19 @@ typedef struct VObj_18_9c7036 VObj_18_9c7036;
 
 struct O_801BC050 { u16 a; u16 pad; s32 b; };
 
-struct Vec_801BBD58 { f32 x, y, z; };
-
 struct Body_801BBD58 {
-    Vec_801BBD58 offset;
+    Vec offset;
     f32 radius;
     f32 radius2;
     s32 kind;
     s32 flags;
-    Vec_801BBD58 center;
+    Vec center;
     f32 extra;
 };
 
 struct Player_801BBD58 {
     u8 pad[0x38];
-    Vec_801BBD58 pos;
+    Vec pos;
     u8 pad44[0x324 - 0x44];
     s16 control;
     u8 pad326[0x680 - 0x326];
@@ -1890,7 +1860,7 @@ s32 TMainCursor__sub_80154098(int, int, int);
 s32 TMainCursor__sub_801540B8(int, int, int);
 u16 register_entity_by_id(void *obj);
 u8 * find_entity_by_id(u16);
-s32 test_player_overlap_with_players(Obj_801B5DDC *, Obj_801B5DDC *, Vec_801B5DDC *, Hit_801B5DDC *);
+s32 test_player_overlap_with_players(Obj_801B5DDC *, Obj_801B5DDC *, Vec *, Hit_801B5DDC *);
 void check_enemy_body_collisions(void *arg0);
 int clear_collision_bodies__14TObjCollidableFv(void*);
 s32 get_dest_area__17TObjAreaWarpQuestFv(void *);
@@ -1996,7 +1966,7 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
 Obj_801B4FD8 * init_player_join_record(Obj_801B4FD8 *self);
 void handle_6x2D_release_hold(void *arg0);
 void handle_6x2C_impose_hold(s32 arg0);
-void send_6x2C_impose_hold(s32 arg0, struct Vec_801B5328 *pos, s16 arg2, s16 arg3, f32 radius);
+void send_6x2C_impose_hold(s32 arg0, Vec *pos, s16 arg2, s16 arg3, f32 radius);
 void play_effect_default__10TObjPlayerFii(s32 arg0, s32 arg1);
 void set_move_mode__10TObjPlayerFi(s32 arg0);
 int check_flag_100__10TObjPlayerFPv(void* p);
@@ -2034,7 +2004,7 @@ void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
 void * pickup_item__10TObjPlayerFP5TItem(u8 *arg0, u8 *arg1);
 s32 can_pickup_item__10TObjPlayerFP9TItemData(void *arg0, u8 *arg1);
 void can_pickup_item_by_id__10TObjPlayerFP5TItem(s32 arg0, s32 arg1);
-bool is_target_in_facing_cone__10TObjPlayerFPv(Obj_801B92EC *self, Vec_801B92EC *target);
+bool is_target_in_facing_cone__10TObjPlayerFPv(Obj_801B92EC *self, Vec *target);
 void unequip_item__10TObjPlayerFiPv(s32 arg0, void *arg1);
 void handle_6x26_unequip_item(void *arg0);
 void send_6x26_unequip_item__10TObjPlayerFPvPv(void *self, void *item);
@@ -2280,7 +2250,7 @@ void text_builder_append(u8 *str);
 u32 __nw__7TObjectFUl(s32);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 u8 * __ct__7TObjectFP7TObject(void *, void *);
-void construct_actor_light_task(void *, Color_801B6964 *, Vec_801B6964 *, s32, s32, s32, f32);
+void construct_actor_light_task(void *, Color_801B6964 *, Vec *, s32, s32, s32, f32);
 void TLobby__sub_8024AC20(s32);
 void dispatch_to_child__11TWindowCtrlFPv(u16, s32);
 u32 TWindowReturnCity__ct(u32, s32, u16);
@@ -2299,7 +2269,7 @@ s32 rand();
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 s32 matrix_mult_vec(int, void *, void *);
-f32 vec3_dot(Vec_801B5DDC *, Vec_801B5DDC *);
+f32 vec3_dot(Vec *, Vec *);
 void scale_matrix(int, f32, f32, f32);
 f32 vector_length(void*);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
@@ -2320,12 +2290,12 @@ extern f32 TObjPlayer__data_805DC28C;
 extern f32 TObjPlayer__data_805DC294;
 extern const f32 TObjPlayer__data_805DC2BC;
 extern RecoveredGlobal_802A1154_main_task TObjPlayer__sub_801BEABC;
-extern const Vec_801B92EC lbl_80446F2C;
+extern const Vec lbl_80446F2C;
 extern u8 lbl_80446F50[];
 extern u8 lbl_80446F5C[];
 extern const f64 lbl_80446F68;
 extern u8 main_phase_state[];
-extern Vec_801B6964 scratch_vec[];
+extern Vec scratch_vec[];
 extern DeathItemPosition lbl_8050BF60;
 extern Color_801B6964 player_feedback_light_color[];
 extern void *player_slot_table[];
@@ -3067,7 +3037,7 @@ void TObjPlayer::draw_head_attachments() {
 void TObjPlayer__sub_801BAC48(void) {  }
 
 void draw_projected_shadow__10TObjPlayerFPvPvi(VObj_801BAB78 *self, f32 *pos, s32 arg2) {
-    Vec_801BAB78 v;
+    Vec v;
     s32 a;
     s32 b;
     self->m63(1, &v);
@@ -3618,15 +3588,15 @@ void TObjPlayer::use_current_item() {
 }
 
 void TObjPlayer::get_anim_node_position(s32 arg1, Vec *arg2) {
-    Stack_801B9544 stack;
+    Vec stack;
     s32 arg0 = (s32)this;
-    stack.sp10 = TObjPlayer__data_805DC278;
-    stack.spC = TObjPlayer__data_805DC278;
-    stack.sp8 = TObjPlayer__data_805DC278;
+    stack.z = TObjPlayer__data_805DC278;
+    stack.y = TObjPlayer__data_805DC278;
+    stack.x = TObjPlayer__data_805DC278;
     push_matrix_from(0);
     TObjPlayer::copy_matrix((u32)(0), (u32)((void *) (((TObjMotion *)arg0)->get_item_ptr(arg1))));
     TCameraCtrl::concat_matrix(0, (int) (TCameraCtrl::get_view_matrix()));
-    matrix_mult_vec(0, &stack.sp8, (void *)arg2);
+    matrix_mult_vec(0, &stack.x, (void *)arg2);
     pop_matrix();
 }
 
@@ -3681,9 +3651,9 @@ block_17:
 #pragma push
 #pragma fp_contract on
 bool TObjPlayer::is_target_in_facing_cone(void *target_arg) {
-    Vec_801B92EC *target = (Vec_801B92EC *)target_arg;
-    Vec_801B92EC to;
-    Vec_801B92EC fwd = lbl_80446F2C;
+    Vec *target = (Vec *)target_arg;
+    Vec to;
+    Vec fwd = lbl_80446F2C;
     f32 x;
     f32 z;
     f32 dot;
@@ -3696,7 +3666,7 @@ bool TObjPlayer::is_target_in_facing_cone(void *target_arg) {
     to.y = TObjPlayer__data_805DC278;
     to.z = target->z - z;
     ((TObjBoss2Tunnel *)(&to))->update_scale();
-    dot = ((f32 (*)(Vec_801B92EC *, Vec_801B92EC *))vec3_dot)(&fwd, &to);
+    dot = ((f32 (*)(Vec *, Vec *))vec3_dot)(&fwd, &to);
     return !(dot < cos_table_lookup(0x1555));
 }
 #pragma pop
@@ -4341,18 +4311,18 @@ u8 *TObjPlayer::update_actor_ground_y() {
 }
 
 u8 *TObjPlayer::vfunc_18(u8 *arg1) {
-    Stack_801B7998 stack;
+    Vec stack;
     f32 temp_f1;
     s32 temp_r31;
     u8 *temp_r3;
     u8 *temp_r6;
     u8 *arg0 = (u8 *)this;
-    stack.sp8 = *(f32 *)((s8 *)arg1 + 0);
+    stack.x = *(f32 *)((s8 *)arg1 + 0);
     temp_r6 = (u8 *)(((TObjPlayer *)arg0)->m_2b0);
     temp_f1 = *(f32 *)((s8 *)arg1 + 4);
-    stack.spC = temp_f1 + *(f32 *)((s8 *)temp_r6 + 0x10);
-    stack.sp10 = *(f32 *)((s8 *)arg1 + 8);
-    temp_r3 = (u8 *)(((u8 * (*)(f32 *, void *, s32, void *, f32))csnVectorUnder)(&stack.sp8, (u8 *)&this->m_120, 0x5F, temp_r6, temp_f1));
+    stack.y = temp_f1 + *(f32 *)((s8 *)temp_r6 + 0x10);
+    stack.z = *(f32 *)((s8 *)arg1 + 8);
+    temp_r3 = (u8 *)(((u8 * (*)(f32 *, void *, s32, void *, f32))csnVectorUnder)(&stack.x, (u8 *)&this->m_120, 0x5F, temp_r6, temp_f1));
     if (temp_r3 == NULL) {
         return NULL;
     }
@@ -4794,7 +4764,7 @@ void spawn_level_change_feedback__10TObjPlayerFv(s32 arg0, s32 arg1) {
     player_feedback_light_color[0].a = lbl_805DC2A8;
     p = ((void * (*)(u32))__nw__7TObjectFUl)(0x64);
     if (p != NULL) {
-        ((void (*)(void *, Color_801B6964 *, f32, Vec_801B6964 *, s32, s32, s32))construct_actor_light_task)(p, player_feedback_light_color, lbl_805DC2AC, scratch_vec, 10, arg0, tl_07);
+        ((void (*)(void *, Color_801B6964 *, f32, Vec *, s32, s32, s32))construct_actor_light_task)(p, player_feedback_light_color, lbl_805DC2AC, scratch_vec, 10, arg0, tl_07);
     }
     publish_actor_light_scalars(((s32 (*)(s32))get_entity_id)(arg0), TObjPlayer__data_805DC294, TObjPlayer__data_805DC28C);
 }
@@ -5029,7 +4999,7 @@ void damp_planar_velocity(P_801B5FB0 *p) {
 }
 
 s32 TObjPlayer::resolve_move_collision() {
-    Vec_801B5EA4 p;
+    Vec p;
     p.x = ((Obj_801B5EA4 *)this)->pos.x + ((Obj_801B5EA4 *)this)->vel.x;
     p.y = ((Obj_801B5EA4 *)this)->pos.y + ((Obj_801B5EA4 *)this)->vel.y;
     p.z = ((Obj_801B5EA4 *)this)->pos.z + ((Obj_801B5EA4 *)this)->vel.z;
@@ -5054,8 +5024,8 @@ s32 TObjPlayer::resolve_move_collision() {
 
 s32 TObjPlayer::check_actor_blocking_move() {
     Obj_801B5DDC *self = (Obj_801B5DDC *)this;
-    Vec_801B5DDC pos;
-    Vec_801B5DDC diff;
+    Vec pos;
+    Vec diff;
     Hit_801B5DDC hit;
     pos.x = self->pos.x + self->f308.x;
     pos.y = TObjPlayer__data_805DC278;
@@ -5374,7 +5344,7 @@ void TObjPlayer::play_effect(s32 arg0, s32 arg1, s32 arg2) {
     ((s32 (*)(s32, s32, s32, s32, f32))send_6x2C_impose_hold)(arg0, get_position_ptr__10TObjPlayerFv(), arg1, arg2, (*(f32 *)&TObjPlayer__data_805DC278));
 }
 
-void send_6x2C_impose_hold(s32 arg0, struct Vec_801B5328 *pos, s16 arg2, s16 arg3, f32 radius) {
+void send_6x2C_impose_hold(s32 arg0, Vec *pos, s16 arg2, s16 arg3, f32 radius) {
     struct Pkt_801B5328 pkt;
     if (arg0 == 0 || obj_isState2_324__9TObjCharaFv() == 0) {
         ((TObjPlayer *)(&pkt))->build_6x2C_impose_hold_packet();

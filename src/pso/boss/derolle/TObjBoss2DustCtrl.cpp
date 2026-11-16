@@ -9,10 +9,6 @@
 
 extern "C" {
 
-typedef struct Vec_8003AB7C {
-    f32 x, y, z;
-} Vec_8003AB7C;
-
 typedef struct Rot_8003AB7C {
     s32 a;
     s32 b;
@@ -23,7 +19,7 @@ typedef struct Out_8003AB7C {
 } Out_8003AB7C;
 
 typedef struct Dust_8003AB7C {
-    Vec_8003AB7C pts[6];
+    Vec pts[6];
     Rot_8003AB7C rot[10];
     Out_8003AB7C out[60];
     s32 ang[10];
@@ -33,9 +29,9 @@ typedef struct Out_8003AD54 { f32 x, y, z; u32 c; } Out_8003AD54;
 
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int, f32);
-void matrix_mult_vec(s32, Vec_8003AB7C *, Out_8003AB7C *);
+void matrix_mult_vec(s32, Vec *, Out_8003AB7C *);
 void push_matrix(void);
-Vec_8003AB7C boss2_dust_points[6];
+Vec boss2_dust_points[6];
 s32 boss2_dust_rotation_table[20];
 Out_8003AD54 boss2_dust_output_table[60];
 s32 boss2_dust_random_angles[10];

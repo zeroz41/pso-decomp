@@ -72,8 +72,6 @@ struct Particle_800865BC {
     f32 fBC;
 };
 
-struct Vec_80086248 { f32 x, y, z; };
-
 struct Vtx_80086248 { f32 x, y, z, u, v; u32 color; };
 
 struct UV_80086248 { f32 u0, v0, u1, v1; };
@@ -90,7 +88,6 @@ struct Tex_80086248 {
     u8 pad20[8];
 };
 
-typedef struct Vec_80085EE4 { f32 x, y, z; } Vec_80085EE4;
 typedef struct Quad_80085EE4 { f32 x, y, z, ax, ay, bx, by, pad1C; f32 u, v, du, k0, k1, dv; f32 pad38[2]; } Quad_80085EE4;
 
 typedef struct Cam_80085EE4 {
@@ -104,8 +101,8 @@ typedef struct Cam_80085EE4 {
 
 typedef struct Particle_80085EE4 {
     u8 pad0[0x70];
-    Vec_80085EE4 pos;
-    Vec_80085EE4 off;
+    Vec pos;
+    Vec off;
     f32 f88;
     f32 f8C;
     s32 f90;
@@ -118,8 +115,8 @@ struct Ctrl_80086248 {
     u8 pad0[0x1C];
     u16 tex;
     u8 pad1E[0x70 - 0x1E];
-    Vec_80086248 pos;
-    Vec_80086248 ofs;
+    Vec pos;
+    Vec ofs;
     f32 w;
     f32 h;
     u32 color;
@@ -166,8 +163,8 @@ extern Cam_80085EE4 lbl_8058D4F8;
 #pragma fp_contract on
 void TUnk_8048E778::draw_sprite_quad(s32 kind) {
     Particle_80085EE4 *p = (Particle_80085EE4 *)this;
-    Vec_80085EE4 view;
-    Vec_80085EE4 world;
+    Vec view;
+    Vec world;
     Quad_80085EE4 quad;
     UV_80086248 *uv;
     f32 sx;
@@ -269,7 +266,7 @@ typedef char RecoveredGlobal_8008655C_lbl_8048E728_size[sizeof(RecoveredGlobal_8
 
 void TUnk_8048E728::draw_particle_refraction_quad() {
     Ctrl_80086248 *self = (Ctrl_80086248 *)this;
-    Vec_80086248 p;
+    Vec p;
     Vtx_80086248 v[4];
     s32 frame;
     UV_80086248 *uv;

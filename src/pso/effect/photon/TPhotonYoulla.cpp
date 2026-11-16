@@ -30,13 +30,11 @@ int lbl_805D5D60;
 
 struct Color_801AE744 { f32 a, r, g, b; };
 
-struct Vec_801AE744 { f32 x, y, z; };
-
 struct Self_801AE744 {
     u8 pad0[0x24];
     s32 f24;
     u8 pad1[0x38 - 0x28];
-    Vec_801AE744 pos;
+    Vec pos;
     u8 pad2[0x60 - 0x44];
     s32 f60;
     u8 pad3[0x184 - 0x64];

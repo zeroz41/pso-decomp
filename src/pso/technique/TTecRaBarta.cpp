@@ -110,13 +110,6 @@ struct Obj_80237310
   void *fdc;
 };
 
-typedef struct Vec_80237494
-{
-  f32 x;
-  f32 y;
-  f32 z;
-} Vec_80237494;
-
 typedef struct Emitter_80237494
 {
   u32 entry;
@@ -195,11 +188,10 @@ __declspec(section ".sdata2") extern const f32 lbl_805DC8C4;
 typedef struct Emitter_80237494 Emitter_80237494;
 typedef struct Profile_80237494 Profile_80237494;
 typedef struct Rabarta_80237494 Rabarta_80237494;
-typedef struct Vec_80237494 Vec_80237494;
 void TTecRaBarta::vfunc_8(void *pos) {
     Rabarta_80237494 *self = (Rabarta_80237494 *)this;
   u32 i;
-  Vec_80237494 point;
+  Vec point;
   Emitter_80237494 *binding;
   self->emitters = (void **)mem_alloc(rabarta_band_emitter_table[self->band].count * 4);
   for (i = 0; i < rabarta_band_emitter_table[self->band].count; i++)
@@ -226,7 +218,7 @@ void TTecRaBarta::vfunc_8(void *pos) {
   }
   if (self->band == 5)
   {
-    Vec_80237494 point2;
+    Vec point2;
     Emitter_80237494 *b2 = (Emitter_80237494 *)&lbl_8044DA28;
     f32 dy = lbl_805DC8C4;
     u32 id;
@@ -332,15 +324,11 @@ void TTecRaBarta::vfunc_6(void *target) {
 #define TTecRaBarta_class_name ((u32)TTecRaBarta_class_name)
 #define calc_parameters__11TTecRaBartaFv ((void (*)(void *))calc_parameters__11TTecRaBartaFv)
 
-struct Vec_80237DAC { f32 x, y, z; };
-
 typedef struct Ids_80237CCC { u8 pad[0xF8]; u16 ids[32]; } Ids_80237CCC;
-
-typedef struct Vec_80237FB8 { f32 x, y, z; } Vec_80237FB8;
 
 typedef struct TTecRaFoie_80237FB8 {
     u8 pad0[0x7C];
-    Vec_80237FB8 target;
+    Vec target;
     u8 pad1[0xEC - 0x88];
     s32 target_count;
     u16 first_id;
@@ -350,7 +338,7 @@ typedef struct TTecRaFoie_80237FB8 {
 
 typedef struct TObjPlayer_80237FB8 {
     u8 pad0[0x2FC];
-    Vec_80237FB8 pos;
+    Vec pos;
 } TObjPlayer_80237FB8;
 
 struct Eff_80237BD8 { u8 pad[0xc]; f32 scale; };
@@ -455,12 +443,11 @@ void TTecRaBarta::run_task() {
 
 #pragma push
 #pragma opt_common_subs off
-struct Vec_80237DAC;
 
 #define self ((Self_80237BD8 *)self_)
 void *TTecRaBarta__ct(void *self_, void *source, void *origin, void *pos, void *level) {
     s32 i;
-    typedef Vec_80237DAC *(*VecCopyFn_80237BD8)(void *, void *);
+    typedef Vec *(*VecCopyFn_80237BD8)(void *, void *);
     construct_area_technique_base((u8 *)self_, (s32)source, (s32)origin, (s32)pos, (s32)level);
     self->vt = __vt__11TTecRaBarta;
     self->f0 = TTecRaBarta_class_name;

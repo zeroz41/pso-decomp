@@ -11,10 +11,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TObject.h"
 
-typedef struct Vec_800502FC {
-    f32 x, y, z;
-} Vec_800502FC;
-
 struct Range_800502FC {
     f32 min;
     f32 max;
@@ -67,7 +63,7 @@ __declspec(section ".data") void *lbl_804858D8[2] = {
 #pragma inline_depth(1)
 void TObjDFYutai::render() {
     Obj_800502FC *arg0 = (Obj_800502FC *)this;
-    Vec_800502FC v;
+    Vec v;
     u8 *p;
     f32 s;
     f32 w;

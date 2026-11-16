@@ -103,8 +103,6 @@ struct Ent_8011A270 { int name; int a; int b; };
 
 struct Hdr_8011A270 { int entries; int x4; };
 
-struct Vec_8011A43C { f32 x, y, z; };
-
 // One load/release pair of the reverse tech scene: init_scene calls each load,
 // run_cleanup_callbacks each release, last pair first.
 struct TItemReverseTechSceneHook {
@@ -183,8 +181,8 @@ void TItemReverseTech::init_scene() {
     if (cam != NULL) {
         TCameraCtrl__ct((u8 *)cam, (void *)tl_camera);
     }
-    Vec_8011A43C eye = {0.0f, 0.0f, 0.0f};
-    Vec_8011A43C at = {0.0f, 0.0f, -100.0f};
+    Vec eye = {0.0f, 0.0f, 0.0f};
+    Vec at = {0.0f, 0.0f, -100.0f};
     TCameraCtrl::select_active_controller(9);
     set_active_camera_pose((u8 *)&eye, (u8 *)&at);
     TKeyBoardControl__sub_8000F90C(2);
@@ -316,8 +314,8 @@ TItemReverseTech::~TItemReverseTech() {
 #pragma opt_common_subs off
 
 void TItemReverseTech::run_task() {
-    Vec_8011A43C eye = {0.0f, 0.0f, 0.0f};
-    Vec_8011A43C at = {0.0f, 0.0f, -100.0f};
+    Vec eye = {0.0f, 0.0f, 0.0f};
+    Vec at = {0.0f, 0.0f, -100.0f};
 
     u32 temp_r3;
     u32 object;
