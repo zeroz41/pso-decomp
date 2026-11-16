@@ -869,28 +869,19 @@ s32 TLobby__sub_80406624(s32 a, s32 b, u16 code, void *self) {
     return ppp_output_frame(ret);
 }
 
-inline s32 acfc_804066D8(s32 lcp, u8 *ctx)
+inline s32 ppp_keep_field(s32 lcp, u8 *ctx, s32 mask)
 {
   s32 r = 1;
-  if ((!lcp) && ((*((s16 *) (ctx + 0x50))) & 0x100))
+  if ((!lcp) && ((*((s16 *) (ctx + 0x50))) & mask))
   {
     r = 0;
   }
   return r;
 }
-inline s32 pfc_804066D8(s32 lcp, u8 *ctx)
+inline s32 ppp_protocol_field_is_two_bytes(s32 lcp, u8 *ctx, u16 tag)
 {
   s32 r = 1;
-  if ((!lcp) && ((*((s16 *) (ctx + 0x50))) & 0x80))
-  {
-    r = 0;
-  }
-  return r;
-}
-inline s32 two_804066D8(s32 lcp, u8 *ctx, u16 tag)
-{
-  s32 r = 1;
-  if (pfc_804066D8(lcp, ctx) == 0 && tag < 0xff)
+  if (ppp_keep_field(lcp, ctx, 0x80) == 0 && tag < 0xff)
   {
     r = 0;
   }
@@ -939,7 +930,7 @@ s32 ppp_output_frame(u8 *p)
   {
     accm = *((u32 *) (ctx + 0x54));
   }
-  two = two_804066D8(lcp, ctx, tag);
+  two = ppp_protocol_field_is_two_bytes(lcp, ctx, tag);
   if (two == 0)
   {
     n = 3;
@@ -950,7 +941,7 @@ s32 ppp_output_frame(u8 *p)
   }
   else
   {
-    acfc = acfc_804066D8(lcp, ctx);
+    acfc = ppp_keep_field(lcp, ctx, 0x100);
   }
   if (acfc == 0)
   {
