@@ -4,11 +4,11 @@
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TUnk_80488838.h"
-#include "pso/unk/TUnk_80488A28.h"
+
 #include "pso/unk/TUnk_80488DA0.h"
 #include "pso/unk/TUnk_80488E00.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/camera/TCameraCtrl.h"
+
 
 struct Vec_8006835C { f32 x, y, z; };
 

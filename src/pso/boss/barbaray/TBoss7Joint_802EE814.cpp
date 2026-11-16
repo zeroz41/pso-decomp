@@ -2,7 +2,7 @@
 #include "pso/boss/barbaray/TBoss7Joint.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/enemy/dd/TObjEneDD.h"
+
 
 extern "C" {
 extern const f32 lbl_805DE9F0;

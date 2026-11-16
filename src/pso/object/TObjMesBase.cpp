@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/object/TObjMesBase.h"
 #include "pso/object/TMotorcycle.h"
-#include "pso/object/TObjMesBase.h"
+
 #include "pso/object/base/TObjMotion.h"
 #include "pso/quest/TQuestThread.h"
 
@@ -9,7 +9,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/object/base/TObjMotion.h"
+
 #include "pso/unk/text_803D853C.h"
 
 extern "C" {
@@ -84,7 +84,7 @@ extern s32 __vt__11TObjMesBase[];
 TObjMesBase::~TObjMesBase() {
 
 }
-extern "C" {
+
 
 void *TObjMesBase__ct(TObjMesBase *mes_base, s32 arg1, s32 arg2) {
     __ct__14TObjCollidableFP7TObject();
@@ -105,4 +105,3 @@ void *TObjMesBase__ct(TObjMesBase *mes_base, s32 arg1, s32 arg2) {
 }
 
 
-}

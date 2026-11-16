@@ -22,7 +22,7 @@
 #include "pso/npc/TObjNpcEnemy_803D8090.h"
 #include "pso/npc/TObjNpcEnemy.h"
 
-extern "C" {
+
 char *debug_text_pool_cursor;
 DebugTextRecord *debug_text_record_cursor;
 s32 lbl_805D76C8;
@@ -48,7 +48,6 @@ void init_debug_text_buffer(DebugTextRecord *p, s32 n, s32 x) {
 
 void set_debug_text_scale(u16 arg0) {
     debug_text_scale = (f32)arg0;
-}
 }
 
 void TObjNpcEnemy::set_global_count(s32 arg0) {

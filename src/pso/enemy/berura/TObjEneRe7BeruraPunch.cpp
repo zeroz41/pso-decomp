@@ -193,10 +193,6 @@ void TObjEneRe7BeruraPunch::launch(s32 arg1, s32 arg2) {
     this->m_b4 = 1;
 }
 
-}
-
-extern "C" {
-
 // The punch's two collision spheres (radius 3).
 CollisionBody TObjEneRe7BeruraPunch__collision_body_templates[2] = {
     {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -322,7 +318,7 @@ TObjEneRe7BeruraPunch::~TObjEneRe7BeruraPunch() {
         this->attack_history = 0;
     }
 }
-extern "C" {
+
 
 void TObjEneRe7BeruraPunch::init() {
     this->m_b4 = 0;
@@ -345,4 +341,3 @@ TObjEneRe7BeruraPunch::TObjEneRe7BeruraPunch(TObject *parent, TObjBase *owner)
     init();
 }
 
-}

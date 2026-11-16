@@ -6,7 +6,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItem.h"
-#include "pso/system/task/TObject.h"
 
 
 #pragma readonly_strings on

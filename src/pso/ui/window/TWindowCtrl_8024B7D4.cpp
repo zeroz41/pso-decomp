@@ -18,7 +18,7 @@
 #include "pso/ui/chat/TWindowChat.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/map/FloorArea.h"
-#include "pso/system/task/TObject.h"
+
 
 typedef struct Ctrl_8024B8A0 {
     u8 pad0[0x1E];
@@ -83,10 +83,6 @@ void TWindowCtrl::update_pulse_color() {
 }
 #pragma pop
 
-}
-
-extern "C" {
-
 s32 has_player_active_menu__11TWindowCtrlFv(s32);
 s32 TWindowCtrl__sub_8024B000(void *, s32);
 s32 is_slot_visible__11TWindowCtrlFv(s32);
@@ -146,13 +142,10 @@ void TWindowCtrl__sub_8024BB30(TWindowCtrl *ctrl) {
 
 extern "C" {
 
-s32 has_player_active_menu__11TWindowCtrlFv(s32);
-s32 is_slot_visible__11TWindowCtrlFv(s32);
 void *TWindowTradeRequest__ct(void *, void *);
 void *__nw__7TObjectFUl(s32);
 s32 TWindowCtrl__sub_8024701C(void *);
 
-extern s32 local_client_id;
 
 void TWindowCtrl::update_trade_request_window() {
     void *var_r0;
@@ -171,11 +164,7 @@ void TWindowCtrl::update_trade_request_window() {
     }
 }
 
-}
-
-extern "C" {
 u32 TWindowGetComCard__ct(int, void *);
-extern s32 local_client_id;
 void TWindowCtrl::update_com_card_window() {
     u8 *arg0 = (u8 *)this;
     u32 temp_r3;
@@ -203,21 +192,13 @@ void TWindowCtrl::update_com_card_window() {
     }
 }
 
-}
-
-extern "C" {
-
-void *get_player_by_client_id(s32 i);
-s32 has_player_active_menu__11TWindowCtrlFv(s32);
 s32 apply_default_vec__11TWindowCtrlFll(void *, s32);
-s32 is_slot_visible__11TWindowCtrlFv(s32);
 }
 s32 chat_accept_submission(s32 arg0);
 extern "C" {
 void TWindowChat__sub_80247DFC(u8 *arg0);
 void TWindowChat__sub_80247E50(u8 *arg0);
 
-extern s32 local_client_id;
 
 void TWindowCtrl::update_window_visibility() {
     u8 *arg0 = (u8 *)this;
@@ -261,15 +242,11 @@ typedef struct Ctrl_8024BE80 {
     Win_8024BE80 *slots[3];
 } Ctrl_8024BE80;
 
-extern "C" {
+
 void *get_player_by_client_id(s32);
-}
 void window_request_show(void *);
 extern "C" {
-s32 has_player_active_menu__11TWindowCtrlFv(s32);
-s32 is_slot_visible__11TWindowCtrlFv(s32);
 f32 get_target_distance__13TWindowLockOnFv(s32);
-extern s32 local_client_id;
 void TWindowCtrl::update_party_status_rows() {
     f32 y;
     u32 i;

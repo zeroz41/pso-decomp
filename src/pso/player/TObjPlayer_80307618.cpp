@@ -69,13 +69,12 @@ char *get_shared_capture_texture_list(void) {
 
 TUnk_804E70A8::~TUnk_804E70A8() {}
 
-extern "C" {
+
 u8 *TObjPlayer__sub_80307800(u8 *item) {
     if (item != NULL) {
         return (u8 *)new TUnk_804E70A8(tl_05, item);
     }
     return NULL;
-}
 }
 
 TUnk_804E70A8::TUnk_804E70A8(TObject *parent, u8 *item) : TItemWeapon(parent, item) {

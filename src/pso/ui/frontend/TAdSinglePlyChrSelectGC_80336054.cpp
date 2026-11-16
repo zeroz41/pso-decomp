@@ -25,7 +25,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/TLobby_80335E08.h"
 #include "pso/unk/text_803369C8.h"
-#include "pso/system/task/TObject.h"
+
 
 extern "C" {
 
@@ -54,8 +54,6 @@ s32 TAdSinglePlyChrSelectGC::start_offline_seq() {
 }
 
 struct TCameraCtrl;
-
-
 
 
 NJS_TEXNAME title_texture_entries[21] = {
@@ -218,7 +216,6 @@ struct TitleTextureFilenameTable {
 const TitleTextureFilenameTable title_texture_filename_table = {
     {"Title", "Title_eng", "Title_eng", "Title_eng", "Title_eng"},
 };
-
 
 
 typedef struct {

@@ -11,11 +11,11 @@
 #include "pso/map/FloorArea.h"
 
 #include <stddef.h>
-#include "pso/map/FloorArea.h"
+
 #include "pso/item/TItemData.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
+
 
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 

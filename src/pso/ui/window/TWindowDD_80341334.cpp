@@ -80,9 +80,8 @@ void TWindowDD_WS_String::set_first_entry_text(u32 str) {
     }
 }
 
-extern "C" {
+
 const char *lbl_805D42D8 = "TWindowDD_WS_String";
-}
 
 // Entry layout table of the window: one column, one row, one text record (type 3).
 struct TWindowDD_WS_StringLayout {

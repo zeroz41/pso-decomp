@@ -311,9 +311,6 @@ void TCharaMaking__bind_body_shape_nodes(CharacterAppearanceFields *appearance, 
 void *TCMCharacter__ct(void *arg0, void *arg1);
 extern s32 creation_region_sample_index_table[24]; extern CreationShapePoint lbl_804D400C[9]; extern void* lbl_804D4054[21];
 #pragma defer_codegen on
-}
-
-extern "C" {
 void *TCMCharacter__ct(void *motion, void *arg1) {
     CreationTextureCacheEntry *p;
     s32 res;

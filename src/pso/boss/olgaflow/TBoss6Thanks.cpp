@@ -17,7 +17,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer.h"
+
 
 typedef char Thanks_current_motion[offsetof(TBoss6Thanks,current_motion)==0x20?1:-1];
 typedef char Thanks_frame0[offsetof(TBoss6Thanks,frame0)==0x28?1:-1];
@@ -182,7 +182,6 @@ void TBoss6Thanks::render() {
     TObjFish::reset_fish_globals();
 }
 
-extern "C" {
 
 void TBoss6Thanks::update_fade_out() {
     s32 temp_r3;
@@ -285,4 +284,3 @@ u8 *TBoss6Thanks__ct(TBoss6Thanks *boss6_thanks, u8 *arg1) {
     return (u8 *)boss6_thanks;
 }
 
-}

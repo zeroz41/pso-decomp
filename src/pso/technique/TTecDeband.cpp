@@ -6,14 +6,13 @@
 #include "pso/technique/TTecAnti.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer.h"
+
 #include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *tec_deband_class_name_ptr = "TTecDeband";
-}
 
 
 struct RecoveredGlobal_8022F948___vt__10TTecDeband {

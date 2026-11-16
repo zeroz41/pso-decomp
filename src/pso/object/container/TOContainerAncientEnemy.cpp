@@ -68,8 +68,6 @@ struct Pk_8015BAE0 { u8 pad[2]; u16 id; s32 a; s32 b; s32 c; };
 
 void play_container_break_sound(s32 arg0);
 
-extern "C" {
-
 
 extern const f32 lbl_805DB398;
 extern const f32 lbl_805DB39C;
@@ -114,11 +112,10 @@ static const TObjChipParams ancient_enemy_break_debris_desc_b = {
 // Built with -inline off,deferred: the compiler emits the functions (and the
 // vtables) last-to-first, so the definitions below run backwards from the
 // original code order.
-}
 
 void TLobby::init_packet_67_04() { *(u8 *)&this->m_name = 103; *(u8*)((char*)this + 0x1) = 4; }
 
-extern "C" void byteswap_event_packet__6TLobbyFi(s32 packet) {
+void byteswap_event_packet__6TLobbyFi(s32 packet) {
     ((G_ClientIDHeader *)packet)->bswap();
     bswap_32((u32 *)(packet + 4));
     bswap_32((u32 *)(packet + 8));

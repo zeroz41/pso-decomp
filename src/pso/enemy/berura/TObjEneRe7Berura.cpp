@@ -89,10 +89,6 @@ void update_technique_slot__10TTecRaFoieFl(s32);
 }
 
 
-
-
-
-
 struct Mtx_8009503C { f32 m[3][4]; };
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, void *);
@@ -105,11 +101,6 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1);
 void TObjEneRe7Berura__sub_80094C68(TObjEneRe7Berura *self);
 void TObjEneRe7Berura__sub_80094D98(TObjEneRe7Berura *self);
 void draw_node_tree__16TObjEneRe7BeruraFPv(NJS_OBJECT *obj);
-
-
-
-
-
 
 
 s32 TObjPlayer__sub_800A0554(void *);
@@ -129,9 +120,6 @@ void *mem_alloc(u32 size);
 void free_collision_body_parts(void *);
 
 
-
-
-
 void compose_motion_node_matrix(void *arg0);
 s32 matrix_mult_vec(int, void *, void *);
 void copy_matrix__10TObjPlayerFUlUl(int, void *);
@@ -145,7 +133,6 @@ void draw_chunk_model(void *arg0);
 extern u8 *TObjEneRe7Berura__data_805007D4[];
 
 
-
 extern const DelDepthAnimationBinding ene_re7_berura_attack_def;
 extern s32 identity_matrix[];
 const s32 lbl_805D9718[1] = {14};
@@ -156,100 +143,6 @@ extern const s32 TObjEneRe7Berura__data_80439DA8[];
 extern const s32 TObjEneRe7Berura__data_80439DB0[];
 extern const s32 TObjEneRe7Berura__data_80439DB8[];
 extern TObject *tl_04;
-extern "C" {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 TObjEneRe7BeruraMovementParameters berura_init_params = {
@@ -562,11 +455,8 @@ void TObjEneRe7Berura::vfunc_88() {
 }
 
 void TObjEneRe7Berura::sub_80095328() {  }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 s32 TObjEneRe7Berura::acquire_target_in_view() {
     Vec v;
     s32 n;
@@ -605,10 +495,7 @@ s32 TObjEneRe7Berura::acquire_target_in_view() {
     }
     return 0;
 }
-}
-
 #pragma pop
-extern "C" {
 s32 TObjEneRe7Berura__sub_8009518C(TObjEneRe7Berura *self) {
     return !(self->m_418[self->m_3f4] & 2);
 }
@@ -873,7 +760,6 @@ void TObjEneRe7Berura::state_attack(s32 arg1) {
         m_3c0 &= ~2;
         break;
     }
-}
 }
 
 void TObjEneRe7Berura__sub_8009472C(TObjEneRe7Berura *self, s32 arg1) {
@@ -1227,7 +1113,7 @@ void TObjEneRe7Berura__sub_80093C80(TObjEneRe7Berura *self, s32 arg1) {
         break;
     }
 }
-extern "C" {
+
 void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
     Vec sp2C;
     Vec sp20;
@@ -1328,11 +1214,8 @@ void TObjEneRe7Berura__sub_80093888(TObjEneRe7Berura *actor, s32 arg1) {
         break;
     }
 }
-}
-
 #pragma push
 #pragma opt_propagation off
-extern "C" {
 void TObjEneRe7Berura::run_flash_warning_state(s32 arg1) {
     s32 t;
     s32 v;
@@ -1386,7 +1269,6 @@ void TObjEneRe7Berura::run_flash_warning_state(s32 arg1) {
         break;
     }
 }
-}
 
 #pragma pop
 void TObjEneRe7Berura::state_patrol(void *arg0, int arg1) {
@@ -1422,7 +1304,7 @@ void TObjEneRe7Berura::state_patrol(void *arg0, int arg1) {
     }
 
 }
-extern "C" {
+
 void TObjEneRe7Berura__sub_80093470(TObjEneRe7Berura *self, s32 mode) {
     Vec v;
     f32 speed;
@@ -1716,5 +1598,4 @@ void TObjEneRe7Berura::vfunc_106() {
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }
-}
 }

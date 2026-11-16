@@ -352,7 +352,6 @@ s16 modem_script_send(void) {
     return 0;
 }
 
-u8 *TLobby__sub_803FB110(void);
 /* Builds the dial string from the session settings (prefix, number from the profile, optional suffix) and starts the call; request: s16 +0 = use second number, s16 +2 = has suffix, s16 +4 = script index, +0xC = suffix string (layout partly guessed). */
 s16 modem_script_dial(u8 *request) {
     u8 *p;
@@ -547,7 +546,6 @@ s16 modem_script_next_token(u8 *src, u8 *dst, u8 **next) {
 }
 
 extern s32 lbl_805D7BD8;
-s32 NetCompareStringsCaseInsensitiveN(u8 *a, u8 *b, u32 n);
 s16 TLobby__sub_804290D4(s32 idx) {
     s16 *lenp;
     u8 **bufp;

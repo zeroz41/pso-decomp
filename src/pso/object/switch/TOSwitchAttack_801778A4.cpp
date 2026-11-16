@@ -2,7 +2,7 @@
 #include "pso/object/switch/TOSwitchAttack_801778A4.h"
 #include "types.h"
 #include "pso/object/switch/TOSwitchAttack.h"
-#include "pso/object/switch/TOSwitchAttack.h"
+
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
@@ -186,7 +186,7 @@ void TOSwitchAttack__sub_80177C24(void) {  }
 TOSwitchAttack::~TOSwitchAttack() {
 
 }
-extern "C" {
+
 typedef char RecoveredGlobal_80177C80___vt__14TOSwitchAttack_size[sizeof(RecoveredGlobal_80177C80___vt__14TOSwitchAttack) == 0x38 ? 1 : -1];
 u8 *TOSwitchAttack__ct(u8 *switch_attack, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(switch_attack);
@@ -199,4 +199,3 @@ u8 *TOSwitchAttack__ct(u8 *switch_attack, s32 arg1, s32 arg2) {
     return switch_attack;
 }
 
-}

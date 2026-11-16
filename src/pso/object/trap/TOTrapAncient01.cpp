@@ -43,7 +43,7 @@
 
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TUnk_804B6C24.h"
+
 
 BmlResource *TOTrapAncient01__bml_resource;
 

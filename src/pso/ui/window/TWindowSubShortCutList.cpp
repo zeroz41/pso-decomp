@@ -8,8 +8,7 @@
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
-#include "pso/ui/window/TWindowMenuIconLine.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
+
 
 struct Obj_8027E558 { const char *f0; u8 pad[0x14]; void *vt; u8 pad2[0x88 - 0x1C]; void *list; };
 

@@ -3,7 +3,7 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
-#include "pso/map/FloorArea.h"
+
 typedef struct SpawnRecord_8020CC48 {
     s16 type;
     u16 flags;

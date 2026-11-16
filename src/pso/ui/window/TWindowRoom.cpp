@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowDD.h"
+
 #include "pso/unk/WindowLayoutRecord.h"
 
 struct RecoveredGlobal_8026D674___vt__11TWindowRoom {

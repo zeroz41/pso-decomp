@@ -31,10 +31,9 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/enemy/TObjEnePanBARA.h"
+
 #include "pso/object/base/TObjChara.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/unk/TLobby.h"
+
 
 typedef char PanarmsActionTimerOffset[offsetof(TObjEnePanBARA, action_timer) == 0x3B4 ? 1 : -1];
 
@@ -59,8 +58,6 @@ struct Stack_800E0950 {
     s32 sp8;
     f32 spC;
 };
-
-
 
 
 typedef struct { f32 x, y, z; } Vec_800E0A44;
@@ -222,7 +219,6 @@ struct Panarms_800E2200 {
     s32 counter;
     void dummy();
 };
-
 
 
 struct O_800E2FB4 { u8 pad[0x378]; s32 state; };

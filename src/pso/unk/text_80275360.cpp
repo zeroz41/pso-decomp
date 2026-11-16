@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/chat/ShortMail.h"
 
-extern "C" {
+
 void TWindowSubComCardList::sub_80275360() {
     TWindowSubComCard *card;
     s32 n;
@@ -43,5 +43,4 @@ void TWindowSubComCardList::sub_80275360() {
         }
         TWindowSubComCard::draw_text_gray((s32)this, msg, 4, -1);
     }
-}
 }

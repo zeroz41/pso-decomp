@@ -77,7 +77,6 @@ void TLobby::init_and_add_ref() {
     TLobby_init_ref_count += 1;
 }
 
-extern "C" {
 
 s32 TLobby::ar_alloc() {
     ARAlloc();
@@ -103,5 +102,4 @@ s32 TLobby::process_connection_state() {
 
 void TLobby::forward_notify_error(s32 arg0, s32 arg1) {
     TLobby::notify_error((const char *)arg1);
-}
 }

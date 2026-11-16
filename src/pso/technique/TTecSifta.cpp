@@ -8,14 +8,13 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer.h"
+
 #include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TTecSifta__name = "TTecSifta";
-}
 
 
 struct RecoveredGlobal_8023B17C___vt__9TTecSifta {

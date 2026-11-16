@@ -25,8 +25,7 @@
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/city/TShopWindowBase.h"
-#include "pso/unk/TLobby.h"
+
 
 // A window's width and height.
 struct WindowSize {
@@ -52,10 +51,8 @@ s32 online_quest_list_state;
 
 struct S217 { char pad[0x38]; void *f38; };
 
-extern "C" {
 extern u8 *TQuestListOnline__quest_list_buffer;
 extern u8 *TQuestListOnline__selected_quest_info;
-}
 
 struct VBase_18_80217F88 { char pad[0x18]; };
 
@@ -127,10 +124,8 @@ extern T_80217B30 TQuestListOnline__dat_download_state;
 
 struct Obj_802181B0 { u8 pad[0x20]; u32 state; };
 
-extern "C" {
 extern s32 __vt__16TQuestListOnline[];
 struct VOff_80218310_arg0 { char pad_0[0x4C]; char f_4C[1]; };
-}
 
 void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *arg1, void *arg2, void *arg3) {
     struct VOff_80218310_arg0 *self = (struct VOff_80218310_arg0 *)quest_list_online;

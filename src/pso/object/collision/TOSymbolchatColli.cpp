@@ -1,11 +1,11 @@
 #include "pso/render/render_util.h"
 #include "pso/object/collision/TOSymbolchatColli.h"
-#include "pso/object/collision/TOSymbolchatColli.h"
+
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/object/collision/TOSymbolchatColli.h"
+
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

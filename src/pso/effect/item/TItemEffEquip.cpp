@@ -11,9 +11,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/item/TUnk_8049F038.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/system/task/TObject.h"
+
 
 // The collision sphere TUnk_8049F038 copies into its own body (radius 3).
 extern const CollisionBody lbl_8043E1A0 = {
@@ -22,10 +20,7 @@ extern const CollisionBody lbl_8043E1A0 = {
 const char *TItemEffEquip__class_name = "TItemEffEquip";
 
 struct Equip_Self { u8 pad0[0x18]; void *vt; void *m_1c; void *m_20; };
-extern "C" {
 extern void *__vt__13TItemEffEquip[];
-
-}
 #include "types.h"
 #include "pso/unk/text_801036CC.h"
 
@@ -198,9 +193,9 @@ struct VObj80108BB0_80108bb0 : VBase0x18_2_80108bb0 {
 
 
 extern "C" void run_task__13TItemEffEquipFv(Equip_Self *self);
-extern "C" void *TItemEffEquip__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5);
+void *TItemEffEquip__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5);
 
-extern "C" {
+
 TUnk_8049F038::TUnk_8049F038(TObject *parent, s16 a, s32 b) : TObjCollidable(parent) {
     ((Obj_80108C90 *)this)->f_AC = a;
     ((Obj_80108C90 *)this)->f_B0 = b;
@@ -276,13 +271,12 @@ void *TItemEffEquip__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *ar
     return arg0;
 }
 
-}
 #undef self
 TItemEffEquip::~TItemEffEquip() {
     TParticleCtrl::release(this->m_20);
 }
 
-extern "C" {
+
 void run_task__13TItemEffEquipFv(Equip_Self *self) {
     if (((TObject *)((TObject*)self->m_1c))->all_parents_unqueued_for_destruction() == 0) {
         self->m_1c = NULL;
@@ -290,4 +284,3 @@ void run_task__13TItemEffEquipFv(Equip_Self *self) {
     }
 }
 
-}

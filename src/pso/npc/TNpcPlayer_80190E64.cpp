@@ -56,11 +56,7 @@ u8 *create_player_object(u16, s32, s32);
 s32 queue_player_injured_pose();
 void set_player_quest_control_flag(TObjPlayer *player);
 
-}
-
 #pragma defer_codegen on
-
-extern "C" {
 extern void *tl_05;
 int hashi_versus2_flag;
 
@@ -83,9 +79,6 @@ void *TLobby::create_npc(void *arg0) {
     }
     return o;
 }
-}
-
-extern "C" {
 u8 *TLobby__sub_8019118C(u8 *arg0, s32 arg1, s32 arg2) {
     __ct__14TObjCollidableFP7TObject(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804B7C1C.value;
@@ -149,7 +142,7 @@ void TUnk_804B7C1C::render() {  }
 
 void TLobby__sub_80190FD0(int a0) { npc_proximity_target_id = a0; }
 
-extern "C" {
+
 Npc_80190F3C *init_npc_player_char_loader(Npc_80190F3C *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *arg6) {
     __ct__7TObjectFP7TObject(arg0, arg6);
     arg0->f18 = ((u8 *)__vt__13TUnk_804B7C04);
@@ -162,7 +155,6 @@ Npc_80190F3C *init_npc_player_char_loader(Npc_80190F3C *arg0, void *arg1, s32 ar
     TNpcPlayer::ensure_rock_singleton();
     TLobby::request_file_read((s32)"npcplayerchar.dat", (s32)npc_player_char_data_buffer, &arg0->f2C, (void **)0);
     return arg0;
-}
 }
 
 TUnk_804B7C04::~TUnk_804B7C04() {

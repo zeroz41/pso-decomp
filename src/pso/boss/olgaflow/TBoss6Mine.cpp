@@ -19,7 +19,7 @@
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/player/TObjPlayer.h"
+
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
@@ -395,7 +395,7 @@ TBoss6Mine::~TBoss6Mine() {
     free_collision_body_parts(this);
     if (this->owner != NULL) { TBoss6Type1__sub_802B5DD4(this->owner); }
 }
-extern "C" {
+
 
 extern s32 tl_04;
 
@@ -477,4 +477,3 @@ TBoss6Mine *TBoss6Mine::create(TBoss6MineSetData *set_data) {
     return (TBoss6Mine *)var_r31;
 }
 
-}

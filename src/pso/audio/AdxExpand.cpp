@@ -33,9 +33,6 @@ u32 dispatch_receive_update__6TLobbyFv(int, int, int, void *, int, void *, int, 
 
 s32 lbl_805D7588;
 
-}
-extern "C" {
-
 void TLobby::update_receive_check() {
     u8 *arg0 = (u8 *)this;
     u32 temp_r0;

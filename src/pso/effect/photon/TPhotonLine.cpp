@@ -8,7 +8,7 @@ const char *TPhotonLine__class_name = "TPhotonLine";
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/effect/photon/TPhotonLine.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -126,7 +126,7 @@ TPhotonLine::~TPhotonLine() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-extern "C" {
+
 Line_801ACD14 *TPhotonLine__ct(Line_801ACD14 *self, Params_801ACD14 *p, void *parent, u16 arg3) {
     s32 i;
     __ct__9TObjCharaFP7TObject(self, parent);
@@ -149,4 +149,3 @@ Line_801ACD14 *TPhotonLine__ct(Line_801ACD14 *self, Params_801ACD14 *p, void *pa
     return self;
 }
 
-}

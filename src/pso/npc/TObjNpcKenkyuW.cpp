@@ -4,9 +4,8 @@
 #include "pso/npc/TObjNpcKenkyuW.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/npc/TUnk_804A9F50.h"
+
 #include "pso/enemy/TNeedleShoot.h"
-#include "pso/player/TObjPlayer.h"
 
 
 struct RecoveredGlobal_802A3CD8___vt__14TObjNpcKenkyuW {
@@ -15,7 +14,7 @@ struct RecoveredGlobal_802A3CD8___vt__14TObjNpcKenkyuW {
 };
 
 #include "pso/technique/TechniqueContact.h"
-#include "pso/enemy/TNeedleShoot.h"
+
 #include "pso/unk/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
@@ -114,7 +113,7 @@ void TObjNpcKenkyuW::load_resource_instance() {
 
 }
 TObjNpcKenkyuW::~TObjNpcKenkyuW() {}
-extern "C" {
+
 
 typedef char RecoveredGlobal_802A3CD8___vt__14TObjNpcKenkyuW_size[sizeof(RecoveredGlobal_802A3CD8___vt__14TObjNpcKenkyuW) == 0x178 ? 1 : -1];
 u8 *TObjNpcKenkyuW__ct(u8 *player, s32 arg1, s32 arg2) {
@@ -290,7 +289,6 @@ TechniqueContactList *TObjPlayer::collect_technique_contacts(void *src) {
     return &L_802A41CC;
 }
 
-}
 
 #pragma push
 #pragma scheduling off

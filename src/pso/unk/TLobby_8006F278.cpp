@@ -4,14 +4,14 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/ui/window/TObjResultWin.h"
-#include "pso/unk/TLobby.h"
+
 
 struct RecoveredGlobal_8006F5B0_lbl_8048C9D8 { s32 value; u8 remaining[0x744]; };
 typedef char RecoveredGlobal_8006F5B0_lbl_8048C9D8_size[sizeof(RecoveredGlobal_8006F5B0_lbl_8048C9D8) == 0x748 ? 1 : -1];
 
 struct G_8006F2CC { u8 pad[0x28]; s32 x28; };
 
-extern "C" {
+
 extern RecoveredGlobal_8006F5B0_lbl_8048C9D8 challenge_mode_state;
 s32 TLobby::calc_challenge_time_limit() {
     s32 valid_slot;
@@ -35,7 +35,6 @@ void TLobby::advance_state_if_flag_set() {
     }
 }
 
-}
 
 struct RecoveredGlobal_8006F848_lbl_804FF800 {
     s32 value;
@@ -328,7 +327,6 @@ s32 TLobby::get_valid_slot(int id) {
 }
 
 s32 mix_seed_checked__6TLobbyFi(s32 arg0);
-s32 mix_seed__6TLobbyFUs(u16);
 
 s32 mix_seed_checked__6TLobbyFi(s32 arg0) {
     if ((arg0 == 0) || (((s32 (*)())is_id_out_of_range__6TLobbyFi)() != 0)) {

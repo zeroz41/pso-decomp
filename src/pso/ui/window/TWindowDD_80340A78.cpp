@@ -239,34 +239,16 @@ void *TWindowDD__sub_80340F70(void) {
 }
 
 extern const f32 TWindowDD__data_805DFB18;
-extern const f32 lbl_805DFBCC;
 extern const f32 lbl_805DFB34;
 extern const f32 lbl_805DFB3C;
 extern const f32 lbl_805DFB2C;
-extern const f32 lbl_805DFB38;
 extern const f32 lbl_805DFB30;
 extern const f32 lbl_805DFBC4;
 extern const f32 lbl_805DFBBC;
 extern const f32 lbl_805DFBC8;
 extern const f32 lbl_805DFBC0;
 extern const f32 lbl_805DFC24;
-extern f32 lbl_805D6DC0;
-extern f32 lbl_805D6DC4;
 f32 lbl_805D6DC8;
-extern f32 lbl_805D6DCC;
-extern f32 lbl_805D6DD0;
-extern f32 lbl_805D6DD4;
-extern f32 lbl_805D6DD8;
-extern f32 lbl_805D6DDC;
-extern f32 lbl_805D6DE0;
-extern f32 lbl_805D6DE4;
-extern f32 lbl_805D6DE8;
-extern f32 lbl_805D6DEC;
-extern f32 lbl_805D6DF0;
-extern f32 lbl_805D6DF4;
-extern f32 lbl_805D6DF8;
-extern f32 lbl_805D6DFC;
-extern f32 lbl_805D6E00;
 
 void __sinit_TWindowDD_80340A78_cpp(void) {
     lbl_805D6DC0 = 17.0f + lbl_805DFBCC;

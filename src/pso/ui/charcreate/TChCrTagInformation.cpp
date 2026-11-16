@@ -96,7 +96,6 @@ TChCrTagInformation::TChCrTagInformation(TObject *parent, void *arg) : TChCrTag(
     fn_803098E8();
 }
 
-extern "C" {
 
 void *TChCrTagInformation::create(void *arg0) {
     return new TChCrTagInformation(tl_03, arg0);
@@ -104,4 +103,3 @@ void *TChCrTagInformation::create(void *arg0) {
 
 void *TChCrTagInformation::create_default() { return TChCrTagInformation::create(NULL); }
 
-}

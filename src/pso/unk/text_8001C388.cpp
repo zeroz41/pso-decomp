@@ -14,7 +14,7 @@ struct TitleBackgroundTile {
 
 extern TitleBackgroundTile lbl_80480BC8[8];
 
-extern "C" void draw_title_background_quads(s32 texture_list, s32 tex_base, s32 color, s32 mode, f32 depth) {
+void draw_title_background_quads(s32 texture_list, s32 tex_base, s32 color, s32 mode, f32 depth) {
     static f32 s_offset_x0 = 0.0f;
     static f32 s_offset_y0 = 0.0f;
     static f32 s_offset_x1 = 0.0f;

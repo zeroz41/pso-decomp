@@ -13,7 +13,7 @@ BmlResourceDescriptor bm_n_efw_i_body_resource_descriptor = { "bm_n_efw_i_body.b
 const char *TObjNpcFemaleFat__name = "TObjNpcFemaleFat";
 BmlResource *TObjNpcFemaleFat__static_model;
 
-extern "C" s32 __vt__16TObjNpcFemaleFat[];
+s32 __vt__16TObjNpcFemaleFat[];
 
 void *TObjNpcFemaleFat__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);

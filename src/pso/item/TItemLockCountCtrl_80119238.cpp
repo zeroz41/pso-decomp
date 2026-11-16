@@ -41,13 +41,12 @@ void TItemLockCountCtrl::lock_effect(u16 client, u32 effect) {
     }
 }
 
-extern "C" {
+
 void TItemEquipBase__sub_80119100(int arg0) {
     u32 temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5864(0x20);
     }
-}
 }
 
 void notify_stealth_enemies_10(int arg0) {
@@ -57,7 +56,7 @@ void notify_stealth_enemies_10(int arg0) {
     }
 }
 
-extern "C" {
+
 void TItemEquipBase__sub_80119168(int arg0) {
     u32 temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
@@ -105,7 +104,6 @@ void TItemLockCountCtrl__sub_801192A0(int arg0) {
     if (temp != 0U) {
         ((TObjEneDD_ST *)temp)->sub_800F5874(0x10);
     }
-}
 }
 
 void notify_stealth_enemies_08(int arg0) {

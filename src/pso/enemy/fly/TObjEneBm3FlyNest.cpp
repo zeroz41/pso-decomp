@@ -160,7 +160,7 @@ TObjEneBm3FlyNest_CarryFly::TObjEneBm3FlyNest_CarryFly(TObject *parent, Vec *ori
     arc = 0.0f;
     state = 0;
 }
-extern "C" {
+
 
 TObjEneBm3FlyNest_CarryFly::~TObjEneBm3FlyNest_CarryFly() {}
 
@@ -1137,4 +1137,3 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
     ((void (*)(void))pop_matrix)();
 }
 #pragma pool_data reset
-}

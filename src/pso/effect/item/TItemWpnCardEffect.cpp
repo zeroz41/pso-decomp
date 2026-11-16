@@ -53,13 +53,6 @@ extern s32 model_render_flags;
 s16 get_validated_attack_stage(u8 *arg0);
 
 
-
-}
-
-extern "C" {
-
-
-
 typedef struct RecoveredGlobal_8032DC94_lbl_8050BEC0 RecoveredGlobal_8032DC94_lbl_8050BEC0;
 typedef struct RecoveredGlobal_8032DC94_lbl_8058D4C0 RecoveredGlobal_8032DC94_lbl_8058D4C0;
 typedef char RecoveredGlobal_8032DC94_lbl_8050BEC0_size[((sizeof(RecoveredGlobal_8032DC94_lbl_8050BEC0)) == 0x20) ? (1) : (-1)];
@@ -70,21 +63,12 @@ typedef char RecoveredGlobal_8032DC94_lbl_8058D4C0_size[((sizeof(RecoveredGlobal
 #pragma pop
 
 
-
-
-
-
-
-}
-
-extern "C" {
 TParticleCtrl *create_particle_emitter(const void *pos, s32 id);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void *spawn_particle_effect(const void *pos, s32 id);
 
 void *find_entity_by_id(u16 id);
 s8 get_mode__5TItemFv();
-
 
 
 #pragma push
@@ -122,12 +106,8 @@ s32 normalize_vector(int, int);
 
 f32 atan2_float(f32, f32);
 #pragma fp_contract on
-}
-
-extern "C" {
 s16 get_entity_id(void *);
 }
-
 
 
 TUnk_804EDD44::TUnk_804EDD44(TObject *parent, ActorBodyHit *hit, f32 *direction, s32 tint, s32 item_id) : TObject(parent) {
@@ -153,7 +133,7 @@ TUnk_804EDD44::TUnk_804EDD44(TObject *parent, f32 *arg2, f32 *arg3, s32 arg4, s3
     this->sub_8032E294();
 }
 
-extern "C" {
+
 void TUnk_804EDD44::sub_8032E294() {
   f32 var_f0;
   f32 var_f1;
@@ -199,13 +179,12 @@ void TUnk_804EDD44::sub_8032E294() {
   var_r3 = (u8 *) var_r31;
   ((TUnk_804EDD44 *)var_r3)->anchor_card_effect();
 }
-}
 
 TUnk_804EDD44::~TUnk_804EDD44() {
     destroy_effect_objects();
 }
 
-extern "C" {
+
 void TUnk_804EDD44::run_task() {
     s32 i;
     u8 *arg0 = (u8 *)this;
@@ -235,9 +214,6 @@ void TUnk_804EDD44::run_task() {
     ((TUnk_804EDD44 *)arg0)->vfunc_8();
     (*(s32 *)((s8 *)arg0 + 0x30))++;
 }
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 void TUnk_804EDD44::start_card_effect_flash() {
@@ -256,9 +232,6 @@ void TUnk_804EDD44::start_card_effect_flash() {
     spawn_particle_effect(((u8 *)&this->unk_64), 0x30);
 }
 #pragma pop
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 void TUnk_804EDD44::start_card_effect_trail() {
@@ -268,13 +241,7 @@ void TUnk_804EDD44::start_card_effect_trail() {
     }
 }
 #pragma pop
-}
-
-extern "C" {
 void TUnk_804EDD44::vfunc_8() {  }
-}
-
-extern "C" {
 void TUnk_804EDD44::destroy_effect_objects() {
     s32 i;
     for (i = 0; i != 3; i++) {
@@ -284,9 +251,6 @@ void TUnk_804EDD44::destroy_effect_objects() {
         }
     }
 }
-}
-
-extern "C" {
 void TUnk_804EDD44::anchor_card_effect() {
   u16 temp_r3;
   u8 *temp_r3_2;
@@ -302,52 +266,28 @@ void TUnk_804EDD44::anchor_card_effect() {
     }
   }
 }
-}
-
-extern "C" {
 void TObjPlayer::create_and_init_effect(s32 arg0, u32 *arg1, s32 arg2) {
     if ((arg1 != NULL) && ((u32) *arg1 != 0U)) {
         new TUnk_804EDD20(tl_05, (ActorBodyHit *)arg1, (f32 *)arg2, 0, arg0);
     }
 }
-}
-
-extern "C" {
 void TObjPlayer::alloc_and_init(s32 arg0, s32 arg1, s32 arg2) {
     new TUnk_804EDD20(tl_05, (f32 *)arg1, (f32 *)arg2, 0, arg0);
 }
-}
-
-extern "C" {
 TUnk_804EDD20::TUnk_804EDD20(TObject *parent, ActorBodyHit *hit, f32 *direction, s32 tint, s32 item_id)
     : TUnk_804EDD44(parent, hit, direction, tint, item_id) {
     init_offset_vectors();
 }
-}
-
-extern "C" {
 TUnk_804EDD20::TUnk_804EDD20(TObject *parent, f32 *position, f32 *direction, s32 tint, s32 item_id)
     : TUnk_804EDD44(parent, position, direction, tint, item_id) {
     init_offset_vectors();
 }
-}
-
-extern "C" {
 void TUnk_804EDD20::init_offset_vectors() { (*(int *)&(*(u32 *)((u8 *)this + 0x70))) = 0; *(float *)&(this->m_74) = 4.0f; (*(float *)&(*(u32 *)((u8 *)this + 0x78))) = 4.0f; *(float *)&(this->m_7c) = 4.0f; (this->m_80) = (-1.0f); *(float *)&(*(s32 *)((u8 *)this + 0x84)) = 0.0f; (*(float *)&(this->m_88)) = 0.0f; *(float*)((char*)this + 0x8c) = 0.0f; }
-}
-
-extern "C" {
 void TUnk_804EDD20::start_card_effect_flash() { *(u32*)((char*)this + 0x70) |= 0x1; }
-}
-
-extern "C" {
 void TUnk_804EDD20::start_card_effect_trail() {
     u8 *arg0 = (u8 *)this;
     *(s32 *)((s8 *)arg0 + 0x70) = (s32) (*(s32 *)((s8 *)arg0 + 0x70) & 0xFFFFFFFE);
 }
-}
-
-extern "C" {
 #pragma push
 #pragma opt_common_subs off
 void TUnk_804EDD20::vfunc_8() {
@@ -365,9 +305,6 @@ void TUnk_804EDD20::vfunc_8() {
     }
 }
 #pragma pop
-}
-
-extern "C" {
 void TUnk_804EDD20::render() {
   s32 *var_r30;
   s32 *var_r31;
@@ -420,7 +357,6 @@ void TUnk_804EDD20::render() {
     }
   }
 }
-}
 
 TUnk_804EDD20::~TUnk_804EDD20() {}
 
@@ -433,13 +369,10 @@ u8 *create_guardianna(u8 *item) {
     return NULL;
 }
 
-extern "C" {
+
 TUnk_804EDC28::TUnk_804EDC28(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(2);
 }
-}
-
-extern "C" {
 void TUnk_804EDC28::emit_marker_effects() {
     s32 sp8;
 
@@ -455,12 +388,8 @@ void TUnk_804EDC28::emit_marker_effects() {
         ((TObjPlayer *)tl_05)->spawn_cane_effect((TItem*)this, 4);
     }
 }
-}
-
-extern "C" {
 void TUnk_804EDC28::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     desc->pad_78 = 0x176;
     desc->pad_74 = (void *)TObjPlayer::start_guardianna_hit_card;
     desc->pad_70 = (void *)start_guardianna_wall_card;
-}
 }

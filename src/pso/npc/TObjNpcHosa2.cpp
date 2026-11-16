@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/npc/TObjNpcHosa2.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TUnk_804A9F50.h"
+
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
@@ -58,7 +58,7 @@ void TObjNpcHosa2::load_shared_resource() {
 
 }
 TObjNpcHosa2::~TObjNpcHosa2() {}
-extern "C" {
+
 typedef char RecoveredGlobal_802FED58___vt__12TObjNpcHosa2_size[sizeof(RecoveredGlobal_802FED58___vt__12TObjNpcHosa2) == 0x178 ? 1 : -1];
 u8 *TObjNpcHosa2__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();
@@ -72,4 +72,3 @@ u8 *TObjNpcHosa2__ct(u8 *player, s32 arg1, s32 arg2) {
     return player;
 }
 
-}

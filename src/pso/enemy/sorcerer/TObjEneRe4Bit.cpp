@@ -68,7 +68,7 @@ void TObjEneRe4Bit::apply_paralysis() {  }
 
 void TObjEneRe4Bit::apply_poison_status() {  }
 
-extern "C" void TObjEneRe4Bit__sub_800EDAB4(void) {
+void TObjEneRe4Bit__sub_800EDAB4(void) {
     s32 i;
     TObjEneRe4Bit__model = sorcerer_bml_resource->models[1].model;
     re4_bit_texture_list = sorcerer_bml_resource->models[0].m_c;
@@ -80,7 +80,7 @@ extern "C" void TObjEneRe4Bit__sub_800EDAB4(void) {
     }
 }
 
-extern "C" void TObjEneRe4Bit__sub_800EDAB0(void) {  }
+void TObjEneRe4Bit__sub_800EDAB0(void) {  }
 
 TObjEneRe4Bit *TObjEneRe4Bit::create(TObjEneRe4Sorcerer *owner, Vec *anchor, s32 enabled, u16 id, s32 set_index) {
     return new TObjEneRe4Bit(tl_04, owner, anchor, enabled, id, set_index);
@@ -385,7 +385,7 @@ s32 TObjEneRe4Bit::handle_event(s32 arg1) {
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
-extern "C" void TObjEneRe4Bit__sub_800ECED0(TObjEneRe4Bit *bit, s32 arg1) {
+void TObjEneRe4Bit__sub_800ECED0(TObjEneRe4Bit *bit, s32 arg1) {
     u32 flags;
     switch (arg1) {
     case 4:
@@ -428,7 +428,7 @@ extern "C" void TObjEneRe4Bit__sub_800ECED0(TObjEneRe4Bit *bit, s32 arg1) {
 
 #pragma push
 #pragma opt_common_subs off
-extern "C" void TObjEneRe4Bit__sub_800ECE04(TObjEneRe4Bit *bit, s32 arg1) {
+void TObjEneRe4Bit__sub_800ECE04(TObjEneRe4Bit *bit, s32 arg1) {
     switch (arg1) {
     case 4:
         bit->set_field_378(3);
@@ -455,7 +455,7 @@ extern "C" void TObjEneRe4Bit__sub_800ECE04(TObjEneRe4Bit *bit, s32 arg1) {
 }
 #pragma pop
 
-extern "C" void TObjEneRe4Bit__sub_800ECD28(TObjEneRe4Bit *bit, s32 arg1) {
+void TObjEneRe4Bit__sub_800ECD28(TObjEneRe4Bit *bit, s32 arg1) {
     switch (arg1) {
     case 4:
         bit->m_408 = 0;
@@ -481,7 +481,7 @@ extern "C" void TObjEneRe4Bit__sub_800ECD28(TObjEneRe4Bit *bit, s32 arg1) {
 
 #pragma push
 #pragma fp_contract on
-extern "C" void TObjEneRe4Bit__sub_800ECC14(TObjEneRe4Bit *bit, s32 arg1) {
+void TObjEneRe4Bit__sub_800ECC14(TObjEneRe4Bit *bit, s32 arg1) {
     u32 flags;
     switch (arg1) {
     case 4:

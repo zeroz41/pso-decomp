@@ -69,9 +69,6 @@ const char *TBoss1DragonEffTail__name = "TBoss1DragonEffTail";
 CollisionBody TBoss1DragonEffTail__collision_body_templates[17] = {
     { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003 },
 };
-}
-
-extern "C" {
 void TBoss1Dragon__sub_8002AB6C(u8 *arg0);
 extern s32 __vt__19TBoss1DragonEffTail[];
 EffTail_8002C06C *TBoss1DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 arg2);

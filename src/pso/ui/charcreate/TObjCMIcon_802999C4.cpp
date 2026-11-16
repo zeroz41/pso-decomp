@@ -15,9 +15,7 @@ __declspec(section ".data") vec2f cm_icon_screen_position = {604.0f, 443.0f};
 
 TObjCMIcon::~TObjCMIcon() {}
 
-extern "C" {
 extern void *lbl_805D3CF0;
-}
 
 TObjCMIcon::TObjCMIcon(TObject *parent) : TObject(parent) {
     m_name = (const char *)lbl_805D3CF0;

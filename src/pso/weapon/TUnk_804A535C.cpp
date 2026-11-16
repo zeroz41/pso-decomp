@@ -13,7 +13,7 @@
 #include "pso/weapon/shoot/TItemShootParticle.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/data/FlagWord.h"
-#include "pso/weapon/TUnk_804A535C.h"
+
 #include "pso/weapon/SpecialProjectileWeapons.h"
 #include "pso/unk/text_8012C5F8.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
@@ -53,10 +53,6 @@ void rocket_punch_wall_impact(u32 arg0, u32 arg1, u32 arg2, u32 arg3) {
     }
 }
 
-}
-
-extern "C" {
-
 s32 post_translate_matrix(void *);
 s32 push_matrix();
 s32 is_owner_alive__15TItemShootModelFv();
@@ -95,10 +91,6 @@ Obj_8012C4E4 *TObjPlayer__sub_8012C4E4(Obj_8012C4E4 *self, void *owner, const vo
     ((TItemShootModel *)self)->sub_80129118(((TObjPlayer *)owner)->get_hp_by_flag(), ((TObjBase *)owner)->get_texlist());
     return self;
 }
-
-}
-
-extern "C" {
 
 u32 spawn_shoot_particle__10TObjPlayerFUlllf(s32, s32, s32, f32);
 u32 __nw__7TObjectFUl(s32);
@@ -202,7 +194,6 @@ extern "C" {
 
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
-extern s32 __vt__13TUnk_804A535C[];
 struct VOff_8012C868_arg0_8012c868 { char pad_0[0x1F8]; char f_1F8[1]; };
 
 void *TUnk_804A535C::init_trade_action() {
@@ -220,9 +211,6 @@ void *TUnk_804A535C::init_trade_action() {
     return this;
 }
 
-}
-
-extern "C" {
 u8 * init_trade_action__13TUnk_804A535CFv(void *, s32, s32);
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;

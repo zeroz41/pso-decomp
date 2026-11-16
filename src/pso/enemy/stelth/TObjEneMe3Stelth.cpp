@@ -82,11 +82,7 @@ extern const f32 lbl_805DA818;
 const char *TObjEneMe3Stelth__class_name = stelth_class_name;
 const char *TObjEneMe3StelthReal__class_name = stelth_real_class_name;
 
-extern "C" {
-
 extern const f32 lbl_805DA81C;
-
-}
 
 extern "C" {
 s32 is_split_screen();
@@ -100,19 +96,11 @@ extern const f32 TObjEneMe3Stelth__data_805DA824;
 u16 get_entity_id(void *);
 u32 get_valid_target_player__10TNpcPlayerFv(int);
 extern CollisionBody TObjEneMe3Stelth__collision_body_template;
-}
-void move_with_wall_slide(u8 *arg0);
-
-
-extern "C" {
 BmlResource *TObjEneMe3Stelth__bml_resource;
 s32 TObjEneMe3Stelth__render_node_index;
 TUnk_8048FA00 *TObjEneMe3Stelth__breakup_model;
 SampledMotionPoints *TObjEneMe3Stelth__trail_buffer;
 s32 stelth_projection_texture_handle;
-}
-
-extern "C" {
 f32 lbl_805010E0[3];
 __declspec(section ".data") s32 TObjEneMe3Stelth__base_params_by_variant[2];
 __declspec(section ".data") s32 TObjEneMe3Stelth__attack_params_by_variant[2];
@@ -123,24 +111,16 @@ f32 lbl_80501114[3];
 u32 *TObjEneMe3Stelth__material_color_pointers[4];
 
 
-}
-
-extern "C" {
 s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(void *);
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-}
-
-extern "C" {
 void TObjEneMe3Stelth__sub_800F290C(TObjEneMe3Stelth *stelth, s32 arg1);
 void TObjEneMe3Stelth__sub_800F2270(TObjEneMe3Stelth *stelth, s32 arg1);
 
 
 void action__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1);
-
 }
-
-
+void move_with_wall_slide(u8 *arg0);
 extern const f32 lbl_805DA888;
 extern const f32 lbl_805DA88C;
 extern "C" {
@@ -224,9 +204,6 @@ TObjMotionAction TObjEneMe3Stelth__animation_descriptors[13] = {
 };
 
 
-}
-
-extern "C" {
 s32 free_bin_model_request(BmlResource *, s32);
 void mem_free(void *p);
 
@@ -242,28 +219,15 @@ extern const f32 lbl_805DA8B4;
 extern const f32 lbl_805DA8B8;
 extern const f32 lbl_805DA8BC;
 
-}
-
-
-extern "C" {
 void draw_model__16TObjEneMe3StelthFPv(TObjEneMe3Stelth *stelth) {
     stelth->draw_ginja_motion_model();
 }
-}
-
-extern "C" {
 void TObjEneDD_ST::sub_800F5874(s32 arg1) {
     this->m_11c = (s16) (this->m_11c | arg1);
 }
-}
-
-extern "C" {
 void TObjEneDD_ST::sub_800F5864(s32 arg1) {
     this->m_11c = (s16) (this->m_11c & ~arg1);
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::load_shared_resources() {
     s32 i;
     NJS_TEXLIST *src;
@@ -371,13 +335,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
         TObjEneMe3Stelth::spawn_attack(0x2D, TObjEneMe3Stelth__bml_resource->models->model, TObjEneMe3Stelth__bml_resource->models->m_c, (s32)&b, lbl_805DA8A4, 0.0f);
     }
 }
-}
-
-extern "C" {
 int TObjEneMe3Stelth::create_real() { return create__20TObjEneMe3StelthRealFPv(this); }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::free_shared_resources() {
     if (TObjEneMe3Stelth__trail_buffer != NULL) {
         delete TObjEneMe3Stelth__trail_buffer;
@@ -396,9 +354,6 @@ void TObjEneMe3Stelth::free_shared_resources() {
         TObjEneMe3Stelth__bml_resource = NULL;
     }
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::set_slot_min_clamped_value(s32 arg0, f32 farg0) {
     f32 speed = farg0;
     if (speed < lbl_805DA8AC) {
@@ -406,15 +361,9 @@ void TObjEneMe3Stelth::set_slot_min_clamped_value(s32 arg0, f32 farg0) {
     }
     TObjEneMe3Stelth__animation_descriptors[arg0].speed = speed;
 }
-}
-
-extern "C" {
 TObjEneMe3Stelth::TObjEneMe3Stelth(TObject *parent) : TObjEneDD_ST(parent) {
     m_name = TObjEneMe3Stelth__class_name;
 }
-}
-
-extern "C" {
 #pragma push
 #pragma opt_propagation off
 void TObjEneMe3StelthReal::init_common() {
@@ -464,9 +413,6 @@ void TObjEneMe3StelthReal::init_common() {
     clear_player_status_flag(0, 0x08000000);
 }
 #pragma pop
-}
-
-extern "C" {
 TObjEneMe3Stelth::~TObjEneMe3Stelth() {
     if (m_444 != NULL) {
         m_444->queue_destruction();
@@ -478,9 +424,6 @@ TObjEneMe3Stelth::~TObjEneMe3Stelth() {
     }
     free_collision_body_parts(this);
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::run_task() {
     s32 flags;
     if (TObjPlayer::check_demo_mode() != 0) {
@@ -499,21 +442,12 @@ void TObjEneMe3Stelth::run_task() {
     }
     submit_default_cursor_candidate();
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::vfunc_28() {  }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::vfunc_63() {
     if (mode != 15) {
         transition_enemy_state(15);
     }
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::vfunc_62() {
     if (m_3cc & 1) {
         clear_attack_receipts();
@@ -524,27 +458,15 @@ void TObjEneMe3Stelth::vfunc_62() {
         transition_enemy_state(0xE);
     }
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::vfunc_61() {  }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::copy_pos_with_height_offset() {
     VecCopy((Vec *)&m_2fc, &position);
     m_300 += lbl_805DA814 + m_3d4;
     VecCopy(&center, (Vec *)&m_2fc);
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::vfunc_88() {
     bodies->offset.y = m_300 - position.y;
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::setup_move_bounds() {
     if (sub_800F4850() != 0) {
         m_3c0 = 1;
@@ -563,9 +485,6 @@ void TObjEneMe3Stelth::setup_move_bounds() {
     m_3e4 = lbl_805DA81C + parameters[3];
     m_3f0 = variant;
 }
-}
-
-extern "C" {
 f32 TObjEneMe3Stelth::get_node_world_y() {
     Vec v;
     NJS_OBJECT *node;
@@ -581,9 +500,6 @@ f32 TObjEneMe3Stelth::get_node_world_y() {
     pop_matrix();
     return v.y;
 }
-}
-
-extern "C" {
 s32 TObjEneMe3Stelth::test_body_collision(s32 arg1, f32 farg0) {
     f32 f2 = farg0 * lbl_805DA81C;
     CollisionBody *s = bodies;
@@ -604,9 +520,6 @@ s32 TObjEneMe3Stelth::test_body_collision(s32 arg1, f32 farg0) {
     rotation_y = a;
     return res;
 }
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 bool TObjEneMe3Stelth__sub_800F4C10(TObjEneMe3Stelth *stelth, f32) {
@@ -621,9 +534,6 @@ bool TObjEneMe3Stelth__sub_800F4C10(TObjEneMe3Stelth *stelth, f32) {
     return (temp_f31 < cos_table_lookup(0x1E00)) == 0;
 }
 #pragma pop
-}
-
-extern "C" {
 void TObjEneMe3Stelth::attack_and_unequip() {
     s32 near = is_passing_frame(lbl_805DA810);
     if (is_passing_frame(TObjEneMe3Stelth__data_805DA808) == 0 && near == 0) {
@@ -647,13 +557,7 @@ void TObjEneMe3Stelth::attack_and_unequip() {
     }
     play_sound_effect(0x3AA37, (u8 *)&position, 0, 0);
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::vfunc_108() {  }
-}
-
-extern "C" {
 s32 TObjEneMe3Stelth::check_target_in_range() {
     f32 temp_f1;
     s32 var_r31;
@@ -667,13 +571,7 @@ s32 TObjEneMe3Stelth::check_target_in_range() {
     }
     return (u8)var_r31;
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::vfunc_107() {  }
-}
-
-extern "C" {
 s32 TObjEneMe3Stelth::check_active_flag() {
     if (m_3cc & 4) {
         m_404.set_flags_and_apply_damage_color();
@@ -681,9 +579,6 @@ s32 TObjEneMe3Stelth::check_active_flag() {
     }
     return 0;
 }
-}
-
-extern "C" {
 s32 TObjEneMe3Stelth::check_flag() {
     if (m_3cc & 4) {
         m_404.clear_flag_and_notify();
@@ -691,25 +586,10 @@ s32 TObjEneMe3Stelth::check_flag() {
     }
     return 0;
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::vfunc_111() {  }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::vfunc_95() { TObjEneDD::vfunc_95(); sub_800F5874(38); }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::vfunc_96() { TObjEneDD::vfunc_96(); sub_800F5864(38); }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::vfunc_112() {  }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::update_distance_state() {
     if (m_3d0 - position.y > lbl_805DA894) {
         vfunc_97();
@@ -717,41 +597,23 @@ void TObjEneMe3Stelth::update_distance_state() {
     }
     vfunc_98();
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::vfunc_89() {
     vfunc_88();
     check_object_collisions();
     check_enemy_body_collisions(this);
     update_enemy_collision_flags();
 }
-}
-
-extern "C" {
 s32 TObjEneMe3Stelth::sub_800F4850() {
     return parameters[0] < 2.0f;
 }
-}
-
-extern "C" {
 s32 TObjEneMe3Stelth::is_angle_in_range() {
     return parameters[0] < TObjEneMe3Stelth__data_805DA80C ||
            (parameters[0] >= 2.0f && parameters[0] < 3.0f);
 }
-}
-
-extern "C" {
 s32 TObjEneMe3Stelth::vfunc_104(f32) { return select_and_apply_target__12TObjEneDD_STFf(this); }
-}
-
-extern "C" {
 s32 TObjEneMe3Stelth::sub_800F47D4() {
     return m_3f0 >= 1;
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::sub_800F4758() {
     if (sub_800F47D4() != 0) {
         texlist = (s32)&TObjEneMe3Stelth__alternate_texture_list;
@@ -763,16 +625,10 @@ void TObjEneMe3Stelth::sub_800F4758() {
     initialize_enemy_state(0x3E);
     m_3c8 = 0;
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::create_resta_effect() {
     s32 f = TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[this->m_3c8]->support_tech_level);
     TTecResta::create((void *)this, (u8 *)&this->position, (void *)f);
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::dispatch_action(u32 state, s32 reason) {
     switch (state) {
     case 0:
@@ -837,9 +693,6 @@ void TObjEneMe3Stelth::dispatch_action(u32 state, s32 reason) {
         vfunc_100();
     }
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::vfunc_113(s32 arg1) {
     switch (arg1) {
     case 4:
@@ -884,9 +737,6 @@ void TObjEneMe3Stelth::vfunc_113(s32 arg1) {
         break;
     }
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::sub_800F42B8(s32 arg1) {
     Vec v;
     f32 t;
@@ -927,9 +777,6 @@ void TObjEneMe3Stelth::sub_800F42B8(s32 arg1) {
         break;
     }
 }
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 void TObjEneMe3Stelth::state_chase(s32 arg1) {
@@ -985,9 +832,6 @@ void TObjEneMe3Stelth::state_chase(s32 arg1) {
     }
 }
 #pragma pop
-}
-
-extern "C" {
 void TObjEneMe3Stelth__sub_800F3FE4(TObjEneMe3Stelth *stelth, s32 arg1) {
     Vec pos;
     f32 temp_f1;
@@ -1015,9 +859,6 @@ void TObjEneMe3Stelth__sub_800F3FE4(TObjEneMe3Stelth *stelth, s32 arg1) {
         break;
     }
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::update_state_fade_in(s32 arg1) {
     s32 enemy_validate_retained_target(void *, s32);
     extern const s32 lbl_805DA884;
@@ -1069,9 +910,6 @@ void TObjEneMe3Stelth::update_state_fade_in(s32 arg1) {
         break;
     }
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::update_state_drop(s32 arg1) {
     f32 temp_f1;
     f32 temp_f31;
@@ -1145,9 +983,6 @@ void TObjEneMe3Stelth::update_state_drop(s32 arg1) {
         break;
     }
 }
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 void TObjEneMe3Stelth::state_chase_target(s32 arg1) {
@@ -1195,9 +1030,6 @@ void TObjEneMe3Stelth::state_chase_target(s32 arg1) {
     }
 }
 #pragma pop
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1) {
@@ -1331,9 +1163,6 @@ void TObjEneMe3Stelth__sub_800F348C(TObjEneMe3Stelth *stelth, s32 arg1) {
     }
 }
 #pragma pop
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 arg1) {
@@ -1398,9 +1227,6 @@ void TObjEneMe3Stelth__sub_800F3214(TObjEneMe3Stelth *stelth, s32 arg1) {
     }
 }
 #pragma pop
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 void TObjEneMe3Stelth::run_walk_state(s32 arg1) {
@@ -1487,9 +1313,6 @@ void TObjEneMe3Stelth::run_walk_state(s32 arg1) {
     }
 }
 #pragma pop
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 void TObjEneMe3Stelth::update_state_resta_cast(s32 arg1) {
@@ -1544,7 +1367,7 @@ void TObjEneMe3Stelth::update_state_resta_cast(s32 arg1) {
 #pragma pop
 }
 
-extern "C" void handle_message__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1) {
+void handle_message__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1) {
     switch (arg1) {
     case 4:
         stelth->requested_action = 9;
@@ -1573,7 +1396,7 @@ extern "C" void handle_message__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth,
 
 }
 
-extern "C" {
+
 void action__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1) {
 
     switch (arg1) {
@@ -1612,9 +1435,6 @@ void action__16TObjEneMe3StelthFPvi(TObjEneMe3Stelth *stelth, s32 arg1) {
         break;
     }
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth__sub_800F290C(TObjEneMe3Stelth *stelth, s32 arg1) {
     Vec v;
     f32 c;
@@ -1649,9 +1469,6 @@ void TObjEneMe3Stelth__sub_800F290C(TObjEneMe3Stelth *stelth, s32 arg1) {
         break;
     }
 }
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 void TObjEneMe3Stelth::handle_breakup_state(s32 arg1) {
@@ -1714,9 +1531,6 @@ void TObjEneMe3Stelth::handle_breakup_state(s32 arg1) {
     }
 }
 #pragma pop
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 #pragma fp_contract on
@@ -1814,16 +1628,10 @@ void TObjEneMe3Stelth__sub_800F2270(TObjEneMe3Stelth *stelth, s32 arg1) {
     }
 }
 #pragma pop
-}
-
-extern "C" {
 void TObjEneMe3Stelth::add_instance() {
     load_projection_tex_matrix(stelth_projection_texture_handle);
     TObjEneMe3Stelth__render_node_index = TObjEneMe3Stelth__render_node_index + 1;
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::render() {
     s32 mode;
     s32 draw;
@@ -1965,18 +1773,12 @@ void TObjEneMe3Stelth::render() {
     }
     TParticleCtrl::end_effect_render();
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::setup_move() {
     if (get_target_info() != 0) {
         setup_move_bounds();
         sub_800F4758();
     }
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::draw_with_debug_info() {
     s32 save[3];
     s32 flag;
@@ -2066,9 +1868,6 @@ void TObjEneMe3Stelth::draw_with_debug_info() {
         TParticleCtrl::end_effect_render();
     }
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth::exec(s32 arg1) {
     switch (arg1) {
     case 4:
@@ -2123,9 +1922,6 @@ void TObjEneMe3Stelth::exec(s32 arg1) {
         break;
     }
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth__sub_800F1440(TObjEneMe3Stelth *stelth, s32 arg1) {
     switch (arg1) {
     case 4:
@@ -2182,9 +1978,6 @@ void TObjEneMe3Stelth__sub_800F1440(TObjEneMe3Stelth *stelth, s32 arg1) {
         break;
     }
 }
-}
-
-extern "C" {
 void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 arg1) {
     Vec d;
     Vec out;
@@ -2287,9 +2080,6 @@ void TObjEneMe3Stelth__sub_800F1098(TObjEneMe3Stelth *stelth, s32 arg1) {
     }
     ((TObjPlayer *)stelth)->update_collisions();
 }
-}
-
-extern "C" {
 s32 TObjEneMe3Stelth__sub_800F0F84(TObjEneMe3Stelth *stelth, Vec *pos) {
     CollisionBody *body;
     s32 result;
@@ -2320,9 +2110,6 @@ s32 TObjEneMe3Stelth__sub_800F0F84(TObjEneMe3Stelth *stelth, Vec *pos) {
     body->flags = saved;
     return result;
 }
-}
-
-extern "C" {
 f32 TObjEneMe3Stelth::receive_direct_attack(void *source, DirectAttackPayload payload, void *collider, s32, s32) {
     if (m_3c0 == 1 && get_entity_id(source) < 0x1000 && random_ratio() <= m_3e0) {
         transition_enemy_state(0x12);
@@ -2331,15 +2118,9 @@ f32 TObjEneMe3Stelth::receive_direct_attack(void *source, DirectAttackPayload pa
     }
     return TObjChara::receive_direct_attack(source, payload, collider, -1, -1);
 }
-}
-
-extern "C" {
 void *TObjEneMe3StelthReal::create(void *set_data) {
     return new TObjEneMe3StelthReal(tl_04, set_data);
 }
-}
-
-extern "C" {
 TObjEneMe3StelthReal::TObjEneMe3StelthReal(TObject *parent, void *set_data) : TObjEneMe3Stelth(parent) {
     m_name = TObjEneMe3StelthReal__class_name;
     invoke_initialization_hook(set_data);
@@ -2348,21 +2129,9 @@ TObjEneMe3StelthReal::TObjEneMe3StelthReal(TObject *parent, void *set_data) : TO
     mode = 0;
     dispatch_action(mode, 4);
 }
-}
-
-extern "C" {
 TObjEneMe3StelthReal::~TObjEneMe3StelthReal() {}
-}
-
-extern "C" {
 void TObjEneMe3StelthReal::vfunc_63() { TObjEneMe3Stelth::vfunc_63(); }
-}
-
-extern "C" {
 void TObjEneMe3StelthReal::vfunc_62() { TObjEneMe3Stelth::vfunc_62(); }
-}
-
-extern "C" {
 void TObjEneMe3StelthReal::vfunc_107() {
     m_3ec = m_3ec + 1;
     if (m_3ec >= 2 || random_ratio() < lbl_805DA81C) {
@@ -2371,11 +2140,7 @@ void TObjEneMe3StelthReal::vfunc_107() {
     }
     transition_enemy_state(6);
 }
-}
-
-extern "C" {
 void TObjEneMe3StelthReal::vfunc_111() {  }
-}
 
 void TObjEneMe3Stelth__sub_800F0C90(TObjEneMe3Stelth *stelth) {
     if (stelth->is_passing_frame(lbl_805DA814) != 0 || stelth->is_passing_frame(lbl_805DA818) != 0) {

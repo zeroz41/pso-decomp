@@ -54,9 +54,6 @@ void *TUnk_804A69C0::init_shoot_model() {
     return this;
 }
 
-}
-
-extern "C" {
 s32 update_technique_slot__10TTecRaFoieFl(int, int, int);
 s32 play_sound_effect(int, int, int, int);
 s32 init_shoot_model__13TUnk_804A69C0Fv(int, void *, void *, void *, f32);

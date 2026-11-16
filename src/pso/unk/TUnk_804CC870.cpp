@@ -49,11 +49,7 @@ extern s32 saved_model_render_flags;
 extern s32 technique_effect_bml;
 extern s32 model_render_flags;
 
-}
-
 // ---- pso/unk/text_80232AA4
-
-extern "C" {
 void *find_entity_by_id(u16 id);
 
 }
@@ -113,7 +109,6 @@ Obj_80232B7C *construct_grants_flash(Obj_80232B7C *self, s32 id, void *parent, V
 
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void *spawn_particle_effect(const void *pos, s32 id);
-void *find_entity_by_id(u16 id);
 void *__nw__7TObjectFUl(u32);
 }
 u8 *construct_timed_sound_voice(u8 *arg0, s32 arg1, s16 arg2, s32 arg3, s32 arg4, s32 arg5);
@@ -147,7 +142,6 @@ const SGrp_80232C50 technique_effect_entry_table[6] = {
 
 const char *tec_grants_class_name = "TTecGrants";
 extern void *tl_07;
-extern s32 technique_effect_bml;
 extern s32 lbl_805D63B0;
 
 // Function definitions in reverse address order (defer_codegen emits them reversed).

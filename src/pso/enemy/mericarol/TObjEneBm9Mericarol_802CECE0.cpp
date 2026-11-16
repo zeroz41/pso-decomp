@@ -20,7 +20,7 @@
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct Sub_800ACA10 { u8 pad[0x18]; s32 level; };
 

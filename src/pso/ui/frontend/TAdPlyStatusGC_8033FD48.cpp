@@ -8,7 +8,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct Vec_8034009C { f32 x, y, z; };
 
@@ -78,19 +78,17 @@ void TObjPlayer__sub_8033FDB0(s32 arg0) {
 }
 
 // ---- pso/player/TObjPlayer_8033FE28
-#include "types.h"
-#include "pso/player/TObjPlayer.h"
+
 
 s32 TObjPlayer::get_plot_state() { return this->texlist; }
 
 // ---- pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT_8033FE30
-#include "types.h"
+
 #include "pso/system/vector.h"
 #include "pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT.h"
 #include "pso/math/AngleLookup.h"
 
 
-extern "C" {
 #pragma push
 #pragma fp_contract on
 void TBoss6Demo15_TYPE2_WAIT::sub_8033FE30() {
@@ -108,12 +106,11 @@ void TBoss6Demo15_TYPE2_WAIT::sub_8033FE30() {
 }
 #pragma pop
 
-}
 
 // ---- pso/boss/darkfalz/TBoss4Type2_8033FEEC
-#include "types.h"
+
 #include "pso/boss/darkfalz/TBoss4Type2_8033FEEC.h"
-#include "pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT.h"
+
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 
 
@@ -125,10 +122,10 @@ void TBoss6Demo15_TYPE2_WAIT::advance_offset() {
 void TObjFish__sub_8033FF64(void* p) { *(s32*)((char*)p + 0x58) = 24576; *(s32*)((char*)p + 0x5c) = 0; }
 
 // ---- pso/unk/text_8033FF78
-#include "types.h"
+
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/system/vector.h"
-#include "pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT.h"
+
+
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/unk/TLobby.h"
 
@@ -215,17 +212,13 @@ void fn_8034009C(TBoss6Demo15_TYPE2_WAIT *arg0) {
 }
 
 // ---- pso/boss/darkfalz/TBoss4Type2_80340160
-#include "types.h"
+
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
-#include "pso/ui/frontend/TAdPlyStatusGC_8033FD48.h"
-#include "pso/system/task/TObject_80019A50.h"
-#include "pso/system/vector.h"
-#include "pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT.h"
-#include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/object/ambient/TObjFish.h"
+
+
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/boss/darkfalz/TBoss4Type2_8033FEEC.h"
+
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 

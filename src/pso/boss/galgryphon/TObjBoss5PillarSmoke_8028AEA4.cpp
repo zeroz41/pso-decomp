@@ -7,9 +7,8 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TObjBoss5PillarSmoke__name = "TObjBoss5PillarSmoke";
-}
 
 struct Smoke_8028AEA4 {
     u8 pad[0x18];

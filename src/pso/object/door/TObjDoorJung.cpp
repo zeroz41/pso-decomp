@@ -2,7 +2,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/door/TObjDoorJung.h"
+
 #include "pso/object/door/TODoorBase.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/door/TODoorAncient01.h"
@@ -213,7 +213,7 @@ TObjDoorJung::~TObjDoorJung() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-extern "C" {
+
 typedef char RecoveredGlobal_8018F9CC___vt__12TObjDoorJung_size[sizeof(RecoveredGlobal_8018F9CC___vt__12TObjDoorJung) == 0x58 ? 1 : -1];
 u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, s32 arg2) {
     __ct__10TODoorBaseFP7TObject((arg0));
@@ -228,4 +228,3 @@ u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, s32 arg2) {
     return arg0;
 }
 
-}

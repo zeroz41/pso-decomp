@@ -10,15 +10,15 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/player/TObjPlayer.h"
+
+
 #include "pso/system/task/TObject.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/boss/darkfalz/TBoss4Type3.h"
-#include "pso/object/base/TObjChara.h"
+
 #pragma defer_codegen on
 #pragma push
 #pragma dont_inline off
@@ -265,7 +265,6 @@ struct V_8005CBA4 { f32 x, y, z; };
 struct Pl_8005CBA4 { u8 pad0[0x38]; V_8005CBA4 pos; };
 
 
-
 void render__9TBoss4UroFv(void);
 
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -273,7 +272,7 @@ void render__9TBoss4UroFv(void);
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/player/TObjPlayer.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 
 #pragma readonly_strings on
@@ -508,11 +507,10 @@ void TBoss4Zako::run_task() {
 }
 #pragma pop
 
-extern "C" {
+
 #pragma push
 void render__9TBoss4UroFv(void) {  }
 #pragma pop
-}
 
 #pragma push
 void TBoss4Zako::update_rise_state() {
@@ -634,7 +632,7 @@ void TBoss4Zako::update_sink_state() {
 }
 #pragma pop
 
-extern "C" {
+
 #pragma push
 void TBoss4Zako::set_state3() {
     TBoss4Uro__sub_8005D6D4(this->m_378);
@@ -642,7 +640,6 @@ void TBoss4Zako::set_state3() {
     this->m_374 = 3;
 }
 #pragma pop
-}
 
 #pragma push
 #pragma dont_inline off
@@ -1105,14 +1102,9 @@ void TBoss4Type3::apply_paralysis() {  }
 #pragma push
 void TBoss4Type3::apply_poison_status() {  }
 #pragma pop
-}
-
 #pragma dont_inline off
 #pragma auto_inline off
 #pragma inline_depth(2)
-
-
-extern "C" {
 void vfunc_29__9TObjCharaFv();
 void apply_anti_technique__9TObjCharaFl();
 void recalc_stats__9TObjCharaFv();

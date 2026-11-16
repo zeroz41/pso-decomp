@@ -1,6 +1,6 @@
 #include "pso/boss/galgryphon/Boss5GryphonActionScripts.h"
 
-extern "C" {
+
 static Boss5GryphonActionStep lbl_804E8D58[6] = {
     {0, 2},
     {12, -1},
@@ -258,4 +258,3 @@ Boss5GryphonActionStep *boss5_gryphon_action_scripts[30] = {
     lbl_804EBE48, lbl_804EBED8, lbl_804EBFB0, lbl_804EC040,
     lbl_804EC160, NULL,
 };
-}

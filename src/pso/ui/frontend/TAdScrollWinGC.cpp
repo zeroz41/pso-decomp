@@ -34,7 +34,7 @@ void __ct__7TObjectFP7TObject(void *, void *);
 s32 scroll_win_texture_handle;
 
 // Functions are written last-to-first: with -inline off,deferred CodeWarrior emits them in reverse source order.
-extern "C" {
+
 
 void *TAdScrollWinGC__ct(TAdScrollWinGC *ad_scroll_win_gc, void *arg1, s32 arg2, s32 arg3) {
     static const f32 pos[2] = { 44.0f, 131.0f };
@@ -75,11 +75,9 @@ void *TAdScrollWinGC__ct(TAdScrollWinGC *ad_scroll_win_gc, void *arg1, s32 arg2,
     return ad_scroll_win_gc;
 }
 
-}
 
 const char *TAdScrollWinGC__class_name = "TAdScrollWinGC";
 
-extern "C" {
 
 u8 *__dt__14TAdScrollWinGCFv(u8 *arg0, s16 arg1) {
     u8 *object;
@@ -170,4 +168,3 @@ void TAdScrollWinGC::render_status_value() {
     TWindowSubStatusDisp::get_player();
 }
 
-}

@@ -6,7 +6,7 @@ extern "C" void render__22TAdEnterSerialAccessGCFv();
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/system/task/TObject.h"
+
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
@@ -14,8 +14,8 @@ extern "C" void render__22TAdEnterSerialAccessGCFv();
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdEnterBaseGC_8032B38C.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
-#include "pso/system/task/TObject.h"
+
+
 #pragma readonly_strings on
 
 struct RecoveredGlobal_8032B904_lbl_80477278 { s32 value; u8 remaining[0xC]; };

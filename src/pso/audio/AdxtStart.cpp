@@ -25,10 +25,9 @@ struct AdxStreamFile {
     u8 pad34[0xC];
 };
 
-extern "C" {
+
 AdxStreamFile *TLobby__sub_803C8BAC(const char *name, s32 arg);
 
-}
 
 struct VT_803C9FCC { u8 pad[0x14]; void (*update)(void *self); };
 
@@ -85,7 +84,7 @@ struct SjMemoryBuffer;
 
 }
 void stop_audio_stream(u8 *arg0);
-extern "C" {
+
 
 struct Stream_803C9FCC;
 
@@ -123,4 +122,3 @@ void start_audio_stream_file(Stream_803CA824 *self, const char *name) {
     }
 }
 
-}

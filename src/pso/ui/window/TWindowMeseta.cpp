@@ -10,9 +10,8 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TWindowMeseta__class_name = "TWindowMeseta";
-}
 
 // inferred: window_meseta_layout_entries, the layout table TWindowMeseta__window_descriptor points at
 // (a label and the meseta counter, then an all-zero record).

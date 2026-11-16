@@ -7,7 +7,7 @@
 #include "pso/quest/TQuestListOffline.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
-#include "pso/system/task/TObject.h"
+
 
 extern "C" {
 

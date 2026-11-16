@@ -1195,7 +1195,7 @@ s32 calc_shock_chance(TObjPlayer *actor, TObjPlayer *arg1, TObjPlayer *arg2) {
     }
     return random_ratio__9TObjCharaFv((s32) actor) < var_f31;
 }
-extern "C" {
+
 
 void TObjPlayer__sub_8001053C(u8 *arg0) {
     *(f32 *)((s8 *)arg0 + 0x310) = 0.0f;
@@ -1373,7 +1373,6 @@ void TObjChara::apply_switch_attack() {
     if (particle_effect_with_flags != 0) {
         set_owner_id__13TParticleCtrlFUs(particle_effect_with_flags, ((s32 (*)(s32))get_entity_id)(arg0));
     }
-}
 }
 
 s32 is_entity_locally_controlled(s32 id) {

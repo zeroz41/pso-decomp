@@ -2,7 +2,7 @@
 #include "pso/object/TObjDoaEx01.h"
 #include "pso/object/base/TObjMapObject.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/TObjDoaEx01.h"
+
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/MaterialColorFade.h"
@@ -248,10 +248,6 @@ void TObjDoaEx01::draw_model() {
     }
 }
 
-}
-
-extern "C" {
-
 s32 try_open__11TObjDoaEx01Fv();
 s32 draw_model__11TObjDoaEx01Fv();
 
@@ -290,7 +286,7 @@ TObjDoaEx01::~TObjDoaEx01() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-extern "C" {
+
 
 extern void *tl_05;
 
@@ -344,4 +340,3 @@ void TObjDoaEx01::load_resources() {
     TObjDoaEx01__alpha_model_sibling = (u8 *)*(s32 *)((s8 *)temp_r3_2 + 0x30);
 }
 
-}

@@ -30,25 +30,22 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/unk/TLobby.h"
-#include "pso/camera/TCameraCtrl.h"
+
 #include "pso/object/base/TObjChara.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
+
+
 #include "pso/system/task/TObject.h"
 
 extern "C" {
 s32 spawn_particle_effect(s32, s32);
 struct Vec_800ACB58 { f32 x, y, z; };
 s32 apply_actor_gravity(void *, int, f32);
-}
-void move_with_wall_slide(u8 *arg0);
-extern "C" {
 s32 spawn_dead_spot_scale15(void *, int);
 s32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 extern u8 identity_matrix[];
 }
-
+void move_with_wall_slide(u8 *arg0);
 typedef struct MojaCollision_800ADE48 {
     u8 pad[0x18];
     u32 flags;
@@ -329,9 +326,6 @@ void *spawn_directional_particle(void *pos, void *dir, s32 id);
 extern s32 game_difficulty_selection;
 extern s32 tl_07;
 
-}
-
-extern "C" {
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void *__nw__7TObjectFUl(int);
 extern void *tl_04;

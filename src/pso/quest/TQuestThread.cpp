@@ -42,8 +42,7 @@
 #include "pso/unk/text_80131ADC.h"
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/map/FloorArea.h"
-#include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowMenuIconLine.h"
+
 
 #pragma readonly_strings on
 

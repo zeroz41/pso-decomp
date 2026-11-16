@@ -13,7 +13,7 @@
 #include "pso/system/vector.h"
 #include "pso/unk/TUnk_804C3248.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/effect/photon/TPhotonYoulla.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -23,10 +23,9 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TPhotonYoulla__name = "TPhotonYoulla";
 int lbl_805D5D60;
-}
 
 
 struct Color_801AE744 { f32 a, r, g, b; };

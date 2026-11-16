@@ -64,7 +64,6 @@ extern u8 npc_default_battle_stats[];
 extern u8 npc_movement_parameters[];
 extern "C" void vfunc_6__8TObjBaseFPsl();
 extern "C" void request_action__14TObjNpcBringerFl();
-extern "C" void *__dt__14TObjNpcBringerFv(void *arg0, s16 arg1);
 extern "C" void draw_debug_info__11TObjNpcBaseFv();
 extern "C" void is_target_in_attack_range__11TObjNpcBaseFv();
 extern "C" void vfunc_92__11TObjNpcBaseFv();

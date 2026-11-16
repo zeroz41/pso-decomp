@@ -16,7 +16,7 @@ struct VObj_802133C4_80212D9C : Base_802133C4_80212D9C {
 };
 #include <stddef.h>
 #include "pso/ui/city/THunterGuildWarning.h"
-#include "pso/system/task/TObject.h"
+
 #include "pso/ui/window/TWindowSubComCard.h"
 
 #pragma readonly_strings on

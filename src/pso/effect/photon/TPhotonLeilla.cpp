@@ -10,7 +10,7 @@ const char *TPhotonLeilla__class_name = "TPhotonLeilla";
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_804C3248.h"
+
 #include "pso/object/base/TObjMotion.h"
 #include <stddef.h>
 #include "pso/effect/photon/PhotonBlastSummon.h"
@@ -25,10 +25,9 @@ const char *TPhotonLeilla__class_name = "TPhotonLeilla";
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/map/FloorArea.h"
 
-extern "C" {
+
 void TObjPlayer__sub_801AC43C(void) {  }
 void TObjPlayer__sub_801AC440(void) {  }
-}
 
 void TPhotonLeilla::sub_801AC444() { *(float *)&this->m_180 = 0.0f; *(float*)((char*)this + 0x184) = 0.0f; this->m_188 = 0.0f; *(float *)&this->unk_18C = 0.0f; }
 
@@ -198,13 +197,8 @@ struct Res_801AC808 { u8 pad[0x18]; s32 f18; s32 f1C; };
 struct Game_801AC808 { u8 pad[0x42C]; Res_801AC808 *res; s32 f430; };
 
 extern "C" {
-void *find_entity_by_id(u16 id);
 void sub_801AC444__13TPhotonLeillaFv(void *, u8);
-}
-u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-extern "C" {
 void TPhotonRainbow__ct(void *, void *, void *, s32);
-u8 *__nw__7TObjectFUl(s32, f32);
 extern s32 __vt__13TPhotonLeilla[];
 extern Game_801AC808 *photon_blast_shared_resource;
 

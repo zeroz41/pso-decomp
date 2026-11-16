@@ -113,11 +113,7 @@ void *TWindowEffectParty::create(void *owner, s32 from, s32 to, u32 kind) {
     return w;
 }
 
-}
-
 #pragma readonly_strings on
-
-extern "C" {
 const char *TWindowEffectParty__name = "TWindowEffectParty";
 }
 

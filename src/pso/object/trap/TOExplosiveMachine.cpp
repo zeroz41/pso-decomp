@@ -151,7 +151,7 @@ TOExplosiveMachine01::TOExplosiveMachine01(void *set_data) {
 
 TOExplosiveMachine01::~TOExplosiveMachine01() {}
 
-extern "C" void *TOExplosiveMachine01__create(void *set_data) {
+void *TOExplosiveMachine01__create(void *set_data) {
     return new TOExplosiveMachine01(set_data);
 }
 
@@ -169,7 +169,7 @@ TOExplosiveMachine02::TOExplosiveMachine02(void *set_data) {
 
 TOExplosiveMachine02::~TOExplosiveMachine02() {}
 
-extern "C" void *TOExplosiveMachine02__create(void *set_data) {
+void *TOExplosiveMachine02__create(void *set_data) {
     return new TOExplosiveMachine02(set_data);
 }
 
@@ -187,7 +187,7 @@ TOExplosiveMachine03::TOExplosiveMachine03(void *set_data) {
 
 TOExplosiveMachine03::~TOExplosiveMachine03() {}
 
-extern "C" void *TOExplosiveMachine03__create(void *set_data) {
+void *TOExplosiveMachine03__create(void *set_data) {
     return new TOExplosiveMachine03(set_data);
 }
 #pragma pop

@@ -106,8 +106,6 @@ s32 post_translate_matrix(void *);
 extern s32 debug_chunk_object;
 
 
-
-
 extern s32 saved_model_render_flags;
 
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -171,7 +169,6 @@ s32 send_entity_set_flags__9TObjEnemyFv();
 
 s32 get_flag_b4__9TObjEneDDFv();
 
-s32 get_flag_b4__9TObjEneDDFv();
 
 s32 is_out_of_range__12TObjEneReconFv();
 
@@ -304,11 +301,6 @@ struct Stack_8031FB6C {
 
 struct Obj_8031FACC { u8 pad[0x3F4]; s32 f3F4; s32 f3F8; u8 pad2[0x410 - 0x3FC]; s32 f410; s32 f414; };
 
-extern "C" {
-
-s32 has_child_in_anim_5__12TObjEneReconFv();
-
-}
 
 extern "C" void has_flag_0x800__9TObjCharaFv();
 
@@ -421,7 +413,6 @@ struct Self_8031FE98 { u8 pad[0x3FC]; s32 f3fc[4]; u8 pad40c[0x418 - 0x40C]; u16
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 
 void __ct__12TObjEneDD_STFP7TObject(void *, s32, void *);
-
 
 
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
@@ -730,13 +721,8 @@ void *TObjEneRecobox__vtable[107] = {
     (void *)&vfunc_104__12TObjEneDD_STFf, (void *)&update_if_800BB858__14TObjEneRecoboxFv, (void *)&draw_with_debug_info__14TObjEneRecoboxFv,
 };
 
-}
-
 #define TObjEneRecobox__attack_params ((u8 *)TObjEneRecobox__attack_params)
 #define TObjEneRecobox__vtable ((u8 *)TObjEneRecobox__vtable)
-
-extern "C" {
-
 int TObjEneRecobox__sub_803201D0(void);
 
 void *TObjEneRecobox__create(void *arg0);
@@ -765,10 +751,6 @@ s32 dispatch_shared_handler_b__6TLobbyFl(s32);
 s32 register_boss__6TLobbyFl(s32);
 
 s32 load_enemy_bml_resource(u8 *arg0);
-
-}
-
-extern "C" {
 
 V3_80320260 lbl_80543000;
 
@@ -809,10 +791,6 @@ void TObjEneRecobox::load_resources() {
         TLobby::spawn_npc_enemy((s16)0xD, box->f42C->f18, box->f42C->texlist, &s, (f32)(getf_80320260(sp)), 0.0f);
     }
 }
-
-}
-
-extern "C" {
 
 u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *arg2);
 
@@ -991,7 +969,6 @@ void TObjEneRecobox::vfunc_61() {  }
 
 void TObjEneRecon::restore_position() { VecCopy((Vec *)((char*)this + 0x74), (const Vec *)((char*)this + 0x2fc)); }
 
-extern "C" {
 
 void TObjEneRecon__sub_8031FB6C(u8 *ene_recobox) {
     Stack_8031FB6C stack;
@@ -1149,10 +1126,6 @@ void TObjEneRecobox::sub_8031F6C0(s32 arg1) {
         return;
     }
 }
-
-}
-
-extern "C" {
 
 void TObjEneRecon__sub_8031F600(void *ene_dd, s32 arg1) {
     s32 temp_r4;
@@ -1350,7 +1323,6 @@ void TObjEneRecon::remove_child_entity(u8 *arg1) {
     }
 }
 
-}
 
 u8 TObjEneRecon::is_anim_6() {
     return (u8) (this->mode == 6);
@@ -1410,7 +1382,6 @@ void TObjEneRecon::remove_tracked_id(s32 id) {
 
 void TObjEneRecobox::update_if_800BB858() { if (get_target_info() != 0) { sub_8031F800(); } }
 
-extern "C" {
 
 void TObjEneRecobox::render() {
     s32 temp_r30;
@@ -1564,5 +1535,4 @@ void TObjEneRecobox::draw_with_debug_info() {
 }
 #pragma pop
 
-}
 

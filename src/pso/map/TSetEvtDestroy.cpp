@@ -10,10 +10,8 @@
 #include "pso/player/TUnk_804B6C24.h"
 
 
-extern "C" {
 extern const char TSetEvtDestroy_class_name[] = "TSetEvtDestroy";
 const char* TSetEvtDestroy_name = TSetEvtDestroy_class_name;
-}
 
 void queue_destroy_event_descendants(TObject* root) {
     TObject* p = root->m_down;

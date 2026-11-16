@@ -19,7 +19,6 @@
 // pool before it already holds, so they are not part of the Lappy file.
 extern Vec lbl_8043BBC0[];
 extern Vec lbl_8043BBB4[];
-extern "C" {
 extern s32 lbl_805D5178;
 extern s32 lbl_805D517C;
 extern f32 *lbl_805D5180;
@@ -29,7 +28,6 @@ extern const f32 lbl_805D9FAC;
 extern const f32 lbl_805D9FB0;
 extern const f32 lbl_805D9FB4;
 extern const f32 lbl_805D9FB8;
-}
 
 void TObjEneRe2Flower::vfunc_106() {
     s32 save8;

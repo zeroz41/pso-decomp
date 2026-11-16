@@ -10,7 +10,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowDD.h"
+
 #include "pso/unk/WindowLayoutRecord.h"
 
 #pragma push
@@ -72,7 +72,6 @@ extern s32 tl_07;
 
 s32 draw_visible_window_entries(void *, void *, s32);
 void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 extern const f32 lbl_8044F280[2] = { 160.0f, 120.0f };
 

@@ -7,14 +7,14 @@
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/TObjParticle.h"
+
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/system/task/TObject.h"
+
 
 struct P_8019527C { u8 pad[0x90]; u32 f90; };
 
@@ -91,7 +91,7 @@ TObjParticle::~TObjParticle() {
     if (*(void **)((s8 *)this + 0x90) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x90))))->queue_destruction(); this->m_90 = 0; }
     this->mask_object_set_row_flags(-3);
 }
-extern "C" {
+
 
 Part_80195400 *TObjParticle__ct(Part_80195400 *arg0, s32 parent, Src_80195400 *arg2) {
     u32 i;
@@ -174,4 +174,3 @@ u8 *TObjParticle__create(u8 *arg0) {
     return var_r0;
 }
 
-}

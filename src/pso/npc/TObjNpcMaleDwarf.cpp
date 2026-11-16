@@ -15,7 +15,7 @@ BmlResourceDescriptor bm_n_efsm_i_body_3_resource_descriptor = { "bm_n_efsm_i_bo
 const char *TObjNpcMaleDwarf__name = "TObjNpcMaleDwarf";
 BmlResource *TObjNpcMaleDwarf__shared_model_resource;
 
-extern "C" s32 __vt__16TObjNpcMaleDwarf[];
+s32 __vt__16TObjNpcMaleDwarf[];
 
 void *TObjNpcMaleDwarf__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);

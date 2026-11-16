@@ -14,9 +14,8 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *tec_jelin_class_name_ptr = "TTecJelin";
-}
 
 
 struct RecoveredGlobal_802384E0_lbl_804CCB28 { s32 value; u8 remaining[0x14]; };

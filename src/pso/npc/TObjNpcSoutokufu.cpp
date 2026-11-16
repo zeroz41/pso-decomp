@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/npc/TObjNpcSoutokufu.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TUnk_804A9F50.h"
+
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
@@ -67,7 +67,6 @@ void TObjNpcSoutokufu::load_shared_resource() {
 
 }
 TObjNpcSoutokufu::~TObjNpcSoutokufu() {}
-extern "C" {
 
 
 typedef char RecoveredGlobal_80289680___vt__16TObjNpcSoutokufu_size[sizeof(RecoveredGlobal_80289680___vt__16TObjNpcSoutokufu) == 0x178 ? 1 : -1];
@@ -104,4 +103,3 @@ void TBoss8Dragon::trigger_switches_in_range(void *arg0, void *arg1, void *arg2)
     }
 }
 
-}

@@ -4,7 +4,7 @@
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/system/byteswap.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/collision/TObjInfoCol.h"
+
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 

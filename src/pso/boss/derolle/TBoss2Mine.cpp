@@ -328,8 +328,6 @@ typedef struct Mine_80038760 {
     s32 state;
 } Mine_80038760;
 
-extern "C" {
-
 struct Base_80038948_80038610 {
     char pad[0x18];
 };
@@ -437,8 +435,6 @@ struct VObj_80038948_80038610 : Base_80038948_80038610 {
     virtual void m99();
     virtual u32 m102();
 };
-
-}
 
 struct VBase_18 { char pad[0x18]; };
 
@@ -614,14 +610,9 @@ int TObjPlayer__sub_800F0928(void*);
 
 extern s32 TBoss2Mine__name;
 
-}
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-
-extern "C" {
-
 void TBoss2Mine::apply_defense_stat_status(void *) {  }
 
 void TBoss2Mine::apply_attack_stat_status(void *) {  }
@@ -658,7 +649,6 @@ TBoss2Mine::TBoss2Mine(TObject *parent, u16 entity_id, s32 set_index, s32 varian
     init__10TBoss2MineFPvi((u8 *)this, variant);
 }
 
-extern "C" {
 
 void init__10TBoss2MineFPvi(u8 *boss2_mine, s32 arg1) {
     s32 temp_r29;
@@ -702,7 +692,6 @@ void init__10TBoss2MineFPvi(u8 *boss2_mine, s32 arg1) {
     ((TBoss2Mine *)(boss2_mine))->dispatch_action(*(s16 *)((s8 *)boss2_mine + 0x326), 4);
 }
 
-}
 
 TBoss2Mine::~TBoss2Mine() {
     free_collision_body_parts(this);
@@ -737,7 +726,6 @@ void TBoss2Mine::vfunc_63() { if (*(short*)((char*)this + 0x326) != 4) { transit
 
 void TBoss2Mine::vfunc_62() { clear_attack_receipts(); }
 
-extern "C" {
 
 void TBoss2Mine::vfunc_61() {  }
 
@@ -833,7 +821,6 @@ void TBoss2Mine::update_pulse_state() {
     }
 }
 
-}
 
 void TBoss2Mine::dispatch_action(u32 state, s32 reason) {
     switch (state) {
@@ -880,7 +867,6 @@ void TBoss2Mine::vfunc_104(s32 reason) {
 #define play_sound_effect ((s32 (*)(s32, u32, s16, s32))play_sound_effect)
 #define set_node_offsets__10TBoss2MineFv ((void (*)(void *))set_node_offsets__10TBoss2MineFv)
 
-extern "C" {
 
 void TBoss2Mine::vfunc_105(s32) {  }
 
@@ -1009,17 +995,12 @@ void TUnk_80482EC0::vfunc_88() {
     *(f32 *)((s8 *)(*(void **)((s8 *)this + 0xA4)) + 4) = (f32) ((5.0f) + (*(f32 *)((s8 *)this + 0x300) - *(f32 *)((s8 *)this + 0x3C)));
 }
 
-}
-
 #undef play_sound_effect
 #undef set_node_offsets__10TBoss2MineFv
 #define calc_elapsed_scaled__9TObjEneDDFv ((f32 (*)(void *, int, int))calc_elapsed_scaled__9TObjEneDDFv)
 #define init_params__10TBoss2MineFlf ((s32 (*)(void *, int, f32))init_params__10TBoss2MineFlf)
 #define play_sound_effect ((s32 (*)(int, void *, int, int, int))play_sound_effect)
 #define update_pulse_state__10TBoss2MineFv ((s32 (*)(void *))update_pulse_state__10TBoss2MineFv)
-
-extern "C" {
-
 void TBoss2Mine::set_launch_position_velocity(u8 *arg1, u8 *arg2) {
     u8 *arg0 = (u8 *)this;
     *(s32 *)((s8 *)arg0 + 0x38C) = (s32) (*(s32 *)((s8 *)arg0 + 0x38C) | 0x100);
@@ -1155,23 +1136,13 @@ TUnk_80482D04::TUnk_80482D04(TObject *parent, u16 entity_id, s32 set_index)
     direction.z = 0.0f;
 }
 
-}
-
 #undef calc_elapsed_scaled__9TObjEneDDFv
 #undef init_params__10TBoss2MineFlf
 #undef play_sound_effect
 #undef update_pulse_state__10TBoss2MineFv
-
-extern "C" {
-
 TUnk_80482D04::~TUnk_80482D04() {}
 
-}
-
 #define update_pulse_state__10TBoss2MineFv ((s32 (*)(void *))update_pulse_state__10TBoss2MineFv)
-
-extern "C" {
-
 void TUnk_80482D04::vfunc_88() {
     *(f32 *)((s8 *)(*(void **)((s8 *)this + 0xA4)) + 4) = (f32) ((1.0f) + (*(f32 *)((s8 *)this + 0x300) - *(f32 *)((s8 *)this + 0x3C)));
 }
@@ -1361,6 +1332,5 @@ void TUnk_80482D04::vfunc_106(s32 arg1) {
 }
 #pragma pop
 
-}
 
 #undef update_pulse_state__10TBoss2MineFv

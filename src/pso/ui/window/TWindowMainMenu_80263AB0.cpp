@@ -21,7 +21,7 @@ struct TWindowSubMag;
 #include "pso/unk/text_80263A20.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby.h"
-#include "pso/ui/window/TWindowMainMenu.h"
+
 #include "pso/ui/window/TWindowSubEquip_80263AB0.h"
 #include "pso/ui/window/TWindowSubEquip.h"
 
@@ -47,11 +47,6 @@ void TWindowSubEquip::open_submenu(s32 arg0, s32 arg1) {
     ((TWindowMainMenu *)arg0)->destroy_submenu();
     create_submenu__15TWindowMainMenuFUl(arg0, (s16) arg1);
 }
-
-}
-
-
-extern "C" {
 
 s32 get_player_by_client_id(s32);
 struct Obj_80263D7C; struct Obj_80263DBC;

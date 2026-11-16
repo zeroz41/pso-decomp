@@ -20,7 +20,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
-#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
+
 #include "pso/player/TObjPlayer.h"
 
 extern const char dark_falz_state_name_editor[] = "EDITOR";

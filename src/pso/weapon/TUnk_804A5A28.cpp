@@ -8,7 +8,7 @@
 #include "pso/weapon/TUnk_804A5B20.h"
 #include "pso/player/TObjPlayer_8012D8E4.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer.h"
+
 
 extern "C" {
 struct Owner_8012D708 { u8 pad[0x60]; s32 f60; };

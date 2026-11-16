@@ -143,7 +143,6 @@ const FlagLink_8036A514 music_flag_link_table[] = {
 
 const s32 music_sequencer_flag_ids[9] = {11, 14, 17, 21, 22, 42, 45, 36, 39};
 
-extern "C" {
 
 u32 *get_flag_word_mask(s32 arg0, u32 *mask) {
     s32 word;
@@ -171,7 +170,6 @@ void unlock_sequencer_flag(s32 arg0) {
     }
 }
 
-}
 
 void TObjBgmColCtrl::update_all_zones(s32 arg0) {
     s32 var_r31;
@@ -222,7 +220,6 @@ s32 check_flag_index_set(s32 arg0) {
     return (*temp_r3 & sp8) != 0;
 }
 
-extern "C" {
 
 s32 is_music_flag_unlocked_stub(s32 idx) {
     if (check_flag_index_set(idx) == 0) {
@@ -241,7 +238,6 @@ s32 get_bgm_filename(s32 arg0) {
     return (s32)bgm_adx_filename_table[arg0];
 }
 
-}
 
 s32 get_option_table_entry(s32 arg0) {
     if (arg0 < 0) {

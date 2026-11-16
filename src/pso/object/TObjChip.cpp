@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/system/task/TObject.h"
+
 class TObjChip : public TObject {
 public:
     virtual void render_shadows();
@@ -208,9 +208,6 @@ s32 vfunc_10__8TObjChipFP3Vec(s32 arg0, Vec_8018085C *arg1, f32 farg0, f32 farg1
 s32 spawn_chips__8TObjChipFPv(u8 *arg0, u8 *arg1);
 s32 init_chips__8TObjChipFv(u8 *arg0);
 void tick_chips__8TObjChipFv(u8 *arg0);
-}
-void rotate_matrix_yxz(s32 matrix, s32 arg1, s32 arg2, s32 arg3);
-extern "C" {
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
@@ -234,16 +231,9 @@ void run_task__8TObjChipFv(void *arg0);
 #pragma readonly_strings on
 const char *obj_chip_class_name_ptr = "TObjChip";
 
-}
-
-extern "C" {
-
 typedef char RecoveredGlobal_80180AA4___vt__8TObjChip_size[sizeof(RecoveredGlobal_80180AA4___vt__8TObjChip) == 0x38 ? 1 : -1];
 
 typedef char RecoveredGlobal_80180BD4___vt__8TObjChip_size[sizeof(RecoveredGlobal_80180BD4___vt__8TObjChip) == 0x38 ? 1 : -1];
-}
-
-extern "C" {
 u8 *copy_transform__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
     *(f32 *)((s8 *)arg0 + 0) = (f32) *(f32 *)((s8 *)arg1 + 0);
     *(f32 *)((s8 *)arg0 + 4) = (f32) *(f32 *)((s8 *)arg1 + 4);
@@ -263,9 +253,6 @@ u8 *copy_transform__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
     *(s32 *)((s8 *)arg0 + 0x4C) = 0;
     return arg0;
 }
-}
-
-extern "C" {
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *object, u8 *arg1, u8 *arg2) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__8TObjChip;
@@ -279,9 +266,6 @@ u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *object, u8 *arg1, u8 *arg2) 
     }
     return object;
 }
-}
-
-extern "C" {
 void copy_debris_params__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
     *(f32 *)((s8 *)arg0 + 0) = (f32) *(f32 *)((s8 *)arg1 + 0);
     *(f32 *)((s8 *)arg0 + 4) = (f32) *(f32 *)((s8 *)arg1 + 4);
@@ -297,9 +281,6 @@ void copy_debris_params__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
     *(s32 *)((s8 *)arg0 + 0x44) = (s32) *(s32 *)((s8 *)arg1 + 0x44);
     *(s32 *)((s8 *)arg0 + 0x48) = (s32) *(s32 *)((s8 *)arg1 + 0x48);
 }
-}
-
-extern "C" {
 u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *object, u8 *arg1, u8 *arg2) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__8TObjChip;
@@ -314,7 +295,7 @@ u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *object, u8 *arg1, u8 *ar
     return object;
 }
 }
-
+void rotate_matrix_yxz(s32 matrix, s32 arg1, s32 arg2, s32 arg3);
 TObjChip::~TObjChip() {}
 
 extern "C" {
@@ -325,20 +306,11 @@ void run_task__8TObjChipFv(void *object) {
         ((TObject *)object)->queue_destruction();
     }
 }
-}
-
-extern "C" {
 void render__8TObjChipFv(void *arg0) {
     struct VObj_801809C4_801809B4 *o = (struct VObj_801809C4_801809B4 *)arg0;
     o->m9();
 }
-}
-
-extern "C" {
 int vfunc_8__8TObjChipFv(void* p) { return *(u32*)((char*)p + 0x230) == 0; }
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 s32 vfunc_10__8TObjChipFP3Vec(s32 arg0, Vec_8018085C *arg1, f32 farg0, f32 farg1) {
@@ -372,9 +344,6 @@ s32 vfunc_10__8TObjChipFP3Vec(s32 arg0, Vec_8018085C *arg1, f32 farg0, f32 farg1
     return 1;
 }
 #pragma pop
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 s32 init_chips__8TObjChipFv(u8 *arg0) {
@@ -403,9 +372,6 @@ s32 init_chips__8TObjChipFv(u8 *arg0) {
     return 1;
 }
 #pragma pop
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 s32 spawn_chips__8TObjChipFPv(u8 *arg0, u8 *arg1) {
@@ -437,9 +403,6 @@ s32 spawn_chips__8TObjChipFPv(u8 *arg0, u8 *arg1) {
     return 1;
 }
 #pragma pop
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 void tick_chips__8TObjChipFv(u8 *arg0) {
@@ -486,9 +449,6 @@ void tick_chips__8TObjChipFv(u8 *arg0) {
     }
 }
 #pragma pop
-}
-
-extern "C" {
 void render_chips__8TObjChipFv(u8 *arg0) {
     TObjFish::set_global_param((int) (*(s32 *)((s8 *)arg0 + 0x68)));
     if (*(s32 *)((s8 *)arg0 + 0x6C) & 0x10) {
@@ -497,9 +457,6 @@ void render_chips__8TObjChipFv(u8 *arg0) {
     }
     ((VObj_18 *)(arg0))->m11();
 }
-}
-
-extern "C" {
 void draw_chips__8TObjChipFv(Obj_8017FE58 *o) {
     Chip_8017FE58 *c = o->chips;
     if (o->flags & 8) {
@@ -566,9 +523,6 @@ void draw_chips__8TObjChipFv(Obj_8017FE58 *o) {
         }
     }
 }
-}
-
-extern "C" {
 void vfunc_12__8TObjChipFv(u8 *arg0) {
     Chip_8017FE58 *p = (Chip_8017FE58 *)(arg0 + 0x70);
     s32 i;
@@ -604,9 +558,6 @@ void vfunc_12__8TObjChipFv(u8 *arg0) {
         }
     }
 }
-}
-
-extern "C" {
 void __dt__8TObjChipFv();
 void render_shadows__7TObjectFv();
 void *__vt__8TObjChip[] = {

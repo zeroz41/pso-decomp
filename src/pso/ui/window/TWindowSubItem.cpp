@@ -23,11 +23,9 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowInputNumber.h"
-#include "pso/map/FloorArea.h"
+
 #include "pso/ui/city/TShopArmorListWindow.h"
-#include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowMenuIconLine.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
+
 
 #pragma readonly_strings on
 

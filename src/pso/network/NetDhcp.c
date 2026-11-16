@@ -716,8 +716,6 @@ s32 TLobby__sub_8042455C(void *a) {
 }
 
 
-
-s32 TLobby__sub_804250A8(s32);
 void TLobby__sub_80424CA8(void);
 s32 TLobby__sub_804251C0(s16, void *);
 
@@ -749,7 +747,6 @@ s32 get_task_count(void) {
     return dhcp_state;
 }
 
-s32 TLobby__sub_80425288(s16, s16, void *);
 
 void parse_dhcp_lease_times(u8 *packet) {
     u8 *arg0 = packet;

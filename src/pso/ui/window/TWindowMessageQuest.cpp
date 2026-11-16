@@ -63,7 +63,7 @@ TWindowMessageQuest::~TWindowMessageQuest() {
 
 }
 
-extern "C" {
+
 u8 *TWindowMessageQuest__ct(u8 *arg0, s32 arg1) {
     TWindowMessage__ct((arg0), (arg1), 1, (local_client_id));
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowMessageQuest;
@@ -72,4 +72,3 @@ u8 *TWindowMessageQuest__ct(u8 *arg0, s32 arg1) {
     return arg0;
 }
 
-}

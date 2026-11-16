@@ -11,7 +11,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/window/TWindowInputNumber.h"
-#include "pso/ui/window/TWindowDD.h"
+
 
 #pragma inline_depth(1)
 #pragma auto_inline off

@@ -25,7 +25,7 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/technique/TTecCtrl.h"
-#include "pso/ui/window/TWindowMenuIconLine.h"
+
 
 extern "C" {
 s32 canSetMenuCursorAction(s32, s32, u8, u8);

@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowDeposit.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowDD.h"
+
 #include "pso/unk/WindowLayoutRecord.h"
 
 struct RecoveredGlobal_8024E548___vt__14TWindowDeposit

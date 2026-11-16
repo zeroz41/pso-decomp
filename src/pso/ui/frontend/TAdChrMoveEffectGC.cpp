@@ -7,7 +7,7 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 
-extern "C" {
+
 const f32 chr_move_effect_pos_table[7][2] = {
     { 28.0f, 182.0f }, { 28.0f, 225.0f }, { 28.0f, 268.0f },
     { 434.0f, 182.0f }, { 434.0f, 225.0f }, { 434.0f, 268.0f }, { 434.0f, 311.0f },
@@ -15,7 +15,6 @@ const f32 chr_move_effect_pos_table[7][2] = {
 const u8 lbl_804786E8[2][4] = { { 0x25, 0x76, 0x68, 0xFF }, { 0x25, 0x76, 0x30, 0xFF } };
 const f32 lbl_804786F0[2] = { 180.0f, 38.0f };
 const char *TAdChrMoveEffectGC__class_name = "TAdChrMoveEffectGC";
-}
 
 
 struct S_803491F8 { u32 w[8]; };
@@ -236,7 +235,6 @@ TAdChrMoveEffectGC::~TAdChrMoveEffectGC() {
         lbl_805D6E78 = 0U;
     }
 }
-
 
 
 void *TAdChrMoveEffectGC__ct(void *ad_chr_move_effect_gc) {

@@ -7,10 +7,10 @@
 #include "pso/object/TUnk_804AF7B0.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/npc/TNpcPlayer.h"
+
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
-#include "pso/system/task/TObject.h"
+
 #include "pso/object/collision/TObjFogCollisionPoison.h"
 
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -458,25 +458,6 @@ void update_players__6TLobbyFv(s32 arg0);
 void * __nw__7TObjectFUl(u32);
 void __ct__7TObjectFP7TObject(void *, void *);
 Tec_80150B90 * calc_technique_parameters(s32, s32, s32);
-}
-s32 partner_clip_path_point(void *self, f32 *from, f32 *to, f32 *out);
-s32 partner_find_wall_segment(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-s32 refresh_npc_view_actor_lost(void *arg0);
-s32 partner_view_update_hp_change(void *arg0);
-s32 partner_view_update_conditions(u8 *arg0);
-s32 partner_view_check_moved(u8 *arg0);
-void partner_observe_surroundings(TNpcPlayer *arg0);
-int is_partner_counter_reached(s16 *table, s32 idx, s32 value);
-void set_partner_counter(s32 arg0, s32 arg1, s16 arg2);
-s32 clamp_partner_counter(s32 arg0, s32 arg1, s16 arg2);
-void bswap_6x45_packet(void* p);
-void bswap_6x44_packet(void* p);
-void bswap_6x43_packet(void* p);
-u8 get_6x47_cast_packet_size(u8 *arg0);
-void init_6x40_walk_packet(void* a0);
-int get_registered_object_count(void);
-const char *get_partner_custom_text(s32 kind, u16 player);
-extern "C" {
 s32 is_active__12TTecReverserFv(void *);
 void __register_global_object(void *obj, void *dtor, void *link);
 void __construct_array(void *, void *, int, int, int);
@@ -1649,9 +1630,23 @@ void calc_box_escape_axis__10TNpcPlayerFv(void *, Vec_8014E3B0 *, Vec_8014E3B0 *
 s32 route_around_object__10TNpcPlayerFv(Self_8014E7A0 *self, Vec_8014E3B0 *out);
 }
 }
-
-
-
+s32 partner_clip_path_point(void *self, f32 *from, f32 *to, f32 *out);
+s32 partner_find_wall_segment(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+s32 refresh_npc_view_actor_lost(void *arg0);
+s32 partner_view_update_hp_change(void *arg0);
+s32 partner_view_update_conditions(u8 *arg0);
+s32 partner_view_check_moved(u8 *arg0);
+void partner_observe_surroundings(TNpcPlayer *arg0);
+int is_partner_counter_reached(s16 *table, s32 idx, s32 value);
+void set_partner_counter(s32 arg0, s32 arg1, s16 arg2);
+s32 clamp_partner_counter(s32 arg0, s32 arg1, s16 arg2);
+void bswap_6x45_packet(void* p);
+void bswap_6x44_packet(void* p);
+void bswap_6x43_packet(void* p);
+u8 get_6x47_cast_packet_size(u8 *arg0);
+void init_6x40_walk_packet(void* a0);
+int get_registered_object_count(void);
+const char *get_partner_custom_text(s32 kind, u16 player);
 struct Obj_80150EC4 { u8 pad0[0x30]; u32 flags30; u8 pad34[0x38 - 0x34]; Vec_8014E3B0 pos; };
 
 struct Owner_80150EC4 { u8 pad[0x94]; Obj_80150EC4 *obj; };

@@ -79,13 +79,6 @@ u16 map_char_to_font_code(u16 c);
 extern s32 text_control_color_palette[];
 char *parse_text_control_codes(char *p, s32 *a, s32 *b);
 void DCStoreRange(void *, u32);
-}
-extern u8 *menu_font_glyph_pixel_buffers[];
-extern u8 *menu_font_glyph_data;
-extern u32 menu_font_upload_flags;
-void upload_font_glyph(u16 c, void *arg1);
-s32 calc_ci4_tile_offset(u32 arg0, u32 arg1);
-extern "C" {
 u32 calc_text_width(char *s);
 u32 TWindowSubStatusDisp__sub_80144E9C(char *s);
 void draw_menu_font_string(const char *s, s32 arg1, u32 flags, f32 x, f32 y, f32 scale);
@@ -322,7 +315,11 @@ void TWindowSubStatusDisp::pack_status_flags(u32 arg1) {
     *(u8 *)((s8 *)this + 1) = (u8) (*(u8 *)((s8 *)this + 1) | ((arg1 * 4) & 0x30));
 }
 }
-
+extern u8 *menu_font_glyph_pixel_buffers[];
+extern u8 *menu_font_glyph_data;
+extern u32 menu_font_upload_flags;
+void upload_font_glyph(u16 c, void *arg1);
+s32 calc_ci4_tile_offset(u32 arg0, u32 arg1);
 #define g ((Glyph_80145190 *)arg1)
 
 s32 calc_ci4_tile_offset(u32 arg0, u32 arg1) {

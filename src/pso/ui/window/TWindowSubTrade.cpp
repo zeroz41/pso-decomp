@@ -92,12 +92,12 @@ s32 TWindowSubTrade::open_player_message_window(s32 arg1, s32 arg2) {
 }
 
 // ---- pso/unk/text_802B1C1C
-#include "types.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
+
+
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-#include "pso/player/TObjPlayer.h"
+
 
 extern "C" {
 TWindowSubComCardList *draw_card_icon__17TWindowSubComCardFll(s32 layout, s32 kind, void *title);
@@ -143,18 +143,17 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(TWindowSubTrade *) {
 }
 
 // ---- pso/ui/window/TWindowSubTrade
-#include "types.h"
+
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/network/TradeSession.h"
 #include "pso/unk/text_802D298C.h"
-#include "pso/ui/window/TWindowSubTrade.h"
-#include "pso/unk/TLobby.h"
+
+
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
-#include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
+
 
 struct RecoveredGlobal_802B1F98___vt__15TWindowSubTrade { s32 value; u8 remaining[0x14]; };
 

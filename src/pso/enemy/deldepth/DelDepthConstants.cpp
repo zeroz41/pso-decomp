@@ -1,5 +1,5 @@
 #include "types.h"
-extern "C" {
+
 extern const f32 lbl_805DF250 = 0.1f;
 extern const f32 lbl_805DF254 = 40.0f;
 extern const f32 TObjEneDelDepth__data_805DF258 = 0.0f;
@@ -40,4 +40,3 @@ extern const f32 lbl_805DF2E0 = -1.0f;
 extern const f32 lbl_805DF2E4 = 0.0f;
 extern const f32 lbl_805DF2E8 = 1.0f;
 extern const f32 lbl_805DF2EC = 0.0f;
-}

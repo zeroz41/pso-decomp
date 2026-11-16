@@ -18,7 +18,7 @@
 #include "pso/unk/text_8026C664.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowDD.h"
+
 
 struct UV_80262038 {
     f32 u;
@@ -941,13 +941,8 @@ void TWindowKeyBoardSoft::render() {
     sub_802616BC((TWindowKeyBoardSoft *)temp_r3);
 }
 
-}
-
 #pragma push
 #pragma fp_contract on
-
-extern "C" {
-
 s32 sub_80244994__11TWindowBaseFv();
 
 

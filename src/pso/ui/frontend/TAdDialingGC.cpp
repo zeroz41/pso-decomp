@@ -45,16 +45,8 @@ u8 *__dt__12TAdDialingGCFv(u8 *arg0, s16 arg1) {
     return arg0;
 }
 
-}
-
 #pragma readonly_strings on
-
-extern "C" {
 const char *TAdDialingGC__name = "TAdDialingGC";
-}
-
-extern "C" {
-
 s32 __ct__7TObjectFP7TObject();
 
 extern const char *TAdDialingGC__name;

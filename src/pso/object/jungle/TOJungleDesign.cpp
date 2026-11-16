@@ -99,9 +99,6 @@ u8 *TOJungleDesign__ct(u8 *arg0, s32 arg1, s32 arg2) {
     return arg0;
 }
 
-}
-
-extern "C" {
 u8 * TObjFish__sub_8001EDB0(void *, int);
 u8 * get_bml_model(void *, int);
 u8 *fn_802FF028(s32 arg0) {
@@ -117,9 +114,6 @@ u8 *fn_802FF064(s32 arg0) {
     return NULL;
 }
 
-}
-
-extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void free_bin_model_request(void*, int);
 

@@ -4,7 +4,6 @@
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
-extern "C" {
 
 extern s32 TBoss6PlotFalz__instance;
 
@@ -43,4 +42,3 @@ u8 TBoss6PlotFalz::is_ending_or_split_screen() {
 }
 int TBoss6PlotFalz::is_ready() { return 0; }
 
-}

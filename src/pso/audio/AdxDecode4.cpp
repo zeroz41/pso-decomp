@@ -9,14 +9,13 @@ struct AdxFrame {
     s8 nibbles[16];
 };
 
-extern "C" {
+
 // Sign-extend the low four bits in the same way as the high nibble.
 extern const s32 adx_signed_nibbles[16] = {
     0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, -1,
 };
 
 s32 lbl_805D7520;
-}
 
 void TLobby::set_global_805D7520(s32 arg0) {
     lbl_805D7520 = arg0;

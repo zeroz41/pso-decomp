@@ -42,7 +42,7 @@
 #include "pso/effect/photon/TPhotonRainbow_801AE640.h"
 #include "pso/effect/photon/TPhotonLeilla.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
+
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
@@ -129,7 +129,6 @@ struct PhotonBlastEntry {
     s32 pad_28;
 };
 
-extern "C" {
 
 PhotonBlastEntry photon_blast_entry_table[6] = {
     { 500.0f, 15.0f, 150.0f, 10.0f, 0, 10, 20, 4, 0x2AAA, 0x1555, 10, 10, 0, 0, 0 },
@@ -174,7 +173,6 @@ const char *pm_mdl_motion_names[16] = {
     NULL,
 };
 
-}
 
 BmlResourceDescriptor photon_blast_resource_descriptor = { "pm_mdl.bml", pm_mdl_model_names, pm_mdl_motion_names, 12, 15 };
 
@@ -863,7 +861,7 @@ TUnk_804C349C::TUnk_804C349C(s32 owner_client_id, u8 *players, s32 *counts, s32 
         }
     }
 }
-extern "C" {
+
 
 s32 get_photon_blast_chain(PhotonBlastChainCopy *output, s32 player) {
     s32 i;
@@ -885,7 +883,6 @@ s32 get_photon_blast_chain(PhotonBlastChainCopy *output, s32 player) {
         return 1;
     }
     return 0;
-}
 }
 
 void TObjPlayer::start_photon_blast(s32 kind, s32 client_id) {

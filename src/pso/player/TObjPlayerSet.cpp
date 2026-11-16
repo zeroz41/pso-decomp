@@ -4,9 +4,9 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/object/quest/TObjQuestCol2.h"
-#include "pso/player/TObjPlayerSet.h"
+
 #include "pso/system/task/TObject.h"
-#include "pso/system/task/TObject.h"
+
 
 struct RecoveredGlobal_80195720___vt__13TObjPlayerSet {
     s32 value;
@@ -41,7 +41,7 @@ void *TObjPlayerSet::create(void *arg0) {
 TObjPlayerSet::~TObjPlayerSet() {
 
 }
-extern "C" {
+
 
 extern void *quest_collision_task_root;
 
@@ -84,4 +84,3 @@ u8 *TObjQuestCol2__vt14(TObjQuestCol2 *quest_col2) {
     return (u8 *)thread;
 }
 
-}

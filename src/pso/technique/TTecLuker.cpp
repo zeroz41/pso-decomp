@@ -14,10 +14,10 @@ extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/system/byteswap.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/technique/TTecLuker.h"
+
 #include "pso/effect/TUnk_804CC148.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/unk/TUnk_804CC9D4.h"
+
 
 struct BaseM_80234C90_80233B38 { char pad[0x24]; };
 struct VM_80234C90_80233B38 : BaseM_80234C90_80233B38 { virtual void m0(int); };
@@ -51,7 +51,7 @@ struct RecoveredGlobal_80233D18_lbl_804CC9D4 {
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct O_802340A0 { u16 h0; u16 h2; s32 w4; f32 f8; f32 fc; f32 f10; s32 w14; };
 

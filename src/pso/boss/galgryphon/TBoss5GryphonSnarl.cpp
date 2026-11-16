@@ -19,10 +19,6 @@ extern "C" {
 __declspec(section ".rodata") s32 boss5_gryphon_snarl_effect_id_table[4] = { 521, 539, 540, 538 };
 const char *TBoss5GryphonSnarl__name = "TBoss5GryphonSnarl";
 s32 * TBoss5GryphonSnarl__effect_table;
-}
-
-
-extern "C" {
 extern s32 boss5_gryphon_snarl_effect_id_table[4];
 extern s32 *TBoss5GryphonSnarl__effect_table;
 extern const char *TBoss5GryphonSnarl__name;

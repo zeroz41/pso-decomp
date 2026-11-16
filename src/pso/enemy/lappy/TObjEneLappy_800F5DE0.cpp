@@ -9,11 +9,10 @@
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/player/TObjPlayer.h"
 
-extern "C" {
+
 extern s32 model_render_flags;
 
 void TObjEnemy::set_param(s32 v) { *(s32 *)&this->control = v; }
-}
 
 void initialize_enemy_photon_effect(void* p) { ((TBoss3Volopt *)p)->reset_photon_effect(); }
 

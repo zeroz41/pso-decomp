@@ -51,7 +51,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/system/task/TObject.h"
+
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/system/TLanguage_801E4874.h"
@@ -377,10 +377,6 @@ int is_flag_400_set__10TObjPlayerFPv(void *p);
 
 extern s32 lbl_805D55C0;
 
-}
-
-extern "C" {
-
 f32 xz_distance_squared(void *, void *);
 
 s32 release_texture_list(void*);
@@ -452,7 +448,6 @@ void load_forest_warp_resources(void) {
     forest_warp_texture_list = (u32)load_gvm_texture_file((s32)"fs_obj_warp.gvm");
 }
 
-extern "C" {
 
 void TObjWarpBase::free_globals() {
     if ((u32) forest_warp_texture_list != 0U) {
@@ -634,7 +629,6 @@ u8 TObjMapWarp::can_warp(s32 arg0, u16 arg1) {
     return 1U;
 }
 
-}
 
 void TObjMapWarp::process_player_warps() {
     Data_8019D250 *d = (Data_8019D250 *)this;
@@ -1481,7 +1475,6 @@ void *create_TObjWarpString(char *text, u16 client_id) {
     return o;
 }
 
-extern "C" {
 
 const char *TObjAreaWarpEndingJung__name = "TObjAreaWarpEndingJung";
 
@@ -1558,4 +1551,3 @@ void *TObjAreaWarpEndingJung__create(void *arg0) {
     return new TObjAreaWarpEndingJung(tl_05, arg0);
 }
 
-}

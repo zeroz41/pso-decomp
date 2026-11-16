@@ -6,7 +6,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/system/task/TObject.h"
+
 
 struct Scroll_8026D790 { u8 pad0[4]; f32 height; s32 frame; };
 

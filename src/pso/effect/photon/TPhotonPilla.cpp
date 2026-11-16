@@ -193,10 +193,6 @@ void TPhotonPilla::run_task() {
     }
 }
 
-}
-
-extern "C" {
-
 s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 
@@ -222,9 +218,7 @@ void *destroy__12TPhotonPillaFPvs(void *arg0, s16 arg1) {
 struct Vec_801AE1F8 { f32 x, y, z; };
 
 extern "C" {
-void *find_entity_by_id(u16 id);
 s32 init_collision_body_parts(void *, void *, int);
-u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void sub_801ADC7C__12TPhotonPillaFv(void *, u8);
 u8 *TPhotonRainbow__ct(void *, void *, void *, s32);
 extern u8 *photon_blast_shared_resource;

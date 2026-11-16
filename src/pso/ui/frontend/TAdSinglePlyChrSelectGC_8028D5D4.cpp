@@ -13,7 +13,7 @@ u8 is_selection_done__23TAdSinglePlyChrSelectGCFPv(void *arg0) {
     return (u8) (*(s32 *)((s8 *)arg0 + 0x2C) == 2);
 }
 
-extern "C" {
+
 u32 lbl_80518850[4];
 u32 chr_select_load_buffer_table[8];
 u32 chr_select_load_buffer_base;
@@ -56,7 +56,6 @@ u32 TLobby::alloc_load_buffer(s32 size) {
     return p;
 }
 
-}
 
 int TLobby::start_load_default() { return alloc_load_buffer(0); }
 

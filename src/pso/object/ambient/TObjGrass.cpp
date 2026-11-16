@@ -11,7 +11,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/object/base/TObjMotion.h"
+
 #include "pso/object/ambient/TObjGrass.h"
 #include "pso/render/TUnk_80494938.h"
 #include "pso/map/FloorArea.h"
@@ -30,12 +30,8 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/system/task/TObject.h"
 
-extern "C" {
+
 s32 lbl_805D5140;
 u32 TObjGrass__bml_resource;
 s32 grass_combat_stats_handle;
@@ -44,7 +40,6 @@ s32 TObjGrass__render_node_index;
 u32 TObjGrass__resource_bundle;
 u32 lbl_805D5158;
 u32 lbl_805D515C;
-}
 
 #pragma readonly_strings on
 

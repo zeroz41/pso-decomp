@@ -3,7 +3,7 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TUnk_804A9F50.h"
+
 #include "pso/npc/TObjNpcHFW00.h"
 #include "pso/unk/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
@@ -71,7 +71,7 @@ void TObjNpcGovernorBase::load_shared_resource() {
 
 }
 TObjNpcGovernorBase::~TObjNpcGovernorBase() {}
-extern "C" {
+
 
 typedef char RecoveredGlobal_8014AC6C___vt__19TObjNpcGovernorBase_size[sizeof(RecoveredGlobal_8014AC6C___vt__19TObjNpcGovernorBase) == 0x178 ? 1 : -1];
 u8 *TObjNpcGovernorBase__ct(u8 *player, s32 arg1, s32 arg2) {
@@ -86,4 +86,3 @@ u8 *TObjNpcGovernorBase__ct(u8 *player, s32 arg1, s32 arg2) {
     return player;
 }
 
-}

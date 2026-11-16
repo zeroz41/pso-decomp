@@ -6,8 +6,8 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecReverser.h"
-#include "pso/unk/TUnk_804CCBC0.h"
-#include "pso/technique/TTecResta.h"
+
+
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -16,9 +16,8 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TTecResta__name = "TTecResta";
-}
 
 
 struct RecoveredGlobal_80239C48___vt__9TTecResta {
@@ -139,10 +138,6 @@ void deliver_technique_to_party_targets(void *);
 void run_task__9TTecRestaFv(Resta_802399F8 *self);
 s32 is_split_screen(void);
 void *__nw__7TObjectFUl(int);
-}
-u8 *construct_delayed_point_sound(u8 *arg0, u8 *arg1, s16 arg2, s32 arg3, u8 *arg4);
-extern s32 tl_07;
-extern "C" {
 s32 copy_technique_target_list(void *, void *);
 void *TTecResta__ct(TTecResta *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 void create__9TTecRestaFPvPvPvPv(void *arg0, void *arg1, void *arg2, void *arg3);
@@ -153,13 +148,10 @@ typedef struct RecoveredGlobal_802394B0_lbl_804CC55C RecoveredGlobal_802394B0_lb
 typedef char RecoveredGlobal_802394B0_lbl_804CC55C_size[((sizeof(RecoveredGlobal_802394B0_lbl_804CC55C)) == 0x98) ? (1) : (-1)];
 
 
-}
-extern "C" {
 typedef char RecoveredGlobal_80239C48___vt__9TTecResta_size[sizeof(RecoveredGlobal_80239C48___vt__9TTecResta) == 0x20 ? 1 : -1];
-
-
 }
-
+u8 *construct_delayed_point_sound(u8 *arg0, u8 *arg1, s16 arg2, s32 arg3, u8 *arg4);
+extern s32 tl_07;
 void TTecReverser::vfunc_6(void *arg1_arg) {
     Obj_80239CF4 *arg0 = (Obj_80239CF4 *)this;
     VObj_18_9c98dd *arg1 = (VObj_18_9c98dd *)arg1_arg;

@@ -83,7 +83,6 @@ struct RecoveredFields_8032F174_arg0
   u16 field_408;
 };
 
-#include "pso/object/ambient/TObjFish.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"

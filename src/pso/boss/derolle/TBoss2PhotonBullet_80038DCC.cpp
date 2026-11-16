@@ -17,7 +17,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/system/task/TObject.h"
 
 
 struct VBase_18_39be15 { char pad[0x18]; };

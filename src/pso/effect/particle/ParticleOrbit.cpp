@@ -236,7 +236,6 @@ extern const f32 TParticleCtrl__data_805D94E4;
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-extern "C" {
 
 u8 *create_orbit_particle(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4, s16 arg5) {
     u8 *particle_memory;
@@ -498,7 +497,6 @@ void *__dt__13TUnk_8048E790Fv(void *arg0, s16 arg1) {
         }
     }
     return arg0;
-}
 }
 #pragma push
 #pragma fp_contract on

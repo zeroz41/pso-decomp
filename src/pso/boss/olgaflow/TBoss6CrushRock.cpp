@@ -101,7 +101,7 @@ void TBoss6Rock::spawn_crush_rocks(s32 kind) {
     }
 }
 
-extern "C" u8 *__ct__15TBoss6CrushRockFv(u8 *object, s32 arg1, s32 arg2, s32 arg3) {
+u8 *__ct__15TBoss6CrushRockFv(u8 *object, s32 arg1, s32 arg2, s32 arg3) {
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__15TBoss6CrushRock.value;
     ((TObject *)object)->m_name = TBoss6CrushRock__name;
@@ -161,7 +161,7 @@ void *TBoss6CrushPtcl::create() {
     return o;
 }
 
-extern "C" u8 *TBoss6CrushPtcl__ct(u8 *boss6_crush_ptcl, void *arg1, Vec_80359EF0 *arg2) {
+u8 *TBoss6CrushPtcl__ct(u8 *boss6_crush_ptcl, void *arg1, Vec_80359EF0 *arg2) {
     __ct__7TObjectFP7TObject(boss6_crush_ptcl, arg1);
     *(s32 **)((s8 *)boss6_crush_ptcl + 0x18) = __vt__15TBoss6CrushPtcl;
     ((TObject *)boss6_crush_ptcl)->m_name = TBoss6CrushPtcl__name;

@@ -19,7 +19,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/memory.h"
-#include "pso/system/task/TObject.h"
+
 
 struct E_802A9568 { s32 a; s32 b; };
 

@@ -10,7 +10,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/enemy/dd/TObjEneDD_ST.h"
+
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 const char *TObjEneDD__name = "TObjEneDD";
@@ -24,18 +24,14 @@ u32 csnLookAt(void *, void *);
 s32 push_matrix(void);
 void post_translate_matrix(void *);
 int rotate_matrix_y(void *, void *);
-}
-#include "types.h"
-#include "pso/enemy/dd/TObjEneDD_ST.h"
-extern "C" {
 void *get_player_by_client_id(s32 i);
 }
-#include "types.h"
+
 #include "pso/enemy/dd/TObjEneDD_800BABA4.h"
 #include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
-#include "pso/enemy/dd/TObjEneDD_ST.h"
+
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/unk/TLobby.h"
@@ -52,33 +48,23 @@ struct Obj_800B98D8 { u8 pad[0x38c]; u16 target_id; u8 pad2[2]; void *target; };
 extern "C" {
 s32 find_active_entity_by_id(u16);
 void enemy_set_target_id(Obj_800B9958 *self, u16 id);
-}
-#include "types.h"
-#include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/enemy/dd/TObjEneDD.h"
-extern const float TObjEneDD__data_805D9E8C;
-#include "types.h"
-#include "pso/enemy/dd/TObjEneDD.h"
-extern "C" {
 f32 normalize_vector_xz__FP3Vec(void *, f32, f32);
 extern const f32 TObjEneDD__data_805D9E8C;
 }
-#include "pso/enemy/dd/TObjEneDD_ST.h"
-extern "C" void enemy_clear_target__12TObjEneDD_STFUs(void *);
-#include "types.h"
+extern const float TObjEneDD__data_805D9E8C;
 #include "pso/enemy/dd/TObjEneDD_800B9AF8.h"
-#include "pso/enemy/dd/TObjEneDD.h"
+
 extern "C" {
 int TObjLight__sub_801337F8(void*);
 int TObjLight__sub_801337FC(void*);
 extern int lbl_805D555C;
 extern int current_scene_light;
 }
-#include "types.h"
+
 #include "pso/enemy/dd/TObjEneDD_800B9B84.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-#include "pso/system/vector.h"
-#include "pso/enemy/dd/TObjEneDD.h"
+
+
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 extern "C" {
 extern s32 camera_ctrl_instance;
@@ -89,14 +75,13 @@ int is_any_teammate_in_state__10TObjPlayerFv(void*);
 extern s32 enable_v2_features;
 extern s32 game_difficulty_selection;
 }
-#include "types.h"
-#include "pso/render/render_util.h"
-#include "pso/math/MatrixTransforms.h"
+
+
 #include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/player/TObjPlayer.h"
+
+
 struct Stack_800B9D94 {
     s32 sp8;
     u8 pad_C[0x4];
@@ -109,39 +94,26 @@ struct Obj_800B9E84 {
 extern "C" {
 s32 minimap_render_dot(void *, int, int, int);
 s32 scale_current_matrix(void *);
-extern const f32 TObjEneDD__data_805D9E8C;
 int bind_enemy_combat_stats__9TObjEnemyFPUcPUcPUc(void*);
 int transform_to_view__11TCameraCtrlFii(void*);
 int apply_split_screen_view_matrix__11TCameraCtrlFv(void*);
 int restore_scene_lighting(void*);
 int select_actor_lighting(void*);
 extern int model_render_flags;
-}
-#include "types.h"
-#include "pso/enemy/dd/TObjEneDD.h"
-extern "C" {
 f32 random_ratio__9TObjCharaFv();
 }
-#include "types.h"
-#include "pso/enemy/dd/TObjEneDD.h"
-extern "C" {
-f32 random_ratio__9TObjCharaFv();
-}
-#include "types.h"
-#include "pso/enemy/dd/TObjEneDD_800BA754.h"
-#include "pso/enemy/dd/TObjEneDD.h"
+
+
 struct Part_800BA030 { u8 pad[0x2c]; };
 struct Obj_800BA030 { u8 pad[0xa4]; Part_800BA030 *parts; s32 count; };
 struct Part_800BA084 { u8 pad[0x2c]; };
 struct Obj_800BA084 { u8 pad[0xa4]; Part_800BA084 *parts; s32 count; };
-extern "C" {
-f32 random_ratio__9TObjCharaFv();
-}
-#include "types.h"
+
+
 #include "pso/enemy/dd/TObjEneDD_800BA138.h"
 #include "pso/player/TUnk_804928CC.h"
-#include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/player/TObjPlayer.h"
+
+
 #include <stddef.h>
 struct VBase_18_0c879f { char pad[0x18]; };
 struct VObj_18_0c879f : VBase_18_0c879f {
@@ -224,28 +196,22 @@ s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 get_position__12TBoss1DragonFv(void *, s32);
 u8 * obj_ene_dd_instance;
 }
-#include "types.h"
-#include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/player/TObjPlayer.h"
+
+
 struct E_800BA8A8 { u8 pad[0x18]; u32 flags; u8 pad2[0x10]; };
 struct O_800BA8A8 { u8 pad[0xa4]; E_800BA8A8 *entries; s32 count; };
-extern "C" {
+
 int TObjEneDD__sub_800BA804(u16 arg0);
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
-}
 void set_collider_contact_low(u8 *arg0);
 void set_collider_contact_high(u8 *arg0);
 void update_collider_contact_by_height(u8 *arg0, f32 farg0);
-#include "types.h"
+
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
-#include "pso/math/MatrixTransforms.h"
+
 #include "pso/math/MatrixVector.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/system/vector.h"
-#include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/player/TObjPlayer.h"
+
+
 struct Part_800BA934 { u8 pad[0x1c]; u8 f1c[0x10]; };
 struct Obj_800BA934 { u8 pad[0x38]; u8 f38[0x28]; void *f60; u8 pad2[0x40]; Part_800BA934 *parts; s32 count; };
 struct Part_800BAAE4 { Vec a; u8 pad[0x10]; Vec b; u8 pad2[4]; };
@@ -261,11 +227,8 @@ int matrix_mult_vec(void *, void *, void *);
 void set_part_position__9TObjEneDDFPvPvi(Obj_800BA9BC *self, Vec_800BA9BC *v, s32 i);
 void update_local_colliders_from_world(Obj_800BAA2C *arg0, V3_800BAA2C *arg1);
 }
-#include "pso/system/vector.h"
-#include "types.h"
-#include "pso/boss/galgryphon/TBoss5Gryphon.h"
-#include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+
+
 struct VBase_18_3f4583 { char pad[0x18]; };
 struct VObj_18_3f4583 : VBase_18_3f4583 {
     virtual void m0();
@@ -393,12 +356,10 @@ extern "C" {
 f32 newton_sqrtf(f32);
 }
 void calc_wall_clamped_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dist);
-extern const f32 TObjEneDD__data_805D9E8C;
 void calc_wall_slide_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dist);
 #include <dolphin/mtx.h>
-#include "pso/boss/galgryphon/TBoss5Gryphon.h"
-#include "pso/enemy/dd/TObjEneDD.h"
-#include "types.h"
+
+
 struct Stack_800BB218
 {
   f32 sp8;
@@ -413,10 +374,10 @@ u8 *csnVectorUnder(f32 *, void *, s32);
 s32 VecCopy__FP3VecPC3Vec(void *, void *, s32);
 typedef struct Stack_800BB218 Stack_800BB218;
 }
-#include "types.h"
+
 #include "pso/boss/goldragon/TBoss8Dragon_800BB650.h"
-#include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/unk/TLobby.h"
+
+
 struct RecoveredGlobal_800BB45C_lbl_80500B98 {
     s32 value;
     u8 remaining[0x1C];
@@ -433,28 +394,27 @@ typedef struct Ent_800BB388 {
 }
 Ent_800BB388;
 u16 enemy_nearest_visible_enemy_sq(Ent_800BB388 *self, f32 range);
-extern const f32 TObjEneDD__data_805D9E8C;
 s32 collect_enemy_target_candidates(s32 arg0, Ent_800BB484 *out, f32 farg0);
 typedef char RecoveredGlobal_800BB45C_lbl_80500B98_size[sizeof(RecoveredGlobal_800BB45C_lbl_80500B98) == 0x20 ? 1 : -1];
 }
-#include "types.h"
-#include "pso/boss/goldragon/TBoss8Dragon_800BB650.h"
+
+
 #include "pso/enemy/fly/TObjEneBm3Fly.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
-#include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/unk/TLobby.h"
+
+
 struct Part_800BB780 { u8 pad[0x18]; u32 flags; u8 pad2[0x10]; };
 struct Obj_800BB780 { u8 pad[0x30]; u32 flags; u8 pad1[0x70]; Part_800BB780 *parts; s32 count; u8 pad2[0x230]; s32 f2dc; u8 pad3[0x4c]; s16 f32c; u8 pad4[0x10]; s16 f33e; };
 extern "C" {
 int submit_cursor_candidate(void*, int);
 }
-#include "types.h"
-#include "pso/enemy/dd/TObjEneDD_800BB804.h"
+
+
 #include "pso/unk/text_800BC4C8.h"
-#include "pso/system/vector.h"
+
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/enemy/dd/TObjEneDD.h"
+
 struct VBase_18 { char pad[0x18]; };
 struct VObj_18 : VBase_18 {
     virtual void m0();
@@ -552,7 +512,6 @@ struct Obj_800BB88C {
 };
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern const f32 TObjEneDD__data_805D9E8C;
 s32 subtractive_rng_seed(void *, int);
 int fn_800FD8A0(void*);
 extern s32 area_random_seed;
@@ -575,7 +534,6 @@ s32 tick_period_counter(s32 arg0, s32 *arg1, s32 arg2) {
     return 0;
 }
 
-extern "C" {
 
 int TObjEneDD::get_enemy_count() {  return lbl_805D5870; }
 
@@ -744,7 +702,6 @@ void TObjEneDD::init_common_from(u8 *arg1) {
     subtractive_rng_seed((void *) (((u8 *)this) + 0x160), (int) (this->entity_id + area_random_seed));
 }
 
-}
 
 int TObjEnemy::submit_default_cursor_candidate() { return submit_cursor_candidate(this, -1); }
 
@@ -793,7 +750,6 @@ u16 enemy_nearest_visible_player_sq(u8 *arg0, f32 farg0) {
     return result;
 }
 
-extern "C" {
 
 u16 enemy_find_nearest_player_in_range(u8 *self, f32 range) {
     return enemy_nearest_visible_player_sq(self, range * range);
@@ -940,7 +896,6 @@ void TBoss5Gryphon::calc_shot_position(u8 *arg1, f32 farg0, f32 farg1, f32 farg2
     VecCopy__FP3VecPC3Vec(arg1, (u8 *)&this->position, temp_r5);
 }
 
-}
 
 #pragma push
 #pragma fp_contract on
@@ -1111,7 +1066,6 @@ int TObjEneDD::has_move_failures(s32 arg1) {
     return var_r5;
 }
 
-extern "C" {
 
 void TObjEneDD_ST::set_active() { *(s32*)((char*)this + 0x388) = 1; }
 
@@ -1169,7 +1123,6 @@ void TObjEneDD::transform_part_positions() {
     pop_matrix();
 }
 
-}
 
 void TObjEneDD::vfunc_88() {  }
 
@@ -1208,7 +1161,6 @@ void update_collider_contact_by_height(u8 *arg0, f32 farg0) {
     set_collider_contact_low(arg0);
 }
 
-extern "C" {
 
 s32 is_player_entity_id(u16 arg0) {
     return (u32)(arg0 - 0x1000) >> 0x1FU;
@@ -1518,7 +1470,6 @@ void TObjEneDD__sub_800B9B24(void) {  }
 
 void TObjEneDD::init_lights() { TObjLight__sub_801337F8((void*)current_scene_light); TObjLight__sub_801337FC((void*)lbl_805D555C); }
 
-}
 
 TObjEneDD_ST::TObjEneDD_ST(TObject *parent) : TObjEneDD(parent) {
     m_name = TObjEneDD_ST__name;
@@ -1530,7 +1481,6 @@ TObjEneDD_ST::TObjEneDD_ST(TObject *parent) : TObjEneDD(parent) {
 
 TObjEneDD_ST::~TObjEneDD_ST() {}
 
-extern "C" {
 
 void TObjEneDD::update_velocity() {
     u8 *arg0 = (u8 *)this;
@@ -1545,11 +1495,9 @@ void TObjEneDD::update_velocity() {
     *(f32 *)((s8 *)arg0 + 0x3AC) = normalize_vector_xz__FP3Vec(arg0 + 0x3A0, temp_f1, temp_f2);
 }
 
-}
 
 void TObjEneDD_ST::init_float_params() { *(float*)((char*)this + 0x394) = TObjEneDD__data_805D9E8C; *(float*)((char*)this + 0x398) = TObjEneDD__data_805D9E8C; *(float*)((char*)this + 0x39c) = TObjEneDD__data_805D9E8C; *(float*)((char*)this + 0x3a0) = TObjEneDD__data_805D9E8C; *(float*)((char*)this + 0x3a4) = TObjEneDD__data_805D9E8C; *(float*)((char*)this + 0x3a8) = TObjEneDD__data_805D9E8C; *(float*)((char*)this + 0x3ac) = TObjEneDD__data_805D9E8C; }
 
-extern "C" {
 
 void enemy_set_target_id(Obj_800B9958 *self, u16 id) {
     self->id = id;
@@ -1614,7 +1562,6 @@ s32 TObjEneDD_ST::select_and_apply_target(f32 farg0) {
     return enemy_bind_or_clear_target(this, var_r4);
 }
 
-}
 
 s32 TObjEneDD_ST::select_nearest_target(f32 distance) {
     u16 target = enemy_find_nearest_player_in_range((u8 *)this, distance);
@@ -1718,7 +1665,6 @@ void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0) {
     ((TBoss5Gryphon *)arg0)->try_move_actor_xz_on_ground((u8 *)&sp8);
 }
 
-extern "C" {
 
 void TObjEneEpsilon__sub_800B92F8(u8 *ene_epsilon, s32 arg1, f32 farg0) {
     s32 sp8;
@@ -1766,4 +1712,3 @@ s32 TObjEneDD_ST::enemy_has_live_target() {
 }
 #pragma pop
 
-}

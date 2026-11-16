@@ -9,8 +9,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TUnk_804CE964.h"
-#include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowDD.h"
+
 
 struct RecoveredGlobal_80249BA8_lbl_804CE8D0 {
     s32 value;

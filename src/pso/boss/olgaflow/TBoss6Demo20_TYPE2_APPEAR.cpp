@@ -21,8 +21,8 @@
 #include "pso/boss/olgaflow/TBoss6Demo20_TYPE2_APPEAR.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/system/task/TObject.h"
-#include "pso/object/ambient/TObjFish.h"
+
+
 struct RecoveredGlobal_8033DCA8_lbl_80477F2C { s32 value; u8 remaining[8]; };
 struct RecoveredGlobal_8033DCA8_lbl_804EFA08 { s32 value; u8 remaining[8]; };
 extern const RecoveredGlobal_8033DCA8_lbl_80477F2C boss6_type2_appear_origin;

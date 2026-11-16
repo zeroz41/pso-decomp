@@ -3,13 +3,12 @@
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/Language.h"
 
-extern "C" {
+
 s32 text_draw_clip_context;
 f32 text_draw_depth;
 f32 text_draw_right_limit_x;
 s32 text_clip_enabled_flag;
 s32 lbl_805D6440;
-}
 
 
 struct Quad_8024FBB0 {

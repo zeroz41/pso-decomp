@@ -6,13 +6,12 @@
 #include "pso/ui/window/TWindowSubItemList.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowMenuIconLine.h"
+
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TWindowSubItemList__class_name = "TWindowSubItemList";
-}
 
 
 struct RecoveredGlobal_8027AEDC___vt__18TWindowSubItemList { s32 value; u8 remaining[0x1C]; };

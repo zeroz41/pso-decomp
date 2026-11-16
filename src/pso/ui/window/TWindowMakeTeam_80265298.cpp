@@ -32,10 +32,6 @@ void *__dt__15TWindowMakeTeamFv(TWindowMakeTeam *arg0, s16 arg1) {
     return arg0;
 }
 
-}
-
-extern "C" {
-
 s32 init_status_disp__15TWindowMakeTeamFc(u8);
 s32 draw_entry_0x110__15TWindowMakeTeamFSc(u8);
 s32 create_menu__15TWindowMakeTeamFv(struct TWMT *);

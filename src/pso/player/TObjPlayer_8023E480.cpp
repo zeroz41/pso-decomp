@@ -14,11 +14,6 @@ char texture_prs_disc_filename_buffer[128];
 char texture_prs_stream_filename_buffer[128];
 s32 lbl_805D63C0;
 s32 lbl_805D63C4;
-}
-
-
-
-extern "C" {
 s32 set_stream_and_load_file__6TLobbyFi(void *);
 s32 sprintf(char *, const char *, ...);
 void load_gvm_texture_archive(s32, s32);
@@ -47,7 +42,6 @@ s32 set_texlist(u32 texlist) {
     return 1;
 }
 
-extern "C" {
 
 s32 TLobby__sub_8023E4B4(s32 arg0, s32 arg1) {
     s32 h;
@@ -133,4 +127,3 @@ void init_buffers(void) {
     lbl_805D63C4 = xmalloc__FUl(0x3800);
 }
 
-}

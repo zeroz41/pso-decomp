@@ -8,9 +8,8 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TObjCMHexTile__name = "TObjCMHexTile";
-}
 
 
 void TObjCMHexTile::render() {

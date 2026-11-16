@@ -4,7 +4,7 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_801AA664.h"
-#include "pso/effect/photon/TPhotonEstlla.h"
+
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_800F5BC0.h"
 #include "pso/unk/TLobby.h"
@@ -234,14 +234,10 @@ TPhotonEstlla::~TPhotonEstlla() {
 struct Stack_801AAB74 { f32 x, y, z; };
 
 extern "C" {
-void *find_entity_by_id(u16 id);
 
 s32 sub_801AA6F8__13TPhotonEstllaFv(void *, int);
 }
-u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-extern "C" {
 extern u8 *photon_blast_shared_resource;
-}
 
 TObjMotionAction photon_estlla_param_table[2] = {
     {MOTION_MODE_ONCE, 0, 5, 1.0f, 0},

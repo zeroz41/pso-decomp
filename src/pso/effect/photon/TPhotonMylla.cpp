@@ -11,7 +11,7 @@
 #include "pso/map/FloorArea.h"
 struct TPhotonYoulla;
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_804C3248.h"
+
 
 #include <stddef.h>
 #include <stddef.h>

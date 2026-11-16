@@ -25,7 +25,7 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
 
-#include "pso/object/base/TObjMotion.h"
+
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -55,9 +55,6 @@ s32 gee_camera_ctrl_step_ptr;
 TUnk_8048FA00 * TObjEneMe1Gee__data_805D51C0;
 TUnk_8048FA00 * TObjEneMe1Gee__data_805D51C4;
 s32 gee_resource_bundle_ptr;
-}
-
-extern "C" {
 GeeMovementParameters me1_gee_init_params = {225.0f, 0.0f, 0x600};
 
 CollisionBody lbl_8049379C = {
@@ -111,9 +108,6 @@ static TObjEneMe1GeeParams *gee_shared_handler_a_table[3];
 static f32 gee_camera_ctrl_vec[4];
 extern const f32 TObjEneMe1Gee__data_805DA0A8;
 extern const f32 lbl_805DA0AC;
-}
-
-extern "C" {
 extern const f32 TObjEneMe1Gee__data_805DA0B4;
 extern const f32 TObjEneMe1Gee__data_805DA0C8;
 extern const f32 TObjEneMe1Gee__data_805DA0D4;
@@ -167,13 +161,7 @@ extern const f32 lbl_805DA0BC;
 extern const f32 lbl_805DA0C4;
 extern const f32 lbl_805DA0CC;
 extern const f32 lbl_805DA0D0;
-}
-
-extern "C" {
 void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
-}
-
-extern "C" {
 void free_bin_model_request(void *, s32);
 extern void *tl_04;
 s32 is_split_screen();
@@ -279,12 +267,9 @@ TObjEneMe1Gee::TObjEneMe1Gee(TObject *parent, TObjEneMe1Gee *leader, Vec *pos, u
     m_3c4 = 1;
     init_state();
 }
-}
-
 #pragma push
 #pragma fp_contract on
 #pragma opt_loop_invariants off
-extern "C" {
 void TObjEneMe1Gee::init_state() {
     s32 temp_r0;
     s32 i;
@@ -352,10 +337,7 @@ void TObjEneMe1Gee::init_state() {
     }
     this->m_48c = 0xFFFF;
 }
-}
-
 #pragma pop
-extern "C" {
 TObjEneMe1Gee::~TObjEneMe1Gee() {
     if (m_464 != NULL) {
         m_464->queue_destruction();
@@ -415,11 +397,8 @@ void TObjEneMe1Gee::vfunc_88() {
     }
     this->bodies->offset.y = this->m_3f4;
 }
-}
-
 #pragma push
 #pragma opt_common_subs off
-extern "C" {
 void TObjEneMe1Gee::sub_800CC0C4() {
     if ((s32) floor_to_float(this->parameters[0]) == 0) {
         this->sub_800CB5D4();
@@ -440,19 +419,13 @@ void TObjEneMe1Gee::sub_800CC0C4() {
         this->m_400 = 1.0f;
     }
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneMe1Gee::vfunc_106() {
     this->model = (void *)TObjEneMe1Gee__resource_bundle->models->model;
     this->texlist = TObjEneMe1Gee__resource_bundle->models->m_c;
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjEneMe1Gee::calc_position(Vec *out) {
     s32 angle = TObjEneDD::get_random_scaled();
     f32 radius = 30.0f * this->random_ratio() + lbl_805DA0B8;
@@ -461,10 +434,7 @@ void TObjEneMe1Gee::calc_position(Vec *out) {
     out->z = radius * cos_table_lookup(angle);
     vec3_add_to(out, &this->position);
 }
-}
-
 #pragma pop
-extern "C" {
 u8 *TObjEneMe1Gee::vfunc_101(u8 *) {
     if (vfunc_101__9TObjEneDDFPUc() == 0U) {
         this->m_3c8 &= 0xFEFFFFFF;
@@ -709,11 +679,8 @@ void TObjEneMe1Gee::destroy_subobj(const NJS_ARGB *color) {
     copy_argb(&this->m_468, (NJS_ARGB *)color);
     this->update_packed_color();
 }
-}
-
 #pragma push
 #pragma opt_common_subs off
-extern "C" {
 void TObjEneMe1Gee::update_packed_color() {
     u8 g = (u32)(255.0f * this->m_468.g);
     u8 b = (u32)(lbl_805DA0D0 * (255.0f * this->m_468.b));
@@ -721,10 +688,7 @@ void TObjEneMe1Gee::update_packed_color() {
     u8 a = (u32)(255.0f * this->m_468.a);
     this->m_478 = (b << 24) | (g << 16) | (r << 8) | a;
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneMe1Gee::vfunc_113() {
     if ((s32 *) (*(s32 **)&gee_resource_bundle_ptr) != NULL) {
         *(*(s32 **)&gee_resource_bundle_ptr) = this->m_478;
@@ -1169,13 +1133,10 @@ void TObjEneMe1Gee::state_attack(s32 arg1) {
         break;
     }
 }
-}
-
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
 #pragma pool_data off
-extern "C" {
 void TObjEneMe1Gee::sub_800CA454(s32 arg1) {
     Vec *dir = &this->m_454;
     switch (arg1) {
@@ -1318,11 +1279,8 @@ void TObjEneMe1Gee::sub_800CA454(s32 arg1) {
         break;
     }
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
     f32 dist;
 
@@ -1492,13 +1450,10 @@ void TObjEneMe1Gee::sub_800C9DF8(s32 arg1) {
         break;
     }
 }
-}
-
 #pragma pop
 #pragma pop
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjEneMe1Gee::sub_800C9A94(s32 arg1) {
     Vec *dir = &this->m_454;
     switch (arg1) {
@@ -1590,10 +1545,7 @@ void TObjEneMe1Gee::sub_800C9A94(s32 arg1) {
         break;
     }
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneMe1Gee::sub_800C9964(s32 arg1) {
     switch (arg1) {
     case 4:
@@ -1699,11 +1651,8 @@ void TObjEneMe1Gee::sub_800C96B4(s32 mode) {
         break;
     }
 }
-}
-
 #pragma push
 #pragma opt_common_subs off
-extern "C" {
 void TObjEneMe1Gee::sub_800C9580(s32 arg1) {
     switch (arg1) {
     case 4:
@@ -1730,10 +1679,7 @@ void TObjEneMe1Gee::sub_800C9580(s32 arg1) {
         return;
     }
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneMe1Gee::state_return_home(s32 arg1) {
 
     switch (arg1) {

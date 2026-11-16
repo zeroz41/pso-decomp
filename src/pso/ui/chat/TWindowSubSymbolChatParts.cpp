@@ -12,7 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
-#include "pso/ui/chat/TWindowSubSymbolChat.h"
+
 #include "pso/unk/WindowLayoutRecord.h"
 
 #pragma push

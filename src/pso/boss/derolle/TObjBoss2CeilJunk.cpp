@@ -9,7 +9,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/boss/derolle/TObjBoss2CeilJunk.h"
+
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -63,13 +63,12 @@ struct Color_8003A1B4
   s32 d;
 };
 
-extern "C" {
+
 const s32 boss2_ceil_junk_model_index_table[6] = { 0, 1, 2, 4, 3, 5 };
 const f32 TObjBoss2CeilJunk__height_offset_table[6] = { 10.0f, 10.0f, 7.0f, 3.0f, 10.0f, 6.0f };
 const f32 TObjBoss2CeilJunk__radius_table[6] = { 15.0f, 15.0f, 10.5f, 15.0f, 0.45000002f, 1.2f };
 const char *TObjBoss2CeilJunk__name = "TObjBoss2CeilJunk";
 const Color_8003A1B4 boss2_ceil_junk_render_color = { 0.0f, 0, 0, 0 };
-}
 
 struct Vec_8003A1B4
 {
@@ -293,7 +292,7 @@ void run_task__17TObjBoss2CeilJunkFv(Junk_8003A314 *o) {
 TObjBoss2CeilJunk::~TObjBoss2CeilJunk() {
 
 }
-extern "C" {
+
 extern const f32 lbl_805D85A0 = 6.0f;
 #pragma push
 #pragma opt_dead_assignments off
@@ -326,4 +325,3 @@ u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, 
 }
 #pragma pop
 
-}

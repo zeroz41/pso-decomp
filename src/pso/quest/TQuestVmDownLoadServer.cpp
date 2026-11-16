@@ -13,7 +13,7 @@
 
 
 #include "types.h"
-#include "pso/system/task/TObject.h"
+
 
 extern "C" {
 s32 wait_confirm_and_finish__17TMCFormatSequenceFPv();
@@ -73,7 +73,7 @@ extern s32 lbl_805D55C0;
 extern u32 lobby_player_construction_window;
 extern s32 lbl_805D49B4;
 
-#include "pso/ui/frontend/TAdPlayerLoadGC.h"
+
 #include "pso/render/TDLGraph.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/scene/TScene.h"

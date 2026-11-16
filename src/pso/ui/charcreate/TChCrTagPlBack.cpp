@@ -92,7 +92,6 @@ TChCrTagPlBack::TChCrTagPlBack(TObject *parent, void *arg) : TChCrTag(parent, ar
     m_38 = -0.06666667f;
 }
 
-extern "C" {
 
 void *TChCrTagPlBack::create(void *arg0) {
     return new TChCrTagPlBack(tl_03, arg0);
@@ -100,7 +99,6 @@ void *TChCrTagPlBack::create(void *arg0) {
 
 void *TChCrTagPlBack::create_default() { return TChCrTagPlBack::create(NULL); }
 
-}
 
 // The frame sprites' positions (and the edge scale), defined after their use so
 // draw_frame addresses each one on its own.

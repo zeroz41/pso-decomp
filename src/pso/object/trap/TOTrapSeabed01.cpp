@@ -54,9 +54,7 @@ struct SeabedTrapFragmentSpawn {
     s32 angle_y;
 };
 
-extern "C" {
 extern s32 lbl_805D3530;
-}
 
 const char *seabed_trap_model_filenames[] = {
     "obj_o_seaturigane2.gj",

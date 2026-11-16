@@ -18,7 +18,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
-#include "pso/object/base/TObjChara.h"
+
 #include "pso/enemy/TUnk_80486924.h"
 #include <stddef.h>
 #include "pso/boss/darkfalz/TObjBs4CutAtk.h"
@@ -34,14 +34,14 @@
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby.h"
+
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/technique/TTecGrants.h"
 #include "pso/technique/TTecMegid.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/technique/TTecResta.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/player/TObjPlayer.h"
+
+
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"

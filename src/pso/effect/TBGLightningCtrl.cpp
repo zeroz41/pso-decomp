@@ -5,7 +5,7 @@
 #include "pso/effect/TBGLightningCtrl.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/render/render_util.h"
-#include "pso/system/task/TObject.h"
+
 extern "C" void render__16TBGLightningCtrlFv();
 #include "pso/unk/text_803DA798.h"
 

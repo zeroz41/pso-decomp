@@ -13,9 +13,6 @@ struct Pair_803C8678 { u32 a, b; };
 extern "C" {
 s32 TLobby__sub_803D3130(void *, s32, Pair_803C8678 *, Pair_803C8678 *);
 s32 memset(void *, int, int);
-}
-
-extern "C" {
 s32 TLobby__sub_803C8B2C(u8 *arg0);
 
 }
@@ -50,9 +47,6 @@ s32 set_count__6TLobbyFl(int, int);
 void adxt_trap_entry_update__6TLobbyFPv(Obj_803CB20C *arg0);
 
 extern s32 lbl_805D7540;
-}
-
-extern "C" {
 s32 TLobby__sub_803CC030(int, int);
 s32 dispatch_packet__6TLobbyFv(int, int);
 void TLobby__sub_803CB194(u8 *arg0);
@@ -105,7 +99,6 @@ struct Strm_803CAB38 {
 s32 TLobby__sub_803BFE58(int);
 s32 TLobby__sub_803BFEE8(int);
 s32 notify_field_4_alt__6TLobbyFv(int);
-s32 send_packet_by_id_2__6TLobbyFv(int);
 s32 TLobby__sub_803BFFC0(int);
 void TLobby__sub_803BFFFC(u8 *arg0, s32 arg1, s32 arg2);
 s32 TLobby__sub_803C07E8(int);
@@ -347,7 +340,6 @@ struct Conn_803CAEB4
   u8 pad99[0xA4 - 0x99];
   s32 fA4;
 };
-s32 TLobby__sub_803C0010(u8 *arg0);
 s32 process_audio_stream_input(int);
 
 void TLobby__sub_803CAEB4(Conn_803CAEB4 *o) {

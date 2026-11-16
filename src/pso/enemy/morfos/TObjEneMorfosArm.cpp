@@ -22,12 +22,6 @@ const char *TObjEneMorfosArm__name = "TObjEneMorfosArm";
 TObjMotionAction morfos_arm_motion_params[1] = {
     { MOTION_MODE_ONCE, 0, 0, 0.7f, 0x4 },
 };
-}
-
-
-
-
-extern "C" {
 void *TObjEneMorfosArm__sub_803326B4(void *p);
 s32 TObjEneMorfosArm__sub_803326BC(void *);
 u16 get_entity_id(void *);
@@ -90,7 +84,6 @@ TObjEneMorfosArm::TObjEneMorfosArm(TObject *parent, void *owner) : TObjMotion(pa
     set_field_b8(requested_action);
 }
 
-extern "C" {
 
 void TObjEneMorfosArm__sub_8033542C(void) {  }
 
@@ -103,4 +96,3 @@ void TObjEneMorfosArm::init_global() {
     TObjEneMorfosArm__parent_morfos_instance = TObjEneMorfos::get_instance();
 }
 
-}

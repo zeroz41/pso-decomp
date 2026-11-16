@@ -95,14 +95,6 @@ s32 push_matrix();
 s32 pop_matrix();
 s32 post_translate_matrix(void *);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
-}
-void set_chunk_blend(u32 x);
-void draw_chunk_model(void *arg0);
-extern Col_802E6CB0 lbl_80472C9C;
-extern s32 current_scene_light;
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
-extern "C" {
 f32 lerp__9TDeadSpotFff(f32, f32);
 f32 rand_signed_unit();
 s32 matrix_mult_vec(int, void *, void *);
@@ -130,7 +122,12 @@ void *mem_alloc(u32 size);
 
     extern int multiplay_texture_f512_handle;
 }
-
+void set_chunk_blend(u32 x);
+void draw_chunk_model(void *arg0);
+extern Col_802E6CB0 lbl_80472C9C;
+extern s32 current_scene_light;
+extern s32 saved_model_render_flags;
+extern s32 model_render_flags;
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
@@ -231,7 +228,6 @@ TUnk_804E3BD8::~TUnk_804E3BD8() {
     }
 }
 
-extern "C" {
 
 void TUnk_804E3BD8::alloc_breakup_model(s32 arg1) {
     s32 *temp_r4;
@@ -451,7 +447,6 @@ void TUnk_804E3BA8::render() {
 }
 
 int TObjPlayer::get_instance() {  return multiplay_texture_f512_handle; }
-}
 
 f32 lbl_805D6910 = lbl_805DE9F0;
 const f32 lbl_805DE9C8 = 1.0f;

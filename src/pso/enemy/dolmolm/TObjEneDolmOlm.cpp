@@ -11,11 +11,11 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/enemy/dolmolm/TObjEneDolmOlm.h"
+
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/object/base/TObjMotion.h"
+
 #include "pso/system/vector.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/system/task/TObject.h"
@@ -464,10 +464,6 @@ void *__nw__7TObjectFUl(int);
 void mem_free(void*);
 s32 get_mode__11TCameraCtrlFPv(void *);
 s32 create__13TUnk_80494968FUlUl(u32, u32);
-}
-void restore_render_scissor(s32 arg0);
-int initialize_enemy_photon_effect(void *p);
-extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 extern const char *obj_ene_dolm_olm_class_name;
 extern "C" {
@@ -617,6 +613,8 @@ void TObjEneDolmOlm::load_params_from_table(s32 i) {
     self->f24 = (*(G_80302D80 * *)&TObjEneDolmOlm__resource_bundle)->e[i].d;
 }
 }
+void restore_render_scissor(s32 arg0);
+int initialize_enemy_photon_effect(void *p);
 TObjEneDolmOlm::TObjEneDolmOlm(s32 arg1, s32 arg2) : TUnk_80493450((TObject *)arg1) {
     u32 col;
     __ct__13TUnk_80494938Fv((((u8 *)this) + 0x3A8));
@@ -682,7 +680,7 @@ TObjEneDolmOlm::~TObjEneDolmOlm() {
     free_collision_body_parts(((Ene_80302A34 *)this));
     __dt__13TUnk_80494938Fv(((Ene_80302A34 *)this)->sub, -1);
 }
-extern "C" {
+
 void TObjEneDolmOlm::load_shared_resources() {
     u8 *p;
     s32 i;
@@ -1464,9 +1462,6 @@ s32 TObjEneDolmOlm__sub_80300CF0(void) {
 void TObjEneDolmOlm::reset_count() { lbl_805D69E8 = 0; }
 
 __declspec(section ".rodata") const f64 lbl_804750C8[] = {10430.38043493439};
-}
-
-extern "C" {
 const char *obj_ene_dolm_olm_class_name = TObjEneDolmOlm__class_name_string;
 
 
@@ -1478,4 +1473,3 @@ u32 TObjEneDolmOlm__resource_bundle;
 u32 TObjEneDolmOlm__data_805D6A14;
 u32 TObjEneDolmOlm__data_805D6A18;
 s32 TObjEneDolmOlm__effect_render_state;
-}

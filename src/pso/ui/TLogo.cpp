@@ -20,7 +20,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/system/task/TObject.h"
+
 
 extern "C" {
 s32 TKeyBoardControl__sub_8000F90C(int);
@@ -44,12 +44,6 @@ s32 TKeyBoardControl__sub_8000F92C();
 s32 set_active_camera_pose(void *, void *);
 s32 activate_camera_mode(s32 arg0);
 s8 func_801A5E54__Fv();
-}
-int is_logo_exit_requested(int);
-int is_sega_logo_done(int);
-void process_async_file_reads(void);
-void update_sound_request_slots(void);
-extern "C" {
 void func_803DCDFC__Fv(void);
 
 const char *TLogo__class_name = "TLogo";
@@ -72,7 +66,10 @@ void *logo_load_callback_table[18] = {
 };
 }
 }
-
+int is_logo_exit_requested(int);
+int is_sega_logo_done(int);
+void process_async_file_reads(void);
+void update_sound_request_slots(void);
 extern int TLogo__exit_requested_flag;
 extern int sega_logo_done_flag;
 extern int logo_clear_flag;

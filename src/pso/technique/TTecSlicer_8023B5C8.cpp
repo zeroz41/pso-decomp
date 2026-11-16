@@ -19,10 +19,10 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/render/render_util.h"
-#include "pso/render/GinjaMaterial.h"
+
 #include "pso/technique/TTecSlicer.h"
 #include "pso/system/task/TObject.h"
-#include "pso/system/vector.h"
+
 
 extern "C" {
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
@@ -84,10 +84,6 @@ void TSlicerHistory::run_task() {
     ((TObject *)arg0)->queue_destruction();
   }
 }
-
-}
-
-extern "C" {
 
 s32 __ct__7TObjectFP7TObject();
 
@@ -159,10 +155,6 @@ fail:
     return 0;
 }
 
-}
-
-extern "C" {
-
 void fn_8023B590(TTecSlicerTargets_8023B454 *o, u16 v, s8 b) {
     if (o->count < 10) {
         o->ids[o->count] = v;
@@ -174,23 +166,17 @@ void fn_8023B590(TTecSlicerTargets_8023B454 *o, u16 v, s8 b) {
 }
 
 #include "pso/effect/TEffStarLight2D.h"
-#include "pso/system/NinjaTypes.h"
-#include "pso/render/ChunkMaterialState.h"
-#include "types.h"
+
+
 #include "pso/unk/text_801036CC.h"
 #include "pso/system/data/FlagWord.h"
-#include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/render/MaterialColorFade.h"
+
+
 #include "pso/technique/TTecSlicer_8023B5C8.h"
-#include "pso/system/vector.h"
-#include "pso/technique/TTecSlicer.h"
+
+
 #include "pso/weapon/TItemAttacker.h"
-#include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/item/TItem.h"
-#include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/system/task/TObject.h"
+
 
 struct RecoveredFields_8023B770_var_r29
 {
@@ -347,8 +333,6 @@ void dt__10TTecSlicerFls(void *, int);
 extern s32 __vt__10TTecSlicer[];
 void destroy_if_set__10TTecSlicerFv(u32);
 
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
 f32 *get_weapon_range_record(s32, s32);
 s32 get_extended_state__10TObjPlayerFv(s32);
 s8 get_captured_target_collider_index(s32);

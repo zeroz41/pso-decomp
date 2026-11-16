@@ -8,8 +8,6 @@
 #include "pso/effect/item/TItemEffLavis.h"
 #include "pso/system/task/TMainTask.h"
 
-extern "C" {
-
 
 void TUnk_804A3168::emit_marker_effects() {
     s32 arg0 = (s32)this;
@@ -21,7 +19,6 @@ void TUnk_804A3168::emit_marker_effects() {
     ((TItemWeapon *)arg0)->update_active_game_effect();
 }
 
-}
 
 TUnk_804A3168::~TUnk_804A3168() {}
 
@@ -31,11 +28,10 @@ TUnk_804A3168::TUnk_804A3168(TObject *parent, u8 *item) : TItemWeapon(parent, it
     shot_speed = 10.0f;
 }
 
-extern "C" {
+
 u8 *TObjPlayer__sub_80127314(u8 *item) {
     if (item != NULL) {
         return (u8 *)new TUnk_804A3168(tl_05, item);
     }
     return NULL;
-}
 }

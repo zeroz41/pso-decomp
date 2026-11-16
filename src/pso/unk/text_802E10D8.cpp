@@ -5,7 +5,6 @@
 #include "pso/system/BmlResourceLoader.h"
 
 
-extern "C" {
 extern s32 TAdMultiPlyChrSelectGC__resource_bundle;
 void fn_802E10D8(void) {
     s32 temp_r3;
@@ -18,4 +17,3 @@ void fn_802E10D8(void) {
     TAdMultiPlyChrSelectGC__resource_bundle = var_r0;
 }
 
-}

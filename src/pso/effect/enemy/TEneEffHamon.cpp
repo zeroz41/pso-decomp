@@ -14,7 +14,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/system/task/TObject.h"
+
 
 #pragma readonly_strings on
 

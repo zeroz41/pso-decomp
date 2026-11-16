@@ -208,13 +208,8 @@ bool TLobby::is_slot_match() {
     u8 *arg0 = (u8 *)this;
     return *(u8 *)((s8 *)arg0 + 1) == *(s32 *)((s8 *)&section_id_favored_grind_table.value + (lbl_805D6238 * 4));
 }
-}
-
-extern "C" {
 s32 is_slot_match__6TLobbyFv();
 
-extern s32 item_appraisal_favored_weapon;
-extern s32 item_appraisal_score;
 
 void update_all__6TLobbyFi(s32 arg0) {
     if ((u32) item_appraisal_rules != 0U) {

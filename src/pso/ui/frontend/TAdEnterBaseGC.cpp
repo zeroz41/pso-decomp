@@ -123,19 +123,9 @@ void *memset(void *, int, u32);
 
 u32 strlen(const char *);
 
-}
-
-extern s32 tl_clipout;
-
-extern "C" {
-
 void draw_window_frame__11TWindowBaseFPv();
 
 void render_status_line__15TAdSubPlyItemGCFi(s32, int, f32, f32, f32);
-
-}
-
-extern "C" {
 
 s32 update_window_mode_from_progress__6TLobbyFPv(const void *, const void *);
 
@@ -166,9 +156,8 @@ int get_keyboard_field_6c__15TWindowMakeTeamFv(void* p);
 extern s32 local_client_id;
 
 s32 strncpy(s32, s32, s32);
-
 }
-
+extern s32 tl_clipout;
 char serial_access_hex_string_buf[0x40];
 
 extern "C" {
@@ -205,7 +194,6 @@ TAdEnterBaseGC::~TAdEnterBaseGC() {
     if (*(void **)((s8 *)this + 0x34) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x34)))->queue_destruction(); *(s32 *)((s8 *)this + 0x34) = 0; }
 }
 
-extern "C" {
 
 void TAdEnterBaseGC::sub_8032B460(int a1) { *(int *)&this->m_24 = 0; this->m_20 = 0; TAdEnterBaseGC__entry_mode = a1; *(int*)((char*)this + 0x38) = 0; *(int*)((char*)this + 0x3c) = 0; this->m_28 = 0; *(int *)&this->unk_2C = 0; this->m_30 = 0; *(int *)&this->unk_34 = 0; password_entry_keyboard_control = 0; }
 
@@ -243,7 +231,6 @@ void TAdEnterBaseGC::create_parts() {
 
 void TAdEnterBaseGC::run_task() {  }
 
-}
 
 void TAdEnterBaseGC::fn_8032B318(Position *position) {
     u32 half_width = calc_text_width((char *)get_localized_text_entry(23, 4)) >> 1;
@@ -325,7 +312,6 @@ void clear_state(void) {
     }
 }
 
-extern "C" {
 
 void TAdEnterSerialAccessGC::clear_serial_buffer() {
     u8 *instance;
@@ -419,7 +405,6 @@ void fn_8032AC9C(void *arg0, void *arg1) {
     }
 }
 
-}
 
 void TAdEnterBaseGC::render() {  }
 

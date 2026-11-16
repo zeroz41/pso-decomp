@@ -14,9 +14,8 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TTecZarua__name = "TTecZarua";
-}
 
 
 struct RecoveredGlobal_802384E0_lbl_804CCB28 { s32 value; u8 remaining[0x14]; };

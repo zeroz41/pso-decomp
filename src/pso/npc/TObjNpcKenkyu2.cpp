@@ -2,7 +2,7 @@
 #include "pso/npc/TObjNpcKenkyu2.h"
 #include "pso/npc/TObjNpcHosa2.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TUnk_804A9F50.h"
+
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"

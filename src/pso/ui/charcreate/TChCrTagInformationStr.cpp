@@ -62,7 +62,7 @@ void TChCrTagInformationStr::render() {
     }
 }
 
-extern "C" {
+
 extern const char *TChCrTagInformationStr__class_name;
 
 #pragma push
@@ -107,7 +107,6 @@ void TChCrTagInformationStr::run_task() {
 
 TChCrTagInformationStr::~TChCrTagInformationStr() {}
 
-}
 
 TChCrTagInformationStr::TChCrTagInformationStr(TObject *parent, s32 tag_index) : TObject(parent) {
     m_name = TChCrTagInformationStr__class_name;

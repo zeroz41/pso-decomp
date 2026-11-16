@@ -4,7 +4,7 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/system/NinjaTypes.h"
 
-extern "C" {
+
 extern const NJS_POINT2 lbl_804767B8[];
 extern const NJS_POINT2 lbl_804767C0[];
 extern const NJS_POINT2 lbl_804767A8[];
@@ -47,4 +47,3 @@ void TAdDialingGC::render_if_flag_set() {
     }
 }
 
-}

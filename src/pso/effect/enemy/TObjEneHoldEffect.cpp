@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/effect/enemy/TObjEneHoldEffect.h"
-#include "pso/effect/enemy/TObjEneHoldEffect.h"
+
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 

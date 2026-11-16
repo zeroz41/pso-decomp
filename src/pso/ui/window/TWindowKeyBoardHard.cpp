@@ -610,12 +610,12 @@ void fn_8025FF8C(void *arg0) {
     }
 }
 
-#include "types.h"
+
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8025CB70.h"
-#include "pso/ui/window/TWindowKeyBoardHard.h"
+
+
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/ui/Language.h"
+
 
 extern const char lbl_8044F0CC[];
 extern const char lbl_8044F0D4[];
@@ -676,19 +676,15 @@ void TWindowKeyBoardHard::render() {
 
 }
 
-#include "types.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8025CB70.h"
+
 #include "pso/ui/window/TWindowKeyBoardHard_802601D4.h"
-#include "pso/ui/keyboard/TKeyBoardControl.h"
+
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowKeyBoardHard.h"
-#include "pso/ui/window/TWindowDD.h"
-#include "pso/ui/Language.h"
+
 
 extern "C" {
 s32 get_window_layout_position(int);
 extern s32 __vt__19TWindowKeyBoardHard[];
-s32 is_key_active__19TWindowKeyBoardHardFv();
 void __dl__7TObjectFPv(void *);
 s32 has_non_modifier_key__16TKeyBoardControlFv(void *);
 
@@ -747,8 +743,6 @@ u8 *TWindowKeyBoardHard__ct(TWindowKeyBoardHard *window_key_board_hard, s32 arg1
 
 }
 
-#include "types.h"
-#include "pso/ui/window/TWindowKeyBoardHard.h"
 
 void TWindowKeyBoardHard::set_bits_shift7(s32 arg0, s32 arg1) {
     TWindowKeyBoardHard::set_card_window_flags((void *)arg0, (s32)(arg1 << 7), -0x81);

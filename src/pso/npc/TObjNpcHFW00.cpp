@@ -10,11 +10,10 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TObjNpcHFW00__name = "TObjNpcHFW00";
 u32 TObjNpcHFW00__shared_resource_obj;
 u32 TObjNpcHFW00__texture_handle;
-}
 
 struct RecoveredGlobal_8014AE4C___vt__12TObjNpcHFW00 {
     s32 value;
@@ -61,7 +60,7 @@ void TObjNpcHFW00::load_resources() {
 
 }
 TObjNpcHFW00::~TObjNpcHFW00() {}
-extern "C" {
+
 
 typedef char RecoveredGlobal_8014AE4C___vt__12TObjNpcHFW00_size[sizeof(RecoveredGlobal_8014AE4C___vt__12TObjNpcHFW00) == 0x178 ? 1 : -1];
 u8 *TObjNpcHFW00__ct(u8 *player, s32 arg1, s32 arg2) {
@@ -76,4 +75,3 @@ u8 *TObjNpcHFW00__ct(u8 *player, s32 arg1, s32 arg2) {
     return player;
 }
 
-}

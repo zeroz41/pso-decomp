@@ -39,10 +39,9 @@ struct RecoveredGlobal_802169A8_TMedicalCenterSequence__data_80513E90 {
     s32 value;
     u8 remaining[0xC];
 };
-extern "C" {
+
 RecoveredGlobal_802169A8_TMedicalCenterSequence__data_80513E90 TMedicalCenterSequence__data_80513E90;
 s32 TMedicalCenterMes__slot_flags[4];
-}
 
 
 struct Base_8021641C_802163AC { char pad[0x18]; };

@@ -251,20 +251,11 @@ s32 init_collision_body_parts(void *, void *, int);
 
 extern BmlResource *gyaranzo_bml_resource;
 
-s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void *find_entity_by_id(u16);
 void check_enemy_body_collisions(void *);
-s32 play_sound_effect(void *, void *, int, int);
 
-}
-s32 get_gyaranzo_missile_int_parameter(s32 i);
-extern "C" {
-s32 project_actor_to_ground(void *, void *, int);
-
-s32 post_translate_matrix(void *);
 void free_collision_body_parts(void *);
 
-s32 push_matrix();
 }
 
 TUnk_8049442C::~TUnk_8049442C() {
@@ -272,7 +263,6 @@ TUnk_8049442C::~TUnk_8049442C() {
     free_collision_body_parts(this);
 }
 
-extern s32 model_render_flags;
 
 TUnk_8049442C::TUnk_8049442C(TObjBase *owner, Vec *pos, s32 angle, s32 spin) : TObjCollidable(tl_04) {
     VecCopy(&position, pos);

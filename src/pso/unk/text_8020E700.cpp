@@ -168,7 +168,7 @@ void generate_shop_shield_pool(s32 arg0) {
     }
 }
 
-extern "C" {
+
 void generate_shop_armor_pool(s32 arg0) {
     Item_8020E934 item;
     Ctr_8020E934 ctr;
@@ -227,7 +227,6 @@ void generate_shop_armor_pool(s32 arg0) {
         }
     }
 }
-}
 
 void TLobby::clear_shop_entry_value(s32 i, s32 j) {
     Ent_8020EC68 *e = (Ent_8020EC68 *)lbl_80513D78[j];
@@ -246,19 +245,14 @@ void TLobby::copy_armor_shop_entry(s32 arg1, s32 arg2) {
 }
 
 // ---- pso/unk/TLobby_8020ED20
-#include "types.h"
-#include "pso/unk/TLobby.h"
-
-extern "C" {
 
 
 void TLobby::set_shop_armor_list_flag(int a0, int a1) { lbl_805D615C = a1; generate_armor_shop_stock(a0); }
 
-}
 
 // ---- pso/unk/text_8020ED44
-#include "types.h"
-#include "pso/unk/text_8020E700.h"
+
+
 #include "pso/unk/text_8020ED44.h"
 
 extern "C" {
@@ -274,14 +268,7 @@ void generate_armor_shop_stock(s32 arg0) {
     }
 }
 
-}
-
 // ---- pso/unk/TLobby_8020EDBC
-#include "types.h"
-#include "pso/unk/TLobby.h"
-
-extern "C" {
-
 void mem_free(void *p);
 
 void TLobby::free_rocks() {
@@ -307,7 +294,7 @@ void TLobby::free_rocks() {
 }
 
 // ---- pso/unk/text_8020EE2C
-#include "types.h"
+
 #include "pso/unk/text_8020EE2C.h"
 extern "C" {
 s32 is_split_screen(void);

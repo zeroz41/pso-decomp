@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/object/TObjEZBoneRotPlayer.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/system/task/TObject.h"
+
 extern "C" {
 extern void* __vt__12T_OWEHMS_Exp[6];
 void destroy__12T_OWEHMS_ExpFs();

@@ -14,7 +14,7 @@
 #include "pso/unk/TLobby_803255F8.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/technique/TTecZondeEff.h"
+
 
 struct Ent_80325248 { u8 b[0xC]; };
 
@@ -171,12 +171,7 @@ Self_8032537C *__ct__25TBoss5GryphonLightningEffFv(Self_8032537C *self, void *pa
 }
 #pragma pop
 
-}
-
 #pragma readonly_strings on
-
-
-extern "C" {
     u8 *load_gvm_texture_file(s32 arg0);
 s32 release_texture_list(void*);
 

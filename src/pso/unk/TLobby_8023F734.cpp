@@ -487,7 +487,7 @@ u16 sound_bank_group_ids[38] = {
 }
 #include "pso/unk/TLobby_8023F734.h"
 #include "pso/system/memory.h"
-#include "pso/unk/TLobby.h"
+
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/audio/SoundRequestVoice.h"
 #include "pso/unk/TLobby_80242910.h"
@@ -695,14 +695,9 @@ s32 resolve_sound_effect_bank(Owner_8023FBBC *owner, s32 kind, s32 bank, s32 ind
     }
     return result;
 }
-}
 #pragma pop
 
 #pragma pop
-
-
-
-extern "C" {
 void *adxf_open_afs__6TLobbyFii(int, int);
 
 s32 TLobby__sub_8023FFB8(SoundControlState *self, int id);
@@ -882,8 +877,6 @@ struct Mgr_802405B0 {
 extern "C" {
 s32 sndPopGroup();
 s32 OSGetTick();
-}
-extern "C" {
 s32 update_sound_frame(SoundControlState *self);
 
 int TLobby__sub_802401C8(SoundControlState *self) { return 0; }

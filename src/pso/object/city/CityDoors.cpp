@@ -23,7 +23,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/map/TObjMapCsn.h"
-#include "pso/object/TUnk_804B5BA8.h"
+
 
 struct RecoveredGlobal_8018289C_lbl_80443F4C
 {
@@ -155,11 +155,6 @@ extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u8 * load_gvm_texture_file(s32);
 void render__18TObjCityDoor_LobbyFv(void* p);
-}
-extern RecoveredGlobal_8019A9B8_lbl_804B8F60 bm_obj_city_common_resource_descriptor;
-void load_city_common_resources(void);
-s32 get_city_common_model(s32);
-extern "C" {
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object();
 s32 push_matrix();
@@ -176,6 +171,9 @@ void TLobby::free_map_resources() {
     city_common_model_archive = 0;
 }
 }
+extern RecoveredGlobal_8019A9B8_lbl_804B8F60 bm_obj_city_common_resource_descriptor;
+void load_city_common_resources(void);
+s32 get_city_common_model(s32);
 typedef char RecoveredGlobal_8019A880_lbl_804B8F70_size[sizeof(RecoveredGlobal_8019A880_lbl_804B8F70) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8019A880___vt__8TObjTank_size[sizeof(RecoveredGlobal_8019A880___vt__8TObjTank) == 0x3C ? 1 : -1];
 typedef char RecoveredGlobal_8019A9B8_lbl_804B8F60_size[sizeof(RecoveredGlobal_8019A9B8_lbl_804B8F60) == 0x14 ? 1 : -1];
@@ -338,7 +336,7 @@ void __dl__7TObjectFPv(void *);
 void remove_value_from_id_list(s32 arg0, u32 arg1);
 
 extern s32 __vt__18TObjCityDoor_Lobby[];
-extern "C" {
+
 
 u8 *__dt__18TObjCityDoor_LobbyFPvs(u8 *arg0, s16 arg1) {
     if (arg0 != NULL) {
@@ -352,7 +350,6 @@ u8 *__dt__18TObjCityDoor_LobbyFPvs(u8 *arg0, s16 arg1) {
         }
     }
     return arg0;
-}
 }
 
 struct Vec_80181F10 { f32 x, y, z; };
@@ -491,7 +488,7 @@ s32 get_game_play_mode();
 }
 s32 is_rader_map_active(void);
 u8 *init_city_door(u8 *, s32, s32, u8 *);
-extern "C" {
+
 
 void *TObjCityDoor_Med__create(void *set) {
     void *o = __nw__7TObjectFUl(0xBC);
@@ -520,7 +517,6 @@ void *TObjCityDoor_Med__ct(void *o, void *parent, void *set) {
  *(s32 **)((u8 *)o + 0x18)=__vt__16TObjCityDoor_Med;*(s32 *)((u8 *)o + 0)=(s32)TObjCityDoor_Med__name;
  ((TObjCityDoor_Med *)o)->m_b0=(f32)(*(u32 *)((u8 *)get_city_common_motion(11) + 4)-1);
  return o;
-}
 }
 
 s32 is_rader_map_active(void) {
@@ -818,7 +814,7 @@ struct RecoveredGlobal_8018289C_lbl_804B5B4C
   s32 remaining[22];
 };
 
-extern "C" {
+
 extern RecoveredGlobal_8018289C_lbl_80443F4C TObjCityDoor_Shop__params;
 extern RecoveredGlobal_8018289C_lbl_804B5B4C __vt__17TObjCityDoor_Shop;
 __declspec(section ".sdata") extern const char *TObjCityDoor_Shop__name;
@@ -858,9 +854,6 @@ u8 *TObjCityDoor_Shop__ct(u8 *city_door_shop, s32 arg1, s32 arg2) {
   return city_door_shop;
 }
 
-}
-
-#include "pso/player/TObjPlayer.h"
 
 struct Base_80182A58_8018291C { char pad[0x18]; };
 struct VObj_80182A58_8018291C : Base_80182A58_8018291C {
@@ -931,10 +924,6 @@ extern s32 city_door_base_vtable[];
 extern void *challenge_task;
 s32 init_collision_body_parts(void *, void *, int, int);
 s32 __ct__14TObjCollidableFP7TObject();
-}
-extern RecoveredGlobal_80182D8C_lbl_80443F20 city_door_init_params;
-u8 *init_city_door(u8 *arg0, s32 arg1, s32 arg2, u8 *arg3);
-extern "C" {
 void city_door_tick_opening__13TUnk_804B5BA8Fv(void* o);
 void city_door_tick_closing__13TUnk_804B5BA8Fv(void* o);
 struct Vec_8018291C { char pad14[0x14]; f32 x; f32 y; };
@@ -1083,7 +1072,8 @@ void *TObjPlayer__sub_80182D24(void *arg0, s16 arg1) {
     return arg0;
 }
 }
-
+extern RecoveredGlobal_80182D8C_lbl_80443F20 city_door_init_params;
+u8 *init_city_door(u8 *arg0, s32 arg1, s32 arg2, u8 *arg3);
 typedef char RecoveredGlobal_80182D8C_lbl_80443F20_size[sizeof(RecoveredGlobal_80182D8C_lbl_80443F20) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_80182D8C_lbl_804B5BA8_size[sizeof(RecoveredGlobal_80182D8C_lbl_804B5BA8) == 0x60 ? 1 : -1];
 u8 *init_city_door(u8 *arg0, s32 arg1, s32 arg2, u8 *arg3) {

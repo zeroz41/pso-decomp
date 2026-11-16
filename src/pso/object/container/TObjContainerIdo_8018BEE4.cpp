@@ -8,7 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/container/TObjContainerJungEnemy.h"
-#include "pso/object/container/TObjContainerIdo.h"
+
 #include "pso/item/TUnk_804B97C0.h"
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/object/container/TContainerAncient01R.h"
@@ -24,7 +24,7 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/render/RenderFadeState.h"
+
 
 extern "C" {
 __declspec(section ".data") const char *fe_obj_hako_i_rail_model_names[3] = { "fe_obj_hako_i_rail.gj", "fe_obj_hako_ido.gj", NULL };
@@ -332,7 +332,7 @@ TObjContainerIdo::~TObjContainerIdo() {
     free_collision_body_parts(this);
     __dt__15RenderFadeStateFv((s8 *)this + 0xF0, -1);
 }
-extern "C" {
+
 
 u8 *TObjContainerIdo__ct(u8 *arg0, s32 arg1, s32 arg2) {
     s32 i;
@@ -370,4 +370,3 @@ u8 *TObjContainerIdo__ct(u8 *arg0, s32 arg1, s32 arg2) {
     return arg0;
 }
 
-}

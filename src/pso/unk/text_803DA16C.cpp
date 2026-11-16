@@ -1,6 +1,6 @@
 #include "pso/render/GinjaTexture.h"
 
-extern "C" {
+
 extern GinjaTextureError lbl_8058D470;
 
 #pragma push
@@ -19,4 +19,3 @@ s32 release_texture_list(GinjaTextureList *textures) {
     return result;
 }
 #pragma pop
-}

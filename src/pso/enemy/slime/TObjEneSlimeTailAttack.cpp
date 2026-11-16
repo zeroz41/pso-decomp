@@ -18,8 +18,8 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/system/task/TObject.h"
+
+
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -281,12 +281,6 @@ u8 *get_enemy_entity(u16 arg0);
 int get_entity_id(void *);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 s32 __ct__9TObjEnemyFP7TObject(void *);
-}
-
-s32 water_bomb_hit_nearby(u8 *arg0);
-extern "C" {
-
-
 void free_collision_body_parts(void *);
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(s32);
@@ -603,12 +597,10 @@ const char *TObjEneSlimeTailAttack__name = TObjEneSlimeTailAttack__class_name_st
 
 f32 fabs_float(f32);
 }
-
-
+s32 water_bomb_hit_nearby(u8 *arg0);
 // ---- folded from src/pso/unk/text_800EB778.cpp ----
-#include "types.h"
-#include "pso/system/vector.h"
-#include "pso/enemy/slime/TObjEneSlimeOne.h"
+
+
 struct E_800EB8DC { s32 f0; s32 f4; };
 
 struct O_800EB8DC { u8 pad[0x3b8]; E_800EB8DC arr[4]; };
@@ -648,14 +640,14 @@ s32 spawn_slime_in_slot(Obj_800EB7BC *origin, s32 arg1, Vec_800EB654 *arg2, Vec_
 }
 
 // ---- folded from src/pso/enemy/TObjEneSlime.cpp ----
-#include "types.h"
+
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/enemy/slime/TObjEneSlimeOne_800EC394.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/enemy/TObjEnemy.h"
+
+
 #include "pso/enemy/slime/TObjEneSlime.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct Slot_800EB910 { s32 state; void *obj; };
 
@@ -676,13 +668,11 @@ void TObjEneSlime__sub_800EB9F0(void* p, void* q);
 }
 
 // ---- folded from src/pso/enemy/TObjEneSlime_800EBBC8.cpp ----
-#include "types.h"
-#include "pso/enemy/slime/TObjEneSlime.h"
+
+
 #include "pso/enemy/slime/TObjEneSlime_800EBBC8.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
-#include "pso/enemy/slime/TObjEneSlime.h"
-#include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct RecoveredGlobal_800EBC28___vt__12TObjEneSlime {
     s32 value;
@@ -690,41 +680,24 @@ struct RecoveredGlobal_800EBC28___vt__12TObjEneSlime {
 };
 
 extern "C" {
-s32 __ct__9TObjEnemyFP7TObject(void *);
 extern s32 __vt__12TObjEneSlime[];
 void free_bin_model_request(void*, int);
-void __dl__7TObjectFPv(void *);
-void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
-
-}
-extern "C" {
-
 
 typedef char RecoveredGlobal_800EBC28___vt__12TObjEneSlime_size[sizeof(RecoveredGlobal_800EBC28___vt__12TObjEneSlime) == 0x150 ? 1 : -1];
 
 
-}
-
 // ---- folded from src/pso/enemy/TObjEneSlime_800EBD38.cpp ----
-#include "types.h"
-#include "pso/enemy/slime/TObjEneSlime_800EBBC8.h"
-#include "pso/enemy/slime/TObjEneSlime.h"
-
-extern "C" {
-
 void *load_resource_from_descriptor(void *, s32, s32 *, s32, s32, s32);
 
 
 }
 
 // ---- folded from src/pso/player/TObjPlayer_800EBE2C.cpp ----
-#include "types.h"
+
 #include "pso/render/MaterialColorFade.h"
 #include "pso/player/TObjPlayer_800EBE2C.h"
 #include "pso/render/ChunkMaterialState.h"
-#include "pso/enemy/slime/TObjEneSlimeTailAttack.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/enemy/slime/TObjEneSlimeOne.h"
+
 
 struct Stack_800EBE74 {
     f32 sp8;
@@ -733,15 +706,11 @@ struct Stack_800EBE74 {
     f32 sp14;
 };
 
-extern "C" {
 extern int saved_model_render_flags;
 extern int saved_chunk_polygon_flags_and_mask;
 extern int saved_chunk_polygon_flags_or_mask;
 extern int chunk_polygon_flags_or_mask;
 extern int chunk_polygon_flags_and_mask;
-
-
-}
 
 
 void TObjPlayer::push_material_color_override(f32 farg0, f32 farg1, f32 farg2, f32 farg3) {

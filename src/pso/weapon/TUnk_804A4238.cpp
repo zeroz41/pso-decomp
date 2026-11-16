@@ -6,7 +6,7 @@
 #include "pso/technique/TTecSlicer.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct Owner_801293FC { u8 pad[0x60]; s32 f60; };
 
@@ -102,7 +102,7 @@ struct SlicerState_801295FC {
     s32 angle;
 };
 
-extern "C" {
+
 void init_slicer_launch_state(void *arg0) {
     SlicerState_801295FC *s = (SlicerState_801295FC *)arg0;
     s->id = 0xFFFF;
@@ -116,5 +116,4 @@ void init_slicer_launch_state(void *arg0) {
     s->f1C = 0.0f;
     s->f18 = 0.0f;
     s->angle = -0x2AAA;
-}
 }

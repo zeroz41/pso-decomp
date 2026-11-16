@@ -3,7 +3,7 @@
 #include "pso/object/collision/TObjRaderCol.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject_8001A448.h"
-#include "pso/object/collision/TObjRaderCol.h"
+
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"

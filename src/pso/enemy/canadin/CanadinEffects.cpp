@@ -157,9 +157,6 @@ s32 TObjEneMe1Canadin::fade_alpha_step(f32 scale, s32 step) {
     ((TObjEneMe1Canadin_EffLightPoint *)this)->color |= a << 24;
     return 0;
 }
-}
-
-extern "C" {
 TObjEneMe1Canadin_EffLight *__dt__26TObjEneMe1Canadin_EffLightFv(TObjEneMe1Canadin_EffLight *self, s16 flags) {
     if (self != NULL) {
         *(s32 **)((u8 *)self + 0x18) = __vt__26TObjEneMe1Canadin_EffLight;

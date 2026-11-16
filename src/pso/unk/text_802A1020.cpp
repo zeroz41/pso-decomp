@@ -63,7 +63,7 @@ const char *opening_movie_path_table[10] = {
     "psogc_j2.sfd", "psogc_j2.sfd", "psogc_j2.sfd", "psogc_j2.sfd", "psogc_j2.sfd",
 };
 
-extern "C" {
+
 s32 verify_game_file_integrity(void) {
     s32 i;
     u32 size;
@@ -106,17 +106,15 @@ s32 verify_game_file_integrity(void) {
     lobby_cursor_active_flag = 0;
     return 0;
 }
-}
 
 unsigned char get_opening_movie_purpose(void) { return opening_movie_purpose; }
 
 void set_opening_movie_purpose(int a0) { opening_movie_purpose = a0; }
 
-extern "C" {
+
 void fn_802A1154(void) {
     main_task.delete_layer_children();
     render_tick();
-}
 }
 
 void update_movie_phase(void) {

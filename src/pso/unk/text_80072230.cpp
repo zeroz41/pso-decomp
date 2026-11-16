@@ -2,7 +2,7 @@
 #include "pso/unk/TLobby.h"
 
 #include <stddef.h>
-#include "pso/unk/TLobby.h"
+
 struct Stack_800724F0 {
     s32 sp8;
     s32 spC;

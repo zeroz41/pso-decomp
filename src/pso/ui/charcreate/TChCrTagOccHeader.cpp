@@ -7,14 +7,13 @@
 #include "pso/ui/charcreate/TChCrTagOccupation.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 
-extern "C" {
+
 const char *chcr_tag_occ_header_class_name = "TChCrTagOccHeader";
-}
 
 extern "C" f32 sin_table_lookup(s32 angle);
 #pragma push
 #pragma fp_contract on
-extern "C" void fn_802A2A00(TChCrTag *tag) {
+void fn_802A2A00(TChCrTag *tag) {
   u8 *self = (u8 *)tag;
   vec2f pos = {393.0f, 82.0f};
   vec2f scale;

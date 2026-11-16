@@ -213,9 +213,6 @@ void TBoss8DragonEffTail::free_statics() {
     boss8_eff_tail_bml_resource = 0;
 }
 
-}
-
-extern "C" {
 u8 *load_gvm_texture_file(s32 arg0);
 }
 

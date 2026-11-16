@@ -3,11 +3,11 @@
 #include "pso/boss/barbaray/TBoss7LaserPtcl.h"
 #include "pso/boss/TUnk_804F1C88.h"
 #include "types.h"
-#include "pso/boss/barbaray/TBoss7LaserPtcl.h"
+
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/boss/barbaray/TBoss7PhotonBullet.h"
-#include "pso/boss/TUnk_804F1C88.h"
+
 #include <stddef.h>
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/object/ending/TObjOnlineEnding.h"

@@ -19,15 +19,14 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/player/TObjPlayer.h"
+
 
 #include <stddef.h>
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
-#include "pso/object/ambient/TObjFish.h"
+
 
 #include "pso/boss/darkfalz/TObjDFTenchuFuru.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -680,7 +679,6 @@ TBoss4Type1::TBoss4Type1(TObject *parent, s32 *params) : TObjEnemy(parent) {
 }
 
 
-extern "C" {
 TBoss4Type1::~TBoss4Type1() {
     s32 i;
     s32 j;
@@ -714,11 +712,8 @@ void TBoss4Type1::vfunc_63() {
     }
 }
 
-}
-
 #pragma push
 #pragma opt_common_subs off
-extern "C" {
 void TBoss4Type1::run_task() {
     void (TBoss4Type2::*act)();
     if (owner->is_field378_zero() != 0) {
@@ -745,10 +740,7 @@ void TBoss4Type1::run_task() {
     hp_ratio = (f32)hp / (f32)referenceHp;
 }
 
-}
 #pragma pop
-
-extern "C" {
 void TBoss4Type1::render() {
     push_players_out_of_colliders();
     render_effects();
@@ -763,11 +755,8 @@ void TBoss4Type1::snapshot_position() {
 
 void TBoss4Type1::render_effects() { toggle_particle_effect__10TObjPlayerFv(this); push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void**)((char*)this + 0x60)); this->draw_parts(); pop_matrix(); TParticleCtrl::end_effect_render(); }
 
-}
-
 #pragma push
 #pragma opt_common_subs off
-extern "C" {
 void TBoss4Type1::update_boss4_phase_timer() {
     f32 temp_f1;
     f32 temp_f1_2;
@@ -802,10 +791,7 @@ void TBoss4Type1::update_boss4_phase_timer() {
     }
 }
 
-}
 #pragma pop
-
-extern "C" {
 void TBoss4Type2::set_motion_index(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     if (arg1 != -1) {
@@ -815,11 +801,8 @@ void TBoss4Type2::set_motion_index(s32 arg1) {
     }
 }
 
-}
-
 #pragma push
 #pragma opt_propagation off
-extern "C" {
 void TBoss4Type1::draw_parts() {
     u8 *arg0 = (u8 *)this;
     s32 i;
@@ -855,10 +838,7 @@ void TBoss4Type1::draw_parts() {
     *(s32 *)((s8 *)arg0 + 0x3D4) = 0;
 }
 
-}
 #pragma pop
-
-extern "C" {
 u8 *TBoss4Type2__sub_80054384(void *self, s32 i, s32 j) {
     return lbl_8048615C[i] + (j - 1) * 0x4000;
 }
@@ -982,9 +962,6 @@ void TBoss4Type1::push_players_out_of_colliders() {
     }
 }
 
-}
-
-extern "C" {
 void TBoss4Type1::sub_80053D4C() {
     Obj_80053D4C *arg0 = (Obj_80053D4C *)this;
     Part_80053D4C *q;
@@ -1005,9 +982,6 @@ void TBoss4Type1::sub_80053D4C() {
     }
 }
 
-}
-
-extern "C" {
 void TBoss4Type2::send_state_to_target(s32 arg1) {
     Obj_80053CEC *self = (Obj_80053CEC *)this;
     if (self->target != 0) {
@@ -1062,9 +1036,6 @@ void TBoss4Type2::calc_scale_slot_indices(s32 *a, s32 *b) {
     }
 }
 
-}
-
-extern "C" {
 void TBoss4Type2::calc_target_position() {
     Obj_80053AD4 *arg0 = (Obj_80053AD4 *)this;
     arg0->f3B8 = 29.375f * (0.5f + (f32)arg0->i3B0) - 235.0f;
@@ -1072,19 +1043,13 @@ void TBoss4Type2::calc_target_position() {
     arg0->f3C0 = 29.375f * (0.5f + (f32)arg0->i3B4) - 235.0f;
 }
 
-}
-
-extern "C" {
 void TRaderMapCore::set_map_position(void *arg1) {
     *(s32 *)((s8 *)this + 0x3B0) = (s32) ((235.0f + *(f32 *)((s8 *)arg1 + 0)) / 29.375f);
     *(s32 *)((s8 *)this + 0x3B4) = (s32) ((235.0f + *(f32 *)((s8 *)arg1 + 8)) / 29.375f);
 }
 
-}
-
 #pragma push
 #pragma opt_propagation off
-extern "C" {
 void pick_target_position__13TRaderMapCoreFPvPv(O_80053914 *self, Vec_80053914 *out) {
     s32 a1;
     O_80053914 *found;
@@ -1131,10 +1096,7 @@ void pick_target_position__13TRaderMapCoreFPvPv(O_80053914 *self, Vec_80053914 *
     out->z = s * cos_table_lookup(ang);
 }
 
-}
 #pragma pop
-
-extern "C" {
 void TBoss4Type1::sub_80053670() {
     typedef char sp8_offset[(offsetof(Stack_80053670, sp8) == 0x0) ? 1 : -1];
     typedef char sp10_offset[(offsetof(Stack_80053670, sp10) == 0x8) ? 1 : -1];
@@ -1247,9 +1209,6 @@ void TBoss4Type1::sub_80053440() {
     play_persistent_sound(0x4003BC0E, (s32)arg0, (u32)&arg0->pos, 0x40, 2);
 }
 
-}
-
-extern "C" {
 void TBoss4Type1::update_follow_camera_offsets() {
     Obj_80053E40 *o = (Obj_80053E40 *)this;
     XZ_80053E40 pts[7];
@@ -1310,9 +1269,6 @@ void TBoss4Type1::update_follow_camera_offsets() {
     }
 }
 
-}
-
-extern "C" {
 void TBoss4Type2::sub_800531BC() { *(s32 *)((char *)this + 0x398) = 75; }
 
 void TBoss4Type2::check_state_if_idle() {
@@ -1538,9 +1494,6 @@ void TBoss4Type2::sub_800528B8() {
     }
 }
 
-}
-
-extern "C" {
 void TBoss4Type2::sub_800525AC() {
     f32 temp_f1;
     f32 temp_f1_2;
@@ -1690,4 +1643,3 @@ void TBoss4Type2::sub_800525AC() {
     }
 }
 
-}

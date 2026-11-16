@@ -20,7 +20,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/player/TObjPlayer.h"
+
 
 extern "C" {
 s32 minimap_render_dot(Vec *pos, s32 color, s16 a2, s32 a3);

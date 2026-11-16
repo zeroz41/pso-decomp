@@ -44,7 +44,6 @@ struct Ent_800A0798 : EBase_800A0798 {
 };
 
 
-
 struct Player_800A0994 {
     u8 pad0[0x28];
     s16 f28;

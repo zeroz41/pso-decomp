@@ -16,10 +16,6 @@ void TLobby__sub_802433A8(void) {
     }
 }
 
-}
-
-extern "C" {
-
 s32 xmalloc__FUl(s32);
 
 

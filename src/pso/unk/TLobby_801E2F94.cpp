@@ -184,7 +184,7 @@ void draw_line_list(Lines_801E341C *l, s32 n, u32 flags);
 void setup_opaque_color_draw(void);
 void setup_blended_textured_draw(void);
 void load_context_texture_obj(void);
-extern "C" {
+
 void set_line_width(int a0);
 
 void draw_color_lines(ColorLineList *l, s32 n, s32 flags, f32 scale) {
@@ -492,7 +492,6 @@ void TLobby__sub_801E3CF0(u32 *p) {
     *p = (v >> 24) | ((v >> 8) & 0xFF00) | ((v << 8) & 0xFF0000) | (v << 24);
 }
 
-}
 
 void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
     bind_motion_context((NJS_MOTION *)motion, frame);

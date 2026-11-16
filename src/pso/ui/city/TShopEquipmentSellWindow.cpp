@@ -12,7 +12,7 @@
 #include "pso/ui/window/TWindowSubShortCutList.h"
 #include "pso/ui/city/TShopSequence.h"
 #include "pso/ui/window/TWindowMenu.h"
-#include "pso/ui/city/TShopEquipmentSellWindow.h"
+
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/item/TItem.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
@@ -22,8 +22,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/city/TShopWindowBase.h"
-#include "pso/ui/window/TWindowMenuIconLine.h"
+
 
 #pragma readonly_strings on
 

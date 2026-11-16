@@ -2,7 +2,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TUnk_804B6C24.h"
 
-extern "C" {
 
 extern s32 TParticleCtrl__class_name_descriptor;
 
@@ -13,4 +12,3 @@ u32 TParticleCtrl::validate_ctrl() {
     return *(u32 *)&this->m_flags;
 }
 
-}

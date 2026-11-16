@@ -10,7 +10,6 @@ struct TShopJudgmentItemWindow;
 #include "pso/unk/text_8026934C.h"
 #include "pso/ui/city/TShopSequence.h"
 
-#include "pso/ui/city/TShopWindowBase.h"
 
 #pragma readonly_strings on
 

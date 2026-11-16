@@ -3,7 +3,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/warp/TObjWarpBoss03.h"
+
 #include "pso/object/warp/TObjAreaWarp.h"
 #include "pso/object/warp/TObjWarpJungMain.h"
 
@@ -18,10 +18,6 @@ void TObjWarpBoss03::sub_8019F9E4() {
     }
 }
 
-}
-
-extern "C" {
-
 void *TObjWarpJungMain__create(void *arg0);
 
 void TObjWarpBoss03::debug_print_area_num() { this->TObjAreaWarp::debug_print_area_num(); sub_8019F9E4(); }
@@ -31,7 +27,7 @@ void TObjWarpBoss03::run_task() { handle_area_selection(); }
 TObjWarpBoss03::~TObjWarpBoss03() {
 
 }
-extern "C" {
+
 
 const char *TObjWarpBoss03__name = "TObjWarpBoss03";
 
@@ -45,4 +41,3 @@ void *TObjWarpJungMain__create(void *arg0) {
     return new TObjWarpJungMain(tl_05, arg0);
 }
 
-}

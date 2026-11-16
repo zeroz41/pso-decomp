@@ -10,7 +10,7 @@ s32 TWindowSubStatusDisp::calc_entry_offset() {
     return TWindowSubStatusDisp::get_layout_id() * 0x12C;
 }
 
-#include "pso/unk/TLobby.h"
+
 #pragma fp_contract on
 
 struct RecoveredGlobal_8006F23C_lbl_8048C9D8 {

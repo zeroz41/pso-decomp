@@ -31,9 +31,8 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
-#include "pso/boss/olgaflow/TBoss6Rock.h"
-#include "pso/boss/olgaflow/TBoss6Type2.h"
-#include "pso/object/ambient/TObjFish.h"
+
+
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 
 struct TBoss6Type2_802BD014;

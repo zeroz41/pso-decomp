@@ -20,7 +20,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/CsnGroundQuery.h"
-#include "pso/object/base/TObjMotion.h"
+
 #include "pso/system/BmlResourceDescriptor.h"
 
 #include "pso/player/TUnk_804928CC.h"
@@ -60,7 +60,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby.h"
+
 
 extern "C" {
 f32 atan2_float(f32 y, f32 x);
@@ -101,10 +101,6 @@ s32 TObjEneGibbles__sub_800D8988(s32);
 f32 horizontal_distance_squared(void *, void *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
-}
-void restore_render_scissor(s32 arg0);
-extern "C" {
-
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 
@@ -179,7 +175,7 @@ TObjMotionAction dell_biter_param_table[10] = {
 
 const char *TObjEneDellBiter__class_name = "TObjEneDellBiter";
 }
-
+void restore_render_scissor(s32 arg0);
 #pragma fp_contract on
 
 void TObjEneDellBiter::load_resources() {

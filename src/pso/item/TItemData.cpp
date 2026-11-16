@@ -559,7 +559,6 @@ u16 TItemData::get_packed_value() {
     }
     return 0U;
 }
-}
 #undef lookup_item_pmt_record
 #undef getS16_06__9TItemDataFPv
 #undef lookup_item_def__9TItemDataFPv
@@ -568,8 +567,6 @@ u16 TItemData::get_packed_value() {
 #define is_custom_name_srank__9TItemDataFPv ((s32 (*)())is_custom_name_srank__9TItemDataFPv)
 #define serialize_mag__9TItemDataFPvPv ((s32 (*)(void *, s32 *))serialize_mag__9TItemDataFPvPv)
 #define init__9TItemDataFv ((s32 (*)())init__9TItemDataFv)
-
-extern "C" {
 u8 get_weapon_class_motion_type(u8);
 s32 get_item_icon_index(const u8 *q);
 void bswap__9TItemDataFv(s32 arg0);
@@ -808,8 +805,7 @@ s32 TItemData::get_max_stack_size() {
 #include "pso/item/mag/TItemMag.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/map/FloorArea.h"
+
 
 #define calc_clock_bonus__9TItemDataFPv ((s32 (*)(void *, s32))calc_clock_bonus__9TItemDataFPv)
 #define add_armor_stat_contribution__9TItemDataFPviiPv ((s32 (*)(void *, s32, s32, s32, s32, s32))add_armor_stat_contribution__9TItemDataFPviiPv)
@@ -849,7 +845,6 @@ extern f32 TItemData__data_805DAB70;
 extern const f32 lbl_805DAB74;
 extern f32 TItemData__data_805DAB78;
 extern "C" {
-void deserialize_mag__9TItemDataFPvPv(Raw_8010D614 *src, Mag_8010D614 *dst);
 void *get_armor_pmt_record(int type, int id);
 s32 get_item_star_count(s32);
 s32 is_rare_item__9TItemDataFPv(u8 *item);

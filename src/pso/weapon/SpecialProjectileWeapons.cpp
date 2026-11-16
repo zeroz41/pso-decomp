@@ -11,9 +11,7 @@
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/system/task/TObject.h"
 
-#include "pso/weapon/TUnk_804A204C.h"
-#include "pso/weapon/shoot/TUnk_804A2148.h"
-#include "pso/weapon/TUnk_804A2164.h"
+
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
@@ -25,7 +23,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/system/task/TObject.h"
+
 struct TItemEquipBase;
 #include "pso/weapon/shoot/TItemShootParticle.h"
 
@@ -156,7 +154,7 @@ TUnk_804A2018::TUnk_804A2018(TObject *parent, s32 a, s32 b) : TObject(parent) {
         ((StarLightFollowerView *)this)->f24 = (s32)spawn_star_light_2d((s32)&v, (s32)&blk, (s32)((StarLightFollowerView *)this));
     }
 }
-extern "C" {
+
 
 void create_icon__10TObjPlayerFiii(s32 parent, s32 arg1, s32 arg2) {
     void *temp_r3;
@@ -278,11 +276,10 @@ void TUnk_804A204C::vfunc_57() {
 extern void *__vt__13TUnk_804A204C[];
 #define __vt__13TUnk_804A204C ((s32 *)__vt__13TUnk_804A204C)
 
-}
 TUnk_804A204C::~TUnk_804A204C() {
 
 }
-extern "C" {
+
 
 void *TObjPlayer__sub_80124694(TObjPlayer *player) {
     __ct__11TItemWeaponFP7TObjectPUc(player);
@@ -308,5 +305,4 @@ u8 *TObjPlayer__sub_80124708(u8 *arg0) {
         return var_r0;
     }
     return NULL;
-}
 }

@@ -84,7 +84,6 @@ struct Stack_80293F98 {
     s32 sp24;
 };
 
-extern "C" {
 
 // The 640x480 screen corners the fade strip is drawn over.
 f32 chcr_eff_fade_strip_rect[4][2] = {
@@ -114,4 +113,3 @@ void TChCrEffFade::draw_fade_strip(f32 farg0) {
     ((TWindowCtrlMain *)(&stack.sp8))->draw_strip_swap_color(4, 6, (-1.5f));
 }
 
-}

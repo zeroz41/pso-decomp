@@ -23,8 +23,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/TUnk_804EF8C0.h"
-#include "pso/system/task/TObject.h"
+
 
 struct RecoveredGlobal_8033B264_lbl_804EF728 {
     s32 value;

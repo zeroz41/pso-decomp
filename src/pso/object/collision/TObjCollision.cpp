@@ -2,7 +2,7 @@
 #include "pso/object/collision/TObjCollision.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/collision/TObjCollision.h"
+
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
@@ -38,7 +38,7 @@ TObjCollision::~TObjCollision() {
     free_collision_body_parts(this);
     this->unregister_object_by_id();
 }
-extern "C" {
+
 u8 *TObjCollision__ct(u8 *arg0, s32 arg1, s32 arg2) {
     s32 var_r0;
     __ct__14TObjCollidableFP7TObject(arg0, arg1);
@@ -70,4 +70,3 @@ u8 *TObjCollision__ct(u8 *arg0, s32 arg1, s32 arg2) {
     return arg0;
 }
 
-}

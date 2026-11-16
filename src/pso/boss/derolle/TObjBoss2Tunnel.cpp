@@ -348,7 +348,7 @@ void TObjBoss2Tunnel::finalize_and_send_60() {
     send_subcommand((u8 *)this);
 }
 
-extern "C" {
+
 f32 TObjBoss2Tunnel::update_scale() {
     f32 var_f31;
     f32 temp_f0;
@@ -370,7 +370,6 @@ f32 TObjBoss2Tunnel::update_scale() {
     return var_f31;
 }
 
-}
 #pragma push
 #pragma fp_contract on
 f32 normalize_vector_xz(Vec *vector) {
@@ -399,13 +398,11 @@ f32 normalize_vector_xz(Vec *vector) {
 }
 
 #pragma pop
-extern "C" {
+
 void TObjBoss2Tunnel::render(void* a1) { push_matrix(); TObjPlayer::invert_matrix_in_place((u32)((void*)0)); get_current_matrix(a1); pop_matrix(); }
 
-}
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjBoss2Tunnel::transform_vec_by_camera(s32 arg0, s32 arg1, s32 arg2) {
     push_matrix();
     TCameraCtrl::concat_matrix(0, get_view_matrix__11TCameraCtrlFv());
@@ -443,9 +440,7 @@ void rotate_vec_xz(void *arg0, void *arg1, s32 arg2) {
     *(f32 *)((s8 *)arg1 + 0) = (f32) ((temp_f1 * temp_f3) + (temp_f31 * temp_f0));
 }
 
-}
 #pragma pop
-extern "C" {
 f32 TObjBoss2Tunnel::calc_scaled_value(s32 arg0, f32 farg0) {
     return (0.5f * farg0) / sin_table_lookup(arg0 / 2);
 }
@@ -554,7 +549,6 @@ AccelerationCurve::AccelerationCurve() {
 
 AccelerationCurve::~AccelerationCurve() {}
 
-}
 void AccelerationCurve::reset_coords() {
     decel = 0.0f;
     accel = 0.0f;
@@ -567,7 +561,7 @@ void AccelerationCurve::reset_coords() {
     accelDist = 0.0f;
 }
 
-extern "C" {
+
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed) {
     f32 sq;
     f32 up;
@@ -606,10 +600,8 @@ int AccelerationCurve::check_param_threshold(f32 t) {
     return t >= this->end;
 }
 
-}
 #pragma push
 #pragma fp_contract on
-extern "C" {
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t) {
     if (t < 0.0f) {
         return 0.0f;
@@ -636,9 +628,7 @@ f32 sample_acceleration_curve(AccelerationCurve *c, f32 t) {
     return c->dist;
 }
 
-}
 #pragma pop
-extern "C" {
 s32 TObjBoss2Tunnel::reset_floats(s32 arg0) {
     reset_floats__15TObjBoss2TunnelFv();
     return arg0;
@@ -651,7 +641,6 @@ s32 TObjBoss2Tunnel::dt(s32 arg0, s16 arg1) {
     return arg0;
 }
 
-}
 void TObjBoss2Tunnel::reset_floats() { *(float *)&this->m_flags = 0.0f; *(float *)&this->m_name = 0.0f; *(float *)&this->m_next = 0.0f; *(float *)&this->m_prev = 0.0f; *(float*)((char*)this + 0x18) = 0.0f; *(float *)&this->m_down = 0.0f; *(float *)&this->m_up = 0.0f; *(float *)&this->_pad1C = 0.0f; *(float *)&this->m_28 = 0.0f; *(float *)&this->m_24 = 0.0f; *(float *)&this->m_20 = 0.0f; }
 
 extern "C" {
@@ -698,10 +687,8 @@ void init_piecewise_curve(PiecewiseCurve *c, f32 accel, f32 decel, f32 dist, f32
     }
 }
 
-}
 #pragma push
 #pragma fp_contract on
-extern "C" {
 f32 TObjBoss2Tunnel::eval_piecewise_curve(f32 farg0) {
     PiecewiseCurve *c = (PiecewiseCurve *)this;
     f32 t;
@@ -724,17 +711,13 @@ f32 TObjBoss2Tunnel::eval_piecewise_curve(f32 farg0) {
     return r;
 }
 
-}
 #pragma pop
-extern "C" {
 void TObjBoss2Tunnel::update_position() {
     eval_piecewise_curve(*(f32 *)&this->_pad1C);
 }
 
-}
 #pragma push
 #pragma fp_contract on
-extern "C" {
 s32 sample_piecewise_curve(PiecewiseCurve *c, f32 *out, f32 t) {
     s32 done = 0;
     if (t < 0.0f) {

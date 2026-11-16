@@ -2,7 +2,7 @@
 #include "pso/npc/TObjNpcKenkyu.h"
 #include "pso/npc/TObjNpcSoutokufu.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TUnk_804A9F50.h"
+
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
 #include "pso/player/TObjPlayer.h"
@@ -58,7 +58,7 @@ void TObjNpcKenkyu::load_shared_resource() {
 
 }
 TObjNpcKenkyu::~TObjNpcKenkyu() {}
-extern "C" {
+
 
 extern void *tl_04;
 
@@ -89,4 +89,3 @@ void * TObjNpcSoutokufu__create(void *arg0) {
     return o2;
 }
 
-}

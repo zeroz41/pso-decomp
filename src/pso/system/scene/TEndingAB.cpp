@@ -162,7 +162,7 @@ EndingWallTextureSet ending_wall_texture_sets[4] = {
 struct RecoveredGlobal_8008CE80___vt__9TEndingAB { s32 value; u8 remaining[0x14]; };
 typedef char RecoveredGlobal_8008CE80___vt__9TEndingAB_size[sizeof(RecoveredGlobal_8008CE80___vt__9TEndingAB) == 0x18 ? 1 : -1];
 
-extern "C" {
+
 void restore_saved_depth_alpha_state(void);
 extern s32 TEndingAB__fade_sequence_state;
 extern s32 game_difficulty_selection;
@@ -279,7 +279,6 @@ void TEndingAB::set_fish_global_param() {
     }
 }
 
-}
 
 void TEndingAB__sub_8008CCC0(TEndingAB *self) {}
 

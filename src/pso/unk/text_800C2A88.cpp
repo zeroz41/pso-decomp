@@ -3,7 +3,7 @@
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
+
 #include "pso/unk/text_800C2A88.h"
 #include "pso/unk/text_800C3A60.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"

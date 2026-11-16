@@ -103,7 +103,7 @@ TUnk_804A1A48::TUnk_804A1A48(TObject *parent, u8 *item) : TItemWeapon(parent, it
     swing_rising = 1;
 }
 
-extern "C" {
+
 u8 *TObjPlayer__sub_8012380C(u8 *arg0) {
     if (arg0 != NULL) {
         return (u8 *)new TUnk_804A1A48(tl_05, arg0);
@@ -111,4 +111,3 @@ u8 *TObjPlayer__sub_8012380C(u8 *arg0) {
     return NULL;
 }
 
-}

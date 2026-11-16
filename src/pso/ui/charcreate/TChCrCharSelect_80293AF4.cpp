@@ -3,7 +3,6 @@
 #include "pso/ui/charcreate/TObjCMIcon.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 
-extern "C" {
 
 const s32 lbl_80464E90[2] = {0, 4};
 s32 TChCrCharSelect__input_mode;
@@ -30,4 +29,3 @@ void TChCrCharSelect::run_task() {
     }
 }
 
-}

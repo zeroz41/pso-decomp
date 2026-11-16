@@ -36,7 +36,7 @@ Vec *SampledMotionPoints::lookup(f32 frame) {
     return points + points_per_sample * index;
 }
 
-extern "C" {
+
 s32 transform_motion_node_points(SampledMotionPoints *arg0, NJS_OBJECT *node, s32 idx) {
     u32 flags;
     do {
@@ -60,7 +60,6 @@ s32 transform_motion_node_points(SampledMotionPoints *arg0, NJS_OBJECT *node, s3
         node = node->sibling;
     } while (node != NULL && motion_trail_node_index < lbl_805D5234);
     return idx;
-}
 }
 
 extern Vec TObjEneMe3ShinowaMirage_motion_trail_points[2];

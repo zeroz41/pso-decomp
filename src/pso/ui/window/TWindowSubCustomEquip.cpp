@@ -290,9 +290,6 @@ void TWindowSubCustomEquip::toggle_action_binding(void *arg1) {
     ((TObjPlayer *)temp_r3)->set_action_palette_entry(0, valid, idx, *(u16 *)((s8 *)arg1 + 0), *(u16 *)((s8 *)arg1 + 2));
 }
 
-}
-
-extern "C" {
 s32 draw_default_entry__9TWindowDDFl();
 s32 draw_visible_window_entries(void *, void *, int);
 s32 forward_render__20TWindowSubStatusDispFv(int, int);
@@ -309,10 +306,6 @@ s32 play_sound_effect(s32, s32, s32, s32);
 extern RecoveredGlobal_80276D14_lbl_8050E208 controller_input_state;
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 set_help_text__15TWindowHelpItemFll(u8 *, s32);
-s32 select_action_palette__10TObjPlayerFi(u8 *, s32);
-void *get_player_by_client_id(s32 i);
-u8 *TWindowActionPalette__sub_801C1D7C(s32 arg0, s32 i, s32 arg2);
-s32 get_slot_type__20TWindowActionPaletteFlll(s32, s32, s32);
 void __dl__7TObjectFPv(void *);
 
 

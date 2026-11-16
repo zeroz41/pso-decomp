@@ -79,7 +79,6 @@ struct TObjLazerFenceExtra_801926D0 {
 };
 
 u8 is_current_floor_switch_set(s32 id);
-void post_translate_matrix(void *);
 void push_matrix(void);
 
 static const f32 lbl_805DBE58[1] = {0.0f};
@@ -92,7 +91,6 @@ s32 get_bml_motion(s32, s32);
 Node_80192A3C *get_bml_model(s32, s32);
 struct Obj_80192B5C { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 fB8; s32 fBC; s32 fC0; s32 fC4; s32 fC8[4]; };
 
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 
 struct Motion_80192CCC { u8 pad[4]; u32 frames; };
 
@@ -111,9 +109,6 @@ s32 release_texture_list(void*);
 void *load_resource_from_descriptor(void *, int, BmlResourceDescriptor *, int, int, int);
 u8 *load_gvm_texture_file(s32 arg0);
 
-}
-
-extern "C" {
 void load_lazer_fence_norm_resources(void) {
     void *obj;
     switch (get_current_floor_area()) {
@@ -157,10 +152,9 @@ void TObjLazerFenceNorm::free_resources() {
     }
 }
 
-extern "C" {
+
 void *TObjLazerFenceNorm__create(void *set_data) {
     return new TObjLazerFenceNorm(tl_05, set_data);
-}
 }
 
 TObjLazerFenceNorm::TObjLazerFenceNorm(TObject *parent, void *set_data) : TObjCollidable(parent) {
@@ -286,10 +280,9 @@ void TObjLazerFenceNorm::select_models() {
     }
 }
 
-extern "C" {
+
 void *TObjLazerFenceExtra__create(void *set_data) {
     return new TObjLazerFenceExtra(tl_05, set_data);
-}
 }
 
 TObjLazerFenceExtra::TObjLazerFenceExtra(TObject *parent, void *set_data) : TObjCollidable(parent) {

@@ -64,9 +64,6 @@ void fn_800E762C(TObjEneMe3Shinowa *);
 u16 TObjEneMe3ShinowaReal__sub_800E45CC(TObjEneMe3Shinowa *shinowa);
 extern s32 model_render_flags;
 TObjEneMe3ShinowaMirage *create__23TObjEneMe3ShinowaMirageFPvPv(void *, s32, s32, s32);
-}
-
-extern "C" {
 s32 *csnVecterUnder(s32 origin, s32 mask);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 s32 push_matrix();
@@ -80,10 +77,6 @@ SampledMotionPoints * TObjEneMe3ShinowaMirage__data_805D52AC;
 void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *, s32);
 struct EnemyTargetCandidate { u16 id; u8 unk_2[6]; };
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
-}
-
-void calc_wall_clamped_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dist);
-extern "C" {
 s32 collect_target_candidates__9TObjEneDDFlf(void *, f32);
 s32 subtract_vector(void *, void *);
 extern EnemyTargetCandidate enemy_target_candidate_table[];
@@ -93,7 +86,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5CE4(TObjEneMe3Shinowa *, s32);
 struct Tbl_800E7884 { u8 pad[0xC]; s32 t[3][2]; };
 s32 get_main_phase();
 }
-
+void calc_wall_clamped_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dist);
 void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
 extern "C" {
 s32 enemy_validate_retained_target(void *, int);
@@ -129,7 +122,6 @@ s32 *lbl_80501000[4];
 extern s32 saved_model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-extern s32 model_render_flags;
 extern const char lbl_8043CE3C[];
 extern const char lbl_8043CE4C[];
 extern const char lbl_8043CE60[];
@@ -355,11 +347,8 @@ void TObjEneMe3ShinowaMirage::set_slot_min_clamped_value(s32 arg0, f32 farg0) {
 TObjEneMe3Shinowa::TObjEneMe3Shinowa(TObject *parent) : TObjEneDD_ST(parent) {
     m_name = TObjEneMe3Shinowa__name;
 }
-}
-
 #pragma push
 #pragma opt_propagation off
-extern "C" {
 void TObjEneMe3Shinowa::init_enemy() {
     Tbl_800E7884 *tbl = &(*(Tbl_800E7884 *)&TObjEneMe3ShinowaMirage__data_80500FC0);
     init_position_vectors();
@@ -405,10 +394,7 @@ void TObjEneMe3Shinowa::init_enemy() {
     m_424 = NULL;
     m_428 = NULL;
 }
-}
-
 #pragma pop
-extern "C" {
 TObjEneMe3Shinowa::~TObjEneMe3Shinowa() {
     m_3e4->queue_destruction();
     m_3e4 = NULL;
@@ -497,11 +483,8 @@ s32 TObjEneMe3Shinowa::check_body_collision_at(s32 arg1, f32 farg0) {
     rotation_y = a;
     return res;
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 s32 check_in_range__23TObjEneMe3ShinowaMirageFPv(TObjEneMe3Shinowa *shinowa) {
     f32 f31;
 
@@ -512,10 +495,7 @@ s32 check_in_range__23TObjEneMe3ShinowaMirageFPv(TObjEneMe3Shinowa *shinowa) {
     f31 += shinowa->m_3a0.x * sin_table_lookup(shinowa->rotation_y);
     return (s32)((u32)__cntlzw(f31 < cos_table_lookup(0x1E00)) >> 5);
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneMe3Shinowa::vfunc_105() {
     s32 temp_r31;
     temp_r31 = is_passing_frame(19.0f);
@@ -913,11 +893,8 @@ void TObjEneMe3ShinowaMirage__sub_800E66FC(TObjEneMe3Shinowa *shinowa, s32 arg1)
         break;
     }
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjEneMe3ShinowaMirage::state_chase_target(s32 arg1) {
     switch (arg1) {
     case 4:
@@ -1093,10 +1070,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(TObjEneMe3Shinowa *shinowa, s32 arg1)
         break;
     }
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneMe3ShinowaMirage__sub_800E5CE4(TObjEneMe3Shinowa *shinowa, s32 arg1) {
     s32 angle;
     TObjEneMe3ShinowaParams *info;
@@ -1513,11 +1487,8 @@ void TObjEneMe3ShinowaMirage__sub_800E4FE8(TObjEneMe3Shinowa *shinowa, s32 arg1)
         break;
     }
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjEneMe3ShinowaMirage::state_break_apart(s32 arg1) {
     Vec effect_pos;
     Vec pos;
@@ -1570,10 +1541,7 @@ void TObjEneMe3ShinowaMirage::state_break_apart(s32 arg1) {
         break;
     }
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneMe3Shinowa::vfunc_114(s32) {  }
 
 void TObjEneMe3Shinowa::vfunc_115(s32) {  }
@@ -1647,11 +1615,8 @@ void TObjEneMe3Shinowa::render() {
 }
 
 void TObjEneMe3Shinowa::update_mirage() { if (get_target_info() != 0) { fn_800E762C(this); sub_800E6F64(); } }
-}
-
 #pragma push
 #pragma pool_data off
-extern "C" {
 // Debug viewer: the mirage and gold-texture switches, then the model posed in
 // action parameters[2] at frame parameters[3] (unposed when mode is not 0).
 void TObjEneMe3Shinowa::vfunc_118() {
@@ -1730,10 +1695,7 @@ void TObjEneMe3Shinowa::vfunc_118() {
         TParticleCtrl::end_effect_render();
     }
 }
-}
-
 #pragma pop
-extern "C" {
 TObjEneMe3ShinowaReal *TObjEneMe3ShinowaReal::create() {
     return new TObjEneMe3ShinowaReal(tl_04, this);
 }
@@ -1807,11 +1769,8 @@ void TObjEneMe3ShinowaReal::spawn_mirages() {
         get_or_create_mirage(i)->init_mirage();
     }
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjEneMe3ShinowaReal::vfunc_114(s32 arg1) {
     s32 i;
     s32 n;
@@ -1956,10 +1915,7 @@ void TObjEneMe3ShinowaReal::vfunc_116(s32 arg1) {
         break;
     }
 }
-}
-
 #pragma pop
-extern "C" {
 TObjEneMe3ShinowaMirage *TObjEneMe3ShinowaMirage::create(void *arg1, void *arg2) {
     return new TObjEneMe3ShinowaMirage(tl_04, (TObjEneMe3ShinowaReal *)this, (s32)arg1, (s32)arg2);
 }

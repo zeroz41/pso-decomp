@@ -10,7 +10,7 @@
 // .rodata 0x80475DF0-0x80476098 of the Sinow Zoa code (the DelDepthData.cpp shape): the code
 // addresses each object on its own, so it did not compile them itself.
 
-extern "C" {
+
 extern const TBoss3VoloptBreakupParams sinow_zoa_breakup_params = { 0x14, { 0.07f, 2.0f, 0.97f, 0.2f, 2.0f, 1.5f } };
 // TLobby kind ids for the two Sinow Zoa kinds, one list per TLobby table
 // TObjEneMe3SinowZoa::load_resources registers them with.
@@ -48,4 +48,3 @@ extern const char sinow_zoa_debug_stelth_off[] = "STELTH OFF %    (+0.1f)";
 extern const char sinow_zoa_debug_warp[] = "WARP %          (+0.5f)";
 extern const char sinow_zoa_debug_tex_spigell[] = "TEX:SINOWA=SPIGELL";
 extern const char sinow_zoa_debug_tex_berill[] = "TEX:SINOWA=BERILL";
-}

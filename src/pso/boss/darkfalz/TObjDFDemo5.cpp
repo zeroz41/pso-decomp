@@ -28,13 +28,12 @@
 // copies land in .rodata before the literal pool of the draw/run_task code.
 #pragma defer_codegen on
 
-extern "C" {
+
 const char *TObjDFDemo5__name = "TObjDFDemo5";
 TObjFishNodeEntry lbl_80485798[3] = {{0x38}, {0x39}, {-1}};
 TObjFishNodeEntry lbl_804857C8[2] = {{0}, {-1}};
 // The motions of the three body models.
 s32 lbl_804857E8[3] = {0x24, 0x54, 0x55};
-}
 
 void *TObjDFDemo5::create(void *arg0, void *arg1, void *arg2) {
     return new TObjDFDemo5((TObject *)arg0, (const Vec *)arg1, (s32)arg2);

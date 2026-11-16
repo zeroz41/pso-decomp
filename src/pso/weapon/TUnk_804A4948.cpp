@@ -127,7 +127,6 @@ s32 get_captured_target_count(s32 *arg0);
 s32 resolve_hittable_target(s32, s32);
 
 
-
 }
 typedef struct VBase_18_24931d VBase_18_24931d;
 typedef struct VObj_18_24931d VObj_18_24931d;
@@ -139,10 +138,6 @@ s32 init_item_timer_event__13TUnk_804A0648Fv(s32, s32, s32, s32);
 s32 __nw__15TItemHeapObjectFUl(s32);
 s32 construct_timer_event__13TUnk_804A0628Fv(s32, s32, s32, s32);
 }
-
-
-
-
 
 
 u8 *TObjPlayer::create_srank_common_weapon() {
@@ -291,7 +286,7 @@ void TUnk_804A4948::deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg
     }
 }
 
-extern "C" {
+
 s32 TUnk_804A4948::send_srank_stat_extra(u32 arg1, s32 arg2) {
     Self_8012A508 *self = (Self_8012A508 *)this;
     VObj_8012A508 *obj = (VObj_8012A508 *)arg1;
@@ -317,9 +312,6 @@ s32 TUnk_804A4948::send_srank_stat_extra(u32 arg1, s32 arg2) {
         }
     }
 }
-}
-
-extern "C" {
 void TUnk_804A4948::send_srank_stat_extra_to_locks() {
   s32 st;
   s32 i;
@@ -341,5 +333,4 @@ void TUnk_804A4948::send_srank_stat_extra_to_locks() {
       }
     }
   }
-}
 }

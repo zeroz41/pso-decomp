@@ -55,10 +55,6 @@ void TWindowSubStatusDisp::set_count_ratio_text(s32 arg1, s32 arg2) {
     TWindowSubStatusDisp__count_ratio_value = arg1;
 }
 
-}
-
-
-extern "C" {
 s32 __nw__7TObjectFUl(int);
 u8 *get_title_entry__11TWindowRoomFv(s32);
 void fn_8024450C(s32 arg0) {
@@ -115,7 +111,6 @@ extern "C" {
 u8 * get_window_layout_position(s32);
 u8 * __ct__11TWindowRoomFPc(void *, s32);
 extern s32 __vt__11TWindowArea[];
-void __dl__7TObjectFPv(void *);
 
 void TWindowArea::run_task() { ((TWindowDD *)this)->initialize_subwindow(); ((TWindowBase *)this)->update_window_entry_list((char*)this + 0x24); }
 

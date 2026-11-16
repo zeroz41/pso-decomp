@@ -32,11 +32,11 @@ extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
-#include "pso/object/base/TObjMotion.h"
+
 
 #include <stddef.h>
 #include "pso/boss/galgryphon/TObjBoss5Ctrl.h"
-#include "pso/system/task/TObject.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
@@ -2919,7 +2919,6 @@ void TBoss5Gryphon::handle_descend_state(s32 arg1) {
     }
 }
 
-extern const f32 lbl_805D8E28;
 extern const f32 lbl_805D8E3C;
 extern const f32 lbl_805D8E40;
 extern const f32 lbl_805D8E44;
@@ -3002,10 +3001,6 @@ void TBoss5Gryphon::fn_800615FC(s32 event) {
 }
 #pragma pop
 
-extern const f32 lbl_805D8E1C;
-extern const f32 lbl_805D8E18;
-extern const f32 lbl_805D8E28;
-extern const f32 lbl_805D8E2C;
 extern const f32 lbl_805D8E4C;
 extern const f32 lbl_805D8E48;
 extern const f32 lbl_805D8E50;
@@ -3249,9 +3244,6 @@ void TBoss5Gryphon::update_low_flight_straight(s32 event) {
     }
 }
 
-extern const f32 lbl_805D8E48;
-extern const f32 lbl_805D8E50;
-extern const f32 lbl_805D8E5C;
 
 #pragma push
 #pragma fp_contract on
@@ -5192,7 +5184,6 @@ __declspec(section ".sdata2") const f32 lbl_805D8DA8 = 0.300000012f;
 __declspec(section ".sdata2") const f32 lbl_805D8DAC = 0.400000006f;
 __declspec(section ".sdata2") const f32 lbl_805D8DB0 = 0.800000012f;
 __declspec(section ".sdata2") const f32 lbl_805D8DB4 = 0.200000003f;
-extern const f32 lbl_805D8DB8;
 __declspec(section ".sdata2") const f32 lbl_805D8DB8 = 22.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8DBC = 75.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8DC0 = 32.5f;
@@ -5205,15 +5196,12 @@ __declspec(section ".sdata2") const f32 lbl_805D8DD8 = 49152.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8DDC = 7.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8DE0 = 933.785706f;
 __declspec(section ".sdata2") const f32 lbl_805D8DE4 = 17.0f;
-extern const f32 lbl_805D8DE8;
 __declspec(section ".sdata2") const f32 lbl_805D8DE8 = 0.280000001f;
 extern const f32 lbl_805D8DEC;
 __declspec(section ".sdata2") const f32 lbl_805D8DEC = 180.0f;
-extern const f32 lbl_805D8DF0;
 __declspec(section ".sdata2") const f32 lbl_805D8DF0 = 60.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8DF4 = 25.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8DF8 = 5.0f;
-extern const f32 lbl_805D8DFC;
 __declspec(section ".sdata2") const f32 lbl_805D8DFC = 19.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8E00 = 15.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8E04 = 0.75f;
@@ -5225,7 +5213,6 @@ __declspec(section ".sdata2") const f32 lbl_805D8E18 = 2.29999995f;
 __declspec(section ".sdata2") const f32 lbl_805D8E1C = 19.5f;
 extern const f32 lbl_805D8E20;
 __declspec(section ".sdata2") const f32 lbl_805D8E20 = 67.0f;
-extern const f32 lbl_805D8E24;
 __declspec(section ".sdata2") const f32 lbl_805D8E24 = 81.5f;
 __declspec(section ".sdata2") const f32 lbl_805D8E28 = 16384.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8E2C = 5120.0f;

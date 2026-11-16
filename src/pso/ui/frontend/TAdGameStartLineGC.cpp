@@ -7,9 +7,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 
-extern "C" {
 extern void *lbl_805D6C18;
-}
 
 #pragma push
 #pragma fp_contract on

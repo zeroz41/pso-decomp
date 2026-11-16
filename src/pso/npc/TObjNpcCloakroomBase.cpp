@@ -83,7 +83,6 @@ void TObjNpcCloakroomBase::load_shared_resource() {
 
 }
 TObjNpcCloakroomBase::~TObjNpcCloakroomBase() {}
-extern "C" {
 
 
 typedef char RecoveredGlobal_801497E0___vt__20TObjNpcCloakroomBase_size[sizeof(RecoveredGlobal_801497E0___vt__20TObjNpcCloakroomBase) == 0x178 ? 1 : -1];
@@ -117,4 +116,3 @@ void * TObjNpcConnoisseur__create(void *arg0) {
     return o2;
 }
 
-}

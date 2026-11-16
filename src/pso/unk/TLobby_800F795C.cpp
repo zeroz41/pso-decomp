@@ -33,7 +33,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
-#include "pso/boss/barbaray/TBoss7DeRolLeC.h"
+
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
 #include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
@@ -116,7 +116,7 @@
 #include "pso/object/ambient/TObjGrass.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_800C7FEC.h"
-#include "pso/map/FloorArea.h"
+
 
 struct RecoveredGlobal_800F7A6C_lbl_804DB1F0 {
     s32 value;

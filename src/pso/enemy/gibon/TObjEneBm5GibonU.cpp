@@ -94,8 +94,6 @@ void vfunc_63__16TObjEneBm5GibonUFv(void *arg0);
 void vfunc_62__16TObjEneBm5GibonUFv(void* p);
 void vfunc_105__16TObjEneBm5GibonUFv(void *arg0);
 BmlResource * TObjEneBm5GibonU__model_archive;
-}
-extern "C" {
 #pragma push
 extern "C" {
 void vfunc_6__8TObjBaseFPsl();
@@ -2344,14 +2342,10 @@ s32 TObjEneBm5GibonU__sub_800D0968(TObjEneBm5GibonU *self, int _w1) {
     self->m_3ac = 30.0f;
     return self->rotation_y;
 }
-}
 #pragma pop
 
 #pragma pop
 #pragma push
-
-extern "C" {
-
 int TObjEneBm5GibonU::is_active() { return this->entity_id & 0x1; }
 
 f32 TObjEneBm5GibonU::calc_anim_speed(f32 speed) {

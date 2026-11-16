@@ -47,7 +47,6 @@ struct RecoveredGlobal_80107DF0_lbl_8058D4C0 {
 };
 
 extern "C" {
-u16 get_entity_id(void *);
 
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_80107DA4_lbl_8049EFB8 __vt__13TUnk_8049EFB8;

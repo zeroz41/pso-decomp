@@ -162,10 +162,6 @@ void TBoss6Tube::update_timer() {
     }
 }
 
-}
-
-extern "C" {
-
 s32 query_teammate_state__9TObjEneDDFv();
 
 void TBoss6Tube::run_task() {

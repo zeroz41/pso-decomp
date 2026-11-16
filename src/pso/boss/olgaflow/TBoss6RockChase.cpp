@@ -16,11 +16,11 @@
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 #include <stddef.h>
-#include "pso/boss/olgaflow/TBoss6RockChase.h"
+
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/player/TObjPlayer.h"
+
 struct Stack_8036D6D4 {
     s32 sp8;
     f32 spC;
@@ -187,7 +187,7 @@ void TBoss6RockChase::run_task() {
 TBoss6RockChase::~TBoss6RockChase() {
 
 }
-extern "C" {
+
 
 #pragma push
 #pragma fp_contract on
@@ -233,4 +233,3 @@ s32 TBoss6RockChase::spawn(s32 arg0, s32 arg1) {
     return var_r0;
 }
 
-}

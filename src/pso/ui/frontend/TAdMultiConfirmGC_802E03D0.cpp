@@ -8,15 +8,15 @@
 #include "pso/npc/TNpcPlayer_8028B810.h"
 #include "pso/boss/galgryphon/TObjBoss5Pillar_8028B714.h"
 #include "pso/ui/frontend/TAdMultiConfirmGC_802E03D0.h"
-#include "pso/ui/TUnk_804E3008.h"
+
 #include "pso/ui/charcreate/TChCrLoadAfs.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/npc/TNpcPlayer.h"
-#include "pso/player/TObjPlayer.h"
+
 #include "pso/ui/frontend/TAdMultiConfirmGC.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
-#include "pso/ui/frontend/TAdPlyStatusGC.h"
+
 
 struct Obj_802E0CB0 {
     u8 pad0[0x38]; f32 x, y, z; u8 pad44[0x5C - 0x44]; s32 rx, ry, rz;
@@ -58,9 +58,6 @@ s32 push_matrix();
 s32 pop_matrix();
 s32 set_global_param__8TObjFishFl();
 
-}
-
-extern "C" {
 extern TObjMotionAction lbl_804E2F78[9];
 extern u8 *TAdMultiPlyChrSelectGC__resource_bundle;
 

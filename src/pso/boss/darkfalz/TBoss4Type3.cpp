@@ -25,10 +25,10 @@
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/player/TObjPlayer.h"
+
+
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby.h"
+
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -74,7 +74,7 @@ struct Type3MotionView { s32 kind, flags, motions[3]; };
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/technique/TTecResta.h"
-#include "pso/object/ambient/TObjFish.h"
+
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 #pragma defer_codegen on
 
@@ -773,8 +773,6 @@ void submit_cursor_candidate(void *, int);
 struct O_80059618;
 struct Obj_8005A1AC;
 struct Ply_80059ABC;
-}
-extern "C" {
 s32 create__13TUnk_80494968FUlUl(s32, s32);
 
 Self_8005AE60 *TBoss4Type3__ct(Self_8005AE60 *, s32, s32 *);
@@ -862,7 +860,6 @@ s32 TBoss4Type3::create(s32 arg0) {
     return var_r31;
 }
 
-extern "C" {
 
 Self_8005AE60 *TBoss4Type3__ct(Self_8005AE60 *self, s32 parent, s32 *arg2) {
     s32 i;
@@ -985,7 +982,6 @@ void TBoss4Type3::vfunc_63() {
     }
 }
 
-}
 
 #pragma push
 #pragma fp_contract on

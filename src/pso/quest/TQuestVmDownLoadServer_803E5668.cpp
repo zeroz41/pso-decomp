@@ -11,9 +11,7 @@ struct RecoveredGlobal_803E5EFC_quest_convert_string {
     u8 remaining[0x7C];
 };
 
-extern "C" {
 extern RecoveredGlobal_803E5EFC_quest_convert_string quest_convert_string;
-}
 
 
 struct Ent_803E5670 {
@@ -38,7 +36,6 @@ extern "C" {
 s32 TQuestVmDownLoadServer__sub_803F0890(void);
 void TQuestVmDownLoadServer__sub_803E6ACC(s32 arg0);
 s32 TQuestVmDownLoadServer__sub_803F08E4(s8 *arg0);
-extern RecoveredGlobal_803E5EFC_quest_convert_string quest_convert_string;
 u8 * TQuestVmDownLoadServer__sub_803EE828(void);
 void TQuestVmDownLoadServer__sub_803EE2F4(s32 pos, s32 end);
 extern s32 quest_text_end;
@@ -573,9 +570,6 @@ s32 TQuestVmDownLoadServer::convert_jis_to_sjis_string() {
     return 0;
 }
 
-}
-
-extern "C" {
 u8 lbl_8058DC48[80];
 u8 lbl_8058DC98[80];
 u8 lbl_8058DCE8[80];

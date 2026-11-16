@@ -41,7 +41,6 @@ struct TWindowDD_8034330C {
 };
 
 
-
 struct Sub_803438C4 { u8 pad[0x50]; u32 x50; };
 
 struct Win_803438C4 {

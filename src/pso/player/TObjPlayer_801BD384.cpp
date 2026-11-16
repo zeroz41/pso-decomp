@@ -17,7 +17,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
-#include "pso/ui/charcreate/TCharaMaking.h"
+
 
 extern "C" {
 u16 get_entity_id(void *);
@@ -34,10 +34,6 @@ void TObjPlayer::sub_801BD318() {
     ((TObjPlayer *)arg0)->init_idle_animation();
     ((TObjPlayer *)arg0)->draw();
 }
-
-}
-
-extern "C" {
 
 void update_body_parts__10TObjPlayerFv(void* p);
 int copy_player_visual_record(void*);

@@ -8,7 +8,7 @@
 #include "pso/unk/text_8020EEFC.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdlib.h>
-#include "pso/item/TItemData.h"
+
 struct SRock_80224544_8022448C;
 
 
@@ -223,7 +223,6 @@ s32 TLobby__sub_80223E64(Item_802242F8 *item, s32 shop) {
 }
 
 
-
 void roll_shop_technique_level(Obj_80223EE0 *arg0, s32 arg1) {
     Tbl_80223EE0 *t = ((Tbl_80223EE0 **)lobby_tool_random_rel)[2];
     s32 idx = TLobby__sub_80223D48(shop_tool_stock_level);
@@ -408,7 +407,7 @@ void mark_shop_tool_sold_out(s32 a, s32 b) {
     }
 }
 
-extern "C" {
+
 void TLobby::set_6264_and_call_2244B0(int a0, int a1) { shop_tool_stock_level = a1; TLobby::generate_shop_inventory(a0); }
 
 void TLobby::generate_shop_inventory(s32 idx) {
@@ -443,7 +442,6 @@ void TLobby::free_all_rocks() {
         TLobby::free_nodes_with_id(lobby_tool_random_rel);
         lobby_tool_random_rel = var_r30;
     }
-}
 }
 s32 create_named_object(s32 arg0);
 void load_tool_random_rel(void) {

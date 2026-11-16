@@ -46,7 +46,7 @@ typedef char RecoveredGlobal_80197490___vt__16TObjRaderHideCol_size[sizeof(Recov
 // reverse address order (vtables and .text then come out in the original order).
 #pragma defer_codegen on
 
-extern "C" {
+
 u8 *TObjRaderHideCol__ct(u8 *rader_hide_col, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(rader_hide_col);
     *(s32 **)((s8 *)rader_hide_col + 0x18) = &(*(RecoveredGlobal_80197490___vt__16TObjRaderHideCol *)&__vt__16TObjRaderHideCol).value;
@@ -56,7 +56,6 @@ u8 *TObjRaderHideCol__ct(u8 *rader_hide_col, s32 arg1, s32 arg2) {
     ((TObjRaderHideCol *)rader_hide_col)->m_94 = 0;
     ((TObject *)(rader_hide_col))->disallow_rendering();
     return rader_hide_col;
-}
 }
 
 TObjRaderHideCol::~TObjRaderHideCol() {
@@ -81,7 +80,7 @@ void TObjRaderHideCol::run_task() {
 
 void TObjRaderHideCol::render() {  }
 
-extern "C" {
+
 u8 *TObjRaderIcon__ct(u8 *rader_icon, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(rader_icon);
     *(s32 **)((s8 *)rader_icon + 0x18) = &(*(RecoveredGlobal_8019733C___vt__13TObjRaderIcon *)&__vt__13TObjRaderIcon).value;
@@ -90,7 +89,6 @@ u8 *TObjRaderIcon__ct(u8 *rader_icon, s32 arg1, s32 arg2) {
     ((TObjRaderIcon *)rader_icon)->initialize_from_placement();
     ((TObject *)(rader_icon))->disallow_rendering();
     return rader_icon;
-}
 }
 
 TObjRaderIcon::~TObjRaderIcon() {
@@ -158,12 +156,11 @@ void TObjRaderIcon::run_task() {
 
 void TObjRaderIcon::render() {  }
 
-extern "C" {
+
 void *TObjRaderIcon__create(void *arg0) {
     void *o = __nw__7TObjectFUl(0xA4);
     if (o != NULL) {
         o = TObjRaderIcon__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }
     return o;
-}
 }

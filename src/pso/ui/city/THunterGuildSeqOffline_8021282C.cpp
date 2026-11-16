@@ -15,7 +15,7 @@
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/quest/TQuestThread.h"
-#include "pso/system/task/TObject.h"
+
 
 struct RecoveredGlobal_802128B0_THunterGuildSeqOffline__data_80513DC8 {
     s32 value;

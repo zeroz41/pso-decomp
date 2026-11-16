@@ -64,11 +64,8 @@ s32 get_localized_text_entry(s32, s32);
 void restore_saved_depth_alpha_state(void);
 s32 defer_render__7TObjectFv();
 
-}
-
 // The title texture helpers. The TU is compiled deferred, so its functions come out backwards:
 // these are written first and land last.
-extern "C" {
 extern const s32 current_language;
 extern int lobby_cursor_active_flag;
 void release_texture_list(void*);
@@ -116,7 +113,7 @@ TAdTitleGC::TAdTitleGC(TObject *parent, s32 idx) : TObject(parent) {
 TAdTitleGC::~TAdTitleGC() {}
 #pragma pop
 
-extern "C" {
+
 void run_task__10TAdTitleGCFv(u8 *ad_title_gc) {
     s32 temp_r3;
 
@@ -130,7 +127,6 @@ void run_task__10TAdTitleGCFv(u8 *ad_title_gc) {
     }
     ((TAdTitleGC *)ad_title_gc)->update_title_rects();
     TAdTitleGC::calc_text_pos((s32)ad_title_gc, ad_title_gc + 0x120, (s32)(get_localized_text_entry(0x13, *(s32 *)((s8 *)ad_title_gc + 0x1C))));
-}
 }
 
 // Per-rect slide-in factor update_title_rects scales the remaining frames by.

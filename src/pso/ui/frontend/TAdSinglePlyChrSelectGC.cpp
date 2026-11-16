@@ -614,7 +614,7 @@ TAdSinglePlyChrSelectGC::~TAdSinglePlyChrSelectGC() {
     if (*(void **)((s8 *)this + 0x44) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x44))))->queue_destruction(); *(s32 *)((s8 *)this + 0x44) = 0; }
     if (*(void **)((s8 *)this + 0x48) != NULL) { ((TObject *)((void *)(*(void **)((s8 *)this + 0x48))))->queue_destruction(); *(s32 *)((s8 *)this + 0x48) = 0; }
 }
-extern "C" {
+
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent) {
     void *p;
     __ct__7TObjectFP7TObject(arg0, parent);
@@ -654,4 +654,3 @@ u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent) {
     return arg0;
 }
 
-}

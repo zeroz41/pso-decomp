@@ -12,7 +12,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdVIConfigGC.h"
-#include "pso/system/task/TObject.h"
+
 
 struct Name_80307D00 { char s[0x18]; };
 

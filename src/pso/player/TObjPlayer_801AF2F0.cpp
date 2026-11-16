@@ -31,7 +31,7 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/object/base/TObjMotion.h"
+
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
 #include "pso/player/TObjPlayer.h"
 #include <stddef.h>
@@ -65,7 +65,7 @@
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/item/TItemList.h"
 #include "pso/player/TPlyItem.h"
-#include "pso/system/task/TObject.h"
+
 #define M0(x) virtual void m##x();
 struct Base_801AF2F0 { char pad[0x18]; };
 
@@ -2296,63 +2296,6 @@ void TObjPlayer__sub_80354E7C(void);
 s32 fn_8036B748(void *);
 s32 fn_8036B770(void *);
 s32 validate_6xAE_set_animation_state(void *);
-}
-void obj_copyVec2_0(u8 *d, u8 *s);
-void reset_cameras_to_actor(void *actor, s32 arg1);
-void set_shadow_material_state(void);
-void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
-void mask_action_buttons(void *p, u32 v);
-void emit_sand_footstep_effect(s32 arg0);
-void emit_water_footstep_effect(s32 arg0);
-void emit_grass_footstep_effect(s32 arg0);
-void init_6x27_use_item_cmd(u8 *arg0);
-void init_6x1F_floor_packet(u8 *arg0);
-void init_6x21_inter_level_warp_packet(u8 *arg0);
-void refill_trap_counts(s32 arg0, s32 arg1, s32 arg2);
-void update_player_appear_fade(u8 *arg0);
-void save_render_material_state(u8 *arg0);
-void reinit_photon_blast_gauge(u16 *arg0);
-s32 get_ply_level_table_row(s8 arg0, s32 arg1);
-s32 player_auxiliary_surfaces_enabled();
-void text_builder_reset(void);
-void restore_render_scissor(s32 arg0);
-s32 validate_6x0E_clear_negative_status_effects(G_ClientIDHeader *packet);
-s32 validate_6xA1_revive_player_v3(G_ClientIDHeader *packet);
-s32 validate_6x31_use_medical_center(G_ClientIDHeader *packet);
-s32 validate_6x30_change_player_level(G_ClientIDHeader *packet);
-s32 validate_6x2F_change_player_hp(G_ClientIDHeader *packet);
-s32 validate_6x2E_set_or_clear_player_flags(G_ClientIDHeader *packet);
-s32 validate_6x2D_release_hold(G_ClientIDHeader *packet);
-s32 validate_6x2C_impose_hold(G_ClientIDHeader *packet);
-s32 validate_6x2B_create_inventory_item(G_ClientIDHeader *packet);
-s32 validate_6x2A_drop_item(G_ClientIDHeader *packet);
-s32 validate_6xAC(G_ClientIDHeader *packet);
-s32 validate_6x29_delete_inventory_item(G_ClientIDHeader *packet);
-s32 validate_6x28_feed_mag(G_ClientIDHeader *packet);
-s32 validate_6x27_use_item(G_ClientIDHeader *packet);
-s32 validate_6x26_unequip_item(G_ClientIDHeader *packet);
-s32 validate_6x25_equip_item(G_ClientIDHeader *packet);
-s32 validate_6x24_teleport_player(G_ClientIDHeader *packet);
-s32 validate_6x21_inter_level_warp(G_ClientIDHeader *packet);
-s32 validate_6x20_set_position(G_ClientIDHeader *packet);
-s32 validate_6x1F_set_player_floor(G_ClientIDHeader *packet);
-s32 validate_6x82_enable_drop_weapon_on_death(G_ClientIDHeader *packet);
-s32 validate_6x81_disable_drop_weapon_on_death(G_ClientIDHeader *packet);
-s32 validate_6x7B_disable_stealth_suit_effect(G_ClientIDHeader *packet);
-s32 validate_6x7A_enable_stealth_suit_effect(G_ClientIDHeader *packet);
-s32 validate_6x90_set_player_battle_team(G_ClientIDHeader *packet);
-s32 validate_6x8F_add_battle_damage_scores(G_ClientIDHeader *packet);
-s32 validate_6x1C_disable_pk_mode_for_player(G_ClientIDHeader *packet);
-s32 validate_6x1B_enable_pk_mode_for_player(G_ClientIDHeader *packet);
-s32 validate_6x9B_level_up_all_techniques(G_ClientIDHeader *packet);
-
-// The level-up light colour and direction (spawn_level_change_feedback).
-extern const f32 lbl_805DC2A0;
-extern const f32 lbl_805DC2A4;
-extern const f32 lbl_805DC2A8;
-extern const f32 lbl_805DC2AC;
-
-extern "C" {
 void __construct_array(void *, void *(*)(void *), void *, u32, u32);
 s32 rand();
 f32 sin_table_lookup(s32);
@@ -2428,7 +2371,60 @@ struct Ent_801AF868 { u16 id; s16 val; u32 pad; };
 s32 *TWindowDuelResult__sub_801C257C(void);
 s32 *get_split_screen_battle_rankings(void);
 }
+void obj_copyVec2_0(u8 *d, u8 *s);
+void reset_cameras_to_actor(void *actor, s32 arg1);
+void set_shadow_material_state(void);
+void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
+void mask_action_buttons(void *p, u32 v);
+void emit_sand_footstep_effect(s32 arg0);
+void emit_water_footstep_effect(s32 arg0);
+void emit_grass_footstep_effect(s32 arg0);
+void init_6x27_use_item_cmd(u8 *arg0);
+void init_6x1F_floor_packet(u8 *arg0);
+void init_6x21_inter_level_warp_packet(u8 *arg0);
+void refill_trap_counts(s32 arg0, s32 arg1, s32 arg2);
+void update_player_appear_fade(u8 *arg0);
+void save_render_material_state(u8 *arg0);
+void reinit_photon_blast_gauge(u16 *arg0);
+s32 get_ply_level_table_row(s8 arg0, s32 arg1);
+s32 player_auxiliary_surfaces_enabled();
+void text_builder_reset(void);
+void restore_render_scissor(s32 arg0);
+s32 validate_6x0E_clear_negative_status_effects(G_ClientIDHeader *packet);
+s32 validate_6xA1_revive_player_v3(G_ClientIDHeader *packet);
+s32 validate_6x31_use_medical_center(G_ClientIDHeader *packet);
+s32 validate_6x30_change_player_level(G_ClientIDHeader *packet);
+s32 validate_6x2F_change_player_hp(G_ClientIDHeader *packet);
+s32 validate_6x2E_set_or_clear_player_flags(G_ClientIDHeader *packet);
+s32 validate_6x2D_release_hold(G_ClientIDHeader *packet);
+s32 validate_6x2C_impose_hold(G_ClientIDHeader *packet);
+s32 validate_6x2B_create_inventory_item(G_ClientIDHeader *packet);
+s32 validate_6x2A_drop_item(G_ClientIDHeader *packet);
+s32 validate_6xAC(G_ClientIDHeader *packet);
+s32 validate_6x29_delete_inventory_item(G_ClientIDHeader *packet);
+s32 validate_6x28_feed_mag(G_ClientIDHeader *packet);
+s32 validate_6x27_use_item(G_ClientIDHeader *packet);
+s32 validate_6x26_unequip_item(G_ClientIDHeader *packet);
+s32 validate_6x25_equip_item(G_ClientIDHeader *packet);
+s32 validate_6x24_teleport_player(G_ClientIDHeader *packet);
+s32 validate_6x21_inter_level_warp(G_ClientIDHeader *packet);
+s32 validate_6x20_set_position(G_ClientIDHeader *packet);
+s32 validate_6x1F_set_player_floor(G_ClientIDHeader *packet);
+s32 validate_6x82_enable_drop_weapon_on_death(G_ClientIDHeader *packet);
+s32 validate_6x81_disable_drop_weapon_on_death(G_ClientIDHeader *packet);
+s32 validate_6x7B_disable_stealth_suit_effect(G_ClientIDHeader *packet);
+s32 validate_6x7A_enable_stealth_suit_effect(G_ClientIDHeader *packet);
+s32 validate_6x90_set_player_battle_team(G_ClientIDHeader *packet);
+s32 validate_6x8F_add_battle_damage_scores(G_ClientIDHeader *packet);
+s32 validate_6x1C_disable_pk_mode_for_player(G_ClientIDHeader *packet);
+s32 validate_6x1B_enable_pk_mode_for_player(G_ClientIDHeader *packet);
+s32 validate_6x9B_level_up_all_techniques(G_ClientIDHeader *packet);
 
+// The level-up light colour and direction (spawn_level_change_feedback).
+extern const f32 lbl_805DC2A0;
+extern const f32 lbl_805DC2A4;
+extern const f32 lbl_805DC2A8;
+extern const f32 lbl_805DC2AC;
 struct Pkt_801B1B08 { u16 f0; u16 client; u32 pad; };
 s32 validate_6x23_set_player_visible(G_ClientIDHeader *packet);
 
@@ -5165,9 +5161,7 @@ extern "C" {
 void TObjPlayer__sub_801B5AF8(s32 arg0, s32 arg1) {
     TWindowActionPalette::get_slot_type_for_index((s32 *)(((TObjPlayer *)arg0)->refresh_effect()), (s32)arg1);
 }
-}
 #pragma pop
-extern "C" {
 #pragma push
 #pragma fp_contract on
 s32 TObjPlayer::get_action_palette_entry(s32 arg1) {

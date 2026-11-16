@@ -9,9 +9,8 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TObjBoss5PillarCtrl__name = "TObjBoss5PillarCtrl";
-}
 
 
 struct Pc_8028B198 { u8 pad0[0x18]; void *vt; s32 count; void **a; };

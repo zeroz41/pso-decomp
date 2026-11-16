@@ -19,9 +19,8 @@
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/render/BlobShadow.h"
 
-extern "C" {
+
 u8 gx_default_light_obj[256];
-}
 
 struct RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270 {
     s32 value;

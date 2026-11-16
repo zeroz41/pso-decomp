@@ -16,9 +16,8 @@ const char *TPhotonFarlla__class_name = "TPhotonFarlla";
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_800F5BC0.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/TUnk_804C3248.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/effect/photon/TPhotonFarlla.h"
+
+
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
@@ -30,7 +29,7 @@ const char *TPhotonFarlla__class_name = "TPhotonFarlla";
 #include "pso/system/vector.h"
 #include <stddef.h>
 #include "pso/enemy/panarms/TObjEnePanarms.h"
-#include "pso/system/task/TObject.h"
+
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/effect/photon/TPhotonRainbow_801AE640.h"
 #include "pso/unk/text_801AB370.h"
@@ -216,11 +215,7 @@ void TPhotonFarlla::run_task() {
         play_persistent_sound(0x4002462F, (s32)arg0, 0, 0, 0);
     }
 }
-}
 #pragma pop
-
-extern "C" {
-
 s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 
@@ -246,16 +241,9 @@ void *destroy__13TPhotonFarllaFPvs(void *arg0, s16 arg1) {
 struct Stack_801AB370 { f32 x, y, z; };
 
 extern "C" {
-void *find_entity_by_id(u16 id);
 s32 init_collision_body_parts(void *, void *, int);
 
 s32 sub_801AAE6C__13TPhotonFarllaFv(void *, int);
-}
-u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-extern "C" {
-
-extern u8 *photon_blast_shared_resource;
-
 extern "C" void vfunc_6__8TObjBaseFPsl();
 extern "C" void interact__14TObjCollidableFl();
 extern "C" void get_name__8TObjBaseFv();

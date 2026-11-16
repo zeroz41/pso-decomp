@@ -80,26 +80,19 @@ void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 }
 
 #include "pso/unk/SampledMotionPoints.h"
-#include "pso/enemy/bringer/TObjEneDf2Bringer.h"
-#include "pso/enemy/bringer/TObjEneDf2Bringer.h"
-#include "pso/enemy/bringer/TObjEneDf2Bringer.h"
-#include "pso/enemy/bringer/TObjEneDf2Bringer.h"
+
+
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/effect/TUnk_80494968.h"
 #include "pso/system/vector.h"
-#include "types.h"
-#include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/enemy/bringer/TObjEneDf2Bringer.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/object/base/TObjMotion.h"
+
+
 #include "pso/enemy/TUnk_8048FE7C.h"
-#include "pso/object/base/TObjMotion.h"
+
 #include "pso/boss/darkfalz/TBoss4Type3.h"
 
 #include "pso/enemy/TUnk_8048FE08.h"
@@ -561,20 +554,20 @@ struct Vec_80097820 { f32 x, y, z; };
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+
 #include "pso/enemy/dellbiter/TObjEneDellBiter.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/render/RenderFadeState.h"
+
 #include "pso/unk/TLobby.h"
 #include "pso/item/TItem.h"
 
 #include "pso/enemy/bringer/BringerEffects.h"
 #include "pso/enemy/TUnk_8048FE64.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/object/ambient/TObjFish.h"
+
 #pragma defer_codegen on
 struct VBase_18_d3b6b2 { char pad[0x18]; };
 
@@ -702,8 +695,6 @@ s32 update_linked_position__12TObjEneDD_STFf(void *, f32);
 s32 set_field_378__9TObjEneDDFl(void *, s32);
 s32 is_split_screen();
 s32 scroll_strip_uvs(int, int, int);
-s32 push_matrix();
-s32 post_translate_matrix(void *);
 extern s32 TObjEneDf2Bringer__uv_scroll_buffer;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -1060,8 +1051,6 @@ struct VObj_14_fa0828 : VBase_14_fa0828 {
 extern "C" {
 void *__ct__17TObjEneDf2BringerFP7TObjectPv(void *arg0, void *arg1, void *arg2);
 void free_bin_model_request(void*, int);
-}
-extern "C" {
 void __construct_array(void *, void *, void *, int, int);
 }
 void *destroy_buffer_pair(void *arg0, s16 arg1);
@@ -1082,10 +1071,6 @@ extern s32 bringer_boss_stats_ptr_b;
 extern s32 bringer_object_handle;
 extern u32 TObjEneDf2Bringer__resource_bundle;
 struct Arr_80099800 { u8 pad[0x3E0]; Slot_80099800 slot[4]; Vec_80099800 v[4]; };
-
-}
-extern "C" {
-
 
 typedef struct RecoveredGlobal_8031B170_lbl_804E8880 RecoveredGlobal_8031B170_lbl_804E8880;
 typedef char RecoveredGlobal_8031B170_lbl_804E8880_size[((sizeof(RecoveredGlobal_8031B170_lbl_804E8880)) == 0xD0) ? (1) : (-1)];
@@ -1134,18 +1119,12 @@ u8 *dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
-}
-extern "C" {
 s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1);
 s32 load_enemy_bml_resource(u8 *arg0);
-}
-
-
 #pragma push
 #pragma fp_contract on
 #define transition_enemy_state__9TObjEneDDFl ((int (*)(void*, void*))transition_enemy_state__9TObjEneDDFl)
 #define TObjEneDf2Bringer__data_805D4FB4 (*(u8 **)&TObjEneDf2Bringer__data_805D4FB4)
-extern "C" {
 void TObjEneDf2Bringer::load_resources() {
   Vec_80099BD4 offs[4];
   s32 ids[4];
@@ -1232,10 +1211,8 @@ void TObjEneDf2Bringer::load_resources() {
   }
 }
 
-}
 #pragma pop
 #undef TObjEneDf2Bringer__data_805D4FB4
-extern "C" {
 void *TObjEneDf2Bringer::create() {
     void *o = (void *)new TObjEneDf2Bringer((TObject *)tl_04, (void *)this);
     return o;
@@ -1279,7 +1256,7 @@ TObjEneDf2Bringer::TObjEneDf2Bringer(TObject *arg1, void *arg2) : TObjEneDD_ST(a
     sub_800994F8();
     this->init_enemy();
 }
-extern "C" {
+
 
 void TObjEneDf2Bringer::init_enemy() {
     u8 *arg0 = (u8 *)this;
@@ -1341,7 +1318,6 @@ void TObjEneDf2Bringer::init_enemy() {
     this->dispatch_action(*(s16 *)((s8 *)arg0 + 0x326), 4);
 }
 
-}
 TObjEneDf2Bringer::~TObjEneDf2Bringer() {
     VObj_800996EC *o;
     if (*(void **)((s8 *)this + 0x4C4) != NULL) {
@@ -1367,7 +1343,7 @@ TObjEneDf2Bringer::~TObjEneDf2Bringer() {
     __dt__13TUnk_80490470Fv(((u8 *)this) + 0x3C4, -1);
 }
 
-extern "C" {
+
 void run_task__17TObjEneDf2BringerFv(u8 *arg0) {
     s32 temp_r0;
     if (TObjPlayer::check_demo_mode() != 0) {
@@ -1616,7 +1592,6 @@ s32 TObjEneDf2Bringer::check_stage_advance() {
     return 0;
 }
 
-}
 #undef enemy_validate_retained_target
 #undef update_linked_position__12TObjEneDD_STFf
 #define TObjEneDf2Bringer__sub_80097714 ((s32 (*)(void *, void *))TObjEneDf2Bringer__sub_80097714)
@@ -2317,7 +2292,7 @@ void bringer_render_node_callback(void) {
 
 #pragma push
 #pragma opt_loop_invariants off
-extern "C" {
+
 void render__17TObjEneDf2BringerFv(u8 *arg0) {
     s32 var_r31;
     s32 temp_r29;
@@ -2408,7 +2383,6 @@ void render__17TObjEneDf2BringerFv(u8 *arg0) {
     }
 }
 
-}
 #pragma pop
 #undef lbl_8048FAF8
 #undef attack_visible_players__17TObjEneDf2BringerFPv

@@ -13,8 +13,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "types.h"
-#include "pso/system/task/TObject.h"
-#include "pso/ui/chat/TWindowChat.h"
+
 
 struct Win_8024701C { u8 p0[0x1E]; u16 flags; s32 f20; u8 p24[4]; s32 f28; };
 

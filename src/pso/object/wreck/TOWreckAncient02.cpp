@@ -3,14 +3,12 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 
-extern "C" {
 
 void *TOWreckAncient02__create(void *set_data) {
     return new TOWreckAncient02(set_data);
 }
 
 
-}
 TOWreckAncient02::~TOWreckAncient02() {
 
 }

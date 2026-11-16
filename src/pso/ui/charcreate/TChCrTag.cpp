@@ -3,7 +3,7 @@
 #include "pso/ui/charcreate/TChCrTag.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/system/task/TObject.h"
+
 
 extern "C" void render__8TChCrTagFv();
 #include "pso/ui/charcreate/TChCrCharSelect.h"

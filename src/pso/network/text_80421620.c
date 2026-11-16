@@ -34,7 +34,6 @@ typedef struct IpAddr_80422B8C { u32 family; u8 a[0xC]; } IpAddr_80422B8C;
 typedef struct P_8042315C { s32 type; s32 a; s32 b; s32 c; s32 pad10; s16 n; s16 m; s32 d; s32 pad1C; } P_8042315C;
 
 
-
 s32 TLobby__sub_8041112C(void);
 void NetIPv6ShutdownNeighborDiscovery(void);
 s32 TLobby__sub_80418A7C(void);

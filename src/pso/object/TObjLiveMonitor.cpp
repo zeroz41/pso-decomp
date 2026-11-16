@@ -35,8 +35,6 @@ s32 live_camera_controller_next_slot;
 s32 TObjLiveCameraCtrl__instances;
 s32 live_monitor_small_spawned_flag;
 u8 TObjLiveMonitorSmall__fish_spawned_flag;
-}
-extern "C" {
 const char *bm_obj_boss8_monitor_model_names[4] = {
     "fe_obj_monitor_sho.gj",
     "fe_obj_monitor_dai.gj",
@@ -180,7 +178,7 @@ void TObjLiveCameraCtrl::run_task() {
     }
 }
 
-extern "C" {
+
 void TObjLiveCameraCtrl::update_toggle_state() {
     if ((s32) slot_index >= TBoss8Dragon__sub_802F3638()) {
         if ((s32) pad_20 == 1) {
@@ -405,10 +403,9 @@ void *__ct__15TObjLiveMonitorFv(void *arg0) {
     return arg0;
 }
 
-}
 TObjLiveMonitor::~TObjLiveMonitor() {}
 
-extern "C" {
+
 int run_task__15TObjLiveMonitorFv(void* p) { return ((int (*)(void *))sub_8030B370__15TObjLiveMonitorFv)(p); }
 
 void render__15TObjLiveMonitorFv(TObjLiveMonitor *live_monitor) {
@@ -525,4 +522,3 @@ void TObjLiveMonitorSmall::run_task() { sub_8030B370__15TObjLiveMonitorFv(this);
 
 void TObjLiveMonitorSmall::render() { this->render_live_monitor_screen(); }
 
-}

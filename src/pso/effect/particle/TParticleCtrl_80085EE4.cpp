@@ -15,7 +15,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/render/render_util.h"
+
 #include "pso/effect/particle/TParticleCtrl_80327D30.h"
 #include "pso/player/TObjPlayer_80083594.h"
 
@@ -160,7 +160,6 @@ s32 set_texture_num(s32 i);
 void set_inverse_color_blend(void);
 void set_constant_material_color(u32 x);
 extern Cam_80085EE4 lbl_8058D4F8;
-extern "C" {
 
 
 #pragma push
@@ -340,7 +339,6 @@ u8 *__dt__13TUnk_8048E728Fv(u8 *arg0, s16 arg1) {
         }
     }
     return arg0;
-}
 }
 void *init_particle_base(void *object, void *arg1, s32 arg2) {
     Particle_800865BC *p = (Particle_800865BC *)object;

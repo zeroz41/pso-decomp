@@ -15,7 +15,7 @@ const char *TObjNpcNHW01__name = "TObjNpcNHW01";
 u32 TObjNpcNHW01__model_object;
 u32 TObjNpcNHW01__texture_handle;
 
-extern "C" s32 __vt__12TObjNpcNHW01[];
+s32 __vt__12TObjNpcNHW01[];
 
 void *TObjNpcNHW01__create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);

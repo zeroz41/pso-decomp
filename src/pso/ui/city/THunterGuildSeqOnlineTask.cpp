@@ -267,8 +267,6 @@ struct RecoveredGlobal_80215498_TQuestListOnline__data_80513E24 {
 };
 
 
-
-
 struct Slot_802150E8 { char name[0x34]; s32 size; void *buf; };
 
 struct Ent_802150E8 { u8 pad[0x28]; char name[0x10]; s32 size; };
@@ -277,11 +275,7 @@ struct Ent_802150E8 { u8 pad[0x28]; char name[0x10]; s32 size; };
 extern "C" {
 extern u32 TQuestListOnline__quest_list_buffer;
 int memset(void*, void*, void*);
-extern unsigned char TQuestListOnline__dat_download_state[];
-extern unsigned char TQuestListOnline__bin_download_state[];
 extern s32 TQuestListOnline__selected_quest_info;
-extern int TQuestListOnline__bin_download_complete;
-extern int TQuestListOnline__dat_download_complete;
 extern s32 TQuestListOnline__instance;
 void mem_free(void *p);
 void *mem_alloc(u32 size);
@@ -290,7 +284,6 @@ s32 get_guild_text(s32);
 extern "C" {
 char *strtok(char *, const char *);
 char *strncpy(char *, const char *, u32);
-extern s32 local_client_id;
 s32 THunterGuildSeqOffline__sub_80212074();
 int create__14TWindowMessageFlPCfUll(void *, NJS_POINT2 *, s32, s32);
 

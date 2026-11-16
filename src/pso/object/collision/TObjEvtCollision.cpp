@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/object/collision/TObjEvtCollision.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/collision/TObjEvtCollision.h"
+
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -86,7 +86,7 @@ void TObjEvtCollision::run_task() {
 TObjEvtCollision::~TObjEvtCollision() {
 
 }
-extern "C" {
+
 typedef char RecoveredGlobal_80190DE4___vt__16TObjEvtCollision_size[sizeof(RecoveredGlobal_80190DE4___vt__16TObjEvtCollision) == 0x38 ? 1 : -1];
 u8 *TObjEvtCollision__ct(TObjEvtCollision *evt_collision, s32 arg1, s32 arg2) {
     __ct__14TObjCollidableFP7TObject(evt_collision, arg1);
@@ -100,4 +100,3 @@ u8 *TObjEvtCollision__ct(TObjEvtCollision *evt_collision, s32 arg1, s32 arg2) {
     return (u8 *)evt_collision;
 }
 
-}

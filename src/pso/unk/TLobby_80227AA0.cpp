@@ -13,15 +13,12 @@ struct RecoveredGlobal_80227AA8_lbl_80514F64 {
     u8 remaining[0xC38];
 };
 
-extern "C" {
 
     extern int music_stream_base_gain;
 int get_music_base_gain(void) {  return music_stream_base_gain; }
 typedef char RecoveredGlobal_80227AA8_lbl_80514F64_size[sizeof(RecoveredGlobal_80227AA8_lbl_80514F64) == 0xC3C ? 1 : -1];
 void TLobby__sub_80227AA8(s32 arg0) {
     fn_8023F660((&(*(RecoveredGlobal_80227AA8_lbl_80514F64 *)&sound_control_state).value), (arg0), (((s32 (*)())get_menu_field_280__6TLobbyFv)() + 0x55), 0x40, 0x40, 0);
-}
-
 }
 
 

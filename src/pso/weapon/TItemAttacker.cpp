@@ -12,9 +12,8 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TItemAttacker__name = "TItemAttacker";
-}
 
 
 struct RecoveredGlobal_8010355C_lbl_8043E038 { char value[0xA]; };

@@ -2,7 +2,7 @@
 #include "pso/item/TItem.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer.h"
+
 
 extern "C" {
 

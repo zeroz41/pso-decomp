@@ -2,7 +2,7 @@
 #include "pso/object/mine/TOSparkMachine01.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/object/mine/TOSparkMachine01.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -196,7 +196,7 @@ void TOSparkMachine01::load_static_resource() {
 TOSparkMachine01::~TOSparkMachine01() {
 
 }
-extern "C" {
+
 void *TOSparkMachine01__ct(void *arg0, void *arg1) {
     Obj_801773D8 *self = (Obj_801773D8 *)arg0;
     s32 i;
@@ -217,4 +217,3 @@ void *TOSparkMachine01__ct(void *arg0, void *arg1) {
     return self;
 }
 
-}

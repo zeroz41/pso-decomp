@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/system/task/TObject.h"
-#include "pso/object/TObjLuker.h"
+
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
@@ -20,13 +20,12 @@
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/system/task/TObject.h"
+
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TObjLuker__name = "TObjLuker";
-}
 
 
 struct Win_801A0DB4 { u8 pad[4]; u16 flags; };

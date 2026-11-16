@@ -289,7 +289,6 @@ void TEF_LensFlare::render() {
 }
 #pragma pop
 
-extern "C" {
 
 typedef char RecoveredGlobal_800818D8_lbl_8048E130_size[sizeof(RecoveredGlobal_800818D8_lbl_8048E130) == 0x38 ? 1 : -1];
 u8 *TEF_LensFlare__ct(u8 *ef_lens_flare, s32 parent, s32 arg2) {
@@ -309,4 +308,3 @@ void TEF_PvrWave::run_task() {
     o->m1();
 }
 
-}

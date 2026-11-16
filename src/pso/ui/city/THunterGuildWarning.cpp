@@ -106,7 +106,7 @@ void THunterGuildWarning::sub_80211774(void *) {
     }
 }
 
-extern "C" void THunterGuildWarning__sub_802119CC(THunterGuildWarning *self) {
+void THunterGuildWarning__sub_802119CC(THunterGuildWarning *self) {
     s32 i;
     for (i = 0; i < 4; i++) self->windows[i] = NULL;
 }
@@ -138,7 +138,7 @@ THunterGuildWarning::THunterGuildWarning(TObject *object, void *arg2) : TObject(
     THunterGuildWarning__instance = this;
 }
 
-#include "types.h"
+
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
 
@@ -191,7 +191,7 @@ s32 TPlayerBattleCtrl4P::fn_80211B10(s32 id) {
 }
 
 // ---- pso/unk/TLobby_80211C1C
-#include "types.h"
+
 #include "pso/unk/TLobby.h"
 
 extern "C" {
@@ -203,7 +203,7 @@ int TLobby::get_selected_quest_id() { return get_selected_quest_id__16TQuestList
 }
 
 // ---- pso/unk/text_80211C3C
-#include "types.h"
+
 #include "pso/unk/text_80211C3C.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/quest/TQuestListOnline.h"
@@ -239,9 +239,8 @@ s32 TLobby__sub_80211C3C(void) {
 }
 
 // ---- pso/unk/TLobby_80211CE0
-#include "types.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-#include "pso/unk/TLobby.h"
+
+
 #include "pso/unk/TLobby_80211F0C.h"
 
 extern "C" {
@@ -264,13 +263,11 @@ s32 TLobby::handle_main_phase(s32 arg0) {
 }
 
 // ---- pso/unk/text_80211D58
-#include "types.h"
-#include "pso/player/TPlayerBattleCtrl4P.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-#include "pso/unk/TLobby_8030A6A8.h"
+
+
 #include "pso/unk/text_80211D58.h"
-#include "pso/ui/city/THunterGuildWarning.h"
-#include "pso/ui/hud/TRaderMapCore.h"
+
+
 extern "C" {
 s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
@@ -332,14 +329,12 @@ s32 TLobby__sub_80211D58(s32 arg0) {
 }
 
 // ---- pso/unk/TLobby_80211F0C
-#include "types.h"
+
 #include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
-#include "pso/ui/city/THunterGuildWarning.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-#include "pso/unk/TLobby_80211F0C.h"
-#include "pso/unk/TLobby.h"
+
+
 #include "pso/ui/city/THunterGuildSeqOffline.h"
-#include "pso/quest/TQuestListOnline.h"
+
 
 void update_hunter_guild_phase(void) {
     if (get_main_phase() == 0xE) {

@@ -249,7 +249,7 @@ void TObjNpcEnemy::render() {
 
 }
 TObjNpcEnemy::~TObjNpcEnemy() {}
-extern "C" {
+
 
 extern void *tl_04;
 
@@ -287,6 +287,5 @@ void * TObjNpcEnemy__create(void *arg0) {
     return o2;
 }
 
-}
 
 RecoveredGlobal_802D72E4_TObjNpcEnemy__data_80540FF0 TObjNpcEnemy__entry_table;

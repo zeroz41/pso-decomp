@@ -510,7 +510,7 @@ TObjDoor::~TObjDoor() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-extern "C" {
+
 
 #define d ((Door_8018F15C *)arg0)
 void *TObjDoor__ct(void *arg0, void *arg1, void *arg2) {
@@ -579,7 +579,6 @@ void *TObjDoorJung__create(void *arg0) {
         o = TObjDoorJung__ct((u8 *)o, (s32)tl_05, (s32)arg0);
     }
     return o;
-}
 }
 
 #pragma pop

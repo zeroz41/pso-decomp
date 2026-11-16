@@ -9,17 +9,17 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/object/TObjBigTuitate.h"
+
 #include "pso/render/RenderFadeState.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/map/TObjMapCsn.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_8019AD50.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/object/TObjTuitate.h"
+
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/task/TObject.h"
-#include "pso/render/RenderFadeState.h"
+
 
 struct FadeBase_8019AA18 { char pad[0x14]; };
 
@@ -95,24 +95,9 @@ void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 
-
-}
-extern "C" {
-
-extern void *tl_05;
-
-
-
-
-}
-
-
-extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-
-
 }
-
+extern void *tl_05;
 struct FadeBase_8019ADA0 { char pad[0x14]; };
 
 struct Fade_8019ADA0 : FadeBase_8019ADA0 {
@@ -146,35 +131,8 @@ struct Vec_8019ADA0 { f32 x, y, z; };
 #pragma auto_inline off
 #pragma dont_inline off
 
-extern "C" {
-s32 TObjFish__sub_8001EDB0(s32, s32);
-s32 get_bml_model(s32, s32);
-s32 matrix_mult_vec(int, void *, void *);
-void push_matrix(void);
-void post_translate_matrix(void *);
-void set_global_param__8TObjFishFl(void);
-void draw_ginja_object(void);
 
-s32 init_collision_body_parts(void *, void *, int);
-s32 __ct__14TObjCollidableFP7TObject();
 extern s32 __vt__11TObjTuitate[];
-
-void free_bin_model_request(void*, int);
-void free_collision_body_parts(void *);
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
-
-
-
-}
-extern "C" {
-
-extern void *tl_05;
-
-
-
-
-}
 
 
 void load_tuitate_bml_resource(void) {

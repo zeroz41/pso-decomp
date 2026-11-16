@@ -10,7 +10,7 @@
 #include "pso/item/TItemEquipVariant_8012AEA8.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/item/TItem.h"
+
 
 struct VBase_18_382324
 {
@@ -234,12 +234,8 @@ void *heaven_punisher_ct(void *player, s32 parent, s32 item) {
     return player;
 }
 
-}
-
-extern "C" {
 u8 *__nw__5TItemFUl(s32);
 }
-extern s32 tl_05;
 u8 *create_heaven_punisher(s32 arg0) {
     u8 *temp_r3;
     u8 *var_r0;
@@ -254,7 +250,6 @@ u8 *create_heaven_punisher(s32 arg0) {
     return NULL;
 }
 
-extern s32 __vt__13TUnk_804A4B80[];
 
 TUnk_804A4B80::~TUnk_804A4B80() {}
 
@@ -274,10 +269,6 @@ Obj_8012AF00 *TObjPlayer__sub_8012AF00(Obj_8012AF00 *self) {
     return self;
 }
 
-}
-
-extern "C" {
-
 void TObjPlayer__sub_8012AF80(Obj_8012AF80 *self);
 
 Obj_8012AF80 *TObjPlayer__sub_8012AF50(Obj_8012AF80 *self) {
@@ -285,9 +276,6 @@ Obj_8012AF80 *TObjPlayer__sub_8012AF50(Obj_8012AF80 *self) {
     return self;
 }
 
-}
-
-extern "C" {
 void TObjPlayer__sub_8012AF80(Obj_8012AF80 *self) {
     self->a = 0xffff;
     self->b = 0;

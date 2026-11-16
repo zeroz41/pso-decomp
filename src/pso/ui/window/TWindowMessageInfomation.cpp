@@ -3,10 +3,8 @@
 
 #pragma readonly_strings on
 
-extern "C" {
-const char *TWindowMessageInfomation__name = "TWindowMessageInfomation";
-}
 
+const char *TWindowMessageInfomation__name = "TWindowMessageInfomation";
 
 
 struct RecoveredGlobal_8026A100___vt__24TWindowMessageInfomation {

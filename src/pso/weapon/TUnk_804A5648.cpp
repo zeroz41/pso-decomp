@@ -25,11 +25,10 @@ TUnk_804A5648::TUnk_804A5648(TObject *parent, u8 *item) : TItemWeapon(parent, it
     shot_speed = 11.0f;
 }
 
-extern "C" {
+
 u8 *TObjPlayer__sub_8012CE44(s32 item) {
     if (item != 0) {
         return (u8 *)new TUnk_804A5648(tl_05, (u8 *)item);
     }
     return NULL;
-}
 }

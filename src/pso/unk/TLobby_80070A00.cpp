@@ -60,10 +60,9 @@ void TLobby::copy_state_block() {
 
 __declspec(section ".ctors") static void *const __sinit_TLobby_80070A00_80070A00_cpp_ref = (void *)TLobby::copy_state_block;
 
-extern "C" {
+
 s32 challenge_time_limit_sentinel;
 s8 challenge_time_limit_initialized;
-}
 
 
 #undef challenge_mode_state

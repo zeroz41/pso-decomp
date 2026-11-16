@@ -18,7 +18,7 @@ s32 TLobby::pop_byte() {
 }
 
 // ---- pso/unk/text_8020EEFC
-#include "types.h"
+
 #include "pso/unk/text_8020EEFC.h"
 
 struct Deck_8020EF40 {
@@ -48,9 +48,9 @@ void shuffle_shop_pool(void *arg0_) {
 }
 
 // ---- pso/unk/TLobby_8020F00C
-#include "types.h"
+
 #include "pso/unk/TLobby_8020F00C.h"
-#include "pso/unk/TLobby.h"
+
 #include "pso/ui/hud/TRaderMapCore.h"
 
 void push_shop_pool_entry(u8 *arg0, s8 arg1) {

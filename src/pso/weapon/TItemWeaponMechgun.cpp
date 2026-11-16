@@ -15,9 +15,6 @@ void TUnk_804A3260::vfunc_60() {
     }
 }
 
-}
-
-extern "C" {
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 void spawn_weapon_impact_effect();

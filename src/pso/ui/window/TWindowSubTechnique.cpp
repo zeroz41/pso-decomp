@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubTechnique_80286BD4.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
-#include "pso/ui/window/TWindowSubTechnique.h"
+
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -140,7 +140,6 @@ extern "C" {
 s32 TWindowSubTechnique__sub_8028753C(s32 arg0);
 u8 *calc_technique_parameters(s16, u8, s32);
 s32 *get_shared_text_buffer();
-void *get_player_by_client_id(s32 i);
 s32 get_cast_technique_level(void *, int);
 s32 validate_and_clear_slot__10TObjPlayerFv(void *, int);
 void TWindowSubStatusDisp__sub_80228F5C(s32 arg0);
@@ -164,7 +163,7 @@ s32 __ct__7TObjectFP7TObject();
 void text_builder_reset(void);
 void toggle_help_window_on_button(u32 arg0, s32 arg1);
 s32 create_titled_window_menu(s32, s32, s32, s32);
-extern "C" {
+
 
 s32 TWindowSubTechnique::open_menu() {
     s32 titled_window_menu;
@@ -304,13 +303,12 @@ void TWindowSubTechnique::run_task() {
     }
 }
 
-}
 TWindowSubTechnique::~TWindowSubTechnique() {
     if (*(void **)((s8 *)this + 0x3C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x3C)))->close(); this->m_3c = 0; }
     if (*(void **)((s8 *)this + 0x38) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x38)))->close(); this->m_38 = 0; }
     if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x34)))->close(); this->m_34 = 0; }
 }
-extern "C" {
+
 
 const char *TWindowSubTechnique__name = "TWindowSubTechnique";
 
@@ -335,4 +333,3 @@ s32 TWindowSubTechnique__sub_8028753C(s32 arg0) {
 
 void TWindowSubTechnique::clear_flag70_bit80() { *(u16*)((char*)this + 0x70) &= 0xffffff7f; }
 void TWindowSubTradeMain::clear_trade_flag() { this->m_70 &= 0xffffffbf; }
-}

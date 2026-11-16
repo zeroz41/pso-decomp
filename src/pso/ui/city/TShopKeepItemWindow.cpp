@@ -16,7 +16,7 @@
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/city/TShopWindowBase.h"
-#include "pso/ui/city/TShopKeepItemWindow.h"
+
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/system/task/TObject.h"

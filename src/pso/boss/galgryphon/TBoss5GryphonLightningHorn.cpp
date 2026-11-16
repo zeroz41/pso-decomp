@@ -192,7 +192,7 @@ void TBoss5GryphonLightningHorn::run_task() {
 
 TBoss5GryphonLightningHorn::~TBoss5GryphonLightningHorn() {}
 
-extern "C" {
+
 u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3) {
     f32 temp_f1;
     TBoss5GryphonLightning__ct(10.0f);
@@ -206,7 +206,6 @@ u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3)
     *(f32 *)((s8 *)arg0 + 0x8C) = 1.0f;
     *(s32 *)((s8 *)arg0 + 0x90) = 4;
     return arg0;
-}
 }
 
 s32 TBoss8Dragon::spawn_ground_lightning(s32 arg0, s32 arg1, s32 arg2) {

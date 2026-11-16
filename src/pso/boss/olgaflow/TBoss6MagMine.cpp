@@ -25,7 +25,7 @@ struct Mine_80368C14 { u8 pad[0x38]; Vec_80368C14 pos; };
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/player/TObjPlayer.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 
 #pragma readonly_strings on
@@ -411,7 +411,7 @@ TUnk_804F322C::~TUnk_804F322C() {
     if (*(void **)((s8 *)this + 0x3B0) != NULL) { TParticleCtrl::release(*(void **)((s8 *)this + 0x3B0)); *(s32 *)((s8 *)this + 0x3B0) = 0; }
     free_collision_body_parts(this);
 }
-extern "C" {
+
 
 extern s32 tl_04;
 
@@ -514,4 +514,3 @@ s32 get_field_0x42c__13TBoss6MagMineFPv(void* p) { return *(s32*)((char*)p + 0x4
     extern int TBoss6PlotFalz__type2_instance;
 int TBoss6PlotFalz__sub_8036964C(void) {  return TBoss6PlotFalz__type2_instance; }
 
-}

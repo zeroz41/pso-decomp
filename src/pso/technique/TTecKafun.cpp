@@ -5,13 +5,12 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/effect/TUnk_804CC148.h"
-#include "pso/technique/TTecKafun.h"
+
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *tec_kafun_class_name_ptr = "TTecKafun";
-}
 
 
 struct RecoveredGlobal_802A9948___vt__9TTecKafun { s32 value; u8 remaining[0x24]; };
@@ -34,7 +33,7 @@ u8 *TTecKafun__ct(TTecKafun *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 a
 TTecKafun::~TTecKafun() {
 
 }
-extern "C" {
+
 
 void TTecKafun::render() {  }
 void TTecKafun::run_task() {
@@ -101,4 +100,3 @@ u8 *TTecKafun__sub_802A9948(TTecKafun *tec_kafun, s32 arg1, s32 arg2, s32 arg3, 
     return (u8 *)tec_kafun;
 }
 
-}

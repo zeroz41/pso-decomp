@@ -349,7 +349,7 @@ TAdPlyStatusGC::~TAdPlyStatusGC() {
         ply_status_gc_instance = 0U;
     }
 }
-extern "C" {
+
 TAdPlyStatusGC_8033FC14 *TAdPlyStatusGC__ct(TAdPlyStatusGC_8033FC14 *self, void *parent, s32 arg2) {
     __ct__7TObjectFP7TObject(self, parent);
     self->vt = &__vt__14TAdPlyStatusGC;
@@ -384,7 +384,6 @@ TAdPlyStatusGC_8033FC14 *TAdPlyStatusGC__ct(TAdPlyStatusGC_8033FC14 *self, void 
         disallow_rendering__7TObjectFv();
     }
     return self;
-}
 }
 #pragma pop
 #undef ply_status_window_offset_table

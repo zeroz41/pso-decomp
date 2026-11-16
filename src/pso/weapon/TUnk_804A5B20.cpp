@@ -11,7 +11,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/player/TObjPlayer.h"
+
 
 extern "C" {
 
@@ -56,7 +56,6 @@ typedef struct SlicerLaunchData_8012D9C8 {
 } SlicerLaunchData_8012D9C8;
 
 extern "C" {
-u8 get_item_index__5TItemFv();
 extern const f32 lbl_805DAF38;
 extern const f32 lbl_805DAF3C;
 extern const f32 lbl_805DAF50;

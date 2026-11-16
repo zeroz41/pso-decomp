@@ -9,7 +9,7 @@
 #include "pso/boss/barbaray/TBoss7Joint.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/enemy/dd/TObjEneDD.h"
+
 
 struct J_802EEB88 { u8 pad[0x38C]; u8 sub; };
 

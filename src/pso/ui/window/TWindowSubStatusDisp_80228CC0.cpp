@@ -63,7 +63,7 @@ void append_padded_number(s32 v, u8 n) {
 }
 
 // ---- pso/unk/text_80228E98
-#include "types.h"
+
 #include "pso/unk/text_80228E98.h"
 
 char *fn_80228E98(s32 v, char *out) {
@@ -101,10 +101,8 @@ char *fn_80228E98(s32 v, char *out) {
 }
 
 // ---- pso/ui/window/TWindowSubStatusDisp_80228F5C
-#include "types.h"
-#include "pso/unk/text_80228E98.h"
-#include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
+
+
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/Language.h"
 

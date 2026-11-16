@@ -6,7 +6,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer.h"
+
 
 void TUnk_804A64E8::vfunc_60() {
     switch (TObjPlayer::get_player_list()) {
@@ -61,8 +61,6 @@ struct SlicerState_801295FC;
 void init_slicer_launch_state(void *arg0);
 s16 get_validated_attack_stage(u8 *arg0);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
-
-
 
 
 void TUnk_804A64E8::emit_marker_effects() {

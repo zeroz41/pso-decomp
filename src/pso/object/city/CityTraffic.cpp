@@ -27,7 +27,7 @@
 #include <stdlib.h>
 #include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
-#include "pso/system/task/TObject.h"
+
 
 struct Rec16_80180D18 { s32 f0; s32 f4; s32 f8; s32 fc; };
 
@@ -309,7 +309,7 @@ TObjCityAirCar_Ctrl::~TObjCityAirCar_Ctrl() {
 
 }
 
-extern "C" {
+
 void run_task__19TObjCityAirCar_CtrlFv(Ctrl_80181310 *self) {
     s32 i;
     Rec_80181310 *r;
@@ -369,11 +369,10 @@ void run_task__19TObjCityAirCar_CtrlFv(Ctrl_80181310 *self) {
         r->timer = timer;
     }
 }
-}
 
 void TObjCityAirCar_Ctrl::render() {  }
 
-extern "C" {
+
 u8 *construct_city_air_car(TObjCityAirCar_Car *city_air_car_car, void *parent, s32 arg2, s32 arg3, f32 farg0) {
     __ct__8TObjBaseFP7TObject(city_air_car_car);
     *(s32 **)((s8 *)city_air_car_car + 0x18) = &__vt__18TObjCityAirCar_Car.value;
@@ -389,7 +388,6 @@ u8 *construct_city_air_car(TObjCityAirCar_Car *city_air_car_car, void *parent, s
     city_air_car_car->rotation_z = 0;
     return (u8 *)city_air_car_car;
 }
-}
 
 TObjCityAirCar_Car::~TObjCityAirCar_Car() {
     if (unk_A8 != NULL) {
@@ -397,10 +395,9 @@ TObjCityAirCar_Car::~TObjCityAirCar_Car() {
     }
 }
 
-extern "C" {
+
 f32 fn_80181204(void* p) { return *(f32*)((char*)p + 0x90); }
 f32 fn_801811FC(void* p) { return *(f32*)((char*)p + 0x94); }
-}
 
 #pragma push
 #pragma fp_contract on

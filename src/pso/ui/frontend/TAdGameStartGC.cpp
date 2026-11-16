@@ -6,7 +6,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/system/task/TObject.h"
+
 class TAdGameStartGC : public TObject {
 public:
     virtual void render();

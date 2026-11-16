@@ -1095,11 +1095,7 @@ void TLobby__sub_8024259C(s32 arg0) {
         seq_jump__9TProtocolFPUcR21TPlyMeetUserExtension(TLobby__protocol_instance, (void *)(arg0 + 0x4C), (void *)(arg0 + 0x58));
     }
 }
-}
-
 #pragma pop
-
-extern "C" {
 extern int com_card_entry_count;
 u32 find_card_by_id__17TWindowSubComCardFUl();
 s32 get_com_card_list__6TLobbyFv();
@@ -1172,9 +1168,6 @@ void reset_state__6TLobbyFPv(void* p) { TLobby::reset_state_805D63DC(p); }
 void TLobby__sub_8024285C(void* p) { TLobby::reset_state_805D63DC(p); }
 
 
-}
-
-extern "C" {
 void *construct_guild_card_tag_array(void *p);
 GuildCardRecord *__ct__15GuildCardRecordFv(void *p);
 void *__construct_array(void *array, GuildCardRecord *(*ctor)(void *), void *dtor, u32 size, u32 count);
@@ -1197,12 +1190,11 @@ void *TWindowSubStatusDisp::get_sub_disp_ptr() { return (char *)this + 0x9c; }
 
 s32 TLobby::get_id() { return *(s32 *)&this->m_name; }
 
-extern "C" {
+
 extern u16 lbl_805D63FC;
 
 void TLobby__sub_80242918(void) {
     lbl_805D63FC |= 4;
-}
 }
 
 void TLobby::clear_flag_bit2() {

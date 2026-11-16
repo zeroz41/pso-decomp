@@ -18,8 +18,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/system/task/TObject.h"
+
 
 typedef struct Vec_800C4A5C {
     f32 x, y, z;

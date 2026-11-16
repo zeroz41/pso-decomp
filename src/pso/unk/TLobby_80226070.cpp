@@ -186,10 +186,6 @@ void TLobby__sub_8022644C(void) {
         lbl_805145F0[i].src = 0;
     }
 }
-}
-
-
-extern "C" {
 s32 check_sound_admission_range(const Vec *pos);
 s32 fn_802264B8(s32 slot, s32) {
     s32 r;
@@ -206,11 +202,6 @@ s32 fn_802264B8(s32 slot, s32) {
     return 1;
 }
 
-}
-
-
-
-extern "C" {
 SndEnt_8022675C lbl_805145F0[40];
 u8 lbl_80514C30[0x20];
 f32 lbl_80514C50[4];

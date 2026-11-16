@@ -8,13 +8,11 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/ModelDrawContext.h"
 
-extern "C" {
 extern const f32 __float_nan[];
 extern const f32 __float_huge[];
 extern const f64 lbl_8043F298[]; // 0.0
 extern const f64 lbl_8043F2A0[]; // 0.5
 extern const f64 lbl_8043F2A8[]; // 3.0
-}
 
 // MSL's double sqrt.
 f64 sqrt_double(f64 x) {
@@ -35,7 +33,7 @@ f64 sqrt_double(f64 x) {
     return __float_huge[0];
 }
 
-extern "C" void set_global_draw_flag_bits(void *owner, u32 bits) {
+void set_global_draw_flag_bits(void *owner, u32 bits) {
     model_render_flags |= bits;
 }
 

@@ -12,7 +12,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" {
+
 void TBoss5GryphonTornado::sub_803554F0(u8 *boss2_tunnel) {
     u8 *arg0 = (u8 *)this;
   unsigned short new_var;
@@ -35,7 +35,6 @@ void TBoss5GryphonTornado::sub_803554F0(u8 *boss2_tunnel) {
   }
 }
 
-}
 
 struct RecoveredGlobal_803558E4___vt__20TBoss5GryphonTornado {
     s32 value;

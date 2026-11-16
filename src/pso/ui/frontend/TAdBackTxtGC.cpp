@@ -8,7 +8,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/system/task/TObject.h"
+
 
 extern "C" {
 void begin_screen_draw(s32 arg0);
@@ -32,12 +32,7 @@ void TAdBackTxtGC::draw_character_background_frame(s32 arg1, s32 arg2) {
   TWindowSubStatusDisp::get_player();
 }
 
-}
-
 #pragma readonly_strings on
-
-extern "C" {
-
 void __ct__7TObjectFP7TObject(void *);
 s32 defer_render__7TObjectFv();
 

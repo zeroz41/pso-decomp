@@ -10,9 +10,6 @@ extern "C" void render__18TChCrTagOccupationFv();
 
 extern "C" {
 void render_shadows__7TObjectFv();
-}
-
-extern "C" {
 extern void *__vt__18TChCrTagOccupation[];
 const char *chcr_tag_occupation_class_name = "TChCrTagOccupation";
 #pragma push
@@ -80,7 +77,6 @@ TChCrTagOccupation::TChCrTagOccupation(TObject *parent, void *arg) : TChCrTag(pa
 }
 #pragma pop
 
-extern "C" {
 
 void *TChCrTagOccupation::create(void *arg0) {
     return new TChCrTagOccupation(tl_03, arg0);
@@ -103,5 +99,4 @@ void *__vt__18TChCrTagOccupation[8] = {
     (void *)TChCrTagOccupation__vt4,
     0,
 };
-}
 

@@ -3,7 +3,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 
-#include "pso/enemy/TObjEnemy.h"
+
 #include "pso/player/TObjPlayer.h"
 extern "C" {
 extern void* TObjEnemy_class_name;
@@ -22,11 +22,7 @@ TObjEnemy::~TObjEnemy() {
         }
     }
 }
-extern "C" {
-
 extern s32 TLobby__data_805D6144;
-
-}
 
 TObjEnemy::TObjEnemy(TObject *parent) : TObjChara(parent) {
     m_name = (const char *)TObjEnemy_class_name;

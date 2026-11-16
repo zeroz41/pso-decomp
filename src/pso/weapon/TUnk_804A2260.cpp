@@ -116,10 +116,6 @@ void TUnk_804A2260::sub_80124C90() {
         }
     }
 }
-}
-
-extern "C" {
-
 void TUnk_804A2260::emit_marker_effects() {
     if (is_mode_two_and_ready() != 0) {
         if (((TObjPlayer *)((u8 *)this->owner + 0x7CC))->get_stage_strike_count() == 0) {
@@ -170,9 +166,6 @@ u8 *TObjPlayer::create_state_80125154(u8 *item) {
     return NULL;
 }
 
-extern "C" {
-
 
 s16 TObjPlayer::get_stage_strike_count() { return *(s16*)((char*)this + 0x12); }
 
-}

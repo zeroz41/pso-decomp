@@ -2,7 +2,6 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 
-extern "C" {
 
 extern u32* TWindowCtrl__active_window;
 
@@ -14,4 +13,3 @@ void TWindowCtrl::dispatch_to_child(void *arg1) {
     }
 }
 
-}

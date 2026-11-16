@@ -53,8 +53,6 @@ s32 format_message_text__9TWindowDDFPvPvUs(DD_803461CC *arg0, char *arg1, u16 ar
 void TWindowDD__sub_8034694C(DD_803461CC *, s32, char *, char *, char *, s32 *);
 s32 format_german_message__9TWindowDDFPvPvUs(DD_803461CC *arg0, char *arg1, u16 arg2);
 s32 format_english_message__9TWindowDDFPvPvUs(DD_803461CC *arg0, char *arg1, u16 arg2);
-}
-extern "C" {
 s16 TWindowDD__sub_8034435C(u8 *window_dd, u32 arg1, s32 arg2, s32 value_index) {
     s16 v;
     switch (arg1) {

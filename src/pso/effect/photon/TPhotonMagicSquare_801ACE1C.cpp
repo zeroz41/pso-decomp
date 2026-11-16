@@ -11,7 +11,7 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
-#include "pso/effect/photon/TPhotonMagicSquare.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -20,9 +20,8 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TPhotonMagicSquare__data_805D3508 = "TPhotonMagicSquare";
-}
 
 struct Color_801ACE1C { f32 a, r, g, b; };
 
@@ -173,7 +172,7 @@ s32 play_sound_effect(int, int, int, int);
 TPhotonMagicSquare::~TPhotonMagicSquare() {
 
 }
-extern "C" {
+
 
 u8 *TPhotonMagicSquare__ct(u8 *photon_magic_square, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0) {
     __ct__8TObjBaseFP7TObject(photon_magic_square);
@@ -196,7 +195,6 @@ u8 *TPhotonMagicSquare__ct(u8 *photon_magic_square, s32 arg1, s32 arg2, s32 arg3
     *(f32 *)((s8 *)photon_magic_square + 0xC8) = farg0;
     ((TPhotonMagicSquare *)photon_magic_square)->m_cc = 0xFFFFFF;
     return photon_magic_square;
-}
 }
 u8 *construct_photon_magic_square_normal(u8 *photon_magic_square, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     __ct__8TObjBaseFP7TObject(photon_magic_square);

@@ -2,18 +2,13 @@
 #include "pso/npc/TObjNpcNgcBase.h"
 #include "pso/npc/TUnk_804A9F50.h"
 #include "pso/npc/TObjNpcLappy.h"
-#include "pso/npc/TUnk_804A9F50.h"
+
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/player/TObjPlayer.h"
 
 #pragma readonly_strings on
 
-extern "C" {
-
-
 extern s32 __vt__14TObjNpcNgcBase[];
-
-}
 TObjNpcNgcBase::~TObjNpcNgcBase() {}
 struct E_803594B4 { s32 a; s32 b; f32 c; };
 

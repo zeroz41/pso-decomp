@@ -23,7 +23,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/system/task/TObject.h"
+
 
 #pragma readonly_strings on
 #pragma defer_codegen on

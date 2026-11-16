@@ -72,10 +72,6 @@ s32 TItemLoad::decompress_buffer(u32 arg0) {
 
 void TItemLoad::free_boss4_rock() { mem_free((void *)item_load_compressed_work_buffer); item_load_compressed_work_buffer = 0; }
 
-}
-
-extern "C" {
-
 struct Sp8Buf_8010fe6c_8010FDF0 {
     s32 field00;
     s32 field04;

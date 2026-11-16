@@ -9,15 +9,15 @@
 #include "pso/system/vector.h"
 #include "pso/unk/TUnk_8048E728.h"
 #include "pso/unk/TUnk_8048E778.h"
-#include "pso/unk/TUnk_8048E6DC.h"
-#include "pso/unk/TUnk_8048E6A8.h"
+
+
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/render/render_util.h"
+
 #pragma defer_codegen on
 
 struct RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70 {
@@ -131,9 +131,6 @@ extern Tex_80086248 lbl_804C5820[];
 extern u8 *camera_ctrl_instance;
 void begin_screen_draw(s32 arg0);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
-}
-void set_constant_material_color(u32 x);
-extern "C" {
 f32 fabs_float(f32);
 u32 csnVector(void *, void *, int);
 f32 vec3_dot(void *, void *);
@@ -146,9 +143,8 @@ void project_world_to_screen(s32, void *, void *);
 void *get_player_by_client_id(s32 i);
 
 extern s32 local_client_id;
-
 }
-
+void set_constant_material_color(u32 x);
 typedef char RecoveredGlobal_800858D0_lbl_8048E6A8_size[sizeof(RecoveredGlobal_800858D0_lbl_8048E6A8) == 0x34 ? 1 : -1];
 typedef char RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70_size[sizeof(RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70) == 0x1B0 ? 1 : -1];
 typedef char RecoveredGlobal_80085E78_lbl_8048E6DC_size[sizeof(RecoveredGlobal_80085E78_lbl_8048E6DC) == 0x34 ? 1 : -1];

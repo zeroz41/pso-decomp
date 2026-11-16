@@ -13,7 +13,7 @@ struct TWindowShortCut;
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
-#include "pso/ui/window/TWindowMenuIconLine.h"
+
 #include "pso/ui/window/TWindowSubQuestBoardSelect.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"

@@ -53,7 +53,7 @@ void TUnk_804F28E0::update_attack() {
     TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1FC), -1.0f, 0.0f);
 }
 
-extern "C" {
+
 TUnk_804F28E0::TUnk_804F28E0(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {
     set_weapon_flags(2);
     pad_1fc = 0.0f;
@@ -66,6 +66,5 @@ u8 *TItemEffectWeapon::create_instance() {
     return NULL;
 }
 
-}
 
 TUnk_804F28E0::~TUnk_804F28E0() {}

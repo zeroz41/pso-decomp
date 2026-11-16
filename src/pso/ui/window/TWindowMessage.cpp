@@ -12,7 +12,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/ui/window/TWindowBase.h"
+
 #include "pso/unk/WindowLayoutRecord.h"
 
 struct RecoveredFields_802698C4_arg0 {
@@ -236,7 +236,6 @@ struct Entry_80269A0C {
 extern "C" {
 void measure_message_text_width(void *, f32);
 
-s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 arg3);
 s32 append_message_window_line(TWindowMessage *self, s32 text, s32 flags, s32 arg3) {
     Entry_80269A0C *e;
     TWindowMessageLine *rec;
@@ -380,9 +379,6 @@ s32 TLobby__sub_80269DA4(V2_80269DA4 size, void *arg1) {
     message_window_layout_entries.rows = (u32)arg1;
 }
 
-}
-
-extern "C" {
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, int);
 void *mem_alloc(u32 size);
@@ -390,7 +386,6 @@ void *construct_with_parent__15TWindowAdditionFPv(void *, void *, s16, s32);
 extern s32 __vt__14TWindowMessage[];
 extern s32 lbl_805D3980;
 
-u8 *TWindowMessage__ct(u8 *arg0, s32 arg1, u32 arg2, s32 arg3);
 void *__dt__14TWindowMessageFv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 void mem_free(void *);

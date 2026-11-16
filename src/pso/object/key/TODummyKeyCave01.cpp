@@ -7,7 +7,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/key/TODummyKeyCave01.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -171,7 +171,7 @@ void TODummyKeyCave01__sub_80165E8C(void) {  }
 TODummyKeyCave01::~TODummyKeyCave01() {
 
 }
-extern "C" {
+
 u8 *TODummyKeyCave01__ct(u8 *dummy_key_cave01, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(dummy_key_cave01);
     *(s32 **)((s8 *)dummy_key_cave01 + 0x18) = &(*(RecoveredGlobal_80165EE8___vt__16TODummyKeyCave01 *)&__vt__16TODummyKeyCave01).value;
@@ -190,4 +190,3 @@ u8 *TODummyKeyCave01__ct(u8 *dummy_key_cave01, s32 arg1, s32 arg2) {
     return dummy_key_cave01;
 }
 
-}

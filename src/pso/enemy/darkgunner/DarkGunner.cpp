@@ -32,13 +32,13 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/render/TUnk_80490470.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
-#include "pso/enemy/TObjEnemyCustom.h"
+
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
-#include "pso/effect/enemy/TEneEffHamon.h"
+
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/enemy/saver/SaverLifecycle.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -424,44 +424,6 @@ void is_actor_cadence_frame__9TObjCharaFl();
 }
 extern "C" {
 void is_target_in_attack_range__9TObjCharaFv();
-}
-extern "C" {
-}
-extern "C" {
-}
-extern "C" {
-}
-extern "C" {
-}
-extern "C" {
-}
-extern "C" {
-}
-extern "C" {
-}
-extern "C" {
-}
-extern "C" {
-}
-extern "C" {
-}
-extern "C" {
-}
-extern "C" {
-}
-extern "C" {
-}
-extern "C" {
-}
-extern "C" {
-}
-extern "C" {
-}
-extern "C" {
-}
-extern "C" {
-}
-extern "C" {
 }
 extern "C" {
 void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
@@ -1556,8 +1518,6 @@ void TObjPlayer::cleanup_effects() {
 }
 
 extern "C" {
-extern s32 lbl_805D5024;
-extern s32 lbl_805D5028;
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void load_darkgunner_effect_resources();
 }
@@ -1694,9 +1654,6 @@ void TObjEneDarkGunner::set_fields_24_34_from_global(void*a1) { *(int *)&this->m
 void TObjPlayer::clear_counter() { this->m_340 = 0; }
 
 void TObjPlayer::set_cancel_flag() { *(s32 *)&this->m_340 = 1; }
-}
-
-extern "C" {
 f32 player_scale_factor;
 u32 player_effect_bml_resource;
 u32 TObjPlayer__effect_resource;

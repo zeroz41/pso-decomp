@@ -36,7 +36,7 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/boss/dragon/TObjBoss1Crater.h"
 #include "pso/ui/hud/TMainCursor.h"
-#include "pso/system/task/TObject.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/dragon/TBoss1DragonEffTail.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -48,7 +48,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/camera/TCameraCtrl.h"
+
 #include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -3946,7 +3946,6 @@ void TBoss1Dragon::updateFacingPosition() {
     position.z = 330.0f * cos_table_lookup(facingAngle);
 }
 
-extern "C" {
 
 s32 TBoss1Dragon::check_can_attack() {
     u8 var_r31;
@@ -4389,7 +4388,6 @@ void sweep_body_attack_spheres__12TBoss1DragonFv(u8 *arg0, f32 a, f32 b, f32 c) 
 
 #pragma pop
 
-}
 
 void TBoss1Dragon::apply_head_fall_attack() {
     reset_hp((u8 *)0, (u8 *)(*(s32 *)((s8 *)&TBoss1Dragon__part_hp_stats + 0x10)), (u8 *)0);
@@ -5892,7 +5890,6 @@ void TLobby::copy_header(void *arg1) {
 
 struct O_8002B094 { s32 *arr; s32 val; s32 f8; s32 count; };
 
-extern "C" {
 
 void fill_value_array(s32 address) {
     O_8002B094 *self = (O_8002B094 *)address;
@@ -5903,9 +5900,6 @@ void fill_value_array(s32 address) {
     self->f8 = 0;
 }
 
-}
-
-extern "C" {
 extern f32 lbl_805D9E80;
 extern const f32 lbl_805D4AF0 = 3.0f * lbl_805D9E80;
 extern const f32 TBoss1Dragon__gravity_accel = 2.0f * lbl_805D9E80;
@@ -5928,4 +5922,3 @@ s32 lbl_805D4B34;
 s32 TBoss1Dragon__data_805D4B38;
 u16 TBoss1Dragon__data_805D4B3C;
 extern const f32 lbl_805D4B40 = 5.0f * lbl_805D9E80;
-}

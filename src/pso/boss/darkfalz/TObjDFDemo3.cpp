@@ -24,8 +24,8 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/system/task/TObject.h"
+
+
 #pragma readonly_strings on
 
 extern "C" {

@@ -34,12 +34,6 @@ s32 push_matrix();
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 s32 TBoss8Dragon__sub_800BB7DC(void *);
-}
-
-void restore_alpha_ref(void);
-void set_alpha_ref_override(u8 scene);
-void spawn_landing_dead_spot(s32 point, s32 delay);
-extern "C" {
 void *find_entity_by_id(u16 id);
 s32 TBoss8Dragon__sub_800BB7D8(void *, s32, f32);
 s32 post_translate_matrix(void *);
@@ -137,11 +131,8 @@ TObjEneBm3Fly::TObjEneBm3Fly(TObject *parent, TObjEneBm3FlyNest *nest, s32 entit
     init_child_params();
     set_entry = NULL;
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjEneBm3Fly::init_child_params() {
     init_position_vectors();
     this->model = (void *)bm3_fly_nest_resources->models[0].model;
@@ -197,10 +188,7 @@ void TObjEneBm3Fly::init_child_params() {
     this->mode = 0;
     this->dispatch_action(this->mode, 4);
 }
-}
-
 #pragma pop
-extern "C" {
 TObjEneBm3Fly::~TObjEneBm3Fly() {
     if (particle_effect != NULL) {
         particle_effect->queue_destruction();
@@ -209,7 +197,9 @@ TObjEneBm3Fly::~TObjEneBm3Fly() {
     free_collision_body_parts(this);
 }
 }
-
+void restore_alpha_ref(void);
+void set_alpha_ref_override(u8 scene);
+void spawn_landing_dead_spot(s32 point, s32 delay);
 void TObjEneBm3Fly::run_task() {
     f32 dz;
     f32 dx;
@@ -263,7 +253,7 @@ void TObjEneBm3Fly::run_task() {
     this->submit_default_cursor_candidate();
     this->vfunc_100();
 }
-extern "C" {
+
 void TObjEneBm3Fly::dispatch_action(u32 arg1, s32 msg) {
     switch (arg1) {
     case 0:
@@ -327,21 +317,15 @@ void TObjEneBm3Fly::update_height_offset() {
     this->enemy_copy_target_destination();
     this->m_394.y = (f32) (this->position.y + this->m_450);
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjEneBm3Fly::circle_destination(s32 arg1) {
     this->enemy_copy_target_destination();
     this->m_394.x = (f32) (((7e+01f) * sin_table_lookup(arg1)) + this->m_394.x);
     this->m_394.y = (f32) ((this->position.y) + this->m_44c);
     this->m_394.z = (f32) (((7e+01f) * cos_table_lookup(arg1)) + this->m_394.z);
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneBm3Fly::update_collide_flag() {
     if (this->vfunc_102() != 0U) {
         this->m_428 |= 2;
@@ -372,21 +356,15 @@ void TObjEneBm3Fly::store_position() {
     this->m_304 = (f32) this->position.z;
     VecCopy(&this->center, (const Vec *)&this->m_2fc);
 }
-}
-
 #pragma push
 #pragma opt_common_subs off
-extern "C" {
 void TObjEneBm3Fly::clamp_flight_height() {
     if ((this->m_42c - this->position.y) < (1.2f)) {
         this->m_42c = (1.2f) + this->position.y;
     }
     this->m_300 = this->m_42c;
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneBm3Fly::vfunc_89() { TObjEneDD::vfunc_89(); this->clamp_flight_height(); }
 
 void TObjEneBm3Fly::vfunc_88() {
@@ -457,19 +435,13 @@ void TObjEneBm3Fly::choose_attack() {
     this->transition_enemy_state(4);
     this->m_454 = 0;
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjEneBm3Fly::sub_800B1634() {
     this->m_444 = (f32) (((2.0f) * calc_elapsed_scaled__9TObjEneDDFv(this)) + ((45.0f) + this->m_41c.y));
     this->m_448 = get_random_scaled__9TObjEneDDFv(this);
 }
-}
-
 #pragma pop
-extern "C" {
 u16 TObjEneBm3Fly::get_active_id() {
     if (this->m_454 != 0) {
         return this->m_38c;
@@ -494,12 +466,9 @@ s32 TObjEneBm3Fly::vfunc_104(f32 farg0) {
     }
     select_nearest_target(farg0);
 }
-}
-
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
-extern "C" {
 void TObjEneBm3Fly::sub_800B1214(s32 arg1) {
     Vec *p = &this->m_3e8;
     switch (arg1) {
@@ -570,11 +539,8 @@ void TObjEneBm3Fly::sub_800B1214(s32 arg1) {
         break;
     }
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1) {
     Vec d;
     f32 radius;
@@ -633,13 +599,10 @@ void TObjEneBm3Fly__sub_800B0F70(TObjEneBm3Fly *arg0, s32 arg1) {
         break;
     }
 }
-}
-
 #pragma pop
 #pragma pop
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *arg0, s32 arg1) {
     Vec *pos;
     Vec *off;
@@ -756,10 +719,7 @@ void TObjEneBm3Fly__sub_800B0B20(TObjEneBm3Fly *arg0, s32 arg1) {
         break;
     }
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneBm3Fly::execute_action(s32 arg1) {
     TObjChara *target;
 
@@ -941,11 +901,8 @@ void TObjEneBm3Fly::state_circle_target(s32 arg1) {
         break;
     }
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *arg0, s32 arg1) {
     Bm3FlyMovementParameters *params;
     switch (arg1) {
@@ -984,12 +941,9 @@ void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *arg0, s32 arg1) {
         break;
     }
 }
-}
-
 #pragma pop
 #pragma push
 #pragma opt_common_subs off
-extern "C" {
 void TObjEneBm3Fly::update_recoil_state(s32 arg1) {
     s32 t;
     f32 v;
@@ -1034,10 +988,7 @@ void TObjEneBm3Fly::update_recoil_state(s32 arg1) {
         break;
     }
 }
-}
-
 #pragma pop
-extern "C" {
 void action__13TObjEneBm3FlyFPvi(TObjEneBm3Fly *arg0, s32 arg1) {
     TObjEneBm3FlyNest *nest;
 
@@ -1214,4 +1165,3 @@ void TObjEneMoja::bindModel(int index) {
 }
 
 f32 AttackParams::get_damage_radius() { return damage_radius; }
-}

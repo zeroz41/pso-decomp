@@ -12,11 +12,10 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/system/task/TObject.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
+
+
 #include "pso/player/TUnk_804B6C24.h"
-#include "pso/unk/TLobby.h"
+
 
 #pragma readonly_strings on
 
@@ -327,7 +326,7 @@ TOAttackableCol::~TOAttackableCol() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-extern "C" {
+
 
 typedef char RecoveredGlobal_80157AD8___vt__15TOAttackableCol_size[sizeof(RecoveredGlobal_80157AD8___vt__15TOAttackableCol) == 0x13C ? 1 : -1];
 u8 *TOAttackableCol__ct(u8 *arg0, s32 arg1) {
@@ -377,4 +376,3 @@ void *fn_80157CA8(void *barrier_energy01) {
     return barrier_energy01;
 }
 
-}

@@ -352,8 +352,6 @@ G_8030E3BC chr_select_b_slot_entry;
 
 extern "C" {
 s32 get_state_result__22TAdMultiPlyChrSelectGCFv();
-s32 get_global_state__16TAdChrSelBSlotGCFv(void *);
-u32 TAdChrSelASlotGC__sub_8030CB08(TAdChrSelASlotGC *arg0, s32 kind, s32 text);
 s32 TAdChrSelASlotGC__sub_8030C4F8(TAdChrSelASlotGC *self, s32 kind);
 s32 TAdChrSelASlotGC__sub_8030C5C0(TAdChrSelASlotGC *self, s32 kind);
 s32 TAdChrSelASlotGC__sub_8030C688(TAdChrSelASlotGC *self, s32 kind);
@@ -740,7 +738,6 @@ struct C_8030F874 {
 };
 typedef void (C_8030F874::*Pmf_8030F874)();
 
-extern "C" void TAdChrSelBSlotGC__sub_8030E624(TAdChrSelBSlotGC *self);
 extern "C" void reset_plate_positions__16TAdChrSelBSlotGCFv();
 extern "C" void check_cancel_and_close__16TAdChrSelBSlotGCFv();
 extern "C" void enter_state17__16TAdChrSelBSlotGCFv();
@@ -916,10 +913,6 @@ void run_task__16TAdChrSelBSlotGCFv(C_8030F874 *self) {
     }
     self->f24++;
 }
-}
-
-extern "C" {
-
 void *__ct__19TAdPlyChrSelPlateGCFv(void *, void *, void *);
 void *__ct__20TAdChrSelMovePlateGCFv(void *, void *);
 void *__nw__7TObjectFUl(int);
@@ -973,7 +966,6 @@ void TAdChrSelBSlotGC::sub_8030FE04() {
 }
 
 }
-
 
 
 TAdChrSelBSlotGC::~TAdChrSelBSlotGC() {

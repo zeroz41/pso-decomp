@@ -17,7 +17,6 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
 
 
-
 struct VBase_8014C780 { char pad[0x18]; };
 struct VObj_8014C780 : VBase_8014C780 {
     virtual void m0();

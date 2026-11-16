@@ -32,8 +32,8 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/render/render_util.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/object/base/TObjMotion.h"
+
+
 #include "pso/system/task/TObject.h"
 
 const char *bm_boss7_crawfish_model_names[3] = { "minibaru_body.nj", "minibaru_body_b.nj", NULL };
@@ -283,7 +283,6 @@ u16 find_nearest_visible_player(void *, void *, f32);
 f32 atan2_float(f32 y, f32 x);
 void normalize_vector(void *);
 s32 register_attack_hits__14TBoss7CrawfishFv(void *, void *, f32, f32);
-void TBoss7Crawfish__sub_803087D4(s32 arg0, s32 arg1);
 
 void TBoss7Crawfish::update_motion_and_release() {
     u8 *arg0 = (u8 *)this;
@@ -423,9 +422,6 @@ void TBoss7Crawfish::change_state(s32 state) {
     }
 }
 
-}
-
-extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u32 TBoss7Crawfish__shared_resource;
 s32 dispatch_shared_handler_a__6TLobbyFl(int);
@@ -478,7 +474,7 @@ TBoss7Crawfish::~TBoss7Crawfish() {
     this->clear_collision_bodies();
     this->free_child();
 }
-extern "C" {
+
 
 u8 *TBoss7Crawfish__ct(u8 *arg0, s32 arg1, s32 arg2) {
     Vec v;
@@ -555,5 +551,4 @@ void TBoss7Crawfish::clear_harmful_statuses() {  }
 f32 TBoss7Crawfish::get_health() { return this->play_speed; }
 void TBoss7Crawfish::set_anim_timer(s16 v) { this->requested_action = v; }
 
-}
 

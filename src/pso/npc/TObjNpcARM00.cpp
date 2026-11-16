@@ -4,7 +4,7 @@
 #include "pso/npc/TObjNpcARW00.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TUnk_804A9F50.h"
+
 #include "pso/unk/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
@@ -13,11 +13,10 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TObjNpcARM00__name = "TObjNpcARM00";
 u32 TObjNpcARM00__model_resource;
 u32 TObjNpcARM00__texture_list;
-}
 
 struct RecoveredGlobal_80147E2C___vt__12TObjNpcARM00 {
     s32 value;
@@ -50,7 +49,7 @@ void TObjNpcARM00::load_resources() {
 
 }
 TObjNpcARM00::~TObjNpcARM00() {}
-extern "C" {
+
 
 typedef char RecoveredGlobal_80147E2C___vt__12TObjNpcARM00_size[sizeof(RecoveredGlobal_80147E2C___vt__12TObjNpcARM00) == 0x178 ? 1 : -1];
 u8 *TObjNpcARM00__ct(u8 *player, s32 arg1, s32 arg2) {
@@ -86,4 +85,3 @@ void * TObjNpcARW00__create(void *arg0) {
     return o2;
 }
 
-}

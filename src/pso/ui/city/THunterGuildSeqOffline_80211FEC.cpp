@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby.h"
+
 
 struct Seq_80212304 {
     u8 pad0[0x1C];

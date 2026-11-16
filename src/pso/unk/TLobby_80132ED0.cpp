@@ -7,9 +7,6 @@
 extern s32 text_language_group_table;
 extern "C" {
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
-}
-extern "C" {
-
 void TLobby::update_menu_cursor() {
     void *temp_r3;
 

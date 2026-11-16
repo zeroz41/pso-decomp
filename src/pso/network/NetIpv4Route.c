@@ -22,7 +22,6 @@ s16 NetIPv4AddRoute(u32, u32, u32, s16, u8, u16);
 #include <stddef.h>
 
 
-
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
 

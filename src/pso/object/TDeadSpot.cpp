@@ -19,7 +19,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
-#include "pso/system/task/TObject.h"
+
 
 class TDeadSpot : public TObject {
 public:

@@ -2,7 +2,7 @@
 #include "pso/npc/TObjNpcHosa.h"
 #include "pso/npc/TObjNpcKenkyuW.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TUnk_804A9F50.h"
+
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
@@ -60,7 +60,7 @@ void TObjNpcHosa::load_static_resource() {
 
 }
 TObjNpcHosa::~TObjNpcHosa() {}
-extern "C" {
+
 
 extern void *tl_04;
 
@@ -91,4 +91,3 @@ void * TObjNpcKenkyuW__create(void *arg0) {
     return o2;
 }
 
-}

@@ -37,7 +37,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
-#include "pso/system/task/TObject.h"
+
 
 extern char TObjDFRecover__class_name_string[];
 extern char TObjDFRecBall__class_name_string[];
@@ -120,8 +120,6 @@ extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
-
-
 
 
 class TObjDFJisin : public TObject {
@@ -493,7 +491,7 @@ void TObjDFJisin::run_task() {
 
 TObjDFJisin::~TObjDFJisin() {}
 
-extern "C" {
+
 u8 *TObjDFJisin__ct(u8 *object, u8 *arg1, s32 arg2) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__11TObjDFJisin;
@@ -582,7 +580,6 @@ void TObjDFRecBall::run_task() {
 }
 #pragma pop
 
-}
 TObjDFRecBall::~TObjDFRecBall() {
     if (m_44 != nullptr) TParticleCtrl::release(m_44);
 }
@@ -918,9 +915,8 @@ struct RecoveredFields_80051AD0_var_r31 {
 
 extern RecoveredGlobal_80051938___vt__16TObjDFTenchuFuru __vt__16TObjDFTenchuFuru;
 extern s32 TObjDFTenchuFuru__name;
-extern "C" {
+
 u8 *TObjDFTenchuFuru__ct(u8 *arg0, u8 *arg1, u8 *arg2);
-}
 void get_current_matrix(void *m);
 extern Mtx34 df_captured_matrix_pair[2];
 int TObjDFTenchuFuru__matrix_node_index;
@@ -1025,11 +1021,6 @@ void TObjDFTenchuFuru::transform_node_tree() {
         var_r31 = (u8 *)(((RecoveredFields_80051AD0_var_r31 *)var_r31)->field_30);
     } while (var_r31 != NULL);
 }
-}
-
-
-extern "C" {
-
 void TObjDFTenchuFuru::draw_node_tree() { TObjDFTenchuFuru__matrix_node_index = 0; push_matrix(); set_matrix_identity((u8 *)((void*)0)); transform_node_tree(); pop_matrix(); }
 void TObjPlayer::draw_player_model_by_client(u16 arg0, s32 arg1, f32 farg0, f32 farg1) {
     u8 *p;
@@ -1207,7 +1198,7 @@ typedef struct Obj_80052090 {
     f32 f94;
 } Obj_80052090;
 
-extern "C" {
+
 extern u8 *camera_ctrl_instance;
 
 void TObjDFUsoTower::render() {
@@ -1263,4 +1254,3 @@ void TObjDFUsoTower::run_task() {
     }
 }
 
-}

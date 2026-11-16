@@ -13,7 +13,7 @@
 #include <stddef.h>
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/item/TItem.h"
-#include "pso/map/FloorArea.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 
 struct Vec_8035862C { f32 x, y, z; };

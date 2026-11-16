@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowQuantity.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowDD.h"
+
 #include "pso/unk/WindowLayoutRecord.h"
 
 struct Quantity_8026D000 {

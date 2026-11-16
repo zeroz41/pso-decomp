@@ -3,7 +3,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/object/mine/TOLightMachine01.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -97,7 +97,7 @@ void TOLightMachine01::load_assets() {
 TOLightMachine01::~TOLightMachine01() {
 
 }
-extern "C" {
+
 #pragma push
 #pragma fp_contract on
 u8 *TOLightMachine01__ct(TOLightMachine01 *light_machine01, s32 arg1) {
@@ -120,4 +120,3 @@ u8 *TOLightMachine01__ct(TOLightMachine01 *light_machine01, s32 arg1) {
 }
 #pragma pop
 
-}

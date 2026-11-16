@@ -2,7 +2,7 @@
 #include "pso/npc/TObjNpcConnoisseur.h"
 #include "pso/npc/TObjNpcExpertBase.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TUnk_804A9F50.h"
+
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
@@ -82,7 +82,7 @@ void TObjNpcConnoisseur::load_section_motion() {
 
 }
 TObjNpcConnoisseur::~TObjNpcConnoisseur() {}
-extern "C" {
+
 
 extern void *tl_04;
 
@@ -113,4 +113,3 @@ void * TObjNpcExpertBase__create(void *arg0) {
     return o2;
 }
 
-}

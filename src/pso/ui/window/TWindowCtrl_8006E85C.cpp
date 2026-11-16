@@ -6,7 +6,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TObjPlayer.h"
 
-extern "C" {
 
 extern void *TWindowCtrl__active_window;
 
@@ -28,4 +27,3 @@ s32 TWindowCtrl::is_map_visible() {
     return TLobby__sub_8030A770() != 0 ? 1 : 0;
 }
 
-}

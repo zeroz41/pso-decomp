@@ -3,11 +3,8 @@
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/item/TUnk_804CC048.h"
 
-extern "C" {
-
 
 s16 TItemProShield::get_field_2b8() { return *(s16*)((char*)this + 0x2b8); }
 
-}
 
 TUnk_804CC048::~TUnk_804CC048() {}

@@ -5,7 +5,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/technique/TTecSlicer.h"
-#include "pso/player/TObjPlayer.h"
+
 
 typedef struct SlicerLaunchData_8012D9C8 {
     u16 player; u16 pad;
@@ -47,7 +47,7 @@ TUnk_804ECDC0::TUnk_804ECDC0(TObject *parent, u8 *item) : TItemWeapon(parent, it
     set_weapon_flags(2);
 }
 
-extern "C" u8 *TObjPlayer__sub_803265C0(u8 *arg0) {
+u8 *TObjPlayer__sub_803265C0(u8 *arg0) {
     if (arg0 != NULL) {
         return (u8 *)new TUnk_804ECDC0(tl_05, arg0);
     }

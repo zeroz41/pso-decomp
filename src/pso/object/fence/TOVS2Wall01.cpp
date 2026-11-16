@@ -10,7 +10,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/fence/TOVS2Wall01.h"
-#include "pso/render/RenderFadeState.h"
+
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -37,7 +37,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/object/TObjChip.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TLobby.h"
+
 #include "pso/unk/text_80087278.h"
 #include "pso/object/fence/TOVS2Wall01_8017BCC8.h"
 #include "pso/system/SoundEffect.h"
@@ -206,7 +206,7 @@ void TOVS2Wall01::spawn_debris(s32 index) {
 #pragma pop
 
 // ---- TOVS2Wall01_8017BCC8
-extern "C" {
+
 
 void init__11TOVS2Wall01Fi(s32 arg0) {
     s32 var_r31;
@@ -244,7 +244,6 @@ f32 take_hit__11TOVS2Wall01FPvUi(u8 *ovs2_wall01, void *attacker) {
     return 0.0f;
 }
 
-}
 
 // ---- TOVS2Wall01_8017BE08
 struct VBase_14_1eb8da { char pad[0x14]; };
@@ -276,39 +275,21 @@ int submit_cursor_candidate(void*, int);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 // ---- TOVS2Wreck06
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 extern s32 __vt__12TOVS2Wreck06[];
 // ---- TOVS2Wreck05
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 extern s32 __vt__12TOVS2Wreck05[];
 // ---- TOVS2Wreck04
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 extern s32 __vt__12TOVS2Wreck04[];
 // ---- TOVS2Wreck03
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 extern s32 __vt__12TOVS2Wreck03[];
 // ---- TOVS2Wreck02
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 extern s32 __vt__12TOVS2Wreck02[];
 // ---- TOVS2Wreck01
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 extern s32 __vt__12TOVS2Wreck01[];
 // ---- TOVS2Wall01_8017C7A4
 s32 load_resource_from_descriptor(int, int, void *, int, int, int);
 void free_bin_model_request(void*, int);
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
-}
-
 #pragma defer_codegen on
-
-extern "C" {
 void*TOVS2Wall01::init() { ((TOBarrierEnergy01 *)this)->TOBarrierEnergy01::init(); *(short *)&this->m_next = 0; *(short*)((char*)this + 0xe) = 0; *(unsigned char*)(this) = 134; *(unsigned char*)((char*)this + 0x1) = 4; return this; }
 void TOVS2Wall01::update_and_send() { byteswap_hit_packet(); send_subcommand((u8 *)this); }
 void TOVS2Wall01::byteswap_hit_packet() { ((TLobby *)this)->bswap_header(); bswap_16((u16 *)((char*)this + 0xc)); bswap_16((u16 *)((char*)this + 0xe)); }
@@ -342,7 +323,7 @@ TOVS2::~TOVS2() {
     unregister_object_by_id();
     free_collision_body_parts(this);
 }
-extern "C" {
+
 void TOVS2Wall01::load_resources() {
   s32 temp_r3;
   s32 var_r0;
@@ -379,11 +360,10 @@ void *TOVS2Wreck01__ct(void *arg0, void *arg1) {
     ((TOVS2Wreck01 *)arg0)->m_name = TOVS2Wreck01__class_name;
     return arg0;
 }
-}
 TOVS2Wreck01::~TOVS2Wreck01() {
 
 }
-extern "C" {
+
 void *TOVS2Wreck01__create(void *arg0) {
     void *o = __nw__7TObjectFUl(0xD0);
     if (o != NULL) {
@@ -397,11 +377,10 @@ void *TOVS2Wreck02__ct(void *arg0, void *arg1) {
     ((TOVS2Wreck02 *)arg0)->m_name = TOVS2Wreck02__class_name;
     return arg0;
 }
-}
 TOVS2Wreck02::~TOVS2Wreck02() {
 
 }
-extern "C" {
+
 void *TOVS2Wreck02__create(void *arg0) {
     void *o = __nw__7TObjectFUl(0xD0);
     if (o != NULL) {
@@ -415,11 +394,10 @@ void *TOVS2Wreck03__ct(void *arg0, void *arg1) {
     ((TOVS2Wreck03 *)arg0)->m_name = TOVS2Wreck03__class_name;
     return arg0;
 }
-}
 TOVS2Wreck03::~TOVS2Wreck03() {
 
 }
-extern "C" {
+
 void *TOVS2Wreck03__create(void *arg0) {
     void *o = __nw__7TObjectFUl(0xD0);
     if (o != NULL) {
@@ -433,11 +411,10 @@ void *TOVS2Wreck04__ct(void *arg0, void *arg1) {
     ((TOVS2Wreck04 *)arg0)->m_name = TOVS2Wreck04__class_name;
     return arg0;
 }
-}
 TOVS2Wreck04::~TOVS2Wreck04() {
 
 }
-extern "C" {
+
 void *TOVS2Wreck04__create(void *arg0) {
     void *o = __nw__7TObjectFUl(0xD0);
     if (o != NULL) {
@@ -451,11 +428,10 @@ void *TOVS2Wreck05__ct(void *arg0, void *arg1) {
     ((TOVS2Wreck05 *)arg0)->m_name = TOVS2Wreck05__class_name;
     return arg0;
 }
-}
 TOVS2Wreck05::~TOVS2Wreck05() {
 
 }
-extern "C" {
+
 void *TOVS2Wreck05__create(void *arg0) {
     void *o = __nw__7TObjectFUl(0xD0);
     if (o != NULL) {
@@ -469,11 +445,10 @@ void *TOVS2Wreck06__ct(void *arg0, void *arg1) {
     ((TOVS2Wreck06 *)arg0)->m_name = TOVS2Wreck06__class_name;
     return arg0;
 }
-}
 TOVS2Wreck06::~TOVS2Wreck06() {
 
 }
-extern "C" {
+
 void *TOVS2Wreck06__create(void *arg0) {
     void *o = __nw__7TObjectFUl(0xD0);
     if (o != NULL) {
@@ -507,12 +482,11 @@ void *TOVS2Wall01__ct(TOVS2Wall01 *arg0, void *arg1) {
     return arg0;
 }
 #pragma pop
-}
 TOVS2Wall01::~TOVS2Wall01() {
     unregister_object_by_id();
     free_collision_body_parts(this);
 }
-extern "C" {
+
 void *TOVS2Wall01::create() {
     void *o = __nw__7TObjectFUl(0x360);
     if (o != NULL) {
@@ -570,4 +544,3 @@ void TOVS2Wall01::run_task() {
 }
 int TOVS2Wall01::interact_player_neg1() { return submit_cursor_candidate(this, -1); }
 void TOVS2Wall01::release() { set_flag8(); queue_destruction(); }
-}

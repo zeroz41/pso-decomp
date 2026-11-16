@@ -17,13 +17,12 @@ struct TShopKeepItemWindow;
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TCheckRoomSequence__name = "TCheckRoomSequence";
 s32 lbl_805D6160;
 s32 TCheckRoomSequence__error_return_text_id;
 s32 TCheckRoomSequence__error_return_state;
 s32 TCheckRoomSequence__active_instance;
-}
 
 
 #pragma optimization_level 1
@@ -264,13 +263,6 @@ s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot);
 void* TAdSinglePlyChrSelectGC__sub_802115C0(void* p);
 void TCheckRoomSequence__vt10(void* p);
 int set_quest_list_mode_19__18TCheckRoomSequenceFPv(void* p);
-}
-u8 bank_has_free_row(s32 i);
-s32 get_bank_meseta_capacity(s32 i);
-s32 bank_credit_meseta(s32 v, s32 i);
-s32 bank_debit_meseta(s32 v, s32 i);
-void copy_bank_from_card_window(s32 slot);
-extern "C" {
 s32 get_game_play_mode();
 int restore_player_state__13TShopSequenceFv(void*);
 
@@ -333,10 +325,14 @@ void notify_quest_list_vm__18TCheckRoomSequenceFPv(u8 *arg0) {
         set_field_20__15TShopWindowBaseFl(arg0, (void *) (2));
     }
 }
-
 }
+u8 bank_has_free_row(s32 i);
+s32 get_bank_meseta_capacity(s32 i);
+s32 bank_credit_meseta(s32 v, s32 i);
+s32 bank_debit_meseta(s32 v, s32 i);
+void copy_bank_from_card_window(s32 slot);
 void TCheckRoomSequence::sub_8020F1DC() {  }
-extern "C" {
+
 
 #pragma push
 #pragma optimization_level 1
@@ -720,7 +716,6 @@ void handle_root_choice__18TCheckRoomSequenceFv(u8 *arg0) {
 }
 #pragma pop
 
-}
 void TCheckRoomSequence::sub_802100F8() {  }
 void TCheckRoomSequence::sub_802100FC() {  }
 extern "C" {

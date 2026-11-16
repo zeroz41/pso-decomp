@@ -7,8 +7,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/collision/ActorBodyContact.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct Elt_801542CC { char pad[0x18]; s32 f18; char pad2[0x2C - 0x1C]; };
 

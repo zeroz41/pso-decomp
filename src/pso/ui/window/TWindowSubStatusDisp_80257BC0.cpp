@@ -402,7 +402,7 @@ s32 TWindowSubStatusDisp__sub_80228F5C(s32);
 void text_builder_append(u8 *str);
 }
 void text_builder_reset(void);
-extern "C" {
+
 s32 replace_owned_string__20TWindowSubStatusDispFPviiii(void *, s32, s32, s32, s32);
 
 extern s32 lbl_805DCF00;
@@ -420,7 +420,6 @@ void update_stat_line_if_positive__20TWindowSubStatusDispFPvi(void *arg0, s32 ar
     if (arg1 > 0) {
         ((void (*)(void *))update_stat_line__20TWindowSubStatusDispFPvi)(arg0);
     }
-}
 }
 
 struct VBase18B_802582c4_80257784 { char pad[0x18]; };

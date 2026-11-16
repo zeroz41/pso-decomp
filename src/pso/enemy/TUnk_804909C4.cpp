@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/enemy/TUnk_804909C4.h"
-#include "pso/enemy/TUnk_804909C4.h"
+
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/darkgunner/TObjEneDarkGunCenter.h"
 #include "pso/player/TObjPlayer.h"

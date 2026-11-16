@@ -5,13 +5,11 @@
 
 TChCrCharSelect::~TChCrCharSelect() {}
 
-extern "C" {
 extern u8 lbl_80464E88[];
 extern s32 TChCrCharSelect__name;
 extern s32 TChCrCharSelect__selected_char_index;
 extern s32 TChCrCharSelect__selected_slot_index;
 extern s32 TChCrCharSelect__input_mode;
-}
 
 TChCrCharSelect::TChCrCharSelect(TObject *parent) : TObject(parent) {
     m_name = (const char *)TChCrCharSelect__name;

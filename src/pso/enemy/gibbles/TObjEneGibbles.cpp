@@ -29,7 +29,7 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/render/RenderFadeState.h"
+
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
@@ -2649,9 +2649,6 @@ void TObjEneGibbles::sub_802DBC94(s32 i) {
     ((O_802DBC94 *)this)->f34 = (*(G_802DBC94 * *)&TObjEneGibbles__resource_bundle)->e[i].c;
     ((O_802DBC94 *)this)->f24 = (*(G_802DBC94 * *)&TObjEneGibbles__resource_bundle)->e[i].d;
 }
-}
-
-extern "C" {
 s32 gibbles_boss_stat_handle;
 u32 gibbles_combat_stat_entries;
 s32 gibbles_combat_stats_handle;

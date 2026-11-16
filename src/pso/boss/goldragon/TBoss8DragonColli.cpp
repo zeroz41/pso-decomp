@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/goldragon/TBoss8DragonColli_C.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/system/task/TObject.h"
+
 class TBoss8DragonColli : public TObject {
 public:
     virtual void render();

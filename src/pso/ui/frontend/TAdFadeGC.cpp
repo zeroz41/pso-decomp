@@ -6,7 +6,7 @@
 #include "pso/object/collision/TObjTradeCollision.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/system/task/TObject.h"
+
 
 struct Desc_802C79C8 { f32 *pos; u32 *col; s32 a; s32 b; };
 

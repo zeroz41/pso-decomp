@@ -6,7 +6,7 @@ struct TCameraCtrl;
 
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowUserSort.h"
-#include "pso/ui/window/TWindowDD.h"
+
 #include "pso/ui/window/TWindowMainMenu1P.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"

@@ -21,7 +21,7 @@
 #include "pso/unk/text_800C3088.h"
 #include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct Stack_800C44C4 {
     s32 sp8;

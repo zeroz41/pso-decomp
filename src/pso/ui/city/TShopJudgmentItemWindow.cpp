@@ -13,7 +13,7 @@
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubShortCutList.h"
-#include "pso/ui/city/TShopJudgmentItemWindow.h"
+
 #include "pso/item/TItem.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowHelpItem.h"
@@ -24,10 +24,9 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/Language.h"
-#include "pso/player/TObjPlayer.h"
+
 #include "pso/system/task/TObject.h"
-#include "pso/ui/city/TShopWindowBase.h"
-#include "pso/ui/window/TWindowMenuIconLine.h"
+
 
 const char *TShopJudgmentItemWindow__class_name = "TShopJudgmentItemWindow";
 

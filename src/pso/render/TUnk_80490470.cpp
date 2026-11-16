@@ -34,13 +34,12 @@ s32 TUnk_80490470::decay_value_toward_floor() {
 }
 
 // ---- pso/player/TObjPlayer_800A0408
-#include "types.h"
+
 #include "pso/enemy/darkgunner/DarkGunner.h"
 #include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_800A0408.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/system/memory.h"
-#include "pso/render/TUnk_80490470.h"
 
 
 void TUnk_80490470::calc_recoil_offsets() {
@@ -126,7 +125,6 @@ TUnk_80490470::~TUnk_80490470() {}
 
 }
 
-#include "pso/player/TObjPlayer.h"
 
 struct Obj_800A0654 { u8 pad[0x37c]; s32 count; u8 pad2[4]; u16 ids[1]; };
 

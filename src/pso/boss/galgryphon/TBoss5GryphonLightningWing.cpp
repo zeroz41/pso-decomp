@@ -22,9 +22,8 @@ struct Stack_80351DA8 {
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TBoss5GryphonLightningWing__name = "TBoss5GryphonLightningWing";
-}
 
 
 #pragma opt_lifetimes off

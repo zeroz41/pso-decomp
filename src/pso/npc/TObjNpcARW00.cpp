@@ -42,7 +42,7 @@ void TObjNpcARW00::load_resources() {
 
 }
 TObjNpcARW00::~TObjNpcARW00() {}
-extern "C" {
+
 
 typedef char RecoveredGlobal_80148038___vt__12TObjNpcARW00_size[sizeof(RecoveredGlobal_80148038___vt__12TObjNpcARW00) == 0x178 ? 1 : -1];
 u8 *TObjNpcARW00__ct(u8 *arg0, s32 arg1, s32 arg2) {
@@ -62,4 +62,3 @@ void TObjNpcARW00::play_voice() {
     play_sound_effect(0x40004C15, (void *)(arg0 + 0x38), 0, 0);
 }
 
-}

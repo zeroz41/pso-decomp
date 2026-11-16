@@ -192,7 +192,6 @@ extern const f32 TParticleCtrl__data_805D94E4;
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-extern "C" {
 
 u8 *create_radial_particle(u8 *arg0, u8 *arg1, s32 arg2, u16 arg3, s16 arg4) {
     u8 *particle_memory;
@@ -203,7 +202,6 @@ u8 *create_radial_particle(u8 *arg0, u8 *arg1, s32 arg2, u16 arg3, s16 arg4) {
         var_r0 = (u8 *)(construct_radial_particle(particle_memory, arg0, arg1, arg2, arg3, arg4));
     }
     return var_r0;
-}
 }
 void * create_random_particle(void *arg0, void *arg1, void *arg2) {
     void *o;

@@ -175,7 +175,7 @@ void *create_instance__18TObjLaboDesignBaseFPv(void *arg0) {
 }
 }
 void* get_labo_design_entry(int a0);
-extern "C" u32 labo_design_object_table[];
+u32 labo_design_object_table[];
 
 int get_labo_design_object(int a0);
 extern s32 __vt__18TObjLaboDesignBase[];
@@ -344,7 +344,7 @@ u8 *TObjLaboDesignBase__ct(u8 *player, s32 arg1, s32 arg2, s32 arg3) {
 
 void* get_labo_design_entry(int a0) {  return (char*)labo_design_entry_table + a0 * 44; }
 
-extern "C" u32 labo_design_object_table[];
+u32 labo_design_object_table[];
 
 int get_labo_design_object(int a0) {  return labo_design_object_table[a0]; }
 
@@ -378,6 +378,5 @@ void load_labo_design_object_table(void) {
     }
 }
 
-extern "C" {
+
 u32 labo_design_object_table[6];
-}

@@ -18,9 +18,7 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowMenu.h"
-#include "pso/ui/window/TWindowSubComCard.h"
+
 
 #pragma readonly_strings on
 

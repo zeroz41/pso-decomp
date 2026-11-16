@@ -3,7 +3,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowBreakIn.h"
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/ui/window/TWindowDD.h"
+
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/WindowLayoutRecord.h"
 

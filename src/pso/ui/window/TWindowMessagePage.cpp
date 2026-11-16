@@ -3,14 +3,12 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowMessage.h"
-#include "pso/ui/window/TWindowMessage.h"
+
 
 #pragma readonly_strings on
 
-extern "C" {
-const char *TWindowMessagePage__name = "TWindowMessagePage";
-}
 
+const char *TWindowMessagePage__name = "TWindowMessagePage";
 
 
 struct RecoveredGlobal_8026B014___vt__18TWindowMessagePage { s32 value; u8 remaining[0x14]; };

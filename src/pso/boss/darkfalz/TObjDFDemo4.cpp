@@ -25,10 +25,8 @@
 // Built with deferred code generation (-inline deferred): functions come out in reverse
 // order (sub_8004F1FC first in .text).
 
-extern "C" {
 // Dark Falz's afterimage (zanzo) models.
 extern s32 boss4_zanzo_bml_index_table[2];
-}
 
 const char *TObjDFDemo4__name = "TObjDFDemo4";
 // The motions of the afterimage and body models.

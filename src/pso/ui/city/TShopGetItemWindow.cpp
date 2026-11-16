@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/city/TShopSequence.h"
 #include "pso/ui/window/TWindowMenu.h"
-#include "pso/ui/city/TShopGetItemWindow.h"
+
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/unk/TLobby.h"
@@ -21,8 +21,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/system/task/TObject.h"
-#include "pso/item/TItemData.h"
-#include "pso/ui/city/TShopWindowBase.h"
+
 
 struct VBase_18_a93f07
 {

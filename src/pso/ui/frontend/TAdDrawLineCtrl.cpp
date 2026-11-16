@@ -12,7 +12,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/system/task/TObject.h"
+
 
 extern "C" {
 void *__ct__15TAdDrawLineCtrlFP7TObjectPvf(void *arg0, void *arg1, void *arg2, f32 farg0);

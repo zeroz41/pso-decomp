@@ -16,7 +16,7 @@ void TProtocol::handle_cmd_AB(packet &pkt) {
 }
 
 // ---- pso/unk/text_801D9FA0
-#include "types.h"
+
 struct VBase_18_801D9FA0 { char pad[0x18]; };
 
 struct VObj_18_801D9FA0 : VBase_18_801D9FA0 {
@@ -65,7 +65,7 @@ void send_statistic_aa(VObj_18_801D9FA0 *obj, s16 a, s16 c, s16 d, u32 *src) {
 }
 
 // ---- pso/network/TProtocol_801DA054
-#include "types.h"
+
 #include "pso/network/TProtocol_801DA054.h"
 #include "pso/network/protocol/protocol.h"
 

@@ -17,7 +17,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/system/task/TObject.h"
+
 #include "pso/system/BmlResourceDescriptor.h"
 
 #pragma readonly_strings on
@@ -478,9 +478,6 @@ void TBoss4DarkFalz::free_global_instance() {
     }
 }
 
-}
-
-extern "C" {
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
 extern u32 lbl_805D68F4;
 

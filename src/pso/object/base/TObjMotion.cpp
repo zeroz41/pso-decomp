@@ -526,7 +526,7 @@ TObjMotion::TObjMotion(TObject *parent) : TObjCollidable(parent) {
 // The two part destructors are still written out by hand: their vtables
 // come out ahead of TObjMotion's in the original, which the compiler only
 // gives these classes when their destructors are inline.
-extern "C" {
+
 void *__dt__13TUnk_804A7478Fv(TUnk_804A7478 *self, s16 del) {
     if (self != NULL) {
         *(void **)((u8 *)self + 4) = __vt__13TUnk_804A7478;
@@ -546,7 +546,6 @@ void *__dt__13TUnk_804A7488Fv(TUnk_804A7488 *self, s16 del) {
         }
     }
     return self;
-}
 }
 
 f32 TUnk_804A7478::get_frame() {

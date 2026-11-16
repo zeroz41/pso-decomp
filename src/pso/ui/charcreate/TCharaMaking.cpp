@@ -70,7 +70,7 @@ struct TextureOutput {int loaded; u8 names[8][32]; struct OutputSlot slots[8]; s
 
 struct P_8028DCCC { f32 a; f32 b; };
 
-extern "C" {
+
 u8 lbl_80518880[0x228];
 u8 lbl_80518AA8[0x384];
 u8 lbl_80518E2C[0x354];
@@ -91,7 +91,6 @@ u8 lbl_8051B8C8[0x134];
 u8 lbl_8051B9FC[0x134];
 u8 lbl_8051BB30[0x134];
 u8 chara_making_load_buffer[0x40C];
-}
 
 void *player_class_texture_buffer_table[19] = {
     lbl_80518880, lbl_80518AA8, lbl_80518E2C, lbl_80519180, lbl_80519438,
@@ -111,10 +110,6 @@ P_8028DCCC character_proportion_height_table[12] = {
 extern "C" {
 void TCharaMaking__bind_appearance_texture_lists(TextureOutput *arg0, TextureOutput *arg1, TextureOutput *arg2, CharacterAppearanceFields *arg3);
 s32 TCharaMaking__sub_8028E3A0(f32 *arg0);
-}
-s32 validate_player_visual_record(void *arg0);
-
-extern "C" {
 CharacterAppearanceFields *get_class_appearance_preset(s32 arg0);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -146,6 +141,7 @@ s32 calc_section_id_from_name(s8 *arg0) {
     return sum;
 }
 }
+s32 validate_player_visual_record(void *arg0);
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
@@ -500,9 +496,6 @@ void request_chara_making_archives(void) {
     }
 }
 
-}
-
-extern "C" {
 void *__nw__7TObjectFUl(int);
 void *TCMCharacter__ct(void *arg0, void *arg1);
 extern Vec TObjLight__scene_light_state;

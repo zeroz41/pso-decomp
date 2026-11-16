@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
-#include "pso/object/base/TObjChara.h"
+
 #include "pso/object/base/TObjMotion.h"
 
 void TItemTimer::run_task() {
@@ -30,7 +30,7 @@ void TItemTimer::run_task() {
 TItemTimer::~TItemTimer() {}
 
 #include "types.h"
-#include "pso/system/task/TObject.h"
+
 #include "pso/boss/volopt/TBoss3Volopt.h"
 
 struct Base_8011D94C_8011D414 { char pad[0x18]; };

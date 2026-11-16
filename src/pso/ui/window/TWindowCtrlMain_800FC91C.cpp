@@ -9,7 +9,7 @@
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/font/TFontSmallHelp.h"
+
 #include "pso/ui/window/TWindowShortListCtrl.h"
 
 struct VBase_18_7b3651 { char pad[0x18]; };

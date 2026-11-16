@@ -18,12 +18,8 @@
 #include "pso/unk/text_803D96A8.h"
 extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "types.h"
-#include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/enemy/sorcerer/TObjEneRe4Sorcerer.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/object/base/TObjMotion.h"
+
+
 #include "pso/map/FloorArea.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -91,8 +87,8 @@ void TObjEneRe4Sorcerer::vfunc_105() {
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/item/armor/TItemProShield.h"
-#include "pso/render/RenderFadeState.h"
-#include "pso/unk/TLobby.h"
+
+
 #include "pso/technique/TTecGiZonde.h"
 #include "pso/technique/TTecGrants.h"
 #include "pso/technique/TTecMegid.h"
@@ -1722,9 +1718,6 @@ void TObjEneRe4Sorcerer::load_resources() {
 }
 
 void TBoss3Volopt__sub_800F059C(void) {  }
-}
-
-extern "C" {
 s32 lbl_805D52D0;
 s32 TObjEneRe4Sorcerer__attack_params;
 s32 TObjEneRe4Sorcerer__resistance_params;

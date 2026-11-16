@@ -26,7 +26,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/network/client_id.h"
 #include <stdlib.h>
-#include "pso/system/task/TObject.h"
+
 
 struct VBase_18_26a62c;
 struct SVec_8029D5C8;
@@ -40,10 +40,6 @@ s32 init_fish_school__8TObjFishFPvll(u8 *arg0, Vec_8029E170 *arg1, s32 arg2, s32
 s32 TObjFish__area_bml_resource;
 extern void* __vt__8TObjFish[];
 extern void* fish_resource_name_table[];
-}
-
-
-extern "C" {
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object();
 s32 draw_ginja_model_with_motion(s32, s32, f32);
@@ -413,8 +409,6 @@ struct Ent_8029E170 {
     u8 pad3c[8];
 };
 
-extern "C" {
-
 
 #pragma push
 #pragma fp_contract on
@@ -467,7 +461,6 @@ s32 TObjFish::init_fish_school(void *arg1_arg, s32 arg2, s32 arg3) {
 }
 #pragma pop
 
-}
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 

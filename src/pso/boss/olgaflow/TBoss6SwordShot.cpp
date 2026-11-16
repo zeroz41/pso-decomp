@@ -13,9 +13,8 @@
 #include <stddef.h>
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby.h"
+
+
 extern "C" {
 void *__dt__15TBoss6SwordShotFv(void *arg0, s16 arg1);
 void run_task__15TBoss6SwordShotFv(u8 *arg0);

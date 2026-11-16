@@ -18,7 +18,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/map/FloorArea.h"
+
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D853C.h"
@@ -77,9 +77,6 @@ s32 scroll_ginja_mesh_uvs(void *, s32, s32, u16, s32);
 s32 PPCSync();
 s32 rotate_matrix_by_node_angles(void *, u32);
 extern u32 actor_frame_tick;
-}
-void load_computer_resources(void);
-extern "C" {
 void *__nw__7TObjectFUl(int);
 extern void *tl_05;
 void free_bin_model_request(void*, int);
@@ -93,7 +90,7 @@ extern s32 __vt__13TObjGbAdvance[];
 s32 TObjFish__sub_8001EDB0(void *, s32);
 u8 *TObjGbAdvance__ct(u8 *arg0, s32 arg1, s32 arg2);
 }
-
+void load_computer_resources(void);
 const char *fe_obj_tanmatu02_model_names[3] = {"fe_obj_tanmatu02.gj", "fs_obj_tanmatu01.gj", NULL};
 const char *fe_obj_tanmatu02_motion_names[1] = {NULL};
 BmlResourceDescriptor fe_obj_tanmatu02_resource_descriptor = {

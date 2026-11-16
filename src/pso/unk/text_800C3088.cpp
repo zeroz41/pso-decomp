@@ -16,7 +16,7 @@
 
 #include <stddef.h>
 #include "pso/system/task/TObject.h"
-#include "pso/enemy/flower/TObjEneRe2Flower.h"
+
 struct Stack_800C32DC {
     f32 sp8;
     f32 spC;

@@ -11,7 +11,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowTimer.h"
 #include "pso/object/switch/TOChatSensorCapture.h"
-#include "pso/object/base/TObjChara.h"
+
 #include "pso/player/TObjPlayer.h"
 struct Stack_8024A228 {
     s32 sp8;

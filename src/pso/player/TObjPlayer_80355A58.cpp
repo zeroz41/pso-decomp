@@ -6,7 +6,7 @@
 #include "pso/item/mag/TItemMag.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
-#include "pso/item/TItem.h"
+
 
 struct RecoveredGlobal_80355BA0_lbl_804F1320 {
     s32 value;
@@ -50,7 +50,7 @@ typedef char RecoveredGlobal_80355BA0_lbl_804F1320_size[sizeof(RecoveredGlobal_8
 
 }
 TUnk_804F1320::~TUnk_804F1320() {}
-extern "C" {
+
 u8 *photon_field_weapon_ct(TObjPlayer *player, u8 *arg1) {
     __ct__11TItemWeaponFP7TObjectPUc(player, arg1);
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80355BA0_lbl_804F1320 *)&__vt__13TUnk_804F1320).value;
@@ -64,4 +64,3 @@ u8 *photon_field_weapon_ct(TObjPlayer *player, u8 *arg1) {
     return (u8 *)player;
 }
 
-}

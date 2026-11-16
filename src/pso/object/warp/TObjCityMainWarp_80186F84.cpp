@@ -17,7 +17,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/object/warp/TObjCityMainWarp.h"
 
 
 extern "C" {

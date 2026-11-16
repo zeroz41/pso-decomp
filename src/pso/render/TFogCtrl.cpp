@@ -17,8 +17,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/collision/TObjFogCollisionPoison.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/camera/TCameraCtrl.h"
-#include "pso/system/task/TObject.h"
+
 
 struct RecoveredGlobal_800FA95C_lbl_8049C700 {
     s32 value;
@@ -289,7 +288,6 @@ extern "C" {
 s32 is_split_screen();
 void read_disc_file(const char *, void *);
 s32 TFogCtrl__sub_800FAC84(void* p);
-s32 request_fog__8TFogCtrlFPvii(u8 *arg0, s32 arg1, s32 arg2);
 void TFogCtrl__sub_800FB400(O_800FB400 *self, s32 i, s32 j);
 u8 * __dt__8TFogCtrlFv(u8 *arg0, s16 arg1);
 TFogCtrl_800FB92C * __ct__8TFogCtrlFP7TObjectl(TFogCtrl_800FB92C *self, void *parent, s32 index);
@@ -300,7 +298,6 @@ void create_area_fog_ctrl(void);
 void mem_free(void *p);
 void *mem_alloc(u32 size);
 void __dl__7TObjectFPv(s32);
-void *__nw__7TObjectFUl(int);
 u8 * __dt__7TObjectFv(void *, s16);
 void GXInitFogAdjTable(GXFogAdjTable_800FAE1C *, s32, void *);
 void GXSetFogRangeAdj(s32, s32, GXFogAdjTable_800FAE1C *);
@@ -943,7 +940,7 @@ void init_scene_fog_system(void) {
     TObjFogCollisionPoison::clear_state_array();
 }
 
-extern "C" {
+
 s32 area_fog_row_table[36] = {
     33, 1, 2, 3, 4, 5, 14, 15, 30, 31, 32, 23, 16, 34, 35, 34, 19, 47,
     96, 97, 98, 64, 65, 24, 25, 26, 27, 28, 40, 41, 66, 99, 100, 16, 73, 75,
@@ -953,4 +950,3 @@ FogParam_800FBC5C fog_default_entry;
 u32 fog_entry_array;
 s32 fog_update_flags;
 u32 fog_ctrl_instance;
-}

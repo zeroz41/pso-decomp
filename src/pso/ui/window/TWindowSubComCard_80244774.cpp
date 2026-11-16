@@ -16,8 +16,6 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowBase.h"
 
 
 struct UV_8024503C { f32 u, v; };
@@ -554,10 +552,7 @@ void TWindowSubComCard__sub_80245320(Quad_802455CC *q, Rect_802455CC *r) {
     v[5].color = 0xFFFFFF;
     draw_projected_textured_strip(v, 6);
 }
-}
 #pragma pop
-
-extern "C" {
 void TWindowSubComCard__sub_802454E4(s32 texture) {
     switch (window_ui_theme_index) {
     case 0:

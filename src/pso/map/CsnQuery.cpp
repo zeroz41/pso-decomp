@@ -415,7 +415,6 @@ s32 evaluate_ground_triangles(Vec *origin_arg, u32 mask_arg, CsnGroup **list_arg
 #undef GT_EPS_EDGE
 extern s32 csn_query_map_object[];
 void *query_prepared_wall_polygons(void *self);
-void vsub(void *, void *, void *);
 s32 query_wall_segment(void *arg0, void *arg1, void *arg2, s32 arg3);
 CsnGroup *select_ground_query_groups(CsnVector *arg0, u32 arg1);
 s32 prepare_wall_query_polygons(void *arg0, f32 r, s32 mask);
@@ -986,7 +985,6 @@ void __sinit_CsnQuery_cpp(void) {
 __declspec(section ".ctors") static void *const __sinit_CsnQuery_cpp_ref = (void *)__sinit_CsnQuery_cpp;
 
 
-extern "C" {
 void*TObjMapCsn::get_data_ptr() { return (char*)this + 0x1c; }
 
 extern s32 map_csn_ctrl_instance;
@@ -1000,7 +998,6 @@ s32 TObjMapCsn::init_and_return(s32 arg0) {
     return arg0;
 }
 
-}
 
 void fn_8007A7A0(u8 *arg0) {
     *(s32 *)((s8 *)arg0 + 0) = 0;
@@ -1008,13 +1005,9 @@ void fn_8007A7A0(u8 *arg0) {
 }
 
 
-extern "C" {
-
 s32 TObjPlayer__sub_8007A7B8(s32 arg0) {
     ((TObjPlayer *)arg0)->clear_velocity_vectors();
     return arg0;
-}
-
 }
 
 

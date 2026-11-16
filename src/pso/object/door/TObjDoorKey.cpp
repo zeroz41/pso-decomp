@@ -295,7 +295,7 @@ TObjDoorKey::TObjDoorKey(TObject *arg1, void *arg2) : TOKey(arg1) {
     this->m_f8 = (s32)spawn_continuous_particle_effect_with_flags(&pos, 0x60, 0x40);
     this->cursor_action.set_use();
 }
-extern "C" {
+
 
 void *TObjDoorKey__create(void *arg0) {
     void *o = (void *)new TObjDoorKey((TObject *)tl_05, (void *)arg0);
@@ -339,4 +339,3 @@ void * TObjEnvSoundGlobal__create(void *rader_map_core) {
     return o;
 }
 
-}

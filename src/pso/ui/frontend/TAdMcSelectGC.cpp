@@ -138,8 +138,6 @@ Self_80329EC8 *TAdMcSelectGC__ct(Self_80329EC8 *self, void *parent) {
 }
 
 
-extern "C" {
-
 void *TAdMcSelectGC::create(void *arg0) {
     void *o;
     o = __nw__7TObjectFUl(0x34);
@@ -175,4 +173,3 @@ void TAdMcSelectGC::set_field20(f32 v) { *(f32 *)&this->_pad20 = v; }
 void TAdMcSelectGC::set_field_20(s32 v) { *(s32 *)&this->_pad20 = v; }
 void TAdMcSelectGC::set_float_1c(f32 v) { *(f32 *)&this->m_1c = v; }
 
-}

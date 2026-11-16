@@ -31,10 +31,8 @@
 #include "pso/item/TItem.h"
 #include "pso/unk/text_801036CC.h"
 #include "pso/system/task/TObject.h"
-#include "pso/item/TItemData.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/player/TObjPlayer.h"
 
+#include "pso/object/base/TObjChara.h"
 
 
 struct Ent_80103F68 { u8 pad[0x24]; };
@@ -111,13 +109,9 @@ void TLobby__sub_801041D8(void);
 void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header);
 extern s32 local_client_id;
 extern s32 TLobby__designated_client_id;
-}
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-
-extern "C" {
 s32 test_elt_flag__13TUnk_80493450Fll(void *p, s32 a, s32 mask);
 extern void *tl_05;
 void TLobby__sub_801036CC(void);
@@ -421,7 +415,7 @@ s32 insert_item_condition(FloorItem *item) {
     }
     return 0;
 }
-extern "C" {
+
 void TLobby::clear_object_count() { floor_item_free_id_count = 0; }
 
 void TLobby::reset_floor_items() {
@@ -504,5 +498,4 @@ void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header) {
     for (s32 i = 0; i < 15; ++i) {
         bswap_32((&header->floor_item_count_per_floor[i]));
     }
-}
 }

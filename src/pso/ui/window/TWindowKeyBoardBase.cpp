@@ -12,8 +12,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/ui/window/TWindowKeyBoardSoft.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
+
 
 #pragma push
 #pragma readonly_strings on
@@ -1010,11 +1009,6 @@ void TWindowKeyBoardBase::sub_8025E6DC(u8 *arg1) {
 }
 #pragma pop
 
-}
-
-
-
-extern "C" {
 void *mem_alloc(u32 size);
 u8 * get_window_layout_position(s32);
 }

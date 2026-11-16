@@ -285,12 +285,10 @@ Vec lbl_80500960;
 
 }
 
-extern "C" {
 extern const s32 lbl_8043A180[3];
 extern const s32 lbl_8043A18C[3];
 extern const s32 lbl_8043A198[3];
 extern const s32 lbl_8043A1A4[3];
-}
 
 // Motion setup passed to TLobby::spawn_npc_enemy: (motions, animation table, 0, 0x70000).
 struct CanadinSpawnParams {
@@ -570,7 +568,7 @@ u8 *TObjEneMe1Canadin::vfunc_101(u8 *arg) {
     return result;
 }
 
-extern "C" {
+
 void TObjEneMe1Canadin__sub_8009EB98(TObjEneMe1Canadin *self, f32 farg0) {
     f32 temp_f3;
     temp_f3 = farg0 - self->m_3F8;
@@ -584,20 +582,18 @@ void TObjEneMe1Canadin__sub_8009EB98(TObjEneMe1Canadin *self, f32 farg0) {
         self->m_3C8 |= 0x80000;
     }
 }
-}
 
 void TObjEneMe1Canadin::update_position_with_offset() {
     TObjEneMe1Canadin__sub_8009EB98(this, position.y + m_3E8);
 }
 
-extern "C" {
+
 void TObjEneMe1Canadin__sub_8009EB14(TObjEneMe1Canadin *self, f32 height) {
     Vec pos;
     TObjEneMe1Canadin__sub_8009EB98(self, height);
     VecCopy(&pos, &self->position);
     pos.y = self->m_3F8;
     self->vfunc_101((u8 *)&pos);
-}
 }
 
 void TObjEneMe1Canadin::set_target_speed_z() {
@@ -635,19 +631,13 @@ void TObjEneMe1Canadin::vfunc_105() {
 
 void TObjEneMe1Canadin::vfunc_89() { TObjEneDD::vfunc_89(); }
 
-extern "C" {
+
 void TObjEneMe1Canadin__sub_8009E948(TObjEneMe1Canadin *self) {
     self->bodies->flags |= 0x28;
 }
-}
-
-extern "C" {
 void TObjEneMe1Canadin__sub_8009E930(TObjEneMe1Canadin *self) {
     self->bodies->flags &= ~0x28;
 }
-}
-
-extern "C" {
 s32 TObjEneMe1Canadin__sub_8009E860(TObjEneMe1Canadin *self, f32 *out, f32 _w2) {
     Entry_8009E860 list[5];
     s32 found;
@@ -670,7 +660,6 @@ s32 TObjEneMe1Canadin__sub_8009E860(TObjEneMe1Canadin *self, f32 *out, f32 _w2) 
         }
     }
     return found;
-}
 }
 
 s32 TObjEneMe1Canadin::check_target() {
@@ -703,10 +692,9 @@ void TObjEneMe1Canadin::advance_state_5_to_4(void *arg0) {
     }
 }
 
-extern "C" {
+
 s32 TObjEneMe1Canadin__sub_8009E76C(TObjEneMe1Canadin *self) {
     return self->m_3F4 < 20.0f;
-}
 }
 
 void TObjEneMe1Canadin::vfunc_107() {  }
@@ -785,14 +773,13 @@ void TObjEneMe1CanadinLeader::update_fade_sequence(void *pv) {
     }
 }
 
-extern "C" {
+
 void TObjEneMe1CanadinLeader__sub_8009E4AC(TObjEneMe1Canadin *self, s32 sequence) {
     self->reset_map_core((void *)&canadin_formation_fade_start_color);
     self->m_4B8 = 3;
     self->m_4BC = sequence;
     self->m_4C0 = 2;
     self->m_4C4 = 0;
-}
 }
 
 void TObjEneMe1Canadin::reset_map_core(void *color) {
@@ -814,57 +801,40 @@ void TObjEneMe1Canadin::vfunc_113() {
 
 int TObjEneMe1Canadin::vfunc_109() { return 1; }
 
-extern "C" {
+
 void fn_8009E378(TObjEneMe1Canadin *self) {
     if (self->mode == 2) {
         self->m_3C0 = (TObjEneMe1Canadin *)find_entity_by_id(self->m_4C8);
         fn_8009E2DC(self->m_3C0);
     }
 }
-}
-
-extern "C" {
 int TObjEneMe1CanadinLeader__sub_8009E36C(TObjEneMe1Canadin *self) { return (self->m_3C8 >> 15) & 0x1; }
-}
-
-extern "C" {
 void TObjEneMe1CanadinLeader__sub_8009E350(TObjEneMe1Canadin *self) {
     self->m_3C8 |= 0x100;
     self->m_3C8 &= ~0x200;
 }
-}
-
-extern "C" {
 void TObjEneMe1CanadinLeader__sub_8009E334(TObjEneMe1Canadin *self) {
     self->m_3C8 |= 0x200;
     self->m_3C8 &= ~0x100;
 }
-}
-
-extern "C" {
 s32 TObjEneMe1CanadinLeader__sub_8009E31C(TObjEneMe1Canadin *self, s32 mask) {
     return (self->m_3C8 & mask) != 0;
 }
-}
-
-extern "C" {
 s32 fn_8009E300(TObjEneMe1Canadin *self) {
     if (self->m_3C8 & 0x40000) {
         return (s32)self->m_390;
     }
     return 0;
 }
-}
 
 void TObjEneMe1Canadin::vfunc_117(u32) {  }
 
 int TObjEneMe1Canadin::vfunc_116() { return 1; }
 
-extern "C" {
+
 void fn_8009E2DC(TObjEneMe1Canadin *self) {
     self->m_400 = 0;
     self->m_3C8 |= 1;
-}
 }
 
 void TObjEneMe1CanadinLeader::set_leader_index(s32 arg1, s32 arg2) {
@@ -875,28 +845,25 @@ void TObjEneMe1CanadinLeader::set_leader_index(s32 arg1, s32 arg2) {
 
 void TObjEneMe1CanadinLeader::set_attack_flag() { m_3C8 |= 0x2; }
 
-extern "C" {
+
 void TObjEneMe1CanadinLeader__sub_8009E27C(TObjEneMe1Canadin *self) { self->m_3C8 |= 0x4; }
-}
 
 void TObjEneMe1CanadinLeader::set_flag3c8_bit8() { m_3C8 |= 0x8; }
 
-extern "C" {
+
 void TObjEneMe1CanadinLeader__sub_8009E258(TObjEneMe1Canadin *self) {
     self->m_3C8 |= 0x100000 | 4;
-}
 }
 
 void TObjEneMe1CanadinLeader::set_flag3c8_bit20() { m_3C8 |= 0x20; }
 
 void TObjEneMe1CanadinLeader::set_flag3c8_bit40() { m_3C8 |= 0x40; }
 
-extern "C" {
+
 void fn_8009E1D4(TObjEneMe1Canadin *canadin, Vec *pos) {
     CanadinBehaviorParams params = canadin_behavior_params;
     params.m_4 = canadin->m_468->m_4;
     TObjEneDD::setup(canadin, (s32)pos, (s32)&params);
-}
 }
 
 void TObjEneMe1Canadin::dispatch_action(u32 which, s32 arg) {
@@ -985,7 +952,7 @@ void TObjEneMe1Canadin::handle_state(s32 arg1) {
     }
 }
 
-extern "C" {
+
 void TObjEneMe1Canadin__sub_8009DE90(TObjEneMe1Canadin *self, s32 arg1) {
     switch (arg1) {
     case 4:
@@ -1015,7 +982,6 @@ void TObjEneMe1Canadin__sub_8009DE90(TObjEneMe1Canadin *self, s32 arg1) {
         self->vfunc_88();
         break;
     }
-}
 }
 
 void TObjEneMe1Canadin::action(s32 arg1) {
@@ -1227,7 +1193,7 @@ void TObjEneMe1Canadin::move(s32 arg1) {
     }
 }
 
-extern "C" {
+
 #pragma push
 #pragma fp_contract on
 void TObjEneMe1Canadin__sub_8009D320(TObjEneMe1Canadin *self, s32 arg1) {
@@ -1366,9 +1332,6 @@ void TObjEneMe1Canadin__sub_8009D320(TObjEneMe1Canadin *self, s32 arg1) {
     }
 }
 #pragma pop
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 #pragma optimization_level 3
@@ -1545,9 +1508,6 @@ void TObjEneMe1Canadin__sub_8009CC74(TObjEneMe1Canadin *self, s32 arg1) {
     }
 }
 #pragma pop
-}
-
-extern "C" {
 #pragma push
 #pragma fp_contract on
 void TObjEneMe1Canadin__sub_8009C91C(TObjEneMe1Canadin *self, s32 arg1) {
@@ -1642,7 +1602,6 @@ void TObjEneMe1Canadin__sub_8009C91C(TObjEneMe1Canadin *self, s32 arg1) {
     }
 }
 #pragma pop
-}
 
 void TObjEneMe1Canadin::run_task(s32 arg1) {
     switch (arg1) {
@@ -1677,7 +1636,7 @@ void TObjEneMe1Canadin::run_task(s32 arg1) {
     }
 }
 
-extern "C" {
+
 void TObjEneMe1Canadin__sub_8009C510(TObjEneMe1Canadin *self, s32 arg1) {
     f32 t;
     Vec v;
@@ -1756,9 +1715,6 @@ void TObjEneMe1Canadin__sub_8009C510(TObjEneMe1Canadin *self, s32 arg1) {
         break;
     }
 }
-}
-
-extern "C" {
 void TObjEneMe1Canadin__sub_8009C2EC(TObjEneMe1Canadin *self, s32 arg1) {
     switch (arg1) {
     case 4:
@@ -1811,9 +1767,6 @@ void TObjEneMe1Canadin__sub_8009C2EC(TObjEneMe1Canadin *self, s32 arg1) {
         break;
     }
 }
-}
-
-extern "C" {
 void TObjEneMe1Canadin__sub_8009C178(TObjEneMe1Canadin *self, s32 arg1) {
     switch (arg1) {
     case 4:
@@ -1843,9 +1796,6 @@ void TObjEneMe1Canadin__sub_8009C178(TObjEneMe1Canadin *self, s32 arg1) {
         return;
     }
 }
-}
-
-extern "C" {
 void TObjEneMe1Canadin__sub_8009BFF8(TObjEneMe1Canadin *self, s32 arg1) {
 
     switch (arg1) {
@@ -1889,7 +1839,6 @@ void TObjEneMe1Canadin__sub_8009BFF8(TObjEneMe1Canadin *self, s32 arg1) {
         self->noop();
         break;
     }
-}
 }
 
 void TObjEneMe1Canadin::vfunc_112(s32 arg1) {
@@ -1962,7 +1911,7 @@ void TObjEneMe1Canadin::update_by_state(s32 arg1) {
     }
 }
 
-extern "C" {
+
 void fn_8009BD00(void) {
     Vec *temp_r4;
     Vec *pos;
@@ -1991,7 +1940,6 @@ void fn_8009BD00(void) {
         break;
     }
     lbl_805D4FD4 += 1;
-}
 }
 
 void TObjEneMe1Canadin::render() {

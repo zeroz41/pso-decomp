@@ -9,8 +9,8 @@
 #include "pso/camera/CameraArrivalReset.h"
 #include "pso/camera/FollowCameraController.h"
 #include "pso/map/FloorArea.h"
-#include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TUnk_80488E00.h"
+
+
 extern "C" __declspec(section ".rodata") FollowVector lbl_80438528 = { 0.0f, 0.0f, 45.42f };
 __declspec(section ".rodata") FollowVector lbl_80438534 = { 0.0f, 0.0f, 45.42f };
 
@@ -314,7 +314,6 @@ void *__dt__13TUnk_80488A28Fv(void *arg0, s16 arg1);
 void *TKeyBoardControl__sub_803DEB74(s32);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
-
 
 
 void TCameraCtrl::reset_to_local_player() {
@@ -1082,6 +1081,5 @@ void TCameraCtrl__sub_8006E804(void* a0) { *(int*)((char*)a0 + 0x18) = 0; *(floa
 Vec TCameraCtrl__override_position = { 0.0f, 0.0f, 0.0f };
 Vec camera_fixed_target_position = { 0.0f, 0.0f, 0.0f };
 
-extern "C" {
+
 u16 TCameraCtrl__camera_override_client_id = 0xFFFF;
-}

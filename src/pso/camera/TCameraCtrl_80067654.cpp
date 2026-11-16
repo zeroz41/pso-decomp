@@ -4,7 +4,7 @@
 #include "pso/camera/TCameraCtrl_80067654.h"
 #include "pso/camera/TCameraCtrl_80067FC0.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_804887C8.h"
+
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 
@@ -77,7 +77,7 @@ void TUnk_804887C8::run_task() {
 TUnk_804887C8::~TUnk_804887C8() {
 
 }
-extern "C" {
+
 typedef char RecoveredGlobal_800677D4_lbl_804887C8_size[sizeof(RecoveredGlobal_800677D4_lbl_804887C8) == 0x30 ? 1 : -1];
 u8 *TCameraCtrl__sub_800677D4(u8 *arg0) {
     __ct__13TUnk_80488A28Fv(arg0);
@@ -87,4 +87,3 @@ u8 *TCameraCtrl__sub_800677D4(u8 *arg0) {
     return arg0;
 }
 
-}

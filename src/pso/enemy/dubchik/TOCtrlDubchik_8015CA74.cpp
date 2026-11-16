@@ -27,8 +27,8 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/task/TObject.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
+
+
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -367,8 +367,5 @@ void TOCtrlDubchik::clear_part_offsets() {
 }
 
 
-}
-
-extern "C" {
 u32 TOCtrlDubchik__shared_resource;
 }

@@ -7,7 +7,7 @@
 #include "pso/unk/text_803DA798.h"
 
 #include "pso/player/TPlayerFootStamp.h"
-#include "pso/object/ambient/TObjMistCtrl.h"
+
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80087278.h"
@@ -33,7 +33,6 @@ void TObjMistCtrl::run_task() { { (void)(sub_802AF64C()); return; } }
 TObjMistCtrl::~TObjMistCtrl() {
     if (*(void **)((s8 *)this + 0x90) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0x90)))->queue_destruction(); *(s32 *)((s8 *)this + 0x90) = 0; }
 }
-extern "C" {
 
 
 typedef char RecoveredGlobal_802AF7C0___vt__12TObjMistCtrl_size[sizeof(RecoveredGlobal_802AF7C0___vt__12TObjMistCtrl) == 0x38 ? 1 : -1];
@@ -49,4 +48,3 @@ u8 *TObjMistCtrl__ct(u8 *mist_ctrl, s32 parent, u32 arg2) {
 }
 
 
-}

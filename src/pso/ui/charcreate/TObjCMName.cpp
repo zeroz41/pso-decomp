@@ -33,7 +33,7 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/unk/text_801E3F24.h"
-#include "pso/system/task/TObject.h"
+
 
 struct Menu_80296D68
 {
@@ -68,10 +68,8 @@ struct Menu_80297B18 {
     f32 tmax;
 };
 
-extern "C" {
 extern const char *lbl_804DBC0C[];
 extern s32 lbl_804DBC40[];
-}
 
 typedef void (TObjCMMainMenu::*MenuFn_802987AC)();
 
@@ -783,7 +781,7 @@ Quad_80297DB8 footer_divider_vertices[2] = {
     {{{400.0f, 0.0f}, {640.0f, 0.0f}, {640.0f, 0.0f}, {400.0f, 0.0f}}},
 };
 
-extern "C" {
+
 void TObjCMMainMenu::draw_footer_divider() {
     Menu_80297DB8 *self = (Menu_80297DB8 *)this;
     Prim_80297DB8 prim;
@@ -813,12 +811,8 @@ void TObjCMMainMenu::draw_footer_divider() {
         ((TWindowCtrlMain *)(&prim))->draw_strip_swap_color(4, 6, -1.8125f);
     }
 }
-}
-
 #pragma push
 #pragma fp_contract on
-
-extern "C" {
 void TObjCMMainMenu::sub_80297B18() {
     Menu_80297B18 *m = (Menu_80297B18 *)this;
     u32 color;
@@ -883,11 +877,7 @@ void TObjCMMainMenu::sub_80297B18() {
         break;
     }
 }
-}
-
 #pragma pop
-
-extern "C" {
 void TObjCMMainMenu::sub_802979BC() {
     char *name = character->name;
     if ((TObjCMMainMenu__data_805D659C == 0 ||
@@ -916,7 +906,6 @@ void TObjCMMainMenu::sub_802979BC() {
     draw_menu_text(x, 396.0f * get_scale(), name, color);
     TCameraCtrl__sub_80068EF0();
 }
-}
 
 const s32 char_creation_root_menu_tab_table[15] = {
     0xA7, 0xB4, 0xC1, 0xCE, 0xDB, 0xE7, 0xF3, 0x101, 0x10F, 0x11C, 0x129, 0x136, 0x143, 0x14F, 0x15B,
@@ -925,7 +914,7 @@ const s32 char_creation_root_menu_tab_table[15] = {
 #pragma push
 #pragma fp_contract on
 
-extern "C" {
+
 void TObjCMMainMenu::draw_root_menu() {
     u8 *arg0 = (u8 *)this;
     Menu_802975DC *m = (Menu_802975DC *)arg0;
@@ -1034,11 +1023,7 @@ void TObjCMMainMenu::draw_root_menu() {
         }
     }
 }
-}
-
 #pragma pop
-
-extern "C" {
 void TObjCMMainMenu::open_assign_menu(void *) {
     play_sound_effect(0x52D01, 0, 0, 0);
     TObjCMMainMenu__data_805D659C = 1;
@@ -1156,7 +1141,6 @@ void *__ct__16TObjCMAssignMenuFv(void *obj_cm_assign_menu, void *parent, void *k
         break;
     }
     return obj_cm_assign_menu;
-}
 }
 
 TObjCMAssignMenu::~TObjCMAssignMenu() {}
@@ -2179,7 +2163,7 @@ TObjCMName *TObjCMName::create(TObject *parent) {
     return new TObjCMName(parent);
 }
 
-extern "C" {
+
 void TObjCMName::run_task() {
     f32 pos[2];
     char name[13];
@@ -2240,7 +2224,6 @@ void TObjCMName::run_task() {
         }
     }
 }
-}
 
 #pragma push
 #pragma fp_contract on
@@ -2276,6 +2259,5 @@ void TObjCMName::render()
 
 #pragma pop
 
-extern "C" {
+
 int TObjCMName__sub_802948F4(TObjCMName *, char *) { return 0; }
-}

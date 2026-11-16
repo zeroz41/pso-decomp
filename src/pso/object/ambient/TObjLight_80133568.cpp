@@ -100,10 +100,6 @@ void *TObjLight__data_80506370[3];
 Light_801347A4 TObjLight__data_8050637C[32];
 Light_801347A4 TObjLight__data_805068FC[8];
 __declspec(section ".data") u32 TObjLight__data_80506A5C;
-}
-
-extern "C" {
-
 int TLobby__sub_80134A20(void* p) { return (int)TQuestThread::create_in_root((s32)p); }
 
 extern s32 lbl_804A7008[];
@@ -553,7 +549,6 @@ void submit_scene_ambient_color(void) {
     set_light_ambient_color(*(f32 *)((s8 *)&TObjLight__scene_light_state.value + 0x38), *(f32 *)((s8 *)&TObjLight__scene_light_state.value + 0x3C), *(f32 *)((s8 *)&TObjLight__scene_light_state.value + 0x40));
 }
 
-extern "C" {
 
 void TObjLight__sub_801336DC(void) {  }
 
@@ -594,9 +589,6 @@ void TUnk_804A6F78::render() {  }
 
 void*TObjLight::init_light(int a1) { *(int *)&this->m_name = light_type_id_table[a1]; *(float *)&this->m_up = 0.0f; *(float *)&this->m_next = 0.0f; *(float *)&this->m_prev = 0.0f; TAdSinglePlyChrSelectGC__sub_80133548(); *(float *)&this->m_down = 5.0f; *(float*)((char*)this + 0x18) = 30.0f; TAdSinglePlyChrSelectGC__sub_80133544(this); *(float *)&this->m_20 = 1.0f; *(float *)&this->texlist = 1.0f; *(float *)&this->room = 1.0f; TAdSinglePlyChrSelectGC__sub_801334E4(this); return this; }
 
-}
-
-extern "C" {
 int light_type_id_table[3] = { 2, 3, 4 };
 f32 default_scene_light_config[17] = {
     0.0f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.3f, 0.96f, 0.3f,
@@ -612,4 +604,3 @@ s32 TObjLight__actor_light_count;
 s32 TObjLight__light_count;
 u32 TObjLight__light_entry_data;
 s32 light_entry_file_size;
-}

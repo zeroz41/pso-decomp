@@ -215,7 +215,6 @@ void update_main_warp_visible_mask(s32 arg0);
 
 void TObjCityMainWarp__sub_80186AB8(void);
 
-void clear_enabled_main_warps(void);
 
 typedef char RecoveredGlobal_80186AF4_lbl_804FF800_size[sizeof(RecoveredGlobal_80186AF4_lbl_804FF800) == 0x20 ? 1 : -1];
 

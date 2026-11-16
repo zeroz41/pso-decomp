@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_801D9B18.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer.h"
+
 
 void TObjPlayer::set_tech_level(s16 arg1) {
     s16 var_r4;
@@ -15,10 +15,10 @@ void TObjPlayer::set_tech_level(s16 arg1) {
 }
 
 // ---- pso/unk/text_801D9B38
-#include "types.h"
+
 #include "pso/player/TObjPlayer_801D9E08.h"
 #include "pso/unk/text_801D9B38.h"
-#include "pso/player/TObjPlayer.h"
+
 
 extern "C" {
 u8 TObjPlayer__sub_801C010C(void *self, s16 i);
@@ -51,14 +51,7 @@ void TObjPlayer__sub_801D9C34(u8 *self, s16 idx, void *arg2) {
     *(self + idx + 0x70) = ((u8 (*)(s32, void *, u8))clamp_to_max__10TObjPlayerFlUcUc)((s32)self, arg2, c);
 }
 
-}
-
 // ---- pso/player/TObjPlayer_801D9C88
-#include "types.h"
-#include "pso/player/TObjPlayer.h"
-
-extern "C" {
-
 int set_slot_type_state__10TObjPlayerFllss(void*, void*, void*, void*);
 
 void TObjPlayer::reset_slots() { this->m_id = 0; { int i; for (i = 0; i < 10; i++) { set_slot_type_state__10TObjPlayerFllss(this, (void*)i, (void*)65535, (void*)0); } } }

@@ -30,7 +30,6 @@ struct Cb_803D3678 { s32 fn; s32 arg; };
 
 extern "C" {
 s32 memset(void *, int, int);
-extern s32 lobby_callback_tables_refcount;
 extern P_803D33D4 lbl_805D7664;
 extern P_803D33E4 lbl_805D766C;
 extern s32 lbl_805D765C;

@@ -40,14 +40,7 @@ extern "C" {
 s32 TLobby__sub_803D3130(void *, s32, Pair_803C8678 *, Pair_803C8678 *);
 s32 memset(void *, int, int);
 s32 TLobby__sub_803C9104(Obj_803C9104 *arg0, s32 arg1, s32 arg2);
-}
-
-extern "C" {
 s32 set_global_805D7520__6TLobbyFl();
-
-}
-
-extern "C" {
 
 void TLobby::on_set_mode() {
     set_global_805D7520__6TLobbyFl();
@@ -257,10 +250,7 @@ struct Ch_803CA3C4 {
     u8 pad99[0xA8 - 0x99];
 };
 
-extern "C" {
-
 extern s32 lbl_805D7540;
-}
 
 extern "C" {
 s32 TLobby__sub_803CC030(int, int);
@@ -603,7 +593,7 @@ void stop_audio_stream(u8 *arg0) {
     TLobby::release_ref();
 }
 #pragma pop
-extern "C" {
+
 
 void TLobby__sub_803C9DB4(u8 *arg0) {
     void **temp_r3;
@@ -860,7 +850,4 @@ Ch_803CA3C4 *adx_create_stream_player(s32 n, s32 base, s32 size) {
     return c;
 }
 
-s32 send_packet_by_id_2__6TLobbyFv(int);
 
-
-}

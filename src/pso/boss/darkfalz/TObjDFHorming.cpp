@@ -22,8 +22,8 @@
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include "pso/unk/text_80087278.h"
-#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-#include "pso/player/TObjPlayer.h"
+
+
 #include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
@@ -228,11 +228,6 @@ void TBoss4DarkFalz::push_players_out_of_zone(s32 arg0, s32 arg1) {
         }
     }
 }
-
-}
-
-
-extern "C" {
 
 s16 get_entity_id(void *);
 s32 TBoss4Type3__sub_8005254C(s16);
@@ -877,14 +872,6 @@ extern s32 dark_falz_controller_instance;
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 s32 __ct__9TObjEnemyFP7TObject();
 void *fn_8030A83C(void *arg0);
-}
-void init_music_sequencer(s32 program);
-s32 create_boss4_fade();
-extern s32 dark_falz_form_index;
-extern s32 lbl_805D4D6C;
-extern s32 lbl_805D4D70;
-
-extern "C" {
 s32 TBoss4DarkFalz__ct(s32 a0, s32 arg1, s32 a2);
 int TBoss4DarkFalz__sub_8030AD38(void);
 int free_bin_model_request(void*, void*);
@@ -909,8 +896,12 @@ void TBoss4DarkFalz::run_task() {
 }
 
 void TBoss4DarkFalz::vfunc_63() {  }
-
 }
+void init_music_sequencer(s32 program);
+s32 create_boss4_fade();
+extern s32 dark_falz_form_index;
+extern s32 lbl_805D4D6C;
+extern s32 lbl_805D4D70;
 TBoss4DarkFalz::~TBoss4DarkFalz() {
     s32 temp_r0;
     u8 *object;
@@ -945,7 +936,7 @@ TBoss4DarkFalz::~TBoss4DarkFalz() {
     }
     dark_falz_controller_instance = 0;
 }
-extern "C" {
+
 
 s32 TBoss4DarkFalz__ct(s32 a0, s32 arg1, s32 a2) {
     u8 *boss4_dark_falz = (u8 *)a0;
@@ -1082,7 +1073,6 @@ s32 TBoss4DarkFalz::create(s32 arg0) {
         var_r31 = TBoss4DarkFalz__ct(var_r31, var_r4, arg0);
     }
     return var_r31;
-}
 }
 
 s32 TBoss4Uro::get_phase() { return *(s32 *)&this->_pad37c; }

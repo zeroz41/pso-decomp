@@ -5,17 +5,16 @@
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_804CC0E8.h"
-#include "pso/technique/TTecAnti.h"
+
+
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TTecAnti_name_ref = "TTecAnti";
-}
 
 
 struct Obj_8022ACB4 { u8 pad[0xA6]; s16 state; };
@@ -140,15 +139,10 @@ void run_task__8TTecAntiFv(Anti_8022B150 *self);
 s32 is_split_screen();
 void *spawn_particle_effect_with_flags(void *, int, int);
 void *__nw__7TObjectFUl(int);
+int spawn_support_tec_range_effect(void*);
 }
 u8 *construct_delayed_point_sound(u8 *arg0, u8 *arg1, s16 arg2, s32 arg3, u8 *arg4);
 extern void *tl_07;
-extern "C" {
-int spawn_support_tec_range_effect(void*);
-
-
-}
-
 void TTecAnti::render() {  }
 
 S_8022B3E8 *copy_technique_target_list(S_8022B3E8 *d, S_8022B3E8 *s) {

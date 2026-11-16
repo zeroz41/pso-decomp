@@ -29,7 +29,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChatFaceType.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
+
 
 const char *TWindowSubSymbolChat__class_name = "TWindowSubSymbolChat";
 static const f32 lbl_8044FB20[2] = {203.0f, 78.0f};
@@ -386,15 +386,8 @@ s32 update_selected_item__17TWindowOptionCtrlFv(int);
 s32 TWindowCtrlMain__sub_8024CE58();
 extern s32 __vt__20TWindowSubSymbolChat[];
 extern void *TWindowSubSymbolChat__instance;
-s32 __nw__7TObjectFUl(int);
-s32 get_window_layout_position(s32);
 s32 get_symbol_chat_data__20TWindowSubSymbolChatFv(s32);
-s32 get_message_10__20TWindowSubStatusDispFl(s32);
-s32 align_menu_entry_positions(s32);
-int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
-s32 draw_card_icon__17TWindowSubComCardFll(s32, s32, s32);
 
-s32 refresh_parts__20TWindowSubSymbolChatFv();
 s32 play_symbol_sound__20TWindowSubSymbolChatFl();
 void mem_free(void *p);
 u32 create_menu__20TWindowSubSymbolChatFv(void *);

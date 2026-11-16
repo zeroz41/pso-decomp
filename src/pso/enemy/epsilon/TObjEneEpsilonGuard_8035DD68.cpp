@@ -32,7 +32,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/camera/TCameraCtrl.h"
+
 #include "pso/player/TObjPlayer_80011014.h"
 
 struct RecoveredGlobal_8035E374_lbl_805439E0 { s32 value; u8 remaining[0xC]; };
@@ -41,9 +41,6 @@ extern "C" {
 RecoveredGlobal_8035E374_lbl_805439E0 lbl_805439E0;
 s32 epsilon_guard_camera_step;
 Vec *epsilon_guard_camera_ctrl_ptr;
-}
-
-extern "C" {
 void render__19TObjEneEpsilonGuardFv(u8 *);
 extern const TBoss3VoloptBreakupParams epsilon_guard_breakup_params = { 0x14, { 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f } };
 const char *TObjEneEpsilonGuard__class_name = "TObjEneEpsilonGuard";
@@ -595,9 +592,6 @@ void TObjEneEpsilonGuard::update_center_position() {
 }
 void TObjEneEpsilonGuard::vfunc_88() { set_part_local_pos(&m_2fc, 0); }
 
-}
-
-extern "C" {
 void TObjEneEpsilonGuard__vt85(TObjEneEpsilonGuard *arg0, s32 arg1, s32 arg2);
 void run_task__19TObjEneEpsilonGuardFv(u8 *arg0);
 extern s32 epsilon_guard_boss_stat_handle;

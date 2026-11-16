@@ -5,7 +5,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/TUnk_8049442C.h"
-#include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
+
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/MatrixTransforms.h"
@@ -179,7 +179,7 @@ void TObjGyaranzoMissile::run_task() {
 TObjGyaranzoMissile::~TObjGyaranzoMissile() {
     free_collision_body_parts(this);
 }
-extern "C" {
+
 #pragma push
 #pragma fp_contract on
 typedef char RecoveredGlobal_800D4BD0___vt__19TObjGyaranzoMissile_size[sizeof(RecoveredGlobal_800D4BD0___vt__19TObjGyaranzoMissile) == 0x3C ? 1 : -1];
@@ -210,6 +210,5 @@ u8 *TObjGyaranzoMissile__ct(u8 *gyaranzo_missile, u8 *arg1, u8 *arg2, s16 arg3) 
     pop_matrix();
     ((TObjGyaranzoMissile *)gyaranzo_missile)->timer = 0;
     return gyaranzo_missile;
-}
 }
 #pragma pop

@@ -6,7 +6,7 @@
 #include "pso/technique/TTecSlicer.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct Owner_80129648 { u8 pad[0x60]; s32 f60; };
 

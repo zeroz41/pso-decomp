@@ -12,7 +12,7 @@
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/item/TItem.h"
-#include "pso/item/TItem.h"
+
 #include "pso/unk/TLobby.h"
 
 struct O_801C1C68 { u8 pad[4]; u8 a[0x10]; u8 b[0x10]; };

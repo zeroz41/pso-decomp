@@ -16,8 +16,7 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/system/task/TObject.h"
-#include "pso/unk/TUnk_80499970.h"
+
 
 struct RecoveredGlobal_800F81A8_lbl_80499970 {
     s32 value;

@@ -182,7 +182,6 @@ void TObjPlayer::clear_rico_ring_flag() {
     }
 }
 
-extern "C" {
 
 s32 TObjPlayer__sub_801290D0(u8 *arg0) {
     if (test_flags_any((s32 *)(arg0 + 0x1FC), 4) != 0) {
@@ -191,7 +190,6 @@ s32 TObjPlayer__sub_801290D0(u8 *arg0) {
     return *(s32 *)((s8 *)arg0 + 0x184);
 }
 
-}
 
 void TItemShootModel::sub_80129118(s32 arg1, s32 arg2) {
     *(s32 *)&this->m_58 = arg1;

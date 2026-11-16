@@ -11,7 +11,7 @@
 #include "pso/boss/barbaray/TBoss7PhotonBullet.h"
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/system/task/TObject.h"
+
 extern "C" void render__15TBoss7PhotonPadFv();
 
 #include "pso/boss/barbaray/TBoss7Joint.h"

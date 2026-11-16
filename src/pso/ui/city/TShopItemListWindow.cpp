@@ -30,7 +30,7 @@
 #include "pso/unk/text_80222DE8.h"
 #include "pso/unk/text_80223B98.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowMenuIconLine.h"
+
 
 #pragma readonly_strings on
 

@@ -5,13 +5,12 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubEquipList.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowMenuIconLine.h"
+
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TWindowSubEquipList__class_name = "TWindowSubEquipList";
-}
 
 
 struct RecoveredGlobal_802793E4___vt__19TWindowSubEquipList { s32 value; u8 remaining[0x1C]; };

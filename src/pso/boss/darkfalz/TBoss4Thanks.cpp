@@ -14,7 +14,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer.h"
 
 
 struct RecoveredGlobal_8035C83C___vt__12TBoss4Thanks { s32 value; u8 remaining[0x14]; };

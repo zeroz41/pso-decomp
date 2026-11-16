@@ -57,13 +57,11 @@ void TWindowDD_WS_Word::render() {
 
 struct E_803403F8 { f32 a; f32 b; f32 c; f32 d; f32 e; s32 f; };
 
-extern "C" {
 extern const f32 TWindowDD__data_805DFB18;
 extern const f32 TWindowDD__data_805DFB20;
 extern const f32 lbl_805DFB40;
 extern const f32 lbl_805DFB44;
 extern void *lbl_805D63F0;
-}
 
 void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, TWindowKeyBoardSoft *rect) {
     E_803403F8 verts[8];
@@ -221,7 +219,7 @@ void TWindowDD__sub_80341AF8(u8 *arg0) {
     *(s32 *)((s8 *)arg0 + 0x8C) = 1;
 }
 
-#include "pso/ui/window/TWindowDD.h"
+
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/WindowLayoutRecord.h"
@@ -234,13 +232,11 @@ struct TWindowDD_WS_WordLayout {
     TextLayoutRecord rec_0;
 };
 
-extern "C" {
 extern const f32 TWindowDD__data_805DFB6C;
 extern const f32 lbl_805DFB70;
 extern const f32 TWindowDD__data_805DFB74;
 extern const f32 lbl_805DFB78;
 extern const f32 lbl_805DFC1C;
-}
 
 TWindowDD_WS_WordLayout TWindowDD__data_804EFC50 = {
     1, 1,
@@ -272,7 +268,6 @@ struct Entry_80341FFC {
 
 extern "C" {
 s32 apply_both_choices__9TWindowDDFll(void *, int);
-extern const f32 TWindowDD__data_805DFB20;
 s32 init_window_layout_entries(void *, void *, int);
 void *mem_alloc(u32 size);
 s32 get_array_entry__11TWindowBaseFi(void * a0, s32 a1);
@@ -471,10 +466,6 @@ void TWindowDD::get_cursor_pos(u8 *arg1) {
 s32 TWindowDD::get_field_68() { return this->m_84; }
 void TWindowDD::add_scroll_offset(int a1) { this->m_84 = (this->m_84 + a1); this->m_a8 = 1; TWindowDD::spawn_window(); }
 
-}
-
-
-extern "C" {
 void render__17TWindowDD_WS_WordFv();
 void handle_scroll_input__9TWindowDDFv();
 void render_shadows__7TObjectFv();
@@ -508,7 +499,7 @@ void *TWindowDD_WS_Word::destroy(s16 arg1) {
     return this;
 }
 
-extern "C" {
+
 // Constructor body of TWindowDD_WS_Word: element list id and visible row count.
 TWindowDD_WS_Word *TWindowDD__sub_803422F0(TWindowDD_WS_Word *self, s32 element_list, s32 rows) {
     ((TWindowDD *)self)->construct_base((u8 *)&lbl_804EFC7C, 4, (u8 *)lbl_804EFC74);
@@ -534,5 +525,4 @@ s32 TWindowDD__sub_80342384(s32 element_list, s32 rows) {
         window = TWindowDD__sub_803422F0(window, element_list, rows);
     }
     return (s32)window;
-}
 }

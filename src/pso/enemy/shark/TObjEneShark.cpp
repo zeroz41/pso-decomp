@@ -526,7 +526,7 @@ void TObjEneShark::render() {
 #include "pso/enemy/beast/TObjEneBeast.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
-#include "pso/render/RenderFadeState.h"
+
 #include "pso/ui/hud/TNowLoading.h"
 
 struct E_800AC9DC { u8 pad[8]; s32 x8; s32 xc; };
@@ -1083,9 +1083,6 @@ s32 TObjEneMoja::calc_technique_level() {
     }
     return v;
 }
-}
-
-extern "C" {
 const char *TObjEneShark_name_ref = TObjEneShark__class_name_string;
 
 u32 TObjEneShark__resource_node;

@@ -90,10 +90,6 @@ void TObjEZBoneRotPlayer::advance_bone_rotation() {
     }
 }
 
-}
-
-extern "C" {
-
 void TObjEZBoneRotPlayer::calc_bone_offsets_recursive(void *arg1, s32 arg2, s32 arg3) {
     s32 k;
     f32 t;
@@ -196,9 +192,6 @@ TObjEZBoneRotBase *TObjEZBoneRotBase__ct(TObjEZBoneRotBase *self, TObject *paren
     state->scale = 0.0f;
     return self;
 }
-}
-
-extern "C" {
 void __dt__17TObjEZBoneRotBaseFv(void *self, s32 flag);
 void __dl__7TObjectFPv(void *p);
 

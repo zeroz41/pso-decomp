@@ -30,7 +30,7 @@
 #include "pso/ui/city/TShopGetItemWindow_8021F0A4.h"
 #include "pso/ui/city/TShopGetItemWindow_8021F074.h"
 #include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
-#include "pso/system/task/TObject.h"
+
 
 struct RecoveredGlobal_801A4820_main_task { s32 value; u8 remaining[0x30]; };
 typedef char RecoveredGlobal_801A4820_main_task_size[sizeof(RecoveredGlobal_801A4820_main_task) == 0x34 ? 1 : -1];

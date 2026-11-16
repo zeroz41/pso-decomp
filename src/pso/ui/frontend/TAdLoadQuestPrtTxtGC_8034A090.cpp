@@ -31,7 +31,7 @@ struct T_8034A198 {
     s32 slot;
 };
 
-extern "C" {
+
 TAdLoadQuestPrtTxtGC *quest_load_prt_txt_by_slot[3] = {NULL, NULL, NULL};
 const char *TAdLoadQuestPrtTxtGC__name = "TAdLoadQuestPrtTxtGC";
 
@@ -67,7 +67,6 @@ void TAdLoadQuestPrtTxtGC::run_task() {
     }
 }
 
-}
 TAdLoadQuestPrtTxtGC::~TAdLoadQuestPrtTxtGC() {
     s32 i;
     if (((u32 *)&quest_load_prt_txt_by_slot)[this->slot] != 0) {

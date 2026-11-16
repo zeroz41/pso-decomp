@@ -13,13 +13,13 @@
 #include "pso/render/TFogCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/scene/TScene.h"
-#include "pso/unk/TUnk_804C3248.h"
+
 #include "pso/map/FloorArea.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/render_util.h"
 #include "pso/effect/particle/TParticleCtrl_800867E4.h"
-#include "pso/system/task/TObject.h"
+
 extern "C" { void setup_photon_blast_camera__13TUnk_804C3248Fv(u8 *); }
 #pragma push
 
@@ -545,7 +545,7 @@ TUnk_804C3248::TUnk_804C3248() : TObjMotion((TObject *)tl_06) {
 
 #pragma pop
 
-extern "C" {
+
 PhotonAttachmentDef_801A7748 lbl_804C2438[10] = {
     {0x136, 0x1e, 0x14, 0x27, {0, 0, 0}, 0},
     {0x137, 0x14, 0x28, 0x11, {0, 0, 0}, 0},
@@ -706,7 +706,6 @@ Group_801A7428 photon_blast_attachment_table[7] = {
     {lbl_804C2A98, 6, lbl_804C3088, 4},
     {lbl_804C2B58, 6, lbl_804C3088, 4},
 };
-}
 
 Reg_801A7578 photon_blast_joint_origins[1];
 PhotonBlastHit photon_blast_hit_queue[32];

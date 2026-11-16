@@ -12,7 +12,7 @@
 #include <dolphin/mtx.h>
 #include <stddef.h>
 #include "pso/boss/darkfalz/TBoss4Type2.h"
-#include "pso/enemy/panarms/TObjEnePanarms.h"
+
 #include "pso/enemy/TObjEnePanBARA.h"
 #include "pso/enemy/panarms/TObjEnePanarmsAtkColli.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
@@ -34,10 +34,10 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/base/TObjMotion.h"
+
+
 #include "pso/render/RenderFadeState.h"
-#include "pso/system/task/TObject.h"
+
 
 struct Stack_800DDFDC
 {
@@ -228,20 +228,15 @@ int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
 typedef struct { f32 x, y, z; } Vec_800DEDC4;
 void draw_blob_shadow(s32 arg0);
-}
-void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
-extern "C" {
 s32 rotate_matrix_z(int, int);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
 s32 scale_current_matrix(Vec_800DEDC4 *);
 int check_demo_mode__10TObjPlayerFv(void*);
 }
-
-
+void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 typedef struct Stack_800DDFDC Stack_800DDFDC;
 
-#include "pso/render/RenderFadeState.h"
 
 // The camera-obstruction fade (vtable __vt__15RenderFadeState) keeps its vtable pointer at +0x14.
 struct VFade_800DEF5C {

@@ -16,7 +16,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/vector.h"
-#include "pso/system/task/TObject.h"
+
 
 struct O_80087638 { u8 pad[0x2e]; u16 x2e; };
 
@@ -184,7 +184,6 @@ void set_particle_tint_color(u8 *arg0, void *arg1);
 void free_bin_model_request(void*, int);
 s32 release_texture_list(void*);
 void mem_free(void *p);
-extern s32 particle_area_entry_table;
 extern u32 TParticleCtrl__regular_bml_resource;
 extern u32 TParticleCtrl__texture_list;
 s32 read_disc_file(s32, s32);
@@ -213,15 +212,6 @@ extern GenEntry_8008767C particle_ctrl_generator_table[];
 extern void *tl_07;
 extern void *tl_particlemodel;
 void run_task__13TParticleCtrlFv(Ctrl_8008767C *self);
-}
-void load_particle_entry_resources(void);
-extern char lbl_80439494[];
-extern char lbl_804394A4[];
-extern char lbl_804394BC[];
-extern char lbl_804394D4[];
-
-extern "C" {
-
 void clear_active_flag__13TParticleCtrlFv(void* p);
 
 #pragma push
@@ -670,7 +660,11 @@ s32 TParticleCtrl::get_particle_by_index(s32 arg0) {
     return (*(s32 *)&particle_global_entry_table) + (arg0 * 0x98);
 }
 }
-
+void load_particle_entry_resources(void);
+extern char lbl_80439494[];
+extern char lbl_804394A4[];
+extern char lbl_804394BC[];
+extern char lbl_804394D4[];
 void load_particle_entry_resources(void) {
     char name[0x20];
     s32 area;

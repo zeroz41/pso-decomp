@@ -15,7 +15,7 @@
 #include "pso/unk/TLobby_8032BD20.h"
 #include "pso/unk/TUnk_804EDAC0.h"
 #include "pso/unk/TLobby.h"
-#include "pso/system/task/TObject.h"
+
 
 struct Elt80364258_80364258 { s32 f0; };
 

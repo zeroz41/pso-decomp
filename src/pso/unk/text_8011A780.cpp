@@ -17,7 +17,7 @@
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/item/TItemIdCounters.h"
 #include "pso/unk/TLobby_801F3A24.h"
-#include "pso/item/TItemData.h"
+
 
 // G_PickUpItem_6x59::G_PickUpItem_6x59() on a command built here.
 extern "C" void *__ct__17G_PickUpItem_6x59Fv(void *cmd);

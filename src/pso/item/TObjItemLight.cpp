@@ -1,14 +1,14 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/TObjItemLight.h"
-#include "pso/item/TObjItemLight.h"
+
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer.h"
+
 
 #pragma readonly_strings on
 
@@ -54,7 +54,7 @@ void run_task__13TObjItemLightFv(Light_80191F90 *arg0) {
 TObjItemLight::~TObjItemLight() {
     if (*(void **)((s8 *)this + 0x94) != NULL) { TParticleCtrl::release(*(void **)((s8 *)this + 0x94)); this->m_94 = 0; }
 }
-extern "C" {
+
 
 const char *TObjItemLight__class_name = "TObjItemLight";
 
@@ -72,4 +72,3 @@ u8 *TObjItemLight__ct(TObjItemLight *item_light, s32 arg1, s32 arg2) {
     return (u8 *)item_light;
 }
 
-}

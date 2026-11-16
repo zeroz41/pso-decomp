@@ -7,8 +7,6 @@
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" {
-
 
 void TObjEneMe1Canadin_EffLineFade::run_task() {
     s32 var_r31;
@@ -25,7 +23,6 @@ void TObjEneMe1Canadin_EffLineFade::run_task() {
 
 extern s32 __vt__29TObjEneMe1Canadin_EffLineFade[];
 
-}
 TObjEneMe1Canadin_EffLineFade::~TObjEneMe1Canadin_EffLineFade() {
 
 }

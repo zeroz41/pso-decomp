@@ -261,7 +261,7 @@ TPlyPhotonChair::~TPlyPhotonChair() {
     ((TUnk_804A7478 *)((s8 *)this + 0xB4))->TUnk_804A7478::~TUnk_804A7478();
     ((TUnk_804A7478 *)((s8 *)this + 0x98))->TUnk_804A7478::~TUnk_804A7478();
 }
-extern "C" {
+
 
 u8 *TPlyPhotonChair__ct(u8 *ply_photon_chair, s32 arg1, s32 parent) {
     u32 player;
@@ -349,4 +349,3 @@ void TPlyPhotonChair::free_instance() {
 
 
 u32 TPlyPhotonChair__shared_model_resource;
-}

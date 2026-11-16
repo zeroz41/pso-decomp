@@ -215,13 +215,12 @@ struct Door_802A0068 {
     s32 fD4;
     s32 fD8[8];
 };
-extern "C" {
+
 struct Door_802A0670;
-}
 
 const char *TODoorFourLightBase__class_name = "TODoorFourLightBase";
 
-extern "C" {
+
 Door_802A0994 *TODoorFourLightBase__ct(Door_802A0994 *arg0, void *arg1, s32 arg2) {
     s32 i;
     __ct__10TODoorBaseFP7TObject(arg0, arg1);
@@ -236,7 +235,6 @@ Door_802A0994 *TODoorFourLightBase__ct(Door_802A0994 *arg0, void *arg1, s32 arg2
     return arg0;
 }
 
-}
 TODoorFourLightBase::~TODoorFourLightBase() {
 
 }
@@ -633,7 +631,7 @@ void load_labo_door_resources(void) {
 const char *odoor_labo_class_name = "TODoorLabo";
 const Tbl_8029FAE4 door_labo_link_table = {{1, -1, -1, -1, 4, -1, -1, -1}};
 
-extern "C" {
+
 void TAdSinglePlyChrSelectGC::free_all_resources() {
     if ((u32) labo_door_red_textures != 0U) {
         release_texture_list((void*)labo_door_red_textures);
@@ -769,4 +767,3 @@ s32 TODoorLaboNormal::vfunc_22() {
 
 void TODoorLaboNormal::init_field_d4() { this->m_d4 = get_bml_model((BmlResource *)TODoorLabo__model_archive, 0); }
 
-}

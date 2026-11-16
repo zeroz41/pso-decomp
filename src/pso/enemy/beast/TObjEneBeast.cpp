@@ -9,16 +9,13 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 extern "C" void render__12TObjEneBeastFv();
-#include "pso/enemy/beast/TObjEneBeast.h"
+
 #include "pso/effect/TUnk_80494968.h"
 #include "types.h"
-#include "pso/enemy/balclaw/TObjEneBalClaw.h"
+
 #include "pso/player/TObjPlayer.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/enemy/TObjEnemyCustom.h"
-#include "pso/enemy/TObjEnemy.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
+
+
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -26,18 +23,18 @@ extern "C" void render__12TObjEneBeastFv();
 #include "pso/unk/text_803D96A8.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/object/base/TObjMotion.h"
+
+
 #include "pso/render/RenderFadeState.h"
 #include "pso/system/task/TObject.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
-#include "pso/object/base/TObjMotion.h"
+
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
-#include "pso/enemy/beast/TObjEneBeast.h"
+
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -57,7 +54,7 @@ extern s32 model_render_flags;
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
-#include "pso/render/RenderFadeState.h"
+
 struct Stack_80091E08 {
     f32 sp8;
     f32 spC;
@@ -359,24 +356,16 @@ void TObjEneBeast::render() {
 #undef find_active_entity_by_id
 #undef reset_active_state__18TObjEneBalClawClawFPv
 
-#include "types.h"
-#include "pso/enemy/TUnk_80493450.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/object/base/TObjChara.h"
+
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/enemy/saver/TObjEneSaver.h"
-#include "pso/enemy/TObjEnemy.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/enemy/beast/TObjEneBeast.h"
+
+
 #include "pso/system/task/TObject_80019A50.h"
-extern "C" void has_flag_0x800__9TObjCharaFv();
-extern "C" void test_flag30_512__9TObjCharaFv();
-extern "C" void test_flag_1000__9TObjCharaFv();
 
 extern "C" void vfunc_101__12TObjEneBeastFv();
 extern "C" void test_flag_256__13TUnk_80493450Fv();
-#include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/enemy/panarms/TObjEnePanarms.h"
+
 
 struct Ent_8009241C { u8 pad0[0xC]; f32 radius; u8 pad10[0x2C - 0x10]; };
 struct Mdl_8009241C { u8 pad0[8]; s32 f8; NJS_TEXLIST *texlist; };

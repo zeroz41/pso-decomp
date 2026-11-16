@@ -2,7 +2,7 @@
 #include "pso/object/fence/TObjLazerFence4.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/door/TObjDoorJung.h"
-#include "pso/object/fence/TObjLazerFence4.h"
+
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -21,7 +21,7 @@
 #include "pso/object/key/TOKey.h"
 #include "pso/object/key/TOKeyMachine01.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/object/base/TObjMotion.h"
+
 
 #pragma readonly_strings on
 
@@ -178,10 +178,6 @@ void TObjLazerFence4::render() {
     }
 }
 
-}
-
-extern "C" {
-
 s32 reset_if_door_closed__15TObjLazerFence4Fv();
 s32 sub_801933C8__15TObjLazerFence4Fv();
 
@@ -255,7 +251,7 @@ TObjLazerFence4::~TObjLazerFence4() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-extern "C" {
+
 
 #define self ((Fence_801935D8 *)arg0)
 void *TObjLazerFence4__ct(void *arg0, void *arg1, void *arg2) {
@@ -283,4 +279,3 @@ void *TObjLazerFence4__ct(void *arg0, void *arg1, void *arg2) {
     return self;
 }
 #undef self
-}

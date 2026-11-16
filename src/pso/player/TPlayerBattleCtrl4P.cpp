@@ -27,10 +27,10 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/Language.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/player/TPlayerBattleCtrl4P.h"
+
+
 #include "pso/player/TUnk_804B6C24.h"
-#include "pso/system/task/TObject.h"
+
 struct Base_803107D0_8031058C { char pad[0x18]; };
 struct VObj_803107D0_8031058C : Base_803107D0_8031058C {
     virtual void v0();
@@ -198,12 +198,10 @@ void TKeyBoardControl__sub_8000F950(void);
 s32 reset_players__19TPlayerBattleCtrl4PFv();
 s32 check_flag_100__10TObjPlayerFPv();
 int update_players__19TPlayerBattleCtrl4PFv(void*);
+char team_matchup_message_buffer[256];
 }
     extern int evt2_random_enemies_mode;
 extern s32 reset_ctrl_to_default__19TPlayerBattleCtrl4PFv[];
-extern "C" {
-char team_matchup_message_buffer[256];
-}
 struct VBase_18_26c590 { char pad[0x18]; };
 struct VObj_18_26c590 : VBase_18_26c590 {
     virtual void m0();
@@ -239,14 +237,9 @@ void run_task__19TPlayerBattleCtrl4PFv(TPlayerBattleCtrl4P *self);
 void render__7TObjectFv();
 void render_shadows__7TObjectFv();
 // Japanese text (shift-JIS)
-}
-extern "C" {
 s32 get_char_index__23TAdSinglePlyChrSelectGCFUi(u32 arg0);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 void export_character_data__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1);
-}
-
-extern "C" {
 const char *TPlayerBattleCtrl4P__message_table_language0[7] = {
     "\x82\xE0\x82\xA4\x88\xEA\x93\x78\x81\x41\x93\xAF\x82\xB6\x83\x8B\x81\x5B\x83\x8B\x82\xC5\n\x8C\x88\x93\xAC\x82\xF0\x8D\x73\x82\xA2\x82\xDC\x82\xB7\x82\xA9\x81\x48", // もう一度、同じルールで 決闘を行いますか？
     "\x82\xCD\x82\xA2", // はい
@@ -256,9 +249,6 @@ const char *TPlayerBattleCtrl4P__message_table_language0[7] = {
     "\x91\xBC\x82\xCC\x90\x6C\x82\xC6\x82\xCC\x89\xF1\x90\xFC\x82\xAA\n\x82\xAB\x82\xEA\x82\xDC\x82\xB5\x82\xBD\n\n\x83\x72\x83\x57\x83\x85\x83\x41\x83\x8B\x83\x8D\x83\x72\x81\x5B\x82\xD6\n\x93\x5D\x91\x97\x82\xB5\x82\xDC\x82\xB7\x81\x42\nPress start button.", // 他の人との回線が きれました  ビジュアルロビーへ 転送します。 Press start button.
     "\x8D\xA1\x89\xF1\x82\xCD\x83\x60\x81\x5B\x83\x80\x90\xED\x82\xC5\x82\xB7\x81\x42\n\x82\x60\x83\x60\x81\x5B\x83\x80\n  %s\n  %s\n\x82\x61\x83\x60\x81\x5B\x83\x80\n  %s\n  %s\n", // 今回はチーム戦です。 Ａチーム   %s   %s Ｂチーム   %s   %s
 };
-}
-
-extern "C" {
 const char *lbl_804E7D4C[7] = {
     "Do you want to \nfight the same\nrules?",
     "Yes",
@@ -1360,7 +1350,7 @@ void TPlayerBattleCtrl4P::update_player_alive_flags() {
     }
 }
 
-extern "C" {
+
 s32 calc_battle_score__19TPlayerBattleCtrl4PFPvPv(void *self, u8 *arg1) {
     f32 score;
     s32 mode;
@@ -1374,9 +1364,6 @@ s32 calc_battle_score__19TPlayerBattleCtrl4PFPvPv(void *self, u8 *arg1) {
     ((TPlayerBattleCtrl4P *)(arg1 + 0x7AC))->set_battle_mode(mode);
     return mode;
 }
-}
-
-extern "C" {
 s32 are_split_screen_battle_players_tied(void) {
     Ent_8031030C *e;
     s32 result;
@@ -1391,12 +1378,8 @@ s32 are_split_screen_battle_players_tied(void) {
     }
     return result;
 }
-}
-
-extern "C" {
 s32 *get_split_screen_battle_rankings(void) {
     return (s32 *)split_screen_battle_rankings;
-}
 }
 
 u8 TPlayerBattleCtrl4P::is_battle_mode_active() {
@@ -1407,13 +1390,12 @@ u8 TPlayerBattleCtrl4P::is_battle_mode_active() {
     return 0;
 }
 
-extern "C" {
+
 void clear_split_screen_battle_window_slots(T_803102A4 *self) {
     s32 i;
     for (i = 0; i < 4; i++) {
         self->arr[i] = 0;
     }
-}
 }
 
 void TPlayerBattleCtrl4P::create_result_windows() {

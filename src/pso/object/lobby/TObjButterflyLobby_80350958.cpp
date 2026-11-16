@@ -3,7 +3,7 @@
 #include "pso/object/lobby/TObjButterflyLobby_80350958.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
-#include "pso/object/lobby/TObjButterflyLobby.h"
+
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -338,9 +338,6 @@ void TObjButterflyLobby::destroy_instance() {
     }
 }
 
-}
-
-extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void load_lobby_butterfly_bml_resource(void) {
     s32 temp_r3;

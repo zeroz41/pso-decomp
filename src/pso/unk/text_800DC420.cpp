@@ -6,13 +6,13 @@
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/nanodrago/TObjEneNanoDrago.h"
-#include "pso/unk/TUnk_80494E10.h"
+
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct D_800DC420 { u8 pad[0x18]; s32 arr[1]; };
 
@@ -203,7 +203,7 @@ TUnk_80494E10::~TUnk_80494E10() {
     if (*(void **)((s8 *)this + 0xE0) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xE0)))->queue_destruction(); *(s32 *)((s8 *)this + 0xE0) = 0; }
     if (*(void **)((s8 *)this + 0xE4) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xE4)))->queue_destruction(); this->m_e4 = 0; }
 }
-extern "C" {
+
 u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec_800DC83C *arg1, Vec_800DC83C *arg2, s32 arg3, void *arg4) {
     Ang_800DC83C ang;
     f32 s;
@@ -232,5 +232,4 @@ u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec_800DC83C *arg1, 
         ((TUnk_80494E10 *)arg0)->m_e4 = 0;
     }
     return arg0;
-}
 }

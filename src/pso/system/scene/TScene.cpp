@@ -1272,9 +1272,8 @@ void TScene::cleanup_materials() {
     (this->*fns[TScene__data_805D5FE8])();
 }
 
-extern "C" {
+
 void TScene::cleanup_fmt1_materials() {  }
-}
 
 void TScene::cleanup_fmt2_materials() {
     s32 i;
@@ -1307,9 +1306,8 @@ void TScene::cleanup_fmt2_materials() {
     }
 }
 
-extern "C" {
+
 void TScene::copy_header_and_vec(void* q) { *(u16 *)&this->m_name = *(u16*)((char*)q + 0x0); *(u16*)((char*)this + 0x2) = *(u16*)((char*)q + 0x2); *(f32 *)&this->m_flags = *(f32*)((char*)q + 0x4); *(f32 *)&this->m_prev = *(f32*)((char*)q + 0x8); *(f32 *)&this->m_next = *(f32*)((char*)q + 0xc); *(f32 *)&this->m_up = *(f32*)((char*)q + 0x10); }
-}
 
 s32 find_uv_animation__6TSceneFPvPv(void *task, Uv_80205DE4 *uv) {
     s16 *p;
@@ -1439,9 +1437,8 @@ void TScene::init_material_nodes() {
     }
 }
 
-extern "C" {
+
 void TScene__sub_80205AE8(s32 *) {  }
-}
 
 Ent_80205AA8 *find_material_entry_by_id__6TSceneFPvUs(void *self, u16 id) {
     Tbl_80205AA8 *t = (Tbl_80205AA8 *)TScene__material_info_buffer;
@@ -1455,9 +1452,8 @@ Ent_80205AA8 *find_material_entry_by_id__6TSceneFPvUs(void *self, u16 id) {
     return 0;
 }
 
-extern "C" {
+
 void TScene::run_task() { set_field4(); advance_scene_object_animations(); dispatch_material_animation(); }
-}
 
 void TScene::set_field4() {
     if ((void *) TScene__data_805D5FCC != NULL) {

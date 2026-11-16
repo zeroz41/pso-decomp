@@ -3,7 +3,7 @@
 #include "pso/camera/TCameraCtrl_80067FC0.h"
 #include "pso/camera/TCameraCtrl_8006C8E4.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_80488DA0.h"
+
 #include "pso/unk/TUnk_80488D70.h"
 #include "pso/camera/TCameraCtrl.h"
 
@@ -108,7 +108,7 @@ void TUnk_80488DA0::run_task() {
 TUnk_80488DA0::~TUnk_80488DA0() {
 
 }
-extern "C" {
+
 
 void* TCameraCtrl__sub_8006CC30(void* a0) { __ct__13TUnk_80488A28Fv(); *(int*)((char*)a0 + 0x18) = (int)__vt__13TUnk_80488DA0; *(float*)((char*)a0 + 0x6c) = (2e+01f); ((TUnk_80488DA0 *)a0)->m_38 = 0; return a0; }
 
@@ -125,4 +125,3 @@ V_8006CC7C get_target_position__11TCameraCtrlFv(void) {
     return def;
 }
 
-}

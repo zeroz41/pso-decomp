@@ -13,7 +13,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemData.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
+
 
 #pragma inline_depth(1)
 #pragma auto_inline off

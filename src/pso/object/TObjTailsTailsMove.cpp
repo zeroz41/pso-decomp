@@ -4,9 +4,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/math/AngleLookup.h"
 
-extern "C" {
+
 const char *TObjTailsTailsMove_name = "TObjTailsTailsMove";
-}
 
 #pragma push
 #pragma fp_contract on

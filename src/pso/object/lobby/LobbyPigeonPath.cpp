@@ -140,9 +140,6 @@ void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 s32 sample_clamped_path_position(void *arg0, s32 arg1, void *arg2, s32 arg3, f32 farg0);
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-}
-
-extern "C" {
 f32 subtract_vector(Vec_802C0CAC *, Vec_802C0CAC *);
 
 s32 approach_angle_limited(s32, s32, s32);
@@ -394,7 +391,6 @@ s32 sample_motion_node_transform(void *arg0, void *arg1, void *arg2, void *arg3,
 #include "pso/object/base/TObjMotion.h"
 
 
-
 #pragma push
 #pragma readonly_strings on
 void TObjPathObj::vfunc_13() {  }
@@ -446,7 +442,7 @@ s32 sample_clamped_path_position(void *arg0, s32 arg1, void *arg2, s32 arg3, f32
 
 #pragma push
 #pragma fp_contract on
-extern "C" {
+
 void draw_line_strip__10TObjPlayerFPviif(u8 *path_obj, s32 arg1, s32 arg2, f32 farg0) {
     s32 sp14[3];
     s32 sp8[3];
@@ -467,7 +463,6 @@ void draw_line_strip__10TObjPlayerFPviif(u8 *path_obj, s32 arg1, s32 arg2, f32 f
       debug_draw_line(sp14, sp8, 0xF0F0F0FF, 0xF0F0F0FF);
       pop_matrix();
     } while (temp_r30 != 0);
-}
 }
 #pragma pop
 
@@ -635,7 +630,7 @@ void TObjPlayer::load_seabed_dolphin() {
 
 #pragma push
 #pragma fp_contract on
-extern "C" {
+
 void TObjPlayer__sub_802C2900(void) {
     if ((u32) (*(u32 *)&seabed_dolphin_texture_handle) != 0U) {
         release_texture_list((void*)(*(u32 *)&seabed_dolphin_texture_handle));
@@ -650,7 +645,6 @@ void TObjPlayer__sub_802C2900(void) {
 
 void *TObjPlayer__sub_802C28B4(void *arg0) {
     return new TUnk_804E0988(tl_05, arg0);
-}
 }
 #pragma pop
 
@@ -1022,10 +1016,9 @@ void TObjPlayer::free_statics() {
 
 #pragma push
 #pragma fp_contract on
-extern "C" {
+
 void *create__10TObjPlayerFPv(void *arg0) {
     return new TUnk_804E0910(tl_05, arg0);
-}
 }
 #pragma pop
 

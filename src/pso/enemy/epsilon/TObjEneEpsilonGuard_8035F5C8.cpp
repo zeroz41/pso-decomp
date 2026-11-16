@@ -68,12 +68,6 @@ Vec * epsilon_guard_camera_sample_end_ptr;
 void draw_with_fade__19TObjEneEpsilonGuardFPvi(TObjEneEpsilonBody *body, s32 arg1);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 check_path_obstructed(void *, void *);
-}
-
-s16 obj_getS16_118(u8 *p);
-void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
-extern "C" {
-
 void create_fire_explosion_effect(void *, f32, Vec *, s32, s32);
 u32 TObjEneEpsilonGuard__sub_8035FD50(TObjEneEpsilonBody *body, s32 slot);
 extern s32 tl_07;
@@ -84,11 +78,9 @@ void TObjEneEpsilonGuard__sub_8035FB44(TObjEneEpsilonBody *body);
 s32 TObjEneEpsilonGuard__sub_8035FAA8(TObjEneEpsilonBody *body);
 
 extern s32 lbl_805D5870;
-
-
 }
-
-
+s16 obj_getS16_118(u8 *p);
+void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
 extern TObject *tl_04;
 
 

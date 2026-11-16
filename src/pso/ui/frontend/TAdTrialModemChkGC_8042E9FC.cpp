@@ -174,9 +174,6 @@ s32 fn_8042ED98(s32 arg0, const char *arg1) {
 }
 #pragma pop
 
-}
-
-extern "C" {
 s32 EXIGetType(int, int, void *);
 u32 lbl_805D7CC8;
 

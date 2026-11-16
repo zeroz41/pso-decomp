@@ -36,7 +36,7 @@ BmlResourceDescriptor warp_lobby_resource_descriptor = {
 const char *TObjWarpLobby__name = "TObjWarpLobby";
 s32 TObjWarpLobby__instance;
 
-extern "C" {
+
 void TObjWarpLobby::debug_print_area_num() {
     s32 base;
     TObjAreaWarp::debug_print_area_num();
@@ -62,7 +62,6 @@ void TObjWarpLobby::debug_print_area_num() {
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
-}
 
 struct VB_801A0894 { char pad[0x18]; };
 
@@ -154,10 +153,6 @@ void run_task__13TObjWarpLobbyFv(VO_801A0894 *arg0) {
 TObjWarpLobby::~TObjWarpLobby() {
 }
 
-extern "C" {
-
-
-extern s32 __vt__13TObjWarpLobby[];
 
 TObjWarpLobby::TObjWarpLobby(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
 
@@ -188,7 +183,6 @@ TObjWarpLobby::TObjWarpLobby(TObject *parent, void *set_data) : TObjAreaWarp(par
     }
 }
 
-}
 
 struct Sub_801A0B38 { u8 pad[0xc]; s32 value; };
 

@@ -8,7 +8,6 @@
 
 #include "pso/object/door/TODoorBase.h"
 
-#include "pso/object/door/TODoorJungleMain.h"
 
 #include "pso/object/key/TOKeyJungleMain.h"
 
@@ -40,7 +39,6 @@
 
 #include "pso/system/task/TObject.h"
 
-#include "pso/object/base/TObjMotion.h"
 
 struct Vec_8029B640 { f32 x, y, z; };
 
@@ -48,7 +46,6 @@ struct Ids_8029B428 {
     s32 v[3];
 };
 
-extern "C" {
 
 const char *bm_o_jungle_doormain_model_names[5] = {
     "map_jungle01_light1.gj", "map_jungle01_light2.gj", "map_jungle01_light3.gj", "map_jungle01_tobira.gj", NULL,
@@ -64,7 +61,6 @@ CollisionBody TODoorJungleMain_collision_body_parts[1] = {
     {{0.0f, 0.0f, 0.0f}, 20.0f, 80.0f, 1, 0x10003},
 };
 
-}
 
 // Story-flag ids of the three jungle switches (shared with TOKeyJungleMain).
 const s32 TOKeyJungleMain__data_804653C8[3] = {0x46, 0x47, 0x48};
@@ -80,14 +76,6 @@ f32 xz_distance_squared(s32, s32);
 
 extern s32 camera_ctrl_instance;
 
-}
-
-s32 is_any_player_near(s32 arg0);
-
-void clear_story_flag_in_bank(s32 n, s32 flag);
-
-extern "C" {
-
 void TLobby__sub_8029B2A4(void* p);
 
 void *TODoorJungleMain__create(void *arg0);
@@ -95,9 +83,10 @@ void *TODoorJungleMain__create(void *arg0);
 void *__nw__7TObjectFUl(int);
 
 extern void *tl_05;
-
 }
+s32 is_any_player_near(s32 arg0);
 
+void clear_story_flag_in_bank(s32 n, s32 flag);
 struct RecoveredGlobal_8019A9B8_lbl_80446184 {
     s32 value;
     u8 remaining[0xC];
@@ -272,7 +261,6 @@ TODoorJungleMain::~TODoorJungleMain() {
     free_collision_body_parts(this);
 }
 
-extern "C" {
 
 void TODoorJungleMain::run_task() {
     u8 *arg0 = (u8 *)this;
@@ -416,7 +404,6 @@ void TOKeyJungleMain::init_key_slots(void* _w0) {
 
 void TLobby__sub_8029B2A4(void* p) { TOKeyJungleMain::init_key_slots(p); }
 
-}
 
 s32 is_any_player_near(s32 arg0) {
   f32 temp_f31;
@@ -445,7 +432,6 @@ s32 is_any_player_near(s32 arg0) {
   goto loop_1;
 }
 
-extern "C" {
 
 void TODoorJungleMain::vfunc_6(s16 *arg1, s32 arg2) {
     if ((arg1 != NULL) && ((s16) *arg1 == 1)) {
@@ -469,4 +455,3 @@ s32 TODoorJungleMain::update_object_view_visibility(f32 farg0, f32 farg1) {
     return ((TObjBase *)arg0)->TObjBase::update_object_view_visibility(farg0, farg1);
 }
 
-}

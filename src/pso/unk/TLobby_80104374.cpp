@@ -132,7 +132,7 @@ void *item_tool_factory_table[24] = {
 };
 
 void normalize_drop_area(s32 *p);
-extern "C" {
+
 void TLobby::set_boss_buf_entry(int a0, int a1) { item_sync_counter_table[(unsigned short)(a1)] = a0; }
 int TLobby::get_sync_counter(int a0) {  return item_sync_counter_table[(unsigned short)(a0)]; }
 s32 TLobby::get_item_data(u32 arg0) {
@@ -176,7 +176,6 @@ void TLobby::handle_select_confirm() {
             fn_801058E8(chr);
         }
     }
-}
 }
 
 void normalize_drop_area(s32 *p) {
@@ -316,7 +315,6 @@ s32 is_local_player_off_current_floor() {
     return 0;
 }
 
-extern "C" {
 
 u8 TObjPlayer::find_adjacent_matching_slot(u8 arg0) {
     s16 spC;
@@ -388,7 +386,6 @@ s32 item_identity_matches(u8 *arg0, u8 *arg1) {
     var_r3 = 0;
   }
   return 0;
-}
 }
 s32 compare_item_data_masked(void *arg0, void *arg1, s32 arg2) {
     u8 *a = (u8 *)arg0;
@@ -723,20 +720,13 @@ Fn_8010542C item_create_fn_table[5] = {
     (Fn_8010542C)create_weapon_for_item, TLobby__sub_801054E0, TItemMag::create, TItemObject::create_tool,
     (Fn_8010542C)TItemMoney::create,
 };
-extern s32 TLobby__designated_client_id;
 extern Entry_8010567C *quest_object_entries;
-extern s32 local_client_id;
 int check_class_equip_permission(TObjPlayer *player, s32 perm);
 s32 *csnVecterUnder(s32 origin, s32 mask);
+void send_6x60_standard_drop_item_request(Obj_80105538 *self);
 }
 void *build_6x06_send_guild_card(void *arg0);
 extern Rec_80105538 *TLobby__data_805D6144;
-extern "C" {
-void send_6x60_standard_drop_item_request(Obj_80105538 *self);
-
-}
-
-
 extern "C" s32 is_script_controlled__10TObjPlayerFv(void *);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
   void *new_var;
@@ -952,7 +942,7 @@ s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
   return 0;
 }
 
-extern "C" {
+
 int check_class_equip_permission(TObjPlayer *player, s32 perm) {
     s32 t = player->class_flags;
     if (t & CLASS_FLAG_HUNTER) {
@@ -978,7 +968,6 @@ int check_class_equip_permission(TObjPlayer *player, s32 perm) {
 }
 
 u8 roll_weapon_special_channel15(u8 arg0) { return roll_weapon_special_for_stars(arg0); }
-}
 
 TItem *construct_item(TItemData *data) {
     Item_8010542C *src = (Item_8010542C *)data;
@@ -1142,9 +1131,6 @@ Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *arg0, s32 arg1) {
     return item;
 }
 
-}
-
-extern "C" {
 s32 create_load_unload_set(ItemClassLoadUnloadEntry *table);
 
 void TObjPlayer::free_item_globals() { TItemDrop__sub_8010F168((void *)item_class_load_handle, (s16)((void*)1)); item_class_load_handle = 0; TItemLoad::free_all(); TItemBuff::free_all_and_init(); }
@@ -1163,10 +1149,6 @@ s32 TObjPlayer::is_script_controlled() {
 }
 
 int TObjPlayer::activate_d04_slot() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 1); }
-
-}
-
-extern "C" {
 
 int TItemData::test_flag3() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 3); }
 int TItemData::get_item_field_2() { return TObjPlayer::get_slot_value((s32 *)((char*)this + 0xd04), 2); }

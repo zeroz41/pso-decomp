@@ -21,7 +21,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/darkfalz/TObjDFDemo0.h"
-#include "pso/system/task/TObject.h"
+
 
 const char *TObjDFDemo0__name = "TObjDFDemo0";
 const ModelNodeSpec TObjDFDemo0__model_node_entries[7] = {

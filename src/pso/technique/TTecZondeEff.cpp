@@ -14,9 +14,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/FloorArea.h"
-#include "pso/system/task/TObject.h"
-#include "pso/technique/TTecZondeEff.h"
+
 
 #pragma readonly_strings on
 

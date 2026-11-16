@@ -47,7 +47,7 @@ void TLobby::send_6F_burst_done() {
 }
 
 // ---- pso/network/TProtocol_801DB5C4
-#include "pso/network/TProtocol.h"
+
 
 void TProtocol::send_quest_menu_closed() {
     packet_header header;
@@ -59,9 +59,7 @@ void TProtocol::send_quest_menu_closed() {
 }
 
 // ---- pso/network/TProtocol_801DB630
-#include "types.h"
-#include "pso/network/TProtocol.h"
-#include "pso/network/protocol/protocol.h"
+
 
 void TProtocol::handle_cmd_97(packet &pkt) {
     s32 *arg1 = (s32 *)&pkt;
@@ -79,7 +77,7 @@ void TProtocol::handle_cmd_97(packet &pkt) {
 }
 
 // ---- pso/network/TProtocol_801DB684
-#include "pso/network/TProtocol.h"
+
 #include "pso/ui/chat/TChatMessage.h"
 #include "pso/player/TPlyGuildCardTag_8007B434.h"
 #include "pso/unk/text_801DF280.h"
@@ -161,9 +159,7 @@ void TProtocol::send_simple_mail(TChatMessage &message) {
 }
 
 // ---- pso/network/TProtocol_801DB8EC
-#include "types.h"
-#include "pso/network/TProtocol.h"
-#include "pso/network/protocol/protocol.h"
+
 
 void TProtocol::handle_cmd_95(packet &pkt) {
     s32 *arg1 = (s32 *)&pkt;
@@ -192,7 +188,7 @@ void TProtocol::handle_cmd_92(packet &pkt) {
 }
 
 // ---- pso/unk/text_801DB998
-#include "types.h"
+
 #include "pso/player/TPlySmth.h"
 #include "pso/ui/chat/TChatMessage_801DF918.h"
 #include "pso/unk/text_801DB998.h"
@@ -228,9 +224,7 @@ void send_register_9c(u8 *arg0) {
 }
 
 // ---- pso/network/TProtocol_801DBA58
-#include "types.h"
-#include "pso/network/TProtocol.h"
-#include "pso/network/protocol/protocol.h"
+
 
 void TProtocol::handle_cmd_90(packet &pkt) {
     s32 *arg1 = (s32 *)&pkt;
@@ -250,10 +244,10 @@ void TProtocol::handle_cmd_90(packet &pkt) {
 #include <global_types.h>
 #include "pso/network/TProtocol_801DFCAC.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
-#include "pso/network/TProtocol.h"
+
 #include "pso/unk/text_801DFC3C.h"
 #include "pso/system/byteswap.h"
-#include "pso/unk/TLobby.h"
+
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include <string.h>
 #include <stdio.h>
@@ -271,7 +265,7 @@ void TProtocol::handle_cmd_90(packet &pkt) {
 extern packet *server_packet;
 extern const char *port_map_copyright;
 
-#include "types.h"
+
 #include "pso/item/TItem.h"
 struct RecoveredFields_801DD33C_arg0 {
     u8 field_0;

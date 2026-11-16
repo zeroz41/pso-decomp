@@ -15,10 +15,8 @@ struct G_803D6688 { f32 f0, f4, pad8[2], f10, f14, f18, f1c, f20, f24; };
 
 struct Cam_803D66DC { f32 f0, f4, f8, fC, f10, f14, f18, f1C, f20, f24; };
 
-extern "C" {
 extern RecoveredGlobal_803D662C_lbl_8058D4D0 camera_clip_parameters;
 extern G_803D6688 lbl_8058D4F8;
-}
 
 #pragma push
 #pragma use_lmw_stmw off

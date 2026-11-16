@@ -12,7 +12,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/object/trap/TOTrapChainSaw.h"
+
 extern "C" void vfunc_28__20TOTrapChainSawDamageFv();
 extern "C" void vfunc_16__18TOTrapChainSawEdgeFv();
 extern "C" void vfunc_25__18TOTrapChainSawEdgeFv();
@@ -1026,10 +1026,6 @@ s32 __vt__20TOTrapChainSawDamage[31] = {
     (s32)&scale_by_level__14TOTrapChainSawFf
 };
 
-}
-#include "types.h"
-
-extern "C" {
 u8 * TObjFish__sub_8001EDB0(void *, int);
 u8 *fn_802C9924(s32 arg0) {
     if ((void *) lbl_805D6808 != NULL) {
@@ -1038,11 +1034,6 @@ u8 *fn_802C9924(s32 arg0) {
     return NULL;
 }
 
-}
-#include "types.h"
-#include "pso/object/trap/TOTrapChainSawKey.h"
-
-extern "C" {
 u8 * get_bml_motion(void *, int);
 u8 * get_bml_model(void *, int);
 u8 *TOTrapChainSawKey::get_motion(s32 arg0) {
@@ -1058,10 +1049,6 @@ u8 *TOTrapChainSawKey::get_model(s32 arg0) {
     return NULL;
 }
 
-}
-#include "types.h"
-
-extern "C" {
 void free_bin_model_request(void *, int);
 
 void TOTrapChainSaw::unload_static_data() {
@@ -1079,12 +1066,12 @@ void TOTrapChainSaw::unload_static_data() {
 }
 
 }
-#include "types.h"
+
 #include "pso/render/NinjaUtil.h"
-#include "pso/object/trap/TOTrapChainSaw.h"
-#include "pso/object/trap/TOTrapChainSawEdge.h"
+
+
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"
-#include "pso/object/trap/TOTrapChainSawDamage.h"
+
 
 extern "C" {
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
@@ -1124,20 +1111,14 @@ void TOTrapChainSaw::load_shared_resource() {
 int TOTrapChainSawEdge::check_player_contact() {  }
 
 }
-#include "types.h"
-#include "pso/object/trap/TOTrapChainSawEdge.h"
-#include "pso/object/trap/TOTrapChainSaw.h"
-#include "pso/object/trap/TOTrapChainSawDamage.h"
+
 
 void TOTrapChainSaw::vfunc_18() {  }
 void TOTrapChainSaw::vfunc_26() {  }
 void TOTrapChainSaw::vfunc_27() {  }
 void TOTrapChainSaw::vfunc_28() {  }
 void TOTrapChainSaw::vfunc_29() {  }
-#include "types.h"
-#include "pso/object/trap/TOTrapChainSawEdge.h"
-#include "pso/object/trap/TOTrapChainSaw.h"
-#include "pso/object/trap/TOTrapChainSawDamage.h"
+
 
 void TOTrapChainSawDamage::set_damage(s32 v) { this->m_f8 = v; }
 

@@ -59,7 +59,7 @@ void (*ending_scene_callbacks[26])(void) = {
     TAdRicoRingCtrl::load_static_resource, TAdRicoRingCtrl::release_global_805D4A00,
 };
 
-extern "C" {
+
 typedef char RecoveredGlobal_8008C534_main_task_size[sizeof(RecoveredGlobal_8008C534_main_task) == 0x34 ? 1 : -1];
 
 void fn_8008C4F4(void) {
@@ -67,7 +67,6 @@ void fn_8008C4F4(void) {
     main_task.delete_layer_children();
     TLobby::call_funcs_reverse(ending_scene_callbacks, sizeof(ending_scene_callbacks));
     render_tick();
-}
 }
 void process_async_file_reads(void);
 void update_sound_request_slots(void);

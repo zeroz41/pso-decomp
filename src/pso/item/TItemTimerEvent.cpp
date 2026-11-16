@@ -12,7 +12,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct RecoveredGlobal_8011DC90___vt__15TItemTimerEvent {
     s32 value;
@@ -265,9 +265,6 @@ void TItemTimerEvent::clear_active() {
     item_timer_event_instance = NULL;
 }
 
-}
-
-extern "C" {
 void *__nw__7TObjectFUl(int);
 
 

@@ -4,7 +4,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/TOBind.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -94,7 +94,7 @@ TOBind::~TOBind() {
     this->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-extern "C" {
+
 typedef char RecoveredGlobal_80158890___vt__6TOBind_size[sizeof(RecoveredGlobal_80158890___vt__6TOBind) == 0x3C ? 1 : -1];
 u8 *TOBind__ct(TOBind *bind, s32 arg1) {
     __ct__14TObjCollidableFP7TObject(bind, tl_05);
@@ -123,4 +123,3 @@ u8 *TOBind__ct(TOBind *bind, s32 arg1) {
     return (u8 *)bind;
 }
 
-}

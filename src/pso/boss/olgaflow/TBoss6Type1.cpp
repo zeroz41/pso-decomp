@@ -405,8 +405,6 @@ void fire_at_all_players__11TBoss6Type1FPvf(Boss_802B5AD4 *, f32);
 int release_object__11TBoss6Type1FPv(void*);
 
 
-
-
 }
 
 void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);
@@ -426,7 +424,7 @@ struct Stack_802B7D74_boss6_1
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/player/TObjPlayer.h"
+
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 struct Stack_802B9204_boss6_1 {
     s32 sp8;
@@ -434,7 +432,6 @@ struct Stack_802B9204_boss6_1 {
     u8 trailing_storage[0xF];
 };
 extern "C" {
-
 
 
 u8 * TBoss6Type1__sub_802B96C0(s32 arg0, s32 arg1);
@@ -480,18 +477,10 @@ f32 vec3_dot(void *, void *);
 typedef struct Stack_802B7D74_boss6_1 Stack_802B7D74_boss6_1;
 
 
-}
-
-void build_6xA4_olga_flow_boss_actions(void* p);
-extern "C" {
-
-
-
 s32 submit_cursor_candidate(void *, int);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 }
-
-
+void build_6xA4_olga_flow_boss_actions(void* p);
 /* 6xA4: the Olga Flow boss action sent by send_6xA4_action. */
 struct OlgaFlowActionMsg {
     u8 command;
@@ -506,8 +495,6 @@ struct T1_802B529C;
 struct Boss_802B5434;
 struct Boss_802B8EE0;
 extern "C" {
-
-
 
 
 extern s32 tl_04;
@@ -1114,7 +1101,6 @@ void TBoss6Type1::set_action_state(s32 arg1) {
         (((Boss_802B865C *)this)->*a.action)();
     }
 }
-extern "C" {
 
 
 Blk_802B8624 *copy_block__11TBoss6Type1FPvPv(Blk_802B8624 *d, const Blk_802B8624 *s) {
@@ -2058,7 +2044,6 @@ void TBoss6Type1::sub_802B626C() {
         pop_matrix();
     }
 }
-}
 
 
 void TBoss6Type1::init_parts() { TBoss6Type1::set_part_default_value((int)this, (void*)((char*)this + 0x5d8)); TBoss6Type1::set_part_default_value((int)this, (void*)((char*)this + 0x5e4)); TBoss6Type1::set_part_default_value((int)this, (void*)((char*)this + 0x5f0)); this->update_trail_points(); }
@@ -2095,7 +2080,6 @@ void TBoss6Type1::update_effect_points() {
 }
 
 void TBoss6Type1::set_part_default_value(int a0, void* a1) { *(float*)((char*)a1 + 0x4) = 10.0f; }
-extern "C" {
 
 
 s32 TBoss6Type1__sub_802B6060(u8 *arg0) {
@@ -2697,7 +2681,6 @@ void TBoss6Type1::draw_model() {
     TBoss6PlotFalz::update_camera_target();
     pop_matrix();
     TParticleCtrl::end_effect_render();
-}
 }
 
 

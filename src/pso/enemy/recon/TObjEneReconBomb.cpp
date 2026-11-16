@@ -21,7 +21,7 @@
 #include "pso/enemy/recon/TObjEneRecobox_8031FCB0.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer.h"
+
 
 #pragma readonly_strings on
 
@@ -282,10 +282,6 @@ u8 *TObjEneReconBomb__ct(TObjEneReconBomb *ene_recon_bomb, s32 arg1, s32 arg2, s
 }
 
 const char *TObjEneReconBomb__name = "TObjEneReconBomb";
-
-}
-
-extern "C" {
 
 void *__nw__7TObjectFUl(int);
 

@@ -24,9 +24,7 @@
 #include "pso/unk/TUnk_804DDD28.h"
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
 #include "pso/unk/TLobby.h"
-#include "pso/system/data/FlagWord.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/TLobby.h"
+
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
@@ -395,10 +393,6 @@ void TObjPlayer__sub_801BF690(u8 *arg0) {
     *(f32 *)((s8 *)arg0 + 0xC) = (f32) TObjPlayer__data_805DC278;
 }
 
-}
-
-extern "C" {
-
 int TObjPlayer__sub_801BF8CC(void* p);
 int reset__8FlagWordFv(void*);
 int get_enabled__11TMainCursorFv(void*);
@@ -476,7 +470,7 @@ struct RecoveredGlobal_801BF9F0_lbl_804C3E50 {
     u8 remaining[0xC];
 };
 
-extern "C" {
+
 extern RecoveredGlobal_801BF9F0_lbl_804C3E50 lbl_804C3E50;
 
 void TObjPlayer::init_tag() {
@@ -518,7 +512,6 @@ s32 TObjPlayer__sub_801BFA4C(s32 arg0, s16 arg1) {
     return arg0;
 }
 
-}
 
 s32 TObjPlayer::free_if_valid(s32 arg0, s16 arg1) {
     if ((arg0 != 0) && (arg1 > 0)) {
@@ -611,15 +604,12 @@ int init_player_scale_state(TObjPlayer *player) {
     player->set_speed(lbl_805DC2DC);
 }
 
-extern "C" {
-
 
 void TObjPlayer::set_speed(f32 farg0) {
     *(f32 *)((s8 *)this + 8) = farg0;
     set_scale_xyz(farg0);
 }
 
-}
 
 void TObjPlayer::set_scale_xyz(f32 farg0) {
     *(f32 *)((s8 *)this + 0x14) = farg0;
@@ -627,7 +617,6 @@ void TObjPlayer::set_scale_xyz(f32 farg0) {
     *(f32 *)((s8 *)this + 0xC) = farg0;
 }
 
-extern "C" {
 
 void*TObjPlayer::init_pair() { TObjPlayer__sub_801BFE88((u8 *)this); TObjPlayer__sub_801BFE88((u8 *)((char*)this + 0xc)); return this; }
 
@@ -647,10 +636,6 @@ s32 TObjPlayer::init_state() {
 }
 
 }
-
-}
-
-extern "C" {
 
 void TObjPlayer__sub_801BFED4(void* p) { *(s32*)((char*)p + 0x4) = -1; }
 s32 TObjPlayer::setup_state() {
@@ -696,4 +681,3 @@ int TUnk_804DDD28::vfunc_5(s32) { return 0; }
 int TObjPlayer::sub_802a7290_fwd() { return ((TLobby *)this)->get_valid_child(); }
 int TObjPlayer::is_handle_valid() { return TLobby::validate_handle((s32 *)this); }
 
-}

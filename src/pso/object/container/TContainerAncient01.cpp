@@ -11,12 +11,11 @@
 #include "pso/system/task/TObject.h"
 static const f32 TContainerAncient01__data_805DBD10[1] = {1.0f};
 static const f32 TContainerAncient01__data_805DBD14[1] = {0.0f};
-#include "types.h"
-#include "pso/system/task/TObject.h"
+
+
 #include "pso/player/TObjPlayer.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/object/container/TContainerAncient01R.h"
+
+
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -849,14 +848,11 @@ void TContainerAncient01::sub_8018B700() {
 }
 
 }
-#include "types.h"
+
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/object/container/TContainerAncient01.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct Base_8018B820_8018B79C { char pad[0x18]; };
 struct VObj_8018B820_8018B79C : Base_8018B820_8018B79C {
@@ -883,16 +879,9 @@ struct VObj_8018B820_8018B79C : Base_8018B820_8018B79C {
     virtual void m20(s32, f32);
 };
 extern "C" {
-u32 get_bml_motion(int, int);
-s32 get_bml_model(int, int);
-s32 submit_cursor_candidate(void *, int, f32);
 extern s32 TContainerAncient01__bml_resource;
 
 
-s32 scale_current_matrix(void *);
-s32 post_translate_matrix(void *);
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
-s32 push_matrix();
 s32 reset_state__19TContainerAncient01Fv();
 
 f32 TContainerAncient01::receive_physical_attack(void *, f32) {
@@ -992,8 +981,8 @@ void TContainerAncient01::run_task() {
 }
 
 }
-#include "types.h"
-#include "pso/object/container/TContainerAncient01.h"
+
+
 #include "pso/enemy/stelth/TObjEneMe3Stelth.h"
 
 struct Param_8018BB64 { s32 a; s32 b; s32 c; s32 d; };
@@ -1005,13 +994,10 @@ extern "C" {
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern Param_8018BB64 container_ancient_anim_binding[];
 
-extern s32 TContainerAncient01__effect_id_table[];
 
 u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 arg2);
 void free_bin_model_request(void*, int);
-void *__nw__7TObjectFUl(int);
 
-extern void *tl_05;
 
 void *TContainerAncient01::create(void *arg0) {
     void *o = __nw__7TObjectFUl(0x370);
@@ -1054,19 +1040,14 @@ void TContainerAncient01::load_resources() {
 
 }
 #include "pso/render/RenderFadeState.h"
-#include "pso/system/vector.h"
+
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/object/ambient/TObjFish.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/object/base/TObjChara.h"
+
+
 #include "pso/object/container/TObjContainerJungEnemy.h"
 #include "pso/object/container/TObjContainerIdo.h"
 #include "pso/item/TUnk_804B97C0.h"
-#include "pso/object/container/TContainerAncient01.h"
-#include "pso/object/container/TContainerAncient01R.h"
 
-#include "types.h"
 
 struct RecoveredGlobal_8018BD00_TContainerAncient01__data_804B6DC0 {
     s32 value;
@@ -1105,29 +1086,16 @@ struct V_8018BE98 : B_8018BE98 {
     virtual void m20(s32 a, f32 b);
 };
 
-extern "C" {
-
-s32 TObjFish__sub_8001EDB0(int, int);
-s32 get_bml_model(int, int);
 
 extern s32 __vt__19TContainerAncient01[];
 extern s32 TContainerAncient01__name;
-extern s32 TContainerAncient01__bml_resource;
 
-u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 arg2);
-
-s32 TContainerAncient01__sub_8018BE90(void);
-s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
-
-}
 
 TContainerAncient01::~TContainerAncient01() {
     unregister_object_by_id();
     free_collision_body_parts(this);
 }
 
-extern "C" {
 
 #pragma push
 #pragma fp_contract on
@@ -1184,7 +1152,6 @@ f32 TContainerAncient01::receive_weapon_special_attack(void *, void *) {
 void TContainerAncient01::apply_knockback_from_attacker(u8 *, f32) {  }
 s32 TContainerAncient01::try_start_action(s32, s32) { return 1; }
 s32 TContainerAncient01::roll_physical_accuracy(void *, s32, f32) { return 1; }
-}
 
 s32 TContainerAncient01__bml_resource;
 s32 TContainerAncient01R__bml_resource;

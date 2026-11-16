@@ -4,7 +4,7 @@
 #include "pso/ui/charcreate/TChCrTagPlGraphic.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 
-extern "C" {
+
 #pragma push
 #pragma opt_common_subs off
 #pragma fp_contract on
@@ -28,7 +28,6 @@ void TChCrTagPlGraphic::draw_class_illustration() {
 }
 #pragma pop
 
-}
 
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 
@@ -135,7 +134,6 @@ TChCrTagPlGraphic::TChCrTagPlGraphic(TObject *parent, void *arg) : TChCrTag(pare
     ((TWindowSubSymbolChatPartsSet *)&pos)->copy_vec2((void *)&e->pos);
 }
 
-extern "C" {
 
 void *TChCrTagPlGraphic::create(void *arg0) {
     return new TChCrTagPlGraphic(tl_03, arg0);
@@ -153,4 +151,3 @@ void TChCrTagPlGraphic::create_matching_tags() {
     }
 }
 
-}

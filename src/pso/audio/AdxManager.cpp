@@ -197,9 +197,6 @@ void TLobby::adxm_goto_mwidle_border() {
     }
     OSSetThreadPriority(&adxm_worker_thread, lbl_804F9D80.prio);
 }
-}
-
-extern "C" {
 void fn_803CBCA0(void) {
     OSThread *t;
     if (--lbl_805D7594 == 0) {

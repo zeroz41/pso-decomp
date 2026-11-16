@@ -10,7 +10,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/object/switch/TOSwitchItem.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer.h"
+
 
 extern "C" {
 extern const u8 listed_equipment_table[][3];

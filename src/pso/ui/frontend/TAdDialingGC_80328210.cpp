@@ -8,7 +8,7 @@
 #include "pso/ui/frontend/TAdDialingGC.h"
 #include "pso/unk/TLobby_8013AD38.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/frontend/TAdDialingGC.h"
+
 
 struct Stack_803286AC {
     s32 sp8;
@@ -404,19 +404,9 @@ void TAdDialingGC::update_status_display() {
     }
 }
 
-}
-
-extern "C" {
-
 int update_dialing_display__12TAdDialingGCFi(void*);
 
 int TAdDialingGC::refresh_display() { return update_dialing_display__12TAdDialingGCFi((void*)(8)); }
-
-}
-
-extern "C" {
-
-s32 render_status_disp__23TAdSinglePlyChrSelectGCFff(f32, f32);
 
 void TAdDialingGC::init_dialog() {
     TAdDialingGC__sub_8013ADBC(0);

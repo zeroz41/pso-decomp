@@ -14,8 +14,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/system/task/TObject.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
+
 
 // One TU: TLobby__sub_8034DAA0 (jumptable after the TUnk_804F07C8 vtable in .data),
 // the party-area task, TTecReverser::is_active, the 4-player notifiers and the
@@ -132,18 +131,8 @@ typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
 
 typedef char RecoveredGlobal_8034DEA0_TNpcPlayer__data_804ABC90_size[sizeof(RecoveredGlobal_8034DEA0_TNpcPlayer__data_804ABC90) == 0xA00 ? 1 : -1];
 
-}
-
-
-extern "C" {
-
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 
-
-}
-
-
-extern "C" {
 
 s32 notify_field1c__10TObjPlayerFl();
 s32 send_item_pickup_request__10TObjPlayerFl();
@@ -759,7 +748,7 @@ void set_partner_common_remark(s32 kind, const char *text) {
     }
 }
 
-extern "C" {
+
 void TObjPlayer::update_4p_battle_ctrls() {
     s32 var_r31;
 
@@ -924,4 +913,3 @@ void TLobby__sub_8034DAA0(s32 arg0, u32 arg1) {
     }
 }
 
-}

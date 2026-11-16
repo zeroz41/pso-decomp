@@ -7,7 +7,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/system/task/TObject.h"
+
 #include "pso/object/base/TObjMotion.h"
 struct Vec_8036CF30 { f32 x, y, z; };
 

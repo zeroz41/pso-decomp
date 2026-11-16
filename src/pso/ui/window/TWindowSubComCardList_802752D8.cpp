@@ -3,9 +3,9 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
+
 void draw_selection_bar(u8 *arg0, u8 *arg1, s32 arg2);
-extern "C" {
+
 extern s32 actor_frame_tick;
 void TWindowSubComCardList::draw_card_list_selection(u8 *window_key_board_soft) {
   s16 temp_r0;
@@ -22,5 +22,4 @@ void TWindowSubComCardList::draw_card_list_selection(u8 *window_key_board_soft) 
       }
     }
   }
-}
 }

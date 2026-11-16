@@ -12,11 +12,11 @@
 #include "pso/map/FloorArea.h"
 
 #include <stddef.h>
-#include "pso/map/FloorArea.h"
+
 #include "pso/item/TItemData.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
+
 struct Stack_801D8664 {
     s8 sp8;
     s8 sp9;

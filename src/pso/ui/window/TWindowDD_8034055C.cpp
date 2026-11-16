@@ -18,10 +18,6 @@ extern const f32 lbl_805DFC08;
 extern const f32 lbl_805DFC2C;
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
-}
-
-extern "C" {
-
 void TWindowDD__sub_803489B8(void *ctx, E_803403F8 *points, s32 row);
 extern s32 lbl_805D63F0;
 extern const f32 TWindowDD__data_805DFB20;

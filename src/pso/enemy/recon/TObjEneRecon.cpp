@@ -85,10 +85,6 @@ void TObjEneRecon::render_shadows() {
   }
 }
 
-}
-
-extern "C" {
-
 s32 post_translate_matrix(void *);
 
 
@@ -107,10 +103,6 @@ void TObjEneRecon::vfunc_106() {
         pop_matrix();
     }
 }
-
-}
-
-extern "C" {
 
 s32 get_mode__11TCameraCtrlFPv(void *);
 
@@ -227,10 +219,6 @@ void render__12TObjEneReconFv(u8 *ene_recon) {
     }
 }
 #pragma pop
-
-}
-
-extern "C" {
 
 s32 update_camera_sequence__9TObjEneDDFv();
 
@@ -1324,11 +1312,6 @@ void TObjEneRecon::sub_8031D4B0(s32 arg1) {
     }
 }
 
-}
-
-extern "C" {
-
-
 s32 TObjEneRecon::vfunc_104(f32 farg0) {
     if (this->vfunc_99() != 0) {
         ((TObjEneDD_ST *)this)->select_and_apply_target(farg0);
@@ -1459,11 +1442,6 @@ s32 TObjEneRecon__sub_8031DA90(u8 *arg0) {
     return 0;
 }
 
-}
-
-extern "C" {
-
-
 f32 TObjEneRecon::approach_value(f32 farg0, f32 farg1) {
     f32 temp_f31;
     f32 var_f1;
@@ -1486,7 +1464,7 @@ f32 TObjEneRecon::approach_value(f32 farg0, f32 farg1) {
 
 struct Vec_8031DBD8 { f32 x, y, z; };
 
-extern "C" {
+
 void TObjEneRecon::vfunc_88() {
     u8 *arg0 = (u8 *)this;
     f32 d;
@@ -1509,7 +1487,6 @@ void TObjEneRecon::vfunc_88() {
     *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xA4)) + 4) = d;
 }
 
-}
 
 struct Base_8031DCCC { char pad[0x18]; };
 struct VObj_8031DCCC : Base_8031DCCC {
@@ -1667,9 +1644,6 @@ void TObjEneRecon::vfunc_63() {
 
 void TObjEneRecon::vfunc_28() {  }
 
-}
-
-extern "C" {
 void *TObjEneRecon__ai_parameters[7] = {
     (void *)0x43610000, (void *)0x3f6d097b, (void *)0x600, (void *)0x0,
     (void *)0x0, (void *)0x0, (void *)0x0,
@@ -1730,10 +1704,6 @@ void TObjEneRecon::load_resources() {
   TLobby::spawn_npc_enemy((s16)(0xC), (s32)((int) ((RecoveredFields_8031E708_temp_r5 *) temp_r5)->field_8), ((RecoveredFields_8031E708_temp_r5 *) temp_r5)->texlist, &binding, TObjEneRecon__collision_body_template.radius, (f32)(15.0f));
 }
 
-}
-
-extern "C" {
-
 void *__nw__7TObjectFUl(int);
 
 extern void *tl_04;
@@ -1789,11 +1759,6 @@ u8 *TObjEneRecon__ct(u8 *ene_recon, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 
     return ene_recon;
 }
 
-}
-
-
-extern "C" {
-
 struct VBase_14_2f517b { char pad[0x14]; };
 
 struct VObj_14_2f517b : VBase_14_2f517b {
@@ -1811,10 +1776,8 @@ s32 all_parents_unqueued_for_destruction__7TObjectFv();
 void run_task__12TObjEneReconFv(TObjEneRecon *arg0);
 
 
-}
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjEneRecon::init_state() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r6;
@@ -1889,7 +1852,7 @@ TObjEneRecon::~TObjEneRecon() {
     __dt__13TUnk_80494938Fv((s8 *)this + 0x480, -1);
 }
 
-extern "C" {
+
 void run_task__12TObjEneReconFv(TObjEneRecon *ene_recon) {
     f32 temp_f2;
     f32 temp_f31;
@@ -1990,8 +1953,6 @@ void TObjEneRecon::dispatch_action(u32 state, s32 reason) {
     default:
         return;
     }
-}
-
 }
 
 

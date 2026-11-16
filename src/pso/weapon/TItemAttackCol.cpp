@@ -145,10 +145,6 @@ struct Hit_802E3D8C { s32 pad; void *pos; };
 extern "C" {
 
 s32 test_flags_any(s32 *flags, s32 mask);
-}
-
-f32 vec_distance_squared(u8 *arg0, u8 *arg1);
-extern "C" {
 s32 play_weapon_hit_sound(void *);
 
 void apply_camera_shake__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
@@ -181,7 +177,7 @@ const char *TItemAttackCol__name = "TItemAttackCol";
 // The particle's direction before the collider's heading is added.
 static ParticleAngles particle_direction = {0x4000, 0, 0x4000};
 }
-
+f32 vec_distance_squared(u8 *arg0, u8 *arg1);
 struct Hit_802E4798 { u8 *obj; s32 idx; };
 
 struct Rec_802E4798 { u8 pad[0x18]; s32 flags; u8 pad2[0x2C - 0x1C]; };
@@ -236,7 +232,7 @@ TUnk_804E355C::TUnk_804E355C(TObject *parent, S_802E451C *params) : TObject(pare
 }
 
 TUnk_804E355C::~TUnk_804E355C() {}
-extern "C" {
+
 void TUnk_804E355C::check_hits() {
     s32 i;
     Hit_802E4798 *e;
@@ -305,14 +301,13 @@ s32 TUnk_804E355C::try_add_hit_target(void *arg1_arg) {
     }
     return 0;
 }
-}
 
 void TUnk_804E355C::vfunc_6(s32 *hit) { resolve_attack_col_hit((u8 *)hit); }
 
 s32 TUnk_804E355C::has_game_join_id() {
     return find_equipped_item(item_id) != 0;
 }
-extern "C" {
+
 s32 TUnk_804E355C::resolve_attack_col_hit(u8 *arg1) {
     u8 *arg0 = (u8 *)this;
     typedef char sp8_offset[(offsetof(Stack_802E456C, sp8) == 0x0) ? 1 : -1];
@@ -596,4 +591,3 @@ void TItemAttackCol::shift_collision_bounds() {
 }
 
 void TItemAttackCol::add_to_active_list(void* a0) { fn_802E3BA8((void*)attack_collider_render_owner, a0); attack_collider_active_count = (attack_collider_active_count + 0x1); }
-}

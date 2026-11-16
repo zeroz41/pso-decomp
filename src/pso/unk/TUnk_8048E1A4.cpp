@@ -22,8 +22,6 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
-extern "C" {
-
 
 f32 TUnk_8048E1A4::receive_physical_attack(void *arg1, f32) {
     if (arg1 != 0U) {
@@ -37,7 +35,6 @@ f32 TUnk_8048E1A4::receive_physical_attack(void *arg1, f32) {
 
 void TObjPlayer::queue_destruction() { TObject::queue_destruction(); }
 
-}
 
 void TUnk_8048E1A4::update_freeze_shell_timer() {
     u8 *arg0 = (u8 *)this;
@@ -216,10 +213,6 @@ void TUnk_8048E1A4::render() {
     }
 }
 
-}
-
-extern "C" {
-
 s32 __ct__13TUnk_8048E1A4FPUcPUc(u32, u32, s32, s32);
 u32 __nw__7TObjectFUl(s32);
 u16 get_entity_id(void *);
@@ -314,7 +307,7 @@ void TLobby::load_freeze_ice_resource() {
 TUnk_8048E1A4::~TUnk_8048E1A4() {
     if (this->m_350 != NULL) { TParticleCtrl::release(this->m_350); }
 }
-extern "C" {
+
 
 #pragma push
 #pragma fp_contract on
@@ -338,7 +331,6 @@ typedef char RecoveredFields_8008213C_arg2_C_offset[offsetof(RecoveredFields_800
 typedef char RecoveredFields_8008213C_arg1_60_offset[offsetof(RecoveredFields_8008213C_arg1, field_60) == 0x60 ? 1 : -1];
 typedef char RecoveredFields_8008213C_arg1_A4_offset[offsetof(RecoveredFields_8008213C_arg1, field_A4) == 0xA4 ? 1 : -1];
 typedef char RecoveredFields_8008213C_temp_r3_10_offset[offsetof(RecoveredFields_8008213C_temp_r3, field_10) == 0x10 ? 1 : -1];
-}
 TUnk_8048E1A4::TUnk_8048E1A4(u8 *arg1, u8 *arg2) : TObjChara((TObject *)((void *)tl_05)) {
     u8 *temp_r3;
     ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_34 = get_bml_model(freeze_shell_bml_resource, 1);

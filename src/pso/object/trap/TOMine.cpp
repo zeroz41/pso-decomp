@@ -33,10 +33,8 @@
 #include "pso/object/trap/TOMineIcon01.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/task/TObject.h"
-#include "pso/camera/TCameraCtrl.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
+
+
 #include "pso/player/TUnk_804B6C24.h"
 
 // ---- declarations carried over from the fragment TOMineTrapDisp_8016EDC8.cpp
@@ -90,27 +88,16 @@ BmlResource *lbl_805D5A50; // bm_o_mine.bml, loaded by TOMine::load_static_resou
 int mine_trap_count;
 
 extern "C" {
-s32 is_locally_controlled__10TObjPlayerFPv(void);
-f32 horizontal_distance_squared(void *, void *);
-void get_player_state__6TOMineFv(void *, u16);
-s32 fn_80171314(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-}
-
 // ---- declarations carried over from the fragment text_8016F1C0.cpp
-extern "C" {
 s32 *get_shared_text_buffer(void);
 void text_builder_append(u8 *str);
-}
-
-void text_builder_reset(void);
-extern "C" {
 s32 is_split_screen();
 extern s32 local_client_id;
 }
-
+void text_builder_reset(void);
 struct Pkt_8016F558 { u8 code, words; u16 object, sub, idx; };
 struct Obj_8016F64C { u8 pad0[0x2FC]; u8 sub[0x58]; s32 state; };
 struct VBase_8016F418 { u8 pad[0x18]; };
@@ -153,13 +140,10 @@ void handle_6x80_trigger_trap(Pkt_8016F418 *arg0);
 struct Trap_8016F704 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x84 - 0x44]; s32 delay; u8 pad88[0x2A8 - 0x88]; void *target; u8 pad2AC[0x34C - 0x2AC]; f32 range; u8 pad350[0x35C - 0x350]; u16 targetId; };
 extern "C" {
 s32 get_current_floor(void);
-f32 horizontal_distance_squared(void *, void *);
 extern u8 lobby_rule_settings[];
 u16 get_entity_id(void *);
 extern s32 enable_v2_features;
 s32 create_placed_trap__10TOMineTrapFUiss(u32 arg0, s16 arg1, s16 arg2);
-s32 is_split_screen();
-extern s32 local_client_id;
 }
 
 struct VBase_18_33b813
@@ -234,9 +218,6 @@ f32 vec3_add_to(void *, void *);
 f32 vec_squared_length(u8 *arg0);
 f32 subtract_vector(void *, void *);
 f32 normalize_vector(void *);
-extern s32 registered_player_count;
-extern s32 lbl_805D5870;
-extern s32 lbl_805D5868;
 extern s32 TOMineIcon01__name;
 extern s32 TOMineIcon02__name;
 extern s32 TOMineIcon03__name;
@@ -275,34 +256,19 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u16 find_nearest_visible_player(void *, int, f32);
 void push_matrix();
 void post_translate_matrix(void *);
-extern u8 chunk_material_color_half_alpha_f32[];
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
 void obj_setFlags30(void *, u32);
 void free_bin_model_request(void*, int);
 int submit_target_to_player_cursor(void*);
 typedef struct RecoveredFields_80170F0C_arg0 RecoveredFields_80170F0C_arg0;
-}
-
 // ---- declarations carried over from the fragment TOMineTrap.cpp
-extern "C" {
 void TOMineTrap__sub_80171368(f32 farg0);
 s16 TOMineTrap__sub_80171340(void* p);
 int TOMineTrap__sub_80171350(void);
 u16 TOMineTrap__sub_80171358(void* p);
 void TOMineTrap__sub_8017141C(void* p);
-}
-
 // ---- functions, last address first (deferred codegen emits them in reverse)
-extern "C" {
 void TOMineTrap__sub_8017141C(void* p) { *(u8*)((char*)p + 0x0) = 128; *(u8*)((char*)p + 0x1) = 2; }
-}
-
-extern "C" {
 void TOMineTrap::send_and_handle_60() { bswap_6x80_trigger_trap(); send_subcommand((u8 *)this); }
-}
-
-extern "C" {
 void TOMineTrap::bswap_6x80_trigger_trap() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 }
 
@@ -320,53 +286,20 @@ s32 TOMineTrap::select_melee_contact_body(void *attacker, f32) {
     return 0;
 }
 
-extern "C" {
+
 void TOMine::vfunc_84() {  }
-}
-
-extern "C" {
 void TOMineTrap::set_trap_count(int a0) { mine_trap_count = a0; }
-}
-
-extern "C" {
 void TOMineTrap::set_instance(int a0) { mine_trap_instance_id = a0; }
-}
-
-extern "C" {
 void TOMineTrap__sub_80171368(f32 farg0) {
     lbl_805D307C = farg0;
 }
-}
-
-extern "C" {
 int TOMineTrap::get_trap_count() {  return mine_trap_count; }
-}
-
-extern "C" {
 u16 TOMineTrap__sub_80171358(void* p) { return *(u16*)((char*)p + 0x37e); }
-}
-
-extern "C" {
 int TOMineTrap__sub_80171350(void) {  return mine_trap_instance_id; }
-}
-
-extern "C" {
 void TOMineTrap::sub_80171348(u16 v) { this->m_2d8 = v; }
-}
-
-extern "C" {
 s16 TOMineTrap__sub_80171340(void* p) { return *(s16*)((char*)p + 0x326); }
-}
-
-extern "C" {
 u16 TOMineTrap::get_trap_type() { return this->m_2d8; }
-}
-
-extern "C" {
 s32 fn_80171314(void *p) { return ((TObjPlayer *)p)->check_flag(0x10000); }
-}
-
-extern "C" {
 TOMine::TOMine(TObject *parent) : TObjChara(parent) {
     m_name = TOMine__name;
     phase = 0;
@@ -384,11 +317,10 @@ TOMine::TOMine(TObject *parent) : TObjChara(parent) {
     obj_setFlags30(this, 0x60000000);
     actorFlags &= ~0x40000;
 }
-}
 
 TOMine::~TOMine() {}
 
-extern "C" {
+
 void TOMine::load_static_resource() {
     s32 temp_r3;
     s32 var_r0;
@@ -399,18 +331,12 @@ void TOMine::load_static_resource() {
     }
     (*(s32 *)&lbl_805D5A50) = var_r0;
 }
-}
-
-extern "C" {
 void TOMine::free_instance() {
     if (lbl_805D5A50 != NULL) {
         free_bin_model_request(lbl_805D5A50, 1);
         lbl_805D5A50 = NULL;
     }
 }
-}
-
-extern "C" {
 void TOMine::render() {
     VObj_801710E4 *arg0 = (VObj_801710E4 *)this;
     s32 t;
@@ -431,17 +357,8 @@ void TOMine::render() {
         pop_matrix();
     }
 }
-}
-
-extern "C" {
 void TOMine::free_parts() { TObjFish::set_global_param(this->texlist); draw_ginja_object(this->model); }
-}
-
-extern "C" {
 void TOMine::free_sub_objects() { TObjFish::set_global_param((s32)(*(void**)((char*)this + 0x378))); draw_ginja_object(*(void**)((char*)this + 0x374)); }
-}
-
-extern "C" {
 void TOMine::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r3;
@@ -481,9 +398,6 @@ void TOMine::run_task() {
         }
     }
 }
-}
-
-extern "C" {
 int TOMine::find_target_player() {
     u8 *arg0 = (u8 *)this;
   u16 temp_r3;
@@ -498,15 +412,9 @@ int TOMine::find_target_player() {
   }
   return ((RecoveredFields_80170F0C_arg0 *) arg0)->field_35C;
 }
-}
-
-extern "C" {
 int TOMine::get_player_state() { return submit_target_to_player_cursor(this); }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TOMine::detonate() {
     s32 i;
     u8 *obj;
@@ -529,13 +437,7 @@ void TOMine::detonate() {
     this->clear_player_status_flag(0, 1);
     this->receive_physical_attack(0, 1.0f);
 }
-}
-
-extern "C" {
 void TOMineTrap::sync_position() { VecCopy(&position, &float_position); refresh_collision_body_centers(); }
-}
-
-extern "C" {
 void TOMine::update_float_height() {
     f32 temp_f1;
     f32 temp_f4;
@@ -552,13 +454,7 @@ void TOMine::update_float_height() {
         float_position.y = (f32) (float_position.y + sin_table_lookup(this->rotation_x));
     }
 }
-}
-
-extern "C" {
 void TOMineTrap__sub_80170CD4(void* p) { ((TOMineTrap *)p)->sync_position(); }
-}
-
-extern "C" {
 void TOMine::sub_80170BEC() {
     u8 *p;
     s32 i;
@@ -580,9 +476,6 @@ void TOMine::sub_80170BEC() {
     }
     ((TOMineTrap *)((u8 *)this))->sync_position();
 }
-}
-
-extern "C" {
 void TOMine::follow_target() {
     u8 *arg0 = (u8 *)this;
   unsigned short new_var;
@@ -612,10 +505,7 @@ void TOMine::follow_target() {
   this->rotation_y = (s32) (10430.38043493439 * atan2_float((f64) stack.sp8, (f64) stack.sp10));
   ((TObjCollidable *)arg0)->refresh_collision_body_centers();
 }
-}
-
 #pragma pop
-extern "C" {
 void TOMine::vfunc_86() {
     u8 *arg0 = (u8 *)this;
     this->mode = 2;
@@ -625,9 +515,6 @@ void TOMine::vfunc_86() {
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TOMine *)(arg0))->vfunc_81();
 }
-}
-
-extern "C" {
 void TOMine::update_trigger() {
     s16 sp8;
     if (((u16) this->entity_id >= 0x4000U) && ((u32) this->set_entry != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
@@ -636,9 +523,6 @@ void TOMine::update_trigger() {
         send_object_state_update(&sp8);
     }
 }
-}
-
-extern "C" {
 f32 TOMine::receive_direct_attack(void *arg1, DirectAttackPayload payload, void *, s32, s32) {
   s32 temp_r0;
   s32 var_r31;
@@ -682,9 +566,6 @@ f32 TOMine::receive_direct_attack(void *arg1, DirectAttackPayload payload, void 
   }
   return 0.0f;
 }
-}
-
-extern "C" {
 f32 TOMine::receive_weapon_special_attack(void *arg1, void *) {
     if (is_target_in_list(arg1) == 1) {
         return 0.0f;
@@ -694,9 +575,6 @@ f32 TOMine::receive_weapon_special_attack(void *arg1, void *) {
     }
     return 0.0f;
 }
-}
-
-extern "C" {
 f32 TOMine::receive_physical_attack(void *, f32) {
     s16 sp8;
     if (((u16) this->entity_id >= 0x4000U) && ((u32) this->set_entry != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
@@ -706,9 +584,6 @@ f32 TOMine::receive_physical_attack(void *, f32) {
     }
     return 0.0f;
 }
-}
-
-extern "C" {
 void TOMine::vfunc_6(s16 *arg1, s32 arg2) {
     s16 temp_r0;
     temp_r0 = *(s16 *)((s8 *)arg1 + 0);
@@ -732,17 +607,11 @@ void TOMine::vfunc_6(s16 *arg1, s32 arg2) {
         this->queue_destruction_for_each_node();
     }
 }
-}
-
-extern "C" {
 void TOMine::sub_8017070C() {
     spawn_particle_effect(((void *) (((u8 *)this) + 0x2FC)), 0x47);
     this->vfunc_82();
     this->vfunc_80();
 }
-}
-
-extern "C" {
 // Slot 82: the detonation particle (inferred; was named detonate_if_triggered on TOMineTrap).
 void TOMine::vfunc_82() {
     s32 arg0 = (s32)this;
@@ -753,9 +622,6 @@ void TOMine::vfunc_82() {
         }
     }
 }
-}
-
-extern "C" {
 // Slot 80: plays the floor area's mine_trap_keymachine_table sound (was named attach_to_keymachine on TOMineTrap).
 void TOMine::vfunc_80() {
     s32 arg0 = (s32)this;
@@ -765,9 +631,6 @@ void TOMine::vfunc_80() {
         play_sound_effect(elem, arg0 + 0x38, 0, 0);
     }
 }
-}
-
-extern "C" {
 // Slot 81: plays the floor area's mine_trap_effect_table sound (was named spawn_effect on TOMineTrap).
 void TOMine::vfunc_81() {
     s32 arg0 = (s32)this;
@@ -777,9 +640,6 @@ void TOMine::vfunc_81() {
         play_sound_effect(elem, arg0 + 0x38, 0, 0);
     }
 }
-}
-
-extern "C" {
 void TOMine::update_state() {
     s32 temp_r0;
     *(s32 *)((s8 *)this + 0x348) = (s32) this->scale.z;
@@ -799,25 +659,13 @@ void TOMine::update_state() {
     }
     this->m_344 = 2;
 }
-}
-
-extern "C" {
 const char *TOMine::get_name() { return (const char *)get_localized_text_entry(16, 16); }
-}
-
-extern "C" {
 void TOMine::vfunc_85() {  }
-}
-
-extern "C" {
 void TOMine::apply_object_set_data(void *set_data) {
     TObjBase::apply_object_set_data(set_data);
     this->spawn_disp_objects();
     VecCopy(&float_position, &position);
 }
-}
-
-extern "C" {
 void TOMine::spawn_disp_objects() {
     TOMineDisp *disp;
     u16 i;
@@ -836,7 +684,6 @@ void TOMine::spawn_disp_objects() {
             }
         }
     }
-}
 }
 
 s32 TOMine::select_melee_contact_body(void *attacker, f32) {
@@ -865,23 +712,11 @@ int TOMine::calc_distance_accuracy_penalty(void *attacker, void *, void *, float
     return 0;
 }
 
-extern "C" {
+
 void TOMine::vfunc_79() {  }
-}
-
-extern "C" {
 void TOMine::apply_knockback_from_attacker(u8 *, f32) {  }
-}
-
-extern "C" {
 s32 TOMine::try_start_action(s32, s32) { return 1; }
-}
-
-extern "C" {
 s32 TOMine::roll_physical_accuracy(void *, s32, f32) { return 1; }
-}
-
-extern "C" {
 s32 TOMine::is_target_in_list(void *obj) {
     TOMine *self = this;
     if (obj != 0) {
@@ -897,11 +732,8 @@ s32 TOMine::is_target_in_list(void *obj) {
     }
     return 0;
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
     TObjPlayer *player;
     s32 floor;
@@ -1004,7 +836,6 @@ TOMineTrap::TOMineTrap(TObjBase *owner, s16 kind, s16 slot) : TOMine(tl_05) {
         queue_destruction();
     }
 }
-}
 
 #pragma pop
 TOMineTrap::~TOMineTrap() {
@@ -1012,11 +843,8 @@ TOMineTrap::~TOMineTrap() {
     free_collision_body_parts(this);
 }
 
-extern "C" {
-void *TOMineTrap::get_mine_data_ptr() { return &float_position; }
-}
 
-extern "C" {
+void *TOMineTrap::get_mine_data_ptr() { return &float_position; }
 s32 create_placed_trap__10TOMineTrapFUiss(u32 arg0, s16 arg1, s16 arg2) {
     u16 id;
     void *player;
@@ -1032,9 +860,6 @@ s32 create_placed_trap__10TOMineTrapFUiss(u32 arg0, s16 arg1, s16 arg2) {
     obj = new TOMineTrap((TObjBase *)arg0, arg1, arg2);
     return (s32)obj;
 }
-}
-
-extern "C" {
 void TOMineTrap::destroy_matching_traps() {
     void *p;
     s32 i;
@@ -1045,9 +870,6 @@ void TOMineTrap::destroy_matching_traps() {
         }
     }
 }
-}
-
-extern "C" {
 void TOMineTrap::run_task() {
     TObjChara *attacker;
     TObjPlayer *p;
@@ -1140,27 +962,18 @@ void TOMineTrap::run_task() {
         break;
     }
 }
-}
-
-extern "C" {
 void TOMineTrap::vfunc_86() {
     u8 *arg0 = (u8 *)this;
     this->mode = 2;
     ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
     this->actorFlags = (s32) (this->actorFlags & 0xFFFBFFFF);
 }
-}
-
-extern "C" {
 void TOMineTrap::set_triggered() {
     u8 *arg0 = (u8 *)this;
     this->mode = 3;
     ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
     this->actorFlags = (s32) (this->actorFlags & 0xFFFBFFFF);
 }
-}
-
-extern "C" {
 s32 TOMineTrap::find_target_in_range() {
     Trap_8016F704 *self = (Trap_8016F704 *)this;
     u8 *p;
@@ -1205,13 +1018,7 @@ s32 TOMineTrap::find_target_in_range() {
     }
     return 0;
 }
-}
-
-extern "C" {
 void TOMineTrap::set_state() { this->mode = 4; }
-}
-
-extern "C" {
 void TOMineTrap::vfunc_82() {
     Obj_8016F64C *arg0 = (Obj_8016F64C *)this;
     u32 r;
@@ -1236,7 +1043,6 @@ void TOMineTrap::vfunc_82() {
         break;
     }
 }
-}
 
 f32 TOMineTrap::receive_physical_attack(void *attacker, f32) {
     switch (mode) {
@@ -1258,7 +1064,7 @@ f32 TOMineTrap::receive_physical_attack(void *attacker, f32) {
     return 0.0f;
 }
 
-extern "C" {
+
 void TOMineTrap::send_state_packet(u16 idx) {
     TOMineTrap *self = this;
     if (idx < 3) {
@@ -1270,9 +1076,6 @@ void TOMineTrap::send_state_packet(u16 idx) {
         ((TOMineTrap *)(&pkt))->send_and_handle_60();
     }
 }
-}
-
-extern "C" {
 void handle_6x80_trigger_trap(Pkt_8016F418 *arg0) {
     VObj_8016F418 *p;
     s32 i;
@@ -1322,7 +1125,6 @@ void handle_6x80_trigger_trap(Pkt_8016F418 *arg0) {
         }
         return;
     }
-}
 }
 
 const char *TOMineTrap::get_name() {

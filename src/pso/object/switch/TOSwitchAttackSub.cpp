@@ -88,10 +88,6 @@ u8 *TOSwitchAttackSub__ct(u8 *object, u8 *arg1, s32 arg2, s32 arg3, u32 arg4, f3
     return object;
 }
 
-}
-
-extern "C" {
-
 u32 __nw__7TObjectFUl(s32);
 
 void TOSwitchAttack::create_sub(s32 arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {

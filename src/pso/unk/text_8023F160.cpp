@@ -10,7 +10,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
-#include "pso/system/task/TObject.h"
+
 
 struct RecoveredGlobal_8023F1B8_lbl_804CCDA8 {
     s32 value;
@@ -43,9 +43,6 @@ void set_copy_clear_color_argb(s32, s32, s32);
 void *__nw__7TObjectFUl(u32);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
-}
-
-extern "C" {
 void fn_8023F160(void) {
     TLobby::call_funcs_reverse(&lobby_scene_release_callback_table.value, 0x38);
 }

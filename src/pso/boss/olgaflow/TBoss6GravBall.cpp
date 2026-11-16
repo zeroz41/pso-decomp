@@ -7,7 +7,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/task/TObject.h"
-#include "pso/boss/olgaflow/TBoss6GravBall.h"
+
 #include "pso/player/TObjPlayer.h"
 
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
@@ -314,7 +314,7 @@ void TBoss6GravBall::update_lifetime(void *) {
 
 #include "pso/boss/olgaflow/TBoss6GravBall_80323878.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct Obj_80323D20 {
     const char *name; u8 pad[0xAC - 4]; s32 fAC; s32 fB0; s32 fB4; u8 padB8[4]; f32 fBC; s32 fC0; s32 fC4; f32 pos[3];
@@ -338,7 +338,6 @@ s32 query_teammate_state__9TObjEneDDFv(void);
 void VecCopy__FP3VecPC3Vec(void *, void *);
 
 s32 play_persistent_sound(int, void *, void *, int, int);
-void TBoss6GravBall__sub_80323544(u8 *self);
 s32 clamp_to_ground__14TBoss6GravBallFv();
 
 

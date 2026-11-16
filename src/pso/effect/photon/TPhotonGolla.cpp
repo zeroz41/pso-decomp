@@ -23,7 +23,7 @@
 #include "pso/player/TObjPlayer_801AC0D8.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/map/FloorArea.h"
+
 struct Stack_801ABBAC {
     s32 sp8;
     f32 spC;
@@ -161,7 +161,6 @@ f32 vec_squared_length(u8 *arg0);
 f32 vec3_dot(void *, void *);
 u16 get_entity_id(void *);
 }
-
 
 
 void TPhotonGolla::sub_801AB688() { this->m_15c = 0.0f; *(float*)((char*)this + 0x160) = 0.0f; this->m_164 = 0.0f; *(float*)((char*)this + 0x168) = 0.0f; }
@@ -365,11 +364,6 @@ void TPhotonGolla::run_task() {
     }
 }
 
-#include "types.h"
-#include "pso/effect/photon/PhotonBlastSummon.h"
-#include "pso/unk/TUnk_804C3248.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/effect/photon/TPhotonGolla.h"
 
 extern "C" {
 
@@ -395,28 +389,18 @@ void *destroy__12TPhotonGollaFPvs(void *arg0, s16 arg1) {
 
 }
 
-#include "types.h"
-#include "pso/system/task/TObject.h"
-#include "pso/effect/photon/PhotonBlastSummon.h"
+
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/effect/photon/TPhotonRainbow_801AE640.h"
-#include "pso/player/TObjPlayer_801AB608.h"
+
 #include "pso/unk/text_801ABE14.h"
-#include "pso/system/vector.h"
-#include "pso/unk/TUnk_804C3248.h"
-#include "pso/effect/photon/TPhotonGolla.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/enemy/panarms/TObjEnePanarms.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct Stack_801ABE14 { f32 x, y, z; };
 
 extern "C" {
-void *find_entity_by_id(u16 id);
 s32 init_collision_body_parts(void *, void *, int);
 void sub_801AB688__12TPhotonGollaFv(void *);
-u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-extern u8 *photon_blast_shared_resource;
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
 extern "C" void interact__14TObjCollidableFl();

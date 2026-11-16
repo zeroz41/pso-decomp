@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowBase.h"
+
 
 #pragma readonly_strings on
 
@@ -45,9 +45,6 @@ struct TWindowDuelResult {
 
 extern "C" {
 const char *window_duel_result_class_name = "TWindowDuelResult";
-}
-
-extern "C" {
 s32 draw_visible_window_entries(void *, void *, int);
 s32 draw_list_page_indicator(int, int);
 void draw_window__17TWindowDuelResultFPv(u8 *arg0);

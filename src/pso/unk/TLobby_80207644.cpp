@@ -9,9 +9,8 @@ struct RecoveredGlobal_80207798_lbl_80513920 {
     u8 remaining[0xD4];
 };
 
-extern "C" {
+
 RecoveredGlobal_80207798_lbl_80513920 floor_map_registry;
-}
 
 
 struct RecoveredGlobal_802077CC_lbl_80513920 {

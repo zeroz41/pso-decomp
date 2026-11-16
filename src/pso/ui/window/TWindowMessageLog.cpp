@@ -80,10 +80,6 @@ void TWindowMessageLog::update_scroll_position() {
     this->clamp_scroll_offset();
 }
 
-}
-
-extern "C" {
-
 s32 update_fade__11TWindowBaseFv();
 
 void TWindowMessageLog::update_fade_offset() {
@@ -99,10 +95,6 @@ void TWindowMessageLog::update_fade_offset() {
         clamp_scroll_offset();
     }
 }
-
-}
-
-extern "C" {
 
 s32 clamp_scroll_offset__17TWindowMessageLogFv(f32);
 
@@ -263,7 +255,7 @@ s32 *get_active_photon_object__17TWindowMessageLogFv(u16);
 void append_text_space(void);
 void text_builder_reset(void);
 void cache_last_chat_line(u32 text);
-extern "C" {
+
 extern s32 local_client_id;
 
 void post_chat_log_message(u16 arg0, s32 *shared_text_buffer) {
@@ -301,14 +293,12 @@ u8 *create_message_log_window(s32 arg0, s32 arg1, s32 arg2) {
     }
     return var_r0;
 }
-}
 
 struct RecoveredGlobal_8026AB3C___vt__17TWindowMessageLog { s32 value; u8 remaining[0x14]; };
 typedef char RecoveredGlobal_8026AB3C___vt__17TWindowMessageLog_size[sizeof(RecoveredGlobal_8026AB3C___vt__17TWindowMessageLog) == 0x18 ? 1 : -1];
 
-extern "C" {
+
 const char *TWindowMessageLog__name = "TWindowMessageLog";
-}
 
 struct Stack_8026ABA8 {
     f32 sp8;

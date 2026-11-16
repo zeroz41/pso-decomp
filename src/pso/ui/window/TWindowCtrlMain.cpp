@@ -35,7 +35,7 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/unk/text_80269FE8.h"
 #include "pso/unk/text_80271400.h"
-#include "pso/system/task/TObject.h"
+
 #include "pso/ui/window/TWindowDD.h"
 const char *TWindowCtrlMain__name = "TWindowCtrlMain";
 const char *TWindowCtrlScreen__name = "TWindowCtrlScreen";
@@ -86,13 +86,11 @@ void spawn_action_palette_slot_light(void *window, s32 kind);
 int open_submenu__15TWindowSubEquipFll(void*);
 int append_line__14TWindowMessageFii(void*);
 int try_open_battle_menu__15TWindowMainMenuFs(void*);
-}
-void load_hud_palette_textures(void);
-extern "C" {
 void TWindowCtrlMain__sub_8024D838(void);
 void TWindowCtrlMain__sub_8024D85C(void* p);
 bool TWindowCtrlMain__sub_8024D868(u8 *arg0);
 }
+void load_hud_palette_textures(void);
 struct Pad_8024DCE8 { u8 pad[0x20]; u8 btn[0x30]; };
 struct WBase_8024DCE8 { u8 pad[0x18]; };
 struct W_8024DCE8 : WBase_8024DCE8 {
@@ -106,9 +104,6 @@ struct W_8024DCE8 : WBase_8024DCE8 {
 };
 extern "C" {
 u32 get_player_by_client_id(int);
-}
-void window_request_show(void *arg0);
-extern "C" {
 s32 TWindowCtrl__sub_8024C7F8(void *);
 s32 TWindowCtrl__sub_8024A314();
 s32 TWindowCtrl__sub_8024C7C4(void *);
@@ -130,9 +125,8 @@ int TWindowMainMenu__sub_8024E3F4(void *p);
 void TWindowCtrl__sub_8024DAAC(void *arg0);
 s32 TWindowMainMenu__sub_8024E3E0(void *);
 s32 get_window_layout_position(s32);
-s32 get_function_key_menu__16TKeyBoardControlFPv(void *arg0);
-void TWindowCtrl__sub_8024DAAC(void *arg0);
 }
+void window_request_show(void *arg0);
 struct Ctl_8024E2A8 {
     s32 f0;
     u8 pad4[0x18 - 4];

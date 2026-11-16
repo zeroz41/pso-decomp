@@ -11,7 +11,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowMenu.h"
-#include "pso/ui/city/TShopDeleteItemWindow.h"
+
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
@@ -27,7 +27,7 @@
 #include "pso/unk/text_80222C28.h"
 #include "pso/item/TItemData.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/city/TShopWindowBase.h"
+
 
 struct Base_80337910 { char pad[0x18]; };
 struct VObj_80337910 : Base_80337910 {

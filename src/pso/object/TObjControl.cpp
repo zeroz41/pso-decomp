@@ -8,11 +8,10 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
-#include "pso/system/task/TObject.h"
-#include "pso/enemy/TObjEnemy.h"
+
+
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby.h"
+
 
 struct Ply_800F7118 {
     u8 pad0[0x28];

@@ -25,8 +25,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8027FD88.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
+
 
 class TChCrTagPlBack;
 

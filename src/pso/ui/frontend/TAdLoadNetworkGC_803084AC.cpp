@@ -5,7 +5,7 @@
 #include "pso/unk/text_80086FE0.h"
 #include "pso/unk/text_80086B64.h"
 #include "pso/system/vector.h"
-#include "pso/ui/frontend/TAdLoadNetworkGC.h"
+
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -47,7 +47,7 @@ TAdLoadNetworkGC::~TAdLoadNetworkGC() {
         ((Net_80308518 *)this)->obj[i] = 0;
     }
 }
-extern "C" {
+
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
@@ -68,4 +68,3 @@ Net_803084AC *TAdLoadNetworkGC__ct(Net_803084AC *self, void *parent, V_803084AC 
 }
 #pragma pop
 
-}

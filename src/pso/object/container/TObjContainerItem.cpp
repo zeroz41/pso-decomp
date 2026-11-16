@@ -31,7 +31,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/item/TItem.h"
 #include "pso/render/NinjaUtil.h"
-#include "pso/system/task/TObject.h"
+
 #include "pso/object/fence/TLazerFenceSw.h"
 #include "pso/camera/CameraDistanceFade.h"
 #include "pso/object/cave/TOAirconCave01.h"
@@ -44,9 +44,8 @@
 #include "pso/object/container/TContainerAncient01.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/ui/window/TWindowKeyBoardHard_801FBA48.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/object/TObjChip.h"
+
+
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -396,7 +395,7 @@ void TLobby::free_char_select_resources() {
     }
 }
 
-extern "C" s32 get_container_param(s32 index) { return get_bml_model(lbl_805D5B78, index); }
+s32 get_container_param(s32 index) { return get_bml_model(lbl_805D5B78, index); }
 
 void TLobby::load_console_resources() {
     void *p;

@@ -52,11 +52,6 @@ TPhotonRainbow::~TPhotonRainbow() {
 
 extern "C" {
 const char *TPhotonRainbow__name = "TPhotonRainbow";
-}
-
-
-extern "C" {
-
 s32 __ct__8TObjBaseFP7TObject();
 
 extern void *__vt__14TPhotonRainbow[];

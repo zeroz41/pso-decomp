@@ -9,9 +9,7 @@
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/system/task/TObject.h"
 
-#include "pso/weapon/TUnk_804A204C.h"
-#include "pso/weapon/shoot/TUnk_804A2148.h"
-#include "pso/weapon/TUnk_804A2164.h"
+
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
@@ -23,7 +21,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/player/TObjPlayer.h"
+
 struct TItemEquipBase;
 #include "pso/weapon/shoot/TItemShootParticle.h"
 
@@ -68,6 +66,12 @@ u8 *__nw__5TItemFUl(s32);
 s32 post_translate_matrix(void *);
 s32 push_matrix();
 s32 __nw__7TObjectFUl(s32);
+s32 is_owner_alive__15TItemShootModelFv();
+
+void __ct__15TItemShootModelFPvPC3VecPC3Vecf(void *);
+u32 spawn_shoot_particle__10TObjPlayerFUlllf(s32, s32, s32, f32);
+typedef u8 *(*Fn_80124694_3)(void *, s32, void *);
+typedef s32 (*Fn_80124810_5)(s32, s32, s32, s32, f32);
 }
 s32 drill_launcher_create_shot(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
 
@@ -75,26 +79,9 @@ void* drill_launcher_ct(void* a0, s32, void *);
 extern s32 tl_05;
 u8 *create_drill_launcher(u8 *arg0);
 void drill_launcher_return_timer(void *arg0);
-extern "C" {
-
-s32 is_owner_alive__15TItemShootModelFv();
-
-void __ct__15TItemShootModelFPvPC3VecPC3Vecf(void *);
-u32 spawn_shoot_particle__10TObjPlayerFUlllf(s32, s32, s32, f32);
-typedef u8 *(*Fn_80124694_3)(void *, s32, void *);
-typedef s32 (*Fn_80124810_5)(s32, s32, s32, s32, f32);
-
-
-}
-extern "C" {
-
-
 extern void *__vt__13TUnk_804A2148[];
 extern void *__vt__13TUnk_804A2164[];
 #define __vt__13TUnk_804A2148 ((s32 *)__vt__13TUnk_804A2148)
-
-}
-extern "C" {
 
 
 void TUnk_804A2148::render() {
@@ -126,7 +113,6 @@ void *ct_shoot_model__10TObjPlayerFPv(void *item_shoot_model) {
     __ct__15TItemShootModelFPvPC3VecPC3Vecf(item_shoot_model);
     *(s32 **)((s8 *)item_shoot_model + 0x18) = __vt__13TUnk_804A2148;
     return item_shoot_model;
-}
 }
 
 s32 drill_launcher_create_shot(s32 arg0, s32 arg1, s32 arg2, f32 farg0) {

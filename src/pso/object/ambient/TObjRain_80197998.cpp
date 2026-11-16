@@ -26,7 +26,7 @@ struct Cam_80197998 {
     s32 yaw;
 };
 
-extern "C" {
+
 extern Cam_80197998 *camera_ctrl_instance;
 #pragma push
 #pragma fp_contract on
@@ -58,4 +58,3 @@ void TObjRain::init_drops() {
 }
 #pragma pop
 
-}

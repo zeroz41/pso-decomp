@@ -17,7 +17,7 @@
 #include "pso/camera/CreationCamera.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/camera/TCameraCtrl.h"
+
 
 struct RecoveredGlobal_8006ABAC_lbl_804FF61C {
     s32 value;
@@ -347,12 +347,6 @@ s32 set_viewport_scissor__11TCameraCtrlFiPv(int, void *);
 s32 activate_camera_mode(s32 arg0);
 bool TCameraCtrl__sub_800689F4(void);
 Cam_80068958 *get_character_select_request_buffer(void);
-}
-
-void reset_cameras_to_actor(void *actor, s32 arg1);
-extern "C" {
-
-
 u16 TCameraCtrl__sub_8006A5DC(void);
 extern s32 TCameraCtrl__saved_projection_angle;
 s32 restore_player_cameras(void);
@@ -410,8 +404,7 @@ typedef char RecoveredGlobal_80069E7C_camera_controller_registry_size[((sizeof(R
 typedef char RecoveredGlobal_80069E7C_TCameraCtrl__data_804FF628_size[((sizeof(RecoveredGlobal_80069E7C_TCameraCtrl__data_804FF628)) == 0xC) ? (1) : (-1)];
 #define PSO_VCALL_VObj_18_f8ef8c_m5(_self) (((VObj_18_f8ef8c *)(_self))->m5())
 }
-
-
+void reset_cameras_to_actor(void *actor, s32 arg1);
 struct O_8006A044 { u8 pad[0x1c0]; s32 shake_timer; f32 shake_amplitude; };
 
 struct Big_8006A13C { u8 pad[0x70]; u8 unk70[0x10]; };
@@ -1149,7 +1142,7 @@ void select_camera_controller(s32 arg0) {
     PSO_VCALL_VObj_18_f8ef8c_m5(temp_r0);
   }
 }
-extern "C" {
+
 
 void TCameraCtrl::update_shake() {
   Cam_8006A6C4 *self = (Cam_8006A6C4 *) this;
@@ -1204,7 +1197,6 @@ void TCameraCtrl::select_active_controller(s8 arg0) {
 
 u16 TCameraCtrl__sub_8006A5DC(void) {
     return (*(RecoveredGlobal_8006A5DC_TCameraCtrl__data_804FF628 *)&TCameraCtrl__view_state).value;
-}
 }
 
 void reset_cameras_to_actor(void *actor, s32 arg1) {

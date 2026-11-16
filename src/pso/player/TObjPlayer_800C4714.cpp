@@ -16,7 +16,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
-#include "pso/system/task/TObject.h"
+
 
 typedef struct Vec_800C4A5C {
     f32 x, y, z;

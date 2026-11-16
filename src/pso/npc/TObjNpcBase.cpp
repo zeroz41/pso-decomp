@@ -26,7 +26,6 @@
 #include "pso/system/byteswap.h"
 #include "pso/npc/TObjNpcBringer.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/system/task/TObject.h"
 
 
 // ---- src/pso/npc/TObjNpcARW00.cpp (0x801480F4..0x80148274)
@@ -153,7 +152,6 @@ extern s32 local_client_id;
 extern u8 *quest_mission_manager;
 extern u8 *quest_area_manager;
 s32 has_interactor__14TObjCollidableFv();
-s32 debug_printf_at(s32, const char *, ...);
 
 void TObjNpcBase::interact(s32 client) {
     TObjPlayer *player;
@@ -560,7 +558,6 @@ void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
 u16 find_nearest_visible_player(void *, s32, f32 *, f32);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
-s32 push_matrix_from(void *src);
 s32 pop_matrix();
 
 void TObjNpcBase::vfunc_28() {
@@ -739,7 +736,6 @@ TObjNpcBase::~TObjNpcBase() {
     free_collision_body_parts(this);
 }
 
-extern "C" {
 
 #define self ((Npc_801491B4 *)arg0)
 void *TObjNpcBase__ct(void *arg0, void *arg1, void *arg2) {
@@ -791,12 +787,7 @@ void TObjNpcBase::sub_80149358(s32 v) { this->m_3ac = v; }
 void TObjNpcBase::sub_80149360(s32 v) { this->m_3a8 = v; }
 void TObjNpcBase__sub_80149368(void* p) { *(s32*)((char*)p + 0x0) = 2; }
 
-}
-
 // ---- src/pso/misc/TNpcPlayer_80149374.cpp
-
-extern "C" {
-
 void TNpcPlayer::send_6x3E() {
     s32 arg0 = (s32)this;
     bswap_6x3E();
@@ -822,4 +813,3 @@ void TObjNpcBringer::request_action(s32) {
     this->requested_action = 1;
 }
 
-}

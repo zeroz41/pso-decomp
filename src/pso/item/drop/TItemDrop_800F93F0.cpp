@@ -3,7 +3,7 @@
 #include "pso/item/TUnk_8049C658.h"
 #include "pso/item/drop/TItemDrop.h"
 #include "pso/unk/TLobby.h"
-#include "pso/item/TUnk_8049C658.h"
+
 
 struct B_800F957C { u8 pad[0x18]; };
 

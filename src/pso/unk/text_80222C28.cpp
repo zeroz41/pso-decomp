@@ -63,13 +63,9 @@ s32 get_shop_text(s32 arg0) {
 
 extern "C" {
 const char *text_shop_rel_name_table[6] = { "TextShopJapanese.rel", "TextShopEnglish.rel", "TextShopGerman.rel", "TextShopFrench.rel", "TextShopSpanish.rel", NULL };
-}
-
 #pragma fp_contract on
 #pragma fp_contract on
-extern "C" {
 extern const char *text_shop_rel_name_table[6];
-extern s32 lbl_805D6238;
 s32 is_split_screen();
 void TLobby::free_singleton() {
     if ((u32) lbl_805D6258 != 0U) {

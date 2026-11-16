@@ -511,8 +511,8 @@ void TUnk_804CCA78::run_task() {
 }
 
 // ---- pso/unk/text_80235A20
-#include "types.h"
-#include "pso/unk/TUnk_804CCA78.h"
+
+
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_80235A20.h"
 
@@ -537,10 +537,6 @@ u8 *__dt__13TUnk_804CCA78Fv(u8 *arg0, s16 arg1) {
     return arg0;
 }
 
-}
-
-
-extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
 }
 u8 *construct_timed_sound_voice(u8 *arg0, s32 arg1, s16 arg2, s32 arg3, s32 arg4, s32 arg5) {

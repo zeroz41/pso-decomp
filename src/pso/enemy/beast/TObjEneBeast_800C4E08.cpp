@@ -4,7 +4,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_EffCurse3.h"
-#include "pso/object/base/TObjMotion.h"
+
 #include "pso/enemy/flower/TObjEneRe2Flower_Bomb.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -18,10 +18,10 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/enemy/TObjEnemy.h"
-#include "pso/enemy/TUnk_80493450.h"
+
+
 #include "pso/object/base/TObjChara.h"
-#include "pso/object/base/TObjMotion.h"
+
 
 extern const Vec lbl_8043BC68 = { 0.0f, 0.0f, 0.0f };
 
@@ -644,7 +644,7 @@ extern s32 lbl_805D5870;
 extern const Vec lbl_8043BC68;
 }
 u16 get_enemy_target_id(void *p);
-extern "C" {
+
 
 void TUnk_80493450::vfunc_28() {
     TUnk_80493450 *self = this;
@@ -780,4 +780,3 @@ void TUnk_80493450::run_task() {
   this->m_2b4 += BEAST_FRAME_INCREMENT;
 }
 
-}

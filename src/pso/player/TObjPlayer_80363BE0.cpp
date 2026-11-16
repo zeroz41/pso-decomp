@@ -11,8 +11,7 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/system/memory.h"
 
-#include "pso/player/TUnk_804F2A10.h"
-#include "pso/player/TUnk_804F29F8.h"
+
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/item/EquippedItemDrawQueue.h"
@@ -192,25 +191,20 @@ void TObjPlayer::spawn_cleanup_helper(void *arg0) {
 }
 #undef init_vtable_804F2A10__13TUnk_804F2A10Fv
 
-extern "C" {
+
 void TObjPlayer::push_id_to_list(s32 arg0) {
     if ((s32) *(s32 *)((s8 *)(*(void **)&lbl_805D6FB8) + 0xB0) == 0) {
         reset_id_array__10TObjPlayerFPv((*(void **)&lbl_805D6FB8));
     }
     ((TObjPlayer *)(*(void **)&lbl_805D6FB8))->push_to_list(arg0);
 }
-}
-
-
-extern "C" {
 void*TUnk_804F2A10::init_vtable_804F2A10() { __ct__7TObjectFP7TObject(); *(int*)((char*)this + 0x18) = (int)__vt__13TUnk_804F2A10; reset_id_array__10TObjPlayerFPv((void*)((*(int *)&lbl_805D6FB8))); return this; }
-}
 
 TUnk_804F2A10::~TUnk_804F2A10() {
 
 }
 
-extern "C" {
+
 void TUnk_804F2A10::run_task() {
     void *spC;
     s32 sp8;
@@ -220,9 +214,6 @@ void TUnk_804F2A10::run_task() {
         scroll_item_model_uvs(*(NJS_OBJECT **)((s8 *)spC + 0x2C), 2, 2, 0xB);
     }
 }
-}
-
-extern "C" {
 void TUnk_804F2A10::render() {
     s32 *p;
     s32 n;
@@ -257,9 +248,6 @@ void TUnk_804F2A10::render() {
     restore_draw_list_mask();
     *(s32 *)(lbl_805D6FB8 + 0xB0) = 0;
 }
-}
-
-extern "C" {
 void TObjPlayer::alloc_and_run_object() {
     void *o;
 
@@ -269,18 +257,12 @@ void TObjPlayer::alloc_and_run_object() {
     }
     (*(void **)&player_item_id_list) = o;
 }
-}
-
-extern "C" {
 void TObjPlayer::free_static_buffer() {
     if ((u32) (*(u32 *)&player_item_id_list) != 0U) {
         ::operator delete((void *)(*(u32 *)&player_item_id_list));
         (*(u32 *)&player_item_id_list) = 0U;
     }
 }
-}
-
-extern "C" {
 #define TObjPlayer__sub_80363C5C ((void * (*)(void *, void *))TObjPlayer__sub_80363C5C)
 void TObjPlayer::create_cleanup_object(void *arg0) {
     void *o;
@@ -290,19 +272,14 @@ void TObjPlayer::create_cleanup_object(void *arg0) {
     }
 }
 #undef TObjPlayer__sub_80363C5C
-}
-
-extern "C" {
 void* TObjPlayer__sub_80363C5C(void* a0) { __ct__7TObjectFP7TObject(); *(int*)((char*)a0 + 0x18) = (int)__vt__13TUnk_804F29F8; reset_id_array__10TObjPlayerFPv((void*)player_item_id_list); return a0; }
-}
 
 TUnk_804F29F8::~TUnk_804F29F8() {
 
 }
 
-extern "C" {
+
 void TUnk_804F29F8::run_task() { reset_id_array__10TObjPlayerFPv((void*)player_item_id_list); }
-}
 
 struct DrawPrefix { u8 prefix[0x18]; };
 
@@ -334,7 +311,7 @@ struct DrawTarget : DrawPrefix {
     virtual void render();
 };
 
-extern "C" {
+
 void TUnk_804F29F8::render() {
     set_default_alpha_blend();
     saved_model_render_flags = model_render_flags;
@@ -358,4 +335,3 @@ void TUnk_804F29F8::render() {
 }
 
 void TItem::push_equipped_id(s32 id) { ((TObjPlayer *)player_item_id_list)->push_to_list(id); }
-}

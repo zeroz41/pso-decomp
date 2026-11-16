@@ -5,7 +5,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/object/switch/TOSwitchItem.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer.h"
+
 extern "C" {
 void *get_entity_id(void *);
 s32 TBoss4Type3__sub_8005254C(void *);

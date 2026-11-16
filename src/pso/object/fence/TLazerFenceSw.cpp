@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/object/fence/TLazerFenceSw.h"
-#include "pso/object/fence/TLazerFenceSw.h"
+
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaMaterial.h"
@@ -13,7 +13,7 @@
 #include "pso/camera/CameraDistanceFade.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/object/fence/TLazerFenceSw.h"
+
 #include "pso/object/fence/TObjLazerFence4.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -25,7 +25,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/object/key/TOKey.h"
+
 
 extern "C" { void rotate_matrix_y(int, void *); s32 pop_matrix(void); void draw_ginja_object(void *); AnimationMotion *get_bml_motion(BmlResource *resource, s32 index); s32 get_bml_model(BmlResource *resource, s32 index); }
 extern s32 model_render_flags;
@@ -312,10 +312,9 @@ TLazerFenceSw::~TLazerFenceSw() {
     free_collision_body_parts(this);
     ((CameraDistanceFade *)((s8 *)this + 0xF0))->CameraDistanceFade::~CameraDistanceFade();
 }
-extern "C" {
+
 #pragma push
 #pragma opt_common_subs off
-}
 TLazerFenceSw::TLazerFenceSw(TObject *arg1, void *arg2) : TOKey(arg1) {
     __ct__18CameraDistanceFadeFv((u8 *)this + 0xF0);
     *(s32 *)((s8 *)this + 0) = (s32)TLazerFenceSw__class_name;
@@ -334,7 +333,6 @@ TLazerFenceSw::TLazerFenceSw(TObject *arg1, void *arg2) : TOKey(arg1) {
     *(f32 *)((s8 *)this + 0x110) = 0.0f;
     *(s32 *)((s8 *)this + 0x114) = 0;
 }
-extern "C" {
+
 #pragma pop
 
-}

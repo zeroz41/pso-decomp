@@ -14,7 +14,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 #include "pso/ui/window/TWindowDD.h"
-#include "pso/ui/window/TWindowBase.h"
+
 #include "pso/unk/WindowLayoutRecord.h"
 
 struct Disp_8026F9F4 { u8 p0[0x20]; s16 id; u8 p1[0x42]; void *windows[5]; };

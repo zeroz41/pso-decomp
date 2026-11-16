@@ -4,20 +4,19 @@
 #include "pso/ui/window/TWindowBase.h"
 
 #include <stddef.h>
-#include "pso/ui/window/TWindowPartyStatus.h"
+
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/unk/text_8030C340.h"
-#include "pso/ui/window/TWindowSubStatusDisp.h"
+
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TWindowPartyStatus__name = "TWindowPartyStatus";
-}
 
 struct Stack_8030C0C4 {
     f32 sp8;
@@ -142,7 +141,7 @@ void TWindowPartyStatus::run_task() {
 TWindowPartyStatus::~TWindowPartyStatus() {
 
 }
-extern "C" {
+
 typedef char RecoveredGlobal_8030C2D8___vt__18TWindowPartyStatus_size[sizeof(RecoveredGlobal_8030C2D8___vt__18TWindowPartyStatus) == 0x1C ? 1 : -1];
 u8 *TWindowPartyStatus__ct(u8 *window_party_status, s32 arg1, s32 arg2) {
     TWindowSimpleStatus__ct((void *)window_party_status, (int) (get_window_layout_position(0xAB)), (void *)local_client_id, (void *)arg2);
@@ -152,7 +151,6 @@ u8 *TWindowPartyStatus__ct(u8 *window_party_status, s32 arg1, s32 arg2) {
     return window_party_status;
 }
 
-}
 
 #pragma push
 #pragma opt_propagation off

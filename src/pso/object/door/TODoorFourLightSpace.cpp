@@ -6,8 +6,8 @@
 #include "pso/object/base/TObjMapObject.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/door/TODoorBase.h"
-#include "pso/object/door/TODoorFourLightRuins.h"
-#include "pso/object/door/TODoorFourLightSpace.h"
+
+
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/object/door/TODoorAncient01.h"
@@ -70,11 +70,7 @@ s32 get_main_phase();
 
 }
 
-extern "C" {
-
 extern s32 __vt__20TODoorFourLightRuins[];
-
-}
 
 struct Tbl_8028A5C4 { s32 v[8]; };
 struct Door_8028A5C4 { u8 pad[0xD8]; s32 sw[8]; };
@@ -304,7 +300,7 @@ s32 TODoorFourLightRuins::init_door_switch_binding() {
     return this->switch_id;
 }
 
-extern "C" {
+
 u8 *TODoorFourLightSpace__ct(u8 *arg0, s32 arg1, s32 arg2) {
     s32 i;
     __ct__10TODoorBaseFP7TObject();
@@ -327,7 +323,6 @@ u8 *TODoorFourLightSpace__ct(u8 *arg0, s32 arg1, s32 arg2) {
         }
     }
     return arg0;
-}
 }
 
 TODoorFourLightSpace::~TODoorFourLightSpace() {

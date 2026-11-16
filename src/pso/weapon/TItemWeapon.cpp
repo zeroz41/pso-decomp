@@ -26,7 +26,7 @@
 #include "pso/unk/text_80121180.h"
 #include "pso/player/TObjPlayer_8012121C.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/item/TItemEquipBase.h"
+
 
 // ---- pso/unk/text_80120908
 
@@ -130,12 +130,7 @@ void draw_weapon_at_joint(s32 arg0, s8 arg1) {
     ((TItemWeapon *)arg0)->draw_weapon_model();
     ((TItemEquipBase *)arg0)->set_attach_joint(temp_r31);
 }
-}
-
 // ---- pso/unk/text_80120C5C
-
-extern "C" {
-
 void TItemWeapon::release_model() { memset((char*)this + 0x18c, 0, 16); clear_weapon_flags((u32)((void*)12)); TItemEquipBase::release_model(); }
 
 }
@@ -214,11 +209,10 @@ void TItemWeapon::request_equipped_model() {
 
 TItemWeapon::~TItemWeapon() {}
 
-extern "C" {
+
 void *lookup_item_pmt_record(u8 *item);
 extern const f32 lbl_805DAC98;
 extern u8 lbl_805DACA4;
-}
 
 TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, item) {
     s32 identified;
@@ -306,13 +300,7 @@ s32 create_weapon_for_item(s32 arg0) {
     return 0;
 }
 
-}
-
 // ---- pso/player/TObjPlayer_8012105C
-
-extern "C" {
-
-
 s16 TObjPlayer__sub_801D2F4C(s16 *);
 
 void TObjPlayer__sub_8012105C(void) {  }

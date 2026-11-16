@@ -105,10 +105,6 @@ void TObjBagWarnWin::open_message_window() {
 }
 TObjBagWarnWin::~TObjBagWarnWin() {}
 
-}
-
-extern "C" {
-
 void __ct__7TObjectFP7TObject(void *, void *);
 
 extern s32 __vt__14TObjBagWarnWin[];

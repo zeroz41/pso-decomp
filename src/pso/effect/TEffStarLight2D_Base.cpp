@@ -6,13 +6,11 @@
 #include "pso/effect/TEffStarLightChild.h"
 #include "types.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
-#include "pso/system/NinjaTypes.h"
+
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" {
 extern TObject *tl_particle;
-}
 void set_additive_blend();
 void set_default_alpha_blend();
 
@@ -181,7 +179,7 @@ void TEffStarLight2D::copy_from(void* q) { *(f32 *)&this->m_name = *(f32*)((char
 
 void TEffStarLight2D::copy_from_subobject(void* a1) { ((TEffStarLight2D *)((char*)this + 0x38))->copy_from(a1); }
 
-extern "C" {
+
 void run_task__15TEffStarLight2DFv(Star_800851B0 *self) {
     P2_800851B0 scr;
     Vec_800851B0 view;
@@ -208,7 +206,6 @@ void run_task__15TEffStarLight2DFv(Star_800851B0 *self) {
             }
         }
     }
-}
 }
 
 void TEffStarLight2D::queue_child_destruction() {

@@ -25,7 +25,7 @@
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
 #include "pso/player/TObjPlayer_801BE778.h"
 #include "pso/player/TObjPlayer_801BEB0C.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct VBase_801BDE60 { u8 pad[0x18]; };
 
@@ -65,10 +65,6 @@ u8 *create_player_object(s16 slot, s32 role, u8 *arg2) {
     return var_r0;
 }
 
-}
-
-extern "C" {
-
 void mem_free(void*);
 
 extern u32 TObjPlayer__shared_photon_blast_state;
@@ -90,9 +86,6 @@ void TObjPlayer::free_shared_data() {
     }
 }
 
-}
-
-extern "C" {
 void *mem_alloc(u32 size);
 void *fn_801C2360(void *arg0);
 void TObjPlayer::alloc_shared_buffers() {
@@ -573,10 +566,6 @@ short TObjPlayer::get_vobj_state_28() {
     extern int local_client_id;
 void TObjPlayer::update_battle_controller() { get_player_by_client_id((local_client_id)); }
 
-}
-
-extern "C" {
-
 int TFontSmallLobby__sub_801C0228(void*);
 int set_state_flags__10TObjPlayerFUl(void*, int);
 
@@ -592,10 +581,6 @@ void TObjPlayer::set_battle_flag(s32 v) { this->m_3b4 = v; }
 s32 TObjPlayer::get_anim_id() { return this->m_3b4; }
 int TObjPlayer::check_flag_0x40000000() { return (this->m_334 >> 30) & 0x1; }
 void TObjPlayer::clear_flag_0x2() { this->m_334 &= 0xfffffffd; }
-
-}
-
-extern "C" {
 
 int TObjPlayer__sub_801BED70(void*);
 int TObjPlayer__sub_801BED78(void*);

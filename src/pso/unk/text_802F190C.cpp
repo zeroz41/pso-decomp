@@ -33,10 +33,6 @@ void fn_802F1960(Obj_802F1960 *o, f32 d) {
     }
 }
 
-}
-
-extern "C" {
-
 void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 void *__ct__7TObjectFP7TObject(void *, void *);
 void *__nw__7TObjectFUl(int);

@@ -103,17 +103,9 @@ s32 is_vec_xz_cross_negative(void *, void *);
 f32 calc_circle_offset__14TObjEneBm5WolfFPvPvPv(TObjEneBm5Wolf *wolf, Vec *target, Vec *out);
 s32 enemy_validate_retained_target(u8 *ene_dd_st);
 void enemy_clear_target__12TObjEneDD_STFUs(void *);
-}
-
-void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
-extern "C" {
 void queue_destruction__7TObjectFv(void *self);
 s32 TBoss8Dragon__sub_800BB7D4(void *, int);
 void draw_blob_shadow(s32 arg0);
-}
-
-void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
-extern "C" {
 s32 scale_matrix(s32, f32, f32, f32);
 s32 rotate_matrix_z(s32, s32);
 s32 rotate_matrix_x(s32, s32);
@@ -130,18 +122,16 @@ s32 pack_debug_text_position(s32 arg0, s32 arg1);
 s32 debug_draw_line(void *, void *, int, int);
 typedef void (*State_800B73A8)(u8 *, s32);
 }
-
+void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
+void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 #include <stddef.h>
 
 #pragma defer_codegen on
 extern "C" {
 s32 transform_relative_position__9TObjEneDDFPv(void *, int);
 f32 newton_sqrtf(f32);
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 s32 angle_diff_s16(s32, s32);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 free_collision_body_parts(void *);
@@ -181,14 +171,13 @@ extern void *tl_04;
 }
 
 __declspec(section ".ctors") static void *const __sinit_TObjEneBm5Wolf_cpp_ref = (void *)TObjEneBm5Wolf::register_global_objects;
-extern "C" {
+
 s32 TObjEneBm5Wolf::get_group_id() { return this->m_3dc; }
-}
 
 s32 actor_rand_int(s32 actor, s32 arg1) {
     return (s32) ((f32) arg1 * ((TObjChara *)actor)->random_ratio());
 }
-extern "C" {
+
 void TObjEneBm5Wolf::register_global_objects() {
     Globals_800B8A40 *g = (Globals_800B8A40 *)TObjEneBm5Wolf__stat_params;
     __register_global_object(((void *)((TObjEneBm5Wolf *)(g->list0))->reset()), (void *)__dt__14TObjEneBm5WolfFis, g->chain0);
@@ -333,11 +322,8 @@ TObjEneBm5Wolf *TObjEneBm5Wolf::find_pack_leader(s32 id) {
     }
     return 0;
 }
-}
-
 #pragma push
 #pragma bool off
-extern "C" {
 TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
     s32 n;
     void *o;
@@ -412,10 +398,7 @@ TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(p
     mode = 0;
     dispatch_action(mode, 4);
 }
-}
-
 #pragma pop
-extern "C" {
 TObjEneBm5Wolf::~TObjEneBm5Wolf() {
     if (m_410 != NULL) {
         free_collision_body_parts(m_410);
@@ -594,10 +577,7 @@ void calc_rotated_vector__14TObjEneBm5WolfFPviPvPv(TObjEneBm5Wolf *wolf, s32 ang
     out->x = (f32) ((s * wolf->destinationDirection.z) + (c * wolf->destinationDirection.x));
     *heading = (s32) (RADIANS_TO_ANGLE * atan2_float(out->x, out->z));
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneBm5Wolf::set_state_by_timer() {
     if (this->random_ratio() < 0.5f) {
         this->transition_enemy_state(8);
@@ -613,11 +593,8 @@ void TObjEneBm5Wolf::set_anim_state() {
     }
     this->transition_enemy_state(5);
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 f32 calc_circle_offset__14TObjEneBm5WolfFPvPvPv(TObjEneBm5Wolf *wolf, Vec *target, Vec *out) {
     f32 dx;
     f32 dz;
@@ -630,10 +607,7 @@ f32 calc_circle_offset__14TObjEneBm5WolfFPvPvPv(TObjEneBm5Wolf *wolf, Vec *targe
     out->z = dz * inv;
     return distSq * inv;
 }
-}
-
 #pragma pop
-extern "C" {
 s32 TObjEneBm5Wolf::select_death_direction(s32 *heading) {
     Vec v;
     Vec side;
@@ -674,11 +648,8 @@ s32 TObjEneBm5Wolf::play_variant_sound() {
     }
     return this->update_linked_position(250.0f);
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void spawn_recoil_dust__14TObjEneBm5WolfFiPv(TObjEneBm5Wolf *wolf, Vec *dir) {
     Vec pos;
     VecCopy(&pos, &wolf->position);
@@ -686,10 +657,7 @@ void spawn_recoil_dust__14TObjEneBm5WolfFiPv(TObjEneBm5Wolf *wolf, Vec *dir) {
     pos.z += 5.0f * dir->z;
     spawn_particle_effect(&pos, 0xF3);
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneBm5Wolf::play_footsteps() {
     if ((this->is_passing_frame(7.0f) != 0) || (this->is_passing_frame(24.0f) != 0)) {
         play_sound_effect(this->remap_sound_for_area(0x3C618), &this->position, 0, 0);
@@ -709,11 +677,8 @@ f32 TObjEneBm5Wolf::calc_death_slide_speed(f32 speed) {
 }
 
 int TObjEneBm5Wolf::get_flag_bit0() { return this->entity_id & 0x1; }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 s32 TObjEneBm5Wolf::calc_lunge_aim() {
     f32 temp_f4;
     f32 temp_f5;
@@ -742,10 +707,7 @@ s32 TObjEneBm5Wolf::calc_lunge_aim() {
     this->destinationDistance = 30.0f;
     return this->rotation_y;
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneBm5Wolf::schedule_pack_reaction(s32 delay, u16 value) {
     this->m_414 = delay;
     this->m_418 = value;
@@ -860,11 +822,8 @@ void TObjEneBm5Wolf::anchor_state(s32 arg1) {
         break;
     }
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjEneBm5Wolf::appearing_state(s32 arg1) {
     Vec *home = &this->m_444;
     f32 t;
@@ -925,10 +884,7 @@ void TObjEneBm5Wolf::appearing_state(s32 arg1) {
         break;
     }
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneBm5Wolf::sleeping_state(s32 arg1) {
   TObjEneBm5Wolf *entity;
   switch (arg1)
@@ -1087,11 +1043,8 @@ void TObjEneBm5Wolf::howling_state(s32 arg1) {
 }
 
 void TObjEneBm5Wolf::empty_state() {  }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjEneBm5Wolf::roaming_state(int event) {
     f32 temp_f1;
     f32 temp_f1_2;
@@ -1190,10 +1143,7 @@ void TObjEneBm5Wolf::roaming_state(int event) {
         break;
     }
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneBm5Wolf::chasing_state(s32 arg1) {
     f32 temp_f1;
     f32 temp_f1_2;
@@ -1315,11 +1265,8 @@ void TObjEneBm5Wolf::flanking_state(s32 arg1) {
         break;
     }
 }
-}
-
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void TObjEneBm5Wolf::circling_state(s32 arg1) {
     Vec *b;
     Vec *a;
@@ -1657,10 +1604,7 @@ void TObjEneBm5Wolf::returning_state(s32 arg1) {
         break;
     }
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneBm5Wolf::repositioning_state(s32 arg1) {
     switch (arg1) {
     case 4:
@@ -2016,12 +1960,9 @@ void TObjEneBm5Wolf::update_state() {
         this->update_collision_center();
     }
 }
-}
-
 #pragma push
 #pragma opt_common_subs off
 #pragma pool_data off
-extern "C" {
 void TObjEneBm5Wolf::render_debug() {
     f32 frame;
     s32 idx;
@@ -2079,10 +2020,6 @@ void TObjEneBm5Wolf::render_debug() {
     debug_draw_line(&this->m_2fc, &v, 0xFFC0C0C0, 0xFF6060FF);
     }
 }
-}
-
 #pragma pop
-extern "C" {
 void TObjEneBm3FlyNest::render_shadows() {  }
-}
 

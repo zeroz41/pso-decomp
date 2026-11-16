@@ -88,7 +88,7 @@ void TOGrassJungle::render() {
 TOGrassJungle::~TOGrassJungle() {
 
 }
-extern "C" {
+
 
 typedef char RecoveredGlobal_8029CE64___vt__13TOGrassJungle_size[sizeof(RecoveredGlobal_8029CE64___vt__13TOGrassJungle) == 0x34 ? 1 : -1];
 u8 *TOGrassJungle__ct(TOGrassJungle *grass_jungle, s32 parent, s32 arg2) {
@@ -106,4 +106,3 @@ u8 *TOGrassJungle__ct(TOGrassJungle *grass_jungle, s32 parent, s32 arg2) {
     return (u8 *)grass_jungle;
 }
 
-}

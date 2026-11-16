@@ -10,7 +10,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/window/TWindowBase.h"
+
 #include "pso/unk/WindowLayoutRecord.h"
 
 const char *lbl_805D3970 = "TWindowMenuInfomation";
@@ -310,9 +310,6 @@ void *TUnk_804D0658::destroy_children(s16 arg1) {
     return this;
 }
 
-}
-
-extern "C" {
 void construct_with_parent__15TWindowAdditionFPv(void *, void *, s32, void *);
 void TWindowMenuInfomation__ct(u8 *arg0, u32 arg1);
 Obj_80269004 *fn_80269004(Obj_80269004 *self, void *parent, void *arg2) {

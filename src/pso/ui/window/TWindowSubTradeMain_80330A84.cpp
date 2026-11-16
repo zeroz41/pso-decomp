@@ -20,8 +20,8 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
-#include "pso/ui/window/TWindowMenuIconLine.h"
-#include "pso/ui/window/TWindowMessageYesNo.h"
+
+
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowSubLog.h"
@@ -860,12 +860,7 @@ void TWindowSubTradeMain::run_task() {
         break;
     }
 }
-}
 #define TOBJECT_OUT_OF_LINE_HELPERS
-
-
-extern "C" {
-
 void *__dt__19TWindowSubTradeMainFv(TWindowSubTradeMain *arg0, s16 arg1);
 void TWindowCtrl__sub_8024ADF0(s32 arg0);
 void TWindowSubComCard__sub_8024AB98(s32 arg0);
@@ -933,10 +928,6 @@ void *__dt__19TWindowSubTradeMainFv(TWindowSubTradeMain *arg0, s16 arg1) {
     return arg0;
 }
 
-}
-
-extern "C" {
-
 void TWindowCtrl__sub_8024ADAC(s32 arg0);
 void TWindowSubTradeMain__sub_802D2870(void);
 void fn_8024AB54(s32 arg0);
@@ -977,7 +968,6 @@ TWindowSubTradeMain::TWindowSubTradeMain(TObject *object, void *arg2) : TObject(
     }
 }
 
-extern "C" {
 
 // Child-window flag setters; their only callers are TWindowSubTradeMain's
 // set_child_windows_enabled and run_task, and they follow its dtor/ctor here.
@@ -985,4 +975,3 @@ void TWindowSubTradeMain__sub_803323A8(void* p) { *(u16*)((char*)p + 0x60) |= 0x
 void TWindowSubTradeMain__sub_803323B8(void* p) { *(u16*)((char*)p + 0x60) &= 0xffffffbf; }
 void TWindowSubTradeMain__sub_803323C8(void* p) { *(u16*)((char*)p + 0x70) &= 0xfffffffb; }
 
-}

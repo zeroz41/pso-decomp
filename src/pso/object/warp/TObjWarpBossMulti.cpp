@@ -54,9 +54,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/object/warp/TObjWarpBoss.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/system/task/TObject.h"
+
 
 #pragma defer_codegen on
 const char *boss_warp_model_names[4] = {

@@ -5,16 +5,15 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/effect/photon/TPhotonLeilla.h"
-#include "pso/effect/photon/TPhotonLaser.h"
+
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TPhotonLaser__name = "TPhotonLaser";
-}
 
 
 typedef struct Vec_801AC36C { f32 x, y, z; } Vec_801AC36C;
@@ -129,7 +128,7 @@ TPhotonLaser::~TPhotonLaser() {
         this->m_364 = 0U;
     }
 }
-extern "C" {
+
 
 Laser_801AC36C *TPhotonLaser__ct(Laser_801AC36C *self, Params_801AC36C *p, void *parent, s16 arg3) {
     __ct__9TObjCharaFP7TObject(self, parent);
@@ -149,4 +148,3 @@ Laser_801AC36C *TPhotonLaser__ct(Laser_801AC36C *self, Params_801AC36C *p, void 
 }
 
 
-}

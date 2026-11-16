@@ -10,7 +10,7 @@
 #include "pso/item/mag/TItemMag.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/Language.h"
-#include "pso/item/TItemData.h"
+
 #include "pso/ui/window/TWindowBase.h"
 struct Stack_80253268 {
     s32 sp8;

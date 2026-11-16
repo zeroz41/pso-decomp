@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer.h"
+
 #include "pso/technique/TTecCtrl.h"
 
 extern "C" {

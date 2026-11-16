@@ -6,7 +6,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct VBase { char pad[0x18]; };
 

@@ -15,7 +15,7 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
-#include "pso/map/FloorArea.h"
+
 
 struct RecoveredGlobal_8007BA98_lbl_8048D4C0 {
     s32 value;
@@ -39,8 +39,6 @@ struct RecoveredGlobal_8007BA20_lbl_8048D5A8 {
 
 extern "C" {
 void TLobby__sub_802A5154(void);
-}
-extern "C" {
 s32 run_load_callback_table(void *, int);
 extern RecoveredGlobal_8007BA98_lbl_8048D4C0 lbl_8048D4C0;
 extern RecoveredGlobal_8007BA98_lbl_8048D5A8 lbl_8048D5A8;

@@ -32,7 +32,7 @@
 #include "pso/unk/text_80121180.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
-#include "pso/system/task/TObject.h"
+
 
 #pragma readonly_strings on
 

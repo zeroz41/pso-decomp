@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/object/switch/TOChatSensor.h"
-#include "pso/object/switch/TOChatSensor.h"
+
 #include "pso/unk/TLobby.h"
 
 extern "C" {
@@ -19,7 +19,7 @@ u32 TOChatSensor__ct(int arg0, void *arg1, void *arg2);
 TOChatSensor::~TOChatSensor() {
 
 }
-extern "C" {
+
 
 u32 TOChatSensor__ct(int arg0, void *parent, void *arg2) {
     s32 n;
@@ -79,4 +79,3 @@ void TOChatSensor::destroy_global() {
     }
 }
 
-}

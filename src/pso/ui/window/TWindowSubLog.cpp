@@ -15,9 +15,8 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TWindowSubLog__class_name = "TWindowSubLog";
-}
 
 
 struct VBase_18_204a81 { char pad[0x18]; };

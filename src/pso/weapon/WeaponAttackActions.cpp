@@ -36,11 +36,10 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/camera/TCameraCtrl.h"
 #include <stdlib.h>
-#include "pso/item/TItem.h"
-#include "pso/item/TItemEquipBase.h"
+
+
 #include "pso/player/TObjPlayer_8011C000.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
+
 
 // ---- pso/item/WeaponAttackActions
 
@@ -776,7 +775,6 @@ VV(61)VV(62)VV(63)VV(64)
     virtual void v67(f32);
 };
 
-extern "C" {
 
 struct Base_8011F578 { char pad[0x18]; };
 struct VObj_8011F578 : Base_8011F578 {
@@ -819,11 +817,7 @@ void TItemWeapon::update_active_game_effect() {
     }
 }
 
-}
-
 // ---- pso/unk/text_8011F63C
-
-extern "C" {
 s32 TItemWeapon::get_attack_stage() {
     u32 temp_r3;
     temp_r3 = *(u32 *)&this->owner;
@@ -843,7 +837,6 @@ block_7:
     return -1;
 }
 
-}
 
 // ---- pso/player/TObjPlayer_8011F6C4
 
@@ -955,8 +948,6 @@ struct Obj_8011F710 { u8 pad[0x1D1]; u8 cur; u8 pad2[0x1DC - 0x1D2]; Stats_8011F
 extern "C" {
 s32 play_weapon_hit_sound(void *);
 void apply_camera_shake__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
-extern const f32 lbl_805DAC94;
-extern const f32 lbl_805DAC98;
 void play_weapon_owner_sounds(void*);
 
 s32 add_weapon_grind(Obj_8011F710 *arg0, s32 arg1);
@@ -1086,7 +1077,6 @@ extern "C" {
 s32 test_flag30_bit0x100000__10TObjPlayerFv(void*);
 void TItemEffectWeapon__sub_8036340C(void*);
 void TItemEffectWeapon__sub_80363410(void*);
-extern const f32 lbl_805DAC9C;
 
 void TItemWeapon::update_trails() {
     u8 *arg0 = (u8 *)this;
@@ -1223,8 +1213,6 @@ void TItemWeapon::on_model_loaded() { set_weapon_flags(4); }
 
 struct WeaponColorDescriptor_80120304 { s32 mode; WeaponArgb first, second; };
 
-extern const f32 lbl_805DAC98;
-extern const f32 lbl_805DAC9C;
 extern const f32 lbl_805DACA0;
 extern s16 weapon_node_material_index;
 extern s16 TObjPlayer__weapon_node_ids[];
@@ -1562,18 +1550,12 @@ void TItemWeapon::on_equip() {
     ((TItemWeapon *)arg0)->clear_weapon_flags(0x03000000);
 }
 
-}
-
 // ---- pso/player/TObjPlayer_801207E8
-
-extern "C" {
-
 typedef struct { f32 sp8; f32 spC; f32 sp10; } FloatTriplet;
 
 s32 get_view_matrix__11TCameraCtrlFv();
 s32 push_matrix();
 
-extern const f32 lbl_805DAC98;
 
 struct VObj_104_801207e8 { char pad[0x18]; virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7(); virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11(); virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15(); virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19(); virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23(); virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27(); virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31(); virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35(); virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39(); virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43(); virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47(); virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51(); virtual void m52(); virtual void m53(); virtual void m54(); virtual void m55(); virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59(); virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63(s32); };
 

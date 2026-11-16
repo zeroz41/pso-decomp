@@ -2,7 +2,7 @@
 #include "pso/ui/window/TWindowStatus.h"
 #include "pso/ui/window/TWindowSimpleStatus.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/ui/window/TWindowStatus.h"
+
 #include "pso/item/mag/TItemMag.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/armor/TItemProShield.h"
@@ -12,7 +12,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/unk/text_80271400.h"
-#include "pso/ui/window/TWindowBase.h"
+
 
 struct Quad_802710C4 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
@@ -36,9 +36,6 @@ s16 obj_getS16_2BA(u8 *p);
 u8 *get_player_by_client_id();
 s32 get_width__19TWindowSimpleStatusFv();
 s32 draw_right_aligned_number(void *);
-}
-void set_status_entry_target(void *arg0, s32 arg1);
-extern "C" {
 void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *arg0);
 
 s32 draw_default_entry__9TWindowDDFl(void *, f32, f32);
@@ -57,7 +54,7 @@ extern const f32 lbl_805DD474;
 s32 is_split_screen();
 s32 create__19TWindowSimpleStatusFPv(int, void *);
 }
-
+void set_status_entry_target(void *arg0, s32 arg1);
 #pragma readonly_strings on
 
 struct StatusWindowLayout {
@@ -103,7 +100,6 @@ WindowDescriptor status_window_settings = {
     {228.0f, 76.0f}, 70050.0f, &lbl_804D0D98, 0xB28,
 };
 
-extern "C" {
 
 void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp) {
     u8 *pl;
@@ -225,11 +221,10 @@ void TWindowStatus::run_task() {
 
 extern s32 __vt__13TWindowStatus[];
 
-}
 TWindowStatus::~TWindowStatus() {
 
 }
-extern "C" {
+
 
 extern void *TWindowStatus__name;
 
@@ -238,7 +233,6 @@ void *TWindowStatus__ct(void *window_status, s32 layout_pos, void *arg2, const W
     *(s32 **)((s8 *)window_status + 0x18) = __vt__13TWindowStatus;
     *(void * *)&((TWindowStatus *)window_status)->m_name = TWindowStatus__name;
     return window_status;
-}
 }
 
 s32 create_status_window(s32 arg0) {

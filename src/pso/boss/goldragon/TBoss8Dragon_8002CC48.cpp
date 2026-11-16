@@ -751,7 +751,7 @@ void *TObjBoss1MokoHill_Solo__ct(void *arg0_, void *arg1, int arg2) {
 TObjBoss1MokoHill_Solo::~TObjBoss1MokoHill_Solo() {
 
 }
-extern "C" {
+
 s32 get_state__12TBoss8DragonFv(void) {
     return dragon_trail_position_source;
 }
@@ -780,5 +780,4 @@ void TObjBoss1MokoHill_Solo::run_task() {
         }
         break;
     }
-}
 }

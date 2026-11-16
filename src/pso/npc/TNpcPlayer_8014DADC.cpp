@@ -3,7 +3,7 @@
 #include "pso/render/render_util.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer.h"
+
 
 struct Msg_8014DC5C { s16 hdr; s16 type; s16 angle; s16 flag; };
 

@@ -24,9 +24,8 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TWindowSubComCardList__class_name = "TWindowSubComCardList";
-}
 
 
 struct Win_802758C8 {

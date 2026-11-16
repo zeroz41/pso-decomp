@@ -5,11 +5,9 @@
 #include <stdio.h>
 #include "pso/map/FloorArea.h"
 
-extern "C" {
 extern PsoCommandHandler pso_command_dispatch_table[];
 extern u8 subcommand_area_masks[];
 extern char lbl_8044975C[];
-}
 
 void TPsoDataBuf::recv_pso_data_buf(size_t size) {
     char message[0x80];

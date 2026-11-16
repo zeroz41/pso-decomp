@@ -97,7 +97,7 @@ void append_music_stream_segment(u8 *arg0, s32 arg1, s32 arg2) {
     TLobby::format_number_pair(arg1, arg2, buf, 0x10);
     TLobby::report_adx_error("E0071301 ADXT_EntryAfs: can't entry ", buf);
 }
-extern "C" {
+
 
 void TLobby__sub_803C5E58(void) {
     lbl_805D7548 -= 1;
@@ -107,7 +107,6 @@ void TLobby__sub_803C5E68(void) {
     lbl_805D7548 += 1;
 }
 
-}
 
 u8 adx_stream_ring_buffer_storage[0x40];
 u8 adx_stream_ring_buffer[0x400];

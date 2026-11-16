@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "pso/ui/chat/TWindowChat.h"
-#include "pso/ui/chat/TWindowChatSymbol.h"
+
 #include "pso/ui/chat/TWindowChatSymbol_802486A8.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
@@ -194,7 +194,6 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
 }
 #pragma pop
 
-extern "C" {
 
 void render__15TWindowShortCutFv(u8 *arg0) {
     s32 temp_r3;
@@ -244,4 +243,3 @@ u8 *TWindowShortCut__ct(TWindowShortCut *window_short_cut, s32 arg1, s32 index, 
     return (u8 *)window_short_cut;
 }
 
-}

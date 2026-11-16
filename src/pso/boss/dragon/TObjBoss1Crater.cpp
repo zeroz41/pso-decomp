@@ -17,7 +17,7 @@
 #include <stdlib.h>
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/system/task/TObject.h"
+
 
 extern "C" {
 s32 isV2Mode__12TBoss1DragonFv(void);
@@ -224,7 +224,7 @@ TObjBoss1Crater::~TObjBoss1Crater() {
     if (this->m_b4 != NULL) { __dt__17AreaAttackHistoryFv((s32)this->m_b4, 1); *(s32 *)((s8 *)this + 0xB4) = 0; }
     if (*(void **)((s8 *)this + 0xB0) != NULL) { ((TObject *)(*(void **)((s8 *)this + 0xB0)))->queue_destruction(); *(s32 *)((s8 *)this + 0xB0) = 0; }
 }
-extern "C" {
+
 
 Crater_8002C544 *TObjBoss1Crater__ct(Crater_8002C544 *self, void *arg1, void *arg2, void *arg3) {
     f32 r;
@@ -262,7 +262,6 @@ Crater_8002C544 *TObjBoss1Crater__ct(Crater_8002C544 *self, void *arg1, void *ar
 
 s32 TObjBoss1Crater::is_count_below_limit() {
     return TObjBoss1Crater__instance_count < 0x14;
-}
 }
 
 

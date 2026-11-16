@@ -4,7 +4,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaMirage.h"
-#include "pso/enemy/panarms/TObjEnePanarmsAtkColli.h"
+
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/unk/TLobby.h"
@@ -394,7 +394,7 @@ void *TObjEnePanarmsAtkColli::create(void *arg1, void *arg2, void *arg3) {
 TObjEnePanarmsAtkColli::~TObjEnePanarmsAtkColli() {
 
 }
-extern "C" {
+
 typedef struct VBase_18_beae68 VBase_18_beae68;
 typedef struct VObj_18_beae68 VObj_18_beae68;
 
@@ -443,4 +443,3 @@ void *TObjEnePanarmsAtkColli__ct(Obj_800E37E4 *arg0, void *parent, void *arg2, v
 #undef self
 
 
-}

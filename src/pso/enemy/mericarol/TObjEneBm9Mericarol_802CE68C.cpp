@@ -21,7 +21,6 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2F28.h"
 
-extern "C" {
 extern const Vec player_sub_802ce68c_zero_vec;
 extern const Vec lbl_8047249C;
 extern const Vec lbl_80472490;
@@ -31,7 +30,6 @@ extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 extern const f32 lbl_805DE70C;
 extern s32 lbl_805D686C;
-}
 
 void TObjEneBm9Mericarol::sub_802CE68C(Vec *out, s32 node) {
     set_motion_packed_rotation();

@@ -3,10 +3,10 @@
 #include "pso/unk/text_8022BE64.h"
 #include "pso/technique/TTecRaBarta.h"
 #include "types.h"
-#include "pso/technique/TTecRaBarta.h"
+
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
-#include "pso/technique/TTecRaBarta.h"
+
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -429,7 +429,7 @@ TTecRaBarta::~TTecRaBarta() {
     stop_sound_request((s32)((struct Self_80237A94 *)this)->emitters);
     mem_free(((struct Self_80237A94 *)this)->objs);
 }
-extern "C" {
+
 
 void TTecRaBarta::render() {  }
 
@@ -506,7 +506,6 @@ void *TTecRaBarta::construct_area(void *source, void *origin, void *level) {
     return this;
 }
 
-}
 
 #undef calc_parameters__11TTecRaBartaFv
 

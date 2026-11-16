@@ -15,8 +15,8 @@ void set_constant_material(const NJS_ARGB *color);
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/vector.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/boss/olgaflow/TBoss6PlotFalz.h"
+
+
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -879,12 +879,11 @@ struct Stack_802AC040 {
     f32 sp14;
 };
 
-extern "C" {
+
 void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
-}
 void set_chunk_blend(u32 x);
 extern s32 game_difficulty_selection;
-extern "C" {
+
 void TBoss6PlotFalz::update_camera_target() {
     if (TBoss6PlotFalz__fade_amount > 0.0f) {
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -958,7 +957,6 @@ s32 is_normal_difficulty(void) {
 #undef set_constant_material
 
 int TBoss6PlotFalz::get_phase() {  return plot_falz_phase; }
-}
 
 struct Obj_8004AA04 { s32 count; u8 pad[0xC]; void **items; };
 
@@ -1112,9 +1110,6 @@ void refresh_players_equipment__14TBoss6PlotFalzFPv(void *self) {
         }
     }
 }
-}
-
-extern "C" {
 u8 *get_hit_data__14TBoss4DarkFalzFv(void *);
 void set_position_from__8TObjBaseFPv();
 }
@@ -1271,7 +1266,7 @@ void fn_802ACD60(void *);
 }
 s32 create_boss4_fade();
 void build_6xA3_olga_flow_boss_actions(void *);
-extern "C" {
+
 
 void TBoss6PlotFalz::send_6xA3_action(s8 v) {
     Boss_802AC86C *o = (Boss_802AC86C *)this;
@@ -1391,12 +1386,8 @@ s32 TObjFish::get_phase() { return *(s32*)((char*)this + 0x378); }
 
 int TObjFish::get_fish_count() {  return obj_fish_count; }
 
-}
-
-extern "C" {
 u16 boss6_plot_falz_player_order_table[4];
 s32 TBoss6PlotFalz__instance;
 u32 TBoss6PlotFalz__type1_instance;
 u32 TBoss6PlotFalz__type2_instance;
 s32 plot_falz_phase;
-}

@@ -10,10 +10,9 @@
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TWindowSubGameEnd__class_name = "TWindowSubGameEnd";
 int window_sub_game_end_active_flag;
-}
 
 
 struct VBase_18_204a81 { char pad[0x18]; };

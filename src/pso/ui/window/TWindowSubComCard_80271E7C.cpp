@@ -11,13 +11,13 @@
 #pragma push
 
 #include "types.h"
-#include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/map/FloorArea.h"
+
+
 class TChCrTagPlBack;
 #include "pso/ui/window/TWindowComCard.h"
 #include "pso/network/TProtocol.h"
 #include "pso/unk/GuildCardRecord.h"
-#include "pso/unk/TLobby.h"
+
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TUnk_804D0658.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
@@ -29,7 +29,7 @@ class TChCrTagPlBack;
 #include "pso/ui/window/TWindowShortListCtrl.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
-#include "pso/ui/window/TWindowSubComCardList.h"
+
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TPlyGuildCardTag_8007B7EC.h"

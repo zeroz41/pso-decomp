@@ -31,20 +31,12 @@ void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 
 
-}
-extern "C" {
-
 void *__nw__7TObjectFUl(int);
 s32 queue_destruction__7TObjectFv();
-
-}
 
 #pragma fp_contract on
 /* Built with deferred code generation: functions are emitted in reverse source order, and the vtable precedes render's switch table in .data. */
 #pragma defer_codegen on
-
-extern "C" {
-
 void *TWindowEffectLight::create(void *arg0, void *arg1, void *arg2) {
     void *o;
     o = __nw__7TObjectFUl(0x2C);
@@ -67,7 +59,6 @@ TWindowEffectLight::TWindowEffectLight(void *arg1, s16 arg2, u32 id) : TObject((
 
 TWindowEffectLight::~TWindowEffectLight() {}
 
-extern "C" {
 
 void run_task__18TWindowEffectLightFv(void *arg0) {
     s32 temp_r4;
@@ -198,4 +189,3 @@ f32 TWindowEffectLight::calc_scale() {
     return 0.5f * (f32)frame / 8.0f + 1.0f;
 }
 
-}

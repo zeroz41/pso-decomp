@@ -9,7 +9,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/ambient/TObjLight.h"
+
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/TLobby.h"
 #include "pso/map/FloorArea.h"
@@ -197,7 +197,7 @@ void TObjLight::run_task() {
 TObjLight::~TObjLight() {
     this->mask_object_set_row_flags(-3);
 }
-extern "C" {
+
 
 typedef char RecoveredGlobal_80194528___vt__9TObjLight_size[sizeof(RecoveredGlobal_80194528___vt__9TObjLight) == 0x38 ? 1 : -1];
 typedef char RecoveredGlobal_80194528_TObjLight__data_80506320_size[sizeof(RecoveredGlobal_80194528_TObjLight__data_80506320) == 0x50 ? 1 : -1];
@@ -239,4 +239,3 @@ u8 *TObjLight__create(u8 *arg0) {
     return var_r0;
 }
 
-}

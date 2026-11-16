@@ -85,12 +85,7 @@ f32 horizontal_distance_squared(void *, s32);
 s32 get_player_by_client_id(u16);
 s32 is_split_screen();
 
-}
-
 // Function definitions in reverse address order (-inline deferred emits them reversed).
-
-extern "C" {
-
 void *TObjFogCollision__create(void *set) {
     void *o = __nw__7TObjectFUl(0x98);
     if (o != NULL) {
@@ -117,7 +112,6 @@ TObjFogCollision::~TObjFogCollision() {
 
 }
 
-extern "C" {
 
 int TObjFogCollision__sub_80153F70(void *self) { return 0; }
 int TObjFogCollision__sub_80153F68(void *self) { return 0; }
@@ -244,13 +238,11 @@ void *TObjFogCollisionSwitch__ct(void *fog_collision_switch, void *parent, void 
     return fog_collision_switch;
 }
 
-}
 
 TObjFogCollisionSwitch::~TObjFogCollisionSwitch() {
 
 }
 
-extern "C" {
 
 void TObjFogCollisionSwitch::vfunc_13(s32) {
     s32 temp_r0;
@@ -321,13 +313,11 @@ void *TObjFogCollisionPoison__ct(void *arg0, void *arg1, void *arg2) {
     return arg0;
 }
 
-}
 
 TObjFogCollisionPoison::~TObjFogCollisionPoison() {
 
 }
 
-extern "C" {
 
 void TObjFogCollisionPoison::vfunc_13(s32) {
     f32 var_f2;
@@ -360,7 +350,6 @@ void run_task__22TObjFogCollisionPoisonFv(void *self) {
     }
 }
 
-}
 
 // ---- poison area sounds, damage and the per-client fog managers ----
 

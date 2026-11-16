@@ -5,7 +5,7 @@
 #include "pso/unk/TUnk_804DDD28.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TUnk_804ED7D0.h"
-#include "pso/unk/TUnk_804DDD28.h"
+
 
 struct Base_80328F7C { char pad[0x8]; };
 struct VObj_80328F7C : Base_80328F7C {

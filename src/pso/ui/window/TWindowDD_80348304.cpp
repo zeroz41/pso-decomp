@@ -8,7 +8,7 @@
 
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/FloorArea.h"
+
 
 struct W_80348520 {
     u8 pad0[0x24];

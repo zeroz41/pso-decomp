@@ -18,11 +18,9 @@ static s32 legacy_enemy_kill_received[128];
 // This unit's .sdata2 pool holds 0.0f, 50.0f, 15.0f in that order, while
 // init_override_params stores 50.0f first; no store order of plain literals
 // gives both, so the pool stays outside the unit and is named here.
-extern "C" {
 extern const f32 lbl_805DA098;
 extern const f32 lbl_805DA09C;
 extern const f32 lbl_805DA0A0;
-}
 
 void restore_cameras_if_overridden() {
     if (camera_override_active != 0) {

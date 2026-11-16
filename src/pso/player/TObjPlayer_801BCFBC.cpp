@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_801BD314.h"
-#include "pso/object/base/TObjMotion.h"
+
 
 extern "C" {
 
@@ -217,10 +217,6 @@ void TObjPlayer::sub_801BD240() {
     ((TObjPlayer *)arg0)->init_idle_animation();
     ((TObjPlayer *)arg0)->update_input_and_draw();
 }
-
-}
-
-extern "C" {
 
 int TObjPlayer__sub_801C2114(void);
 

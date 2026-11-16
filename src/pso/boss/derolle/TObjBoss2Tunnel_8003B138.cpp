@@ -295,13 +295,7 @@ void *TObjBoss2Tunnel__ct(void *arg0, void *arg1);
 void TObjBoss2Tunnel__sub_8003C648(void);
 
 }
-extern "C" {
-
-
 extern s32 __vt__13TUnk_804835D8[];
-
-
-}
 
 
 #undef boss2_tunnel_instance
@@ -309,7 +303,7 @@ extern s32 __vt__13TUnk_804835D8[];
 
 #define init_queue_from_start__15TObjBoss2TunnelFv ((void (*)(Tunnel_8003C45C *))init_queue_from_start__15TObjBoss2TunnelFv)
 #define __ct__7TObjectFP7TObject ((void (*)(void *))__ct__7TObjectFP7TObject)
-extern "C" {
+
 void *TUnk_804835D8::init() {
     __ct__7TObjectFP7TObject(this);
     *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804835D8;
@@ -320,10 +314,8 @@ void *TUnk_804835D8::init() {
 
 TUnk_804835D8::~TUnk_804835D8() {}
 
-}
 #pragma push
 #pragma opt_common_subs off
-extern "C" {
 void TUnk_804835D8::run_task() {
     u8 *arg0 = (u8 *)this;
     f32 temp_f1;
@@ -341,9 +333,7 @@ void TUnk_804835D8::run_task() {
     }
 }
 
-}
 #pragma pop
-extern "C" {
 void TObjBoss2Tunnel::clear_target_flags() {
     s32 *temp_r3;
     s32 *temp_r3_2;
@@ -449,7 +439,6 @@ void *TObjBoss2Tunnel__ct(void *object, void *arg1) {
     return self;
 }
 
-}
 TObjBoss2Tunnel::~TObjBoss2Tunnel() {
     TObjBoss2Tunnel::dt((s32)((s8 *)this + 0x68), (s16)(-1));
 }
@@ -504,7 +493,7 @@ void enable_fog__15TObjBoss2TunnelFPv(TObjBoss2Tunnel *boss2_tunnel) {
     (*(s32 *)&TObjBoss2Tunnel__global_flags) |= 4;
 }
 
-extern "C" {
+
 u8 *TObjBoss2Tunnel::sub_8003C21C() {
     if (((O_8003C21C *)this)->p == 0) {
         return 0;
@@ -561,10 +550,8 @@ void TObjBoss2Tunnel::update_particles() {
     }
 }
 
-}
 #pragma push
 #pragma fp_contract on
-extern "C" {
 void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o) {
     f32 tmp;
     s32 flag;
@@ -818,12 +805,10 @@ void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o) {
     }
 }
 
-}
 #pragma pop
 #undef boss2_tunnel_color_table
 #undef boss2_tunnel_color
 #undef lbl_80483480
-extern "C" {
 void render__15TObjBoss2TunnelFv(u8 *arg0) {
     s32 saved;
     s32 i;
@@ -969,5 +954,4 @@ void TObjBoss2Tunnel::create_particle_effect(s32 position, s32 arg1, f32 farg0) 
     }
 }
 
-}
 #undef release_children__15TObjBoss2TunnelFPvf

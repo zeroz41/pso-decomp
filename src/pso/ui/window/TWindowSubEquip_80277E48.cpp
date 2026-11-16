@@ -10,7 +10,7 @@
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubMag.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/ui/window/TWindowMenuIconLine.h"
+
 
 struct VBase_80277F4C { u8 pad[0x18]; };
 

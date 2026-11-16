@@ -61,10 +61,8 @@ TAdSoniclogo::TAdSoniclogo(TObject *parent) : TObject(parent) {
     }
 }
 
-extern "C" {
 
 void TLogo__sub_8001C360(void) {  }
 
 void TLogo__sub_8001C364(void) { sonic_logo_object = (void *)get_logo_texture_e_handle(); }
 
-}

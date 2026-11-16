@@ -16,8 +16,8 @@
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/technique/TTecRaZonde.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/technique/TTecRaFoie.h"
-#include "pso/unk/TUnk_804CCB28.h"
+
+
 #include "pso/map/FloorArea.h"
 #pragma readonly_strings on
 

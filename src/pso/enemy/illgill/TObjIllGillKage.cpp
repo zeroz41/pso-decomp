@@ -6,8 +6,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/system/task/TObject.h"
-#include "pso/object/base/TObjMotion.h"
+
 
 struct RecoveredGlobal_803655F8___vt__15TObjIllGillKage { s32 value; u8 remaining[0x30]; };
 typedef char RecoveredGlobal_803655F8___vt__15TObjIllGillKage_size[sizeof(RecoveredGlobal_803655F8___vt__15TObjIllGillKage) == 0x34 ? 1 : -1];

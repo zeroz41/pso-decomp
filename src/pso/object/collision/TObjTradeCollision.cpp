@@ -4,15 +4,14 @@
 #include "pso/ui/window/TWindowSubTradeMain_802D3924.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/collision/TObjTradeCollision.h"
+
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 
 #pragma readonly_strings on
 
-extern "C" {
+
 const char *TObjTradeCollision__name = "TObjTradeCollision";
-}
 
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
@@ -46,7 +45,7 @@ void run_task__18TObjTradeCollisionFv(s32 arg0) {
 TObjTradeCollision::~TObjTradeCollision() {
 
 }
-extern "C" {
+
 
 extern void *tl_05;
 
@@ -69,4 +68,3 @@ void *TObjTradeCollision__create(void *arg0) {
     return o;
 }
 
-}

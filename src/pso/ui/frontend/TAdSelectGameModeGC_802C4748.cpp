@@ -16,7 +16,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/frontend/TAdSelectGameModeGC.h"
+
 
 struct RecoveredGlobal_802C47E8_lbl_8050E208 { s32 value; u8 remaining[0x1AC]; };
 typedef char RecoveredGlobal_802C47E8_lbl_8050E208_size[sizeof(RecoveredGlobal_802C47E8_lbl_8050E208) == 0x1B0 ? 1 : -1];

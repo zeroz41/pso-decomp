@@ -15,7 +15,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/chat/TWindowChatSymbol_802486A8.h"
 #include "pso/unk/TUnk_804CE7D0.h"
-#include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
+
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
@@ -410,15 +410,11 @@ void *TWindowChatSymbol::destroy(s16 arg1) {
     return this;
 }
 
-}
-
-extern "C" {
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *, int, int, int);
 u8 *__nw__7TObjectFUl(s32);
 s32 __ct__7TObjectFP7TObject();
 s32 align_menu_entry_positions(void *);
 u8 *check_room_seq_4__16TAdChrSelASlotGCFl(const NJS_POINT2 *, s32);
-extern s32 lbl_804CE7D0[];
 u8 *construct_symbol_chat_selection(u8 *arg0) {
     // preset_list_pos: where the list of the 12 symbol chat presets opens.
     static const NJS_POINT2 preset_list_pos = {30.0f, 314.0f};

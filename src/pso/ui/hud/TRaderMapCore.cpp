@@ -10,7 +10,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/map/FloorArea.h"
 #include "pso/render/render_util.h"
-#include "pso/system/task/TObject.h"
+
 #include "pso/technique/TTecCtrl.h"
 
 struct RecoveredGlobal_801FA964_lbl_804C8784 {
@@ -1474,7 +1474,6 @@ extern RecoveredGlobal_801FB430___vt__13TRaderMapCore __vt__13TRaderMapCore;
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 s32 init_map_ptr__13TRaderMapCoreFv(void *, int);
 s32 fn_803D64F8(void *);
-extern f32 lbl_805D35F0;
 extern f32 lbl_805D35FC;
 extern s32 rader_map_core_name_ptr;
 Core_801FB490 *TRaderMapCore__ct(Core_801FB490 *arg0, void *parent);
@@ -1609,14 +1608,11 @@ Core_801FB490 *TRaderMapCore__ct(Core_801FB490 *arg0, void *parent) {
 struct Ent_801FB798 { s32 a; char *name; };
 
 extern "C" {
-extern u32 TRaderMapCore__data_805D5F4C;
-extern s32 TRaderMapCore__render_mode;
 void copy_name(s32 arg0);
 s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
 s32 get_floor_scene_table(s32 arg0);
 void bind_gvm_texture_list(char *, u8 *);
 extern s32 lbl_805D49B4;
-extern s32 TRaderMapCore__data_805D5F30;
 extern s8 lbl_805D5F34;
 extern s32 lbl_805D5F38;
 
@@ -1724,10 +1720,6 @@ void TRaderMapCore::load_frame_texture() {
     (*(s32 *)&TRaderMapCore__frame_model_resource) = var_r0;
     (*(u8 * *)&TRaderMapCore__data_805D5F4C) = load_gvm_texture_file((s32)"RaderMapFrame.gvm");
 }
-
-}
-
-extern "C" {
 
 s32 get_bml_model(s32);
 void __dt__7TObjectFv(void *, int);

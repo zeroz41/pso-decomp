@@ -35,7 +35,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/map/FloorArea.h"
-#include "pso/system/task/TObject.h"
+
 
 extern "C" {
 
@@ -86,7 +86,6 @@ struct State_8013AF50 {
 extern "C" {
 void publish_target_list__11TMainCursorFPvi(struct Self_8013D4A0 *, s32);
 State_8013AF50 *get_state__11TMainCursorFv(s32);
-s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
 int init__13TUnk_804A7260FPvPv(void);
 
 extern const char *lockon_list_clear_task_name;
@@ -110,12 +109,7 @@ void TLOC_End::run_task() {
     }
 }
 
-}
-
-extern "C" {
-
 u8 *__dt__8TLOC_EndFv(u8 *arg0, s16 arg1);
-s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
 
 extern s32 lbl_804A7278[];
 
@@ -185,12 +179,7 @@ void TLOC_Start::run_task() {
     }
 }
 
-}
-
-extern "C" {
-
 u8 *__dt__10TLOC_StartFv(u8 *arg0, s16 arg1);
-s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
 
 extern s32 lbl_804A7290[];
 
@@ -296,13 +285,8 @@ s32 canSetMenuCursorAction(PaletteCursorOverride* cursor, TObjPlayer* player, u8
     }
 }
 
-}
-
-extern "C" {
-
 void draw_chunk_object(void);
 
-extern const f32 TMainCursor__data_805DB0C0;
 
 void TMainCursor::update_photon_chair() {
     s32 arg0 = (s32)this;
@@ -314,10 +298,6 @@ void TMainCursor::update_photon_chair() {
         restore_model_draw_state((void*)(arg0 + 0x4C));
     }
 }
-
-}
-
-extern "C" {
 
 struct VOff_8013B524_arg0_8013B524 { char pad_0[0x4C]; char f_4C[1]; };
 
@@ -335,7 +315,6 @@ void TMainCursor::update_chair() {
 }
 
 extern u8 *camera_ctrl_instance;
-extern const f32 TMainCursor__data_805DB0C0;
 
 void render__11TMainCursorFPv(TMainCursor *main_cursor) {
     s32 sp8;
@@ -369,9 +348,6 @@ void render__11TMainCursorFPv(TMainCursor *main_cursor) {
     TParticleCtrl::end_effect_render();
 }
 
-}
-
-extern "C" {
 s32 check_visible__11TMainCursorFv(void *, void *, s32, s32);
 void *find_entity_by_id(u16 id);
 u8 get_cast_technique_level(void *, s32);
@@ -451,7 +427,6 @@ s32 TMainCursor::check_can_pickup() {
     return 0;
 }
 
-extern const f32 TMainCursor__data_805DB0C0;
 
 #pragma push
 #pragma opt_common_subs off
@@ -727,11 +702,9 @@ u8 * csnVector(s32, s32, s32);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 f32 vec3_dot(void *, void *);
-extern const f32 TMainCursor__data_805DB0C0;
 s32 target_in_vertical_cone(Vec_8013BF0C *p, Vec_8013BF0C *q, s32 yaw, f32 range, f32 dist);
 extern Vec_8013C0A0 scratch_vec;
 s32 target_in_xz_cone(Vec_8013C0A0 *p, Vec_8013C0A0 *q, Vec_8013C0A0 *r, s32 yaw, f32 range, f32 dist);
-s32 get_entity_id(void *);
 s32 set_size__11TMainCursorFf(f32);
 s32 TMainCursor__sub_8013F168(void *);
 s32 set_flag_bit__11TMainCursorFlUs(void *, int, int);
@@ -1128,11 +1101,7 @@ extern "C" {
 int TLockOnCursor__sub_8013EB34(void);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
-s32 push_matrix();
 s32 pop_matrix();
-extern u8 shared_effect_texture_list[];
-extern u8 *camera_ctrl_instance;
-extern const f32 TMainCursor__data_805DB0C0;
 s32 is_effect_channel_active__10TObjPlayerFll(s32, s32);
 void *TObjPlayer__sub_80116620(void *, s32);
 void get_action_palette__11TMainCursorFv(void *, u8);
@@ -1145,17 +1114,13 @@ s32 TMainCursor__sub_8013F168(void *p);
 void TMainCursor__sub_80154230(void *arg0, s32 arg1, u16 arg2);
 void *__nw__7TObjectFUl(u32);
 extern s32 tl_loc_end;
-s32 get_entity_id(void *);
 void *get_item_field_6__10TObjPlayerFPv(void *);
 s32 get_type__10TObjPlayerFPv(void *p);
-void fn_80044330(void *p);
 Weapon_8013CDE4 *get_weapon_range_record(void *, s32);
 s32 check_type_and_enabled__11TMainCursorFPvPv(Cursor_8013CDE4 *, u8, u8);
 void TMainCursor__sub_8013E9A0(void *p);
 s32 TMainCursor__sub_8013E9E0(Cursor_8013CDE4 *, u8);
 Tech_8013CDE4 *get_photon_blast_entry__10TObjPlayerFi(s16);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 extern f32 lbl_8050BF60[3];
 s32 TMainCursor__sub_8013E970(s32, u16, s32, s32);
 int TObjPlayer__sub_801B066C(void *p);

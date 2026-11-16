@@ -4,7 +4,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/item/mag/TItemMag.h"
 #include "pso/ui/window/TWindowSubCustomEquip.h"
-#include "pso/item/TItemData.h"
+
 struct Win_8027C188 { u8 pad[0x64]; s32 pb[3]; void *mag; };
 
 struct Win_8027C13C { u8 pad[0x61]; s8 sel; };

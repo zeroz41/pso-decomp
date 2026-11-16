@@ -9,10 +9,8 @@
 
 #pragma readonly_strings on
 
-extern "C" {
-const char *TOSwitchTimer__name = "TOSwitchTimer";
-}
 
+const char *TOSwitchTimer__name = "TOSwitchTimer";
 
 
 struct RecoveredGlobal_8017858C___vt__13TOSwitchTimer { s32 value; u8 remaining[0x34]; };

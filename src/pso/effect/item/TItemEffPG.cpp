@@ -30,8 +30,7 @@
 #include "pso/item/TUnk_804E355C.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/system/task/TMainTask.h"
+
 
 struct Base_8034EFDC { char pad[0x18]; };
 struct VObj_8034EFDC : Base_8034EFDC {
@@ -162,14 +161,10 @@ extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-}
-
 // Built with -inline off,deferred: functions are written last to first, so
 // the vtables come out 0810, 0908, 0A00, 0AF8, 0BF0, 0C08, 0C28 as in the original.
 // The functions from 0x8034FE28 on were a separate unit; their literals continue
 // this TU's .sdata2 pool at 0x805DFE14 (a 4-mod-8 address, so no TU starts there).
-
-extern "C" {
 const char *TItemEffPG__name = "TItemEffPG";
 }
 

@@ -8,14 +8,11 @@
 #include "pso/system/task/TMainTask.h"
 #include <stdlib.h>
 
-extern "C" {
-
 
 s32 TObjPlayer::is_rand_below_threshold() {
     return (u32)__cntlzw(((3.0517578e-05f * (f32) rand()) < 0.3f)) >> 5;
 }
 
-}
 
 struct Obj_8012AFF8 {
     u8 pad0[0xF4];

@@ -110,10 +110,6 @@ s32 lbl_805D34C8 = 1;
 ControllerInputState controller_input_state;
 u8 controller_physical_port_bank[0x1B0];
 u32 pad_recalibration_counters[4];
-}
-
-
-extern "C" {
 s32 OSGetResetButtonState();
 s32 TKeyBoardControl__sub_801323C8(void *, void *);
 

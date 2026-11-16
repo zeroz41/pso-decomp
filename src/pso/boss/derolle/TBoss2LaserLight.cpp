@@ -48,7 +48,7 @@ struct LaserLightParams_80037500 {
     f32 f3C;
 };
 
-extern "C" TBoss2LaserLight *TBoss2LaserLight__ct(TBoss2LaserLight *self, TObject *parent, u32 arg2) {
+TBoss2LaserLight *TBoss2LaserLight__ct(TBoss2LaserLight *self, TObject *parent, u32 arg2) {
     LaserLightParams_80037500 *p = (LaserLightParams_80037500 *)self;
 
     __ct__7TObjectFP7TObject(self, parent);

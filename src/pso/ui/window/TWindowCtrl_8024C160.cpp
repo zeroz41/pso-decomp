@@ -9,7 +9,7 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
-#include "pso/system/task/TObject.h"
+
 struct TWindowCtrl_8024C160 {
     u8 pad0[0x18];
     void *vt;

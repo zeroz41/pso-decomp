@@ -60,9 +60,6 @@ void TBoss8Dragon::update_colli_parts() {
     }
 }
 
-}
-
-extern "C" {
 const char *TBoss8DragonDemo__name = "TBoss8DragonDemo";
 }
 

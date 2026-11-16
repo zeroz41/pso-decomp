@@ -161,9 +161,6 @@ Obj_8032A574 *TAdMcSelectCursorGC__ct(Obj_8032A574 *arg0, s32 parent) {
     return arg0;
 }
 
-}
-
-extern "C" {
 s32 release_texture_list(void *, s32);
 u32 __nw__7TObjectFUl(s32);
 

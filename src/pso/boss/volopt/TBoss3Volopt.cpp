@@ -240,7 +240,7 @@ static Vec boss3_volopt_seq4_camera_position;
 static Vec boss3_volopt_seq4_camera_target;
 TObjPlayer *TBoss3Volopt::candidate_players[5];
 
-extern "C" TBoss3VoloptCore *fn_8003F468(TBoss3Volopt *parent, u16 id, s32 group) {
+TBoss3VoloptCore *fn_8003F468(TBoss3Volopt *parent, u16 id, s32 group) {
     return new TBoss3VoloptCore(parent, id, group);
 }
 

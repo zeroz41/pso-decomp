@@ -6,9 +6,9 @@
 #include "pso/system/vector.h"
 #include "pso/effect/TUnk_804CC148.h"
 #include "pso/effect/TUnk_804CCC68.h"
-#include "pso/unk/TUnk_804CCC28.h"
+
 #include "pso/enemy/gibon/TObjEneBm5GibonU.h"
-#include "pso/technique/TTecReverser.h"
+
 #include "pso/technique/TTecAnti.h"
 #include "pso/player/TObjPlayer.h"
 

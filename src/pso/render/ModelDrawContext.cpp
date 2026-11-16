@@ -227,7 +227,6 @@ void apply_cached_blend_mode(s32 arg0) {
 __declspec(section ".rodata") extern const Tbl_803DCC34 gx_blend_mode_table = {{255, 255, 6, 2, 7, 3, 5, 3, 4, 2, 1, 0}};
 __declspec(section ".rodata") extern const u32 cached_blend_factor_table[8] = {0, 1, 2, 3, 4, 5, 6, 7};
 
-extern "C" {
+
 s32 node_saved_matrix[12];
-}
 

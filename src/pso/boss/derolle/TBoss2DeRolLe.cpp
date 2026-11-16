@@ -2580,7 +2580,6 @@ s32 __ct__12TObjEneDD_STFP7TObject(void *, void *);
 s32 is_main_phase_15__9TObjEneDDFv();
 
 
-
 s32 init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int, void *);
 
 

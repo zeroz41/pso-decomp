@@ -114,7 +114,6 @@ struct Outer_800D2900 { u8 pad[0x42c]; Inner_800D2900 *p42c; };
 extern "C" {
 
 
-
 void * __nw__7TObjectFUl(int);
 
 u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
@@ -133,20 +132,13 @@ extern u8 *tl_05;
 
 void apply_actor_gravity(void *, int, f32);
 
-}
-
-void move_with_wall_slide(u8 *arg0);
-
-extern "C" {
-
 void calc_velocity_toward_destination(void *, Vec_800D1E4C, Vec_800D1E4C, f32);
 
 s32 update_if_active__15TObjEnemyCustomFl(void *, int);
 
 void update_walk_to_target__10TObjPlayerFPv(Ene_800D1E4C *arg0);
-
 }
-
+void move_with_wall_slide(u8 *arg0);
 #define CAT(a, b) CAT2(a, b)
 #define CAT2(a, b) a##b
 #define PADV virtual void CAT(pv, __LINE__)();
@@ -269,12 +261,6 @@ extern s32 lbl_805D5870;
 
 void select_targets__15TObjEneGyaranzoFv(u8 *arg0);
 
-}
-
-s32 get_gyaranzo_missile_int_parameter(s32 i);
-
-extern "C" {
-
 s32 TObjGyaranzoMissile__ct(void *, void *, void *, u16);
 
 void *__nw__7TObjectFUl(int);
@@ -286,9 +272,8 @@ void spawn_missile_volley__19TObjGyaranzoMissileFPv(u8 *arg0);
 void update__19TObjGyaranzoMissileFPv(u8 *arg0);
 
 s32 TBoss3Volopt__sub_800D8D88(void *, s32);
-
 }
-
+s32 get_gyaranzo_missile_int_parameter(s32 i);
 struct Vec_800D3314 { f32 x, y, z; };
 
 #include <stddef.h>
@@ -301,7 +286,6 @@ struct Vec_800D3314 { f32 x, y, z; };
 
 #include "pso/enemy/dd/TObjEneDD.h"
 
-#include "pso/enemy/TObjEnemyCustom.h"
 
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 
@@ -309,7 +293,6 @@ struct Vec_800D3314 { f32 x, y, z; };
 
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 
-#include "pso/render/RenderFadeState.h"
 
 #include "pso/object/ambient/TObjFish.h"
 
@@ -338,33 +321,17 @@ extern "C" {
 
 u16 find_nearest_visible_player(void *, int, int, f32);
 
-}
-
 #define select_targets__15TObjEneGyaranzoFv ((s32 (*)(void *))select_targets__15TObjEneGyaranzoFv)
-
-extern "C" {
-
-
 void move_along_ground_avoiding_walls__15TObjEnemyCustomF3Vecff(void *, Vec_800D3314, void *, f32, f32);
 
 u8 *find_active_entity_by_id(u16);
 
-}
-
 #define play_sound_effect ((s32 (*)(void *, void *, int, int))play_sound_effect)
-
-extern "C" {
-
 extern s32 actor_frame_tick;
 
 void TObjPlayer__sub_800D3314(u8 *arg0);
 
-}
-
 #define spawn_missile_volley__19TObjGyaranzoMissileFPv ((s32 (*)())spawn_missile_volley__19TObjGyaranzoMissileFPv)
-
-extern "C" {
-
 void TObjPlayer__sub_800D30A8(Obj_800D30A8 *arg0);
 
 typedef struct Ene_800D2E8C {
@@ -464,13 +431,8 @@ void __dt__15TObjEnemyCustomFv(void *, int);
 
 s32 __ct__15TObjEnemyCustomFP7TObject(void *);
 
-}
-
 #define init_params_from_table__15TObjEneGyaranzoFv ((s32 (*)(void *))init_params_from_table__15TObjEneGyaranzoFv)
 #define update_walk_to_target__10TObjPlayerFPv ((s32 (*)(void *))update_walk_to_target__10TObjPlayerFPv)
-
-extern "C" {
-
 void TObjPlayer__sub_800D2E8C(Ene_800D2E8C *arg0);
 
 void vfunc_63__15TObjEneGyaranzoFv(u8 *arg0);
@@ -775,14 +737,9 @@ void *gyaranzo_actor_vtable_ops[83] = {
     (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv,
 };
 
-}
-
 #define gyaranzo_death_breakup_params ((u8 *)gyaranzo_death_breakup_params)
 #define gyaranzo_flagged_resource_index_table ((s16 *)gyaranzo_flagged_resource_index_table)
 #define gyaranzo_resource_index_table ((s16 *)gyaranzo_resource_index_table)
-
-extern "C" {
-
 s32 gyaranzo_boss_stats_handle;
 
 s32 gyaranzo_boss_stats_ptr_b;
@@ -873,12 +830,7 @@ Obj_800D3E54 *fn_800D3E54(Obj_800D3E54 *arg0, s16 arg1) {
     return arg0;
 }
 
-}
-
 #define AREA ((Area_800D3C04 *)gyaranzo_bml_resource)
-
-extern "C" {
-
 void TLobby::load_gyaranzo_resources() {
     s32 i;
     void *p;
@@ -920,12 +872,7 @@ void TLobby::load_gyaranzo_resources() {
     }
 }
 
-}
-
 #undef AREA
-
-extern "C" {
-
 void TObjEneGyaranzo::free_static_instances() {
     if (gyaranzo_bml_resource != 0U) {
         free_bin_model_request(gyaranzo_bml_resource, 1);
@@ -1468,16 +1415,11 @@ void TObjEneGyaranzo::sub_800D2900() {
     }
 }
 
-}
-
 #undef play_sound_effect
 #undef spawn_missile_volley__19TObjGyaranzoMissileFPv
 #undef update_walk_to_target__10TObjPlayerFPv
 #define NEW(d, id) { void *o = __nw__7TObjectFUl(0xDC); if (o != NULL) { TObjGyaranzoMissile__ct(o, arg0, &d, id); } }
 #define V ((VObj_18_f1aa6a *)(arg0))
-
-extern "C" {
-
 #pragma pool_data off
 void spawn_missile_volley__19TObjGyaranzoMissileFPv(u8 *arg0) {
     Vec_800D23D4 pos;
@@ -1535,13 +1477,8 @@ void spawn_missile_volley__19TObjGyaranzoMissileFPv(u8 *arg0) {
 }
 #pragma pool_data reset
 
-}
-
 #undef NEW
 #undef V
-
-extern "C" {
-
 #pragma push
 #pragma scheduling off
 void EnemyTargetCandidate::copy_from(const EnemyTargetCandidate *source) {
@@ -1658,11 +1595,6 @@ void TObjEneGyaranzo::init_params_from_table() {
     TObjGyaranzoMissile__speed_scale = get_gyaranzo_missile_float_parameter(3);
     TObjGyaranzoMissile__max_range = get_gyaranzo_missile_float_parameter(4);
 }
-
-}
-
-
-extern "C" {
 
 void update_walk_to_target__10TObjPlayerFPv(Ene_800D1E4C *arg0) {
     switch (arg0->state) {
