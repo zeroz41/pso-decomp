@@ -16,6 +16,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TBoss4ZakoDraw_8030AD38.h"
 
 void set_constant_material(const NJS_ARGB *color);
 
@@ -238,3 +239,11 @@ void TBoss4DarkFalz::clear_uro_link_state() {
 }
 
 Boss4ZakoDrawBuffers boss4_zako_draw_buffers;
+
+extern "C" {
+
+int clear_uro_link_state__14TBoss4DarkFalzFv(void*);
+
+int TBoss4DarkFalz__sub_8030AD38(void* p) { return clear_uro_link_state__14TBoss4DarkFalzFv(p); }
+
+}

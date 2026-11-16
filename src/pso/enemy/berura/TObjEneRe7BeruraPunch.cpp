@@ -341,3 +341,6 @@ TObjEneRe7BeruraPunch::TObjEneRe7BeruraPunch(TObject *parent, TObjBase *owner)
     init();
 }
 
+void *TObjEneRe7Berura::spawn_punch(void *arg0) {
+    return new TObjEneRe7BeruraPunch((TObject *)arg0, (TObjBase *)arg0);
+}

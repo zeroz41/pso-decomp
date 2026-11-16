@@ -1,15 +1,37 @@
 #include "types.h"
 #include "pso/npc/TObjNpcKenkyu2.h"
+#include "pso/npc/TObjNpcKenkyu2_802FEA38.h"
 #include "pso/npc/TObjNpcHosa2.h"
 #include "pso/npc/TUnk_804A9F50.h"
-
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-
 #pragma readonly_strings on
+
+extern "C" {
+
+void *__ct__11TObjControlFP7TObject(void *, void *);
+void *__nw__7TObjectFUl(int);
+
+extern void *tl_04;
+
+void * TObjNpcKenkyu2__create(void *arg0) {
+    void *o;
+    void *o2;
+    o = __nw__7TObjectFUl(0x20);
+    if (o != NULL) {
+        o = __ct__11TObjControlFP7TObject(o, tl_04);
+    }
+    o2 = __nw__7TObjectFUl(0x3B8);
+    if (o2 != NULL) {
+        o2 = TObjNpcKenkyu2__ct((u8 *)o2, (s32)o, (s32)arg0);
+    }
+    return o2;
+}
+
+}
 
 extern const char *bm_npc_kenkyu2_model_names[2];
 extern BmlResourceDescriptor TObjNpcKenkyu2__resource_descriptor;
@@ -23,8 +45,6 @@ s32 get_bml_model(int, int);
 extern s32 __vt__14TObjNpcKenkyu2[];
 extern const char *TObjNpcKenkyu2__name;
 void free_bin_model_request(void*, int);
-void *__ct__11TObjControlFP7TObject(void *, void *);
-void *__nw__7TObjectFUl(int);
 
 void TObjNpcKenkyu2::free_static_model() {
     if ((u32) TObjNpcKenkyu2__shared_model_resource != 0U) {
@@ -48,7 +68,6 @@ void TObjNpcKenkyu2::load_shared_resource() {
 TObjNpcKenkyu2::~TObjNpcKenkyu2() {}
 extern "C" {
 
-extern void *tl_04;
 
 u8 *TObjNpcKenkyu2__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TUnk_804A9F50 *)player)->construct_male_npc_base();

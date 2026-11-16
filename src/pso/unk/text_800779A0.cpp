@@ -44,3 +44,14 @@ Obj_80077A28 *construct_entry_array(Obj_80077A28 *self) {
 }
 
 }
+
+extern "C" {
+
+s32 construct_guild_card_tag_array(s32);
+
+s32 fn_80077A70(s32 arg0) {
+    construct_guild_card_tag_array(arg0 + 0x70);
+    return arg0;
+}
+
+}
