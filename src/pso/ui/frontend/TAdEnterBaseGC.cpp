@@ -31,8 +31,7 @@
 #include "pso/unk/text_8032AACC.h"
 
 #include "pso/unk/text_8032AC9C.h"
-
-struct Pos_8032AACC { f32 x, y; };
+#include "pso/system/NinjaTypes.h"
 
 struct Plate_8032AACC { u8 data[0x3B4]; };
 
@@ -447,7 +446,7 @@ void draw_masked_password_field(s32 arg0) {
         buf[len] = 0;
         len = calc_text_width("*");
         ((TAdSinglePlyChrSelectGC *)buf)->render_status_disp(password_field_text_pos[0], password_field_text_pos[1]);
-        Pos_8032AACC p2;
+        NJS_POINT2 p2;
         p2.x = password_field_text_pos[0] + (f32) (len * ((TAdEnterSerialAccessGC *)password_entry_keyboard_control)->get_field20_state());
         p2.y = password_field_text_pos[1];
         fn_8025DE10((void *)arg0, &p2);

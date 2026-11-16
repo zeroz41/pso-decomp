@@ -116,7 +116,6 @@ struct Stack_80266EB8 {
     f32 sp8;
     f32 spC;
 };
-struct Vec2_80266E34 { f32 x, y; };
 struct List_80266E34 {
     u8 pad0[0x48]; f32 window_height; u8 pad1[0x72 - 0x4C]; s16 count; u8 pad2[0x84 - 0x74]; void *scrollbar;
 };
@@ -129,7 +128,6 @@ struct Stack_80267D14 {
     f32 sp8;
     f32 spC;
 };
-struct V_80267F9C { f32 x; f32 y; };
 struct RecoveredGlobal_80268048_lbl_8050E208 {
     s32 value;
     u8 remaining[0x1AC];
@@ -143,12 +141,6 @@ struct Win_80267714
   s32 i30;
   u8 pad34[4];
   f32 f38;
-};
-
-struct Pt_80267714
-{
-  f32 x;
-  f32 y;
 };
 
 extern "C" {
@@ -197,7 +189,7 @@ s32 draw_window_scrollbar(s32, s32, void *);
 void __dl__7TObjectFPv(void *);
 s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
 
-void TShopJudgmentItemWindow__sub_80267F9C(V_80267F9C v, s32 x);
+void TShopJudgmentItemWindow__sub_80267F9C(NJS_POINT2 v, s32 x);
 
 s32 TWindowMenuIconLine::get_cursor_value() {
     get_array_entry__11TWindowBaseFi(this, this->cursor);
@@ -206,7 +198,7 @@ s32 TWindowMenuIconLine::get_cursor_value() {
 
 void TWindowMenuIconLine::calc_content_extent() {
     struct List_80266E34 *s = (struct List_80266E34 *)this;
-    struct Vec2_80266E34 v;
+    NJS_POINT2 v;
 
     if (s->scrollbar != NULL) {
         v.x = s->window_height - 8.0f;
@@ -448,12 +440,11 @@ void TAdVIConfigGC__sub_80267704(s32 arg0) {
     lbl_804D0604.flags = arg0;
 }
 
-typedef struct Pt_80267714 Pt_80267714;
 typedef struct Win_80267714 Win_80267714;
 #pragma fp_contract on
 void draw_item_list_capacity(void *arg0, Win_80267714 *arg1, s32 arg2, s32 arg3) {
   u8 new_var;
-  Pt_80267714 pt;
+  NJS_POINT2 pt;
   if (arg1->i30 >= 0)
   {
     pt.x = (166.0f + arg1->x) - 8.0f;
@@ -719,7 +710,7 @@ u8 *fn_80267F38(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     return var_r0;
 }
 
-void TShopJudgmentItemWindow__sub_80267F9C(V_80267F9C v, s32 x) {
+void TShopJudgmentItemWindow__sub_80267F9C(NJS_POINT2 v, s32 x) {
     lbl_804D0604.pad_00[0] = v.x;
     lbl_804D0604.pad_00[1] = v.y;
     lbl_804D05F8[1] = x;

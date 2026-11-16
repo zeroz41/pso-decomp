@@ -26,12 +26,10 @@ struct O_802C754C { u8 pad[0x110]; s32 v[1]; };
 
 struct E_802C74AC { f32 x; f32 y; f32 x2; f32 y2; u8 pad[0x10]; };
 
-struct V_802C74AC { f32 x; f32 y; };
-
 struct S_802C74AC {
     u8 pad0[0x60];
     E_802C74AC e[3];
-    V_802C74AC v[6];
+    NJS_POINT2 v[6];
     s32 b[4];
     u8 pad100[0x118 - 0x100];
     s32 a[4];
@@ -39,13 +37,11 @@ struct S_802C74AC {
 
 struct E_802C7560 { f32 x; f32 y; f32 x2; f32 y2; u8 pad[0x10]; };
 
-struct V_802C7560 { f32 x; f32 y; };
-
 struct S_802C7560 {
     u8 pad0[0x20];
     E_802C7560 e[4];
     u8 padA0[0xC0 - 0xA0];
-    V_802C7560 v[4];
+    NJS_POINT2 v[4];
     u8 padE0[0xE8 - 0xE0];
     s32 b[4];
     u8 pad0xF8[0x110 - 0xF8];

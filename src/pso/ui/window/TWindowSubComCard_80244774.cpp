@@ -113,8 +113,7 @@ struct QFrameCtx_80245808
 
 void reset_line_width(void);
 void set_line_width(int a0);
-struct Vec2_80245A10 { f32 x, y; };
-struct Lines_80245A10 { Vec2_80245A10 *verts; u32 *colors; s32 f8; s32 count; };
+struct Lines_80245A10 { NJS_POINT2 *verts; u32 *colors; s32 f8; s32 count; };
 extern "C" {
 void TWindowSubComCard__sub_80245A10(u8 *arg0, s32 arg1, TWindowKeyBoardSoft *r, f32 len);
 void draw_color_lines(Lines_80245A10 *l, s32 n, s32 flags, f32 scale);
@@ -690,7 +689,7 @@ void TWindowBase::draw_quest_message_frame(void *c_arg) {
 void TWindowSubComCard__sub_80245A10(u8 *card, s32 row, TWindowKeyBoardSoft *r, f32 len) {
     Lines_80245A10 lines;
     u32 colors[3];
-    Vec2_80245A10 pts[3];
+    NJS_POINT2 pts[3];
     f32 depth;
     f32 t;
     u8 alpha;

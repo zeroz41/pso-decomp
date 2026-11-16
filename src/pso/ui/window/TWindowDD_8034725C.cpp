@@ -15,8 +15,6 @@ struct W_803478DC { u8 pad0[0x20]; s32 base; E_803478DC e[1]; };
 
 struct M_80347758 { s16 n; s16 type; s16 a[8]; s32 f14; };
 
-struct V2_80347E04 { f32 x, y; };
-
 struct W_80347E04 { u8 pad0[0x20]; s32 cur; void *pages[(0x74 - 0x24) / 4]; void *f74[2]; };
 
 struct E_80347CC8 { u8 pad[8]; f32 f8; u8 padc[4]; f32 f10; };
@@ -517,9 +515,9 @@ s32 TWindowDD::setup_entry(s32 arg1) {
 }
 
 void TWindowDD__sub_80347E04(W_80347E04 *arg0, s32 arg1) {
-    V2_80347E04 v;
-    V2_80347E04 a;
-    V2_80347E04 b;
+    NJS_POINT2 v;
+    NJS_POINT2 a;
+    NJS_POINT2 b;
     u32 r;
     u8 *o;
     ((TWindowDD *)(arg0->pages[arg0->cur]))->get_cursor_pos((u8 *)&v);

@@ -37,8 +37,6 @@ struct Stack_80082C30 {
     f32 sp24;
 };
 
-struct V2_80082CDC { f32 x, y; };
-
 
 static GinjaTextureEntry effect_textures[54] = {
     {"f008_white_npr01", 0, NULL},
@@ -159,9 +157,9 @@ extern "C" void TObjPlayer__sub_80082CCC(void* effect) {
     *(reinterpret_cast<u8*>(effect) + 0x1C) &= ~0x4;
 }
 void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
-    V2_80082CDC a;
-    V2_80082CDC b;
-    V2_80082CDC v;
+    NJS_POINT2 a;
+    NJS_POINT2 b;
+    NJS_POINT2 v;
     void *cam;
     GXSetCopyClear(lbl_805E1214, 0xFFFFFF);
     switch (mode) {

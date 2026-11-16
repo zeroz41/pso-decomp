@@ -42,11 +42,6 @@ typedef struct Obj_80248088 { u8 pad[4]; Tbl_80248088 *tbl; } Obj_80248088;
 
 typedef struct Part_80248088 { s8 id; u8 a; u8 b; u8 flags; } Part_80248088;
 
-typedef struct Vec2_80247F68 {
-    f32 x;
-    f32 y;
-} Vec2_80247F68;
-
 typedef struct Win_80247F68 {
     u8 pad0[8];
     f32 x;
@@ -54,8 +49,6 @@ typedef struct Win_80247F68 {
     f32 w;
     f32 h;
 } Win_80247F68;
-
-struct V2_80248374 { f32 x; f32 y; };
 
 struct Win_80248374 { u8 pad[0x2C]; int f2c; };
 
@@ -113,22 +106,22 @@ SymbolChatSpriteLayout symbol_chat_layout_sprite_records = {
 const char *TWindowChatSymbol__name = "TWindowChatSymbol";
 #pragma pop
 
-extern const V2_80248374 symbol_chat_face_uv_table[4];
+extern const NJS_POINT2 symbol_chat_face_uv_table[4];
 extern const UV_802480EC TWindowSubSymbolChatPartsSet__part_uv_table[4];
-extern const Vec2_80247F68 symbol_chat_part_uv_table[70];
-extern const Vec2_80247F68 symbol_chat_part_size_table[3];
+extern const NJS_POINT2 symbol_chat_part_uv_table[70];
+extern const NJS_POINT2 symbol_chat_part_size_table[3];
 extern const int symbol_chat_parts_color_table[8];
 extern const int chat_help_color_table[8];
 
 // Texture coordinates of the face sprites, one per face direction.
-const V2_80248374 symbol_chat_face_uv_table[4] = {
+const NJS_POINT2 symbol_chat_face_uv_table[4] = {
     { 2.0f, 194.0f }, { 2.0f, 130.0f }, { 66.0f, 130.0f }, { 66.0f, 194.0f },
 };
 const UV_802480EC TWindowSubSymbolChatPartsSet__part_uv_table[4] = {
     { 178.0f, 168.0f }, { 128.0f, 168.0f }, { 178.0f, 128.0f }, { 128.0f, 128.0f },
 };
 // Texture coordinates of the 70 symbol-chat parts in r256_symparts.
-const Vec2_80247F68 symbol_chat_part_uv_table[70] = {
+const NJS_POINT2 symbol_chat_part_uv_table[70] = {
     { 0.0f, 0.0f }, { 16.0f, 0.0f }, { 32.0f, 0.0f }, { 48.0f, 0.0f },
     { 64.0f, 0.0f }, { 80.0f, 0.0f }, { 96.0f, 0.0f }, { 112.0f, 0.0f },
     { 0.0f, 16.0f }, { 16.0f, 16.0f }, { 32.0f, 16.0f }, { 48.0f, 16.0f },
@@ -148,7 +141,7 @@ const Vec2_80247F68 symbol_chat_part_uv_table[70] = {
     { 128.0f, 96.0f }, { 160.0f, 96.0f }, { 192.0f, 96.0f }, { 224.0f, 96.0f },
     { 192.0f, 224.0f }, { 224.0f, 224.0f },
 };
-const Vec2_80247F68 symbol_chat_part_size_table[3] = {
+const NJS_POINT2 symbol_chat_part_size_table[3] = {
     { 15.0f, 15.0f }, { 40.0f, 20.0f }, { 31.0f, 31.0f },
 };
 const int symbol_chat_parts_color_table[8] = {
@@ -171,8 +164,8 @@ void TWindowSubSymbolChatPartsSet::set_pos(s16 arg1, s16 arg2) {
 #pragma fp_contract on
 #define o ((Win_80247F68 *)arg0)
 void TWindowSubSymbolChatPartsSet::set_part_sprite(void *arg0, s16 id, s32 a, s32 b) {
-    const Vec2_80247F68 *e;
-    const Vec2_80247F68 *size;
+    const NJS_POINT2 *e;
+    const NJS_POINT2 *size;
     if (id == -1) {
         ((TWindowHelpItem *)o)->set_flag0_bit2();
         return;
@@ -274,7 +267,7 @@ void fn_80248324(Ctl_80248324 *c, s32 arg1, s32 cur) {
 
 #define w ((Win_80248374 *)arg0)
 int set_symbol_chat_face_sprite(void *arg0, u8 b) {
-    const V2_80248374 *e;
+    const NJS_POINT2 *e;
     e = &symbol_chat_face_uv_table[b & 3];
     set_sprite_uv_from_pixels((u8 *)w, (f32)e->x, (f32)e->y);
     return w->f2c = TWindowSubSymbolChatPartsSet::get_parts_entry((b >> 2) & 7);

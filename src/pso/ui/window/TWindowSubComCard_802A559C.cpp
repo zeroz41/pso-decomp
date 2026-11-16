@@ -12,8 +12,6 @@ struct P_802A5628 { u8 pad[0x30]; f32 x; f32 y; };
 
 struct O_802A5628 { u8 pad[0x28]; P_802A5628 *a; P_802A5628 *b; };
 
-struct V_802A5628 { f32 x, y; };
-
 extern "C" {
 void TWindowSubTradeMain__sub_802448E4(void *, void *);
 
@@ -31,7 +29,7 @@ void TChCrTagPlBack::get_position_offset(void *arg1) {
     }
 }
 
-void update_label_positions__17TWindowSubComCardFPvPv(O_802A5628 *arg0, V_802A5628 *arg1);
+void update_label_positions__17TWindowSubComCardFPvPv(O_802A5628 *arg0, NJS_POINT2 *arg1);
 void TWindowSubComCard::free_windows() {
     if ((u32) this->m_28 != 0U) {
         ((TWindowSubComCard *)(this->m_28))->reparent_to_main_ctrl();
@@ -41,8 +39,8 @@ void TWindowSubComCard::free_windows() {
     }
 }
 
-void update_label_positions__17TWindowSubComCardFPvPv(O_802A5628 *arg0, V_802A5628 *arg1) {
-    V_802A5628 v;
+void update_label_positions__17TWindowSubComCardFPvPv(O_802A5628 *arg0, NJS_POINT2 *arg1) {
+    NJS_POINT2 v;
     P_802A5628 *p = arg0->a;
     if (p != NULL && (p->x != arg1->x || p->y != arg1->y)) {
         TWindowSubTradeMain__sub_802448E4(p, arg1);

@@ -12,7 +12,6 @@
 #include "pso/ui/window/TWindowDD_WS_String.h"
 
 struct E_803403F8 { f32 a; f32 b; f32 c; f32 d; f32 e; s32 f; };
-struct Src_80348A9C { f32 x; f32 y; };
 
 extern "C" {
 
@@ -39,7 +38,7 @@ extern const f32 lbl_805DFB24;
 extern const f32 lbl_805DFB28;
 extern const f32 lbl_805DFB38;
 extern const f32 lbl_805DFBCC;
-extern Src_80348A9C TWindowDD__data_805434E8[7][8];
+extern NJS_POINT2 TWindowDD__data_805434E8[7][8];
 
 #pragma push
 #pragma dont_inline off
@@ -55,7 +54,7 @@ void TWindowDD__sub_80340A78(TWindowDD_WS_ScrollBar *self) {
     f32 quad[8];
     s32 tex;
     s32 i;
-    Src_80348A9C *uv;
+    NJS_POINT2 *uv;
     E_803403F8 *v;
     f32 z;
     f32 s;

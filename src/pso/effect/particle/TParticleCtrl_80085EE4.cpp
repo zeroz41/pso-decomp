@@ -32,8 +32,6 @@ struct RecoveredGlobal_8008655C_lbl_8048E728 {
 
 struct Col_80086418 { u8 a, r, g, b; };
 
-struct FCol_80086418 { f32 a, r, g, b; };
-
 struct Ctrl_80086418 {
     u8 pad0[0x90];
     Col_80086418 color;
@@ -306,7 +304,7 @@ void TUnk_8048E728::draw_particle_refraction_quad() {
 
 void TUnk_8048E728::apply_particle_model_fade_color(s32 mode) {
     Ctrl_80086418 *self = (Ctrl_80086418 *)this;
-    FCol_80086418 f;
+    NJS_ARGB f;
     if (mode != 0) {
         set_color_blend_mode(1, 4, 1, 0);
         Col_80086418 c = self->color;

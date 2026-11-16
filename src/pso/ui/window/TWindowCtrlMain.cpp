@@ -69,9 +69,8 @@ extern "C" void TWindowCtrlMain__sub_8024D2A4(s32 viewport_index);
 struct Ent_8024CCDC { u8 p0[8]; f32 f8; f32 fC; u8 p10[0xC]; };
 extern "C" {
 WindowControlState TWindowCtrlMain__viewport_states[6];
-struct Vec2_8024CE68 { f32 x, y; };
 struct Poly_8024CE68 {
-    Vec2_8024CE68 *verts;
+    NJS_POINT2 *verts;
     u32 *colors;
     s32 flags;
     s32 count;
@@ -565,7 +564,7 @@ void TWindowCtrlMain::render() {
 }
 
 void TWindowCtrlMain__sub_8024D2A4(s32 viewport_index) {
-    Vec2_8024CE68 verts[4];
+    NJS_POINT2 verts[4];
     Poly_8024CE68 poly;
     u32 colors[4];
     u32 color;
@@ -596,12 +595,12 @@ void TWindowCtrlMain__sub_8024D2A4(s32 viewport_index) {
 #pragma push
 #pragma fp_contract on
 void draw_menu_backdrop_gradients(s32 viewport_index) {
-    Vec2_8024CE68 verts[4];
+    NJS_POINT2 verts[4];
     Quad_8024CE68 q;
     Poly_8024CE68 poly;
     u32 colors[4];
     Poly_8024CE68 line;
-    Vec2_8024CE68 lverts[2];
+    NJS_POINT2 lverts[2];
     u32 lcolors[2];
     WindowControlState *s;
     f32 alpha;

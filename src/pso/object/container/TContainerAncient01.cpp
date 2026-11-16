@@ -166,7 +166,6 @@ struct Obj_8018B284 {
     u32 f36C;
 };
 
-struct Coll_8018B030 { f32 x; f32 y; };
 struct Res_8018B030 { u8 pad[0x430]; s32 x430; };
 
 struct VBase_8018B030 { u8 pad[0x18]; };
@@ -665,7 +664,7 @@ void *dt__20TContainerAncient01RFPvs(void *arg0, s16 arg1) {
 #pragma push
 #pragma fp_contract on
 void *TContainerAncient01R__ct(Obj_8018B030 *self, void *arg1, void *parent) {
-    Coll_8018B030 *c;
+    NJS_POINT2 *c;
 
     __ct__9TObjCharaFP7TObject(self, arg1, parent);
     *(void **)((u8 *)self + 0x18) = (void *)__vt__20TContainerAncient01R;
@@ -683,7 +682,7 @@ void *TContainerAncient01R__ct(Obj_8018B030 *self, void *arg1, void *parent) {
     init_collision_body_parts(self, (void *)&TContainerAncient01__collision_body_parts, 1);
     ((TObjPlayer *)self)->register_object_by_id();
     VecCopy((Vec *)&self->pos74, (const Vec *)&self->pos);
-    c = (Coll_8018B030 *)&TContainerAncient01__collision_body_parts;
+    c = (NJS_POINT2 *)&TContainerAncient01__collision_body_parts;
     self->pos74.y = c->y / 2.0f + self->pos74.y;
     VecCopy((Vec *)&self->pos2fc, (const Vec *)&self->pos74);
     self->state = 0;

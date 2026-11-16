@@ -17,9 +17,7 @@
 
 struct Obj_802C3288 { u8 pad[0x1C]; s32 f1C; s32 f20; };
 
-struct A_802C3400 { f32 x, y; };
-
-struct B_802C3400 { A_802C3400 e[2]; };
+struct B_802C3400 { NJS_POINT2 e[2]; };
 
 struct CE_802C3400 { s32 a; f32 x, y; };
 
@@ -133,7 +131,7 @@ Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent) {
             __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &c.e[1], 5);
         }
         {
-        A_802C3400 a = {302.0f, 28.0f};
+        NJS_POINT2 a = {302.0f, 28.0f};
         B_802C3400 b = {{{185.0f, 198.0f}, {155.0f, 250.0f}}};
         p = __nw__7TObjectFUl(0x708);
         if (p != NULL) {

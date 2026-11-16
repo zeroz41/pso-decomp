@@ -8,6 +8,7 @@
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/Language.h"
+#include "pso/system/NinjaTypes.h"
 #pragma readonly_strings on
 
 struct Msg_8025A9C0 {
@@ -25,8 +26,6 @@ typedef char RecoveredGlobal_8025AF90_lbl_804CFA28_size[sizeof(RecoveredGlobal_8
 struct Win_8025AD5C { u16 flags; u8 pad2[6]; f32 f8; f32 fC; u8 pad10[8]; f32 f18; f32 f1C; s8 *text; s32 i24; };
 
 struct Ref_8025AD5C { u8 pad0[0x10]; f32 f10; f32 f14; f32 f18; u8 pad1c[0x30 - 0x1C]; s32 i30; u8 pad34[4]; f32 f38; u8 pad3c[8]; f32 f44; };
-
-struct Pt_8025AD5C { f32 x; f32 y; };
 
 extern "C" {
 void mem_free(void *p);
@@ -200,7 +199,7 @@ void render_text_entry(Win_8025AD5C *arg0, Ref_8025AD5C *arg1) {
     f32 t;
     f32 a;
     f32 len;
-    Pt_8025AD5C pt;
+    NJS_POINT2 pt;
     f32 scale;
     f32 alpha;
     s32 r;

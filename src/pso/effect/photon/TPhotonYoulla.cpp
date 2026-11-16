@@ -28,8 +28,6 @@ const char *TPhotonYoulla__name = "TPhotonYoulla";
 int lbl_805D5D60;
 
 
-struct Color_801AE744 { f32 a, r, g, b; };
-
 struct Self_801AE744 {
     u8 pad0[0x24];
     s32 f24;
@@ -38,7 +36,7 @@ struct Self_801AE744 {
     u8 pad2[0x60 - 0x44];
     s32 f60;
     u8 pad3[0x184 - 0x64];
-    Color_801AE744 color;
+    NJS_ARGB color;
     u8 pad4[0x1A0 - 0x194];
     s32 started;
 };
@@ -48,8 +46,8 @@ s32 clear_render_context__10TObjPlayerFv(void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-extern Color_801AE744 saved_model_draw_color;
-extern Color_801AE744 model_material_color;
+extern NJS_ARGB saved_model_draw_color;
+extern NJS_ARGB model_material_color;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;

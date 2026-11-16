@@ -286,6 +286,7 @@ void TWindowComCard__sub_80249D7C(u8 *arg0, s32 arg1) {
 #pragma pop
 
 #include "pso/ui/window/TWindowTradeRequest.h"
+#include "pso/system/NinjaTypes.h"
 
 extern "C" {
 typedef struct Parent_80249ED8 {
@@ -293,11 +294,6 @@ typedef struct Parent_80249ED8 {
     f32 x;
     f32 y;
 } Parent_80249ED8;
-
-typedef struct Vec2_80249ED8 {
-    f32 x;
-    f32 y;
-} Vec2_80249ED8;
 
 typedef struct Win_80249ED8 {
     u8 pad0[0x18];
@@ -307,7 +303,7 @@ typedef struct Win_80249ED8 {
     f32 y;
     u8 pad38[0x60 - 0x38];
     Parent_80249ED8 *parent;
-    Vec2_80249ED8 ofs;
+    NJS_POINT2 ofs;
     s32 col;
     s32 mode;
 } Win_80249ED8;
@@ -350,7 +346,7 @@ void *TWindowComCard__sub_80249E80(void *arg0, s16 arg1) {
 
 #pragma push
 #pragma fp_contract on
-Win_80249ED8 *TWindowComCard__sub_80249ED8(Win_80249ED8 *o, Parent_80249ED8 *parent, Vec2_80249ED8 *ofs, s32 col, s32 mode, s32 arg5) {
+Win_80249ED8 *TWindowComCard__sub_80249ED8(Win_80249ED8 *o, Parent_80249ED8 *parent, NJS_POINT2 *ofs, s32 col, s32 mode, s32 arg5) {
     ((TWindowDD *)o)->construct_base((u8 *)TWindowComCard__window_desc_b, (s16)arg5, (u8 *)(get_zero_vec2()));
     o->vtbl = (s32 *)lbl_804CE964;
     o->parent = parent;

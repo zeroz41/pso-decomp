@@ -165,7 +165,7 @@ void *__vt__16TObjOnlineEnding[13] = {
     (void *)&get_name__8TObjBaseFv,
 };
 #define lbl_804E3A38 ((f32 *)lbl_804E3A38)
-#define online_ending_quad_vertices ((V2_802E4C70 *)online_ending_quad_vertices)
+#define online_ending_quad_vertices ((NJS_POINT2 *)online_ending_quad_vertices)
 #define __vt__16TObjOnlineEnding ((const s32 *)__vt__16TObjOnlineEnding)
 
 int TObjOnlineEnding::get_instance() {  return player_unique_pair_entry_count; }
@@ -196,8 +196,6 @@ struct Cam_802E4E44 {
     Vec b;
     u8 pad34[0x8];
 };
-
-struct V2_802E4C70 { f32 x, y; };
 
 struct Ent_802E4C70 { s32 active; u16 id; u8 name[0x12]; void *f18; s32 f1C; f32 f20; s32 f24; };
 
@@ -291,7 +289,7 @@ void TObjOnlineEnding::render() {
             {
                 u8 *name = e->name;
                 u32 w = calc_text_width((char *)name);
-                V2_802E4C70 v = online_ending_quad_vertices[i];
+                NJS_POINT2 v = online_ending_quad_vertices[i];
                 v.x -= (f32)(w >> 1);
                 render_status_line__15TAdSubPlyItemGCFi(name, -1, v.x, v.y, 0.1f);
             }

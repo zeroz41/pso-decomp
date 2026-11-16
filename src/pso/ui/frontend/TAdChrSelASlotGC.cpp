@@ -50,10 +50,6 @@ struct G_8030C45C { s32 a; s32 b; s32 c; f32 v[2]; };
 
 struct S_8030C45C { s32 x; s32 y; };
 
-struct V2_8030C750 { f32 x, y; };
-
-struct V2_8030C814 { f32 x, y; };
-
 extern "C" {
 s32 free_member__17TWindowSubComCardFv(s32, s32);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(s32, s32, s32, f32);
@@ -124,7 +120,7 @@ G_8030C45C *TAdChrSelASlotGC__sub_8030C45C(TAdChrSelASlotGC *self, s32 arg1, s32
 
 #pragma pool_data off
 s32 TAdChrSelASlotGC__sub_8030C4F8(TAdChrSelASlotGC *self, s32 kind) {
-    V2_8030C750 pos;
+    NJS_POINT2 pos;
     s32 w;
     switch (kind) {
     case 0:
@@ -143,7 +139,7 @@ s32 TAdChrSelASlotGC__sub_8030C4F8(TAdChrSelASlotGC *self, s32 kind) {
 }
 
 s32 TAdChrSelASlotGC__sub_8030C5C0(TAdChrSelASlotGC *self, s32 kind) {
-    V2_8030C750 pos;
+    NJS_POINT2 pos;
     s32 w;
     switch (kind) {
     case 0:
@@ -162,7 +158,7 @@ s32 TAdChrSelASlotGC__sub_8030C5C0(TAdChrSelASlotGC *self, s32 kind) {
 }
 
 s32 TAdChrSelASlotGC__sub_8030C688(TAdChrSelASlotGC *self, s32 kind) {
-    V2_8030C750 pos;
+    NJS_POINT2 pos;
     s32 w;
     switch (kind) {
     case 0:
@@ -182,7 +178,7 @@ s32 TAdChrSelASlotGC__sub_8030C688(TAdChrSelASlotGC *self, s32 kind) {
 
 s32 TAdChrSelASlotGC::open_confirm_message(s32 arg1, s32 arg2) {
     u8 *arg0 = (u8 *)this;
-    V2_8030C750 pos;
+    NJS_POINT2 pos;
     s32 w;
     w = create__19TWindowMessageYesNoFPvPvPvPv((s32)arg0, arg2, 0, 0);
     switch (arg1) {
@@ -200,7 +196,7 @@ s32 TAdChrSelASlotGC::open_confirm_message(s32 arg1, s32 arg2) {
 
 s32 TAdChrSelASlotGC::create_message_window(s32 arg1, s32 arg2) {
     u8 *arg0 = (u8 *)this;
-    V2_8030C814 pos;
+    NJS_POINT2 pos;
     s32 w;
     w = create__19TWindowMessageYesNoFPvPvPvPv((s32)arg0, arg2, 0, 0);
     switch (arg1) {
@@ -259,7 +255,7 @@ s32 TAdChrSelASlotGC__sub_8030CA84(s32 arg0, s32 arg1) {
 
 u32 TAdChrSelASlotGC__sub_8030CB08(TAdChrSelASlotGC *ad_chr_sel_a_slot_gc, s32 kind, s32 text) {
     TAdChrSelASlotGC *self = ad_chr_sel_a_slot_gc;
-    V2_8030C750 pos;
+    NJS_POINT2 pos;
     s32 w;
     switch (kind) {
     case 0:

@@ -8,6 +8,7 @@
 #include "pso/unk/TUnk_804CF930.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/system/NinjaTypes.h"
 #pragma readonly_strings on
 
 struct RecoveredGlobal_8025A594_lbl_804CF9F8 {
@@ -36,8 +37,6 @@ typedef struct Win_8025A354 {
     u8 pad34[4];
     f32 f38;
 } Win_8025A354;
-
-typedef struct Vec2_8025A354 { f32 x, y; } Vec2_8025A354;
 
 extern "C" {
 void mem_free(void *p);
@@ -131,7 +130,7 @@ void TWindowHelpItem::set_help_text(u32 arg1) {
 }
 
 void render_summary_row__15TWindowHelpItemFv(Item_8025A354 *self, Win_8025A354 *w) {
-    Vec2_8025A354 pos;
+    NJS_POINT2 pos;
     s32 color;
     if (w->f30 < 0) {
         return;

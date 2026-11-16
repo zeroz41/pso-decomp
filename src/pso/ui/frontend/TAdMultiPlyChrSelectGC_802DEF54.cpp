@@ -17,15 +17,15 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/system/NinjaTypes.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct V2_802DF9B4 { f32 x, y; };
 
 struct I2_802DF9B4 { s32 a, b; };
 
-struct Blk_802DF9B4 { V2_802DF9B4 a, b, c; };
+struct Blk_802DF9B4 { NJS_POINT2 a, b, c; };
 
 extern "C" {
 u32 __nw__7TObjectFUl(int);
@@ -39,11 +39,11 @@ u32 __ct__13TAdGuideTxtGCFv(void *, void *);
 u32 __ct__14TAdGameStartGCFv(void *, s32);
 u8 *get_or_create_slot_window__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1);
 s32 create__16TAdChrSelBSlotGCFPv(void *);
-extern V2_802DF9B4 multi_chr_select_widget_layout[];
+extern NJS_POINT2 multi_chr_select_widget_layout[];
 extern u8 lbl_80472808[];
 extern I2_802DF9B4 lbl_80472828[];
 extern Blk_802DF9B4 multi_chr_select_layout_table[];
-extern V2_802DF9B4 lbl_80472848[];
+extern NJS_POINT2 lbl_80472848[];
 extern TObject *tl_02;
 extern s32 tl_clipout;
 extern s32 TAdMultiPlyChrSelectGC__data_805DE898;
@@ -464,7 +464,7 @@ void TAdMultiPlyChrSelectGC::create_widgets() {
         p = __ct__14TAdGameStartGCFv((void *) p, tl_clipout);
     }
     *(u32 *)&this->unk_78 = p;
-    V2_802DF9B4 v = lbl_80472848[0];
+    NJS_POINT2 v = lbl_80472848[0];
     v.x = multi_chr_select_widget_layout[0].x;
     v.y = multi_chr_select_widget_layout[0].y;
     this->m_5c = (s32)fn_802C6F20(tl_02, (vec2f *)&v);

@@ -7,6 +7,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
+#include "pso/system/NinjaTypes.h"
 
 struct Rec_80285E10 { u8 a, b, c, d; };
 
@@ -198,10 +199,8 @@ typedef struct T_802869BC {
     f32 f94;
 } T_802869BC;
 
-struct V2_80286120 { f32 x, y; };
-
 const char *TWindowSubSymbolChatPartsSet__name = "TWindowSubSymbolChatPartsSet";
-static const V2_80286120 lbl_8044FC30 = {178.0f, 188.0f};
+static const NJS_POINT2 lbl_8044FC30 = {178.0f, 188.0f};
 
 struct Pt_80286120 { u8 pad[8]; f32 f8; f32 fc; };
 
@@ -220,7 +219,6 @@ s32 get_message_10__20TWindowSubStatusDispFl(s32);
 extern s32 __vt__28TWindowSubSymbolChatPartsSet[];
 T_802869BC *TWindowSubSymbolChatPartsSet__ct(T_802869BC *self, void *parent, s16 arg2, s32 arg3, s32 arg4);
 void TWindowSubSymbolChatFaceType__sub_80283C84(void *, void *, f32, f32);
-struct Vec2_80286708_802861AC { f32 x; f32 y; };
 
 void render__28TWindowSubSymbolChatPartsSetFv(TWindowSubSymbolChatPartsSet *arg0);
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -230,7 +228,7 @@ s32 forward_render__20TWindowSubStatusDispFv(int, int);
 
 s32 TWindowSubSymbolChatPartsSet::draw_selected_part_cursor(int ctx) {
 #define arg0 ((Ps_80286120 *)this)
-    V2_80286120 sp;
+    NJS_POINT2 sp;
     Pt_80286120 *e;
     switch (arg0->f69) {
     case 1:
@@ -376,8 +374,8 @@ void TWindowSubSymbolChatPartsSet::handle_cursor_input() {
 }
 
 void render__28TWindowSubSymbolChatPartsSetFv(TWindowSubSymbolChatPartsSet *window_sub_symbol_chat_parts_set) {
-    struct Vec2_80286708_802861AC sp10;
-    struct Vec2_80286708_802861AC sp8;
+    NJS_POINT2 sp10;
+    NJS_POINT2 sp8;
     f32 ctx;
     u8 *c_arg;
 

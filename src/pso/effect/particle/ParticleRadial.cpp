@@ -88,8 +88,6 @@ struct RecoveredGlobal_8008BF58_TParticleCtrl__data_80511F70 {
 
 struct Ang_8008BAF8 { s32 x, y, z; };
 
-struct Scr_8008BAF8 { f32 x, y; };
-
 extern "C" {
 void *alloc_particle_memory(int);
 f32 vec_squared_length(u8 *arg0);
@@ -310,8 +308,8 @@ void TUnk_8048E7A8::run_task() {
 
 void TUnk_8048E7A8::render() {
     u8 *arg0 = (u8 *)this;
-    Scr_8008BAF8 s1;
-    Scr_8008BAF8 s2;
+    NJS_POINT2 s1;
+    NJS_POINT2 s2;
     Vec end;
     Vec pos;
     f32 len;

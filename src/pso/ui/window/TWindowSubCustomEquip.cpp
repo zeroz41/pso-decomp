@@ -14,8 +14,6 @@
 
 struct Obj_80275DB4 { u8 pad[0x60]; char f60; u8 pad2[0x6c - 0x61]; void *f6c; };
 
-struct Vec2_80275DE8 { f32 x, y; };
-
 struct Win_80275F90 { u8 pad[0x66]; s16 f66; };
 
 struct Rect_80275DE8 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
@@ -31,14 +29,6 @@ struct RecoveredGlobal_80277014_lbl_8050E208 {
     u8 remaining[0x1AC];
 };
 
-struct Vec2_8027654C { f32 x; f32 y; };
-
-struct Vec2_802766C8
-{
-  f32 x;
-  f32 y;
-};
-
 extern s32 lbl_805D63F0;
 
 const char *TWindowSubCustomEquip__name = "TWindowSubCustomEquip";
@@ -47,14 +37,14 @@ const char *TWindowSubCustomEquip__name = "TWindowSubCustomEquip";
 static const u8 lbl_8044F738[6] = {12, 10, 11, 3, 1, 2};
 static const u8 lbl_8044F740[6] = {15, 13, 14, 6, 4, 5};
 
-static const Vec2_802766C8 custom_equip_entry_offset_table[3] = {
+static const NJS_POINT2 custom_equip_entry_offset_table[3] = {
     {50.0f, 32.0f},
     {6.0f, 58.0f},
     {94.0f, 6.0f},
 };
 
 // Texel origin of each cursor animation frame (4 x 4 grid of 64 x 64 cells).
-static const Vec2_80275DE8 custom_equip_cursor_frame_uv_table[16] = {
+static const NJS_POINT2 custom_equip_cursor_frame_uv_table[16] = {
     {0.0f, 0.0f}, {64.0f, 0.0f}, {128.0f, 0.0f}, {192.0f, 0.0f},
     {0.0f, 64.0f}, {64.0f, 64.0f}, {128.0f, 64.0f}, {192.0f, 64.0f},
     {0.0f, 128.0f}, {64.0f, 128.0f}, {128.0f, 128.0f}, {192.0f, 128.0f},
@@ -121,7 +111,7 @@ s32 try_open__19TWindowKeyBoardSoftFii(s32 arg0, s32 arg1);
 void begin_screen_draw(s32 arg0);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
-void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(u8 *arg0, Vec2_80275DE8 *arg1, s32 arg2, f32 farg0);
+void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(u8 *arg0, NJS_POINT2 *arg1, s32 arg2, f32 farg0);
 int TWindowSubCustomEquip__sub_80275DA8(void* p);
 
 int TWindowSubCustomEquip::is_selected() { return this->m_60 & 0x1; }
@@ -134,9 +124,9 @@ void TWindowSubCustomEquip::clear_flag_and_set_entry_state() {
 
 #pragma push
 #pragma fp_contract on
-void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(u8 *arg0, Vec2_80275DE8 *arg1, s32 arg2, f32 farg0) {
+void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(u8 *arg0, NJS_POINT2 *arg1, s32 arg2, f32 farg0) {
     Rect_80275DE8 r;
-    const Vec2_80275DE8 *t;
+    const NJS_POINT2 *t;
     f32 scale;
     if (*(s32 *)((s8 *)arg0 + 0x30) < 0) {
         return;
@@ -176,9 +166,9 @@ void TWindowSubCustomEquip::sub_80275F08(void *window_sub_custom_equip) {
 
 void TWindowSubCustomEquip::draw_cursor(u8 *arg1) {
     Win_80275F90 *arg0 = (Win_80275F90 *)this;
-    Vec2_80275DE8 pos;
+    NJS_POINT2 pos;
     ((TWindowSubCustomEquip *)arg0)->sub_80275F08(&pos);
-    ((void (*)(f32, u8 *, Vec2_80275DE8 *, s32))draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif)(0.8f, arg1, &pos, arg0->f66);
+    ((void (*)(f32, u8 *, NJS_POINT2 *, s32))draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif)(0.8f, arg1, &pos, arg0->f66);
 }
 
 void TWindowSubCustomEquip::update_palette_slot(s32 arg1, s32 kind, s32 arg3) {
@@ -314,7 +304,7 @@ void TWindowSubCustomEquip::set_relative_pos(void *arg1) {
 }
 
 int TWindowSubCustomEquip::layout_selection_parts(void *arg1) {
-    Vec2_8027654C pos;
+    NJS_POINT2 pos;
     u8 *p;
     u8 *a;
     u8 *b;
@@ -347,7 +337,6 @@ int TWindowSubCustomEquip::layout_selection_parts(void *arg1) {
     *(u16 *)((s8 *)d + 0) |= 2;
 }
 
-typedef struct Vec2_802766C8 Vec2_802766C8;
 void TWindowSubCustomEquip::layout_entry_group(void *arg1) {
   u8 *base;
   u8 *e1;

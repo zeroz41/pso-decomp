@@ -100,8 +100,6 @@ static const Vec lbl_804394F4 = { 0.0f, 0.0f, -1.0f };
 static const Vec lbl_80439500 = { 0.0f, 0.0f, 1.0f };
 static const Ang_800890F4 lbl_8043950C = { 0, 0, 0 };
 
-struct Scr_800890F4 { f32 x, y; };
-
 struct Def_800890F4 {
     u8 pad0[0x64];
     f32 sx;
@@ -421,8 +419,8 @@ void TUnk_8048E778::render() {
     if (p->def->flags & 4) {
         Vec b;
         Vec a;
-        Scr_800890F4 s0;
-        Scr_800890F4 s1;
+        NJS_POINT2 s0;
+        NJS_POINT2 s1;
         f32 len;
         if (p->flags & 0x10) {
             a.x = p->pos.x + p->ofs.x;

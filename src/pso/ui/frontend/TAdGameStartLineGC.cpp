@@ -28,10 +28,6 @@ struct Quad_80320EF0 {
     f32 u0, v0, u1, v1;
 };
 
-struct Vec2_80320EF0 {
-    f32 x, y;
-};
-
 struct TAdGameStartLineGC_80320EF0 {
     const char *name;
     u8 pad4[0x14];
@@ -39,7 +35,7 @@ struct TAdGameStartLineGC_80320EF0 {
     Quad_80320EF0 base[4];
     Quad_80320EF0 cur[4];
     f32 x, y, x2, y2;
-    Vec2_80320EF0 mid[4];
+    NJS_POINT2 mid[4];
     f32 sx, sy;
     s32 pad154;
     s32 f158;

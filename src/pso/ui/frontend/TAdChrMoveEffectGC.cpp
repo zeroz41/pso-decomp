@@ -6,6 +6,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/system/NinjaTypes.h"
 
 
 const f32 chr_move_effect_pos_table[7][2] = {
@@ -19,15 +20,13 @@ const char *TAdChrMoveEffectGC__class_name = "TAdChrMoveEffectGC";
 
 struct S_803491F8 { u32 w[8]; };
 
-struct V2_8034923C { f32 x, y; };
-
 struct E_8034923C {
-    V2_8034923C start;
-    V2_8034923C end;
+    NJS_POINT2 start;
+    NJS_POINT2 end;
     u8 col0[4];
     u8 col1[4];
     u8 pad18[8];
-    V2_8034923C cur;
+    NJS_POINT2 cur;
     u8 curcol[4];
     u8 f2C;
     u8 pad2D[3];

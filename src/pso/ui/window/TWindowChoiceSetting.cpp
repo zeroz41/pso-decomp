@@ -12,6 +12,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/system/NinjaTypes.h"
 
 const char *lbl_805D3970 = "TWindowMenuInfomation";
 static const f32 lbl_8044F3A0[2] = {425.0f, 188.0f};
@@ -174,7 +175,6 @@ void TWindowMenuInfomation__ct(u8 *lobby, u32 arg1) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct V_80268C5C { f32 x; f32 y; };
 
 // inferred: choice_setting_popup_layout_entries, the layout table choice_setting_popup_window_descriptor
 // points at (one type-9 record; fn_80268C5C fills in the row count).
@@ -190,7 +190,7 @@ WindowDescriptor choice_setting_popup_window_descriptor = {
 struct Obj_80269004 { u8 p0[0x18]; void *f18; };
 
 extern "C" {
-void fn_80268C5C(V_80268C5C v, s32 x);
+void fn_80268C5C(NJS_POINT2 v, s32 x);
 s32 __nw__7TObjectFUl(s32);
 Obj_80269004 *fn_80269004(Obj_80269004 *self, void *parent, void *arg2);
 s32 get_window_layout_position(s32);
@@ -207,7 +207,7 @@ s32 create_information_counter_window(s32 arg0) {
     return var_r31;
 }
 
-void fn_80268C5C(V_80268C5C v, s32 x) {
+void fn_80268C5C(NJS_POINT2 v, s32 x) {
     choice_setting_popup_window_descriptor.pad_00[0] = v.x;
     choice_setting_popup_window_descriptor.pad_00[1] = v.y;
     choice_setting_popup_layout_entries.rows = x;

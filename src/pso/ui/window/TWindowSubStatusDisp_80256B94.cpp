@@ -39,8 +39,6 @@ struct Gauge_802571B4 {
 };
 
 
-struct Pos_80256E0C { f32 x; f32 y; };
-
 struct Quad_80256E0C { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 extern "C" {
@@ -83,7 +81,7 @@ void TUnk_804CF930::calc_bar_width() {
     this->width = v;
 }
 
-void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, TWindowKeyBoardSoft *ctx, Pos_80256E0C *pos, f32 depth) {
+void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, TWindowKeyBoardSoft *ctx, NJS_POINT2 *pos, f32 depth) {
     Quad_80256E0C q;
     f32 w;
     w = self->scale - -2.0f;
@@ -123,7 +121,7 @@ void TWindowSubStatusDisp__sub_80256C40(TUnk_804CF930 *self, TWindowKeyBoardSoft
 }
 
 void TUnk_804CF930::draw_status_gauge_bar(void *ctx, void *pos_arg, f32 depth, f32 len) {
-    Pos_80256E0C *pos = (Pos_80256E0C *)pos_arg;
+    NJS_POINT2 *pos = (NJS_POINT2 *)pos_arg;
     Quad_80256E0C q;
     f32 w;
     f32 end;
@@ -180,7 +178,7 @@ void TUnk_804CF930::draw_status_gauge_bar(void *ctx, void *pos_arg, f32 depth, f
 }
 
 void TUnk_804CF930::render(TWindowKeyBoardSoft *ctx) {
-    Pos_80256E0C pos;
+    NJS_POINT2 pos;
     f32 depth;
     f32 len;
     f32 width;

@@ -182,8 +182,6 @@ struct DragonEffectRotation { s32 x, y, z; };
 
 struct Glob_800267B8 { u8 *value; u8 remaining[0x8]; };
 
-struct Color_80020B54 { f32 a, r, g, b; };
-
 extern f32 lbl_805D4AF8;
 extern f32 boss1_dragon_gravity;
 extern const f32 lbl_805D4B40;
@@ -527,7 +525,7 @@ extern const DragonAttackParams TBoss1Dragon__foot_step_attack_params = {0, 10.0
 extern const DragonAttackParams dragon_breath_attack_params = {0, 500.0f, 45.0f, 100.0f, 1};
 extern const DragonAttackParams dragon_fireball_attack_params = {1, 2.0f, 10.0f, 10.0f, 1};
 extern const DragonAttackParams dragon_fireball_impact_damage_params = {1, 10.0f, 30.0f, 10.0f, 1};
-extern const Color_80020B54 dragon_boss1_render_color = {0.2f, 0.0f, 0.0f, 0.0f};
+extern const NJS_ARGB dragon_boss1_render_color = {0.2f, 0.0f, 0.0f, 0.0f};
 TObjMotionAction lbl_80481010[27] = {
     {1, 0, 17, 0.5f, 0},
     {1, 0, 21, 0.5f, 0},
@@ -778,7 +776,7 @@ void TBoss1Dragon::render() {
             scale_matrix(0, (2.0f), (0.001f), (2.0f));
             rotate_matrix_x(0, this->rotation_x);
             rotate_matrix_z(0, ((TBoss1Dragon *)((u8 *)this))->rotation_z);
-            Color_80020B54 color = dragon_boss1_render_color;
+            NJS_ARGB color = dragon_boss1_render_color;
             saved = *(s32 *)&this->model;
             *(s32 *)&this->model = ((DragonResource *)TBoss1Dragon__data_805D4B08)->model->m_18;
             saved_model_render_flags = model_render_flags;

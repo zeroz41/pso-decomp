@@ -3,6 +3,7 @@
 #include "pso/ui/frontend/TAdGuideTxtGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
 
 struct Base_802b1a70_802B1990 { char pad[0x18]; };
 struct VObj_802b1a70_802B1990 : Base_802b1a70_802B1990 {
@@ -26,13 +27,11 @@ struct TAdGuideTxtGC_802B19E8 {
     s32 c[2];
 };
 
-typedef struct Pos_802B1878 { f32 x; f32 y; } Pos_802B1878;
-
 typedef struct TAdGuideTxtGC_802B1878 {
     u8 pad0[0x1C];
     s32 txt[2];
     u8 pad24[0x2C - 0x24];
-    Pos_802B1878 pos[2];
+    NJS_POINT2 pos[2];
     u32 alpha[2];
 } TAdGuideTxtGC_802B1878;
 

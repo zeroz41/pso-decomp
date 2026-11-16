@@ -14,6 +14,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/system/NinjaTypes.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -101,13 +102,11 @@ struct TWSC *get_instance__20TWindowSubSymbolChatFv();
 
 struct TWSC;
 
-struct Vec2_80284D68 { f32 x, y; };
-
 struct Win_80284D68 {
     u8 pad[0x4C];
     f32 height;
     u8 pad2[0x68 - 0x50];
-    Vec2_80284D68 pos;
+    NJS_POINT2 pos;
     u8 pad3[2];
     s8 col;
     s8 row;
@@ -123,8 +122,6 @@ struct RecoveredGlobal_80285054_lbl_8050E208 {
 };
 
 typedef char RecoveredGlobal_80285054_lbl_8050E208_size[sizeof(RecoveredGlobal_80285054_lbl_8050E208) == 0x1B0 ? 1 : -1];
-
-struct Vec2_80285D38 { f32 x, y; };
 
 struct Parts_80285D38 {
     s32 f0;
@@ -166,9 +163,9 @@ s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 get_draw_context__11TWindowBaseFPv();
 void construct_with_parent__15TWindowAdditionFPv(void *, void *, s32, void *);
-void clamp_list_scroll_offset(s32, Vec2_80284D68 *, Vec2_80284D68 *);
+void clamp_list_scroll_offset(s32, NJS_POINT2 *, NJS_POINT2 *);
 s32 draw_window_scrollbar(s32, s32, void *);
-void * reset_selection__20TWindowSubStatusDispFv(void *, Vec2_80285D38 *);
+void * reset_selection__20TWindowSubStatusDispFv(void *, NJS_POINT2 *);
 s32 sub_80283974__25TWindowSubSymbolChatPartsFv();
 s32 calc_symbol_index__25TWindowSubSymbolChatPartsFv(void *arg0);
 void fn_80285314(Win_802857C4 *, Rect_802857C4 *);
@@ -223,7 +220,7 @@ s32 TWindowSubSymbolChatParts::calc_symbol_index() {
 #pragma fp_contract on
 void TWindowSubSymbolChat::select_index_and_scroll(s32 arg1) {
     Win_80284D68 *arg0 = (Win_80284D68 *)this;
-    Vec2_80284D68 v;
+    NJS_POINT2 v;
 
     if (arg1 >= arg0->count) {
         arg1 = arg0->count - 1;
@@ -273,7 +270,7 @@ void TWindowSubSymbolChatParts::handle_add() {
 #pragma fp_contract on
 void TWindowSubSymbolChatParts::sub_80284FB8() {
     Win_80284D68 *w = (Win_80284D68 *)this;
-    Vec2_80284D68 v;
+    NJS_POINT2 v;
     f32 target = 16.0f + (40.0f * (f32)w->row + 9.0f);
     target -= 81.0f;
     w->pos.y += target - w->pos.y;
@@ -581,7 +578,7 @@ TWindowSubSymbolChatParts::~TWindowSubSymbolChatParts() {
 }
 
 Parts_80285D38 *TWindowSubSymbolChatParts__ct(Parts_80285D38 *arg0, void *arg1, s32 arg2, s32 arg3) {
-    Vec2_80285D38 v;
+    NJS_POINT2 v;
     void *p;
     void *q;
     construct_with_parent__15TWindowAdditionFPv(arg0, &symbol_chat_parts_window_layout, 4, arg1);

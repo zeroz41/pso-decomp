@@ -49,8 +49,6 @@ struct Star_80085424 {
     f32 y1;
 };
 
-struct Pt_800855F8 { f32 x, y; };
-
 struct Star_800855F8 {
     const char *name;
     u8 pad4[0x18 - 0x4];
@@ -73,14 +71,14 @@ f32 newton_sqrtf(f32);
 extern void *__vt__18TEffStarLightChild[];
 void run_task__15TEffStarLight2DFv(Star_800851B0 *self);
 void run_task__18TEffStarLightChildFv(Star_80085424 *self);
-Star_800855F8 *__ct__18TEffStarLightChildFv(Star_800855F8 *self, Pt_800855F8 *a, Pt_800855F8 *b, void *parent, f32 w, f32 speed);
+Star_800855F8 *__ct__18TEffStarLightChildFv(Star_800855F8 *self, NJS_POINT2 *a, NJS_POINT2 *b, void *parent, f32 w, f32 speed);
 }
 
 #pragma defer_codegen on
 
 #pragma push
 #pragma fp_contract on
-Star_800855F8 *__ct__18TEffStarLightChildFv(Star_800855F8 *self, Pt_800855F8 *a, Pt_800855F8 *b, void *parent, f32 w, f32 speed) {
+Star_800855F8 *__ct__18TEffStarLightChildFv(Star_800855F8 *self, NJS_POINT2 *a, NJS_POINT2 *b, void *parent, f32 w, f32 speed) {
     Vec d;
     __ct__7TObjectFP7TObject(self, parent);
     self->vt = __vt__18TEffStarLightChild;

@@ -31,13 +31,11 @@ struct Gauge_802571B4 {
 
 struct Gauge_80256E0C { u8 p0[0x14]; f32 max; };
 
-struct Pos_80256E0C { f32 x; f32 y; };
-
 extern "C" {
 void calc_bar_width__13TUnk_804CF930Fv(struct Bar_80256C00 *bar);
 extern const f32 lbl_805DCE58;
 void step_gauge_bar_width(Gauge_802571B4 *g);
-void draw_status_gauge_bar__13TUnk_804CF930FPvPvff(Gauge_80256E0C *self, void *ctx, Pos_80256E0C *pos, f32 depth, f32 len);
+void draw_status_gauge_bar__13TUnk_804CF930FPvPvff(Gauge_80256E0C *self, void *ctx, NJS_POINT2 *pos, f32 depth, f32 len);
 void *TWindowSubStatusDisp__sub_80257298(void *arg0, s16 arg1);
 }
 
@@ -67,8 +65,6 @@ struct Parent_80257784 {
     u8 pad34[0x38 - 0x34];
     f32 f38;
 };
-
-struct Pos_80257784 { f32 x, y; };
 
 extern "C" {
 s32 TWindowSubStatusDisp__sub_80256C40(void *, void *, void *, f32);
@@ -218,7 +214,7 @@ void TWindowSubStatusDisp::update_disp_value() {
 #pragma push
 #pragma fp_contract on
 void draw_gauge__20TWindowSubStatusDispFPvPv(Gauge_80257784 *self, Parent_80257784 *parent) {
-    Pos_80257784 pos;
+    NJS_POINT2 pos;
     f32 scale;
     f32 lo;
     f32 hi;

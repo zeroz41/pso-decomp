@@ -14,8 +14,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
-struct Pt_80250A24 { f32 x, y; };
-
 struct Fuki_80250A24 {
     u8 pad0[0x38];
     f32 size[2];
@@ -500,7 +498,7 @@ s32 try_place_bubble__15TWindowFukidasiFPvPvPv(Fuki_802506E8 *b, f32 *rect, f32 
 #pragma pop
 
 s32 rest_balloon__15TWindowFukidasiFv(Fuki_80250A24 *b, f32 *rect, f32 *arg2) {
-    Pt_80250A24 *o = (Pt_80250A24 *)arg2;
+    NJS_POINT2 *o = (NJS_POINT2 *)arg2;
     f32 world[3];
     f32 edge[2];
     f32 dist;

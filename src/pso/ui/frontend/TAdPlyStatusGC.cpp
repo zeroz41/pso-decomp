@@ -130,26 +130,25 @@ void render__14TAdPlyStatusGCFv(void* p) { if (TMainTask::get_render_pass() != 1
 typedef char RecoveredGlobal_8033F93C_lbl_8050E3B8_size[sizeof(RecoveredGlobal_8033F93C_lbl_8050E3B8) == 0x1B0 ? 1 : -1];
 
 #define TAdPlyStatusGC__status_window_box (*(Box_8033F3D8 *)TAdPlyStatusGC__status_window_box)
-#define ply_status_window_points_first ((Vec2_8033F3D8 *)ply_status_window_points_first)
-#define ply_status_window_points_second ((Vec2_8033F3D8 *)ply_status_window_points_second)
+#define ply_status_window_points_first ((NJS_POINT2 *)ply_status_window_points_first)
+#define ply_status_window_points_second ((NJS_POINT2 *)ply_status_window_points_second)
 #define OFF_8033F3D8 (ply_status_window_offset_table[TAdPlyStatusGC__window_offset_index])
 #pragma push
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Vec2_8033F3D8 { f32 x, y; };
 struct Box_8033F3D8 { f32 v[8]; };
 struct Item_8033F3D8 { s8 valid; u8 pad[0xF]; };
 struct Status_8033F3D8 { u8 pad[8]; u32 f8; };
 
 void draw_window_frame__11TWindowBaseFPv(void *);
 Status_8033F3D8 **get_status_sub__14TAdPlyStatusGCFv(s32);
-extern Vec2_8033F3D8 ply_status_window_offset_table[];
+extern NJS_POINT2 ply_status_window_offset_table[];
 void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *arg1) {
     Item_8033F3D8 items[3];
     Box_8033F3D8 box;
-    Vec2_8033F3D8 pts[3];
-    Vec2_8033F3D8 pts2[3];
+    NJS_POINT2 pts[3];
+    NJS_POINT2 pts2[3];
     s32 i;
 
     draw_window_frame__11TWindowBaseFPv(window_base);

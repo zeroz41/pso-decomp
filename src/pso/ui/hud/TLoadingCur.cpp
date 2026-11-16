@@ -133,8 +133,6 @@ struct Self_8001CD90 {
 
 struct Obj_8001CCD4 { u8 pad0[0x38]; f32 f38; f32 f3c; f32 f40; };
 
-struct V2_8001CCD4 { f32 x, y; };
-
 extern "C" {
 
 s32 __ct__7TObjectFP7TObject(void *, void *);
@@ -179,7 +177,7 @@ s32 TLoadingCur::calc_clamp_offset(s32 arg0, u8 *arg1, u8 *arg2) {
 int TLoadingCur::sub_8001CCD4() {
     Obj_8001CCD4 *self = (Obj_8001CCD4 *)this;
     f32 sp10[2];
-    V2_8001CCD4 v;
+    NJS_POINT2 v;
     push_matrix();
     project_world_to_screen(0, (u8 *)self + 0x2c, sp10);
     pop_matrix();

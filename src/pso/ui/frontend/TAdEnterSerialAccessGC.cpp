@@ -37,6 +37,7 @@ struct RecoveredGlobal_8032BB34___vt__18TAdEnterPasswordGC {
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/NinjaTypes.h"
 struct Stack_803216C0 {
     s32 sp8;
     s32 spC;
@@ -135,13 +136,9 @@ struct T_80321738 { s32 a; s32 b; s32 c; };
 
 typedef struct Plate_803214C4 { u8 pad[0x3B4]; } Plate_803214C4;
 
-typedef struct Vec2_803214C4 { f32 x; f32 y; } Vec2_803214C4;
-
 typedef struct Rect_803214C4 { f32 x; f32 y; f32 w; f32 h; } Rect_803214C4;
 
 typedef struct Col_803214C4 { u32 v; } Col_803214C4;
-
-struct Pos_80321358 { f32 x, y; };
 
 struct V_803212F8 { f32 a; f32 b; };
 
@@ -205,19 +202,19 @@ extern const f32 lbl_805DF4E8;
 extern s32 lbl_805DF4EC;
 extern const f32 lbl_805DF4F0;
 
-const Vec2_803214C4 lbl_804764C8 = { 46.0f, 110.0f };
-const Vec2_803214C4 lbl_804764D0 = { 548.0f, 120.0f };
-const Vec2_803214C4 lbl_804764D8 = { 85.0f, 220.0f };
-const Vec2_803214C4 lbl_804764E0 = { 470.0f, 60.0f };
-const Vec2_803214C4 TAdEnterSerialAccessGC__selection_positions[2] = { { 155.0f, 231.0f }, { 155.0f, 251.0f } };
-const Vec2_803214C4 lbl_804764F8 = { 330.0f, 20.0f };
+const NJS_POINT2 lbl_804764C8 = { 46.0f, 110.0f };
+const NJS_POINT2 lbl_804764D0 = { 548.0f, 120.0f };
+const NJS_POINT2 lbl_804764D8 = { 85.0f, 220.0f };
+const NJS_POINT2 lbl_804764E0 = { 470.0f, 60.0f };
+const NJS_POINT2 TAdEnterSerialAccessGC__selection_positions[2] = { { 155.0f, 231.0f }, { 155.0f, 251.0f } };
+const NJS_POINT2 lbl_804764F8 = { 330.0f, 20.0f };
 const char *TAdEnterSerialAccessGC__name = "TAdEnterSerialAccessGC";
 const RecoveredGlobal_80321874_lbl_80476518 lbl_80476518 = { 2, { 4, 4 } };
 const RecoveredGlobal_803217B8_lbl_80476524 lbl_80476524 = { 4, { 4, 4 } };
 const T_80321738 lbl_80476530 = { 2, 4, 4 };
 const RecoveredGlobal_803216C0_lbl_8047653C lbl_8047653C = { 4, { 4, 4 } };
-const Vec2_803214C4 lbl_80476548[1] = { { 234.0f, 230.0f } };
-const Vec2_803214C4 serial_plate_position_table[3] = { { 258.0f, 230.0f }, { 293.0f, 230.0f }, { 352.0f, 230.0f } };
+const NJS_POINT2 lbl_80476548[1] = { { 234.0f, 230.0f } };
+const NJS_POINT2 serial_plate_position_table[3] = { { 258.0f, 230.0f }, { 293.0f, 230.0f }, { 352.0f, 230.0f } };
 const f32 serial_char_row_x_table[2][13] = {
     { 258.0f, 270.0f, 293.0f, 305.0f, 317.0f, 329.0f, 352.0f, 364.0f, 376.0f, 388.0f, 400.0f, 0.0f, 0.0f },
     { 234.0f, 246.0f, 258.0f, 270.0f, 293.0f, 305.0f, 317.0f, 329.0f, 352.0f, 364.0f, 376.0f, 388.0f, 400.0f },
@@ -251,7 +248,7 @@ void TAdEnterSerialAccessGC::draw_screen(void *arg0, void *arg1) {
 void TAdEnterSerialAccessGC::draw_serial_chars(s32 arg0) {
     char text[0xFF];
     char buf[8];
-    Pos_80321358 pos;
+    NJS_POINT2 pos;
     char *p;
     u32 n;
     const f32 *row;
@@ -301,7 +298,7 @@ void TAdEnterSerialAccessGC::draw_serial_plates() {
     pb.y = lbl_805DF4F8;
     __ct__19TAdPlyChrSelPlateGCFv(&b, tl_clipout, &pb);
     {
-        Vec2_803214C4 pos = lbl_80476548[0];
+        NJS_POINT2 pos = lbl_80476548[0];
         Col_803214C4 c = lbl_805DF4D8;
         switch (TAdEnterSerialAccessGC__input_state) {
         case 3:

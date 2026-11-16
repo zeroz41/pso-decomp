@@ -36,7 +36,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 
 struct Off_800753DC { s16 x, y; };
-struct P_800753DC { f32 x, y; };
 
 extern "C" {
 f32 xyz_distance(void *, void *);
@@ -493,7 +492,7 @@ void TObjTombstone::update_render_flags() {
 void TObjTombstone::draw_name_labels() {
     u32 c2;
     u32 c1;
-    P_800753DC screen;
+    NJS_POINT2 screen;
     Vec pos;
     f32 m;
     f32 a;
@@ -523,7 +522,7 @@ void TObjTombstone::draw_name_labels() {
     c2 = ((u32)(alpha * b) << 24) | 0xFFFFFF;
     for (s32 i = 0; i < 6; i++) {
         char *name;
-        P_800753DC p = screen;
+        NJS_POINT2 p = screen;
         name = this->labels[i];
         if (strlen(name) != 0) {
             p.x -= 0.5f * TWindowSubStatusDisp::calc_text_width(name);

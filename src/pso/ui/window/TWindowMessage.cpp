@@ -14,6 +14,7 @@
 #include "pso/ui/window/TWindowDD.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/system/NinjaTypes.h"
 const char *lbl_805D3980 = "TWindowMessage";
 
 struct RecoveredFields_802698C4_arg0 {
@@ -331,10 +332,8 @@ WindowDescriptor message_window_settings = {
     {0.0f, 0.0f}, 50100.0f, &message_window_layout_entries, 3,
 };
 
-struct V2_80269DA4 { f32 x; f32 y; };
-
 extern "C" {
-s32 TLobby__sub_80269DA4(V2_80269DA4 size, void *arg1);
+s32 TLobby__sub_80269DA4(NJS_POINT2 size, void *arg1);
 u8 *TWindowMessage__ct(u8 *arg0, s32 arg1, u32 arg2, s32 arg3);
 u8 *__nw__7TObjectFUl(s32);
 
@@ -373,8 +372,8 @@ void TLobby::update_window_mode_from_progress(void *arg1) {
     TWindowMessage::create((void *)arg0, (s32)arg1, (s32)((s32)((s32) TWindowSubStatusDisp::round_away_from_zero((*(f32 *)((s8 *)arg1 + 4) - 2e+01f) / 2e+01f) + 2)));
 }
 
-s32 TLobby__sub_80269DA4(V2_80269DA4 size, void *arg1) {
-    V2_80269DA4 *dst = (V2_80269DA4 *)&message_window_settings;
+s32 TLobby__sub_80269DA4(NJS_POINT2 size, void *arg1) {
+    NJS_POINT2 *dst = (NJS_POINT2 *)&message_window_settings;
     dst->x = size.x;
     dst->y = size.y;
     message_window_layout_entries.rows = (u32)arg1;

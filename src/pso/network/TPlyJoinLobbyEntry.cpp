@@ -203,8 +203,6 @@ struct Base_80134F9C { u8 pad[0x18]; };
 
 struct Obj_80134F9C : Base_80134F9C { virtual ~Obj_80134F9C(); };
 
-struct Pair_80134F9C { f32 x; f32 y; };
-
 struct DateStamp_80134F9C { s32 v[3]; };
 
 struct Timer_80134F9C {
@@ -426,7 +424,7 @@ extern const Pair_80135E7C lbl_8043EE18[];
 extern const Pair_80135E7C lbl_8043EE20[];
 extern const char lobby_msg_information_counter[];
 void fn_80338D58(void *list, s32 flag, const char *name, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 index);
-extern Pair_80134F9C lbl_8043EE28[];
+extern NJS_POINT2 lbl_8043EE28[];
 extern const char lobby_debug_udp_open_format[];
 extern const char lobby_debug_make_player_format[];
 extern const char lobby_debug_create_player_format[];
@@ -543,7 +541,7 @@ void TLobby::send_game_character() {
 
 void update_idle_timeout__6TLobbyFPv(u8 *object) {
     Timer_80134F9C *t = (Timer_80134F9C *)object;
-    Pair_80134F9C tmp = lbl_8043EE28[0];
+    NJS_POINT2 tmp = lbl_8043EE28[0];
     DateStamp_80134F9C ds;
     u32 limit;
     u32 elapsed;
@@ -1012,20 +1010,18 @@ namespace P1_80137188 {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Pair_801371B0 { f32 x; f32 y; };
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Pair_80137228 { f32 x; f32 y; };
 
 extern "C" {
-extern const Pair_801371B0 lbl_8043EE10[];
+extern const NJS_POINT2 lbl_8043EE10[];
 s32 get_window_layout_position(s32);
 u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
 void TLobby__sub_801371B0(s32 arg0);
 extern u32 TLobby__download_list_window;
-extern const Pair_80137228 lbl_8043EE08[];
+extern const NJS_POINT2 lbl_8043EE08[];
 s32 get_window_layout_position(s32);
 u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
 void TLobby__sub_80137228(s32 arg0);
@@ -1177,7 +1173,6 @@ struct RecoveredGlobal_80137B50___vt__6TLobby {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Pair_80137C10 { f32 x; f32 y; };
 
 extern "C" {
 s32 __dt__7TObjectFv(void *, int);
@@ -1208,7 +1203,7 @@ extern s32 TLobby__join_lobby_controller;
 u8 *__dt__6TLobbyFv(u8 *arg0, s16 arg1);
 extern u32 TLobby__download_list_window;
 extern s32 TLobby__data_805D5594;
-extern const Pair_80137C10 lbl_8043EE00[];
+extern const NJS_POINT2 lbl_8043EE00[];
 s32 get_window_layout_position(s32);
 void TQuestListOnline__sub_8013ACF4(s32);
 u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
@@ -1535,17 +1530,14 @@ struct Root_80139538_80137188 { char pad[0x1DA8]; struct GameListEntry_80139538_
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Pair_801397E8 { f32 x; f32 y; };
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Pair_80139894 { f32 x; f32 y; };
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Pair_8013990C { f32 x; f32 y; };
 
 struct Pad_801395D8 { u8 pad[0x10]; u32 flags; };
 
@@ -1557,16 +1549,16 @@ struct Flag_80139690 { u8 pad[0x2A]; s8 flag; };
 
 extern "C" {
 extern u32 TLobby__join_entry_window_obj;
-extern const Pair_801397E8 lbl_8043EDF8[];
+extern const NJS_POINT2 lbl_8043EDF8[];
 s32 get_window_layout_position(s32);
 u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
 s32 get_seq_phase__6TLobbyFPv(s32);
-extern const Pair_80139894 lbl_8043EDF0[];
+extern const NJS_POINT2 lbl_8043EDF0[];
 extern const f32 lbl_805DB0B8;
 s32 get_window_layout_position(s32);
 u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
 void show_dialog_value_line(s32 arg0);
-extern const Pair_8013990C lbl_8043EDE8[];
+extern const NJS_POINT2 lbl_8043EDE8[];
 extern const f32 lbl_805DB0B8;
 s32 get_window_layout_position(s32);
 u32 update_window_mode_from_progress__6TLobbyFPv(s32 arg0, void *arg1);
@@ -1624,7 +1616,7 @@ namespace P3_80137360 {
 
 void show_seq_phase_message__6TLobbyFi(s32 arg0) {
     if ((*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))) == 0) {
-        Pair_8013990C tmp = lbl_8043EDE8[0];
+        NJS_POINT2 tmp = lbl_8043EDE8[0];
         (*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))) = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0xc1), &tmp);
         ((TWindowBase *)(*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))))->set_depth(lbl_805DB0B8);
     }
@@ -1633,7 +1625,7 @@ void show_seq_phase_message__6TLobbyFi(s32 arg0) {
 
 void show_dialog_value_line(s32 arg0) {
     if ((*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))) == 0) {
-        Pair_80139894 tmp = lbl_8043EDF0[0];
+        NJS_POINT2 tmp = lbl_8043EDF0[0];
         (*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))) = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0xc1), &tmp);
         ((TWindowBase *)(*(u32 *)&(*(u32 *)&(*(u32 *)&TLobby__current_dialog_window))))->set_depth(lbl_805DB0B8);
     }
@@ -1649,7 +1641,7 @@ void close_com_card_window__6TLobbyFv(void) {
 
 void show_join_entry_message(s32 arg0) {
     if (TLobby__join_entry_window_obj == 0) {
-        Pair_801397E8 tmp = lbl_8043EDF8[0];
+        NJS_POINT2 tmp = lbl_8043EDF8[0];
         TLobby__join_entry_window_obj = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0xc2), &tmp);
     }
     ((TWindowMessage *)TLobby__join_entry_window_obj)->append_line((int)(get_seq_phase__6TLobbyFPv(arg0)), (int)1);
@@ -2572,7 +2564,7 @@ void update_player_window__6TLobbyFv(void) {
 
 void TLobby__sub_80137C10(s32 arg0) {
     if (TLobby__download_list_window == 0) {
-        Pair_80137C10 tmp = lbl_8043EE00[0];
+        NJS_POINT2 tmp = lbl_8043EE00[0];
         TLobby__download_list_window = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0xc6), &tmp);
     }
     ((TWindowMessage *)TLobby__download_list_window)->append_line((int)arg0, (int)3);
@@ -2929,7 +2921,7 @@ void handle_state__6TLobbyFi(s32 arg0) {
 
 void TLobby__sub_80137228(s32 arg0) {
     if (TLobby__download_list_window == 0) {
-        Pair_80137228 tmp = lbl_8043EE08[0];
+        NJS_POINT2 tmp = lbl_8043EE08[0];
         TLobby__download_list_window = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0xc7), &tmp);
     }
     ((TWindowMessage *)TLobby__download_list_window)->append_line((int)arg0, (int)3);
@@ -2937,7 +2929,7 @@ void TLobby__sub_80137228(s32 arg0) {
 
 void TLobby__sub_801371B0(s32 arg0) {
     if (TLobby__join_entry_window_obj == 0) {
-        Pair_801371B0 tmp = lbl_8043EE10[0];
+        NJS_POINT2 tmp = lbl_8043EE10[0];
         TLobby__join_entry_window_obj = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0xc8), &tmp);
     }
     ((TWindowMessage *)TLobby__join_entry_window_obj)->append_line((int)arg0, (int)3);
@@ -3975,22 +3967,22 @@ __declspec(section ".ctors") static void *const __sinit_TPlyJoinLobbyEntry_cpp_r
 // menu strings; defined after their users so each is addressed on its own.
 namespace P3_80137360 {
 extern "C" {
-__declspec(section ".rodata") const Pair_8013990C lbl_8043EDE8[1] = { { 342.0f, 144.0f } };
-__declspec(section ".rodata") const Pair_80139894 lbl_8043EDF0[1] = { { 342.0f, 144.0f } };
-__declspec(section ".rodata") const Pair_801397E8 lbl_8043EDF8[1] = { { 558.0f, 224.0f } };
-__declspec(section ".rodata") const Pair_80137C10 lbl_8043EE00[1] = { { 224.0f, 188.0f } };
+__declspec(section ".rodata") const NJS_POINT2 lbl_8043EDE8[1] = { { 342.0f, 144.0f } };
+__declspec(section ".rodata") const NJS_POINT2 lbl_8043EDF0[1] = { { 342.0f, 144.0f } };
+__declspec(section ".rodata") const NJS_POINT2 lbl_8043EDF8[1] = { { 558.0f, 224.0f } };
+__declspec(section ".rodata") const NJS_POINT2 lbl_8043EE00[1] = { { 224.0f, 188.0f } };
 }
 }
 namespace P1_80137188 {
 extern "C" {
-__declspec(section ".rodata") const Pair_80137228 lbl_8043EE08[1] = { { 224.0f, 188.0f } };
-__declspec(section ".rodata") const Pair_801371B0 lbl_8043EE10[1] = { { 558.0f, 224.0f } };
+__declspec(section ".rodata") const NJS_POINT2 lbl_8043EE08[1] = { { 224.0f, 188.0f } };
+__declspec(section ".rodata") const NJS_POINT2 lbl_8043EE10[1] = { { 558.0f, 224.0f } };
 }
 }
 extern "C" {
 __declspec(section ".rodata") const Pair_80135E7C lbl_8043EE18[1] = { { 224.0f, 188.0f } };
 __declspec(section ".rodata") const Pair_80135E7C lbl_8043EE20[1] = { { 332.0f, 200.0f } };
-__declspec(section ".rodata") Pair_80134F9C lbl_8043EE28[1] = { { 342.0f, 144.0f } };
+__declspec(section ".rodata") NJS_POINT2 lbl_8043EE28[1] = { { 342.0f, 144.0f } };
 __declspec(section ".rodata") const char lobby_debug_udp_open_format[] = "udp open %d %d.%d.%d.%d";
 __declspec(section ".rodata") const char lobby_debug_make_player_format[] = "Make Player %d";
 __declspec(section ".rodata") const char lobby_debug_burst_player_format[] = "burst player %d";

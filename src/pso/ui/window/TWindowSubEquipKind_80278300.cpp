@@ -3,9 +3,9 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/system/NinjaTypes.h"
 
 extern "C" {
-typedef struct { f32 x, y; } V2_8027831C;
 
 typedef struct {
     f32 x;
@@ -26,7 +26,7 @@ typedef struct {
 
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
 u32 calc_text_width(void);
-void draw_window_tab(Win_8027831C *, V2_8027831C *, u8, f32);
+void draw_window_tab(Win_8027831C *, NJS_POINT2 *, u8, f32);
 extern s32 status_disp_tab_label_message_ids[];
 static const u8 lbl_805DD5F8[4] = {1, 2, 2, 1};
 void TWindowSubTradeMain::set_trade_state(s16 arg1) {
@@ -39,7 +39,7 @@ void TWindowSubTradeMain::set_trade_state(s16 arg1) {
 #pragma push
 #pragma fp_contract on
 void TWindowSubEquipKind::draw_tab_label(void *win) {
-    V2_8027831C pos;
+    NJS_POINT2 pos;
     s32 msg;
     s16 fl;
     u8 col;

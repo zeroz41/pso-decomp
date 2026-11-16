@@ -34,8 +34,6 @@
 
 struct Obj_8027C0C4 { u8 pad[0x61]; s8 f61; u8 pad2[2]; s32 arr[1]; };
 
-struct Vec2_8027B424 { f32 x; f32 y; };
-
 struct Item_8027B424 { u8 b[0x10]; };
 
 struct TWindowSubMag_8027B62C;
@@ -196,8 +194,8 @@ void TWindowSubMag::set_mag_mode(s32 arg1) {
 #pragma fp_contract on
 void *TWindowSubMag::create_learned_blast_toast() {
     Item_8027B424 item;
-    Vec2_8027B424 pos;
-    Vec2_8027B424 size;
+    NJS_POINT2 pos;
+    NJS_POINT2 size;
     f32 scale;
     s32 n;
     void *win;

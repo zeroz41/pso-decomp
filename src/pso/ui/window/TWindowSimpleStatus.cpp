@@ -19,8 +19,6 @@
 
 struct Disp_8026F9F4 { u8 p0[0x20]; s16 id; u8 p1[0x42]; void *windows[5]; };
 
-struct Vec2_80270244 { f32 x; f32 y; };
-
 struct Params_80270244 { f32 x; f32 y; u8 pad8[0x18]; f32 f20; f32 f24; f32 f28; f32 f2c; s32 f30; };
 
 struct Prim_8026FC5C { f32 *verts; u32 *colors; s32 flags; s32 count; };
@@ -32,7 +30,7 @@ const char *TWindowSimpleStatus__name = "TWindowSimpleStatus";
 
 // inferred: photon_blast_gauge_ring_offset, the ring's offset inside the window that
 // draw_background passes to draw_photon_blast_gauge_ring.
-static const Vec2_80270244 photon_blast_gauge_ring_offset = {24.0f, 19.0f};
+static const NJS_POINT2 photon_blast_gauge_ring_offset = {24.0f, 19.0f};
 
 // One colour per hundred points of photon blast charge (0..500); the ring draws [n] and [n + 1].
 const u32 photon_blast_gauge_ring_color_table[7] = {
@@ -76,8 +74,8 @@ void * get_player_by_client_id();
 void *__nw__7TObjectFUl(int);
 void TWindowComCard__sub_80249D7C(u8 *arg0, s32 arg1);
 void *TWindowComCard__sub_80249ED8(void *, void *, void *, s32, s32, s32);
-void draw_photon_blast_fan(s32, Vec2_80270244 *, Params_80270244 *, u32, f32, s32, s32, f32);
-void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const Vec2_80270244 *arg2, f32 farg0, f32 farg1);
+void draw_photon_blast_fan(s32, NJS_POINT2 *, Params_80270244 *, u32, f32, s32, s32, f32);
+void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const NJS_POINT2 *arg2, f32 farg0, f32 farg1);
 struct VtBase4_8026f71c_more_8026f8cc_0 { void *vtable; };
 
 struct VObj3_8026f71c_more_8026f8cc_0 : VtBase4_8026f71c_more_8026f8cc_0 { virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); };
@@ -132,8 +130,6 @@ struct VObj_8026ff0c {
 
 struct Slots_80270060 { s32 type[4]; u32 id[4]; };
 
-struct Vec2_80270394 { f32 x; f32 y; };
-
 struct Rect_80270394 { f32 x0; f32 y0; f32 x1; f32 y1; f32 u0; f32 v0; f32 u1; f32 v1; };
 
 s16 obj_getS16_2BA(u8 *p);
@@ -144,7 +140,7 @@ void * get_array_entry__11TWindowBaseFi(void *, s32);
 s32 TWindowSubComCard__sub_802452DC(s32);
 s32 TWindowSubComCard__sub_80245320(Rect_80270394 *, u8 *);
 s32 TWindowSubComCard__sub_802454E4(s32);
-s32 TWindowSubComCard__sub_80245558(u8 *, Vec2_80270394 *, Vec2_80270394 *);
+s32 TWindowSubComCard__sub_80245558(u8 *, NJS_POINT2 *, NJS_POINT2 *);
 s32 get_width__19TWindowSimpleStatusFv();
 s32 apply_context_transform_to_rect(u8 *, Rect_80270394 *);
 s32 start_text_color_transition(void *, s32, f32);
@@ -329,7 +325,7 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
 
 #pragma push
 #pragma fp_contract on
-void draw_photon_blast_fan(s32 arg0, Vec2_80270244 *arg1, Params_80270244 *arg2, u32 arg3, f32 arg6, s32 arg4, s32 arg5, f32 arg7) {
+void draw_photon_blast_fan(s32 arg0, NJS_POINT2 *arg1, Params_80270244 *arg2, u32 arg3, f32 arg6, s32 arg4, s32 arg5, f32 arg7) {
     f32 verts[6];
     Prim_8026FC5C prim;
     u32 colors[3];
@@ -497,8 +493,8 @@ void update_status_help_item(s32 arg0) {
 #pragma fp_contract on
 #pragma opt_common_subs off
 extern "C" {
-void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const Vec2_80270244 *arg2, f32 farg0, f32 farg1) {
-    Vec2_80270244 p;
+void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const NJS_POINT2 *arg2, f32 farg0, f32 farg1) {
+    NJS_POINT2 p;
     u32 n;
     if (farg0 > 500.0f) {
         farg0 = 500.0f;
@@ -517,8 +513,8 @@ void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const Vec2_80
 
 void TWindowSimpleStatus::draw_background(u8 *arg1) {
     Rect_80270394 r;
-    Vec2_80270394 pos;
-    Vec2_80270394 size;
+    NJS_POINT2 pos;
+    NJS_POINT2 size;
     f32 scale;
     f32 f;
 

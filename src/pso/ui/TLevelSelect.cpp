@@ -11,6 +11,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
 
 struct Self_80133068 { u8 pad[0x20]; s32 f20; s32 f24; };
 
@@ -30,9 +31,7 @@ struct Ent_8013319C { s32 id; f32 b; f32 c; };
 
 struct Ents_8013319C { Ent_8013319C e[4]; };
 
-struct Pos_8013319C { f32 x; f32 y; };
-
-struct Poss_8013319C { Pos_8013319C p[4]; };
+struct Poss_8013319C { NJS_POINT2 p[4]; };
 
 const char *level_select_class_name = "TLevelSelect";
 
@@ -148,7 +147,7 @@ Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self) {
             __ct__14TAdSelectTxtGCFP7TObjectPvPv(p, self, &ents.e[3], 3);
         }
         {
-            Pos_8013319C pos = { 302.0f, 28.0f };
+            NJS_POINT2 pos = { 302.0f, 28.0f };
             Poss_8013319C poss = {{ { 215.0f, 146.0f }, { 185.0f, 198.0f }, { 155.0f, 250.0f }, { 125.0f, 302.0f } }};
             p = __nw__7TObjectFUl(0x708);
             if (p != NULL) {

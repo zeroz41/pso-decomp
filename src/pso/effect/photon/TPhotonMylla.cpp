@@ -52,8 +52,6 @@ struct RecoveredFields_801AD5D8_arg0 {
     s32 field_1A4;
 };
 
-struct Color_801AD4C0 { f32 a, r, g, b; };
-
 struct Self_801AD4C0 {
     u8 pad0[0x24];
     s32 f24;
@@ -64,7 +62,7 @@ struct Self_801AD4C0 {
     u8 pad3[0x14C - 0x64];
     s16 f14C;
     u8 pad4[0x184 - 0x14E];
-    Color_801AD4C0 color;
+    NJS_ARGB color;
     u8 pad5[0x1A0 - 0x194];
     s32 started;
 };
@@ -123,8 +121,8 @@ void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 void set_material_alpha_compare_reference(s32 reference);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 }
-extern Color_801AD4C0 saved_model_draw_color;
-extern Color_801AD4C0 model_material_color;
+extern NJS_ARGB saved_model_draw_color;
+extern NJS_ARGB model_material_color;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;

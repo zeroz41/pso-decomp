@@ -90,8 +90,6 @@ struct RecoveredGlobal_80180BD4___vt__8TObjChip {
     u8 remaining[0x34];
 };
 
-struct Out_8018085C { f32 x, y; };
-
 struct IVec_801803C0 { s32 x, y, z; };
 
 struct Chip_801803C0 {
@@ -194,7 +192,7 @@ u8 *__ct__8TObjChipFP7TObjectPC14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 void matrix_mult_vec(int, Vec *, Vec *);
-void project_world_to_screen(int, Vec *, Out_8018085C *, Vec *);
+void project_world_to_screen(int, Vec *, NJS_POINT2 *, Vec *);
 extern Vec camera_right;
 s32 vfunc_10__8TObjChipFP3Vec(s32 arg0, Vec *arg1, f32 farg0, f32 farg1);
 s32 spawn_chips__8TObjChipFPv(u8 *arg0, u8 *arg1);
@@ -307,8 +305,8 @@ int vfunc_8__8TObjChipFv(void* p) { return *(u32*)((char*)p + 0x230) == 0; }
 #pragma fp_contract on
 s32 vfunc_10__8TObjChipFP3Vec(s32 arg0, Vec *arg1, f32 farg0, f32 farg1) {
     Vec v;
-    Out_8018085C o1;
-    Out_8018085C o2;
+    NJS_POINT2 o1;
+    NJS_POINT2 o2;
     matrix_mult_vec(0, arg1, &v);
     if (v.z > 0.0f) {
         return 0;

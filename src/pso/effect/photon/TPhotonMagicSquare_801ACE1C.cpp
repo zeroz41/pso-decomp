@@ -23,8 +23,6 @@
 
 const char *TPhotonMagicSquare__data_805D3508 = "TPhotonMagicSquare";
 
-struct Color_801ACE1C { f32 a, r, g, b; };
-
 struct Self_801ACE1C {
     u8 pad0[0x24];
     s32 f24;
@@ -38,7 +36,7 @@ struct Self_801ACE1C {
     s32 f90;
     u8 pad5[0x9C - 0x94];
     f32 f9C;
-    Color_801ACE1C color;
+    NJS_ARGB color;
     u32 fB0;
     u8 pad6[0xB8 - 0xB4];
     Vec vB8;
@@ -51,7 +49,7 @@ s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
-extern Color_801ACE1C chunk_material_color_half_alpha_f32;
+extern NJS_ARGB chunk_material_color_half_alpha_f32;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void TPhotonMagicSquare::render() {
@@ -62,7 +60,7 @@ void TPhotonMagicSquare::render() {
     rotate_matrix_y(0, this->rotation_y);
     TObjFish::set_global_param(this->texlist);
     scale_current_matrix(&self->v68);
-    Color_801ACE1C saved = self->color;
+    NJS_ARGB saved = self->color;
     if ((this->m_b0 % this->m_cc) == 0) {
         self->color.r = (0.5f);
         self->color.g = (0.5f);

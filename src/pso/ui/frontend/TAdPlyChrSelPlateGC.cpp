@@ -31,14 +31,12 @@ typedef struct S_802C4DD0 {
     s32 f224;
 } S_802C4DD0;
 
-typedef struct V_802C4E38 { f32 x, y; } V_802C4E38;
-
 typedef struct Q_802C4E38 { u8 b[4]; } Q_802C4E38;
 
 typedef struct S_802C4E38 {
     u8 pad0[0x1C];
-    V_802C4E38 v1C[32];
-    V_802C4E38 v11C[32];
+    NJS_POINT2 v1C[32];
+    NJS_POINT2 v11C[32];
     s32 pad21C[2];
     s32 f224;
     s32 a[32];

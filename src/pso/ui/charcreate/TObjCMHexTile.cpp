@@ -5,6 +5,7 @@
 #include "pso/unk/text_802948A8.h"
 #include "types.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/system/NinjaTypes.h"
 
 #pragma readonly_strings on
 
@@ -102,11 +103,6 @@ TObjCMHexTile *__ct__13TObjCMHexTileFv(TObjCMHexTile *self, TObject *parent, voi
 
 #pragma pop
 
-struct V2_802947A8 {
-    f32 x;
-    f32 y;
-};
-
 
 void fn_802947A8(void) {
     f32 limY;
@@ -115,7 +111,7 @@ void fn_802947A8(void) {
     f32 stepX;
     f32 evenX;
     f32 oddX;
-    V2_802947A8 p;
+    NJS_POINT2 p;
     s32 odd = 0;
 
     p.y = -11.5f;

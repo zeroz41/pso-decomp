@@ -232,7 +232,6 @@ struct VObj_8007C8AC : VBase_8007C8AC {
     virtual void m1();
     virtual void m2();
 };
-struct Vec2_8007DD28 { f32 x; f32 y; };
 struct Vtx_8007D828 { f32 x; f32 y; f32 z; u32 color; };
 struct Quad_8007D828 { f32 x0; f32 y0; f32 x1; f32 y1; f32 u0; f32 v0; f32 u1; f32 v1; };
 // screen.bin / the PSO_SCREEN card file: a 256x192 capture and who was in the room.
@@ -330,7 +329,7 @@ const u8 snapshot_card_icon[16] = {0x35, 0x04, 0x08, 0x1A, 0x0A, 0x07, 0x57, 0x5
 const char screen_binary_filename_string[] = "screen.bin";
 const char *screen_binary_filename = screen_binary_filename_string;
 // Centre of the capture frame, moved with the C stick.
-Vec2_8007DD28 TObjBoss2Tunnel__data_8048DF2C = {320.0f, 240.0f};
+NJS_POINT2 TObjBoss2Tunnel__data_8048DF2C = {320.0f, 240.0f};
 
 void TObjBoss2Tunnel__sub_8007EAE4(u8 *arg0) {
     *(u8 *)((s8 *)arg0 + 0) = 0xB2;

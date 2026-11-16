@@ -7,13 +7,12 @@
 #include "pso/ui/window/TWindowBase.h"
 
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/system/NinjaTypes.h"
 
 struct RecoveredGlobal_8026D674___vt__11TWindowRoom {
     s32 value;
     u8 remaining[0x14];
 };
-
-struct Pos_8026D740 { f32 x; f32 y; };
 
 struct RoomTitleEntry {
     u8 unknown00[8];
@@ -44,7 +43,7 @@ void refresh_status_display__9TWindowDDFv(void *);
 s32 get_window_layout_position(int);
 extern s32 __vt__11TWindowRoom[];
 const char *TWindowRoom__class_name = "TWindowRoom";
-s32 clamp_list_scroll_offset(struct Pos_8026D740 *a, struct Pos_8026D740 *b, struct Pos_8026D740 *c);
+s32 clamp_list_scroll_offset(NJS_POINT2 *a, NJS_POINT2 *b, NJS_POINT2 *c);
 s32 draw_visible_window_entries(s32, s32, s32);
 s32 draw_window_tab(s32, s32, s32, f32);
 void __dl__7TObjectFPv(void *);
@@ -101,7 +100,7 @@ TWindowRoom::TWindowRoom(char *title) {
     tabParameter = TWindowSubStatusDisp__sub_802877A4(unknown48 - 16.0f);
 }
 
-s32 clamp_list_scroll_offset(struct Pos_8026D740 *a, struct Pos_8026D740 *b, struct Pos_8026D740 *c) {
+s32 clamp_list_scroll_offset(NJS_POINT2 *a, NJS_POINT2 *b, NJS_POINT2 *c) {
     f32 room;
     if (a->y < c->y || b->y < 0.0f) {
         b->y = 0.0f;

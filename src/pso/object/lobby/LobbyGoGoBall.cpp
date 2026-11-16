@@ -188,8 +188,7 @@ void *lbl_804B8DA0[3] = {
 };
 // The lobby GVM texture lists TLanguage::load_lobby_textures loads.
 s32 lobby_gvm_texture_handles[9] = {0};
-struct Color_80199A44 { f32 a, r, g, b; };
-const Color_80199A44 fish_draw_color[1] = {{0.2f, 0.0f, 0.0f, 0.0f}};
+const NJS_ARGB fish_draw_color[1] = {{0.2f, 0.0f, 0.0f, 0.0f}};
 // spawn_particle_effect_with_rotation takes x/y/z angles (0x8000 = half turn).
 struct Rot_80198A2C { s32 x, y, z; };
 const Rot_80198A2C boss3_volopt_init_vec = {0, 0, 0x8000};
@@ -573,7 +572,7 @@ void TUnk_804B8E18::update_best_time() {
 #define vector_length ((f32 (*)(void*))vector_length)
 void TUnk_804B8E18::render() {
     Vec dir;
-    Color_80199A44 color = fish_draw_color[0];
+    NJS_ARGB color = fish_draw_color[0];
     Vec pos;
     f32 len;
     f32 rate;

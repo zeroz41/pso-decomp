@@ -48,8 +48,6 @@ struct Seg_80096EBC { s32 a; f32 x; f32 y; f32 z; u8 pad[12]; };
 
 struct Brk_80096EBC { s32 count; Seg_80096EBC *segs; };
 
-struct Color_8009680C { f32 a; f32 r; f32 g; f32 b; };
-
 struct Part_8009680C { u8 pos[0x18]; u8 rot[0x10]; };
 
 struct Chunk_8009680C { s32 model; u8 pad[0x18]; };
@@ -124,7 +122,7 @@ extern RecoveredGlobal_80096F54_lbl_8058D490 identity_matrix;
 u8 *init__11TBreakUpMdlFPviif(u8 *arg0, s32 arg1, s32 arg2, f32 farg0);
 void *mem_alloc(u32 size);
 void alloc_breakup_piece_records(Brk_80096EBC *arg0, void *arg1);
-extern Color_8009680C breakup_default_color;
+extern NJS_ARGB breakup_default_color;
 extern u32 saved_model_render_flags;
 extern u32 model_render_flags;
 void __ct__7TObjectFP7TObject(void *, void *);
@@ -147,7 +145,7 @@ void TBreakUpMdl::render() {
     }
     saved_model_render_flags = model_render_flags;
     if (self->alpha < 1.0f) {
-        Color_8009680C color = breakup_default_color;
+        NJS_ARGB color = breakup_default_color;
         model_render_flags |= 0x810;
         set_chunk_material_override_pair(0xFF00, 0x800);
         color.a = self->alpha;

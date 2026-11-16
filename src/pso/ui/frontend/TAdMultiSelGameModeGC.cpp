@@ -92,9 +92,7 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
 s32 set_default_camera__21TAdMultiChgGameModeGCFv(void *);
 }
 
-typedef struct Pos_803001B4 { f32 x, y; } Pos_803001B4;
-
-typedef struct Pos3_803001B4 { Pos_803001B4 p[3]; } Pos3_803001B4;
+typedef struct Pos3_803001B4 { NJS_POINT2 p[3]; } Pos3_803001B4;
 
 typedef struct Arr3_803001B4 { s32 v[3]; } Arr3_803001B4;
 

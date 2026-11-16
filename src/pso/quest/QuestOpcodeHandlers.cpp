@@ -1138,10 +1138,6 @@ struct List_801F1A0C : Base_801F1A0C {
 
 struct Pair_801F1838 { s32 a; s32 b; };
 
-struct Vec2_801E717C { f32 x, y; };
-
-struct Vec2_801E74D0 { f32 x, y; };
-
 struct Spawn_801E8930 {
     u8 pad0[0xC];
     f32 x;
@@ -1865,7 +1861,7 @@ void TObjPlayer__sub_80354CCC(s32 arg0);
 void TObjPlayer__sub_80354D14(s32 arg0);
 void TObjPlayer__sub_80354DAC(s32 arg0);
 void TObjPlayer__sub_80354DF4(s32 arg0);
-void * open_message_scroll_window__6TLobbyFlll(Vec2_801E717C *, Vec2_801E717C *, void *);
+void * open_message_scroll_window__6TLobbyFlll(NJS_POINT2 *, NJS_POINT2 *, void *);
 s32 rand(void);
 int strncmp(const char *, const char *, u32);
 int strcmp(const char *, const char *);
@@ -1906,8 +1902,8 @@ void qst_op_va_end() {
 void qst_op_va_start() { qst_arg_count = 0; qst_op_stack_pushm(1, 7); }
 
 void qst_op_scroll_text() {
-    Vec2_801E717C pos;
-    Vec2_801E717C size;
+    NJS_POINT2 pos;
+    NJS_POINT2 size;
     s32 x = qst_args[0];
     s32 y = qst_args[1];
     s32 cols = qst_args[2];
@@ -2002,8 +1998,8 @@ void qst_op_chat_bubble(void) {
 }
 
 void qst_op_chat_box() {
-    Vec2_801E74D0 pos;
-    Vec2_801E74D0 size;
+    NJS_POINT2 pos;
+    NJS_POINT2 size;
     s32 x = qst_args[0];
     s32 y = qst_args[1];
     s32 cols = qst_args[2];

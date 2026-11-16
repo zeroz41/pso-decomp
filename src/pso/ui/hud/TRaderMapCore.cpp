@@ -248,8 +248,6 @@ struct Glob_801F986C {
     u8 rest[0x44];
 };
 
-struct Pair_801F9770 { f32 x; f32 y; };
-
 struct Glob_801F9770 {
     u8 pad0[0x28];
     f32 f28;
@@ -298,8 +296,6 @@ struct RadarFanDesc_801FA880 {
     s32 a;
     s32 n;
 };
-
-struct RadarVec2_801FA880 { f32 x, y; };
 
 extern "C" {
 void TCameraCtrl__sub_80068EF0(void);
@@ -380,8 +376,8 @@ s32 TLobby__sub_801C19D0(void *);
 s32 should_show_map__13TRaderMapCoreFv(void);
 extern Vec4_801F9E9C radar_player_slot_color_table[];
 extern s32 local_client_id;
-Pair_801F9770 TRaderMapCore__sub_801F9D38(TRaderMapCore *self);
-extern const Pair_801F9770 lbl_8044A78C;
+NJS_POINT2 TRaderMapCore__sub_801F9D38(TRaderMapCore *self);
+extern const NJS_POINT2 lbl_8044A78C;
 s32 has_flag__13TRaderMapCoreFv(void *, s32);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
@@ -586,7 +582,7 @@ void TRaderMapCore::open_free_map_view() {
     s32 g = (s32)&TRaderMapCore__map_view_state;
     TRaderMapCore__view_mode = 1;
     {
-        Pair_801F9770 p = TRaderMapCore__sub_801F9D38((TRaderMapCore *)TRaderMapCore__instance);
+        NJS_POINT2 p = TRaderMapCore__sub_801F9D38((TRaderMapCore *)TRaderMapCore__instance);
         ((Glob_801F9770 *)g)->f28 = p.x;
         ((Glob_801F9770 *)g)->f30 = p.y;
     }
@@ -775,8 +771,8 @@ s32 TRaderMapCore::reveal_region_by_id(s16 id) {
 }
 
 #define MAP_801F9D84 ((Map_801F9D84 *) TRaderMapCore__floor_map_resource)
-Pair_801F9770 TRaderMapCore__sub_801F9D38(TRaderMapCore *self) {
-    Pair_801F9770 p = lbl_8044A78C;
+NJS_POINT2 TRaderMapCore__sub_801F9D38(TRaderMapCore *self) {
+    NJS_POINT2 p = lbl_8044A78C;
     if (self->m_134 >= 0) {
         p.x = ((Core_801F9E9C *)self)->e[self->m_134].x;
         p.y = ((Core_801F9E9C *)self)->e[self->m_134].z;
@@ -1128,8 +1124,8 @@ void TRaderMapCore::draw_compass(s32 mode) {
     }
 }
 
-static RadarVec2_801FA880 radar_backdrop_origin[3] = { { 480.0f, 64.0f }, { 32.0f, 288.0f }, { 96.0f, 176.0f } };
-static RadarVec2_801FA880 radar_backdrop_size[3] = { { 128.0f, 128.0f }, { 448.0f, 128.0f }, { 448.0f, 128.0f } };
+static NJS_POINT2 radar_backdrop_origin[3] = { { 480.0f, 64.0f }, { 32.0f, 288.0f }, { 96.0f, 176.0f } };
+static NJS_POINT2 radar_backdrop_size[3] = { { 128.0f, 128.0f }, { 448.0f, 128.0f }, { 448.0f, 128.0f } };
 static f32 radar_backdrop_alpha[3] = { 64.0f, 64.0f, 128.0f };
 
 void TRaderMapCore::draw_backdrop(TRaderMapCore *self, s32 mode) {
@@ -1137,8 +1133,8 @@ void TRaderMapCore::draw_backdrop(TRaderMapCore *self, s32 mode) {
     RadarFanDesc_801FA880 desc;
     u32 colors[4];
     u32 color;
-    RadarVec2_801FA880 *origin;
-    RadarVec2_801FA880 *size;
+    NJS_POINT2 *origin;
+    NJS_POINT2 *size;
     desc.pos = pos;
     desc.col = colors;
     desc.a = 0;

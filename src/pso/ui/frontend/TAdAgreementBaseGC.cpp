@@ -13,6 +13,7 @@
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/NinjaTypes.h"
 
 struct VBase_18_fbe024 { char pad[0x18]; };
 
@@ -40,13 +41,11 @@ struct RecoveredGlobal_80329830_lbl_8050E3B8 {
 
 struct Obj_80329AA8 { const char *f0; u8 pad[0x14]; void *vt; s32 f1C; u8 pad2[4]; s32 f24; s32 f28; s32 f2C; void *cur; s32 f34; };
 
-struct Pos_803296E8 { f32 x, y; };
-
-static const Pos_803296E8 agreement_item_rect_table[2] = {{89.0f, 394.0f}, {89.0f, 414.0f}};
-static const Pos_803296E8 lbl_804770A0 = {462.0f, 18.0f};
+static const NJS_POINT2 agreement_item_rect_table[2] = {{89.0f, 394.0f}, {89.0f, 414.0f}};
+static const NJS_POINT2 lbl_804770A0 = {462.0f, 18.0f};
 const char *lbl_805D41B8 = "TAdAgreementBaseGC";
-static const Pos_803296E8 lbl_804770BC = {85.0f, 384.0f};
-static const Pos_803296E8 lbl_804770C4 = {470.0f, 60.0f};
+static const NJS_POINT2 lbl_804770BC = {85.0f, 384.0f};
+static const NJS_POINT2 lbl_804770C4 = {470.0f, 60.0f};
 
 extern "C" {
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
@@ -72,7 +71,7 @@ void TAdAgreementBaseGC::check_main_task_state() {
 #pragma push
 #pragma fp_contract on
 void TAdAgreementBaseGC::draw_agreement_text() {
-    Pos_803296E8 pos[2];
+    NJS_POINT2 pos[2];
     u32 i;
     draw_window_frame__11TWindowBaseFPv();
     for (i = 0; i < 2; i++) {

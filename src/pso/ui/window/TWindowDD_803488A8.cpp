@@ -3,8 +3,7 @@
 #include "pso/ui/window/TWindowDD_WS_String.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD.h"
-
-struct Src_80348A9C { f32 x; f32 y; };
+#include "pso/system/NinjaTypes.h"
 
 struct Dst_80348A9C { u8 pad[0xc]; f32 x; f32 y; u8 pad2[4]; };
 
@@ -14,7 +13,7 @@ struct B_803489B8 { u8 pad0[4]; f32 f4; u8 pad8[0x14]; f32 f1C; u8 pad20[0x10]; 
 
 extern "C" {
 extern f32 lbl_805DFB1C;
-Src_80348A9C TWindowDD__data_805434E8[7][8];
+NJS_POINT2 TWindowDD__data_805434E8[7][8];
 extern s32 *TWindowDD__player_name_buffers;
 extern s32 *TWindowDD__data_805D6E28;
 extern s16 *lbl_805D6E34;
@@ -120,7 +119,7 @@ void TWindowDD__sub_80348A2C(void *arg0, void *arg1) {
 void TWindowDD::copy_point_table(s32 idx) {
     Dst_80348A9C *self = (Dst_80348A9C *)this;
     s32 i;
-    Src_80348A9C *s = TWindowDD__data_805434E8[idx];
+    NJS_POINT2 *s = TWindowDD__data_805434E8[idx];
     for (i = 0; i < 8; i++) {
         self->x = s->x;
         self->y = s->y;

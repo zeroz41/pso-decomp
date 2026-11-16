@@ -41,7 +41,6 @@ struct GuildCardFile_804C89BC {
     char download_dir[0x20];
     u32 download_flags;
 };
-struct Vec2_804C8A44 { f32 x, y; };
 extern "C" {
 CardFileInfo_804C88C0 pso_character_card_filename = {
     "PSO_CHARACTER", "CHARACTER_FILE", 0,
@@ -60,7 +59,7 @@ GuildCardFile_804C89BC pso_guildcard_card_filename = {
 u8 TQuestVmDownLoadServer__memcard_key[0x10] = {
     0x35, 0x04, 0x08, 0x1A, 0x0A, 0x07, 'V', 'T', 'T', 'T',
 };
-__declspec(section ".data") Vec2_804C8A44 lbl_804C8A44 = { 0.0f, 0.0f };
+__declspec(section ".data") NJS_POINT2 lbl_804C8A44 = { 0.0f, 0.0f };
 }
 struct SubtractiveRng {
     SubtractiveRng();
@@ -2086,8 +2085,6 @@ struct Win_801FEE14 : VBase_801FEE14 {
     virtual void v1();
 };
 
-struct V2_801FEE14 { f32 x, y; };
-
 extern "C" {
 s32 TAdSinglePlyChrSelectGC__sub_801FDA4C();
 s32 encrypt_save_data__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
@@ -2109,13 +2106,13 @@ void run_save_load_sequence__23TAdSinglePlyChrSelectGCFv(void);
 s32 get_field_118__22TAdEnterSerialAccessGCFv();
 void TLobby__sub_80269C90(void);
 void TLobby__sub_80269CA4(s32);
-Win_801FEE14 *create__14TWindowMessageFlPCfUll(V2_801FEE14 *, V2_801FEE14 *, s32, s32);
+Win_801FEE14 *create__14TWindowMessageFlPCfUll(NJS_POINT2 *, NJS_POINT2 *, s32, s32);
 void TAdSinglePlyChrSelectGC__sub_8033B9EC(void);
 s32 TAdSinglePlyChrSelectGC__sub_8033B9F8(Win_801FEE14 *);
 void func_803DCDFC__Fv(void);
-extern V2_801FEE14 lbl_8044A7D0[];
-extern V2_801FEE14 lbl_8044A7D8[];
-extern V2_801FEE14 lbl_804C8A44[];
+extern NJS_POINT2 lbl_8044A7D0[];
+extern NJS_POINT2 lbl_8044A7D8[];
+extern NJS_POINT2 lbl_804C8A44[];
 extern u8 controller_input_state[];
 extern RecoveredGlobal_801FF200_lbl_80513910 chr_select_serial_seeds;
 extern u32 card_character_save_buffer;

@@ -615,6 +615,7 @@ void fn_8025FF8C(void *arg0) {
 
 
 #include "pso/ui/window/TWindowDD.h"
+#include "pso/system/NinjaTypes.h"
 
 
 extern const char lbl_8044F0CC[];
@@ -626,9 +627,8 @@ extern const char lbl_8044F104[];
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Pt_80260020 { f32 x, y; };
 
-struct Ctx_80260020 { u8 pad0[0x10]; Pt_80260020 pos; u8 pad18[0x38 - 0x18]; f32 scale; };
+struct Ctx_80260020 { u8 pad0[0x10]; NJS_POINT2 pos; u8 pad18[0x38 - 0x18]; f32 scale; };
 
 struct State_80260020 { u8 pad0[0xB4]; s32 flags; };
 
@@ -643,7 +643,7 @@ void TWindowKeyBoardHard::draw_status_text(void *ctx) {
     s32 flags;
     if (((Win_80260020 *)this)->state != NULL && current_language == LANGUAGE_JAPANESE) {
         f32 inv = -1.0f / ((Ctx_80260020 *)ctx)->scale;
-        Pt_80260020 pt;
+        NJS_POINT2 pt;
         pt.x = ((Ctx_80260020 *)ctx)->pos.x;
         pt.y = ((Ctx_80260020 *)ctx)->pos.y;
         set_text_draw_params((s32)((Ctx_80260020 *)ctx), 0, 0, (f32)inv, 100000.0f);

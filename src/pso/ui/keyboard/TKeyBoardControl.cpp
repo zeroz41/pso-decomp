@@ -78,13 +78,8 @@ typedef char RecoveredGlobal_8026062C_TWindowKeyBoardSoft__data_804CB7C8_size[((
 
 typedef char RecoveredGlobal_80260808_lbl_8050E208_size[sizeof(RecoveredGlobal_80260808_lbl_8050E208) == 0x1B0 ? 1 : -1];
 
-struct Vec2_802615B8 {
-    f32 x;
-    f32 y;
-};
-
 struct Lines_80261DD8 {
-    Vec2_802615B8 *verts;
+    NJS_POINT2 *verts;
     u32 *colors;
     s32 f8;
     s32 count;
@@ -118,11 +113,11 @@ const u8 lbl_8044F138[20] = { 0, 0, 1, 0, 3, 2, 1, 0, 9, 8, 7, 6, 5, 4, 3, 2, 1,
 const UV_80262038 keyboard_key_frame_uv_table[3] = { { 185.0f, 0.0f }, { 185.0f, 119.0f }, { 185.0f, 141.0f } };
 
 /* Function keys below the character grid: grid cell, size and texture origin. */
-const Vec2_802615B8 lbl_8044F164[10] = {
+const NJS_POINT2 lbl_8044F164[10] = {
     { 0.0f, 6.0f }, { 12.0f, 6.0f }, { 0.0f, 5.0f }, { 0.0f, 0.0f }, { 14.0f, 0.0f },
     { 2.0f, 6.0f }, { 0.0f, 1.0f }, { 0.0f, 2.0f }, { 0.0f, 3.0f }, { 0.0f, 4.0f },
 };
-const Vec2_802615B8 lbl_8044F1B4[10] = {
+const NJS_POINT2 lbl_8044F1B4[10] = {
     { 37.0f, 18.0f }, { 37.0f, 18.0f }, { 37.0f, 18.0f }, { 37.0f, 18.0f }, { 37.0f, 18.0f },
     { 66.0f, 18.0f }, { 18.0f, 18.0f }, { 18.0f, 18.0f }, { 18.0f, 18.0f }, { 18.0f, 18.0f },
 };
@@ -598,7 +593,7 @@ f32 TWindowKeyBoardSoft__sub_802614DC(u8 *window_sub_com_card, u8 *arg1, f32 far
 #pragma fp_contract on
 void TWindowKeyBoardSoft::spawn_key_effect(s32 arg1, s32 arg2) {
     s32 type;
-    Vec2_802615B8 pos;
+    NJS_POINT2 pos;
     s32 kind;
 
     ((void (*)(void *, s32, s32 *, s32))TWindowKeyBoardSoft__sub_80260760)(this, TWindowKeyBoardSoft::calc_key_index(this, arg1, arg2), &type, 0);
@@ -758,7 +753,7 @@ void TWindowKeyBoardSoft::sub_802616BC(TWindowKeyBoardSoft *ctx) {
 #pragma pop
 
 void TWindowKeyBoardSoft__sub_80261DD8(TWindowKeyBoardSoft *self, TWindowKeyBoardSoft *ctx) {
-    Vec2_802615B8 v[5];
+    NJS_POINT2 v[5];
     u32 col[5];
     Lines_80261DD8 d;
     f32 depth;

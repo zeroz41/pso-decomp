@@ -37,8 +37,6 @@ struct Stack_801AC574 {
     u8 trailing_storage[0x4];
 };
 
-struct Color_801AC45C { f32 a, r, g, b; };
-
 struct Self_801AC45C {
     u8 pad0[0x24];
     s32 f24;
@@ -49,7 +47,7 @@ struct Self_801AC45C {
     u8 pad3[0x14C - 0x64];
     s16 f14C;
     u8 pad4[0x180 - 0x14E];
-    Color_801AC45C color;
+    NJS_ARGB color;
     u8 pad5[0x19C - 0x190];
     s32 started;
 };
@@ -70,8 +68,8 @@ s32 push_matrix();
 s32 pop_matrix();
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
-extern Color_801AC45C saved_model_draw_color;
-extern Color_801AC45C model_material_color;
+extern NJS_ARGB saved_model_draw_color;
+extern NJS_ARGB model_material_color;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;

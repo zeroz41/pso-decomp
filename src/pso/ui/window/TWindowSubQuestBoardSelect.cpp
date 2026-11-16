@@ -10,6 +10,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/system/NinjaTypes.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -38,10 +39,8 @@ struct Entry_8027D444 {
     f32 w;
 };
 
-struct Vec2_8027D444 { f32 x, y; };
-
 struct Lines_8027D444 {
-    Vec2_8027D444 *verts;
+    NJS_POINT2 *verts;
     u32 *colors;
     s32 f8;
     s32 count;
@@ -166,7 +165,7 @@ void TWindowSubSymbolChatFaceType__sub_80283C84(void *, void *, f32, f32);
 void draw_color_lines(Lines_8027D444 *l, s32 n, s32 flags, f32 scale);
 
 void TWindowSubQuestBoardSelect__sub_8027D444(TWindowSubQuestBoardSelect *self, Ctx_8027D444 *ctx) {
-    Vec2_8027D444 v[3];
+    NJS_POINT2 v[3];
     Lines_8027D444 d;
     u32 colors[3];
     Entry_8027D444 *e;

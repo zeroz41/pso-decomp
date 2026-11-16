@@ -27,8 +27,6 @@
 
 typedef struct { f32 x; f32 y; f32 z; } Vec3;
 
-struct Color_801ADDDC { f32 a, r, g, b; };
-
 struct Self_801ADDDC {
     u8 pad0[0x24];
     s32 f24;
@@ -39,7 +37,7 @@ struct Self_801ADDDC {
     u8 pad3[0x14C - 0x64];
     s16 f14C;
     u8 pad4[0x180 - 0x14E];
-    Color_801ADDDC color;
+    NJS_ARGB color;
     u8 pad5[0x1A4 - 0x190];
     s32 started;
 };
@@ -59,8 +57,8 @@ s32 scroll_strip_uvs(void *, s16, int);
 s32 clear_render_context__10TObjPlayerFv(void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
-extern Color_801ADDDC saved_model_draw_color;
-extern Color_801ADDDC model_material_color;
+extern NJS_ARGB saved_model_draw_color;
+extern NJS_ARGB model_material_color;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;

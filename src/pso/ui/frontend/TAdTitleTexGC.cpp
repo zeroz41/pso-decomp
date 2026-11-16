@@ -32,8 +32,6 @@ const char *TAdTitleTexGC__name = "TAdTitleTexGC";
 
 s32 lbl_805D6668;
 
-struct V_802A4EF4 { f32 x, y; };
-
 struct B_802A4EF4 {
     f32 x, y, x2, y2;
     u8 pad[0x10];
@@ -44,7 +42,7 @@ struct Obj_802A4EF4 {
     B_802A4EF4 b[3];
     u8 pad7C[4];
     s32 f80;
-    V_802A4EF4 a[3];
+    NJS_POINT2 a[3];
 };
 
 extern "C" {
@@ -129,7 +127,7 @@ void TAdTitleTexGC::run_task() {
 }
 
 void update_title_tex_positions__13TAdTitleTexGCFPv(Obj_802A4EF4 *arg0) {
-    V_802A4EF4 sp[3];
+    NJS_POINT2 sp[3];
     s32 i;
     for (i = 0; i < 3; i++) {
         s32 t = 0x14 - arg0->f80;

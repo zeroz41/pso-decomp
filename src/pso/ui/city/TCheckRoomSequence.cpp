@@ -124,8 +124,6 @@ struct TWin_8020F070;
 
 struct Win_8020F8C0 { u8 pad[0x394]; void *cb0; void *cb1; };
 
-struct Vec2_80210198 { f32 x; f32 y; };
-
 struct Seq_80210754 {
     s32 f0; u8 pad4[0x14]; void *vt; u8 pad1c[8]; s32 f24; s32 f28; s32 f2c; s32 f30;
     s32 f34, f38, f3c, f40, f44, f48;
@@ -736,7 +734,7 @@ void TCheckRoomSequence__vt11(u8 *arg0) {
 #pragma optimization_level 1
 void open_bank__18TCheckRoomSequenceFv(u8 *arg0) {
     void *w;
-    Vec2_80210198 v;
+    NJS_POINT2 v;
     v.x = 332.0f;
     v.y = 80.0f;
     ((TShopSequence *)arg0)->create_message_window((s32)(get_window_layout_position(0x2C)), (s32)&v);

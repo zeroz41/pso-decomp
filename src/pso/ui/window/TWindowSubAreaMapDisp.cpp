@@ -76,11 +76,6 @@ extern s32 local_client_id;
 void apply_context_transform_to_rect(void *, void *);
 extern s32 lbl_805D63F0;
 
-struct Vec2_80271A6C {
-    f32 x;
-    f32 y;
-};
-
 s32 draw_default_entry__9TWindowDDFl();
 s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
 
@@ -140,7 +135,7 @@ void fn_80271848(s32 arg0, u8 *arg1) {
 }
 
 void TWindowSubStatusDisp__sub_80271A6C(s32 arg0, u8 *arg1) {
-    Vec2_80271A6C pos;
+    NJS_POINT2 pos;
     s32 color;
     f32 scale;
 

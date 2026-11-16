@@ -26,6 +26,7 @@
 #include "pso/player/TPlyCharData.h"
 #include "pso/system/task/TObject.h"
 #include "pso/math/TMath.h"
+#include "pso/system/NinjaTypes.h"
 
 struct RecoveredGlobal_802D4730_lbl_804C89BC { s32 value; u8 remaining[0x74]; };
 typedef char RecoveredGlobal_802D4730_lbl_804C89BC_size[sizeof(RecoveredGlobal_802D4730_lbl_804C89BC) == 0x78 ? 1 : -1];
@@ -37,9 +38,7 @@ extern const vec2f lbl_80472540;
 extern const vec2f lbl_80472548;
 extern const vec2f lbl_80472550;
 
-struct P_802D4F2C { f32 x, y; };
-
-struct T_802D4F2C { P_802D4F2C p[3]; };
+struct T_802D4F2C { NJS_POINT2 p[3]; };
 
 extern const char TAdSinglePlyChrSelectGC__class_name_string[];
 const char *TAdSinglePlyChrSelectGC__class_name = TAdSinglePlyChrSelectGC__class_name_string;

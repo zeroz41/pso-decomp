@@ -7,6 +7,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/WindowLayoutRecord.h"
+#include "pso/system/NinjaTypes.h"
 
 #pragma readonly_strings on
 
@@ -26,8 +27,6 @@ struct RecoveredGlobal_80277408_lbl_8050E208 {
 };
 
 struct Ent_80277AEC { u16 id; u8 pad[0xA]; };
-
-struct Pos_80277AEC { f32 x; f32 y; };
 
 struct Sub_80277AEC { u8 pad[0x34]; s32 flags; };
 
@@ -76,7 +75,7 @@ s32 get_message_10__20TWindowSubStatusDispFl(int);
 void *get_player_by_client_id(s32 i);
 s32 construct_with_parent__15TWindowAdditionFPv(void *, void *, s16, s32);
 s32 get_window_layout_position(int);
-void *reset_selection__20TWindowSubStatusDispFv(void *, Pos_80277AEC *);
+void *reset_selection__20TWindowSubStatusDispFv(void *, NJS_POINT2 *);
 extern s32 __vt__22TWindowSubCustomSelect[];
 const char *TWindowSubCustomSelect__class_name = "TWindowSubCustomSelect";
 s32 clamp_list_scroll_offset(void *, void *, void *);
@@ -280,7 +279,7 @@ const u32 custom_select_android_action_table[20] = {
 #pragma fp_contract on
 #pragma fp_contract on
 u8 *TWindowSubCustomSelect__ct(TWindowSubCustomSelect *window_sub_custom_select, s32 arg1) {
-    Pos_80277AEC pos;
+    NJS_POINT2 pos;
     Big_80277AEC *p;
     Sub_80277AEC *q;
     Ent_80277AEC *e;

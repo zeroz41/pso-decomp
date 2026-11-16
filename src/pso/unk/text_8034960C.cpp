@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_8034960C.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
+#include "pso/system/NinjaTypes.h"
 struct Desc_80349844 {
     f32 *pos;
     s32 *col;
@@ -15,11 +16,6 @@ struct Desc_80349728 {
     s32 b;
 };
 
-struct Vec2_80349728 {
-    f32 x;
-    f32 y;
-};
-
 struct Desc_8034960C {
     f32 *pos;
     s32 *col;
@@ -27,19 +23,14 @@ struct Desc_8034960C {
     s32 b;
 };
 
-struct Vec2_8034960C {
-    f32 x;
-    f32 y;
-};
-
 // Top-left corner and size of the two black bars draw_quest_load_letterbox_bars fills
 // (quest_load_letterbox_bar_positions and _sizes are inferred names).
-static const Vec2_80349728 quest_load_letterbox_bar_positions[2] = {{0.0f, 0.0f}, {0.0f, 416.0f}};
-static const Vec2_80349728 quest_load_letterbox_bar_sizes[2] = {{640.0f, 64.0f}, {640.0f, 64.0f}};
+static const NJS_POINT2 quest_load_letterbox_bar_positions[2] = {{0.0f, 0.0f}, {0.0f, 416.0f}};
+static const NJS_POINT2 quest_load_letterbox_bar_sizes[2] = {{640.0f, 64.0f}, {640.0f, 64.0f}};
 // Top-left corner and size of the two panels draw_quest_load_panel_overlays shades
 // (quest_load_panel_overlay_positions is an inferred name).
-static const Vec2_8034960C quest_load_panel_overlay_positions[2] = {{31.0f, 73.0f}, {543.0f, 75.0f}};
-static const Vec2_8034960C quest_load_panel_overlay_offsets[2] = {{455.0f, 332.0f}, {72.0f, 332.0f}};
+static const NJS_POINT2 quest_load_panel_overlay_positions[2] = {{31.0f, 73.0f}, {543.0f, 75.0f}};
+static const NJS_POINT2 quest_load_panel_overlay_offsets[2] = {{455.0f, 332.0f}, {72.0f, 332.0f}};
 
 // TAdLoadQuestCellGC's code follows these functions in the same translation unit; its name
 // string sits after the tables above in .rodata.

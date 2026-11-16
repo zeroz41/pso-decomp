@@ -46,8 +46,6 @@ struct Rect_80243B6C { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 struct Ctx_80243B6C { f32 x; f32 y; u8 pad8[0x34 - 0x8]; s32 tex; };
 
-struct Pt_802437C4 { f32 x, y; };
-
 extern "C" {
 s8 clamp_char_at__10TObjPlayerFl(u32, s32);
 s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
@@ -355,7 +353,7 @@ void TWindowActionPalette::set_bank_panel_art(unsigned short state) {
 #pragma push
 #pragma fp_contract on
 void spawn_action_palette_slot_light(TWindowActionPalette *palette, s32 slot) {
-    Pt_802437C4 pt;
+    NJS_POINT2 pt;
     s32 kind;
     Icon_80243630 *e;
     f32 s;

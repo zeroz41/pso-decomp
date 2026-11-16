@@ -65,8 +65,6 @@ void fn_8026C708(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
 
 }
 
-typedef struct Vec2_8026C800 { f32 x, y; } Vec2_8026C800;
-
 typedef struct Rect_8026C800 { f32 x, y, w, h; u8 pad10[0x20]; s32 f30; u8 pad34[4]; f32 f38; } Rect_8026C800;
 
 typedef struct Self_8026C800 { s8 page; s8 count; u8 pad2[6]; f32 phase; } Self_8026C800;
@@ -108,7 +106,7 @@ s32 fn_8026C7C0(void *arg0, s8 arg1) {
 #pragma fp_contract on
 #pragma readonly_strings on
 void draw_list_page_indicator(Self_8026C800 *self, Rect_8026C800 *r) {
-    Vec2_8026C800 pos;
+    NJS_POINT2 pos;
     f32 scale;
     if (r->f30 < 0) {
         return;

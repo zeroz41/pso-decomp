@@ -33,13 +33,11 @@ struct S_802C5594 {
 
 struct E_802C5944 { f32 x; f32 y; u8 pad[0x18]; };
 
-struct V_802C5944 { f32 x; f32 y; };
-
 struct S_802C5944 {
     u8 pad0[0x24];
     E_802C5944 e[4][3];
     u8 pad1a4[0x384 - 0x1A4];
-    V_802C5944 v[4][3];
+    NJS_POINT2 v[4][3];
     u8 pad3e4[0x444 - 0x3E4];
     s32 a[4][3];
     u8 pad474[0x4A4 - 0x474];
@@ -71,12 +69,11 @@ struct Pad_802C6AC8 { u8 pad[0x20]; u8 ctl[0x30]; };
 /* Selection-screen view: per player row/column quads (x0,y0,x1,y1,u0,v0,u1,v1), the three
    cursor quads, home positions, and per-player column state. */
 struct Quad_802C50EC { f32 x, y, z, w, u0, v0, u1, v1; };
-struct V2_802C50EC { f32 x, y; };
 struct S_802C50EC {
     u8 pad0[0x24];
     Quad_802C50EC quad[8][3];
     f32 cursor[3][8];
-    V2_802C50EC home[4][3];
+    NJS_POINT2 home[4][3];
     u8 pad3e4[0x444 - 0x3E4];
     s32 a[4][3];
     u8 pad474[0x4A4 - 0x474];
@@ -772,7 +769,7 @@ void TAdMultiPlyChrSelectGC__sub_802C5688(S_802C50EC *self) {
 #pragma pop
 
 void TAdMultiPlyChrSelectGC__sub_802C561C(S_802C50EC *self) {
-    V2_802C50EC pos;
+    NJS_POINT2 pos;
     TAdPlyPltAnimCtrlGC *anim;
     pos.x = self->quad[self->sel[multi_ply_chr_select_active_player][self->cursor_col]][self->cursor_col].x;
     pos.y = self->quad[self->sel[multi_ply_chr_select_active_player][self->cursor_col]][self->cursor_col].y;
