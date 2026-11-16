@@ -6,8 +6,8 @@
 #include "pso/ui/charcreate/TObjCMIcon.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 
-void fn_8029945C(u8 *arg0) {
-    ((TWindowSubSymbolChatPartsSet *)&cm_icon_screen_position)->copy_vec2((void*)arg0);
+void fn_8029945C(const vec2f *pos) {
+    ((TWindowSubSymbolChatPartsSet *)&cm_icon_screen_position)->copy_vec2((void *)pos);
 }
 
 #pragma common off
@@ -31,7 +31,7 @@ void TObjCMIcon__sub_802994B0(s32 arg0) {
     creation_icon_states[arg0].hidden = 0;
 }
 
-void TObjCMIcon__sub_802994C8(s32 arg0, s32 *arg1) {
+void TObjCMIcon__sub_802994C8(s32 arg0, const s32 *arg1) {
     s32 i;
     TObjCMIcon::reset_icon_flags();
     for (i = 0; i < arg0; i++) {

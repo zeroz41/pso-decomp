@@ -73,7 +73,7 @@ struct TWindowDD
     void set_value_f32(s32 arg1);
     void set_scale(s32 arg1, s32 arg2);
     static s32 check_all_ready(s32 arg0);
-    int update_com_card();
+    void update_com_card();
     int initialize_subwindow();
     static void refresh_status_display();
     void set_mode_2();

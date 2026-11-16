@@ -449,6 +449,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/window/TWindowSubStatusDisp_80338740.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # its class-name string sits in .rodata ahead of the list size pair: readonly strings.
     "pso/ui/window/TWindowSubShortCutList.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # its class name ("TChCrCharSelect", 0x80464E60) opens its .rodata ahead of its tables: readonly strings.
+    "pso/ui/charcreate/TChCrCharSelect.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # its class name sits in .rodata and the "" its name fallback points at opens its .sdata2: readonly strings.
     # .data holds the vtable ahead of run_task's jump table: deferred generation of the last-to-first source.
     "pso/ui/window/TWindowMakeTeam.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
@@ -1281,7 +1283,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/effect/sprite/TQuadSpriteSclColRot.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowGetComCard.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/window/TWindowMainMenu1P.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/ui/window/TWindowOptionCtrl_8026C40C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    # its class name ("TWindowOptionCtrl", 0x8044F478) and its strings sit in .rodata: readonly strings.
+    "pso/ui/window/TWindowOptionCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # One TU 0x8034CC00-0x8034D3D0 written last to first, deferred: its .rodata runs the class name, then
     # open_card_info_window's, show_card_a7's and set_message_index's tables (reverse text order), and .data
     # holds the vtable ahead of run_task's jump table.

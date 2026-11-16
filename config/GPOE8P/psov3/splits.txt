@@ -1681,19 +1681,9 @@ pso/unk/text_800C2CE0.cpp:
 	.rodata     start:0x8043BA60 end:0x8043BA68
 	.sdata2     start:0x805D9FD0 end:0x805D9FD4
 
-pso/unk/text_800C3088.cpp:
-	.text       start:0x800C3088 end:0x800C38D0
-	.rodata     start:0x8043BBD0 end:0x8043BBE0
-
-pso/enemy/dd/TObjEneDD_800C38D0.cpp:
-	.text       start:0x800C38D0 end:0x800C3A60
-
-pso/unk/text_800C3A60.cpp:
-	.text       start:0x800C3A60 end:0x800C3B80
-
 pso/enemy/flower/TObjEneRe2Flower.cpp:
-	.text       start:0x800C3B80 end:0x800C45AC
-	.rodata     start:0x8043BBE0 end:0x8043BC10
+	.text       start:0x800C3088 end:0x800C45AC
+	.rodata     start:0x8043BBD0 end:0x8043BC10
 	.data       start:0x80493078 end:0x804933D8
 
 pso/player/TObjPlayer_800C4714.cpp:
@@ -6835,17 +6825,10 @@ pso/ui/window/TWindowArea.cpp:
 	.sdata2     start:0x805DCAB8 end:0x805DCAC8
 
 pso/ui/window/TWindowSubComCard_80244774.cpp:
-	.text       start:0x80244774 end:0x8024662C
-	.rodata     start:0x8044E678 end:0x8044E688
-	.sdata2     start:0x805DCAC8 end:0x805DCB5C
-
-pso/ui/window/TWindowDD_8024662C.cpp:
-	.text       start:0x8024662C end:0x8024674C
+	.text       start:0x80244774 end:0x80246B80
+	.rodata     start:0x8044E678 end:0x8044E768
 	.data       start:0x804CE018 end:0x804CE030
-
-pso/ui/window/TWindowCtrlMain_8024674C.cpp:
-	.text       start:0x8024674C end:0x80246B80
-	.rodata     start:0x8044E688 end:0x8044E768
+	.sdata2     start:0x805DCAC8 end:0x805DCB5C
 
 pso/ui/window/TWindowBreakIn.cpp:
 	.text       start:0x80246B80 end:0x80246CB8
@@ -7441,56 +7424,12 @@ pso/ui/window/TWindowMessageQuest.cpp:
 	.sdata      start:0x805D39A0 end:0x805D39A8
 	.sdata2     start:0x805DD260 end:0x805DD264
 
-pso/ui/window/TWindowOptionCtrl_8026B2B4.cpp:
-	.text       start:0x8026B2B4 end:0x8026B2E4
-
-pso/ui/window/TWindowOptionCtrl_8026B2E4.cpp:
-	.text       start:0x8026B2E4 end:0x8026B308
-
 pso/ui/window/TWindowOptionCtrl.cpp:
-	.text       start:0x8026B308 end:0x8026B4A4
-
-pso/ui/window/TWindowOptionCtrl_8026B4A4.cpp:
-	.text       start:0x8026B4A4 end:0x8026B4E0
-
-pso/ui/window/TWindowOptionCtrl_8026B4E0.cpp:
-	.text       start:0x8026B4E0 end:0x8026B6CC
-
-pso/ui/window/TWindowOptionCtrl_8026B6CC.cpp:
-	.text       start:0x8026B6CC end:0x8026B774
-
-pso/ui/window/TWindowOptionCtrl_8026B774.cpp:
-	.text       start:0x8026B774 end:0x8026B828
-
-pso/ui/window/TWindowOptionCtrl_8026B828.cpp:
-	.text       start:0x8026B828 end:0x8026B8C8
-
-pso/ui/window/TWindowOptionCtrl_8026B8C8.cpp:
-	.text       start:0x8026B8C8 end:0x8026B9B8
-
-pso/ui/window/TWindowOptionCtrl_8026B9B8.cpp:
-	.text       start:0x8026B9B8 end:0x8026BA88
-
-pso/ui/window/TWindowOptionCtrl_8026BA88.cpp:
-	.text       start:0x8026BA88 end:0x8026BB68
-
-pso/ui/window/TWindowOptionCtrl_8026BB68.cpp:
-	.text       start:0x8026BB68 end:0x8026BCBC
-
-pso/ui/window/TWindowOptionCtrl_8026BCBC.cpp:
-	.text       start:0x8026BCBC end:0x8026BCC0
-
-pso/ui/window/TWindowOptionCtrl_8026BCC0.cpp:
-	.text       start:0x8026BCC0 end:0x8026C40C
+	.text       start:0x8026B2B4 end:0x8026C664
+	.rodata     start:0x8044F478 end:0x8044F4C0
 	.data       start:0x804D07C0 end:0x804D0830
-
-pso/ui/window/TWindowOptionCtrl_8026C40C.cpp:
-	.text       start:0x8026C40C end:0x8026C5D8
-	.rodata     start:0x8044F478 end:0x8044F48C
 	.sdata      start:0x805D39A8 end:0x805D39AC
-
-pso/ui/window/TWindowOptionCtrl_8026C5D8.cpp:
-	.text       start:0x8026C5D8 end:0x8026C664
+	.sdata2     start:0x805DD268 end:0x805DD270
 
 pso/unk/text_8026C664.cpp:
 	.text       start:0x8026C664 end:0x8026CB5C
@@ -8158,32 +8097,13 @@ pso/unk/TLobby_80291D94.cpp:
 	.sbss       start:0x805D6578 end:0x805D6590
 	.sdata2     start:0x805DD9D0 end:0x805DD9D8
 
-pso/ui/charcreate/TChCrCharSelect_802937D4.cpp:
-	.text       start:0x802937D4 end:0x802937E8
-
-pso/ui/charcreate/TChCrCharSelect_802937E8.cpp:
-	.text       start:0x802937E8 end:0x80293860
-	.rodata     start:0x80464E70 end:0x80464E88
-
-pso/ui/charcreate/TChCrCharSelect_80293860.cpp:
-	.text       start:0x80293860 end:0x802938E4
-
-pso/ui/charcreate/TChCrCharSelect_802938E4.cpp:
-	.text       start:0x802938E4 end:0x80293AF4
-
-pso/ui/charcreate/TChCrCharSelect_80293AF4.cpp:
-	.text       start:0x80293AF4 end:0x80293BEC
-	.rodata     start:0x80464E90 end:0x80464E98
-	.data       start:0x804DB8A0 end:0x804DB8E8
+pso/ui/charcreate/TChCrCharSelect.cpp:
+	.text       start:0x802937D4 end:0x80293D10
+	.rodata     start:0x80464E60 end:0x80464EC8
+	.data       start:0x804DB8A0 end:0x804DB900
+	.sdata      start:0x805D3CB0 end:0x805D3CC0
 	.sbss       start:0x805D6590 end:0x805D6598
 	.sdata2     start:0x805DD9D8 end:0x805DD9DC
-
-pso/ui/charcreate/TChCrCharSelect_80293BEC.cpp:
-	.text       start:0x80293BEC end:0x80293C20
-
-pso/ui/charcreate/TChCrCharSelect.cpp:
-	.text       start:0x80293C20 end:0x80293D10
-	.data       start:0x804DB8E8 end:0x804DB900
 
 pso/ui/charcreate/TChCrCharSelect_80293D10.cpp:
 	.text       start:0x80293D10 end:0x80293D58
@@ -8231,18 +8151,12 @@ pso/ui/charcreate/TChCrEffCtrlPl.cpp:
 pso/unk/text_80298F8C.cpp:
 	.text       start:0x80298F8C end:0x80298FAC
 
-pso/ui/charcreate/TObjCMProportion_80298FAC.cpp:
-	.text       start:0x80298FAC end:0x802993CC
+pso/ui/charcreate/TObjCMProportion.cpp:
+	.text       start:0x80298FAC end:0x80299420
 	.rodata     start:0x80465168 end:0x80465180
 	.data       start:0x804DBDC0 end:0x804DBDE0
 	.bss        start:0x805409C8 end:0x805409E0
 	.sdata2     start:0x805DDC20 end:0x805DDC34
-
-pso/ui/charcreate/TChCrCharSelect_802993CC.cpp:
-	.text       start:0x802993CC end:0x802993F0
-
-pso/unk/text_802993F0.cpp:
-	.text       start:0x802993F0 end:0x80299420
 
 pso/unk/text_80299420.cpp:
 	.text       start:0x80299420 end:0x8029945C

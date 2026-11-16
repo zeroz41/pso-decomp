@@ -67,7 +67,7 @@ const char *option_name_table[49] = {
 };
 
 // Stream file of each song, same order as option_name_table.
-const char *bgm_adx_filename_table[49] = {
+char *bgm_adx_filename_table[49] = {
     "title.adx",
     "opening.adx",
     "advr.adx",
@@ -177,7 +177,7 @@ void TObjBgmColCtrl::update_all_zones(s32 arg0) {
     var_r31 = 0;
     do {
         if (check_flag_index_set(var_r31) != 1) {
-            if (strcmp((const char *)get_bgm_filename(var_r31), (const char *)arg0) == 0) {
+            if (strcmp(get_bgm_filename(var_r31), (const char *)arg0) == 0) {
                 unlock_music_flag(var_r31);
             }
         }
@@ -228,14 +228,14 @@ s32 is_music_flag_unlocked_stub(s32 idx) {
     return 1;
 }
 
-s32 get_bgm_filename(s32 arg0) {
+char *get_bgm_filename(s32 arg0) {
     if (arg0 < 0) {
-        return 0;
+        return NULL;
     }
     if (arg0 >= 0x31) {
-        return 0;
+        return NULL;
     }
-    return (s32)bgm_adx_filename_table[arg0];
+    return bgm_adx_filename_table[arg0];
 }
 
 
