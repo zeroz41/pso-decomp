@@ -1,5 +1,3 @@
-#include <stddef.h>
-
 #include "types.h"
 #include "pso/network/BufferRef.h"
 #include "pso/network/IPv6Send.h"
@@ -154,199 +152,163 @@ inline s16 frag_chain_contig_check(NetFragPacket *node, s16 *pn, NetFragPool *g)
     return 0;
 }
 /* Adds a fragment (frag_off in 8-byte units; more = the more-fragments flag) to node; returns the reassembled
-   packet once every fragment is there, else 0.  tail holds the last fragment and then the new packet; f walks
-   the fragments being copied into it. */
-s32 reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_off, u16 frag_len, u8 more, s16 iface)
-{
-  NetBufferRef tmp;
-  s16 i;
-  s16 res;
-  NetFragment *f;
-  s16 ls;
-  s16 *pn;
-  NetFragment *e;
-  u8 *tail;
-  u32 c16;
-  NetFragment *head;
-  NetFragment **new_var;
-  NetPacketFragment *ep;
-  u32 off;
-  NetFragment *cur;
-  NetFragment *nx;
-  s32 len;
-  s16 n;
-  NetFragPool *g = &packet_fragment_pool_state;
-  NetFragment **pb;
-  s32 sum;
-  s16 cnt;
-  if (frag_off == 0)
-  {
-    node->hdr_len = hdr_len;
-    node->iface = iface;
-  }
-  else
-  {
-    self += hdr_len;
-  }
-  new_var = &g->frags;
-  if ((e = frag_pool_take_entry(pb = new_var, pn = &g->nfrags)) == 0)
-  {
-    reset_other_connection_lists(node);
-    if ((e = frag_pool_take_entry(pb, pn)) == 0)
-    {
-      return 0;
+   packet once every fragment is there, else 0.  f is the second fragment where the search for the new one's place
+   starts, then walks the fragments to copy them into the packet.  pkt holds the chain's last fragment until the
+   packet is allocated. */
+s32 reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_off, u16 frag_len, u8 more, s16 iface) {
+    NetBufferRef src;
+    s16 i;
+    NetFragment *f;
+    s16 first_len;
+    s16 *nfrags;
+    NetFragment *frag;
+    NetPacket *pkt;
+    u32 cur_off;
+    NetFragment *first;
+    NetFragment **pool_frags;
+    NetPacketFragment *second;
+    u32 off;
+    NetFragment *cur;
+    NetFragment *next;
+    s32 len;
+    s16 slot;
+    NetFragPool *g = &packet_fragment_pool_state;
+    NetFragment **frags;
+    s32 total;
+    s16 cnt;
+
+    if (frag_off == 0) {
+        node->hdr_len = hdr_len;
+        node->iface = iface;
+    } else {
+        self += hdr_len;
     }
-  }
-  e->offset = frag_off;
-  e->len = frag_len;
-  set_value_and_enable(&tmp, (s32) self);
-  if (frag_off == 0)
-  {
-    ls = (sum = frag_len + hdr_len);
-    if (TLobby__sub_80415954(&e->data, ls, 2) < 0)
-    {
-      reset_other_connection_lists(node);
-      if (TLobby__sub_80415954(&e->data, ls, 2) < 0)
-      {
-        e->used = 0;
-        e->next = 0;
-        return 0;
-      }
-    }
-    netbuf_copy_by_ref(&e->data, &tmp, sum);
-  }
-  else
-  {
-    len = frag_len;
-    if (TLobby__sub_80415954(&e->data, len, 2) < 0)
-    {
-      reset_other_connection_lists(node);
-      if (TLobby__sub_80415954(&e->data, len, 2) < 0)
-      {
-        e->used = 0;
-        e->next = 0;
-        return 0;
-      }
-    }
-    netbuf_copy_by_ref(&e->data, &tmp, frag_len);
-  }
-  e->next = 0;
-  head = node->first;
-  if (head == 0)
-  {
-    node->last = e;
-    node->first = e;
-  }
-  else
-  {
-    tail = (u8 *)node->last;
-    off = e->offset;
-    if (off > *(u16 *)(tail + offsetof(NetFragment, offset)))
-    {
-      *(NetFragment **)(tail + offsetof(NetFragment, next)) = e;
-      node->last = e;
-    }
-    else
-      if (off < head->offset)
-    {
-      e->next = head;
-      node->first = e;
-    }
-    else
-    {
-      f = head->next;
-      cnt = *pn;
-      cur = head;
-      nx = f;
-      if (f == 0)
-      {
-        TLobby__sub_80406B6C(&e->data);
-        e->used = 0;
-        e->next = 0;
-        return 0;
-      }
-      while ((nx != 0) && (cnt > 0))
-      {
-        c16 = cur->offset;
-        if ((off > c16) && (off < nx->offset))
-        {
-          e->next = nx;
-          cur->next = e;
-          break;
+    pool_frags = &g->frags;
+    if ((frag = frag_pool_take_entry(frags = pool_frags, nfrags = &g->nfrags)) == 0) {
+        reset_other_connection_lists(node);
+        if ((frag = frag_pool_take_entry(frags, nfrags)) == 0) {
+            return 0;
         }
-        if (off == c16)
-        {
-          TLobby__sub_80406B6C(&e->data);
-          e->used = 0;
-          e->next = 0;
-          break;
+    }
+    frag->offset = frag_off;
+    frag->len = frag_len;
+    set_value_and_enable(&src, (s32)self);
+    if (frag_off == 0) {
+        first_len = (total = frag_len + hdr_len);
+        if (TLobby__sub_80415954(&frag->data, first_len, 2) < 0) {
+            reset_other_connection_lists(node);
+            if (TLobby__sub_80415954(&frag->data, first_len, 2) < 0) {
+                frag->used = 0;
+                frag->next = 0;
+                return 0;
+            }
         }
-        cur = cur->next;
+        netbuf_copy_by_ref(&frag->data, &src, total);
+    } else {
+        len = frag_len;
+        if (TLobby__sub_80415954(&frag->data, len, 2) < 0) {
+            reset_other_connection_lists(node);
+            if (TLobby__sub_80415954(&frag->data, len, 2) < 0) {
+                frag->used = 0;
+                frag->next = 0;
+                return 0;
+            }
+        }
+        netbuf_copy_by_ref(&frag->data, &src, frag_len);
+    }
+    frag->next = 0;
+    first = node->first;
+    if (first == 0) {
+        node->last = frag;
+        node->first = frag;
+    } else {
+        pkt = (NetPacket *)node->last;
+        off = frag->offset;
+        if (off > ((NetFragment *)pkt)->offset) {
+            ((NetFragment *)pkt)->next = frag;
+            node->last = frag;
+        } else if (off < first->offset) {
+            frag->next = first;
+            node->first = frag;
+        } else {
+            f = first->next;
+            cnt = *nfrags;
+            cur = first;
+            next = f;
+            if (f == 0) {
+                TLobby__sub_80406B6C(&frag->data);
+                frag->used = 0;
+                frag->next = 0;
+                return 0;
+            }
+            while (next != 0 && cnt > 0) {
+                cur_off = cur->offset;
+                if (off > cur_off && off < next->offset) {
+                    frag->next = next;
+                    cur->next = frag;
+                    break;
+                }
+                if (off == cur_off) {
+                    TLobby__sub_80406B6C(&frag->data);
+                    frag->used = 0;
+                    frag->next = 0;
+                    break;
+                }
+                cur = cur->next;
+                cnt--;
+                next = next->next;
+            }
+        }
+    }
+    if (node->have_last == 0) {
+        if (more != 0) {
+            return 0;
+        }
+        node->have_last = 1;
+    }
+    if (frag_chain_contig_check(node, nfrags, g) < 0) {
+        return 0;
+    }
+    pkt = (NetPacket *)alloc_free_entry();
+    if (pkt == 0) {
+        TLobby__sub_8041979C();
+        return 0;
+    }
+    pkt->fragment_count = 0;
+    pkt->total_bytes = 0;
+    second = &pkt->fragments[1];
+    slot = 0;
+    i = 0;
+    f = node->first;
+    cnt = *nfrags;
+    while (f != 0 && cnt > 0) {
+        if (i == 0) {
+            NetMemcpy(&pkt->fragments[0].buffer, &f->data, 8);
+            pkt->fragment_count = 1;
+            i++;
+            pkt->total_bytes = node->hdr_len;
+            pkt->fragments[0].length = node->hdr_len;
+            NetMemcpy(&second->buffer, &f->data, 8);
+            pkt->fragment_count += 1;
+            pkt->total_bytes += f->len;
+            second->length = f->len;
+            slot = 2;
+            netbuf_ref_advance(&second->buffer, node->hdr_len);
+        } else {
+            NetMemcpy(&pkt->fragments[slot].buffer, &f->data, 8);
+            pkt->fragment_count += 1;
+            pkt->total_bytes += f->len;
+            pkt->fragments[i].length = f->len;
+            slot++;
+        }
+        cur = f;
+        f = f->next;
+        cur->used = 0;
         cnt--;
-        nx = nx->next;
-      }
-
+        i++;
+        cur->next = 0;
     }
-  }
-  if (node->have_last == 0)
-  {
-    if (more != 0)
-    {
-      return 0;
-    }
-    node->have_last = 1;
-  }
-  res = frag_chain_contig_check(node, pn, g);
-  if (res < 0)
-  {
-    return 0;
-  }
-  tail = (u8 *)alloc_free_entry();
-  if (tail == 0)
-  {
-    TLobby__sub_8041979C();
-    return 0;
-  }
-  *(u32 *)(tail + offsetof(NetPacket, fragment_count)) = 0;
-  *(u32 *)(tail + offsetof(NetPacket, total_bytes)) = 0;
-  ep = (NetPacketFragment *)(tail + offsetof(NetPacket, fragments[1]));
-  n = 0;
-  i = 0;
-  f = node->first;
-  cnt = *pn;
-  while ((f != 0) && (cnt > 0))
-  {
-    if (i == 0)
-    {
-      NetMemcpy(tail + offsetof(NetPacket, fragments[0].buffer), &f->data, 8);
-      *(u32 *)(tail + offsetof(NetPacket, fragment_count)) = 1;
-      i++;
-      *(u32 *)(tail + offsetof(NetPacket, total_bytes)) = node->hdr_len;
-      *(s16 *)(tail + offsetof(NetPacket, fragments[0].length)) = node->hdr_len;
-      NetMemcpy(&ep->buffer, &f->data, 8);
-      *(u32 *)(tail + offsetof(NetPacket, fragment_count)) += 1;
-      *(u32 *)(tail + offsetof(NetPacket, total_bytes)) += f->len;
-      ep->length = f->len;
-      n = 2;
-      netbuf_ref_advance(&ep->buffer, node->hdr_len);
-    }
-    else
-    {
-      NetMemcpy(tail + offsetof(NetPacket, fragments[0].buffer) + n * sizeof(NetPacketFragment), &f->data, 8);
-      *(u32 *)(tail + offsetof(NetPacket, fragment_count)) += 1;
-      *(u32 *)(tail + offsetof(NetPacket, total_bytes)) += f->len;
-      *(s16 *)(tail + offsetof(NetPacket, fragments[0].length) + i * sizeof(NetPacketFragment)) = f->len;
-      n++;
-    }
-    cur = f;
-    f = f->next;
-    cur->used = 0;
-    cnt--;
-    i++;
-    cur->next = 0;
-  }
-
-  return (s32) tail;
+    return (s32)pkt;
 }
 
 /* Once a second: datagrams whose time ran out are dropped (after an ICMP time-exceeded message). */
